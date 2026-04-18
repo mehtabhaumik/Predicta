@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "Bundler",
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ES2022",
+    "paths": {
+      "@pridicta/access": ["packages/access/src/index.ts"],
+      "@pridicta/access/*": ["packages/access/src/*"],
+      "@pridicta/ai": ["packages/ai/src/index.ts"],
+      "@pridicta/ai/*": ["packages/ai/src/*"],
+      "@pridicta/astrology": ["packages/astrology/src/index.ts"],
+      "@pridicta/astrology/*": ["packages/astrology/src/*"],
+      "@pridicta/config": ["packages/config/src/index.ts"],
+      "@pridicta/config/*": ["packages/config/src/*"],
+      "@pridicta/core": ["packages/core/src/index.ts"],
+      "@pridicta/core/*": ["packages/core/src/*"],
+      "@pridicta/firebase": ["packages/firebase/src/index.ts"],
+      "@pridicta/firebase/*": ["packages/firebase/src/*"],
+      "@pridicta/monetization": ["packages/monetization/src/index.ts"],
+      "@pridicta/monetization/*": ["packages/monetization/src/*"],
+      "@pridicta/pdf": ["packages/pdf/src/index.ts"],
+      "@pridicta/pdf/*": ["packages/pdf/src/*"],
+      "@pridicta/types": ["packages/types/src/index.ts"],
+      "@pridicta/types/*": ["packages/types/src/*"],
+      "@pridicta/ui-tokens": ["packages/ui-tokens/src/index.ts"],
+      "@pridicta/ui-tokens/*": ["packages/ui-tokens/src/*"],
+      "@pridicta/utils": ["packages/utils/src/index.ts"],
+      "@pridicta/utils/*": ["packages/utils/src/*"]
+    }
+  }
+}

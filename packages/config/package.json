@@ -1,0 +1,17 @@
+{
+  "name": "@pridicta/config",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit",
+    "test": "echo \"@pridicta/config has no package-local tests\""
+  },
+  "dependencies": {
+    "@pridicta/types": "workspace:*"
+  }
+}

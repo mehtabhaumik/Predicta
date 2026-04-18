@@ -1,0 +1,68 @@
+{
+  "extends": "@react-native/typescript-config",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@pridicta/access": [
+        "../../packages/access/src/index.ts"
+      ],
+      "@pridicta/access/*": [
+        "../../packages/access/src/*"
+      ],
+      "@pridicta/ai": [
+        "../../packages/ai/src/index.ts"
+      ],
+      "@pridicta/ai/*": [
+        "../../packages/ai/src/*"
+      ],
+      "@pridicta/astrology": [
+        "../../packages/astrology/src/index.ts"
+      ],
+      "@pridicta/astrology/*": [
+        "../../packages/astrology/src/*"
+      ],
+      "@pridicta/config": [
+        "../../packages/config/src/index.ts"
+      ],
+      "@pridicta/config/*": [
+        "../../packages/config/src/*"
+      ],
+      "@pridicta/monetization": [
+        "../../packages/monetization/src/index.ts"
+      ],
+      "@pridicta/monetization/*": [
+        "../../packages/monetization/src/*"
+      ],
+      "@pridicta/types": [
+        "../../packages/types/src/index.ts"
+      ],
+      "@pridicta/types/*": [
+        "../../packages/types/src/*"
+      ],
+      "@pridicta/ui-tokens": [
+        "../../packages/ui-tokens/src/index.ts"
+      ],
+      "@pridicta/ui-tokens/*": [
+        "../../packages/ui-tokens/src/*"
+      ],
+      "@pridicta/utils": [
+        "../../packages/utils/src/index.ts"
+      ],
+      "@pridicta/utils/*": [
+        "../../packages/utils/src/*"
+      ]
+    },
+    "types": [
+      "jest"
+    ]
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "nativewind-env.d.ts"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/Pods"
+  ]
+}

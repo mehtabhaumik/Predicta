@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "759876006782",
+    "project_id": "predicta-a4758",
+    "storage_bucket": "predicta-a4758.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:759876006782:android:401b69cbad22fef8c6792f",
+        "android_client_info": {
+          "package_name": "com.rudraix.predicta"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnV4cY2mdOdl26E55m8OsfJN2p7ktaxtc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

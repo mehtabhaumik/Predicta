@@ -1,0 +1,35 @@
+{
+  "name": "@pridicta/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "lint": "next typegen && tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@pridicta/access": "workspace:*",
+    "@pridicta/ai": "workspace:*",
+    "@pridicta/astrology": "workspace:*",
+    "@pridicta/config": "workspace:*",
+    "@pridicta/firebase": "workspace:*",
+    "@pridicta/monetization": "workspace:*",
+    "@pridicta/pdf": "workspace:*",
+    "@pridicta/types": "workspace:*",
+    "@pridicta/ui-tokens": "workspace:*",
+    "@pridicta/utils": "workspace:*",
+    "firebase": "^12.12.0",
+    "framer-motion": "^12.38.0",
+    "next": "^15.5.6",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "typescript": "^5.8.3"
+  }
+}

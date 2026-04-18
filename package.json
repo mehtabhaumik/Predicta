@@ -1,0 +1,23 @@
+{
+  "name": "pridicta-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.19.0",
+  "scripts": {
+    "dev:mobile": "pnpm --filter @pridicta/mobile start",
+    "dev:web": "pnpm --filter @pridicta/web dev",
+    "build:mobile": "pnpm --filter @pridicta/mobile build:android",
+    "build:web": "pnpm --filter @pridicta/web build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "test:mobile": "pnpm --filter @pridicta/mobile exec jest --runInBand",
+    "test:web": "pnpm --filter @pridicta/web test",
+    "mobile:android": "pnpm --filter @pridicta/mobile android",
+    "mobile:bundle:android": "pnpm --filter @pridicta/mobile bundle:android"
+  },
+  "devDependencies": {
+    "turbo": "^2.6.1",
+    "typescript": "^5.8.3"
+  }
+}
