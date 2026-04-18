@@ -25,7 +25,7 @@ export function SidebarNav({
 
   return (
     <aside className="sidebar">
-      <Link aria-label="Pridicta dashboard" className="dashboard-brand" href="/">
+      <Link aria-label="Predicta dashboard" className="dashboard-brand" href="/">
         <Image
           alt=""
           className="dashboard-logo"
@@ -35,7 +35,7 @@ export function SidebarNav({
           width={74}
         />
         <span>
-          <strong>PRIDICTA</strong>
+          <strong>PREDICTA</strong>
           <small>Web intelligence</small>
         </span>
       </Link>

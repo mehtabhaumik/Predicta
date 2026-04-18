@@ -31,7 +31,7 @@ export default function ChartsPage(): React.JSX.Element {
                 <h2>{chart.name}</h2>
                 <p>{chart.purpose}</p>
                 <Link className="button secondary" href="/dashboard/chat">
-                  Ask Pridicta
+                  Ask Predicta
                 </Link>
               </div>
             </Card>

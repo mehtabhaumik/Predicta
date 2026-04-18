@@ -42,7 +42,7 @@ export function buildUsageDisplay({
     return {
       deepReadingsText: 'Full deep guidance access active',
       pdfText: 'Full report access active',
-      questionsText: 'Full Pridicta access active',
+      questionsText: 'Full Predicta access active',
       statusText: 'Full access active',
     };
   }

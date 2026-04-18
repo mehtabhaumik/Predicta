@@ -22,7 +22,7 @@ export default function DashboardPage(): React.JSX.Element {
     <section className="dashboard-page">
       <div className="page-heading">
         <StatusPill label={usage.statusText} tone="quiet" />
-        <h1 className="gradient-text">Welcome back to Pridicta.</h1>
+        <h1 className="gradient-text">Welcome back to Predicta.</h1>
         <p>
           A quiet command center for kundli work, chart-aware chat, saved
           profiles, reports, cloud sync, and access status.
@@ -58,7 +58,7 @@ export default function DashboardPage(): React.JSX.Element {
             </p>
             <div className="action-row">
               <Link className="button" href="/dashboard/chat">
-                Ask Pridicta
+                Ask Predicta
               </Link>
               <Link className="button secondary" href="/dashboard/charts">
                 Browse Charts

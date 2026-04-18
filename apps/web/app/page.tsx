@@ -1,10 +1,26 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { FinalCTASection } from '../components/FinalCTASection';
 import { HeroSection } from '../components/HeroSection';
 import { LandingIntroOverlay } from '../components/LandingIntroOverlay';
 import { PremiumSectionWrapper } from '../components/PremiumSectionWrapper';
 import { PricingTeaser } from '../components/PricingTeaser';
 import { WebHeader } from '../components/WebHeader';
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: '/',
+  },
+  description:
+    'Predicta helps you create a kundli, understand Vedic chart patterns, ask chart-aware questions, and download polished astrology reports.',
+  openGraph: {
+    description:
+      'A premium Vedic astrology workspace for kundli creation, chart-aware guidance, saved readings, and polished reports.',
+    title: 'Predicta',
+    url: '/',
+  },
+  title: 'Predicta',
+};
 
 const capabilities = [
   {
@@ -17,7 +33,7 @@ const capabilities = [
   },
   {
     body: 'Ask from a chart, report, or saved profile and keep the conversation grounded in your reading.',
-    title: 'Pridicta chat',
+    title: 'Predicta chat',
   },
   {
     body: 'Generate premium-looking reports where free and paid users both receive a polished experience.',
@@ -29,19 +45,62 @@ const intelligence = [
   'Divisional chart awareness',
   'Vimshottari dasha timing',
   'Yoga and Ashtakavarga summaries',
-  'Calm Pridicta guidance',
+  'Calm Predicta guidance',
 ];
 
 export default function LandingPage(): React.JSX.Element {
+  const productJsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@id': 'https://predicta.rudraix.com/#organization',
+        '@type': 'Organization',
+        founder: {
+          '@type': 'Person',
+          name: 'Bhaumik Mehta',
+        },
+        logo: 'https://predicta.rudraix.com/predicta-logo.png',
+        name: 'Predicta',
+        url: 'https://predicta.rudraix.com',
+      },
+      {
+        '@id': 'https://predicta.rudraix.com/#website',
+        '@type': 'WebSite',
+        description:
+          'Premium Vedic astrology intelligence for kundli creation, chart-aware guidance, and polished astrology reports.',
+        inLanguage: 'en-IN',
+        name: 'Predicta',
+        publisher: {
+          '@id': 'https://predicta.rudraix.com/#organization',
+        },
+        url: 'https://predicta.rudraix.com',
+      },
+      {
+        '@id': 'https://predicta.rudraix.com/#software',
+        '@type': 'SoftwareApplication',
+        applicationCategory: 'LifestyleApplication',
+        description:
+          'Create a kundli, explore Vedic chart patterns, ask chart-aware questions, and generate polished astrology reports.',
+        name: 'Predicta',
+        operatingSystem: 'Web, iOS, Android',
+        url: 'https://predicta.rudraix.com',
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
       <LandingIntroOverlay />
       <WebHeader />
       <main className="landing-main">
         <HeroSection />
 
         <PremiumSectionWrapper
-          eyebrow="WHAT PRIDICTA DOES"
+          eyebrow="WHAT PREDICTA DOES"
           intro="A calm product flow for creating, reading, saving, and discussing a kundli without turning the experience into a technical dashboard."
           title="A complete astrology experience with room to breathe."
           variant="wide"
@@ -59,7 +118,7 @@ export default function LandingPage(): React.JSX.Element {
         <PremiumSectionWrapper
           eyebrow="CORE INTELLIGENCE"
           id="intelligence"
-          intro="Pridicta keeps advanced Vedic depth available while explaining only what helps."
+          intro="Predicta keeps advanced Vedic depth available while explaining only what helps."
           title="Depth without noise."
           variant="split"
         >
@@ -67,7 +126,7 @@ export default function LandingPage(): React.JSX.Element {
             <div>
               <h3>Professional chart awareness, presented clearly.</h3>
               <p>
-                Pridicta understands current dasha, key placements, chart
+                Predicta understands current dasha, key placements, chart
                 sections, and follow-up questions without turning the reading
                 into jargon.
               </p>
@@ -89,7 +148,7 @@ export default function LandingPage(): React.JSX.Element {
         >
           <div className="report-preview">
             <div className="report-cover glass-panel">
-              <span>PRIDICTA DOSSIER</span>
+              <span>PREDICTA DOSSIER</span>
               <h3>Birth Details · D1 · D9 · D10 · Dasha · Guidance</h3>
               <p>
                 Free and Premium reports share the same visual quality. Premium

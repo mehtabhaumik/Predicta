@@ -21,7 +21,7 @@ export default function AdminPage(): React.JSX.Element {
           <div className="card-content spacious">
             <h2>Admin tools are not available for this access level.</h2>
             <p>
-              This area is reserved for approved Pridicta administrators.
+              This area is reserved for approved Predicta administrators.
             </p>
           </div>
         </Card>

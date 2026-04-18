@@ -7,7 +7,7 @@ export function FinalCTASection(): React.JSX.Element {
         <div className="section-title">BEGIN WITH CLARITY</div>
         <h2>Bring your chart into a calmer workspace.</h2>
         <p>
-          Pridicta is built for people who want depth without overwhelm,
+          Predicta is built for people who want depth without overwhelm,
           technology without noise, and guidance that stays grounded.
         </p>
       </div>

@@ -6,7 +6,7 @@ export default function ChatPage(): React.JSX.Element {
     <section className="dashboard-page">
       <div className="page-heading compact">
         <StatusPill label="Private guidance" tone="premium" />
-        <h1 className="gradient-text">Ask Pridicta with room to breathe.</h1>
+        <h1 className="gradient-text">Ask Predicta with room to breathe.</h1>
         <p>
           A focused place for thoughtful questions, clear answers, and calm
           follow-up guidance.
@@ -17,7 +17,7 @@ export default function ChatPage(): React.JSX.Element {
         <Card className="chat-panel">
           <div className="chat-thread">
             <div className="message pridicta">
-              <span>Pridicta</span>
+              <span>Predicta</span>
               <p>
                 Tell me what you want to understand. I will keep the reading
                 focused, steady, and easy to follow.
@@ -28,7 +28,7 @@ export default function ChatPage(): React.JSX.Element {
               <p>What does my D10 show about career growth?</p>
             </div>
             <div className="message pridicta glass-panel">
-              <span>Pridicta</span>
+              <span>Predicta</span>
               <p>
                 Your career chart points to responsibility, consistency, and
                 patience with timing. Ask one specific follow-up and I will go
@@ -38,8 +38,8 @@ export default function ChatPage(): React.JSX.Element {
           </div>
           <div className="chat-input-row">
             <input
-              aria-label="Ask Pridicta"
-              placeholder="Ask Pridicta anything about your chart..."
+              aria-label="Ask Predicta"
+              placeholder="Ask Predicta anything about your chart..."
             />
             <button className="button" type="button">
               Ask

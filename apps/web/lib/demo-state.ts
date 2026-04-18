@@ -3,7 +3,7 @@ import { createInitialMonetizationState } from '@pridicta/monetization';
 import type { AuthState } from '@pridicta/types';
 
 export const demoAuth: AuthState = {
-  email: 'guest@pridicta.app',
+  email: 'guest@predicta.rudraix.com',
   isLoggedIn: false,
   provider: null,
   userId: 'local-web-preview',
@@ -35,5 +35,5 @@ export const kundliSummary = {
   lagna: 'Leo',
   moonSign: 'Taurus',
   nakshatra: 'Rohini',
-  name: 'Pridicta Seeker',
+  name: 'Predicta Seeker',
 };

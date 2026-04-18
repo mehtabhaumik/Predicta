@@ -19,7 +19,7 @@ export function composeReportSections({
   kundli?: KundliData;
   mode: PDFMode;
 }): PdfComposition {
-  const name = kundli?.birthDetails.name ?? 'Pridicta seeker';
+  const name = kundli?.birthDetails.name ?? 'Predicta seeker';
   const depth =
     mode === 'PREMIUM'
       ? 'deeper divisional, dasha, yoga, and guidance coverage'
@@ -34,10 +34,10 @@ export function composeReportSections({
         title: 'Report Depth',
       },
       {
-        body: 'Every Pridicta PDF keeps the same premium visual quality. Paid access changes depth, not dignity.',
+        body: 'Every Predicta PDF keeps the same premium visual quality. Paid access changes depth, not dignity.',
         title: 'Design Promise',
       },
     ],
-    watermark: 'PRIDICTA',
+    watermark: 'PREDICTA',
   };
 }

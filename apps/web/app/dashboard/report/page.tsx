@@ -19,7 +19,7 @@ export default function ReportPage(): React.JSX.Element {
 
       <div className="report-dashboard-layout">
         <Card className="report-dossier glass-panel">
-          <div className="report-watermark">PRIDICTA</div>
+          <div className="report-watermark">PREDICTA</div>
           <div className="card-content spacious">
             <div className="section-title">PERSONAL HANDBOOK</div>
             <h2>Kundli Overview · Dasha · Guidance</h2>

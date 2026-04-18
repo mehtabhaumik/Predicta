@@ -10,7 +10,7 @@ export default function KundliPage(): React.JSX.Element {
         <h1 className="gradient-text">Birth profile and calculation details.</h1>
         <p>
           Enter birth details naturally or choose place details step by step.
-          Pridicta handles the calculation details quietly.
+          Predicta handles the calculation details quietly.
         </p>
       </div>
       <div className="metric-row">

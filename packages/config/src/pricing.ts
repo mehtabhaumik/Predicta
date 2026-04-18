@@ -99,10 +99,10 @@ export function getOneTimeProducts(): OneTimeProduct[] {
       productId: oneTimeProductIds.DAY_PASS,
     },
     {
-      description: 'Add 5 Pridicta questions when you need more guidance.',
+      description: 'Add 5 Predicta questions when you need more guidance.',
       displayPrice: formatInr(ONE_TIME_PRICING.fiveQuestions),
       id: 'FIVE_QUESTIONS',
-      label: '5 Pridicta Questions',
+      label: '5 Predicta Questions',
       priceInr: ONE_TIME_PRICING.fiveQuestions,
       productId: oneTimeProductIds.FIVE_QUESTIONS,
     },

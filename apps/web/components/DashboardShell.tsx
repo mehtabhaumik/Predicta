@@ -44,7 +44,7 @@ export function DashboardShell({
             <p>Spacious guidance, reports, charts, and saved kundlis.</p>
           </div>
           <Link className="button secondary" href="/dashboard/chat">
-            Ask Pridicta
+            Ask Predicta
           </Link>
         </div>
         <motion.div

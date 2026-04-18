@@ -5,7 +5,7 @@ const saved = [
   {
     cloud: true,
     lagna: 'Leo',
-    name: 'Pridicta Seeker',
+    name: 'Predicta Seeker',
     place: 'Mumbai, Maharashtra, India',
   },
   {
