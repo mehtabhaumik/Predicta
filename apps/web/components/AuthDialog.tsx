@@ -166,43 +166,30 @@ export function AuthDialog(): React.JSX.Element {
 
                     <div className="auth-provider-grid">
                       <button
-                        className="button secondary"
+                        className="button secondary provider-button"
                         disabled={busy}
                         onClick={() => providerSignIn('google')}
                         type="button"
                       >
-                        <span className="provider-icon google-icon" aria-hidden>
-                          G
-                        </span>
+                        <GoogleIcon />
                         Continue with Google
                       </button>
                       <button
-                        className="button secondary"
+                        className="button secondary provider-button"
                         disabled={busy}
                         onClick={() => providerSignIn('apple')}
                         type="button"
                       >
-                        <span
-                          className="provider-icon apple-icon"
-                          aria-hidden
-                        />
+                        <AppleIcon />
                         Continue with Apple
                       </button>
                       <button
-                        className="button secondary"
+                        className="button secondary provider-button"
                         disabled={busy}
                         onClick={() => providerSignIn('microsoft')}
                         type="button"
                       >
-                        <span
-                          className="provider-icon microsoft-icon"
-                          aria-hidden
-                        >
-                          <i />
-                          <i />
-                          <i />
-                          <i />
-                        </span>
+                        <MicrosoftIcon />
                         Continue with Microsoft
                       </button>
                     </div>
@@ -305,4 +292,55 @@ function getFriendlyAuthError(error: unknown): string {
   return error.message
     .replace(/^Firebase:\s*/i, '')
     .replace(/\s*\(auth\/.*\)\.?$/, '.');
+}
+
+function GoogleIcon(): React.JSX.Element {
+  return (
+    <span className="provider-icon" aria-hidden>
+      <svg viewBox="0 0 24 24" role="img">
+        <path
+          fill="#4285F4"
+          d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.29h6.47c-.28 1.5-1.13 2.77-2.41 3.62v3h3.9c2.28-2.1 3.53-5.2 3.53-8.64z"
+        />
+        <path
+          fill="#34A853"
+          d="M12 24c3.24 0 5.96-1.08 7.95-2.93l-3.9-3c-1.08.72-2.46 1.15-4.05 1.15-3.13 0-5.78-2.11-6.73-4.96H1.24v3.09C3.22 21.28 7.28 24 12 24z"
+        />
+        <path
+          fill="#FBBC05"
+          d="M5.27 14.26c-.24-.72-.38-1.49-.38-2.26s.14-1.54.38-2.26V6.65H1.24C.45 8.22 0 10.06 0 12s.45 3.78 1.24 5.35l4.03-3.09z"
+        />
+        <path
+          fill="#EA4335"
+          d="M12 4.78c1.76 0 3.34.61 4.59 1.8l3.44-3.44C17.95 1.2 15.23 0 12 0 7.28 0 3.22 2.72 1.24 6.65l4.03 3.09C6.22 6.89 8.87 4.78 12 4.78z"
+        />
+      </svg>
+    </span>
+  );
+}
+
+function AppleIcon(): React.JSX.Element {
+  return (
+    <span className="provider-icon" aria-hidden>
+      <svg viewBox="0 0 24 24" role="img">
+        <path
+          fill="currentColor"
+          d="M19.67 13.56c-.03-2.57 2.1-3.81 2.19-3.87-1.2-1.75-3.06-1.99-3.73-2.02-1.59-.16-3.1.93-3.9.93-.81 0-2.05-.91-3.37-.88-1.74.02-3.34 1.01-4.23 2.56-1.81 3.13-.46 7.76 1.3 10.3.86 1.24 1.89 2.64 3.23 2.59 1.3-.05 1.79-.84 3.35-.84 1.57 0 2.01.84 3.38.81 1.39-.02 2.28-1.26 3.13-2.51.99-1.45 1.4-2.85 1.42-2.92-.03-.01-2.72-1.04-2.77-4.15zM17.09 6c.72-.87 1.2-2.07 1.07-3.27-1.03.04-2.28.69-3.02 1.55-.66.77-1.24 1.99-1.08 3.16 1.15.09 2.32-.58 3.03-1.44z"
+        />
+      </svg>
+    </span>
+  );
+}
+
+function MicrosoftIcon(): React.JSX.Element {
+  return (
+    <span className="provider-icon" aria-hidden>
+      <svg viewBox="0 0 24 24" role="img">
+        <path fill="#F25022" d="M2 2h9.5v9.5H2z" />
+        <path fill="#7FBA00" d="M12.5 2H22v9.5h-9.5z" />
+        <path fill="#00A4EF" d="M2 12.5h9.5V22H2z" />
+        <path fill="#FFB900" d="M12.5 12.5H22V22h-9.5z" />
+      </svg>
+    </span>
+  );
 }

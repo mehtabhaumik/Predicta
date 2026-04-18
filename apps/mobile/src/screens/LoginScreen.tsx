@@ -203,7 +203,7 @@ function ProviderButton({
   return (
     <Pressable
       accessibilityRole="button"
-      className="flex-row items-center rounded-2xl border border-[#252533] bg-app-card px-4 py-4"
+      className="w-full flex-row items-center rounded-2xl border border-[#323244] bg-app-card px-4 py-4"
       onPress={onPress}
     >
       {icon}
@@ -214,28 +214,47 @@ function ProviderButton({
 
 function GoogleIcon() {
   return (
-    <View style={styles.providerIcon}>
-      <AppText className="font-black text-[#4DAFFF]">G</AppText>
+    <View style={styles.providerIconShell}>
+      <View style={styles.googleMark}>
+        <AppText style={styles.googleLetter}>G</AppText>
+        <View style={[styles.googleAccent, styles.googleRed]} />
+        <View style={[styles.googleAccent, styles.googleYellow]} />
+        <View style={[styles.googleAccent, styles.googleGreen]} />
+        <View style={[styles.googleAccent, styles.googleBlue]} />
+      </View>
     </View>
   );
 }
 
 function AppleIcon() {
   return (
-    <View style={styles.providerIcon}>
-      <View style={styles.appleBody} />
-      <View style={styles.appleLeaf} />
+    <View style={styles.providerIconShell}>
+      <View style={styles.appleMark}>
+        <View style={styles.appleBody} />
+        <View style={styles.appleBite} />
+        <View style={styles.appleLeaf} />
+      </View>
     </View>
   );
 }
 
 function MicrosoftIcon() {
   return (
-    <View style={[styles.providerIcon, styles.microsoftGrid]}>
-      <View style={[styles.microsoftSquare, { backgroundColor: '#f25022' }]} />
-      <View style={[styles.microsoftSquare, { backgroundColor: '#7fba00' }]} />
-      <View style={[styles.microsoftSquare, { backgroundColor: '#00a4ef' }]} />
-      <View style={[styles.microsoftSquare, { backgroundColor: '#ffb900' }]} />
+    <View style={styles.providerIconShell}>
+      <View style={styles.microsoftGrid}>
+        <View
+          style={[styles.microsoftSquare, { backgroundColor: '#F25022' }]}
+        />
+        <View
+          style={[styles.microsoftSquare, { backgroundColor: '#7FBA00' }]}
+        />
+        <View
+          style={[styles.microsoftSquare, { backgroundColor: '#00A4EF' }]}
+        />
+        <View
+          style={[styles.microsoftSquare, { backgroundColor: '#FFB900' }]}
+        />
+      </View>
     </View>
   );
 }
@@ -243,40 +262,103 @@ function MicrosoftIcon() {
 const styles = StyleSheet.create({
   appleBody: {
     backgroundColor: colors.primaryText,
-    borderRadius: 8,
-    height: 16,
-    top: 9,
-    width: 14,
+    borderBottomLeftRadius: 11,
+    borderBottomRightRadius: 11,
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    height: 21,
+    top: 11,
+    width: 19,
+  },
+  appleBite: {
+    backgroundColor: '#262636',
+    borderRadius: 7,
+    height: 10,
+    position: 'absolute',
+    right: 6,
+    top: 14,
+    width: 10,
   },
   appleLeaf: {
     backgroundColor: colors.primaryText,
-    borderRadius: 5,
-    height: 7,
+    borderRadius: 7,
+    height: 9,
     position: 'absolute',
-    right: 8,
+    right: 10,
     top: 6,
     transform: [{ rotate: '-28deg' }],
+    width: 10,
+  },
+  appleMark: {
+    alignItems: 'center',
+    height: 34,
+    justifyContent: 'center',
+    width: 34,
+  },
+  googleAccent: {
+    borderRadius: 999,
+    height: 4,
+    position: 'absolute',
     width: 8,
+  },
+  googleBlue: {
+    backgroundColor: '#4285F4',
+    right: 5,
+    top: 17,
+    width: 10,
+  },
+  googleGreen: {
+    backgroundColor: '#34A853',
+    bottom: 5,
+    right: 11,
+  },
+  googleLetter: {
+    color: colors.primaryText,
+    fontSize: 20,
+    fontWeight: '900',
+    lineHeight: 24,
+  },
+  googleMark: {
+    alignItems: 'center',
+    height: 34,
+    justifyContent: 'center',
+    width: 34,
+  },
+  googleRed: {
+    backgroundColor: '#EA4335',
+    left: 8,
+    top: 6,
+  },
+  googleYellow: {
+    backgroundColor: '#FBBC05',
+    left: 6,
+    top: 18,
   },
   microsoftGrid: {
     alignContent: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 2,
-    padding: 6,
+    gap: 3,
+    height: 27,
+    width: 27,
   },
   microsoftSquare: {
-    height: 8,
-    width: 8,
+    borderRadius: 2,
+    height: 12,
+    width: 12,
   },
-  providerIcon: {
+  providerIconShell: {
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.08)',
-    borderColor: 'rgba(255,255,255,0.1)',
-    borderRadius: 8,
+    backgroundColor: 'rgba(255,255,255,0.11)',
+    borderColor: 'rgba(255,255,255,0.16)',
+    borderRadius: 14,
     borderWidth: 1,
-    height: 32,
+    height: 44,
     justifyContent: 'center',
-    width: 32,
+    shadowColor: '#000',
+    shadowOffset: { height: 10, width: 0 },
+    shadowOpacity: 0.24,
+    shadowRadius: 18,
+    width: 44,
   },
 });
