@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import {
   GoogleAuthProvider,
   OAuthProvider,
@@ -15,11 +17,37 @@ type AuthMode = 'sign-in' | 'register';
 
 export function AuthDialog(): React.JSX.Element {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [mode, setMode] = useState<AuthMode>('sign-in');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
+  const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!open) {
+      return undefined;
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+      }
+    };
+
+    document.body.classList.add('modal-open');
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.body.classList.remove('modal-open');
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [open]);
 
   async function runAuth(action: () => Promise<unknown>, success: string) {
     try {
@@ -89,135 +117,178 @@ export function AuthDialog(): React.JSX.Element {
         Sign in
       </button>
 
-      {open ? (
-        <div aria-modal="true" className="auth-dialog-backdrop" role="dialog">
-          <section className="auth-dialog glass-panel">
-            <button
-              aria-label="Close sign-in dialog"
-              className="dialog-close"
-              onClick={() => setOpen(false)}
-              type="button"
-            >
-              Close
-            </button>
-            <div className="section-title">ACCOUNT ACCESS</div>
-            <h2>Sign in to Predicta</h2>
-            <p>
-              Use a social account or email password access. Local use remains
-              available when you continue without signing in.
-            </p>
+      {mounted
+        ? createPortal(
+            <AnimatePresence>
+              {open ? (
+                <motion.div
+                  className="auth-dialog-backdrop"
+                  initial={reduceMotion ? false : { opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: reduceMotion ? 0.12 : 0.22 }}
+                  onClick={() => setOpen(false)}
+                >
+                  <motion.section
+                    aria-labelledby="auth-dialog-title"
+                    aria-modal="true"
+                    className="auth-dialog glass-panel"
+                    initial={
+                      reduceMotion ? false : { opacity: 0, scale: 0.96, y: 18 }
+                    }
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={
+                      reduceMotion
+                        ? { opacity: 0 }
+                        : { opacity: 0, scale: 0.975, y: 10 }
+                    }
+                    role="dialog"
+                    transition={{
+                      duration: reduceMotion ? 0.12 : 0.28,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                    onClick={event => event.stopPropagation()}
+                  >
+                    <button
+                      aria-label="Close sign-in dialog"
+                      className="dialog-close"
+                      onClick={() => setOpen(false)}
+                      type="button"
+                    >
+                      Close
+                    </button>
+                    <div className="section-title">ACCOUNT ACCESS</div>
+                    <h2 id="auth-dialog-title">Sign in to Predicta</h2>
+                    <p>
+                      Use a social account or email password access. Local use
+                      remains available when you continue without signing in.
+                    </p>
 
-            <div className="auth-provider-grid">
-              <button
-                className="button secondary"
-                disabled={busy}
-                onClick={() => providerSignIn('google')}
-                type="button"
-              >
-                <span className="provider-icon google-icon" aria-hidden>
-                  G
-                </span>
-                Continue with Google
-              </button>
-              <button
-                className="button secondary"
-                disabled={busy}
-                onClick={() => providerSignIn('apple')}
-                type="button"
-              >
-                <span className="provider-icon apple-icon" aria-hidden />
-                Continue with Apple
-              </button>
-              <button
-                className="button secondary"
-                disabled={busy}
-                onClick={() => providerSignIn('microsoft')}
-                type="button"
-              >
-                <span className="provider-icon microsoft-icon" aria-hidden>
-                  <i />
-                  <i />
-                  <i />
-                  <i />
-                </span>
-                Continue with Microsoft
-              </button>
-            </div>
+                    <div className="auth-provider-grid">
+                      <button
+                        className="button secondary"
+                        disabled={busy}
+                        onClick={() => providerSignIn('google')}
+                        type="button"
+                      >
+                        <span className="provider-icon google-icon" aria-hidden>
+                          G
+                        </span>
+                        Continue with Google
+                      </button>
+                      <button
+                        className="button secondary"
+                        disabled={busy}
+                        onClick={() => providerSignIn('apple')}
+                        type="button"
+                      >
+                        <span
+                          className="provider-icon apple-icon"
+                          aria-hidden
+                        />
+                        Continue with Apple
+                      </button>
+                      <button
+                        className="button secondary"
+                        disabled={busy}
+                        onClick={() => providerSignIn('microsoft')}
+                        type="button"
+                      >
+                        <span
+                          className="provider-icon microsoft-icon"
+                          aria-hidden
+                        >
+                          <i />
+                          <i />
+                          <i />
+                          <i />
+                        </span>
+                        Continue with Microsoft
+                      </button>
+                    </div>
 
-            <div className="auth-mode-tabs">
-              <button
-                className={mode === 'sign-in' ? 'active' : ''}
-                onClick={() => setMode('sign-in')}
-                type="button"
-              >
-                Sign in
-              </button>
-              <button
-                className={mode === 'register' ? 'active' : ''}
-                onClick={() => setMode('register')}
-                type="button"
-              >
-                Register
-              </button>
-            </div>
+                    <div className="auth-mode-tabs">
+                      <button
+                        className={mode === 'sign-in' ? 'active' : ''}
+                        onClick={() => setMode('sign-in')}
+                        type="button"
+                      >
+                        Sign in
+                      </button>
+                      <button
+                        className={mode === 'register' ? 'active' : ''}
+                        onClick={() => setMode('register')}
+                        type="button"
+                      >
+                        Register
+                      </button>
+                    </div>
 
-            <div className="field-stack">
-              <label className="field-label" htmlFor="auth-email">
-                Email
-              </label>
-              <input
-                autoComplete="email"
-                id="auth-email"
-                onChange={event => setEmail(event.target.value)}
-                placeholder="you@example.com"
-                type="email"
-                value={email}
-              />
-            </div>
+                    <div className="field-stack">
+                      <label className="field-label" htmlFor="auth-email">
+                        Email
+                      </label>
+                      <input
+                        autoComplete="email"
+                        id="auth-email"
+                        onChange={event => setEmail(event.target.value)}
+                        placeholder="you@example.com"
+                        type="email"
+                        value={email}
+                      />
+                    </div>
 
-            <div className="field-stack">
-              <label className="field-label" htmlFor="auth-password">
-                Password
-              </label>
-              <input
-                autoComplete={
-                  mode === 'register' ? 'new-password' : 'current-password'
-                }
-                id="auth-password"
-                onChange={event => setPassword(event.target.value)}
-                placeholder="Enter password"
-                type="password"
-                value={password}
-              />
-            </div>
+                    <div className="field-stack">
+                      <label className="field-label" htmlFor="auth-password">
+                        Password
+                      </label>
+                      <input
+                        autoComplete={
+                          mode === 'register'
+                            ? 'new-password'
+                            : 'current-password'
+                        }
+                        id="auth-password"
+                        onChange={event => setPassword(event.target.value)}
+                        placeholder="Enter password"
+                        type="password"
+                        value={password}
+                      />
+                    </div>
 
-            {message ? <p className="dialog-message">{message}</p> : null}
+                    {message ? (
+                      <p className="dialog-message">{message}</p>
+                    ) : null}
 
-            <div className="dialog-actions">
-              <button
-                className="button"
-                disabled={busy}
-                onClick={emailSubmit}
-                type="button"
-              >
-                {busy
-                  ? 'Please wait...'
-                  : mode === 'register'
-                  ? 'Create Account'
-                  : 'Sign In'}
-              </button>
-              <button
-                className="button secondary"
-                disabled={busy}
-                onClick={resetPassword}
-                type="button"
-              >
-                Reset Password
-              </button>
-            </div>
-          </section>
-        </div>
-      ) : null}
+                    <div className="dialog-actions">
+                      <button
+                        className="button"
+                        disabled={busy}
+                        onClick={emailSubmit}
+                        type="button"
+                      >
+                        {busy
+                          ? 'Please wait...'
+                          : mode === 'register'
+                          ? 'Create Account'
+                          : 'Sign In'}
+                      </button>
+                      <button
+                        className="button secondary"
+                        disabled={busy}
+                        onClick={resetPassword}
+                        type="button"
+                      >
+                        Reset Password
+                      </button>
+                    </div>
+                  </motion.section>
+                </motion.div>
+              ) : null}
+            </AnimatePresence>,
+            document.body,
+          )
+        : null}
     </>
   );
 }
