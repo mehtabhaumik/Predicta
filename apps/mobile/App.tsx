@@ -1,7 +1,7 @@
 import './global.css';
 
 import React from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -10,8 +10,8 @@ import { colors } from './src/theme/colors';
 
 function App(): React.JSX.Element {
   return (
-    <GestureHandlerRootView className="flex-1 bg-app-bg">
-      <SafeAreaProvider>
+    <GestureHandlerRootView style={styles.root}>
+      <SafeAreaProvider style={styles.root}>
         <StatusBar
           barStyle="light-content"
           backgroundColor={colors.background}
@@ -23,3 +23,10 @@ function App(): React.JSX.Element {
 }
 
 export default App;
+
+const styles = StyleSheet.create({
+  root: {
+    backgroundColor: colors.background,
+    flex: 1,
+  },
+});

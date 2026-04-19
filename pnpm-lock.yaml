@@ -20,6 +20,12 @@ importers:
       '@google/genai':
         specifier: ^1.50.1
         version: 1.50.1
+      '@pridicta/firebase':
+        specifier: workspace:*
+        version: link:../../packages/firebase
+      '@pridicta/pdf':
+        specifier: workspace:*
+        version: link:../../packages/pdf
       '@react-native-async-storage/async-storage':
         specifier: ^2.2.0
         version: 2.2.0(react-native@0.85.1(@babel/core@7.29.0)(@react-native-community/cli@20.1.0(typescript@5.9.3))(@react-native/jest-preset@0.85.1(@babel/core@7.29.0)(react@19.2.3))(@react-native/metro-config@0.85.1(@babel/core@7.29.0))(@types/react@19.2.14)(react@19.2.3))
@@ -247,6 +253,9 @@ importers:
       '@pridicta/types':
         specifier: workspace:*
         version: link:../types
+      '@pridicta/utils':
+        specifier: workspace:*
+        version: link:../utils
 
   packages/config:
     dependencies:
@@ -266,7 +275,11 @@ importers:
         specifier: workspace:*
         version: link:../types
 
-  packages/firebase: {}
+  packages/firebase:
+    dependencies:
+      '@pridicta/types':
+        specifier: workspace:*
+        version: link:../types
 
   packages/monetization:
     dependencies:
@@ -279,6 +292,9 @@ importers:
 
   packages/pdf:
     dependencies:
+      '@pridicta/config':
+        specifier: workspace:*
+        version: link:../config
       '@pridicta/types':
         specifier: workspace:*
         version: link:../types
@@ -7293,7 +7309,9 @@ snapshots:
       metro-runtime: 0.84.3
     transitivePeerDependencies:
       - '@babel/core'
+      - bufferutil
       - supports-color
+      - utf-8-validate
 
   '@react-native/new-app-screen@0.85.1(@types/react@19.2.14)(react-native@0.85.1(@babel/core@7.29.0)(@react-native-community/cli@20.1.0(typescript@5.9.3))(@react-native/jest-preset@0.85.1(@babel/core@7.29.0)(react@19.2.3))(@react-native/metro-config@0.85.1(@babel/core@7.29.0))(@types/react@19.2.14)(react@19.2.3))(react@19.2.3)':
     dependencies:

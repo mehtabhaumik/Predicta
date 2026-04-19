@@ -1,6 +1,14 @@
 import React, { type PropsWithChildren } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { colors } from '../theme/colors';
 
 type ScreenProps = PropsWithChildren<{
   scroll?: boolean;
@@ -17,26 +25,31 @@ export function Screen({
     paddingBottom: Math.max(insets.bottom, 24),
     paddingTop: Math.max(insets.top, 24),
   };
-  const contentClassName = withHorizontalPadding ? 'px-5' : undefined;
 
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      className="flex-1 bg-app-bg"
+      style={styles.root}
     >
       {scroll ? (
         <ScrollView
-          className="flex-1"
-          contentContainerClassName={contentClassName}
-          contentContainerStyle={paddingStyle}
+          style={styles.root}
+          contentContainerStyle={[
+            styles.scrollContent,
+            withHorizontalPadding ? styles.horizontalPadding : null,
+            paddingStyle,
+          ]}
           keyboardShouldPersistTaps="handled"
         >
           {children}
         </ScrollView>
       ) : (
         <View
-          className={`flex-1 ${contentClassName ?? ''}`}
-          style={paddingStyle}
+          style={[
+            styles.content,
+            withHorizontalPadding ? styles.horizontalPadding : null,
+            paddingStyle,
+          ]}
         >
           {children}
         </View>
@@ -44,3 +57,21 @@ export function Screen({
     </KeyboardAvoidingView>
   );
 }
+
+const styles = StyleSheet.create({
+  content: {
+    backgroundColor: colors.background,
+    flex: 1,
+  },
+  horizontalPadding: {
+    paddingHorizontal: 22,
+  },
+  root: {
+    backgroundColor: colors.background,
+    flex: 1,
+  },
+  scrollContent: {
+    backgroundColor: colors.background,
+    flexGrow: 1,
+  },
+});

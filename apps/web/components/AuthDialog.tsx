@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   GoogleAuthProvider,
-  OAuthProvider,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
@@ -62,17 +61,15 @@ export function AuthDialog(): React.JSX.Element {
     }
   }
 
-  function providerSignIn(provider: 'google' | 'apple' | 'microsoft') {
-    const authProvider =
-      provider === 'google'
-        ? new GoogleAuthProvider()
-        : provider === 'apple'
-        ? new OAuthProvider('apple.com')
-        : new OAuthProvider('microsoft.com');
+  function signInWithGoogleProvider() {
+    const authProvider = new GoogleAuthProvider();
+    authProvider.setCustomParameters({
+      prompt: 'select_account',
+    });
 
     return runAuth(
       () => signInWithPopup(getFirebaseWebAuth(), authProvider),
-      'Signed in. Your account is ready.',
+      'Signed in with Google. Your account is ready.',
     );
   }
 
@@ -168,29 +165,35 @@ export function AuthDialog(): React.JSX.Element {
                       <button
                         className="button secondary provider-button"
                         disabled={busy}
-                        onClick={() => providerSignIn('google')}
+                        onClick={signInWithGoogleProvider}
                         type="button"
                       >
                         <GoogleIcon />
                         Continue with Google
                       </button>
                       <button
-                        className="button secondary provider-button"
-                        disabled={busy}
-                        onClick={() => providerSignIn('apple')}
+                        aria-disabled="true"
+                        className="button secondary provider-button provider-button-disabled"
+                        disabled
                         type="button"
                       >
                         <AppleIcon />
-                        Continue with Apple
+                        <span className="provider-button-copy">
+                          Continue with Apple
+                          <span className="coming-soon-pill">Coming soon</span>
+                        </span>
                       </button>
                       <button
-                        className="button secondary provider-button"
-                        disabled={busy}
-                        onClick={() => providerSignIn('microsoft')}
+                        aria-disabled="true"
+                        className="button secondary provider-button provider-button-disabled"
+                        disabled
                         type="button"
                       >
                         <MicrosoftIcon />
-                        Continue with Microsoft
+                        <span className="provider-button-copy">
+                          Continue with Microsoft
+                          <span className="coming-soon-pill">Coming soon</span>
+                        </span>
                       </button>
                     </div>
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 import {
   AnimatedHeader,
@@ -73,16 +73,16 @@ export function SavedKundlisScreen({
     <Screen>
       {glassAlert}
       <AnimatedHeader eyebrow="LOCAL + CLOUD" title="Saved kundlis" />
-      <AppText className="mt-4" tone="secondary">
+      <AppText style={styles.introCopy} tone="secondary">
         Kundlis are saved locally first. Cloud sync happens only when you choose
         it.
       </AppText>
 
-      <View className="mt-7 gap-4">
+      <View style={styles.list}>
         {savedKundlis.length === 0 ? (
           <GlowCard>
             <AppText variant="subtitle">No saved kundlis yet</AppText>
-            <AppText className="mt-2" tone="secondary">
+            <AppText style={styles.cardCopy} tone="secondary">
               Generate a kundli from the Kundli screen and it will appear here.
             </AppText>
           </GlowCard>
@@ -96,19 +96,19 @@ export function SavedKundlisScreen({
                   accessibilityRole="button"
                   onPress={() => openRecord(record)}
                 >
-                  <View className="flex-row items-start justify-between gap-3">
-                    <View className="flex-1">
+                  <View style={styles.recordHeader}>
+                    <View style={styles.recordCopy}>
                       <AppText variant="subtitle">
                         {record.summary.name}
                       </AppText>
-                      <AppText className="mt-2" tone="secondary">
+                      <AppText style={styles.cardCopy} tone="secondary">
                         {record.summary.birthDate} at {record.summary.birthTime}
                       </AppText>
                       <AppText tone="secondary">
                         {record.summary.birthPlace}
                       </AppText>
                       <AppText
-                        className="mt-3"
+                        style={styles.metaText}
                         tone="secondary"
                         variant="caption"
                       >
@@ -119,6 +119,7 @@ export function SavedKundlisScreen({
                     {isCloud ? (
                       <Pressable
                         accessibilityRole="button"
+                        style={styles.cloudButton}
                         onPress={() =>
                           showGlassAlert({
                             message:
@@ -127,13 +128,13 @@ export function SavedKundlisScreen({
                           })
                         }
                       >
-                        <AppText className="text-xl">☁</AppText>
+                        <AppText style={styles.cloudIcon}>☁</AppText>
                       </Pressable>
                     ) : null}
                   </View>
                 </Pressable>
 
-                <View className="mt-5">
+                <View style={styles.actionBlock}>
                   <GlowButton
                     label={isCloud ? 'Saved to Cloud' : 'Save to Cloud'}
                     disabled={isCloud}
@@ -148,3 +149,45 @@ export function SavedKundlisScreen({
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  actionBlock: {
+    marginTop: 22,
+  },
+  cardCopy: {
+    marginTop: 8,
+  },
+  cloudButton: {
+    backgroundColor: 'rgba(255,255,255,0.055)',
+    borderColor: 'rgba(255,255,255,0.12)',
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+  },
+  cloudIcon: {
+    fontSize: 12,
+    fontWeight: '800',
+    lineHeight: 16,
+  },
+  introCopy: {
+    marginTop: 16,
+  },
+  list: {
+    gap: 16,
+    marginTop: 28,
+  },
+  metaText: {
+    marginTop: 12,
+  },
+  recordCopy: {
+    flex: 1,
+    paddingRight: 12,
+  },
+  recordHeader: {
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    gap: 12,
+    justifyContent: 'space-between',
+  },
+});

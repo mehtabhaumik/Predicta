@@ -27,11 +27,23 @@
       "@pridicta/config/*": [
         "../../packages/config/src/*"
       ],
+      "@pridicta/firebase": [
+        "../../packages/firebase/src/index.ts"
+      ],
+      "@pridicta/firebase/*": [
+        "../../packages/firebase/src/*"
+      ],
       "@pridicta/monetization": [
         "../../packages/monetization/src/index.ts"
       ],
       "@pridicta/monetization/*": [
         "../../packages/monetization/src/*"
+      ],
+      "@pridicta/pdf": [
+        "../../packages/pdf/src/index.ts"
+      ],
+      "@pridicta/pdf/*": [
+        "../../packages/pdf/src/*"
       ],
       "@pridicta/types": [
         "../../packages/types/src/index.ts"

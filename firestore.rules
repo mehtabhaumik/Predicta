@@ -1,0 +1,154 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return signedIn() && request.auth.token.admin == true;
+    }
+
+    function incomingOwner() {
+      return signedIn() && request.resource.data.userId == request.auth.uid;
+    }
+
+    function existingOwner() {
+      return signedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    function ownerCreate() {
+      return incomingOwner();
+    }
+
+    function ownerRead() {
+      return existingOwner() || isAdmin();
+    }
+
+    function ownerUpdate() {
+      return (existingOwner() && incomingOwner()) || isAdmin();
+    }
+
+    function ownerDelete() {
+      return existingOwner() || isAdmin();
+    }
+
+    function safeUserWrite(userId) {
+      return isOwner(userId) &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'profile',
+          'preferences',
+          'usage',
+          'usageUpdatedAt'
+        ]);
+    }
+
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if isOwner(userId) &&
+        request.resource.data.keys().hasOnly([
+          'profile',
+          'preferences',
+          'usage',
+          'usageUpdatedAt'
+        ]);
+      allow update: if safeUserWrite(userId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /kundlis/{kundliId} {
+      allow create: if ownerCreate();
+      allow read: if ownerRead();
+      allow update: if ownerUpdate();
+      allow delete: if ownerDelete();
+    }
+
+    match /pdfs/{pdfId} {
+      allow create: if ownerCreate();
+      allow read: if ownerRead();
+      allow update: if ownerUpdate();
+      allow delete: if ownerDelete();
+    }
+
+    match /dailyIntelligence/{docId} {
+      allow create: if ownerCreate();
+      allow read: if ownerRead();
+      allow update: if ownerUpdate();
+      allow delete: if ownerDelete();
+    }
+
+    match /weeklyIntelligence/{docId} {
+      allow create: if ownerCreate();
+      allow read: if ownerRead();
+      allow update: if ownerUpdate();
+      allow delete: if ownerDelete();
+    }
+
+    match /lifeEvents/{eventId} {
+      allow create: if ownerCreate();
+      allow read: if ownerRead();
+      allow update: if ownerUpdate();
+      allow delete: if ownerDelete();
+    }
+
+    match /lifeTimelineInsights/{kundliId} {
+      allow create: if ownerCreate();
+      allow read: if ownerRead();
+      allow update: if ownerUpdate();
+      allow delete: if ownerDelete();
+    }
+
+    match /journalEntries/{entryId} {
+      allow create: if ownerCreate();
+      allow read: if ownerRead();
+      allow update: if ownerUpdate();
+      allow delete: if ownerDelete();
+    }
+
+    match /journalInsights/{docId} {
+      allow create: if ownerCreate();
+      allow read: if ownerRead();
+      allow update: if ownerUpdate();
+      allow delete: if ownerDelete();
+    }
+
+    match /compatibilityReports/{pairKey} {
+      allow create: if ownerCreate();
+      allow read: if ownerRead();
+      allow update: if ownerUpdate();
+      allow delete: if ownerDelete();
+    }
+
+    match /analyticsEvents/{eventId} {
+      allow create: if signedIn() &&
+        request.resource.data.keys().hasOnly([
+          'createdAt',
+          'eventName',
+          'metadata',
+          'userId'
+        ]) &&
+        (request.resource.data.get('userId', null) == null ||
+          request.resource.data.get('userId', null) == request.auth.uid);
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /accessPassCodes/{codeId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /adminAuditLogs/{actionId} {
+      allow read: if isAdmin();
+      allow create: if isAdmin();
+      allow update, delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

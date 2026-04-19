@@ -7,6 +7,8 @@ export type OneTimeProductType =
   | 'FIVE_QUESTIONS'
   | 'PREMIUM_PDF'
   | 'DETAILED_KUNDLI_REPORT'
+  | 'LIFE_TIMELINE_REPORT'
+  | 'ANNUAL_GUIDANCE_REPORT'
   | 'MARRIAGE_COMPATIBILITY_REPORT';
 
 export type PricingPlan = {

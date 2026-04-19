@@ -1,6 +1,12 @@
 import React, { useEffect, useState, type ReactNode } from 'react';
-import { Switch, View } from 'react-native';
+import { Pressable, StyleSheet, Switch, View } from 'react-native';
 
+import {
+  getAiLanguageInstruction,
+  getLocalizedString,
+  SUPPORTED_LOCALES,
+} from '@pridicta/config';
+import type { AppLocale } from '@pridicta/types';
 import {
   AnimatedHeader,
   AppText,
@@ -20,6 +26,10 @@ import { loadRedeemedGuestPassFromFirebase } from '../services/firebase/passCode
 import { resolveAccess } from '@pridicta/access';
 import { isBiometrySupported } from '../services/security/secureStorage';
 import { buildUsageDisplay } from '@pridicta/monetization';
+import {
+  loadLanguagePreference,
+  saveLanguagePreference,
+} from '../services/storage/languagePreferenceStorage';
 import { useAppStore } from '../store/useAppStore';
 import { colors } from '../theme/colors';
 
@@ -35,11 +45,13 @@ export function SettingsScreen({
   const securityEnabled = useAppStore(state => state.securityEnabled);
   const userPlan = useAppStore(state => state.userPlan);
   const monetization = useAppStore(state => state.monetization);
+  const preferredLanguage = useAppStore(state => state.preferredLanguage);
   const redeemedGuestPass = useAppStore(state => state.redeemedGuestPass);
   const usage = useAppStore(state => state.usage);
   const setBiometricsEnabled = useAppStore(state => state.setBiometricsEnabled);
   const setChatSoundEnabled = useAppStore(state => state.setChatSoundEnabled);
   const setPinEnabled = useAppStore(state => state.setPinEnabled);
+  const setPreferredLanguage = useAppStore(state => state.setPreferredLanguage);
   const setSecurityEnabled = useAppStore(state => state.setSecurityEnabled);
   const setAuth = useAppStore(state => state.setAuth);
   const setRedeemedGuestPass = useAppStore(state => state.setRedeemedGuestPass);
@@ -72,7 +84,10 @@ export function SettingsScreen({
         }
       })
       .catch(() => undefined);
-  }, [setAuth, setRedeemedGuestPass]);
+    loadLanguagePreference()
+      .then(preference => setPreferredLanguage(preference.locale))
+      .catch(() => setPreferredLanguage('en'));
+  }, [setAuth, setPreferredLanguage, setRedeemedGuestPass]);
 
   async function handleAccountAccess() {
     if (!auth.isLoggedIn) {
@@ -95,13 +110,23 @@ export function SettingsScreen({
     }
   }
 
+  async function handleLanguageChange(locale: AppLocale) {
+    setPreferredLanguage(locale);
+    await saveLanguagePreference(locale).catch(() => {
+      showGlassAlert({
+        message: 'Your language preference could not be saved on this device.',
+        title: 'Language preference',
+      });
+    });
+  }
+
   return (
     <Screen>
       {glassAlert}
       <AnimatedHeader eyebrow="PRIVATE DEFAULTS" title="Settings" />
 
-      <GlassPanel className="mt-8" delay={100}>
-        <View className="gap-6">
+      <GlassPanel style={styles.firstPanel} delay={100}>
+        <View style={styles.settingsStack}>
           <SettingRow
             description="Require PIN or biometrics before opening sensitive chart data."
             title="Security lock"
@@ -154,9 +179,44 @@ export function SettingsScreen({
         </View>
       </GlassPanel>
 
-      <GlowCard className="mt-6" delay={220}>
+      <GlowCard style={styles.panelSpacing} delay={220}>
+        <AppText variant="subtitle">
+          {getLocalizedString('settings.language.title', preferredLanguage)}
+        </AppText>
+        <AppText style={styles.sectionCopy} tone="secondary" variant="caption">
+          {getLocalizedString('settings.language.description', preferredLanguage)}
+        </AppText>
+        <View style={styles.languageGrid}>
+          {SUPPORTED_LOCALES.map(option => (
+            <Pressable
+              accessibilityRole="button"
+              key={option.code}
+              onPress={() => handleLanguageChange(option.code)}
+              style={[
+                styles.languageOption,
+                preferredLanguage === option.code
+                  ? styles.languageOptionActive
+                  : undefined,
+              ]}
+            >
+              <AppText variant="subtitle">{option.nativeLabel}</AppText>
+              <AppText tone="secondary" variant="caption">
+                {option.label}
+              </AppText>
+            </Pressable>
+          ))}
+        </View>
+        <AppText style={styles.sectionCopy} tone="secondary" variant="caption">
+          {getAiLanguageInstruction(preferredLanguage)}
+        </AppText>
+        <AppText style={styles.sectionCopy} tone="secondary" variant="caption">
+          {getLocalizedString('settings.language.pdfHint', preferredLanguage)}
+        </AppText>
+      </GlowCard>
+
+      <GlowCard style={styles.panelSpacing} delay={260}>
         <SettingRow
-          description="A very soft local sound plays when Pridicta finishes a response."
+          description="A very soft local sound plays when Predicta finishes a response."
           title="Reply chime"
         >
           <Switch
@@ -171,15 +231,15 @@ export function SettingsScreen({
         </SettingRow>
       </GlowCard>
 
-      <GlowCard className="mt-6" delay={300}>
+      <GlowCard style={styles.panelSpacing} delay={340}>
         <AppText variant="subtitle">{usageDisplay.statusText}</AppText>
-        <AppText className="mt-2" tone="secondary" variant="caption">
+        <AppText style={styles.sectionCopy} tone="secondary" variant="caption">
           {usageDisplay.questionsText}. {usageDisplay.pdfText}.
         </AppText>
-        <AppText className="mt-2" tone="secondary" variant="caption">
+        <AppText style={styles.sectionCopy} tone="secondary" variant="caption">
           {usageDisplay.deepReadingsText}
         </AppText>
-        <View className="mt-5">
+        <View style={styles.actionBlock}>
           <GlowButton
             label={
               resolvedAccess.hasPremiumAccess
@@ -189,14 +249,20 @@ export function SettingsScreen({
             onPress={() => navigation.navigate(routes.Paywall)}
           />
         </View>
-        <View className="mt-4">
+        <View style={styles.secondaryActionBlock}>
           <GlowButton
             label="Redeem Guest Pass"
             onPress={() => navigation.navigate(routes.RedeemPassCode)}
           />
         </View>
+        <View style={styles.secondaryActionBlock}>
+          <GlowButton
+            label="Open Life Timeline"
+            onPress={() => navigation.navigate(routes.LifeTimeline)}
+          />
+        </View>
         {resolvedAccess.isAdmin ? (
-          <View className="mt-4">
+          <View style={styles.secondaryActionBlock}>
             <GlowButton
               label="Admin Tools"
               onPress={() => navigation.navigate(routes.AdminAccess)}
@@ -205,16 +271,16 @@ export function SettingsScreen({
         ) : null}
       </GlowCard>
 
-      <GlowCard className="mt-6" delay={380}>
+      <GlowCard style={styles.panelSpacing} delay={420}>
         <AppText variant="subtitle">
           {auth.isLoggedIn ? 'Google connected' : 'Cloud sync is optional'}
         </AppText>
-        <AppText className="mt-2" tone="secondary" variant="caption">
+        <AppText style={styles.sectionCopy} tone="secondary" variant="caption">
           {auth.isLoggedIn
             ? auth.email ?? 'Your Google account is connected.'
             : 'Your kundlis stay on this device unless you choose to save them to cloud.'}
         </AppText>
-        <View className="mt-5">
+        <View style={styles.actionBlock}>
           <GlowButton
             label={
               authLoading
@@ -225,6 +291,19 @@ export function SettingsScreen({
             }
             loading={authLoading}
             onPress={handleAccountAccess}
+          />
+        </View>
+      </GlowCard>
+
+      <GlowCard style={styles.panelSpacing} delay={500}>
+        <AppText variant="subtitle">About Predicta</AppText>
+        <AppText style={styles.sectionCopy} tone="secondary" variant="caption">
+          Read the founder story and the product vision behind Predicta.
+        </AppText>
+        <View style={styles.actionBlock}>
+          <GlowButton
+            label="Meet the Founder"
+            onPress={() => navigation.navigate(routes.Founder)}
           />
         </View>
       </GlowCard>
@@ -242,14 +321,67 @@ function SettingRow({
   title: string;
 }) {
   return (
-    <View className="flex-row items-center justify-between gap-5">
-      <View className="flex-1 pr-2">
+    <View style={styles.settingRow}>
+      <View style={styles.settingCopy}>
         <AppText variant="subtitle">{title}</AppText>
-        <AppText className="mt-2" tone="secondary" variant="caption">
+        <AppText style={styles.settingDescription} tone="secondary" variant="caption">
           {description}
         </AppText>
       </View>
-      <View className="min-w-[56px] items-end">{children}</View>
+      <View style={styles.settingControl}>{children}</View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  actionBlock: {
+    marginTop: 22,
+  },
+  firstPanel: {
+    marginTop: 32,
+  },
+  languageGrid: {
+    gap: 12,
+    marginTop: 18,
+  },
+  languageOption: {
+    backgroundColor: 'rgba(255,255,255,0.055)',
+    borderColor: colors.borderSoft,
+    borderRadius: 18,
+    borderWidth: 1,
+    gap: 6,
+    padding: 16,
+  },
+  languageOptionActive: {
+    borderColor: colors.borderGlow,
+  },
+  panelSpacing: {
+    marginTop: 24,
+  },
+  secondaryActionBlock: {
+    marginTop: 14,
+  },
+  sectionCopy: {
+    marginTop: 8,
+  },
+  settingControl: {
+    alignItems: 'flex-end',
+    minWidth: 62,
+  },
+  settingCopy: {
+    flex: 1,
+    paddingRight: 14,
+  },
+  settingDescription: {
+    marginTop: 8,
+  },
+  settingRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 20,
+    justifyContent: 'space-between',
+  },
+  settingsStack: {
+    gap: 26,
+  },
+});

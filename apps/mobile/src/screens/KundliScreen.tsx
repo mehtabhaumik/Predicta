@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 import {
   AnimatedHeader,
@@ -140,25 +140,25 @@ export function KundliScreen({
       {glassAlert}
       <AnimatedHeader eyebrow="REAL VEDIC ENGINE" title="Kundli profile" />
 
-      <GlassPanel className="mt-7" delay={100}>
+      <GlassPanel style={styles.firstPanel} delay={100}>
         <AppText variant="subtitle">Generate real kundli</AppText>
-        <AppText className="mt-2" tone="secondary">
-          Pridicta calculates only after your birth date, birth time, birth
+        <AppText style={styles.copyText} tone="secondary">
+          Predicta calculates only after your birth date, birth time, birth
           place, and timezone are verified.
         </AppText>
         {pendingBirthDetailsDraft ? (
-          <AppText className="mt-3" tone="secondary">
-            I prefilled what Pridicta understood from chat. Please verify it
+          <AppText style={styles.prefillText} tone="secondary">
+            I prefilled what Predicta understood from chat. Please verify it
             before generating.
           </AppText>
         ) : null}
-        <View className="mt-5">
+        <View style={styles.formBlock}>
           <BirthDetailsForm
             initialDraft={pendingBirthDetailsDraft}
             onChange={handleBirthDetailsChange}
           />
         </View>
-        <View className="mt-5">
+        <View style={styles.actionBlock}>
           <GlowButton
             label={generating ? 'Calculating...' : 'Generate Real Kundli'}
             loading={generating}
@@ -169,33 +169,33 @@ export function KundliScreen({
 
       {kundli ? (
         <>
-          <GlassPanel className="mt-7" delay={160}>
+          <GlassPanel delay={160} style={styles.generatedPanel}>
             <AppText variant="subtitle">{kundli.birthDetails.name}</AppText>
-            <AppText className="mt-2" tone="secondary">
+            <AppText style={styles.copyText} tone="secondary">
               {kundli.birthDetails.date} at {kundli.birthDetails.time}
             </AppText>
             <AppText tone="secondary">{kundli.birthDetails.place}</AppText>
-            <View className="mt-5 flex-row gap-3">
-              <View className="flex-1">
+            <View style={styles.metricRow}>
+              <View style={styles.metricItem}>
                 <AppText tone="secondary" variant="caption">
                   Lagna
                 </AppText>
-                <AppText className="mt-1" variant="subtitle">
+                <AppText style={styles.metricValue} variant="subtitle">
                   {kundli.lagna}
                 </AppText>
               </View>
-              <View className="flex-1">
+              <View style={styles.metricItem}>
                 <AppText tone="secondary" variant="caption">
                   Nakshatra
                 </AppText>
-                <AppText className="mt-1" variant="subtitle">
+                <AppText style={styles.metricValue} variant="subtitle">
                   {kundli.nakshatra}
                 </AppText>
               </View>
             </View>
           </GlassPanel>
 
-          <View className="mt-7 gap-4">
+          <View style={styles.chartList}>
             {chartList.map((chartType, index) => {
               const chartConfig = getChartConfig(chartType);
               const chart = kundli.charts[chartType];
@@ -205,15 +205,15 @@ export function KundliScreen({
                   <AppText tone="secondary" variant="caption">
                     {chartType} • {chartConfig.name}
                   </AppText>
-                  <AppText className="mt-2" variant="subtitle">
+                  <AppText style={styles.copyText} variant="subtitle">
                     {chartConfig.purpose}
                   </AppText>
-                  <View className="mt-4">
+                  <View style={styles.chartBlock}>
                     <KundliChart chart={chart} />
                   </View>
-                  <View className="mt-5">
+                  <View style={styles.actionBlock}>
                     <GlowButton
-                      label={`Ask Pridicta about ${chartType}`}
+                      label={`Ask Predicta about ${chartType}`}
                       onPress={() => askFromChart(chartType)}
                     />
                   </View>
@@ -226,11 +226,11 @@ export function KundliScreen({
             accessibilityRole="button"
             onPress={() => setShowAllCharts(value => !value)}
           >
-            <GradientOutlineCard className="mt-7" delay={460}>
+            <GradientOutlineCard delay={460} style={styles.viewAllCard}>
               <AppText variant="subtitle">
                 {showAllCharts ? 'Show Core Charts' : 'View All Charts'}
               </AppText>
-              <AppText className="mt-2" tone="secondary">
+              <AppText style={styles.copyText} tone="secondary">
                 Advanced charts are listed from the registry. Unverified
                 formulas are marked as not enabled instead of showing fake data.
               </AppText>
@@ -241,3 +241,45 @@ export function KundliScreen({
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  actionBlock: {
+    marginTop: 22,
+  },
+  chartBlock: {
+    marginTop: 18,
+  },
+  chartList: {
+    gap: 18,
+    marginTop: 28,
+  },
+  copyText: {
+    marginTop: 8,
+  },
+  firstPanel: {
+    marginTop: 28,
+  },
+  formBlock: {
+    marginTop: 22,
+  },
+  generatedPanel: {
+    marginTop: 28,
+  },
+  metricItem: {
+    flex: 1,
+  },
+  metricRow: {
+    flexDirection: 'row',
+    gap: 14,
+    marginTop: 22,
+  },
+  metricValue: {
+    marginTop: 4,
+  },
+  prefillText: {
+    marginTop: 12,
+  },
+  viewAllCard: {
+    marginTop: 28,
+  },
+});

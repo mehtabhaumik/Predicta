@@ -1,18 +1,19 @@
 'use client';
 
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, useReducedMotion } from 'framer-motion';
 import type { ReactNode } from 'react';
 import { canSeeAdminRoute } from '@pridicta/access';
 import type { ResolvedAccess } from '@pridicta/types';
-import { StatusPill } from './StatusPill';
 import { SidebarNav, type SidebarItem } from './SidebarNav';
 
 const links: SidebarItem[] = [
   { href: '/dashboard', label: 'Overview' },
   { href: '/dashboard/chat', label: 'Chat' },
   { href: '/dashboard/kundli', label: 'Kundli' },
+  { href: '/dashboard/life-timeline', label: 'Life Timeline' },
+  { href: '/dashboard/journal', label: 'Journal' },
+  { href: '/dashboard/compatibility', label: 'Compatibility' },
   { href: '/dashboard/charts', label: 'Charts' },
   { href: '/dashboard/report', label: 'Report' },
   { href: '/dashboard/saved-kundlis', label: 'Saved Kundlis' },
@@ -29,24 +30,11 @@ export function DashboardShell({
 }): React.JSX.Element {
   const pathname = usePathname();
   const reduceMotion = useReducedMotion();
-  const accessText = access.source === 'free' ? 'Free preview' : access.accessLevel;
 
   return (
     <div className="dashboard-shell">
       <SidebarNav items={links} showAdmin={canSeeAdminRoute(access)} />
       <main className="main-workspace">
-        <div className="dashboard-topbar glass-panel">
-          <div>
-            <StatusPill
-              label={access.hasPremiumAccess ? 'Premium depth available' : accessText}
-              tone={access.hasPremiumAccess ? 'premium' : 'quiet'}
-            />
-            <p>Spacious guidance, reports, charts, and saved kundlis.</p>
-          </div>
-          <Link className="button secondary" href="/dashboard/chat">
-            Ask Predicta
-          </Link>
-        </div>
         <motion.div
           key={pathname}
           initial={reduceMotion ? false : { opacity: 0, y: 14 }}

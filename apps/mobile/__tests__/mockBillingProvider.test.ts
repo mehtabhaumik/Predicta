@@ -1,5 +1,6 @@
 import {
   getDayPassProduct,
+  getLifeTimelineReportProduct,
   getRecommendedPricingPlan,
 } from '../src/config/pricing';
 import { mockBillingProvider } from '../src/services/billing/mockBillingProvider';
@@ -32,6 +33,19 @@ describe('mockBillingProvider', () => {
     expect(result.oneTimeEntitlement).toMatchObject({
       productType: 'DAY_PASS',
       remainingUses: 10,
+      source: 'mock',
+    });
+  });
+
+  it('grants one-time life timeline report credit on success', async () => {
+    const result = await mockBillingProvider.purchase(
+      getLifeTimelineReportProduct().productId,
+    );
+
+    expect(result.status).toBe('SUCCESS');
+    expect(result.oneTimeEntitlement).toMatchObject({
+      productType: 'LIFE_TIMELINE_REPORT',
+      remainingUses: 1,
       source: 'mock',
     });
   });

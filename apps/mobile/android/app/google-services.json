@@ -12,7 +12,20 @@
           "package_name": "com.rudraix.predicta"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "759876006782-nmqsq0o5md8jfv6s40tcs4suo8dqk6u7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rudraix.predicta",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "759876006782-ec13l7kaucdpoul4eo5mqgtqj76h4dat.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCnV4cY2mdOdl26E55m8OsfJN2p7ktaxtc"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "759876006782-ec13l7kaucdpoul4eo5mqgtqj76h4dat.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

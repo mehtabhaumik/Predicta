@@ -9,7 +9,11 @@ export type PaywallAction =
   | 'DEEP_AI_LIMIT_REACHED'
   | 'DAY_PASS_OFFER'
   | 'QUESTION_PACK_OFFER'
-  | 'PREMIUM_PDF_OFFER';
+  | 'PREMIUM_PDF_OFFER'
+  | 'DETAILED_REPORT_OFFER'
+  | 'LIFE_TIMELINE_REPORT_OFFER'
+  | 'ANNUAL_GUIDANCE_REPORT_OFFER'
+  | 'COMPATIBILITY_REPORT_OFFER';
 
 export type PaywallContext = {
   title: string;
@@ -53,6 +57,42 @@ export function getPaywallContext(action: PaywallAction): PaywallContext {
         secondaryCta: 'Keep Free Report',
         suggestedProductId: 'pridicta_premium_pdf',
         title: 'Go deeper with this report.',
+      };
+    case 'DETAILED_REPORT_OFFER':
+      return {
+        message:
+          'Unlock one handbook-style kundli dossier without starting a subscription.',
+        primaryCta: 'Unlock Detailed Report',
+        secondaryCta: 'Keep Current Report',
+        suggestedProductId: 'pridicta_detailed_kundli_report',
+        title: 'Create a deeper kundli dossier.',
+      };
+    case 'LIFE_TIMELINE_REPORT_OFFER':
+      return {
+        message:
+          'Unlock deeper event mapping across dasha periods and repeating chart patterns.',
+        primaryCta: 'Unlock Life Timeline',
+        secondaryCta: 'Keep Preview',
+        suggestedProductId: 'pridicta_life_timeline_report',
+        title: 'Map more of your life timeline.',
+      };
+    case 'ANNUAL_GUIDANCE_REPORT_OFFER':
+      return {
+        message:
+          'Unlock one focused 12-month guidance report for this kundli.',
+        primaryCta: 'Unlock Annual Guidance',
+        secondaryCta: 'Continue Free',
+        suggestedProductId: 'pridicta_annual_guidance_report',
+        title: 'Go deeper into the year ahead.',
+      };
+    case 'COMPATIBILITY_REPORT_OFFER':
+      return {
+        message:
+          'Unlock one compatibility report for this pair with deeper timing, caution, and practical guidance.',
+        primaryCta: 'Unlock Compatibility Report',
+        secondaryCta: 'Keep Preview',
+        suggestedProductId: 'pridicta_marriage_compatibility_report',
+        title: 'Go deeper into this connection.',
       };
     case 'DEEP_AI_LIMIT_REACHED':
     case 'ADVANCED_ANALYSIS_REQUESTED':
@@ -116,6 +156,10 @@ function isOneTimeOffer(action: PaywallAction): boolean {
   return (
     action === 'DAY_PASS_OFFER' ||
     action === 'QUESTION_PACK_OFFER' ||
-    action === 'PREMIUM_PDF_OFFER'
+    action === 'PREMIUM_PDF_OFFER' ||
+    action === 'DETAILED_REPORT_OFFER' ||
+    action === 'LIFE_TIMELINE_REPORT_OFFER' ||
+    action === 'ANNUAL_GUIDANCE_REPORT_OFFER' ||
+    action === 'COMPATIBILITY_REPORT_OFFER'
   );
 }

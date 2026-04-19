@@ -1,6 +1,8 @@
 import {
   formatInr,
   getDayPassProduct,
+  getAnnualGuidanceReportProduct,
+  getLifeTimelineReportProduct,
   getOneTimeProducts,
   getPricingPlans,
   getRecommendedPricingPlan,
@@ -26,6 +28,14 @@ describe('pricing config', () => {
     expect(getPremiumPdfProduct()).toMatchObject({
       id: 'PREMIUM_PDF',
       priceInr: 249,
+    });
+    expect(getLifeTimelineReportProduct()).toMatchObject({
+      id: 'LIFE_TIMELINE_REPORT',
+      priceInr: 299,
+    });
+    expect(getAnnualGuidanceReportProduct()).toMatchObject({
+      id: 'ANNUAL_GUIDANCE_REPORT',
+      priceInr: 599,
     });
     expect(getOneTimeProducts().map(product => product.id)).toContain(
       'FIVE_QUESTIONS',

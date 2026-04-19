@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, View } from 'react-native';
+import { StyleSheet, Switch, View } from 'react-native';
 
 import { AppText, Card, GradientButton, Screen } from '../components';
 import { routes } from '../navigation/routes';
@@ -21,16 +21,16 @@ export function SecuritySetupScreen({
   return (
     <Screen>
       <AppText variant="title">Protect your workspace.</AppText>
-      <AppText className="mt-3" tone="secondary">
+      <AppText style={styles.introCopy} tone="secondary">
         Keep personal readings, chart notes, and chat history behind a security
         step before entering the app.
       </AppText>
 
-      <Card className="mt-8">
-        <View className="flex-row items-center justify-between gap-4">
-          <View className="flex-1">
+      <Card style={styles.card}>
+        <View style={styles.settingRow}>
+          <View style={styles.settingCopy}>
             <AppText variant="subtitle">Security lock</AppText>
-            <AppText className="mt-2" tone="secondary" variant="caption">
+            <AppText style={styles.settingDescription} tone="secondary" variant="caption">
               Keep sensitive chart details behind an extra device-level step.
             </AppText>
           </View>
@@ -46,9 +46,34 @@ export function SecuritySetupScreen({
         </View>
       </Card>
 
-      <View className="mt-8">
-        <GradientButton label="Enter Pridicta" onPress={finishSetup} />
+      <View style={styles.action}>
+        <GradientButton label="Enter Predicta" onPress={finishSetup} />
       </View>
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  action: {
+    marginTop: 32,
+  },
+  card: {
+    marginTop: 32,
+  },
+  introCopy: {
+    marginTop: 12,
+  },
+  settingCopy: {
+    flex: 1,
+    paddingRight: 14,
+  },
+  settingDescription: {
+    marginTop: 8,
+  },
+  settingRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 16,
+    justifyContent: 'space-between',
+  },
+});

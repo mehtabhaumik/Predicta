@@ -1,16 +1,13 @@
 import type {
   GuestPassCode,
+  GuestPassUsageSummary,
   PassRedemptionRequest,
   PassRedemptionResult,
   RedeemedGuestPass,
-} from '../../types/access';
-import { hashPassCode, validateGuestPassCode } from '../access/passCodeService';
-import {
-  accessPassCodeDocument,
-  accessPassCodesCollection,
-  serverTimestamp,
-  userDocument,
-} from './dbService';
+} from '@pridicta/types';
+import type { BackendGuestPassCreateResult } from '@pridicta/firebase';
+import { getBackendAuthorityClient } from '../backend/backendAuthorityClient';
+import { accessPassCodesCollection, serverTimestamp, userDocument } from './dbService';
 
 export async function fetchPassCodeByHash(
   codeHash: string,
@@ -28,27 +25,20 @@ export async function redeemPassCodeWithFirebase(
   request: PassRedemptionRequest,
 ): Promise<PassRedemptionResult> {
   try {
-    const passCode = await fetchPassCodeByHash(hashPassCode(request.code));
-    const validation = validateGuestPassCode(passCode, request);
+    const redeemedPass = await getBackendAuthorityClient().redeemPassCode({
+      code: request.code,
+      deviceId: request.deviceId,
+    });
 
-    if (validation.status !== 'SUCCESS') {
-      return validation;
-    }
-
-    // Production note: a backend transaction or callable function should be the
-    // final authority for redemptions. This client-side path keeps the mobile
-    // app ready while preserving local validation and generic failure behavior.
-    await accessPassCodeDocument(validation.updatedPassCode.codeId).set(
-      validation.updatedPassCode,
-      { merge: true },
-    );
-    await syncRedeemedGuestPassToUser(request.userId, validation.redeemedPass);
-
-    return validation;
+    return {
+      redeemedPass,
+      status: 'SUCCESS',
+      updatedPassCode: createBackendPassSnapshot(redeemedPass),
+    };
   } catch {
     return {
       message:
-        'Guest pass redemption needs an internet connection. Please try again when Firebase is reachable.',
+        'Guest pass redemption needs a secure internet connection. Please sign in and try again.',
       status: 'NETWORK_ERROR',
     };
   }
@@ -87,35 +77,40 @@ export async function loadRedeemedGuestPassFromFirebase(
   return data?.access?.activeGuestPass as RedeemedGuestPass | undefined;
 }
 
-export async function createGuestPassCodeInFirebase(
-  passCode: GuestPassCode,
-): Promise<void> {
-  await accessPassCodeDocument(passCode.codeId).set(passCode, { merge: true });
+export async function createGuestPassCodeInFirebase({
+  passCode,
+}: {
+  actorEmail?: string;
+  actorUserId: string;
+  passCode: GuestPassCode;
+}): Promise<BackendGuestPassCreateResult> {
+  return getBackendAuthorityClient().createGuestPassCode({
+    accessLevel: passCode.accessLevel,
+    allowedEmails: passCode.allowedEmails,
+    codeId: passCode.codeId,
+    expiresAt: passCode.expiresAt,
+    label: passCode.label,
+    maxRedemptions: passCode.maxRedemptions,
+    type: passCode.type,
+  });
 }
 
 export async function revokeGuestPassCodeInFirebase({
   codeId,
   reason,
 }: {
+  actorEmail?: string;
+  actorUserId: string;
   codeId: string;
   reason: string;
 }): Promise<void> {
-  await accessPassCodeDocument(codeId).set(
-    {
-      isActive: false,
-      revokeReason: reason,
-      revokedAt: new Date().toISOString(),
-    },
-    { merge: true },
-  );
+  await getBackendAuthorityClient().revokeGuestPassCode(codeId, reason);
 }
 
-export async function listActiveGuestPassCodes(): Promise<GuestPassCode[]> {
-  const snapshot = await accessPassCodesCollection()
-    .where('isActive', '==', true)
-    .get();
-
-  return snapshot.docs.map(document => document.data() as GuestPassCode);
+export async function listActiveGuestPassCodes(): Promise<
+  GuestPassUsageSummary[]
+> {
+  return getBackendAuthorityClient().listGuestPassCodes();
 }
 
 export async function getGuestPassUsageSummary(userId: string): Promise<{
@@ -132,5 +127,24 @@ export async function getGuestPassUsageSummary(userId: string): Promise<{
     passCodeId: usage?.passCodeId,
     premiumPdfsUsed: usage?.premiumPdfsUsed ?? 0,
     questionsUsed: usage?.questionsUsed ?? 0,
+  };
+}
+
+function createBackendPassSnapshot(redeemedPass: RedeemedGuestPass): GuestPassCode {
+  return {
+    accessLevel: redeemedPass.accessLevel,
+    codeHash: 'backend-authority',
+    codeId: redeemedPass.passCodeId,
+    createdAt: redeemedPass.redeemedAt,
+    createdBy: 'backend-authority',
+    deviceLimit: 0,
+    expiresAt: redeemedPass.expiresAt,
+    isActive: true,
+    label: redeemedPass.label,
+    maxRedemptions: 0,
+    redeemedByUserIds: [],
+    redeemedDeviceIds: [],
+    type: redeemedPass.type,
+    usageLimits: redeemedPass.usageLimits,
   };
 }

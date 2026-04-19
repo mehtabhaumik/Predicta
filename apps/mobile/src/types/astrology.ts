@@ -206,6 +206,7 @@ export type ChatMessage = {
   text: string;
   createdAt: string;
   context?: ChartContext;
+  decisionMirror?: DecisionMirrorResponse;
 };
 
 export type ConversationTurn = {
@@ -214,6 +215,8 @@ export type ConversationTurn = {
 };
 
 export type UserPlan = 'FREE' | 'PREMIUM';
+
+export type AppLocale = 'en' | 'hi' | 'gu';
 
 export type PDFMode = UserPlan;
 
@@ -267,6 +270,36 @@ export type UsageState = {
 
 export type AIIntent = 'simple' | 'moderate' | 'deep';
 
+export type DecisionMirrorDepth = 'FREE' | 'EXPANDED';
+
+export type DecisionTimingWindow = {
+  label: string;
+  startDate?: string;
+  endDate?: string;
+  focus: string;
+};
+
+export type DecisionMirrorResponse = {
+  decisionSummary: string;
+  supportiveChartFactors: string[];
+  cautionFactors: string[];
+  timingWindows: DecisionTimingWindow[];
+  practicalNextStep: string;
+  emotionalBiasCheck: string;
+  revisitLater: string;
+  disclaimer: string;
+  depth: DecisionMirrorDepth;
+  cacheKey: string;
+  generatedAt: string;
+};
+
+export type DecisionIntentResult = {
+  isDecisionQuestion: boolean;
+  confidence: number;
+  suggestedDepth: DecisionMirrorDepth;
+  reasons: string[];
+};
+
 export type PridictaChatRequest = {
   message: string;
   kundli: KundliData;
@@ -274,6 +307,7 @@ export type PridictaChatRequest = {
   history: ConversationTurn[];
   userPlan: UserPlan;
   deepAnalysis?: boolean;
+  preferredLanguage?: AppLocale;
 };
 
 export type PridictaChatResponse = {
@@ -281,6 +315,7 @@ export type PridictaChatResponse = {
   provider: 'openai' | 'local' | 'cache';
   model: string;
   cached?: boolean;
+  decisionMirror?: DecisionMirrorResponse;
   intent?: AIIntent;
   usedDeepModel?: boolean;
 };

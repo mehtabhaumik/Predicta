@@ -1,7 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { CACHE_CONFIG } from '../../config/cacheConfig';
-import type { AIIntent, ChartContext } from '../../types/astrology';
+import type {
+  AIIntent,
+  ChartContext,
+  DecisionMirrorResponse,
+} from '../../types/astrology';
 
 const RESPONSE_CACHE_KEY = 'pridicta.aiResponseCache.v1';
 
@@ -17,6 +21,7 @@ export type AIResponseCacheInput = {
 
 export type CachedAIResponse = {
   createdAt: string;
+  decisionMirror?: DecisionMirrorResponse;
   intent: AIIntent;
   model: string;
   text: string;

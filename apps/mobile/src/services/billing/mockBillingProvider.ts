@@ -43,6 +43,8 @@ function createOneTimeEntitlement(productId: string): OneTimeEntitlement {
         ? 5
         : product.id === 'PREMIUM_PDF' ||
           product.id === 'DETAILED_KUNDLI_REPORT' ||
+          product.id === 'LIFE_TIMELINE_REPORT' ||
+          product.id === 'ANNUAL_GUIDANCE_REPORT' ||
           product.id === 'MARRIAGE_COMPATIBILITY_REPORT'
         ? 1
         : undefined,

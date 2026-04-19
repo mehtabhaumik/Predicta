@@ -44,7 +44,7 @@ The experience is intentionally:
 | Web | Next.js App Router, TypeScript | Desktop-first dashboard and landing experience |
 | Workspace | pnpm workspaces, Turborepo | Shared development, build, and package orchestration |
 | Shared Logic | `packages/*` | Types, pricing, access, astrology, AI, PDF, Firebase contracts, tokens, utilities |
-| Backend | Swiss Ephemeris API service | Real Vedic astrology calculation contract |
+| Backend | FastAPI + Swiss Ephemeris + Firebase Admin | Real kundli calculation and trusted admin/access authority |
 
 ---
 
@@ -67,7 +67,7 @@ packages/
   ui-tokens/     Brand colors, gradients, spacing, glow, motion
   utils/         Hashing, serialization, dates, formatting
 
-backend/         Astrology service foundation
+backend/         Astrology and admin authority service foundation
 ```
 
 Shared packages hold product rules and contracts. Platform-specific UI and
@@ -136,6 +136,20 @@ corepack pnpm --filter @pridicta/web build
 corepack pnpm --filter @pridicta/mobile exec tsc --noEmit
 corepack pnpm --filter @pridicta/mobile bundle:android
 ```
+
+Release gate:
+
+```sh
+corepack pnpm release:check
+corepack pnpm release:check:full
+```
+
+See [`docs/RELEASE_HARDENING.md`](./docs/RELEASE_HARDENING.md) for the release
+checklist covering Firebase, web deploy, mobile verification, mock flags,
+privacy, analytics, monetization, and production dependencies.
+
+Backend deployment and environment wiring are documented in
+[`docs/BACKEND_DEPLOYMENT_ENV_WIRING.md`](./docs/BACKEND_DEPLOYMENT_ENV_WIRING.md).
 
 ---
 
@@ -209,4 +223,3 @@ See [`LICENSE.md`](./LICENSE.md) for the full proprietary license notice.
 
 **Bhaumik Mehta**  
 Founder and owner of Predicta.
-

@@ -44,12 +44,8 @@ export function SplashScreen({
 
   return (
     <Screen scroll={false}>
-      <View className="flex-1 items-center justify-center">
-        <FadeInView
-          className="items-center justify-center"
-          duration={800}
-          style={styles.logoFrame}
-        >
+      <View style={styles.root}>
+        <FadeInView duration={800} style={styles.logoFrame}>
           <LinearGradient
             colors={colors.gradient}
             end={{ x: 1, y: 1 }}
@@ -71,9 +67,9 @@ export function SplashScreen({
           />
         </FadeInView>
 
-        <FadeInView className="mt-8 items-center" delay={120} duration={800}>
+        <FadeInView delay={120} duration={800} style={styles.copyBlock}>
           <GradientText variant="display">Predicta</GradientText>
-          <AppText className="mt-3 text-center" tone="secondary">
+          <AppText style={styles.tagline} tone="secondary">
             Calm spiritual intelligence for the decisions that need a clearer
             signal.
           </AppText>
@@ -106,10 +102,25 @@ const styles = StyleSheet.create({
     width: 176,
   },
   logoFrame: {
+    alignItems: 'center',
     elevation: 18,
+    justifyContent: 'center',
     shadowColor: colors.gradient[1],
     shadowOffset: { width: 0, height: 18 },
     shadowOpacity: 0.32,
     shadowRadius: 34,
+  },
+  copyBlock: {
+    alignItems: 'center',
+    marginTop: 32,
+  },
+  root: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+  },
+  tagline: {
+    marginTop: 12,
+    textAlign: 'center',
   },
 });

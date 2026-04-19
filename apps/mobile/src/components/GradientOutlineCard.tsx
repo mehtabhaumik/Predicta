@@ -36,12 +36,12 @@ export function GradientOutlineCard({
 
 const styles = StyleSheet.create({
   border: {
-    borderRadius: 16,
+    borderRadius: 20,
     padding: 1,
   },
   card: {
-    backgroundColor: colors.surfaceMuted,
-    borderRadius: 15,
-    padding: 16,
+    backgroundColor: colors.glass,
+    borderRadius: 19,
+    padding: 22,
   },
 });

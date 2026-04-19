@@ -1,4 +1,5 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 
 import { formatPercent } from '../utils/format';
 import { AppText } from './AppText';
@@ -14,13 +15,22 @@ export function MetricCard({
   value,
 }: MetricCardProps): React.JSX.Element {
   return (
-    <Card className="flex-1">
+    <Card style={styles.card}>
       <AppText tone="secondary" variant="caption">
         {label}
       </AppText>
-      <AppText className="mt-3" variant="title">
+      <AppText style={styles.value} variant="title">
         {formatPercent(value)}
       </AppText>
     </Card>
   );
 }
+
+const styles = StyleSheet.create({
+  card: {
+    flex: 1,
+  },
+  value: {
+    marginTop: 12,
+  },
+});

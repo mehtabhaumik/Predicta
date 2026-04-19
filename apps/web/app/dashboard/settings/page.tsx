@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { buildUsageDisplay } from '@pridicta/monetization';
 import { AuthDialog } from '../../../components/AuthDialog';
 import { Card } from '../../../components/Card';
+import { LanguagePreferenceControl } from '../../../components/LanguagePreferenceControl';
 import { StatusPill } from '../../../components/StatusPill';
 import { demoAccess, demoMonetization } from '../../../lib/demo-state';
 
@@ -25,8 +26,8 @@ export default function SettingsPage(): React.JSX.Element {
         <StatusPill label={usage.statusText} tone="quiet" />
         <h1 className="gradient-text">Settings that stay in your control.</h1>
         <p>
-          Manage account access, sound, cloud save, billing, and private guest
-          passes without exposing technical setup details.
+          Manage account access, sound, cloud save, billing, and guest passes
+          from one calm place.
         </p>
       </div>
 
@@ -43,7 +44,10 @@ export default function SettingsPage(): React.JSX.Element {
               <div className="setting-row">
                 <div>
                   <strong>Google account</strong>
-                  <span>Google, Apple, Microsoft, or email password.</span>
+                  <span>
+                    Google sign-in is active. Apple and Microsoft are coming
+                    soon.
+                  </span>
                 </div>
                 <AuthDialog />
               </div>
@@ -84,7 +88,7 @@ export default function SettingsPage(): React.JSX.Element {
               <div className="setting-row">
                 <div>
                   <strong>Guest pass</strong>
-                  <span>Redeem a private invite or review access.</span>
+                  <span>Redeem an invitation or review your access.</span>
                 </div>
                 <Link className="button" href="/dashboard/redeem-pass">
                   Redeem
@@ -97,8 +101,12 @@ export default function SettingsPage(): React.JSX.Element {
         <Card className="settings-card">
           <div className="card-content spacious">
             <div className="section-title">PREFERENCES</div>
-            <h2>Sound and privacy</h2>
-            <p>Keep Predicta calm, private, and comfortable for repeat use.</p>
+            <h2>Language, sound, and privacy</h2>
+            <p>
+              Keep Predicta calm, multilingual, private, and comfortable for
+              repeat use.
+            </p>
+            <LanguagePreferenceControl />
             <div className="settings-stack">
               <div className="setting-row">
                 <div>

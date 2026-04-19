@@ -10,8 +10,12 @@ import { canSeeAdminRoute, resolveAccess } from '@pridicta/access';
 import { useAppStore } from '../store/useAppStore';
 import { AdminAccessScreen } from '../screens/AdminAccessScreen';
 import { ChatScreen } from '../screens/ChatScreen';
+import { CompatibilityScreen } from '../screens/CompatibilityScreen';
+import { FounderScreen } from '../screens/FounderScreen';
 import { HomeScreen } from '../screens/HomeScreen';
 import { KundliScreen } from '../screens/KundliScreen';
+import { JournalScreen } from '../screens/JournalScreen';
+import { LifeTimelineScreen } from '../screens/LifeTimelineScreen';
 import { LoginScreen } from '../screens/LoginScreen';
 import { OnboardingScreen } from '../screens/OnboardingScreen';
 import { PaywallScreen } from '../screens/PaywallScreen';
@@ -92,6 +96,21 @@ export function RootNavigator(): React.JSX.Element {
           options={{ title: 'Kundli' }}
         />
         <Stack.Screen
+          name={routes.LifeTimeline}
+          component={LifeTimelineScreen}
+          options={{ title: 'Life Timeline' }}
+        />
+        <Stack.Screen
+          name={routes.Journal}
+          component={JournalScreen}
+          options={{ title: 'Journal' }}
+        />
+        <Stack.Screen
+          name={routes.Compatibility}
+          component={CompatibilityScreen}
+          options={{ title: 'Compatibility' }}
+        />
+        <Stack.Screen
           name={routes.Report}
           component={ReportScreen}
           options={{ title: 'Report' }}
@@ -123,6 +142,11 @@ export function RootNavigator(): React.JSX.Element {
             options={{ title: 'Admin' }}
           />
         ) : null}
+        <Stack.Screen
+          name={routes.Founder}
+          component={FounderScreen}
+          options={{ title: 'Founder' }}
+        />
         <Stack.Screen
           name={routes.Settings}
           component={SettingsScreen}

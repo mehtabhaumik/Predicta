@@ -16,7 +16,9 @@ export const SUBSCRIPTION_PRICING = {
 export const ONE_TIME_PRICING = {
   dayPass: 49,
   detailedKundliReport: 399,
+  annualGuidanceReport: 599,
   fiveQuestions: 149,
+  lifeTimelineReport: 299,
   marriageCompatibilityReport: 499,
   premiumPdf: 249,
 } as const;
@@ -31,7 +33,9 @@ const subscriptionProductIds: Record<BillingPeriod, string> = {
 const oneTimeProductIds: Record<OneTimeProductType, string> = {
   DAY_PASS: 'pridicta_day_pass_24h',
   DETAILED_KUNDLI_REPORT: 'pridicta_detailed_kundli_report',
+  ANNUAL_GUIDANCE_REPORT: 'pridicta_annual_guidance_report',
   FIVE_QUESTIONS: 'pridicta_five_questions',
+  LIFE_TIMELINE_REPORT: 'pridicta_life_timeline_report',
   MARRIAGE_COMPATIBILITY_REPORT: 'pridicta_marriage_compatibility_report',
   PREMIUM_PDF: 'pridicta_premium_pdf',
 };
@@ -123,6 +127,24 @@ export function getOneTimeProducts(): OneTimeProduct[] {
       productId: oneTimeProductIds.DETAILED_KUNDLI_REPORT,
     },
     {
+      description:
+        'Create one 12-month guidance report for the active kundli.',
+      displayPrice: formatInr(ONE_TIME_PRICING.annualGuidanceReport),
+      id: 'ANNUAL_GUIDANCE_REPORT',
+      label: 'Annual Guidance Report',
+      priceInr: ONE_TIME_PRICING.annualGuidanceReport,
+      productId: oneTimeProductIds.ANNUAL_GUIDANCE_REPORT,
+    },
+    {
+      description:
+        'Unlock one personal Life Timeline pattern map for the active kundli.',
+      displayPrice: formatInr(ONE_TIME_PRICING.lifeTimelineReport),
+      id: 'LIFE_TIMELINE_REPORT',
+      label: 'Life Timeline Report',
+      priceInr: ONE_TIME_PRICING.lifeTimelineReport,
+      productId: oneTimeProductIds.LIFE_TIMELINE_REPORT,
+    },
+    {
       description: 'Future compatibility report purchase hook.',
       displayPrice: formatInr(ONE_TIME_PRICING.marriageCompatibilityReport),
       id: 'MARRIAGE_COMPATIBILITY_REPORT',
@@ -145,6 +167,14 @@ export function getDayPassProduct(): OneTimeProduct {
 
 export function getPremiumPdfProduct(): OneTimeProduct {
   return getOneTimeProduct('PREMIUM_PDF');
+}
+
+export function getLifeTimelineReportProduct(): OneTimeProduct {
+  return getOneTimeProduct('LIFE_TIMELINE_REPORT');
+}
+
+export function getAnnualGuidanceReportProduct(): OneTimeProduct {
+  return getOneTimeProduct('ANNUAL_GUIDANCE_REPORT');
 }
 
 export function getOneTimeProduct(

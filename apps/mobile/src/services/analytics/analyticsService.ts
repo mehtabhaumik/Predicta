@@ -3,6 +3,7 @@ import { analyticsDocument, serverTimestamp } from '../firebase/dbService';
 export type AnalyticsEventName =
   | 'chat_question'
   | 'chart_entry'
+  | 'compatibility_report_unlocked'
   | 'cloud_save_tapped'
   | 'day_pass_started'
   | 'guest_pass_redeemed'
@@ -11,6 +12,8 @@ export type AnalyticsEventName =
   | 'kundli_generated'
   | 'kundli_generation_failed'
   | 'limit_reached'
+  | 'life_timeline_previewed'
+  | 'life_timeline_report_unlocked'
   | 'one_time_product_selected'
   | 'paywall_dismissed'
   | 'paywall_viewed'
@@ -20,6 +23,7 @@ export type AnalyticsEventName =
   | 'pdf_upgrade_prompt_viewed'
   | 'premium_feature_tapped'
   | 'premium_pdf_unlocked'
+  | 'product_selected'
   | 'pricing_plan_selected'
   | 'purchase_canceled'
   | 'purchase_completed'
@@ -29,6 +33,7 @@ export type AnalyticsEventName =
   | 'restore_completed'
   | 'restore_failed'
   | 'restore_started'
+  | 'report_generated'
   | 'save_to_cloud_tapped'
   | 'upgrade_cta_tapped';
 
@@ -47,7 +52,7 @@ export async function trackAnalyticsEvent({
     await analyticsDocument().set({
       createdAt: serverTimestamp(),
       eventName,
-      metadata: sanitizeMetadata(metadata),
+      metadata: sanitizeAnalyticsMetadata(metadata),
       userId: userId ?? null,
     });
   } catch {
@@ -55,10 +60,20 @@ export async function trackAnalyticsEvent({
   }
 }
 
-function sanitizeMetadata(metadata: AnalyticsMetadata): AnalyticsMetadata {
+export function sanitizeAnalyticsMetadata(
+  metadata: AnalyticsMetadata,
+): AnalyticsMetadata {
   return Object.fromEntries(
     Object.entries(metadata).filter(
-      ([key]) => !key.toLowerCase().includes('birth'),
+      ([key]) =>
+        ![
+          'birth',
+          'kundli',
+          'chat',
+          'remedy',
+          'prediction',
+          'journal',
+        ].some(blocked => key.toLowerCase().includes(blocked)),
     ),
   );
 }

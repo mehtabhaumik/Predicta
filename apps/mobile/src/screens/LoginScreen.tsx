@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import {
   AnimatedHeader,
@@ -14,10 +14,8 @@ import type { RootScreenProps } from '../navigation/types';
 import {
   registerWithEmailPassword,
   sendPasswordReset,
-  signInWithApple,
   signInWithEmailPassword,
   signInWithGoogle,
-  signInWithMicrosoft,
 } from '../services/firebase/authService';
 import { useAppStore } from '../store/useAppStore';
 import { colors } from '../theme/colors';
@@ -94,16 +92,16 @@ export function LoginScreen({
   return (
     <Screen>
       {glassAlert}
-      <AnimatedHeader eyebrow="ACCOUNT ACCESS" title="Sign in to Pridicta" />
+      <AnimatedHeader eyebrow="ACCOUNT ACCESS" title="Sign in to Predicta" />
 
-      <GlassPanel className="mt-8" delay={100}>
+      <GlassPanel style={styles.panelSpacing} delay={100}>
         <AppText variant="subtitle">Choose how you want to continue</AppText>
-        <AppText className="mt-2" tone="secondary">
+        <AppText style={styles.sectionCopy} tone="secondary">
           Sign in to restore online-saved kundlis, guest passes, purchases, and
           preferences. Local use remains available.
         </AppText>
 
-        <View className="mt-6 gap-3">
+        <View style={styles.providerStack}>
           <ProviderButton
             icon={<GoogleIcon />}
             label={loading ? 'Please wait...' : 'Continue with Google'}
@@ -112,61 +110,83 @@ export function LoginScreen({
             }
           />
           <ProviderButton
+            disabled
             icon={<AppleIcon />}
             label="Continue with Apple"
-            onPress={() =>
-              runAuth(() => signInWithApple(), 'Signed in with Apple.')
-            }
+            statusLabel="Coming soon"
+            onPress={() => undefined}
           />
           <ProviderButton
+            disabled
             icon={<MicrosoftIcon />}
             label="Continue with Microsoft"
-            onPress={() =>
-              runAuth(() => signInWithMicrosoft(), 'Signed in with Microsoft.')
-            }
+            statusLabel="Coming soon"
+            onPress={() => undefined}
           />
         </View>
       </GlassPanel>
 
-      <GlassPanel className="mt-6" delay={180}>
-        <View className="flex-row gap-3">
-          <GlowButton label="Sign In" onPress={() => setMode('sign-in')} />
-          <GlowButton label="Register" onPress={() => setMode('register')} />
+      <GlassPanel style={styles.formPanel} delay={180}>
+        <View style={styles.modeTabs}>
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => setMode('sign-in')}
+            style={[styles.modeTab, mode === 'sign-in' ? styles.modeTabActive : null]}
+          >
+            <AppText
+              style={mode === 'sign-in' ? styles.modeTabTextActive : styles.modeTabText}
+              variant="caption"
+            >
+              Sign in
+            </AppText>
+          </Pressable>
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => setMode('register')}
+            style={[styles.modeTab, mode === 'register' ? styles.modeTabActive : null]}
+          >
+            <AppText
+              style={mode === 'register' ? styles.modeTabTextActive : styles.modeTabText}
+              variant="caption"
+            >
+              Register
+            </AppText>
+          </Pressable>
         </View>
 
-        <View className="mt-6">
-          <AppText className="mb-2" tone="secondary" variant="caption">
+        <View style={styles.fieldBlock}>
+          <AppText style={styles.fieldLabel} tone="secondary" variant="caption">
             Email
           </AppText>
           <TextInput
             autoCapitalize="none"
             autoComplete="email"
             autoCorrect={false}
-            className="h-14 rounded-lg border border-[#252533] px-4 text-base text-text-primary"
             keyboardType="email-address"
             onChangeText={setEmail}
             placeholder="you@example.com"
             placeholderTextColor={colors.secondaryText}
+            style={styles.input}
             value={email}
           />
         </View>
 
-        <View className="mt-5">
-          <AppText className="mb-2" tone="secondary" variant="caption">
+        <View style={styles.fieldBlock}>
+          <AppText style={styles.fieldLabel} tone="secondary" variant="caption">
             Password
           </AppText>
           <TextInput
             autoComplete={mode === 'register' ? 'new-password' : 'password'}
-            className="h-14 rounded-lg border border-[#252533] px-4 text-base text-text-primary"
             onChangeText={setPassword}
             placeholder="Enter password"
             placeholderTextColor={colors.secondaryText}
             secureTextEntry
+            style={styles.input}
             value={password}
           />
         </View>
 
-        <View className="mt-6 gap-3">
+        <View style={styles.formActions}>
           <GlowButton
             label={
               loading
@@ -192,22 +212,35 @@ function cleanAuthMessage(message: string): string {
 }
 
 function ProviderButton({
+  disabled = false,
   icon,
   label,
   onPress,
+  statusLabel,
 }: {
+  disabled?: boolean;
   icon: React.ReactNode;
   label: string;
   onPress: () => void;
+  statusLabel?: string;
 }) {
   return (
     <Pressable
       accessibilityRole="button"
-      className="w-full flex-row items-center rounded-2xl border border-[#323244] bg-app-card px-4 py-4"
+      accessibilityState={{ disabled }}
+      disabled={disabled}
       onPress={onPress}
+      style={[styles.providerButton, disabled ? styles.disabledProviderButton : null]}
     >
       {icon}
-      <AppText className="ml-3 font-bold">{label}</AppText>
+      <View style={styles.providerCopy}>
+        <AppText style={styles.providerLabel}>{label}</AppText>
+        {statusLabel ? (
+          <View style={styles.comingSoonPill}>
+            <AppText style={styles.comingSoonText}>{statusLabel}</AppText>
+          </View>
+        ) : null}
+      </View>
     </Pressable>
   );
 }
@@ -215,13 +248,7 @@ function ProviderButton({
 function GoogleIcon() {
   return (
     <View style={styles.providerIconShell}>
-      <View style={styles.googleMark}>
-        <AppText style={styles.googleLetter}>G</AppText>
-        <View style={[styles.googleAccent, styles.googleRed]} />
-        <View style={[styles.googleAccent, styles.googleYellow]} />
-        <View style={[styles.googleAccent, styles.googleGreen]} />
-        <View style={[styles.googleAccent, styles.googleBlue]} />
-      </View>
+      <Text style={[styles.providerIconLetter, styles.googleLetter]}>G</Text>
     </View>
   );
 }
@@ -229,11 +256,7 @@ function GoogleIcon() {
 function AppleIcon() {
   return (
     <View style={styles.providerIconShell}>
-      <View style={styles.appleMark}>
-        <View style={styles.appleBody} />
-        <View style={styles.appleBite} />
-        <View style={styles.appleLeaf} />
-      </View>
+      <Text style={styles.providerIconLetter}>A</Text>
     </View>
   );
 }
@@ -242,97 +265,62 @@ function MicrosoftIcon() {
   return (
     <View style={styles.providerIconShell}>
       <View style={styles.microsoftGrid}>
-        <View
-          style={[styles.microsoftSquare, { backgroundColor: '#F25022' }]}
-        />
-        <View
-          style={[styles.microsoftSquare, { backgroundColor: '#7FBA00' }]}
-        />
-        <View
-          style={[styles.microsoftSquare, { backgroundColor: '#00A4EF' }]}
-        />
-        <View
-          style={[styles.microsoftSquare, { backgroundColor: '#FFB900' }]}
-        />
+        <View style={[styles.microsoftSquare, styles.microsoftRed]} />
+        <View style={[styles.microsoftSquare, styles.microsoftGreen]} />
+        <View style={[styles.microsoftSquare, styles.microsoftBlue]} />
+        <View style={[styles.microsoftSquare, styles.microsoftYellow]} />
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  appleBody: {
-    backgroundColor: colors.primaryText,
-    borderBottomLeftRadius: 11,
-    borderBottomRightRadius: 11,
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
-    height: 21,
-    top: 11,
-    width: 19,
-  },
-  appleBite: {
-    backgroundColor: '#262636',
-    borderRadius: 7,
-    height: 10,
-    position: 'absolute',
-    right: 6,
-    top: 14,
-    width: 10,
-  },
-  appleLeaf: {
-    backgroundColor: colors.primaryText,
-    borderRadius: 7,
-    height: 9,
-    position: 'absolute',
-    right: 10,
-    top: 6,
-    transform: [{ rotate: '-28deg' }],
-    width: 10,
-  },
-  appleMark: {
-    alignItems: 'center',
-    height: 34,
-    justifyContent: 'center',
-    width: 34,
-  },
-  googleAccent: {
+  comingSoonPill: {
+    alignSelf: 'flex-start',
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    borderColor: 'rgba(255,255,255,0.14)',
     borderRadius: 999,
-    height: 4,
-    position: 'absolute',
-    width: 8,
+    borderWidth: 1,
+    marginTop: 7,
+    paddingHorizontal: 9,
+    paddingVertical: 4,
   },
-  googleBlue: {
-    backgroundColor: '#4285F4',
-    right: 5,
-    top: 17,
-    width: 10,
+  comingSoonText: {
+    color: colors.secondaryText,
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 0.8,
+    textTransform: 'uppercase',
   },
-  googleGreen: {
-    backgroundColor: '#34A853',
-    bottom: 5,
-    right: 11,
+  disabledProviderButton: {
+    opacity: 0.72,
+  },
+  fieldBlock: {
+    marginTop: 22,
+  },
+  fieldLabel: {
+    marginBottom: 10,
+    textTransform: 'uppercase',
+  },
+  formActions: {
+    gap: 12,
+    marginTop: 24,
+  },
+  formPanel: {
+    marginTop: 24,
   },
   googleLetter: {
+    color: '#4285F4',
+  },
+  input: {
+    backgroundColor: 'rgba(255,255,255,0.055)',
+    borderColor: colors.borderSoft,
+    borderRadius: 14,
+    borderWidth: 1,
     color: colors.primaryText,
-    fontSize: 20,
-    fontWeight: '900',
-    lineHeight: 24,
-  },
-  googleMark: {
-    alignItems: 'center',
-    height: 34,
-    justifyContent: 'center',
-    width: 34,
-  },
-  googleRed: {
-    backgroundColor: '#EA4335',
-    left: 8,
-    top: 6,
-  },
-  googleYellow: {
-    backgroundColor: '#FBBC05',
-    left: 6,
-    top: 18,
+    fontSize: 16,
+    minHeight: 56,
+    paddingHorizontal: 16,
   },
   microsoftGrid: {
     alignContent: 'center',
@@ -347,18 +335,95 @@ const styles = StyleSheet.create({
     height: 12,
     width: 12,
   },
+  modeTab: {
+    alignItems: 'center',
+    borderRadius: 999,
+    flex: 1,
+    justifyContent: 'center',
+    minHeight: 42,
+  },
+  modeTabActive: {
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    borderColor: colors.borderSoft,
+    borderWidth: 1,
+  },
+  modeTabs: {
+    backgroundColor: 'rgba(255,255,255,0.045)',
+    borderColor: colors.borderSoft,
+    borderRadius: 999,
+    borderWidth: 1,
+    flexDirection: 'row',
+    gap: 6,
+    padding: 5,
+  },
+  modeTabText: {
+    color: colors.secondaryText,
+    fontWeight: '800',
+    textTransform: 'uppercase',
+  },
+  modeTabTextActive: {
+    color: colors.primaryText,
+    fontWeight: '900',
+    textTransform: 'uppercase',
+  },
+  panelSpacing: {
+    marginTop: 32,
+  },
+  providerButton: {
+    alignItems: 'center',
+    backgroundColor: colors.glass,
+    borderColor: colors.borderSoft,
+    borderRadius: 18,
+    borderWidth: 1,
+    flexDirection: 'row',
+    minHeight: 72,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+  },
+  providerCopy: {
+    flex: 1,
+    marginLeft: 14,
+  },
+  providerIconLetter: {
+    color: colors.primaryText,
+    fontSize: 21,
+    fontWeight: '900',
+    lineHeight: 26,
+  },
   providerIconShell: {
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.11)',
-    borderColor: 'rgba(255,255,255,0.16)',
-    borderRadius: 14,
+    backgroundColor: 'rgba(255,255,255,0.12)',
+    borderColor: 'rgba(255,255,255,0.18)',
+    borderRadius: 16,
     borderWidth: 1,
-    height: 44,
+    height: 46,
     justifyContent: 'center',
     shadowColor: '#000',
     shadowOffset: { height: 10, width: 0 },
     shadowOpacity: 0.24,
     shadowRadius: 18,
-    width: 44,
+    width: 46,
+  },
+  providerLabel: {
+    fontWeight: '800',
+  },
+  providerStack: {
+    gap: 12,
+    marginTop: 24,
+  },
+  sectionCopy: {
+    marginTop: 8,
+  },
+  microsoftBlue: {
+    backgroundColor: '#00A4EF',
+  },
+  microsoftGreen: {
+    backgroundColor: '#7FBA00',
+  },
+  microsoftRed: {
+    backgroundColor: '#F25022',
+  },
+  microsoftYellow: {
+    backgroundColor: '#FFB900',
   },
 });

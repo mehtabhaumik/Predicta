@@ -34,15 +34,15 @@ export function GlassPanel({
 
 const styles = StyleSheet.create({
   panel: {
-    backgroundColor: 'rgba(18, 18, 26, 0.72)',
-    borderColor: 'rgba(255,255,255,0.08)',
-    borderRadius: 16,
+    backgroundColor: colors.glassStrong,
+    borderColor: colors.borderSoft,
+    borderRadius: 22,
     borderWidth: 1,
     overflow: 'hidden',
-    padding: 22,
+    padding: 24,
     shadowColor: colors.gradient[1],
     shadowOffset: { width: 0, height: 12 },
-    shadowOpacity: 0.12,
-    shadowRadius: 22,
+    shadowOpacity: 0.16,
+    shadowRadius: 28,
   },
 });

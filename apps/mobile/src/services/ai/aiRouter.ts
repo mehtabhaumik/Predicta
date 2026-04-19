@@ -1,5 +1,6 @@
 import { OPENAI_MODELS } from '../../config/aiModels';
 import type { AIIntent, ChartContext, UserPlan } from '../../types/astrology';
+import { detectDecisionIntent } from '@pridicta/ai';
 
 const DEEP_PATTERNS = [
   /predict/i,
@@ -18,9 +19,12 @@ export function detectIntent(
 ): AIIntent {
   const normalized = userQuestion.trim();
   const wordCount = normalized.split(/\s+/).filter(Boolean).length;
+  const decisionIntent = detectDecisionIntent(normalized, chartContext);
 
   if (
     DEEP_PATTERNS.some(pattern => pattern.test(normalized)) ||
+    (decisionIntent.isDecisionQuestion &&
+      decisionIntent.suggestedDepth === 'EXPANDED') ||
     chartContext?.selectedSection?.toLowerCase().includes('report')
   ) {
     return 'deep';

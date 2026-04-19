@@ -8,13 +8,18 @@
     "dev:web": "pnpm --filter @pridicta/web dev",
     "build:mobile": "pnpm --filter @pridicta/mobile build:android",
     "build:web": "pnpm --filter @pridicta/web build",
+    "dev:backend": "python3 -m uvicorn backend.astro_api.main:app --host 0.0.0.0 --port 8000",
+    "deploy:backend:dry-run": "DRY_RUN=true ./scripts/deploy-backend-cloud-run.sh",
     "lint": "turbo lint",
     "typecheck": "turbo typecheck",
     "test": "turbo test",
+    "test:backend": "python3 -m pytest backend/tests",
     "test:mobile": "pnpm --filter @pridicta/mobile exec jest --runInBand",
     "test:web": "pnpm --filter @pridicta/web test",
     "mobile:android": "pnpm --filter @pridicta/mobile android",
-    "mobile:bundle:android": "pnpm --filter @pridicta/mobile bundle:android"
+    "mobile:bundle:android": "pnpm --filter @pridicta/mobile bundle:android",
+    "release:check": "node scripts/release-check.mjs",
+    "release:check:full": "node scripts/release-check.mjs --android-build"
   },
   "devDependencies": {
     "turbo": "^2.6.1",

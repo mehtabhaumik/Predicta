@@ -27,7 +27,7 @@ export function GradientButton({
     <Pressable
       accessibilityRole="button"
       disabled={isDisabled}
-      className={isDisabled ? 'opacity-60' : 'opacity-100'}
+      style={isDisabled ? styles.disabled : undefined}
       {...props}
     >
       <LinearGradient
@@ -39,9 +39,7 @@ export function GradientButton({
         {loading ? (
           <ActivityIndicator color={colors.primaryText} />
         ) : (
-          <Text className="text-base font-extrabold text-text-primary">
-            {label}
-          </Text>
+          <Text style={styles.label}>{label}</Text>
         )}
       </LinearGradient>
     </Pressable>
@@ -52,7 +50,19 @@ const styles = StyleSheet.create({
   gradient: {
     alignItems: 'center',
     borderRadius: 8,
-    height: 56,
     justifyContent: 'center',
+    minHeight: 56,
+    paddingHorizontal: 20,
+  },
+  disabled: {
+    opacity: 0.6,
+  },
+  label: {
+    color: colors.primaryText,
+    fontSize: 16,
+    fontWeight: '800',
+    letterSpacing: 0,
+    lineHeight: 21,
+    textAlign: 'center',
   },
 });

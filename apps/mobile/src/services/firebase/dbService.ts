@@ -20,6 +20,14 @@ export function analyticsDocument() {
   return firestore().collection('analyticsEvents').doc();
 }
 
+export function adminAuditLogsCollection() {
+  return firestore().collection('adminAuditLogs');
+}
+
+export function adminAuditLogDocument(actionId: string) {
+  return adminAuditLogsCollection().doc(actionId);
+}
+
 export function accessPassCodesCollection() {
   return firestore().collection('accessPassCodes');
 }

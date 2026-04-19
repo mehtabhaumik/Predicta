@@ -125,6 +125,12 @@ export async function getCurrentFirebaseUser(): Promise<FirebaseUserRef | null> 
   return { uid: user.uid };
 }
 
+export async function getCurrentFirebaseIdToken(): Promise<string | undefined> {
+  const user = auth().currentUser;
+
+  return user ? user.getIdToken() : undefined;
+}
+
 export async function requireFirebaseUser(): Promise<FirebaseUserRef> {
   const user = await getCurrentFirebaseUser();
 

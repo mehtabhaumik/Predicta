@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Pressable, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 
 import {
   buildBirthDetailsFromResolvedPlace,
@@ -86,7 +86,7 @@ export function BirthDetailsForm({
   }
 
   return (
-    <View className="gap-5">
+    <View style={styles.formStack}>
       <Input
         label="Name"
         onChangeText={setName}
@@ -132,14 +132,14 @@ export function BirthDetailsForm({
 
       <Pressable
         accessibilityRole="button"
-        className="flex-row items-center gap-3"
         onPress={() => setIsTimeApproximate(value => !value)}
+        style={styles.approximateRow}
       >
         <View
-          className={`h-5 w-5 rounded border ${
-            isTimeApproximate ? 'bg-[#7B61FF]' : 'bg-transparent'
-          }`}
-          style={{ borderColor: colors.borderGlow }}
+          style={[
+            styles.checkbox,
+            isTimeApproximate ? styles.checkboxChecked : undefined,
+          ]}
         />
         <AppText tone="secondary">Birth time is approximate</AppText>
       </Pressable>
@@ -147,20 +147,20 @@ export function BirthDetailsForm({
       {resolvedPlace ? (
         <GlowCard delay={80}>
           <AppText variant="subtitle">Resolved birth place</AppText>
-          <AppText className="mt-2" tone="secondary">
+          <AppText style={styles.helperText} tone="secondary">
             {formatResolvedPlace(resolvedPlace)}
           </AppText>
           <AppText tone="secondary">Timezone: {resolvedPlace.timezone}</AppText>
           {isTimeApproximate ? (
-            <AppText className="mt-2" tone="secondary">
+            <AppText style={styles.helperText} tone="secondary">
               Approximate time will be marked across chart, chat, and PDF.
             </AppText>
           ) : null}
 
           <Pressable
             accessibilityRole="button"
-            className="mt-4"
             onPress={() => setShowCalculationDetails(value => !value)}
+            style={styles.detailsButton}
           >
             <AppText variant="caption">
               {showCalculationDetails
@@ -170,7 +170,7 @@ export function BirthDetailsForm({
           </Pressable>
 
           {showCalculationDetails ? (
-            <AppText className="mt-2" tone="secondary" variant="caption">
+            <AppText style={styles.helperText} tone="secondary" variant="caption">
               {resolvedPlace.latitude}, {resolvedPlace.longitude} •{' '}
               {resolvedPlace.source}
             </AppText>
@@ -178,7 +178,7 @@ export function BirthDetailsForm({
         </GlowCard>
       ) : (
         <AppText tone="secondary">
-          Choose country, state or province, and city so Pridicta can resolve
+          Choose country, state or province, and city so Predicta can resolve
           the correct timezone internally.
         </AppText>
       )}
@@ -198,15 +198,15 @@ function Input({
   value: string;
 }) {
   return (
-    <View>
-      <AppText className="mb-2" tone="secondary" variant="caption">
+    <View style={styles.fieldBlock}>
+      <AppText style={styles.label} tone="secondary" variant="caption">
         {label}
       </AppText>
       <TextInput
-        className="h-14 rounded-lg border border-[#252533] px-4 text-base text-text-primary"
         onChangeText={onChangeText}
         placeholder={placeholder}
         placeholderTextColor={colors.secondaryText}
+        style={styles.input}
         value={value}
       />
     </View>
@@ -229,30 +229,27 @@ function Selector({
   value: string;
 }) {
   return (
-    <View>
-      <AppText className="mb-2" tone="secondary" variant="caption">
+    <View style={styles.fieldBlock}>
+      <AppText style={styles.label} tone="secondary" variant="caption">
         {label}
       </AppText>
       <View
-        className={`rounded-xl border p-4 ${
-          disabled ? 'opacity-50' : 'opacity-100'
-        }`}
-        style={{ borderColor: colors.border }}
+        style={[styles.selector, disabled ? styles.selectorDisabled : undefined]}
       >
         <AppText tone={value ? 'primary' : 'secondary'}>
           {value || placeholder}
         </AppText>
         {!disabled && options.length > 0 ? (
-          <View className="mt-3 flex-row flex-wrap gap-2">
+          <View style={styles.optionWrap}>
             {options.map(option => (
               <Pressable
                 accessibilityRole="button"
-                className={`rounded-lg border px-3 py-2 ${
-                  option === value ? 'bg-[#252533]' : 'bg-transparent'
-                }`}
                 key={option}
                 onPress={() => onSelect(option)}
-                style={{ borderColor: colors.borderGlow }}
+                style={[
+                  styles.optionChip,
+                  option === value ? styles.optionChipSelected : undefined,
+                ]}
               >
                 <AppText variant="caption">{option}</AppText>
               </Pressable>
@@ -267,3 +264,73 @@ function Selector({
 function formatResolvedPlace(place: ResolvedBirthPlace): string {
   return [place.city, place.state, place.country].filter(Boolean).join(', ');
 }
+
+const styles = StyleSheet.create({
+  approximateRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 12,
+  },
+  checkbox: {
+    borderColor: colors.borderGlow,
+    borderRadius: 6,
+    borderWidth: 1,
+    height: 20,
+    width: 20,
+  },
+  checkboxChecked: {
+    backgroundColor: colors.gradient[0],
+  },
+  detailsButton: {
+    alignSelf: 'flex-start',
+    marginTop: 16,
+  },
+  fieldBlock: {
+    gap: 10,
+  },
+  formStack: {
+    gap: 22,
+  },
+  helperText: {
+    marginTop: 8,
+  },
+  input: {
+    backgroundColor: 'rgba(255,255,255,0.055)',
+    borderColor: colors.borderSoft,
+    borderRadius: 14,
+    borderWidth: 1,
+    color: colors.primaryText,
+    fontSize: 16,
+    minHeight: 56,
+    paddingHorizontal: 16,
+  },
+  label: {
+    textTransform: 'uppercase',
+  },
+  optionChip: {
+    borderColor: colors.borderGlow,
+    borderRadius: 12,
+    borderWidth: 1,
+    paddingHorizontal: 12,
+    paddingVertical: 9,
+  },
+  optionChipSelected: {
+    backgroundColor: colors.glassWash,
+  },
+  optionWrap: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginTop: 14,
+  },
+  selector: {
+    backgroundColor: 'rgba(255,255,255,0.045)',
+    borderColor: colors.borderSoft,
+    borderRadius: 16,
+    borderWidth: 1,
+    padding: 16,
+  },
+  selectorDisabled: {
+    opacity: 0.52,
+  },
+});

@@ -19,6 +19,7 @@ import {
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import { detectIntent } from '@pridicta/ai';
+import { getProductUpgradePrompt } from '@pridicta/monetization';
 import { extractBirthDetailsFromText } from '../services/ai/birthDetailsExtractor';
 import { askPridicta } from '../services/ai/pridictaService';
 import { playReplyChime } from '../services/audio/replyChime';
@@ -26,7 +27,11 @@ import { trackAnalyticsEvent } from '../services/analytics/analyticsService';
 import { syncRedeemedGuestPassToUser } from '../services/firebase/passCodePersistence';
 import { useAppStore } from '../store/useAppStore';
 import { colors } from '../theme/colors';
-import type { BirthDetailsDraft, ChatMessage } from '../types/astrology';
+import type {
+  BirthDetailsDraft,
+  ChatMessage,
+  DecisionMirrorResponse,
+} from '../types/astrology';
 
 const predictaLogo = require('../assets/predicta-logo.png');
 
@@ -34,10 +39,12 @@ function createMessage(
   role: ChatMessage['role'],
   text: string,
   context?: ChatMessage['context'],
+  decisionMirror?: DecisionMirrorResponse,
 ): ChatMessage {
   return {
     context,
     createdAt: new Date().toISOString(),
+    decisionMirror,
     id: `${role}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     role,
     text,
@@ -59,6 +66,7 @@ export function ChatScreen({
   const pendingBirthDetailsDraft = useAppStore(
     state => state.pendingBirthDetailsDraft,
   );
+  const preferredLanguage = useAppStore(state => state.preferredLanguage);
   const setPendingBirthDetailsDraft = useAppStore(
     state => state.setPendingBirthDetailsDraft,
   );
@@ -95,7 +103,10 @@ export function ChatScreen({
     };
   }, []);
 
-  function streamAssistantResponse(text: string) {
+  function streamAssistantResponse(
+    text: string,
+    decisionMirror?: DecisionMirrorResponse,
+  ) {
     let cursor = 0;
 
     setIsTyping(true);
@@ -112,7 +123,7 @@ export function ChatScreen({
         }
 
         appendConversationMessage(
-          createMessage('pridicta', text, activeChartContext),
+          createMessage('pridicta', text, activeChartContext, decisionMirror),
         );
         playReplyChime(chatSoundEnabled);
         setStreamingText('');
@@ -161,19 +172,27 @@ export function ChatScreen({
     const paidQuestionAvailable = hasPaidQuestionCredits();
 
     if (!freeQuestionAvailable && !paidQuestionAvailable) {
+      const questionPrompt = getProductUpgradePrompt('FIVE_QUESTIONS');
       appendConversationMessage(
         createMessage(
           'pridicta',
-          "You've reached today's guidance limit. Your reading is saved. You can continue tomorrow, add a few questions, or unlock more Pridicta guidance today.",
+          "You've reached today's guidance limit. Your reading is saved. You can continue tomorrow, add a few questions, or unlock more Predicta guidance today.",
           activeChartContext,
         ),
       );
       trackAnalyticsEvent({
         eventName: 'limit_reached',
-        metadata: { limit: 'questions' },
+        metadata: {
+          limit: 'questions',
+          productId: questionPrompt.productId ?? null,
+        },
         userId: auth.userId,
       });
-      navigation.navigate(routes.Paywall);
+      navigation.navigate(routes.Paywall, {
+        source: 'chat_limit',
+        suggestedProductId: questionPrompt.productId,
+        title: questionPrompt.title,
+      });
       return;
     }
 
@@ -200,6 +219,7 @@ export function ChatScreen({
         history,
         kundli: activeKundli,
         message: trimmedInput,
+        preferredLanguage,
         userPlan: effectivePlan,
       });
 
@@ -232,19 +252,17 @@ export function ChatScreen({
         }
       }
 
-      streamAssistantResponse(response.text);
-    } catch (error) {
+      streamAssistantResponse(response.text, response.decisionMirror);
+    } catch {
       streamAssistantResponse(
-        error instanceof Error
-          ? `I could not complete the reading because ${error.message}. Please try again with one focused question.`
-          : 'I could not complete the reading right now. Please try again with one focused question.',
+        'I could not complete the reading right now. Please try again with one focused question.',
       );
     }
   }
 
   return (
     <Screen>
-      <FadeInView className="flex-row items-center gap-4">
+      <FadeInView style={styles.header}>
         <View style={styles.logoShell}>
           <Image
             accessibilityIgnoresInvertColors
@@ -252,15 +270,15 @@ export function ChatScreen({
             style={styles.logo}
           />
         </View>
-        <View className="flex-1">
+        <View style={styles.headerCopy}>
           <AppText tone="secondary" variant="caption">
             PRIVATE READING
           </AppText>
-          <GradientText variant="title">Chat with Pridicta</GradientText>
+          <GradientText variant="title">Chat with Predicta</GradientText>
         </View>
       </FadeInView>
 
-      <View className="mt-7 gap-4">
+      <View style={styles.thread}>
         {messages.map((message, index) => (
           <ChatBubble
             delay={180 + index * 70}
@@ -277,7 +295,7 @@ export function ChatScreen({
               context: activeChartContext,
               id: 'streaming',
               role: 'pridicta',
-              text: streamingText || 'Pridicta is listening...',
+              text: streamingText || 'Predicta is listening...',
             }}
             typing={!streamingText}
           />
@@ -288,15 +306,15 @@ export function ChatScreen({
         <TextInput
           multiline
           onChangeText={setInput}
-          placeholder="Ask Pridicta anything about your chart..."
+          placeholder="Ask Predicta anything about your chart..."
           placeholderTextColor={colors.secondaryText}
           textAlignVertical="top"
           value={input}
-          className="mt-8 min-h-32 rounded-2xl border border-[#252533] bg-app-card p-4 text-base text-text-primary"
+          style={styles.input}
         />
       </FadeInView>
 
-      <View className="mt-5">
+      <View style={styles.sendButton}>
         <GlowButton
           delay={390}
           disabled={!input.trim() || isTyping}
@@ -406,7 +424,7 @@ function buildBirthIntakeResponse(
   return [
     'Thank you. I found the details needed for a kundli.',
     formatDraftSummary(draft),
-    'I opened the Kundli screen so you can verify the birth place and timezone before Pridicta calculates anything.',
+    'I opened the Kundli screen so you can verify the birth place and timezone before Predicta calculates anything.',
   ].join('\n\n');
 }
 
@@ -455,8 +473,11 @@ function ChatBubble({
 
   return (
     <FadeInView
-      className={`max-w-[88%] ${isUser ? 'self-end' : 'self-start'}`}
       delay={delay}
+      style={[
+        styles.bubbleWrap,
+        isUser ? styles.userBubbleWrap : styles.pridictaBubbleWrap,
+      ]}
     >
       {isUser ? (
         <View style={styles.userBubble}>
@@ -469,10 +490,76 @@ function ChatBubble({
           start={{ x: 0, y: 0 }}
           style={styles.pridictaBubble}
         >
-          {typing ? <TypingPulse /> : <AppText>{message.text}</AppText>}
+          {typing ? (
+            <TypingPulse />
+          ) : message.decisionMirror ? (
+            <DecisionMirrorCard mirror={message.decisionMirror} />
+          ) : (
+            <AppText>{message.text}</AppText>
+          )}
         </LinearGradient>
       )}
     </FadeInView>
+  );
+}
+
+function DecisionMirrorCard({
+  mirror,
+}: {
+  mirror: DecisionMirrorResponse;
+}): React.JSX.Element {
+  return (
+    <View>
+      <AppText tone="secondary" variant="caption">
+        DECISION MIRROR
+      </AppText>
+      <AppText style={styles.mirrorSummary}>{mirror.decisionSummary}</AppText>
+      <MirrorSection
+        items={mirror.supportiveChartFactors}
+        title="Supportive chart factors"
+      />
+      <MirrorSection items={mirror.cautionFactors} title="Caution factors" />
+      <MirrorSection
+        items={mirror.timingWindows.map(
+          window => `${window.label}: ${window.focus}`,
+        )}
+        title="Timing windows"
+      />
+      <View style={styles.mirrorCallout}>
+        <AppText variant="caption">NEXT STEP</AppText>
+        <AppText style={styles.mirrorCalloutText}>
+          {mirror.practicalNextStep}
+        </AppText>
+      </View>
+      <AppText style={styles.mirrorSmall} tone="secondary">
+        {mirror.emotionalBiasCheck}
+      </AppText>
+      <AppText style={styles.mirrorSmall} tone="secondary">
+        {mirror.revisitLater}
+      </AppText>
+      <AppText style={styles.mirrorDisclaimer} tone="secondary" variant="caption">
+        {mirror.disclaimer}
+      </AppText>
+    </View>
+  );
+}
+
+function MirrorSection({
+  items,
+  title,
+}: {
+  items: string[];
+  title: string;
+}): React.JSX.Element {
+  return (
+    <View style={styles.mirrorSection}>
+      <AppText variant="caption">{title}</AppText>
+      {items.map(item => (
+        <AppText key={item} style={styles.mirrorBullet} tone="secondary">
+          {`- ${item}`}
+        </AppText>
+      ))}
+    </View>
   );
 }
 
@@ -495,21 +582,41 @@ function TypingPulse(): React.JSX.Element {
   }));
 
   return (
-    <Animated.View
-      className="flex-row items-center gap-2"
-      style={animatedStyle}
-    >
+    <Animated.View style={[styles.typingPulse, animatedStyle]}>
       <View style={styles.typingDot} />
       <View style={styles.typingDot} />
       <View style={styles.typingDot} />
-      <AppText className="ml-2" tone="secondary">
-        Pridicta is reading the pattern
+      <AppText style={styles.typingText} tone="secondary">
+        Predicta is reading the pattern
       </AppText>
     </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
+  bubbleWrap: {
+    maxWidth: '88%',
+  },
+  header: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 16,
+  },
+  headerCopy: {
+    flex: 1,
+  },
+  input: {
+    backgroundColor: colors.glass,
+    borderColor: colors.borderSoft,
+    borderRadius: 20,
+    borderWidth: 1,
+    color: colors.primaryText,
+    fontSize: 16,
+    lineHeight: 24,
+    marginTop: 32,
+    minHeight: 132,
+    padding: 18,
+  },
   logo: {
     borderRadius: 12,
     height: 42,
@@ -526,28 +633,75 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.26,
     shadowRadius: 16,
   },
-  pridictaBubble: {
-    borderColor: colors.borderGlow,
+  mirrorBullet: {
+    marginTop: 8,
+  },
+  mirrorCallout: {
+    backgroundColor: colors.glassWash,
+    borderColor: colors.borderSoft,
     borderRadius: 16,
     borderWidth: 1,
+    marginTop: 16,
+    padding: 14,
+  },
+  mirrorCalloutText: {
+    marginTop: 8,
+  },
+  mirrorDisclaimer: {
+    marginTop: 16,
+  },
+  mirrorSection: {
+    marginTop: 16,
+  },
+  mirrorSmall: {
+    marginTop: 12,
+  },
+  mirrorSummary: {
+    marginTop: 10,
+  },
+  pridictaBubble: {
+    borderColor: colors.borderGlow,
+    borderRadius: 20,
+    borderWidth: 1,
     elevation: 8,
-    padding: 16,
+    padding: 18,
     shadowColor: colors.gradient[0],
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.16,
     shadowRadius: 16,
   },
+  pridictaBubbleWrap: {
+    alignSelf: 'flex-start',
+  },
+  sendButton: {
+    marginTop: 20,
+  },
+  thread: {
+    gap: 16,
+    marginTop: 28,
+  },
   userBubble: {
     backgroundColor: colors.bubbleUser,
     borderColor: colors.border,
-    borderRadius: 16,
+    borderRadius: 20,
     borderWidth: 1,
-    padding: 16,
+    padding: 18,
+  },
+  userBubbleWrap: {
+    alignSelf: 'flex-end',
   },
   typingDot: {
     backgroundColor: colors.gradient[1],
     borderRadius: 4,
     height: 8,
     width: 8,
+  },
+  typingPulse: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+  },
+  typingText: {
+    marginLeft: 8,
   },
 });

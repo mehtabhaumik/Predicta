@@ -3,6 +3,7 @@ import type {
   EntitlementState,
   MonetizationState,
   OneTimeEntitlement,
+  OneTimeProductType,
 } from '@pridicta/types';
 import { createFreeEntitlement } from '@pridicta/types';
 
@@ -72,6 +73,44 @@ export function hasPremiumPdfCredit(
   );
 }
 
+export function hasLifeTimelineReportCredit(
+  oneTimeEntitlements: OneTimeEntitlement[],
+  kundliId?: string,
+): boolean {
+  return oneTimeEntitlements.some(
+    item =>
+      item.productType === 'LIFE_TIMELINE_REPORT' &&
+      (item.remainingUses ?? 0) > 0 &&
+      (!kundliId || !item.kundliId || item.kundliId === kundliId) &&
+      !isExpired(item.expiresAt),
+  );
+}
+
+export function hasOneTimeReportCredit(
+  oneTimeEntitlements: OneTimeEntitlement[],
+  productType: OneTimeProductType,
+  kundliId?: string,
+): boolean {
+  return oneTimeEntitlements.some(
+    item =>
+      item.productType === productType &&
+      (item.remainingUses ?? 0) > 0 &&
+      (!kundliId || !item.kundliId || item.kundliId === kundliId) &&
+      !isExpired(item.expiresAt),
+  );
+}
+
+export function hasCompatibilityReportCredit(
+  oneTimeEntitlements: OneTimeEntitlement[],
+  pairKey?: string,
+): boolean {
+  return hasOneTimeReportCredit(
+    oneTimeEntitlements,
+    'MARRIAGE_COMPATIBILITY_REPORT',
+    pairKey,
+  );
+}
+
 export function consumeOneTimeQuestionCreditFromState(
   state: MonetizationState,
 ): { consumed: boolean; state: MonetizationState } {
@@ -112,6 +151,77 @@ export function consumePremiumPdfCreditFromState(
   const index = nextEntitlements.findIndex(
     item =>
       item.productType === 'PREMIUM_PDF' &&
+      (item.remainingUses ?? 0) > 0 &&
+      (!item.kundliId || item.kundliId === kundliId) &&
+      !isExpired(item.expiresAt),
+  );
+
+  if (index === -1) {
+    return { consumed: false, state };
+  }
+
+  nextEntitlements[index] = {
+    ...nextEntitlements[index],
+    kundliId,
+    remainingUses: Math.max(
+      0,
+      (nextEntitlements[index].remainingUses ?? 0) - 1,
+    ),
+  };
+
+  return {
+    consumed: true,
+    state: {
+      ...state,
+      oneTimeEntitlements: nextEntitlements,
+    },
+  };
+}
+
+export function consumeLifeTimelineReportCreditFromState(
+  state: MonetizationState,
+  kundliId: string,
+): { consumed: boolean; state: MonetizationState } {
+  const nextEntitlements = [...state.oneTimeEntitlements];
+  const index = nextEntitlements.findIndex(
+    item =>
+      item.productType === 'LIFE_TIMELINE_REPORT' &&
+      (item.remainingUses ?? 0) > 0 &&
+      (!item.kundliId || item.kundliId === kundliId) &&
+      !isExpired(item.expiresAt),
+  );
+
+  if (index === -1) {
+    return { consumed: false, state };
+  }
+
+  nextEntitlements[index] = {
+    ...nextEntitlements[index],
+    kundliId,
+    remainingUses: Math.max(
+      0,
+      (nextEntitlements[index].remainingUses ?? 0) - 1,
+    ),
+  };
+
+  return {
+    consumed: true,
+    state: {
+      ...state,
+      oneTimeEntitlements: nextEntitlements,
+    },
+  };
+}
+
+export function consumeOneTimeReportCreditFromState(
+  state: MonetizationState,
+  productType: OneTimeProductType,
+  kundliId: string,
+): { consumed: boolean; state: MonetizationState } {
+  const nextEntitlements = [...state.oneTimeEntitlements];
+  const index = nextEntitlements.findIndex(
+    item =>
+      item.productType === productType &&
       (item.remainingUses ?? 0) > 0 &&
       (!item.kundliId || item.kundliId === kundliId) &&
       !isExpired(item.expiresAt),

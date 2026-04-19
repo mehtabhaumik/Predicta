@@ -8,6 +8,7 @@ import {
 } from '@pridicta/access';
 import {
   consumeOneTimeQuestionCreditFromState,
+  consumeOneTimeReportCreditFromState,
   consumePremiumPdfCreditFromState,
   createInitialMonetizationState,
   getPaidQuestionCredits,
@@ -16,6 +17,7 @@ import {
   hasPremiumAccess,
   isPremium,
 } from '@pridicta/monetization';
+import type { AppLocale, GeneratedReportLibraryItem } from '@pridicta/types';
 import type {
   AuthState,
   BirthDetailsDraft,
@@ -31,6 +33,7 @@ import type {
   EntitlementState,
   MonetizationState,
   OneTimeEntitlement,
+  OneTimeProductType,
 } from '../types/subscription';
 
 const BIRTH_INTAKE_CONVERSATION_ID = 'birth-intake';
@@ -85,10 +88,12 @@ type AppState = {
   biometricsEnabled: boolean;
   chatSoundEnabled: boolean;
   conversationsByKundli: Record<string, ChatMessage[]>;
+  generatedReports: GeneratedReportLibraryItem[];
   onboardingComplete: boolean;
   monetization: MonetizationState;
   pendingBirthDetailsDraft?: BirthDetailsDraft;
   pinEnabled: boolean;
+  preferredLanguage: AppLocale;
   redeemedGuestPass?: RedeemedGuestPass;
   securityEnabled: boolean;
   savedKundlis: SavedKundliRecord[];
@@ -105,9 +110,14 @@ type AppState = {
   consumeGuestDeepQuota: () => boolean;
   consumeGuestPdfQuota: () => boolean;
   consumeGuestQuestionQuota: () => boolean;
+  consumeOneTimeReportCredit: (
+    productType: OneTimeProductType,
+    kundliId: string,
+  ) => boolean;
   consumePremiumPdfCredit: (kundliId: string) => boolean;
   getActiveConversation: () => ChatMessage[];
   getResolvedAccess: () => ResolvedAccess;
+  addGeneratedReport: (report: GeneratedReportLibraryItem) => void;
   addOneTimeEntitlement: (entitlement: OneTimeEntitlement) => void;
   recordDeepCall: () => void;
   recordPdfGeneration: () => void;
@@ -123,6 +133,7 @@ type AppState = {
   setOnboardingComplete: (value: boolean) => void;
   setPendingBirthDetailsDraft: (value?: BirthDetailsDraft) => void;
   setPinEnabled: (value: boolean) => void;
+  setPreferredLanguage: (value: AppLocale) => void;
   setRedeemedGuestPass: (value?: RedeemedGuestPass) => void;
   setSavedKundlis: (records: SavedKundliRecord[]) => void;
   setSecurityEnabled: (value: boolean) => void;
@@ -147,9 +158,11 @@ export const useAppStore = create<AppState>((set, get) => ({
       },
     ],
   },
+  generatedReports: [],
   monetization: createInitialMonetizationState(),
   onboardingComplete: false,
   pinEnabled: true,
+  preferredLanguage: 'en',
   savedKundlis: [],
   securityEnabled: false,
   usage: createInitialUsage(),
@@ -328,6 +341,21 @@ export const useAppStore = create<AppState>((set, get) => ({
 
     return result.consumed;
   },
+  consumeOneTimeReportCredit: (productType, kundliId) => {
+    const result = consumeOneTimeReportCreditFromState(
+      get().monetization,
+      productType,
+      kundliId,
+    );
+
+    if (result.consumed) {
+      set({
+        monetization: result.state,
+      });
+    }
+
+    return result.consumed;
+  },
   getActiveConversation: () => {
     const state = get();
 
@@ -346,6 +374,15 @@ export const useAppStore = create<AppState>((set, get) => ({
       redeemedGuestPass: state.redeemedGuestPass,
     });
   },
+  addGeneratedReport: report =>
+    set(state => ({
+      generatedReports: [
+        report,
+        ...state.generatedReports.filter(
+          item => item.cacheKey !== report.cacheKey,
+        ),
+      ],
+    })),
   addOneTimeEntitlement: entitlement =>
     set(state => ({
       monetization: {
@@ -471,6 +508,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   setPendingBirthDetailsDraft: value =>
     set({ pendingBirthDetailsDraft: value }),
   setPinEnabled: value => set({ pinEnabled: value }),
+  setPreferredLanguage: value => set({ preferredLanguage: value }),
   setRedeemedGuestPass: value => set({ redeemedGuestPass: value }),
   setSavedKundlis: records => set({ savedKundlis: records }),
   setSecurityEnabled: value => set({ securityEnabled: value }),

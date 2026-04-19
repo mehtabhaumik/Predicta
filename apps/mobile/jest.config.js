@@ -10,6 +10,9 @@ module.exports = {
       '<rootDir>/../../packages/astrology/src/$1',
     '^@pridicta/config$': '<rootDir>/../../packages/config/src/index.ts',
     '^@pridicta/config/(.*)$': '<rootDir>/../../packages/config/src/$1',
+    '^@pridicta/firebase$': '<rootDir>/../../packages/firebase/src/index.ts',
+    '^@pridicta/firebase/(.*)$':
+      '<rootDir>/../../packages/firebase/src/$1',
     '^@pridicta/monetization$':
       '<rootDir>/../../packages/monetization/src/index.ts',
     '^@pridicta/monetization/(.*)$':

@@ -1,0 +1,39 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: predicta-backend
+  annotations:
+    # Use "all" for first direct smoke tests. Use
+    # "internal-and-cloud-load-balancing" after the external HTTPS load balancer
+    # and Cloud Armor policy are verified, so default Cloud Run URLs cannot
+    # bypass edge protections.
+    run.googleapis.com/ingress: internal-and-cloud-load-balancing
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "0"
+        autoscaling.knative.dev/maxScale: "3"
+    spec:
+      containerConcurrency: 40
+      timeoutSeconds: 60
+      serviceAccountName: predicta-backend@predicta-a4758.iam.gserviceaccount.com
+      containers:
+        - image: REGION-docker.pkg.dev/PROJECT_ID/REPOSITORY/predicta-backend:TAG
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PREDICTA_ALLOWED_ORIGINS
+              value: "https://predicta.rudraix.com,https://predicta-a4758.web.app"
+            - name: PREDICTA_BOOTSTRAP_ADMIN_EMAILS
+              value: ""
+            - name: PREDICTA_RATE_LIMIT_ENABLED
+              value: "true"
+            - name: PREDICTA_OBSERVABILITY_ENABLED
+              value: "true"
+            - name: PREDICTA_OBSERVABILITY_HASH_SALT
+              value: "set-server-only-random-string"
+          resources:
+            limits:
+              cpu: "1"
+              memory: 1Gi

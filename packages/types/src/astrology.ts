@@ -1,3 +1,5 @@
+import type { AppLocale } from './locale';
+
 export type ChartType =
   | 'D1'
   | 'D2'
@@ -188,6 +190,139 @@ export type KundliData = {
   calculationMeta: CalculationMeta;
 };
 
+export type LifeEventCategory =
+  | 'CAREER'
+  | 'RELATIONSHIP'
+  | 'MARRIAGE'
+  | 'BUSINESS'
+  | 'RELOCATION'
+  | 'EDUCATION'
+  | 'FINANCE'
+  | 'HEALTH'
+  | 'FAMILY'
+  | 'SPIRITUAL'
+  | 'OTHER';
+
+export type LifeEvent = {
+  id: string;
+  kundliId: string;
+  title: string;
+  category: LifeEventCategory;
+  eventDate: string;
+  approximateDate: boolean;
+  description?: string;
+  emotionalTone?: 'calm' | 'happy' | 'stressful' | 'uncertain' | 'transformative';
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type LifeTimelineMappedEvent = {
+  event: LifeEvent;
+  mahadasha?: string;
+  antardasha?: string;
+  dashaStartDate?: string;
+  dashaEndDate?: string;
+  relevantHouses: number[];
+  relevantCharts: ChartType[];
+  chartFactors: string[];
+  confidence: 'low' | 'medium' | 'high';
+};
+
+export type LifeTimelineInsight = {
+  kundliId: string;
+  eventHash: string;
+  generatedAt: string;
+  mappedEvents: LifeTimelineMappedEvent[];
+  recurringThemes: string[];
+  previewText: string;
+  premiumSynthesis?: string;
+  calculationMeta: Pick<
+    CalculationMeta,
+    'ayanamsa' | 'houseSystem' | 'nodeType' | 'calculatedAt' | 'inputHash'
+  >;
+};
+
+export type LifeTimelineAccess = {
+  canAddMoreEvents: boolean;
+  canViewFullTimeline: boolean;
+  maxFreeEvents: number;
+  remainingFreeEvents: number;
+  requiresUpgrade: boolean;
+};
+
+export type IntelligenceDepth = 'FREE' | 'EXPANDED';
+
+export type DailyIntelligence = {
+  kundliId: string;
+  dateKey: string;
+  cacheKey: string;
+  depth: IntelligenceDepth;
+  emotionalTone: string;
+  workFocus: string;
+  relationshipTone: string;
+  practicalAction: string;
+  avoid: string;
+  chartBasisSummary: string;
+  generatedAt: string;
+};
+
+export type WeeklyDateWindow = {
+  startDate: string;
+  endDate: string;
+  focus: string;
+  tone: string;
+};
+
+export type WeeklyIntelligence = {
+  kundliId: string;
+  weekKey: string;
+  cacheKey: string;
+  depth: IntelligenceDepth;
+  weeklyTheme: string;
+  importantDateWindows: WeeklyDateWindow[];
+  careerFocus: string;
+  relationshipFocus: string;
+  spiritualSuggestion: string;
+  chartBasisSummary: string;
+  premiumSynthesis?: string;
+  generatedAt: string;
+};
+
+export type IntelligenceQuotaDecision = {
+  consumesQuota: boolean;
+  reason: 'cache_hit' | 'template_generated' | 'ai_generated';
+};
+
+export type DecisionMirrorDepth = 'FREE' | 'EXPANDED';
+
+export type DecisionTimingWindow = {
+  label: string;
+  startDate?: string;
+  endDate?: string;
+  focus: string;
+};
+
+export type DecisionMirrorResponse = {
+  decisionSummary: string;
+  supportiveChartFactors: string[];
+  cautionFactors: string[];
+  timingWindows: DecisionTimingWindow[];
+  practicalNextStep: string;
+  emotionalBiasCheck: string;
+  revisitLater: string;
+  disclaimer: string;
+  depth: DecisionMirrorDepth;
+  cacheKey: string;
+  generatedAt: string;
+};
+
+export type DecisionIntentResult = {
+  isDecisionQuestion: boolean;
+  confidence: number;
+  suggestedDepth: DecisionMirrorDepth;
+  reasons: string[];
+};
+
 export type ChartContext = {
   chartType?: ChartType;
   chartName?: string;
@@ -206,6 +341,7 @@ export type ChatMessage = {
   text: string;
   createdAt: string;
   context?: ChartContext;
+  decisionMirror?: DecisionMirrorResponse;
 };
 
 export type ConversationTurn = {
@@ -274,6 +410,7 @@ export type PridictaChatRequest = {
   history: ConversationTurn[];
   userPlan: UserPlan;
   deepAnalysis?: boolean;
+  preferredLanguage?: AppLocale;
 };
 
 export type PridictaChatResponse = {
@@ -281,6 +418,7 @@ export type PridictaChatResponse = {
   provider: 'openai' | 'local' | 'cache';
   model: string;
   cached?: boolean;
+  decisionMirror?: DecisionMirrorResponse;
   intent?: AIIntent;
   usedDeepModel?: boolean;
 };

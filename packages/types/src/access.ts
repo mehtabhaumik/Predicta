@@ -38,6 +38,42 @@ export type GuestPassCode = {
   revokeReason?: string;
 };
 
+export type AdminActionType =
+  | 'pass_created'
+  | 'pass_revoked'
+  | 'user_access_updated'
+  | 'feature_flag_updated';
+
+export type AdminAuditLog = {
+  actionId: string;
+  actionType: AdminActionType;
+  actorUserId: string;
+  actorEmail?: string;
+  targetUserId?: string;
+  targetEmail?: string;
+  targetResourceId?: string;
+  message: string;
+  metadata?: Record<string, string | number | boolean | null>;
+  createdAt: string;
+};
+
+export type GuestPassUsageSummary = {
+  codeId: string;
+  label: string;
+  type: PassCodeType;
+  accessLevel: GuestPassCode['accessLevel'];
+  isActive: boolean;
+  expiresAt: string;
+  revokedAt?: string;
+  maxRedemptions: number;
+  redemptionCount: number;
+  remainingRedemptions: number;
+  deviceLimit: number;
+  deviceCount: number;
+  allowedEmailCount: number;
+  usageLimits: GuestUsageLimits;
+};
+
 export type RedeemedGuestPass = {
   passCodeId: string;
   type: PassCodeType;
@@ -98,3 +134,24 @@ export type PassRedemptionResult =
     };
 
 export type GuestQuotaKind = 'question' | 'deep_reading' | 'premium_pdf';
+
+export type CreateGuestPassCodeInput = {
+  accessLevel: GuestPassCode['accessLevel'];
+  allowedEmails?: string[];
+  code: string;
+  codeId: string;
+  createdAt?: string;
+  createdBy: string;
+  expiresAt?: string;
+  label: string;
+  maxRedemptions: number;
+  type: PassCodeType;
+};
+
+export type RevokeGuestPassCodeInput = {
+  actorEmail?: string;
+  actorUserId: string;
+  now?: string;
+  passCode: GuestPassCode;
+  reason: string;
+};

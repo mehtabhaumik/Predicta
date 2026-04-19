@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextInput, View } from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
 
 import {
   AnimatedHeader,
@@ -109,28 +109,28 @@ export function RedeemPassCodeScreen(): React.JSX.Element {
       {glassAlert}
       <AnimatedHeader eyebrow="PRIVATE INVITE" title="Redeem guest pass" />
 
-      <GlassPanel className="mt-8" delay={100}>
-        <AppText variant="subtitle">Enter your Pridicta pass</AppText>
-        <AppText className="mt-2" tone="secondary">
+      <GlassPanel style={styles.firstPanel} delay={100}>
+        <AppText variant="subtitle">Enter your Predicta pass</AppText>
+        <AppText style={styles.sectionCopy} tone="secondary">
           Guest passes unlock expanded guidance for a limited period. Redemption
           requires Google login so the pass stays protected and cannot be reused
           unexpectedly.
         </AppText>
-        <View className="mt-6">
-          <AppText className="mb-2" tone="secondary" variant="caption">
+        <View style={styles.fieldBlock}>
+          <AppText style={styles.fieldLabel} tone="secondary" variant="caption">
             Pass code
           </AppText>
           <TextInput
             autoCapitalize="characters"
             autoCorrect={false}
-            className="rounded-2xl border border-[#252533] bg-app-card p-4 text-base text-text-primary"
             onChangeText={setCode}
             placeholder="PRIDICTA-VIP-XXXX"
             placeholderTextColor={colors.secondaryText}
+            style={styles.input}
             value={code}
           />
         </View>
-        <View className="mt-5">
+        <View style={styles.actionBlock}>
           <GlowButton
             label={loading ? 'Checking...' : 'Redeem Guest Pass'}
             loading={loading}
@@ -139,13 +139,45 @@ export function RedeemPassCodeScreen(): React.JSX.Element {
         </View>
       </GlassPanel>
 
-      <GlowCard className="mt-6" delay={220}>
+      <GlowCard style={styles.panelSpacing} delay={220}>
         <AppText variant="subtitle">Privacy by default</AppText>
-        <AppText className="mt-2" tone="secondary">
-          Pass codes are checked by their secure hash. Pridicta does not need to
+        <AppText style={styles.sectionCopy} tone="secondary">
+          Pass codes are checked by their secure hash. Predicta does not need to
           store your private code.
         </AppText>
       </GlowCard>
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  actionBlock: {
+    marginTop: 22,
+  },
+  fieldBlock: {
+    gap: 10,
+    marginTop: 24,
+  },
+  fieldLabel: {
+    textTransform: 'uppercase',
+  },
+  firstPanel: {
+    marginTop: 32,
+  },
+  input: {
+    backgroundColor: 'rgba(255,255,255,0.055)',
+    borderColor: colors.borderSoft,
+    borderRadius: 16,
+    borderWidth: 1,
+    color: colors.primaryText,
+    fontSize: 16,
+    minHeight: 58,
+    paddingHorizontal: 16,
+  },
+  panelSpacing: {
+    marginTop: 24,
+  },
+  sectionCopy: {
+    marginTop: 8,
+  },
+});

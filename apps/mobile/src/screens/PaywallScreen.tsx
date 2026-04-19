@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import {
@@ -13,6 +13,7 @@ import {
 import {
   formatInr,
   getDayPassProduct,
+  getOneTimeProducts,
   getPricingPlans,
 } from '../config/pricing';
 import { routes } from '../navigation/routes';
@@ -29,7 +30,7 @@ import { colors } from '../theme/colors';
 import type { PricingPlan } from '../types/subscription';
 
 const features = [
-  'More Pridicta questions',
+  'More Predicta questions',
   'Deeper chart analysis',
   'Advanced dasha and varga insights',
   'Premium kundli report depth',
@@ -38,9 +39,18 @@ const features = [
 
 export function PaywallScreen({
   navigation,
+  route,
 }: RootScreenProps<typeof routes.Paywall>): React.JSX.Element {
   const pricingPlans = useMemo(() => getPricingPlans(), []);
   const dayPass = useMemo(() => getDayPassProduct(), []);
+  const oneTimeProducts = useMemo(() => getOneTimeProducts(), []);
+  const focusedProduct = useMemo(
+    () =>
+      oneTimeProducts.find(
+        product => product.productId === route.params?.suggestedProductId,
+      ),
+    [oneTimeProducts, route.params?.suggestedProductId],
+  );
   const [selectedPlan, setSelectedPlan] = useState<PricingPlan>(
     pricingPlans.find(plan => plan.recommended) ?? pricingPlans[1],
   );
@@ -53,12 +63,23 @@ export function PaywallScreen({
   const auth = useAppStore(state => state.auth);
   const { glassAlert, showGlassAlert } = useGlassAlert();
 
+  useEffect(() => {
+    trackAnalyticsEvent({
+      eventName: 'paywall_viewed',
+      metadata: {
+        productId: focusedProduct?.productId ?? null,
+        source: route.params?.source ?? null,
+      },
+      userId: auth.userId,
+    });
+  }, [auth.userId, focusedProduct?.productId, route.params?.source]);
+
   async function startPurchase(productId: string) {
     try {
       setLoadingProductId(productId);
       await trackAnalyticsEvent({
         eventName: 'purchase_started',
-        metadata: { productId },
+        metadata: { productId, source: route.params?.source ?? null },
         userId: auth.userId,
       });
       const result = await purchaseProduct(productId);
@@ -83,13 +104,38 @@ export function PaywallScreen({
 
         await trackAnalyticsEvent({
           eventName: 'purchase_completed',
-          metadata: { productId, status: result.status },
+          metadata: {
+            productId,
+            source: route.params?.source ?? null,
+            status: result.status,
+          },
           userId: auth.userId,
         });
+        if (result.oneTimeEntitlement) {
+          const productType = result.oneTimeEntitlement.productType;
+          await trackAnalyticsEvent({
+            eventName:
+              productType === 'LIFE_TIMELINE_REPORT'
+                ? 'life_timeline_report_unlocked'
+                : productType === 'MARRIAGE_COMPATIBILITY_REPORT'
+                ? 'compatibility_report_unlocked'
+                : productType === 'PREMIUM_PDF'
+                ? 'premium_pdf_unlocked'
+                : productType === 'FIVE_QUESTIONS'
+                ? 'one_time_product_selected'
+                : 'product_selected',
+            metadata: {
+              productId,
+              productType,
+              source: route.params?.source ?? null,
+            },
+            userId: auth.userId,
+          });
+        }
         showGlassAlert({
           actions: [{ label: 'Continue', onPress: () => navigation.goBack() }],
           message: result.oneTimeEntitlement
-            ? 'Your Pridicta access has been added.'
+            ? 'Your Predicta access has been added.'
             : 'Premium guidance is now active.',
           title: 'Premium ready',
         });
@@ -113,7 +159,7 @@ export function PaywallScreen({
     } catch (error) {
       await trackAnalyticsEvent({
         eventName: 'purchase_failed',
-        metadata: { productId },
+        metadata: { productId, source: route.params?.source ?? null },
         userId: auth.userId,
       });
       showGlassAlert({
@@ -154,7 +200,7 @@ export function PaywallScreen({
       });
       showGlassAlert({
         message: restored.length
-          ? 'Your Pridicta purchases were restored.'
+          ? 'Your Predicta purchases were restored.'
           : 'No previous purchases were found on this device.',
         title: 'Restore complete',
       });
@@ -195,20 +241,20 @@ export function PaywallScreen({
       {glassAlert}
       <AnimatedHeader
         eyebrow="PRIDICTA PREMIUM"
-        title="Unlock Deeper Insights"
+        title={route.params?.title ?? 'Unlock Deeper Insights'}
       />
 
-      <GlowCard className="mt-7" delay={120}>
+      <GlowCard style={styles.heroPanel} delay={120}>
         <GradientText variant="title">
           Premium guidance, calmly unlocked
         </GradientText>
-        <AppText className="mt-3" tone="secondary">
+        <AppText style={styles.heroCopy} tone="secondary">
           Go beyond the surface with richer chart interpretation, deeper
-          Pridicta guidance, and premium reports.
+          Predicta guidance, and premium reports.
         </AppText>
-        <View className="mt-5 gap-3">
+        <View style={styles.featureList}>
           {features.map(feature => (
-            <View className="flex-row items-center gap-3" key={feature}>
+            <View style={styles.featureRow} key={feature}>
               <View style={styles.featureDot} />
               <AppText tone="secondary">{feature}</AppText>
             </View>
@@ -216,7 +262,49 @@ export function PaywallScreen({
         </View>
       </GlowCard>
 
-      <View className="mt-7 gap-4">
+      {focusedProduct ? (
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => {
+            trackAnalyticsEvent({
+              eventName: 'product_selected',
+              metadata: {
+                productId: focusedProduct.productId,
+                productType: focusedProduct.id,
+                source: route.params?.source ?? null,
+              },
+              userId: auth.userId,
+            });
+            startPurchase(focusedProduct.productId);
+          }}
+          style={styles.focusedOfferPressable}
+        >
+          <GlowCard delay={180}>
+            <View style={styles.dayPassRow}>
+              <View style={styles.planCopy}>
+                <AppText tone="secondary" variant="caption">
+                  SUGGESTED OPTION
+                </AppText>
+                <AppText style={styles.planDescription} variant="subtitle">
+                  {focusedProduct.label}
+                </AppText>
+                <AppText
+                  style={styles.planDescription}
+                  tone="secondary"
+                  variant="caption"
+                >
+                  {focusedProduct.description}
+                </AppText>
+              </View>
+              <AppText style={styles.dayPassPrice} variant="subtitle">
+                {focusedProduct.displayPrice}
+              </AppText>
+            </View>
+          </GlowCard>
+        </Pressable>
+      ) : null}
+
+      <View style={styles.planList}>
         {pricingPlans.map((plan, index) => {
           const selected = selectedPlan.productId === plan.productId;
 
@@ -234,17 +322,17 @@ export function PaywallScreen({
               }}
             >
               <GlowCard delay={220 + index * 60}>
-                <View className="flex-row items-start justify-between gap-4">
-                  <View className="flex-1">
-                    <View className="flex-row items-center gap-2">
+                <View style={styles.planRow}>
+                  <View style={styles.planCopy}>
+                    <View style={styles.planTitleRow}>
                       <AppText variant="subtitle">{plan.label}</AppText>
                       {plan.badge ? (
-                        <AppText className="text-[#4DAFFF]" variant="caption">
+                        <AppText style={styles.badgeText} variant="caption">
                           {plan.badge}
                         </AppText>
                       ) : null}
                     </View>
-                    <AppText className="mt-2" tone="secondary">
+                    <AppText style={styles.planDescription} tone="secondary">
                       {plan.billingCopy}
                       {plan.monthlyEquivalent
                         ? ` • ${plan.monthlyEquivalent}`
@@ -252,7 +340,7 @@ export function PaywallScreen({
                     </AppText>
                     {plan.regularPriceInr ? (
                       <AppText
-                        className="mt-1"
+                        style={styles.regularPrice}
                         tone="secondary"
                         variant="caption"
                       >
@@ -273,7 +361,7 @@ export function PaywallScreen({
         })}
       </View>
 
-      <View className="mt-7">
+      <View style={styles.unlockButton}>
         <GlowButton
           label="Unlock Premium"
           loading={loadingProductId === selectedPlan.productId}
@@ -283,37 +371,37 @@ export function PaywallScreen({
 
       <Pressable
         accessibilityRole="button"
-        className="mt-5"
         onPress={() => startPurchase(dayPass.productId)}
+        style={styles.dayPassPressable}
       >
         <GlowCard delay={520}>
-          <View className="flex-row items-center justify-between gap-4">
-            <View className="flex-1">
+          <View style={styles.dayPassRow}>
+            <View style={styles.planCopy}>
               <AppText variant="subtitle">Try Premium for 24 hours</AppText>
-              <AppText className="mt-2" tone="secondary" variant="caption">
+              <AppText style={styles.planDescription} tone="secondary" variant="caption">
                 {dayPass.description}
               </AppText>
             </View>
-            <AppText className="text-[#4DAFFF]" variant="subtitle">
+            <AppText style={styles.dayPassPrice} variant="subtitle">
               {dayPass.displayPrice}
             </AppText>
           </View>
         </GlowCard>
       </Pressable>
 
-      <View className="mt-6 gap-3">
+      <View style={styles.footerActions}>
         <GlowButton label="Continue Free" onPress={() => navigation.goBack()} />
         <Pressable accessibilityRole="button" onPress={restore}>
-          <AppText className="text-center text-[#4DAFFF]">
+          <AppText style={styles.footerLink}>
             Restore Purchases
           </AppText>
         </Pressable>
         <Pressable accessibilityRole="button" onPress={manage}>
-          <AppText className="text-center" tone="secondary" variant="caption">
+          <AppText style={styles.footerText} tone="secondary" variant="caption">
             Manage Subscription
           </AppText>
         </Pressable>
-        <AppText className="text-center" tone="secondary" variant="caption">
+        <AppText style={styles.footerText} tone="secondary" variant="caption">
           Cancel anytime. Terms and Privacy apply.
         </AppText>
       </View>
@@ -322,11 +410,78 @@ export function PaywallScreen({
 }
 
 const styles = StyleSheet.create({
+  badgeText: {
+    color: colors.success,
+  },
+  dayPassPressable: {
+    marginTop: 20,
+  },
+  dayPassPrice: {
+    color: colors.success,
+  },
+  dayPassRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 16,
+    justifyContent: 'space-between',
+  },
   featureDot: {
     backgroundColor: colors.gradient[1],
     borderRadius: 4,
     height: 8,
     width: 8,
+  },
+  featureList: {
+    gap: 12,
+    marginTop: 22,
+  },
+  featureRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 12,
+  },
+  focusedOfferPressable: {
+    marginTop: 24,
+  },
+  footerActions: {
+    gap: 13,
+    marginTop: 24,
+  },
+  footerLink: {
+    color: colors.success,
+    fontWeight: '800',
+    textAlign: 'center',
+  },
+  footerText: {
+    textAlign: 'center',
+  },
+  heroCopy: {
+    marginTop: 12,
+  },
+  heroPanel: {
+    marginTop: 28,
+  },
+  planCopy: {
+    flex: 1,
+  },
+  planDescription: {
+    marginTop: 8,
+  },
+  planList: {
+    gap: 16,
+    marginTop: 28,
+  },
+  planRow: {
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    gap: 16,
+    justifyContent: 'space-between',
+  },
+  planTitleRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
   },
   radio: {
     borderColor: colors.borderGlow,
@@ -337,5 +492,11 @@ const styles = StyleSheet.create({
   },
   radioSelected: {
     backgroundColor: colors.gradient[0],
+  },
+  regularPrice: {
+    marginTop: 4,
+  },
+  unlockButton: {
+    marginTop: 28,
   },
 });

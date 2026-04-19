@@ -1,4 +1,7 @@
 import { Image } from 'react-native';
+import { getPdfLanguageLabel } from '@pridicta/config';
+import { getReportProduct } from '@pridicta/pdf';
+import type { AppLocale, ReportProductType } from '@pridicta/types';
 
 import { CHART_REGISTRY } from '../../data/chartRegistry';
 import { colors } from '../../theme/colors';
@@ -14,7 +17,9 @@ export type HoroscopePdfResult = {
 
 type GenerateHoroscopePdfInput = {
   kundli: KundliData;
+  language?: AppLocale;
   mode: PDFMode;
+  reportType?: ReportProductType;
 };
 
 function escapeHtml(value: string): string {
@@ -128,9 +133,15 @@ function predictions(kundli: KundliData, mode: PDFMode): string {
 
 export function buildHoroscopePdfHtml({
   kundli,
+  language = 'en',
   mode,
+  reportType = mode === 'PREMIUM'
+    ? 'PREMIUM_KUNDLI_REPORT'
+    : 'FREE_KUNDLI_SUMMARY',
 }: GenerateHoroscopePdfInput): string {
   const logoUri = Image.resolveAssetSource(predictaLogo).uri;
+  const reportProduct = getReportProduct(reportType);
+  const languageLabel = getPdfLanguageLabel(language);
   const advancedCharts =
     mode === 'PREMIUM'
       ? CHART_REGISTRY.filter(chart => chart.category === 'advanced')
@@ -280,18 +291,23 @@ export function buildHoroscopePdfHtml({
           <div>
             <img class="logo" src="${logoUri}" />
             <h1 class="gradient-text">PRIDICTA</h1>
-            <p>Personal Vedic Astrology Dossier for ${escapeHtml(
+            <p>${escapeHtml(reportProduct.title)} for ${escapeHtml(
               kundli.birthDetails.name,
             )}</p>
             <p>${escapeHtml(kundli.birthDetails.date)} • ${escapeHtml(
     kundli.birthDetails.time,
   )} • ${escapeHtml(kundli.birthDetails.place)}</p>
+            <p>Language preference: ${escapeHtml(languageLabel)}</p>
           </div>
           ${footer()}
         </section>
         ${section(
           'Introduction',
-          `<div class="card"><p>This dossier reads your kundli with a calm Jyotish lens, joining classical chart logic with clear modern language. The aim is not fear or certainty, but grounded timing, self-knowledge, and wiser action under Mahadev's quiet grace.</p></div>`,
+          `<div class="card"><p>${escapeHtml(
+            reportProduct.subtitle,
+          )}</p><p>Language preference: <strong>${escapeHtml(
+            languageLabel,
+          )}</strong>. This phase keeps the generated report structure language-ready while full translated report generation can be unlocked through Premium depth or report credits later.</p><p>This dossier reads your kundli with a calm Jyotish lens, joining classical chart logic with clear modern language. The aim is not fear or certainty, but grounded timing, self-knowledge, and wiser action under Mahadev's quiet grace.</p></div>`,
         )}
         ${section(
           'Birth Details',
@@ -367,17 +383,22 @@ export function buildHoroscopePdfHtml({
 
 export async function generateHoroscopePdf({
   kundli,
+  language = 'en',
   mode,
+  reportType = mode === 'PREMIUM'
+    ? 'PREMIUM_KUNDLI_REPORT'
+    : 'FREE_KUNDLI_SUMMARY',
 }: GenerateHoroscopePdfInput): Promise<HoroscopePdfResult> {
   const generatedAt = new Date().toISOString();
+  const reportProduct = getReportProduct(reportType);
   const { generatePDF } = await import('react-native-html-to-pdf');
   const result = await generatePDF({
     bgColor: colors.background,
     directory: 'Documents',
-    fileName: `pridicta-${
+    fileName: `pridicta-${reportProduct.id.toLowerCase()}-${
       kundli.birthDetails.name
     }-${mode.toLowerCase()}-${Date.now()}`,
-    html: buildHoroscopePdfHtml({ kundli, mode }),
+    html: buildHoroscopePdfHtml({ kundli, language, mode, reportType }),
     shouldPrintBackgrounds: true,
   });
 

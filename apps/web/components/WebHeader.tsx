@@ -22,12 +22,13 @@ export function WebHeader(): React.JSX.Element {
       <nav aria-label="Primary navigation" className="header-nav">
         <Link href="#intelligence">Intelligence</Link>
         <Link href="#reports">Reports</Link>
+        <Link href="/founder">Founder</Link>
         <Link href="/pricing">Pricing</Link>
       </nav>
       <div className="header-actions">
         <AuthDialog />
         <Link className="button secondary header-cta" href="/dashboard">
-          Open Dashboard
+          Dashboard
         </Link>
       </div>
     </header>

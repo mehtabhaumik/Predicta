@@ -20,5 +20,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
       url: `${siteUrl}/pricing`,
     },
+    {
+      changeFrequency: 'monthly',
+      lastModified: now,
+      priority: 0.7,
+      url: `${siteUrl}/founder`,
+    },
   ];
 }

@@ -14,6 +14,8 @@
   },
   "dependencies": {
     "@google/genai": "^1.50.1",
+    "@pridicta/firebase": "workspace:*",
+    "@pridicta/pdf": "workspace:*",
     "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-native-firebase/app": "^24.0.0",
     "@react-native-firebase/auth": "^24.0.0",

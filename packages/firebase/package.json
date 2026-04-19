@@ -10,5 +10,8 @@
     "lint": "eslint src --ext .ts",
     "typecheck": "tsc --noEmit",
     "test": "echo \"@pridicta/firebase has no package-local tests\""
+  },
+  "dependencies": {
+    "@pridicta/types": "workspace:*"
   }
 }

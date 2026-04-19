@@ -12,6 +12,7 @@
     "test": "echo \"@pridicta/astrology has no package-local tests\""
   },
   "dependencies": {
-    "@pridicta/types": "workspace:*"
+    "@pridicta/types": "workspace:*",
+    "@pridicta/utils": "workspace:*"
   }
 }

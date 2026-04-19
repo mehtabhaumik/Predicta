@@ -36,18 +36,18 @@ export function useGlassAlert(): {
         transparent
         visible={Boolean(state)}
       >
-        <View style={styles.backdrop}>
-          <View style={styles.dialog}>
+        <Pressable style={styles.backdrop} onPress={() => setState(null)}>
+          <Pressable style={styles.dialog} onPress={() => undefined}>
             <LinearGradient
-              colors={['rgba(255,255,255,0.12)', 'rgba(255,255,255,0.03)']}
+              colors={['rgba(255,255,255,0.15)', 'rgba(255,255,255,0.045)']}
               pointerEvents="none"
               style={StyleSheet.absoluteFill}
             />
             <AppText variant="subtitle">{state?.title}</AppText>
-            <AppText className="mt-3" tone="secondary">
+            <AppText style={styles.message} tone="secondary">
               {state?.message}
             </AppText>
-            <View className="mt-6 gap-3">
+            <View style={styles.actions}>
               {(state?.actions?.length
                 ? state.actions
                 : [{ label: 'Done' }]
@@ -61,15 +61,15 @@ export function useGlassAlert(): {
             </View>
             <Pressable
               accessibilityRole="button"
-              className="mt-4 items-center"
               onPress={() => setState(null)}
+              style={styles.closeButton}
             >
               <AppText tone="secondary" variant="caption">
                 Close
               </AppText>
             </Pressable>
-          </View>
-        </View>
+          </Pressable>
+        </Pressable>
       </Modal>
     ),
     showGlassAlert: setState,
@@ -77,25 +77,36 @@ export function useGlassAlert(): {
 }
 
 const styles = StyleSheet.create({
+  actions: {
+    gap: 12,
+    marginTop: 24,
+  },
   backdrop: {
     alignItems: 'center',
-    backgroundColor: 'rgba(4,4,8,0.74)',
+    backgroundColor: 'rgba(4,4,8,0.78)',
     flex: 1,
     justifyContent: 'center',
     padding: 24,
   },
+  closeButton: {
+    alignItems: 'center',
+    marginTop: 16,
+  },
   dialog: {
-    backgroundColor: 'rgba(18,18,26,0.9)',
-    borderColor: 'rgba(255,255,255,0.12)',
-    borderRadius: 22,
+    backgroundColor: colors.glassStrong,
+    borderColor: colors.borderSoft,
+    borderRadius: 26,
     borderWidth: 1,
     maxWidth: 420,
     overflow: 'hidden',
-    padding: 24,
+    padding: 26,
     shadowColor: colors.gradient[1],
     shadowOffset: { width: 0, height: 18 },
-    shadowOpacity: 0.24,
-    shadowRadius: 28,
+    shadowOpacity: 0.28,
+    shadowRadius: 34,
     width: '100%',
+  },
+  message: {
+    marginTop: 12,
   },
 });

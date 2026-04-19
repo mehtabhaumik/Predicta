@@ -12,6 +12,13 @@ import {
   selectOpenAIModelForIntent,
   shouldConsumeDeepQuota,
 } from './aiRouter';
+import {
+  buildDecisionMirrorResponse,
+  buildAiLanguageContext,
+  detectDecisionIntent,
+  formatDecisionMirrorText,
+  getDecisionMirrorDepth,
+} from '@pridicta/ai';
 import { generateOpenAIResponse } from './providers/openaiProvider';
 import { summarizeWithGemini } from './providers/geminiProvider';
 import { optimizePridictaPayload } from './tokenOptimizer';
@@ -21,7 +28,9 @@ import {
   setCachedAIResponse,
 } from '../cache/responseCache';
 
-export function buildPridictaSystemPrompt(): string {
+export function buildPridictaSystemPrompt(preferredLanguage?: string): string {
+  const languageContext = buildAiLanguageContext(preferredLanguage);
+
   return [
     'You are Pridicta, a premium text-based Vedic astrology guide.',
     'You are a highly experienced Jyotish practitioner with 30 years of classical Vedic astrology expertise.',
@@ -34,6 +43,7 @@ export function buildPridictaSystemPrompt(): string {
     'You know the full Tier 1 and Tier 2 chart registry but should not dump chart names unless it helps the user.',
     'Keep responses concise, meaningful, emotionally calm, and cost-aware.',
     'Explain advanced astrology in normal language without overwhelming the user.',
+    languageContext.instruction,
   ].join('\n');
 }
 
@@ -88,8 +98,10 @@ export async function askPridicta({
   history,
   kundli,
   message,
+  preferredLanguage,
   userPlan,
 }: PridictaChatRequest): Promise<PridictaChatResponse> {
+  const languageContext = buildAiLanguageContext(preferredLanguage);
   const detectedIntent = detectIntent(message, chartContext);
   const intent = deepAnalysis ? 'deep' : detectedIntent;
   const model = selectOpenAIModelForIntent({ intent, userPlan });
@@ -110,6 +122,7 @@ export async function askPridicta({
     if (cached) {
       return {
         cached: true,
+        decisionMirror: cached.decisionMirror,
         intent: cached.intent,
         model: cached.model,
         provider: 'cache',
@@ -117,6 +130,41 @@ export async function askPridicta({
         usedDeepModel: false,
       };
     }
+  }
+
+  const decisionIntent = detectDecisionIntent(message, chartContext);
+  if (decisionIntent.isDecisionQuestion) {
+    const decisionDepth = getDecisionMirrorDepth({
+      chartContext,
+      hasPremiumAccess: userPlan === 'PREMIUM',
+      question: message,
+    });
+    const decisionMirror = buildDecisionMirrorResponse({
+      chartContext,
+      depth: decisionDepth,
+      kundli,
+      question: message,
+    });
+    const text = formatDecisionMirrorText(decisionMirror);
+
+    if (isSafeToUseResponseCache(history)) {
+      await setCachedAIResponse(cacheInput, {
+        createdAt: new Date().toISOString(),
+        decisionMirror,
+        intent,
+        model,
+        text,
+      }).catch(() => undefined);
+    }
+
+    return {
+      decisionMirror,
+      intent,
+      model,
+      provider: 'local',
+      text,
+      usedDeepModel: false,
+    };
   }
 
   const optimized = optimizePridictaPayload({
@@ -133,6 +181,8 @@ export async function askPridicta({
   const usedDeepModel = shouldConsumeDeepQuota(intent, model);
 
   const prompt = [
+    `Language preference: ${languageContext.locale}`,
+    languageContext.instruction,
     'Kundli context:',
     compactContext,
     'Recent conversation:',
@@ -148,7 +198,7 @@ export async function askPridicta({
     maxOutputTokens: optimized.maxOutputTokens,
     messages: [
       {
-        content: buildPridictaSystemPrompt(),
+        content: buildPridictaSystemPrompt(languageContext.locale),
         role: 'system',
       },
       {

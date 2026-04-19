@@ -1,11 +1,12 @@
 import { GUEST_ACCESS_LIMITS } from '@pridicta/config/guestAccessLimits';
 import type {
+  CreateGuestPassCodeInput,
   GuestPassCode,
   GuestQuotaKind,
-  PassCodeType,
   PassRedemptionRequest,
   PassRedemptionResult,
   RedeemedGuestPass,
+  RevokeGuestPassCodeInput,
 } from '@pridicta/types';
 import { sha256 } from '@pridicta/utils/sha256';
 import { normalizeEmail } from './accessControlService';
@@ -44,23 +45,15 @@ export function createGuestPassCode({
   label,
   maxRedemptions,
   type,
-}: {
-  accessLevel: GuestPassCode['accessLevel'];
-  allowedEmails?: string[];
-  code: string;
-  codeId: string;
-  createdAt?: string;
-  createdBy: string;
-  expiresAt?: string;
-  label: string;
-  maxRedemptions: number;
-  type: PassCodeType;
-}): GuestPassCode {
+}: CreateGuestPassCodeInput): GuestPassCode {
   const config = GUEST_ACCESS_LIMITS[type];
+  const normalizedAllowedEmails = normalizeAllowedEmails(allowedEmails);
 
   return {
     accessLevel,
-    allowedEmails: allowedEmails?.map(email => email.toLowerCase()),
+    allowedEmails: normalizedAllowedEmails.length
+      ? normalizedAllowedEmails
+      : undefined,
     codeHash: hashPassCode(code),
     codeId,
     createdAt,
@@ -74,6 +67,35 @@ export function createGuestPassCode({
     redeemedDeviceIds: [],
     type,
     usageLimits: config.usageLimits,
+  };
+}
+
+export function createEmailBoundGuestPassCode(
+  input: CreateGuestPassCodeInput,
+): GuestPassCode {
+  const normalizedAllowedEmails = normalizeAllowedEmails(input.allowedEmails);
+
+  if (!normalizedAllowedEmails.length) {
+    throw new Error('Email-bound guest passes require at least one allowed email.');
+  }
+
+  return createGuestPassCode({
+    ...input,
+    allowedEmails: normalizedAllowedEmails,
+    maxRedemptions: Math.min(input.maxRedemptions, normalizedAllowedEmails.length),
+  });
+}
+
+export function revokeGuestPassCode({
+  now = new Date().toISOString(),
+  passCode,
+  reason,
+}: RevokeGuestPassCodeInput): GuestPassCode {
+  return {
+    ...passCode,
+    isActive: false,
+    revokedAt: now,
+    revokeReason: reason.trim() || 'Revoked by admin',
   };
 }
 
@@ -224,6 +246,16 @@ export function getGuestAccessLabel(pass?: RedeemedGuestPass): string {
   }
 
   return 'Guest Pass active';
+}
+
+function normalizeAllowedEmails(emails?: string[]): string[] {
+  return Array.from(
+    new Set(
+      emails
+        ?.map(email => normalizeEmail(email))
+        .filter((email): email is string => Boolean(email)) ?? [],
+    ),
+  );
 }
 
 function addDays(date: string, days: number): string {

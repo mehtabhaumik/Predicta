@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { AppText, Card, GradientButton, Screen } from '../components';
 import { routes } from '../navigation/routes';
@@ -27,12 +27,12 @@ export function OnboardingScreen({
   return (
     <Screen>
       <AppText variant="display">Start with a clearer signal.</AppText>
-      <AppText className="mt-4" tone="secondary">
+      <AppText style={styles.introCopy} tone="secondary">
         Predicta keeps your chat, kundli, reports, and preferences in a focused
         dark interface built for repeat daily use.
       </AppText>
 
-      <View className="mt-8 gap-4">
+      <View style={styles.points}>
         {points.map(point => (
           <Card key={point}>
             <AppText variant="subtitle">{point}</AppText>
@@ -40,9 +40,22 @@ export function OnboardingScreen({
         ))}
       </View>
 
-      <View className="mt-8">
+      <View style={styles.action}>
         <GradientButton label="Continue" onPress={continueToSecurity} />
       </View>
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  action: {
+    marginTop: 32,
+  },
+  introCopy: {
+    marginTop: 16,
+  },
+  points: {
+    gap: 16,
+    marginTop: 32,
+  },
+});

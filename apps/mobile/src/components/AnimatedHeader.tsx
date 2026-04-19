@@ -20,8 +20,8 @@ export function AnimatedHeader({
   title,
 }: AnimatedHeaderProps): React.JSX.Element {
   return (
-    <FadeInView className="flex-row items-center justify-between gap-4">
-      <View className="flex-1">
+    <FadeInView style={styles.root}>
+      <View style={styles.copy}>
         {eyebrow ? (
           <AppText tone="secondary" variant="caption">
             {eyebrow}
@@ -43,6 +43,9 @@ export function AnimatedHeader({
 }
 
 const styles = StyleSheet.create({
+  copy: {
+    flex: 1,
+  },
   logo: {
     borderRadius: 12,
     height: 44,
@@ -58,5 +61,11 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.26,
     shadowRadius: 16,
+  },
+  root: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 16,
+    justifyContent: 'space-between',
   },
 });

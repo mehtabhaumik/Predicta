@@ -24,22 +24,18 @@ export function LockedPremiumOverlay({
         style={styles.overlay}
       >
         <AppText variant="subtitle">Available in Premium</AppText>
-        <AppText
-          className="mt-2 text-center"
-          tone="secondary"
-          variant="caption"
-        >
+        <AppText style={styles.description} tone="secondary" variant="caption">
           Deeper chart interpretation unlocks when you choose Premium.
         </AppText>
-        <View className="mt-4 w-full">
+        <View style={styles.ctaWrap}>
           <GlowButton label={ctaLabel} onPress={onUnlock} />
         </View>
         <Pressable
           accessibilityRole="button"
-          className="mt-3"
           onPress={onUnlock}
+          style={styles.linkButton}
         >
-          <AppText className="text-[#4DAFFF]" variant="caption">
+          <AppText style={styles.linkText} variant="caption">
             View Premium options
           </AppText>
         </Pressable>
@@ -49,6 +45,22 @@ export function LockedPremiumOverlay({
 }
 
 const styles = StyleSheet.create({
+  ctaWrap: {
+    marginTop: 18,
+    width: '100%',
+  },
+  description: {
+    marginTop: 8,
+    textAlign: 'center',
+  },
+  linkButton: {
+    marginTop: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  linkText: {
+    color: colors.gradient[1],
+  },
   overlay: {
     alignItems: 'center',
     borderColor: colors.borderGlow,

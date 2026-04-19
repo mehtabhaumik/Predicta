@@ -20,7 +20,7 @@ export const KundliChart = memo(function KundliChart({
     return (
       <View style={styles.unsupported}>
         <AppText variant="subtitle">Chart not enabled yet</AppText>
-        <AppText className="mt-2" tone="secondary">
+        <AppText style={styles.unsupportedReason} tone="secondary">
           {chart.unsupportedReason}
         </AppText>
       </View>
@@ -44,7 +44,7 @@ export const KundliChart = memo(function KundliChart({
             <AppText tone="secondary" variant="caption">
               H{house}
             </AppText>
-            <AppText className="mt-1" variant="caption">
+            <AppText style={styles.planetList} variant="caption">
               {planets.length
                 ? planets.map(getPlanetAbbreviation).join(' ')
                 : '-'}
@@ -89,6 +89,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowRadius: 12,
   },
+  planetList: {
+    marginTop: 4,
+  },
   shell: {
     backgroundColor: colors.card,
     borderColor: colors.borderGlow,
@@ -106,5 +109,8 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 1,
     padding: 18,
+  },
+  unsupportedReason: {
+    marginTop: 8,
   },
 });

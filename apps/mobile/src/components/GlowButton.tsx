@@ -66,9 +66,7 @@ export function GlowButton({
             {loading ? (
               <ActivityIndicator color={colors.primaryText} />
             ) : (
-              <Text className="text-base font-extrabold text-text-primary">
-                {label}
-              </Text>
+              <Text style={styles.label}>{label}</Text>
             )}
           </LinearGradient>
         </Pressable>
@@ -80,20 +78,21 @@ export function GlowButton({
 const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
-    borderRadius: 16,
-    height: 58,
+    borderRadius: 14,
+    minHeight: 56,
     justifyContent: 'center',
     overflow: 'hidden',
+    paddingHorizontal: 20,
   },
   disabled: {
     opacity: 0.6,
   },
   glow: {
-    borderRadius: 16,
+    borderRadius: 14,
     elevation: 14,
     shadowColor: colors.gradient[2],
     shadowOffset: { width: 0, height: 12 },
-    shadowOpacity: 0.35,
+    shadowOpacity: 0.28,
     shadowRadius: 24,
   },
   highlight: {
@@ -103,5 +102,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 18,
     top: 1,
+  },
+  label: {
+    color: colors.primaryText,
+    fontSize: 16,
+    fontWeight: '800',
+    letterSpacing: 0,
+    lineHeight: 21,
+    textAlign: 'center',
   },
 });
