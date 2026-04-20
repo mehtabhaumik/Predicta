@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { StyleSheet, type ViewStyle } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, {
+  cancelAnimation,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -40,6 +41,11 @@ export function FloatingGlowOrb({
       -1,
       true,
     );
+
+    return () => {
+      cancelAnimation(opacity);
+      cancelAnimation(translateY);
+    };
   }, [opacity, translateY]);
 
   const animatedStyle = useAnimatedStyle(() => ({

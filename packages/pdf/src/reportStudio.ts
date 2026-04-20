@@ -8,6 +8,7 @@ import type {
   ReportProductConfig,
   ReportProductType,
 } from '@pridicta/types';
+import { buildStableCacheKey } from '@pridicta/utils';
 
 const REPORT_CACHE_VERSION = 'report-studio-v1';
 
@@ -138,8 +139,8 @@ export function getReportProduct(
 }
 
 export function buildReportCacheKey(input: ReportCacheInput): string {
-  return stableHash(
-    JSON.stringify({
+  return buildStableCacheKey(
+    {
       birthDate: input.kundli.birthDetails.date,
       birthPlace: input.kundli.birthDetails.place,
       birthTime: input.kundli.birthDetails.time,
@@ -149,7 +150,8 @@ export function buildReportCacheKey(input: ReportCacheInput): string {
       mode: input.mode,
       reportType: input.reportType,
       version: REPORT_CACHE_VERSION,
-    }),
+    },
+    'report',
   );
 }
 
@@ -297,14 +299,4 @@ function isExpired(expiresAt?: string, now = new Date()): boolean {
   }
 
   return new Date(expiresAt).getTime() <= now.getTime();
-}
-
-function stableHash(value: string): string {
-  let hash = 5381;
-
-  for (let index = 0; index < value.length; index += 1) {
-    hash = (hash * 33 + value.charCodeAt(index)) % 2147483647;
-  }
-
-  return `rs${hash}`;
 }

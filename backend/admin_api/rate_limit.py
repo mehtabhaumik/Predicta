@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+from threading import RLock
 import time
 from dataclasses import dataclass
 from typing import Callable, Dict, Iterable, Optional, Tuple
@@ -36,9 +37,58 @@ class FixedWindowRateLimiter:
     def __init__(self, now: Callable[[], float] | None = None) -> None:
         self._now = now or time.monotonic
         self._buckets: Dict[str, Tuple[int, float]] = {}
+        self._lock = RLock()
 
     def check(self, key: str, rule: RateLimitRule) -> RateLimitDecision:
-        current = self._now()
+        with self._lock:
+            current = self._now()
+            decision, update = self._prepare_decision(key, rule, current)
+
+            if not decision.allowed:
+                return RateLimitDecision(
+                    allowed=False,
+                    limit=decision.limit,
+                    remaining=0,
+                    reset_seconds=decision.reset_seconds,
+                    retry_after_seconds=decision.retry_after_seconds,
+                )
+
+            bucket_key, next_count, reset_at = update
+            self._buckets[bucket_key] = (next_count, reset_at)
+            self._prune(current)
+            return decision
+
+    def check_many(
+        self,
+        key: str,
+        rules: Iterable[RateLimitRule],
+    ) -> RateLimitDecision:
+        with self._lock:
+            current = self._now()
+            decisions = []
+            updates = []
+
+            for rule in rules:
+                decision, update = self._prepare_decision(key, rule, current)
+                decisions.append(decision)
+                updates.append(update)
+
+            denied = [decision for decision in decisions if not decision.allowed]
+            if denied:
+                return max(denied, key=lambda decision: decision.retry_after_seconds)
+
+            for bucket_key, next_count, reset_at in updates:
+                self._buckets[bucket_key] = (next_count, reset_at)
+
+            self._prune(current)
+            return min(decisions, key=lambda decision: decision.remaining)
+
+    def _prepare_decision(
+        self,
+        key: str,
+        rule: RateLimitRule,
+        current: float,
+    ) -> Tuple[RateLimitDecision, Tuple[str, int, float]]:
         bucket_key = f"{key}:{rule.window_seconds}"
         count, reset_at = self._buckets.get(
             bucket_key,
@@ -53,34 +103,26 @@ class FixedWindowRateLimiter:
         reset_seconds = max(int(reset_at - current), 1)
 
         if next_count > rule.limit:
-            self._buckets[bucket_key] = (count, reset_at)
-            return RateLimitDecision(
-                allowed=False,
-                limit=rule.limit,
-                remaining=0,
-                reset_seconds=reset_seconds,
-                retry_after_seconds=reset_seconds,
+            return (
+                RateLimitDecision(
+                    allowed=False,
+                    limit=rule.limit,
+                    remaining=0,
+                    reset_seconds=reset_seconds,
+                    retry_after_seconds=reset_seconds,
+                ),
+                (bucket_key, count, reset_at),
             )
 
-        self._buckets[bucket_key] = (next_count, reset_at)
-        self._prune(current)
-        return RateLimitDecision(
-            allowed=True,
-            limit=rule.limit,
-            remaining=max(rule.limit - next_count, 0),
-            reset_seconds=reset_seconds,
+        return (
+            RateLimitDecision(
+                allowed=True,
+                limit=rule.limit,
+                remaining=max(rule.limit - next_count, 0),
+                reset_seconds=reset_seconds,
+            ),
+            (bucket_key, next_count, reset_at),
         )
-
-    def check_many(
-        self,
-        key: str,
-        rules: Iterable[RateLimitRule],
-    ) -> RateLimitDecision:
-        decisions = [self.check(key, rule) for rule in rules]
-        denied = [decision for decision in decisions if not decision.allowed]
-        if denied:
-            return max(denied, key=lambda decision: decision.retry_after_seconds)
-        return min(decisions, key=lambda decision: decision.remaining)
 
     def _prune(self, current: float) -> None:
         if len(self._buckets) < 5000:
@@ -181,6 +223,18 @@ def get_rate_limit_rules(path: str) -> Tuple[RateLimitRule, ...]:
             ),
             RateLimitRule(
                 _env_int("PREDICTA_RATE_LIMIT_BILLING_PER_HOUR", 120),
+                hour,
+            ),
+        )
+
+    if path == "/ai/pridicta":
+        return (
+            RateLimitRule(
+                _env_int("PREDICTA_RATE_LIMIT_AI_PER_MINUTE", 8),
+                minute,
+            ),
+            RateLimitRule(
+                _env_int("PREDICTA_RATE_LIMIT_AI_PER_HOUR", 80),
                 hour,
             ),
         )

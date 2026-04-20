@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { buildStableCacheKey } from '@pridicta/utils';
 
 import { CACHE_CONFIG } from '../../config/cacheConfig';
 import type {
@@ -34,8 +35,8 @@ export function normalizeQuestion(question: string): string {
 }
 
 export function buildAIResponseCacheKey(input: AIResponseCacheInput): string {
-  return stableHash(
-    JSON.stringify({
+  return buildStableCacheKey(
+    {
       activeKundliId: input.activeKundliId,
       calculationInputHash: input.calculationInputHash,
       chartContext: input.chartContext ?? null,
@@ -43,7 +44,8 @@ export function buildAIResponseCacheKey(input: AIResponseCacheInput): string {
       model: input.model,
       normalizedQuestion: input.normalizedQuestion,
       userId: input.userId,
-    }),
+    },
+    'ai-response',
   );
 }
 
@@ -85,14 +87,4 @@ async function loadCache(): Promise<CacheStore> {
 
 async function saveCache(cache: CacheStore): Promise<void> {
   await AsyncStorage.setItem(RESPONSE_CACHE_KEY, JSON.stringify(cache));
-}
-
-function stableHash(value: string): string {
-  let hash = 5381;
-
-  for (let index = 0; index < value.length; index += 1) {
-    hash = (hash * 33 + value.charCodeAt(index)) % 2147483647;
-  }
-
-  return `h${hash}`;
 }

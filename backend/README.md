@@ -5,8 +5,9 @@ React Native app sends validated birth details here, and this API returns a
 structured Vedic kundli payload calculated with Swiss Ephemeris.
 
 It also contains backend authority routes for admin access grants, guest pass
-creation/revocation/redemption, and future billing receipt validation. Those
-routes require Firebase ID tokens and Firebase Admin credentials.
+creation/revocation/redemption, future billing receipt validation, and
+server-side AI provider calls. Authority routes require Firebase ID tokens and
+Firebase Admin credentials. AI provider keys stay server-side.
 
 ## Run locally
 
@@ -63,6 +64,29 @@ pass codes are never stored; the backend stores only the normalized SHA-256 hash
 
 See `docs/BACKEND_ADMIN_FUNCTIONS.md` for the full authority model.
 
+## AI provider boundary
+
+```text
+POST /ai/pridicta
+```
+
+The backend is the production boundary for OpenAI and Gemini. Web and mobile
+clients must call this backend route or another trusted proxy; they must not
+bundle provider keys.
+
+Required production secrets:
+
+```text
+PREDICTA_OPENAI_API_KEY
+PREDICTA_GEMINI_API_KEY
+```
+
+OpenAI is used for final Predicta responses. Gemini is helper-only for compacting
+already structured chart context before the OpenAI call. If Gemini is unavailable,
+the backend continues with the existing compact structured context. If OpenAI is
+unavailable, the endpoint returns a recoverable error instead of inventing a
+reading.
+
 ## Rate limiting
 
 The backend includes a dependency-free FastAPI rate limiter for immediate abuse
@@ -75,6 +99,7 @@ Default limits:
 /access/pass-codes/redeem     5/minute,  24/hour per client
 /admin/*                     30/minute, 300/hour per client
 /billing/verify              20/minute, 120/hour per client
+/ai/pridicta                  8/minute,  80/hour per client
 ```
 
 Configure with environment variables:
@@ -89,11 +114,41 @@ PREDICTA_RATE_LIMIT_ADMIN_PER_MINUTE=30
 PREDICTA_RATE_LIMIT_ADMIN_PER_HOUR=300
 PREDICTA_RATE_LIMIT_BILLING_PER_MINUTE=20
 PREDICTA_RATE_LIMIT_BILLING_PER_HOUR=120
+PREDICTA_RATE_LIMIT_AI_PER_MINUTE=8
+PREDICTA_RATE_LIMIT_AI_PER_HOUR=80
 ```
 
 The limiter returns `429` with `Retry-After` and `X-RateLimit-*` headers. For
 strict multi-instance enforcement, pair this app-level limiter with Cloud Armor,
 API Gateway, or a shared rate-limit store.
+
+## Performance cache
+
+The backend keeps small bounded in-memory caches per warm Cloud Run instance:
+
+```text
+PREDICTA_KUNDLI_CACHE_ENABLED=true
+PREDICTA_KUNDLI_CACHE_TTL_SECONDS=2592000
+PREDICTA_KUNDLI_CACHE_MAX_ENTRIES=1000
+PREDICTA_AI_RESPONSE_CACHE_ENABLED=true
+PREDICTA_AI_RESPONSE_CACHE_TTL_SECONDS=604800
+PREDICTA_AI_RESPONSE_CACHE_MAX_ENTRIES=500
+PREDICTA_AI_MAX_CONTEXT_CHARS=14000
+PREDICTA_AI_MAX_HISTORY_TURNS=8
+PREDICTA_AI_MAX_HISTORY_CHARS_PER_TURN=700
+PREDICTA_OPENAI_TIMEOUT_SECONDS=30
+PREDICTA_GEMINI_TIMEOUT_SECONDS=12
+```
+
+Kundli responses are cached by validated birth details. AI responses are cached
+only for standalone first questions where the kundli input hash, chart context,
+question, model, and plan fully describe the answer. Follow-up conversations are
+not cached because they may depend on recent context.
+
+The cache implementations are lock-protected for Cloud Run concurrency. The AI
+route also bounds chart context and conversation history before provider calls
+so a large client payload cannot create an unexpectedly large provider request.
+Provider timeouts are configurable and fail with recoverable client errors.
 
 ## Cost observability
 

@@ -15,3 +15,4 @@ export * from './GlowCard';
 export * from './LockedPremiumOverlay';
 export * from './MetricCard';
 export * from './Screen';
+export * from './Skeleton';

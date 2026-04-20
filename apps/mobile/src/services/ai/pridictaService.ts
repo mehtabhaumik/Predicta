@@ -21,6 +21,7 @@ import {
 } from '@pridicta/ai';
 import { generateOpenAIResponse } from './providers/openaiProvider';
 import { summarizeWithGemini } from './providers/geminiProvider';
+import { generateBackendPridictaResponse } from './providers/backendAiProvider';
 import { optimizePridictaPayload } from './tokenOptimizer';
 import {
   getCachedAIResponse,
@@ -164,6 +165,32 @@ export async function askPridicta({
       provider: 'local',
       text,
       usedDeepModel: false,
+    };
+  }
+
+  const backendResponse = await generateBackendPridictaResponse({
+    chartContext,
+    deepAnalysis,
+    history,
+    kundli,
+    message,
+    preferredLanguage,
+    userPlan,
+  });
+
+  if (backendResponse?.text?.trim()) {
+    if (isSafeToUseResponseCache(history)) {
+      await setCachedAIResponse(cacheInput, {
+        createdAt: new Date().toISOString(),
+        intent: backendResponse.intent ?? intent,
+        model: backendResponse.model,
+        text: backendResponse.text.trim(),
+      }).catch(() => undefined);
+    }
+
+    return {
+      ...backendResponse,
+      text: backendResponse.text.trim(),
     };
   }
 

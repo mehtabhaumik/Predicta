@@ -14,6 +14,7 @@ import {
   GlowCard,
   GradientOutlineCard,
   Screen,
+  SkeletonCard,
   useGlassAlert,
 } from '../components';
 import { routes } from '../navigation/routes';
@@ -312,6 +313,14 @@ export function ReportScreen({
             );
           })}
         </View>
+        {isGenerating ? (
+          <View style={styles.reportLoading}>
+            <AppText tone="secondary" variant="caption">
+              BUILDING REPORT
+            </AppText>
+            <SkeletonCard rows={4} />
+          </View>
+        ) : null}
       </GradientOutlineCard>
 
       {generatedReports.length > 0 ? (
@@ -378,6 +387,10 @@ const styles = StyleSheet.create({
   },
   reportCopy: {
     marginTop: 12,
+  },
+  reportLoading: {
+    gap: 12,
+    marginTop: 22,
   },
   reportProduct: {
     backgroundColor: 'rgba(255,255,255,0.055)',

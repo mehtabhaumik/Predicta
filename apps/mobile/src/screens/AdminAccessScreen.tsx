@@ -9,6 +9,7 @@ import {
   GlowButton,
   GlowCard,
   Screen,
+  SkeletonStack,
 } from '../components';
 import { listActiveGuestPassCodes } from '../services/firebase/passCodePersistence';
 import { useAppStore } from '../store/useAppStore';
@@ -80,6 +81,9 @@ export function AdminAccessScreen(): React.JSX.Element {
             <AppText style={styles.cardCopy} tone="secondary">
               {backendMessage}
             </AppText>
+          ) : null}
+          {loadingPasses ? (
+            <SkeletonStack rows={2} style={styles.passSkeleton} />
           ) : null}
           {guestPasses.length ? (
             <View style={styles.passList}>
@@ -164,6 +168,9 @@ const styles = StyleSheet.create({
     gap: 12,
     justifyContent: 'space-between',
     padding: 14,
+  },
+  passSkeleton: {
+    marginTop: 18,
   },
   stack: {
     gap: 16,

@@ -55,6 +55,25 @@ def test_fixed_window_limiter_denies_until_window_resets():
     assert reset.remaining == 1
 
 
+def test_multi_window_denial_does_not_partially_consume_other_window():
+    clock = MovingClock()
+    limiter = FixedWindowRateLimiter(now=clock)
+    minute = RateLimitRule(limit=5, window_seconds=60)
+    hour = RateLimitRule(limit=1, window_seconds=3600)
+
+    first = limiter.check_many("client-a", (minute, hour))
+    denied = limiter.check_many("client-a", (minute, hour))
+
+    assert first.allowed is True
+    assert denied.allowed is False
+
+    clock.advance(61)
+    still_hour_limited = limiter.check_many("client-a", (minute, hour))
+
+    assert still_hour_limited.allowed is False
+    assert limiter.check("client-a", minute).remaining == 4
+
+
 def test_generate_kundli_rate_limit_is_enforced_per_client(monkeypatch):
     monkeypatch.setenv("PREDICTA_RATE_LIMIT_ENABLED", "true")
     monkeypatch.setenv("PREDICTA_RATE_LIMIT_KUNDLI_PER_MINUTE", "2")

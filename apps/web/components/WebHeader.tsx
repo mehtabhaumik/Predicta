@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { AuthDialog } from './AuthDialog';
+import { LazyAuthDialog } from './LazyAuthDialog';
 
 export function WebHeader(): React.JSX.Element {
   return (
@@ -26,7 +26,7 @@ export function WebHeader(): React.JSX.Element {
         <Link href="/pricing">Pricing</Link>
       </nav>
       <div className="header-actions">
-        <AuthDialog />
+        <LazyAuthDialog />
         <Link className="button secondary header-cta" href="/dashboard">
           Dashboard
         </Link>

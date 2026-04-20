@@ -10,6 +10,7 @@ import type {
   JournalMood,
   KundliData,
 } from '@pridicta/types';
+import { buildStableCacheKey } from '@pridicta/utils';
 
 export function buildJournalHash(
   kundli: KundliData,
@@ -30,14 +31,15 @@ export function buildJournalHash(
       updatedAt: entry.updatedAt,
     }));
 
-  return stableHash(
-    JSON.stringify({
+  return buildStableCacheKey(
+    {
       entries: stableEntries,
       inputHash: kundli.calculationMeta.inputHash,
       kundliId: kundli.id,
       monthKey: monthKey ?? 'all',
       version: 'journal-insights-v1',
-    }),
+    },
+    'journal',
   );
 }
 
@@ -219,14 +221,4 @@ function topKey<T extends string>(counts: Partial<Record<T, number>>): T | undef
   return Object.entries(counts).sort(
     ([, a], [, b]) => Number(b) - Number(a),
   )[0]?.[0] as T | undefined;
-}
-
-function stableHash(value: string): string {
-  let hash = 5381;
-
-  for (let index = 0; index < value.length; index += 1) {
-    hash = (hash * 33 + value.charCodeAt(index)) % 2147483647;
-  }
-
-  return `jn${hash}`;
 }

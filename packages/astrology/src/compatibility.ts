@@ -7,6 +7,7 @@ import type {
   CompatibilitySection,
   KundliData,
 } from '@pridicta/types';
+import { buildStableCacheKey } from '@pridicta/utils';
 
 const KOOTA_MAX_SCORES = [
   ['Varna', 1],
@@ -32,14 +33,15 @@ export function buildCompatibilityCacheKey(
 ): string {
   const ordered = [primary, partner].sort((a, b) => a.id.localeCompare(b.id));
 
-  return stableHash(
-    JSON.stringify({
+  return buildStableCacheKey(
+    {
       pair: ordered.map(kundli => ({
         id: kundli.id,
         inputHash: kundli.calculationMeta.inputHash,
       })),
       version: 'compatibility-v1',
-    }),
+    },
+    'compatibility',
   );
 }
 
@@ -322,14 +324,4 @@ function signElement(sign: string): 'fire' | 'earth' | 'air' | 'water' | undefin
     return 'water';
   }
   return undefined;
-}
-
-function stableHash(value: string): string {
-  let hash = 5381;
-
-  for (let index = 0; index < value.length; index += 1) {
-    hash = (hash * 33 + value.charCodeAt(index)) % 2147483647;
-  }
-
-  return `cmp${hash}`;
 }

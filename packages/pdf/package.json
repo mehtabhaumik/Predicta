@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@pridicta/config": "workspace:*",
-    "@pridicta/types": "workspace:*"
+    "@pridicta/types": "workspace:*",
+    "@pridicta/utils": "workspace:*"
   }
 }

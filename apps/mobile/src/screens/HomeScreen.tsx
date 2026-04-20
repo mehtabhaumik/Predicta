@@ -8,15 +8,13 @@ import {
 } from '@pridicta/astrology';
 import type { DailyIntelligence, WeeklyIntelligence } from '@pridicta/types';
 
-import {
-  AppText,
-  FadeInView,
-  FloatingGlowOrb,
-  GlowButton,
-  GlowCard,
-  GradientText,
-  Screen,
-} from '../components';
+import { AppText } from '../components/AppText';
+import { FadeInView } from '../components/FadeInView';
+import { FloatingGlowOrb } from '../components/FloatingGlowOrb';
+import { GlowButton } from '../components/GlowButton';
+import { GlowCard } from '../components/GlowCard';
+import { GradientText } from '../components/GradientText';
+import { Screen } from '../components/Screen';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import { resolveAccess } from '@pridicta/access';

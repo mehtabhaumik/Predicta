@@ -4,6 +4,7 @@ import { formatPassCode, normalizePassCode } from '@pridicta/access';
 import type { RedeemedGuestPass } from '@pridicta/types';
 import { useState } from 'react';
 import { AuthDialog } from './AuthDialog';
+import { SkeletonLine } from './Skeleton';
 import { getCurrentWebAuthUser, getWebBackendAuthorityClient } from '../lib/backendAuthorityClient';
 
 const example = formatPassCode(normalizePassCode('predicta vip example'));
@@ -79,6 +80,13 @@ export function RedeemPassCodeClient(): React.JSX.Element {
       ) : null}
 
       {message ? <p className="dialog-message">{message}</p> : null}
+
+      {busy ? (
+        <div aria-label="Checking pass" className="inline-skeleton-stack" role="status">
+          <SkeletonLine width="72%" />
+          <SkeletonLine width="46%" />
+        </div>
+      ) : null}
 
       <div className="dialog-actions redeem-actions">
         <button className="button" disabled={busy} onClick={redeemPass} type="button">

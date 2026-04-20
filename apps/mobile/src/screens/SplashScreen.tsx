@@ -2,13 +2,17 @@ import React, { useEffect } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-import { AppText, FadeInView, GradientText, Screen } from '../components';
+import { AppText } from '../components/AppText';
+import { FadeInView } from '../components/FadeInView';
+import { GradientText } from '../components/GradientText';
+import { Screen } from '../components/Screen';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import { bootstrapSession } from '../services/sessionService';
 import { colors } from '../theme/colors';
 
 const predictaLogo = require('../assets/predicta-logo.png');
+const MIN_SPLASH_MS = 420;
 
 export function SplashScreen({
   navigation,
@@ -17,22 +21,23 @@ export function SplashScreen({
     let mounted = true;
 
     async function boot() {
-      const session = await bootstrapSession();
+      const [session] = await Promise.all([
+        bootstrapSession(),
+        wait(MIN_SPLASH_MS),
+      ]);
 
-      setTimeout(() => {
-        if (!mounted) {
-          return;
-        }
+      if (!mounted) {
+        return;
+      }
 
-        if (!session.onboardingComplete) {
-          navigation.replace(routes.Onboarding);
-          return;
-        }
+      if (!session.onboardingComplete) {
+        navigation.replace(routes.Onboarding);
+        return;
+      }
 
-        navigation.replace(
-          session.securityEnabled ? routes.Home : routes.SecuritySetup,
-        );
-      }, 900);
+      navigation.replace(
+        session.securityEnabled ? routes.Home : routes.SecuritySetup,
+      );
     }
 
     boot();
@@ -77,6 +82,10 @@ export function SplashScreen({
       </View>
     </Screen>
   );
+}
+
+function wait(durationMs: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, durationMs));
 }
 
 const styles = StyleSheet.create({

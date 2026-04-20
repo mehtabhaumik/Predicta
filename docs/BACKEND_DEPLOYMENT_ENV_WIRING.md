@@ -17,6 +17,11 @@ Cloud Run is a good fit because:
 - the backend can scale to zero while still handling admin/pass-code traffic.
 - secrets stay server-side.
 
+The backend is also the production boundary for AI provider credentials. OpenAI
+and Gemini keys must live in Secret Manager and be mounted into Cloud Run as
+environment variables. They must never be exposed through web, mobile, or
+`NEXT_PUBLIC_*` variables.
+
 ## Deployment Artifacts
 
 The repo now includes:
@@ -41,10 +46,22 @@ balancer with a serverless NEG and Cloud Armor, then redeploy Cloud Run with
 Enable these in the Google Cloud project before deploying:
 
 ```bash
-gcloud services enable run.googleapis.com cloudbuild.googleapis.com artifactregistry.googleapis.com
+gcloud services enable \
+  run.googleapis.com \
+  cloudbuild.googleapis.com \
+  artifactregistry.googleapis.com \
+  secretmanager.googleapis.com \
+  --project predicta-a4758
 ```
 
 Firestore/Firebase Auth must already be active for the same Firebase project.
+
+AI Secret Manager entries expected by the deployment script:
+
+```text
+PREDICTA_OPENAI_API_KEY
+PREDICTA_GEMINI_API_KEY
+```
 
 ## Service Account
 
@@ -66,6 +83,16 @@ gcloud projects add-iam-policy-binding predicta-a4758 \
 gcloud projects add-iam-policy-binding predicta-a4758 \
   --member "serviceAccount:predicta-backend@predicta-a4758.iam.gserviceaccount.com" \
   --role "roles/firebaseauth.admin"
+
+gcloud secrets add-iam-policy-binding PREDICTA_OPENAI_API_KEY \
+  --project predicta-a4758 \
+  --member "serviceAccount:predicta-backend@predicta-a4758.iam.gserviceaccount.com" \
+  --role "roles/secretmanager.secretAccessor"
+
+gcloud secrets add-iam-policy-binding PREDICTA_GEMINI_API_KEY \
+  --project predicta-a4758 \
+  --member "serviceAccount:predicta-backend@predicta-a4758.iam.gserviceaccount.com" \
+  --role "roles/secretmanager.secretAccessor"
 ```
 
 If future backend PDF upload or Storage metadata writes move server-side, add the smallest Storage role needed at that time.
@@ -83,6 +110,46 @@ PREDICTA_ALLOWED_ORIGINS=https://predicta.rudraix.com,https://predicta-a4758.web
 PREDICTA_OBSERVABILITY_HASH_SALT=replace-with-server-only-random-string \
 ./scripts/deploy-backend-cloud-run.sh
 ```
+
+The deployment script mounts these Secret Manager values automatically unless
+overridden:
+
+```text
+PREDICTA_OPENAI_API_KEY=PREDICTA_OPENAI_API_KEY:latest
+PREDICTA_GEMINI_API_KEY=PREDICTA_GEMINI_API_KEY:latest
+```
+
+Override only if a different secret name is intentionally used:
+
+```bash
+PREDICTA_OPENAI_SECRET_NAME=custom-openai-secret \
+PREDICTA_GEMINI_SECRET_NAME=custom-gemini-secret \
+./scripts/deploy-backend-cloud-run.sh
+```
+
+The deployment script also enables bounded in-process caches by default:
+
+```text
+PREDICTA_KUNDLI_CACHE_ENABLED=true
+PREDICTA_KUNDLI_CACHE_TTL_SECONDS=2592000
+PREDICTA_KUNDLI_CACHE_MAX_ENTRIES=1000
+PREDICTA_AI_RESPONSE_CACHE_ENABLED=true
+PREDICTA_AI_RESPONSE_CACHE_TTL_SECONDS=604800
+PREDICTA_AI_RESPONSE_CACHE_MAX_ENTRIES=500
+PREDICTA_AI_MAX_CONTEXT_CHARS=14000
+PREDICTA_AI_MAX_HISTORY_TURNS=8
+PREDICTA_AI_MAX_HISTORY_CHARS_PER_TURN=700
+PREDICTA_OPENAI_TIMEOUT_SECONDS=30
+PREDICTA_GEMINI_TIMEOUT_SECONDS=12
+```
+
+These caches reduce repeated calculation and repeated identical first-question AI
+calls on warm Cloud Run instances. They are an optimization only; clients must
+still keep local caches for offline use.
+
+The backend also bounds provider prompts and uses configurable OpenAI/Gemini
+timeouts. Keep these limits conservative until production traffic confirms real
+latency and cost behavior.
 
 For first-time admin setup only, temporarily include:
 
@@ -117,7 +184,7 @@ curl https://api.predicta.rudraix.com/health
 Expected response:
 
 ```json
-{"ok":true,"service":"pridicta-astro-api"}
+{"kundliCacheEntries":0,"ok":true,"service":"pridicta-astro-api"}
 ```
 
 ## Web Environment Wiring

@@ -1,6 +1,8 @@
 from fastapi.testclient import TestClient
 
 from backend.astro_api.calculations import generate_kundli
+from backend.astro_api import main as astro_main
+from backend.astro_api import kundli_cache
 from backend.astro_api.main import app
 from backend.astro_api.models import BirthDetails
 
@@ -21,6 +23,7 @@ def test_health():
     response = client.get("/health")
     assert response.status_code == 200
     assert response.json()["ok"] is True
+    assert "kundliCacheEntries" in response.json()
 
 
 def test_generate_kundli_shape_and_metadata():
@@ -72,3 +75,25 @@ def test_api_rejects_invalid_timezone():
         json={**VALID_BIRTH, "timezone": "Not/AZone"},
     )
     assert response.status_code == 422
+
+
+def test_generate_kundli_endpoint_uses_cache(monkeypatch):
+    kundli_cache._kundli_cache.clear()
+    calls = {"generate": 0}
+    real_generate = astro_main.generate_kundli
+
+    def wrapped_generate(details):
+        calls["generate"] += 1
+        return real_generate(details)
+
+    monkeypatch.setattr(astro_main, "generate_kundli", wrapped_generate)
+
+    client = TestClient(app)
+    first = client.post("/generate-kundli", json=VALID_BIRTH)
+    second = client.post("/generate-kundli", json=VALID_BIRTH)
+
+    assert first.status_code == 200
+    assert second.status_code == 200
+    assert first.headers["X-Predicta-Cache"] == "MISS"
+    assert second.headers["X-Predicta-Cache"] == "HIT"
+    assert calls["generate"] == 1

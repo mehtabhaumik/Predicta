@@ -11,6 +11,7 @@ import {
   GradientOutlineCard,
   KundliChart,
   Screen,
+  SkeletonCard,
   useGlassAlert,
 } from '../components';
 import { CHART_REGISTRY, getChartConfig } from '../data/chartRegistry';
@@ -22,6 +23,7 @@ import {
   saveGeneratedKundliLocally,
 } from '../services/kundli/kundliRepository';
 import { useAppStore } from '../store/useAppStore';
+import { colors } from '../theme/colors';
 import type { BirthDetails, ChartType } from '../types/astrology';
 import { validateBirthDetails } from '../utils/validateBirthDetails';
 
@@ -165,6 +167,14 @@ export function KundliScreen({
             onPress={calculate}
           />
         </View>
+        {generating ? (
+          <View style={styles.loadingBlock}>
+            <AppText tone="secondary" variant="caption">
+              PREPARING KUNDLI
+            </AppText>
+            <SkeletonCard rows={3} style={styles.loadingSkeleton} />
+          </View>
+        ) : null}
       </GlassPanel>
 
       {kundli ? (
@@ -264,6 +274,13 @@ const styles = StyleSheet.create({
   },
   generatedPanel: {
     marginTop: 28,
+  },
+  loadingBlock: {
+    gap: 12,
+    marginTop: 22,
+  },
+  loadingSkeleton: {
+    backgroundColor: colors.glassWash,
   },
   metricItem: {
     flex: 1,

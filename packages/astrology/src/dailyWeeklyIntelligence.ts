@@ -6,7 +6,7 @@ import type {
   WeeklyIntelligence,
   WeeklyDateWindow,
 } from '@pridicta/types';
-import { sha256 } from '@pridicta/utils/sha256';
+import { buildStableCacheKey, sha256 } from '@pridicta/utils';
 
 const toneCycle = [
   'Grounded and observant',
@@ -76,13 +76,14 @@ export function buildDailyIntelligenceCacheKey(
   kundli: KundliData,
   date = new Date(),
 ): string {
-  return sha256(
-    JSON.stringify({
+  return buildStableCacheKey(
+    {
       dateKey: getDateKey(date),
       inputHash: kundli.calculationMeta.inputHash,
       kundliId: kundli.id,
       type: 'daily-intelligence-v1',
-    }),
+    },
+    'daily-intelligence',
   );
 }
 
@@ -90,13 +91,14 @@ export function buildWeeklyIntelligenceCacheKey(
   kundli: KundliData,
   date = new Date(),
 ): string {
-  return sha256(
-    JSON.stringify({
+  return buildStableCacheKey(
+    {
       inputHash: kundli.calculationMeta.inputHash,
       kundliId: kundli.id,
       type: 'weekly-intelligence-v1',
       weekKey: getWeekKey(date),
-    }),
+    },
+    'weekly-intelligence',
   );
 }
 

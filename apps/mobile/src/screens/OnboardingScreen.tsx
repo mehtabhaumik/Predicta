@@ -1,7 +1,10 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { AppText, Card, GradientButton, Screen } from '../components';
+import { AppText } from '../components/AppText';
+import { Card } from '../components/Card';
+import { GradientButton } from '../components/GradientButton';
+import { Screen } from '../components/Screen';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import { useAppStore } from '../store/useAppStore';

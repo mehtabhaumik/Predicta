@@ -6,6 +6,7 @@ import type {
   KundliData,
   UserPlan,
 } from '@pridicta/types';
+import { buildStableCacheKey } from '@pridicta/utils';
 
 const DECISION_PATTERNS = [
   /\bshould\s+i\b/i,
@@ -110,15 +111,16 @@ export function buildDecisionMirrorCacheKey({
   kundli: KundliData;
   question: string;
 }): string {
-  return stableHash(
-    JSON.stringify({
+  return buildStableCacheKey(
+    {
       chartContext: chartContext ?? null,
       depth,
       inputHash: kundli.calculationMeta.inputHash,
       kundliId: kundli.id,
       question: normalizeDecisionQuestion(question),
       type: 'decision-mirror-v1',
-    }),
+    },
+    'decision-mirror',
   );
 }
 
@@ -254,14 +256,4 @@ function normalizeDecisionQuestion(question: string): string {
 function summarizeQuestion(question: string): string {
   const normalized = question.trim().replace(/\s+/g, ' ');
   return normalized.length > 140 ? `${normalized.slice(0, 137)}...` : normalized;
-}
-
-function stableHash(value: string): string {
-  let hash = 5381;
-
-  for (let index = 0; index < value.length; index += 1) {
-    hash = (hash * 33 + value.charCodeAt(index)) % 2147483647;
-  }
-
-  return `dm${hash}`;
 }

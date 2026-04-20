@@ -1,3 +1,5 @@
+import { withTimeout, TimeoutError } from '@pridicta/utils';
+
 import { ASTROLOGY_ENGINE } from '../../config/astrologyConfig';
 import type { BirthDetails, KundliData } from '../../types/astrology';
 import { validateBirthDetails } from '../../utils/validateBirthDetails';
@@ -19,25 +21,21 @@ export async function generateKundli(
     return cached;
   }
 
-  const controller = new AbortController();
-  const timeout = setTimeout(
-    () => controller.abort(),
-    ASTROLOGY_ENGINE.timeoutMs,
-  );
-
   try {
-    const kundli = await generateSwissEphemerisKundli(
-      birthDetails,
-      controller.signal,
+    const kundli = await withTimeout(
+      signal => generateSwissEphemerisKundli(birthDetails, signal),
+      ASTROLOGY_ENGINE.timeoutMs,
+      { message: 'Astrology calculation timed out. Please try again.' },
     );
     setCachedKundli(kundli);
     return kundli;
   } catch (error) {
-    if (error instanceof Error && error.name === 'AbortError') {
+    if (
+      error instanceof TimeoutError ||
+      (error instanceof Error && error.name === 'AbortError')
+    ) {
       throw new Error('Astrology calculation timed out. Please try again.');
     }
     throw error;
-  } finally {
-    clearTimeout(timeout);
   }
 }

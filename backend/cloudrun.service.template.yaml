@@ -31,8 +31,40 @@ spec:
               value: "true"
             - name: PREDICTA_OBSERVABILITY_ENABLED
               value: "true"
+            - name: PREDICTA_AI_RESPONSE_CACHE_ENABLED
+              value: "true"
+            - name: PREDICTA_AI_RESPONSE_CACHE_TTL_SECONDS
+              value: "604800"
+            - name: PREDICTA_AI_RESPONSE_CACHE_MAX_ENTRIES
+              value: "500"
+            - name: PREDICTA_AI_MAX_CONTEXT_CHARS
+              value: "14000"
+            - name: PREDICTA_AI_MAX_HISTORY_TURNS
+              value: "8"
+            - name: PREDICTA_AI_MAX_HISTORY_CHARS_PER_TURN
+              value: "700"
+            - name: PREDICTA_OPENAI_TIMEOUT_SECONDS
+              value: "30"
+            - name: PREDICTA_GEMINI_TIMEOUT_SECONDS
+              value: "12"
+            - name: PREDICTA_KUNDLI_CACHE_ENABLED
+              value: "true"
+            - name: PREDICTA_KUNDLI_CACHE_TTL_SECONDS
+              value: "2592000"
+            - name: PREDICTA_KUNDLI_CACHE_MAX_ENTRIES
+              value: "1000"
             - name: PREDICTA_OBSERVABILITY_HASH_SALT
               value: "set-server-only-random-string"
+            - name: PREDICTA_OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: PREDICTA_OPENAI_API_KEY
+                  key: latest
+            - name: PREDICTA_GEMINI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: PREDICTA_GEMINI_API_KEY
+                  key: latest
           resources:
             limits:
               cpu: "1"

@@ -1,7 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Image, StyleSheet, TextInput, View } from 'react-native';
+import React, {
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  TextInput,
+  View,
+  type ListRenderItem,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, {
+  cancelAnimation,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -9,13 +24,12 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import {
-  AppText,
-  FadeInView,
-  GlowButton,
-  GradientText,
-  Screen,
-} from '../components';
+import { AppText } from '../components/AppText';
+import { FadeInView } from '../components/FadeInView';
+import { GlowButton } from '../components/GlowButton';
+import { GradientText } from '../components/GradientText';
+import { Screen } from '../components/Screen';
+import { SkeletonLine } from '../components/Skeleton';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import { detectIntent } from '@pridicta/ai';
@@ -32,6 +46,10 @@ import type {
   ChatMessage,
   DecisionMirrorResponse,
 } from '../types/astrology';
+import {
+  ASSISTANT_STREAM_INTERVAL_MS,
+  getAssistantStreamChunkSize,
+} from '../utils/chatStreaming';
 
 const predictaLogo = require('../assets/predicta-logo.png');
 
@@ -58,6 +76,7 @@ export function ChatScreen({
   const [isTyping, setIsTyping] = useState(false);
   const [streamingText, setStreamingText] = useState('');
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const listRef = useRef<FlatList<ChatMessage>>(null);
   const activeChartContext = useAppStore(state => state.activeChartContext);
   const activeKundli = useAppStore(state => state.activeKundli);
   const auth = useAppStore(state => state.auth);
@@ -95,6 +114,39 @@ export function ChatScreen({
       ? state.conversationsByKundli[state.activeKundliId] ?? []
       : [],
   );
+  const streamingMessage = useMemo<ChatMessage | null>(
+    () =>
+      isTyping
+        ? {
+            createdAt: new Date().toISOString(),
+            context: activeChartContext,
+            id: 'streaming',
+            role: 'pridicta',
+            text: streamingText || 'Predicta is listening...',
+          }
+        : null,
+    [activeChartContext, isTyping, streamingText],
+  );
+  const renderMessage = useCallback<ListRenderItem<ChatMessage>>(
+    ({ item, index }) => (
+      <ChatBubble
+        delay={180 + Math.min(index, 4) * 45}
+        message={item}
+      />
+    ),
+    [],
+  );
+  const keyExtractor = useCallback((message: ChatMessage) => message.id, []);
+  const scrollToEnd = useCallback(() => {
+    requestAnimationFrame(() => {
+      listRef.current?.scrollToEnd({ animated: true });
+    });
+  }, []);
+
+  useEffect(() => {
+    scrollToEnd();
+  }, [messages.length, scrollToEnd]);
+
   useEffect(() => {
     return () => {
       if (intervalRef.current) {
@@ -108,12 +160,18 @@ export function ChatScreen({
     decisionMirror?: DecisionMirrorResponse,
   ) {
     let cursor = 0;
+    const chunkSize = getAssistantStreamChunkSize(text.length);
+
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
 
     setIsTyping(true);
     setStreamingText('');
 
     intervalRef.current = setInterval(() => {
-      cursor += 2;
+      cursor += chunkSize;
       const nextText = text.slice(0, cursor);
       setStreamingText(nextText);
 
@@ -129,7 +187,7 @@ export function ChatScreen({
         setStreamingText('');
         setIsTyping(false);
       }
-    }, 18);
+    }, ASSISTANT_STREAM_INTERVAL_MS);
   }
 
   async function sendMessage() {
@@ -261,7 +319,7 @@ export function ChatScreen({
   }
 
   return (
-    <Screen>
+    <Screen scroll={false}>
       <FadeInView style={styles.header}>
         <View style={styles.logoShell}>
           <Image
@@ -278,29 +336,31 @@ export function ChatScreen({
         </View>
       </FadeInView>
 
-      <View style={styles.thread}>
-        {messages.map((message, index) => (
-          <ChatBubble
-            delay={180 + index * 70}
-            key={message.id}
-            message={message}
-          />
-        ))}
-
-        {isTyping ? (
-          <ChatBubble
-            delay={80}
-            message={{
-              createdAt: new Date().toISOString(),
-              context: activeChartContext,
-              id: 'streaming',
-              role: 'pridicta',
-              text: streamingText || 'Predicta is listening...',
-            }}
-            typing={!streamingText}
-          />
-        ) : null}
-      </View>
+      <FlatList
+        ref={listRef}
+        contentContainerStyle={styles.threadContent}
+        data={messages}
+        initialNumToRender={10}
+        keyExtractor={keyExtractor}
+        keyboardShouldPersistTaps="handled"
+        ListFooterComponent={
+          streamingMessage ? (
+            <ChatBubble
+              delay={80}
+              message={streamingMessage}
+              typing={!streamingText}
+            />
+          ) : null
+        }
+        maxToRenderPerBatch={8}
+        onContentSizeChange={scrollToEnd}
+        onLayout={scrollToEnd}
+        renderItem={renderMessage}
+        showsVerticalScrollIndicator={false}
+        style={styles.thread}
+        updateCellsBatchingPeriod={50}
+        windowSize={7}
+      />
 
       <FadeInView delay={320}>
         <TextInput
@@ -460,7 +520,7 @@ function formatMissingField(field: string): string {
   return labels[field] ?? field;
 }
 
-function ChatBubble({
+const ChatBubble = memo(function ChatBubble({
   delay,
   message,
   typing = false,
@@ -501,7 +561,7 @@ function ChatBubble({
       )}
     </FadeInView>
   );
-}
+});
 
 function DecisionMirrorCard({
   mirror,
@@ -575,6 +635,10 @@ function TypingPulse(): React.JSX.Element {
       -1,
       true,
     );
+
+    return () => {
+      cancelAnimation(opacity);
+    };
   }, [opacity]);
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -582,14 +646,20 @@ function TypingPulse(): React.JSX.Element {
   }));
 
   return (
-    <Animated.View style={[styles.typingPulse, animatedStyle]}>
-      <View style={styles.typingDot} />
-      <View style={styles.typingDot} />
-      <View style={styles.typingDot} />
-      <AppText style={styles.typingText} tone="secondary">
-        Predicta is reading the pattern
-      </AppText>
-    </Animated.View>
+    <View style={styles.typingCard}>
+      <Animated.View style={[styles.typingPulse, animatedStyle]}>
+        <View style={styles.typingDot} />
+        <View style={styles.typingDot} />
+        <View style={styles.typingDot} />
+        <AppText style={styles.typingText} tone="secondary">
+          Predicta is reading the pattern
+        </AppText>
+      </Animated.View>
+      <View style={styles.typingSkeleton}>
+        <SkeletonLine height={12} width="88%" />
+        <SkeletonLine height={12} width="62%" />
+      </View>
+    </View>
   );
 }
 
@@ -613,7 +683,7 @@ const styles = StyleSheet.create({
     color: colors.primaryText,
     fontSize: 16,
     lineHeight: 24,
-    marginTop: 32,
+    marginTop: 18,
     minHeight: 132,
     padding: 18,
   },
@@ -677,8 +747,21 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   thread: {
-    gap: 16,
+    flex: 1,
     marginTop: 28,
+  },
+  threadContent: {
+    gap: 16,
+    paddingBottom: 8,
+  },
+  typingCard: {
+    backgroundColor: colors.glass,
+    borderColor: colors.borderSoft,
+    borderRadius: 20,
+    borderWidth: 1,
+    gap: 14,
+    maxWidth: '88%',
+    padding: 16,
   },
   userBubble: {
     backgroundColor: colors.bubbleUser,
@@ -700,6 +783,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     gap: 8,
+  },
+  typingSkeleton: {
+    gap: 10,
   },
   typingText: {
     marginLeft: 8,

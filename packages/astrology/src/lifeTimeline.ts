@@ -7,7 +7,7 @@ import type {
   LifeTimelineInsight,
   LifeTimelineMappedEvent,
 } from '@pridicta/types';
-import { sha256 } from '@pridicta/utils/sha256';
+import { buildStableCacheKey } from '@pridicta/utils';
 
 export const FREE_LIFE_TIMELINE_EVENT_LIMIT = 3;
 
@@ -88,12 +88,14 @@ export function buildLifeEventHash(
       title: event.title.trim(),
     }));
 
-  return sha256(
-    JSON.stringify({
+  return buildStableCacheKey(
+    {
       calculationInputHash: kundli.calculationMeta.inputHash,
       events: stableEvents,
       kundliId: kundli.id,
-    }),
+      version: 'life-timeline-v1',
+    },
+    'life-timeline',
   );
 }
 
