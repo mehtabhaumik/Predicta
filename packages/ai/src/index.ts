@@ -1,4 +1,5 @@
 export * from './aiRouter';
+export * from './chatExperience';
 export * from './contextBuilder';
 export * from './dailyWeeklyContext';
 export * from './decisionMirror';

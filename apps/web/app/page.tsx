@@ -5,19 +5,16 @@ import { HeroSection } from '../components/HeroSection';
 import { LandingIntroOverlay } from '../components/LandingIntroOverlay';
 import { PremiumSectionWrapper } from '../components/PremiumSectionWrapper';
 import { PricingTeaser } from '../components/PricingTeaser';
+import { RuntimeProductJsonLd } from '../components/RuntimeProductJsonLd';
 import { WebHeader } from '../components/WebHeader';
 
 export const metadata: Metadata = {
-  alternates: {
-    canonical: '/',
-  },
   description:
     'Predicta helps you create a kundli, understand Vedic chart patterns, ask chart-aware questions, and download polished astrology reports.',
   openGraph: {
     description:
       'A premium Vedic astrology workspace for kundli creation, chart-aware guidance, saved readings, and polished reports.',
     title: 'Predicta',
-    url: '/',
   },
   title: 'Predicta',
 };
@@ -49,51 +46,9 @@ const intelligence = [
 ];
 
 export default function LandingPage(): React.JSX.Element {
-  const productJsonLd = {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@id': 'https://predicta.rudraix.com/#organization',
-        '@type': 'Organization',
-        founder: {
-          '@type': 'Person',
-          name: 'Bhaumik Mehta',
-        },
-        logo: 'https://predicta.rudraix.com/predicta-logo.png',
-        name: 'Predicta',
-        url: 'https://predicta.rudraix.com',
-      },
-      {
-        '@id': 'https://predicta.rudraix.com/#website',
-        '@type': 'WebSite',
-        description:
-          'Premium Vedic astrology intelligence for kundli creation, chart-aware guidance, and polished astrology reports.',
-        inLanguage: 'en-IN',
-        name: 'Predicta',
-        publisher: {
-          '@id': 'https://predicta.rudraix.com/#organization',
-        },
-        url: 'https://predicta.rudraix.com',
-      },
-      {
-        '@id': 'https://predicta.rudraix.com/#software',
-        '@type': 'SoftwareApplication',
-        applicationCategory: 'LifestyleApplication',
-        description:
-          'Create a kundli, explore Vedic chart patterns, ask chart-aware questions, and generate polished astrology reports.',
-        name: 'Predicta',
-        operatingSystem: 'Web, iOS, Android',
-        url: 'https://predicta.rudraix.com',
-      },
-    ],
-  };
-
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
-      />
+      <RuntimeProductJsonLd />
       <LandingIntroOverlay />
       <WebHeader />
       <main className="landing-main">

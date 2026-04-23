@@ -81,11 +81,13 @@ PREDICTA_OPENAI_API_KEY
 PREDICTA_GEMINI_API_KEY
 ```
 
-OpenAI is used for final Predicta responses. Gemini is helper-only for compacting
-already structured chart context before the OpenAI call. If Gemini is unavailable,
-the backend continues with the existing compact structured context. If OpenAI is
-unavailable, the endpoint returns a recoverable error instead of inventing a
-reading.
+OpenAI is the primary provider for final Predicta responses. Gemini is used first
+as a compacting helper for already structured chart context. If that helper step
+is unavailable, the backend continues with the existing compact structured
+context. If OpenAI is unavailable, quota-limited, or billing-blocked, Gemini may
+generate the final response as the controlled fallback provider. If both final
+providers are unavailable, the endpoint returns a recoverable error instead of
+inventing a reading.
 
 ## Rate limiting
 

@@ -312,7 +312,7 @@ export type PridictaChatRequest = {
 
 export type PridictaChatResponse = {
   text: string;
-  provider: 'openai' | 'local' | 'cache';
+  provider: 'openai' | 'gemini' | 'local' | 'cache';
   model: string;
   cached?: boolean;
   decisionMirror?: DecisionMirrorResponse;

@@ -24,7 +24,7 @@ spec:
             - containerPort: 8080
           env:
             - name: PREDICTA_ALLOWED_ORIGINS
-              value: "https://predicta.rudraix.com,https://predicta-a4758.web.app"
+              value: "https://predicta.rudraix.com,https://predicta.bhaumikmehta.com,https://predicta-a4758.web.app"
             - name: PREDICTA_BOOTSTRAP_ADMIN_EMAILS
               value: ""
             - name: PREDICTA_RATE_LIMIT_ENABLED

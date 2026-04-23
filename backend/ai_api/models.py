@@ -52,9 +52,8 @@ class PridictaAIRequest(BaseModel):
 
 class PridictaAIResponse(BaseModel):
     text: str
-    provider: Literal["openai"]
+    provider: Literal["openai", "gemini", "local"]
     model: str
     intent: Literal["simple", "moderate", "deep"]
     usedDeepModel: bool
     compactedWithGemini: bool
-

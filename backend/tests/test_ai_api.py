@@ -1,7 +1,8 @@
 from fastapi.testclient import TestClient
+import pytest
 
 from backend.ai_api import providers
-from backend.ai_api.providers import AIProviderUnavailable
+from backend.ai_api.providers import AIProviderError, AIProviderUnavailable
 from backend.ai_api import routes as ai_routes
 from backend.ai_api import response_cache
 from backend.astro_api.calculations import generate_kundli
@@ -18,6 +19,11 @@ VALID_BIRTH = {
     "longitude": 72.8777,
     "timezone": "Asia/Kolkata",
 }
+
+
+@pytest.fixture(autouse=True)
+def disable_rate_limit_for_ai_tests(monkeypatch):
+    monkeypatch.setenv("PREDICTA_RATE_LIMIT_ENABLED", "false")
 
 
 def build_request(**overrides):
@@ -93,21 +99,122 @@ def test_ai_endpoint_continues_without_gemini_compaction(monkeypatch):
     assert "birthSummary" in captured["messages"][1]["content"]
 
 
-def test_ai_endpoint_reports_missing_openai_secret(monkeypatch):
+def test_ai_endpoint_falls_back_to_gemini_when_openai_is_unavailable(monkeypatch):
     response_cache._response_cache.clear()
+
     async def fake_compact_with_gemini(*, model, prompt):
         return None
 
     async def fake_generate_openai_response(*, max_output_tokens, messages, model):
         raise AIProviderUnavailable("PREDICTA_OPENAI_API_KEY is not configured on the backend.")
 
+    async def fake_generate_gemini_response(
+        *, max_output_tokens, model, system_prompt, user_prompt
+    ):
+        assert "Predicta" in system_prompt
+        assert "User question:" in user_prompt
+        return "Gemini fallback answer."
+
     monkeypatch.setattr(ai_routes, "compact_with_gemini", fake_compact_with_gemini)
     monkeypatch.setattr(ai_routes, "generate_openai_response", fake_generate_openai_response)
+    monkeypatch.setattr(ai_routes, "generate_gemini_response", fake_generate_gemini_response)
+
+    response = TestClient(app).post("/ai/pridicta", json=build_request())
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["model"] == "gemini-2.5-flash"
+    assert body["provider"] == "gemini"
+    assert body["text"] == "Gemini fallback answer."
+    assert body["usedDeepModel"] is False
+
+
+def test_ai_endpoint_falls_back_to_gemini_on_openai_billing_error(monkeypatch):
+    response_cache._response_cache.clear()
+
+    async def fake_compact_with_gemini(*, model, prompt):
+        return None
+
+    async def fake_generate_openai_response(*, max_output_tokens, messages, model):
+        raise AIProviderError(
+            "OpenAI request failed.",
+            provider="openai",
+            response_body="billing hard limit reached",
+            status_code=429,
+        )
+
+    async def fake_generate_gemini_response(
+        *, max_output_tokens, model, system_prompt, user_prompt
+    ):
+        return "Billing fallback answer."
+
+    monkeypatch.setattr(ai_routes, "compact_with_gemini", fake_compact_with_gemini)
+    monkeypatch.setattr(ai_routes, "generate_openai_response", fake_generate_openai_response)
+    monkeypatch.setattr(ai_routes, "generate_gemini_response", fake_generate_gemini_response)
+
+    response = TestClient(app).post("/ai/pridicta", json=build_request())
+
+    assert response.status_code == 200
+    assert response.json()["provider"] == "gemini"
+    assert response.json()["text"] == "Billing fallback answer."
+
+
+def test_ai_endpoint_reports_unavailable_when_both_final_providers_fail(monkeypatch):
+    response_cache._response_cache.clear()
+
+    async def fake_compact_with_gemini(*, model, prompt):
+        return None
+
+    async def fake_generate_openai_response(*, max_output_tokens, messages, model):
+        raise AIProviderUnavailable("PREDICTA_OPENAI_API_KEY is not configured on the backend.")
+
+    async def fake_generate_gemini_response(
+        *, max_output_tokens, model, system_prompt, user_prompt
+    ):
+        raise AIProviderUnavailable("Gemini is not configured on the backend.")
+
+    monkeypatch.setattr(ai_routes, "compact_with_gemini", fake_compact_with_gemini)
+    monkeypatch.setattr(ai_routes, "generate_openai_response", fake_generate_openai_response)
+    monkeypatch.setattr(ai_routes, "generate_gemini_response", fake_generate_gemini_response)
 
     response = TestClient(app).post("/ai/pridicta", json=build_request())
 
     assert response.status_code == 503
-    assert "PREDICTA_OPENAI_API_KEY" in response.json()["detail"]
+    assert response.json()["detail"] == (
+        "Predicta guidance is temporarily unavailable. Please try again shortly."
+    )
+
+
+def test_ai_endpoint_short_circuits_small_talk_without_provider_calls(monkeypatch):
+    response_cache._response_cache.clear()
+    calls = {"openai": 0, "gemini": 0}
+
+    async def fake_openai_response(*, max_output_tokens, messages, model):
+        calls["openai"] += 1
+        return "Should not be used."
+
+    async def fake_gemini_response(
+        *, max_output_tokens, model, system_prompt, user_prompt
+    ):
+        calls["gemini"] += 1
+        return "Should not be used."
+
+    monkeypatch.setattr(ai_routes, "generate_openai_response", fake_openai_response)
+    monkeypatch.setattr(ai_routes, "generate_gemini_response", fake_gemini_response)
+
+    response = TestClient(app).post(
+        "/ai/pridicta",
+        json=build_request(message="Hi Predicta"),
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["provider"] == "local"
+    assert body["model"] == "predicta-small-talk"
+    assert body["intent"] == "simple"
+    assert "Hello. I am here." in body["text"]
+    assert calls["openai"] == 0
+    assert calls["gemini"] == 0
 
 
 def test_ai_endpoint_caches_standalone_first_question(monkeypatch):

@@ -4,31 +4,18 @@ import type { Metadata } from 'next';
 import { WebHeader } from '../../components/WebHeader';
 
 export const metadata: Metadata = {
-  alternates: {
-    canonical: '/founder',
-  },
   description:
     'Meet Bhaumik Mehta, founder of Predicta, and read the vision behind a calm, premium Vedic intelligence experience for modern life.',
   openGraph: {
     description:
       'Predicta was built to make Vedic astrology feel precise, private, calm, and beautifully useful for modern life.',
-    images: [
-      {
-        alt: 'Bhaumik Mehta, founder of Predicta',
-        height: 1024,
-        url: '/founder-bhaumik-mehta.png',
-        width: 1024,
-      },
-    ],
     title: 'Founder | Predicta',
-    url: '/founder',
   },
   title: 'Founder',
   twitter: {
     card: 'summary_large_image',
     description:
       'The founder vision behind Predicta, a premium Vedic intelligence system.',
-    images: ['/founder-bhaumik-mehta.png'],
     title: 'Founder | Predicta',
   },
 };

@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "predicta-a4758"
+  },
+  "targets": {
+    "predicta-a4758": {
+      "hosting": {
+        "public": [
+          "predicta-bhaumikmehta"
+        ],
+        "webapp": [
+          "predicta-a4758"
+        ]
+      }
+    }
   }
 }

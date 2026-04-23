@@ -6,16 +6,12 @@ import { StatusPill } from '../../components/StatusPill';
 import { WebHeader } from '../../components/WebHeader';
 
 export const metadata: Metadata = {
-  alternates: {
-    canonical: '/pricing',
-  },
   description:
     'Review Predicta pricing for Free access, Day Pass, Premium plans, question packs, and premium astrology reports.',
   openGraph: {
     description:
       'Choose a calm, flexible Predicta plan for deeper Vedic astrology guidance and premium report depth.',
     title: 'Predicta Pricing',
-    url: '/pricing',
   },
   title: 'Predicta Pricing',
 };

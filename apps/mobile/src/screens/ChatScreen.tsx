@@ -32,7 +32,13 @@ import { Screen } from '../components/Screen';
 import { SkeletonLine } from '../components/Skeleton';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
-import { detectIntent } from '@pridicta/ai';
+import {
+  buildLocalPredictaFallback,
+  buildPredictaWaitingMessage,
+  buildSmallTalkResponse,
+  detectIntent,
+  isSmallTalkPrompt,
+} from '@pridicta/ai';
 import { getProductUpgradePrompt } from '@pridicta/monetization';
 import { extractBirthDetailsFromText } from '../services/ai/birthDetailsExtractor';
 import { askPridicta } from '../services/ai/pridictaService';
@@ -75,6 +81,7 @@ export function ChatScreen({
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [streamingText, setStreamingText] = useState('');
+  const [typingLabel, setTypingLabel] = useState('Thinking through your question...');
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const listRef = useRef<FlatList<ChatMessage>>(null);
   const activeChartContext = useAppStore(state => state.activeChartContext);
@@ -122,10 +129,10 @@ export function ChatScreen({
             context: activeChartContext,
             id: 'streaming',
             role: 'pridicta',
-            text: streamingText || 'Predicta is listening...',
+            text: streamingText || typingLabel,
           }
         : null,
-    [activeChartContext, isTyping, streamingText],
+    [activeChartContext, isTyping, streamingText, typingLabel],
   );
   const renderMessage = useCallback<ListRenderItem<ChatMessage>>(
     ({ item, index }) => (
@@ -158,6 +165,7 @@ export function ChatScreen({
   function streamAssistantResponse(
     text: string,
     decisionMirror?: DecisionMirrorResponse,
+    waitingMessage?: string,
   ) {
     let cursor = 0;
     const chunkSize = getAssistantStreamChunkSize(text.length);
@@ -168,6 +176,7 @@ export function ChatScreen({
     }
 
     setIsTyping(true);
+    setTypingLabel(waitingMessage ?? 'Thinking through your question...');
     setStreamingText('');
 
     intervalRef.current = setInterval(() => {
@@ -185,6 +194,7 @@ export function ChatScreen({
         );
         playReplyChime(chatSoundEnabled);
         setStreamingText('');
+        setTypingLabel('Thinking through your question...');
         setIsTyping(false);
       }
     }, ASSISTANT_STREAM_INTERVAL_MS);
@@ -202,6 +212,19 @@ export function ChatScreen({
         createMessage('user', trimmedInput, activeChartContext),
       );
       setInput('');
+
+      if (isSmallTalkPrompt(trimmedInput)) {
+        streamAssistantResponse(
+          buildSmallTalkResponse(trimmedInput, {
+            chartContext: activeChartContext,
+            hasKundli: false,
+          }),
+          undefined,
+          buildPredictaWaitingMessage(trimmedInput, activeChartContext),
+        );
+        return;
+      }
+
       setIsTyping(true);
       setStreamingText('');
 
@@ -217,12 +240,32 @@ export function ChatScreen({
           buildBirthIntakeResponse(mergedDraft, result, () => {
             navigation.navigate(routes.Kundli);
           }),
+          undefined,
+          'Understanding what you shared...',
         );
       } catch {
         streamAssistantResponse(
           'I can help create the kundli, but I need the birth date, birth time, and birth place in a clear format. You can write something like: 16 August 1994, 6:42 AM, Mumbai.',
+          undefined,
+          'Understanding what you shared...',
         );
       }
+      return;
+    }
+
+    if (isSmallTalkPrompt(trimmedInput)) {
+      appendConversationMessage(
+        createMessage('user', trimmedInput, activeChartContext),
+      );
+      setInput('');
+      streamAssistantResponse(
+        buildSmallTalkResponse(trimmedInput, {
+          chartContext: activeChartContext,
+          hasKundli: true,
+        }),
+        undefined,
+        buildPredictaWaitingMessage(trimmedInput, activeChartContext),
+      );
       return;
     }
 
@@ -264,6 +307,7 @@ export function ChatScreen({
     );
     setInput('');
     setIsTyping(true);
+    setTypingLabel(buildPredictaWaitingMessage(trimmedInput, activeChartContext));
     setStreamingText('');
 
     try {
@@ -313,7 +357,13 @@ export function ChatScreen({
       streamAssistantResponse(response.text, response.decisionMirror);
     } catch {
       streamAssistantResponse(
-        'I could not complete the reading right now. Please try again with one focused question.',
+        buildLocalPredictaFallback(
+          trimmedInput,
+          activeKundli,
+          activeChartContext,
+        ),
+        undefined,
+        buildPredictaWaitingMessage(trimmedInput, activeChartContext),
       );
     }
   }
@@ -652,7 +702,7 @@ function TypingPulse(): React.JSX.Element {
         <View style={styles.typingDot} />
         <View style={styles.typingDot} />
         <AppText style={styles.typingText} tone="secondary">
-          Predicta is reading the pattern
+          {typingLabel}
         </AppText>
       </Animated.View>
       <View style={styles.typingSkeleton}>

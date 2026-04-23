@@ -3,6 +3,7 @@ import {
   validateDecisionMirrorResponse,
 } from '@pridicta/ai';
 import { Card } from '../../../components/Card';
+import { PredictaChatClient } from '../../../components/PredictaChatClient';
 import { StatusPill } from '../../../components/StatusPill';
 import { demoKundli } from '../../../lib/demo-state';
 
@@ -27,38 +28,7 @@ export default function ChatPage(): React.JSX.Element {
       </div>
 
       <div className="chat-decision-layout">
-        <Card className="chat-panel">
-          <div className="chat-thread">
-            <div className="message pridicta">
-              <span>Predicta</span>
-              <p>
-                Tell me what you want to understand. I will keep the reading
-                focused, steady, and easy to follow.
-              </p>
-            </div>
-            <div className="message user">
-              <span>You</span>
-              <p>What does my D10 show about career growth?</p>
-            </div>
-            <div className="message pridicta glass-panel">
-              <span>Predicta</span>
-              <p>
-                Your career chart points to responsibility, consistency, and
-                patience with timing. Ask one specific follow-up and I will go
-                deeper without overwhelming you.
-              </p>
-            </div>
-          </div>
-          <div className="chat-input-row">
-            <input
-              aria-label="Ask Predicta"
-              placeholder="Ask Predicta anything about your chart..."
-            />
-            <button className="button" type="button">
-              Ask
-            </button>
-          </div>
-        </Card>
+        <PredictaChatClient kundli={demoKundli} />
         <Card className="decision-mirror-panel glass-panel">
           <div className="card-content spacious">
             <div className="section-title">DECISION MIRROR</div>

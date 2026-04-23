@@ -1,12 +1,9 @@
 import type { MetadataRoute } from 'next';
 
-const siteUrl = 'https://predicta.rudraix.com';
-
 export const dynamic = 'force-static';
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    host: siteUrl,
     rules: [
       {
         allow: ['/', '/pricing'],
@@ -14,6 +11,6 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: '*',
       },
     ],
-    sitemap: `${siteUrl}/sitemap.xml`,
+    sitemap: '/sitemap.xml',
   };
 }

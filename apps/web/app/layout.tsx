@@ -2,13 +2,9 @@ import './globals.css';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { ClientServicesProvider } from '../components/ClientServicesProvider';
-
-const siteUrl = 'https://predicta.rudraix.com';
+import { RuntimeMetadataSync } from '../components/RuntimeMetadataSync';
 
 export const metadata: Metadata = {
-  alternates: {
-    canonical: '/',
-  },
   applicationName: 'Predicta',
   authors: [{ name: 'Bhaumik Mehta' }],
   category: 'Vedic astrology',
@@ -41,23 +37,13 @@ export const metadata: Metadata = {
     'AI astrology guidance',
     'premium astrology report',
   ],
-  metadataBase: new URL(siteUrl),
   openGraph: {
     description:
       'Create a kundli, explore Vedic chart patterns, ask chart-aware questions, and generate polished astrology reports with Predicta.',
-    images: [
-      {
-        alt: 'Predicta premium Vedic astrology dashboard',
-        height: 1024,
-        url: '/predicta-logo.png',
-        width: 1024,
-      },
-    ],
     locale: 'en_IN',
     siteName: 'Predicta',
     title: 'Predicta',
     type: 'website',
-    url: siteUrl,
   },
   publisher: 'Bhaumik Mehta',
   robots: {
@@ -79,7 +65,6 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     description:
       'Premium Vedic astrology intelligence for kundli creation, chart-aware guidance, and polished reports.',
-    images: ['/predicta-logo.png'],
     title: 'Predicta',
   },
 };
@@ -93,6 +78,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ClientServicesProvider />
+        <RuntimeMetadataSync />
         <div className="page-shell">
           <div className="content-layer">{children}</div>
         </div>

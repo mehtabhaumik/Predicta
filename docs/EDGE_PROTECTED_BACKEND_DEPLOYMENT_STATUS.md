@@ -54,7 +54,7 @@ GET https://api.predicta.rudraix.com/health -> 200
 Direct Cloud Run default URL access:
 
 ```text
-GET https://predicta-backend-759876006782.us-central1.run.app/health -> 404
+GET https://predicta-backend-759876006782.asia-south1.run.app/health
 GET https://predicta-backend-pxf7yw4soq-uc.a.run.app/health -> 404
 ```
 

@@ -103,7 +103,7 @@ From the repo root:
 
 ```bash
 PROJECT_ID=predicta-a4758 \
-REGION=us-central1 \
+REGION=asia-south1 \
 SERVICE_NAME=predicta-backend \
 CLOUD_RUN_SERVICE_ACCOUNT=predicta-backend@predicta-a4758.iam.gserviceaccount.com \
 PREDICTA_ALLOWED_ORIGINS=https://predicta.rudraix.com,https://predicta-a4758.web.app \

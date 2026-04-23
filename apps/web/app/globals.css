@@ -2543,6 +2543,41 @@ aside,
 
   .main-workspace {
     padding-top: 104px;
+    overflow-x: clip;
+  }
+
+  .dashboard-page,
+  .dashboard-page > *,
+  .page-heading,
+  .dashboard-topbar-card,
+  .dashboard-topbar-content,
+  .metric-row,
+  .dashboard-feature-grid,
+  .settings-grid,
+  .settings-layout,
+  .saved-kundli-grid,
+  .chart-explorer,
+  .report-dashboard-layout,
+  .life-timeline-layout,
+  .journal-dashboard-layout,
+  .compatibility-dashboard-layout,
+  .chat-workspace,
+  .chat-decision-layout,
+  .kundli-form-grid,
+  .report-preview {
+    max-width: 100%;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .page-heading h1,
+  .dashboard-topbar-content p,
+  .metric-card-body h3,
+  .card-content h2,
+  .card-content h3 {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: normal;
   }
 
   .dashboard-nav-list.open {
@@ -2565,7 +2600,8 @@ aside,
   .page-heading h1,
   .section-heading h2,
   .final-cta h2 {
-    font-size: 38px;
+    font-size: 34px;
+    line-height: 1.08;
   }
 
   .section-heading,

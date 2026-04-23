@@ -57,7 +57,7 @@ Override names if your load balancer resources differ:
 
 ```bash
 PROJECT_ID=predicta-a4758 \
-REGION=us-central1 \
+REGION=asia-south1 \
 SERVICE_NAME=predicta-backend \
 POLICY_NAME=predicta-backend-edge-policy \
 BACKEND_SERVICE_NAME=YOUR_LB_BACKEND_SERVICE \

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 PROJECT_ID="${PROJECT_ID:-predicta-a4758}"
-REGION="${REGION:-us-central1}"
+REGION="${REGION:-asia-south1}"
 SERVICE_NAME="${SERVICE_NAME:-predicta-backend}"
 POLICY_NAME="${POLICY_NAME:-predicta-backend-edge-policy}"
 BACKEND_SERVICE_NAME="${BACKEND_SERVICE_NAME:-predicta-backend-lb-backend}"

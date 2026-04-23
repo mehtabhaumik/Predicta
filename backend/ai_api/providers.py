@@ -15,6 +15,19 @@ class AIProviderUnavailable(RuntimeError):
 class AIProviderError(RuntimeError):
     """Raised when a configured AI provider fails."""
 
+    def __init__(
+        self,
+        message: str,
+        *,
+        provider: str | None = None,
+        response_body: str | None = None,
+        status_code: int | None = None,
+    ):
+        super().__init__(message)
+        self.provider = provider
+        self.response_body = response_body or ""
+        self.status_code = status_code
+
 
 OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses"
 GEMINI_GENERATE_URL = (
@@ -107,14 +120,111 @@ async def generate_openai_response(
             )
             response.raise_for_status()
     except httpx.HTTPStatusError as exc:
-        raise AIProviderError("OpenAI request failed.") from exc
+        raise AIProviderError(
+            "OpenAI request failed.",
+            provider="openai",
+            response_body=exc.response.text[:800],
+            status_code=exc.response.status_code,
+        ) from exc
     except httpx.HTTPError as exc:
-        raise AIProviderError("OpenAI request could not be completed.") from exc
+        raise AIProviderError(
+            "OpenAI request could not be completed.",
+            provider="openai",
+        ) from exc
 
     text = extract_openai_text(response.json()).strip()
     if not text:
-        raise AIProviderError("OpenAI returned an empty response.")
+        raise AIProviderError("OpenAI returned an empty response.", provider="openai")
     return text
+
+
+async def generate_gemini_response(
+    *,
+    max_output_tokens: int,
+    model: str,
+    system_prompt: str,
+    user_prompt: str,
+    timeout_seconds: float | None = None,
+) -> str:
+    api_key = get_gemini_api_key()
+    if not api_key:
+        raise AIProviderUnavailable("Gemini is not configured on the backend.")
+
+    payload = {
+        "contents": [
+            {
+                "parts": [
+                    {
+                        "text": "\n\n".join(
+                            [
+                                system_prompt,
+                                "Use the following context and user question to answer as Predicta.",
+                                user_prompt,
+                            ]
+                        )
+                    }
+                ],
+                "role": "user",
+            }
+        ],
+        "generationConfig": {
+            "maxOutputTokens": max_output_tokens,
+            "temperature": 0.45,
+        },
+    }
+
+    try:
+        async with httpx.AsyncClient(
+            timeout=timeout_seconds or get_gemini_timeout_seconds()
+        ) as client:
+            response = await client.post(
+                GEMINI_GENERATE_URL.format(model=model),
+                params={"key": api_key},
+                json=payload,
+            )
+            response.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        raise AIProviderError(
+            "Gemini request failed.",
+            provider="gemini",
+            response_body=exc.response.text[:800],
+            status_code=exc.response.status_code,
+        ) from exc
+    except httpx.HTTPError as exc:
+        raise AIProviderError(
+            "Gemini request could not be completed.",
+            provider="gemini",
+        ) from exc
+
+    text = extract_gemini_text(response.json()).strip()
+    if not text:
+        raise AIProviderError("Gemini returned an empty response.", provider="gemini")
+    return text
+
+
+def should_fallback_from_openai(exc: BaseException) -> bool:
+    if isinstance(exc, AIProviderUnavailable):
+        return True
+    if not isinstance(exc, AIProviderError):
+        return False
+    if exc.provider not in (None, "openai"):
+        return False
+    if exc.status_code in {401, 403, 408, 409, 429, 500, 502, 503, 504}:
+        return True
+
+    haystack = f"{exc} {exc.response_body}".lower()
+    fallback_markers = (
+        "billing",
+        "insufficient_quota",
+        "quota",
+        "rate limit",
+        "rate_limit",
+        "timeout",
+        "temporarily unavailable",
+        "server error",
+        "overloaded",
+    )
+    return any(marker in haystack for marker in fallback_markers)
 
 
 def extract_openai_text(response: Dict[str, Any]) -> str:

@@ -13,11 +13,13 @@ import {
   shouldConsumeDeepQuota,
 } from './aiRouter';
 import {
+  buildLocalPredictaFallback,
   buildDecisionMirrorResponse,
   buildAiLanguageContext,
   detectDecisionIntent,
   formatDecisionMirrorText,
   getDecisionMirrorDepth,
+  isSmallTalkPrompt,
 } from '@pridicta/ai';
 import { generateOpenAIResponse } from './providers/openaiProvider';
 import { summarizeWithGemini } from './providers/geminiProvider';
@@ -75,24 +77,6 @@ async function maybeCompactContextWithGemini(serializedContext: string) {
   return summarizeWithGemini(prompt, GEMINI_MODELS.FLASH_HELPER);
 }
 
-function buildLocalResponse(
-  message: string,
-  kundli: KundliData,
-  chartContext?: ChartContext,
-): string {
-  const currentDasha = kundli.dasha.current;
-  const strongestHouses = kundli.ashtakavarga.strongestHouses.join(', ');
-
-  return [
-    chartContext?.chartType
-      ? `I will begin from ${chartContext.chartType}, because that is where you opened this question.`
-      : `I will start from the birth chart and then quietly cross-check D9 and D10 where needed.`,
-    `For ${kundli.birthDetails.name}, the current ${currentDasha.mahadasha} Mahadasha and ${currentDasha.antardasha} Antardasha asks for patience, clean boundaries, and choices that mature over time.`,
-    `Your strongest ashtakavarga support is around houses ${strongestHouses}, so effort, skill-building, and visible contribution matter more than rushing for quick certainty.`,
-    `On your question, "${message}", the calm reading is this: take the next step that reduces confusion, protects dignity, and keeps long-term dharma intact. Mahadev's grace is felt most clearly when action is steady rather than anxious.`,
-  ].join('\n\n');
-}
-
 export async function askPridicta({
   chartContext,
   deepAnalysis = false,
@@ -103,6 +87,16 @@ export async function askPridicta({
   userPlan,
 }: PridictaChatRequest): Promise<PridictaChatResponse> {
   const languageContext = buildAiLanguageContext(preferredLanguage);
+  if (isSmallTalkPrompt(message)) {
+    return {
+      intent: 'simple',
+      model: 'predicta-small-talk',
+      provider: 'local',
+      text: buildLocalPredictaFallback(message, kundli, chartContext),
+      usedDeepModel: false,
+    };
+  }
+
   const detectedIntent = detectIntent(message, chartContext);
   const intent = deepAnalysis ? 'deep' : detectedIntent;
   const model = selectOpenAIModelForIntent({ intent, userPlan });
@@ -234,7 +228,7 @@ export async function askPridicta({
       },
     ],
     model,
-  });
+  }).catch(() => null);
 
   if (text?.trim()) {
     if (isSafeToUseResponseCache(history)) {
@@ -255,11 +249,39 @@ export async function askPridicta({
     };
   }
 
+  const geminiText = await summarizeWithGemini(
+    [
+      buildPridictaSystemPrompt(languageContext.locale),
+      'Use this context and user question to answer as Predicta. Keep the tone calm, practical, and non-fear-based.',
+      prompt,
+    ].join('\n\n'),
+    GEMINI_MODELS.FLASH_HELPER,
+  ).catch(() => null);
+
+  if (geminiText?.trim()) {
+    if (isSafeToUseResponseCache(history)) {
+      await setCachedAIResponse(cacheInput, {
+        createdAt: new Date().toISOString(),
+        intent,
+        model: GEMINI_MODELS.FLASH_HELPER,
+        text: geminiText.trim(),
+      }).catch(() => undefined);
+    }
+
+    return {
+      intent,
+      model: GEMINI_MODELS.FLASH_HELPER,
+      provider: 'gemini',
+      text: geminiText.trim(),
+      usedDeepModel: false,
+    };
+  }
+
   return {
     intent,
     model,
     provider: 'local',
-    text: buildLocalResponse(message, kundli, chartContext),
+    text: buildLocalPredictaFallback(message, kundli, chartContext),
     usedDeepModel: false,
   };
 }

@@ -26,6 +26,60 @@ def test_health():
     assert "kundliCacheEntries" in response.json()
 
 
+def test_robots_txt_uses_request_host_for_sitemap():
+    client = TestClient(app)
+    response = client.get(
+        "/robots.txt",
+        headers={"host": "predicta.bhaumikmehta.com"},
+    )
+
+    assert response.status_code == 200
+    assert response.headers["content-type"].startswith("text/plain")
+    assert "Sitemap: https://predicta.bhaumikmehta.com/sitemap.xml" in response.text
+    assert "Disallow: /dashboard" in response.text
+
+
+def test_sitemap_xml_uses_forwarded_host():
+    client = TestClient(app)
+    response = client.get(
+        "/sitemap.xml",
+        headers={
+            "host": "predicta-backend-759876006782.asia-south1.run.app",
+            "x-forwarded-host": "predicta.rudraix.com",
+            "x-forwarded-proto": "https",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.headers["content-type"].startswith("application/xml")
+    assert "<loc>https://predicta.rudraix.com</loc>" in response.text
+    assert "<loc>https://predicta.rudraix.com/pricing</loc>" in response.text
+    assert "<loc>https://predicta.rudraix.com/founder</loc>" in response.text
+
+
+def test_robots_txt_blocks_web_app_domain():
+    client = TestClient(app)
+    response = client.get(
+        "/robots.txt",
+        headers={"host": "predicta-a4758.web.app"},
+    )
+
+    assert response.status_code == 200
+    assert "Disallow: /" in response.text
+    assert "Sitemap:" not in response.text
+
+
+def test_sitemap_xml_is_empty_for_web_app_domain():
+    client = TestClient(app)
+    response = client.get(
+        "/sitemap.xml",
+        headers={"host": "predicta-a4758.web.app"},
+    )
+
+    assert response.status_code == 200
+    assert "<loc>" not in response.text
+
+
 def test_generate_kundli_shape_and_metadata():
     kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
     assert kundli.lagna in {
