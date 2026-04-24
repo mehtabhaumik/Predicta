@@ -173,8 +173,67 @@ describe('predicta chat experience helpers', () => {
       },
     );
 
-    expect(response).toContain('When love feels real but tiring');
-    expect(response).toContain('misread needs, uneven effort, emotional exhaustion, or bad timing');
+    expect(response).toContain('the relationship is asking you to regulate more than relate');
+    expect(response).toContain('carrying the atmosphere for both of us');
+  });
+
+  it('deepens a relationship follow-up instead of restarting', () => {
+    const response = buildNoKundliResponse(
+      'How do I say this without creating a fight?',
+      {
+        history: [
+          {
+            role: 'user',
+            text: 'My relationship feels loving but tiring. What am I missing?',
+          },
+          {
+            role: 'user',
+            text: 'It is emotional labor. I keep managing the atmosphere and I am exhausted.',
+          },
+        ],
+      },
+    );
+
+    expect(response).toContain('Lead with your experience, not your accusation');
+    expect(response).toContain('I care about us, but I have been carrying too much of the emotional weight');
+  });
+
+  it('deepens grief follow-ups instead of repeating the opener', () => {
+    const response = buildNoKundliResponse(
+      'It feels more numb than dramatic. I am functioning, but something in me is absent.',
+      {
+        history: [
+          {
+            role: 'user',
+            text: 'I have been feeling heavy since losing someone close. What do you see in this phase?',
+          },
+        ],
+      },
+    );
+
+    expect(response).toContain('That numb, functioning kind of grief often means your system is protecting you');
+    expect(response).toContain('one physical anchor each day');
+  });
+
+  it('gives precise follow-up remedies when the user narrows the ask', () => {
+    const response = buildNoKundliResponse(
+      'Give me one practical remedy and one spiritual remedy only.',
+      {
+        history: [
+          {
+            role: 'user',
+            text: 'Give me a remedy for recurring anxiety and mental restlessness.',
+          },
+          {
+            role: 'user',
+            text: 'It gets worse at night after conflict.',
+          },
+        ],
+      },
+    );
+
+    expect(response).toContain('Practical remedy: after conflict, write one page');
+    expect(response).toContain('Spiritual remedy: sit quietly for three minutes');
   });
 
   it('remembers partial birth details across turns', () => {

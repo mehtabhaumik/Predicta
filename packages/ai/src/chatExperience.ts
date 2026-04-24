@@ -392,6 +392,7 @@ function buildNoKundliLifeGuidance(
   history?: Array<{ role: string; text: string }>,
 ): string {
   const theme = detectNoKundliTheme(input, history);
+  const normalized = normalizePrompt(input).toLowerCase();
   const knownDetails = describeCollectedBirthDetails(birthDetailContext.progress);
 
   const chartBridge = birthDetailContext.hasAllBirthDetails
@@ -416,6 +417,24 @@ function buildNoKundliLifeGuidance(
         chartBridge,
       ].join(' ');
     case 'relationship':
+      if (/\b(emotional labor|managing the atmosphere|exhausted)\b/.test(normalized)) {
+        return [
+          'That usually means the relationship is asking you to regulate more than relate.',
+          'When one person keeps managing tone, timing, and recovery, love starts feeling like work without proper rest. The exhaustion is not imaginary; it is the cost of carrying the emotional climate.',
+          'The next move is to name the pattern plainly: “I care about us, but I cannot keep carrying the atmosphere for both of us.” If you want, I can help you phrase that in a calmer way.',
+          chartBridge,
+        ].join(' ');
+      }
+
+      if (/\b(how do i say|say this|without creating a fight|without a fight|without making it worse)\b/.test(normalized)) {
+        return [
+          'Lead with your experience, not your accusation.',
+          'Try: “I care about us, but I have been carrying too much of the emotional weight, and it is making me tired. I want us to talk about that without blaming each other.”',
+          'Keep the sentence short, concrete, and tied to one pattern only. If you want, I can help you make it softer or firmer.',
+          chartBridge,
+        ].join(' ');
+      }
+
       return [
         'We can think this through even before a chart reading.',
         'When love feels real but tiring, the strain is often not the love itself. It is usually the burden around it: misread needs, uneven effort, emotional exhaustion, or bad timing.',
@@ -430,6 +449,24 @@ function buildNoKundliLifeGuidance(
         chartBridge,
       ].join(' ');
     case 'grief':
+      if (/\b(numb|absent|functioning)\b/.test(normalized)) {
+        return [
+          'That numb, functioning kind of grief often means your system is protecting you by muting the volume.',
+          'You are still moving through life, but some inner part has gone quiet because it does not want to feel everything at once. That is not coldness. It is a form of self-protection.',
+          'Do not force depth right now. Keep one physical anchor each day and let the feeling return in its own time. If you want, I can help you build a gentle weekly rhythm.',
+          chartBridge,
+        ].join(' ');
+      }
+
+      if (/\b(this week|actually do this week|what should i do)\b/.test(normalized)) {
+        return [
+          'This week, do not try to solve the whole grief.',
+          'Choose one non-negotiable daily anchor: one proper meal, one walk, one wake time, or one honest check-in with someone safe. Then give grief one contained space each day, even ten quiet minutes, so it is acknowledged without taking over the whole day.',
+          'Small steadiness is enough for this week. Mahadev can hold what you do not need to force.',
+          chartBridge,
+        ].join(' ');
+      }
+
       return [
         'I am sorry you are carrying that. Grief has its own weather, and it does not move on command.',
         'What matters first is whether this phase feels heavy, numb, restless, or quietly disoriented. Each one asks for a different kind of care.',
@@ -437,6 +474,23 @@ function buildNoKundliLifeGuidance(
         chartBridge,
       ].join(' ');
     case 'remedy':
+      if (/\b(night|after conflict|after a fight)\b/.test(normalized)) {
+        return [
+          'That usually means the mind is not just anxious; it is unfinished.',
+          'Conflict leaves the nervous system alert, and night gives it too much quiet room to replay everything. A practical remedy is a short closure ritual: write what happened, what you feel, and what can wait till morning, then stop revisiting it. A spiritual remedy is one slow round of a Mahadev mantra or silent prayer before sleep.',
+          'If you want, I can turn that into a ten-minute night routine.',
+          chartBridge,
+        ].join(' ');
+      }
+
+      if (/\bone practical remedy and one spiritual remedy only\b/.test(normalized)) {
+        return [
+          'Practical remedy: after conflict, write one page of uncensored thoughts, close the notebook, and do not reopen the issue that night.',
+          'Spiritual remedy: sit quietly for three minutes and repeat a short Mahadev mantra before sleep, not for drama, just for steadiness.',
+          chartBridge,
+        ].join(' ');
+      }
+
       return [
         'Yes. When the mind stays restless, the remedy has to calm both the nervous system and the inner atmosphere.',
         'A practical remedy is to reduce stimulation for one hour before sleep, keep the breath slow for five quiet minutes, and put anxious thoughts into writing instead of letting them circle. A spiritual remedy can be a short Mahadev mantra, a simple lamp, or silent prayer done steadily rather than dramatically.',

@@ -508,6 +508,7 @@ def detect_no_kundli_theme(message: str, history: list | None = None) -> str:
 
 def build_no_kundli_local_guidance(request: PridictaAIRequest) -> str:
     theme = detect_no_kundli_theme(request.message, request.history)
+    normalized = re.sub(r"\s+", " ", request.message.strip()).lower()
     known_details = summarize_known_birth_details(request)
     known_details = "" if known_details == "None yet." else known_details
     missing_parts = []
@@ -541,6 +542,20 @@ def build_no_kundli_local_guidance(request: PridictaAIRequest) -> str:
             f"{chart_bridge}"
         )
     if theme == "relationship":
+        if re.search(r"\b(emotional labor|managing the atmosphere|exhausted)\b", normalized):
+            return (
+                "That usually means the relationship is asking you to regulate more than relate. "
+                "When one person keeps managing tone, timing, and recovery, love starts feeling like work without proper rest. The exhaustion is not imaginary; it is the cost of carrying the emotional climate. "
+                "The next move is to name the pattern plainly: “I care about us, but I cannot keep carrying the atmosphere for both of us.” If you want, I can help you phrase that in a calmer way. "
+                f"{chart_bridge}"
+            )
+        if re.search(r"\b(how do i say|say this|without creating a fight|without a fight|without making it worse)\b", normalized):
+            return (
+                "Lead with your experience, not your accusation. "
+                "Try: “I care about us, but I have been carrying too much of the emotional weight, and it is making me tired. I want us to talk about that without blaming each other.” "
+                "Keep the sentence short, concrete, and tied to one pattern only. If you want, I can help you make it softer or firmer. "
+                f"{chart_bridge}"
+            )
         return (
             "When love feels real but tiring, the strain is often not the love itself. It is usually the burden around it: misread needs, uneven effort, emotional exhaustion, or bad timing. "
             "Tell me which one feels closest, and I will respond to that directly. "
@@ -553,6 +568,20 @@ def build_no_kundli_local_guidance(request: PridictaAIRequest) -> str:
             f"{chart_bridge}"
         )
     if theme == "grief":
+        if re.search(r"\b(numb|absent|functioning)\b", normalized):
+            return (
+                "That numb, functioning kind of grief often means your system is protecting you by muting the volume. "
+                "You are still moving through life, but some inner part has gone quiet because it does not want to feel everything at once. That is not coldness. It is a form of self-protection. "
+                "Do not force depth right now. Keep one physical anchor each day and let the feeling return in its own time. If you want, I can help you build a gentle weekly rhythm. "
+                f"{chart_bridge}"
+            )
+        if re.search(r"\b(this week|actually do this week|what should i do)\b", normalized):
+            return (
+                "This week, do not try to solve the whole grief. "
+                "Choose one non-negotiable daily anchor: one proper meal, one walk, one wake time, or one honest check-in with someone safe. Then give grief one contained space each day, even ten quiet minutes, so it is acknowledged without taking over the whole day. "
+                "Small steadiness is enough for this week. Mahadev can hold what you do not need to force. "
+                f"{chart_bridge}"
+            )
         return (
             "I am sorry you are carrying that. Grief has its own weather, and it does not move on command. "
             "What matters first is whether this phase feels heavy, numb, restless, or quietly disoriented. Each one asks for a different kind of care. "
@@ -560,6 +589,19 @@ def build_no_kundli_local_guidance(request: PridictaAIRequest) -> str:
             f"{chart_bridge}"
         )
     if theme == "remedy":
+        if re.search(r"\b(night|after conflict|after a fight)\b", normalized):
+            return (
+                "That usually means the mind is not just anxious; it is unfinished. "
+                "Conflict leaves the nervous system alert, and night gives it too much quiet room to replay everything. A practical remedy is a short closure ritual: write what happened, what you feel, and what can wait till morning, then stop revisiting it. A spiritual remedy is one slow round of a Mahadev mantra or silent prayer before sleep. "
+                "If you want, I can turn that into a ten-minute night routine. "
+                f"{chart_bridge}"
+            )
+        if re.search(r"\bone practical remedy and one spiritual remedy only\b", normalized):
+            return (
+                "Practical remedy: after conflict, write one page of uncensored thoughts, close the notebook, and do not reopen the issue that night. "
+                "Spiritual remedy: sit quietly for three minutes and repeat a short Mahadev mantra before sleep, not for drama, just for steadiness. "
+                f"{chart_bridge}"
+            )
         return (
             "Yes. When the mind stays restless, the remedy has to calm both the nervous system and the inner atmosphere. "
             "A practical remedy is to reduce stimulation for one hour before sleep, keep the breath slow for five quiet minutes, and put anxious thoughts into writing instead of letting them circle. "
