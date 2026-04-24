@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
-const DISMISS_KEY = 'predicta-pwa-install-dismissed-v1';
+const DISMISS_KEY = 'predicta-pwa-install-dismissed-at-v2';
+const DISMISS_WINDOW_MS = 5 * 24 * 60 * 60 * 1000;
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
@@ -28,14 +29,27 @@ export function PwaInstallPrompt(): React.JSX.Element | null {
   const [dismissed, setDismissed] = useState(false);
   const [installing, setInstalling] = useState(false);
   const [installed, setInstalled] = useState(false);
+  const [isMobileViewer, setIsMobileViewer] = useState(false);
+  const [showManualHint, setShowManualHint] = useState(false);
 
   useEffect(() => {
     if (typeof window === 'undefined') {
       return;
     }
 
-    setDismissed(window.localStorage.getItem(DISMISS_KEY) === 'true');
+    const dismissedAtRaw = window.localStorage.getItem(DISMISS_KEY);
+    const dismissedAt = dismissedAtRaw ? Number(dismissedAtRaw) : 0;
+    const dismissalActive = Number.isFinite(dismissedAt) && dismissedAt > 0
+      ? Date.now() - dismissedAt < DISMISS_WINDOW_MS
+      : false;
+
+    setDismissed(dismissalActive);
     setInstalled(isStandaloneMode());
+    setIsMobileViewer(window.matchMedia('(max-width: 820px)').matches);
+    setShowManualHint(
+      /iphone|ipad|ipod|android/i.test(window.navigator.userAgent) &&
+        !isStandaloneMode(),
+    );
 
     function handleBeforeInstallPrompt(event: Event) {
       event.preventDefault();
@@ -48,18 +62,25 @@ export function PwaInstallPrompt(): React.JSX.Element | null {
       window.localStorage.removeItem(DISMISS_KEY);
     }
 
+    function handleViewportChange() {
+      setIsMobileViewer(window.matchMedia('(max-width: 820px)').matches);
+      setInstalled(isStandaloneMode());
+    }
+
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleAppInstalled);
+    window.addEventListener('resize', handleViewportChange);
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('appinstalled', handleAppInstalled);
+      window.removeEventListener('resize', handleViewportChange);
     };
   }, []);
 
   const visible = useMemo(
-    () => Boolean(deferredPrompt) && !dismissed && !installed,
-    [deferredPrompt, dismissed, installed],
+    () => !dismissed && !installed && isMobileViewer && (Boolean(deferredPrompt) || showManualHint),
+    [deferredPrompt, dismissed, installed, isMobileViewer, showManualHint],
   );
 
   async function handleInstall() {
@@ -84,7 +105,7 @@ export function PwaInstallPrompt(): React.JSX.Element | null {
   function handleDismiss() {
     setDismissed(true);
     if (typeof window !== 'undefined') {
-      window.localStorage.setItem(DISMISS_KEY, 'true');
+      window.localStorage.setItem(DISMISS_KEY, String(Date.now()));
     }
   }
 
@@ -95,20 +116,25 @@ export function PwaInstallPrompt(): React.JSX.Element | null {
   return (
     <aside className="pwa-install-card glass-panel" aria-label="Install Predicta">
       <div className="pwa-install-copy">
-        <strong>Install Predicta</strong>
-        <p>Open it like an app with a cleaner full-screen experience.</p>
+        <strong>Download the app</strong>
+        <p>
+          Open Predicta in a cleaner full-screen app view on this device.
+          {!deferredPrompt && showManualHint ? ' Use your browser menu to add it to your Home Screen.' : ''}
+        </p>
       </div>
       <div className="pwa-install-actions">
-        <button
-          className="button"
-          disabled={installing}
-          onClick={() => {
-            void handleInstall();
-          }}
-          type="button"
-        >
-          {installing ? 'Opening...' : 'Install'}
-        </button>
+        {deferredPrompt ? (
+          <button
+            className="button"
+            disabled={installing}
+            onClick={() => {
+              void handleInstall();
+            }}
+            type="button"
+          >
+            {installing ? 'Opening...' : 'Get app'}
+          </button>
+        ) : null}
         <button className="button secondary" onClick={handleDismiss} type="button">
           Later
         </button>

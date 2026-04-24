@@ -416,6 +416,107 @@ def test_ai_endpoint_forces_grief_floor_when_reply_is_flat(monkeypatch):
     assert calls["openai"] == 1
 
 
+def test_ai_endpoint_keeps_career_followup_out_of_grief_lane(monkeypatch):
+    response_cache._response_cache.clear()
+    calls = {"openai": 0}
+
+    async def fake_generate_openai_response(*, max_output_tokens, messages, model):
+        calls["openai"] += 1
+        return "The feeling of losing what you built can make this heavy."
+
+    monkeypatch.setattr(ai_routes, "generate_openai_response", fake_generate_openai_response)
+
+    payload = build_request(
+        kundli=None,
+        chartContext=None,
+        history=[
+            {"role": "user", "text": "I feel ready for a bigger role, but something in me pulls back."},
+        ],
+        message="It feels like ambition, but also fear of losing what I have built.",
+        userPlan="FREE",
+    )
+    response = TestClient(app).post("/ai/pridicta", json=payload)
+
+    assert response.status_code == 200
+    assert "This does not sound like empty ambition" in response.json()["text"]
+    assert "Grief has its own weather" not in response.json()["text"]
+    assert calls["openai"] == 1
+
+
+def test_ai_endpoint_uses_chart_local_floor_for_d9_boundary_sentence(monkeypatch):
+    response_cache._response_cache.clear()
+    calls = {"openai": 0}
+
+    async def fake_compact_with_gemini(*, model, prompt):
+        return None
+
+    async def fake_generate_openai_response(*, max_output_tokens, messages, model):
+        calls["openai"] += 1
+        return "The D9 shows relationship lessons around honesty and effort."
+
+    monkeypatch.setattr(ai_routes, "compact_with_gemini", fake_compact_with_gemini)
+    monkeypatch.setattr(ai_routes, "generate_openai_response", fake_generate_openai_response)
+
+    response = TestClient(app).post(
+        "/ai/pridicta",
+        json=build_request(
+            chartContext={
+                "chartType": "D9",
+                "chartName": "Navamsha",
+                "purpose": "Marriage and deeper relationship patterns",
+                "sourceScreen": "Charts",
+            },
+            history=[
+                {"role": "user", "text": "What pattern in my D9 affects how I stay in relationships?"},
+                {"role": "user", "text": "I stay too long and carry too much. Why?"},
+            ],
+            message="Give me one boundary sentence I can actually use.",
+        ),
+    )
+
+    assert response.status_code == 200
+    assert "I care about this connection" in response.json()["text"]
+    assert "mutual" in response.json()["text"]
+    assert calls["openai"] == 2
+
+
+def test_ai_endpoint_uses_chart_local_floor_for_d10_sabotage_followup(monkeypatch):
+    response_cache._response_cache.clear()
+    calls = {"openai": 0}
+
+    async def fake_compact_with_gemini(*, model, prompt):
+        return None
+
+    async def fake_generate_openai_response(*, max_output_tokens, messages, model):
+        calls["openai"] += 1
+        return "Your chart suggests pressure should be handled with patience and structure."
+
+    monkeypatch.setattr(ai_routes, "compact_with_gemini", fake_compact_with_gemini)
+    monkeypatch.setattr(ai_routes, "generate_openai_response", fake_generate_openai_response)
+
+    response = TestClient(app).post(
+        "/ai/pridicta",
+        json=build_request(
+            chartContext={
+                "chartType": "D10",
+                "chartName": "Dashamsha",
+                "purpose": "Career and responsibility",
+                "sourceScreen": "Charts",
+            },
+            history=[
+                {"role": "user", "text": "What does my D10 show about career growth?"},
+                {"role": "user", "text": "What is the real risk here, not the polished version?"},
+            ],
+            message="What behavior in me would quietly sabotage this?",
+        ),
+    )
+
+    assert response.status_code == 200
+    assert "quiet sabotage" in response.json()["text"]
+    assert "over-managing the path" in response.json()["text"]
+    assert calls["openai"] == 2
+
+
 def test_ai_endpoint_caches_standalone_first_question(monkeypatch):
     response_cache._response_cache.clear()
     calls = {"openai": 0}

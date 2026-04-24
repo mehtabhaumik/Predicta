@@ -305,6 +305,11 @@ def should_force_theme_floor(request: PridictaAIRequest, text: str) -> bool:
             if "practical remedy:" not in normalized or "spiritual remedy:" not in normalized:
                 return True
 
+    if theme == "career":
+        if "ambition" in request_text:
+            if len(normalized) < 180 or "empty ambition" not in normalized:
+                return True
+
     if theme == "relationship":
         if any(marker in request_text for marker in ("emotional labor", "managing the atmosphere", "exhausted")):
             if len(normalized) < 180 or "regulate more than relate" not in normalized:
@@ -327,6 +332,33 @@ def is_weak_chart_aware_response(request: PridictaAIRequest, text: str) -> bool:
         return True
     if request.chartContext and request.chartContext.chartType == "D9" and re.search(r"\brelationship|love|marriage|partner\b", request_text):
         if not any(token in lowered for token in ("relationship", "love", "bond", "honesty", "space", "closeness")):
+            return True
+    if re.search(r"\b(sabotage|self-sabotage|quietly sabotage)\b", request_text):
+        if not any(
+            token in lowered
+            for token in ("sabotage", "overprepare", "approval", "hesitate", "delay", "prove", "self-doubt")
+        ):
+            return True
+    if request.chartContext and request.chartContext.chartType == "D9" and re.search(r"\b(stay too long|carry too much|why)\b", request_text):
+        if not any(
+            token in lowered
+            for token in ("carry", "over-responsible", "tolerate", "burden", "leave", "closeness")
+        ):
+            return True
+    if re.search(r"\b(compassion|less lecture|softer)\b", request_text):
+        if not any(
+            token in lowered
+            for token in ("gentle", "compassion", "makes sense", "you learned", "self-respect")
+        ):
+            return True
+    if re.search(r"\b(boundary sentence|sentence i can actually use|what do i say)\b", request_text):
+        if '"' not in normalized and "try:" not in lowered and "say:" not in lowered:
+            return True
+    if re.search(r"\b(spiritual reminder|keep it simple)\b", request_text):
+        if not any(
+            token in lowered
+            for token in ("mahadev", "shiva", "bhairav", "steady", "return", "reminder", "prayer")
+        ):
             return True
     if re.search(r"\b(remedy|remedies)\b", request_text):
         if not any(token in lowered for token in ("practical remedy", "inner remedy", "spiritual remedy", "prayer", "breathwork", "discipline")):
@@ -365,11 +397,24 @@ def build_chart_aware_local_guidance(request: PridictaAIRequest) -> str:
         return "I need the actual kundli to answer this from the chart rather than from guesswork."
 
     normalized = re.sub(r"\s+", " ", request.message.strip()).lower()
+    history_text = " ".join(
+        re.sub(r"\s+", " ", turn.text.strip()).lower()
+        for turn in request.history
+        if getattr(turn, "role", None) == "user"
+    )
+    combined = f"{history_text} {normalized}".strip()
     chart_label = request.chartContext.chartType if request.chartContext and request.chartContext.chartType else "birth chart"
     dasha_label = f"{kundli.dasha.current.mahadasha}/{kundli.dasha.current.antardasha}"
     strongest_houses = ", ".join(str(house) for house in kundli.ashtakavarga.strongestHouses[:3])
     chart_highlights = summarize_selected_chart_highlights(request)
     highlight_line = f"I’m reading this through {chart_label}, with highlights like {chart_highlights}. " if chart_highlights else ""
+
+    if re.search(r"\b(sabotage|self-sabotage|quietly sabotage)\b", normalized):
+        return (
+            f"{highlight_line}The quiet sabotage here is likely not laziness. It is over-managing the path until momentum gets replaced by caution. "
+            f"Under {dasha_label}, you can start waiting for perfect certainty, proving too much, or carrying pressure so privately that clean action gets delayed. "
+            "The correction is simple: choose one visible commitment and let disciplined consistency speak louder than inner over-checking."
+        )
 
     if re.search(r"\b(remedy|remedies)\b", normalized):
         return (
@@ -399,7 +444,32 @@ def build_chart_aware_local_guidance(request: PridictaAIRequest) -> str:
             "The correction is simple: clearer boundaries, cleaner truth, less silent endurance."
         )
 
-    if re.search(r"\b(relationship|relationships|love|marriage|partner)\b", normalized):
+    if chart_label == "D9" and re.search(r"\b(stay too long|carry too much|why)\b", normalized):
+        return (
+            f"{highlight_line}Because closeness can register as duty before it registers as ease. "
+            "You can keep giving, carrying, and repairing because part of you would rather over-hold the bond than risk being the one who leaves too early. "
+            "The D9 correction is not colder love. It is self-respect inside love, so care does not quietly turn into burden."
+        )
+
+    if chart_label == "D9" and re.search(r"\b(compassion|less lecture|softer)\b", normalized):
+        return (
+            f"{highlight_line}More gently: you do not stay too long because you are weak. You stay because your heart takes commitment seriously, and sometimes that sincerity keeps working long after reciprocity has thinned out. "
+            "The lesson is not to love less. It is to notice earlier when love has turned into carrying."
+        )
+
+    if chart_label == "D9" and re.search(r"\b(boundary sentence|sentence i can actually use|what do i say)\b", normalized):
+        return (
+            f"{highlight_line}Try this: “I care about this connection, but I cannot keep carrying what needs to be shared. If this is going to continue, the effort has to become more mutual.” "
+            "Keep the sentence calm, short, and self-respecting. Do not over-explain it."
+        )
+
+    if chart_label == "D9" and re.search(r"\b(spiritual reminder|keep it simple)\b", normalized):
+        return (
+            f"{highlight_line}Simple reminder: what is meant for you does not ask you to abandon your own steadiness. "
+            "Stay truthful, stay soft, and let Mahadev hold what you do not need to force."
+        )
+
+    if re.search(r"\b(relationship|relationships|love|marriage|partner)\b", combined):
         return (
             f"{highlight_line}The relationship pattern here is about how you stay, repair, and protect yourself once closeness becomes real. "
             "You are not built for shallow bonds, but you do need honesty and emotional clarity; otherwise you can become private, over-responsible, or quietly burdened. "
@@ -658,13 +728,13 @@ def summarize_known_birth_details(request: PridictaAIRequest) -> str:
 def detect_no_kundli_theme_from_text(message: str) -> str:
     normalized = re.sub(r"\s+", " ", message.strip()).lower()
 
-    if re.search(r"\b(grief|grieving|loss|losing|lost someone|lost|bereave|mourning|heartbreak after loss)\b", normalized):
+    if re.search(r"\b(grief|grieving|loss|losing someone(?: close)?|lost someone(?: close)?|bereave|mourning|heartbreak after loss)\b", normalized):
         return "grief"
     if re.search(r"\b(remedy|remedies|anxiety|restless|restlessness|panic|overthinking|mind won'?t stop)\b", normalized):
         return "remedy"
     if re.search(r"\b(finance|finances|financial|money|income|earning|debt|savings|wealth|salary)\b", normalized):
         return "finance"
-    if re.search(r"\b(career|job|work|profession|business|promotion|role|office)\b", normalized):
+    if re.search(r"\b(career|job|work|profession|business|promotion|role|office|ambition)\b", normalized):
         return "career"
     if re.search(r"\b(relationship|love|marriage|partner|spouse|dating|family)\b", normalized):
         return "relationship"
@@ -735,6 +805,33 @@ def build_no_kundli_local_guidance(request: PridictaAIRequest) -> str:
             f"{chart_bridge}"
         )
     if theme == "career":
+        if re.search(r"\bambition\b", normalized):
+            return (
+                "This does not sound like empty ambition. It sounds like growth asking for a cost you have not fully agreed to yet. "
+                "Part of you wants expansion, and part of you is protecting what has already taken years to build. The tension is real because both sides are valid. "
+                "Do not reduce this to courage versus fear. It is really about what kind of life you are willing to reorganize in order to grow. "
+                f"{chart_bridge}"
+            )
+        if re.search(r"\b(what am i avoiding|more directly)\b", normalized):
+            return (
+                "You may be avoiding the grief of outgrowing an older identity. "
+                "A bigger role is not just more success. It often means less innocence, less comfort, and less room to hide behind potential. That is why the pull feels strong and the resistance feels personal. "
+                "The question is not whether you can grow. It is whether you are ready to let the old structure become too small for you. "
+                f"{chart_bridge}"
+            )
+        if re.search(r"\b(one practical step and one inner step|practical step and one inner step)\b", normalized):
+            return (
+                "Practical step: choose one concrete area where you want more responsibility and make one clean move toward it this week. "
+                "Inner step: sit quietly for ten minutes and name what you are afraid growth will take away from you. Fear becomes easier to carry once it is spoken plainly. "
+                f"{chart_bridge}"
+            )
+        if re.search(r"\b(ignore this|six months)\b", normalized):
+            return (
+                "Usually the split becomes more expensive. "
+                "You keep functioning, but the inner conflict hardens into restlessness, resentment, or quiet self-doubt. Then growth starts to feel like pressure because it was postponed too long. "
+                "Ignoring it does not keep life stable. It usually just makes the eventual choice more emotionally costly. "
+                f"{chart_bridge}"
+            )
         return (
             "Career confusion usually hides inside growth, change, leadership pressure, or exhaustion. "
             "Name the one you are actually dealing with, and I will respond to that instead of giving you a vague career speech. "

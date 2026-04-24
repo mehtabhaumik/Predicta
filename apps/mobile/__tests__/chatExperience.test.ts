@@ -251,6 +251,41 @@ describe('predicta chat experience helpers', () => {
     expect(response).toContain('Spiritual remedy: sit quietly for three minutes');
   });
 
+  it('keeps a career growth thread in the career lane across follow-ups', () => {
+    const response = buildNoKundliResponse(
+      'It feels like ambition, but also fear of losing what I have built.',
+      {
+        history: [
+          {
+            role: 'user',
+            text: 'I feel ready for a bigger role, but something in me pulls back.',
+          },
+        ],
+      },
+    );
+
+    expect(response).toContain('This does not sound like empty ambition');
+    expect(response).not.toContain('Grief has its own weather');
+  });
+
+  it('deepens career follow-ups instead of restarting or drifting', () => {
+    const response = buildNoKundliResponse('What am I avoiding, more directly?', {
+      history: [
+        {
+          role: 'user',
+          text: 'I feel ready for a bigger role, but something in me pulls back.',
+        },
+        {
+          role: 'user',
+          text: 'It feels like ambition, but also fear of losing what I have built.',
+        },
+      ],
+    });
+
+    expect(response).toContain('You may be avoiding the grief of outgrowing an older identity');
+    expect(response).toContain('let the old structure become too small for you');
+  });
+
   it('gives precise follow-up remedies when the user narrows the ask', () => {
     const response = buildNoKundliResponse(
       'Give me one practical remedy and one spiritual remedy only.',

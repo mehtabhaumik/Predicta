@@ -325,7 +325,7 @@ function detectBirthMemoryQuestion(input: string): BirthMemoryQuestion {
 }
 
 function detectNoKundliThemeFromText(normalized: string): NoKundliTheme {
-  if (/\b(grief|grieving|loss|losing|lost someone|lost|bereave|mourning|heartbreak after loss)\b/.test(normalized)) {
+  if (/\b(grief|grieving|loss|losing someone(?: close)?|lost someone(?: close)?|bereave|mourning|heartbreak after loss)\b/.test(normalized)) {
     return 'grief';
   }
 
@@ -337,7 +337,7 @@ function detectNoKundliThemeFromText(normalized: string): NoKundliTheme {
     return 'finance';
   }
 
-  if (/\b(career|job|work|profession|business|promotion|role|office)\b/.test(normalized)) {
+  if (/\b(career|job|work|profession|business|promotion|role|office|ambition)\b/.test(normalized)) {
     return 'career';
   }
 
@@ -422,6 +422,41 @@ function buildNoKundliLifeGuidance(
         chartBridge,
       ].join(' ');
     case 'career':
+      if (/\bambition\b/.test(normalized)) {
+        return [
+          'This does not sound like empty ambition. It sounds like growth asking for a cost you have not fully agreed to yet.',
+          'Part of you wants expansion, and part of you is protecting what has already taken years to build. The tension is real because both sides are valid.',
+          'Do not reduce this to courage versus fear. It is really about what kind of life you are willing to reorganize in order to grow.',
+          chartBridge,
+        ].join(' ');
+      }
+
+      if (/\b(what am i avoiding|more directly)\b/.test(normalized)) {
+        return [
+          'You may be avoiding the grief of outgrowing an older identity.',
+          'A bigger role is not just more success. It often means less innocence, less comfort, and less room to hide behind potential. That is why the pull feels strong and the resistance feels personal.',
+          'The question is not whether you can grow. It is whether you are ready to let the old structure become too small for you.',
+          chartBridge,
+        ].join(' ');
+      }
+
+      if (/\b(one practical step and one inner step|practical step and one inner step)\b/.test(normalized)) {
+        return [
+          'Practical step: choose one concrete area where you want more responsibility and make one clean move toward it this week.',
+          'Inner step: sit quietly for ten minutes and name what you are afraid growth will take away from you. Fear becomes easier to carry once it is spoken plainly.',
+          chartBridge,
+        ].join(' ');
+      }
+
+      if (/\b(ignore this|six months)\b/.test(normalized)) {
+        return [
+          'Usually the split becomes more expensive.',
+          'You keep functioning, but the inner conflict hardens into restlessness, resentment, or quiet self-doubt. Then growth starts to feel like pressure because it was postponed too long.',
+          'Ignoring it does not keep life stable. It usually just makes the eventual choice more emotionally costly.',
+          chartBridge,
+        ].join(' ');
+      }
+
       return [
         'We can start there without faking a chart reading.',
         'Career tension usually hides inside one of four things: growth, a change, leadership pressure, or plain exhaustion. They can look similar on the outside, but they need different advice.',
