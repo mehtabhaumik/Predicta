@@ -313,7 +313,7 @@ def is_weak_chart_aware_response(request: PridictaAIRequest, text: str) -> bool:
     normalized = re.sub(r"\s+", " ", text.strip())
     if not normalized:
         return True
-    if 40 < len(normalized) < 120 and not re.search(r'[.!?]"?$', normalized):
+    if 20 < len(normalized) < 120 and not re.search(r'[.!?]"?$', normalized):
         return True
     if any(pattern.search(normalized) for pattern in WEAK_CHART_AWARE_PATTERNS):
         return True
@@ -363,6 +363,12 @@ def build_chart_aware_local_guidance(request: PridictaAIRequest) -> str:
             "Practical remedy: choose one disciplined action you can repeat weekly and let consistency do the heavy lifting. "
             "Inner remedy: give the pressure somewhere clean to go, whether that is prayer, journaling, breathwork, or one quiet Mahadev practice done sincerely. "
             f"Your stronger support is around houses {strongest_houses}, so visible discipline will help more than emotional drama."
+        )
+
+    if re.search(r"\b(next step|grounded next step|what should i do)\b", normalized):
+        return (
+            f"{highlight_line}The grounded next step is to choose one area where you can create cleaner structure this week and stay with it. "
+            f"Under {dasha_label}, the chart responds better to steady form than to emotional force. Start with one visible discipline around the houses {strongest_houses} are supporting, and let that small structure prove the direction."
         )
 
     if re.search(r"\b(risk|problem|sugarcoat|real risk|real problem)\b", normalized):
