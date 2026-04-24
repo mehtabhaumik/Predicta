@@ -281,6 +281,31 @@ def test_ai_endpoint_rewrites_weak_no_kundli_response(monkeypatch):
     assert calls["openai"] == 2
 
 
+def test_ai_endpoint_uses_local_floor_when_no_kundli_reply_stays_weak(monkeypatch):
+    response_cache._response_cache.clear()
+    calls = {"openai": 0}
+
+    async def fake_generate_openai_response(*, max_output_tokens, messages, model):
+        calls["openai"] += 1
+        return "It's natural to seek clarity about your financial path ahead."
+
+    monkeypatch.setattr(ai_routes, "generate_openai_response", fake_generate_openai_response)
+
+    payload = build_request(
+        kundli=None,
+        chartContext=None,
+        history=[{"role": "user", "text": "Place: Petlad, India"}],
+        message="I want to know my finances in coming years",
+        userPlan="FREE",
+    )
+    response = TestClient(app).post("/ai/pridicta", json=payload)
+
+    assert response.status_code == 200
+    assert "stability, stronger income, or relief from strain" in response.json()["text"]
+    assert "birth place Petlad, India" in response.json()["text"]
+    assert calls["openai"] == 2
+
+
 def test_ai_endpoint_caches_standalone_first_question(monkeypatch):
     response_cache._response_cache.clear()
     calls = {"openai": 0}

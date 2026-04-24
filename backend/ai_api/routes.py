@@ -68,6 +68,9 @@ ASTROLOGY_CUE_PATTERN = re.compile(
 WEAK_NO_KUNDLI_PATTERNS = (
     re.compile(r"^(understanding|thinking about|looking at)\s+your\b", re.IGNORECASE),
     re.compile(r"\b(common|natural|practical)\s+concern\b", re.IGNORECASE),
+    re.compile(r"^it's natural to\b", re.IGNORECASE),
+    re.compile(r"^it is natural to\b", re.IGNORECASE),
+    re.compile(r"\bseek clarity about\b", re.IGNORECASE),
     re.compile(r"^while i (don't|do not) have your chart\b", re.IGNORECASE),
     re.compile(r"^without (your|a) chart\b", re.IGNORECASE),
     re.compile(r"\bwhile i (don't|do not) have your chart\b", re.IGNORECASE),
@@ -203,6 +206,8 @@ async def ask_pridicta(request: PridictaAIRequest, response: Response):
         )
         if rewritten and rewritten.strip():
             text = rewritten.strip()
+        if is_weak_no_kundli_response(text):
+            text = build_no_kundli_local_guidance(request)
 
     ai_response = PridictaAIResponse(
         compactedWithGemini=bool(compact_context),
@@ -456,6 +461,71 @@ def detect_no_kundli_theme(message: str) -> str:
     if re.search(r"\b(spiritual|purpose|meaning|inner|soul|faith|meditation)\b", normalized):
         return "spiritual"
     return "general"
+
+
+def build_no_kundli_local_guidance(request: PridictaAIRequest) -> str:
+    theme = detect_no_kundli_theme(request.message)
+    known_details = summarize_known_birth_details(request)
+    known_details = "" if known_details == "None yet." else known_details
+    missing_parts = []
+    if not any(extract_date(turn.text) for turn in request.history if turn.role == "user") and not extract_date(request.message):
+        missing_parts.append("date of birth")
+    if not any(extract_time(turn.text) for turn in request.history if turn.role == "user") and not extract_time(request.message):
+        missing_parts.append("birth time")
+    if not any(extract_place(turn.text) for turn in request.history if turn.role == "user") and not extract_place(request.message):
+        missing_parts.append("birth place")
+
+    if len(missing_parts) == 0:
+        chart_bridge = "You already have enough birth details there; the next step is to generate the kundli so I can anchor this to the real chart."
+    elif known_details:
+        missing_text = ", ".join(missing_parts[:-1]) + (
+            f" and {missing_parts[-1]}" if len(missing_parts) > 1 else missing_parts[0]
+        )
+        chart_bridge = f"I already have your {known_details}. Send your {missing_text} if you want me to anchor this to the real chart."
+    else:
+        chart_bridge = "If you want this tied to your actual chart, send your date of birth, exact birth time, and birth place."
+
+    if theme == "finance":
+        return (
+            "The real financial pressure is usually one of three things: stability, stronger income, or relief from strain. "
+            "Those need different answers. Tell me which one feels most urgent, and I will answer that directly. "
+            f"{chart_bridge}"
+        )
+    if theme == "career":
+        return (
+            "Career confusion usually hides inside growth, change, leadership pressure, or exhaustion. "
+            "Name the one you are actually dealing with, and I will respond to that instead of giving you a vague career speech. "
+            f"{chart_bridge}"
+        )
+    if theme == "relationship":
+        return (
+            "Relationship tension gets clearer once we separate longing, compatibility, communication strain, and timing. "
+            "Tell me which layer is hurting or confusing you most, and I will respond to that directly. "
+            f"{chart_bridge}"
+        )
+    if theme == "health":
+        return (
+            "I will stay careful here and not pretend to diagnose through astrology. "
+            "Tell me whether this feels more physical, emotional, habitual, or situational, and I will help you think through that layer. "
+            f"{chart_bridge}"
+        )
+    if theme == "decision":
+        return (
+            "When a decision feels heavy, the clean first cut is what you are protecting, what you are afraid of losing, and what a steady next step would look like. "
+            "Give me the two options or the real fork in front of you, and I will help you reason through it clearly. "
+            f"{chart_bridge}"
+        )
+    if theme == "spiritual":
+        return (
+            "Questions like this usually hide inside restlessness, grief, or the need for clearer direction. "
+            "Tell me which one feels most true lately, and I will answer from there without turning it into theatre. "
+            f"{chart_bridge}"
+        )
+    return (
+        "We can begin with the actual tension instead of a grand prediction. "
+        "Say the question in one plain sentence, and I will meet it directly. "
+        f"{chart_bridge}"
+    )
 
 
 def build_ai_context(request: PridictaAIRequest) -> AIContextPayload:
