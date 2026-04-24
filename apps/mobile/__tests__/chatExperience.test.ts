@@ -215,6 +215,42 @@ describe('predicta chat experience helpers', () => {
     expect(response).toContain('one physical anchor each day');
   });
 
+  it('keeps grief weekly follow-ups in the grief lane, not decision mode', () => {
+    const response = buildNoKundliResponse('What should I actually do this week?', {
+      history: [
+        {
+          role: 'user',
+          text: 'I have been feeling heavy since losing someone close. What do you see in this phase?',
+        },
+        {
+          role: 'user',
+          text: 'It feels more numb than dramatic. I am functioning, but something in me is absent.',
+        },
+      ],
+    });
+
+    expect(response).toContain('This week, do not try to solve the whole grief');
+    expect(response).toContain('one contained space each day');
+  });
+
+  it('keeps a narrowed remedy request precise on follow-up', () => {
+    const response = buildNoKundliResponse('Give me one practical remedy and one spiritual remedy only.', {
+      history: [
+        {
+          role: 'user',
+          text: 'Give me a remedy for recurring anxiety and mental restlessness.',
+        },
+        {
+          role: 'user',
+          text: 'It gets worse at night after conflict.',
+        },
+      ],
+    });
+
+    expect(response).toContain('Practical remedy: after conflict, write one page');
+    expect(response).toContain('Spiritual remedy: sit quietly for three minutes');
+  });
+
   it('gives precise follow-up remedies when the user narrows the ask', () => {
     const response = buildNoKundliResponse(
       'Give me one practical remedy and one spiritual remedy only.',

@@ -366,15 +366,27 @@ function detectNoKundliTheme(
 ): NoKundliTheme {
   const normalized = normalizePrompt(input).toLowerCase();
   const directTheme = detectNoKundliThemeFromText(normalized);
-
-  if (directTheme !== 'general') {
-    return directTheme;
-  }
-
   const recentUserTurns = (history ?? [])
     .filter(turn => turn.role === 'user')
     .slice(-4)
     .map(turn => normalizePrompt(turn.text).toLowerCase());
+
+  const fallbackTheme = (() => {
+    for (let index = recentUserTurns.length - 1; index >= 0; index -= 1) {
+      const theme = detectNoKundliThemeFromText(recentUserTurns[index]);
+      if (theme !== 'general' && theme !== 'decision') {
+        return theme;
+      }
+    }
+    return 'general' as NoKundliTheme;
+  })();
+
+  if (directTheme !== 'general') {
+    if (directTheme === 'decision' && fallbackTheme !== 'general') {
+      return fallbackTheme;
+    }
+    return directTheme;
+  }
 
   for (let index = recentUserTurns.length - 1; index >= 0; index -= 1) {
     const theme = detectNoKundliThemeFromText(recentUserTurns[index]);

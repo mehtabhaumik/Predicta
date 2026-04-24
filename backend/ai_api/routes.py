@@ -252,7 +252,7 @@ def is_weak_no_kundli_response(text: str) -> bool:
     normalized = re.sub(r"\s+", " ", text.strip())
     if not normalized:
         return True
-    if len(normalized) < 110 and not re.search(r'[.!?]"?$', normalized):
+    if len(normalized) < 200 and not re.search(r'[.!?]"?$', normalized):
         return True
     if len(normalized) > 900:
         return True
@@ -263,6 +263,7 @@ def is_weak_no_kundli_response(text: str) -> bool:
 
 def should_force_theme_floor(request: PridictaAIRequest, text: str) -> bool:
     theme = detect_no_kundli_theme(request.message, request.history)
+    request_text = request.message.strip().lower()
     normalized = text.strip().lower()
 
     if theme == "grief":
@@ -273,6 +274,18 @@ def should_force_theme_floor(request: PridictaAIRequest, text: str) -> bool:
             for marker in ("grief", "loss", "sorry", "heavy", "numb", "disoriented")
         ):
             return True
+        if "this week" in request_text and "daily anchor" not in normalized and "this week" not in normalized:
+            return True
+
+    if theme == "remedy":
+        if "one practical remedy and one spiritual remedy only" in request_text:
+            if "practical remedy:" not in normalized or "spiritual remedy:" not in normalized:
+                return True
+
+    if theme == "relationship":
+        if any(marker in request_text for marker in ("emotional labor", "managing the atmosphere", "exhausted")):
+            if len(normalized) < 180 or "regulate more than relate" not in normalized:
+                return True
 
     return False
 
@@ -489,14 +502,23 @@ def detect_no_kundli_theme_from_text(message: str) -> str:
 
 def detect_no_kundli_theme(message: str, history: list | None = None) -> str:
     direct_theme = detect_no_kundli_theme_from_text(message)
-    if direct_theme != "general":
-        return direct_theme
-
     recent_user_turns = [
         re.sub(r"\s+", " ", turn.text.strip()).lower()
         for turn in (history or [])
         if getattr(turn, "role", None) == "user"
     ][-4:]
+
+    fallback_theme = "general"
+    for text in reversed(recent_user_turns):
+        theme = detect_no_kundli_theme_from_text(text)
+        if theme not in {"general", "decision"}:
+            fallback_theme = theme
+            break
+
+    if direct_theme != "general":
+        if direct_theme == "decision" and fallback_theme != "general":
+            return fallback_theme
+        return direct_theme
 
     for text in reversed(recent_user_turns):
         theme = detect_no_kundli_theme_from_text(text)
