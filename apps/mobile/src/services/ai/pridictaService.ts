@@ -14,6 +14,7 @@ import {
 } from './aiRouter';
 import {
   buildLocalPredictaFallback,
+  buildNoKundliResponse,
   buildDecisionMirrorResponse,
   buildAiLanguageContext,
   detectDecisionIntent,
@@ -99,6 +100,35 @@ export async function askPridicta({
       model: 'predicta-small-talk',
       provider: 'local',
       text: buildLocalPredictaFallback(message, kundli, chartContext),
+      usedDeepModel: false,
+    };
+  }
+
+  if (!kundli) {
+    const backendResponse = await generateBackendPridictaResponse({
+      chartContext,
+      deepAnalysis,
+      history,
+      kundli,
+      message,
+      preferredLanguage,
+      userPlan,
+    });
+
+    if (backendResponse?.text?.trim()) {
+      return {
+        ...backendResponse,
+        text: backendResponse.text.trim(),
+      };
+    }
+
+    return {
+      intent: detectIntent(message, chartContext),
+      model: 'predicta-no-kundli-local',
+      provider: 'local',
+      text: buildNoKundliResponse(message, {
+        history,
+      }),
       usedDeepModel: false,
     };
   }

@@ -5,6 +5,7 @@ import {
   buildSmallTalkResponse,
   getRandomPredictaIntro,
   isSmallTalkPrompt,
+  shouldUseLocalNoKundliResponse,
 } from '@pridicta/ai';
 import type { ChartContext, KundliData } from '../src/types/astrology';
 
@@ -130,6 +131,15 @@ describe('predicta chat experience helpers', () => {
     expect(response).toContain('I do not have your kundli yet');
   });
 
+  it('gives useful no-kundli guidance for a real life question', () => {
+    const response = buildNoKundliResponse('I want to know my finances in coming years');
+
+    expect(response).toContain('We can still think about this intelligently');
+    expect(response).toContain('stability');
+    expect(response).toContain('increase income');
+    expect(response).toContain('If you later want this anchored to your actual chart');
+  });
+
   it('remembers partial birth details across turns', () => {
     const response = buildNoKundliResponse('Time: 06:30 am, Place: Petlad, India', {
       history: [{ role: 'user', text: 'DOB: 22/08/1980' }],
@@ -198,7 +208,8 @@ describe('predicta chat experience helpers', () => {
       ],
     });
 
-    expect(step1).toContain('real chart reading');
+    expect(step1).toContain('We can still think about this intelligently');
+    expect(step1).toContain('stability');
     expect(step2).toContain('birth place Petlad, India');
     expect(step3).toContain('I do not have your date of birth yet');
     expect(step3).toContain('birth place Petlad, India');
@@ -207,5 +218,12 @@ describe('predicta chat experience helpers', () => {
     expect(step5).toContain('date of birth 22-08-1980');
     expect(step5).toContain('birth place Petlad, India');
     expect(step5).toContain('birth time');
+  });
+
+  it('routes only birth-detail and memory turns to local no-kundli handling', () => {
+    expect(shouldUseLocalNoKundliResponse('Place: Petlad, India')).toBe(true);
+    expect(shouldUseLocalNoKundliResponse('Which birthdate do you have?')).toBe(true);
+    expect(shouldUseLocalNoKundliResponse('Please analyze my chart')).toBe(true);
+    expect(shouldUseLocalNoKundliResponse('I want to know my finances in coming years')).toBe(false);
   });
 });

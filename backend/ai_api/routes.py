@@ -66,6 +66,33 @@ ASTROLOGY_CUE_PATTERN = re.compile(
     re.IGNORECASE,
 )
 
+MONTHS = {
+    "jan": "01",
+    "january": "01",
+    "feb": "02",
+    "february": "02",
+    "mar": "03",
+    "march": "03",
+    "apr": "04",
+    "april": "04",
+    "may": "05",
+    "jun": "06",
+    "june": "06",
+    "jul": "07",
+    "july": "07",
+    "aug": "08",
+    "august": "08",
+    "sep": "09",
+    "sept": "09",
+    "september": "09",
+    "oct": "10",
+    "october": "10",
+    "nov": "11",
+    "november": "11",
+    "dec": "12",
+    "december": "12",
+}
+
 
 @ai_router.post("/pridicta", response_model=PridictaAIResponse)
 async def ask_pridicta(request: PridictaAIRequest, response: Response):
@@ -95,19 +122,22 @@ async def ask_pridicta(request: PridictaAIRequest, response: Response):
     else:
         response.headers["X-Predicta-Cache"] = "BYPASS"
 
-    optimized_context = build_ai_context(request)
-    serialized_context = optimized_context.model_dump_json(indent=2)
-    compact_context = await compact_with_gemini(
-        model=GEMINI_HELPER_MODEL,
-        prompt="\n\n".join(
-            [
-                "Compact this Vedic kundli context for a downstream OpenAI astrologer.",
-                "Keep factual chart context only. Do not create final user guidance or persona.",
-                serialized_context,
-            ]
-        ),
-    )
-    final_context = bound_text(compact_context or serialized_context, MAX_CONTEXT_CHARS)
+    compact_context = None
+    final_context = None
+    if request.kundli:
+        optimized_context = build_ai_context(request)
+        serialized_context = optimized_context.model_dump_json(indent=2)
+        compact_context = await compact_with_gemini(
+            model=GEMINI_HELPER_MODEL,
+            prompt="\n\n".join(
+                [
+                    "Compact this Vedic kundli context for a downstream OpenAI astrologer.",
+                    "Keep factual chart context only. Do not create final user guidance or persona.",
+                    serialized_context,
+                ]
+            ),
+        )
+        final_context = bound_text(compact_context or serialized_context, MAX_CONTEXT_CHARS)
 
     max_output_tokens = get_max_output_tokens(
         intent=intent,
@@ -227,8 +257,114 @@ def get_max_output_tokens(*, intent: str, user_plan: str) -> int:
     return FREE_MAX_OUTPUT_TOKENS
 
 
+def normalize_year(year: str) -> str:
+    if len(year) == 4:
+        return year
+    return f"19{year}" if int(year) > 30 else f"20{year}"
+
+
+def format_date_parts(year: str, month: str, day: str) -> str:
+    return f"{year}-{month.zfill(2)}-{day.zfill(2)}"
+
+
+def extract_date(text: str) -> str | None:
+    normalized = re.sub(r"\s+", " ", text.strip())
+    iso = re.search(r"\b(\d{4})-(\d{1,2})-(\d{1,2})\b", normalized)
+    if iso:
+        return format_date_parts(iso.group(1), iso.group(2), iso.group(3))
+
+    numeric = re.search(r"\b(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})\b", normalized)
+    if numeric:
+        return format_date_parts(
+            normalize_year(numeric.group(3)),
+            numeric.group(2),
+            numeric.group(1),
+        )
+
+    named = re.search(r"\b(\d{1,2})\s+([A-Za-z]{3,9})\s+(\d{2,4})\b", normalized, re.IGNORECASE)
+    if named:
+        month = MONTHS.get(named.group(2).lower())
+        if month:
+            return format_date_parts(normalize_year(named.group(3)), month, named.group(1))
+
+    return None
+
+
+def extract_time(text: str) -> str | None:
+    normalized = re.sub(r"\s+", " ", text.strip())
+    match = re.search(
+        r"\b(?:time|born at|birth time is|at)\s*:?\s*(\d{1,2})(?::(\d{2}))?\s*(?:in the\s+)?(am|pm|morning|evening|night)?\b",
+        normalized,
+        re.IGNORECASE,
+    ) or re.search(r"\b(\d{1,2}):(\d{2})\s*(am|pm|morning|evening|night)?\b", normalized, re.IGNORECASE)
+
+    if not match:
+        return None
+
+    hours = int(match.group(1))
+    minutes = int(match.group(2) or "00")
+    meridiem_text = (match.group(3) or "").lower()
+
+    if meridiem_text in {"pm", "evening", "night"} and hours < 12:
+        hours += 12
+    elif meridiem_text in {"am", "morning"} and hours == 12:
+        hours = 0
+
+    if hours > 23 or minutes > 59:
+        return None
+
+    return f"{hours:02d}:{minutes:02d}"
+
+
+def extract_place(text: str) -> str | None:
+    normalized = re.sub(r"\s+", " ", text.strip())
+    labeled = re.search(
+        r"\b(?:birth place|birthplace|place)\s*(?:is|:)?\s*([A-Za-z][A-Za-z\s.-]+(?:,\s*[A-Za-z][A-Za-z\s.-]+){0,2})\b",
+        normalized,
+        re.IGNORECASE,
+    )
+    if labeled and labeled.group(1):
+        return labeled.group(1).strip()
+
+    born_in = re.search(
+        r"\b(?:born in|from)\s+([A-Za-z][A-Za-z\s.-]+(?:,\s*[A-Za-z][A-Za-z\s.-]+){0,2})\b",
+        normalized,
+        re.IGNORECASE,
+    )
+    if born_in and born_in.group(1):
+        return born_in.group(1).strip()
+
+    return None
+
+
+def summarize_known_birth_details(request: PridictaAIRequest) -> str:
+    date = None
+    time = None
+    place = None
+
+    user_turns = [turn.text for turn in request.history if turn.role == "user"]
+    user_turns.append(request.message)
+
+    for text in user_turns:
+        date = date or extract_date(text)
+        time = time or extract_time(text)
+        place = place or extract_place(text)
+
+    parts = []
+    if date:
+        parts.append(f"date of birth {date}")
+    if time:
+        parts.append(f"birth time {time}")
+    if place:
+        parts.append(f"birth place {place}")
+
+    return ", ".join(parts) if parts else "None yet."
+
+
 def build_ai_context(request: PridictaAIRequest) -> AIContextPayload:
     kundli = request.kundli
+    if kundli is None:
+        raise ValueError("build_ai_context requires kundli data")
     chart_context = request.chartContext
     selected_chart = None
 
@@ -284,6 +420,8 @@ def build_system_prompt(preferred_language: str | None) -> str:
             "Never claim certainty percentages.",
             "Use only the chart data that is actually provided in the context.",
             "Do not imply you can see a user's chart unless the request includes real kundli data.",
+            "If no kundli is provided, switch into no-chart guidance mode: be intelligent, conversational, and useful without inventing chart facts.",
+            "In no-chart guidance mode, answer the life question thoughtfully first. You may mention what chart data could add, but do not make the whole answer a request for birth details.",
             "Prioritize the passed chart context first when it exists, but do not default to D10 or career themes for broad questions.",
             "If no chart section is highlighted, begin from the broad birth chart picture and bring in divisional charts only when they are clearly relevant.",
             "Use the recent conversation as working memory. If the user asks what you already know, what they already shared, or what you mean, answer that directly.",
@@ -332,17 +470,32 @@ def build_small_talk_response(
     return f"Hello. I am here. {guidance_hint}"
 
 
-def build_user_prompt(request: PridictaAIRequest, compact_context: str) -> str:
+def build_user_prompt(request: PridictaAIRequest, compact_context: str | None) -> str:
     recent_history = request.history[-MAX_HISTORY_TURNS:]
     history_text = "\n".join(
         f"{'User' if turn.role == 'user' else 'Predicta'}: {bound_text(turn.text, MAX_HISTORY_CHARS_PER_TURN)}"
         for turn in recent_history
     )
 
+    if request.kundli is None:
+        return "\n\n".join(
+            [
+                "Chart status:",
+                "No kundli has been generated yet. You must not claim chart placements, dasha periods, houses, or divisional chart facts.",
+                "Known birth details from user so far:",
+                summarize_known_birth_details(request),
+                "Recent conversation (authoritative working memory):",
+                history_text or "No previous conversation.",
+                "How to answer:",
+                "Give thoughtful no-chart guidance that directly addresses the user's question. Be specific, human, and useful. Ask at most one clarifying question if it genuinely sharpens the answer. Briefly mention what birth details or kundli could add, but do not make that the whole reply.",
+                f"User question: {request.message}",
+            ]
+        )
+
     return "\n\n".join(
         [
             "Kundli context:",
-            compact_context,
+            compact_context or "",
             "Recent conversation (authoritative working memory):",
             history_text or "No previous conversation.",
             f"User question: {request.message}",

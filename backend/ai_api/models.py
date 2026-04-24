@@ -42,7 +42,7 @@ class AIContextPayload(BaseModel):
 
 class PridictaAIRequest(BaseModel):
     message: str = Field(min_length=1, max_length=1200)
-    kundli: KundliData
+    kundli: Optional[KundliData] = None
     chartContext: Optional[ChartContext] = None
     history: List[ConversationTurn] = Field(default_factory=list, max_length=16)
     userPlan: Literal["FREE", "PREMIUM"] = "FREE"

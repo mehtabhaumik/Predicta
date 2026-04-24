@@ -217,6 +217,34 @@ def test_ai_endpoint_short_circuits_small_talk_without_provider_calls(monkeypatc
     assert calls["gemini"] == 0
 
 
+def test_ai_endpoint_handles_no_kundli_guidance_mode(monkeypatch):
+    response_cache._response_cache.clear()
+    captured = {}
+
+    async def fake_generate_openai_response(*, max_output_tokens, messages, model):
+        captured["messages"] = list(messages)
+        return "Let us start with the financial pattern itself before we force this into a chart."
+
+    monkeypatch.setattr(ai_routes, "generate_openai_response", fake_generate_openai_response)
+
+    payload = build_request(
+        kundli=None,
+        chartContext=None,
+        history=[{"role": "user", "text": "Place: Petlad, India"}],
+        message="I want to know my finances in coming years",
+        userPlan="FREE",
+    )
+    response = TestClient(app).post("/ai/pridicta", json=payload)
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["provider"] == "openai"
+    assert body["text"] == "Let us start with the financial pattern itself before we force this into a chart."
+    assert "No kundli has been generated yet" in captured["messages"][1]["content"]
+    assert "birth place Petlad, India" in captured["messages"][1]["content"]
+    assert "Give thoughtful no-chart guidance" in captured["messages"][1]["content"]
+
+
 def test_ai_endpoint_caches_standalone_first_question(monkeypatch):
     response_cache._response_cache.clear()
     calls = {"openai": 0}

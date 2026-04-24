@@ -8,6 +8,7 @@ import {
   buildSmallTalkResponse,
   getRandomPredictaIntro,
   isSmallTalkPrompt,
+  shouldUseLocalNoKundliResponse,
 } from '@pridicta/ai';
 import type {
   ChartContext,
@@ -95,7 +96,13 @@ export function PredictaChatClient({
       return;
     }
 
-    if (!kundli) {
+    setWaitingMessage(
+      buildPredictaWaitingMessage(question, chartContext, {
+        hasKundli: Boolean(kundli),
+      }),
+    );
+
+    if (!kundli && shouldUseLocalNoKundliResponse(question)) {
       setMessages(current => [
         ...current,
         {
@@ -109,11 +116,6 @@ export function PredictaChatClient({
       return;
     }
 
-    setWaitingMessage(
-      buildPredictaWaitingMessage(question, chartContext, {
-        hasKundli: true,
-      }),
-    );
     setIsSending(true);
 
     try {
@@ -154,9 +156,13 @@ export function PredictaChatClient({
         {
           id: `pridicta-${Date.now()}`,
           role: 'pridicta',
-          text: buildLocalPredictaFallback(question, kundli, chartContext, {
-            history,
-          }),
+          text: kundli
+            ? buildLocalPredictaFallback(question, kundli, chartContext, {
+                history,
+              })
+            : buildNoKundliResponse(question, {
+                history,
+              }),
         },
       ]);
     } finally {

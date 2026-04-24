@@ -45,7 +45,7 @@ def build_ai_response_cache_key(
     payload = {
         "chartContext": request.chartContext.model_dump() if request.chartContext else None,
         "deepAnalysis": request.deepAnalysis,
-        "inputHash": request.kundli.calculationMeta.inputHash,
+        "inputHash": request.kundli.calculationMeta.inputHash if request.kundli else None,
         "message": normalize_question(request.message),
         "model": model,
         "preferredLanguage": request.preferredLanguage,
@@ -60,7 +60,7 @@ def can_use_ai_response_cache(request: PridictaAIRequest) -> bool:
     # Follow-ups can depend on recent conversation state. Cache only standalone
     # first questions where the chart, question, model, and input hash fully
     # describe the answer.
-    return response_cache_enabled() and not request.history
+    return response_cache_enabled() and not request.history and request.kundli is not None
 
 
 def get_cached_ai_response(cache_key: str) -> Optional[PridictaAIResponse]:

@@ -38,6 +38,7 @@ import {
   buildPredictaWaitingMessage,
   buildSmallTalkResponse,
   detectIntent,
+  shouldUseLocalNoKundliResponse,
   isSmallTalkPrompt,
 } from '@pridicta/ai';
 import { getProductUpgradePrompt } from '@pridicta/monetization';
@@ -229,6 +230,46 @@ export function ChatScreen({
             hasKundli: false,
           }),
         );
+        return;
+      }
+
+      if (!shouldUseLocalNoKundliResponse(trimmedInput)) {
+        setIsTyping(true);
+        setTypingLabel(
+          buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
+            hasKundli: false,
+          }),
+        );
+        setStreamingText('');
+
+        try {
+          const response = await askPridicta({
+            chartContext: activeChartContext,
+            history,
+            kundli: undefined,
+            message: trimmedInput,
+            preferredLanguage,
+            userPlan,
+          });
+
+          streamAssistantResponse(
+            response.text,
+            response.decisionMirror,
+            buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
+              hasKundli: false,
+            }),
+          );
+        } catch {
+          streamAssistantResponse(
+            buildNoKundliResponse(trimmedInput, {
+              history,
+            }),
+            undefined,
+            buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
+              hasKundli: false,
+            }),
+          );
+        }
         return;
       }
 

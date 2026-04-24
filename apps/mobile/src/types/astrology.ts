@@ -302,7 +302,7 @@ export type DecisionIntentResult = {
 
 export type PridictaChatRequest = {
   message: string;
-  kundli: KundliData;
+  kundli?: KundliData;
   chartContext?: ChartContext;
   history: ConversationTurn[];
   userPlan: UserPlan;

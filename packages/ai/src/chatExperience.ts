@@ -31,6 +31,15 @@ type BirthMemoryQuestion =
   | 'place'
   | null;
 
+type NoKundliTheme =
+  | 'finance'
+  | 'career'
+  | 'relationship'
+  | 'health'
+  | 'decision'
+  | 'spiritual'
+  | 'general';
+
 const PREDICTA_INTRO_MESSAGES = [
   'Hello. I am Predicta. Ask a life question, explore a report, or share your birth details when you are ready.',
   'Welcome. I can help with chart questions, timing patterns, report guidance, or a focused life decision.',
@@ -310,6 +319,102 @@ function detectBirthMemoryQuestion(input: string): BirthMemoryQuestion {
   return null;
 }
 
+function detectNoKundliTheme(input: string): NoKundliTheme {
+  const normalized = normalizePrompt(input).toLowerCase();
+
+  if (/\b(finance|finances|financial|money|income|earning|debt|savings|wealth|salary)\b/.test(normalized)) {
+    return 'finance';
+  }
+
+  if (/\b(career|job|work|profession|business|promotion|role|office)\b/.test(normalized)) {
+    return 'career';
+  }
+
+  if (/\b(relationship|love|marriage|partner|spouse|dating|family)\b/.test(normalized)) {
+    return 'relationship';
+  }
+
+  if (/\b(health|body|stress|anxiety|sleep|healing|energy)\b/.test(normalized)) {
+    return 'health';
+  }
+
+  if (detectDecisionIntent(normalized).isDecisionQuestion) {
+    return 'decision';
+  }
+
+  if (/\b(spiritual|purpose|meaning|inner|soul|faith|meditation)\b/.test(normalized)) {
+    return 'spiritual';
+  }
+
+  return 'general';
+}
+
+function buildNoKundliLifeGuidance(
+  input: string,
+  birthDetailContext: BirthDetailContext,
+): string {
+  const theme = detectNoKundliTheme(input);
+  const knownDetails = describeCollectedBirthDetails(birthDetailContext.progress);
+
+  const chartBridge = birthDetailContext.hasAllBirthDetails
+    ? 'Once your kundli is generated, I can test this against the actual chart and timing.'
+    : knownDetails
+      ? `I already have your ${knownDetails}. Once the missing detail is filled in, I can layer the real chart on top of this.`
+      : 'If you later want this anchored to your actual chart, send your birth date, exact birth time, and birth place.';
+
+  switch (theme) {
+    case 'finance':
+      return [
+        'We can still think about this intelligently even before the chart is ready.',
+        'For finances, the real question is usually not just money. It is whether you are trying to improve stability, increase income, reduce pressure, or decide where to place your effort for the next few years.',
+        'Tell me which of those is most true for you right now, and I will narrow the guidance instead of giving you something vague.',
+        chartBridge,
+      ].join(' ');
+    case 'career':
+      return [
+        'Yes, we can start there without pretending I already have your chart.',
+        'With career questions, the useful first move is to separate visibility, responsibility, growth, and exhaustion. Those often look similar from the outside but need different advice.',
+        'Tell me whether this is about growth, a job change, leadership pressure, or feeling stuck, and I will make the guidance more exact.',
+        chartBridge,
+      ].join(' ');
+    case 'relationship':
+      return [
+        'I can help you think this through even before a chart reading.',
+        'Relationship questions become clearer when we separate longing, compatibility, communication strain, and timing. People often bundle them together and then the answer becomes muddy.',
+        'Tell me which part feels most alive right now, and I will respond to that directly.',
+        chartBridge,
+      ].join(' ');
+    case 'health':
+      return [
+        'I can stay with the question carefully, but I will not pretend to diagnose through astrology.',
+        'When health or stress is involved, the useful distinction is whether this feels physical, emotional, habitual, or situational. That changes the kind of guidance that is actually responsible.',
+        'Tell me which layer you want help thinking through.',
+        chartBridge,
+      ].join(' ');
+    case 'decision':
+      return [
+        'We do not need to fake a chart to begin.',
+        'When a decision feels heavy, the first useful cut is this: what are you protecting, what are you afraid of losing, and what would count as a clean next step rather than a dramatic leap.',
+        'Give me the two options or the actual fork in front of you, and I will help you reason through it clearly.',
+        chartBridge,
+      ].join(' ');
+    case 'spiritual':
+      return [
+        'That is a real question, and it does not need theatre.',
+        'Spiritual confusion usually hides inside one of three things: restlessness, grief, or a desire for clearer direction. The answer becomes more honest when we name which one is speaking.',
+        'Tell me what has been pulling at you lately, and I will respond from there.',
+        chartBridge,
+      ].join(' ');
+    default:
+      return [
+        'I can help with the question itself even before I have your chart.',
+        'The most useful place to begin is not a grand prediction but the specific tension, choice, or pattern you are trying to understand.',
+        'Say it in one plain sentence, and I will meet you there without pretending certainty.',
+        chartBridge,
+      ].join(' ');
+  }
+}
+
 function buildBirthMemoryResponse(
   question: BirthMemoryQuestion,
   context: BirthDetailContext,
@@ -455,6 +560,41 @@ export function getRandomPredictaIntro(options?: {
   return `${intro} ${getRandomItem(CHART_READY_SUFFIXES)}`;
 }
 
+export function isBirthMemoryQuestionPrompt(input: string): boolean {
+  return detectBirthMemoryQuestion(input) !== null;
+}
+
+export function hasBirthDetailContent(input: string): boolean {
+  const progress = extractBirthDetailProgress(input);
+  return Boolean(progress.date || progress.time || progress.place);
+}
+
+export function shouldUseLocalNoKundliResponse(input: string): boolean {
+  const normalized = normalizePrompt(input);
+
+  if (!normalized) {
+    return true;
+  }
+
+  if (isSmallTalkPrompt(normalized)) {
+    return true;
+  }
+
+  if (detectBirthMemoryQuestion(normalized)) {
+    return true;
+  }
+
+  if (hasBirthDetailContent(normalized)) {
+    return true;
+  }
+
+  if (/\b(analy[sz]e|read|interpret)\s+(my\s+)?(chart|kundli|horoscope|birth chart)\b/i.test(normalized)) {
+    return true;
+  }
+
+  return false;
+}
+
 export function isSmallTalkPrompt(input: string): boolean {
   const normalized = normalizePrompt(input);
   if (!normalized) {
@@ -546,7 +686,7 @@ export function buildNoKundliResponse(
     return `I have your ${collected} so far. Send your ${missing}, and then I can move with you into a real chart reading.`;
   }
 
-  return 'I can help with a focused life question right away. If you want a real chart reading, start by sharing your birth date, exact birth time, and birth place.';
+  return buildNoKundliLifeGuidance(normalized, birthDetailContext);
 }
 
 export function buildPredictaWaitingMessage(
