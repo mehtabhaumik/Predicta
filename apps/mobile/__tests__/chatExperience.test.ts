@@ -134,9 +134,9 @@ describe('predicta chat experience helpers', () => {
   it('gives useful no-kundli guidance for a real life question', () => {
     const response = buildNoKundliResponse('I want to know my finances in coming years');
 
-    expect(response).toContain('We can still think about this intelligently');
+    expect(response).toContain('We can begin without pretending I already have your chart');
     expect(response).toContain('stability');
-    expect(response).toContain('increase income');
+    expect(response).toContain('stronger income');
     expect(response).toContain('If you later want this anchored to your actual chart');
   });
 
@@ -208,7 +208,7 @@ describe('predicta chat experience helpers', () => {
       ],
     });
 
-    expect(step1).toContain('We can still think about this intelligently');
+    expect(step1).toContain('We can begin without pretending I already have your chart');
     expect(step1).toContain('stability');
     expect(step2).toContain('birth place Petlad, India');
     expect(step3).toContain('I do not have your date of birth yet');

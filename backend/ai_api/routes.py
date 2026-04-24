@@ -361,6 +361,24 @@ def summarize_known_birth_details(request: PridictaAIRequest) -> str:
     return ", ".join(parts) if parts else "None yet."
 
 
+def detect_no_kundli_theme(message: str) -> str:
+    normalized = re.sub(r"\s+", " ", message.strip()).lower()
+
+    if re.search(r"\b(finance|finances|financial|money|income|earning|debt|savings|wealth|salary)\b", normalized):
+        return "finance"
+    if re.search(r"\b(career|job|work|profession|business|promotion|role|office)\b", normalized):
+        return "career"
+    if re.search(r"\b(relationship|love|marriage|partner|spouse|dating|family)\b", normalized):
+        return "relationship"
+    if re.search(r"\b(health|body|stress|anxiety|sleep|healing|energy)\b", normalized):
+        return "health"
+    if re.search(r"\b(decide|decision|choose|choice|stay or leave|leave or stay|should i)\b", normalized):
+        return "decision"
+    if re.search(r"\b(spiritual|purpose|meaning|inner|soul|faith|meditation)\b", normalized):
+        return "spiritual"
+    return "general"
+
+
 def build_ai_context(request: PridictaAIRequest) -> AIContextPayload:
     kundli = request.kundli
     if kundli is None:
@@ -421,7 +439,11 @@ def build_system_prompt(preferred_language: str | None) -> str:
             "Use only the chart data that is actually provided in the context.",
             "Do not imply you can see a user's chart unless the request includes real kundli data.",
             "If no kundli is provided, switch into no-chart guidance mode: be intelligent, conversational, and useful without inventing chart facts.",
-            "In no-chart guidance mode, answer the life question thoughtfully first. You may mention what chart data could add, but do not make the whole answer a request for birth details.",
+            "In no-chart guidance mode, answer the life question itself first. Give one grounded reading of the user's situation, one practical next step, and ask at most one clarifying question only if it truly sharpens the answer.",
+            "In no-chart guidance mode, sound like a perceptive human guide, not customer support, a therapist template, or a generic AI essay.",
+            "Do not open with filler such as 'this is a common concern', 'while I don't have your chart', or broad motivational framing.",
+            "Keep no-chart answers tight by default, usually under 120 words unless the user explicitly asks for a deeper answer.",
+            "Mention missing birth details or kundli in one brief line only when it materially helps the next step.",
             "Prioritize the passed chart context first when it exists, but do not default to D10 or career themes for broad questions.",
             "If no chart section is highlighted, begin from the broad birth chart picture and bring in divisional charts only when they are clearly relevant.",
             "Use the recent conversation as working memory. If the user asks what you already know, what they already shared, or what you mean, answer that directly.",
@@ -478,16 +500,24 @@ def build_user_prompt(request: PridictaAIRequest, compact_context: str | None) -
     )
 
     if request.kundli is None:
+        theme = detect_no_kundli_theme(request.message)
         return "\n\n".join(
             [
                 "Chart status:",
                 "No kundli has been generated yet. You must not claim chart placements, dasha periods, houses, or divisional chart facts.",
+                f"Likely question theme: {theme}",
                 "Known birth details from user so far:",
                 summarize_known_birth_details(request),
                 "Recent conversation (authoritative working memory):",
                 history_text or "No previous conversation.",
                 "How to answer:",
-                "Give thoughtful no-chart guidance that directly addresses the user's question. Be specific, human, and useful. Ask at most one clarifying question if it genuinely sharpens the answer. Briefly mention what birth details or kundli could add, but do not make that the whole reply.",
+                "Reply in 2 short paragraphs max, or 3 very short paragraphs if that is materially clearer.",
+                "Start with the strongest useful reading of the user's actual tension. Do not begin with a disclaimer, a generic observation, or a summary of astrology limits.",
+                "Be concrete, human, and specific to the wording of this question. Name one likely pattern, pressure, or tradeoff beneath the surface.",
+                "Offer one practical next step or framing move the user can use immediately.",
+                "Ask at most one clarifying question, and only when it sharpens the answer. Do not stack multiple questions.",
+                "If you mention chart data, keep it to one brief closing line about what birth details or a kundli could refine. Do not let that line dominate the response.",
+                "Do not repeat the user's words back in a padded way. Do not write like a life-coach monologue.",
                 f"User question: {request.message}",
             ]
         )

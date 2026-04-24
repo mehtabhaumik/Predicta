@@ -241,8 +241,10 @@ def test_ai_endpoint_handles_no_kundli_guidance_mode(monkeypatch):
     assert body["provider"] == "openai"
     assert body["text"] == "Let us start with the financial pattern itself before we force this into a chart."
     assert "No kundli has been generated yet" in captured["messages"][1]["content"]
+    assert "Likely question theme: finance" in captured["messages"][1]["content"]
     assert "birth place Petlad, India" in captured["messages"][1]["content"]
-    assert "Give thoughtful no-chart guidance" in captured["messages"][1]["content"]
+    assert "Start with the strongest useful reading" in captured["messages"][1]["content"]
+    assert "Do not begin with a disclaimer" in captured["messages"][1]["content"]
 
 
 def test_ai_endpoint_caches_standalone_first_question(monkeypatch):

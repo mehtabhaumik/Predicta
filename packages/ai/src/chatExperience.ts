@@ -365,51 +365,51 @@ function buildNoKundliLifeGuidance(
   switch (theme) {
     case 'finance':
       return [
-        'We can still think about this intelligently even before the chart is ready.',
-        'For finances, the real question is usually not just money. It is whether you are trying to improve stability, increase income, reduce pressure, or decide where to place your effort for the next few years.',
-        'Tell me which of those is most true for you right now, and I will narrow the guidance instead of giving you something vague.',
+        'We can begin without pretending I already have your chart.',
+        'With money questions, the real pressure is usually not money alone. It is whether you need stability, stronger income, relief from pressure, or clarity about where to place your effort next.',
+        'Tell me which one is most true right now, and I will answer that directly.',
         chartBridge,
       ].join(' ');
     case 'career':
       return [
-        'Yes, we can start there without pretending I already have your chart.',
-        'With career questions, the useful first move is to separate visibility, responsibility, growth, and exhaustion. Those often look similar from the outside but need different advice.',
-        'Tell me whether this is about growth, a job change, leadership pressure, or feeling stuck, and I will make the guidance more exact.',
+        'We can start there without faking a chart reading.',
+        'Career tension usually hides inside one of four things: growth, a change, leadership pressure, or plain exhaustion. They can look similar on the outside, but they need different advice.',
+        'Tell me which one you are in, and I will make the guidance exact.',
         chartBridge,
       ].join(' ');
     case 'relationship':
       return [
-        'I can help you think this through even before a chart reading.',
-        'Relationship questions become clearer when we separate longing, compatibility, communication strain, and timing. People often bundle them together and then the answer becomes muddy.',
-        'Tell me which part feels most alive right now, and I will respond to that directly.',
+        'We can think this through even before a chart reading.',
+        'Relationship questions become clearer once we separate longing, compatibility, communication strain, and timing. When they stay mixed together, the answer turns muddy.',
+        'Tell me which layer is most alive right now, and I will respond to that directly.',
         chartBridge,
       ].join(' ');
     case 'health':
       return [
         'I can stay with the question carefully, but I will not pretend to diagnose through astrology.',
-        'When health or stress is involved, the useful distinction is whether this feels physical, emotional, habitual, or situational. That changes the kind of guidance that is actually responsible.',
-        'Tell me which layer you want help thinking through.',
+        'When health or stress is involved, the first useful cut is whether this feels physical, emotional, habitual, or situational. That changes what responsible guidance sounds like.',
+        'Tell me which layer you want help thinking through first.',
         chartBridge,
       ].join(' ');
     case 'decision':
       return [
         'We do not need to fake a chart to begin.',
-        'When a decision feels heavy, the first useful cut is this: what are you protecting, what are you afraid of losing, and what would count as a clean next step rather than a dramatic leap.',
+        'When a decision feels heavy, the clean first cut is this: what are you protecting, what are you afraid of losing, and what would count as a steady next step instead of a dramatic leap.',
         'Give me the two options or the actual fork in front of you, and I will help you reason through it clearly.',
         chartBridge,
       ].join(' ');
     case 'spiritual':
       return [
         'That is a real question, and it does not need theatre.',
-        'Spiritual confusion usually hides inside one of three things: restlessness, grief, or a desire for clearer direction. The answer becomes more honest when we name which one is speaking.',
+        'Spiritual confusion often hides inside restlessness, grief, or the need for clearer direction. The answer becomes more honest once we name which one is speaking.',
         'Tell me what has been pulling at you lately, and I will respond from there.',
         chartBridge,
       ].join(' ');
     default:
       return [
-        'I can help with the question itself even before I have your chart.',
-        'The most useful place to begin is not a grand prediction but the specific tension, choice, or pattern you are trying to understand.',
-        'Say it in one plain sentence, and I will meet you there without pretending certainty.',
+        'We can begin without pretending I already know your chart.',
+        'The useful place to start is not a grand prediction but the exact tension, choice, or pattern you are trying to understand.',
+        'Say it in one plain sentence, and I will meet you there directly.',
         chartBridge,
       ].join(' ');
   }
