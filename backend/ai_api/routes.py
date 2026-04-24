@@ -262,7 +262,7 @@ def is_weak_no_kundli_response(text: str) -> bool:
 
 
 def should_force_theme_floor(request: PridictaAIRequest, text: str) -> bool:
-    theme = detect_no_kundli_theme(request.message)
+    theme = detect_no_kundli_theme(request.message, request.history)
     normalized = text.strip().lower()
 
     if theme == "grief":
@@ -465,7 +465,7 @@ def summarize_known_birth_details(request: PridictaAIRequest) -> str:
     return ", ".join(parts) if parts else "None yet."
 
 
-def detect_no_kundli_theme(message: str) -> str:
+def detect_no_kundli_theme_from_text(message: str) -> str:
     normalized = re.sub(r"\s+", " ", message.strip()).lower()
 
     if re.search(r"\b(grief|grieving|loss|losing|lost someone|lost|bereave|mourning|heartbreak after loss)\b", normalized):
@@ -487,8 +487,27 @@ def detect_no_kundli_theme(message: str) -> str:
     return "general"
 
 
+def detect_no_kundli_theme(message: str, history: list | None = None) -> str:
+    direct_theme = detect_no_kundli_theme_from_text(message)
+    if direct_theme != "general":
+        return direct_theme
+
+    recent_user_turns = [
+        re.sub(r"\s+", " ", turn.text.strip()).lower()
+        for turn in (history or [])
+        if getattr(turn, "role", None) == "user"
+    ][-4:]
+
+    for text in reversed(recent_user_turns):
+        theme = detect_no_kundli_theme_from_text(text)
+        if theme != "general":
+            return theme
+
+    return "general"
+
+
 def build_no_kundli_local_guidance(request: PridictaAIRequest) -> str:
-    theme = detect_no_kundli_theme(request.message)
+    theme = detect_no_kundli_theme(request.message, request.history)
     known_details = summarize_known_birth_details(request)
     known_details = "" if known_details == "None yet." else known_details
     missing_parts = []
@@ -694,7 +713,7 @@ def build_user_prompt(request: PridictaAIRequest, compact_context: str | None) -
     )
 
     if request.kundli is None:
-        theme = detect_no_kundli_theme(request.message)
+        theme = detect_no_kundli_theme(request.message, request.history)
         return "\n\n".join(
             [
                 "Chart status:",

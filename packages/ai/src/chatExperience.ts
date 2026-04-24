@@ -324,9 +324,7 @@ function detectBirthMemoryQuestion(input: string): BirthMemoryQuestion {
   return null;
 }
 
-function detectNoKundliTheme(input: string): NoKundliTheme {
-  const normalized = normalizePrompt(input).toLowerCase();
-
+function detectNoKundliThemeFromText(normalized: string): NoKundliTheme {
   if (/\b(grief|grieving|loss|losing|lost someone|lost|bereave|mourning|heartbreak after loss)\b/.test(normalized)) {
     return 'grief';
   }
@@ -362,11 +360,38 @@ function detectNoKundliTheme(input: string): NoKundliTheme {
   return 'general';
 }
 
+function detectNoKundliTheme(
+  input: string,
+  history?: Array<{ role: string; text: string }>,
+): NoKundliTheme {
+  const normalized = normalizePrompt(input).toLowerCase();
+  const directTheme = detectNoKundliThemeFromText(normalized);
+
+  if (directTheme !== 'general') {
+    return directTheme;
+  }
+
+  const recentUserTurns = (history ?? [])
+    .filter(turn => turn.role === 'user')
+    .slice(-4)
+    .map(turn => normalizePrompt(turn.text).toLowerCase());
+
+  for (let index = recentUserTurns.length - 1; index >= 0; index -= 1) {
+    const theme = detectNoKundliThemeFromText(recentUserTurns[index]);
+    if (theme !== 'general') {
+      return theme;
+    }
+  }
+
+  return 'general';
+}
+
 function buildNoKundliLifeGuidance(
   input: string,
   birthDetailContext: BirthDetailContext,
+  history?: Array<{ role: string; text: string }>,
 ): string {
-  const theme = detectNoKundliTheme(input);
+  const theme = detectNoKundliTheme(input, history);
   const knownDetails = describeCollectedBirthDetails(birthDetailContext.progress);
 
   const chartBridge = birthDetailContext.hasAllBirthDetails
@@ -713,7 +738,7 @@ export function buildNoKundliResponse(
     return `I have your ${collected} so far. Send your ${missing}, and then I can move with you into a real chart reading.`;
   }
 
-  return buildNoKundliLifeGuidance(normalized, birthDetailContext);
+  return buildNoKundliLifeGuidance(normalized, birthDetailContext, options?.history);
 }
 
 export function buildPredictaWaitingMessage(

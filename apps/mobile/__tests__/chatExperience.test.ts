@@ -160,6 +160,23 @@ describe('predicta chat experience helpers', () => {
     expect(response).toContain('Mahadev mantra');
   });
 
+  it('keeps relationship follow-ups inside the same theme', () => {
+    const response = buildNoKundliResponse(
+      'It is emotional labor. I keep managing the atmosphere and I am exhausted.',
+      {
+        history: [
+          {
+            role: 'user',
+            text: 'My relationship feels loving but tiring. What am I missing?',
+          },
+        ],
+      },
+    );
+
+    expect(response).toContain('When love feels real but tiring');
+    expect(response).toContain('misread needs, uneven effort, emotional exhaustion, or bad timing');
+  });
+
   it('remembers partial birth details across turns', () => {
     const response = buildNoKundliResponse('Time: 06:30 am, Place: Petlad, India', {
       history: [{ role: 'user', text: 'DOB: 22/08/1980' }],
