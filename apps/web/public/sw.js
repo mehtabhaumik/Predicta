@@ -1,11 +1,29 @@
-const VERSION = 'predicta-pwa-v1';
+const VERSION = 'predicta-pwa-v2';
 const SHELL_CACHE = `${VERSION}-shell`;
 const RUNTIME_CACHE = `${VERSION}-runtime`;
-const OFFLINE_URL = '/offline.html';
+const OFFLINE_URL = '/offline';
+const KNOWN_HTML_ROUTES = [
+  '/',
+  '/pricing',
+  '/founder',
+  '/dashboard',
+  '/dashboard/chat',
+  '/dashboard/kundli',
+  '/dashboard/charts',
+  '/dashboard/report',
+  '/dashboard/saved-kundlis',
+  '/dashboard/settings',
+  '/dashboard/redeem-pass',
+  '/dashboard/admin',
+  '/dashboard/life-timeline',
+  '/dashboard/journal',
+  '/dashboard/compatibility',
+];
 
 const SHELL_ASSETS = [
   '/',
-  '/offline.html',
+  '/offline',
+  ...KNOWN_HTML_ROUTES.filter(route => route !== '/'),
   '/manifest.webmanifest',
   '/favicon.svg',
   '/apple-touch-icon.png',
@@ -13,6 +31,18 @@ const SHELL_ASSETS = [
   '/icon-512.png',
   '/predicta-logo.png',
 ];
+
+function normalizeRoute(pathname) {
+  if (!pathname || pathname === '/') {
+    return '/';
+  }
+
+  return pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+}
+
+function isKnownHtmlRoute(pathname) {
+  return KNOWN_HTML_ROUTES.includes(normalizeRoute(pathname));
+}
 
 self.addEventListener('install', event => {
   event.waitUntil(
@@ -55,14 +85,22 @@ self.addEventListener('fetch', event => {
     event.respondWith(
       fetch(event.request)
         .then(response => {
-          const copy = response.clone();
-          caches.open(RUNTIME_CACHE).then(cache => cache.put(event.request, copy));
+          if (response && response.ok && isKnownHtmlRoute(requestUrl.pathname)) {
+            const normalizedPath = normalizeRoute(requestUrl.pathname);
+            const copy = response.clone();
+            caches.open(SHELL_CACHE).then(cache => cache.put(normalizedPath, copy));
+          }
+
           return response;
         })
         .catch(async () => {
-          const cached = await caches.match(event.request);
-          if (cached) {
-            return cached;
+          const normalizedPath = normalizeRoute(requestUrl.pathname);
+
+          if (isKnownHtmlRoute(normalizedPath)) {
+            const cached = await caches.match(normalizedPath);
+            if (cached) {
+              return cached;
+            }
           }
 
           return caches.match(OFFLINE_URL);

@@ -82,6 +82,9 @@ describe('predicta chat experience helpers', () => {
     expect(buildPredictaWaitingMessage('Hi Predicta', chartContext)).toBe(
       'Listening...',
     );
+    expect(buildPredictaWaitingMessage('Which birthdate do you have?', undefined, {
+      hasKundli: false,
+    })).toBe('Checking what I already have from you...');
     expect(
       buildPredictaWaitingMessage(
         'Should I accept a bigger role if it increases pressure?',
@@ -144,5 +147,65 @@ describe('predicta chat experience helpers', () => {
 
     expect(response).toContain('I now have your date of birth 1980-08-22');
     expect(response).toContain('I still need your birth time and birth place');
+  });
+
+  it('answers direct memory questions instead of repeating the same intake line', () => {
+    const response = buildNoKundliResponse('Which birthdate do you have?', {
+      history: [{ role: 'user', text: 'Place: Petlad, India' }],
+    });
+
+    expect(response).toContain('I do not have your date of birth yet');
+    expect(response).toContain('birth place Petlad, India');
+    expect(response).not.toContain('I can help with a focused life question right away');
+  });
+
+  it('trusts only user turns for remembered birth details', () => {
+    const response = buildNoKundliResponse('What details do you have?', {
+      history: [
+        { role: 'pridicta', text: 'I have your birth place as Mumbai.' },
+        { role: 'user', text: 'DOB: 22/08/1980' },
+      ],
+    });
+
+    expect(response).toContain('date of birth 22-08-1980');
+    expect(response).not.toContain('Mumbai');
+  });
+
+  it('handles the screenshot flow without bluffing or looping', () => {
+    const step1 = buildNoKundliResponse('I want to know my finances in coming years');
+    const step2 = buildNoKundliResponse('Place: Petlad, India', {
+      history: [{ role: 'user', text: 'I want to know my finances in coming years' }],
+    });
+    const step3 = buildNoKundliResponse('Which birthdate do you have?', {
+      history: [
+        { role: 'user', text: 'I want to know my finances in coming years' },
+        { role: 'user', text: 'Place: Petlad, India' },
+      ],
+    });
+    const step4 = buildNoKundliResponse('DOB: 22/08/1980', {
+      history: [
+        { role: 'user', text: 'I want to know my finances in coming years' },
+        { role: 'user', text: 'Place: Petlad, India' },
+        { role: 'user', text: 'Which birthdate do you have?' },
+      ],
+    });
+    const step5 = buildNoKundliResponse('What details do you have?', {
+      history: [
+        { role: 'user', text: 'I want to know my finances in coming years' },
+        { role: 'user', text: 'Place: Petlad, India' },
+        { role: 'user', text: 'Which birthdate do you have?' },
+        { role: 'user', text: 'DOB: 22/08/1980' },
+      ],
+    });
+
+    expect(step1).toContain('real chart reading');
+    expect(step2).toContain('birth place Petlad, India');
+    expect(step3).toContain('I do not have your date of birth yet');
+    expect(step3).toContain('birth place Petlad, India');
+    expect(step4).toContain('date of birth 1980-08-22');
+    expect(step4).toContain('birth place Petlad, India');
+    expect(step5).toContain('date of birth 22-08-1980');
+    expect(step5).toContain('birth place Petlad, India');
+    expect(step5).toContain('birth time');
   });
 });

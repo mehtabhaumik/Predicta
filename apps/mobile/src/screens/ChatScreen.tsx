@@ -33,6 +33,7 @@ import { SkeletonLine } from '../components/Skeleton';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import {
+  buildNoKundliResponse,
   buildLocalPredictaFallback,
   buildPredictaWaitingMessage,
   buildSmallTalkResponse,
@@ -202,6 +203,10 @@ export function ChatScreen({
 
   async function sendMessage() {
     const trimmedInput = input.trim();
+    const history = messages.map(message => ({
+      role: message.role,
+      text: message.text,
+    }));
 
     if (!trimmedInput || isTyping) {
       return;
@@ -238,6 +243,21 @@ export function ChatScreen({
           trimmedInput,
         );
         setPendingBirthDetailsDraft(mergedDraft);
+
+        const extractedValuesCount = Object.values(result.extracted).filter(Boolean).length;
+        if (extractedValuesCount === 0 && result.ambiguities.length === 0) {
+          streamAssistantResponse(
+            buildNoKundliResponse(trimmedInput, {
+              history,
+            }),
+            undefined,
+            buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
+              hasKundli: false,
+            }),
+          );
+          return;
+        }
+
         streamAssistantResponse(
           buildBirthIntakeResponse(mergedDraft, result, () => {
             navigation.navigate(routes.Kundli);
@@ -247,9 +267,13 @@ export function ChatScreen({
         );
       } catch {
         streamAssistantResponse(
-          'I can help create the kundli, but I need the birth date, birth time, and birth place in a clear format. You can write something like: 16 August 1994, 6:42 AM, Mumbai.',
+          buildNoKundliResponse(trimmedInput, {
+            history,
+          }),
           undefined,
-          'Understanding what you shared...',
+          buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
+            hasKundli: false,
+          }),
         );
       }
       return;
@@ -300,11 +324,6 @@ export function ChatScreen({
       });
       return;
     }
-
-    const history = messages.map(message => ({
-      role: message.role,
-      text: message.text,
-    }));
 
     appendConversationMessage(
       createMessage('user', trimmedInput, activeChartContext),

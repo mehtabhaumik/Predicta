@@ -24,6 +24,13 @@ type BirthDetailContext = {
   progress: BirthDetailProgress;
 };
 
+type BirthMemoryQuestion =
+  | 'status'
+  | 'date'
+  | 'time'
+  | 'place'
+  | null;
+
 const PREDICTA_INTRO_MESSAGES = [
   'Hello. I am Predicta. Ask a life question, explore a report, or share your birth details when you are ready.',
   'Welcome. I can help with chart questions, timing patterns, report guidance, or a focused life decision.',
@@ -238,11 +245,174 @@ function describeMissingBirthFields(
   return `${labels[0]}, ${labels[1]}, and ${labels[2]}`;
 }
 
+function formatBirthDetailValue(
+  field: 'date' | 'time' | 'place',
+  value?: string,
+): string | undefined {
+  if (!value) {
+    return undefined;
+  }
+
+  if (field === 'date') {
+    const [year, month, day] = value.split('-');
+    if (year && month && day) {
+      return `${day}-${month}-${year}`;
+    }
+  }
+
+  return value;
+}
+
+function detectBirthMemoryQuestion(input: string): BirthMemoryQuestion {
+  const normalized = normalizePrompt(input).toLowerCase();
+
+  if (!normalized) {
+    return null;
+  }
+
+  if (
+    /\b(what|which)\s+(birth\s*)?(date|dob)\s+(do you have|you have|do you know|have you got)\b/.test(
+      normalized,
+    ) ||
+    /\bdo you have my\s+(birth\s*)?(date|dob)\b/.test(normalized)
+  ) {
+    return 'date';
+  }
+
+  if (
+    /\b(what|which)\s+(birth\s*)?time\s+(do you have|you have|do you know|have you got)\b/.test(
+      normalized,
+    ) ||
+    /\bdo you have my\s+(birth\s*)?time\b/.test(normalized)
+  ) {
+    return 'time';
+  }
+
+  if (
+    /\b(what|which)\s+(birth\s*)?place\s+(do you have|you have|do you know|have you got)\b/.test(
+      normalized,
+    ) ||
+    /\bdo you have my\s+(birth\s*)?place\b/.test(normalized)
+  ) {
+    return 'place';
+  }
+
+  if (
+    /\bwhat\s+details\s+do\s+you\s+have\b/.test(normalized) ||
+    /\bwhich\s+details\s+do\s+you\s+have\b/.test(normalized) ||
+    /\bwhat\s+do\s+you\s+(already\s+)?have\s+(so\s+far)?\b/.test(normalized) ||
+    /\bwhat\s+do\s+you\s+know\s+so\s+far\b/.test(normalized) ||
+    /\bwhich\s+birth\s+details\b/.test(normalized)
+  ) {
+    return 'status';
+  }
+
+  return null;
+}
+
+function buildBirthMemoryResponse(
+  question: BirthMemoryQuestion,
+  context: BirthDetailContext,
+): string {
+  const knownDate = formatBirthDetailValue('date', context.progress.date);
+  const knownTime = formatBirthDetailValue('time', context.progress.time);
+  const knownPlace = formatBirthDetailValue('place', context.progress.place);
+  const remainingWithout = (field: 'date' | 'time' | 'place') =>
+    context.missingFields.filter(item => item !== field);
+  const describeRemaining = (field: 'date' | 'time' | 'place') => {
+    const remaining = remainingWithout(field);
+    return remaining.length > 0
+      ? `I still need your ${describeMissingBirthFields(remaining)}.`
+      : 'I do not need anything else before the kundli step.';
+  };
+
+  if (question === 'date') {
+    if (knownDate) {
+      return `I have your date of birth as ${knownDate}. ${describeRemaining('date')}`;
+    }
+
+    if (knownTime || knownPlace) {
+      const knownParts = [
+        knownTime ? `birth time ${knownTime}` : null,
+        knownPlace ? `birth place ${knownPlace}` : null,
+      ].filter(Boolean);
+      return `I do not have your date of birth yet. I only have ${knownParts.join(
+        ' and ',
+      )} so far.`;
+    }
+
+    return 'I do not have your date of birth yet.';
+  }
+
+  if (question === 'time') {
+    if (knownTime) {
+      return `I have your birth time as ${knownTime}. ${describeRemaining('time')}`;
+    }
+
+    if (knownDate || knownPlace) {
+      const knownParts = [
+        knownDate ? `date of birth ${knownDate}` : null,
+        knownPlace ? `birth place ${knownPlace}` : null,
+      ].filter(Boolean);
+      return `I do not have your birth time yet. I only have ${knownParts.join(
+        ' and ',
+      )} so far.`;
+    }
+
+    return 'I do not have your birth time yet.';
+  }
+
+  if (question === 'place') {
+    if (knownPlace) {
+      return `I have your birth place as ${knownPlace}. ${describeRemaining('place')}`;
+    }
+
+    if (knownDate || knownTime) {
+      const knownParts = [
+        knownDate ? `date of birth ${knownDate}` : null,
+        knownTime ? `birth time ${knownTime}` : null,
+      ].filter(Boolean);
+      return `I do not have your birth place yet. I only have ${knownParts.join(
+        ' and ',
+      )} so far.`;
+    }
+
+    return 'I do not have your birth place yet.';
+  }
+
+  const knownParts = [
+    knownDate ? `date of birth ${knownDate}` : null,
+    knownTime ? `birth time ${knownTime}` : null,
+    knownPlace ? `birth place ${knownPlace}` : null,
+  ].filter(Boolean);
+
+  if (knownParts.length === 0) {
+    return 'I do not have any birth details from you yet. Send your date of birth, exact birth time, and birth place when you want me to prepare a real chart reading.';
+  }
+
+  if (context.hasAllBirthDetails) {
+    return `So far I have your ${knownParts.join(
+      ', ',
+    )}. The next step is to create your kundli so I can read from the actual chart rather than from fragments.`;
+  }
+
+  return `So far I have your ${knownParts.join(
+    ', ',
+  )}. I still need your ${describeMissingBirthFields(
+    context.missingFields,
+  )} before I can move into a real chart reading.`;
+}
+
 function resolveBirthDetailContext(
   input: string,
   history?: Array<{ role: string; text: string }>,
 ): BirthDetailContext {
-  const allPrompts = [...(history ?? []).map(turn => turn.text), input];
+  const allPrompts = [
+    ...(history ?? [])
+      .filter(turn => turn.role === 'user')
+      .map(turn => turn.text),
+    input,
+  ];
   const progress: BirthDetailProgress = {};
   const current = extractBirthDetailProgress(input);
 
@@ -336,11 +506,16 @@ export function buildNoKundliResponse(
   const birthDetailContext = resolveBirthDetailContext(normalized, options?.history);
   const collected = describeCollectedBirthDetails(birthDetailContext.progress);
   const missing = describeMissingBirthFields(birthDetailContext.missingFields);
+  const memoryQuestion = detectBirthMemoryQuestion(normalized);
 
   if (isSmallTalkPrompt(normalized)) {
     return buildSmallTalkResponse(normalized, {
       hasKundli: false,
     });
+  }
+
+  if (memoryQuestion) {
+    return buildBirthMemoryResponse(memoryQuestion, birthDetailContext);
   }
 
   if (birthDetailContext.justSharedBirthDetails) {
@@ -386,6 +561,10 @@ export function buildPredictaWaitingMessage(
 
   if (isSmallTalkPrompt(normalized)) {
     return 'Listening...';
+  }
+
+  if (detectBirthMemoryQuestion(normalized)) {
+    return 'Checking what I already have from you...';
   }
 
   if (!hasKundli) {

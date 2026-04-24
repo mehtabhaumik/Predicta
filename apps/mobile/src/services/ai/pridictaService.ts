@@ -47,6 +47,9 @@ export function buildPridictaSystemPrompt(preferredLanguage?: string): string {
     'Do not default to D10 or career themes for general questions.',
     'If no chartContext is passed, begin from the broad birth chart picture and bring in divisional charts only when they are clearly relevant.',
     'You know the full Tier 1 and Tier 2 chart registry but should not dump chart names unless it helps the user.',
+    'Use the recent conversation as working memory. If the user asks what you already know, what they already shared, or what you mean, answer that directly.',
+    'If something is missing, name exactly what is known and what is still missing. Do not repeat a generic sentence when the user is asking for clarification.',
+    'When the user challenges you or asks a follow-up about your last answer, respond like a thoughtful human guide rather than a template.',
     'Keep responses concise, meaningful, emotionally calm, and cost-aware.',
     'Explain advanced astrology in normal language without overwhelming the user.',
     languageContext.instruction,
@@ -209,7 +212,7 @@ export async function askPridicta({
     languageContext.instruction,
     'Kundli context:',
     compactContext,
-    'Recent conversation:',
+    'Recent conversation (authoritative working memory):',
     optimized.history
       .map(
         turn => `${turn.role === 'user' ? 'User' : 'Pridicta'}: ${turn.text}`,

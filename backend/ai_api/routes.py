@@ -286,6 +286,9 @@ def build_system_prompt(preferred_language: str | None) -> str:
             "Do not imply you can see a user's chart unless the request includes real kundli data.",
             "Prioritize the passed chart context first when it exists, but do not default to D10 or career themes for broad questions.",
             "If no chart section is highlighted, begin from the broad birth chart picture and bring in divisional charts only when they are clearly relevant.",
+            "Use the recent conversation as working memory. If the user asks what you already know, what they already shared, or what you mean, answer that directly.",
+            "If something is missing, say exactly what is known and what is still missing. Do not repeat a generic line when the user is asking for clarification.",
+            "When the user pushes back or asks a follow-up about your last answer, respond like a thoughtful human guide rather than a template.",
             "Keep responses concise, meaningful, emotionally calm, and cost-aware.",
             f"Respond in this language/locale when practical: {language}.",
         ]
@@ -340,7 +343,7 @@ def build_user_prompt(request: PridictaAIRequest, compact_context: str) -> str:
         [
             "Kundli context:",
             compact_context,
-            "Recent conversation:",
+            "Recent conversation (authoritative working memory):",
             history_text or "No previous conversation.",
             f"User question: {request.message}",
         ]
