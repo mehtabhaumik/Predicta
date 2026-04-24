@@ -49,6 +49,7 @@ const PREDICTA_INTRO_MESSAGES = [
   'Hello. We can start with your kundli, a relationship question, a work decision, or a report you want to understand.',
   'If something feels unclear, ask directly. I will help you sort the signal from the noise.',
   'I am here to make deep astrology easier to follow, without turning it into pressure or confusion.',
+  'Hello. We can approach this with clarity, compassion, and a little less drama than most astrologers bring to the table.',
   'Ask about timing, career, relationships, a report section, or the bigger pattern you are trying to understand.',
   'Hello. If your chart is ready, I can read from it. If not, I can still help you frame the right next question.',
   'You can begin with one clear question. I will keep the answer grounded, useful, and easy to revisit.',
@@ -59,6 +60,8 @@ const PREDICTA_INTRO_MESSAGES = [
   'If you want a true chart reading, we can start from your birth details. If not, begin with the life question itself.',
   'Ask from the heart or ask from the chart. Either way, I will keep the reading thoughtful and clear.',
   'Hello. I am here to help you understand patterns, timing, and choices without turning the reading into theatre.',
+  'If the moment feels heavy, bring it as it is. I will read it with honesty, not performance.',
+  'We can look at this spiritually, practically, or both. Bholenath does not mind a clear mind and a steady routine.',
 ];
 
 const CHART_READY_SUFFIXES = [
@@ -626,14 +629,14 @@ export function buildSmallTalkResponse(
     : 'If you want, tell me your birth details or ask a focused life question and I will guide you from there.';
 
   if (normalized.includes('how are you')) {
-    return `I am here and ready with you. ${guidanceHint}`;
+    return `I am here with you and ready. ${guidanceHint}`;
   }
 
   if (normalized.includes('thank')) {
-    return 'Always. Take your time, and ask when you are ready.';
+    return 'Always. Take your time. I will be here when you are ready.';
   }
 
-  return `Hello. I’m here. ${guidanceHint}`;
+  return `Hello. I’m here, and we can take this one clear step at a time. ${guidanceHint}`;
 }
 
 export function buildNoKundliResponse(

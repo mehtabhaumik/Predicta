@@ -75,7 +75,7 @@ describe('predicta chat experience helpers', () => {
       hasKundli: true,
     });
 
-    expect(response).toContain('Hello. I’m here.');
+    expect(response).toContain('Hello. I’m here, and we can take this one clear step at a time.');
     expect(response).toContain('D10');
   });
 
@@ -105,7 +105,7 @@ describe('predicta chat experience helpers', () => {
   it('uses the small-talk path in the local fallback builder', () => {
     const response = buildLocalPredictaFallback('hello', kundli, chartContext);
 
-    expect(response).toContain('Hello. I’m here.');
+    expect(response).toContain('Hello. I’m here, and we can take this one clear step at a time.');
     expect(response).not.toContain('ashtakavarga');
   });
 
