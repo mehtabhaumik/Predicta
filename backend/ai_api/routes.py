@@ -314,14 +314,22 @@ def should_force_theme_floor(request: PridictaAIRequest, text: str) -> bool:
 
 def is_weak_chart_aware_response(request: PridictaAIRequest, text: str) -> bool:
     normalized = re.sub(r"\s+", " ", text.strip())
+    lowered = normalized.lower()
+    request_text = request.message.lower()
     if not normalized:
         return True
     if normalized.lower().startswith("cached response"):
         return False
-    if 20 < len(normalized) < 120 and not re.search(r'[.!?]"?$', normalized):
+    if 20 < len(normalized) < 220 and not re.search(r'[.!?]"?$', normalized):
         return True
     if any(pattern.search(normalized) for pattern in WEAK_CHART_AWARE_PATTERNS):
         return True
+    if request.chartContext and request.chartContext.chartType == "D9" and re.search(r"\brelationship|love|marriage|partner\b", request_text):
+        if not any(token in lowered for token in ("relationship", "love", "bond", "honesty", "space", "closeness")):
+            return True
+    if re.search(r"\b(remedy|remedies)\b", request_text):
+        if not any(token in lowered for token in ("practical remedy", "inner remedy", "spiritual remedy", "prayer", "breathwork", "discipline")):
+            return True
     return False
 
 
