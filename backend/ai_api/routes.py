@@ -65,6 +65,13 @@ ASTROLOGY_CUE_PATTERN = re.compile(
     r"\b(chart|kundli|horoscope|dasha|lagna|nakshatra|career|marriage|relationship|love|planet|report|pdf|prediction|predict|future|transit|remed(?:y|ies))\b",
     re.IGNORECASE,
 )
+WEAK_NO_KUNDLI_PATTERNS = (
+    re.compile(r"^(understanding|thinking about|looking at)\s+your\b", re.IGNORECASE),
+    re.compile(r"\b(common|natural|practical)\s+concern\b", re.IGNORECASE),
+    re.compile(r"^while i (don't|do not) have your chart\b", re.IGNORECASE),
+    re.compile(r"^without (your|a) chart\b", re.IGNORECASE),
+    re.compile(r"\bwhile i (don't|do not) have your chart\b", re.IGNORECASE),
+)
 
 MONTHS = {
     "jan": "01",
@@ -186,6 +193,17 @@ async def ask_pridicta(request: PridictaAIRequest, response: Response):
             user_prompt=user_prompt,
         )
 
+    if request.kundli is None and is_weak_no_kundli_response(text):
+        rewritten = await rewrite_no_kundli_response(
+            provider=provider,
+            model=response_model,
+            max_output_tokens=max_output_tokens,
+            request=request,
+            draft_text=text,
+        )
+        if rewritten and rewritten.strip():
+            text = rewritten.strip()
+
     ai_response = PridictaAIResponse(
         compactedWithGemini=bool(compact_context),
         intent=intent,
@@ -221,6 +239,67 @@ async def generate_gemini_fallback(
             detail="Predicta guidance is temporarily unavailable. Please try again shortly.",
         ) from fallback_exc
     return text, "gemini", GEMINI_FALLBACK_MODEL, False
+
+
+def is_weak_no_kundli_response(text: str) -> bool:
+    normalized = re.sub(r"\s+", " ", text.strip())
+    if not normalized:
+        return True
+    if len(normalized) > 900:
+        return True
+    if any(pattern.search(normalized) for pattern in WEAK_NO_KUNDLI_PATTERNS):
+        return True
+    return normalized.lower().count("chart") >= 3 and len(normalized) < 500
+
+
+async def rewrite_no_kundli_response(
+    *,
+    provider: Literal["openai", "gemini"],
+    model: str,
+    max_output_tokens: int,
+    request: PridictaAIRequest,
+    draft_text: str,
+) -> str | None:
+    system_prompt = "\n".join(
+        [
+            "You are rewriting a Predicta reply.",
+            "Keep the meaning, but make it sound more intelligent, human, calm, and specific.",
+            "Do not sound like customer support, therapy filler, or a generic AI essay.",
+            "Keep it under 120 words unless the user asked for depth.",
+            "Lead with the strongest useful insight, then one practical next step.",
+            "Ask at most one clarifying question only if it sharpens the answer.",
+            "Mention birth details or kundli in one brief closing line only when helpful.",
+            "Do not open with phrases like 'understanding your', 'this is a common concern', or 'while I do not have your chart'.",
+        ]
+    )
+    user_prompt = "\n\n".join(
+        [
+            f"User question: {request.message}",
+            f"Known birth details so far: {summarize_known_birth_details(request)}",
+            "Rewrite this weak draft into a sharper Predicta answer:",
+            draft_text,
+        ]
+    )
+
+    try:
+        if provider == "openai":
+            return await generate_openai_response(
+                max_output_tokens=min(max_output_tokens, 220),
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+                model=model,
+            )
+
+        return await generate_gemini_response(
+            max_output_tokens=min(max_output_tokens, 220),
+            model=model,
+            system_prompt=system_prompt,
+            user_prompt=user_prompt,
+        )
+    except (AIProviderError, AIProviderUnavailable):
+        return None
 
 
 def detect_intent(request: PridictaAIRequest) -> Literal["simple", "moderate", "deep"]:

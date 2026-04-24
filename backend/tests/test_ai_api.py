@@ -247,6 +247,40 @@ def test_ai_endpoint_handles_no_kundli_guidance_mode(monkeypatch):
     assert "Do not begin with a disclaimer" in captured["messages"][1]["content"]
 
 
+def test_ai_endpoint_rewrites_weak_no_kundli_response(monkeypatch):
+    response_cache._response_cache.clear()
+    calls = {"openai": 0}
+
+    async def fake_generate_openai_response(*, max_output_tokens, messages, model):
+        calls["openai"] += 1
+        if calls["openai"] == 1:
+            return (
+                "Understanding your financial path ahead is a natural concern, "
+                "and while I do not have your chart yet, there are many things to consider."
+            )
+        return (
+            "The real pressure here is whether you want stability, stronger income, "
+            "or relief from strain. Name the one that matters most, and I will answer "
+            "that directly. If you want this tied to your actual chart, send your date "
+            "of birth and birth time."
+        )
+
+    monkeypatch.setattr(ai_routes, "generate_openai_response", fake_generate_openai_response)
+
+    payload = build_request(
+        kundli=None,
+        chartContext=None,
+        history=[{"role": "user", "text": "Place: Petlad, India"}],
+        message="I want to know my finances in coming years",
+        userPlan="FREE",
+    )
+    response = TestClient(app).post("/ai/pridicta", json=payload)
+
+    assert response.status_code == 200
+    assert response.json()["text"].startswith("The real pressure here is whether")
+    assert calls["openai"] == 2
+
+
 def test_ai_endpoint_caches_standalone_first_question(monkeypatch):
     response_cache._response_cache.clear()
     calls = {"openai": 0}
