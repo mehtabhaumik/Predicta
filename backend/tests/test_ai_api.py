@@ -330,6 +330,31 @@ def test_ai_endpoint_uses_local_floor_for_incomplete_no_kundli_reply(monkeypatch
     assert calls["openai"] == 2
 
 
+def test_ai_endpoint_forces_grief_floor_when_reply_is_flat(monkeypatch):
+    response_cache._response_cache.clear()
+    calls = {"openai": 0}
+
+    async def fake_generate_openai_response(*, max_output_tokens, messages, model):
+        calls["openai"] += 1
+        return "The heaviness you feel is a natural, albeit profound, part of navigating loss."
+
+    monkeypatch.setattr(ai_routes, "generate_openai_response", fake_generate_openai_response)
+
+    payload = build_request(
+        kundli=None,
+        chartContext=None,
+        history=[],
+        message="I have been feeling heavy since losing someone close. What do you see in this phase?",
+        userPlan="FREE",
+    )
+    response = TestClient(app).post("/ai/pridicta", json=payload)
+
+    assert response.status_code == 200
+    assert "I am sorry you are carrying that" in response.json()["text"]
+    assert "Grief has its own weather" in response.json()["text"]
+    assert calls["openai"] == 1
+
+
 def test_ai_endpoint_caches_standalone_first_question(monkeypatch):
     response_cache._response_cache.clear()
     calls = {"openai": 0}

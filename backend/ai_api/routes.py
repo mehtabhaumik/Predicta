@@ -208,6 +208,8 @@ async def ask_pridicta(request: PridictaAIRequest, response: Response):
             text = rewritten.strip()
         if is_weak_no_kundli_response(text):
             text = build_no_kundli_local_guidance(request)
+    if request.kundli is None and should_force_theme_floor(request, text):
+        text = build_no_kundli_local_guidance(request)
 
     ai_response = PridictaAIResponse(
         compactedWithGemini=bool(compact_context),
@@ -257,6 +259,22 @@ def is_weak_no_kundli_response(text: str) -> bool:
     if any(pattern.search(normalized) for pattern in WEAK_NO_KUNDLI_PATTERNS):
         return True
     return normalized.lower().count("chart") >= 3 and len(normalized) < 500
+
+
+def should_force_theme_floor(request: PridictaAIRequest, text: str) -> bool:
+    theme = detect_no_kundli_theme(request.message)
+    normalized = text.strip().lower()
+
+    if theme == "grief":
+        if len(normalized) < 140:
+            return True
+        if not any(
+            marker in normalized
+            for marker in ("grief", "loss", "sorry", "heavy", "numb", "disoriented")
+        ):
+            return True
+
+    return False
 
 
 async def rewrite_no_kundli_response(
