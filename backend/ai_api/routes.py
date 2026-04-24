@@ -450,6 +450,10 @@ def summarize_known_birth_details(request: PridictaAIRequest) -> str:
 def detect_no_kundli_theme(message: str) -> str:
     normalized = re.sub(r"\s+", " ", message.strip()).lower()
 
+    if re.search(r"\b(grief|grieving|loss|losing|lost someone|lost|bereave|mourning|heartbreak after loss)\b", normalized):
+        return "grief"
+    if re.search(r"\b(remedy|remedies|anxiety|restless|restlessness|panic|overthinking|mind won'?t stop)\b", normalized):
+        return "remedy"
     if re.search(r"\b(finance|finances|financial|money|income|earning|debt|savings|wealth|salary)\b", normalized):
         return "finance"
     if re.search(r"\b(career|job|work|profession|business|promotion|role|office)\b", normalized):
@@ -501,14 +505,29 @@ def build_no_kundli_local_guidance(request: PridictaAIRequest) -> str:
         )
     if theme == "relationship":
         return (
-            "Relationship tension gets clearer once we separate longing, compatibility, communication strain, and timing. "
-            "Tell me which layer is hurting or confusing you most, and I will respond to that directly. "
+            "When love feels real but tiring, the strain is often not the love itself. It is usually the burden around it: misread needs, uneven effort, emotional exhaustion, or bad timing. "
+            "Tell me which one feels closest, and I will respond to that directly. "
             f"{chart_bridge}"
         )
     if theme == "health":
         return (
             "I will stay careful here and not pretend to diagnose through astrology. "
             "Tell me whether this feels more physical, emotional, habitual, or situational, and I will help you think through that layer. "
+            f"{chart_bridge}"
+        )
+    if theme == "grief":
+        return (
+            "I am sorry you are carrying that. Grief has its own weather, and it does not move on command. "
+            "What matters first is whether this phase feels heavy, numb, restless, or quietly disoriented. Each one asks for a different kind of care. "
+            "If you want, tell me which one feels truest, and I will stay with that gently. "
+            f"{chart_bridge}"
+        )
+    if theme == "remedy":
+        return (
+            "Yes. When the mind stays restless, the remedy has to calm both the nervous system and the inner atmosphere. "
+            "A practical remedy is to reduce stimulation for one hour before sleep, keep the breath slow for five quiet minutes, and put anxious thoughts into writing instead of letting them circle. "
+            "A spiritual remedy can be a short Mahadev mantra, a simple lamp, or silent prayer done steadily rather than dramatically. "
+            "Tell me whether this restlessness is stronger at night, after conflict, or for no clear reason, and I will make the remedy more exact. "
             f"{chart_bridge}"
         )
     if theme == "decision":

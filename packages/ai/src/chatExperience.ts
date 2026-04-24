@@ -36,6 +36,8 @@ type NoKundliTheme =
   | 'career'
   | 'relationship'
   | 'health'
+  | 'grief'
+  | 'remedy'
   | 'decision'
   | 'spiritual'
   | 'general';
@@ -325,6 +327,14 @@ function detectBirthMemoryQuestion(input: string): BirthMemoryQuestion {
 function detectNoKundliTheme(input: string): NoKundliTheme {
   const normalized = normalizePrompt(input).toLowerCase();
 
+  if (/\b(grief|grieving|loss|losing|lost someone|lost|bereave|mourning|heartbreak after loss)\b/.test(normalized)) {
+    return 'grief';
+  }
+
+  if (/\b(remedy|remedies|anxiety|restless|restlessness|panic|overthinking|mind won'?t stop)\b/.test(normalized)) {
+    return 'remedy';
+  }
+
   if (/\b(finance|finances|financial|money|income|earning|debt|savings|wealth|salary)\b/.test(normalized)) {
     return 'finance';
   }
@@ -383,8 +393,8 @@ function buildNoKundliLifeGuidance(
     case 'relationship':
       return [
         'We can think this through even before a chart reading.',
-        'Relationship questions become clearer once we separate longing, compatibility, communication strain, and timing. When they stay mixed together, the answer turns muddy.',
-        'Tell me which layer is most alive right now, and I will respond to that directly.',
+        'When love feels real but tiring, the strain is often not the love itself. It is usually the burden around it: misread needs, uneven effort, emotional exhaustion, or bad timing.',
+        'Tell me which one feels closest, and I will respond to that directly.',
         chartBridge,
       ].join(' ');
     case 'health':
@@ -392,6 +402,20 @@ function buildNoKundliLifeGuidance(
         'I can stay with the question carefully, but I will not pretend to diagnose through astrology.',
         'When health or stress is involved, the first useful cut is whether this feels physical, emotional, habitual, or situational. That changes what responsible guidance sounds like.',
         'Tell me which layer you want help thinking through first.',
+        chartBridge,
+      ].join(' ');
+    case 'grief':
+      return [
+        'I am sorry you are carrying that. Grief has its own weather, and it does not move on command.',
+        'What matters first is whether this phase feels heavy, numb, restless, or quietly disoriented. Each one asks for a different kind of care.',
+        'If you want, tell me which one feels truest, and I will stay with that gently.',
+        chartBridge,
+      ].join(' ');
+    case 'remedy':
+      return [
+        'Yes. When the mind stays restless, the remedy has to calm both the nervous system and the inner atmosphere.',
+        'A practical remedy is to reduce stimulation for one hour before sleep, keep the breath slow for five quiet minutes, and put anxious thoughts into writing instead of letting them circle. A spiritual remedy can be a short Mahadev mantra, a simple lamp, or silent prayer done steadily rather than dramatically.',
+        'Tell me whether this restlessness is stronger at night, after conflict, or for no clear reason, and I will make the remedy more exact.',
         chartBridge,
       ].join(' ');
     case 'decision':

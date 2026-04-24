@@ -140,6 +140,26 @@ describe('predicta chat experience helpers', () => {
     expect(response).toContain('If you later want this anchored to your actual chart');
   });
 
+  it('responds to grief with more emotional intelligence', () => {
+    const response = buildNoKundliResponse(
+      'I have been feeling heavy since losing someone close. What do you see in this phase?',
+    );
+
+    expect(response).toContain('I am sorry you are carrying that');
+    expect(response).toContain('Grief has its own weather');
+    expect(response).toContain('heavy, numb, restless, or quietly disoriented');
+  });
+
+  it('offers both practical and spiritual remedies when asked', () => {
+    const response = buildNoKundliResponse(
+      'Give me a remedy for recurring anxiety and mental restlessness.',
+    );
+
+    expect(response).toContain('calm both the nervous system and the inner atmosphere');
+    expect(response).toContain('reduce stimulation for one hour before sleep');
+    expect(response).toContain('Mahadev mantra');
+  });
+
   it('remembers partial birth details across turns', () => {
     const response = buildNoKundliResponse('Time: 06:30 am, Place: Petlad, India', {
       history: [{ role: 'user', text: 'DOB: 22/08/1980' }],
