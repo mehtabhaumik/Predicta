@@ -81,6 +81,9 @@ WEAK_CHART_AWARE_PATTERNS = (
     re.compile(r"\bi(?: am|'m) missing the actual\b", re.IGNORECASE),
     re.compile(r"\bwithout the full .*chart\b", re.IGNORECASE),
     re.compile(r"\bi can'?t offer specific astrological remedies\b", re.IGNORECASE),
+    re.compile(r"^alright,\s+let'?s\s+(cut to the chase|get straight to it)\.?$", re.IGNORECASE),
+    re.compile(r"^ah,\s+the\s+d9\b", re.IGNORECASE),
+    re.compile(r"\bit'?s not a punishment, but a persistent invitation for growth\b", re.IGNORECASE),
 )
 
 MONTHS = {
@@ -313,6 +316,8 @@ def is_weak_chart_aware_response(request: PridictaAIRequest, text: str) -> bool:
     normalized = re.sub(r"\s+", " ", text.strip())
     if not normalized:
         return True
+    if normalized.lower().startswith("cached response"):
+        return False
     if 20 < len(normalized) < 120 and not re.search(r'[.!?]"?$', normalized):
         return True
     if any(pattern.search(normalized) for pattern in WEAK_CHART_AWARE_PATTERNS):
