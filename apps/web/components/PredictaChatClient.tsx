@@ -101,7 +101,9 @@ export function PredictaChatClient({
         {
           id: `pridicta-${Date.now()}`,
           role: 'pridicta',
-          text: buildNoKundliResponse(question),
+          text: buildNoKundliResponse(question, {
+            history,
+          }),
         },
       ]);
       return;
@@ -152,7 +154,9 @@ export function PredictaChatClient({
         {
           id: `pridicta-${Date.now()}`,
           role: 'pridicta',
-          text: buildLocalPredictaFallback(question, kundli, chartContext),
+          text: buildLocalPredictaFallback(question, kundli, chartContext, {
+            history,
+          }),
         },
       ]);
     } finally {

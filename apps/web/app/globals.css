@@ -2309,6 +2309,7 @@ aside,
   .sidebar-header {
     max-width: 100%;
     width: 100%;
+    min-height: 50px;
   }
 
   .dashboard-brand {
@@ -2318,10 +2319,10 @@ aside,
 
   .mobile-nav-toggle {
     display: inline-flex;
-    position: fixed;
-    right: 14px;
-    top: calc(var(--beta-strip-height) + 14px);
-    z-index: 90;
+    position: relative;
+    right: auto;
+    top: auto;
+    z-index: 1;
   }
 
   .dashboard-nav-list {
@@ -2646,8 +2647,10 @@ aside,
   }
 
   .mobile-nav-toggle {
-    left: min(320px, calc(100vw - 62px));
-    right: auto;
+    align-self: center;
+    height: 44px;
+    margin-left: auto;
+    width: 44px;
   }
 
   .sidebar {

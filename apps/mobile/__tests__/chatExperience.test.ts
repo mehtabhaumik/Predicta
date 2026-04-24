@@ -74,7 +74,7 @@ describe('predicta chat experience helpers', () => {
       hasKundli: true,
     });
 
-    expect(response).toContain('Hello. I am here.');
+    expect(response).toContain('Hello. I’m here.');
     expect(response).toContain('D10');
   });
 
@@ -101,7 +101,7 @@ describe('predicta chat experience helpers', () => {
   it('uses the small-talk path in the local fallback builder', () => {
     const response = buildLocalPredictaFallback('hello', kundli, chartContext);
 
-    expect(response).toContain('Hello. I am here.');
+    expect(response).toContain('Hello. I’m here.');
     expect(response).not.toContain('ashtakavarga');
   });
 
@@ -125,5 +125,24 @@ describe('predicta chat experience helpers', () => {
     const response = buildNoKundliResponse('You do not have my chart yet');
 
     expect(response).toContain('I do not have your kundli yet');
+  });
+
+  it('remembers partial birth details across turns', () => {
+    const response = buildNoKundliResponse('Time: 06:30 am, Place: Petlad, India', {
+      history: [{ role: 'user', text: 'DOB: 22/08/1980' }],
+    });
+
+    expect(response).toContain('I now have your');
+    expect(response).toContain('date of birth 1980-08-22');
+    expect(response).toContain('birth time 06:30');
+    expect(response).toContain('birth place Petlad, India');
+    expect(response).toContain('create your kundli');
+  });
+
+  it('asks only for what is still missing', () => {
+    const response = buildNoKundliResponse('DOB: 22/08/1980');
+
+    expect(response).toContain('I now have your date of birth 1980-08-22');
+    expect(response).toContain('I still need your birth time and birth place');
   });
 });

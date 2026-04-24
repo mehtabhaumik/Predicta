@@ -13,9 +13,20 @@ export function ClientServicesProvider(): null {
       return;
     }
 
-    window.addEventListener('load', () => {
+    const registerServiceWorker = () => {
       void navigator.serviceWorker.register('/sw.js');
-    });
+    };
+
+    if (document.readyState === 'complete') {
+      registerServiceWorker();
+      return;
+    }
+
+    window.addEventListener('load', registerServiceWorker, { once: true });
+
+    return () => {
+      window.removeEventListener('load', registerServiceWorker);
+    };
   }, []);
 
   return null;

@@ -11,6 +11,19 @@ function normalizePrompt(input: string): string {
   return input.trim().replace(/\s+/g, ' ');
 }
 
+type BirthDetailProgress = {
+  date?: string;
+  place?: string;
+  time?: string;
+};
+
+type BirthDetailContext = {
+  hasAllBirthDetails: boolean;
+  justSharedBirthDetails: boolean;
+  missingFields: Array<'date' | 'time' | 'place'>;
+  progress: BirthDetailProgress;
+};
+
 const PREDICTA_INTRO_MESSAGES = [
   'Hello. I am Predicta. Ask a life question, explore a report, or share your birth details when you are ready.',
   'Welcome. I can help with chart questions, timing patterns, report guidance, or a focused life decision.',
@@ -41,6 +54,223 @@ const CHART_READY_SUFFIXES = [
 
 function getRandomItem(items: string[]): string {
   return items[Math.floor(Math.random() * items.length)];
+}
+
+function normalizeYear(year: string): string {
+  if (year.length === 4) {
+    return year;
+  }
+
+  const numericYear = Number(year);
+  return numericYear > 30 ? `19${year}` : `20${year}`;
+}
+
+function formatDateParts(year: string, month: string, day: string): string {
+  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+}
+
+function extractDate(input: string): string | undefined {
+  const normalized = normalizePrompt(input);
+  const monthMap: Record<string, string> = {
+    apr: '04',
+    april: '04',
+    aug: '08',
+    august: '08',
+    dec: '12',
+    december: '12',
+    feb: '02',
+    february: '02',
+    jan: '01',
+    january: '01',
+    jul: '07',
+    july: '07',
+    jun: '06',
+    june: '06',
+    mar: '03',
+    march: '03',
+    may: '05',
+    nov: '11',
+    november: '11',
+    oct: '10',
+    october: '10',
+    sep: '09',
+    sept: '09',
+    september: '09',
+  };
+
+  const iso = normalized.match(/\b(\d{4})-(\d{1,2})-(\d{1,2})\b/);
+  if (iso) {
+    return formatDateParts(iso[1], iso[2], iso[3]);
+  }
+
+  const numeric = normalized.match(/\b(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})\b/);
+  if (numeric) {
+    return formatDateParts(normalizeYear(numeric[3]), numeric[2], numeric[1]);
+  }
+
+  const named = normalized.match(/\b(\d{1,2})\s+([A-Za-z]{3,9})\s+(\d{2,4})\b/i);
+  if (named) {
+    const month = monthMap[named[2].toLowerCase()];
+    if (month) {
+      return formatDateParts(normalizeYear(named[3]), month, named[1]);
+    }
+  }
+
+  return undefined;
+}
+
+function extractTime(input: string): string | undefined {
+  const normalized = normalizePrompt(input);
+  const time =
+    normalized.match(
+      /\b(?:time|born at|birth time is|at)\s*:?\s*(\d{1,2})(?::(\d{2}))?\s*(?:in the\s+)?(am|pm|morning|evening|night)?\b/i,
+    ) ?? normalized.match(/\b(\d{1,2}):(\d{2})\s*(am|pm|morning|evening|night)?\b/i);
+
+  if (!time) {
+    return undefined;
+  }
+
+  let hours = Number(time[1]);
+  const minutes = Number(time[2] ?? '00');
+  const meridiemText = time[3]?.toLowerCase();
+  const meridiem =
+    meridiemText === 'am' || meridiemText === 'morning'
+      ? 'AM'
+      : meridiemText === 'pm' ||
+          meridiemText === 'evening' ||
+          meridiemText === 'night'
+        ? 'PM'
+        : undefined;
+
+  if (meridiem === 'PM' && hours < 12) {
+    hours += 12;
+  }
+
+  if (meridiem === 'AM' && hours === 12) {
+    hours = 0;
+  }
+
+  if (hours > 23 || minutes > 59) {
+    return undefined;
+  }
+
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+}
+
+function extractPlace(input: string): string | undefined {
+  const normalized = normalizePrompt(input);
+  const labeled = normalized.match(
+    /\b(?:birth place|birthplace|place)\s*(?:is|:)?\s*([A-Za-z][A-Za-z\s.-]+(?:,\s*[A-Za-z][A-Za-z\s.-]+){0,2})\b/i,
+  );
+
+  if (labeled?.[1]) {
+    return labeled[1].trim();
+  }
+
+  const bornIn = normalized.match(
+    /\b(?:born in|from)\s+([A-Za-z][A-Za-z\s.-]+(?:,\s*[A-Za-z][A-Za-z\s.-]+){0,2})\b/i,
+  );
+
+  if (bornIn?.[1]) {
+    return bornIn[1].trim();
+  }
+
+  return undefined;
+}
+
+function extractBirthDetailProgress(input: string): BirthDetailProgress {
+  return {
+    date: extractDate(input),
+    place: extractPlace(input),
+    time: extractTime(input),
+  };
+}
+
+function describeCollectedBirthDetails(progress: BirthDetailProgress): string {
+  const parts: string[] = [];
+
+  if (progress.date) {
+    parts.push(`date of birth ${progress.date}`);
+  }
+
+  if (progress.time) {
+    parts.push(`birth time ${progress.time}`);
+  }
+
+  if (progress.place) {
+    parts.push(`birth place ${progress.place}`);
+  }
+
+  if (parts.length === 0) {
+    return '';
+  }
+
+  if (parts.length === 1) {
+    return parts[0];
+  }
+
+  if (parts.length === 2) {
+    return `${parts[0]} and ${parts[1]}`;
+  }
+
+  return `${parts[0]}, ${parts[1]}, and ${parts[2]}`;
+}
+
+function describeMissingBirthFields(
+  fields: Array<'date' | 'time' | 'place'>,
+): string {
+  const labels = fields.map(field =>
+    field === 'date'
+      ? 'date of birth'
+      : field === 'time'
+        ? 'birth time'
+        : 'birth place',
+  );
+
+  if (labels.length === 1) {
+    return labels[0];
+  }
+
+  if (labels.length === 2) {
+    return `${labels[0]} and ${labels[1]}`;
+  }
+
+  return `${labels[0]}, ${labels[1]}, and ${labels[2]}`;
+}
+
+function resolveBirthDetailContext(
+  input: string,
+  history?: Array<{ role: string; text: string }>,
+): BirthDetailContext {
+  const allPrompts = [...(history ?? []).map(turn => turn.text), input];
+  const progress: BirthDetailProgress = {};
+  const current = extractBirthDetailProgress(input);
+
+  for (const prompt of allPrompts) {
+    const extracted = extractBirthDetailProgress(prompt);
+    progress.date ||= extracted.date;
+    progress.time ||= extracted.time;
+    progress.place ||= extracted.place;
+  }
+
+  const missingFields: Array<'date' | 'time' | 'place'> = [];
+
+  if (!progress.date) {
+    missingFields.push('date');
+  }
+  if (!progress.time) {
+    missingFields.push('time');
+  }
+  if (!progress.place) {
+    missingFields.push('place');
+  }
+
+  return {
+    hasAllBirthDetails: missingFields.length === 0,
+    justSharedBirthDetails: Boolean(current.date || current.time || current.place),
+    missingFields,
+    progress,
+  };
 }
 
 export function getRandomPredictaIntro(options?: {
@@ -93,11 +323,19 @@ export function buildSmallTalkResponse(
     return 'Always. Take your time, and ask when you are ready.';
   }
 
-  return `Hello. I am here. ${guidanceHint}`;
+  return `Hello. I’m here. ${guidanceHint}`;
 }
 
-export function buildNoKundliResponse(input: string): string {
+export function buildNoKundliResponse(
+  input: string,
+  options?: {
+    history?: Array<{ role: string; text: string }>;
+  },
+): string {
   const normalized = normalizePrompt(input);
+  const birthDetailContext = resolveBirthDetailContext(normalized, options?.history);
+  const collected = describeCollectedBirthDetails(birthDetailContext.progress);
+  const missing = describeMissingBirthFields(birthDetailContext.missingFields);
 
   if (isSmallTalkPrompt(normalized)) {
     return buildSmallTalkResponse(normalized, {
@@ -105,15 +343,35 @@ export function buildNoKundliResponse(input: string): string {
     });
   }
 
+  if (birthDetailContext.justSharedBirthDetails) {
+    if (birthDetailContext.hasAllBirthDetails) {
+      return collected
+        ? `Thank you. I now have your ${collected}. The next step is to create your kundli so I can read from the real chart instead of guessing.`
+        : 'Thank you. I have enough to begin, and the next step is to create your kundli so I can read from the real chart instead of guessing.';
+    }
+
+    if (collected && missing) {
+      return `Got it. I now have your ${collected}. I still need your ${missing} before I can give you a real chart reading.`;
+    }
+  }
+
   if (/\b(chart|kundli|horoscope|reading|analy[sz]e|analysis|birth chart)\b/i.test(normalized)) {
-    return 'I do not have your kundli yet, so I will not guess from a chart that is not there. Share your birth date, exact birth time, and birth place when you are ready, and I can read from the real chart after that.';
+    if (collected && missing) {
+      return `I’m not going to guess from a chart I do not have. I already have your ${collected}; I still need your ${missing} before I can read the real kundli.`;
+    }
+
+    return 'I do not have your kundli yet, and I do not want to pretend otherwise. Share your birth date, exact birth time, and birth place when you are ready, and I will read from the real chart after that.';
   }
 
   if (/\b(dasha|lagna|nakshatra|planet|house|placement|D\d+)\b/i.test(normalized)) {
-    return 'I can explain what those chart factors mean, but I cannot read them as yours until your kundli is created. Share your birth date, exact birth time, and birth place if you want a real chart-based reading.';
+    return 'I can explain what those chart factors mean in general, but I cannot call them yours until your kundli is ready. Share your birth date, exact birth time, and birth place if you want a real chart-based reading.';
   }
 
-  return 'I can help with a focused life question right away. If you want a real chart reading, I will need your birth date, exact birth time, and birth place first.';
+  if (collected && missing) {
+    return `I have your ${collected} so far. Send your ${missing}, and then I can move with you into a real chart reading.`;
+  }
+
+  return 'I can help with a focused life question right away. If you want a real chart reading, start by sharing your birth date, exact birth time, and birth place.';
 }
 
 export function buildPredictaWaitingMessage(
@@ -180,6 +438,9 @@ export function buildLocalPredictaFallback(
   message: string,
   kundli?: KundliData,
   chartContext?: ChartContext,
+  options?: {
+    history?: Array<{ role: string; text: string }>;
+  },
 ): string {
   if (isSmallTalkPrompt(message)) {
     return buildSmallTalkResponse(message, {
@@ -189,7 +450,9 @@ export function buildLocalPredictaFallback(
   }
 
   if (!kundli) {
-    return buildNoKundliResponse(message);
+    return buildNoKundliResponse(message, {
+      history: options?.history,
+    });
   }
 
   const currentDasha = kundli.dasha.current;
