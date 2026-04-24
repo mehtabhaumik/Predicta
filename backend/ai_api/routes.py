@@ -80,6 +80,7 @@ WEAK_CHART_AWARE_PATTERNS = (
     re.compile(r"\bi only see\b", re.IGNORECASE),
     re.compile(r"\bi(?: am|'m) missing the actual\b", re.IGNORECASE),
     re.compile(r"\bwithout the full .*chart\b", re.IGNORECASE),
+    re.compile(r"\bwithout your specific birth chart\b", re.IGNORECASE),
     re.compile(r"\bi can'?t offer specific astrological remedies\b", re.IGNORECASE),
     re.compile(r"^alright,\s+let'?s\s+(cut to the chase|get straight to it)\.?$", re.IGNORECASE),
     re.compile(r"^ah,\s+the\s+d9\b", re.IGNORECASE),
@@ -398,7 +399,7 @@ def build_chart_aware_local_guidance(request: PridictaAIRequest) -> str:
             "The correction is simple: clearer boundaries, cleaner truth, less silent endurance."
         )
 
-    if re.search(r"\b(relationship|love|marriage|partner)\b", normalized):
+    if re.search(r"\b(relationship|relationships|love|marriage|partner)\b", normalized):
         return (
             f"{highlight_line}The relationship pattern here is about how you stay, repair, and protect yourself once closeness becomes real. "
             "You are not built for shallow bonds, but you do need honesty and emotional clarity; otherwise you can become private, over-responsible, or quietly burdened. "
