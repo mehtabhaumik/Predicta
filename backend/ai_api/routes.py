@@ -250,6 +250,8 @@ def is_weak_no_kundli_response(text: str) -> bool:
     normalized = re.sub(r"\s+", " ", text.strip())
     if not normalized:
         return True
+    if len(normalized) < 110 and not re.search(r'[.!?]"?$', normalized):
+        return True
     if len(normalized) > 900:
         return True
     if any(pattern.search(normalized) for pattern in WEAK_NO_KUNDLI_PATTERNS):
