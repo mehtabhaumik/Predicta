@@ -330,6 +330,67 @@ def test_ai_endpoint_uses_local_floor_for_incomplete_no_kundli_reply(monkeypatch
     assert calls["openai"] == 2
 
 
+def test_ai_endpoint_rewrites_weak_chart_aware_reply(monkeypatch):
+    response_cache._response_cache.clear()
+    calls = {"openai": 0}
+
+    async def fake_compact_with_gemini(*, model, prompt):
+        return None
+
+    async def fake_generate_openai_response(*, max_output_tokens, messages, model):
+        calls["openai"] += 1
+        if calls["openai"] == 1:
+            return (
+                "I can read your D10 for career growth, but the chart data got cut off in what you pasted."
+            )
+        return (
+            "Your D10 does show growth potential, but it comes through responsibility and sustained effort, not fast reward. "
+            "The real risk is overextension, not lack of promise."
+        )
+
+    monkeypatch.setattr(ai_routes, "compact_with_gemini", fake_compact_with_gemini)
+    monkeypatch.setattr(ai_routes, "generate_openai_response", fake_generate_openai_response)
+
+    response = TestClient(app).post("/ai/pridicta", json=build_request())
+
+    assert response.status_code == 200
+    assert "growth potential" in response.json()["text"]
+    assert "cut off" not in response.json()["text"]
+    assert calls["openai"] == 2
+
+
+def test_ai_endpoint_uses_chart_local_floor_for_clipped_chart_reply(monkeypatch):
+    response_cache._response_cache.clear()
+    calls = {"openai": 0}
+
+    async def fake_compact_with_gemini(*, model, prompt):
+        return None
+
+    async def fake_generate_openai_response(*, max_output_tokens, messages, model):
+        calls["openai"] += 1
+        return "I understand you're looking for an unvarnished view. The real"
+
+    monkeypatch.setattr(ai_routes, "compact_with_gemini", fake_compact_with_gemini)
+    monkeypatch.setattr(ai_routes, "generate_openai_response", fake_generate_openai_response)
+
+    response = TestClient(app).post(
+        "/ai/pridicta",
+        json=build_request(
+            chartContext={
+                "chartType": "D10",
+                "chartName": "Dashamsha",
+                "purpose": "Career and responsibility",
+                "sourceScreen": "Charts",
+            },
+            message="What is the real risk here, not the polished version?",
+        ),
+    )
+
+    assert response.status_code == 200
+    assert "The risk here is not lack of potential" in response.json()["text"]
+    assert calls["openai"] == 2
+
+
 def test_ai_endpoint_forces_grief_floor_when_reply_is_flat(monkeypatch):
     response_cache._response_cache.clear()
     calls = {"openai": 0}

@@ -75,6 +75,13 @@ WEAK_NO_KUNDLI_PATTERNS = (
     re.compile(r"^without (your|a) chart\b", re.IGNORECASE),
     re.compile(r"\bwhile i (don't|do not) have your chart\b", re.IGNORECASE),
 )
+WEAK_CHART_AWARE_PATTERNS = (
+    re.compile(r"\b(chart data got cut off|what you pasted)\b", re.IGNORECASE),
+    re.compile(r"\bi only see\b", re.IGNORECASE),
+    re.compile(r"\bi(?: am|'m) missing the actual\b", re.IGNORECASE),
+    re.compile(r"\bwithout the full .*chart\b", re.IGNORECASE),
+    re.compile(r"\bi can'?t offer specific astrological remedies\b", re.IGNORECASE),
+)
 
 MONTHS = {
     "jan": "01",
@@ -210,6 +217,18 @@ async def ask_pridicta(request: PridictaAIRequest, response: Response):
             text = build_no_kundli_local_guidance(request)
     if request.kundli is None and should_force_theme_floor(request, text):
         text = build_no_kundli_local_guidance(request)
+    if request.kundli is not None and is_weak_chart_aware_response(request, text):
+        rewritten = await rewrite_chart_aware_response(
+            provider=provider,
+            model=response_model,
+            max_output_tokens=max_output_tokens,
+            request=request,
+            draft_text=text,
+        )
+        if rewritten and rewritten.strip():
+            text = rewritten.strip()
+        if is_weak_chart_aware_response(request, text):
+            text = build_chart_aware_local_guidance(request)
 
     ai_response = PridictaAIResponse(
         compactedWithGemini=bool(compact_context),
@@ -290,6 +309,96 @@ def should_force_theme_floor(request: PridictaAIRequest, text: str) -> bool:
     return False
 
 
+def is_weak_chart_aware_response(request: PridictaAIRequest, text: str) -> bool:
+    normalized = re.sub(r"\s+", " ", text.strip())
+    if not normalized:
+        return True
+    if 40 < len(normalized) < 120 and not re.search(r'[.!?]"?$', normalized):
+        return True
+    if any(pattern.search(normalized) for pattern in WEAK_CHART_AWARE_PATTERNS):
+        return True
+    return False
+
+
+def summarize_selected_chart_highlights(request: PridictaAIRequest) -> str:
+    if not request.kundli or not request.chartContext or not request.chartContext.chartType:
+        return ""
+
+    chart = request.kundli.charts.get(request.chartContext.chartType)
+    if not chart:
+        return ""
+
+    highlights = []
+    for house, placements in chart.housePlacements.items():
+        if placements:
+            labels = ", ".join(placements)
+            suffix = "th"
+            if house == 1:
+                suffix = "st"
+            elif house == 2:
+                suffix = "nd"
+            elif house == 3:
+                suffix = "rd"
+            highlights.append(f"{labels} in {house}{suffix}")
+        if len(highlights) >= 3:
+            break
+    return "; ".join(highlights)
+
+
+def build_chart_aware_local_guidance(request: PridictaAIRequest) -> str:
+    kundli = request.kundli
+    if kundli is None:
+        return "I need the actual kundli to answer this from the chart rather than from guesswork."
+
+    normalized = re.sub(r"\s+", " ", request.message.strip()).lower()
+    chart_label = request.chartContext.chartType if request.chartContext and request.chartContext.chartType else "birth chart"
+    dasha_label = f"{kundli.dasha.current.mahadasha}/{kundli.dasha.current.antardasha}"
+    strongest_houses = ", ".join(str(house) for house in kundli.ashtakavarga.strongestHouses[:3])
+    chart_highlights = summarize_selected_chart_highlights(request)
+    highlight_line = f"I’m reading this through {chart_label}, with highlights like {chart_highlights}. " if chart_highlights else ""
+
+    if re.search(r"\b(remedy|remedies)\b", normalized):
+        return (
+            f"{highlight_line}The chart asks for steadiness more than force right now, especially under {dasha_label}. "
+            "Practical remedy: choose one disciplined action you can repeat weekly and let consistency do the heavy lifting. "
+            "Inner remedy: give the pressure somewhere clean to go, whether that is prayer, journaling, breathwork, or one quiet Mahadev practice done sincerely. "
+            f"Your stronger support is around houses {strongest_houses}, so visible discipline will help more than emotional drama."
+        )
+
+    if re.search(r"\b(risk|problem|sugarcoat|real risk|real problem)\b", normalized):
+        return (
+            f"{highlight_line}The risk here is not lack of potential. It is misusing energy: taking on pressure that looks impressive but drains stability. "
+            f"Under {dasha_label}, the chart rewards structure and sustained effort more than speed. "
+            f"With stronger support around houses {strongest_houses}, progress is real, but it can get distorted if you chase urgency over staying power."
+        )
+
+    if re.search(r"\b(normal language|plain language|no astrology lecture)\b", normalized):
+        return (
+            "In plain language: the pattern is not that you cannot handle depth. It is that you do better when there is honesty, steadiness, and enough room to breathe. "
+            "If something feels emotionally unclear or one-sided, you can stay longer than you should and carry more than is healthy. "
+            "The correction is simple: clearer boundaries, cleaner truth, less silent endurance."
+        )
+
+    if re.search(r"\b(relationship|love|marriage|partner)\b", normalized):
+        return (
+            f"{highlight_line}The relationship pattern here is about how you stay, repair, and protect yourself once closeness becomes real. "
+            "You are not built for shallow bonds, but you do need honesty and emotional clarity; otherwise you can become private, over-responsible, or quietly burdened. "
+            "The chart asks for steadier truth, not more silent tolerance."
+        )
+
+    if re.search(r"\b(career|work|role|profession|d10)\b", normalized):
+        return (
+            f"{highlight_line}This chart does show growth potential, but it is the kind that comes through responsibility, visible effort, and patience rather than fast reward. "
+            f"Under {dasha_label}, the pressure is to mature into clearer structure. Stronger support around houses {strongest_houses} suggests progress is available when effort is organized and sustained. "
+            "The caution is overextension: do not confuse more load with better direction."
+        )
+
+    return (
+        f"{highlight_line}The chart is not weak. It is asking for maturity in how you carry pressure, choose your direction, and stay consistent under {dasha_label}. "
+        f"Support is strongest around houses {strongest_houses}, so the next step is usually steadier structure rather than dramatic change."
+    )
+
+
 async def rewrite_no_kundli_response(
     *,
     provider: Literal["openai", "gemini"],
@@ -332,6 +441,54 @@ async def rewrite_no_kundli_response(
 
         return await generate_gemini_response(
             max_output_tokens=min(max_output_tokens, 220),
+            model=model,
+            system_prompt=system_prompt,
+            user_prompt=user_prompt,
+        )
+    except (AIProviderError, AIProviderUnavailable):
+        return None
+
+
+async def rewrite_chart_aware_response(
+    *,
+    provider: Literal["openai", "gemini"],
+    model: str,
+    max_output_tokens: int,
+    request: PridictaAIRequest,
+    draft_text: str,
+) -> str | None:
+    system_prompt = "\n".join(
+        [
+            "You are rewriting a Predicta chart-based reply.",
+            "The kundli context is complete and authoritative. Do not say the chart is missing, cut off, pasted incompletely, or unavailable.",
+            "Keep the answer human, specific, and grounded in the provided chart context.",
+            "Avoid clipped sentences, generic AI filler, and astrology dumping.",
+            "If the user asks for plain language, use plain language.",
+            "If the user asks for remedies, give practical and inner remedies without theatre.",
+        ]
+    )
+    user_prompt = "\n\n".join(
+        [
+            f"User question: {request.message}",
+            f"Chart context: {request.chartContext.model_dump_json() if request.chartContext else 'Broad chart view'}",
+            "Rewrite this weak chart-aware draft into a sharper Predicta answer:",
+            draft_text,
+        ]
+    )
+
+    try:
+        if provider == "openai":
+            return await generate_openai_response(
+                max_output_tokens=min(max_output_tokens, 260),
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+                model=model,
+            )
+
+        return await generate_gemini_response(
+            max_output_tokens=min(max_output_tokens, 260),
             model=model,
             system_prompt=system_prompt,
             user_prompt=user_prompt,
