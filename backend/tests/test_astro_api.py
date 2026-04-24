@@ -80,6 +80,24 @@ def test_sitemap_xml_is_empty_for_web_app_domain():
     assert "<loc>" not in response.text
 
 
+def test_robots_and_sitemap_support_head_requests():
+    client = TestClient(app)
+
+    robots = client.head(
+        "/robots.txt",
+        headers={"host": "predicta.rudraix.com"},
+    )
+    sitemap = client.head(
+        "/sitemap.xml",
+        headers={"host": "predicta.rudraix.com"},
+    )
+
+    assert robots.status_code == 200
+    assert robots.headers["content-type"].startswith("text/plain")
+    assert sitemap.status_code == 200
+    assert sitemap.headers["content-type"].startswith("application/xml")
+
+
 def test_generate_kundli_shape_and_metadata():
     kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
     assert kundli.lagna in {

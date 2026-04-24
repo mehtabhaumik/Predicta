@@ -220,7 +220,9 @@ export function ChatScreen({
             hasKundli: false,
           }),
           undefined,
-          buildPredictaWaitingMessage(trimmedInput, activeChartContext),
+          buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
+            hasKundli: false,
+          }),
         );
         return;
       }
@@ -264,7 +266,9 @@ export function ChatScreen({
           hasKundli: true,
         }),
         undefined,
-        buildPredictaWaitingMessage(trimmedInput, activeChartContext),
+        buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
+          hasKundli: true,
+        }),
       );
       return;
     }
@@ -307,7 +311,11 @@ export function ChatScreen({
     );
     setInput('');
     setIsTyping(true);
-    setTypingLabel(buildPredictaWaitingMessage(trimmedInput, activeChartContext));
+    setTypingLabel(
+      buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
+        hasKundli: true,
+      }),
+    );
     setStreamingText('');
 
     try {
@@ -363,7 +371,9 @@ export function ChatScreen({
           activeChartContext,
         ),
         undefined,
-        buildPredictaWaitingMessage(trimmedInput, activeChartContext),
+        buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
+          hasKundli: true,
+        }),
       );
     }
   }

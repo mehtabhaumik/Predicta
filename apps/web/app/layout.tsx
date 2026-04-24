@@ -79,6 +79,9 @@ export default function RootLayout({
       <body>
         <ClientServicesProvider />
         <RuntimeMetadataSync />
+        <div className="beta-release-strip" role="status" aria-live="polite">
+          Beta release for public testing. This is not the full application yet.
+        </div>
         <div className="page-shell">
           <div className="content-layer">{children}</div>
         </div>

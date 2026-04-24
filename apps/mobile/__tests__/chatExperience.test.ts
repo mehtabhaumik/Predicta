@@ -1,7 +1,9 @@
 import {
+  buildNoKundliResponse,
   buildLocalPredictaFallback,
   buildPredictaWaitingMessage,
   buildSmallTalkResponse,
+  getRandomPredictaIntro,
   isSmallTalkPrompt,
 } from '@pridicta/ai';
 import type { ChartContext, KundliData } from '../src/types/astrology';
@@ -89,6 +91,11 @@ describe('predicta chat experience helpers', () => {
     expect(
       buildPredictaWaitingMessage('What does my D10 show about career growth?', chartContext),
     ).toBe('Checking the D10 signals that matter most...');
+    expect(
+      buildPredictaWaitingMessage('Please analyze my chart', undefined, {
+        hasKundli: false,
+      }),
+    ).toBe('Getting clear on what you want to explore first...');
   });
 
   it('uses the small-talk path in the local fallback builder', () => {
@@ -96,5 +103,27 @@ describe('predicta chat experience helpers', () => {
 
     expect(response).toContain('Hello. I am here.');
     expect(response).not.toContain('ashtakavarga');
+  });
+
+  it('does not fake a chart reading when no kundli exists', () => {
+    const response = buildLocalPredictaFallback('Please analyze my chart');
+
+    expect(response).toContain('I do not have your kundli yet');
+    expect(response).not.toContain('I will begin from D10');
+    expect(response).not.toContain('ashtakavarga');
+  });
+
+  it('returns varied safe intros', () => {
+    const intro = getRandomPredictaIntro();
+
+    expect(intro.length).toBeGreaterThan(20);
+    expect(intro).not.toContain('Saturn / Mercury');
+    expect(intro).not.toContain('D10');
+  });
+
+  it('guides the user to birth details when they ask for a chart without one', () => {
+    const response = buildNoKundliResponse('You do not have my chart yet');
+
+    expect(response).toContain('I do not have your kundli yet');
   });
 });

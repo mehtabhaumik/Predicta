@@ -2,12 +2,19 @@
 
 import { useMemo, useState } from 'react';
 import {
+  buildNoKundliResponse,
   buildLocalPredictaFallback,
   buildPredictaWaitingMessage,
   buildSmallTalkResponse,
+  getRandomPredictaIntro,
   isSmallTalkPrompt,
 } from '@pridicta/ai';
-import type { ConversationTurn, KundliData, PridictaChatResponse } from '@pridicta/types';
+import type {
+  ChartContext,
+  ConversationTurn,
+  KundliData,
+  PridictaChatResponse,
+} from '@pridicta/types';
 import { resolvePredictaWebBackendUrl } from '@pridicta/config';
 import { Card } from './Card';
 
@@ -18,43 +25,31 @@ type ChatMessage = {
 };
 
 type PredictaChatClientProps = {
-  kundli: KundliData;
+  chartContext?: ChartContext;
+  kundli?: KundliData;
 };
 
 export function PredictaChatClient({
+  chartContext,
   kundli,
 }: PredictaChatClientProps): React.JSX.Element {
-  const chartContext = {
-    chartName: 'Dashamsha',
-    chartType: 'D10',
-    purpose: 'Career and responsibility',
-    sourceScreen: 'Web Chat',
-  } as const;
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [waitingMessage, setWaitingMessage] = useState('Thinking through your question...');
-  const [messages, setMessages] = useState<ChatMessage[]>([
+  const [messages, setMessages] = useState<ChatMessage[]>(() => [
     {
-      id: 'welcome',
+      id: 'intro',
       role: 'pridicta',
-      text: 'Tell me what you want to understand. I will keep the reading focused, steady, and easy to follow.',
-    },
-    {
-      id: 'preview-user',
-      role: 'user',
-      text: 'Why do I feel ready for a bigger role, but still pulled back by old responsibilities?',
-    },
-    {
-      id: 'preview-pridicta',
-      role: 'pridicta',
-      text: 'Your chart suggests a threshold moment: ambition is growing, but Saturn asks you to carry it with structure instead of speed. The interesting signal is not “wait” or “rush”; it is to choose the role that lets you become more visible without abandoning the routines that keep you grounded. Treat the next step like a doorway, not a leap.',
+      text: getRandomPredictaIntro({
+        hasKundli: Boolean(kundli),
+      }),
     },
   ]);
 
   const history = useMemo<ConversationTurn[]>(
     () =>
       messages
-        .filter(message => message.id !== 'welcome')
+        .filter(message => message.id !== 'intro')
         .map(message => ({
           role: message.role,
           text: message.text,
@@ -93,14 +88,30 @@ export function PredictaChatClient({
           role: 'pridicta',
           text: buildSmallTalkResponse(question, {
             chartContext,
-            hasKundli: true,
+            hasKundli: Boolean(kundli),
           }),
         },
       ]);
       return;
     }
 
-    setWaitingMessage(buildPredictaWaitingMessage(question, chartContext));
+    if (!kundli) {
+      setMessages(current => [
+        ...current,
+        {
+          id: `pridicta-${Date.now()}`,
+          role: 'pridicta',
+          text: buildNoKundliResponse(question),
+        },
+      ]);
+      return;
+    }
+
+    setWaitingMessage(
+      buildPredictaWaitingMessage(question, chartContext, {
+        hasKundli: true,
+      }),
+    );
     setIsSending(true);
 
     try {
@@ -177,7 +188,11 @@ export function PredictaChatClient({
           aria-label="Ask Predicta"
           disabled={isSending}
           onChange={event => setInput(event.target.value)}
-          placeholder="Ask Predicta anything about your chart..."
+          placeholder={
+            kundli
+              ? 'Ask Predicta anything about your chart...'
+              : 'Ask a life question or start with your birth details...'
+          }
           value={input}
         />
         <button className="button" disabled={isSending || !input.trim()} type="submit">

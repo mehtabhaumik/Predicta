@@ -42,6 +42,33 @@ body {
   overflow-x: hidden;
 }
 
+.beta-release-strip {
+  align-items: center;
+  background: rgba(14, 14, 20, 0.88);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.78);
+  display: flex;
+  font-size: 11px;
+  font-weight: 600;
+  justify-content: center;
+  left: 0;
+  letter-spacing: 0.01em;
+  min-height: 32px;
+  padding: 6px 16px;
+  position: sticky;
+  right: 0;
+  text-align: center;
+  top: 0;
+  width: 100%;
+  z-index: 120;
+}
+
+@supports (backdrop-filter: blur(20px)) {
+  .beta-release-strip {
+    backdrop-filter: blur(18px) saturate(130%);
+  }
+}
+
 body.modal-open {
   overflow: hidden;
 }
@@ -182,6 +209,15 @@ aside,
   .provider-button-disabled:hover {
     box-shadow: none;
     transform: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .beta-release-strip {
+    font-size: 10px;
+    line-height: 1.35;
+    min-height: 30px;
+    padding: 6px 12px;
   }
 }
 

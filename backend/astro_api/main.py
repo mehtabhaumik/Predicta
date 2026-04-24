@@ -89,7 +89,7 @@ def health():
     }
 
 
-@app.get("/robots.txt")
+@app.api_route("/robots.txt", methods=["GET", "HEAD"])
 def robots_txt(request: Request):
     origin = _resolve_public_site_origin(request)
     if origin.endswith(".web.app"):
@@ -115,7 +115,7 @@ def robots_txt(request: Request):
     return Response(content=body, media_type="text/plain; charset=utf-8")
 
 
-@app.get("/sitemap.xml")
+@app.api_route("/sitemap.xml", methods=["GET", "HEAD"])
 def sitemap_xml(request: Request):
     origin = _resolve_public_site_origin(request)
     last_modified = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace(

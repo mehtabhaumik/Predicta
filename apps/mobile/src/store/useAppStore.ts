@@ -2,6 +2,7 @@ import { create } from 'zustand';
 
 import { DAY_PASS_LIMITS, getUsageLimits } from '@pridicta/config/usageLimits';
 import { resolveAccess } from '@pridicta/access';
+import { getRandomPredictaIntro } from '@pridicta/ai';
 import {
   consumeGuestQuota,
   hasGuestQuota,
@@ -154,7 +155,9 @@ export const useAppStore = create<AppState>((set, get) => ({
         createdAt: new Date().toISOString(),
         id: 'welcome-birth-intake',
         role: 'pridicta',
-        text: 'Tell me your birth date, birth time, and birth place in your own words. I will verify the details before generating a kundli.',
+        text: `${getRandomPredictaIntro({
+          hasKundli: false,
+        })} Tell me your birth date, birth time, and birth place in your own words when you want me to prepare your kundli.`,
       },
     ],
   },
@@ -482,7 +485,9 @@ export const useAppStore = create<AppState>((set, get) => ({
             createdAt: new Date().toISOString(),
             id: `welcome-${activeKundliId}`,
             role: 'pridicta',
-            text: `I have opened ${kundli.birthDetails.name}'s kundli. Ask from any chart or report section and I will keep that context in mind.`,
+            text: `${getRandomPredictaIntro({
+              hasKundli: true,
+            })} I have opened ${kundli.birthDetails.name}'s kundli, so you can ask from any chart or report section when you are ready.`,
           },
         ],
       },

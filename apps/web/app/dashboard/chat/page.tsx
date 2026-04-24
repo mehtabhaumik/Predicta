@@ -1,21 +1,8 @@
-import {
-  buildDecisionMirrorResponse,
-  validateDecisionMirrorResponse,
-} from '@pridicta/ai';
 import { Card } from '../../../components/Card';
 import { PredictaChatClient } from '../../../components/PredictaChatClient';
 import { StatusPill } from '../../../components/StatusPill';
-import { demoKundli } from '../../../lib/demo-state';
 
 export default function ChatPage(): React.JSX.Element {
-  const decisionMirror = buildDecisionMirrorResponse({
-    depth: 'FREE',
-    generatedAt: '2026-04-18T00:00:00.000Z',
-    kundli: demoKundli,
-    question: 'Should I accept a bigger role if it increases pressure?',
-  });
-  const isValidMirror = validateDecisionMirrorResponse(decisionMirror);
-
   return (
     <section className="dashboard-page">
       <div className="page-heading compact">
@@ -28,34 +15,38 @@ export default function ChatPage(): React.JSX.Element {
       </div>
 
       <div className="chat-decision-layout">
-        <PredictaChatClient kundli={demoKundli} />
+        <PredictaChatClient />
         <Card className="decision-mirror-panel glass-panel">
           <div className="card-content spacious">
-            <div className="section-title">DECISION MIRROR</div>
-            <h2>Structured guidance, not certainty.</h2>
-            <p>{decisionMirror.decisionSummary}</p>
+            <div className="section-title">HOW TO BEGIN</div>
+            <h2>Real guidance starts from a real question.</h2>
+            <p>
+              Predicta should not pretend to know your chart before it has one.
+              Start with a focused life question, or generate your kundli first
+              for chart-specific guidance.
+            </p>
             <div className="decision-mirror-stack">
               <div>
-                <span>Supportive factors</span>
-                {decisionMirror.supportiveChartFactors.map(item => (
-                  <strong key={item}>{item}</strong>
-                ))}
+                <span>Good opening questions</span>
+                <strong>What pattern keeps repeating in my work life?</strong>
+                <strong>What should I focus on in this phase?</strong>
               </div>
               <div>
-                <span>Caution factors</span>
-                {decisionMirror.cautionFactors.map(item => (
-                  <strong key={item}>{item}</strong>
-                ))}
+                <span>For a real chart reading</span>
+                <strong>Birth date</strong>
+                <strong>Exact birth time</strong>
+                <strong>Birth place</strong>
               </div>
               <div>
-                <span>Next step</span>
-                <strong>{decisionMirror.practicalNextStep}</strong>
+                <span>What Predicta can do</span>
+                <strong>Chart interpretation</strong>
+                <strong>Timing guidance</strong>
+                <strong>Report clarity</strong>
               </div>
             </div>
             <p className="muted-copy">
-              {isValidMirror
-                ? decisionMirror.disclaimer
-                : 'Decision Mirror is unavailable for this question.'}
+              Once your kundli is ready, Predicta can stay anchored to actual
+              placements, dasha, and chart context instead of guessing.
             </p>
           </div>
         </Card>
