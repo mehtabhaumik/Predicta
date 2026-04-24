@@ -1,11 +1,18 @@
 import './globals.css';
 import type { Metadata } from 'next';
+import type { Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { ClientServicesProvider } from '../components/ClientServicesProvider';
+import { PwaInstallPrompt } from '../components/PwaInstallPrompt';
 import { RuntimeMetadataSync } from '../components/RuntimeMetadataSync';
 
 export const metadata: Metadata = {
   applicationName: 'Predicta',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Predicta',
+  },
   authors: [{ name: 'Bhaumik Mehta' }],
   category: 'Vedic astrology',
   creator: 'Bhaumik Mehta',
@@ -69,6 +76,14 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  colorScheme: 'dark',
+  initialScale: 1,
+  themeColor: '#0A0A0F',
+  viewportFit: 'cover',
+  width: 'device-width',
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -85,6 +100,7 @@ export default function RootLayout({
         <div className="page-shell">
           <div className="content-layer">{children}</div>
         </div>
+        <PwaInstallPrompt />
       </body>
     </html>
   );
