@@ -44,6 +44,7 @@ import {
 import { getProductUpgradePrompt } from '@pridicta/monetization';
 import { extractBirthDetailsFromText } from '../services/ai/birthDetailsExtractor';
 import { askPridicta } from '../services/ai/pridictaService';
+import { updateUserAstrologyMemory as syncAstrologyMemory } from '../services/ai/memoryService';
 import { playReplyChime } from '../services/audio/replyChime';
 import { trackAnalyticsEvent } from '../services/analytics/analyticsService';
 import { syncRedeemedGuestPassToUser } from '../services/firebase/passCodePersistence';
@@ -168,6 +169,7 @@ export function ChatScreen({
     text: string,
     decisionMirror?: DecisionMirrorResponse,
     waitingMessage?: string,
+    historyForMemory?: Array<{ role: 'user' | 'pridicta'; text: string }>,
   ) {
     let cursor = 0;
     const chunkSize = getAssistantStreamChunkSize(text.length);
@@ -194,6 +196,12 @@ export function ChatScreen({
         appendConversationMessage(
           createMessage('pridicta', text, activeChartContext, decisionMirror),
         );
+        syncAstrologyMemory({
+          assistantResponse: text,
+          chartContext: activeChartContext,
+          history: historyForMemory,
+          kundli: activeKundli,
+        });
         playReplyChime(chatSoundEnabled);
         setStreamingText('');
         setTypingLabel('Thinking through your question...');
@@ -213,6 +221,17 @@ export function ChatScreen({
       return;
     }
 
+    const historyWithUser = [
+      ...history,
+      { role: 'user' as const, text: trimmedInput },
+    ];
+    syncAstrologyMemory({
+      chartContext: activeChartContext,
+      history: historyWithUser,
+      kundli: activeKundli,
+      message: trimmedInput,
+    });
+
     if (!activeKundli) {
       appendConversationMessage(
         createMessage('user', trimmedInput, activeChartContext),
@@ -229,6 +248,7 @@ export function ChatScreen({
           buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
             hasKundli: false,
           }),
+          historyWithUser,
         );
         return;
       }
@@ -258,6 +278,7 @@ export function ChatScreen({
             buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
               hasKundli: false,
             }),
+            historyWithUser,
           );
         } catch {
           streamAssistantResponse(
@@ -268,6 +289,7 @@ export function ChatScreen({
             buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
               hasKundli: false,
             }),
+            historyWithUser,
           );
         }
         return;
@@ -295,6 +317,7 @@ export function ChatScreen({
             buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
               hasKundli: false,
             }),
+            historyWithUser,
           );
           return;
         }
@@ -305,6 +328,7 @@ export function ChatScreen({
           }),
           undefined,
           'Understanding what you shared...',
+          historyWithUser,
         );
       } catch {
         streamAssistantResponse(
@@ -315,6 +339,7 @@ export function ChatScreen({
           buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
             hasKundli: false,
           }),
+          historyWithUser,
         );
       }
       return;
@@ -334,6 +359,7 @@ export function ChatScreen({
         buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
           hasKundli: true,
         }),
+        historyWithUser,
       );
       return;
     }
@@ -422,18 +448,27 @@ export function ChatScreen({
         }
       }
 
-      streamAssistantResponse(response.text, response.decisionMirror);
+      streamAssistantResponse(
+        response.text,
+        response.decisionMirror,
+        undefined,
+        historyWithUser,
+      );
     } catch {
       streamAssistantResponse(
         buildLocalPredictaFallback(
           trimmedInput,
           activeKundli,
           activeChartContext,
+          {
+            history,
+          },
         ),
         undefined,
         buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
           hasKundli: true,
         }),
+        historyWithUser,
       );
     }
   }
@@ -671,7 +706,7 @@ const ChatBubble = memo(function ChatBubble({
           style={styles.pridictaBubble}
         >
           {typing ? (
-            <TypingPulse />
+            <TypingPulse label={message.text} />
           ) : message.decisionMirror ? (
             <DecisionMirrorCard mirror={message.decisionMirror} />
           ) : (
@@ -743,7 +778,11 @@ function MirrorSection({
   );
 }
 
-function TypingPulse(): React.JSX.Element {
+function TypingPulse({
+  label,
+}: {
+  label: string;
+}): React.JSX.Element {
   const opacity = useSharedValue(0.42);
 
   useEffect(() => {
@@ -772,7 +811,7 @@ function TypingPulse(): React.JSX.Element {
         <View style={styles.typingDot} />
         <View style={styles.typingDot} />
         <AppText style={styles.typingText} tone="secondary">
-          {typingLabel}
+          {label}
         </AppText>
       </Animated.View>
       <View style={styles.typingSkeleton}>

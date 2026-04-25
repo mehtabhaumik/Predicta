@@ -2,15 +2,18 @@
 
 import { useMemo, useState } from 'react';
 import {
+  buildPredictaIntelligenceContext,
   buildNoKundliResponse,
   buildLocalPredictaFallback,
   buildPredictaWaitingMessage,
   buildSmallTalkResponse,
+  guardPredictaResponse,
   getRandomPredictaIntro,
   isSmallTalkPrompt,
   shouldUseLocalNoKundliResponse,
 } from '@pridicta/ai';
 import type {
+  AstrologyMemory,
   ChartContext,
   ConversationTurn,
   KundliData,
@@ -37,6 +40,14 @@ export function PredictaChatClient({
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [waitingMessage, setWaitingMessage] = useState('Thinking through your question...');
+  const [memory, setMemory] = useState<AstrologyMemory>({
+    birthDetailsComplete: Boolean(kundli),
+    birthDetails: kundli?.birthDetails,
+    knownConcerns: [],
+    previousGuidance: [],
+    previousTopics: [],
+    userName: kundli?.birthDetails.name,
+  });
   const [messages, setMessages] = useState<ChatMessage[]>(() => [
     {
       id: 'intro',
@@ -77,6 +88,15 @@ export function PredictaChatClient({
       role: 'user',
       text: question,
     };
+    const nextHistory = [...history, { role: 'user' as const, text: question }];
+    const intelligenceContext = buildPredictaIntelligenceContext({
+      chartContext,
+      history: nextHistory,
+      kundli,
+      memory,
+      message: question,
+    });
+    setMemory(intelligenceContext.memory);
 
     setInput('');
     setMessages(current => [...current, userMessage]);
@@ -87,9 +107,14 @@ export function PredictaChatClient({
         {
           id: `pridicta-${Date.now()}`,
           role: 'pridicta',
-          text: buildSmallTalkResponse(question, {
-            chartContext,
-            hasKundli: Boolean(kundli),
+          text: guardPredictaResponse({
+            history: nextHistory,
+            intentProfile: intelligenceContext.intentProfile,
+            memory: intelligenceContext.memory,
+            text: buildSmallTalkResponse(question, {
+              chartContext,
+              hasKundli: Boolean(kundli),
+            }),
           }),
         },
       ]);
@@ -108,8 +133,13 @@ export function PredictaChatClient({
         {
           id: `pridicta-${Date.now()}`,
           role: 'pridicta',
-          text: buildNoKundliResponse(question, {
-            history,
+          text: guardPredictaResponse({
+            history: nextHistory,
+            intentProfile: intelligenceContext.intentProfile,
+            memory: intelligenceContext.memory,
+            text: buildNoKundliResponse(question, {
+              history: nextHistory,
+            }),
           }),
         },
       ]);
@@ -123,6 +153,7 @@ export function PredictaChatClient({
         body: JSON.stringify({
           chartContext,
           history,
+          intelligenceContext,
           kundli,
           message: question,
           userPlan: 'FREE',
@@ -147,7 +178,12 @@ export function PredictaChatClient({
         {
           id: `pridicta-${Date.now()}`,
           role: 'pridicta',
-          text: payload.text.trim(),
+          text: guardPredictaResponse({
+            history: nextHistory,
+            intentProfile: intelligenceContext.intentProfile,
+            memory: intelligenceContext.memory,
+            text: payload.text.trim(),
+          }),
         },
       ]);
     } catch {
@@ -156,13 +192,18 @@ export function PredictaChatClient({
         {
           id: `pridicta-${Date.now()}`,
           role: 'pridicta',
-          text: kundli
-            ? buildLocalPredictaFallback(question, kundli, chartContext, {
-                history,
-              })
-            : buildNoKundliResponse(question, {
-                history,
-              }),
+          text: guardPredictaResponse({
+            history: nextHistory,
+            intentProfile: intelligenceContext.intentProfile,
+            memory: intelligenceContext.memory,
+            text: kundli
+              ? buildLocalPredictaFallback(question, kundli, chartContext, {
+                  history: nextHistory,
+                })
+              : buildNoKundliResponse(question, {
+                  history: nextHistory,
+                }),
+          }),
         },
       ]);
     } finally {

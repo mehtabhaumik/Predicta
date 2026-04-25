@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 import { DAY_PASS_LIMITS, getUsageLimits } from '@pridicta/config/usageLimits';
 import { resolveAccess } from '@pridicta/access';
-import { getRandomPredictaIntro } from '@pridicta/ai';
+import { createInitialAstrologyMemory, getRandomPredictaIntro } from '@pridicta/ai';
 import {
   consumeGuestQuota,
   hasGuestQuota,
@@ -20,6 +20,7 @@ import {
 } from '@pridicta/monetization';
 import type { AppLocale, GeneratedReportLibraryItem } from '@pridicta/types';
 import type {
+  AstrologyMemory,
   AuthState,
   BirthDetailsDraft,
   ChartContext,
@@ -85,6 +86,7 @@ type AppState = {
   activeChartContext?: ChartContext;
   activeKundli?: KundliData;
   activeKundliId?: string;
+  astrologyMemoryBySession: Record<string, AstrologyMemory>;
   auth: AuthState;
   biometricsEnabled: boolean;
   chatSoundEnabled: boolean;
@@ -118,6 +120,7 @@ type AppState = {
   consumePremiumPdfCredit: (kundliId: string) => boolean;
   getActiveConversation: () => ChatMessage[];
   getResolvedAccess: () => ResolvedAccess;
+  getAstrologyMemory: () => AstrologyMemory;
   addGeneratedReport: (report: GeneratedReportLibraryItem) => void;
   addOneTimeEntitlement: (entitlement: OneTimeEntitlement) => void;
   recordDeepCall: () => void;
@@ -125,6 +128,7 @@ type AppState = {
   recordQuestion: () => void;
   replaceConversationMessage: (messageId: string, message: ChatMessage) => void;
   setActiveChartContext: (context?: ChartContext) => void;
+  setAstrologyMemory: (value: AstrologyMemory) => void;
   setActiveKundli: (kundli: KundliData) => void;
   setAuth: (value: AuthState) => void;
   setBiometricsEnabled: (value: boolean) => void;
@@ -147,6 +151,9 @@ export const useAppStore = create<AppState>((set, get) => ({
     provider: null,
   },
   activeKundliId: BIRTH_INTAKE_CONVERSATION_ID,
+  astrologyMemoryBySession: {
+    [BIRTH_INTAKE_CONVERSATION_ID]: createInitialAstrologyMemory(),
+  },
   biometricsEnabled: true,
   chatSoundEnabled: true,
   conversationsByKundli: {
@@ -377,6 +384,17 @@ export const useAppStore = create<AppState>((set, get) => ({
       redeemedGuestPass: state.redeemedGuestPass,
     });
   },
+  getAstrologyMemory: () => {
+    const state = get();
+    if (!state.activeKundliId) {
+      return createInitialAstrologyMemory();
+    }
+
+    return (
+      state.astrologyMemoryBySession[state.activeKundliId] ??
+      createInitialAstrologyMemory()
+    );
+  },
   addGeneratedReport: report =>
     set(state => ({
       generatedReports: [
@@ -472,12 +490,36 @@ export const useAppStore = create<AppState>((set, get) => ({
       };
     }),
   setActiveChartContext: context => set({ activeChartContext: context }),
+  setAstrologyMemory: value =>
+    set(state => {
+      if (!state.activeKundliId) {
+        return {};
+      }
+
+      return {
+        astrologyMemoryBySession: {
+          ...state.astrologyMemoryBySession,
+          [state.activeKundliId]: value,
+        },
+      };
+    }),
   setActiveKundli: kundli => {
     const activeKundliId = getKundliSessionId(kundli);
 
     set(state => ({
       activeKundli: kundli,
       activeKundliId,
+      astrologyMemoryBySession: {
+        ...state.astrologyMemoryBySession,
+        [activeKundliId]: {
+          ...createInitialAstrologyMemory(),
+          activeKundliId: kundli.id,
+          birthDetails: kundli.birthDetails,
+          birthDetailsComplete: true,
+          lastChartContext: state.activeChartContext,
+          userName: kundli.birthDetails.name,
+        },
+      },
       conversationsByKundli: {
         ...state.conversationsByKundli,
         [activeKundliId]: state.conversationsByKundli[activeKundliId] ?? [

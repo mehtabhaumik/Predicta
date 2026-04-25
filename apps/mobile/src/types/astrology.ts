@@ -270,6 +270,80 @@ export type UsageState = {
 
 export type AIIntent = 'simple' | 'moderate' | 'deep';
 
+export type PredictaUserIntent =
+  | 'career'
+  | 'marriage'
+  | 'relationship'
+  | 'finance'
+  | 'health'
+  | 'family'
+  | 'children'
+  | 'education'
+  | 'spirituality'
+  | 'dasha'
+  | 'transit'
+  | 'remedy'
+  | 'chart_explanation'
+  | 'emotional_support'
+  | 'prediction_timing'
+  | 'follow_up'
+  | 'general_question';
+
+export type PredictaEmotionalTone =
+  | 'anxious'
+  | 'curious'
+  | 'hopeful'
+  | 'confused'
+  | 'sad'
+  | 'neutral'
+  | 'worried'
+  | 'scared'
+  | 'frustrated';
+
+export type AstrologyMemory = {
+  userName?: string;
+  birthDetailsComplete: boolean;
+  birthDetails?: BirthDetails;
+  activeKundliId?: string;
+  knownConcerns: string[];
+  previousTopics: string[];
+  previousGuidance: string[];
+  emotionalTone?: PredictaEmotionalTone;
+  lastChartContext?: ChartContext;
+  conversationSummary?: string;
+  preferredLanguage?: AppLocale;
+  lastIntent?: PredictaUserIntent;
+};
+
+export type IntentDetectionResult = {
+  primaryIntent: PredictaUserIntent;
+  secondaryIntents: PredictaUserIntent[];
+  emotionalTone: PredictaEmotionalTone;
+  isFollowUp: boolean;
+  confidence: number;
+  citedSignals: string[];
+};
+
+export type AstrologyReasoningContext = {
+  userIntent: PredictaUserIntent;
+  emotionalTone: PredictaEmotionalTone;
+  primaryCharts: ChartType[];
+  secondaryCharts: ChartType[];
+  relevantFactors: string[];
+  chartContext?: ChartContext;
+  shouldUseDasha: boolean;
+  shouldUseTransit: boolean;
+  shouldSuggestRemedy: boolean;
+};
+
+export type PredictaIntelligenceContext = {
+  memory: AstrologyMemory;
+  intentProfile: IntentDetectionResult;
+  reasoningContext: AstrologyReasoningContext;
+  conversationSummary: string;
+  recentAssistantResponses: string[];
+};
+
 export type DecisionMirrorDepth = 'FREE' | 'EXPANDED';
 
 export type DecisionTimingWindow = {
@@ -308,6 +382,7 @@ export type PridictaChatRequest = {
   userPlan: UserPlan;
   deepAnalysis?: boolean;
   preferredLanguage?: AppLocale;
+  intelligenceContext?: PredictaIntelligenceContext;
 };
 
 export type PridictaChatResponse = {

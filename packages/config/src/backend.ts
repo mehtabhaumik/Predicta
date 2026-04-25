@@ -46,11 +46,20 @@ export function resolvePredictaWebBackendUrl({
     return resolvedConfiguredUrl;
   }
 
+  const locationLike = (
+    typeof globalThis === 'object' &&
+    globalThis &&
+    'location' in globalThis
+      ? (globalThis as { location?: { hostname?: string } }).location
+      : undefined
+  );
+  const browserHostname =
+    typeof locationLike?.hostname === 'string'
+      ? locationLike.hostname.trim().toLowerCase()
+      : undefined;
+
   const currentHostname =
-    hostname?.trim().toLowerCase() ??
-    (typeof window !== 'undefined'
-      ? window.location.hostname.trim().toLowerCase()
-      : undefined);
+    hostname?.trim().toLowerCase() ?? browserHostname;
 
   if (currentHostname?.endsWith('predicta.bhaumikmehta.com')) {
     return PREDICTA_PROTECTED_BACKEND_URL_BHAUMIKMEHTA;

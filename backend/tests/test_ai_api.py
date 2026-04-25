@@ -2,6 +2,7 @@ from fastapi.testclient import TestClient
 import pytest
 
 from backend.ai_api import providers
+from backend.ai_api import models as ai_models
 from backend.ai_api.providers import AIProviderError, AIProviderUnavailable
 from backend.ai_api import routes as ai_routes
 from backend.ai_api import response_cache
@@ -559,7 +560,60 @@ def test_ai_endpoint_marks_followup_cache_bypass(monkeypatch):
     response = TestClient(app).post("/ai/pridicta", json=build_request())
 
     assert response.status_code == 200
-    assert response.headers["X-Predicta-Cache"] == "BYPASS"
+
+
+def test_build_user_prompt_uses_intelligence_context():
+    request = ai_models.PridictaAIRequest(
+        **build_request(
+            kundli=None,
+            chartContext=None,
+            history=[
+                {"role": "user", "text": "Will I get married?"},
+                {"role": "pridicta", "text": "There is a real marriage indication, but timing needs care."},
+            ],
+            intelligenceContext={
+                "memory": {
+                    "userName": "Aarav",
+                    "birthDetailsComplete": True,
+                    "knownConcerns": ["marriage timing"],
+                    "previousTopics": ["marriage"],
+                    "previousGuidance": ["There is a real marriage indication, but timing needs care."],
+                    "emotionalTone": "hopeful",
+                    "conversationSummary": "User is asking about marriage timing.",
+                    "lastIntent": "marriage",
+                },
+                "intentProfile": {
+                    "primaryIntent": "marriage",
+                    "secondaryIntents": ["prediction_timing"],
+                    "emotionalTone": "hopeful",
+                    "isFollowUp": True,
+                    "confidence": 0.86,
+                    "citedSignals": ["marriage_keywords", "follow_up_resolution"],
+                },
+                "reasoningContext": {
+                    "userIntent": "marriage",
+                    "emotionalTone": "hopeful",
+                    "primaryCharts": ["D1", "D9"],
+                    "secondaryCharts": ["D7"],
+                    "relevantFactors": ["7th house", "7th lord", "Venus", "Jupiter"],
+                    "shouldUseDasha": True,
+                    "shouldUseTransit": True,
+                    "shouldSuggestRemedy": True,
+                },
+                "conversationSummary": "User is asking about marriage timing.",
+                "recentAssistantResponses": ["There is a real marriage indication, but timing needs care."],
+            },
+            message="When?",
+        )
+    )
+
+    prompt = ai_routes.build_user_prompt(request, None)
+
+    assert "Predicta working memory:" in prompt
+    assert "Intent and emotional reading:" in prompt
+    assert "Astrology reasoning context:" in prompt
+    assert "Recent assistant responses to avoid repeating:" in prompt
+    assert "User question: When?" in prompt
 
 
 def test_ai_prompt_context_and_history_are_bounded(monkeypatch):

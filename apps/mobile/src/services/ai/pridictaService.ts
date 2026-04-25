@@ -13,12 +13,16 @@ import {
   shouldConsumeDeepQuota,
 } from './aiRouter';
 import {
+  buildPredictaIntelligenceContext,
+  buildPredictaSystemIdentity,
+  buildPredictaUserPrompt,
   buildLocalPredictaFallback,
   buildNoKundliResponse,
   buildDecisionMirrorResponse,
   buildAiLanguageContext,
   detectDecisionIntent,
   formatDecisionMirrorText,
+  guardPredictaResponse,
   getDecisionMirrorDepth,
   isSmallTalkPrompt,
 } from '@pridicta/ai';
@@ -33,39 +37,7 @@ import {
 } from '../cache/responseCache';
 
 export function buildPridictaSystemPrompt(preferredLanguage?: string): string {
-  const languageContext = buildAiLanguageContext(preferredLanguage);
-
-  return [
-    'You are Pridicta, a premium text-based Vedic astrology guide.',
-    'You are a highly experienced Jyotish practitioner with 30 years of classical Vedic astrology expertise.',
-    'You are not a Western astrologer. Use Vedic concepts, divisional charts, dashas, yogas, nakshatras, and ashtakavarga only when helpful.',
-    'Speak calmly, wisely, compassionately, and practically. Be friendly and grounded.',
-    'You are also a healer in tone: emotionally perceptive, steady, and kind without becoming vague.',
-    'You are never rude, cold, superior, or scolding like a harsh astrologer stereotype.',
-    'You may be gently warm or lightly funny at moments, but never flippant or theatrical.',
-    'When a problem is real, describe it clearly and honestly without false hope or fatalism.',
-    'When remedies are relevant, you may suggest both religious and non-religious remedies. Religious remedies can include simple references to Shiva, Mahadev, Bholenath, Bhairav, or Rudra when natural and sparing. Non-religious remedies can include routines, reflection, boundaries, therapy, rest, planning, communication, or disciplined action.',
-    'Your spirituality should feel grounded and sincere, not decorative or performative.',
-    'You may occasionally reference Shiva, Mahadev, Bholenath, Bhairav, or Rudra naturally and sparingly, never theatrically.',
-    'Never be fear-based, manipulative, fatalistic, or promise guaranteed outcomes.',
-    'Never say "99% true" or similar certainty claims.',
-    'Use only the chart data that is actually available in the kundli context.',
-    'If no kundli is provided, switch into no-chart guidance mode: answer the life question itself first, give one grounded reading, one practical next step, and ask at most one clarifying question only if it truly sharpens the answer.',
-    'In no-chart guidance mode, sound like a perceptive human guide, not customer support, a therapist template, or a generic AI essay.',
-    'Do not open with filler such as "this is a common concern", "while I do not have your chart", or broad motivational framing.',
-    'Keep no-chart answers tight by default, usually under 120 words unless the user explicitly asks for a deeper answer.',
-    'Mention missing birth details or kundli in one brief line only when it materially helps the next step.',
-    'Prioritize the passed chartContext first. If the user came from D9, read D9 before broadening.',
-    'Do not default to D10 or career themes for general questions.',
-    'If no chartContext is passed, begin from the broad birth chart picture and bring in divisional charts only when they are clearly relevant.',
-    'You know the full Tier 1 and Tier 2 chart registry but should not dump chart names unless it helps the user.',
-    'Use the recent conversation as working memory. If the user asks what you already know, what they already shared, or what you mean, answer that directly.',
-    'If something is missing, name exactly what is known and what is still missing. Do not repeat a generic sentence when the user is asking for clarification.',
-    'When the user challenges you or asks a follow-up about your last answer, respond like a thoughtful human guide rather than a template.',
-    'Keep responses concise, meaningful, emotionally calm, and cost-aware.',
-    'Explain advanced astrology in normal language without overwhelming the user.',
-    languageContext.instruction,
-  ].join('\n');
+  return buildPredictaSystemIdentity(preferredLanguage);
 }
 
 export function serializeKundliForAi(
@@ -116,10 +88,19 @@ export async function askPridicta({
   }
 
   if (!kundli) {
+    const intelligenceContext = buildPredictaIntelligenceContext({
+      chartContext,
+      history,
+      kundli,
+      memory: undefined,
+      message,
+      preferredLanguage,
+    });
     const backendResponse = await generateBackendPridictaResponse({
       chartContext,
       deepAnalysis,
       history,
+      intelligenceContext,
       kundli,
       message,
       preferredLanguage,
@@ -129,7 +110,12 @@ export async function askPridicta({
     if (backendResponse?.text?.trim()) {
       return {
         ...backendResponse,
-        text: backendResponse.text.trim(),
+        text: guardPredictaResponse({
+          history,
+          intentProfile: intelligenceContext.intentProfile,
+          memory: intelligenceContext.memory,
+          text: backendResponse.text.trim(),
+        }),
       };
     }
 
@@ -137,8 +123,13 @@ export async function askPridicta({
       intent: detectIntent(message, chartContext),
       model: 'predicta-no-kundli-local',
       provider: 'local',
-      text: buildNoKundliResponse(message, {
+      text: guardPredictaResponse({
         history,
+        intentProfile: intelligenceContext.intentProfile,
+        memory: intelligenceContext.memory,
+        text: buildNoKundliResponse(message, {
+          history,
+        }),
       }),
       usedDeepModel: false,
     };
@@ -213,6 +204,14 @@ export async function askPridicta({
     chartContext,
     deepAnalysis,
     history,
+    intelligenceContext: buildPredictaIntelligenceContext({
+      chartContext,
+      history,
+      kundli,
+      memory: undefined,
+      message,
+      preferredLanguage,
+    }),
     kundli,
     message,
     preferredLanguage,
@@ -231,7 +230,10 @@ export async function askPridicta({
 
     return {
       ...backendResponse,
-      text: backendResponse.text.trim(),
+      text: guardPredictaResponse({
+        history,
+        text: backendResponse.text.trim(),
+      }),
     };
   }
 
@@ -248,19 +250,20 @@ export async function askPridicta({
     serializedContext;
   const usedDeepModel = shouldConsumeDeepQuota(intent, model);
 
-  const prompt = [
-    `Language preference: ${languageContext.locale}`,
-    languageContext.instruction,
-    'Kundli context:',
+  const intelligenceContext = buildPredictaIntelligenceContext({
+    chartContext,
+    history,
+    kundli,
+    memory: undefined,
+    message,
+    preferredLanguage,
+  });
+  const prompt = buildPredictaUserPrompt({
     compactContext,
-    'Recent conversation (authoritative working memory):',
-    optimized.history
-      .map(
-        turn => `${turn.role === 'user' ? 'User' : 'Pridicta'}: ${turn.text}`,
-      )
-      .join('\n'),
-    `User question: ${message}`,
-  ].join('\n\n');
+    history: optimized.history,
+    intelligenceContext,
+    message,
+  });
 
   const text = await generateOpenAIResponse({
     maxOutputTokens: optimized.maxOutputTokens,
@@ -291,7 +294,12 @@ export async function askPridicta({
       intent,
       model,
       provider: 'openai',
-      text: text.trim(),
+      text: guardPredictaResponse({
+        history,
+        intentProfile: intelligenceContext.intentProfile,
+        memory: intelligenceContext.memory,
+        text: text.trim(),
+      }),
       usedDeepModel,
     };
   }
@@ -319,7 +327,12 @@ export async function askPridicta({
       intent,
       model: GEMINI_MODELS.FLASH_HELPER,
       provider: 'gemini',
-      text: geminiText.trim(),
+      text: guardPredictaResponse({
+        history,
+        intentProfile: intelligenceContext.intentProfile,
+        memory: intelligenceContext.memory,
+        text: geminiText.trim(),
+      }),
       usedDeepModel: false,
     };
   }
@@ -328,7 +341,14 @@ export async function askPridicta({
     intent,
     model,
     provider: 'local',
-    text: buildLocalPredictaFallback(message, kundli, chartContext),
+    text: guardPredictaResponse({
+      history,
+      intentProfile: intelligenceContext.intentProfile,
+      memory: intelligenceContext.memory,
+      text: buildLocalPredictaFallback(message, kundli, chartContext, {
+        history,
+      }),
+    }),
     usedDeepModel: false,
   };
 }

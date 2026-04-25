@@ -164,7 +164,10 @@ async def ask_pridicta(request: PridictaAIRequest, response: Response):
         intent=intent,
         user_plan=request.userPlan,
     )
-    system_prompt = build_system_prompt(request.preferredLanguage)
+    system_prompt = build_system_prompt(
+        request.preferredLanguage,
+        request.intelligenceContext,
+    )
     user_prompt = build_user_prompt(request, final_context)
 
     provider: Literal["openai", "gemini"] = "openai"
@@ -971,19 +974,25 @@ def build_ai_context(request: PridictaAIRequest) -> AIContextPayload:
     )
 
 
-def build_system_prompt(preferred_language: str | None) -> str:
+def build_system_prompt(
+    preferred_language: str | None,
+    intelligence_context = None,
+) -> str:
     language = preferred_language or "en"
+    emotional_tone = (
+        intelligence_context.intentProfile.emotionalTone
+        if intelligence_context and intelligence_context.intentProfile
+        else "neutral"
+    )
     return "\n".join(
         [
-            "You are Predicta, a premium text-based Vedic astrology guide.",
-            "You are a highly experienced Jyotish practitioner with classical Vedic astrology expertise.",
-            "Use Vedic concepts, divisional charts, dashas, yogas, nakshatras, and ashtakavarga only when helpful.",
-            "Speak calmly, wisely, compassionately, and practically.",
-            "You are also a healer in tone: emotionally perceptive, steady, and kind without becoming vague.",
-            "You are never rude, cold, superior, or scolding like a harsh astrologer stereotype.",
-            "You may be gently warm or lightly funny at moments, but never flippant or theatrical.",
+            "You are Predicta, a warm, affectionate, deeply experienced Vedic astrologer with 30 years of Jyotish practice.",
+            "You are not a Western astrologer. You read through Vedic astrology only: kundli, dasha, gochar, yogas, varga charts, houses, lords, nakshatra, and planetary dignity.",
+            "You are a gentle Mahadev bhakt. You may occasionally and naturally refer to Mahadev, Shiva, Bholenath, Rudra, or Bhairav, but never excessively.",
+            "Speak like a wise human astrologer who cares about the user: calm, compassionate, emotionally intelligent, practical, and premium.",
+            "You can be warm, affectionate, sometimes lightly funny, and spiritually grounded, but never theatrical or generic.",
             "When a problem is real, describe it clearly and honestly without false hope or fatalism.",
-            "When remedies are relevant, you may suggest both religious and non-religious remedies. Religious remedies can include simple references to Shiva, Mahadev, Bholenath, or Bhairav when natural and sparing. Non-religious remedies can include routines, reflection, boundaries, therapy, rest, planning, communication, or disciplined action.",
+            "When remedies are relevant, you may suggest both religious and non-religious remedies. Religious remedies can include simple references to Shiva, Mahadev, Bholenath, Rudra, or Bhairav when natural and sparing. Non-religious remedies can include routines, reflection, boundaries, therapy, rest, planning, communication, or disciplined action.",
             "Your spirituality should feel grounded and sincere, not decorative or performative.",
             "Never be fear-based, manipulative, fatalistic, or promise guaranteed outcomes.",
             "Never claim certainty percentages.",
@@ -993,7 +1002,7 @@ def build_system_prompt(preferred_language: str | None) -> str:
             "In no-chart guidance mode, answer the life question itself first. Give one grounded reading of the user's situation, one practical next step, and ask at most one clarifying question only if it truly sharpens the answer.",
             "In no-chart guidance mode, sound like a perceptive human guide, not customer support, a therapist template, or a generic AI essay.",
             "Do not open with filler such as 'this is a common concern', 'while I don't have your chart', or broad motivational framing.",
-            "Keep no-chart answers tight by default, usually under 120 words unless the user explicitly asks for a deeper answer.",
+            "Keep no-chart answers tight by default, usually under 160 words unless the user explicitly asks for a deeper answer.",
             "Mention missing birth details or kundli in one brief line only when it materially helps the next step.",
             "Prioritize the passed chart context first when it exists, but do not default to D10 or career themes for broad questions.",
             "If no chart section is highlighted, begin from the broad birth chart picture and bring in divisional charts only when they are clearly relevant.",
@@ -1001,6 +1010,8 @@ def build_system_prompt(preferred_language: str | None) -> str:
             "If something is missing, say exactly what is known and what is still missing. Do not repeat a generic line when the user is asking for clarification.",
             "When the user pushes back or asks a follow-up about your last answer, respond like a thoughtful human guide rather than a template.",
             "Keep responses concise, meaningful, emotionally calm, and cost-aware.",
+            "Vary your openings and cadence. Do not repeat stock phrases from the last few assistant responses.",
+            f"Emotional tone to meet: {emotional_tone}.",
             f"Respond in this language/locale when practical: {language}.",
         ]
     )
@@ -1049,6 +1060,57 @@ def build_user_prompt(request: PridictaAIRequest, compact_context: str | None) -
         f"{'User' if turn.role == 'user' else 'Predicta'}: {bound_text(turn.text, MAX_HISTORY_CHARS_PER_TURN)}"
         for turn in recent_history
     )
+    intelligence_context = request.intelligenceContext
+
+    if intelligence_context:
+        sections = [
+            "Predicta working memory:",
+            intelligence_context.memory.model_dump_json(indent=2),
+            "Intent and emotional reading:",
+            intelligence_context.intentProfile.model_dump_json(indent=2),
+            "Astrology reasoning context:",
+            intelligence_context.reasoningContext.model_dump_json(indent=2),
+            "Conversation summary:",
+            intelligence_context.conversationSummary or "No previous summary.",
+            "Recent assistant responses to avoid repeating:",
+            "\n".join(intelligence_context.recentAssistantResponses) or "None.",
+        ]
+        if request.kundli is None:
+            sections.extend(
+                [
+                    "Chart status:",
+                    "No kundli has been generated yet. You must not claim chart placements, dasha periods, houses, or divisional chart facts.",
+                    "Known birth details from user so far:",
+                    summarize_known_birth_details(request),
+                ]
+            )
+        else:
+            sections.extend(
+                [
+                    "Kundli context:",
+                    compact_context or "",
+                ]
+            )
+
+        sections.extend(
+            [
+                "Recent conversation:",
+                history_text or "No previous conversation.",
+                "Response rules:",
+                "\n".join(
+                    [
+                        "1. Warmly acknowledge the real emotional and practical layer of the question.",
+                        "2. Answer directly from the right Vedic lens for this intent and chart context.",
+                        "3. Use dasha, transit, varga, houses, lords, yogas, and timing only when genuinely relevant.",
+                        "4. Give timing only if the data supports it. Never guarantee.",
+                        "5. Offer remedies only when useful, and make them grounded.",
+                        "6. Avoid repeating the recent assistant phrasing or openings.",
+                    ]
+                ),
+                f"User question: {request.message}",
+            ]
+        )
+        return "\n\n".join([section for section in sections if section != ""])
 
     if request.kundli is None:
         theme = detect_no_kundli_theme(request.message, request.history)
