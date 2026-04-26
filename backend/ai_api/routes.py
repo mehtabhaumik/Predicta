@@ -61,6 +61,10 @@ SMALL_TALK_ONLY_PATTERN = re.compile(
     r"^(?:hi|hello|hey|hey there|hello there|hi there|yo|namaste|good morning|good afternoon|good evening|good night|how are you|how are you doing|are you there|thanks|thank you|ok|okay|cool|nice)(?:\s+(?:predicta|pridicta))?[!?.\s]*$",
     re.IGNORECASE,
 )
+EXPLICIT_CHART_ANALYSIS_PATTERN = re.compile(
+    r"\b(analy(?:ze|se)\s+(?:my|the)\s+(?:chart|kundli|horoscope)|read\s+(?:my|the)\s+(?:chart|kundli|horoscope)|chart\s+reading|kundli\s+reading|what\s+does\s+my\s+chart\s+say)\b",
+    re.IGNORECASE,
+)
 ASTROLOGY_CUE_PATTERN = re.compile(
     r"\b(chart|kundli|horoscope|dasha|lagna|nakshatra|career|marriage|relationship|love|planet|report|pdf|prediction|predict|future|transit|remed(?:y|ies))\b",
     re.IGNORECASE,
@@ -79,8 +83,13 @@ WEAK_CHART_AWARE_PATTERNS = (
     re.compile(r"\b(chart data got cut off|what you pasted)\b", re.IGNORECASE),
     re.compile(r"\bi only see\b", re.IGNORECASE),
     re.compile(r"\bi(?: am|'m) missing the actual\b", re.IGNORECASE),
+    re.compile(r"\bmissing your actual d\d+\s+placements\b", re.IGNORECASE),
+    re.compile(r"\bonly have your d1\b", re.IGNORECASE),
     re.compile(r"\bwithout the full .*chart\b", re.IGNORECASE),
     re.compile(r"\bwithout your specific birth chart\b", re.IGNORECASE),
+    re.compile(r"\bi(?:'ll| will) need your .*navamsa placements\b", re.IGNORECASE),
+    re.compile(r"\bi(?:'ll| will) need your .*full kundli chart\b", re.IGNORECASE),
+    re.compile(r"\bif you want the exact .*i(?:'ll| will) need\b", re.IGNORECASE),
     re.compile(r"\bi can'?t offer specific astrological remedies\b", re.IGNORECASE),
     re.compile(r"^alright,\s+let'?s\s+(cut to the chase|get straight to it)\.?$", re.IGNORECASE),
     re.compile(r"^ah,\s+the\s+d9\b", re.IGNORECASE),
@@ -117,19 +126,9 @@ MONTHS = {
 
 @ai_router.post("/pridicta", response_model=PridictaAIResponse)
 async def ask_pridicta(request: PridictaAIRequest, response: Response):
-    if is_small_talk_prompt(request.message):
-        return PridictaAIResponse(
-            compactedWithGemini=False,
-            intent="simple",
-            model="predicta-small-talk",
-            provider="local",
-            text=build_small_talk_response(
-                request.message,
-                has_kundli=bool(request.kundli),
-                chart_type=request.chartContext.chartType if request.chartContext else None,
-            ),
-            usedDeepModel=False,
-        )
+    local_lane_response = maybe_build_local_lane_response(request)
+    if local_lane_response is not None:
+        return local_lane_response
 
     intent = "deep" if request.deepAnalysis else detect_intent(request)
     model = select_openai_model(intent=intent, user_plan=request.userPlan)
@@ -333,6 +332,17 @@ def is_weak_chart_aware_response(request: PridictaAIRequest, text: str) -> bool:
         return True
     if any(pattern.search(normalized) for pattern in WEAK_CHART_AWARE_PATTERNS):
         return True
+    if request.kundli is not None and re.search(
+        r"\b(send|share).*(navamsa placements|full kundli|full chart)\b",
+        lowered,
+    ):
+        return True
+    if request.chartContext and request.chartContext.chartType and request.chartContext.chartType != "D1":
+        chart_label = request.chartContext.chartType.lower()
+        if chart_label in request_text and "only have your d1" in lowered:
+            return True
+        if chart_label in request_text and f"missing your actual {chart_label} placements" in lowered:
+            return True
     if request.chartContext and request.chartContext.chartType == "D9" and re.search(r"\brelationship|love|marriage|partner\b", request_text):
         if not any(token in lowered for token in ("relationship", "love", "bond", "honesty", "space", "closeness")):
             return True
@@ -705,17 +715,7 @@ def extract_place(text: str) -> str | None:
 
 
 def summarize_known_birth_details(request: PridictaAIRequest) -> str:
-    date = None
-    time = None
-    place = None
-
-    user_turns = [turn.text for turn in request.history if turn.role == "user"]
-    user_turns.append(request.message)
-
-    for text in user_turns:
-        date = date or extract_date(text)
-        time = time or extract_time(text)
-        place = place or extract_place(text)
+    date, time, place = extract_known_birth_detail_values(request)
 
     parts = []
     if date:
@@ -726,6 +726,210 @@ def summarize_known_birth_details(request: PridictaAIRequest) -> str:
         parts.append(f"birth place {place}")
 
     return ", ".join(parts) if parts else "None yet."
+
+
+def extract_known_birth_detail_values(
+    request: PridictaAIRequest,
+) -> tuple[str | None, str | None, str | None]:
+    memory_birth = (
+        request.intelligenceContext.memory.birthDetails
+        if request.intelligenceContext and request.intelligenceContext.memory
+        else None
+    )
+    date = getattr(memory_birth, "date", None)
+    time = getattr(memory_birth, "time", None)
+    place = getattr(memory_birth, "place", None)
+
+    user_turns = [turn.text for turn in request.history if turn.role == "user"]
+    user_turns.append(request.message)
+
+    for text in user_turns:
+        date = date or extract_date(text)
+        time = time or extract_time(text)
+        place = place or extract_place(text)
+
+    return date, time, place
+
+
+def get_missing_birth_fields(request: PridictaAIRequest) -> list[str]:
+    date, time, place = extract_known_birth_detail_values(request)
+    missing = []
+    if not date:
+        missing.append("date of birth")
+    if not time:
+        missing.append("birth time")
+    if not place:
+        missing.append("birth place")
+    return missing
+
+
+def format_missing_birth_fields(fields: list[str]) -> str:
+    if not fields:
+        return ""
+    if len(fields) == 1:
+        return fields[0]
+    if len(fields) == 2:
+        return f"{fields[0]} and {fields[1]}"
+    return f"{fields[0]}, {fields[1]}, and {fields[2]}"
+
+
+def detect_birth_memory_question(message: str) -> str | None:
+    normalized = re.sub(r"\s+", " ", message.strip()).lower()
+
+    if (
+        re.search(r"\b(what|which)\s+(birth\s*)?(date|dob)\s+(do you have|you have|do you know|have you got)\b", normalized)
+        or re.search(r"\bdo you have my\s+(birth\s*)?(date|dob)\b", normalized)
+    ):
+        return "date"
+
+    if (
+        re.search(r"\b(what|which)\s+(birth\s*)?time\s+(do you have|you have|do you know|have you got)\b", normalized)
+        or re.search(r"\bdo you have my\s+(birth\s*)?time\b", normalized)
+    ):
+        return "time"
+
+    if (
+        re.search(r"\b(what|which)\s+(birth\s*)?place\s+(do you have|you have|do you know|have you got)\b", normalized)
+        or re.search(r"\bdo you have my\s+(birth\s*)?place\b", normalized)
+    ):
+        return "place"
+
+    if (
+        re.search(r"\bwhat\s+details\s+do\s+you\s+have\b", normalized)
+        or re.search(r"\bwhich\s+details\s+do\s+you\s+have\b", normalized)
+        or re.search(r"\bwhat\s+do\s+you\s+(already\s+)?have\s+(so\s+far)?\b", normalized)
+        or re.search(r"\bwhat\s+do\s+you\s+know\s+so\s+far\b", normalized)
+        or re.search(r"\bwhich\s+birth\s+details\b", normalized)
+    ):
+        return "status"
+
+    return None
+
+
+def is_structured_birth_detail_message(message: str) -> bool:
+    normalized = re.sub(r"\s+", " ", message.strip())
+    detail_hits = sum(
+        1 for extractor in (extract_date, extract_time, extract_place) if extractor(normalized)
+    )
+    if detail_hits > 0:
+        return True
+    return bool(
+        re.search(r"\b(dob|birth time|birth place|place:|time:)\b", normalized, re.IGNORECASE)
+    )
+
+
+def is_explicit_chart_request_without_kundli(request: PridictaAIRequest) -> bool:
+    return request.kundli is None and bool(EXPLICIT_CHART_ANALYSIS_PATTERN.search(request.message))
+
+
+def build_known_birth_inventory(
+    date: str | None,
+    time: str | None,
+    place: str | None,
+) -> str:
+    known = []
+    if date:
+        known.append(f"date of birth {date}")
+    if time:
+        known.append(f"birth time {time}")
+    if place:
+        known.append(f"birth place {place}")
+    if not known:
+        return ""
+    if len(known) == 1:
+        return known[0]
+    return ", ".join(known[:-1]) + f" and {known[-1]}"
+
+
+def build_birth_memory_response(request: PridictaAIRequest, question_type: str) -> str:
+    date, time, place = extract_known_birth_detail_values(request)
+    missing = get_missing_birth_fields(request)
+    inventory = build_known_birth_inventory(date, time, place)
+
+    if question_type == "date":
+        if date:
+            return f"I have your date of birth as {date}. {build_missing_birth_suffix(missing)}"
+        return f"I do not have your date of birth yet. {build_known_birth_summary_line(inventory, missing)}"
+
+    if question_type == "time":
+        if time:
+            return f"I have your birth time as {time}. {build_missing_birth_suffix(missing)}"
+        return f"I do not have your birth time yet. {build_known_birth_summary_line(inventory, missing)}"
+
+    if question_type == "place":
+        if place:
+            return f"I have your birth place as {place}. {build_missing_birth_suffix(missing)}"
+        return f"I do not have your birth place yet. {build_known_birth_summary_line(inventory, missing)}"
+
+    if inventory:
+        if missing:
+            return f"I currently have your {inventory}. I still need your {format_missing_birth_fields(missing)} before I can anchor this to the actual chart."
+        return f"I have your {inventory}. That is enough to generate the kundli and move into a real chart reading."
+
+    return "I do not have your birth details yet. Send your date of birth, exact birth time, and birth place, and I will take it from there."
+
+
+def build_missing_birth_suffix(missing: list[str]) -> str:
+    if not missing:
+        return "That is enough to generate the kundli and move into a real chart reading."
+    return f"I still need your {format_missing_birth_fields(missing)} before I can anchor this to the actual chart."
+
+
+def build_known_birth_summary_line(inventory: str, missing: list[str]) -> str:
+    if inventory:
+        if missing:
+            return f"I only have your {inventory} so far, and I still need your {format_missing_birth_fields(missing)}."
+        return f"I already have your {inventory}."
+    return "I do not have any birth details yet."
+
+
+def maybe_build_local_lane_response(request: PridictaAIRequest) -> PridictaAIResponse | None:
+    if is_small_talk_prompt(request.message):
+        return PridictaAIResponse(
+            compactedWithGemini=False,
+            intent="simple",
+            model="predicta-small-talk",
+            provider="local",
+            text=build_small_talk_response(
+                request.message,
+                has_kundli=bool(request.kundli),
+                chart_type=request.chartContext.chartType if request.chartContext else None,
+            ),
+            usedDeepModel=False,
+        )
+
+    birth_memory_question = detect_birth_memory_question(request.message)
+    if birth_memory_question:
+        return PridictaAIResponse(
+            compactedWithGemini=False,
+            intent="simple",
+            model="predicta-memory-lane",
+            provider="local",
+            text=build_birth_memory_response(request, birth_memory_question),
+            usedDeepModel=False,
+        )
+
+    if request.kundli is None and is_structured_birth_detail_message(request.message):
+        return PridictaAIResponse(
+            compactedWithGemini=False,
+            intent="simple",
+            model="predicta-birth-detail-lane",
+            provider="local",
+            text=build_birth_memory_response(request, "status"),
+            usedDeepModel=False,
+        )
+
+    if is_explicit_chart_request_without_kundli(request):
+        return PridictaAIResponse(
+            compactedWithGemini=False,
+            intent="simple",
+            model="predicta-chart-required-lane",
+            provider="local",
+            text=build_no_kundli_local_guidance(request),
+            usedDeepModel=False,
+        )
+
+    return None
 
 
 def detect_no_kundli_theme_from_text(message: str) -> str:
@@ -783,20 +987,12 @@ def build_no_kundli_local_guidance(request: PridictaAIRequest) -> str:
     normalized = re.sub(r"\s+", " ", request.message.strip()).lower()
     known_details = summarize_known_birth_details(request)
     known_details = "" if known_details == "None yet." else known_details
-    missing_parts = []
-    if not any(extract_date(turn.text) for turn in request.history if turn.role == "user") and not extract_date(request.message):
-        missing_parts.append("date of birth")
-    if not any(extract_time(turn.text) for turn in request.history if turn.role == "user") and not extract_time(request.message):
-        missing_parts.append("birth time")
-    if not any(extract_place(turn.text) for turn in request.history if turn.role == "user") and not extract_place(request.message):
-        missing_parts.append("birth place")
+    missing_parts = get_missing_birth_fields(request)
 
     if len(missing_parts) == 0:
         chart_bridge = "You already have enough birth details there; the next step is to generate the kundli so I can anchor this to the real chart."
     elif known_details:
-        missing_text = ", ".join(missing_parts[:-1]) + (
-            f" and {missing_parts[-1]}" if len(missing_parts) > 1 else missing_parts[0]
-        )
+        missing_text = format_missing_birth_fields(missing_parts)
         chart_bridge = f"I already have your {known_details}. Send your {missing_text} if you want me to anchor this to the real chart."
     else:
         chart_bridge = "If you want this tied to your actual chart, send your date of birth, exact birth time, and birth place."

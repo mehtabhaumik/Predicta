@@ -6,11 +6,8 @@ import {
   buildNoKundliResponse,
   buildLocalPredictaFallback,
   buildPredictaWaitingMessage,
-  buildSmallTalkResponse,
   guardPredictaResponse,
   getRandomPredictaIntro,
-  isSmallTalkPrompt,
-  shouldUseLocalNoKundliResponse,
 } from '@pridicta/ai';
 import type {
   AstrologyMemory,
@@ -101,50 +98,11 @@ export function PredictaChatClient({
     setInput('');
     setMessages(current => [...current, userMessage]);
 
-    if (isSmallTalkPrompt(question)) {
-      setMessages(current => [
-        ...current,
-        {
-          id: `pridicta-${Date.now()}`,
-          role: 'pridicta',
-          text: guardPredictaResponse({
-            history: nextHistory,
-            intentProfile: intelligenceContext.intentProfile,
-            memory: intelligenceContext.memory,
-            text: buildSmallTalkResponse(question, {
-              chartContext,
-              hasKundli: Boolean(kundli),
-            }),
-          }),
-        },
-      ]);
-      return;
-    }
-
     setWaitingMessage(
       buildPredictaWaitingMessage(question, chartContext, {
         hasKundli: Boolean(kundli),
       }),
     );
-
-    if (!kundli && shouldUseLocalNoKundliResponse(question)) {
-      setMessages(current => [
-        ...current,
-        {
-          id: `pridicta-${Date.now()}`,
-          role: 'pridicta',
-          text: guardPredictaResponse({
-            history: nextHistory,
-            intentProfile: intelligenceContext.intentProfile,
-            memory: intelligenceContext.memory,
-            text: buildNoKundliResponse(question, {
-              history: nextHistory,
-            }),
-          }),
-        },
-      ]);
-      return;
-    }
 
     setIsSending(true);
 

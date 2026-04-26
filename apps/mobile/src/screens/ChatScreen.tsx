@@ -36,10 +36,7 @@ import {
   buildNoKundliResponse,
   buildLocalPredictaFallback,
   buildPredictaWaitingMessage,
-  buildSmallTalkResponse,
   detectIntent,
-  shouldUseLocalNoKundliResponse,
-  isSmallTalkPrompt,
 } from '@pridicta/ai';
 import { getProductUpgradePrompt } from '@pridicta/monetization';
 import { extractBirthDetailsFromText } from '../services/ai/birthDetailsExtractor';
@@ -237,67 +234,15 @@ export function ChatScreen({
         createMessage('user', trimmedInput, activeChartContext),
       );
       setInput('');
-
-      if (isSmallTalkPrompt(trimmedInput)) {
-        streamAssistantResponse(
-          buildSmallTalkResponse(trimmedInput, {
-            chartContext: activeChartContext,
-            hasKundli: false,
-          }),
-          undefined,
-          buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
-            hasKundli: false,
-          }),
-          historyWithUser,
-        );
-        return;
-      }
-
-      if (!shouldUseLocalNoKundliResponse(trimmedInput)) {
-        setIsTyping(true);
-        setTypingLabel(
-          buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
-            hasKundli: false,
-          }),
-        );
-        setStreamingText('');
-
-        try {
-          const response = await askPridicta({
-            chartContext: activeChartContext,
-            history,
-            kundli: undefined,
-            message: trimmedInput,
-            preferredLanguage,
-            userPlan,
-          });
-
-          streamAssistantResponse(
-            response.text,
-            response.decisionMirror,
-            buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
-              hasKundli: false,
-            }),
-            historyWithUser,
-          );
-        } catch {
-          streamAssistantResponse(
-            buildNoKundliResponse(trimmedInput, {
-              history,
-            }),
-            undefined,
-            buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
-              hasKundli: false,
-            }),
-            historyWithUser,
-          );
-        }
-        return;
-      }
-
       setIsTyping(true);
+      setTypingLabel(
+        buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
+          hasKundli: false,
+        }),
+      );
       setStreamingText('');
 
+      let shouldNavigateToKundli = false;
       try {
         const result = await extractBirthDetailsFromText(trimmedInput);
         const mergedDraft = mergeBirthDetailsDraft(
@@ -305,29 +250,46 @@ export function ChatScreen({
           result.extracted,
           trimmedInput,
         );
-        setPendingBirthDetailsDraft(mergedDraft);
+        const extractedValuesCount = Object.values(result.extracted).filter(Boolean)
+          .length;
+        if (extractedValuesCount > 0 || result.ambiguities.length > 0) {
+          setPendingBirthDetailsDraft(mergedDraft);
+        }
+        const missing = result.missingFields.filter(field => {
+          if (field === 'birth_place') {
+            return !mergedDraft.city;
+          }
+          if (field === 'am_pm') {
+            return !mergedDraft.meridiem;
+          }
+          return !mergedDraft[field as keyof BirthDetailsDraft];
+        });
+        shouldNavigateToKundli =
+          result.ambiguities.length === 0 && missing.length === 0;
+      } catch {
+        shouldNavigateToKundli = false;
+      }
 
-        const extractedValuesCount = Object.values(result.extracted).filter(Boolean).length;
-        if (extractedValuesCount === 0 && result.ambiguities.length === 0) {
-          streamAssistantResponse(
-            buildNoKundliResponse(trimmedInput, {
-              history,
-            }),
-            undefined,
-            buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
-              hasKundli: false,
-            }),
-            historyWithUser,
-          );
-          return;
+      try {
+        const response = await askPridicta({
+          chartContext: activeChartContext,
+          history,
+          kundli: undefined,
+          message: trimmedInput,
+          preferredLanguage,
+          userPlan,
+        });
+
+        if (shouldNavigateToKundli) {
+          navigation.navigate(routes.Kundli);
         }
 
         streamAssistantResponse(
-          buildBirthIntakeResponse(mergedDraft, result, () => {
-            navigation.navigate(routes.Kundli);
+          response.text,
+          response.decisionMirror,
+          buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
+            hasKundli: false,
           }),
-          undefined,
-          'Understanding what you shared...',
           historyWithUser,
         );
       } catch {
@@ -342,25 +304,6 @@ export function ChatScreen({
           historyWithUser,
         );
       }
-      return;
-    }
-
-    if (isSmallTalkPrompt(trimmedInput)) {
-      appendConversationMessage(
-        createMessage('user', trimmedInput, activeChartContext),
-      );
-      setInput('');
-      streamAssistantResponse(
-        buildSmallTalkResponse(trimmedInput, {
-          chartContext: activeChartContext,
-          hasKundli: true,
-        }),
-        undefined,
-        buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
-          hasKundli: true,
-        }),
-        historyWithUser,
-      );
       return;
     }
 
@@ -594,85 +537,6 @@ function applyMeridiemToTime(time: string, meridiem: string): string {
   }
 
   return `${String(hour).padStart(2, '0')}:${minuteText}`;
-}
-
-function buildBirthIntakeResponse(
-  draft: BirthDetailsDraft,
-  result: Awaited<ReturnType<typeof extractBirthDetailsFromText>>,
-  onReady: () => void,
-): string {
-  const missing = result.missingFields.filter(field => {
-    if (field === 'birth_place') {
-      return !draft.city;
-    }
-
-    if (field === 'am_pm') {
-      return !draft.meridiem;
-    }
-
-    return !draft[field as keyof BirthDetailsDraft];
-  });
-
-  if (result.ambiguities.length > 0) {
-    const first = result.ambiguities[0];
-    return [
-      'I found most of the birth details, but one part needs confirmation before I can prepare the kundli.',
-      first.issue,
-      first.options?.length ? `Options: ${first.options.join(' / ')}` : '',
-    ]
-      .filter(Boolean)
-      .join('\n\n');
-  }
-
-  if (missing.length > 0) {
-    return [
-      'I found:',
-      formatDraftSummary(draft),
-      `Please share the missing detail: ${missing
-        .map(formatMissingField)
-        .join(', ')}.`,
-    ].join('\n\n');
-  }
-
-  onReady();
-
-  return [
-    'Thank you. I found the details needed for a kundli.',
-    formatDraftSummary(draft),
-    'I opened the Kundli screen so you can verify the birth place and timezone before Predicta calculates anything.',
-  ].join('\n\n');
-}
-
-function formatDraftSummary(draft: BirthDetailsDraft): string {
-  return [
-    draft.name ? `Name: ${draft.name}` : '',
-    draft.date ? `Date: ${draft.date}` : '',
-    draft.time ? `Time: ${draft.time}` : '',
-    draft.city
-      ? `Birth place: ${[draft.city, draft.state, draft.country]
-          .filter(Boolean)
-          .join(', ')}`
-      : draft.placeText
-      ? `Birth place: ${draft.placeText}`
-      : '',
-  ]
-    .filter(Boolean)
-    .join('\n');
-}
-
-function formatMissingField(field: string): string {
-  const labels: Record<string, string> = {
-    am_pm: 'AM or PM',
-    birth_place: 'birth place',
-    city: 'city',
-    country: 'country',
-    date: 'date of birth',
-    name: 'name',
-    state: 'state or province',
-    time: 'birth time',
-  };
-
-  return labels[field] ?? field;
 }
 
 const ChatBubble = memo(function ChatBubble({

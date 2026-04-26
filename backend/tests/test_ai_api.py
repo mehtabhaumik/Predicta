@@ -248,6 +248,124 @@ def test_ai_endpoint_handles_no_kundli_guidance_mode(monkeypatch):
     assert "Do not begin with a disclaimer" in captured["messages"][1]["content"]
 
 
+def test_ai_endpoint_answers_birth_memory_question_locally_without_provider_calls(monkeypatch):
+    response_cache._response_cache.clear()
+    calls = {"openai": 0, "gemini": 0}
+
+    async def fake_openai_response(*, max_output_tokens, messages, model):
+        calls["openai"] += 1
+        return "Should not be used."
+
+    async def fake_generate_gemini_response(
+        *, max_output_tokens, model, system_prompt, user_prompt
+    ):
+        calls["gemini"] += 1
+        return "Should not be used."
+
+    monkeypatch.setattr(ai_routes, "generate_openai_response", fake_openai_response)
+    monkeypatch.setattr(ai_routes, "generate_gemini_response", fake_generate_gemini_response)
+
+    response = TestClient(app).post(
+        "/ai/pridicta",
+        json=build_request(
+            kundli=None,
+            chartContext=None,
+            history=[{"role": "user", "text": "Place: Petlad, India"}],
+            message="Which birthdate do you have?",
+            userPlan="FREE",
+        ),
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["provider"] == "local"
+    assert body["model"] == "predicta-memory-lane"
+    assert "do not have your date of birth yet" in body["text"].lower()
+    assert "petlad, india" in body["text"].lower()
+    assert calls["openai"] == 0
+    assert calls["gemini"] == 0
+
+
+def test_ai_endpoint_handles_explicit_chart_request_without_kundli_locally(monkeypatch):
+    response_cache._response_cache.clear()
+    calls = {"openai": 0, "gemini": 0}
+
+    async def fake_openai_response(*, max_output_tokens, messages, model):
+        calls["openai"] += 1
+        return "Should not be used."
+
+    async def fake_generate_gemini_response(
+        *, max_output_tokens, model, system_prompt, user_prompt
+    ):
+        calls["gemini"] += 1
+        return "Should not be used."
+
+    monkeypatch.setattr(ai_routes, "generate_openai_response", fake_openai_response)
+    monkeypatch.setattr(ai_routes, "generate_gemini_response", fake_generate_gemini_response)
+
+    response = TestClient(app).post(
+        "/ai/pridicta",
+        json=build_request(
+            kundli=None,
+            chartContext=None,
+            history=[
+                {"role": "user", "text": "DOB: 22/08/1980"},
+                {"role": "user", "text": "Time: 06:30 am, Place: Petlad, India"},
+            ],
+            message="Please analyze my chart",
+            userPlan="FREE",
+        ),
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["provider"] == "local"
+    assert body["model"] == "predicta-chart-required-lane"
+    assert "generate the kundli" in body["text"].lower()
+    assert calls["openai"] == 0
+    assert calls["gemini"] == 0
+
+
+def test_chart_aware_response_rejects_missing_d9_placements_language():
+    request = ai_models.PridictaAIRequest(**build_request(
+        message="What pattern in my D9 affects how I stay in relationships?",
+        chartContext={
+            "chartType": "D9",
+            "chartName": "Navamsha",
+            "purpose": "Marriage and deeper bonds",
+            "sourceScreen": "Charts",
+        },
+    ))
+
+    assert ai_routes.is_weak_chart_aware_response(
+        request,
+        (
+            "I can read that, but I’m missing your actual D9 placements. "
+            "Right now I only have your D1."
+        ),
+    )
+
+
+def test_chart_aware_response_rejects_asking_for_navamsa_when_kundli_exists():
+    request = ai_models.PridictaAIRequest(**build_request(
+        message="What pattern in my D9 affects how I stay in relationships?",
+        chartContext={
+            "chartType": "D9",
+            "chartName": "Navamsha",
+            "purpose": "Marriage and deeper bonds",
+            "sourceScreen": "Charts",
+        },
+    ))
+
+    assert ai_routes.is_weak_chart_aware_response(
+        request,
+        (
+            "If you want the exact D9 pattern, I’ll need your Navamsa placements "
+            "or the full kundli chart."
+        ),
+    )
+
+
 def test_ai_endpoint_rewrites_weak_no_kundli_response(monkeypatch):
     response_cache._response_cache.clear()
     calls = {"openai": 0}
