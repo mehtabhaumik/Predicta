@@ -1,4 +1,5 @@
 import type {
+  AstrologyMemory,
   ChartContext,
   ConversationTurn,
   KundliData,
@@ -19,6 +20,7 @@ import {
   detectDecisionIntent,
   formatDecisionMirrorText,
   guardPredictaResponse,
+  validatePredictaResponse,
   getDecisionMirrorDepth,
 } from '@pridicta/ai';
 import { generateBackendPridictaResponse } from './providers/backendAiProvider';
@@ -54,15 +56,18 @@ export async function askPridicta({
   deepAnalysis = false,
   history,
   kundli,
+  memory,
   message,
   preferredLanguage,
   userPlan,
-}: PridictaChatRequest): Promise<PridictaChatResponse> {
+}: PridictaChatRequest & {
+  memory?: AstrologyMemory;
+}): Promise<PridictaChatResponse> {
   const intelligenceContext = buildPredictaIntelligenceContext({
     chartContext,
     history,
     kundli,
-    memory: undefined,
+    memory,
     message,
     preferredLanguage,
   });
@@ -80,14 +85,28 @@ export async function askPridicta({
     });
 
     if (backendResponse?.text?.trim()) {
+      const guardedText = guardPredictaResponse({
+        history,
+        intentProfile: intelligenceContext.intentProfile,
+        memory: intelligenceContext.memory,
+        text: backendResponse.text.trim(),
+      });
+      const validation = validatePredictaResponse({
+        chartContext,
+        intentProfile: intelligenceContext.intentProfile,
+        kundli,
+        memory: intelligenceContext.memory,
+        reasoningContext: intelligenceContext.reasoningContext,
+        text: guardedText,
+      });
+
       return {
         ...backendResponse,
-        text: guardPredictaResponse({
-          history,
-          intentProfile: intelligenceContext.intentProfile,
-          memory: intelligenceContext.memory,
-          text: backendResponse.text.trim(),
-        }),
+        text: validation.valid
+          ? guardedText
+          : buildNoKundliResponse(message, {
+              history,
+            }),
       };
     }
 
@@ -146,7 +165,7 @@ export async function askPridicta({
       chartContext,
       history,
       kundli,
-      memory: undefined,
+      memory,
       message,
       preferredLanguage,
     }),
@@ -157,23 +176,39 @@ export async function askPridicta({
   });
 
   if (backendResponse?.text?.trim()) {
+    const guardedText = guardPredictaResponse({
+      history,
+      intentProfile: intelligenceContext.intentProfile,
+      memory: intelligenceContext.memory,
+      text: backendResponse.text.trim(),
+    });
+    const validation = validatePredictaResponse({
+      chartContext,
+      intentProfile: intelligenceContext.intentProfile,
+      kundli,
+      memory: intelligenceContext.memory,
+      reasoningContext: intelligenceContext.reasoningContext,
+      text: guardedText,
+    });
+
     if (isSafeToUseResponseCache(history)) {
       await setCachedAIResponse(cacheInput, {
         createdAt: new Date().toISOString(),
         intent: backendResponse.intent ?? intent,
         model: backendResponse.model,
-        text: backendResponse.text.trim(),
+        text: validation.valid ? guardedText : buildLocalPredictaFallback(message, kundli, chartContext, {
+          history,
+        }),
       }).catch(() => undefined);
     }
 
     return {
       ...backendResponse,
-      text: guardPredictaResponse({
-        history,
-        intentProfile: intelligenceContext.intentProfile,
-        memory: intelligenceContext.memory,
-        text: backendResponse.text.trim(),
-      }),
+      text: validation.valid
+        ? guardedText
+        : buildLocalPredictaFallback(message, kundli, chartContext, {
+            history,
+          }),
     };
   }
 

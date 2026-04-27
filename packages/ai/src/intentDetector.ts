@@ -15,7 +15,7 @@ type IntentSignal = {
 };
 
 const INTENT_SIGNALS: IntentSignal[] = [
-  { intent: 'marriage', pattern: /\b(marriage|marry|shaadi|wedding|spouse timing)\b/i, weight: 5, signal: 'marriage_keywords' },
+  { intent: 'marriage', pattern: /\b(marriage|marry|married|shaadi|wedding|spouse timing)\b/i, weight: 5, signal: 'marriage_keywords' },
   { intent: 'relationship', pattern: /\b(relationship|partner|love|dating|breakup|separation|bond|together)\b/i, weight: 4, signal: 'relationship_keywords' },
   { intent: 'career', pattern: /\b(career|job|profession|office|promotion|role|business|work|leadership)\b/i, weight: 4, signal: 'career_keywords' },
   { intent: 'finance', pattern: /\b(finance|money|income|salary|wealth|debt|savings|cash|earning)\b/i, weight: 4, signal: 'finance_keywords' },
@@ -196,7 +196,7 @@ export function detectPredictaIntent(input: {
   let primaryIntent = ranked[0] ?? 'general_question';
   if (
     isFollowUp &&
-    primaryIntent === 'general_question' &&
+    (primaryIntent === 'general_question' || primaryIntent === 'prediction_timing') &&
     (input.memory?.lastIntent || ranked[1])
   ) {
     primaryIntent = input.memory?.lastIntent ?? ranked[1] ?? 'follow_up';

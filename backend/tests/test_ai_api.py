@@ -420,7 +420,7 @@ def test_ai_endpoint_uses_local_floor_when_no_kundli_reply_stays_weak(monkeypatc
     response = TestClient(app).post("/ai/pridicta", json=payload)
 
     assert response.status_code == 200
-    assert "stability, stronger income, or relief from strain" in response.json()["text"]
+    assert "stability, sometimes cash flow, sometimes debt pressure" in response.json()["text"]
     assert "birth place Petlad, India" in response.json()["text"]
     assert calls["openai"] == 2
 
@@ -445,7 +445,7 @@ def test_ai_endpoint_uses_local_floor_for_incomplete_no_kundli_reply(monkeypatch
     response = TestClient(app).post("/ai/pridicta", json=payload)
 
     assert response.status_code == 200
-    assert "stability, stronger income, or relief from strain" in response.json()["text"]
+    assert "stability, sometimes cash flow, sometimes debt pressure" in response.json()["text"]
     assert calls["openai"] == 2
 
 
@@ -693,6 +693,7 @@ def test_build_user_prompt_uses_intelligence_context():
                 "memory": {
                     "userName": "Aarav",
                     "birthDetailsComplete": True,
+                    "kundliReady": False,
                     "knownConcerns": ["marriage timing"],
                     "previousTopics": ["marriage"],
                     "previousGuidance": ["There is a real marriage indication, but timing needs care."],
@@ -728,10 +729,112 @@ def test_build_user_prompt_uses_intelligence_context():
     prompt = ai_routes.build_user_prompt(request, None)
 
     assert "Predicta working memory:" in prompt
+    assert "STRICT KUNDLI STATE:" in prompt
     assert "Intent and emotional reading:" in prompt
     assert "Astrology reasoning context:" in prompt
     assert "Recent assistant responses to avoid repeating:" in prompt
     assert "User question: When?" in prompt
+    assert "If kundliReady is true, you must answer through astrology" in prompt
+
+
+def test_validate_ai_response_rejects_generic_reply_when_kundli_exists():
+    request = ai_models.PridictaAIRequest(
+        **build_request(
+            intelligenceContext={
+                "memory": {
+                    "birthDetailsComplete": True,
+                    "kundliReady": True,
+                    "activeKundliId": "kundli-1",
+                    "knownConcerns": ["career timing"],
+                    "previousTopics": ["career"],
+                    "previousGuidance": [],
+                },
+                "intentProfile": {
+                    "primaryIntent": "career",
+                    "secondaryIntents": ["prediction_timing"],
+                    "emotionalTone": "neutral",
+                    "isFollowUp": False,
+                    "confidence": 0.8,
+                    "citedSignals": ["career_keywords", "timing_keywords"],
+                },
+                "reasoningContext": {
+                    "userIntent": "career",
+                    "emotionalTone": "neutral",
+                    "primaryCharts": ["D1", "D10"],
+                    "secondaryCharts": [],
+                    "relevantFactors": ["10th house", "Saturn", "Sun", "dasha"],
+                    "shouldUseDasha": True,
+                    "shouldUseTransit": True,
+                    "shouldSuggestRemedy": True,
+                },
+                "conversationSummary": "User is asking about career timing.",
+                "recentAssistantResponses": [],
+            },
+        )
+    )
+
+    reasons = ai_routes.validate_ai_response(
+        request,
+        "This is really about trusting yourself and staying aligned with your path.",
+    )
+
+    assert "missing_astrology_anchor" in reasons
+
+
+def test_validate_ai_response_rejects_reasking_birth_details_from_memory():
+    request = ai_models.PridictaAIRequest(
+        **build_request(
+            kundli=None,
+            chartContext=None,
+            history=[{"role": "user", "text": "DOB: 22/08/1980"}],
+            intelligenceContext={
+                "memory": {
+                    "birthDetails": {
+                        "name": "Aarav Mehta",
+                        "date": "1980-08-22",
+                        "time": "06:30",
+                        "place": "Petlad, India",
+                        "latitude": 22.47,
+                        "longitude": 72.8,
+                        "timezone": "Asia/Kolkata",
+                    },
+                    "birthDetailsComplete": True,
+                    "kundliReady": False,
+                    "knownConcerns": [],
+                    "previousTopics": ["finance"],
+                    "previousGuidance": [],
+                },
+                "intentProfile": {
+                    "primaryIntent": "finance",
+                    "secondaryIntents": [],
+                    "emotionalTone": "curious",
+                    "isFollowUp": False,
+                    "confidence": 0.7,
+                    "citedSignals": ["finance_keywords"],
+                },
+                "reasoningContext": {
+                    "userIntent": "finance",
+                    "emotionalTone": "curious",
+                    "primaryCharts": ["D1", "D2"],
+                    "secondaryCharts": [],
+                    "relevantFactors": ["2nd house", "11th house", "Jupiter", "Venus"],
+                    "shouldUseDasha": True,
+                    "shouldUseTransit": False,
+                    "shouldSuggestRemedy": True,
+                },
+                "conversationSummary": "User already provided birth details.",
+                "recentAssistantResponses": [],
+            },
+            message="Financial situation",
+        )
+    )
+
+    reasons = ai_routes.validate_ai_response(
+        request,
+        "Send your date of birth, birth time, and birth place and then I will read this.",
+    )
+
+    assert "reasked_birth_details" in reasons
 
 
 def test_ai_prompt_context_and_history_are_bounded(monkeypatch):

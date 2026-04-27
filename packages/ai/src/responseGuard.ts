@@ -9,6 +9,9 @@ const BANNED_OPENINGS = [
   /^according to vedic astrology[,:\s-]*/i,
   /^your birth chart shows[,:\s-]*/i,
   /^as a vedic astrologer[,:\s-]*/i,
+  /^we can begin without pretending[,:\s-]*/i,
+  /^say it in one plain sentence[,:\s-]*/i,
+  /^based on the provided data[,:\s-]*/i,
 ];
 
 const OPENING_VARIANTS = {

@@ -17,14 +17,127 @@ type MemoryInput = {
 };
 
 type PartialBirthDetails = Partial<BirthDetails>;
-
-const DATE_PATTERN = /\b(\d{1,2}[/-]\d{1,2}[/-]\d{2,4})\b/i;
-const TIME_PATTERN = /\b(\d{1,2}:\d{2}\s?(?:am|pm)?)\b/i;
-const PLACE_PATTERN =
-  /\b(?:place|born in|birth place|location)\s*:\s*([A-Za-z][A-Za-z\s,.-]{2,})$/i;
+const MONTHS: Record<string, string> = {
+  apr: '04',
+  april: '04',
+  aug: '08',
+  august: '08',
+  dec: '12',
+  december: '12',
+  feb: '02',
+  february: '02',
+  jan: '01',
+  january: '01',
+  jul: '07',
+  july: '07',
+  jun: '06',
+  june: '06',
+  mar: '03',
+  march: '03',
+  may: '05',
+  nov: '11',
+  november: '11',
+  oct: '10',
+  october: '10',
+  sep: '09',
+  sept: '09',
+  september: '09',
+};
 
 function normalize(text: string): string {
   return text.trim().replace(/\s+/g, ' ');
+}
+
+function normalizeYear(year: string): string {
+  if (year.length === 4) {
+    return year;
+  }
+
+  return Number(year) > 30 ? `19${year}` : `20${year}`;
+}
+
+function formatDateParts(year: string, month: string, day: string): string {
+  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+}
+
+function extractDate(text: string): string | undefined {
+  const normalized = normalize(text);
+  const iso = normalized.match(/\b(\d{4})-(\d{1,2})-(\d{1,2})\b/);
+  if (iso) {
+    return formatDateParts(iso[1], iso[2], iso[3]);
+  }
+
+  const numeric = normalized.match(/\b(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})\b/);
+  if (numeric) {
+    return formatDateParts(normalizeYear(numeric[3]), numeric[2], numeric[1]);
+  }
+
+  const named = normalized.match(/\b(\d{1,2})\s+([A-Za-z]{3,9})\s+(\d{2,4})\b/i);
+  if (named) {
+    const month = MONTHS[named[2].toLowerCase()];
+    if (month) {
+      return formatDateParts(normalizeYear(named[3]), month, named[1]);
+    }
+  }
+
+  return undefined;
+}
+
+function extractTime(text: string): string | undefined {
+  const normalized = normalize(text);
+  const time =
+    normalized.match(
+      /\b(?:time|born at|birth time is|at)\s*:?\s*(\d{1,2})(?::(\d{2}))?\s*(?:in the\s+)?(am|pm|morning|evening|night)?\b/i,
+    ) ?? normalized.match(/\b(\d{1,2}):(\d{2})\s*(am|pm|morning|evening|night)?\b/i);
+
+  if (!time) {
+    return undefined;
+  }
+
+  let hours = Number(time[1]);
+  const minutes = Number(time[2] ?? '00');
+  const meridiemText = time[3]?.toLowerCase();
+  const meridiem =
+    meridiemText === 'am' || meridiemText === 'morning'
+      ? 'AM'
+      : meridiemText === 'pm' ||
+          meridiemText === 'evening' ||
+          meridiemText === 'night'
+        ? 'PM'
+        : undefined;
+
+  if (meridiem === 'PM' && hours < 12) {
+    hours += 12;
+  }
+  if (meridiem === 'AM' && hours === 12) {
+    hours = 0;
+  }
+  if (hours > 23 || minutes > 59) {
+    return undefined;
+  }
+
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+}
+
+function extractPlace(text: string): string | undefined {
+  const normalized = normalize(text);
+  const labeled = normalized.match(
+    /\b(?:birth place|birthplace|place)\s*(?:is|:)?\s*([A-Za-z][A-Za-z\s.-]+(?:,\s*[A-Za-z][A-Za-z\s.-]+){0,2})\b/i,
+  );
+
+  if (labeled?.[1]) {
+    return labeled[1].trim();
+  }
+
+  const bornIn = normalized.match(
+    /\b(?:born in|from)\s+([A-Za-z][A-Za-z\s.-]+(?:,\s*[A-Za-z][A-Za-z\s.-]+){0,2})\b/i,
+  );
+
+  if (bornIn?.[1]) {
+    return bornIn[1].trim();
+  }
+
+  return undefined;
 }
 
 function normalizePreferredLanguage(value?: string): "en" | "hi" | "gu" | undefined {
@@ -38,6 +151,7 @@ function normalizePreferredLanguage(value?: string): "en" | "hi" | "gu" | undefi
 export function createInitialAstrologyMemory(): AstrologyMemory {
   return {
     birthDetailsComplete: false,
+    kundliReady: false,
     knownConcerns: [],
     previousGuidance: [],
     previousTopics: [],
@@ -45,18 +159,17 @@ export function createInitialAstrologyMemory(): AstrologyMemory {
 }
 
 function extractBirthDetailsFromText(text: string): PartialBirthDetails {
-  const normalized = normalize(text);
-  const dateMatch = normalized.match(DATE_PATTERN)?.[1];
-  const timeMatch = normalized.match(TIME_PATTERN)?.[1];
-  const placeMatch = normalized.match(PLACE_PATTERN)?.[1] ?? (
-    /\b([A-Za-z][A-Za-z\s-]+,\s*[A-Za-z][A-Za-z\s-]+)\b/.exec(normalized)?.[1]
-  );
-
   return {
-    date: dateMatch,
-    place: placeMatch,
-    time: timeMatch,
+    date: extractDate(text),
+    place: extractPlace(text),
+    time: extractTime(text),
   } as PartialBirthDetails;
+}
+
+function stripUndefined<T extends Record<string, unknown>>(value: T): Partial<T> {
+  return Object.fromEntries(
+    Object.entries(value).filter(([, entry]) => entry !== undefined),
+  ) as Partial<T>;
 }
 
 function mergeBirthDetails(
@@ -155,12 +268,12 @@ export function updateUserAstrologyMemory(input: MemoryInput): AstrologyMemory {
   const extractedFromHistory = userTurns.reduce<PartialBirthDetails>(
     (accumulator, turn) => ({
       ...accumulator,
-      ...extractBirthDetailsFromText(turn.text),
+      ...stripUndefined(extractBirthDetailsFromText(turn.text)),
     }),
     {},
   );
   const extractedFromMessage = input.message
-    ? extractBirthDetailsFromText(input.message)
+    ? stripUndefined(extractBirthDetailsFromText(input.message))
     : undefined;
 
   const mergedBirthDetails = input.kundli?.birthDetails
@@ -208,6 +321,7 @@ export function updateUserAstrologyMemory(input: MemoryInput): AstrologyMemory {
           mergedBirthDetails?.time &&
           mergedBirthDetails?.place),
     ),
+    kundliReady: Boolean(input.kundli ?? existing.kundliReady),
     conversationSummary: existing.conversationSummary,
     emotionalTone: intentProfile?.emotionalTone ?? existing.emotionalTone,
     knownConcerns: uniqueLimited(concernCandidates, 8),

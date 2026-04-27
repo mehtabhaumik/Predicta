@@ -5,6 +5,7 @@ import {
   detectPredictaIntent,
   getConversationSummary,
   guardPredictaResponse,
+  validatePredictaResponse,
   updateUserAstrologyMemory,
 } from '@pridicta/ai';
 import type { ConversationTurn, KundliData } from '../src/types/astrology';
@@ -81,10 +82,23 @@ describe('predicta intelligence architecture', () => {
       message: 'Will marriage be delayed for me?',
     });
 
-    expect(memory.birthDetails?.date).toBe('22/08/1980');
-    expect(memory.birthDetails?.time).toBe('06:30 am');
+    expect(memory.birthDetails?.date).toBe('1980-08-22');
+    expect(memory.birthDetails?.time).toBe('06:30');
     expect(memory.birthDetails?.place).toBe('Petlad, India');
+    expect(memory.kundliReady).toBe(false);
     expect(getConversationSummary(memory, history)).toContain('Current focus: marriage');
+  });
+
+  it('marks kundli as ready when real kundli exists in memory context', () => {
+    const memory = updateUserAstrologyMemory({
+      history: [{ role: 'user', text: 'What is happening in my career?' }],
+      kundli,
+      message: 'When does this settle?',
+    });
+
+    expect(memory.birthDetailsComplete).toBe(true);
+    expect(memory.kundliReady).toBe(true);
+    expect(memory.activeKundliId).toBe(kundli.id);
   });
 
   it('builds marriage reasoning with D1 and D9', () => {
@@ -119,6 +133,7 @@ describe('predicta intelligence architecture', () => {
     });
 
     expect(prompt).toContain('Predicta working memory:');
+    expect(prompt).toContain('STRICT KUNDLI STATE:');
     expect(prompt).toContain('Intent and emotional reading:');
     expect(prompt).toContain('Astrology reasoning context:');
     expect(prompt).toContain('User question: What timing do you see?');
@@ -141,5 +156,30 @@ describe('predicta intelligence architecture', () => {
     });
 
     expect(text).not.toMatch(/^Based on your chart/i);
+  });
+
+  it('rejects generic non-astrology replies when kundli exists', () => {
+    const intelligenceContext = buildPredictaIntelligenceContext({
+      history: [{ role: 'user', text: 'What does my career timing look like?' }],
+      kundli,
+      message: 'What does my career timing look like?',
+    });
+
+    const validation = validatePredictaResponse({
+      chartContext: {
+        chartName: 'Dashamsha',
+        chartType: 'D10',
+        purpose: 'Career and responsibility',
+        sourceScreen: 'Charts',
+      },
+      intentProfile: intelligenceContext.intentProfile,
+      kundli,
+      memory: intelligenceContext.memory,
+      reasoningContext: intelligenceContext.reasoningContext,
+      text: 'This is really about trusting your path and staying aligned with yourself.',
+    });
+
+    expect(validation.valid).toBe(false);
+    expect(validation.reasons).toContain('missing_astrology_anchor');
   });
 });

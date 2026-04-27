@@ -43,6 +43,7 @@ class AIContextPayload(BaseModel):
 class AstrologyMemoryModel(BaseModel):
     userName: Optional[str] = None
     birthDetailsComplete: bool = False
+    kundliReady: bool = False
     birthDetails: Optional[BirthDetails] = None
     activeKundliId: Optional[str] = None
     knownConcerns: List[str] = Field(default_factory=list)

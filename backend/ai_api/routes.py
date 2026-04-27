@@ -79,6 +79,54 @@ WEAK_NO_KUNDLI_PATTERNS = (
     re.compile(r"^without (your|a) chart\b", re.IGNORECASE),
     re.compile(r"\bwhile i (don't|do not) have your chart\b", re.IGNORECASE),
 )
+GENERIC_FILLER_PATTERNS = (
+    re.compile(r"\bthe real pressure is usually\b", re.IGNORECASE),
+    re.compile(r"\bsay it in one plain sentence\b", re.IGNORECASE),
+    re.compile(r"\bwe can begin without pretending\b", re.IGNORECASE),
+    re.compile(r"\bbased on the provided data\b", re.IGNORECASE),
+    re.compile(r"\bthis depends on several factors\b", re.IGNORECASE),
+    re.compile(r"\bthis is a common concern\b", re.IGNORECASE),
+    re.compile(r"\bseek clarity about\b", re.IGNORECASE),
+)
+REPEATED_BIRTH_DETAIL_PATTERNS = (
+    re.compile(r"\btell me your birth details\b", re.IGNORECASE),
+    re.compile(r"\bsend your date of birth\b", re.IGNORECASE),
+    re.compile(r"\bsend your birth time\b", re.IGNORECASE),
+    re.compile(r"\bsend your birth place\b", re.IGNORECASE),
+    re.compile(r"\bgive me your birth details\b", re.IGNORECASE),
+)
+MISSING_CHART_PATTERNS = (
+    re.compile(r"\bi do not have your chart\b", re.IGNORECASE),
+    re.compile(r"\bi don't have your chart\b", re.IGNORECASE),
+    re.compile(r"\bwithout your chart\b", re.IGNORECASE),
+    re.compile(r"\bi(?:'ll| will) need your .*kundli\b", re.IGNORECASE),
+    re.compile(r"\bi(?:'ll| will) need your .*navamsa\b", re.IGNORECASE),
+)
+ASTROLOGY_ANCHOR_PATTERNS = (
+    re.compile(r"\bd1\b", re.IGNORECASE),
+    re.compile(r"\bd2\b", re.IGNORECASE),
+    re.compile(r"\bd9\b", re.IGNORECASE),
+    re.compile(r"\bd10\b", re.IGNORECASE),
+    re.compile(r"\bd20\b", re.IGNORECASE),
+    re.compile(r"\bdasha\b", re.IGNORECASE),
+    re.compile(r"\btransit\b", re.IGNORECASE),
+    re.compile(r"\bhouse\b", re.IGNORECASE),
+    re.compile(r"\bhouses\b", re.IGNORECASE),
+    re.compile(r"\blord\b", re.IGNORECASE),
+    re.compile(r"\blagna\b", re.IGNORECASE),
+    re.compile(r"\bnakshatra\b", re.IGNORECASE),
+    re.compile(r"\bnavamsa\b", re.IGNORECASE),
+    re.compile(r"\bdashamsha\b", re.IGNORECASE),
+    re.compile(r"\bvenus\b", re.IGNORECASE),
+    re.compile(r"\bjupiter\b", re.IGNORECASE),
+    re.compile(r"\bsaturn\b", re.IGNORECASE),
+    re.compile(r"\bsun\b", re.IGNORECASE),
+    re.compile(r"\bmoon\b", re.IGNORECASE),
+    re.compile(r"\bmercury\b", re.IGNORECASE),
+    re.compile(r"\bmars\b", re.IGNORECASE),
+    re.compile(r"\brahu\b", re.IGNORECASE),
+    re.compile(r"\bketu\b", re.IGNORECASE),
+)
 WEAK_CHART_AWARE_PATTERNS = (
     re.compile(r"\b(chart data got cut off|what you pasted)\b", re.IGNORECASE),
     re.compile(r"\bi only see\b", re.IGNORECASE),
@@ -208,6 +256,25 @@ async def ask_pridicta(request: PridictaAIRequest, response: Response):
             system_prompt=system_prompt,
             user_prompt=user_prompt,
         )
+
+    validation_reasons = validate_ai_response(request, text)
+    if validation_reasons:
+        rewritten = await rewrite_validated_response(
+            provider=provider,
+            model=response_model,
+            max_output_tokens=max_output_tokens,
+            request=request,
+            draft_text=text,
+            reasons=validation_reasons,
+        )
+        if rewritten and rewritten.strip():
+            text = rewritten.strip()
+        if validate_ai_response(request, text):
+            text = (
+                build_chart_aware_local_guidance(request)
+                if request.kundli is not None
+                else build_no_kundli_local_guidance(request)
+            )
 
     if request.kundli is None and is_weak_no_kundli_response(text):
         rewritten = await rewrite_no_kundli_response(
@@ -600,6 +667,58 @@ async def rewrite_chart_aware_response(
         return None
 
 
+async def rewrite_validated_response(
+    *,
+    provider: Literal["openai", "gemini"],
+    model: str,
+    max_output_tokens: int,
+    request: PridictaAIRequest,
+    draft_text: str,
+    reasons: list[str],
+) -> str | None:
+    system_prompt = "\n".join(
+        [
+            "You are correcting a Predicta reply that failed strict quality rules.",
+            "Do not defend the draft. Rewrite it.",
+            "Memory is authoritative. If birth details already exist, never ask for them again.",
+            "If kundli exists, the answer must use astrology explicitly through chart, houses, planets, dasha, varga, or timing context.",
+            "You are not a life coach. Remove generic philosophy and soft filler.",
+            "Keep the answer warm, human, direct, and spiritually grounded without theatre.",
+            "Do not use stock phrases like 'we can begin without pretending', 'say it in one plain sentence', or 'based on the provided data'.",
+        ]
+    )
+    user_prompt = "\n\n".join(
+        [
+            f"User question: {request.message}",
+            f"Validation failures: {', '.join(reasons)}",
+            "Known birth details:",
+            summarize_known_birth_details(request),
+            "Rewrite this failed draft into a valid Predicta answer:",
+            draft_text,
+        ]
+    )
+
+    try:
+        if provider == "openai":
+            return await generate_openai_response(
+                max_output_tokens=min(max_output_tokens, 260),
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+                model=model,
+            )
+
+        return await generate_gemini_response(
+            max_output_tokens=min(max_output_tokens, 260),
+            model=model,
+            system_prompt=system_prompt,
+            user_prompt=user_prompt,
+        )
+    except (AIProviderError, AIProviderUnavailable):
+        return None
+
+
 def detect_intent(request: PridictaAIRequest) -> Literal["simple", "moderate", "deep"]:
     message = request.message.strip()
     words = [word for word in re.split(r"\s+", message) if word]
@@ -761,6 +880,96 @@ def get_missing_birth_fields(request: PridictaAIRequest) -> list[str]:
     if not place:
         missing.append("birth place")
     return missing
+
+
+def is_kundli_ready(request: PridictaAIRequest) -> bool:
+    if request.kundli is not None:
+        return True
+
+    if request.intelligenceContext and request.intelligenceContext.memory:
+        memory = request.intelligenceContext.memory
+        if memory.kundliReady:
+            return True
+        if memory.activeKundliId and memory.birthDetailsComplete:
+            return True
+
+    return False
+
+
+def has_birth_details_memory(request: PridictaAIRequest) -> bool:
+    if request.kundli is not None:
+        return True
+
+    if request.intelligenceContext and request.intelligenceContext.memory:
+        memory = request.intelligenceContext.memory
+        return bool(
+            memory.birthDetailsComplete
+            or memory.birthDetails
+            or extract_known_birth_detail_values(request) != (None, None, None)
+        )
+
+    return extract_known_birth_detail_values(request) != (None, None, None)
+
+
+def extract_reasoning_keywords(request: PridictaAIRequest) -> set[str]:
+    keywords: set[str] = set()
+    if not request.intelligenceContext:
+        return keywords
+
+    reasoning = request.intelligenceContext.reasoningContext
+    for chart in reasoning.primaryCharts:
+        keywords.add(chart.lower())
+    for chart in reasoning.secondaryCharts:
+        keywords.add(chart.lower())
+    for factor in reasoning.relevantFactors:
+        for token in re.split(r"[^a-z0-9]+", factor.lower()):
+            if len(token) >= 3:
+                keywords.add(token)
+    if reasoning.chartContext and reasoning.chartContext.chartType:
+        keywords.add(reasoning.chartContext.chartType.lower())
+    return keywords
+
+
+def has_astrology_anchor(request: PridictaAIRequest, text: str) -> bool:
+    normalized = re.sub(r"\s+", " ", text.strip()).lower()
+    if any(pattern.search(normalized) for pattern in ASTROLOGY_ANCHOR_PATTERNS):
+        return True
+
+    for keyword in extract_reasoning_keywords(request):
+        if keyword in normalized:
+            return True
+
+    return False
+
+
+def validate_ai_response(request: PridictaAIRequest, text: str) -> list[str]:
+    if request.intelligenceContext is None:
+        return []
+
+    normalized = re.sub(r"\s+", " ", text.strip())
+    reasons: list[str] = []
+
+    if any(pattern.search(normalized) for pattern in GENERIC_FILLER_PATTERNS):
+        reasons.append("generic_filler")
+
+    if has_birth_details_memory(request) and any(
+        pattern.search(normalized) for pattern in REPEATED_BIRTH_DETAIL_PATTERNS
+    ):
+        reasons.append("reasked_birth_details")
+
+    if is_kundli_ready(request) and any(
+        pattern.search(normalized) for pattern in MISSING_CHART_PATTERNS
+    ):
+        reasons.append("denied_existing_chart")
+
+    if request.kundli is not None and not has_astrology_anchor(request, normalized):
+        reasons.append("missing_astrology_anchor")
+
+    if request.intelligenceContext and request.intelligenceContext.intentProfile.isFollowUp:
+        if re.search(r"\b(start over|what is your question|say it in one plain sentence)\b", normalized, re.IGNORECASE):
+            reasons.append("lost_follow_up_thread")
+
+    return reasons
 
 
 def format_missing_birth_fields(fields: list[str]) -> str:
@@ -999,8 +1208,9 @@ def build_no_kundli_local_guidance(request: PridictaAIRequest) -> str:
 
     if theme == "finance":
         return (
-            "The real financial pressure is usually one of three things: stability, stronger income, or relief from strain. "
-            "Those need different answers. Tell me which one feels most urgent, and I will answer that directly. "
+            "Finance is not one single lane in Jyotish. Sometimes the real issue is stability, sometimes cash flow, sometimes debt pressure, and sometimes long-term growth. "
+            "Once the kundli is ready, I would anchor this to D1, D2, and the 2nd and 11th house themes instead of guessing. "
+            "Tell me which money pressure feels most real right now, and I will answer that directly. "
             f"{chart_bridge}"
         )
     if theme == "career":
@@ -1032,8 +1242,8 @@ def build_no_kundli_local_guidance(request: PridictaAIRequest) -> str:
                 f"{chart_bridge}"
             )
         return (
-            "Career confusion usually hides inside growth, change, leadership pressure, or exhaustion. "
-            "Name the one you are actually dealing with, and I will respond to that instead of giving you a vague career speech. "
+            "Career questions need the right lane. In a real chart reading I would separate growth, role change, leadership pressure, exhaustion, and timing instead of flattening them into one generic answer. "
+            "Tell me which layer is the real one here, and I will answer that directly. "
             f"{chart_bridge}"
         )
     if theme == "relationship":
@@ -1106,7 +1316,7 @@ def build_no_kundli_local_guidance(request: PridictaAIRequest) -> str:
         )
     if theme == "decision":
         return (
-            "When a decision feels heavy, the clean first cut is what you are protecting, what you are afraid of losing, and what a steady next step would look like. "
+            "When a decision feels heavy, I first need to see what you are protecting, what you are afraid of losing, and what timing pressure is sitting underneath it. "
             "Give me the two options or the real fork in front of you, and I will help you reason through it clearly. "
             f"{chart_bridge}"
         )
@@ -1117,8 +1327,8 @@ def build_no_kundli_local_guidance(request: PridictaAIRequest) -> str:
             f"{chart_bridge}"
         )
     return (
-        "We can begin with the actual tension instead of a grand prediction. "
-        "Say the question in one plain sentence, and I will meet it directly. "
+        "Bring me the actual life area first: finance, career, relationship, health, timing, or spiritual direction. "
+        "I will take the right Jyotish lane from there instead of giving you a vague speech. "
         f"{chart_bridge}"
     )
 
@@ -1184,6 +1394,7 @@ def build_system_prompt(
         [
             "You are Predicta, a warm, affectionate, deeply experienced Vedic astrologer with 30 years of Jyotish practice.",
             "You are not a Western astrologer. You read through Vedic astrology only: kundli, dasha, gochar, yogas, varga charts, houses, lords, nakshatra, and planetary dignity.",
+            "You are not a life coach, motivational speaker, generic therapist, or vague clarity bot.",
             "You are a gentle Mahadev bhakt. You may occasionally and naturally refer to Mahadev, Shiva, Bholenath, Rudra, or Bhairav, but never excessively.",
             "Speak like a wise human astrologer who cares about the user: calm, compassionate, emotionally intelligent, practical, and premium.",
             "You can be warm, affectionate, sometimes lightly funny, and spiritually grounded, but never theatrical or generic.",
@@ -1194,6 +1405,8 @@ def build_system_prompt(
             "Never claim certainty percentages.",
             "Use only the chart data that is actually provided in the context.",
             "Do not imply you can see a user's chart unless the request includes real kundli data.",
+            "If memory says birth details already exist, never ask for them again.",
+            "If kundli exists, generic advice without astrology is invalid.",
             "If no kundli is provided, switch into no-chart guidance mode: be intelligent, conversational, and useful without inventing chart facts.",
             "In no-chart guidance mode, answer the life question itself first. Give one grounded reading of the user's situation, one practical next step, and ask at most one clarifying question only if it truly sharpens the answer.",
             "In no-chart guidance mode, sound like a perceptive human guide, not customer support, a therapist template, or a generic AI essay.",
@@ -1205,6 +1418,7 @@ def build_system_prompt(
             "Use the recent conversation as working memory. If the user asks what you already know, what they already shared, or what you mean, answer that directly.",
             "If something is missing, say exactly what is known and what is still missing. Do not repeat a generic line when the user is asking for clarification.",
             "When the user pushes back or asks a follow-up about your last answer, respond like a thoughtful human guide rather than a template.",
+            "If kundli exists, you must use the supplied reasoning context and chart context. Do not ignore them.",
             "Keep responses concise, meaningful, emotionally calm, and cost-aware.",
             "Vary your openings and cadence. Do not repeat stock phrases from the last few assistant responses.",
             f"Emotional tone to meet: {emotional_tone}.",
@@ -1262,6 +1476,15 @@ def build_user_prompt(request: PridictaAIRequest, compact_context: str | None) -
         sections = [
             "Predicta working memory:",
             intelligence_context.memory.model_dump_json(indent=2),
+            "STRICT KUNDLI STATE:",
+            json.dumps(
+                {
+                    "knownBirthDetails": summarize_known_birth_details(request),
+                    "kundliReady": is_kundli_ready(request),
+                    "missingBirthFields": get_missing_birth_fields(request),
+                },
+                indent=2,
+            ),
             "Intent and emotional reading:",
             intelligence_context.intentProfile.model_dump_json(indent=2),
             "Astrology reasoning context:",
@@ -1292,15 +1515,17 @@ def build_user_prompt(request: PridictaAIRequest, compact_context: str | None) -
             [
                 "Recent conversation:",
                 history_text or "No previous conversation.",
-                "Response rules:",
+                "STRICT RESPONSE RULES:",
                 "\n".join(
                     [
-                        "1. Warmly acknowledge the real emotional and practical layer of the question.",
-                        "2. Answer directly from the right Vedic lens for this intent and chart context.",
-                        "3. Use dasha, transit, varga, houses, lords, yogas, and timing only when genuinely relevant.",
-                        "4. Give timing only if the data supports it. Never guarantee.",
-                        "5. Offer remedies only when useful, and make them grounded.",
-                        "6. Avoid repeating the recent assistant phrasing or openings.",
+                        "1. Memory is authoritative. If birth details already exist, never ask for them again.",
+                        "2. If kundliReady is true, you must answer through astrology. Generic advice is invalid.",
+                        "3. Use the supplied reasoning context explicitly: charts, houses, planets, dasha, transit, and timing only when relevant.",
+                        "4. You are not a life coach. Do not drift into philosophy, vague reassurance, or motivational filler.",
+                        "5. If the user is asking a follow-up, continue the thread directly and do not reset the conversation.",
+                        "6. Give timing only if the data supports it. Never guarantee.",
+                        "7. Offer remedies only when useful, and keep them grounded.",
+                        "8. Avoid repeating recent assistant phrasing or stock openings.",
                     ]
                 ),
                 f"User question: {request.message}",

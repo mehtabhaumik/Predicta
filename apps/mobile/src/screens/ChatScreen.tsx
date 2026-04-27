@@ -40,6 +40,7 @@ import {
 } from '@pridicta/ai';
 import { getProductUpgradePrompt } from '@pridicta/monetization';
 import { extractBirthDetailsFromText } from '../services/ai/birthDetailsExtractor';
+import { resolveKundliFromDraft } from '../services/ai/kundliStateResolver';
 import { askPridicta } from '../services/ai/pridictaService';
 import { updateUserAstrologyMemory as syncAstrologyMemory } from '../services/ai/memoryService';
 import { playReplyChime } from '../services/audio/replyChime';
@@ -51,6 +52,7 @@ import type {
   BirthDetailsDraft,
   ChatMessage,
   DecisionMirrorResponse,
+  KundliData,
 } from '../types/astrology';
 import {
   ASSISTANT_STREAM_INTERVAL_MS,
@@ -108,6 +110,7 @@ export function ChatScreen({
     state => state.consumeGuestQuestionQuota,
   );
   const getResolvedAccess = useAppStore(state => state.getResolvedAccess);
+  const getAstrologyMemory = useAppStore(state => state.getAstrologyMemory);
   const hasPaidQuestionCredits = useAppStore(
     state => state.hasPaidQuestionCredits,
   );
@@ -116,6 +119,10 @@ export function ChatScreen({
   );
   const recordQuestion = useAppStore(state => state.recordQuestion);
   const recordDeepCall = useAppStore(state => state.recordDeepCall);
+  const setActiveKundli = useAppStore(state => state.setActiveKundli);
+  const clearPendingBirthDetailsDraft = useAppStore(
+    state => state.clearPendingBirthDetailsDraft,
+  );
   const messages = useAppStore(state =>
     state.activeKundliId
       ? state.conversationsByKundli[state.activeKundliId] ?? []
@@ -222,7 +229,7 @@ export function ChatScreen({
       ...history,
       { role: 'user' as const, text: trimmedInput },
     ];
-    syncAstrologyMemory({
+    const nextMemory = syncAstrologyMemory({
       chartContext: activeChartContext,
       history: historyWithUser,
       kundli: activeKundli,
@@ -243,6 +250,8 @@ export function ChatScreen({
       setStreamingText('');
 
       let shouldNavigateToKundli = false;
+      let resolvedKundli: KundliData | undefined = activeKundli;
+      let detailOnlyMessage = false;
       try {
         const result = await extractBirthDetailsFromText(trimmedInput);
         const mergedDraft = mergeBirthDetailsDraft(
@@ -266,15 +275,47 @@ export function ChatScreen({
         });
         shouldNavigateToKundli =
           result.ambiguities.length === 0 && missing.length === 0;
+        detailOnlyMessage =
+          extractedValuesCount > 0 &&
+          !/[?]/.test(trimmedInput) &&
+          !/\b(finance|financial|career|job|marriage|relationship|love|health|remedy|timing|future|chart|kundli|report|dasha)\b/i.test(
+            trimmedInput,
+          );
+
+        const kundliResolution = await resolveKundliFromDraft({
+          draft: mergedDraft,
+          fallbackName:
+            auth.displayName?.trim() || auth.email?.split('@')[0] || 'Predicta Seeker',
+        });
+
+        if (kundliResolution.kundli) {
+          resolvedKundli = kundliResolution.kundli;
+          setActiveKundli(kundliResolution.kundli);
+          clearPendingBirthDetailsDraft();
+          shouldNavigateToKundli = false;
+        }
       } catch {
         shouldNavigateToKundli = false;
       }
 
       try {
+        if (resolvedKundli && detailOnlyMessage) {
+          streamAssistantResponse(
+            `Okay, I have your details now and I have generated the kundli. Ask what you want me to read first, and I will answer from the actual chart instead of guessing.`,
+            undefined,
+            buildPredictaWaitingMessage(trimmedInput, activeChartContext, {
+              hasKundli: true,
+            }),
+            historyWithUser,
+          );
+          return;
+        }
+
         const response = await askPridicta({
           chartContext: activeChartContext,
           history,
-          kundli: undefined,
+          kundli: resolvedKundli,
+          memory: nextMemory,
           message: trimmedInput,
           preferredLanguage,
           userPlan,
@@ -357,6 +398,7 @@ export function ChatScreen({
         chartContext: activeChartContext,
         history,
         kundli: activeKundli,
+        memory: getAstrologyMemory(),
         message: trimmedInput,
         preferredLanguage,
         userPlan: effectivePlan,

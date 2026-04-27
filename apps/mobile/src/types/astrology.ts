@@ -303,6 +303,7 @@ export type PredictaEmotionalTone =
 export type AstrologyMemory = {
   userName?: string;
   birthDetailsComplete: boolean;
+  kundliReady: boolean;
   birthDetails?: BirthDetails;
   activeKundliId?: string;
   knownConcerns: string[];
@@ -342,6 +343,12 @@ export type PredictaIntelligenceContext = {
   reasoningContext: AstrologyReasoningContext;
   conversationSummary: string;
   recentAssistantResponses: string[];
+};
+
+export type PredictaResponseValidationResult = {
+  valid: boolean;
+  reasons: string[];
+  requiresRegeneration: boolean;
 };
 
 export type DecisionMirrorDepth = 'FREE' | 'EXPANDED';

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   buildPredictaIntelligenceContext,
   buildNoKundliResponse,
@@ -8,6 +8,8 @@ import {
   buildPredictaWaitingMessage,
   guardPredictaResponse,
   getRandomPredictaIntro,
+  updateUserAstrologyMemory,
+  validatePredictaResponse,
 } from '@pridicta/ai';
 import type {
   AstrologyMemory,
@@ -17,6 +19,7 @@ import type {
   PridictaChatResponse,
 } from '@pridicta/types';
 import { resolvePredictaWebBackendUrl } from '@pridicta/config';
+import { resolveKundliFromChatMemory } from '../lib/chatKundliResolver';
 import { Card } from './Card';
 
 type ChatMessage = {
@@ -34,26 +37,44 @@ export function PredictaChatClient({
   chartContext,
   kundli,
 }: PredictaChatClientProps): React.JSX.Element {
+  const [activeKundli, setActiveKundli] = useState<KundliData | undefined>(kundli);
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [waitingMessage, setWaitingMessage] = useState('Thinking through your question...');
   const [memory, setMemory] = useState<AstrologyMemory>({
-    birthDetailsComplete: Boolean(kundli),
-    birthDetails: kundli?.birthDetails,
+    birthDetailsComplete: Boolean(activeKundli),
+    birthDetails: activeKundli?.birthDetails,
+    kundliReady: Boolean(activeKundli),
     knownConcerns: [],
     previousGuidance: [],
     previousTopics: [],
-    userName: kundli?.birthDetails.name,
+    userName: activeKundli?.birthDetails.name,
   });
   const [messages, setMessages] = useState<ChatMessage[]>(() => [
     {
       id: 'intro',
       role: 'pridicta',
       text: getRandomPredictaIntro({
-        hasKundli: Boolean(kundli),
+        hasKundli: Boolean(activeKundli),
       }),
     },
   ]);
+
+  useEffect(() => {
+    if (!kundli) {
+      return;
+    }
+
+    setActiveKundli(kundli);
+    setMemory(current => ({
+      ...current,
+      activeKundliId: kundli.id,
+      birthDetails: kundli.birthDetails,
+      birthDetailsComplete: true,
+      kundliReady: true,
+      userName: kundli.birthDetails.name,
+    }));
+  }, [kundli]);
 
   const history = useMemo<ConversationTurn[]>(
     () =>
@@ -89,7 +110,7 @@ export function PredictaChatClient({
     const intelligenceContext = buildPredictaIntelligenceContext({
       chartContext,
       history: nextHistory,
-      kundli,
+      kundli: activeKundli,
       memory,
       message: question,
     });
@@ -100,19 +121,74 @@ export function PredictaChatClient({
 
     setWaitingMessage(
       buildPredictaWaitingMessage(question, chartContext, {
-        hasKundli: Boolean(kundli),
+        hasKundli: Boolean(activeKundli),
       }),
     );
 
     setIsSending(true);
+    let resolvedKundli = activeKundli;
+    let effectiveIntelligenceContext = intelligenceContext;
 
     try {
+      if (!resolvedKundli) {
+        const kundliResolution = await resolveKundliFromChatMemory({
+          backendUrl,
+          fallbackName:
+            intelligenceContext.memory.userName?.trim() || 'Predicta Seeker',
+          memory: intelligenceContext.memory,
+        });
+
+        if (kundliResolution.kundli) {
+          resolvedKundli = kundliResolution.kundli;
+          setActiveKundli(kundliResolution.kundli);
+          const mergedMemory = updateUserAstrologyMemory({
+            chartContext,
+            existingMemory: intelligenceContext.memory,
+            history: nextHistory,
+            kundli: kundliResolution.kundli,
+            preferredLanguage: intelligenceContext.memory.preferredLanguage,
+          });
+          setMemory(mergedMemory);
+          effectiveIntelligenceContext = buildPredictaIntelligenceContext({
+            chartContext,
+            history: nextHistory,
+            kundli: kundliResolution.kundli,
+            memory: mergedMemory,
+            message: question,
+          });
+
+          if (isBirthDetailOnlyMessage(question)) {
+            const finalText =
+              'Okay, I have your details now and I have generated the kundli. Ask what you want me to read first, and I will answer from the actual chart instead of guessing.';
+
+            setMemory(current =>
+              updateUserAstrologyMemory({
+                chartContext,
+                existingMemory: current,
+                history: [...nextHistory, { role: 'pridicta', text: finalText }],
+                kundli: kundliResolution.kundli,
+                preferredLanguage: current.preferredLanguage,
+              }),
+            );
+            setMessages(current => [
+              ...current,
+              {
+                id: `pridicta-${Date.now()}`,
+                role: 'pridicta',
+                text: finalText,
+              },
+            ]);
+            return;
+          }
+        }
+      }
+
       const response = await fetch(`${backendUrl}/ai/pridicta`, {
         body: JSON.stringify({
           chartContext,
           history,
-          intelligenceContext,
-          kundli,
+          intelligenceContext: effectiveIntelligenceContext,
+          kundli: resolvedKundli,
           message: question,
           userPlan: 'FREE',
         }),
@@ -130,38 +206,76 @@ export function PredictaChatClient({
       if (!payload.text?.trim()) {
         throw new Error('Predicta guidance is temporarily unavailable.');
       }
+      const guardedText = guardPredictaResponse({
+        history: nextHistory,
+        intentProfile: effectiveIntelligenceContext.intentProfile,
+        memory: effectiveIntelligenceContext.memory,
+        text: payload.text.trim(),
+      });
+      const validation = validatePredictaResponse({
+        chartContext,
+        intentProfile: effectiveIntelligenceContext.intentProfile,
+        kundli: resolvedKundli,
+        memory: effectiveIntelligenceContext.memory,
+        reasoningContext: effectiveIntelligenceContext.reasoningContext,
+        text: guardedText,
+      });
+      const finalText = validation.valid
+        ? guardedText
+        : resolvedKundli
+          ? buildLocalPredictaFallback(question, resolvedKundli, chartContext, {
+              history: nextHistory,
+            })
+          : buildNoKundliResponse(question, {
+              history: nextHistory,
+            });
+
+      setMemory(
+        updateUserAstrologyMemory({
+          chartContext,
+          existingMemory: effectiveIntelligenceContext.memory,
+          history: [...nextHistory, { role: 'pridicta', text: finalText }],
+          kundli: resolvedKundli,
+          preferredLanguage: memory.preferredLanguage,
+        }),
+      );
 
       setMessages(current => [
         ...current,
         {
           id: `pridicta-${Date.now()}`,
           role: 'pridicta',
-          text: guardPredictaResponse({
-            history: nextHistory,
-            intentProfile: intelligenceContext.intentProfile,
-            memory: intelligenceContext.memory,
-            text: payload.text.trim(),
-          }),
+          text: finalText,
         },
       ]);
     } catch {
+      const fallbackText = guardPredictaResponse({
+        history: nextHistory,
+        intentProfile: effectiveIntelligenceContext.intentProfile,
+        memory: effectiveIntelligenceContext.memory,
+        text: resolvedKundli
+          ? buildLocalPredictaFallback(question, resolvedKundli, chartContext, {
+              history: nextHistory,
+            })
+          : buildNoKundliResponse(question, {
+              history: nextHistory,
+            }),
+      });
+      setMemory(
+        updateUserAstrologyMemory({
+          chartContext,
+          existingMemory: effectiveIntelligenceContext.memory,
+          history: [...nextHistory, { role: 'pridicta', text: fallbackText }],
+          kundli: resolvedKundli,
+          preferredLanguage: memory.preferredLanguage,
+        }),
+      );
       setMessages(current => [
         ...current,
         {
           id: `pridicta-${Date.now()}`,
           role: 'pridicta',
-          text: guardPredictaResponse({
-            history: nextHistory,
-            intentProfile: intelligenceContext.intentProfile,
-            memory: intelligenceContext.memory,
-            text: kundli
-              ? buildLocalPredictaFallback(question, kundli, chartContext, {
-                  history: nextHistory,
-                })
-              : buildNoKundliResponse(question, {
-                  history: nextHistory,
-                }),
-          }),
+          text: fallbackText,
         },
       ]);
     } finally {
@@ -198,7 +312,7 @@ export function PredictaChatClient({
           disabled={isSending}
           onChange={event => setInput(event.target.value)}
           placeholder={
-            kundli
+            activeKundli
               ? 'Ask Predicta anything about your chart...'
               : 'Ask a life question or start with your birth details...'
           }
@@ -209,5 +323,15 @@ export function PredictaChatClient({
         </button>
       </form>
     </Card>
+  );
+}
+
+function isBirthDetailOnlyMessage(text: string): boolean {
+  if (/[?]/.test(text)) {
+    return false;
+  }
+
+  return !/\b(finance|financial|career|job|marriage|married|relationship|love|health|remedy|timing|future|chart|kundli|report|dasha|transit|delay|delayed|compatibility)\b/i.test(
+    text,
   );
 }

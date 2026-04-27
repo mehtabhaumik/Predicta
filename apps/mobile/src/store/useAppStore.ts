@@ -516,6 +516,7 @@ export const useAppStore = create<AppState>((set, get) => ({
           activeKundliId: kundli.id,
           birthDetails: kundli.birthDetails,
           birthDetailsComplete: true,
+          kundliReady: true,
           lastChartContext: state.activeChartContext,
           userName: kundli.birthDetails.name,
         },
