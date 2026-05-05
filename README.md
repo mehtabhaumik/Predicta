@@ -75,6 +75,21 @@ native/web adapters stay inside the app that owns that platform.
 
 ---
 
+## Documentation
+
+Start here for the main internal reference surfaces:
+
+- [`docs/PREDICTA_AI_AGENT_INGEST.md`](./docs/PREDICTA_AI_AGENT_INGEST.md)  
+  Detailed source-of-truth brief for AI agents, internal assistants, and
+  documentation tooling. Use this when an agent must understand Predicta’s
+  product scope, differentiators, implementation reality, AI behavior, access
+  rules, and answer guardrails.
+- [`docs/README.md`](./docs/README.md)  
+  Documentation index for backend authority, deployment, release hardening, and
+  product roadmap documents.
+
+---
+
 ## Product Capabilities
 
 ### Mobile App
