@@ -459,7 +459,7 @@ def create_openai_text_response(
     max_output_tokens: int,
     reasoning_effort: str,
 ) -> str:
-    api_key = os.getenv("OPENAI_API_KEY")
+    api_key = os.getenv("OPENAI_API_KEY") or os.getenv("PREDICTA_OPENAI_API_KEY")
 
     if not api_key:
         raise AIConfigurationError("OPENAI_API_KEY is not configured.")
@@ -548,7 +548,11 @@ def create_gemini_text_response(
     user_prompt: str,
     max_output_tokens: int,
 ) -> str:
-    api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_GEMINI_API_KEY")
+    api_key = (
+        os.getenv("GEMINI_API_KEY")
+        or os.getenv("GOOGLE_GEMINI_API_KEY")
+        or os.getenv("PREDICTA_GEMINI_API_KEY")
+    )
 
     if not api_key:
         raise AIConfigurationError("GEMINI_API_KEY is not configured.")

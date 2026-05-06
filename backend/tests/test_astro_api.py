@@ -144,6 +144,65 @@ def test_ask_pridicta_falls_back_to_gemini_when_openai_unavailable(monkeypatch):
     assert payload["model"] == ai_module.GEMINI_FLASH_MODEL
 
 
+def test_ai_provider_keys_accept_predicta_secret_env_names(monkeypatch):
+    captured_headers = []
+
+    class FakeResponse:
+        status_code = 200
+
+        def json(self):
+            return {"output_text": "OpenAI alias works."}
+
+    def fake_post(url, **kwargs):
+        captured_headers.append(kwargs["headers"])
+        return FakeResponse()
+
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    monkeypatch.setenv("PREDICTA_OPENAI_API_KEY", "predicta-openai-key")
+    monkeypatch.setattr(ai_module.httpx, "post", fake_post)
+
+    text = ai_module.create_openai_text_response(
+        model=ai_module.FREE_REASONING_MODEL,
+        system_prompt="system",
+        user_prompt="user",
+        max_output_tokens=20,
+        reasoning_effort="low",
+    )
+
+    assert text == "OpenAI alias works."
+    assert captured_headers[0]["Authorization"] == "Bearer predicta-openai-key"
+
+
+def test_gemini_key_accepts_predicta_secret_env_name(monkeypatch):
+    class FakeResponse:
+        status_code = 200
+
+        def json(self):
+            return {
+                "candidates": [
+                    {"content": {"parts": [{"text": "Gemini alias works."}]}}
+                ]
+            }
+
+    def fake_post(url, **kwargs):
+        assert kwargs["params"]["key"] == "predicta-gemini-key"
+        return FakeResponse()
+
+    monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+    monkeypatch.delenv("GOOGLE_GEMINI_API_KEY", raising=False)
+    monkeypatch.setenv("PREDICTA_GEMINI_API_KEY", "predicta-gemini-key")
+    monkeypatch.setattr(ai_module.httpx, "post", fake_post)
+
+    text = ai_module.create_gemini_text_response(
+        model=ai_module.GEMINI_FLASH_MODEL,
+        system_prompt="system",
+        user_prompt="user",
+        max_output_tokens=20,
+    )
+
+    assert text == "Gemini alias works."
+
+
 def test_ask_pridicta_marks_high_stakes_safety(monkeypatch):
     kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
 

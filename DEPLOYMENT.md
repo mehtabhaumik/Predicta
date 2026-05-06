@@ -36,11 +36,12 @@ PREDICTA_OPENAI_API_KEY
 PREDICTA_GEMINI_API_KEY
 ```
 
-Map them into the runtime environment as:
+The backend accepts either the standard names or the existing Predicta secret
+names directly:
 
 ```text
-PREDICTA_OPENAI_API_KEY -> OPENAI_API_KEY
-PREDICTA_GEMINI_API_KEY -> GEMINI_API_KEY
+OPENAI_API_KEY or PREDICTA_OPENAI_API_KEY
+GEMINI_API_KEY, GOOGLE_GEMINI_API_KEY, or PREDICTA_GEMINI_API_KEY
 ```
 
 Set the Firebase public web variables on the web runtime when auth, Firestore,
