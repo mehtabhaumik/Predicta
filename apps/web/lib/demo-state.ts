@@ -10,7 +10,7 @@ export const demoAuth: AuthState = {
 };
 
 export const demoAdminAuth: AuthState = {
-  email: 'ui.bhaumik@gmail.com',
+  email: 'admin@example.invalid',
   isLoggedIn: true,
   provider: 'google',
   userId: 'admin-web-preview',
@@ -27,13 +27,3 @@ export const demoAdminAccess = resolveAccess({
   auth: demoAdminAuth,
   monetization: demoMonetization,
 });
-
-export const kundliSummary = {
-  birthPlace: 'Mumbai, Maharashtra, India',
-  calculatedAt: 'Swiss Ephemeris contract ready',
-  dasha: 'Saturn / Mercury',
-  lagna: 'Leo',
-  moonSign: 'Taurus',
-  nakshatra: 'Rohini',
-  name: 'Pridicta Seeker',
-};

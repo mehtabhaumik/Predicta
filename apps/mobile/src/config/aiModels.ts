@@ -1,6 +1,6 @@
 export const OPENAI_MODELS = {
   FREE_REASONING: 'gpt-5.4-mini',
-  PREMIUM_DEEP_ANALYSIS: 'gpt-5.2',
+  PREMIUM_DEEP_ANALYSIS: 'gpt-5.5',
 } as const;
 
 export const GEMINI_MODELS = {
@@ -10,8 +10,11 @@ export const GEMINI_MODELS = {
 
 export const AI_ENV_KEYS = {
   OPENAI_API_KEY: 'OPENAI_API_KEY',
-  GOOGLE_GENAI_API_KEY: 'GOOGLE_GENAI_API_KEY',
-  ALLOW_DIRECT_MOBILE_AI: 'PRIDICTA_ALLOW_DIRECT_MOBILE_AI',
+  GEMINI_API_KEY: 'GEMINI_API_KEY',
+  FREE_MODEL: 'PRIDICTA_OPENAI_FREE_MODEL',
+  PREMIUM_MODEL: 'PRIDICTA_OPENAI_PREMIUM_MODEL',
+  GEMINI_FREE_MODEL: 'PRIDICTA_GEMINI_FREE_MODEL',
+  GEMINI_PREMIUM_MODEL: 'PRIDICTA_GEMINI_PREMIUM_MODEL',
 } as const;
 
 export const AI_CONTEXT_LIMITS = {
@@ -20,9 +23,8 @@ export const AI_CONTEXT_LIMITS = {
   PREMIUM_MAX_OUTPUT_TOKENS: 720,
 } as const;
 
-// OpenAI is the primary Pridicta brain because final user-facing astrology
-// guidance needs one consistent persona, reasoning style, and safety posture.
-// Gemini remains isolated as a helper layer for compact formatting or metadata
-// shaping, and must never control Pridicta's final tone.
+// OpenAI is the primary Pridicta brain and Gemini is the server-side fallback.
+// Mobile and web clients consume the same backend AI contract so API keys and
+// final prompt orchestration never live inside client bundles.
 export const AI_PROVIDER_STRATEGY =
-  'OpenAI authoritative response generator; Gemini optional utility helper.';
+  'OpenAI primary backend response generator with Gemini fallback shared by mobile and web.';

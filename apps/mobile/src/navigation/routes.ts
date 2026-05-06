@@ -3,8 +3,17 @@ export const routes = {
   Onboarding: 'Onboarding',
   SecuritySetup: 'SecuritySetup',
   Home: 'Home',
+  BirthTimeDetective: 'BirthTimeDetective',
   Chat: 'Chat',
+  Charts: 'Charts',
+  DecisionOracle: 'DecisionOracle',
+  FamilyKarmaMap: 'FamilyKarmaMap',
   Kundli: 'Kundli',
+  Legal: 'Legal',
+  LifeTimeline: 'LifeTimeline',
+  PredictaWrapped: 'PredictaWrapped',
+  RemedyCoach: 'RemedyCoach',
+  RelationshipMirror: 'RelationshipMirror',
   Report: 'Report',
   SavedKundlis: 'SavedKundlis',
   Paywall: 'Paywall',
@@ -19,8 +28,17 @@ export type RootStackParamList = {
   [routes.Onboarding]: undefined;
   [routes.SecuritySetup]: undefined;
   [routes.Home]: undefined;
+  [routes.BirthTimeDetective]: undefined;
   [routes.Chat]: undefined;
+  [routes.Charts]: undefined;
+  [routes.DecisionOracle]: undefined;
+  [routes.FamilyKarmaMap]: undefined;
   [routes.Kundli]: undefined;
+  [routes.Legal]: undefined;
+  [routes.LifeTimeline]: undefined;
+  [routes.PredictaWrapped]: undefined;
+  [routes.RemedyCoach]: undefined;
+  [routes.RelationshipMirror]: undefined;
   [routes.Report]: undefined;
   [routes.SavedKundlis]: undefined;
   [routes.Paywall]: undefined;

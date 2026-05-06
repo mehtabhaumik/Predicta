@@ -1,7 +1,7 @@
 import {
   getDayPassProduct,
   getRecommendedPricingPlan,
-} from '../src/config/pricing';
+} from '@pridicta/config/pricing';
 import { mockBillingProvider } from '../src/services/billing/mockBillingProvider';
 
 describe('mockBillingProvider', () => {

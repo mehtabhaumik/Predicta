@@ -4,6 +4,7 @@ import { HeroSection } from '../components/HeroSection';
 import { LandingIntroOverlay } from '../components/LandingIntroOverlay';
 import { PremiumSectionWrapper } from '../components/PremiumSectionWrapper';
 import { PricingTeaser } from '../components/PricingTeaser';
+import { WebFooter } from '../components/WebFooter';
 import { WebHeader } from '../components/WebHeader';
 
 const capabilities = [
@@ -120,6 +121,7 @@ export default function LandingPage(): React.JSX.Element {
 
         <FinalCTASection />
       </main>
+      <WebFooter />
     </>
   );
 }

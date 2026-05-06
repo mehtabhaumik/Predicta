@@ -8,32 +8,24 @@ import {
   GlowCard,
   GradientOutlineCard,
   Screen,
+  TrustProofPanel,
   useGlassAlert,
 } from '../components';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
-import { getPremiumPdfProduct } from '../config/pricing';
+import { getPremiumPdfProduct } from '@pridicta/config/pricing';
+import { composeReportSections } from '@pridicta/pdf';
 import { trackAnalyticsEvent } from '../services/analytics/analyticsService';
 import { syncRedeemedGuestPassToUser } from '../services/firebase/passCodePersistence';
 import { generateHoroscopePdf } from '../services/pdf/pdfGenerator';
 import { useAppStore } from '../store/useAppStore';
 import type { PDFMode } from '../types/astrology';
 
-const sections = [
+const fallbackSections = [
   {
-    copy: 'Prioritize decisions that reduce ambiguity before committing new energy.',
-    context: 'Career report',
-    title: 'Career',
-  },
-  {
-    copy: 'A direct conversation lands better than waiting for perfect timing.',
-    context: 'Relationship report',
-    title: 'Relationships',
-  },
-  {
-    copy: 'Keep recovery visible in the calendar so intensity does not become drift.',
-    context: 'Wellbeing report',
-    title: 'Wellbeing',
+    copy: 'Generate a kundli to unlock chart-derived timeline, transit, rectification, and remedy cards.',
+    context: 'Report overview',
+    title: 'Report insights',
   },
 ];
 
@@ -43,6 +35,7 @@ export function ReportScreen({
   const [isGenerating, setIsGenerating] = useState(false);
   const auth = useAppStore(state => state.auth);
   const kundli = useAppStore(state => state.activeKundli);
+  const languagePreference = useAppStore(state => state.languagePreference);
   const userPlan = useAppStore(state => state.userPlan);
   const canGeneratePdf = useAppStore(state => state.canGeneratePdf);
   const consumeGuestPdfQuota = useAppStore(state => state.consumeGuestPdfQuota);
@@ -64,6 +57,14 @@ export function ReportScreen({
     });
     navigation.navigate(routes.Chat);
   }
+
+  const previewMode: PDFMode = userPlan === 'PREMIUM' ? 'PREMIUM' : 'FREE';
+  const reportPreview = composeReportSections({
+    kundli,
+    language: languagePreference.language,
+    mode: previewMode,
+  });
+  const sections = kundli ? reportPreview.sections.slice(0, 6) : fallbackSections;
 
   async function createPdf(mode: PDFMode) {
     if (!kundli) {
@@ -118,7 +119,11 @@ export function ReportScreen({
 
     try {
       setIsGenerating(true);
-      const result = await generateHoroscopePdf({ kundli, mode });
+      const result = await generateHoroscopePdf({
+        kundli,
+        language: languagePreference.language,
+        mode,
+      });
       if (access.source === 'guest_pass' && !access.hasUnrestrictedAppAccess) {
         consumeGuestPdfQuota();
         syncGuestPassUsage(auth.userId);
@@ -168,18 +173,34 @@ export function ReportScreen({
       {glassAlert}
       <AnimatedHeader eyebrow="PERSONAL DOSSIER" title="Daily report" />
 
+      <View className="mt-8">
+        <TrustProofPanel trust={reportPreview.trustProfile} />
+      </View>
+
       <View className="mt-8 gap-4">
         {sections.map((section, index) => (
           <Pressable
             accessibilityRole="button"
             key={section.title}
-            onPress={() => askFromReport(section.context)}
+            onPress={() =>
+              askFromReport(
+                'context' in section
+                  ? section.context
+                  : `${section.title}: ${section.body}`,
+              )
+            }
           >
             <GlowCard delay={120 + index * 80}>
               <AppText variant="subtitle">{section.title}</AppText>
               <AppText className="mt-2" tone="secondary">
-                {section.copy}
+                {'copy' in section ? section.copy : section.body}
               </AppText>
+              {'confidence' in section ? (
+                <AppText className="mt-3" tone="secondary" variant="caption">
+                  {section.tier?.toUpperCase()} · {section.confidence} confidence ·{' '}
+                  {section.evidenceTable?.length ?? 0} evidence rows
+                </AppText>
+              ) : null}
               <AppText className="mt-4" tone="secondary" variant="caption">
                 Ask Pridicta from this section
               </AppText>
@@ -197,7 +218,8 @@ export function ReportScreen({
         </AppText>
         <AppText className="mt-3" tone="secondary">
           Free and Premium reports share the same dark branded design. Premium
-          expands chart depth and interpretation detail.
+          expands evidence tables, decision windows, area intelligence, and
+          advanced chart verification.
         </AppText>
         <View className="mt-5 gap-4">
           <GlowButton

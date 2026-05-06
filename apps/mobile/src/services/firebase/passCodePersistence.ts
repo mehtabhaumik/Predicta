@@ -4,7 +4,7 @@ import type {
   PassRedemptionResult,
   RedeemedGuestPass,
 } from '../../types/access';
-import { hashPassCode, validateGuestPassCode } from '../access/passCodeService';
+import { env } from '../../config/env';
 import {
   accessPassCodeDocument,
   accessPassCodesCollection,
@@ -27,30 +27,43 @@ export async function fetchPassCodeByHash(
 export async function redeemPassCodeWithFirebase(
   request: PassRedemptionRequest,
 ): Promise<PassRedemptionResult> {
-  try {
-    const passCode = await fetchPassCodeByHash(hashPassCode(request.code));
-    const validation = validateGuestPassCode(passCode, request);
+  const backendResult = await redeemPassCodeWithBackend(request);
 
-    if (validation.status !== 'SUCCESS') {
-      return validation;
+  if (backendResult) {
+    return backendResult;
+  }
+
+  return {
+    message:
+      'Guest pass redemption is checked by backend authority. Please try again when the backend is reachable.',
+    status: 'NETWORK_ERROR',
+  };
+}
+
+async function redeemPassCodeWithBackend(
+  request: PassRedemptionRequest,
+): Promise<PassRedemptionResult | undefined> {
+  try {
+    const response = await fetch(
+      `${env.astrologyApiUrl.replace(/\/$/, '')}/access/guest-pass/redeem`,
+      {
+        body: JSON.stringify(request),
+        headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+      },
+    );
+
+    if (!response.ok) {
+      return {
+        message:
+          'Backend guest pass authority is not available. Please try again shortly.',
+        status: 'NETWORK_ERROR',
+      };
     }
 
-    // Production note: a backend transaction or callable function should be the
-    // final authority for redemptions. This client-side path keeps the mobile
-    // app ready while preserving local validation and generic failure behavior.
-    await accessPassCodeDocument(validation.updatedPassCode.codeId).set(
-      validation.updatedPassCode,
-      { merge: true },
-    );
-    await syncRedeemedGuestPassToUser(request.userId, validation.redeemedPass);
-
-    return validation;
+    return (await response.json()) as PassRedemptionResult;
   } catch {
-    return {
-      message:
-        'Guest pass redemption needs an internet connection. Please try again when Firebase is reachable.',
-      status: 'NETWORK_ERROR',
-    };
+    return undefined;
   }
 }
 

@@ -1,10 +1,8 @@
-import { formatPassCode, normalizePassCode } from '@pridicta/access';
 import { Card } from '../../../components/Card';
 import { StatusPill } from '../../../components/StatusPill';
+import { WebRedeemPassForm } from '../../../components/WebRedeemPassForm';
 
 export default function RedeemPassPage(): React.JSX.Element {
-  const example = formatPassCode(normalizePassCode('pridicta vip example'));
-
   return (
     <section className="dashboard-page">
       <div className="page-heading compact">
@@ -16,21 +14,7 @@ export default function RedeemPassPage(): React.JSX.Element {
         </p>
       </div>
       <Card className="glass-panel redeem-card">
-        <div className="card-content spacious">
-          <div className="field-stack">
-            <label className="field-label" htmlFor="pass-code">
-              Pass code
-            </label>
-            <input id="pass-code" placeholder={example} type="text" />
-          </div>
-          <p>
-            If a code cannot be used, Pridicta will explain the next step
-            without exposing private pass details.
-          </p>
-          <button className="button" type="button">
-            Redeem Pass
-          </button>
-        </div>
+        <WebRedeemPassForm />
       </Card>
     </section>
   );

@@ -22,7 +22,9 @@ import type {
   ChartContext,
   ChatMessage,
   KundliData,
+  LanguagePreference,
   SavedKundliRecord,
+  SupportedLanguage,
   UsageState,
   UserPlan,
 } from '../types/astrology';
@@ -85,6 +87,7 @@ type AppState = {
   biometricsEnabled: boolean;
   chatSoundEnabled: boolean;
   conversationsByKundli: Record<string, ChatMessage[]>;
+  languagePreference: LanguagePreference;
   onboardingComplete: boolean;
   monetization: MonetizationState;
   pendingBirthDetailsDraft?: BirthDetailsDraft;
@@ -119,6 +122,7 @@ type AppState = {
   setBiometricsEnabled: (value: boolean) => void;
   setChatSoundEnabled: (value: boolean) => void;
   setEntitlement: (value: EntitlementState) => void;
+  setLanguagePreference: (language: SupportedLanguage) => void;
   setMonetizationState: (value: MonetizationState) => void;
   setOnboardingComplete: (value: boolean) => void;
   setPendingBirthDetailsDraft: (value?: BirthDetailsDraft) => void;
@@ -146,6 +150,10 @@ export const useAppStore = create<AppState>((set, get) => ({
         text: 'Tell me your birth date, birth time, and birth place in your own words. I will verify the details before generating a kundli.',
       },
     ],
+  },
+  languagePreference: {
+    language: 'en',
+    updatedAt: new Date().toISOString(),
   },
   monetization: createInitialMonetizationState(),
   onboardingComplete: false,
@@ -461,6 +469,13 @@ export const useAppStore = create<AppState>((set, get) => ({
         entitlement: value,
       },
       userPlan: value.plan,
+    }),
+  setLanguagePreference: language =>
+    set({
+      languagePreference: {
+        language,
+        updatedAt: new Date().toISOString(),
+      },
     }),
   setMonetizationState: value =>
     set({

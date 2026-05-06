@@ -52,18 +52,17 @@ describe('guest access store integration', () => {
     expect(useAppStore.getState().canAskQuestion()).toBe(false);
   });
 
-  it('gives admin whitelist unrestricted app access', () => {
+  it('does not give unrestricted access from bundled email whitelists', () => {
     useAppStore.getState().setAuth({
-      email: 'ui.bhaumik@gmail.com',
+      email: 'admin@example.invalid',
       isLoggedIn: true,
       provider: 'google',
       userId: 'admin',
     });
 
     const access = useAppStore.getState().getResolvedAccess();
-    expect(access.isAdmin).toBe(true);
-    expect(access.hasUnrestrictedAppAccess).toBe(true);
+    expect(access.isAdmin).toBe(false);
+    expect(access.hasUnrestrictedAppAccess).toBe(false);
     expect(useAppStore.getState().canAskQuestion()).toBe(true);
-    expect(useAppStore.getState().canGeneratePdf()).toBe(true);
   });
 });

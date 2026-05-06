@@ -1,13 +1,18 @@
-import { getOneTimeProducts, getPricingPlans } from '@pridicta/config/pricing';
+import {
+  PREMIUM_FEATURE_STORY,
+  getOneTimeProducts,
+  getPricingPlans,
+} from '@pridicta/config/pricing';
 import Link from 'next/link';
 import { Card } from '../../components/Card';
 import { StatusPill } from '../../components/StatusPill';
+import { WebFooter } from '../../components/WebFooter';
 import { WebHeader } from '../../components/WebHeader';
 
 export default function PricingPage(): React.JSX.Element {
   const plans = getPricingPlans();
   const products = getOneTimeProducts().filter(product =>
-    ['DAY_PASS', 'FIVE_QUESTIONS', 'PREMIUM_PDF'].includes(product.id),
+    ['DAY_PASS', 'PREMIUM_PDF', 'MARRIAGE_COMPATIBILITY_REPORT'].includes(product.id),
   );
 
   return (
@@ -60,10 +65,41 @@ export default function PricingPage(): React.JSX.Element {
             ))}
           </div>
         </section>
+        <section className="premium-feature-story glass-panel">
+          <div>
+            <div className="section-title">PREMIUM STORY</div>
+            <h2>Create your Kundli. Understand your life. Ask better questions. Get beautiful reports.</h2>
+            <p>
+              Premium should feel like a private Jyotish studio, not a token
+              counter. Question packs stay available only as a rescue offer
+              after limits are reached.
+            </p>
+          </div>
+          <div className="premium-feature-grid">
+            {PREMIUM_FEATURE_STORY.map(feature => (
+              <article key={feature.title}>
+                <h3>{feature.title}</h3>
+                <p>{feature.body}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+        <section className="pricing-legal-note">
+          <h2>Clear limits, no fear selling.</h2>
+          <p>
+            Predicta Premium is deeper astrology guidance, not medical, legal,
+            financial, or emergency advice. Subscriptions should be easy to
+            cancel, and one-time reports should be clear before purchase.
+          </p>
+          <Link className="button secondary" href="/legal">
+            Read Policies
+          </Link>
+        </section>
         <Link className="button secondary" href="/">
           Back to Pridicta
         </Link>
       </main>
+      <WebFooter />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { CACHE_CONFIG } from '../../config/cacheConfig';
-import type { AIIntent, ChartContext } from '../../types/astrology';
+import type { AIIntent, ChartContext, SupportedLanguage } from '../../types/astrology';
 
 const RESPONSE_CACHE_KEY = 'pridicta.aiResponseCache.v1';
 
@@ -10,6 +10,7 @@ export type AIResponseCacheInput = {
   calculationInputHash: string;
   chartContext?: ChartContext;
   intent: AIIntent;
+  language?: SupportedLanguage;
   model: string;
   normalizedQuestion: string;
   userId: string;
@@ -35,6 +36,7 @@ export function buildAIResponseCacheKey(input: AIResponseCacheInput): string {
       calculationInputHash: input.calculationInputHash,
       chartContext: input.chartContext ?? null,
       intent: input.intent,
+      language: input.language ?? 'en',
       model: input.model,
       normalizedQuestion: input.normalizedQuestion,
       userId: input.userId,

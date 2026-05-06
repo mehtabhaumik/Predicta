@@ -1,10 +1,6 @@
-import { OPENAI_MODELS } from '../../config/aiModels';
+import { env } from '../../config/env';
 import type { BirthDetailsExtractionResult } from '../../types/astrology';
 import { findBirthPlaceCandidates } from '../location/locationService';
-import {
-  generateOpenAIResponse,
-  isOpenAIConfigured,
-} from './providers/openaiProvider';
 
 const MONTHS: Record<string, string> = {
   apr: '04',
@@ -36,7 +32,7 @@ const MONTHS: Record<string, string> = {
 export async function extractBirthDetailsFromText(
   input: string,
 ): Promise<BirthDetailsExtractionResult> {
-  const aiResult = await extractWithOpenAI(input);
+  const aiResult = await extractWithBackendAI(input);
   const baseResult = aiResult ?? extractWithRules(input);
   const placeText =
     baseResult.extracted.city ?? baseResult.extracted.placeText ?? '';
@@ -67,32 +63,23 @@ export async function extractBirthDetailsFromText(
   return normalizeExtractionResult(baseResult);
 }
 
-async function extractWithOpenAI(
+async function extractWithBackendAI(
   input: string,
 ): Promise<BirthDetailsExtractionResult | null> {
-  if (!isOpenAIConfigured()) {
-    return null;
-  }
+  const response = await fetch(`${env.astrologyApiUrl}/extract-birth-details`, {
+    body: JSON.stringify({ text: input }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+  }).catch(() => null);
 
-  const text = await generateOpenAIResponse({
-    maxOutputTokens: 400,
-    messages: [
-      {
-        content:
-          'Extract Vedic astrology birth details as strict JSON. Do not guess. Date must be YYYY-MM-DD and time HH:mm if clear. Mark AM/PM missing when unclear.',
-        role: 'system',
-      },
-      { content: input, role: 'user' },
-    ],
-    model: OPENAI_MODELS.FREE_REASONING,
-  });
-
-  if (!text) {
+  if (!response?.ok) {
     return null;
   }
 
   try {
-    return JSON.parse(text) as BirthDetailsExtractionResult;
+    return (await response.json()) as BirthDetailsExtractionResult;
   } catch {
     return null;
   }

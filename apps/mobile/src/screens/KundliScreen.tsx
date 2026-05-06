@@ -5,15 +5,21 @@ import {
   AnimatedHeader,
   AppText,
   BirthDetailsForm,
+  DestinyPassportCard,
   GlassPanel,
   GlowButton,
   GlowCard,
   GradientOutlineCard,
   KundliChart,
+  type KundliChartFocus,
   Screen,
   useGlassAlert,
 } from '../components';
-import { CHART_REGISTRY, getChartConfig } from '../data/chartRegistry';
+import {
+  CHART_REGISTRY,
+  composeDestinyPassport,
+  getChartConfig,
+} from '@pridicta/astrology';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import { generateKundli } from '../services/astrology/astroEngine';
@@ -31,6 +37,9 @@ export function KundliScreen({
   navigation,
 }: RootScreenProps<typeof routes.Kundli>): React.JSX.Element {
   const [birthDetails, setBirthDetails] = useState<BirthDetails | null>(null);
+  const [chartFocusByType, setChartFocusByType] = useState<
+    Partial<Record<ChartType, KundliChartFocus>>
+  >({});
   const [generating, setGenerating] = useState(false);
   const [showAllCharts, setShowAllCharts] = useState(false);
   const kundli = useAppStore(state => state.activeKundli);
@@ -51,22 +60,32 @@ export function KundliScreen({
       showAllCharts ? CHART_REGISTRY.map(chart => chart.id) : visibleCharts,
     [showAllCharts],
   );
+  const destinyPassport = composeDestinyPassport(kundli);
 
   const handleBirthDetailsChange = useCallback(
     (value: BirthDetails | null) => setBirthDetails(value),
     [],
   );
 
-  function askFromChart(chartType: ChartType) {
+  function askFromChart(chartType: ChartType, focus?: KundliChartFocus) {
     const chartConfig = getChartConfig(chartType);
 
     setActiveChartContext({
       chartName: chartConfig.name,
       chartType,
       purpose: chartConfig.purpose,
+      selectedHouse: focus?.house,
+      selectedPlanet: focus?.planet,
       sourceScreen: 'Kundli',
     });
     navigation.navigate(routes.Chat);
+  }
+
+  function updateChartFocus(chartType: ChartType, focus: KundliChartFocus) {
+    setChartFocusByType(current => ({
+      ...current,
+      [chartType]: focus,
+    }));
   }
 
   async function calculate() {
@@ -138,13 +157,13 @@ export function KundliScreen({
   return (
     <Screen>
       {glassAlert}
-      <AnimatedHeader eyebrow="REAL VEDIC ENGINE" title="Kundli profile" />
+      <AnimatedHeader eyebrow="STEP 1" title="Create your Kundli" />
 
       <GlassPanel className="mt-7" delay={100}>
-        <AppText variant="subtitle">Generate real kundli</AppText>
+        <AppText variant="subtitle">Enter birth details in order</AppText>
         <AppText className="mt-2" tone="secondary">
-          Pridicta calculates only after your birth date, birth time, birth
-          place, and timezone are verified.
+          Fill date, time, and place. Predicta handles the calculation details
+          quietly after you confirm.
         </AppText>
         {pendingBirthDetailsDraft ? (
           <AppText className="mt-3" tone="secondary">
@@ -169,16 +188,32 @@ export function KundliScreen({
 
       {kundli ? (
         <>
+          <View className="mt-7">
+            <DestinyPassportCard passport={destinyPassport} />
+          </View>
+
+          <View className="mt-5">
+            <GlowButton
+              label="Open Life Timeline"
+              onPress={() => navigation.navigate(routes.LifeTimeline)}
+            />
+          </View>
+
           <GlassPanel className="mt-7" delay={160}>
-            <AppText variant="subtitle">{kundli.birthDetails.name}</AppText>
-            <AppText className="mt-2" tone="secondary">
-              {kundli.birthDetails.date} at {kundli.birthDetails.time}
+            <AppText tone="secondary" variant="caption">
+              STEP 2 · SIMPLE SUMMARY
             </AppText>
-            <AppText tone="secondary">{kundli.birthDetails.place}</AppText>
+            <AppText className="mt-1" variant="subtitle">
+              {kundli.birthDetails.name}'s kundli is ready
+            </AppText>
+            <AppText className="mt-2" tone="secondary">
+              Rising sign means starting style. Moon sign means emotional
+              pattern. Dasha means current life chapter.
+            </AppText>
             <View className="mt-5 flex-row gap-3">
               <View className="flex-1">
                 <AppText tone="secondary" variant="caption">
-                  Lagna
+                  Rising sign
                 </AppText>
                 <AppText className="mt-1" variant="subtitle">
                   {kundli.lagna}
@@ -186,19 +221,24 @@ export function KundliScreen({
               </View>
               <View className="flex-1">
                 <AppText tone="secondary" variant="caption">
-                  Nakshatra
+                  Birth star
                 </AppText>
                 <AppText className="mt-1" variant="subtitle">
                   {kundli.nakshatra}
                 </AppText>
               </View>
             </View>
+            <AppText className="mt-4" tone="secondary" variant="caption">
+              {kundli.birthDetails.date} at {kundli.birthDetails.time} ·{' '}
+              {kundli.birthDetails.place}
+            </AppText>
           </GlassPanel>
 
           <View className="mt-7 gap-4">
             {chartList.map((chartType, index) => {
               const chartConfig = getChartConfig(chartType);
               const chart = kundli.charts[chartType];
+              const focus = chartFocusByType[chartType];
 
               return (
                 <GlowCard key={chartType} delay={220 + index * 50}>
@@ -209,12 +249,25 @@ export function KundliScreen({
                     {chartConfig.purpose}
                   </AppText>
                   <View className="mt-4">
-                    <KundliChart chart={chart} />
+                    <KundliChart
+                      chart={chart}
+                      onFocusChange={nextFocus =>
+                        updateChartFocus(chartType, nextFocus)
+                      }
+                      selectedHouse={focus?.house}
+                      selectedPlanet={focus?.planet}
+                    />
                   </View>
                   <View className="mt-5">
                     <GlowButton
-                      label={`Ask Pridicta about ${chartType}`}
-                      onPress={() => askFromChart(chartType)}
+                      label={
+                        focus?.planet
+                          ? `Ask about ${focus.planet} in ${chartType}`
+                          : focus?.house
+                            ? `Ask about House ${focus.house} in ${chartType}`
+                            : `Ask Pridicta about ${chartType}`
+                      }
+                      onPress={() => askFromChart(chartType, focus)}
                     />
                   </View>
                 </GlowCard>

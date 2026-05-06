@@ -5,7 +5,7 @@ import {
   getPricingPlans,
   getRecommendedPricingPlan,
   getPremiumPdfProduct,
-} from '../src/config/pricing';
+} from '@pridicta/config/pricing';
 
 describe('pricing config', () => {
   it('formats INR and exposes recommended founder yearly plan', () => {

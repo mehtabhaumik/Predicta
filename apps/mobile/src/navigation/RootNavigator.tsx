@@ -9,13 +9,22 @@ import React from 'react';
 import { canSeeAdminRoute, resolveAccess } from '@pridicta/access';
 import { useAppStore } from '../store/useAppStore';
 import { AdminAccessScreen } from '../screens/AdminAccessScreen';
+import { BirthTimeDetectiveScreen } from '../screens/BirthTimeDetectiveScreen';
 import { ChatScreen } from '../screens/ChatScreen';
+import { ChartsScreen } from '../screens/ChartsScreen';
+import { DecisionOracleScreen } from '../screens/DecisionOracleScreen';
+import { FamilyKarmaMapScreen } from '../screens/FamilyKarmaMapScreen';
 import { HomeScreen } from '../screens/HomeScreen';
 import { KundliScreen } from '../screens/KundliScreen';
+import { LegalScreen } from '../screens/LegalScreen';
+import { LifeTimelineScreen } from '../screens/LifeTimelineScreen';
 import { LoginScreen } from '../screens/LoginScreen';
 import { OnboardingScreen } from '../screens/OnboardingScreen';
 import { PaywallScreen } from '../screens/PaywallScreen';
+import { PredictaWrappedScreen } from '../screens/PredictaWrappedScreen';
 import { RedeemPassCodeScreen } from '../screens/RedeemPassCodeScreen';
+import { RemedyCoachScreen } from '../screens/RemedyCoachScreen';
+import { RelationshipMirrorScreen } from '../screens/RelationshipMirrorScreen';
 import { ReportScreen } from '../screens/ReportScreen';
 import { SavedKundlisScreen } from '../screens/SavedKundlisScreen';
 import { SecuritySetupScreen } from '../screens/SecuritySetupScreen';
@@ -82,14 +91,59 @@ export function RootNavigator(): React.JSX.Element {
           options={{ headerShown: false }}
         />
         <Stack.Screen
+          name={routes.BirthTimeDetective}
+          component={BirthTimeDetectiveScreen}
+          options={{ title: 'Birth Time Detective' }}
+        />
+        <Stack.Screen
           name={routes.Chat}
           component={ChatScreen}
           options={{ title: 'Chat' }}
         />
         <Stack.Screen
+          name={routes.Charts}
+          component={ChartsScreen}
+          options={{ title: 'Charts' }}
+        />
+        <Stack.Screen
+          name={routes.DecisionOracle}
+          component={DecisionOracleScreen}
+          options={{ title: 'Decision Oracle' }}
+        />
+        <Stack.Screen
+          name={routes.FamilyKarmaMap}
+          component={FamilyKarmaMapScreen}
+          options={{ title: 'Family Karma Map' }}
+        />
+        <Stack.Screen
           name={routes.Kundli}
           component={KundliScreen}
           options={{ title: 'Kundli' }}
+        />
+        <Stack.Screen
+          name={routes.Legal}
+          component={LegalScreen}
+          options={{ title: 'Legal' }}
+        />
+        <Stack.Screen
+          name={routes.LifeTimeline}
+          component={LifeTimelineScreen}
+          options={{ title: 'Life Timeline' }}
+        />
+        <Stack.Screen
+          name={routes.PredictaWrapped}
+          component={PredictaWrappedScreen}
+          options={{ title: 'Predicta Wrapped' }}
+        />
+        <Stack.Screen
+          name={routes.RemedyCoach}
+          component={RemedyCoachScreen}
+          options={{ title: 'Remedy Coach' }}
+        />
+        <Stack.Screen
+          name={routes.RelationshipMirror}
+          component={RelationshipMirrorScreen}
+          options={{ title: 'Relationship Mirror' }}
         />
         <Stack.Screen
           name={routes.Report}

@@ -33,28 +33,27 @@ function guestPass(): RedeemedGuestPass {
 }
 
 describe('access resolver', () => {
-  it('resolves admin whitelist before any other access', () => {
+  it('does not expose admin authority through bundled email whitelists', () => {
     const result = resolveAccess({
       auth: { email: 'UI.BHAUMIK@gmail.com', userId: 'admin' },
       monetization: monetization(),
-      redeemedGuestPass: guestPass(),
     });
 
-    expect(result.accessLevel).toBe('ADMIN');
-    expect(result.isAdmin).toBe(true);
-    expect(result.hasUnrestrictedAppAccess).toBe(true);
-    expect(canSeeAdminRoute(result)).toBe(true);
+    expect(result.accessLevel).toBe('FREE');
+    expect(result.isAdmin).toBe(false);
+    expect(result.hasUnrestrictedAppAccess).toBe(false);
+    expect(canSeeAdminRoute(result)).toBe(false);
   });
 
-  it('resolves full access whitelist without admin tools', () => {
+  it('does not expose full-access authority through bundled email whitelists', () => {
     const result = resolveAccess({
-      auth: { email: 'sonalimehta.shilpan@gmail.com', userId: 'full' },
+      auth: { email: 'full-access@example.invalid', userId: 'full' },
       monetization: monetization(),
     });
 
-    expect(result.accessLevel).toBe('FULL_ACCESS');
+    expect(result.accessLevel).toBe('FREE');
     expect(result.isAdmin).toBe(false);
-    expect(result.hasPremiumAccess).toBe(true);
+    expect(result.hasPremiumAccess).toBe(false);
     expect(canSeeAdminRoute(result)).toBe(false);
   });
 

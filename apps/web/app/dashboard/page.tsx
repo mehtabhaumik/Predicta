@@ -1,8 +1,12 @@
 import Link from 'next/link';
+import { PREDICTA_JOURNEY_STEPS } from '@pridicta/config/predictaUx';
 import { buildUsageDisplay } from '@pridicta/monetization';
-import { Card, MetricCard } from '../../components/Card';
+import { composeDailyBriefing, composeDestinyPassport } from '@pridicta/astrology';
+import { Card } from '../../components/Card';
 import { StatusPill } from '../../components/StatusPill';
-import { demoAccess, demoMonetization, kundliSummary } from '../../lib/demo-state';
+import { WebDailyBriefingCard } from '../../components/WebDailyBriefingCard';
+import { WebDestinyPassportCard } from '../../components/WebDestinyPassportCard';
+import { demoAccess, demoMonetization } from '../../lib/demo-state';
 
 export default function DashboardPage(): React.JSX.Element {
   const usage = buildUsageDisplay({
@@ -17,51 +21,94 @@ export default function DashboardPage(): React.JSX.Element {
     },
     userPlan: 'FREE',
   });
+  const dailyBriefing = composeDailyBriefing();
+  const destinyPassport = composeDestinyPassport();
 
   return (
     <section className="dashboard-page">
       <div className="page-heading">
         <StatusPill label={usage.statusText} tone="quiet" />
-        <h1 className="gradient-text">Welcome back to Pridicta.</h1>
+        <h1 className="gradient-text">Start with your Kundli.</h1>
         <p>
-          A quiet command center for kundli work, chart-aware chat, saved
-          profiles, reports, cloud sync, and access status.
+          Predicta works best in a simple order: create the chart, read the
+          simple summary, then ask one question. Advanced tools are still here,
+          but they no longer come before the basics.
         </p>
       </div>
 
-      <div className="metric-row">
-        <MetricCard
-          detail={usage.questionsText}
-          label="Access"
-          value={usage.statusText}
-        />
-        <MetricCard
-          detail={kundliSummary.birthPlace}
-          label="Birth Profile"
-          value={kundliSummary.name}
-        />
-        <MetricCard
-          detail={kundliSummary.nakshatra}
-          label="Moon + Dasha"
-          value={kundliSummary.dasha}
-        />
+      <div className="guided-journey-grid">
+        {PREDICTA_JOURNEY_STEPS.map((step, index) => (
+          <Card className={index === 0 ? 'glass-panel guided-step primary' : 'guided-step'} key={step.id}>
+            <div className="card-content">
+              <div className="section-title">{step.title}</div>
+              <h2>{step.action}</h2>
+              <p>{step.body}</p>
+              <Link
+                className={index === 0 ? 'button' : 'button secondary'}
+                href={
+                  step.id === 'create'
+                    ? '/dashboard/kundli'
+                    : step.id === 'summary'
+                      ? '/dashboard/kundli'
+                      : '/dashboard/chat'
+                }
+              >
+                {step.action}
+              </Link>
+            </div>
+          </Card>
+        ))}
       </div>
+
+      <WebDailyBriefingCard
+        briefing={dailyBriefing}
+        ctaHref="/dashboard/kundli"
+      />
+
+      <WebDestinyPassportCard
+        ctaHref="/dashboard/kundli"
+        passport={destinyPassport}
+      />
 
       <div className="dashboard-feature-grid">
         <Card className="glass-panel feature-card-large">
           <div className="card-content spacious">
-            <div className="section-title">SHORTCUTS</div>
-            <h2>Continue from the right place.</h2>
+            <div className="section-title">TOOLS</div>
+            <h2>Pick one clear job.</h2>
             <p>
-              Open chart-aware chat, review saved kundlis, or generate a
-              premium-looking report whenever you are ready.
+              After your Kundli is ready, use these tools by intent. You do not
+              need to understand chart jargon first.
             </p>
             <div className="action-row">
-              <Link className="button" href="/dashboard/chat">
-                Ask Pridicta
+              <Link className="button" href="/dashboard/kundli">
+                Create Kundli
+              </Link>
+              <Link className="button secondary" href="/dashboard/chat">
+                Ask a Question
+              </Link>
+              <Link className="button secondary" href="/dashboard/decision">
+                Make a Decision
               </Link>
               <Link className="button secondary" href="/dashboard/charts">
-                Browse Charts
+                See Chart
+              </Link>
+              <Link className="button secondary" href="/dashboard/timeline">
+                Open Timeline
+              </Link>
+              <Link className="button secondary" href="/dashboard/remedies">
+                Remedy Coach
+              </Link>
+              <Link className="button secondary" href="/dashboard/birth-time">
+                Birth Time
+              </Link>
+              <Link className="button secondary" href="/dashboard/relationship">
+                Relationship
+              </Link>
+              <Link className="button secondary" href="/dashboard/family">
+                Family Map
+              </Link>
+              <Link className="button secondary" href="/dashboard/wrapped">
+                Wrapped
               </Link>
               <Link className="button secondary" href="/dashboard/report">
                 Open Report

@@ -8,12 +8,21 @@ import { canSeeAdminRoute } from '@pridicta/access';
 import type { ResolvedAccess } from '@pridicta/types';
 import { StatusPill } from './StatusPill';
 import { SidebarNav, type SidebarItem } from './SidebarNav';
+import { WebFooter } from './WebFooter';
+import { WebLanguageSelector } from './WebLanguageSelector';
 
 const links: SidebarItem[] = [
   { href: '/dashboard', label: 'Overview' },
   { href: '/dashboard/chat', label: 'Chat' },
+  { href: '/dashboard/decision', label: 'Decision' },
   { href: '/dashboard/kundli', label: 'Kundli' },
   { href: '/dashboard/charts', label: 'Charts' },
+  { href: '/dashboard/timeline', label: 'Timeline' },
+  { href: '/dashboard/remedies', label: 'Remedies' },
+  { href: '/dashboard/birth-time', label: 'Birth Time' },
+  { href: '/dashboard/relationship', label: 'Relationship' },
+  { href: '/dashboard/family', label: 'Family' },
+  { href: '/dashboard/wrapped', label: 'Wrapped' },
   { href: '/dashboard/report', label: 'Report' },
   { href: '/dashboard/saved-kundlis', label: 'Saved Kundlis' },
   { href: '/dashboard/redeem-pass', label: 'Redeem Pass' },
@@ -43,9 +52,12 @@ export function DashboardShell({
             />
             <p>Spacious guidance, reports, charts, and saved kundlis.</p>
           </div>
-          <Link className="button secondary" href="/dashboard/chat">
-            Ask Pridicta
-          </Link>
+          <div className="dashboard-topbar-actions">
+            <WebLanguageSelector compact />
+            <Link className="button secondary" href="/dashboard/chat">
+              Ask Pridicta
+            </Link>
+          </div>
         </div>
         <motion.div
           key={pathname}
@@ -55,6 +67,7 @@ export function DashboardShell({
         >
           {children}
         </motion.div>
+        <WebFooter className="dashboard-footer" />
       </main>
     </div>
   );

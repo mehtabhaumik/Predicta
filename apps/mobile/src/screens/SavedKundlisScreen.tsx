@@ -77,8 +77,20 @@ export function SavedKundlisScreen({
         Kundlis are saved locally first. Cloud sync happens only when you choose
         it.
       </AppText>
+      <GlowCard className="mt-6">
+        <AppText tone="secondary" variant="caption">
+          FAMILY VAULT
+        </AppText>
+        <AppText className="mt-2" variant="subtitle">
+          Multiple Kundlis, one household library
+        </AppText>
+        <AppText className="mt-2" tone="secondary">
+          Premium Family Vault should let the account owner invite family
+          members and decide who can chat with each saved profile.
+        </AppText>
+      </GlowCard>
 
-      <View className="mt-7 gap-4">
+      <View className="mt-6 gap-4">
         {savedKundlis.length === 0 ? (
           <GlowCard>
             <AppText variant="subtitle">No saved kundlis yet</AppText>

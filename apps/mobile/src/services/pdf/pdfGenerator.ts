@@ -1,8 +1,14 @@
 import { Image } from 'react-native';
+import {
+  composeReportSections,
+  type PdfComposition,
+  type PdfDecisionWindow,
+  type PdfEvidenceRow,
+  type PdfSection,
+} from '@pridicta/pdf';
 
-import { CHART_REGISTRY } from '../../data/chartRegistry';
 import { colors } from '../../theme/colors';
-import type { KundliData, PDFMode } from '../../types/astrology';
+import type { KundliData, PDFMode, SupportedLanguage } from '../../types/astrology';
 
 const predictaLogo = require('../../assets/predicta-logo.png');
 
@@ -14,6 +20,7 @@ export type HoroscopePdfResult = {
 
 type GenerateHoroscopePdfInput = {
   kundli: KundliData;
+  language?: SupportedLanguage;
   mode: PDFMode;
 };
 
@@ -50,99 +57,153 @@ function footer(): string {
   `;
 }
 
-function chartBody(kundli: KundliData, chartType: 'D1' | 'D9' | 'D10'): string {
-  const config = CHART_REGISTRY.find(chart => chart.id === chartType);
-  const chart = kundli.charts[chartType];
-
-  if (!chart.supported) {
-    return `
-      <div class="card">
-        <div class="eyebrow">${chartType} • ${escapeHtml(
-      config?.name ?? chartType,
-    )}</div>
-        <h3>Chart not enabled</h3>
-        <p>${escapeHtml(
-          chart.unsupportedReason ??
-            'This chart is not available in this report.',
-        )}</p>
-      </div>
-    `;
-  }
-
+function reportSectionBody(reportSection: PdfSection): string {
   return `
     <div class="card">
-      <div class="eyebrow">${chartType} • ${escapeHtml(
-    config?.name ?? chartType,
-  )}</div>
-      <h3>${escapeHtml(config?.purpose ?? chart.name)}</h3>
-      <p>Ascendant: <strong>${escapeHtml(chart.ascendantSign)}</strong></p>
-      <ul>${Object.entries(chart.housePlacements)
-        .filter(([, planets]) => planets.length)
-        .map(
-          ([house, planets]) =>
-            `<li>House ${house}: ${escapeHtml(planets.join(', '))}</li>`,
-        )
-        .join('')}</ul>
+      <div class="section-meta">
+        <div class="eyebrow">${escapeHtml(reportSection.eyebrow)}</div>
+        <span>${escapeHtml(reportSection.tier ?? 'free')} · ${escapeHtml(reportSection.confidence ?? 'medium')} confidence</span>
+      </div>
+      <p>${escapeHtml(reportSection.body)}</p>
+      ${
+        reportSection.bullets.length
+          ? `<ul>${reportSection.bullets
+              .map(item => `<li>${escapeHtml(item)}</li>`)
+              .join('')}</ul>`
+          : ''
+      }
+      ${
+        reportSection.evidence.length
+          ? `<div class="evidence"><h3>Chart evidence</h3><ul>${reportSection.evidence
+              .map(item => `<li>${escapeHtml(item)}</li>`)
+              .join('')}</ul></div>`
+          : ''
+      }
+      ${reportSection.evidenceTable?.length ? evidenceTable(reportSection.evidenceTable) : ''}
+      ${reportSection.decisionWindows?.length ? decisionWindows(reportSection.decisionWindows) : ''}
     </div>
   `;
 }
 
-function planetaryRows(kundli: KundliData, mode: PDFMode): string {
-  const limit = mode === 'FREE' ? 6 : kundli.planets.length;
-
-  return kundli.planets
-    .slice(0, limit)
-    .map(
-      planet => `
-        <tr>
-          <td>${escapeHtml(planet.name)}</td>
-          <td>${escapeHtml(planet.sign)}</td>
-          <td>${planet.house}</td>
-          <td>${escapeHtml(planet.nakshatra)}</td>
-          <td>${planet.degree.toFixed(2)}° ${planet.retrograde ? 'R' : ''}</td>
-        </tr>
-      `,
-    )
-    .join('');
+function evidenceTable(rows: PdfEvidenceRow[]): string {
+  return `
+    <div class="evidence-table">
+      <h3>Evidence table</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Factor</th>
+            <th>Observation</th>
+            <th>Confidence</th>
+            <th>Implication</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows
+            .map(
+              row => `
+                <tr>
+                  <td>${escapeHtml(row.factor)}</td>
+                  <td>${escapeHtml(row.observation)}</td>
+                  <td>${escapeHtml(row.confidence)}</td>
+                  <td>${escapeHtml(row.implication)}</td>
+                </tr>
+              `,
+            )
+            .join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
 }
 
-function predictions(kundli: KundliData, mode: PDFMode): string {
-  const premiumDepth =
-    mode === 'PREMIUM'
-      ? '<p>The premium reading also weaves D2, D4, D7, D12, D16, D20, D24, D30, D40, D45, and D60 signals to separate temporary pressure from deeper karmic texture.</p>'
-      : '<p>The full report expands this into advanced divisional chart insights while keeping the same premium visual quality.</p>';
+function decisionWindows(windows: PdfDecisionWindow[]): string {
+  return `
+    <div class="decision-windows">
+      <h3>Decision windows</h3>
+      ${windows
+        .map(
+          item => `
+            <div class="window">
+              <strong>${escapeHtml(item.label)}</strong>
+              <span>${escapeHtml(item.window)} · ${escapeHtml(item.confidence)} confidence</span>
+              <p>${escapeHtml(item.guidance)}</p>
+              <ul>${item.evidence.map(line => `<li>${escapeHtml(line)}</li>`).join('')}</ul>
+            </div>
+          `,
+        )
+        .join('')}
+    </div>
+  `;
+}
+
+function executiveSummary(report: PdfComposition): string {
+  return `
+    <section class="page">
+      <div class="page-header">
+        <span>PRIDICTA DOSSIER 2.0</span>
+        <span>${escapeHtml(report.mode)}</span>
+      </div>
+      <h2>Executive intelligence summary</h2>
+      <div class="card hero-card">
+        <div class="section-meta">
+          <div class="eyebrow">EXECUTIVE SUMMARY</div>
+          <span>${escapeHtml(report.executiveSummary.confidence)} confidence</span>
+        </div>
+        <h3>${escapeHtml(report.executiveSummary.headline)}</h3>
+        <ul>
+          ${report.executiveSummary.keySignals
+            .map(signal => `<li>${escapeHtml(signal)}</li>`)
+            .join('')}
+        </ul>
+      </div>
+      ${footer()}
+    </section>
+  `;
+}
+
+function trustPanel(report: PdfComposition): string {
+  const trust = report.trustProfile;
 
   return `
-    <div class="card">
-      <p>The current ${escapeHtml(
-        `${kundli.dasha.current.mahadasha} Mahadasha and ${kundli.dasha.current.antardasha} Antardasha`,
-      )} period favors mature commitments, patient wealth-building, and deliberate professional visibility.</p>
-      <p>The strongest support appears around houses ${kundli.ashtakavarga.strongestHouses.join(
-        ', ',
-      )}, which points toward self-led effort, public contribution, and helpful networks.</p>
-      <p>Over the next cycle, Pridicta would guide you to reduce emotional overextension, protect sleep and clarity, and say yes only to paths that strengthen dignity.</p>
-      ${premiumDepth}
-    </div>
+    <section class="page">
+      <div class="page-header">
+        <span>PRIDICTA TRUST LAYER</span>
+        <span>${escapeHtml(trust.confidenceLabel)}</span>
+      </div>
+      <h2>Trust, safety, and proof</h2>
+      <div class="card hero-card">
+        <div class="section-meta">
+          <div class="eyebrow">WHAT PREDICTA KNOWS</div>
+          <span>${escapeHtml(trust.confidenceLabel)}</span>
+        </div>
+        <h3>${escapeHtml(trust.summary)}</h3>
+        <p>${escapeHtml(trust.safetyNotes.join(' '))}</p>
+      </div>
+      <div class="card">
+        <div class="eyebrow">Evidence used</div>
+        <ul>${trust.evidence.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
+      </div>
+      <div class="card">
+        <div class="eyebrow">Limitations</div>
+        <ul>${trust.limitations.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
+      </div>
+      <div class="card">
+        <div class="eyebrow">Audit trace</div>
+        <ul>${trust.auditTrace.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
+      </div>
+      ${footer()}
+    </section>
   `;
 }
 
 export function buildHoroscopePdfHtml({
   kundli,
+  language = 'en',
   mode,
 }: GenerateHoroscopePdfInput): string {
   const logoUri = Image.resolveAssetSource(predictaLogo).uri;
-  const advancedCharts =
-    mode === 'PREMIUM'
-      ? CHART_REGISTRY.filter(chart => chart.category === 'advanced')
-          .slice(0, 8)
-          .map(
-            chart =>
-              `<li>${chart.id} ${escapeHtml(chart.name)}: ${escapeHtml(
-                chart.purpose,
-              )}</li>`,
-          )
-          .join('')
-      : '<li>Advanced chart coverage is reserved for the full-depth report.</li>';
+  const report = composeReportSections({ kundli, language, mode });
 
   return `
     <!doctype html>
@@ -236,6 +297,27 @@ export function buildHoroscopePdfHtml({
             letter-spacing: 2px;
             text-transform: uppercase;
           }
+          .section-meta {
+            align-items: center;
+            display: flex;
+            gap: 12px;
+            justify-content: space-between;
+            margin-bottom: 12px;
+          }
+          .section-meta span {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 999px;
+            color: ${colors.primaryText};
+            font-size: 11px;
+            font-weight: 800;
+            padding: 7px 10px;
+            text-transform: uppercase;
+          }
+          .hero-card h3 {
+            font-size: 24px;
+            margin-top: 0;
+          }
           .page-header {
             align-items: center;
             border-bottom: 1px solid rgba(255,255,255,0.08);
@@ -260,6 +342,34 @@ export function buildHoroscopePdfHtml({
             border-top: 1px solid rgba(255,255,255,0.08);
             padding: 12px;
           }
+          .evidence {
+            background: rgba(77,175,255,0.07);
+            border: 1px solid rgba(77,175,255,0.18);
+            border-radius: 14px;
+            margin-top: 18px;
+            padding: 16px;
+          }
+          .evidence h3 {
+            font-size: 15px;
+            margin: 0 0 8px;
+          }
+          .evidence-table,
+          .decision-windows {
+            margin-top: 18px;
+          }
+          .decision-windows .window {
+            background: rgba(255,255,255,0.045);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            margin-top: 10px;
+            padding: 14px;
+          }
+          .decision-windows .window span {
+            color: ${colors.secondaryText};
+            display: block;
+            font-size: 12px;
+            margin-top: 4px;
+          }
           footer {
             border-top: 1px solid rgba(255,255,255,0.08);
             bottom: 34px;
@@ -280,86 +390,18 @@ export function buildHoroscopePdfHtml({
           <div>
             <img class="logo" src="${logoUri}" />
             <h1 class="gradient-text">PRIDICTA</h1>
-            <p>Personal Vedic Astrology Dossier for ${escapeHtml(
-              kundli.birthDetails.name,
-            )}</p>
-            <p>${escapeHtml(kundli.birthDetails.date)} • ${escapeHtml(
-    kundli.birthDetails.time,
-  )} • ${escapeHtml(kundli.birthDetails.place)}</p>
+            <p>${escapeHtml(report.cover.subtitle)}</p>
+            <p>${report.cover.metadata.map(escapeHtml).join(' • ')}</p>
           </div>
           ${footer()}
         </section>
-        ${section(
-          'Introduction',
-          `<div class="card"><p>This dossier reads your kundli with a calm Jyotish lens, joining classical chart logic with clear modern language. The aim is not fear or certainty, but grounded timing, self-knowledge, and wiser action under Mahadev's quiet grace.</p></div>`,
-        )}
-        ${section(
-          'Birth Details',
-          `<div class="card"><p>Name: <strong>${escapeHtml(
-            kundli.birthDetails.name,
-          )}</strong></p><p>Date: <strong>${escapeHtml(
-            kundli.birthDetails.date,
-          )}</strong></p><p>Time: <strong>${escapeHtml(
-            kundli.birthDetails.time,
-          )}</strong></p><p>Place: <strong>${escapeHtml(
-            kundli.birthDetails.place,
-          )}</strong></p><p>Lagna: <strong>${
-            kundli.lagna
-          }</strong> • Moon: <strong>${
-            kundli.moonSign
-          }</strong> • Nakshatra: <strong>${
-            kundli.nakshatra
-          }</strong></p></div>`,
-        )}
-        ${section('D1 Chart', chartBody(kundli, 'D1'))}
-        ${section('D9 Chart', chartBody(kundli, 'D9'))}
-        ${section('D10 Chart', chartBody(kundli, 'D10'))}
-        ${section(
-          'Planetary Positions',
-          `<div class="card"><table><thead><tr><th>Planet</th><th>Sign</th><th>House</th><th>Nakshatra</th><th>Condition</th></tr></thead><tbody>${planetaryRows(
-            kundli,
-            mode,
-          )}</tbody></table></div>`,
-        )}
-        ${section(
-          'Yogas',
-          `<div class="card"><ul>${kundli.yogas
-            .slice(0, mode === 'FREE' ? 3 : kundli.yogas.length)
-            .map(
-              yoga =>
-                `<li><strong>${escapeHtml(yoga.name)}</strong> (${
-                  yoga.strength
-                }): ${escapeHtml(yoga.meaning)}</li>`,
-            )
-            .join('')}</ul></div>`,
-        )}
-        ${section(
-          'Ashtakavarga',
-          `<div class="card"><p>Total bindus: <strong>${
-            kundli.ashtakavarga.totalScore
-          }</strong></p><p>Strongest houses: <strong>${kundli.ashtakavarga.strongestHouses.join(
-            ', ',
-          )}</strong></p><p>Weakest houses: <strong>${kundli.ashtakavarga.weakestHouses.join(
-            ', ',
-          )}</strong></p></div>`,
-        )}
-        ${section(
-          'Current Dasha',
-          `<div class="card"><p><strong>${escapeHtml(
-            `${kundli.dasha.current.mahadasha} Mahadasha - ${kundli.dasha.current.antardasha} Antardasha`,
-          )}</strong></p><p>${escapeHtml(
-            kundli.dasha.current.startDate,
-          )} to ${escapeHtml(kundli.dasha.current.endDate)}</p></div>`,
-        )}
-        ${section('Predictions', predictions(kundli, mode))}
-        ${section(
-          'Guidance / Remedies',
-          `<div class="card"><p>Keep a steady Saturday discipline, simplify commitments, and offer a quiet prayer to Mahadev before major decisions. For this chart, remedies work best when they create consistency rather than emotional urgency.</p><ul><li>Journal one practical decision every Monday morning.</li><li>Keep financial promises small, written, and trackable.</li><li>Use mantra, silence, or breathwork to settle Moon-driven intensity before conversations.</li></ul></div>`,
-        )}
-        ${section(
-          'Closing Note',
-          `<div class="card"><p>Your kundli is not a cage. It is a map of tendencies, timing, and inner work. Walk it with patience, clean intention, and steady courage; Bholenath favors sincerity more than noise.</p><ul>${advancedCharts}</ul></div>`,
-        )}
+        ${executiveSummary(report)}
+        ${trustPanel(report)}
+        ${report.sections
+          .map(reportSection =>
+            section(reportSection.title, reportSectionBody(reportSection)),
+          )
+          .join('')}
       </body>
     </html>
   `;
@@ -367,6 +409,7 @@ export function buildHoroscopePdfHtml({
 
 export async function generateHoroscopePdf({
   kundli,
+  language = 'en',
   mode,
 }: GenerateHoroscopePdfInput): Promise<HoroscopePdfResult> {
   const generatedAt = new Date().toISOString();
@@ -377,7 +420,7 @@ export async function generateHoroscopePdf({
     fileName: `pridicta-${
       kundli.birthDetails.name
     }-${mode.toLowerCase()}-${Date.now()}`,
-    html: buildHoroscopePdfHtml({ kundli, mode }),
+    html: buildHoroscopePdfHtml({ kundli, language, mode }),
     shouldPrintBackgrounds: true,
   });
 

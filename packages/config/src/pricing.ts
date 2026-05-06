@@ -21,6 +21,29 @@ export const ONE_TIME_PRICING = {
   premiumPdf: 249,
 } as const;
 
+export const PREMIUM_FEATURE_STORY = [
+  {
+    body: 'Every premium answer should show chart factors, confidence, and timing context so users can see why Pridicta is saying something.',
+    title: 'Ask with proof',
+  },
+  {
+    body: 'A month-by-month dasha and transit calendar turns timing into a simple plan instead of a wall of astrology terms.',
+    title: 'Life Calendar',
+  },
+  {
+    body: 'Store multiple family Kundlis, compare them, and invite household members into a shared private vault.',
+    title: 'Family Vault',
+  },
+  {
+    body: 'Sell focused report bundles for Kundli, Career, Marriage, Wealth, Child, and Remedies instead of one generic PDF.',
+    title: 'Premium report bundles',
+  },
+  {
+    body: 'Keep the default app simple, but let serious users reveal varga, dasha, transit, ashtakavarga, and evidence tables.',
+    title: 'Astrologer-grade mode',
+  },
+] as const;
+
 const subscriptionProductIds: Record<BillingPeriod, string> = {
   MONTHLY: 'pridicta_premium_monthly',
   QUARTERLY: 'pridicta_premium_quarterly',
@@ -123,7 +146,7 @@ export function getOneTimeProducts(): OneTimeProduct[] {
       productId: oneTimeProductIds.DETAILED_KUNDLI_REPORT,
     },
     {
-      description: 'Future compatibility report purchase hook.',
+      description: 'Focused two-chart relationship and marriage timing report.',
       displayPrice: formatInr(ONE_TIME_PRICING.marriageCompatibilityReport),
       id: 'MARRIAGE_COMPATIBILITY_REPORT',
       label: 'Marriage Compatibility Report',

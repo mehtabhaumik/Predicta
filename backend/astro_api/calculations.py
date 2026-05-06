@@ -20,6 +20,7 @@ from .constants import (
     SUPPORTED_VARGAS,
 )
 from .models import BirthDetails, KundliData, PlanetPosition, YogaInsight
+from .phase5_insights import build_phase5_insights
 
 CHART_NAMES = {
     "D1": "Rashi Chart",
@@ -434,6 +435,16 @@ def generate_kundli(details: BirthDetails) -> KundliData:
         for chart_type in ALL_CHARTS
     }
     input_hash = build_input_hash(details)
+    dasha = build_dasha(moon.absoluteLongitude, utc_dt)
+    ashtakavarga = build_ashtakavarga(planets, lagna_sign_index)
+    phase5 = build_phase5_insights(
+        asc_longitude=asc_longitude,
+        ashtakavarga=ashtakavarga,
+        birth_details=details,
+        dasha=dasha,
+        lagna_sign_index=lagna_sign_index,
+        moon_sign_index=sign_index(moon.absoluteLongitude),
+    )
 
     return KundliData(
         id=input_hash[:16],
@@ -444,9 +455,13 @@ def generate_kundli(details: BirthDetails) -> KundliData:
         planets=planets,
         houses=build_houses(planets, lagna_sign_index),
         charts=charts,
-        dasha=build_dasha(moon.absoluteLongitude, utc_dt),
-        ashtakavarga=build_ashtakavarga(planets, lagna_sign_index),
+        dasha=dasha,
+        ashtakavarga=ashtakavarga,
         yogas=infer_yogas(planets),
+        lifeTimeline=phase5["lifeTimeline"],
+        transits=phase5["transits"],
+        rectification=phase5["rectification"],
+        remedies=phase5["remedies"],
         calculationMeta={
             "provider": "swiss-ephemeris",
             "providerVersion": swe.version,

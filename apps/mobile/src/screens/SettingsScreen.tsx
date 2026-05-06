@@ -1,5 +1,5 @@
 import React, { useEffect, useState, type ReactNode } from 'react';
-import { Switch, View } from 'react-native';
+import { Pressable, Switch, View } from 'react-native';
 
 import {
   AnimatedHeader,
@@ -20,8 +20,17 @@ import { loadRedeemedGuestPassFromFirebase } from '../services/firebase/passCode
 import { resolveAccess } from '@pridicta/access';
 import { isBiometrySupported } from '../services/security/secureStorage';
 import { buildUsageDisplay } from '@pridicta/monetization';
+import {
+  getLanguageLabels,
+  SUPPORTED_LANGUAGE_OPTIONS,
+} from '@pridicta/config/language';
+import {
+  loadLanguagePreference,
+  saveLanguagePreference,
+} from '../services/preferences/languagePreferenceStorage';
 import { useAppStore } from '../store/useAppStore';
 import { colors } from '../theme/colors';
+import type { SupportedLanguage } from '../types/astrology';
 
 export function SettingsScreen({
   navigation,
@@ -31,6 +40,7 @@ export function SettingsScreen({
   const auth = useAppStore(state => state.auth);
   const biometricsEnabled = useAppStore(state => state.biometricsEnabled);
   const chatSoundEnabled = useAppStore(state => state.chatSoundEnabled);
+  const languagePreference = useAppStore(state => state.languagePreference);
   const pinEnabled = useAppStore(state => state.pinEnabled);
   const securityEnabled = useAppStore(state => state.securityEnabled);
   const userPlan = useAppStore(state => state.userPlan);
@@ -39,6 +49,9 @@ export function SettingsScreen({
   const usage = useAppStore(state => state.usage);
   const setBiometricsEnabled = useAppStore(state => state.setBiometricsEnabled);
   const setChatSoundEnabled = useAppStore(state => state.setChatSoundEnabled);
+  const setLanguagePreference = useAppStore(
+    state => state.setLanguagePreference,
+  );
   const setPinEnabled = useAppStore(state => state.setPinEnabled);
   const setSecurityEnabled = useAppStore(state => state.setSecurityEnabled);
   const setAuth = useAppStore(state => state.setAuth);
@@ -55,6 +68,7 @@ export function SettingsScreen({
     usage,
     userPlan,
   });
+  const languageLabels = getLanguageLabels(languagePreference.language);
 
   useEffect(() => {
     isBiometrySupported()
@@ -72,7 +86,15 @@ export function SettingsScreen({
         }
       })
       .catch(() => undefined);
-  }, [setAuth, setRedeemedGuestPass]);
+    loadLanguagePreference()
+      .then(preference => setLanguagePreference(preference.language))
+      .catch(() => undefined);
+  }, [setAuth, setLanguagePreference, setRedeemedGuestPass]);
+
+  async function chooseLanguage(language: SupportedLanguage) {
+    setLanguagePreference(language);
+    await saveLanguagePreference(language).catch(() => undefined);
+  }
 
   async function handleAccountAccess() {
     if (!auth.isLoggedIn) {
@@ -155,6 +177,34 @@ export function SettingsScreen({
       </GlassPanel>
 
       <GlowCard className="mt-6" delay={220}>
+        <AppText tone="secondary" variant="caption">
+          {languageLabels.currentLanguage}
+        </AppText>
+        <AppText className="mt-1" variant="subtitle">
+          {languageLabels.language}
+        </AppText>
+        <AppText className="mt-2" tone="secondary" variant="caption">
+          {languageLabels.languageHelper}
+        </AppText>
+        <View className="mt-4 flex-row flex-wrap gap-2">
+          {SUPPORTED_LANGUAGE_OPTIONS.map(option => (
+            <Pressable
+              accessibilityRole="button"
+              className={`rounded-full border px-3 py-2 ${
+                languagePreference.language === option.code
+                  ? 'border-[#4DAFFF] bg-[#172233]'
+                  : 'border-[#252533] bg-[#191923]'
+              }`}
+              key={option.code}
+              onPress={() => chooseLanguage(option.code)}
+            >
+              <AppText variant="caption">{option.nativeName}</AppText>
+            </Pressable>
+          ))}
+        </View>
+      </GlowCard>
+
+      <GlowCard className="mt-6" delay={260}>
         <SettingRow
           description="A very soft local sound plays when Pridicta finishes a response."
           title="Reply chime"
@@ -171,7 +221,7 @@ export function SettingsScreen({
         </SettingRow>
       </GlowCard>
 
-      <GlowCard className="mt-6" delay={300}>
+      <GlowCard className="mt-6" delay={340}>
         <AppText variant="subtitle">{usageDisplay.statusText}</AppText>
         <AppText className="mt-2" tone="secondary" variant="caption">
           {usageDisplay.questionsText}. {usageDisplay.pdfText}.
@@ -203,9 +253,15 @@ export function SettingsScreen({
             />
           </View>
         ) : null}
+        <View className="mt-4">
+          <GlowButton
+            label="Legal, Privacy, and Refund Policy"
+            onPress={() => navigation.navigate(routes.Legal)}
+          />
+        </View>
       </GlowCard>
 
-      <GlowCard className="mt-6" delay={380}>
+      <GlowCard className="mt-6" delay={420}>
         <AppText variant="subtitle">
           {auth.isLoggedIn ? 'Google connected' : 'Cloud sync is optional'}
         </AppText>
@@ -228,6 +284,15 @@ export function SettingsScreen({
           />
         </View>
       </GlowCard>
+
+      <GlassPanel className="mt-6" delay={500}>
+        <AppText variant="subtitle">PRIDICTA</AppText>
+        <AppText className="mt-2" tone="secondary" variant="caption">
+          Create your Kundli. Understand your life. Ask better questions. Get
+          beautiful reports. Guidance is for reflection only, with clear safety
+          boundaries.
+        </AppText>
+      </GlassPanel>
     </Screen>
   );
 }

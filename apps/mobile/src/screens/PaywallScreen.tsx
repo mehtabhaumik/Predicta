@@ -11,10 +11,11 @@ import {
   useGlassAlert,
 } from '../components';
 import {
+  PREMIUM_FEATURE_STORY,
   formatInr,
   getDayPassProduct,
   getPricingPlans,
-} from '../config/pricing';
+} from '@pridicta/config/pricing';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import {
@@ -28,13 +29,7 @@ import { useAppStore } from '../store/useAppStore';
 import { colors } from '../theme/colors';
 import type { PricingPlan } from '../types/subscription';
 
-const features = [
-  'More Pridicta questions',
-  'Deeper chart analysis',
-  'Advanced dasha and varga insights',
-  'Premium kundli report depth',
-  'Save and revisit richer guidance',
-];
+const features = PREMIUM_FEATURE_STORY.map(feature => feature.title);
 
 export function PaywallScreen({
   navigation,

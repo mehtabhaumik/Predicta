@@ -1,0 +1,180 @@
+'use client';
+
+import { useEffect, useMemo, useState } from 'react';
+import {
+  getConfidenceLabel,
+  getLanguageLabels,
+} from '@pridicta/config/language';
+import { composeReportSections, type PdfSection } from '@pridicta/pdf';
+import type { KundliData, SupportedLanguage } from '@pridicta/types';
+import { useLanguagePreference } from '../lib/language-preference';
+import { loadWebKundli } from '../lib/web-kundli-storage';
+import { WebTrustProofPanel } from './WebTrustProofPanel';
+
+export function WebDossierPreview(): React.JSX.Element {
+  const [mode, setMode] = useState<'FREE' | 'PREMIUM'>('FREE');
+  const { language } = useLanguagePreference();
+  const [kundli, setKundli] = useState<KundliData | undefined>();
+  const labels = getLanguageLabels(language);
+
+  useEffect(() => {
+    setKundli(loadWebKundli());
+  }, []);
+
+  const freeReport = useMemo(
+    () =>
+      composeReportSections({
+        kundli,
+        language,
+        mode: 'FREE',
+      }),
+    [kundli, language],
+  );
+  const premiumReport = useMemo(
+    () =>
+      composeReportSections({
+        kundli,
+        language,
+        mode: 'PREMIUM',
+      }),
+    [kundli, language],
+  );
+  const report = mode === 'PREMIUM' ? premiumReport : freeReport;
+
+  return (
+    <div className="dossier-preview">
+      <div className="dossier-mode-switch" aria-label={labels.reportDepth}>
+        <button
+          className={mode === 'FREE' ? 'active' : ''}
+          onClick={() => setMode('FREE')}
+          type="button"
+        >
+          {labels.free}
+        </button>
+        <button
+          className={mode === 'PREMIUM' ? 'active' : ''}
+          onClick={() => setMode('PREMIUM')}
+          type="button"
+        >
+          {labels.premium}
+        </button>
+      </div>
+
+      <section className="dossier-hero glass-panel">
+        <div>
+          <div className="section-title">DOSSIER {report.dossierVersion}</div>
+          <h2>{report.cover.subtitle}</h2>
+          <p>{report.executiveSummary.headline}</p>
+        </div>
+        <div className="dossier-confidence">
+          <span>{labels.confidence}</span>
+          <strong>
+            {getConfidenceLabel(language, report.executiveSummary.confidence)}
+          </strong>
+        </div>
+      </section>
+
+      <div className="dossier-signal-grid">
+        {report.executiveSummary.keySignals.map(signal => (
+          <div className="dossier-signal" key={signal}>
+            <span>{labels.keySignal}</span>
+            <p>{signal}</p>
+          </div>
+        ))}
+      </div>
+
+      <WebTrustProofPanel trust={report.trustProfile} />
+
+      <div className="report-section-list">
+        {report.sections.map(section => (
+          <DossierSection
+            key={`${report.mode}-${section.title}`}
+            language={language}
+            section={section}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function DossierSection({
+  language,
+  section,
+}: {
+  language: SupportedLanguage;
+  section: PdfSection;
+}): React.JSX.Element {
+  const labels = getLanguageLabels(language);
+  const tierLabel =
+    section.tier === 'premium' ? labels.premium : labels.free;
+  const confidence = getConfidenceLabel(
+    language,
+    section.confidence ?? 'medium',
+  );
+
+  return (
+    <article className="dossier-section-card glass-panel">
+      <div className="dossier-section-topline">
+        <div className="section-title">{section.eyebrow}</div>
+        <span>
+          {tierLabel} · {confidence} {labels.confidence}
+        </span>
+      </div>
+      <h2>{section.title}</h2>
+      <p>{section.body}</p>
+
+      {section.bullets.length ? (
+        <ul className="report-bullet-list">
+          {section.bullets.map(item => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      ) : null}
+
+      {section.evidenceTable?.length ? (
+        <div className="dossier-table-wrap">
+          <div className="section-title">{labels.evidenceTable}</div>
+          <table className="dossier-evidence-table">
+            <thead>
+              <tr>
+                <th>{labels.factor}</th>
+                <th>{labels.observation}</th>
+                <th>{labels.confidence}</th>
+                <th>{labels.implication}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {section.evidenceTable.map(row => (
+                <tr key={`${row.factor}-${row.observation}`}>
+                  <td>{row.factor}</td>
+                  <td>{row.observation}</td>
+                  <td>{getConfidenceLabel(language, row.confidence)}</td>
+                  <td>{row.implication}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : null}
+
+      {section.decisionWindows?.length ? (
+        <div className="dossier-window-wrap">
+          <div className="section-title">{labels.decisionWindows}</div>
+          <div className="dossier-window-grid">
+            {section.decisionWindows.map(window => (
+              <div className="dossier-window" key={`${window.label}-${window.window}`}>
+                <span>{window.label}</span>
+                <strong>{window.window}</strong>
+                <p>{window.guidance}</p>
+                <small>
+                  {getConfidenceLabel(language, window.confidence)} {labels.confidence}
+                </small>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
+    </article>
+  );
+}

@@ -1,4 +1,4 @@
-import { getOneTimeProducts, getPricingPlans } from '../../config/pricing';
+import { getOneTimeProducts, getPricingPlans } from '@pridicta/config/pricing';
 import type {
   BillingProduct,
   BillingProvider,

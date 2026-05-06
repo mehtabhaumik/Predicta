@@ -3,6 +3,8 @@ import { Image, Pressable, StyleSheet, View } from 'react-native';
 
 import {
   AppText,
+  DailyBriefingCard,
+  DestinyPassportCard,
   FadeInView,
   FloatingGlowOrb,
   GlowButton,
@@ -13,6 +15,8 @@ import {
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import { resolveAccess } from '@pridicta/access';
+import { PREDICTA_JOURNEY_STEPS } from '@pridicta/config/predictaUx';
+import { composeDailyBriefing, composeDestinyPassport } from '@pridicta/astrology';
 import { buildUsageDisplay } from '@pridicta/monetization';
 import { useAppStore } from '../store/useAppStore';
 import { colors } from '../theme/colors';
@@ -52,6 +56,7 @@ export function HomeScreen({
   const redeemedGuestPass = useAppStore(state => state.redeemedGuestPass);
   const usage = useAppStore(state => state.usage);
   const userPlan = useAppStore(state => state.userPlan);
+  const languagePreference = useAppStore(state => state.languagePreference);
   const setActiveChartContext = useAppStore(
     state => state.setActiveChartContext,
   );
@@ -66,6 +71,10 @@ export function HomeScreen({
     usage,
     userPlan,
   });
+  const dailyBriefing = composeDailyBriefing(kundli, {
+    language: languagePreference.language,
+  });
+  const destinyPassport = composeDestinyPassport(kundli);
 
   function askFromHome(context: ChartContext) {
     if (!kundli) {
@@ -101,45 +110,69 @@ export function HomeScreen({
         </View>
       </FadeInView>
 
-      <GlowCard className="mt-8" delay={120}>
+      <GlowCard className="mt-8" delay={80}>
         <AppText tone="secondary" variant="caption">
-          KUNDLI SIGNAL
+          START HERE
         </AppText>
-        <GradientText style={styles.cardTitle} variant="title">
-          Your Kundli Overview
+        <GradientText style={styles.cardTitle} variant="subtitle">
+          3 simple steps
         </GradientText>
-        <AppText className="mt-4" tone="secondary">
-          {kundli
-            ? `${kundli.lagna} lagna, ${kundli.moonSign} Moon, and ${kundli.nakshatra} nakshatra are ready from real Swiss Ephemeris calculation.`
-            : 'Generate a real kundli from verified birth details before asking for chart-based guidance.'}
-        </AppText>
-
-        <View className="mt-6 flex-row gap-3">
-          <View className="flex-1 rounded-2xl border border-[#252533] bg-[#191923] p-4">
-            <AppText tone="secondary" variant="caption">
-              Moon
-            </AppText>
-            <AppText className="mt-2" variant="subtitle">
-              {kundli?.moonSign ?? 'Pending'}
-            </AppText>
-          </View>
-          <View className="flex-1 rounded-2xl border border-[#252533] bg-[#191923] p-4">
-            <AppText tone="secondary" variant="caption">
-              Focus
-            </AppText>
-            <AppText className="mt-2" variant="subtitle">
-              {kundli
-                ? `House ${kundli.ashtakavarga.strongestHouses[0]}`
-                : 'Pending'}
-            </AppText>
-          </View>
+        <View className="mt-4 gap-3">
+          {PREDICTA_JOURNEY_STEPS.map((step, index) => (
+            <Pressable
+              accessibilityRole="button"
+              key={step.id}
+              onPress={() => {
+                if (step.id === 'create') {
+                  navigation.navigate(routes.Kundli);
+                } else if (step.id === 'ask') {
+                  askFromHome({
+                    selectedSection: 'Simple guided question',
+                    sourceScreen: 'Home',
+                  });
+                }
+              }}
+              style={styles.journeyStep}
+            >
+              <View style={styles.stepNumber}>
+                <AppText variant="caption">{index + 1}</AppText>
+              </View>
+              <View className="flex-1">
+                <AppText variant="caption">{step.action}</AppText>
+                <AppText className="mt-1" tone="secondary" variant="caption">
+                  {step.body}
+                </AppText>
+              </View>
+            </Pressable>
+          ))}
         </View>
       </GlowCard>
+
+      <View className="mt-8">
+        <DailyBriefingCard
+          briefing={dailyBriefing}
+          onAskToday={() =>
+            askFromHome({
+              selectedDailyBriefingDate: dailyBriefing.date,
+              selectedSection: dailyBriefing.askPrompt,
+              sourceScreen: 'Daily Briefing',
+            })
+          }
+          onCreateKundli={() => navigation.navigate(routes.Kundli)}
+        />
+      </View>
+
+      <View className="mt-8">
+        <DestinyPassportCard
+          onPrimaryAction={() => navigation.navigate(routes.Kundli)}
+          passport={destinyPassport}
+        />
+      </View>
 
       <View className="mt-7">
         <GlowButton
           delay={220}
-          label="Ask Pridicta"
+          label={kundli ? 'Ask Pridicta' : 'Create Kundli First'}
           onPress={() =>
             askFromHome({
               selectedSection: 'Home overview',
@@ -149,15 +182,41 @@ export function HomeScreen({
         />
       </View>
 
-      <View className="mt-4">
-        <GlowButton
-          delay={260}
-          label="Saved Kundlis"
-          onPress={() => navigation.navigate(routes.SavedKundlis)}
-        />
-      </View>
+      {kundli ? (
+        <GlowCard className="mt-6" delay={260}>
+          <AppText tone="secondary" variant="caption">
+            CHOOSE ONE TOOL
+          </AppText>
+          <AppText className="mt-2" variant="subtitle">
+            What do you want help with?
+          </AppText>
+          <View className="mt-4 flex-row flex-wrap gap-3">
+            {[
+              ['Decision', routes.DecisionOracle],
+              ['Charts', routes.Charts],
+              ['Remedy', routes.RemedyCoach],
+              ['Birth Time', routes.BirthTimeDetective],
+              ['Timeline', routes.LifeTimeline],
+              ['Relationship', routes.RelationshipMirror],
+              ['Family', routes.FamilyKarmaMap],
+              ['Wrapped', routes.PredictaWrapped],
+              ['Report', routes.Report],
+              ['Saved', routes.SavedKundlis],
+            ].map(([label, route]) => (
+              <Pressable
+                accessibilityRole="button"
+                key={label}
+                onPress={() => navigation.navigate(route as never)}
+                style={styles.toolChip}
+              >
+                <AppText variant="caption">{label}</AppText>
+              </Pressable>
+            ))}
+          </View>
+        </GlowCard>
+      ) : null}
 
-      <GlowCard className="mt-7" delay={280}>
+      <GlowCard className="mt-7" delay={420}>
         <AppText tone="secondary" variant="caption">
           GUIDANCE ACCESS
         </AppText>
@@ -181,7 +240,7 @@ export function HomeScreen({
         ) : null}
       </GlowCard>
 
-      <FadeInView className="mt-8" delay={300}>
+      <FadeInView className="mt-8" delay={440}>
         <AppText variant="subtitle">Quick actions</AppText>
       </FadeInView>
 
@@ -198,7 +257,7 @@ export function HomeScreen({
               })
             }
           >
-            <GlowCard contentClassName="min-h-[128px]" delay={360 + index * 80}>
+            <GlowCard contentClassName="min-h-[128px]" delay={460 + index * 80}>
               <AppText variant="subtitle">{action.label}</AppText>
               <AppText className="mt-2" tone="secondary" variant="caption">
                 {action.description}
@@ -247,5 +306,37 @@ const styles = StyleSheet.create({
   orb: {
     right: -120,
     top: 52,
+  },
+  journeyStep: {
+    alignItems: 'center',
+    backgroundColor: colors.surfaceMuted,
+    borderColor: colors.border,
+    borderRadius: 10,
+    borderWidth: 1,
+    flexDirection: 'row',
+    gap: 12,
+    padding: 12,
+  },
+  stepNumber: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 195, 77, 0.16)',
+    borderColor: 'rgba(255, 195, 77, 0.28)',
+    borderRadius: 8,
+    borderWidth: 1,
+    height: 34,
+    justifyContent: 'center',
+    width: 34,
+  },
+  toolChip: {
+    alignItems: 'center',
+    backgroundColor: colors.surfaceMuted,
+    borderColor: colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    minHeight: 42,
+    justifyContent: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 9,
+    width: '47%',
   },
 });

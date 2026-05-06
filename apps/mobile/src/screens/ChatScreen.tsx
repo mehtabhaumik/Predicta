@@ -19,6 +19,15 @@ import {
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import { detectIntent } from '@pridicta/ai';
+import {
+  getFriendlyGreetingReply,
+  isSimpleGreeting,
+} from '@pridicta/config/predictaUx';
+import { formatAskWithProof } from '@pridicta/config/proof';
+import {
+  getSafetyBoundaryCopy,
+  hasHighStakesLanguage,
+} from '@pridicta/config/trust';
 import { extractBirthDetailsFromText } from '../services/ai/birthDetailsExtractor';
 import { askPridicta } from '../services/ai/pridictaService';
 import { playReplyChime } from '../services/audio/replyChime';
@@ -55,6 +64,7 @@ export function ChatScreen({
   const activeKundli = useAppStore(state => state.activeKundli);
   const auth = useAppStore(state => state.auth);
   const chatSoundEnabled = useAppStore(state => state.chatSoundEnabled);
+  const languagePreference = useAppStore(state => state.languagePreference);
   const userPlan = useAppStore(state => state.userPlan);
   const pendingBirthDetailsDraft = useAppStore(
     state => state.pendingBirthDetailsDraft,
@@ -87,6 +97,33 @@ export function ChatScreen({
       ? state.conversationsByKundli[state.activeKundliId] ?? []
       : [],
   );
+  const timelinePromptSeededRef = useRef<string | undefined>(undefined);
+
+  useEffect(() => {
+    const prompt = activeChartContext?.selectedTimelineEventId
+      ? activeChartContext.selectedSection
+      : activeChartContext?.selectedDailyBriefingDate
+        ? activeChartContext.selectedSection
+        : activeChartContext?.selectedDecisionQuestion
+          ? activeChartContext.selectedSection
+          : activeChartContext?.selectedRemedyId
+            ? activeChartContext.selectedSection
+            : activeChartContext?.selectedBirthTimeDetective
+              ? activeChartContext.selectedSection
+              : activeChartContext?.selectedRelationshipMirror
+                ? activeChartContext.selectedSection
+                : activeChartContext?.selectedFamilyKarmaMap
+                  ? activeChartContext.selectedSection
+                  : activeChartContext?.selectedPredictaWrapped
+                    ? activeChartContext.selectedSection
+      : undefined;
+
+    if (prompt && timelinePromptSeededRef.current !== prompt) {
+      setInput(prompt);
+      timelinePromptSeededRef.current = prompt;
+    }
+  }, [activeChartContext]);
+
   useEffect(() => {
     return () => {
       if (intervalRef.current) {
@@ -128,6 +165,17 @@ export function ChatScreen({
       return;
     }
 
+    if (isSimpleGreeting(trimmedInput)) {
+      appendConversationMessage(
+        createMessage('user', trimmedInput, activeChartContext),
+      );
+      setInput('');
+      streamAssistantResponse(
+        getFriendlyGreetingReply(languagePreference.language),
+      );
+      return;
+    }
+
     if (!activeKundli) {
       appendConversationMessage(
         createMessage('user', trimmedInput, activeChartContext),
@@ -135,6 +183,13 @@ export function ChatScreen({
       setInput('');
       setIsTyping(true);
       setStreamingText('');
+
+      if (hasHighStakesLanguage(trimmedInput)) {
+        streamAssistantResponse(
+          `${getSafetyBoundaryCopy(languagePreference.language)}\n\nCreate your Kundli first if you want reflective timing support, but do not delay urgent or professional help.`,
+        );
+        return;
+      }
 
       try {
         const result = await extractBirthDetailsFromText(trimmedInput);
@@ -199,6 +254,7 @@ export function ChatScreen({
         chartContext: activeChartContext,
         history,
         kundli: activeKundli,
+        language: languagePreference.language,
         message: trimmedInput,
         userPlan: effectivePlan,
       });
@@ -232,7 +288,11 @@ export function ChatScreen({
         }
       }
 
-      streamAssistantResponse(response.text);
+      streamAssistantResponse(
+        hasHighStakesLanguage(trimmedInput)
+          ? `${getSafetyBoundaryCopy(languagePreference.language)}\n\n${formatAskWithProof(response.text, response.jyotishAnalysis)}`
+          : formatAskWithProof(response.text, response.jyotishAnalysis),
+      );
     } catch (error) {
       streamAssistantResponse(
         error instanceof Error
@@ -259,6 +319,120 @@ export function ChatScreen({
           <GradientText variant="title">Chat with Pridicta</GradientText>
         </View>
       </FadeInView>
+
+      {activeChartContext?.selectedTimelineEventTitle ? (
+        <FadeInView className="mt-5 rounded-xl border border-[#252533] bg-[#12121A] p-4">
+          <AppText tone="secondary" variant="caption">
+            TIMELINE EVENT
+          </AppText>
+          <AppText className="mt-1" variant="subtitle">
+            {activeChartContext.selectedTimelineEventTitle}
+          </AppText>
+          <AppText className="mt-1" tone="secondary" variant="caption">
+            {activeChartContext.selectedTimelineEventKind} ·{' '}
+            {activeChartContext.selectedTimelineEventWindow}
+          </AppText>
+        </FadeInView>
+      ) : null}
+
+      {activeChartContext?.selectedDailyBriefingDate ? (
+        <FadeInView className="mt-5 rounded-xl border border-[#252533] bg-[#12121A] p-4">
+          <AppText tone="secondary" variant="caption">
+            DAILY BRIEFING
+          </AppText>
+          <AppText className="mt-1" variant="subtitle">
+            Today's chart weather
+          </AppText>
+          <AppText className="mt-1" tone="secondary" variant="caption">
+            {activeChartContext.selectedDailyBriefingDate}
+          </AppText>
+        </FadeInView>
+      ) : null}
+
+      {activeChartContext?.selectedDecisionQuestion ? (
+        <FadeInView className="mt-5 rounded-xl border border-[#252533] bg-[#12121A] p-4">
+          <AppText tone="secondary" variant="caption">
+            DECISION ORACLE
+          </AppText>
+          <AppText className="mt-1" variant="subtitle">
+            {activeChartContext.selectedDecisionArea} ·{' '}
+            {activeChartContext.selectedDecisionState}
+          </AppText>
+          <AppText className="mt-1" tone="secondary" variant="caption">
+            {activeChartContext.selectedDecisionQuestion}
+          </AppText>
+        </FadeInView>
+      ) : null}
+
+      {activeChartContext?.selectedRemedyTitle ? (
+        <FadeInView className="mt-5 rounded-xl border border-[#252533] bg-[#12121A] p-4">
+          <AppText tone="secondary" variant="caption">
+            REMEDY COACH
+          </AppText>
+          <AppText className="mt-1" variant="subtitle">
+            {activeChartContext.selectedRemedyTitle}
+          </AppText>
+          <AppText className="mt-1" tone="secondary" variant="caption">
+            Practice explanation with chart proof
+          </AppText>
+        </FadeInView>
+      ) : null}
+
+      {activeChartContext?.selectedBirthTimeDetective ? (
+        <FadeInView className="mt-5 rounded-xl border border-[#252533] bg-[#12121A] p-4">
+          <AppText tone="secondary" variant="caption">
+            BIRTH TIME DETECTIVE
+          </AppText>
+          <AppText className="mt-1" variant="subtitle">
+            Confidence and safe timing limits
+          </AppText>
+          <AppText className="mt-1" tone="secondary" variant="caption">
+            Ask with no false precision
+          </AppText>
+        </FadeInView>
+      ) : null}
+
+      {activeChartContext?.selectedRelationshipMirror ? (
+        <FadeInView className="mt-5 rounded-xl border border-[#252533] bg-[#12121A] p-4">
+          <AppText tone="secondary" variant="caption">
+            RELATIONSHIP MIRROR
+          </AppText>
+          <AppText className="mt-1" variant="subtitle">
+            {activeChartContext.selectedRelationshipNames}
+          </AppText>
+          <AppText className="mt-1" tone="secondary" variant="caption">
+            Pattern comparison, not fate
+          </AppText>
+        </FadeInView>
+      ) : null}
+
+      {activeChartContext?.selectedFamilyKarmaMap ? (
+        <FadeInView className="mt-5 rounded-xl border border-[#252533] bg-[#12121A] p-4">
+          <AppText tone="secondary" variant="caption">
+            FAMILY KARMA MAP
+          </AppText>
+          <AppText className="mt-1" variant="subtitle">
+            {activeChartContext.selectedFamilyMemberCount ?? 0} family members
+          </AppText>
+          <AppText className="mt-1" tone="secondary" variant="caption">
+            Repeated patterns, support zones, no blame
+          </AppText>
+        </FadeInView>
+      ) : null}
+
+      {activeChartContext?.selectedPredictaWrapped ? (
+        <FadeInView className="mt-5 rounded-xl border border-[#252533] bg-[#12121A] p-4">
+          <AppText tone="secondary" variant="caption">
+            PREDICTA WRAPPED
+          </AppText>
+          <AppText className="mt-1" variant="subtitle">
+            {activeChartContext.selectedPredictaWrappedYear} yearly recap
+          </AppText>
+          <AppText className="mt-1" tone="secondary" variant="caption">
+            Share-safe recap, timing windows, next-year preview
+          </AppText>
+        </FadeInView>
+      ) : null}
 
       <View className="mt-7 gap-4">
         {messages.map((message, index) => (

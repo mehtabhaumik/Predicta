@@ -23,6 +23,7 @@ export function WebHeader(): React.JSX.Element {
         <Link href="#intelligence">Intelligence</Link>
         <Link href="#reports">Reports</Link>
         <Link href="/pricing">Pricing</Link>
+        <Link href="/legal">Legal</Link>
       </nav>
       <div className="header-actions">
         <AuthDialog />

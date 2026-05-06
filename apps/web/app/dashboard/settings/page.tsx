@@ -3,6 +3,7 @@ import { buildUsageDisplay } from '@pridicta/monetization';
 import { AuthDialog } from '../../../components/AuthDialog';
 import { Card } from '../../../components/Card';
 import { StatusPill } from '../../../components/StatusPill';
+import { WebLanguageSelector } from '../../../components/WebLanguageSelector';
 import { demoAccess, demoMonetization } from '../../../lib/demo-state';
 
 export default function SettingsPage(): React.JSX.Element {
@@ -97,9 +98,12 @@ export default function SettingsPage(): React.JSX.Element {
         <Card className="settings-card">
           <div className="card-content spacious">
             <div className="section-title">PREFERENCES</div>
-            <h2>Sound and privacy</h2>
-            <p>Keep Pridicta calm, private, and comfortable for repeat use.</p>
+            <h2>Language, sound, and privacy</h2>
+            <p>Keep Pridicta understandable, calm, private, and comfortable for repeat use.</p>
             <div className="settings-stack">
+              <div className="setting-row language-setting-row">
+                <WebLanguageSelector />
+              </div>
               <div className="setting-row">
                 <div>
                   <strong>Reply chime</strong>

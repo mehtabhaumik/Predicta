@@ -5,6 +5,7 @@ import type {
   ChartContext,
   ConversationTurn,
   KundliData,
+  SupportedLanguage,
   UserPlan,
 } from '../../types/astrology';
 import { buildAIContext } from './contextBuilder';
@@ -20,16 +21,18 @@ export function optimizePridictaPayload({
   history,
   intent,
   kundli,
+  language = 'en',
   userPlan,
 }: {
   chartContext?: ChartContext;
   history: ConversationTurn[];
   intent: AIIntent;
   kundli: KundliData;
+  language?: SupportedLanguage;
   userPlan: UserPlan;
 }): OptimizedAIPayload {
   return {
-    context: buildAIContext(kundli, chartContext),
+    context: buildAIContext(kundli, chartContext, language),
     history: trimConversationHistory(history, intent),
     maxOutputTokens: getMaxOutputTokens(intent, userPlan),
   };
