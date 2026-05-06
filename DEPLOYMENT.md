@@ -2,17 +2,18 @@
 
 Predicta web now uses Next.js API routes for AI, Kundli generation, access
 authority, guest-pass redemption, and admin guest-pass operations. Deploy it to
-a serverful Next.js target such as Vercel, Cloud Run, or Firebase App Hosting.
+Firebase App Hosting so the Next.js server runtime stays available in
+production.
 
 Static Firebase Hosting with `next export` is no longer sufficient because API
-routes would be missing in production.
+routes would be missing in production. The current App Hosting runtime config is
+checked in at `apps/web/apphosting.yaml`.
 
 ## Required Runtime Environment
 
 Set these on the backend/API runtime:
 
 ```bash
-PRIDICTA_WEB_ASTRO_API_URL=https://your-astro-api.example.com
 OPENAI_API_KEY=...
 GEMINI_API_KEY=...
 PRIDICTA_OPENAI_FREE_MODEL=gpt-5.4-mini
@@ -55,6 +56,23 @@ NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=...
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...
 NEXT_PUBLIC_FIREBASE_APP_ID=...
 NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=...
+```
+
+Set the web server-side astrology API URL on the App Hosting runtime:
+
+```bash
+PRIDICTA_WEB_ASTRO_API_URL=https://predicta-backend-pxf7yw4soq-el.a.run.app
+```
+
+The launch App Hosting cost guardrails are:
+
+```yaml
+runConfig:
+  minInstances: 0
+  maxInstances: 10
+  concurrency: 80
+  cpu: 1
+  memoryMiB: 512
 ```
 
 ## Local Production Build
