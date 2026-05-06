@@ -81,8 +81,8 @@ DEEP_PATTERNS = [
         r"yoga|dosha",
     ]
 ]
-FREE_CONTEXT_CHARTS = {"D1"}
-PREMIUM_CONTEXT_CHARTS = {"D1", "D2", "D7", "D9", "D10", "D12"}
+FREE_BASE_CONTEXT_CHARTS = {"D1"}
+PREMIUM_CONTEXT_CHARTS = {"D1", "D2", "D3", "D4", "D7", "D9", "D10", "D12"}
 
 
 class AIConfigurationError(RuntimeError):
@@ -413,7 +413,7 @@ def build_pridicta_system_prompt() -> str:
             "Act like a careful Jyotish practitioner: synthesize chart evidence, timing, memory, and practical guidance.",
             "Use only the kundli context supplied. Do not invent unsupported divisional chart data.",
             "Treat jyotishAnalysis as the deterministic evidence layer. Use it as the backbone of the answer.",
-            "Respect chartAccess strictly: free users receive D1 chart proof only. Do not use premiumLockedChartTypes as evidence for free users; offer them as Premium unlocks after giving value.",
+            "Respect chartAccess strictly: every chart can be shown in free, but free chart readings are useful insight only. Premium readings add detailed D1 anchoring, dasha timing, confidence, remedies, and report-ready synthesis.",
             "Prioritize the user's active chart, house, planet, or report section before broadening.",
             "For every chart-based answer, include a 'Chart evidence' section with 3-5 bullets from jyotishAnalysis.evidence.",
             "Each evidence bullet must mention the chart factor and the meaning; do not cite vague intuition.",
@@ -489,7 +489,7 @@ def build_ai_context(
     language: str,
     user_plan: str,
 ) -> Dict[str, Any]:
-    allowed_charts = allowed_context_charts(user_plan)
+    allowed_charts = allowed_context_charts(user_plan, chart_context)
     selected_chart = None
     selected_house_focus = None
     selected_planet_focus = None
@@ -581,15 +581,11 @@ def build_ai_context(
         "chartAccess": {
             "userPlan": user_plan,
             "allowedChartTypes": sorted(allowed_charts),
-            "premiumLockedChartTypes": sorted(
-                chart_type
-                for chart_type, chart in kundli.charts.items()
-                if chart.supported and chart_type not in allowed_charts
-            ),
+            "premiumLockedChartTypes": [],
             "rule": (
-                "Premium users may use supported divisional charts as proof."
+                "Premium users receive detailed chart synthesis with D1 anchoring, dasha timing, confidence, remedies, and report-grade depth."
                 if user_plan == "PREMIUM"
-                else "Free users may use D1 chart proof only. Mention premium charts as locked instead of using them as evidence."
+                else "Free users may open every chart and receive useful insight. Keep the reading concise and avoid premium-level synthesis."
             ),
         },
         "birthSummary": {
@@ -639,18 +635,14 @@ def build_ai_context(
             "supported": [
                 chart_type
                 for chart_type, chart in kundli.charts.items()
-                if chart.supported and chart_type in allowed_charts
+                if chart.supported
             ],
             "unsupported": [
                 chart_type
                 for chart_type, chart in kundli.charts.items()
-                if not chart.supported and user_plan == "PREMIUM"
+                if not chart.supported
             ],
-            "premiumLockedSupported": [
-                chart_type
-                for chart_type, chart in kundli.charts.items()
-                if chart.supported and chart_type not in allowed_charts
-            ],
+            "premiumLockedSupported": [],
         },
         "lifeTimeline": [item.model_dump() for item in kundli.lifeTimeline],
         "transits": [item.model_dump() for item in kundli.transits],
@@ -745,8 +737,16 @@ def build_planet_focus(
     return focus
 
 
-def allowed_context_charts(user_plan: str) -> set[str]:
-    return PREMIUM_CONTEXT_CHARTS if user_plan == "PREMIUM" else FREE_CONTEXT_CHARTS
+def allowed_context_charts(
+    user_plan: str, chart_context: Optional[ChartContext]
+) -> set[str]:
+    if user_plan == "PREMIUM":
+        return PREMIUM_CONTEXT_CHARTS
+
+    charts = set(FREE_BASE_CONTEXT_CHARTS)
+    if chart_context and chart_context.chartType:
+        charts.add(chart_context.chartType)
+    return charts
 
 
 def create_openai_text_response(

@@ -5,12 +5,10 @@ import Link from 'next/link';
 import {
   CHART_REGISTRY,
   getChartTypesForAccess,
-  getPremiumChartPreviewLabel,
 } from '@pridicta/astrology';
 import type { ChartType, KundliData } from '@pridicta/types';
 import { loadWebKundli } from '../lib/web-kundli-storage';
 import { Card } from './Card';
-import { StatusPill } from './StatusPill';
 import { WebKundliChart } from './WebKundliChart';
 
 export function WebChartsExplorer({
@@ -72,27 +70,14 @@ export function WebChartsExplorer({
             </Card>
           );
         })}
-        {!hasPremiumAccess ? (
-          <Card className="premium-chart-lock">
-            <div className="card-content">
-              <StatusPill label="Premium charts locked" tone="premium" />
-              <h2>Go deeper after D1.</h2>
-              <p>
-                Free users see the Rashi chart only. Premium unlocks{' '}
-                {getPremiumChartPreviewLabel()} without showing unverified
-                formulas as real proof.
-              </p>
-              <Link className="button secondary" href="/pricing">
-                See Premium
-              </Link>
-            </div>
-          </Card>
-        ) : null}
       </div>
       <Card className="chart-detail-card">
         <div className="card-content spacious">
-          <StatusPill label={`${kundli.birthDetails.name}'s chart`} tone="premium" />
-          <WebKundliChart chart={chart} />
+          <WebKundliChart
+            chart={chart}
+            hasPremiumAccess={hasPremiumAccess}
+            ownerName={kundli.birthDetails.name}
+          />
         </div>
       </Card>
     </div>

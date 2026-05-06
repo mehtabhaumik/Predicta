@@ -12,9 +12,8 @@ import {
 } from '../components';
 import {
   CHART_REGISTRY,
-  canAccessChartType,
+  composeChartInsight,
   getChartTypesForAccess,
-  getPremiumChartPreviewLabel,
 } from '@pridicta/astrology';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
@@ -45,8 +44,8 @@ export function ChartsScreen({
           <AppText variant="subtitle">No confusing sample chart here.</AppText>
           <AppText className="mt-2" tone="secondary">
             Create your Kundli first. Then this screen will show your North
-            Indian D1 chart. Premium unlocks deeper varga charts with simple
-            house and planet taps.
+            Indian charts. Free gives useful insight for each chart; Premium
+            adds detailed analysis and timing.
           </AppText>
           <View className="mt-5">
             <GlowButton
@@ -59,14 +58,13 @@ export function ChartsScreen({
     );
   }
 
-  const safeSelectedChart = canAccessChartType(
-    selectedChart,
-    access.hasPremiumAccess,
-  )
-    ? selectedChart
-    : 'D1';
+  const safeSelectedChart = selectedChart;
   const selectedConfig = getChartConfig(safeSelectedChart);
   const chart = kundli.charts[safeSelectedChart];
+  const insight = composeChartInsight({
+    chart,
+    hasPremiumAccess: access.hasPremiumAccess,
+  });
 
   function askFromChart() {
     setActiveChartContext({
@@ -123,26 +121,6 @@ export function ChartsScreen({
             </Pressable>
           );
         })}
-        {!access.hasPremiumAccess ? (
-          <Pressable
-            accessibilityRole="button"
-            onPress={() => navigation.navigate(routes.Paywall)}
-          >
-            <GlowCard delay={180}>
-              <AppText tone="secondary" variant="caption">
-                PREMIUM CHARTS LOCKED
-              </AppText>
-              <AppText className="mt-1" variant="subtitle">
-                Go deeper after D1
-              </AppText>
-              <AppText className="mt-2" tone="secondary" variant="caption">
-                Free users see the Rashi chart only. Premium unlocks{' '}
-                {getPremiumChartPreviewLabel()} without showing unverified
-                formulas as real proof.
-              </AppText>
-            </GlowCard>
-          </Pressable>
-        ) : null}
       </View>
 
       <View className="mt-7">
@@ -153,6 +131,38 @@ export function ChartsScreen({
           selectedPlanet={focus.planet}
         />
       </View>
+
+      <GlowCard className="mt-5" delay={180}>
+        <AppText tone="secondary" variant="caption">
+          {insight.eyebrow}
+        </AppText>
+        <AppText className="mt-1" variant="subtitle">
+          {insight.title}
+        </AppText>
+        <AppText className="mt-2" tone="secondary">
+          {insight.summary}
+        </AppText>
+        <View className="mt-4 gap-2">
+          {insight.bullets.map(item => (
+            <AppText key={item} tone="secondary" variant="caption">
+              - {item}
+            </AppText>
+          ))}
+        </View>
+        {insight.premiumNudge ? (
+          <View className="mt-5">
+            <AppText tone="secondary" variant="caption">
+              {insight.premiumNudge}
+            </AppText>
+            <View className="mt-3">
+              <GlowButton
+                label="See Premium"
+                onPress={() => navigation.navigate(routes.Paywall)}
+              />
+            </View>
+          </View>
+        ) : null}
+      </GlowCard>
 
       <View className="mt-5">
         <GlowButton

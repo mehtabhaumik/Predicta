@@ -7,7 +7,6 @@ import {
   composeRemedyCoach,
   composeRelationshipMirror,
   canAccessChartType,
-  getPremiumLockedChartTypes,
   PREMIUM_CONTEXT_CHART_TYPES,
   getChartConfig,
 } from '@pridicta/astrology';
@@ -27,9 +26,10 @@ export function buildAIContext(
   userPlan: UserPlan = 'FREE',
 ): AIContextPayload {
   const hasPremiumAccess = userPlan === 'PREMIUM';
+  const selectedChartType = chartContext?.chartType;
   const allowedContextCharts: ChartType[] = hasPremiumAccess
     ? PREMIUM_CONTEXT_CHART_TYPES
-    : ['D1'];
+    : Array.from(new Set(['D1', selectedChartType].filter(Boolean))) as ChartType[];
   const selectedChart =
     chartContext?.chartType &&
     canAccessChartType(chartContext.chartType, hasPremiumAccess) &&
@@ -143,27 +143,19 @@ export function buildAIContext(
     },
     chartAvailability: {
       supported: Object.entries(kundliData.charts)
-        .filter(
-          ([chartType, chart]) =>
-            chart.supported && allowedContextCharts.includes(chartType as ChartType),
-        )
+        .filter(([, chart]) => chart.supported)
         .map(([chartType]) => chartType as keyof KundliData['charts']),
       unsupported: Object.entries(kundliData.charts)
-        .filter(([, chart]) => !chart.supported && hasPremiumAccess)
+        .filter(([, chart]) => !chart.supported)
         .map(([chartType]) => chartType as keyof KundliData['charts']),
-      premiumLockedSupported: Object.entries(kundliData.charts)
-        .filter(
-          ([chartType, chart]) =>
-            chart.supported && !allowedContextCharts.includes(chartType as ChartType),
-        )
-        .map(([chartType]) => chartType as keyof KundliData['charts']),
+      premiumLockedSupported: [],
     },
     chartAccess: {
       allowedChartTypes: [...allowedContextCharts],
-      premiumLockedChartTypes: getPremiumLockedChartTypes(),
+      premiumLockedChartTypes: [],
       rule: hasPremiumAccess
-        ? 'Premium users may use supported divisional charts as proof.'
-        : 'Free users may use D1 chart proof only. Mention premium charts as locked instead of using them as evidence.',
+        ? 'Premium users receive detailed chart synthesis with D1 anchoring, dasha timing, confidence, remedies, and report-grade depth.'
+        : 'Free users may open every chart and receive useful insight. Keep the reading concise and avoid premium-level synthesis.',
       userPlan,
     },
     coreIdentity: {

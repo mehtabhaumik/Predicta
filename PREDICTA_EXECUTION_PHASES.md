@@ -30,6 +30,24 @@ This document is the strict execution playbook for turning Predicta into a premi
    - After implementation and verification, report the keyword for the next phase.
    - Do not provide all keywords as “done” at once.
 
+6. Never hide charts from free users.
+   - Free users must be able to open every chart that Predicta can render.
+   - Monetization must separate **visibility** from **depth**.
+   - Free chart access means useful insight, simple explanation, and honest limitations.
+   - Premium chart access means detailed analysis, D1 anchoring, dasha/transit timing, confidence, remedies, and report-ready synthesis.
+   - Unsupported or unverified chart formulas must be shown honestly as not enabled/verified. Never fake a chart.
+
+7. Reports and PDF downloads must include the full Jyotish surface.
+   - Free reports must include all available charts with useful, easy-to-understand insights.
+   - Premium reports must include detailed analysis for all available charts from `D1` to `D{n}`.
+   - Every PDF/downloadable report must include, where calculable: Mahadasha/Antardasha, Sade Sati, Bhav chart, Chalit chart, Ashtakavarga, transits, yogas/doshas, remedies, and chart evidence.
+   - The difference between free and premium reports is useful insight vs detailed analysis, not missing astrology.
+
+8. Predicta must be technical in the background and simple for the user.
+   - Terms like Chalit, KP, Nadi, Ashtakavarga, and Varshaphal must be explained in plain language before technical detail.
+   - A 10-year-old should understand what the chart/module is for before seeing advanced proof.
+   - Advanced users may get technical detail through Premium/Advanced Mode, but simple mode must remain calm and guided.
+
 ---
 
 ## Phase 1: Destiny Passport
@@ -442,7 +460,9 @@ Rules:
 - Must reuse shared report composition.
 - Mobile PDF and web preview must stay in parity.
 - Premium depth adds analysis, not dignity.
-- Free report must still look polished.
+- Free report must still look polished and must include all available charts with useful insight.
+- Premium report must include detailed analysis for all available charts from `D1` to `D{n}`.
+- Every report/PDF must include Mahadasha/Antardasha, Sade Sati, Bhav, Chalit, Ashtakavarga, transits, yogas/doshas, remedies, chart evidence, and confidence where calculable.
 - No generic prose.
 - Include chart evidence and confidence labels throughout.
 
@@ -543,6 +563,362 @@ Rules:
 
 - Predicta feels serious, not manipulative.
 - Users understand confidence and limitations.
+
+---
+
+## Phase 13: All Charts Free, Depth Premium
+
+**Execution Keyword:** `EXECUTE_ALL_CHARTS_FREE_DEPTH_PREMIUM`
+
+### Goal
+
+Refine monetization so Predicta competes with major astrology apps without feeling restrictive.
+
+### User Story
+
+“I can open every chart in my Kundli for free. Predicta gives me a useful simple explanation. If I want astrologer-grade depth, timing, remedies, and report-level analysis, I upgrade.”
+
+### Strict Prompt For Codex
+
+You are implementing Predicta Phase 13: All Charts Free, Depth Premium.
+
+Move the product from chart-locking to depth-based monetization. Every available chart must be visible to free users. Free users receive useful insight. Premium users receive detailed analysis for each chart with D1 anchoring, dasha/transit timing, chart strength, confidence, remedies, and report-ready synthesis.
+
+Rules:
+- Do not hide any chart from free users.
+- Free users can open all available charts.
+- Free chart insight must be useful, simple, and honest.
+- Premium chart analysis must be detailed, evidence-rich, and synthesized with D1.
+- Unsupported/unverified charts must remain visible as not enabled/verified, never faked.
+- Mobile and web must stay in parity.
+- Chat, reports, chart screens, and AI context must all follow the same entitlement rule.
+
+### Required Deliverables
+
+- Shared chart access/depth policy.
+- Free and Premium chart insight composers.
+- Web chart explorer showing all available charts.
+- Mobile chart explorer showing all available charts.
+- AI context updated so selected chart focus works for free, but depth stays limited.
+- Report entitlement language updated.
+- Verification commands run.
+
+### Success Criteria
+
+- Free user can open D1, D9, D10, and every available chart.
+- Free user gets useful insight, not a locked wall.
+- Premium still feels valuable because depth, synthesis, timing, and reports are clearly better.
+
+---
+
+## Phase 14: Chat-Native Chart Renderer
+
+**Execution Keyword:** `EXECUTE_CHAT_CHART_RENDERER`
+
+### Goal
+
+Make Predicta feel like an astrologer working live inside chat.
+
+### User Story
+
+“I ask ‘show me D9’ and Predicta renders the D9 chart inside the chat, explains it simply, anchors the reading to D1, and lets me ask deeper follow-up questions.”
+
+### Strict Prompt For Codex
+
+You are implementing Predicta Phase 14: Chat-Native Chart Renderer.
+
+Add rich chat message blocks that can render mini North Indian charts, insight cards, evidence chips, and context CTAs directly inside the chat thread. If a user asks for any chart that exists, Predicta should render it in chat and explain it according to user plan depth.
+
+Rules:
+- Predicta must not send the user away to another screen when chat can do the action.
+- Every rendered chart must be North Indian style unless a future explicit chart-style setting is added.
+- D1 remains the root chart for prediction.
+- If user asks about D9, D10, D2, etc., Predicta must say it will read that chart with D1 as the anchor.
+- Free user gets mini chart + useful insights.
+- Premium user gets mini chart + detailed synthesis and follow-up memory.
+- Mobile and web chat must support equivalent chart message blocks.
+
+### Required Deliverables
+
+- Shared chat block schema for chart cards.
+- Web chat mini chart renderer.
+- Mobile chat mini chart renderer.
+- Chart intent parser for “show D9”, “open Navamsha”, “career chart”, etc.
+- Chat focus memory for selected chart/house/planet.
+- “Ask about this house,” “Compare with D1,” and “Create report” CTAs.
+- Verification commands run.
+
+### Success Criteria
+
+- User can ask for a chart naturally and see it in chat.
+- Follow-up questions remember the active chart focus.
+- Free vs Premium depth is obvious but non-hostile.
+
+---
+
+## Phase 15: Mahadasha Intelligence
+
+**Execution Keyword:** `EXECUTE_MAHADASHA_INTELLIGENCE`
+
+### Goal
+
+Make dasha analysis one of Predicta’s strongest recurring value loops.
+
+### User Story
+
+“Predicta tells me what life chapter I am in, why it feels this way, what is active now, what is coming next, and what I should do.”
+
+### Strict Prompt For Codex
+
+You are implementing Predicta Phase 15: Mahadasha Intelligence.
+
+Build deterministic Mahadasha, Antardasha, and Pratyantardasha analysis. Free users get useful current-period insight. Premium users get a detailed dasha tree, timing windows, area impact, planet strength, D1 plus relevant divisional cross-check, remedies, and report sections.
+
+Rules:
+- Do not let the LLM invent dasha periods.
+- Dasha dates must come from deterministic calculation.
+- Free output must be short, useful, and understandable.
+- Premium output must include detailed analysis, evidence, confidence, and action windows.
+- Include dasha in chat, timeline, reports, PDFs, and daily/yearly surfaces.
+- Mobile and web must stay in parity.
+
+### Required Deliverables
+
+- Shared dasha analysis model.
+- Current Mahadasha/Antardasha free insight.
+- Premium Mahadasha/Antardasha/Pratyantardasha analyzer.
+- Dasha timeline cards.
+- Chat intent support for dasha questions.
+- Report/PDF integration.
+- Verification commands run.
+
+### Success Criteria
+
+- User understands their current life chapter in plain language.
+- Premium dasha analysis feels materially deeper than free.
+- All dasha claims are deterministic and date-backed.
+
+---
+
+## Phase 16: Sade Sati And Saturn Transit Report
+
+**Execution Keyword:** `EXECUTE_SADE_SATI_SATURN`
+
+### Goal
+
+Turn a high-interest Jyotish topic into a calm, evidence-based, non-fear product.
+
+### User Story
+
+“Predicta tells me if I am in Sade Sati, which phase, what it means, what to watch, and how to handle it without scaring me.”
+
+### Strict Prompt For Codex
+
+You are implementing Predicta Phase 16: Sade Sati And Saturn Transit Report.
+
+Build deterministic Sade Sati detection and Saturn transit analysis. Free users get status, phase, simple caution/support guidance. Premium users get exact dates, phase-by-phase analysis, Moon chart impact, D1 house impact, Ashtakavarga support, remedies, monthly pressure windows, and report/PDF sections.
+
+Rules:
+- No fear language.
+- No “doom” prediction.
+- Always explain Sade Sati simply before technical detail.
+- Use Moon sign, Saturn transit, D1 house impact, and Ashtakavarga where available.
+- Include helpful remedies without manipulation.
+- Mobile and web must stay in parity.
+
+### Required Deliverables
+
+- Sade Sati detection module.
+- Saturn transit phase model.
+- Free insight card.
+- Premium detailed report section.
+- Chat intent support.
+- PDF/report integration.
+- Verification commands run.
+
+### Success Criteria
+
+- User feels informed, not scared.
+- Free gives value.
+- Premium gives timing, proof, remedies, and planning depth.
+
+---
+
+## Phase 17: Chalit, Bhav, And KP Foundations
+
+**Execution Keyword:** `EXECUTE_CHALIT_BHAV_KP_FOUNDATION`
+
+### Goal
+
+Win where many apps are weak: explain Chalit/Bhav and KP in a user-friendly way.
+
+### User Story
+
+“Predicta explains what my Chalit chart is, how it differs from D1, what KP means, and what these systems reveal, without drowning me in technical jargon.”
+
+### Strict Prompt For Codex
+
+You are implementing Predicta Phase 17: Chalit, Bhav, And KP Foundations.
+
+Add Bhav/Chalit chart support and a first KP horoscope foundation. Free users get useful insight explaining what Chalit/KP are and what they show. Premium users get detailed analysis with cusps, house shifts, significators, sub-lords, and event-oriented interpretation.
+
+Rules:
+- Do not hide Chalit/Bhav/KP from free users if the chart can be rendered.
+- Free users get a clear simple explanation and useful insight.
+- Premium users get detailed Chalit/Bhav/KP analysis.
+- Chalit must be explained as house-position refinement, not a replacement for D1.
+- KP must be explained as a different Jyotish thought focused on cusps, significators, and sub-lords.
+- Keep KP separate from traditional Parashari/Vedic sections.
+- Mobile and web must stay in parity.
+
+### Required Deliverables
+
+- Shared Bhav/Chalit data model.
+- Chalit chart renderer or chart variant.
+- KP section shell with clear free explanation.
+- KP data model for cusps/significators/sub-lords.
+- Free Chalit/KP insight copy.
+- Premium detailed Chalit/KP analysis structure.
+- Report/PDF integration.
+- Verification commands run.
+
+### Success Criteria
+
+- User understands why Chalit differs from D1.
+- User understands KP as a separate method.
+- Predicta feels more educational and premium than technical competitor apps.
+
+---
+
+## Phase 18: Yearly Horoscope And Varshaphal
+
+**Execution Keyword:** `EXECUTE_YEARLY_HOROSCOPE_VARSHAPHAL`
+
+### Goal
+
+Give users a yearly planning surface that is personal, visual, and report-worthy.
+
+### User Story
+
+“Predicta shows my year theme, what the yearly horoscope represents, important months, caution windows, and growth areas.”
+
+### Strict Prompt For Codex
+
+You are implementing Predicta Phase 18: Yearly Horoscope And Varshaphal.
+
+Build a yearly horoscope surface using Varshaphal/annual chart where available, dasha, transits, Ashtakavarga, and existing life timeline data. Explain what a yearly horoscope represents before giving predictions.
+
+Rules:
+- Do not present yearly horoscope as generic sun-sign content.
+- Explain that yearly horoscope is a planning lens for a specific year, not a replacement for birth chart.
+- Free users get year theme, 3 useful windows, and simple advice.
+- Premium users get annual chart/Varshaphal depth, month-by-month cards, dasha/transit overlap, remedies, and PDF report.
+- Mobile and web must stay in parity.
+
+### Required Deliverables
+
+- Shared yearly horoscope model.
+- Year selection UI.
+- Free yearly insight card.
+- Premium month-by-month analysis.
+- Chat intent support for “my 2027 horoscope.”
+- Report/PDF integration.
+- Verification commands run.
+
+### Success Criteria
+
+- User understands the year in under 30 seconds.
+- Premium creates a clear reason to buy a yearly report.
+- All timing is date-backed and confidence-labeled.
+
+---
+
+## Phase 19: Advanced Jyotish Coverage Engine
+
+**Execution Keyword:** `EXECUTE_ADVANCED_JYOTISH_ENGINE`
+
+### Goal
+
+Expand Predicta toward “everything Vedic astrology has to offer” while keeping the user experience simple.
+
+### User Story
+
+“Predicta has the serious Jyotish depth in the background, but it explains only what I need in simple words.”
+
+### Strict Prompt For Codex
+
+You are implementing Predicta Phase 19: Advanced Jyotish Coverage Engine.
+
+Add deterministic modules for yogas, doshas, nakshatra intelligence, Ashtakavarga depth, panchang/muhurta, compatibility, Prashna planning, Lal Kitab-style safe remedies where appropriate, and advanced-mode technical tables.
+
+Rules:
+- Every module must have free useful insight and premium detailed analysis unless explicitly premium-only.
+- Keep technical detail behind expandable panels or Advanced Mode.
+- Do not add fear-based dosha language.
+- Remedies must be safe, non-exploitative, and evidence-linked.
+- Mobile and web must stay in parity.
+
+### Required Deliverables
+
+- Module registry for Jyotish features.
+- Free vs Premium depth policy per module.
+- Yoga/dosha strength and cancellation structure.
+- Nakshatra insight module.
+- Ashtakavarga detail module.
+- Panchang/muhurta planning model.
+- Compatibility evidence model.
+- Report/PDF integration.
+- Verification commands run.
+
+### Success Criteria
+
+- Predicta feels broad and serious without becoming confusing.
+- Free remains generous.
+- Premium has obvious depth and planning value.
+
+---
+
+## Phase 20: Nadi Jyotish Premium Plan
+
+**Execution Keyword:** `EXECUTE_NADI_JYOTISH_PLAN`
+
+### Goal
+
+Plan Nadi Jyotish as a premium-only specialty without faking lineage-specific claims.
+
+### User Story
+
+“Predicta offers a Nadi-style premium reading that feels special, but it clearly explains what method is being used and avoids pretending to access sacred manuscripts.”
+
+### Strict Prompt For Codex
+
+You are implementing Predicta Phase 20: Nadi Jyotish Premium Plan.
+
+Create the architecture and product plan for a Nadi Jyotish premium module. Nadi must be premium-only. The first implementation should be conservative: Nadi-inspired pattern reading from deterministic chart signatures, not claims of reading original palm-leaf manuscripts.
+
+Rules:
+- Nadi Jyotish is strictly Premium.
+- Do not claim access to real palm-leaf manuscripts unless an authentic external process exists.
+- Clearly explain the method used.
+- Keep language respectful and culturally sensitive.
+- Use deterministic chart signatures, life-pattern questions, memory, and validation prompts.
+- Mobile and web must stay in parity.
+
+### Required Deliverables
+
+- Nadi module product specification.
+- Data model for Nadi-style pattern signatures.
+- Premium-only entitlement handling.
+- Safety/claims disclaimer.
+- Chat workflow plan.
+- Report/PDF section plan.
+- Verification commands run if implementation begins.
+
+### Success Criteria
+
+- Nadi feels premium and special.
+- Claims are honest and defensible.
+- It can later become a real paid product without legal/trust risk.
 
 ---
 

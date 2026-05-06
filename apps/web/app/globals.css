@@ -2423,6 +2423,46 @@ p {
   border-color: rgba(255, 195, 77, 0.22);
 }
 
+.chart-insight-panel {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid var(--border-quiet);
+  border-radius: 8px;
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.chart-insight-panel h3 {
+  margin: 8px 0 0;
+}
+
+.chart-insight-panel p,
+.unsupported-chart-state p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 8px 0 0;
+}
+
+.chart-insight-panel ul,
+.unsupported-chart-state ul {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.chart-premium-nudge {
+  align-items: center;
+  background: rgba(255, 195, 77, 0.07);
+  border: 1px solid rgba(255, 195, 77, 0.18);
+  border-radius: 8px;
+  color: var(--muted);
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+  padding: 14px;
+}
+
 .jyotish-chart-shell {
   display: grid;
   gap: 18px;
@@ -2550,8 +2590,6 @@ p {
 }
 
 .unsupported-chart-state p {
-  color: var(--muted);
-  line-height: 1.7;
   max-width: 620px;
 }
 

@@ -10,6 +10,7 @@ import type {
   TrustProfile,
 } from '@pridicta/types';
 import { buildTrustProfile } from '@pridicta/config/trust';
+import { composeChartInsight } from '@pridicta/astrology';
 
 export type PdfSection = {
   title: string;
@@ -59,21 +60,6 @@ export type PdfComposition = {
   watermark: string;
 };
 
-const CORE_REPORT_CHARTS: ChartType[] = ['D1', 'D9', 'D10'];
-const PREMIUM_REPORT_CHARTS: ChartType[] = [
-  'D1',
-  'D2',
-  'D4',
-  'D7',
-  'D9',
-  'D10',
-  'D12',
-  'D16',
-  'D20',
-  'D24',
-  'D30',
-];
-
 const BENEFICS = new Set(['Jupiter', 'Venus', 'Mercury', 'Moon']);
 const PRESSURE_PLANETS = new Set(['Saturn', 'Mars', 'Rahu', 'Ketu', 'Sun']);
 const OWN_SIGNS: Record<string, string[]> = {
@@ -119,11 +105,11 @@ export function composeReportSections({
     return composeEmptyReport(mode, language);
   }
 
-  const chartTypes = mode === 'PREMIUM' ? PREMIUM_REPORT_CHARTS : CORE_REPORT_CHARTS;
+  const chartTypes = getReportChartTypes(kundli);
   const sections = [
     buildExecutiveSummary(kundli, mode),
     buildBirthAndCalculationSection(kundli),
-    buildChartSynthesisSection(kundli, chartTypes),
+    buildChartSynthesisSection(kundli, chartTypes, mode),
     buildPlanetaryStrengthSection(kundli, mode),
     buildDashaSection(kundli, mode),
     buildTimelineSection(kundli, mode),
@@ -134,13 +120,9 @@ export function composeReportSections({
     buildAreaSection(kundli, 'Career', ['D1', 'D10'], [10, 6, 11], ['Saturn', 'Sun', 'Mercury', 'Jupiter']),
     buildAreaSection(kundli, 'Relationship', ['D1', 'D9'], [7, 2, 11], ['Venus', 'Jupiter', 'Moon']),
     buildAreaSection(kundli, 'Wealth', ['D1', 'D2'], [2, 9, 11], ['Jupiter', 'Venus', 'Mercury']),
-    ...(mode === 'PREMIUM'
-      ? [
-          buildAreaSection(kundli, 'Wellbeing', ['D1', 'D30'], [1, 6, 8, 12], ['Moon', 'Saturn', 'Mars']),
-          buildAreaSection(kundli, 'Spiritual Practice', ['D1', 'D20'], [9, 12], ['Jupiter', 'Ketu', 'Moon']),
-          buildAdvancedChartSection(kundli),
-        ]
-      : []),
+    buildAreaSection(kundli, 'Wellbeing', ['D1', 'D30'], [1, 6, 8, 12], ['Moon', 'Saturn', 'Mars']),
+    buildAreaSection(kundli, 'Spiritual Practice', ['D1', 'D20'], [9, 12], ['Jupiter', 'Ketu', 'Moon']),
+    buildFullJyotishCoverageSection(kundli, mode),
     buildGuidanceSection(kundli, mode),
     ...(decisionMemo ? [buildDecisionMemoSection(decisionMemo)] : []),
     buildRemedySection(kundli),
@@ -225,7 +207,7 @@ function composeEmptyReport(mode: PDFMode, language: SupportedLanguage): PdfComp
       confidence: 'low',
       headline: 'Generate a kundli to unlock a real intelligence dossier.',
       keySignals: [
-        'D1, D9, D10, dasha, transits, remedies, and confidence labels appear after calculation.',
+        'All available charts, dasha, transits, remedies, and confidence labels appear after calculation.',
       ],
     }, language),
     footer: 'Designed & Engineered by Bhaumik Mehta | Powered by deterministic Jyotish synthesis + AI | © 2026',
@@ -235,8 +217,8 @@ function composeEmptyReport(mode: PDFMode, language: SupportedLanguage): PdfComp
       {
         body: 'A report generated without kundli data can only show the structure. Once a calculated kundli is active, every section is composed from planets, houses, divisional charts, dasha, yogas, and ashtakavarga.',
         bullets: [
-          'D1, D9, and D10 are treated as the core free report spine.',
-          'Premium expands area analysis, dasha timeline, and advanced chart verification.',
+          'Free reports include every available chart with useful, simple insight.',
+          'Premium reports keep the same chart coverage and add detailed synthesis, timing, remedies, and evidence tables.',
         ],
         evidence: ['No kundli is active in this preview.'],
         confidence: 'low',
@@ -281,16 +263,13 @@ function buildDossierExecutiveSummary(
     keySignals: [
       `${kundli.lagna} Lagna, ${kundli.moonSign} Moon, ${kundli.nakshatra} nakshatra.`,
       `Correction zones: houses ${kundli.ashtakavarga.weakestHouses.slice(0, 3).join(', ')}.`,
-      `${mode === 'PREMIUM' ? 'Premium dossier includes expanded area intelligence, evidence tables, and advanced chart verification.' : 'Free dossier keeps the same polished structure with focused chart depth.'}`,
+      `${mode === 'PREMIUM' ? 'Premium dossier includes detailed area intelligence, evidence tables, timing, and remedies.' : 'Free dossier includes every available chart with useful insight and honest limits.'}`,
     ],
   };
 }
 
 function enrichSection(section: PdfSection, mode: PDFMode): PdfSection {
   const premiumOnly = [
-    'Advanced chart verification',
-    'Wellbeing',
-    'Spiritual Practice',
     'Decision memo export',
   ].includes(section.title);
   const tier = section.tier ?? (premiumOnly ? 'premium' : 'free');
@@ -334,7 +313,7 @@ function buildExecutiveSummary(kundli: KundliData, mode: PDFMode): PdfSection {
     bullets: [
       `Strongest ashtakavarga support: houses ${strongest}.`,
       `Correction zones: houses ${weakest}.`,
-      `${mode === 'PREMIUM' ? 'Premium mode includes expanded area synthesis and advanced chart checks.' : 'Free mode focuses on D1, D9, D10, dasha, yogas, and practical guidance.'}`,
+      `${mode === 'PREMIUM' ? 'Premium mode adds detailed synthesis, timing windows, remedies, and evidence tables.' : 'Free mode includes all available charts with useful insight instead of hiding charts.'}`,
     ],
     evidence: [
       `Lagna: ${kundli.lagna}`,
@@ -389,20 +368,39 @@ function buildBirthAndCalculationSection(kundli: KundliData): PdfSection {
 function buildChartSynthesisSection(
   kundli: KundliData,
   chartTypes: ChartType[],
+  mode: PDFMode,
 ): PdfSection {
-  const supported = chartTypes
-    .map(chartType => chartSummary(kundli, chartType))
-    .filter(Boolean);
+  const hasPremiumAccess = mode === 'PREMIUM';
+  const supported = chartTypes.flatMap(chartType => {
+    const chart = kundli.charts[chartType];
+    if (!chart) {
+      return [`${chartType}: not present in kundli payload.`];
+    }
+    const insight = composeChartInsight({ chart, hasPremiumAccess });
+    return [
+      `${chartType} ${insight.title}: ${insight.summary}`,
+      ...insight.bullets.slice(0, hasPremiumAccess ? 3 : 2).map(bullet => `${chartType}: ${bullet}`),
+    ];
+  });
   const unsupported = chartTypes
     .filter(chartType => kundli.charts[chartType] && !kundli.charts[chartType].supported)
     .map(chartType => `${chartType}: ${kundli.charts[chartType].unsupportedReason ?? 'not verified'}`);
 
   return {
-    body: 'The report does not treat chart names as decoration. Each chart is included only when the calculation engine has verified support, and each chart is summarized by ascendant, occupied houses, and its role in synthesis.',
+    body: mode === 'PREMIUM'
+      ? 'Every available chart is included, and premium depth turns the chart list into detailed synthesis anchored to D1, timing, confidence, and remedies.'
+      : 'Every available chart is included for free. Free depth explains what the chart is for and gives useful placement insight without pretending to be a full astrologer-grade analysis.',
     bullets: supported,
-    evidence: unsupported.length ? unsupported : ['All requested report charts are supported.'],
+    evidence: [
+      `Charts included in this report: ${chartTypes.join(', ')}.`,
+      unsupported.length
+        ? `Unsupported/unverified charts are disclosed: ${unsupported.join(' ')}`
+        : 'All charts present in this payload are supported.',
+    ],
     eyebrow: 'CHART SYNTHESIS',
-    title: 'D1, divisional charts, and verification',
+    title: mode === 'PREMIUM'
+      ? 'All charts with premium depth'
+      : 'All charts with useful insight',
   };
 }
 
@@ -633,28 +631,45 @@ function buildAreaSection(
       },
     ],
     eyebrow: title.toUpperCase(),
-    tier: ['Wellbeing', 'Spiritual Practice'].includes(title) ? 'premium' : 'free',
+    tier: 'free',
     title,
   };
 }
 
-function buildAdvancedChartSection(kundli: KundliData): PdfSection {
-  const supported = PREMIUM_REPORT_CHARTS.filter(
-    chartType => kundli.charts[chartType]?.supported,
-  );
-  const unsupported = PREMIUM_REPORT_CHARTS.filter(
+function buildFullJyotishCoverageSection(kundli: KundliData, mode: PDFMode): PdfSection {
+  const chartTypes = getReportChartTypes(kundli);
+  const supported = chartTypes.filter(chartType => kundli.charts[chartType]?.supported);
+  const unsupported = chartTypes.filter(
     chartType => kundli.charts[chartType] && !kundli.charts[chartType].supported,
   );
+  const dasha = kundli.dasha.current;
+  const hasSadeSati = 'sadeSati' in kundli && Boolean((kundli as Record<string, unknown>).sadeSati);
+  const hasChalit = 'chalit' in kundli && Boolean((kundli as Record<string, unknown>).chalit);
+  const hasBhav = 'bhav' in kundli && Boolean((kundli as Record<string, unknown>).bhav);
+  const hasKp = 'kp' in kundli && Boolean((kundli as Record<string, unknown>).kp);
 
   return {
-    body: 'Premium depth expands chart coverage while keeping verification strict. Unsupported vargas are disclosed rather than filled with fake data.',
-    bullets: supported.map(chartType => chartSummary(kundli, chartType)).filter(Boolean),
-    evidence: [
-      `Supported premium charts: ${supported.join(', ')}.`,
-      `Not yet verified: ${unsupported.length ? unsupported.join(', ') : 'none in premium set'}.`,
+    body: mode === 'PREMIUM'
+      ? 'Premium does not unlock hidden charts; it unlocks deeper reading of the same Jyotish surface with timing, cross-checking, and evidence tables.'
+      : 'Free reports do not hide the astrology surface. Predicta shows what is available, explains it simply, and names anything not yet calculated instead of faking it.',
+    bullets: [
+      `Available charts included: ${chartTypes.join(', ')}.`,
+      `Mahadasha/Antardasha included: ${dasha.mahadasha}/${dasha.antardasha} from ${dasha.startDate} to ${dasha.endDate}.`,
+      `Ashtakavarga included: total SAV ${kundli.ashtakavarga.totalScore}, strongest houses ${kundli.ashtakavarga.strongestHouses.join(', ')}.`,
+      `Transits included: ${(kundli.transits ?? []).length ? `${kundli.transits?.length} current transit records.` : 'not yet present in this payload.'}`,
+      `Yogas/doshas included: ${kundli.yogas.length ? `${kundli.yogas.length} recognized patterns.` : 'no recognized patterns in this payload.'}`,
+      `Remedies included: ${(kundli.remedies ?? []).length ? `${kundli.remedies?.length} remedy practices.` : 'not yet present in this payload.'}`,
+      `Sade Sati: ${hasSadeSati ? 'included from payload.' : 'not yet calculated in this payload.'}`,
+      `Bhav/Chalit: ${hasBhav || hasChalit ? 'included from payload.' : 'not yet calculated in this payload.'}`,
+      `KP horoscope: ${hasKp ? 'included from payload.' : 'not yet calculated in this payload.'}`,
     ],
-    eyebrow: 'PREMIUM DEPTH',
-    title: 'Advanced chart verification',
+    evidence: [
+      `Supported charts: ${supported.join(', ') || 'none'}.`,
+      `Not yet verified: ${unsupported.length ? unsupported.join(', ') : 'none'}.`,
+      'Unavailable modules are disclosed until deterministic calculation exists.',
+    ],
+    eyebrow: 'FULL COVERAGE',
+    title: 'Jyotish coverage checklist',
   };
 }
 
@@ -669,7 +684,7 @@ function buildGuidanceSection(kundli: KundliData, mode: PDFMode): PdfSection {
       maha ? `Work with ${current.mahadasha} through the discipline of house ${maha.house}: ${houseMeaning(maha.house)}.` : `Work consciously with the ${current.mahadasha} period through steadiness and clean commitments.`,
       `Protect weakest houses ${weakHouses.join(', ')} through routine, restraint, and honest review.`,
       `Use simple mantra, prayer, silence, or service as consistency practices rather than panic remedies.`,
-      mode === 'PREMIUM' ? 'Review the advanced chart section before making irreversible timing decisions.' : 'Upgrade depth is most useful when you need area-by-area timing and advanced chart checks.',
+      mode === 'PREMIUM' ? 'Review the detailed chart sections before making irreversible timing decisions.' : 'Upgrade depth is most useful when you need area-by-area timing, remedies, and advanced synthesis.',
     ],
     evidence: [
       `Dasha: ${current.mahadasha}/${current.antardasha}`,
@@ -712,8 +727,8 @@ function buildLimitationsSection(kundli: KundliData, mode: PDFMode): PdfSection 
       ? `Unsupported vargas are disclosed, not interpreted: ${unsupported.join(', ')}.`
       : 'All registered charts in this payload are supported.',
     mode === 'FREE'
-      ? 'Free reports keep the synthesis focused and omit premium-only advanced expansion.'
-      : 'Premium reports add depth but still avoid guaranteed outcomes.',
+      ? 'Free reports include every available chart with useful insight, while premium adds detailed synthesis and timing.'
+      : 'Premium reports add depth, timing, and evidence tables but still avoid guaranteed outcomes.',
   ];
 
   return {
@@ -742,6 +757,18 @@ function chartSummary(kundli: KundliData, chartType: ChartType): string {
   }
 
   return `${chartType} ${chart.name}: ${chart.ascendantSign} ascendant; occupied houses ${occupiedHouses(chart)}.`;
+}
+
+function getReportChartTypes(kundli: KundliData): ChartType[] {
+  return (Object.keys(kundli.charts) as ChartType[]).sort(compareChartType);
+}
+
+function compareChartType(a: ChartType, b: ChartType): number {
+  return chartTypeNumber(a) - chartTypeNumber(b);
+}
+
+function chartTypeNumber(chartType: ChartType): number {
+  return Number(chartType.replace('D', '')) || 0;
 }
 
 function occupiedHouses(chart: ChartData): string {

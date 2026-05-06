@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import {
   buildNorthIndianChartCells,
+  composeChartInsight,
   findHouseCell,
   findPlanetCell,
   getPlanetAbbreviation,
@@ -13,13 +14,21 @@ import { StatusPill } from './StatusPill';
 
 type WebKundliChartProps = {
   chart: ChartData;
+  hasPremiumAccess?: boolean;
+  ownerName?: string;
 };
 
 export function WebKundliChart({
   chart,
+  hasPremiumAccess = false,
+  ownerName,
 }: WebKundliChartProps): React.JSX.Element {
   const [selectedHouse, setSelectedHouse] = useState(1);
   const [selectedPlanet, setSelectedPlanet] = useState<string | undefined>();
+  const insight = useMemo(
+    () => composeChartInsight({ chart, hasPremiumAccess }),
+    [chart, hasPremiumAccess],
+  );
   const cells = useMemo(() => buildNorthIndianChartCells(chart), [chart]);
   const activeCell =
     findPlanetCell(cells, selectedPlanet) ??
@@ -45,13 +54,18 @@ export function WebKundliChart({
   if (!chart.supported) {
     return (
       <div className="jyotish-chart-shell">
+        {ownerName ? (
+          <StatusPill label={`${ownerName}'s chart`} tone="quiet" />
+        ) : null}
         <div className="unsupported-chart-state">
-          <div className="section-title">CHART NOT ENABLED YET</div>
-          <h2>{chart.name}</h2>
-          <p>
-            {chart.unsupportedReason ??
-              'This varga formula is not verified in the calculation engine yet.'}
-          </p>
+          <div className="section-title">{insight.eyebrow}</div>
+          <h2>{insight.title}</h2>
+          <p>{insight.summary}</p>
+          <ul>
+            {insight.bullets.map(item => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
         </div>
       </div>
     );
@@ -59,6 +73,9 @@ export function WebKundliChart({
 
   return (
     <div className="jyotish-chart-shell">
+      {ownerName ? (
+        <StatusPill label={`${ownerName}'s chart`} tone="quiet" />
+      ) : null}
       <div className="jyotish-chart-toolbar">
         <div>
           <div className="section-title">NORTH INDIAN CHART</div>
@@ -98,6 +115,27 @@ export function WebKundliChart({
           <span>{chart.chartType}</span>
           <strong>North style</strong>
         </div>
+      </div>
+
+      <div className="chart-insight-panel">
+        <div>
+          <div className="section-title">{insight.eyebrow}</div>
+          <h3>{insight.title}</h3>
+          <p>{insight.summary}</p>
+        </div>
+        <ul>
+          {insight.bullets.map(item => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+        {insight.premiumNudge ? (
+          <div className="chart-premium-nudge">
+            <span>{insight.premiumNudge}</span>
+            <Link className="button secondary" href="/pricing">
+              See Premium
+            </Link>
+          </div>
+        ) : null}
       </div>
 
       {activeCell ? (

@@ -299,6 +299,9 @@ importers:
 
   packages/pdf:
     dependencies:
+      '@pridicta/astrology':
+        specifier: workspace:*
+        version: link:../astrology
       '@pridicta/config':
         specifier: workspace:*
         version: link:../config

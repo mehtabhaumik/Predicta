@@ -16,11 +16,11 @@ import {
   useGlassAlert,
 } from '../components';
 import {
+  composeChartInsight,
   composeDestinyPassport,
   getChartTypesForAccess,
   getChartConfig,
   getFeaturedChartTypesForAccess,
-  getPremiumChartPreviewLabel,
 } from '@pridicta/astrology';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
@@ -59,7 +59,7 @@ export function KundliScreen({
   const { glassAlert, showGlassAlert } = useGlassAlert();
   const chartList = useMemo(
     () =>
-      showAllCharts && access.hasPremiumAccess
+      showAllCharts
         ? getChartTypesForAccess(true)
         : getFeaturedChartTypesForAccess(access.hasPremiumAccess),
     [access.hasPremiumAccess, showAllCharts],
@@ -243,6 +243,10 @@ export function KundliScreen({
               const chartConfig = getChartConfig(chartType);
               const chart = kundli.charts[chartType];
               const focus = chartFocusByType[chartType];
+              const insight = composeChartInsight({
+                chart,
+                hasPremiumAccess: access.hasPremiumAccess,
+              });
 
               return (
                 <GlowCard key={chartType} delay={220 + index * 50}>
@@ -252,6 +256,14 @@ export function KundliScreen({
                   <AppText className="mt-2" variant="subtitle">
                     {chartConfig.purpose}
                   </AppText>
+                  <View className="mt-4">
+                    <AppText tone="secondary" variant="caption">
+                      {insight.eyebrow}
+                    </AppText>
+                    <AppText className="mt-1" tone="secondary" variant="caption">
+                      {insight.summary}
+                    </AppText>
+                  </View>
                   <View className="mt-4">
                     <KundliChart
                       chart={chart}
@@ -279,37 +291,21 @@ export function KundliScreen({
             })}
           </View>
 
-          {access.hasPremiumAccess ? (
-            <Pressable
-              accessibilityRole="button"
-              onPress={() => setShowAllCharts(value => !value)}
-            >
-              <GradientOutlineCard className="mt-7" delay={460}>
-                <AppText variant="subtitle">
-                  {showAllCharts ? 'Show Featured Charts' : 'View All Charts'}
-                </AppText>
-                <AppText className="mt-2" tone="secondary">
-                  Advanced charts are listed from the registry. Unverified
-                  formulas are marked as not enabled instead of showing fake
-                  data.
-                </AppText>
-              </GradientOutlineCard>
-            </Pressable>
-          ) : (
-            <Pressable
-              accessibilityRole="button"
-              onPress={() => navigation.navigate(routes.Paywall)}
-            >
-              <GradientOutlineCard className="mt-7" delay={460}>
-                <AppText variant="subtitle">Premium charts unlock here</AppText>
-                <AppText className="mt-2" tone="secondary">
-                  Free preview keeps the chart work on D1. Premium opens{' '}
-                  {getPremiumChartPreviewLabel()} while unsupported formulas
-                  stay clearly marked.
-                </AppText>
-              </GradientOutlineCard>
-            </Pressable>
-          )}
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => setShowAllCharts(value => !value)}
+          >
+            <GradientOutlineCard className="mt-7" delay={460}>
+              <AppText variant="subtitle">
+                {showAllCharts ? 'Show Featured Charts' : 'View All Charts'}
+              </AppText>
+              <AppText className="mt-2" tone="secondary">
+                Every chart is visible in free. Premium changes the depth:
+                detailed analysis, D1 anchoring, timing, and report-ready
+                synthesis.
+              </AppText>
+            </GradientOutlineCard>
+          </Pressable>
         </>
       ) : null}
     </Screen>
