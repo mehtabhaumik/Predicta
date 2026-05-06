@@ -7,5 +7,6 @@ export * from './destinyPassport';
 export * from './familyKarmaMap';
 export * from './lifeTimeline';
 export * from './predictaWrapped';
+export * from './predictaChatActions';
 export * from './remedyCoach';
 export * from './relationshipMirror';

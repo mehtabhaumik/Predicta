@@ -1,6 +1,12 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import {
+  buildPredictaActionReply,
+  buildPredictaLearningSuggestion,
+  learnPredictaInteraction,
+  type PredictaInteractionMemory,
+} from '@pridicta/astrology';
 import { getLanguageLabels } from '@pridicta/config/language';
 import {
   buildBirthIntakeReply,
@@ -31,10 +37,11 @@ import {
 } from '../lib/pridicta-ai';
 import {
   generateKundliFromWeb,
+  loadWebKundlis,
   loadWebKundli,
 } from '../lib/web-kundli-storage';
 
-const WEB_CHAT_MEMORY_KEY = 'predicta.webChatMemory.v3';
+const WEB_CHAT_MEMORY_KEY = 'predicta.webChatMemory.v4';
 
 type WebMessage = {
   id: string;
@@ -45,6 +52,7 @@ type WebMessage = {
 type WebChatMemory = {
   birthMemory?: PredictaBirthMemory;
   messages: WebMessage[];
+  predictaMemory?: PredictaInteractionMemory;
 };
 
 export function WebPridictaChat(): React.JSX.Element {
@@ -55,17 +63,22 @@ export function WebPridictaChat(): React.JSX.Element {
   const didLoadQueryPrompt = useRef(false);
   const didLoadMemory = useRef(false);
   const [kundli, setKundli] = useState<KundliData | undefined>();
+  const [savedKundlis, setSavedKundlis] = useState<KundliData[]>([]);
   const [birthMemory, setBirthMemory] = useState<PredictaBirthMemory>();
+  const [predictaMemory, setPredictaMemory] =
+    useState<PredictaInteractionMemory>();
   const [messages, setMessages] = useState<WebMessage[]>(() =>
     buildInitialMessages(language),
   );
 
   useEffect(() => {
     setKundli(loadWebKundli());
+    setSavedKundlis(loadWebKundlis());
     const stored = loadWebChatMemory();
 
     if (stored) {
       setBirthMemory(stored.birthMemory);
+      setPredictaMemory(stored.predictaMemory);
       setMessages(
         stored.messages.length
           ? stored.messages
@@ -84,8 +97,9 @@ export function WebPridictaChat(): React.JSX.Element {
     saveWebChatMemory({
       birthMemory,
       messages,
+      predictaMemory,
     });
-  }, [birthMemory, messages]);
+  }, [birthMemory, messages, predictaMemory]);
 
   useEffect(() => {
     setMessages(current =>
@@ -146,13 +160,7 @@ export function WebPridictaChat(): React.JSX.Element {
     ]);
 
     try {
-      const summary = isSimpleGreeting(text)
-        ? getFriendlyGreetingReply(language)
-        : looksLikeBirthDetails(text)
-        ? await handleBirthIntake(text)
-        : !kundli
-        ? createKundliFirstReply(language, text)
-        : await askWithProof(text, kundli);
+      const summary = await resolveSmartReply(text);
       const safeSummary =
         kundli && hasHighStakesLanguage(text)
           ? `${getSafetyBoundaryCopy(language)}\n\n${summary}`
@@ -184,6 +192,13 @@ export function WebPridictaChat(): React.JSX.Element {
   }
 
   async function askWithProof(text: string, activeKundli: KundliData) {
+    const nextMemory = learnPredictaInteraction(
+      predictaMemory,
+      text,
+      undefined,
+      activeKundli,
+    );
+    setPredictaMemory(nextMemory);
     const response = await askPridictaFromWeb({
       history: messages.map(message => ({
         role: message.role,
@@ -195,7 +210,57 @@ export function WebPridictaChat(): React.JSX.Element {
       userPlan: 'FREE',
     });
 
-    return formatAskWithProof(response.text, response.jyotishAnalysis);
+    return [
+      formatAskWithProof(response.text, response.jyotishAnalysis),
+      buildPredictaLearningSuggestion({
+        hasPremiumAccess: false,
+        kundli: activeKundli,
+        language,
+        memory: nextMemory,
+        savedKundlis,
+      }),
+    ].join('\n\n');
+  }
+
+  async function resolveSmartReply(text: string): Promise<string> {
+    if (isSimpleGreeting(text)) {
+      return [
+        getFriendlyGreetingReply(language),
+        buildPredictaLearningSuggestion({
+          hasPremiumAccess: false,
+          kundli,
+          language,
+          memory: predictaMemory,
+          savedKundlis,
+        }),
+      ]
+        .filter(Boolean)
+        .join('\n\n');
+    }
+
+    if (looksLikeBirthDetails(text)) {
+      return handleBirthIntake(text);
+    }
+
+    const actionReply = buildPredictaActionReply({
+      hasPremiumAccess: false,
+      kundli,
+      language,
+      memory: predictaMemory,
+      savedKundlis,
+      text,
+    });
+    setPredictaMemory(actionReply.memory);
+
+    if (actionReply.handled && actionReply.text) {
+      return actionReply.text;
+    }
+
+    if (!kundli) {
+      return createKundliFirstReply(language, text);
+    }
+
+    return askWithProof(text, kundli);
   }
 
   async function handleBirthIntake(text: string): Promise<string> {
@@ -252,9 +317,27 @@ export function WebPridictaChat(): React.JSX.Element {
     };
     const nextKundli = await generateKundliFromWeb(birthDetails);
     setKundli(nextKundli);
+    const nextSavedKundlis = loadWebKundlis();
+    setSavedKundlis(nextSavedKundlis);
     setBirthMemory(undefined);
+    const nextMemory = learnPredictaInteraction(
+      predictaMemory,
+      text,
+      'chart',
+      nextKundli,
+    );
+    setPredictaMemory(nextMemory);
 
-    return buildKundliCreatedReply(language, nextKundli);
+    return [
+      buildKundliCreatedReply(language, nextKundli),
+      buildPredictaLearningSuggestion({
+        hasPremiumAccess: false,
+        kundli: nextKundli,
+        language,
+        memory: nextMemory,
+        savedKundlis: nextSavedKundlis,
+      }),
+    ].join('\n\n');
   }
 
   return (
@@ -486,6 +569,7 @@ function saveWebChatMemory(memory: WebChatMemory): void {
       JSON.stringify({
         birthMemory: memory.birthMemory,
         messages: memory.messages.slice(-24),
+        predictaMemory: memory.predictaMemory,
       }),
     );
   } catch {

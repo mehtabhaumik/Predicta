@@ -18,6 +18,12 @@ import {
 } from '../components';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
+import {
+  buildPredictaActionReply,
+  buildPredictaLearningSuggestion,
+  learnPredictaInteraction,
+  type PredictaInteractionMemory,
+} from '@pridicta/astrology';
 import { detectIntent } from '@pridicta/ai';
 import { buildBirthIntakeReply } from '@pridicta/config/predictaMemory';
 import {
@@ -70,6 +76,8 @@ export function ChatScreen({
 }: RootScreenProps<typeof routes.Chat>): React.JSX.Element {
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [predictaMemory, setPredictaMemory] =
+    useState<PredictaInteractionMemory>();
   const [streamingText, setStreamingText] = useState('');
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const activeChartContext = useAppStore(state => state.activeChartContext);
@@ -109,6 +117,7 @@ export function ChatScreen({
   );
   const recordQuestion = useAppStore(state => state.recordQuestion);
   const recordDeepCall = useAppStore(state => state.recordDeepCall);
+  const savedKundliRecords = useAppStore(state => state.savedKundlis);
   const messages = useAppStore(state =>
     state.activeKundliId
       ? state.conversationsByKundli[state.activeKundliId] ?? []
@@ -183,12 +192,21 @@ export function ChatScreen({
     }
 
     if (isSimpleGreeting(trimmedInput)) {
+      const savedKundlis = savedKundliRecords.map(record => record.kundliData);
       appendConversationMessage(
         createMessage('user', trimmedInput, activeChartContext),
       );
       setInput('');
       streamAssistantResponse(
-        getFriendlyGreetingReply(languagePreference.language),
+        [
+          getFriendlyGreetingReply(languagePreference.language),
+          buildPredictaLearningSuggestion({
+            kundli: activeKundli,
+            language: languagePreference.language,
+            memory: predictaMemory,
+            savedKundlis,
+          }),
+        ].join('\n\n'),
       );
       return;
     }
@@ -207,6 +225,20 @@ export function ChatScreen({
             languagePreference.language,
           )}\n\nI am with you. Create your Kundli first if you want reflective timing support, but do not delay urgent or professional help.`,
         );
+        return;
+      }
+
+      const actionReply = buildPredictaActionReply({
+        kundli: undefined,
+        language: languagePreference.language,
+        memory: predictaMemory,
+        savedKundlis: savedKundliRecords.map(record => record.kundliData),
+        text: trimmedInput,
+      });
+      setPredictaMemory(actionReply.memory);
+
+      if (actionReply.handled && actionReply.text) {
+        streamAssistantResponse(actionReply.text);
         return;
       }
 
@@ -256,9 +288,13 @@ export function ChatScreen({
 
         setActiveKundli(nextKundli);
         clearPendingBirthDetailsDraft();
-        appendConversationMessage(
-          createMessage('user', trimmedInput, activeChartContext),
+        const nextMemory = learnPredictaInteraction(
+          predictaMemory,
+          trimmedInput,
+          'chart',
+          nextKundli,
         );
+        setPredictaMemory(nextMemory);
         saveGeneratedKundliLocally(nextKundli)
           .then(setSavedKundlis)
           .catch(() =>
@@ -267,16 +303,43 @@ export function ChatScreen({
               .catch(() => undefined),
           );
         streamAssistantResponse(
-          buildMobileKundliCreatedReply(
-            languagePreference.language,
-            nextKundli,
-          ),
+          [
+            buildMobileKundliCreatedReply(
+              languagePreference.language,
+              nextKundli,
+            ),
+            buildPredictaLearningSuggestion({
+              kundli: nextKundli,
+              language: languagePreference.language,
+              memory: nextMemory,
+              savedKundlis: [nextKundli],
+            }),
+          ].join('\n\n'),
         );
       } catch {
         streamAssistantResponse(
           getBirthExtractionFailureReply(languagePreference.language),
         );
       }
+      return;
+    }
+
+    const savedKundlis = savedKundliRecords.map(record => record.kundliData);
+    const actionReply = buildPredictaActionReply({
+      kundli: activeKundli,
+      language: languagePreference.language,
+      memory: predictaMemory,
+      savedKundlis,
+      text: trimmedInput,
+    });
+    setPredictaMemory(actionReply.memory);
+
+    if (actionReply.handled && actionReply.text) {
+      appendConversationMessage(
+        createMessage('user', trimmedInput, activeChartContext),
+      );
+      setInput('');
+      streamAssistantResponse(actionReply.text);
       return;
     }
 
@@ -326,6 +389,18 @@ export function ChatScreen({
         message: trimmedInput,
         userPlan: effectivePlan,
       });
+      const nextMemory = learnPredictaInteraction(
+        actionReply.memory,
+        trimmedInput,
+        undefined,
+        activeKundli,
+      );
+      setPredictaMemory(nextMemory);
+      const answerText = hasHighStakesLanguage(trimmedInput)
+        ? `${getSafetyBoundaryCopy(
+            languagePreference.language,
+          )}\n\n${formatAskWithProof(response.text, response.jyotishAnalysis)}`
+        : formatAskWithProof(response.text, response.jyotishAnalysis);
 
       if (!response.cached) {
         if (
@@ -357,14 +432,15 @@ export function ChatScreen({
       }
 
       streamAssistantResponse(
-        hasHighStakesLanguage(trimmedInput)
-          ? `${getSafetyBoundaryCopy(
-              languagePreference.language,
-            )}\n\n${formatAskWithProof(
-              response.text,
-              response.jyotishAnalysis,
-            )}`
-          : formatAskWithProof(response.text, response.jyotishAnalysis),
+        [
+          answerText,
+          buildPredictaLearningSuggestion({
+            kundli: activeKundli,
+            language: languagePreference.language,
+            memory: nextMemory,
+            savedKundlis,
+          }),
+        ].join('\n\n'),
       );
     } catch (error) {
       streamAssistantResponse(
