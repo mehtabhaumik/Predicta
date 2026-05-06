@@ -2260,17 +2260,27 @@ p {
 .chat-workspace {
   display: block;
   max-width: 1040px;
+  min-height: 0;
 }
 
 .chat-panel {
-  min-height: 680px;
+  display: flex;
+  flex-direction: column;
+  height: clamp(560px, calc(100vh - 250px), 820px);
+  min-height: 560px;
+  overflow: hidden;
 }
 
 .chat-thread {
-  display: grid;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
   gap: 22px;
-  min-height: 560px;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 40px;
+  scroll-behavior: smooth;
 }
 
 .message {
@@ -2309,6 +2319,7 @@ p {
 .chat-input-row {
   border-top: 1px solid var(--border-quiet);
   display: flex;
+  flex: 0 0 auto;
   gap: 12px;
   padding: 22px;
 }
@@ -3439,6 +3450,24 @@ p {
 
   .chart-orbit {
     display: none;
+  }
+
+  .chat-panel {
+    height: min(74vh, 680px);
+    min-height: 520px;
+  }
+
+  .chat-thread {
+    padding: 22px;
+  }
+
+  .chat-input-row {
+    flex-direction: column;
+    padding: 16px;
+  }
+
+  .chat-input-row .button {
+    width: 100%;
   }
 
   .message {

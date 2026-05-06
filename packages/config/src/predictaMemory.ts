@@ -30,24 +30,24 @@ const GREETINGS: Record<SupportedLanguage, string[]> = {
     'Good to see you. We can go one detail at a time.',
   ],
   hi: [
-    'Namaste. मैं आपके साथ हूं.',
-    'Pranam. आराम से बताइए, मैं सुन रही हूं.',
-    'Jai Bholenath. चलिए धीरे से देखते हैं.',
-    'Om Namah Shivaya. जो details पता हैं, वहीं से शुरू करते हैं.',
-    'Jai Maa Durga. हम इसे शांत और practical रखेंगे.',
-    'Jai Ganesh. आसान शुरुआत करते हैं.',
-    'Jai Shree Ram. मन की बात बताइए.',
-    'Ram Ram. मैं ध्यान से सुन रही हूं.',
+    'Namaste. Main aapke saath hoon.',
+    'Pranam. Aaram se bataye, main dhyan se sun rahi hoon.',
+    'Jai Bholenath. Chaliye dheere se dekhte hain.',
+    'Om Namah Shivaya. Jo details pata hain, wahi se start karte hain.',
+    'Jai Maa Durga. Isko calm aur practical rakhte hain.',
+    'Jai Ganesh. Simple start karte hain.',
+    'Jai Shree Ram. Mann ki baat bataye.',
+    'Ram Ram. Main care ke saath sun rahi hoon.',
   ],
   gu: [
-    'Namaste. હું તમારી સાથે છું.',
-    'Pranam. શાંતિથી કહો, હું સાંભળી રહી છું.',
-    'Jai Bholenath. ચાલો ધીમેથી જોઈએ.',
-    'Om Namah Shivaya. જે details ખબર છે, ત્યાંથી શરૂ કરીએ.',
-    'Jai Maa Durga. આપણે આને શાંત અને practical રાખીશું.',
-    'Jai Ganesh. સરળ શરૂઆત કરીએ.',
-    'Jai Shree Ram. મનની વાત કહો.',
-    'Ram Ram. હું ધ્યાનથી સાંભળી રહી છું.',
+    'Namaste. Hu tamari sathe chhu.',
+    'Pranam. Shanti thi kaho, hu dhyan thi sambhli rahi chhu.',
+    'Jai Bholenath. Chalo dhime thi joie.',
+    'Om Namah Shivaya. Je details khabar chhe, tyan thi start kariye.',
+    'Jai Maa Durga. Aapde aa calm ane practical rakhishu.',
+    'Jai Ganesh. Simple sharu kariye.',
+    'Jai Shree Ram. Mann ni vaat kaho.',
+    'Ram Ram. Hu care sathe sambhli rahi chhu.',
   ],
 };
 
@@ -249,50 +249,50 @@ function getBirthIntakeCopy(language: SupportedLanguage) {
   if (language === 'hi') {
     return {
       confirmation:
-        'अच्छा, मैंने details संभाल ली हैं. बस एक बात confirm करनी है.',
+        'Achha, maine details sambhal li hain. Bas ek baat confirm karni hai.',
       fields: {
-        am_pm: 'AM या PM',
-        birth_place: 'जन्म स्थान',
-        city: 'शहर',
-        country: 'देश',
-        date: 'जन्म तारीख',
-        name: 'नाम',
-        state: 'राज्य',
-        time: 'जन्म समय',
+        am_pm: 'AM ya PM',
+        birth_place: 'birth place',
+        city: 'city',
+        country: 'country',
+        date: 'date of birth',
+        name: 'name',
+        state: 'state',
+        time: 'birth time',
       } as Record<string, string>,
-      need: 'अब kundli के लिए चाहिए',
+      need: 'Ab Kundli ke liye chahiye',
       options: 'Options',
-      progress: 'ठीक है, मुझे पिछली बात याद है. अभी तक मैंने यह समझा',
-      ready: 'सुंदर. अब Kundli बनाने के लिए जरूरी details मिल गई हैं.',
+      progress: 'Theek hai, mujhe pichli baat yaad hai. Abhi tak maine yeh samjha',
+      ready: 'Sundar. Ab Kundli banane ke liye zaroori details mil gayi hain.',
       unknownTime:
-        'अगर exact time नहीं पता, “time unknown” लिख दें. मैं birth-time detective mode से guide कर दूंगी.',
+        'Agar exact time nahi pata, “time unknown” likh dein. Main birth-time detective mode se guide kar dungi.',
       verify:
-        'अब मैं यहीं chat में Kundli बनाऊंगी और अगले सवाल के लिए chart active रखूंगी.',
+        'Ab main yahin chat mein Kundli banaungi aur next question ke liye chart active rakhungi.',
     };
   }
 
   if (language === 'gu') {
     return {
       confirmation:
-        'સારું, મેં details સાચવી છે. ફક્ત એક બાબત confirm કરવી છે.',
+        'Saru, maine details save kari chhe. Fakat ek vaat confirm karvi chhe.',
       fields: {
-        am_pm: 'AM કે PM',
-        birth_place: 'જન્મ સ્થળ',
-        city: 'શહેર',
-        country: 'દેશ',
-        date: 'જન્મ તારીખ',
-        name: 'નામ',
-        state: 'રાજ્ય',
-        time: 'જન્મ સમય',
+        am_pm: 'AM ke PM',
+        birth_place: 'birth place',
+        city: 'city',
+        country: 'country',
+        date: 'date of birth',
+        name: 'name',
+        state: 'state',
+        time: 'birth time',
       } as Record<string, string>,
-      need: 'હવે kundli માટે જોઈએ',
+      need: 'Have Kundli mate joye',
       options: 'Options',
-      progress: 'બરાબર, મને અગાઉની વાત યાદ છે. અત્યાર સુધી મેં આ સમજ્યું',
-      ready: 'સુંદર. હવે Kundli બનાવવા માટે જરૂરી details મળી ગઈ છે.',
+      progress: 'Barabar, mane agavni vaat yaad chhe. Atyar sudhi maine aa samjhyu',
+      ready: 'Sundar. Have Kundli banava mate jaruri details mali gayi chhe.',
       unknownTime:
-        'જો exact time ખબર ન હોય, “time unknown” લખો. હું birth-time detective mode થી guide કરીશ.',
+        'Jo exact time khabar nathi, “time unknown” lakho. Hu birth-time detective mode thi guide karish.',
       verify:
-        'હવે હું અહીં chat માં Kundli બનાવીશ અને આગળના પ્રશ્ન માટે chart active રાખીશ.',
+        'Have hu ahi chat ma Kundli banaish ane next question mate chart active rakhish.',
     };
   }
 

@@ -35,18 +35,18 @@ export function getFriendlyGreetingReply(language: SupportedLanguage): string {
   if (language === 'hi') {
     return [
       greeting,
-      'आराम से बताइए, कोई जल्दी नहीं.',
-      'अगर आप Kundli बनाना चाहते हैं, तो बस date of birth, birth time, और birth place लिख दें. अगर केवल DOB पता है, वह भी भेज दीजिए; मैं बाकी चीजें प्यार से पूछ लूंगी.',
-      'अगर Kundli बन चुकी है, तो career, marriage, money, timing, remedies या मन की उलझन पर एक सवाल पूछिए. मैं chart proof के साथ सरल भाषा में समझाऊंगी.',
+      'Aaram se bataye, koi jaldi nahi.',
+      'Agar aap Kundli banana chahte hain, to bas date of birth, birth time, aur birth place likh dein. Agar sirf DOB pata hai, woh bhi bhej dijiye; baaki main pyaar se pooch lungi.',
+      'Agar Kundli ready hai, to career, marriage, money, timing, remedies ya mann ki uljhan par ek sawal poochiye. Main chart proof ke saath simple language mein samjhaungi.',
     ].join('\n');
   }
 
   if (language === 'gu') {
     return [
       greeting,
-      'શાંતિથી કહો, કોઈ ઉતાવળ નથી.',
-      'જો Kundli બનાવવી હોય તો date of birth, birth time અને birth place લખો. ફક્ત DOB ખબર હોય તો પણ મોકલો; બાકીની વિગતો હું પ્રેમથી પૂછી લઈશ.',
-      'જો Kundli બની ગઈ હોય, તો career, marriage, money, timing, remedies અથવા મનની મૂંઝવણ પર એક પ્રશ્ન પૂછો. હું chart proof સાથે સરળ ભાષામાં સમજાવીશ.',
+      'Shanti thi kaho, koi utaval nathi.',
+      'Jo Kundli banavvi hoy to date of birth, birth time ane birth place lakho. Fakat DOB khabar hoy to pan moklo; baaki hu pyaar thi poochi laish.',
+      'Jo Kundli ready chhe, to career, marriage, money, timing, remedies athva mann ni munjvan par ek sawal poochho. Hu chart proof sathe simple rite samjhavish.',
     ].join('\n');
   }
 
@@ -65,10 +65,10 @@ export function getBirthIntakeWelcome(language: SupportedLanguage): string {
   );
 
   if (language === 'hi') {
-    return `${greeting} अपनी जन्म तारीख किसी भी format में लिखें. फिर birth time और birth place बताएं. अगर अभी केवल DOB पता है, भेज दीजिए; मैं बाकी details धीरे से पूछ लूंगी.`;
+    return `${greeting} Apni birth date kisi bhi format mein likhiye. Phir birth time aur birth place bataye. Agar abhi sirf DOB pata hai, bhej dijiye; main baaki details dheere se pooch lungi.`;
   }
   if (language === 'gu') {
-    return `${greeting} તમારી જન્મ તારીખ કોઈપણ format માં લખો. પછી birth time અને birth place જણાવો. જો હાલમાં ફક્ત DOB ખબર હોય, મોકલો; બાકીની વિગતો હું ધીમેથી પૂછી લઈશ.`;
+    return `${greeting} Tamari birth date koi pan format ma lakho. Pachhi birth time ane birth place janavo. Jo haal ma fakat DOB khabar hoy, moklo; baaki details hu dhime thi poochi laish.`;
   }
   return `${greeting} Tell me your date of birth in any format, then birth time and birth place. If you only know the DOB right now, send it first; I will gently ask for the rest.`;
 }
@@ -83,18 +83,18 @@ export function getListeningMicrocopy(language: SupportedLanguage): string {
       'Calculating quietly so the guidance stays grounded...',
     ],
     hi: [
-      'जन्म स्थान और timezone मिलाकर देख रही हूं...',
-      'Lagna और मुख्य chart factors तैयार कर रही हूं...',
-      'Nakshatra, dasha और transit context देख रही हूं...',
-      'जवाब देने से पहले chart evidence पढ़ रही हूं...',
-      'धीरे से calculation कर रही हूं ताकि बात grounded रहे...',
+      'Birth place aur timezone resolve kar rahi hoon...',
+      'Lagna, Moon aur core chart factors check kar rahi hoon...',
+      'Nakshatra, dasha aur transit context dekh rahi hoon...',
+      'Answer se pehle chart proof padh rahi hoon...',
+      'Grounded guidance ke liye calculation quietly kar rahi hoon...',
     ],
     gu: [
-      'જન્મ સ્થળ અને timezone મેળવી રહી છું...',
-      'Lagna અને મુખ્ય chart factors તૈયાર કરી રહી છું...',
-      'Nakshatra, dasha અને transit context જોઈ રહી છું...',
-      'જવાબ પહેલાં chart evidence વાંચી રહી છું...',
-      'શાંતિથી calculation કરી રહી છું જેથી માર્ગદર્શન grounded રહે...',
+      'Birth place ane timezone resolve kari rahi chhu...',
+      'Lagna, Moon ane core chart factors check kari rahi chhu...',
+      'Nakshatra, dasha ane transit context joi rahi chhu...',
+      'Answer pehla chart proof vanchi rahi chhu...',
+      'Grounded guidance mate calculation quietly kari rahi chhu...',
     ],
   };
   const items = options[language] ?? options.en;
@@ -108,22 +108,22 @@ export function getBirthExtractionFailureReply(
 ): string {
   if (language === 'hi') {
     return [
-      'मैंने कोशिश की, लेकिन details साफ़ तरह से पढ़ नहीं पाई. कोई बात नहीं.',
-      'कृपया ऐसे भेजें:',
+      'Maine try kiya, lekin details clearly read nahi ho paayi. Koi baat nahi.',
+      'Please aise bheje:',
       'DOB: 22/08/1980',
       'Time: 6:30 AM',
       'Place: Mumbai, India',
-      'अगर time नहीं पता, “time unknown” लिख दें. मैं आगे guide कर दूंगी.',
+      'Agar time nahi pata, “time unknown” likh dein. Main aage guide kar dungi.',
     ].join('\n');
   }
   if (language === 'gu') {
     return [
-      'મેં પ્રયત્ન કર્યો, પણ details સ્પષ્ટ રીતે વાંચી શકી નહીં. કોઈ વાત નહીં.',
-      'કૃપા કરીને આ રીતે મોકલો:',
+      'Maine try karyu, pan details clearly read nahi thai. Koi vaat nahi.',
+      'Please aa rite moklo:',
       'DOB: 22/08/1980',
       'Time: 6:30 AM',
       'Place: Mumbai, India',
-      'જો time ખબર નથી, “time unknown” લખો. હું આગળ guide કરીશ.',
+      'Jo time khabar nathi, “time unknown” lakho. Hu aagal guide karish.',
     ].join('\n');
   }
   return [
@@ -137,7 +137,7 @@ export function getBirthExtractionFailureReply(
 }
 
 export function isSimpleGreeting(message: string): boolean {
-  return /^(hi|hello|hey|namaste|namaskar|pranam|jai shree krishna|kem cho|kaise ho)[!.\s]*$/i.test(
+  return /^(hi|hello|hey|namaste|namaskar|pranam|ram ram|jai shree krishna|kem cho|kaise ho|kaise ho predicta|su chale|shu chale)[!.\s]*$/i.test(
     message.trim(),
   );
 }

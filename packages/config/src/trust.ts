@@ -7,7 +7,7 @@ import type {
 } from '@pridicta/types';
 
 const HIGH_STAKES_PATTERN =
-  /\b(health|medical|medicine|doctor|surgery|pregnancy|disease|legal|court|lawsuit|contract|police|tax|finance|financial|investment|stock|crypto|loan|debt|insurance|self-harm|suicide|violence|abuse|emergency)\b/i;
+  /\b(health|medical|medicine|doctor|surgery|pregnancy|disease|legal|court|lawsuit|contract|police|tax|finance|financial|investment|stock|crypto|loan|debt|insurance|paisa|paise|money|nana|dhan|karz|udhar|self-harm|suicide|violence|abuse|emergency)\b/i;
 
 export function getConfidenceCopy(
   confidence: ConfidenceLevel,
@@ -30,30 +30,30 @@ export function getConfidenceCopy(
     },
     gu: {
       high: {
-        label: 'ઊંચો વિશ્વાસ',
-        meaning: 'ઘણા chart factors એક જ દિશામાં બતાવે છે.',
+        label: 'High confidence',
+        meaning: 'Ghana chart factors ek j direction batave chhe.',
       },
       low: {
-        label: 'ઓછો વિશ્વાસ',
-        meaning: 'Evidence missing, weak અથવા birth-time sensitive છે.',
+        label: 'Low confidence',
+        meaning: 'Evidence missing, weak athva birth-time sensitive chhe.',
       },
       medium: {
-        label: 'મધ્યમ વિશ્વાસ',
-        meaning: 'Useful signal છે, પણ evidence mixed અથવા incomplete છે.',
+        label: 'Medium confidence',
+        meaning: 'Useful signal chhe, pan evidence mixed athva incomplete chhe.',
       },
     },
     hi: {
       high: {
-        label: 'ऊंचा विश्वास',
-        meaning: 'कई chart factors एक ही दिशा दिखाते हैं.',
+        label: 'High confidence',
+        meaning: 'Kai chart factors ek hi direction dikhate hain.',
       },
       low: {
-        label: 'कम विश्वास',
-        meaning: 'Evidence missing, weak या birth-time sensitive है.',
+        label: 'Low confidence',
+        meaning: 'Evidence missing, weak ya birth-time sensitive hai.',
       },
       medium: {
-        label: 'मध्यम विश्वास',
-        meaning: 'Useful signal है, पर evidence mixed या incomplete है.',
+        label: 'Medium confidence',
+        meaning: 'Useful signal hai, par evidence mixed ya incomplete hai.',
       },
     },
   };
@@ -65,10 +65,10 @@ export function getSafetyBoundaryCopy(
   language: SupportedLanguage = 'en',
 ): string {
   if (language === 'hi') {
-    return 'Predicta reflection और timing support देता है. Medical, legal, financial या safety decisions के लिए qualified professional से सलाह लें.';
+    return 'Predicta reflection aur timing support deti hai. Medical, legal, financial ya safety decisions ke liye qualified professional se salah lein.';
   }
   if (language === 'gu') {
-    return 'Predicta reflection અને timing support આપે છે. Medical, legal, financial અથવા safety decisions માટે qualified professional ની સલાહ લો.';
+    return 'Predicta reflection ane timing support aape chhe. Medical, legal, financial athva safety decisions mate qualified professional ni salah lo.';
   }
   return 'Predicta provides reflection and timing support. For medical, legal, financial, or safety decisions, consult a qualified professional.';
 }

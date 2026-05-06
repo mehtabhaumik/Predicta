@@ -5,6 +5,7 @@ import {
   buildPredictaActionReply,
   buildPredictaLearningSuggestion,
   learnPredictaInteraction,
+  preparePredictaLanguageContext,
   type PredictaInteractionMemory,
 } from '@pridicta/astrology';
 import { getLanguageLabels } from '@pridicta/config/language';
@@ -62,6 +63,7 @@ export function WebPridictaChat(): React.JSX.Element {
   const labels = getLanguageLabels(language);
   const didLoadQueryPrompt = useRef(false);
   const didLoadMemory = useRef(false);
+  const threadRef = useRef<HTMLDivElement | null>(null);
   const [kundli, setKundli] = useState<KundliData | undefined>();
   const [savedKundlis, setSavedKundlis] = useState<KundliData[]>([]);
   const [birthMemory, setBirthMemory] = useState<PredictaBirthMemory>();
@@ -100,6 +102,14 @@ export function WebPridictaChat(): React.JSX.Element {
       predictaMemory,
     });
   }, [birthMemory, messages, predictaMemory]);
+
+  useEffect(() => {
+    const thread = threadRef.current;
+
+    if (thread) {
+      thread.scrollTop = thread.scrollHeight;
+    }
+  }, [messages, isSending]);
 
   useEffect(() => {
     setMessages(current =>
@@ -160,10 +170,17 @@ export function WebPridictaChat(): React.JSX.Element {
     ]);
 
     try {
+      const languageContext = preparePredictaLanguageContext({
+        memory: predictaMemory,
+        selectedLanguage: language,
+        text,
+      });
       const summary = await resolveSmartReply(text);
       const safeSummary =
         kundli && hasHighStakesLanguage(text)
-          ? `${getSafetyBoundaryCopy(language)}\n\n${summary}`
+          ? `${getSafetyBoundaryCopy(
+              languageContext.responseLanguage,
+            )}\n\n${summary}`
           : summary;
 
       setMessages(current => [
@@ -191,12 +208,18 @@ export function WebPridictaChat(): React.JSX.Element {
     }
   }
 
-  async function askWithProof(text: string, activeKundli: KundliData) {
+  async function askWithProof(
+    text: string,
+    activeKundli: KundliData,
+    responseLanguage: SupportedLanguage,
+    acknowledgement?: string,
+  ) {
     const nextMemory = learnPredictaInteraction(
       predictaMemory,
       text,
       undefined,
       activeKundli,
+      responseLanguage,
     );
     setPredictaMemory(nextMemory);
     const response = await askPridictaFromWeb({
@@ -205,31 +228,42 @@ export function WebPridictaChat(): React.JSX.Element {
         text: message.text,
       })),
       kundli: activeKundli,
-      language,
+      language: responseLanguage,
       message: text,
       userPlan: 'FREE',
     });
 
     return [
+      acknowledgement,
       formatAskWithProof(response.text, response.jyotishAnalysis),
       buildPredictaLearningSuggestion({
         hasPremiumAccess: false,
         kundli: activeKundli,
-        language,
+        language: responseLanguage,
         memory: nextMemory,
         savedKundlis,
       }),
-    ].join('\n\n');
+    ]
+      .filter(Boolean)
+      .join('\n\n');
   }
 
   async function resolveSmartReply(text: string): Promise<string> {
+    const languageContext = preparePredictaLanguageContext({
+      memory: predictaMemory,
+      selectedLanguage: language,
+      text,
+    });
+    const responseLanguage = languageContext.responseLanguage;
+
     if (isSimpleGreeting(text)) {
       return [
-        getFriendlyGreetingReply(language),
+        languageContext.acknowledgement,
+        getFriendlyGreetingReply(responseLanguage),
         buildPredictaLearningSuggestion({
           hasPremiumAccess: false,
           kundli,
-          language,
+          language: responseLanguage,
           memory: predictaMemory,
           savedKundlis,
         }),
@@ -239,7 +273,11 @@ export function WebPridictaChat(): React.JSX.Element {
     }
 
     if (looksLikeBirthDetails(text)) {
-      return handleBirthIntake(text);
+      return handleBirthIntake(
+        text,
+        responseLanguage,
+        languageContext.acknowledgement,
+      );
     }
 
     const actionReply = buildPredictaActionReply({
@@ -257,16 +295,30 @@ export function WebPridictaChat(): React.JSX.Element {
     }
 
     if (!kundli) {
-      return createKundliFirstReply(language, text);
+      return [
+        languageContext.acknowledgement,
+        createKundliFirstReply(responseLanguage, text),
+      ]
+        .filter(Boolean)
+        .join('\n\n');
     }
 
-    return askWithProof(text, kundli);
+    return askWithProof(
+      text,
+      kundli,
+      responseLanguage,
+      languageContext.acknowledgement,
+    );
   }
 
-  async function handleBirthIntake(text: string): Promise<string> {
+  async function handleBirthIntake(
+    text: string,
+    responseLanguage: SupportedLanguage,
+    acknowledgement?: string,
+  ): Promise<string> {
     const result = await extractBirthDetailsFromWeb(text);
     const reply = buildBirthIntakeReply({
-      language,
+      language: responseLanguage,
       memory: birthMemory,
       rawInput: text,
       result,
@@ -278,7 +330,7 @@ export function WebPridictaChat(): React.JSX.Element {
     });
 
     if (!reply.isReady) {
-      return reply.text;
+      return [acknowledgement, reply.text].filter(Boolean).join('\n\n');
     }
 
     const place =
@@ -291,7 +343,12 @@ export function WebPridictaChat(): React.JSX.Element {
       );
 
     if (!place || !reply.draft.date || !reply.draft.time) {
-      return buildPlaceClarificationReply(language, reply.text);
+      return [
+        acknowledgement,
+        buildPlaceClarificationReply(responseLanguage, reply.text),
+      ]
+        .filter(Boolean)
+        .join('\n\n');
     }
 
     const placeParts = place.place.split(',').map(part => part.trim());
@@ -325,15 +382,17 @@ export function WebPridictaChat(): React.JSX.Element {
       text,
       'chart',
       nextKundli,
+      responseLanguage,
     );
     setPredictaMemory(nextMemory);
 
     return [
-      buildKundliCreatedReply(language, nextKundli),
+      acknowledgement,
+      buildKundliCreatedReply(responseLanguage, nextKundli),
       buildPredictaLearningSuggestion({
         hasPremiumAccess: false,
         kundli: nextKundli,
-        language,
+        language: responseLanguage,
         memory: nextMemory,
         savedKundlis: nextSavedKundlis,
       }),
@@ -343,7 +402,7 @@ export function WebPridictaChat(): React.JSX.Element {
   return (
     <div className="chat-workspace">
       <div className="card chat-panel">
-        <div className="chat-thread">
+        <div aria-live="polite" className="chat-thread" ref={threadRef}>
           {messages.map(message => (
             <div className={`message ${message.role}`} key={message.id}>
               <span>{message.role === 'user' ? 'You' : 'Predicta'}</span>
@@ -415,34 +474,34 @@ function buildContextMessage({
 }): string {
   if (language === 'hi') {
     if (birthTimeDetective) {
-      return 'Birth Time Detective report loaded है. Confidence और safe timing limits समझाने के लिए पूछें.';
+      return 'Birth Time Detective report loaded hai. Confidence aur safe timing limits samjhane ke liye poochiye.';
     }
     if (remedyTitle) {
-      return `Remedy Coach practice loaded है: ${remedyTitle}. Chart evidence से समझाने के लिए पूछें.`;
+      return `Remedy Coach practice loaded hai: ${remedyTitle}. Chart evidence se samjhane ke liye poochiye.`;
     }
     if (decisionQuestion) {
-      return `Decision Oracle memo loaded है: ${decisionArea} / ${decisionState}. Chart evidence से समझाने के लिए पूछें.`;
+      return `Decision Oracle memo loaded hai: ${decisionArea} / ${decisionState}. Chart evidence se samjhane ke liye poochiye.`;
     }
     if (briefingDate) {
-      return `${briefingDate} की daily briefing loaded है. Chart evidence से समझाने के लिए पूछें.`;
+      return `${briefingDate} ki daily briefing loaded hai. Chart evidence se samjhane ke liye poochiye.`;
     }
-    return 'Timeline event loaded है. Chart evidence से समझाने के लिए पूछें.';
+    return 'Timeline event loaded hai. Chart evidence se samjhane ke liye poochiye.';
   }
 
   if (language === 'gu') {
     if (birthTimeDetective) {
-      return 'Birth Time Detective report loaded છે. Confidence અને safe timing limits સમજાવવા પૂછો.';
+      return 'Birth Time Detective report loaded chhe. Confidence ane safe timing limits samjhava poochho.';
     }
     if (remedyTitle) {
-      return `Remedy Coach practice loaded છે: ${remedyTitle}. Chart evidence થી સમજાવવા પૂછો.`;
+      return `Remedy Coach practice loaded chhe: ${remedyTitle}. Chart evidence thi samjhava poochho.`;
     }
     if (decisionQuestion) {
-      return `Decision Oracle memo loaded છે: ${decisionArea} / ${decisionState}. Chart evidence થી સમજાવવા પૂછો.`;
+      return `Decision Oracle memo loaded chhe: ${decisionArea} / ${decisionState}. Chart evidence thi samjhava poochho.`;
     }
     if (briefingDate) {
-      return `${briefingDate} ની daily briefing loaded છે. Chart evidence થી સમજાવવા પૂછો.`;
+      return `${briefingDate} ni daily briefing loaded chhe. Chart evidence thi samjhava poochho.`;
     }
-    return 'Timeline event loaded છે. Chart evidence થી સમજાવવા પૂછો.';
+    return 'Timeline event loaded chhe. Chart evidence thi samjhava poochho.';
   }
 
   if (birthTimeDetective) {
@@ -462,10 +521,10 @@ function buildContextMessage({
 
 function chatPlaceholder(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'Birth details लिखें या calculated kundli से पूछें...';
+    return 'Birth details likhein ya calculated Kundli se poochhein...';
   }
   if (language === 'gu') {
-    return 'Birth details લખો અથવા calculated kundli પરથી પૂછો...';
+    return 'Birth details lakho ya calculated Kundli parthi poochho...';
   }
   return 'Share birth details or ask from a calculated kundli...';
 }
@@ -491,10 +550,10 @@ function createKundliFirstReply(
     : '';
 
   if (language === 'hi') {
-    return `${safety}मैं आपके साथ हूं. इस सवाल का सही chart-based जवाब देने के लिए पहले Kundli चाहिए. यहीं chat में अपनी जन्म तारीख, जन्म समय और जन्म स्थान भेज दें. मैं Kundli यहीं बना दूंगी.`;
+    return `${safety}Main aapke saath hoon. Is sawal ka sahi chart-based jawab dene ke liye pehle Kundli chahiye. Yahin chat mein apni birth date, birth time aur birth place bhej dein. Main Kundli yahin bana dungi.`;
   }
   if (language === 'gu') {
-    return `${safety}હું તમારી સાથે છું. આ પ્રશ્નનો સાચો chart-based જવાબ આપવા માટે પહેલા Kundli જોઈએ. અહીં chat માં જન્મ તારીખ, જન્મ સમય અને જન્મ સ્થળ મોકલો. હું Kundli અહીં જ બનાવી દઈશ.`;
+    return `${safety}Hu tamari sathe chhu. Aa sawal no sacho chart-based jawab aapva mate pehla Kundli joye. Ahi chat ma birth date, birth time ane birth place moklo. Hu Kundli ahi j banaavi daish.`;
   }
   return `${safety}I am with you. To answer this from your real chart, I need your Kundli first. Share your date of birth, birth time, and birth place right here, and I will create the Kundli inside this chat.`;
 }
@@ -506,13 +565,13 @@ function buildPlaceClarificationReply(
   if (language === 'hi') {
     return [
       readyText,
-      'मैं Kundli यहीं बनाऊंगी. बस birth place थोड़ा और clear चाहिए: city, state, country लिख दें.',
+      'Main Kundli yahin banaungi. Bas birth place thoda aur clear chahiye: city, state, country likh dein.',
     ].join('\n\n');
   }
   if (language === 'gu') {
     return [
       readyText,
-      'હું Kundli અહીં જ બનાવીશ. ફક્ત birth place થોડું વધુ clear જોઈએ: city, state, country લખો.',
+      'Hu Kundli ahi j banaish. Fakat birth place thodu vadhu clear joye: city, state, country lakho.',
     ].join('\n\n');
   }
   return [
@@ -534,16 +593,16 @@ function buildKundliCreatedReply(
 
   if (language === 'hi') {
     return [
-      'हो गया. मैंने Kundli यहीं chat में बना दी है और इसे active रख लिया है.',
+      'Ho gaya. Maine Kundli yahin chat mein bana di hai aur ise active rakh liya hai.',
       lines.join('\n'),
-      'अब career, marriage, money, health tendencies, remedies, timing, या किसी decision पर पूछिए. मैं answer chart proof के साथ दूंगी.',
+      'Ab career, marriage, money, health tendencies, remedies, timing, ya kisi decision par poochiye. Main answer chart proof ke saath dungi.',
     ].join('\n\n');
   }
   if (language === 'gu') {
     return [
-      'થઈ ગયું. મેં Kundli અહીં chat માં બનાવી દીધી છે અને તેને active રાખી છે.',
+      'Thai gayu. Maine Kundli ahi chat ma banaavi didhi chhe ane tene active rakhi chhe.',
       lines.join('\n'),
-      'હવે career, marriage, money, health tendencies, remedies, timing અથવા કોઈ decision વિશે પૂછો. હું chart proof સાથે જવાબ આપીશ.',
+      'Have career, marriage, money, health tendencies, remedies, timing athva koi decision vishe poochho. Hu chart proof sathe jawab aapish.',
     ].join('\n\n');
   }
   return [

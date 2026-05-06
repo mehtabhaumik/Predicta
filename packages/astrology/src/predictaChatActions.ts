@@ -32,6 +32,7 @@ export type PredictaInteractionMemory = {
   chartSignatures: string[];
   firstSeenAt: string;
   lastAction?: PredictaAppActionId;
+  preferredLanguageStyle?: SupportedLanguage;
   lastSeenAt: string;
   learnedThemes: string[];
   totalTurns: number;
@@ -53,6 +54,13 @@ export type PredictaActionReply = {
   text?: string;
 };
 
+export type PredictaLanguageContext = {
+  acknowledgement?: string;
+  dominantLanguage: SupportedLanguage;
+  normalizedText: string;
+  responseLanguage: SupportedLanguage;
+};
+
 const ACTION_PATTERNS: Array<{
   id: PredictaAppActionId;
   pattern: RegExp;
@@ -60,20 +68,22 @@ const ACTION_PATTERNS: Array<{
   {
     id: 'destiny-passport',
     pattern:
-      /\b(passport|destiny\s*passport|identity\s*card|profile\s*card)\b/i,
+      /\b(passport|pasport|paspot|destiny\s*passport|identity\s*card|profile\s*card)\b/i,
   },
   {
     id: 'life-timeline',
     pattern:
-      /\b(timeline|life\s*calendar|calendar|dasha\s*timeline|transit\s*timeline|life\s*map)\b/i,
+      /\b(timeline|life\s*calendar|calendar|calender|dasha\s*timeline|transit\s*timeline|life\s*map|next\s*12\s*months|aavta\s*varas|agla\s*saal)\b/i,
   },
   {
     id: 'daily-briefing',
-    pattern: /\b(daily|today|briefing|cosmic\s*weather|day\s*reading)\b/i,
+    pattern:
+      /\b(daily|today|aaj|briefing|cosmic\s*weather|day\s*reading|aaj\s*ka|aajnu)\b/i,
   },
   {
     id: 'remedies',
-    pattern: /\b(remedy|remedies|upay|coach|practice|mantra|दान|उपाय)\b/i,
+    pattern:
+      /\b(remedy|remedies|upay|upaay|coach|practice|mantra|daan)\b/i,
   },
   {
     id: 'birth-time',
@@ -87,21 +97,22 @@ const ACTION_PATTERNS: Array<{
   {
     id: 'report',
     pattern:
-      /\b(report|pdf|dossier|bundle|career\s*report|marriage\s*report|wealth\s*report)\b/i,
+      /\b(report|riport|ripot|pdf|dossier|bundle|career\s*report|marriage\s*report|wealth\s*report|report\s*bana|pdf\s*bana)\b/i,
   },
   {
     id: 'relationship',
     pattern:
-      /\b(relationship|compatibility|marriage|couple|partner|match|synastry)\b/i,
+      /\b(relationship|compatibility|marriage|shaadi|couple|partner|match|synastry|rishta|vivah)\b/i,
   },
   {
     id: 'family-map',
-    pattern: /\b(family|karma\s*map|household|parents|children|vault)\b/i,
+    pattern:
+      /\b(family|karma\s*map|household|parents|children|vault|ghar|parivar|kutumb)\b/i,
   },
   {
     id: 'chart',
     pattern:
-      /\b(chart|kundli|kundali|house|planet|lagna|moon|nakshatra|north\s*indian)\b/i,
+      /\b(chart|kundli|kundly|kundali|kundaly|janam\s*kundli|house|planet|lagna|moon|nakshatra|north\s*indian)\b/i,
   },
   {
     id: 'pricing',
@@ -115,9 +126,74 @@ const ACTION_PATTERNS: Array<{
   {
     id: 'concierge',
     pattern:
-      /\b(help|what\s*can\s*you\s*do|show\s*me|guide\s*me|surprise\s*me|what\s*next)\b/i,
+      /\b(help|what\s*can\s*you\s*do|show\s*me|guide\s*me|surprise\s*me|what\s*next|kya\s*kar\s*sakti|su\s*kari\s*sake|shu\s*kari\s*sake)\b/i,
   },
 ];
+
+export function preparePredictaLanguageContext({
+  selectedLanguage,
+  text,
+  memory,
+}: {
+  memory?: PredictaInteractionMemory;
+  selectedLanguage: SupportedLanguage;
+  text: string;
+}): PredictaLanguageContext {
+  const dominantLanguage = detectDominantPredictaLanguage(text);
+  const responseLanguage =
+    selectedLanguage !== dominantLanguage &&
+    (dominantLanguage === 'hi' || dominantLanguage === 'gu')
+      ? dominantLanguage
+      : selectedLanguage;
+  const shouldAcknowledge =
+    responseLanguage !== selectedLanguage &&
+    memory?.preferredLanguageStyle !== responseLanguage;
+
+  return {
+    acknowledgement: shouldAcknowledge
+      ? buildLanguageSwitchAcknowledgement(selectedLanguage, responseLanguage)
+      : undefined,
+    dominantLanguage,
+    normalizedText: normalizePredictaIntentText(text),
+    responseLanguage,
+  };
+}
+
+export function normalizePredictaIntentText(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+export function detectDominantPredictaLanguage(
+  text: string,
+): SupportedLanguage {
+  const normalized = normalizePredictaIntentText(text);
+  const hasGujaratiScript = /[\u0A80-\u0AFF]/.test(text);
+  const hasDevanagari = /[\u0900-\u097F]/.test(text);
+  const guScore = [
+    hasGujaratiScript,
+    /\b(mane|mne|mare|mara|mari|tame|tamari|kem|shu|su|chhe|che|nathi|mate|paisa|nana|aavse|aavta|varas|kundli\s*banav)\b/i.test(
+      normalized,
+    ),
+  ].filter(Boolean).length;
+  const hiScore = [
+    hasDevanagari,
+    /\b(mera|meri|mujhe|mujko|mujhko|main|mein|me|aap|tum|kya|kaise|kaisa|batao|hoga|hogi|paisa|paise|kundli\s*bana|shaadi|naukri)\b/i.test(
+      normalized,
+    ),
+  ].filter(Boolean).length;
+
+  if (guScore > hiScore) {
+    return 'gu';
+  }
+  if (hiScore > 0) {
+    return 'hi';
+  }
+  return 'en';
+}
 
 export function buildPredictaActionReply({
   hasPremiumAccess = false,
@@ -127,8 +203,19 @@ export function buildPredictaActionReply({
   savedKundlis = [],
   text,
 }: PredictaActionRequest): PredictaActionReply {
-  const action = detectPredictaAppAction(text);
-  const nextMemory = learnPredictaInteraction(memory, text, action, kundli);
+  const languageContext = preparePredictaLanguageContext({
+    memory,
+    selectedLanguage: language,
+    text,
+  });
+  const action = detectPredictaAppAction(languageContext.normalizedText);
+  const nextMemory = learnPredictaInteraction(
+    memory,
+    text,
+    action,
+    kundli,
+    languageContext.responseLanguage,
+  );
 
   if (!action) {
     return {
@@ -142,7 +229,10 @@ export function buildPredictaActionReply({
       action,
       handled: true,
       memory: nextMemory,
-      text: buildNeedsKundliReply(language, action),
+      text: withLanguageAcknowledgement(
+        languageContext,
+        buildNeedsKundliReply(languageContext.responseLanguage, action),
+      ),
     };
   }
 
@@ -150,15 +240,18 @@ export function buildPredictaActionReply({
     action,
     handled: true,
     memory: nextMemory,
-    text: buildActionText({
-      action,
-      hasPremiumAccess,
-      kundli,
-      language,
-      memory: nextMemory,
-      savedKundlis,
-      text,
-    }),
+    text: withLanguageAcknowledgement(
+      languageContext,
+      buildActionText({
+        action,
+        hasPremiumAccess,
+        kundli,
+        language: languageContext.responseLanguage,
+        memory: nextMemory,
+        savedKundlis,
+        text,
+      }),
+    ),
   };
 }
 
@@ -180,7 +273,7 @@ export function buildPredictaLearningSuggestion({
   if (language === 'hi') {
     return [
       insight,
-      `मेरी तरफ से अगला smart step: ${next}. बोलिए तो मैं यहीं chat में शुरू कर दूंगी.`,
+      `Meri taraf se next smart step: ${next}. Boliye to main yahin chat mein start kar dungi.`,
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -189,7 +282,7 @@ export function buildPredictaLearningSuggestion({
   if (language === 'gu') {
     return [
       insight,
-      `મારા તરફથી આગળનો smart step: ${next}. કહો તો હું અહીં chat માં શરૂ કરી દઈશ.`,
+      `Mari taraf thi next smart step: ${next}. Kaho to hu ahi chat ma start kari dau.`,
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -208,6 +301,7 @@ export function learnPredictaInteraction(
   text: string,
   action?: PredictaAppActionId,
   kundli?: KundliData,
+  responseLanguage?: SupportedLanguage,
 ): PredictaInteractionMemory {
   const now = new Date().toISOString();
   const current = memory ?? {
@@ -239,6 +333,8 @@ export function learnPredictaInteraction(
     lastAction: action ?? current.lastAction,
     lastSeenAt: now,
     learnedThemes,
+    preferredLanguageStyle:
+      responseLanguage ?? current.preferredLanguageStyle,
     totalTurns: current.totalTurns + 1,
   };
 }
@@ -252,17 +348,13 @@ function detectPredictaAppAction(
     return undefined;
   }
 
-  const commandLike =
-    /\b(create|make|prepare|show|open|build|generate|tell|give|start|do)\b/i.test(
-      normalized,
-    );
   const match = ACTION_PATTERNS.find(item => item.pattern.test(normalized));
 
   if (match) {
     return match.id;
   }
 
-  return commandLike ? 'concierge' : undefined;
+  return undefined;
 }
 
 function actionRequiresKundli(action: PredictaAppActionId): boolean {
@@ -528,17 +620,17 @@ function buildNeedsKundliReply(
 
   if (language === 'hi') {
     return [
-      `हां, मैं ${actionLabel} यहीं chat में कर सकती हूं.`,
-      'पहले active Kundli चाहिए. DOB, birth time, और birth place भेज दें; मैं Kundli बनाकर इसी काम को आगे बढ़ाऊंगी.',
-      'अगर केवल DOB पता है, वही भेजिए. बाकी मैं प्यार से पूछ लूंगी.',
+      `Haan, main ${actionLabel} yahin chat mein kar sakti hoon.`,
+      'Pehle active Kundli chahiye. DOB, birth time, aur birth place bhej dein; main Kundli bana kar isi kaam ko aage badhaungi.',
+      'Agar sirf DOB pata hai, wahi bhejiye. Baaki main pyaar se pooch lungi.',
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      `હા, હું ${actionLabel} અહીં chat માં કરી શકું છું.`,
-      'પહેલા active Kundli જોઈએ. DOB, birth time અને birth place મોકલો; હું Kundli બનાવીને આ કામ આગળ વધારીશ.',
-      'ફક્ત DOB ખબર હોય તો એ મોકલો. બાકી હું ધીમેથી પૂછી લઈશ.',
+      `Haan, hu ${actionLabel} ahi chat ma kari shaku chhu.`,
+      'Pehla active Kundli joye. DOB, birth time ane birth place moklo; hu Kundli banaine aa kaam aagal vadharish.',
+      'Fakat DOB khabar hoy to e moklo. Baaki hu dhime thi poochi laish.',
     ].join('\n\n');
   }
 
@@ -551,10 +643,10 @@ function buildNeedsKundliReply(
 
 function actionIntro(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'हां. यह मैं यहीं कर देती हूं.';
+    return 'Haan. Yeh main yahin kar deti hoon.';
   }
   if (language === 'gu') {
-    return 'હા. આ હું અહીં જ કરી દઉં છું.';
+    return 'Haan. Aa hu ahi j kari dau chhu.';
   }
   return 'Yes. I can do that right here.';
 }
@@ -592,10 +684,10 @@ function pricingReply(
   }
 
   if (language === 'hi') {
-    return 'Premium का clean path: Monthly/Yearly for deeper AI + timelines + remedies + reports. One-time PDF for impulse purchase. Day Pass for trial. Compatibility/Marriage report अलग high-intent purchase रहना चाहिए.';
+    return 'Premium ka clean path: Monthly/Yearly for deeper AI + timelines + remedies + reports. One-time PDF impulse purchase ke liye. Day Pass trial ke liye. Compatibility/Marriage report alag high-intent purchase rehna chahiye.';
   }
   if (language === 'gu') {
-    return 'Premium નો clean path: Monthly/Yearly deeper AI + timelines + remedies + reports માટે. One-time PDF impulse purchase માટે. Day Pass trial માટે. Compatibility/Marriage report અલગ high-intent purchase રહેવું જોઈએ.';
+    return 'Premium no clean path: Monthly/Yearly deeper AI + timelines + remedies + reports mate. One-time PDF impulse purchase mate. Day Pass trial mate. Compatibility/Marriage report alag high-intent purchase rehvu joye.';
   }
   return 'Premium path: Monthly/Yearly for deeper AI, Life Calendar, remedies, and reports. One-time Premium PDF for impulse purchase. Day Pass for trial. Compatibility/Marriage report as a separate high-intent purchase.';
 }
@@ -612,13 +704,13 @@ function savedKundlisReply(
 
   if (language === 'hi') {
     return count
-      ? `आपके पास ${count} saved Kundli profile हैं: ${names}. मैं इन्हें relationship, family map, और pattern comparison के लिए use कर सकती हूं.`
-      : 'अभी saved Kundli नहीं दिख रही. आप chat में किसी family member की birth details भेजिए, मैं profile बना सकती हूं.';
+      ? `Aapke paas ${count} saved Kundli profile hain: ${names}. Main inhe relationship, family map, aur pattern comparison ke liye use kar sakti hoon.`
+      : 'Abhi saved Kundli nahi dikh rahi. Aap chat mein kisi family member ki birth details bhejiye, main profile bana sakti hoon.';
   }
   if (language === 'gu') {
     return count
-      ? `તમારી પાસે ${count} saved Kundli profile છે: ${names}. હું relationship, family map અને pattern comparison માટે તેનો ઉપયોગ કરી શકું છું.`
-      : 'હજુ saved Kundli દેખાતી નથી. Family member ની birth details chat માં મોકલો, હું profile બનાવી શકું છું.';
+      ? `Tamari pase ${count} saved Kundli profile chhe: ${names}. Hu relationship, family map ane pattern comparison mate teno use kari shaku chhu.`
+      : 'Haju saved Kundli dekhaati nathi. Family member ni birth details chat ma moklo, hu profile banaavi shaku chhu.';
   }
   return count
     ? `You have ${count} saved Kundli profile${
@@ -634,11 +726,17 @@ function buildMemoryInsight(
   savedKundlis: KundliData[],
 ): string {
   if (!kundli) {
-    return memory?.learnedThemes.length
-      ? `I am learning your pattern: ${memory.learnedThemes
-          .slice(0, 3)
-          .join(', ')}.`
-      : '';
+    if (!memory?.learnedThemes.length) {
+      return '';
+    }
+    const themes = memory.learnedThemes.slice(0, 3).join(', ');
+    if (language === 'hi') {
+      return `Main aapka pattern learn kar rahi hoon: ${themes}.`;
+    }
+    if (language === 'gu') {
+      return `Hu tamaro pattern learn kari rahi chhu: ${themes}.`;
+    }
+    return `I am learning your pattern: ${themes}.`;
   }
 
   const similar = findSimilarSavedKundli(kundli, savedKundlis);
@@ -651,28 +749,48 @@ function buildMemoryInsight(
     )} with this Kundli. Not identical, but close enough that I would compare timing carefully.`;
 
     if (language === 'hi') {
-      return `मेरी local memory में एक close chart pattern दिखा: ${
+      return `Meri local memory mein ek close chart pattern dikha: ${
         similar.kundli.birthDetails.name
-      } में ${similar.matches.join(
+      } mein ${similar.matches.join(
         ', ',
-      )} similar है. identical नहीं, लेकिन comparison useful रहेगा.`;
+      )} similar hai. Identical nahi, lekin comparison useful rahega.`;
     }
     if (language === 'gu') {
-      return `મારી local memory માં close chart pattern દેખાયું: ${
+      return `Mari local memory ma close chart pattern dekhaayu: ${
         similar.kundli.birthDetails.name
-      } માં ${similar.matches.join(
+      } ma ${similar.matches.join(
         ', ',
-      )} similar છે. identical નથી, પણ comparison useful રહેશે.`;
+      )} similar chhe. Identical nathi, pan comparison useful raheshe.`;
     }
     return line;
   }
 
   if (memory?.chartSignatures.includes(chartSignature(kundli))) {
+    if (language === 'hi') {
+      return `Mujhe ab yeh chart signature yaad hai: ${chartSignature(
+        kundli,
+      )}. Jaise-jaise aur Kundlis vault mein aayengi, main pattern comparison automatically karungi.`;
+    }
+    if (language === 'gu') {
+      return `Mane aa chart signature have yaad chhe: ${chartSignature(
+        kundli,
+      )}. Jem-jem vadhu Kundlis vault ma aavshe, hu pattern comparison automatically karish.`;
+    }
     return `I remember this chart signature now: ${chartSignature(
       kundli,
     )}. As more Kundlis enter your vault, I will compare this pattern automatically.`;
   }
 
+  if (language === 'hi') {
+    return `Main is chart signature ko memory mein add kar rahi hoon: ${chartSignature(
+      kundli,
+    )}.`;
+  }
+  if (language === 'gu') {
+    return `Hu aa chart signature memory ma add kari rahi chhu: ${chartSignature(
+      kundli,
+    )}.`;
+  }
   return `I am adding this chart signature to memory: ${chartSignature(
     kundli,
   )}.`;
@@ -697,10 +815,10 @@ function buildUpsell(
       : 'Premium can deepen this with proof, timing confidence, and report-grade synthesis.';
 
   if (language === 'hi') {
-    return `Premium nudge: ${suggestion} चाहें तो मैं पहले free preview बना दूंगी, फिर premium depth दिखाऊंगी.`;
+    return `Premium nudge: ${suggestion} Chahe to main pehle free preview bana dungi, phir premium depth dikhaungi.`;
   }
   if (language === 'gu') {
-    return `Premium nudge: ${suggestion} કહો તો હું પહેલા free preview બનાવીશ, પછી premium depth બતાવીશ.`;
+    return `Premium nudge: ${suggestion} Kaho to hu pehla free preview banaish, pachhi premium depth batavish.`;
   }
   return `Premium nudge: ${suggestion} I can show the free preview first, then the premium depth.`;
 }
@@ -816,4 +934,30 @@ function mergeUnique(
 
 function joinSections(sections: Array<string | undefined>): string {
   return sections.filter(Boolean).join('\n\n');
+}
+
+function buildLanguageSwitchAcknowledgement(
+  selectedLanguage: SupportedLanguage,
+  responseLanguage: SupportedLanguage,
+): string | undefined {
+  if (selectedLanguage === 'hi' && responseLanguage === 'gu') {
+    return 'I sense you want to talk in Gujarati. I will adjust accordingly.';
+  }
+  if (selectedLanguage === 'gu' && responseLanguage === 'hi') {
+    return 'Lagta hai aap Hindi/Hinglish mein comfortable ho. Main tone adjust kar leti hoon.';
+  }
+  if (selectedLanguage === 'en' && responseLanguage === 'hi') {
+    return 'I can feel the Hinglish tone in your message, so I will answer that way.';
+  }
+  if (selectedLanguage === 'en' && responseLanguage === 'gu') {
+    return 'I can feel the Gujarati tone in your message, so I will answer that way.';
+  }
+  return undefined;
+}
+
+function withLanguageAcknowledgement(
+  context: PredictaLanguageContext,
+  text: string,
+): string {
+  return [context.acknowledgement, text].filter(Boolean).join('\n\n');
 }

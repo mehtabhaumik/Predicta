@@ -22,6 +22,7 @@ import {
   buildPredictaActionReply,
   buildPredictaLearningSuggestion,
   learnPredictaInteraction,
+  preparePredictaLanguageContext,
   type PredictaInteractionMemory,
 } from '@pridicta/astrology';
 import { detectIntent } from '@pridicta/ai';
@@ -191,6 +192,13 @@ export function ChatScreen({
       return;
     }
 
+    const languageContext = preparePredictaLanguageContext({
+      memory: predictaMemory,
+      selectedLanguage: languagePreference.language,
+      text: trimmedInput,
+    });
+    const responseLanguage = languageContext.responseLanguage;
+
     if (isSimpleGreeting(trimmedInput)) {
       const savedKundlis = savedKundliRecords.map(record => record.kundliData);
       appendConversationMessage(
@@ -199,10 +207,11 @@ export function ChatScreen({
       setInput('');
       streamAssistantResponse(
         [
-          getFriendlyGreetingReply(languagePreference.language),
+          languageContext.acknowledgement,
+          getFriendlyGreetingReply(responseLanguage),
           buildPredictaLearningSuggestion({
             kundli: activeKundli,
-            language: languagePreference.language,
+            language: responseLanguage,
             memory: predictaMemory,
             savedKundlis,
           }),
@@ -222,7 +231,7 @@ export function ChatScreen({
       if (hasHighStakesLanguage(trimmedInput)) {
         streamAssistantResponse(
           `${getSafetyBoundaryCopy(
-            languagePreference.language,
+            responseLanguage,
           )}\n\nI am with you. Create your Kundli first if you want reflective timing support, but do not delay urgent or professional help.`,
         );
         return;
@@ -245,7 +254,7 @@ export function ChatScreen({
       try {
         const result = await extractBirthDetailsFromText(trimmedInput);
         const reply = buildBirthIntakeReply({
-          language: languagePreference.language,
+          language: responseLanguage,
           memory: { draft: pendingBirthDetailsDraft },
           rawInput: trimmedInput,
           result,
@@ -253,7 +262,11 @@ export function ChatScreen({
         setPendingBirthDetailsDraft(reply.draft);
 
         if (!reply.isReady) {
-          streamAssistantResponse(reply.text);
+          streamAssistantResponse(
+            [languageContext.acknowledgement, reply.text]
+              .filter(Boolean)
+              .join('\n\n'),
+          );
           return;
         }
 
@@ -268,8 +281,10 @@ export function ChatScreen({
         if (places.length !== 1 || !reply.draft.date || !reply.draft.time) {
           streamAssistantResponse(
             buildMobilePlaceClarificationReply(
-              languagePreference.language,
-              reply.text,
+              responseLanguage,
+              [languageContext.acknowledgement, reply.text]
+                .filter(Boolean)
+                .join('\n\n'),
               places,
             ),
           );
@@ -293,6 +308,7 @@ export function ChatScreen({
           trimmedInput,
           'chart',
           nextKundli,
+          responseLanguage,
         );
         setPredictaMemory(nextMemory);
         saveGeneratedKundliLocally(nextKundli)
@@ -304,13 +320,11 @@ export function ChatScreen({
           );
         streamAssistantResponse(
           [
-            buildMobileKundliCreatedReply(
-              languagePreference.language,
-              nextKundli,
-            ),
+            languageContext.acknowledgement,
+            buildMobileKundliCreatedReply(responseLanguage, nextKundli),
             buildPredictaLearningSuggestion({
               kundli: nextKundli,
-              language: languagePreference.language,
+              language: responseLanguage,
               memory: nextMemory,
               savedKundlis: [nextKundli],
             }),
@@ -318,7 +332,12 @@ export function ChatScreen({
         );
       } catch {
         streamAssistantResponse(
-          getBirthExtractionFailureReply(languagePreference.language),
+          [
+            languageContext.acknowledgement,
+            getBirthExtractionFailureReply(responseLanguage),
+          ]
+            .filter(Boolean)
+            .join('\n\n'),
         );
       }
       return;
@@ -385,7 +404,7 @@ export function ChatScreen({
         chartContext: activeChartContext,
         history,
         kundli: activeKundli,
-        language: languagePreference.language,
+        language: responseLanguage,
         message: trimmedInput,
         userPlan: effectivePlan,
       });
@@ -394,11 +413,12 @@ export function ChatScreen({
         trimmedInput,
         undefined,
         activeKundli,
+        responseLanguage,
       );
       setPredictaMemory(nextMemory);
       const answerText = hasHighStakesLanguage(trimmedInput)
         ? `${getSafetyBoundaryCopy(
-            languagePreference.language,
+            responseLanguage,
           )}\n\n${formatAskWithProof(response.text, response.jyotishAnalysis)}`
         : formatAskWithProof(response.text, response.jyotishAnalysis);
 
@@ -433,10 +453,11 @@ export function ChatScreen({
 
       streamAssistantResponse(
         [
+          languageContext.acknowledgement,
           answerText,
           buildPredictaLearningSuggestion({
             kundli: activeKundli,
-            language: languagePreference.language,
+            language: responseLanguage,
             memory: nextMemory,
             savedKundlis,
           }),
@@ -649,16 +670,16 @@ function buildMobilePlaceClarificationReply(
     return [
       readyText,
       options
-        ? `मैं Kundli यहीं बनाऊंगी. Birth place के लिए इनमें से exact option लिख दें:\n${options}`
-        : 'मैं Kundli यहीं बनाऊंगी. बस birth place थोड़ा और clear चाहिए: city, state, country लिख दें.',
+        ? `Main Kundli yahin banaungi. Birth place ke liye inme se exact option likh dein:\n${options}`
+        : 'Main Kundli yahin banaungi. Bas birth place thoda aur clear chahiye: city, state, country likh dein.',
     ].join('\n\n');
   }
   if (language === 'gu') {
     return [
       readyText,
       options
-        ? `હું Kundli અહીં જ બનાવીશ. Birth place માટે આમાંથી exact option લખો:\n${options}`
-        : 'હું Kundli અહીં જ બનાવીશ. ફક્ત birth place થોડું વધુ clear જોઈએ: city, state, country લખો.',
+        ? `Hu Kundli ahi j banaish. Birth place mate aama thi exact option lakho:\n${options}`
+        : 'Hu Kundli ahi j banaish. Fakat birth place thodu vadhu clear joye: city, state, country lakho.',
     ].join('\n\n');
   }
 
@@ -683,16 +704,16 @@ function buildMobileKundliCreatedReply(
 
   if (language === 'hi') {
     return [
-      'हो गया. मैंने Kundli यहीं chat में बना दी है और इसे active रख लिया है.',
+      'Ho gaya. Maine Kundli yahin chat mein bana di hai aur ise active rakh liya hai.',
       lines.join('\n'),
-      'अब career, marriage, money, health tendencies, remedies, timing, या किसी decision पर पूछिए. मैं answer chart proof के साथ दूंगी.',
+      'Ab career, marriage, money, health tendencies, remedies, timing, ya kisi decision par poochiye. Main answer chart proof ke saath dungi.',
     ].join('\n\n');
   }
   if (language === 'gu') {
     return [
-      'થઈ ગયું. મેં Kundli અહીં chat માં બનાવી દીધી છે અને તેને active રાખી છે.',
+      'Thai gayu. Maine Kundli ahi chat ma banaavi didhi chhe ane tene active rakhi chhe.',
       lines.join('\n'),
-      'હવે career, marriage, money, health tendencies, remedies, timing અથવા કોઈ decision વિશે પૂછો. હું chart proof સાથે જવાબ આપીશ.',
+      'Have career, marriage, money, health tendencies, remedies, timing athva koi decision vishe poochho. Hu chart proof sathe jawab aapish.',
     ].join('\n\n');
   }
 
