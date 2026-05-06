@@ -65,6 +65,7 @@ def build_jyotish_analysis(
     kundli: KundliData,
     message: str,
     chart_context: Optional[ChartContext] = None,
+    user_plan: str = "PREMIUM",
 ) -> JyotishAnalysis:
     primary_area = detect_primary_area(message, chart_context)
     evidence: List[JyotishEvidence] = []
@@ -80,6 +81,8 @@ def build_jyotish_analysis(
         build_spirituality_evidence,
     ]:
         evidence.extend(builder(kundli))
+
+    evidence = filter_evidence_for_plan(evidence, user_plan)
 
     for area in [
         "career",
@@ -101,6 +104,13 @@ def build_jyotish_analysis(
     unsupported_focus = unsupported_chart_limitation(kundli, chart_context)
     if unsupported_focus:
         limitations.append(unsupported_focus)
+    locked_focus = locked_chart_limitation(chart_context, user_plan)
+    if locked_focus:
+        limitations.append(locked_focus)
+    if user_plan != "PREMIUM":
+        limitations.append(
+            "Free preview uses D1 houses, D1 planets, and dasha timing only. Premium unlocks divisional chart proof such as D2, D9, D10, and D12."
+        )
 
     return JyotishAnalysis(
         primaryArea=primary_area,
@@ -109,6 +119,30 @@ def build_jyotish_analysis(
         formattingContract=FORMAT_CONTRACT,
         limitations=limitations,
     )
+
+
+def filter_evidence_for_plan(
+    evidence_items: List[JyotishEvidence], user_plan: str
+) -> List[JyotishEvidence]:
+    if user_plan == "PREMIUM":
+        return evidence_items
+
+    return [
+        item
+        for item in evidence_items
+        if re.match(r"^D1(\s|$)", item.source)
+        or item.source == "Vimshottari dasha"
+    ]
+
+
+def locked_chart_limitation(
+    chart_context: Optional[ChartContext], user_plan: str
+) -> Optional[str]:
+    if user_plan == "PREMIUM" or not chart_context or not chart_context.chartType:
+        return None
+    if chart_context.chartType != "D1":
+        return f"{chart_context.chartType} is a Premium chart in Predicta, so free answers should not use it as chart proof."
+    return None
 
 
 def detect_primary_area(

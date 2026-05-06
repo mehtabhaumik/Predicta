@@ -16,9 +16,11 @@ import {
   useGlassAlert,
 } from '../components';
 import {
-  CHART_REGISTRY,
   composeDestinyPassport,
+  getChartTypesForAccess,
   getChartConfig,
+  getFeaturedChartTypesForAccess,
+  getPremiumChartPreviewLabel,
 } from '@pridicta/astrology';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
@@ -30,8 +32,6 @@ import {
 import { useAppStore } from '../store/useAppStore';
 import type { BirthDetails, ChartType } from '../types/astrology';
 import { validateBirthDetails } from '../utils/validateBirthDetails';
-
-const visibleCharts: ChartType[] = ['D1', 'D9', 'D10'];
 
 export function KundliScreen({
   navigation,
@@ -54,11 +54,15 @@ export function KundliScreen({
     state => state.setActiveChartContext,
   );
   const setSavedKundlis = useAppStore(state => state.setSavedKundlis);
+  const getResolvedAccess = useAppStore(state => state.getResolvedAccess);
+  const access = getResolvedAccess();
   const { glassAlert, showGlassAlert } = useGlassAlert();
   const chartList = useMemo(
     () =>
-      showAllCharts ? CHART_REGISTRY.map(chart => chart.id) : visibleCharts,
-    [showAllCharts],
+      showAllCharts && access.hasPremiumAccess
+        ? getChartTypesForAccess(true)
+        : getFeaturedChartTypesForAccess(access.hasPremiumAccess),
+    [access.hasPremiumAccess, showAllCharts],
   );
   const destinyPassport = composeDestinyPassport(kundli);
 
@@ -275,20 +279,37 @@ export function KundliScreen({
             })}
           </View>
 
-          <Pressable
-            accessibilityRole="button"
-            onPress={() => setShowAllCharts(value => !value)}
-          >
-            <GradientOutlineCard className="mt-7" delay={460}>
-              <AppText variant="subtitle">
-                {showAllCharts ? 'Show Core Charts' : 'View All Charts'}
-              </AppText>
-              <AppText className="mt-2" tone="secondary">
-                Advanced charts are listed from the registry. Unverified
-                formulas are marked as not enabled instead of showing fake data.
-              </AppText>
-            </GradientOutlineCard>
-          </Pressable>
+          {access.hasPremiumAccess ? (
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => setShowAllCharts(value => !value)}
+            >
+              <GradientOutlineCard className="mt-7" delay={460}>
+                <AppText variant="subtitle">
+                  {showAllCharts ? 'Show Featured Charts' : 'View All Charts'}
+                </AppText>
+                <AppText className="mt-2" tone="secondary">
+                  Advanced charts are listed from the registry. Unverified
+                  formulas are marked as not enabled instead of showing fake
+                  data.
+                </AppText>
+              </GradientOutlineCard>
+            </Pressable>
+          ) : (
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => navigation.navigate(routes.Paywall)}
+            >
+              <GradientOutlineCard className="mt-7" delay={460}>
+                <AppText variant="subtitle">Premium charts unlock here</AppText>
+                <AppText className="mt-2" tone="secondary">
+                  Free preview keeps the chart work on D1. Premium opens{' '}
+                  {getPremiumChartPreviewLabel()} while unsupported formulas
+                  stay clearly marked.
+                </AppText>
+              </GradientOutlineCard>
+            </Pressable>
+          )}
         </>
       ) : null}
     </Screen>

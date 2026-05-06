@@ -32,7 +32,7 @@ export function optimizePridictaPayload({
   userPlan: UserPlan;
 }): OptimizedAIPayload {
   return {
-    context: buildAIContext(kundli, chartContext, language),
+    context: buildAIContext(kundli, chartContext, language, userPlan),
     history: trimConversationHistory(history, intent),
     maxOutputTokens: getMaxOutputTokens(intent, userPlan),
   };

@@ -2,18 +2,25 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { CHART_REGISTRY } from '@pridicta/astrology';
+import {
+  CHART_REGISTRY,
+  getChartTypesForAccess,
+  getPremiumChartPreviewLabel,
+} from '@pridicta/astrology';
 import type { ChartType, KundliData } from '@pridicta/types';
 import { loadWebKundli } from '../lib/web-kundli-storage';
 import { Card } from './Card';
 import { StatusPill } from './StatusPill';
 import { WebKundliChart } from './WebKundliChart';
 
-const primaryCharts: ChartType[] = ['D1', 'D9', 'D10'];
-
-export function WebChartsExplorer(): React.JSX.Element {
+export function WebChartsExplorer({
+  hasPremiumAccess = false,
+}: {
+  hasPremiumAccess?: boolean;
+}): React.JSX.Element {
   const [kundli, setKundli] = useState<KundliData | undefined>();
   const [selectedChart, setSelectedChart] = useState<ChartType>('D1');
+  const chartTypes = getChartTypesForAccess(hasPremiumAccess);
 
   useEffect(() => {
     setKundli(loadWebKundli());
@@ -37,12 +44,12 @@ export function WebChartsExplorer(): React.JSX.Element {
     );
   }
 
-  const chart = kundli.charts[selectedChart];
+  const chart = kundli.charts[selectedChart] ?? kundli.charts.D1;
 
   return (
     <div className="chart-explorer">
       <div className="chart-list">
-        {primaryCharts.map(chartType => {
+        {chartTypes.map(chartType => {
           const config = CHART_REGISTRY.find(item => item.id === chartType);
 
           return (
@@ -65,6 +72,22 @@ export function WebChartsExplorer(): React.JSX.Element {
             </Card>
           );
         })}
+        {!hasPremiumAccess ? (
+          <Card className="premium-chart-lock">
+            <div className="card-content">
+              <StatusPill label="Premium charts locked" tone="premium" />
+              <h2>Go deeper after D1.</h2>
+              <p>
+                Free users see the Rashi chart only. Premium unlocks{' '}
+                {getPremiumChartPreviewLabel()} without showing unverified
+                formulas as real proof.
+              </p>
+              <Link className="button secondary" href="/pricing">
+                See Premium
+              </Link>
+            </div>
+          </Card>
+        ) : null}
       </div>
       <Card className="chart-detail-card">
         <div className="card-content spacious">

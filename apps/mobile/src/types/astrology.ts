@@ -859,9 +859,16 @@ export type AIContextPayload = {
   yogas: YogaInsight[];
   ashtakavarga: AshtakavargaData;
   coreCharts: Partial<Record<ChartType, ChartData>>;
+  chartAccess?: {
+    userPlan: UserPlan;
+    allowedChartTypes: ChartType[];
+    premiumLockedChartTypes: ChartType[];
+    rule: string;
+  };
   chartAvailability: {
     supported: ChartType[];
     unsupported: ChartType[];
+    premiumLockedSupported?: ChartType[];
   };
   calculationMeta: Pick<
     CalculationMeta,

@@ -2416,6 +2416,13 @@ p {
   min-height: 560px;
 }
 
+.premium-chart-lock {
+  background:
+    linear-gradient(135deg, rgba(255, 195, 77, 0.08), rgba(77, 175, 255, 0.05)),
+    rgba(255, 255, 255, 0.035);
+  border-color: rgba(255, 195, 77, 0.22);
+}
+
 .jyotish-chart-shell {
   display: grid;
   gap: 18px;
@@ -2532,6 +2539,20 @@ p {
   display: grid;
   gap: 16px;
   padding: 18px;
+}
+
+.unsupported-chart-state {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid var(--border-quiet);
+  border-radius: 8px;
+  min-height: 320px;
+  padding: 28px;
+}
+
+.unsupported-chart-state p {
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 620px;
 }
 
 .chart-drilldown p {

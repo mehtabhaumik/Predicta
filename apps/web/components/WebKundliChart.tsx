@@ -42,6 +42,21 @@ export function WebKundliChart({
     setSelectedPlanet(planet);
   }
 
+  if (!chart.supported) {
+    return (
+      <div className="jyotish-chart-shell">
+        <div className="unsupported-chart-state">
+          <div className="section-title">CHART NOT ENABLED YET</div>
+          <h2>{chart.name}</h2>
+          <p>
+            {chart.unsupportedReason ??
+              'This varga formula is not verified in the calculation engine yet.'}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="jyotish-chart-shell">
       <div className="jyotish-chart-toolbar">

@@ -6,22 +6,34 @@ import {
   composePredictaWrapped,
   composeRemedyCoach,
   composeRelationshipMirror,
+  canAccessChartType,
+  getPremiumLockedChartTypes,
+  PREMIUM_CONTEXT_CHART_TYPES,
   getChartConfig,
 } from '@pridicta/astrology';
 import type {
   AIContextPayload,
   ChartContext,
+  ChartType,
   KundliData,
   SupportedLanguage,
+  UserPlan,
 } from '@pridicta/types';
 
 export function buildAIContext(
   kundliData: KundliData,
   chartContext?: ChartContext,
   language: SupportedLanguage = 'en',
+  userPlan: UserPlan = 'FREE',
 ): AIContextPayload {
+  const hasPremiumAccess = userPlan === 'PREMIUM';
+  const allowedContextCharts: ChartType[] = hasPremiumAccess
+    ? PREMIUM_CONTEXT_CHART_TYPES
+    : ['D1'];
   const selectedChart =
-    chartContext?.chartType && kundliData.charts[chartContext.chartType]
+    chartContext?.chartType &&
+    canAccessChartType(chartContext.chartType, hasPremiumAccess) &&
+    kundliData.charts[chartContext.chartType]
       ? kundliData.charts[chartContext.chartType]
       : undefined;
   const chartConfig = chartContext?.chartType
@@ -53,7 +65,7 @@ export function buildAIContext(
         vargaPlacements: Object.fromEntries(
           Object.entries(kundliData.charts)
             .filter(([chartType, chart]) =>
-              ['D1', 'D2', 'D7', 'D9', 'D10', 'D12'].includes(chartType) &&
+              allowedContextCharts.includes(chartType as ChartType) &&
               chart.supported,
             )
             .map(([chartType, chart]) => [
@@ -106,7 +118,8 @@ export function buildAIContext(
       )
     : undefined;
   const coreChartEntries = Object.entries(kundliData.charts).filter(
-    ([chartType]) => ['D1', 'D2', 'D7', 'D9', 'D10', 'D12'].includes(chartType),
+    ([chartType, chart]) =>
+      allowedContextCharts.includes(chartType as ChartType) && chart.supported,
   );
 
   return {
@@ -130,11 +143,28 @@ export function buildAIContext(
     },
     chartAvailability: {
       supported: Object.entries(kundliData.charts)
-        .filter(([, chart]) => chart.supported)
+        .filter(
+          ([chartType, chart]) =>
+            chart.supported && allowedContextCharts.includes(chartType as ChartType),
+        )
         .map(([chartType]) => chartType as keyof KundliData['charts']),
       unsupported: Object.entries(kundliData.charts)
-        .filter(([, chart]) => !chart.supported)
+        .filter(([, chart]) => !chart.supported && hasPremiumAccess)
         .map(([chartType]) => chartType as keyof KundliData['charts']),
+      premiumLockedSupported: Object.entries(kundliData.charts)
+        .filter(
+          ([chartType, chart]) =>
+            chart.supported && !allowedContextCharts.includes(chartType as ChartType),
+        )
+        .map(([chartType]) => chartType as keyof KundliData['charts']),
+    },
+    chartAccess: {
+      allowedChartTypes: [...allowedContextCharts],
+      premiumLockedChartTypes: getPremiumLockedChartTypes(),
+      rule: hasPremiumAccess
+        ? 'Premium users may use supported divisional charts as proof.'
+        : 'Free users may use D1 chart proof only. Mention premium charts as locked instead of using them as evidence.',
+      userPlan,
     },
     coreIdentity: {
       lagna: kundliData.lagna,
