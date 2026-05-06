@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import {
   CHART_REGISTRY,
   getChartTypesForAccess,
 } from '@pridicta/astrology';
-import type { ChartType, KundliData } from '@pridicta/types';
-import { loadWebKundli } from '../lib/web-kundli-storage';
+import type { ChartType } from '@pridicta/types';
+import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 import { Card } from './Card';
 import { WebKundliChart } from './WebKundliChart';
 
@@ -16,13 +16,9 @@ export function WebChartsExplorer({
 }: {
   hasPremiumAccess?: boolean;
 }): React.JSX.Element {
-  const [kundli, setKundli] = useState<KundliData | undefined>();
   const [selectedChart, setSelectedChart] = useState<ChartType>('D1');
+  const { activeKundli: kundli } = useWebKundliLibrary();
   const chartTypes = getChartTypesForAccess(hasPremiumAccess);
-
-  useEffect(() => {
-    setKundli(loadWebKundli());
-  }, []);
 
   if (!kundli) {
     return (
@@ -46,6 +42,34 @@ export function WebChartsExplorer({
 
   return (
     <div className="chart-explorer">
+      <Card className="chart-detail-card glass-panel">
+        <div className="card-content spacious">
+          <div className="chart-picker-inline">
+            <div>
+              <div className="section-title">SELECT CHART</div>
+              <h2>{chart.name}</h2>
+            </div>
+            <div className="chart-picker-row" aria-label="Chart selector">
+              {chartTypes.map(chartType => (
+                <button
+                  className={selectedChart === chartType ? 'active' : ''}
+                  key={chartType}
+                  onClick={() => setSelectedChart(chartType)}
+                  type="button"
+                >
+                  {chartType}
+                </button>
+              ))}
+            </div>
+          </div>
+          <WebKundliChart
+            chart={chart}
+            hasPremiumAccess={hasPremiumAccess}
+            ownerName={kundli.birthDetails.name}
+          />
+        </div>
+      </Card>
+
       <div className="chart-list">
         {chartTypes.map(chartType => {
           const config = CHART_REGISTRY.find(item => item.id === chartType);
@@ -71,15 +95,6 @@ export function WebChartsExplorer({
           );
         })}
       </div>
-      <Card className="chart-detail-card">
-        <div className="card-content spacious">
-          <WebKundliChart
-            chart={chart}
-            hasPremiumAccess={hasPremiumAccess}
-            ownerName={kundli.birthDetails.name}
-          />
-        </div>
-      </Card>
     </div>
   );
 }

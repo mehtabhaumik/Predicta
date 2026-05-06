@@ -672,6 +672,12 @@ export type ChatChartCta = {
   prompt: string;
 };
 
+export type ChatSuggestedCta = {
+  id: string;
+  label: string;
+  prompt: string;
+};
+
 export type ChatChartBlock = {
   type: 'chart';
   chartType: ChartType;
@@ -695,6 +701,7 @@ export type ChatMessage = {
   createdAt: string;
   context?: ChartContext;
   blocks?: ChatMessageBlock[];
+  suggestions?: ChatSuggestedCta[];
 };
 
 export type ConversationTurn = {

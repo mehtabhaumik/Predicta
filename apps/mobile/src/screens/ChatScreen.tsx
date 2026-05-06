@@ -20,6 +20,9 @@ import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import {
   buildChatChartReplyText,
+  buildChatFollowUps,
+  buildChartContextIntro,
+  buildChartSelectionPrompt,
   buildPredictaActionReply,
   buildNorthIndianChartCells,
   buildEnglishSwitchDecisionReply,
@@ -69,6 +72,7 @@ import type {
   ChatChartBlock,
   ChatMessage,
   ChatMessageBlock,
+  ChatSuggestedCta,
   KundliData,
 } from '../types/astrology';
 
@@ -79,6 +83,7 @@ function createMessage(
   text: string,
   context?: ChatMessage['context'],
   blocks?: ChatMessageBlock[],
+  suggestions?: ChatSuggestedCta[],
 ): ChatMessage {
   return {
     blocks,
@@ -86,6 +91,7 @@ function createMessage(
     createdAt: new Date().toISOString(),
     id: `${role}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     role,
+    suggestions,
     text,
   };
 }
@@ -151,9 +157,15 @@ export function ChatScreen({
       : [],
   );
   const timelinePromptSeededRef = useRef<string | undefined>(undefined);
+  const lastPredictaMessageId = [...messages]
+    .reverse()
+    .find(message => message.role === 'pridicta')?.id;
 
   useEffect(() => {
-    const prompt = activeChartContext?.selectedTimelineEventId
+    const prompt = activeChartContext?.chartType
+      ? activeChartContext.selectedSection ??
+        buildChartSelectionPrompt(activeChartContext)
+      : activeChartContext?.selectedTimelineEventId
       ? activeChartContext.selectedSection
       : activeChartContext?.selectedDailyBriefingDate
       ? activeChartContext.selectedSection
@@ -174,8 +186,34 @@ export function ChatScreen({
     if (prompt && timelinePromptSeededRef.current !== prompt) {
       setInput(prompt);
       timelinePromptSeededRef.current = prompt;
+      if (activeChartContext?.chartType) {
+        appendConversationMessage(
+          createMessage(
+            'pridicta',
+            buildChartContextIntro(
+              {
+                ...activeChartContext,
+                selectedSection: prompt,
+              },
+              languagePreference.language,
+            ),
+            activeChartContext,
+            undefined,
+            buildMobileFollowUps({
+              context: activeChartContext,
+              kundli: activeKundli,
+              lastText: prompt,
+            }),
+          ),
+        );
+      }
     }
-  }, [activeChartContext]);
+  }, [
+    activeChartContext,
+    activeKundli,
+    appendConversationMessage,
+    languagePreference.language,
+  ]);
 
   useEffect(() => {
     return () => {
@@ -190,6 +228,7 @@ export function ChatScreen({
     options?: {
       blocks?: ChatMessageBlock[];
       context?: ChatMessage['context'];
+      suggestions?: ChatSuggestedCta[];
     },
   ) {
     let cursor = 0;
@@ -213,6 +252,12 @@ export function ChatScreen({
             text,
             options?.context ?? activeChartContext,
             options?.blocks,
+            options?.suggestions ??
+              buildMobileFollowUps({
+                context: options?.context ?? activeChartContext,
+                kundli: activeKundli,
+                lastText: text,
+              }),
           ),
         );
         playReplyChime(chatSoundEnabled);
@@ -222,8 +267,8 @@ export function ChatScreen({
     }, 18);
   }
 
-  async function sendMessage() {
-    const trimmedInput = input.trim();
+  async function sendMessage(overrideText?: string) {
+    const trimmedInput = (overrideText ?? input).trim();
 
     if (!trimmedInput || isTyping) {
       return;
@@ -601,6 +646,25 @@ export function ChatScreen({
     }
   }
 
+  function buildMobileFollowUps({
+    context,
+    kundli,
+    lastText,
+  }: {
+    context?: ChatMessage['context'];
+    kundli?: KundliData;
+    lastText: string;
+  }): ChatSuggestedCta[] {
+    return buildChatFollowUps({
+      context,
+      hasKundli: Boolean(kundli),
+      hasPremiumAccess: getResolvedAccess().hasPremiumAccess,
+      kundli,
+      language: languagePreference.language,
+      lastText,
+    });
+  }
+
   return (
     <Screen>
       <FadeInView className="flex-row items-center gap-4">
@@ -739,12 +803,28 @@ export function ChatScreen({
             delay={180 + index * 70}
             key={message.id}
             message={message}
+            onSuggestionPress={prompt => {
+              void sendMessage(prompt);
+            }}
             onUsePrompt={(prompt, block) => {
               if (block) {
                 setActiveChartContext(chartContextFromChatBlock(block, 'Chat'));
               }
               setInput(prompt);
             }}
+            showSuggestions={
+              message.role === 'pridicta' &&
+              message.id === lastPredictaMessageId &&
+              !isTyping
+            }
+            suggestions={
+              message.suggestions ??
+              buildMobileFollowUps({
+                context: message.context ?? activeChartContext,
+                kundli: activeKundli,
+                lastText: message.text,
+              })
+            }
           />
         ))}
 
@@ -765,6 +845,9 @@ export function ChatScreen({
                 setActiveChartContext(chartContextFromChatBlock(block, 'Chat'));
               }
               setInput(prompt);
+            }}
+            onSuggestionPress={prompt => {
+              void sendMessage(prompt);
             }}
             typing={!streamingText}
           />
@@ -788,7 +871,9 @@ export function ChatScreen({
           delay={390}
           disabled={!input.trim() || isTyping}
           label={isTyping ? 'Reading...' : 'Send'}
-          onPress={sendMessage}
+          onPress={() => {
+            void sendMessage();
+          }}
         />
       </View>
     </Screen>
@@ -878,12 +963,18 @@ function syncGuestPassUsage(userId?: string): void {
 function ChatBubble({
   delay,
   message,
+  onSuggestionPress,
   onUsePrompt,
+  showSuggestions = false,
+  suggestions = [],
   typing = false,
 }: {
   delay: number;
   message: ChatMessage;
+  onSuggestionPress: (prompt: string) => void;
   onUsePrompt: (prompt: string, block?: ChatChartBlock) => void;
+  showSuggestions?: boolean;
+  suggestions?: ChatSuggestedCta[];
   typing?: boolean;
 }): React.JSX.Element {
   const isUser = message.role === 'user';
@@ -919,11 +1010,40 @@ function ChatBubble({
                   onUsePrompt={onUsePrompt}
                 />
               ))}
+              {showSuggestions && suggestions.length ? (
+                <MobileChatSuggestions
+                  onSuggestionPress={onSuggestionPress}
+                  suggestions={suggestions}
+                />
+              ) : null}
             </>
           )}
         </LinearGradient>
       )}
     </FadeInView>
+  );
+}
+
+function MobileChatSuggestions({
+  onSuggestionPress,
+  suggestions,
+}: {
+  onSuggestionPress: (prompt: string) => void;
+  suggestions: ChatSuggestedCta[];
+}): React.JSX.Element {
+  return (
+    <View style={styles.chatSuggestionRow}>
+      {suggestions.slice(0, 4).map(suggestion => (
+        <Pressable
+          accessibilityRole="button"
+          key={suggestion.id}
+          onPress={() => onSuggestionPress(suggestion.prompt)}
+          style={styles.chatSuggestionChip}
+        >
+          <AppText variant="caption">{suggestion.label}</AppText>
+        </Pressable>
+      ))}
+    </View>
   );
 }
 
@@ -1165,6 +1285,20 @@ const styles = StyleSheet.create({
     minHeight: 44,
     padding: 6,
     width: '20%',
+  },
+  chatSuggestionChip: {
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderColor: colors.border,
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 12,
+    paddingVertical: 9,
+  },
+  chatSuggestionRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginTop: 14,
   },
   logo: {
     borderRadius: 12,

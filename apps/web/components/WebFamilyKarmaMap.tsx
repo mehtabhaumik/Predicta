@@ -1,18 +1,44 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { composeFamilyKarmaMap } from '@pridicta/astrology';
+import type { FamilyRelationshipLabel } from '@pridicta/types';
+import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 
-const familySlots = [
-  { label: 'Your profile', relation: 'Self' },
-  { label: 'Add parent, partner, sibling, or child', relation: 'Family' },
-  { label: 'Add another saved kundli', relation: 'Support zone' },
+const relationshipLabels: FamilyRelationshipLabel[] = [
+  'self',
+  'partner',
+  'parent',
+  'sibling',
+  'child',
+  'relative',
+  'friend',
 ];
 
 export function WebFamilyKarmaMap(): React.JSX.Element {
-  const [selectedSlot, setSelectedSlot] = useState(0);
-  const map = composeFamilyKarmaMap();
+  const [relationships, setRelationships] = useState<
+    Record<string, FamilyRelationshipLabel>
+  >({});
+  const { activeKundli, savedKundlis } = useWebKundliLibrary();
+  const profiles = useMemo(() => {
+    const activeFirst = activeKundli
+      ? [activeKundli, ...savedKundlis.filter(item => item.id !== activeKundli.id)]
+      : savedKundlis;
+
+    return activeFirst.slice(0, 8);
+  }, [activeKundli, savedKundlis]);
+  const map = useMemo(
+    () =>
+      composeFamilyKarmaMap(
+        profiles.map((kundli, index) => ({
+          kundli,
+          relationship:
+            relationships[kundli.id] ?? (index === 0 ? 'self' : 'relative'),
+        })),
+      ),
+    [profiles, relationships],
+  );
 
   return (
     <section className="family-karma-map glass-panel">
@@ -29,23 +55,36 @@ export function WebFamilyKarmaMap(): React.JSX.Element {
         <p>{map.privacyNote}</p>
       </div>
 
-      <div className="family-member-grid">
-        {familySlots.map((slot, index) => (
-          <button
-            className={`family-member-slot ${selectedSlot === index ? 'active' : ''}`}
-            key={slot.label}
-            onClick={() => setSelectedSlot(index)}
-            type="button"
-          >
-            <span>{slot.relation}</span>
-            <strong>{slot.label}</strong>
-            <p>
-              Web profile selection will use calculated saved kundlis. No
-              family pattern is invented before real charts are present.
-            </p>
-          </button>
-        ))}
-      </div>
+      {profiles.length ? (
+        <div className="family-member-grid">
+          {profiles.map((kundli, index) => (
+            <div className="family-member-slot active" key={kundli.id}>
+              <span>{index === 0 && kundli.id === activeKundli?.id ? 'Active profile' : 'Saved profile'}</span>
+              <strong>{kundli.birthDetails.name}</strong>
+              <p>
+                {kundli.lagna} Lagna · {kundli.moonSign} Moon ·{' '}
+                {kundli.nakshatra}
+              </p>
+              <select
+                aria-label={`Relationship for ${kundli.birthDetails.name}`}
+                onChange={event =>
+                  setRelationships(current => ({
+                    ...current,
+                    [kundli.id]: event.target.value as FamilyRelationshipLabel,
+                  }))
+                }
+                value={relationships[kundli.id] ?? (index === 0 ? 'self' : 'relative')}
+              >
+                {relationshipLabels.map(label => (
+                  <option key={label} value={label}>
+                    {label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ))}
+        </div>
+      ) : null}
 
       <div className="family-guidance-grid">
         <div className="family-guidance-card">
@@ -72,10 +111,15 @@ export function WebFamilyKarmaMap(): React.JSX.Element {
       </div>
 
       <div className="family-empty">
-        <h3>Add two or more calculated profiles</h3>
+        <h3>
+          {profiles.length >= 2
+            ? `${profiles.length} profiles linked`
+            : 'Add two or more calculated profiles'}
+        </h3>
         <p>
-          Family Karma Map is list-based today and structured for a future graph
-          view. It stays household-friendly with no blame and no fear labels.
+          {profiles.length >= 2
+            ? 'Predicta is using your saved Kundlis to compare repeated themes and support zones without blame or fear labels.'
+            : 'Family Karma Map needs saved Kundlis before it can compare real household patterns.'}
         </p>
         <div className="action-row">
           <Link className="button" href="/dashboard/kundli">

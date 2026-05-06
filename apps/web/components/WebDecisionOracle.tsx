@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { composeDecisionMemo } from '@pridicta/astrology';
 import { buildTrustProfile } from '@pridicta/config/trust';
 import type { DecisionMemo } from '@pridicta/types';
+import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 import { WebTrustProofPanel } from './WebTrustProofPanel';
 
 const examples = [
@@ -16,6 +17,7 @@ const examples = [
 export function WebDecisionOracle(): React.JSX.Element {
   const [question, setQuestion] = useState('');
   const [memo, setMemo] = useState<DecisionMemo | undefined>();
+  const { activeKundli } = useWebKundliLibrary();
 
   function runOracle(nextQuestion = question) {
     const cleanQuestion = nextQuestion.trim();
@@ -25,7 +27,7 @@ export function WebDecisionOracle(): React.JSX.Element {
     }
 
     setQuestion(cleanQuestion);
-    setMemo(composeDecisionMemo({ question: cleanQuestion }));
+    setMemo(composeDecisionMemo({ kundli: activeKundli, question: cleanQuestion }));
   }
 
   return (
@@ -34,8 +36,9 @@ export function WebDecisionOracle(): React.JSX.Element {
         <div className="section-title">DECISION ORACLE</div>
         <h2>Ask one real decision.</h2>
         <p>
-          Predicta classifies the question, checks deterministic chart evidence,
-          and returns a memo with timing, risk, and one next step.
+          {activeKundli
+            ? `Using ${activeKundli.birthDetails.name}'s active Kundli for timing, risk, evidence, and one next step.`
+            : 'Create or select a Kundli first, then Predicta will use that active chart for timing, risk, evidence, and one next step.'}
         </p>
         <textarea
           aria-label="Decision question"
@@ -53,7 +56,7 @@ export function WebDecisionOracle(): React.JSX.Element {
             Create Decision Memo
           </button>
           <Link className="button secondary" href="/dashboard/kundli">
-            Create Kundli
+            {activeKundli ? 'View Active Kundli' : 'Create Kundli'}
           </Link>
         </div>
         <div className="decision-examples">

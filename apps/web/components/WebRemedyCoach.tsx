@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { composeRemedyCoach } from '@pridicta/astrology';
 import { buildTrustProfile } from '@pridicta/config/trust';
 import type { RemedyCoachItem, RemedyPracticeStatus } from '@pridicta/types';
+import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 import { WebTrustProofPanel } from './WebTrustProofPanel';
 
 const STORAGE_KEY = 'pridicta.remedyTracking.web.preview';
@@ -14,7 +15,11 @@ type TrackingMap = Record<string, RemedyPracticeStatus>;
 export function WebRemedyCoach(): React.JSX.Element {
   const [tracking, setTracking] = useState<TrackingMap>({});
   const [selectedId, setSelectedId] = useState<string | undefined>();
-  const plan = useMemo(() => composeRemedyCoach(undefined, tracking), [tracking]);
+  const { activeKundli } = useWebKundliLibrary();
+  const plan = useMemo(
+    () => composeRemedyCoach(activeKundli, tracking),
+    [activeKundli, tracking],
+  );
   const selected =
     plan.items.find(item => item.id === selectedId) ?? plan.items[0];
 

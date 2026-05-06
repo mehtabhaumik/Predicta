@@ -2,13 +2,14 @@
 
 import { useMemo, useState } from 'react';
 import {
+  buildChartSelectionPrompt,
   buildNorthIndianChartCells,
   composeChartInsight,
   findHouseCell,
   findPlanetCell,
   getPlanetAbbreviation,
 } from '@pridicta/astrology';
-import type { ChartData } from '@pridicta/types';
+import type { ChartData, ChartType } from '@pridicta/types';
 import Link from 'next/link';
 import { StatusPill } from './StatusPill';
 
@@ -156,7 +157,16 @@ export function WebKundliChart({
               label={selectedPlanet ? `Planet: ${selectedPlanet}` : `House ${activeCell.house}`}
               tone="premium"
             />
-            <Link className="button secondary" href="/dashboard/chat">
+            <Link
+              className="button secondary"
+              href={buildChartAskHref({
+                chartName: chart.name,
+                chartType: chart.chartType,
+                house: activeCell.house,
+                planet: selectedPlanet,
+                purpose: insight.summary,
+              })}
+            >
               Ask From Selection
             </Link>
           </div>
@@ -178,4 +188,43 @@ export function WebKundliChart({
       ) : null}
     </div>
   );
+}
+
+function buildChartAskHref({
+  chartName,
+  chartType,
+  house,
+  planet,
+  purpose,
+}: {
+  chartName: string;
+  chartType: ChartType;
+  house?: number;
+  planet?: string;
+  purpose: string;
+}): string {
+  const context = {
+    chartName,
+    chartType,
+    purpose,
+    selectedHouse: house,
+    selectedPlanet: planet,
+    sourceScreen: 'Charts',
+  };
+  const params = new URLSearchParams({
+    chartName,
+    chartType,
+    prompt: buildChartSelectionPrompt(context),
+    purpose,
+    sourceScreen: 'Charts',
+  });
+
+  if (house) {
+    params.set('selectedHouse', String(house));
+  }
+  if (planet) {
+    params.set('selectedPlanet', planet);
+  }
+
+  return `/dashboard/chat?${params.toString()}`;
 }

@@ -16,6 +16,7 @@ import {
   useGlassAlert,
 } from '../components';
 import {
+  buildChartSelectionPrompt,
   composeChartInsight,
   composeDestinyPassport,
   getChartTypesForAccess,
@@ -80,6 +81,14 @@ export function KundliScreen({
       purpose: chartConfig.purpose,
       selectedHouse: focus?.house,
       selectedPlanet: focus?.planet,
+      selectedSection: buildChartSelectionPrompt({
+        chartName: chartConfig.name,
+        chartType,
+        purpose: chartConfig.purpose,
+        selectedHouse: focus?.house,
+        selectedPlanet: focus?.planet,
+        sourceScreen: 'Kundli',
+      }),
       sourceScreen: 'Kundli',
     });
     navigation.navigate(routes.Chat);

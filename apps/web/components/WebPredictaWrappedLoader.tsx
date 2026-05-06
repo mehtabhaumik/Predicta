@@ -1,30 +1,21 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { composePredictaWrapped } from '@pridicta/astrology';
-import type { KundliData } from '@pridicta/types';
-import { loadWebKundli } from '../lib/web-kundli-storage';
+import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
+import { loadWebWrappedActivity } from '../lib/web-usage-summary';
 import { WebPredictaWrapped } from './WebPredictaWrapped';
 
 export function WebPredictaWrappedLoader(): React.JSX.Element {
-  const [kundli, setKundli] = useState<KundliData | undefined>();
-
-  useEffect(() => {
-    setKundli(loadWebKundli());
-  }, []);
+  const { activeKundli } = useWebKundliLibrary();
 
   const wrapped = useMemo(
     () =>
       composePredictaWrapped({
-        activity: {
-          deepReadings: 0,
-          questionsAsked: 0,
-          reportsGenerated: 0,
-          savedQuestions: [],
-        },
-        kundli,
+        activity: loadWebWrappedActivity(),
+        kundli: activeKundli,
       }),
-    [kundli],
+    [activeKundli],
   );
 
   return <WebPredictaWrapped ctaHref="/dashboard/kundli" wrapped={wrapped} />;

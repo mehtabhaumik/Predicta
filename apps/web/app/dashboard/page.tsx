@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { PREDICTA_JOURNEY_STEPS } from '@pridicta/config/predictaUx';
 import { buildUsageDisplay } from '@pridicta/monetization';
@@ -7,8 +9,10 @@ import { StatusPill } from '../../components/StatusPill';
 import { WebDailyBriefingCard } from '../../components/WebDailyBriefingCard';
 import { WebDestinyPassportCard } from '../../components/WebDestinyPassportCard';
 import { demoAccess, demoMonetization } from '../../lib/demo-state';
+import { useWebKundliLibrary } from '../../lib/use-web-kundli-library';
 
 export default function DashboardPage(): React.JSX.Element {
+  const { activeKundli } = useWebKundliLibrary();
   const usage = buildUsageDisplay({
     monetization: demoMonetization,
     resolvedAccess: demoAccess,
@@ -21,8 +25,8 @@ export default function DashboardPage(): React.JSX.Element {
     },
     userPlan: 'FREE',
   });
-  const dailyBriefing = composeDailyBriefing();
-  const destinyPassport = composeDestinyPassport();
+  const dailyBriefing = composeDailyBriefing(activeKundli);
+  const destinyPassport = composeDestinyPassport(activeKundli);
 
   return (
     <section className="dashboard-page">
@@ -81,7 +85,7 @@ export default function DashboardPage(): React.JSX.Element {
             </p>
             <div className="action-row">
               <Link className="button" href="/dashboard/kundli">
-                Create Kundli
+                {activeKundli ? 'View Kundli' : 'Create Kundli'}
               </Link>
               <Link className="button secondary" href="/dashboard/chat">
                 Ask a Question

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { composeBirthTimeDetective } from '@pridicta/astrology';
 import type { BirthTimeAnswer, BirthTimeQuestion } from '@pridicta/types';
+import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 
 const STORAGE_KEY = 'pridicta.birthTimeAnswers.web.preview';
 
@@ -13,7 +14,11 @@ export function WebBirthTimeDetective(): React.JSX.Element {
   const [answers, setAnswers] = useState<AnswerMap>({});
   const [drafts, setDrafts] = useState<Record<string, string>>({});
   const [showEvidence, setShowEvidence] = useState(false);
-  const report = useMemo(() => composeBirthTimeDetective(undefined, answers), [answers]);
+  const { activeKundli } = useWebKundliLibrary();
+  const report = useMemo(
+    () => composeBirthTimeDetective(activeKundli, answers),
+    [activeKundli, answers],
+  );
 
   useEffect(() => {
     const raw = window.localStorage.getItem(STORAGE_KEY);

@@ -49,6 +49,11 @@ export function WebPredictaWrapped({
           <div className="section-title">PREDICTA WRAPPED</div>
           <h2>{wrapped.title}</h2>
           <p>{wrapped.subtitle}</p>
+          <p className="wrapped-intent">
+            Wrapped is a share-safe yearly recap. It is not a separate
+            prediction engine; it packages your active Kundli, timeline signals,
+            and app activity into simple cards you can understand quickly.
+          </p>
         </div>
         <div className="wrapped-year-badge">
           <span>Year</span>

@@ -1888,6 +1888,18 @@ p {
   margin: 0;
 }
 
+.relationship-profile-slot select,
+.family-member-slot select {
+  background: rgba(10, 10, 15, 0.72);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  margin-top: 14px;
+  min-height: 42px;
+  padding: 10px;
+  width: 100%;
+}
+
 .relationship-talk-panel,
 .relationship-timing-panel,
 .relationship-empty {
@@ -2006,6 +2018,13 @@ p {
 .wrapped-header p {
   margin: 12px 0 0;
   max-width: 780px;
+}
+
+.wrapped-intent {
+  background: rgba(10, 10, 15, 0.38);
+  border: 1px solid var(--border-quiet);
+  border-radius: 8px;
+  padding: 12px 14px;
 }
 
 .wrapped-year-badge {
@@ -2279,12 +2298,15 @@ p {
 .report-dashboard-layout {
   display: grid;
   gap: 24px;
+}
+
+.report-dashboard-layout {
   grid-template-columns: minmax(0, 1fr) 360px;
 }
 
 .chat-workspace {
   display: block;
-  max-width: 1040px;
+  max-width: 1180px;
   min-height: 0;
 }
 
@@ -2311,6 +2333,7 @@ p {
 .message {
   border-radius: 20px;
   max-width: 64%;
+  overflow-wrap: anywhere;
   padding: 20px 24px;
 }
 
@@ -2328,8 +2351,10 @@ p {
   white-space: pre-wrap;
 }
 
+.message.rich-message,
 .message:has(.chat-chart-card) {
-  max-width: min(720px, 92%);
+  max-width: min(980px, 96%);
+  width: min(980px, 96%);
 }
 
 .message.user {
@@ -2352,9 +2377,9 @@ p {
   border: 1px solid rgba(77, 175, 255, 0.18);
   border-radius: 12px;
   display: grid;
-  gap: 14px;
+  gap: 16px;
   margin-top: 18px;
-  padding: 16px;
+  padding: 18px;
 }
 
 .chat-chart-card-header {
@@ -2384,6 +2409,13 @@ p {
   white-space: nowrap;
 }
 
+.chat-chart-body {
+  align-items: start;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(300px, 0.86fr) minmax(0, 1.14fr);
+}
+
 .chat-mini-chart {
   aspect-ratio: 1;
   background:
@@ -2399,7 +2431,7 @@ p {
   max-width: 360px;
   padding: 8px;
   position: relative;
-  width: min(100%, 360px);
+  width: 100%;
 }
 
 .chat-mini-chart button {
@@ -2456,6 +2488,22 @@ p {
   gap: 8px;
 }
 
+.chat-chart-proof-panel {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-quiet);
+  border-radius: 10px;
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  padding: 16px;
+}
+
+.chat-chart-proof-panel p {
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
 .chat-evidence-chips span {
   background: rgba(255, 255, 255, 0.07);
   border: 1px solid var(--border-quiet);
@@ -2476,6 +2524,30 @@ p {
 .chat-chart-actions .button {
   min-height: 40px;
   padding: 10px 12px;
+}
+
+.chat-suggestion-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.chat-suggestion-row button {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 800;
+  min-height: 38px;
+  padding: 9px 13px;
+}
+
+.chat-suggestion-row button:hover {
+  background: rgba(77, 175, 255, 0.14);
+  border-color: rgba(77, 175, 255, 0.38);
 }
 
 .chat-input-row {
@@ -2544,11 +2616,66 @@ p {
 
 .chart-list {
   display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.chart-picker-panel,
+.chart-picker-inline {
+  align-items: start;
+  display: grid;
   gap: 18px;
+  grid-template-columns: minmax(260px, 0.78fr) minmax(0, 1.22fr);
+}
+
+.chart-picker-panel {
+  border-radius: 12px;
+  padding: 22px;
+}
+
+.chart-picker-inline {
+  border-bottom: 1px solid var(--border-quiet);
+  margin-bottom: 22px;
+  padding-bottom: 18px;
+}
+
+.chart-picker-panel h2,
+.chart-picker-inline h2 {
+  margin: 8px 0 0;
+}
+
+.chart-picker-panel p {
+  color: var(--muted);
+  margin: 8px 0 0;
+}
+
+.chart-picker-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.chart-picker-row button {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  cursor: pointer;
+  font-weight: 900;
+  min-height: 40px;
+  min-width: 58px;
+  padding: 10px 14px;
+}
+
+.chart-picker-row button.active {
+  background: rgba(77, 175, 255, 0.16);
+  border-color: rgba(77, 175, 255, 0.52);
+  color: var(--text);
 }
 
 .chart-detail-card {
-  min-height: 560px;
+  min-height: 780px;
 }
 
 .premium-chart-lock {
@@ -2600,7 +2727,7 @@ p {
 
 .jyotish-chart-shell {
   display: grid;
-  gap: 18px;
+  gap: 22px;
 }
 
 .jyotish-chart-toolbar {
@@ -2673,6 +2800,7 @@ p {
   grid-template-rows: repeat(5, 1fr);
   padding: 12px;
   position: relative;
+  width: min(100%, 760px);
 }
 
 .north-house {
@@ -2681,8 +2809,8 @@ p {
   border-radius: 8px;
   color: var(--text);
   cursor: pointer;
-  min-height: 58px;
-  padding: 8px;
+  min-height: 78px;
+  padding: 10px;
   text-align: left;
 }
 
@@ -2730,6 +2858,33 @@ p {
 
 .chart-drilldown p {
   margin: 8px 0 0;
+}
+
+.chart-detail-card .jyotish-chart-shell {
+  align-items: start;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: minmax(420px, 0.92fr) minmax(0, 1fr);
+}
+
+.chart-detail-card .jyotish-chart-toolbar {
+  grid-column: 1 / -1;
+}
+
+.chart-detail-card .north-chart {
+  grid-column: 1;
+  grid-row: 2 / span 2;
+  width: min(100%, 620px);
+}
+
+.chart-detail-card .chart-insight-panel {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.chart-detail-card .chart-drilldown {
+  grid-column: 2;
+  grid-row: 3;
 }
 
 .drilldown-actions,
@@ -3553,6 +3708,8 @@ p {
   }
 
   .metric-row,
+  .chart-picker-panel,
+  .chart-picker-inline,
   .guided-journey-grid,
   .plain-summary-grid,
   .trust-proof-grid,
@@ -3682,6 +3839,14 @@ p {
     padding: 22px;
   }
 
+  .chat-chart-body {
+    grid-template-columns: 1fr;
+  }
+
+  .chat-mini-chart {
+    max-width: none;
+  }
+
   .chat-input-row {
     flex-direction: column;
     padding: 16px;
@@ -3693,6 +3858,28 @@ p {
 
   .message {
     max-width: 92%;
+  }
+
+  .message.rich-message,
+  .message:has(.chat-chart-card) {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .chart-picker-row {
+    justify-content: flex-start;
+  }
+
+  .chart-detail-card .jyotish-chart-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-detail-card .jyotish-chart-toolbar,
+  .chart-detail-card .north-chart,
+  .chart-detail-card .chart-insight-panel,
+  .chart-detail-card .chart-drilldown {
+    grid-column: auto;
+    grid-row: auto;
   }
 
   .card-content.spacious,

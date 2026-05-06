@@ -3,6 +3,9 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   buildChatChartReplyText,
+  buildChatFollowUps,
+  buildChartContextIntro,
+  buildChartSelectionPrompt,
   buildNorthIndianChartCells,
   chartContextFromChatBlock,
   buildPredictaActionReply,
@@ -41,6 +44,8 @@ import type {
   ChartContext,
   ChatChartBlock,
   ChatMessageBlock,
+  ChatSuggestedCta,
+  ChartType,
   KundliData,
   SupportedLanguage,
 } from '@pridicta/types';
@@ -54,6 +59,7 @@ import {
   generateKundliFromWeb,
   loadWebKundlis,
   loadWebKundli,
+  WEB_KUNDLI_UPDATED_EVENT,
 } from '../lib/web-kundli-storage';
 
 const WEB_CHAT_MEMORY_KEY = 'predicta.webChatMemory.v4';
@@ -64,6 +70,7 @@ type WebMessage = {
   text: string;
   blocks?: ChatMessageBlock[];
   context?: ChartContext;
+  suggestions?: ChatSuggestedCta[];
 };
 
 type WebChatMemory = {
@@ -96,10 +103,20 @@ export function WebPridictaChat(): React.JSX.Element {
   const [messages, setMessages] = useState<WebMessage[]>(() =>
     buildInitialMessages(language),
   );
+  const lastPredictaMessageId = [...messages]
+    .reverse()
+    .find(message => message.role === 'pridicta')?.id;
 
   useEffect(() => {
-    setKundli(loadWebKundli());
-    setSavedKundlis(loadWebKundlis());
+    function refreshKundlis() {
+      setKundli(loadWebKundli());
+      setSavedKundlis(loadWebKundlis());
+    }
+
+    refreshKundlis();
+    window.addEventListener('storage', refreshKundlis);
+    window.addEventListener(WEB_KUNDLI_UPDATED_EVENT, refreshKundlis);
+
     const stored = loadWebChatMemory();
 
     if (stored) {
@@ -113,6 +130,11 @@ export function WebPridictaChat(): React.JSX.Element {
     }
 
     didLoadMemory.current = true;
+
+    return () => {
+      window.removeEventListener('storage', refreshKundlis);
+      window.removeEventListener(WEB_KUNDLI_UPDATED_EVENT, refreshKundlis);
+    };
   }, []);
 
   useEffect(() => {
@@ -150,22 +172,45 @@ export function WebPridictaChat(): React.JSX.Element {
 
     const params = new URLSearchParams(window.location.search);
     const prompt = params.get('prompt');
+    const chartContext = chartContextFromParams(params);
 
-    if (prompt) {
+    if (prompt || chartContext) {
       didLoadQueryPrompt.current = true;
+      if (chartContext) {
+        const selectedSection =
+          prompt || buildChartSelectionPrompt(chartContext);
+        const nextContext = {
+          ...chartContext,
+          selectedSection,
+        };
+        setActiveChartContext(nextContext);
+        setInput(selectedSection);
+        setMessages(current => [
+          ...current,
+          createPridictaReply(
+            buildChartContextIntro(nextContext, language),
+            language,
+            {
+              context: nextContext,
+              kundli,
+              lastText: selectedSection,
+            },
+          ),
+        ]);
+        return;
+      }
+
       const briefingDate = params.get('briefingDate');
       const decisionQuestion = params.get('decisionQuestion');
       const decisionArea = params.get('decisionArea');
       const decisionState = params.get('decisionState');
       const remedyTitle = params.get('remedyTitle');
       const birthTimeDetective = params.get('birthTimeDetective');
-      setInput(prompt);
+      setInput(prompt ?? '');
       setMessages(current => [
         ...current,
-        {
-          id: `context-${Date.now()}`,
-          role: 'pridicta',
-          text: buildContextMessage({
+        createPridictaReply(
+          buildContextMessage({
             birthTimeDetective: Boolean(birthTimeDetective),
             briefingDate,
             decisionArea,
@@ -174,19 +219,29 @@ export function WebPridictaChat(): React.JSX.Element {
             language,
             remedyTitle,
           }),
-        },
+          language,
+          {
+            context: activeChartContext,
+            kundli,
+            lastText: prompt ?? '',
+          },
+        ),
       ]);
     }
-  }, [language]);
+  }, [activeChartContext, kundli, language]);
 
-  async function sendMessage() {
-    const text = input.trim();
+  async function sendMessage(overrideText?: string) {
+    const text = (overrideText ?? input).trim();
 
     if (!text || isSending) {
       return;
     }
 
-    setInput('');
+    if (!overrideText) {
+      setInput('');
+    } else {
+      setInput('');
+    }
     setIsSending(true);
     setMessages(current => [
       ...current,
@@ -210,14 +265,14 @@ export function WebPridictaChat(): React.JSX.Element {
         setPendingEnglishSwitch(undefined);
         setMessages(current => [
           ...current,
-          {
-            id: `pridicta-${Date.now()}`,
-            role: 'pridicta',
-            text: buildEnglishSwitchDecisionReply({
+          createPridictaReply(
+            buildEnglishSwitchDecisionReply({
               currentLanguage: pendingEnglishSwitch.fromLanguage,
               decision: switchDecision,
             }),
-          },
+            language,
+            { context: activeChartContext, kundli, lastText: text },
+          ),
         ]);
         return;
       }
@@ -225,11 +280,11 @@ export function WebPridictaChat(): React.JSX.Element {
       if (pendingEnglishSwitch && switchDecision === 'none') {
         setMessages(current => [
           ...current,
-          {
-            id: `pridicta-${Date.now()}`,
-            role: 'pridicta',
-            text: buildEnglishSwitchPrompt(pendingEnglishSwitch.fromLanguage),
-          },
+          createPridictaReply(
+            buildEnglishSwitchPrompt(pendingEnglishSwitch.fromLanguage),
+            language,
+            { context: activeChartContext, kundli, lastText: text },
+          ),
         ]);
         return;
       }
@@ -256,11 +311,11 @@ export function WebPridictaChat(): React.JSX.Element {
         });
         setMessages(current => [
           ...current,
-          {
-            id: `pridicta-${Date.now()}`,
-            role: 'pridicta',
-            text: buildEnglishSwitchPrompt(fromLanguage),
-          },
+          createPridictaReply(
+            buildEnglishSwitchPrompt(fromLanguage),
+            language,
+            { context: activeChartContext, kundli, lastText: text },
+          ),
         ]);
         return;
       }
@@ -285,24 +340,24 @@ export function WebPridictaChat(): React.JSX.Element {
 
       setMessages(current => [
         ...current,
-        {
-          id: `pridicta-${Date.now()}`,
-          role: 'pridicta',
-          text: safeSummary,
-        },
-      ]);
+          createPridictaReply(safeSummary, languageContext.responseLanguage, {
+            context: activeChartContext,
+            kundli,
+            lastText: text,
+          }),
+        ]);
     } catch {
       const fallbackText = looksLikeBirthDetails(text)
         ? getBirthExtractionFailureReply(language)
         : 'I could not complete that reading just now. I am still here with you; please try again with one focused question.';
       setMessages(current => [
         ...current,
-        {
-          id: `pridicta-${Date.now()}`,
-          role: 'pridicta',
-          text: fallbackText,
-        },
-      ]);
+          createPridictaReply(fallbackText, language, {
+            context: activeChartContext,
+            kundli,
+            lastText: text,
+          }),
+        ]);
     } finally {
       setIsSending(false);
     }
@@ -453,6 +508,12 @@ export function WebPridictaChat(): React.JSX.Element {
         context,
         id: `pridicta-chart-${Date.now()}`,
         role: 'pridicta',
+        suggestions: buildFollowUps({
+          context,
+          kundli,
+          language: responseLanguage,
+          lastText: text,
+        }),
         text: buildChatChartReplyText({ block, language: responseLanguage }),
       },
     };
@@ -551,7 +612,12 @@ export function WebPridictaChat(): React.JSX.Element {
       <div className="card chat-panel">
         <div aria-live="polite" className="chat-thread" ref={threadRef}>
           {messages.map(message => (
-            <div className={`message ${message.role}`} key={message.id}>
+            <div
+              className={`message ${message.role} ${
+                message.blocks?.length ? 'rich-message' : ''
+              }`}
+              key={message.id}
+            >
               <span>{message.role === 'user' ? 'You' : 'Predicta'}</span>
               <p>{message.text}</p>
               {message.blocks?.map(block => (
@@ -566,6 +632,24 @@ export function WebPridictaChat(): React.JSX.Element {
                   }}
                 />
               ))}
+              {message.role === 'pridicta' &&
+              message.id === lastPredictaMessageId &&
+              !isSending ? (
+                <WebChatSuggestions
+                  onUsePrompt={prompt => {
+                    void sendMessage(prompt);
+                  }}
+                  suggestions={
+                    message.suggestions ??
+                    buildFollowUps({
+                      context: message.context ?? activeChartContext,
+                      kundli,
+                      language,
+                      lastText: message.text,
+                    })
+                  }
+                />
+              ) : null}
             </div>
           ))}
           {isSending ? (
@@ -583,7 +667,7 @@ export function WebPridictaChat(): React.JSX.Element {
             onKeyDown={event => {
               if (event.key === 'Enter' && !event.ctrlKey) {
                 event.preventDefault();
-                sendMessage();
+                void sendMessage();
               }
             }}
             placeholder={chatPlaceholder(language)}
@@ -593,7 +677,7 @@ export function WebPridictaChat(): React.JSX.Element {
           <button
             className="button"
             disabled={isSending || !input.trim()}
-            onClick={sendMessage}
+            onClick={() => void sendMessage()}
             type="button"
           >
             {isSending ? labels.reading : labels.askPridicta}
@@ -618,6 +702,32 @@ function WebChatMessageBlock({
   return <></>;
 }
 
+function WebChatSuggestions({
+  onUsePrompt,
+  suggestions,
+}: {
+  onUsePrompt: (prompt: string) => void;
+  suggestions: ChatSuggestedCta[];
+}): React.JSX.Element {
+  if (!suggestions.length) {
+    return <></>;
+  }
+
+  return (
+    <div className="chat-suggestion-row" aria-label="Suggested follow-up questions">
+      {suggestions.slice(0, 4).map(suggestion => (
+        <button
+          key={suggestion.id}
+          onClick={() => onUsePrompt(suggestion.prompt)}
+          type="button"
+        >
+          {suggestion.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function WebChatChartBlock({
   block,
   onUsePrompt,
@@ -638,44 +748,49 @@ function WebChatChartBlock({
         <strong>{block.supported ? 'Visible' : 'Unverified'}</strong>
       </div>
 
-      <div className="chat-mini-chart" aria-label={`${block.chartName} mini chart`}>
-        {cells.map(cell => (
-          <button
-            key={cell.key}
-            onClick={() =>
-              onUsePrompt(`Explain House ${cell.house} in my ${block.chartType} chart with D1 proof.`)
-            }
-            style={{
-              gridColumn: cell.col + 1,
-              gridRow: cell.row + 1,
-            }}
-            type="button"
-          >
-            <span>H{cell.house} {cell.signShort}</span>
-            <small>
-              {cell.planets.length
-                ? cell.planets.map(getPlanetAbbreviation).join(' ')
-                : '-'}
-            </small>
-          </button>
-        ))}
-        <div className="chat-mini-chart-center">
-          <span>{block.chartType}</span>
-          <strong>D1 anchor</strong>
+      <div className="chat-chart-body">
+        <div className="chat-mini-chart" aria-label={`${block.chartName} mini chart`}>
+          {cells.map(cell => (
+            <button
+              key={cell.key}
+              onClick={() =>
+                onUsePrompt(`Explain House ${cell.house} in my ${block.chartType} chart with D1 proof.`)
+              }
+              style={{
+                gridColumn: cell.col + 1,
+                gridRow: cell.row + 1,
+              }}
+              type="button"
+            >
+              <span>H{cell.house} {cell.signShort}</span>
+              <small>
+                {cell.planets.length
+                  ? cell.planets.map(getPlanetAbbreviation).join(' ')
+                  : '-'}
+              </small>
+            </button>
+          ))}
+          <div className="chat-mini-chart-center">
+            <span>{block.chartType}</span>
+            <strong>D1 anchor</strong>
+          </div>
+        </div>
+
+        <div className="chat-chart-proof-panel">
+          <div className="chat-evidence-chips">
+            {block.evidenceChips.map(chip => (
+              <span key={chip}>{chip}</span>
+            ))}
+          </div>
+
+          <p>{block.insight.summary}</p>
+          <ul className="chat-chart-insights">
+            {block.insight.bullets.slice(0, 4).map(bullet => (
+              <li key={bullet}>{bullet}</li>
+            ))}
+          </ul>
         </div>
       </div>
-
-      <div className="chat-evidence-chips">
-        {block.evidenceChips.map(chip => (
-          <span key={chip}>{chip}</span>
-        ))}
-      </div>
-
-      <ul className="chat-chart-insights">
-        {block.insight.bullets.slice(0, 4).map(bullet => (
-          <li key={bullet}>{bullet}</li>
-        ))}
-      </ul>
 
       <div className="chat-chart-actions">
         {block.ctas.map(cta => (
@@ -701,6 +816,70 @@ function buildInitialMessages(language: SupportedLanguage): WebMessage[] {
       text: getBirthIntakeWelcome(language),
     },
   ];
+}
+
+function createPridictaReply(
+  text: string,
+  language: SupportedLanguage,
+  options: {
+    context?: ChartContext;
+    kundli?: KundliData;
+    lastText: string;
+  },
+): WebMessage {
+  return {
+    context: options.context,
+    id: `pridicta-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+    role: 'pridicta',
+    suggestions: buildFollowUps({
+      context: options.context,
+      kundli: options.kundli,
+      language,
+      lastText: options.lastText,
+    }),
+    text,
+  };
+}
+
+function buildFollowUps({
+  context,
+  kundli,
+  language,
+  lastText,
+}: {
+  context?: ChartContext;
+  kundli?: KundliData;
+  language: SupportedLanguage;
+  lastText: string;
+}): ChatSuggestedCta[] {
+  return buildChatFollowUps({
+    context,
+    hasKundli: Boolean(kundli),
+    hasPremiumAccess: false,
+    kundli,
+    language,
+    lastText,
+  });
+}
+
+function chartContextFromParams(params: URLSearchParams): ChartContext | undefined {
+  const chartType = params.get('chartType') as ChartType | null;
+
+  if (!chartType) {
+    return undefined;
+  }
+
+  const selectedHouse = params.get('selectedHouse');
+
+  return {
+    chartName: params.get('chartName') ?? chartType,
+    chartType,
+    purpose: params.get('purpose') ?? undefined,
+    selectedHouse: selectedHouse ? Number(selectedHouse) : undefined,
+    selectedPlanet: params.get('selectedPlanet') ?? undefined,
+    selectedSection: params.get('prompt') ?? undefined,
+    sourceScreen: params.get('sourceScreen') ?? 'Charts',
+  };
 }
 
 function buildContextMessage({

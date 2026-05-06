@@ -1,10 +1,7 @@
-import { composeLifeTimeline } from '@pridicta/astrology';
 import { StatusPill } from '../../../components/StatusPill';
-import { WebLifeTimelinePanel } from '../../../components/WebLifeTimelinePanel';
+import { WebLifeTimelineLoader } from '../../../components/WebLifeTimelineLoader';
 
 export default function TimelinePage(): React.JSX.Element {
-  const presentation = composeLifeTimeline();
-
   return (
     <section className="dashboard-page">
       <div className="page-heading compact">
@@ -16,10 +13,7 @@ export default function TimelinePage(): React.JSX.Element {
         </p>
       </div>
 
-      <WebLifeTimelinePanel
-        ctaHref="/dashboard/kundli"
-        presentation={presentation}
-      />
+      <WebLifeTimelineLoader />
     </section>
   );
 }

@@ -11,6 +11,7 @@ import {
   Screen,
 } from '../components';
 import {
+  buildChartSelectionPrompt,
   CHART_REGISTRY,
   composeChartInsight,
   getChartTypesForAccess,
@@ -73,6 +74,14 @@ export function ChartsScreen({
       purpose: selectedConfig.purpose,
       selectedHouse: focus.house,
       selectedPlanet: focus.planet,
+      selectedSection: buildChartSelectionPrompt({
+        chartName: selectedConfig.name,
+        chartType: safeSelectedChart,
+        purpose: selectedConfig.purpose,
+        selectedHouse: focus.house,
+        selectedPlanet: focus.planet,
+        sourceScreen: 'Charts',
+      }),
       sourceScreen: 'Charts',
     });
     navigation.navigate(routes.Chat);
@@ -82,46 +91,46 @@ export function ChartsScreen({
     <Screen>
       <AnimatedHeader eyebrow="NORTH INDIAN CHART" title="Charts" />
 
-      <View className="mt-7 gap-4">
-        {chartTypes.map(chartType => {
-          const config = getChartConfig(chartType);
-          const active = safeSelectedChart === chartType;
+      <GlowCard className="mt-7" delay={80}>
+        <AppText tone="secondary" variant="caption">
+          SELECT CHART
+        </AppText>
+        <AppText className="mt-1" variant="subtitle">
+          {selectedConfig.name}
+        </AppText>
+        <AppText className="mt-2" tone="secondary">
+          {selectedConfig.purpose}
+        </AppText>
+        <View className="mt-5 flex-row flex-wrap gap-2">
+          {chartTypes.map(chartType => {
+            const active = safeSelectedChart === chartType;
 
-          return (
-            <Pressable
-              accessibilityRole="button"
-              key={chartType}
-              onPress={() => {
-                setSelectedChart(chartType);
-                setFocus({});
-              }}
-            >
-              <GlowCard delay={100}>
-                <View className="flex-row items-start justify-between gap-4">
-                  <View className="flex-1">
-                    <AppText tone="secondary" variant="caption">
-                      {chartType}
-                    </AppText>
-                    <AppText className="mt-1" variant="subtitle">
-                      {config.name}
-                    </AppText>
-                    <AppText className="mt-2" tone="secondary" variant="caption">
-                      {config.purpose}
-                    </AppText>
-                  </View>
-                  <AppText
-                    className={active ? 'text-[#4DAFFF]' : ''}
-                    tone={active ? 'primary' : 'secondary'}
-                    variant="caption"
-                  >
-                    {active ? 'Open' : 'Tap'}
-                  </AppText>
-                </View>
-              </GlowCard>
-            </Pressable>
-          );
-        })}
-      </View>
+            return (
+              <Pressable
+                accessibilityRole="button"
+                key={chartType}
+                onPress={() => {
+                  setSelectedChart(chartType);
+                  setFocus({});
+                }}
+                className={`rounded-full border px-4 py-3 ${
+                  active
+                    ? 'border-[#4DAFFF] bg-[#4DAFFF22]'
+                    : 'border-[#252533] bg-[#FFFFFF0A]'
+                }`}
+              >
+                <AppText
+                  className={active ? 'text-[#4DAFFF]' : ''}
+                  tone={active ? 'primary' : 'secondary'}
+                  variant="caption"
+                >
+                  {chartType}
+                </AppText>
+              </Pressable>
+            );
+          })}
+        </View>
+      </GlowCard>
 
       <View className="mt-7">
         <KundliChart
@@ -132,7 +141,7 @@ export function ChartsScreen({
         />
       </View>
 
-      <GlowCard className="mt-5" delay={180}>
+      <GlowCard className="mt-5" delay={140}>
         <AppText tone="secondary" variant="caption">
           {insight.eyebrow}
         </AppText>
@@ -175,6 +184,47 @@ export function ChartsScreen({
           }
           onPress={askFromChart}
         />
+      </View>
+
+      <View className="mt-7 gap-4">
+        {chartTypes.map(chartType => {
+          const config = getChartConfig(chartType);
+          const active = safeSelectedChart === chartType;
+
+          return (
+            <Pressable
+              accessibilityRole="button"
+              key={chartType}
+              onPress={() => {
+                setSelectedChart(chartType);
+                setFocus({});
+              }}
+            >
+              <GlowCard delay={100}>
+                <View className="flex-row items-start justify-between gap-4">
+                  <View className="flex-1">
+                    <AppText tone="secondary" variant="caption">
+                      {chartType}
+                    </AppText>
+                    <AppText className="mt-1" variant="subtitle">
+                      {config.name}
+                    </AppText>
+                    <AppText className="mt-2" tone="secondary" variant="caption">
+                      {config.purpose}
+                    </AppText>
+                  </View>
+                  <AppText
+                    className={active ? 'text-[#4DAFFF]' : ''}
+                    tone={active ? 'primary' : 'secondary'}
+                    variant="caption"
+                  >
+                    {active ? 'Open' : 'Tap'}
+                  </AppText>
+                </View>
+              </GlowCard>
+            </Pressable>
+          );
+        })}
       </View>
     </Screen>
   );
