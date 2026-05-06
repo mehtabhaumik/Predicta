@@ -173,18 +173,18 @@ export function detectDominantPredictaLanguage(
   const normalized = normalizePredictaIntentText(text);
   const hasGujaratiScript = /[\u0A80-\u0AFF]/.test(text);
   const hasDevanagari = /[\u0900-\u097F]/.test(text);
-  const guScore = [
-    hasGujaratiScript,
-    /\b(mane|mne|mare|mara|mari|tame|tamari|kem|shu|su|chhe|che|nathi|mate|paisa|nana|aavse|aavta|varas|kundli\s*banav)\b/i.test(
+  const guScore =
+    (hasGujaratiScript ? 2 : 0) +
+    countLanguageMatches(
       normalized,
-    ),
-  ].filter(Boolean).length;
-  const hiScore = [
-    hasDevanagari,
-    /\b(mera|meri|mujhe|mujko|mujhko|main|mein|me|aap|tum|kya|kaise|kaisa|batao|hoga|hogi|paisa|paise|kundli\s*bana|shaadi|naukri)\b/i.test(
+      /\b(mane|mne|mare|mara|mari|tame|tamari|kem|shu|su|chhe|che|nathi|mate|nana|aavse|aavta|varas)\b|\bkundli\s*banav/gi,
+    );
+  const hiScore =
+    (hasDevanagari ? 2 : 0) +
+    countLanguageMatches(
       normalized,
-    ),
-  ].filter(Boolean).length;
+      /\b(mera|meri|mujhe|mujko|mujhko|main|mein|aap|tum|kya|kaise|kaisa|batao|hoga|hogi|paise|shaadi|naukri)\b|\bkundli\s*bana/gi,
+    );
 
   if (guScore > hiScore) {
     return 'gu';
@@ -193,6 +193,10 @@ export function detectDominantPredictaLanguage(
     return 'hi';
   }
   return 'en';
+}
+
+function countLanguageMatches(text: string, pattern: RegExp): number {
+  return Array.from(text.matchAll(pattern)).length;
 }
 
 export function buildPredictaActionReply({

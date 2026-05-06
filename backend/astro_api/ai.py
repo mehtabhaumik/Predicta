@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 import re
+from datetime import date
 from typing import Any, Dict, Iterable, List, Optional
 
 import httpx
@@ -398,7 +399,9 @@ def build_pridicta_system_prompt() -> str:
             "Understand messy input in English, Hindi, Hinglish, Gujarati, Roman Gujarati, mixed Hindi-English-Gujarati, broken spelling, wrong grammar, and casual WhatsApp-style typing.",
             "Before answering, silently detect the user's language and script, correct spelling and grammar internally, translate the intent into clean English for reasoning, identify the app-bounded action or astrology question, then answer in the requested or dominant response language.",
             "Never tell the user their spelling or grammar is wrong. Infer carefully and ask only for missing critical details.",
-            "If the user switches language from the selected app language, acknowledge gently once and continue in the user's dominant language. Do not make switching a big issue.",
+            "The supplied Response language is authoritative. Answer in that language unless the current user message is clearly and primarily in another supported language.",
+            "Do not use prior conversation language to override the current Response language. If Response language is en and the current message is English, answer only in English.",
+            "If the current user message clearly switches language from the selected app language, acknowledge gently once and continue in the user's dominant language. Do not make switching a big issue.",
             "For Hindi responses, use Hinglish: Hindi tone in Roman/Hindi-friendly wording with natural English astrology and product terms. Do not use formal textbook Hindi unless the user clearly writes in Devanagari and wants it.",
             "For Gujarati responses, use natural Gujarati tone with Gujarati/Hinglish-style wording and English astrology/product terms where useful. Do not make it stiff or overly literary.",
             "Predicta must never send the user away unnecessarily. If the user asks for anything the app can do manually, do it from chat or stage it inside chat.",
@@ -421,6 +424,8 @@ def build_pridicta_system_prompt() -> str:
             "Naturally suggest premium when useful, after giving value first. Do not pressure. Explain the premium benefit as deeper proof, timing windows, Life Calendar, remedies, reports, compatibility, or PDF bundles.",
             "Keep Sanskrit/Jyotish terms only when they add precision, and immediately explain them in simple language.",
             "Every recommendation must include evidence, a confidence/uncertainty note, or explicitly say evidence is weak.",
+            "For relative timing, use the supplied Current date. Never use stale chart period labels as the calendar anchor.",
+            "Interpret 'after one year' as around the same date next year, and 'next 1 year' as the window from today through the same date next year.",
             "For medical, legal, financial, safety, abuse, or self-harm topics: do not diagnose, prescribe, predict certainty, or replace a qualified professional.",
             "Do not make fatalistic claims about death, divorce, illness, bankruptcy, or guaranteed outcomes.",
             "Use an audit-friendly but friendly structure: warm acknowledgement, direct answer, confidence, chart evidence, limitations, and practical next step.",
@@ -437,6 +442,8 @@ def build_user_prompt(
     language: str,
 ) -> str:
     recent_turns = list(history)[-8:]
+    current_date = date.today()
+    one_year_later = add_one_year(current_date)
     conversation = "\n".join(
         f"{'User' if turn.role == 'user' else 'Pridicta'}: {turn.text[:900]}"
         for turn in recent_turns
@@ -445,12 +452,15 @@ def build_user_prompt(
         [
             "Kundli context:",
             json.dumps(context, ensure_ascii=False, indent=2),
+            f"Current date: {current_date.isoformat()}",
+            f"Current date rule: all relative timing must be anchored to this date. 'After one year' means around {one_year_later.isoformat()} and 'next 1 year' means {current_date.isoformat()} through {one_year_later.isoformat()}.",
             f"Primary reading area: {primary_area}",
             f"Response language: {language}",
             f"Language instruction: {language_instruction(language)}",
             "Internal normalization instruction: silently detect the user's language, correct spelling/grammar, translate the intent into clean English for reasoning, and map the request to a Predicta app action or chart question before answering.",
             "Do not expose the internal translation or correction unless the user asks for translation help.",
-            "If the user's dominant language differs from the response language, briefly acknowledge the switch once and answer in the user's dominant language.",
+            "Response language enforcement: answer in the Response language unless the current user question is clearly and primarily in another supported language. Ignore older conversation language for this decision.",
+            "If the current user's dominant language clearly differs from the response language, briefly acknowledge the switch once and answer in the current user's dominant language.",
             f"High-stakes safety topic: {'yes' if is_high_stakes_message(message) else 'no'}",
             "Safety boundary: do not provide medical/legal/financial certainty; advise qualified professional support for high-stakes action.",
             "Recent conversation:",
@@ -459,6 +469,13 @@ def build_user_prompt(
             "Answer as a chart-aware Vedic astrologer using the deterministic evidence first. Follow the formattingContract in jyotishAnalysis.",
         ]
     )
+
+
+def add_one_year(value: date) -> date:
+    try:
+        return value.replace(year=value.year + 1)
+    except ValueError:
+        return value.replace(month=2, day=28, year=value.year + 1)
 
 
 def build_ai_context(
