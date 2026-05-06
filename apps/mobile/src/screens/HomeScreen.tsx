@@ -47,6 +47,25 @@ const quickActions = [
   },
 ] as const;
 
+const toolLinks = [
+  ['Create Kundli', routes.Kundli],
+  ['Ask', routes.Chat],
+  ['Decision', routes.DecisionOracle],
+  ['Charts', routes.Charts],
+  ['Timeline', routes.LifeTimeline],
+  ['Remedy', routes.RemedyCoach],
+  ['Birth Time', routes.BirthTimeDetective],
+  ['Relationship', routes.RelationshipMirror],
+  ['Family', routes.FamilyKarmaMap],
+  ['Wrapped', routes.PredictaWrapped],
+  ['Report', routes.Report],
+  ['Saved', routes.SavedKundlis],
+  ['Premium', routes.Paywall],
+  ['Redeem', routes.RedeemPassCode],
+  ['Settings', routes.Settings],
+  ['Legal', routes.Legal],
+] as const;
+
 export function HomeScreen({
   navigation,
 }: RootScreenProps<typeof routes.Home>): React.JSX.Element {
@@ -182,39 +201,30 @@ export function HomeScreen({
         />
       </View>
 
-      {kundli ? (
-        <GlowCard className="mt-6" delay={260}>
-          <AppText tone="secondary" variant="caption">
-            CHOOSE ONE TOOL
-          </AppText>
-          <AppText className="mt-2" variant="subtitle">
-            What do you want help with?
-          </AppText>
-          <View className="mt-4 flex-row flex-wrap gap-3">
-            {[
-              ['Decision', routes.DecisionOracle],
-              ['Charts', routes.Charts],
-              ['Remedy', routes.RemedyCoach],
-              ['Birth Time', routes.BirthTimeDetective],
-              ['Timeline', routes.LifeTimeline],
-              ['Relationship', routes.RelationshipMirror],
-              ['Family', routes.FamilyKarmaMap],
-              ['Wrapped', routes.PredictaWrapped],
-              ['Report', routes.Report],
-              ['Saved', routes.SavedKundlis],
-            ].map(([label, route]) => (
-              <Pressable
-                accessibilityRole="button"
-                key={label}
-                onPress={() => navigation.navigate(route as never)}
-                style={styles.toolChip}
-              >
-                <AppText variant="caption">{label}</AppText>
-              </Pressable>
-            ))}
-          </View>
-        </GlowCard>
-      ) : null}
+      <GlowCard className="mt-6" delay={260}>
+        <AppText tone="secondary" variant="caption">
+          CHOOSE ONE TOOL
+        </AppText>
+        <AppText className="mt-2" variant="subtitle">
+          What do you want help with?
+        </AppText>
+        <AppText className="mt-2" tone="secondary" variant="caption">
+          Create Kundli first for full readings. You can still open every tool
+          from here.
+        </AppText>
+        <View className="mt-4 flex-row flex-wrap gap-3">
+          {toolLinks.map(([label, route]) => (
+            <Pressable
+              accessibilityRole="button"
+              key={label}
+              onPress={() => navigation.navigate(route as never)}
+              style={styles.toolChip}
+            >
+              <AppText variant="caption">{label}</AppText>
+            </Pressable>
+          ))}
+        </View>
+      </GlowCard>
 
       <GlowCard className="mt-7" delay={420}>
         <AppText tone="secondary" variant="caption">
