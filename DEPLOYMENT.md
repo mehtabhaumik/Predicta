@@ -7,7 +7,8 @@ production.
 
 Static Firebase Hosting with `next export` is no longer sufficient because API
 routes would be missing in production. The current App Hosting runtime config is
-checked in at `apps/web/apphosting.yaml`.
+checked in at `apps/web/apphosting.yaml`, and the local-source App Hosting
+target is registered in `firebase.json` as `predicta-web`.
 
 ## Required Runtime Environment
 
