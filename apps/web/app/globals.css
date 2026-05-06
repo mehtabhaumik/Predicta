@@ -2290,6 +2290,7 @@ p {
 
 .message p {
   margin: 0;
+  white-space: pre-wrap;
 }
 
 .message.user {
@@ -2313,6 +2314,7 @@ p {
 }
 
 .chat-input-row input,
+.chat-input-row textarea,
 .redeem-card input,
 .auth-dialog input,
 .admin-guest-pass-panel input,
@@ -2323,6 +2325,7 @@ p {
   color: var(--text);
   min-height: 52px;
   padding: 14px 16px;
+  resize: vertical;
   width: 100%;
 }
 

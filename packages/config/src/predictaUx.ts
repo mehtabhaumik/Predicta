@@ -31,33 +31,80 @@ export const PREDICTA_JOURNEY_STEPS: PredictaJourneyStep[] = [
 export function getFriendlyGreetingReply(language: SupportedLanguage): string {
   if (language === 'hi') {
     return [
-      'Namaste. मैं आपकी मदद कर सकता हूं.',
-      'सबसे आसान रास्ता:',
-      '1. पहले अपनी Kundli बनाएं.',
-      '2. फिर simple summary पढ़ें.',
-      '3. उसके बाद career, marriage, money या timing पर एक सवाल पूछें.',
-      'Sanskrit/Jyotish शब्द आएंगे तो मैं उनका आसान मतलब भी बताऊंगा.',
+      'Namaste. Har Har Mahadev.',
+      'मैं यहीं हूं. आराम से बताइए, कोई जल्दी नहीं.',
+      'अगर आप Kundli बनाना चाहते हैं, तो बस date of birth, birth time, और birth place लिख दें. अगर केवल DOB पता है, वह भी भेज दीजिए; मैं बाकी चीजें प्यार से पूछ लूंगी.',
+      'अगर Kundli बन चुकी है, तो career, marriage, money, timing, remedies या मन की उलझन पर एक सवाल पूछिए. मैं chart proof के साथ सरल भाषा में समझाऊंगी.',
     ].join('\n');
   }
 
   if (language === 'gu') {
     return [
-      'Namaste. હું તમારી મદદ કરી શકું છું.',
-      'સૌથી સરળ રસ્તો:',
-      '1. પહેલા તમારી Kundli બનાવો.',
-      '2. પછી simple summary વાંચો.',
-      '3. ત્યાર પછી career, marriage, money અથવા timing પર એક પ્રશ્ન પૂછો.',
-      'Sanskrit/Jyotish શબ્દ આવે તો હું તેનો સરળ અર્થ પણ સમજાવીશ.',
+      'Namaste. Har Har Mahadev.',
+      'હું અહીં છું. શાંતિથી કહો, કોઈ ઉતાવળ નથી.',
+      'જો Kundli બનાવવી હોય તો date of birth, birth time અને birth place લખો. ફક્ત DOB ખબર હોય તો પણ મોકલો; બાકીની વિગતો હું પ્રેમથી પૂછી લઈશ.',
+      'જો Kundli બની ગઈ હોય, તો career, marriage, money, timing, remedies અથવા મનની મૂંઝવણ પર એક પ્રશ્ન પૂછો. હું chart proof સાથે સરળ ભાષામાં સમજાવીશ.',
     ].join('\n');
   }
 
   return [
-    'Namaste. I can help.',
-    'Easiest path:',
-    '1. Create your Kundli.',
-    '2. Read the simple summary.',
-    '3. Ask one question about career, marriage, money, or timing.',
-    'When Sanskrit or Jyotish terms appear, I will explain them in plain language.',
+    'Namaste. Har Har Mahadev.',
+    "I am here with you. Share slowly; we do not have to rush this.",
+    'If you want to create your Kundli, send your date of birth, birth time, and birth place. If you only know the DOB, send that first and I will gently ask for the rest.',
+    'If your Kundli is already ready, ask me one thing about career, marriage, money, timing, remedies, or whatever is weighing on your mind. I will keep it practical and show chart proof.',
+  ].join('\n');
+}
+
+export function getBirthIntakeWelcome(language: SupportedLanguage): string {
+  if (language === 'hi') {
+    return 'Namaste. Har Har Mahadev. अपनी जन्म तारीख किसी भी format में लिखें. फिर birth time और birth place बताएं. अगर अभी केवल DOB पता है, भेज दीजिए; मैं बाकी details धीरे से पूछ लूंगी.';
+  }
+  if (language === 'gu') {
+    return 'Namaste. Har Har Mahadev. તમારી જન્મ તારીખ કોઈપણ format માં લખો. પછી birth time અને birth place જણાવો. જો હાલમાં ફક્ત DOB ખબર હોય, મોકલો; બાકીની વિગતો હું ધીમેથી પૂછી લઈશ.';
+  }
+  return 'Namaste. Har Har Mahadev. Tell me your date of birth in any format, then birth time and birth place. If you only know the DOB right now, send it first; I will gently ask for the rest.';
+}
+
+export function getListeningMicrocopy(language: SupportedLanguage): string {
+  if (language === 'hi') {
+    return 'एक क्षण. मैं आपकी बात ध्यान से देख रही हूं...';
+  }
+  if (language === 'gu') {
+    return 'એક ક્ષણ. હું તમારી વાત ધ્યાનથી જોઈ રહી છું...';
+  }
+  return 'One moment. I am listening carefully...';
+}
+
+export function getBirthExtractionFailureReply(
+  language: SupportedLanguage,
+): string {
+  if (language === 'hi') {
+    return [
+      'मैंने कोशिश की, लेकिन details साफ़ तरह से पढ़ नहीं पाई. कोई बात नहीं.',
+      'कृपया ऐसे भेजें:',
+      'DOB: 22/08/1980',
+      'Time: 6:30 AM',
+      'Place: Mumbai, India',
+      'अगर time नहीं पता, “time unknown” लिख दें. मैं आगे guide कर दूंगी.',
+    ].join('\n');
+  }
+  if (language === 'gu') {
+    return [
+      'મેં પ્રયત્ન કર્યો, પણ details સ્પષ્ટ રીતે વાંચી શકી નહીં. કોઈ વાત નહીં.',
+      'કૃપા કરીને આ રીતે મોકલો:',
+      'DOB: 22/08/1980',
+      'Time: 6:30 AM',
+      'Place: Mumbai, India',
+      'જો time ખબર નથી, “time unknown” લખો. હું આગળ guide કરીશ.',
+    ].join('\n');
+  }
+  return [
+    'I tried to read the details, but they were not clear enough. No stress.',
+    'Send them like this:',
+    'DOB: 22/08/1980',
+    'Time: 6:30 AM',
+    'Place: Mumbai, India',
+    'If you do not know the time, write “time unknown” and I will guide you from there.',
   ].join('\n');
 }
 

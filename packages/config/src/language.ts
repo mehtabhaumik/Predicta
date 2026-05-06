@@ -56,7 +56,7 @@ export const SUPPORTED_LANGUAGE_OPTIONS: LanguageOption[] = [
 
 export const LANGUAGE_LABELS: Record<SupportedLanguage, LanguageLabels> = {
   en: {
-    askPridicta: 'Ask Pridicta',
+    askPridicta: 'Ask Predicta',
     chartEvidence: 'Chart evidence',
     confidence: 'Confidence',
     createKundli: 'Create Kundli',
@@ -69,7 +69,7 @@ export const LANGUAGE_LABELS: Record<SupportedLanguage, LanguageLabels> = {
     keySignal: 'Key signal',
     language: 'Language',
     languageHelper:
-      'Pridicta will use this language for AI answers, reports, daily briefings, and share-safe summaries.',
+      'Predicta will use this language for AI answers, reports, daily briefings, and share-safe summaries.',
     observation: 'Observation',
     premium: 'Premium',
     reading: 'Reading',
@@ -77,7 +77,7 @@ export const LANGUAGE_LABELS: Record<SupportedLanguage, LanguageLabels> = {
     shareSafe: 'Share-safe',
   },
   gu: {
-    askPridicta: 'પ્રિડિક્ટાને પૂછો',
+    askPridicta: 'પ્રેડિક્ટાને પૂછો',
     chartEvidence: 'ચાર્ટનો પુરાવો',
     confidence: 'વિશ્વાસ',
     createKundli: 'કુંડળી બનાવો',
@@ -90,7 +90,7 @@ export const LANGUAGE_LABELS: Record<SupportedLanguage, LanguageLabels> = {
     keySignal: 'મુખ્ય સંકેત',
     language: 'ભાષા',
     languageHelper:
-      'પ્રિડિક્ટા AI જવાબો, રિપોર્ટ, દૈનિક બ્રીફિંગ અને શેર-સેફ સારાંશ માટે આ ભાષા વાપરશે.',
+      'પ્રેડિક્ટા AI જવાબો, રિપોર્ટ, દૈનિક બ્રીફિંગ અને શેર-સેફ સારાંશ માટે આ ભાષા વાપરશે.',
     observation: 'અવલોકન',
     premium: 'પ્રીમિયમ',
     reading: 'વાંચન',
@@ -98,7 +98,7 @@ export const LANGUAGE_LABELS: Record<SupportedLanguage, LanguageLabels> = {
     shareSafe: 'શેર-સેફ',
   },
   hi: {
-    askPridicta: 'प्रिडिक्टा से पूछें',
+    askPridicta: 'प्रेडिक्टा से पूछें',
     chartEvidence: 'चार्ट प्रमाण',
     confidence: 'विश्वास',
     createKundli: 'कुंडली बनाएं',
@@ -111,7 +111,7 @@ export const LANGUAGE_LABELS: Record<SupportedLanguage, LanguageLabels> = {
     keySignal: 'मुख्य संकेत',
     language: 'भाषा',
     languageHelper:
-      'प्रिडिक्टा AI उत्तरों, रिपोर्ट, दैनिक ब्रीफिंग और शेयर-सेफ सारांश में इस भाषा का उपयोग करेगा.',
+      'प्रेडिक्टा AI उत्तरों, रिपोर्ट, दैनिक ब्रीफिंग और शेयर-सेफ सारांश में इस भाषा का उपयोग करेगा.',
     observation: 'अवलोकन',
     premium: 'प्रीमियम',
     reading: 'रीडिंग',

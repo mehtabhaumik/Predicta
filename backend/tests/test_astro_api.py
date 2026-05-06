@@ -272,6 +272,25 @@ def test_extract_birth_details_uses_backend_ai_boundary(monkeypatch):
     assert response.json()["extracted"]["city"] == "Mumbai"
 
 
+def test_extract_birth_details_accepts_dob_only_without_ai(monkeypatch):
+    def fail_ai_response(**kwargs):
+        raise ai_module.AIProviderError("provider unavailable")
+
+    monkeypatch.setattr(ai_module, "create_ai_text_response", fail_ai_response)
+
+    client = TestClient(app)
+    response = client.post(
+        "/extract-birth-details",
+        json={"text": "DOB: 22/08/1980"},
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["extracted"]["date"] == "1980-08-22"
+    assert "time" in payload["missingFields"]
+    assert "birth_place" in payload["missingFields"]
+
+
 def test_guest_pass_redemption_is_backend_authoritative(tmp_path, monkeypatch):
     monkeypatch.setenv("PRIDICTA_ACCESS_STORE_PATH", str(tmp_path / "access.json"))
     monkeypatch.delenv("PRIDICTA_ADMIN_API_TOKEN", raising=False)

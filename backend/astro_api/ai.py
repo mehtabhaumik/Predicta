@@ -8,6 +8,8 @@ from typing import Any, Dict, Iterable, List, Optional
 import httpx
 
 from .models import (
+    BirthDetailsAmbiguity,
+    BirthDetailsDraft,
     BirthDetailsExtractionResult,
     BirthDetailsExtractionRequest,
     ChartContext,
@@ -36,6 +38,32 @@ GEMINI_PREMIUM_THINKING_BUDGET = int(
     os.getenv("PRIDICTA_GEMINI_PREMIUM_THINKING_BUDGET", "512")
 )
 REQUEST_TIMEOUT_SECONDS = float(os.getenv("PRIDICTA_AI_TIMEOUT_SECONDS", "45"))
+MONTHS = {
+    "jan": "01",
+    "january": "01",
+    "feb": "02",
+    "february": "02",
+    "mar": "03",
+    "march": "03",
+    "apr": "04",
+    "april": "04",
+    "may": "05",
+    "jun": "06",
+    "june": "06",
+    "jul": "07",
+    "july": "07",
+    "aug": "08",
+    "august": "08",
+    "sep": "09",
+    "sept": "09",
+    "september": "09",
+    "oct": "10",
+    "october": "10",
+    "nov": "11",
+    "november": "11",
+    "dec": "12",
+    "december": "12",
+}
 
 DEEP_PATTERNS = [
     re.compile(pattern, re.I)
@@ -113,6 +141,7 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
 def extract_birth_details(
     request: BirthDetailsExtractionRequest,
 ) -> BirthDetailsExtractionResult:
+    rules_result = extract_birth_details_with_rules(request.text)
     system_prompt = (
         "Extract Vedic astrology birth details as strict JSON. Do not guess. "
         "Return exactly these top-level keys: extracted, missingFields, "
@@ -120,15 +149,205 @@ def extract_birth_details(
         "must be HH:mm in 24-hour format when clear. If a 12-hour time lacks "
         "AM/PM, include am_pm in missingFields and add an ambiguity."
     )
-    text, _, _ = create_ai_text_response(
-        model=FREE_REASONING_MODEL,
-        system_prompt=system_prompt,
-        user_prompt=request.text,
-        max_output_tokens=500,
-        reasoning_effort="low",
+    try:
+        text, _, _ = create_ai_text_response(
+            model=FREE_REASONING_MODEL,
+            system_prompt=system_prompt,
+            user_prompt=request.text,
+            max_output_tokens=500,
+            reasoning_effort="low",
+        )
+        payload = parse_json_object(text)
+        ai_result = BirthDetailsExtractionResult.model_validate(payload)
+    except (AIConfigurationError, AIProviderError, ValueError, json.JSONDecodeError):
+        return rules_result
+
+    return merge_extraction_results(rules_result, ai_result)
+
+
+def extract_birth_details_with_rules(text: str) -> BirthDetailsExtractionResult:
+    extracted = BirthDetailsDraft()
+    ambiguities: List[BirthDetailsAmbiguity] = []
+    date = extract_date_with_rules(text)
+    time = extract_time_with_rules(text)
+    place = extract_place_with_rules(text)
+
+    if date:
+        extracted.date = date
+
+    if time:
+        extracted.time = time["time"]
+        extracted.meridiem = time.get("meridiem")
+        if time.get("needs_meridiem"):
+            ambiguities.append(
+                BirthDetailsAmbiguity(
+                    field="time",
+                    issue="The birth time needs AM or PM confirmation.",
+                    options=[f"{time['original']} AM", f"{time['original']} PM"],
+                )
+            )
+
+    if place:
+        extracted.placeText = place
+        extracted.city = place
+
+    missing_fields: List[str] = []
+    if not extracted.name:
+        missing_fields.append("name")
+    if not extracted.date:
+        missing_fields.append("date")
+    if not extracted.time:
+        missing_fields.append("time")
+    elif any(item.field == "time" for item in ambiguities):
+        missing_fields.append("am_pm")
+    if not extracted.placeText:
+        missing_fields.append("birth_place")
+
+    confidence = len(
+        [value for value in [extracted.date, extracted.time, extracted.placeText] if value]
+    ) / 3
+
+    return BirthDetailsExtractionResult(
+        extracted=extracted,
+        missingFields=missing_fields,
+        ambiguities=ambiguities,
+        confidence=confidence,
     )
-    payload = parse_json_object(text)
-    return BirthDetailsExtractionResult.model_validate(payload)
+
+
+def extract_date_with_rules(text: str) -> Optional[str]:
+    normalized = text.strip()
+    iso = re.search(r"\b(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})\b", normalized)
+    if iso:
+        return format_date_parts(iso.group(1), iso.group(2), iso.group(3))
+
+    numeric = re.search(
+        r"\b(?:dob|date\s+of\s+birth|birth\s+date|born)?\s*:?\s*(\d{1,2})(?:st|nd|rd|th)?[-/.](\d{1,2})[-/.](\d{2,4})\b",
+        normalized,
+        re.I,
+    )
+    if numeric:
+        first = int(numeric.group(1))
+        second = int(numeric.group(2))
+        year = normalize_year(numeric.group(3))
+        if first > 12:
+            return format_date_parts(year, numeric.group(2), numeric.group(1))
+        if second > 12:
+            return format_date_parts(year, numeric.group(1), numeric.group(2))
+        return format_date_parts(year, numeric.group(2), numeric.group(1))
+
+    day_month = re.search(
+        r"\b(\d{1,2})(?:st|nd|rd|th)?(?:\s+of)?\s+([A-Za-z]{3,9}),?\s+(\d{2,4})\b",
+        normalized,
+        re.I,
+    )
+    if day_month:
+        month = MONTHS.get(day_month.group(2).lower())
+        if month:
+            return format_date_parts(normalize_year(day_month.group(3)), month, day_month.group(1))
+
+    month_day = re.search(
+        r"\b([A-Za-z]{3,9})\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{2,4})\b",
+        normalized,
+        re.I,
+    )
+    if month_day:
+        month = MONTHS.get(month_day.group(1).lower())
+        if month:
+            return format_date_parts(normalize_year(month_day.group(3)), month, month_day.group(2))
+
+    compact = re.search(r"\b(\d{2})(\d{2})(\d{4})\b", normalized)
+    if compact:
+        first = int(compact.group(1))
+        second = int(compact.group(2))
+        if 1 <= first <= 31 and 1 <= second <= 12:
+            return format_date_parts(compact.group(3), compact.group(2), compact.group(1))
+
+    return None
+
+
+def extract_time_with_rules(text: str) -> Optional[Dict[str, Any]]:
+    match = re.search(
+        r"\b(?:birth\s*time|time|born\s+at|at)?\s*(\d{1,2})(?::(\d{2}))?\s*(am|pm|a\.m\.|p\.m\.|morning|evening|night)?\b",
+        text,
+        re.I,
+    )
+    if not match or not re.search(r"\b(time|born\s+at|at|\d{1,2}:\d{2})\b", match.group(0), re.I):
+        match = re.search(r"\b(\d{1,2}):(\d{2})\s*(am|pm|a\.m\.|p\.m\.|morning|evening|night)?\b", text, re.I)
+    if not match:
+        return None
+
+    hour = int(match.group(1))
+    minute = int(match.group(2) or "00")
+    if hour > 23 or minute > 59:
+        return None
+
+    meridiem_text = (match.group(3) or "").lower().replace(".", "")
+    meridiem = None
+    if meridiem_text in {"am", "morning"}:
+        meridiem = "AM"
+    elif meridiem_text in {"pm", "evening", "night"}:
+        meridiem = "PM"
+
+    needs_meridiem = meridiem is None and hour <= 12
+    if meridiem == "PM" and hour < 12:
+        hour += 12
+    if meridiem == "AM" and hour == 12:
+        hour = 0
+
+    return {
+        "meridiem": meridiem,
+        "needs_meridiem": needs_meridiem,
+        "original": match.group(0).strip(),
+        "time": f"{hour:02d}:{minute:02d}",
+    }
+
+
+def extract_place_with_rules(text: str) -> Optional[str]:
+    match = re.search(
+        r"\b(?:birth\s*place|birthplace|place|born\s+in|born\s+at|from)\s*(?:is|:)?\s+([A-Za-z][A-Za-z\s.-]{1,80})(?:[,.]|\n|$)",
+        text,
+        re.I,
+    )
+    return match.group(1).strip() if match else None
+
+
+def merge_extraction_results(
+    rules_result: BirthDetailsExtractionResult,
+    ai_result: BirthDetailsExtractionResult,
+) -> BirthDetailsExtractionResult:
+    extracted = rules_result.extracted.model_copy()
+    for field, value in ai_result.extracted.model_dump().items():
+        if value is not None:
+            setattr(extracted, field, value)
+
+    missing = set(ai_result.missingFields or rules_result.missingFields)
+    if extracted.name:
+        missing.discard("name")
+    if extracted.date:
+        missing.discard("date")
+    if extracted.time:
+        missing.discard("time")
+    if extracted.placeText or extracted.city:
+        missing.discard("birth_place")
+
+    return BirthDetailsExtractionResult(
+        extracted=extracted,
+        missingFields=sorted(missing),
+        ambiguities=[*rules_result.ambiguities, *ai_result.ambiguities],
+        confidence=max(rules_result.confidence, ai_result.confidence),
+    )
+
+
+def format_date_parts(year: str, month: str, day: str) -> str:
+    return f"{year}-{month.zfill(2)}-{day.zfill(2)}"
+
+
+def normalize_year(year: str) -> str:
+    if len(year) == 4:
+        return year
+    numeric = int(year)
+    return f"19{year}" if numeric > 30 else f"20{year}"
 
 
 def detect_intent(user_question: str, chart_context: Optional[ChartContext]) -> str:
@@ -165,7 +384,10 @@ def select_gemini_model(intent: str, user_plan: str) -> str:
 def build_pridicta_system_prompt() -> str:
     return "\n".join(
         [
-            "You are Pridicta, a premium Vedic astrology intelligence system.",
+            "You are Predicta, a warm, human, premium Vedic astrology guide. The API may use the legacy internal name Pridicta, but users should experience Predicta.",
+            "You are a humble Mahadev devotee: grounded, compassionate, truthful, protective, and never fear-based. Use 'Namaste' or a soft devotional line such as 'Har Har Mahadev' only when it feels natural, not as a slogan in every answer.",
+            "Talk like a wise friend sitting with the user, not a report generator. Begin with a brief acknowledgement of the user's feeling or question before giving the answer.",
+            "Use tiny human micro-statements when helpful: 'I hear you', 'let us look gently', 'one thing stands out', 'this is not a judgment', 'we will keep it practical'.",
             "Act like a careful Jyotish practitioner: synthesize chart evidence, timing, and practical guidance.",
             "Use only the kundli context supplied. Do not invent unsupported divisional chart data.",
             "Treat jyotishAnalysis as the deterministic evidence layer. Use it as the backbone of the answer.",
@@ -183,7 +405,8 @@ def build_pridicta_system_prompt() -> str:
             "Every recommendation must include evidence, a confidence/uncertainty note, or explicitly say evidence is weak.",
             "For medical, legal, financial, safety, abuse, or self-harm topics: do not diagnose, prescribe, predict certainty, or replace a qualified professional.",
             "Do not make fatalistic claims about death, divorce, illness, bankruptcy, or guaranteed outcomes.",
-            "Use an audit-friendly structure: direct answer, confidence, chart evidence, limitations, and practical next step.",
+            "Use an audit-friendly but friendly structure: warm acknowledgement, direct answer, confidence, chart evidence, limitations, and practical next step.",
+            "Do not sound abrupt, robotic, transactional, or overly concise. Still stay focused and avoid long sermons.",
         ]
     )
 

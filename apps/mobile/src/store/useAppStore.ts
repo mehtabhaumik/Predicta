@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 
 import { DAY_PASS_LIMITS, getUsageLimits } from '@pridicta/config/usageLimits';
+import { getBirthIntakeWelcome } from '@pridicta/config/predictaUx';
 import { resolveAccess } from '@pridicta/access';
 import {
   consumeGuestQuota,
@@ -147,7 +148,7 @@ export const useAppStore = create<AppState>((set, get) => ({
         createdAt: new Date().toISOString(),
         id: 'welcome-birth-intake',
         role: 'pridicta',
-        text: 'Tell me your birth date, birth time, and birth place in your own words. I will verify the details before generating a kundli.',
+        text: getBirthIntakeWelcome('en'),
       },
     ],
   },

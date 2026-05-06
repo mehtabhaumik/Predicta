@@ -20,7 +20,9 @@ import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import { detectIntent } from '@pridicta/ai';
 import {
+  getBirthExtractionFailureReply,
   getFriendlyGreetingReply,
+  getListeningMicrocopy,
   isSimpleGreeting,
 } from '@pridicta/config/predictaUx';
 import { formatAskWithProof } from '@pridicta/config/proof';
@@ -186,7 +188,7 @@ export function ChatScreen({
 
       if (hasHighStakesLanguage(trimmedInput)) {
         streamAssistantResponse(
-          `${getSafetyBoundaryCopy(languagePreference.language)}\n\nCreate your Kundli first if you want reflective timing support, but do not delay urgent or professional help.`,
+          `${getSafetyBoundaryCopy(languagePreference.language)}\n\nI am with you. Create your Kundli first if you want reflective timing support, but do not delay urgent or professional help. Har Har Mahadev.`,
         );
         return;
       }
@@ -200,13 +202,18 @@ export function ChatScreen({
         );
         setPendingBirthDetailsDraft(mergedDraft);
         streamAssistantResponse(
-          buildBirthIntakeResponse(mergedDraft, result, () => {
-            navigation.navigate(routes.Kundli);
-          }),
+          buildBirthIntakeResponse(
+            mergedDraft,
+            result,
+            languagePreference.language,
+            () => {
+              navigation.navigate(routes.Kundli);
+            },
+          ),
         );
       } catch {
         streamAssistantResponse(
-          'I can help create the kundli, but I need the birth date, birth time, and birth place in a clear format. You can write something like: 16 August 1994, 6:42 AM, Mumbai.',
+          getBirthExtractionFailureReply(languagePreference.language),
         );
       }
       return;
@@ -316,7 +323,7 @@ export function ChatScreen({
           <AppText tone="secondary" variant="caption">
             PRIVATE READING
           </AppText>
-          <GradientText variant="title">Chat with Pridicta</GradientText>
+          <GradientText variant="title">Chat with Predicta</GradientText>
         </View>
       </FadeInView>
 
@@ -451,7 +458,9 @@ export function ChatScreen({
               context: activeChartContext,
               id: 'streaming',
               role: 'pridicta',
-              text: streamingText || 'Pridicta is listening...',
+              text:
+                streamingText ||
+                getListeningMicrocopy(languagePreference.language),
             }}
             typing={!streamingText}
           />
@@ -462,7 +471,7 @@ export function ChatScreen({
         <TextInput
           multiline
           onChangeText={setInput}
-          placeholder="Ask Pridicta anything about your chart..."
+          placeholder="Share birth details or ask Predicta anything..."
           placeholderTextColor={colors.secondaryText}
           textAlignVertical="top"
           value={input}
@@ -540,6 +549,7 @@ function applyMeridiemToTime(time: string, meridiem: string): string {
 function buildBirthIntakeResponse(
   draft: BirthDetailsDraft,
   result: Awaited<ReturnType<typeof extractBirthDetailsFromText>>,
+  language: 'en' | 'hi' | 'gu',
   onReady: () => void,
 ): string {
   const missing = result.missingFields.filter(field => {
@@ -557,7 +567,9 @@ function buildBirthIntakeResponse(
   if (result.ambiguities.length > 0) {
     const first = result.ambiguities[0];
     return [
-      'I found most of the birth details, but one part needs confirmation before I can prepare the kundli.',
+      language === 'en'
+        ? 'I found most of the birth details. One small thing needs confirmation before I prepare the kundli.'
+        : 'I found most of the birth details, but one part needs confirmation before I can prepare the kundli.',
       first.issue,
       first.options?.length ? `Options: ${first.options.join(' / ')}` : '',
     ]
@@ -565,22 +577,27 @@ function buildBirthIntakeResponse(
       .join('\n\n');
   }
 
-  if (missing.length > 0) {
+  const requiredMissing = missing.filter(
+    field => !['name', 'country', 'state'].includes(field),
+  );
+
+  if (requiredMissing.length > 0) {
     return [
-      'I found:',
+      'Good, I caught this much:',
       formatDraftSummary(draft),
-      `Please share the missing detail: ${missing
+      `For a real kundli, please share: ${requiredMissing
         .map(formatMissingField)
         .join(', ')}.`,
+      'If birth time is not known, write “time unknown” and I will guide you gently.',
     ].join('\n\n');
   }
 
   onReady();
 
   return [
-    'Thank you. I found the details needed for a kundli.',
+    'Thank you. I found the details needed for a kundli. Har Har Mahadev.',
     formatDraftSummary(draft),
-    'I opened the Kundli screen so you can verify the birth place and timezone before Pridicta calculates anything.',
+    'I opened the Kundli screen so you can verify the birth place and timezone before Predicta calculates anything.',
   ].join('\n\n');
 }
 
@@ -677,7 +694,7 @@ function TypingPulse(): React.JSX.Element {
       <View style={styles.typingDot} />
       <View style={styles.typingDot} />
       <AppText className="ml-2" tone="secondary">
-        Pridicta is reading the pattern
+        Predicta is reading the pattern
       </AppText>
     </Animated.View>
   );

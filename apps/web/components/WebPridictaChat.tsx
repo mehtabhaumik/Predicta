@@ -3,7 +3,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { getLanguageLabels } from '@pridicta/config/language';
 import {
+  getBirthExtractionFailureReply,
+  getBirthIntakeWelcome,
   getFriendlyGreetingReply,
+  getListeningMicrocopy,
   isSimpleGreeting,
 } from '@pridicta/config/predictaUx';
 import { formatAskWithProof } from '@pridicta/config/proof';
@@ -119,16 +122,16 @@ export function WebPridictaChat(): React.JSX.Element {
           text: safeSummary,
         },
       ]);
-    } catch (error) {
+    } catch {
+      const fallbackText = looksLikeBirthDetails(text)
+        ? getBirthExtractionFailureReply(language)
+        : "I could not complete that reading just now. I am still here with you; please try again with one focused question. Har Har Mahadev.";
       setMessages(current => [
         ...current,
         {
           id: `pridicta-${Date.now()}`,
           role: 'pridicta',
-          text:
-            error instanceof Error
-              ? error.message
-              : fallbackError(language),
+          text: fallbackText,
         },
       ]);
     } finally {
@@ -157,23 +160,30 @@ export function WebPridictaChat(): React.JSX.Element {
         <div className="chat-thread">
           {messages.map(message => (
             <div className={`message ${message.role}`} key={message.id}>
-              <span>{message.role === 'user' ? 'You' : 'Pridicta'}</span>
+              <span>{message.role === 'user' ? 'You' : 'Predicta'}</span>
               <p>{message.text}</p>
             </div>
           ))}
+          {isSending ? (
+            <div className="message pridicta" key="predicta-listening">
+              <span>Predicta</span>
+              <p>{getListeningMicrocopy(language)}</p>
+            </div>
+          ) : null}
         </div>
         <div className="chat-input-row">
-          <input
-            aria-label="Ask Pridicta"
+          <textarea
+            aria-label="Ask Predicta"
             disabled={isSending}
             onChange={event => setInput(event.target.value)}
             onKeyDown={event => {
-              if (event.key === 'Enter') {
+              if (event.key === 'Enter' && !event.ctrlKey) {
                 event.preventDefault();
                 sendMessage();
               }
             }}
             placeholder={chatPlaceholder(language)}
+            rows={3}
             value={input}
           />
           <button
@@ -195,7 +205,7 @@ function buildInitialMessages(language: SupportedLanguage): WebMessage[] {
     {
       id: 'welcome',
       role: 'pridicta',
-      text: welcomeMessage(language),
+      text: getBirthIntakeWelcome(language),
     },
   ];
 }
@@ -296,10 +306,17 @@ function formatExtractionSummary(
       .join('\n\n');
   }
 
-  if (result.missingFields.length > 0) {
+  const requiredMissing = result.missingFields.filter(
+    field => field !== 'name' && field !== 'country' && field !== 'state',
+  );
+
+  if (requiredMissing.length > 0) {
     return [
-      details.length ? `${copy.found}:\n${details.join('\n')}` : '',
-      `${copy.missing}: ${result.missingFields.join(', ')}.`,
+      details.length ? `${copy.found}:\n${details.join('\n')}` : copy.partial,
+      `${copy.missing}: ${requiredMissing
+        .map(field => copy[field] ?? field)
+        .join(', ')}.`,
+      copy.missingHelp,
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -317,14 +334,22 @@ function extractionCopy(language: SupportedLanguage): Record<string, string> {
     return {
       backendBoundary:
         'Web flow mobile की तरह backend AI boundary इस्तेमाल करता है. Calculated kundli active होते ही full chart reading चलेगी.',
+      am_pm: 'AM या PM',
       birthPlace: 'जन्म स्थान',
+      birth_place: 'जन्म स्थान',
+      city: 'शहर',
+      country: 'देश',
       confirmation: 'अधिकतर विवरण मिल गए, लेकिन एक बात confirm करनी है.',
       date: 'तारीख',
       found: 'मिला',
+      missingHelp:
+        'इन details के बिना मैं real kundli calculate नहीं करूंगी. Time नहीं पता हो तो “time unknown” लिख दें.',
       missing: 'Missing',
       name: 'नाम',
       options: 'Options',
+      partial: 'एक बात समझ में आई. अब kundli के लिए बाकी details चाहिए.',
       ready: 'Kundli generation के लिए जरूरी birth details मिल गए.',
+      state: 'राज्य',
       time: 'समय',
     };
   }
@@ -332,28 +357,44 @@ function extractionCopy(language: SupportedLanguage): Record<string, string> {
     return {
       backendBoundary:
         'Web flow mobile જેવી backend AI boundary વાપરે છે. Calculated kundli active થતા full chart reading ચાલશે.',
+      am_pm: 'AM કે PM',
       birthPlace: 'જન્મ સ્થળ',
+      birth_place: 'જન્મ સ્થળ',
+      city: 'શહેર',
+      country: 'દેશ',
       confirmation: 'મોટાભાગની વિગતો મળી, પણ એક બાબત confirm કરવી છે.',
       date: 'તારીખ',
       found: 'મળ્યું',
+      missingHelp:
+        'આ details વગર હું real kundli calculate નહીં કરું. Time ખબર ન હોય તો “time unknown” લખો.',
       missing: 'Missing',
       name: 'નામ',
       options: 'Options',
+      partial: 'એક બાબત સમજાઈ. હવે kundli માટે બાકીની details જોઈએ.',
       ready: 'Kundli generation માટે જરૂરી birth details મળી ગઈ.',
+      state: 'રાજ્ય',
       time: 'સમય',
     };
   }
   return {
     backendBoundary:
       'The web flow now uses the same backend AI boundary as mobile. Full chart readings will run once a calculated kundli is active on web.',
+    am_pm: 'AM or PM',
     birthPlace: 'Birth place',
+    birth_place: 'birth place',
+    city: 'city',
+    country: 'country',
     confirmation: 'I found most details, but one part needs confirmation.',
     date: 'Date',
     found: 'I found',
+    missingHelp:
+      'I will not calculate a real kundli until these are clear. If you do not know the time, write “time unknown” and I will guide you.',
     missing: 'Missing',
     name: 'Name',
     options: 'Options',
+    partial: 'I caught one piece. Now I need the remaining birth details for the kundli.',
     ready: 'I found the birth details needed for kundli generation.',
+    state: 'state or province',
     time: 'Time',
   };
 }
@@ -368,16 +409,6 @@ function chatPlaceholder(language: SupportedLanguage): string {
   return 'Share birth details or ask from a calculated kundli...';
 }
 
-function fallbackError(language: SupportedLanguage): string {
-  if (language === 'hi') {
-    return 'AI reading failed. कृपया फिर कोशिश करें.';
-  }
-  if (language === 'gu') {
-    return 'AI reading failed. કૃપા કરીને ફરી પ્રયાસ કરો.';
-  }
-  return 'AI reading failed. Please try again.';
-}
-
 function looksLikeBirthDetails(text: string): boolean {
   const normalized = text.toLowerCase();
 
@@ -390,26 +421,16 @@ function looksLikeBirthDetails(text: string): boolean {
   );
 }
 
-function welcomeMessage(language: SupportedLanguage): string {
-  if (language === 'hi') {
-    return 'अपनी जन्म तारीख, जन्म समय और जन्म स्थान बताएं, या calculated kundli से सवाल पूछें. Sanskrit/Jyotish शब्दों का अर्थ सरल भाषा में समझाया जाएगा.';
-  }
-  if (language === 'gu') {
-    return 'તમારી જન્મ તારીખ, જન્મ સમય અને જન્મ સ્થળ જણાવો, અથવા calculated kundli પરથી પ્રશ્ન પૂછો. Sanskrit/Jyotish શબ્દોનો અર્થ સરળ ભાષામાં સમજાવવામાં આવશે.';
-  }
-  return 'Tell me your birth date, birth time, and birth place, or ask from a calculated kundli. Sanskrit and Jyotish terms will be explained simply.';
-}
-
 function createKundliFirstReply(language: SupportedLanguage, text: string): string {
   const safety = hasHighStakesLanguage(text)
     ? `${getSafetyBoundaryCopy(language)}\n\n`
     : '';
 
   if (language === 'hi') {
-    return `${safety}पहले Kundli बनाएं. उसके बाद मैं आपके chart evidence से जवाब दूंगा. Start here: Dashboard > Kundli.`;
+    return `${safety}मैं आपके साथ हूं. इस सवाल का सही chart-based जवाब देने के लिए पहले Kundli चाहिए. कृपया जन्म तारीख, जन्म समय और जन्म स्थान भेजें, या Dashboard > Kundli खोलें. Har Har Mahadev.`;
   }
   if (language === 'gu') {
-    return `${safety}પહેલા Kundli બનાવો. ત્યાર પછી હું તમારા chart evidence પરથી જવાબ આપીશ. Start here: Dashboard > Kundli.`;
+    return `${safety}હું તમારી સાથે છું. આ પ્રશ્નનો સાચો chart-based જવાબ આપવા માટે પહેલા Kundli જોઈએ. કૃપા કરીને જન્મ તારીખ, જન્મ સમય અને જન્મ સ્થળ મોકલો, અથવા Dashboard > Kundli ખોલો. Har Har Mahadev.`;
   }
-  return `${safety}Create your Kundli first. Then I will answer from your own chart evidence. Start here: Dashboard > Kundli.`;
+  return `${safety}I am with you. To answer this from your real chart, I need your Kundli first. Share your date of birth, birth time, and birth place, or open Dashboard > Kundli. Har Har Mahadev.`;
 }
