@@ -29,6 +29,12 @@ FREE_MAX_OUTPUT_TOKENS = int(os.getenv("PRIDICTA_FREE_MAX_OUTPUT_TOKENS", "620")
 PREMIUM_MAX_OUTPUT_TOKENS = int(
     os.getenv("PRIDICTA_PREMIUM_MAX_OUTPUT_TOKENS", "1100")
 )
+GEMINI_FREE_THINKING_BUDGET = int(
+    os.getenv("PRIDICTA_GEMINI_FREE_THINKING_BUDGET", "0")
+)
+GEMINI_PREMIUM_THINKING_BUDGET = int(
+    os.getenv("PRIDICTA_GEMINI_PREMIUM_THINKING_BUDGET", "512")
+)
 REQUEST_TIMEOUT_SECONDS = float(os.getenv("PRIDICTA_AI_TIMEOUT_SECONDS", "45"))
 
 DEEP_PATTERNS = [
@@ -551,7 +557,10 @@ def create_gemini_text_response(
         "systemInstruction": {"parts": [{"text": system_prompt}]},
         "contents": [{"role": "user", "parts": [{"text": user_prompt}]}],
         "generationConfig": {
-            "maxOutputTokens": max_output_tokens,
+            "maxOutputTokens": max_output_tokens + gemini_thinking_budget(model),
+            "thinkingConfig": {
+                "thinkingBudget": gemini_thinking_budget(model),
+            },
             "temperature": 0.45,
         },
     }
@@ -571,6 +580,13 @@ def create_gemini_text_response(
         raise AIProviderError(f"Gemini request failed with {response.status_code}.")
 
     return extract_gemini_output_text(response.json())
+
+
+def gemini_thinking_budget(model: str) -> int:
+    if "pro" in model.lower():
+        return GEMINI_PREMIUM_THINKING_BUDGET
+
+    return GEMINI_FREE_THINKING_BUDGET
 
 
 def extract_output_text(response: Dict[str, Any]) -> str:
