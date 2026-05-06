@@ -61,6 +61,8 @@ export type PredictaLanguageContext = {
   responseLanguage: SupportedLanguage;
 };
 
+export type PredictaEnglishSwitchDecision = 'approve' | 'none' | 'reject';
+
 const ACTION_PATTERNS: Array<{
   id: PredictaAppActionId;
   pattern: RegExp;
@@ -159,6 +161,89 @@ export function preparePredictaLanguageContext({
   };
 }
 
+export function shouldAutoSwitchToRegionalLanguage({
+  context,
+  selectedLanguage,
+}: {
+  context: PredictaLanguageContext;
+  selectedLanguage: SupportedLanguage;
+}): boolean {
+  return (
+    selectedLanguage === 'en' &&
+    (context.responseLanguage === 'hi' || context.responseLanguage === 'gu')
+  );
+}
+
+export function shouldAskBeforeSwitchingToEnglish({
+  context,
+  selectedLanguage,
+}: {
+  context: PredictaLanguageContext;
+  selectedLanguage: SupportedLanguage;
+}): boolean {
+  return selectedLanguage !== 'en' && context.dominantLanguage === 'en';
+}
+
+export function detectEnglishSwitchDecision(
+  text: string,
+): PredictaEnglishSwitchDecision {
+  const normalized = normalizePredictaIntentText(text);
+
+  if (
+    /\b(switch|change|english|yes|yeah|yep|ok|okay|sure|haan|ha|ha ji|kar do|kardo|english mein|english ma)\b/i.test(
+      normalized,
+    )
+  ) {
+    return 'approve';
+  }
+
+  if (
+    /\b(no|nope|stay|continue|same|keep|nahin|nahi|mat|hindi|hinglish|gujarati|gujju|gujarati ma|hindi mein)\b/i.test(
+      normalized,
+    )
+  ) {
+    return 'reject';
+  }
+
+  return 'none';
+}
+
+export function buildEnglishSwitchPrompt(
+  currentLanguage: SupportedLanguage,
+): string {
+  if (currentLanguage === 'gu') {
+    return [
+      'Mane lage chhe tame English ma poochi rahya cho.',
+      'Hu Gujarati tone continue karu ke English par switch karu?',
+      'Reply “switch to English” karsho to hu language pill English par set kari daish. Reply “stay in Gujarati” karsho to hu Gujarati tone ma j rahish.',
+    ].join('\n\n');
+  }
+
+  return [
+    'Mujhe lag raha hai aap English mein pooch rahe hain.',
+    'Main Hinglish/Hindi tone continue karu ya English par switch karu?',
+    'Reply “switch to English” karenge to main language pill English par set kar dungi. Reply “stay in Hindi” karenge to main Hinglish mein hi rahungi.',
+  ].join('\n\n');
+}
+
+export function buildEnglishSwitchDecisionReply({
+  currentLanguage,
+  decision,
+}: {
+  currentLanguage: SupportedLanguage;
+  decision: Exclude<PredictaEnglishSwitchDecision, 'none'>;
+}): string {
+  if (decision === 'approve') {
+    return 'Done. I switched Predicta to English. From the next message, I will answer in English unless you start speaking Hindi or Gujarati again.';
+  }
+
+  if (currentLanguage === 'gu') {
+    return 'Saru. Hu Gujarati tone ma j rahish. Tame English words mix karo to pan hu context samjhi laish.';
+  }
+
+  return 'Theek hai. Main Hinglish/Hindi tone mein hi rahungi. Aap English words mix karenge to bhi main context samajh lungi.';
+}
+
 export function normalizePredictaIntentText(text: string): string {
   return text
     .toLowerCase()
@@ -177,13 +262,13 @@ export function detectDominantPredictaLanguage(
     (hasGujaratiScript ? 2 : 0) +
     countLanguageMatches(
       normalized,
-      /\b(mane|mne|mare|mara|mari|tame|tamari|kem|shu|su|chhe|che|nathi|mate|nana|aavse|aavta|varas)\b|\bkundli\s*banav/gi,
+      /\b(mane|mne|mare|mara|mari|tame|tamari|kem|shu|su|chhe|che|nathi|mate|nana|aavse|aavta|varas|bolo|kaho|samjavo)\b|\bkundli\s*banav/gi,
     );
   const hiScore =
     (hasDevanagari ? 2 : 0) +
     countLanguageMatches(
       normalized,
-      /\b(mera|meri|mujhe|mujko|mujhko|main|mein|aap|tum|kya|kaise|kaisa|batao|hoga|hogi|paise|shaadi|naukri)\b|\bkundli\s*bana/gi,
+      /\b(mera|meri|mujhe|mujko|mujhko|main|mein|aap|tum|kya|kaise|kaisa|batao|hoga|hogi|paise|pata|nahin|nahi|kyun|kyu|kyo|tikte|tikta|shaadi|naukri)\b|\bkundli\s*bana/gi,
     );
 
   if (guScore > hiScore) {

@@ -20,9 +20,14 @@ import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import {
   buildPredictaActionReply,
+  buildEnglishSwitchDecisionReply,
+  buildEnglishSwitchPrompt,
   buildPredictaLearningSuggestion,
+  detectEnglishSwitchDecision,
   learnPredictaInteraction,
   preparePredictaLanguageContext,
+  shouldAskBeforeSwitchingToEnglish,
+  shouldAutoSwitchToRegionalLanguage,
   type PredictaInteractionMemory,
 } from '@pridicta/astrology';
 import { detectIntent } from '@pridicta/ai';
@@ -77,6 +82,8 @@ export function ChatScreen({
 }: RootScreenProps<typeof routes.Chat>): React.JSX.Element {
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [pendingEnglishSwitch, setPendingEnglishSwitch] =
+    useState<'gu' | 'hi'>();
   const [predictaMemory, setPredictaMemory] =
     useState<PredictaInteractionMemory>();
   const [streamingText, setStreamingText] = useState('');
@@ -86,6 +93,9 @@ export function ChatScreen({
   const auth = useAppStore(state => state.auth);
   const chatSoundEnabled = useAppStore(state => state.chatSoundEnabled);
   const languagePreference = useAppStore(state => state.languagePreference);
+  const setLanguagePreference = useAppStore(
+    state => state.setLanguagePreference,
+  );
   const userPlan = useAppStore(state => state.userPlan);
   const pendingBirthDetailsDraft = useAppStore(
     state => state.pendingBirthDetailsDraft,
@@ -198,6 +208,61 @@ export function ChatScreen({
       text: trimmedInput,
     });
     const responseLanguage = languageContext.responseLanguage;
+    const switchDecision = pendingEnglishSwitch
+      ? detectEnglishSwitchDecision(trimmedInput)
+      : 'none';
+
+    if (pendingEnglishSwitch && switchDecision !== 'none') {
+      appendConversationMessage(
+        createMessage('user', trimmedInput, activeChartContext),
+      );
+      setInput('');
+      if (switchDecision === 'approve') {
+        setLanguagePreference('en');
+      }
+      streamAssistantResponse(
+        buildEnglishSwitchDecisionReply({
+          currentLanguage: pendingEnglishSwitch,
+          decision: switchDecision,
+        }),
+      );
+      setPendingEnglishSwitch(undefined);
+      return;
+    }
+
+    if (pendingEnglishSwitch && switchDecision === 'none') {
+      appendConversationMessage(
+        createMessage('user', trimmedInput, activeChartContext),
+      );
+      setInput('');
+      streamAssistantResponse(buildEnglishSwitchPrompt(pendingEnglishSwitch));
+      return;
+    }
+
+    if (
+      shouldAutoSwitchToRegionalLanguage({
+        context: languageContext,
+        selectedLanguage: languagePreference.language,
+      })
+    ) {
+      setLanguagePreference(responseLanguage);
+    }
+
+    if (
+      shouldAskBeforeSwitchingToEnglish({
+        context: languageContext,
+        selectedLanguage: languagePreference.language,
+      })
+    ) {
+      const fromLanguage = languagePreference.language as 'gu' | 'hi';
+      setPendingEnglishSwitch(fromLanguage);
+      appendConversationMessage(
+        createMessage('user', trimmedInput, activeChartContext),
+      );
+      setInput('');
+      streamAssistantResponse(buildEnglishSwitchPrompt(fromLanguage));
+      return;
+    }
 
     if (isSimpleGreeting(trimmedInput)) {
       const savedKundlis = savedKundliRecords.map(record => record.kundliData);

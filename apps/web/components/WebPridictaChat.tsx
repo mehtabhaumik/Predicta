@@ -3,9 +3,14 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   buildPredictaActionReply,
+  buildEnglishSwitchDecisionReply,
+  buildEnglishSwitchPrompt,
   buildPredictaLearningSuggestion,
+  detectEnglishSwitchDecision,
   learnPredictaInteraction,
   preparePredictaLanguageContext,
+  shouldAskBeforeSwitchingToEnglish,
+  shouldAutoSwitchToRegionalLanguage,
   type PredictaInteractionMemory,
 } from '@pridicta/astrology';
 import { getLanguageLabels } from '@pridicta/config/language';
@@ -56,10 +61,15 @@ type WebChatMemory = {
   predictaMemory?: PredictaInteractionMemory;
 };
 
+type PendingEnglishSwitch = {
+  fromLanguage: Exclude<SupportedLanguage, 'en'>;
+  requestedAt: string;
+};
+
 export function WebPridictaChat(): React.JSX.Element {
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
-  const { language } = useLanguagePreference();
+  const { language, setLanguage } = useLanguagePreference();
   const labels = getLanguageLabels(language);
   const didLoadQueryPrompt = useRef(false);
   const didLoadMemory = useRef(false);
@@ -69,6 +79,8 @@ export function WebPridictaChat(): React.JSX.Element {
   const [birthMemory, setBirthMemory] = useState<PredictaBirthMemory>();
   const [predictaMemory, setPredictaMemory] =
     useState<PredictaInteractionMemory>();
+  const [pendingEnglishSwitch, setPendingEnglishSwitch] =
+    useState<PendingEnglishSwitch>();
   const [messages, setMessages] = useState<WebMessage[]>(() =>
     buildInitialMessages(language),
   );
@@ -175,6 +187,72 @@ export function WebPridictaChat(): React.JSX.Element {
         selectedLanguage: language,
         text,
       });
+      const switchDecision = pendingEnglishSwitch
+        ? detectEnglishSwitchDecision(text)
+        : 'none';
+
+      if (pendingEnglishSwitch && switchDecision !== 'none') {
+        if (switchDecision === 'approve') {
+          setLanguage('en');
+        }
+        setPendingEnglishSwitch(undefined);
+        setMessages(current => [
+          ...current,
+          {
+            id: `pridicta-${Date.now()}`,
+            role: 'pridicta',
+            text: buildEnglishSwitchDecisionReply({
+              currentLanguage: pendingEnglishSwitch.fromLanguage,
+              decision: switchDecision,
+            }),
+          },
+        ]);
+        return;
+      }
+
+      if (pendingEnglishSwitch && switchDecision === 'none') {
+        setMessages(current => [
+          ...current,
+          {
+            id: `pridicta-${Date.now()}`,
+            role: 'pridicta',
+            text: buildEnglishSwitchPrompt(pendingEnglishSwitch.fromLanguage),
+          },
+        ]);
+        return;
+      }
+
+      if (
+        shouldAutoSwitchToRegionalLanguage({
+          context: languageContext,
+          selectedLanguage: language,
+        })
+      ) {
+        setLanguage(languageContext.responseLanguage);
+      }
+
+      if (
+        shouldAskBeforeSwitchingToEnglish({
+          context: languageContext,
+          selectedLanguage: language,
+        })
+      ) {
+        const fromLanguage = language as Exclude<SupportedLanguage, 'en'>;
+        setPendingEnglishSwitch({
+          fromLanguage,
+          requestedAt: new Date().toISOString(),
+        });
+        setMessages(current => [
+          ...current,
+          {
+            id: `pridicta-${Date.now()}`,
+            role: 'pridicta',
+            text: buildEnglishSwitchPrompt(fromLanguage),
+          },
+        ]);
+        return;
+      }
+
       const summary = await resolveSmartReply(text);
       const safeSummary =
         kundli && hasHighStakesLanguage(text)
