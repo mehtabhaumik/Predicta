@@ -2,11 +2,17 @@
 
 import { useEffect, useRef, useState } from 'react';
 import {
+  buildChatChartReplyText,
+  buildNorthIndianChartCells,
+  chartContextFromChatBlock,
   buildPredictaActionReply,
   buildEnglishSwitchDecisionReply,
   buildEnglishSwitchPrompt,
   buildPredictaLearningSuggestion,
+  composeChatChartBlock,
+  detectChatChartIntent,
   detectEnglishSwitchDecision,
+  getPlanetAbbreviation,
   learnPredictaInteraction,
   preparePredictaLanguageContext,
   shouldAskBeforeSwitchingToEnglish,
@@ -32,6 +38,9 @@ import {
 } from '@pridicta/config/trust';
 import type {
   BirthDetails,
+  ChartContext,
+  ChatChartBlock,
+  ChatMessageBlock,
   KundliData,
   SupportedLanguage,
 } from '@pridicta/types';
@@ -53,6 +62,8 @@ type WebMessage = {
   id: string;
   role: 'user' | 'pridicta';
   text: string;
+  blocks?: ChatMessageBlock[];
+  context?: ChartContext;
 };
 
 type WebChatMemory = {
@@ -81,6 +92,7 @@ export function WebPridictaChat(): React.JSX.Element {
     useState<PredictaInteractionMemory>();
   const [pendingEnglishSwitch, setPendingEnglishSwitch] =
     useState<PendingEnglishSwitch>();
+  const [activeChartContext, setActiveChartContext] = useState<ChartContext>();
   const [messages, setMessages] = useState<WebMessage[]>(() =>
     buildInitialMessages(language),
   );
@@ -253,6 +265,16 @@ export function WebPridictaChat(): React.JSX.Element {
         return;
       }
 
+      const chartReply = resolveChatChartReply(
+        text,
+        languageContext.responseLanguage,
+      );
+
+      if (chartReply) {
+        setMessages(current => [...current, chartReply.message]);
+        return;
+      }
+
       const summary = await resolveSmartReply(text);
       const safeSummary =
         kundli && hasHighStakesLanguage(text)
@@ -305,6 +327,7 @@ export function WebPridictaChat(): React.JSX.Element {
         role: message.role,
         text: message.text,
       })),
+      chartContext: activeChartContext,
       kundli: activeKundli,
       language: responseLanguage,
       message: text,
@@ -387,6 +410,52 @@ export function WebPridictaChat(): React.JSX.Element {
       responseLanguage,
       languageContext.acknowledgement,
     );
+  }
+
+  function resolveChatChartReply(
+    text: string,
+    responseLanguage: SupportedLanguage,
+  ): { message: WebMessage } | undefined {
+    if (!kundli) {
+      return undefined;
+    }
+
+    const intent = detectChatChartIntent(text);
+
+    if (!intent) {
+      return undefined;
+    }
+
+    const block = composeChatChartBlock({
+      chartType: intent.chartType,
+      hasPremiumAccess: false,
+      kundli,
+    });
+
+    if (!block) {
+      return undefined;
+    }
+
+    const context = chartContextFromChatBlock(block, 'Chat');
+    const nextMemory = learnPredictaInteraction(
+      predictaMemory,
+      text,
+      'chart',
+      kundli,
+      responseLanguage,
+    );
+    setPredictaMemory(nextMemory);
+    setActiveChartContext(context);
+
+    return {
+      message: {
+        blocks: [block],
+        context,
+        id: `pridicta-chart-${Date.now()}`,
+        role: 'pridicta',
+        text: buildChatChartReplyText({ block, language: responseLanguage }),
+      },
+    };
   }
 
   async function handleBirthIntake(
@@ -485,6 +554,18 @@ export function WebPridictaChat(): React.JSX.Element {
             <div className={`message ${message.role}`} key={message.id}>
               <span>{message.role === 'user' ? 'You' : 'Predicta'}</span>
               <p>{message.text}</p>
+              {message.blocks?.map(block => (
+                <WebChatMessageBlock
+                  block={block}
+                  key={`${message.id}-${block.type}-${block.chartType}`}
+                  onUsePrompt={prompt => {
+                    if (block.type === 'chart') {
+                      setActiveChartContext(chartContextFromChatBlock(block, 'Chat'));
+                    }
+                    setInput(prompt);
+                  }}
+                />
+              ))}
             </div>
           ))}
           {isSending ? (
@@ -518,6 +599,95 @@ export function WebPridictaChat(): React.JSX.Element {
             {isSending ? labels.reading : labels.askPridicta}
           </button>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function WebChatMessageBlock({
+  block,
+  onUsePrompt,
+}: {
+  block: ChatMessageBlock;
+  onUsePrompt: (prompt: string) => void;
+}): React.JSX.Element {
+  if (block.type === 'chart') {
+    return <WebChatChartBlock block={block} onUsePrompt={onUsePrompt} />;
+  }
+
+  return <></>;
+}
+
+function WebChatChartBlock({
+  block,
+  onUsePrompt,
+}: {
+  block: ChatChartBlock;
+  onUsePrompt: (prompt: string) => void;
+}): React.JSX.Element {
+  const cells = buildNorthIndianChartCells(block.chart);
+
+  return (
+    <div className="chat-chart-card">
+      <div className="chat-chart-card-header">
+        <div>
+          <div className="section-title">{block.chartType} · {block.insight.eyebrow}</div>
+          <h3>{block.chartName}</h3>
+          <p>{block.ownerName}'s chart focus</p>
+        </div>
+        <strong>{block.supported ? 'Visible' : 'Unverified'}</strong>
+      </div>
+
+      <div className="chat-mini-chart" aria-label={`${block.chartName} mini chart`}>
+        {cells.map(cell => (
+          <button
+            key={cell.key}
+            onClick={() =>
+              onUsePrompt(`Explain House ${cell.house} in my ${block.chartType} chart with D1 proof.`)
+            }
+            style={{
+              gridColumn: cell.col + 1,
+              gridRow: cell.row + 1,
+            }}
+            type="button"
+          >
+            <span>H{cell.house} {cell.signShort}</span>
+            <small>
+              {cell.planets.length
+                ? cell.planets.map(getPlanetAbbreviation).join(' ')
+                : '-'}
+            </small>
+          </button>
+        ))}
+        <div className="chat-mini-chart-center">
+          <span>{block.chartType}</span>
+          <strong>D1 anchor</strong>
+        </div>
+      </div>
+
+      <div className="chat-evidence-chips">
+        {block.evidenceChips.map(chip => (
+          <span key={chip}>{chip}</span>
+        ))}
+      </div>
+
+      <ul className="chat-chart-insights">
+        {block.insight.bullets.slice(0, 4).map(bullet => (
+          <li key={bullet}>{bullet}</li>
+        ))}
+      </ul>
+
+      <div className="chat-chart-actions">
+        {block.ctas.map(cta => (
+          <button
+            className="button secondary"
+            key={cta.id}
+            onClick={() => onUsePrompt(cta.prompt)}
+            type="button"
+          >
+            {cta.label}
+          </button>
+        ))}
       </div>
     </div>
   );

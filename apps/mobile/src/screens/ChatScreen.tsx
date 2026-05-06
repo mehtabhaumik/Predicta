@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Image, StyleSheet, TextInput, View } from 'react-native';
+import { Image, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, {
   useAnimatedStyle,
@@ -19,11 +19,17 @@ import {
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import {
+  buildChatChartReplyText,
   buildPredictaActionReply,
+  buildNorthIndianChartCells,
   buildEnglishSwitchDecisionReply,
   buildEnglishSwitchPrompt,
   buildPredictaLearningSuggestion,
+  chartContextFromChatBlock,
+  composeChatChartBlock,
+  detectChatChartIntent,
   detectEnglishSwitchDecision,
+  getPlanetAbbreviation,
   learnPredictaInteraction,
   preparePredictaLanguageContext,
   shouldAskBeforeSwitchingToEnglish,
@@ -59,7 +65,12 @@ import {
 } from '../services/location/locationService';
 import { useAppStore } from '../store/useAppStore';
 import { colors } from '../theme/colors';
-import type { ChatMessage, KundliData } from '../types/astrology';
+import type {
+  ChatChartBlock,
+  ChatMessage,
+  ChatMessageBlock,
+  KundliData,
+} from '../types/astrology';
 
 const predictaLogo = require('../assets/predicta-logo.png');
 
@@ -67,8 +78,10 @@ function createMessage(
   role: ChatMessage['role'],
   text: string,
   context?: ChatMessage['context'],
+  blocks?: ChatMessageBlock[],
 ): ChatMessage {
   return {
+    blocks,
     context,
     createdAt: new Date().toISOString(),
     id: `${role}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
@@ -89,6 +102,9 @@ export function ChatScreen({
   const [streamingText, setStreamingText] = useState('');
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const activeChartContext = useAppStore(state => state.activeChartContext);
+  const setActiveChartContext = useAppStore(
+    state => state.setActiveChartContext,
+  );
   const activeKundli = useAppStore(state => state.activeKundli);
   const auth = useAppStore(state => state.auth);
   const chatSoundEnabled = useAppStore(state => state.chatSoundEnabled);
@@ -169,7 +185,13 @@ export function ChatScreen({
     };
   }, []);
 
-  function streamAssistantResponse(text: string) {
+  function streamAssistantResponse(
+    text: string,
+    options?: {
+      blocks?: ChatMessageBlock[];
+      context?: ChatMessage['context'];
+    },
+  ) {
     let cursor = 0;
 
     setIsTyping(true);
@@ -186,7 +208,12 @@ export function ChatScreen({
         }
 
         appendConversationMessage(
-          createMessage('pridicta', text, activeChartContext),
+          createMessage(
+            'pridicta',
+            text,
+            options?.context ?? activeChartContext,
+            options?.blocks,
+          ),
         );
         playReplyChime(chatSoundEnabled);
         setStreamingText('');
@@ -409,7 +436,44 @@ export function ChatScreen({
     }
 
     const savedKundlis = savedKundliRecords.map(record => record.kundliData);
+    const chartIntent = detectChatChartIntent(trimmedInput);
+
+    if (chartIntent) {
+      const access = getResolvedAccess();
+      const block = composeChatChartBlock({
+        chartType: chartIntent.chartType,
+        hasPremiumAccess: access.hasPremiumAccess,
+        kundli: activeKundli,
+      });
+
+      if (block) {
+        const context = chartContextFromChatBlock(block, 'Chat');
+        const nextMemory = learnPredictaInteraction(
+          predictaMemory,
+          trimmedInput,
+          'chart',
+          activeKundli,
+          responseLanguage,
+        );
+        setPredictaMemory(nextMemory);
+        setActiveChartContext(context);
+        appendConversationMessage(
+          createMessage('user', trimmedInput, activeChartContext),
+        );
+        setInput('');
+        streamAssistantResponse(
+          buildChatChartReplyText({ block, language: responseLanguage }),
+          {
+            blocks: [block],
+            context,
+          },
+        );
+        return;
+      }
+    }
+
     const actionReply = buildPredictaActionReply({
+      hasPremiumAccess: getResolvedAccess().hasPremiumAccess,
       kundli: activeKundli,
       language: languagePreference.language,
       memory: predictaMemory,
@@ -675,6 +739,12 @@ export function ChatScreen({
             delay={180 + index * 70}
             key={message.id}
             message={message}
+            onUsePrompt={(prompt, block) => {
+              if (block) {
+                setActiveChartContext(chartContextFromChatBlock(block, 'Chat'));
+              }
+              setInput(prompt);
+            }}
           />
         ))}
 
@@ -689,6 +759,12 @@ export function ChatScreen({
               text:
                 streamingText ||
                 getListeningMicrocopy(languagePreference.language),
+            }}
+            onUsePrompt={(prompt, block) => {
+              if (block) {
+                setActiveChartContext(chartContextFromChatBlock(block, 'Chat'));
+              }
+              setInput(prompt);
             }}
             typing={!streamingText}
           />
@@ -802,17 +878,22 @@ function syncGuestPassUsage(userId?: string): void {
 function ChatBubble({
   delay,
   message,
+  onUsePrompt,
   typing = false,
 }: {
   delay: number;
   message: ChatMessage;
+  onUsePrompt: (prompt: string, block?: ChatChartBlock) => void;
   typing?: boolean;
 }): React.JSX.Element {
   const isUser = message.role === 'user';
+  const hasBlocks = Boolean(message.blocks?.length);
 
   return (
     <FadeInView
-      className={`max-w-[88%] ${isUser ? 'self-end' : 'self-start'}`}
+      className={`${hasBlocks ? 'max-w-[96%]' : 'max-w-[88%]'} ${
+        isUser ? 'self-end' : 'self-start'
+      }`}
       delay={delay}
     >
       {isUser ? (
@@ -826,10 +907,154 @@ function ChatBubble({
           start={{ x: 0, y: 0 }}
           style={styles.pridictaBubble}
         >
-          {typing ? <TypingPulse /> : <AppText>{message.text}</AppText>}
+          {typing ? (
+            <TypingPulse />
+          ) : (
+            <>
+              <AppText>{message.text}</AppText>
+              {message.blocks?.map(block => (
+                <MobileChatMessageBlock
+                  block={block}
+                  key={`${message.id}-${block.type}-${block.chartType}`}
+                  onUsePrompt={onUsePrompt}
+                />
+              ))}
+            </>
+          )}
         </LinearGradient>
       )}
     </FadeInView>
+  );
+}
+
+function MobileChatMessageBlock({
+  block,
+  onUsePrompt,
+}: {
+  block: ChatMessageBlock;
+  onUsePrompt: (prompt: string, block?: ChatChartBlock) => void;
+}): React.JSX.Element {
+  if (block.type === 'chart') {
+    return <MobileChatChartBlock block={block} onUsePrompt={onUsePrompt} />;
+  }
+
+  return <></>;
+}
+
+function MobileChatChartBlock({
+  block,
+  onUsePrompt,
+}: {
+  block: ChatChartBlock;
+  onUsePrompt: (prompt: string, block?: ChatChartBlock) => void;
+}): React.JSX.Element {
+  const cells = buildNorthIndianChartCells(block.chart);
+
+  return (
+    <View style={styles.chatChartCard}>
+      <View className="flex-row items-start justify-between gap-3">
+        <View className="flex-1">
+          <AppText tone="secondary" variant="caption">
+            {block.chartType} · {block.insight.eyebrow}
+          </AppText>
+          <AppText className="mt-1" variant="subtitle">
+            {block.chartName}
+          </AppText>
+          <AppText className="mt-1" tone="secondary" variant="caption">
+            {block.ownerName}'s chart focus
+          </AppText>
+        </View>
+        <View style={styles.chatChartStatus}>
+          <AppText variant="caption">
+            {block.supported ? 'Visible' : 'Unverified'}
+          </AppText>
+        </View>
+      </View>
+
+      <View style={styles.chatMiniChart}>
+        {Array.from({ length: 25 }, (_, index) => {
+          const row = Math.floor(index / 5);
+          const col = index % 5;
+          const cell = cells.find(item => item.row === row && item.col === col);
+
+          if (!cell) {
+            return (
+              <View key={`center-${row}-${col}`} style={styles.chatMiniCenterCell}>
+                {row === 2 && col === 2 ? (
+                  <>
+                    <AppText tone="secondary" variant="caption">
+                      {block.chartType}
+                    </AppText>
+                    <AppText className="text-center" variant="caption">
+                      D1 anchor
+                    </AppText>
+                  </>
+                ) : null}
+              </View>
+            );
+          }
+
+          return (
+            <Pressable
+              accessibilityRole="button"
+              key={cell.key}
+              onPress={() =>
+                onUsePrompt(
+                  `Explain House ${cell.house} in my ${block.chartType} chart with D1 proof.`,
+                  block,
+                )
+              }
+              style={styles.chatMiniHouse}
+            >
+              <View className="flex-row items-center justify-between">
+                <AppText tone="secondary" variant="caption">
+                  H{cell.house}
+                </AppText>
+                <AppText tone="secondary" variant="caption">
+                  {cell.signShort}
+                </AppText>
+              </View>
+              <AppText className="mt-1" variant="caption">
+                {cell.planets.length
+                  ? cell.planets.map(getPlanetAbbreviation).join(' ')
+                  : '-'}
+              </AppText>
+            </Pressable>
+          );
+        })}
+      </View>
+
+      <View style={styles.chatEvidenceRow}>
+        {block.evidenceChips.map(chip => (
+          <View key={chip} style={styles.chatEvidenceChip}>
+            <AppText tone="secondary" variant="caption">
+              {chip}
+            </AppText>
+          </View>
+        ))}
+      </View>
+
+      <View className="mt-3 gap-2">
+        {block.insight.bullets.slice(0, 4).map(item => (
+          <AppText key={item} tone="secondary" variant="caption">
+            - {item}
+          </AppText>
+        ))}
+      </View>
+
+      <View style={styles.chatChartActionRow}>
+        {block.ctas.map(cta => (
+          <Pressable
+            accessibilityRole="button"
+            key={cta.id}
+            onPress={() => onUsePrompt(cta.prompt, block)}
+            style={styles.chatChartAction}
+          >
+            <AppText variant="caption">{cta.label}</AppText>
+          </Pressable>
+        ))}
+      </View>
+    </View>
   );
 }
 
@@ -867,6 +1092,80 @@ function TypingPulse(): React.JSX.Element {
 }
 
 const styles = StyleSheet.create({
+  chatChartAction: {
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderColor: colors.border,
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 12,
+    paddingVertical: 9,
+  },
+  chatChartActionRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginTop: 14,
+  },
+  chatChartCard: {
+    backgroundColor: 'rgba(10, 10, 15, 0.52)',
+    borderColor: 'rgba(77, 175, 255, 0.22)',
+    borderRadius: 12,
+    borderWidth: 1,
+    marginTop: 16,
+    padding: 14,
+  },
+  chatChartStatus: {
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderColor: colors.border,
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+  },
+  chatEvidenceChip: {
+    backgroundColor: 'rgba(255, 255, 255, 0.07)',
+    borderColor: colors.border,
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 9,
+    paddingVertical: 7,
+  },
+  chatEvidenceRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginTop: 12,
+  },
+  chatMiniCenterCell: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(10, 10, 15, 0.82)',
+    borderColor: colors.border,
+    borderWidth: 1,
+    justifyContent: 'center',
+    minHeight: 44,
+    width: '20%',
+  },
+  chatMiniChart: {
+    aspectRatio: 1,
+    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+    borderColor: colors.border,
+    borderRadius: 10,
+    borderWidth: 1,
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 14,
+    overflow: 'hidden',
+    width: '100%',
+  },
+  chatMiniHouse: {
+    backgroundColor: 'rgba(18, 18, 26, 0.88)',
+    borderColor: colors.border,
+    borderWidth: 1,
+    minHeight: 44,
+    padding: 6,
+    width: '20%',
+  },
   logo: {
     borderRadius: 12,
     height: 42,

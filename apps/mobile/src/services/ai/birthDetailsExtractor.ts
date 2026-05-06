@@ -33,7 +33,10 @@ export async function extractBirthDetailsFromText(
   input: string,
 ): Promise<BirthDetailsExtractionResult> {
   const aiResult = await extractWithBackendAI(input);
-  const baseResult = aiResult ?? extractWithRules(input);
+  const rulesResult = extractWithRules(input);
+  const baseResult = aiResult
+    ? mergeExtractionResults(rulesResult, aiResult)
+    : rulesResult;
   const placeText =
     baseResult.extracted.city ?? baseResult.extracted.placeText ?? '';
 
@@ -88,9 +91,14 @@ async function extractWithBackendAI(
 export function extractWithRules(input: string): BirthDetailsExtractionResult {
   const extracted: BirthDetailsExtractionResult['extracted'] = {};
   const ambiguities: BirthDetailsExtractionResult['ambiguities'] = [];
+  const name = extractName(input);
   const date = extractDate(input);
   const time = extractTime(input);
   const placeText = extractPlace(input);
+
+  if (name) {
+    extracted.name = name;
+  }
 
   if (date) {
     extracted.date = date;
@@ -146,6 +154,52 @@ export function extractWithRules(input: string): BirthDetailsExtractionResult {
     extracted,
     missingFields,
   };
+}
+
+function mergeExtractionResults(
+  rules: BirthDetailsExtractionResult,
+  aiResult: BirthDetailsExtractionResult,
+): BirthDetailsExtractionResult {
+  const extracted = {
+    ...rules.extracted,
+    ...Object.fromEntries(
+      Object.entries(aiResult.extracted ?? {}).filter(
+        ([, value]) => value !== undefined && value !== null && value !== '',
+      ),
+    ),
+  };
+  const missing = new Set(aiResult.missingFields ?? rules.missingFields);
+
+  if (extracted.name) {
+    missing.delete('name');
+  }
+  if (extracted.date) {
+    missing.delete('date');
+  }
+  if (extracted.time) {
+    missing.delete('time');
+  }
+  if (extracted.placeText || extracted.city) {
+    missing.delete('birth_place');
+    missing.delete('country');
+    missing.delete('state');
+    missing.delete('city');
+  }
+
+  return {
+    ambiguities: [...(rules.ambiguities ?? []), ...(aiResult.ambiguities ?? [])],
+    confidence: Math.max(rules.confidence ?? 0, aiResult.confidence ?? 0),
+    extracted,
+    missingFields: Array.from(missing),
+  };
+}
+
+function extractName(input: string): string | undefined {
+  const match = input.match(
+    /\b(?:name|my\s+name\s+is)\s*(?:is|:)?\s+([A-Za-z][A-Za-z\s.'-]{1,60})(?:\n|,|$)/i,
+  );
+
+  return match?.[1]?.replace(/[\s.,]+$/, '').trim();
 }
 
 function extractDate(input: string): string | undefined {

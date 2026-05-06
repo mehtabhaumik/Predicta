@@ -291,6 +291,37 @@ def test_extract_birth_details_accepts_dob_only_without_ai(monkeypatch):
     assert "birth_place" in payload["missingFields"]
 
 
+def test_extract_birth_details_keeps_rule_based_name_when_ai_is_weak(monkeypatch):
+    def weak_ai_response(**kwargs):
+        return """
+        {
+          "extracted": {},
+          "missingFields": ["name", "date", "time", "birth_place"],
+          "ambiguities": [],
+          "confidence": 0.1
+        }
+        """
+
+    monkeypatch.setattr(ai_module, "create_ai_text_response", weak_ai_response)
+
+    client = TestClient(app)
+    response = client.post(
+        "/extract-birth-details",
+        json={
+            "text": "Name: Aarav Mehta\nDOB: 1994-08-16\nTime: 06:42 am\nPlace: Petlad, Gujarat, India"
+        },
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["extracted"]["name"] == "Aarav Mehta"
+    assert payload["extracted"]["date"] == "1994-08-16"
+    assert payload["extracted"]["time"] == "06:42"
+    assert payload["extracted"]["city"] == "Petlad"
+    assert "name" not in payload["missingFields"]
+    assert "birth_place" not in payload["missingFields"]
+
+
 def test_guest_pass_redemption_is_backend_authoritative(tmp_path, monkeypatch):
     monkeypatch.setenv("PRIDICTA_ACCESS_STORE_PATH", str(tmp_path / "access.json"))
     monkeypatch.delenv("PRIDICTA_ADMIN_API_TOKEN", raising=False)

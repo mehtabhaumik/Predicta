@@ -1,6 +1,7 @@
 export * from './birthTimeDetective';
 export * from './chartAccess';
 export * from './chartInsights';
+export * from './chatChartBlocks';
 export * from './chartRegistry';
 export * from './chartLayout';
 export * from './dailyBriefing';

@@ -172,9 +172,13 @@ def extract_birth_details(
 def extract_birth_details_with_rules(text: str) -> BirthDetailsExtractionResult:
     extracted = BirthDetailsDraft()
     ambiguities: List[BirthDetailsAmbiguity] = []
+    name = extract_name_with_rules(text)
     date = extract_date_with_rules(text)
     time = extract_time_with_rules(text)
     place = extract_place_with_rules(text)
+
+    if name:
+        extracted.name = name
 
     if date:
         extracted.date = date
@@ -222,6 +226,15 @@ def extract_birth_details_with_rules(text: str) -> BirthDetailsExtractionResult:
         ambiguities=ambiguities,
         confidence=confidence,
     )
+
+
+def extract_name_with_rules(text: str) -> Optional[str]:
+    match = re.search(
+        r"\b(?:name|my\s+name\s+is)\s*(?:is|:)?\s+([A-Za-z][A-Za-z\s.'-]{1,60})(?:\n|,|$)",
+        text,
+        re.I,
+    )
+    return re.sub(r"[\s.,]+$", "", match.group(1)).strip() if match else None
 
 
 def extract_date_with_rules(text: str) -> Optional[str]:

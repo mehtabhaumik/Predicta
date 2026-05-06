@@ -3,6 +3,8 @@ import type { BirthDetailsExtractionResult } from '@pridicta/types';
 
 export async function POST(request: Request): Promise<Response> {
   const payload = (await request.json()) as { text?: unknown };
+  const text = String(payload.text ?? '');
+  const rules = extractBirthDetailsWithRules(text);
 
   try {
     const upstream = await proxyAstroApiRequest(
@@ -11,15 +13,14 @@ export async function POST(request: Request): Promise<Response> {
     );
 
     if (upstream.ok) {
-      return upstream;
+      const aiResult = (await upstream.json()) as BirthDetailsExtractionResult;
+      return Response.json(mergeExtractionResults(rules, aiResult));
     }
   } catch {
     // Deterministic parsing keeps chat intake usable when local AI services are unavailable.
   }
 
-  return Response.json(
-    extractBirthDetailsWithRules(String(payload.text ?? '')),
-  );
+  return Response.json(rules);
 }
 
 const MONTHS: Record<string, string> = {
@@ -53,10 +54,15 @@ function extractBirthDetailsWithRules(
   text: string,
 ): BirthDetailsExtractionResult {
   const extracted: BirthDetailsExtractionResult['extracted'] = {};
+  const name = extractName(text);
   const date = extractDate(text);
   const time = extractTime(text);
   const placeText = extractPlace(text);
   const ambiguities: BirthDetailsExtractionResult['ambiguities'] = [];
+
+  if (name) {
+    extracted.name = name;
+  }
 
   if (date) {
     extracted.date = date;
@@ -108,6 +114,52 @@ function extractBirthDetailsWithRules(
     extracted,
     missingFields,
   };
+}
+
+function mergeExtractionResults(
+  rules: BirthDetailsExtractionResult,
+  aiResult: BirthDetailsExtractionResult,
+): BirthDetailsExtractionResult {
+  const extracted = {
+    ...rules.extracted,
+    ...Object.fromEntries(
+      Object.entries(aiResult.extracted ?? {}).filter(
+        ([, value]) => value !== undefined && value !== null && value !== '',
+      ),
+    ),
+  };
+  const missing = new Set(aiResult.missingFields ?? rules.missingFields);
+
+  if (extracted.name) {
+    missing.delete('name');
+  }
+  if (extracted.date) {
+    missing.delete('date');
+  }
+  if (extracted.time) {
+    missing.delete('time');
+  }
+  if (extracted.placeText || extracted.city) {
+    missing.delete('birth_place');
+    missing.delete('country');
+    missing.delete('state');
+    missing.delete('city');
+  }
+
+  return {
+    ambiguities: [...(rules.ambiguities ?? []), ...(aiResult.ambiguities ?? [])],
+    confidence: Math.max(rules.confidence ?? 0, aiResult.confidence ?? 0),
+    extracted,
+    missingFields: Array.from(missing),
+  };
+}
+
+function extractName(input: string): string | undefined {
+  const match = input.match(
+    /\b(?:name|my\s+name\s+is)\s*(?:is|:)?\s+([A-Za-z][A-Za-z\s.'-]{1,60})(?:\n|,|$)/i,
+  );
+
+  return match?.[1]?.replace(/[\s.,]+$/, '').trim();
 }
 
 function extractDate(input: string): string | undefined {

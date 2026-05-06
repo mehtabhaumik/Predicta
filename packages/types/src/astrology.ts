@@ -658,12 +658,43 @@ export type ChartContext = {
 
 export type ChatRole = 'user' | 'pridicta';
 
+export type ChatChartInsight = {
+  title: string;
+  eyebrow: string;
+  summary: string;
+  bullets: string[];
+  premiumNudge?: string;
+};
+
+export type ChatChartCta = {
+  id: string;
+  label: string;
+  prompt: string;
+};
+
+export type ChatChartBlock = {
+  type: 'chart';
+  chartType: ChartType;
+  chartName: string;
+  ownerName: string;
+  purpose: string;
+  supported: boolean;
+  unsupportedReason?: string;
+  chart: ChartData;
+  insight: ChatChartInsight;
+  evidenceChips: string[];
+  ctas: ChatChartCta[];
+};
+
+export type ChatMessageBlock = ChatChartBlock;
+
 export type ChatMessage = {
   id: string;
   role: ChatRole;
   text: string;
   createdAt: string;
   context?: ChartContext;
+  blocks?: ChatMessageBlock[];
 };
 
 export type ConversationTurn = {
