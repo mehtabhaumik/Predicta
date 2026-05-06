@@ -831,7 +831,7 @@ p {
 .language-selector.compact {
   align-items: center;
   display: flex;
-  gap: 10px;
+  gap: 14px;
   width: auto;
 }
 
@@ -855,36 +855,61 @@ p {
 }
 
 .language-options {
-  background: rgba(255, 255, 255, 0.045);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border-quiet);
-  border-radius: 8px;
+  border-radius: 999px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
   display: inline-flex;
   flex-wrap: wrap;
-  gap: 4px;
-  padding: 4px;
+  gap: 6px;
+  padding: 6px;
 }
 
 .language-options button {
   background: transparent;
   border: 0;
-  border-radius: 6px;
+  border-radius: 999px;
   color: var(--muted);
   cursor: pointer;
   display: grid;
   gap: 2px;
-  min-height: 40px;
-  min-width: 72px;
-  padding: 7px 10px;
-  text-align: left;
+  min-height: 38px;
+  min-width: 84px;
+  padding: 8px 14px;
+  place-items: center;
+  text-align: center;
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
 }
 
 .language-options button.active {
-  background: rgba(255, 195, 77, 0.14);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 195, 77, 0.22),
+    rgba(123, 97, 255, 0.2)
+  );
+  box-shadow:
+    0 10px 24px rgba(123, 97, 255, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12);
   color: var(--text);
 }
 
+.language-options button:hover {
+  background: rgba(255, 255, 255, 0.075);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+
+.language-options button:focus-visible {
+  outline: 2px solid rgba(77, 175, 255, 0.9);
+  outline-offset: 3px;
+}
+
 .language-options strong {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.15;
 }
 
@@ -2304,11 +2329,13 @@ p {
 }
 
 .message.user {
+  align-self: flex-end;
   background: rgba(255, 255, 255, 0.06);
   justify-self: end;
 }
 
 .message.pridicta {
+  align-self: flex-start;
   background: linear-gradient(
     135deg,
     rgba(123, 97, 255, 0.18),
@@ -3471,7 +3498,7 @@ p {
   }
 
   .message {
-    max-width: 100%;
+    max-width: 92%;
   }
 
   .card-content.spacious,
