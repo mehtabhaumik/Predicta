@@ -102,8 +102,15 @@ export function extractWithRules(input: string): BirthDetailsExtractionResult {
   }
 
   if (placeText) {
+    const parts = placeText
+      .split(',')
+      .map(part => part.trim())
+      .filter(Boolean);
+
     extracted.placeText = placeText;
-    extracted.city = placeText;
+    extracted.city = parts[0] ?? placeText;
+    extracted.state = parts[1];
+    extracted.country = parts.length > 2 ? parts[2] : undefined;
   }
 
   const missingFields: BirthDetailsExtractionResult['missingFields'] = [];
@@ -226,10 +233,10 @@ function extractTime(input: string):
 
 function extractPlace(input: string): string | undefined {
   const match = input.match(
-    /\b(?:birth place is|birthplace is|place is|born in|from|place)\s+([A-Za-z\s.-]+?)(?:[,.]|$)/i,
+    /\b(?:birth\s*place|birthplace|place|born\s+in|from)\s*(?:is|:)?\s+([A-Za-z][A-Za-z\s.,'-]{1,100})(?:\n|$)/i,
   );
 
-  return match?.[1]?.trim();
+  return match?.[1]?.replace(/[.\s]+$/, '').trim();
 }
 
 function formatDateParts(year: string, month: string, day: string): string {

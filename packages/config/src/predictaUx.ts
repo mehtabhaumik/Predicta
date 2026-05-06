@@ -59,7 +59,10 @@ export function getFriendlyGreetingReply(language: SupportedLanguage): string {
 }
 
 export function getBirthIntakeWelcome(language: SupportedLanguage): string {
-  const greeting = getRandomPredictaGreeting(language, `birth-intake-${language}`);
+  const greeting = getRandomPredictaGreeting(
+    language,
+    `birth-intake-${language}`,
+  );
 
   if (language === 'hi') {
     return `${greeting} अपनी जन्म तारीख किसी भी format में लिखें. फिर birth time और birth place बताएं. अगर अभी केवल DOB पता है, भेज दीजिए; मैं बाकी details धीरे से पूछ लूंगी.`;
@@ -71,13 +74,33 @@ export function getBirthIntakeWelcome(language: SupportedLanguage): string {
 }
 
 export function getListeningMicrocopy(language: SupportedLanguage): string {
-  if (language === 'hi') {
-    return 'एक क्षण. मैं आपकी बात ध्यान से देख रही हूं...';
-  }
-  if (language === 'gu') {
-    return 'એક ક્ષણ. હું તમારી વાત ધ્યાનથી જોઈ રહી છું...';
-  }
-  return 'One moment. I am listening carefully...';
+  const options: Record<SupportedLanguage, string[]> = {
+    en: [
+      'Resolving the birth place and timezone...',
+      'Preparing the Lagna and core chart factors...',
+      'Checking nakshatra, dasha, and transit context...',
+      'Reading the chart evidence before I answer...',
+      'Calculating quietly so the guidance stays grounded...',
+    ],
+    hi: [
+      'जन्म स्थान और timezone मिलाकर देख रही हूं...',
+      'Lagna और मुख्य chart factors तैयार कर रही हूं...',
+      'Nakshatra, dasha और transit context देख रही हूं...',
+      'जवाब देने से पहले chart evidence पढ़ रही हूं...',
+      'धीरे से calculation कर रही हूं ताकि बात grounded रहे...',
+    ],
+    gu: [
+      'જન્મ સ્થળ અને timezone મેળવી રહી છું...',
+      'Lagna અને મુખ્ય chart factors તૈયાર કરી રહી છું...',
+      'Nakshatra, dasha અને transit context જોઈ રહી છું...',
+      'જવાબ પહેલાં chart evidence વાંચી રહી છું...',
+      'શાંતિથી calculation કરી રહી છું જેથી માર્ગદર્શન grounded રહે...',
+    ],
+  };
+  const items = options[language] ?? options.en;
+  const index = Math.floor(Math.random() * items.length);
+
+  return items[index] ?? items[0];
 }
 
 export function getBirthExtractionFailureReply(

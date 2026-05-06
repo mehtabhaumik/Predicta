@@ -8,6 +8,13 @@ export type WebBirthPlace = {
 
 export const WEB_BIRTH_PLACES: WebBirthPlace[] = [
   {
+    label: 'Petlad, India',
+    latitude: 22.4768,
+    longitude: 72.7997,
+    place: 'Petlad, Gujarat, India',
+    timezone: 'Asia/Kolkata',
+  },
+  {
     label: 'Mumbai, India',
     latitude: 19.076,
     longitude: 72.8777,
@@ -43,3 +50,36 @@ export const WEB_BIRTH_PLACES: WebBirthPlace[] = [
     timezone: 'Europe/London',
   },
 ];
+
+export function findWebBirthPlace(query?: string): WebBirthPlace | undefined {
+  const normalizedQuery = normalizeBirthPlace(query);
+
+  if (!normalizedQuery) {
+    return undefined;
+  }
+
+  return (
+    WEB_BIRTH_PLACES.find(place =>
+      normalizeBirthPlace(place.place).includes(normalizedQuery),
+    ) ??
+    WEB_BIRTH_PLACES.find(place =>
+      normalizedQuery.includes(normalizeBirthPlace(place.label)),
+    ) ??
+    WEB_BIRTH_PLACES.find(place =>
+      normalizeBirthPlace(place.label).includes(normalizedQuery),
+    ) ??
+    WEB_BIRTH_PLACES.find(place =>
+      normalizeBirthPlace(place.place)
+        .split(',')
+        .some(part => normalizedQuery.includes(part.trim())),
+    )
+  );
+}
+
+function normalizeBirthPlace(value?: string): string {
+  return (value ?? '')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s,]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}

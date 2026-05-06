@@ -100,7 +100,9 @@ export function buildBirthIntakeReply({
         copy.confirmation,
         formatDraftSummary(draft, copy),
         first.issue,
-        first.options?.length ? `${copy.options}: ${first.options.join(' / ')}` : '',
+        first.options?.length
+          ? `${copy.options}: ${first.options.join(' / ')}`
+          : '',
       ]
         .filter(Boolean)
         .join('\n\n'),
@@ -115,7 +117,9 @@ export function buildBirthIntakeReply({
       text: [
         copy.progress,
         formatDraftSummary(draft, copy),
-        `${copy.need}: ${missingFields.map(field => copy.fields[field] ?? field).join(', ')}.`,
+        `${copy.need}: ${missingFields
+          .map(field => copy.fields[field] ?? field)
+          .join(', ')}.`,
         copy.unknownTime,
       ]
         .filter(Boolean)
@@ -127,11 +131,9 @@ export function buildBirthIntakeReply({
     draft,
     isReady,
     missingFields,
-    text: [
-      copy.ready,
-      formatDraftSummary(draft, copy),
-      copy.verify,
-    ].join('\n\n'),
+    text: [copy.ready, formatDraftSummary(draft, copy), copy.verify].join(
+      '\n\n',
+    ),
   };
 }
 
@@ -143,7 +145,9 @@ export function mergeBirthDetailsDraft(
   const merged = {
     ...current,
     ...Object.fromEntries(
-      Object.entries(extracted).filter(([, value]) => value !== undefined),
+      Object.entries(extracted).filter(
+        ([, value]) => value !== undefined && value !== null,
+      ),
     ),
   } as BirthDetailsDraft;
   const meridiem = rawInput.match(/\b(am|pm|morning|evening|night)\b/i)?.[1];
@@ -187,8 +191,15 @@ export function getMissingBirthFields(
   }
 
   missing.delete('name');
-  return ['date', 'time', 'am_pm', 'birth_place', 'city', 'state', 'country']
-    .filter(field => missing.has(field));
+  return [
+    'date',
+    'time',
+    'am_pm',
+    'birth_place',
+    'city',
+    'state',
+    'country',
+  ].filter(field => missing.has(field));
 }
 
 function applyMeridiemToTime(time: string, meridiem: string): string {
@@ -256,7 +267,7 @@ function getBirthIntakeCopy(language: SupportedLanguage) {
       unknownTime:
         'अगर exact time नहीं पता, “time unknown” लिख दें. मैं birth-time detective mode से guide कर दूंगी.',
       verify:
-        'अब Kundli screen पर जाकर place और timezone verify कर लें, फिर मैं chart proof से बात करूंगी.',
+        'अब मैं यहीं chat में Kundli बनाऊंगी और अगले सवाल के लिए chart active रखूंगी.',
     };
   }
 
@@ -281,7 +292,7 @@ function getBirthIntakeCopy(language: SupportedLanguage) {
       unknownTime:
         'જો exact time ખબર ન હોય, “time unknown” લખો. હું birth-time detective mode થી guide કરીશ.',
       verify:
-        'હવે Kundli screen પર place અને timezone verify કરો, પછી હું chart proof થી વાત કરીશ.',
+        'હવે હું અહીં chat માં Kundli બનાવીશ અને આગળના પ્રશ્ન માટે chart active રાખીશ.',
     };
   }
 
@@ -305,7 +316,7 @@ function getBirthIntakeCopy(language: SupportedLanguage) {
     unknownTime:
       'If the exact time is unknown, write “time unknown” and I will guide you through birth-time detective mode.',
     verify:
-      'Next, verify the place and timezone on the Kundli screen. Then I can speak from real chart proof.',
+      'I will create it here in chat and keep this chart active for your next question.',
   };
 }
 

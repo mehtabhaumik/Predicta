@@ -33,12 +33,21 @@ import {
 } from '@pridicta/config/trust';
 import { extractBirthDetailsFromText } from '../services/ai/birthDetailsExtractor';
 import { askPridicta } from '../services/ai/pridictaService';
+import { generateKundli } from '../services/astrology/astroEngine';
 import { playReplyChime } from '../services/audio/replyChime';
 import { trackAnalyticsEvent } from '../services/analytics/analyticsService';
 import { syncRedeemedGuestPassToUser } from '../services/firebase/passCodePersistence';
+import {
+  listSavedKundlis,
+  saveGeneratedKundliLocally,
+} from '../services/kundli/kundliRepository';
+import {
+  buildBirthDetailsFromResolvedPlace,
+  findBirthPlaceCandidates,
+} from '../services/location/locationService';
 import { useAppStore } from '../store/useAppStore';
 import { colors } from '../theme/colors';
-import type { ChatMessage } from '../types/astrology';
+import type { ChatMessage, KundliData } from '../types/astrology';
 
 const predictaLogo = require('../assets/predicta-logo.png');
 
@@ -75,6 +84,11 @@ export function ChatScreen({
   const setPendingBirthDetailsDraft = useAppStore(
     state => state.setPendingBirthDetailsDraft,
   );
+  const clearPendingBirthDetailsDraft = useAppStore(
+    state => state.clearPendingBirthDetailsDraft,
+  );
+  const setActiveKundli = useAppStore(state => state.setActiveKundli);
+  const setSavedKundlis = useAppStore(state => state.setSavedKundlis);
   const appendConversationMessage = useAppStore(
     state => state.appendConversationMessage,
   );
@@ -106,19 +120,19 @@ export function ChatScreen({
     const prompt = activeChartContext?.selectedTimelineEventId
       ? activeChartContext.selectedSection
       : activeChartContext?.selectedDailyBriefingDate
-        ? activeChartContext.selectedSection
-        : activeChartContext?.selectedDecisionQuestion
-          ? activeChartContext.selectedSection
-          : activeChartContext?.selectedRemedyId
-            ? activeChartContext.selectedSection
-            : activeChartContext?.selectedBirthTimeDetective
-              ? activeChartContext.selectedSection
-              : activeChartContext?.selectedRelationshipMirror
-                ? activeChartContext.selectedSection
-                : activeChartContext?.selectedFamilyKarmaMap
-                  ? activeChartContext.selectedSection
-                  : activeChartContext?.selectedPredictaWrapped
-                    ? activeChartContext.selectedSection
+      ? activeChartContext.selectedSection
+      : activeChartContext?.selectedDecisionQuestion
+      ? activeChartContext.selectedSection
+      : activeChartContext?.selectedRemedyId
+      ? activeChartContext.selectedSection
+      : activeChartContext?.selectedBirthTimeDetective
+      ? activeChartContext.selectedSection
+      : activeChartContext?.selectedRelationshipMirror
+      ? activeChartContext.selectedSection
+      : activeChartContext?.selectedFamilyKarmaMap
+      ? activeChartContext.selectedSection
+      : activeChartContext?.selectedPredictaWrapped
+      ? activeChartContext.selectedSection
       : undefined;
 
     if (prompt && timelinePromptSeededRef.current !== prompt) {
@@ -189,7 +203,9 @@ export function ChatScreen({
 
       if (hasHighStakesLanguage(trimmedInput)) {
         streamAssistantResponse(
-          `${getSafetyBoundaryCopy(languagePreference.language)}\n\nI am with you. Create your Kundli first if you want reflective timing support, but do not delay urgent or professional help.`,
+          `${getSafetyBoundaryCopy(
+            languagePreference.language,
+          )}\n\nI am with you. Create your Kundli first if you want reflective timing support, but do not delay urgent or professional help.`,
         );
         return;
       }
@@ -204,17 +220,57 @@ export function ChatScreen({
         });
         setPendingBirthDetailsDraft(reply.draft);
 
-        if (reply.isReady) {
-          navigation.navigate(routes.Kundli);
+        if (!reply.isReady) {
+          streamAssistantResponse(reply.text);
+          return;
         }
 
+        const placeQuery =
+          [reply.draft.city, reply.draft.state, reply.draft.country]
+            .filter(Boolean)
+            .join(', ') ||
+          reply.draft.placeText ||
+          '';
+        const places = await findBirthPlaceCandidates(placeQuery);
+
+        if (places.length !== 1 || !reply.draft.date || !reply.draft.time) {
+          streamAssistantResponse(
+            buildMobilePlaceClarificationReply(
+              languagePreference.language,
+              reply.text,
+              places,
+            ),
+          );
+          return;
+        }
+
+        const birthDetails = buildBirthDetailsFromResolvedPlace({
+          date: reply.draft.date,
+          isTimeApproximate: reply.draft.isTimeApproximate,
+          name: reply.draft.name?.trim() || 'Predicta Seeker',
+          originalPlaceText: reply.draft.placeText,
+          resolvedPlace: places[0],
+          time: reply.draft.time,
+        });
+        const nextKundli = await generateKundli(birthDetails);
+
+        setActiveKundli(nextKundli);
+        clearPendingBirthDetailsDraft();
+        appendConversationMessage(
+          createMessage('user', trimmedInput, activeChartContext),
+        );
+        saveGeneratedKundliLocally(nextKundli)
+          .then(setSavedKundlis)
+          .catch(() =>
+            listSavedKundlis()
+              .then(setSavedKundlis)
+              .catch(() => undefined),
+          );
         streamAssistantResponse(
-          reply.isReady
-            ? [
-                reply.text,
-                'I opened the Kundli screen so you can verify everything before calculation.',
-              ].join('\n\n')
-            : reply.text,
+          buildMobileKundliCreatedReply(
+            languagePreference.language,
+            nextKundli,
+          ),
         );
       } catch {
         streamAssistantResponse(
@@ -302,7 +358,12 @@ export function ChatScreen({
 
       streamAssistantResponse(
         hasHighStakesLanguage(trimmedInput)
-          ? `${getSafetyBoundaryCopy(languagePreference.language)}\n\n${formatAskWithProof(response.text, response.jyotishAnalysis)}`
+          ? `${getSafetyBoundaryCopy(
+              languagePreference.language,
+            )}\n\n${formatAskWithProof(
+              response.text,
+              response.jyotishAnalysis,
+            )}`
           : formatAskWithProof(response.text, response.jyotishAnalysis),
       );
     } catch (error) {
@@ -494,6 +555,76 @@ export function ChatScreen({
       </View>
     </Screen>
   );
+}
+
+function buildMobilePlaceClarificationReply(
+  language: 'en' | 'hi' | 'gu',
+  readyText: string,
+  places: Array<{ city: string; state?: string; country: string }>,
+): string {
+  const options = places
+    .slice(0, 4)
+    .map(place =>
+      [place.city, place.state, place.country].filter(Boolean).join(', '),
+    )
+    .join('\n');
+
+  if (language === 'hi') {
+    return [
+      readyText,
+      options
+        ? `मैं Kundli यहीं बनाऊंगी. Birth place के लिए इनमें से exact option लिख दें:\n${options}`
+        : 'मैं Kundli यहीं बनाऊंगी. बस birth place थोड़ा और clear चाहिए: city, state, country लिख दें.',
+    ].join('\n\n');
+  }
+  if (language === 'gu') {
+    return [
+      readyText,
+      options
+        ? `હું Kundli અહીં જ બનાવીશ. Birth place માટે આમાંથી exact option લખો:\n${options}`
+        : 'હું Kundli અહીં જ બનાવીશ. ફક્ત birth place થોડું વધુ clear જોઈએ: city, state, country લખો.',
+    ].join('\n\n');
+  }
+
+  return [
+    readyText,
+    options
+      ? `I will create the Kundli right here. For birth place, write the exact option:\n${options}`
+      : 'I will create the Kundli right here. I just need the birth place a little clearer: city, state, country.',
+  ].join('\n\n');
+}
+
+function buildMobileKundliCreatedReply(
+  language: 'en' | 'hi' | 'gu',
+  kundli: KundliData,
+): string {
+  const lines = [
+    `Lagna: ${kundli.lagna}`,
+    `Moon: ${kundli.moonSign}`,
+    `Nakshatra: ${kundli.nakshatra}`,
+    `Current dasha: ${kundli.dasha.current.mahadasha} / ${kundli.dasha.current.antardasha}`,
+  ];
+
+  if (language === 'hi') {
+    return [
+      'हो गया. मैंने Kundli यहीं chat में बना दी है और इसे active रख लिया है.',
+      lines.join('\n'),
+      'अब career, marriage, money, health tendencies, remedies, timing, या किसी decision पर पूछिए. मैं answer chart proof के साथ दूंगी.',
+    ].join('\n\n');
+  }
+  if (language === 'gu') {
+    return [
+      'થઈ ગયું. મેં Kundli અહીં chat માં બનાવી દીધી છે અને તેને active રાખી છે.',
+      lines.join('\n'),
+      'હવે career, marriage, money, health tendencies, remedies, timing અથવા કોઈ decision વિશે પૂછો. હું chart proof સાથે જવાબ આપીશ.',
+    ].join('\n\n');
+  }
+
+  return [
+    'Done. I created your Kundli right here in chat and made it the active chart.',
+    lines.join('\n'),
+    'Now ask me about career, marriage, money, health tendencies, remedies, timing, or any decision. I will answer with chart proof.',
+  ].join('\n\n');
 }
 
 function syncGuestPassUsage(userId?: string): void {

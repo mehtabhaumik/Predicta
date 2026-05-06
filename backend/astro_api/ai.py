@@ -188,8 +188,13 @@ def extract_birth_details_with_rules(text: str) -> BirthDetailsExtractionResult:
             )
 
     if place:
+        place_parts = [part.strip() for part in place.split(",") if part.strip()]
         extracted.placeText = place
-        extracted.city = place
+        extracted.city = place_parts[0] if place_parts else place
+        if len(place_parts) > 1:
+            extracted.state = place_parts[1]
+        if len(place_parts) > 2:
+            extracted.country = place_parts[2]
 
     missing_fields: List[str] = []
     if not extracted.name:
@@ -305,11 +310,11 @@ def extract_time_with_rules(text: str) -> Optional[Dict[str, Any]]:
 
 def extract_place_with_rules(text: str) -> Optional[str]:
     match = re.search(
-        r"\b(?:birth\s*place|birthplace|place|born\s+in|born\s+at|from)\s*(?:is|:)?\s+([A-Za-z][A-Za-z\s.-]{1,80})(?:[,.]|\n|$)",
+        r"\b(?:birth\s*place|birthplace|place|born\s+in|born\s+at|from)\s*(?:is|:)?\s+([A-Za-z][A-Za-z\s.,'-]{1,100})(?:\n|$)",
         text,
         re.I,
     )
-    return match.group(1).strip() if match else None
+    return re.sub(r"[.\s]+$", "", match.group(1)).strip() if match else None
 
 
 def merge_extraction_results(

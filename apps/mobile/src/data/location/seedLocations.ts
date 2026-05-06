@@ -50,6 +50,15 @@ export const LOCATION_SEED_DATA: LocationCountry[] = [
             state: 'Gujarat',
             timezone: 'Asia/Kolkata',
           },
+          {
+            city: 'Petlad',
+            country: 'India',
+            latitude: 22.4768,
+            longitude: 72.7997,
+            source,
+            state: 'Gujarat',
+            timezone: 'Asia/Kolkata',
+          },
         ],
       },
       {

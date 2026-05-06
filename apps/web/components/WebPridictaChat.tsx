@@ -18,15 +18,23 @@ import {
   getSafetyBoundaryCopy,
   hasHighStakesLanguage,
 } from '@pridicta/config/trust';
-import type { KundliData, SupportedLanguage } from '@pridicta/types';
+import type {
+  BirthDetails,
+  KundliData,
+  SupportedLanguage,
+} from '@pridicta/types';
+import { findWebBirthPlace } from '../lib/birth-places';
 import { useLanguagePreference } from '../lib/language-preference';
 import {
   askPridictaFromWeb,
   extractBirthDetailsFromWeb,
 } from '../lib/pridicta-ai';
-import { loadWebKundli } from '../lib/web-kundli-storage';
+import {
+  generateKundliFromWeb,
+  loadWebKundli,
+} from '../lib/web-kundli-storage';
 
-const WEB_CHAT_MEMORY_KEY = 'predicta.webChatMemory.v1';
+const WEB_CHAT_MEMORY_KEY = 'predicta.webChatMemory.v3';
 
 type WebMessage = {
   id: string;
@@ -58,7 +66,11 @@ export function WebPridictaChat(): React.JSX.Element {
 
     if (stored) {
       setBirthMemory(stored.birthMemory);
-      setMessages(stored.messages.length ? stored.messages : buildInitialMessages(language));
+      setMessages(
+        stored.messages.length
+          ? stored.messages
+          : buildInitialMessages(language),
+      );
     }
 
     didLoadMemory.current = true;
@@ -137,10 +149,10 @@ export function WebPridictaChat(): React.JSX.Element {
       const summary = isSimpleGreeting(text)
         ? getFriendlyGreetingReply(language)
         : looksLikeBirthDetails(text)
-          ? await handleBirthIntake(text)
-          : !kundli
-            ? createKundliFirstReply(language, text)
-            : await askWithProof(text, kundli);
+        ? await handleBirthIntake(text)
+        : !kundli
+        ? createKundliFirstReply(language, text)
+        : await askWithProof(text, kundli);
       const safeSummary =
         kundli && hasHighStakesLanguage(text)
           ? `${getSafetyBoundaryCopy(language)}\n\n${summary}`
@@ -200,7 +212,49 @@ export function WebPridictaChat(): React.JSX.Element {
       updatedAt: new Date().toISOString(),
     });
 
-    return reply.text;
+    if (!reply.isReady) {
+      return reply.text;
+    }
+
+    const place =
+      findWebBirthPlace(reply.draft.city) ??
+      findWebBirthPlace(reply.draft.placeText) ??
+      findWebBirthPlace(
+        [reply.draft.city, reply.draft.state, reply.draft.country]
+          .filter(Boolean)
+          .join(', '),
+      );
+
+    if (!place || !reply.draft.date || !reply.draft.time) {
+      return buildPlaceClarificationReply(language, reply.text);
+    }
+
+    const placeParts = place.place.split(',').map(part => part.trim());
+    const birthDetails: BirthDetails = {
+      date: reply.draft.date,
+      isTimeApproximate: reply.draft.isTimeApproximate,
+      latitude: place.latitude,
+      longitude: place.longitude,
+      name: reply.draft.name?.trim() || 'Predicta Seeker',
+      originalPlaceText: reply.draft.placeText,
+      place: place.place,
+      resolvedBirthPlace: {
+        city: placeParts[0] || place.label,
+        country: placeParts[placeParts.length - 1] || 'India',
+        latitude: place.latitude,
+        longitude: place.longitude,
+        source: 'local-dataset',
+        state: placeParts[1],
+        timezone: place.timezone,
+      },
+      time: reply.draft.time,
+      timezone: place.timezone,
+    };
+    const nextKundli = await generateKundliFromWeb(birthDetails);
+    setKundli(nextKundli);
+    setBirthMemory(undefined);
+
+    return buildKundliCreatedReply(language, nextKundli);
   }
 
   return (
@@ -345,18 +399,75 @@ function looksLikeBirthDetails(text: string): boolean {
   );
 }
 
-function createKundliFirstReply(language: SupportedLanguage, text: string): string {
+function createKundliFirstReply(
+  language: SupportedLanguage,
+  text: string,
+): string {
   const safety = hasHighStakesLanguage(text)
     ? `${getSafetyBoundaryCopy(language)}\n\n`
     : '';
 
   if (language === 'hi') {
-    return `${safety}मैं आपके साथ हूं. इस सवाल का सही chart-based जवाब देने के लिए पहले Kundli चाहिए. कृपया जन्म तारीख, जन्म समय और जन्म स्थान भेजें, या Dashboard > Kundli खोलें.`;
+    return `${safety}मैं आपके साथ हूं. इस सवाल का सही chart-based जवाब देने के लिए पहले Kundli चाहिए. यहीं chat में अपनी जन्म तारीख, जन्म समय और जन्म स्थान भेज दें. मैं Kundli यहीं बना दूंगी.`;
   }
   if (language === 'gu') {
-    return `${safety}હું તમારી સાથે છું. આ પ્રશ્નનો સાચો chart-based જવાબ આપવા માટે પહેલા Kundli જોઈએ. કૃપા કરીને જન્મ તારીખ, જન્મ સમય અને જન્મ સ્થળ મોકલો, અથવા Dashboard > Kundli ખોલો.`;
+    return `${safety}હું તમારી સાથે છું. આ પ્રશ્નનો સાચો chart-based જવાબ આપવા માટે પહેલા Kundli જોઈએ. અહીં chat માં જન્મ તારીખ, જન્મ સમય અને જન્મ સ્થળ મોકલો. હું Kundli અહીં જ બનાવી દઈશ.`;
   }
-  return `${safety}I am with you. To answer this from your real chart, I need your Kundli first. Share your date of birth, birth time, and birth place, or open Dashboard > Kundli.`;
+  return `${safety}I am with you. To answer this from your real chart, I need your Kundli first. Share your date of birth, birth time, and birth place right here, and I will create the Kundli inside this chat.`;
+}
+
+function buildPlaceClarificationReply(
+  language: SupportedLanguage,
+  readyText: string,
+): string {
+  if (language === 'hi') {
+    return [
+      readyText,
+      'मैं Kundli यहीं बनाऊंगी. बस birth place थोड़ा और clear चाहिए: city, state, country लिख दें.',
+    ].join('\n\n');
+  }
+  if (language === 'gu') {
+    return [
+      readyText,
+      'હું Kundli અહીં જ બનાવીશ. ફક્ત birth place થોડું વધુ clear જોઈએ: city, state, country લખો.',
+    ].join('\n\n');
+  }
+  return [
+    readyText,
+    'I will create the Kundli right here. I just need the birth place a little clearer: city, state, country.',
+  ].join('\n\n');
+}
+
+function buildKundliCreatedReply(
+  language: SupportedLanguage,
+  kundli: KundliData,
+): string {
+  const lines = [
+    `Lagna: ${kundli.lagna}`,
+    `Moon: ${kundli.moonSign}`,
+    `Nakshatra: ${kundli.nakshatra}`,
+    `Current dasha: ${kundli.dasha.current.mahadasha} / ${kundli.dasha.current.antardasha}`,
+  ];
+
+  if (language === 'hi') {
+    return [
+      'हो गया. मैंने Kundli यहीं chat में बना दी है और इसे active रख लिया है.',
+      lines.join('\n'),
+      'अब career, marriage, money, health tendencies, remedies, timing, या किसी decision पर पूछिए. मैं answer chart proof के साथ दूंगी.',
+    ].join('\n\n');
+  }
+  if (language === 'gu') {
+    return [
+      'થઈ ગયું. મેં Kundli અહીં chat માં બનાવી દીધી છે અને તેને active રાખી છે.',
+      lines.join('\n'),
+      'હવે career, marriage, money, health tendencies, remedies, timing અથવા કોઈ decision વિશે પૂછો. હું chart proof સાથે જવાબ આપીશ.',
+    ].join('\n\n');
+  }
+  return [
+    'Done. I created your Kundli right here in chat and made it the active chart.',
+    lines.join('\n'),
+    'Now ask me about career, marriage, money, health tendencies, remedies, timing, or any decision. I will answer with chart proof.',
+  ].join('\n\n');
 }
 
 function loadWebChatMemory(): WebChatMemory | undefined {
