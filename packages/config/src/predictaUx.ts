@@ -1,4 +1,5 @@
 import type { SupportedLanguage } from '@pridicta/types';
+import { getRandomPredictaGreeting } from './predictaMemory';
 
 export type PredictaJourneyStep = {
   id: 'create' | 'summary' | 'ask';
@@ -29,10 +30,12 @@ export const PREDICTA_JOURNEY_STEPS: PredictaJourneyStep[] = [
 ];
 
 export function getFriendlyGreetingReply(language: SupportedLanguage): string {
+  const greeting = getRandomPredictaGreeting(language);
+
   if (language === 'hi') {
     return [
-      'Namaste. Har Har Mahadev.',
-      'मैं यहीं हूं. आराम से बताइए, कोई जल्दी नहीं.',
+      greeting,
+      'आराम से बताइए, कोई जल्दी नहीं.',
       'अगर आप Kundli बनाना चाहते हैं, तो बस date of birth, birth time, और birth place लिख दें. अगर केवल DOB पता है, वह भी भेज दीजिए; मैं बाकी चीजें प्यार से पूछ लूंगी.',
       'अगर Kundli बन चुकी है, तो career, marriage, money, timing, remedies या मन की उलझन पर एक सवाल पूछिए. मैं chart proof के साथ सरल भाषा में समझाऊंगी.',
     ].join('\n');
@@ -40,29 +43,31 @@ export function getFriendlyGreetingReply(language: SupportedLanguage): string {
 
   if (language === 'gu') {
     return [
-      'Namaste. Har Har Mahadev.',
-      'હું અહીં છું. શાંતિથી કહો, કોઈ ઉતાવળ નથી.',
+      greeting,
+      'શાંતિથી કહો, કોઈ ઉતાવળ નથી.',
       'જો Kundli બનાવવી હોય તો date of birth, birth time અને birth place લખો. ફક્ત DOB ખબર હોય તો પણ મોકલો; બાકીની વિગતો હું પ્રેમથી પૂછી લઈશ.',
       'જો Kundli બની ગઈ હોય, તો career, marriage, money, timing, remedies અથવા મનની મૂંઝવણ પર એક પ્રશ્ન પૂછો. હું chart proof સાથે સરળ ભાષામાં સમજાવીશ.',
     ].join('\n');
   }
 
   return [
-    'Namaste. Har Har Mahadev.',
-    "I am here with you. Share slowly; we do not have to rush this.",
+    greeting,
+    'Share slowly; we do not have to rush this.',
     'If you want to create your Kundli, send your date of birth, birth time, and birth place. If you only know the DOB, send that first and I will gently ask for the rest.',
     'If your Kundli is already ready, ask me one thing about career, marriage, money, timing, remedies, or whatever is weighing on your mind. I will keep it practical and show chart proof.',
   ].join('\n');
 }
 
 export function getBirthIntakeWelcome(language: SupportedLanguage): string {
+  const greeting = getRandomPredictaGreeting(language, `birth-intake-${language}`);
+
   if (language === 'hi') {
-    return 'Namaste. Har Har Mahadev. अपनी जन्म तारीख किसी भी format में लिखें. फिर birth time और birth place बताएं. अगर अभी केवल DOB पता है, भेज दीजिए; मैं बाकी details धीरे से पूछ लूंगी.';
+    return `${greeting} अपनी जन्म तारीख किसी भी format में लिखें. फिर birth time और birth place बताएं. अगर अभी केवल DOB पता है, भेज दीजिए; मैं बाकी details धीरे से पूछ लूंगी.`;
   }
   if (language === 'gu') {
-    return 'Namaste. Har Har Mahadev. તમારી જન્મ તારીખ કોઈપણ format માં લખો. પછી birth time અને birth place જણાવો. જો હાલમાં ફક્ત DOB ખબર હોય, મોકલો; બાકીની વિગતો હું ધીમેથી પૂછી લઈશ.';
+    return `${greeting} તમારી જન્મ તારીખ કોઈપણ format માં લખો. પછી birth time અને birth place જણાવો. જો હાલમાં ફક્ત DOB ખબર હોય, મોકલો; બાકીની વિગતો હું ધીમેથી પૂછી લઈશ.`;
   }
-  return 'Namaste. Har Har Mahadev. Tell me your date of birth in any format, then birth time and birth place. If you only know the DOB right now, send it first; I will gently ask for the rest.';
+  return `${greeting} Tell me your date of birth in any format, then birth time and birth place. If you only know the DOB right now, send it first; I will gently ask for the rest.`;
 }
 
 export function getListeningMicrocopy(language: SupportedLanguage): string {

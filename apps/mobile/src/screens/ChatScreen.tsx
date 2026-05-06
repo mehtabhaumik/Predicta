@@ -19,6 +19,7 @@ import {
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import { detectIntent } from '@pridicta/ai';
+import { buildBirthIntakeReply } from '@pridicta/config/predictaMemory';
 import {
   getBirthExtractionFailureReply,
   getFriendlyGreetingReply,
@@ -37,7 +38,7 @@ import { trackAnalyticsEvent } from '../services/analytics/analyticsService';
 import { syncRedeemedGuestPassToUser } from '../services/firebase/passCodePersistence';
 import { useAppStore } from '../store/useAppStore';
 import { colors } from '../theme/colors';
-import type { BirthDetailsDraft, ChatMessage } from '../types/astrology';
+import type { ChatMessage } from '../types/astrology';
 
 const predictaLogo = require('../assets/predicta-logo.png');
 
@@ -188,28 +189,32 @@ export function ChatScreen({
 
       if (hasHighStakesLanguage(trimmedInput)) {
         streamAssistantResponse(
-          `${getSafetyBoundaryCopy(languagePreference.language)}\n\nI am with you. Create your Kundli first if you want reflective timing support, but do not delay urgent or professional help. Har Har Mahadev.`,
+          `${getSafetyBoundaryCopy(languagePreference.language)}\n\nI am with you. Create your Kundli first if you want reflective timing support, but do not delay urgent or professional help.`,
         );
         return;
       }
 
       try {
         const result = await extractBirthDetailsFromText(trimmedInput);
-        const mergedDraft = mergeBirthDetailsDraft(
-          pendingBirthDetailsDraft,
-          result.extracted,
-          trimmedInput,
-        );
-        setPendingBirthDetailsDraft(mergedDraft);
+        const reply = buildBirthIntakeReply({
+          language: languagePreference.language,
+          memory: { draft: pendingBirthDetailsDraft },
+          rawInput: trimmedInput,
+          result,
+        });
+        setPendingBirthDetailsDraft(reply.draft);
+
+        if (reply.isReady) {
+          navigation.navigate(routes.Kundli);
+        }
+
         streamAssistantResponse(
-          buildBirthIntakeResponse(
-            mergedDraft,
-            result,
-            languagePreference.language,
-            () => {
-              navigation.navigate(routes.Kundli);
-            },
-          ),
+          reply.isReady
+            ? [
+                reply.text,
+                'I opened the Kundli screen so you can verify everything before calculation.',
+              ].join('\n\n')
+            : reply.text,
         );
       } catch {
         streamAssistantResponse(
@@ -499,138 +504,6 @@ function syncGuestPassUsage(userId?: string): void {
   }
 
   syncRedeemedGuestPassToUser(userId, pass).catch(() => undefined);
-}
-
-function mergeBirthDetailsDraft(
-  current: BirthDetailsDraft | undefined,
-  extracted: BirthDetailsDraft,
-  rawInput: string,
-): BirthDetailsDraft {
-  const merged = {
-    ...current,
-    ...Object.fromEntries(
-      Object.entries(extracted).filter(([, value]) => value !== undefined),
-    ),
-  } as BirthDetailsDraft;
-  const meridiem = rawInput.match(/\b(am|pm|morning|evening|night)\b/i)?.[1];
-
-  if (merged.time && meridiem) {
-    merged.time = applyMeridiemToTime(merged.time, meridiem);
-    merged.meridiem =
-      meridiem.toLowerCase() === 'am' || meridiem.toLowerCase() === 'morning'
-        ? 'AM'
-        : 'PM';
-  }
-
-  return merged;
-}
-
-function applyMeridiemToTime(time: string, meridiem: string): string {
-  const [hourText, minuteText] = time.split(':');
-  let hour = Number(hourText);
-  const normalized = meridiem.toLowerCase();
-
-  if (
-    (normalized === 'pm' ||
-      normalized === 'evening' ||
-      normalized === 'night') &&
-    hour < 12
-  ) {
-    hour += 12;
-  }
-
-  if ((normalized === 'am' || normalized === 'morning') && hour === 12) {
-    hour = 0;
-  }
-
-  return `${String(hour).padStart(2, '0')}:${minuteText}`;
-}
-
-function buildBirthIntakeResponse(
-  draft: BirthDetailsDraft,
-  result: Awaited<ReturnType<typeof extractBirthDetailsFromText>>,
-  language: 'en' | 'hi' | 'gu',
-  onReady: () => void,
-): string {
-  const missing = result.missingFields.filter(field => {
-    if (field === 'birth_place') {
-      return !draft.city;
-    }
-
-    if (field === 'am_pm') {
-      return !draft.meridiem;
-    }
-
-    return !draft[field as keyof BirthDetailsDraft];
-  });
-
-  if (result.ambiguities.length > 0) {
-    const first = result.ambiguities[0];
-    return [
-      language === 'en'
-        ? 'I found most of the birth details. One small thing needs confirmation before I prepare the kundli.'
-        : 'I found most of the birth details, but one part needs confirmation before I can prepare the kundli.',
-      first.issue,
-      first.options?.length ? `Options: ${first.options.join(' / ')}` : '',
-    ]
-      .filter(Boolean)
-      .join('\n\n');
-  }
-
-  const requiredMissing = missing.filter(
-    field => !['name', 'country', 'state'].includes(field),
-  );
-
-  if (requiredMissing.length > 0) {
-    return [
-      'Good, I caught this much:',
-      formatDraftSummary(draft),
-      `For a real kundli, please share: ${requiredMissing
-        .map(formatMissingField)
-        .join(', ')}.`,
-      'If birth time is not known, write “time unknown” and I will guide you gently.',
-    ].join('\n\n');
-  }
-
-  onReady();
-
-  return [
-    'Thank you. I found the details needed for a kundli. Har Har Mahadev.',
-    formatDraftSummary(draft),
-    'I opened the Kundli screen so you can verify the birth place and timezone before Predicta calculates anything.',
-  ].join('\n\n');
-}
-
-function formatDraftSummary(draft: BirthDetailsDraft): string {
-  return [
-    draft.name ? `Name: ${draft.name}` : '',
-    draft.date ? `Date: ${draft.date}` : '',
-    draft.time ? `Time: ${draft.time}` : '',
-    draft.city
-      ? `Birth place: ${[draft.city, draft.state, draft.country]
-          .filter(Boolean)
-          .join(', ')}`
-      : draft.placeText
-      ? `Birth place: ${draft.placeText}`
-      : '',
-  ]
-    .filter(Boolean)
-    .join('\n');
-}
-
-function formatMissingField(field: string): string {
-  const labels: Record<string, string> = {
-    am_pm: 'AM or PM',
-    birth_place: 'birth place',
-    city: 'city',
-    country: 'country',
-    date: 'date of birth',
-    name: 'name',
-    state: 'state or province',
-    time: 'birth time',
-  };
-
-  return labels[field] ?? field;
 }
 
 function ChatBubble({

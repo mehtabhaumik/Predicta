@@ -6,6 +6,7 @@ export * from './guestAccessLimits';
 export * from './language';
 export * from './legal';
 export * from './predictaUx';
+export * from './predictaMemory';
 export * from './trust';
 export * from './pricing';
 export * from './proof';

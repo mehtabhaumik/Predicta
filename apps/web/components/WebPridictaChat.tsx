@@ -3,6 +3,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { getLanguageLabels } from '@pridicta/config/language';
 import {
+  buildBirthIntakeReply,
+  type PredictaBirthMemory,
+} from '@pridicta/config/predictaMemory';
+import {
   getBirthExtractionFailureReply,
   getBirthIntakeWelcome,
   getFriendlyGreetingReply,
@@ -22,10 +26,17 @@ import {
 } from '../lib/pridicta-ai';
 import { loadWebKundli } from '../lib/web-kundli-storage';
 
+const WEB_CHAT_MEMORY_KEY = 'predicta.webChatMemory.v1';
+
 type WebMessage = {
   id: string;
   role: 'user' | 'pridicta';
   text: string;
+};
+
+type WebChatMemory = {
+  birthMemory?: PredictaBirthMemory;
+  messages: WebMessage[];
 };
 
 export function WebPridictaChat(): React.JSX.Element {
@@ -34,14 +45,35 @@ export function WebPridictaChat(): React.JSX.Element {
   const { language } = useLanguagePreference();
   const labels = getLanguageLabels(language);
   const didLoadQueryPrompt = useRef(false);
+  const didLoadMemory = useRef(false);
   const [kundli, setKundli] = useState<KundliData | undefined>();
+  const [birthMemory, setBirthMemory] = useState<PredictaBirthMemory>();
   const [messages, setMessages] = useState<WebMessage[]>(() =>
     buildInitialMessages(language),
   );
 
   useEffect(() => {
     setKundli(loadWebKundli());
+    const stored = loadWebChatMemory();
+
+    if (stored) {
+      setBirthMemory(stored.birthMemory);
+      setMessages(stored.messages.length ? stored.messages : buildInitialMessages(language));
+    }
+
+    didLoadMemory.current = true;
   }, []);
+
+  useEffect(() => {
+    if (!didLoadMemory.current) {
+      return;
+    }
+
+    saveWebChatMemory({
+      birthMemory,
+      messages,
+    });
+  }, [birthMemory, messages]);
 
   useEffect(() => {
     setMessages(current =>
@@ -105,7 +137,7 @@ export function WebPridictaChat(): React.JSX.Element {
       const summary = isSimpleGreeting(text)
         ? getFriendlyGreetingReply(language)
         : looksLikeBirthDetails(text)
-          ? formatExtractionSummary(await extractBirthDetailsFromWeb(text), language)
+          ? await handleBirthIntake(text)
           : !kundli
             ? createKundliFirstReply(language, text)
             : await askWithProof(text, kundli);
@@ -125,7 +157,7 @@ export function WebPridictaChat(): React.JSX.Element {
     } catch {
       const fallbackText = looksLikeBirthDetails(text)
         ? getBirthExtractionFailureReply(language)
-        : "I could not complete that reading just now. I am still here with you; please try again with one focused question. Har Har Mahadev.";
+        : 'I could not complete that reading just now. I am still here with you; please try again with one focused question.';
       setMessages(current => [
         ...current,
         {
@@ -152,6 +184,23 @@ export function WebPridictaChat(): React.JSX.Element {
     });
 
     return formatAskWithProof(response.text, response.jyotishAnalysis);
+  }
+
+  async function handleBirthIntake(text: string): Promise<string> {
+    const result = await extractBirthDetailsFromWeb(text);
+    const reply = buildBirthIntakeReply({
+      language,
+      memory: birthMemory,
+      rawInput: text,
+      result,
+    });
+
+    setBirthMemory({
+      draft: reply.draft,
+      updatedAt: new Date().toISOString(),
+    });
+
+    return reply.text;
   }
 
   return (
@@ -274,131 +323,6 @@ function buildContextMessage({
   return 'I loaded your timeline event. Press Ask when you want me to explain it from chart evidence.';
 }
 
-function formatExtractionSummary(
-  result: Awaited<ReturnType<typeof extractBirthDetailsFromWeb>>,
-  language: SupportedLanguage,
-): string {
-  const copy = extractionCopy(language);
-  const details = [
-    result.extracted.name ? `${copy.name}: ${result.extracted.name}` : '',
-    result.extracted.date ? `${copy.date}: ${result.extracted.date}` : '',
-    result.extracted.time ? `${copy.time}: ${result.extracted.time}` : '',
-    result.extracted.city ?? result.extracted.placeText
-      ? `${copy.birthPlace}: ${[
-          result.extracted.city ?? result.extracted.placeText,
-          result.extracted.state,
-          result.extracted.country,
-        ]
-          .filter(Boolean)
-          .join(', ')}`
-      : '',
-  ].filter(Boolean);
-
-  if (result.ambiguities.length > 0) {
-    return [
-      copy.confirmation,
-      result.ambiguities[0].issue,
-      result.ambiguities[0].options?.length
-        ? `${copy.options}: ${result.ambiguities[0].options.join(' / ')}`
-        : '',
-    ]
-      .filter(Boolean)
-      .join('\n\n');
-  }
-
-  const requiredMissing = result.missingFields.filter(
-    field => field !== 'name' && field !== 'country' && field !== 'state',
-  );
-
-  if (requiredMissing.length > 0) {
-    return [
-      details.length ? `${copy.found}:\n${details.join('\n')}` : copy.partial,
-      `${copy.missing}: ${requiredMissing
-        .map(field => copy[field] ?? field)
-        .join(', ')}.`,
-      copy.missingHelp,
-    ]
-      .filter(Boolean)
-      .join('\n\n');
-  }
-
-  return [
-    copy.ready,
-    details.join('\n'),
-    copy.backendBoundary,
-  ].join('\n\n');
-}
-
-function extractionCopy(language: SupportedLanguage): Record<string, string> {
-  if (language === 'hi') {
-    return {
-      backendBoundary:
-        'Web flow mobile की तरह backend AI boundary इस्तेमाल करता है. Calculated kundli active होते ही full chart reading चलेगी.',
-      am_pm: 'AM या PM',
-      birthPlace: 'जन्म स्थान',
-      birth_place: 'जन्म स्थान',
-      city: 'शहर',
-      country: 'देश',
-      confirmation: 'अधिकतर विवरण मिल गए, लेकिन एक बात confirm करनी है.',
-      date: 'तारीख',
-      found: 'मिला',
-      missingHelp:
-        'इन details के बिना मैं real kundli calculate नहीं करूंगी. Time नहीं पता हो तो “time unknown” लिख दें.',
-      missing: 'Missing',
-      name: 'नाम',
-      options: 'Options',
-      partial: 'एक बात समझ में आई. अब kundli के लिए बाकी details चाहिए.',
-      ready: 'Kundli generation के लिए जरूरी birth details मिल गए.',
-      state: 'राज्य',
-      time: 'समय',
-    };
-  }
-  if (language === 'gu') {
-    return {
-      backendBoundary:
-        'Web flow mobile જેવી backend AI boundary વાપરે છે. Calculated kundli active થતા full chart reading ચાલશે.',
-      am_pm: 'AM કે PM',
-      birthPlace: 'જન્મ સ્થળ',
-      birth_place: 'જન્મ સ્થળ',
-      city: 'શહેર',
-      country: 'દેશ',
-      confirmation: 'મોટાભાગની વિગતો મળી, પણ એક બાબત confirm કરવી છે.',
-      date: 'તારીખ',
-      found: 'મળ્યું',
-      missingHelp:
-        'આ details વગર હું real kundli calculate નહીં કરું. Time ખબર ન હોય તો “time unknown” લખો.',
-      missing: 'Missing',
-      name: 'નામ',
-      options: 'Options',
-      partial: 'એક બાબત સમજાઈ. હવે kundli માટે બાકીની details જોઈએ.',
-      ready: 'Kundli generation માટે જરૂરી birth details મળી ગઈ.',
-      state: 'રાજ્ય',
-      time: 'સમય',
-    };
-  }
-  return {
-    backendBoundary:
-      'The web flow now uses the same backend AI boundary as mobile. Full chart readings will run once a calculated kundli is active on web.',
-    am_pm: 'AM or PM',
-    birthPlace: 'Birth place',
-    birth_place: 'birth place',
-    city: 'city',
-    country: 'country',
-    confirmation: 'I found most details, but one part needs confirmation.',
-    date: 'Date',
-    found: 'I found',
-    missingHelp:
-      'I will not calculate a real kundli until these are clear. If you do not know the time, write “time unknown” and I will guide you.',
-    missing: 'Missing',
-    name: 'Name',
-    options: 'Options',
-    partial: 'I caught one piece. Now I need the remaining birth details for the kundli.',
-    ready: 'I found the birth details needed for kundli generation.',
-    state: 'state or province',
-    time: 'Time',
-  };
-}
-
 function chatPlaceholder(language: SupportedLanguage): string {
   if (language === 'hi') {
     return 'Birth details लिखें या calculated kundli से पूछें...';
@@ -427,10 +351,33 @@ function createKundliFirstReply(language: SupportedLanguage, text: string): stri
     : '';
 
   if (language === 'hi') {
-    return `${safety}मैं आपके साथ हूं. इस सवाल का सही chart-based जवाब देने के लिए पहले Kundli चाहिए. कृपया जन्म तारीख, जन्म समय और जन्म स्थान भेजें, या Dashboard > Kundli खोलें. Har Har Mahadev.`;
+    return `${safety}मैं आपके साथ हूं. इस सवाल का सही chart-based जवाब देने के लिए पहले Kundli चाहिए. कृपया जन्म तारीख, जन्म समय और जन्म स्थान भेजें, या Dashboard > Kundli खोलें.`;
   }
   if (language === 'gu') {
-    return `${safety}હું તમારી સાથે છું. આ પ્રશ્નનો સાચો chart-based જવાબ આપવા માટે પહેલા Kundli જોઈએ. કૃપા કરીને જન્મ તારીખ, જન્મ સમય અને જન્મ સ્થળ મોકલો, અથવા Dashboard > Kundli ખોલો. Har Har Mahadev.`;
+    return `${safety}હું તમારી સાથે છું. આ પ્રશ્નનો સાચો chart-based જવાબ આપવા માટે પહેલા Kundli જોઈએ. કૃપા કરીને જન્મ તારીખ, જન્મ સમય અને જન્મ સ્થળ મોકલો, અથવા Dashboard > Kundli ખોલો.`;
   }
-  return `${safety}I am with you. To answer this from your real chart, I need your Kundli first. Share your date of birth, birth time, and birth place, or open Dashboard > Kundli. Har Har Mahadev.`;
+  return `${safety}I am with you. To answer this from your real chart, I need your Kundli first. Share your date of birth, birth time, and birth place, or open Dashboard > Kundli.`;
+}
+
+function loadWebChatMemory(): WebChatMemory | undefined {
+  try {
+    const raw = window.localStorage.getItem(WEB_CHAT_MEMORY_KEY);
+    return raw ? (JSON.parse(raw) as WebChatMemory) : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function saveWebChatMemory(memory: WebChatMemory): void {
+  try {
+    window.localStorage.setItem(
+      WEB_CHAT_MEMORY_KEY,
+      JSON.stringify({
+        birthMemory: memory.birthMemory,
+        messages: memory.messages.slice(-24),
+      }),
+    );
+  } catch {
+    // Local chat memory is a convenience; Predicta can still work without it.
+  }
 }
