@@ -20,6 +20,19 @@ from .models import (
     PridictaChatResponse,
 )
 from .jyotish_analysis import build_jyotish_analysis
+from .safety_audit import maybe_record_ai_safety_audit
+from .safety import (
+    assess_chat_safety,
+    blocked_safety_reply,
+    enforce_high_stakes_boundary,
+    merge_moderation_result,
+    moderate_text_with_openai,
+    output_safety_rewrite_note,
+    privacy_preserving_safety_identifier,
+    safety_response_categories,
+    safety_protocol_prompt_line,
+    unsafe_output_categories,
+)
 
 OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses"
 GEMINI_GENERATE_URL = (
@@ -40,6 +53,10 @@ GEMINI_PREMIUM_THINKING_BUDGET = int(
     os.getenv("PRIDICTA_GEMINI_PREMIUM_THINKING_BUDGET", "512")
 )
 REQUEST_TIMEOUT_SECONDS = float(os.getenv("PRIDICTA_AI_TIMEOUT_SECONDS", "45"))
+PREDICTA_CHAT_PROMPT_VERSION = os.getenv(
+    "PREDICTA_CHAT_PROMPT_VERSION",
+    "predicta-chat-system-v1",
+)
 MONTHS = {
     "jan": "01",
     "january": "01",
@@ -169,6 +186,15 @@ class AIProviderError(RuntimeError):
 
 
 def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
+    safety = assess_chat_safety(request.message)
+    try:
+        safety = merge_moderation_result(
+            safety,
+            moderate_text_with_openai(request.message),
+        )
+    except Exception:
+        safety = merge_moderation_result(safety, None, moderation_error=True)
+
     intent = "deep" if request.deepAnalysis else detect_intent(
         request.message, request.chartContext
     )
@@ -194,7 +220,42 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
         request.message,
         primary_area=jyotish_analysis.primaryArea,
         language=request.language,
+        safety_line=safety_protocol_prompt_line(safety),
     )
+    safety_identifier = privacy_preserving_safety_identifier(
+        request.safetyIdentifier,
+        [
+            request.kundli.id,
+            request.kundli.birthDetails.name,
+            request.kundli.birthDetails.date,
+        ],
+    )
+
+    if safety.blocked:
+        blocked_categories = safety_response_categories(safety)
+        maybe_record_ai_safety_audit(
+            categories=blocked_categories,
+            input_hash_parts=[
+                request.kundli.id,
+                request.kundli.birthDetails.name,
+                request.kundli.birthDetails.date,
+            ],
+            model="predicta-safety-protocol-v1",
+            provider="deterministic",
+            route="/ask-pridicta",
+            safety_identifier=safety_identifier,
+        )
+        return PridictaChatResponse(
+            text=blocked_safety_reply(request.language, safety),
+            provider="deterministic",
+            model="predicta-safety-protocol-v1",
+            intent=intent,
+            usedDeepModel=False,
+            jyotishAnalysis=jyotish_analysis,
+            safetyCategories=blocked_categories,
+            safetyBlocked=True,
+        )
+
     try:
         text, provider, actual_model = create_ai_text_response(
             model=model,
@@ -202,6 +263,7 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
             user_prompt=prompt,
             max_output_tokens=max_output_tokens,
             reasoning_effort="medium" if intent == "deep" else "low",
+            safety_identifier=safety_identifier,
         )
     except (AIConfigurationError, AIProviderError):
         text = build_deterministic_chart_reply(request, jyotish_analysis)
@@ -211,6 +273,49 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
     if not text.strip():
         raise AIProviderError("OpenAI returned an empty reading.")
 
+    output_safety_categories = unsafe_output_categories(text)
+    if output_safety_categories:
+        text = "\n\n".join(
+            [
+                build_deterministic_chart_reply(request, jyotish_analysis),
+                output_safety_rewrite_note(
+                    request.language,
+                    output_safety_categories,
+                ),
+            ]
+        )
+
+    text = enforce_high_stakes_boundary(text, request.language, safety)
+
+    low_confidence_categories = (
+        ["low-confidence"]
+        if any(
+            area.confidence == "low" for area in jyotish_analysis.areaAnalyses[:1]
+        )
+        else []
+    )
+    response_categories = list(
+        dict.fromkeys(
+            [
+                *safety_response_categories(safety),
+                *output_safety_categories,
+                *low_confidence_categories,
+            ]
+        )
+    )
+    maybe_record_ai_safety_audit(
+        categories=response_categories,
+        input_hash_parts=[
+            request.kundli.id,
+            request.kundli.birthDetails.name,
+            request.kundli.birthDetails.date,
+        ],
+        model=actual_model,
+        provider=provider,
+        route="/ask-pridicta",
+        safety_identifier=safety_identifier,
+    )
+
     return PridictaChatResponse(
         text=text.strip(),
         provider=provider,
@@ -219,6 +324,8 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
         usedDeepModel=actual_model in {PREMIUM_DEEP_MODEL, GEMINI_PRO_MODEL}
         and intent == "deep",
         jyotishAnalysis=jyotish_analysis,
+        safetyCategories=response_categories,
+        safetyBlocked=False,
     )
 
 
@@ -226,6 +333,16 @@ def build_deterministic_chart_reply(
     request: PridictaChatRequest,
     analysis: JyotishAnalysis,
 ) -> str:
+    school = (
+        request.chartContext.predictaSchool.upper()
+        if request.chartContext and request.chartContext.predictaSchool
+        else ""
+    )
+    if school == "KP":
+        return build_deterministic_kp_reply(request)
+    if school == "NADI":
+        return build_deterministic_nadi_reply(request)
+
     current_date = date.today()
     one_year_later = add_one_year(current_date)
     area = analysis.areaAnalyses[0] if analysis.areaAnalyses else None
@@ -319,6 +436,78 @@ def build_deterministic_chart_reply(
             f"Next step: {practical}",
         ]
     ).strip()
+
+
+def build_deterministic_kp_reply(request: PridictaChatRequest) -> str:
+    kp = request.kundli.kp
+    question = (
+        request.chartContext.handoffQuestion
+        if request.chartContext and request.chartContext.handoffQuestion
+        else request.message
+    )
+
+    if not kp:
+        return "\n\n".join(
+            [
+                "KP Predicta will answer this inside Krishnamurti Paddhati, not regular Parashari.",
+                f"Your question: {question}",
+                "I have the birth profile, but the KP cusp layer is not available in this response yet. Recalculate once through the Kundli engine and I will use KP cusps, star lords, sub lords, significators, and ruling planets from that saved profile.",
+                "Confidence: low until KP cusps are available.",
+            ]
+        )
+
+    cusp_lines = [
+        f"- Cusp {item.house}: {item.sign}; star lord {item.lordChain.starLord}, sub lord {item.lordChain.subLord}."
+        for item in kp.cusps[:4]
+    ]
+    significator_lines = [
+        f"- {item.planet}: signifies houses {', '.join(str(house) for house in item.signifiesHouses[:4])}."
+        for item in kp.significators[:3]
+    ]
+
+    return "\n\n".join(
+        [
+            "KP Predicta mode. I will keep this inside Krishnamurti Paddhati.",
+            f"Your question: {question}",
+            "Method boundary: KP judges events through cusps, star lords, sub lords, significators, ruling planets, and dasha support. I will not mix this with Parashari yogas unless I clearly say it is a separate comparison.",
+            "KP evidence:\n" + "\n".join(cusp_lines + significator_lines),
+            "Confidence: medium for a useful KP preview. Premium depth should verify the exact event house, sub-lord promise, ruling planets, and dasha/transit support before strong timing.",
+            "Next step: ask the event in one clean sentence, like marriage timing, job change, court matter, property, or finance recovery.",
+        ]
+    )
+
+
+def build_deterministic_nadi_reply(request: PridictaChatRequest) -> str:
+    plan = build_nadi_jyotish_plan_context(
+        request.kundli,
+        request.userPlan,
+        request.chartContext,
+    )
+    question = plan.get("handoffQuestion") or request.message
+    patterns = plan.get("patterns") or []
+    evidence_lines = []
+    for pattern in patterns[:3]:
+        evidence = pattern.get("evidence") or []
+        evidence_lines.append(
+            f"- {pattern.get('title')}: {pattern.get('freeInsight')} "
+            + (" ".join(evidence[:2]) if evidence else "")
+        )
+
+    if not evidence_lines:
+        evidence_lines = [
+            "- Nadi story links need planet-to-planet markers from the saved birth chart.",
+        ]
+
+    return "\n\n".join(
+        [
+            "Nadi Predicta mode. I will keep this as a Nadi-style chart-signature reading.",
+            f"Your question: {question}",
+            "Method boundary: this is not Parashari yoga reading and not KP sub-lord judgement. It uses planetary story links, karaka themes, validation questions, and timing activation. I will not pretend there is an ancient manuscript record.",
+            "Nadi evidence:\n" + "\n".join(evidence_lines),
+            "Confidence: medium for pattern recognition, lower for exact events until validation questions are answered.",
+            "Next step: answer the validation questions honestly, then I can narrow the story and timing without making fake-certainty claims.",
+        ]
+    )
 
 
 def localized_area_summary(area: str, confidence: str, language: str) -> str:
@@ -673,7 +862,9 @@ def build_pridicta_system_prompt() -> str:
             "Every recommendation must include evidence, a confidence/uncertainty note, or explicitly say evidence is weak.",
             "For relative timing, use the supplied Current date. Never use stale chart period labels as the calendar anchor.",
             "Interpret 'after one year' as around the same date next year, and 'next 1 year' as the window from today through the same date next year.",
-            "For medical, legal, financial, safety, abuse, or self-harm topics: do not diagnose, prescribe, predict certainty, or replace a qualified professional.",
+            "High-stakes astrology branches are allowed: finance astrology, share-market astrology, medical astrology, legal astrology, crime/conflict astrology, behavior astrology, and mental-health astrology. Do not refuse only because of topic.",
+            "For medical, legal, financial, safety, abuse, crime, behavior, or mental-health topics: answer from Jyotish norms with calm safeguards. Do not diagnose, prescribe, guarantee outcomes, give final professional decisions, help with harm, or replace a qualified professional.",
+            "For self-harm intent, do not coldly deny and do not only say 'go see a doctor'. First meet the pain warmly, encourage immediate human/crisis support if there is active danger, then offer gentle chart-based emotional support, grounding, and protective remedies. Never give self-harm methods or fatalistic timing.",
             "Do not make fatalistic claims about death, divorce, illness, bankruptcy, or guaranteed outcomes.",
             "Use an audit-friendly but friendly structure: warm acknowledgement, direct answer, confidence, chart evidence, limitations, and practical next step.",
             "The final feeling should be: smart astrologer, patient friend, product concierge, multilingual guide, and premium assistant.",
@@ -687,6 +878,7 @@ def build_user_prompt(
     message: str,
     primary_area: str,
     language: str,
+    safety_line: str = "Safety categories: none.",
 ) -> str:
     recent_turns = list(history)[-8:]
     current_date = date.today()
@@ -711,7 +903,8 @@ def build_user_prompt(
             "Response language enforcement: answer in the Response language unless the current user question is clearly and primarily in another supported language. Ignore older conversation language for this decision.",
             "If the current user's dominant language clearly differs from the response language, briefly acknowledge the switch once and answer in the current user's dominant language.",
             f"High-stakes safety topic: {'yes' if is_high_stakes_message(message) else 'no'}",
-            "Safety boundary: do not provide medical/legal/financial certainty; advise qualified professional support for high-stakes action.",
+            f"Safety protocol: {safety_line}",
+            "Safety boundary: high-stakes astrology is allowed with disclaimers and safeguards. Do not provide medical/legal/financial certainty, diagnosis, professional instructions, harmful instructions, or guaranteed outcomes; advise qualified professional support for high-stakes action.",
             "Recent conversation:",
             conversation or "No prior conversation.",
             f"User question: {message}",
@@ -1632,7 +1825,7 @@ def language_instruction(language: str) -> str:
 def is_high_stakes_message(message: str) -> bool:
     return bool(
         re.search(
-            r"\b(health|medical|medicine|doctor|surgery|pregnancy|disease|legal|court|lawsuit|contract|police|tax|finance|financial|investment|stock|crypto|loan|debt|insurance|paisa|paise|money|nana|dhan|karz|udhar|self-harm|suicide|violence|abuse|emergency)\b",
+            r"\b(health|medical|medicine|doctor|surgery|pregnancy|disease|legal|court|lawsuit|contract|police|tax|finance|financial|invest|investing|investment|savings|stock|crypto|loan|debt|insurance|paisa|paise|money|nana|dhan|karz|udhar|self-harm|suicide|suicidal|violence|violent|abuse|emergency|behavior|behaviour|criminal|crime|psychopath|mental illness|mental health|depression|anxiety|addiction|aggression|anger issue)\b",
             message,
             re.IGNORECASE,
         )
@@ -1714,6 +1907,7 @@ def create_openai_text_response(
     user_prompt: str,
     max_output_tokens: int,
     reasoning_effort: str,
+    safety_identifier: Optional[str] = None,
 ) -> str:
     api_key = os.getenv("OPENAI_API_KEY") or os.getenv("PREDICTA_OPENAI_API_KEY")
 
@@ -1729,6 +1923,8 @@ def create_openai_text_response(
         "max_output_tokens": max_output_tokens,
         "reasoning": {"effort": reasoning_effort},
     }
+    if safety_identifier:
+        payload["safety_identifier"] = safety_identifier
 
     try:
         response = httpx.post(
@@ -1756,6 +1952,7 @@ def create_ai_text_response(
     user_prompt: str,
     max_output_tokens: int,
     reasoning_effort: str,
+    safety_identifier: Optional[str] = None,
 ) -> tuple[str, str, str]:
     openai_error: Optional[Exception] = None
 
@@ -1767,6 +1964,7 @@ def create_ai_text_response(
                 user_prompt=user_prompt,
                 max_output_tokens=max_output_tokens,
                 reasoning_effort=reasoning_effort,
+                safety_identifier=safety_identifier,
             ),
             "openai",
             model,

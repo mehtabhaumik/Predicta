@@ -9,8 +9,8 @@ export default function AdminPage(): React.JSX.Element {
         <h1 className="gradient-text">Guest pass operations.</h1>
         <p>
           Create, revoke, list, and review guest passes through Predicta's
-          secure owner service. Browser code does not decide admin status or
-          pass validity.
+          secure owner service. Private access rules are always checked by the
+          owner service.
         </p>
       </div>
       <WebAdminGuestPassPanel />

@@ -4,6 +4,12 @@ import { Pressable, TextInput, View } from 'react-native';
 import { AnimatedHeader, AppText, GlowButton, GlowCard, Screen } from '../components';
 import { env } from '../config/env';
 import type { AccessLevel, GuestPassCode, PassCodeType } from '../types/access';
+import type { ReleaseReadinessReport, SafetyAuditEvent } from '../types/astrology';
+import {
+  loadReleaseReadiness,
+  loadSafetyReports,
+  reviewSafetyReport,
+} from '../services/ai/safetyAuditService';
 import { colors } from '../theme/colors';
 
 const passTypes: PassCodeType[] = [
@@ -23,6 +29,9 @@ const accessLevels: Array<Extract<AccessLevel, 'GUEST' | 'VIP_GUEST' | 'FULL_ACC
 export function AdminAccessScreen(): React.JSX.Element {
   const [token, setToken] = useState('');
   const [passes, setPasses] = useState<GuestPassCode[]>([]);
+  const [releaseReadiness, setReleaseReadiness] =
+    useState<ReleaseReadinessReport>();
+  const [safetyReports, setSafetyReports] = useState<SafetyAuditEvent[]>([]);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState(
     'Enter the owner access token to list or create guest passes.',
@@ -82,6 +91,71 @@ export function AdminAccessScreen(): React.JSX.Element {
         },
       },
     );
+  }
+
+  async function loadReports() {
+    if (!token.trim()) {
+      setMessage('Enter the owner access token first.');
+      return;
+    }
+
+    try {
+      setBusy(true);
+      const reports = await loadSafetyReports(token.trim());
+      setSafetyReports(reports);
+      setMessage(`${reports.length} safety reports loaded.`);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Safety reports could not be loaded.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function checkReadiness() {
+    if (!token.trim()) {
+      setMessage('Enter the owner access token first.');
+      return;
+    }
+
+    try {
+      setBusy(true);
+      const report = await loadReleaseReadiness(token.trim());
+      setReleaseReadiness(report);
+      setMessage(
+        report.releaseStatus === 'READY'
+          ? 'Release readiness is clear.'
+          : 'Release readiness is blocked.',
+      );
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Release readiness could not be checked.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function updateSafetyReport(
+    eventId: string,
+    reviewStatus: SafetyAuditEvent['reviewStatus'],
+  ) {
+    try {
+      setBusy(true);
+      const updated = await reviewSafetyReport(token.trim(), eventId, {
+        reviewNote:
+          reviewStatus === 'RESOLVED'
+            ? 'Reviewed and resolved from owner console.'
+            : 'Reviewed and dismissed from owner console.',
+        reviewStatus,
+        reviewedBy: 'owner-console',
+      });
+      setSafetyReports(current =>
+        current.map(item => (item.id === updated.id ? updated : item)),
+      );
+      setMessage(`${updated.id} marked ${updated.reviewStatus.toLowerCase()}.`);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Safety report could not be updated.');
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function adminRequest(
@@ -236,6 +310,81 @@ export function AdminAccessScreen(): React.JSX.Element {
                 label={pass.isActive ? 'Revoke Pass' : 'Already Revoked'}
                 onPress={() => revokePass(pass.codeId)}
               />
+            </View>
+          </GlowCard>
+        ))}
+
+        <GlowCard>
+          <AppText variant="subtitle">Launch gate</AppText>
+          <AppText className="mt-2" tone="secondary">
+            Confirm safety evals, approved model pins, launch criteria, and
+            rollback steps before public release.
+          </AppText>
+          <View className="mt-5">
+            <GlowButton
+              disabled={busy || !token.trim()}
+              label="Check Readiness"
+              onPress={checkReadiness}
+            />
+          </View>
+          {releaseReadiness ? (
+            <View className="mt-5 gap-2">
+              <AppText variant="subtitle">
+                {releaseReadiness.releaseStatus}
+              </AppText>
+              {releaseReadiness.checks.map(check => (
+                <AppText key={check.name} tone="secondary" variant="caption">
+                  {check.status}: {check.name} · {check.details}
+                </AppText>
+              ))}
+            </View>
+          ) : null}
+        </GlowCard>
+
+        <GlowCard>
+          <AppText variant="subtitle">Safety review queue</AppText>
+          <AppText className="mt-2" tone="secondary">
+            Review user reports and safety-triggered answers without storing
+            private birth details or full chat text.
+          </AppText>
+          <View className="mt-5">
+            <GlowButton
+              disabled={busy || !token.trim()}
+              label="Load Safety Reports"
+              onPress={loadReports}
+            />
+          </View>
+        </GlowCard>
+
+        {safetyReports.map(report => (
+          <GlowCard key={report.id}>
+            <AppText tone="secondary" variant="caption">
+              {report.reportKind}
+            </AppText>
+            <AppText className="mt-2" variant="subtitle">
+              {report.reviewStatus}
+            </AppText>
+            <AppText className="mt-2" tone="secondary" variant="caption">
+              {report.createdAt} · {report.route}
+            </AppText>
+            <AppText className="mt-2" tone="secondary" variant="caption">
+              {report.safetyCategories.join(', ') || 'No category label'}
+            </AppText>
+            <View className="mt-5 flex-row gap-3">
+              <View className="flex-1">
+                <GlowButton
+                  disabled={busy || report.reviewStatus === 'RESOLVED'}
+                  label="Resolve"
+                  onPress={() => updateSafetyReport(report.id, 'RESOLVED')}
+                />
+              </View>
+              <View className="flex-1">
+                <GlowButton
+                  disabled={busy || report.reviewStatus === 'DISMISSED'}
+                  label="Dismiss"
+                  onPress={() => updateSafetyReport(report.id, 'DISMISSED')}
+                />
+              </View>
             </View>
           </GlowCard>
         ))}

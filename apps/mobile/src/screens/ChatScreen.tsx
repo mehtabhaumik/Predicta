@@ -1,5 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Image, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  TextInput,
+  View,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, {
   useAnimatedStyle,
@@ -49,11 +55,16 @@ import {
 } from '@pridicta/config/predictaUx';
 import { formatAskWithProof } from '@pridicta/config/proof';
 import {
+  detectChatSafetyMeta,
+  getCrisisSupportReply,
+} from '@pridicta/config/safetyUx';
+import {
   getSafetyBoundaryCopy,
   hasHighStakesLanguage,
 } from '@pridicta/config/trust';
 import { extractBirthDetailsFromText } from '../services/ai/birthDetailsExtractor';
 import { askPredicta } from '../services/ai/pridictaService';
+import { reportSafetyIssue } from '../services/ai/safetyAuditService';
 import { generateKundli } from '../services/astrology/astroEngine';
 import { playReplyChime } from '../services/audio/replyChime';
 import { trackAnalyticsEvent } from '../services/analytics/analyticsService';
@@ -72,6 +83,7 @@ import type {
   ChatChartBlock,
   ChatMessage,
   ChatMessageBlock,
+  ChatSafetyMeta,
   ChatSuggestedCta,
   KundliData,
   SupportedLanguage,
@@ -85,6 +97,7 @@ function createMessage(
   context?: ChatMessage['context'],
   blocks?: ChatMessageBlock[],
   suggestions?: ChatSuggestedCta[],
+  safety?: ChatSafetyMeta,
 ): ChatMessage {
   return {
     blocks,
@@ -92,6 +105,7 @@ function createMessage(
     createdAt: new Date().toISOString(),
     id: `${role}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     role,
+    safety,
     suggestions,
     text,
   };
@@ -239,6 +253,7 @@ export function ChatScreen({
     options?: {
       blocks?: ChatMessageBlock[];
       context?: ChatMessage['context'];
+      safety?: ChatSafetyMeta;
       suggestions?: ChatSuggestedCta[];
     },
   ) {
@@ -269,6 +284,7 @@ export function ChatScreen({
                 kundli: activeKundli,
                 lastText: text,
               }),
+            options?.safety,
           ),
         );
         playReplyChime(chatSoundEnabled);
@@ -347,6 +363,18 @@ export function ChatScreen({
       return;
     }
 
+    const localSafety = detectChatSafetyMeta(trimmedInput, responseLanguage);
+    if (localSafety?.kind === 'crisis') {
+      appendConversationMessage(
+        createMessage('user', trimmedInput, activeChartContext),
+      );
+      setInput('');
+      streamAssistantResponse(getCrisisSupportReply(responseLanguage), {
+        safety: localSafety,
+      });
+      return;
+    }
+
     if (isSimpleGreeting(trimmedInput)) {
       const savedKundlis = savedKundliRecords.map(record => record.kundliData);
       appendConversationMessage(
@@ -381,6 +409,9 @@ export function ChatScreen({
           `${getSafetyBoundaryCopy(
             responseLanguage,
           )}\n\nI am with you. Create your Kundli first if you want reflective timing support, but do not delay urgent or professional help.`,
+          {
+            safety: detectChatSafetyMeta(trimmedInput, responseLanguage),
+          },
         );
         return;
       }
@@ -605,6 +636,11 @@ export function ChatScreen({
         message: trimmedInput,
         userPlan: effectivePlan,
       });
+      const safety = detectChatSafetyMeta(
+        trimmedInput,
+        responseLanguage,
+        response,
+      );
       const nextMemory = learnPredictaInteraction(
         actionReply.memory,
         trimmedInput,
@@ -613,7 +649,9 @@ export function ChatScreen({
         responseLanguage,
       );
       setPredictaMemory(nextMemory);
-      const answerText = hasHighStakesLanguage(trimmedInput)
+      const answerText = response.safetyBlocked
+        ? response.text
+        : hasHighStakesLanguage(trimmedInput)
         ? `${getSafetyBoundaryCopy(
             responseLanguage,
           )}\n\n${formatAskWithProof(response.text, response.jyotishAnalysis)}`
@@ -659,6 +697,9 @@ export function ChatScreen({
             savedKundlis,
           }),
         ].join('\n\n'),
+        {
+          safety,
+        },
       );
     } catch (error) {
       streamAssistantResponse(
@@ -1044,6 +1085,9 @@ function ChatBubble({
                   onUsePrompt={onUsePrompt}
                 />
               ))}
+              {message.safety ? (
+                <MobileChatSafetyCard safety={message.safety} />
+              ) : null}
               {showSuggestions && suggestions.length ? (
                 <MobileChatSuggestions
                   onSuggestionPress={onSuggestionPress}
@@ -1056,6 +1100,65 @@ function ChatBubble({
       )}
     </FadeInView>
   );
+}
+
+function MobileChatSafetyCard({
+  safety,
+}: {
+  safety: ChatSafetyMeta;
+}): React.JSX.Element {
+  const [reportState, setReportState] = useState<'idle' | 'sent' | 'error'>('idle');
+
+  async function submitReport() {
+    try {
+      await reportSafetyIssue({
+        reportKind: 'USER_REPORTED',
+        route: 'mobile-chat',
+        safetyCategories: safety.categories ?? [safety.kind],
+        sourceSurface: 'mobile-chat',
+      });
+      setReportState('sent');
+    } catch {
+      setReportState('error');
+    }
+  }
+
+  return (
+    <View style={[styles.chatSafetyCard, getMobileSafetyStyle(safety.kind)]}>
+      <View className="flex-1">
+        <AppText variant="caption">{safety.title}</AppText>
+        <AppText className="mt-1" tone="secondary" variant="caption">
+          {safety.body}
+        </AppText>
+      </View>
+      <Pressable
+        accessibilityRole="button"
+        disabled={reportState === 'sent'}
+        onPress={() => void submitReport()}
+        style={styles.chatSafetyReport}
+      >
+        <AppText variant="caption">
+          {reportState === 'sent'
+            ? 'Sent for review'
+            : reportState === 'error'
+              ? 'Try again'
+              : safety.reportLabel}
+        </AppText>
+      </Pressable>
+    </View>
+  );
+}
+
+function getMobileSafetyStyle(kind: ChatSafetyMeta['kind']) {
+  if (kind === 'crisis') {
+    return styles.chatSafetyCrisis;
+  }
+
+  if (kind === 'blocked') {
+    return styles.chatSafetyBlocked;
+  }
+
+  return styles.chatSafetyHighStakes;
 }
 
 function buildMobileSchoolContextIntro(
@@ -1375,6 +1478,35 @@ const styles = StyleSheet.create({
     minHeight: 44,
     padding: 6,
     width: '20%',
+  },
+  chatSafetyBlocked: {
+    backgroundColor: 'rgba(255, 195, 77, 0.1)',
+    borderColor: 'rgba(255, 195, 77, 0.38)',
+  },
+  chatSafetyCard: {
+    alignItems: 'flex-start',
+    borderRadius: 12,
+    borderWidth: 1,
+    flexDirection: 'row',
+    gap: 10,
+    marginTop: 14,
+    padding: 12,
+  },
+  chatSafetyCrisis: {
+    backgroundColor: 'rgba(255, 77, 106, 0.1)',
+    borderColor: 'rgba(255, 77, 106, 0.38)',
+  },
+  chatSafetyHighStakes: {
+    backgroundColor: 'rgba(255, 255, 255, 0.06)',
+    borderColor: 'rgba(255, 195, 77, 0.3)',
+  },
+  chatSafetyReport: {
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderColor: colors.border,
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
   },
   chatSuggestionChip: {
     backgroundColor: 'rgba(255, 255, 255, 0.08)',

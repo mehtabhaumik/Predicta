@@ -10,4 +10,5 @@ export * from './predictaMemory';
 export * from './trust';
 export * from './pricing';
 export * from './proof';
+export * from './safetyUx';
 export * from './usageLimits';

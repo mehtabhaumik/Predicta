@@ -473,6 +473,7 @@ class PridictaChatRequest(BaseModel):
     userPlan: UserPlan
     deepAnalysis: bool = False
     language: SupportedLanguage = "en"
+    safetyIdentifier: Optional[str] = None
 
 
 class PridictaChatResponse(BaseModel):
@@ -483,6 +484,73 @@ class PridictaChatResponse(BaseModel):
     intent: AIIntent
     usedDeepModel: bool = False
     jyotishAnalysis: Optional[JyotishAnalysis] = None
+    safetyCategories: List[str] = Field(default_factory=list)
+    safetyBlocked: bool = False
+
+
+SafetyReviewStatus = Literal["OPEN", "IN_REVIEW", "RESOLVED", "DISMISSED"]
+
+
+class SafetyReportRequest(BaseModel):
+    safetyIdentifier: Optional[str] = None
+    safetyCategories: List[str] = Field(default_factory=list)
+    provider: Optional[str] = None
+    model: Optional[str] = None
+    route: str = Field(default="/dashboard/chat", min_length=1)
+    sourceSurface: str = Field(default="chat", min_length=1)
+    reportKind: Literal[
+        "USER_REPORTED",
+        "HIGH_STAKES",
+        "BLOCKED",
+        "LOW_CONFIDENCE",
+        "OUTPUT_REWRITTEN",
+    ] = "USER_REPORTED"
+
+
+class SafetyAuditEvent(BaseModel):
+    id: str
+    createdAt: str
+    safetyIdentifierHash: str
+    safetyCategories: List[str] = Field(default_factory=list)
+    provider: str
+    model: str
+    route: str
+    sourceSurface: str
+    reportKind: Literal[
+        "USER_REPORTED",
+        "HIGH_STAKES",
+        "BLOCKED",
+        "LOW_CONFIDENCE",
+        "OUTPUT_REWRITTEN",
+    ]
+    reviewStatus: SafetyReviewStatus
+    reviewedAt: Optional[str] = None
+    reviewedBy: Optional[str] = None
+    reviewNote: Optional[str] = None
+
+
+class SafetyReviewRequest(BaseModel):
+    reviewStatus: SafetyReviewStatus
+    reviewNote: Optional[str] = Field(default=None, max_length=500)
+    reviewedBy: Optional[str] = Field(default=None, max_length=120)
+
+
+class ReleaseReadinessCheck(BaseModel):
+    name: str
+    status: Literal["PASS", "FAIL"]
+    details: str
+
+
+class ReleaseReadinessReport(BaseModel):
+    generatedAt: str
+    releaseStatus: Literal["READY", "BLOCKED"]
+    checks: List[ReleaseReadinessCheck]
+    blockers: List[str] = Field(default_factory=list)
+    safetySLOs: Dict[str, str]
+    approvedModelPins: Dict[str, str]
+    requiredCommands: List[str]
+    launchCriteria: List[str]
+    rollbackSteps: List[str]
 
 
 class BirthDetailsDraft(BaseModel):

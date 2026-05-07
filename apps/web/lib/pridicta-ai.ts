@@ -8,7 +8,10 @@ export async function askPridictaFromWeb(
   request: PridictaChatRequest,
 ): Promise<PridictaChatResponse> {
   const response = await fetch('/api/ask-pridicta', {
-    body: JSON.stringify(request),
+    body: JSON.stringify({
+      ...request,
+      safetyIdentifier: request.safetyIdentifier ?? getWebSafetyIdentifier(),
+    }),
     headers: {
       'Content-Type': 'application/json',
     },
@@ -20,6 +23,26 @@ export async function askPridictaFromWeb(
   }
 
   return (await response.json()) as PridictaChatResponse;
+}
+
+export function getWebSafetyIdentifier(): string {
+  const key = 'predicta.webSafetySession.v1';
+
+  try {
+    const existing = localStorage.getItem(key);
+    if (existing) {
+      return existing;
+    }
+
+    const next =
+      typeof crypto !== 'undefined' && 'randomUUID' in crypto
+        ? `web-${crypto.randomUUID()}`
+        : `web-${Date.now()}-${Math.random().toString(36).slice(2, 12)}`;
+    localStorage.setItem(key, next);
+    return next;
+  } catch {
+    return `web-ephemeral-${Date.now()}`;
+  }
 }
 
 export async function extractBirthDetailsFromWeb(

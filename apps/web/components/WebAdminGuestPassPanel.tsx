@@ -1,7 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import type { GuestPassCode, PassCodeType } from '@pridicta/types';
+import type {
+  GuestPassCode,
+  PassCodeType,
+  ReleaseReadinessReport,
+  SafetyAuditEvent,
+} from '@pridicta/types';
 
 const passTypes: PassCodeType[] = [
   'GUEST_TRIAL',
@@ -14,6 +19,9 @@ const passTypes: PassCodeType[] = [
 export function WebAdminGuestPassPanel(): React.JSX.Element {
   const [token, setToken] = useState('');
   const [passes, setPasses] = useState<GuestPassCode[]>([]);
+  const [releaseReadiness, setReleaseReadiness] =
+    useState<ReleaseReadinessReport>();
+  const [safetyReports, setSafetyReports] = useState<SafetyAuditEvent[]>([]);
   const [message, setMessage] = useState('Enter the owner access token to list or create passes.');
   const [busy, setBusy] = useState(false);
   const [draft, setDraft] = useState({
@@ -110,6 +118,96 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
     }
   }
 
+  async function loadSafetyReports() {
+    try {
+      setBusy(true);
+      const response = await fetch('/api/safety/admin/reports', {
+        headers: { 'x-pridicta-admin-token': token },
+      });
+      const payload = await response.json();
+
+      if (!response.ok) {
+        setMessage(payload.detail ?? 'Safety review queue could not be opened.');
+        return;
+      }
+
+      setSafetyReports(payload);
+      setMessage(`${payload.length} safety reports loaded.`);
+    } catch {
+      setMessage('Safety review queue is not reachable.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function reviewSafetyReport(
+    eventId: string,
+    reviewStatus: SafetyAuditEvent['reviewStatus'],
+  ) {
+    try {
+      setBusy(true);
+      const response = await fetch(
+        `/api/safety/admin/reports/${encodeURIComponent(eventId)}/review`,
+        {
+          body: JSON.stringify({
+            reviewNote:
+              reviewStatus === 'RESOLVED'
+                ? 'Reviewed and resolved from owner console.'
+                : 'Reviewed and dismissed from owner console.',
+            reviewStatus,
+            reviewedBy: 'owner-console',
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+            'x-pridicta-admin-token': token,
+          },
+          method: 'POST',
+        },
+      );
+      const payload = await response.json();
+
+      if (!response.ok) {
+        setMessage(payload.detail ?? 'Safety report could not be updated.');
+        return;
+      }
+
+      setSafetyReports(current =>
+        current.map(item => (item.id === payload.id ? payload : item)),
+      );
+      setMessage(`${payload.id} marked ${payload.reviewStatus.toLowerCase()}.`);
+    } catch {
+      setMessage('Safety review queue is not reachable.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function loadReleaseReadiness() {
+    try {
+      setBusy(true);
+      const response = await fetch('/api/safety/admin/release-readiness', {
+        headers: { 'x-pridicta-admin-token': token },
+      });
+      const payload = await response.json();
+
+      if (!response.ok) {
+        setMessage(payload.detail ?? 'Release readiness could not be checked.');
+        return;
+      }
+
+      setReleaseReadiness(payload);
+      setMessage(
+        payload.releaseStatus === 'READY'
+          ? 'Release readiness is clear.'
+          : 'Release readiness is blocked.',
+      );
+    } catch {
+      setMessage('Release readiness could not be checked.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
     <div className="admin-guest-pass-panel">
       <div className="card glass-panel">
@@ -118,8 +216,8 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
           <h2>Secure pass control</h2>
           <p>
             Guest passes are created, listed, and revoked through the secure
-            owner service. The browser never decides private pass rules by
-            itself.
+            owner service. Private pass rules are checked before access is
+            granted.
           </p>
           <div className="field-stack">
             <label className="field-label" htmlFor="admin-token">
@@ -225,6 +323,88 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
               >
                 {pass.isActive ? 'Revoke' : 'Revoked'}
               </button>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div className="card glass-panel">
+        <div className="card-content spacious">
+          <div className="section-title">RELEASE READINESS</div>
+          <h2>Launch gate.</h2>
+          <p>
+            Confirm safety evals, approved model pins, launch criteria, and
+            rollback steps before public release.
+          </p>
+          <button
+            className="button secondary"
+            disabled={busy || !token}
+            onClick={loadReleaseReadiness}
+            type="button"
+          >
+            Check Readiness
+          </button>
+          {releaseReadiness ? (
+            <div className="release-readiness-panel">
+              <strong>{releaseReadiness.releaseStatus}</strong>
+              {releaseReadiness.checks.map(check => (
+                <p key={check.name}>
+                  {check.status}: {check.name} · {check.details}
+                </p>
+              ))}
+            </div>
+          ) : null}
+        </div>
+      </div>
+
+      <div className="card glass-panel">
+        <div className="card-content spacious">
+          <div className="section-title">SAFETY REVIEW</div>
+          <h2>Review reported guidance.</h2>
+          <p>
+            Each report keeps only safety labels, answer source, review status,
+            and a protected identifier. Private birth details and full chat text
+            are not stored here.
+          </p>
+          <button
+            className="button secondary"
+            disabled={busy || !token}
+            onClick={loadSafetyReports}
+            type="button"
+          >
+            Load Safety Reports
+          </button>
+        </div>
+      </div>
+
+      <div className="admin-pass-list">
+        {safetyReports.map(report => (
+          <article className="card" key={report.id}>
+            <div className="card-content">
+              <div className="section-title">{report.reportKind}</div>
+              <h2>{report.reviewStatus}</h2>
+              <p>
+                {report.createdAt} · {report.route} · answer source saved
+              </p>
+              <p>{report.safetyCategories.join(', ') || 'No category label'}</p>
+              <div className="admin-action-row">
+                <button
+                  className="button secondary"
+                  disabled={busy || report.reviewStatus === 'RESOLVED'}
+                  onClick={() => reviewSafetyReport(report.id, 'RESOLVED')}
+                  type="button"
+                >
+                  Resolve
+                </button>
+                <button
+                  className="button secondary"
+                  disabled={busy || report.reviewStatus === 'DISMISSED'}
+                  onClick={() => reviewSafetyReport(report.id, 'DISMISSED')}
+                  type="button"
+                >
+                  Dismiss
+                </button>
+              </div>
             </div>
           </article>
         ))}

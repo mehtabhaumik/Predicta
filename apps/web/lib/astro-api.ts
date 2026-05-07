@@ -11,14 +11,21 @@ export async function proxyAstroApiRequest(
   body: unknown,
   headers?: HeadersInit,
 ): Promise<Response> {
-  const upstream = await fetch(`${getAstroApiUrl()}${path}`, {
-    body: JSON.stringify(body),
-    headers: {
-      'Content-Type': 'application/json',
-      ...headers,
-    },
-    method: 'POST',
-  });
+  let upstream: globalThis.Response;
+
+  try {
+    upstream = await fetch(`${getAstroApiUrl()}${path}`, {
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+        ...headers,
+      },
+      method: 'POST',
+    });
+  } catch {
+    return unavailableAstroApiResponse();
+  }
+
   const text = await upstream.text();
 
   return new Response(text, {
@@ -34,10 +41,17 @@ export async function proxyAstroApiGet(
   path: string,
   headers?: HeadersInit,
 ): Promise<Response> {
-  const upstream = await fetch(`${getAstroApiUrl()}${path}`, {
-    headers,
-    method: 'GET',
-  });
+  let upstream: globalThis.Response;
+
+  try {
+    upstream = await fetch(`${getAstroApiUrl()}${path}`, {
+      headers,
+      method: 'GET',
+    });
+  } catch {
+    return unavailableAstroApiResponse();
+  }
+
   const text = await upstream.text();
 
   return new Response(text, {
@@ -47,4 +61,14 @@ export async function proxyAstroApiGet(
     },
     status: upstream.status,
   });
+}
+
+function unavailableAstroApiResponse(): Response {
+  return Response.json(
+    {
+      detail:
+        'Predicta calculation service is not reachable right now. Please try again shortly.',
+    },
+    { status: 503 },
+  );
 }

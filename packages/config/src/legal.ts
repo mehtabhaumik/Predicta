@@ -50,6 +50,13 @@ export const LEGAL_DOCUMENTS: LegalDocument[] = [
           'If any generated response sounds absolute, threatening, or unsafe, ignore that portion and contact support so it can be reviewed.',
         ],
       },
+      {
+        heading: 'Report unsafe behavior',
+        body: [
+          'Users can report unsafe, offensive, incorrect, or confusing AI behavior through support@predicta.app. Reports should be reviewed by a human before product or prompt changes are made.',
+          'Safety reports may be used to improve guardrails, tests, prompts, and deterministic Jyotish evidence checks.',
+        ],
+      },
     ],
   },
   {

@@ -12,6 +12,7 @@ import {
   normalizeQuestion,
   setCachedAIResponse,
 } from '../cache/responseCache';
+import { getInstallDeviceId } from '../device/deviceIdentity';
 
 export async function askPridicta({
   chartContext,
@@ -59,6 +60,7 @@ export async function askPridicta({
     kundli,
     language,
     message,
+    safetyIdentifier: await getInstallDeviceId().catch(() => `mobile-${kundli.id}`),
     userPlan,
   });
 

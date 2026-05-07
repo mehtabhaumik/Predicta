@@ -7,7 +7,7 @@ import type {
 } from '@pridicta/types';
 
 const HIGH_STAKES_PATTERN =
-  /\b(health|medical|medicine|doctor|surgery|pregnancy|disease|legal|court|lawsuit|contract|police|tax|finance|financial|investment|stock|crypto|loan|debt|insurance|paisa|paise|money|nana|dhan|karz|udhar|self-harm|suicide|violence|abuse|emergency)\b/i;
+  /\b(health|medical|medicine|doctor|surgery|pregnancy|disease|legal|court|lawsuit|contract|police|tax|finance|financial|invest|investing|investment|savings|stock|crypto|loan|debt|insurance|paisa|paise|money|nana|dhan|karz|udhar|self-harm|suicide|violence|violent|abuse|emergency)\b/i;
 
 export function getConfidenceCopy(
   confidence: ConfidenceLevel,

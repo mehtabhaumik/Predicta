@@ -12,6 +12,12 @@ from .access_authority import (
     revoke_guest_pass,
     save_guest_pass,
 )
+from .safety_audit import (
+    create_safety_audit_event,
+    list_safety_audit_events,
+    review_safety_audit_event,
+)
+from .release_governance import evaluate_release_readiness
 
 from .ai import (
     AIConfigurationError,
@@ -34,10 +40,14 @@ from .models import (
     PridictaChatRequest,
     PridictaChatResponse,
     ResolvedAccessResponse,
+    ReleaseReadinessReport,
+    SafetyAuditEvent,
+    SafetyReportRequest,
+    SafetyReviewRequest,
 )
 
 app = FastAPI(
-    title="Pridicta Astrology API",
+    title="Predicta Astrology API",
     version="0.1.0",
 )
 
@@ -94,6 +104,43 @@ def extract_birth_details_endpoint(request: BirthDetailsExtractionRequest):
             status_code=500,
             detail="Birth details extraction failed. Please enter the details manually.",
         ) from exc
+
+
+@app.post("/safety/report", response_model=SafetyAuditEvent)
+def create_safety_report_endpoint(request: SafetyReportRequest):
+    return create_safety_audit_event(
+        request,
+        fallback_identifier_parts=[request.route, request.sourceSurface],
+    )
+
+
+@app.get("/safety/admin/reports", response_model=list[SafetyAuditEvent])
+def list_safety_reports_endpoint(
+    x_pridicta_admin_token: Optional[str] = Header(default=None),
+):
+    require_admin_token(x_pridicta_admin_token)
+    return list_safety_audit_events()
+
+
+@app.post("/safety/admin/reports/{event_id}/review", response_model=SafetyAuditEvent)
+def review_safety_report_endpoint(
+    event_id: str,
+    request: SafetyReviewRequest,
+    x_pridicta_admin_token: Optional[str] = Header(default=None),
+):
+    require_admin_token(x_pridicta_admin_token)
+    try:
+        return review_safety_audit_event(event_id, request)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail="Safety report not found.") from exc
+
+
+@app.get("/safety/admin/release-readiness", response_model=ReleaseReadinessReport)
+def release_readiness_endpoint(
+    x_pridicta_admin_token: Optional[str] = Header(default=None),
+):
+    require_admin_token(x_pridicta_admin_token)
+    return evaluate_release_readiness()
 
 
 @app.post("/access/resolve", response_model=ResolvedAccessResponse)

@@ -1252,6 +1252,76 @@ export type ChatSuggestedCta = {
   prompt: string;
 };
 
+export type ChatSafetyMeta = {
+  body: string;
+  categories?: string[];
+  kind: 'high-stakes' | 'blocked' | 'crisis';
+  reportHref: string;
+  reportLabel: string;
+  title: string;
+};
+
+export type SafetyReviewStatus =
+  | 'OPEN'
+  | 'IN_REVIEW'
+  | 'RESOLVED'
+  | 'DISMISSED';
+
+export type SafetyReportRequest = {
+  model?: string;
+  provider?: string;
+  reportKind?:
+    | 'USER_REPORTED'
+    | 'HIGH_STAKES'
+    | 'BLOCKED'
+    | 'LOW_CONFIDENCE'
+    | 'OUTPUT_REWRITTEN';
+  route?: string;
+  safetyCategories?: string[];
+  safetyIdentifier?: string;
+  sourceSurface?: string;
+};
+
+export type SafetyAuditEvent = {
+  createdAt: string;
+  id: string;
+  model: string;
+  provider: string;
+  reportKind: NonNullable<SafetyReportRequest['reportKind']>;
+  reviewNote?: string;
+  reviewedAt?: string;
+  reviewedBy?: string;
+  reviewStatus: SafetyReviewStatus;
+  route: string;
+  safetyCategories: string[];
+  safetyIdentifierHash: string;
+  sourceSurface: string;
+};
+
+export type SafetyReviewRequest = {
+  reviewNote?: string;
+  reviewStatus: SafetyReviewStatus;
+  reviewedBy?: string;
+};
+
+export type ReleaseReadinessCheck = {
+  details: string;
+  name: string;
+  status: 'PASS' | 'FAIL';
+};
+
+export type ReleaseReadinessReport = {
+  approvedModelPins: Record<string, string>;
+  blockers: string[];
+  checks: ReleaseReadinessCheck[];
+  generatedAt: string;
+  launchCriteria: string[];
+  releaseStatus: 'READY' | 'BLOCKED';
+  requiredCommands: string[];
+  rollbackSteps: string[];
+  safetySLOs: Record<string, string>;
+};
+
 export type ChatChartBlock = {
   type: 'chart';
   chartType: ChartType;
@@ -1275,6 +1345,7 @@ export type ChatMessage = {
   createdAt: string;
   context?: ChartContext;
   blocks?: ChatMessageBlock[];
+  safety?: ChatSafetyMeta;
   suggestions?: ChatSuggestedCta[];
 };
 
@@ -1379,6 +1450,7 @@ export type PridictaChatRequest = {
   userPlan: UserPlan;
   deepAnalysis?: boolean;
   language?: SupportedLanguage;
+  safetyIdentifier?: string;
 };
 
 export type PridictaChatResponse = {
@@ -1389,6 +1461,8 @@ export type PridictaChatResponse = {
   intent?: AIIntent;
   usedDeepModel?: boolean;
   jyotishAnalysis?: JyotishAnalysis;
+  safetyBlocked?: boolean;
+  safetyCategories?: string[];
 };
 
 export type AIContextPayload = {

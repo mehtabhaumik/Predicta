@@ -2,6 +2,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { AuthDialog } from './AuthDialog';
 
+const primaryLinks = [
+  { href: '/#intelligence', label: 'Intelligence' },
+  { href: '/#reports', label: 'Reports' },
+  { href: '/safety', label: 'Safety' },
+  { href: '/founder', label: 'Founder' },
+  { href: '/pricing', label: 'Pricing' },
+  { href: '/legal', label: 'Legal' },
+];
+
 export function WebHeader(): React.JSX.Element {
   return (
     <header className="web-header">
@@ -20,10 +29,11 @@ export function WebHeader(): React.JSX.Element {
         </span>
       </Link>
       <nav aria-label="Primary navigation" className="header-nav">
-        <Link href="#intelligence">Intelligence</Link>
-        <Link href="#reports">Reports</Link>
-        <Link href="/pricing">Pricing</Link>
-        <Link href="/legal">Legal</Link>
+        {primaryLinks.map(link => (
+          <Link href={link.href} key={link.href}>
+            {link.label}
+          </Link>
+        ))}
       </nav>
       <div className="header-actions">
         <AuthDialog />
@@ -31,6 +41,28 @@ export function WebHeader(): React.JSX.Element {
           Open Dashboard
         </Link>
       </div>
+      <details className="mobile-menu">
+        <summary aria-label="Open navigation menu">
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+        </summary>
+        <div className="mobile-menu-panel">
+          <nav aria-label="Mobile navigation">
+            {primaryLinks.map(link => (
+              <Link href={link.href} key={link.href}>
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+          <div className="mobile-menu-actions">
+            <AuthDialog />
+            <Link className="button secondary" href="/dashboard">
+              Open Dashboard
+            </Link>
+          </div>
+        </div>
+      </details>
     </header>
   );
 }

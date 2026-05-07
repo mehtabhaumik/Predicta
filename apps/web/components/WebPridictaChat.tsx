@@ -37,6 +37,10 @@ import {
 } from '@pridicta/config/predictaUx';
 import { formatAskWithProof } from '@pridicta/config/proof';
 import {
+  detectChatSafetyMeta,
+  getCrisisSupportReply,
+} from '@pridicta/config/safetyUx';
+import {
   getSafetyBoundaryCopy,
   hasHighStakesLanguage,
 } from '@pridicta/config/trust';
@@ -45,6 +49,7 @@ import type {
   ChartContext,
   ChatChartBlock,
   ChatMessageBlock,
+  ChatSafetyMeta,
   ChatSuggestedCta,
   ChartType,
   KundliData,
@@ -55,6 +60,7 @@ import { useLanguagePreference } from '../lib/language-preference';
 import {
   askPridictaFromWeb,
   extractBirthDetailsFromWeb,
+  getWebSafetyIdentifier,
 } from '../lib/pridicta-ai';
 import {
   generateKundliFromWeb,
@@ -72,6 +78,7 @@ type WebMessage = {
   blocks?: ChatMessageBlock[];
   context?: ChartContext;
   suggestions?: ChatSuggestedCta[];
+  safety?: ChatSafetyMeta;
 };
 
 type WebChatMemory = {
@@ -94,6 +101,7 @@ export function WebPridictaChat(): React.JSX.Element {
   const searchParams = useSearchParams();
   const queryString = searchParams.toString();
   const didLoadMemory = useRef(false);
+  const responseSafetyRef = useRef<ChatSafetyMeta | undefined>(undefined);
   const threadRef = useRef<HTMLDivElement | null>(null);
   const [kundli, setKundli] = useState<KundliData | undefined>();
   const [savedKundlis, setSavedKundlis] = useState<KundliData[]>([]);
@@ -325,6 +333,27 @@ export function WebPridictaChat(): React.JSX.Element {
         return;
       }
 
+      const localSafety = detectChatSafetyMeta(
+        text,
+        languageContext.responseLanguage,
+      );
+      if (localSafety?.kind === 'crisis') {
+        setMessages(current => [
+          ...current,
+          createPridictaReply(
+            getCrisisSupportReply(languageContext.responseLanguage),
+            languageContext.responseLanguage,
+            {
+              context: activeChartContext,
+              kundli,
+              lastText: text,
+              safety: localSafety,
+            },
+          ),
+        ]);
+        return;
+      }
+
       const chartReply = resolveChatChartReply(
         text,
         languageContext.responseLanguage,
@@ -335,6 +364,7 @@ export function WebPridictaChat(): React.JSX.Element {
         return;
       }
 
+      responseSafetyRef.current = undefined;
       const summary = await resolveSmartReply(text);
       const safeSummary =
         kundli && hasHighStakesLanguage(text)
@@ -349,6 +379,9 @@ export function WebPridictaChat(): React.JSX.Element {
             context: activeChartContext,
             kundli,
             lastText: text,
+            safety:
+              responseSafetyRef.current ??
+              detectChatSafetyMeta(text, languageContext.responseLanguage),
           }),
         ]);
     } catch {
@@ -393,10 +426,17 @@ export function WebPridictaChat(): React.JSX.Element {
       message: text,
       userPlan: 'FREE',
     });
+    responseSafetyRef.current = detectChatSafetyMeta(
+      text,
+      responseLanguage,
+      response,
+    );
 
     return [
       acknowledgement,
-      formatAskWithProof(response.text, response.jyotishAnalysis),
+      response.safetyBlocked
+        ? response.text
+        : formatAskWithProof(response.text, response.jyotishAnalysis),
       buildPredictaLearningSuggestion({
         hasPremiumAccess: false,
         kundli: activeKundli,
@@ -625,6 +665,7 @@ export function WebPridictaChat(): React.JSX.Element {
             >
               <span>{message.role === 'user' ? 'You' : 'Predicta'}</span>
               <p>{message.text}</p>
+              {message.safety ? <WebChatSafetyCard safety={message.safety} /> : null}
               {message.blocks?.map(block => (
                 <WebChatMessageBlock
                   block={block}
@@ -696,6 +737,57 @@ export function WebPridictaChat(): React.JSX.Element {
           </button>
         </div>
       </div>
+    </div>
+  );
+}
+
+function WebChatSafetyCard({
+  safety,
+}: {
+  safety: ChatSafetyMeta;
+}): React.JSX.Element {
+  const [reportState, setReportState] = useState<'idle' | 'sent' | 'error'>('idle');
+
+  async function submitReport() {
+    try {
+      const response = await fetch('/api/safety/report', {
+        body: JSON.stringify({
+          reportKind: 'USER_REPORTED',
+          route: window.location.pathname,
+          safetyCategories: safety.categories ?? [safety.kind],
+          safetyIdentifier: getWebSafetyIdentifier(),
+          sourceSurface: 'web-chat',
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+      });
+
+      setReportState(response.ok ? 'sent' : 'error');
+    } catch {
+      setReportState('error');
+    }
+  }
+
+  return (
+    <div className={`chat-safety-card ${safety.kind}`}>
+      <div>
+        <strong>{safety.title}</strong>
+        <p>{safety.body}</p>
+      </div>
+      <button
+        className="chat-safety-report"
+        disabled={reportState === 'sent'}
+        onClick={() => void submitReport()}
+        type="button"
+      >
+        {reportState === 'sent'
+          ? 'Sent for review'
+          : reportState === 'error'
+            ? 'Try again'
+            : safety.reportLabel}
+      </button>
     </div>
   );
 }
@@ -837,6 +929,7 @@ function createPridictaReply(
     context?: ChartContext;
     kundli?: KundliData;
     lastText: string;
+    safety?: ChatSafetyMeta;
   },
 ): WebMessage {
   return {
@@ -849,6 +942,7 @@ function createPridictaReply(
       language,
       lastText: options.lastText,
     }),
+    safety: options.safety,
     text,
   };
 }

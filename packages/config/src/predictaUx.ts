@@ -22,7 +22,7 @@ export const PREDICTA_JOURNEY_STEPS: PredictaJourneyStep[] = [
     title: 'Step 2',
   },
   {
-    action: 'Ask Pridicta',
+    action: 'Ask Predicta',
     body: 'Ask one question at a time. Predicta answers from your chart evidence.',
     id: 'ask',
     title: 'Step 3',

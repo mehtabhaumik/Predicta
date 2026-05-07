@@ -173,6 +173,7 @@ def test_ask_pridicta_falls_back_to_gemini_when_openai_unavailable(monkeypatch):
 
 def test_ai_provider_keys_accept_predicta_secret_env_names(monkeypatch):
     captured_headers = []
+    captured_payloads = []
 
     class FakeResponse:
         status_code = 200
@@ -182,6 +183,7 @@ def test_ai_provider_keys_accept_predicta_secret_env_names(monkeypatch):
 
     def fake_post(url, **kwargs):
         captured_headers.append(kwargs["headers"])
+        captured_payloads.append(kwargs["json"])
         return FakeResponse()
 
     monkeypatch.delenv("OPENAI_API_KEY", raising=False)
@@ -194,10 +196,12 @@ def test_ai_provider_keys_accept_predicta_secret_env_names(monkeypatch):
         user_prompt="user",
         max_output_tokens=20,
         reasoning_effort="low",
+        safety_identifier="predicta_safe_id",
     )
 
     assert text == "OpenAI alias works."
     assert captured_headers[0]["Authorization"] == "Bearer predicta-openai-key"
+    assert captured_payloads[0]["safety_identifier"] == "predicta_safe_id"
 
 
 def test_gemini_key_accepts_predicta_secret_env_name(monkeypatch):
@@ -234,9 +238,9 @@ def test_ask_pridicta_marks_high_stakes_safety(monkeypatch):
     kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
 
     def fake_openai_response(**kwargs):
-        assert "High-stakes safety topic: yes" in kwargs["user_prompt"]
-        assert "do not provide medical/legal/financial certainty" in kwargs["user_prompt"]
-        assert "do not diagnose, prescribe, predict certainty" in kwargs["system_prompt"]
+        assert "High-stakes area: medical" in kwargs["user_prompt"]
+        assert "High-stakes astrology topics are allowed with safeguards" in kwargs["user_prompt"]
+        assert "Do not diagnose, prescribe, guarantee outcomes" in kwargs["system_prompt"]
         return "Confidence: low\n\nChart evidence\n- Evidence is limited.\n\nSafety: consult a professional."
 
     monkeypatch.setattr(ai_module, "create_openai_text_response", fake_openai_response)
@@ -254,6 +258,78 @@ def test_ask_pridicta_marks_high_stakes_safety(monkeypatch):
 
     assert response.status_code == 200
     assert "Confidence" in response.json()["text"]
+    assert "Safety" in response.json()["text"]
+
+
+def test_ask_pridicta_answers_self_harm_intent_with_care_boundary(monkeypatch):
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+
+    def fake_openai_response(**kwargs):
+        assert "Safety categories: self-harm" in kwargs["user_prompt"]
+        assert "For self-harm intent, respond compassionately" in kwargs["user_prompt"]
+        return (
+            "I am taking this seriously. Your chart can be read for emotional pressure "
+            "and support, but this moment needs human support too.\n\n"
+            "Confidence: low\n\nChart evidence\n- Evidence is limited."
+        )
+
+    monkeypatch.setattr(ai_module, "create_openai_text_response", fake_openai_response)
+
+    client = TestClient(app)
+    response = client.post(
+        "/ask-pridicta",
+        json={
+            "message": "I want to kill myself. What does my chart say?",
+            "kundli": kundli.model_dump(mode="json"),
+            "history": [],
+            "userPlan": "FREE",
+        },
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["safetyBlocked"] is False
+    assert "self-harm" in payload["safetyCategories"]
+    assert "Care note" in payload["text"]
+
+
+def test_openai_moderation_block_is_respected(monkeypatch):
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+
+    def fake_moderation(message):
+        return {
+            "results": [
+                {
+                    "flagged": True,
+                    "categories": {
+                        "self-harm/instructions": True,
+                    },
+                }
+            ]
+        }
+
+    def fake_openai_response(**kwargs):
+        raise AssertionError("Moderation-blocked requests must not call AI.")
+
+    monkeypatch.setattr(ai_module, "moderate_text_with_openai", fake_moderation)
+    monkeypatch.setattr(ai_module, "create_openai_text_response", fake_openai_response)
+
+    client = TestClient(app)
+    response = client.post(
+        "/ask-pridicta",
+        json={
+            "message": "Tell me unsafe instructions",
+            "kundli": kundli.model_dump(mode="json"),
+            "history": [],
+            "userPlan": "FREE",
+            "safetyIdentifier": "session-123",
+        },
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["safetyBlocked"] is True
+    assert "self-harm/instructions" in payload["safetyCategories"]
 
 
 def test_jyotish_analysis_prioritizes_career_evidence():

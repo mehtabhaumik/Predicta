@@ -27,6 +27,9 @@ const footerSections = [
       { href: '/legal#refund', label: 'Refund Policy' },
       { href: '/legal#disclaimer', label: 'Disclaimer' },
       { href: '/legal#age-guidance', label: 'Age Guidance' },
+      { href: '/safety', label: 'Safety Promise' },
+      { href: '/founder', label: 'Founder Vision' },
+      { href: 'mailto:support@predicta.app?subject=Predicta%20Safety%20Report', label: 'Report an Issue' },
     ],
   },
 ];
