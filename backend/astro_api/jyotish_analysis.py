@@ -618,7 +618,7 @@ def unsupported_chart_limitation(
         return None
     chart = kundli.charts.get(chart_context.chartType)
     if chart and not chart.supported:
-        return f"{chart_context.chartType} is not verified in the calculation engine, so it should not be used as evidence."
+        return f"{chart_context.chartType} is still under careful review, so Predicta should not use it as proof yet."
     return None
 
 

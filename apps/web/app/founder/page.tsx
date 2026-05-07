@@ -54,7 +54,7 @@ const founderPrinciples = [
 const visionPoints = [
   'Respect Vedic tradition while using modern engineering to make it easier to understand.',
   'Build a calmer alternative to noisy astrology apps, with premium design and clear user control.',
-  'Keep public safety visible, tested, and enforced before release.',
+  'Keep public safety visible and protected before Predicta reaches more people.',
   'Grow across mobile and web without losing the same personal, careful product signature.',
 ];
 

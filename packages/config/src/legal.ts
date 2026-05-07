@@ -31,7 +31,7 @@ export const LEGAL_DOCUMENTS: LegalDocument[] = [
       {
         heading: 'Astrology is reflective guidance',
         body: [
-          'Predicta uses birth details, chart calculations, deterministic Jyotish rules, and AI-assisted language to generate guidance. Outputs are interpretations, not guaranteed facts or predictions.',
+          'Predicta uses birth details, chart calculations, Jyotish rules, and careful language to generate guidance. Answers are interpretations, not guaranteed facts or predictions.',
           'Do not use Predicta as the only basis for important decisions. Treat confidence labels, proof notes, and timing windows as context, not certainty.',
         ],
       },
@@ -53,8 +53,8 @@ export const LEGAL_DOCUMENTS: LegalDocument[] = [
       {
         heading: 'Report unsafe behavior',
         body: [
-          'Users can report unsafe, offensive, incorrect, or confusing AI behavior through support@predicta.app. Reports should be reviewed by a human before product or prompt changes are made.',
-          'Safety reports may be used to improve guardrails, tests, prompts, and deterministic Jyotish evidence checks.',
+          'Users can report unsafe, offensive, incorrect, or confusing answers through support@predicta.app. Serious reports should be looked at by a human.',
+          'Safety reports may be used to make Predicta calmer, clearer, and more responsible.',
         ],
       },
     ],
@@ -129,8 +129,8 @@ export const LEGAL_DOCUMENTS: LegalDocument[] = [
       {
         heading: 'AI and astrology outputs',
         body: [
-          'AI outputs may be incomplete, inaccurate, or unsuitable for a particular situation. Users should verify important information independently.',
-          'Predicta may update models, calculations, features, prices, limits, and policy text over time.',
+          'Predicta answers may be incomplete, inaccurate, or unsuitable for a particular situation. Users should verify important information independently.',
+          'Predicta may update calculations, features, prices, limits, and policy text over time.',
         ],
       },
       {
@@ -167,7 +167,7 @@ export const LEGAL_DOCUMENTS: LegalDocument[] = [
         heading: 'One-time purchases',
         body: [
           'Day Passes, Premium PDFs, report bundles, compatibility reports, and other one-time digital purchases are generally non-refundable after access is delivered or the report is generated, unless required by law or the purchase failed technically.',
-          'If a paid report cannot be generated because of a Predicta system error, the user should receive a retry, credit, or refund review.',
+          'If a paid report cannot be generated because of a Predicta issue, the user should receive a retry, credit, or refund review.',
         ],
       },
       {

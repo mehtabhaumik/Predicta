@@ -609,7 +609,7 @@ def build_chart(chart_type: str, planets: List[PlanetPosition], asc_longitude: f
             "housePlacements": {house: [] for house in range(1, 13)},
             "planetDistribution": [],
             "supported": False,
-            "unsupportedReason": "This divisional chart formula is intentionally not enabled until it is verified.",
+            "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance.",
         }
 
     asc_sign = varga_sign(chart_type, asc_longitude)

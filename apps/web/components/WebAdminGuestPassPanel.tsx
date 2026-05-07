@@ -16,6 +16,12 @@ const passTypes: PassCodeType[] = [
   'INTERNAL_TEST',
 ];
 
+const readinessCopy: Record<string, string> = {
+  'Model and prompt pins': 'Answer style is approved',
+  'Prompt safety contract': 'Safety promise is present',
+  'Red-team evals': 'Difficult-question practice passed',
+};
+
 export function WebAdminGuestPassPanel(): React.JSX.Element {
   const [token, setToken] = useState('');
   const [passes, setPasses] = useState<GuestPassCode[]>([]);
@@ -330,11 +336,11 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
 
       <div className="card glass-panel">
         <div className="card-content spacious">
-          <div className="section-title">RELEASE READINESS</div>
-          <h2>Launch gate.</h2>
+          <div className="section-title">PUBLIC SAFETY</div>
+          <h2>Ready to share.</h2>
           <p>
-            Confirm safety evals, approved model pins, launch criteria, and
-            rollback steps before public release.
+            Confirm Predicta is calm, responsible, and safe enough before it is
+            shared more widely.
           </p>
           <button
             className="button secondary"
@@ -349,7 +355,7 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
               <strong>{releaseReadiness.releaseStatus}</strong>
               {releaseReadiness.checks.map(check => (
                 <p key={check.name}>
-                  {check.status}: {check.name} · {check.details}
+                  {check.status}: {readinessCopy[check.name] ?? check.name}
                 </p>
               ))}
             </div>

@@ -27,16 +27,16 @@ const safetyCommitments = [
     body: 'Predicta is designed to avoid scary and fatalistic claims like guaranteed death, divorce, illness, bankruptcy, or disaster.',
   },
   {
-    title: 'Unsafe AI output is checked',
-    body: 'If an AI answer becomes unsafe or overconfident, the backend catches it and replaces it with safer guidance.',
+    title: 'Unsafe answers are softened',
+    body: 'If an answer sounds scary, overconfident, or careless, Predicta is designed to turn it into calmer and safer guidance.',
   },
   {
-    title: 'Tested with difficult questions',
-    body: 'Predicta is tested with intentionally difficult prompts, including mixed Hindi, Gujarati, and English, so safety does not depend on perfect typing.',
+    title: 'Prepared for difficult questions',
+    body: 'Predicta is prepared for difficult questions, mixed Hindi, Gujarati, and English, and imperfect typing, because real people do not always ask neatly.',
   },
   {
     title: 'Different astrology schools stay separate',
-    body: 'Regular Predicta, KP Predicta, and Nadi Predicta have separate safety checks so the app does not mix methods incorrectly.',
+    body: 'Regular Predicta, KP Predicta, and Nadi Predicta are kept separate so each school speaks from its own tradition.',
   },
   {
     title: 'No fake Nadi claims',
@@ -44,15 +44,15 @@ const safetyCommitments = [
   },
   {
     title: 'Users can report concerns',
-    body: 'A concerning answer can be reported from chat. Reports go into an owner review queue.',
+    body: 'If an answer feels concerning, the user can report it from chat so it can be looked at carefully.',
   },
   {
-    title: 'Private review by design',
-    body: 'The review queue does not store full chat text or exact birth details. It stores only safety labels, time, answer source, and a protected identifier.',
+    title: 'Privacy stays protected',
+    body: 'When a concern is reported, Predicta avoids keeping the full conversation or exact birth details. It keeps only the minimum information needed to look into the concern.',
   },
   {
-    title: 'Release is blocked if safety fails',
-    body: 'Before public release, Predicta must pass safety tests, model checks, and rollback rules. If safety checks fail, release is blocked.',
+    title: 'Safety comes before public sharing',
+    body: 'If a change makes Predicta less safe, it should not be shared with users until the concern is fixed.',
   },
 ];
 
@@ -61,10 +61,10 @@ const safetyChecks = [
   'Medical, legal, financial, behavior, abuse, and emergency safeguards',
   'Unsafe instructions and illegal requests',
   'Fear-based and fatalistic predictions',
-  'Hindi, Gujarati, English, and mixed-language prompts',
-  'Regular Predicta, KP Predicta, and Nadi Predicta boundaries',
-  'Owner review flow for concerning answers',
-  'Release gate before public deployment',
+  'Hindi, Gujarati, English, and mixed-language questions',
+  'Clear separation between Regular, KP, and Nadi Predicta',
+  'Easy reporting when an answer feels concerning',
+  'A clear stop before unsafe changes reach users',
 ];
 
 export default function SafetyPage(): React.JSX.Element {
@@ -95,11 +95,11 @@ export default function SafetyPage(): React.JSX.Element {
             </p>
           </div>
           <div className="safety-proof-card">
-            <span>Release gate</span>
-            <strong>Blocked if safety fails</strong>
+            <span>Public promise</span>
+            <strong>Safety comes first</strong>
             <p>
-              Future changes to AI, Jyotish, KP, or Nadi must pass safety checks
-              before deployment.
+              New Predicta guidance should stay calm, responsible, and useful
+              before it reaches users.
             </p>
           </div>
         </section>
@@ -118,12 +118,12 @@ export default function SafetyPage(): React.JSX.Element {
 
         <section className="safety-checks glass-panel">
           <div>
-            <div className="section-title">WHAT WE TEST</div>
-            <h2>Predicta is tested against risky real-world questions.</h2>
+            <div className="section-title">WHAT WE PREPARE FOR</div>
+            <h2>Predicta is prepared for risky real-world questions.</h2>
             <p>
-              Safety checks include crisis prompts, high-stakes life decisions,
-              mixed-language messages, school-boundary confusion, and unsafe AI
-              outputs.
+              Predicta is prepared for crisis language, serious life decisions,
+              mixed-language messages, confusion between astrology schools, and
+              answers that need a calmer tone.
             </p>
           </div>
           <ul>

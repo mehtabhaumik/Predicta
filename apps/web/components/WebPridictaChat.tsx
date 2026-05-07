@@ -849,7 +849,7 @@ function WebChatChartBlock({
           <h3>{block.chartName}</h3>
           <p>{block.ownerName}'s chart focus</p>
         </div>
-        <strong>{block.supported ? 'Visible' : 'Unverified'}</strong>
+        <strong>{block.supported ? 'Visible' : 'Under review'}</strong>
       </div>
 
       <div className="chat-chart-body">

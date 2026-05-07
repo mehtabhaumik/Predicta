@@ -302,17 +302,17 @@ p {
 .mobile-menu summary {
   align-items: center;
   background: rgba(255, 255, 255, 0.07);
-  border: 2px solid var(--border);
-  border-radius: 22px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  gap: 11px;
-  height: 76px;
+  gap: 5px;
+  height: 44px;
   justify-content: center;
   list-style: none;
   padding: 0;
-  width: 76px;
+  width: 44px;
 }
 
 .mobile-menu summary::-webkit-details-marker {
@@ -323,8 +323,8 @@ p {
   background: var(--text);
   border-radius: 999px;
   display: block;
-  height: 3px;
-  width: 30px;
+  height: 2px;
+  width: 18px;
 }
 
 .mobile-menu-panel {

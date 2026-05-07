@@ -471,7 +471,13 @@ function buildChartSynthesisSection(
   });
   const unsupported = chartTypes
     .filter(chartType => kundli.charts[chartType] && !kundli.charts[chartType].supported)
-    .map(chartType => `${chartType}: ${kundli.charts[chartType].unsupportedReason ?? 'not verified'}`);
+    .map(
+      chartType =>
+        `${chartType}: ${
+          kundli.charts[chartType].unsupportedReason ??
+          'Predicta is still reviewing this chart before using it for guidance.'
+        }`,
+    );
 
   return {
     body: mode === 'PREMIUM'
@@ -481,7 +487,7 @@ function buildChartSynthesisSection(
     evidence: [
       `Charts included in this report: ${chartTypes.join(', ')}.`,
       unsupported.length
-        ? `Unsupported/unverified charts are disclosed: ${unsupported.join(' ')}`
+        ? `Charts still under review: ${unsupported.join(' ')}`
         : 'All charts present in this Kundli are supported.',
     ],
     eyebrow: 'CHART SYNTHESIS',
@@ -930,9 +936,9 @@ function buildFullJyotishCoverageSection(kundli: KundliData, mode: PDFMode): Pdf
       `KP horoscope: ${hasKp ? 'included.' : 'not yet calculated.'}`,
     ],
     evidence: [
-      `Supported charts: ${supported.join(', ') || 'none'}.`,
-      `Not yet verified: ${unsupported.length ? unsupported.join(', ') : 'none'}.`,
-      'Unavailable modules are disclosed until verified calculation exists.',
+      `Ready charts: ${supported.join(', ') || 'none'}.`,
+      `Charts still under review: ${unsupported.length ? unsupported.join(', ') : 'none'}.`,
+      'Predicta clearly marks anything it is not ready to use for guidance.',
     ],
     eyebrow: 'FULL COVERAGE',
     title: 'Jyotish coverage checklist',
@@ -1019,7 +1025,10 @@ function chartSummary(kundli: KundliData, chartType: ChartType): string {
     return `${chartType}: not present in this Kundli.`;
   }
   if (!chart.supported) {
-    return `${chartType}: not interpreted because ${chart.unsupportedReason ?? 'the formula is not verified'}.`;
+    return `${chartType}: not interpreted because ${
+      chart.unsupportedReason ??
+      'Predicta is still reviewing this chart before using it for guidance'
+    }.`;
   }
 
   return `${chartType} ${chart.name}: ${chart.ascendantSign} ascendant; occupied houses ${occupiedHouses(chart)}.`;

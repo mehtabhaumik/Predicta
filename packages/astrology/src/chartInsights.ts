@@ -70,13 +70,13 @@ export function composeChartInsight({
   if (!chart.supported) {
     return {
       bullets: [
-        'Predicta shows this chart in the vault, but does not pretend the formula is verified yet.',
-        'Use verified charts for prediction until this varga is enabled.',
+        'Predicta shows this chart, but keeps deep guidance paused until it is reviewed carefully.',
+        'Use the ready charts for prediction until this chart is cleared for guidance.',
       ],
-      eyebrow: 'Formula not verified',
+      eyebrow: 'Under review',
       summary:
         chart.unsupportedReason ??
-        'This divisional chart is listed, but the calculation engine has not enabled a verified formula yet.',
+        'This divisional chart is listed, but Predicta is still reviewing it before using it for guidance.',
       title: config.name,
     };
   }

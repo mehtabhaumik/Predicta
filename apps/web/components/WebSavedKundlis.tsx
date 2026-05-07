@@ -85,13 +85,12 @@ function FamilyVaultCard(): React.JSX.Element {
     <Card>
       <div className="card-content spacious">
         <div className="section-title">FAMILY VAULT</div>
-        <h2>Shared household access is planned here.</h2>
+        <h2>Keep family Kundlis together.</h2>
         <p>
-          Premium Family Vault should let an account owner store multiple
-          Kundlis, invite family members, and decide who can chat with which
-          profile.
+          Premium Family Vault lets one household store multiple Kundlis, keep
+          each profile clear, and choose who can chat with which chart.
         </p>
-        <StatusPill label="Invite permissions next" tone="quiet" />
+        <StatusPill label="Family access" tone="quiet" />
       </div>
     </Card>
   );

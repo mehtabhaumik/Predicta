@@ -14,7 +14,7 @@ export function WebRedeemPassForm(): React.JSX.Element {
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState<RedemptionStatus>({
     tone: 'idle',
-    text: 'Backend authority checks the code, redemption count, expiry, and device limit.',
+    text: 'Secure pass checks the code, redemption count, expiry, and device limit.',
   });
   const [deviceId, setDeviceId] = useState('');
   const [userId, setUserId] = useState('');
@@ -69,7 +69,7 @@ export function WebRedeemPassForm(): React.JSX.Element {
     } catch {
       setStatus({
         tone: 'error',
-        text: 'Backend pass authority is not reachable. Please try again later.',
+        text: 'Secure pass check is not reachable. Please try again later.',
       });
     } finally {
       setBusy(false);
