@@ -282,6 +282,13 @@ def enforce_high_stakes_boundary(
         return text
 
     if "self-harm" in assessment.categories:
+        lead = {
+            "hi": "Main aapka dard sun rahi hoon. Aap is waqt akela feel kar sakte hain, lekin is moment mein turant kisi trusted person ko message/call kijiye. Agar danger active hai, local emergency help ya crisis helpline se abhi contact kijiye.",
+            "gu": "Hu tamaro dard sambhli rahi chhu. Tame aa moment ma ekla feel karta hovo, pan have turant koi trusted person ne message/call karo. Jo danger active hoy, local emergency help athva crisis helpline ne have contact karo.",
+        }.get(
+            language,
+            "I hear your pain. You may feel alone right now, but please contact a trusted person immediately. If there is active danger, contact local emergency help or a crisis hotline now.",
+        )
         note = {
             "hi": "Care note: Main chart ko emotional pressure aur support ke lens se dekh sakti hoon, lekin agar khud ko nuksan pahunchane ka urge active hai to abhi kisi trusted person, local emergency service, ya crisis helpline se contact kijiye. Jyotish guidance ko support samjhein, crisis care ka replacement nahi.",
             "gu": "Care note: Hu chart ne emotional pressure ane support na lens thi joi shaku chhu, pan jo potane nuksan karva no urge active hoy to have trusted person, local emergency service, athva crisis helpline ne contact karo. Jyotish guidance support chhe, crisis care no replacement nathi.",
@@ -289,6 +296,8 @@ def enforce_high_stakes_boundary(
             language,
             "Care note: I can read the chart through emotional pressure and support, but if the urge to hurt yourself is active, contact a trusted person, local emergency services, or a crisis hotline now. Jyotish guidance is support, not a replacement for crisis care.",
         )
+        if not re.search(r"\b(I hear your pain|aapka dard|tamaro dard)\b", text, re.I):
+            text = f"{lead}\n\n{text.strip()}"
         if re.search(r"\bCare note:", text, re.I):
             return text
     else:
