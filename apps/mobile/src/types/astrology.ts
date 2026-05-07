@@ -133,6 +133,98 @@ export type ChartData = {
   unsupportedReason?: string;
 };
 
+export type BhavChalitCusp = {
+  house: number;
+  longitude: number;
+  sign: string;
+  degree: number;
+  signLord: string;
+};
+
+export type BhavChalitPlanetPlacement = {
+  planet: string;
+  rashiHouse: number;
+  bhavHouse: number;
+  rashiSign: string;
+  bhavCuspSign: string;
+  shifted: boolean;
+  shiftDirection: 'previous' | 'same' | 'next' | 'other';
+  absoluteLongitude: number;
+};
+
+export type BhavChalitData = {
+  status: 'ready' | 'pending';
+  houseSystem: 'PLACIDUS';
+  ayanamsa: 'LAHIRI';
+  description: string;
+  cusps: BhavChalitCusp[];
+  planetPlacements: BhavChalitPlanetPlacement[];
+  shifts: BhavChalitPlanetPlacement[];
+  limitations: string[];
+};
+
+export type KPLordChain = {
+  signLord: string;
+  starLord: string;
+  subLord: string;
+  subSubLord: string;
+  nakshatra: string;
+};
+
+export type KPCusp = {
+  house: number;
+  longitude: number;
+  sign: string;
+  degree: number;
+  lordChain: KPLordChain;
+};
+
+export type KPPlanet = {
+  planet: string;
+  longitude: number;
+  sign: string;
+  degree: number;
+  house: number;
+  retrograde: boolean;
+  lordChain: KPLordChain;
+};
+
+export type KPSignificator = {
+  planet: string;
+  occupiedHouse?: number;
+  ownedHouses: number[];
+  starLordHouses: number[];
+  subLordHouses: number[];
+  signifiesHouses: number[];
+  strength: 'A' | 'B' | 'C' | 'D';
+  simpleMeaning: string;
+};
+
+export type KPRulingPlanets = {
+  dayLord: string;
+  moonSignLord: string;
+  moonStarLord: string;
+  moonSubLord: string;
+  lagnaSignLord: string;
+  lagnaStarLord: string;
+  lagnaSubLord: string;
+};
+
+export type KPSystemData = {
+  status: 'ready' | 'foundation' | 'pending';
+  method: 'KRISHNAMURTI_PADDHATI';
+  title: string;
+  description: string;
+  ayanamsa: 'KRISHNAMURTI';
+  houseSystem: 'PLACIDUS';
+  cusps: KPCusp[];
+  planets: KPPlanet[];
+  significators: KPSignificator[];
+  rulingPlanets: KPRulingPlanets;
+  horaryNote: string;
+  limitations: string[];
+};
+
 export type VimshottariDashaData = {
   current: {
     mahadasha: string;
@@ -150,6 +242,476 @@ export type VimshottariDashaData = {
       endDate: string;
     }>;
   }>;
+};
+
+export type MahadashaInsightDepth = 'FREE' | 'PREMIUM';
+
+export type DashaEvidenceWeight =
+  | 'supportive'
+  | 'challenging'
+  | 'mixed'
+  | 'neutral';
+
+export type DashaEvidenceItem = {
+  id: string;
+  title: string;
+  observation: string;
+  interpretation: string;
+  weight: DashaEvidenceWeight;
+};
+
+export type DashaWindowInsight = {
+  id: string;
+  title: string;
+  startDate: string;
+  endDate: string;
+  status: 'past' | 'current' | 'upcoming' | 'later';
+  theme: string;
+  timing: string;
+  focusAreas: string[];
+  practicalGuidance: string;
+  evidence: DashaEvidenceItem[];
+  premiumDetail?: string;
+};
+
+export type MahadashaCurrentInsight = {
+  mahadasha: string;
+  antardasha: string;
+  startDate: string;
+  endDate: string;
+  theme: string;
+  simpleMeaning: string;
+  confidence: 'low' | 'medium' | 'high';
+  freeInsight: string;
+  premiumSynthesis?: string;
+  evidence: DashaEvidenceItem[];
+};
+
+export type MahadashaIntelligence = {
+  status: 'ready' | 'pending';
+  ownerName: string;
+  title: string;
+  subtitle: string;
+  depth: MahadashaInsightDepth;
+  current: MahadashaCurrentInsight;
+  mahadashas: DashaWindowInsight[];
+  antardashas: DashaWindowInsight[];
+  pratyantardashas: DashaWindowInsight[];
+  timingWindows: DashaWindowInsight[];
+  remedies: string[];
+  limitations: string[];
+  premiumUnlock: string;
+  ctas: Array<{
+    id: string;
+    label: string;
+    prompt: string;
+  }>;
+  askPrompt: string;
+};
+
+export type SadeSatiInsightDepth = 'FREE' | 'PREMIUM';
+
+export type SadeSatiPhase =
+  | 'not-active'
+  | 'first-phase'
+  | 'peak-phase'
+  | 'final-phase';
+
+export type SadeSatiEvidenceItem = {
+  id: string;
+  title: string;
+  observation: string;
+  interpretation: string;
+  weight: 'supportive' | 'challenging' | 'mixed' | 'neutral';
+};
+
+export type SadeSatiWindow = {
+  id: string;
+  title: string;
+  startDate: string;
+  endDate: string;
+  status: 'past' | 'current' | 'upcoming' | 'later';
+  summary: string;
+  guidance: string;
+  confidence: 'low' | 'medium' | 'high';
+};
+
+export type SadeSatiIntelligence = {
+  status: 'ready' | 'pending';
+  ownerName: string;
+  title: string;
+  subtitle: string;
+  depth: SadeSatiInsightDepth;
+  active: boolean;
+  phase: SadeSatiPhase;
+  phaseLabel: string;
+  saturnSign: string;
+  moonSign: string;
+  houseFromMoon: number;
+  houseFromLagna: number;
+  summary: string;
+  freeInsight: string;
+  premiumSynthesis?: string;
+  confidence: 'low' | 'medium' | 'high';
+  evidence: SadeSatiEvidenceItem[];
+  windows: SadeSatiWindow[];
+  remedies: string[];
+  limitations: string[];
+  premiumUnlock: string;
+  ctas: Array<{
+    id: string;
+    label: string;
+    prompt: string;
+  }>;
+  askPrompt: string;
+};
+
+export type TransitGocharInsightDepth = 'FREE' | 'PREMIUM';
+
+export type TransitGocharEvidenceItem = {
+  id: string;
+  title: string;
+  observation: string;
+  interpretation: string;
+  weight: 'supportive' | 'challenging' | 'mixed' | 'neutral';
+};
+
+export type TransitGocharPlanetInsight = {
+  id: string;
+  planet: string;
+  sign: string;
+  degree: number;
+  houseFromLagna: number;
+  houseFromMoon: number;
+  retrograde: boolean;
+  weight: 'supportive' | 'challenging' | 'mixed' | 'neutral';
+  area: JyotishArea;
+  headline: string;
+  simpleMeaning: string;
+  practicalGuidance: string;
+  evidence: TransitGocharEvidenceItem[];
+  premiumDetail?: string;
+};
+
+export type TransitGocharMonthlyCard = {
+  id: string;
+  monthLabel: string;
+  title: string;
+  summary: string;
+  focusAreas: JyotishArea[];
+  planets: string[];
+  guidance: string;
+  confidence: 'low' | 'medium' | 'high';
+};
+
+export type TransitGocharIntelligence = {
+  status: 'ready' | 'pending';
+  ownerName: string;
+  title: string;
+  subtitle: string;
+  depth: TransitGocharInsightDepth;
+  calculatedAt: string;
+  snapshotSummary: string;
+  dominantWeight: 'supportive' | 'challenging' | 'mixed' | 'neutral';
+  topOpportunities: TransitGocharPlanetInsight[];
+  cautionSignals: TransitGocharPlanetInsight[];
+  planetInsights: TransitGocharPlanetInsight[];
+  monthlyCards: TransitGocharMonthlyCard[];
+  dashaOverlay: string;
+  evidence: TransitGocharEvidenceItem[];
+  limitations: string[];
+  premiumUnlock: string;
+  ctas: Array<{
+    id: string;
+    label: string;
+    prompt: string;
+  }>;
+  askPrompt: string;
+};
+
+export type YearlyHoroscopeInsightDepth = 'FREE' | 'PREMIUM';
+
+export type YearlyHoroscopeEvidenceItem = {
+  id: string;
+  title: string;
+  observation: string;
+  interpretation: string;
+  weight: 'supportive' | 'challenging' | 'mixed' | 'neutral';
+};
+
+export type YearlyHoroscopeMonthCard = {
+  id: string;
+  monthLabel: string;
+  title: string;
+  summary: string;
+  focusAreas: JyotishArea[];
+  guidance: string;
+  confidence: 'low' | 'medium' | 'high';
+};
+
+export type YearlyHoroscopeData = {
+  status: 'ready' | 'foundation' | 'pending';
+  method: 'TAJIKA_SOLAR_RETURN_FOUNDATION';
+  yearLabel: string;
+  solarYearStart: string;
+  solarYearEnd: string;
+  solarReturnUtc: string;
+  varshaLagna: string;
+  munthaSign: string;
+  munthaHouse: number;
+  munthaLord: string;
+  yearAge: number;
+  planets: PlanetPosition[];
+  limitations: string[];
+};
+
+export type YearlyHoroscopeVarshaphal = {
+  status: 'ready' | 'pending';
+  ownerName: string;
+  title: string;
+  subtitle: string;
+  depth: YearlyHoroscopeInsightDepth;
+  yearLabel: string;
+  solarYearStart: string;
+  solarYearEnd: string;
+  solarReturnUtc?: string;
+  varshaLagna: string;
+  munthaSign: string;
+  munthaHouse: number;
+  munthaLord: string;
+  yearTheme: string;
+  freeInsight: string;
+  premiumSynthesis?: string;
+  focusAreas: JyotishArea[];
+  supportSignals: YearlyHoroscopeEvidenceItem[];
+  cautionSignals: YearlyHoroscopeEvidenceItem[];
+  monthlyCards: YearlyHoroscopeMonthCard[];
+  evidence: YearlyHoroscopeEvidenceItem[];
+  dashaOverlay: string;
+  gocharOverlay: string;
+  limitations: string[];
+  premiumUnlock: string;
+  ctas: Array<{
+    id: string;
+    label: string;
+    prompt: string;
+  }>;
+  askPrompt: string;
+};
+
+export type AdvancedJyotishInsightDepth = 'FREE' | 'PREMIUM';
+
+export type AdvancedJyotishModuleId =
+  | 'yoga-dosha'
+  | 'nakshatra'
+  | 'ashtakavarga'
+  | 'panchang-muhurta'
+  | 'compatibility'
+  | 'prashna'
+  | 'safe-remedies'
+  | 'advanced-mode';
+
+export type AdvancedJyotishModulePolicy = {
+  id: AdvancedJyotishModuleId;
+  title: string;
+  simpleName: string;
+  freeAccess: string;
+  premiumDepth: string;
+  premiumOnly?: boolean;
+};
+
+export type AdvancedJyotishEvidenceItem = {
+  id: string;
+  title: string;
+  observation: string;
+  interpretation: string;
+  weight: 'supportive' | 'challenging' | 'mixed' | 'neutral';
+};
+
+export type AdvancedYogaDoshaInsight = {
+  id: string;
+  name: string;
+  kind: 'yoga' | 'care-pattern';
+  strength: 'mild' | 'moderate' | 'strong';
+  status: 'active' | 'softened' | 'needs-review';
+  summary: string;
+  cancellationFactors: string[];
+  evidence: AdvancedJyotishEvidenceItem[];
+};
+
+export type AdvancedNakshatraInsight = {
+  moonNakshatra: string;
+  pada: number;
+  lord: string;
+  theme: string;
+  simpleInsight: string;
+  premiumSynthesis?: string;
+  evidence: AdvancedJyotishEvidenceItem[];
+};
+
+export type AdvancedAshtakavargaHouse = {
+  house: number;
+  score: number;
+  tone: 'supportive' | 'steady' | 'careful';
+  theme: string;
+  guidance: string;
+};
+
+export type AdvancedPanchangMuhurta = {
+  date: string;
+  weekday: string;
+  tithi: string;
+  moonNakshatra: string;
+  favorableWindows: string[];
+  avoidFor: string[];
+  simpleGuidance: string;
+  evidence: AdvancedJyotishEvidenceItem[];
+};
+
+export type AdvancedCompatibilityModel = {
+  status: 'single-chart' | 'ready';
+  summary: string;
+  evidenceModel: string[];
+  requiredSecondProfile: boolean;
+};
+
+export type AdvancedPrashnaPlan = {
+  status: 'planned' | 'ready';
+  summary: string;
+  requiredInputs: string[];
+  guardrails: string[];
+};
+
+export type AdvancedJyotishCoverage = {
+  status: 'ready' | 'pending';
+  ownerName: string;
+  title: string;
+  subtitle: string;
+  depth: AdvancedJyotishInsightDepth;
+  moduleRegistry: AdvancedJyotishModulePolicy[];
+  freePolicy: string;
+  premiumPolicy: string;
+  yogaDoshaInsights: AdvancedYogaDoshaInsight[];
+  nakshatraInsight: AdvancedNakshatraInsight;
+  ashtakavargaDetail: AdvancedAshtakavargaHouse[];
+  panchangMuhurta: AdvancedPanchangMuhurta;
+  compatibility: AdvancedCompatibilityModel;
+  prashna: AdvancedPrashnaPlan;
+  advancedModeTables: Array<{
+    id: string;
+    title: string;
+    summary: string;
+    rows: Array<{
+      label: string;
+      value: string;
+      note: string;
+    }>;
+  }>;
+  safeRemedies: string[];
+  limitations: string[];
+  premiumUnlock: string;
+  ctas: Array<{
+    id: string;
+    label: string;
+    prompt: string;
+  }>;
+  askPrompt: string;
+};
+
+export type NadiJyotishInsightDepth = 'FREE' | 'PREMIUM';
+
+export type NadiJyotishPattern = {
+  id: string;
+  title: string;
+  planets: string[];
+  relation:
+    | 'same-sign'
+    | 'trine-link'
+    | 'opposition-link'
+    | 'sequence-link'
+    | 'karaka-link'
+    | 'rahu-ketu-axis';
+  observation: string;
+  meaning: string;
+  lifeAreas: JyotishArea[];
+  weight: 'supportive' | 'challenging' | 'mixed' | 'neutral';
+  confidence: 'low' | 'medium' | 'high';
+  freeInsight: string;
+  premiumDetail?: string;
+  evidence: string[];
+};
+
+export type NadiJyotishActivation = {
+  id: string;
+  title: string;
+  trigger: string;
+  timing: string;
+  observation: string;
+  guidance: string;
+  premiumDetail?: string;
+};
+
+export type NadiJyotishPremiumPlan = {
+  status: 'ready' | 'pending';
+  ownerName: string;
+  title: string;
+  subtitle: string;
+  depth: NadiJyotishInsightDepth;
+  premiumOnly: true;
+  schoolBoundary: string;
+  methodSummary: string;
+  handoffQuestion?: string;
+  freePreview: string;
+  premiumSynthesis?: string;
+  patterns: NadiJyotishPattern[];
+  activations: NadiJyotishActivation[];
+  validationQuestions: string[];
+  guardrails: string[];
+  limitations: string[];
+  premiumUnlock: string;
+  ctas: Array<{
+    id: string;
+    label: string;
+    prompt: string;
+  }>;
+  askPrompt: string;
+};
+
+export type ChalitBhavKpInsightDepth = 'FREE' | 'PREMIUM';
+
+export type ChalitBhavKpFoundation = {
+  status: 'ready' | 'partial' | 'pending';
+  ownerName: string;
+  depth: ChalitBhavKpInsightDepth;
+  bhavChalit: {
+    title: string;
+    subtitle: string;
+    freeInsight: string;
+    premiumSynthesis?: string;
+    shifts: BhavChalitPlanetPlacement[];
+    cusps: BhavChalitCusp[];
+    evidence: string[];
+    limitations: string[];
+  };
+  kp: {
+    title: string;
+    subtitle: string;
+    freeInsight: string;
+    premiumSynthesis?: string;
+    cusps: KPCusp[];
+    planets: KPPlanet[];
+    significators: KPSignificator[];
+    rulingPlanets?: KPRulingPlanets;
+    evidence: string[];
+    limitations: string[];
+  };
+  premiumUnlock: string;
+  ctas: Array<{
+    id: string;
+    label: string;
+    prompt: string;
+  }>;
+  askPrompt: string;
 };
 
 export type AshtakavargaData = {
@@ -619,6 +1181,9 @@ export type KundliData = {
   planets: PlanetPosition[];
   houses: HouseData[];
   charts: Record<ChartType, ChartData>;
+  bhavChalit?: BhavChalitData;
+  kp?: KPSystemData;
+  yearlyHoroscope?: YearlyHoroscopeData;
   dasha: VimshottariDashaData;
   ashtakavarga: AshtakavargaData;
   yogas: YogaInsight[];
@@ -632,6 +1197,10 @@ export type KundliData = {
 export type ChartContext = {
   chartType?: ChartType;
   chartName?: string;
+  handoffBirthSummary?: string;
+  handoffFrom?: PredictaSchool;
+  handoffQuestion?: string;
+  predictaSchool?: PredictaSchool;
   purpose?: string;
   selectedPlanet?: string;
   selectedHouse?: number;
@@ -658,6 +1227,8 @@ export type ChartContext = {
 
 export type ChatRole = 'user' | 'pridicta';
 
+export type PredictaSchool = 'PARASHARI' | 'KP' | 'NADI';
+
 export type ChatChartInsight = {
   title: string;
   eyebrow: string;
@@ -673,8 +1244,11 @@ export type ChatChartCta = {
 };
 
 export type ChatSuggestedCta = {
+  context?: ChartContext;
+  href?: string;
   id: string;
   label: string;
+  targetScreen?: string;
   prompt: string;
 };
 
@@ -809,7 +1383,7 @@ export type PridictaChatRequest = {
 
 export type PridictaChatResponse = {
   text: string;
-  provider: 'openai' | 'gemini' | 'cache';
+  provider: 'openai' | 'gemini' | 'cache' | 'deterministic';
   model: string;
   cached?: boolean;
   intent?: AIIntent;
@@ -888,6 +1462,128 @@ export type AIContextPayload = {
   };
   currentDasha: KundliData['dasha']['current'];
   dashaTimeline: KundliData['dasha']['timeline'];
+  mahadashaIntelligence?: Pick<
+    MahadashaIntelligence,
+    | 'title'
+    | 'subtitle'
+    | 'depth'
+    | 'current'
+    | 'timingWindows'
+    | 'remedies'
+    | 'limitations'
+    | 'premiumUnlock'
+  >;
+  sadeSatiIntelligence?: Pick<
+    SadeSatiIntelligence,
+    | 'title'
+    | 'subtitle'
+    | 'depth'
+    | 'active'
+    | 'phase'
+    | 'phaseLabel'
+    | 'saturnSign'
+    | 'moonSign'
+    | 'houseFromMoon'
+    | 'summary'
+    | 'freeInsight'
+    | 'premiumSynthesis'
+    | 'confidence'
+    | 'evidence'
+    | 'windows'
+    | 'remedies'
+    | 'limitations'
+    | 'premiumUnlock'
+  >;
+  transitGocharIntelligence?: Pick<
+    TransitGocharIntelligence,
+    | 'title'
+    | 'subtitle'
+    | 'depth'
+    | 'calculatedAt'
+    | 'snapshotSummary'
+    | 'dominantWeight'
+    | 'topOpportunities'
+    | 'cautionSignals'
+    | 'planetInsights'
+    | 'monthlyCards'
+    | 'dashaOverlay'
+    | 'evidence'
+    | 'limitations'
+    | 'premiumUnlock'
+  >;
+  yearlyHoroscopeVarshaphal?: Pick<
+    YearlyHoroscopeVarshaphal,
+    | 'title'
+    | 'subtitle'
+    | 'depth'
+    | 'yearLabel'
+    | 'solarYearStart'
+    | 'solarYearEnd'
+    | 'solarReturnUtc'
+    | 'varshaLagna'
+    | 'munthaSign'
+    | 'munthaHouse'
+    | 'munthaLord'
+    | 'yearTheme'
+    | 'freeInsight'
+    | 'premiumSynthesis'
+    | 'focusAreas'
+    | 'supportSignals'
+    | 'cautionSignals'
+    | 'monthlyCards'
+    | 'evidence'
+    | 'dashaOverlay'
+    | 'gocharOverlay'
+    | 'limitations'
+    | 'premiumUnlock'
+  >;
+  advancedJyotishCoverage?: Pick<
+    AdvancedJyotishCoverage,
+    | 'title'
+    | 'subtitle'
+    | 'depth'
+    | 'moduleRegistry'
+    | 'freePolicy'
+    | 'premiumPolicy'
+    | 'yogaDoshaInsights'
+    | 'nakshatraInsight'
+    | 'ashtakavargaDetail'
+    | 'panchangMuhurta'
+    | 'compatibility'
+    | 'prashna'
+    | 'safeRemedies'
+    | 'limitations'
+    | 'premiumUnlock'
+  >;
+  nadiJyotishPlan?: Pick<
+    NadiJyotishPremiumPlan,
+    | 'status'
+    | 'title'
+    | 'subtitle'
+    | 'depth'
+    | 'premiumOnly'
+    | 'schoolBoundary'
+    | 'methodSummary'
+    | 'handoffQuestion'
+    | 'freePreview'
+    | 'premiumSynthesis'
+    | 'patterns'
+    | 'activations'
+    | 'validationQuestions'
+    | 'guardrails'
+    | 'limitations'
+    | 'premiumUnlock'
+  >;
+  chalitBhavKpFoundation?: Pick<
+    ChalitBhavKpFoundation,
+    | 'status'
+    | 'depth'
+    | 'bhavChalit'
+    | 'kp'
+    | 'premiumUnlock'
+    | 'ctas'
+    | 'askPrompt'
+  >;
   lifeTimeline?: TimelineEvent[];
   planets: PlanetPosition[];
   houses: HouseData[];

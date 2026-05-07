@@ -16,7 +16,7 @@ export async function askPridictaFromWeb(
   });
 
   if (!response.ok) {
-    throw new Error(await readErrorMessage(response, 'Pridicta AI failed.'));
+    throw new Error(await readErrorMessage(response, 'Predicta could not answer right now.'));
   }
 
   return (await response.json()) as PridictaChatResponse;

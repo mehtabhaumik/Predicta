@@ -9,8 +9,10 @@ export const routes = {
   DecisionOracle: 'DecisionOracle',
   FamilyKarmaMap: 'FamilyKarmaMap',
   Kundli: 'Kundli',
+  KpPredicta: 'KpPredicta',
   Legal: 'Legal',
   LifeTimeline: 'LifeTimeline',
+  NadiPredicta: 'NadiPredicta',
   PredictaWrapped: 'PredictaWrapped',
   RemedyCoach: 'RemedyCoach',
   RelationshipMirror: 'RelationshipMirror',
@@ -34,8 +36,10 @@ export type RootStackParamList = {
   [routes.DecisionOracle]: undefined;
   [routes.FamilyKarmaMap]: undefined;
   [routes.Kundli]: undefined;
+  [routes.KpPredicta]: undefined;
   [routes.Legal]: undefined;
   [routes.LifeTimeline]: undefined;
+  [routes.NadiPredicta]: undefined;
   [routes.PredictaWrapped]: undefined;
   [routes.RemedyCoach]: undefined;
   [routes.RelationshipMirror]: undefined;

@@ -157,7 +157,7 @@ export function DecisionMemoCard({
 
       {onAskMemo ? (
         <View className="mt-5">
-          <GlowButton label="Ask Pridicta to explain" onPress={onAskMemo} />
+          <GlowButton label="Ask Predicta to explain" onPress={onAskMemo} />
         </View>
       ) : null}
     </LinearGradient>

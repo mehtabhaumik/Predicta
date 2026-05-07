@@ -206,7 +206,7 @@ export function SettingsScreen({
 
       <GlowCard className="mt-6" delay={260}>
         <SettingRow
-          description="A very soft local sound plays when Pridicta finishes a response."
+          description="A very soft local sound plays when Predicta finishes a response."
           title="Reply chime"
         >
           <Switch
@@ -286,7 +286,7 @@ export function SettingsScreen({
       </GlowCard>
 
       <GlassPanel className="mt-6" delay={500}>
-        <AppText variant="subtitle">PRIDICTA</AppText>
+        <AppText variant="subtitle">PREDICTA</AppText>
         <AppText className="mt-2" tone="secondary" variant="caption">
           Create your Kundli. Understand your life. Ask better questions. Get
           beautiful reports. Guidance is for reflection only, with clear safety

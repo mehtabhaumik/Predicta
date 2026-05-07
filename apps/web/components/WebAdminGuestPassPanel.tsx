@@ -14,7 +14,7 @@ const passTypes: PassCodeType[] = [
 export function WebAdminGuestPassPanel(): React.JSX.Element {
   const [token, setToken] = useState('');
   const [passes, setPasses] = useState<GuestPassCode[]>([]);
-  const [message, setMessage] = useState('Enter the backend admin token to list or create passes.');
+  const [message, setMessage] = useState('Enter the owner access token to list or create passes.');
   const [busy, setBusy] = useState(false);
   const [draft, setDraft] = useState({
     accessLevel: 'GUEST',
@@ -34,14 +34,14 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
       const payload = await response.json();
 
       if (!response.ok) {
-        setMessage(payload.detail ?? 'Admin backend rejected the request.');
+        setMessage(payload.detail ?? 'The secure pass service rejected the request.');
         return;
       }
 
       setPasses(payload);
-      setMessage(`${payload.length} backend-managed passes loaded.`);
+      setMessage(`${payload.length} secure passes loaded.`);
     } catch {
-      setMessage('Backend admin authority is not reachable.');
+      setMessage('Secure pass service is not reachable.');
     } finally {
       setBusy(false);
     }
@@ -70,9 +70,9 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
 
       setPasses(current => [payload, ...current.filter(item => item.codeId !== payload.codeId)]);
       setDraft(current => ({ ...current, code: '', codeId: '', label: '' }));
-      setMessage(`${payload.label} created by backend authority.`);
+      setMessage(`${payload.label} created securely.`);
     } catch {
-      setMessage('Backend admin authority is not reachable.');
+      setMessage('Secure pass service is not reachable.');
     } finally {
       setBusy(false);
     }
@@ -104,7 +104,7 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
       );
       setMessage(`${payload.codeId} revoked.`);
     } catch {
-      setMessage('Backend admin authority is not reachable.');
+      setMessage('Secure pass service is not reachable.');
     } finally {
       setBusy(false);
     }
@@ -114,20 +114,21 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
     <div className="admin-guest-pass-panel">
       <div className="card glass-panel">
         <div className="card-content spacious">
-          <div className="section-title">BACKEND AUTHORITY</div>
-          <h2>Admin token</h2>
+          <div className="section-title">OWNER ACCESS</div>
+          <h2>Secure pass control</h2>
           <p>
-            Guest passes are created, listed, and revoked through the backend.
-            The browser never validates private pass rules by itself.
+            Guest passes are created, listed, and revoked through the secure
+            owner service. The browser never decides private pass rules by
+            itself.
           </p>
           <div className="field-stack">
             <label className="field-label" htmlFor="admin-token">
-              Admin token
+              Owner access token
             </label>
             <input
               id="admin-token"
               onChange={event => setToken(event.target.value)}
-              placeholder="Configured as PRIDICTA_ADMIN_API_TOKEN"
+              placeholder="Enter owner access token"
               type="password"
               value={token}
             />
@@ -201,7 +202,7 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
             onClick={createPass}
             type="button"
           >
-            Create Backend Pass
+            Create Secure Pass
           </button>
         </div>
       </div>

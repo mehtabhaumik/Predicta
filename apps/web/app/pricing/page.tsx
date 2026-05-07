@@ -96,7 +96,7 @@ export default function PricingPage(): React.JSX.Element {
           </Link>
         </section>
         <Link className="button secondary" href="/">
-          Back to Pridicta
+          Back to Predicta
         </Link>
       </main>
       <WebFooter />

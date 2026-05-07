@@ -3,7 +3,9 @@ import { Pressable, View } from 'react-native';
 
 import {
   AnimatedHeader,
+  AdvancedJyotishPanel,
   AppText,
+  BhavChalitPanel,
   GlowButton,
   GlowCard,
   KundliChart,
@@ -13,6 +15,7 @@ import {
 import {
   buildChartSelectionPrompt,
   CHART_REGISTRY,
+  composeChalitBhavKpFoundation,
   composeChartInsight,
   getChartTypesForAccess,
 } from '@pridicta/astrology';
@@ -33,6 +36,9 @@ export function ChartsScreen({
   const getResolvedAccess = useAppStore(state => state.getResolvedAccess);
   const access = getResolvedAccess();
   const chartTypes = getChartTypesForAccess(access.hasPremiumAccess);
+  const chalitKpFoundation = composeChalitBhavKpFoundation(kundli, {
+    depth: access.hasPremiumAccess ? 'PREMIUM' : 'FREE',
+  });
 
   if (!kundli) {
     return (
@@ -42,7 +48,7 @@ export function ChartsScreen({
           title="Create Kundli first"
         />
         <GlowCard className="mt-7" delay={100}>
-          <AppText variant="subtitle">No confusing sample chart here.</AppText>
+          <AppText variant="subtitle">No confusing fake chart here.</AppText>
           <AppText className="mt-2" tone="secondary">
             Create your Kundli first. Then this screen will show your North
             Indian charts. Free gives useful insight for each chart; Premium
@@ -173,6 +179,34 @@ export function ChartsScreen({
         ) : null}
       </GlowCard>
 
+      <BhavChalitPanel
+        foundation={chalitKpFoundation}
+        onAskChalit={() => {
+          setActiveChartContext({
+            selectedSection:
+              'Explain Bhav Chalit house shifts as a Parashari house refinement. Do not mix KP or Nadi.',
+            sourceScreen: 'Charts',
+          });
+          navigation.navigate(routes.Chat);
+        }}
+        onOpenKp={() => navigation.navigate(routes.KpPredicta)}
+      />
+
+      <View className="mt-5">
+        <AdvancedJyotishPanel
+          hasPremiumAccess={access.hasPremiumAccess}
+          kundli={kundli}
+          onAskPrompt={prompt => {
+            setActiveChartContext({
+              selectedSection: prompt,
+              sourceScreen: 'Advanced Jyotish',
+            });
+            navigation.navigate(routes.Chat);
+          }}
+          onCreateKundli={() => navigation.navigate(routes.Kundli)}
+        />
+      </View>
+
       <View className="mt-5">
         <GlowButton
           label={
@@ -180,7 +214,7 @@ export function ChartsScreen({
               ? `Ask about ${focus.planet} in ${safeSelectedChart}`
               : focus.house
                 ? `Ask about House ${focus.house} in ${safeSelectedChart}`
-                : `Ask Pridicta about ${safeSelectedChart}`
+                : `Ask Predicta about ${safeSelectedChart}`
           }
           onPress={askFromChart}
         />

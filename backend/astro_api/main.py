@@ -67,14 +67,14 @@ def ask_pridicta_endpoint(request: PridictaChatRequest):
     except AIConfigurationError as exc:
         raise HTTPException(
             status_code=503,
-            detail="Pridicta AI is not configured on the backend.",
+            detail="Predicta is not ready to answer right now. Please try again shortly.",
         ) from exc
     except AIProviderError as exc:
         raise HTTPException(status_code=502, detail=str(exc)) from exc
     except Exception as exc:  # pragma: no cover - protects user-facing API edge.
         raise HTTPException(
             status_code=500,
-            detail="Pridicta AI failed. Please try again with one focused question.",
+            detail="Predicta could not answer right now. Please try again with one focused question.",
         ) from exc
 
 
@@ -85,7 +85,7 @@ def extract_birth_details_endpoint(request: BirthDetailsExtractionRequest):
     except AIConfigurationError as exc:
         raise HTTPException(
             status_code=503,
-            detail="Pridicta AI extraction is not configured on the backend.",
+            detail="Predicta could not read birth details right now. Please enter the details manually.",
         ) from exc
     except AIProviderError as exc:
         raise HTTPException(status_code=502, detail=str(exc)) from exc

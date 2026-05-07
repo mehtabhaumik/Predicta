@@ -178,7 +178,7 @@ export function BirthDetailsForm({
         </GlowCard>
       ) : (
         <AppText tone="secondary">
-          Choose country, state or province, and city so Pridicta can resolve
+          Choose country, state or province, and city so Predicta can resolve
           the correct timezone internally.
         </AppText>
       )}

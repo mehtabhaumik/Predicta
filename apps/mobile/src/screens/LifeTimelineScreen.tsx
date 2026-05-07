@@ -1,8 +1,22 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import { AnimatedHeader, LifeTimelinePanel, Screen } from '../components';
-import { composeLifeTimeline } from '@pridicta/astrology';
+import {
+  AnimatedHeader,
+  LifeTimelinePanel,
+  MahadashaIntelligencePanel,
+  SadeSatiPanel,
+  Screen,
+  TransitGocharPanel,
+  YearlyHoroscopePanel,
+} from '../components';
+import {
+  composeLifeTimeline,
+  composeMahadashaIntelligence,
+  composeSadeSatiIntelligence,
+  composeTransitGocharIntelligence,
+  composeYearlyHoroscopeVarshaphal,
+} from '@pridicta/astrology';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import { useAppStore } from '../store/useAppStore';
@@ -16,6 +30,12 @@ export function LifeTimelineScreen({
     state => state.setActiveChartContext,
   );
   const presentation = composeLifeTimeline(kundli);
+  const mahadasha = composeMahadashaIntelligence(kundli, { depth: 'FREE' });
+  const sadeSati = composeSadeSatiIntelligence(kundli, { depth: 'FREE' });
+  const gochar = composeTransitGocharIntelligence(kundli, { depth: 'FREE' });
+  const yearlyHoroscope = composeYearlyHoroscopeVarshaphal(kundli, {
+    depth: 'FREE',
+  });
 
   function askFromEvent(event: LifeTimelineEventView) {
     setActiveChartContext({
@@ -29,10 +49,70 @@ export function LifeTimelineScreen({
     navigation.navigate(routes.Chat);
   }
 
+  function askFromMahadasha(prompt: string) {
+    setActiveChartContext({
+      selectedSection: prompt,
+      sourceScreen: 'Mahadasha Intelligence',
+    });
+    navigation.navigate(routes.Chat);
+  }
+
+  function askFromSadeSati(prompt: string) {
+    setActiveChartContext({
+      selectedSection: prompt,
+      sourceScreen: 'Sade Sati Saturn Layer',
+    });
+    navigation.navigate(routes.Chat);
+  }
+
+  function askFromGochar(prompt: string) {
+    setActiveChartContext({
+      selectedSection: prompt,
+      sourceScreen: 'Transit Gochar Engine',
+    });
+    navigation.navigate(routes.Chat);
+  }
+
+  function askFromYearly(prompt: string) {
+    setActiveChartContext({
+      selectedSection: prompt,
+      sourceScreen: 'Yearly Horoscope',
+    });
+    navigation.navigate(routes.Chat);
+  }
+
   return (
     <Screen>
       <AnimatedHeader eyebrow="TIMING MAP" title="Life timeline" />
       <View className="mt-7">
+        <MahadashaIntelligencePanel
+          intelligence={mahadasha}
+          onAskPrompt={kundli ? askFromMahadasha : undefined}
+          onCreateKundli={() => navigation.navigate(routes.Kundli)}
+        />
+      </View>
+      <View className="mt-5">
+        <SadeSatiPanel
+          intelligence={sadeSati}
+          onAskPrompt={kundli ? askFromSadeSati : undefined}
+          onCreateKundli={() => navigation.navigate(routes.Kundli)}
+        />
+      </View>
+      <View className="mt-5">
+        <TransitGocharPanel
+          intelligence={gochar}
+          onAskPrompt={kundli ? askFromGochar : undefined}
+          onCreateKundli={() => navigation.navigate(routes.Kundli)}
+        />
+      </View>
+      <View className="mt-5">
+        <YearlyHoroscopePanel
+          intelligence={yearlyHoroscope}
+          onAskPrompt={kundli ? askFromYearly : undefined}
+          onCreateKundli={() => navigation.navigate(routes.Kundli)}
+        />
+      </View>
+      <View className="mt-5">
         <LifeTimelinePanel
           onAskEvent={kundli ? askFromEvent : undefined}
           onCreateKundli={() => navigation.navigate(routes.Kundli)}

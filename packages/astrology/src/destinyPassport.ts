@@ -19,7 +19,7 @@ export function composeDestinyPassport(kundli?: KundliData): DestinyPassport {
       lifeTheme: 'Your personal chart identity will appear here after calculation.',
       moonSign: 'Pending',
       nakshatra: 'Pending',
-      name: 'Pridicta Seeker',
+      name: 'Predicta Seeker',
       recommendedAction: 'Create your kundli from verified birth date, time, place, and timezone.',
       shareSummary: 'My Predicta Destiny Passport is waiting for a verified kundli.',
       status: 'pending',

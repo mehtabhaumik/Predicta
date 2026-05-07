@@ -15,10 +15,12 @@ import { ChartsScreen } from '../screens/ChartsScreen';
 import { DecisionOracleScreen } from '../screens/DecisionOracleScreen';
 import { FamilyKarmaMapScreen } from '../screens/FamilyKarmaMapScreen';
 import { HomeScreen } from '../screens/HomeScreen';
+import { KpPredictaScreen } from '../screens/KpPredictaScreen';
 import { KundliScreen } from '../screens/KundliScreen';
 import { LegalScreen } from '../screens/LegalScreen';
 import { LifeTimelineScreen } from '../screens/LifeTimelineScreen';
 import { LoginScreen } from '../screens/LoginScreen';
+import { NadiPredictaScreen } from '../screens/NadiPredictaScreen';
 import { OnboardingScreen } from '../screens/OnboardingScreen';
 import { PaywallScreen } from '../screens/PaywallScreen';
 import { PredictaWrappedScreen } from '../screens/PredictaWrappedScreen';
@@ -121,6 +123,11 @@ export function RootNavigator(): React.JSX.Element {
           options={{ title: 'Kundli' }}
         />
         <Stack.Screen
+          name={routes.KpPredicta}
+          component={KpPredictaScreen}
+          options={{ title: 'KP Predicta' }}
+        />
+        <Stack.Screen
           name={routes.Legal}
           component={LegalScreen}
           options={{ title: 'Legal' }}
@@ -129,6 +136,11 @@ export function RootNavigator(): React.JSX.Element {
           name={routes.LifeTimeline}
           component={LifeTimelineScreen}
           options={{ title: 'Life Timeline' }}
+        />
+        <Stack.Screen
+          name={routes.NadiPredicta}
+          component={NadiPredictaScreen}
+          options={{ title: 'Nadi Predicta' }}
         />
         <Stack.Screen
           name={routes.PredictaWrapped}

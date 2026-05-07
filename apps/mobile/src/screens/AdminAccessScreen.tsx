@@ -25,7 +25,7 @@ export function AdminAccessScreen(): React.JSX.Element {
   const [passes, setPasses] = useState<GuestPassCode[]>([]);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState(
-    'Enter the backend admin token to list or create guest passes.',
+    'Enter the owner access token to list or create guest passes.',
   );
   const [draft, setDraft] = useState({
     accessLevel: 'GUEST' as Extract<AccessLevel, 'GUEST' | 'VIP_GUEST' | 'FULL_ACCESS'>,
@@ -41,7 +41,7 @@ export function AdminAccessScreen(): React.JSX.Element {
       onSuccess: payload => {
         const nextPasses = payload as GuestPassCode[];
         setPasses(nextPasses);
-        setMessage(`${nextPasses.length} backend-managed passes loaded.`);
+        setMessage(`${nextPasses.length} secure passes loaded.`);
       },
     });
   }
@@ -60,7 +60,7 @@ export function AdminAccessScreen(): React.JSX.Element {
           ...current.filter(item => item.codeId !== created.codeId),
         ]);
         setDraft(current => ({ ...current, code: '', codeId: '', label: '' }));
-        setMessage(`${created.label} created by backend authority.`);
+        setMessage(`${created.label} created securely.`);
       },
     });
   }
@@ -93,7 +93,7 @@ export function AdminAccessScreen(): React.JSX.Element {
     },
   ) {
     if (!token.trim()) {
-      setMessage('Enter the backend admin token first.');
+      setMessage('Enter the owner access token first.');
       return;
     }
 
@@ -110,13 +110,13 @@ export function AdminAccessScreen(): React.JSX.Element {
       const payload = await response.json();
 
       if (!response.ok) {
-        setMessage(payload.detail ?? 'Admin backend rejected the request.');
+        setMessage(payload.detail ?? 'The secure pass service rejected the request.');
         return;
       }
 
       options.onSuccess(payload);
     } catch {
-      setMessage('Backend admin authority is not reachable.');
+      setMessage('Secure pass service is not reachable.');
     } finally {
       setBusy(false);
     }
@@ -128,15 +128,15 @@ export function AdminAccessScreen(): React.JSX.Element {
 
       <View className="mt-8 gap-4">
         <GlowCard delay={100}>
-          <AppText variant="subtitle">Backend guest-pass console</AppText>
+          <AppText variant="subtitle">Secure guest-pass console</AppText>
           <AppText className="mt-2" tone="secondary">
             Create, revoke, list, and inspect guest pass codes through the same
-            backend authority used by web.
+            secure owner service used by web.
           </AppText>
           <AdminField
-            label="Admin token"
+            label="Owner access token"
             onChangeText={setToken}
-            placeholder="PRIDICTA_ADMIN_API_TOKEN"
+            placeholder="Enter owner access token"
             secureTextEntry
             value={token}
           />
@@ -168,7 +168,7 @@ export function AdminAccessScreen(): React.JSX.Element {
             onChangeText={value =>
               setDraft(current => ({ ...current, code: value }))
             }
-            placeholder="PRIDICTA-VIP-XXXX"
+            placeholder="PREDICTA-VIP-XXXX"
             value={draft.code}
           />
           <AdminField
@@ -211,7 +211,7 @@ export function AdminAccessScreen(): React.JSX.Element {
                 !draft.codeId.trim() ||
                 !draft.label.trim()
               }
-              label="Create Backend Pass"
+              label="Create Secure Pass"
               onPress={createPass}
             />
           </View>

@@ -24,19 +24,19 @@ export function HeroSection(): React.JSX.Element {
         <div className="section-title">VEDIC ASTROLOGY + AI</div>
         <h1>Your personal Vedic intelligence system</h1>
         <p>
-          Generate your kundli, explore deeper chart patterns, and ask Pridicta
+          Generate your kundli, explore deeper chart patterns, and ask Predicta
           for calm, chart-aware guidance from one spacious desktop experience.
         </p>
         <div className="hero-actions">
           <Link className="button" href="/dashboard">
-            Enter Pridicta
+            Enter Predicta
           </Link>
           <Link className="button secondary" href="#intelligence">
             Explore Intelligence
           </Link>
         </div>
       </motion.div>
-      <div className="hero-visual" aria-label="Pridicta preview">
+      <div className="hero-visual" aria-label="Predicta preview">
         <div className="chart-orbit" aria-hidden>
           {Array.from({ length: 12 }).map((_, index) => (
             <span key={index} style={{ transform: `rotate(${index * 30}deg)` }} />
@@ -54,7 +54,7 @@ export function HeroSection(): React.JSX.Element {
           eyebrow="CURRENT DASHA"
           title="Saturn / Mercury"
         >
-          Pridicta keeps guidance focused so deep readings stay calm and clear.
+          Predicta keeps guidance focused so deep readings stay calm and clear.
         </FloatingInsightCard>
       </div>
     </section>

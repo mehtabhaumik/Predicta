@@ -4,8 +4,8 @@ import type { ReactNode } from 'react';
 import { ClientServicesProvider } from '../components/ClientServicesProvider';
 
 export const metadata: Metadata = {
-  description: 'Pridicta premium Vedic astrology intelligence dashboard.',
-  title: 'Pridicta',
+  description: 'Predicta premium Vedic astrology intelligence dashboard.',
+  title: 'Predicta',
 };
 
 export default function RootLayout({

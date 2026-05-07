@@ -35,7 +35,7 @@ export async function redeemPassCodeWithFirebase(
 
   return {
     message:
-      'Guest pass redemption is checked by backend authority. Please try again when the backend is reachable.',
+      'Guest pass check is unavailable right now. Please check your internet connection and try again.',
     status: 'NETWORK_ERROR',
   };
 }
@@ -43,6 +43,8 @@ export async function redeemPassCodeWithFirebase(
 async function redeemPassCodeWithBackend(
   request: PassRedemptionRequest,
 ): Promise<PassRedemptionResult | undefined> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 1200);
   try {
     const response = await fetch(
       `${env.astrologyApiUrl.replace(/\/$/, '')}/access/guest-pass/redeem`,
@@ -50,19 +52,22 @@ async function redeemPassCodeWithBackend(
         body: JSON.stringify(request),
         headers: { 'Content-Type': 'application/json' },
         method: 'POST',
+        signal: controller.signal,
       },
     );
+    clearTimeout(timeout);
 
     if (!response.ok) {
       return {
         message:
-          'Backend guest pass authority is not available. Please try again shortly.',
+          'Guest pass check is unavailable right now. Please check your internet connection and try again.',
         status: 'NETWORK_ERROR',
       };
     }
 
     return (await response.json()) as PassRedemptionResult;
   } catch {
+    clearTimeout(timeout);
     return undefined;
   }
 }

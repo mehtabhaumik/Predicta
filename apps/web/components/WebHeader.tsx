@@ -5,7 +5,7 @@ import { AuthDialog } from './AuthDialog';
 export function WebHeader(): React.JSX.Element {
   return (
     <header className="web-header">
-      <Link aria-label="Pridicta home" className="brand-lockup" href="/">
+      <Link aria-label="Predicta home" className="brand-lockup" href="/">
         <Image
           alt=""
           className="brand-logo"
@@ -15,7 +15,7 @@ export function WebHeader(): React.JSX.Element {
           width={72}
         />
         <span>
-          <strong>PRIDICTA</strong>
+          <strong>PREDICTA</strong>
           <small>Vedic intelligence</small>
         </span>
       </Link>

@@ -53,6 +53,114 @@ class ChartData(BaseModel):
     unsupportedReason: Optional[str] = None
 
 
+class BhavChalitCusp(BaseModel):
+    house: int
+    longitude: float
+    sign: str
+    degree: float
+    signLord: str
+
+
+class BhavChalitPlanetPlacement(BaseModel):
+    planet: str
+    rashiHouse: int
+    bhavHouse: int
+    rashiSign: str
+    bhavCuspSign: str
+    shifted: bool
+    shiftDirection: Literal["previous", "same", "next", "other"]
+    absoluteLongitude: float
+
+
+class BhavChalitData(BaseModel):
+    status: Literal["ready", "pending"]
+    houseSystem: Literal["PLACIDUS"]
+    ayanamsa: Literal["LAHIRI"]
+    description: str
+    cusps: List[BhavChalitCusp]
+    planetPlacements: List[BhavChalitPlanetPlacement]
+    shifts: List[BhavChalitPlanetPlacement]
+    limitations: List[str] = Field(default_factory=list)
+
+
+class KPLordChain(BaseModel):
+    signLord: str
+    starLord: str
+    subLord: str
+    subSubLord: str
+    nakshatra: str
+
+
+class KPCusp(BaseModel):
+    house: int
+    longitude: float
+    sign: str
+    degree: float
+    lordChain: KPLordChain
+
+
+class KPPlanet(BaseModel):
+    planet: str
+    longitude: float
+    sign: str
+    degree: float
+    house: int
+    retrograde: bool
+    lordChain: KPLordChain
+
+
+class KPSignificator(BaseModel):
+    planet: str
+    occupiedHouse: Optional[int] = None
+    ownedHouses: List[int] = Field(default_factory=list)
+    starLordHouses: List[int] = Field(default_factory=list)
+    subLordHouses: List[int] = Field(default_factory=list)
+    signifiesHouses: List[int] = Field(default_factory=list)
+    strength: Literal["A", "B", "C", "D"]
+    simpleMeaning: str
+
+
+class KPRulingPlanets(BaseModel):
+    dayLord: str
+    moonSignLord: str
+    moonStarLord: str
+    moonSubLord: str
+    lagnaSignLord: str
+    lagnaStarLord: str
+    lagnaSubLord: str
+
+
+class KPSystemData(BaseModel):
+    status: Literal["ready", "foundation", "pending"]
+    method: Literal["KRISHNAMURTI_PADDHATI"]
+    title: str
+    description: str
+    ayanamsa: Literal["KRISHNAMURTI"]
+    houseSystem: Literal["PLACIDUS"]
+    cusps: List[KPCusp]
+    planets: List[KPPlanet]
+    significators: List[KPSignificator]
+    rulingPlanets: KPRulingPlanets
+    horaryNote: str
+    limitations: List[str] = Field(default_factory=list)
+
+
+class YearlyHoroscopeData(BaseModel):
+    status: Literal["ready", "foundation", "pending"]
+    method: Literal["TAJIKA_SOLAR_RETURN_FOUNDATION"]
+    yearLabel: str
+    solarYearStart: str
+    solarYearEnd: str
+    solarReturnUtc: str
+    varshaLagna: str
+    munthaSign: str
+    munthaHouse: int
+    munthaLord: str
+    yearAge: int
+    planets: List[PlanetPosition]
+    limitations: List[str] = Field(default_factory=list)
+
+
 class VimshottariCurrent(BaseModel):
     mahadasha: str
     antardasha: str
@@ -171,6 +279,9 @@ class KundliData(BaseModel):
     planets: List[PlanetPosition]
     houses: List[HouseData]
     charts: Dict[str, ChartData]
+    bhavChalit: Optional[BhavChalitData] = None
+    kp: Optional[KPSystemData] = None
+    yearlyHoroscope: Optional[YearlyHoroscopeData] = None
     dasha: VimshottariDashaData
     ashtakavarga: AshtakavargaData
     yogas: List[YogaInsight]
@@ -184,6 +295,10 @@ class KundliData(BaseModel):
 class ChartContext(BaseModel):
     chartType: Optional[str] = None
     chartName: Optional[str] = None
+    handoffBirthSummary: Optional[str] = None
+    handoffFrom: Optional[str] = None
+    handoffQuestion: Optional[str] = None
+    predictaSchool: Optional[str] = None
     purpose: Optional[str] = None
     selectedPlanet: Optional[str] = None
     selectedHouse: Optional[int] = None
@@ -362,7 +477,7 @@ class PridictaChatRequest(BaseModel):
 
 class PridictaChatResponse(BaseModel):
     text: str
-    provider: Literal["openai", "gemini"]
+    provider: Literal["openai", "gemini", "deterministic"]
     model: str
     cached: bool = False
     intent: AIIntent

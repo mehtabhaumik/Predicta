@@ -10,7 +10,16 @@ import type {
   TrustProfile,
 } from '@pridicta/types';
 import { buildTrustProfile } from '@pridicta/config/trust';
-import { composeChartInsight } from '@pridicta/astrology';
+import {
+  composeChartInsight,
+  composeChalitBhavKpFoundation,
+  composeAdvancedJyotishCoverage,
+  composeMahadashaIntelligence,
+  composeNadiJyotishPlan,
+  composeSadeSatiIntelligence,
+  composeTransitGocharIntelligence,
+  composeYearlyHoroscopeVarshaphal,
+} from '@pridicta/astrology';
 
 export type PdfSection = {
   title: string;
@@ -110,13 +119,18 @@ export function composeReportSections({
     buildExecutiveSummary(kundli, mode),
     buildBirthAndCalculationSection(kundli),
     buildChartSynthesisSection(kundli, chartTypes, mode),
+    buildBhavChalitSection(kundli, mode),
+    buildKpFoundationSection(kundli, mode),
+    buildNadiJyotishPlanSection(kundli, mode),
     buildPlanetaryStrengthSection(kundli, mode),
     buildDashaSection(kundli, mode),
     buildTimelineSection(kundli, mode),
     buildTransitSection(kundli, mode),
+    buildYearlyHoroscopeSection(kundli, mode),
     buildRectificationSection(kundli),
     buildAshtakavargaSection(kundli),
     buildYogaSection(kundli, mode),
+    buildAdvancedJyotishCoverageSection(kundli, mode),
     buildAreaSection(kundli, 'Career', ['D1', 'D10'], [10, 6, 11], ['Saturn', 'Sun', 'Mercury', 'Jupiter']),
     buildAreaSection(kundli, 'Relationship', ['D1', 'D9'], [7, 2, 11], ['Venus', 'Jupiter', 'Moon']),
     buildAreaSection(kundli, 'Wealth', ['D1', 'D2'], [2, 9, 11], ['Jupiter', 'Venus', 'Mercury']),
@@ -152,20 +166,20 @@ export function composeReportSections({
         `${kundli.lagna} Lagna | ${kundli.moonSign} Moon | ${kundli.nakshatra}`,
       ],
       subtitle: `Personal Vedic Astrology Dossier for ${kundli.birthDetails.name}`,
-      title: 'PRIDICTA',
+      title: 'PREDICTA',
     },
     dossierVersion: '2.0',
     executiveSummary: localizeExecutiveSummary(
       buildDossierExecutiveSummary(kundli, mode),
       language,
     ),
-    footer: 'Designed & Engineered by Bhaumik Mehta | Powered by deterministic Jyotish synthesis + AI | © 2026',
+    footer: 'Designed & Engineered by Bhaumik Mehta | Powered by chart-backed Jyotish synthesis + AI | © 2026',
     language,
     mode,
     sections: localizeSections(polishedSections, language),
     summary: buildOneLineSummary(kundli),
     trustProfile,
-    watermark: 'PRIDICTA',
+    watermark: 'PREDICTA',
   };
 }
 
@@ -195,12 +209,85 @@ function buildDecisionMemoSection(memo: DecisionMemo): PdfSection {
   };
 }
 
+function buildBhavChalitSection(kundli: KundliData, mode: PDFMode): PdfSection {
+  const foundation = composeChalitBhavKpFoundation(kundli, { depth: mode });
+  const bhav = foundation.bhavChalit;
+
+  return {
+    body:
+      'Bhav Chalit is included as a Parashari house-refinement layer. It changes house delivery when exact cusps move a planet into another bhav, but it does not replace the D1 Rashi chart.',
+    bullets: [
+      mode === 'PREMIUM'
+        ? bhav.premiumSynthesis ?? bhav.freeInsight
+        : bhav.freeInsight,
+      `Shifted planets included: ${bhav.shifts.length}.`,
+      `Cusps included: ${bhav.cusps.length}.`,
+      ...bhav.shifts
+        .slice(0, mode === 'PREMIUM' ? 9 : 4)
+        .map(
+          item =>
+            `${item.planet}: D1 house ${item.rashiHouse} to Bhav house ${item.bhavHouse}.`,
+        ),
+    ],
+    evidence: bhav.evidence,
+    evidenceTable: bhav.shifts.slice(0, mode === 'PREMIUM' ? 9 : 4).map(item => ({
+      confidence: 'medium',
+      factor: `${item.planet} Chalit shift`,
+      implication: `House emphasis moves toward Bhav house ${item.bhavHouse}; sign dignity remains ${item.rashiSign}.`,
+      observation: `D1 house ${item.rashiHouse} to Bhav house ${item.bhavHouse}.`,
+    })),
+    eyebrow: 'BHAV CHALIT',
+    tier: mode === 'PREMIUM' ? 'premium' : 'free',
+    title:
+      mode === 'PREMIUM'
+        ? 'Bhav Chalit cusp and house refinement'
+        : 'Bhav Chalit useful insight',
+  };
+}
+
+function buildKpFoundationSection(kundli: KundliData, mode: PDFMode): PdfSection {
+  const foundation = composeChalitBhavKpFoundation(kundli, { depth: mode });
+  const kp = foundation.kp;
+
+  return {
+    body:
+      'KP is kept as a separate Krishnamurti Paddhati section. It uses cusps, star lords, sub lords, significators, and ruling planets for event-oriented analysis. It is not blended casually with Parashari chart synthesis.',
+    bullets: [
+      mode === 'PREMIUM' ? kp.premiumSynthesis ?? kp.freeInsight : kp.freeInsight,
+      `KP cusps included: ${kp.cusps.length}.`,
+      `KP significators included: ${kp.significators.length}.`,
+      kp.rulingPlanets
+        ? `Ruling planets: day ${kp.rulingPlanets.dayLord}, Moon star ${kp.rulingPlanets.moonStarLord}, Lagna sub ${kp.rulingPlanets.lagnaSubLord}.`
+        : 'Ruling planets pending.',
+      ...kp.significators
+        .slice(0, mode === 'PREMIUM' ? 9 : 4)
+        .map(
+          item =>
+            `${item.planet}: signifies houses ${item.signifiesHouses.join(', ') || 'pending'} (${item.strength}).`,
+        ),
+    ],
+    evidence: kp.evidence,
+    evidenceTable: kp.cusps.slice(0, mode === 'PREMIUM' ? 12 : 4).map(cusp => ({
+      confidence: 'medium',
+      factor: `KP cusp ${cusp.house}`,
+      implication: `Sub lord ${cusp.lordChain.subLord} becomes important for house ${cusp.house} event judgment.`,
+      observation: `${cusp.sign} ${cusp.degree.toFixed(2)}°, star lord ${cusp.lordChain.starLord}, sub lord ${cusp.lordChain.subLord}.`,
+    })),
+    eyebrow: 'KP PREDICTA',
+    tier: mode === 'PREMIUM' ? 'premium' : 'free',
+    title:
+      mode === 'PREMIUM'
+        ? 'KP horoscope cusp and significator foundation'
+        : 'KP horoscope useful insight',
+  };
+}
+
 function composeEmptyReport(mode: PDFMode, language: SupportedLanguage): PdfComposition {
   return {
     cover: {
       metadata: ['Generate a kundli to unlock chart-derived synthesis'],
       subtitle: 'Personal Vedic Astrology Dossier',
-      title: 'PRIDICTA',
+      title: 'PREDICTA',
     },
     dossierVersion: '2.0',
     executiveSummary: localizeExecutiveSummary({
@@ -210,7 +297,7 @@ function composeEmptyReport(mode: PDFMode, language: SupportedLanguage): PdfComp
         'All available charts, dasha, transits, remedies, and confidence labels appear after calculation.',
       ],
     }, language),
-    footer: 'Designed & Engineered by Bhaumik Mehta | Powered by deterministic Jyotish synthesis + AI | © 2026',
+    footer: 'Designed & Engineered by Bhaumik Mehta | Powered by chart-backed Jyotish synthesis + AI | © 2026',
     language,
     mode,
     sections: [
@@ -225,7 +312,7 @@ function composeEmptyReport(mode: PDFMode, language: SupportedLanguage): PdfComp
         evidenceTable: [
           {
             confidence: 'low',
-            factor: 'Kundli payload',
+            factor: 'Kundli details',
             implication: 'Generate a kundli before reading dossier conclusions.',
             observation: 'No chart data is active.',
           },
@@ -242,7 +329,7 @@ function composeEmptyReport(mode: PDFMode, language: SupportedLanguage): PdfComp
       limitations: ['No kundli is active, so Predicta cannot produce chart-backed conclusions.'],
       surface: 'report',
     }),
-    watermark: 'PRIDICTA',
+    watermark: 'PREDICTA',
   };
 }
 
@@ -329,7 +416,7 @@ function buildExecutiveSummary(kundli: KundliData, mode: PDFMode): PdfSection {
       },
       {
         confidence: 'high',
-        factor: 'Timing engine',
+        factor: 'Timing layer',
         implication: 'Current period should frame decisions and report priorities.',
         observation: `${current.mahadasha}/${current.antardasha} until ${current.endDate}.`,
       },
@@ -374,7 +461,7 @@ function buildChartSynthesisSection(
   const supported = chartTypes.flatMap(chartType => {
     const chart = kundli.charts[chartType];
     if (!chart) {
-      return [`${chartType}: not present in kundli payload.`];
+      return [`${chartType}: not present in this Kundli.`];
     }
     const insight = composeChartInsight({ chart, hasPremiumAccess });
     return [
@@ -395,7 +482,7 @@ function buildChartSynthesisSection(
       `Charts included in this report: ${chartTypes.join(', ')}.`,
       unsupported.length
         ? `Unsupported/unverified charts are disclosed: ${unsupported.join(' ')}`
-        : 'All charts present in this payload are supported.',
+        : 'All charts present in this Kundli are supported.',
     ],
     eyebrow: 'CHART SYNTHESIS',
     title: mode === 'PREMIUM'
@@ -424,36 +511,56 @@ function buildPlanetaryStrengthSection(kundli: KundliData, mode: PDFMode): PdfSe
 }
 
 function buildDashaSection(kundli: KundliData, mode: PDFMode): PdfSection {
-  const current = kundli.dasha.current;
-  const maha = findPlanet(kundli, current.mahadasha);
-  const antar = findPlanet(kundli, current.antardasha);
-  const nextMaha = kundli.dasha.timeline.slice(0, mode === 'PREMIUM' ? 5 : 3);
+  const intelligence = composeMahadashaIntelligence(kundli, { depth: mode });
+  const current = intelligence.current;
+  const windows = intelligence.timingWindows.slice(
+    0,
+    mode === 'PREMIUM' ? 5 : 2,
+  );
+  const bullets =
+    mode === 'PREMIUM'
+      ? [
+          current.simpleMeaning,
+          current.premiumSynthesis ?? current.freeInsight,
+          ...intelligence.antardashas
+            .filter(item => item.status === 'current' || item.status === 'upcoming')
+            .slice(0, 5)
+            .map(item => `${item.title}: ${item.timing} - ${item.theme}`),
+          ...intelligence.pratyantardashas
+            .filter(item => item.status === 'current' || item.status === 'upcoming')
+            .slice(0, 3)
+            .map(item => `${item.title}: ${item.timing} - ${item.practicalGuidance}`),
+        ]
+      : [
+          current.simpleMeaning,
+          current.freeInsight,
+          ...intelligence.antardashas
+            .filter(item => item.status === 'current' || item.status === 'upcoming')
+            .slice(0, 2)
+            .map(item => `${item.title}: ${item.timing} - ${item.practicalGuidance}`),
+        ];
 
   return {
-    body: `${current.mahadasha}/${current.antardasha} is the active timing engine from ${current.startDate} to ${current.endDate}. The report reads the natal houses of these planets to understand where effort, pressure, and results are likely to concentrate.`,
-    bullets: [
-      maha ? `${current.mahadasha} Mahadasha lord sits in house ${maha.house} in ${maha.sign}.` : `${current.mahadasha} Mahadasha lord is not in the primary planet list.`,
-      antar ? `${current.antardasha} Antardasha lord sits in house ${antar.house} in ${antar.sign}.` : `${current.antardasha} Antardasha lord is not in the primary planet list.`,
-      ...nextMaha.map(item => `${item.mahadasha}: ${item.startDate} to ${item.endDate}`),
-    ],
+    body: `${current.mahadasha}/${current.antardasha} is the active timing chapter from ${current.startDate} to ${current.endDate}. Free reports include useful dasha insight; Premium reports expand the same chart proof into Antardasha, Pratyantardasha, remedies, and timing windows.`,
+    bullets,
     evidence: [
       `Current period: ${current.mahadasha}/${current.antardasha}`,
-      `Dasha timeline sections included: ${nextMaha.length}`,
+      `Mahadasha evidence factors included: ${current.evidence.length}`,
+      `Timing windows included: ${windows.length}`,
     ],
-    decisionWindows: [
-      {
-        confidence: maha && antar ? 'high' : 'medium',
-        evidence: [
-          maha ? `${current.mahadasha} in house ${maha.house}.` : `${current.mahadasha} natal placement unavailable.`,
-          antar ? `${current.antardasha} in house ${antar.house}.` : `${current.antardasha} natal placement unavailable.`,
-        ],
-        guidance: 'Make important choices by matching the decision topic to the active dasha lord houses.',
-        label: 'Active dasha operating window',
-        window: `${current.startDate} to ${current.endDate}`,
-      },
-    ],
+    decisionWindows: windows.map(item => ({
+      confidence: current.confidence,
+      evidence: item.evidence.slice(0, 3).map(evidence => evidence.observation),
+      guidance: item.practicalGuidance,
+      label: item.title,
+      window: item.timing,
+    })),
     eyebrow: 'TIMING',
-    title: 'Current dasha and timing emphasis',
+    tier: mode === 'PREMIUM' ? 'premium' : 'free',
+    title:
+      mode === 'PREMIUM'
+        ? 'Mahadasha intelligence and sub-period timing'
+        : 'Current dasha and useful timing insight',
   };
 }
 
@@ -464,7 +571,7 @@ function buildTimelineSection(kundli: KundliData, mode: PDFMode): PdfSection {
     body: 'The timeline joins dasha periods, important transits, rectification notes, and remedy practices into one planning view.',
     bullets: events.length
       ? events.map(event => `${event.title}: ${event.startDate}${event.endDate ? ` to ${event.endDate}` : ''} - ${event.summary}`)
-      : ['Timeline insights will appear after the backend recalculates this kundli.'],
+      : ['Timeline insights will appear after this Kundli is refreshed.'],
     evidence: [`Timeline events included: ${events.length}.`],
     decisionWindows: events.slice(0, mode === 'PREMIUM' ? 5 : 2).map(event => ({
       confidence: event.confidence,
@@ -485,16 +592,48 @@ function buildTimelineSection(kundli: KundliData, mode: PDFMode): PdfSection {
 
 function buildTransitSection(kundli: KundliData, mode: PDFMode): PdfSection {
   const transits = (kundli.transits ?? []).slice(0, mode === 'PREMIUM' ? 10 : 5);
+  const sadeSati = composeSadeSatiIntelligence(kundli, { depth: mode });
+  const gochar = composeTransitGocharIntelligence(kundli, { depth: mode });
+  const sadeSatiBullets =
+    mode === 'PREMIUM'
+      ? [
+          `${sadeSati.phaseLabel}: ${sadeSati.summary}`,
+          sadeSati.premiumSynthesis ?? sadeSati.freeInsight,
+          ...sadeSati.windows
+            .filter(item => item.status === 'current' || item.status === 'upcoming')
+            .slice(0, 3)
+            .map(
+              item =>
+                `${item.title}: ${formatPdfDate(item.startDate)} to ${formatPdfDate(item.endDate)} - ${item.guidance}`,
+            ),
+        ]
+      : [
+          `${sadeSati.phaseLabel}: ${sadeSati.freeInsight}`,
+          `Saturn from Moon: house ${sadeSati.houseFromMoon}; Saturn from Lagna: house ${sadeSati.houseFromLagna}.`,
+        ];
 
   return {
-    body: 'Transit insights compare current planetary movement from both Lagna and Moon. This separates visible events from the internal pressure or support felt by the native.',
+    body: 'Transit insights compare current planetary movement from both Lagna and Moon. Sade Sati is included here because Saturn must be read from Moon sign before turning pressure into practical guidance.',
     bullets: transits.length
-      ? transits.map(
-          transit =>
-            `${transit.planet} in ${transit.sign} house ${transit.houseFromLagna} from Lagna and ${transit.houseFromMoon} from Moon: ${transit.summary}`,
-        )
-      : ['Transit insights will appear after the backend recalculates this kundli.'],
+      ? [
+          gochar.snapshotSummary,
+          gochar.dashaOverlay,
+          ...sadeSatiBullets,
+          ...gochar.monthlyCards
+            .slice(0, mode === 'PREMIUM' ? 6 : 2)
+            .map(
+              card =>
+                `${card.monthLabel}: ${card.title} - ${card.guidance}`,
+            ),
+          ...transits.map(
+            transit =>
+              `${transit.planet} in ${transit.sign} house ${transit.houseFromLagna} from Lagna and ${transit.houseFromMoon} from Moon: ${transit.summary}`,
+          ),
+        ]
+      : ['Transit insights will appear after this Kundli is refreshed.'],
     evidence: [
+      `Gochar tone: ${gochar.dominantWeight}; current transit insights: ${gochar.planetInsights.length}.`,
+      `Sade Sati status: ${sadeSati.phaseLabel}; active: ${sadeSati.active ? 'yes' : 'no'}.`,
       transits[0]?.calculatedAt
         ? `Transits calculated at ${transits[0].calculatedAt}.`
         : 'No transit timestamp available.',
@@ -512,7 +651,54 @@ function buildTransitSection(kundli: KundliData, mode: PDFMode): PdfSection {
       window: transit.calculatedAt,
     })),
     eyebrow: 'TRANSITS',
-    title: 'Current transit weather',
+    tier: mode === 'PREMIUM' ? 'premium' : 'free',
+    title: 'Current transit weather and Sade Sati',
+  };
+}
+
+function buildYearlyHoroscopeSection(kundli: KundliData, mode: PDFMode): PdfSection {
+  const yearly = composeYearlyHoroscopeVarshaphal(kundli, { depth: mode });
+  const signalBullets = [
+    ...yearly.supportSignals.slice(0, mode === 'PREMIUM' ? 4 : 2),
+    ...yearly.cautionSignals.slice(0, mode === 'PREMIUM' ? 4 : 1),
+  ].map(signal => `${signal.title}: ${signal.interpretation}`);
+
+  return {
+    body:
+      'Yearly horoscope uses the annual solar-return map as a one-year planning layer. Predicta reads it with D1, dasha, and Gochar so the year does not become a generic sun-sign forecast.',
+    bullets: [
+      `Solar year ${yearly.yearLabel}: ${formatPdfDate(yearly.solarYearStart)} to ${formatPdfDate(yearly.solarYearEnd)}.`,
+      `Varsha Lagna: ${yearly.varshaLagna}. Muntha: house ${yearly.munthaHouse} in ${yearly.munthaSign}, ruled by ${yearly.munthaLord}.`,
+      yearly.freeInsight,
+      ...(mode === 'PREMIUM' && yearly.premiumSynthesis
+        ? [yearly.premiumSynthesis]
+        : []),
+      ...signalBullets,
+      ...yearly.monthlyCards
+        .slice(0, mode === 'PREMIUM' ? 6 : 2)
+        .map(card => `${card.monthLabel}: ${card.title} - ${card.guidance}`),
+    ],
+    decisionWindows: yearly.monthlyCards
+      .slice(0, mode === 'PREMIUM' ? 6 : 2)
+      .map(card => ({
+        confidence: card.confidence,
+        evidence: [
+          `Focus areas: ${card.focusAreas.join(', ')}.`,
+          yearly.dashaOverlay,
+        ],
+        guidance: card.guidance,
+        label: card.title,
+        window: card.monthLabel,
+      })),
+    evidence: [
+      `Varsha Lagna: ${yearly.varshaLagna}.`,
+      `Muntha: house ${yearly.munthaHouse}, sign ${yearly.munthaSign}, lord ${yearly.munthaLord}.`,
+      yearly.gocharOverlay,
+      ...yearly.limitations.slice(0, 2),
+    ],
+    eyebrow: 'YEARLY',
+    tier: mode === 'PREMIUM' ? 'premium' : 'free',
+    title: 'Yearly horoscope and Varshaphal',
   };
 }
 
@@ -524,7 +710,7 @@ function buildRectificationSection(kundli: KundliData): PdfSection {
       ? 'Birth time rectification is recommended before relying heavily on fine house timing or divisional chart micro-judgments.'
       : 'Birth time looks stable enough for standard report synthesis, while still deserving normal verification.',
     bullets: [
-      ...(rectification?.reasons ?? ['No rectification diagnostics available on this kundli payload.']),
+      ...(rectification?.reasons ?? ['No birth-time confidence details are available on this Kundli.']),
       ...(rectification?.questions ?? []).map(question => `Check: ${question}`),
       rectification?.needsRectification
         ? 'Safe: broad D1 themes and dasha chapters. Cautious: D9/D10 fine timing. Unsafe: D60 or exact event dates.'
@@ -535,7 +721,7 @@ function buildRectificationSection(kundli: KundliData): PdfSection {
           `Ascendant degree: ${rectification.ascendantDegree}.`,
           `Rectification confidence: ${rectification.confidence}.`,
         ]
-      : ['Rectification payload missing.'],
+      : ['Birth-time confidence details are not available yet.'],
     confidence: rectification?.confidence ?? 'medium',
     evidenceTable: [
       {
@@ -546,7 +732,7 @@ function buildRectificationSection(kundli: KundliData): PdfSection {
           : 'Broad D1 and core divisional synthesis can be used normally.',
         observation: rectification
           ? `Needs rectification: ${rectification.needsRectification ? 'yes' : 'no'}; ascendant degree ${rectification.ascendantDegree}.`
-          : 'Rectification payload missing.',
+          : 'Birth-time confidence details are not available yet.',
       },
     ],
     eyebrow: 'RECTIFICATION',
@@ -583,6 +769,85 @@ function buildYogaSection(kundli: KundliData, mode: PDFMode): PdfSection {
     evidence: [`Yoga patterns included: ${yogas.length}.`],
     eyebrow: 'YOGAS',
     title: 'Recognized chart patterns',
+  };
+}
+
+function buildAdvancedJyotishCoverageSection(
+  kundli: KundliData,
+  mode: PDFMode,
+): PdfSection {
+  const coverage = composeAdvancedJyotishCoverage(kundli, { depth: mode });
+  const patterns = coverage.yogaDoshaInsights
+    .slice(0, mode === 'PREMIUM' ? 8 : 4)
+    .map(item => `${item.name} (${item.strength}): ${item.summary}`);
+  const ashtaka = coverage.ashtakavargaDetail
+    .slice(0, mode === 'PREMIUM' ? 12 : 4)
+    .map(item => `House ${item.house}: ${item.score} bindus, ${item.tone} - ${item.guidance}`);
+
+  return {
+    body:
+      mode === 'PREMIUM'
+        ? 'Advanced coverage keeps every major Jyotish feature available while turning the technical layers into useful synthesis, tables, and planning guidance.'
+        : 'Advanced coverage is generous in free mode: users see the major Jyotish surfaces with simple insight, while detailed scoring and tables stay in Premium.',
+    bullets: [
+      `Modules covered: ${coverage.moduleRegistry.map(item => item.simpleName).join(', ')}.`,
+      `Nakshatra: ${coverage.nakshatraInsight.moonNakshatra} pada ${coverage.nakshatraInsight.pada}, lord ${coverage.nakshatraInsight.lord}.`,
+      coverage.nakshatraInsight.simpleInsight,
+      ...patterns,
+      ...ashtaka,
+      `Panchang/Muhurta: ${coverage.panchangMuhurta.simpleGuidance}`,
+      `Compatibility: ${coverage.compatibility.summary}`,
+      `Prashna: ${coverage.prashna.summary}`,
+      ...coverage.safeRemedies.slice(0, mode === 'PREMIUM' ? 3 : 2),
+    ],
+    evidence: [
+      coverage.freePolicy,
+      coverage.premiumPolicy,
+      ...coverage.limitations,
+    ],
+    eyebrow: 'ADVANCED',
+    tier: mode === 'PREMIUM' ? 'premium' : 'free',
+    title: 'Advanced Jyotish coverage',
+  };
+}
+
+function buildNadiJyotishPlanSection(
+  kundli: KundliData,
+  mode: PDFMode,
+): PdfSection {
+  const plan = composeNadiJyotishPlan(kundli, { depth: mode });
+  const patterns = plan.patterns
+    .slice(0, mode === 'PREMIUM' ? 8 : 3)
+    .map(pattern =>
+      mode === 'PREMIUM' && pattern.premiumDetail
+        ? `${pattern.title}: ${pattern.premiumDetail}`
+        : `${pattern.title}: ${pattern.freeInsight}`,
+    );
+  const activations = plan.activations
+    .slice(0, mode === 'PREMIUM' ? 5 : 2)
+    .map(item => `${item.title}: ${item.trigger}. ${item.guidance}`);
+
+  return {
+    body:
+      mode === 'PREMIUM'
+        ? 'Premium Nadi stays in its own reading lane: planetary story links, karaka themes, validation questions, and timing activations. It does not claim palm-leaf manuscript access.'
+        : 'Free reports include the Nadi reading room and useful preview, while full Nadi-style sequencing, validation depth, and timing activation stay Premium.',
+    bullets: [
+      plan.schoolBoundary,
+      plan.methodSummary,
+      plan.freePreview,
+      ...patterns,
+      ...activations,
+      ...plan.validationQuestions.slice(0, mode === 'PREMIUM' ? 4 : 2),
+    ],
+    evidence: [
+      ...plan.guardrails,
+      ...plan.limitations,
+      plan.premiumUnlock,
+    ],
+    eyebrow: 'NADI',
+    tier: mode === 'PREMIUM' ? 'premium' : 'free',
+    title: 'Nadi Predicta premium plan',
   };
 }
 
@@ -643,7 +908,7 @@ function buildFullJyotishCoverageSection(kundli: KundliData, mode: PDFMode): Pdf
     chartType => kundli.charts[chartType] && !kundli.charts[chartType].supported,
   );
   const dasha = kundli.dasha.current;
-  const hasSadeSati = 'sadeSati' in kundli && Boolean((kundli as Record<string, unknown>).sadeSati);
+  const sadeSati = composeSadeSatiIntelligence(kundli, { depth: mode });
   const hasChalit = 'chalit' in kundli && Boolean((kundli as Record<string, unknown>).chalit);
   const hasBhav = 'bhav' in kundli && Boolean((kundli as Record<string, unknown>).bhav);
   const hasKp = 'kp' in kundli && Boolean((kundli as Record<string, unknown>).kp);
@@ -656,17 +921,18 @@ function buildFullJyotishCoverageSection(kundli: KundliData, mode: PDFMode): Pdf
       `Available charts included: ${chartTypes.join(', ')}.`,
       `Mahadasha/Antardasha included: ${dasha.mahadasha}/${dasha.antardasha} from ${dasha.startDate} to ${dasha.endDate}.`,
       `Ashtakavarga included: total SAV ${kundli.ashtakavarga.totalScore}, strongest houses ${kundli.ashtakavarga.strongestHouses.join(', ')}.`,
-      `Transits included: ${(kundli.transits ?? []).length ? `${kundli.transits?.length} current transit records.` : 'not yet present in this payload.'}`,
-      `Yogas/doshas included: ${kundli.yogas.length ? `${kundli.yogas.length} recognized patterns.` : 'no recognized patterns in this payload.'}`,
-      `Remedies included: ${(kundli.remedies ?? []).length ? `${kundli.remedies?.length} remedy practices.` : 'not yet present in this payload.'}`,
-      `Sade Sati: ${hasSadeSati ? 'included from payload.' : 'not yet calculated in this payload.'}`,
-      `Bhav/Chalit: ${hasBhav || hasChalit ? 'included from payload.' : 'not yet calculated in this payload.'}`,
-      `KP horoscope: ${hasKp ? 'included from payload.' : 'not yet calculated in this payload.'}`,
+      `Transits included: ${(kundli.transits ?? []).length ? `${kundli.transits?.length} current transit records.` : 'not yet included.'}`,
+      `Yearly horoscope: ${kundli.yearlyHoroscope ? `${kundli.yearlyHoroscope.yearLabel} Varshaphal foundation included.` : 'not yet included.'}`,
+      `Yogas/doshas included: ${kundli.yogas.length ? `${kundli.yogas.length} recognized patterns.` : 'no recognized patterns in this Kundli.'}`,
+      `Remedies included: ${(kundli.remedies ?? []).length ? `${kundli.remedies?.length} remedy practices.` : 'not yet included.'}`,
+      `Sade Sati: derived from Saturn transit and Moon sign (${sadeSati.phaseLabel}).`,
+      `Bhav/Chalit: ${hasBhav || hasChalit ? 'included.' : 'not yet calculated.'}`,
+      `KP horoscope: ${hasKp ? 'included.' : 'not yet calculated.'}`,
     ],
     evidence: [
       `Supported charts: ${supported.join(', ') || 'none'}.`,
       `Not yet verified: ${unsupported.length ? unsupported.join(', ') : 'none'}.`,
-      'Unavailable modules are disclosed until deterministic calculation exists.',
+      'Unavailable modules are disclosed until verified calculation exists.',
     ],
     eyebrow: 'FULL COVERAGE',
     title: 'Jyotish coverage checklist',
@@ -705,7 +971,7 @@ function buildRemedySection(kundli: KundliData): PdfSection {
           remedy =>
             `${remedy.title}: ${remedy.practice} Cadence: ${remedy.cadence}. Review after 4 completions or 30 days; stop or simplify if it creates fear or avoidance.`,
         )
-      : ['Remedy insights will appear after the backend recalculates this kundli.'],
+      : ['Remedy insights will appear after this Kundli is refreshed.'],
     evidence: remedies.map(
       remedy =>
         `${remedy.id}: ${remedy.rationale} Planets ${remedy.linkedPlanets.join(', ') || 'none'}, houses ${remedy.linkedHouses.join(', ') || 'none'}. Caution: ${remedy.caution}`,
@@ -725,7 +991,7 @@ function buildLimitationsSection(kundli: KundliData, mode: PDFMode): PdfSection 
       : 'Birth time is treated as exact because it is not marked approximate.',
     unsupported.length
       ? `Unsupported vargas are disclosed, not interpreted: ${unsupported.join(', ')}.`
-      : 'All registered charts in this payload are supported.',
+      : 'All registered charts in this Kundli are supported.',
     mode === 'FREE'
       ? 'Free reports include every available chart with useful insight, while premium adds detailed synthesis and timing.'
       : 'Premium reports add depth, timing, and evidence tables but still avoid guaranteed outcomes.',
@@ -750,7 +1016,7 @@ function buildOneLineSummary(kundli: KundliData): string {
 function chartSummary(kundli: KundliData, chartType: ChartType): string {
   const chart = kundli.charts[chartType];
   if (!chart) {
-    return `${chartType}: not present in kundli payload.`;
+    return `${chartType}: not present in this Kundli.`;
   }
   if (!chart.supported) {
     return `${chartType}: not interpreted because ${chart.unsupportedReason ?? 'the formula is not verified'}.`;
@@ -786,7 +1052,7 @@ function planetaryLine(planet: PlanetPosition): string {
 function houseSummary(kundli: KundliData, houseNumber: number): string {
   const item = house(kundli, houseNumber);
   if (!item) {
-    return `House ${houseNumber}: not present in payload.`;
+    return `House ${houseNumber}: not present in this Kundli.`;
   }
 
   const sav = houseSav(kundli, item);
@@ -900,6 +1166,19 @@ function localizeExecutiveSummary(
   };
 }
 
+function formatPdfDate(value: string): string {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return date.toLocaleDateString('en-IN', {
+    month: 'short',
+    year: 'numeric',
+  });
+}
+
 function localizedPrefix(language: SupportedLanguage): string {
   if (language === 'hi') {
     return 'हिंदी मार्गदर्शन:';
@@ -943,6 +1222,10 @@ function localizeSectionTitle(title: string, language: SupportedLanguage): strin
     'Current transit weather': {
       gu: 'વર્તમાન ગોચર વાતાવરણ',
       hi: 'वर्तमान गोचर स्थिति',
+    },
+    'Current transit weather and Sade Sati': {
+      gu: 'વર્તમાન ગોચર અને સાડે સાથી',
+      hi: 'वर्तमान गोचर और साढ़े साती',
     },
     'Executive summary': {
       gu: 'મુખ્ય સારાંશ',

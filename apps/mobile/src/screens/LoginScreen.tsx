@@ -94,7 +94,7 @@ export function LoginScreen({
   return (
     <Screen>
       {glassAlert}
-      <AnimatedHeader eyebrow="ACCOUNT ACCESS" title="Sign in to Pridicta" />
+      <AnimatedHeader eyebrow="ACCOUNT ACCESS" title="Sign in to Predicta" />
 
       <GlassPanel className="mt-8" delay={100}>
         <AppText variant="subtitle">Choose how you want to continue</AppText>

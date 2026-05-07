@@ -38,7 +38,7 @@ export function getPaywallContext(action: PaywallAction): PaywallContext {
     case 'QUESTION_LIMIT_REACHED':
       return {
         message:
-          'Your chart context is saved. You can continue tomorrow, add a few questions, or unlock more Pridicta guidance today.',
+          'Your chart context is saved. You can continue tomorrow, add a few questions, or unlock more Predicta guidance today.',
         primaryCta: 'Add 5 Questions',
         secondaryCta: 'Try Tomorrow',
         suggestedProductId: 'pridicta_five_questions',
@@ -58,7 +58,7 @@ export function getPaywallContext(action: PaywallAction): PaywallContext {
     case 'ADVANCED_ANALYSIS_REQUESTED':
       return {
         message:
-          'Use a lighter reading now, or unlock deeper chart interpretation and expanded Pridicta guidance.',
+          'Use a lighter reading now, or unlock deeper chart interpretation and expanded Predicta guidance.',
         primaryCta: 'Unlock Premium',
         secondaryCta: 'Continue Free',
         title: 'Deeper analysis is available in Premium.',
@@ -75,7 +75,7 @@ export function getPaywallContext(action: PaywallAction): PaywallContext {
     case 'QUESTION_PACK_OFFER':
       return {
         message:
-          'Add a few Pridicta questions without starting a subscription.',
+          'Add a few Predicta questions without starting a subscription.',
         primaryCta: 'Add 5 Questions',
         secondaryCta: 'Continue Free',
         suggestedProductId: 'pridicta_five_questions',

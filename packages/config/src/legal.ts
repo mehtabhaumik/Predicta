@@ -92,7 +92,7 @@ export const LEGAL_DOCUMENTS: LegalDocument[] = [
       {
         heading: 'Security and retention',
         body: [
-          'Predicta uses reasonable technical and organizational safeguards, including server-side AI calls, backend guest-pass authority, hashed pass codes, and limited access controls.',
+          'Predicta uses reasonable technical and organizational safeguards, including server-side AI calls, secure guest-pass checks, hashed pass codes, and limited access controls.',
           'Data is kept only as long as needed for service, legal, security, billing, dispute, audit, or backup purposes, unless a longer retention period is required by law.',
         ],
       },

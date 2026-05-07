@@ -152,7 +152,7 @@ export const KundliChart = memo(function KundliChart({
           </View>
           {activePlanets.length ? (
             <AppText className="mt-3" tone="secondary" variant="caption">
-              Ask Pridicta from this selection to carry house and planet context
+              Ask Predicta from this selection to carry house and planet context
               into the reading.
             </AppText>
           ) : null}

@@ -153,7 +153,7 @@ function WebDecisionMemo({
           {showEvidence ? 'Hide evidence' : 'Show evidence'}
         </button>
         <Link className="button" href={buildAskHref(memo)}>
-          Ask Pridicta to explain
+          Ask Predicta to explain
         </Link>
       </div>
 

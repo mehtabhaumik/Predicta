@@ -9,6 +9,8 @@ import {
 import type { ChartType } from '@pridicta/types';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 import { Card } from './Card';
+import { WebBhavChalitPanel } from './WebBhavChalitPanel';
+import { WebAdvancedJyotishPanel } from './WebAdvancedJyotishPanel';
 import { WebKundliChart } from './WebKundliChart';
 
 export function WebChartsExplorer({
@@ -25,7 +27,7 @@ export function WebChartsExplorer({
       <Card className="glass-panel">
         <div className="card-content spacious">
           <div className="section-title">CHART NEEDS YOUR KUNDLI</div>
-          <h2>No confusing sample chart here.</h2>
+          <h2>No confusing fake chart here.</h2>
           <p>
             Create your Kundli first. Then this page will show your North
             Indian chart and explain each house in plain language.
@@ -69,6 +71,16 @@ export function WebChartsExplorer({
           />
         </div>
       </Card>
+
+      <WebBhavChalitPanel
+        hasPremiumAccess={hasPremiumAccess}
+        kundli={kundli}
+      />
+
+      <WebAdvancedJyotishPanel
+        hasPremiumAccess={hasPremiumAccess}
+        kundli={kundli}
+      />
 
       <div className="chart-list">
         {chartTypes.map(chartType => {

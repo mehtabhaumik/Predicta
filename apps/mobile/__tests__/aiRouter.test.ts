@@ -23,7 +23,7 @@ describe('aiRouter', () => {
       'gpt-5.4-mini',
     );
     expect(selectOpenAIModelForIntent({ intent, userPlan: 'PREMIUM' })).toBe(
-      'gpt-5.2',
+      'gpt-5.5',
     );
   });
 });

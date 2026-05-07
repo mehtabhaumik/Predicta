@@ -18,7 +18,7 @@ const capabilities = [
   },
   {
     body: 'Ask from a chart, report, or saved profile and keep the conversation grounded in your reading.',
-    title: 'Pridicta chat',
+    title: 'Predicta chat',
   },
   {
     body: 'Generate premium-looking reports where free and paid users both receive a polished experience.',
@@ -30,7 +30,7 @@ const intelligence = [
   'Divisional chart awareness',
   'Vimshottari dasha timing',
   'Yoga and Ashtakavarga summaries',
-  'Calm Pridicta guidance',
+  'Calm Predicta guidance',
 ];
 
 export default function LandingPage(): React.JSX.Element {
@@ -42,7 +42,7 @@ export default function LandingPage(): React.JSX.Element {
         <HeroSection />
 
         <PremiumSectionWrapper
-          eyebrow="WHAT PRIDICTA DOES"
+          eyebrow="WHAT PREDICTA DOES"
           intro="A calm product flow for creating, reading, saving, and discussing a kundli without turning the experience into a technical dashboard."
           title="A complete astrology experience with room to breathe."
           variant="wide"
@@ -60,7 +60,7 @@ export default function LandingPage(): React.JSX.Element {
         <PremiumSectionWrapper
           eyebrow="CORE INTELLIGENCE"
           id="intelligence"
-          intro="Pridicta keeps advanced Vedic depth available while explaining only what helps."
+          intro="Predicta keeps advanced Vedic depth available while explaining only what helps."
           title="Depth without noise."
           variant="split"
         >
@@ -68,7 +68,7 @@ export default function LandingPage(): React.JSX.Element {
             <div>
               <h3>Professional chart awareness, presented clearly.</h3>
               <p>
-                Pridicta understands current dasha, key placements, chart
+                Predicta understands current dasha, key placements, chart
                 sections, and follow-up questions without turning the reading
                 into jargon.
               </p>
@@ -90,7 +90,7 @@ export default function LandingPage(): React.JSX.Element {
         >
           <div className="report-preview">
             <div className="report-cover glass-panel">
-              <span>PRIDICTA DOSSIER</span>
+              <span>PREDICTA DOSSIER</span>
               <h3>Birth Details · D1 · D9 · D10 · Dasha · Guidance</h3>
               <p>
                 Free and Premium reports share the same visual quality. Premium

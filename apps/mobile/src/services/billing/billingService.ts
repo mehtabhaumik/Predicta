@@ -11,10 +11,8 @@ function getBillingProvider(): BillingProvider {
     return mockBillingProvider;
   }
 
-  // TODO: Wire Google Play Billing purchase token validation through backend.
-  // TODO: Wire Apple App Store receipt validation through backend.
   throw new Error(
-    'Billing is not configured. Enable mock billing for development or add a real billing provider.',
+    'Purchases are not available right now. Please try again later.',
   );
 }
 

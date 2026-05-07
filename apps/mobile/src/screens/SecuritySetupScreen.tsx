@@ -47,7 +47,7 @@ export function SecuritySetupScreen({
       </Card>
 
       <View className="mt-8">
-        <GradientButton label="Enter Pridicta" onPress={finishSetup} />
+        <GradientButton label="Enter Predicta" onPress={finishSetup} />
       </View>
     </Screen>
   );

@@ -40,8 +40,8 @@ export function WebFooter({
     <footer className={`web-footer ${className}`.trim()}>
       <div className="web-footer-inner">
         <div className="web-footer-brand">
-          <Link aria-label="Pridicta home" className="web-footer-logo" href="/">
-            PRIDICTA
+          <Link aria-label="Predicta home" className="web-footer-logo" href="/">
+            PREDICTA
           </Link>
           <p className="web-footer-tagline">
             Create your Kundli. Understand your life. Ask better questions. Get
@@ -68,7 +68,7 @@ export function WebFooter({
       </div>
 
       <div className="web-footer-bottom">
-        <span>© 2026 Pridicta. All rights reserved.</span>
+        <span>© 2026 Predicta. All rights reserved.</span>
         <span>
           For reflection and self-understanding only. Not medical, legal,
           financial, emergency, or guaranteed prediction advice.

@@ -21,13 +21,16 @@ describe('entitlementService', () => {
       'pridicta_day_pass_24h',
       new Date('2026-04-18T00:00:00Z'),
     );
+    const duringPass = new Date('2026-04-18T12:00:00Z');
     const passState: MonetizationState = {
       ...state,
       oneTimeEntitlements: [dayPass],
     };
 
-    expect(hasActiveDayPass(passState.oneTimeEntitlements)).toBe(true);
-    expect(hasPremiumAccess(passState)).toBe(true);
+    expect(hasActiveDayPass(passState.oneTimeEntitlements, duringPass)).toBe(
+      true,
+    );
+    expect(hasPremiumAccess(passState, duringPass)).toBe(true);
   });
 
   it('consumes question credits only when available', () => {

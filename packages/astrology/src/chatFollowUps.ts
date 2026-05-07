@@ -22,6 +22,12 @@ export function buildChatFollowUps({
   language,
   lastText,
 }: FollowUpInput): ChatSuggestedCta[] {
+  const schoolHandoff = schoolHandoffFollowUps(lastText, kundli, language);
+
+  if (schoolHandoff.length) {
+    return schoolHandoff;
+  }
+
   if (context?.chartType) {
     return chartFollowUps(context, hasPremiumAccess, language);
   }
@@ -114,6 +120,61 @@ export function buildChatFollowUps({
   );
 }
 
+export function buildPredictaSchoolHandoffContext({
+  from,
+  kundli,
+  question,
+  to,
+}: {
+  from: ChartContext['predictaSchool'];
+  kundli?: KundliData;
+  question: string;
+  to: NonNullable<ChartContext['predictaSchool']>;
+}): ChartContext {
+  const schoolName =
+    to === 'KP'
+      ? 'KP Predicta'
+      : to === 'NADI'
+        ? 'Nadi Predicta'
+        : 'Regular Parashari Predicta';
+  const sourceName =
+    from === 'KP'
+      ? 'KP Predicta'
+      : from === 'NADI'
+        ? 'Nadi Predicta'
+        : 'Regular Parashari Predicta';
+  const birthSummary = kundli
+    ? [
+        kundli.birthDetails.name,
+        kundli.birthDetails.date,
+        kundli.birthDetails.time,
+        kundli.birthDetails.place,
+      ]
+        .filter(Boolean)
+        .join(' | ')
+    : undefined;
+
+  return {
+    handoffBirthSummary: birthSummary,
+    handoffFrom: from,
+    handoffQuestion: question,
+    predictaSchool: to,
+    selectedSection: [
+      `${sourceName} passed this question to ${schoolName}.`,
+      `Original user question: ${question}`,
+      birthSummary ? `Active birth profile: ${birthSummary}` : undefined,
+      to === 'KP'
+        ? 'Answer strictly from KP principles: KP ayanamsa, Placidus cusps, star lords, sub lords, significators, ruling planets, and KP event-timing rules. Do not casually mix Parashari D1/Varga/Yoga logic.'
+        : to === 'NADI'
+          ? 'Stay in Nadi Predicta reading space. Use Nadi-style planetary story links, karakas, validation questions, and timing activation only. Do not mix Parashari or KP, and do not claim palm-leaf manuscript access.'
+          : 'Answer strictly from regular Parashari Jyotish: D1, Vargas, dasha, yogas, Bhav Chalit, gochar, remedies, and reports. Do not use KP/Nadi methods unless the user requests handoff.',
+    ]
+      .filter(Boolean)
+      .join('\n'),
+    sourceScreen: `${sourceName} Handoff`,
+  };
+}
+
 export function buildChartContextIntro(
   context: ChartContext,
   language: SupportedLanguage,
@@ -197,6 +258,98 @@ function localizeActions(
     label: localizeLabel(prompt, language),
     prompt,
   }));
+}
+
+function schoolHandoffFollowUps(
+  text: string,
+  kundli: KundliData | undefined,
+  language: SupportedLanguage,
+): ChatSuggestedCta[] {
+  const normalized = text.toLowerCase();
+  const wantsKp =
+    /\b(kp|krishnamurti|krishnamurthy|paddhati|cuspal\s*sub|sub\s*lord|sublord|significator|ruling\s*planet|249)\b/i.test(
+      normalized,
+    );
+  const wantsNadi =
+    /\b(nadi|naadi|palm\s*leaf|agastya|bhrigu\s*nandi|nandi\s*nadi)\b/i.test(
+      normalized,
+    );
+
+  if (wantsKp) {
+    const context = buildPredictaSchoolHandoffContext({
+      from: 'PARASHARI',
+      kundli,
+      question: text,
+      to: 'KP',
+    });
+    const prompt = context.selectedSection ?? text;
+
+    return [
+      {
+        context,
+        href: `/dashboard/kp?handoffQuestion=${encodeURIComponent(text)}`,
+        id: 'open-kp-predicta',
+        label:
+          language === 'hi'
+            ? 'KP Predicta kholo'
+            : language === 'gu'
+              ? 'KP Predicta kholo'
+              : 'Open KP Predicta',
+        prompt,
+        targetScreen: 'KpPredicta',
+      },
+      {
+        context,
+        id: 'answer-in-kp',
+        label:
+          language === 'hi'
+            ? 'KP se answer do'
+            : language === 'gu'
+              ? 'KP thi jawab aapo'
+              : 'Answer in KP',
+        prompt,
+      },
+    ];
+  }
+
+  if (wantsNadi) {
+    const context = buildPredictaSchoolHandoffContext({
+      from: 'PARASHARI',
+      kundli,
+      question: text,
+      to: 'NADI',
+    });
+    const prompt = context.selectedSection ?? text;
+
+    return [
+      {
+        context,
+        href: `/dashboard/nadi?handoffQuestion=${encodeURIComponent(text)}`,
+        id: 'open-nadi-predicta',
+        label:
+          language === 'hi'
+            ? 'Nadi Predicta dekho'
+            : language === 'gu'
+              ? 'Nadi Predicta jo'
+              : 'Open Nadi Predicta',
+        prompt,
+        targetScreen: 'NadiPredicta',
+      },
+      {
+        context,
+        id: 'preserve-nadi-question',
+        label:
+          language === 'hi'
+            ? 'Question save rakho'
+            : language === 'gu'
+              ? 'Question save rakho'
+              : 'Keep this question',
+        prompt,
+      },
+    ];
+  }
+
+  return [];
 }
 
 function localizeLabel(prompt: string, language: SupportedLanguage): string {

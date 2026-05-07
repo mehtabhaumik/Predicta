@@ -53,7 +53,7 @@ import {
   hasHighStakesLanguage,
 } from '@pridicta/config/trust';
 import { extractBirthDetailsFromText } from '../services/ai/birthDetailsExtractor';
-import { askPridicta } from '../services/ai/pridictaService';
+import { askPredicta } from '../services/ai/pridictaService';
 import { generateKundli } from '../services/astrology/astroEngine';
 import { playReplyChime } from '../services/audio/replyChime';
 import { trackAnalyticsEvent } from '../services/analytics/analyticsService';
@@ -74,6 +74,7 @@ import type {
   ChatMessageBlock,
   ChatSuggestedCta,
   KundliData,
+  SupportedLanguage,
 } from '../types/astrology';
 
 const predictaLogo = require('../assets/predicta-logo.png');
@@ -162,7 +163,9 @@ export function ChatScreen({
     .find(message => message.role === 'pridicta')?.id;
 
   useEffect(() => {
-    const prompt = activeChartContext?.chartType
+    const prompt = activeChartContext?.predictaSchool
+      ? activeChartContext.selectedSection
+      : activeChartContext?.chartType
       ? activeChartContext.selectedSection ??
         buildChartSelectionPrompt(activeChartContext)
       : activeChartContext?.selectedTimelineEventId
@@ -186,17 +189,25 @@ export function ChatScreen({
     if (prompt && timelinePromptSeededRef.current !== prompt) {
       setInput(prompt);
       timelinePromptSeededRef.current = prompt;
-      if (activeChartContext?.chartType) {
+      if (activeChartContext?.chartType || activeChartContext?.predictaSchool) {
         appendConversationMessage(
           createMessage(
             'pridicta',
-            buildChartContextIntro(
-              {
-                ...activeChartContext,
-                selectedSection: prompt,
-              },
-              languagePreference.language,
-            ),
+            activeChartContext.predictaSchool
+              ? buildMobileSchoolContextIntro(
+                  {
+                    ...activeChartContext,
+                    selectedSection: prompt,
+                  },
+                  languagePreference.language,
+                )
+              : buildChartContextIntro(
+                  {
+                    ...activeChartContext,
+                    selectedSection: prompt,
+                  },
+                  languagePreference.language,
+                ),
             activeChartContext,
             undefined,
             buildMobileFollowUps({
@@ -384,7 +395,13 @@ export function ChatScreen({
       setPredictaMemory(actionReply.memory);
 
       if (actionReply.handled && actionReply.text) {
-        streamAssistantResponse(actionReply.text);
+        streamAssistantResponse(actionReply.text, {
+          suggestions: buildMobileFollowUps({
+            context: activeChartContext,
+            kundli: activeKundli,
+            lastText: trimmedInput,
+          }),
+        });
         return;
       }
 
@@ -532,7 +549,13 @@ export function ChatScreen({
         createMessage('user', trimmedInput, activeChartContext),
       );
       setInput('');
-      streamAssistantResponse(actionReply.text);
+      streamAssistantResponse(actionReply.text, {
+        suggestions: buildMobileFollowUps({
+          context: activeChartContext,
+          kundli: activeKundli,
+          lastText: trimmedInput,
+        }),
+      });
       return;
     }
 
@@ -543,7 +566,7 @@ export function ChatScreen({
       appendConversationMessage(
         createMessage(
           'pridicta',
-          "You've reached today's guidance limit. Your reading is saved. You can continue tomorrow, add a few questions, or unlock more Pridicta guidance today.",
+          "You've reached today's guidance limit. Your reading is saved. You can continue tomorrow, add a few questions, or unlock more Predicta guidance today.",
           activeChartContext,
         ),
       );
@@ -574,7 +597,7 @@ export function ChatScreen({
       const deepAllowed = intent !== 'deep' || canUseDeepCall();
       const effectivePlan =
         access.hasPremiumAccess && deepAllowed ? 'PREMIUM' : userPlan;
-      const response = await askPridicta({
+      const response = await askPredicta({
         chartContext: activeChartContext,
         history,
         kundli: activeKundli,
@@ -803,8 +826,19 @@ export function ChatScreen({
             delay={180 + index * 70}
             key={message.id}
             message={message}
-            onSuggestionPress={prompt => {
-              void sendMessage(prompt);
+            onSuggestionPress={suggestion => {
+              if (suggestion.context) {
+                setActiveChartContext(suggestion.context);
+              }
+              if (suggestion.targetScreen === routes.KpPredicta) {
+                navigation.navigate(routes.KpPredicta);
+                return;
+              }
+              if (suggestion.targetScreen === routes.NadiPredicta) {
+                navigation.navigate(routes.NadiPredicta);
+                return;
+              }
+              void sendMessage(suggestion.prompt);
             }}
             onUsePrompt={(prompt, block) => {
               if (block) {
@@ -847,7 +881,7 @@ export function ChatScreen({
               setInput(prompt);
             }}
             onSuggestionPress={prompt => {
-              void sendMessage(prompt);
+              void sendMessage(prompt.prompt);
             }}
             typing={!streamingText}
           />
@@ -971,7 +1005,7 @@ function ChatBubble({
 }: {
   delay: number;
   message: ChatMessage;
-  onSuggestionPress: (prompt: string) => void;
+  onSuggestionPress: (suggestion: ChatSuggestedCta) => void;
   onUsePrompt: (prompt: string, block?: ChatChartBlock) => void;
   showSuggestions?: boolean;
   suggestions?: ChatSuggestedCta[];
@@ -1024,11 +1058,67 @@ function ChatBubble({
   );
 }
 
+function buildMobileSchoolContextIntro(
+  context: ChatMessage['context'],
+  language: SupportedLanguage,
+): string {
+  const school =
+    context?.predictaSchool === 'KP'
+      ? 'KP Predicta'
+      : context?.predictaSchool === 'NADI'
+        ? 'Nadi Predicta'
+        : 'Regular Predicta';
+  const question = context?.handoffQuestion ?? context?.selectedSection;
+
+  if (language === 'hi') {
+    return [
+      `${school} ready hai.`,
+      question ? `Aapka question: ${question}` : undefined,
+      context?.predictaSchool === 'KP'
+        ? 'Ab answer KP ke cusps, star lords, sub lords, significators aur ruling planets se hi grounded rahega.'
+        : context?.predictaSchool === 'NADI'
+          ? 'Nadi Predicta ready hai. Main planetary story links aur validation questions se padhungi; palm-leaf ka fake claim nahi hoga.'
+          : 'Ab answer regular Parashari Jyotish context mein rahega.',
+      'Ask dabaiye, ya apna follow-up likhiye.',
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      `${school} ready chhe.`,
+      question ? `Tamaro question: ${question}` : undefined,
+      context?.predictaSchool === 'KP'
+        ? 'Have answer KP cusps, star lords, sub lords, significators ane ruling planets par grounded rahe.'
+        : context?.predictaSchool === 'NADI'
+          ? 'Nadi Predicta ready chhe. Hu planetary story links ane validation questions thi padhish; palm-leaf no fake claim nahi hoy.'
+          : 'Have answer regular Parashari Jyotish context ma rahe.',
+      'Ask dabavo, athva tamaro follow-up lakho.',
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+  }
+
+  return [
+    `${school} is ready.`,
+    question ? `Your question: ${question}` : undefined,
+    context?.predictaSchool === 'KP'
+      ? 'The answer will now stay grounded in KP cusps, star lords, sub lords, significators, and ruling planets.'
+      : context?.predictaSchool === 'NADI'
+        ? 'Nadi Predicta is ready. I will read through planetary story links and validation questions, without fake palm-leaf claims.'
+        : 'The answer will now stay in regular Parashari Jyotish.',
+    'Press Ask, or type your follow-up.',
+  ]
+    .filter(Boolean)
+    .join('\n\n');
+}
+
 function MobileChatSuggestions({
   onSuggestionPress,
   suggestions,
 }: {
-  onSuggestionPress: (prompt: string) => void;
+  onSuggestionPress: (suggestion: ChatSuggestedCta) => void;
   suggestions: ChatSuggestedCta[];
 }): React.JSX.Element {
   return (
@@ -1037,7 +1127,7 @@ function MobileChatSuggestions({
         <Pressable
           accessibilityRole="button"
           key={suggestion.id}
-          onPress={() => onSuggestionPress(suggestion.prompt)}
+          onPress={() => onSuggestionPress(suggestion)}
           style={styles.chatSuggestionChip}
         >
           <AppText variant="caption">{suggestion.label}</AppText>

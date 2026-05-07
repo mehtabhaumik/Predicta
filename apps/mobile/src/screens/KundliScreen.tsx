@@ -180,7 +180,7 @@ export function KundliScreen({
         </AppText>
         {pendingBirthDetailsDraft ? (
           <AppText className="mt-3" tone="secondary">
-            I prefilled what Pridicta understood from chat. Please verify it
+            I prefilled what Predicta understood from chat. Please verify it
             before generating.
           </AppText>
         ) : null}
@@ -290,7 +290,7 @@ export function KundliScreen({
                           ? `Ask about ${focus.planet} in ${chartType}`
                           : focus?.house
                             ? `Ask about House ${focus.house} in ${chartType}`
-                            : `Ask Pridicta about ${chartType}`
+                            : `Ask Predicta about ${chartType}`
                       }
                       onPress={() => askFromChart(chartType, focus)}
                     />

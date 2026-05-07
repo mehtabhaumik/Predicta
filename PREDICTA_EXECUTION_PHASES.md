@@ -744,6 +744,35 @@ Rules:
 
 ---
 
+## Inserted Strengthening Layer: Transit / Gochar Engine
+
+**Execution Keyword Used:** `EXECUTE_TRANSIT_GOCHAR_ENGINE`
+
+### Roadmap Note
+
+This was added after Phase 16 as a useful extension to the Saturn transit work. It does **not** replace Phase 17. The canonical next phase after this inserted layer remains:
+
+`EXECUTE_CHALIT_BHAV_KP_FOUNDATION`
+
+### Scope Added
+
+- Current Gochar / transit synopsis.
+- Dashboard Gochar summary.
+- Timeline Gochar panel.
+- Chat support for Gochar and transit questions.
+- AI context and PDF/report support.
+- Sample “moment sky” mode when no active Kundli exists.
+
+### Monetization Rule
+
+Free users receive useful current Gochar insight. Premium users receive all-planet synthesis, dasha overlay, 12-month cards, remedies, and report-grade timing notes.
+
+### Parity Rule
+
+Web and mobile must both keep this layer visible wherever equivalent timeline/dashboard surfaces exist.
+
+---
+
 ## Phase 17: Chalit, Bhav, And KP Foundations
 
 **Execution Keyword:** `EXECUTE_CHALIT_BHAV_KP_FOUNDATION`

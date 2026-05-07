@@ -202,7 +202,7 @@ export function ReportScreen({
                 </AppText>
               ) : null}
               <AppText className="mt-4" tone="secondary" variant="caption">
-                Ask Pridicta from this section
+                Ask Predicta from this section
               </AppText>
             </GlowCard>
           </Pressable>
@@ -260,7 +260,7 @@ export function ReportScreen({
           onPress={() => askFromReport('Current Dasha')}
         >
           <AppText className="font-bold text-[#4DAFFF]">
-            Ask Pridicta about this dasha
+            Ask Predicta about this dasha
           </AppText>
         </Pressable>
       </GlowCard>

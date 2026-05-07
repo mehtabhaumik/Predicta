@@ -110,7 +110,7 @@ export function RedeemPassCodeScreen(): React.JSX.Element {
       <AnimatedHeader eyebrow="PRIVATE INVITE" title="Redeem guest pass" />
 
       <GlassPanel className="mt-8" delay={100}>
-        <AppText variant="subtitle">Enter your Pridicta pass</AppText>
+        <AppText variant="subtitle">Enter your Predicta pass</AppText>
         <AppText className="mt-2" tone="secondary">
           Guest passes unlock expanded guidance for a limited period. Redemption
           requires Google login so the pass stays protected and cannot be reused
@@ -125,7 +125,7 @@ export function RedeemPassCodeScreen(): React.JSX.Element {
             autoCorrect={false}
             className="rounded-2xl border border-[#252533] bg-app-card p-4 text-base text-text-primary"
             onChangeText={setCode}
-            placeholder="PRIDICTA-VIP-XXXX"
+            placeholder="PREDICTA-VIP-XXXX"
             placeholderTextColor={colors.secondaryText}
             value={code}
           />
@@ -142,7 +142,7 @@ export function RedeemPassCodeScreen(): React.JSX.Element {
       <GlowCard className="mt-6" delay={220}>
         <AppText variant="subtitle">Privacy by default</AppText>
         <AppText className="mt-2" tone="secondary">
-          Pass codes are checked by their secure hash. Pridicta does not need to
+          Pass codes are checked by their secure hash. Predicta does not need to
           store your private code.
         </AppText>
       </GlowCard>

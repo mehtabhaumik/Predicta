@@ -47,7 +47,7 @@ export function LandingIntroOverlay(): React.JSX.Element | null {
     <AnimatePresence>
       {visible ? (
         <motion.div
-          aria-label="Pridicta introduction"
+          aria-label="Predicta introduction"
           className="intro-overlay"
           exit={{ opacity: 0 }}
           initial={{ opacity: 1 }}
@@ -65,7 +65,7 @@ export function LandingIntroOverlay(): React.JSX.Element | null {
             transition={{ duration: 1.3, ease: [0.22, 1, 0.36, 1] }}
           >
             <Image
-              alt="Pridicta"
+              alt="Predicta"
               className="intro-logo"
               height={260}
               priority

@@ -17,6 +17,8 @@ const links: SidebarItem[] = [
   { href: '/dashboard/decision', label: 'Decision' },
   { href: '/dashboard/kundli', label: 'Kundli' },
   { href: '/dashboard/charts', label: 'Charts' },
+  { href: '/dashboard/kp', label: 'KP Predicta' },
+  { href: '/dashboard/nadi', label: 'Nadi' },
   { href: '/dashboard/timeline', label: 'Timeline' },
   { href: '/dashboard/remedies', label: 'Remedies' },
   { href: '/dashboard/birth-time', label: 'Birth Time' },
@@ -55,7 +57,7 @@ export function DashboardShell({
           <div className="dashboard-topbar-actions">
             <WebLanguageSelector compact />
             <Link className="button secondary" href="/dashboard/chat">
-              Ask Pridicta
+              Ask Predicta
             </Link>
           </div>
         </div>

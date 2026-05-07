@@ -69,13 +69,17 @@ export async function extractBirthDetailsFromText(
 async function extractWithBackendAI(
   input: string,
 ): Promise<BirthDetailsExtractionResult | null> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 1200);
   const response = await fetch(`${env.astrologyApiUrl}/extract-birth-details`, {
     body: JSON.stringify({ text: input }),
     headers: {
       'Content-Type': 'application/json',
     },
     method: 'POST',
+    signal: controller.signal,
   }).catch(() => null);
+  clearTimeout(timeout);
 
   if (!response?.ok) {
     return null;

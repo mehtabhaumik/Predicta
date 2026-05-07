@@ -37,7 +37,7 @@ export default function SettingsPage(): React.JSX.Element {
             <div className="section-title">ACCOUNT</div>
             <h2>Profile and sign-in</h2>
             <p>
-              Use Pridicta locally, or sign in when you want online restore and
+              Use Predicta locally, or sign in when you want online restore and
               cross-device access.
             </p>
             <div className="settings-stack">
@@ -99,7 +99,7 @@ export default function SettingsPage(): React.JSX.Element {
           <div className="card-content spacious">
             <div className="section-title">PREFERENCES</div>
             <h2>Language, sound, and privacy</h2>
-            <p>Keep Pridicta understandable, calm, private, and comfortable for repeat use.</p>
+            <p>Keep Predicta understandable, calm, private, and comfortable for repeat use.</p>
             <div className="settings-stack">
               <div className="setting-row language-setting-row">
                 <WebLanguageSelector />
@@ -107,7 +107,7 @@ export default function SettingsPage(): React.JSX.Element {
               <div className="setting-row">
                 <div>
                   <strong>Reply chime</strong>
-                  <span>A soft sound after Pridicta finishes a response.</span>
+                  <span>A soft sound after Predicta finishes a response.</span>
                 </div>
                 <button
                   className="toggle-control active"

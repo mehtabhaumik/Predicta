@@ -84,7 +84,7 @@ export function PaywallScreen({
         showGlassAlert({
           actions: [{ label: 'Continue', onPress: () => navigation.goBack() }],
           message: result.oneTimeEntitlement
-            ? 'Your Pridicta access has been added.'
+            ? 'Your Predicta access has been added.'
             : 'Premium guidance is now active.',
           title: 'Premium ready',
         });
@@ -149,7 +149,7 @@ export function PaywallScreen({
       });
       showGlassAlert({
         message: restored.length
-          ? 'Your Pridicta purchases were restored.'
+          ? 'Your Predicta purchases were restored.'
           : 'No previous purchases were found on this device.',
         title: 'Restore complete',
       });
@@ -189,7 +189,7 @@ export function PaywallScreen({
     <Screen>
       {glassAlert}
       <AnimatedHeader
-        eyebrow="PRIDICTA PREMIUM"
+        eyebrow="PREDICTA PREMIUM"
         title="Unlock Deeper Insights"
       />
 
@@ -199,7 +199,7 @@ export function PaywallScreen({
         </GradientText>
         <AppText className="mt-3" tone="secondary">
           Go beyond the surface with richer chart interpretation, deeper
-          Pridicta guidance, and premium reports.
+          Predicta guidance, and premium reports.
         </AppText>
         <View className="mt-5 gap-3">
           {features.map(feature => (

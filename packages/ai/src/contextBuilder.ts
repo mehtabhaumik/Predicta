@@ -1,11 +1,18 @@
 import {
+  composeAdvancedJyotishCoverage,
   composeBirthTimeDetective,
   composeDailyBriefing,
+  composeChalitBhavKpFoundation,
   composeDecisionMemo,
   composeFamilyKarmaMap,
+  composeMahadashaIntelligence,
+  composeNadiJyotishPlan,
   composePredictaWrapped,
   composeRemedyCoach,
   composeRelationshipMirror,
+  composeSadeSatiIntelligence,
+  composeTransitGocharIntelligence,
+  composeYearlyHoroscopeVarshaphal,
   canAccessChartType,
   PREMIUM_CONTEXT_CHART_TYPES,
   getChartConfig,
@@ -167,6 +174,42 @@ export function buildAIContext(
     currentDasha: kundliData.dasha.current,
     dailyBriefing: composeDailyBriefing(kundliData, { language }),
     dashaTimeline: kundliData.dasha.timeline.slice(0, 4),
+    mahadashaIntelligence: compactMahadashaIntelligence(
+      composeMahadashaIntelligence(kundliData, {
+        depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
+      }),
+    ),
+    sadeSatiIntelligence: compactSadeSatiIntelligence(
+      composeSadeSatiIntelligence(kundliData, {
+        depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
+      }),
+    ),
+    transitGocharIntelligence: compactTransitGocharIntelligence(
+      composeTransitGocharIntelligence(kundliData, {
+        depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
+      }),
+    ),
+    yearlyHoroscopeVarshaphal: compactYearlyHoroscopeVarshaphal(
+      composeYearlyHoroscopeVarshaphal(kundliData, {
+        depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
+      }),
+    ),
+    advancedJyotishCoverage: compactAdvancedJyotishCoverage(
+      composeAdvancedJyotishCoverage(kundliData, {
+        depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
+      }),
+    ),
+    nadiJyotishPlan: compactNadiJyotishPlan(
+      composeNadiJyotishPlan(kundliData, {
+        depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
+        handoffQuestion: chartContext?.handoffQuestion,
+      }),
+    ),
+    chalitBhavKpFoundation: compactChalitBhavKpFoundation(
+      composeChalitBhavKpFoundation(kundliData, {
+        depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
+      }),
+    ),
     houses: kundliData.houses,
     lifeTimeline: kundliData.lifeTimeline,
     planets: kundliData.planets,
@@ -195,6 +238,165 @@ export function buildAIContext(
     selectedTimelineEvent,
     transits: kundliData.transits,
     yogas: kundliData.yogas,
+  };
+}
+
+function compactMahadashaIntelligence(
+  intelligence: ReturnType<typeof composeMahadashaIntelligence>,
+): NonNullable<AIContextPayload['mahadashaIntelligence']> {
+  return {
+    current: intelligence.current,
+    depth: intelligence.depth,
+    limitations: intelligence.limitations,
+    premiumUnlock: intelligence.premiumUnlock,
+    remedies: intelligence.remedies.slice(0, 3),
+    subtitle: intelligence.subtitle,
+    timingWindows: intelligence.timingWindows.slice(0, 4),
+    title: intelligence.title,
+  };
+}
+
+function compactSadeSatiIntelligence(
+  intelligence: ReturnType<typeof composeSadeSatiIntelligence>,
+): NonNullable<AIContextPayload['sadeSatiIntelligence']> {
+  return {
+    active: intelligence.active,
+    confidence: intelligence.confidence,
+    depth: intelligence.depth,
+    evidence: intelligence.evidence,
+    freeInsight: intelligence.freeInsight,
+    houseFromMoon: intelligence.houseFromMoon,
+    limitations: intelligence.limitations,
+    moonSign: intelligence.moonSign,
+    phase: intelligence.phase,
+    phaseLabel: intelligence.phaseLabel,
+    premiumSynthesis: intelligence.premiumSynthesis,
+    premiumUnlock: intelligence.premiumUnlock,
+    remedies: intelligence.remedies.slice(0, 3),
+    saturnSign: intelligence.saturnSign,
+    subtitle: intelligence.subtitle,
+    summary: intelligence.summary,
+    title: intelligence.title,
+    windows: intelligence.windows.slice(0, 3),
+  };
+}
+
+function compactTransitGocharIntelligence(
+  intelligence: ReturnType<typeof composeTransitGocharIntelligence>,
+): NonNullable<AIContextPayload['transitGocharIntelligence']> {
+  return {
+    calculatedAt: intelligence.calculatedAt,
+    cautionSignals: intelligence.cautionSignals.slice(0, 4),
+    dashaOverlay: intelligence.dashaOverlay,
+    depth: intelligence.depth,
+    dominantWeight: intelligence.dominantWeight,
+    evidence: intelligence.evidence,
+    limitations: intelligence.limitations,
+    monthlyCards: intelligence.monthlyCards.slice(0, 4),
+    planetInsights: intelligence.planetInsights.slice(0, 8),
+    premiumUnlock: intelligence.premiumUnlock,
+    snapshotSummary: intelligence.snapshotSummary,
+    subtitle: intelligence.subtitle,
+    title: intelligence.title,
+    topOpportunities: intelligence.topOpportunities.slice(0, 4),
+  };
+}
+
+function compactYearlyHoroscopeVarshaphal(
+  intelligence: ReturnType<typeof composeYearlyHoroscopeVarshaphal>,
+): NonNullable<AIContextPayload['yearlyHoroscopeVarshaphal']> {
+  return {
+    cautionSignals: intelligence.cautionSignals.slice(0, 4),
+    dashaOverlay: intelligence.dashaOverlay,
+    depth: intelligence.depth,
+    evidence: intelligence.evidence,
+    focusAreas: intelligence.focusAreas,
+    freeInsight: intelligence.freeInsight,
+    gocharOverlay: intelligence.gocharOverlay,
+    limitations: intelligence.limitations,
+    monthlyCards: intelligence.monthlyCards.slice(0, 6),
+    munthaHouse: intelligence.munthaHouse,
+    munthaLord: intelligence.munthaLord,
+    munthaSign: intelligence.munthaSign,
+    premiumSynthesis: intelligence.premiumSynthesis,
+    premiumUnlock: intelligence.premiumUnlock,
+    solarReturnUtc: intelligence.solarReturnUtc,
+    solarYearEnd: intelligence.solarYearEnd,
+    solarYearStart: intelligence.solarYearStart,
+    subtitle: intelligence.subtitle,
+    supportSignals: intelligence.supportSignals.slice(0, 4),
+    title: intelligence.title,
+    varshaLagna: intelligence.varshaLagna,
+    yearLabel: intelligence.yearLabel,
+    yearTheme: intelligence.yearTheme,
+  };
+}
+
+function compactAdvancedJyotishCoverage(
+  coverage: ReturnType<typeof composeAdvancedJyotishCoverage>,
+): NonNullable<AIContextPayload['advancedJyotishCoverage']> {
+  return {
+    ashtakavargaDetail: coverage.ashtakavargaDetail.slice(0, 12),
+    compatibility: coverage.compatibility,
+    depth: coverage.depth,
+    freePolicy: coverage.freePolicy,
+    limitations: coverage.limitations,
+    moduleRegistry: coverage.moduleRegistry,
+    nakshatraInsight: coverage.nakshatraInsight,
+    panchangMuhurta: coverage.panchangMuhurta,
+    prashna: coverage.prashna,
+    premiumPolicy: coverage.premiumPolicy,
+    premiumUnlock: coverage.premiumUnlock,
+    safeRemedies: coverage.safeRemedies,
+    subtitle: coverage.subtitle,
+    title: coverage.title,
+    yogaDoshaInsights: coverage.yogaDoshaInsights.slice(0, 8),
+  };
+}
+
+function compactNadiJyotishPlan(
+  plan: ReturnType<typeof composeNadiJyotishPlan>,
+): NonNullable<AIContextPayload['nadiJyotishPlan']> {
+  return {
+    activations: plan.activations.slice(0, 4),
+    depth: plan.depth,
+    freePreview: plan.freePreview,
+    guardrails: plan.guardrails,
+    handoffQuestion: plan.handoffQuestion,
+    limitations: plan.limitations,
+    methodSummary: plan.methodSummary,
+    patterns: plan.patterns.slice(0, 6),
+    premiumOnly: plan.premiumOnly,
+    premiumSynthesis: plan.premiumSynthesis,
+    premiumUnlock: plan.premiumUnlock,
+    schoolBoundary: plan.schoolBoundary,
+    status: plan.status,
+    subtitle: plan.subtitle,
+    title: plan.title,
+    validationQuestions: plan.validationQuestions.slice(0, 4),
+  };
+}
+
+function compactChalitBhavKpFoundation(
+  foundation: ReturnType<typeof composeChalitBhavKpFoundation>,
+): NonNullable<AIContextPayload['chalitBhavKpFoundation']> {
+  return {
+    askPrompt: foundation.askPrompt,
+    bhavChalit: {
+      ...foundation.bhavChalit,
+      cusps: foundation.bhavChalit.cusps.slice(0, 12),
+      shifts: foundation.bhavChalit.shifts.slice(0, 9),
+    },
+    ctas: foundation.ctas,
+    depth: foundation.depth,
+    kp: {
+      ...foundation.kp,
+      cusps: foundation.kp.cusps.slice(0, 12),
+      planets: foundation.kp.planets.slice(0, 9),
+      significators: foundation.kp.significators.slice(0, 9),
+    },
+    premiumUnlock: foundation.premiumUnlock,
+    status: foundation.status,
   };
 }
 

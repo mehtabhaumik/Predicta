@@ -37,7 +37,7 @@ function section(title: string, body: string): string {
   return `
     <section class="page">
       <div class="page-header">
-        <span>PRIDICTA DOSSIER</span>
+        <span>PREDICTA DOSSIER</span>
         <span>${escapeHtml(title)}</span>
       </div>
       <h2>${escapeHtml(title)}</h2>
@@ -141,7 +141,7 @@ function executiveSummary(report: PdfComposition): string {
   return `
     <section class="page">
       <div class="page-header">
-        <span>PRIDICTA DOSSIER 2.0</span>
+        <span>PREDICTA DOSSIER 2.0</span>
         <span>${escapeHtml(report.mode)}</span>
       </div>
       <h2>Executive intelligence summary</h2>
@@ -168,7 +168,7 @@ function trustPanel(report: PdfComposition): string {
   return `
     <section class="page">
       <div class="page-header">
-        <span>PRIDICTA TRUST LAYER</span>
+        <span>PREDICTA TRUST LAYER</span>
         <span>${escapeHtml(trust.confidenceLabel)}</span>
       </div>
       <h2>Trust, safety, and proof</h2>
@@ -226,7 +226,7 @@ export function buildHoroscopePdfHtml({
             page-break-after: always;
           }
           .page::before {
-            content: "PRIDICTA";
+            content: "PREDICTA";
             position: absolute;
             inset: 270px 0 auto 0;
             color: rgba(255,255,255,0.035);
@@ -389,7 +389,7 @@ export function buildHoroscopePdfHtml({
           <div class="seal"></div>
           <div>
             <img class="logo" src="${logoUri}" />
-            <h1 class="gradient-text">PRIDICTA</h1>
+            <h1 class="gradient-text">PREDICTA</h1>
             <p>${escapeHtml(report.cover.subtitle)}</p>
             <p>${report.cover.metadata.map(escapeHtml).join(' • ')}</p>
           </div>

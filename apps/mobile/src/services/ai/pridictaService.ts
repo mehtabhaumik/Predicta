@@ -74,6 +74,8 @@ export async function askPridicta({
   return response;
 }
 
+export const askPredicta = askPridicta;
+
 async function requestBackendReading(
   request: PridictaChatRequest,
 ): Promise<PridictaChatResponse> {
@@ -86,13 +88,15 @@ async function requestBackendReading(
   });
 
   if (!response.ok) {
-    throw new Error(await readErrorMessage(response, 'Pridicta AI failed.'));
+    throw new Error(
+      await readErrorMessage(response, 'Predicta could not answer right now.'),
+    );
   }
 
   const payload = (await response.json()) as PridictaChatResponse;
 
   if (!payload.text?.trim()) {
-    throw new Error('Pridicta AI returned an empty reading.');
+    throw new Error('Predicta could not prepare a reading right now.');
   }
 
   return {

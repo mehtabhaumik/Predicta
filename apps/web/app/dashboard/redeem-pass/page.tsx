@@ -7,7 +7,7 @@ export default function RedeemPassPage(): React.JSX.Element {
     <section className="dashboard-page">
       <div className="page-heading compact">
         <StatusPill label="Private access" tone="premium" />
-        <h1 className="gradient-text">Redeem a private Pridicta pass.</h1>
+        <h1 className="gradient-text">Redeem a private Predicta pass.</h1>
         <p>
           Enter your private guest code to unlock elevated access. Restricted
           codes are checked quietly and securely.

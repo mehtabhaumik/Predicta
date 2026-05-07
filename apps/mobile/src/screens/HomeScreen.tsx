@@ -16,7 +16,12 @@ import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import { resolveAccess } from '@pridicta/access';
 import { PREDICTA_JOURNEY_STEPS } from '@pridicta/config/predictaUx';
-import { composeDailyBriefing, composeDestinyPassport } from '@pridicta/astrology';
+import {
+  composeDailyBriefing,
+  composeDestinyPassport,
+  composeTransitGocharIntelligence,
+  composeYearlyHoroscopeVarshaphal,
+} from '@pridicta/astrology';
 import { buildUsageDisplay } from '@pridicta/monetization';
 import { useAppStore } from '../store/useAppStore';
 import { colors } from '../theme/colors';
@@ -52,6 +57,8 @@ const toolLinks = [
   ['Ask', routes.Chat],
   ['Decision', routes.DecisionOracle],
   ['Charts', routes.Charts],
+  ['KP', routes.KpPredicta],
+  ['Nadi', routes.NadiPredicta],
   ['Timeline', routes.LifeTimeline],
   ['Remedy', routes.RemedyCoach],
   ['Birth Time', routes.BirthTimeDetective],
@@ -94,6 +101,12 @@ export function HomeScreen({
     language: languagePreference.language,
   });
   const destinyPassport = composeDestinyPassport(kundli);
+  const gochar = composeTransitGocharIntelligence(kundli, { depth: 'FREE' });
+  const yearlyHoroscope = composeYearlyHoroscopeVarshaphal(kundli, {
+    depth: 'FREE',
+  });
+  const gocharPrimarySignal =
+    gochar.topOpportunities[0] ?? gochar.cautionSignals[0];
 
   function askFromHome(context: ChartContext) {
     if (!kundli) {
@@ -181,6 +194,89 @@ export function HomeScreen({
         />
       </View>
 
+      <GlowCard className="mt-8" delay={160}>
+        <View style={styles.gocharTopline}>
+          <View className="flex-1">
+            <AppText tone="secondary" variant="caption">
+              {gochar.status === 'pending'
+                ? 'MOMENT SKY PREVIEW'
+                : 'CURRENT GOCHAR'}
+            </AppText>
+            <AppText className="mt-1" variant="subtitle">
+              {gochar.status === 'pending'
+                ? 'What the sky is doing right now'
+                : 'What current Gochar is bringing'}
+            </AppText>
+          </View>
+          <View style={styles.gocharBadge}>
+            <AppText variant="caption">{gochar.dominantWeight}</AppText>
+          </View>
+        </View>
+        <AppText className="mt-3" tone="secondary">
+          {gochar.snapshotSummary}
+        </AppText>
+        {gocharPrimarySignal ? (
+          <View style={styles.gocharSignal}>
+            <AppText tone="secondary" variant="caption">
+              {gocharPrimarySignal.weight}
+            </AppText>
+            <AppText className="mt-1" variant="subtitle">
+              {gocharPrimarySignal.headline}
+            </AppText>
+            <AppText className="mt-2" tone="secondary" variant="caption">
+              {gocharPrimarySignal.practicalGuidance}
+            </AppText>
+          </View>
+        ) : null}
+        <View className="mt-4">
+          <GlowButton
+            label="Open Gochar Panel"
+            onPress={() => navigation.navigate(routes.LifeTimeline)}
+          />
+        </View>
+      </GlowCard>
+
+      <GlowCard className="mt-8" delay={180}>
+        <View style={styles.gocharTopline}>
+          <View className="flex-1">
+            <AppText tone="secondary" variant="caption">
+              YEARLY HOROSCOPE
+            </AppText>
+            <AppText className="mt-1" variant="subtitle">
+              {yearlyHoroscope.status === 'pending'
+                ? 'Your personal year is waiting'
+                : 'What this solar year is asking'}
+            </AppText>
+          </View>
+          <View style={styles.gocharBadge}>
+            <AppText variant="caption">{yearlyHoroscope.yearLabel}</AppText>
+          </View>
+        </View>
+        <AppText className="mt-3" tone="secondary">
+          {yearlyHoroscope.freeInsight}
+        </AppText>
+        {yearlyHoroscope.status === 'ready' ? (
+          <View style={styles.gocharSignal}>
+            <AppText tone="secondary" variant="caption">
+              Muntha focus
+            </AppText>
+            <AppText className="mt-1" variant="subtitle">
+              House {yearlyHoroscope.munthaHouse} in{' '}
+              {yearlyHoroscope.munthaSign}
+            </AppText>
+            <AppText className="mt-2" tone="secondary" variant="caption">
+              {yearlyHoroscope.yearTheme}
+            </AppText>
+          </View>
+        ) : null}
+        <View className="mt-4">
+          <GlowButton
+            label="Open Yearly Panel"
+            onPress={() => navigation.navigate(routes.LifeTimeline)}
+          />
+        </View>
+      </GlowCard>
+
       <View className="mt-8">
         <DestinyPassportCard
           onPrimaryAction={() => navigation.navigate(routes.Kundli)}
@@ -191,7 +287,7 @@ export function HomeScreen({
       <View className="mt-7">
         <GlowButton
           delay={220}
-          label={kundli ? 'Ask Pridicta' : 'Create Kundli First'}
+          label={kundli ? 'Ask Predicta' : 'Create Kundli First'}
           onPress={() =>
             askFromHome({
               selectedSection: 'Home overview',
@@ -203,14 +299,14 @@ export function HomeScreen({
 
       <GlowCard className="mt-6" delay={260}>
         <AppText tone="secondary" variant="caption">
-          CHOOSE ONE TOOL
+          CHOOSE ONE PATH
         </AppText>
         <AppText className="mt-2" variant="subtitle">
           What do you want help with?
         </AppText>
         <AppText className="mt-2" tone="secondary" variant="caption">
-          Create Kundli first for full readings. You can still open every tool
-          from here.
+          Create Kundli first for full readings. You can still open every
+          reading path from here.
         </AppText>
         <View className="mt-4 flex-row flex-wrap gap-3">
           {toolLinks.map(([label, route]) => (
@@ -336,6 +432,29 @@ const styles = StyleSheet.create({
     height: 34,
     justifyContent: 'center',
     width: 34,
+  },
+  gocharBadge: {
+    alignSelf: 'flex-start',
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderColor: colors.border,
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+  },
+  gocharSignal: {
+    backgroundColor: colors.surfaceMuted,
+    borderColor: colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    marginTop: 14,
+    padding: 12,
+  },
+  gocharTopline: {
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    gap: 12,
+    justifyContent: 'space-between',
   },
   toolChip: {
     alignItems: 'center',

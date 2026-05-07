@@ -53,7 +53,7 @@ export function composeLifeTimeline(
     sections: buildSections(events),
     status: 'ready',
     subtitle:
-      'A simple map of now, next, and later using deterministic chart timing.',
+      'A simple map of now, next, and later using verified chart timing.',
     title: `${kundli.birthDetails.name}'s life timeline`,
     upcomingPeriod: upcoming
       ? `${upcoming.mahadasha} from ${formatDate(upcoming.startDate)}`

@@ -1,5 +1,6 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import {
   buildChatChartReplyText,
@@ -89,7 +90,9 @@ export function WebPridictaChat(): React.JSX.Element {
   const [isSending, setIsSending] = useState(false);
   const { language, setLanguage } = useLanguagePreference();
   const labels = getLanguageLabels(language);
-  const didLoadQueryPrompt = useRef(false);
+  const loadedQueryPromptRef = useRef('');
+  const searchParams = useSearchParams();
+  const queryString = searchParams.toString();
   const didLoadMemory = useRef(false);
   const threadRef = useRef<HTMLDivElement | null>(null);
   const [kundli, setKundli] = useState<KundliData | undefined>();
@@ -166,19 +169,19 @@ export function WebPridictaChat(): React.JSX.Element {
   }, [language]);
 
   useEffect(() => {
-    if (didLoadQueryPrompt.current) {
+    if (!queryString || loadedQueryPromptRef.current === queryString) {
       return;
     }
 
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(queryString);
     const prompt = params.get('prompt');
     const chartContext = chartContextFromParams(params);
 
     if (prompt || chartContext) {
-      didLoadQueryPrompt.current = true;
+      loadedQueryPromptRef.current = queryString;
       if (chartContext) {
         const selectedSection =
-          prompt || buildChartSelectionPrompt(chartContext);
+          prompt || chartContext.selectedSection || buildChartSelectionPrompt(chartContext);
         const nextContext = {
           ...chartContext,
           selectedSection,
@@ -188,7 +191,9 @@ export function WebPridictaChat(): React.JSX.Element {
         setMessages(current => [
           ...current,
           createPridictaReply(
-            buildChartContextIntro(nextContext, language),
+            nextContext.predictaSchool
+              ? buildSchoolContextIntro(nextContext, language)
+              : buildChartContextIntro(nextContext, language),
             language,
             {
               context: nextContext,
@@ -228,7 +233,7 @@ export function WebPridictaChat(): React.JSX.Element {
         ),
       ]);
     }
-  }, [activeChartContext, kundli, language]);
+  }, [activeChartContext, kundli, language, queryString]);
 
   async function sendMessage(overrideText?: string) {
     const text = (overrideText ?? input).trim();
@@ -636,8 +641,15 @@ export function WebPridictaChat(): React.JSX.Element {
               message.id === lastPredictaMessageId &&
               !isSending ? (
                 <WebChatSuggestions
-                  onUsePrompt={prompt => {
-                    void sendMessage(prompt);
+                  onUseSuggestion={suggestion => {
+                    if (suggestion.context) {
+                      setActiveChartContext(suggestion.context);
+                    }
+                    if (suggestion.href) {
+                      window.location.assign(suggestion.href);
+                      return;
+                    }
+                    void sendMessage(suggestion.prompt);
                   }}
                   suggestions={
                     message.suggestions ??
@@ -703,10 +715,10 @@ function WebChatMessageBlock({
 }
 
 function WebChatSuggestions({
-  onUsePrompt,
+  onUseSuggestion,
   suggestions,
 }: {
-  onUsePrompt: (prompt: string) => void;
+  onUseSuggestion: (suggestion: ChatSuggestedCta) => void;
   suggestions: ChatSuggestedCta[];
 }): React.JSX.Element {
   if (!suggestions.length) {
@@ -718,7 +730,7 @@ function WebChatSuggestions({
       {suggestions.slice(0, 4).map(suggestion => (
         <button
           key={suggestion.id}
-          onClick={() => onUsePrompt(suggestion.prompt)}
+          onClick={() => onUseSuggestion(suggestion)}
           type="button"
         >
           {suggestion.label}
@@ -863,6 +875,26 @@ function buildFollowUps({
 }
 
 function chartContextFromParams(params: URLSearchParams): ChartContext | undefined {
+  const school = params.get('school');
+  const handoffQuestion = params.get('handoffQuestion');
+
+  if (school === 'KP' || school === 'NADI' || school === 'PARASHARI') {
+    return {
+      handoffFrom:
+        params.get('from') === 'KP' || params.get('from') === 'NADI'
+          ? (params.get('from') as 'KP' | 'NADI')
+          : 'PARASHARI',
+      handoffQuestion: handoffQuestion ?? params.get('prompt') ?? undefined,
+      predictaSchool: school,
+      selectedSection:
+        params.get('prompt') ??
+        (handoffQuestion
+          ? `${school} Predicta handoff question: ${handoffQuestion}`
+          : undefined),
+      sourceScreen: `${school} Predicta`,
+    };
+  }
+
   const chartType = params.get('chartType') as ChartType | null;
 
   if (!chartType) {
@@ -880,6 +912,62 @@ function chartContextFromParams(params: URLSearchParams): ChartContext | undefin
     selectedSection: params.get('prompt') ?? undefined,
     sourceScreen: params.get('sourceScreen') ?? 'Charts',
   };
+}
+
+function buildSchoolContextIntro(
+  context: ChartContext,
+  language: SupportedLanguage,
+): string {
+  const school =
+    context.predictaSchool === 'KP'
+      ? 'KP Predicta'
+      : context.predictaSchool === 'NADI'
+        ? 'Nadi Predicta'
+        : 'Regular Predicta';
+  const question = context.handoffQuestion ?? context.selectedSection;
+
+  if (language === 'hi') {
+    return [
+      `${school} ready hai.`,
+      question ? `Aapka question: ${question}` : undefined,
+      context.predictaSchool === 'KP'
+        ? 'Ab answer KP ke cusps, star lords, sub lords, significators aur ruling planets se hi grounded rahega.'
+      : context.predictaSchool === 'NADI'
+          ? 'Nadi Predicta ready hai. Main planetary story links aur validation questions se padhungi; palm-leaf ka fake claim nahi hoga.'
+          : 'Ab answer regular Parashari Jyotish context mein rahega.',
+      'Press Ask, ya apna follow-up likhiye.',
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      `${school} ready chhe.`,
+      question ? `Tamaro question: ${question}` : undefined,
+      context.predictaSchool === 'KP'
+        ? 'Have answer KP cusps, star lords, sub lords, significators ane ruling planets par grounded rahe.'
+      : context.predictaSchool === 'NADI'
+          ? 'Nadi Predicta ready chhe. Hu planetary story links ane validation questions thi padhish; palm-leaf no fake claim nahi hoy.'
+          : 'Have answer regular Parashari Jyotish context ma rahe.',
+      'Ask dabavo, athva tamaro follow-up lakho.',
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+  }
+
+  return [
+    `${school} is ready.`,
+    question ? `Your question: ${question}` : undefined,
+    context.predictaSchool === 'KP'
+      ? 'The answer will now stay grounded in KP cusps, star lords, sub lords, significators, and ruling planets.'
+    : context.predictaSchool === 'NADI'
+        ? 'Nadi Predicta is ready. I will read through planetary story links and validation questions, without fake palm-leaf claims.'
+        : 'The answer will now stay in regular Parashari Jyotish.',
+    'Press Ask, or type your follow-up.',
+  ]
+    .filter(Boolean)
+    .join('\n\n');
 }
 
 function buildContextMessage({

@@ -101,7 +101,7 @@ export function AuthDialog(): React.JSX.Element {
               Close
             </button>
             <div className="section-title">ACCOUNT ACCESS</div>
-            <h2>Sign in to Pridicta</h2>
+            <h2>Sign in to Predicta</h2>
             <p>
               Use a social account or email password access. Local use remains
               available when you continue without signing in.

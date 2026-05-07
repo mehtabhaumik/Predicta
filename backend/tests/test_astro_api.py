@@ -51,6 +51,18 @@ def test_generate_kundli_shape_and_metadata():
     assert kundli.calculationMeta.ayanamsa == "LAHIRI"
     assert len(kundli.lifeTimeline) > 0
     assert len(kundli.transits) >= 9
+    assert kundli.bhavChalit is not None
+    assert kundli.bhavChalit.houseSystem == "PLACIDUS"
+    assert len(kundli.bhavChalit.cusps) == 12
+    assert kundli.kp is not None
+    assert kundli.kp.method == "KRISHNAMURTI_PADDHATI"
+    assert len(kundli.kp.cusps) == 12
+    assert len(kundli.kp.significators) >= 9
+    assert kundli.yearlyHoroscope is not None
+    assert kundli.yearlyHoroscope.method == "TAJIKA_SOLAR_RETURN_FOUNDATION"
+    assert kundli.yearlyHoroscope.varshaLagna
+    assert kundli.yearlyHoroscope.munthaHouse >= 1
+    assert len(kundli.yearlyHoroscope.planets) == 9
     assert kundli.rectification is not None
     assert len(kundli.remedies) >= 2
 
@@ -89,6 +101,21 @@ def test_ask_pridicta_uses_backend_ai_boundary(monkeypatch):
         assert "Chart evidence" in kwargs["system_prompt"]
         assert "Kundli context" in kwargs["user_prompt"]
         assert "jyotishAnalysis" in kwargs["user_prompt"]
+        assert "mahadashaIntelligence" in kwargs["user_prompt"]
+        assert "Free dasha answers include useful insight" in kwargs["user_prompt"]
+        assert "sadeSatiIntelligence" in kwargs["user_prompt"]
+        assert "Free users receive useful Sade Sati status" in kwargs["user_prompt"]
+        assert "transitGocharIntelligence" in kwargs["user_prompt"]
+        assert "Free users receive useful current Gochar" in kwargs["user_prompt"]
+        assert "yearlyHoroscopeVarshaphal" in kwargs["user_prompt"]
+        assert "Free users receive useful yearly horoscope insight" in kwargs["user_prompt"]
+        assert "advancedJyotishCoverage" in kwargs["user_prompt"]
+        assert "Free users receive useful broad coverage" in kwargs["user_prompt"]
+        assert "nadiJyotishPlan" in kwargs["user_prompt"]
+        assert "Nadi Predicta uses planet-to-planet story links" in kwargs["user_prompt"]
+        assert "No fake palm-leaf claim" in kwargs["user_prompt"]
+        assert "chalitBhavKpFoundation" in kwargs["user_prompt"]
+        assert "KP belongs to KP Predicta" in kwargs["user_prompt"]
         assert "formattingContract" in kwargs["user_prompt"]
         return "Chart evidence\n- D1 context is present.\n\nReading: stay focused."
 
