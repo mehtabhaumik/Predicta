@@ -305,7 +305,7 @@ function buildFreePreview(
 ): string {
   const top = patterns[0];
   if (!top) {
-    return `${kundli.birthDetails.name}'s Nadi space is ready, but the first preview needs a fresh Kundli calculation with planetary details.`;
+    return `${kundli.birthDetails.name}'s Nadi space is ready. Predicta will prepare the first preview once planetary story details are available from the saved birth profile.`;
   }
   return `Nadi preview: ${top.title} stands out. ${top.freeInsight}`;
 }

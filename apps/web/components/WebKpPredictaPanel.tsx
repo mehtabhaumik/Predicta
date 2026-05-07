@@ -9,12 +9,14 @@ type WebKpPredictaPanelProps = {
   handoffQuestion?: string;
   hasPremiumAccess?: boolean;
   kundli?: KundliData;
+  schoolCalculationStatus?: 'idle' | 'calculating' | 'error';
 };
 
 export function WebKpPredictaPanel({
   handoffQuestion,
   hasPremiumAccess = false,
   kundli,
+  schoolCalculationStatus = 'idle',
 }: WebKpPredictaPanelProps): React.JSX.Element {
   const foundation = composeChalitBhavKpFoundation(kundli, {
     depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
@@ -111,10 +113,7 @@ export function WebKpPredictaPanel({
             </table>
           </div>
           {!kp.cusps.length ? (
-            <p>
-              Refresh this Kundli to show KP cusps. Older saved Kundlis may need
-              one fresh calculation.
-            </p>
+            <p>{getKpCalculationMessage(Boolean(kundli), schoolCalculationStatus)}</p>
           ) : null}
         </div>
       </Card>
@@ -155,4 +154,23 @@ export function WebKpPredictaPanel({
       </Card>
     </div>
   );
+}
+
+function getKpCalculationMessage(
+  hasKundli: boolean,
+  status: 'idle' | 'calculating' | 'error',
+): string {
+  if (!hasKundli) {
+    return 'Create a Kundli once, then KP Predicta will calculate the KP horoscope from those birth details.';
+  }
+
+  if (status === 'calculating') {
+    return 'Calculating KP cusps, star lords, and sub lords from your saved birth details...';
+  }
+
+  if (status === 'error') {
+    return 'Predicta has your birth details, but KP calculation could not complete right now. Please try again shortly.';
+  }
+
+  return 'KP Predicta is preparing this layer from the saved birth profile.';
 }

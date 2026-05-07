@@ -19,5 +19,6 @@ export * from './predictaChatActions';
 export * from './remedyCoach';
 export * from './relationshipMirror';
 export * from './sadeSatiIntelligence';
+export * from './schoolReadiness';
 export * from './transitGocharIntelligence';
 export * from './yearlyHoroscopeVarshaphal';

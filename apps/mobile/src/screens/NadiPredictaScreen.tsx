@@ -1,28 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { composeNadiJyotishPlan } from '@pridicta/astrology';
+import {
+  composeNadiJyotishPlan,
+  needsPredictaSchoolCalculation,
+} from '@pridicta/astrology';
 
 import { AnimatedHeader, AppText, GlowCard, Screen } from '../components';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
+import { generateKundli } from '../services/astrology/astroEngine';
+import {
+  listSavedKundlis,
+  saveGeneratedKundliLocally,
+} from '../services/kundli/kundliRepository';
 import { useAppStore } from '../store/useAppStore';
 import { colors } from '../theme/colors';
+import type { KundliData } from '../types/astrology';
 
 export function NadiPredictaScreen({
   navigation,
 }: RootScreenProps<typeof routes.NadiPredicta>): React.JSX.Element {
   const kundli = useAppStore(state => state.activeKundli);
   const getResolvedAccess = useAppStore(state => state.getResolvedAccess);
+  const setActiveKundli = useAppStore(state => state.setActiveKundli);
+  const setSavedKundlis = useAppStore(state => state.setSavedKundlis);
   const activeChartContext = useAppStore(state => state.activeChartContext);
   const setActiveChartContext = useAppStore(
     state => state.setActiveChartContext,
+  );
+  const schoolReady = useSchoolReadyKundli(
+    kundli,
+    setActiveKundli,
+    setSavedKundlis,
   );
   const access = getResolvedAccess();
   const handoffQuestion =
     activeChartContext?.predictaSchool === 'NADI'
       ? activeChartContext.handoffQuestion
       : undefined;
-  const plan = composeNadiJyotishPlan(kundli, {
+  const plan = composeNadiJyotishPlan(schoolReady.kundli, {
     depth: access.hasPremiumAccess ? 'PREMIUM' : 'FREE',
     handoffQuestion,
   });
@@ -99,7 +115,7 @@ export function NadiPredictaScreen({
             ))}
             {!plan.patterns.length ? (
               <AppText tone="secondary">
-                Create or refresh a Kundli to show Nadi story links.
+                {getNadiCalculationMessage(schoolReady.status)}
               </AppText>
             ) : null}
           </View>
@@ -152,6 +168,84 @@ export function NadiPredictaScreen({
       </View>
     </Screen>
   );
+}
+
+function useSchoolReadyKundli(
+  activeKundli: KundliData | undefined,
+  setActiveKundli: (kundli: KundliData) => void,
+  setSavedKundlis: ReturnType<typeof useAppStore.getState>['setSavedKundlis'],
+): {
+  kundli: KundliData | undefined;
+  status: 'idle' | 'calculating' | 'error';
+} {
+  const [kundli, setKundli] = useState<KundliData | undefined>(activeKundli);
+  const [status, setStatus] = useState<'idle' | 'calculating' | 'error'>('idle');
+  const needsCalculation = needsPredictaSchoolCalculation(activeKundli, 'NADI');
+
+  useEffect(() => {
+    let cancelled = false;
+
+    setKundli(activeKundli);
+
+    if (!activeKundli || !needsCalculation) {
+      setStatus('idle');
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    setStatus('calculating');
+    generateKundli(activeKundli.birthDetails, { ignoreCache: true })
+      .then(nextKundli => {
+        if (cancelled) {
+          return;
+        }
+        setKundli(nextKundli);
+        setActiveKundli(nextKundli);
+        return saveGeneratedKundliLocally(nextKundli);
+      })
+      .then(records => {
+        if (!cancelled && records) {
+          setSavedKundlis(records);
+        }
+        if (!cancelled) {
+          setStatus('idle');
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setStatus('error');
+        }
+        listSavedKundlis()
+          .then(setSavedKundlis)
+          .catch(() => undefined);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    activeKundli,
+    needsCalculation,
+    setActiveKundli,
+    setSavedKundlis,
+  ]);
+
+  return { kundli, status };
+}
+
+function getNadiCalculationMessage(
+  status: 'idle' | 'calculating' | 'error',
+): string {
+  if (status === 'calculating') {
+    return 'Preparing Nadi story links from your saved birth details...';
+  }
+
+  if (status === 'error') {
+    return 'Predicta has your birth details, but the Nadi preparation could not complete right now. Please try again shortly.';
+  }
+
+  return 'Nadi Predicta is preparing this layer from the saved birth profile.';
 }
 
 const styles = StyleSheet.create({

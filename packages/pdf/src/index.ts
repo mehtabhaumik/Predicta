@@ -571,7 +571,7 @@ function buildTimelineSection(kundli: KundliData, mode: PDFMode): PdfSection {
     body: 'The timeline joins dasha periods, important transits, rectification notes, and remedy practices into one planning view.',
     bullets: events.length
       ? events.map(event => `${event.title}: ${event.startDate}${event.endDate ? ` to ${event.endDate}` : ''} - ${event.summary}`)
-      : ['Timeline insights will appear after this Kundli is refreshed.'],
+      : ['Timeline insights will appear once Predicta prepares this layer from the saved birth profile.'],
     evidence: [`Timeline events included: ${events.length}.`],
     decisionWindows: events.slice(0, mode === 'PREMIUM' ? 5 : 2).map(event => ({
       confidence: event.confidence,
@@ -630,7 +630,7 @@ function buildTransitSection(kundli: KundliData, mode: PDFMode): PdfSection {
               `${transit.planet} in ${transit.sign} house ${transit.houseFromLagna} from Lagna and ${transit.houseFromMoon} from Moon: ${transit.summary}`,
           ),
         ]
-      : ['Transit insights will appear after this Kundli is refreshed.'],
+      : ['Transit insights will appear once Predicta prepares this layer from the saved birth profile.'],
     evidence: [
       `Gochar tone: ${gochar.dominantWeight}; current transit insights: ${gochar.planetInsights.length}.`,
       `Sade Sati status: ${sadeSati.phaseLabel}; active: ${sadeSati.active ? 'yes' : 'no'}.`,
@@ -971,7 +971,7 @@ function buildRemedySection(kundli: KundliData): PdfSection {
           remedy =>
             `${remedy.title}: ${remedy.practice} Cadence: ${remedy.cadence}. Review after 4 completions or 30 days; stop or simplify if it creates fear or avoidance.`,
         )
-      : ['Remedy insights will appear after this Kundli is refreshed.'],
+      : ['Remedy insights will appear once Predicta prepares this layer from the saved birth profile.'],
     evidence: remedies.map(
       remedy =>
         `${remedy.id}: ${remedy.rationale} Planets ${remedy.linkedPlanets.join(', ') || 'none'}, houses ${remedy.linkedHouses.join(', ') || 'none'}. Caution: ${remedy.caution}`,

@@ -44,9 +44,9 @@ export function composeChalitBhavKpFoundation(
       evidence: buildBhavEvidence(kundli, shifts),
       freeInsight: bhavReady
         ? buildBhavFreeInsight(kundli, shifts)
-        : 'Bhav Chalit will appear after this Kundli is refreshed with house-cusp details.',
+        : 'Bhav Chalit will appear automatically once Predicta calculates exact house-cusp details from the saved birth profile.',
       limitations: bhav?.limitations ?? [
-        'Chalit is not ready for this saved Kundli yet. Refresh the Kundli to enable degree-based house refinement.',
+        'Predicta needs exact birth date, time, place, coordinates, and timezone to calculate degree-based house refinement.',
       ],
       premiumSynthesis:
         depth === 'PREMIUM' && bhavReady
@@ -83,9 +83,9 @@ export function composeChalitBhavKpFoundation(
       evidence: buildKpEvidence(kp?.cusps, topSignificators, kp?.rulingPlanets),
       freeInsight: kpReady && kp
         ? buildKpFreeInsight(kp.cusps, topSignificators)
-        : 'KP horoscope details will appear after this Kundli is refreshed with KP cusps, star lords, and sub lords.',
+        : 'KP horoscope details will appear automatically once Predicta calculates KP cusps, star lords, and sub lords from the saved birth profile.',
       limitations: kp?.limitations ?? [
-        'KP is not ready for this saved Kundli yet. Refresh the Kundli to enable KP details.',
+        'Predicta needs exact birth date, time, place, coordinates, and timezone to calculate KP details.',
       ],
       planets: kp?.planets ?? [],
       premiumSynthesis:

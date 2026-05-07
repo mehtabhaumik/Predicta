@@ -13,6 +13,7 @@ type KpPredictaPanelProps = {
   hasPremiumAccess?: boolean;
   onAskKp?: () => void;
   onPremium?: () => void;
+  schoolCalculationStatus?: 'idle' | 'calculating' | 'error';
 };
 
 export function KpPredictaPanel({
@@ -21,6 +22,7 @@ export function KpPredictaPanel({
   hasPremiumAccess = false,
   onAskKp,
   onPremium,
+  schoolCalculationStatus = 'idle',
 }: KpPredictaPanelProps): React.JSX.Element {
   const kp = foundation.kp;
   const ruling = kp.rulingPlanets;
@@ -97,7 +99,7 @@ export function KpPredictaPanel({
           ))}
           {!kp.cusps.length ? (
             <AppText tone="secondary">
-              Refresh this Kundli to show KP cusps.
+              {getKpCalculationMessage(schoolCalculationStatus)}
             </AppText>
           ) : null}
         </View>
@@ -142,6 +144,20 @@ export function KpPredictaPanel({
       </GlowCard>
     </View>
   );
+}
+
+function getKpCalculationMessage(
+  status: 'idle' | 'calculating' | 'error',
+): string {
+  if (status === 'calculating') {
+    return 'Calculating KP cusps, star lords, and sub lords from your saved birth details...';
+  }
+
+  if (status === 'error') {
+    return 'Predicta has your birth details, but KP calculation could not complete right now. Please try again shortly.';
+  }
+
+  return 'KP Predicta is preparing this layer from the saved birth profile.';
 }
 
 function Metric({

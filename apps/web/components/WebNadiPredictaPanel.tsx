@@ -9,12 +9,14 @@ type WebNadiPredictaPanelProps = {
   handoffQuestion?: string;
   hasPremiumAccess?: boolean;
   kundli?: KundliData;
+  schoolCalculationStatus?: 'idle' | 'calculating' | 'error';
 };
 
 export function WebNadiPredictaPanel({
   handoffQuestion,
   hasPremiumAccess = false,
   kundli,
+  schoolCalculationStatus = 'idle',
 }: WebNadiPredictaPanelProps): React.JSX.Element {
   const plan = composeNadiJyotishPlan(kundli, {
     depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
@@ -85,7 +87,9 @@ export function WebNadiPredictaPanel({
             ))}
           </div>
           {!plan.patterns.length ? (
-            <p>Create or refresh a Kundli to show Nadi story links.</p>
+            <p>
+              {getNadiCalculationMessage(Boolean(kundli), schoolCalculationStatus)}
+            </p>
           ) : null}
         </div>
       </Card>
@@ -123,4 +127,23 @@ export function WebNadiPredictaPanel({
       </Card>
     </div>
   );
+}
+
+function getNadiCalculationMessage(
+  hasKundli: boolean,
+  status: 'idle' | 'calculating' | 'error',
+): string {
+  if (!hasKundli) {
+    return 'Create a Kundli once, then Nadi Predicta will prepare its story links from those birth details.';
+  }
+
+  if (status === 'calculating') {
+    return 'Preparing Nadi story links from your saved birth details...';
+  }
+
+  if (status === 'error') {
+    return 'Predicta has your birth details, but the Nadi preparation could not complete right now. Please try again shortly.';
+  }
+
+  return 'Nadi Predicta is preparing this layer from the saved birth profile.';
 }
