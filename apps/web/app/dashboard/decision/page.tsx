@@ -8,8 +8,8 @@ export default function DecisionPage(): React.JSX.Element {
         <StatusPill label="Green / Yellow / Red / Wait" tone="premium" />
         <h1 className="gradient-text">A serious memo for real choices.</h1>
         <p>
-          Decision Oracle turns a question into timing, risk, evidence, and one
-          practical next step without fatalistic yes-or-no claims.
+          Turn one question into timing, risk, chart proof, and a practical next
+          step.
         </p>
       </div>
 

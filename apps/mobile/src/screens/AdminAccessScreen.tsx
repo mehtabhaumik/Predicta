@@ -198,14 +198,14 @@ export function AdminAccessScreen(): React.JSX.Element {
 
   return (
     <Screen>
-      <AnimatedHeader eyebrow="OWNER TOOLS" title="Admin access" />
+      <AnimatedHeader eyebrow="OWNER TOOLS" title="Owner access" />
 
       <View className="mt-8 gap-4">
         <GlowCard delay={100}>
           <AppText variant="subtitle">Secure guest-pass console</AppText>
           <AppText className="mt-2" tone="secondary">
-            Create, revoke, list, and inspect guest pass codes through the same
-            secure owner service used by web.
+            Create, revoke, list, and review guest pass codes from one secure
+            owner space.
           </AppText>
           <AdminField
             label="Owner access token"
@@ -230,15 +230,15 @@ export function AdminAccessScreen(): React.JSX.Element {
         <GlowCard delay={180}>
           <AppText variant="subtitle">Issue a private invite</AppText>
           <AdminField
-            label="Code ID"
+            label="Pass name"
             onChangeText={value =>
               setDraft(current => ({ ...current, codeId: value }))
             }
-            placeholder="vip-beta-2026"
+            placeholder="private-invite-name"
             value={draft.codeId}
           />
           <AdminField
-            label="Private raw code"
+            label="Private invite code"
             onChangeText={value =>
               setDraft(current => ({ ...current, code: value }))
             }

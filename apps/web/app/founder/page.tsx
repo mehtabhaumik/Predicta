@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     description:
-      'The founder vision behind Predicta, a premium Vedic intelligence system.',
+      'The founder vision behind Predicta, a premium Vedic astrology companion.',
     title: 'Founder Vision | Predicta',
   },
 };
@@ -70,8 +70,8 @@ export default function FounderPage(): React.JSX.Element {
               Building Predicta for people who want clarity without noise.
             </h1>
             <p className="founder-lede">
-              I built Predicta to make Vedic astrology feel precise, private,
-              emotionally calm, safe, and genuinely useful in modern life.
+              I built Predicta to make Vedic astrology precise, private, calm,
+              and useful.
             </p>
             <div className="founder-actions">
               <Link className="button" href="/dashboard">
@@ -96,8 +96,7 @@ export default function FounderPage(): React.JSX.Element {
             <div className="founder-portrait-copy">
               <p>
                 Predicta should feel intelligent, polished, private, and human.
-                That standard applies to the design, the astrology, and the AI
-                safety layer.
+                That standard applies everywhere.
               </p>
             </div>
           </div>
@@ -114,21 +113,17 @@ export default function FounderPage(): React.JSX.Element {
             </div>
             <div className="founder-letter-copy">
               <p>
-                Predicta began from a simple belief: deep chart wisdom should
-                not feel confusing, intimidating, or cheaply packaged. A Kundli
-                carries sensitive personal context. The product around it should
-                feel equally thoughtful.
+                Deep chart wisdom should not feel confusing, intimidating, or
+                cheaply packaged. A Kundli carries personal context and deserves
+                a thoughtful experience.
               </p>
               <p>
-                The goal is not to replace tradition. The goal is to give it a
-                respectful interface, a calmer voice, and a smarter structure so
-                people can explore their chart, timing, reports, and questions
-                with confidence.
+                The goal is to honor tradition with a calmer voice, clearer
+                structure, and confident chart exploration.
               </p>
               <p>
-                Predicta is being built as a premium Vedic intelligence system:
-                chart-backed, safety-aware, mobile-first, and careful about how
-                much data is used for every answer.
+                Predicta is chart-backed, safety-aware, mobile-first, and
+                careful with every answer.
               </p>
             </div>
           </div>
@@ -168,7 +163,7 @@ export default function FounderPage(): React.JSX.Element {
 
         <section className="founder-final">
           <p>
-            Predicta is for people who want spiritual technology to feel useful,
+            Predicta is for people who want spiritual guidance to feel useful,
             safe, premium, and respectful.
           </p>
           <FounderSignature />

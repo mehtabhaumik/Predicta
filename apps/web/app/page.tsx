@@ -9,19 +9,19 @@ import { WebHeader } from '../components/WebHeader';
 
 const capabilities = [
   {
-    body: 'Resolve birth details, create kundlis, and keep local/cloud records aligned without forcing cloud upload.',
+    body: 'Create Kundlis and choose when to save online.',
     title: 'Kundli creation',
   },
   {
-    body: 'Move from D1 into D9, D10, dasha, yogas, and divisional insights without overwhelm.',
+    body: 'Move from D1 to D9, D10, dasha, yogas, and insight.',
     title: 'Chart interpretation',
   },
   {
-    body: 'Ask from a chart, report, or saved profile and keep the conversation grounded in your reading.',
+    body: 'Ask from a chart, report, or saved profile.',
     title: 'Predicta chat',
   },
   {
-    body: 'Generate premium-looking reports where free and paid users both receive a polished experience.',
+    body: 'Create polished free previews and deeper premium reports.',
     title: 'Report depth',
   },
 ];
@@ -43,7 +43,7 @@ export default function LandingPage(): React.JSX.Element {
 
         <PremiumSectionWrapper
           eyebrow="WHAT PREDICTA DOES"
-          intro="A calm product flow for creating, reading, saving, and discussing a kundli without turning the experience into a technical dashboard."
+          intro="Create, read, save, and discuss a Kundli without dashboard noise."
           title="A complete astrology experience with room to breathe."
           variant="wide"
         >
@@ -68,9 +68,8 @@ export default function LandingPage(): React.JSX.Element {
             <div>
               <h3>Professional chart awareness, presented clearly.</h3>
               <p>
-                Predicta understands current dasha, key placements, chart
-                sections, and follow-up questions without turning the reading
-                into jargon.
+                Predicta reads dasha, placements, chart sections, and follow-up
+                context without turning the reading into jargon.
               </p>
             </div>
             <ul>
@@ -84,7 +83,7 @@ export default function LandingPage(): React.JSX.Element {
         <PremiumSectionWrapper
           eyebrow="PREMIUM REPORTS"
           id="reports"
-          intro="The report experience should feel like a personal dossier, not a plain export."
+          intro="Reports should feel personal, polished, and easy to read."
           title="Share-worthy reports, even in free mode."
           variant="wide"
         >
@@ -100,9 +99,8 @@ export default function LandingPage(): React.JSX.Element {
             <div className="report-copy">
               <h3>Designed to feel personal and calm.</h3>
               <p>
-                Watermark, footer, chart summaries, predictions, and guidance
-                stay polished whether you read a short report or a deeper
-                personal dossier.
+                Summaries, predictions, and guidance stay polished in both short
+                and deeper reports.
               </p>
               <Link className="button secondary" href="/dashboard/report">
                 Preview Report

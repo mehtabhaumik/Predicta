@@ -49,8 +49,7 @@ export default function PricingPage(): React.JSX.Element {
           <div>
             <h2>One-time paths</h2>
             <p>
-              Lower-friction choices for people who want to try depth before a
-              subscription.
+              Try depth before choosing a subscription.
             </p>
           </div>
           <div className="one-time-grid">
@@ -71,8 +70,7 @@ export default function PricingPage(): React.JSX.Element {
             <h2>Create your Kundli. Understand your life. Ask better questions. Get beautiful reports.</h2>
             <p>
               Premium should feel like a private Jyotish studio, not a token
-              counter. Question packs stay available only as a rescue offer
-              after limits are reached.
+              counter.
             </p>
           </div>
           <div className="premium-feature-grid">
@@ -88,8 +86,8 @@ export default function PricingPage(): React.JSX.Element {
           <h2>Clear limits, no fear selling.</h2>
           <p>
             Predicta Premium is deeper astrology guidance, not medical, legal,
-            financial, or emergency advice. Subscriptions should be easy to
-            cancel, and one-time reports should be clear before purchase.
+            financial, or emergency advice. Subscriptions and one-time reports
+            should stay clear before purchase.
           </p>
           <Link className="button secondary" href="/legal">
             Read Policies

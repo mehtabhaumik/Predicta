@@ -9,9 +9,8 @@ export default function ChartsPage(): React.JSX.Element {
         <StatusPill label="North Indian chart style" tone="premium" />
         <h1 className="gradient-text">See your chart without getting lost.</h1>
         <p>
-          Create your Kundli first. Free users can open every chart with useful
-          insight. Premium adds detailed analysis, D1 anchoring, timing, and
-          report-ready synthesis for each chart.
+          Free users can open every chart with useful insight. Premium adds
+          deeper analysis, timing, and report-ready synthesis.
         </p>
       </div>
 

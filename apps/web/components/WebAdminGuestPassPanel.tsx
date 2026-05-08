@@ -17,7 +17,7 @@ const passTypes: PassCodeType[] = [
 ];
 
 const readinessCopy: Record<string, string> = {
-  'Model and prompt pins': 'Answer style is approved',
+  'Model and prompt pins': 'Answer style is set',
   'Prompt safety contract': 'Safety promise is present',
   'Red-team evals': 'Difficult-question practice passed',
 };
@@ -28,7 +28,7 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
   const [releaseReadiness, setReleaseReadiness] =
     useState<ReleaseReadinessReport>();
   const [safetyReports, setSafetyReports] = useState<SafetyAuditEvent[]>([]);
-  const [message, setMessage] = useState('Enter the owner access token to list or create passes.');
+  const [message, setMessage] = useState('Enter the owner key to list or create passes.');
   const [busy, setBusy] = useState(false);
   const [draft, setDraft] = useState({
     accessLevel: 'GUEST',
@@ -133,14 +133,14 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
       const payload = await response.json();
 
       if (!response.ok) {
-        setMessage(payload.detail ?? 'Safety review queue could not be opened.');
+        setMessage(payload.detail ?? 'Safety reports could not be opened.');
         return;
       }
 
       setSafetyReports(payload);
       setMessage(`${payload.length} safety reports loaded.`);
     } catch {
-      setMessage('Safety review queue is not reachable.');
+      setMessage('Safety reports are not reachable.');
     } finally {
       setBusy(false);
     }
@@ -182,7 +182,7 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
       );
       setMessage(`${payload.id} marked ${payload.reviewStatus.toLowerCase()}.`);
     } catch {
-      setMessage('Safety review queue is not reachable.');
+      setMessage('Safety reports are not reachable.');
     } finally {
       setBusy(false);
     }
@@ -197,18 +197,18 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
       const payload = await response.json();
 
       if (!response.ok) {
-        setMessage(payload.detail ?? 'Release readiness could not be checked.');
+        setMessage(payload.detail ?? 'Public sharing check could not be completed.');
         return;
       }
 
       setReleaseReadiness(payload);
       setMessage(
         payload.releaseStatus === 'READY'
-          ? 'Release readiness is clear.'
-          : 'Release readiness is blocked.',
+          ? 'Predicta is clear to share.'
+          : 'Predicta should not be shared yet.',
       );
     } catch {
-      setMessage('Release readiness could not be checked.');
+      setMessage('Public sharing check could not be completed.');
     } finally {
       setBusy(false);
     }
@@ -221,18 +221,16 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
           <div className="section-title">OWNER ACCESS</div>
           <h2>Secure pass control</h2>
           <p>
-            Guest passes are created, listed, and revoked through the secure
-            owner service. Private pass rules are checked before access is
-            granted.
+            Create, list, and revoke private guest passes.
           </p>
           <div className="field-stack">
             <label className="field-label" htmlFor="admin-token">
-              Owner access token
+              Owner key
             </label>
             <input
               id="admin-token"
               onChange={event => setToken(event.target.value)}
-              placeholder="Enter owner access token"
+              placeholder="Enter owner key"
               type="password"
               value={token}
             />
@@ -250,15 +248,15 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
           <h2>Issue a private invite.</h2>
           <div className="admin-form-grid">
             <input
-              aria-label="Code ID"
+              aria-label="Pass name"
               onChange={event => setDraft(current => ({ ...current, codeId: event.target.value }))}
-              placeholder="code-id"
+              placeholder="private-invite-name"
               value={draft.codeId}
             />
             <input
               aria-label="Private code"
               onChange={event => setDraft(current => ({ ...current, code: event.target.value }))}
-              placeholder="private raw code"
+              placeholder="Private invite code"
               value={draft.code}
             />
             <input
@@ -318,7 +316,7 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
               <div className="section-title">{pass.type}</div>
               <h2>{pass.label}</h2>
               <p>
-                {pass.codeId} · {pass.accessLevel} · {pass.redeemedByUserIds.length}/
+                {pass.label} · {pass.accessLevel} · {pass.redeemedByUserIds.length}/
                 {pass.maxRedemptions} used
               </p>
               <button
@@ -352,10 +350,15 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
           </button>
           {releaseReadiness ? (
             <div className="release-readiness-panel">
-              <strong>{releaseReadiness.releaseStatus}</strong>
+              <strong>
+                {releaseReadiness.releaseStatus === 'READY'
+                  ? 'Clear to share'
+                  : 'Needs attention'}
+              </strong>
               {releaseReadiness.checks.map(check => (
                 <p key={check.name}>
-                  {check.status}: {readinessCopy[check.name] ?? check.name}
+                  {check.status === 'PASS' ? 'Passed' : 'Needs attention'}:{' '}
+                  {readinessCopy[check.name] ?? check.name}
                 </p>
               ))}
             </div>
@@ -368,9 +371,8 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
           <div className="section-title">SAFETY REVIEW</div>
           <h2>Review reported guidance.</h2>
           <p>
-            Each report keeps only safety labels, answer source, review status,
-            and a protected identifier. Private birth details and full chat text
-            are not stored here.
+            Each report keeps only the minimum review details. Private birth
+            details and full chat text are not stored here.
           </p>
           <button
             className="button secondary"
@@ -378,7 +380,7 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
             onClick={loadSafetyReports}
             type="button"
           >
-            Load Safety Reports
+            Load Reports
           </button>
         </div>
       </div>
@@ -390,7 +392,7 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
               <div className="section-title">{report.reportKind}</div>
               <h2>{report.reviewStatus}</h2>
               <p>
-                {report.createdAt} · {report.route} · answer source saved
+                {report.createdAt} · {report.route}
               </p>
               <p>{report.safetyCategories.join(', ') || 'No category label'}</p>
               <div className="admin-action-row">

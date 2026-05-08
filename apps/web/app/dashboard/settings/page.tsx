@@ -26,8 +26,7 @@ export default function SettingsPage(): React.JSX.Element {
         <StatusPill label={usage.statusText} tone="quiet" />
         <h1 className="gradient-text">Settings that stay in your control.</h1>
         <p>
-          Manage account access, sound, cloud save, billing, and private guest
-          passes without exposing technical setup details.
+          Manage account access, sound, cloud save, billing, and guest passes.
         </p>
       </div>
 
@@ -37,8 +36,7 @@ export default function SettingsPage(): React.JSX.Element {
             <div className="section-title">ACCOUNT</div>
             <h2>Profile and sign-in</h2>
             <p>
-              Use Predicta locally, or sign in when you want online restore and
-              cross-device access.
+              Use Predicta locally, or sign in when you want restore access.
             </p>
             <div className="settings-stack">
               <div className="setting-row">

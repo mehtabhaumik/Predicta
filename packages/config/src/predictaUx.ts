@@ -11,19 +11,19 @@ export type PredictaJourneyStep = {
 export const PREDICTA_JOURNEY_STEPS: PredictaJourneyStep[] = [
   {
     action: 'Create Kundli',
-    body: 'Enter birth date, time, and place. Predicta calculates quietly.',
+    body: 'Enter birth date, time, and place.',
     id: 'create',
     title: 'Step 1',
   },
   {
     action: 'See My Summary',
-    body: 'Read the simple version first. Chart terms stay behind proof buttons.',
+    body: 'Read the simple version first.',
     id: 'summary',
     title: 'Step 2',
   },
   {
     action: 'Ask Predicta',
-    body: 'Ask one question at a time. Predicta answers from your chart evidence.',
+    body: 'Ask one clear question.',
     id: 'ask',
     title: 'Step 3',
   },

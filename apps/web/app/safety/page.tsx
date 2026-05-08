@@ -8,15 +8,15 @@ import { WebHeader } from '../../components/WebHeader';
 const safetyCommitments = [
   {
     title: 'Guidance, not replacement',
-    body: 'Predicta can answer astrology questions about health, money, law, behavior, conflict, and emotional pressure. It is still Jyotish guidance, not a replacement for doctors, lawyers, financial advisors, emergency help, or real-world judgment.',
+    body: 'Predicta answers serious astrology questions as reflection, not a replacement for qualified help or real-world judgment.',
   },
   {
     title: 'Crisis comes first',
-    body: 'If someone talks about self-harm or immediate danger, Predicta responds with care first, encourages immediate human support, and keeps any astrology reflection gentle, protective, and non-fatalistic.',
+    body: 'If danger appears, care comes first. Any astrology reflection stays gentle, protective, and non-fatalistic.',
   },
   {
     title: 'Serious topics are allowed with safeguards',
-    body: 'Finance astrology, medical astrology, legal astrology, share-market astrology, behavior questions, and family concerns are allowed. Predicta adds a clear safety note and avoids final decisions or guarantees.',
+    body: 'Finance, medical, legal, behavior, and family questions are allowed with clear limits.',
   },
   {
     title: 'Unsafe requests are blocked',
@@ -24,15 +24,15 @@ const safetyCommitments = [
   },
   {
     title: 'No fear-based predictions',
-    body: 'Predicta is designed to avoid scary and fatalistic claims like guaranteed death, divorce, illness, bankruptcy, or disaster.',
+    body: 'No guaranteed death, divorce, illness, bankruptcy, or disaster predictions.',
   },
   {
     title: 'Unsafe answers are softened',
-    body: 'If an answer sounds scary, overconfident, or careless, Predicta is designed to turn it into calmer and safer guidance.',
+    body: 'Scary or overconfident answers are softened into calmer guidance.',
   },
   {
     title: 'Prepared for difficult questions',
-    body: 'Predicta is prepared for difficult questions, mixed Hindi, Gujarati, and English, and imperfect typing, because real people do not always ask neatly.',
+    body: 'Predicta is prepared for messy language, mixed languages, and difficult real-life questions.',
   },
   {
     title: 'Different astrology schools stay separate',
@@ -44,15 +44,15 @@ const safetyCommitments = [
   },
   {
     title: 'Users can report concerns',
-    body: 'If an answer feels concerning, the user can report it from chat so it can be looked at carefully.',
+    body: 'Users can report a concerning answer from chat.',
   },
   {
     title: 'Privacy stays protected',
-    body: 'When a concern is reported, Predicta avoids keeping the full conversation or exact birth details. It keeps only the minimum information needed to look into the concern.',
+    body: 'Reports avoid full chat text and exact birth details.',
   },
   {
     title: 'Safety comes before public sharing',
-    body: 'If a change makes Predicta less safe, it should not be shared with users until the concern is fixed.',
+    body: 'Unsafe changes should not reach users.',
   },
 ];
 
@@ -76,10 +76,8 @@ export default function SafetyPage(): React.JSX.Element {
           <StatusPill label="Public safety promise" tone="premium" />
           <h1 className="gradient-text">Predicta is built to guide, not scare.</h1>
           <p>
-            Astrology can feel personal and emotional. Predicta is designed to
-            answer real Jyotish questions while keeping guidance calm,
-            reflective, and clearly separated from urgent professional
-            decisions.
+            Ask serious Jyotish questions with calm guidance, chart proof, and
+            clear limits.
           </p>
         </div>
 
@@ -88,18 +86,16 @@ export default function SafetyPage(): React.JSX.Element {
             <div className="section-title">OUR STANDARD</div>
             <h2>Safety is part of the product, not a footnote.</h2>
             <p>
-              Predicta can still give Jyotish guidance, but it should not scare
-              people, make dangerous guarantees, replace qualified
-              professionals, or handle crisis situations irresponsibly. The goal
-              is safeguards, not unnecessary denial.
+              Predicta gives guidance without fear, guarantees, or crisis
+              overreach. The goal is care, not unnecessary denial.
             </p>
           </div>
           <div className="safety-proof-card">
             <span>Public promise</span>
             <strong>Safety comes first</strong>
             <p>
-              New Predicta guidance should stay calm, responsible, and useful
-              before it reaches users.
+              Guidance should stay calm, responsible, and useful before users
+              see it.
             </p>
           </div>
         </section>
@@ -121,9 +117,9 @@ export default function SafetyPage(): React.JSX.Element {
             <div className="section-title">WHAT WE PREPARE FOR</div>
             <h2>Predicta is prepared for risky real-world questions.</h2>
             <p>
-              Predicta is prepared for crisis language, serious life decisions,
-              mixed-language messages, confusion between astrology schools, and
-              answers that need a calmer tone.
+              Predicta is prepared for crisis language, serious decisions,
+              mixed languages, school confusion, and answers that need a calmer
+              tone.
             </p>
           </div>
           <ul>
@@ -136,19 +132,16 @@ export default function SafetyPage(): React.JSX.Element {
         <section className="founder-promise">
           <div className="section-title">FOUNDER PROMISE</div>
           <p>
-            I want Predicta to be useful, beautiful, and deeply respectful of
-            people using it during uncertain moments. We will keep improving the
-            product, but we will not treat safety as optional.
+            Predicta should stay useful, beautiful, and respectful during
+            uncertain moments. Safety stays non-negotiable.
           </p>
           <FounderSignature />
         </section>
 
         <div className="legal-footer-note">
           <p>
-            Predicta is reflective astrology guidance. For medical, legal,
-            financial, emergency, or safety decisions, use it as a spiritual
-            and timing lens alongside qualified professional or emergency
-            support.
+            Use Predicta as a spiritual timing lens alongside qualified support
+            for serious decisions.
           </p>
           <Link className="button secondary" href="/legal">
             Read Policies

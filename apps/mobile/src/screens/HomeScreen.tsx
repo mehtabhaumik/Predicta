@@ -14,7 +14,6 @@ import {
 } from '../components';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
-import { resolveAccess } from '@pridicta/access';
 import { PREDICTA_JOURNEY_STEPS } from '@pridicta/config/predictaUx';
 import {
   composeDailyBriefing,
@@ -22,10 +21,9 @@ import {
   composeTransitGocharIntelligence,
   composeYearlyHoroscopeVarshaphal,
 } from '@pridicta/astrology';
-import { buildUsageDisplay } from '@pridicta/monetization';
 import { useAppStore } from '../store/useAppStore';
 import { colors } from '../theme/colors';
-import type { ChartContext } from '../types/astrology';
+import type { ChartContext, KundliData } from '../types/astrology';
 
 const predictaLogo = require('../assets/predicta-logo.png');
 
@@ -67,36 +65,42 @@ const toolLinks = [
   ['Wrapped', routes.PredictaWrapped],
   ['Report', routes.Report],
   ['Saved', routes.SavedKundlis],
-  ['Premium', routes.Paywall],
   ['Redeem', routes.RedeemPassCode],
   ['Settings', routes.Settings],
   ['Legal', routes.Legal],
+] as const;
+
+const focusCards = [
+  {
+    label: 'Money',
+    proof: '2nd + 11th',
+    section: 'Money focus from 2nd house, 11th house, D1, D2, dasha, and Gochar',
+  },
+  {
+    label: 'Career',
+    proof: '10th + D10',
+    section: 'Career focus from 10th house, D10, dasha, and Gochar',
+  },
+  {
+    label: 'Marriage',
+    proof: '7th + D9',
+    section: 'Relationship focus from 7th house, D9, Venus, Jupiter, dasha, and Gochar',
+  },
+  {
+    label: 'Spirituality',
+    proof: '9th + D20',
+    section: 'Spiritual focus from 9th house, D20, Jupiter, Ketu, and current dasha',
+  },
 ] as const;
 
 export function HomeScreen({
   navigation,
 }: RootScreenProps<typeof routes.Home>): React.JSX.Element {
   const kundli = useAppStore(state => state.activeKundli);
-  const auth = useAppStore(state => state.auth);
-  const monetization = useAppStore(state => state.monetization);
-  const redeemedGuestPass = useAppStore(state => state.redeemedGuestPass);
-  const usage = useAppStore(state => state.usage);
-  const userPlan = useAppStore(state => state.userPlan);
   const languagePreference = useAppStore(state => state.languagePreference);
   const setActiveChartContext = useAppStore(
     state => state.setActiveChartContext,
   );
-  const resolvedAccess = resolveAccess({
-    auth,
-    monetization,
-    redeemedGuestPass,
-  });
-  const usageDisplay = buildUsageDisplay({
-    monetization,
-    resolvedAccess,
-    usage,
-    userPlan,
-  });
   const dailyBriefing = composeDailyBriefing(kundli, {
     language: languagePreference.language,
   });
@@ -105,6 +109,9 @@ export function HomeScreen({
   const yearlyHoroscope = composeYearlyHoroscopeVarshaphal(kundli, {
     depth: 'FREE',
   });
+  const lifeWeather = buildLifeWeather(kundli, dailyBriefing, gochar);
+  const dasha = buildDashaDisplay(kundli);
+  const gocharBars = buildGocharBars(gochar);
   const gocharPrimarySignal =
     gochar.topOpportunities[0] ?? gochar.cautionSignals[0];
 
@@ -126,12 +133,9 @@ export function HomeScreen({
           <AppText tone="secondary" variant="caption">
             Namaste{kundli ? `, ${kundli.birthDetails.name.split(' ')[0]}` : ''}
           </AppText>
-          <GradientText variant="title">Welcome back</GradientText>
-          {resolvedAccess.source !== 'free' ? (
-            <View style={styles.accessBadge}>
-              <AppText variant="caption">{usageDisplay.statusText}</AppText>
-            </View>
-          ) : null}
+          <GradientText variant="title">
+            {kundli ? 'Your astrology cockpit' : 'Start with your Kundli'}
+          </GradientText>
         </View>
         <View style={styles.logoShell}>
           <Image
@@ -143,6 +147,105 @@ export function HomeScreen({
       </FadeInView>
 
       <GlowCard className="mt-8" delay={80}>
+        <View style={styles.cockpitTopline}>
+          <View className="flex-1">
+            <AppText tone="secondary" variant="caption">
+              TODAY'S COCKPIT
+            </AppText>
+            <AppText className="mt-1" variant="subtitle">
+              {kundli?.birthDetails.name ?? 'Moment sky preview'}
+            </AppText>
+            <AppText className="mt-2" tone="secondary" variant="caption">
+              Life weather, dasha, Gochar, and chart focus.
+            </AppText>
+          </View>
+          <View style={styles.cockpitBadge}>
+            <AppText variant="caption">
+              {kundli ? 'Chart ready' : 'Preview'}
+            </AppText>
+          </View>
+        </View>
+
+        <View style={styles.weatherList}>
+          {lifeWeather.map(item => (
+            <View key={item.label} style={styles.weatherRow}>
+              <View style={styles.weatherCopy}>
+                <AppText variant="caption">{item.label}</AppText>
+                <AppText tone="secondary" variant="caption">
+                  {item.status}
+                </AppText>
+              </View>
+              <View style={styles.weatherTrack}>
+                <View
+                  style={[
+                    styles.weatherFill,
+                    weatherToneStyle(item.tone),
+                    { width: `${item.score}%` },
+                  ]}
+                />
+              </View>
+              <AppText tone="secondary" variant="caption">
+                {item.reason}
+              </AppText>
+            </View>
+          ))}
+        </View>
+
+        <View style={styles.cockpitSubgrid}>
+          <View style={styles.cockpitMiniPanel}>
+            <AppText tone="secondary" variant="caption">
+              CURRENT DASHA
+            </AppText>
+            <AppText className="mt-1" variant="subtitle">
+              {dasha.title}
+            </AppText>
+            <View style={styles.dashaTrack}>
+              <View style={[styles.dashaFill, { width: `${dasha.progress}%` }]} />
+            </View>
+            <AppText className="mt-2" tone="secondary" variant="caption">
+              {dasha.window}
+            </AppText>
+          </View>
+
+          <View style={styles.cockpitMiniPanel}>
+            <AppText tone="secondary" variant="caption">
+              GOCHAR IMPACT
+            </AppText>
+            {gocharBars.map(item => (
+              <View key={item.label} style={styles.gocharMiniRow}>
+                <AppText variant="caption">{item.label}</AppText>
+                <View style={styles.gocharMiniTrack}>
+                  <View style={[styles.gocharMiniFill, { width: `${item.score}%` }]} />
+                </View>
+              </View>
+            ))}
+          </View>
+        </View>
+
+        <View style={styles.focusGrid}>
+          {focusCards.map(card => (
+            <Pressable
+              accessibilityRole="button"
+              key={card.label}
+              onPress={() =>
+                askFromHome({
+                  selectedSection: card.section,
+                  sourceScreen: 'Home cockpit',
+                })
+              }
+              style={styles.focusCard}
+            >
+              <AppText variant="caption">{card.label}</AppText>
+              <AppText className="mt-1" tone="secondary" variant="caption">
+                {card.proof}
+              </AppText>
+            </Pressable>
+          ))}
+        </View>
+      </GlowCard>
+
+      {!kundli ? (
+        <GlowCard className="mt-8" delay={110}>
         <AppText tone="secondary" variant="caption">
           START HERE
         </AppText>
@@ -178,7 +281,8 @@ export function HomeScreen({
             </Pressable>
           ))}
         </View>
-      </GlowCard>
+        </GlowCard>
+      ) : null}
 
       <View className="mt-8">
         <DailyBriefingCard
@@ -322,30 +426,6 @@ export function HomeScreen({
         </View>
       </GlowCard>
 
-      <GlowCard className="mt-7" delay={420}>
-        <AppText tone="secondary" variant="caption">
-          GUIDANCE ACCESS
-        </AppText>
-        <AppText className="mt-2" variant="subtitle">
-          {usageDisplay.statusText}
-        </AppText>
-        <AppText className="mt-2" tone="secondary">
-          {usageDisplay.questionsText}
-        </AppText>
-        <AppText tone="secondary">{usageDisplay.pdfText}</AppText>
-        {!resolvedAccess.hasPremiumAccess ? (
-          <Pressable
-            accessibilityRole="button"
-            className="mt-4"
-            onPress={() => navigation.navigate(routes.Paywall)}
-          >
-            <AppText className="font-bold text-[#4DAFFF]">
-              View Premium options
-            </AppText>
-          </Pressable>
-        ) : null}
-      </GlowCard>
-
       <FadeInView className="mt-8" delay={440}>
         <AppText variant="subtitle">Quick actions</AppText>
       </FadeInView>
@@ -379,19 +459,219 @@ export function HomeScreen({
   );
 }
 
+type WeatherItem = {
+  label: string;
+  reason: string;
+  score: number;
+  status: 'Supportive' | 'Mixed' | 'Needs care';
+  tone: 'supportive' | 'mixed' | 'challenging';
+};
+
+function buildLifeWeather(
+  kundli: KundliData | undefined,
+  briefing: ReturnType<typeof composeDailyBriefing>,
+  gochar: ReturnType<typeof composeTransitGocharIntelligence>,
+): WeatherItem[] {
+  const cues = new Map(briefing.cues.map(cue => [cue.area, cue]));
+  const sav = kundli?.ashtakavarga.sav ?? [];
+  const strongest = kundli?.ashtakavarga.strongestHouses ?? [];
+  const weakest = kundli?.ashtakavarga.weakestHouses ?? [];
+
+  return [
+    buildWeatherItem(
+      'Money',
+      scoreHouse(sav, 2, strongest, weakest),
+      cues.get('money')?.weight ?? gochar.dominantWeight,
+      cues.get('money')?.text ?? 'Money weather personalizes after Kundli creation.',
+    ),
+    buildWeatherItem(
+      'Career',
+      scoreHouse(sav, 10, strongest, weakest),
+      cues.get('career')?.weight ?? gochar.dominantWeight,
+      cues.get('career')?.text ?? 'Career weather reads D1, D10, dasha, and Gochar.',
+    ),
+    buildWeatherItem(
+      'Relationship',
+      scoreHouse(sav, 7, strongest, weakest),
+      cues.get('relationship')?.weight ?? gochar.dominantWeight,
+      cues.get('relationship')?.text ?? 'Relationship weather reads the 7th house and D9.',
+    ),
+    buildWeatherItem(
+      'Mind',
+      scoreHouse(sav, 4, strongest, weakest),
+      gochar.dominantWeight,
+      kundli
+        ? `${kundli.moonSign} Moon shapes today’s emotional weather.`
+        : 'Moon-based weather becomes personal after Kundli creation.',
+    ),
+  ];
+}
+
+function buildWeatherItem(
+  label: string,
+  base: number,
+  weight: 'supportive' | 'challenging' | 'mixed' | 'neutral',
+  reason: string,
+): WeatherItem {
+  const score = clamp(base + weightAdjustment(weight), 18, 94);
+  const tone: WeatherItem['tone'] =
+    score >= 68 ? 'supportive' : score >= 42 ? 'mixed' : 'challenging';
+
+  return {
+    label,
+    reason,
+    score,
+    status:
+      tone === 'supportive'
+        ? 'Supportive'
+        : tone === 'mixed'
+          ? 'Mixed'
+          : 'Needs care',
+    tone,
+  };
+}
+
+function buildDashaDisplay(kundli?: KundliData) {
+  if (!kundli) {
+    return {
+      progress: 12,
+      title: 'Waiting',
+      window: 'Birth details needed',
+    };
+  }
+
+  const current = kundli.dasha.current;
+  const start = new Date(current.startDate).getTime();
+  const end = new Date(current.endDate).getTime();
+  const progress =
+    Number.isFinite(start) && Number.isFinite(end) && end > start
+      ? clamp(Math.round(((Date.now() - start) / (end - start)) * 100), 4, 96)
+      : 50;
+
+  return {
+    progress,
+    title: `${current.mahadasha} → ${current.antardasha}`,
+    window: `${current.startDate} to ${current.endDate}`,
+  };
+}
+
+function buildGocharBars(gochar: ReturnType<typeof composeTransitGocharIntelligence>) {
+  const planets = ['Jupiter', 'Saturn', 'Rahu', 'Ketu'];
+
+  return planets.map(planet => {
+    const insight = gochar.planetInsights.find(item => item.planet === planet);
+    return {
+      label: planet,
+      score: clamp(58 + weightAdjustment(insight?.weight ?? 'neutral'), 24, 90),
+    };
+  });
+}
+
+function scoreHouse(
+  sav: number[],
+  house: number,
+  strongest: number[],
+  weakest: number[],
+): number {
+  if (strongest.includes(house)) {
+    return 74;
+  }
+  if (weakest.includes(house)) {
+    return 36;
+  }
+
+  const score = sav[house - 1];
+  return typeof score === 'number' ? clamp(Math.round((score / 40) * 100), 28, 84) : 56;
+}
+
+function weightAdjustment(weight: 'supportive' | 'challenging' | 'mixed' | 'neutral'): number {
+  if (weight === 'supportive') {
+    return 12;
+  }
+  if (weight === 'challenging') {
+    return -14;
+  }
+  if (weight === 'mixed') {
+    return -2;
+  }
+  return 0;
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
+
+function weatherToneStyle(tone: WeatherItem['tone']) {
+  if (tone === 'supportive') {
+    return styles.supportiveFill;
+  }
+  if (tone === 'challenging') {
+    return styles.challengingFill;
+  }
+  return styles.mixedFill;
+}
+
 const styles = StyleSheet.create({
-  accessBadge: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#191923',
-    borderColor: colors.borderGlow,
-    borderRadius: 8,
-    borderWidth: 1,
-    marginTop: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-  },
   cardTitle: {
     marginTop: 8,
+  },
+  challengingFill: {
+    backgroundColor: '#DD6F8F',
+  },
+  cockpitBadge: {
+    alignSelf: 'flex-start',
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderColor: colors.border,
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+  },
+  cockpitMiniPanel: {
+    backgroundColor: colors.surfaceMuted,
+    borderColor: colors.border,
+    borderRadius: 10,
+    borderWidth: 1,
+    flex: 1,
+    padding: 12,
+  },
+  cockpitSubgrid: {
+    flexDirection: 'row',
+    gap: 12,
+    marginTop: 16,
+  },
+  cockpitTopline: {
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    gap: 12,
+    justifyContent: 'space-between',
+  },
+  dashaFill: {
+    backgroundColor: colors.gradient[1],
+    borderRadius: 999,
+    height: '100%',
+  },
+  dashaTrack: {
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderRadius: 999,
+    height: 8,
+    marginTop: 12,
+    overflow: 'hidden',
+  },
+  focusCard: {
+    backgroundColor: colors.surfaceMuted,
+    borderColor: colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    minHeight: 76,
+    padding: 12,
+    width: '47%',
+  },
+  focusGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    marginTop: 16,
   },
   logo: {
     borderRadius: 14,
@@ -456,6 +736,21 @@ const styles = StyleSheet.create({
     gap: 12,
     justifyContent: 'space-between',
   },
+  gocharMiniFill: {
+    backgroundColor: colors.gradient[1],
+    borderRadius: 999,
+    height: '100%',
+  },
+  gocharMiniRow: {
+    gap: 6,
+    marginTop: 10,
+  },
+  gocharMiniTrack: {
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderRadius: 999,
+    height: 7,
+    overflow: 'hidden',
+  },
   toolChip: {
     alignItems: 'center',
     backgroundColor: colors.surfaceMuted,
@@ -467,5 +762,33 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 9,
     width: '47%',
+  },
+  mixedFill: {
+    backgroundColor: '#FFC34D',
+  },
+  supportiveFill: {
+    backgroundColor: '#55D6BE',
+  },
+  weatherCopy: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  weatherFill: {
+    borderRadius: 999,
+    height: '100%',
+  },
+  weatherList: {
+    gap: 14,
+    marginTop: 18,
+  },
+  weatherRow: {
+    gap: 7,
+  },
+  weatherTrack: {
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderRadius: 999,
+    height: 8,
+    overflow: 'hidden',
   },
 });

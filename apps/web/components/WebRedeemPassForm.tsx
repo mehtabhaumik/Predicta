@@ -14,7 +14,7 @@ export function WebRedeemPassForm(): React.JSX.Element {
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState<RedemptionStatus>({
     tone: 'idle',
-    text: 'Secure pass checks the code, redemption count, expiry, and device limit.',
+    text: 'Secure pass checks your invite code, expiry, and allowed use.',
   });
   const [deviceId, setDeviceId] = useState('');
   const [userId, setUserId] = useState('');
@@ -111,11 +111,11 @@ export function WebRedeemPassForm(): React.JSX.Element {
 }
 
 function getBrowserUserId(): string {
-  return getOrCreateLocalId('pridicta.webUserId.v1', 'web-user');
+  return getOrCreateLocalId('pridicta.webUserId.v1', 'profile');
 }
 
 function getBrowserDeviceId(): string {
-  return getOrCreateLocalId('pridicta.webDeviceId.v1', 'web-device');
+  return getOrCreateLocalId('pridicta.webDeviceId.v1', 'browser');
 }
 
 function getOrCreateLocalId(key: string, prefix: string): string {

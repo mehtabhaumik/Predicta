@@ -99,7 +99,7 @@ export const LEGAL_DOCUMENTS: LegalDocument[] = [
       {
         heading: 'Security and retention',
         body: [
-          'Predicta uses reasonable technical and organizational safeguards, including server-side AI calls, secure guest-pass checks, hashed pass codes, and limited access controls.',
+          'Predicta uses reasonable privacy and access safeguards for AI answers, guest passes, saved records, and account access.',
           'Data is kept only as long as needed for service, legal, security, billing, dispute, audit, or backup purposes, unless a longer retention period is required by law.',
         ],
       },
@@ -166,7 +166,7 @@ export const LEGAL_DOCUMENTS: LegalDocument[] = [
       {
         heading: 'One-time purchases',
         body: [
-          'Day Passes, Premium PDFs, report bundles, compatibility reports, and other one-time digital purchases are generally non-refundable after access is delivered or the report is generated, unless required by law or the purchase failed technically.',
+          'Day Passes, Premium PDFs, report bundles, compatibility reports, and other one-time digital purchases are generally non-refundable after access is delivered or the report is generated, unless required by law or the purchase failed because of Predicta.',
           'If a paid report cannot be generated because of a Predicta issue, the user should receive a retry, credit, or refund review.',
         ],
       },

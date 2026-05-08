@@ -8,9 +8,8 @@ export default function RelationshipPage(): React.JSX.Element {
         <StatusPill label="Two-chart comparison" tone="premium" />
         <h1 className="gradient-text">A mirror for real relationships.</h1>
         <p>
-          Compare two kundlis across emotional style, communication,
-          commitment, conflict, and timing without turning love into a shallow
-          score.
+          Compare two Kundlis across emotion, communication, commitment,
+          conflict, and timing.
         </p>
       </div>
 

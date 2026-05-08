@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Pressable, View } from 'react-native';
 
 import {
@@ -13,7 +13,11 @@ import {
 } from '../components';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
-import { getPremiumPdfProduct } from '@pridicta/config/pricing';
+import {
+  getPremiumPdfProduct,
+  getReportMarketplaceProducts,
+  type ReportMarketplaceProduct,
+} from '@pridicta/config/pricing';
 import { composeReportSections } from '@pridicta/pdf';
 import { trackAnalyticsEvent } from '../services/analytics/analyticsService';
 import { syncRedeemedGuestPassToUser } from '../services/firebase/passCodePersistence';
@@ -33,6 +37,8 @@ export function ReportScreen({
   navigation,
 }: RootScreenProps<typeof routes.Report>): React.JSX.Element {
   const [isGenerating, setIsGenerating] = useState(false);
+  const [selectedReportId, setSelectedReportId] =
+    useState<ReportMarketplaceProduct['id']>('KUNDLI');
   const auth = useAppStore(state => state.auth);
   const kundli = useAppStore(state => state.activeKundli);
   const languagePreference = useAppStore(state => state.languagePreference);
@@ -49,6 +55,10 @@ export function ReportScreen({
     state => state.setActiveChartContext,
   );
   const { glassAlert, showGlassAlert } = useGlassAlert();
+  const marketplaceProducts = useMemo(() => getReportMarketplaceProducts(), []);
+  const selectedReport =
+    marketplaceProducts.find(product => product.id === selectedReportId) ??
+    marketplaceProducts[0];
 
   function askFromReport(section: string) {
     setActiveChartContext({
@@ -171,11 +181,94 @@ export function ReportScreen({
   return (
     <Screen>
       {glassAlert}
-      <AnimatedHeader eyebrow="PERSONAL DOSSIER" title="Daily report" />
+      <AnimatedHeader eyebrow="REPORTS" title="Pick the report you need" />
 
       <View className="mt-8">
         <TrustProofPanel trust={reportPreview.trustProfile} />
       </View>
+
+      <GlowCard className="mt-8" delay={100}>
+        <AppText tone="secondary" variant="caption">
+          REPORT MARKETPLACE
+        </AppText>
+        <AppText className="mt-2" variant="subtitle">
+          Start useful. Go deeper only when needed.
+        </AppText>
+        <AppText className="mt-2" tone="secondary">
+          Free previews keep charts visible. Premium adds deeper synthesis,
+          timing, remedies, and polished PDF depth.
+        </AppText>
+
+        <View className="mt-5 gap-3">
+          {marketplaceProducts.map(product => (
+            <Pressable
+              accessibilityRole="button"
+              className={`rounded-[18px] border p-4 ${
+                selectedReportId === product.id
+                  ? 'border-[#4DAFFF] bg-[#172233]'
+                  : 'border-[#252533] bg-[#191923]'
+              }`}
+              key={product.id}
+              onPress={() => setSelectedReportId(product.id)}
+            >
+              <View className="flex-row items-start justify-between gap-3">
+                <View className="flex-1">
+                  <AppText tone="secondary" variant="caption">
+                    {product.badge.toUpperCase()}
+                  </AppText>
+                  <AppText className="mt-1" variant="body">
+                    {product.title}
+                  </AppText>
+                </View>
+                {selectedReportId === product.id ? (
+                  <AppText className="font-bold text-[#4DAFFF]" variant="caption">
+                    Selected
+                  </AppText>
+                ) : null}
+              </View>
+              <AppText className="mt-2" tone="secondary">
+                {product.bestFor}
+              </AppText>
+            </Pressable>
+          ))}
+        </View>
+      </GlowCard>
+
+      <GradientOutlineCard className="mt-6" delay={160}>
+        <AppText tone="secondary" variant="caption">
+          SELECTED REPORT
+        </AppText>
+        <AppText className="mt-2" variant="subtitle">
+          {selectedReport.title}
+        </AppText>
+        <View className="mt-4 gap-3">
+          <View className="rounded-[18px] border border-[#252533] bg-[#191923] p-4">
+            <AppText tone="secondary" variant="caption">
+              FREE PREVIEW
+            </AppText>
+            <AppText className="mt-2" tone="secondary">
+              {selectedReport.freeDepth}
+            </AppText>
+          </View>
+          <View className="rounded-[18px] border border-[#252533] bg-[#191923] p-4">
+            <AppText tone="secondary" variant="caption">
+              PREMIUM DEPTH
+            </AppText>
+            <AppText className="mt-2" tone="secondary">
+              {selectedReport.premiumDepth}
+            </AppText>
+          </View>
+        </View>
+        <Pressable
+          accessibilityRole="button"
+          className="mt-5"
+          onPress={() => askFromReport(selectedReport.prompt)}
+        >
+          <AppText className="font-bold text-[#4DAFFF]">
+            Ask Predicta from this report
+          </AppText>
+        </Pressable>
+      </GradientOutlineCard>
 
       <View className="mt-8 gap-4">
         {sections.map((section, index) => (
@@ -214,12 +307,11 @@ export function ReportScreen({
           HOROSCOPE PDF
         </AppText>
         <AppText className="mt-2" variant="subtitle">
-          Premium handbook export
+          Premium PDF bundle
         </AppText>
         <AppText className="mt-3" tone="secondary">
-          Free and Premium reports share the same dark branded design. Premium
-          expands evidence tables, decision windows, area intelligence, and
-          advanced chart verification.
+          Free gives a useful preview. Premium turns the full report into
+          deeper timing, chart proof, remedies, and a polished PDF.
         </AppText>
         <View className="mt-5 gap-4">
           <GlowButton
@@ -232,8 +324,8 @@ export function ReportScreen({
             disabled={isGenerating}
             label={
               userPlan === 'PREMIUM'
-                ? 'Generate Premium PDF'
-                : 'Premium PDF Depth'
+                ? 'Create Detailed PDF'
+                : 'See Detailed PDF Option'
             }
             onPress={() => createPdf('PREMIUM')}
           />

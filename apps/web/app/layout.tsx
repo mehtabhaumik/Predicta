@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 import { ClientServicesProvider } from '../components/ClientServicesProvider';
 
 export const metadata: Metadata = {
-  description: 'Predicta premium Vedic astrology intelligence dashboard.',
+  description: 'Predicta premium Vedic astrology guidance.',
   title: 'Predicta',
 };
 

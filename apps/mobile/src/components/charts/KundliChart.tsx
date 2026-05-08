@@ -11,6 +11,7 @@ import {
 import { colors } from '../../theme/colors';
 import type { ChartData } from '../../types/astrology';
 import { AppText } from '../AppText';
+import { FadeInView } from '../FadeInView';
 
 export type KundliChartFocus = {
   house?: number;
@@ -50,6 +51,8 @@ export const KundliChart = memo(function KundliChart({
   const activePlanets = selectedPlanet
     ? [selectedPlanet]
     : activeCell?.planets ?? [];
+  const activeHouseMeaning = getHouseMeaning(activeCell?.house);
+  const chartRole = getChartRole(chart.chartType);
 
   return (
     <View style={styles.wrapper}>
@@ -67,7 +70,12 @@ export const KundliChart = memo(function KundliChart({
         </View>
       </View>
 
-      <View style={styles.board}>
+      <FadeInView
+        key={`board-${chart.chartType}`}
+        delay={80}
+        duration={420}
+        style={styles.board}
+      >
         {Array.from({ length: 25 }, (_, index) => {
           const row = Math.floor(index / 5);
           const col = index % 5;
@@ -93,6 +101,7 @@ export const KundliChart = memo(function KundliChart({
           return (
             <ChartHouseCell
               cell={cell}
+              delay={80 + (cell.house ?? 0) * 18}
               key={cell.key}
               onFocusChange={onFocusChange}
               selected={
@@ -102,10 +111,15 @@ export const KundliChart = memo(function KundliChart({
             />
           );
         })}
-      </View>
+      </FadeInView>
 
       {activeCell ? (
-        <View style={styles.drilldown}>
+        <FadeInView
+          delay={80}
+          duration={360}
+          key={`${chart.chartType}-${activeCell.house}-${selectedPlanet ?? 'house'}`}
+          style={styles.drilldown}
+        >
           <View className="flex-row items-start justify-between gap-3">
             <View className="flex-1">
               <AppText tone="secondary" variant="caption">
@@ -119,6 +133,24 @@ export const KundliChart = memo(function KundliChart({
               {activeCell.planets.length} planet
               {activeCell.planets.length === 1 ? '' : 's'}
             </AppText>
+          </View>
+          <View style={styles.focusGrid}>
+            <View style={styles.focusCard}>
+              <AppText tone="secondary" variant="caption">
+                Life area
+              </AppText>
+              <AppText className="mt-1" variant="caption">
+                {activeHouseMeaning}
+              </AppText>
+            </View>
+            <View style={styles.focusCard}>
+              <AppText tone="secondary" variant="caption">
+                Chart role
+              </AppText>
+              <AppText className="mt-1" variant="caption">
+                {chartRole}
+              </AppText>
+            </View>
           </View>
           <View style={styles.planetRow}>
             {(activeCell.planets.length ? activeCell.planets : ['No planets']).map(
@@ -156,7 +188,7 @@ export const KundliChart = memo(function KundliChart({
               into the reading.
             </AppText>
           ) : null}
-        </View>
+        </FadeInView>
       ) : null}
     </View>
   );
@@ -164,52 +196,92 @@ export const KundliChart = memo(function KundliChart({
 
 function ChartHouseCell({
   cell,
+  delay,
   onFocusChange,
   selected,
 }: {
   cell: ChartCell;
+  delay: number;
   onFocusChange?: (focus: KundliChartFocus) => void;
   selected: boolean;
 }): React.JSX.Element {
   return (
-    <Pressable
-      accessibilityRole="button"
-      onPress={() => onFocusChange?.({ house: cell.house })}
-      style={[styles.house, selected ? styles.selectedHouse : undefined]}
-    >
-      <View className="flex-row items-center justify-between">
-        <AppText tone="secondary" variant="caption">
-          H{cell.house}
-        </AppText>
-        <AppText tone="secondary" variant="caption">
-          {cell.signShort}
-        </AppText>
-      </View>
-      <View style={styles.cellPlanetRow}>
-        {cell.planets.length ? (
-          cell.planets.map(planet => (
-            <Pressable
-              accessibilityRole="button"
-              key={planet}
-              onPress={() =>
-                onFocusChange?.({
-                  house: cell.house,
-                  planet,
-                })
-              }
-              style={styles.cellPlanetPill}
-            >
-              <AppText variant="caption">{getPlanetAbbreviation(planet)}</AppText>
-            </Pressable>
-          ))
-        ) : (
+    <FadeInView delay={delay} duration={320} style={styles.houseSlot}>
+      <Pressable
+        accessibilityRole="button"
+        onPress={() => onFocusChange?.({ house: cell.house })}
+        style={[styles.house, selected ? styles.selectedHouse : undefined]}
+      >
+        <View className="flex-row items-center justify-between">
           <AppText tone="secondary" variant="caption">
-            -
+            H{cell.house}
           </AppText>
-        )}
-      </View>
-    </Pressable>
+          <AppText tone="secondary" variant="caption">
+            {cell.signShort}
+          </AppText>
+        </View>
+        <View style={styles.cellPlanetRow}>
+          {cell.planets.length ? (
+            cell.planets.map(planet => (
+              <Pressable
+                accessibilityRole="button"
+                key={planet}
+                onPress={() =>
+                  onFocusChange?.({
+                    house: cell.house,
+                    planet,
+                  })
+                }
+                style={styles.cellPlanetPill}
+              >
+                <AppText variant="caption">{getPlanetAbbreviation(planet)}</AppText>
+              </Pressable>
+            ))
+          ) : (
+            <AppText tone="secondary" variant="caption">
+              -
+            </AppText>
+          )}
+        </View>
+      </Pressable>
+    </FadeInView>
   );
+}
+
+function getHouseMeaning(house?: number): string {
+  const meanings: Record<number, string> = {
+    1: 'self, body, identity',
+    2: 'money, speech, family',
+    3: 'effort, courage, siblings',
+    4: 'home, mother, emotions',
+    5: 'children, learning, merit',
+    6: 'work pressure, discipline',
+    7: 'marriage, partners, contracts',
+    8: 'change, secrets, transformation',
+    9: 'fortune, dharma, teachers',
+    10: 'career, status, duty',
+    11: 'gains, network, ambitions',
+    12: 'sleep, expense, release',
+  };
+
+  return house ? meanings[house] ?? 'selected life area' : 'selected life area';
+}
+
+function getChartRole(chartType: ChartData['chartType']): string {
+  if (chartType === 'D1') {
+    return 'main life chart';
+  }
+  if (chartType === 'D9') {
+    return 'marriage and maturity lens';
+  }
+  if (chartType === 'D10') {
+    return 'career confirmation lens';
+  }
+  if (chartType === 'D2') {
+    return 'wealth handling lens';
+  }
+
+  return 'supporting divisional lens';
 }
 
 const styles = StyleSheet.create({
@@ -277,12 +349,31 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  focusCard: {
+    backgroundColor: 'rgba(255, 255, 255, 0.045)',
+    borderColor: colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    flex: 1,
+    minWidth: 130,
+    padding: 10,
+  },
+  focusGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    marginTop: 12,
+  },
   house: {
-    aspectRatio: 1,
     backgroundColor: colors.cardElevated,
     borderColor: colors.border,
     borderWidth: StyleSheet.hairlineWidth,
+    height: '100%',
     padding: 7,
+    width: '100%',
+  },
+  houseSlot: {
+    aspectRatio: 1,
     width: '20%',
   },
   planetChip: {

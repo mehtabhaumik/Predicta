@@ -11,7 +11,7 @@ export default function LegalPage(): React.JSX.Element {
       <WebHeader />
       <main className="legal-page">
         <div className="page-heading compact">
-          <StatusPill label="Production policy draft" tone="premium" />
+          <StatusPill label="Public policies" tone="premium" />
           <h1 className="gradient-text">Trust, safety, and terms.</h1>
           <p>
             Predicta keeps astrology reflective, privacy-first, and clearly
@@ -51,8 +51,8 @@ export default function LegalPage(): React.JSX.Element {
 
         <div className="legal-footer-note">
           <p>
-            These policies are a strong production draft, not a substitute for
-            jurisdiction-specific legal review before public launch.
+            These policies explain Predicta’s boundaries. Local legal review may
+            still be needed before wider public launch.
           </p>
           <Link className="button secondary" href="/pricing">
             Back to Pricing

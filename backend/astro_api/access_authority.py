@@ -345,7 +345,7 @@ def seed_guest_pass_codes() -> List[GuestPassCode]:
                 codeHash=code_hash,
                 codeId=code_id,
                 createdAt=CREATED_AT,
-                createdBy="backend-seed",
+                createdBy="owner-seed",
                 deviceLimit=int(config["deviceLimit"]),
                 expiresAt=CODE_REDEMPTION_EXPIRES_AT,
                 isActive=True,

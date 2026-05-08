@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { type CSSProperties, useMemo, useState } from 'react';
 import { composeNadiJyotishPlan } from '@pridicta/astrology';
 import type { KundliData } from '@pridicta/types';
 import { Card } from './Card';
@@ -21,6 +22,30 @@ export function WebNadiPredictaPanel({
   const plan = composeNadiJyotishPlan(kundli, {
     depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
     handoffQuestion,
+  });
+  const [selectedPatternId, setSelectedPatternId] = useState<string | undefined>(
+    plan.patterns[0]?.id,
+  );
+  const selectedPattern =
+    plan.patterns.find(pattern => pattern.id === selectedPatternId) ??
+    plan.patterns[0];
+  const selectedActivation = useMemo(
+    () =>
+      selectedPattern
+        ? plan.activations.find(activation =>
+            activation.observation.includes(selectedPattern.title) ||
+            selectedPattern.planets.some(planet =>
+              activation.trigger.includes(planet),
+            ),
+          ) ?? plan.activations[0]
+        : plan.activations[0],
+    [plan.activations, selectedPattern],
+  );
+  const askHref = buildNadiAskHref({
+    activation: selectedActivation,
+    handoffQuestion,
+    pattern: selectedPattern,
+    planPrompt: plan.askPrompt,
   });
 
   return (
@@ -77,13 +102,20 @@ export function WebNadiPredictaPanel({
         <div className="card-content spacious">
           <div className="section-title">STORY LINKS</div>
           <h2>What the Nadi layer noticed.</h2>
-          <div className="school-grid significators">
-            {plan.patterns.map(pattern => (
-              <div key={pattern.id}>
+          <div className="nadi-story-map">
+            {plan.patterns.map((pattern, index) => (
+              <button
+                aria-pressed={selectedPattern?.id === pattern.id}
+                className={selectedPattern?.id === pattern.id ? 'active' : ''}
+                key={pattern.id}
+                onClick={() => setSelectedPatternId(pattern.id)}
+                style={{ ['--nadi-node-index' as string]: index } as CSSProperties}
+                type="button"
+              >
                 <span>{pattern.confidence} confidence</span>
-                <strong>{pattern.title}</strong>
-                <p>{pattern.freeInsight}</p>
-              </div>
+                <strong>{pattern.planets.join(' + ')}</strong>
+                <small>{pattern.relation.replaceAll('-', ' ')}</small>
+              </button>
             ))}
           </div>
           {!plan.patterns.length ? (
@@ -91,6 +123,48 @@ export function WebNadiPredictaPanel({
               {getNadiCalculationMessage(Boolean(kundli), schoolCalculationStatus)}
             </p>
           ) : null}
+          {selectedPattern ? (
+            <div className="nadi-pattern-detail">
+              <div>
+                <span>Selected story</span>
+                <h3>{selectedPattern.title}</h3>
+                <p>{hasPremiumAccess ? selectedPattern.premiumDetail ?? selectedPattern.meaning : selectedPattern.freeInsight}</p>
+              </div>
+              <div className="nadi-evidence-row">
+                {selectedPattern.evidence.map(item => (
+                  <small key={item}>{item}</small>
+                ))}
+              </div>
+              <div className="nadi-area-row">
+                {selectedPattern.lifeAreas.map(area => (
+                  <strong key={area}>{area}</strong>
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </Card>
+
+      <Card className="glass-panel">
+        <div className="card-content spacious">
+          <div className="section-title">ACTIVATION WINDOWS</div>
+          <h2>When the story is more likely to feel active.</h2>
+          <div className="nadi-activation-list">
+            {plan.activations.map((activation, index) => (
+              <div
+                className={
+                  selectedActivation?.id === activation.id ? 'active' : ''
+                }
+                key={activation.id}
+                style={{ ['--nadi-node-index' as string]: index } as CSSProperties}
+              >
+                <span>{activation.trigger}</span>
+                <strong>{activation.title}</strong>
+                <p>{hasPremiumAccess ? activation.premiumDetail ?? activation.guidance : activation.guidance}</p>
+                <small>{activation.timing}</small>
+              </div>
+            ))}
+          </div>
         </div>
       </Card>
 
@@ -98,10 +172,13 @@ export function WebNadiPredictaPanel({
         <div className="card-content spacious">
           <div className="section-title">VALIDATION</div>
           <h2>Predicta asks before going deep.</h2>
-          <div className="school-grid ruling">
-            {plan.validationQuestions.slice(0, 4).map(question => (
-              <div key={question}>
-                <span>Question</span>
+          <div className="nadi-validation-stack">
+            {plan.validationQuestions.slice(0, 4).map((question, index) => (
+              <div
+                key={question}
+                style={{ ['--nadi-node-index' as string]: index } as CSSProperties}
+              >
+                <span>Validation question</span>
                 <strong>{question}</strong>
               </div>
             ))}
@@ -109,13 +186,7 @@ export function WebNadiPredictaPanel({
           <div className="action-row">
             <a
               className="button"
-              href={`/dashboard/chat?prompt=${encodeURIComponent(
-                plan.askPrompt,
-              )}&school=NADI&from=PARASHARI${
-                handoffQuestion
-                  ? `&handoffQuestion=${encodeURIComponent(handoffQuestion)}`
-                  : ''
-              }`}
+              href={askHref}
             >
               Ask Nadi Predicta
             </a>
@@ -127,6 +198,49 @@ export function WebNadiPredictaPanel({
       </Card>
     </div>
   );
+}
+
+function buildNadiAskHref({
+  activation,
+  handoffQuestion,
+  pattern,
+  planPrompt,
+}: {
+  activation?: { title: string; trigger: string };
+  handoffQuestion?: string;
+  pattern?: {
+    title: string;
+    planets: string[];
+    relation: string;
+    observation: string;
+  };
+  planPrompt: string;
+}): string {
+  const prompt = [
+    handoffQuestion
+      ? `Nadi Predicta question: ${handoffQuestion}.`
+      : planPrompt,
+    pattern
+      ? `Read this through the selected Nadi story link: ${pattern.title}, planets ${pattern.planets.join(' and ')}, relation ${pattern.relation}. Evidence: ${pattern.observation}.`
+      : '',
+    activation
+      ? `Use activation context: ${activation.title}, trigger ${activation.trigger}.`
+      : '',
+    'Stay in Nadi Predicta only. Do not mix Parashari or KP. Do not claim palm-leaf manuscript access. Ask validation questions before strong event-level statements.',
+  ]
+    .filter(Boolean)
+    .join(' ');
+  const params = new URLSearchParams({
+    from: 'PARASHARI',
+    prompt,
+    school: 'NADI',
+  });
+
+  if (handoffQuestion) {
+    params.set('handoffQuestion', handoffQuestion);
+  }
+
+  return `/dashboard/chat?${params.toString()}`;
 }
 
 function getNadiCalculationMessage(

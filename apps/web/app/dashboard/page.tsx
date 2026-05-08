@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { PREDICTA_JOURNEY_STEPS } from '@pridicta/config/predictaUx';
-import { buildUsageDisplay } from '@pridicta/monetization';
 import {
   composeDailyBriefing,
   composeDestinyPassport,
@@ -11,11 +10,11 @@ import {
 } from '@pridicta/astrology';
 import { Card } from '../../components/Card';
 import { StatusPill } from '../../components/StatusPill';
+import { WebDashboardAstrologyCockpit } from '../../components/WebDashboardAstrologyCockpit';
 import { WebDailyBriefingCard } from '../../components/WebDailyBriefingCard';
 import { WebDestinyPassportCard } from '../../components/WebDestinyPassportCard';
 import { WebGocharSynopsisCard } from '../../components/WebGocharSynopsisCard';
 import { WebYearlySynopsisCard } from '../../components/WebYearlySynopsisCard';
-import { demoAccess, demoMonetization } from '../../lib/demo-state';
 import { useWebKundliLibrary } from '../../lib/use-web-kundli-library';
 
 const quickActions = [
@@ -46,7 +45,7 @@ const quickActions = [
     label: 'KP',
   },
   {
-    body: 'Premium Nadi reading room with story links and validation.',
+    body: 'Nadi story reading.',
     href: '/dashboard/nadi',
     label: 'Nadi',
   },
@@ -84,18 +83,6 @@ const quickActions = [
 
 export default function DashboardPage(): React.JSX.Element {
   const { activeKundli } = useWebKundliLibrary();
-  const usage = buildUsageDisplay({
-    monetization: demoMonetization,
-    resolvedAccess: demoAccess,
-    usage: {
-      dayKey: '2026-04-18',
-      deepCallsToday: 0,
-      monthKey: '2026-04',
-      pdfsThisMonth: 0,
-      questionsToday: 0,
-    },
-    userPlan: 'FREE',
-  });
   const dailyBriefing = composeDailyBriefing(activeKundli);
   const destinyPassport = composeDestinyPassport(activeKundli);
   const gochar = composeTransitGocharIntelligence(activeKundli, {
@@ -108,38 +95,52 @@ export default function DashboardPage(): React.JSX.Element {
   return (
     <section className="dashboard-page">
       <div className="page-heading">
-        <StatusPill label={usage.statusText} tone="quiet" />
-        <h1 className="gradient-text">Start with your Kundli.</h1>
+        <StatusPill
+          label={activeKundli ? 'Chart ready' : 'Create Kundli first'}
+          tone={activeKundli ? 'premium' : 'quiet'}
+        />
+        <h1 className="gradient-text">
+          {activeKundli ? 'Your astrology cockpit.' : 'Start with your Kundli.'}
+        </h1>
         <p>
-          Predicta works best in a simple order: create the chart, read the
-          simple summary, then ask one question. Deeper readings are still here,
-          but they no longer come before the basics.
+          {activeKundli
+            ? 'See today, timing, Gochar, and the best next chart focus.'
+            : 'Create the chart, read the summary, then ask one clear question.'}
         </p>
       </div>
 
-      <div className="guided-journey-grid">
-        {PREDICTA_JOURNEY_STEPS.map((step, index) => (
-          <Card className={index === 0 ? 'glass-panel guided-step primary' : 'guided-step'} key={step.id}>
-            <div className="card-content">
-              <div className="section-title">{step.title}</div>
-              <h2>{step.action}</h2>
-              <p>{step.body}</p>
-              <Link
-                className={index === 0 ? 'button' : 'button secondary'}
-                href={
-                  step.id === 'create'
-                    ? '/dashboard/kundli'
-                    : step.id === 'summary'
+      <WebDashboardAstrologyCockpit
+        dailyBriefing={dailyBriefing}
+        gochar={gochar}
+        kundli={activeKundli}
+        yearlyHoroscope={yearlyHoroscope}
+      />
+
+      {!activeKundli ? (
+        <div className="guided-journey-grid">
+          {PREDICTA_JOURNEY_STEPS.map((step, index) => (
+            <Card className={index === 0 ? 'glass-panel guided-step primary' : 'guided-step'} key={step.id}>
+              <div className="card-content">
+                <div className="section-title">{step.title}</div>
+                <h2>{step.action}</h2>
+                <p>{step.body}</p>
+                <Link
+                  className={index === 0 ? 'button' : 'button secondary'}
+                  href={
+                    step.id === 'create'
                       ? '/dashboard/kundli'
-                      : '/dashboard/chat'
-                }
-              >
-                {step.action}
-              </Link>
-            </div>
-          </Card>
-        ))}
-      </div>
+                      : step.id === 'summary'
+                        ? '/dashboard/kundli'
+                        : '/dashboard/chat'
+                  }
+                >
+                  {step.action}
+                </Link>
+              </div>
+            </Card>
+          ))}
+        </div>
+      ) : null}
 
       <WebDailyBriefingCard
         briefing={dailyBriefing}
@@ -161,8 +162,8 @@ export default function DashboardPage(): React.JSX.Element {
             <div className="section-title">START HERE</div>
             <h2>Choose what you want to do.</h2>
             <p>
-              Each option opens one clear reading path. Predicta keeps the
-              astrology simple on the surface and detailed underneath.
+              Pick one path. Predicta keeps the surface simple and the depth
+              underneath.
             </p>
             <div className="quick-action-grid">
               {quickActions.map(action => (
@@ -187,8 +188,8 @@ export default function DashboardPage(): React.JSX.Element {
             <div className="section-title">SAVE AND RESTORE</div>
             <h2>Your Kundlis stay under your control.</h2>
             <p>
-              Work stays private on this browser unless you choose account save.
-              Sign in later to restore Kundlis and reports on another device.
+              Work stays private here unless you choose account save. Sign in
+              later to restore Kundlis and reports.
             </p>
             <div className="save-restore-list">
               <div>

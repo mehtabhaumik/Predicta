@@ -169,7 +169,7 @@ def create_admin_guest_pass(
     require_admin_token(x_pridicta_admin_token)
     pass_code = create_guest_pass_code(
         request,
-        created_by="backend-admin",
+        created_by="owner-console",
     )
     return save_guest_pass(pass_code)
 
@@ -191,7 +191,7 @@ def require_admin_token(token: Optional[str]) -> None:
     if not admin_token_configured():
         raise HTTPException(
             status_code=503,
-            detail="Backend admin authority is not configured.",
+            detail="Owner access is not configured.",
         )
     if not is_admin_token_valid(token):
         raise HTTPException(status_code=403, detail="Admin access denied.")

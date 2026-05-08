@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { type CSSProperties, useMemo, useState } from 'react';
 import {
   buildChartSelectionPrompt,
   buildNorthIndianChartCells,
@@ -35,6 +35,8 @@ export function WebKundliChart({
     findPlanetCell(cells, selectedPlanet) ??
     findHouseCell(cells, selectedHouse) ??
     cells[0];
+  const activeHouseMeaning = getHouseMeaning(activeCell?.house);
+  const chartRole = getChartRole(chart.chartType);
 
   function selectHouse(house?: number) {
     if (!house) {
@@ -88,18 +90,24 @@ export function WebKundliChart({
         </div>
       </div>
 
-      <div className="north-chart" aria-label={`${chart.name} North Indian chart`}>
-        {cells.map(cell => (
+      <div
+        className="north-chart"
+        aria-label={`${chart.name} North Indian chart`}
+        key={chart.chartType}
+      >
+        {cells.map((cell, index) => (
           <button
             className={`north-house ${
               activeCell?.house === cell.house ? 'selected' : ''
             }`}
+            aria-pressed={activeCell?.house === cell.house}
             key={cell.key}
             onClick={() => selectHouse(cell.house)}
             style={{
+              ['--chart-cell-index' as string]: index,
               gridColumn: cell.col + 1,
               gridRow: cell.row + 1,
-            }}
+            } as CSSProperties}
             type="button"
           >
             <span>
@@ -114,7 +122,7 @@ export function WebKundliChart({
         ))}
         <div className="north-chart-center">
           <span>{chart.chartType}</span>
-          <strong>North style</strong>
+          <strong>{chart.chartType === 'D1' ? 'Root chart' : 'D1 anchor'}</strong>
         </div>
       </div>
 
@@ -140,7 +148,10 @@ export function WebKundliChart({
       </div>
 
       {activeCell ? (
-        <div className="chart-drilldown">
+        <div
+          className="chart-drilldown"
+          key={`${chart.chartType}-${activeCell.house}-${selectedPlanet ?? 'house'}`}
+        >
           <div>
             <div className="section-title">DRILLDOWN</div>
             <h3>
@@ -151,6 +162,24 @@ export function WebKundliChart({
                 ? `Planets here: ${activeCell.planets.join(', ')}.`
                 : 'No planets occupy this sign in the preview chart.'}
             </p>
+          </div>
+          <div className="chart-drilldown-grid">
+            <div>
+              <span>Life area</span>
+              <strong>{activeHouseMeaning}</strong>
+            </div>
+            <div>
+              <span>Chart role</span>
+              <strong>{chartRole}</strong>
+            </div>
+            <div>
+              <span>Reading rule</span>
+              <strong>
+                {chart.chartType === 'D1'
+                  ? 'Use as the root chart'
+                  : `Read ${chart.chartType} with D1`}
+              </strong>
+            </div>
           </div>
           <div className="drilldown-actions">
             <StatusPill
@@ -167,7 +196,7 @@ export function WebKundliChart({
                 purpose: insight.summary,
               })}
             >
-              Ask From Selection
+              Ask Predicta
             </Link>
           </div>
           {activeCell.planets.length ? (
@@ -227,4 +256,43 @@ function buildChartAskHref({
   }
 
   return `/dashboard/chat?${params.toString()}`;
+}
+
+function getHouseMeaning(house?: number): string {
+  const meanings: Record<number, string> = {
+    1: 'self, body, identity',
+    2: 'money, speech, family values',
+    3: 'effort, courage, siblings',
+    4: 'home, mother, emotional base',
+    5: 'children, learning, merit',
+    6: 'work pressure, health discipline',
+    7: 'marriage, partners, contracts',
+    8: 'change, secrets, transformation',
+    9: 'fortune, dharma, teachers',
+    10: 'career, status, responsibility',
+    11: 'gains, network, ambitions',
+    12: 'sleep, expense, release',
+  };
+
+  return house ? meanings[house] ?? 'selected life area' : 'selected life area';
+}
+
+function getChartRole(chartType: ChartType): string {
+  if (chartType === 'D1') {
+    return 'main life chart';
+  }
+  if (chartType === 'D9') {
+    return 'marriage and maturity lens';
+  }
+  if (chartType === 'D10') {
+    return 'career confirmation lens';
+  }
+  if (chartType === 'D2') {
+    return 'wealth handling lens';
+  }
+  if (chartType === 'D12') {
+    return 'family and lineage lens';
+  }
+
+  return 'supporting divisional lens';
 }

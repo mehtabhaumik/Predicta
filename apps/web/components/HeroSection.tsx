@@ -22,10 +22,10 @@ export function HeroSection(): React.JSX.Element {
         transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="section-title">VEDIC ASTROLOGY + AI</div>
-        <h1>Your personal Vedic intelligence system</h1>
+        <h1>Your personal Vedic astrology companion</h1>
         <p>
           Generate your kundli, explore deeper chart patterns, and ask Predicta
-          for calm, chart-aware guidance from one spacious desktop experience.
+          for calm, chart-aware guidance.
         </p>
         <div className="hero-actions">
           <Link className="button" href="/dashboard">

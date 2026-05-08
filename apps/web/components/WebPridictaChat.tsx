@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { type CSSProperties, useEffect, useRef, useState } from 'react';
 import {
   buildChatChartReplyText,
   buildChatFollowUps,
@@ -17,6 +17,7 @@ import {
   detectChatChartIntent,
   detectEnglishSwitchDecision,
   getPlanetAbbreviation,
+  findHouseCell,
   learnPredictaInteraction,
   preparePredictaLanguageContext,
   shouldAskBeforeSwitchingToEnglish,
@@ -90,6 +91,15 @@ type WebChatMemory = {
 type PendingEnglishSwitch = {
   fromLanguage: Exclude<SupportedLanguage, 'en'>;
   requestedAt: string;
+};
+
+type ParsedProofReply = {
+  body: string[];
+  proof?: {
+    chartFactors: string[];
+    confidence: string;
+    timing: string;
+  };
 };
 
 export function WebPridictaChat(): React.JSX.Element {
@@ -664,7 +674,11 @@ export function WebPridictaChat(): React.JSX.Element {
               key={message.id}
             >
               <span>{message.role === 'user' ? 'You' : 'Predicta'}</span>
-              <p>{message.text}</p>
+              {message.role === 'pridicta' ? (
+                <WebChatReplyText text={message.text} />
+              ) : (
+                <p>{message.text}</p>
+              )}
               {message.safety ? <WebChatSafetyCard safety={message.safety} /> : null}
               {message.blocks?.map(block => (
                 <WebChatMessageBlock
@@ -706,10 +720,7 @@ export function WebPridictaChat(): React.JSX.Element {
             </div>
           ))}
           {isSending ? (
-            <div className="message pridicta" key="predicta-listening">
-              <span>Predicta</span>
-              <p>{getListeningMicrocopy(language)}</p>
-            </div>
+            <WebPredictaThinking language={language} />
           ) : null}
         </div>
         <div className="chat-input-row">
@@ -739,6 +750,126 @@ export function WebPridictaChat(): React.JSX.Element {
       </div>
     </div>
   );
+}
+
+function WebPredictaThinking({
+  language,
+}: {
+  language: SupportedLanguage;
+}): React.JSX.Element {
+  const [copy, setCopy] = useState(() => getListeningMicrocopy(language));
+
+  useEffect(() => {
+    setCopy(getListeningMicrocopy(language));
+    const timer = window.setInterval(() => {
+      setCopy(getListeningMicrocopy(language));
+    }, 1800);
+
+    return () => window.clearInterval(timer);
+  }, [language]);
+
+  return (
+    <div className="message pridicta thinking-message" key="predicta-listening">
+      <span>Predicta</span>
+      <div className="predicta-thinking-row">
+        <div className="predicta-thinking-mark" aria-hidden>
+          <i />
+          <i />
+          <i />
+        </div>
+        <p>{copy}</p>
+      </div>
+    </div>
+  );
+}
+
+function WebChatReplyText({ text }: { text: string }): React.JSX.Element {
+  const parsed = parseProofReply(text);
+
+  return (
+    <div className="chat-reply-stack">
+      {parsed.body.map((paragraph, index) => (
+        <p
+          className="chat-reply-paragraph"
+          key={`${paragraph}-${index}`}
+          style={{ animationDelay: `${index * 80}ms` }}
+        >
+          {paragraph}
+        </p>
+      ))}
+      {parsed.proof ? <WebChatProofCard proof={parsed.proof} /> : null}
+    </div>
+  );
+}
+
+function WebChatProofCard({
+  proof,
+}: {
+  proof: NonNullable<ParsedProofReply['proof']>;
+}): React.JSX.Element {
+  return (
+    <details className="chat-proof-card" open>
+      <summary>
+        <span>Ask with proof</span>
+        <strong>{proof.confidence}</strong>
+      </summary>
+      <div className="chat-proof-timing">
+        <span>Timing</span>
+        <p>{proof.timing}</p>
+      </div>
+      <div className="chat-proof-chip-row">
+        {proof.chartFactors.map(item => (
+          <span key={item}>{item}</span>
+        ))}
+      </div>
+    </details>
+  );
+}
+
+function parseProofReply(text: string): ParsedProofReply {
+  const parts = text
+    .split(/\n{2,}/)
+    .map(part => part.trim())
+    .filter(Boolean);
+  const proofIndex = parts.findIndex(part => /^Ask with proof$/i.test(part));
+
+  if (proofIndex === -1) {
+    return {
+      body: parts.length ? parts : [text],
+    };
+  }
+
+  const proofParts = parts.slice(proofIndex + 1);
+  const confidence =
+    proofParts
+      .find(part => /^Confidence:/i.test(part))
+      ?.replace(/^Confidence:\s*/i, 'Confidence: ') ?? 'Confidence: medium';
+  const timing =
+    proofParts
+      .find(part => /^Timing context:/i.test(part))
+      ?.replace(/^Timing context:\s*/i, '') ??
+    'No precise timing window was strong enough to claim.';
+  const chartFactorsIndex = proofParts.findIndex(part =>
+    /^Chart factors:/i.test(part),
+  );
+  const chartFactorBlock =
+    chartFactorsIndex === -1 ? '' : proofParts[chartFactorsIndex + 1] ?? '';
+  const chartFactors = chartFactorBlock
+    .split('\n')
+    .map(line => line.replace(/^-\s*/, '').trim())
+    .filter(Boolean)
+    .slice(0, 4);
+
+  return {
+    body: parts.slice(0, proofIndex),
+    proof: {
+      chartFactors: chartFactors.length
+        ? chartFactors
+        : ['Evidence was limited for this question.'],
+      confidence,
+      timing,
+    },
+  };
 }
 
 function WebChatSafetyCard({
@@ -840,6 +971,11 @@ function WebChatChartBlock({
   onUsePrompt: (prompt: string) => void;
 }): React.JSX.Element {
   const cells = buildNorthIndianChartCells(block.chart);
+  const [selectedHouse, setSelectedHouse] = useState<number | undefined>(
+    cells[0]?.house,
+  );
+  const selectedCell =
+    findHouseCell(cells, selectedHouse) ?? cells.find(cell => cell.house === 1) ?? cells[0];
 
   return (
     <div className="chat-chart-card">
@@ -854,16 +990,20 @@ function WebChatChartBlock({
 
       <div className="chat-chart-body">
         <div className="chat-mini-chart" aria-label={`${block.chartName} mini chart`}>
-          {cells.map(cell => (
+          {cells.map((cell, index) => (
             <button
+              aria-pressed={selectedCell?.house === cell.house}
+              className={selectedCell?.house === cell.house ? 'selected' : ''}
               key={cell.key}
-              onClick={() =>
-                onUsePrompt(`Explain House ${cell.house} in my ${block.chartType} chart with D1 proof.`)
-              }
+              onClick={() => {
+                setSelectedHouse(cell.house);
+                onUsePrompt(`Explain House ${cell.house} in my ${block.chartType} chart with D1 proof.`);
+              }}
               style={{
+                ['--chart-cell-index' as string]: index,
                 gridColumn: cell.col + 1,
                 gridRow: cell.row + 1,
-              }}
+              } as CSSProperties}
               type="button"
             >
               <span>H{cell.house} {cell.signShort}</span>
@@ -881,6 +1021,20 @@ function WebChatChartBlock({
         </div>
 
         <div className="chat-chart-proof-panel">
+          {selectedCell ? (
+            <div className="chat-chart-focus-note">
+              <span>Selected</span>
+              <strong>
+                House {selectedCell.house} · {selectedCell.sign}
+              </strong>
+              <small>
+                {selectedCell.planets.length
+                  ? `Planets: ${selectedCell.planets.join(', ')}`
+                  : 'No planet in this house; judge house lord and D1 anchor.'}
+              </small>
+            </div>
+          ) : null}
+
           <div className="chat-evidence-chips">
             {block.evidenceChips.map(chip => (
               <span key={chip}>{chip}</span>

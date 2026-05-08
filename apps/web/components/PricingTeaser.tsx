@@ -26,7 +26,7 @@ export function PricingTeaser(): React.JSX.Element {
       <div className="pricing-note">
         <p>
           Monthly access begins at {monthly?.displayPrice ?? '₹299'}. Premium
-          increases depth and convenience; it never promises guaranteed outcomes.
+          adds depth and convenience, not guaranteed outcomes.
         </p>
         <Link className="button secondary" href="/pricing">
           View Pricing

@@ -8,8 +8,8 @@ export default function SavedKundlisPage(): React.JSX.Element {
         <StatusPill label="Cloud save is optional" tone="premium" />
         <h1 className="gradient-text">Local and cloud records in one library.</h1>
         <p>
-          Cloud-synced kundlis are marked clearly. Local-only records never
-          upload unless the user chooses that action.
+          Saved Kundlis are marked clearly. Local records stay local unless you
+          choose cloud save.
         </p>
       </div>
       <WebSavedKundlis />

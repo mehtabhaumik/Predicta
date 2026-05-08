@@ -23,26 +23,131 @@ export const ONE_TIME_PRICING = {
 
 export const PREMIUM_FEATURE_STORY = [
   {
-    body: 'Every premium answer should show chart factors, confidence, and timing context so users can see why Predicta is saying something.',
+    body: 'Premium answers show chart factors, confidence, and timing context.',
     title: 'Ask with proof',
   },
   {
-    body: 'A month-by-month dasha and transit calendar turns timing into a simple plan instead of a wall of astrology terms.',
+    body: 'A month-by-month dasha and transit calendar.',
     title: 'Life Calendar',
   },
   {
-    body: 'Store multiple family Kundlis, compare them, and invite household members into a shared private vault.',
+    body: 'Store multiple family Kundlis and compare them privately.',
     title: 'Family Vault',
   },
   {
-    body: 'Sell focused report bundles for Kundli, Career, Marriage, Wealth, Child, and Remedies instead of one generic PDF.',
+    body: 'Focused bundles for Kundli, Career, Marriage, Wealth, Child, and Remedies.',
     title: 'Premium report bundles',
   },
   {
-    body: 'Keep the default app simple, but let serious users reveal varga, dasha, transit, ashtakavarga, and evidence tables.',
+    body: 'Reveal varga, dasha, transit, ashtakavarga, and evidence tables.',
     title: 'Astrologer-grade mode',
   },
 ] as const;
+
+export type ReportMarketplaceProduct = {
+  badge: string;
+  bestFor: string;
+  freeDepth: string;
+  id:
+    | 'KUNDLI'
+    | 'CAREER'
+    | 'MARRIAGE'
+    | 'WEALTH'
+    | 'SADESATI'
+    | 'DASHA'
+    | 'COMPATIBILITY'
+    | 'REMEDIES';
+  premiumDepth: string;
+  prompt: string;
+  title: string;
+};
+
+const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
+  {
+    badge: 'Foundation',
+    bestFor: 'A clean starting point for the whole chart.',
+    freeDepth: 'Kundli, all visible charts, and useful chart signals.',
+    id: 'KUNDLI',
+    premiumDepth: 'Full synthesis across charts, dasha, gochar, yogas, and remedies.',
+    prompt:
+      'Create a complete Kundli report preview with useful insights first, then show what a detailed premium PDF would add.',
+    title: 'Kundli Report',
+  },
+  {
+    badge: 'Work',
+    bestFor: 'Career direction, job timing, and professional pressure points.',
+    freeDepth: 'Simple career focus from the 10th house, D10, dasha, and gochar.',
+    id: 'CAREER',
+    premiumDepth: 'Detailed career timing, role fit, promotion windows, and action plan.',
+    prompt:
+      'Create my career report using D1, D10, 10th house, dasha, gochar, and clear timing evidence.',
+    title: 'Career Report',
+  },
+  {
+    badge: 'Marriage',
+    bestFor: 'Marriage prospects, relationship maturity, and spouse patterns.',
+    freeDepth: 'Useful D1 and D9 relationship signals with confidence.',
+    id: 'MARRIAGE',
+    premiumDepth: 'Deep D1 plus D9 synthesis, timing windows, remedies, and red flags gently.',
+    prompt:
+      'Create my marriage report using D1, D9, 7th house, Venus, Jupiter, dasha, and transit timing.',
+    title: 'Marriage Report',
+  },
+  {
+    badge: 'Money',
+    bestFor: 'Income, savings, wealth habits, and financial timing.',
+    freeDepth: 'Money houses, current dasha tone, and practical guidance.',
+    id: 'WEALTH',
+    premiumDepth: 'D2, 2nd and 11th house synthesis, timing windows, and monthly plan.',
+    prompt:
+      'Create my wealth report using D1, D2, 2nd house, 11th house, dasha, gochar, and savings guidance.',
+    title: 'Wealth Report',
+  },
+  {
+    badge: 'Saturn',
+    bestFor: 'Sade Sati phase, pressure windows, discipline, and support.',
+    freeDepth: 'Current Sade Sati status, phase, and simple guidance.',
+    id: 'SADESATI',
+    premiumDepth: 'Exact phase reading, Saturn transit dates, Ashtakavarga support, and remedies.',
+    prompt:
+      'Create my Sade Sati report with current phase, Saturn transit, Moon chart impact, Ashtakavarga support, and remedies.',
+    title: 'Sade Sati Report',
+  },
+  {
+    badge: 'Timing',
+    bestFor: 'Life periods, turning points, and what is active now.',
+    freeDepth: 'Current Mahadasha and Antardasha theme in simple words.',
+    id: 'DASHA',
+    premiumDepth: 'Mahadasha, Antardasha, Pratyantardasha, activation, and timing map.',
+    prompt:
+      'Create my Dasha Life Map with Mahadasha, Antardasha, Pratyantardasha, active themes, and practical timing.',
+    title: 'Dasha Life Map',
+  },
+  {
+    badge: 'Match',
+    bestFor: 'Marriage matching, family discussion, and compatibility clarity.',
+    freeDepth: 'Simple compatibility tone and major caution areas.',
+    id: 'COMPATIBILITY',
+    premiumDepth: 'Ashtakoota, Manglik, D1/D9 cross-check, timing, and relationship guidance.',
+    prompt:
+      'Create a compatibility report with Ashtakoota, Manglik, D1 and D9 comparison, timing, and gentle guidance.',
+    title: 'Compatibility Report',
+  },
+  {
+    badge: 'Care',
+    bestFor: 'Remedies, habits, spiritual discipline, and grounded support.',
+    freeDepth: 'Simple safe remedies and reflection practices.',
+    id: 'REMEDIES',
+    premiumDepth: 'Planet-specific remedies, timing, consistency tracker, and safety notes.',
+    prompt:
+      'Create my remedies report with safe practical remedies, planet focus, timing, and a simple consistency plan.',
+    title: 'Remedies Report',
+  },
+];
+
+export function getReportMarketplaceProducts(): ReportMarketplaceProduct[] {
+  return REPORT_MARKETPLACE_PRODUCTS.map(product => ({ ...product }));
+}
 
 const subscriptionProductIds: Record<BillingPeriod, string> = {
   MONTHLY: 'pridicta_premium_monthly',

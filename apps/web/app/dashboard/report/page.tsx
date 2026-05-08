@@ -6,11 +6,11 @@ export default function ReportPage(): React.JSX.Element {
   return (
     <section className="dashboard-page">
       <div className="page-heading compact">
-        <StatusPill label="Dossier 2.0 shared composition" tone="premium" />
-        <h1 className="gradient-text">A serious personal intelligence file.</h1>
+        <StatusPill label="Report marketplace" tone="premium" />
+        <h1 className="gradient-text">Pick the report you actually need.</h1>
         <p>
-          Free and premium previews use the same shared report schema. Premium
-          adds evidence tables, decision windows, and deeper area intelligence.
+          Start with a useful free preview. Go deeper only when you want
+          timing, remedies, chart proof, or a polished PDF.
         </p>
       </div>
 
@@ -18,7 +18,7 @@ export default function ReportPage(): React.JSX.Element {
 
       <div className="action-row">
         <Link className="button" href="/pricing">
-          Unlock Premium PDF
+          See deeper report options
         </Link>
         <Link className="button secondary" href="/dashboard/chat">
           Ask from report

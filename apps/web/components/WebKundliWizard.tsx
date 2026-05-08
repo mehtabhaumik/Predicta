@@ -70,6 +70,7 @@ export function WebKundliWizard(): React.JSX.Element {
   }
 
   function fillExample() {
+    setError(undefined);
     setName('Aarav');
     setDate('2012-08-16');
     setTime('06:42');
@@ -83,15 +84,17 @@ export function WebKundliWizard(): React.JSX.Element {
         <div className="section-title">STEP 1 · CREATE KUNDLI</div>
         <h2>Enter birth details in order.</h2>
         <p>
-          Predicta needs only three things first: date, time, and place. The
-          technical coordinates stay hidden.
+          Predicta needs only three things first: date, time, and place.
         </p>
 
         <div className="kundli-form-grid">
           <label>
             <span>Name</span>
             <input
-              onChange={event => setName(event.target.value)}
+              onChange={event => {
+                setError(undefined);
+                setName(event.target.value);
+              }}
               placeholder="Your name"
               value={name}
             />
@@ -99,7 +102,10 @@ export function WebKundliWizard(): React.JSX.Element {
           <label>
             <span>Birth date</span>
             <input
-              onChange={event => setDate(event.target.value)}
+              onChange={event => {
+                setError(undefined);
+                setDate(event.target.value);
+              }}
               type="date"
               value={date}
             />
@@ -107,7 +113,10 @@ export function WebKundliWizard(): React.JSX.Element {
           <label>
             <span>Birth time</span>
             <input
-              onChange={event => setTime(event.target.value)}
+              onChange={event => {
+                setError(undefined);
+                setTime(event.target.value);
+              }}
               type="time"
               value={time}
             />

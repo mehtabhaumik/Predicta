@@ -50,7 +50,7 @@ export function KpPredictaScreen({
         schoolCalculationStatus={schoolReady.status}
         onAskKp={
           schoolReady.kundli
-            ? () => {
+            ? prompt => {
                 setActiveChartContext({
                   handoffFrom:
                     activeChartContext?.predictaSchool === 'KP'
@@ -61,11 +61,7 @@ export function KpPredictaScreen({
                       ? activeChartContext.handoffQuestion
                       : undefined,
                   predictaSchool: 'KP',
-                  selectedSection:
-                    activeChartContext?.predictaSchool === 'KP' &&
-                    activeChartContext.handoffQuestion
-                      ? `KP Predicta question: ${activeChartContext.handoffQuestion}. Answer using KP cusps, star lords, sub lords, significators, ruling planets, and event-timing rules only.`
-                      : 'KP Predicta reading: answer using KP cusps, sub lords, significators, and ruling planets only.',
+                  selectedSection: prompt,
                   sourceScreen: 'KP Predicta',
                 });
                 navigation.navigate(routes.Chat);

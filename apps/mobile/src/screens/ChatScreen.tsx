@@ -1073,12 +1073,12 @@ function ChatBubble({
           start={{ x: 0, y: 0 }}
           style={styles.pridictaBubble}
         >
-          {typing ? (
-            <TypingPulse />
-          ) : (
-            <>
-              <AppText>{message.text}</AppText>
-              {message.blocks?.map(block => (
+              {typing ? (
+                <TypingPulse text={message.text} />
+              ) : (
+                <>
+                  <MobileChatReplyText text={message.text} />
+                  {message.blocks?.map(block => (
                 <MobileChatMessageBlock
                   block={block}
                   key={`${message.id}-${block.type}-${block.chartType}`}
@@ -1226,6 +1226,9 @@ function MobileChatSuggestions({
 }): React.JSX.Element {
   return (
     <View style={styles.chatSuggestionRow}>
+      <AppText tone="secondary" variant="caption">
+        Suggested next questions
+      </AppText>
       {suggestions.slice(0, 4).map(suggestion => (
         <Pressable
           accessibilityRole="button"
@@ -1238,6 +1241,101 @@ function MobileChatSuggestions({
       ))}
     </View>
   );
+}
+
+type ParsedMobileProofReply = {
+  body: string[];
+  proof?: {
+    chartFactors: string[];
+    confidence: string;
+    timing: string;
+  };
+};
+
+function MobileChatReplyText({ text }: { text: string }): React.JSX.Element {
+  const parsed = parseMobileProofReply(text);
+
+  return (
+    <View style={styles.mobileReplyStack}>
+      {parsed.body.map((paragraph, index) => (
+        <AppText key={`${paragraph}-${index}`}>{paragraph}</AppText>
+      ))}
+      {parsed.proof ? <MobileProofCard proof={parsed.proof} /> : null}
+    </View>
+  );
+}
+
+function MobileProofCard({
+  proof,
+}: {
+  proof: NonNullable<ParsedMobileProofReply['proof']>;
+}): React.JSX.Element {
+  return (
+    <View style={styles.mobileProofCard}>
+      <View style={styles.mobileProofTopline}>
+        <AppText variant="caption">Ask with proof</AppText>
+        <View style={styles.mobileProofBadge}>
+          <AppText variant="caption">{proof.confidence}</AppText>
+        </View>
+      </View>
+      <AppText className="mt-2" tone="secondary" variant="caption">
+        Timing: {proof.timing}
+      </AppText>
+      <View style={styles.mobileProofChipRow}>
+        {proof.chartFactors.map(item => (
+          <View key={item} style={styles.mobileProofChip}>
+            <AppText tone="secondary" variant="caption">
+              {item}
+            </AppText>
+          </View>
+        ))}
+      </View>
+    </View>
+  );
+}
+
+function parseMobileProofReply(text: string): ParsedMobileProofReply {
+  const parts = text
+    .split(/\n{2,}/)
+    .map(part => part.trim())
+    .filter(Boolean);
+  const proofIndex = parts.findIndex(part => /^Ask with proof$/i.test(part));
+
+  if (proofIndex === -1) {
+    return {
+      body: parts.length ? parts : [text],
+    };
+  }
+
+  const proofParts = parts.slice(proofIndex + 1);
+  const chartFactorsIndex = proofParts.findIndex(part =>
+    /^Chart factors:/i.test(part),
+  );
+  const chartFactorBlock =
+    chartFactorsIndex === -1 ? '' : proofParts[chartFactorsIndex + 1] ?? '';
+  const chartFactors = chartFactorBlock
+    .split('\n')
+    .map(line => line.replace(/^-\s*/, '').trim())
+    .filter(Boolean)
+    .slice(0, 4);
+
+  return {
+    body: parts.slice(0, proofIndex),
+    proof: {
+      chartFactors: chartFactors.length
+        ? chartFactors
+        : ['Evidence was limited for this question.'],
+      confidence:
+        proofParts
+          .find(part => /^Confidence:/i.test(part))
+          ?.replace(/^Confidence:\s*/i, 'Confidence: ') ?? 'Confidence: medium',
+      timing:
+        proofParts
+          .find(part => /^Timing context:/i.test(part))
+          ?.replace(/^Timing context:\s*/i, '') ??
+        'No precise timing window was strong enough to claim.',
+    },
+  };
 }
 
 function MobileChatMessageBlock({
@@ -1371,7 +1469,7 @@ function MobileChatChartBlock({
   );
 }
 
-function TypingPulse(): React.JSX.Element {
+function TypingPulse({ text }: { text: string }): React.JSX.Element {
   const opacity = useSharedValue(0.42);
 
   useEffect(() => {
@@ -1391,14 +1489,14 @@ function TypingPulse(): React.JSX.Element {
 
   return (
     <Animated.View
-      className="flex-row items-center gap-2"
+      className="flex-row items-center gap-3"
       style={animatedStyle}
     >
-      <View style={styles.typingDot} />
-      <View style={styles.typingDot} />
-      <View style={styles.typingDot} />
-      <AppText className="ml-2" tone="secondary">
-        Predicta is reading the pattern
+      <View style={styles.thinkingMark}>
+        <View style={styles.thinkingDiamond} />
+      </View>
+      <AppText className="flex-1" tone="secondary">
+        {text}
       </AppText>
     </Animated.View>
   );
@@ -1522,6 +1620,45 @@ const styles = StyleSheet.create({
     gap: 8,
     marginTop: 14,
   },
+  mobileProofBadge: {
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderColor: colors.border,
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 9,
+    paddingVertical: 6,
+  },
+  mobileProofCard: {
+    backgroundColor: 'rgba(255, 255, 255, 0.06)',
+    borderColor: 'rgba(77, 175, 255, 0.24)',
+    borderRadius: 12,
+    borderWidth: 1,
+    marginTop: 4,
+    padding: 12,
+  },
+  mobileProofChip: {
+    backgroundColor: 'rgba(255, 255, 255, 0.07)',
+    borderColor: colors.border,
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 9,
+    paddingVertical: 7,
+  },
+  mobileProofChipRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginTop: 12,
+  },
+  mobileProofTopline: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 10,
+    justifyContent: 'space-between',
+  },
+  mobileReplyStack: {
+    gap: 12,
+  },
   logo: {
     borderRadius: 12,
     height: 42,
@@ -1556,10 +1693,21 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 16,
   },
-  typingDot: {
-    backgroundColor: colors.gradient[1],
+  thinkingDiamond: {
+    borderColor: 'rgba(255, 195, 77, 0.45)',
+    borderRadius: 5,
+    borderWidth: 1,
+    height: 18,
+    transform: [{ rotate: '45deg' }],
+    width: 18,
+  },
+  thinkingMark: {
+    alignItems: 'center',
+    borderColor: 'rgba(77, 175, 255, 0.32)',
     borderRadius: 4,
-    height: 8,
-    width: 8,
+    borderWidth: 1,
+    height: 38,
+    justifyContent: 'center',
+    width: 38,
   },
 });

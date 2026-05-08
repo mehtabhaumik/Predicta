@@ -27,8 +27,7 @@ export function WebSavedKundlis(): React.JSX.Element {
             <div className="section-title">NO SAVED KUNDLI YET</div>
             <h2>Create your first Kundli.</h2>
             <p>
-              Predicta will show real local and cloud-synced family profiles here
-              after Kundlis are created or restored.
+              Saved and restored Kundlis will appear here.
             </p>
           </div>
         </Card>
@@ -87,8 +86,7 @@ function FamilyVaultCard(): React.JSX.Element {
         <div className="section-title">FAMILY VAULT</div>
         <h2>Keep family Kundlis together.</h2>
         <p>
-          Premium Family Vault lets one household store multiple Kundlis, keep
-          each profile clear, and choose who can chat with which chart.
+          Store multiple Kundlis and keep each chart clearly separated.
         </p>
         <StatusPill label="Family access" tone="quiet" />
       </div>

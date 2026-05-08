@@ -8,8 +8,7 @@ export default function BirthTimePage(): React.JSX.Element {
         <StatusPill label="Stable / Needs checking / Unreliable" tone="premium" />
         <h1 className="gradient-text">Know when the chart can be trusted.</h1>
         <p>
-          Birth Time Detective explains confidence, asks simple life-event
-          questions, and marks which chart judgments are safe or unsafe.
+          Check birth-time confidence with simple life-event questions.
         </p>
       </div>
 

@@ -8,8 +8,7 @@ export default function FamilyPage(): React.JSX.Element {
         <StatusPill label="Household pattern map" tone="premium" />
         <h1 className="gradient-text">Turn family patterns into care.</h1>
         <p>
-          Compare saved kundlis across repeated themes, support zones, and
-          relationship guidance without blaming any person in the family.
+          Compare saved Kundlis for repeated themes, support zones, and care.
         </p>
       </div>
 
