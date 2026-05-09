@@ -5,6 +5,7 @@ import {
   composeAdvancedJyotishCoverage,
 } from '@pridicta/astrology';
 import type { KundliData } from '@pridicta/types';
+import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 
 type WebAdvancedJyotishPanelProps = {
   hasPremiumAccess?: boolean;
@@ -110,7 +111,12 @@ export function WebAdvancedJyotishPanel({
             {coverage.ctas.slice(0, 3).map(cta => (
               <Link
                 className="button secondary"
-                href={`/dashboard/chat?prompt=${encodeURIComponent(cta.prompt)}`}
+                href={buildPredictaChatHref({
+                  kundli,
+                  prompt: cta.prompt,
+                  selectedSection: cta.label,
+                  sourceScreen: 'Advanced Jyotish',
+                })}
                 key={cta.id}
               >
                 {cta.label}

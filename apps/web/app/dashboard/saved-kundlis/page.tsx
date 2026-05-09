@@ -5,11 +5,11 @@ export default function SavedKundlisPage(): React.JSX.Element {
   return (
     <section className="dashboard-page">
       <div className="page-heading compact">
-        <StatusPill label="Cloud save is optional" tone="premium" />
-        <h1 className="gradient-text">Local and cloud records in one library.</h1>
+        <StatusPill label="Saved privately" tone="premium" />
+        <h1 className="gradient-text">Your Kundlis stay easy to find.</h1>
         <p>
-          Saved Kundlis are marked clearly. Local records stay local unless you
-          choose cloud save.
+          Predicta keeps this browser profile ready. Sign in when you want to
+          keep your Kundlis across devices.
         </p>
       </div>
       <WebSavedKundlis />

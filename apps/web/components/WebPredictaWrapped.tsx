@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import type { PredictaWrapped, PredictaWrappedCard } from '@pridicta/types';
+import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 
 type WebPredictaWrappedProps = {
   ctaHref?: string;
@@ -95,7 +96,13 @@ export function WebPredictaWrapped({
           <>
             <Link
               className="button"
-              href={`/dashboard/chat?prompt=${encodeURIComponent(wrapped.askPrompt)}`}
+              href={buildPredictaChatHref({
+                prompt: wrapped.askPrompt,
+                selectedPredictaWrapped: true,
+                selectedPredictaWrappedYear: wrapped.year,
+                selectedSection: `${wrapped.year} Predicta Wrapped`,
+                sourceScreen: 'Predicta Wrapped',
+              })}
             >
               Ask about Wrapped
             </Link>

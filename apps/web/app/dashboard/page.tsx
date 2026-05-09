@@ -15,6 +15,7 @@ import { WebDailyBriefingCard } from '../../components/WebDailyBriefingCard';
 import { WebDestinyPassportCard } from '../../components/WebDestinyPassportCard';
 import { WebGocharSynopsisCard } from '../../components/WebGocharSynopsisCard';
 import { WebYearlySynopsisCard } from '../../components/WebYearlySynopsisCard';
+import { buildPredictaChatHref } from '../../lib/predicta-chat-cta';
 import { useWebKundliLibrary } from '../../lib/use-web-kundli-library';
 
 const quickActions = [
@@ -131,7 +132,11 @@ export default function DashboardPage(): React.JSX.Element {
                       ? '/dashboard/kundli'
                       : step.id === 'summary'
                         ? '/dashboard/kundli'
-                        : '/dashboard/chat'
+                        : buildPredictaChatHref({
+                            kundli: activeKundli,
+                            prompt: 'Guide me from my active Kundli and suggest the next best step.',
+                            sourceScreen: 'Dashboard Journey',
+                          })
                   }
                 >
                   {step.action}
@@ -169,7 +174,16 @@ export default function DashboardPage(): React.JSX.Element {
               {quickActions.map(action => (
                 <Link
                   className={action.primary ? 'quick-action primary' : 'quick-action'}
-                  href={action.href}
+                  href={
+                    action.href === '/dashboard/chat'
+                      ? buildPredictaChatHref({
+                          kundli: activeKundli,
+                          prompt:
+                            'Read my active Kundli and help me choose the best question to ask next.',
+                          sourceScreen: 'Dashboard Quick Actions',
+                        })
+                      : action.href
+                  }
                   key={action.href}
                 >
                   <strong>

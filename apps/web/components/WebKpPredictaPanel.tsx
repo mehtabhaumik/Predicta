@@ -1,9 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { type CSSProperties, useMemo, useState } from 'react';
+import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 import { composeChalitBhavKpFoundation } from '@pridicta/astrology';
 import type { KundliData } from '@pridicta/types';
+import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
+import {
+  loadWebAutoSaveMemory,
+  saveWebAutoSaveMemory,
+} from '../lib/web-auto-save-memory';
 import { Card } from './Card';
 
 type KpEventFocus = 'career' | 'money' | 'marriage' | 'property';
@@ -62,6 +67,7 @@ export function WebKpPredictaPanel({
   });
   const kp = foundation.kp;
   const ruling = kp.rulingPlanets;
+  const didLoadSavedState = useRef(false);
   const [selectedEvent, setSelectedEvent] = useState<KpEventFocus>('career');
   const selectedFocus =
     KP_EVENT_FOCUS.find(item => item.id === selectedEvent) ?? KP_EVENT_FOCUS[0];
@@ -82,7 +88,36 @@ export function WebKpPredictaPanel({
     cusp: selectedCuspData,
     focus: selectedFocus,
     handoffQuestion,
+    kundliId: kundli?.id,
   });
+
+  useEffect(() => {
+    const savedKp = loadWebAutoSaveMemory().kp;
+
+    if (isKpEventFocus(savedKp?.selectedEvent)) {
+      setSelectedEvent(savedKp.selectedEvent);
+    }
+    if (savedKp?.selectedCusp) {
+      setSelectedCusp(savedKp.selectedCusp);
+    }
+
+    didLoadSavedState.current = true;
+  }, []);
+
+  useEffect(() => {
+    if (!didLoadSavedState.current) {
+      return;
+    }
+
+    saveWebAutoSaveMemory({
+      kp: {
+        handoffQuestion,
+        selectedCusp,
+        selectedEvent,
+        updatedAt: new Date().toISOString(),
+      },
+    });
+  }, [handoffQuestion, selectedCusp, selectedEvent]);
 
   return (
     <div className="kp-page-stack">
@@ -301,29 +336,34 @@ export function WebKpPredictaPanel({
   );
 }
 
+function isKpEventFocus(value: unknown): value is KpEventFocus {
+  return KP_EVENT_FOCUS.some(item => item.id === value);
+}
+
 function buildKpAskHref({
   cusp,
   focus,
   handoffQuestion,
+  kundliId,
 }: {
   cusp?: { house: number; lordChain: { starLord: string; subLord: string; subSubLord: string } };
   focus: (typeof KP_EVENT_FOCUS)[number];
   handoffQuestion?: string;
+  kundliId?: string;
 }): string {
   const prompt = handoffQuestion
     ? `KP Predicta handoff question: ${handoffQuestion}. ${focus.prompt}`
     : `${focus.prompt}${cusp ? ` Selected cusp ${cusp.house} has star lord ${cusp.lordChain.starLord}, sub lord ${cusp.lordChain.subLord}, and sub-sub lord ${cusp.lordChain.subSubLord}.` : ''}`;
-  const params = new URLSearchParams({
+  return buildPredictaChatHref({
     from: 'PARASHARI',
+    handoffQuestion,
+    kundliId,
     prompt,
     school: 'KP',
+    selectedHouse: cusp?.house,
+    selectedSection: focus.title,
+    sourceScreen: 'KP Predicta',
   });
-
-  if (handoffQuestion) {
-    params.set('handoffQuestion', handoffQuestion);
-  }
-
-  return `/dashboard/chat?${params.toString()}`;
 }
 
 function getKpCalculationMessage(

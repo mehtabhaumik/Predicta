@@ -84,8 +84,8 @@ export const LEGAL_DOCUMENTS: LegalDocument[] = [
       {
         heading: 'Storage and sharing',
         body: [
-          'Local-only records stay on the device or browser unless the user chooses cloud save or account restore features.',
-          'Cloud-saved records, guest-pass status, and subscription state may be stored with service providers such as authentication, database, storage, analytics, payment, and AI infrastructure providers.',
+          'Records may stay on the device or browser profile. On web, signing in can keep saved Kundlis available across devices.',
+          'Account records, guest-pass status, and subscription state may be stored with service providers such as authentication, database, storage, analytics, payment, and AI infrastructure providers.',
           'We may disclose information when required by law, to protect users or the service, to prevent fraud or abuse, or during a business transfer with appropriate safeguards.',
         ],
       },

@@ -1200,6 +1200,7 @@ export type ChartContext = {
   handoffBirthSummary?: string;
   handoffFrom?: PredictaSchool;
   handoffQuestion?: string;
+  kundliId?: string;
   predictaSchool?: PredictaSchool;
   purpose?: string;
   selectedPlanet?: string;

@@ -1,9 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { type CSSProperties, useMemo, useState } from 'react';
+import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 import { composeNadiJyotishPlan } from '@pridicta/astrology';
 import type { KundliData } from '@pridicta/types';
+import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
+import {
+  loadWebAutoSaveMemory,
+  saveWebAutoSaveMemory,
+} from '../lib/web-auto-save-memory';
 import { Card } from './Card';
 
 type WebNadiPredictaPanelProps = {
@@ -23,6 +28,7 @@ export function WebNadiPredictaPanel({
     depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
     handoffQuestion,
   });
+  const didLoadSavedState = useRef(false);
   const [selectedPatternId, setSelectedPatternId] = useState<string | undefined>(
     plan.patterns[0]?.id,
   );
@@ -44,9 +50,34 @@ export function WebNadiPredictaPanel({
   const askHref = buildNadiAskHref({
     activation: selectedActivation,
     handoffQuestion,
+    kundliId: kundli?.id,
     pattern: selectedPattern,
     planPrompt: plan.askPrompt,
   });
+
+  useEffect(() => {
+    const savedNadi = loadWebAutoSaveMemory().nadi;
+
+    if (savedNadi?.selectedPatternId) {
+      setSelectedPatternId(savedNadi.selectedPatternId);
+    }
+
+    didLoadSavedState.current = true;
+  }, []);
+
+  useEffect(() => {
+    if (!didLoadSavedState.current) {
+      return;
+    }
+
+    saveWebAutoSaveMemory({
+      nadi: {
+        handoffQuestion,
+        selectedPatternId,
+        updatedAt: new Date().toISOString(),
+      },
+    });
+  }, [handoffQuestion, selectedPatternId]);
 
   return (
     <div className="kp-page-stack">
@@ -203,11 +234,13 @@ export function WebNadiPredictaPanel({
 function buildNadiAskHref({
   activation,
   handoffQuestion,
+  kundliId,
   pattern,
   planPrompt,
 }: {
   activation?: { title: string; trigger: string };
   handoffQuestion?: string;
+  kundliId?: string;
   pattern?: {
     title: string;
     planets: string[];
@@ -230,17 +263,15 @@ function buildNadiAskHref({
   ]
     .filter(Boolean)
     .join(' ');
-  const params = new URLSearchParams({
+  return buildPredictaChatHref({
     from: 'PARASHARI',
+    handoffQuestion,
+    kundliId,
     prompt,
     school: 'NADI',
+    selectedSection: pattern?.title ?? 'Nadi pattern reading',
+    sourceScreen: 'Nadi Predicta',
   });
-
-  if (handoffQuestion) {
-    params.set('handoffQuestion', handoffQuestion);
-  }
-
-  return `/dashboard/chat?${params.toString()}`;
 }
 
 function getNadiCalculationMessage(

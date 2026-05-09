@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import type { MahadashaIntelligence } from '@pridicta/types';
+import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 
 type WebMahadashaIntelligencePanelProps = {
   intelligence: MahadashaIntelligence;
@@ -92,7 +93,11 @@ export function WebMahadashaIntelligencePanel({
             {intelligence.ctas.slice(0, 3).map(cta => (
               <Link
                 className="button secondary"
-                href={`/dashboard/chat?prompt=${encodeURIComponent(cta.prompt)}`}
+                href={buildPredictaChatHref({
+                  prompt: cta.prompt,
+                  selectedSection: cta.label,
+                  sourceScreen: 'Mahadasha',
+                })}
                 key={cta.id}
               >
                 {cta.label}

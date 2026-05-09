@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { StatusPill } from '../../../components/StatusPill';
 import { WebDossierPreview } from '../../../components/WebDossierPreview';
+import { buildPredictaChatHref } from '../../../lib/predicta-chat-cta';
 
 export default function ReportPage(): React.JSX.Element {
   return (
@@ -20,7 +21,13 @@ export default function ReportPage(): React.JSX.Element {
         <Link className="button" href="/pricing">
           See deeper report options
         </Link>
-        <Link className="button secondary" href="/dashboard/chat">
+        <Link
+          className="button secondary"
+          href={buildPredictaChatHref({
+            prompt: 'Help me choose the right report from my active Kundli.',
+            sourceScreen: 'Report Marketplace',
+          })}
+        >
           Ask from report
         </Link>
       </div>

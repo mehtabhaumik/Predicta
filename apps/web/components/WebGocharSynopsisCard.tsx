@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import type { TransitGocharIntelligence } from '@pridicta/types';
+import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { Card } from './Card';
 
 type WebGocharSynopsisCardProps = {
@@ -49,9 +50,11 @@ export function WebGocharSynopsisCard({
           </Link>
           <Link
             className="button secondary"
-            href={`/dashboard/chat?prompt=${encodeURIComponent(
-              intelligence.askPrompt,
-            )}`}
+            href={buildPredictaChatHref({
+              prompt: intelligence.askPrompt,
+              selectedSection: 'Current Gochar',
+              sourceScreen: 'Gochar Synopsis',
+            })}
           >
             Ask Predicta
           </Link>

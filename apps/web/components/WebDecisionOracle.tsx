@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { composeDecisionMemo } from '@pridicta/astrology';
 import { buildTrustProfile } from '@pridicta/config/trust';
 import type { DecisionMemo } from '@pridicta/types';
+import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 import { WebTrustProofPanel } from './WebTrustProofPanel';
 
@@ -68,14 +69,16 @@ export function WebDecisionOracle(): React.JSX.Element {
         </div>
       </section>
 
-      {memo ? <WebDecisionMemo memo={memo} /> : null}
+      {memo ? <WebDecisionMemo kundliId={activeKundli?.id} memo={memo} /> : null}
     </div>
   );
 }
 
 function WebDecisionMemo({
+  kundliId,
   memo,
 }: {
+  kundliId?: string;
   memo: DecisionMemo;
 }): React.JSX.Element {
   const [showEvidence, setShowEvidence] = useState(true);
@@ -152,7 +155,7 @@ function WebDecisionMemo({
         >
           {showEvidence ? 'Hide evidence' : 'Show evidence'}
         </button>
-        <Link className="button" href={buildAskHref(memo)}>
+        <Link className="button" href={buildAskHref(memo, kundliId)}>
           Ask Predicta to explain
         </Link>
       </div>
@@ -200,13 +203,14 @@ function DecisionBlock({
   );
 }
 
-function buildAskHref(memo: DecisionMemo): string {
-  const params = new URLSearchParams({
+function buildAskHref(memo: DecisionMemo, kundliId?: string): string {
+  return buildPredictaChatHref({
     decisionArea: memo.area,
     decisionQuestion: memo.question,
     decisionState: memo.state,
+    kundliId,
     prompt: memo.aiPrompt,
+    selectedSection: memo.question,
+    sourceScreen: 'Decision Oracle',
   });
-
-  return `/dashboard/chat?${params.toString()}`;
 }

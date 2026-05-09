@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { composeRemedyCoach } from '@pridicta/astrology';
 import { buildTrustProfile } from '@pridicta/config/trust';
 import type { RemedyCoachItem, RemedyPracticeStatus } from '@pridicta/types';
+import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 import { WebTrustProofPanel } from './WebTrustProofPanel';
 
@@ -136,7 +137,10 @@ export function WebRemedyCoach(): React.JSX.Element {
                 <button className="button" onClick={() => markDone(selected)} type="button">
                   Mark Practice Done
                 </button>
-                <Link className="button secondary" href={buildAskHref(selected)}>
+                <Link
+                  className="button secondary"
+                  href={buildAskHref(selected, activeKundli?.id)}
+                >
                   Ask why this remedy
                 </Link>
               </div>
@@ -163,12 +167,13 @@ function DetailBlock({
   );
 }
 
-function buildAskHref(item: RemedyCoachItem): string {
-  const params = new URLSearchParams({
+function buildAskHref(item: RemedyCoachItem, kundliId?: string): string {
+  return buildPredictaChatHref({
+    kundliId,
     prompt: item.askPrompt,
     remedyId: item.id,
     remedyTitle: item.title,
+    selectedSection: item.title,
+    sourceScreen: 'Remedy Coach',
   });
-
-  return `/dashboard/chat?${params.toString()}`;
 }

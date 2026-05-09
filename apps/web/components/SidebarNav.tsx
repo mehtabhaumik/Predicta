@@ -10,18 +10,29 @@ export type SidebarItem = {
   label: string;
 };
 
+export type SidebarGroup = {
+  label: string;
+  items: SidebarItem[];
+};
+
 export function SidebarNav({
-  items,
+  groups,
   showAdmin,
 }: {
-  items: SidebarItem[];
+  groups: SidebarGroup[];
   showAdmin: boolean;
 }): React.JSX.Element {
   const pathname = usePathname();
   const reduceMotion = useReducedMotion();
-  const allItems = showAdmin
-    ? [...items, { href: '/dashboard/admin', label: 'Admin' }]
-    : items;
+  const navGroups = showAdmin
+    ? [
+        ...groups,
+        {
+          label: 'Owner',
+          items: [{ href: '/dashboard/admin', label: 'Admin' }],
+        },
+      ]
+    : groups;
 
   return (
     <aside className="sidebar">
@@ -40,31 +51,38 @@ export function SidebarNav({
         </span>
       </Link>
       <nav aria-label="Dashboard navigation" className="nav-list">
-        {allItems.map(item => {
-          const active =
-            item.href === '/dashboard'
-              ? pathname === item.href
-              : pathname.startsWith(item.href);
+        {navGroups.map(group => (
+          <div className="nav-section" key={group.label}>
+            <span className="nav-section-title">{group.label}</span>
+            <div className="nav-section-links">
+              {group.items.map(item => {
+                const active =
+                  item.href === '/dashboard'
+                    ? pathname === item.href
+                    : pathname.startsWith(item.href);
 
-          return (
-            <motion.div
-              key={item.href}
-              whileHover={reduceMotion ? undefined : { x: 3 }}
-            >
-              <Link
-                aria-current={active ? 'page' : undefined}
-                className={`nav-link ${active ? 'active' : ''}`}
-                href={item.href}
-              >
-                {item.label}
-              </Link>
-            </motion.div>
-          );
-        })}
+                return (
+                  <motion.div
+                    key={item.href}
+                    whileHover={reduceMotion ? undefined : { x: 3 }}
+                  >
+                    <Link
+                      aria-current={active ? 'page' : undefined}
+                      className={`nav-link ${active ? 'active' : ''}`}
+                      href={item.href}
+                    >
+                      {item.label}
+                    </Link>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </nav>
       <div className="sidebar-note glass-panel">
-        <span className="section-title">CLOUD SAVE</span>
-        <p>Save online only when you choose. Local work stays private.</p>
+        <span className="section-title">PRIVATE SAVE</span>
+        <p>This browser remembers your chart. Sign in to keep it across devices.</p>
       </div>
     </aside>
   );

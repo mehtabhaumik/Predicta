@@ -2,6 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { formatPassCode, normalizePassCode } from '@pridicta/access';
+import {
+  getOrCreateBrowserDeviceId,
+  getWebGuestProfileId,
+} from '../lib/web-guest-session';
 
 type RedemptionStatus = {
   tone: 'error' | 'success' | 'idle';
@@ -21,7 +25,7 @@ export function WebRedeemPassForm(): React.JSX.Element {
 
   useEffect(() => {
     setDeviceId(getBrowserDeviceId());
-    setUserId(getBrowserUserId());
+    setUserId(getWebGuestProfileId());
   }, []);
 
   async function redeem() {
@@ -33,7 +37,7 @@ export function WebRedeemPassForm(): React.JSX.Element {
     }
 
     const resolvedDeviceId = deviceId || getBrowserDeviceId();
-    const resolvedUserId = userId || getBrowserUserId();
+    const resolvedUserId = userId || getWebGuestProfileId();
 
     try {
       setBusy(true);
@@ -110,22 +114,6 @@ export function WebRedeemPassForm(): React.JSX.Element {
   );
 }
 
-function getBrowserUserId(): string {
-  return getOrCreateLocalId('pridicta.webUserId.v1', 'profile');
-}
-
 function getBrowserDeviceId(): string {
-  return getOrCreateLocalId('pridicta.webDeviceId.v1', 'browser');
-}
-
-function getOrCreateLocalId(key: string, prefix: string): string {
-  const current = window.localStorage.getItem(key);
-
-  if (current) {
-    return current;
-  }
-
-  const next = `${prefix}-${crypto.randomUUID()}`;
-  window.localStorage.setItem(key, next);
-  return next;
+  return getOrCreateBrowserDeviceId();
 }

@@ -6,6 +6,7 @@ import {
   normalizeLanguage,
 } from '@pridicta/config/language';
 import type { LanguagePreference, SupportedLanguage } from '@pridicta/types';
+import { saveWebAutoSaveMemory } from './web-auto-save-memory';
 
 const LANGUAGE_CHANGE_EVENT = 'pridicta-language-change';
 
@@ -44,6 +45,12 @@ export function useLanguagePreference(): {
     };
 
     localStorage.setItem(LANGUAGE_STORAGE_KEY, JSON.stringify(preference));
+    saveWebAutoSaveMemory({
+      language: {
+        selected: nextLanguage,
+        updatedAt: preference.updatedAt,
+      },
+    });
     setLanguageState(nextLanguage);
     window.dispatchEvent(new Event(LANGUAGE_CHANGE_EVENT));
   }, []);

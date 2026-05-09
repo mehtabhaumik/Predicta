@@ -26,7 +26,7 @@ export default function SettingsPage(): React.JSX.Element {
         <StatusPill label={usage.statusText} tone="quiet" />
         <h1 className="gradient-text">Settings that stay in your control.</h1>
         <p>
-          Manage account access, sound, cloud save, billing, and guest passes.
+          Manage account access, private saving, sound, billing, and guest passes.
         </p>
       </div>
 
@@ -36,7 +36,8 @@ export default function SettingsPage(): React.JSX.Element {
             <div className="section-title">ACCOUNT</div>
             <h2>Profile and sign-in</h2>
             <p>
-              Use Predicta locally, or sign in when you want restore access.
+              Use Predicta freely in this browser. Sign in when you want your
+              saved charts available across devices.
             </p>
             <div className="settings-stack">
               <div className="setting-row">
@@ -48,15 +49,15 @@ export default function SettingsPage(): React.JSX.Element {
               </div>
               <div className="setting-row">
                 <div>
-                  <strong>Cloud save</strong>
-                  <span>Only saves online when you choose it.</span>
+                  <strong>Private saving</strong>
+                  <span>Your chart is saved for this browser profile.</span>
                 </div>
                 <button
-                  className="toggle-control"
-                  aria-pressed="false"
+                  className="toggle-control active"
+                  aria-pressed="true"
                   type="button"
                 >
-                  Off
+                  On
                 </button>
               </div>
             </div>

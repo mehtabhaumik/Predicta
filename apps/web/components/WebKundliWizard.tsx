@@ -192,7 +192,7 @@ export function WebKundliWizard(): React.JSX.Element {
 
           <WebDestinyPassportCard passport={composeDestinyPassport(kundli)} />
           <div className="glass-panel kundli-chart-panel">
-            <WebKundliChart chart={kundli.charts.D1} />
+            <WebKundliChart chart={kundli.charts.D1} kundliId={kundli.id} />
           </div>
         </section>
       ) : null}

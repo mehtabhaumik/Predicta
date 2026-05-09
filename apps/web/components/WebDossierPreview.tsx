@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   getConfidenceLabel,
   getLanguageLabels,
@@ -12,10 +12,16 @@ import {
 import { composeReportSections, type PdfSection } from '@pridicta/pdf';
 import type { KundliData, SupportedLanguage } from '@pridicta/types';
 import { useLanguagePreference } from '../lib/language-preference';
-import { loadWebKundli } from '../lib/web-kundli-storage';
+import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
+import {
+  loadWebAutoSaveMemory,
+  saveWebAutoSaveMemory,
+} from '../lib/web-auto-save-memory';
+import { loadWebKundliStore } from '../lib/web-kundli-storage';
 import { WebTrustProofPanel } from './WebTrustProofPanel';
 
 export function WebDossierPreview(): React.JSX.Element {
+  const didLoadSavedState = useRef(false);
   const [mode, setMode] = useState<'FREE' | 'PREMIUM'>('FREE');
   const [selectedReportId, setSelectedReportId] =
     useState<ReportMarketplaceProduct['id']>('KUNDLI');
@@ -28,8 +34,36 @@ export function WebDossierPreview(): React.JSX.Element {
     marketplaceProducts[0];
 
   useEffect(() => {
-    setKundli(loadWebKundli());
-  }, []);
+    const memory = loadWebAutoSaveMemory();
+    const savedReport = memory.report;
+    const savedReportIsValid = marketplaceProducts.some(
+      product => product.id === savedReport?.selectedReportId,
+    );
+
+    setKundli(loadWebKundliStore().activeKundli);
+    if (savedReportIsValid && savedReport?.selectedReportId) {
+      setSelectedReportId(savedReport.selectedReportId as ReportMarketplaceProduct['id']);
+    }
+    if (savedReport?.mode) {
+      setMode(savedReport.mode);
+    }
+
+    didLoadSavedState.current = true;
+  }, [marketplaceProducts]);
+
+  useEffect(() => {
+    if (!didLoadSavedState.current) {
+      return;
+    }
+
+    saveWebAutoSaveMemory({
+      report: {
+        mode,
+        selectedReportId,
+        updatedAt: new Date().toISOString(),
+      },
+    });
+  }, [mode, selectedReportId]);
 
   const freeReport = useMemo(
     () =>
@@ -109,7 +143,10 @@ export function WebDossierPreview(): React.JSX.Element {
               <p>{selectedReport.premiumDepth}</p>
             </div>
           </div>
-          <a className="button secondary" href={buildReportAskHref(selectedReport)}>
+          <a
+            className="button secondary"
+            href={buildReportAskHref(selectedReport, kundli?.id)}
+          >
             Ask Predicta from this report
           </a>
         </div>
@@ -181,13 +218,16 @@ export function WebDossierPreview(): React.JSX.Element {
   );
 }
 
-function buildReportAskHref(product: ReportMarketplaceProduct): string {
-  const params = new URLSearchParams({
+function buildReportAskHref(
+  product: ReportMarketplaceProduct,
+  kundliId?: string,
+): string {
+  return buildPredictaChatHref({
+    kundliId,
     prompt: product.prompt,
+    selectedSection: product.title,
     sourceScreen: 'Report',
   });
-
-  return `/dashboard/chat?${params.toString()}`;
 }
 
 function DossierSection({

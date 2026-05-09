@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { composeBirthTimeDetective } from '@pridicta/astrology';
 import type { BirthTimeAnswer, BirthTimeQuestion } from '@pridicta/types';
+import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 
 const STORAGE_KEY = 'pridicta.birthTimeAnswers.web.preview';
@@ -124,7 +125,10 @@ export function WebBirthTimeDetective(): React.JSX.Element {
         >
           {showEvidence ? 'Hide evidence' : 'Show evidence'}
         </button>
-        <Link className="button" href={buildAskHref(report.askPrompt)}>
+        <Link
+          className="button"
+          href={buildAskHref(report.askPrompt, activeKundli?.id)}
+        >
           Ask about birth time
         </Link>
       </div>
@@ -159,11 +163,12 @@ function ImpactBlock({
   );
 }
 
-function buildAskHref(prompt: string): string {
-  const params = new URLSearchParams({
-    birthTimeDetective: 'true',
+function buildAskHref(prompt: string, kundliId?: string): string {
+  return buildPredictaChatHref({
+    birthTimeDetective: true,
+    kundliId,
     prompt,
+    selectedSection: 'Birth time confidence',
+    sourceScreen: 'Birth Time Detective',
   });
-
-  return `/dashboard/chat?${params.toString()}`;
 }

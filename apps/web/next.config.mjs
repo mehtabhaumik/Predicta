@@ -7,6 +7,7 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true
   },
+  skipTrailingSlashRedirect: true,
   transpilePackages: [
     '@pridicta/access',
     '@pridicta/ai',

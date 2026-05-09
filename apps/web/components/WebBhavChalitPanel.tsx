@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { composeChalitBhavKpFoundation } from '@pridicta/astrology';
 import type { KundliData } from '@pridicta/types';
+import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { Card } from './Card';
 
 type WebBhavChalitPanelProps = {
@@ -87,9 +88,12 @@ export function WebBhavChalitPanel({
         <div className="action-row">
           <Link
             className="button secondary"
-            href={`/dashboard/chat?prompt=${encodeURIComponent(
-              'Explain my Bhav Chalit chart and house shifts. Do not mix it with KP.',
-            )}`}
+            href={buildPredictaChatHref({
+              kundli,
+              prompt: 'Explain my Bhav Chalit chart and house shifts. Do not mix it with KP.',
+              selectedSection: 'Bhav Chalit',
+              sourceScreen: 'Bhav Chalit',
+            })}
           >
             Ask Regular Predicta
           </Link>

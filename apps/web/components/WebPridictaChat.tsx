@@ -63,10 +63,12 @@ import {
   extractBirthDetailsFromWeb,
   getWebSafetyIdentifier,
 } from '../lib/pridicta-ai';
+import { saveWebAutoSaveMemory } from '../lib/web-auto-save-memory';
 import {
   generateKundliFromWeb,
-  loadWebKundlis,
-  loadWebKundli,
+  loadWebKundliStore,
+  resolveWebKundliForContext,
+  saveWebActiveChartContext,
   WEB_KUNDLI_UPDATED_EVENT,
 } from '../lib/web-kundli-storage';
 
@@ -130,8 +132,12 @@ export function WebPridictaChat(): React.JSX.Element {
 
   useEffect(() => {
     function refreshKundlis() {
-      setKundli(loadWebKundli());
-      setSavedKundlis(loadWebKundlis());
+      const store = loadWebKundliStore();
+      const recoveredKundli =
+        resolveWebKundliForContext(store.activeChartContext) ?? store.activeKundli;
+      setKundli(recoveredKundli);
+      setSavedKundlis(store.savedKundlis);
+      setActiveChartContext(current => current ?? store.activeChartContext);
     }
 
     refreshKundlis();
@@ -141,8 +147,16 @@ export function WebPridictaChat(): React.JSX.Element {
     const stored = loadWebChatMemory();
 
     if (stored) {
+      const rememberedContext = [...stored.messages]
+        .reverse()
+        .find(message => message.context)?.context;
       setBirthMemory(stored.birthMemory);
       setPredictaMemory(stored.predictaMemory);
+      setActiveChartContext(current => current ?? rememberedContext);
+      const recoveredKundli = resolveWebKundliForContext(rememberedContext);
+      if (recoveredKundli) {
+        setKundli(recoveredKundli);
+      }
       setMessages(
         stored.messages.length
           ? stored.messages
@@ -157,6 +171,18 @@ export function WebPridictaChat(): React.JSX.Element {
       window.removeEventListener(WEB_KUNDLI_UPDATED_EVENT, refreshKundlis);
     };
   }, []);
+
+  useEffect(() => {
+    if (!didLoadMemory.current || !activeChartContext) {
+      return;
+    }
+
+    const recoveredKundli = recoverActiveKundli(activeChartContext);
+    if (recoveredKundli) {
+      setSavedKundlis(loadWebKundliStore().savedKundlis);
+    }
+    saveWebActiveChartContext(activeChartContext);
+  }, [activeChartContext, kundli?.id]);
 
   useEffect(() => {
     if (!didLoadMemory.current) {
@@ -186,6 +212,18 @@ export function WebPridictaChat(): React.JSX.Element {
     );
   }, [language]);
 
+  function recoverActiveKundli(
+    context = activeChartContext,
+  ): KundliData | undefined {
+    const recovered = kundli ?? resolveWebKundliForContext(context);
+
+    if (recovered && recovered.id !== kundli?.id) {
+      setKundli(recovered);
+    }
+
+    return recovered;
+  }
+
   useEffect(() => {
     if (!queryString || loadedQueryPromptRef.current === queryString) {
       return;
@@ -194,24 +232,33 @@ export function WebPridictaChat(): React.JSX.Element {
     const params = new URLSearchParams(queryString);
     const prompt = params.get('prompt');
     const chartContext = chartContextFromParams(params);
+    const ctaContext = chartContext ?? ctaContextFromParams(params);
 
-    if (prompt || chartContext) {
+    if (prompt || ctaContext) {
       loadedQueryPromptRef.current = queryString;
-      if (chartContext) {
+      if (ctaContext) {
         const selectedSection =
-          prompt || chartContext.selectedSection || buildChartSelectionPrompt(chartContext);
+          prompt ||
+          ctaContext.selectedSection ||
+          (ctaContext.chartType
+            ? buildChartSelectionPrompt(ctaContext)
+            : ctaContext.handoffQuestion) ||
+          `${ctaContext.sourceScreen} context`;
         const nextContext = {
-          ...chartContext,
+          ...ctaContext,
           selectedSection,
         };
         setActiveChartContext(nextContext);
+        saveWebActiveChartContext(nextContext);
         setInput(selectedSection);
         setMessages(current => [
           ...current,
           createPridictaReply(
             nextContext.predictaSchool
               ? buildSchoolContextIntro(nextContext, language)
-              : buildChartContextIntro(nextContext, language),
+              : nextContext.chartType
+                ? buildChartContextIntro(nextContext, language)
+                : buildCtaContextIntro(nextContext, language),
             language,
             {
               context: nextContext,
@@ -376,8 +423,9 @@ export function WebPridictaChat(): React.JSX.Element {
 
       responseSafetyRef.current = undefined;
       const summary = await resolveSmartReply(text);
+      const recoveredKundli = recoverActiveKundli();
       const safeSummary =
-        kundli && hasHighStakesLanguage(text)
+        recoveredKundli && hasHighStakesLanguage(text)
           ? `${getSafetyBoundaryCopy(
               languageContext.responseLanguage,
             )}\n\n${summary}`
@@ -387,7 +435,7 @@ export function WebPridictaChat(): React.JSX.Element {
         ...current,
           createPridictaReply(safeSummary, languageContext.responseLanguage, {
             context: activeChartContext,
-            kundli,
+            kundli: recoveredKundli,
             lastText: text,
             safety:
               responseSafetyRef.current ??
@@ -491,9 +539,11 @@ export function WebPridictaChat(): React.JSX.Element {
       );
     }
 
+    const activeKundli = recoverActiveKundli();
+
     const actionReply = buildPredictaActionReply({
       hasPremiumAccess: false,
-      kundli,
+      kundli: activeKundli,
       language,
       memory: predictaMemory,
       savedKundlis,
@@ -505,7 +555,7 @@ export function WebPridictaChat(): React.JSX.Element {
       return actionReply.text;
     }
 
-    if (!kundli) {
+    if (!activeKundli) {
       return [
         languageContext.acknowledgement,
         createKundliFirstReply(responseLanguage, text),
@@ -516,7 +566,7 @@ export function WebPridictaChat(): React.JSX.Element {
 
     return askWithProof(
       text,
-      kundli,
+      activeKundli,
       responseLanguage,
       languageContext.acknowledgement,
     );
@@ -526,7 +576,9 @@ export function WebPridictaChat(): React.JSX.Element {
     text: string,
     responseLanguage: SupportedLanguage,
   ): { message: WebMessage } | undefined {
-    if (!kundli) {
+    const activeKundli = recoverActiveKundli();
+
+    if (!activeKundli) {
       return undefined;
     }
 
@@ -539,7 +591,7 @@ export function WebPridictaChat(): React.JSX.Element {
     const block = composeChatChartBlock({
       chartType: intent.chartType,
       hasPremiumAccess: false,
-      kundli,
+      kundli: activeKundli,
     });
 
     if (!block) {
@@ -551,11 +603,12 @@ export function WebPridictaChat(): React.JSX.Element {
       predictaMemory,
       text,
       'chart',
-      kundli,
+      activeKundli,
       responseLanguage,
     );
     setPredictaMemory(nextMemory);
     setActiveChartContext(context);
+    saveWebActiveChartContext(context);
 
     return {
       message: {
@@ -565,7 +618,7 @@ export function WebPridictaChat(): React.JSX.Element {
         role: 'pridicta',
         suggestions: buildFollowUps({
           context,
-          kundli,
+          kundli: activeKundli,
           language: responseLanguage,
           lastText: text,
         }),
@@ -637,7 +690,7 @@ export function WebPridictaChat(): React.JSX.Element {
     };
     const nextKundli = await generateKundliFromWeb(birthDetails);
     setKundli(nextKundli);
-    const nextSavedKundlis = loadWebKundlis();
+    const nextSavedKundlis = loadWebKundliStore().savedKundlis;
     setSavedKundlis(nextSavedKundlis);
     setBirthMemory(undefined);
     const nextMemory = learnPredictaInteraction(
@@ -686,7 +739,9 @@ export function WebPridictaChat(): React.JSX.Element {
                   key={`${message.id}-${block.type}-${block.chartType}`}
                   onUsePrompt={prompt => {
                     if (block.type === 'chart') {
-                      setActiveChartContext(chartContextFromChatBlock(block, 'Chat'));
+                      const context = chartContextFromChatBlock(block, 'Chat');
+                      setActiveChartContext(context);
+                      saveWebActiveChartContext(context);
                     }
                     setInput(prompt);
                   }}
@@ -699,6 +754,7 @@ export function WebPridictaChat(): React.JSX.Element {
                   onUseSuggestion={suggestion => {
                     if (suggestion.context) {
                       setActiveChartContext(suggestion.context);
+                      saveWebActiveChartContext(suggestion.context);
                     }
                     if (suggestion.href) {
                       window.location.assign(suggestion.href);
@@ -1125,6 +1181,7 @@ function buildFollowUps({
 function chartContextFromParams(params: URLSearchParams): ChartContext | undefined {
   const school = params.get('school');
   const handoffQuestion = params.get('handoffQuestion');
+  const kundliId = params.get('kundliId') ?? undefined;
 
   if (school === 'KP' || school === 'NADI' || school === 'PARASHARI') {
     return {
@@ -1133,6 +1190,7 @@ function chartContextFromParams(params: URLSearchParams): ChartContext | undefin
           ? (params.get('from') as 'KP' | 'NADI')
           : 'PARASHARI',
       handoffQuestion: handoffQuestion ?? params.get('prompt') ?? undefined,
+      kundliId,
       predictaSchool: school,
       selectedSection:
         params.get('prompt') ??
@@ -1154,12 +1212,102 @@ function chartContextFromParams(params: URLSearchParams): ChartContext | undefin
   return {
     chartName: params.get('chartName') ?? chartType,
     chartType,
+    kundliId,
     purpose: params.get('purpose') ?? undefined,
     selectedHouse: selectedHouse ? Number(selectedHouse) : undefined,
     selectedPlanet: params.get('selectedPlanet') ?? undefined,
     selectedSection: params.get('prompt') ?? undefined,
     sourceScreen: params.get('sourceScreen') ?? 'Charts',
   };
+}
+
+function ctaContextFromParams(params: URLSearchParams): ChartContext | undefined {
+  const sourceScreen = params.get('sourceScreen');
+  const prompt = params.get('prompt') ?? params.get('selectedSection') ?? undefined;
+
+  if (!sourceScreen && !prompt && !params.get('kundliId')) {
+    return undefined;
+  }
+
+  return {
+    handoffQuestion: params.get('handoffQuestion') ?? undefined,
+    kundliId: params.get('kundliId') ?? undefined,
+    selectedBirthTimeDetective: params.get('birthTimeDetective') === 'true',
+    selectedDailyBriefingDate:
+      params.get('selectedDailyBriefingDate') ?? params.get('briefingDate') ?? undefined,
+    selectedDecisionArea:
+      (params.get('decisionArea') as ChartContext['selectedDecisionArea']) ?? undefined,
+    selectedDecisionQuestion: params.get('decisionQuestion') ?? undefined,
+    selectedDecisionState:
+      (params.get('decisionState') as ChartContext['selectedDecisionState']) ?? undefined,
+    selectedFamilyKarmaMap: params.get('selectedFamilyKarmaMap') === 'true',
+    selectedPredictaWrapped: params.get('selectedPredictaWrapped') === 'true',
+    selectedPredictaWrappedYear: parseOptionalNumber(
+      params.get('selectedPredictaWrappedYear'),
+    ),
+    selectedRelationshipMirror: params.get('selectedRelationshipMirror') === 'true',
+    selectedRemedyId: params.get('remedyId') ?? undefined,
+    selectedRemedyTitle: params.get('remedyTitle') ?? undefined,
+    selectedSection: prompt,
+    selectedTimelineEventId: params.get('selectedTimelineEventId') ?? undefined,
+    selectedTimelineEventKind:
+      (params.get('selectedTimelineEventKind') as ChartContext['selectedTimelineEventKind']) ??
+      undefined,
+    selectedTimelineEventTitle: params.get('selectedTimelineEventTitle') ?? undefined,
+    selectedTimelineEventWindow: params.get('selectedTimelineEventWindow') ?? undefined,
+    sourceScreen: sourceScreen ?? 'Predicta',
+  };
+}
+
+function parseOptionalNumber(value: string | null): number | undefined {
+  if (!value) {
+    return undefined;
+  }
+
+  const parsed = Number(value);
+
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
+function buildCtaContextIntro(
+  context: ChartContext,
+  language: SupportedLanguage,
+): string {
+  const source = context.sourceScreen || 'Predicta';
+  const focus =
+    context.selectedDecisionQuestion ??
+    context.selectedRemedyTitle ??
+    context.selectedTimelineEventTitle ??
+    context.selectedSection ??
+    context.handoffQuestion;
+
+  if (language === 'hi') {
+    return [
+      `${source} context loaded hai.`,
+      focus ? `Focus: ${focus}` : undefined,
+      'Main isi context aur active Kundli se answer karungi. Aap Ask dabaiye ya apna follow-up likhiye.',
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      `${source} context loaded chhe.`,
+      focus ? `Focus: ${focus}` : undefined,
+      'Hu aa context ane active Kundli thi jawab aapish. Ask dabavo athva follow-up lakho.',
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+  }
+
+  return [
+    `${source} context loaded.`,
+    focus ? `Focus: ${focus}` : undefined,
+    'I will answer from this context and your active Kundli. Press Ask or type your follow-up.',
+  ]
+    .filter(Boolean)
+    .join('\n\n');
 }
 
 function buildSchoolContextIntro(
@@ -1386,14 +1534,21 @@ function loadWebChatMemory(): WebChatMemory | undefined {
 
 function saveWebChatMemory(memory: WebChatMemory): void {
   try {
+    const messages = memory.messages.slice(-24);
     window.localStorage.setItem(
       WEB_CHAT_MEMORY_KEY,
       JSON.stringify({
         birthMemory: memory.birthMemory,
-        messages: memory.messages.slice(-24),
+        messages,
         predictaMemory: memory.predictaMemory,
       }),
     );
+    saveWebAutoSaveMemory({
+      chat: {
+        lastMessageAt: new Date().toISOString(),
+        messageCount: messages.length,
+      },
+    });
   } catch {
     // Local chat memory is a convenience; Predicta can still work without it.
   }

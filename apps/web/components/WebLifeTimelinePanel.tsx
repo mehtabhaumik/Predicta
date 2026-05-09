@@ -7,6 +7,7 @@ import type {
   LifeTimelineEventView,
   LifeTimelinePresentation,
 } from '@pridicta/types';
+import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { WebTrustProofPanel } from './WebTrustProofPanel';
 
 type WebLifeTimelinePanelProps = {
@@ -140,5 +141,13 @@ function TimelineMetric({
 }
 
 function buildAskHref(event: LifeTimelineEventView): string {
-  return `/dashboard/chat?prompt=${encodeURIComponent(event.askPrompt)}`;
+  return buildPredictaChatHref({
+    prompt: event.askPrompt,
+    selectedSection: event.title,
+    selectedTimelineEventId: event.id,
+    selectedTimelineEventKind: event.kind,
+    selectedTimelineEventTitle: event.title,
+    selectedTimelineEventWindow: event.dateWindow,
+    sourceScreen: 'Life Timeline',
+  });
 }

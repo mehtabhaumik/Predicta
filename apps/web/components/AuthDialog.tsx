@@ -44,7 +44,7 @@ export function AuthDialog(): React.JSX.Element {
 
     return runAuth(
       () => signInWithPopup(getFirebaseWebAuth(), authProvider),
-      'Signed in. Your account is ready.',
+      'Signed in. Your saved chart stays with this account.',
     );
   }
 
@@ -67,7 +67,9 @@ export function AuthDialog(): React.JSX.Element {
               email.trim(),
               password,
             ),
-      mode === 'register' ? 'Account created.' : 'Signed in.',
+      mode === 'register'
+        ? 'Account created. Your saved chart stays with this account.'
+        : 'Signed in. Your saved chart stays with this account.',
     );
   }
 

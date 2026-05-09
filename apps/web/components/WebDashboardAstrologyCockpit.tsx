@@ -7,6 +7,7 @@ import type {
   TransitGocharIntelligence,
   YearlyHoroscopeVarshaphal,
 } from '@pridicta/types';
+import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { StatusPill } from './StatusPill';
 
 type WebDashboardAstrologyCockpitProps = {
@@ -33,33 +34,33 @@ type RadarItem = {
 const focusCards = [
   {
     chart: 'D1 + D2',
-    href: '/dashboard/chat?prompt=Read%20my%20money%20focus%20from%202nd%20house%2C%2011th%20house%2C%20D1%2C%20D2%2C%20dasha%2C%20and%20Gochar.',
     label: 'Money',
     proof: '2nd + 11th house',
+    prompt: 'Read my money focus from 2nd house, 11th house, D1, D2, dasha, and Gochar.',
   },
   {
     chart: 'D1 + D10',
-    href: '/dashboard/chat?prompt=Read%20my%20career%20focus%20from%2010th%20house%2C%20D10%2C%20dasha%2C%20and%20Gochar.',
     label: 'Career',
     proof: '10th house + D10',
+    prompt: 'Read my career focus from 10th house, D10, dasha, and Gochar.',
   },
   {
     chart: 'D1 + D9',
-    href: '/dashboard/chat?prompt=Read%20my%20relationship%20focus%20from%207th%20house%2C%20D9%2C%20Venus%2C%20Jupiter%2C%20dasha%2C%20and%20Gochar.',
     label: 'Marriage',
     proof: '7th house + D9',
+    prompt: 'Read my relationship focus from 7th house, D9, Venus, Jupiter, dasha, and Gochar.',
   },
   {
     chart: 'D1 + D20',
-    href: '/dashboard/chat?prompt=Read%20my%20spiritual%20focus%20from%209th%20house%2C%20D20%2C%20Jupiter%2C%20Ketu%2C%20and%20current%20dasha.',
     label: 'Spirituality',
     proof: '9th house + D20',
+    prompt: 'Read my spiritual focus from 9th house, D20, Jupiter, Ketu, and current dasha.',
   },
   {
     chart: 'D1 + D12',
-    href: '/dashboard/chat?prompt=Read%20my%20family%20focus%20from%204th%20house%2C%20D12%2C%20Moon%2C%20and%20current%20dasha.',
     label: 'Family',
     proof: '4th house + D12',
+    prompt: 'Read my family focus from 4th house, D12, Moon, and current dasha.',
   },
 ] as const;
 
@@ -176,7 +177,16 @@ export function WebDashboardAstrologyCockpit({
           {focusCards.map(card => (
             <Link
               className="chart-focus-card"
-              href={kundli ? card.href : '/dashboard/kundli'}
+              href={
+                kundli
+                  ? buildPredictaChatHref({
+                      kundli,
+                      prompt: card.prompt,
+                      selectedSection: card.label,
+                      sourceScreen: 'Dashboard Chart Focus',
+                    })
+                  : '/dashboard/kundli'
+              }
               key={card.label}
             >
               <span>{card.chart}</span>
@@ -196,7 +206,14 @@ export function WebDashboardAstrologyCockpit({
               : 'Waiting for Kundli'}
           </strong>
         </div>
-        <Link className="button" href="/dashboard/chat">
+        <Link
+          className="button"
+          href={buildPredictaChatHref({
+            kundli,
+            prompt: 'Read my active Kundli and suggest the best next focus.',
+            sourceScreen: 'Dashboard',
+          })}
+        >
           Ask Predicta
         </Link>
       </div>

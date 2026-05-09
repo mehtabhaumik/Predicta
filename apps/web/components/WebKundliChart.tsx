@@ -11,17 +11,20 @@ import {
 } from '@pridicta/astrology';
 import type { ChartData, ChartType } from '@pridicta/types';
 import Link from 'next/link';
+import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { StatusPill } from './StatusPill';
 
 type WebKundliChartProps = {
   chart: ChartData;
   hasPremiumAccess?: boolean;
+  kundliId?: string;
   ownerName?: string;
 };
 
 export function WebKundliChart({
   chart,
   hasPremiumAccess = false,
+  kundliId,
   ownerName,
 }: WebKundliChartProps): React.JSX.Element {
   const [selectedHouse, setSelectedHouse] = useState(1);
@@ -192,6 +195,7 @@ export function WebKundliChart({
                 chartName: chart.name,
                 chartType: chart.chartType,
                 house: activeCell.house,
+                kundliId,
                 planet: selectedPlanet,
                 purpose: insight.summary,
               })}
@@ -223,12 +227,14 @@ function buildChartAskHref({
   chartName,
   chartType,
   house,
+  kundliId,
   planet,
   purpose,
 }: {
   chartName: string;
   chartType: ChartType;
   house?: number;
+  kundliId?: string;
   planet?: string;
   purpose: string;
 }): string {
@@ -240,22 +246,16 @@ function buildChartAskHref({
     selectedPlanet: planet,
     sourceScreen: 'Charts',
   };
-  const params = new URLSearchParams({
+  return buildPredictaChatHref({
     chartName,
     chartType,
+    kundliId,
     prompt: buildChartSelectionPrompt(context),
     purpose,
+    selectedHouse: house,
+    selectedPlanet: planet,
     sourceScreen: 'Charts',
   });
-
-  if (house) {
-    params.set('selectedHouse', String(house));
-  }
-  if (planet) {
-    params.set('selectedPlanet', planet);
-  }
-
-  return `/dashboard/chat?${params.toString()}`;
 }
 
 function getHouseMeaning(house?: number): string {

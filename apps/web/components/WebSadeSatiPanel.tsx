@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import type { SadeSatiIntelligence } from '@pridicta/types';
+import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 
 type WebSadeSatiPanelProps = {
   intelligence: SadeSatiIntelligence;
@@ -87,7 +88,11 @@ export function WebSadeSatiPanel({
             {intelligence.ctas.slice(0, 3).map(cta => (
               <Link
                 className="button secondary"
-                href={`/dashboard/chat?prompt=${encodeURIComponent(cta.prompt)}`}
+                href={buildPredictaChatHref({
+                  prompt: cta.prompt,
+                  selectedSection: cta.label,
+                  sourceScreen: 'Sade Sati',
+                })}
                 key={cta.id}
               >
                 {cta.label}

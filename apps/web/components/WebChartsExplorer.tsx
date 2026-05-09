@@ -67,6 +67,7 @@ export function WebChartsExplorer({
           <WebKundliChart
             chart={chart}
             hasPremiumAccess={hasPremiumAccess}
+            kundliId={kundli.id}
             ownerName={kundli.birthDetails.name}
           />
         </div>

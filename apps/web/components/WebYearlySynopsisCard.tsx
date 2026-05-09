@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import type { YearlyHoroscopeVarshaphal } from '@pridicta/types';
+import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { Card } from './Card';
 
 type WebYearlySynopsisCardProps = {
@@ -43,9 +44,11 @@ export function WebYearlySynopsisCard({
           </Link>
           <Link
             className="button secondary"
-            href={`/dashboard/chat?prompt=${encodeURIComponent(
-              intelligence.askPrompt,
-            )}`}
+            href={buildPredictaChatHref({
+              prompt: intelligence.askPrompt,
+              selectedSection: intelligence.yearLabel,
+              sourceScreen: 'Yearly Horoscope',
+            })}
           >
             Ask Predicta
           </Link>

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import type { DailyBriefing } from '@pridicta/types';
+import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 
 type WebDailyBriefingCardProps = {
   briefing: DailyBriefing;
@@ -110,10 +111,10 @@ function BriefingPanel({
 }
 
 function buildAskHref(briefing: DailyBriefing): string {
-  const params = new URLSearchParams({
-    briefingDate: briefing.date,
+  return buildPredictaChatHref({
     prompt: briefing.askPrompt,
+    selectedDailyBriefingDate: briefing.date,
+    selectedSection: briefing.title,
+    sourceScreen: 'Daily Briefing',
   });
-
-  return `/dashboard/chat?${params.toString()}`;
 }

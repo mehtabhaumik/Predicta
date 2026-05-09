@@ -3,10 +3,10 @@ import { createInitialMonetizationState } from '@pridicta/monetization';
 import type { AuthState } from '@pridicta/types';
 
 export const demoAuth: AuthState = {
-  email: 'guest@pridicta.app',
+  email: 'guest@predicta.local',
   isLoggedIn: false,
   provider: null,
-  userId: 'local-web-preview',
+  userId: 'guest-server-preview',
 };
 
 export const demoAdminAuth: AuthState = {
