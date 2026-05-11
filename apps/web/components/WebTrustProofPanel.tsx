@@ -24,8 +24,12 @@ export function WebTrustProofPanel({
       </div>
       {!compact ? (
         <div className="trust-audit-trace">
-          <span>Audit trace</span>
-          <code>{trust.auditTrace.join(' | ')}</code>
+          <span>Review note</span>
+          <p>
+            {trust.highStakes
+              ? 'Predicta added an extra safety boundary and kept this guidance reflective, practical, and non-final.'
+              : 'Predicta checked chart proof, limits, and safety notes before showing this guidance.'}
+          </p>
         </div>
       ) : null}
     </section>

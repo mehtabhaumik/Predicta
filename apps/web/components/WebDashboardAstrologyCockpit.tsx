@@ -4,6 +4,8 @@ import Link from 'next/link';
 import type {
   DailyBriefing,
   KundliData,
+  PersonalPanchangLayer,
+  PurusharthaLifeBalance,
   TransitGocharIntelligence,
   YearlyHoroscopeVarshaphal,
 } from '@pridicta/types';
@@ -14,6 +16,8 @@ type WebDashboardAstrologyCockpitProps = {
   dailyBriefing: DailyBriefing;
   gochar: TransitGocharIntelligence;
   kundli?: KundliData;
+  personalPanchang: PersonalPanchangLayer;
+  purushartha: PurusharthaLifeBalance;
   yearlyHoroscope: YearlyHoroscopeVarshaphal;
 };
 
@@ -68,6 +72,8 @@ export function WebDashboardAstrologyCockpit({
   dailyBriefing,
   gochar,
   kundli,
+  personalPanchang,
+  purushartha,
   yearlyHoroscope,
 }: WebDashboardAstrologyCockpitProps): React.JSX.Element {
   const weather = buildLifeWeather(kundli, dailyBriefing, gochar);
@@ -165,6 +171,81 @@ export function WebDashboardAstrologyCockpit({
               </span>
             ))}
           </div>
+        </div>
+      </div>
+
+      <div className="personal-panchang-panel">
+        <div className="personal-panchang-copy">
+          <span>Personal Panchang</span>
+          <strong>
+            {personalPanchang.weekdayLord} day, {personalPanchang.tithi}
+          </strong>
+          <p>{personalPanchang.todayFocus}</p>
+        </div>
+        <div className="personal-panchang-signals">
+          {personalPanchang.signals.slice(0, 4).map(signal => (
+            <div className={`personal-panchang-signal ${signal.tone}`} key={signal.id}>
+              <span>{signal.label}</span>
+              <strong>{signal.value}</strong>
+              <small>{signal.meaning}</small>
+            </div>
+          ))}
+        </div>
+        <div className="personal-panchang-actions">
+          <div>
+            <span>Best for</span>
+            <strong>{personalPanchang.bestFor.slice(0, 2).join(', ')}</strong>
+          </div>
+          <Link
+            className="button secondary"
+            href={
+              kundli
+                ? buildPredictaChatHref({
+                    kundli,
+                    prompt: personalPanchang.askPrompt,
+                    selectedSection: 'Personal Panchang',
+                    sourceScreen: 'Dashboard Personal Panchang',
+                  })
+                : '/dashboard/kundli'
+            }
+          >
+            Ask Panchang
+          </Link>
+        </div>
+      </div>
+
+      <div className="purushartha-panel">
+        <div className="purushartha-copy">
+          <span>Life balance</span>
+          <strong>{purushartha.dominant.label} leads now</strong>
+          <p>{purushartha.summary}</p>
+        </div>
+        <div className="purushartha-axis-grid">
+          {purushartha.axes.map(axis => (
+            <Link
+              className={`purushartha-axis-card ${axis.tone}`}
+              href={
+                kundli
+                  ? buildPredictaChatHref({
+                      kundli,
+                      prompt: `Explain my ${axis.label} Purushartha balance with chart proof, timing, karmic pattern, and one practical step.`,
+                      selectedSection: `${axis.label} Purushartha`,
+                      sourceScreen: 'Dashboard Purushartha',
+                    })
+                  : '/dashboard/kundli'
+              }
+              key={axis.category}
+            >
+              <div>
+                <span>{axis.label}</span>
+                <strong>{axis.score}%</strong>
+              </div>
+              <div className="purushartha-track">
+                <span style={{ width: `${axis.score}%` }} />
+              </div>
+              <small>{axis.currentEmphasis}</small>
+            </Link>
+          ))}
         </div>
       </div>
 

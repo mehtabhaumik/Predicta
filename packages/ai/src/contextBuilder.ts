@@ -5,11 +5,18 @@ import {
   composeChalitBhavKpFoundation,
   composeDecisionMemo,
   composeFamilyKarmaMap,
+  composeHolisticDailyGuidance,
+  composeHolisticDecisionTimingSynthesis,
+  composeHolisticFoundationModel,
+  composeHolisticReadingRooms,
   composeMahadashaIntelligence,
   composeNadiJyotishPlan,
+  composePersonalPanchangLayer,
   composePredictaWrapped,
+  composePurusharthaLifeBalance,
   composeRemedyCoach,
   composeRelationshipMirror,
+  composeSadhanaRemedyPath,
   composeSadeSatiIntelligence,
   composeTransitGocharIntelligence,
   composeYearlyHoroscopeVarshaphal,
@@ -99,6 +106,15 @@ export function buildAIContext(
         }),
       )
     : undefined;
+  const selectedDecisionSynthesis = chartContext?.selectedDecisionQuestion
+    ? compactHolisticDecisionTimingSynthesis(
+        composeHolisticDecisionTimingSynthesis({
+          kundli: kundliData,
+          language,
+          question: chartContext.selectedDecisionQuestion,
+        }),
+      )
+    : undefined;
   const selectedRemedy = chartContext?.selectedRemedyId
     ? composeRemedyCoach(kundliData).items.find(
         item => item.id === chartContext.selectedRemedyId,
@@ -173,6 +189,9 @@ export function buildAIContext(
     coreCharts: Object.fromEntries(coreChartEntries),
     currentDasha: kundliData.dasha.current,
     dailyBriefing: composeDailyBriefing(kundliData, { language }),
+    personalPanchang: compactPersonalPanchang(
+      composePersonalPanchangLayer(kundliData),
+    ),
     dashaTimeline: kundliData.dasha.timeline.slice(0, 4),
     mahadashaIntelligence: compactMahadashaIntelligence(
       composeMahadashaIntelligence(kundliData, {
@@ -210,6 +229,21 @@ export function buildAIContext(
         depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
       }),
     ),
+    holisticFoundation: compactHolisticFoundation(
+      composeHolisticFoundationModel(kundliData),
+    ),
+    holisticReadingRooms: compactHolisticReadingRooms(
+      composeHolisticReadingRooms(kundliData),
+    ),
+    sadhanaRemedyPath: compactSadhanaRemedyPath(
+      composeSadhanaRemedyPath(kundliData),
+    ),
+    holisticDailyGuidance: compactHolisticDailyGuidance(
+      composeHolisticDailyGuidance(kundliData, { language }),
+    ),
+    purusharthaLifeBalance: compactPurusharthaLifeBalance(
+      composePurusharthaLifeBalance(kundliData),
+    ),
     houses: kundliData.houses,
     lifeTimeline: kundliData.lifeTimeline,
     planets: kundliData.planets,
@@ -231,6 +265,7 @@ export function buildAIContext(
     selectedHouseFocus,
     selectedPlanetFocus,
     selectedDecision,
+    selectedDecisionSynthesis,
     selectedRemedy,
     selectedFamilyKarmaMap,
     selectedPredictaWrapped,
@@ -400,6 +435,111 @@ function compactChalitBhavKpFoundation(
   };
 }
 
+function compactHolisticFoundation(
+  foundation: ReturnType<typeof composeHolisticFoundationModel>,
+): NonNullable<AIContextPayload['holisticFoundation']> {
+  return {
+    activePlanetFocus: foundation.activePlanetFocus.slice(0, 4),
+    answerParts: foundation.answerParts,
+    planetRemedyMap: foundation.planetRemedyMap,
+    remedyPriority: foundation.remedyPriority,
+    safetyRules: foundation.safetyRules,
+    subtitle: foundation.subtitle,
+    title: foundation.title,
+  };
+}
+
+function compactHolisticReadingRooms(
+  rooms: ReturnType<typeof composeHolisticReadingRooms>,
+): NonNullable<AIContextPayload['holisticReadingRooms']> {
+  return {
+    featuredRoom: rooms.featuredRoom,
+    guardrails: rooms.guardrails,
+    rooms: rooms.rooms,
+    subtitle: rooms.subtitle,
+    title: rooms.title,
+  };
+}
+
+function compactSadhanaRemedyPath(
+  path: ReturnType<typeof composeSadhanaRemedyPath>,
+): NonNullable<AIContextPayload['sadhanaRemedyPath']> {
+  return {
+    guardrails: path.guardrails,
+    karmicTheme: path.karmicTheme,
+    planet: path.planet,
+    planetReason: path.planetReason,
+    progressSummary: path.progressSummary,
+    reviewQuestions: path.reviewQuestions,
+    stages: path.stages,
+    subtitle: path.subtitle,
+    title: path.title,
+    weeklyIntention: path.weeklyIntention,
+  };
+}
+
+function compactHolisticDailyGuidance(
+  guidance: ReturnType<typeof composeHolisticDailyGuidance>,
+): NonNullable<AIContextPayload['holisticDailyGuidance']> {
+  return {
+    avoidAction: guidance.avoidAction,
+    bestAction: guidance.bestAction,
+    blocks: guidance.blocks,
+    dailyFocus: guidance.dailyFocus,
+    date: guidance.date,
+    eveningReview: guidance.eveningReview,
+    evidence: guidance.evidence,
+    guardrails: guidance.guardrails,
+    headline: guidance.headline,
+    middayCheck: guidance.middayCheck,
+    morningPractice: guidance.morningPractice,
+    purusharthaFocus: guidance.purusharthaFocus,
+    remedy: guidance.remedy,
+    sadhanaStep: guidance.sadhanaStep,
+    subtitle: guidance.subtitle,
+    timingNote: guidance.timingNote,
+    title: guidance.title,
+  };
+}
+
+function compactPurusharthaLifeBalance(
+  balance: ReturnType<typeof composePurusharthaLifeBalance>,
+): NonNullable<AIContextPayload['purusharthaLifeBalance']> {
+  return {
+    axes: balance.axes,
+    dominant: balance.dominant,
+    limitations: balance.limitations,
+    needsCare: balance.needsCare,
+    subtitle: balance.subtitle,
+    summary: balance.summary,
+    title: balance.title,
+  };
+}
+
+function compactPersonalPanchang(
+  panchang: ReturnType<typeof composePersonalPanchangLayer>,
+): NonNullable<AIContextPayload['personalPanchang']> {
+  return {
+    avoidFor: panchang.avoidFor,
+    bestFor: panchang.bestFor,
+    date: panchang.date,
+    evidence: panchang.evidence,
+    limitations: panchang.limitations,
+    moonNakshatra: panchang.moonNakshatra,
+    moonSign: panchang.moonSign,
+    natalNakshatra: panchang.natalNakshatra,
+    paksha: panchang.paksha,
+    personalRemedy: panchang.personalRemedy,
+    signals: panchang.signals,
+    subtitle: panchang.subtitle,
+    tithi: panchang.tithi,
+    title: panchang.title,
+    todayFocus: panchang.todayFocus,
+    weekday: panchang.weekday,
+    weekdayLord: panchang.weekdayLord,
+  };
+}
+
 function compactPredictaWrapped(
   wrapped: ReturnType<typeof composePredictaWrapped>,
 ): NonNullable<AIContextPayload['selectedPredictaWrapped']> {
@@ -456,5 +596,28 @@ function compactDecisionMemo(
     shortAnswer: memo.shortAnswer,
     state: memo.state,
     timing: memo.timing,
+  };
+}
+
+function compactHolisticDecisionTimingSynthesis(
+  synthesis: ReturnType<typeof composeHolisticDecisionTimingSynthesis>,
+): NonNullable<AIContextPayload['selectedDecisionSynthesis']> {
+  return {
+    area: synthesis.area,
+    dailyAnchor: synthesis.dailyAnchor,
+    decisionGuidance: synthesis.decisionGuidance,
+    evidence: synthesis.evidence.slice(0, 6),
+    guardrails: synthesis.guardrails,
+    headline: synthesis.headline,
+    practicalStep: synthesis.practicalStep,
+    purusharthaLens: synthesis.purusharthaLens,
+    question: synthesis.question,
+    riskBoundary: synthesis.riskBoundary,
+    sadhanaSupport: synthesis.sadhanaSupport,
+    signals: synthesis.signals.slice(0, 6),
+    state: synthesis.state,
+    subtitle: synthesis.subtitle,
+    timingWindow: synthesis.timingWindow,
+    title: synthesis.title,
   };
 }

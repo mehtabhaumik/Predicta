@@ -14,6 +14,7 @@ import { ChatScreen } from '../screens/ChatScreen';
 import { ChartsScreen } from '../screens/ChartsScreen';
 import { DecisionOracleScreen } from '../screens/DecisionOracleScreen';
 import { FamilyKarmaMapScreen } from '../screens/FamilyKarmaMapScreen';
+import { HolisticReadingRoomsScreen } from '../screens/HolisticReadingRoomsScreen';
 import { HomeScreen } from '../screens/HomeScreen';
 import { KpPredictaScreen } from '../screens/KpPredictaScreen';
 import { KundliScreen } from '../screens/KundliScreen';
@@ -91,6 +92,11 @@ export function RootNavigator(): React.JSX.Element {
           name={routes.Home}
           component={HomeScreen}
           options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={routes.HolisticReadingRooms}
+          component={HolisticReadingRoomsScreen}
+          options={{ title: 'Holistic Rooms' }}
         />
         <Stack.Screen
           name={routes.BirthTimeDetective}

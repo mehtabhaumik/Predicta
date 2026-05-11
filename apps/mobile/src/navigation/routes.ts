@@ -3,6 +3,7 @@ export const routes = {
   Onboarding: 'Onboarding',
   SecuritySetup: 'SecuritySetup',
   Home: 'Home',
+  HolisticReadingRooms: 'HolisticReadingRooms',
   BirthTimeDetective: 'BirthTimeDetective',
   Chat: 'Chat',
   Charts: 'Charts',
@@ -30,6 +31,7 @@ export type RootStackParamList = {
   [routes.Onboarding]: undefined;
   [routes.SecuritySetup]: undefined;
   [routes.Home]: undefined;
+  [routes.HolisticReadingRooms]: undefined;
   [routes.BirthTimeDetective]: undefined;
   [routes.Chat]: undefined;
   [routes.Charts]: undefined;

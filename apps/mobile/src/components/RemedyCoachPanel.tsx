@@ -61,6 +61,50 @@ export function RemedyCoachPanel({
         </View>
       ) : null}
 
+      {plan.sadhanaPath ? (
+        <View style={styles.sadhanaPanel}>
+          <View style={styles.sadhanaHeader}>
+            <View className="flex-1">
+              <AppText tone="secondary" variant="caption">
+                SADHANA PATH
+              </AppText>
+              <AppText className="mt-1" variant="subtitle">
+                {plan.sadhanaPath.title}
+              </AppText>
+              <AppText className="mt-2" tone="secondary" variant="caption">
+                {plan.sadhanaPath.weeklyIntention}
+              </AppText>
+            </View>
+            <View style={styles.sadhanaPlanetBadge}>
+              <AppText tone="secondary" variant="caption">
+                Planet
+              </AppText>
+              <AppText variant="caption">
+                {plan.sadhanaPath.planet ?? 'Chart'}
+              </AppText>
+            </View>
+          </View>
+          <View style={styles.sadhanaStageGrid}>
+            {plan.sadhanaPath.stages.map(stage => (
+              <View key={stage.id} style={styles.sadhanaStageCard}>
+                <AppText tone="secondary" variant="caption">
+                  {stage.sequence}. {stage.label} · {stage.status}
+                </AppText>
+                <AppText className="mt-1" variant="caption">
+                  {stage.practice}
+                </AppText>
+                <AppText className="mt-2" tone="secondary" variant="caption">
+                  {stage.completionTarget}
+                </AppText>
+              </View>
+            ))}
+          </View>
+          <AppText className="mt-3" tone="secondary" variant="caption">
+            {plan.sadhanaPath.progressSummary}
+          </AppText>
+        </View>
+      ) : null}
+
       <View style={styles.itemStack}>
         {plan.items.map(item => (
           <Pressable
@@ -95,12 +139,44 @@ export function RemedyCoachPanel({
           </AppText>
           <AppText className="mt-1">{selected.rationale}</AppText>
           <View style={styles.detailGrid}>
+            {selected.planetInvolved ? (
+              <DetailBlock label="Planet involved" text={selected.planetInvolved} />
+            ) : null}
             <DetailBlock
               label="Expected inner shift"
               text={selected.expectedInnerShift}
             />
             <DetailBlock label="When to review" text={selected.tracking.reviewAfter} />
           </View>
+          {selected.karmicPattern ||
+          selected.simpleRemedy ||
+          selected.practicalAction ? (
+            <View style={styles.karmaPanel}>
+              <AppText tone="secondary" variant="caption">
+                Karma-based remedy path
+              </AppText>
+              {selected.karmicPattern ? (
+                <AppText className="mt-1" tone="secondary">
+                  {selected.karmicPattern}
+                </AppText>
+              ) : null}
+              {selected.simpleRemedy ? (
+                <AppText className="mt-2" tone="secondary">
+                  Simple remedy: {selected.simpleRemedy}
+                </AppText>
+              ) : null}
+              {selected.practicalAction ? (
+                <AppText className="mt-2" tone="secondary">
+                  Practical action: {selected.practicalAction}
+                </AppText>
+              ) : null}
+              {selected.mantraDevotion ? (
+                <AppText className="mt-2" tone="secondary">
+                  Prayer option: {selected.mantraDevotion}
+                </AppText>
+              ) : null}
+            </View>
+          ) : null}
           <View style={styles.cautionPanel}>
             <AppText tone="secondary" variant="caption">
               When to stop or simplify
@@ -195,9 +271,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     flex: 1,
+    minWidth: 130,
     padding: 12,
   },
   detailGrid: {
+    flexWrap: 'wrap',
     flexDirection: 'row',
     gap: 10,
     marginTop: 12,
@@ -234,6 +312,14 @@ const styles = StyleSheet.create({
     gap: 12,
     marginTop: 16,
   },
+  karmaPanel: {
+    backgroundColor: 'rgba(167, 139, 250, 0.08)',
+    borderColor: 'rgba(167, 139, 250, 0.24)',
+    borderRadius: 8,
+    borderWidth: 1,
+    marginTop: 12,
+    padding: 12,
+  },
   remedyCard: {
     backgroundColor: colors.surfaceMuted,
     borderColor: colors.border,
@@ -249,6 +335,43 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 10,
     justifyContent: 'space-between',
+  },
+  sadhanaHeader: {
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    gap: 12,
+    justifyContent: 'space-between',
+  },
+  sadhanaPanel: {
+    backgroundColor: 'rgba(255,255,255,0.055)',
+    borderColor: colors.border,
+    borderRadius: 10,
+    borderWidth: 1,
+    marginTop: 16,
+    padding: 12,
+  },
+  sadhanaPlanetBadge: {
+    alignItems: 'center',
+    backgroundColor: colors.surfaceMuted,
+    borderColor: colors.border,
+    borderRadius: 999,
+    borderWidth: 1,
+    minWidth: 78,
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+  },
+  sadhanaStageCard: {
+    backgroundColor: colors.surfaceMuted,
+    borderColor: colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    minHeight: 130,
+    padding: 12,
+    width: '100%',
+  },
+  sadhanaStageGrid: {
+    gap: 10,
+    marginTop: 14,
   },
   shell: {
     borderColor: colors.borderGlow,

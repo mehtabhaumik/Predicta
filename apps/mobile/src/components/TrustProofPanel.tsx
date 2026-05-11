@@ -34,7 +34,7 @@ export function TrustProofPanel({
       <TrustList items={trust.safetyNotes.slice(0, 3)} title="Safety" />
       <View style={styles.trace}>
         <AppText tone="secondary" variant="caption">
-          Audit: {trust.auditTrace.join(' | ')}
+          Predicta checked proof, limits, and safety before showing this guidance.
         </AppText>
       </View>
     </View>

@@ -47,7 +47,7 @@ export function SidebarNav({
         />
         <span>
           <strong>PREDICTA</strong>
-          <small>Web intelligence</small>
+          <small>Jyotish guide</small>
         </span>
       </Link>
       <nav aria-label="Dashboard navigation" className="nav-list">

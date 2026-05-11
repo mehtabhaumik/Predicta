@@ -18,6 +18,9 @@ import { PREDICTA_JOURNEY_STEPS } from '@pridicta/config/predictaUx';
 import {
   composeDailyBriefing,
   composeDestinyPassport,
+  composeHolisticDailyGuidance,
+  composePersonalPanchangLayer,
+  composePurusharthaLifeBalance,
   composeTransitGocharIntelligence,
   composeYearlyHoroscopeVarshaphal,
 } from '@pridicta/astrology';
@@ -57,6 +60,7 @@ const toolLinks = [
   ['Charts', routes.Charts],
   ['KP', routes.KpPredicta],
   ['Nadi', routes.NadiPredicta],
+  ['Holistic', routes.HolisticReadingRooms],
   ['Timeline', routes.LifeTimeline],
   ['Remedy', routes.RemedyCoach],
   ['Birth Time', routes.BirthTimeDetective],
@@ -108,6 +112,11 @@ export function HomeScreen({
   const gochar = composeTransitGocharIntelligence(kundli, { depth: 'FREE' });
   const yearlyHoroscope = composeYearlyHoroscopeVarshaphal(kundli, {
     depth: 'FREE',
+  });
+  const purushartha = composePurusharthaLifeBalance(kundli);
+  const personalPanchang = composePersonalPanchangLayer(kundli);
+  const holisticDailyGuidance = composeHolisticDailyGuidance(kundli, {
+    language: languagePreference.language,
   });
   const lifeWeather = buildLifeWeather(kundli, dailyBriefing, gochar);
   const dasha = buildDashaDisplay(kundli);
@@ -242,6 +251,90 @@ export function HomeScreen({
             </Pressable>
           ))}
         </View>
+
+        <View style={styles.personalPanchangPanel}>
+          <AppText tone="secondary" variant="caption">
+            PERSONAL PANCHANG
+          </AppText>
+          <AppText className="mt-1" variant="subtitle">
+            {personalPanchang.weekdayLord} day, {personalPanchang.tithi}
+          </AppText>
+          <AppText className="mt-2" tone="secondary" variant="caption">
+            {personalPanchang.todayFocus}
+          </AppText>
+          <View style={styles.panchangSignalGrid}>
+            {personalPanchang.signals.slice(0, 4).map(signal => (
+              <Pressable
+                accessibilityRole="button"
+                key={signal.id}
+                onPress={() =>
+                  askFromHome({
+                    selectedSection: 'Personal Panchang',
+                    sourceScreen: 'Home Personal Panchang',
+                  })
+                }
+                style={styles.panchangSignalCard}
+              >
+                <AppText tone="secondary" variant="caption">
+                  {signal.label}
+                </AppText>
+                <AppText className="mt-1" variant="caption">
+                  {signal.value}
+                </AppText>
+                <AppText className="mt-2" tone="secondary" variant="caption">
+                  {signal.meaning}
+                </AppText>
+              </Pressable>
+            ))}
+          </View>
+          <AppText className="mt-3" tone="secondary" variant="caption">
+            Remedy: {personalPanchang.personalRemedy}
+          </AppText>
+        </View>
+
+        <View style={styles.purusharthaPanel}>
+          <AppText tone="secondary" variant="caption">
+            LIFE BALANCE
+          </AppText>
+          <AppText className="mt-1" variant="subtitle">
+            {purushartha.dominant.label} leads now
+          </AppText>
+          <AppText className="mt-2" tone="secondary" variant="caption">
+            {purushartha.summary}
+          </AppText>
+          <View style={styles.purusharthaGrid}>
+            {purushartha.axes.map(axis => (
+              <Pressable
+                accessibilityRole="button"
+                key={axis.category}
+                onPress={() =>
+                  askFromHome({
+                    selectedSection: `${axis.label} Purushartha`,
+                    sourceScreen: 'Home Purushartha',
+                  })
+                }
+                style={styles.purusharthaCard}
+              >
+                <View style={styles.purusharthaCardHeader}>
+                  <AppText variant="caption">{axis.label}</AppText>
+                  <AppText variant="caption">{axis.score}%</AppText>
+                </View>
+                <View style={styles.purusharthaTrack}>
+                  <View
+                    style={[
+                      styles.purusharthaFill,
+                      purusharthaToneStyle(axis.tone),
+                      { width: `${axis.score}%` },
+                    ]}
+                  />
+                </View>
+                <AppText className="mt-2" tone="secondary" variant="caption">
+                  {axis.currentEmphasis}
+                </AppText>
+              </Pressable>
+            ))}
+          </View>
+        </View>
       </GlowCard>
 
       {!kundli ? (
@@ -287,11 +380,19 @@ export function HomeScreen({
       <View className="mt-8">
         <DailyBriefingCard
           briefing={dailyBriefing}
+          holisticGuidance={holisticDailyGuidance}
           onAskToday={() =>
             askFromHome({
               selectedDailyBriefingDate: dailyBriefing.date,
               selectedSection: dailyBriefing.askPrompt,
               sourceScreen: 'Daily Briefing',
+            })
+          }
+          onAskGuidance={() =>
+            askFromHome({
+              selectedDailyBriefingDate: holisticDailyGuidance.date,
+              selectedSection: holisticDailyGuidance.askPrompt,
+              sourceScreen: 'Holistic Daily Guidance',
             })
           }
           onCreateKundli={() => navigation.navigate(routes.Kundli)}
@@ -611,6 +712,18 @@ function weatherToneStyle(tone: WeatherItem['tone']) {
   return styles.mixedFill;
 }
 
+function purusharthaToneStyle(
+  tone: ReturnType<typeof composePurusharthaLifeBalance>['axes'][number]['tone'],
+) {
+  if (tone === 'supportive') {
+    return styles.supportiveFill;
+  }
+  if (tone === 'careful') {
+    return styles.challengingFill;
+  }
+  return styles.mixedFill;
+}
+
 const styles = StyleSheet.create({
   cardTitle: {
     marginTop: 8,
@@ -688,6 +801,68 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.28,
     shadowRadius: 18,
+  },
+  panchangSignalCard: {
+    backgroundColor: colors.surfaceMuted,
+    borderColor: colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    minHeight: 108,
+    padding: 12,
+    width: '47%',
+  },
+  panchangSignalGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    marginTop: 12,
+  },
+  personalPanchangPanel: {
+    backgroundColor: 'rgba(255,255,255,0.055)',
+    borderColor: colors.border,
+    borderRadius: 10,
+    borderWidth: 1,
+    marginTop: 16,
+    padding: 12,
+  },
+  purusharthaCard: {
+    backgroundColor: colors.surfaceMuted,
+    borderColor: colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    minHeight: 112,
+    padding: 12,
+    width: '47%',
+  },
+  purusharthaCardHeader: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  purusharthaFill: {
+    borderRadius: 999,
+    height: '100%',
+  },
+  purusharthaGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    marginTop: 12,
+  },
+  purusharthaPanel: {
+    backgroundColor: 'rgba(255,255,255,0.055)',
+    borderColor: colors.border,
+    borderRadius: 10,
+    borderWidth: 1,
+    marginTop: 16,
+    padding: 12,
+  },
+  purusharthaTrack: {
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderRadius: 999,
+    height: 7,
+    marginTop: 10,
+    overflow: 'hidden',
   },
   orb: {
     right: -120,

@@ -5,6 +5,9 @@ import { PREDICTA_JOURNEY_STEPS } from '@pridicta/config/predictaUx';
 import {
   composeDailyBriefing,
   composeDestinyPassport,
+  composeHolisticDailyGuidance,
+  composePersonalPanchangLayer,
+  composePurusharthaLifeBalance,
   composeTransitGocharIntelligence,
   composeYearlyHoroscopeVarshaphal,
 } from '@pridicta/astrology';
@@ -92,6 +95,9 @@ export default function DashboardPage(): React.JSX.Element {
   const yearlyHoroscope = composeYearlyHoroscopeVarshaphal(activeKundli, {
     depth: 'FREE',
   });
+  const purushartha = composePurusharthaLifeBalance(activeKundli);
+  const personalPanchang = composePersonalPanchangLayer(activeKundli);
+  const holisticDailyGuidance = composeHolisticDailyGuidance(activeKundli);
 
   return (
     <section className="dashboard-page">
@@ -114,6 +120,8 @@ export default function DashboardPage(): React.JSX.Element {
         dailyBriefing={dailyBriefing}
         gochar={gochar}
         kundli={activeKundli}
+        personalPanchang={personalPanchang}
+        purushartha={purushartha}
         yearlyHoroscope={yearlyHoroscope}
       />
 
@@ -150,6 +158,7 @@ export default function DashboardPage(): React.JSX.Element {
       <WebDailyBriefingCard
         briefing={dailyBriefing}
         ctaHref="/dashboard/kundli"
+        holisticGuidance={holisticDailyGuidance}
       />
 
       <WebGocharSynopsisCard intelligence={gochar} />

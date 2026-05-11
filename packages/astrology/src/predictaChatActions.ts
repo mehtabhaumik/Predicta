@@ -9,11 +9,18 @@ import { composeChalitBhavKpFoundation } from './chalitBhavKpFoundation';
 import { composeDailyBriefing } from './dailyBriefing';
 import { composeDestinyPassport } from './destinyPassport';
 import { composeFamilyKarmaMap } from './familyKarmaMap';
+import { composeHolisticDailyGuidance } from './holisticDailyGuidance';
+import { composeHolisticDecisionTimingSynthesis } from './holisticDecisionTimingSynthesis';
+import { composeHolisticFoundationModel } from './holisticFoundationModel';
+import { composeHolisticReadingRooms } from './holisticReadingRooms';
 import { composeLifeTimeline } from './lifeTimeline';
 import { composeMahadashaIntelligence } from './mahadashaIntelligence';
+import { composePersonalPanchangLayer } from './personalPanchangLayer';
 import { composePredictaWrapped } from './predictaWrapped';
+import { composePurusharthaLifeBalance } from './purusharthaLifeBalance';
 import { composeRemedyCoach } from './remedyCoach';
 import { composeRelationshipMirror } from './relationshipMirror';
+import { composeSadhanaRemedyPath } from './sadhanaRemedyPath';
 import { composeSadeSatiIntelligence } from './sadeSatiIntelligence';
 import { composeTransitGocharIntelligence } from './transitGocharIntelligence';
 import { composeYearlyHoroscopeVarshaphal } from './yearlyHoroscopeVarshaphal';
@@ -25,17 +32,23 @@ export type PredictaAppActionId =
   | 'bhav-chalit'
   | 'concierge'
   | 'daily-briefing'
+  | 'decision-timing'
   | 'destiny-passport'
   | 'family-map'
+  | 'holistic-daily-guidance'
   | 'kp-handoff'
   | 'kp-predicta'
   | 'life-timeline'
   | 'mahadasha'
   | 'nadi-handoff'
+  | 'holistic-reading-rooms'
+  | 'personal-panchang'
   | 'pricing'
+  | 'purushartha'
   | 'relationship'
   | 'remedies'
   | 'report'
+  | 'sadhana-remedy-path'
   | 'saved-kundlis'
   | 'sade-sati'
   | 'transit-gochar'
@@ -88,9 +101,34 @@ const ACTION_PATTERNS: Array<{
       /\b(passport|pasport|paspot|destiny\s*passport|identity\s*card|profile\s*card)\b/i,
   },
   {
+    id: 'decision-timing',
+    pattern:
+      /\b(decision|decide|should\s+i|should\s+we|whether\s+i|whether\s+we|is\s+it\s+a\s+good\s+time|right\s+time|good\s+time\s+to|timing\s+for|karu\s+ke\s+nahi|karvu\s+ke\s+nahi|kya\s*karu|shu\s*karu)\b/i,
+  },
+  {
     id: 'mahadasha',
     pattern:
       /\b(mahadasha|maha\s*dasha|antardasha|antar\s*dasha|pratyantardasha|pratyantar|vimshottari|dasha\s*analysis|current\s*dasha|life\s*chapter|dasa|mhdasha)\b/i,
+  },
+  {
+    id: 'holistic-daily-guidance',
+    pattern:
+      /\b(holistic\s*daily|daily\s*guidance|today'?s\s*guidance|what\s*should\s*i\s*do\s*today|what\s*to\s*do\s*today|morning\s*practice|daily\s*sadhana|aaj\s*kya\s*karu|aaj\s*kya\s*karna|aaje\s*shu\s*karu|aaje\s*su\s*karu|aajnu\s*guidance)\b/i,
+  },
+  {
+    id: 'personal-panchang',
+    pattern:
+      /\b(personal\s*panchang|panchang|panchange|panchangam|muhurta|muhurat|tithi|paksha|nakshatra\s*today|today'?s\s*moon|day\s*lord|shubh\s*samay|good\s*time|auspicious\s*time|aaj\s*ka\s*panchang|aajnu\s*panchang|shubh\s*muhurat)\b/i,
+  },
+  {
+    id: 'holistic-reading-rooms',
+    pattern:
+      /\b(holistic\s*room|reading\s*room|reading\s*rooms|holistic\s*reading|karma\s*room|today\s*room|timing\s*room|dharma\s*room|artha\s*room|kama\s*room|moksha\s*room)\b/i,
+  },
+  {
+    id: 'sadhana-remedy-path',
+    pattern:
+      /\b(sadhana\s*path|sadhana\s*remedy|remedy\s*path|upay\s*path|upaay\s*path|spiritual\s*practice\s*path|practice\s*path|seva\s*path|mantra\s*path)\b/i,
   },
   {
     id: 'advanced-jyotish',
@@ -142,9 +180,14 @@ const ACTION_PATTERNS: Array<{
       /\b(daily|today|aaj|briefing|cosmic\s*weather|day\s*reading|aaj\s*ka|aajnu)\b/i,
   },
   {
+    id: 'purushartha',
+    pattern:
+      /\b(purushartha|dharma|artha|kama|moksha|life\s*balance|life\s*aim|what\s*should\s*i\s*focus|focus\s*now)\b/i,
+  },
+  {
     id: 'remedies',
     pattern:
-      /\b(remedy|remedies|upay|upaay|coach|practice|mantra|daan)\b/i,
+      /\b(remedy|remedies|upay|upaay|coach|practice|mantra|daan|seva|karma|karmic|sadhana)\b/i,
   },
   {
     id: 'birth-time',
@@ -623,6 +666,35 @@ function buildActionText({
     ]);
   }
 
+  if (action === 'decision-timing') {
+    const synthesis = composeHolisticDecisionTimingSynthesis({
+      kundli,
+      language,
+      question: text,
+    });
+    const proof = synthesis.signals
+      .slice(0, hasPremiumAccess ? 5 : 3)
+      .map(signal => `- ${signal.label}: ${signal.headline}`)
+      .join('\n');
+    return joinSections([
+      intro,
+      [
+        synthesis.headline,
+        `Timing: ${synthesis.timingWindow}`,
+        `Guidance: ${synthesis.decisionGuidance}`,
+        `Next step: ${synthesis.practicalStep}`,
+        `Life balance: ${synthesis.purusharthaLens}`,
+        `Karma support: ${synthesis.sadhanaSupport}`,
+        proof ? `Proof:\n${proof}` : '',
+        `Boundary: ${synthesis.guardrails[0]}`,
+      ]
+        .filter(Boolean)
+        .join('\n'),
+      insight,
+      buildUpsell(language, 'decision-timing', hasPremiumAccess),
+    ]);
+  }
+
   if (action === 'mahadasha') {
     const dasha = composeMahadashaIntelligence(kundli, {
       depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
@@ -724,19 +796,137 @@ function buildActionText({
     ]);
   }
 
+  if (action === 'holistic-daily-guidance') {
+    const guidance = composeHolisticDailyGuidance(kundli, { language });
+    return joinSections([
+      intro,
+      [
+        guidance.title,
+        guidance.headline,
+        `Morning: ${guidance.morningPractice}`,
+        `Midday: ${guidance.middayCheck}`,
+        `Evening: ${guidance.eveningReview}`,
+        `Best action: ${guidance.bestAction}`,
+        `Avoid: ${guidance.avoidAction}`,
+        `Sadhana: ${guidance.sadhanaStep}`,
+        `Proof: ${guidance.evidence.slice(0, 3).join(' | ')}`,
+      ].join('\n'),
+      insight,
+      buildUpsell(language, 'holistic-daily-guidance', hasPremiumAccess),
+    ]);
+  }
+
+  if (action === 'purushartha') {
+    const balance = composePurusharthaLifeBalance(kundli);
+    return joinSections([
+      intro,
+      [
+        balance.title,
+        balance.summary,
+        `Leading now: ${balance.dominant.label} (${balance.dominant.score}%). ${balance.dominant.currentEmphasis}`,
+        `Needs care: ${balance.needsCare.label} (${balance.needsCare.score}%). ${balance.needsCare.practicalGuidance}`,
+        `Proof: ${balance.dominant.chartEvidence.slice(0, 2).join(' | ')}`,
+      ].join('\n'),
+      insight,
+      upsell,
+    ]);
+  }
+
+  if (action === 'personal-panchang') {
+    const panchang = composePersonalPanchangLayer(kundli);
+    return joinSections([
+      intro,
+      [
+        panchang.title,
+        panchang.todayFocus,
+        `Day lord: ${panchang.weekdayLord} (${panchang.weekday})`,
+        `Tithi: ${panchang.tithi}`,
+        `Moon rhythm: ${panchang.moonSign}, ${panchang.moonNakshatra}`,
+        `Best for: ${panchang.bestFor.slice(0, 3).join(', ')}`,
+        `Avoid: ${panchang.avoidFor.slice(0, 3).join(', ')}`,
+        `Remedy: ${panchang.personalRemedy}`,
+        `Proof: ${panchang.evidence.slice(0, 2).join(' | ')}`,
+      ].join('\n'),
+      insight,
+      buildUpsell(language, 'personal-panchang', hasPremiumAccess),
+    ]);
+  }
+
+  if (action === 'holistic-reading-rooms') {
+    const rooms = composeHolisticReadingRooms(kundli);
+    const featured = rooms.featuredRoom;
+    return joinSections([
+      intro,
+      [
+        rooms.title,
+        rooms.subtitle,
+        `Start here: ${featured.title}. ${featured.primaryFocus}`,
+        `Practice: ${featured.practice}`,
+        `Remedy: ${featured.remedy}`,
+        `Proof: ${featured.proofChips.slice(0, 4).join(' | ')}`,
+        `Available rooms: ${rooms.rooms.map(room => room.title).join(', ')}`,
+      ].join('\n'),
+      insight,
+      buildUpsell(language, 'holistic-reading-rooms', hasPremiumAccess),
+    ]);
+  }
+
+  if (action === 'sadhana-remedy-path') {
+    const path = composeSadhanaRemedyPath(kundli);
+    const activeStage =
+      path.stages.find(stage => stage.status === 'active' || stage.status === 'review') ??
+      path.stages[0] ??
+      {
+        cadence: 'Daily',
+        caution: 'Keep the practice simple and safe.',
+        completionTarget: 'Do one clean action today.',
+        id: 'conduct' as const,
+        label: 'Conduct',
+        practice: 'Correct one behavior before adding any ritual.',
+        sequence: 1,
+        status: 'active' as const,
+        whyItWorks: 'Daily conduct keeps remedies grounded.',
+      };
+    return joinSections([
+      intro,
+      [
+        path.title,
+        path.weeklyIntention,
+        `Planet focus: ${path.planet ?? 'Chart-based practice'}`,
+        `Why: ${path.planetReason}`,
+        `Start with: ${activeStage.label}. ${activeStage.practice}`,
+        `Cadence: ${activeStage.cadence}`,
+        `Review: ${path.reviewQuestions[0]}`,
+        `Boundary: ${path.guardrails[0]}`,
+      ].join('\n'),
+      insight,
+      buildUpsell(language, 'sadhana-remedy-path', hasPremiumAccess),
+    ]);
+  }
+
   if (action === 'remedies') {
     const plan = composeRemedyCoach(kundli);
+    const holistic = composeHolisticFoundationModel(kundli);
     const top = plan.items[0];
+    const focus = holistic.activePlanetFocus[0];
     return joinSections([
       intro,
       top
         ? [
             plan.title,
+            focus
+              ? `Planet involved: ${focus.planet}. ${focus.whyItMatters}`
+              : '',
+            top.karmicPattern ? `Karmic pattern: ${top.karmicPattern}` : '',
             `${top.title}: ${top.practice}`,
+            top.practicalAction ? `Practical action: ${top.practicalAction}` : '',
+            top.mantraDevotion ? `Prayer option: ${top.mantraDevotion}` : '',
             `Cadence: ${top.cadence}`,
             `Why: ${top.rationale}`,
             `Caution: ${top.caution}`,
-          ].join('\n')
+          ]
+            .filter(Boolean)
+            .join('\n')
         : `${plan.title}\nNo remedy item is available yet, so I would keep the practice simple: one steady routine, no fear, no paid ritual pressure.`,
       insight,
       upsell,
@@ -844,13 +1034,23 @@ function buildActionText({
   }
 
   if (action === 'report') {
+    const guidance = composeHolisticDailyGuidance(kundli, { language });
+    const balance = composePurusharthaLifeBalance(kundli);
+    const path = composeSadhanaRemedyPath(kundli);
+    const activeStage =
+      path.stages.find(stage => stage.status === 'active' || stage.status === 'review') ??
+      path.stages[0];
     return joinSections([
       intro,
       [
         `I staged the report brief for ${kundli.birthDetails.name}.`,
         `Executive signal: ${kundli.lagna} Lagna, ${kundli.moonSign} Moon, ${kundli.dasha.current.mahadasha}/${kundli.dasha.current.antardasha} timing.`,
-        `Free report: Kundli summary, core chart proof, dasha, remedies.`,
-        `Premium PDF bundle: Kundli, Career, Marriage, Wealth, Child, Remedies with evidence tables and timing windows.`,
+        `Holistic spine: ${guidance.headline}`,
+        `Daily rhythm: morning - ${guidance.morningPractice}; midday - ${guidance.middayCheck}; evening - ${guidance.eveningReview}`,
+        `Life balance: ${balance.dominant.label} leads now; ${balance.needsCare.label} needs steadier care.`,
+        `Sadhana: ${activeStage.label} - ${activeStage.practice}`,
+        `Free report: all charts, dasha, Gochar, Sade Sati, KP/Nadi sections, holistic synthesis, and useful insight.`,
+        `Premium PDF bundle: detailed chart synthesis, timing windows, remedies, evidence tables, and report-ready depth.`,
         `Ask “prepare premium PDF bundle” when you want me to deepen it.`,
       ].join('\n'),
       insight,
@@ -1525,6 +1725,16 @@ function buildUpsell(
       ? 'KP Premium adds cusp-by-cusp sub-lord judgment, significator strength, ruling-planet checks, dasha support, and event-focused report depth.'
       : action === 'life-timeline'
       ? 'Premium Life Calendar can turn this into monthly dasha/transit cards with reminders.'
+      : action === 'holistic-daily-guidance'
+      ? 'Premium can turn this daily rhythm into a Life Calendar with reminders, deeper dasha-Gochar overlap, remedy tracking, and report-ready daily planning.'
+      : action === 'purushartha'
+      ? 'Premium can turn this life balance into monthly Dharma, Artha, Kama, and Moksha guidance with remedies and timing windows.'
+      : action === 'personal-panchang'
+      ? 'Premium can turn this into a personal muhurta planner with daily Panchang, dasha, Gochar, reminders, and report-ready timing notes.'
+      : action === 'holistic-reading-rooms'
+      ? 'Premium can turn these rooms into guided monthly rooms with deeper chart proof, remedy tracking, and report-ready synthesis.'
+      : action === 'sadhana-remedy-path'
+      ? 'Premium can turn this into a guided sadhana calendar with reminders, review points, and deeper planet-by-planet remedy tracking.'
       : action === 'relationship'
       ? 'Compatibility/Marriage report is a high-value separate purchase for this.'
       : 'Premium can deepen this with proof, timing confidence, and report-grade synthesis.';
@@ -1586,6 +1796,21 @@ function inferThemes(text: string, action?: PredictaAppActionId): string[] {
   }
   if (/\b(remedy|mantra|practice|upay)\b/i.test(normalized)) {
     themes.push('remedies');
+  }
+  if (/\b(purushartha|dharma|artha|kama|moksha|life\s*balance)\b/i.test(normalized)) {
+    themes.push('life balance');
+  }
+  if (/\b(panchang|muhurta|muhurat|tithi|paksha|shubh\s*samay|good\s*time)\b/i.test(normalized)) {
+    themes.push('personal panchang');
+  }
+  if (/\b(holistic|reading\s*room|karma\s*room|today\s*room|timing\s*room)\b/i.test(normalized)) {
+    themes.push('holistic rooms');
+  }
+  if (/\b(daily\s*guidance|morning\s*practice|daily\s*sadhana|what\s*should\s*i\s*do\s*today|aaj\s*kya\s*karu|aaje\s*shu\s*karu)\b/i.test(normalized)) {
+    themes.push('daily guidance');
+  }
+  if (/\b(sadhana|remedy\s*path|upay\s*path|seva\s*path|mantra\s*path|practice\s*path)\b/i.test(normalized)) {
+    themes.push('sadhana path');
   }
   if (/\b(timing|when|dasha|transit|calendar)\b/i.test(normalized)) {
     themes.push('timing');

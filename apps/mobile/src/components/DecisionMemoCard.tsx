@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { buildTrustProfile } from '@pridicta/config/trust';
-import type { DecisionMemo } from '../types/astrology';
+import type { DecisionMemo, HolisticDecisionTimingSynthesis } from '../types/astrology';
 import { colors } from '../theme/colors';
 import { AppText } from './AppText';
 import { GlowButton } from './GlowButton';
@@ -11,6 +11,7 @@ import { TrustProofPanel } from './TrustProofPanel';
 type DecisionMemoCardProps = {
   memo: DecisionMemo;
   onAskMemo?: () => void;
+  synthesis?: HolisticDecisionTimingSynthesis;
 };
 
 const stateColors: Record<DecisionMemo['state'], string> = {
@@ -24,6 +25,7 @@ const stateColors: Record<DecisionMemo['state'], string> = {
 export function DecisionMemoCard({
   memo,
   onAskMemo,
+  synthesis,
 }: DecisionMemoCardProps): React.JSX.Element {
   const [showEvidence, setShowEvidence] = useState(true);
   const trust = buildTrustProfile({
@@ -87,6 +89,8 @@ export function DecisionMemoCard({
         </AppText>
         <AppText className="mt-1">{memo.nextAction}</AppText>
       </View>
+
+      {synthesis ? <DecisionSynthesisPanel synthesis={synthesis} /> : null}
 
       {memo.safetyNote ? (
         <View style={styles.safetyPanel}>
@@ -164,6 +168,46 @@ export function DecisionMemoCard({
   );
 }
 
+function DecisionSynthesisPanel({
+  synthesis,
+}: {
+  synthesis: HolisticDecisionTimingSynthesis;
+}): React.JSX.Element {
+  return (
+    <View style={styles.synthesisPanel}>
+      <AppText tone="secondary" variant="caption">
+        DECISION + TIMING
+      </AppText>
+      <AppText className="mt-1" variant="subtitle">
+        {synthesis.headline}
+      </AppText>
+      <View style={styles.synthesisGrid}>
+        <MemoBlock label="Timing posture" text={synthesis.decisionGuidance} />
+        <MemoBlock label="Life balance" text={synthesis.purusharthaLens} />
+      </View>
+      <View style={styles.synthesisItem}>
+        <AppText tone="secondary" variant="caption">
+          Karma support
+        </AppText>
+        <AppText className="mt-1" tone="secondary" variant="caption">
+          {synthesis.sadhanaSupport}
+        </AppText>
+      </View>
+      {synthesis.signals.slice(0, 3).map(signal => (
+        <View key={signal.id} style={styles.synthesisSignal}>
+          <AppText variant="caption">{signal.label}</AppText>
+          <AppText className="mt-1" tone="secondary" variant="caption">
+            {signal.headline}
+          </AppText>
+        </View>
+      ))}
+      <AppText className="mt-3" tone="secondary" variant="caption">
+        {synthesis.guardrails[0]}
+      </AppText>
+    </View>
+  );
+}
+
 function MemoBlock({
   label,
   text,
@@ -221,7 +265,7 @@ const styles = StyleSheet.create({
     marginTop: 14,
   },
   grid: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     gap: 10,
     marginTop: 12,
   },
@@ -277,5 +321,34 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingHorizontal: 10,
     paddingVertical: 7,
+  },
+  synthesisGrid: {
+    flexDirection: 'column',
+    gap: 10,
+    marginTop: 12,
+  },
+  synthesisItem: {
+    backgroundColor: 'rgba(10, 10, 15, 0.38)',
+    borderColor: colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    marginTop: 10,
+    padding: 12,
+  },
+  synthesisPanel: {
+    backgroundColor: 'rgba(101, 93, 255, 0.1)',
+    borderColor: 'rgba(101, 93, 255, 0.28)',
+    borderRadius: 10,
+    borderWidth: 1,
+    marginTop: 12,
+    padding: 12,
+  },
+  synthesisSignal: {
+    backgroundColor: colors.surfaceMuted,
+    borderColor: colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    marginTop: 10,
+    padding: 10,
   },
 });

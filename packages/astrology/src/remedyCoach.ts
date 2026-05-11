@@ -1,10 +1,13 @@
 import type {
+  HolisticPlanetFocus,
   KundliData,
   RemedyCoachItem,
   RemedyCoachPlan,
   RemedyInsight,
   RemedyPracticeStatus,
 } from '@pridicta/types';
+import { composeHolisticFoundationModel } from './holisticFoundationModel';
+import { composeSadhanaRemedyPath } from './sadhanaRemedyPath';
 
 export type RemedyTrackingMap = Record<string, RemedyPracticeStatus>;
 
@@ -22,13 +25,20 @@ export function composeRemedyCoach(
       status: 'pending',
       subtitle:
         'Create a kundli to unlock remedies tied to dasha, house strength, and birth-time confidence.',
+      sadhanaPath: composeSadhanaRemedyPath(),
       title: 'Remedy Coach is waiting.',
     };
   }
 
-  const items = (kundli.remedies ?? []).map(remedy =>
+  const sadhanaPath = composeSadhanaRemedyPath(kundli, tracking);
+  const holistic = composeHolisticFoundationModel(kundli);
+  const karmicItems = holistic.activePlanetFocus.map(focus =>
+    buildKarmicRemedyCoachItem(focus, tracking[`karmic-${focus.planet.toLowerCase()}`], kundli, nowIso),
+  );
+  const existingItems = (kundli.remedies ?? []).map(remedy =>
     buildRemedyCoachItem(remedy, tracking[remedy.id], kundli, nowIso),
   );
+  const items = dedupeRemedyItems([...karmicItems, ...existingItems]);
 
   return {
     guardrails: buildGuardrails(),
@@ -36,9 +46,54 @@ export function composeRemedyCoach(
     reviewQuestion:
       'Which remedy is helping me become steadier, and which one needs to be simplified?',
     status: 'ready',
+    sadhanaPath,
     subtitle:
-      'Small chart-backed practices, tracked locally, without fear or guaranteed outcomes.',
+      'Karma-based chart practices, tracked locally, without fear or guaranteed outcomes.',
     title: `${kundli.birthDetails.name}'s Remedy Coach`,
+  };
+}
+
+function buildKarmicRemedyCoachItem(
+  focus: HolisticPlanetFocus,
+  status: RemedyPracticeStatus | undefined,
+  kundli: KundliData,
+  nowIso: string,
+): RemedyCoachItem {
+  const id = `karmic-${focus.planet.toLowerCase()}`;
+  const remedy: RemedyInsight = {
+    area: inferAreaFromPlanet(focus.planet),
+    cadence: focus.planet === 'Saturn' ? 'Weekly, especially Saturday.' : 'Weekly, on the planet day if possible.',
+    caution: focus.safetyNote,
+    id,
+    linkedHouses: linkedHousesFromEvidence(focus.chartEvidence),
+    linkedPlanets: [focus.planet],
+    practice: focus.simpleRemedy,
+    priority: focus.priority,
+    rationale: `${focus.whyItMatters} ${focus.karmicPattern}`,
+    title: `${focus.planet} karmic remedy`,
+  };
+  const item = buildRemedyCoachItem(remedy, status, kundli, nowIso);
+
+  return {
+    ...item,
+    askPrompt: [
+      `Explain my ${focus.planet} karmic remedy.`,
+      `Planet involved: ${focus.planet}.`,
+      `Why it matters: ${focus.whyItMatters}`,
+      `Karmic pattern: ${focus.karmicPattern}`,
+      `Simple remedy: ${focus.simpleRemedy}`,
+      `Mantra/devotion option: ${focus.mantraDevotion}`,
+      `Practical action: ${focus.practicalAction}`,
+      'Use chart evidence and no guaranteed outcomes.',
+    ].join(' '),
+    evidence: focus.chartEvidence,
+    expectedInnerShift: `A cleaner expression of ${focus.planet}: less shadow pattern, more ${focus.remedyDirection}.`,
+    karmicPattern: focus.karmicPattern,
+    mantraDevotion: focus.mantraDevotion,
+    planetInvolved: focus.planet,
+    practicalAction: focus.practicalAction,
+    remedyDirection: focus.remedyDirection,
+    simpleRemedy: focus.simpleRemedy,
   };
 }
 
@@ -148,11 +203,48 @@ function buildExpectedInnerShift(remedy: RemedyInsight): string {
 
 function buildGuardrails(): string[] {
   return [
-    'No gemstone or paid ritual is required by Predicta.',
+    'Conduct, seva, prayer, discipline, and practical action come before gemstones or paid rituals.',
     'No remedy guarantees an outcome.',
     'Stop or simplify a practice if it creates fear, obsession, or avoidance of real-world action.',
     'Professional medical, legal, financial, and safety decisions must stay with qualified professionals.',
   ];
+}
+
+function dedupeRemedyItems(items: RemedyCoachItem[]): RemedyCoachItem[] {
+  const seen = new Set<string>();
+  return items.filter(item => {
+    const key = `${item.title.toLowerCase()}-${item.linkedPlanets.join(',').toLowerCase()}`;
+    if (seen.has(key)) {
+      return false;
+    }
+    seen.add(key);
+    return true;
+  });
+}
+
+function inferAreaFromPlanet(planet: string): RemedyInsight['area'] {
+  if (planet === 'Venus' || planet === 'Moon') return 'relationship';
+  if (planet === 'Mercury' || planet === 'Saturn' || planet === 'Sun') {
+    return 'career';
+  }
+  if (planet === 'Jupiter' || planet === 'Ketu') return 'spirituality';
+  if (planet === 'Rahu' || planet === 'Mars') return 'timing';
+  return 'timing';
+}
+
+function linkedHousesFromEvidence(evidence: string[]): number[] {
+  const houses = new Set<number>();
+  evidence.forEach(item => {
+    const matches = item.matchAll(/\bhouse\s+(\d{1,2})\b/gi);
+    for (const match of matches) {
+      const house = Number(match[1]);
+      if (house >= 1 && house <= 12) {
+        houses.add(house);
+      }
+    }
+  });
+
+  return [...houses].slice(0, 3);
 }
 
 function buildReviewPrompt(

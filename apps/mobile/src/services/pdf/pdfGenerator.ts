@@ -50,8 +50,8 @@ function section(title: string, body: string): string {
 function footer(): string {
   return `
     <footer>
-      <div>Designed &amp; Engineered by Bhaumik Mehta</div>
-      <div>Powered by AI</div>
+      <div>Created by Bhaumik Mehta</div>
+      <div>Guided by Predicta AI</div>
       <div>© 2026</div>
     </footer>
   `;
@@ -189,8 +189,8 @@ function trustPanel(report: PdfComposition): string {
         <ul>${trust.limitations.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
       </div>
       <div class="card">
-        <div class="eyebrow">Audit trace</div>
-        <ul>${trust.auditTrace.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
+        <div class="eyebrow">Review note</div>
+        <p>Predicta checked chart proof, limits, and safety notes before preparing this guidance.</p>
       </div>
       ${footer()}
     </section>

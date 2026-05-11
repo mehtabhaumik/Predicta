@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import type { DailyBriefing } from '../types/astrology';
+import type { DailyBriefing, HolisticDailyGuidance } from '../types/astrology';
 import { colors } from '../theme/colors';
 import { AppText } from './AppText';
 import { GlowButton } from './GlowButton';
 
 type DailyBriefingCardProps = {
   briefing: DailyBriefing;
+  holisticGuidance?: HolisticDailyGuidance;
+  onAskGuidance?: () => void;
   onAskToday?: () => void;
   onCreateKundli?: () => void;
 };
 
 export function DailyBriefingCard({
   briefing,
+  holisticGuidance,
+  onAskGuidance,
   onAskToday,
   onCreateKundli,
 }: DailyBriefingCardProps): React.JSX.Element {
@@ -53,6 +57,25 @@ export function DailyBriefingCard({
         </AppText>
         <AppText className="mt-1">{briefing.todayTheme}</AppText>
       </View>
+
+      {holisticGuidance ? (
+        <View style={styles.guidancePanel}>
+          <AppText tone="secondary" variant="caption">
+            HOLISTIC DAILY GUIDANCE
+          </AppText>
+          <AppText className="mt-1" variant="subtitle">
+            {holisticGuidance.headline}
+          </AppText>
+          <AppText className="mt-2" tone="secondary" variant="caption">
+            {holisticGuidance.dailyFocus}
+          </AppText>
+          <View style={styles.guidanceRhythm}>
+            <GuidanceStep label="Morning" text={holisticGuidance.morningPractice} />
+            <GuidanceStep label="Midday" text={holisticGuidance.middayCheck} />
+            <GuidanceStep label="Evening" text={holisticGuidance.eveningReview} />
+          </View>
+        </View>
+      ) : null}
 
       <View style={styles.actionGrid}>
         <BriefingBlock
@@ -100,6 +123,17 @@ export function DailyBriefingCard({
         ) : onCreateKundli ? (
           <GlowButton label="Create Kundli" onPress={onCreateKundli} />
         ) : null}
+        {ready && holisticGuidance?.status === 'ready' && onAskGuidance ? (
+          <Pressable
+            accessibilityRole="button"
+            onPress={onAskGuidance}
+            style={styles.secondaryCta}
+          >
+            <AppText className="font-bold text-[#E45CAE]">
+              Daily guidance
+            </AppText>
+          </Pressable>
+        ) : null}
         <Pressable
           accessibilityRole="button"
           onPress={() => setShowProof(value => !value)}
@@ -127,6 +161,25 @@ export function DailyBriefingCard({
   );
 }
 
+function GuidanceStep({
+  label,
+  text,
+}: {
+  label: string;
+  text: string;
+}): React.JSX.Element {
+  return (
+    <View style={styles.guidanceStep}>
+      <AppText tone="secondary" variant="caption">
+        {label}
+      </AppText>
+      <AppText className="mt-1" variant="caption">
+        {text}
+      </AppText>
+    </View>
+  );
+}
+
 function BriefingBlock({
   label,
   text,
@@ -146,7 +199,7 @@ function BriefingBlock({
 
 const styles = StyleSheet.create({
   actionGrid: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     gap: 10,
     marginTop: 12,
   },
@@ -168,12 +221,31 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     padding: 11,
-    width: '31%',
+    width: '100%',
   },
   cueGrid: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     gap: 8,
     marginTop: 12,
+  },
+  guidancePanel: {
+    backgroundColor: 'rgba(255, 255, 255, 0.055)',
+    borderColor: 'rgba(255, 255, 255, 0.12)',
+    borderRadius: 8,
+    borderWidth: 1,
+    marginTop: 12,
+    padding: 12,
+  },
+  guidanceRhythm: {
+    gap: 8,
+    marginTop: 12,
+  },
+  guidanceStep: {
+    backgroundColor: 'rgba(10, 10, 15, 0.34)',
+    borderColor: colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    padding: 10,
   },
   dateBadge: {
     alignItems: 'flex-end',
@@ -210,6 +282,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 12,
     padding: 12,
+  },
+  secondaryCta: {
+    alignItems: 'center',
+    borderColor: colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    justifyContent: 'center',
+    minHeight: 42,
   },
   shell: {
     borderColor: colors.borderGlow,

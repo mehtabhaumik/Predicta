@@ -1319,10 +1319,11 @@ p {
   padding-left: 18px;
 }
 
-.trust-audit-trace code {
+.trust-audit-trace p {
   color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
   overflow-wrap: anywhere;
-  white-space: normal;
 }
 
 .page-heading {
@@ -1494,6 +1495,8 @@ p {
 
 .cockpit-panel,
 .chart-focus-strip,
+.personal-panchang-panel,
+.purushartha-panel,
 .cockpit-bottom-row {
   background: rgba(255, 255, 255, 0.052);
   border: 1px solid var(--border);
@@ -1503,6 +1506,11 @@ p {
 
 .cockpit-panel-title span,
 .chart-focus-intro span,
+.personal-panchang-copy span,
+.personal-panchang-actions span,
+.personal-panchang-signal span,
+.purushartha-copy span,
+.purushartha-axis-card span,
 .cockpit-bottom-row span {
   color: var(--muted);
   display: block;
@@ -1514,12 +1522,150 @@ p {
 
 .cockpit-panel-title strong,
 .chart-focus-intro strong,
+.personal-panchang-copy strong,
+.personal-panchang-actions strong,
+.purushartha-copy strong,
 .cockpit-bottom-row strong {
   color: var(--text);
   display: block;
   font-size: 15px;
   margin-top: 4px;
   text-transform: capitalize;
+}
+
+.personal-panchang-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.personal-panchang-copy p {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 8px 0 0;
+}
+
+.personal-panchang-signals {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.personal-panchang-signal {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: grid;
+  gap: 7px;
+  min-height: 122px;
+  padding: 14px;
+}
+
+.personal-panchang-signal.supportive {
+  border-color: rgba(85, 214, 190, 0.28);
+}
+
+.personal-panchang-signal.careful {
+  border-color: rgba(221, 111, 143, 0.3);
+}
+
+.personal-panchang-signal strong {
+  color: var(--text);
+  font-size: 18px;
+  line-height: 1.12;
+}
+
+.personal-panchang-signal small {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.personal-panchang-actions {
+  align-items: center;
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+}
+
+.purushartha-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.purushartha-copy p {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 8px 0 0;
+  max-width: 920px;
+}
+
+.purushartha-axis-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.purushartha-axis-card {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  display: grid;
+  gap: 10px;
+  min-height: 132px;
+  padding: 14px;
+  text-decoration: none;
+  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.purushartha-axis-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 195, 77, 0.32);
+  transform: translateY(-2px);
+}
+
+.purushartha-axis-card > div:first-child {
+  align-items: flex-start;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.purushartha-axis-card strong {
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1;
+}
+
+.purushartha-axis-card small {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.purushartha-track {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.purushartha-track span {
+  animation: cockpitBarFill 740ms ease-out both;
+  border-radius: inherit;
+  display: block;
+  height: 100%;
+}
+
+.purushartha-axis-card.supportive .purushartha-track span {
+  background: linear-gradient(90deg, #55d6be, #4dafff);
+}
+
+.purushartha-axis-card.steady .purushartha-track span {
+  background: linear-gradient(90deg, #ffc34d, #b88cff);
+}
+
+.purushartha-axis-card.careful .purushartha-track span {
+  background: linear-gradient(90deg, #dd6f8f, #ffc34d);
 }
 
 .life-weather-list {
@@ -1970,6 +2116,8 @@ p {
 
 .daily-briefing-date,
 .daily-briefing-theme,
+.daily-guidance-panel,
+.daily-guidance-step,
 .daily-briefing-panel,
 .daily-briefing-weather,
 .daily-briefing-cue,
@@ -1989,6 +2137,44 @@ p {
 .daily-briefing-weather,
 .daily-briefing-remedy {
   padding: 14px;
+}
+
+.daily-guidance-panel {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+}
+
+.daily-guidance-copy span,
+.daily-guidance-step span,
+.daily-guidance-panel span {
+  color: var(--muted);
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.daily-guidance-copy h3 {
+  font-size: clamp(20px, 2vw, 28px);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.daily-guidance-copy p,
+.daily-guidance-step p {
+  margin: 0;
+}
+
+.daily-guidance-rhythm {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.daily-guidance-step {
+  padding: 12px;
 }
 
 .daily-briefing-date span,
@@ -2059,6 +2245,156 @@ p {
   line-height: 1.72;
   margin: 0;
   padding-left: 20px;
+}
+
+.holistic-rooms-hero {
+  align-items: stretch;
+  background:
+    radial-gradient(circle at top right, rgba(255, 195, 77, 0.16), transparent 34%),
+    linear-gradient(135deg, rgba(123, 97, 255, 0.12), rgba(255, 255, 255, 0.028)),
+    rgba(12, 12, 18, 0.86);
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+  padding: 28px;
+}
+
+.holistic-rooms-hero h2 {
+  font-size: 42px;
+  line-height: 1.04;
+  margin: 8px 0 0;
+}
+
+.holistic-rooms-hero p {
+  color: var(--muted);
+  font-size: 19px;
+  line-height: 1.55;
+  margin: 14px 0 0;
+  max-width: 760px;
+}
+
+.holistic-proof-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.holistic-proof-row span {
+  background: rgba(255, 255, 255, 0.065);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 900;
+  padding: 7px 10px;
+}
+
+.holistic-proof-row.compact {
+  margin-top: 0;
+}
+
+.holistic-hero-practice,
+.holistic-room-practice {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+}
+
+.holistic-hero-practice span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.holistic-hero-practice strong,
+.holistic-room-practice strong {
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.holistic-hero-practice small,
+.holistic-room-practice small {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.holistic-room-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.holistic-room-card {
+  background: rgba(255, 255, 255, 0.052);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  display: grid;
+  gap: 16px;
+  min-height: 320px;
+  padding: 22px;
+  text-decoration: none;
+  transition: border-color 180ms ease, transform 180ms ease, background 180ms ease;
+}
+
+.holistic-room-card:hover {
+  background: rgba(255, 255, 255, 0.075);
+  border-color: rgba(255, 195, 77, 0.3);
+  transform: translateY(-2px);
+}
+
+.holistic-room-card.supportive {
+  border-color: rgba(85, 214, 190, 0.24);
+}
+
+.holistic-room-card.careful {
+  border-color: rgba(221, 111, 143, 0.28);
+}
+
+.holistic-room-card span {
+  color: var(--muted);
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.holistic-room-card h2 {
+  font-size: 30px;
+  line-height: 1.08;
+  margin: 8px 0 0;
+}
+
+.holistic-room-card p {
+  color: var(--muted);
+  line-height: 1.58;
+  margin: 12px 0 0;
+}
+
+.holistic-guardrails {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: minmax(240px, 0.45fr) minmax(0, 1fr);
+  padding: 24px;
+}
+
+.holistic-guardrails h2 {
+  font-size: 28px;
+  line-height: 1.1;
+  margin: 8px 0 0;
+}
+
+.holistic-guardrails ul {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
 }
 
 .decision-oracle-layout {
@@ -2133,6 +2469,8 @@ p {
 .decision-block,
 .decision-next-action,
 .decision-safety,
+.decision-synthesis-row,
+.decision-signal,
 .decision-clarify,
 .decision-remedies {
   background: rgba(255, 255, 255, 0.055);
@@ -2162,6 +2500,8 @@ p {
 .decision-block span,
 .decision-next-action span,
 .decision-safety span,
+.decision-synthesis-row span,
+.decision-signal span,
 .decision-clarify span,
 .decision-evidence span,
 .decision-remedies span {
@@ -2183,6 +2523,8 @@ p {
 .decision-block p,
 .decision-next-action p,
 .decision-safety p,
+.decision-synthesis-row p,
+.decision-signal p,
 .decision-evidence p {
   margin: 0;
 }
@@ -2204,6 +2546,64 @@ p {
 .decision-safety {
   background: rgba(255, 77, 166, 0.08);
   border-color: rgba(255, 77, 166, 0.24);
+}
+
+.decision-synthesis {
+  background:
+    linear-gradient(135deg, rgba(101, 93, 255, 0.12), rgba(77, 175, 255, 0.06)),
+    rgba(18, 18, 26, 0.72);
+  border: 1px solid rgba(101, 93, 255, 0.28);
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+  padding: 16px;
+}
+
+.decision-synthesis h3 {
+  font-size: clamp(22px, 2vw, 28px);
+  line-height: 1.12;
+  margin: 6px 0 0;
+}
+
+.decision-synthesis-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 14px;
+}
+
+.decision-synthesis-row {
+  margin-top: 12px;
+  padding: 14px;
+}
+
+.decision-synthesis-signals {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 12px;
+}
+
+.decision-signal {
+  padding: 14px;
+}
+
+.decision-signal strong {
+  display: block;
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+
+.decision-signal.tone-supportive {
+  border-color: rgba(71, 231, 170, 0.28);
+}
+
+.decision-signal.tone-careful {
+  border-color: rgba(255, 184, 77, 0.3);
+}
+
+.decision-synthesis-boundary {
+  color: var(--muted);
+  margin: 12px 0 0;
 }
 
 .decision-clarify {
@@ -2246,9 +2646,12 @@ p {
 }
 
 .remedy-guardrails,
+.sadhana-path-panel,
+.sadhana-stage-card,
 .remedy-card,
 .remedy-detail,
 .remedy-detail-block,
+.remedy-karma-panel,
 .remedy-caution,
 .remedy-tracking,
 .remedy-evidence {
@@ -2263,10 +2666,94 @@ p {
   padding: 14px;
 }
 
+.sadhana-path-panel {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+}
+
+.sadhana-path-header,
+.sadhana-review-strip {
+  align-items: flex-start;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.sadhana-path-header span,
+.sadhana-planet-badge span,
+.sadhana-review-strip span,
+.sadhana-stage-card span {
+  color: var(--muted);
+  display: block;
+  font-size: 12px;
+  font-weight: 900;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.sadhana-path-header h3 {
+  font-size: 30px;
+  line-height: 1.08;
+  margin: 8px 0 0;
+}
+
+.sadhana-path-header p {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 10px 0 0;
+}
+
+.sadhana-planet-badge {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  min-width: 130px;
+  padding: 10px 14px;
+  text-align: center;
+}
+
+.sadhana-stage-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.sadhana-stage-card {
+  color: var(--text);
+  cursor: pointer;
+  min-height: 150px;
+  padding: 14px;
+  text-align: left;
+}
+
+.sadhana-stage-card.active,
+.sadhana-stage-card.review {
+  border-color: rgba(255, 195, 77, 0.42);
+}
+
+.sadhana-stage-card.done {
+  border-color: rgba(85, 214, 190, 0.32);
+}
+
+.sadhana-stage-card strong {
+  display: block;
+  line-height: 1.35;
+}
+
+.sadhana-stage-card small {
+  color: var(--muted);
+  display: block;
+  line-height: 1.4;
+  margin-top: 10px;
+}
+
 .remedy-guardrails p,
+.sadhana-review-strip strong,
 .remedy-card p,
 .remedy-detail p,
 .remedy-detail-block p,
+.remedy-karma-panel p,
 .remedy-caution p,
 .remedy-tracking p {
   margin: 0;
@@ -2297,6 +2784,7 @@ p {
 .remedy-card span,
 .remedy-detail span,
 .remedy-detail-block span,
+.remedy-karma-panel span,
 .remedy-caution span,
 .remedy-tracking span,
 .remedy-evidence span {
@@ -2326,10 +2814,22 @@ p {
 }
 
 .remedy-detail-block,
+.remedy-karma-panel,
 .remedy-caution,
 .remedy-tracking,
 .remedy-evidence {
   padding: 14px;
+}
+
+.remedy-karma-panel {
+  background: rgba(167, 139, 250, 0.08);
+  border-color: rgba(167, 139, 250, 0.24);
+  display: grid;
+  gap: 10px;
+}
+
+.remedy-karma-panel strong {
+  color: var(--text);
 }
 
 .remedy-caution {
@@ -5853,6 +6353,8 @@ p {
   .chart-explorer,
   .decision-oracle-layout,
   .remedy-coach-grid,
+  .holistic-rooms-hero,
+  .holistic-guardrails,
   .cockpit-grid,
   .dashboard-feature-grid,
   .report-dashboard-layout,
@@ -5872,6 +6374,14 @@ p {
 
   .chart-focus-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .holistic-room-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .personal-panchang-signals {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .admin-pass-list,
@@ -6158,7 +6668,10 @@ p {
   .nadi-activation-list,
   .nadi-story-map,
   .decision-grid,
+  .decision-synthesis-grid,
+  .decision-synthesis-signals,
   .remedy-detail-grid,
+  .sadhana-stage-grid,
   .birth-time-impact-grid,
   .relationship-selector-grid,
   .family-member-grid,
@@ -6170,6 +6683,7 @@ p {
   .destiny-passport-guidance,
   .daily-briefing-actions-grid,
   .daily-briefing-cues,
+  .daily-guidance-rhythm,
   .life-timeline-metrics,
   .life-timeline-grid,
   .gochar-summary-grid,
@@ -6237,6 +6751,15 @@ p {
 
   .quick-action-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .purushartha-axis-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .personal-panchang-actions {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .astrology-cockpit {
@@ -6533,6 +7056,22 @@ p {
 
   .founder-signature {
     max-width: min(100%, 300px);
+  }
+
+  .purushartha-axis-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .personal-panchang-signals {
+    grid-template-columns: 1fr;
+  }
+
+  .holistic-rooms-hero {
+    padding: 22px;
+  }
+
+  .holistic-rooms-hero h2 {
+    font-size: 32px;
   }
 }
 

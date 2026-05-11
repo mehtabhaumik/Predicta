@@ -2,9 +2,12 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { composeDecisionMemo } from '@pridicta/astrology';
+import {
+  composeDecisionMemo,
+  composeHolisticDecisionTimingSynthesis,
+} from '@pridicta/astrology';
 import { buildTrustProfile } from '@pridicta/config/trust';
-import type { DecisionMemo } from '@pridicta/types';
+import type { DecisionMemo, HolisticDecisionTimingSynthesis } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 import { WebTrustProofPanel } from './WebTrustProofPanel';
@@ -69,7 +72,16 @@ export function WebDecisionOracle(): React.JSX.Element {
         </div>
       </section>
 
-      {memo ? <WebDecisionMemo kundliId={activeKundli?.id} memo={memo} /> : null}
+      {memo ? (
+        <WebDecisionMemo
+          kundliId={activeKundli?.id}
+          memo={memo}
+          synthesis={composeHolisticDecisionTimingSynthesis({
+            kundli: activeKundli,
+            question: memo.question,
+          })}
+        />
+      ) : null}
     </div>
   );
 }
@@ -77,9 +89,11 @@ export function WebDecisionOracle(): React.JSX.Element {
 function WebDecisionMemo({
   kundliId,
   memo,
+  synthesis,
 }: {
   kundliId?: string;
   memo: DecisionMemo;
+  synthesis?: HolisticDecisionTimingSynthesis;
 }): React.JSX.Element {
   const [showEvidence, setShowEvidence] = useState(true);
   const trust = buildTrustProfile({
@@ -126,6 +140,8 @@ function WebDecisionMemo({
         <span>Next action</span>
         <p>{memo.nextAction}</p>
       </div>
+
+      {synthesis ? <WebDecisionSynthesis synthesis={synthesis} /> : null}
 
       {memo.safetyNote ? (
         <div className="decision-safety">
@@ -185,6 +201,38 @@ function WebDecisionMemo({
         </div>
       ) : null}
     </section>
+  );
+}
+
+function WebDecisionSynthesis({
+  synthesis,
+}: {
+  synthesis: HolisticDecisionTimingSynthesis;
+}): React.JSX.Element {
+  return (
+    <div className="decision-synthesis">
+      <div className="section-title">DECISION + TIMING</div>
+      <h3>{synthesis.headline}</h3>
+      <div className="decision-synthesis-grid">
+        <DecisionBlock label="Timing posture" text={synthesis.decisionGuidance} />
+        <DecisionBlock label="Life balance" text={synthesis.purusharthaLens} />
+        <DecisionBlock label="Karma support" text={synthesis.sadhanaSupport} />
+      </div>
+      <div className="decision-synthesis-row">
+        <span>Today</span>
+        <p>{synthesis.dailyAnchor}</p>
+      </div>
+      <div className="decision-synthesis-signals">
+        {synthesis.signals.slice(0, 4).map(signal => (
+          <div className={`decision-signal tone-${signal.tone}`} key={signal.id}>
+            <span>{signal.label}</span>
+            <strong>{signal.headline}</strong>
+            <p>{signal.body}</p>
+          </div>
+        ))}
+      </div>
+      <p className="decision-synthesis-boundary">{synthesis.guardrails[0]}</p>
+    </div>
   );
 }
 

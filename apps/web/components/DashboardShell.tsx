@@ -35,6 +35,7 @@ const navGroups: SidebarGroup[] = [
     label: 'Guidance',
     items: [
       { href: '/dashboard/timeline', label: 'Timeline' },
+      { href: '/dashboard/holistic', label: 'Holistic Rooms' },
       { href: '/dashboard/remedies', label: 'Remedies' },
       { href: '/dashboard/birth-time', label: 'Birth Time' },
       { href: '/dashboard/relationship', label: 'Relationship' },

@@ -8,12 +8,15 @@ import {
   GlowButton,
   Screen,
 } from '../components';
-import { composeDecisionMemo } from '@pridicta/astrology';
+import {
+  composeDecisionMemo,
+  composeHolisticDecisionTimingSynthesis,
+} from '@pridicta/astrology';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import { useAppStore } from '../store/useAppStore';
 import { colors } from '../theme/colors';
-import type { DecisionMemo } from '../types/astrology';
+import type { DecisionMemo, HolisticDecisionTimingSynthesis } from '../types/astrology';
 
 const examples = [
   'Should I change jobs in the next 3 months?',
@@ -26,6 +29,9 @@ export function DecisionOracleScreen({
 }: RootScreenProps<typeof routes.DecisionOracle>): React.JSX.Element {
   const [question, setQuestion] = useState('');
   const [memo, setMemo] = useState<DecisionMemo | undefined>();
+  const [synthesis, setSynthesis] = useState<
+    HolisticDecisionTimingSynthesis | undefined
+  >();
   const kundli = useAppStore(state => state.activeKundli);
   const setActiveChartContext = useAppStore(
     state => state.setActiveChartContext,
@@ -40,6 +46,12 @@ export function DecisionOracleScreen({
 
     setQuestion(cleanQuestion);
     setMemo(composeDecisionMemo({ kundli, question: cleanQuestion }));
+    setSynthesis(
+      composeHolisticDecisionTimingSynthesis({
+        kundli,
+        question: cleanQuestion,
+      }),
+    );
   }
 
   function askFromMemo(nextMemo: DecisionMemo) {
@@ -96,6 +108,7 @@ export function DecisionOracleScreen({
           <DecisionMemoCard
             memo={memo}
             onAskMemo={kundli ? () => askFromMemo(memo) : undefined}
+            synthesis={synthesis}
           />
         </View>
       ) : null}

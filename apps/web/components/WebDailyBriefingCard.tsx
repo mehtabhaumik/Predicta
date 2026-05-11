@@ -2,17 +2,19 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import type { DailyBriefing } from '@pridicta/types';
+import type { DailyBriefing, HolisticDailyGuidance } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 
 type WebDailyBriefingCardProps = {
   briefing: DailyBriefing;
   ctaHref?: string;
+  holisticGuidance?: HolisticDailyGuidance;
 };
 
 export function WebDailyBriefingCard({
   briefing,
   ctaHref,
+  holisticGuidance,
 }: WebDailyBriefingCardProps): React.JSX.Element {
   const [showProof, setShowProof] = useState(false);
   const ready = briefing.status === 'ready';
@@ -35,6 +37,21 @@ export function WebDailyBriefingCard({
         <span>{briefing.labels.theme}</span>
         <p>{briefing.todayTheme}</p>
       </div>
+
+      {holisticGuidance ? (
+        <div className="daily-guidance-panel">
+          <div className="daily-guidance-copy">
+            <span>HOLISTIC DAILY GUIDANCE</span>
+            <h3>{holisticGuidance.headline}</h3>
+            <p>{holisticGuidance.dailyFocus}</p>
+          </div>
+          <div className="daily-guidance-rhythm">
+            <DailyGuidanceStep label="Morning" text={holisticGuidance.morningPractice} />
+            <DailyGuidanceStep label="Midday" text={holisticGuidance.middayCheck} />
+            <DailyGuidanceStep label="Evening" text={holisticGuidance.eveningReview} />
+          </div>
+        </div>
+      ) : null}
 
       <div className="daily-briefing-actions-grid">
         <BriefingPanel label={briefing.labels.bestAction} text={briefing.bestAction} />
@@ -72,6 +89,11 @@ export function WebDailyBriefingCard({
             Create Kundli
           </Link>
         ) : null}
+        {holisticGuidance?.status === 'ready' ? (
+          <Link className="button secondary" href={buildGuidanceHref(holisticGuidance)}>
+            Daily guidance
+          </Link>
+        ) : null}
         <button
           className="button secondary"
           onClick={() => setShowProof(value => !value)}
@@ -92,6 +114,21 @@ export function WebDailyBriefingCard({
         </div>
       ) : null}
     </section>
+  );
+}
+
+function DailyGuidanceStep({
+  label,
+  text,
+}: {
+  label: string;
+  text: string;
+}): React.JSX.Element {
+  return (
+    <div className="daily-guidance-step">
+      <span>{label}</span>
+      <p>{text}</p>
+    </div>
   );
 }
 
@@ -116,5 +153,14 @@ function buildAskHref(briefing: DailyBriefing): string {
     selectedDailyBriefingDate: briefing.date,
     selectedSection: briefing.title,
     sourceScreen: 'Daily Briefing',
+  });
+}
+
+function buildGuidanceHref(guidance: HolisticDailyGuidance): string {
+  return buildPredictaChatHref({
+    prompt: guidance.askPrompt,
+    selectedDailyBriefingDate: guidance.date,
+    selectedSection: 'Holistic Daily Guidance',
+    sourceScreen: 'Holistic Daily Guidance',
   });
 }

@@ -10,6 +10,7 @@ import type {
   KundliData,
   PlanetPosition,
 } from '@pridicta/types';
+import { composeHolisticFoundationModel } from './holisticFoundationModel';
 
 const HOUSE_MEANINGS: Record<number, string> = {
   1: 'body, identity, confidence, and direction',
@@ -592,10 +593,14 @@ function buildAdvancedTables(
 }
 
 function buildSafeRemedies(kundli: KundliData): string[] {
+  const holistic = composeHolisticFoundationModel(kundli);
+  const focus = holistic.activePlanetFocus[0];
   const dasha = kundli.dasha.current;
   const weakest = kundli.ashtakavarga.weakestHouses[0];
   return [
-    `For ${dasha.mahadasha}/${dasha.antardasha}, keep one small weekly discipline instead of many rituals.`,
+    focus
+      ? `${focus.planet} karmic remedy: ${focus.simpleRemedy}`
+      : `For ${dasha.mahadasha}/${dasha.antardasha}, keep one small weekly discipline instead of many rituals.`,
     weakest
       ? `House ${weakest} needs steady care: ${HOUSE_MEANINGS[weakest]}. Choose practical service, clean speech, and consistency.`
       : 'Use simple prayer, service, and honest effort before any complex remedy.',

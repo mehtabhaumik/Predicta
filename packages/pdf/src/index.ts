@@ -14,9 +14,14 @@ import {
   composeChartInsight,
   composeChalitBhavKpFoundation,
   composeAdvancedJyotishCoverage,
+  composeHolisticDailyGuidance,
+  composeHolisticReadingRooms,
   composeMahadashaIntelligence,
   composeNadiJyotishPlan,
+  composePersonalPanchangLayer,
+  composePurusharthaLifeBalance,
   composeSadeSatiIntelligence,
+  composeSadhanaRemedyPath,
   composeTransitGocharIntelligence,
   composeYearlyHoroscopeVarshaphal,
 } from '@pridicta/astrology';
@@ -117,6 +122,7 @@ export function composeReportSections({
   const chartTypes = getReportChartTypes(kundli);
   const sections = [
     buildExecutiveSummary(kundli, mode),
+    buildHolisticReportSynthesisSection(kundli, mode),
     buildBirthAndCalculationSection(kundli),
     buildChartSynthesisSection(kundli, chartTypes, mode),
     buildBhavChalitSection(kundli, mode),
@@ -350,6 +356,7 @@ function buildDossierExecutiveSummary(
     keySignals: [
       `${kundli.lagna} Lagna, ${kundli.moonSign} Moon, ${kundli.nakshatra} nakshatra.`,
       `Correction zones: houses ${kundli.ashtakavarga.weakestHouses.slice(0, 3).join(', ')}.`,
+      `Holistic spine: daily rhythm, life balance, timing, and karma-based remedy are synthesized before area reports.`,
       `${mode === 'PREMIUM' ? 'Premium dossier includes detailed area intelligence, evidence tables, timing, and remedies.' : 'Free dossier includes every available chart with useful insight and honest limits.'}`,
     ],
   };
@@ -433,19 +440,140 @@ function buildExecutiveSummary(kundli: KundliData, mode: PDFMode): PdfSection {
   };
 }
 
+function buildHolisticReportSynthesisSection(
+  kundli: KundliData,
+  mode: PDFMode,
+): PdfSection {
+  const daily = composeHolisticDailyGuidance(kundli);
+  const panchang = composePersonalPanchangLayer(kundli);
+  const purushartha = composePurusharthaLifeBalance(kundli);
+  const sadhana = composeSadhanaRemedyPath(kundli);
+  const rooms = composeHolisticReadingRooms(kundli);
+  const featuredRoom = rooms.featuredRoom;
+  const activeStage =
+    sadhana.stages.find(stage => stage.status === 'active' || stage.status === 'review') ??
+    sadhana.stages[0] ??
+    {
+      cadence: 'Daily',
+      caution: 'Keep the practice simple and safe.',
+      completionTarget: 'Do one clean action today.',
+      id: 'conduct' as const,
+      label: 'Conduct',
+      practice: 'Correct one behavior before adding any ritual.',
+      sequence: 1,
+      status: 'active' as const,
+      whyItWorks: 'Daily conduct keeps remedies grounded.',
+    };
+  const reportDepth =
+    mode === 'PREMIUM'
+      ? 'Premium turns this into a full report spine: daily rhythm, life aim balance, timing room, sadhana path, remedy tracking, and evidence rows.'
+      : 'Free gives the useful spine first: what today asks, which life aim is active, and what practice keeps the reading grounded.';
+
+  return {
+    body:
+      'This section joins the report into one human reading. Predicta reads the chart through today, life balance, timing, and karma-based remedy before moving into technical areas.',
+    bullets: [
+      daily.headline,
+      `Daily rhythm: morning - ${daily.morningPractice}; midday - ${daily.middayCheck}; evening - ${daily.eveningReview}`,
+      `Life balance: ${purushartha.dominant.label} leads now; ${purushartha.needsCare.label} needs steadier care.`,
+      `Personal Panchang: ${panchang.weekdayLord} day, ${panchang.tithi}, Moon rhythm ${panchang.moonNakshatra}.`,
+      `Sadhana: ${activeStage.label} - ${activeStage.practice}`,
+      `Featured room: ${featuredRoom.title} - ${featuredRoom.primaryFocus}`,
+      `Remedy direction: ${daily.remedy}`,
+      reportDepth,
+    ],
+    decisionWindows: [
+      {
+        confidence: 'medium',
+        evidence: daily.evidence.slice(0, 3),
+        guidance: daily.bestAction,
+        label: 'Today action',
+        window: daily.date,
+      },
+      {
+        confidence: 'medium',
+        evidence: purushartha.dominant.chartEvidence.slice(0, 3),
+        guidance: purushartha.dominant.practicalGuidance,
+        label: `${purushartha.dominant.label} focus`,
+        window: 'Current chart emphasis',
+      },
+      ...(mode === 'PREMIUM'
+        ? [
+            {
+              confidence: 'medium' as const,
+              evidence: featuredRoom.evidence.slice(0, 3),
+              guidance: featuredRoom.practice,
+              label: featuredRoom.title,
+              window: 'Report practice window',
+            },
+          ]
+        : []),
+    ],
+    evidence: [
+      ...daily.evidence.slice(0, 4),
+      ...purushartha.dominant.chartEvidence.slice(0, 2),
+      ...featuredRoom.evidence.slice(0, 2),
+      sadhana.planetReason,
+      ...daily.guardrails.slice(0, 2),
+    ],
+    evidenceTable: [
+      {
+        confidence: 'medium',
+        factor: 'Daily rhythm',
+        implication: daily.bestAction,
+        observation: daily.headline,
+      },
+      {
+        confidence: 'high',
+        factor: 'Purushartha balance',
+        implication: purushartha.dominant.practicalGuidance,
+        observation: `${purushartha.dominant.label} ${purushartha.dominant.score}%; ${purushartha.needsCare.label} ${purushartha.needsCare.score}%.`,
+      },
+      {
+        confidence: 'medium',
+        factor: 'Panchang',
+        implication: panchang.personalRemedy,
+        observation: `${panchang.weekday}, ${panchang.weekdayLord}, ${panchang.tithi}, ${panchang.moonNakshatra}.`,
+      },
+      {
+        confidence: 'medium',
+        factor: 'Sadhana path',
+        implication: activeStage.practice,
+        observation: `${activeStage.label}: ${activeStage.cadence}; ${activeStage.completionTarget}`,
+      },
+      ...(mode === 'PREMIUM'
+        ? [
+            {
+              confidence: 'medium' as const,
+              factor: featuredRoom.title,
+              implication: featuredRoom.remedy,
+              observation: featuredRoom.proofChips.join(', '),
+            },
+          ]
+        : []),
+    ],
+    eyebrow: 'HOLISTIC SYNTHESIS',
+    tier: mode === 'PREMIUM' ? 'premium' : 'free',
+    title:
+      mode === 'PREMIUM'
+        ? 'Holistic report synthesis'
+        : 'Holistic useful report spine',
+  };
+}
+
 function buildBirthAndCalculationSection(kundli: KundliData): PdfSection {
   return {
-    body: 'The calculation uses the stored birth details and Swiss Ephemeris metadata. This matters because Vedic readings are highly sensitive to birth time, timezone, ayanamsa, and node setting.',
+    body: 'This report uses the stored birth details and a consistent Vedic calculation method. This matters because Vedic readings are sensitive to birth time, place, ayanamsa, and how Rahu-Ketu are treated.',
     bullets: [
       `Name: ${kundli.birthDetails.name}`,
       `Birth: ${kundli.birthDetails.date} at ${kundli.birthDetails.time}`,
       `Place: ${kundli.birthDetails.place}`,
       `Timezone: ${kundli.birthDetails.timezone}`,
-      `Ayanamsa: ${kundli.calculationMeta.ayanamsa}; house system: ${kundli.calculationMeta.houseSystem}; node: ${kundli.calculationMeta.nodeType}`,
+      `Chart method: ${kundli.calculationMeta.ayanamsa}; houses: ${kundli.calculationMeta.houseSystem}; Rahu-Ketu: ${kundli.calculationMeta.nodeType}`,
     ],
     evidence: [
-      `UTC birth time: ${kundli.calculationMeta.utcDateTime}`,
-      `Provider: ${kundli.calculationMeta.provider}`,
+      `Birth time was converted for the selected place and timezone.`,
+      `The same calculation method is used across chart, chat, and report.`,
     ],
     eyebrow: 'FOUNDATION',
     title: 'Birth and calculation foundation',
@@ -1007,8 +1135,8 @@ function buildLimitationsSection(kundli: KundliData, mode: PDFMode): PdfSection 
     body: 'A trustworthy report should name its limits. This protects the user from false certainty and keeps the reading grounded.',
     bullets: limitations,
     evidence: [
-      `Input hash: ${kundli.calculationMeta.inputHash}`,
-      `Calculated at: ${kundli.calculationMeta.calculatedAt}`,
+      `Birth details were checked before this report was prepared.`,
+      `Report prepared at: ${kundli.calculationMeta.calculatedAt}`,
     ],
     eyebrow: 'TRUST',
     title: 'Limits and confidence',
@@ -1244,6 +1372,14 @@ function localizeSectionTitle(title: string, language: SupportedLanguage): strin
       gu: 'જીવન સમયરેખા અને આયોજન વિન્ડો',
       hi: 'जीवन समयरेखा और योजना खिड़कियां',
     },
+    'Holistic report synthesis': {
+      gu: 'સમગ્ર રિપોર્ટ સંશ્લેષણ',
+      hi: 'समग्र रिपोर्ट संश्लेषण',
+    },
+    'Holistic useful report spine': {
+      gu: 'ઉપયોગી સમગ્ર રિપોર્ટ આધાર',
+      hi: 'उपयोगी समग्र रिपोर्ट आधार',
+    },
     'Limits and confidence': {
       gu: 'મર્યાદા અને વિશ્વાસ',
       hi: 'सीमाएं और भरोसा',
@@ -1284,6 +1420,7 @@ function localizeSectionEyebrow(
     'CHART SYNTHESIS': { gu: 'ચાર્ટ સંશ્લેષણ', hi: 'चार्ट संश्लेषण' },
     FOUNDATION: { gu: 'આધાર', hi: 'आधार' },
     GUIDANCE: { gu: 'માર્ગદર્શન', hi: 'मार्गदर्शन' },
+    'HOLISTIC SYNTHESIS': { gu: 'સમગ્ર સંશ્લેષણ', hi: 'समग्र संश्लेषण' },
     PLANETS: { gu: 'ગ્રહો', hi: 'ग्रह' },
     RECTIFICATION: { gu: 'જન્મ સમય તપાસ', hi: 'जन्म समय जांच' },
     REMEDIES: { gu: 'ઉપાય', hi: 'उपाय' },

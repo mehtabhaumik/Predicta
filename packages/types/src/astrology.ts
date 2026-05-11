@@ -898,6 +898,43 @@ export type DecisionMemo = {
   aiPrompt: string;
 };
 
+export type HolisticDecisionTimingSignal = {
+  id:
+    | 'decision-state'
+    | 'dasha'
+    | 'gochar'
+    | 'purushartha'
+    | 'sadhana'
+    | 'timeline'
+    | 'safety';
+  label: string;
+  headline: string;
+  body: string;
+  tone: 'supportive' | 'steady' | 'careful';
+  evidence: string[];
+};
+
+export type HolisticDecisionTimingSynthesis = {
+  status: 'ready' | 'pending';
+  title: string;
+  subtitle: string;
+  question: string;
+  area: DecisionArea;
+  state: DecisionState;
+  headline: string;
+  timingWindow: string;
+  decisionGuidance: string;
+  practicalStep: string;
+  riskBoundary: string;
+  sadhanaSupport: string;
+  purusharthaLens: string;
+  dailyAnchor: string;
+  signals: HolisticDecisionTimingSignal[];
+  evidence: string[];
+  guardrails: string[];
+  askPrompt: string;
+};
+
 export type TransitInsight = {
   planet: string;
   sign: string;
@@ -1110,6 +1147,146 @@ export type RemedyInsight = {
   caution: string;
 };
 
+export type HolisticAnswerPart =
+  | 'prediction'
+  | 'chart-proof'
+  | 'timing'
+  | 'karma-pattern'
+  | 'remedy-direction'
+  | 'practical-action'
+  | 'safety-boundary';
+
+export type PlanetKarmaRemedyProfile = {
+  planet: string;
+  karmicLesson: string;
+  higherExpression: string;
+  shadowPattern: string;
+  remedyDirections: string[];
+  conductCorrections: string[];
+  sevaCharity: string[];
+  mantraPrayer: string;
+  fastingDiscipline: string;
+  lifestylePractice: string;
+  gemstoneCaution: string;
+};
+
+export type HolisticPlanetFocus = {
+  planet: string;
+  priority: 'low' | 'medium' | 'high';
+  whyItMatters: string;
+  chartEvidence: string[];
+  karmicPattern: string;
+  remedyDirection: string;
+  simpleRemedy: string;
+  mantraDevotion: string;
+  practicalAction: string;
+  safetyNote: string;
+};
+
+export type HolisticFoundationModel = {
+  status: 'ready' | 'pending';
+  title: string;
+  subtitle: string;
+  answerParts: HolisticAnswerPart[];
+  remedyPriority: string[];
+  planetRemedyMap: PlanetKarmaRemedyProfile[];
+  activePlanetFocus: HolisticPlanetFocus[];
+  safetyRules: string[];
+  askPrompt: string;
+};
+
+export type PurusharthaCategory = 'dharma' | 'artha' | 'kama' | 'moksha';
+
+export type PurusharthaAxisInsight = {
+  category: PurusharthaCategory;
+  label: 'Dharma' | 'Artha' | 'Kama' | 'Moksha';
+  score: number;
+  tone: 'supportive' | 'steady' | 'careful';
+  houses: number[];
+  meaning: string;
+  currentEmphasis: string;
+  chartEvidence: string[];
+  practicalGuidance: string;
+};
+
+export type PurusharthaLifeBalance = {
+  status: 'ready' | 'pending';
+  title: string;
+  subtitle: string;
+  dominant: PurusharthaAxisInsight;
+  needsCare: PurusharthaAxisInsight;
+  axes: PurusharthaAxisInsight[];
+  summary: string;
+  askPrompt: string;
+  limitations: string[];
+};
+
+export type PersonalPanchangTone = 'supportive' | 'steady' | 'careful';
+
+export type PersonalPanchangSignal = {
+  id: string;
+  label: string;
+  value: string;
+  meaning: string;
+  tone: PersonalPanchangTone;
+};
+
+export type PersonalPanchangLayer = {
+  status: 'ready' | 'pending';
+  date: string;
+  title: string;
+  subtitle: string;
+  weekday: string;
+  weekdayLord: string;
+  tithi: string;
+  paksha: 'Shukla' | 'Krishna' | 'Unknown';
+  moonSign: string;
+  moonNakshatra: string;
+  natalNakshatra?: string;
+  todayFocus: string;
+  bestFor: string[];
+  avoidFor: string[];
+  personalRemedy: string;
+  signals: PersonalPanchangSignal[];
+  evidence: string[];
+  askPrompt: string;
+  limitations: string[];
+};
+
+export type HolisticReadingRoomId =
+  | 'today'
+  | 'karma-remedies'
+  | 'dharma'
+  | 'artha'
+  | 'kama'
+  | 'moksha'
+  | 'timing';
+
+export type HolisticReadingRoom = {
+  id: HolisticReadingRoomId;
+  title: string;
+  subtitle: string;
+  tone: 'supportive' | 'steady' | 'careful';
+  primaryFocus: string;
+  proofChips: string[];
+  evidence: string[];
+  practice: string;
+  remedy: string;
+  bestQuestion: string;
+  relatedPlanets: string[];
+  relatedHouses: number[];
+};
+
+export type HolisticReadingRooms = {
+  status: 'ready' | 'pending';
+  title: string;
+  subtitle: string;
+  featuredRoom: HolisticReadingRoom;
+  rooms: HolisticReadingRoom[];
+  guardrails: string[];
+  askPrompt: string;
+};
+
 export type RemedyPracticeStatus = {
   remedyId: string;
   completedDates: string[];
@@ -1125,6 +1302,72 @@ export type RemedyCoachTracking = {
   nextReviewPrompt: string;
 };
 
+export type SadhanaRemedyStageId =
+  | 'conduct'
+  | 'seva'
+  | 'mantra-prayer'
+  | 'discipline'
+  | 'lifestyle'
+  | 'review';
+
+export type SadhanaRemedyStage = {
+  id: SadhanaRemedyStageId;
+  label: string;
+  sequence: number;
+  status: 'not-started' | 'active' | 'done' | 'review';
+  practice: string;
+  whyItWorks: string;
+  cadence: string;
+  completionTarget: string;
+  caution: string;
+};
+
+export type SadhanaRemedyPath = {
+  status: 'ready' | 'pending';
+  title: string;
+  subtitle: string;
+  planet?: string;
+  planetReason: string;
+  karmicTheme: string;
+  weeklyIntention: string;
+  stages: SadhanaRemedyStage[];
+  progressSummary: string;
+  reviewQuestions: string[];
+  guardrails: string[];
+  askPrompt: string;
+};
+
+export type HolisticDailyGuidanceBlock = {
+  id: 'today-focus' | 'best-action' | 'avoid' | 'sadhana' | 'balance' | 'timing';
+  label: string;
+  headline: string;
+  body: string;
+  tone: 'supportive' | 'steady' | 'careful';
+  proofChips: string[];
+};
+
+export type HolisticDailyGuidance = {
+  status: 'ready' | 'pending';
+  date: string;
+  title: string;
+  subtitle: string;
+  headline: string;
+  dailyFocus: string;
+  morningPractice: string;
+  middayCheck: string;
+  eveningReview: string;
+  bestAction: string;
+  avoidAction: string;
+  sadhanaStep: string;
+  purusharthaFocus: string;
+  timingNote: string;
+  remedy: string;
+  blocks: HolisticDailyGuidanceBlock[];
+  evidence: string[];
+  guardrails: string[];
+  askPrompt: string;
+};
+
 export type RemedyCoachItem = {
   id: string;
   priority: RemedyInsight['priority'];
@@ -1136,6 +1379,12 @@ export type RemedyCoachItem = {
   caution: string;
   linkedPlanets: string[];
   linkedHouses: number[];
+  planetInvolved?: string;
+  karmicPattern?: string;
+  remedyDirection?: string;
+  simpleRemedy?: string;
+  mantraDevotion?: string;
+  practicalAction?: string;
   expectedInnerShift: string;
   evidence: string[];
   tracking: RemedyCoachTracking;
@@ -1147,6 +1396,7 @@ export type RemedyCoachPlan = {
   title: string;
   subtitle: string;
   guardrails: string[];
+  sadhanaPath?: SadhanaRemedyPath;
   items: RemedyCoachItem[];
   reviewQuestion: string;
 };
@@ -1191,6 +1441,12 @@ export type KundliData = {
   transits?: TransitInsight[];
   rectification?: RectificationInsight;
   remedies?: RemedyInsight[];
+  holisticFoundation?: HolisticFoundationModel;
+  purusharthaLifeBalance?: PurusharthaLifeBalance;
+  personalPanchang?: PersonalPanchangLayer;
+  holisticReadingRooms?: HolisticReadingRooms;
+  sadhanaRemedyPath?: SadhanaRemedyPath;
+  holisticDailyGuidance?: HolisticDailyGuidance;
   calculationMeta: CalculationMeta;
 };
 
@@ -1504,6 +1760,25 @@ export type AIContextPayload = {
     DecisionMemo,
     'area' | 'question' | 'state' | 'headline' | 'shortAnswer' | 'timing' | 'risk' | 'nextAction'
   >;
+  selectedDecisionSynthesis?: Pick<
+    HolisticDecisionTimingSynthesis,
+    | 'title'
+    | 'subtitle'
+    | 'question'
+    | 'area'
+    | 'state'
+    | 'headline'
+    | 'timingWindow'
+    | 'decisionGuidance'
+    | 'practicalStep'
+    | 'riskBoundary'
+    | 'sadhanaSupport'
+    | 'purusharthaLens'
+    | 'dailyAnchor'
+    | 'signals'
+    | 'evidence'
+    | 'guardrails'
+  >;
   selectedRemedy?: RemedyCoachItem;
   birthTimeDetective?: BirthTimeDetectiveReport;
   selectedRelationshipMirror?: Pick<
@@ -1658,6 +1933,83 @@ export type AIContextPayload = {
     | 'premiumUnlock'
     | 'ctas'
     | 'askPrompt'
+  >;
+  holisticFoundation?: Pick<
+    HolisticFoundationModel,
+    | 'title'
+    | 'subtitle'
+    | 'answerParts'
+    | 'remedyPriority'
+    | 'planetRemedyMap'
+    | 'activePlanetFocus'
+    | 'safetyRules'
+  >;
+  purusharthaLifeBalance?: Pick<
+    PurusharthaLifeBalance,
+    | 'title'
+    | 'subtitle'
+    | 'dominant'
+    | 'needsCare'
+    | 'axes'
+    | 'summary'
+    | 'limitations'
+  >;
+  personalPanchang?: Pick<
+    PersonalPanchangLayer,
+    | 'title'
+    | 'subtitle'
+    | 'date'
+    | 'weekday'
+    | 'weekdayLord'
+    | 'tithi'
+    | 'paksha'
+    | 'moonSign'
+    | 'moonNakshatra'
+    | 'natalNakshatra'
+    | 'todayFocus'
+    | 'bestFor'
+    | 'avoidFor'
+    | 'personalRemedy'
+    | 'signals'
+    | 'evidence'
+    | 'limitations'
+  >;
+  holisticReadingRooms?: Pick<
+    HolisticReadingRooms,
+    'title' | 'subtitle' | 'featuredRoom' | 'rooms' | 'guardrails'
+  >;
+  sadhanaRemedyPath?: Pick<
+    SadhanaRemedyPath,
+    | 'title'
+    | 'subtitle'
+    | 'planet'
+    | 'planetReason'
+    | 'karmicTheme'
+    | 'weeklyIntention'
+    | 'stages'
+    | 'progressSummary'
+    | 'reviewQuestions'
+    | 'guardrails'
+  >;
+  holisticDailyGuidance?: Pick<
+    HolisticDailyGuidance,
+    | 'title'
+    | 'subtitle'
+    | 'date'
+    | 'headline'
+    | 'dailyFocus'
+    | 'morningPractice'
+    | 'middayCheck'
+    | 'eveningReview'
+    | 'bestAction'
+    | 'avoidAction'
+    | 'sadhanaStep'
+    | 'purusharthaFocus'
+    | 'timingNote'
+    | 'remedy'
+    | 'blocks'
+    | 'evidence'
+    | 'guardrails'
   >;
   lifeTimeline?: TimelineEvent[];
   planets: PlanetPosition[];

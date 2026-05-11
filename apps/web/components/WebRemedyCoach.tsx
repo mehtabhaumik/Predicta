@@ -66,6 +66,55 @@ export function WebRemedyCoach(): React.JSX.Element {
         ))}
       </div>
 
+      {plan.sadhanaPath ? (
+        <div className="sadhana-path-panel">
+          <div className="sadhana-path-header">
+            <div>
+              <span>Sadhana path</span>
+              <h3>{plan.sadhanaPath.title}</h3>
+              <p>{plan.sadhanaPath.weeklyIntention}</p>
+            </div>
+            <div className="sadhana-planet-badge">
+              <span>Planet focus</span>
+              <strong>{plan.sadhanaPath.planet ?? 'Chart'}</strong>
+            </div>
+          </div>
+          <div className="sadhana-stage-grid">
+            {plan.sadhanaPath.stages.map(stage => (
+              <button
+                className={`sadhana-stage-card ${stage.status}`}
+                key={stage.id}
+                onClick={() => selected && setSelectedId(selected.id)}
+                type="button"
+              >
+                <span>
+                  {stage.sequence}. {stage.label} · {stage.status}
+                </span>
+                <strong>{stage.practice}</strong>
+                <small>{stage.completionTarget}</small>
+              </button>
+            ))}
+          </div>
+          <div className="sadhana-review-strip">
+            <div>
+              <span>Progress</span>
+              <strong>{plan.sadhanaPath.progressSummary}</strong>
+            </div>
+            <Link
+              className="button secondary"
+              href={buildPredictaChatHref({
+                kundliId: activeKundli?.id,
+                prompt: plan.sadhanaPath.askPrompt,
+                selectedSection: 'Sadhana Remedy Path',
+                sourceScreen: 'Remedy Coach',
+              })}
+            >
+              Ask Sadhana Path
+            </Link>
+          </div>
+        </div>
+      ) : null}
+
       {plan.status === 'pending' ? (
         <Link className="button" href="/dashboard/kundli">
           Create Kundli
@@ -94,6 +143,12 @@ export function WebRemedyCoach(): React.JSX.Element {
               <h3>{selected.title}</h3>
               <p>{selected.rationale}</p>
               <div className="remedy-detail-grid">
+                {selected.planetInvolved ? (
+                  <DetailBlock
+                    label="Planet involved"
+                    text={selected.planetInvolved}
+                  />
+                ) : null}
                 <DetailBlock
                   label="Expected inner shift"
                   text={selected.expectedInnerShift}
@@ -103,6 +158,29 @@ export function WebRemedyCoach(): React.JSX.Element {
                   text={selected.tracking.reviewAfter}
                 />
               </div>
+              {selected.karmicPattern ||
+              selected.simpleRemedy ||
+              selected.practicalAction ? (
+                <div className="remedy-karma-panel">
+                  <span>Karma-based remedy path</span>
+                  {selected.karmicPattern ? <p>{selected.karmicPattern}</p> : null}
+                  {selected.simpleRemedy ? (
+                    <p>
+                      <strong>Simple remedy:</strong> {selected.simpleRemedy}
+                    </p>
+                  ) : null}
+                  {selected.practicalAction ? (
+                    <p>
+                      <strong>Practical action:</strong> {selected.practicalAction}
+                    </p>
+                  ) : null}
+                  {selected.mantraDevotion ? (
+                    <p>
+                      <strong>Prayer option:</strong> {selected.mantraDevotion}
+                    </p>
+                  ) : null}
+                </div>
+              ) : null}
               <div className="remedy-caution">
                 <span>When to stop or simplify</span>
                 <p>
