@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import type { SupportedLanguage } from '@pridicta/types';
 import { useLanguagePreference } from '../lib/language-preference';
 import { AuthDialog } from './AuthDialog';
@@ -59,6 +60,7 @@ const publicHeaderCopy: Record<
 
 export function WebHeader(): React.JSX.Element {
   const { language } = useLanguagePreference();
+  const [menuOpen, setMenuOpen] = useState(false);
   const copy = publicHeaderCopy[language] ?? publicHeaderCopy.en;
 
   return (
@@ -91,29 +93,54 @@ export function WebHeader(): React.JSX.Element {
           {copy.dashboard}
         </Link>
       </div>
-      <details className="mobile-menu">
-        <summary aria-label={copy.menu}>
+      <div className="mobile-menu">
+        <button
+          aria-expanded={menuOpen}
+          aria-label={copy.menu}
+          className="mobile-menu-button"
+          onClick={() => setMenuOpen(current => !current)}
+          type="button"
+        >
           <span aria-hidden="true" />
           <span aria-hidden="true" />
           <span aria-hidden="true" />
-        </summary>
-        <div className="mobile-menu-panel">
-          <nav aria-label="Mobile navigation">
-            {copy.links.map(link => (
-              <Link href={link.href} key={link.href}>
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-          <div className="mobile-menu-actions">
-            <WebLanguageSelector compact />
-            <AuthDialog />
-            <Link className="button secondary" href="/dashboard">
-              {copy.dashboard}
-            </Link>
+        </button>
+        {menuOpen ? (
+          <div
+            className="mobile-menu-scrim"
+            onClick={() => setMenuOpen(false)}
+            role="presentation"
+          >
+            <div
+              className="mobile-menu-panel"
+              onClick={event => event.stopPropagation()}
+            >
+              <nav aria-label="Mobile navigation">
+                {copy.links.map(link => (
+                  <Link
+                    href={link.href}
+                    key={link.href}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+              <div className="mobile-menu-actions">
+                <WebLanguageSelector compact />
+                <AuthDialog />
+                <Link
+                  className="button secondary"
+                  href="/dashboard"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {copy.dashboard}
+                </Link>
+              </div>
+            </div>
           </div>
-        </div>
-      </details>
+        ) : null}
+      </div>
     </header>
   );
 }

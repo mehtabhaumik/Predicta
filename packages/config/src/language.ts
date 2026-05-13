@@ -59,6 +59,7 @@ export type AppShellLabels = {
     decision: string;
     family: string;
     founderVision: string;
+    home: string;
     holisticAstrology: string;
     kpPredicta: string;
     kundli: string;
@@ -211,6 +212,7 @@ const APP_SHELL_LABELS: Record<SupportedLanguage, AppShellLabels> = {
       decision: 'Decision',
       family: 'Family',
       founderVision: 'Founder Vision',
+      home: 'Predicta Home',
       holisticAstrology: 'Holistic Astrology',
       kpPredicta: 'KP Predicta',
       kundli: 'Kundli',
@@ -262,6 +264,7 @@ const APP_SHELL_LABELS: Record<SupportedLanguage, AppShellLabels> = {
       decision: 'निर्णय',
       family: 'परिवार',
       founderVision: 'फाउंडर विजन',
+      home: 'प्रेडिक्टा होम',
       holisticAstrology: 'होलिस्टिक ज्योतिष',
       kpPredicta: 'KP प्रेडिक्टा',
       kundli: 'कुंडली',
@@ -313,6 +316,7 @@ const APP_SHELL_LABELS: Record<SupportedLanguage, AppShellLabels> = {
       decision: 'નિર્ણય',
       family: 'પરિવાર',
       founderVision: 'ફાઉન્ડર વિઝન',
+      home: 'પ્રેડિક્ટા હોમ',
       holisticAstrology: 'હોલિસ્ટિક જ્યોતિષ',
       kpPredicta: 'KP પ્રેડિક્ટા',
       kundli: 'કુંડળી',

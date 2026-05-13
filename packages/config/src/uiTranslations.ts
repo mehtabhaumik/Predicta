@@ -748,53 +748,53 @@ const UI_TRANSLATION_OVERRIDES: Record<string, UiTranslationEntry> = {
   },
   'Predicta joins timing, chart proof, and practical remedies without fear.':
     {
-      hi: 'Predicta timing, chart proof और practical remedies को डर के बिना जोड़ती है.',
-      gu: 'Predicta timing, chart proof અને practical remedies ને ડર વિના જોડે છે.',
+      hi: 'Predicta समय, चार्ट प्रमाण और व्यावहारिक उपायों को डर के बिना जोड़ती है.',
+      gu: 'Predicta સમય, ચાર્ટ પુરાવો અને વ્યવહારુ ઉપાયો ડર વિના જોડે છે.',
     },
   'WHAT PREDICTA DOES': {
     hi: 'PREDICTA क्या करती है',
     gu: 'PREDICTA શું કરે છે',
   },
   'A complete astrology experience with room to breathe.': {
-    hi: 'एक complete astrology experience, जिसमें सांस लेने की जगह है.',
-    gu: 'એક complete astrology experience, જેમાં શાંતિથી સમજવાની જગ્યા છે.',
+    hi: 'एक पूरा ज्योतिष अनुभव, जिसमें शांति से समझने की जगह है.',
+    gu: 'એક સંપૂર્ણ જ્યોતિષ અનુભવ, જેમાં શાંતિથી સમજવાની જગ્યા છે.',
   },
   'Create, read, save, and discuss a Kundli through a holistic astrology lens.':
     {
-      hi: 'Holistic astrology lens से Kundli बनाएं, पढ़ें, save करें और discuss करें.',
-      gu: 'Holistic astrology lens થી Kundli બનાવો, વાંચો, save કરો અને discuss કરો.',
+      hi: 'समग्र ज्योतिष दृष्टि से कुंडली बनाएं, पढ़ें, सेव करें और चर्चा करें.',
+      gu: 'સમગ્ર જ્યોતિષ દૃષ્ટિથી કુંડળી બનાવો, વાંચો, સેવ કરો અને ચર્ચા કરો.',
     },
   'Kundli creation': {
     hi: 'कुंडली बनाना',
     gu: 'કુંડળી બનાવવી',
   },
   'Create Kundlis and keep the reading anchored to real chart proof.': {
-    hi: 'कुंडली बनाएं और reading को real chart proof से anchored रखें.',
-    gu: 'કુંડળી બનાવો અને reading ને real chart proof સાથે જોડેલી રાખો.',
+    hi: 'कुंडली बनाएं और रीडिंग को असली चार्ट प्रमाण से जोड़े रखें.',
+    gu: 'કુંડળી બનાવો અને રીડિંગને સાચા ચાર્ટ પુરાવા સાથે જોડેલી રાખો.',
   },
   'Holistic interpretation': {
-    hi: 'होलिस्टिक interpretation',
-    gu: 'હોલિસ્ટિક interpretation',
+    hi: 'समग्र व्याख्या',
+    gu: 'સમગ્ર અર્થઘટન',
   },
   'Move from D1 to D9, D10, dasha, yogas, karma, and remedies.': {
-    hi: 'D1 से D9, D10, dasha, yogas, karma और remedies तक जाएं.',
-    gu: 'D1 થી D9, D10, dasha, yogas, karma અને remedies સુધી જાઓ.',
+    hi: 'D1 से D9, D10, दशा, योग, कर्म और उपाय तक जाएं.',
+    gu: 'D1 થી D9, D10, દશા, યોગ, કર્મ અને ઉપાય સુધી જાઓ.',
   },
   'Predicta chat': {
-    hi: 'Predicta chat',
-    gu: 'Predicta chat',
+    hi: 'प्रेडिक्टा चैट',
+    gu: 'પ્રેડિક્ટા ચેટ',
   },
   'Ask from a chart, report, or saved profile.': {
-    hi: 'Chart, report या saved profile से पूछें.',
-    gu: 'Chart, report અથવા saved profile પરથી પૂછો.',
+    hi: 'चार्ट, रिपोर्ट या सेव प्रोफाइल से पूछें.',
+    gu: 'ચાર્ટ, રિપોર્ટ અથવા સેવ પ્રોફાઇલ પરથી પૂછો.',
   },
   'Report depth': {
-    hi: 'Report depth',
-    gu: 'Report depth',
+    hi: 'रिपोर्ट गहराई',
+    gu: 'રિપોર્ટ ઊંડાઈ',
   },
   'Create polished free previews and deeper premium reports.': {
-    hi: 'Polished free previews और deeper premium reports बनाएं.',
-    gu: 'Polished free previews અને deeper premium reports બનાવો.',
+    hi: 'सुंदर मुफ्त झलक और गहरी प्रीमियम रिपोर्ट बनाएं.',
+    gu: 'સુંદર મફત ઝલક અને ઊંડી પ્રીમિયમ રિપોર્ટ બનાવો.',
   },
   'CORE INTELLIGENCE': {
     hi: 'मुख्य बुद्धिमत्ता',
@@ -806,8 +806,8 @@ const UI_TRANSLATION_OVERRIDES: Record<string, UiTranslationEntry> = {
   },
   'Predicta keeps advanced Vedic depth available while explaining only what helps.':
     {
-      hi: 'Predicta advanced Vedic depth रखती है, लेकिन समझाती वही है जो सच में मदद करे.',
-      gu: 'Predicta advanced Vedic depth રાખે છે, પણ સમજાવે એટલું જ જે ખરેખર મદદ કરે.',
+      hi: 'Predicta गहरी वैदिक समझ रखती है, लेकिन समझाती वही है जो सच में मदद करे.',
+      gu: 'Predicta ઊંડી વૈદિક સમજ રાખે છે, પણ સમજાવે એટલું જ જે ખરેખર મદદ કરે.',
     },
   'Professional chart awareness, presented clearly.': {
     hi: 'पेशेवर चार्ट समझ, साफ तरीके से.',
@@ -815,62 +815,62 @@ const UI_TRANSLATION_OVERRIDES: Record<string, UiTranslationEntry> = {
   },
   'Predicta reads dasha, placements, chart sections, Panchang, Purushartha, and remedy context without turning the reading into jargon.':
     {
-      hi: 'Predicta dasha, placements, chart sections, Panchang, Purushartha और remedy context पढ़ती है, बिना reading को jargon बनाने के.',
-      gu: 'Predicta dasha, placements, chart sections, Panchang, Purushartha અને remedy context વાંચે છે, reading ને jargon બનાવ્યા વિના.',
+      hi: 'Predicta दशा, ग्रह स्थिति, चार्ट भाग, पंचांग, पुरुषार्थ और उपाय संदर्भ पढ़ती है, बिना रीडिंग को कठिन बनाने के.',
+      gu: 'Predicta દશા, ગ્રહ સ્થિતિ, ચાર્ટ ભાગ, પંચાંગ, પુરુષાર્થ અને ઉપાય સંદર્ભ વાંચે છે, રીડિંગને અઘરી બનાવ્યા વિના.',
     },
   'Holistic astrology synthesis': {
-    hi: 'होलिस्टिक ज्योतिष synthesis',
-    gu: 'હોલિસ્ટિક જ્યોતિષ synthesis',
+    hi: 'समग्र ज्योतिष संश्लेषण',
+    gu: 'સમગ્ર જ્યોતિષ સંકલન',
   },
   'Divisional chart awareness': {
     hi: 'विभागीय चार्ट समझ',
     gu: 'વિભાગીય ચાર્ટ સમજ',
   },
   'Vimshottari dasha timing': {
-    hi: 'विम्शोत्तरी दशा timing',
-    gu: 'વિમ્શોત્તરી દશા timing',
+    hi: 'विम्शोत्तरी दशा समय',
+    gu: 'વિમ્શોત્તરી દશા સમય',
   },
   'Karma-based remedy paths': {
-    hi: 'कर्म-आधारित remedy paths',
-    gu: 'કર્મ-આધારિત remedy paths',
+    hi: 'कर्म आधारित उपाय मार्ग',
+    gu: 'કર્મ આધારિત ઉપાય માર્ગ',
   },
   'Yoga and Ashtakavarga summaries': {
-    hi: 'Yoga और Ashtakavarga summaries',
-    gu: 'Yoga અને Ashtakavarga summaries',
+    hi: 'योग और अष्टकवर्ग सार',
+    gu: 'યોગ અને અષ્ટકવર્ગ સાર',
   },
   'PREMIUM REPORTS': {
     hi: 'प्रीमियम रिपोर्ट',
     gu: 'પ્રીમિયમ રિપોર્ટ',
   },
   'Share-worthy reports, even in free mode.': {
-    hi: 'Free mode में भी share-worthy reports.',
-    gu: 'Free mode માં પણ share-worthy reports.',
+    hi: 'फ्री मोड में भी सुंदर शेयर करने योग्य रिपोर्ट.',
+    gu: 'ફ્રી મોડમાં પણ સુંદર શેર કરી શકાય તેવી રિપોર્ટ.',
   },
   'Reports should feel personal, polished, and easy to read.': {
-    hi: 'Reports personal, polished और पढ़ने में आसान लगनी चाहिए.',
-    gu: 'Reports personal, polished અને વાંચવામાં સરળ લાગવી જોઈએ.',
+    hi: 'रिपोर्ट निजी, सुंदर और पढ़ने में आसान लगनी चाहिए.',
+    gu: 'રિપોર્ટ વ્યક્તિગત, સુંદર અને વાંચવામાં સરળ લાગવી જોઈએ.',
   },
   'PREDICTA DOSSIER': {
     hi: 'PREDICTA DOSSIER',
     gu: 'PREDICTA DOSSIER',
   },
   'Birth Details · D1 · D9 · D10 · Dasha · Guidance': {
-    hi: 'Birth Details · D1 · D9 · D10 · Dasha · Guidance',
-    gu: 'Birth Details · D1 · D9 · D10 · Dasha · Guidance',
+    hi: 'जन्म विवरण · D1 · D9 · D10 · दशा · मार्गदर्शन',
+    gu: 'જન્મ વિગતો · D1 · D9 · D10 · દશા · માર્ગદર્શન',
   },
   'Free and Premium reports share the same visual quality. Premium adds depth, not dignity.':
     {
       hi: 'Free और Premium reports की visual quality same रहती है. Premium dignity नहीं, depth add करता है.',
-      gu: 'Free અને Premium reports ની visual quality same રહે છે. Premium dignity નહીં, depth add કરે છે.',
+      gu: 'Free અને Premium reports ની દેખાવ ગુણવત્તા એકસરખી રહે છે. Premium ગૌરવ નહીં, ઊંડાઈ ઉમેરે છે.',
     },
   'Designed to feel personal and calm.': {
-    hi: 'Personal और calm feel के लिए designed.',
-    gu: 'Personal અને calm feel માટે designed.',
+    hi: 'निजी और शांत अनुभव के लिए बनाया गया.',
+    gu: 'વ્યક્તિગત અને શાંત અનુભવ માટે બનાવેલું.',
   },
   'Summaries, predictions, and guidance stay polished in both short and deeper reports.':
     {
-      hi: 'Short और deeper reports दोनों में summaries, predictions और guidance polished रहती है.',
-      gu: 'Short અને deeper reports બંનેમાં summaries, predictions અને guidance polished રહે છે.',
+      hi: 'छोटी और गहरी दोनों रिपोर्ट में सार, भविष्य संकेत और मार्गदर्शन सुंदर रहते हैं.',
+      gu: 'ટૂંકી અને ઊંડી બંને રિપોર્ટમાં સાર, ભવિષ્ય સંકેત અને માર્ગદર્શન સુંદર રહે છે.',
     },
   'Preview Report': {
     hi: 'Report preview देखें',
@@ -883,23 +883,23 @@ const UI_TRANSLATION_OVERRIDES: Record<string, UiTranslationEntry> = {
   'Start free, try a Day Pass, or move into Premium when deeper report and guidance limits matter.':
     {
       hi: 'Free start करें, Day Pass try करें, या जब deeper report और guidance limits matter करें तब Premium लें.',
-      gu: 'Free start કરો, Day Pass try કરો, અથવા deeper report અને guidance limits matter કરે ત્યારે Premium લો.',
+      gu: 'મફતમાં શરૂ કરો, Day Pass અજમાવો, અથવા ઊંડી રિપોર્ટ અને માર્ગદર્શન મર્યાદા મહત્વની બને ત્યારે Premium લો.',
     },
   'Start calmly': {
     hi: 'शांत शुरुआत करें',
     gu: 'શાંતિથી શરૂઆત કરો',
   },
   'Core kundli, saved profiles, and a premium-looking free report.': {
-    hi: 'Core kundli, saved profiles और premium-looking free report.',
-    gu: 'Core kundli, saved profiles અને premium-looking free report.',
+    hi: 'मुख्य कुंडली, सेव प्रोफाइल और प्रीमियम जैसी मुफ्त रिपोर्ट.',
+    gu: 'મુખ્ય કુંડળી, સેવ પ્રોફાઇલ અને પ્રીમિયમ જેવી મફત રિપોર્ટ.',
   },
   '₹1,999 / year': {
     hi: '₹1,999 / वर्ष',
     gu: '₹1,999 / વર્ષ',
   },
   'Deeper report depth, expanded guidance, and richer chart insight.': {
-    hi: 'Deeper report depth, expanded guidance और richer chart insight.',
-    gu: 'Deeper report depth, expanded guidance અને richer chart insight.',
+    hi: 'गहरी रिपोर्ट, विस्तृत मार्गदर्शन और अधिक समृद्ध चार्ट समझ.',
+    gu: 'ઊંડી રિપોર્ટ, વિસ્તૃત માર્ગદર્શન અને વધુ સમૃદ્ધ ચાર્ટ સમજ.',
   },
   'Try Premium depth for 24 hours without a subscription.': {
     hi: 'Subscription के बिना 24 hours के लिए Premium depth try करें.',
@@ -1303,8 +1303,8 @@ const UI_TRANSLATION_OVERRIDES: Record<string, UiTranslationEntry> = {
     gu: 'Tamara selected Kundli year no private, share-safe view.',
   },
   'A personal daily briefing appears after real chart calculation.': {
-    hi: 'Real chart calculation ke baad personal daily briefing dikhegi.',
-    gu: 'Real chart calculation pachhi personal daily briefing dekhase.',
+    hi: 'असली चार्ट गणना के बाद आपकी निजी दैनिक ब्रीफिंग दिखेगी.',
+    gu: 'સાચી ચાર્ટ ગણતરી પછી તમારી વ્યક્તિગત દૈનિક બ્રીફિંગ દેખાશે.',
   },
   'A useful current Gochar snapshot with the biggest opportunities and caution signals.':
     {
@@ -1409,8 +1409,8 @@ const UI_TRANSLATION_OVERRIDES: Record<string, UiTranslationEntry> = {
     gu: 'તમારો personal life chapter જોવા માટે કુંડળી બનાવો.',
   },
   'Create the chart, read the summary, then ask one clear question.': {
-    hi: 'Chart बनाएं, summary पढ़ें, फिर एक साफ question पूछें.',
-    gu: 'Chart બનાવો, summary વાંચો, પછી એક સ્પષ્ટ question પૂછો.',
+    hi: 'चार्ट बनाएं, सार पढ़ें, फिर एक साफ सवाल पूछें.',
+    gu: 'ચાર્ટ બનાવો, સાર વાંચો, પછી એક સ્પષ્ટ પ્રશ્ન પૂછો.',
   },
   'Create your Kundli first.': {
     hi: 'पहले अपनी कुंडली बनाएं.',
@@ -1548,8 +1548,8 @@ const UI_TRANSLATION_OVERRIDES: Record<string, UiTranslationEntry> = {
     gu: 'જીવન માહોલ',
   },
   'Life weather, current timing, Gochar, and chart focus in one glance.': {
-    hi: 'Life weather, current timing, Gochar aur chart focus ek nazar mein.',
-    gu: 'Life weather, current timing, Gochar ane chart focus ek nazar ma.',
+    hi: 'जीवन संकेत, वर्तमान समय, गोचर और चार्ट फोकस एक नजर में.',
+    gu: 'જીવન સંકેત, વર્તમાન સમય, ગોચર અને ચાર્ટ ફોકસ એક નજરમાં.',
   },
   'Marriage': {
     hi: 'विवाह',
@@ -1584,8 +1584,8 @@ const UI_TRANSLATION_OVERRIDES: Record<string, UiTranslationEntry> = {
     gu: 'ધન',
   },
   'Moon-based mind weather becomes personal after Kundli creation.': {
-    hi: 'Kundli बनने के बाद Moon-based mind weather personal होगा.',
-    gu: 'Kundli બન્યા પછી Moon-based mind weather personal બનશે.',
+    hi: 'कुंडली बनने के बाद मन का चंद्र संकेत निजी हो जाएगा.',
+    gu: 'કુંડળી બન્યા પછી મનનો ચંદ્ર સંકેત વ્યક્તિગત બનશે.',
   },
   'Morning': {
     hi: 'सुबह',
@@ -1624,20 +1624,20 @@ const UI_TRANSLATION_OVERRIDES: Record<string, UiTranslationEntry> = {
     gu: 'બાકી',
   },
   'Pending until Moon and Venus context are available.': {
-    hi: 'Moon aur Venus context available hone tak pending.',
-    gu: 'Moon ane Venus context available thay tya sudhi pending.',
+    hi: 'चंद्र और शुक्र संदर्भ आने तक प्रतीक्षा में.',
+    gu: 'ચંદ્ર અને શુક્ર સંદર્ભ મળે ત્યાં સુધી રાહમાં.',
   },
   'Pending until Moon, Lagna, and transit context are calculated.': {
-    hi: 'Moon, Lagna aur transit context calculate hone tak pending.',
-    gu: 'Moon, Lagna ane transit context calculate thay tya sudhi pending.',
+    hi: 'चंद्र, लग्न और गोचर संदर्भ की गणना तक प्रतीक्षा में.',
+    gu: 'ચંદ્ર, લગ્ન અને ગોચર સંદર્ભની ગણતરી સુધી રાહમાં.',
   },
   'Pending until dasha and house strength are available.': {
-    hi: 'Dasha aur house strength available hone tak pending.',
-    gu: 'Dasha ane house strength available thay tya sudhi pending.',
+    hi: 'दशा और भाव बल आने तक प्रतीक्षा में.',
+    gu: 'દશા અને ભાવ બળ મળે ત્યાં સુધી રાહમાં.',
   },
   'Pending until the chart is calculated.': {
-    hi: 'Chart calculate hone tak pending.',
-    gu: 'Chart calculate thay tya sudhi pending.',
+    hi: 'चार्ट गणना पूरी होने तक प्रतीक्षा में.',
+    gu: 'ચાર્ટ ગણતરી પૂરી થાય ત્યાં સુધી રાહમાં.',
   },
   'Personal Panchang': {
     hi: 'निजी पंचांग',
@@ -1754,8 +1754,8 @@ const UI_TRANSLATION_OVERRIDES: Record<string, UiTranslationEntry> = {
     gu: 'પગલું 3',
   },
   'Tap one life area': {
-    hi: 'एक life area चुनें',
-    gu: 'એક life area પસંદ કરો',
+    hi: 'एक जीवन क्षेत्र चुनें',
+    gu: 'એક જીવન ક્ષેત્ર પસંદ કરો',
   },
   'Terms of Use': {
     hi: 'Terms of Use',
@@ -1803,12 +1803,12 @@ const UI_TRANSLATION_OVERRIDES: Record<string, UiTranslationEntry> = {
     gu: 'હજુ verify નથી',
   },
   'Waiting for birth chart.': {
-    hi: 'Birth chart का इंतजार.',
-    gu: 'Birth chart ની રાહ.',
+    hi: 'जन्म चार्ट की प्रतीक्षा.',
+    gu: 'જન્મ ચાર્ટની રાહ.',
   },
   'Waiting for Kundli': {
-    hi: 'Kundli का इंतजार',
-    gu: 'Kundli ની રાહ',
+    hi: 'कुंडली की प्रतीक्षा',
+    gu: 'કુંડળીની રાહ',
   },
   'What the sky is doing right now.': {
     hi: 'अभी आकाश क्या संकेत दे रहा है.',
@@ -1821,6 +1821,590 @@ const UI_TRANSLATION_OVERRIDES: Record<string, UiTranslationEntry> = {
   'Your personal day map is not ready yet.': {
     hi: 'आपका personal day map अभी ready नहीं है.',
     gu: 'તમારો personal day map હજી ready નથી.',
+  },
+};
+
+const UI_TRANSLATION_PROMINENT_SURFACES: Record<string, UiTranslationEntry> = {
+  '12 cusps with star and sub lords.': {
+    hi: '12 कस्प, स्टार लॉर्ड और सब लॉर्ड के साथ.',
+    gu: '12 cusp, star lord અને sub lord સાથે.',
+  },
+  'ACCOUNT ACCESS': {
+    hi: 'खाता प्रवेश',
+    gu: 'એકાઉન્ટ પ્રવેશ',
+  },
+  'ACTIVATION WINDOWS': {
+    hi: 'सक्रिय समय',
+    gu: 'સક્રિય સમય',
+  },
+  'Annual planning': {
+    hi: 'वार्षिक योजना',
+    gu: 'વાર્ષિક આયોજન',
+  },
+  'Answer these first': {
+    hi: 'पहले इनका जवाब दें',
+    gu: 'પહેલા આનો જવાબ આપો',
+  },
+  'Ask one real decision.': {
+    hi: 'एक असली निर्णय पूछें.',
+    gu: 'એક સાચો નિર્ણય પૂછો.',
+  },
+  'Ask with proof': {
+    hi: 'प्रमाण के साथ पूछें',
+    gu: 'પુરાવા સાથે પૂછો',
+  },
+  'Birth star': {
+    hi: 'जन्म नक्षत्र',
+    gu: 'જન્મ નક્ષત્ર',
+  },
+  'Birth time confidence': {
+    hi: 'जन्म समय भरोसा',
+    gu: 'જન્મ સમય વિશ્વાસ',
+  },
+  'CHART NEEDS YOUR KUNDLI': {
+    hi: 'चार्ट के लिए कुंडली चाहिए',
+    gu: 'ચાર્ટ માટે કુંડળી જોઈએ',
+  },
+  'CREATE PASS': {
+    hi: 'पास बनाएं',
+    gu: 'પાસ બનાવો',
+  },
+  'Calculated': {
+    hi: 'गणना की गई',
+    gu: 'ગણતરી થયેલ',
+  },
+  'Chart role': {
+    hi: 'चार्ट की भूमिका',
+    gu: 'ચાર્ટની ભૂમિકા',
+  },
+  'Chart selector': {
+    hi: 'चार्ट चुनें',
+    gu: 'ચાર્ટ પસંદ કરો',
+  },
+  'Chart focus': {
+    hi: 'चार्ट फोकस',
+    gu: 'ચાર્ટ ફોકસ',
+  },
+  'Choose by outcome, not by jargon.': {
+    hi: 'जटिल शब्दों से नहीं, जरूरत से चुनें.',
+    gu: 'જટિલ શબ્દોથી નહીં, જરૂરિયાતથી પસંદ કરો.',
+  },
+  'Confidence': {
+    hi: 'भरोसा',
+    gu: 'વિશ્વાસ',
+  },
+  'Current caution': {
+    hi: 'अभी की सावधानी',
+    gu: 'હાલની કાળજી',
+  },
+  'Current dasha': {
+    hi: 'वर्तमान दशा',
+    gu: 'વર્તમાન દશા',
+  },
+  'DAILY COSMIC BRIEFING': {
+    hi: 'दैनिक ज्योतिष ब्रीफिंग',
+    gu: 'દૈનિક જ્યોતિષ બ્રીફિંગ',
+  },
+  'D1 anchor': {
+    hi: 'D1 आधार',
+    gu: 'D1 આધાર',
+  },
+  'DECISION + TIMING': {
+    hi: 'निर्णय और समय',
+    gu: 'નિર્ણય અને સમય',
+  },
+  'DECISION MEMO': {
+    hi: 'निर्णय नोट',
+    gu: 'નિર્ણય નોંધ',
+  },
+  'DECISION ORACLE': {
+    hi: 'निर्णय मार्गदर्शक',
+    gu: 'નિર્ણય માર્ગદર્શક',
+  },
+  'DESTINY PASSPORT': {
+    hi: 'डेस्टिनी पासपोर्ट',
+    gu: 'ડેસ્ટિની પાસપોર્ટ',
+  },
+  'DRILLDOWN': {
+    hi: 'गहराई से देखें',
+    gu: 'ઊંડાણથી જુઓ',
+  },
+  'Dasha + Gochar overlay': {
+    hi: 'दशा और गोचर साथ में',
+    gu: 'દશા અને ગોચર સાથે',
+  },
+  'Decision question': {
+    hi: 'निर्णय प्रश्न',
+    gu: 'નિર્ણય પ્રશ્ન',
+  },
+  'Do this': {
+    hi: 'यह करें',
+    gu: 'આ કરો',
+  },
+  'Do this now': {
+    hi: 'अभी यह करें',
+    gu: 'હમણાં આ કરો',
+  },
+  'DISCIPLINE': {
+    hi: 'अनुशासन',
+    gu: 'શિસ્ત',
+  },
+  'Discipline': {
+    hi: 'अनुशासन',
+    gu: 'શિસ્ત',
+  },
+  'CHANGE': {
+    hi: 'बदलाव',
+    gu: 'ફેરફાર',
+  },
+  'Change': {
+    hi: 'बदलाव',
+    gu: 'ફેરફાર',
+  },
+  'Daily Routine': {
+    hi: 'दैनिक दिनचर्या',
+    gu: 'દૈનિક રૂટિન',
+  },
+  'Daily routine': {
+    hi: 'दैनिक दिनचर्या',
+    gu: 'દૈનિક રૂટિન',
+  },
+  'Enter birth details in order.': {
+    hi: 'जन्म विवरण क्रम से भरें.',
+    gu: 'જન્મ વિગતો ક્રમથી भरो.',
+  },
+  'Event first': {
+    hi: 'पहले घटना',
+    gu: 'પહેલા ઘટના',
+  },
+  'Creating your Kundli': {
+    hi: 'अपनी कुंडली बनाना',
+    gu: 'તમારી કુંડળી બનાવવી',
+  },
+  'Dharma': {
+    hi: 'धर्म',
+    gu: 'ધર્મ',
+  },
+  'Artha': {
+    hi: 'अर्थ',
+    gu: 'અર્થ',
+  },
+  'Kama': {
+    hi: 'काम',
+    gu: 'કામ',
+  },
+  'Moksha': {
+    hi: 'मोक्ष',
+    gu: 'મોક્ષ',
+  },
+  'GROWTH': {
+    hi: 'विकास',
+    gu: 'વૃદ્ધિ',
+  },
+  'Growth': {
+    hi: 'विकास',
+    gu: 'વૃદ્ધિ',
+  },
+  'Expected inner shift': {
+    hi: 'अंदर का अपेक्षित बदलाव',
+    gu: 'અંદરનો અપેક્ષિત ફેરફાર',
+  },
+  'Evidence used': {
+    hi: 'इस्तेमाल किया गया प्रमाण',
+    gu: 'ઉપયોગમાં લેવાયેલ પુરાવો',
+  },
+  'FAMILY KARMA MAP': {
+    hi: 'परिवार कर्म मानचित्र',
+    gu: 'પરિવાર કર્મ નકશો',
+  },
+  'Free preview': {
+    hi: 'मुफ्त झलक',
+    gu: 'મફત ઝલક',
+  },
+  'Guest access': {
+    hi: 'अतिथि प्रवेश',
+    gu: 'મહેમાન પ્રવેશ',
+  },
+  'HOLISTIC DAILY GUIDANCE': {
+    hi: 'समग्र दैनिक मार्गदर्शन',
+    gu: 'સમગ્ર દૈનિક માર્ગદર્શન',
+  },
+  'Holistic astrology synthesis': {
+    hi: 'समग्र ज्योतिष संश्लेषण',
+    gu: 'સમગ્ર જ્યોતિષ સંકલન',
+  },
+  'Holistic interpretation': {
+    hi: 'समग्र व्याख्या',
+    gu: 'સમગ્ર અર્થઘટન',
+  },
+  'KP CUSPS': {
+    hi: 'KP कस्प',
+    gu: 'KP cusp',
+  },
+  'KP Horoscope foundation': {
+    hi: 'KP कुंडली आधार',
+    gu: 'KP કુંડળી આધાર',
+  },
+  'KP JUDGEMENT PATH': {
+    hi: 'KP निर्णय मार्ग',
+    gu: 'KP નિર્ણય માર્ગ',
+  },
+  'KP PREDICTA': {
+    hi: 'KP प्रेडिक्टा',
+    gu: 'KP પ્રેડિક્ટા',
+  },
+  'KP SIGNIFICATORS': {
+    hi: 'KP संकेतक',
+    gu: 'KP સંકેતક',
+  },
+  'KP event focus': {
+    hi: 'KP घटना फोकस',
+    gu: 'KP ઘટના ફોકસ',
+  },
+  'KP world': {
+    hi: 'KP संसार',
+    gu: 'KP દુનિયા',
+  },
+  'Karma support': {
+    hi: 'कर्म सहारा',
+    gu: 'કર્મ આધાર',
+  },
+  'Karma-based remedy path': {
+    hi: 'कर्म आधारित उपाय मार्ग',
+    gu: 'કર્મ આધારિત ઉપાય માર્ગ',
+  },
+  'Karma-based remedy paths': {
+    hi: 'कर्म आधारित उपाय मार्ग',
+    gu: 'કર્મ આધારિત ઉપાય માર્ગ',
+  },
+  'Keep family Kundlis together.': {
+    hi: 'परिवार की कुंडलियां साथ रखें.',
+    gu: 'પરિવારની કુંડળીઓ સાથે રાખો.',
+  },
+  'Limits': {
+    hi: 'सीमाएं',
+    gu: 'મર્યાદા',
+  },
+  'Life area': {
+    hi: 'जीवन क्षेत्र',
+    gu: 'જીવન ક્ષેત્ર',
+  },
+  'Life chapter': {
+    hi: 'जीवन अध्याय',
+    gu: 'જીવન અધ્યાય',
+  },
+  'Looking for chart proof...': {
+    hi: 'चार्ट प्रमाण देख रही हूं...',
+    gu: 'ચાર્ટ પુરાવો જોઈ રહી છું...',
+  },
+  'Jupiter': {
+    hi: 'गुरु',
+    gu: 'ગુરુ',
+  },
+  'Make My Kundli': {
+    hi: 'मेरी कुंडली बनाएं',
+    gu: 'મારી કુંડળી બનાવો',
+  },
+  'Moment sky preview until your birth chart is saved.': {
+    hi: 'जन्म चार्ट सेव होने तक वर्तमान आकाश की झलक.',
+    gu: 'જન્મ ચાર્ટ સેવ થાય ત્યાં સુધી હાલના આકાશની ઝલક.',
+  },
+  'Moon Star': {
+    hi: 'चंद्र नक्षत्र',
+    gu: 'ચંદ્ર નક્ષત્ર',
+  },
+  'Moon Sub': {
+    hi: 'चंद्र सब',
+    gu: 'ચંદ્ર સબ',
+  },
+  'Mercury': {
+    hi: 'बुध',
+    gu: 'બુધ',
+  },
+  'NADI METHOD': {
+    hi: 'नाड़ी पद्धति',
+    gu: 'નાડી પદ્ધતિ',
+  },
+  'NADI PREDICTA': {
+    hi: 'नाड़ी प्रेडिक्टा',
+    gu: 'નાડી પ્રેડિક્ટા',
+  },
+  'NO SAVED KUNDLI YET': {
+    hi: 'अभी कोई सेव कुंडली नहीं',
+    gu: 'હજુ કોઈ સેવ કુંડળી નથી',
+  },
+  'NORTH INDIAN CHART': {
+    hi: 'उत्तर भारतीय चार्ट',
+    gu: 'ઉત્તર ભારતીય ચાર્ટ',
+  },
+  'No confusing fake chart here.': {
+    hi: 'यहां कोई भ्रमित करने वाला नकली चार्ट नहीं.',
+    gu: 'અહીં કોઈ ગૂંચવણ કરતો ખોટો ચાર્ટ નથી.',
+  },
+  'OWNER ACCESS': {
+    hi: 'ओनर प्रवेश',
+    gu: 'ઓનર પ્રવેશ',
+  },
+  'Planet focus': {
+    hi: 'ग्रह फोकस',
+    gu: 'ગ્રહ ફોકસ',
+  },
+  'Planet involved': {
+    hi: 'जुड़ा हुआ ग्रह',
+    gu: 'જોડાયેલ ગ્રહ',
+  },
+  'Premium Nadi': {
+    hi: 'प्रीमियम नाड़ी',
+    gu: 'પ્રીમિયમ નાડી',
+  },
+  'Premium Nadi reading room.': {
+    hi: 'प्रीमियम नाड़ी रीडिंग रूम.',
+    gu: 'પ્રીમિયમ નાડી રીડિંગ રૂમ.',
+  },
+  'Premium depth': {
+    hi: 'प्रीमियम गहराई',
+    gu: 'પ્રીમિયમ ઊંડાઈ',
+  },
+  'Premium access without pressure.': {
+    hi: 'बिना दबाव प्रीमियम सुविधा.',
+    gu: 'દબાણ વિના પ્રીમિયમ સુવિધા.',
+  },
+  'PRESSURE': {
+    hi: 'दबाव',
+    gu: 'દબાણ',
+  },
+  'Pressure': {
+    hi: 'दबाव',
+    gu: 'દબાણ',
+  },
+  'Privacy check': {
+    hi: 'प्राइवेसी जांच',
+    gu: 'પ્રાઇવસી તપાસ',
+  },
+  'Predicta chat': {
+    hi: 'प्रेडिक्टा चैट',
+    gu: 'પ્રેડિક્ટા ચેટ',
+  },
+  'Private pass control.': {
+    hi: 'निजी पास नियंत्रण.',
+    gu: 'ખાનગી પાસ નિયંત્રણ.',
+  },
+  'Progress': {
+    hi: 'प्रगति',
+    gu: 'પ્રગતિ',
+  },
+  'REMEDY COACH': {
+    hi: 'उपाय कोच',
+    gu: 'ઉપાય કોચ',
+  },
+  'REPORT MARKETPLACE': {
+    hi: 'रिपोर्ट विकल्प',
+    gu: 'રિપોર્ટ વિકલ્પો',
+  },
+  'Report depth': {
+    hi: 'रिपोर्ट गहराई',
+    gu: 'રિપોર્ટ ઊંડાઈ',
+  },
+  'Reading rule': {
+    hi: 'रीडिंग नियम',
+    gu: 'વાંચન નિયમ',
+  },
+  'Relationship cards': {
+    hi: 'रिश्ता कार्ड',
+    gu: 'સંબંધ કાર્ડ',
+  },
+  'Repeated themes': {
+    hi: 'दोहराते विषय',
+    gu: 'વારંવાર આવતા વિષયો',
+  },
+  'Review note': {
+    hi: 'समीक्षा नोट',
+    gu: 'સમીક્ષા નોંધ',
+  },
+  'Rising sign': {
+    hi: 'लग्न राशि',
+    gu: 'લગ્ન રાશિ',
+  },
+  'Rising sign (Lagna)': {
+    hi: 'लग्न राशि',
+    gu: 'લગ્ન રાશિ',
+  },
+  'Safety': {
+    hi: 'सुरक्षा',
+    gu: 'સુરક્ષા',
+  },
+  'Safety boundary': {
+    hi: 'सुरक्षा सीमा',
+    gu: 'સુરક્ષા મર્યાદા',
+  },
+  'Sadhana path': {
+    hi: 'साधना मार्ग',
+    gu: 'સાધના માર્ગ',
+  },
+  'Selected': {
+    hi: 'चुना हुआ',
+    gu: 'પસંદ કરેલું',
+  },
+  'Selected story': {
+    hi: 'चुनी हुई कहानी',
+    gu: 'પસંદ કરેલી વાર્તા',
+  },
+  'Short answer': {
+    hi: 'छोटा जवाब',
+    gu: 'ટૂંકો જવાબ',
+  },
+  'Share-worthy reports, even in free mode.': {
+    hi: 'फ्री मोड में भी सुंदर शेयर करने योग्य रिपोर्ट.',
+    gu: 'ફ્રી મોડમાં પણ સુંદર શેર કરી શકાય તેવી રિપોર્ટ.',
+  },
+  'Sign in to Predicta': {
+    hi: 'प्रेडिक्टा में साइन इन करें',
+    gu: 'પ્રેડિક્ટામાં સાઇન ઇન કરો',
+  },
+  'Simple remedy': {
+    hi: 'सरल उपाय',
+    gu: 'સરળ ઉપાય',
+  },
+  'Solar year': {
+    hi: 'सौर वर्ष',
+    gu: 'સૌર વર્ષ',
+  },
+  'State': {
+    hi: 'स्थिति',
+    gu: 'સ્થિતિ',
+  },
+  'SUPPORT': {
+    hi: 'सहारा',
+    gu: 'સહારો',
+  },
+  'Support': {
+    hi: 'सहारा',
+    gu: 'સહારો',
+  },
+  'Rahu': {
+    hi: 'राहु',
+    gu: 'રાહુ',
+  },
+  'Ketu': {
+    hi: 'केतु',
+    gu: 'કેતુ',
+  },
+  'Saturn': {
+    hi: 'शनि',
+    gu: 'શનિ',
+  },
+  'Venus': {
+    hi: 'शुक्र',
+    gu: 'શુક્ર',
+  },
+  'Simple Planning': {
+    hi: 'सरल योजना',
+    gu: 'સરળ આયોજન',
+  },
+  'Simple planning': {
+    hi: 'सरल योजना',
+    gu: 'સરળ આયોજન',
+  },
+  'Purushartha means the four aims of life: Dharma, Artha, Kama, and Moksha.':
+    {
+      hi: 'पुरुषार्थ जीवन के चार उद्देश्य हैं: धर्म, अर्थ, काम और मोक्ष.',
+      gu: 'પુરુષાર્થ જીવનના ચાર હેતુ છે: ધર્મ, અર્થ, કામ અને મોક્ષ.',
+    },
+  'leads now': {
+    hi: 'अभी आगे है',
+    gu: 'હમણાં આગળ છે',
+  },
+  'Unknown': {
+    hi: 'अज्ञात',
+    gu: 'અજાણ્યું',
+  },
+  'day': {
+    hi: 'दिन',
+    gu: 'દિવસ',
+  },
+  'study, writing, business, messages, and careful decisions': {
+    hi: 'अध्ययन, लेखन, व्यापार, संदेश और सावधानी से लिए गए निर्णय',
+    gu: 'અભ્યાસ, લેખન, વ્યવસાય, સંદેશા અને કાળજીપૂર્વક લેવાયેલા નિર્ણયો',
+  },
+  'Strong': {
+    hi: 'मजबूत',
+    gu: 'મજબૂત',
+  },
+  'Suggested follow-up questions': {
+    hi: 'आगे पूछने योग्य सवाल',
+    gu: 'આગળ પૂછવા જેવા પ્રશ્નો',
+  },
+  'Support zones': {
+    hi: 'सहारे के क्षेत्र',
+    gu: 'સહાય ક્ષેત્રો',
+  },
+  'Supportive remedies': {
+    hi: 'सहायक उपाय',
+    gu: 'સહાયક ઉપાયો',
+  },
+  'Tap one life area.': {
+    hi: 'एक जीवन क्षेत्र चुनें.',
+    gu: 'એક જીવન ક્ષેત્ર પસંદ કરો.',
+  },
+  'Time': {
+    hi: 'समय',
+    gu: 'સમય',
+  },
+  'Timing': {
+    hi: 'समय संकेत',
+    gu: 'સમય સંકેત',
+  },
+  'Timing posture': {
+    hi: 'समय की स्थिति',
+    gu: 'સમયની સ્થિતિ',
+  },
+  'Tracking': {
+    hi: 'अनुसरण',
+    gu: 'ટ્રેકિંગ',
+  },
+  'TRANSIT + GOCHAR': {
+    hi: 'ट्रांजिट और गोचर',
+    gu: 'ટ્રાંઝિટ અને ગોચર',
+  },
+  'TRUST LAYER': {
+    hi: 'भरोसा परत',
+    gu: 'વિશ્વાસ સ્તર',
+  },
+  'VALIDATION': {
+    hi: 'पुष्टि',
+    gu: 'પુષ્ટિ',
+  },
+  'VIP guest access': {
+    hi: 'VIP अतिथि प्रवेश',
+    gu: 'VIP મહેમાન પ્રવેશ',
+  },
+  'Varsha Lagna': {
+    hi: 'वर्ष लग्न',
+    gu: 'વર્ષ લગ્ન',
+  },
+  'What this chart means': {
+    hi: 'इस चार्ट का अर्थ',
+    gu: 'આ ચાર્ટનો અર્થ',
+  },
+  'When to review': {
+    hi: 'कब फिर देखें',
+    gu: 'ક્યારે ફરી જોવું',
+  },
+  'YEARLY HOROSCOPE': {
+    hi: 'वार्षिक राशिफल',
+    gu: 'વાર્ષિક રાશિફળ',
+  },
+  'Your kundli is ready.': {
+    hi: 'आपकी कुंडली तैयार है.',
+    gu: 'તમારી કુંડળી તૈયાર છે.',
+  },
+  'Your name': {
+    hi: 'आपका नाम',
+    gu: 'તમારું નામ',
+  },
+  'Your yearly recap is waiting.': {
+    hi: 'आपका वार्षिक सार इंतजार कर रहा है.',
+    gu: 'તમારો વાર્ષિક સાર રાહ જોઈ રહ્યો છે.',
   },
 };
 
@@ -1842,6 +2426,7 @@ export function translateUiText(
   const key = getTranslationKey(value);
   const translated =
     UI_TRANSLATION_OVERRIDES[key]?.[targetLanguage] ??
+    UI_TRANSLATION_PROMINENT_SURFACES[key]?.[targetLanguage] ??
     UI_TRANSLATIONS[key]?.[targetLanguage];
 
   if (!translated) {
@@ -1861,6 +2446,8 @@ export function hasUiTranslation(
 
   const key = getTranslationKey(value);
   return Boolean(
-    UI_TRANSLATION_OVERRIDES[key]?.[language] ?? UI_TRANSLATIONS[key]?.[language],
+    UI_TRANSLATION_OVERRIDES[key]?.[language] ??
+      UI_TRANSLATION_PROMINENT_SURFACES[key]?.[language] ??
+      UI_TRANSLATIONS[key]?.[language],
   );
 }

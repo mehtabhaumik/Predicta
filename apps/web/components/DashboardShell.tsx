@@ -23,6 +23,7 @@ function buildDashboardNavGroups(labels: AppShellLabels): SidebarGroup[] {
   {
     label: labels.groups.start,
     items: [
+      { href: '/', label: labels.nav.home },
       { href: '/dashboard', label: labels.nav.overview },
       { href: '/dashboard/chat', label: labels.nav.chat },
       { href: '/dashboard/decision', label: labels.nav.decision },
@@ -68,6 +69,18 @@ function buildDashboardNavGroups(labels: AppShellLabels): SidebarGroup[] {
     ],
   },
   ];
+}
+
+function isDashboardNavItemActive(pathname: string, href: string): boolean {
+  if (href === '/') {
+    return pathname === '/';
+  }
+
+  if (href === '/dashboard') {
+    return pathname === href;
+  }
+
+  return pathname.startsWith(href);
 }
 
 export function DashboardShell({
@@ -177,10 +190,10 @@ export function DashboardShell({
                     <span>{group.label}</span>
                     <div>
                       {group.items.map(item => {
-                        const active =
-                          item.href === '/dashboard'
-                            ? pathname === item.href
-                            : pathname.startsWith(item.href);
+                        const active = isDashboardNavItemActive(
+                          pathname,
+                          item.href,
+                        );
 
                         return (
                           <Link

@@ -15,6 +15,18 @@ export type SidebarGroup = {
   items: SidebarItem[];
 };
 
+function isSidebarNavItemActive(pathname: string, href: string): boolean {
+  if (href === '/') {
+    return pathname === '/';
+  }
+
+  if (href === '/dashboard') {
+    return pathname === href;
+  }
+
+  return pathname.startsWith(href);
+}
+
 export function SidebarNav({
   groups,
   adminLabel = 'Admin',
@@ -44,7 +56,7 @@ export function SidebarNav({
 
   return (
     <aside className="sidebar">
-      <Link aria-label="Predicta dashboard" className="dashboard-brand" href="/">
+      <Link aria-label="Predicta home" className="dashboard-brand" href="/">
         <Image
           alt=""
           className="dashboard-logo"
@@ -64,10 +76,7 @@ export function SidebarNav({
             <span className="nav-section-title">{group.label}</span>
             <div className="nav-section-links">
               {group.items.map(item => {
-                const active =
-                  item.href === '/dashboard'
-                    ? pathname === item.href
-                    : pathname.startsWith(item.href);
+                const active = isSidebarNavItemActive(pathname, item.href);
 
                 return (
                   <motion.div

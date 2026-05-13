@@ -26,7 +26,10 @@ export function WebLanguageSelector({
             aria-pressed={language === option.code}
             className={language === option.code ? 'active' : ''}
             key={option.code}
-            onClick={() => setLanguage(option.code)}
+            onClick={event => {
+              event.stopPropagation();
+              setLanguage(option.code);
+            }}
             title={option.aiInstruction}
             type="button"
           >

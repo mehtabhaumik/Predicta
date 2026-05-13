@@ -9,6 +9,8 @@ import type {
   TransitGocharIntelligence,
   YearlyHoroscopeVarshaphal,
 } from '@pridicta/types';
+import { translateUiText } from '@pridicta/config/uiTranslations';
+import { useLanguagePreference } from '../lib/language-preference';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { StatusPill } from './StatusPill';
 
@@ -76,6 +78,8 @@ export function WebDashboardAstrologyCockpit({
   purushartha,
   yearlyHoroscope,
 }: WebDashboardAstrologyCockpitProps): React.JSX.Element {
+  const { language } = useLanguagePreference();
+  const t = (value: string) => translateUiText(value, language);
   const weather = buildLifeWeather(kundli, dailyBriefing, gochar);
   const radar = buildRadarItems(gochar);
   const polygonPoints = radarPolygonPoints(radar);
@@ -159,7 +163,7 @@ export function WebDashboardAstrologyCockpit({
                   y={radarLabelPoint(index).y}
                   textAnchor="middle"
                 >
-                  {item.label}
+                  {t(item.label)}
                 </text>
               ))}
             </svg>
@@ -167,7 +171,7 @@ export function WebDashboardAstrologyCockpit({
           <div className="gochar-radar-legend">
             {radar.map(item => (
               <span key={item.label}>
-                {item.label}: {item.planet}
+                {t(item.label)}: {t(item.planet)}
               </span>
             ))}
           </div>
@@ -178,23 +182,28 @@ export function WebDashboardAstrologyCockpit({
         <div className="personal-panchang-copy">
           <span>Personal Panchang</span>
           <strong>
-            {personalPanchang.weekdayLord} day, {personalPanchang.tithi}
+            {t(personalPanchang.weekdayLord)} {t('day')}, {t(personalPanchang.tithi)}
           </strong>
-          <p>{personalPanchang.todayFocus}</p>
+          <p>{t(personalPanchang.todayFocus)}</p>
         </div>
         <div className="personal-panchang-signals">
           {personalPanchang.signals.slice(0, 4).map(signal => (
             <div className={`personal-panchang-signal ${signal.tone}`} key={signal.id}>
               <span>{signal.label}</span>
-              <strong>{signal.value}</strong>
-              <small>{signal.meaning}</small>
+              <strong>{t(signal.value)}</strong>
+              <small>{t(signal.meaning)}</small>
             </div>
           ))}
         </div>
         <div className="personal-panchang-actions">
           <div>
             <span>Best for</span>
-            <strong>{personalPanchang.bestFor.slice(0, 2).join(', ')}</strong>
+            <strong>
+              {personalPanchang.bestFor
+                .slice(0, 2)
+                .map(item => t(item))
+                .join(', ')}
+            </strong>
           </div>
           <Link
             className="button secondary"
@@ -217,8 +226,10 @@ export function WebDashboardAstrologyCockpit({
       <div className="purushartha-panel">
         <div className="purushartha-copy">
           <span>Life balance</span>
-          <strong>{purushartha.dominant.label} leads now</strong>
-          <p>{purushartha.summary}</p>
+          <strong>
+            {t(purushartha.dominant.label)} {t('leads now')}
+          </strong>
+          <p>{t(purushartha.summary)}</p>
         </div>
         <div className="purushartha-axis-grid">
           {purushartha.axes.map(axis => (
@@ -237,13 +248,13 @@ export function WebDashboardAstrologyCockpit({
               key={axis.category}
             >
               <div>
-                <span>{axis.label}</span>
+                <span>{t(axis.label)}</span>
                 <strong>{axis.score}%</strong>
               </div>
               <div className="purushartha-track">
                 <span style={{ width: `${axis.score}%` }} />
               </div>
-              <small>{axis.currentEmphasis}</small>
+              <small>{t(axis.currentEmphasis)}</small>
             </Link>
           ))}
         </div>
@@ -252,7 +263,7 @@ export function WebDashboardAstrologyCockpit({
       <div className="chart-focus-strip">
         <div className="chart-focus-intro">
           <span>Chart focus</span>
-          <strong>Tap one life area</strong>
+          <strong>{t('Tap one life area')}</strong>
         </div>
         <div className="chart-focus-grid">
           {focusCards.map(card => (
