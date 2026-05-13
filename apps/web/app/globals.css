@@ -257,7 +257,7 @@ button:disabled {
   position: sticky;
   top: 18px;
   width: calc(100% - 48px);
-  z-index: 20;
+  z-index: 1000;
 }
 
 .brand-lockup,
@@ -314,8 +314,10 @@ button:disabled {
 
 .mobile-menu {
   display: none;
+  isolation: isolate;
   margin-left: auto;
   position: relative;
+  z-index: 1001;
 }
 
 .mobile-menu summary {
@@ -347,17 +349,20 @@ button:disabled {
 }
 
 .mobile-menu-panel {
-  background: rgba(15, 15, 22, 0.98);
+  background: #101018;
   border: 1px solid var(--border);
   border-radius: 18px;
   box-shadow: var(--shadow-soft);
   display: grid;
   gap: 16px;
   min-width: min(320px, calc(100vw - 42px));
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
   padding: 16px;
-  position: absolute;
-  right: 0;
-  top: calc(100% + 12px);
+  position: fixed;
+  right: max(20px, calc((100vw - var(--max)) / 2));
+  top: 96px;
+  z-index: 2000;
 }
 
 .mobile-menu-panel nav,

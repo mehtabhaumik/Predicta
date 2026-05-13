@@ -708,6 +708,600 @@ const UI_TRANSLATIONS: Record<string, UiTranslationEntry> = {
 };
 
 const UI_TRANSLATION_OVERRIDES: Record<string, UiTranslationEntry> = {
+  'HOLISTIC VEDIC ASTROLOGY + AI': {
+    hi: 'होलिस्टिक वैदिक ज्योतिष + AI',
+    gu: 'હોલિસ્ટિક વૈદિક જ્યોતિષ + AI',
+  },
+  'Your personal holistic astrology companion': {
+    hi: 'आपका निजी होलिस्टिक ज्योतिष साथी',
+    gu: 'તમારો વ્યક્તિગત હોલિસ્ટિક જ્યોતિષ સાથી',
+  },
+  'Generate your kundli, read chart proof, and ask Predicta for calm holistic astrology guidance across timing, karma, remedies, and daily life.':
+    {
+      hi: 'अपनी कुंडली बनाएं, chart proof पढ़ें, और timing, karma, remedies और daily life पर Predicta से शांत holistic astrology guidance लें.',
+      gu: 'તમારી કુંડળી બનાવો, chart proof વાંચો, અને timing, karma, remedies અને daily life માટે Predicta પાસેથી શાંત holistic astrology guidance મેળવો.',
+    },
+  'Explore Intelligence': {
+    hi: 'इंटेलिजेंस देखें',
+    gu: 'ઇન્ટેલિજન્સ જુઓ',
+  },
+  'D10 CAREER': {
+    hi: 'D10 करियर',
+    gu: 'D10 કારકિર્દી',
+  },
+  'Career timing is active': {
+    hi: 'करियर timing active है',
+    gu: 'કારકિર્દી timing active છે',
+  },
+  'Follow-up questions stay focused on the part of life you are exploring.':
+    {
+      hi: 'आप जिस life area को explore कर रहे हैं, follow-up questions उसी पर focused रहते हैं.',
+      gu: 'તમે જે life area explore કરો છો, follow-up questions એ જ focus પર રહે છે.',
+    },
+  'HOLISTIC TIMING': {
+    hi: 'होलिस्टिक टाइमिंग',
+    gu: 'હોલિસ્ટિક ટાઇમિંગ',
+  },
+  'Dasha + Gochar + Karma': {
+    hi: 'दशा + गोचर + कर्म',
+    gu: 'દશા + ગોચર + કર્મ',
+  },
+  'Predicta joins timing, chart proof, and practical remedies without fear.':
+    {
+      hi: 'Predicta timing, chart proof और practical remedies को डर के बिना जोड़ती है.',
+      gu: 'Predicta timing, chart proof અને practical remedies ને ડર વિના જોડે છે.',
+    },
+  'WHAT PREDICTA DOES': {
+    hi: 'PREDICTA क्या करती है',
+    gu: 'PREDICTA શું કરે છે',
+  },
+  'A complete astrology experience with room to breathe.': {
+    hi: 'एक complete astrology experience, जिसमें सांस लेने की जगह है.',
+    gu: 'એક complete astrology experience, જેમાં શાંતિથી સમજવાની જગ્યા છે.',
+  },
+  'Create, read, save, and discuss a Kundli through a holistic astrology lens.':
+    {
+      hi: 'Holistic astrology lens से Kundli बनाएं, पढ़ें, save करें और discuss करें.',
+      gu: 'Holistic astrology lens થી Kundli બનાવો, વાંચો, save કરો અને discuss કરો.',
+    },
+  'Kundli creation': {
+    hi: 'कुंडली बनाना',
+    gu: 'કુંડળી બનાવવી',
+  },
+  'Create Kundlis and keep the reading anchored to real chart proof.': {
+    hi: 'कुंडली बनाएं और reading को real chart proof से anchored रखें.',
+    gu: 'કુંડળી બનાવો અને reading ને real chart proof સાથે જોડેલી રાખો.',
+  },
+  'Holistic interpretation': {
+    hi: 'होलिस्टिक interpretation',
+    gu: 'હોલિસ્ટિક interpretation',
+  },
+  'Move from D1 to D9, D10, dasha, yogas, karma, and remedies.': {
+    hi: 'D1 से D9, D10, dasha, yogas, karma और remedies तक जाएं.',
+    gu: 'D1 થી D9, D10, dasha, yogas, karma અને remedies સુધી જાઓ.',
+  },
+  'Predicta chat': {
+    hi: 'Predicta chat',
+    gu: 'Predicta chat',
+  },
+  'Ask from a chart, report, or saved profile.': {
+    hi: 'Chart, report या saved profile से पूछें.',
+    gu: 'Chart, report અથવા saved profile પરથી પૂછો.',
+  },
+  'Report depth': {
+    hi: 'Report depth',
+    gu: 'Report depth',
+  },
+  'Create polished free previews and deeper premium reports.': {
+    hi: 'Polished free previews और deeper premium reports बनाएं.',
+    gu: 'Polished free previews અને deeper premium reports બનાવો.',
+  },
+  'CORE INTELLIGENCE': {
+    hi: 'मुख्य बुद्धिमत्ता',
+    gu: 'મુખ્ય બુદ્ધિ',
+  },
+  'Depth without noise.': {
+    hi: 'शोर के बिना गहराई.',
+    gu: 'શોર વિના ઊંડાણ.',
+  },
+  'Predicta keeps advanced Vedic depth available while explaining only what helps.':
+    {
+      hi: 'Predicta advanced Vedic depth रखती है, लेकिन समझाती वही है जो सच में मदद करे.',
+      gu: 'Predicta advanced Vedic depth રાખે છે, પણ સમજાવે એટલું જ જે ખરેખર મદદ કરે.',
+    },
+  'Professional chart awareness, presented clearly.': {
+    hi: 'पेशेवर चार्ट समझ, साफ तरीके से.',
+    gu: 'વ્યાવસાયિક ચાર્ટ સમજ, સ્પષ્ટ રીતે.',
+  },
+  'Predicta reads dasha, placements, chart sections, Panchang, Purushartha, and remedy context without turning the reading into jargon.':
+    {
+      hi: 'Predicta dasha, placements, chart sections, Panchang, Purushartha और remedy context पढ़ती है, बिना reading को jargon बनाने के.',
+      gu: 'Predicta dasha, placements, chart sections, Panchang, Purushartha અને remedy context વાંચે છે, reading ને jargon બનાવ્યા વિના.',
+    },
+  'Holistic astrology synthesis': {
+    hi: 'होलिस्टिक ज्योतिष synthesis',
+    gu: 'હોલિસ્ટિક જ્યોતિષ synthesis',
+  },
+  'Divisional chart awareness': {
+    hi: 'विभागीय चार्ट समझ',
+    gu: 'વિભાગીય ચાર્ટ સમજ',
+  },
+  'Vimshottari dasha timing': {
+    hi: 'विम्शोत्तरी दशा timing',
+    gu: 'વિમ્શોત્તરી દશા timing',
+  },
+  'Karma-based remedy paths': {
+    hi: 'कर्म-आधारित remedy paths',
+    gu: 'કર્મ-આધારિત remedy paths',
+  },
+  'Yoga and Ashtakavarga summaries': {
+    hi: 'Yoga और Ashtakavarga summaries',
+    gu: 'Yoga અને Ashtakavarga summaries',
+  },
+  'PREMIUM REPORTS': {
+    hi: 'प्रीमियम रिपोर्ट',
+    gu: 'પ્રીમિયમ રિપોર્ટ',
+  },
+  'Share-worthy reports, even in free mode.': {
+    hi: 'Free mode में भी share-worthy reports.',
+    gu: 'Free mode માં પણ share-worthy reports.',
+  },
+  'Reports should feel personal, polished, and easy to read.': {
+    hi: 'Reports personal, polished और पढ़ने में आसान लगनी चाहिए.',
+    gu: 'Reports personal, polished અને વાંચવામાં સરળ લાગવી જોઈએ.',
+  },
+  'PREDICTA DOSSIER': {
+    hi: 'PREDICTA DOSSIER',
+    gu: 'PREDICTA DOSSIER',
+  },
+  'Birth Details · D1 · D9 · D10 · Dasha · Guidance': {
+    hi: 'Birth Details · D1 · D9 · D10 · Dasha · Guidance',
+    gu: 'Birth Details · D1 · D9 · D10 · Dasha · Guidance',
+  },
+  'Free and Premium reports share the same visual quality. Premium adds depth, not dignity.':
+    {
+      hi: 'Free और Premium reports की visual quality same रहती है. Premium dignity नहीं, depth add करता है.',
+      gu: 'Free અને Premium reports ની visual quality same રહે છે. Premium dignity નહીં, depth add કરે છે.',
+    },
+  'Designed to feel personal and calm.': {
+    hi: 'Personal और calm feel के लिए designed.',
+    gu: 'Personal અને calm feel માટે designed.',
+  },
+  'Summaries, predictions, and guidance stay polished in both short and deeper reports.':
+    {
+      hi: 'Short और deeper reports दोनों में summaries, predictions और guidance polished रहती है.',
+      gu: 'Short અને deeper reports બંનેમાં summaries, predictions અને guidance polished રહે છે.',
+    },
+  'Preview Report': {
+    hi: 'Report preview देखें',
+    gu: 'Report preview જુઓ',
+  },
+  'PLANS': {
+    hi: 'प्लान',
+    gu: 'પ્લાન',
+  },
+  'Start free, try a Day Pass, or move into Premium when deeper report and guidance limits matter.':
+    {
+      hi: 'Free start करें, Day Pass try करें, या जब deeper report और guidance limits matter करें तब Premium लें.',
+      gu: 'Free start કરો, Day Pass try કરો, અથવા deeper report અને guidance limits matter કરે ત્યારે Premium લો.',
+    },
+  'Start calmly': {
+    hi: 'शांत शुरुआत करें',
+    gu: 'શાંતિથી શરૂઆત કરો',
+  },
+  'Core kundli, saved profiles, and a premium-looking free report.': {
+    hi: 'Core kundli, saved profiles और premium-looking free report.',
+    gu: 'Core kundli, saved profiles અને premium-looking free report.',
+  },
+  '₹1,999 / year': {
+    hi: '₹1,999 / वर्ष',
+    gu: '₹1,999 / વર્ષ',
+  },
+  'Deeper report depth, expanded guidance, and richer chart insight.': {
+    hi: 'Deeper report depth, expanded guidance और richer chart insight.',
+    gu: 'Deeper report depth, expanded guidance અને richer chart insight.',
+  },
+  'Try Premium depth for 24 hours without a subscription.': {
+    hi: 'Subscription के बिना 24 hours के लिए Premium depth try करें.',
+    gu: 'Subscription વિના 24 hours માટે Premium depth try કરો.',
+  },
+  'Monthly access begins at ₹299. Premium adds depth and convenience, not guaranteed outcomes.':
+    {
+      hi: 'Monthly access ₹299 से शुरू होता है. Premium depth और convenience add करता है, guaranteed outcomes नहीं.',
+      gu: 'Monthly access ₹299 થી શરૂ થાય છે. Premium depth અને convenience add કરે છે, guaranteed outcomes નહીં.',
+    },
+  'BEGIN WITH CLARITY': {
+    hi: 'CLARITY से शुरू करें',
+    gu: 'CLARITY થી શરૂઆત કરો',
+  },
+  'Depth without overwhelm. Guidance that stays grounded.': {
+    hi: 'Overwhelm के बिना depth. Guidance जो grounded रहती है.',
+    gu: 'Overwhelm વિના depth. Guidance જે grounded રહે છે.',
+  },
+  'Start Your Journey': {
+    hi: 'अपनी journey शुरू करें',
+    gu: 'તમારી journey શરૂ કરો',
+  },
+  'No unlimited claims': {
+    hi: 'Unlimited claims नहीं',
+    gu: 'Unlimited claims નથી',
+  },
+  'Premium unlocks deeper guidance, higher limits, and richer report depth without fear-based promises.':
+    {
+      hi: 'Premium fear-based promises के बिना deeper guidance, higher limits और richer report depth unlock करता है.',
+      gu: 'Premium fear-based promises વિના deeper guidance, higher limits અને richer report depth unlock કરે છે.',
+    },
+  'One-time paths': {
+    hi: 'One-time paths',
+    gu: 'One-time paths',
+  },
+  'PREMIUM STORY': {
+    hi: 'PREMIUM STORY',
+    gu: 'PREMIUM STORY',
+  },
+  'Premium should feel like a private Jyotish studio, not a meter running in the background.':
+    {
+      hi: 'Premium को private Jyotish studio जैसा feel होना चाहिए, background में चल रहे meter जैसा नहीं.',
+      gu: 'Premium private Jyotish studio જેવું feel થવું જોઈએ, background માં ચાલતા meter જેવું નહીં.',
+    },
+  'Premium answers show chart factors, confidence, and timing context.': {
+    hi: 'Premium answers chart factors, confidence और timing context दिखाते हैं.',
+    gu: 'Premium answers chart factors, confidence ane timing context batave chhe.',
+  },
+  'A month-by-month dasha and transit calendar.': {
+    hi: 'Month-by-month dasha और transit calendar.',
+    gu: 'Month-by-month dasha ane transit calendar.',
+  },
+  'Store multiple family Kundlis and compare them privately.': {
+    hi: 'Multiple family Kundlis save करें और privately compare करें.',
+    gu: 'Multiple family Kundlis save karo ane privately compare karo.',
+  },
+  'Focused bundles for Kundli, Career, Marriage, Wealth, Child, and Remedies.':
+    {
+      hi: 'Kundli, Career, Marriage, Wealth, Child और Remedies के focused bundles.',
+      gu: 'Kundli, Career, Marriage, Wealth, Child ane Remedies mate focused bundles.',
+    },
+  'Reveal varga, dasha, transit, ashtakavarga, and evidence tables.': {
+    hi: 'Varga, dasha, transit, ashtakavarga और evidence tables खोलें.',
+    gu: 'Varga, dasha, transit, ashtakavarga ane evidence tables kholo.',
+  },
+  'Life Calendar': {
+    hi: 'Life Calendar',
+    gu: 'Life Calendar',
+  },
+  'Premium report bundles': {
+    hi: 'Premium report bundles',
+    gu: 'Premium report bundles',
+  },
+  'Astrologer-grade mode': {
+    hi: 'Astrologer-grade mode',
+    gu: 'Astrologer-grade mode',
+  },
+  'Weekly': {
+    hi: 'Weekly',
+    gu: 'Weekly',
+  },
+  'Monthly': {
+    hi: 'Monthly',
+    gu: 'Monthly',
+  },
+  'Quarterly': {
+    hi: 'Quarterly',
+    gu: 'Quarterly',
+  },
+  'Yearly': {
+    hi: 'Yearly',
+    gu: 'Yearly',
+  },
+  'Founder price': {
+    hi: 'Founder price',
+    gu: 'Founder price',
+  },
+  'Try Premium depth for one day without a subscription.': {
+    hi: 'Subscription के बिना एक दिन के लिए Premium depth try करें.',
+    gu: 'Subscription વિના એક દિવસ માટે Premium depth try કરો.',
+  },
+  'Add 5 Predicta questions when you need more guidance.': {
+    hi: 'जब ज्यादा guidance चाहिए हो, 5 Predicta questions add करें.',
+    gu: 'વધુ guidance જોઈએ ત્યારે 5 Predicta questions add કરો.',
+  },
+  'Unlock one premium-depth PDF for the active kundli.': {
+    hi: 'Selected kundli के लिए एक premium-depth PDF unlock करें.',
+    gu: 'Selected kundli mate ek premium-depth PDF unlock karo.',
+  },
+  'Generate one deeper kundli dossier for the active kundli.': {
+    hi: 'Selected kundli के लिए एक deeper kundli dossier बनाएं.',
+    gu: 'Selected kundli mate ek deeper kundli dossier banao.',
+  },
+  'Focused two-chart relationship and marriage timing report.': {
+    hi: 'Focused two-chart relationship और marriage timing report.',
+    gu: 'Focused two-chart relationship ane marriage timing report.',
+  },
+  '5 Predicta Questions': {
+    hi: '5 Predicta Questions',
+    gu: '5 Predicta Questions',
+  },
+  'Detailed Kundli Report': {
+    hi: 'Detailed Kundli Report',
+    gu: 'Detailed Kundli Report',
+  },
+  'Marriage Compatibility Report': {
+    hi: 'Marriage Compatibility Report',
+    gu: 'Marriage Compatibility Report',
+  },
+  'Clear limits, no fear selling.': {
+    hi: 'Clear limits, fear selling नहीं.',
+    gu: 'Clear limits, fear selling નહીં.',
+  },
+  'Predicta Premium is deeper astrology guidance, not medical, legal, financial, or emergency advice. Subscriptions and one-time reports should stay clear before purchase.':
+    {
+      hi: 'Predicta Premium deeper astrology guidance है, medical, legal, financial या emergency advice नहीं. Subscription और one-time reports purchase से पहले clear रहने चाहिए.',
+      gu: 'Predicta Premium deeper astrology guidance છે, medical, legal, financial અથવા emergency advice નથી. Subscription અને one-time reports purchase પહેલાં clear હોવા જોઈએ.',
+    },
+  'Read Policies': {
+    hi: 'Policies पढ़ें',
+    gu: 'Policies વાંચો',
+  },
+  'Public policies': {
+    hi: 'Public policies',
+    gu: 'Public policies',
+  },
+  'Trust, safety, and terms.': {
+    hi: 'Trust, safety और terms.',
+    gu: 'Trust, safety અને terms.',
+  },
+  'Predicta keeps astrology reflective, privacy-first, and clearly separated from medical, legal, financial, or emergency advice.':
+    {
+      hi: 'Predicta astrology को reflective, privacy-first और medical, legal, financial या emergency advice से clearly separate रखती है.',
+      gu: 'Predicta astrology ને reflective, privacy-first અને medical, legal, financial અથવા emergency advice થી clearly separate રાખે છે.',
+    },
+  'These policies explain Predicta’s boundaries. Local legal review may still be needed before wider public launch.':
+    {
+      hi: 'ये policies Predicta की boundaries समझाती हैं. Wider public launch से पहले local legal review अभी भी needed हो सकता है.',
+      gu: 'આ policies Predicta ની boundaries સમજાવે છે. Wider public launch પહેલાં local legal review હજી પણ needed હોઈ શકે છે.',
+    },
+  'Back to Pricing': {
+    hi: 'Pricing पर वापस',
+    gu: 'Pricing પર પાછા',
+  },
+  'Owner access required': {
+    hi: 'Owner access required',
+    gu: 'Owner access required',
+  },
+  'Guest pass operations.': {
+    hi: 'Guest pass operations.',
+    gu: 'Guest pass operations.',
+  },
+  'Create, revoke, list, and review private guest passes.': {
+    hi: 'Private guest passes create, revoke, list और review करें.',
+    gu: 'Private guest passes create, revoke, list અને review કરો.',
+  },
+  'Stable / Needs checking / Unreliable': {
+    hi: 'Stable / Checking चाहिए / Unreliable',
+    gu: 'Stable / Checking જોઈએ / Unreliable',
+  },
+  'Know when the chart can be trusted.': {
+    hi: 'जानें chart पर कब भरोसा किया जा सकता है.',
+    gu: 'જાણો chart પર ક્યારે trust કરી શકાય.',
+  },
+  'Check birth-time confidence with simple life-event questions.': {
+    hi: 'Simple life-event questions से birth-time confidence check करें.',
+    gu: 'Simple life-event questions થી birth-time confidence check કરો.',
+  },
+  'North Indian chart style': {
+    hi: 'North Indian chart style',
+    gu: 'North Indian chart style',
+  },
+  'See your chart without getting lost.': {
+    hi: 'Confuse हुए बिना अपना chart देखें.',
+    gu: 'Confuse થયા વિના તમારો chart જુઓ.',
+  },
+  'Free users can open every chart with useful insight. Premium adds deeper analysis, timing, and report-ready synthesis.':
+    {
+      hi: 'Free users हर chart useful insight के साथ खोल सकते हैं. Premium deeper analysis, timing और report-ready synthesis add करता है.',
+      gu: 'Free users દરેક chart useful insight સાથે ખોલી શકે છે. Premium deeper analysis, timing અને report-ready synthesis add કરે છે.',
+    },
+  'Private guidance': {
+    hi: 'Private guidance',
+    gu: 'Private guidance',
+  },
+  'Ask Predicta with room to breathe.': {
+    hi: 'Predicta से आराम से पूछें.',
+    gu: 'Predicta ને આરામથી પૂછો.',
+  },
+  'A focused place for thoughtful questions, clear answers, and calm follow-up guidance.':
+    {
+      hi: 'Thoughtful questions, clear answers और calm follow-up guidance के लिए focused जगह.',
+      gu: 'Thoughtful questions, clear answers અને calm follow-up guidance માટે focused જગ્યા.',
+    },
+  'Green / Yellow / Red / Wait': {
+    hi: 'Green / Yellow / Red / Wait',
+    gu: 'Green / Yellow / Red / Wait',
+  },
+  'A serious memo for real choices.': {
+    hi: 'Real choices के लिए serious memo.',
+    gu: 'Real choices માટે serious memo.',
+  },
+  'Turn one question into timing, risk, chart proof, and a practical next step.':
+    {
+      hi: 'एक question को timing, risk, chart proof और practical next step में बदलें.',
+      gu: 'એક question ને timing, risk, chart proof અને practical next step માં ફેરવો.',
+    },
+  'Household pattern map': {
+    hi: 'Household pattern map',
+    gu: 'Household pattern map',
+  },
+  'Turn family patterns into care.': {
+    hi: 'Family patterns को care में बदलें.',
+    gu: 'Family patterns ને care માં ફેરવો.',
+  },
+  'Compare saved Kundlis for repeated themes, support zones, and care.':
+    {
+      hi: 'Repeated themes, support zones और care के लिए saved Kundlis compare करें.',
+      gu: 'Repeated themes, support zones અને care માટે saved Kundlis compare કરો.',
+    },
+  'Holistic astrology rooms.': {
+    hi: 'Holistic astrology rooms.',
+    gu: 'Holistic astrology rooms.',
+  },
+  'Today, karma remedies, life balance, and timing in simple holistic astrology rooms.':
+    {
+      hi: 'Today, karma remedies, life balance और timing simple holistic astrology rooms में.',
+      gu: 'Today, karma remedies, life balance અને timing simple holistic astrology rooms માં.',
+    },
+  'START ROOM': {
+    hi: 'START ROOM',
+    gu: 'START ROOM',
+  },
+  'Practice': {
+    hi: 'Practice',
+    gu: 'Practice',
+  },
+  'CLEAR BOUNDARIES': {
+    hi: 'CLEAR BOUNDARIES',
+    gu: 'CLEAR BOUNDARIES',
+  },
+  'Grounded, not fatalistic.': {
+    hi: 'Grounded, fatalistic नहीं.',
+    gu: 'Grounded, fatalistic નહીં.',
+  },
+  'Start here': {
+    hi: 'यहां शुरू करें',
+    gu: 'અહીં શરૂ કરો',
+  },
+  'Enter birth details once. Predicta then opens your chart, summary, chat, timeline, remedies, and reports in order.':
+    {
+      hi: 'Birth details एक बार डालें. फिर Predicta आपका chart, summary, chat, timeline, remedies और reports क्रम से खोलती है.',
+      gu: 'Birth details એક વાર નાખો. પછી Predicta tamaro chart, summary, chat, timeline, remedies ane reports ક્રમથી ખોલે છે.',
+    },
+  'Premium without pressure': {
+    hi: 'Pressure के बिना Premium',
+    gu: 'Pressure વિના Premium',
+  },
+  'Go deeper when the free reading helps.': {
+    hi: 'Free reading helpful लगे तो deeper जाएं.',
+    gu: 'Free reading helpful લાગે તો deeper જાઓ.',
+  },
+  'Premium turns holistic astrology into deeper timing, richer reports, family context, and longer Predicta guidance.':
+    {
+      hi: 'Premium holistic astrology को deeper timing, richer reports, family context और longer Predicta guidance में बदलता है.',
+      gu: 'Premium holistic astrology ને deeper timing, richer reports, family context અને longer Predicta guidance માં ફેરવે છે.',
+    },
+  'WHY PREMIUM': {
+    hi: 'WHY PREMIUM',
+    gu: 'WHY PREMIUM',
+  },
+  'Predicta becomes your private Jyotish studio.': {
+    hi: 'Predicta आपका private Jyotish studio बन जाती है.',
+    gu: 'Predicta tamaru private Jyotish studio बनी જાય છે.',
+  },
+  'Free stays useful. Premium adds depth, memory, timing maps, remedies, reports, and higher guidance limits.':
+    {
+      hi: 'Free useful रहता है. Premium depth, memory, timing maps, remedies, reports और higher guidance limits add करता है.',
+      gu: 'Free useful રહે છે. Premium depth, memory, timing maps, remedies, reports ane higher guidance limits add કરે છે.',
+    },
+  'Review Checkout Options': {
+    hi: 'Checkout options देखें',
+    gu: 'Checkout options જુઓ',
+  },
+  'Try depth before subscribing.': {
+    hi: 'Subscribe करने से पहले depth try करें.',
+    gu: 'Subscribe કરતા પહેલા depth try કરો.',
+  },
+  'Sign in with the email approved for your pass, then enter the code. If the email does not match, the pass will stay locked.':
+    {
+      hi: 'Pass के लिए approved email से sign in करें, फिर code डालें. Email match नहीं हुआ तो pass locked रहेगा.',
+      gu: 'Pass માટે approved email થી sign in કરો, પછી code નાખો. Email match નહીં થાય તો pass locked રહેશે.',
+    },
+  'Two-chart comparison': {
+    hi: 'Two-chart comparison',
+    gu: 'Two-chart comparison',
+  },
+  'A mirror for real relationships.': {
+    hi: 'Real relationships के लिए mirror.',
+    gu: 'Real relationships માટે mirror.',
+  },
+  'Compare two Kundlis across emotion, communication, commitment, conflict, and timing.':
+    {
+      hi: 'Emotion, communication, commitment, conflict और timing पर दो Kundlis compare करें.',
+      gu: 'Emotion, communication, commitment, conflict ane timing પર બે Kundlis compare કરો.',
+    },
+  'Local-first practice tracking': {
+    hi: 'Private practice tracking',
+    gu: 'Private practice tracking',
+  },
+  'Remedies without fear.': {
+    hi: 'डर के बिना remedies.',
+    gu: 'ડર વિના remedies.',
+  },
+  'Small chart-backed practices with tracking, review points, and clear stop rules.':
+    {
+      hi: 'Tracking, review points और clear stop rules के साथ छोटे chart-backed practices.',
+      gu: 'Tracking, review points ane clear stop rules સાથે નાના chart-backed practices.',
+    },
+  'Report marketplace': {
+    hi: 'Report marketplace',
+    gu: 'Report marketplace',
+  },
+  'Pick the report you actually need.': {
+    hi: 'जो report सच में चाहिए, वही चुनें.',
+    gu: 'જે report ખરેખર જોઈએ છે, એ પસંદ કરો.',
+  },
+  'Start with a useful free preview. Go deeper only when you want timing, remedies, chart proof, or a polished PDF.':
+    {
+      hi: 'Useful free preview से start करें. Timing, remedies, chart proof या polished PDF चाहिए तभी deeper जाएं.',
+      gu: 'Useful free preview થી start કરો. Timing, remedies, chart proof અથવા polished PDF જોઈએ ત્યારે જ deeper જાઓ.',
+    },
+  'See deeper report options': {
+    hi: 'Deeper report options देखें',
+    gu: 'Deeper report options જુઓ',
+  },
+  'Ask from report': {
+    hi: 'Report से पूछें',
+    gu: 'Report પરથી પૂછો',
+  },
+  'Saved privately': {
+    hi: 'Private save',
+    gu: 'Private save',
+  },
+  'Your Kundlis stay easy to find.': {
+    hi: 'आपकी Kundlis आसानी से मिलती रहें.',
+    gu: 'Tamari Kundlis સહેલાઈથી મળે.',
+  },
+  'Predicta keeps this browser profile ready. Sign in when you want to keep your Kundlis across devices.':
+    {
+      hi: 'Predicta इस browser profile को ready रखती है. Devices के across Kundlis रखने के लिए sign in करें.',
+      gu: 'Predicta aa browser profile ready રાખે છે. Devices પર Kundlis રાખવા sign in કરો.',
+    },
+  'Settings that stay in your control.': {
+    hi: 'Settings आपके control में.',
+    gu: 'Settings tamara control ma.',
+  },
+  'Manage account access, private saving, sound, billing, and guest passes.':
+    {
+      hi: 'Account access, private saving, sound, billing और guest passes manage करें.',
+      gu: 'Account access, private saving, sound, billing ane guest passes manage કરો.',
+    },
+  'A simple map of chart timing.': {
+    hi: 'Chart timing का simple map.',
+    gu: 'Chart timing no simple map.',
+  },
+  'Dasha, gochar, remedies, and timing notes in one readable view.': {
+    hi: 'Dasha, gochar, remedies और timing notes एक readable view में.',
+    gu: 'Dasha, gochar, remedies ane timing notes ek readable view ma.',
+  },
+  'Share-safe preview artifact': {
+    hi: 'Share-safe preview',
+    gu: 'Share-safe preview',
+  },
+  'Your year, made beautiful.': {
+    hi: 'आपका year, सुंदर रूप में.',
+    gu: 'Tamaro year, સુંદર રીતે.',
+  },
+  'A private, share-safe view of your selected Kundli year.': {
+    hi: 'आपके selected Kundli year का private, share-safe view.',
+    gu: 'Tamara selected Kundli year no private, share-safe view.',
+  },
   'A personal daily briefing appears after real chart calculation.': {
     hi: 'Real chart calculation ke baad personal daily briefing dikhegi.',
     gu: 'Real chart calculation pachhi personal daily briefing dekhase.',
@@ -1063,8 +1657,8 @@ const UI_TRANSLATION_OVERRIDES: Record<string, UiTranslationEntry> = {
     gu: 'પ્રીમિયમ',
   },
   'Premium access without pressure.': {
-    hi: 'बिना दबाव का premium access.',
-    gu: 'દબાણ વિના premium access.',
+    hi: 'बिना दबाव का प्रीमियम access.',
+    gu: 'દબાણ વિના પ્રીમિયમ access.',
   },
   'Privacy Policy': {
     hi: 'Privacy Policy',
@@ -1135,11 +1729,6 @@ const UI_TRANSLATION_OVERRIDES: Record<string, UiTranslationEntry> = {
     hi: 'पहले approved email से sign in करें.',
     gu: 'પહેલા approved email થી sign in કરો.',
   },
-  'Sign in with the email approved for your pass, then enter the code. If the email does not match, the pass will stay locked.':
-    {
-      hi: 'Pass ke liye approved email se sign in karein, phir code daalein. Email match nahi hua to pass locked rahega.',
-      gu: 'Pass mate approved email thi sign in karo, pachi code nakho. Email match nahi thay to pass locked raheshe.',
-    },
   'Spirituality': {
     hi: 'आध्यात्मिकता',
     gu: 'આધ્યાત્મિકતા',
