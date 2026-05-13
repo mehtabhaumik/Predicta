@@ -44,7 +44,7 @@ The experience is intentionally:
 | Web | Next.js App Router, TypeScript | Desktop-first dashboard and landing experience |
 | Workspace | pnpm workspaces, Turborepo | Shared development, build, and package orchestration |
 | Shared Logic | `packages/*` | Types, pricing, access, astrology, AI, PDF, Firebase contracts, tokens, utilities |
-| Backend | Swiss Ephemeris API service | Real Vedic astrology calculation contract |
+| Backend | FastAPI + Swiss Ephemeris + Firebase Admin | Real kundli calculation and trusted admin/access authority |
 
 ---
 
@@ -67,11 +67,26 @@ packages/
   ui-tokens/     Brand colors, gradients, spacing, glow, motion
   utils/         Hashing, serialization, dates, formatting
 
-backend/         Astrology service foundation
+backend/         Astrology and admin authority service foundation
 ```
 
 Shared packages hold product rules and contracts. Platform-specific UI and
 native/web adapters stay inside the app that owns that platform.
+
+---
+
+## Documentation
+
+Start here for the main internal reference surfaces:
+
+- [`docs/PREDICTA_AI_AGENT_INGEST.md`](./docs/PREDICTA_AI_AGENT_INGEST.md)
+  Detailed source-of-truth brief for AI agents, internal assistants, and
+  documentation tooling. Use this when an agent must understand Predicta's
+  product scope, differentiators, implementation reality, AI behavior, access
+  rules, and answer guardrails.
+- [`docs/README.md`](./docs/README.md)
+  Documentation index for backend authority, deployment, release hardening, and
+  product roadmap documents.
 
 ---
 
@@ -209,4 +224,3 @@ See [`LICENSE.md`](./LICENSE.md) for the full proprietary license notice.
 
 **Bhaumik Mehta**  
 Founder and owner of Predicta.
-
