@@ -9,7 +9,10 @@ import {
 const ACTIVE_KUNDLI_KEY = 'pridicta.activeKundli.v1';
 const SAVED_KUNDLIS_KEY = 'pridicta.savedKundlis.v1';
 const WEB_KUNDLI_STORE_KEY = 'pridicta.webKundliStore.v1';
+const GOCHAR_REFRESH_PREFIX = 'pridicta.gocharRefreshAttempt.v1';
 export const WEB_KUNDLI_UPDATED_EVENT = 'pridicta:web-kundli-updated';
+
+const gocharRefreshes = new Map<string, Promise<KundliData | undefined>>();
 
 export type WebKundliStore = {
   activeChartContext?: ChartContext;
@@ -99,6 +102,49 @@ export function setActiveWebKundli(kundli: KundliData): void {
     activeKundliId: kundli.id,
     savedKundlis: dedupeKundlis([kundli, ...current.savedKundlis]),
   });
+}
+
+export async function refreshWebKundliGocharIfNeeded(
+  kundli?: KundliData,
+): Promise<KundliData | undefined> {
+  if (!kundli || isKundliGocharFreshToday(kundli)) {
+    return kundli;
+  }
+
+  const refreshKey = `${kundli.id}:${getLocalDateKey()}`;
+  const existing = gocharRefreshes.get(refreshKey);
+
+  if (existing) {
+    return existing;
+  }
+
+  if (wasGocharRefreshAttemptedRecently(refreshKey)) {
+    return kundli;
+  }
+
+  const refresh = generateKundliFromWeb(kundli.birthDetails)
+    .then(nextKundli => {
+      markGocharRefreshAttempt(refreshKey);
+      return nextKundli;
+    })
+    .catch(() => {
+      markGocharRefreshAttempt(refreshKey);
+      return kundli;
+    })
+    .finally(() => {
+      gocharRefreshes.delete(refreshKey);
+    });
+
+  gocharRefreshes.set(refreshKey, refresh);
+
+  return refresh;
+}
+
+export function isKundliGocharFreshToday(kundli: KundliData): boolean {
+  const calculatedAt =
+    kundli.transits?.[0]?.calculatedAt ?? kundli.calculationMeta?.calculatedAt;
+
+  return calculatedAt ? getLocalDateKey(calculatedAt) === getLocalDateKey() : false;
 }
 
 export function saveWebActiveChartContext(
@@ -211,6 +257,42 @@ function dedupeKundlis(kundlis: KundliData[]): KundliData[] {
   }
 
   return result;
+}
+
+function getLocalDateKey(value?: string): string {
+  const date = value ? new Date(value) : new Date();
+
+  if (Number.isNaN(date.getTime())) {
+    return getLocalDateKey();
+  }
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+
+function wasGocharRefreshAttemptedRecently(refreshKey: string): boolean {
+  try {
+    const raw = localStorage.getItem(`${GOCHAR_REFRESH_PREFIX}:${refreshKey}`);
+    const timestamp = raw ? Number(raw) : 0;
+
+    return timestamp > 0 && Date.now() - timestamp < 5 * 60 * 1000;
+  } catch {
+    return false;
+  }
+}
+
+function markGocharRefreshAttempt(refreshKey: string): void {
+  try {
+    localStorage.setItem(
+      `${GOCHAR_REFRESH_PREFIX}:${refreshKey}`,
+      String(Date.now()),
+    );
+  } catch {
+    // Daily Gochar still works in memory if browser storage is unavailable.
+  }
 }
 
 async function readErrorMessage(response: Response): Promise<string> {

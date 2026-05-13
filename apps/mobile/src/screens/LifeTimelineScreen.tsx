@@ -18,6 +18,7 @@ import {
   composeYearlyHoroscopeVarshaphal,
 } from '@pridicta/astrology';
 import { routes } from '../navigation/routes';
+import { refreshKundliGocharIfNeeded } from '../services/astrology/gocharRefresh';
 import type { RootScreenProps } from '../navigation/types';
 import { useAppStore } from '../store/useAppStore';
 import type { LifeTimelineEventView } from '../types/astrology';
@@ -29,6 +30,7 @@ export function LifeTimelineScreen({
   const setActiveChartContext = useAppStore(
     state => state.setActiveChartContext,
   );
+  const setActiveKundli = useAppStore(state => state.setActiveKundli);
   const presentation = composeLifeTimeline(kundli);
   const mahadasha = composeMahadashaIntelligence(kundli, { depth: 'FREE' });
   const sadeSati = composeSadeSatiIntelligence(kundli, { depth: 'FREE' });
@@ -80,6 +82,25 @@ export function LifeTimelineScreen({
     });
     navigation.navigate(routes.Chat);
   }
+
+  React.useEffect(() => {
+    let cancelled = false;
+
+    refreshKundliGocharIfNeeded(kundli).then(nextKundli => {
+      if (
+        !cancelled &&
+        nextKundli &&
+        nextKundli.transits?.[0]?.calculatedAt !==
+          kundli?.transits?.[0]?.calculatedAt
+      ) {
+        setActiveKundli(nextKundli);
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [kundli, setActiveKundli]);
 
   return (
     <Screen>

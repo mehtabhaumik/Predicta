@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import type { ChartContext, KundliData } from '@pridicta/types';
 import {
   loadWebKundliStore,
+  refreshWebKundliGocharIfNeeded,
   WEB_KUNDLI_UPDATED_EVENT,
 } from './web-kundli-storage';
 import type { WebGuestSession } from './web-guest-session';
@@ -35,6 +36,25 @@ export function useWebKundliLibrary(): WebKundliLibrary {
         guestSession: store.guestSession,
         savedKundlis: store.savedKundlis,
       });
+
+      refreshWebKundliGocharIfNeeded(store.activeKundli)
+        .then(nextKundli => {
+          if (
+            nextKundli &&
+            nextKundli.transits?.[0]?.calculatedAt !==
+              store.activeKundli?.transits?.[0]?.calculatedAt
+          ) {
+            const refreshedStore = loadWebKundliStore();
+            setLibrary({
+              activeChartContext: refreshedStore.activeChartContext,
+              activeKundli: refreshedStore.activeKundli,
+              activeKundliId: refreshedStore.activeKundliId,
+              guestSession: refreshedStore.guestSession,
+              savedKundlis: refreshedStore.savedKundlis,
+            });
+          }
+        })
+        .catch(() => undefined);
     }
 
     refresh();

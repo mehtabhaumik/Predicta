@@ -811,14 +811,16 @@ p {
 .sidebar {
   background: rgba(10, 10, 15, 0.68);
   border-color: var(--border-quiet);
+  height: 100vh;
+  overflow-y: auto;
   position: sticky;
   top: 0;
-  height: 100vh;
 }
 
 .sidebar {
   border-right: 1px solid var(--border-quiet);
-  padding: 30px 24px;
+  padding: 30px 24px 42px;
+  scrollbar-width: thin;
 }
 
 .dashboard-brand {
@@ -872,7 +874,7 @@ p {
 }
 
 .sidebar-note {
-  margin-top: 38px;
+  margin: 38px 0 0;
   padding: 18px;
 }
 
