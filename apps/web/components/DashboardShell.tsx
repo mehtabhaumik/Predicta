@@ -35,7 +35,7 @@ const navGroups: SidebarGroup[] = [
     label: 'Guidance',
     items: [
       { href: '/dashboard/timeline', label: 'Timeline' },
-      { href: '/dashboard/holistic', label: 'Holistic Rooms' },
+      { href: '/dashboard/holistic', label: 'Holistic Astrology' },
       { href: '/dashboard/remedies', label: 'Remedies' },
       { href: '/dashboard/birth-time', label: 'Birth Time' },
       { href: '/dashboard/relationship', label: 'Relationship' },
@@ -53,8 +53,12 @@ const navGroups: SidebarGroup[] = [
   {
     label: 'Account',
     items: [
+      { href: '/dashboard/premium', label: 'Premium' },
       { href: '/dashboard/redeem-pass', label: 'Redeem Pass' },
       { href: '/dashboard/settings', label: 'Settings' },
+      { href: '/safety', label: 'Safety Promise' },
+      { href: '/founder', label: 'Founder Vision' },
+      { href: '/legal', label: 'Legal' },
     ],
   },
 ];
@@ -89,7 +93,7 @@ export function DashboardShell({
               label={access.hasPremiumAccess ? 'Premium depth available' : accessText}
               tone={access.hasPremiumAccess ? 'premium' : 'quiet'}
             />
-            <p>Spacious guidance, reports, charts, and saved kundlis.</p>
+            <p>Holistic astrology guidance, reports, charts, and saved kundlis.</p>
           </div>
           <div className="dashboard-topbar-actions">
             <WebLanguageSelector compact />

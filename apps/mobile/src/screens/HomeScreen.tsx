@@ -16,6 +16,10 @@ import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import { PREDICTA_JOURNEY_STEPS } from '@pridicta/config/predictaUx';
 import {
+  SUPPORTED_LANGUAGE_OPTIONS,
+  getLanguageLabels,
+} from '@pridicta/config/language';
+import {
   composeDailyBriefing,
   composeDestinyPassport,
   composeHolisticDailyGuidance,
@@ -25,6 +29,7 @@ import {
   composeYearlyHoroscopeVarshaphal,
 } from '@pridicta/astrology';
 import { useAppStore } from '../store/useAppStore';
+import { saveLanguagePreference } from '../services/preferences/languagePreferenceStorage';
 import { colors } from '../theme/colors';
 import type { ChartContext, KundliData } from '../types/astrology';
 
@@ -53,25 +58,53 @@ const quickActions = [
   },
 ] as const;
 
-const toolLinks = [
-  ['Create Kundli', routes.Kundli],
-  ['Ask', routes.Chat],
-  ['Decision', routes.DecisionOracle],
-  ['Charts', routes.Charts],
-  ['KP', routes.KpPredicta],
-  ['Nadi', routes.NadiPredicta],
-  ['Holistic', routes.HolisticReadingRooms],
-  ['Timeline', routes.LifeTimeline],
-  ['Remedy', routes.RemedyCoach],
-  ['Birth Time', routes.BirthTimeDetective],
-  ['Relationship', routes.RelationshipMirror],
-  ['Family', routes.FamilyKarmaMap],
-  ['Wrapped', routes.PredictaWrapped],
-  ['Report', routes.Report],
-  ['Saved', routes.SavedKundlis],
-  ['Redeem', routes.RedeemPassCode],
-  ['Settings', routes.Settings],
-  ['Legal', routes.Legal],
+const navGroups = [
+  {
+    label: 'Start',
+    items: [
+      ['Create Kundli', routes.Kundli],
+      ['Chat', routes.Chat],
+      ['Decision', routes.DecisionOracle],
+    ],
+  },
+  {
+    label: 'Charts',
+    items: [
+      ['All Charts', routes.Charts],
+      ['KP Predicta', routes.KpPredicta],
+      ['Nadi Predicta', routes.NadiPredicta],
+    ],
+  },
+  {
+    label: 'Guidance',
+    items: [
+      ['Timeline', routes.LifeTimeline],
+      ['Holistic Astrology', routes.HolisticReadingRooms],
+      ['Remedies', routes.RemedyCoach],
+      ['Birth Time', routes.BirthTimeDetective],
+      ['Relationship', routes.RelationshipMirror],
+      ['Family', routes.FamilyKarmaMap],
+    ],
+  },
+  {
+    label: 'Saved Work',
+    items: [
+      ['Wrapped', routes.PredictaWrapped],
+      ['Reports', routes.Report],
+      ['Saved Kundlis', routes.SavedKundlis],
+    ],
+  },
+  {
+    label: 'Account',
+    items: [
+      ['Premium', routes.Paywall],
+      ['Redeem Pass', routes.RedeemPassCode],
+      ['Settings', routes.Settings],
+      ['Safety Promise', routes.SafetyPromise],
+      ['Founder Vision', routes.FounderVision],
+      ['Legal', routes.Legal],
+    ],
+  },
 ] as const;
 
 const focusCards = [
@@ -102,6 +135,9 @@ export function HomeScreen({
 }: RootScreenProps<typeof routes.Home>): React.JSX.Element {
   const kundli = useAppStore(state => state.activeKundli);
   const languagePreference = useAppStore(state => state.languagePreference);
+  const setLanguagePreference = useAppStore(
+    state => state.setLanguagePreference,
+  );
   const setActiveChartContext = useAppStore(
     state => state.setActiveChartContext,
   );
@@ -134,6 +170,13 @@ export function HomeScreen({
     navigation.navigate(routes.Chat);
   }
 
+  function chooseLanguage(language: typeof languagePreference.language) {
+    setLanguagePreference(language);
+    saveLanguagePreference(language).catch(() => undefined);
+  }
+
+  const languageLabels = getLanguageLabels(languagePreference.language);
+
   return (
     <Screen>
       <FloatingGlowOrb size={260} style={styles.orb} />
@@ -143,7 +186,7 @@ export function HomeScreen({
             Namaste{kundli ? `, ${kundli.birthDetails.name.split(' ')[0]}` : ''}
           </AppText>
           <GradientText variant="title">
-            {kundli ? 'Your astrology cockpit' : 'Start with your Kundli'}
+            {kundli ? 'Your holistic astrology cockpit' : 'Start with your Kundli'}
           </GradientText>
         </View>
         <View style={styles.logoShell}>
@@ -165,7 +208,7 @@ export function HomeScreen({
               {kundli?.birthDetails.name ?? 'Moment sky preview'}
             </AppText>
             <AppText className="mt-2" tone="secondary" variant="caption">
-              Life weather, dasha, Gochar, and chart focus.
+              Holistic astrology from life weather, dasha, Gochar, and chart focus.
             </AppText>
           </View>
           <View style={styles.cockpitBadge}>
@@ -294,7 +337,7 @@ export function HomeScreen({
 
         <View style={styles.purusharthaPanel}>
           <AppText tone="secondary" variant="caption">
-            LIFE BALANCE
+            HOLISTIC LIFE BALANCE
           </AppText>
           <AppText className="mt-1" variant="subtitle">
             {purushartha.dominant.label} leads now
@@ -331,6 +374,34 @@ export function HomeScreen({
                 <AppText className="mt-2" tone="secondary" variant="caption">
                   {axis.currentEmphasis}
                 </AppText>
+              </Pressable>
+            ))}
+          </View>
+        </View>
+
+        <View style={styles.languagePanel}>
+          <View>
+            <AppText tone="secondary" variant="caption">
+              {languageLabels.currentLanguage}
+            </AppText>
+            <AppText className="mt-1" variant="caption">
+              {languageLabels.language}
+            </AppText>
+          </View>
+          <View style={styles.languagePills}>
+            {SUPPORTED_LANGUAGE_OPTIONS.map(option => (
+              <Pressable
+                accessibilityRole="button"
+                key={option.code}
+                onPress={() => chooseLanguage(option.code)}
+                style={[
+                  styles.languagePill,
+                  languagePreference.language === option.code
+                    ? styles.languagePillActive
+                    : undefined,
+                ]}
+              >
+                <AppText variant="caption">{option.nativeName}</AppText>
               </Pressable>
             ))}
           </View>
@@ -503,26 +574,32 @@ export function HomeScreen({
       </View>
 
       <GlowCard className="mt-6" delay={260}>
-        <AppText tone="secondary" variant="caption">
-          CHOOSE ONE PATH
-        </AppText>
+        <AppText tone="secondary" variant="caption">APP MAP</AppText>
         <AppText className="mt-2" variant="subtitle">
-          What do you want help with?
+          Choose by intent.
         </AppText>
         <AppText className="mt-2" tone="secondary" variant="caption">
-          Create Kundli first for full readings. You can still open every
-          reading path from here.
+          The same grouped paths are available on web and mobile.
         </AppText>
-        <View className="mt-4 flex-row flex-wrap gap-3">
-          {toolLinks.map(([label, route]) => (
-            <Pressable
-              accessibilityRole="button"
-              key={label}
-              onPress={() => navigation.navigate(route as never)}
-              style={styles.toolChip}
-            >
-              <AppText variant="caption">{label}</AppText>
-            </Pressable>
+        <View className="mt-4 gap-5">
+          {navGroups.map(group => (
+            <View key={group.label}>
+              <AppText tone="secondary" variant="caption">
+                {group.label}
+              </AppText>
+              <View style={styles.navChipGrid}>
+                {group.items.map(([label, route]) => (
+                  <Pressable
+                    accessibilityRole="button"
+                    key={label}
+                    onPress={() => navigation.navigate(route as never)}
+                    style={styles.toolChip}
+                  >
+                    <AppText variant="caption">{label}</AppText>
+                  </Pressable>
+                ))}
+              </View>
+            </View>
           ))}
         </View>
       </GlowCard>
@@ -857,6 +934,33 @@ const styles = StyleSheet.create({
     marginTop: 16,
     padding: 12,
   },
+  languagePanel: {
+    alignItems: 'flex-start',
+    backgroundColor: colors.surfaceMuted,
+    borderColor: colors.border,
+    borderRadius: 10,
+    borderWidth: 1,
+    gap: 12,
+    marginTop: 16,
+    padding: 12,
+  },
+  languagePills: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  languagePill: {
+    backgroundColor: 'rgba(255,255,255,0.04)',
+    borderColor: colors.border,
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+  },
+  languagePillActive: {
+    backgroundColor: 'rgba(77,175,255,0.16)',
+    borderColor: colors.borderGlow,
+  },
   purusharthaTrack: {
     backgroundColor: 'rgba(255,255,255,0.08)',
     borderRadius: 999,
@@ -936,7 +1040,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 12,
     paddingVertical: 9,
-    width: '47%',
+    flexGrow: 1,
+    minWidth: '44%',
+  },
+  navChipGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    marginTop: 10,
   },
   mixedFill: {
     backgroundColor: '#FFC34D',

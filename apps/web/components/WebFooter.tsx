@@ -7,6 +7,7 @@ const footerSections = [
       { href: '/dashboard/kundli', label: 'Create Kundli' },
       { href: '/dashboard/charts', label: 'View Charts' },
       { href: '/dashboard/chat', label: 'Ask with Proof' },
+      { href: '/dashboard/holistic', label: 'Holistic Astrology' },
       { href: '/dashboard/saved-kundlis', label: 'Family Vault' },
     ],
   },
@@ -47,12 +48,12 @@ export function WebFooter({
             PREDICTA
           </Link>
           <p className="web-footer-tagline">
-            Create your Kundli. Understand your life. Ask better questions. Get
-            beautiful reports.
+            Create your Kundli. Understand your life through holistic astrology.
+            Ask better questions. Get beautiful reports.
           </p>
           <p className="web-footer-trust">
-            Vedic astrology guidance with chart proof, saved Kundlis, privacy
-            controls, and clear safety boundaries.
+            Vedic astrology guidance with chart proof, karma-based remedies,
+            saved Kundlis, privacy controls, and clear safety boundaries.
           </p>
         </div>
 

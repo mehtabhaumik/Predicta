@@ -69,8 +69,8 @@ export default function PricingPage(): React.JSX.Element {
             <div className="section-title">PREMIUM STORY</div>
             <h2>Create your Kundli. Understand your life. Ask better questions. Get beautiful reports.</h2>
             <p>
-              Premium should feel like a private Jyotish studio, not a token
-              counter.
+              Premium should feel like a private Jyotish studio, not a meter
+              running in the background.
             </p>
           </div>
           <div className="premium-feature-grid">

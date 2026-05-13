@@ -47,7 +47,7 @@ export function SidebarNav({
         />
         <span>
           <strong>PREDICTA</strong>
-          <small>Jyotish guide</small>
+          <small>Holistic astrology guide</small>
         </span>
       </Link>
       <nav aria-label="Dashboard navigation" className="nav-list">

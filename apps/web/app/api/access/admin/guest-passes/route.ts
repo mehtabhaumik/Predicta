@@ -1,6 +1,7 @@
 import {
   proxyAstroApiGet,
   proxyAstroApiRequest,
+  readJsonBody,
 } from '../../../../../lib/astro-api';
 
 function adminHeaders(request: Request): HeadersInit {
@@ -14,9 +15,15 @@ export async function GET(request: Request): Promise<Response> {
 }
 
 export async function POST(request: Request): Promise<Response> {
+  const payload = await readJsonBody(request);
+
+  if (!payload.ok) {
+    return payload.response;
+  }
+
   return proxyAstroApiRequest(
     '/access/admin/guest-passes',
-    await request.json(),
+    payload.body,
     adminHeaders(request),
   );
 }

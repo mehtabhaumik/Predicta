@@ -74,8 +74,7 @@ export function SplashScreen({
         <FadeInView className="mt-8 items-center" delay={120} duration={800}>
           <GradientText variant="display">Predicta</GradientText>
           <AppText className="mt-3 text-center" tone="secondary">
-            Calm spiritual intelligence for the decisions that need a clearer
-            signal.
+            Calm holistic astrology for the decisions that need a clearer signal.
           </AppText>
         </FadeInView>
       </View>

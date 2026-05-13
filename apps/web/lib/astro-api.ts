@@ -37,6 +37,34 @@ export async function proxyAstroApiRequest(
   });
 }
 
+export async function readJsonBody(
+  request: Request,
+): Promise<
+  | {
+      body: unknown;
+      ok: true;
+    }
+  | {
+      ok: false;
+      response: Response;
+    }
+> {
+  try {
+    return {
+      body: await request.json(),
+      ok: true,
+    };
+  } catch {
+    return {
+      ok: false,
+      response: Response.json(
+        { detail: 'Invalid request body. Please try again.' },
+        { status: 400 },
+      ),
+    };
+  }
+}
+
 export async function proxyAstroApiGet(
   path: string,
   headers?: HeadersInit,

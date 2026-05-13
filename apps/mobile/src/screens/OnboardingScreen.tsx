@@ -8,7 +8,7 @@ import { useAppStore } from '../store/useAppStore';
 
 const points = [
   'Ask focused questions and continue from where you left off.',
-  'Build kundli insights with clean, private session state.',
+  'Read holistic astrology through chart proof, timing, karma, and remedies.',
   'Review reports without leaving the dark workspace.',
 ];
 
@@ -26,10 +26,10 @@ export function OnboardingScreen({
 
   return (
     <Screen>
-      <AppText variant="display">Start with a clearer signal.</AppText>
+      <AppText variant="display">Start with holistic astrology.</AppText>
       <AppText className="mt-4" tone="secondary">
-        Predicta keeps your chat, kundli, reports, and preferences in a focused
-        dark interface built for repeat daily use.
+        Predicta keeps your chat, kundli, reports, and preferences in one calm
+        space built for repeat daily guidance.
       </AppText>
 
       <View className="mt-8 gap-4">

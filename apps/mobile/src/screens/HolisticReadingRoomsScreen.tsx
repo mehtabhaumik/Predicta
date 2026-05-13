@@ -35,13 +35,13 @@ export function HolisticReadingRoomsScreen({
     <Screen>
       <View>
         <AppText tone="secondary" variant="caption">
-          HOLISTIC READING ROOMS
+          HOLISTIC ASTROLOGY ROOMS
         </AppText>
         <GradientText className="mt-2" variant="title">
           Guided rooms for today, karma, balance, and timing.
         </GradientText>
         <AppText className="mt-3" tone="secondary">
-          Each room keeps the reading simple while using chart proof underneath.
+          Each holistic astrology room keeps the reading simple while using chart proof underneath.
         </AppText>
       </View>
 

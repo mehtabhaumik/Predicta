@@ -25,7 +25,7 @@ export function WebHeader(): React.JSX.Element {
         />
         <span>
           <strong>PREDICTA</strong>
-          <small>Vedic intelligence</small>
+          <small>Holistic astrology</small>
         </span>
       </Link>
       <nav aria-label="Primary navigation" className="header-nav">

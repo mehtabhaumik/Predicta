@@ -17,9 +17,9 @@ export default function HolisticRoomsPage(): React.JSX.Element {
           label={activeKundli ? 'Chart-aware rooms' : 'Create Kundli first'}
           tone={activeKundli ? 'premium' : 'quiet'}
         />
-        <h1 className="gradient-text">Holistic reading rooms.</h1>
+        <h1 className="gradient-text">Holistic astrology rooms.</h1>
         <p>
-          Today, karma remedies, life balance, and timing in simple guided rooms.
+          Today, karma remedies, life balance, and timing in simple holistic astrology rooms.
         </p>
       </div>
 

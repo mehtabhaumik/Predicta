@@ -16,6 +16,35 @@ const passTypes: PassCodeType[] = [
   'INTERNAL_TEST',
 ];
 
+const passTypeLabels: Record<PassCodeType, string> = {
+  FAMILY_PASS: 'Family pass',
+  GUEST_TRIAL: 'Guest trial',
+  INTERNAL_TEST: 'Private test',
+  INVESTOR_PASS: 'Investor preview',
+  VIP_REVIEW: 'VIP review',
+};
+
+const accessLevelLabels: Record<string, string> = {
+  FULL_ACCESS: 'Full access',
+  GUEST: 'Guest access',
+  VIP_GUEST: 'VIP guest access',
+};
+
+const reportKindLabels: Record<SafetyAuditEvent['reportKind'], string> = {
+  BLOCKED: 'Blocked answer',
+  HIGH_STAKES: 'Sensitive topic',
+  LOW_CONFIDENCE: 'Low confidence',
+  OUTPUT_REWRITTEN: 'Safer answer used',
+  USER_REPORTED: 'User reported',
+};
+
+const reviewStatusLabels: Record<SafetyAuditEvent['reviewStatus'], string> = {
+  DISMISSED: 'Dismissed',
+  IN_REVIEW: 'In review',
+  OPEN: 'Open',
+  RESOLVED: 'Resolved',
+};
+
 const readinessCopy: Record<string, string> = {
   'Model and prompt pins': 'Answer style is set',
   'Prompt safety contract': 'Safety promise is present',
@@ -273,7 +302,9 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
               value={draft.type}
             >
               {passTypes.map(type => (
-                <option key={type}>{type}</option>
+                <option key={type} value={type}>
+                  {passTypeLabels[type]}
+                </option>
               ))}
             </select>
             <select
@@ -281,9 +312,9 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
               onChange={event => setDraft(current => ({ ...current, accessLevel: event.target.value }))}
               value={draft.accessLevel}
             >
-              <option>GUEST</option>
-              <option>VIP_GUEST</option>
-              <option>FULL_ACCESS</option>
+              <option value="GUEST">Guest access</option>
+              <option value="VIP_GUEST">VIP guest access</option>
+              <option value="FULL_ACCESS">Full access</option>
             </select>
             <input
               aria-label="Max redemptions"
@@ -313,10 +344,10 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
         {passes.map(pass => (
           <article className="card" key={pass.codeId}>
             <div className="card-content">
-              <div className="section-title">{pass.type}</div>
+              <div className="section-title">{passTypeLabels[pass.type]}</div>
               <h2>{pass.label}</h2>
               <p>
-                {pass.label} · {pass.accessLevel} · {pass.redeemedByUserIds.length}/
+                {pass.label} · {accessLevelLabels[pass.accessLevel] ?? pass.accessLevel} · {pass.redeemedByUserIds.length}/
                 {pass.maxRedemptions} used
               </p>
               <button
@@ -389,8 +420,8 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
         {safetyReports.map(report => (
           <article className="card" key={report.id}>
             <div className="card-content">
-              <div className="section-title">{report.reportKind}</div>
-              <h2>{report.reviewStatus}</h2>
+              <div className="section-title">{reportKindLabels[report.reportKind]}</div>
+              <h2>{reviewStatusLabels[report.reviewStatus]}</h2>
               <p>
                 {report.createdAt} · {report.route}
               </p>

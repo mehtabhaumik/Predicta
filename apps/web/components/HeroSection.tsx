@@ -21,11 +21,11 @@ export function HeroSection(): React.JSX.Element {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div className="section-title">VEDIC ASTROLOGY + AI</div>
-        <h1>Your personal Vedic astrology companion</h1>
+        <div className="section-title">HOLISTIC VEDIC ASTROLOGY + AI</div>
+        <h1>Your personal holistic astrology companion</h1>
         <p>
-          Generate your kundli, explore deeper chart patterns, and ask Predicta
-          for calm, chart-aware guidance.
+          Generate your kundli, read chart proof, and ask Predicta for calm
+          holistic astrology guidance across timing, karma, remedies, and daily life.
         </p>
         <div className="hero-actions">
           <Link className="button" href="/dashboard">
@@ -51,10 +51,10 @@ export function HeroSection(): React.JSX.Element {
         </FloatingInsightCard>
         <FloatingInsightCard
           delay={0.38}
-          eyebrow="CURRENT DASHA"
-          title="Saturn / Mercury"
+          eyebrow="HOLISTIC TIMING"
+          title="Dasha + Gochar + Karma"
         >
-          Predicta keeps guidance focused so deep readings stay calm and clear.
+          Predicta joins timing, chart proof, and practical remedies without fear.
         </FloatingInsightCard>
       </div>
     </section>

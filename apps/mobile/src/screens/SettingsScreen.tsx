@@ -259,6 +259,18 @@ export function SettingsScreen({
             onPress={() => navigation.navigate(routes.Legal)}
           />
         </View>
+        <View className="mt-4">
+          <GlowButton
+            label="Safety Promise"
+            onPress={() => navigation.navigate(routes.SafetyPromise)}
+          />
+        </View>
+        <View className="mt-4">
+          <GlowButton
+            label="Founder Vision"
+            onPress={() => navigation.navigate(routes.FounderVision)}
+          />
+        </View>
       </GlowCard>
 
       <GlowCard className="mt-6" delay={420}>

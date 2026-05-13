@@ -14,6 +14,7 @@ import { ChatScreen } from '../screens/ChatScreen';
 import { ChartsScreen } from '../screens/ChartsScreen';
 import { DecisionOracleScreen } from '../screens/DecisionOracleScreen';
 import { FamilyKarmaMapScreen } from '../screens/FamilyKarmaMapScreen';
+import { FounderVisionScreen } from '../screens/FounderVisionScreen';
 import { HolisticReadingRoomsScreen } from '../screens/HolisticReadingRoomsScreen';
 import { HomeScreen } from '../screens/HomeScreen';
 import { KpPredictaScreen } from '../screens/KpPredictaScreen';
@@ -30,6 +31,7 @@ import { RemedyCoachScreen } from '../screens/RemedyCoachScreen';
 import { RelationshipMirrorScreen } from '../screens/RelationshipMirrorScreen';
 import { ReportScreen } from '../screens/ReportScreen';
 import { SavedKundlisScreen } from '../screens/SavedKundlisScreen';
+import { SafetyPromiseScreen } from '../screens/SafetyPromiseScreen';
 import { SecuritySetupScreen } from '../screens/SecuritySetupScreen';
 import { SettingsScreen } from '../screens/SettingsScreen';
 import { SplashScreen } from '../screens/SplashScreen';
@@ -96,7 +98,7 @@ export function RootNavigator(): React.JSX.Element {
         <Stack.Screen
           name={routes.HolisticReadingRooms}
           component={HolisticReadingRoomsScreen}
-          options={{ title: 'Holistic Rooms' }}
+          options={{ title: 'Holistic Astrology' }}
         />
         <Stack.Screen
           name={routes.BirthTimeDetective}
@@ -122,6 +124,11 @@ export function RootNavigator(): React.JSX.Element {
           name={routes.FamilyKarmaMap}
           component={FamilyKarmaMapScreen}
           options={{ title: 'Family Karma Map' }}
+        />
+        <Stack.Screen
+          name={routes.FounderVision}
+          component={FounderVisionScreen}
+          options={{ title: 'Founder Vision' }}
         />
         <Stack.Screen
           name={routes.Kundli}
@@ -172,6 +179,11 @@ export function RootNavigator(): React.JSX.Element {
           name={routes.SavedKundlis}
           component={SavedKundlisScreen}
           options={{ title: 'Saved Kundlis' }}
+        />
+        <Stack.Screen
+          name={routes.SafetyPromise}
+          component={SafetyPromiseScreen}
+          options={{ title: 'Safety Promise' }}
         />
         <Stack.Screen
           name={routes.Paywall}

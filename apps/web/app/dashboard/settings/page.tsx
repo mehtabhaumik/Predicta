@@ -77,7 +77,7 @@ export default function SettingsPage(): React.JSX.Element {
                   <strong>Premium</strong>
                   <span>Review plans, restore, or manage access.</span>
                 </div>
-                <Link className="button secondary" href="/pricing">
+                <Link className="button secondary" href="/dashboard/premium">
                   View Premium
                 </Link>
               </div>
@@ -142,6 +142,9 @@ export default function SettingsPage(): React.JSX.Element {
               experience.
             </p>
             <div className="action-row settings-actions">
+              <Link className="button secondary" href="/dashboard/premium">
+                View Premium
+              </Link>
               <button className="button secondary" type="button">
                 Restore Purchases
               </button>

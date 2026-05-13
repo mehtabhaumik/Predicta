@@ -1,5 +1,11 @@
-import { proxyAstroApiRequest } from '../../../../lib/astro-api';
+import { proxyAstroApiRequest, readJsonBody } from '../../../../lib/astro-api';
 
 export async function POST(request: Request): Promise<Response> {
-  return proxyAstroApiRequest('/access/guest-pass/redeem', await request.json());
+  const payload = await readJsonBody(request);
+
+  if (!payload.ok) {
+    return payload.response;
+  }
+
+  return proxyAstroApiRequest('/access/guest-pass/redeem', payload.body);
 }

@@ -107,11 +107,13 @@ export default function DashboardPage(): React.JSX.Element {
           tone={activeKundli ? 'premium' : 'quiet'}
         />
         <h1 className="gradient-text">
-          {activeKundli ? 'Your astrology cockpit.' : 'Start with your Kundli.'}
+          {activeKundli
+            ? 'Your holistic astrology cockpit.'
+            : 'Start with your Kundli.'}
         </h1>
         <p>
           {activeKundli
-            ? 'See today, timing, Gochar, and the best next chart focus.'
+            ? 'See today, timing, Gochar, remedies, and the best next chart focus.'
             : 'Create the chart, read the summary, then ask one clear question.'}
         </p>
       </div>

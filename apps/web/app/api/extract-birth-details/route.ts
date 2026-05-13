@@ -1,8 +1,14 @@
-import { proxyAstroApiRequest } from '../../../lib/astro-api';
+import { proxyAstroApiRequest, readJsonBody } from '../../../lib/astro-api';
 import type { BirthDetailsExtractionResult } from '@pridicta/types';
 
 export async function POST(request: Request): Promise<Response> {
-  const payload = (await request.json()) as { text?: unknown };
+  const json = await readJsonBody(request);
+
+  if (!json.ok) {
+    return json.response;
+  }
+
+  const payload = json.body as { text?: unknown };
   const text = String(payload.text ?? '');
   const rules = extractBirthDetailsWithRules(text);
 

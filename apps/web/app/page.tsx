@@ -9,12 +9,12 @@ import { WebHeader } from '../components/WebHeader';
 
 const capabilities = [
   {
-    body: 'Create Kundlis and choose when to save online.',
+    body: 'Create Kundlis and keep the reading anchored to real chart proof.',
     title: 'Kundli creation',
   },
   {
-    body: 'Move from D1 to D9, D10, dasha, yogas, and insight.',
-    title: 'Chart interpretation',
+    body: 'Move from D1 to D9, D10, dasha, yogas, karma, and remedies.',
+    title: 'Holistic interpretation',
   },
   {
     body: 'Ask from a chart, report, or saved profile.',
@@ -27,10 +27,11 @@ const capabilities = [
 ];
 
 const intelligence = [
+  'Holistic astrology synthesis',
   'Divisional chart awareness',
   'Vimshottari dasha timing',
+  'Karma-based remedy paths',
   'Yoga and Ashtakavarga summaries',
-  'Calm Predicta guidance',
 ];
 
 export default function LandingPage(): React.JSX.Element {
@@ -43,7 +44,7 @@ export default function LandingPage(): React.JSX.Element {
 
         <PremiumSectionWrapper
           eyebrow="WHAT PREDICTA DOES"
-          intro="Create, read, save, and discuss a Kundli without dashboard noise."
+          intro="Create, read, save, and discuss a Kundli through a holistic astrology lens."
           title="A complete astrology experience with room to breathe."
           variant="wide"
         >
@@ -68,8 +69,8 @@ export default function LandingPage(): React.JSX.Element {
             <div>
               <h3>Professional chart awareness, presented clearly.</h3>
               <p>
-                Predicta reads dasha, placements, chart sections, and follow-up
-                context without turning the reading into jargon.
+                Predicta reads dasha, placements, chart sections, Panchang,
+                Purushartha, and remedy context without turning the reading into jargon.
               </p>
             </div>
             <ul>

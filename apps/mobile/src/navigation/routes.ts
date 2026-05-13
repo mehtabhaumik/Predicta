@@ -9,6 +9,7 @@ export const routes = {
   Charts: 'Charts',
   DecisionOracle: 'DecisionOracle',
   FamilyKarmaMap: 'FamilyKarmaMap',
+  FounderVision: 'FounderVision',
   Kundli: 'Kundli',
   KpPredicta: 'KpPredicta',
   Legal: 'Legal',
@@ -19,6 +20,7 @@ export const routes = {
   RelationshipMirror: 'RelationshipMirror',
   Report: 'Report',
   SavedKundlis: 'SavedKundlis',
+  SafetyPromise: 'SafetyPromise',
   Paywall: 'Paywall',
   Login: 'Login',
   RedeemPassCode: 'RedeemPassCode',
@@ -37,6 +39,7 @@ export type RootStackParamList = {
   [routes.Charts]: undefined;
   [routes.DecisionOracle]: undefined;
   [routes.FamilyKarmaMap]: undefined;
+  [routes.FounderVision]: undefined;
   [routes.Kundli]: undefined;
   [routes.KpPredicta]: undefined;
   [routes.Legal]: undefined;
@@ -47,6 +50,7 @@ export type RootStackParamList = {
   [routes.RelationshipMirror]: undefined;
   [routes.Report]: undefined;
   [routes.SavedKundlis]: undefined;
+  [routes.SafetyPromise]: undefined;
   [routes.Paywall]: undefined;
   [routes.Login]: undefined;
   [routes.RedeemPassCode]: undefined;
