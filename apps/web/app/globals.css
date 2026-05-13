@@ -113,6 +113,56 @@ p {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  display: inline-block;
+  padding-block: 0.06em;
+}
+
+:lang(hi) .gradient-text,
+:lang(gu) .gradient-text {
+  letter-spacing: 0;
+  line-height: 1.18;
+  padding-block: 0.1em;
+}
+
+:lang(hi) h1,
+:lang(hi) h2,
+:lang(hi) h3,
+:lang(gu) h1,
+:lang(gu) h2,
+:lang(gu) h3 {
+  letter-spacing: 0;
+}
+
+:lang(hi) .hero-copy h1,
+:lang(hi) .section-heading h2,
+:lang(hi) .final-cta h2,
+:lang(hi) .page-heading h1,
+:lang(hi) .safety-hero h2,
+:lang(hi) .safety-checks h2,
+:lang(hi) .founder-section h2,
+:lang(hi) .founder-copy h1,
+:lang(gu) .hero-copy h1,
+:lang(gu) .section-heading h2,
+:lang(gu) .final-cta h2,
+:lang(gu) .page-heading h1,
+:lang(gu) .safety-hero h2,
+:lang(gu) .safety-checks h2,
+:lang(gu) .founder-section h2,
+:lang(gu) .founder-copy h1 {
+  line-height: 1.18;
+}
+
+:lang(hi) .button,
+:lang(hi) button,
+:lang(hi) input,
+:lang(hi) select,
+:lang(hi) textarea,
+:lang(gu) .button,
+:lang(gu) button,
+:lang(gu) input,
+:lang(gu) select,
+:lang(gu) textarea {
+  line-height: 1.35;
 }
 
 .glass-panel,
