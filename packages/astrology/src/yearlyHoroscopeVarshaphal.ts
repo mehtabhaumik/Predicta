@@ -172,7 +172,7 @@ function buildPendingYearly(
         id: 'yearly-needs-kundli',
         interpretation:
           'Yearly horoscope needs the birth Sun, Lagna, Moon, dasha, and place to calculate the annual map.',
-        observation: 'No active Kundli is available yet.',
+        observation: 'No Kundli is selected yet.',
         title: 'Birth chart needed',
         weight: 'neutral',
       },

@@ -27,4 +27,4 @@ export const AI_CONTEXT_LIMITS = {
 // Mobile and web clients consume the same backend AI contract so API keys and
 // final prompt orchestration never live inside client bundles.
 export const AI_PROVIDER_STRATEGY =
-  'OpenAI primary backend response generator with Gemini fallback shared by mobile and web.';
+  'Predicta uses the best available answer path and a backup path when needed.';

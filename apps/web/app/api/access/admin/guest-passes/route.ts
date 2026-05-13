@@ -21,9 +21,45 @@ export async function POST(request: Request): Promise<Response> {
     return payload.response;
   }
 
+  const body = isRecord(payload.body) ? payload.body : {};
+  const allowedEmails = normalizeAllowedEmails(body.allowedEmails);
+
+  if (!allowedEmails.length) {
+    return Response.json(
+      {
+        detail:
+          'Add at least one allowed email before creating this pass. The pass can only be redeemed by that signed-in email.',
+      },
+      { status: 400 },
+    );
+  }
+
   return proxyAstroApiRequest(
     '/access/admin/guest-passes',
-    payload.body,
+    {
+      ...body,
+      allowedEmails,
+    },
     adminHeaders(request),
+  );
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value && typeof value === 'object' && !Array.isArray(value));
+}
+
+function normalizeAllowedEmails(value: unknown): string[] {
+  const rawEmails = Array.isArray(value)
+    ? value
+    : typeof value === 'string'
+      ? value.split(/[\n,]+/)
+      : [];
+
+  return Array.from(
+    new Set(
+      rawEmails
+        .map(email => String(email).trim().toLowerCase())
+        .filter(email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)),
+    ),
   );
 }

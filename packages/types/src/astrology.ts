@@ -738,6 +738,8 @@ export type CalculationMeta = {
 export type SupportedLanguage = 'en' | 'hi' | 'gu';
 
 export type LanguagePreference = {
+  appLanguage?: SupportedLanguage;
+  predictaReplyLanguage?: SupportedLanguage;
   language: SupportedLanguage;
   updatedAt: string;
 };

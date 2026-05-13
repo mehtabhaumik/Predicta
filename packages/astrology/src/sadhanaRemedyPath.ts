@@ -36,7 +36,7 @@ export function composeSadhanaRemedyPath(
         'No practice should create fear, obsession, or avoidance of real-world duties.',
       ],
       karmicTheme: 'Waiting for chart proof.',
-      planetReason: 'No active Kundli is available yet.',
+      planetReason: 'No Kundli is selected yet.',
       progressSummary: 'No practice has started.',
       reviewQuestions: ['What birth details should I use first?'],
       stages: buildPendingStages(),

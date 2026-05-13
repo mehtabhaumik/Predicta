@@ -34,10 +34,11 @@ export function AdminAccessScreen(): React.JSX.Element {
   const [safetyReports, setSafetyReports] = useState<SafetyAuditEvent[]>([]);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState(
-    'Enter the owner access token to list or create guest passes.',
+    'Enter the owner key to list or create guest passes.',
   );
   const [draft, setDraft] = useState({
     accessLevel: 'GUEST' as Extract<AccessLevel, 'GUEST' | 'VIP_GUEST' | 'FULL_ACCESS'>,
+    allowedEmails: '',
     code: '',
     codeId: '',
     label: '',
@@ -50,15 +51,23 @@ export function AdminAccessScreen(): React.JSX.Element {
       onSuccess: payload => {
         const nextPasses = payload as GuestPassCode[];
         setPasses(nextPasses);
-        setMessage(`${nextPasses.length} secure passes loaded.`);
+        setMessage(`${nextPasses.length} private passes loaded.`);
       },
     });
   }
 
   async function createPass() {
+    const allowedEmails = parseAllowedEmails(draft.allowedEmails);
+
+    if (!allowedEmails.length) {
+      setMessage('Add the email address allowed to redeem this pass before creating it.');
+      return;
+    }
+
     await adminRequest('/access/admin/guest-passes', {
       body: {
         ...draft,
+        allowedEmails,
         maxRedemptions: Number(draft.maxRedemptions) || 1,
       },
       method: 'POST',
@@ -68,8 +77,14 @@ export function AdminAccessScreen(): React.JSX.Element {
           created,
           ...current.filter(item => item.codeId !== created.codeId),
         ]);
-        setDraft(current => ({ ...current, code: '', codeId: '', label: '' }));
-        setMessage(`${created.label} created securely.`);
+        setDraft(current => ({
+          ...current,
+          allowedEmails: '',
+          code: '',
+          codeId: '',
+          label: '',
+        }));
+        setMessage(`${created.label} is ready to share.`);
       },
     });
   }
@@ -95,7 +110,7 @@ export function AdminAccessScreen(): React.JSX.Element {
 
   async function loadReports() {
     if (!token.trim()) {
-      setMessage('Enter the owner access token first.');
+      setMessage('Enter the owner key first.');
       return;
     }
 
@@ -113,7 +128,7 @@ export function AdminAccessScreen(): React.JSX.Element {
 
   async function checkReadiness() {
     if (!token.trim()) {
-      setMessage('Enter the owner access token first.');
+      setMessage('Enter the owner key first.');
       return;
     }
 
@@ -123,11 +138,11 @@ export function AdminAccessScreen(): React.JSX.Element {
       setReleaseReadiness(report);
       setMessage(
         report.releaseStatus === 'READY'
-          ? 'Release readiness is clear.'
-          : 'Release readiness is blocked.',
+          ? 'Predicta is clear to share.'
+          : 'Predicta should not be shared yet.',
       );
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : 'Release readiness could not be checked.');
+      setMessage(error instanceof Error ? error.message : 'Public sharing check could not be completed.');
     } finally {
       setBusy(false);
     }
@@ -167,7 +182,7 @@ export function AdminAccessScreen(): React.JSX.Element {
     },
   ) {
     if (!token.trim()) {
-      setMessage('Enter the owner access token first.');
+      setMessage('Enter the owner key first.');
       return;
     }
 
@@ -184,13 +199,13 @@ export function AdminAccessScreen(): React.JSX.Element {
       const payload = await response.json();
 
       if (!response.ok) {
-        setMessage(payload.detail ?? 'The secure pass service rejected the request.');
+        setMessage(payload.detail ?? 'The pass request could not be completed.');
         return;
       }
 
       options.onSuccess(payload);
     } catch {
-      setMessage('Secure pass service is not reachable.');
+      setMessage('Passes could not be opened right now. Please try again.');
     } finally {
       setBusy(false);
     }
@@ -202,15 +217,15 @@ export function AdminAccessScreen(): React.JSX.Element {
 
       <View className="mt-8 gap-4">
         <GlowCard delay={100}>
-          <AppText variant="subtitle">Secure guest-pass console</AppText>
+          <AppText variant="subtitle">Private guest-pass control</AppText>
           <AppText className="mt-2" tone="secondary">
-            Create, revoke, list, and review guest pass codes from one secure
-            owner space.
+            Create, revoke, list, and review guest pass codes from one owner
+            space.
           </AppText>
           <AdminField
-            label="Owner access token"
+            label="Owner key"
             onChangeText={setToken}
-            placeholder="Enter owner access token"
+            placeholder="Enter owner key"
             secureTextEntry
             value={token}
           />
@@ -254,6 +269,16 @@ export function AdminAccessScreen(): React.JSX.Element {
             value={draft.label}
           />
           <AdminField
+            autoCapitalize="none"
+            keyboardType="email-address"
+            label="Allowed email"
+            onChangeText={value =>
+              setDraft(current => ({ ...current, allowedEmails: value }))
+            }
+            placeholder="friend@example.com"
+            value={draft.allowedEmails}
+          />
+          <AdminField
             keyboardType="number-pad"
             label="Max redemptions"
             onChangeText={value =>
@@ -283,7 +308,8 @@ export function AdminAccessScreen(): React.JSX.Element {
                 !token.trim() ||
                 !draft.code.trim() ||
                 !draft.codeId.trim() ||
-                !draft.label.trim()
+                !draft.label.trim() ||
+                !draft.allowedEmails.trim()
               }
               label="Create Secure Pass"
               onPress={createPass}
@@ -304,6 +330,9 @@ export function AdminAccessScreen(): React.JSX.Element {
               {pass.redeemedByUserIds.length}/{pass.maxRedemptions} used ·{' '}
               {pass.isActive ? 'Active' : 'Revoked'}
             </AppText>
+            <AppText className="mt-2" tone="secondary" variant="caption">
+              Allowed email: {pass.allowedEmails.join(', ')}
+            </AppText>
             <View className="mt-5">
               <GlowButton
                 disabled={busy || !pass.isActive}
@@ -315,10 +344,10 @@ export function AdminAccessScreen(): React.JSX.Element {
         ))}
 
         <GlowCard>
-          <AppText variant="subtitle">Launch gate</AppText>
+          <AppText variant="subtitle">Public sharing check</AppText>
           <AppText className="mt-2" tone="secondary">
-            Confirm safety evals, approved model pins, launch criteria, and
-            rollback steps before public release.
+            Confirm Predicta is calm, responsible, and ready before it is
+            shared more widely.
           </AppText>
           <View className="mt-5">
             <GlowButton
@@ -330,11 +359,14 @@ export function AdminAccessScreen(): React.JSX.Element {
           {releaseReadiness ? (
             <View className="mt-5 gap-2">
               <AppText variant="subtitle">
-                {releaseReadiness.releaseStatus}
+                {releaseReadiness.releaseStatus === 'READY'
+                  ? 'Clear to share'
+                  : 'Needs attention'}
               </AppText>
               {releaseReadiness.checks.map(check => (
                 <AppText key={check.name} tone="secondary" variant="caption">
-                  {check.status}: {check.name} · {check.details}
+                  {check.status === 'PASS' ? 'Passed' : 'Needs attention'}:{' '}
+                  {friendlyReadinessName(check.name)}
                 </AppText>
               ))}
             </View>
@@ -365,7 +397,7 @@ export function AdminAccessScreen(): React.JSX.Element {
               {report.reviewStatus}
             </AppText>
             <AppText className="mt-2" tone="secondary" variant="caption">
-              {report.createdAt} · {report.route}
+              {report.createdAt}
             </AppText>
             <AppText className="mt-2" tone="secondary" variant="caption">
               {report.safetyCategories.join(', ') || 'No category label'}
@@ -391,6 +423,27 @@ export function AdminAccessScreen(): React.JSX.Element {
       </View>
     </Screen>
   );
+}
+
+function parseAllowedEmails(value: string): string[] {
+  return Array.from(
+    new Set(
+      value
+        .split(/[\n,]+/)
+        .map(email => email.trim().toLowerCase())
+        .filter(email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)),
+    ),
+  );
+}
+
+function friendlyReadinessName(name: string): string {
+  const copy: Record<string, string> = {
+    'Model and prompt pins': 'Answer style is set',
+    'Prompt safety contract': 'Safety promise is present',
+    'Red-team evals': 'Difficult-question practice passed',
+  };
+
+  return copy[name] ?? name;
 }
 
 function AdminField({

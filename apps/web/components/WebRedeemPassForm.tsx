@@ -2,10 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { formatPassCode, normalizePassCode } from '@pridicta/access';
+import type { User } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
+import { getFirebaseWebAuth } from '../lib/firebase/client';
 import {
   getOrCreateBrowserDeviceId,
-  getWebGuestProfileId,
 } from '../lib/web-guest-session';
+import { AuthDialog } from './AuthDialog';
 
 type RedemptionStatus = {
   tone: 'error' | 'success' | 'idle';
@@ -14,18 +17,22 @@ type RedemptionStatus = {
 
 export function WebRedeemPassForm(): React.JSX.Element {
   const [code, setCode] = useState('');
-  const [email, setEmail] = useState('');
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState<RedemptionStatus>({
     tone: 'idle',
-    text: 'Secure pass checks your invite code, expiry, and allowed use.',
+    text: 'Sign in first, then redeem the pass using the same email used when the pass was created.',
   });
   const [deviceId, setDeviceId] = useState('');
-  const [userId, setUserId] = useState('');
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     setDeviceId(getBrowserDeviceId());
-    setUserId(getWebGuestProfileId());
+
+    try {
+      return onAuthStateChanged(getFirebaseWebAuth(), setUser);
+    } catch {
+      return undefined;
+    }
   }, []);
 
   async function redeem() {
@@ -36,8 +43,15 @@ export function WebRedeemPassForm(): React.JSX.Element {
       return;
     }
 
+    if (!user?.email) {
+      setStatus({
+        tone: 'error',
+        text: 'Please sign in first. Use Google sign-in or create an account with the exact email that was approved for this pass.',
+      });
+      return;
+    }
+
     const resolvedDeviceId = deviceId || getBrowserDeviceId();
-    const resolvedUserId = userId || getWebGuestProfileId();
 
     try {
       setBusy(true);
@@ -45,8 +59,8 @@ export function WebRedeemPassForm(): React.JSX.Element {
         body: JSON.stringify({
           code,
           deviceId: resolvedDeviceId,
-          email: email.trim() || undefined,
-          userId: resolvedUserId,
+          email: user.email,
+          userId: user.uid,
         }),
         headers: { 'Content-Type': 'application/json' },
         method: 'POST',
@@ -54,9 +68,13 @@ export function WebRedeemPassForm(): React.JSX.Element {
       const result = await response.json();
 
       if (!response.ok || result.status !== 'SUCCESS') {
+        const detail =
+          result.status === 'EMAIL_NOT_ALLOWED' && user.email
+            ? `This pass is not assigned to ${user.email}. Please sign out and sign in with the exact email address used when this pass was created.`
+            : result.detail ?? result.message ?? 'This pass could not be redeemed.';
         setStatus({
           tone: 'error',
-          text: result.detail ?? result.message ?? 'This pass could not be redeemed.',
+          text: detail,
         });
         return;
       }
@@ -68,12 +86,12 @@ export function WebRedeemPassForm(): React.JSX.Element {
       setCode('');
       setStatus({
         tone: 'success',
-        text: `${result.redeemedPass.label} is active on this browser profile.`,
+        text: `${result.redeemedPass.label} is active for ${user.email}.`,
       });
     } catch {
       setStatus({
         tone: 'error',
-        text: 'Secure pass check is not reachable. Please try again later.',
+        text: 'Private pass check is not available right now. Please try again later.',
       });
     } finally {
       setBusy(false);
@@ -82,6 +100,28 @@ export function WebRedeemPassForm(): React.JSX.Element {
 
   return (
     <div className="card-content spacious">
+      <div className="redeem-guidance">
+        <div className="section-title">HOW TO REDEEM</div>
+        <h2>Sign in with the approved email first.</h2>
+        <p>
+          A private pass is tied to one email address. Ask the person who created
+          the pass which email was approved, then sign in with that same email
+          before entering the code.
+        </p>
+        <ol>
+          <li>Use Google sign-in, or create an account with the approved email.</li>
+          <li>Enter the private pass code exactly as shared.</li>
+          <li>If the email does not match, Predicta will not redeem the pass.</li>
+        </ol>
+        <div className="redeem-auth-row">
+          <AuthDialog />
+          <span>
+            {user?.email
+              ? `Signed in as ${user.email}`
+              : 'Not signed in yet'}
+          </span>
+        </div>
+      </div>
       <div className="field-stack">
         <label className="field-label" htmlFor="pass-code">
           Pass code
@@ -96,18 +136,23 @@ export function WebRedeemPassForm(): React.JSX.Element {
       </div>
       <div className="field-stack">
         <label className="field-label" htmlFor="pass-email">
-          Email, if the invite is email-restricted
+          Approved email
         </label>
         <input
+          disabled
           id="pass-email"
-          onChange={event => setEmail(event.target.value)}
-          placeholder="you@example.com"
+          placeholder="Sign in to confirm your email"
           type="email"
-          value={email}
+          value={user?.email ?? ''}
         />
       </div>
       <p className={`form-status ${status.tone}`}>{status.text}</p>
-      <button className="button" disabled={busy} onClick={redeem} type="button">
+      <button
+        className="button"
+        disabled={busy || !user?.email}
+        onClick={redeem}
+        type="button"
+      >
         {busy ? 'Checking...' : 'Redeem Pass'}
       </button>
     </div>

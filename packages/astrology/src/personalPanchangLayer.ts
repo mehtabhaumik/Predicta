@@ -111,7 +111,7 @@ export function composePersonalPanchangLayer(
       date,
       evidence: [
         `${weekday} is ruled by ${weekdayLord}.`,
-        'No active Kundli is available, so this is a day-lord preview.',
+        'No Kundli is selected yet, so this is a day-lord preview.',
       ],
       limitations: ['Create a Kundli to personalize this with Moon, tithi, dasha, and chart focus.'],
       moonNakshatra: 'Unknown',

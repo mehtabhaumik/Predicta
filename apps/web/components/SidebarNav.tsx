@@ -17,9 +17,17 @@ export type SidebarGroup = {
 
 export function SidebarNav({
   groups,
+  adminLabel = 'Admin',
+  ownerLabel = 'Owner',
+  privateSaveBody = 'This browser remembers your chart. Sign in to keep it across devices.',
+  privateSaveTitle = 'PRIVATE SAVE',
   showAdmin,
 }: {
+  adminLabel?: string;
   groups: SidebarGroup[];
+  ownerLabel?: string;
+  privateSaveBody?: string;
+  privateSaveTitle?: string;
   showAdmin: boolean;
 }): React.JSX.Element {
   const pathname = usePathname();
@@ -28,8 +36,8 @@ export function SidebarNav({
     ? [
         ...groups,
         {
-          label: 'Owner',
-          items: [{ href: '/dashboard/admin', label: 'Admin' }],
+          label: ownerLabel,
+          items: [{ href: '/dashboard/admin', label: adminLabel }],
         },
       ]
     : groups;
@@ -81,8 +89,8 @@ export function SidebarNav({
         ))}
       </nav>
       <div className="sidebar-note glass-panel">
-        <span className="section-title">PRIVATE SAVE</span>
-        <p>This browser remembers your chart. Sign in to keep it across devices.</p>
+        <span className="section-title">{privateSaveTitle}</span>
+        <p>{privateSaveBody}</p>
       </div>
     </aside>
   );

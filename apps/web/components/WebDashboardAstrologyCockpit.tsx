@@ -291,7 +291,7 @@ export function WebDashboardAstrologyCockpit({
           className="button"
           href={buildPredictaChatHref({
             kundli,
-            prompt: 'Read my active Kundli and suggest the best next focus.',
+            prompt: 'Read my selected Kundli and suggest the best next focus.',
             sourceScreen: 'Dashboard',
           })}
         >

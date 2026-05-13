@@ -61,6 +61,7 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
   const [busy, setBusy] = useState(false);
   const [draft, setDraft] = useState({
     accessLevel: 'GUEST',
+    allowedEmails: '',
     code: '',
     codeId: '',
     label: '',
@@ -77,25 +78,33 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
       const payload = await response.json();
 
       if (!response.ok) {
-        setMessage(payload.detail ?? 'The secure pass service rejected the request.');
+        setMessage(payload.detail ?? 'The pass could not be loaded. Please check the owner key.');
         return;
       }
 
       setPasses(payload);
-      setMessage(`${payload.length} secure passes loaded.`);
+      setMessage(`${payload.length} private passes loaded.`);
     } catch {
-      setMessage('Secure pass service is not reachable.');
+      setMessage('Passes could not be opened right now. Please try again.');
     } finally {
       setBusy(false);
     }
   }
 
   async function createPass() {
+    const allowedEmails = parseAllowedEmails(draft.allowedEmails);
+
+    if (!allowedEmails.length) {
+      setMessage('Add the email address allowed to redeem this pass before creating it.');
+      return;
+    }
+
     try {
       setBusy(true);
       const response = await fetch('/api/access/admin/guest-passes', {
         body: JSON.stringify({
           ...draft,
+          allowedEmails,
           maxRedemptions: Number(draft.maxRedemptions),
         }),
         headers: {
@@ -112,10 +121,10 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
       }
 
       setPasses(current => [payload, ...current.filter(item => item.codeId !== payload.codeId)]);
-      setDraft(current => ({ ...current, code: '', codeId: '', label: '' }));
-      setMessage(`${payload.label} created securely.`);
+      setDraft(current => ({ ...current, allowedEmails: '', code: '', codeId: '', label: '' }));
+      setMessage(`${payload.label} is ready to share.`);
     } catch {
-      setMessage('Secure pass service is not reachable.');
+      setMessage('The pass could not be created right now. Please try again.');
     } finally {
       setBusy(false);
     }
@@ -147,7 +156,7 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
       );
       setMessage(`${payload.codeId} revoked.`);
     } catch {
-      setMessage('Secure pass service is not reachable.');
+      setMessage('The pass could not be changed right now. Please try again.');
     } finally {
       setBusy(false);
     }
@@ -169,7 +178,7 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
       setSafetyReports(payload);
       setMessage(`${payload.length} safety reports loaded.`);
     } catch {
-      setMessage('Safety reports are not reachable.');
+      setMessage('Safety reports could not be opened right now. Please try again.');
     } finally {
       setBusy(false);
     }
@@ -211,7 +220,7 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
       );
       setMessage(`${payload.id} marked ${payload.reviewStatus.toLowerCase()}.`);
     } catch {
-      setMessage('Safety reports are not reachable.');
+      setMessage('Safety reports could not be updated right now. Please try again.');
     } finally {
       setBusy(false);
     }
@@ -248,7 +257,7 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
       <div className="card glass-panel">
         <div className="card-content spacious">
           <div className="section-title">OWNER ACCESS</div>
-          <h2>Secure pass control</h2>
+          <h2>Private pass control</h2>
           <p>
             Create, list, and revoke private guest passes.
           </p>
@@ -275,6 +284,10 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
         <div className="card-content spacious">
           <div className="section-title">CREATE PASS</div>
           <h2>Issue a private invite.</h2>
+          <p>
+            Every pass must be tied to an email address. The recipient must sign
+            in with that same email before redeeming.
+          </p>
           <div className="admin-form-grid">
             <input
               aria-label="Pass name"
@@ -293,6 +306,15 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
               onChange={event => setDraft(current => ({ ...current, label: event.target.value }))}
               placeholder="VIP beta pass"
               value={draft.label}
+            />
+            <input
+              aria-label="Allowed email"
+              onChange={event =>
+                setDraft(current => ({ ...current, allowedEmails: event.target.value }))
+              }
+              placeholder="friend@example.com"
+              type="email"
+              value={draft.allowedEmails}
             />
             <select
               aria-label="Pass type"
@@ -331,7 +353,14 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
           </div>
           <button
             className="button"
-            disabled={busy || !token || !draft.code || !draft.codeId || !draft.label}
+            disabled={
+              busy ||
+              !token ||
+              !draft.code ||
+              !draft.codeId ||
+              !draft.label ||
+              !draft.allowedEmails
+            }
             onClick={createPass}
             type="button"
           >
@@ -349,6 +378,10 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
               <p>
                 {pass.label} · {accessLevelLabels[pass.accessLevel] ?? pass.accessLevel} · {pass.redeemedByUserIds.length}/
                 {pass.maxRedemptions} used
+              </p>
+              <p>
+                Allowed email:{' '}
+                {pass.allowedEmails.length ? pass.allowedEmails.join(', ') : 'Not set'}
               </p>
               <button
                 className="button secondary"
@@ -422,9 +455,7 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
             <div className="card-content">
               <div className="section-title">{reportKindLabels[report.reportKind]}</div>
               <h2>{reviewStatusLabels[report.reviewStatus]}</h2>
-              <p>
-                {report.createdAt} · {report.route}
-              </p>
+              <p>{report.createdAt}</p>
               <p>{report.safetyCategories.join(', ') || 'No category label'}</p>
               <div className="admin-action-row">
                 <button
@@ -449,5 +480,16 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
         ))}
       </div>
     </div>
+  );
+}
+
+function parseAllowedEmails(value: string): string[] {
+  return Array.from(
+    new Set(
+      value
+        .split(/[\n,]+/)
+        .map(email => email.trim().toLowerCase())
+        .filter(email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)),
+    ),
   );
 }

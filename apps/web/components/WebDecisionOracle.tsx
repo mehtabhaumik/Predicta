@@ -41,7 +41,7 @@ export function WebDecisionOracle(): React.JSX.Element {
         <h2>Ask one real decision.</h2>
         <p>
           {activeKundli
-            ? `Using ${activeKundli.birthDetails.name}'s active Kundli for timing, risk, evidence, and one next step.`
+            ? `Using ${activeKundli.birthDetails.name}'s selected Kundli for timing, risk, evidence, and one next step.`
             : 'Create or select a Kundli first, then Predicta will use that active chart for timing, risk, evidence, and one next step.'}
         </p>
         <textarea

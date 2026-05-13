@@ -188,7 +188,7 @@ function buildPendingSynthesis(
     askPrompt: memo.aiPrompt,
     dailyAnchor: 'Create or select a Kundli first.',
     decisionGuidance:
-      'The question can be framed now, but personal timing needs an active Kundli.',
+      'The question can be framed now, but personal timing needs a selected Kundli.',
     evidence: memo.evidence.map(item => `${item.title}: ${item.observation}`),
     guardrails: [
       'A personal timing answer needs birth details and a calculated chart.',

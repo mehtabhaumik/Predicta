@@ -92,6 +92,7 @@ type AppState = {
   onboardingComplete: boolean;
   monetization: MonetizationState;
   pendingBirthDetailsDraft?: BirthDetailsDraft;
+  predictaReplyLanguage: SupportedLanguage;
   pinEnabled: boolean;
   redeemedGuestPass?: RedeemedGuestPass;
   securityEnabled: boolean;
@@ -128,6 +129,7 @@ type AppState = {
   setOnboardingComplete: (value: boolean) => void;
   setPendingBirthDetailsDraft: (value?: BirthDetailsDraft) => void;
   setPinEnabled: (value: boolean) => void;
+  setPredictaReplyLanguage: (language: SupportedLanguage) => void;
   setRedeemedGuestPass: (value?: RedeemedGuestPass) => void;
   setSavedKundlis: (records: SavedKundliRecord[]) => void;
   setSecurityEnabled: (value: boolean) => void;
@@ -153,12 +155,15 @@ export const useAppStore = create<AppState>((set, get) => ({
     ],
   },
   languagePreference: {
+    appLanguage: 'en',
     language: 'en',
+    predictaReplyLanguage: 'en',
     updatedAt: new Date().toISOString(),
   },
   monetization: createInitialMonetizationState(),
   onboardingComplete: false,
   pinEnabled: true,
+  predictaReplyLanguage: 'en',
   savedKundlis: [],
   securityEnabled: false,
   usage: createInitialUsage(),
@@ -474,9 +479,12 @@ export const useAppStore = create<AppState>((set, get) => ({
   setLanguagePreference: language =>
     set({
       languagePreference: {
+        appLanguage: language,
         language,
+        predictaReplyLanguage: language,
         updatedAt: new Date().toISOString(),
       },
+      predictaReplyLanguage: language,
     }),
   setMonetizationState: value =>
     set({
@@ -487,6 +495,15 @@ export const useAppStore = create<AppState>((set, get) => ({
   setPendingBirthDetailsDraft: value =>
     set({ pendingBirthDetailsDraft: value }),
   setPinEnabled: value => set({ pinEnabled: value }),
+  setPredictaReplyLanguage: language =>
+    set(state => ({
+      languagePreference: {
+        ...state.languagePreference,
+        predictaReplyLanguage: language,
+        updatedAt: new Date().toISOString(),
+      },
+      predictaReplyLanguage: language,
+    })),
   setRedeemedGuestPass: value => set({ redeemedGuestPass: value }),
   setSavedKundlis: records => set({ savedKundlis: records }),
   setSecurityEnabled: value => set({ securityEnabled: value }),

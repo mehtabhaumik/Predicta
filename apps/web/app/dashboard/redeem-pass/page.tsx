@@ -9,7 +9,8 @@ export default function RedeemPassPage(): React.JSX.Element {
         <StatusPill label="Private access" tone="premium" />
         <h1 className="gradient-text">Redeem a private Predicta pass.</h1>
         <p>
-          Enter your private guest code to unlock elevated access.
+          Sign in with the email approved for your pass, then enter the code.
+          If the email does not match, the pass will stay locked.
         </p>
       </div>
       <Card className="glass-panel redeem-card">

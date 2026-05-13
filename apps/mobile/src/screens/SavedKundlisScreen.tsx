@@ -58,7 +58,7 @@ export function SavedKundlisScreen({
         message:
           error instanceof Error
             ? error.message
-            : 'Your local kundli is still safe on this device.',
+            : 'Your Kundli is still safe on this device.',
         title: 'Cloud save failed',
       });
     }
@@ -72,10 +72,10 @@ export function SavedKundlisScreen({
   return (
     <Screen>
       {glassAlert}
-      <AnimatedHeader eyebrow="LOCAL + CLOUD" title="Saved kundlis" />
+      <AnimatedHeader eyebrow="DEVICE + ACCOUNT" title="Saved kundlis" />
       <AppText className="mt-4" tone="secondary">
-        Kundlis are saved locally first. Cloud sync happens only when you choose
-        it.
+        Kundlis are saved on this device first. Account save happens only when
+        you choose it.
       </AppText>
       <GlowCard className="mt-6">
         <AppText tone="secondary" variant="caption">
@@ -134,7 +134,7 @@ export function SavedKundlisScreen({
                         onPress={() =>
                           showGlassAlert({
                             message:
-                              'This kundli is saved to your cloud account, so you can restore it after reinstalling the app or signing in on another device. Kundlis without this icon are saved only on this device.',
+                              'This Kundli is saved with your account, so you can restore it after reinstalling the app or signing in on another device. Kundlis without this icon are saved only on this device.',
                             title: 'Saved to cloud',
                           })
                         }

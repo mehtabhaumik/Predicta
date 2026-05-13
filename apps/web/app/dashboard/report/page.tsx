@@ -24,7 +24,7 @@ export default function ReportPage(): React.JSX.Element {
         <Link
           className="button secondary"
           href={buildPredictaChatHref({
-            prompt: 'Help me choose the right report from my active Kundli.',
+            prompt: 'Help me choose the right report from my selected Kundli.',
             sourceScreen: 'Report Marketplace',
           })}
         >

@@ -71,7 +71,7 @@ export const LEGAL_DOCUMENTS: LegalDocument[] = [
         body: [
           'Birth profile data: name or label, birth date, birth time, birth place, timezone, latitude, longitude, approximate-time flag, calculated charts, saved Kundlis, reports, and user-selected family or relationship labels.',
           'Account and access data: email, login provider, user ID, subscription status, guest-pass redemption status, purchase/usage counters, and support messages.',
-          'Product usage data: app interactions, feature usage, limits reached, crash or error diagnostics, and basic device/browser information.',
+          'Product usage data: app interactions, feature usage, limits reached, reliability information, and basic device or browser information.',
         ],
       },
       {
@@ -85,14 +85,14 @@ export const LEGAL_DOCUMENTS: LegalDocument[] = [
         heading: 'Storage and sharing',
         body: [
           'Records may stay on the device or browser profile. On web, signing in can keep saved Kundlis available across devices.',
-          'Account records, guest-pass status, and subscription state may be stored with service providers such as authentication, database, storage, analytics, payment, and AI infrastructure providers.',
+          'Account records, guest-pass status, and subscription state may be handled by trusted providers that help Predicta run, protect accounts, process payments, and answer questions.',
           'We may disclose information when required by law, to protect users or the service, to prevent fraud or abuse, or during a business transfer with appropriate safeguards.',
         ],
       },
       {
         heading: 'User choices',
         body: [
-          'Users may create, edit, delete, or stop using local profiles. Account users may request deletion, export, correction, or withdrawal of consent by contacting support.',
+          'Users may create, edit, delete, or stop using saved profiles. Account users may request deletion, export, correction, or withdrawal of consent by contacting support.',
           'Marketing emails, if introduced, must include an unsubscribe option. Essential service notices may still be sent.',
         ],
       },

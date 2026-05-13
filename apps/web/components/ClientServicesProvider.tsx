@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import type React from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import {
   getFirebaseWebAuth,
@@ -9,8 +10,9 @@ import {
 import { mergeGuestSessionIntoAccount } from '../lib/web-account-merge';
 import { loadWebAutoSaveMemory } from '../lib/web-auto-save-memory';
 import { getOrCreateWebGuestSession } from '../lib/web-guest-session';
+import { WebAppTranslationRuntime } from './WebAppTranslationRuntime';
 
-export function ClientServicesProvider(): null {
+export function ClientServicesProvider(): React.JSX.Element {
   useEffect(() => {
     getOrCreateWebGuestSession();
     loadWebAutoSaveMemory();
@@ -34,5 +36,5 @@ export function ClientServicesProvider(): null {
     }
   }, []);
 
-  return null;
+  return <WebAppTranslationRuntime />;
 }

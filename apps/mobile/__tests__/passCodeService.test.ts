@@ -15,6 +15,7 @@ function createPass(overrides = {}) {
   return {
     ...createGuestPassCode({
       accessLevel: 'VIP_GUEST',
+      allowedEmails: ['guest@example.com'],
       code: RAW_CODE,
       codeId: 'vip-review-test',
       createdAt: '2026-04-18T00:00:00.000Z',
@@ -92,6 +93,7 @@ describe('pass code service', () => {
     const result = validateGuestPassCode(createPass(), {
       code: RAW_CODE,
       deviceId: 'device-1',
+      email: 'guest@example.com',
       now: new Date('2026-04-20T00:00:00.000Z'),
       userId: 'user-1',
     });

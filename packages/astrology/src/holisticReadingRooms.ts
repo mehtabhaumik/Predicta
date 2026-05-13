@@ -137,7 +137,7 @@ export function composeHolisticReadingRooms(
     rooms,
     status: 'ready',
     subtitle:
-      'Simple rooms for today, karma remedies, life balance, and timing from the same active Kundli.',
+      'Simple rooms for today, karma remedies, life balance, and timing from the selected Kundli.',
     title: `${kundli.birthDetails.name}'s holistic reading rooms`,
   };
 }

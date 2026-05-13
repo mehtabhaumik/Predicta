@@ -18,7 +18,9 @@ export async function loadLanguagePreference(): Promise<LanguagePreference> {
   const parsed = parseStoredLanguagePreference(raw);
 
   return {
-    language: parsed.language,
+    appLanguage: parsed.appLanguage ?? parsed.language,
+    language: parsed.appLanguage ?? parsed.language,
+    predictaReplyLanguage: parsed.predictaReplyLanguage,
     updatedAt: parsed.updatedAt ?? new Date().toISOString(),
   };
 }
@@ -27,6 +29,7 @@ export async function saveLanguagePreference(
   language: SupportedLanguage,
 ): Promise<LanguagePreference> {
   const preference = {
+    appLanguage: language,
     language,
     updatedAt: new Date().toISOString(),
   };
@@ -42,17 +45,23 @@ function parseStoredLanguagePreference(raw: string): LanguagePreference {
 
     if (typeof parsed === 'string') {
       return {
+        appLanguage: normalizeLanguage(parsed),
         language: normalizeLanguage(parsed),
         updatedAt: new Date().toISOString(),
       };
     }
 
     return {
-      language: normalizeLanguage(parsed.language),
+      appLanguage: normalizeLanguage(parsed.appLanguage ?? parsed.language),
+      language: normalizeLanguage(parsed.appLanguage ?? parsed.language),
+      predictaReplyLanguage: parsed.predictaReplyLanguage
+        ? normalizeLanguage(parsed.predictaReplyLanguage)
+        : undefined,
       updatedAt: parsed.updatedAt ?? new Date().toISOString(),
     };
   } catch {
     return {
+      appLanguage: normalizeLanguage(raw),
       language: normalizeLanguage(raw),
       updatedAt: new Date().toISOString(),
     };

@@ -59,8 +59,18 @@ export function RedeemPassCodeScreen(): React.JSX.Element {
 
       if (!signedInAuth.userId) {
         showGlassAlert({
-          message: 'Please sign in before redeeming a guest pass.',
+          message:
+            'Please sign in before redeeming a guest pass. Use the same email that was approved when the pass was created.',
           title: 'Sign-in required',
+        });
+        return;
+      }
+
+      if (!signedInAuth.email) {
+        showGlassAlert({
+          message:
+            'This pass needs an email on your account. Sign in with the approved pass email, then try again.',
+          title: 'Approved email required',
         });
         return;
       }
@@ -112,9 +122,9 @@ export function RedeemPassCodeScreen(): React.JSX.Element {
       <GlassPanel className="mt-8" delay={100}>
         <AppText variant="subtitle">Enter your Predicta pass</AppText>
         <AppText className="mt-2" tone="secondary">
-          Guest passes unlock expanded guidance for a limited period. Redemption
-          requires Google login so the pass stays protected and cannot be reused
-          unexpectedly.
+          Guest passes unlock expanded guidance for a limited period. Sign in
+          with the same email that was approved for your pass, then enter the
+          code. If the email does not match, the pass will stay locked.
         </AppText>
         <View className="mt-6">
           <AppText className="mb-2" tone="secondary" variant="caption">

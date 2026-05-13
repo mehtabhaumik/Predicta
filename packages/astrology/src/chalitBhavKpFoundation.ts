@@ -113,7 +113,7 @@ function buildPendingFoundation(
       'Create my Kundli, then explain Chalit/Bhav and KP horoscope separately.',
     bhavChalit: {
       cusps: [],
-      evidence: ['No active Kundli is available.'],
+      evidence: ['No Kundli is selected yet.'],
       freeInsight:
         'Bhav Chalit needs a calculated birth chart because it refines exact house cusps from birth time and place.',
       limitations: ['Create a Kundli first.'],
@@ -132,7 +132,7 @@ function buildPendingFoundation(
     depth,
     kp: {
       cusps: [],
-      evidence: ['No active Kundli is available.'],
+      evidence: ['No Kundli is selected yet.'],
       freeInsight:
         'KP needs precise cusps, star lords, sub lords, and ruling planets, so it starts after Kundli calculation.',
       limitations: ['Create a Kundli first.'],

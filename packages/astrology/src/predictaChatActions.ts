@@ -317,14 +317,14 @@ export function buildEnglishSwitchPrompt(
     return [
       'Mane lage chhe tame English ma poochi rahya cho.',
       'Hu Gujarati tone continue karu ke English par switch karu?',
-      'Reply “switch to English” karsho to hu language pill English par set kari daish. Reply “stay in Gujarati” karsho to hu Gujarati tone ma j rahish.',
+      'Reply “switch to English” karsho to hu aa conversation English ma continue karish. App language selector alag raheshe.',
     ].join('\n\n');
   }
 
   return [
     'Mujhe lag raha hai aap English mein pooch rahe hain.',
     'Main Hinglish/Hindi tone continue karu ya English par switch karu?',
-    'Reply “switch to English” karenge to main language pill English par set kar dungi. Reply “stay in Hindi” karenge to main Hinglish mein hi rahungi.',
+    'Reply “switch to English” karenge to main is conversation ko English mein continue karungi. App language selector alag rahega.',
   ].join('\n\n');
 }
 
@@ -336,7 +336,7 @@ export function buildEnglishSwitchDecisionReply({
   decision: Exclude<PredictaEnglishSwitchDecision, 'none'>;
 }): string {
   if (decision === 'approve') {
-    return 'Done. I switched Predicta to English. From the next message, I will answer in English unless you start speaking Hindi or Gujarati again.';
+    return 'Done. I will continue this conversation in English. Your app language will stay the same unless you change it from the language selector.';
   }
 
   if (currentLanguage === 'gu') {
@@ -1075,7 +1075,7 @@ function buildNeedsKundliReply(
   if (language === 'hi') {
     return [
       `Haan, main ${actionLabel} yahin chat mein kar sakti hoon.`,
-      'Pehle active Kundli chahiye. DOB, birth time, aur birth place bhej dein; main Kundli bana kar isi kaam ko aage badhaungi.',
+      'Pehle aapki Kundli chahiye. DOB, birth time, aur birth place bhej dein; main Kundli bana kar isi kaam ko aage badhaungi.',
       'Agar sirf DOB pata hai, wahi bhejiye. Baaki main pyaar se pooch lungi.',
     ].join('\n\n');
   }
@@ -1083,14 +1083,14 @@ function buildNeedsKundliReply(
   if (language === 'gu') {
     return [
       `Haan, hu ${actionLabel} ahi chat ma kari shaku chhu.`,
-      'Pehla active Kundli joye. DOB, birth time ane birth place moklo; hu Kundli banaine aa kaam aagal vadharish.',
+      'Pehla tamari Kundli joye. DOB, birth time ane birth place moklo; hu Kundli banaine aa kaam aagal vadharish.',
       'Fakat DOB khabar hoy to e moklo. Baaki hu dhime thi poochi laish.',
     ].join('\n\n');
   }
 
   return [
     `Yes, I can do ${actionLabel} right here in chat.`,
-    'First I need an active Kundli. Send date of birth, birth time, and birth place; I will create the Kundli and continue the work here.',
+    'First I need your Kundli. Send date of birth, birth time, and birth place; I will create the Kundli and continue the work here.',
     'If you only know the DOB, send that first. I will ask for the rest gently.',
   ].join('\n\n');
 }
@@ -1251,10 +1251,10 @@ function buildAdvancedJyotishReply(
 
   if (language === 'hi') {
     return [
-      'Main advanced Jyotish ko simple language mein rakhungi, taaki technical depth confuse na kare.',
+      'Main advanced Jyotish ko simple language mein rakhungi, taaki deeper details confuse na kare.',
       `Birth star: ${coverage.nakshatraInsight.moonNakshatra} pada ${coverage.nakshatraInsight.pada}, lord ${coverage.nakshatraInsight.lord}.`,
       coverage.nakshatraInsight.simpleInsight,
-      modules ? `Coverage modules:\n${modules}` : '',
+      modules ? `What I am checking:\n${modules}` : '',
       patterns ? `Yogas/care patterns:\n${patterns}` : '',
       ashtaka ? `Ashtakavarga highlights:\n${ashtaka}` : '',
       `Panchang/Muhurta: ${coverage.panchangMuhurta.simpleGuidance}`,
@@ -1266,10 +1266,10 @@ function buildAdvancedJyotishReply(
 
   if (language === 'gu') {
     return [
-      'Hu advanced Jyotish ne simple language ma rakhish, jethi technical depth confuse na kare.',
+      'Hu advanced Jyotish ne simple language ma rakhish, jethi deeper details confuse na kare.',
       `Birth star: ${coverage.nakshatraInsight.moonNakshatra} pada ${coverage.nakshatraInsight.pada}, lord ${coverage.nakshatraInsight.lord}.`,
       coverage.nakshatraInsight.simpleInsight,
-      modules ? `Coverage modules:\n${modules}` : '',
+      modules ? `Hu aa joi rahi chhu:\n${modules}` : '',
       patterns ? `Yogas/care patterns:\n${patterns}` : '',
       ashtaka ? `Ashtakavarga highlights:\n${ashtaka}` : '',
       `Panchang/Muhurta: ${coverage.panchangMuhurta.simpleGuidance}`,
@@ -1280,10 +1280,10 @@ function buildAdvancedJyotishReply(
   }
 
   return [
-    'I will keep advanced Jyotish simple on the surface, with the technical depth behind it.',
+    'I will keep advanced Jyotish simple on the surface, with deeper details available when you want them.',
     `Birth star: ${coverage.nakshatraInsight.moonNakshatra} pada ${coverage.nakshatraInsight.pada}, lord ${coverage.nakshatraInsight.lord}.`,
     coverage.nakshatraInsight.simpleInsight,
-    modules ? `Coverage modules:\n${modules}` : '',
+    modules ? `What I am checking:\n${modules}` : '',
     patterns ? `Yogas/care patterns:\n${patterns}` : '',
     ashtaka ? `Ashtakavarga highlights:\n${ashtaka}` : '',
     `Panchang/Muhurta: ${coverage.panchangMuhurta.simpleGuidance}`,

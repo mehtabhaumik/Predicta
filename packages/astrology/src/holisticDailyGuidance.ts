@@ -171,7 +171,7 @@ function buildPendingGuidance(date: string): HolisticDailyGuidance {
     dailyFocus: 'Create your Kundli first.',
     date,
     eveningReview: 'Review birth details before expecting a personal reading.',
-    evidence: ['No active Kundli is available yet.'],
+    evidence: ['No Kundli is selected yet.'],
     guardrails: [
       'A personal daily guide needs birth date, birth time, and birth place.',
       'Until then, only broad day-lord guidance can be shown.',

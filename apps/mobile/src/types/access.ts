@@ -27,7 +27,7 @@ export type GuestPassCode = {
   maxRedemptions: number;
   redeemedByUserIds: string[];
   redeemedDeviceIds?: string[];
-  allowedEmails?: string[];
+  allowedEmails: string[];
   expiresAt: string;
   usageLimits: GuestUsageLimits;
   deviceLimit: number;

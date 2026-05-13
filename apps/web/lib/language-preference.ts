@@ -11,7 +11,9 @@ import { saveWebAutoSaveMemory } from './web-auto-save-memory';
 const LANGUAGE_CHANGE_EVENT = 'pridicta-language-change';
 
 export function useLanguagePreference(): {
+  appLanguage: SupportedLanguage;
   language: SupportedLanguage;
+  setAppLanguage: (language: SupportedLanguage) => void;
   setLanguage: (language: SupportedLanguage) => void;
 } {
   const [language, setLanguageState] = useState<SupportedLanguage>('en');
@@ -38,8 +40,9 @@ export function useLanguagePreference(): {
     };
   }, []);
 
-  const setLanguage = useCallback((nextLanguage: SupportedLanguage) => {
+  const setAppLanguage = useCallback((nextLanguage: SupportedLanguage) => {
     const preference: LanguagePreference = {
+      appLanguage: nextLanguage,
       language: nextLanguage,
       updatedAt: new Date().toISOString(),
     };
@@ -55,7 +58,7 @@ export function useLanguagePreference(): {
     window.dispatchEvent(new Event(LANGUAGE_CHANGE_EVENT));
   }, []);
 
-  return { language, setLanguage };
+  return { appLanguage: language, language, setAppLanguage, setLanguage: setAppLanguage };
 }
 
 function readStoredLanguage(): SupportedLanguage {
@@ -72,7 +75,7 @@ function readLanguageFromValue(value: string | null): SupportedLanguage {
 
     return typeof parsed === 'string'
       ? normalizeLanguage(parsed)
-      : normalizeLanguage(parsed.language);
+      : normalizeLanguage(parsed.appLanguage ?? parsed.language);
   } catch {
     return normalizeLanguage(value);
   }

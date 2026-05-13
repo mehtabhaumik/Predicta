@@ -8,6 +8,7 @@ export * from './legal';
 export * from './predictaUx';
 export * from './predictaMemory';
 export * from './trust';
+export * from './uiTranslations';
 export * from './pricing';
 export * from './proof';
 export * from './safetyUx';

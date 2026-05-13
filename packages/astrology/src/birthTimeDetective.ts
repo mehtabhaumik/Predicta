@@ -53,7 +53,7 @@ export function composeBirthTimeDetective(
       `Birth time approximate: ${kundli.birthDetails.isTimeApproximate ? 'yes' : 'no'}.`,
       rectification
         ? `Ascendant degree inside sign: ${rectification.ascendantDegree}.`
-        : 'No rectification diagnostics available.',
+        : 'No birth-time clues are available yet.',
       rectification
         ? `Rectification confidence: ${rectification.confidence}.`
         : 'Confidence is unavailable.',
@@ -61,7 +61,7 @@ export function composeBirthTimeDetective(
     ],
     nextAction: buildNextAction(confidenceLabel, answeredCount, questions.length),
     questions,
-    reasons: rectification?.reasons ?? ['No rectification diagnostics available.'],
+    reasons: rectification?.reasons ?? ['No birth-time clues are available yet.'],
     safeJudgments: buildSafeJudgments(confidenceLabel),
     status: 'ready',
     subtitle:

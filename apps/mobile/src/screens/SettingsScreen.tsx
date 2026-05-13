@@ -140,7 +140,7 @@ export function SettingsScreen({
           </SettingRow>
 
           <SettingRow
-            description="Store PIN material in the device keychain."
+            description="Keep your PIN protected on this device."
             title="PIN unlock"
           >
             <Switch
@@ -157,8 +157,8 @@ export function SettingsScreen({
           <SettingRow
             description={
               biometryAvailable
-                ? 'Use device biometrics when available.'
-                : 'Biometrics are not available on this device.'
+                ? 'Use face or fingerprint unlock when available.'
+                : 'Face or fingerprint unlock is not available on this device.'
             }
             title="Touch ID / Face ID"
           >

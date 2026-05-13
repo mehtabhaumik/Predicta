@@ -46,7 +46,7 @@ export function createGuestPassCode({
   type,
 }: {
   accessLevel: GuestPassCode['accessLevel'];
-  allowedEmails?: string[];
+  allowedEmails: string[];
   code: string;
   codeId: string;
   createdAt?: string;
@@ -57,10 +57,21 @@ export function createGuestPassCode({
   type: PassCodeType;
 }): GuestPassCode {
   const config = GUEST_ACCESS_LIMITS[type];
+  const normalizedAllowedEmails = Array.from(
+    new Set(
+      allowedEmails
+        .map(email => normalizeEmail(email))
+        .filter((email): email is string => Boolean(email)),
+    ),
+  );
+
+  if (!normalizedAllowedEmails.length) {
+    throw new Error('At least one allowed email is required for every guest pass.');
+  }
 
   return {
     accessLevel,
-    allowedEmails: allowedEmails?.map(email => email.toLowerCase()),
+    allowedEmails: normalizedAllowedEmails,
     codeHash: hashPassCode(code),
     codeId,
     createdAt,
@@ -120,11 +131,14 @@ export function validateGuestPassCode(
     };
   }
 
-  if (
-    passCode.allowedEmails?.length &&
-    !passCode.allowedEmails.includes(normalizeEmail(request.email) ?? '')
-  ) {
-    return { message: GENERIC_REDEMPTION_ERROR, status: 'EMAIL_NOT_ALLOWED' };
+  if (!passCode.allowedEmails.includes(normalizeEmail(request.email) ?? '')) {
+    return {
+      message:
+        request.email?.trim()
+          ? `This pass is not assigned to ${request.email.trim()}. Please sign out and sign in with the email address used when this pass was created.`
+          : 'Please sign in with the email address used when this pass was created.',
+      status: 'EMAIL_NOT_ALLOWED',
+    };
   }
 
   const redeemedDeviceIds = passCode.redeemedDeviceIds ?? [];

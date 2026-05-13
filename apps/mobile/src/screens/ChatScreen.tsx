@@ -48,6 +48,10 @@ import {
 import { detectIntent } from '@pridicta/ai';
 import { buildBirthIntakeReply } from '@pridicta/config/predictaMemory';
 import {
+  getLanguageLabels,
+  getLanguageOption,
+} from '@pridicta/config/language';
+import {
   getBirthExtractionFailureReply,
   getFriendlyGreetingReply,
   getListeningMicrocopy,
@@ -130,9 +134,13 @@ export function ChatScreen({
   const auth = useAppStore(state => state.auth);
   const chatSoundEnabled = useAppStore(state => state.chatSoundEnabled);
   const languagePreference = useAppStore(state => state.languagePreference);
-  const setLanguagePreference = useAppStore(
-    state => state.setLanguagePreference,
+  const predictaReplyLanguage = useAppStore(
+    state => state.predictaReplyLanguage,
   );
+  const setPredictaReplyLanguage = useAppStore(
+    state => state.setPredictaReplyLanguage,
+  );
+  const languageLabels = getLanguageLabels(languagePreference.language);
   const userPlan = useAppStore(state => state.userPlan);
   const pendingBirthDetailsDraft = useAppStore(
     state => state.pendingBirthDetailsDraft,
@@ -303,7 +311,7 @@ export function ChatScreen({
 
     const languageContext = preparePredictaLanguageContext({
       memory: predictaMemory,
-      selectedLanguage: languagePreference.language,
+      selectedLanguage: predictaReplyLanguage,
       text: trimmedInput,
     });
     const responseLanguage = languageContext.responseLanguage;
@@ -317,7 +325,7 @@ export function ChatScreen({
       );
       setInput('');
       if (switchDecision === 'approve') {
-        setLanguagePreference('en');
+        setPredictaReplyLanguage('en');
       }
       streamAssistantResponse(
         buildEnglishSwitchDecisionReply({
@@ -341,19 +349,19 @@ export function ChatScreen({
     if (
       shouldAutoSwitchToRegionalLanguage({
         context: languageContext,
-        selectedLanguage: languagePreference.language,
+        selectedLanguage: predictaReplyLanguage,
       })
     ) {
-      setLanguagePreference(responseLanguage);
+      setPredictaReplyLanguage(responseLanguage);
     }
 
     if (
       shouldAskBeforeSwitchingToEnglish({
         context: languageContext,
-        selectedLanguage: languagePreference.language,
+        selectedLanguage: predictaReplyLanguage,
       })
     ) {
-      const fromLanguage = languagePreference.language as 'gu' | 'hi';
+      const fromLanguage = predictaReplyLanguage as 'gu' | 'hi';
       setPendingEnglishSwitch(fromLanguage);
       appendConversationMessage(
         createMessage('user', trimmedInput, activeChartContext),
@@ -418,7 +426,7 @@ export function ChatScreen({
 
       const actionReply = buildPredictaActionReply({
         kundli: undefined,
-        language: languagePreference.language,
+        language: responseLanguage,
         memory: predictaMemory,
         savedKundlis: savedKundliRecords.map(record => record.kundliData),
         text: trimmedInput,
@@ -568,7 +576,7 @@ export function ChatScreen({
     const actionReply = buildPredictaActionReply({
       hasPremiumAccess: getResolvedAccess().hasPremiumAccess,
       kundli: activeKundli,
-      language: languagePreference.language,
+      language: responseLanguage,
       memory: predictaMemory,
       savedKundlis,
       text: trimmedInput,
@@ -724,7 +732,7 @@ export function ChatScreen({
       hasKundli: Boolean(kundli),
       hasPremiumAccess: getResolvedAccess().hasPremiumAccess,
       kundli,
-      language: languagePreference.language,
+      language: predictaReplyLanguage,
       lastText,
     });
   }
@@ -861,6 +869,19 @@ export function ChatScreen({
         </FadeInView>
       ) : null}
 
+      <FadeInView className="mt-5">
+        <View style={styles.chatLanguageState}>
+          <AppText tone="secondary" variant="caption">
+            {languageLabels.chatLanguage}:{' '}
+            {getLanguageOption(predictaReplyLanguage).englishName}
+          </AppText>
+          <AppText tone="secondary" variant="caption">
+            {languageLabels.appLanguage}:{' '}
+            {getLanguageOption(languagePreference.language).englishName}
+          </AppText>
+        </View>
+      </FadeInView>
+
       <View className="mt-7 gap-4">
         {messages.map((message, index) => (
           <ChatBubble
@@ -913,7 +934,7 @@ export function ChatScreen({
               role: 'pridicta',
               text:
                 streamingText ||
-                getListeningMicrocopy(languagePreference.language),
+                getListeningMicrocopy(predictaReplyLanguage),
             }}
             onUsePrompt={(prompt, block) => {
               if (block) {
@@ -1064,7 +1085,7 @@ function ChatBubble({
     >
       {isUser ? (
         <View style={styles.userBubble}>
-          <AppText>{message.text}</AppText>
+          <AppText autoTranslate={false}>{message.text}</AppText>
         </View>
       ) : (
         <LinearGradient
@@ -1126,8 +1147,10 @@ function MobileChatSafetyCard({
   return (
     <View style={[styles.chatSafetyCard, getMobileSafetyStyle(safety.kind)]}>
       <View className="flex-1">
-        <AppText variant="caption">{safety.title}</AppText>
-        <AppText className="mt-1" tone="secondary" variant="caption">
+        <AppText autoTranslate={false} variant="caption">
+          {safety.title}
+        </AppText>
+        <AppText autoTranslate={false} className="mt-1" tone="secondary" variant="caption">
           {safety.body}
         </AppText>
       </View>
@@ -1137,7 +1160,7 @@ function MobileChatSafetyCard({
         onPress={() => void submitReport()}
         style={styles.chatSafetyReport}
       >
-        <AppText variant="caption">
+        <AppText autoTranslate={false} variant="caption">
           {reportState === 'sent'
             ? 'Sent for review'
             : reportState === 'error'
@@ -1226,7 +1249,7 @@ function MobileChatSuggestions({
 }): React.JSX.Element {
   return (
     <View style={styles.chatSuggestionRow}>
-      <AppText tone="secondary" variant="caption">
+      <AppText autoTranslate={false} tone="secondary" variant="caption">
         Suggested next questions
       </AppText>
       {suggestions.slice(0, 4).map(suggestion => (
@@ -1236,7 +1259,7 @@ function MobileChatSuggestions({
           onPress={() => onSuggestionPress(suggestion)}
           style={styles.chatSuggestionChip}
         >
-          <AppText variant="caption">{suggestion.label}</AppText>
+          <AppText autoTranslate={false} variant="caption">{suggestion.label}</AppText>
         </Pressable>
       ))}
     </View>
@@ -1258,7 +1281,9 @@ function MobileChatReplyText({ text }: { text: string }): React.JSX.Element {
   return (
     <View style={styles.mobileReplyStack}>
       {parsed.body.map((paragraph, index) => (
-        <AppText key={`${paragraph}-${index}`}>{paragraph}</AppText>
+        <AppText autoTranslate={false} key={`${paragraph}-${index}`}>
+          {paragraph}
+        </AppText>
       ))}
       {parsed.proof ? <MobileProofCard proof={parsed.proof} /> : null}
     </View>
@@ -1273,18 +1298,20 @@ function MobileProofCard({
   return (
     <View style={styles.mobileProofCard}>
       <View style={styles.mobileProofTopline}>
-        <AppText variant="caption">Ask with proof</AppText>
+        <AppText autoTranslate={false} variant="caption">
+          Ask with proof
+        </AppText>
         <View style={styles.mobileProofBadge}>
-          <AppText variant="caption">{proof.confidence}</AppText>
+          <AppText autoTranslate={false} variant="caption">{proof.confidence}</AppText>
         </View>
       </View>
-      <AppText className="mt-2" tone="secondary" variant="caption">
+      <AppText autoTranslate={false} className="mt-2" tone="secondary" variant="caption">
         Timing: {proof.timing}
       </AppText>
       <View style={styles.mobileProofChipRow}>
         {proof.chartFactors.map(item => (
           <View key={item} style={styles.mobileProofChip}>
-            <AppText tone="secondary" variant="caption">
+            <AppText autoTranslate={false} tone="secondary" variant="caption">
               {item}
             </AppText>
           </View>
@@ -1365,18 +1392,18 @@ function MobileChatChartBlock({
     <View style={styles.chatChartCard}>
       <View className="flex-row items-start justify-between gap-3">
         <View className="flex-1">
-          <AppText tone="secondary" variant="caption">
+          <AppText autoTranslate={false} tone="secondary" variant="caption">
             {block.chartType} · {block.insight.eyebrow}
           </AppText>
-          <AppText className="mt-1" variant="subtitle">
+          <AppText autoTranslate={false} className="mt-1" variant="subtitle">
             {block.chartName}
           </AppText>
-          <AppText className="mt-1" tone="secondary" variant="caption">
+          <AppText autoTranslate={false} className="mt-1" tone="secondary" variant="caption">
             {block.ownerName}'s chart focus
           </AppText>
         </View>
         <View style={styles.chatChartStatus}>
-          <AppText variant="caption">
+          <AppText autoTranslate={false} variant="caption">
             {block.supported ? 'Visible' : 'Unverified'}
           </AppText>
         </View>
@@ -1393,10 +1420,10 @@ function MobileChatChartBlock({
               <View key={`center-${row}-${col}`} style={styles.chatMiniCenterCell}>
                 {row === 2 && col === 2 ? (
                   <>
-                    <AppText tone="secondary" variant="caption">
+                    <AppText autoTranslate={false} tone="secondary" variant="caption">
                       {block.chartType}
                     </AppText>
-                    <AppText className="text-center" variant="caption">
+                    <AppText autoTranslate={false} className="text-center" variant="caption">
                       D1 anchor
                     </AppText>
                   </>
@@ -1418,14 +1445,14 @@ function MobileChatChartBlock({
               style={styles.chatMiniHouse}
             >
               <View className="flex-row items-center justify-between">
-                <AppText tone="secondary" variant="caption">
+                <AppText autoTranslate={false} tone="secondary" variant="caption">
                   H{cell.house}
                 </AppText>
-                <AppText tone="secondary" variant="caption">
+                <AppText autoTranslate={false} tone="secondary" variant="caption">
                   {cell.signShort}
                 </AppText>
               </View>
-              <AppText className="mt-1" variant="caption">
+              <AppText autoTranslate={false} className="mt-1" variant="caption">
                 {cell.planets.length
                   ? cell.planets.map(getPlanetAbbreviation).join(' ')
                   : '-'}
@@ -1438,7 +1465,7 @@ function MobileChatChartBlock({
       <View style={styles.chatEvidenceRow}>
         {block.evidenceChips.map(chip => (
           <View key={chip} style={styles.chatEvidenceChip}>
-            <AppText tone="secondary" variant="caption">
+            <AppText autoTranslate={false} tone="secondary" variant="caption">
               {chip}
             </AppText>
           </View>
@@ -1447,7 +1474,7 @@ function MobileChatChartBlock({
 
       <View className="mt-3 gap-2">
         {block.insight.bullets.slice(0, 4).map(item => (
-          <AppText key={item} tone="secondary" variant="caption">
+          <AppText autoTranslate={false} key={item} tone="secondary" variant="caption">
             - {item}
           </AppText>
         ))}
@@ -1461,7 +1488,7 @@ function MobileChatChartBlock({
             onPress={() => onUsePrompt(cta.prompt, block)}
             style={styles.chatChartAction}
           >
-            <AppText variant="caption">{cta.label}</AppText>
+            <AppText autoTranslate={false} variant="caption">{cta.label}</AppText>
           </Pressable>
         ))}
       </View>
@@ -1495,7 +1522,7 @@ function TypingPulse({ text }: { text: string }): React.JSX.Element {
       <View style={styles.thinkingMark}>
         <View style={styles.thinkingDiamond} />
       </View>
-      <AppText className="flex-1" tone="secondary">
+      <AppText autoTranslate={false} className="flex-1" tone="secondary">
         {text}
       </AppText>
     </Animated.View>
@@ -1546,6 +1573,19 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 8,
     marginTop: 12,
+  },
+  chatLanguageState: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.055)',
+    borderColor: colors.border,
+    borderRadius: 999,
+    borderWidth: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    justifyContent: 'space-between',
+    paddingHorizontal: 14,
+    paddingVertical: 10,
   },
   chatMiniCenterCell: {
     alignItems: 'center',

@@ -136,7 +136,7 @@ export function KundliScreen({
               setSavedKundlis(saved);
               showGlassAlert({
                 message:
-                  'This kundli was calculated and saved locally on this device.',
+                  'This Kundli was calculated and saved on this device.',
                 title: 'Kundli generated',
               });
             } catch (error) {

@@ -81,7 +81,7 @@ export async function loadReleaseReadiness(
   );
 
   if (!response.ok) {
-    throw new Error(await readErrorMessage(response, 'Release readiness could not be loaded.'));
+    throw new Error(await readErrorMessage(response, 'Public sharing check could not be loaded.'));
   }
 
   return (await response.json()) as ReleaseReadinessReport;

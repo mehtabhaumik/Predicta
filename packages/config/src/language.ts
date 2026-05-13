@@ -4,7 +4,9 @@ export const LANGUAGE_STORAGE_KEY = 'pridicta.languagePreference.v1';
 
 export type LanguageLabels = {
   askPridicta: string;
+  appLanguage: string;
   chartEvidence: string;
+  chatLanguage: string;
   createKundli: string;
   confidence: string;
   currentLanguage: string;
@@ -28,6 +30,57 @@ export type LanguageOption = {
   nativeName: string;
   englishName: string;
   aiInstruction: string;
+};
+
+export type AppShellLabels = {
+  access: {
+    freePreview: string;
+    premiumDepthAvailable: string;
+  };
+  actions: {
+    askPredicta: string;
+    close: string;
+    openMenu: string;
+    closeMenu: string;
+  };
+  groups: {
+    account: string;
+    charts: string;
+    guidance: string;
+    owner: string;
+    savedWork: string;
+    start: string;
+  };
+  nav: {
+    admin: string;
+    allCharts: string;
+    birthTime: string;
+    chat: string;
+    decision: string;
+    family: string;
+    founderVision: string;
+    holisticAstrology: string;
+    kpPredicta: string;
+    kundli: string;
+    legal: string;
+    nadiPredicta: string;
+    overview: string;
+    premium: string;
+    redeemPass: string;
+    relationship: string;
+    remedies: string;
+    reports: string;
+    safetyPromise: string;
+    savedKundlis: string;
+    settings: string;
+    timeline: string;
+    wrapped: string;
+  };
+  privateSave: {
+    body: string;
+    title: string;
+  };
+  topbarDescription: string;
 };
 
 export const SUPPORTED_LANGUAGE_OPTIONS: LanguageOption[] = [
@@ -57,10 +110,12 @@ export const SUPPORTED_LANGUAGE_OPTIONS: LanguageOption[] = [
 export const LANGUAGE_LABELS: Record<SupportedLanguage, LanguageLabels> = {
   en: {
     askPridicta: 'Ask Predicta',
+    appLanguage: 'App language',
     chartEvidence: 'Chart evidence',
+    chatLanguage: 'Predicta replying in',
     confidence: 'Confidence',
     createKundli: 'Create Kundli',
-    currentLanguage: 'Current language',
+    currentLanguage: 'App language',
     decisionWindows: 'Decision windows',
     evidenceTable: 'Evidence table',
     factor: 'Factor',
@@ -69,7 +124,7 @@ export const LANGUAGE_LABELS: Record<SupportedLanguage, LanguageLabels> = {
     keySignal: 'Key signal',
     language: 'Language',
     languageHelper:
-      'Predicta will use this language for AI answers, reports, daily briefings, and share-safe summaries.',
+      'This translates the app interface. Predicta can still answer in the language you type inside chat.',
     observation: 'Observation',
     premium: 'Premium',
     reading: 'Reading',
@@ -78,10 +133,12 @@ export const LANGUAGE_LABELS: Record<SupportedLanguage, LanguageLabels> = {
   },
   gu: {
     askPridicta: 'પ્રેડિક્ટાને પૂછો',
+    appLanguage: 'એપ ભાષા',
     chartEvidence: 'ચાર્ટનો પુરાવો',
+    chatLanguage: 'પ્રેડિક્ટા જવાબ આપશે',
     confidence: 'વિશ્વાસ',
     createKundli: 'કુંડળી બનાવો',
-    currentLanguage: 'હાલની ભાષા',
+    currentLanguage: 'એપ ભાષા',
     decisionWindows: 'નિર્ણય સમયગાળા',
     evidenceTable: 'પુરાવા ટેબલ',
     factor: 'કારક',
@@ -90,7 +147,7 @@ export const LANGUAGE_LABELS: Record<SupportedLanguage, LanguageLabels> = {
     keySignal: 'મુખ્ય સંકેત',
     language: 'ભાષા',
     languageHelper:
-      'પ્રેડિક્ટા AI જવાબો, રિપોર્ટ, દૈનિક બ્રીફિંગ અને શેર-સેફ સારાંશ માટે આ ભાષા વાપરશે.',
+      'આ એપના બટન, મેનુ અને લખાણની ભાષા છે. ચેટમાં તમે જે ભાષા લખશો તેમાં પ્રેડિક્ટા જવાબ આપી શકે છે.',
     observation: 'અવલોકન',
     premium: 'પ્રીમિયમ',
     reading: 'વાંચન',
@@ -99,10 +156,12 @@ export const LANGUAGE_LABELS: Record<SupportedLanguage, LanguageLabels> = {
   },
   hi: {
     askPridicta: 'प्रेडिक्टा से पूछें',
+    appLanguage: 'ऐप भाषा',
     chartEvidence: 'चार्ट प्रमाण',
+    chatLanguage: 'प्रेडिक्टा जवाब दे रही है',
     confidence: 'विश्वास',
     createKundli: 'कुंडली बनाएं',
-    currentLanguage: 'वर्तमान भाषा',
+    currentLanguage: 'ऐप भाषा',
     decisionWindows: 'निर्णय समय',
     evidenceTable: 'प्रमाण तालिका',
     factor: 'कारक',
@@ -111,7 +170,7 @@ export const LANGUAGE_LABELS: Record<SupportedLanguage, LanguageLabels> = {
     keySignal: 'मुख्य संकेत',
     language: 'भाषा',
     languageHelper:
-      'प्रेडिक्टा AI उत्तरों, रिपोर्ट, दैनिक ब्रीफिंग और शेयर-सेफ सारांश में इस भाषा का उपयोग करेगा.',
+      'यह ऐप के बटन, मेनू और लिखावट की भाषा है. चैट में आप जिस भाषा में लिखेंगे, प्रेडिक्टा उसी भाषा में जवाब दे सकती है.',
     observation: 'अवलोकन',
     premium: 'प्रीमियम',
     reading: 'रीडिंग',
@@ -122,6 +181,168 @@ export const LANGUAGE_LABELS: Record<SupportedLanguage, LanguageLabels> = {
 
 export function getLanguageLabels(language: SupportedLanguage): LanguageLabels {
   return LANGUAGE_LABELS[language] ?? LANGUAGE_LABELS.en;
+}
+
+const APP_SHELL_LABELS: Record<SupportedLanguage, AppShellLabels> = {
+  en: {
+    access: {
+      freePreview: 'Free preview',
+      premiumDepthAvailable: 'Premium depth available',
+    },
+    actions: {
+      askPredicta: 'Ask Predicta',
+      close: 'Close',
+      closeMenu: 'Close dashboard menu',
+      openMenu: 'Open dashboard menu',
+    },
+    groups: {
+      account: 'Account',
+      charts: 'Charts',
+      guidance: 'Guidance',
+      owner: 'Owner',
+      savedWork: 'Saved Work',
+      start: 'Start',
+    },
+    nav: {
+      admin: 'Admin',
+      allCharts: 'All Charts',
+      birthTime: 'Birth Time',
+      chat: 'Chat',
+      decision: 'Decision',
+      family: 'Family',
+      founderVision: 'Founder Vision',
+      holisticAstrology: 'Holistic Astrology',
+      kpPredicta: 'KP Predicta',
+      kundli: 'Kundli',
+      legal: 'Legal',
+      nadiPredicta: 'Nadi Predicta',
+      overview: 'Overview',
+      premium: 'Premium',
+      redeemPass: 'Redeem Pass',
+      relationship: 'Relationship',
+      remedies: 'Remedies',
+      reports: 'Reports',
+      safetyPromise: 'Safety Promise',
+      savedKundlis: 'Saved Kundlis',
+      settings: 'Settings',
+      timeline: 'Timeline',
+      wrapped: 'Wrapped',
+    },
+    privateSave: {
+      body: 'This browser remembers your chart. Sign in to keep it across devices.',
+      title: 'Private save',
+    },
+    topbarDescription:
+      'Holistic astrology guidance, reports, charts, and saved kundlis.',
+  },
+  hi: {
+    access: {
+      freePreview: 'फ्री प्रीव्यू',
+      premiumDepthAvailable: 'प्रीमियम गहराई उपलब्ध',
+    },
+    actions: {
+      askPredicta: 'प्रेडिक्टा से पूछें',
+      close: 'बंद करें',
+      closeMenu: 'डैशबोर्ड मेनू बंद करें',
+      openMenu: 'डैशबोर्ड मेनू खोलें',
+    },
+    groups: {
+      account: 'खाता',
+      charts: 'चार्ट',
+      guidance: 'मार्गदर्शन',
+      owner: 'ओनर',
+      savedWork: 'सेव किया हुआ',
+      start: 'शुरू करें',
+    },
+    nav: {
+      admin: 'एडमिन',
+      allCharts: 'सभी चार्ट',
+      birthTime: 'जन्म समय',
+      chat: 'चैट',
+      decision: 'निर्णय',
+      family: 'परिवार',
+      founderVision: 'फाउंडर विजन',
+      holisticAstrology: 'होलिस्टिक ज्योतिष',
+      kpPredicta: 'KP प्रेडिक्टा',
+      kundli: 'कुंडली',
+      legal: 'कानूनी',
+      nadiPredicta: 'नाड़ी प्रेडिक्टा',
+      overview: 'ओवरव्यू',
+      premium: 'प्रीमियम',
+      redeemPass: 'पास रिडीम करें',
+      relationship: 'रिश्ता',
+      remedies: 'उपाय',
+      reports: 'रिपोर्ट',
+      safetyPromise: 'सुरक्षा वादा',
+      savedKundlis: 'सेव कुंडली',
+      settings: 'सेटिंग्स',
+      timeline: 'टाइमलाइन',
+      wrapped: 'रैप्ड',
+    },
+    privateSave: {
+      body: 'यह ब्राउजर आपका चार्ट याद रखता है. दूसरे डिवाइस पर रखने के लिए साइन इन करें.',
+      title: 'निजी सेव',
+    },
+    topbarDescription:
+      'होलिस्टिक ज्योतिष मार्गदर्शन, रिपोर्ट, चार्ट और सेव कुंडली.',
+  },
+  gu: {
+    access: {
+      freePreview: 'ફ્રી પ્રીવ્યૂ',
+      premiumDepthAvailable: 'પ્રીમિયમ ઊંડાઈ ઉપલબ્ધ',
+    },
+    actions: {
+      askPredicta: 'પ્રેડિક્ટાને પૂછો',
+      close: 'બંધ કરો',
+      closeMenu: 'ડેશબોર્ડ મેનૂ બંધ કરો',
+      openMenu: 'ડેશબોર્ડ મેનૂ ખોલો',
+    },
+    groups: {
+      account: 'એકાઉન્ટ',
+      charts: 'ચાર્ટ્સ',
+      guidance: 'માર્ગદર્શન',
+      owner: 'ઓનર',
+      savedWork: 'સેવ કરેલું',
+      start: 'શરૂ કરો',
+    },
+    nav: {
+      admin: 'એડમિન',
+      allCharts: 'બધા ચાર્ટ્સ',
+      birthTime: 'જન્મ સમય',
+      chat: 'ચેટ',
+      decision: 'નિર્ણય',
+      family: 'પરિવાર',
+      founderVision: 'ફાઉન્ડર વિઝન',
+      holisticAstrology: 'હોલિસ્ટિક જ્યોતિષ',
+      kpPredicta: 'KP પ્રેડિક્ટા',
+      kundli: 'કુંડળી',
+      legal: 'કાનૂની',
+      nadiPredicta: 'નાડી પ્રેડિક્ટા',
+      overview: 'ઓવરવ્યૂ',
+      premium: 'પ્રીમિયમ',
+      redeemPass: 'પાસ રિડીમ કરો',
+      relationship: 'સંબંધ',
+      remedies: 'ઉપાયો',
+      reports: 'રિપોર્ટ્સ',
+      safetyPromise: 'સેફ્ટી પ્રોમિસ',
+      savedKundlis: 'સેવ કુંડળી',
+      settings: 'સેટિંગ્સ',
+      timeline: 'ટાઇમલાઇન',
+      wrapped: 'રેપ્ડ',
+    },
+    privateSave: {
+      body: 'આ બ્રાઉઝર તમારો ચાર્ટ યાદ રાખે છે. બીજા ડિવાઇસ માટે સાઇન ઇન કરો.',
+      title: 'પ્રાઇવેટ સેવ',
+    },
+    topbarDescription:
+      'હોલિસ્ટિક જ્યોતિષ માર્ગદર્શન, રિપોર્ટ્સ, ચાર્ટ્સ અને સેવ કુંડળી.',
+  },
+};
+
+export function getAppShellLabels(
+  language: SupportedLanguage,
+): AppShellLabels {
+  return APP_SHELL_LABELS[language] ?? APP_SHELL_LABELS.en;
 }
 
 export function getLanguageOption(language: SupportedLanguage): LanguageOption {

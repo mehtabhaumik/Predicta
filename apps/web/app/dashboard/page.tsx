@@ -144,7 +144,7 @@ export default function DashboardPage(): React.JSX.Element {
                         ? '/dashboard/kundli'
                         : buildPredictaChatHref({
                             kundli: activeKundli,
-                            prompt: 'Guide me from my active Kundli and suggest the next best step.',
+                            prompt: 'Guide me from my selected Kundli and suggest the next best step.',
                             sourceScreen: 'Dashboard Journey',
                           })
                   }
@@ -190,7 +190,7 @@ export default function DashboardPage(): React.JSX.Element {
                       ? buildPredictaChatHref({
                           kundli: activeKundli,
                           prompt:
-                            'Read my active Kundli and help me choose the best question to ask next.',
+                            'Read my selected Kundli and help me choose the best question to ask next.',
                           sourceScreen: 'Dashboard Quick Actions',
                         })
                       : action.href

@@ -137,7 +137,7 @@ function buildPendingGochar(
         id: 'moment-sky-preview',
         interpretation:
           'This is the current sky preview. It becomes personal after a Kundli is saved and Predicta can anchor Gochar to Lagna, Moon, and dasha.',
-        observation: 'No active Kundli is available, so Predicta is showing the moment-sky preview.',
+        observation: 'No Kundli is selected yet, so Predicta is showing the sky for this moment.',
         title: 'Moment sky preview',
         weight: 'neutral',
       },

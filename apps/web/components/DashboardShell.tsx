@@ -5,63 +5,70 @@ import { usePathname } from 'next/navigation';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useState, type ReactNode } from 'react';
 import { canSeeAdminRoute } from '@pridicta/access';
+import {
+  getAppShellLabels,
+  type AppShellLabels,
+} from '@pridicta/config/language';
 import type { ResolvedAccess } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
+import { useLanguagePreference } from '../lib/language-preference';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 import { StatusPill } from './StatusPill';
 import { SidebarNav, type SidebarGroup } from './SidebarNav';
 import { WebFooter } from './WebFooter';
 import { WebLanguageSelector } from './WebLanguageSelector';
 
-const navGroups: SidebarGroup[] = [
+function buildDashboardNavGroups(labels: AppShellLabels): SidebarGroup[] {
+  return [
   {
-    label: 'Start',
+    label: labels.groups.start,
     items: [
-      { href: '/dashboard', label: 'Overview' },
-      { href: '/dashboard/chat', label: 'Chat' },
-      { href: '/dashboard/decision', label: 'Decision' },
+      { href: '/dashboard', label: labels.nav.overview },
+      { href: '/dashboard/chat', label: labels.nav.chat },
+      { href: '/dashboard/decision', label: labels.nav.decision },
     ],
   },
   {
-    label: 'Charts',
+    label: labels.groups.charts,
     items: [
-      { href: '/dashboard/kundli', label: 'Kundli' },
-      { href: '/dashboard/charts', label: 'All Charts' },
-      { href: '/dashboard/kp', label: 'KP Predicta' },
-      { href: '/dashboard/nadi', label: 'Nadi Predicta' },
+      { href: '/dashboard/kundli', label: labels.nav.kundli },
+      { href: '/dashboard/charts', label: labels.nav.allCharts },
+      { href: '/dashboard/kp', label: labels.nav.kpPredicta },
+      { href: '/dashboard/nadi', label: labels.nav.nadiPredicta },
     ],
   },
   {
-    label: 'Guidance',
+    label: labels.groups.guidance,
     items: [
-      { href: '/dashboard/timeline', label: 'Timeline' },
-      { href: '/dashboard/holistic', label: 'Holistic Astrology' },
-      { href: '/dashboard/remedies', label: 'Remedies' },
-      { href: '/dashboard/birth-time', label: 'Birth Time' },
-      { href: '/dashboard/relationship', label: 'Relationship' },
-      { href: '/dashboard/family', label: 'Family' },
+      { href: '/dashboard/timeline', label: labels.nav.timeline },
+      { href: '/dashboard/holistic', label: labels.nav.holisticAstrology },
+      { href: '/dashboard/remedies', label: labels.nav.remedies },
+      { href: '/dashboard/birth-time', label: labels.nav.birthTime },
+      { href: '/dashboard/relationship', label: labels.nav.relationship },
+      { href: '/dashboard/family', label: labels.nav.family },
     ],
   },
   {
-    label: 'Saved Work',
+    label: labels.groups.savedWork,
     items: [
-      { href: '/dashboard/wrapped', label: 'Wrapped' },
-      { href: '/dashboard/report', label: 'Reports' },
-      { href: '/dashboard/saved-kundlis', label: 'Saved Kundlis' },
+      { href: '/dashboard/wrapped', label: labels.nav.wrapped },
+      { href: '/dashboard/report', label: labels.nav.reports },
+      { href: '/dashboard/saved-kundlis', label: labels.nav.savedKundlis },
     ],
   },
   {
-    label: 'Account',
+    label: labels.groups.account,
     items: [
-      { href: '/dashboard/premium', label: 'Premium' },
-      { href: '/dashboard/redeem-pass', label: 'Redeem Pass' },
-      { href: '/dashboard/settings', label: 'Settings' },
-      { href: '/safety', label: 'Safety Promise' },
-      { href: '/founder', label: 'Founder Vision' },
-      { href: '/legal', label: 'Legal' },
+      { href: '/dashboard/premium', label: labels.nav.premium },
+      { href: '/dashboard/redeem-pass', label: labels.nav.redeemPass },
+      { href: '/dashboard/settings', label: labels.nav.settings },
+      { href: '/safety', label: labels.nav.safetyPromise },
+      { href: '/founder', label: labels.nav.founderVision },
+      { href: '/legal', label: labels.nav.legal },
     ],
   },
-];
+  ];
+}
 
 export function DashboardShell({
   access,
@@ -72,28 +79,46 @@ export function DashboardShell({
 }): React.JSX.Element {
   const pathname = usePathname();
   const reduceMotion = useReducedMotion();
-  const accessText = access.source === 'free' ? 'Free preview' : access.accessLevel;
+  const { language } = useLanguagePreference();
+  const shellLabels = getAppShellLabels(language);
+  const navGroups = buildDashboardNavGroups(shellLabels);
+  const accessText =
+    access.source === 'free' ? shellLabels.access.freePreview : access.accessLevel;
   const showAdmin = canSeeAdminRoute(access);
   const [menuOpen, setMenuOpen] = useState(false);
   const { activeKundli } = useWebKundliLibrary();
   const visibleGroups = showAdmin
     ? [
         ...navGroups,
-        { label: 'Owner', items: [{ href: '/dashboard/admin', label: 'Admin' }] },
+        {
+          label: shellLabels.groups.owner,
+          items: [{ href: '/dashboard/admin', label: shellLabels.nav.admin }],
+        },
       ]
     : navGroups;
 
   return (
     <div className="dashboard-shell">
-      <SidebarNav groups={navGroups} showAdmin={showAdmin} />
+      <SidebarNav
+        adminLabel={shellLabels.nav.admin}
+        groups={navGroups}
+        ownerLabel={shellLabels.groups.owner}
+        privateSaveBody={shellLabels.privateSave.body}
+        privateSaveTitle={shellLabels.privateSave.title}
+        showAdmin={showAdmin}
+      />
       <main className="main-workspace">
         <div className="dashboard-topbar glass-panel">
           <div>
             <StatusPill
-              label={access.hasPremiumAccess ? 'Premium depth available' : accessText}
+              label={
+                access.hasPremiumAccess
+                  ? shellLabels.access.premiumDepthAvailable
+                  : accessText
+              }
               tone={access.hasPremiumAccess ? 'premium' : 'quiet'}
             />
-            <p>Holistic astrology guidance, reports, charts, and saved kundlis.</p>
+            <p>{shellLabels.topbarDescription}</p>
           </div>
           <div className="dashboard-topbar-actions">
             <WebLanguageSelector compact />
@@ -101,15 +126,19 @@ export function DashboardShell({
               className="button secondary"
               href={buildPredictaChatHref({
                 kundli: activeKundli,
-                prompt: 'Help me from my active Kundli.',
+                prompt: 'Help me from my selected Kundli.',
                 sourceScreen: 'Dashboard Header',
               })}
             >
-              Ask Predicta
+              {shellLabels.actions.askPredicta}
             </Link>
             <button
               aria-expanded={menuOpen}
-              aria-label={menuOpen ? 'Close dashboard menu' : 'Open dashboard menu'}
+              aria-label={
+                menuOpen
+                  ? shellLabels.actions.closeMenu
+                  : shellLabels.actions.openMenu
+              }
               className="dashboard-menu-toggle"
               onClick={() => setMenuOpen(current => !current)}
               type="button"
@@ -134,12 +163,12 @@ export function DashboardShell({
               <div className="dashboard-mobile-drawer-head">
                 <strong>Predicta</strong>
                 <button
-                  aria-label="Close dashboard menu"
+                  aria-label={shellLabels.actions.closeMenu}
                   className="dashboard-menu-close"
                   onClick={() => setMenuOpen(false)}
                   type="button"
                 >
-                  Close
+                  {shellLabels.actions.close}
                 </button>
               </div>
               <nav aria-label="Dashboard menu links">
@@ -170,8 +199,8 @@ export function DashboardShell({
                 ))}
               </nav>
               <div className="dashboard-mobile-drawer-note">
-                <span>Private save</span>
-                <p>This browser remembers your chart. Sign in to keep it across devices.</p>
+                <span>{shellLabels.privateSave.title}</span>
+                <p>{shellLabels.privateSave.body}</p>
               </div>
             </aside>
           </div>

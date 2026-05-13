@@ -171,7 +171,7 @@ export function composeAdvancedJyotishCoverage(
     ctas: buildCtas(),
     depth,
     freePolicy:
-      'Free users get broad Jyotish coverage, every available chart, and useful insight without technical overwhelm.',
+      'Free users get broad Jyotish coverage, every available chart, and useful insight without confusing detail.',
     limitations: [
       'Care patterns are not fear labels. They show where patience, verification, and remedy discipline help.',
       'Panchang and muhurta guidance here is a planning aid, not a guarantee.',
@@ -193,7 +193,7 @@ export function composeAdvancedJyotishCoverage(
         'Prashna will be a premium question-time chart workflow. It is planned here so Predicta does not mix it casually with birth-chart answers.',
     },
     premiumPolicy:
-      'Premium turns the same surface into detailed synthesis, strength checks, timing, remedies, technical tables, and PDF-ready guidance.',
+      'Premium turns the same surface into detailed synthesis, strength checks, timing, remedies, deeper tables, and PDF-ready guidance.',
     premiumUnlock:
       'Premium Advanced Mode adds detailed yoga/dosha scoring, BAV/SAV tables, nakshatra depth, muhurta planning, compatibility synthesis, Prashna workflow, and safe remedy schedules.',
     safeRemedies: buildSafeRemedies(kundli),
@@ -201,7 +201,7 @@ export function composeAdvancedJyotishCoverage(
     subtitle:
       depth === 'PREMIUM'
         ? 'Serious Jyotish coverage with detailed tables and planning depth.'
-        : 'Broad Jyotish coverage explained simply, with technical depth kept behind Premium.',
+        : 'Broad Jyotish coverage explained simply, with deeper detail available in Premium.',
     title: `${kundli.birthDetails.name}'s Advanced Jyotish coverage`,
     yogaDoshaInsights: buildYogaDoshaInsights(kundli, depth),
   };
@@ -261,7 +261,7 @@ function buildPendingCoverage(
       summary: 'Prashna planning is available after the main chart is ready.',
     },
     premiumPolicy:
-      'Premium adds detailed synthesis, timing, remedies, and technical tables.',
+      'Premium adds detailed synthesis, timing, remedies, and deeper tables.',
     premiumUnlock:
       'Premium Advanced Mode adds detailed scoring, planning, and report depth.',
     safeRemedies: ['Create Kundli first so remedies can be evidence-linked.'],
@@ -576,7 +576,7 @@ function buildAdvancedTables(
         depth === 'PREMIUM'
           ? 'Premium can show expanded tables without confusing beginners.'
           : 'Advanced details stay summarized in free mode.',
-      title: 'Core technical table',
+      title: 'Core Jyotish table',
     },
     {
       id: 'ashtakavarga-table',

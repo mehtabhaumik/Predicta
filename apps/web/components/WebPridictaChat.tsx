@@ -24,7 +24,10 @@ import {
   shouldAutoSwitchToRegionalLanguage,
   type PredictaInteractionMemory,
 } from '@pridicta/astrology';
-import { getLanguageLabels } from '@pridicta/config/language';
+import {
+  getLanguageLabels,
+  getLanguageOption,
+} from '@pridicta/config/language';
 import {
   buildBirthIntakeReply,
   type PredictaBirthMemory,
@@ -86,6 +89,7 @@ type WebMessage = {
 
 type WebChatMemory = {
   birthMemory?: PredictaBirthMemory;
+  chatLanguage?: SupportedLanguage;
   messages: WebMessage[];
   predictaMemory?: PredictaInteractionMemory;
 };
@@ -107,8 +111,9 @@ type ParsedProofReply = {
 export function WebPridictaChat(): React.JSX.Element {
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
-  const { language, setLanguage } = useLanguagePreference();
+  const { language } = useLanguagePreference();
   const labels = getLanguageLabels(language);
+  const appLanguageOption = getLanguageOption(language);
   const loadedQueryPromptRef = useRef('');
   const searchParams = useSearchParams();
   const queryString = searchParams.toString();
@@ -122,6 +127,7 @@ export function WebPridictaChat(): React.JSX.Element {
     useState<PredictaInteractionMemory>();
   const [pendingEnglishSwitch, setPendingEnglishSwitch] =
     useState<PendingEnglishSwitch>();
+  const [chatLanguage, setChatLanguage] = useState<SupportedLanguage>(language);
   const [activeChartContext, setActiveChartContext] = useState<ChartContext>();
   const [messages, setMessages] = useState<WebMessage[]>(() =>
     buildInitialMessages(language),
@@ -151,6 +157,7 @@ export function WebPridictaChat(): React.JSX.Element {
         .reverse()
         .find(message => message.context)?.context;
       setBirthMemory(stored.birthMemory);
+      setChatLanguage(stored.chatLanguage ?? language);
       setPredictaMemory(stored.predictaMemory);
       setActiveChartContext(current => current ?? rememberedContext);
       const recoveredKundli = resolveWebKundliForContext(rememberedContext);
@@ -159,7 +166,7 @@ export function WebPridictaChat(): React.JSX.Element {
       }
       setMessages(
         stored.messages.length
-          ? stored.messages
+          ? stored.messages.map(sanitizeStoredMessage)
           : buildInitialMessages(language),
       );
     }
@@ -191,10 +198,11 @@ export function WebPridictaChat(): React.JSX.Element {
 
     saveWebChatMemory({
       birthMemory,
-      messages,
+      chatLanguage,
+      messages: messages.map(sanitizeStoredMessage),
       predictaMemory,
     });
-  }, [birthMemory, messages, predictaMemory]);
+  }, [birthMemory, chatLanguage, messages, predictaMemory]);
 
   useEffect(() => {
     const thread = threadRef.current;
@@ -209,6 +217,9 @@ export function WebPridictaChat(): React.JSX.Element {
       current.length === 1 && current[0].id === 'welcome'
         ? buildInitialMessages(language)
         : current,
+    );
+    setChatLanguage(current =>
+      messages.length <= 1 && current !== language ? language : current,
     );
   }, [language]);
 
@@ -237,13 +248,13 @@ export function WebPridictaChat(): React.JSX.Element {
     if (prompt || ctaContext) {
       loadedQueryPromptRef.current = queryString;
       if (ctaContext) {
-        const selectedSection =
-          prompt ||
-          ctaContext.selectedSection ||
-          (ctaContext.chartType
-            ? buildChartSelectionPrompt(ctaContext)
-            : ctaContext.handoffQuestion) ||
-          `${ctaContext.sourceScreen} context`;
+          const selectedSection =
+            prompt ||
+            ctaContext.selectedSection ||
+            (ctaContext.chartType
+              ? buildChartSelectionPrompt(ctaContext)
+              : ctaContext.handoffQuestion) ||
+          `Help me with ${getFriendlySourceName(ctaContext.sourceScreen).toLowerCase()}.`;
         const nextContext = {
           ...ctaContext,
           selectedSection,
@@ -321,7 +332,7 @@ export function WebPridictaChat(): React.JSX.Element {
     try {
       const languageContext = preparePredictaLanguageContext({
         memory: predictaMemory,
-        selectedLanguage: language,
+        selectedLanguage: chatLanguage,
         text,
       });
       const switchDecision = pendingEnglishSwitch
@@ -330,7 +341,7 @@ export function WebPridictaChat(): React.JSX.Element {
 
       if (pendingEnglishSwitch && switchDecision !== 'none') {
         if (switchDecision === 'approve') {
-          setLanguage('en');
+          setChatLanguage('en');
         }
         setPendingEnglishSwitch(undefined);
         setMessages(current => [
@@ -340,7 +351,7 @@ export function WebPridictaChat(): React.JSX.Element {
               currentLanguage: pendingEnglishSwitch.fromLanguage,
               decision: switchDecision,
             }),
-            language,
+            switchDecision === 'approve' ? 'en' : pendingEnglishSwitch.fromLanguage,
             { context: activeChartContext, kundli, lastText: text },
           ),
         ]);
@@ -352,7 +363,7 @@ export function WebPridictaChat(): React.JSX.Element {
           ...current,
           createPridictaReply(
             buildEnglishSwitchPrompt(pendingEnglishSwitch.fromLanguage),
-            language,
+            pendingEnglishSwitch.fromLanguage,
             { context: activeChartContext, kundli, lastText: text },
           ),
         ]);
@@ -362,19 +373,19 @@ export function WebPridictaChat(): React.JSX.Element {
       if (
         shouldAutoSwitchToRegionalLanguage({
           context: languageContext,
-          selectedLanguage: language,
+          selectedLanguage: chatLanguage,
         })
       ) {
-        setLanguage(languageContext.responseLanguage);
+        setChatLanguage(languageContext.responseLanguage);
       }
 
       if (
         shouldAskBeforeSwitchingToEnglish({
           context: languageContext,
-          selectedLanguage: language,
+          selectedLanguage: chatLanguage,
         })
       ) {
-        const fromLanguage = language as Exclude<SupportedLanguage, 'en'>;
+        const fromLanguage = chatLanguage as Exclude<SupportedLanguage, 'en'>;
         setPendingEnglishSwitch({
           fromLanguage,
           requestedAt: new Date().toISOString(),
@@ -383,7 +394,7 @@ export function WebPridictaChat(): React.JSX.Element {
           ...current,
           createPridictaReply(
             buildEnglishSwitchPrompt(fromLanguage),
-            language,
+            fromLanguage,
             { context: activeChartContext, kundli, lastText: text },
           ),
         ]);
@@ -444,11 +455,11 @@ export function WebPridictaChat(): React.JSX.Element {
         ]);
     } catch {
       const fallbackText = looksLikeBirthDetails(text)
-        ? getBirthExtractionFailureReply(language)
+        ? getBirthExtractionFailureReply(chatLanguage)
         : 'I could not complete that reading just now. I am still here with you; please try again with one focused question.';
       setMessages(current => [
         ...current,
-          createPridictaReply(fallbackText, language, {
+          createPridictaReply(fallbackText, chatLanguage, {
             context: activeChartContext,
             kundli,
             lastText: text,
@@ -510,7 +521,7 @@ export function WebPridictaChat(): React.JSX.Element {
   async function resolveSmartReply(text: string): Promise<string> {
     const languageContext = preparePredictaLanguageContext({
       memory: predictaMemory,
-      selectedLanguage: language,
+      selectedLanguage: chatLanguage,
       text,
     });
     const responseLanguage = languageContext.responseLanguage;
@@ -544,7 +555,7 @@ export function WebPridictaChat(): React.JSX.Element {
     const actionReply = buildPredictaActionReply({
       hasPremiumAccess: false,
       kundli: activeKundli,
-      language,
+      language: responseLanguage,
       memory: predictaMemory,
       savedKundlis,
       text,
@@ -718,6 +729,13 @@ export function WebPridictaChat(): React.JSX.Element {
   return (
     <div className="chat-workspace">
       <div className="card chat-panel">
+        <div className="chat-language-state" aria-live="polite">
+          <span>{labels.chatLanguage}</span>
+          <strong>{getLanguageOption(chatLanguage).englishName}</strong>
+          <small>
+            {labels.appLanguage}: {appLanguageOption.englishName}
+          </small>
+        </div>
         <div aria-live="polite" className="chat-thread" ref={threadRef}>
           {messages.map(message => (
             <div
@@ -767,7 +785,7 @@ export function WebPridictaChat(): React.JSX.Element {
                     buildFollowUps({
                       context: message.context ?? activeChartContext,
                       kundli,
-                      language,
+                      language: chatLanguage,
                       lastText: message.text,
                     })
                   }
@@ -776,7 +794,7 @@ export function WebPridictaChat(): React.JSX.Element {
             </div>
           ))}
           {isSending ? (
-            <WebPredictaThinking language={language} />
+            <WebPredictaThinking language={chatLanguage} />
           ) : null}
         </div>
         <div className="chat-input-row">
@@ -1273,7 +1291,7 @@ function buildCtaContextIntro(
   context: ChartContext,
   language: SupportedLanguage,
 ): string {
-  const source = context.sourceScreen || 'Predicta';
+  const source = getFriendlySourceName(context.sourceScreen);
   const focus =
     context.selectedDecisionQuestion ??
     context.selectedRemedyTitle ??
@@ -1283,9 +1301,9 @@ function buildCtaContextIntro(
 
   if (language === 'hi') {
     return [
-      `${source} context loaded hai.`,
-      focus ? `Focus: ${focus}` : undefined,
-      'Main isi context aur active Kundli se answer karungi. Aap Ask dabaiye ya apna follow-up likhiye.',
+      `${source} se aapka sawaal mil gaya hai.`,
+      focus ? `Ab hum yeh dekh rahe hain: ${focus}` : undefined,
+      'Main aapki selected Kundli se yahin jawab dungi. Aap Ask dabaiye ya apna follow-up likhiye.',
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -1293,21 +1311,41 @@ function buildCtaContextIntro(
 
   if (language === 'gu') {
     return [
-      `${source} context loaded chhe.`,
-      focus ? `Focus: ${focus}` : undefined,
-      'Hu aa context ane active Kundli thi jawab aapish. Ask dabavo athva follow-up lakho.',
+      `${source} mathi tamaro sawal mali gayo chhe.`,
+      focus ? `Havye aapde aa joiye chhiye: ${focus}` : undefined,
+      'Hu tamari selected Kundli thi ahi j jawab aapish. Ask dabavo athva follow-up lakho.',
     ]
       .filter(Boolean)
       .join('\n\n');
   }
 
   return [
-    `${source} context loaded.`,
-    focus ? `Focus: ${focus}` : undefined,
-    'I will answer from this context and your active Kundli. Press Ask or type your follow-up.',
+    `I picked this up from ${source}.`,
+    focus ? `We are looking at: ${focus}` : undefined,
+    'I will use your selected Kundli here. Press Ask or type your follow-up.',
   ]
     .filter(Boolean)
     .join('\n\n');
+}
+
+function getFriendlySourceName(source?: string): string {
+  const normalized = (source || 'Predicta')
+    .replace(/\bHeader\b/gi, '')
+    .replace(/\bMarketplace\b/gi, 'Reports')
+    .replace(/\bJourney\b/gi, '')
+    .replace(/\bQuick Actions\b/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  if (!normalized || normalized === 'Dashboard') {
+    return 'your dashboard';
+  }
+
+  if (/dashboard/i.test(normalized)) {
+    return 'your dashboard';
+  }
+
+  return normalized;
 }
 
 function buildSchoolContextIntro(
@@ -1504,20 +1542,20 @@ function buildKundliCreatedReply(
 
   if (language === 'hi') {
     return [
-      'Ho gaya. Maine Kundli yahin chat mein bana di hai aur ise active rakh liya hai.',
+      'Ho gaya. Maine Kundli yahin chat mein bana di hai aur ise selected rakh liya hai.',
       lines.join('\n'),
       'Ab career, marriage, money, health tendencies, remedies, timing, ya kisi decision par poochiye. Main answer chart proof ke saath dungi.',
     ].join('\n\n');
   }
   if (language === 'gu') {
     return [
-      'Thai gayu. Maine Kundli ahi chat ma banaavi didhi chhe ane tene active rakhi chhe.',
+      'Thai gayu. Maine Kundli ahi chat ma banaavi didhi chhe ane tene selected rakhi chhe.',
       lines.join('\n'),
       'Have career, marriage, money, health tendencies, remedies, timing athva koi decision vishe poochho. Hu chart proof sathe jawab aapish.',
     ].join('\n\n');
   }
   return [
-    'Done. I created your Kundli right here in chat and made it the active chart.',
+    'Done. I created your Kundli right here in chat and selected it for this reading.',
     lines.join('\n'),
     'Now ask me about career, marriage, money, health tendencies, remedies, timing, or any decision. I will answer with chart proof.',
   ].join('\n\n');
@@ -1532,6 +1570,25 @@ function loadWebChatMemory(): WebChatMemory | undefined {
   }
 }
 
+function sanitizeStoredMessage(message: WebMessage): WebMessage {
+  return {
+    ...message,
+    text: sanitizeChatCopy(message.text),
+  };
+}
+
+function sanitizeChatCopy(text: string): string {
+  return text
+    .replace(/Dashboard Header context loaded hai\./g, 'I picked this up from your dashboard.')
+    .replace(/Dashboard Header context loaded\./g, 'I picked this up from your dashboard.')
+    .replace(/Focus: Help me from my active Kundli\./g, 'We are looking at: Help me from my selected Kundli.')
+    .replace(/Main isi context aur active Kundli se answer karungi\. Aap Ask dabaiye ya apna follow-up likhiye\./g, 'Main aapki selected Kundli se yahin jawab dungi. Aap Ask dabaiye ya apna follow-up likhiye.')
+    .replace(/I will answer from this context and your active Kundli\. Press Ask or type your follow-up\./g, 'I will use your selected Kundli here. Press Ask or type your follow-up.')
+    .replace(/\bactive Kundli\b/g, 'selected Kundli')
+    .replace(/\bactive chart\b/g, 'selected chart')
+    .replace(/\bcontext loaded\b/gi, 'ready');
+}
+
 function saveWebChatMemory(memory: WebChatMemory): void {
   try {
     const messages = memory.messages.slice(-24);
@@ -1539,6 +1596,7 @@ function saveWebChatMemory(memory: WebChatMemory): void {
       WEB_CHAT_MEMORY_KEY,
       JSON.stringify({
         birthMemory: memory.birthMemory,
+        chatLanguage: memory.chatLanguage,
         messages,
         predictaMemory: memory.predictaMemory,
       }),

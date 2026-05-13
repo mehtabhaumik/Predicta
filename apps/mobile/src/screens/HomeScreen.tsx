@@ -16,7 +16,9 @@ import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import { PREDICTA_JOURNEY_STEPS } from '@pridicta/config/predictaUx';
 import {
+  getAppShellLabels,
   SUPPORTED_LANGUAGE_OPTIONS,
+  type AppShellLabels,
   getLanguageLabels,
 } from '@pridicta/config/language';
 import {
@@ -59,54 +61,56 @@ const quickActions = [
   },
 ] as const;
 
-const navGroups = [
+function buildMobileNavGroups(labels: AppShellLabels) {
+  return [
   {
-    label: 'Start',
+    label: labels.groups.start,
     items: [
-      ['Create Kundli', routes.Kundli],
-      ['Chat', routes.Chat],
-      ['Decision', routes.DecisionOracle],
+      [labels.nav.kundli, routes.Kundli],
+      [labels.nav.chat, routes.Chat],
+      [labels.nav.decision, routes.DecisionOracle],
     ],
   },
   {
-    label: 'Charts',
+    label: labels.groups.charts,
     items: [
-      ['All Charts', routes.Charts],
-      ['KP Predicta', routes.KpPredicta],
-      ['Nadi Predicta', routes.NadiPredicta],
+      [labels.nav.allCharts, routes.Charts],
+      [labels.nav.kpPredicta, routes.KpPredicta],
+      [labels.nav.nadiPredicta, routes.NadiPredicta],
     ],
   },
   {
-    label: 'Guidance',
+    label: labels.groups.guidance,
     items: [
-      ['Timeline', routes.LifeTimeline],
-      ['Holistic Astrology', routes.HolisticReadingRooms],
-      ['Remedies', routes.RemedyCoach],
-      ['Birth Time', routes.BirthTimeDetective],
-      ['Relationship', routes.RelationshipMirror],
-      ['Family', routes.FamilyKarmaMap],
+      [labels.nav.timeline, routes.LifeTimeline],
+      [labels.nav.holisticAstrology, routes.HolisticReadingRooms],
+      [labels.nav.remedies, routes.RemedyCoach],
+      [labels.nav.birthTime, routes.BirthTimeDetective],
+      [labels.nav.relationship, routes.RelationshipMirror],
+      [labels.nav.family, routes.FamilyKarmaMap],
     ],
   },
   {
-    label: 'Saved Work',
+    label: labels.groups.savedWork,
     items: [
-      ['Wrapped', routes.PredictaWrapped],
-      ['Reports', routes.Report],
-      ['Saved Kundlis', routes.SavedKundlis],
+      [labels.nav.wrapped, routes.PredictaWrapped],
+      [labels.nav.reports, routes.Report],
+      [labels.nav.savedKundlis, routes.SavedKundlis],
     ],
   },
   {
-    label: 'Account',
+    label: labels.groups.account,
     items: [
-      ['Premium', routes.Paywall],
-      ['Redeem Pass', routes.RedeemPassCode],
-      ['Settings', routes.Settings],
-      ['Safety Promise', routes.SafetyPromise],
-      ['Founder Vision', routes.FounderVision],
-      ['Legal', routes.Legal],
+      [labels.nav.premium, routes.Paywall],
+      [labels.nav.redeemPass, routes.RedeemPassCode],
+      [labels.nav.settings, routes.Settings],
+      [labels.nav.safetyPromise, routes.SafetyPromise],
+      [labels.nav.founderVision, routes.FounderVision],
+      [labels.nav.legal, routes.Legal],
     ],
   },
-] as const;
+  ] as const;
+}
 
 const focusCards = [
   {
@@ -178,6 +182,8 @@ export function HomeScreen({
   }
 
   const languageLabels = getLanguageLabels(languagePreference.language);
+  const shellLabels = getAppShellLabels(languagePreference.language);
+  const navGroups = buildMobileNavGroups(shellLabels);
 
   React.useEffect(() => {
     let cancelled = false;
