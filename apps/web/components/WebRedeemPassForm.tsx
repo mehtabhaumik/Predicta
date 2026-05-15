@@ -1,7 +1,9 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { formatPassCode, normalizePassCode } from '@pridicta/access';
+import type { RedeemedGuestPass } from '@pridicta/types';
 import type { User } from 'firebase/auth';
 import { onAuthStateChanged } from 'firebase/auth';
 import { getFirebaseWebAuth } from '../lib/firebase/client';
@@ -20,9 +22,10 @@ export function WebRedeemPassForm(): React.JSX.Element {
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState<RedemptionStatus>({
     tone: 'idle',
-    text: 'Sign in first, then redeem the pass using the same email used when the pass was created.',
+    text: 'Sign in first with the email used for your pass, then enter the code.',
   });
   const [deviceId, setDeviceId] = useState('');
+  const [redeemedPass, setRedeemedPass] = useState<RedeemedGuestPass>();
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
@@ -46,7 +49,7 @@ export function WebRedeemPassForm(): React.JSX.Element {
     if (!user?.email) {
       setStatus({
         tone: 'error',
-        text: 'Please sign in first. Use Google sign-in or create an account with the exact email that was approved for this pass.',
+        text: 'Please sign in first. Use Google sign-in or create an account with the email used for your pass. If you are not sure, contact the Predicta admin or the person who invited you.',
       });
       return;
     }
@@ -69,8 +72,8 @@ export function WebRedeemPassForm(): React.JSX.Element {
 
       if (!response.ok || result.status !== 'SUCCESS') {
         const detail =
-          result.status === 'EMAIL_NOT_ALLOWED' && user.email
-            ? `This pass is not assigned to ${user.email}. Please sign out and sign in with the exact email address used when this pass was created.`
+          result.status === 'EMAIL_NOT_ALLOWED'
+            ? 'This pass is not available for the email currently signed in. Please sign out and sign in with the email used when your pass was created. If you are not sure, contact the Predicta admin or the person who invited you.'
             : result.detail ?? result.message ?? 'This pass could not be redeemed.';
         setStatus({
           tone: 'error',
@@ -83,6 +86,7 @@ export function WebRedeemPassForm(): React.JSX.Element {
         'pridicta.redeemedGuestPass.v1',
         JSON.stringify(result.redeemedPass),
       );
+      setRedeemedPass(result.redeemedPass);
       setCode('');
       setStatus({
         tone: 'success',
@@ -102,14 +106,14 @@ export function WebRedeemPassForm(): React.JSX.Element {
     <div className="card-content spacious">
       <div className="redeem-guidance">
         <div className="section-title">HOW TO REDEEM</div>
-        <h2>Sign in with the approved email first.</h2>
+        <h2>Sign in with the pass email first.</h2>
         <p>
-          A private pass is tied to one email address. Ask the person who created
-          the pass which email was approved, then sign in with that same email
-          before entering the code.
+          A private pass is tied to one email address. If you remember the email
+          used for your pass, sign in with it. If you are not sure, contact the
+          Predicta admin or the person who invited you.
         </p>
         <ol>
-          <li>Use Google sign-in, or create an account with the approved email.</li>
+          <li>Use Google sign-in, or create an account with the pass email.</li>
           <li>Enter the private pass code exactly as shared.</li>
           <li>If the email does not match, Predicta will not redeem the pass.</li>
         </ol>
@@ -121,6 +125,16 @@ export function WebRedeemPassForm(): React.JSX.Element {
               : 'Not signed in yet'}
           </span>
         </div>
+      </div>
+      <div className="redeem-account-status">
+        <span>Account check</span>
+        <strong>
+          {user?.email ? `Signed in as ${user.email}` : 'Sign in to continue'}
+        </strong>
+        <p>
+          Predicta automatically checks your signed-in email against the pass.
+          You never need to type your email on this page.
+        </p>
       </div>
       <div className="field-stack">
         <label className="field-label" htmlFor="pass-code">
@@ -134,18 +148,6 @@ export function WebRedeemPassForm(): React.JSX.Element {
           value={code}
         />
       </div>
-      <div className="field-stack">
-        <label className="field-label" htmlFor="pass-email">
-          Approved email
-        </label>
-        <input
-          disabled
-          id="pass-email"
-          placeholder="Sign in to confirm your email"
-          type="email"
-          value={user?.email ?? ''}
-        />
-      </div>
       <p className={`form-status ${status.tone}`}>{status.text}</p>
       <button
         className="button"
@@ -155,6 +157,36 @@ export function WebRedeemPassForm(): React.JSX.Element {
       >
         {busy ? 'Checking...' : 'Redeem Pass'}
       </button>
+      {redeemedPass ? (
+        <div className="redeem-next-steps">
+          <div className="section-title">PASS ACTIVE</div>
+          <h2>Start with these three steps.</h2>
+          <p>
+            Your private preview is active. The fastest path is to create your
+            Kundli, ask Predicta one real question, then try a report preview.
+          </p>
+          <div className="redeem-next-step-grid">
+            <Link className="button" href="/dashboard/kundli">
+              Create Kundli
+            </Link>
+            <Link
+              className="button secondary"
+              href="/dashboard/chat?sourceScreen=Private+Pass&prompt=Help+me+start+with+my+Kundli."
+            >
+              Ask Predicta
+            </Link>
+            <Link className="button secondary" href="/dashboard/report">
+              Preview Report
+            </Link>
+            <Link
+              className="button secondary"
+              href="/feedback?source=family-friends&area=general&from=redeem-pass"
+            >
+              Give Feedback
+            </Link>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

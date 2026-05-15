@@ -83,13 +83,19 @@ export function SidebarNav({
                     key={item.href}
                     whileHover={reduceMotion ? undefined : { x: 3 }}
                   >
-                    <Link
-                      aria-current={active ? 'page' : undefined}
-                      className={`nav-link ${active ? 'active' : ''}`}
-                      href={item.href}
-                    >
-                      {item.label}
-                    </Link>
+                    {active ? (
+                      <span
+                        aria-current="page"
+                        aria-disabled="true"
+                        className="nav-link active disabled"
+                      >
+                        {item.label}
+                      </span>
+                    ) : (
+                      <Link className="nav-link" href={item.href}>
+                        {item.label}
+                      </Link>
+                    )}
                   </motion.div>
                 );
               })}

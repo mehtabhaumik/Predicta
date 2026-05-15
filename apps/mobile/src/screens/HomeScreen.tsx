@@ -14,7 +14,11 @@ import {
 } from '../components';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
-import { PREDICTA_JOURNEY_STEPS } from '@pridicta/config/predictaUx';
+import {
+  PREDICTA_JOURNEY_STEPS,
+  PREDICTA_OUTCOME_ENTRIES,
+} from '@pridicta/config/predictaUx';
+import { getTestimonialTrustCopy } from '@pridicta/config/testimonialTrust';
 import {
   getAppShellLabels,
   SUPPORTED_LANGUAGE_OPTIONS,
@@ -37,29 +41,6 @@ import { colors } from '../theme/colors';
 import type { ChartContext, KundliData } from '../types/astrology';
 
 const predictaLogo = require('../assets/predicta-logo.png');
-
-const quickActions = [
-  {
-    description: 'Work, momentum, timing',
-    label: 'Career',
-    section: 'Career',
-  },
-  {
-    description: 'Partnership signals',
-    label: 'Marriage',
-    section: 'Marriage',
-  },
-  {
-    description: 'Money flow and choices',
-    label: 'Finance',
-    section: 'Finance',
-  },
-  {
-    description: 'Planetary phase view',
-    label: 'Current Dasha',
-    section: 'Current Dasha',
-  },
-] as const;
 
 function buildMobileNavGroups(labels: AppShellLabels) {
   return [
@@ -104,6 +85,7 @@ function buildMobileNavGroups(labels: AppShellLabels) {
       [labels.nav.premium, routes.Paywall],
       [labels.nav.redeemPass, routes.RedeemPassCode],
       [labels.nav.settings, routes.Settings],
+      [labels.nav.accuracyMethod, routes.AccuracyMethod],
       [labels.nav.safetyPromise, routes.SafetyPromise],
       [labels.nav.founderVision, routes.FounderVision],
       [labels.nav.legal, routes.Legal],
@@ -167,11 +149,6 @@ export function HomeScreen({
     gochar.topOpportunities[0] ?? gochar.cautionSignals[0];
 
   function askFromHome(context: ChartContext) {
-    if (!kundli) {
-      navigation.navigate(routes.Kundli);
-      return;
-    }
-
     setActiveChartContext(context);
     navigation.navigate(routes.Chat);
   }
@@ -183,6 +160,7 @@ export function HomeScreen({
 
   const languageLabels = getLanguageLabels(languagePreference.language);
   const shellLabels = getAppShellLabels(languagePreference.language);
+  const testimonialTrust = getTestimonialTrustCopy(languagePreference.language);
   const navGroups = buildMobileNavGroups(shellLabels);
 
   React.useEffect(() => {
@@ -435,6 +413,81 @@ export function HomeScreen({
         </View>
       </GlowCard>
 
+      <View className="mt-8">
+        <DailyBriefingCard
+          briefing={dailyBriefing}
+          holisticGuidance={holisticDailyGuidance}
+          onAskToday={() =>
+            askFromHome({
+              selectedDailyBriefingDate: dailyBriefing.date,
+              selectedSection: dailyBriefing.askPrompt,
+              sourceScreen: 'Daily Briefing',
+            })
+          }
+          onAskGuidance={() =>
+            askFromHome({
+              selectedDailyBriefingDate: holisticDailyGuidance.date,
+              selectedSection: holisticDailyGuidance.askPrompt,
+              sourceScreen: 'Holistic Daily Guidance',
+            })
+          }
+          onCreateKundli={() => navigation.navigate(routes.Kundli)}
+        />
+      </View>
+
+      <GlowCard className="mt-8" delay={100}>
+        <View style={styles.outcomeHeader}>
+          <View className="flex-1">
+            <AppText tone="secondary" variant="caption">
+              START WITH LIFE NEED
+            </AppText>
+            <GradientText style={styles.cardTitle} variant="subtitle">
+              What do you need help with?
+            </GradientText>
+            <AppText className="mt-2" tone="secondary" variant="caption">
+              Pick one life area. Predicta will use your Kundli when available
+              and keep the answer proof-based.
+            </AppText>
+          </View>
+          <View style={styles.outcomeStatusPill}>
+            <AppText variant="caption">
+              {kundli ? 'Kundli connected' : 'Birth details first'}
+            </AppText>
+          </View>
+        </View>
+        <View style={styles.outcomeGrid}>
+          {PREDICTA_OUTCOME_ENTRIES.map(entry => (
+            <Pressable
+              accessibilityRole="button"
+              key={entry.id}
+              onPress={() =>
+                askFromHome({
+                  purpose: entry.id,
+                  selectedSection: entry.prompt,
+                  sourceScreen: 'Home Outcome Entry',
+                })
+              }
+              style={styles.outcomeCard}
+            >
+              <View>
+                <AppText tone="secondary" variant="caption">
+                  {entry.proof}
+                </AppText>
+                <AppText className="mt-2" variant="subtitle">
+                  {entry.title}
+                </AppText>
+                <AppText className="mt-2" tone="secondary" variant="caption">
+                  {entry.body}
+                </AppText>
+              </View>
+              <AppText tone="secondary" variant="caption">
+                {entry.cta}
+              </AppText>
+            </Pressable>
+          ))}
+        </View>
+      </GlowCard>
+
       {!kundli ? (
         <GlowCard className="mt-8" delay={110}>
         <AppText tone="secondary" variant="caption">
@@ -474,28 +527,6 @@ export function HomeScreen({
         </View>
         </GlowCard>
       ) : null}
-
-      <View className="mt-8">
-        <DailyBriefingCard
-          briefing={dailyBriefing}
-          holisticGuidance={holisticDailyGuidance}
-          onAskToday={() =>
-            askFromHome({
-              selectedDailyBriefingDate: dailyBriefing.date,
-              selectedSection: dailyBriefing.askPrompt,
-              sourceScreen: 'Daily Briefing',
-            })
-          }
-          onAskGuidance={() =>
-            askFromHome({
-              selectedDailyBriefingDate: holisticDailyGuidance.date,
-              selectedSection: holisticDailyGuidance.askPrompt,
-              sourceScreen: 'Holistic Daily Guidance',
-            })
-          }
-          onCreateKundli={() => navigation.navigate(routes.Kundli)}
-        />
-      </View>
 
       <GlowCard className="mt-8" delay={160}>
         <View style={styles.gocharTopline}>
@@ -587,6 +618,46 @@ export function HomeScreen({
         />
       </View>
 
+      <GlowCard className="mt-8" delay={200}>
+        <AppText tone="secondary" variant="caption">
+          {testimonialTrust.eyebrow}
+        </AppText>
+        <GradientText style={styles.cardTitle} variant="subtitle">
+          {testimonialTrust.title}
+        </GradientText>
+        <AppText className="mt-3" tone="secondary" variant="caption">
+          {testimonialTrust.intro}
+        </AppText>
+        <View style={styles.trustSignalGrid}>
+          {testimonialTrust.signals.map(signal => (
+            <View key={signal.label} style={styles.trustSignalCard}>
+              <AppText tone="secondary" variant="caption">
+                {signal.label}
+              </AppText>
+              <AppText className="mt-1" variant="subtitle">
+                {signal.value}
+              </AppText>
+              <AppText className="mt-2" tone="secondary" variant="caption">
+                {signal.detail}
+              </AppText>
+            </View>
+          ))}
+        </View>
+        <View className="mt-5 gap-3">
+          {testimonialTrust.testerLoop.steps.map(step => (
+            <View key={step.title} style={styles.trustStepCard}>
+              <AppText variant="caption">{step.title}</AppText>
+              <AppText className="mt-1" tone="secondary" variant="caption">
+                {step.body}
+              </AppText>
+            </View>
+          ))}
+        </View>
+        <AppText className="mt-4" tone="secondary" variant="caption">
+          {testimonialTrust.cta.note}
+        </AppText>
+      </GlowCard>
+
       <View className="mt-7">
         <GlowButton
           delay={220}
@@ -631,35 +702,6 @@ export function HomeScreen({
         </View>
       </GlowCard>
 
-      <FadeInView className="mt-8" delay={440}>
-        <AppText variant="subtitle">Quick actions</AppText>
-      </FadeInView>
-
-      <View className="mt-4 flex-row flex-wrap gap-4">
-        {quickActions.map((action, index) => (
-          <Pressable
-            accessibilityRole="button"
-            className="w-[47%]"
-            key={action.label}
-            onPress={() =>
-              askFromHome({
-                selectedSection: action.section,
-                sourceScreen: 'Home',
-              })
-            }
-          >
-            <GlowCard contentClassName="min-h-[128px]" delay={460 + index * 80}>
-              <AppText variant="subtitle">{action.label}</AppText>
-              <AppText className="mt-2" tone="secondary" variant="caption">
-                {action.description}
-              </AppText>
-              <AppText className="mt-auto text-xl" tone="secondary">
-                {'>'}
-              </AppText>
-            </GlowCard>
-          </Pressable>
-        ))}
-      </View>
     </Screen>
   );
 }
@@ -999,6 +1041,37 @@ const styles = StyleSheet.create({
     right: -120,
     top: 52,
   },
+  outcomeCard: {
+    backgroundColor: colors.surfaceMuted,
+    borderColor: colors.border,
+    borderRadius: 12,
+    borderWidth: 1,
+    justifyContent: 'space-between',
+    minHeight: 172,
+    padding: 14,
+    width: '47%',
+  },
+  outcomeGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    marginTop: 16,
+  },
+  outcomeHeader: {
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    gap: 12,
+    justifyContent: 'space-between',
+  },
+  outcomeStatusPill: {
+    alignSelf: 'flex-start',
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderColor: colors.border,
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+  },
   journeyStep: {
     alignItems: 'center',
     backgroundColor: colors.surfaceMuted,
@@ -1075,6 +1148,26 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 10,
     marginTop: 10,
+  },
+  trustSignalCard: {
+    backgroundColor: colors.surfaceMuted,
+    borderColor: colors.border,
+    borderRadius: 10,
+    borderWidth: 1,
+    minHeight: 128,
+    padding: 12,
+    width: '100%',
+  },
+  trustSignalGrid: {
+    gap: 10,
+    marginTop: 16,
+  },
+  trustStepCard: {
+    backgroundColor: 'rgba(255,255,255,0.055)',
+    borderColor: colors.border,
+    borderRadius: 10,
+    borderWidth: 1,
+    padding: 12,
   },
   mixedFill: {
     backgroundColor: '#FFC34D',

@@ -52,6 +52,10 @@ export type BirthDetails = {
   longitude: number;
   timezone: string;
   isTimeApproximate?: boolean;
+  timeConfidence?: 'entered' | 'approximate' | 'rectified';
+  originalTime?: string;
+  rectifiedAt?: string;
+  rectificationMethod?: 'chat' | 'manual-yes-no';
   resolvedBirthPlace?: ResolvedBirthPlace;
   originalPlaceText?: string;
 };

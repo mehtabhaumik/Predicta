@@ -12,7 +12,6 @@ import type {
 import { translateUiText } from '@pridicta/config/uiTranslations';
 import { useLanguagePreference } from '../lib/language-preference';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
-import { StatusPill } from './StatusPill';
 
 type WebDashboardAstrologyCockpitProps = {
   dailyBriefing: DailyBriefing;
@@ -96,10 +95,6 @@ export function WebDashboardAstrologyCockpit({
             Life weather, current timing, Gochar, and chart focus in one glance.
           </p>
         </div>
-        <StatusPill
-          label={kundli ? 'Personal chart active' : 'Moment sky preview'}
-          tone={kundli ? 'premium' : 'quiet'}
-        />
       </div>
 
       <div className="cockpit-grid">

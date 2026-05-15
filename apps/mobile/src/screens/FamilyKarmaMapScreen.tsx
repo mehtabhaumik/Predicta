@@ -38,6 +38,7 @@ export function FamilyKarmaMapScreen({
     Record<string, FamilyRelationshipLabel>
   >({});
   const activeKundli = useAppStore(state => state.activeKundli);
+  const setActiveKundli = useAppStore(state => state.setActiveKundli);
   const setActiveChartContext = useAppStore(
     state => state.setActiveChartContext,
   );
@@ -92,11 +93,33 @@ export function FamilyKarmaMapScreen({
   );
 
   function askFamilyMap() {
+    const mapKundli = activeKundli ?? records[0]?.kundliData;
+
+    if (mapKundli) {
+      setActiveKundli(mapKundli);
+    }
+
     setActiveChartContext({
+      kundliId: mapKundli?.id,
       selectedFamilyKarmaMap: true,
       selectedFamilyMemberCount: familyMap.members.length,
       selectedSection: familyMap.askPrompt,
       sourceScreen: 'Family Karma Map',
+    });
+    navigation.navigate(routes.Chat);
+  }
+
+  function useProfile(record: SavedKundliRecord) {
+    setActiveKundli(record.kundliData);
+  }
+
+  function askProfile(record: SavedKundliRecord) {
+    setActiveKundli(record.kundliData);
+    setActiveChartContext({
+      kundliId: record.summary.id,
+      purpose: 'family',
+      selectedSection: `Use ${record.summary.name}'s saved Kundli as the active family profile and explain the best next family-focused reading for this profile.`,
+      sourceScreen: 'Family Profile',
     });
     navigation.navigate(routes.Chat);
   }
@@ -124,7 +147,10 @@ export function FamilyKarmaMapScreen({
           records.map((record, index) => (
             <RelationshipLabelPicker
               key={record.summary.id}
+              active={record.summary.id === activeKundli?.id}
+              onAskProfile={() => askProfile(record)}
               onSelect={label => setRelationship(record.summary.id, label)}
+              onUseProfile={() => useProfile(record)}
               record={record}
               selected={
                 relationshipById[record.summary.id] ??
@@ -154,16 +180,25 @@ export function FamilyKarmaMapScreen({
 }
 
 function RelationshipLabelPicker({
+  active,
+  onAskProfile,
   onSelect,
+  onUseProfile,
   record,
   selected,
 }: {
+  active: boolean;
+  onAskProfile: () => void;
   onSelect: (label: FamilyRelationshipLabel) => void;
+  onUseProfile: () => void;
   record: SavedKundliRecord;
   selected: FamilyRelationshipLabel;
 }): React.JSX.Element {
   return (
     <GlowCard>
+      <AppText tone="secondary" variant="caption">
+        {active ? 'ACTIVE PROFILE' : 'SAVED PROFILE'}
+      </AppText>
       <AppText variant="subtitle">{record.summary.name}</AppText>
       <AppText className="mt-1" tone="secondary" variant="caption">
         {record.summary.moonSign} Moon · {record.summary.nakshatra}
@@ -183,6 +218,24 @@ function RelationshipLabelPicker({
             <AppText variant="caption">{formatLabel(label)}</AppText>
           </Pressable>
         ))}
+      </View>
+      <View className="mt-4 flex-row flex-wrap gap-3">
+        {!active ? (
+          <Pressable
+            accessibilityRole="button"
+            className="rounded-full border border-[#252533] bg-[#191923] px-4 py-3"
+            onPress={onUseProfile}
+          >
+            <AppText variant="caption">Use as active</AppText>
+          </Pressable>
+        ) : null}
+        <Pressable
+          accessibilityRole="button"
+          className="rounded-full border border-[#4DAFFF] bg-[#172233] px-4 py-3"
+          onPress={onAskProfile}
+        >
+          <AppText variant="caption">Ask Predicta</AppText>
+        </Pressable>
       </View>
     </GlowCard>
   );

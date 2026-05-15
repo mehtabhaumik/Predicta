@@ -29,6 +29,98 @@ export const PREDICTA_JOURNEY_STEPS: PredictaJourneyStep[] = [
   },
 ];
 
+export type PredictaOutcomeEntry = {
+  id:
+    | 'money'
+    | 'career'
+    | 'marriage'
+    | 'health'
+    | 'family'
+    | 'today'
+    | 'remedies'
+    | 'report';
+  title: string;
+  body: string;
+  proof: string;
+  prompt: string;
+  cta: string;
+};
+
+export const PREDICTA_OUTCOME_ENTRIES: PredictaOutcomeEntry[] = [
+  {
+    body: 'Money flow, savings, gains, pressure, and practical timing.',
+    cta: 'Ask about money',
+    id: 'money',
+    prompt:
+      'Read my money and financial future using D1, D2, 2nd house, 11th house, current dasha, Gochar, confidence, and one practical next step.',
+    proof: 'D1 + D2 + 2nd/11th + Dasha',
+    title: 'Money',
+  },
+  {
+    body: 'Work direction, growth windows, job changes, and reputation.',
+    cta: 'Ask about career',
+    id: 'career',
+    prompt:
+      'Read my career direction using D1, D10, 10th house, current dasha, Gochar, confidence, and one practical next step.',
+    proof: 'D1 + D10 + 10th + Gochar',
+    title: 'Career',
+  },
+  {
+    body: 'Marriage, partner patterns, compatibility signals, and timing.',
+    cta: 'Ask about marriage',
+    id: 'marriage',
+    prompt:
+      'Read my marriage and relationship prospects using D1, D9, 7th house, Venus, Jupiter, current dasha, Gochar, confidence, and grounded guidance.',
+    proof: 'D1 + D9 + 7th + Venus/Jupiter',
+    title: 'Marriage',
+  },
+  {
+    body: 'Astrology-based wellness cautions, stress patterns, and safe habits.',
+    cta: 'Ask health caution',
+    id: 'health',
+    prompt:
+      'Give me astrology-based health caution guidance using D1, relevant houses, Moon, dasha, Gochar, confidence, and safe practical habits. Do not diagnose or replace medical advice.',
+    proof: 'D1 + Moon + 6th/8th/12th',
+    title: 'Health caution',
+  },
+  {
+    body: 'Family Kundlis, household patterns, and shared guidance.',
+    cta: 'Open Family Vault',
+    id: 'family',
+    prompt:
+      'Use Family Vault context and explain what I can understand about family patterns, saved Kundlis, and the next best family-focused reading.',
+    proof: 'Family Vault + saved Kundlis',
+    title: 'Family',
+  },
+  {
+    body: 'Today’s best action, caution, mood, and simple remedy.',
+    cta: 'Ask about today',
+    id: 'today',
+    prompt:
+      'Give me today’s holistic astrology guidance using Panchang, Moon, dasha, Gochar, life balance, one caution, and one practical action.',
+    proof: 'Panchang + Moon + Gochar',
+    title: 'Today',
+  },
+  {
+    body: 'Karma-based practices, seva, mantra, discipline, and devotion.',
+    cta: 'Ask for remedies',
+    id: 'remedies',
+    prompt:
+      'Suggest karma-based remedies from my chart using active planets, dasha, Gochar, conduct correction, seva, mantra or prayer, and one simple weekly practice.',
+    proof: 'Planet karma + Dasha + Gochar',
+    title: 'Remedies',
+  },
+  {
+    body: 'Turn a life question into a polished free or premium report.',
+    cta: 'Make a report',
+    id: 'report',
+    prompt:
+      'Help me choose the right Predicta report for my current need: career, marriage, wealth, health caution, family, Sade Sati, Dasha Life Map, or full Kundli.',
+    proof: 'Report choices + chart proof',
+    title: 'Report',
+  },
+];
+
 export function getFriendlyGreetingReply(language: SupportedLanguage): string {
   const greeting = getRandomPredictaGreeting(language);
 

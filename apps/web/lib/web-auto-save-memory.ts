@@ -4,6 +4,7 @@ import type { SupportedLanguage } from '@pridicta/types';
 import { getOrCreateWebGuestSession } from './web-guest-session';
 
 const WEB_AUTO_SAVE_MEMORY_KEY = 'pridicta.webAutoSaveMemory.v1';
+const WEB_ACCOUNT_MERGE_KEY = 'pridicta.webAccountMerge.v1';
 
 export const WEB_AUTO_SAVE_MEMORY_UPDATED_EVENT =
   'pridicta:web-auto-save-memory-updated';
@@ -30,8 +31,10 @@ export type WebAutoSaveMemory = {
     updatedAt: string;
   };
   report?: {
+    builderMode?: 'EVERYTHING' | 'CUSTOM';
     mode: 'FREE' | 'PREMIUM';
     selectedReportId: string;
+    selectedSectionKeys?: string[];
     updatedAt: string;
   };
   schemaVersion: 1;
@@ -44,7 +47,10 @@ type WebAutoSavePatch = Partial<
 
 export function loadWebAutoSaveMemory(): WebAutoSaveMemory {
   const session = getOrCreateWebGuestSession();
-  const stored = readStoredMemory();
+  const stored = pickNewestMemory(
+    readStoredMemory(),
+    readAccountScopedMemory(readActiveAccountUserId()),
+  );
 
   return {
     ...stored,
@@ -66,12 +72,77 @@ export function saveWebAutoSaveMemory(patch: WebAutoSavePatch): WebAutoSaveMemor
 
   try {
     window.localStorage.setItem(WEB_AUTO_SAVE_MEMORY_KEY, JSON.stringify(next));
+    writeAccountScopedMemory(readActiveAccountUserId(), next);
     window.dispatchEvent(new Event(WEB_AUTO_SAVE_MEMORY_UPDATED_EVENT));
   } catch {
     // Auto-save is best-effort in private browsing or restricted storage modes.
   }
 
   return next;
+}
+
+function pickNewestMemory(
+  first?: WebAutoSaveMemory,
+  second?: WebAutoSaveMemory,
+): WebAutoSaveMemory | undefined {
+  if (!first) {
+    return second;
+  }
+
+  if (!second) {
+    return first;
+  }
+
+  return new Date(second.updatedAt).getTime() > new Date(first.updatedAt).getTime()
+    ? second
+    : first;
+}
+
+function readActiveAccountUserId(): string | undefined {
+  try {
+    const raw = window.localStorage.getItem(WEB_ACCOUNT_MERGE_KEY);
+    const state = raw
+      ? (JSON.parse(raw) as { account?: { userId?: string } })
+      : undefined;
+
+    return state?.account?.userId;
+  } catch {
+    return undefined;
+  }
+}
+
+function readAccountScopedMemory(uid?: string): WebAutoSaveMemory | undefined {
+  if (!uid) {
+    return undefined;
+  }
+
+  try {
+    const raw = window.localStorage.getItem(
+      `pridicta.account.${encodeURIComponent(uid)}.autoSaveMemory.v1`,
+    );
+
+    return raw ? (JSON.parse(raw) as WebAutoSaveMemory) : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function writeAccountScopedMemory(
+  uid: string | undefined,
+  memory: WebAutoSaveMemory,
+): void {
+  if (!uid) {
+    return;
+  }
+
+  try {
+    window.localStorage.setItem(
+      `pridicta.account.${encodeURIComponent(uid)}.autoSaveMemory.v1`,
+      JSON.stringify(memory),
+    );
+  } catch {
+    // Account-scoped continuity is best effort when browser storage is limited.
+  }
 }
 
 function readStoredMemory(): WebAutoSaveMemory | undefined {

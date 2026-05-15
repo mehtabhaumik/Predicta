@@ -89,6 +89,7 @@ import type {
   ChatMessageBlock,
   ChatSafetyMeta,
   ChatSuggestedCta,
+  BirthDetailsDraft,
   KundliData,
   SupportedLanguage,
 } from '../types/astrology';
@@ -113,6 +114,220 @@ function createMessage(
     suggestions,
     text,
   };
+}
+
+function shouldGateForBirthDetailConfidence(
+  text: string,
+  kundli: KundliData,
+): boolean {
+  if (
+    !kundli.birthDetails.isTimeApproximate &&
+    !kundli.rectification?.needsRectification &&
+    kundli.rectification?.confidence !== 'low'
+  ) {
+    return false;
+  }
+
+  if (/\b(birth\s*time|rectification|rectify|recalculate|re-calculate|correct\s+time|time\s+confidence|birth\s*time\s+detective|time\s+unknown)\b/i.test(text)) {
+    return false;
+  }
+
+  return /\b(predict|prediction|future|timing|when|age|year|month|career|job|business|finance|money|wealth|marriage|relationship|child|children|health|legal|court|case|report|pdf|mahadasha|antardasha|dasha|sade\s*sati|gochar|transit|kundli|chart|house|lagna|ascendant|d[0-9]+|navamsha|dashamsha|kp|nadi|remedy|yoga|dosha|muhurta|decision|passport|timeline)\b/i.test(text);
+}
+
+function isBirthTimeConfirmationRequest(text: string): boolean {
+  const normalized = text.trim().toLowerCase();
+
+  if (/^(is|kya|su|shu|can|could|please\s+check|tell\s+me)\b/.test(normalized)) {
+    return false;
+  }
+
+  return (
+    /\b(my|mera|meri|maro|mari|entered|provided|given)\b[\s\S]{0,80}\b(birth\s*time|time)\b[\s\S]{0,80}\b(correct|right|accurate|confirmed|confirm|sahi|theek|thik|barabar|chhe|hai)\b/i.test(
+      normalized,
+    ) ||
+    /\b(use|go\s+with|continue\s+with|proceed\s+with|keep)\b[\s\S]{0,80}\b(entered|provided|given|same|original)\b[\s\S]{0,80}\b(time|birth\s*time)\b/i.test(
+      normalized,
+    ) ||
+    /\b(entered|provided|given|original)\b[\s\S]{0,80}\b(time|birth\s*time)\b[\s\S]{0,80}\b(correct|right|sahi|theek|thik|barabar|chhe|hai)\b/i.test(
+      normalized,
+    )
+  );
+}
+
+function buildBirthDetailConfidenceGateReply(
+  language: SupportedLanguage,
+  kundli: KundliData,
+): string {
+  const timeText = kundli.birthDetails.time || 'not shared';
+  const reason = kundli.birthDetails.isTimeApproximate
+    ? 'the birth time is marked approximate'
+    : kundli.rectification?.reasons[0] ??
+      'birth-time confidence needs checking before fine timing';
+
+  if (language === 'hi') {
+    return [
+      'Birth time check pehle karte hain.',
+      `Mere paas ${kundli.birthDetails.name} ki Kundli hai, par birth time ${timeText} ko deep prediction ke liye confirm karna zaroori hai. Even 10-15 minutes houses, divisional charts aur timing ko change kar sakte hain.`,
+      `Reason: ${reason}.`,
+      'Main abhi broad guidance de sakti hoon, lekin exact timing, marriage/career/finance prediction, D9/D10/KP/Nadi depth, ya report-grade answer se pehle time confirm karungi.',
+      'Agar time doubtful hai, main simple life-event questions pooch kar probable corrected birth time estimate kar sakti hoon.',
+    ].join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      'Birth time pehla confirm kariye.',
+      `Mare pase ${kundli.birthDetails.name} ni Kundli chhe, pan birth time ${timeText} deep prediction mate confirm karvo jaruri chhe. 10-15 minutes pan houses, divisional charts ane timing badli shake chhe.`,
+      `Reason: ${reason}.`,
+      'Hu haal broad guidance aapi shaku chhu, pan exact timing, marriage/career/finance prediction, D9/D10/KP/Nadi depth, athva report-grade answer pehla time confirm karish.',
+      'Jo time doubtful hoy, hu simple life-event questions poochine probable corrected birth time estimate kari shaku chhu.',
+    ].join('\n\n');
+  }
+
+  return [
+    'Birth time check first.',
+    `I have ${kundli.birthDetails.name}'s Kundli, but the birth time ${timeText} needs confirmation before deep prediction. Even 10-15 minutes can change houses, divisional charts, and timing.`,
+    `Reason: ${reason}.`,
+    'I can still give broad guidance, but I will not do exact timing, marriage/career/finance prediction, D9/D10/KP/Nadi depth, or report-grade analysis until the time is confirmed.',
+    'If the time is doubtful, I can ask simple life-event questions and estimate a probable corrected birth time.',
+  ].join('\n\n');
+}
+
+function buildPartialBirthDetailGateReply(
+  language: SupportedLanguage,
+  draft?: BirthDetailsDraft,
+): string | undefined {
+  if (!draft || (!draft.date && !draft.time && !draft.city && !draft.placeText)) {
+    return undefined;
+  }
+
+  const missing = [
+    !draft.date ? 'date of birth' : undefined,
+    !draft.time ? 'birth time' : undefined,
+    !draft.city && !draft.placeText ? 'birth place' : undefined,
+  ].filter(Boolean);
+
+  if (missing.length === 0) {
+    return undefined;
+  }
+
+  const knownDetails = [
+    draft.date ? `Date: ${draft.date}` : undefined,
+    draft.time ? `Time: ${draft.time}` : undefined,
+    draft.city || draft.placeText
+      ? `Place: ${[draft.city ?? draft.placeText, draft.state, draft.country]
+          .filter(Boolean)
+          .join(', ')}`
+      : undefined,
+  ]
+    .filter(Boolean)
+    .join('\n');
+
+  if (language === 'hi') {
+    return [
+      'Main half details par deep prediction start nahi karungi.',
+      knownDetails ? `Abhi mere paas:\n${knownDetails}` : undefined,
+      `Missing: ${missing.join(', ')}.`,
+      'Real Kundli, houses, dasha, timing, KP/Nadi aur reports ke liye birth time aur place zaroori hain.',
+      'Agar birth time exact nahi pata, “time unknown” likh dijiye. Main simple life questions pooch kar guide karungi.',
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      'Hu half details par deep prediction start nahi karish.',
+      knownDetails ? `Haal ma mare pase:\n${knownDetails}` : undefined,
+      `Missing: ${missing.join(', ')}.`,
+      'Real Kundli, houses, dasha, timing, KP/Nadi ane reports mate birth time ane place jaruri chhe.',
+      'Jo birth time exact khabar nathi, “time unknown” lakho. Hu simple life questions poochine guide karish.',
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+  }
+
+  return [
+    'I will not start deep prediction from half details.',
+    knownDetails ? `So far I have:\n${knownDetails}` : undefined,
+    `Missing: ${missing.join(', ')}.`,
+    'A real Kundli, houses, dasha, timing, KP/Nadi, and reports need birth time and birth place.',
+    'If the exact birth time is unknown, write “time unknown.” I can ask simple life questions and guide you through birth-time detective mode.',
+  ]
+    .filter(Boolean)
+    .join('\n\n');
+}
+
+function buildBirthDetailConfidenceSuggestions(
+  language: SupportedLanguage,
+): ChatSuggestedCta[] {
+  if (language === 'hi') {
+    return [
+      {
+        id: 'birth-confidence-confirm-time',
+        label: 'Time correct hai',
+        prompt:
+          'Mera birth time correct hai. Is confidence ke saath reading continue karo, par timing confidence clearly mention karna.',
+      },
+      {
+        id: 'birth-confidence-rectify',
+        label: 'Time re-check karo',
+        prompt:
+          'Mera birth time doubtful hai. Mujhe simple life-event questions pooch kar probable corrected birth time estimate karo.',
+      },
+      {
+        id: 'birth-confidence-detective',
+        label: 'Birth Time Detective',
+        prompt: 'Open Birth Time Detective',
+        targetScreen: routes.BirthTimeDetective,
+      },
+    ];
+  }
+
+  if (language === 'gu') {
+    return [
+      {
+        id: 'birth-confidence-confirm-time',
+        label: 'Time correct chhe',
+        prompt:
+          'Maro birth time correct chhe. Aa confidence sathe reading continue karo, pan timing confidence clearly mention karjo.',
+      },
+      {
+        id: 'birth-confidence-rectify',
+        label: 'Time re-check karo',
+        prompt:
+          'Maro birth time doubtful chhe. Mane simple life-event questions poochine probable corrected birth time estimate karo.',
+      },
+      {
+        id: 'birth-confidence-detective',
+        label: 'Birth Time Detective',
+        prompt: 'Open Birth Time Detective',
+        targetScreen: routes.BirthTimeDetective,
+      },
+    ];
+  }
+
+  return [
+    {
+      id: 'birth-confidence-confirm-time',
+      label: 'My time is correct',
+      prompt:
+        'My birth time is correct. Continue the reading, but clearly mention timing confidence.',
+    },
+    {
+      id: 'birth-confidence-rectify',
+      label: 'Re-check my time',
+      prompt:
+        'My birth time is doubtful. Ask me simple life-event questions and estimate a probable corrected birth time.',
+    },
+    {
+      id: 'birth-confidence-detective',
+      label: 'Birth Time Detective',
+      prompt: 'Open Birth Time Detective',
+      targetScreen: routes.BirthTimeDetective,
+    },
+  ];
 }
 
 export function ChatScreen({
@@ -206,12 +421,14 @@ export function ChatScreen({
       ? activeChartContext.selectedSection
       : activeChartContext?.selectedPredictaWrapped
       ? activeChartContext.selectedSection
+      : activeChartContext?.purpose
+      ? activeChartContext.selectedSection
       : undefined;
 
     if (prompt && timelinePromptSeededRef.current !== prompt) {
       setInput(prompt);
       timelinePromptSeededRef.current = prompt;
-      if (activeChartContext?.chartType || activeChartContext?.predictaSchool) {
+      if (activeChartContext) {
         appendConversationMessage(
           createMessage(
             'pridicta',
@@ -223,13 +440,21 @@ export function ChatScreen({
                   },
                   languagePreference.language,
                 )
-              : buildChartContextIntro(
+              : activeChartContext.chartType
+                ? buildChartContextIntro(
                   {
                     ...activeChartContext,
                     selectedSection: prompt,
                   },
                   languagePreference.language,
-                ),
+                  )
+                : buildMobileCtaContextIntro(
+                    {
+                      ...activeChartContext,
+                      selectedSection: prompt,
+                    },
+                    languagePreference.language,
+                  ),
             activeChartContext,
             undefined,
             buildMobileFollowUps({
@@ -300,6 +525,53 @@ export function ChatScreen({
         setIsTyping(false);
       }
     }, 18);
+  }
+
+  async function confirmEnteredBirthTimeFromChat(
+    kundli: KundliData,
+    responseLanguage: SupportedLanguage,
+  ) {
+    const enteredTime =
+      kundli.birthDetails.originalTime ?? kundli.birthDetails.time;
+    const restoredFromRectified = enteredTime !== kundli.birthDetails.time;
+    const finalDetails = {
+      ...kundli.birthDetails,
+      isTimeApproximate: false,
+      originalTime: undefined,
+      rectificationMethod: undefined,
+      rectifiedAt: undefined,
+      time: enteredTime,
+      timeConfidence: 'entered' as const,
+    };
+
+    try {
+      const nextKundli =
+        restoredFromRectified
+          ? {
+              ...(await generateKundli(finalDetails, { ignoreCache: true })),
+              birthDetails: finalDetails,
+            }
+          : {
+              ...kundli,
+              birthDetails: finalDetails,
+              rectification: undefined,
+            };
+
+      setActiveKundli(nextKundli);
+      const saved = await saveGeneratedKundliLocally(nextKundli);
+      setSavedKundlis(saved);
+
+      streamAssistantResponse(
+        buildBirthTimeConfirmedReply(
+          responseLanguage,
+          nextKundli,
+          enteredTime,
+          restoredFromRectified,
+        ),
+      );
+    } catch {
+      streamAssistantResponse(buildBirthTimeConfirmationFailedReply(responseLanguage));
+    }
   }
 
   async function sendMessage(overrideText?: string) {
@@ -424,6 +696,19 @@ export function ChatScreen({
         return;
       }
 
+      const partialBirthReply = buildPartialBirthDetailGateReply(
+        responseLanguage,
+        pendingBirthDetailsDraft,
+      );
+      if (partialBirthReply) {
+        streamAssistantResponse(
+          [languageContext.acknowledgement, partialBirthReply]
+            .filter(Boolean)
+            .join('\n\n'),
+        );
+        return;
+      }
+
       const actionReply = buildPredictaActionReply({
         kundli: undefined,
         language: responseLanguage,
@@ -493,6 +778,11 @@ export function ChatScreen({
           time: reply.draft.time,
         });
         const nextKundli = await generateKundli(birthDetails);
+        const creationBlock = composeChatChartBlock({
+          chartType: 'D1',
+          hasPremiumAccess: false,
+          kundli: nextKundli,
+        });
 
         setActiveKundli(nextKundli);
         clearPendingBirthDetailsDraft();
@@ -522,6 +812,9 @@ export function ChatScreen({
               savedKundlis: [nextKundli],
             }),
           ].join('\n\n'),
+          {
+            blocks: creationBlock ? [creationBlock] : undefined,
+          },
         );
       } catch {
         streamAssistantResponse(
@@ -538,6 +831,31 @@ export function ChatScreen({
 
     const savedKundlis = savedKundliRecords.map(record => record.kundliData);
     const chartIntent = detectChatChartIntent(trimmedInput);
+
+    if (isBirthTimeConfirmationRequest(trimmedInput)) {
+      appendConversationMessage(
+        createMessage('user', trimmedInput, activeChartContext),
+      );
+      setInput('');
+      await confirmEnteredBirthTimeFromChat(activeKundli, responseLanguage);
+      return;
+    }
+
+    if (
+      shouldGateForBirthDetailConfidence(trimmedInput, activeKundli)
+    ) {
+      appendConversationMessage(
+        createMessage('user', trimmedInput, activeChartContext),
+      );
+      setInput('');
+      streamAssistantResponse(
+        buildBirthDetailConfidenceGateReply(responseLanguage, activeKundli),
+        {
+          suggestions: buildBirthDetailConfidenceSuggestions(responseLanguage),
+        },
+      );
+      return;
+    }
 
     if (chartIntent) {
       const access = getResolvedAccess();
@@ -900,6 +1218,10 @@ export function ChatScreen({
                 navigation.navigate(routes.NadiPredicta);
                 return;
               }
+              if (suggestion.targetScreen === routes.BirthTimeDetective) {
+                navigation.navigate(routes.BirthTimeDetective);
+                return;
+              }
               void sendMessage(suggestion.prompt);
             }}
             onUsePrompt={(prompt, block) => {
@@ -1044,6 +1366,58 @@ function buildMobileKundliCreatedReply(
     lines.join('\n'),
     'Now ask me about career, marriage, money, health tendencies, remedies, timing, or any decision. I will answer with chart proof.',
   ].join('\n\n');
+}
+
+function buildBirthTimeConfirmedReply(
+  language: SupportedLanguage,
+  kundli: KundliData,
+  enteredTime: string,
+  restoredFromRectified: boolean,
+): string {
+  const name = kundli.birthDetails.name;
+  const restoreLine = restoredFromRectified
+    ? `I restored the originally entered time ${enteredTime} and recalculated the Kundli.`
+    : `I marked the entered birth time ${enteredTime} as confirmed.`;
+
+  if (language === 'hi') {
+    return [
+      `Done. ${name} ke liye entered birth time ${enteredTime} confirm kar diya hai.`,
+      restoredFromRectified
+        ? `Maine rectified time hata kar original entered time ${enteredTime} se Kundli dobara calculate kar di hai.`
+        : 'Ab is Kundli par rectified/probable time label nahi lagega.',
+      'Ab main normal chart guidance de sakti hoon. Exact event timing mein phir bhi humility rakhungi, because astrology guidance hai, guarantee nahi.',
+    ].join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      `Done. ${name} mate entered birth time ${enteredTime} confirm kari didho chhe.`,
+      restoredFromRectified
+        ? `Maine rectified time hataavi ne original entered time ${enteredTime} thi Kundli fari calculate kari chhe.`
+        : 'Have aa Kundli par rectified/probable time label nahi lage.',
+      'Have hu normal chart guidance aapi shaku chhu. Exact event timing ma pan humility rakish, karan ke astrology guidance chhe, guarantee nathi.',
+    ].join('\n\n');
+  }
+
+  return [
+    `Done. ${restoreLine}`,
+    `${name}'s Kundli is now treated as entered-time confirmed.`,
+    'I can continue with normal chart guidance. For exact event timing, I will still keep the answer careful and not treat astrology as a guarantee.',
+  ].join('\n\n');
+}
+
+function buildBirthTimeConfirmationFailedReply(
+  language: SupportedLanguage,
+): string {
+  if (language === 'hi') {
+    return 'Birth time confirm karte waqt issue aa gaya. Please ek baar Birth Time Detective ya Kundli screen se dobara try karein.';
+  }
+
+  if (language === 'gu') {
+    return 'Birth time confirm karti vakhat issue aavyo. Please Birth Time Detective athva Kundli screen thi fari try karo.';
+  }
+
+  return 'I could not confirm the birth time just now. Please try again from Birth Time Detective or the Kundli screen.';
 }
 
 function syncGuestPassUsage(userId?: string): void {
@@ -1240,6 +1614,62 @@ function buildMobileSchoolContextIntro(
     .join('\n\n');
 }
 
+function buildMobileCtaContextIntro(
+  context: ChatMessage['context'],
+  language: SupportedLanguage,
+): string {
+  const source = getMobileFriendlySourceName(context?.sourceScreen);
+  const focus =
+    context?.selectedDecisionQuestion ??
+    context?.selectedRemedyTitle ??
+    context?.selectedTimelineEventTitle ??
+    context?.selectedSection ??
+    context?.handoffQuestion;
+
+  if (language === 'hi') {
+    return [
+      `${source} se aapka context mil gaya hai.`,
+      focus ? `Ab main yeh dekh rahi hoon: ${focus}` : undefined,
+      'Main selected Kundli se yahin jawab dungi. Ask dabaiye ya apna follow-up likhiye.',
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      `${source} mathi tamaro context mali gayo chhe.`,
+      focus ? `Have hu aa joi rahi chhu: ${focus}` : undefined,
+      'Hu selected Kundli thi ahi j jawab aapish. Ask dabavo athva follow-up lakho.',
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+  }
+
+  return [
+    `I picked this up from ${source}.`,
+    focus ? `We are looking at: ${focus}` : undefined,
+    'I will use your selected Kundli here. Press Ask or type your follow-up.',
+  ]
+    .filter(Boolean)
+    .join('\n\n');
+}
+
+function getMobileFriendlySourceName(source?: string): string {
+  const normalized = (source || 'Predicta')
+    .replace(/\bHeader\b/gi, '')
+    .replace(/\bMarketplace\b/gi, 'Reports')
+    .replace(/\bQuick Actions\b/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  if (!normalized || /dashboard/i.test(normalized)) {
+    return 'your dashboard';
+  }
+
+  return normalized;
+}
+
 function MobileChatSuggestions({
   onSuggestionPress,
   suggestions,
@@ -1387,6 +1817,13 @@ function MobileChatChartBlock({
   onUsePrompt: (prompt: string, block?: ChatChartBlock) => void;
 }): React.JSX.Element {
   const cells = buildNorthIndianChartCells(block.chart);
+  const planetsByName = block.chart.planetDistribution.reduce(
+    (current, planet) => ({
+      ...current,
+      [planet.name]: planet,
+    }),
+    {} as Record<string, (typeof block.chart.planetDistribution)[number]>,
+  );
 
   return (
     <View style={styles.chatChartCard}>
@@ -1454,7 +1891,18 @@ function MobileChatChartBlock({
               </View>
               <AppText autoTranslate={false} className="mt-1" variant="caption">
                 {cell.planets.length
-                  ? cell.planets.map(getPlanetAbbreviation).join(' ')
+                  ? cell.planets
+                      .slice(0, 3)
+                      .map(planetName => {
+                        const planet = planetsByName[planetName];
+                        const degree = planet
+                          ? ` ${planet.degree.toFixed(0)}°${
+                              planet.retrograde ? ' R' : ''
+                            }`
+                          : '';
+                        return `${getPlanetAbbreviation(planetName)}${degree}`;
+                      })
+                      .join(' ')
                   : '-'}
               </AppText>
             </Pressable>

@@ -21,6 +21,7 @@ import { resolveAccess } from '@pridicta/access';
 import { isBiometrySupported } from '../services/security/secureStorage';
 import { buildUsageDisplay } from '@pridicta/monetization';
 import {
+  getAppShellLabels,
   getLanguageLabels,
   SUPPORTED_LANGUAGE_OPTIONS,
 } from '@pridicta/config/language';
@@ -69,6 +70,7 @@ export function SettingsScreen({
     userPlan,
   });
   const languageLabels = getLanguageLabels(languagePreference.language);
+  const shellLabels = getAppShellLabels(languagePreference.language);
 
   useEffect(() => {
     isBiometrySupported()
@@ -257,6 +259,12 @@ export function SettingsScreen({
           <GlowButton
             label="Legal, Privacy, and Refund Policy"
             onPress={() => navigation.navigate(routes.Legal)}
+          />
+        </View>
+        <View className="mt-4">
+          <GlowButton
+            label={shellLabels.nav.accuracyMethod}
+            onPress={() => navigation.navigate(routes.AccuracyMethod)}
           />
         </View>
         <View className="mt-4">

@@ -1,7 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { PREDICTA_JOURNEY_STEPS } from '@pridicta/config/predictaUx';
+import { useEffect, useState } from 'react';
+import { PREDICTA_OUTCOME_ENTRIES } from '@pridicta/config/predictaUx';
+import { translateUiText } from '@pridicta/config/uiTranslations';
 import {
   composeDailyBriefing,
   composeDestinyPassport,
@@ -12,81 +14,148 @@ import {
   composeYearlyHoroscopeVarshaphal,
 } from '@pridicta/astrology';
 import { Card } from '../../components/Card';
-import { StatusPill } from '../../components/StatusPill';
 import { WebDashboardAstrologyCockpit } from '../../components/WebDashboardAstrologyCockpit';
 import { WebDailyBriefingCard } from '../../components/WebDailyBriefingCard';
 import { WebDestinyPassportCard } from '../../components/WebDestinyPassportCard';
 import { WebGocharSynopsisCard } from '../../components/WebGocharSynopsisCard';
 import { WebYearlySynopsisCard } from '../../components/WebYearlySynopsisCard';
+import { useLanguagePreference } from '../../lib/language-preference';
 import { buildPredictaChatHref } from '../../lib/predicta-chat-cta';
 import { useWebKundliLibrary } from '../../lib/use-web-kundli-library';
 
-const quickActions = [
+const kundliUnlocks = [
   {
-    body: 'Start or review the birth chart.',
-    href: '/dashboard/kundli',
-    label: 'Kundli',
-    primary: true,
+    body: 'Personal Gochar, Panchang, best action, caution, and emotional weather.',
+    title: 'Today for you',
   },
   {
-    body: 'Ask naturally and get chart proof.',
-    href: '/dashboard/chat',
-    label: 'Ask Predicta',
+    body: 'Dasha, Sade Sati, yearly timing, and the next important window.',
+    title: 'Timing map',
   },
   {
-    body: 'Choose between real-life options.',
-    href: '/dashboard/decision',
-    label: 'Decision',
+    body: 'D1, D9, D10, Bhav Chalit, KP, and chart proof explained simply.',
+    title: 'Charts',
   },
   {
-    body: 'Open every chart with simple insight.',
-    href: '/dashboard/charts',
-    label: 'Charts',
+    body: 'Career, marriage, wealth, remedies, and full Kundli PDF previews.',
+    title: 'Reports',
   },
   {
-    body: 'Event timing with KP rules.',
-    href: '/dashboard/kp',
-    label: 'KP',
+    body: 'Karma-based practices tied to active planets and daily discipline.',
+    title: 'Remedies',
   },
   {
-    body: 'Nadi story reading.',
-    href: '/dashboard/nadi',
-    label: 'Nadi',
+    body: 'Saved family profiles, comparison, and shared pattern guidance.',
+    title: 'Family Vault',
   },
-  {
-    body: 'See dasha, gochar, and windows.',
-    href: '/dashboard/timeline',
-    label: 'Timeline',
-  },
-  {
-    body: 'Simple practices tied to your chart.',
-    href: '/dashboard/remedies',
-    label: 'Remedies',
-  },
-  {
-    body: 'Check confidence in birth time.',
-    href: '/dashboard/birth-time',
-    label: 'Birth Time',
-  },
-  {
-    body: 'Marriage and partner patterns.',
-    href: '/dashboard/relationship',
-    label: 'Relationship',
-  },
-  {
-    body: 'Save and compare family Kundlis.',
-    href: '/dashboard/family',
-    label: 'Family',
-  },
-  {
-    body: 'Create beautiful PDF readings.',
-    href: '/dashboard/report',
-    label: 'Reports',
-  },
-];
+] as const;
 
 export default function DashboardPage(): React.JSX.Element {
+  const { language } = useLanguagePreference();
+  const t = (value: string) => translateUiText(value, language);
   const { activeKundli } = useWebKundliLibrary();
+  const [isFamilyFriendsVisit, setIsFamilyFriendsVisit] = useState(false);
+
+  useEffect(() => {
+    setIsFamilyFriendsVisit(
+      new URLSearchParams(window.location.search).get('source') ===
+        'family-friends',
+    );
+  }, []);
+
+  if (!activeKundli) {
+    return (
+      <section className="dashboard-page">
+        {isFamilyFriendsVisit ? (
+          <FriendsFamilyWelcome hasKundli={false} />
+        ) : null}
+        <div className="page-heading">
+          <h1 className="gradient-text">{t('Start with your Kundli.')}</h1>
+          <p>
+            {t(
+              'Create the chart once. Then Predicta opens personal Gochar, timing, charts, remedies, reports, and chat guidance without making you hunt for features.',
+            )}
+          </p>
+        </div>
+
+        <section className="kundli-empty-state glass-panel">
+          <div>
+            <div className="section-title">{t('FIRST STEP')}</div>
+            <h2>{t('Create your Kundli first.')}</h2>
+            <p>
+              {t(
+                'Use the form if you know the details. Use Predicta chat if you want her to ask for birth details one by one.',
+              )}
+            </p>
+            <div className="kundli-empty-actions">
+              <Link className="button" href="/dashboard/kundli">
+                {t('Create Kundli')}
+              </Link>
+              <Link
+                className="button secondary"
+                href={buildPredictaChatHref({
+                  prompt:
+                    'Create my Kundli from chat. Ask me for any missing birth details one by one.',
+                  sourceScreen: 'Dashboard',
+                })}
+              >
+                {t('Let Predicta create it')}
+              </Link>
+            </div>
+          </div>
+          <div className="kundli-empty-note">
+            <h3>{t('What happens next')}</h3>
+            <p>
+              {t(
+                'After the Kundli is ready, Predicta will suggest today’s Gochar, today’s guidance, charts, reports, remedies, and the best next question.',
+              )}
+            </p>
+          </div>
+        </section>
+
+        <section className="kundli-unlock-preview">
+          <div className="section-heading compact-left">
+            <div className="section-title">{t('AFTER KUNDLI IS READY')}</div>
+            <h2>{t('These sections will open with real chart data.')}</h2>
+            <p>
+              {t(
+                'They stay compact for now so the dashboard does not look broken or noisy before birth details are available.',
+              )}
+            </p>
+          </div>
+          <div className="kundli-unlock-grid">
+            {kundliUnlocks.map(item => (
+              <article className="kundli-unlock-card" key={item.title}>
+                <h3>{t(item.title)}</h3>
+                <p>{t(item.body)}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <Card className="save-restore-card">
+          <div className="card-content spacious">
+            <div className="section-title">{t('PRIVATE SAVE')}</div>
+            <h2>{t('Your work starts privately here.')}</h2>
+            <p>
+              {t(
+                'Predicta keeps this browser session ready. Sign in later when you want your Kundlis and reports available across devices.',
+              )}
+            </p>
+            <div className="action-row compact">
+              <Link className="button secondary" href="/dashboard/redeem-pass">
+                {t('Redeem Guest Pass')}
+              </Link>
+              <Link className="button secondary" href="/dashboard/settings">
+                {t('Privacy Settings')}
+              </Link>
+            </div>
+          </div>
+        </Card>
+      </section>
+    );
+  }
+
   const dailyBriefing = composeDailyBriefing(activeKundli);
   const destinyPassport = composeDestinyPassport(activeKundli);
   const gochar = composeTransitGocharIntelligence(activeKundli, {
@@ -101,11 +170,10 @@ export default function DashboardPage(): React.JSX.Element {
 
   return (
     <section className="dashboard-page">
+      {isFamilyFriendsVisit ? (
+        <FriendsFamilyWelcome hasKundli />
+      ) : null}
       <div className="page-heading">
-        <StatusPill
-          label={activeKundli ? 'Chart ready' : 'Create Kundli first'}
-          tone={activeKundli ? 'premium' : 'quiet'}
-        />
         <h1 className="gradient-text">
           {activeKundli
             ? 'Your holistic astrology cockpit.'
@@ -127,119 +195,150 @@ export default function DashboardPage(): React.JSX.Element {
         yearlyHoroscope={yearlyHoroscope}
       />
 
-      {!activeKundli ? (
-        <div className="guided-journey-grid">
-          {PREDICTA_JOURNEY_STEPS.map((step, index) => (
-            <Card className={index === 0 ? 'glass-panel guided-step primary' : 'guided-step'} key={step.id}>
-              <div className="card-content">
-                <div className="section-title">{step.title}</div>
-                <h2>{step.action}</h2>
-                <p>{step.body}</p>
-                <Link
-                  className={index === 0 ? 'button' : 'button secondary'}
-                  href={
-                    step.id === 'create'
-                      ? '/dashboard/kundli'
-                      : step.id === 'summary'
-                        ? '/dashboard/kundli'
-                        : buildPredictaChatHref({
-                            kundli: activeKundli,
-                            prompt: 'Guide me from my selected Kundli and suggest the next best step.',
-                            sourceScreen: 'Dashboard Journey',
-                          })
-                  }
-                >
-                  {step.action}
-                </Link>
-              </div>
-            </Card>
-          ))}
-        </div>
-      ) : null}
-
       <WebDailyBriefingCard
         briefing={dailyBriefing}
         ctaHref="/dashboard/kundli"
         holisticGuidance={holisticDailyGuidance}
       />
 
-      <WebGocharSynopsisCard intelligence={gochar} />
+      <section className="outcome-entry-panel glass-panel">
+        <div className="outcome-entry-head">
+          <div>
+            <div className="section-title">START WITH LIFE NEED</div>
+            <h2>What do you need help with?</h2>
+            <p>
+              Pick a life area. Predicta will use your Kundli when available
+              and keep the reading proof-based.
+            </p>
+          </div>
+        </div>
+        <div className="outcome-entry-grid">
+          {PREDICTA_OUTCOME_ENTRIES.map(entry => (
+            <Link
+              className="outcome-entry-card"
+              href={buildPredictaChatHref({
+                kundli: activeKundli,
+                prompt: entry.prompt,
+                purpose: entry.id,
+                selectedSection: entry.title,
+                sourceScreen: 'Dashboard Outcome Entry',
+              })}
+              key={entry.id}
+            >
+              <div>
+                <span className="section-title">{entry.proof}</span>
+                <h3>{entry.title}</h3>
+                <p>{entry.body}</p>
+              </div>
+              <strong>{entry.cta}</strong>
+            </Link>
+          ))}
+        </div>
+      </section>
 
-      <WebYearlySynopsisCard intelligence={yearlyHoroscope} />
+      <div className="dashboard-synopsis-grid">
+        <WebGocharSynopsisCard intelligence={gochar} />
+        <WebYearlySynopsisCard intelligence={yearlyHoroscope} />
+      </div>
 
       <WebDestinyPassportCard
         ctaHref="/dashboard/kundli"
         passport={destinyPassport}
       />
 
-      <div className="dashboard-feature-grid">
-        <Card className="glass-panel quick-actions-panel">
-          <div className="card-content spacious">
-            <div className="section-title">START HERE</div>
-            <h2>Choose what you want to do.</h2>
-            <p>
-              Pick one path. Predicta keeps the surface simple and the depth
-              underneath.
-            </p>
-            <div className="quick-action-grid">
-              {quickActions.map(action => (
-                <Link
-                  className={action.primary ? 'quick-action primary' : 'quick-action'}
-                  href={
-                    action.href === '/dashboard/chat'
-                      ? buildPredictaChatHref({
-                          kundli: activeKundli,
-                          prompt:
-                            'Read my selected Kundli and help me choose the best question to ask next.',
-                          sourceScreen: 'Dashboard Quick Actions',
-                        })
-                      : action.href
-                  }
-                  key={action.href}
-                >
-                  <strong>
-                    {action.href === '/dashboard/kundli' && activeKundli
-                      ? 'View Kundli'
-                      : action.label}
-                  </strong>
-                  <span>{action.body}</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </Card>
-        <Card className="save-restore-card">
-          <div className="card-content spacious">
-            <div className="section-title">SAVE AND RESTORE</div>
+      <Card className="save-restore-card dashboard-saved-work-card">
+        <div className="card-content spacious">
+          <div>
+            <div className="section-title">SAVED WORK</div>
             <h2>Your Kundlis stay under your control.</h2>
             <p>
-              Work stays private here unless you choose account save. Sign in
-              later to restore Kundlis and reports.
+              Keep profiles, reports, and family charts organized without
+              crowding today’s guidance.
             </p>
-            <div className="save-restore-list">
-              <div>
-                <span>Private by default</span>
-                <strong>Local first</strong>
-              </div>
-              <div>
-                <span>When you sign in</span>
-                <strong>Restore anywhere</strong>
-              </div>
-              <div>
-                <span>Family ready</span>
-                <strong>Multiple Kundlis</strong>
-              </div>
-            </div>
-            <div className="action-row compact">
-              <Link className="button secondary" href="/dashboard/saved-kundlis">
-                Saved Kundlis
-              </Link>
-              <Link className="button secondary" href="/dashboard/settings">
-                Privacy Settings
-              </Link>
-            </div>
           </div>
-        </Card>
+          <div className="action-row compact">
+            <Link className="button secondary" href="/dashboard/saved-kundlis">
+              Saved Kundlis
+            </Link>
+            <Link className="button secondary" href="/dashboard/family">
+              Family Vault
+            </Link>
+            <Link className="button secondary" href="/dashboard/settings">
+              Privacy Settings
+            </Link>
+          </div>
+        </div>
+      </Card>
+
+      <section className="smart-monetization-panel glass-panel">
+        <div>
+          <div className="section-title">WHEN YOU WANT MORE DEPTH</div>
+          <h2>Upgrade only after the free reading helps.</h2>
+          <p>
+            Free stays useful. Paid options are for deeper timing, polished
+            PDFs, monthly planning, and longer guidance when you actually need
+            them.
+          </p>
+        </div>
+        <div className="smart-monetization-grid">
+          <Link href="/dashboard/premium">
+            <span>Ongoing guidance</span>
+            <strong>Premium</strong>
+            <small>Deeper chat, Life Calendar, remedies, and reports.</small>
+          </Link>
+          <Link href="/dashboard/report">
+            <span>One polished file</span>
+            <strong>PDF report</strong>
+            <small>Best for Kundli, career, marriage, wealth, or Sade Sati.</small>
+          </Link>
+          <Link href="/checkout?productId=pridicta_day_pass_24h">
+            <span>Try first</span>
+            <strong>Day Pass</strong>
+            <small>Use premium depth for 24 hours before subscribing.</small>
+          </Link>
+        </div>
+      </section>
+    </section>
+  );
+}
+
+function FriendsFamilyWelcome({
+  hasKundli,
+}: {
+  hasKundli: boolean;
+}): React.JSX.Element {
+  return (
+    <section className="friends-family-welcome glass-panel">
+      <div>
+        <div className="section-title">PRIVATE PREVIEW</div>
+        <h2>Start here. No hunting around.</h2>
+        <p>
+          Redeem your pass with the email used for it, create your Kundli, then
+          ask Predicta one question you actually care about. If you are not
+          sure which email was used, contact the Predicta admin or the person
+          who invited you.
+        </p>
+      </div>
+      <div className="friends-family-actions">
+        <Link className="button" href="/dashboard/redeem-pass?source=family-friends">
+          Redeem Pass
+        </Link>
+        <Link
+          className="button secondary"
+          href={
+            hasKundli
+              ? '/dashboard/chat?sourceScreen=Private+Preview&prompt=Show+me+what+I+should+try+first+from+my+Kundli.'
+              : '/dashboard/kundli'
+          }
+        >
+          {hasKundli ? 'Ask Predicta' : 'Create Kundli'}
+        </Link>
+        <Link
+          className="button secondary"
+          href="/feedback?source=family-friends&area=general&from=dashboard"
+        >
+          Give Feedback
+        </Link>
       </div>
     </section>
   );

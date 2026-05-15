@@ -5,6 +5,7 @@ import type {
   BirthTimeQuestion,
   KundliData,
 } from '@pridicta/types';
+import { MANUAL_BIRTH_TIME_RECTIFICATION_QUESTIONS } from './manualBirthTimeRectification';
 
 export type BirthTimeAnswerMap = Record<string, BirthTimeAnswer>;
 
@@ -35,7 +36,7 @@ export function composeBirthTimeDetective(
 
   const rectification = kundli.rectification;
   const confidenceLabel = resolveConfidenceLabel(kundli);
-  const questions = buildQuestions(kundli, answers);
+  const questions = buildQuestions(answers);
   const answeredCount = questions.filter(question => question.answer).length;
   const confidenceScore = scoreConfidence(confidenceLabel, answeredCount, questions.length);
 
@@ -72,27 +73,15 @@ export function composeBirthTimeDetective(
   };
 }
 
-function buildQuestions(
-  kundli: KundliData,
-  answers: BirthTimeAnswerMap,
-): BirthTimeQuestion[] {
-  const baseQuestions =
-    kundli.rectification?.questions?.length
-      ? kundli.rectification.questions
-      : [
-          'Was the recorded birth time taken from a document, hospital memory, or family recollection?',
-        ];
+function buildQuestions(answers: BirthTimeAnswerMap): BirthTimeQuestion[] {
+  const sourceQuestions = MANUAL_BIRTH_TIME_RECTIFICATION_QUESTIONS;
 
-  return baseQuestions.map((question, index) => {
-    const id = `birth-time-${index + 1}`;
-
-    return {
-      answer: answers[id],
-      helper: helperForQuestion(question),
-      id,
-      question,
-    };
-  });
+  return sourceQuestions.map(question => ({
+    answer: answers[question.id],
+    helper: 'Choose yes or no. Predicta will use the pattern to estimate a probable birth time.',
+    id: question.id,
+    question: question.question,
+  }));
 }
 
 function resolveConfidenceLabel(kundli: KundliData): BirthTimeConfidenceLabel {
@@ -190,22 +179,4 @@ function buildNextAction(
   }
 
   return 'Review the answers with chart timing before upgrading confidence.';
-}
-
-function helperForQuestion(question: string): string {
-  const lower = question.toLowerCase();
-
-  if (lower.includes('document') || lower.includes('family')) {
-    return 'Write the source and whether the time was exact, rounded, or remembered later.';
-  }
-
-  if (lower.includes('career')) {
-    return 'Mention dated job changes, promotions, business starts, or major responsibility shifts.';
-  }
-
-  if (lower.includes('partnership')) {
-    return 'Mention dated commitments, breakups, marriage talks, or relationship turning points.';
-  }
-
-  return 'Answer with simple dated life events. Approximate month/year is still useful.';
 }

@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import type { SupportedLanguage } from '@pridicta/types';
 import { useLanguagePreference } from '../lib/language-preference';
@@ -20,11 +21,13 @@ const publicHeaderCopy: Record<
   en: {
     dashboard: 'Open Dashboard',
     links: [
-      { href: '/#intelligence', label: 'Intelligence' },
-      { href: '/#reports', label: 'Reports' },
+      { href: '/dashboard/chat', label: 'Intelligence' },
+      { href: '/dashboard/report', label: 'Reports' },
+      { href: '/accuracy-method', label: 'Method' },
       { href: '/safety', label: 'Safety' },
       { href: '/founder', label: 'Founder' },
       { href: '/pricing', label: 'Pricing' },
+      { href: '/feedback', label: 'Feedback' },
       { href: '/legal', label: 'Legal' },
     ],
     menu: 'Open navigation menu',
@@ -33,11 +36,13 @@ const publicHeaderCopy: Record<
   hi: {
     dashboard: 'डैशबोर्ड खोलें',
     links: [
-      { href: '/#intelligence', label: 'इंटेलिजेंस' },
-      { href: '/#reports', label: 'रिपोर्ट' },
+      { href: '/dashboard/chat', label: 'इंटेलिजेंस' },
+      { href: '/dashboard/report', label: 'रिपोर्ट' },
+      { href: '/accuracy-method', label: 'विधि' },
       { href: '/safety', label: 'सुरक्षा' },
       { href: '/founder', label: 'फाउंडर' },
       { href: '/pricing', label: 'प्राइसिंग' },
+      { href: '/feedback', label: 'फीडबैक' },
       { href: '/legal', label: 'कानूनी' },
     ],
     menu: 'नेविगेशन मेनू खोलें',
@@ -46,11 +51,13 @@ const publicHeaderCopy: Record<
   gu: {
     dashboard: 'ડેશબોર્ડ ખોલો',
     links: [
-      { href: '/#intelligence', label: 'ઇન્ટેલિજન્સ' },
-      { href: '/#reports', label: 'રિપોર્ટ્સ' },
+      { href: '/dashboard/chat', label: 'ઇન્ટેલિજન્સ' },
+      { href: '/dashboard/report', label: 'રિપોર્ટ્સ' },
+      { href: '/accuracy-method', label: 'પદ્ધતિ' },
       { href: '/safety', label: 'સેફ્ટી' },
       { href: '/founder', label: 'ફાઉન્ડર' },
       { href: '/pricing', label: 'પ્રાઇસિંગ' },
+      { href: '/feedback', label: 'ફીડબેક' },
       { href: '/legal', label: 'કાનૂની' },
     ],
     menu: 'નેવિગેશન મેનૂ ખોલો',
@@ -60,6 +67,7 @@ const publicHeaderCopy: Record<
 
 export function WebHeader(): React.JSX.Element {
   const { language } = useLanguagePreference();
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const copy = publicHeaderCopy[language] ?? publicHeaderCopy.en;
 
@@ -80,11 +88,24 @@ export function WebHeader(): React.JSX.Element {
         </span>
       </Link>
       <nav aria-label="Primary navigation" className="header-nav">
-        {copy.links.map(link => (
-          <Link href={link.href} key={link.href}>
-            {link.label}
-          </Link>
-        ))}
+        {copy.links.map(link => {
+          const active = isPublicNavActive(pathname, link.href);
+
+          return active ? (
+            <span
+              aria-current="page"
+              aria-disabled="true"
+              className="active disabled"
+              key={link.href}
+            >
+              {link.label}
+            </span>
+          ) : (
+            <Link href={link.href} key={link.href}>
+              {link.label}
+            </Link>
+          );
+        })}
       </nav>
       <div className="header-actions">
         <WebLanguageSelector compact />
@@ -116,15 +137,28 @@ export function WebHeader(): React.JSX.Element {
               onClick={event => event.stopPropagation()}
             >
               <nav aria-label="Mobile navigation">
-                {copy.links.map(link => (
-                  <Link
-                    href={link.href}
-                    key={link.href}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+                {copy.links.map(link => {
+                  const active = isPublicNavActive(pathname, link.href);
+
+                  return active ? (
+                    <span
+                      aria-current="page"
+                      aria-disabled="true"
+                      className="active disabled"
+                      key={link.href}
+                    >
+                      {link.label}
+                    </span>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      key={link.href}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  );
+                })}
               </nav>
               <div className="mobile-menu-actions">
                 <WebLanguageSelector compact />
@@ -143,4 +177,8 @@ export function WebHeader(): React.JSX.Element {
       </div>
     </header>
   );
+}
+
+function isPublicNavActive(pathname: string, href: string): boolean {
+  return pathname === href || pathname.startsWith(`${href}/`);
 }

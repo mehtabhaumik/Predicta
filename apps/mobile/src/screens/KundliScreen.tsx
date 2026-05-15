@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 import {
   AnimatedHeader,
@@ -16,12 +16,16 @@ import {
   useGlassAlert,
 } from '../components';
 import {
+  applyManualBirthTimeEstimate,
   buildChartSelectionPrompt,
   composeChartInsight,
   composeDestinyPassport,
+  estimateManualBirthTimeRectification,
   getChartTypesForAccess,
   getChartConfig,
   getFeaturedChartTypesForAccess,
+  MANUAL_BIRTH_TIME_RECTIFICATION_QUESTIONS,
+  type ManualBirthTimeRectificationAnswer,
 } from '@pridicta/astrology';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
@@ -38,10 +42,15 @@ export function KundliScreen({
   navigation,
 }: RootScreenProps<typeof routes.Kundli>): React.JSX.Element {
   const [birthDetails, setBirthDetails] = useState<BirthDetails | null>(null);
+  const [rectificationAnswers, setRectificationAnswers] = useState<
+    Record<string, ManualBirthTimeRectificationAnswer | undefined>
+  >({});
   const [chartFocusByType, setChartFocusByType] = useState<
     Partial<Record<ChartType, KundliChartFocus>>
   >({});
   const [generating, setGenerating] = useState(false);
+  const [activeCreationDetails, setActiveCreationDetails] =
+    useState<BirthDetails | null>(null);
   const [showAllCharts, setShowAllCharts] = useState(false);
   const kundli = useAppStore(state => state.activeKundli);
   const pendingBirthDetailsDraft = useAppStore(
@@ -66,11 +75,88 @@ export function KundliScreen({
     [access.hasPremiumAccess, showAllCharts],
   );
   const destinyPassport = composeDestinyPassport(kundli);
+  const rectificationEstimate = useMemo(
+    () =>
+      birthDetails
+        ? estimateManualBirthTimeRectification({
+            answers: rectificationAnswers,
+            birthDetails,
+          })
+        : undefined,
+    [birthDetails, rectificationAnswers],
+  );
 
   const handleBirthDetailsChange = useCallback(
-    (value: BirthDetails | null) => setBirthDetails(value),
+    (value: BirthDetails | null) => {
+      setBirthDetails(value);
+      setRectificationAnswers({});
+    },
     [],
   );
+
+  async function generateConfirmedKundli(finalDetails: BirthDetails) {
+    try {
+      setActiveCreationDetails(finalDetails);
+      setGenerating(true);
+      const generated = await generateKundli(finalDetails);
+      const nextKundli = {
+        ...generated,
+        birthDetails: {
+          ...generated.birthDetails,
+          ...finalDetails,
+        },
+      };
+      setActiveKundli(nextKundli);
+      clearPendingBirthDetailsDraft();
+      const saved = await saveGeneratedKundliLocally(nextKundli);
+      setSavedKundlis(saved);
+      showGlassAlert({
+        message:
+          finalDetails.timeConfidence === 'rectified'
+            ? `This Kundli was created with probable rectified time ${finalDetails.time}. Original entered time: ${finalDetails.originalTime ?? 'not recorded'}.`
+            : 'This Kundli was calculated and saved on this device.',
+        title: 'Kundli generated',
+      });
+    } catch (error) {
+      showGlassAlert({
+        message:
+          error instanceof Error
+            ? error.message
+            : 'Please verify birth details and try again.',
+        title: 'Calculation failed',
+      });
+    } finally {
+      setGenerating(false);
+      setActiveCreationDetails(null);
+      listSavedKundlis()
+        .then(setSavedKundlis)
+        .catch(() => undefined);
+    }
+  }
+
+  function confirmBirthDetails(finalDetails: BirthDetails) {
+    showGlassAlert({
+      actions: [
+        { label: 'Edit' },
+        {
+          label: 'Create Kundli',
+          onPress: () => {
+            void generateConfirmedKundli(finalDetails);
+          },
+        },
+      ],
+      message: [
+        finalDetails.name,
+        `${finalDetails.date} at ${finalDetails.time}`,
+        finalDetails.place,
+        `Timezone: ${finalDetails.timezone}`,
+        finalDetails.timeConfidence === 'rectified'
+          ? `Rectified time. Original entered time: ${finalDetails.originalTime ?? 'not recorded'}`
+          : 'Entered time confirmed.',
+      ].join('\n'),
+      title: 'Confirm birth details',
+    });
+  }
 
   function askFromChart(chartType: ChartType, focus?: KundliChartFocus) {
     const chartConfig = getChartConfig(chartType);
@@ -121,55 +207,59 @@ export function KundliScreen({
       return;
     }
 
-    showGlassAlert({
-      actions: [
-        { label: 'Cancel' },
-        {
-          label: 'Generate',
-          onPress: async () => {
-            try {
-              setGenerating(true);
-              const nextKundli = await generateKundli(birthDetails);
-              setActiveKundli(nextKundli);
-              clearPendingBirthDetailsDraft();
-              const saved = await saveGeneratedKundliLocally(nextKundli);
-              setSavedKundlis(saved);
-              showGlassAlert({
-                message:
-                  'This Kundli was calculated and saved on this device.',
-                title: 'Kundli generated',
-              });
-            } catch (error) {
-              showGlassAlert({
-                message:
-                  error instanceof Error
-                    ? error.message
-                    : 'Please verify birth details and try again.',
-                title: 'Calculation failed',
-              });
-            } finally {
-              setGenerating(false);
-              listSavedKundlis()
-                .then(setSavedKundlis)
-                .catch(() => undefined);
-            }
+    if (birthDetails.isTimeApproximate) {
+      showGlassAlert({
+        actions: [
+          { label: 'Edit' },
+          {
+            label: 'Use entered time',
+            onPress: () =>
+              confirmBirthDetails({
+                ...birthDetails,
+                isTimeApproximate: false,
+                timeConfidence: 'entered',
+              }),
           },
-        },
-      ],
-      message: [
-        birthDetails.name,
-        `${birthDetails.date} at ${birthDetails.time}`,
-        birthDetails.place,
-        `Timezone: ${birthDetails.timezone}`,
-        birthDetails.isTimeApproximate ? 'Birth time marked approximate' : '',
-      ].join('\n'),
-      title: 'Confirm birth details',
+        ],
+        message:
+          'You marked birth time as approximate. You can use the entered time, or answer the yes/no questions on this screen so Predicta can estimate a probable corrected time.',
+        title: 'Birth time is approximate',
+      });
+      return;
+    }
+
+    confirmBirthDetails({
+      ...birthDetails,
+      timeConfidence: 'entered',
     });
+  }
+
+  function chooseRectificationAnswer(
+    questionId: string,
+    answer: ManualBirthTimeRectificationAnswer,
+  ) {
+    setRectificationAnswers(current => ({
+      ...current,
+      [questionId]: answer,
+    }));
+  }
+
+  function useProbableRectifiedTime() {
+    if (!birthDetails || !rectificationEstimate) {
+      return;
+    }
+
+    confirmBirthDetails(
+      applyManualBirthTimeEstimate(birthDetails, rectificationEstimate),
+    );
   }
 
   return (
     <Screen>
       {glassAlert}
+      {generating && activeCreationDetails ? (
+        <KundliCreationOverlay birthDetails={activeCreationDetails} />
+      ) : null}
       <AnimatedHeader eyebrow="STEP 1" title="Create your Kundli" />
 
       <GlassPanel className="mt-7" delay={100}>
@@ -192,12 +282,71 @@ export function KundliScreen({
         </View>
         <View className="mt-5">
           <GlowButton
-            label={generating ? 'Calculating...' : 'Generate Real Kundli'}
+            label={generating ? 'Calculating...' : 'Continue'}
             loading={generating}
             onPress={calculate}
           />
         </View>
       </GlassPanel>
+
+      {birthDetails?.isTimeApproximate ? (
+        <GlassPanel className="mt-7" delay={130}>
+          <AppText tone="secondary" variant="caption">
+            BIRTH TIME CHECK
+          </AppText>
+          <AppText className="mt-1" variant="subtitle">
+            Re-check approximate time
+          </AppText>
+          <AppText className="mt-2" tone="secondary">
+            Answer yes or no. If you prefer your entered time, tap Continue and
+            choose “Use entered time”.
+          </AppText>
+          <View className="mt-5 gap-4">
+            {MANUAL_BIRTH_TIME_RECTIFICATION_QUESTIONS.map(question => (
+              <View key={question.id}>
+                <AppText>{question.question}</AppText>
+                <View className="mt-3 flex-row gap-3">
+                  {(['yes', 'no'] as const).map(answer => (
+                    <Pressable
+                      accessibilityRole="button"
+                      className={`rounded-full border px-4 py-3 ${
+                        rectificationAnswers[question.id] === answer
+                          ? 'bg-[#252533]'
+                          : 'bg-transparent'
+                      }`}
+                      key={answer}
+                      onPress={() =>
+                        chooseRectificationAnswer(question.id, answer)
+                      }
+                    >
+                      <AppText variant="caption">
+                        {answer === 'yes' ? 'Yes' : 'No'}
+                      </AppText>
+                    </Pressable>
+                  ))}
+                </View>
+              </View>
+            ))}
+          </View>
+          {rectificationEstimate?.answeredCount ===
+          MANUAL_BIRTH_TIME_RECTIFICATION_QUESTIONS.length ? (
+            <View className="mt-5">
+              <AppText variant="subtitle">
+                Probable time: {rectificationEstimate.probableTime}
+              </AppText>
+              <AppText className="mt-2" tone="secondary">
+                {rectificationEstimate.summary}
+              </AppText>
+              <View className="mt-4">
+                <GlowButton
+                  label="Use probable time"
+                  onPress={useProbableRectifiedTime}
+                />
+              </View>
+            </View>
+          ) : null}
+        </GlassPanel>
+      ) : null}
 
       {kundli ? (
         <>
@@ -245,6 +394,12 @@ export function KundliScreen({
               {kundli.birthDetails.date} at {kundli.birthDetails.time} ·{' '}
               {kundli.birthDetails.place}
             </AppText>
+            {kundli.birthDetails.timeConfidence === 'rectified' ? (
+              <AppText className="mt-2" tone="secondary" variant="caption">
+                Rectified time. Original entered time:{' '}
+                {kundli.birthDetails.originalTime ?? 'not recorded'}.
+              </AppText>
+            ) : null}
           </GlassPanel>
 
           <View className="mt-7 gap-4">
@@ -320,3 +475,77 @@ export function KundliScreen({
     </Screen>
   );
 }
+
+function KundliCreationOverlay({
+  birthDetails,
+}: {
+  birthDetails: BirthDetails;
+}): React.JSX.Element {
+  const corrected = birthDetails.timeConfidence === 'rectified';
+
+  return (
+    <View style={styles.creationOverlay}>
+      <View style={styles.creationCard}>
+        <View style={styles.creationBoard}>
+          {Array.from({ length: 12 }, (_, index) => (
+            <View key={index} style={styles.creationHouse} />
+          ))}
+        </View>
+        <AppText variant="subtitle">Drawing your Kundli</AppText>
+        <AppText className="mt-2 text-center" tone="secondary" variant="caption">
+          Lines are forming, signs are settling, and planets will take their
+          houses after calculation.
+        </AppText>
+        <AppText className="mt-3 text-center" tone="secondary" variant="caption">
+          {corrected
+            ? `Using probable rectified time ${birthDetails.time}. Original entered time: ${birthDetails.originalTime ?? 'not recorded'}.`
+            : `Using confirmed entered time ${birthDetails.time}.`}
+        </AppText>
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  creationBoard: {
+    aspectRatio: 1,
+    backgroundColor: 'rgba(10, 10, 15, 0.72)',
+    borderColor: 'rgba(255,255,255,0.2)',
+    borderRadius: 18,
+    borderWidth: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 5,
+    padding: 10,
+    width: 180,
+  },
+  creationCard: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(18, 18, 28, 0.98)',
+    borderColor: 'rgba(77, 175, 255, 0.3)',
+    borderRadius: 18,
+    borderWidth: 1,
+    padding: 20,
+    width: '88%',
+  },
+  creationHouse: {
+    backgroundColor: 'rgba(77, 175, 255, 0.12)',
+    borderColor: 'rgba(255,255,255,0.14)',
+    borderRadius: 8,
+    borderWidth: 1,
+    height: 48,
+    width: 48,
+  },
+  creationOverlay: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(5, 5, 10, 0.76)',
+    bottom: 0,
+    justifyContent: 'center',
+    left: 0,
+    padding: 18,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: 40,
+  },
+});

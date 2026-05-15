@@ -39,6 +39,10 @@ export async function generateKundliFromWeb(
   }
 
   const kundli = (await response.json()) as KundliData;
+  kundli.birthDetails = {
+    ...kundli.birthDetails,
+    ...details,
+  };
   saveWebKundli(kundli);
 
   return kundli;

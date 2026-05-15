@@ -1,0 +1,135 @@
+{
+  "version": 1,
+  "titleMap": {
+    "Advanced chart verification": {
+      "gu": "અદ્યતન ચાર્ટ ચકાસણી",
+      "hi": "उन्नत चार्ट सत्यापन"
+    },
+    "Birth and calculation foundation": {
+      "gu": "જન્મ અને ગણતરીનો આધાર",
+      "hi": "जन्म और गणना का आधार"
+    },
+    "Birth time confidence": {
+      "gu": "જન્મ સમય વિશ્વાસ",
+      "hi": "जन्म समय भरोसा"
+    },
+    "Career": {
+      "gu": "કારકિર્દી",
+      "hi": "करियर"
+    },
+    "Chart-derived report preview": {
+      "gu": "ચાર્ટ આધારિત રિપોર્ટ પૂર્વાવલોકન",
+      "hi": "चार्ट-आधारित रिपोर्ट पूर्वावलोकन"
+    },
+    "Current dasha and timing emphasis": {
+      "gu": "વર્તમાન દશા અને સમય ભાર",
+      "hi": "वर्तमान दशा और समय संकेत"
+    },
+    "Current transit weather": {
+      "gu": "વર્તમાન ગોચર વાતાવરણ",
+      "hi": "वर्तमान गोचर स्थिति"
+    },
+    "Current transit weather and Sade Sati": {
+      "gu": "વર્તમાન ગોચર અને સાડે સાથી",
+      "hi": "वर्तमान गोचर और साढ़े साती"
+    },
+    "Executive summary": {
+      "gu": "મુખ્ય સારાંશ",
+      "hi": "कार्यकारी सारांश"
+    },
+    "Life timeline and planning windows": {
+      "gu": "જીવન સમયરેખા અને આયોજન વિન્ડો",
+      "hi": "जीवन समयरेखा और योजना खिड़कियां"
+    },
+    "Holistic report synthesis": {
+      "gu": "સમગ્ર રિપોર્ટ સંશ્લેષણ",
+      "hi": "समग्र रिपोर्ट संश्लेषण"
+    },
+    "Holistic useful report spine": {
+      "gu": "ઉપયોગી સમગ્ર રિપોર્ટ આધાર",
+      "hi": "उपयोगी समग्र रिपोर्ट आधार"
+    },
+    "Limits and confidence": {
+      "gu": "મર્યાદા અને વિશ્વાસ",
+      "hi": "सीमाएं और भरोसा"
+    },
+    "Practical guidance and remedies": {
+      "gu": "વ્યવહારુ માર્ગદર્શન અને ઉપાય",
+      "hi": "व्यावहारिक मार्गदर्शन और उपाय"
+    },
+    "Relationship": {
+      "gu": "સંબંધ",
+      "hi": "संबंध"
+    },
+    "Remedy plan": {
+      "gu": "ઉપાય યોજના",
+      "hi": "उपाय योजना"
+    },
+    "Wealth": {
+      "gu": "ધન",
+      "hi": "धन"
+    },
+    "Wellbeing": {
+      "gu": "સુખાકારી",
+      "hi": "स्वास्थ्य-संतुलन"
+    }
+  },
+  "eyebrowMap": {
+    "ASHTAKAVARGA": {
+      "gu": "અષ્ટકવર્ગ",
+      "hi": "अष्टकवर्ग"
+    },
+    "CAREER": {
+      "gu": "કારકિર્દી",
+      "hi": "करियर"
+    },
+    "CHART SYNTHESIS": {
+      "gu": "ચાર્ટ સંશ્લેષણ",
+      "hi": "चार्ट संश्लेषण"
+    },
+    "FOUNDATION": {
+      "gu": "આધાર",
+      "hi": "आधार"
+    },
+    "GUIDANCE": {
+      "gu": "માર્ગદર્શન",
+      "hi": "मार्गदर्शन"
+    },
+    "HOLISTIC SYNTHESIS": {
+      "gu": "સમગ્ર સંશ્લેષણ",
+      "hi": "समग्र संश्लेषण"
+    },
+    "PLANETS": {
+      "gu": "ગ્રહો",
+      "hi": "ग्रह"
+    },
+    "RECTIFICATION": {
+      "gu": "જન્મ સમય તપાસ",
+      "hi": "जन्म समय जांच"
+    },
+    "REMEDIES": {
+      "gu": "ઉપાય",
+      "hi": "उपाय"
+    },
+    "SYNTHESIS": {
+      "gu": "સંશ્લેષણ",
+      "hi": "संश्लेषण"
+    },
+    "TIMELINE": {
+      "gu": "સમયરેખા",
+      "hi": "समयरेखा"
+    },
+    "TIMING": {
+      "gu": "સમય",
+      "hi": "समय"
+    },
+    "TRANSITS": {
+      "gu": "ગોચર",
+      "hi": "गोचर"
+    },
+    "TRUST": {
+      "gu": "વિશ્વાસ",
+      "hi": "भरोसा"
+    }
+  }
+}

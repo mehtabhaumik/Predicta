@@ -374,10 +374,10 @@ export function AdminAccessScreen(): React.JSX.Element {
         </GlowCard>
 
         <GlowCard>
-          <AppText variant="subtitle">Safety review queue</AppText>
+          <AppText variant="subtitle">Safety reports</AppText>
           <AppText className="mt-2" tone="secondary">
-            Review user reports and safety-triggered answers without storing
-            private birth details or full chat text.
+            Look at user reports and concerning answers without storing private
+            birth details or full chat text.
           </AppText>
           <View className="mt-5">
             <GlowButton

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { DailyBriefing, HolisticDailyGuidance } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 
@@ -17,7 +17,42 @@ export function WebDailyBriefingCard({
   holisticGuidance,
 }: WebDailyBriefingCardProps): React.JSX.Element {
   const [showProof, setShowProof] = useState(false);
+  const [completedDates, setCompletedDates] = useState<string[]>([]);
   const ready = briefing.status === 'ready';
+  const habitStorageKey = `predicta.dailyHabit.${briefing.language}`;
+  const completedToday = completedDates.includes(briefing.date);
+  const streak = useMemo(
+    () => countCurrentStreak(completedDates, briefing.date),
+    [briefing.date, completedDates],
+  );
+
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem(habitStorageKey);
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as { dates?: unknown };
+      if (Array.isArray(parsed.dates)) {
+        setCompletedDates(
+          parsed.dates.filter((item): item is string => typeof item === 'string'),
+        );
+      }
+    } catch {
+      setCompletedDates([]);
+    }
+  }, [habitStorageKey]);
+
+  function markHabitDone() {
+    const nextDates = Array.from(new Set([...completedDates, briefing.date])).sort();
+    setCompletedDates(nextDates);
+    try {
+      window.localStorage.setItem(
+        habitStorageKey,
+        JSON.stringify({ dates: nextDates }),
+      );
+    } catch {
+      // Local completion is a comfort feature; the reading still works without storage.
+    }
+  }
 
   return (
     <section className={`daily-briefing glass-panel ${ready ? 'ready' : 'pending'}`}>
@@ -36,6 +71,35 @@ export function WebDailyBriefingCard({
       <div className="daily-briefing-theme">
         <span>{briefing.labels.theme}</span>
         <p>{briefing.todayTheme}</p>
+      </div>
+
+      <div className={`daily-habit-panel ${completedToday ? 'done' : ''}`}>
+        <div className="daily-habit-copy">
+          <span>DAILY HABIT</span>
+          <h3>{completedToday ? 'Done today' : "Today's one clean action"}</h3>
+          <p>{ready ? briefing.bestAction : 'Create your Kundli to make this personal.'}</p>
+        </div>
+        <div className="daily-habit-stats">
+          <div>
+            <span>Day streak</span>
+            <strong>{streak}</strong>
+          </div>
+          <button
+            className="button secondary"
+            disabled={completedToday}
+            onClick={markHabitDone}
+            type="button"
+          >
+            {completedToday ? 'Completed today' : 'Mark done today'}
+          </button>
+        </div>
+        {holisticGuidance ? (
+          <div className="daily-habit-rhythm">
+            <DailyGuidanceStep label="Morning" text={holisticGuidance.morningPractice} />
+            <DailyGuidanceStep label="Midday" text={holisticGuidance.middayCheck} />
+            <DailyGuidanceStep label="Evening" text={holisticGuidance.eveningReview} />
+          </div>
+        ) : null}
       </div>
 
       {holisticGuidance ? (
@@ -163,4 +227,20 @@ function buildGuidanceHref(guidance: HolisticDailyGuidance): string {
     selectedSection: 'Holistic Daily Guidance',
     sourceScreen: 'Holistic Daily Guidance',
   });
+}
+
+function countCurrentStreak(dates: string[], today: string): number {
+  const completed = new Set(dates);
+  let cursor = new Date(`${today}T00:00:00.000Z`);
+  if (Number.isNaN(cursor.getTime())) {
+    return completed.has(today) ? 1 : 0;
+  }
+
+  let count = 0;
+  while (completed.has(cursor.toISOString().slice(0, 10))) {
+    count += 1;
+    cursor = new Date(cursor.getTime() - 86_400_000);
+  }
+
+  return count;
 }

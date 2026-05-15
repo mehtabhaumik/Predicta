@@ -1,0 +1,161 @@
+{
+  "version": 1,
+  "copy": {
+    "en": {
+      "actions": {
+        "copied": "Invite link copied",
+        "copyInvite": "Copy invite link",
+        "openDashboard": "Open Dashboard",
+        "openReports": "Preview Reports",
+        "redeemPass": "Redeem Guest Pass"
+      },
+      "advantages": [
+        {
+          "body": "Friends and family can open Predicta in a browser, create a Kundli, and test the experience without waiting for an app install.",
+          "proof": "No app install needed",
+          "title": "Start from any browser"
+        },
+        {
+          "body": "Send a guest pass, ask the person to sign in with the same email used for that pass, and let them try deeper Predicta guidance.",
+          "proof": "Simple invite passes",
+          "title": "Easy private invites"
+        },
+        {
+          "body": "Reports, charts, KP, Nadi, and family profiles are easier to explore on a bigger screen.",
+          "proof": "Works well on bigger screens",
+          "title": "Better for demos"
+        },
+        {
+          "body": "Safety, Founder Vision, and Accuracy pages explain how Predicta stays careful, grounded, and transparent.",
+          "proof": "Trust before payment",
+          "title": "Trust pages"
+        }
+      ],
+      "eyebrow": "Share Predicta easily",
+      "intro": "Predicta can be shared and tested from the web first: easy demos, private passes, family testing, and polished reports from the browser.",
+      "launchLoop": {
+        "body": "For friends and family, the first experience should be simple enough to explain in one message.",
+        "steps": [
+          {
+            "body": "Send the web link or a guest pass to the person you want to test with.",
+            "title": "1. Share access"
+          },
+          {
+            "body": "They create or load a Kundli, then ask Predicta about one real life concern.",
+            "title": "2. Let them feel value"
+          },
+          {
+            "body": "They try a report, KP, Nadi, or Family Vault and send feedback from the trust loop.",
+            "title": "3. Collect useful feedback"
+          }
+        ],
+        "title": "A simple sharing flow for family and friends."
+      },
+      "title": "Use the web app as the fastest path to trust."
+    },
+    "hi": {
+      "actions": {
+        "copied": "Invite link कॉपी हो गया",
+        "copyInvite": "Invite link कॉपी करें",
+        "openDashboard": "डैशबोर्ड खोलें",
+        "openReports": "रिपोर्ट देखें",
+        "redeemPass": "Guest Pass रिडीम करें"
+      },
+      "advantages": [
+        {
+          "body": "दोस्त और परिवार browser में Predicta खोल सकते हैं, कुंडली बना सकते हैं, और app install का इंतजार किए बिना try कर सकते हैं.",
+          "proof": "App install की जरूरत नहीं",
+          "title": "किसी भी browser से शुरू करें"
+        },
+        {
+          "body": "Guest pass भेजें. व्यक्ति को उसी email से sign in करना होगा जिसके लिए pass बनाया गया है. फिर वह गहरी Predicta guidance try कर सकता है.",
+          "proof": "सरल invite pass",
+          "title": "Private invite आसान है"
+        },
+        {
+          "body": "रिपोर्ट, चार्ट, KP, Nadi और परिवार profiles बड़ी screen पर ज्यादा साफ दिखते हैं.",
+          "proof": "बड़ी screen पर साफ",
+          "title": "Demo के लिए बेहतर"
+        },
+        {
+          "body": "Safety, Founder Vision और Accuracy pages बताते हैं कि Predicta कैसे सावधान, grounded और transparent रहती है.",
+          "proof": "Payment से पहले trust",
+          "title": "भरोसे वाले page"
+        }
+      ],
+      "eyebrow": "Predicta आसानी से share करें",
+      "intro": "Mobile app public होने से पहले Predicta web से आसानी से share और test हो सकती है: demo, private pass, family testing और सुंदर रिपोर्ट.",
+      "launchLoop": {
+        "body": "दोस्तों और परिवार के लिए पहला अनुभव इतना सरल होना चाहिए कि एक message में समझाया जा सके.",
+        "steps": [
+          {
+            "body": "जिस व्यक्ति से test कराना है, उसे web link या guest pass भेजें.",
+            "title": "1. Access share करें"
+          },
+          {
+            "body": "वह कुंडली बनाए या load करे, फिर Predicta से एक असली जीवन सवाल पूछे.",
+            "title": "2. Value महसूस कराएं"
+          },
+          {
+            "body": "वह रिपोर्ट, KP, Nadi या Family Vault try करे और feedback भेजे.",
+            "title": "3. काम का feedback लें"
+          }
+        ],
+        "title": "परिवार और दोस्तों के लिए सरल sharing flow."
+      },
+      "title": "भरोसा बनाने का सबसे तेज path web app है."
+    },
+    "gu": {
+      "actions": {
+        "copied": "Invite link કૉપી થઈ ગયો",
+        "copyInvite": "Invite link કૉપી કરો",
+        "openDashboard": "ડેશબોર્ડ ખોલો",
+        "openReports": "રિપોર્ટ્સ જુઓ",
+        "redeemPass": "Guest Pass રિડીમ કરો"
+      },
+      "advantages": [
+        {
+          "body": "મિત્રો અને પરિવાર browser માં Predicta ખોલી શકે છે, કુંડળી બનાવી શકે છે, અને app install ની રાહ વગર try કરી શકે છે.",
+          "proof": "App install ની જરૂર નથી",
+          "title": "કોઈ પણ browser થી શરૂ કરો"
+        },
+        {
+          "body": "Guest pass મોકલો. વ્યક્તિએ એ જ email થી sign in કરવું પડશે જેના માટે pass બનાવ્યો છે. પછી ઊંડી Predicta guidance try કરી શકે છે.",
+          "proof": "સરળ invite pass",
+          "title": "Private invite સરળ છે"
+        },
+        {
+          "body": "રિપોર્ટ્સ, ચાર્ટ્સ, KP, Nadi અને પરિવાર profiles મોટી screen પર વધુ સ્પષ્ટ દેખાય છે.",
+          "proof": "મોટી screen પર સ્પષ્ટ",
+          "title": "Demo માટે વધુ સારું"
+        },
+        {
+          "body": "Safety, Founder Vision અને Accuracy pages સમજાવે છે કે Predicta કેવી રીતે સાવચેત, grounded અને transparent રહે છે.",
+          "proof": "Payment પહેલાં trust",
+          "title": "ભરોસાના page"
+        }
+      ],
+      "eyebrow": "Predicta સરળતાથી share કરો",
+      "intro": "Mobile app public થાય તે પહેલાં Predicta web થી સરળતાથી share અને test થઈ શકે છે: demo, private pass, family testing અને સુંદર રિપોર્ટ્સ.",
+      "launchLoop": {
+        "body": "મિત્રો અને પરિવાર માટે પહેલો અનુભવ એટલો સરળ હોવો જોઈએ કે એક message માં સમજાવી શકાય.",
+        "steps": [
+          {
+            "body": "જે વ્યક્તિથી test કરાવવું હોય, તેને web link અથવા guest pass મોકલો.",
+            "title": "1. Access share કરો"
+          },
+          {
+            "body": "તે કુંડળી બનાવે અથવા load કરે, પછી Predicta ને એક સાચો જીવન પ્રશ્ન પૂછે.",
+            "title": "2. Value અનુભવાવો"
+          },
+          {
+            "body": "તે રિપોર્ટ, KP, Nadi અથવા Family Vault try કરે અને feedback મોકલે.",
+            "title": "3. કામનું feedback લો"
+          }
+        ],
+        "title": "પરિવાર અને મિત્રો માટે સરળ sharing flow."
+      },
+      "title": "ભરોસો બનાવવાનો સૌથી ઝડપી path web app છે."
+    }
+  }
+}

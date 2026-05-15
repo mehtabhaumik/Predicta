@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { composeHolisticReadingRooms } from '@pridicta/astrology';
-import { StatusPill } from '../../../components/StatusPill';
 import { buildPredictaChatHref } from '../../../lib/predicta-chat-cta';
 import { useWebKundliLibrary } from '../../../lib/use-web-kundli-library';
 
@@ -13,10 +12,6 @@ export default function HolisticRoomsPage(): React.JSX.Element {
   return (
     <section className="dashboard-page">
       <div className="page-heading compact">
-        <StatusPill
-          label={activeKundli ? 'Chart-aware rooms' : 'Create Kundli first'}
-          tone={activeKundli ? 'premium' : 'quiet'}
-        />
         <h1 className="gradient-text">Holistic astrology rooms.</h1>
         <p>
           Today, karma remedies, life balance, and timing in simple holistic astrology rooms.

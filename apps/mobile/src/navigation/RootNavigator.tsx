@@ -8,6 +8,7 @@ import React from 'react';
 
 import { canSeeAdminRoute, resolveAccess } from '@pridicta/access';
 import { useAppStore } from '../store/useAppStore';
+import { AccuracyMethodScreen } from '../screens/AccuracyMethodScreen';
 import { AdminAccessScreen } from '../screens/AdminAccessScreen';
 import { BirthTimeDetectiveScreen } from '../screens/BirthTimeDetectiveScreen';
 import { ChatScreen } from '../screens/ChatScreen';
@@ -94,6 +95,11 @@ export function RootNavigator(): React.JSX.Element {
           name={routes.Home}
           component={HomeScreen}
           options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={routes.AccuracyMethod}
+          component={AccuracyMethodScreen}
+          options={{ title: 'Accuracy & Method' }}
         />
         <Stack.Screen
           name={routes.HolisticReadingRooms}

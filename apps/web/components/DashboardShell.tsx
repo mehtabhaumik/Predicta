@@ -13,12 +13,14 @@ import type { ResolvedAccess } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useLanguagePreference } from '../lib/language-preference';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
-import { StatusPill } from './StatusPill';
 import { SidebarNav, type SidebarGroup } from './SidebarNav';
 import { WebFooter } from './WebFooter';
 import { WebLanguageSelector } from './WebLanguageSelector';
 
-function buildDashboardNavGroups(labels: AppShellLabels): SidebarGroup[] {
+function buildDashboardNavGroups(
+  labels: AppShellLabels,
+  feedbackLabel: string,
+): SidebarGroup[] {
   return [
   {
     label: labels.groups.start,
@@ -63,8 +65,10 @@ function buildDashboardNavGroups(labels: AppShellLabels): SidebarGroup[] {
       { href: '/dashboard/premium', label: labels.nav.premium },
       { href: '/dashboard/redeem-pass', label: labels.nav.redeemPass },
       { href: '/dashboard/settings', label: labels.nav.settings },
+      { href: '/accuracy-method', label: labels.nav.accuracyMethod },
       { href: '/safety', label: labels.nav.safetyPromise },
       { href: '/founder', label: labels.nav.founderVision },
+      { href: '/feedback', label: feedbackLabel },
       { href: '/legal', label: labels.nav.legal },
     ],
   },
@@ -94,9 +98,10 @@ export function DashboardShell({
   const reduceMotion = useReducedMotion();
   const { language } = useLanguagePreference();
   const shellLabels = getAppShellLabels(language);
-  const navGroups = buildDashboardNavGroups(shellLabels);
-  const accessText =
-    access.source === 'free' ? shellLabels.access.freePreview : access.accessLevel;
+  const navGroups = buildDashboardNavGroups(
+    shellLabels,
+    getFeedbackNavLabel(language),
+  );
   const showAdmin = canSeeAdminRoute(access);
   const [menuOpen, setMenuOpen] = useState(false);
   const { activeKundli } = useWebKundliLibrary();
@@ -123,14 +128,6 @@ export function DashboardShell({
       <main className="main-workspace">
         <div className="dashboard-topbar glass-panel">
           <div>
-            <StatusPill
-              label={
-                access.hasPremiumAccess
-                  ? shellLabels.access.premiumDepthAvailable
-                  : accessText
-              }
-              tone={access.hasPremiumAccess ? 'premium' : 'quiet'}
-            />
             <p>{shellLabels.topbarDescription}</p>
           </div>
           <div className="dashboard-topbar-actions">
@@ -140,7 +137,7 @@ export function DashboardShell({
               href={buildPredictaChatHref({
                 kundli: activeKundli,
                 prompt: 'Help me from my selected Kundli.',
-                sourceScreen: 'Dashboard Header',
+                sourceScreen: 'Dashboard',
               })}
             >
               {shellLabels.actions.askPredicta}
@@ -162,6 +159,7 @@ export function DashboardShell({
             </button>
           </div>
         </div>
+        <div aria-hidden="true" className="dashboard-topbar-spacer" />
         {menuOpen ? (
           <div
             className="dashboard-mobile-menu"
@@ -196,15 +194,24 @@ export function DashboardShell({
                         );
 
                         return (
-                          <Link
-                            aria-current={active ? 'page' : undefined}
-                            className={active ? 'active' : ''}
-                            href={item.href}
-                            key={item.href}
-                            onClick={() => setMenuOpen(false)}
-                          >
-                            {item.label}
-                          </Link>
+                          active ? (
+                            <span
+                              aria-current="page"
+                              aria-disabled="true"
+                              className="active disabled"
+                              key={item.href}
+                            >
+                              {item.label}
+                            </span>
+                          ) : (
+                            <Link
+                              href={item.href}
+                              key={item.href}
+                              onClick={() => setMenuOpen(false)}
+                            >
+                              {item.label}
+                            </Link>
+                          )
                         );
                       })}
                     </div>
@@ -230,4 +237,16 @@ export function DashboardShell({
       </main>
     </div>
   );
+}
+
+function getFeedbackNavLabel(language: 'en' | 'hi' | 'gu'): string {
+  if (language === 'hi') {
+    return 'फीडबैक';
+  }
+
+  if (language === 'gu') {
+    return 'ફીડબેક';
+  }
+
+  return 'Feedback';
 }

@@ -1,0 +1,386 @@
+{
+  "version": 1,
+  "copy": {
+    "en": {
+      "boundaries": {
+        "body": "Jyotish can show timing, tendencies, pressure points, and remedies. It should not be used as a guaranteed verdict.",
+        "eyebrow": "सटीकता की सीमाएं",
+        "items": [
+          "Exact birth time and place matter. A few minutes can change houses, divisional charts, and event timing.",
+          "Unknown or doubtful birth time should be handled with rectification before deep timing.",
+          "Predictions are probability and guidance, not guarantees.",
+          "Medical, legal, financial, crisis, and emergency decisions still need qualified real-world support.",
+          "Remedies are given as traditional, reflective, and karma-aligned practices, not guaranteed cures."
+        ],
+        "title": "Honest limits make the reading more trustworthy."
+      },
+      "calculation": {
+        "body": "Predicta starts from birth details, then keeps the method visible so the user can understand where a reading comes from.",
+        "eyebrow": "गणना विधि",
+        "items": [
+          {
+            "detail": "Used for the regular Parashari Kundli and most divisional chart work.",
+            "label": "Zodiac",
+            "value": "Sidereal Vedic chart"
+          },
+          {
+            "detail": "Predicta uses Lahiri for regular Vedic calculations unless a school clearly needs its own method.",
+            "label": "Ayanamsa",
+            "value": "Lahiri"
+          },
+          {
+            "detail": "The app renders North Indian charts because that is the product standard.",
+            "label": "Chart style",
+            "value": "North Indian"
+          },
+          {
+            "detail": "Vimshottari is anchored to the Moon nakshatra and then interpreted with chart proof.",
+            "label": "Dasha",
+            "value": "Vimshottari"
+          },
+          {
+            "detail": "Gochar is refreshed for the current date and read against the active Kundli.",
+            "label": "Transit",
+            "value": "Daily Gochar"
+          }
+        ],
+        "title": "The chart method is clear before the prediction."
+      },
+      "cta": {
+        "note": "The goal is not blind belief. The goal is a clear, respectful reading with visible method and honest limits.",
+        "primary": "Create Kundli",
+        "secondary": "Read Safety Promise"
+      },
+      "depth": {
+        "body": "Predicta does not hide basic charts from free users. The difference is explanation depth, synthesis, timing, remedies, and polished reports.",
+        "eyebrow": "Free and premium",
+        "free": [
+          "All available charts can be viewed.",
+          "Useful insight for each major chart or topic.",
+          "Basic dasha, Sade Sati, Gochar, and report previews.",
+          "Short chart proof in plain language."
+        ],
+        "premium": [
+          "Detailed synthesis across D1, divisional charts, dasha, Gochar, and remedies.",
+          "Deeper KP and premium Nadi-style pattern reading where available.",
+          "Report-ready explanations, monthly timing, and richer follow-up guidance.",
+          "More complete family, relationship, and life-calendar workflows."
+        ],
+        "title": "Free shows the chart. Premium explains it deeply."
+      },
+      "hero": {
+        "body": "See the Jyotish method behind Predicta: how charts are calculated, how Parashari, KP, and Nadi stay separate, and where astrology needs human judgment.",
+        "eyebrow": "Accuracy and method",
+        "title": "A transparent method builds better trust."
+      },
+      "pillars": [
+        {
+          "body": "Every serious answer should show the chart factors behind it, not just a confident sentence.",
+          "title": "Chart proof first"
+        },
+        {
+          "body": "Regular Predicta, KP Predicta, and Nadi Predicta have different rules and should not be casually mixed.",
+          "title": "Schools stay separate"
+        },
+        {
+          "body": "Birth time sensitivity, uncertainty, and safety limits are stated clearly instead of hidden.",
+          "title": "Clear boundaries"
+        }
+      ],
+      "schools": {
+        "body": "Predicta treats these as separate rooms of Jyotish. A handoff can carry the user question and birth details, but each school answers from its own rules.",
+        "eyebrow": "Three Predictas",
+        "items": [
+          {
+            "caution": "D1 stays the root. Vargas, Bhav Chalit, dasha, and Gochar support the reading.",
+            "name": "Regular Parashari",
+            "proof": [
+              "D1 Rashi chart",
+              "Vimshottari dasha",
+              "Divisional charts",
+              "Yogas, Bhav Chalit, Gochar, remedies"
+            ],
+            "summary": "Traditional Vedic Jyotish for lifelong patterns, life areas, timing, and holistic guidance."
+          },
+          {
+            "caution": "KP is not a side section. It has its own method and should answer event questions from KP rules.",
+            "name": "KP Predicta",
+            "proof": [
+              "KP ayanamsa",
+              "Placidus cusps",
+              "Star lords and sub lords",
+              "Significators and ruling planets"
+            ],
+            "summary": "Krishnamurti Paddhati for precise event-oriented judgment and timing."
+          },
+          {
+            "caution": "Nadi Predicta never claims access to a real ancient palm-leaf manuscript.",
+            "name": "Nadi Predicta",
+            "proof": [
+              "Planet-to-planet story links",
+              "Karakas and karmic themes",
+              "Rahu-Ketu axis",
+              "Validation questions and timing triggers"
+            ],
+            "summary": "A premium pattern-reading room for karmic narratives and repeated life signatures."
+          }
+        ],
+        "title": "Different astrology schools need different rules."
+      }
+    },
+    "hi": {
+      "boundaries": {
+        "body": "ज्योतिष समय, प्रवृत्ति, दबाव और उपाय दिखा सकता है. इसे guaranteed verdict की तरह उपयोग नहीं करना चाहिए.",
+        "eyebrow": "सटीकता की सीमाएं",
+        "items": [
+          "सटीक जन्म समय और स्थान जरूरी हैं. कुछ minutes houses, divisional charts और timing बदल सकते हैं.",
+          "Unknown या doubtful birth time में deep timing से पहले rectification useful है.",
+          "Predictions probability और guidance हैं, guarantee नहीं.",
+          "Medical, legal, financial, crisis और emergency decisions में qualified real-world support जरूरी है.",
+          "Remedies traditional, reflective और karma-aligned practices हैं, guaranteed cure नहीं."
+        ],
+        "title": "ईमानदार सीमाएं reading को ज्यादा भरोसेमंद बनाती हैं."
+      },
+      "calculation": {
+        "body": "Predicta जन्म विवरण से शुरू करती है और method visible रखती है ताकि user समझ सके reading कहां से आई.",
+        "eyebrow": "गणना विधि",
+        "items": [
+          {
+            "detail": "Regular Parashari कुंडली और ज्यादातर divisional chart work के लिए.",
+            "label": "राशि पद्धति",
+            "value": "Sidereal Vedic chart"
+          },
+          {
+            "detail": "Regular Vedic calculations में Lahiri use होता है, जब तक किसी school को अपनी method न चाहिए.",
+            "label": "Ayanamsa",
+            "value": "Lahiri"
+          },
+          {
+            "detail": "Product standard North Indian chart style है.",
+            "label": "चार्ट style",
+            "value": "North Indian"
+          },
+          {
+            "detail": "Vimshottari Moon nakshatra से anchored होती है और chart proof के साथ पढ़ी जाती है.",
+            "label": "दशा",
+            "value": "Vimshottari"
+          },
+          {
+            "detail": "गोचर वर्तमान date के लिए refresh होता है और active कुंडली से पढ़ा जाता है.",
+            "label": "गोचर",
+            "value": "Daily गोचर"
+          }
+        ],
+        "title": "फलादेश से पहले चार्ट विधि साफ रहती है."
+      },
+      "cta": {
+        "note": "लक्ष्य blind belief नहीं है. लक्ष्य clear, respectful reading है जिसमें method और limits visible हों.",
+        "primary": "कुंडली बनाएं",
+        "secondary": "Safety Promise पढ़ें"
+      },
+      "depth": {
+        "body": "Predicta free users से basic charts hide नहीं करती. Difference explanation depth, synthesis, timing, remedies और polished reports का है.",
+        "eyebrow": "मुफ्त और प्रीमियम",
+        "free": [
+          "Available charts देखे जा सकते हैं.",
+          "हर major chart या topic के लिए useful insight.",
+          "Basic dasha, Sade Sati, Gochar और report previews.",
+          "Plain language में short chart proof."
+        ],
+        "premium": [
+          "D1, divisional charts, dasha, Gochar और remedies की detailed synthesis.",
+          "जहां available हो वहां deeper KP और premium Nadi-style pattern reading.",
+          "Report-ready explanations, monthly timing और richer follow-up guidance.",
+          "Family, relationship और life-calendar workflows ज्यादा complete."
+        ],
+        "title": "मुफ्त chart दिखाता है. प्रीमियम उसे deeply समझाता है."
+      },
+      "hero": {
+        "body": "Predicta के पीछे की ज्योतिष method देखें: charts कैसे calculate होते हैं, Parashari, KP और Nadi कैसे अलग रहते हैं, और astrology में human judgment कहां जरूरी है.",
+        "eyebrow": "सटीकता और विधि",
+        "title": "पारदर्शी विधि से भरोसा बेहतर बनता है."
+      },
+      "pillars": [
+        {
+          "body": "Serious answer में confident sentence के साथ chart factors भी दिखने चाहिए.",
+          "title": "चार्ट प्रमाण पहले"
+        },
+        {
+          "body": "Regular Predicta, KP Predicta और Nadi Predicta के rules अलग हैं. इन्हें casually mix नहीं किया जाता.",
+          "title": "Schools अलग रहते हैं"
+        },
+        {
+          "body": "Birth time sensitivity, uncertainty और safety limits साफ कही जाती हैं.",
+          "title": "साफ सीमाएं"
+        }
+      ],
+      "schools": {
+        "body": "Predicta इन्हें ज्योतिष के separate rooms मानती है. Handoff में question और birth details जा सकते हैं, लेकिन हर school अपने rules से answer करता है.",
+        "eyebrow": "तीन Predicta",
+        "items": [
+          {
+            "caution": "D1 root रहता है. Vargas, Bhav Chalit, dasha और Gochar reading को support करते हैं.",
+            "name": "Regular Parashari",
+            "proof": [
+              "D1 Rashi chart",
+              "Vimshottari dasha",
+              "Divisional charts",
+              "Yogas, Bhav Chalit, Gochar, remedies"
+            ],
+            "summary": "Traditional Vedic Jyotish जो lifelong patterns, life areas, timing और holistic guidance पढ़ता है."
+          },
+          {
+            "caution": "KP side section नहीं है. इसका अपना method है और event questions KP rules से answer होने चाहिए.",
+            "name": "KP Predicta",
+            "proof": [
+              "KP ayanamsa",
+              "Placidus cusps",
+              "Star lords और sub lords",
+              "Significators और ruling planets"
+            ],
+            "summary": "Krishnamurti Paddhati precise event-oriented judgment और timing के लिए."
+          },
+          {
+            "caution": "Nadi Predicta कभी real ancient palm-leaf manuscript access करने का fake claim नहीं करती.",
+            "name": "Nadi Predicta",
+            "proof": [
+              "Planet-to-planet story links",
+              "Karakas और karmic themes",
+              "Rahu-Ketu axis",
+              "Validation questions और timing triggers"
+            ],
+            "summary": "Karmic narratives और repeated life signatures के लिए premium pattern-reading room."
+          }
+        ],
+        "title": "हर ज्योतिष school को अपनी विधि चाहिए."
+      }
+    },
+    "gu": {
+      "boundaries": {
+        "body": "જ્યોતિષ સમય, પ્રવૃત્તિ, દબાણ અને ઉપાયો બતાવી શકે છે. તેને guaranteed verdict તરીકે ઉપયોગ ન કરવું.",
+        "eyebrow": "ચોકસાઈની મર્યાદા",
+        "items": [
+          "ચોક્કસ જન્મ સમય અને સ્થળ જરૂરી છે. થોડા minutes houses, divisional charts અને timing બદલી શકે છે.",
+          "Unknown અથવા doubtful birth time હોય તો deep timing પહેલાં rectification useful છે.",
+          "Predictions probability અને guidance છે, guarantee નહીં.",
+          "Medical, legal, financial, crisis અને emergency decisions માટે qualified real-world support જરૂરી છે.",
+          "Remedies traditional, reflective અને karma-aligned practices છે, guaranteed cure નહીં."
+        ],
+        "title": "ઈમાનદાર મર્યાદાઓ reading ને વધુ trustworthy બનાવે છે."
+      },
+      "calculation": {
+        "body": "Predicta જન્મ વિગતો થી શરૂ કરે છે અને method visible રાખે છે જેથી user સમજી શકે reading ક્યાંથી આવી.",
+        "eyebrow": "ગણતરી પદ્ધતિ",
+        "items": [
+          {
+            "detail": "Regular Parashari કુંડળી અને મોટાભાગના divisional chart work માટે.",
+            "label": "રાશિ પદ્ધતિ",
+            "value": "Sidereal Vedic chart"
+          },
+          {
+            "detail": "Regular Vedic calculations માં Lahiri use થાય છે, જ્યાં સુધી કોઈ school ને પોતાની method ન જોઈએ.",
+            "label": "Ayanamsa",
+            "value": "Lahiri"
+          },
+          {
+            "detail": "Product standard North Indian chart style છે.",
+            "label": "ચાર્ટ style",
+            "value": "North Indian"
+          },
+          {
+            "detail": "Vimshottari Moon nakshatra થી anchored છે અને chart proof સાથે વાંચાય છે.",
+            "label": "દશા",
+            "value": "Vimshottari"
+          },
+          {
+            "detail": "ગોચર current date માટે refresh થાય છે અને active કુંડળી સામે વાંચાય છે.",
+            "label": "ગોચર",
+            "value": "Daily ગોચર"
+          }
+        ],
+        "title": "ફળકથન પહેલાં ચાર્ટ પદ્ધતિ સ્પષ્ટ રહે છે."
+      },
+      "cta": {
+        "note": "લક્ષ્ય blind belief નથી. લક્ષ્ય clear, respectful reading છે જેમાં method અને limits visible હોય.",
+        "primary": "કુંડળી બનાવો",
+        "secondary": "Safety Promise વાંચો"
+      },
+      "depth": {
+        "body": "Predicta free users થી basic charts hide કરતી નથી. Difference explanation depth, synthesis, timing, remedies અને polished reports નો છે.",
+        "eyebrow": "મફત અને પ્રીમિયમ",
+        "free": [
+          "Available charts જોઈ શકાય છે.",
+          "દરેક major chart અથવા topic માટે useful insight.",
+          "Basic dasha, Sade Sati, Gochar અને report previews.",
+          "Plain language માં short chart proof."
+        ],
+        "premium": [
+          "D1, divisional charts, dasha, Gochar અને remedies ની detailed synthesis.",
+          "જ્યાં available હોય ત્યાં deeper KP અને premium Nadi-style pattern reading.",
+          "Report-ready explanations, monthly timing અને richer follow-up guidance.",
+          "Family, relationship અને life-calendar workflows વધુ complete."
+        ],
+        "title": "મફત chart બતાવે છે. પ્રીમિયમ તેને deeply સમજાવે છે."
+      },
+      "hero": {
+        "body": "Predicta પાછળની જ્યોતિષ method જુઓ: charts કેવી રીતે calculate થાય છે, Parashari, KP અને Nadi કેવી રીતે અલગ રહે છે, અને astrology માં human judgment ક્યાં જરૂરી છે.",
+        "eyebrow": "ચોકસાઈ અને પદ્ધતિ",
+        "title": "પારદર્શક પદ્ધતિથી ભરોસો વધુ મજબૂત બને છે."
+      },
+      "pillars": [
+        {
+          "body": "Serious answer માં confident sentence સાથે chart factors પણ દેખાવા જોઈએ.",
+          "title": "ચાર્ટ પુરાવો પહેલા"
+        },
+        {
+          "body": "Regular Predicta, KP Predicta અને Nadi Predicta ના rules અલગ છે. તેને casually mix કરવામાં આવતા નથી.",
+          "title": "Schools અલગ રહે છે"
+        },
+        {
+          "body": "Birth time sensitivity, uncertainty અને safety limits સ્પષ્ટ કહેવામાં આવે છે.",
+          "title": "સ્પષ્ટ મર્યાદા"
+        }
+      ],
+      "schools": {
+        "body": "Predicta તેને જ્યોતિષના separate rooms માને છે. Handoff માં question અને birth details જઈ શકે છે, પણ દરેક school પોતાના rules થી answer કરે છે.",
+        "eyebrow": "ત્રણ Predicta",
+        "items": [
+          {
+            "caution": "D1 root રહે છે. Vargas, Bhav Chalit, dasha અને Gochar reading ને support કરે છે.",
+            "name": "Regular Parashari",
+            "proof": [
+              "D1 Rashi chart",
+              "Vimshottari dasha",
+              "Divisional charts",
+              "Yogas, Bhav Chalit, Gochar, remedies"
+            ],
+            "summary": "Traditional Vedic Jyotish lifelong patterns, life areas, timing અને holistic guidance માટે."
+          },
+          {
+            "caution": "KP side section નથી. તેનો પોતાનો method છે અને event questions KP rules થી answer થવા જોઈએ.",
+            "name": "KP Predicta",
+            "proof": [
+              "KP ayanamsa",
+              "Placidus cusps",
+              "Star lords અને sub lords",
+              "Significators અને ruling planets"
+            ],
+            "summary": "Krishnamurti Paddhati precise event-oriented judgment અને timing માટે."
+          },
+          {
+            "caution": "Nadi Predicta ક્યારેય real ancient palm-leaf manuscript access કરવાનો fake claim કરતી નથી.",
+            "name": "Nadi Predicta",
+            "proof": [
+              "Planet-to-planet story links",
+              "Karakas અને karmic themes",
+              "Rahu-Ketu axis",
+              "Validation questions અને timing triggers"
+            ],
+            "summary": "Karmic narratives અને repeated life signatures માટે premium pattern-reading room."
+          }
+        ],
+        "title": "દરેક જ્યોતિષ school માટે પોતાની પદ્ધતિ જોઈએ."
+      }
+    }
+  }
+}

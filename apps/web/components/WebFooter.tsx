@@ -49,8 +49,10 @@ const footerCopy: Record<
           { href: '/legal#refund', label: 'Refund Policy' },
           { href: '/legal#disclaimer', label: 'Disclaimer' },
           { href: '/legal#age-guidance', label: 'Age Guidance' },
+          { href: '/accuracy-method', label: 'Accuracy & Method' },
           { href: '/safety', label: 'Safety Promise' },
           { href: '/founder', label: 'Founder Vision' },
+          { href: '/feedback', label: 'Feedback' },
           {
             href: 'mailto:support@predicta.app?subject=Predicta%20Safety%20Report',
             label: 'Report an Issue',
@@ -95,8 +97,10 @@ const footerCopy: Record<
           { href: '/legal#refund', label: 'रिफंड पॉलिसी' },
           { href: '/legal#disclaimer', label: 'डिस्क्लेमर' },
           { href: '/legal#age-guidance', label: 'उम्र मार्गदर्शन' },
+          { href: '/accuracy-method', label: 'सटीकता और विधि' },
           { href: '/safety', label: 'सुरक्षा वादा' },
           { href: '/founder', label: 'फाउंडर विजन' },
+          { href: '/feedback', label: 'फीडबैक' },
           {
             href: 'mailto:support@predicta.app?subject=Predicta%20Safety%20Report',
             label: 'समस्या रिपोर्ट करें',
@@ -141,8 +145,10 @@ const footerCopy: Record<
           { href: '/legal#refund', label: 'રિફંડ પોલિસી' },
           { href: '/legal#disclaimer', label: 'ડિસ્ક્લેમર' },
           { href: '/legal#age-guidance', label: 'ઉંમર માર્ગદર્શન' },
+          { href: '/accuracy-method', label: 'ચોકસાઈ અને પદ્ધતિ' },
           { href: '/safety', label: 'સેફ્ટી પ્રોમિસ' },
           { href: '/founder', label: 'ફાઉન્ડર વિઝન' },
+          { href: '/feedback', label: 'ફીડબેક' },
           {
             href: 'mailto:support@predicta.app?subject=Predicta%20Safety%20Report',
             label: 'સમસ્યા રિપોર્ટ કરો',

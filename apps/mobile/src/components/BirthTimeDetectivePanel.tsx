@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import type {
+  ManualBirthTimeRectificationAnswer,
+  ManualBirthTimeRectificationEstimate,
+} from '@pridicta/astrology';
 import type {
   BirthTimeDetectiveReport,
   BirthTimeQuestion,
@@ -10,19 +14,33 @@ import { AppText } from './AppText';
 import { GlowButton } from './GlowButton';
 
 type BirthTimeDetectivePanelProps = {
+  applying?: boolean;
+  isEstimateComplete?: boolean;
   onAskDetective?: () => void;
   onCreateKundli?: () => void;
-  onSaveAnswer?: (question: BirthTimeQuestion, answer: string) => void;
+  onKeepEnteredTime?: () => void;
+  onSaveAnswer?: (
+    question: BirthTimeQuestion,
+    answer: ManualBirthTimeRectificationAnswer,
+  ) => void;
+  onUseProbableTime?: () => void;
+  rectificationEstimate?: ManualBirthTimeRectificationEstimate;
   report: BirthTimeDetectiveReport;
+  statusMessage?: string;
 };
 
 export function BirthTimeDetectivePanel({
+  applying = false,
+  isEstimateComplete = false,
   onAskDetective,
   onCreateKundli,
+  onKeepEnteredTime,
   onSaveAnswer,
+  onUseProbableTime,
+  rectificationEstimate,
   report,
+  statusMessage,
 }: BirthTimeDetectivePanelProps): React.JSX.Element {
-  const [drafts, setDrafts] = useState<Record<string, string>>({});
   const [showEvidence, setShowEvidence] = useState(false);
 
   return (
@@ -78,7 +96,7 @@ export function BirthTimeDetectivePanel({
 
       <View style={styles.questionStack}>
         {report.questions.map(question => {
-          const draft = drafts[question.id] ?? question.answer?.answer ?? '';
+          const selectedAnswer = question.answer?.answer;
 
           return (
             <View key={question.id} style={styles.questionCard}>
@@ -86,28 +104,77 @@ export function BirthTimeDetectivePanel({
               <AppText className="mt-2" tone="secondary" variant="caption">
                 {question.helper}
               </AppText>
-              <TextInput
-                multiline
-                onChangeText={value =>
-                  setDrafts(current => ({ ...current, [question.id]: value }))
-                }
-                placeholder="Write a simple answer with dates if possible."
-                placeholderTextColor={colors.secondaryText}
-                textAlignVertical="top"
-                value={draft}
-                className="mt-4 min-h-24 rounded-xl border border-[#252533] bg-[#0A0A0F] p-3 text-base text-text-primary"
-              />
-              <View className="mt-4">
-                <GlowButton
-                  disabled={!draft.trim()}
-                  label={question.answer ? 'Update Answer' : 'Save Answer'}
-                  onPress={() => onSaveAnswer?.(question, draft)}
-                />
+              <View style={styles.answerRow}>
+                {(['yes', 'no'] as const).map(answer => (
+                  <Pressable
+                    accessibilityRole="button"
+                    key={answer}
+                    onPress={() => onSaveAnswer?.(question, answer)}
+                    style={[
+                      styles.answerPill,
+                      selectedAnswer === answer ? styles.answerPillActive : null,
+                    ]}
+                  >
+                    <AppText variant="caption">
+                      {answer === 'yes' ? 'Yes' : 'No'}
+                    </AppText>
+                  </Pressable>
+                ))}
               </View>
             </View>
           );
         })}
       </View>
+
+      {onKeepEnteredTime ? (
+        <View className="mt-5">
+          <GlowButton
+            label="My entered time is correct"
+            onPress={onKeepEnteredTime}
+          />
+        </View>
+      ) : null}
+
+      {rectificationEstimate ? (
+        <View style={styles.nextPanel}>
+          <AppText tone="secondary" variant="caption">
+            PROBABLE TIME
+          </AppText>
+          <AppText className="mt-1" variant="subtitle">
+            {rectificationEstimate.probableTime}
+          </AppText>
+          <AppText className="mt-2" tone="secondary">
+            {rectificationEstimate.summary}
+          </AppText>
+          {rectificationEstimate.evidence.map(item => (
+            <AppText className="mt-2" key={item} tone="secondary" variant="caption">
+              {item}
+            </AppText>
+          ))}
+          <View className="mt-4">
+            <GlowButton
+              disabled={!isEstimateComplete || applying}
+              label={
+                applying
+                  ? 'Recalculating...'
+                  : 'Use probable time and recalculate Kundli'
+              }
+              onPress={onUseProbableTime}
+            />
+          </View>
+          {!isEstimateComplete ? (
+            <AppText className="mt-2" tone="secondary" variant="caption">
+              Answer all yes/no questions before applying a probable time.
+            </AppText>
+          ) : null}
+        </View>
+      ) : null}
+
+      {statusMessage ? (
+        <View style={styles.statusPanel}>
+          <AppText tone="secondary">{statusMessage}</AppText>
+        </View>
+      ) : null}
 
       <View style={styles.nextPanel}>
         <AppText tone="secondary" variant="caption">
@@ -172,6 +239,25 @@ function ImpactBlock({
 }
 
 const styles = StyleSheet.create({
+  answerPill: {
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderColor: colors.border,
+    borderRadius: 999,
+    borderWidth: 1,
+    minWidth: 78,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+  },
+  answerPillActive: {
+    backgroundColor: 'rgba(77, 175, 255, 0.18)',
+    borderColor: 'rgba(255, 255, 255, 0.36)',
+  },
+  answerRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    marginTop: 14,
+  },
   evidencePanel: {
     backgroundColor: 'rgba(77, 175, 255, 0.08)',
     borderColor: 'rgba(77, 175, 255, 0.22)',
@@ -242,5 +328,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 16,
     padding: 14,
+  },
+  statusPanel: {
+    backgroundColor: 'rgba(103, 232, 166, 0.08)',
+    borderColor: 'rgba(103, 232, 166, 0.22)',
+    borderRadius: 8,
+    borderWidth: 1,
+    marginTop: 14,
+    padding: 12,
   },
 });

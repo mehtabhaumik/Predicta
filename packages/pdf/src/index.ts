@@ -1,3 +1,4 @@
+import reportLabelTranslations from './translations/reportLabels.json';
 import type {
   ChartData,
   ChartType,
@@ -10,6 +11,7 @@ import type {
   TrustProfile,
 } from '@pridicta/types';
 import { buildTrustProfile } from '@pridicta/config/trust';
+import { translateUiText } from '@pridicta/config/uiTranslations';
 import {
   composeChartInsight,
   composeChalitBhavKpFoundation,
@@ -168,6 +170,11 @@ export function composeReportSections({
     cover: {
       metadata: [
         `${kundli.birthDetails.date} at ${kundli.birthDetails.time}`,
+        ...(kundli.birthDetails.timeConfidence === 'rectified'
+          ? [
+              `Rectified time used; original entered time: ${kundli.birthDetails.originalTime ?? 'not recorded'}`,
+            ]
+          : []),
         kundli.birthDetails.place,
         `${kundli.lagna} Lagna | ${kundli.moonSign} Moon | ${kundli.nakshatra}`,
       ],
@@ -567,6 +574,11 @@ function buildBirthAndCalculationSection(kundli: KundliData): PdfSection {
     bullets: [
       `Name: ${kundli.birthDetails.name}`,
       `Birth: ${kundli.birthDetails.date} at ${kundli.birthDetails.time}`,
+      ...(kundli.birthDetails.timeConfidence === 'rectified'
+        ? [
+            `Birth time status: rectified probable time. Original entered time: ${kundli.birthDetails.originalTime ?? 'not recorded'}.`,
+          ]
+        : []),
       `Place: ${kundli.birthDetails.place}`,
       `Timezone: ${kundli.birthDetails.timezone}`,
       `Chart method: ${kundli.calculationMeta.ayanamsa}; houses: ${kundli.calculationMeta.houseSystem}; Rahu-Ketu: ${kundli.calculationMeta.nodeType}`,
@@ -1121,7 +1133,9 @@ function buildLimitationsSection(kundli: KundliData, mode: PDFMode): PdfSection 
     .map(([chartType]) => chartType);
   const limitations = [
     kundli.birthDetails.isTimeApproximate
-      ? 'Birth time is marked approximate, so house and divisional chart judgments need caution.'
+      ? kundli.birthDetails.timeConfidence === 'rectified'
+        ? `Birth time is a probable rectified time. Original entered time: ${kundli.birthDetails.originalTime ?? 'not recorded'}. Fine timing still needs caution.`
+        : 'Birth time is marked approximate, so house and divisional chart judgments need caution.'
       : 'Birth time is treated as exact because it is not marked approximate.',
     unsupported.length
       ? `Unsupported vargas are disclosed, not interpreted: ${unsupported.join(', ')}.`
@@ -1282,8 +1296,16 @@ function localizeSections(
 
   return sections.map(section => ({
     ...section,
-    body: `${localizedPrefix(language)} ${section.body}`,
+    body: translateUiText(section.body, language),
+    bullets: section.bullets.map(item => translateUiText(item, language)),
     eyebrow: localizeSectionEyebrow(section.eyebrow, language),
+    evidence: section.evidence.map(item => translateUiText(item, language)),
+    evidenceTable: section.evidenceTable?.map(row => ({
+      ...row,
+      factor: translateUiText(row.factor, language),
+      implication: translateUiText(row.implication, language),
+      observation: translateUiText(row.observation, language),
+    })),
     title: localizeSectionTitle(section.title, language),
   }));
 }
@@ -1298,8 +1320,8 @@ function localizeExecutiveSummary(
 
   return {
     ...summary,
-    headline: `${localizedPrefix(language)} ${summary.headline}`,
-    keySignals: summary.keySignals.map(signal => `${localizedSignalLabel(language)} ${signal}`),
+    headline: translateUiText(summary.headline, language),
+    keySignals: summary.keySignals.map(signal => translateUiText(signal, language)),
   };
 }
 
@@ -1316,95 +1338,9 @@ function formatPdfDate(value: string): string {
   });
 }
 
-function localizedPrefix(language: SupportedLanguage): string {
-  if (language === 'hi') {
-    return 'हिंदी मार्गदर्शन:';
-  }
-  if (language === 'gu') {
-    return 'ગુજરાતી માર્ગદર્શન:';
-  }
-  return '';
-}
-
-function localizedSignalLabel(language: SupportedLanguage): string {
-  return language === 'hi' ? 'मुख्य संकेत:' : 'મુખ્ય સંકેત:';
-}
-
 function localizeSectionTitle(title: string, language: SupportedLanguage): string {
-  const titleMap: Record<string, { gu: string; hi: string }> = {
-    'Advanced chart verification': {
-      gu: 'અદ્યતન ચાર્ટ ચકાસણી',
-      hi: 'उन्नत चार्ट सत्यापन',
-    },
-    'Birth and calculation foundation': {
-      gu: 'જન્મ અને ગણતરીનો આધાર',
-      hi: 'जन्म और गणना का आधार',
-    },
-    'Birth time confidence': {
-      gu: 'જન્મ સમય વિશ્વાસ',
-      hi: 'जन्म समय भरोसा',
-    },
-    Career: {
-      gu: 'કારકિર્દી',
-      hi: 'करियर',
-    },
-    'Chart-derived report preview': {
-      gu: 'ચાર્ટ આધારિત રિપોર્ટ પૂર્વાવલોકન',
-      hi: 'चार्ट-आधारित रिपोर्ट पूर्वावलोकन',
-    },
-    'Current dasha and timing emphasis': {
-      gu: 'વર્તમાન દશા અને સમય ભાર',
-      hi: 'वर्तमान दशा और समय संकेत',
-    },
-    'Current transit weather': {
-      gu: 'વર્તમાન ગોચર વાતાવરણ',
-      hi: 'वर्तमान गोचर स्थिति',
-    },
-    'Current transit weather and Sade Sati': {
-      gu: 'વર્તમાન ગોચર અને સાડે સાથી',
-      hi: 'वर्तमान गोचर और साढ़े साती',
-    },
-    'Executive summary': {
-      gu: 'મુખ્ય સારાંશ',
-      hi: 'कार्यकारी सारांश',
-    },
-    'Life timeline and planning windows': {
-      gu: 'જીવન સમયરેખા અને આયોજન વિન્ડો',
-      hi: 'जीवन समयरेखा और योजना खिड़कियां',
-    },
-    'Holistic report synthesis': {
-      gu: 'સમગ્ર રિપોર્ટ સંશ્લેષણ',
-      hi: 'समग्र रिपोर्ट संश्लेषण',
-    },
-    'Holistic useful report spine': {
-      gu: 'ઉપયોગી સમગ્ર રિપોર્ટ આધાર',
-      hi: 'उपयोगी समग्र रिपोर्ट आधार',
-    },
-    'Limits and confidence': {
-      gu: 'મર્યાદા અને વિશ્વાસ',
-      hi: 'सीमाएं और भरोसा',
-    },
-    'Practical guidance and remedies': {
-      gu: 'વ્યવહારુ માર્ગદર્શન અને ઉપાય',
-      hi: 'व्यावहारिक मार्गदर्शन और उपाय',
-    },
-    Relationship: {
-      gu: 'સંબંધ',
-      hi: 'संबंध',
-    },
-    'Remedy plan': {
-      gu: 'ઉપાય યોજના',
-      hi: 'उपाय योजना',
-    },
-    Wealth: {
-      gu: 'ધન',
-      hi: 'धन',
-    },
-    Wellbeing: {
-      gu: 'સુખાકારી',
-      hi: 'स्वास्थ्य-संतुलन',
-    },
-  };
+  const titleMap: Record<string, { gu: string; hi: string }> =
+    reportLabelTranslations.titleMap;
   const mapped = titleMap[title];
 
   return mapped ? (language === 'gu' ? mapped.gu : mapped.hi) : title;
@@ -1414,22 +1350,8 @@ function localizeSectionEyebrow(
   eyebrow: string,
   language: SupportedLanguage,
 ): string {
-  const eyebrowMap: Record<string, { gu: string; hi: string }> = {
-    ASHTAKAVARGA: { gu: 'અષ્ટકવર્ગ', hi: 'अष्टकवर्ग' },
-    CAREER: { gu: 'કારકિર્દી', hi: 'करियर' },
-    'CHART SYNTHESIS': { gu: 'ચાર્ટ સંશ્લેષણ', hi: 'चार्ट संश्लेषण' },
-    FOUNDATION: { gu: 'આધાર', hi: 'आधार' },
-    GUIDANCE: { gu: 'માર્ગદર્શન', hi: 'मार्गदर्शन' },
-    'HOLISTIC SYNTHESIS': { gu: 'સમગ્ર સંશ્લેષણ', hi: 'समग्र संश्लेषण' },
-    PLANETS: { gu: 'ગ્રહો', hi: 'ग्रह' },
-    RECTIFICATION: { gu: 'જન્મ સમય તપાસ', hi: 'जन्म समय जांच' },
-    REMEDIES: { gu: 'ઉપાય', hi: 'उपाय' },
-    SYNTHESIS: { gu: 'સંશ્લેષણ', hi: 'संश्लेषण' },
-    TIMELINE: { gu: 'સમયરેખા', hi: 'समयरेखा' },
-    TIMING: { gu: 'સમય', hi: 'समय' },
-    TRANSITS: { gu: 'ગોચર', hi: 'गोचर' },
-    TRUST: { gu: 'વિશ્વાસ', hi: 'भरोसा' },
-  };
+  const eyebrowMap: Record<string, { gu: string; hi: string }> =
+    reportLabelTranslations.eyebrowMap;
   const mapped = eyebrowMap[eyebrow];
 
   return mapped ? (language === 'gu' ? mapped.gu : mapped.hi) : eyebrow;

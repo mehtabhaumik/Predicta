@@ -18,7 +18,6 @@ export default function DashboardPremiumPage(): React.JSX.Element {
   return (
     <section className="dashboard-page">
       <div className="page-heading compact">
-        <StatusPill label="Premium without pressure" tone="premium" />
         <h1 className="gradient-text">Go deeper when the free reading helps.</h1>
         <p>
           Premium turns holistic astrology into deeper timing, richer reports,
@@ -57,8 +56,11 @@ export default function DashboardPremiumPage(): React.JSX.Element {
               <p>{plan.billingCopy}</p>
               {plan.monthlyEquivalent ? <span>{plan.monthlyEquivalent}</span> : null}
               {plan.badge ? <StatusPill label={plan.badge} tone="premium" /> : null}
-              <Link className="button secondary" href="/pricing">
-                Review Checkout Options
+              <Link
+                className="button secondary"
+                href={`/checkout?productId=${encodeURIComponent(plan.productId)}`}
+              >
+                Select {plan.label}
               </Link>
             </div>
           </Card>
@@ -69,7 +71,10 @@ export default function DashboardPremiumPage(): React.JSX.Element {
         <div>
           <h2>Try depth before subscribing.</h2>
           <p>{dayPass.description}</p>
-          <Link className="button" href="/pricing">
+          <Link
+            className="button"
+            href={`/checkout?productId=${encodeURIComponent(dayPass.productId)}`}
+          >
             {dayPass.label} - {dayPass.displayPrice}
           </Link>
         </div>
@@ -80,6 +85,12 @@ export default function DashboardPremiumPage(): React.JSX.Element {
                 <div className="section-title">{product.label}</div>
                 <h3>{product.displayPrice}</h3>
                 <p>{product.description}</p>
+                <Link
+                  className="button secondary"
+                  href={`/checkout?productId=${encodeURIComponent(product.productId)}`}
+                >
+                  Select {product.label}
+                </Link>
               </div>
             </Card>
           ))}

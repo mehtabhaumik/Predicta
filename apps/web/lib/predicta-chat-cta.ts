@@ -25,6 +25,7 @@ export type PredictaChatCtaContext = {
   school?: PredictaSchool;
   selectedDailyBriefingDate?: string;
   selectedFamilyKarmaMap?: boolean;
+  selectedFamilyMemberCount?: number;
   selectedHouse?: number;
   selectedPlanet?: string;
   selectedPredictaWrapped?: boolean;
@@ -74,6 +75,7 @@ export function buildPredictaChatHref(context: PredictaChatCtaContext): string {
     'selectedFamilyKarmaMap',
     context.selectedFamilyKarmaMap ? 'true' : undefined,
   );
+  setParam(params, 'selectedFamilyMemberCount', context.selectedFamilyMemberCount);
   setParam(
     params,
     'selectedPredictaWrapped',

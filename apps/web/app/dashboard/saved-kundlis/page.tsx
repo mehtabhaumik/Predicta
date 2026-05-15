@@ -1,11 +1,9 @@
-import { StatusPill } from '../../../components/StatusPill';
 import { WebSavedKundlis } from '../../../components/WebSavedKundlis';
 
 export default function SavedKundlisPage(): React.JSX.Element {
   return (
     <section className="dashboard-page">
       <div className="page-heading compact">
-        <StatusPill label="Saved privately" tone="premium" />
         <h1 className="gradient-text">Your Kundlis stay easy to find.</h1>
         <p>
           Predicta keeps this browser profile ready. Sign in when you want to

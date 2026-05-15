@@ -17,6 +17,7 @@ export * from './holisticDecisionTimingSynthesis';
 export * from './holisticReadingRooms';
 export * from './lifeTimeline';
 export * from './mahadashaIntelligence';
+export * from './manualBirthTimeRectification';
 export * from './nadiJyotishPlan';
 export * from './personalPanchangLayer';
 export * from './predictaWrapped';

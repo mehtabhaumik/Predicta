@@ -135,8 +135,8 @@ export function validateGuestPassCode(
     return {
       message:
         request.email?.trim()
-          ? `This pass is not assigned to ${request.email.trim()}. Please sign out and sign in with the email address used when this pass was created.`
-          : 'Please sign in with the email address used when this pass was created.',
+          ? 'This pass is not available for the email currently signed in. Please sign out and sign in with the email used when your pass was created. If you are not sure, contact the Predicta admin or the person who invited you.'
+          : 'Please sign in with the email used when your pass was created. If you are not sure, contact the Predicta admin or the person who invited you.',
       status: 'EMAIL_NOT_ALLOWED',
     };
   }

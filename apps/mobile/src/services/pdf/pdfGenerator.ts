@@ -22,7 +22,12 @@ type GenerateHoroscopePdfInput = {
   kundli: KundliData;
   language?: SupportedLanguage;
   mode: PDFMode;
+  sectionKeys?: string[];
 };
+
+function getPdfSectionKey(section: PdfSection, index: number): string {
+  return `${index}-${section.eyebrow}-${section.title}`;
+}
 
 function escapeHtml(value: string): string {
   return value
@@ -37,7 +42,7 @@ function section(title: string, body: string): string {
   return `
     <section class="page">
       <div class="page-header">
-        <span>PREDICTA DOSSIER</span>
+        <span>PREDICTA HOLISTIC ASTROLOGY</span>
         <span>${escapeHtml(title)}</span>
       </div>
       <h2>${escapeHtml(title)}</h2>
@@ -50,9 +55,9 @@ function section(title: string, body: string): string {
 function footer(): string {
   return `
     <footer>
-      <div>Created by Bhaumik Mehta</div>
-      <div>Guided by Predicta AI</div>
-      <div>© 2026</div>
+      <div>Predicta is for reflection and planning.</div>
+      <div>Not a replacement for professional or emergency help.</div>
+      <div>No prediction is guaranteed.</div>
     </footer>
   `;
 }
@@ -141,7 +146,7 @@ function executiveSummary(report: PdfComposition): string {
   return `
     <section class="page">
       <div class="page-header">
-        <span>PREDICTA DOSSIER 2.0</span>
+        <span>PREDICTA HOLISTIC ASTROLOGY</span>
         <span>${escapeHtml(report.mode)}</span>
       </div>
       <h2>Executive intelligence summary</h2>
@@ -168,7 +173,7 @@ function trustPanel(report: PdfComposition): string {
   return `
     <section class="page">
       <div class="page-header">
-        <span>PREDICTA TRUST LAYER</span>
+        <span>PREDICTA SAFETY PROMISE</span>
         <span>${escapeHtml(trust.confidenceLabel)}</span>
       </div>
       <h2>Trust, safety, and proof</h2>
@@ -201,9 +206,17 @@ export function buildHoroscopePdfHtml({
   kundli,
   language = 'en',
   mode,
+  sectionKeys,
 }: GenerateHoroscopePdfInput): string {
   const logoUri = Image.resolveAssetSource(predictaLogo).uri;
   const report = composeReportSections({ kundli, language, mode });
+  const premium = mode === 'PREMIUM';
+  const selectedKeySet = sectionKeys?.length ? new Set(sectionKeys) : undefined;
+  const reportSections = selectedKeySet
+    ? report.sections.filter((sectionItem, index) =>
+        selectedKeySet.has(getPdfSectionKey(sectionItem, index)),
+      )
+    : report.sections;
 
   return `
     <!doctype html>
@@ -217,6 +230,8 @@ export function buildHoroscopePdfHtml({
             background: ${colors.background};
             color: ${colors.primaryText};
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            print-color-adjust: exact;
+            -webkit-print-color-adjust: exact;
           }
           .page {
             min-height: 1122px;
@@ -238,6 +253,10 @@ export function buildHoroscopePdfHtml({
           }
           .cover {
             align-items: center;
+            background:
+              radial-gradient(circle at 18% 16%, ${premium ? 'rgba(255,195,77,0.34)' : 'rgba(123,97,255,0.34)'}, transparent 34%),
+              radial-gradient(circle at 82% 22%, ${premium ? 'rgba(255,77,166,0.2)' : 'rgba(77,175,255,0.22)'}, transparent 36%),
+              linear-gradient(145deg, ${premium ? '#19131f' : '#151522'}, #09090f 74%);
             display: flex;
             justify-content: center;
             text-align: center;
@@ -258,9 +277,30 @@ export function buildHoroscopePdfHtml({
             width: 180px;
           }
           h1 {
-            font-size: 54px;
+            font-size: ${premium ? '62px' : '54px'};
             letter-spacing: 12px;
             margin: 0;
+          }
+          .tagline {
+            color: ${colors.primaryText};
+            font-size: 22px;
+            font-weight: 800;
+            line-height: 1.28;
+            margin: 22px auto 12px;
+            max-width: 620px;
+          }
+          .mode-pill {
+            background: ${premium ? 'rgba(255,195,77,0.16)' : 'rgba(77,175,255,0.14)'};
+            border: 1px solid ${premium ? 'rgba(255,195,77,0.48)' : 'rgba(77,175,255,0.4)'};
+            border-radius: 999px;
+            color: ${colors.primaryText};
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 900;
+            letter-spacing: 1.4px;
+            margin-top: 24px;
+            padding: 10px 16px;
+            text-transform: uppercase;
           }
           h2 {
             font-size: 34px;
@@ -284,9 +324,9 @@ export function buildHoroscopePdfHtml({
           }
           .card {
             background: linear-gradient(140deg, rgba(18,18,26,0.95), rgba(25,25,35,0.88));
-            border: 1px solid rgba(123,97,255,0.34);
-            border-radius: 18px;
-            box-shadow: 0 18px 44px rgba(123,97,255,0.18);
+            border: 1px solid ${premium ? 'rgba(255,195,77,0.34)' : 'rgba(123,97,255,0.34)'};
+            border-radius: ${premium ? '22px' : '18px'};
+            box-shadow: 0 18px 44px ${premium ? 'rgba(255,195,77,0.16)' : 'rgba(123,97,255,0.18)'};
             margin: 18px 0;
             padding: 22px;
           }
@@ -390,14 +430,16 @@ export function buildHoroscopePdfHtml({
           <div>
             <img class="logo" src="${logoUri}" />
             <h1 class="gradient-text">PREDICTA</h1>
+            <div class="tagline">Create your Kundli. Understand your life. Ask with proof.</div>
             <p>${escapeHtml(report.cover.subtitle)}</p>
             <p>${report.cover.metadata.map(escapeHtml).join(' • ')}</p>
+            <div class="mode-pill">${escapeHtml(premium ? 'Premium detailed report' : 'Free generous report')}</div>
           </div>
           ${footer()}
         </section>
         ${executiveSummary(report)}
         ${trustPanel(report)}
-        ${report.sections
+        ${reportSections
           .map(reportSection =>
             section(reportSection.title, reportSectionBody(reportSection)),
           )
@@ -411,6 +453,7 @@ export async function generateHoroscopePdf({
   kundli,
   language = 'en',
   mode,
+  sectionKeys,
 }: GenerateHoroscopePdfInput): Promise<HoroscopePdfResult> {
   const generatedAt = new Date().toISOString();
   const { generatePDF } = await import('react-native-html-to-pdf');
@@ -420,7 +463,7 @@ export async function generateHoroscopePdf({
     fileName: `pridicta-${
       kundli.birthDetails.name
     }-${mode.toLowerCase()}-${Date.now()}`,
-    html: buildHoroscopePdfHtml({ kundli, language, mode }),
+    html: buildHoroscopePdfHtml({ kundli, language, mode, sectionKeys }),
     shouldPrintBackgrounds: true,
   });
 

@@ -71,11 +71,96 @@ import {
   generateKundliFromWeb,
   loadWebKundliStore,
   resolveWebKundliForContext,
+  saveWebKundli,
   saveWebActiveChartContext,
   WEB_KUNDLI_UPDATED_EVENT,
 } from '../lib/web-kundli-storage';
+import {
+  formatWebChatTranscript,
+  loadWebChatTranscript,
+  openPrintableWebChatTranscript,
+  sanitizeTranscriptCopy,
+} from '../lib/web-chat-export';
+import {
+  buildPassCostGuardrailReply,
+  buildPassCostGuardrailSuggestions,
+  consumeWebAiBudget,
+  getWebPassCostDisplay,
+  type WebPassCostDisplay,
+} from '../lib/web-pass-cost-guardrails';
+import { getFirebaseWebAuth } from '../lib/firebase/client';
+import {
+  getOrCreateBrowserDeviceId,
+  getOrCreateWebGuestSession,
+} from '../lib/web-guest-session';
 
 const WEB_CHAT_MEMORY_KEY = 'predicta.webChatMemory.v4';
+const WEB_REPLY_FEEDBACK_KEY = 'pridicta.replyFeedbackSignals.v1';
+const WEB_REPLY_FEEDBACK_SESSION_KEY = 'pridicta.replyFeedbackSession.v1';
+const WEB_REDEEMED_PASS_KEY = 'pridicta.redeemedGuestPass.v1';
+const WEB_STAR_RATING_KEY = 'pridicta.starRatingMoments.v1';
+const WEB_STAR_RATING_LAST_ASKED_KEY = 'pridicta.starRatingLastAskedAt.v1';
+const WEB_STAR_RATING_SESSION_DONE_KEY =
+  'pridicta.starRatingSessionDone.v1';
+const MAX_STORED_REPLY_FEEDBACK = 250;
+const MAX_STORED_STAR_RATINGS = 100;
+
+type ReplyFeedbackAction = 'copy' | 'down' | 'up';
+
+type ReplyFeedbackSignal = {
+  action: ReplyFeedbackAction;
+  appLanguage: SupportedLanguage;
+  chatLanguage: SupportedLanguage;
+  createdAt: string;
+  deviceId?: string;
+  familyContext?: {
+    selectedFamilyKarmaMap?: boolean;
+    selectedFamilyMemberCount?: number;
+  };
+  guestPassId?: string;
+  guestProfileId?: string;
+  kundliId?: string;
+  messageHash: string;
+  messageId: string;
+  route: string;
+  school: 'KP' | 'NADI' | 'PARASHARI';
+  selectedChart?: string;
+  selectedHouse?: number;
+  selectedPlanet?: string;
+  sessionId: string;
+  sourceScreen?: string;
+  userEmail?: string;
+  userId?: string;
+};
+
+type StarRatingMoment = {
+  messageId?: string;
+  replyCount: number;
+  trigger: 'periodic' | 'smoke';
+};
+
+type StarRatingSignal = {
+  appLanguage: SupportedLanguage;
+  chatLanguage: SupportedLanguage;
+  createdAt: string;
+  deviceId?: string;
+  guestPassId?: string;
+  guestProfileId?: string;
+  kundliId?: string;
+  messageId?: string;
+  rating: number;
+  replyCount: number;
+  route: string;
+  school: 'KP' | 'NADI' | 'PARASHARI';
+  selectedChart?: string;
+  selectedHouse?: number;
+  selectedPlanet?: string;
+  sessionId: string;
+  sourceScreen?: string;
+  trigger: StarRatingMoment['trigger'];
+  userEmail?: string;
+  userId?: string;
+};
 
 type WebMessage = {
   id: string;
@@ -119,12 +204,22 @@ export function WebPridictaChat(): React.JSX.Element {
   const queryString = searchParams.toString();
   const didLoadMemory = useRef(false);
   const responseSafetyRef = useRef<ChatSafetyMeta | undefined>(undefined);
+  const pendingRichBlocksRef = useRef<ChatMessageBlock[] | undefined>(
+    undefined,
+  );
+  const starRatingForceShownRef = useRef(false);
+  const passCostSuggestionsRef = useRef<ChatSuggestedCta[] | undefined>(
+    undefined,
+  );
   const threadRef = useRef<HTMLDivElement | null>(null);
   const [kundli, setKundli] = useState<KundliData | undefined>();
   const [savedKundlis, setSavedKundlis] = useState<KundliData[]>([]);
   const [birthMemory, setBirthMemory] = useState<PredictaBirthMemory>();
   const [predictaMemory, setPredictaMemory] =
     useState<PredictaInteractionMemory>();
+  const [passCostDisplay, setPassCostDisplay] = useState<
+    WebPassCostDisplay | undefined
+  >();
   const [pendingEnglishSwitch, setPendingEnglishSwitch] =
     useState<PendingEnglishSwitch>();
   const [chatLanguage, setChatLanguage] = useState<SupportedLanguage>(language);
@@ -132,6 +227,17 @@ export function WebPridictaChat(): React.JSX.Element {
   const [messages, setMessages] = useState<WebMessage[]>(() =>
     buildInitialMessages(language),
   );
+  const [copiedMessageId, setCopiedMessageId] = useState<string>();
+  const replyFeedbackSessionIdRef = useRef<string | undefined>(undefined);
+  const [replyFeedbackState, setReplyFeedbackState] = useState<
+    Record<string, ReplyFeedbackAction>
+  >({});
+  const [starRatingMoment, setStarRatingMoment] =
+    useState<StarRatingMoment | null>(null);
+  const [submittedStarRating, setSubmittedStarRating] = useState<number>();
+  const [conversationCopyState, setConversationCopyState] = useState<
+    'idle' | 'copied'
+  >('idle');
   const lastPredictaMessageId = [...messages]
     .reverse()
     .find(message => message.role === 'pridicta')?.id;
@@ -171,6 +277,8 @@ export function WebPridictaChat(): React.JSX.Element {
       );
     }
 
+    setPassCostDisplay(getWebPassCostDisplay(language));
+
     didLoadMemory.current = true;
 
     return () => {
@@ -178,6 +286,10 @@ export function WebPridictaChat(): React.JSX.Element {
       window.removeEventListener(WEB_KUNDLI_UPDATED_EVENT, refreshKundlis);
     };
   }, []);
+
+  useEffect(() => {
+    setPassCostDisplay(getWebPassCostDisplay(language));
+  }, [language]);
 
   useEffect(() => {
     if (!didLoadMemory.current || !activeChartContext) {
@@ -213,6 +325,52 @@ export function WebPridictaChat(): React.JSX.Element {
   }, [messages, isSending]);
 
   useEffect(() => {
+    if (isSending || starRatingMoment || submittedStarRating) {
+      return;
+    }
+
+    const predictaReplies = messages.filter(
+      message => message.role === 'pridicta',
+    );
+    const replyCount = predictaReplies.length;
+    const forceMoment = new URLSearchParams(queryString).has(
+      'star-rating-smoke',
+    );
+
+    if (forceMoment && starRatingForceShownRef.current) {
+      return;
+    }
+
+    if (
+      !shouldOfferStarRatingMoment({
+        force: forceMoment,
+        replyCount,
+      })
+    ) {
+      return;
+    }
+
+    const lastReply = predictaReplies[predictaReplies.length - 1];
+    setStarRatingMoment({
+      messageId: lastReply?.id,
+      replyCount,
+      trigger: forceMoment ? 'smoke' : 'periodic',
+    });
+    if (forceMoment) {
+      starRatingForceShownRef.current = true;
+    }
+    if (!forceMoment) {
+      markStarRatingAsked();
+    }
+  }, [
+    isSending,
+    messages,
+    queryString,
+    starRatingMoment,
+    submittedStarRating,
+  ]);
+
+  useEffect(() => {
     setMessages(current =>
       current.length === 1 && current[0].id === 'welcome'
         ? buildInitialMessages(language)
@@ -235,6 +393,76 @@ export function WebPridictaChat(): React.JSX.Element {
     return recovered;
   }
 
+  async function handleReplyFeedback(
+    message: WebMessage,
+    action: ReplyFeedbackAction,
+  ): Promise<void> {
+    if (message.role !== 'pridicta') {
+      return;
+    }
+
+    if (action === 'copy') {
+      try {
+        await copyChatMessage(message, setCopiedMessageId);
+      } catch {
+        setCopiedMessageId(message.id);
+        window.setTimeout(() => setCopiedMessageId(undefined), 1600);
+      }
+    }
+
+    setReplyFeedbackState(current => ({
+      ...current,
+      [message.id]: action,
+    }));
+
+    replyFeedbackSessionIdRef.current ??= getOrCreateReplyFeedbackSessionId();
+
+    captureReplyFeedbackSignal({
+      action,
+      appLanguage: language,
+      chatLanguage,
+      context: message.context ?? activeChartContext,
+      kundli,
+      message,
+      sessionId: replyFeedbackSessionIdRef.current,
+    });
+  }
+
+  function submitStarRating(rating: number): void {
+    if (!starRatingMoment) {
+      return;
+    }
+
+    replyFeedbackSessionIdRef.current ??= getOrCreateReplyFeedbackSessionId();
+    const ratedMessage = starRatingMoment.messageId
+      ? messages.find(message => message.id === starRatingMoment.messageId)
+      : undefined;
+    const context = ratedMessage?.context ?? activeChartContext;
+
+    captureStarRatingSignal({
+      appLanguage: language,
+      chatLanguage,
+      context,
+      kundli,
+      messageId: starRatingMoment.messageId,
+      rating,
+      replyCount: starRatingMoment.replyCount,
+      sessionId: replyFeedbackSessionIdRef.current,
+      trigger: starRatingMoment.trigger,
+    });
+
+    setSubmittedStarRating(rating);
+    window.setTimeout(() => {
+      setStarRatingMoment(null);
+      setSubmittedStarRating(undefined);
+    }, 1400);
+  }
+
+  function dismissStarRating(): void {
+    markStarRatingSessionDone();
+    setStarRatingMoment(null);
+  }
+
   useEffect(() => {
     if (!queryString || loadedQueryPromptRef.current === queryString) {
       return;
@@ -248,36 +476,47 @@ export function WebPridictaChat(): React.JSX.Element {
     if (prompt || ctaContext) {
       loadedQueryPromptRef.current = queryString;
       if (ctaContext) {
-          const selectedSection =
-            prompt ||
-            ctaContext.selectedSection ||
-            (ctaContext.chartType
-              ? buildChartSelectionPrompt(ctaContext)
-              : ctaContext.handoffQuestion) ||
+        const selectedSection =
+          prompt ||
+          ctaContext.selectedSection ||
+          (ctaContext.chartType
+            ? buildChartSelectionPrompt(ctaContext)
+            : ctaContext.handoffQuestion) ||
           `Help me with ${getFriendlySourceName(ctaContext.sourceScreen).toLowerCase()}.`;
         const nextContext = {
           ...ctaContext,
           selectedSection,
         };
+        const contextKundli =
+          resolveWebKundliForContext(nextContext) ??
+          loadWebKundliStore().activeKundli;
+
+        if (contextKundli) {
+          setKundli(contextKundli);
+        }
+
+        const contextReply = createPridictaReply(
+          nextContext.predictaSchool
+            ? buildSchoolContextIntro(nextContext, language)
+            : nextContext.chartType
+              ? buildChartContextIntro(nextContext, language)
+              : buildCtaContextIntro(nextContext, language),
+          language,
+          {
+            context: nextContext,
+            kundli: contextKundli ?? kundli,
+            lastText: selectedSection,
+          },
+        );
+
         setActiveChartContext(nextContext);
         saveWebActiveChartContext(nextContext);
         setInput(selectedSection);
-        setMessages(current => [
-          ...current,
-          createPridictaReply(
-            nextContext.predictaSchool
-              ? buildSchoolContextIntro(nextContext, language)
-              : nextContext.chartType
-                ? buildChartContextIntro(nextContext, language)
-                : buildCtaContextIntro(nextContext, language),
-            language,
-            {
-              context: nextContext,
-              kundli,
-              lastText: selectedSection,
-            },
-          ),
-        ]);
+        setMessages(current =>
+          current.length === 1 && current[0].id === 'welcome'
+            ? [contextReply]
+            : [...current, contextReply],
+        );
         return;
       }
 
@@ -422,6 +661,33 @@ export function WebPridictaChat(): React.JSX.Element {
         return;
       }
 
+      const chartIntentKundli = recoverActiveKundli();
+      if (
+        chartIntentKundli &&
+        detectChatChartIntent(text) &&
+        shouldGateForBirthDetailConfidence(text, chartIntentKundli)
+      ) {
+        setMessages(current => [
+          ...current,
+          createPridictaReply(
+            buildBirthDetailConfidenceGateReply(
+              languageContext.responseLanguage,
+              chartIntentKundli,
+            ),
+            languageContext.responseLanguage,
+            {
+              context: activeChartContext,
+              kundli: chartIntentKundli,
+              lastText: text,
+              suggestions: buildBirthDetailConfidenceSuggestions(
+                languageContext.responseLanguage,
+              ),
+            },
+          ),
+        ]);
+        return;
+      }
+
       const chartReply = resolveChatChartReply(
         text,
         languageContext.responseLanguage,
@@ -433,6 +699,7 @@ export function WebPridictaChat(): React.JSX.Element {
       }
 
       responseSafetyRef.current = undefined;
+      pendingRichBlocksRef.current = undefined;
       const summary = await resolveSmartReply(text);
       const recoveredKundli = recoverActiveKundli();
       const safeSummary =
@@ -441,13 +708,19 @@ export function WebPridictaChat(): React.JSX.Element {
               languageContext.responseLanguage,
             )}\n\n${summary}`
           : summary;
+      const passCostSuggestions = passCostSuggestionsRef.current;
+      const richBlocks = pendingRichBlocksRef.current;
+      passCostSuggestionsRef.current = undefined;
+      pendingRichBlocksRef.current = undefined;
 
       setMessages(current => [
         ...current,
           createPridictaReply(safeSummary, languageContext.responseLanguage, {
+            blocks: richBlocks,
             context: activeChartContext,
             kundli: recoveredKundli,
-            lastText: text,
+            lastText: safeSummary,
+            suggestions: passCostSuggestions,
             safety:
               responseSafetyRef.current ??
               detectChatSafetyMeta(text, languageContext.responseLanguage),
@@ -476,6 +749,26 @@ export function WebPridictaChat(): React.JSX.Element {
     responseLanguage: SupportedLanguage,
     acknowledgement?: string,
   ) {
+    const budgetDecision = consumeWebAiBudget('deep_reading', responseLanguage);
+    setPassCostDisplay(getWebPassCostDisplay(responseLanguage));
+
+    if (!budgetDecision.allowed) {
+      passCostSuggestionsRef.current = buildPassCostGuardrailSuggestions(
+        true,
+        responseLanguage,
+      );
+      return [
+        acknowledgement,
+        buildPassCostGuardrailReply({
+          decision: budgetDecision,
+          kundli: activeKundli,
+          language: responseLanguage,
+        }),
+      ]
+        .filter(Boolean)
+        .join('\n\n');
+    }
+
     const nextMemory = learnPredictaInteraction(
       predictaMemory,
       text,
@@ -542,6 +835,16 @@ export function WebPridictaChat(): React.JSX.Element {
         .join('\n\n');
     }
 
+    const activeKundli = recoverActiveKundli();
+
+    if (activeKundli && isBirthTimeConfirmationRequest(text)) {
+      return confirmEnteredBirthTimeFromChat(
+        activeKundli,
+        responseLanguage,
+        languageContext.acknowledgement,
+      );
+    }
+
     if (looksLikeBirthDetails(text)) {
       return handleBirthIntake(
         text,
@@ -550,7 +853,17 @@ export function WebPridictaChat(): React.JSX.Element {
       );
     }
 
-    const activeKundli = recoverActiveKundli();
+    if (
+      activeKundli &&
+      shouldGateForBirthDetailConfidence(text, activeKundli)
+    ) {
+      return [
+        languageContext.acknowledgement,
+        buildBirthDetailConfidenceGateReply(responseLanguage, activeKundli),
+      ]
+        .filter(Boolean)
+        .join('\n\n');
+    }
 
     const actionReply = buildPredictaActionReply({
       hasPremiumAccess: false,
@@ -567,6 +880,16 @@ export function WebPridictaChat(): React.JSX.Element {
     }
 
     if (!activeKundli) {
+      const partialBirthReply = buildPartialBirthDetailGateReply(
+        responseLanguage,
+        birthMemory,
+      );
+      if (partialBirthReply) {
+        return [languageContext.acknowledgement, partialBirthReply]
+          .filter(Boolean)
+          .join('\n\n');
+      }
+
       return [
         languageContext.acknowledgement,
         createKundliFirstReply(responseLanguage, text),
@@ -638,11 +961,87 @@ export function WebPridictaChat(): React.JSX.Element {
     };
   }
 
+  async function confirmEnteredBirthTimeFromChat(
+    activeKundli: KundliData,
+    responseLanguage: SupportedLanguage,
+    acknowledgement?: string,
+  ): Promise<string> {
+    const enteredTime =
+      activeKundli.birthDetails.originalTime ?? activeKundli.birthDetails.time;
+    const restoredFromRectified =
+      enteredTime !== activeKundli.birthDetails.time;
+    const finalDetails: BirthDetails = {
+      ...activeKundli.birthDetails,
+      isTimeApproximate: false,
+      originalTime: undefined,
+      rectificationMethod: undefined,
+      rectifiedAt: undefined,
+      time: enteredTime,
+      timeConfidence: 'entered',
+    };
+
+    try {
+      const nextKundli = restoredFromRectified
+        ? await generateKundliFromWeb(finalDetails)
+        : {
+            ...activeKundli,
+            birthDetails: finalDetails,
+            rectification: undefined,
+          };
+
+      if (!restoredFromRectified) {
+        saveWebKundli(nextKundli);
+      }
+
+      setKundli(nextKundli);
+      setSavedKundlis(loadWebKundliStore().savedKundlis);
+
+      return [
+        acknowledgement,
+        buildBirthTimeConfirmedReply(
+          responseLanguage,
+          nextKundli,
+          enteredTime,
+          restoredFromRectified,
+        ),
+      ]
+        .filter(Boolean)
+        .join('\n\n');
+    } catch {
+      return [
+        acknowledgement,
+        buildBirthTimeConfirmationFailedReply(responseLanguage),
+      ]
+        .filter(Boolean)
+        .join('\n\n');
+    }
+  }
+
   async function handleBirthIntake(
     text: string,
     responseLanguage: SupportedLanguage,
     acknowledgement?: string,
   ): Promise<string> {
+    const budgetDecision = consumeWebAiBudget('question', responseLanguage);
+    setPassCostDisplay(getWebPassCostDisplay(responseLanguage));
+
+    if (!budgetDecision.allowed) {
+      passCostSuggestionsRef.current = buildPassCostGuardrailSuggestions(
+        Boolean(kundli),
+        responseLanguage,
+      );
+      return [
+        acknowledgement,
+        buildPassCostGuardrailReply({
+          decision: budgetDecision,
+          kundli,
+          language: responseLanguage,
+        }),
+      ]
+        .filter(Boolean)
+        .join('\n\n');
+    }
+
     const result = await extractBirthDetailsFromWeb(text);
     const reply = buildBirthIntakeReply({
       language: responseLanguage,
@@ -703,6 +1102,12 @@ export function WebPridictaChat(): React.JSX.Element {
     setKundli(nextKundli);
     const nextSavedKundlis = loadWebKundliStore().savedKundlis;
     setSavedKundlis(nextSavedKundlis);
+    const creationBlock = composeChatChartBlock({
+      chartType: 'D1',
+      hasPremiumAccess: false,
+      kundli: nextKundli,
+    });
+    pendingRichBlocksRef.current = creationBlock ? [creationBlock] : undefined;
     setBirthMemory(undefined);
     const nextMemory = learnPredictaInteraction(
       predictaMemory,
@@ -726,6 +1131,13 @@ export function WebPridictaChat(): React.JSX.Element {
     ].join('\n\n');
   }
 
+  function startNewChat() {
+    setBirthMemory(undefined);
+    setPendingEnglishSwitch(undefined);
+    setMessages(buildInitialMessages(chatLanguage));
+    setInput('');
+  }
+
   return (
     <div className="chat-workspace">
       <div className="card chat-panel">
@@ -735,7 +1147,45 @@ export function WebPridictaChat(): React.JSX.Element {
           <small>
             {labels.appLanguage}: {appLanguageOption.englishName}
           </small>
+          {kundli?.birthDetails.timeConfidence === 'rectified' ? (
+            <small className="chat-rectified-time-label">
+              Rectified time: {kundli.birthDetails.time}
+            </small>
+          ) : null}
         </div>
+        <div className="chat-export-row" aria-label="Conversation actions">
+          <button
+            className="chat-export-button"
+            onClick={() => {
+              void copyConversationTranscript(setConversationCopyState);
+            }}
+            type="button"
+          >
+            {conversationCopyState === 'copied'
+              ? getChatExportCopy(chatLanguage).copied
+              : getChatExportCopy(chatLanguage).copyConversation}
+          </button>
+          <button
+            className="chat-export-button"
+            onClick={openPrintableWebChatTranscript}
+            type="button"
+          >
+            {getChatExportCopy(chatLanguage).savePdf}
+          </button>
+          <button
+            className="chat-export-button"
+            onClick={startNewChat}
+            type="button"
+          >
+            {getChatExportCopy(chatLanguage).newChat}
+          </button>
+        </div>
+        {passCostDisplay ? (
+          <div className={`pass-cost-meter ${passCostDisplay.tone}`}>
+            <span>{passCostDisplay.title}</span>
+            <p>{passCostDisplay.body}</p>
+          </div>
+        ) : null}
         <div aria-live="polite" className="chat-thread" ref={threadRef}>
           {messages.map(message => (
             <div
@@ -746,7 +1196,17 @@ export function WebPridictaChat(): React.JSX.Element {
             >
               <span>{message.role === 'user' ? 'You' : 'Predicta'}</span>
               {message.role === 'pridicta' ? (
-                <WebChatReplyText text={message.text} />
+                <>
+                  <WebChatReplyText text={message.text} />
+                  <WebChatReplyActions
+                    copied={copiedMessageId === message.id}
+                    language={chatLanguage}
+                    selectedAction={replyFeedbackState[message.id]}
+                    onUseAction={action => {
+                      void handleReplyFeedback(message, action);
+                    }}
+                  />
+                </>
               ) : (
                 <p>{message.text}</p>
               )}
@@ -793,6 +1253,14 @@ export function WebPridictaChat(): React.JSX.Element {
               ) : null}
             </div>
           ))}
+          {starRatingMoment ? (
+            <WebStarRatingMoment
+              language={chatLanguage}
+              selectedRating={submittedStarRating}
+              onDismiss={dismissStarRating}
+              onRate={submitStarRating}
+            />
+          ) : null}
           {isSending ? (
             <WebPredictaThinking language={chatLanguage} />
           ) : null}
@@ -823,6 +1291,595 @@ export function WebPridictaChat(): React.JSX.Element {
         </div>
       </div>
     </div>
+  );
+}
+
+async function copyChatMessage(
+  message: WebMessage,
+  setCopiedMessageId: (messageId: string | undefined) => void,
+): Promise<void> {
+  const speaker = message.role === 'user' ? 'You' : 'Predicta';
+
+  await navigator.clipboard.writeText(
+    `${speaker}\n${sanitizeTranscriptCopy(message.text).trim()}`,
+  );
+  setCopiedMessageId(message.id);
+  window.setTimeout(() => setCopiedMessageId(undefined), 1600);
+}
+
+async function copyConversationTranscript(
+  setConversationCopyState: (state: 'idle' | 'copied') => void,
+): Promise<void> {
+  await navigator.clipboard.writeText(
+    formatWebChatTranscript(loadWebChatTranscript()),
+  );
+  setConversationCopyState('copied');
+  window.setTimeout(() => setConversationCopyState('idle'), 1600);
+}
+
+function captureReplyFeedbackSignal({
+  action,
+  appLanguage,
+  chatLanguage,
+  context,
+  kundli,
+  message,
+  sessionId,
+}: {
+  action: ReplyFeedbackAction;
+  appLanguage: SupportedLanguage;
+  chatLanguage: SupportedLanguage;
+  context?: ChartContext;
+  kundli?: KundliData;
+  message: WebMessage;
+  sessionId: string;
+}): void {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  const guestSession = safeGetGuestSession();
+  const currentUser = safeGetCurrentUser();
+  const signal: ReplyFeedbackSignal = {
+    action,
+    appLanguage,
+    chatLanguage,
+    createdAt: new Date().toISOString(),
+    deviceId: guestSession?.deviceId ?? safeGetBrowserDeviceId(),
+    familyContext: buildReplyFeedbackFamilyContext(context),
+    guestPassId: readRedeemedGuestPassId(),
+    guestProfileId: guestSession?.guestProfileId,
+    kundliId: context?.kundliId ?? kundli?.id,
+    messageHash: hashReplyFeedbackText(message.text),
+    messageId: message.id,
+    route: `${window.location.pathname}${window.location.search}`,
+    school: getReplyFeedbackSchool(context),
+    selectedChart: context?.chartName ?? context?.chartType,
+    selectedHouse: context?.selectedHouse,
+    selectedPlanet: context?.selectedPlanet,
+    sessionId,
+    sourceScreen: context?.sourceScreen,
+    userEmail: currentUser?.email ?? undefined,
+    userId: currentUser?.uid,
+  };
+
+  try {
+    const existing = window.localStorage.getItem(WEB_REPLY_FEEDBACK_KEY);
+    const parsed = existing
+      ? (JSON.parse(existing) as ReplyFeedbackSignal[])
+      : [];
+    const next = [...parsed, signal].slice(-MAX_STORED_REPLY_FEEDBACK);
+    window.localStorage.setItem(WEB_REPLY_FEEDBACK_KEY, JSON.stringify(next));
+    window.dispatchEvent(
+      new CustomEvent('pridicta:reply-feedback-signal', {
+        detail: signal,
+      }),
+    );
+  } catch {
+    // Feedback capture should never interrupt the chat.
+  }
+}
+
+function captureStarRatingSignal({
+  appLanguage,
+  chatLanguage,
+  context,
+  kundli,
+  messageId,
+  rating,
+  replyCount,
+  sessionId,
+  trigger,
+}: {
+  appLanguage: SupportedLanguage;
+  chatLanguage: SupportedLanguage;
+  context?: ChartContext;
+  kundli?: KundliData;
+  messageId?: string;
+  rating: number;
+  replyCount: number;
+  sessionId: string;
+  trigger: StarRatingMoment['trigger'];
+}): void {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  const guestSession = safeGetGuestSession();
+  const currentUser = safeGetCurrentUser();
+  const signal: StarRatingSignal = {
+    appLanguage,
+    chatLanguage,
+    createdAt: new Date().toISOString(),
+    deviceId: guestSession?.deviceId ?? safeGetBrowserDeviceId(),
+    guestPassId: readRedeemedGuestPassId(),
+    guestProfileId: guestSession?.guestProfileId,
+    kundliId: context?.kundliId ?? kundli?.id,
+    messageId,
+    rating: clampStarRating(rating),
+    replyCount,
+    route: `${window.location.pathname}${window.location.search}`,
+    school: getReplyFeedbackSchool(context),
+    selectedChart: context?.chartName ?? context?.chartType,
+    selectedHouse: context?.selectedHouse,
+    selectedPlanet: context?.selectedPlanet,
+    sessionId,
+    sourceScreen: context?.sourceScreen,
+    trigger,
+    userEmail: currentUser?.email ?? undefined,
+    userId: currentUser?.uid,
+  };
+
+  try {
+    const existing = window.localStorage.getItem(WEB_STAR_RATING_KEY);
+    const parsed = existing ? (JSON.parse(existing) as StarRatingSignal[]) : [];
+    const next = [...parsed, signal].slice(-MAX_STORED_STAR_RATINGS);
+    window.localStorage.setItem(WEB_STAR_RATING_KEY, JSON.stringify(next));
+    markStarRatingSessionDone();
+    window.dispatchEvent(
+      new CustomEvent('pridicta:star-rating-signal', {
+        detail: signal,
+      }),
+    );
+  } catch {
+    // Rating capture should never interrupt the chat.
+  }
+}
+
+function shouldOfferStarRatingMoment({
+  force,
+  replyCount,
+}: {
+  force: boolean;
+  replyCount: number;
+}): boolean {
+  if (typeof window === 'undefined') {
+    return false;
+  }
+
+  if (force) {
+    return true;
+  }
+
+  if (hasStarRatingSessionDone()) {
+    return false;
+  }
+
+  if (replyCount < 4 || replyCount % 4 !== 0) {
+    return false;
+  }
+
+  const lastAskedAt = readStoredDate(WEB_STAR_RATING_LAST_ASKED_KEY);
+  if (!lastAskedAt) {
+    return true;
+  }
+
+  return Date.now() - lastAskedAt.getTime() > 3 * 24 * 60 * 60 * 1000;
+}
+
+function markStarRatingAsked(): void {
+  try {
+    window.localStorage.setItem(
+      WEB_STAR_RATING_LAST_ASKED_KEY,
+      new Date().toISOString(),
+    );
+  } catch {
+    // Best-effort prompt pacing.
+  }
+}
+
+function markStarRatingSessionDone(): void {
+  try {
+    window.sessionStorage.setItem(WEB_STAR_RATING_SESSION_DONE_KEY, 'true');
+  } catch {
+    // Best-effort prompt pacing.
+  }
+}
+
+function hasStarRatingSessionDone(): boolean {
+  try {
+    return window.sessionStorage.getItem(WEB_STAR_RATING_SESSION_DONE_KEY) === 'true';
+  } catch {
+    return false;
+  }
+}
+
+function readStoredDate(key: string): Date | undefined {
+  try {
+    const raw = window.localStorage.getItem(key);
+    if (!raw) {
+      return undefined;
+    }
+
+    const parsed = new Date(raw);
+    return Number.isNaN(parsed.getTime()) ? undefined : parsed;
+  } catch {
+    return undefined;
+  }
+}
+
+function clampStarRating(rating: number): number {
+  return Math.min(5, Math.max(1, Math.round(rating)));
+}
+
+function getOrCreateReplyFeedbackSessionId(): string {
+  if (typeof window === 'undefined') {
+    return `session-${Date.now()}`;
+  }
+
+  try {
+    const existing = window.sessionStorage.getItem(WEB_REPLY_FEEDBACK_SESSION_KEY);
+    if (existing) {
+      return existing;
+    }
+
+    const next = createReplyFeedbackId('session');
+    window.sessionStorage.setItem(WEB_REPLY_FEEDBACK_SESSION_KEY, next);
+    return next;
+  } catch {
+    return createReplyFeedbackId('session');
+  }
+}
+
+function buildReplyFeedbackFamilyContext(
+  context?: ChartContext,
+): ReplyFeedbackSignal['familyContext'] | undefined {
+  if (
+    !context?.selectedFamilyKarmaMap &&
+    !context?.selectedFamilyMemberCount
+  ) {
+    return undefined;
+  }
+
+  return {
+    selectedFamilyKarmaMap: context.selectedFamilyKarmaMap,
+    selectedFamilyMemberCount: context.selectedFamilyMemberCount,
+  };
+}
+
+function getReplyFeedbackSchool(
+  context?: ChartContext,
+): ReplyFeedbackSignal['school'] {
+  if (context?.predictaSchool === 'KP') {
+    return 'KP';
+  }
+
+  if (context?.predictaSchool === 'NADI') {
+    return 'NADI';
+  }
+
+  return 'PARASHARI';
+}
+
+function readRedeemedGuestPassId(): string | undefined {
+  try {
+    const raw = window.localStorage.getItem(WEB_REDEEMED_PASS_KEY);
+    if (!raw) {
+      return undefined;
+    }
+
+    const parsed = JSON.parse(raw) as { passCodeId?: string };
+    return parsed.passCodeId;
+  } catch {
+    return undefined;
+  }
+}
+
+function safeGetGuestSession(): ReturnType<typeof getOrCreateWebGuestSession> | undefined {
+  try {
+    return getOrCreateWebGuestSession();
+  } catch {
+    return undefined;
+  }
+}
+
+function safeGetBrowserDeviceId(): string | undefined {
+  try {
+    return getOrCreateBrowserDeviceId();
+  } catch {
+    return undefined;
+  }
+}
+
+function safeGetCurrentUser():
+  | { email: string | null; uid: string }
+  | undefined {
+  try {
+    return getFirebaseWebAuth().currentUser ?? undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function hashReplyFeedbackText(text: string): string {
+  let hash = 5381;
+
+  for (let index = 0; index < text.length; index += 1) {
+    hash = (hash * 33) ^ text.charCodeAt(index);
+  }
+
+  return (hash >>> 0).toString(36);
+}
+
+function createReplyFeedbackId(prefix: string): string {
+  const random =
+    typeof crypto !== 'undefined' && 'randomUUID' in crypto
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+
+  return `${prefix}-${random}`;
+}
+
+function getChatExportCopy(language: SupportedLanguage): {
+  copied: string;
+  copyConversation: string;
+  copyMessage: string;
+  newChat: string;
+  savePdf: string;
+} {
+  if (language === 'hi') {
+    return {
+      copied: 'Copy हो गया',
+      copyConversation: 'पूरी chat copy करें',
+      copyMessage: 'कॉपी',
+      newChat: 'नई chat',
+      savePdf: 'Chat PDF save करें',
+    };
+  }
+
+  if (language === 'gu') {
+    return {
+      copied: 'Copy થઈ ગયું',
+      copyConversation: 'પૂરી chat copy કરો',
+      copyMessage: 'કૉપી',
+      newChat: 'નવી chat',
+      savePdf: 'Chat PDF save કરો',
+    };
+  }
+
+  return {
+    copied: 'Copied',
+    copyConversation: 'Copy full chat',
+    copyMessage: 'Copy',
+    newChat: 'New chat',
+    savePdf: 'Save chat PDF',
+  };
+}
+
+function WebStarRatingMoment({
+  language,
+  onDismiss,
+  onRate,
+  selectedRating,
+}: {
+  language: SupportedLanguage;
+  onDismiss: () => void;
+  onRate: (rating: number) => void;
+  selectedRating?: number;
+}): React.JSX.Element {
+  const copy = getStarRatingCopy(language);
+
+  return (
+    <div className="message pridicta star-rating-message">
+      <span>Predicta</span>
+      <div className="chat-star-rating-card">
+        <div>
+          <strong>{copy.title}</strong>
+          <p>{selectedRating ? copy.thanks : copy.body}</p>
+        </div>
+        <div aria-label={copy.groupLabel} className="chat-star-row">
+          {[1, 2, 3, 4, 5].map(rating => (
+            <button
+              aria-label={copy.ratingLabel(rating)}
+              aria-pressed={selectedRating === rating}
+              className={`chat-star-button ${
+                selectedRating && rating <= selectedRating ? 'active' : ''
+              }`}
+              disabled={Boolean(selectedRating)}
+              key={rating}
+              onClick={() => onRate(rating)}
+              title={copy.ratingLabel(rating)}
+              type="button"
+            >
+              <StarRatingIcon />
+            </button>
+          ))}
+        </div>
+        {!selectedRating ? (
+          <button
+            className="chat-star-dismiss"
+            onClick={onDismiss}
+            type="button"
+          >
+            {copy.later}
+          </button>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function getStarRatingCopy(language: SupportedLanguage): {
+  body: string;
+  groupLabel: string;
+  later: string;
+  ratingLabel: (rating: number) => string;
+  thanks: string;
+  title: string;
+} {
+  if (language === 'hi') {
+    return {
+      body: 'Ek quick rating se mujhe samajh aayega ki reply useful tha ya nahi. Typing ki zaroorat nahi.',
+      groupLabel: 'Predicta reply rating',
+      later: 'Baad mein',
+      ratingLabel: rating => `${rating} star rating dein`,
+      thanks: 'Thank you. Is session ke liye rating save ho gayi.',
+      title: 'Yeh answer kaisa laga?',
+    };
+  }
+
+  if (language === 'gu') {
+    return {
+      body: 'Ek quick rating thi mane samajh padse ke reply useful hato ke nahi. Typing ni jaroor nathi.',
+      groupLabel: 'Predicta reply rating',
+      later: 'Pachhi',
+      ratingLabel: rating => `${rating} star rating aapo`,
+      thanks: 'Thank you. Aa session mate rating save thai gayi.',
+      title: 'Aa answer kevo lagyo?',
+    };
+  }
+
+  return {
+    body: 'One quick rating helps Predicta improve. No extra typing needed.',
+    groupLabel: 'Predicta reply rating',
+    later: 'Later',
+    ratingLabel: rating => `Rate ${rating} stars`,
+    thanks: 'Thank you. I saved this rating for this session.',
+    title: 'How was this answer?',
+  };
+}
+
+function StarRatingIcon(): React.JSX.Element {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24">
+      <path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z" />
+    </svg>
+  );
+}
+
+function WebChatReplyActions({
+  copied,
+  language,
+  onUseAction,
+  selectedAction,
+}: {
+  copied: boolean;
+  language: SupportedLanguage;
+  onUseAction: (action: ReplyFeedbackAction) => void;
+  selectedAction?: ReplyFeedbackAction;
+}): React.JSX.Element {
+  const copy = getReplyFeedbackCopy(language);
+
+  return (
+    <div aria-label={copy.groupLabel} className="chat-reply-actions">
+      <button
+        aria-label={copy.copyLabel}
+        className={`chat-reply-action ${copied ? 'success' : ''}`}
+        onClick={() => onUseAction('copy')}
+        title={copy.copyLabel}
+        type="button"
+      >
+        <CopyReplyIcon />
+        <span className="sr-only">{copied ? copy.copiedLabel : copy.copyLabel}</span>
+      </button>
+      <button
+        aria-label={copy.helpfulLabel}
+        aria-pressed={selectedAction === 'up'}
+        className={`chat-reply-action ${selectedAction === 'up' ? 'active' : ''}`}
+        onClick={() => onUseAction('up')}
+        title={copy.helpfulLabel}
+        type="button"
+      >
+        <ThumbUpIcon />
+        <span className="sr-only">{copy.helpfulLabel}</span>
+      </button>
+      <button
+        aria-label={copy.notHelpfulLabel}
+        aria-pressed={selectedAction === 'down'}
+        className={`chat-reply-action ${selectedAction === 'down' ? 'active' : ''}`}
+        onClick={() => onUseAction('down')}
+        title={copy.notHelpfulLabel}
+        type="button"
+      >
+        <ThumbDownIcon />
+        <span className="sr-only">{copy.notHelpfulLabel}</span>
+      </button>
+    </div>
+  );
+}
+
+function getReplyFeedbackCopy(language: SupportedLanguage): {
+  copiedLabel: string;
+  copyLabel: string;
+  groupLabel: string;
+  helpfulLabel: string;
+  notHelpfulLabel: string;
+} {
+  if (language === 'hi') {
+    return {
+      copiedLabel: 'Copy ho gaya',
+      copyLabel: 'Predicta reply copy karein',
+      groupLabel: 'Predicta reply ke actions',
+      helpfulLabel: 'Yeh reply helpful tha',
+      notHelpfulLabel: 'Yeh reply helpful nahi tha',
+    };
+  }
+
+  if (language === 'gu') {
+    return {
+      copiedLabel: 'Copy thai gayu',
+      copyLabel: 'Predicta reply copy karo',
+      groupLabel: 'Predicta reply actions',
+      helpfulLabel: 'Aa reply helpful hato',
+      notHelpfulLabel: 'Aa reply helpful n hato',
+    };
+  }
+
+  return {
+    copiedLabel: 'Copied',
+    copyLabel: 'Copy Predicta reply',
+    groupLabel: 'Predicta reply actions',
+    helpfulLabel: 'Mark reply helpful',
+    notHelpfulLabel: 'Mark reply not helpful',
+  };
+}
+
+function CopyReplyIcon(): React.JSX.Element {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24">
+      <rect height="12" rx="2" width="12" x="8" y="8" />
+      <path d="M4 16V6a2 2 0 0 1 2-2h10" />
+    </svg>
+  );
+}
+
+function ThumbUpIcon(): React.JSX.Element {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24">
+      <path d="M7 11v9" />
+      <path d="M3 11h4v9H3z" />
+      <path d="M7 11l4-8 1.5 1.5c.4.4.6 1 .5 1.6L12.5 9H19a2 2 0 0 1 2 2.3l-1 6A2 2 0 0 1 18 19H7" />
+    </svg>
+  );
+}
+
+function ThumbDownIcon(): React.JSX.Element {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24">
+      <path d="M17 13V4" />
+      <path d="M21 13h-4V4h4z" />
+      <path d="M17 13l-4 8-1.5-1.5c-.4-.4-.6-1-.5-1.6l.5-2.9H5a2 2 0 0 1-2-2.3l1-6A2 2 0 0 1 6 5h11" />
+    </svg>
   );
 }
 
@@ -1024,7 +2081,7 @@ function WebChatSuggestions({
 
   return (
     <div className="chat-suggestion-row" aria-label="Suggested follow-up questions">
-      {suggestions.slice(0, 4).map(suggestion => (
+      {suggestions.slice(0, 5).map(suggestion => (
         <button
           key={suggestion.id}
           onClick={() => onUseSuggestion(suggestion)}
@@ -1050,6 +2107,13 @@ function WebChatChartBlock({
   );
   const selectedCell =
     findHouseCell(cells, selectedHouse) ?? cells.find(cell => cell.house === 1) ?? cells[0];
+  const planetsByName = block.chart.planetDistribution.reduce(
+    (current, planet) => ({
+      ...current,
+      [planet.name]: planet,
+    }),
+    {} as Record<string, (typeof block.chart.planetDistribution)[number]>,
+  );
 
   return (
     <div className="chat-chart-card">
@@ -1082,9 +2146,36 @@ function WebChatChartBlock({
             >
               <span>H{cell.house} {cell.signShort}</span>
               <small>
-                {cell.planets.length
-                  ? cell.planets.map(getPlanetAbbreviation).join(' ')
-                  : '-'}
+                {cell.planets.length ? (
+                  <span className="chat-mini-planet-row">
+                    {cell.planets.slice(0, 3).map(planetName => {
+                      const planet = planetsByName[planetName];
+
+                      return (
+                        <em
+                          className={planet?.retrograde ? 'retrograde' : ''}
+                          key={planetName}
+                          title={
+                            planet
+                              ? `${planet.name} ${planet.degree.toFixed(1)}°${
+                                  planet.retrograde ? ' retrograde' : ''
+                                }`
+                              : planetName
+                          }
+                        >
+                          {getPlanetAbbreviation(planetName)}
+                          {planet ? <b>{planet.degree.toFixed(0)}°</b> : null}
+                          {planet?.retrograde ? <i>R</i> : null}
+                        </em>
+                      );
+                    })}
+                    {cell.planets.length > 3 ? (
+                      <em>+{cell.planets.length - 3}</em>
+                    ) : null}
+                  </span>
+                ) : (
+                  '-'
+                )}
               </small>
             </button>
           ))}
@@ -1154,22 +2245,27 @@ function createPridictaReply(
   text: string,
   language: SupportedLanguage,
   options: {
+    blocks?: ChatMessageBlock[];
     context?: ChartContext;
     kundli?: KundliData;
     lastText: string;
     safety?: ChatSafetyMeta;
+    suggestions?: ChatSuggestedCta[];
   },
 ): WebMessage {
   return {
+    blocks: options.blocks,
     context: options.context,
     id: `pridicta-${Date.now()}-${Math.random().toString(16).slice(2)}`,
     role: 'pridicta',
-    suggestions: buildFollowUps({
-      context: options.context,
-      kundli: options.kundli,
-      language,
-      lastText: options.lastText,
-    }),
+    suggestions:
+      options.suggestions ??
+      buildFollowUps({
+        context: options.context,
+        kundli: options.kundli,
+        language,
+        lastText: options.lastText,
+      }),
     safety: options.safety,
     text,
   };
@@ -1186,6 +2282,30 @@ function buildFollowUps({
   language: SupportedLanguage;
   lastText: string;
 }): ChatSuggestedCta[] {
+  if (
+    lastText.includes('Birth time check') ||
+    lastText.includes('Birth-time confidence') ||
+    lastText.includes('birth time pehle confirm') ||
+    lastText.includes('birth time pehla confirm')
+  ) {
+    return buildBirthDetailConfidenceSuggestions(language);
+  }
+
+  if (kundli && lastText.includes('Predicta Radar:')) {
+    return buildWowRadarSuggestions(language);
+  }
+
+  if (kundli && hasSmartMonetizationMoment(lastText)) {
+    return buildSmartMonetizationSuggestions(language, lastText);
+  }
+
+  if (
+    kundli &&
+    (looksLikeBirthDetails(lastText) || context?.sourceScreen === 'Kundli Created')
+  ) {
+    return buildPostKundliCreatedSuggestions(language);
+  }
+
   return buildChatFollowUps({
     context,
     hasKundli: Boolean(kundli),
@@ -1194,6 +2314,661 @@ function buildFollowUps({
     language,
     lastText,
   });
+}
+
+function buildPostKundliCreatedSuggestions(
+  language: SupportedLanguage,
+): ChatSuggestedCta[] {
+  if (language === 'hi') {
+    return [
+      {
+        id: 'today-after-kundli',
+        label: 'Aaj ka guidance',
+        prompt:
+          'Meri newly created Kundli se aaj ka Gochar, best action, caution aur emotional weather batao.',
+      },
+      {
+        id: 'gochar-after-kundli',
+        label: 'Gochar dekho',
+        prompt:
+          'Meri Kundli se current Gochar ka useful reading do: opportunities, cautions, timing aur proof.',
+      },
+      {
+        id: 'dasha-after-kundli',
+        label: 'Mahadasha samjhao',
+        prompt:
+          'Meri current Mahadasha and Antardasha simple language mein chart proof ke saath samjhao.',
+      },
+      {
+        id: 'report-after-kundli',
+        label: 'Report banao',
+        prompt:
+          'Meri Kundli se ek useful free report preview banao aur batao premium report mein kya deeper milega.',
+      },
+      {
+        href: '/dashboard',
+        id: 'dashboard-after-kundli',
+        label: 'Dashboard kholo',
+        prompt: 'Open dashboard',
+        targetScreen: 'Dashboard',
+      },
+    ];
+  }
+
+  if (language === 'gu') {
+    return [
+      {
+        id: 'today-after-kundli',
+        label: 'Aaj nu guidance',
+        prompt:
+          'Mari newly created Kundli thi aaj no Gochar, best action, caution ane emotional weather kaho.',
+      },
+      {
+        id: 'gochar-after-kundli',
+        label: 'Gochar juo',
+        prompt:
+          'Mari Kundli thi current Gochar nu useful reading aapo: opportunities, cautions, timing ane proof.',
+      },
+      {
+        id: 'dasha-after-kundli',
+        label: 'Mahadasha samjhao',
+        prompt:
+          'Mari current Mahadasha ane Antardasha simple language ma chart proof sathe samjhao.',
+      },
+      {
+        id: 'report-after-kundli',
+        label: 'Report banao',
+        prompt:
+          'Mari Kundli thi ek useful free report preview banao ane premium report ma shu deeper male te kaho.',
+      },
+      {
+        href: '/dashboard',
+        id: 'dashboard-after-kundli',
+        label: 'Dashboard kholo',
+        prompt: 'Open dashboard',
+        targetScreen: 'Dashboard',
+      },
+    ];
+  }
+
+  return [
+    {
+      id: 'today-after-kundli',
+      label: "Today's guidance",
+      prompt:
+        "Use my newly created Kundli and show today's Gochar, best action, caution, and emotional weather.",
+    },
+    {
+      id: 'gochar-after-kundli',
+      label: 'Show Gochar',
+      prompt:
+        'Use my Kundli and give me a useful current Gochar reading with opportunities, cautions, timing, and proof.',
+    },
+    {
+      id: 'dasha-after-kundli',
+      label: 'Explain Mahadasha',
+      prompt:
+        'Explain my current Mahadasha and Antardasha simply with chart proof.',
+    },
+    {
+      id: 'report-after-kundli',
+      label: 'Create report',
+      prompt:
+        'Create a useful free report preview from my Kundli and explain what Premium would add.',
+    },
+    {
+      href: '/dashboard',
+      id: 'dashboard-after-kundli',
+      label: 'Open dashboard',
+      prompt: 'Open dashboard',
+      targetScreen: 'Dashboard',
+    },
+  ];
+}
+
+function shouldGateForBirthDetailConfidence(
+  text: string,
+  kundli: KundliData,
+): boolean {
+  if (!hasBirthTimeConfidenceRisk(kundli)) {
+    return false;
+  }
+
+  if (isBirthTimeRectificationRequest(text)) {
+    return false;
+  }
+
+  return isDeepBirthTimeSensitiveRequest(text);
+}
+
+function hasBirthTimeConfidenceRisk(kundli: KundliData): boolean {
+  return Boolean(
+    kundli.birthDetails.isTimeApproximate ||
+      kundli.rectification?.needsRectification ||
+      kundli.rectification?.confidence === 'low',
+  );
+}
+
+function isBirthTimeRectificationRequest(text: string): boolean {
+  return /\b(birth\s*time|rectification|rectify|recalculate|re-calculate|correct\s+time|time\s+confidence|birth\s*time\s+detective|time\s+unknown)\b/i.test(
+    text,
+  );
+}
+
+function isBirthTimeConfirmationRequest(text: string): boolean {
+  const normalized = text.trim().toLowerCase();
+
+  if (/^(is|kya|su|shu|can|could|please\s+check|tell\s+me)\b/.test(normalized)) {
+    return false;
+  }
+
+  return (
+    /\b(my|mera|meri|maro|mari|entered|provided|given)\b[\s\S]{0,80}\b(birth\s*time|time)\b[\s\S]{0,80}\b(correct|right|accurate|confirmed|confirm|sahi|theek|thik|barabar|chhe|hai)\b/i.test(
+      normalized,
+    ) ||
+    /\b(use|go\s+with|continue\s+with|proceed\s+with|keep)\b[\s\S]{0,80}\b(entered|provided|given|same|original)\b[\s\S]{0,80}\b(time|birth\s*time)\b/i.test(
+      normalized,
+    ) ||
+    /\b(entered|provided|given|original)\b[\s\S]{0,80}\b(time|birth\s*time)\b[\s\S]{0,80}\b(correct|right|sahi|theek|thik|barabar|chhe|hai)\b/i.test(
+      normalized,
+    )
+  );
+}
+
+function isDeepBirthTimeSensitiveRequest(text: string): boolean {
+  return /\b(predict|prediction|future|timing|when|age|year|month|career|job|business|finance|money|wealth|marriage|relationship|child|children|health|legal|court|case|report|pdf|mahadasha|antardasha|dasha|sade\s*sati|gochar|transit|kundli|chart|house|lagna|ascendant|d[0-9]+|navamsha|dashamsha|kp|nadi|remedy|yoga|dosha|muhurta|decision|passport|timeline)\b/i.test(
+    text,
+  );
+}
+
+function buildBirthTimeConfirmedReply(
+  language: SupportedLanguage,
+  kundli: KundliData,
+  enteredTime: string,
+  restoredFromRectified: boolean,
+): string {
+  const name = kundli.birthDetails.name;
+  const restoreLine = restoredFromRectified
+    ? `I restored the originally entered time ${enteredTime} and recalculated the Kundli.`
+    : `I marked the entered birth time ${enteredTime} as confirmed.`;
+
+  if (language === 'hi') {
+    return [
+      `Done. ${name} ke liye entered birth time ${enteredTime} confirm kar diya hai.`,
+      restoredFromRectified
+        ? `Maine rectified time hata kar original entered time ${enteredTime} se Kundli dobara calculate kar di hai.`
+        : 'Ab is Kundli par rectified/probable time label nahi lagega.',
+      'Ab main normal chart guidance de sakti hoon. Exact event timing mein phir bhi humility rakhungi, because astrology guidance hai, guarantee nahi.',
+    ].join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      `Done. ${name} mate entered birth time ${enteredTime} confirm kari didho chhe.`,
+      restoredFromRectified
+        ? `Maine rectified time hataavi ne original entered time ${enteredTime} thi Kundli fari calculate kari chhe.`
+        : 'Have aa Kundli par rectified/probable time label nahi lage.',
+      'Have hu normal chart guidance aapi shaku chhu. Exact event timing ma pan humility rakish, karan ke astrology guidance chhe, guarantee nathi.',
+    ].join('\n\n');
+  }
+
+  return [
+    `Done. ${restoreLine}`,
+    `${name}'s Kundli is now treated as entered-time confirmed.`,
+    'I can continue with normal chart guidance. For exact event timing, I will still keep the answer careful and not treat astrology as a guarantee.',
+  ].join('\n\n');
+}
+
+function buildBirthTimeConfirmationFailedReply(
+  language: SupportedLanguage,
+): string {
+  if (language === 'hi') {
+    return 'Birth time confirm karte waqt issue aa gaya. Please ek baar Birth Time Detective ya Kundli page se dobara try karein.';
+  }
+
+  if (language === 'gu') {
+    return 'Birth time confirm karti vakhat issue aavyo. Please Birth Time Detective athva Kundli page thi fari try karo.';
+  }
+
+  return 'I could not confirm the birth time just now. Please try again from Birth Time Detective or the Kundli page.';
+}
+
+function buildBirthDetailConfidenceGateReply(
+  language: SupportedLanguage,
+  kundli: KundliData,
+): string {
+  const timeText = kundli.birthDetails.time || 'not shared';
+  const reason = kundli.birthDetails.isTimeApproximate
+    ? 'the birth time is marked approximate'
+    : kundli.rectification?.reasons[0] ??
+      'birth-time confidence needs checking before fine timing';
+
+  if (language === 'hi') {
+    return [
+      'Birth time check pehle karte hain.',
+      `Mere paas ${kundli.birthDetails.name} ki Kundli hai, par birth time ${timeText} ko deep prediction ke liye confirm karna zaroori hai. Even 10-15 minutes houses, divisional charts aur timing ko change kar sakte hain.`,
+      `Reason: ${reason}.`,
+      'Main abhi broad guidance de sakti hoon, lekin exact timing, marriage/career/finance prediction, D9/D10/KP/Nadi depth, ya report-grade answer se pehle time confirm karungi.',
+      'Agar time doubtful hai, main simple life-event questions pooch kar probable corrected birth time estimate kar sakti hoon. Isse reading safer aur zyada honest rahegi.',
+    ].join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      'Birth time pehla confirm kariye.',
+      `Mare pase ${kundli.birthDetails.name} ni Kundli chhe, pan birth time ${timeText} deep prediction mate confirm karvo jaruri chhe. 10-15 minutes pan houses, divisional charts ane timing badli shake chhe.`,
+      `Reason: ${reason}.`,
+      'Hu haal broad guidance aapi shaku chhu, pan exact timing, marriage/career/finance prediction, D9/D10/KP/Nadi depth, athva report-grade answer pehla time confirm karish.',
+      'Jo time doubtful hoy, hu simple life-event questions poochine probable corrected birth time estimate kari shaku chhu. Aa reading ne safer ane honest banave chhe.',
+    ].join('\n\n');
+  }
+
+  return [
+    'Birth time check first.',
+    `I have ${kundli.birthDetails.name}'s Kundli, but the birth time ${timeText} needs confirmation before deep prediction. Even 10-15 minutes can change houses, divisional charts, and timing.`,
+    `Reason: ${reason}.`,
+    'I can still give broad guidance, but I will not do exact timing, marriage/career/finance prediction, D9/D10/KP/Nadi depth, or report-grade analysis until the time is confirmed.',
+    'If the time is doubtful, I can ask simple life-event questions and estimate a probable corrected birth time. That keeps the reading safer and more honest.',
+  ].join('\n\n');
+}
+
+function buildPartialBirthDetailGateReply(
+  language: SupportedLanguage,
+  memory?: PredictaBirthMemory,
+): string | undefined {
+  const draft = memory?.draft;
+  if (!draft || (!draft.date && !draft.time && !draft.city && !draft.placeText)) {
+    return undefined;
+  }
+
+  const missing = [
+    !draft.date ? 'date of birth' : undefined,
+    !draft.time ? 'birth time' : undefined,
+    !draft.city && !draft.placeText ? 'birth place' : undefined,
+  ].filter(Boolean);
+
+  if (missing.length === 0) {
+    return undefined;
+  }
+
+  const knownDetails = [
+    draft.date ? `Date: ${draft.date}` : undefined,
+    draft.time ? `Time: ${draft.time}` : undefined,
+    draft.city || draft.placeText
+      ? `Place: ${[draft.city ?? draft.placeText, draft.state, draft.country]
+          .filter(Boolean)
+          .join(', ')}`
+      : undefined,
+  ]
+    .filter(Boolean)
+    .join('\n');
+
+  if (language === 'hi') {
+    return [
+      'Main half details par deep prediction start nahi karungi.',
+      knownDetails ? `Abhi mere paas:\n${knownDetails}` : undefined,
+      `Missing: ${missing.join(', ')}.`,
+      'DOB se broad baat ho sakti hai, lekin real Kundli, houses, dasha, timing, KP/Nadi aur reports ke liye birth time aur place zaroori hain.',
+      'Agar birth time exact nahi pata, “time unknown” likh dijiye. Main simple life questions pooch kar birth-time detective mode se guide karungi.',
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      'Hu half details par deep prediction start nahi karish.',
+      knownDetails ? `Haal ma mare pase:\n${knownDetails}` : undefined,
+      `Missing: ${missing.join(', ')}.`,
+      'DOB thi broad vaat thai shake, pan real Kundli, houses, dasha, timing, KP/Nadi ane reports mate birth time ane place jaruri chhe.',
+      'Jo birth time exact khabar nathi, “time unknown” lakho. Hu simple life questions poochine birth-time detective mode thi guide karish.',
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+  }
+
+  return [
+    'I will not start deep prediction from half details.',
+    knownDetails ? `So far I have:\n${knownDetails}` : undefined,
+    `Missing: ${missing.join(', ')}.`,
+    'DOB can support broad guidance, but a real Kundli, houses, dasha, timing, KP/Nadi, and reports need birth time and birth place.',
+    'If the exact birth time is unknown, write “time unknown.” I can ask simple life questions and guide you through birth-time detective mode.',
+  ]
+    .filter(Boolean)
+    .join('\n\n');
+}
+
+function buildBirthDetailConfidenceSuggestions(
+  language: SupportedLanguage,
+): ChatSuggestedCta[] {
+  if (language === 'hi') {
+    return [
+      {
+        id: 'birth-confidence-confirm-time',
+        label: 'Time correct hai',
+        prompt:
+          'Mera birth time correct hai. Is confidence ke saath reading continue karo, par timing confidence clearly mention karna.',
+      },
+      {
+        id: 'birth-confidence-rectify',
+        label: 'Time re-check karo',
+        prompt:
+          'Mera birth time doubtful hai. Mujhe simple life-event questions pooch kar probable corrected birth time estimate karo.',
+      },
+      {
+        href: '/dashboard/birth-time',
+        id: 'birth-confidence-detective',
+        label: 'Birth Time Detective',
+        prompt: 'Open Birth Time Detective',
+        targetScreen: 'Birth Time',
+      },
+    ];
+  }
+
+  if (language === 'gu') {
+    return [
+      {
+        id: 'birth-confidence-confirm-time',
+        label: 'Time correct chhe',
+        prompt:
+          'Maro birth time correct chhe. Aa confidence sathe reading continue karo, pan timing confidence clearly mention karjo.',
+      },
+      {
+        id: 'birth-confidence-rectify',
+        label: 'Time re-check karo',
+        prompt:
+          'Maro birth time doubtful chhe. Mane simple life-event questions poochine probable corrected birth time estimate karo.',
+      },
+      {
+        href: '/dashboard/birth-time',
+        id: 'birth-confidence-detective',
+        label: 'Birth Time Detective',
+        prompt: 'Open Birth Time Detective',
+        targetScreen: 'Birth Time',
+      },
+    ];
+  }
+
+  return [
+    {
+      id: 'birth-confidence-confirm-time',
+      label: 'My time is correct',
+      prompt:
+        'My birth time is correct. Continue the reading, but clearly mention timing confidence.',
+    },
+    {
+      id: 'birth-confidence-rectify',
+      label: 'Re-check my time',
+      prompt:
+        'My birth time is doubtful. Ask me simple life-event questions and estimate a probable corrected birth time.',
+    },
+    {
+      href: '/dashboard/birth-time',
+      id: 'birth-confidence-detective',
+      label: 'Birth Time Detective',
+      prompt: 'Open Birth Time Detective',
+      targetScreen: 'Birth Time',
+    },
+  ];
+}
+
+function hasSmartMonetizationMoment(text: string): boolean {
+  return (
+    text.includes('Go deeper option:') ||
+    text.includes('Premium nudge:') ||
+    /\b(12-month|Life Calendar|Premium PDF|one-time report|detailed map|report-grade|Compatibility\/Marriage report|Dasha Life Map|Sade Sati plan)\b/i.test(
+      text,
+    )
+  );
+}
+
+function buildSmartMonetizationSuggestions(
+  language: SupportedLanguage,
+  lastText: string,
+): ChatSuggestedCta[] {
+  const reportFocused =
+    /\b(report|pdf|marriage|compatibility|kundli dossier)\b/i.test(lastText);
+  const timingFocused =
+    /\b(12-month|calendar|timing|dasha|gochar|sade sati|yearly)\b/i.test(
+      lastText,
+    );
+
+  if (language === 'hi') {
+    return [
+      {
+        id: 'smart-free-preview',
+        label: 'Free preview pehle',
+        prompt:
+          'Pehle useful free preview do. Phir simple language mein batao paid depth kya extra add karega.',
+      },
+      reportFocused
+        ? {
+            href: '/dashboard/report',
+            id: 'smart-report',
+            label: 'Report options',
+            prompt: 'Open report options',
+            targetScreen: 'Report',
+          }
+        : {
+            href: '/dashboard/premium',
+            id: 'smart-premium',
+            label: 'Premium options',
+            prompt: 'Open premium options',
+            targetScreen: 'Premium',
+          },
+      timingFocused
+        ? {
+            href: '/dashboard/timeline',
+            id: 'smart-calendar',
+            label: 'Life Calendar',
+            prompt: 'Open life calendar',
+            targetScreen: 'Timeline',
+          }
+        : {
+            href: '/checkout?productId=pridicta_day_pass_24h',
+            id: 'smart-day-pass',
+            label: 'Day Pass try karo',
+            prompt: 'Try Day Pass',
+            targetScreen: 'Checkout',
+          },
+      {
+        href: '/pricing',
+        id: 'smart-compare',
+        label: 'Compare options',
+        prompt: 'Compare options',
+        targetScreen: 'Pricing',
+      },
+    ];
+  }
+
+  if (language === 'gu') {
+    return [
+      {
+        id: 'smart-free-preview',
+        label: 'Free preview pehla',
+        prompt:
+          'Pehla useful free preview aapo. Pachhi simple language ma kaho paid depth shu extra add karse.',
+      },
+      reportFocused
+        ? {
+            href: '/dashboard/report',
+            id: 'smart-report',
+            label: 'Report options',
+            prompt: 'Open report options',
+            targetScreen: 'Report',
+          }
+        : {
+            href: '/dashboard/premium',
+            id: 'smart-premium',
+            label: 'Premium options',
+            prompt: 'Open premium options',
+            targetScreen: 'Premium',
+          },
+      timingFocused
+        ? {
+            href: '/dashboard/timeline',
+            id: 'smart-calendar',
+            label: 'Life Calendar',
+            prompt: 'Open life calendar',
+            targetScreen: 'Timeline',
+          }
+        : {
+            href: '/checkout?productId=pridicta_day_pass_24h',
+            id: 'smart-day-pass',
+            label: 'Day Pass try karo',
+            prompt: 'Try Day Pass',
+            targetScreen: 'Checkout',
+          },
+      {
+        href: '/pricing',
+        id: 'smart-compare',
+        label: 'Compare options',
+        prompt: 'Compare options',
+        targetScreen: 'Pricing',
+      },
+    ];
+  }
+
+  return [
+    {
+      id: 'smart-free-preview',
+      label: 'Show free preview first',
+      prompt:
+        'Show me the useful free preview first, then explain what the paid depth would add.',
+    },
+    reportFocused
+      ? {
+          href: '/dashboard/report',
+          id: 'smart-report',
+          label: 'Choose report',
+          prompt: 'Open report options',
+          targetScreen: 'Report',
+        }
+      : {
+          href: '/dashboard/premium',
+          id: 'smart-premium',
+          label: 'See Premium',
+          prompt: 'Open premium options',
+          targetScreen: 'Premium',
+        },
+    timingFocused
+      ? {
+          href: '/dashboard/timeline',
+          id: 'smart-calendar',
+          label: 'Open Life Calendar',
+          prompt: 'Open life calendar',
+          targetScreen: 'Timeline',
+        }
+      : {
+          href: '/checkout?productId=pridicta_day_pass_24h',
+          id: 'smart-day-pass',
+          label: 'Try Day Pass',
+          prompt: 'Try Day Pass',
+          targetScreen: 'Checkout',
+        },
+    {
+      href: '/pricing',
+      id: 'smart-compare',
+      label: 'Compare options',
+      prompt: 'Compare options',
+      targetScreen: 'Pricing',
+    },
+  ];
+}
+
+function buildWowRadarSuggestions(
+  language: SupportedLanguage,
+): ChatSuggestedCta[] {
+  if (language === 'hi') {
+    return [
+      {
+        id: 'radar-daily-action',
+        label: 'Daily action banao',
+        prompt:
+          'Is Predicta Radar pattern ka daily action kya hai? Gochar, Mahadasha aur remedy ke saath simple weekly plan banao.',
+      },
+      {
+        id: 'radar-gochar',
+        label: 'Gochar se check karo',
+        prompt:
+          'Is Radar pattern ko current Gochar ke saath compare karo aur batao aaj kya useful hai.',
+      },
+      {
+        href: '/dashboard/charts',
+        id: 'radar-open-charts',
+        label: 'Charts kholo',
+        prompt: 'Open charts',
+        targetScreen: 'Charts',
+      },
+      {
+        href: '/dashboard/report',
+        id: 'radar-create-report',
+        label: 'Report banao',
+        prompt: 'Create report',
+        targetScreen: 'Report',
+      },
+    ];
+  }
+
+  if (language === 'gu') {
+    return [
+      {
+        id: 'radar-daily-action',
+        label: 'Daily action banao',
+        prompt:
+          'Aa Predicta Radar pattern nu daily action shu chhe? Gochar, Mahadasha ane remedy sathe simple weekly plan banao.',
+      },
+      {
+        id: 'radar-gochar',
+        label: 'Gochar thi check karo',
+        prompt:
+          'Aa Radar pattern ne current Gochar sathe compare karo ane aaje shu useful chhe te kaho.',
+      },
+      {
+        href: '/dashboard/charts',
+        id: 'radar-open-charts',
+        label: 'Charts kholo',
+        prompt: 'Open charts',
+        targetScreen: 'Charts',
+      },
+      {
+        href: '/dashboard/report',
+        id: 'radar-create-report',
+        label: 'Report banao',
+        prompt: 'Create report',
+        targetScreen: 'Report',
+      },
+    ];
+  }
+
+  return [
+    {
+      id: 'radar-daily-action',
+      label: 'Make daily action',
+      prompt:
+        'What daily action fits this Predicta Radar pattern? Use Gochar, Mahadasha, and remedies to make a simple weekly plan.',
+    },
+    {
+      id: 'radar-gochar',
+      label: 'Check with Gochar',
+      prompt:
+        'Compare this Radar pattern with current Gochar and tell me what is useful today.',
+    },
+    {
+      href: '/dashboard/charts',
+      id: 'radar-open-charts',
+      label: 'Open charts',
+      prompt: 'Open charts',
+      targetScreen: 'Charts',
+    },
+    {
+      href: '/dashboard/report',
+      id: 'radar-create-report',
+      label: 'Create report',
+      prompt: 'Create report',
+      targetScreen: 'Report',
+    },
+  ];
 }
 
 function chartContextFromParams(params: URLSearchParams): ChartContext | undefined {
@@ -1259,6 +3034,9 @@ function ctaContextFromParams(params: URLSearchParams): ChartContext | undefined
     selectedDecisionState:
       (params.get('decisionState') as ChartContext['selectedDecisionState']) ?? undefined,
     selectedFamilyKarmaMap: params.get('selectedFamilyKarmaMap') === 'true',
+    selectedFamilyMemberCount: parseOptionalNumber(
+      params.get('selectedFamilyMemberCount'),
+    ),
     selectedPredictaWrapped: params.get('selectedPredictaWrapped') === 'true',
     selectedPredictaWrappedYear: parseOptionalNumber(
       params.get('selectedPredictaWrappedYear'),
@@ -1484,7 +3262,7 @@ function looksLikeBirthDetails(text: string): boolean {
   return (
     /\b\d{1,2}[:.]\d{2}\b/.test(normalized) ||
     /\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/.test(normalized) ||
-    /(born|birth|dob|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/.test(
+    /\b(born|birth|dob|jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)\b/.test(
       normalized,
     )
   );
@@ -1545,6 +3323,7 @@ function buildKundliCreatedReply(
       'Ho gaya. Maine Kundli yahin chat mein bana di hai aur ise selected rakh liya hai.',
       lines.join('\n'),
       'Ab career, marriage, money, health tendencies, remedies, timing, ya kisi decision par poochiye. Main answer chart proof ke saath dungi.',
+      'Neeche quick options diye hain: aaj ka guidance chat mein padh sakte hain, Gochar dekh sakte hain, Mahadasha samajh sakte hain, report bana sakte hain, ya dashboard khol sakte hain.',
     ].join('\n\n');
   }
   if (language === 'gu') {
@@ -1552,12 +3331,14 @@ function buildKundliCreatedReply(
       'Thai gayu. Maine Kundli ahi chat ma banaavi didhi chhe ane tene selected rakhi chhe.',
       lines.join('\n'),
       'Have career, marriage, money, health tendencies, remedies, timing athva koi decision vishe poochho. Hu chart proof sathe jawab aapish.',
+      'Niche quick options chhe: aaj nu guidance chat ma vanchi shako, Gochar joi shako, Mahadasha samjhi shako, report banaavi shako, athva dashboard kholo.',
     ].join('\n\n');
   }
   return [
     'Done. I created your Kundli right here in chat and selected it for this reading.',
     lines.join('\n'),
     'Now ask me about career, marriage, money, health tendencies, remedies, timing, or any decision. I will answer with chart proof.',
+    "Use the quick options below to read today's guidance here, see Gochar, understand Mahadasha, create a report, or open the dashboard.",
   ].join('\n\n');
 }
 

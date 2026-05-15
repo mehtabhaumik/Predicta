@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Pressable, View } from 'react-native';
 
 import {
@@ -15,10 +15,11 @@ import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import {
   getPremiumPdfProduct,
+  getReportPurchaseGuide,
   getReportMarketplaceProducts,
   type ReportMarketplaceProduct,
 } from '@pridicta/config/pricing';
-import { composeReportSections } from '@pridicta/pdf';
+import { composeReportSections, type PdfSection } from '@pridicta/pdf';
 import { trackAnalyticsEvent } from '../services/analytics/analyticsService';
 import { syncRedeemedGuestPassToUser } from '../services/firebase/passCodePersistence';
 import { generateHoroscopePdf } from '../services/pdf/pdfGenerator';
@@ -39,6 +40,10 @@ export function ReportScreen({
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedReportId, setSelectedReportId] =
     useState<ReportMarketplaceProduct['id']>('KUNDLI');
+  const [builderMode, setBuilderMode] = useState<'EVERYTHING' | 'CUSTOM'>(
+    'EVERYTHING',
+  );
+  const [selectedSectionKeys, setSelectedSectionKeys] = useState<string[]>([]);
   const auth = useAppStore(state => state.auth);
   const kundli = useAppStore(state => state.activeKundli);
   const languagePreference = useAppStore(state => state.languagePreference);
@@ -56,6 +61,7 @@ export function ReportScreen({
   );
   const { glassAlert, showGlassAlert } = useGlassAlert();
   const marketplaceProducts = useMemo(() => getReportMarketplaceProducts(), []);
+  const purchaseGuide = useMemo(() => getReportPurchaseGuide(), []);
   const selectedReport =
     marketplaceProducts.find(product => product.id === selectedReportId) ??
     marketplaceProducts[0];
@@ -69,12 +75,49 @@ export function ReportScreen({
   }
 
   const previewMode: PDFMode = userPlan === 'PREMIUM' ? 'PREMIUM' : 'FREE';
-  const reportPreview = composeReportSections({
-    kundli,
-    language: languagePreference.language,
-    mode: previewMode,
-  });
-  const sections = kundli ? reportPreview.sections.slice(0, 6) : fallbackSections;
+  const reportPreview = useMemo(
+    () =>
+      composeReportSections({
+        kundli,
+        language: languagePreference.language,
+        mode: previewMode,
+      }),
+    [kundli, languagePreference.language, previewMode],
+  );
+  const sectionOptions = useMemo(
+    () =>
+      kundli
+        ? reportPreview.sections.map((section, index) => ({
+            key: getReportSectionKey(section, index),
+            section,
+          }))
+        : [],
+    [kundli, reportPreview.sections],
+  );
+  const selectedKeySet = useMemo(
+    () => new Set(selectedSectionKeys),
+    [selectedSectionKeys],
+  );
+  const sections = kundli
+    ? builderMode === 'EVERYTHING'
+      ? reportPreview.sections
+      : sectionOptions
+          .filter(option => selectedKeySet.has(option.key))
+          .map(option => option.section)
+    : fallbackSections;
+  const selectedSectionCount = kundli
+    ? builderMode === 'EVERYTHING'
+      ? reportPreview.sections.length
+      : sections.length
+    : 0;
+
+  useEffect(() => {
+    if (!kundli) {
+      return;
+    }
+
+    setSelectedSectionKeys(sectionOptions.map(option => option.key));
+  }, [kundli?.id, previewMode, selectedReportId, sectionOptions]);
 
   async function createPdf(mode: PDFMode) {
     if (!kundli) {
@@ -82,6 +125,13 @@ export function ReportScreen({
         message:
           'A real calculated kundli is required before creating a horoscope PDF.',
         title: 'Generate kundli first',
+      });
+      return;
+    }
+    if (builderMode === 'CUSTOM' && !selectedSectionKeys.length) {
+      showGlassAlert({
+        message: 'Choose at least one section before creating the PDF.',
+        title: 'No section selected',
       });
       return;
     }
@@ -133,6 +183,8 @@ export function ReportScreen({
         kundli,
         language: languagePreference.language,
         mode,
+        sectionKeys:
+          builderMode === 'CUSTOM' ? selectedSectionKeys : undefined,
       });
       if (access.source === 'guest_pass' && !access.hasUnrestrictedAppAccess) {
         consumeGuestPdfQuota();
@@ -192,12 +244,34 @@ export function ReportScreen({
           REPORT MARKETPLACE
         </AppText>
         <AppText className="mt-2" variant="subtitle">
-          Start useful. Go deeper only when needed.
+          Choose by outcome, not by jargon.
         </AppText>
         <AppText className="mt-2" tone="secondary">
-          Free previews keep charts visible. Premium adds deeper synthesis,
-          timing, remedies, and polished PDF depth.
+          Start with the life question. Free previews stay useful. Premium adds
+          depth only when timing, synthesis, or a polished PDF is worth it.
         </AppText>
+
+        <View className="mt-5 gap-3">
+          {purchaseGuide.map(item => (
+            <View
+              className="rounded-[18px] border border-[#252533] bg-[#191923] p-4"
+              key={item.label}
+            >
+              <AppText tone="secondary" variant="caption">
+                {item.label.toUpperCase()}
+              </AppText>
+              <AppText className="mt-1" variant="body">
+                {item.title}
+              </AppText>
+              <AppText className="mt-2" tone="secondary">
+                {item.body}
+              </AppText>
+              <AppText className="mt-3 font-bold text-[#4DAFFF]" variant="caption">
+                {item.cta}
+              </AppText>
+            </View>
+          ))}
+        </View>
 
         <View className="mt-5 gap-3">
           {marketplaceProducts.map(product => (
@@ -218,6 +292,9 @@ export function ReportScreen({
                   </AppText>
                   <AppText className="mt-1" variant="body">
                     {product.title}
+                  </AppText>
+                  <AppText className="mt-2" variant="caption">
+                    {product.outcome}
                   </AppText>
                 </View>
                 {selectedReportId === product.id ? (
@@ -241,6 +318,9 @@ export function ReportScreen({
         <AppText className="mt-2" variant="subtitle">
           {selectedReport.title}
         </AppText>
+        <AppText className="mt-2" tone="secondary">
+          {selectedReport.purchaseHint}
+        </AppText>
         <View className="mt-4 gap-3">
           <View className="rounded-[18px] border border-[#252533] bg-[#191923] p-4">
             <AppText tone="secondary" variant="caption">
@@ -249,6 +329,13 @@ export function ReportScreen({
             <AppText className="mt-2" tone="secondary">
               {selectedReport.freeDepth}
             </AppText>
+            <View className="mt-3 gap-2">
+              {selectedReport.freeIncludes.map(item => (
+                <AppText key={item} tone="secondary" variant="caption">
+                  • {item}
+                </AppText>
+              ))}
+            </View>
           </View>
           <View className="rounded-[18px] border border-[#252533] bg-[#191923] p-4">
             <AppText tone="secondary" variant="caption">
@@ -257,6 +344,13 @@ export function ReportScreen({
             <AppText className="mt-2" tone="secondary">
               {selectedReport.premiumDepth}
             </AppText>
+            <View className="mt-3 gap-2">
+              {selectedReport.premiumIncludes.map(item => (
+                <AppText key={item} tone="secondary" variant="caption">
+                  • {item}
+                </AppText>
+              ))}
+            </View>
           </View>
         </View>
         <Pressable
@@ -269,6 +363,102 @@ export function ReportScreen({
           </AppText>
         </Pressable>
       </GradientOutlineCard>
+
+      <GlowCard className="mt-6" delay={220}>
+        <AppText tone="secondary" variant="caption">
+          REPORT BUILDER
+        </AppText>
+        <AppText className="mt-2" variant="subtitle">
+          Choose everything or pick sections
+        </AppText>
+        <AppText className="mt-2" tone="secondary">
+          Free and Premium can include every section. Premium changes the depth,
+          timing, remedies, and synthesis.
+        </AppText>
+        <View className="mt-4 flex-row gap-3">
+          <Pressable
+            accessibilityRole="button"
+            className={`flex-1 rounded-[18px] border p-4 ${
+              builderMode === 'EVERYTHING'
+                ? 'border-[#4DAFFF] bg-[#172233]'
+                : 'border-[#252533] bg-[#191923]'
+            }`}
+            onPress={() => {
+              setBuilderMode('EVERYTHING');
+              setSelectedSectionKeys(sectionOptions.map(option => option.key));
+            }}
+          >
+            <AppText variant="body">Complete report</AppText>
+            <AppText className="mt-1" tone="secondary" variant="caption">
+              Include all sections
+            </AppText>
+          </Pressable>
+          <Pressable
+            accessibilityRole="button"
+            className={`flex-1 rounded-[18px] border p-4 ${
+              builderMode === 'CUSTOM'
+                ? 'border-[#4DAFFF] bg-[#172233]'
+                : 'border-[#252533] bg-[#191923]'
+            }`}
+            onPress={() => {
+              setBuilderMode('CUSTOM');
+              setSelectedSectionKeys(
+                sectionOptions.slice(0, 8).map(option => option.key),
+              );
+            }}
+          >
+            <AppText variant="body">Pick sections</AppText>
+            <AppText className="mt-1" tone="secondary" variant="caption">
+              {selectedSectionCount}/{reportPreview.sections.length || 0} selected
+            </AppText>
+          </Pressable>
+        </View>
+
+        {kundli ? (
+          <View className="mt-4 gap-3">
+            {sectionOptions.map(({ key, section }) => (
+              <Pressable
+                accessibilityRole="checkbox"
+                accessibilityState={{
+                  checked:
+                    builderMode === 'EVERYTHING' || selectedKeySet.has(key),
+                  disabled: builderMode === 'EVERYTHING',
+                }}
+                className={`rounded-[18px] border p-4 ${
+                  builderMode === 'EVERYTHING' || selectedKeySet.has(key)
+                    ? 'border-[#4DAFFF] bg-[#172233]'
+                    : 'border-[#252533] bg-[#191923]'
+                }`}
+                disabled={builderMode === 'EVERYTHING'}
+                key={key}
+                onPress={() => {
+                  setBuilderMode('CUSTOM');
+                  setSelectedSectionKeys(current =>
+                    current.includes(key)
+                      ? current.filter(item => item !== key)
+                      : [...current, key],
+                  );
+                }}
+              >
+                <AppText tone="secondary" variant="caption">
+                  {section.eyebrow}
+                </AppText>
+                <AppText className="mt-1" variant="body">
+                  {section.title}
+                </AppText>
+                <AppText className="mt-1" tone="secondary" variant="caption">
+                  {(section.tier ?? 'free').toUpperCase()} ·{' '}
+                  {section.confidence ?? 'medium'} confidence
+                </AppText>
+              </Pressable>
+            ))}
+          </View>
+        ) : (
+          <AppText className="mt-4" tone="secondary">
+            Create a kundli first, then the report sections will appear here.
+          </AppText>
+        )}
+      </GlowCard>
 
       <View className="mt-8 gap-4">
         {sections.map((section, index) => (
@@ -368,4 +558,8 @@ function syncGuestPassUsage(userId?: string): void {
   }
 
   syncRedeemedGuestPassToUser(userId, pass).catch(() => undefined);
+}
+
+function getReportSectionKey(section: PdfSection, index: number): string {
+  return `${index}-${section.eyebrow}-${section.title}`;
 }

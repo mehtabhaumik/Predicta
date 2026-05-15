@@ -23,6 +23,9 @@ export function SavedKundlisScreen({
 }: RootScreenProps<typeof routes.SavedKundlis>): React.JSX.Element {
   const auth = useAppStore(state => state.auth);
   const savedKundlis = useAppStore(state => state.savedKundlis);
+  const setActiveChartContext = useAppStore(
+    state => state.setActiveChartContext,
+  );
   const setActiveKundli = useAppStore(state => state.setActiveKundli);
   const setSavedKundlis = useAppStore(state => state.setSavedKundlis);
   const { glassAlert, showGlassAlert } = useGlassAlert();
@@ -69,6 +72,27 @@ export function SavedKundlisScreen({
     navigation.navigate(routes.Kundli);
   }
 
+  function useForChat(record: SavedKundliRecord) {
+    setActiveKundli(record.kundliData);
+    navigation.navigate(routes.Chat);
+  }
+
+  function askProfile(record: SavedKundliRecord) {
+    setActiveKundli(record.kundliData);
+    setActiveChartContext({
+      kundliId: record.summary.id,
+      purpose: 'family',
+      selectedSection: `Use ${record.summary.name}'s saved Kundli and tell me the most useful next reading.`,
+      sourceScreen: 'Saved Kundlis',
+    });
+    navigation.navigate(routes.Chat);
+  }
+
+  function openFamilyMap(record: SavedKundliRecord) {
+    setActiveKundli(record.kundliData);
+    navigation.navigate(routes.FamilyKarmaMap);
+  }
+
   return (
     <Screen>
       {glassAlert}
@@ -85,8 +109,8 @@ export function SavedKundlisScreen({
           Multiple Kundlis, one household library
         </AppText>
         <AppText className="mt-2" tone="secondary">
-          Premium Family Vault should let the account owner invite family
-          members and decide who can chat with each saved profile.
+          Create one profile for each person, choose who Predicta should read,
+          and compare family patterns without mixing charts.
         </AppText>
       </GlowCard>
 
@@ -146,6 +170,29 @@ export function SavedKundlisScreen({
                 </Pressable>
 
                 <View className="mt-5">
+                  <View className="mb-3 flex-row flex-wrap gap-3">
+                    <Pressable
+                      accessibilityRole="button"
+                      className="rounded-full border border-[#252533] bg-[#191923] px-4 py-3"
+                      onPress={() => useForChat(record)}
+                    >
+                      <AppText variant="caption">Use for Chat</AppText>
+                    </Pressable>
+                    <Pressable
+                      accessibilityRole="button"
+                      className="rounded-full border border-[#4DAFFF] bg-[#172233] px-4 py-3"
+                      onPress={() => askProfile(record)}
+                    >
+                      <AppText variant="caption">Ask Predicta</AppText>
+                    </Pressable>
+                    <Pressable
+                      accessibilityRole="button"
+                      className="rounded-full border border-[#252533] bg-[#191923] px-4 py-3"
+                      onPress={() => openFamilyMap(record)}
+                    >
+                      <AppText variant="caption">Family Map</AppText>
+                    </Pressable>
+                  </View>
                   <GlowButton
                     label={isCloud ? 'Saved to Cloud' : 'Save to Cloud'}
                     disabled={isCloud}

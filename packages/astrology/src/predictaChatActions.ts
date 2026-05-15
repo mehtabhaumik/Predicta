@@ -53,6 +53,7 @@ export type PredictaAppActionId =
   | 'sade-sati'
   | 'transit-gochar'
   | 'yearly-horoscope'
+  | 'wow-radar'
   | 'wrapped';
 
 export type PredictaInteractionMemory = {
@@ -104,6 +105,11 @@ const ACTION_PATTERNS: Array<{
     id: 'decision-timing',
     pattern:
       /\b(decision|decide|should\s+i|should\s+we|whether\s+i|whether\s+we|is\s+it\s+a\s+good\s+time|right\s+time|good\s+time\s+to|timing\s+for|karu\s+ke\s+nahi|karvu\s+ke\s+nahi|kya\s*karu|shu\s*karu)\b/i,
+  },
+  {
+    id: 'wow-radar',
+    pattern:
+      /\b(wow|surprise\s*me|insane|what\s*do\s*you\s*notice|what\s*stands\s*out|hidden\s*pattern|hidden\s*strength|strongest\s*signal|pattern\s*radar|predicta\s*radar|tell\s*me\s*something\s*interesting|kuch\s*interesting|kuch\s*alag|kaik\s*interesting|kai\s*alag)\b/i,
   },
   {
     id: 'mahadasha',
@@ -592,6 +598,24 @@ function buildActionText({
       intro,
       pricingReply(language, hasPremiumAccess),
       insight,
+    ]);
+  }
+
+  if (action === 'wow-radar') {
+    if (!kundli) {
+      return buildNeedsKundliReply(language, action);
+    }
+
+    return joinSections([
+      intro,
+      buildWowRadarReply({
+        kundli,
+        language,
+        memory,
+        savedKundlis,
+      }),
+      insight,
+      buildUpsell(language, 'wow-radar', hasPremiumAccess),
     ]);
   }
 
@@ -1144,6 +1168,95 @@ function pricingReply(
     return 'Premium no clean path: Monthly/Yearly deeper AI + timelines + remedies + reports mate. One-time PDF impulse purchase mate. Day Pass trial mate. Compatibility/Marriage report alag high-intent purchase rehvu joye.';
   }
   return 'Premium path: Monthly/Yearly for deeper AI, Life Calendar, remedies, and reports. One-time Premium PDF for impulse purchase. Day Pass for trial. Compatibility/Marriage report as a separate high-intent purchase.';
+}
+
+function buildWowRadarReply({
+  kundli,
+  language,
+  memory,
+  savedKundlis,
+}: {
+  kundli: KundliData;
+  language: SupportedLanguage;
+  memory: PredictaInteractionMemory;
+  savedKundlis: KundliData[];
+}): string {
+  const current = kundli.dasha.current;
+  const strongestHouse = kundli.ashtakavarga.strongestHouses[0];
+  const pressureHouse = kundli.ashtakavarga.weakestHouses[0];
+  const crowdedHouse = findMostOccupiedHouse(kundli);
+  const dashaPlanet = findPlanetByName(kundli, current.mahadasha);
+  const antardashaPlanet = findPlanetByName(kundli, current.antardasha);
+  const similar = findSimilarSavedKundli(kundli, savedKundlis);
+  const themeLine = memory.learnedThemes.length
+    ? memory.learnedThemes.slice(0, 3).join(', ')
+    : undefined;
+  const standoutSignals = [
+    `${current.mahadasha}/${current.antardasha} is the active life chapter until ${formatShortDate(
+      current.endDate,
+    )}.`,
+    strongestHouse
+      ? `House ${strongestHouse} is one of the strongest support zones.`
+      : undefined,
+    pressureHouse
+      ? `House ${pressureHouse} needs cleaner routines and less impulsive pressure.`
+      : undefined,
+    crowdedHouse
+      ? `House ${crowdedHouse.house} is visually loud because ${crowdedHouse.planets.join(
+          ', ',
+        )} sit there.`
+      : undefined,
+    dashaPlanet
+      ? `${current.mahadasha} is in house ${dashaPlanet.house}, so its lesson is active through that life area.`
+      : undefined,
+    antardashaPlanet
+      ? `${current.antardasha} adds a sub-theme from house ${antardashaPlanet.house}.`
+      : undefined,
+  ].filter(Boolean);
+  const comparison = similar
+    ? `I found a close saved-profile echo: ${similar.kundli.birthDetails.name} shares ${similar.matches.join(
+        ', ',
+      )}. Not identical, but worth comparing timing gently.`
+    : savedKundlis.length > 1
+      ? 'I did not find a close duplicate pattern in saved profiles yet, so this chart should be read on its own terms.'
+      : 'Add one more family Kundli later and I can compare repeated family patterns instead of reading this chart in isolation.';
+
+  if (language === 'hi') {
+    return [
+      'Predicta Radar: yeh quick “what stands out” scan hai, final fate statement nahi.',
+      `Strongest signal: ${current.mahadasha}/${current.antardasha} timing chapter is chart ko abhi drive kar raha hai.`,
+      themeLine
+        ? `Aapke recent questions se pattern dikhta hai: ${themeLine}. Isliye main jawab practical aur timing-focused rakhungi.`
+        : 'Abhi main saved chart aur current timing se pattern read kar rahi hoon.',
+      `Chart proof:\n${standoutSignals.map(signal => `- ${signal}`).join('\n')}`,
+      `Memory check: ${comparison}`,
+      'Wow move: poochiye “is pattern ka daily action kya hai?” Main ise Gochar, Mahadasha aur remedy ke saath simple weekly plan mein badal dungi.',
+    ].join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      'Predicta Radar: aa quick “what stands out” scan chhe, final fate statement nathi.',
+      `Strongest signal: ${current.mahadasha}/${current.antardasha} timing chapter aa chart ne atyare drive kare chhe.`,
+      themeLine
+        ? `Tamara recent questions thi pattern dekhaay chhe: ${themeLine}. Etle hu jawab practical ane timing-focused rakhish.`
+        : 'Atyare hu saved chart ane current timing thi pattern read karu chhu.',
+      `Chart proof:\n${standoutSignals.map(signal => `- ${signal}`).join('\n')}`,
+      `Memory check: ${comparison}`,
+      'Wow move: poochho “aa pattern nu daily action shu chhe?” Hu ene Gochar, Mahadasha ane remedy sathe simple weekly plan ma badli daish.',
+    ].join('\n\n');
+  }
+
+  return [
+    'Predicta Radar: this is a quick “what stands out” scan, not a final fate statement.',
+    `Strongest signal: the ${current.mahadasha}/${current.antardasha} timing chapter is driving this chart right now.`,
+    themeLine
+      ? `From your recent questions, I see a pattern: ${themeLine}. I will keep guidance practical and timing-focused.`
+      : 'Right now I am reading the saved chart and current timing pattern.',
+    `Chart proof:\n${standoutSignals.map(signal => `- ${signal}`).join('\n')}`,
+    `Memory check: ${comparison}`,
+    'Wow move: ask me “what daily action fits this pattern?” and I will turn this into a simple weekly plan using Gochar, Mahadasha, and remedies.',
+  ].join('\n\n');
 }
 
 function savedKundlisReply(
@@ -1708,44 +1821,44 @@ function buildUpsell(
 
   const suggestion =
     action === 'report'
-      ? 'The premium PDF bundle is the strongest next unlock here.'
+      ? 'Turn this into a polished PDF when you want the full version.'
       : action === 'advanced-jyotish'
-      ? 'Premium Advanced Mode adds deeper yoga/dosha scoring, nakshatra depth, BAV/SAV tables, muhurta planning, compatibility synthesis, Prashna workflow, and safe remedy schedules.'
+      ? 'Advanced Mode adds deeper yoga/dosha scoring, nakshatra depth, Ashtakavarga tables, muhurta planning, compatibility synthesis, Prashna workflow, and safe remedy schedules.'
       : action === 'mahadasha'
-      ? 'Premium Mahadasha adds Antardasha/Pratyantardasha detail, dasha-transit overlap, remedies, and report-grade timing windows.'
+      ? 'Turn this into a Dasha Life Map when you want Antardasha/Pratyantardasha detail, dasha-transit overlap, remedies, and timing windows.'
       : action === 'sade-sati'
-      ? 'Premium Sade Sati adds Saturn phase windows, Ashtakavarga support, monthly planning, remedies, and report-grade guidance.'
+      ? 'Turn this into a Sade Sati plan when you want Saturn phase windows, Ashtakavarga support, monthly planning, remedies, and report-grade guidance.'
       : action === 'transit-gochar'
-      ? 'Premium Gochar adds all-planet synthesis, 12-month planning cards, dasha overlay, remedies, and report-grade timing notes.'
+      ? 'Turn this into a 12-month Gochar calendar when you want all-planet synthesis, dasha overlay, remedies, and timing notes.'
       : action === 'yearly-horoscope'
-      ? 'Premium Yearly Horoscope adds 12-month Varshaphal planning, dasha-Gochar overlap, remedies, Tajika-style synthesis, and report-grade annual guidance.'
+      ? 'Turn this into a yearly horoscope map when you want 12-month Varshaphal planning, dasha-Gochar overlap, remedies, and annual guidance.'
       : action === 'bhav-chalit'
-      ? 'Premium Bhav Chalit adds cusp-by-cusp house delivery, shifted planet analysis, dasha relevance, and report-grade proof.'
+      ? 'Turn this into a deeper Bhav Chalit reading when you want house-by-house delivery, shifted planet analysis, dasha relevance, and report-grade proof.'
       : action === 'kp-predicta'
-      ? 'KP Premium adds cusp-by-cusp sub-lord judgment, significator strength, ruling-planet checks, dasha support, and event-focused report depth.'
+      ? 'Turn this into a KP event reading when you want cusp-by-cusp sub-lord judgment, significator strength, ruling-planet checks, dasha support, and event-focused report depth.'
       : action === 'life-timeline'
-      ? 'Premium Life Calendar can turn this into monthly dasha/transit cards with reminders.'
+      ? 'Turn this into a Life Calendar when you want monthly dasha/transit cards with reminders.'
       : action === 'holistic-daily-guidance'
-      ? 'Premium can turn this daily rhythm into a Life Calendar with reminders, deeper dasha-Gochar overlap, remedy tracking, and report-ready daily planning.'
+      ? 'Turn this daily rhythm into a Life Calendar when you want reminders, deeper dasha-Gochar overlap, remedy tracking, and daily planning.'
       : action === 'purushartha'
-      ? 'Premium can turn this life balance into monthly Dharma, Artha, Kama, and Moksha guidance with remedies and timing windows.'
+      ? 'Turn this life balance into monthly Dharma, Artha, Kama, and Moksha guidance with remedies and timing windows.'
       : action === 'personal-panchang'
-      ? 'Premium can turn this into a personal muhurta planner with daily Panchang, dasha, Gochar, reminders, and report-ready timing notes.'
+      ? 'Turn this into a personal muhurta planner when you want daily Panchang, dasha, Gochar, reminders, and timing notes.'
       : action === 'holistic-reading-rooms'
-      ? 'Premium can turn these rooms into guided monthly rooms with deeper chart proof, remedy tracking, and report-ready synthesis.'
+      ? 'Turn these rooms into guided monthly rooms with deeper chart proof, remedy tracking, and synthesis.'
       : action === 'sadhana-remedy-path'
-      ? 'Premium can turn this into a guided sadhana calendar with reminders, review points, and deeper planet-by-planet remedy tracking.'
+      ? 'Turn this into a guided sadhana calendar with reminders, review points, and deeper planet-by-planet remedy tracking.'
       : action === 'relationship'
       ? 'Compatibility/Marriage report is a high-value separate purchase for this.'
-      : 'Premium can deepen this with proof, timing confidence, and report-grade synthesis.';
+      : 'Turn this into a deeper map when you want proof, timing confidence, and report-grade synthesis.';
 
   if (language === 'hi') {
-    return `Premium nudge: ${suggestion} Chahe to main pehle free preview bana dungi, phir premium depth dikhaungi.`;
+    return `Go deeper option: ${suggestion} Pehle free answer useful rahega; detailed map chahiye tab Premium, Day Pass, ya one-time report choose karein.`;
   }
   if (language === 'gu') {
-    return `Premium nudge: ${suggestion} Kaho to hu pehla free preview banaish, pachhi premium depth batavish.`;
+    return `Go deeper option: ${suggestion} Pehla free answer useful raheshe; detailed map joiye tyare Premium, Day Pass, athva one-time report choose karo.`;
   }
-  return `Premium nudge: ${suggestion} I can show the free preview first, then the premium depth.`;
+  return `Go deeper option: ${suggestion} The free answer stays useful first; choose Premium, a Day Pass, or a one-time report only when you want the detailed map.`;
 }
 
 function pickNextSuggestion(
@@ -1762,6 +1875,9 @@ function pickNextSuggestion(
 
   if (!counts['destiny-passport']) {
     return 'create your Destiny Passport';
+  }
+  if (!counts['wow-radar']) {
+    return 'run Predicta Radar and show what stands out first';
   }
   if (!counts['life-timeline']) {
     return 'build your Life Timeline';
@@ -1784,6 +1900,9 @@ function inferThemes(text: string, action?: PredictaAppActionId): string[] {
 
   if (action) {
     themes.push(labelAction(action));
+  }
+  if (/\b(wow|surprise|hidden\s*pattern|hidden\s*strength|what\s*stands\s*out|what\s*do\s*you\s*notice|radar)\b/i.test(normalized)) {
+    themes.push('pattern radar');
   }
   if (/\b(career|job|work|business)\b/i.test(normalized)) {
     themes.push('career');
@@ -1855,6 +1974,24 @@ function findSimilarSavedKundli(
 
 function chartSignature(kundli: KundliData): string {
   return `${kundli.lagna} Lagna / ${kundli.moonSign} Moon / ${kundli.nakshatra} / ${kundli.dasha.current.mahadasha}-${kundli.dasha.current.antardasha}`;
+}
+
+function findMostOccupiedHouse(
+  kundli: KundliData,
+): { house: number; planets: string[] } | undefined {
+  return kundli.houses
+    .filter(house => house.planets.length > 0)
+    .map(house => ({
+      house: house.house,
+      planets: house.planets,
+    }))
+    .sort((a, b) => b.planets.length - a.planets.length)[0];
+}
+
+function findPlanetByName(kundli: KundliData, name: string) {
+  return kundli.planets.find(
+    planet => planet.name.toLowerCase() === name.toLowerCase(),
+  );
 }
 
 function labelAction(action: PredictaAppActionId): string {

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import type { DailyBriefing, HolisticDailyGuidance } from '../types/astrology';
@@ -22,7 +23,48 @@ export function DailyBriefingCard({
   onCreateKundli,
 }: DailyBriefingCardProps): React.JSX.Element {
   const [showProof, setShowProof] = useState(false);
+  const [completedDates, setCompletedDates] = useState<string[]>([]);
   const ready = briefing.status === 'ready';
+  const habitStorageKey = `predicta.dailyHabit.${briefing.language}`;
+  const completedToday = completedDates.includes(briefing.date);
+  const streak = useMemo(
+    () => countCurrentStreak(completedDates, briefing.date),
+    [briefing.date, completedDates],
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+
+    AsyncStorage.getItem(habitStorageKey)
+      .then(raw => {
+        if (cancelled || !raw) return;
+        const parsed = JSON.parse(raw) as { dates?: unknown };
+        if (Array.isArray(parsed.dates)) {
+          setCompletedDates(
+            parsed.dates.filter(
+              (item): item is string => typeof item === 'string',
+            ),
+          );
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setCompletedDates([]);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [habitStorageKey]);
+
+  function markHabitDone() {
+    const nextDates = Array.from(new Set([...completedDates, briefing.date])).sort();
+    setCompletedDates(nextDates);
+    AsyncStorage.setItem(habitStorageKey, JSON.stringify({ dates: nextDates })).catch(
+      () => undefined,
+    );
+  }
 
   return (
     <LinearGradient
@@ -56,6 +98,47 @@ export function DailyBriefingCard({
           {briefing.labels.theme}
         </AppText>
         <AppText className="mt-1">{briefing.todayTheme}</AppText>
+      </View>
+
+      <View style={[styles.habitPanel, completedToday ? styles.habitDone : undefined]}>
+        <View style={styles.habitHeader}>
+          <View className="flex-1">
+            <AppText tone="secondary" variant="caption">
+              DAILY HABIT
+            </AppText>
+            <AppText className="mt-1" variant="subtitle">
+              {completedToday ? 'Done today' : "Today's one clean action"}
+            </AppText>
+            <AppText className="mt-2" tone="secondary" variant="caption">
+              {ready
+                ? briefing.bestAction
+                : 'Create your Kundli to make this personal.'}
+            </AppText>
+          </View>
+          <View style={styles.streakBadge}>
+            <AppText tone="secondary" variant="caption">
+              Day streak
+            </AppText>
+            <AppText variant="subtitle">{streak}</AppText>
+          </View>
+        </View>
+        {holisticGuidance ? (
+          <View style={styles.habitRhythm}>
+            <GuidanceStep label="Morning" text={holisticGuidance.morningPractice} />
+            <GuidanceStep label="Midday" text={holisticGuidance.middayCheck} />
+            <GuidanceStep label="Evening" text={holisticGuidance.eveningReview} />
+          </View>
+        ) : null}
+        <Pressable
+          accessibilityRole="button"
+          disabled={completedToday}
+          onPress={markHabitDone}
+          style={[styles.habitDoneButton, completedToday ? styles.habitDoneButtonOff : undefined]}
+        >
+          <AppText className="font-bold">
+            {completedToday ? 'Completed today' : 'Mark done today'}
+          </AppText>
+        </Pressable>
       </View>
 
       {holisticGuidance ? (
@@ -256,6 +339,42 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 7,
   },
+  habitDone: {
+    borderColor: 'rgba(85,214,190,0.38)',
+  },
+  habitDoneButton: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(85,214,190,0.16)',
+    borderColor: 'rgba(85,214,190,0.34)',
+    borderRadius: 999,
+    borderWidth: 1,
+    minHeight: 44,
+    justifyContent: 'center',
+    marginTop: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+  },
+  habitDoneButtonOff: {
+    opacity: 0.72,
+  },
+  habitHeader: {
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    gap: 12,
+    justifyContent: 'space-between',
+  },
+  habitPanel: {
+    backgroundColor: 'rgba(85,214,190,0.09)',
+    borderColor: 'rgba(85,214,190,0.22)',
+    borderRadius: 10,
+    borderWidth: 1,
+    marginTop: 12,
+    padding: 12,
+  },
+  habitRhythm: {
+    gap: 10,
+    marginTop: 12,
+  },
   header: {
     alignItems: 'flex-start',
     flexDirection: 'row',
@@ -298,6 +417,16 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     padding: 18,
   },
+  streakBadge: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderColor: colors.border,
+    borderRadius: 10,
+    borderWidth: 1,
+    minWidth: 76,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+  },
   themePanel: {
     backgroundColor: colors.surfaceMuted,
     borderColor: colors.border,
@@ -315,3 +444,19 @@ const styles = StyleSheet.create({
     padding: 12,
   },
 });
+
+function countCurrentStreak(dates: string[], today: string): number {
+  const completed = new Set(dates);
+  let cursor = new Date(`${today}T00:00:00.000Z`);
+  if (Number.isNaN(cursor.getTime())) {
+    return completed.has(today) ? 1 : 0;
+  }
+
+  let count = 0;
+  while (completed.has(cursor.toISOString().slice(0, 10))) {
+    count += 1;
+    cursor = new Date(cursor.getTime() - 86_400_000);
+  }
+
+  return count;
+}

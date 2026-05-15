@@ -1,4 +1,5 @@
 export * from './accessControl';
+export * from './accuracyMethod';
 export * from './aiModels';
 export * from './astrologyConfig';
 export * from './cacheConfig';
@@ -12,4 +13,6 @@ export * from './uiTranslations';
 export * from './pricing';
 export * from './proof';
 export * from './safetyUx';
+export * from './testimonialTrust';
 export * from './usageLimits';
+export * from './webGrowthAdvantage';

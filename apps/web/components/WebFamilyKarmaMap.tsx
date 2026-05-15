@@ -4,7 +4,9 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { composeFamilyKarmaMap } from '@pridicta/astrology';
 import type { FamilyRelationshipLabel } from '@pridicta/types';
+import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
+import { setActiveWebKundli } from '../lib/web-kundli-storage';
 
 const relationshipLabels: FamilyRelationshipLabel[] = [
   'self',
@@ -12,8 +14,10 @@ const relationshipLabels: FamilyRelationshipLabel[] = [
   'parent',
   'sibling',
   'child',
+  'grandparent',
   'relative',
   'friend',
+  'other',
 ];
 
 export function WebFamilyKarmaMap(): React.JSX.Element {
@@ -39,6 +43,22 @@ export function WebFamilyKarmaMap(): React.JSX.Element {
       ),
     [profiles, relationships],
   );
+  const askMapHref = activeKundli
+    ? buildPredictaChatHref({
+        kundli: activeKundli,
+        kundliId: activeKundli.id,
+        prompt: map.askPrompt,
+        purpose: 'family',
+        selectedFamilyKarmaMap: true,
+        selectedFamilyMemberCount: map.members.length,
+        selectedSection: map.askPrompt,
+        sourceScreen: 'Family Karma Map',
+      })
+    : '/dashboard/kundli';
+
+  function activateProfile(kundli: typeof profiles[number]): void {
+    setActiveWebKundli(kundli);
+  }
 
   return (
     <section className="family-karma-map glass-panel">
@@ -55,11 +75,33 @@ export function WebFamilyKarmaMap(): React.JSX.Element {
         <p>{map.privacyNote}</p>
       </div>
 
+      <div className="family-workflow-grid">
+        <div className="family-workflow-card">
+          <span>1</span>
+          <strong>Create family profiles</strong>
+          <p>Save each person’s Kundli once, then keep the charts separated.</p>
+        </div>
+        <div className="family-workflow-card">
+          <span>2</span>
+          <strong>Choose the active profile</strong>
+          <p>Predicta will answer from the selected person’s chart.</p>
+        </div>
+        <div className="family-workflow-card">
+          <span>3</span>
+          <strong>Ask or compare</strong>
+          <p>Ask about one profile or open the family map for shared themes.</p>
+        </div>
+      </div>
+
       {profiles.length ? (
         <div className="family-member-grid">
           {profiles.map((kundli, index) => (
             <div className="family-member-slot active" key={kundli.id}>
-              <span>{index === 0 && kundli.id === activeKundli?.id ? 'Active profile' : 'Saved profile'}</span>
+              <span>
+                {kundli.id === activeKundli?.id
+                  ? 'Active profile'
+                  : 'Saved profile'}
+              </span>
               <strong>{kundli.birthDetails.name}</strong>
               <p>
                 {kundli.lagna} Lagna · {kundli.moonSign} Moon ·{' '}
@@ -81,6 +123,31 @@ export function WebFamilyKarmaMap(): React.JSX.Element {
                   </option>
                 ))}
               </select>
+              <div className="family-member-actions">
+                {kundli.id !== activeKundli?.id ? (
+                  <button
+                    className="button secondary"
+                    onClick={() => activateProfile(kundli)}
+                    type="button"
+                  >
+                    Use as active
+                  </button>
+                ) : null}
+                <Link
+                  className="button secondary"
+                  href={buildPredictaChatHref({
+                    kundli,
+                    kundliId: kundli.id,
+                    prompt: `Use ${kundli.birthDetails.name}'s saved Kundli as the active family profile and explain the best next family-focused reading for this profile.`,
+                    purpose: 'family',
+                    selectedSection: `Family profile: ${kundli.birthDetails.name}`,
+                    sourceScreen: 'Family Profile',
+                  })}
+                  onClick={() => activateProfile(kundli)}
+                >
+                  Ask Predicta
+                </Link>
+              </div>
             </div>
           ))}
         </div>
@@ -124,6 +191,13 @@ export function WebFamilyKarmaMap(): React.JSX.Element {
         <div className="action-row">
           <Link className="button" href="/dashboard/kundli">
             Add Profile
+          </Link>
+          <Link
+            aria-disabled={map.status !== 'ready'}
+            className="button secondary"
+            href={map.status === 'ready' ? askMapHref : '/dashboard/kundli'}
+          >
+            Ask Family Map
           </Link>
           <Link className="button secondary" href="/dashboard/saved-kundlis">
             Saved Kundlis

@@ -60,7 +60,7 @@ export function RedeemPassCodeScreen(): React.JSX.Element {
       if (!signedInAuth.userId) {
         showGlassAlert({
           message:
-            'Please sign in before redeeming a guest pass. Use the same email that was approved when the pass was created.',
+            'Please sign in before redeeming a guest pass. Use the email used when your pass was created. If you are not sure, contact the Predicta admin or the person who invited you.',
           title: 'Sign-in required',
         });
         return;
@@ -69,8 +69,8 @@ export function RedeemPassCodeScreen(): React.JSX.Element {
       if (!signedInAuth.email) {
         showGlassAlert({
           message:
-            'This pass needs an email on your account. Sign in with the approved pass email, then try again.',
-          title: 'Approved email required',
+            'This pass needs an email on your account. Sign in with the pass email, then try again.',
+          title: 'Pass email required',
         });
         return;
       }
@@ -123,8 +123,9 @@ export function RedeemPassCodeScreen(): React.JSX.Element {
         <AppText variant="subtitle">Enter your Predicta pass</AppText>
         <AppText className="mt-2" tone="secondary">
           Guest passes unlock expanded guidance for a limited period. Sign in
-          with the same email that was approved for your pass, then enter the
-          code. If the email does not match, the pass will stay locked.
+          with the email used for your pass, then enter the code. If you are
+          not sure which email was used, contact the Predicta admin or the
+          person who invited you.
         </AppText>
         <View className="mt-6">
           <AppText className="mb-2" tone="secondary" variant="caption">

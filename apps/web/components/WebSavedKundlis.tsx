@@ -1,14 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useEffect, useMemo, useState } from 'react';
 import type { KundliData } from '@pridicta/types';
 import {
   loadWebKundli,
   loadWebKundlis,
   setActiveWebKundli,
 } from '../lib/web-kundli-storage';
+import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { Card } from './Card';
-import { StatusPill } from './StatusPill';
 
 export function WebSavedKundlis(): React.JSX.Element {
   const [kundli, setKundli] = useState<KundliData | undefined>();
@@ -18,8 +19,21 @@ export function WebSavedKundlis(): React.JSX.Element {
     setKundli(loadWebKundli());
     setSavedKundlis(loadWebKundlis());
   }, []);
+  const profiles = useMemo(() => {
+    if (!kundli) {
+      return savedKundlis;
+    }
 
-  if (!kundli && savedKundlis.length === 0) {
+    return [kundli, ...savedKundlis.filter(record => record.id !== kundli.id)];
+  }, [kundli, savedKundlis]);
+
+  function activateProfile(record: KundliData): void {
+    setActiveWebKundli(record);
+    setKundli(record);
+    setSavedKundlis(loadWebKundlis());
+  }
+
+  if (!kundli && profiles.length === 0) {
     return (
       <div className="saved-kundli-grid">
         <Card className="glass-panel">
@@ -38,7 +52,7 @@ export function WebSavedKundlis(): React.JSX.Element {
 
   return (
     <div className="saved-kundli-grid">
-      {savedKundlis.map(record => {
+      {profiles.map(record => {
         const active = record.id === kundli?.id;
 
         return (
@@ -53,22 +67,38 @@ export function WebSavedKundlis(): React.JSX.Element {
                 Birth star {record.nakshatra}
               </p>
               <div className="action-row">
-                <StatusPill
-                  label={active ? 'Used for chat' : 'Ready to activate'}
-                  tone={active ? 'premium' : 'quiet'}
-                />
                 {!active ? (
                   <button
                     className="button secondary"
                     onClick={() => {
-                      setActiveWebKundli(record);
-                      setKundli(record);
+                      activateProfile(record);
                     }}
                     type="button"
                   >
                     Use for Chat
                   </button>
                 ) : null}
+                <Link
+                  className="button secondary"
+                  href={buildPredictaChatHref({
+                    kundli: record,
+                    kundliId: record.id,
+                    prompt: `Use ${record.birthDetails.name}'s saved Kundli and tell me the most useful next reading.`,
+                    purpose: 'family',
+                    selectedSection: `Saved profile: ${record.birthDetails.name}`,
+                    sourceScreen: 'Saved Kundlis',
+                  })}
+                  onClick={() => activateProfile(record)}
+                >
+                  Ask Predicta
+                </Link>
+                <Link
+                  className="button secondary"
+                  href="/dashboard/family"
+                  onClick={() => activateProfile(record)}
+                >
+                  Family Map
+                </Link>
               </div>
             </div>
           </Card>
@@ -86,9 +116,17 @@ function FamilyVaultCard(): React.JSX.Element {
         <div className="section-title">FAMILY VAULT</div>
         <h2>Keep family Kundlis together.</h2>
         <p>
-          Store multiple Kundlis and keep each chart clearly separated.
+          Create a profile for each person, choose who Predicta should read,
+          and compare family patterns without mixing charts.
         </p>
-        <StatusPill label="Family access" tone="quiet" />
+        <div className="action-row compact">
+          <Link className="button secondary" href="/dashboard/kundli">
+            Add Profile
+          </Link>
+          <Link className="button secondary" href="/dashboard/family">
+            Open Family Map
+          </Link>
+        </div>
       </div>
     </Card>
   );
