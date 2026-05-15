@@ -23,8 +23,13 @@ export type WebKundliStore = {
   updatedAt?: string;
 };
 
+type GenerateKundliOptions = {
+  save?: boolean;
+};
+
 export async function generateKundliFromWeb(
   details: BirthDetails,
+  options: GenerateKundliOptions = {},
 ): Promise<KundliData> {
   const response = await fetch('/api/generate-kundli', {
     body: JSON.stringify(details),
@@ -43,7 +48,9 @@ export async function generateKundliFromWeb(
     ...kundli.birthDetails,
     ...details,
   };
-  saveWebKundli(kundli);
+  if (options.save ?? true) {
+    saveWebKundli(kundli);
+  }
 
   return kundli;
 }
@@ -106,6 +113,32 @@ export function setActiveWebKundli(kundli: KundliData): void {
     activeKundliId: kundli.id,
     savedKundlis: dedupeKundlis([kundli, ...current.savedKundlis]),
   });
+}
+
+export function deleteWebKundli(kundliId: string): WebKundliStore {
+  const current = loadWebKundliStore();
+  const savedKundlis = current.savedKundlis.filter(
+    kundli => kundli.id !== kundliId,
+  );
+  const activeKundli =
+    current.activeKundliId === kundliId
+      ? savedKundlis[0]
+      : savedKundlis.find(kundli => kundli.id === current.activeKundliId) ??
+        savedKundlis[0];
+  const next: WebKundliStore = {
+    ...current,
+    activeChartContext:
+      current.activeChartContext?.kundliId === kundliId
+        ? undefined
+        : current.activeChartContext,
+    activeKundli,
+    activeKundliId: activeKundli?.id,
+    savedKundlis,
+  };
+
+  saveWebKundliStore(next);
+
+  return loadWebKundliStore();
 }
 
 export async function refreshWebKundliGocharIfNeeded(
@@ -208,6 +241,8 @@ function saveWebKundliStore(store: WebKundliStore): void {
     localStorage.setItem(WEB_KUNDLI_STORE_KEY, JSON.stringify(next));
     if (next.activeKundli) {
       localStorage.setItem(ACTIVE_KUNDLI_KEY, JSON.stringify(next.activeKundli));
+    } else {
+      localStorage.removeItem(ACTIVE_KUNDLI_KEY);
     }
     localStorage.setItem(SAVED_KUNDLIS_KEY, JSON.stringify(next.savedKundlis));
   } catch {

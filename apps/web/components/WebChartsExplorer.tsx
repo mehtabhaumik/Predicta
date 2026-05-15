@@ -9,6 +9,7 @@ import {
 import type { ChartType } from '@pridicta/types';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 import { Card } from './Card';
+import { WebActiveKundliActions } from './WebActiveKundliActions';
 import { WebBhavChalitPanel } from './WebBhavChalitPanel';
 import { WebAdvancedJyotishPanel } from './WebAdvancedJyotishPanel';
 import { WebKundliChart } from './WebKundliChart';
@@ -44,6 +45,12 @@ export function WebChartsExplorer({
 
   return (
     <div className="chart-explorer">
+      <WebActiveKundliActions
+        compact
+        kundli={kundli}
+        sourceScreen="Charts"
+        title="Chart Kundli"
+      />
       <Card className="chart-detail-card glass-panel">
         <div className="card-content spacious">
           <div className="chart-picker-inline">

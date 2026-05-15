@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-import { AnimatedHeader, KpPredictaPanel, Screen } from '../components';
+import {
+  ActiveKundliActions,
+  AnimatedHeader,
+  KpPredictaPanel,
+  Screen,
+} from '../components';
 import {
   composeChalitBhavKpFoundation,
   needsPredictaSchoolCalculation,
@@ -39,6 +44,12 @@ export function KpPredictaScreen({
   return (
     <Screen>
       <AnimatedHeader eyebrow="KP PREDICTA" title="KP Horoscope" />
+      <ActiveKundliActions
+        compact
+        kundli={schoolReady.kundli}
+        sourceScreen="KP Predicta"
+        title="KP reading Kundli"
+      />
       <KpPredictaPanel
         foundation={foundation}
         handoffQuestion={

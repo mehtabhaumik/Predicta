@@ -15,6 +15,8 @@ export * from './holisticFoundationModel';
 export * from './holisticDailyGuidance';
 export * from './holisticDecisionTimingSynthesis';
 export * from './holisticReadingRooms';
+export * from './kundliEditHistory';
+export * from './kundliChatCommands';
 export * from './lifeTimeline';
 export * from './mahadashaIntelligence';
 export * from './manualBirthTimeRectification';

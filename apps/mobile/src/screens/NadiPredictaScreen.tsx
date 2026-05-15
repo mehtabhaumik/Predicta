@@ -5,7 +5,14 @@ import {
   needsPredictaSchoolCalculation,
 } from '@pridicta/astrology';
 
-import { AnimatedHeader, AppText, FadeInView, GlowCard, Screen } from '../components';
+import {
+  ActiveKundliActions,
+  AnimatedHeader,
+  AppText,
+  FadeInView,
+  GlowCard,
+  Screen,
+} from '../components';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import { generateKundli } from '../services/astrology/astroEngine';
@@ -78,6 +85,12 @@ export function NadiPredictaScreen({
   return (
     <Screen>
       <AnimatedHeader eyebrow="NADI PREDICTA" title="Premium Nadi" />
+      <ActiveKundliActions
+        compact
+        kundli={schoolReady.kundli}
+        sourceScreen="Nadi Predicta"
+        title="Nadi reading Kundli"
+      />
       <View className="gap-5">
         <GlowCard delay={100}>
           <View style={styles.header}>

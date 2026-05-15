@@ -2,6 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 
 import {
+  ActiveKundliActions,
   AnimatedHeader,
   LifeTimelinePanel,
   MahadashaIntelligencePanel,
@@ -105,6 +106,12 @@ export function LifeTimelineScreen({
   return (
     <Screen>
       <AnimatedHeader eyebrow="TIMING MAP" title="Life timeline" />
+      <ActiveKundliActions
+        compact
+        kundli={kundli}
+        sourceScreen="Timeline"
+        title="Timeline Kundli"
+      />
       <View className="mt-7">
         <MahadashaIntelligencePanel
           intelligence={mahadasha}

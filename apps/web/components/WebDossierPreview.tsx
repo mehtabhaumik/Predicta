@@ -25,6 +25,7 @@ import {
   saveWebAutoSaveMemory,
 } from '../lib/web-auto-save-memory';
 import { loadWebKundliStore } from '../lib/web-kundli-storage';
+import { WebActiveKundliActions } from './WebActiveKundliActions';
 import { WebTrustProofPanel } from './WebTrustProofPanel';
 
 export function WebDossierPreview(): React.JSX.Element {
@@ -225,6 +226,12 @@ export function WebDossierPreview(): React.JSX.Element {
 
   return (
     <div className="dossier-preview">
+      <WebActiveKundliActions
+        compact
+        kundli={kundli}
+        sourceScreen="Report"
+        title="Report Kundli"
+      />
       <section className="report-marketplace glass-panel">
         <div className="report-marketplace-header">
           <div>

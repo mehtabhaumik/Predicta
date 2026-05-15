@@ -2,6 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import {
+  ActiveKundliActions,
   AnimatedHeader,
   AppText,
   BirthDetailsForm,
@@ -17,6 +18,7 @@ import {
 } from '../components';
 import {
   applyManualBirthTimeEstimate,
+  attachKundliEditHistory,
   buildChartSelectionPrompt,
   composeChartInsight,
   composeDestinyPassport,
@@ -56,8 +58,12 @@ export function KundliScreen({
   const pendingBirthDetailsDraft = useAppStore(
     state => state.pendingBirthDetailsDraft,
   );
+  const pendingKundliEditId = useAppStore(state => state.pendingKundliEditId);
   const clearPendingBirthDetailsDraft = useAppStore(
     state => state.clearPendingBirthDetailsDraft,
+  );
+  const clearPendingKundliEditId = useAppStore(
+    state => state.clearPendingKundliEditId,
   );
   const setActiveKundli = useAppStore(state => state.setActiveKundli);
   const setActiveChartContext = useAppStore(
@@ -94,28 +100,55 @@ export function KundliScreen({
     [],
   );
 
-  async function generateConfirmedKundli(finalDetails: BirthDetails) {
+  async function generateConfirmedKundli(
+    finalDetails: BirthDetails,
+    mode: 'new' | 'update' = 'new',
+  ) {
     try {
       setActiveCreationDetails(finalDetails);
       setGenerating(true);
       const generated = await generateKundli(finalDetails);
+      const existingKundli =
+        mode === 'update' && pendingKundliEditId ? kundli : undefined;
       const nextKundli = {
         ...generated,
+        id:
+          mode === 'update' && pendingKundliEditId
+            ? pendingKundliEditId
+            : generated.id,
         birthDetails: {
           ...generated.birthDetails,
           ...finalDetails,
         },
       };
-      setActiveKundli(nextKundli);
+      const finalKundli = existingKundli
+        ? attachKundliEditHistory({
+            after: nextKundli,
+            before: existingKundli,
+            mode: 'update-existing',
+            source: 'manual',
+          })
+        : mode === 'new' && pendingKundliEditId && kundli
+          ? attachKundliEditHistory({
+              after: nextKundli,
+              before: kundli,
+              mode: 'save-as-new',
+              source: 'manual',
+            })
+          : nextKundli;
+      setActiveKundli(finalKundli);
       clearPendingBirthDetailsDraft();
-      const saved = await saveGeneratedKundliLocally(nextKundli);
+      clearPendingKundliEditId();
+      const saved = await saveGeneratedKundliLocally(finalKundli);
       setSavedKundlis(saved);
       showGlassAlert({
         message:
           finalDetails.timeConfidence === 'rectified'
             ? `This Kundli was created with probable rectified time ${finalDetails.time}. Original entered time: ${finalDetails.originalTime ?? 'not recorded'}.`
-            : 'This Kundli was calculated and saved on this device.',
-        title: 'Kundli generated',
+            : mode === 'update'
+              ? 'This saved Kundli was recalculated and updated.'
+              : 'This Kundli was calculated and saved on this device.',
+        title: mode === 'update' ? 'Kundli updated' : 'Kundli generated',
       });
     } catch (error) {
       showGlassAlert({
@@ -135,26 +168,49 @@ export function KundliScreen({
   }
 
   function confirmBirthDetails(finalDetails: BirthDetails) {
+    const isEditing = Boolean(pendingKundliEditId);
+
     showGlassAlert({
-      actions: [
-        { label: 'Edit' },
-        {
-          label: 'Create Kundli',
-          onPress: () => {
-            void generateConfirmedKundli(finalDetails);
-          },
-        },
-      ],
+      actions: isEditing
+        ? [
+            { label: 'Edit' },
+            {
+              label: 'Save as New',
+              onPress: () => {
+                void generateConfirmedKundli(finalDetails, 'new');
+              },
+            },
+            {
+              label: 'Update Existing',
+              onPress: () => {
+                void generateConfirmedKundli(finalDetails, 'update');
+              },
+            },
+          ]
+        : [
+            { label: 'Edit' },
+            {
+              label: 'Create Kundli',
+              onPress: () => {
+                void generateConfirmedKundli(finalDetails);
+              },
+            },
+          ],
       message: [
         finalDetails.name,
         `${finalDetails.date} at ${finalDetails.time}`,
         finalDetails.place,
         `Timezone: ${finalDetails.timezone}`,
+        isEditing
+          ? 'Changing birth details recalculates the chart. Choose whether to update this saved Kundli or keep the old one and save a new Kundli.'
+          : undefined,
         finalDetails.timeConfidence === 'rectified'
           ? `Rectified time. Original entered time: ${finalDetails.originalTime ?? 'not recorded'}`
           : 'Entered time confirmed.',
-      ].join('\n'),
-      title: 'Confirm birth details',
+      ]
+        .filter(Boolean)
+        .join('\n'),
+      title: isEditing ? 'Confirm updated birth details' : 'Confirm birth details',
     });
   }
 
@@ -260,13 +316,25 @@ export function KundliScreen({
       {generating && activeCreationDetails ? (
         <KundliCreationOverlay birthDetails={activeCreationDetails} />
       ) : null}
-      <AnimatedHeader eyebrow="STEP 1" title="Create your Kundli" />
+      <AnimatedHeader
+        eyebrow={pendingKundliEditId ? 'EDIT KUNDLI' : 'STEP 1'}
+        title={pendingKundliEditId ? 'Edit saved Kundli' : 'Create your Kundli'}
+      />
+
+      <ActiveKundliActions
+        compact
+        kundli={kundli}
+        showDelete
+        sourceScreen="Kundli"
+        title="Active Kundli"
+      />
 
       <GlassPanel className="mt-7" delay={100}>
         <AppText variant="subtitle">Enter birth details in order</AppText>
         <AppText className="mt-2" tone="secondary">
-          Fill date, time, and place. Predicta handles the calculation details
-          quietly after you confirm.
+          {pendingKundliEditId
+            ? 'Change only what is wrong. Predicta will confirm before recalculating.'
+            : 'Fill date, time, and place. Predicta handles the calculation details quietly after you confirm.'}
         </AppText>
         {pendingBirthDetailsDraft ? (
           <AppText className="mt-3" tone="secondary">

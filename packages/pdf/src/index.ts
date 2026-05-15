@@ -175,6 +175,9 @@ export function composeReportSections({
               `Rectified time used; original entered time: ${kundli.birthDetails.originalTime ?? 'not recorded'}`,
             ]
           : []),
+        ...(kundli.editHistory?.length
+          ? [`Edited ${kundli.editHistory.length} time${kundli.editHistory.length === 1 ? '' : 's'}; latest saved details are used`]
+          : []),
         kundli.birthDetails.place,
         `${kundli.lagna} Lagna | ${kundli.moonSign} Moon | ${kundli.nakshatra}`,
       ],
@@ -577,6 +580,11 @@ function buildBirthAndCalculationSection(kundli: KundliData): PdfSection {
       ...(kundli.birthDetails.timeConfidence === 'rectified'
         ? [
             `Birth time status: rectified probable time. Original entered time: ${kundli.birthDetails.originalTime ?? 'not recorded'}.`,
+          ]
+        : []),
+      ...(kundli.editHistory?.length
+        ? [
+            `Edit history: latest change was ${kundli.editHistory[0]?.fieldsChanged.join(', ') || 'birth details'} on ${formatPdfDate(kundli.editHistory[0]?.editedAt ?? '')}. Earlier details are retained for reference.`,
           ]
         : []),
       `Place: ${kundli.birthDetails.place}`,

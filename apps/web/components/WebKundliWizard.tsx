@@ -8,19 +8,30 @@ import {
   composeDestinyPassport,
   estimateManualBirthTimeRectification,
   getPlanetAbbreviation,
+  attachKundliEditHistory,
   MANUAL_BIRTH_TIME_RECTIFICATION_QUESTIONS,
   type ManualBirthTimeRectificationAnswer,
   type ManualBirthTimeRectificationEstimate,
 } from '@pridicta/astrology';
-import type { BirthDetails, ChartData, KundliData, PlanetPosition } from '@pridicta/types';
+import type {
+  BirthDetails,
+  ChartData,
+  KundliData,
+  PlanetPosition,
+  SupportedLanguage,
+} from '@pridicta/types';
 import { WEB_BIRTH_PLACES } from '../lib/birth-places';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
+import { useLanguagePreference } from '../lib/language-preference';
 import {
   generateKundliFromWeb,
   loadWebKundli,
+  loadWebKundlis,
+  saveWebKundli,
 } from '../lib/web-kundli-storage';
 import { WebDestinyPassportCard } from './WebDestinyPassportCard';
 import { WebKundliChart } from './WebKundliChart';
+import { WebActiveKundliActions } from './WebActiveKundliActions';
 
 type CreationNote =
   | {
@@ -33,10 +44,14 @@ type CreationNote =
     };
 
 export function WebKundliWizard(): React.JSX.Element {
+  const { language } = useLanguagePreference();
+  const labels = KUNDLI_WIZARD_COPY[language] ?? KUNDLI_WIZARD_COPY.en;
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [placeIndex, setPlaceIndex] = useState(0);
+  const [editingKundliId, setEditingKundliId] = useState<string | undefined>();
+  const [editingKundliName, setEditingKundliName] = useState<string | undefined>();
   const [isApproximate, setIsApproximate] = useState(false);
   const [rectificationStep, setRectificationStep] = useState<
     'confirm-corrected' | 'confirm-entered' | 'idle' | 'questions'
@@ -109,6 +124,35 @@ export function WebKundliWizard(): React.JSX.Element {
 
   useEffect(() => {
     setKundli(loadWebKundli());
+    const editKundliId = new URLSearchParams(window.location.search).get(
+      'editKundliId',
+    );
+
+    if (!editKundliId) {
+      return;
+    }
+
+    const record = loadWebKundlis().find(item => item.id === editKundliId);
+
+    if (!record) {
+      return;
+    }
+
+    const birthDetails = record.birthDetails;
+    const matchingPlaceIndex = WEB_BIRTH_PLACES.findIndex(
+      option =>
+        option.place === birthDetails.place ||
+        option.label === birthDetails.place ||
+        option.timezone === birthDetails.timezone,
+    );
+
+    setName(birthDetails.name);
+    setDate(birthDetails.date);
+    setTime(birthDetails.time);
+    setPlaceIndex(matchingPlaceIndex >= 0 ? matchingPlaceIndex : 0);
+    setIsApproximate(Boolean(birthDetails.isTimeApproximate));
+    setEditingKundliId(record.id);
+    setEditingKundliName(birthDetails.name);
   }, []);
 
   function resetFlow() {
@@ -134,13 +178,35 @@ export function WebKundliWizard(): React.JSX.Element {
     setRectificationStep('confirm-entered');
   }
 
-  async function generate(finalDetails: BirthDetails, note: CreationNote) {
+  async function generate(
+    finalDetails: BirthDetails,
+    note: CreationNote,
+    mode: 'new' | 'update' = 'new',
+  ) {
     setError(undefined);
 
     try {
       setActiveCreationNote(note);
       setIsGenerating(true);
-      const nextKundli = await generateKundliFromWeb(finalDetails);
+      const generated = await generateKundliFromWeb(finalDetails, {
+        save: false,
+      });
+      const existingKundli = editingKundliId
+        ? loadWebKundlis().find(item => item.id === editingKundliId)
+        : undefined;
+      const nextKundli =
+        existingKundli
+          ? attachKundliEditHistory({
+              after:
+                mode === 'update'
+                  ? { ...generated, id: existingKundli.id }
+                  : generated,
+              before: existingKundli,
+              mode: mode === 'update' ? 'update-existing' : 'save-as-new',
+              source: 'manual',
+            })
+          : generated;
+      saveWebKundli(nextKundli);
       setLastCreationNote(note);
       setKundli(nextKundli);
       setShowCreationReveal(true);
@@ -179,10 +245,20 @@ export function WebKundliWizard(): React.JSX.Element {
       ) : null}
 
       <section className="kundli-wizard-card glass-panel">
-        <div className="section-title">STEP 1 · CREATE KUNDLI</div>
-        <h2>Enter birth details in order.</h2>
+        <div className="section-title">
+          {editingKundliName
+            ? labels.editSavedKundli
+            : labels.createKundliStep}
+        </div>
+        <h2>
+          {editingKundliName
+            ? labels.reviewBirthDetails(editingKundliName)
+            : labels.enterBirthDetails}
+        </h2>
         <p>
-          Predicta needs only three things first: date, time, and place.
+          {editingKundliName
+            ? labels.editBirthDetailsBody
+            : labels.createBirthDetailsBody}
         </p>
 
         <div className="kundli-form-grid">
@@ -357,16 +433,28 @@ export function WebKundliWizard(): React.JSX.Element {
         <BirthDetailsConfirmation
           birthDetails={confirmedDetails}
           creationNote={confirmationNote}
+          isEditing={Boolean(editingKundliId)}
           isGenerating={isGenerating}
           onBack={() =>
             setRectificationStep(isApproximate ? 'questions' : 'idle')
           }
           onConfirm={() => generate(confirmedDetails, confirmationNote)}
+          onConfirmUpdate={
+            editingKundliId
+              ? () => generate(confirmedDetails, confirmationNote, 'update')
+              : undefined
+          }
         />
       ) : null}
 
       {kundli ? (
         <section className="kundli-ready-flow">
+          <WebActiveKundliActions
+            compact
+            kundli={kundli}
+            showDelete
+            sourceScreen="Kundli"
+          />
           {showCreationReveal ? (
             <KundliCreationReveal
               chart={kundli.charts.D1}
@@ -473,23 +561,36 @@ function BirthDetailsConfirmation({
   birthDetails,
   creationNote,
   isGenerating,
+  isEditing,
   onBack,
   onConfirm,
+  onConfirmUpdate,
 }: {
   birthDetails: BirthDetails;
   creationNote: CreationNote;
+  isEditing?: boolean;
   isGenerating: boolean;
   onBack: () => void;
   onConfirm: () => void;
+  onConfirmUpdate?: () => void;
 }): React.JSX.Element {
   return (
     <section className="birth-confirmation-panel glass-panel">
-      <div className="section-title">CONFIRM BEFORE CREATION</div>
+      <div className="section-title">
+        {isEditing ? 'CONFIRM BEFORE UPDATE' : 'CONFIRM BEFORE CREATION'}
+      </div>
       <h2>Check these birth details.</h2>
       <p>
-        Predicta will create the Kundli only after you confirm these details.
-        If something is wrong, edit it before continuing.
+        Predicta will {isEditing ? 'recalculate' : 'create'} the Kundli only
+        after you confirm these details. If something is wrong, edit it before
+        continuing.
       </p>
+      {isEditing ? (
+        <p>
+          Changing birth date, time, or place recalculates the chart. You can
+          update this saved Kundli or keep the old one and save a new Kundli.
+        </p>
+      ) : null}
       <div className="birth-confirmation-grid">
         <Detail label="Name" value={birthDetails.name} />
         <Detail label="Date" value={birthDetails.date} />
@@ -517,14 +618,35 @@ function BirthDetailsConfirmation({
         </div>
       ) : null}
       <div className="action-row">
-        <button
-          className="button"
-          disabled={isGenerating}
-          onClick={onConfirm}
-          type="button"
-        >
-          {isGenerating ? 'Creating...' : 'Create Kundli'}
-        </button>
+        {onConfirmUpdate ? (
+          <>
+            <button
+              className="button"
+              disabled={isGenerating}
+              onClick={onConfirmUpdate}
+              type="button"
+            >
+              {isGenerating ? 'Updating...' : 'Update existing Kundli'}
+            </button>
+            <button
+              className="button secondary"
+              disabled={isGenerating}
+              onClick={onConfirm}
+              type="button"
+            >
+              {isGenerating ? 'Creating...' : 'Save as new Kundli'}
+            </button>
+          </>
+        ) : (
+          <button
+            className="button"
+            disabled={isGenerating}
+            onClick={onConfirm}
+            type="button"
+          >
+            {isGenerating ? 'Creating...' : 'Create Kundli'}
+          </button>
+        )}
         <button className="button secondary" onClick={onBack} type="button">
           Edit details
         </button>
@@ -670,3 +792,45 @@ function KundliCreationReveal({
     </section>
   );
 }
+
+type KundliWizardCopy = {
+  createBirthDetailsBody: string;
+  createKundliStep: string;
+  editBirthDetailsBody: string;
+  editSavedKundli: string;
+  enterBirthDetails: string;
+  reviewBirthDetails: (name: string) => string;
+};
+
+const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
+  en: {
+    createBirthDetailsBody:
+      'Predicta needs only three things first: date, time, and place.',
+    createKundliStep: 'STEP 1 · CREATE KUNDLI',
+    editBirthDetailsBody:
+      'Change only what is wrong, then confirm before Predicta recalculates the Kundli.',
+    editSavedKundli: 'EDIT SAVED KUNDLI',
+    enterBirthDetails: 'Enter birth details in order.',
+    reviewBirthDetails: name => `Review ${name}'s birth details.`,
+  },
+  hi: {
+    createBirthDetailsBody:
+      'Predicta को पहले केवल तीन बातें चाहिए: तारीख, समय और स्थान.',
+    createKundliStep: 'चरण 1 · कुंडली बनाएं',
+    editBirthDetailsBody:
+      'सिर्फ गलत विवरण बदलें, फिर Predicta कुंडली दोबारा गणना करने से पहले पुष्टि लेगी.',
+    editSavedKundli: 'सेव कुंडली संपादित करें',
+    enterBirthDetails: 'जन्म विवरण क्रम से भरें.',
+    reviewBirthDetails: name => `${name} के जन्म विवरण जांचें.`,
+  },
+  gu: {
+    createBirthDetailsBody:
+      'Predicta ને પહેલા માત્ર ત્રણ બાબતો જોઈએ: તારીખ, સમય અને સ્થળ.',
+    createKundliStep: 'પગલું 1 · કુંડળી બનાવો',
+    editBirthDetailsBody:
+      'માત્ર ખોટી વિગતો બદલો, પછી Predicta કુંડળી ફરી ગણતા પહેલાં ખાતરી કરશે.',
+    editSavedKundli: 'સાચવેલી કુંડળી સંપાદિત કરો',
+    enterBirthDetails: 'જન્મ વિગતો ક્રમથી ભરો.',
+    reviewBirthDetails: name => `${name} ની જન્મ વિગતો તપાસો.`,
+  },
+};

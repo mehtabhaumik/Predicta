@@ -12,6 +12,7 @@ import {
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import {
+  deleteSavedKundli,
   listSavedKundlis,
   saveKundliToCloud,
 } from '../services/kundli/kundliRepository';
@@ -23,6 +24,17 @@ export function SavedKundlisScreen({
 }: RootScreenProps<typeof routes.SavedKundlis>): React.JSX.Element {
   const auth = useAppStore(state => state.auth);
   const savedKundlis = useAppStore(state => state.savedKundlis);
+  const activeKundli = useAppStore(state => state.activeKundli);
+  const clearActiveKundli = useAppStore(state => state.clearActiveKundli);
+  const setPendingBirthDetailsDraft = useAppStore(
+    state => state.setPendingBirthDetailsDraft,
+  );
+  const clearPendingKundliEditId = useAppStore(
+    state => state.clearPendingKundliEditId,
+  );
+  const setPendingKundliEditId = useAppStore(
+    state => state.setPendingKundliEditId,
+  );
   const setActiveChartContext = useAppStore(
     state => state.setActiveChartContext,
   );
@@ -72,9 +84,42 @@ export function SavedKundlisScreen({
     navigation.navigate(routes.Kundli);
   }
 
-  function useForChat(record: SavedKundliRecord) {
+  function setAsActive(record: SavedKundliRecord) {
     setActiveKundli(record.kundliData);
+  }
+
+  function createNewKundli() {
+    setPendingBirthDetailsDraft(undefined);
+    clearPendingKundliEditId();
+    navigation.navigate(routes.Kundli);
+  }
+
+  function askPredictaToCreate() {
+    setPendingBirthDetailsDraft(undefined);
+    clearPendingKundliEditId();
+    setActiveChartContext({
+      selectedSection:
+        'Create a new Kundli. Ask only for missing birth details and confirm before calculation.',
+      sourceScreen: 'Kundli Library',
+    });
     navigation.navigate(routes.Chat);
+  }
+
+  function editRecord(record: SavedKundliRecord) {
+    const { birthDetails } = record.kundliData;
+    setActiveKundli(record.kundliData);
+    setPendingBirthDetailsDraft({
+      city: birthDetails.resolvedBirthPlace?.city,
+      country: birthDetails.resolvedBirthPlace?.country,
+      date: birthDetails.date,
+      isTimeApproximate: birthDetails.isTimeApproximate,
+      name: birthDetails.name,
+      placeText: birthDetails.place,
+      state: birthDetails.resolvedBirthPlace?.state,
+      time: birthDetails.time,
+    });
+    setPendingKundliEditId(record.summary.id);
+    navigation.navigate(routes.Kundli);
   }
 
   function askProfile(record: SavedKundliRecord) {
@@ -93,6 +138,38 @@ export function SavedKundlisScreen({
     navigation.navigate(routes.FamilyKarmaMap);
   }
 
+  function requestDelete(record: SavedKundliRecord) {
+    showGlassAlert({
+      actions: [
+        { label: 'Keep Kundli' },
+        {
+          label: 'Delete',
+          onPress: () => {
+            void deleteRecord(record);
+          },
+        },
+      ],
+      message:
+        'This removes this Kundli from your library. Old chats or reports may no longer have full chart context for this profile.',
+      title: `Delete ${record.summary.name}'s Kundli?`,
+    });
+  }
+
+  async function deleteRecord(record: SavedKundliRecord) {
+    const next = await deleteSavedKundli(record.summary.id);
+    setSavedKundlis(next);
+
+    if (activeKundli?.id === record.summary.id) {
+      const nextActive = next[0]?.kundliData;
+
+      if (nextActive) {
+        setActiveKundli(nextActive);
+      } else {
+        clearActiveKundli();
+      }
+    }
+  }
+
   return (
     <Screen>
       {glassAlert}
@@ -101,6 +178,28 @@ export function SavedKundlisScreen({
         This is your saved Kundli storage. Choose the active profile for
         Predicta. Family Vault uses these saved profiles for family patterns.
       </AppText>
+      <GlowCard className="mt-6">
+        <AppText tone="secondary" variant="caption">
+          KUNDLI LIBRARY ACTIONS
+        </AppText>
+        <AppText className="mt-2" variant="subtitle">
+          Create, switch, edit, or delete from one place
+        </AppText>
+        <AppText className="mt-2" tone="secondary">
+          Start a new Kundli manually or ask Predicta to collect the birth
+          details from chat.
+        </AppText>
+        <View className="mt-5 gap-3">
+          <GlowButton label="Create New Kundli" onPress={createNewKundli} />
+          <Pressable
+            accessibilityRole="button"
+            className="rounded-full border border-[#252533] bg-[#191923] px-4 py-3"
+            onPress={askPredictaToCreate}
+          >
+            <AppText variant="caption">Ask Predicta to Create</AppText>
+          </Pressable>
+        </View>
+      </GlowCard>
       <GlowCard className="mt-6">
         <AppText tone="secondary" variant="caption">
           FAMILY VAULT
@@ -152,6 +251,22 @@ export function SavedKundlisScreen({
                         Lagna {record.summary.lagna} • Moon{' '}
                         {record.summary.moonSign}
                       </AppText>
+                      {record.kundliData.editHistory?.length ? (
+                        <AppText
+                          className="mt-2"
+                          tone="secondary"
+                          variant="caption"
+                        >
+                          Edited {record.kundliData.editHistory.length}{' '}
+                          {record.kundliData.editHistory.length === 1
+                            ? 'time'
+                            : 'times'}{' '}
+                          · Last change:{' '}
+                          {record.kundliData.editHistory[0]?.fieldsChanged.join(
+                            ', ',
+                          ) || 'birth details'}
+                        </AppText>
+                      ) : null}
                     </View>
                     {isCloud ? (
                       <Pressable
@@ -175,9 +290,25 @@ export function SavedKundlisScreen({
                     <Pressable
                       accessibilityRole="button"
                       className="rounded-full border border-[#252533] bg-[#191923] px-4 py-3"
-                      onPress={() => useForChat(record)}
+                      onPress={() => openRecord(record)}
                     >
-                      <AppText variant="caption">Use for Chat</AppText>
+                      <AppText variant="caption">Open</AppText>
+                    </Pressable>
+                    {activeKundli?.id !== record.summary.id ? (
+                      <Pressable
+                        accessibilityRole="button"
+                        className="rounded-full border border-[#252533] bg-[#191923] px-4 py-3"
+                        onPress={() => setAsActive(record)}
+                      >
+                        <AppText variant="caption">Set Active</AppText>
+                      </Pressable>
+                    ) : null}
+                    <Pressable
+                      accessibilityRole="button"
+                      className="rounded-full border border-[#252533] bg-[#191923] px-4 py-3"
+                      onPress={() => editRecord(record)}
+                    >
+                      <AppText variant="caption">Edit</AppText>
                     </Pressable>
                     <Pressable
                       accessibilityRole="button"
@@ -192,6 +323,13 @@ export function SavedKundlisScreen({
                       onPress={() => openFamilyMap(record)}
                     >
                       <AppText variant="caption">Family Map</AppText>
+                    </Pressable>
+                    <Pressable
+                      accessibilityRole="button"
+                      className="rounded-full border border-[#61404a] bg-[#27171c] px-4 py-3"
+                      onPress={() => requestDelete(record)}
+                    >
+                      <AppText variant="caption">Delete</AppText>
                     </Pressable>
                   </View>
                   <GlowButton

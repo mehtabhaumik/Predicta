@@ -214,6 +214,48 @@ p {
   padding: 36px;
 }
 
+.quiet-line {
+  color: var(--text-muted);
+  font-size: clamp(0.82rem, 1vw, 0.95rem);
+  margin: 0;
+}
+
+.active-kundli-actions {
+  align-items: center;
+  border-radius: 22px;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  margin: 0 0 24px;
+  padding: 22px;
+}
+
+.active-kundli-actions.compact {
+  margin-top: 18px;
+  padding: 18px;
+}
+
+.active-kundli-copy h2 {
+  font-size: clamp(1.35rem, 2.2vw, 2rem);
+  margin: 6px 0 0;
+}
+
+.active-kundli-copy p {
+  margin: 8px 0 0;
+}
+
+.active-kundli-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.active-kundli-action-row .button {
+  min-height: 44px;
+  padding: 12px 16px;
+}
+
 .field-stack {
   display: grid;
   gap: 10px;
@@ -266,6 +308,13 @@ button:disabled {
   background: rgba(255, 255, 255, 0.055);
   border: 1px solid var(--border);
   box-shadow: none;
+}
+
+.button.danger {
+  background: rgba(255, 92, 122, 0.1);
+  border: 1px solid rgba(255, 92, 122, 0.34);
+  box-shadow: none;
+  color: #ffd8df;
 }
 
 .section-title {
@@ -9045,6 +9094,18 @@ button:disabled {
   .dashboard-footer {
     margin-top: 34px;
     padding: 24px 0 0;
+  }
+
+  .active-kundli-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .active-kundli-action-row {
+    justify-content: stretch;
+  }
+
+  .active-kundli-action-row .button {
+    flex: 1 1 130px;
   }
 
   .redeem-preview-steps,

@@ -92,6 +92,7 @@ type AppState = {
   onboardingComplete: boolean;
   monetization: MonetizationState;
   pendingBirthDetailsDraft?: BirthDetailsDraft;
+  pendingKundliEditId?: string;
   predictaReplyLanguage: SupportedLanguage;
   pinEnabled: boolean;
   redeemedGuestPass?: RedeemedGuestPass;
@@ -105,7 +106,9 @@ type AppState = {
   canGeneratePdf: () => boolean;
   hasPremiumPdfCredit: (kundliId?: string) => boolean;
   hasPaidQuestionCredits: () => boolean;
+  clearActiveKundli: () => void;
   clearPendingBirthDetailsDraft: () => void;
+  clearPendingKundliEditId: () => void;
   consumePaidQuestionCredit: () => boolean;
   consumeGuestDeepQuota: () => boolean;
   consumeGuestPdfQuota: () => boolean;
@@ -128,6 +131,7 @@ type AppState = {
   setMonetizationState: (value: MonetizationState) => void;
   setOnboardingComplete: (value: boolean) => void;
   setPendingBirthDetailsDraft: (value?: BirthDetailsDraft) => void;
+  setPendingKundliEditId: (value?: string) => void;
   setPinEnabled: (value: boolean) => void;
   setPredictaReplyLanguage: (language: SupportedLanguage) => void;
   setRedeemedGuestPass: (value?: RedeemedGuestPass) => void;
@@ -271,6 +275,13 @@ export const useAppStore = create<AppState>((set, get) => ({
   },
   clearPendingBirthDetailsDraft: () =>
     set({ pendingBirthDetailsDraft: undefined }),
+  clearPendingKundliEditId: () => set({ pendingKundliEditId: undefined }),
+  clearActiveKundli: () =>
+    set({
+      activeChartContext: undefined,
+      activeKundli: undefined,
+      activeKundliId: BIRTH_INTAKE_CONVERSATION_ID,
+    }),
   hasPaidQuestionCredits: () =>
     getPaidQuestionCredits(get().monetization.oneTimeEntitlements) > 0,
   hasPremiumPdfCredit: kundliId =>
@@ -494,6 +505,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   setOnboardingComplete: value => set({ onboardingComplete: value }),
   setPendingBirthDetailsDraft: value =>
     set({ pendingBirthDetailsDraft: value }),
+  setPendingKundliEditId: value => set({ pendingKundliEditId: value }),
   setPinEnabled: value => set({ pinEnabled: value }),
   setPredictaReplyLanguage: language =>
     set(state => ({

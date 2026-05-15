@@ -31,3 +31,12 @@ export async function upsertLocalKundli(
   await saveLocalKundlis(next);
   return next;
 }
+
+export async function deleteLocalKundli(
+  kundliId: string,
+): Promise<SavedKundliRecord[]> {
+  const current = await loadLocalKundlis();
+  const next = current.filter(item => item.summary.id !== kundliId);
+  await saveLocalKundlis(next);
+  return next;
+}

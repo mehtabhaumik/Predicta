@@ -9,6 +9,7 @@ import {
   composeYearlyHoroscopeVarshaphal,
 } from '@pridicta/astrology';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
+import { WebActiveKundliActions } from './WebActiveKundliActions';
 import { WebLifeTimelinePanel } from './WebLifeTimelinePanel';
 import { WebMahadashaIntelligencePanel } from './WebMahadashaIntelligencePanel';
 import { WebSadeSatiPanel } from './WebSadeSatiPanel';
@@ -40,6 +41,12 @@ export function WebLifeTimelineLoader(): React.JSX.Element {
 
   return (
     <div className="timeline-stack">
+      <WebActiveKundliActions
+        compact
+        kundli={activeKundli}
+        sourceScreen="Timeline"
+        title="Timeline Kundli"
+      />
       <WebMahadashaIntelligencePanel intelligence={mahadasha} />
       <WebSadeSatiPanel intelligence={sadeSati} />
       <WebTransitGocharPanel intelligence={gochar} />

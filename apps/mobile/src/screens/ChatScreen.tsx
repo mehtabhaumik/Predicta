@@ -16,6 +16,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import {
+  ActiveKundliActions,
   AppText,
   FadeInView,
   GlowButton,
@@ -38,11 +39,17 @@ import {
   composeChatChartBlock,
   detectChatChartIntent,
   detectEnglishSwitchDecision,
+  detectKundliChatCommand,
+  detectKundliCommandDecision,
+  findKundliBySpokenName,
   getPlanetAbbreviation,
   learnPredictaInteraction,
   preparePredictaLanguageContext,
   shouldAskBeforeSwitchingToEnglish,
   shouldAutoSwitchToRegionalLanguage,
+  attachKundliEditHistory,
+  type KundliChatCommand,
+  type KundliEditField,
   type PredictaInteractionMemory,
 } from '@pridicta/astrology';
 import { detectIntent } from '@pridicta/ai';
@@ -74,6 +81,7 @@ import { playReplyChime } from '../services/audio/replyChime';
 import { trackAnalyticsEvent } from '../services/analytics/analyticsService';
 import { syncRedeemedGuestPassToUser } from '../services/firebase/passCodePersistence';
 import {
+  deleteSavedKundli,
   listSavedKundlis,
   saveGeneratedKundliLocally,
 } from '../services/kundli/kundliRepository';
@@ -90,11 +98,20 @@ import type {
   ChatSafetyMeta,
   ChatSuggestedCta,
   BirthDetailsDraft,
+  BirthDetails,
   KundliData,
   SupportedLanguage,
 } from '../types/astrology';
 
 const predictaLogo = require('../assets/predicta-logo.png');
+
+type PendingKundliCommand = {
+  birthDetails?: BirthDetails;
+  field?: KundliEditField;
+  kind: 'delete' | 'edit';
+  targetKundliId: string;
+  targetName: string;
+};
 
 function createMessage(
   role: ChatMessage['role'],
@@ -337,6 +354,8 @@ export function ChatScreen({
   const [isTyping, setIsTyping] = useState(false);
   const [pendingEnglishSwitch, setPendingEnglishSwitch] =
     useState<'gu' | 'hi'>();
+  const [pendingKundliCommand, setPendingKundliCommand] =
+    useState<PendingKundliCommand>();
   const [predictaMemory, setPredictaMemory] =
     useState<PredictaInteractionMemory>();
   const [streamingText, setStreamingText] = useState('');
@@ -367,6 +386,7 @@ export function ChatScreen({
     state => state.clearPendingBirthDetailsDraft,
   );
   const setActiveKundli = useAppStore(state => state.setActiveKundli);
+  const clearActiveKundli = useAppStore(state => state.clearActiveKundli);
   const setSavedKundlis = useAppStore(state => state.setSavedKundlis);
   const appendConversationMessage = useAppStore(
     state => state.appendConversationMessage,
@@ -652,6 +672,31 @@ export function ChatScreen({
       streamAssistantResponse(getCrisisSupportReply(responseLanguage), {
         safety: localSafety,
       });
+      return;
+    }
+
+    if (pendingKundliCommand) {
+      appendConversationMessage(
+        createMessage('user', trimmedInput, activeChartContext),
+      );
+      setInput('');
+      streamAssistantResponse(
+        await resolvePendingKundliCommand(trimmedInput, responseLanguage),
+      );
+      return;
+    }
+
+    const kundliCommandReply = await resolveInitialKundliCommand(
+      trimmedInput,
+      responseLanguage,
+    );
+
+    if (kundliCommandReply) {
+      appendConversationMessage(
+        createMessage('user', trimmedInput, activeChartContext),
+      );
+      setInput('');
+      streamAssistantResponse(kundliCommandReply);
       return;
     }
 
@@ -1036,6 +1081,213 @@ export function ChatScreen({
     }
   }
 
+  async function resolveInitialKundliCommand(
+    text: string,
+    responseLanguage: SupportedLanguage,
+  ): Promise<string | undefined> {
+    const command = detectKundliChatCommand(text);
+
+    if (!command) {
+      return undefined;
+    }
+
+    if (command.kind === 'create-new') {
+      setPendingBirthDetailsDraft(undefined);
+      return buildKundliCreateFromChatReply(responseLanguage);
+    }
+
+    const savedKundlis = savedKundliRecords.map(record => record.kundliData);
+    const target =
+      command.kind === 'set-active'
+        ? findKundliBySpokenName(savedKundlis, command.targetName) ??
+          activeKundli
+        : findKundliBySpokenName(
+            savedKundlis,
+            'targetName' in command ? command.targetName : undefined,
+          ) ?? activeKundli;
+
+    if (!target) {
+      return buildNoKundliForCommandReply(responseLanguage);
+    }
+
+    if (command.kind === 'set-active') {
+      setActiveKundli(target);
+      return buildKundliSetActiveReply(responseLanguage, target);
+    }
+
+    if (command.kind === 'delete') {
+      setPendingKundliCommand({
+        kind: 'delete',
+        targetKundliId: target.id,
+        targetName: target.birthDetails.name,
+      });
+      return buildKundliDeleteConfirmReply(responseLanguage, target);
+    }
+
+    if (command.kind === 'generic-edit') {
+      return buildKundliGenericEditReply(responseLanguage, target);
+    }
+
+    const nextBirthDetails = await buildEditedBirthDetails(target, command);
+
+    if (!nextBirthDetails) {
+      return buildKundliEditNeedsValueReply(responseLanguage, command);
+    }
+
+    setPendingKundliCommand({
+      birthDetails: nextBirthDetails,
+      field: command.field,
+      kind: 'edit',
+      targetKundliId: target.id,
+      targetName: target.birthDetails.name,
+    });
+
+    return buildKundliEditConfirmReply(
+      responseLanguage,
+      target,
+      command,
+      nextBirthDetails,
+    );
+  }
+
+  async function resolvePendingKundliCommand(
+    text: string,
+    responseLanguage: SupportedLanguage,
+  ): Promise<string> {
+    const decision = detectKundliCommandDecision(text);
+
+    if (decision === 'cancel') {
+      setPendingKundliCommand(undefined);
+      return buildKundliCommandCancelledReply(responseLanguage);
+    }
+
+    if (pendingKundliCommand?.kind === 'delete') {
+      if (decision !== 'delete') {
+        return buildKundliDeleteConfirmReminder(responseLanguage);
+      }
+
+      const next = await deleteSavedKundli(pendingKundliCommand.targetKundliId);
+      setSavedKundlis(next);
+
+      const nextActive = next[0]?.kundliData;
+      if (activeKundli?.id === pendingKundliCommand.targetKundliId) {
+        if (nextActive) {
+          setActiveKundli(nextActive);
+        } else {
+          clearActiveKundli();
+        }
+      }
+
+      const deletedName = pendingKundliCommand.targetName;
+      setPendingKundliCommand(undefined);
+      return buildKundliDeletedReply(responseLanguage, deletedName, nextActive);
+    }
+
+    if (pendingKundliCommand?.kind === 'edit') {
+      if (decision !== 'save-as-new' && decision !== 'update-existing') {
+        return buildKundliEditConfirmReminder(responseLanguage);
+      }
+
+      const target = savedKundliRecords
+        .map(record => record.kundliData)
+        .find(item => item.id === pendingKundliCommand.targetKundliId);
+
+      if (!target || !pendingKundliCommand.birthDetails) {
+        setPendingKundliCommand(undefined);
+        return buildNoKundliForCommandReply(responseLanguage);
+      }
+
+      const editedKundli =
+        pendingKundliCommand.field === 'name'
+          ? buildRenamedKundli(
+              target,
+              pendingKundliCommand.birthDetails.name,
+              decision === 'update-existing',
+            )
+          : decision === 'update-existing'
+            ? {
+                ...(await generateKundli(pendingKundliCommand.birthDetails, {
+                  ignoreCache: true,
+                })),
+                id: pendingKundliCommand.targetKundliId,
+              }
+            : await generateKundli(pendingKundliCommand.birthDetails, {
+                ignoreCache: true,
+              });
+      const savedKundli = attachKundliEditHistory({
+        after: editedKundli,
+        before: target,
+        mode: decision,
+        source: 'chat',
+      });
+
+      const next = await saveGeneratedKundliLocally(savedKundli);
+      setSavedKundlis(next);
+      setActiveKundli(savedKundli);
+
+      const field = pendingKundliCommand.field;
+      setPendingKundliCommand(undefined);
+      return buildKundliEditedReply(
+        responseLanguage,
+        savedKundli,
+        field,
+        decision,
+      );
+    }
+
+    setPendingKundliCommand(undefined);
+    return buildKundliCommandCancelledReply(responseLanguage);
+  }
+
+  async function buildEditedBirthDetails(
+    kundli: KundliData,
+    command: Extract<KundliChatCommand, { kind: 'edit-field' }>,
+  ): Promise<BirthDetails | undefined> {
+    if (command.field === 'time') {
+      return {
+        ...kundli.birthDetails,
+        isTimeApproximate: false,
+        originalTime: undefined,
+        rectificationMethod: undefined,
+        rectifiedAt: undefined,
+        time: command.value,
+        timeConfidence: 'entered',
+      };
+    }
+
+    if (command.field === 'date') {
+      return { ...kundli.birthDetails, date: command.value };
+    }
+
+    if (command.field === 'name') {
+      return { ...kundli.birthDetails, name: command.value };
+    }
+
+    const places = await findBirthPlaceCandidates(command.value);
+    const place = places[0];
+
+    if (!place) {
+      return undefined;
+    }
+
+    const updatedPlaceDetails = buildBirthDetailsFromResolvedPlace({
+      date: kundli.birthDetails.date,
+      isTimeApproximate: kundli.birthDetails.isTimeApproximate,
+      name: kundli.birthDetails.name,
+      originalPlaceText: command.value,
+      resolvedPlace: place,
+      time: kundli.birthDetails.time,
+    });
+
+    return {
+      ...updatedPlaceDetails,
+      originalTime: kundli.birthDetails.originalTime,
+      rectificationMethod: kundli.birthDetails.rectificationMethod,
+      rectifiedAt: kundli.birthDetails.rectifiedAt,
+      timeConfidence: kundli.birthDetails.timeConfidence,
+    };
+  }
+
   function buildMobileFollowUps({
     context,
     kundli,
@@ -1199,6 +1451,13 @@ export function ChatScreen({
           </AppText>
         </View>
       </FadeInView>
+
+      <ActiveKundliActions
+        compact
+        kundli={activeKundli}
+        sourceScreen="Chat"
+        title="Active Kundli"
+      />
 
       <View className="mt-7 gap-4">
         {messages.map((message, index) => (
@@ -1418,6 +1677,201 @@ function buildBirthTimeConfirmationFailedReply(
   }
 
   return 'I could not confirm the birth time just now. Please try again from Birth Time Detective or the Kundli screen.';
+}
+
+function buildRenamedKundli(
+  kundli: KundliData,
+  name: string,
+  updateExisting: boolean,
+): KundliData {
+  return {
+    ...kundli,
+    id: updateExisting
+      ? kundli.id
+      : `kundli-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    birthDetails: {
+      ...kundli.birthDetails,
+      name,
+    },
+  };
+}
+
+function buildKundliCreateFromChatReply(language: SupportedLanguage): string {
+  if (language === 'hi') {
+    return 'Bilkul. Nayi Kundli yahin chat mein bana dete hain. Name, DOB, birth time, aur birth place bhej dijiye. Agar sirf DOB pata hai, pehle wahi bhej dijiye.';
+  }
+  if (language === 'gu') {
+    return 'Haan. Navi Kundli ahi chat ma banaavi dau. Name, DOB, birth time ane birth place moklo. Fakat DOB khabar hoy to pehla e moklo.';
+  }
+  return 'Yes. I can create a new Kundli right here in chat. Send name, DOB, birth time, and birth place. If you only know the DOB, send that first.';
+}
+
+function buildNoKundliForCommandReply(language: SupportedLanguage): string {
+  if (language === 'hi') {
+    return 'Mujhe abhi koi saved Kundli nahi mil rahi. Pehle birth details bhejiye, main Kundli bana kar phir edit, delete, ya switch kar dungi.';
+  }
+  if (language === 'gu') {
+    return 'Mane haju saved Kundli mali nathi. Pehla birth details moklo, pachhi hu edit, delete, ke switch kari dau.';
+  }
+  return 'I do not see a saved Kundli yet. Send birth details first; then I can edit, delete, or switch Kundlis for you.';
+}
+
+function buildKundliSetActiveReply(
+  language: SupportedLanguage,
+  kundli: KundliData,
+): string {
+  if (language === 'hi') {
+    return `${kundli.birthDetails.name} ki Kundli active kar di. Ab main isi chart se jawab dungi.`;
+  }
+  if (language === 'gu') {
+    return `${kundli.birthDetails.name} ni Kundli active kari didhi. Have hu aa chart thi jawab apish.`;
+  }
+  return `${kundli.birthDetails.name}'s Kundli is now active. I will answer from this chart.`;
+}
+
+function buildKundliDeleteConfirmReply(
+  language: SupportedLanguage,
+  kundli: KundliData,
+): string {
+  if (language === 'hi') {
+    return `Aap ${kundli.birthDetails.name} ki Kundli delete karna chahte hain. Yeh library se hat jayegi. Confirm karne ke liye "delete Kundli" likhiye, ya "cancel" likhiye.`;
+  }
+  if (language === 'gu') {
+    return `Tame ${kundli.birthDetails.name} ni Kundli delete karva mango chho. Aa library mathi hati jashe. Confirm karva "delete Kundli" lakho, athva "cancel" lakho.`;
+  }
+  return `You are about to delete ${kundli.birthDetails.name}'s Kundli from your library. Reply "delete Kundli" to confirm, or "cancel" to stop.`;
+}
+
+function buildKundliGenericEditReply(
+  language: SupportedLanguage,
+  kundli: KundliData,
+): string {
+  if (language === 'hi') {
+    return `${kundli.birthDetails.name} ki Kundli edit kar sakti hoon. Bataiye kya badalna hai: birth time, DOB, birth place, ya name. Example: "change birth time to 06:45 AM".`;
+  }
+  if (language === 'gu') {
+    return `${kundli.birthDetails.name} ni Kundli edit kari shaku chhu. Shu badalvu chhe: birth time, DOB, birth place, ke name? Example: "change birth time to 06:45 AM".`;
+  }
+  return `I can edit ${kundli.birthDetails.name}'s Kundli. Tell me what to change: birth time, DOB, birth place, or name. Example: "change birth time to 06:45 AM".`;
+}
+
+function buildKundliEditNeedsValueReply(
+  language: SupportedLanguage,
+  command: Extract<KundliChatCommand, { kind: 'edit-field' }>,
+): string {
+  if (command.field === 'place') {
+    return language === 'en'
+      ? 'I could not identify that birth place. Please send city, state, and country.'
+      : 'Birth place clear nahi hua. City, state, aur country bhejiye.';
+  }
+
+  return language === 'en'
+    ? 'I need the exact value before editing the Kundli. Please send it once more clearly.'
+    : 'Kundli edit karne ke liye exact value chahiye. Ek baar clearly bhejiye.';
+}
+
+function buildKundliEditConfirmReply(
+  language: SupportedLanguage,
+  kundli: KundliData,
+  command: Extract<KundliChatCommand, { kind: 'edit-field' }>,
+  nextBirthDetails: BirthDetails,
+): string {
+  const changeLine = formatKundliChange(command.field, nextBirthDetails);
+  if (language === 'hi') {
+    return `Main ${kundli.birthDetails.name} ki Kundli mein yeh change kar sakti hoon:\n${changeLine}\n\nDate, time, ya place badalne se chart dobara calculate hota hai. Reply karein: "update existing", "save as new", ya "cancel".`;
+  }
+  if (language === 'gu') {
+    return `Hu ${kundli.birthDetails.name} ni Kundli ma aa change kari shaku chhu:\n${changeLine}\n\nDate, time, ke place badlase to chart fari calculate thashe. Reply karo: "update existing", "save as new", ke "cancel".`;
+  }
+  return `I can make this change to ${kundli.birthDetails.name}'s Kundli:\n${changeLine}\n\nChanging date, time, or place recalculates the chart. Reply "update existing", "save as new", or "cancel".`;
+}
+
+function buildKundliDeleteConfirmReminder(language: SupportedLanguage): string {
+  return language === 'en'
+    ? 'Please reply "delete Kundli" to confirm deletion, or "cancel" to stop.'
+    : 'Delete confirm karne ke liye "delete Kundli" likhiye, ya rokne ke liye "cancel" likhiye.';
+}
+
+function buildKundliEditConfirmReminder(language: SupportedLanguage): string {
+  return language === 'en'
+    ? 'Please reply "update existing", "save as new", or "cancel".'
+    : 'Please "update existing", "save as new", ya "cancel" likhiye.';
+}
+
+function buildKundliCommandCancelledReply(language: SupportedLanguage): string {
+  return language === 'en'
+    ? 'Done. I did not change the Kundli.'
+    : 'Theek hai. Maine Kundli mein koi change nahi kiya.';
+}
+
+function buildKundliDeletedReply(
+  language: SupportedLanguage,
+  deletedName: string,
+  nextActive?: KundliData,
+): string {
+  if (language === 'hi') {
+    const nextLine = nextActive
+      ? ` Active Kundli ab ${nextActive.birthDetails.name} hai.`
+      : '';
+    return `${deletedName} ki Kundli library se delete ho gayi.${nextLine}`;
+  }
+  if (language === 'gu') {
+    const nextLine = nextActive
+      ? ` Active Kundli have ${nextActive.birthDetails.name} chhe.`
+      : '';
+    return `${deletedName} ni Kundli library mathi delete thai gai.${nextLine}`;
+  }
+  const nextLine = nextActive
+    ? ` Active Kundli: ${nextActive.birthDetails.name}.`
+    : '';
+  return `${deletedName}'s Kundli has been deleted from your library.${nextLine}`;
+}
+
+function buildKundliEditedReply(
+  language: SupportedLanguage,
+  kundli: KundliData,
+  field: KundliEditField | undefined,
+  decision: 'save-as-new' | 'update-existing',
+): string {
+  const action =
+    decision === 'update-existing' ? 'updated' : 'saved as a new Kundli';
+
+  if (language === 'hi') {
+    return `${kundli.birthDetails.name} ki Kundli ${action}. ${fieldLabel(field)} change apply ho gaya.`;
+  }
+  if (language === 'gu') {
+    return `${kundli.birthDetails.name} ni Kundli ${action}. ${fieldLabel(field)} change apply thai gayo.`;
+  }
+  return `${kundli.birthDetails.name}'s Kundli has been ${action}. The ${fieldLabel(field)} change is active.`;
+}
+
+function formatKundliChange(
+  field: KundliEditField,
+  birthDetails: BirthDetails,
+): string {
+  if (field === 'time') {
+    return `Birth time: ${birthDetails.time}`;
+  }
+  if (field === 'date') {
+    return `Date of birth: ${birthDetails.date}`;
+  }
+  if (field === 'place') {
+    return `Birth place: ${birthDetails.place}`;
+  }
+  return `Name: ${birthDetails.name}`;
+}
+
+function fieldLabel(field?: KundliEditField): string {
+  if (field === 'time') {
+    return 'birth time';
+  }
+  if (field === 'date') {
+    return 'date of birth';
+  }
+  if (field === 'place') {
+    return 'birth place';
+  }
+  return 'name';
 }
 
 function syncGuestPassUsage(userId?: string): void {

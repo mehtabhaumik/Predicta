@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Pressable, View } from 'react-native';
 
 import {
+  ActiveKundliActions,
   AnimatedHeader,
   AppText,
   GlowButton,
@@ -234,6 +235,13 @@ export function ReportScreen({
     <Screen>
       {glassAlert}
       <AnimatedHeader eyebrow="REPORTS" title="Pick the report you need" />
+
+      <ActiveKundliActions
+        compact
+        kundli={kundli}
+        sourceScreen="Report"
+        title="Report Kundli"
+      />
 
       <View className="mt-8">
         <TrustProofPanel trust={reportPreview.trustProfile} />

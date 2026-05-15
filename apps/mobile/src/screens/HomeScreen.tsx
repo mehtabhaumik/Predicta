@@ -2,6 +2,7 @@ import React from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
 
 import {
+  ActiveKundliActions,
   AppText,
   DailyBriefingCard,
   DestinyPassportCard,
@@ -202,6 +203,13 @@ export function HomeScreen({
           />
         </View>
       </FadeInView>
+
+      <ActiveKundliActions
+        compact
+        kundli={kundli}
+        sourceScreen="Home"
+        title="Reading this Kundli"
+      />
 
       <GlowCard className="mt-8" delay={80}>
         <View style={styles.cockpitTopline}>

@@ -9,6 +9,7 @@ import type { KundliData } from '@pridicta/types';
 import { demoAccess } from '../lib/demo-state';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 import { generateKundliFromWeb } from '../lib/web-kundli-storage';
+import { WebActiveKundliActions } from './WebActiveKundliActions';
 import { WebKpPredictaPanel } from './WebKpPredictaPanel';
 
 export function WebKpPredictaLoader(): React.JSX.Element {
@@ -22,12 +23,20 @@ export function WebKpPredictaLoader(): React.JSX.Element {
   }, []);
 
   return (
-    <WebKpPredictaPanel
-      handoffQuestion={handoffQuestion}
-      hasPremiumAccess={demoAccess.hasPremiumAccess}
-      schoolCalculationStatus={schoolReady.status}
-      kundli={schoolReady.kundli}
-    />
+    <>
+      <WebActiveKundliActions
+        compact
+        kundli={schoolReady.kundli}
+        sourceScreen="KP Predicta"
+        title="KP reading Kundli"
+      />
+      <WebKpPredictaPanel
+        handoffQuestion={handoffQuestion}
+        hasPremiumAccess={demoAccess.hasPremiumAccess}
+        schoolCalculationStatus={schoolReady.status}
+        kundli={schoolReady.kundli}
+      />
+    </>
   );
 }
 

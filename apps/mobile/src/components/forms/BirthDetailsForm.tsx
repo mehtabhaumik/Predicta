@@ -37,6 +37,24 @@ export function BirthDetailsForm({
   const [city, setCity] = useState(initialDraft?.city ?? '');
   const [showCalculationDetails, setShowCalculationDetails] = useState(false);
 
+  useEffect(() => {
+    setName(initialDraft?.name ?? '');
+    setDate(initialDraft?.date ?? '');
+    setTime(initialDraft?.time ?? '');
+    setIsTimeApproximate(Boolean(initialDraft?.isTimeApproximate));
+    setCountry(initialDraft?.country ?? '');
+    setState(initialDraft?.state ?? '');
+    setCity(initialDraft?.city ?? '');
+  }, [
+    initialDraft?.city,
+    initialDraft?.country,
+    initialDraft?.date,
+    initialDraft?.isTimeApproximate,
+    initialDraft?.name,
+    initialDraft?.state,
+    initialDraft?.time,
+  ]);
+
   const countries = useMemo(() => listCountries(), []);
   const states = useMemo(() => listStatesForCountry(country), [country]);
   const cities = useMemo(

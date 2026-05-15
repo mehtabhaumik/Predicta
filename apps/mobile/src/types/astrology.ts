@@ -70,6 +70,17 @@ export type ResolvedBirthPlace = {
   source: 'local-dataset' | 'geocoding-api' | 'manual-admin';
 };
 
+export type KundliEditHistoryEntry = {
+  id: string;
+  editedAt: string;
+  source: 'chat' | 'manual';
+  mode: 'save-as-new' | 'update-existing';
+  fieldsChanged: Array<'date' | 'name' | 'place' | 'time'>;
+  before: BirthDetails;
+  after: BirthDetails;
+  note?: string;
+};
+
 export type BirthDetailsDraft = {
   name?: string;
   date?: string;
@@ -1431,6 +1442,7 @@ export type DestinyPassport = {
 export type KundliData = {
   id: string;
   birthDetails: BirthDetails;
+  editHistory?: KundliEditHistoryEntry[];
   lagna: string;
   moonSign: string;
   nakshatra: string;

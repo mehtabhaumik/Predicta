@@ -5,6 +5,7 @@ import type {
 } from '../../types/astrology';
 import { saveKundliForUser } from '../firebase/kundliPersistence';
 import {
+  deleteLocalKundli,
   loadLocalKundlis,
   upsertLocalKundli,
 } from '../storage/localKundliStorage';
@@ -41,6 +42,12 @@ export async function saveGeneratedKundliLocally(
 
 export async function listSavedKundlis(): Promise<SavedKundliRecord[]> {
   return loadLocalKundlis();
+}
+
+export async function deleteSavedKundli(
+  kundliId: string,
+): Promise<SavedKundliRecord[]> {
+  return deleteLocalKundli(kundliId);
 }
 
 export async function saveKundliToCloud(

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
 import {
+  ActiveKundliActions,
   AnimatedHeader,
   AdvancedJyotishPanel,
   AppText,
@@ -96,6 +97,13 @@ export function ChartsScreen({
   return (
     <Screen>
       <AnimatedHeader eyebrow="NORTH INDIAN CHART" title="Charts" />
+
+      <ActiveKundliActions
+        compact
+        kundli={kundli}
+        sourceScreen="Charts"
+        title="Chart Kundli"
+      />
 
       <GlowCard className="mt-7" delay={80}>
         <AppText tone="secondary" variant="caption">
