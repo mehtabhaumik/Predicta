@@ -131,7 +131,7 @@ const MODULE_REGISTRY: AdvancedJyotishModulePolicy[] = [
     freeAccess: 'Hidden by default so beginners are not confused.',
     id: 'advanced-mode',
     premiumDepth:
-      'Technical tables for serious users: BAV/SAV, dignities, dasha links, Vargas, and evidence rows.',
+      'Advanced tables for serious users: BAV/SAV, dignities, dasha links, Vargas, and evidence rows.',
     simpleName: 'Advanced Mode',
     title: 'Astrologer-grade tables',
   },

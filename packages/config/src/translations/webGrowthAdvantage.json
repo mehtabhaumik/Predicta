@@ -11,7 +11,7 @@
       },
       "advantages": [
         {
-          "body": "Friends and family can open Predicta in a browser, create a Kundli, and test the experience without waiting for an app install.",
+          "body": "Friends and family can open Predicta in a browser, create a Kundli, and try the experience without waiting for an app install.",
           "proof": "No app install needed",
           "title": "Start from any browser"
         },
@@ -23,21 +23,21 @@
         {
           "body": "Reports, charts, KP, Nadi, and family profiles are easier to explore on a bigger screen.",
           "proof": "Works well on bigger screens",
-          "title": "Better for demos"
+          "title": "Better for walkthroughs"
         },
         {
           "body": "Safety, Founder Vision, and Accuracy pages explain how Predicta stays careful, grounded, and transparent.",
-          "proof": "Trust before payment",
+          "proof": "Trust before purchase",
           "title": "Trust pages"
         }
       ],
       "eyebrow": "Share Predicta easily",
-      "intro": "Predicta can be shared and tested from the web first: easy demos, private passes, family testing, and polished reports from the browser.",
+      "intro": "Predicta can be shared from the web first: easy previews, private passes, family access, and polished reports from the browser.",
       "launchLoop": {
         "body": "For friends and family, the first experience should be simple enough to explain in one message.",
         "steps": [
           {
-            "body": "Send the web link or a guest pass to the person you want to test with.",
+            "body": "Send the web link or a guest pass to the person you want to invite.",
             "title": "1. Share access"
           },
           {
@@ -63,7 +63,7 @@
       },
       "advantages": [
         {
-          "body": "दोस्त और परिवार browser में Predicta खोल सकते हैं, कुंडली बना सकते हैं, और app install का इंतजार किए बिना try कर सकते हैं.",
+          "body": "दोस्त और परिवार browser में Predicta खोल सकते हैं, कुंडली बना सकते हैं, और app install का इंतजार किए बिना अनुभव ले सकते हैं.",
           "proof": "App install की जरूरत नहीं",
           "title": "किसी भी browser से शुरू करें"
         },
@@ -75,21 +75,21 @@
         {
           "body": "रिपोर्ट, चार्ट, KP, Nadi और परिवार profiles बड़ी screen पर ज्यादा साफ दिखते हैं.",
           "proof": "बड़ी screen पर साफ",
-          "title": "Demo के लिए बेहतर"
+          "title": "Walkthrough के लिए बेहतर"
         },
         {
           "body": "Safety, Founder Vision और Accuracy pages बताते हैं कि Predicta कैसे सावधान, grounded और transparent रहती है.",
-          "proof": "Payment से पहले trust",
+          "proof": "खरीदारी से पहले भरोसा",
           "title": "भरोसे वाले page"
         }
       ],
       "eyebrow": "Predicta आसानी से share करें",
-      "intro": "Mobile app public होने से पहले Predicta web से आसानी से share और test हो सकती है: demo, private pass, family testing और सुंदर रिपोर्ट.",
+      "intro": "Mobile app सार्वजनिक होने से पहले Predicta web से आसानी से साझा हो सकती है: झलक, private pass, परिवार access और सुंदर रिपोर्ट.",
       "launchLoop": {
         "body": "दोस्तों और परिवार के लिए पहला अनुभव इतना सरल होना चाहिए कि एक message में समझाया जा सके.",
         "steps": [
           {
-            "body": "जिस व्यक्ति से test कराना है, उसे web link या guest pass भेजें.",
+            "body": "जिस व्यक्ति को invite करना है, उसे web link या guest pass भेजें.",
             "title": "1. Access share करें"
           },
           {
@@ -97,8 +97,8 @@
             "title": "2. Value महसूस कराएं"
           },
           {
-            "body": "वह रिपोर्ट, KP, Nadi या Family Vault try करे और feedback भेजे.",
-            "title": "3. काम का feedback लें"
+            "body": "वह रिपोर्ट, KP, Nadi या Family Vault आजमाए और सुझाव भेजे.",
+            "title": "3. काम का सुझाव लें"
           }
         ],
         "title": "परिवार और दोस्तों के लिए सरल sharing flow."
@@ -115,7 +115,7 @@
       },
       "advantages": [
         {
-          "body": "મિત્રો અને પરિવાર browser માં Predicta ખોલી શકે છે, કુંડળી બનાવી શકે છે, અને app install ની રાહ વગર try કરી શકે છે.",
+          "body": "મિત્રો અને પરિવાર browser માં Predicta ખોલી શકે છે, કુંડળી બનાવી શકે છે, અને app install ની રાહ વગર અનુભવ લઈ શકે છે.",
           "proof": "App install ની જરૂર નથી",
           "title": "કોઈ પણ browser થી શરૂ કરો"
         },
@@ -127,21 +127,21 @@
         {
           "body": "રિપોર્ટ્સ, ચાર્ટ્સ, KP, Nadi અને પરિવાર profiles મોટી screen પર વધુ સ્પષ્ટ દેખાય છે.",
           "proof": "મોટી screen પર સ્પષ્ટ",
-          "title": "Demo માટે વધુ સારું"
+          "title": "Walkthrough માટે વધુ સારું"
         },
         {
           "body": "Safety, Founder Vision અને Accuracy pages સમજાવે છે કે Predicta કેવી રીતે સાવચેત, grounded અને transparent રહે છે.",
-          "proof": "Payment પહેલાં trust",
+          "proof": "ખરીદી પહેલાં ભરોસો",
           "title": "ભરોસાના page"
         }
       ],
       "eyebrow": "Predicta સરળતાથી share કરો",
-      "intro": "Mobile app public થાય તે પહેલાં Predicta web થી સરળતાથી share અને test થઈ શકે છે: demo, private pass, family testing અને સુંદર રિપોર્ટ્સ.",
+      "intro": "Mobile app જાહેર થાય તે પહેલાં Predicta web થી સરળતાથી શેર થઈ શકે છે: ઝલક, private pass, પરિવાર access અને સુંદર રિપોર્ટ્સ.",
       "launchLoop": {
         "body": "મિત્રો અને પરિવાર માટે પહેલો અનુભવ એટલો સરળ હોવો જોઈએ કે એક message માં સમજાવી શકાય.",
         "steps": [
           {
-            "body": "જે વ્યક્તિથી test કરાવવું હોય, તેને web link અથવા guest pass મોકલો.",
+            "body": "જે વ્યક્તિને invite કરવો હોય, તેને web link અથવા guest pass મોકલો.",
             "title": "1. Access share કરો"
           },
           {
@@ -149,8 +149,8 @@
             "title": "2. Value અનુભવાવો"
           },
           {
-            "body": "તે રિપોર્ટ, KP, Nadi અથવા Family Vault try કરે અને feedback મોકલે.",
-            "title": "3. કામનું feedback લો"
+            "body": "તે રિપોર્ટ, KP, Nadi અથવા Family Vault અજમાવે અને સૂચન મોકલે.",
+            "title": "3. કામનું સૂચન લો"
           }
         ],
         "title": "પરિવાર અને મિત્રો માટે સરળ sharing flow."

@@ -102,7 +102,7 @@ const checkoutCopy: Record<
   en: {
     body: 'Select a subscription, Day Pass, or one-time report from pricing.',
     change: 'Change selection',
-    note: 'Private testers can use a guest pass for now. Paid checkout will open when payment access is ready.',
+    note: 'Friends and family can use a guest pass for now. Paid checkout will open when purchases are ready.',
     oneTime: 'One-time access',
     pill: 'Choose access',
     selected: 'Selected',
@@ -113,7 +113,7 @@ const checkoutCopy: Record<
   hi: {
     body: 'Pricing से subscription, Day Pass या one-time report चुनें.',
     change: 'चयन बदलें',
-    note: 'Private testers अभी guest pass उपयोग कर सकते हैं. Paid checkout payment ready होने पर खुलेगा.',
+    note: 'दोस्त और परिवार अभी guest pass उपयोग कर सकते हैं. खरीदारी शुरू होने पर paid checkout खुलेगा.',
     oneTime: 'एक बार का access',
     pill: 'Access चुनें',
     selected: 'चुना गया',
@@ -124,7 +124,7 @@ const checkoutCopy: Record<
   gu: {
     body: 'Pricing માંથી subscription, Day Pass અથવા one-time report પસંદ કરો.',
     change: 'પસંદગી બદલો',
-    note: 'Private testers હમણાં guest pass ઉપયોગ કરી શકે છે. Paid checkout payment ready થયા પછી ખુલશે.',
+    note: 'મિત્રો અને પરિવાર અત્યારે guest pass ઉપયોગ કરી શકે છે. ખરીદી શરૂ થયા પછી paid checkout ખુલશે.',
     oneTime: 'એક વારનો access',
     pill: 'Access પસંદ કરો',
     selected: 'પસંદ કરેલું',

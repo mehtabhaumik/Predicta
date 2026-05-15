@@ -235,7 +235,7 @@ function hindiCueText(cue: DailyBriefingCue): string {
   if (cue.area === 'money') {
     return 'पैसों में सरल हिसाब और conservative promise बेहतर रहेगा.';
   }
-  return 'सीधी और दयालु भाषा इस्तेमाल करें; indirect testing से बचें.';
+  return 'सीधी और दयालु भाषा इस्तेमाल करें; चुप्पी को परीक्षा न बनाएं.';
 }
 
 function gujaratiCueText(cue: DailyBriefingCue): string {
@@ -245,7 +245,7 @@ function gujaratiCueText(cue: DailyBriefingCue): string {
   if (cue.area === 'money') {
     return 'પૈસામાં સરળ હિસાબ અને conservative promise વધુ સારું રહેશે.';
   }
-  return 'સીધી અને દયાળુ ભાષા વાપરો; indirect testing ટાળો.';
+  return 'સીધી અને દયાળુ ભાષા વાપરો; મૌનને પરીક્ષા ન બનાવો.';
 }
 
 function buildPendingBriefingCopy(language: SupportedLanguage): Pick<
@@ -397,7 +397,7 @@ function buildCues(
       label: 'Relationship',
       text: primaryTransit?.houseFromMoon === 7
         ? 'Listen twice before deciding what someone meant.'
-        : 'Use direct, kind words. Avoid testing people indirectly.',
+        : 'Use direct, kind words. Avoid turning silence into a test.',
       weight: primaryTransit?.houseFromMoon === 7 ? 'mixed' : 'neutral',
     },
   ];

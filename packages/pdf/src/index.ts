@@ -478,7 +478,7 @@ function buildHolisticReportSynthesisSection(
 
   return {
     body:
-      'This section joins the report into one human reading. Predicta reads the chart through today, life balance, timing, and karma-based remedy before moving into technical areas.',
+      'This section joins the report into one human reading. Predicta reads the chart through today, life balance, timing, and karma-based remedy before moving into detailed chart sections.',
     bullets: [
       daily.headline,
       `Daily rhythm: morning - ${daily.morningPractice}; midday - ${daily.middayCheck}; evening - ${daily.eveningReview}`,
@@ -933,7 +933,7 @@ function buildAdvancedJyotishCoverageSection(
   return {
     body:
       mode === 'PREMIUM'
-        ? 'Advanced coverage keeps every major Jyotish feature available while turning the technical layers into useful synthesis, tables, and planning guidance.'
+        ? 'Advanced coverage keeps every major Jyotish feature available while turning deeper chart details into useful synthesis, tables, and planning guidance.'
         : 'Advanced coverage is generous in free mode: users see the major Jyotish surfaces with simple insight, while detailed scoring and tables stay in Premium.',
     bullets: [
       `Modules covered: ${coverage.moduleRegistry.map(item => item.simpleName).join(', ')}.`,

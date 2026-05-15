@@ -184,7 +184,7 @@ export function RootNavigator(): React.JSX.Element {
         <Stack.Screen
           name={routes.SavedKundlis}
           component={SavedKundlisScreen}
-          options={{ title: 'Saved Kundlis' }}
+          options={{ title: 'Kundli Library' }}
         />
         <Stack.Screen
           name={routes.SafetyPromise}

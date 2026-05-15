@@ -131,10 +131,10 @@ export function buildPassCostGuardrailReply({
   if (language === 'hi') {
     return [
       decision.display.kind === 'pass'
-        ? 'Aapka private pass safe hai. Is pass ka AI-heavy reading budget abhi use ho chuka hai.'
-        : 'Free testing sabke liye smooth rahe, isliye aaj ke extra AI-heavy readings ko maine pause kiya hai.',
+        ? 'Aapka private pass safe hai. Is pass ki deep reading limit abhi use ho chuki hai.'
+        : 'Free guidance sabke liye fair rahe, isliye aaj ke extra deep readings ko maine pause kiya hai.',
       hasKundli
-        ? 'Main abhi bhi bina extra heavy reading ke charts, Gochar summary, Mahadasha overview, remedies aur free report kholne mein help kar sakti hoon.'
+        ? 'Main abhi bhi bina extra deep reading ke charts, Gochar summary, Mahadasha overview, remedies aur free report kholne mein help kar sakti hoon.'
         : 'Aap manual Kundli bana sakte hain. Uske baad main charts, daily guidance aur free report ke saath help karungi.',
       'Agar deep follow-up chahiye, Premium, Day Pass, ya pass refresh best rahega.',
     ].join('\n\n');
@@ -143,10 +143,10 @@ export function buildPassCostGuardrailReply({
   if (language === 'gu') {
     return [
       decision.display.kind === 'pass'
-        ? 'Tamaro private pass safe chhe. Aa pass nu AI-heavy reading budget atyare use thai gayu chhe.'
-        : 'Free testing badha mate smooth rahe, etle aaj na extra AI-heavy readings hu pause karu chhu.',
+        ? 'Tamaro private pass safe chhe. Aa pass ni deep reading limit atyare use thai gayi chhe.'
+        : 'Free guidance badha mate fair rahe, etle aaj na extra deep readings hu pause karu chhu.',
       hasKundli
-        ? 'Hu haju pan extra heavy reading vagar charts, Gochar summary, Mahadasha overview, remedies ane free report ma help kari shaku chhu.'
+        ? 'Hu haju pan extra deep reading vagar charts, Gochar summary, Mahadasha overview, remedies ane free report ma help kari shaku chhu.'
         : 'Tame manual Kundli banaavi shako. Pachhi hu charts, daily guidance ane free report sathe help karish.',
       'Deep follow-up joiye to Premium, Day Pass, athva pass refresh best rahe.',
     ].join('\n\n');
@@ -154,10 +154,10 @@ export function buildPassCostGuardrailReply({
 
   return [
     decision.display.kind === 'pass'
-      ? 'Your private pass is safe. The AI-heavy reading budget for this pass has been used for now.'
-      : 'To keep free testing smooth for everyone, I have paused extra AI-heavy readings for today.',
+      ? 'Your private pass is safe. The deep reading limit for this pass has been used for now.'
+      : 'To keep free guidance fair for everyone, I have paused extra deep readings for today.',
     hasKundli
-      ? 'I can still help without another heavy reading: open charts, show a Gochar summary, explain Mahadasha basics, suggest remedies, or create a free report.'
+      ? 'I can still help without another deep reading: open charts, show a Gochar summary, explain Mahadasha basics, suggest remedies, or create a free report.'
       : 'You can still create the Kundli manually. After that I can help with charts, daily guidance, and a free report.',
     'For deeper follow-up, Premium, a Day Pass, or a refreshed private pass is the right path.',
   ].join('\n\n');
@@ -419,14 +419,14 @@ function getLocalDateKey(): string {
 
 function passDisplayTitle(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'Private pass budget';
+    return 'Private pass limit';
   }
 
   if (language === 'gu') {
-    return 'Private pass budget';
+    return 'Private pass limit';
   }
 
-  return 'Private pass budget';
+  return 'Private pass limit';
 }
 
 function passDisplayBody({
@@ -453,14 +453,14 @@ function passDisplayBody({
 
 function freeDisplayTitle(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'Free testing budget';
+    return 'Free guidance limit';
   }
 
   if (language === 'gu') {
-    return 'Free testing budget';
+    return 'Free guidance limit';
   }
 
-  return 'Free testing budget';
+  return 'Free guidance limit';
 }
 
 function freeDisplayBody({

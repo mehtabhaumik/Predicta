@@ -7,11 +7,11 @@
         "primary": "Try Predicta",
         "secondary": "Send Feedback"
       },
-      "eyebrow": "Tester trust loop",
-      "intro": "Predicta is going into family-and-friends testing with a clear promise: collect real feedback, fix visible rough edges, and only show testimonials after users approve them.",
+      "eyebrow": "Early trust loop",
+      "intro": "Predicta is opening to family and friends with a clear promise: collect real feedback, fix visible rough edges, and only show testimonials after users approve them.",
       "signals": [
         {
-          "detail": "Every tester starts from a real Kundli and checks whether Predicta remembers the active chart.",
+          "detail": "Every early user starts from a real Kundli and checks whether Predicta remembers the active chart.",
           "label": "Chart continuity",
           "value": "One Kundli brain"
         },
@@ -35,25 +35,25 @@
           },
           {
             "quote": "The app did not scare me. It gave limits and next steps.",
-            "role": "Safety-minded tester"
+            "role": "Safety-minded early user"
           },
           {
             "quote": "I could ask in my natural language and still get a useful answer.",
-            "role": "Hindi/Gujarati tester"
+            "role": "Hindi/Gujarati early user"
           }
         ],
         "title": "Real testimonials will be approval-based."
       },
       "testerLoop": {
-        "body": "Each early tester is asked to break the app like a real user: ask messy questions, switch languages, try reports, compare charts, and report confusing moments.",
+        "body": "Each early user is invited to try Predicta naturally: ask messy questions, switch languages, try reports, compare charts, and share confusing moments.",
         "steps": [
           {
-            "body": "Create or load a Kundli, then test whether dashboard, chat, reports, KP, Nadi, and remedies use the same birth details.",
-            "title": "1. Test continuity"
+            "body": "Create or load a Kundli, then see whether dashboard, chat, reports, KP, Nadi, and remedies use the same birth details.",
+            "title": "1. Check continuity"
           },
           {
-            "body": "Ask about money, career, marriage, health caution, and timing. Check if Predicta gives proof and avoids fear.",
-            "title": "2. Test real questions"
+            "body": "Ask about money, career, marriage, health caution, and timing. See if Predicta gives proof and avoids fear.",
+            "title": "2. Ask real questions"
           },
           {
             "body": "Share what felt confusing, clipped, too wordy, hard to understand, or not premium enough.",
@@ -66,31 +66,31 @@
     },
     "hi": {
       "cta": {
-        "note": "Approved user stories बाद में जुड़ेंगी. तब तक Predicta fake praise नहीं दिखाएगी, बल्कि साफ feedback loop दिखाएगी.",
+        "note": "स्वीकृत user stories बाद में जुड़ेंगी. तब तक Predicta नकली तारीफ नहीं दिखाएगी, बल्कि साफ सुझाव प्रक्रिया दिखाएगी.",
         "primary": "Predicta आजमाएं",
         "secondary": "Feedback भेजें"
       },
-      "eyebrow": "Tester trust loop",
-      "intro": "Predicta family-and-friends testing में एक साफ वादा लेकर जा रही है: real feedback लेना, दिखाई देने वाली कमियां ठीक करना, और testimonials सिर्फ user approval के बाद दिखाना.",
+      "eyebrow": "Early trust loop",
+      "intro": "Predicta परिवार और दोस्तों के लिए खुल रही है, एक साफ वादे के साथ: असली सुझाव लेना, दिखती कमियां सुधारना, और testimonials सिर्फ user approval के बाद दिखाना.",
       "signals": [
         {
-          "detail": "हर tester असली कुंडली से शुरू करता है और देखता है कि Predicta active chart याद रखती है या नहीं.",
-          "label": "चार्ट continuity",
-          "value": "एक कुंडली brain"
+          "detail": "हर शुरुआती user असली कुंडली से शुरू करता है और देखता है कि Predicta सक्रिय चार्ट याद रखती है या नहीं.",
+          "label": "चार्ट निरंतरता",
+          "value": "एक कुंडली स्मृति"
         },
         {
-          "detail": "Feedback में देखा जाता है कि जवाब चार्ट प्रमाण, समय, limits और practical guidance दिखाता है या नहीं.",
-          "label": "जवाब quality",
-          "value": "Praise से पहले proof"
+          "detail": "सुझाव में देखा जाता है कि जवाब चार्ट प्रमाण, समय, सीमाएं और व्यावहारिक मार्गदर्शन दिखाता है या नहीं.",
+          "label": "जवाब गुणवत्ता",
+          "value": "तारीफ से पहले प्रमाण"
         },
         {
-          "detail": "Regular, KP और Nadi को अलग rooms की तरह review किया जाता है, vague mixed answer की तरह नहीं.",
-          "label": "Method clarity",
-          "value": "तीन schools साफ"
+          "detail": "Regular, KP और Nadi को अलग रूम की तरह देखा जाता है, किसी अस्पष्ट मिले-जुले जवाब की तरह नहीं.",
+          "label": "विधि स्पष्टता",
+          "value": "तीन पद्धतियां साफ"
         }
       ],
       "testimonialWall": {
-        "body": "यह जगह early users के real approved feedback के लिए रखी गई है. Public quote दिखाने से पहले Predicta को trust earn करना चाहिए.",
+        "body": "यह जगह शुरुआती users के असली स्वीकृत सुझाव के लिए रखी गई है. सार्वजनिक quote दिखाने से पहले Predicta को भरोसा कमाना चाहिए.",
         "placeholders": [
           {
             "quote": "मुझे समझ आया कि Predicta ने मेरे chart से क्या use किया.",
@@ -98,62 +98,62 @@
           },
           {
             "quote": "App ने डराया नहीं. उसने limits और next steps दिए.",
-            "role": "Safety-minded tester"
+            "role": "सुरक्षा पर ध्यान देने वाला शुरुआती user"
           },
           {
             "quote": "मैं natural language में पूछ सका और फिर भी useful answer मिला.",
-            "role": "Hindi/Gujarati tester"
+            "role": "Hindi/Gujarati शुरुआती user"
           }
         ],
         "title": "Real testimonials approval-based होंगे."
       },
       "testerLoop": {
-        "body": "हर early tester से कहा जाता है कि app को real user की तरह आजमाए: messy questions पूछे, language switch करे, reports try करे, charts compare करे, और confusing moments report करे.",
+        "body": "हर शुरुआती user को Predicta स्वाभाविक तरीके से आजमाने के लिए कहा जाता है: उलझे सवाल पूछें, भाषा बदलें, रिपोर्ट देखें, चार्ट मिलाएं, और भ्रमित पल साझा करें.",
         "steps": [
           {
             "body": "कुंडली बनाएं या load करें, फिर देखें dashboard, chat, reports, KP, Nadi और remedies वही birth details use करते हैं या नहीं.",
-            "title": "1. Continuity test करें"
+            "title": "1. Continuity देखें"
           },
           {
             "body": "Money, career, marriage, health caution और timing पर पूछें. देखें Predicta proof देती है और डर से बचती है या नहीं.",
-            "title": "2. Real questions test करें"
+            "title": "2. Real सवाल पूछें"
           },
           {
-            "body": "जो confusing, clipped, बहुत लंबा, समझने में मुश्किल या less premium लगा, वह share करें.",
+            "body": "जो भ्रमित, कटा हुआ, बहुत लंबा, समझने में मुश्किल या कम प्रीमियम लगा, वह साझा करें.",
             "title": "3. Trust कहां टूटा बताएं"
           }
         ],
-        "title": "Early feedback product improvement कैसे बनता है."
+        "title": "शुरुआती सुझाव उत्पाद सुधार कैसे बनता है."
       },
-      "title": "Trust public में कमाया जाना चाहिए, claim नहीं."
+      "title": "भरोसा सार्वजनिक रूप से कमाया जाना चाहिए, दावा नहीं."
     },
     "gu": {
       "cta": {
-        "note": "Approved user stories પછી જોડાશે. ત્યાં સુધી Predicta fake praise નહીં બતાવે, પણ clear feedback loop બતાવશે.",
+        "note": "મંજૂર user stories પછી જોડાશે. ત્યાં સુધી Predicta નકલી વખાણ નહીં બતાવે, પણ સ્પષ્ટ સૂચન પ્રક્રિયા બતાવશે.",
         "primary": "Predicta અજમાવો",
         "secondary": "Feedback મોકલો"
       },
-      "eyebrow": "Tester trust loop",
-      "intro": "Predicta family-and-friends testing માં સ્પષ્ટ વચન સાથે જાય છે: real feedback લેવું, દેખાતી ખામીઓ સુધારવી, અને testimonials user approval પછી જ બતાવવી.",
+      "eyebrow": "Early trust loop",
+      "intro": "Predicta પરિવાર અને મિત્રો માટે ખુલ્લી થઈ રહી છે, એક સ્પષ્ટ વચન સાથે: સાચું સૂચન લેવું, દેખાતી ખામીઓ સુધારવી, અને testimonials user approval પછી જ બતાવવી.",
       "signals": [
         {
-          "detail": "દરેક tester સાચી કુંડળીથી શરૂ કરે છે અને તપાસે છે કે Predicta active chart યાદ રાખે છે કે નહીં.",
-          "label": "ચાર્ટ continuity",
-          "value": "એક કુંડળી brain"
+          "detail": "દરેક શરૂઆતનો user સાચી કુંડળીથી શરૂ કરે છે અને તપાસે છે કે Predicta સક્રિય ચાર્ટ યાદ રાખે છે કે નહીં.",
+          "label": "ચાર્ટ સતતતા",
+          "value": "એક કુંડળી સ્મૃતિ"
         },
         {
-          "detail": "Feedback માં જોવામાં આવે છે કે જવાબ ચાર્ટ પુરાવો, સમય, limits અને practical guidance બતાવે છે કે નહીં.",
-          "label": "જવાબ quality",
-          "value": "Praise પહેલાં proof"
+          "detail": "સૂચનમાં જોવામાં આવે છે કે જવાબ ચાર્ટ પુરાવો, સમય, મર્યાદા અને વ્યવહારુ માર્ગદર્શન બતાવે છે કે નહીં.",
+          "label": "જવાબ ગુણવત્તા",
+          "value": "વખાણ પહેલાં પુરાવો"
         },
         {
-          "detail": "Regular, KP અને Nadi ને અલગ rooms તરીકે review કરવામાં આવે છે, vague mixed answer તરીકે નહીં.",
-          "label": "Method clarity",
-          "value": "ત્રણ schools સ્પષ્ટ"
+          "detail": "Regular, KP અને Nadi ને અલગ રૂમ તરીકે જોવામાં આવે છે, કોઈ અસ્પષ્ટ મિશ્ર જવાબ તરીકે નહીં.",
+          "label": "પદ્ધતિ સ્પષ્ટતા",
+          "value": "ત્રણ પદ્ધતિઓ સ્પષ્ટ"
         }
       ],
       "testimonialWall": {
-        "body": "આ જગ્યા early users ના real approved feedback માટે રાખવામાં આવી છે. Public quote બતાવતાં પહેલાં Predicta ને trust earn કરવો જોઈએ.",
+        "body": "આ જગ્યા શરૂઆતના users ના સાચા મંજૂર સૂચન માટે રાખવામાં આવી છે. જાહેર quote બતાવતાં પહેલાં Predicta ને ભરોસો કમાવવો જોઈએ.",
         "placeholders": [
           {
             "quote": "મને સમજાયું કે Predicta એ મારા chart માંથી શું use કર્યું.",
@@ -161,34 +161,34 @@
           },
           {
             "quote": "App એ ડરાવ્યું નહીં. તેણે limits અને next steps આપ્યા.",
-            "role": "Safety-minded tester"
+            "role": "સુરક્ષા પર ધ્યાન આપતો શરૂઆતનો user"
           },
           {
             "quote": "હું natural language માં પૂછી શક્યો અને useful answer મળ્યો.",
-            "role": "Hindi/Gujarati tester"
+            "role": "Hindi/Gujarati શરૂઆતનો user"
           }
         ],
         "title": "Real testimonials approval-based રહેશે."
       },
       "testerLoop": {
-        "body": "દરેક early tester ને કહેવામાં આવે છે કે app ને real user જેવી રીતે અજમાવે: messy questions પૂછે, language switch કરે, reports try કરે, charts compare કરે, અને confusing moments report કરે.",
+        "body": "દરેક શરૂઆતના user ને Predicta સ્વાભાવિક રીતે અજમાવવા આમંત્રણ છે: ગૂંચવતા પ્રશ્નો પૂછો, ભાષા બદલો, રિપોર્ટ જુઓ, ચાર્ટ સરખાવો, અને ગૂંચવતા પળો શેર કરો.",
         "steps": [
           {
             "body": "કુંડળી બનાવો અથવા load કરો, પછી જુઓ dashboard, chat, reports, KP, Nadi અને remedies એ જ birth details use કરે છે કે નહીં.",
-            "title": "1. Continuity test કરો"
+            "title": "1. Continuity જુઓ"
           },
           {
             "body": "Money, career, marriage, health caution અને timing પર પૂછો. જુઓ Predicta proof આપે છે અને ડરથી બચાવે છે કે નહીં.",
-            "title": "2. Real questions test કરો"
+            "title": "2. Real પ્રશ્નો પૂછો"
           },
           {
-            "body": "જે confusing, clipped, બહુ લાંબું, સમજવામાં મુશ્કેલ અથવા less premium લાગ્યું હોય તે share કરો.",
+            "body": "જે ગૂંચવતું, કપાયેલું, બહુ લાંબું, સમજવામાં મુશ્કેલ અથવા ઓછું પ્રીમિયમ લાગ્યું હોય તે શેર કરો.",
             "title": "3. Trust ક્યાં તૂટ્યો કહો"
           }
         ],
-        "title": "Early feedback product improvement કેવી રીતે બને છે."
+        "title": "શરૂઆતનું સૂચન ઉત્પાદન સુધારો કેવી રીતે બને છે."
       },
-      "title": "Trust public માં કમાવવો જોઈએ, claim નહીં."
+      "title": "ભરોસો જાહેરમાં કમાવવો જોઈએ, દાવો નહીં."
     }
   }
 }

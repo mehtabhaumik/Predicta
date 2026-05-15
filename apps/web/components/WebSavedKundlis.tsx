@@ -38,10 +38,12 @@ export function WebSavedKundlis(): React.JSX.Element {
       <div className="saved-kundli-grid">
         <Card className="glass-panel">
           <div className="card-content spacious">
-            <div className="section-title">NO SAVED KUNDLI YET</div>
+            <div className="section-title">KUNDLI LIBRARY</div>
             <h2>Create your first Kundli.</h2>
             <p>
-              Saved and restored Kundlis will appear here.
+              Every Kundli you create will appear here first. This is the
+              storage layer; Family Vault uses these saved profiles for family
+              patterns.
             </p>
           </div>
         </Card>
@@ -59,7 +61,7 @@ export function WebSavedKundlis(): React.JSX.Element {
           <Card className={active ? 'glass-panel' : ''} key={record.id}>
             <div className="card-content spacious">
               <div className="section-title">
-                {active ? 'Active family profile' : 'Saved family profile'}
+                {active ? 'Active Kundli' : 'Saved Kundli'}
               </div>
               <h2>{record.birthDetails.name}</h2>
               <p>
@@ -86,7 +88,7 @@ export function WebSavedKundlis(): React.JSX.Element {
                     prompt: `Use ${record.birthDetails.name}'s saved Kundli and tell me the most useful next reading.`,
                     purpose: 'family',
                     selectedSection: `Saved profile: ${record.birthDetails.name}`,
-                    sourceScreen: 'Saved Kundlis',
+                    sourceScreen: 'Kundli Library',
                   })}
                   onClick={() => activateProfile(record)}
                 >
@@ -114,10 +116,10 @@ function FamilyVaultCard(): React.JSX.Element {
     <Card>
       <div className="card-content spacious">
         <div className="section-title">FAMILY VAULT</div>
-        <h2>Keep family Kundlis together.</h2>
+        <h2>Family layer for saved Kundlis.</h2>
         <p>
-          Create a profile for each person, choose who Predicta should read,
-          and compare family patterns without mixing charts.
+          Use your saved Kundlis as family profiles, compare patterns, and
+          later invite family members when shared permissions are ready.
         </p>
         <div className="action-row compact">
           <Link className="button secondary" href="/dashboard/kundli">

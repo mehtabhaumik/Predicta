@@ -276,7 +276,7 @@ function practicalGuidance(
   }
 
   if (first.relationship === 'partner' || second.relationship === 'partner') {
-    return 'Name the need directly, keep decisions small, and avoid testing care through silence.';
+    return 'Name the need directly, keep decisions small, and avoid making silence carry the whole message.';
   }
 
   return 'Translate the feeling into one request. The goal is support, not deciding who is right.';

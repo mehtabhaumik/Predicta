@@ -58,7 +58,7 @@ export default function FeedbackPage(): React.JSX.Element {
     const body = [
       `${copy.emailBodyLabels.area}: ${getAreaLabel(copy, draft.area)}`,
       `${copy.emailBodyLabels.page}: ${draft.page || copy.notSure}`,
-      `${copy.emailBodyLabels.tester}: ${getTesterLabel(copy, draft.testerType)}`,
+      `${copy.emailBodyLabels.userType}: ${getTesterLabel(copy, draft.testerType)}`,
       `${copy.emailBodyLabels.email}: ${resolvedEmail || copy.notShared}`,
       '',
       `${copy.emailBodyLabels.message}:`,
@@ -97,7 +97,7 @@ export default function FeedbackPage(): React.JSX.Element {
         body: JSON.stringify({
           reportKind: 'USER_REPORTED',
           route: savedFeedback.page,
-          safetyCategories: ['tester-feedback', draft.area],
+          safetyCategories: ['user-feedback', draft.area],
           safetyIdentifier: `${draft.area}:${draft.testerType}:${savedFeedback.createdAt}`,
           sourceSurface: 'web-feedback',
         }),
@@ -270,7 +270,7 @@ function getTesterLabel(
 }
 
 function saveFeedbackLocally(feedback: Record<string, unknown>) {
-  const key = 'pridicta.testerFeedback.v1';
+  const key = 'pridicta.userFeedback.v1';
   const existing = window.localStorage.getItem(key);
   const parsed = existing ? JSON.parse(existing) : [];
   const list = Array.isArray(parsed) ? parsed : [];
@@ -289,7 +289,7 @@ type FeedbackCopy = {
     email: string;
     message: string;
     page: string;
-    tester: string;
+    userType: string;
   };
   emailLabel: string;
   emailPlaceholder: string;
@@ -351,15 +351,15 @@ const feedbackCopy: Record<SupportedLanguage, FeedbackCopy> = {
       email: 'Email',
       message: 'Message',
       page: 'Page',
-      tester: 'Tester type',
+      userType: 'User type',
     },
     emailLabel: 'Your email',
     emailPlaceholder: 'Optional, but useful if we need to reply',
-    emailSubject: 'Predicta tester feedback',
+    emailSubject: 'Predicta feedback',
     footerBody:
       'Go back to the dashboard, create a Kundli, ask Predicta a real question, then send feedback when something feels unclear.',
-    footerTitle: 'Prefer to keep testing?',
-    formEyebrow: 'TESTER FEEDBACK',
+    footerTitle: 'Want to keep exploring?',
+    formEyebrow: 'PREDICTA FEEDBACK',
     formTitle: 'Tell us exactly what happened.',
     messageLabel: 'What happened?',
     messagePlaceholder:
@@ -371,18 +371,18 @@ const feedbackCopy: Record<SupportedLanguage, FeedbackCopy> = {
     pagePlaceholder: 'Example: Dashboard, Chat, Report, KP',
     pass: 'Redeem Pass',
     saved:
-      'Saved. Thank you. We will look at this before the next testing round, and your note is kept in this browser too.',
+      'Saved. Thank you. We will review this before the next feedback review, and your note is kept in this browser too.',
     savedLocally:
       'Saved in this browser. If you want to send screenshots, use the email button too.',
     send: 'Send Feedback',
     sending: 'Sending...',
     signedInEmailNote:
       'You are signed in, so Predicta will use this email for follow-up. No extra email entry is needed.',
-    testerLabel: 'Who is testing?',
+    testerLabel: 'Who is sharing feedback?',
     testerOptions: [
-      { label: 'Friend or family tester', value: 'friends-family' },
+      { label: 'Friend or family', value: 'friends-family' },
       { label: 'Founder review', value: 'founder-review' },
-      { label: 'Investor/demo reviewer', value: 'investor-demo' },
+      { label: 'Investor or reviewer', value: 'investor-demo' },
       { label: 'Public visitor', value: 'public' },
     ],
     title: 'Tell us what felt confusing.',
@@ -399,61 +399,61 @@ const feedbackCopy: Record<SupportedLanguage, FeedbackCopy> = {
       { label: 'भाषा या translation', value: 'language' },
       { label: 'Safety concern', value: 'safety' },
     ],
-    body: 'जो भी Predicta को उपयोग करना मुश्किल बनाता है, बताएं: टूटा button, unclear report, गलत भाषा, कटा हुआ text, confusing prediction या safety concern.',
+    body: 'जो भी Predicta को उपयोग करना मुश्किल बनाता है, बताएं: टूटा बटन, अस्पष्ट रिपोर्ट, गलत भाषा, कटा हुआ पाठ, भ्रमित करने वाला संकेत या सुरक्षा चिंता.',
     cards: [
       {
-        body: 'Page name, आपने क्या click किया, क्या हुआ, और आपको क्या उम्मीद थी.',
+        body: 'पेज का नाम, आपने क्या दबाया, क्या हुआ, और आपको क्या उम्मीद थी.',
         title: 'क्या भेजना है',
       },
       {
-        body: 'Screenshots, Predicta से पूछा exact question, और आप English, Hindi या Gujarati में थे.',
+        body: 'स्क्रीनशॉट, Predicta से पूछा गया सटीक सवाल, और आप English, Hindi या Gujarati में थे.',
         title: 'सबसे helpful क्या है',
       },
       {
-        body: 'टूटे flows, confusing copy, unsafe answers, chart/report issues, और जहां 10 साल का बच्चा खो जाए.',
+        body: 'टूटे रास्ते, भ्रमित भाषा, असुरक्षित जवाब, चार्ट/रिपोर्ट समस्याएं, और जहां 10 साल का बच्चा खो जाए.',
         title: 'हम क्या review करते हैं',
       },
     ],
     dashboard: 'डैशबोर्ड खोलें',
     emailBackup: 'Email से भेजें',
     emailBodyLabels: {
-      area: 'Area',
+      area: 'क्षेत्र',
       email: 'Email',
-      message: 'Message',
-      page: 'Page',
-      tester: 'Tester type',
+      message: 'संदेश',
+      page: 'पेज',
+      userType: 'व्यक्ति',
     },
     emailLabel: 'आपका email',
-    emailPlaceholder: 'Optional, reply चाहिए तो helpful रहेगा',
-    emailSubject: 'Predicta tester feedback',
+    emailPlaceholder: 'वैकल्पिक, जवाब चाहिए तो उपयोगी रहेगा',
+    emailSubject: 'Predicta feedback',
     footerBody:
-      'डैशबोर्ड पर जाएं, कुंडली बनाएं, Predicta से असली सवाल पूछें, और जहां unclear लगे वहां feedback भेजें.',
-    footerTitle: 'Testing जारी रखना चाहते हैं?',
-    formEyebrow: 'TESTER FEEDBACK',
+      'डैशबोर्ड पर जाएं, कुंडली बनाएं, Predicta से असली सवाल पूछें, और जहां बात स्पष्ट न लगे वहां सुझाव भेजें.',
+    footerTitle: 'और explore करना चाहते हैं?',
+    formEyebrow: 'PREDICTA FEEDBACK',
     formTitle: 'साफ बताएं क्या हुआ.',
     messageLabel: 'क्या हुआ?',
     messagePlaceholder:
-      'Example: मैंने charts से D9 click किया, chat खुली, पर Predicta को selected chart याद नहीं रहा.',
-    messageRequired: 'Send करने से पहले एक साफ note लिखें.',
-    notShared: 'Share नहीं किया',
+      'उदाहरण: मैंने चार्ट से D9 दबाया, चैट खुली, पर Predicta को चुना हुआ चार्ट याद नहीं रहा.',
+    messageRequired: 'भेजने से पहले एक साफ नोट लिखें.',
+    notShared: 'साझा नहीं किया',
     notSure: 'पक्का नहीं',
-    pageLabel: 'Page या screen',
-    pagePlaceholder: 'Example: Dashboard, Chat, Report, KP',
+    pageLabel: 'पेज या स्क्रीन',
+    pagePlaceholder: 'उदाहरण: डैशबोर्ड, चैट, रिपोर्ट, KP',
     pass: 'Pass redeem करें',
     saved:
-      'Saved. Thank you. अगली testing round से पहले हम इसे देखेंगे, और note इस browser में भी रखा गया है.',
+      'Saved. Thank you. अगले feedback review से पहले हम इसे देखेंगे, और note इस browser में भी रखा गया है.',
     savedLocally:
-      'इस browser में saved. Screenshots भेजने हों तो email button भी use करें.',
+      'इस ब्राउज़र में सेव हो गया. स्क्रीनशॉट भेजने हों तो ईमेल बटन भी उपयोग करें.',
     send: 'Feedback भेजें',
     sending: 'भेज रहे हैं...',
     signedInEmailNote:
-      'आप signed in हैं, इसलिए follow-up के लिए Predicta यही email use करेगी. अलग email डालने की जरूरत नहीं है.',
-    testerLabel: 'कौन test कर रहा है?',
+      'आप साइन इन हैं, इसलिए आगे संपर्क के लिए Predicta यही ईमेल उपयोग करेगी. अलग ईमेल डालने की जरूरत नहीं है.',
+    testerLabel: 'सुझाव कौन साझा कर रहा है?',
     testerOptions: [
-      { label: 'Friend या family tester', value: 'friends-family' },
-      { label: 'Founder review', value: 'founder-review' },
-      { label: 'Investor/demo reviewer', value: 'investor-demo' },
-      { label: 'Public visitor', value: 'public' },
+      { label: 'दोस्त या परिवार', value: 'friends-family' },
+      { label: 'Founder समीक्षा', value: 'founder-review' },
+      { label: 'निवेशक या समीक्षक', value: 'investor-demo' },
+      { label: 'सार्वजनिक आगंतुक', value: 'public' },
     ],
     title: 'जहां confusion लगा, हमें बताएं.',
     writeHere: 'यहां लिखें',
@@ -469,61 +469,61 @@ const feedbackCopy: Record<SupportedLanguage, FeedbackCopy> = {
       { label: 'ભાષા અથવા translation', value: 'language' },
       { label: 'Safety concern', value: 'safety' },
     ],
-    body: 'Predicta ઉપયોગ કરવું મુશ્કેલ બને તેવી કોઈ પણ વાત જણાવો: તૂટેલું button, unclear report, ખોટી ભાષા, કપાયેલ text, confusing prediction અથવા safety concern.',
+    body: 'Predicta ઉપયોગ કરવું મુશ્કેલ બને તેવી કોઈ પણ વાત જણાવો: તૂટેલું બટન, અસ્પષ્ટ રિપોર્ટ, ખોટી ભાષા, કપાયેલ લખાણ, ગૂંચવતો સંકેત અથવા સુરક્ષા ચિંતા.',
     cards: [
       {
-        body: 'Page name, તમે શું click કર્યું, શું થયું, અને શું અપેક્ષા હતી.',
+        body: 'પેજનું નામ, તમે શું દબાવ્યું, શું થયું, અને શું અપેક્ષા હતી.',
         title: 'શું મોકલવું',
       },
       {
-        body: 'Screenshots, Predicta ને પૂછેલો exact question, અને તમે English, Hindi કે Gujarati માં હતા.',
+        body: 'સ્ક્રીનશોટ, Predicta ને પૂછેલો ચોક્કસ પ્રશ્ન, અને તમે English, Hindi કે Gujarati માં હતા.',
         title: 'સૌથી helpful શું છે',
       },
       {
-        body: 'તૂટેલા flows, confusing copy, unsafe answers, chart/report issues, અને જ્યાં 10 વર્ષનું બાળક ખોવાઈ જાય.',
+        body: 'તૂટેલા રસ્તા, ગૂંચવતી ભાષા, અસુરક્ષિત જવાબ, ચાર્ટ/રિપોર્ટ સમસ્યાઓ, અને જ્યાં 10 વર્ષનું બાળક ખોવાઈ જાય.',
         title: 'અમે શું review કરીએ છીએ',
       },
     ],
     dashboard: 'ડેશબોર્ડ ખોલો',
     emailBackup: 'Email થી મોકલો',
     emailBodyLabels: {
-      area: 'Area',
+      area: 'વિભાગ',
       email: 'Email',
-      message: 'Message',
-      page: 'Page',
-      tester: 'Tester type',
+      message: 'સંદેશ',
+      page: 'પેજ',
+      userType: 'વ્યક્તિ',
     },
     emailLabel: 'તમારું email',
-    emailPlaceholder: 'Optional, reply જોઈએ તો helpful રહેશે',
-    emailSubject: 'Predicta tester feedback',
+    emailPlaceholder: 'વૈકલ્પિક, જવાબ જોઈએ તો ઉપયોગી રહેશે',
+    emailSubject: 'Predicta feedback',
     footerBody:
-      'ડેશબોર્ડ પર જાઓ, કુંડળી બનાવો, Predicta ને સાચો પ્રશ્ન પૂછો, અને જ્યાં unclear લાગે ત્યાં feedback મોકલો.',
-    footerTitle: 'Testing ચાલુ રાખવી છે?',
-    formEyebrow: 'TESTER FEEDBACK',
+      'ડેશબોર્ડ પર જાઓ, કુંડળી બનાવો, Predicta ને સાચો પ્રશ્ન પૂછો, અને જ્યાં વાત સ્પષ્ટ ન લાગે ત્યાં સૂચન મોકલો.',
+    footerTitle: 'હજુ explore કરવું છે?',
+    formEyebrow: 'PREDICTA FEEDBACK',
     formTitle: 'સાફ કહો શું થયું.',
     messageLabel: 'શું થયું?',
     messagePlaceholder:
-      'Example: મેં charts માંથી D9 click કર્યું, chat ખુલી, પણ Predicta ને selected chart યાદ ન રહ્યું.',
-    messageRequired: 'Send કરતા પહેલા એક clear note લખો.',
-    notShared: 'Share નથી કર્યું',
+      'ઉદાહરણ: મેં ચાર્ટમાંથી D9 દબાવ્યું, ચેટ ખુલી, પણ Predicta ને પસંદ કરેલો ચાર્ટ યાદ ન રહ્યો.',
+    messageRequired: 'મોકલતા પહેલાં એક સ્પષ્ટ નોંધ લખો.',
+    notShared: 'સાંઝું કર્યું નથી',
     notSure: 'ખાતરી નથી',
-    pageLabel: 'Page અથવા screen',
-    pagePlaceholder: 'Example: Dashboard, Chat, Report, KP',
+    pageLabel: 'પેજ અથવા સ્ક્રીન',
+    pagePlaceholder: 'ઉદાહરણ: ડેશબોર્ડ, ચેટ, રિપોર્ટ, KP',
     pass: 'Pass redeem કરો',
     saved:
-      'Saved. Thank you. Next testing round પહેલા અમે આ જોશું, અને note આ browser માં પણ રાખ્યું છે.',
+      'Saved. Thank you. આગામી feedback review પહેલા અમે આ જોશું, અને note આ browser માં પણ રાખ્યું છે.',
     savedLocally:
-      'આ browser માં saved. Screenshots મોકલવા હોય તો email button પણ use કરો.',
+      'આ બ્રાઉઝરમાં સેવ થયું. સ્ક્રીનશોટ મોકલવા હોય તો ઈમેલ બટન પણ ઉપયોગ કરો.',
     send: 'Feedback મોકલો',
     sending: 'મોકલી રહ્યા છીએ...',
     signedInEmailNote:
-      'તમે signed in છો, એટલે follow-up માટે Predicta આ email use કરશે. અલગ email નાખવાની જરૂર નથી.',
-    testerLabel: 'કોણ test કરી રહ્યું છે?',
+      'તમે સાઇન ઇન છો, એટલે આગળ સંપર્ક માટે Predicta આ ઈમેલ ઉપયોગ કરશે. અલગ ઈમેલ નાખવાની જરૂર નથી.',
+    testerLabel: 'સૂચન કોણ શેર કરે છે?',
     testerOptions: [
-      { label: 'Friend અથવા family tester', value: 'friends-family' },
-      { label: 'Founder review', value: 'founder-review' },
-      { label: 'Investor/demo reviewer', value: 'investor-demo' },
-      { label: 'Public visitor', value: 'public' },
+      { label: 'મિત્ર અથવા પરિવાર', value: 'friends-family' },
+      { label: 'Founder સમીક્ષા', value: 'founder-review' },
+      { label: 'રોકાણકાર અથવા સમીક્ષક', value: 'investor-demo' },
+      { label: 'જાહેર મુલાકાતી', value: 'public' },
     ],
     title: 'જ્યાં confusion લાગ્યું, અમને કહો.',
     writeHere: 'અહીં લખો',

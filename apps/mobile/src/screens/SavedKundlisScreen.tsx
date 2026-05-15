@@ -96,30 +96,31 @@ export function SavedKundlisScreen({
   return (
     <Screen>
       {glassAlert}
-      <AnimatedHeader eyebrow="DEVICE + ACCOUNT" title="Saved kundlis" />
+      <AnimatedHeader eyebrow="KUNDLI LIBRARY" title="Kundli Library" />
       <AppText className="mt-4" tone="secondary">
-        Kundlis are saved on this device first. Account save happens only when
-        you choose it.
+        This is your saved Kundli storage. Choose the active profile for
+        Predicta. Family Vault uses these saved profiles for family patterns.
       </AppText>
       <GlowCard className="mt-6">
         <AppText tone="secondary" variant="caption">
           FAMILY VAULT
         </AppText>
         <AppText className="mt-2" variant="subtitle">
-          Multiple Kundlis, one household library
+          Family layer for saved Kundlis
         </AppText>
         <AppText className="mt-2" tone="secondary">
-          Create one profile for each person, choose who Predicta should read,
-          and compare family patterns without mixing charts.
+          Use your saved Kundlis as family profiles, compare patterns, and
+          later invite family members when shared permissions are ready.
         </AppText>
       </GlowCard>
 
       <View className="mt-6 gap-4">
         {savedKundlis.length === 0 ? (
           <GlowCard>
-            <AppText variant="subtitle">No saved kundlis yet</AppText>
+            <AppText variant="subtitle">Your Kundli Library is empty</AppText>
             <AppText className="mt-2" tone="secondary">
-              Generate a kundli from the Kundli screen and it will appear here.
+              Generate a Kundli from the Kundli screen. It will appear here
+              first, then Family Vault can use it as a family profile.
             </AppText>
           </GlowCard>
         ) : (
