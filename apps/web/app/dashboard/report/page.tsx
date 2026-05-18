@@ -55,30 +55,30 @@ const reportPageCopy: Record<
   }
 > = {
   en: {
-    askCta: 'Ask from report',
+    askCta: 'Ask which report fits',
     body:
-      'Start with a useful free preview. Go deeper only when you want timing, remedies, chart proof, or a polished PDF.',
+      'Start with a useful free preview. Choose paid depth only when the report needs timing windows, remedies, chart proof, or a polished PDF for a real decision.',
     drawerTitle: 'How to choose',
     openDetails: 'Open',
-    premiumCta: 'See deeper report options',
+    premiumCta: 'Compare report options',
     title: 'Pick the report you actually need.',
   },
   hi: {
-    askCta: 'रिपोर्ट से पूछें',
+    askCta: 'कौन सी report सही है पूछें',
     body:
-      'उपयोगी मुफ्त झलक से शुरू करें. समय, उपाय, चार्ट प्रमाण या सुंदर पीडीएफ चाहिए तो गहरा विकल्प चुनें.',
+      'उपयोगी free preview से शुरू करें. Paid depth तभी चुनें जब real decision के लिए timing windows, remedies, chart proof या polished PDF चाहिए.',
     drawerTitle: 'कैसे चुनें',
     openDetails: 'खोलें',
-    premiumCta: 'गहरे रिपोर्ट विकल्प देखें',
+    premiumCta: 'Report options compare करें',
     title: 'जो रिपोर्ट सच में चाहिए, वही चुनें.',
   },
   gu: {
-    askCta: 'રિપોર્ટ પરથી પૂછો',
+    askCta: 'કઈ report યોગ્ય છે પૂછો',
     body:
-      'ઉપયોગી મફત ઝલકથી શરૂ કરો. સમય, ઉપાયો, ચાર્ટ પુરાવો અથવા સુંદર પીડીએફ જોઈએ ત્યારે ઊંડો વિકલ્પ પસંદ કરો.',
+      'ઉપયોગી free preview થી શરૂ કરો. Paid depth ત્યારે પસંદ કરો જ્યારે real decision માટે timing windows, remedies, chart proof અથવા polished PDF જોઈએ.',
     drawerTitle: 'કેવી રીતે પસંદ કરવું',
     openDetails: 'ખોલો',
-    premiumCta: 'ઊંડા રિપોર્ટ વિકલ્પો જુઓ',
+    premiumCta: 'Report options compare કરો',
     title: 'જે રિપોર્ટ સાચે જોઈએ, તે પસંદ કરો.',
   },
 };

@@ -3510,7 +3510,7 @@ function buildSmartMonetizationSuggestions(
         : {
             href: '/dashboard/premium',
             id: 'smart-premium',
-            label: 'Premium options',
+            label: 'Choose paid depth',
             prompt: 'Open premium options',
             targetScreen: 'Premium',
           },
@@ -3525,14 +3525,14 @@ function buildSmartMonetizationSuggestions(
         : {
             href: '/checkout?productId=pridicta_day_pass_24h',
             id: 'smart-day-pass',
-            label: 'Day Pass try karo',
+            label: '24h depth try karo',
             prompt: 'Try Day Pass',
             targetScreen: 'Checkout',
           },
       {
         href: '/pricing',
         id: 'smart-compare',
-        label: 'Compare options',
+        label: 'Need ke hisaab se choose',
         prompt: 'Compare options',
         targetScreen: 'Pricing',
       },
@@ -3558,7 +3558,7 @@ function buildSmartMonetizationSuggestions(
         : {
             href: '/dashboard/premium',
             id: 'smart-premium',
-            label: 'Premium options',
+            label: 'Paid depth choose karo',
             prompt: 'Open premium options',
             targetScreen: 'Premium',
           },
@@ -3573,14 +3573,14 @@ function buildSmartMonetizationSuggestions(
         : {
             href: '/checkout?productId=pridicta_day_pass_24h',
             id: 'smart-day-pass',
-            label: 'Day Pass try karo',
+            label: '24h depth try karo',
             prompt: 'Try Day Pass',
             targetScreen: 'Checkout',
           },
       {
         href: '/pricing',
         id: 'smart-compare',
-        label: 'Compare options',
+        label: 'Need pramane choose karo',
         prompt: 'Compare options',
         targetScreen: 'Pricing',
       },
@@ -3605,7 +3605,7 @@ function buildSmartMonetizationSuggestions(
       : {
           href: '/dashboard/premium',
           id: 'smart-premium',
-          label: 'See Premium',
+          label: 'Choose paid depth',
           prompt: 'Open premium options',
           targetScreen: 'Premium',
         },
@@ -3620,14 +3620,14 @@ function buildSmartMonetizationSuggestions(
       : {
           href: '/checkout?productId=pridicta_day_pass_24h',
           id: 'smart-day-pass',
-          label: 'Try Day Pass',
+          label: 'Try 24-hour depth',
           prompt: 'Try Day Pass',
           targetScreen: 'Checkout',
         },
     {
       href: '/pricing',
       id: 'smart-compare',
-      label: 'Compare options',
+      label: 'Choose by need',
       prompt: 'Compare options',
       targetScreen: 'Pricing',
     },

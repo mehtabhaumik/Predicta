@@ -29,7 +29,26 @@ export default function PricingPage(): React.JSX.Element {
           <p>{copy.body}</p>
         </div>
 
-        <div className="pricing-grid">
+        <section className="pricing-difference-panel glass-panel">
+          <div>
+            <div className="section-title">{copy.choiceEyebrow}</div>
+            <h2>{copy.choiceTitle}</h2>
+          </div>
+          <div className="pricing-difference-grid">
+            {copy.choiceCards.map(card => (
+              <article key={card.title}>
+                <span>{card.label}</span>
+                <h3>{card.title}</h3>
+                <p>{card.body}</p>
+                <Link className="button secondary" href={card.href}>
+                  {card.cta}
+                </Link>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <div className="pricing-grid" id="subscriptions">
           {plans.map(plan => (
           <Card
               className={plan.recommended ? 'glass-panel plan-card recommended' : 'plan-card'}
@@ -69,7 +88,7 @@ export default function PricingPage(): React.JSX.Element {
           ))}
         </div>
 
-        <section className="one-time-section">
+        <section className="one-time-section" id="one-time">
           <div>
             <h2>{copy.oneTimeTitle}</h2>
             <p>{copy.oneTimeBody}</p>
@@ -145,6 +164,15 @@ const pricingPageCopy: Record<
   {
     back: string;
     body: string;
+    choiceCards: Array<{
+      body: string;
+      cta: string;
+      href: string;
+      label: string;
+      title: string;
+    }>;
+    choiceEyebrow: string;
+    choiceTitle: string;
     differenceCards: Array<{ body: string; title: string }>;
     differenceEyebrow: string;
     differenceTitle: string;
@@ -164,18 +192,43 @@ const pricingPageCopy: Record<
 > = {
   en: {
     back: 'Back to Predicta',
-    body: 'Premium unlocks deeper guidance, higher limits, and richer report depth without fear-based promises.',
+    body: 'Choose the paid option only when Predicta has already helped and you want clearer timing, a prepared report, family context, or more guided depth.',
+    choiceCards: [
+      {
+        body: 'Best when you want ongoing Predicta guidance, monthly timing, remedies, saved chats, and family profiles.',
+        cta: 'See subscriptions',
+        href: '#subscriptions',
+        label: 'Subscription',
+        title: 'I want guidance every month',
+      },
+      {
+        body: 'Best when you want one polished Kundli, career, wealth, marriage, Sade Sati, or compatibility PDF.',
+        cta: 'Choose one report',
+        href: '#one-time',
+        label: 'One report',
+        title: 'I need one answer prepared well',
+      },
+      {
+        body: 'Best when friends or family want to test Premium depth for one day before committing.',
+        cta: 'Try Day Pass',
+        href: '/checkout?productId=pridicta_day_pass_24h',
+        label: '24-hour trial',
+        title: 'I want to try everything today',
+      },
+    ],
+    choiceEyebrow: 'Choose by need',
+    choiceTitle: 'Do not buy a plan. Pick the outcome you want.',
     differenceCards: [
       {
-        body: 'Create Kundli, see charts, ask limited questions, and download a useful free report.',
+        body: 'Create Kundli, see charts, ask limited questions, and download a useful report preview.',
         title: 'Free',
       },
       {
-        body: 'Go deeper with chart synthesis, timing maps, remedies, longer chat, family context, and detailed PDFs.',
+        body: 'Use Premium for monthly timing, chart synthesis, remedies, saved memory, family context, and detailed PDFs.',
         title: 'Premium',
       },
       {
-        body: 'Buy a Day Pass or one polished report when you do not want a subscription.',
+        body: 'Use a Day Pass or one report when you need depth for a specific moment without subscribing.',
         title: 'One-time',
       },
     ],
@@ -184,36 +237,61 @@ const pricingPageCopy: Record<
     legalBody:
       'Predicta Premium is deeper astrology guidance, not medical, legal, financial, or emergency advice. Subscriptions and one-time reports should stay clear before purchase.',
     legalTitle: 'Clear limits, no fear selling.',
-    oneTimeBody: 'Use these when you want one clear unlock without a subscription.',
+    oneTimeBody: 'Use these when one clear life question needs a prepared answer without a subscription.',
     oneTimeTitle: 'One-time purchases',
     pill: 'No unlimited claims',
     planFeatures: [
-      'Deeper Predicta answers with proof',
+      'Deeper Predicta answers with chart proof',
       'Life Calendar and timing windows',
-      'Premium report depth',
-      'Family profiles and saved guidance',
+      'Detailed PDFs for serious questions',
+      'Family profiles, saved chats, and continuity',
     ],
     readPolicies: 'Read Policies',
-    selectPrefix: 'Select',
-    storyBody: 'Premium should feel like a private Jyotish studio, not a meter running in the background.',
+    selectPrefix: 'Choose',
+    storyBody: 'Premium is for users who want Predicta to prepare, remember, compare, and explain more deeply.',
     storyEyebrow: 'Premium story',
     storyTitle: 'Create your Kundli. Understand your life. Ask better questions. Get beautiful reports.',
-    title: 'Premium access without pressure.',
+    title: 'Pay only when you know what you need.',
   },
   hi: {
     back: 'Predicta पर वापस',
-    body: 'प्रीमियम गहरा मार्गदर्शन, ज्यादा सीमा और बेहतर रिपोर्ट गहराई देता है, डराने वाले वादे नहीं.',
+    body: 'Paid option तभी चुनें जब Predicta मदद कर चुकी हो और आपको समय, तैयार रिपोर्ट, परिवार संदर्भ या ज्यादा गहराई चाहिए.',
+    choiceCards: [
+      {
+        body: 'जब हर महीने Predicta guidance, timing, remedies, saved chats और family profiles चाहिए.',
+        cta: 'Subscription देखें',
+        href: '#subscriptions',
+        label: 'Subscription',
+        title: 'मुझे हर महीने guidance चाहिए',
+      },
+      {
+        body: 'जब Kundli, career, wealth, marriage, Sade Sati या compatibility की एक polished PDF चाहिए.',
+        cta: 'एक report चुनें',
+        href: '#one-time',
+        label: 'एक report',
+        title: 'मुझे एक जवाब अच्छे से तैयार चाहिए',
+      },
+      {
+        body: 'जब friends या family commitment से पहले एक दिन Premium depth test करना चाहें.',
+        cta: 'Day Pass try करें',
+        href: '/checkout?productId=pridicta_day_pass_24h',
+        label: '24 घंटे trial',
+        title: 'मुझे आज सब test करना है',
+      },
+    ],
+    choiceEyebrow: 'जरूरत से चुनें',
+    choiceTitle: 'Plan मत खरीदें. जो outcome चाहिए, वह चुनें.',
     differenceCards: [
       {
-        body: 'कुंडली बनाएं, चार्ट देखें, सीमित सवाल पूछें, और उपयोगी मुफ्त रिपोर्ट डाउनलोड करें.',
+        body: 'कुंडली बनाएं, charts देखें, सीमित सवाल पूछें, और उपयोगी report preview डाउनलोड करें.',
         title: 'मुफ्त',
       },
       {
-        body: 'चार्ट सार, समय मानचित्र, उपाय, लंबी चैट, परिवार संदर्भ और विस्तृत पीडीएफ में गहराई पाएं.',
+        body: 'Monthly timing, chart synthesis, remedies, saved memory, family context और detailed PDFs के लिए Premium लें.',
         title: 'प्रीमियम',
       },
       {
-        body: 'सदस्यता नहीं चाहिए तो डे पास या एक सुंदर रिपोर्ट लें.',
+        body: 'Subscription नहीं चाहिए तो specific moment के लिए Day Pass या एक report लें.',
         title: 'एक बार खरीदें',
       },
     ],
@@ -222,36 +300,61 @@ const pricingPageCopy: Record<
     legalBody:
       'Predicta Premium गहरा ज्योतिष मार्गदर्शन है, डॉक्टर, वकील, वित्तीय सलाहकार या आपात मदद का विकल्प नहीं. खरीदारी से पहले सदस्यता और एक बार की रिपोर्ट साफ समझ में आनी चाहिए.',
     legalTitle: 'साफ सीमाएं, डर बेचने वाला तरीका नहीं.',
-    oneTimeBody: 'जब सदस्यता नहीं चाहिए और एक साफ विकल्प चाहिए तब उपयोग करें.',
+    oneTimeBody: 'जब एक life question का prepared answer चाहिए और subscription नहीं चाहिए.',
     oneTimeTitle: 'एक बार की खरीदारी',
     pill: 'असीमित दावे नहीं',
     planFeatures: [
-      'प्रमाण के साथ गहरे Predicta जवाब',
-      'जीवन कैलेंडर और समय खिड़कियां',
-      'प्रीमियम रिपोर्ट गहराई',
-      'परिवार प्रोफाइल और सेव मार्गदर्शन',
+      'Chart proof के साथ गहरे Predicta जवाब',
+      'Life Calendar और timing windows',
+      'Serious questions के लिए detailed PDFs',
+      'Family profiles, saved chats और continuity',
     ],
     readPolicies: 'नीतियां पढ़ें',
     selectPrefix: 'चुनें',
-    storyBody: 'प्रीमियम को निजी ज्योतिष स्टूडियो जैसा महसूस होना चाहिए, पीछे चलता मीटर जैसा नहीं.',
+    storyBody: 'Premium उन users के लिए है जिन्हें Predicta से तैयारी, memory, comparison और गहरी explanation चाहिए.',
     storyEyebrow: 'प्रीमियम कहानी',
     storyTitle: 'कुंडली बनाएं. जीवन समझें. बेहतर सवाल पूछें. सुंदर रिपोर्ट पाएं.',
-    title: 'बिना दबाव प्रीमियम प्रवेश.',
+    title: 'तभी pay करें जब जरूरत साफ हो.',
   },
   gu: {
     back: 'Predicta પર પાછા',
-    body: 'પ્રીમિયમ ઊંડું માર્ગદર્શન, વધુ મર્યાદા અને સારી રિપોર્ટ ઊંડાઈ આપે છે, ડરાવનારા વચનો નહીં.',
+    body: 'Paid option ત્યારે પસંદ કરો જ્યારે Predicta મદદ કરી ચૂકી હોય અને તમને timing, તૈયાર report, family context અથવા વધુ ઊંડાઈ જોઈએ.',
+    choiceCards: [
+      {
+        body: 'જ્યારે દર મહિને Predicta guidance, timing, remedies, saved chats અને family profiles જોઈએ.',
+        cta: 'Subscription જુઓ',
+        href: '#subscriptions',
+        label: 'Subscription',
+        title: 'મારે દર મહિને guidance જોઈએ',
+      },
+      {
+        body: 'જ્યારે Kundli, career, wealth, marriage, Sade Sati અથવા compatibility માટે એક polished PDF જોઈએ.',
+        cta: 'એક report પસંદ કરો',
+        href: '#one-time',
+        label: 'એક report',
+        title: 'મારે એક જવાબ સારી રીતે તૈયાર જોઈએ',
+      },
+      {
+        body: 'જ્યારે friends અથવા family commitment પહેલાં એક દિવસ Premium depth test કરવા માંગે.',
+        cta: 'Day Pass try કરો',
+        href: '/checkout?productId=pridicta_day_pass_24h',
+        label: '24 કલાક trial',
+        title: 'મારે આજે બધું test કરવું છે',
+      },
+    ],
+    choiceEyebrow: 'જરૂર મુજબ પસંદ કરો',
+    choiceTitle: 'Plan ન ખરીદો. જે outcome જોઈએ તે પસંદ કરો.',
     differenceCards: [
       {
-        body: 'કુંડળી બનાવો, ચાર્ટ્સ જુઓ, મર્યાદિત પ્રશ્નો પૂછો, અને ઉપયોગી મફત રિપોર્ટ ડાઉનલોડ કરો.',
+        body: 'કુંડળી બનાવો, charts જુઓ, મર્યાદિત પ્રશ્નો પૂછો, અને ઉપયોગી report preview ડાઉનલોડ કરો.',
         title: 'મફત',
       },
       {
-        body: 'ચાર્ટ સાર, સમય નકશો, ઉપાયો, લાંબી ચેટ, પરિવાર સંદર્ભ અને વિગતવાર પીડીએફમાં ઊંડાઈ મેળવો.',
+        body: 'Monthly timing, chart synthesis, remedies, saved memory, family context અને detailed PDFs માટે Premium લો.',
         title: 'પ્રીમિયમ',
       },
       {
-        body: 'સભ્યતા ન જોઈએ તો ડે પાસ અથવા એક સુંદર રિપોર્ટ લો.',
+        body: 'Subscription ન જોઈએ તો specific moment માટે Day Pass અથવા એક report લો.',
         title: 'એક વાર ખરીદો',
       },
     ],
@@ -260,21 +363,21 @@ const pricingPageCopy: Record<
     legalBody:
       'Predicta Premium ઊંડું જ્યોતિષ માર્ગદર્શન છે, ડૉક્ટર, વકીલ, નાણાકીય સલાહકાર અથવા આપાત મદદનો વિકલ્પ નથી. ખરીદી પહેલાં સભ્યતા અને એક વારની રિપોર્ટ સ્પષ્ટ સમજાય તે જરૂરી છે.',
     legalTitle: 'સ્પષ્ટ મર્યાદા, ડર વેચવાનું નહીં.',
-    oneTimeBody: 'સભ્યતા વગર એક સ્પષ્ટ વિકલ્પ જોઈએ ત્યારે ઉપયોગ કરો.',
+    oneTimeBody: 'જ્યારે એક life question નો prepared answer જોઈએ અને subscription ન જોઈએ.',
     oneTimeTitle: 'એક વારની ખરીદી',
     pill: 'અસીમ દાવા નહીં',
     planFeatures: [
-      'પુરાવા સાથે ઊંડા Predicta જવાબ',
-      'જીવન કેલેન્ડર અને સમય ખિડકીઓ',
-      'પ્રીમિયમ રિપોર્ટ ઊંડાઈ',
-      'પરિવાર પ્રોફાઇલ અને સેવ માર્ગદર્શન',
+      'Chart proof સાથે ઊંડા Predicta જવાબ',
+      'Life Calendar અને timing windows',
+      'Serious questions માટે detailed PDFs',
+      'Family profiles, saved chats અને continuity',
     ],
     readPolicies: 'નીતિઓ વાંચો',
     selectPrefix: 'પસંદ કરો',
-    storyBody: 'પ્રીમિયમ ખાનગી જ્યોતિષ સ્ટૂડિયો જેવું લાગવું જોઈએ, પાછળ ચાલતા મીટર જેવું નહીં.',
+    storyBody: 'Premium એ users માટે છે જેને Predicta પાસેથી તૈયારી, memory, comparison અને ઊંડી explanation જોઈએ.',
     storyEyebrow: 'પ્રીમિયમ વાર્તા',
     storyTitle: 'કુંડળી બનાવો. જીવન સમજો. સારા પ્રશ્નો પૂછો. સુંદર રિપોર્ટ્સ મેળવો.',
-    title: 'દબાણ વગર પ્રીમિયમ પ્રવેશ.',
+    title: 'જરૂર સ્પષ્ટ હોય ત્યારે જ pay કરો.',
   },
 };
 

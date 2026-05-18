@@ -3370,6 +3370,186 @@
       "en": "No saved Predicta chat is available yet.",
       "hi": "अभी कोई सेव Predicta चैट उपलब्ध नहीं है.",
       "gu": "હજુ કોઈ સેવ Predicta ચેટ ઉપલબ્ધ નથી."
+    },
+    "ui.choosethenextdepthonlywhenithelps.outcome": {
+      "en": "Choose the next depth only when it helps.",
+      "hi": "गहराई तभी चुनें जब वह सच में मदद करे.",
+      "gu": "ઊંડાઈ ત્યારે જ પસંદ કરો જ્યારે તે ખરેખર મદદ કરે."
+    },
+    "ui.howtochoose.outcome": {
+      "en": "How to choose",
+      "hi": "कैसे चुनें",
+      "gu": "કેવી રીતે પસંદ કરવું"
+    },
+    "ui.startfreeuseadaypasswhenyouwanttotesteve.outcome": {
+      "en": "Start free. Use a Day Pass when you want to test everything today. Choose a subscription for monthly guidance. Buy one report when one life question needs a polished PDF.",
+      "hi": "Free से शुरू करें. आज सब test करना हो तो Day Pass लें. हर महीने guidance चाहिए तो subscription चुनें. एक life question की polished PDF चाहिए तो एक report लें.",
+      "gu": "Free થી શરૂ કરો. આજે બધું test કરવું હોય તો Day Pass લો. દર મહિને guidance જોઈએ તો subscription પસંદ કરો. એક life question ની polished PDF જોઈએ તો એક report લો."
+    },
+    "ui.choosebyoutcome.outcome": {
+      "en": "CHOOSE BY OUTCOME",
+      "hi": "OUTCOME से चुनें",
+      "gu": "OUTCOME મુજબ પસંદ કરો"
+    },
+    "ui.pickwhatyouneednotthebiggestplan.outcome": {
+      "en": "Pick what you need, not the biggest plan.",
+      "hi": "जो चाहिए वह चुनें, सबसे बड़ा plan नहीं.",
+      "gu": "જે જોઈએ તે પસંદ કરો, સૌથી મોટો plan નહીં."
+    },
+    "ui.monthlyguidance.outcome": {
+      "en": "Monthly guidance",
+      "hi": "Monthly guidance",
+      "gu": "Monthly guidance"
+    },
+    "ui.iwantpredictawithmeeverymonth.outcome": {
+      "en": "I want Predicta with me every month.",
+      "hi": "मुझे Predicta हर महीने साथ चाहिए.",
+      "gu": "મારે Predicta દર મહિને સાથે જોઈએ."
+    },
+    "ui.bestforongoingchattimingwindowsremediess.outcome": {
+      "en": "Best for ongoing chat, timing windows, remedies, saved sessions, and family profiles.",
+      "hi": "Ongoing chat, timing windows, remedies, saved sessions और family profiles के लिए अच्छा.",
+      "gu": "Ongoing chat, timing windows, remedies, saved sessions અને family profiles માટે સારું."
+    },
+    "ui.seesubscriptions.outcome": {
+      "en": "See subscriptions",
+      "hi": "Subscriptions देखें",
+      "gu": "Subscriptions જુઓ"
+    },
+    "ui.onepreparedanswer.outcome": {
+      "en": "One prepared answer",
+      "hi": "एक तैयार जवाब",
+      "gu": "એક તૈયાર જવાબ"
+    },
+    "ui.ineedonepolishedreport.outcome": {
+      "en": "I need one polished report.",
+      "hi": "मुझे एक polished report चाहिए.",
+      "gu": "મારે એક polished report જોઈએ."
+    },
+    "ui.bestforkundlicareerwealthmarriagecompati.outcome": {
+      "en": "Best for Kundli, career, wealth, marriage, compatibility, Sade Sati, or remedies.",
+      "hi": "Kundli, career, wealth, marriage, compatibility, Sade Sati या remedies के लिए अच्छा.",
+      "gu": "Kundli, career, wealth, marriage, compatibility, Sade Sati અથવા remedies માટે સારું."
+    },
+    "ui.trialdepth.outcome": {
+      "en": "Trial depth",
+      "hi": "Trial depth",
+      "gu": "Trial depth"
+    },
+    "ui.iwanttotestpremiumtoday.outcome": {
+      "en": "I want to test Premium today.",
+      "hi": "मुझे आज Premium test करना है.",
+      "gu": "મારે આજે Premium test કરવું છે."
+    },
+    "ui.bestforfriendsandfamilywhowantfulldepthf.outcome": {
+      "en": "Best for friends and family who want full depth for 24 hours before deciding.",
+      "hi": "Friends और family के लिए अच्छा जो decision से पहले 24 घंटे full depth देखना चाहते हैं.",
+      "gu": "Friends અને family માટે સારું, જેમને decision પહેલાં 24 કલાક full depth જોવી છે."
+    },
+    "ui.whatchanges.outcome": {
+      "en": "WHAT CHANGES",
+      "hi": "क्या बदलता है",
+      "gu": "શું બદલાય છે"
+    },
+    "ui.premiumgivesmorepreparationtimingmemorya.outcome": {
+      "en": "Premium gives more preparation, timing, memory, and proof.",
+      "hi": "Premium ज्यादा तैयारी, timing, memory और proof देता है.",
+      "gu": "Premium વધુ તૈયારી, timing, memory અને proof આપે છે."
+    },
+    "ui.whatchangesafterfree.outcome": {
+      "en": "What changes after free?",
+      "hi": "Free के बाद क्या बदलता है?",
+      "gu": "Free પછી શું બદલાય છે?"
+    },
+    "ui.freestaysusefulpremiumisfordeepersynthes.outcome": {
+      "en": "Free stays useful. Premium is for deeper synthesis, monthly windows, family context, detailed PDFs, and longer guided conversations.",
+      "hi": "Free useful रहता है. Premium deeper synthesis, monthly windows, family context, detailed PDFs और लंबी guided conversations के लिए है.",
+      "gu": "Free useful રહે છે. Premium deeper synthesis, monthly windows, family context, detailed PDFs અને લાંબી guided conversations માટે છે."
+    },
+    "ui.chooseweekly.outcome": {
+      "en": "Choose Weekly",
+      "hi": "Weekly चुनें",
+      "gu": "Weekly પસંદ કરો"
+    },
+    "ui.choosemonthly.outcome": {
+      "en": "Choose Monthly",
+      "hi": "Monthly चुनें",
+      "gu": "Monthly પસંદ કરો"
+    },
+    "ui.choosequarterly.outcome": {
+      "en": "Choose Quarterly",
+      "hi": "Quarterly चुनें",
+      "gu": "Quarterly પસંદ કરો"
+    },
+    "ui.chooseyearly.outcome": {
+      "en": "Choose Yearly",
+      "hi": "Yearly चुनें",
+      "gu": "Yearly પસંદ કરો"
+    },
+    "ui.notreadyforasubscription.outcome": {
+      "en": "Not ready for a subscription?",
+      "hi": "Subscription के लिए अभी ready नहीं?",
+      "gu": "Subscription માટે હજી ready નથી?"
+    },
+    "ui.choosepremiumpdf.outcome": {
+      "en": "Choose Premium PDF",
+      "hi": "Premium PDF चुनें",
+      "gu": "Premium PDF પસંદ કરો"
+    },
+    "ui.choosemarriagecompatibilityreport.outcome": {
+      "en": "Choose Marriage Compatibility Report",
+      "hi": "Marriage Compatibility Report चुनें",
+      "gu": "Marriage Compatibility Report પસંદ કરો"
+    },
+    "ui.turnaseriousquestionintochartproofconfid.outcome": {
+      "en": "Turn a serious question into chart proof, confidence, timing context, and next steps.",
+      "hi": "Serious question को chart proof, confidence, timing context और next steps में बदलें.",
+      "gu": "Serious question ને chart proof, confidence, timing context અને next steps માં બદલો."
+    },
+    "ui.getadeeperanswer.outcome": {
+      "en": "Get a deeper answer",
+      "hi": "गहरा जवाब पाएं",
+      "gu": "ઊંડો જવાબ મેળવો"
+    },
+    "ui.seethemonthbymonthdashaandtransitwindows.outcome": {
+      "en": "See the month-by-month dasha and transit windows behind the current life phase.",
+      "hi": "Current life phase के पीछे month-by-month dasha और transit windows देखें.",
+      "gu": "Current life phase પાછળની month-by-month dasha અને transit windows જુઓ."
+    },
+    "ui.plantimingclearly.outcome": {
+      "en": "Plan timing clearly",
+      "hi": "Timing साफ plan करें",
+      "gu": "Timing સ્પષ્ટ plan કરો"
+    },
+    "ui.keepfamilykundlistogethercomparepatterns.outcome": {
+      "en": "Keep family Kundlis together, compare patterns, and ask Predicta with the right profile selected.",
+      "hi": "Family Kundlis साथ रखें, patterns compare करें, और सही profile से Predicta पूछें.",
+      "gu": "Family Kundlis સાથે રાખો, patterns compare કરો, અને યોગ્ય profile થી Predicta ને પૂછો."
+    },
+    "ui.understandfamilycharts.outcome": {
+      "en": "Understand family charts",
+      "hi": "Family charts समझें",
+      "gu": "Family charts સમજો"
+    },
+    "ui.createfocusedpdfsforkundlicareermarriage.outcome": {
+      "en": "Create focused PDFs for Kundli, Career, Marriage, Wealth, Child, and Remedies.",
+      "hi": "Kundli, Career, Marriage, Wealth, Child और Remedies के focused PDFs बनाएं.",
+      "gu": "Kundli, Career, Marriage, Wealth, Child અને Remedies માટે focused PDFs બનાવો."
+    },
+    "ui.createpolishedreports.outcome": {
+      "en": "Create polished reports",
+      "hi": "Polished reports बनाएं",
+      "gu": "Polished reports બનાવો"
+    },
+    "ui.openvargadashatransitashtakavargaandevid.outcome": {
+      "en": "Open varga, dasha, transit, Ashtakavarga, and evidence tables when you want the full reasoning.",
+      "hi": "Full reasoning चाहिए तो varga, dasha, transit, Ashtakavarga और evidence tables खोलें.",
+      "gu": "Full reasoning જોઈએ તો varga, dasha, transit, Ashtakavarga અને evidence tables ખોલો."
+    },
+    "ui.checkthedeeperproof.outcome": {
+      "en": "Check the deeper proof",
+      "hi": "गहरा proof देखें",
+      "gu": "ઊંડો proof જુઓ"
     }
   }
 }

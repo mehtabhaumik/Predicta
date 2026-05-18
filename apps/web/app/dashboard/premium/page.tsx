@@ -18,31 +18,69 @@ export default function DashboardPremiumPage(): React.JSX.Element {
   return (
     <section className="dashboard-page">
       <div className="page-heading compact">
-        <h1 className="gradient-text">Go deeper when the free reading helps.</h1>
+        <h1 className="gradient-text">Choose the next depth only when it helps.</h1>
         <details className="info-drawer">
           <summary>
-            <span>What Premium adds</span>
+            <span>How to choose</span>
             <strong>Open</strong>
           </summary>
           <p>
-            Premium turns holistic astrology into deeper timing, richer reports,
-            family context, and longer Predicta guidance.
+            Start free. Use a Day Pass when you want to test everything today.
+            Choose a subscription for monthly guidance. Buy one report when one
+            life question needs a polished PDF.
           </p>
         </details>
       </div>
 
+      <section className="pricing-difference-panel glass-panel">
+        <div>
+          <div className="section-title">CHOOSE BY OUTCOME</div>
+          <h2>Pick what you need, not the biggest plan.</h2>
+        </div>
+        <div className="pricing-difference-grid">
+          <article>
+            <span>Monthly guidance</span>
+            <h3>I want Predicta with me every month.</h3>
+            <p>Best for ongoing chat, timing windows, remedies, saved sessions, and family profiles.</p>
+            <a className="button secondary" href="#subscriptions">
+              See subscriptions
+            </a>
+          </article>
+          <article>
+            <span>One prepared answer</span>
+            <h3>I need one polished report.</h3>
+            <p>Best for Kundli, career, wealth, marriage, compatibility, Sade Sati, or remedies.</p>
+            <a className="button secondary" href="#one-time">
+              Choose one report
+            </a>
+          </article>
+          <article>
+            <span>Trial depth</span>
+            <h3>I want to test Premium today.</h3>
+            <p>Best for friends and family who want full depth for 24 hours before deciding.</p>
+            <Link
+              className="button secondary"
+              href={`/checkout?productId=${encodeURIComponent(dayPass.productId)}`}
+            >
+              Try Day Pass
+            </Link>
+          </article>
+        </div>
+      </section>
+
       <section className="premium-feature-story glass-panel">
         <div>
-          <div className="section-title">WHY PREMIUM</div>
-          <h2>Predicta becomes your private Jyotish studio.</h2>
+          <div className="section-title">WHAT CHANGES</div>
+          <h2>Premium gives more preparation, timing, memory, and proof.</h2>
           <details className="info-drawer">
             <summary>
-              <span>Why choose it?</span>
+              <span>What changes after free?</span>
               <strong>Open</strong>
             </summary>
             <p>
-              Free stays useful. Premium adds depth, memory, timing maps,
-              remedies, reports, and higher guidance limits.
+              Free stays useful. Premium is for deeper synthesis, monthly
+              windows, family context, detailed PDFs, and longer guided
+              conversations.
             </p>
           </details>
         </div>
@@ -56,7 +94,7 @@ export default function DashboardPremiumPage(): React.JSX.Element {
         </div>
       </section>
 
-      <div className="pricing-grid">
+      <div className="pricing-grid" id="subscriptions">
         {plans.map(plan => (
           <Card
             className={plan.recommended ? 'glass-panel plan-card recommended' : 'plan-card'}
@@ -72,16 +110,16 @@ export default function DashboardPremiumPage(): React.JSX.Element {
                 className="button secondary"
                 href={`/checkout?productId=${encodeURIComponent(plan.productId)}`}
               >
-                Select {plan.label}
+                Choose {plan.label}
               </Link>
             </div>
           </Card>
         ))}
       </div>
 
-      <section className="one-time-section">
+      <section className="one-time-section" id="one-time">
         <div>
-          <h2>Try depth before subscribing.</h2>
+          <h2>Not ready for a subscription?</h2>
           <p>{dayPass.description}</p>
           <Link
             className="button"
@@ -101,7 +139,7 @@ export default function DashboardPremiumPage(): React.JSX.Element {
                   className="button secondary"
                   href={`/checkout?productId=${encodeURIComponent(product.productId)}`}
                 >
-                  Select {product.label}
+                  Choose {product.label}
                 </Link>
               </div>
             </Card>

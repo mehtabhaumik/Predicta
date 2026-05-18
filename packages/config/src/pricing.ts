@@ -23,24 +23,24 @@ export const ONE_TIME_PRICING = {
 
 export const PREMIUM_FEATURE_STORY = [
   {
-    body: 'Premium answers show chart factors, confidence, and timing context.',
-    title: 'Ask with proof',
+    body: 'Turn a serious question into chart proof, confidence, timing context, and next steps.',
+    title: 'Get a deeper answer',
   },
   {
-    body: 'A month-by-month dasha and transit calendar.',
-    title: 'Life Calendar',
+    body: 'See the month-by-month dasha and transit windows behind the current life phase.',
+    title: 'Plan timing clearly',
   },
   {
-    body: 'Store multiple family Kundlis and compare them privately.',
-    title: 'Family Vault',
+    body: 'Keep family Kundlis together, compare patterns, and ask Predicta with the right profile selected.',
+    title: 'Understand family charts',
   },
   {
-    body: 'Focused bundles for Kundli, Career, Marriage, Wealth, Child, and Remedies.',
-    title: 'Premium report bundles',
+    body: 'Create focused PDFs for Kundli, Career, Marriage, Wealth, Child, and Remedies.',
+    title: 'Create polished reports',
   },
   {
-    body: 'Reveal varga, dasha, transit, ashtakavarga, and evidence tables.',
-    title: 'Astrologer-grade mode',
+    body: 'Open varga, dasha, transit, Ashtakavarga, and evidence tables when you want the full reasoning.',
+    title: 'Check the deeper proof',
   },
 ] as const;
 
@@ -289,7 +289,7 @@ export function getOneTimeProducts(): OneTimeProduct[] {
   return [
     {
       badge: '24 hours',
-      description: 'Try Premium depth for one day without a subscription.',
+      description: 'Use this when you want to try deeper chat, reports, and timing today without subscribing.',
       displayPrice: formatInr(ONE_TIME_PRICING.dayPass),
       id: 'DAY_PASS',
       label: 'Day Pass',
@@ -297,7 +297,7 @@ export function getOneTimeProducts(): OneTimeProduct[] {
       productId: oneTimeProductIds.DAY_PASS,
     },
     {
-      description: 'Add 5 Predicta questions when you need more guidance.',
+      description: 'Use this when you only need a few more focused answers after the free preview.',
       displayPrice: formatInr(ONE_TIME_PRICING.fiveQuestions),
       id: 'FIVE_QUESTIONS',
       label: '5 Predicta Questions',
@@ -305,7 +305,7 @@ export function getOneTimeProducts(): OneTimeProduct[] {
       productId: oneTimeProductIds.FIVE_QUESTIONS,
     },
     {
-      description: 'Unlock one premium-depth PDF for the active kundli.',
+      description: 'Use this when you want one polished PDF for the active Kundli.',
       displayPrice: formatInr(ONE_TIME_PRICING.premiumPdf),
       id: 'PREMIUM_PDF',
       label: 'Premium PDF',
@@ -313,7 +313,7 @@ export function getOneTimeProducts(): OneTimeProduct[] {
       productId: oneTimeProductIds.PREMIUM_PDF,
     },
     {
-      description: 'Generate one deeper kundli dossier for the active kundli.',
+      description: 'Use this when you want one complete Kundli life overview prepared as a report.',
       displayPrice: formatInr(ONE_TIME_PRICING.detailedKundliReport),
       id: 'DETAILED_KUNDLI_REPORT',
       label: 'Detailed Kundli Report',
@@ -321,7 +321,7 @@ export function getOneTimeProducts(): OneTimeProduct[] {
       productId: oneTimeProductIds.DETAILED_KUNDLI_REPORT,
     },
     {
-      description: 'Focused two-chart relationship and marriage timing report.',
+      description: 'Use this when marriage, compatibility, or family discussion needs a prepared report.',
       displayPrice: formatInr(ONE_TIME_PRICING.marriageCompatibilityReport),
       id: 'MARRIAGE_COMPATIBILITY_REPORT',
       label: 'Marriage Compatibility Report',
