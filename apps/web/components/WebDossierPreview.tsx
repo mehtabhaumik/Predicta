@@ -535,14 +535,16 @@ export function WebDossierPreview(): React.JSX.Element {
                 onChange={() => toggleSection(key)}
                 type="checkbox"
               />
-              <span>{section.eyebrow}</span>
+              <span>{formatReportSectionEyebrow(section.eyebrow, reportLanguage)}</span>
               <strong>{section.title}</strong>
               <small>
                 {kundli
-                  ? `${section.tier === 'premium' ? reportLabels.premium : reportLabels.free} · ${getConfidenceLabel(
-                      reportLanguage,
-                      section.confidence ?? 'medium',
-                    )} ${reportLabels.confidence}`
+                  ? formatReportSectionMeta({
+                      confidence: section.confidence ?? 'medium',
+                      language: reportLanguage,
+                      labels: reportLabels,
+                      tier: section.tier ?? 'free',
+                    })
                   : builderCopy.createKundliToSelect}
               </small>
             </label>
@@ -1338,6 +1340,48 @@ function getReportBuilderCopy(language: SupportedLanguage): {
     title: 'Make report download easy.',
     viewSelectedDetails: 'Selected report details',
   };
+}
+
+function formatReportSectionEyebrow(
+  eyebrow: string,
+  language: SupportedLanguage,
+): string {
+  if (language !== 'en') {
+    return eyebrow;
+  }
+
+  return eyebrow
+    .toLowerCase()
+    .split(/\s+/)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
+function formatReportSectionMeta({
+  confidence,
+  language,
+  labels,
+  tier,
+}: {
+  confidence: 'high' | 'low' | 'medium';
+  language: SupportedLanguage;
+  labels: ReturnType<typeof getLanguageLabels>;
+  tier: 'free' | 'premium';
+}): string {
+  const tierLabel = tier === 'premium' ? labels.premium : labels.free;
+  const confidenceLabel = getConfidenceLabel(language, confidence);
+
+  if (language === 'hi') {
+    return `${tierLabel} · ${labels.confidence}: ${confidenceLabel}`;
+  }
+
+  if (language === 'gu') {
+    return `${tierLabel} · ${labels.confidence}: ${confidenceLabel}`;
+  }
+
+  return `${tierLabel} · ${confidenceLabel.charAt(0).toUpperCase()}${confidenceLabel.slice(
+    1,
+  )} confidence`;
 }
 
 function getReportLanguageCopy(language: SupportedLanguage): {
