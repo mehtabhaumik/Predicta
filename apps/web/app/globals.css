@@ -2325,6 +2325,68 @@ button:disabled {
   width: 100%;
 }
 
+.birth-place-search {
+  display: grid;
+  gap: 8px;
+}
+
+.birth-place-search small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.birth-place-suggestions {
+  display: grid;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.birth-place-suggestions button {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.052);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  min-height: 46px;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.birth-place-suggestions button:hover,
+.birth-place-suggestions button:focus-visible,
+.birth-place-suggestions button[aria-selected='true'] {
+  background: rgba(77, 175, 255, 0.11);
+  border-color: rgba(77, 175, 255, 0.36);
+  outline: none;
+}
+
+.birth-place-suggestions strong,
+.birth-place-suggestions span {
+  color: inherit;
+  font-size: 14px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.birth-place-suggestions span {
+  color: var(--muted);
+  font-weight: 750;
+  text-align: right;
+}
+
+.birth-place-suggestions em {
+  color: var(--muted);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 800;
+}
+
 .kundli-checkbox {
   align-items: center;
   display: flex;
@@ -2517,10 +2579,25 @@ button:disabled {
   display: grid;
   gap: 24px;
   grid-template-columns: 1fr;
+  scroll-margin-top: 150px;
 }
 
 .kundli-creation-copy {
   max-width: 820px;
+}
+
+.kundli-creation-reveal:focus {
+  outline: none;
+}
+
+.kundli-created-chart-full {
+  display: block;
+  width: 100%;
+}
+
+.kundli-created-chart-full .jyotish-chart-shell {
+  border: 0;
+  padding: 0;
 }
 
 .kundli-creation-reveal p {

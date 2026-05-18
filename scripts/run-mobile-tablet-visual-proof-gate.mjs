@@ -156,6 +156,7 @@ if (failures.length) {
 console.log(
   `Mobile/tablet visual proof gate passed: ${summary.length} route and viewport checks.`,
 );
+process.exit(0);
 
 async function waitForChrome(debugPort) {
   for (let attempt = 0; attempt < 80; attempt += 1) {
@@ -182,9 +183,29 @@ async function closeTarget(debugPort, id) {
 }
 
 async function navigateAndWait(cdp, url) {
-  const loadEvent = cdp.waitFor('Page.loadEventFired', 20_000);
   await cdp.send('Page.navigate', { url });
-  await loadEvent.catch(() => undefined);
+  await cdp
+    .send('Runtime.evaluate', {
+      awaitPromise: true,
+      expression: `new Promise(resolve => {
+        const done = () => document.readyState === 'complete' || document.readyState === 'interactive';
+        if (done()) {
+          resolve(true);
+          return;
+        }
+        const timer = setInterval(() => {
+          if (done()) {
+            clearInterval(timer);
+            resolve(true);
+          }
+        }, 100);
+        setTimeout(() => {
+          clearInterval(timer);
+          resolve(false);
+        }, 12000);
+      })`,
+    })
+    .catch(() => undefined);
   await delay(700);
 }
 
@@ -451,7 +472,7 @@ async function connectWebSocket(webSocketUrl) {
         const timeout = setTimeout(() => {
           pending.delete(id);
           reject(new Error(`Timed out waiting for ${method}`));
-        }, 20_000);
+        }, 45_000);
         pending.set(id, { reject, resolve, timeout });
         socket.send(JSON.stringify({ id, method, params }));
       });

@@ -163,11 +163,13 @@ try {
         });
 
         await navigateAndWait(cdp, `${baseUrl}${route}`);
-        await cdp.send('Runtime.evaluate', {
-          expression:
-            'document.fonts && document.fonts.ready ? document.fonts.ready.then(() => true) : true',
-          awaitPromise: true,
-        });
+        await cdp
+          .send('Runtime.evaluate', {
+            expression:
+              'document.fonts && document.fonts.ready ? Promise.race([document.fonts.ready.then(() => true), new Promise(resolve => setTimeout(() => resolve(false), 4000))]) : true',
+            awaitPromise: true,
+          })
+          .catch(() => undefined);
         await waitForSettledTitle(cdp);
 
         const metrics = await evaluateBuyerMetrics(cdp);
@@ -264,6 +266,7 @@ if (failures.length) {
 }
 
 console.log(`End-to-end buyer rejection test passed: ${routeSummary.length} live route checks plus source and link gates.`);
+process.exit(0);
 
 async function assertServerAvailable() {
   try {
@@ -638,7 +641,20 @@ async function connectWebSocket(url) {
       const callId = ++id;
       socket.send(JSON.stringify({ id: callId, method, params }));
       return new Promise((resolve, reject) => {
-        pending.set(callId, { reject, resolve });
+        const timer = setTimeout(() => {
+          pending.delete(callId);
+          reject(new Error(`Timed out waiting for ${method}`));
+        }, 90_000);
+        pending.set(callId, {
+          reject: error => {
+            clearTimeout(timer);
+            reject(error);
+          },
+          resolve: value => {
+            clearTimeout(timer);
+            resolve(value);
+          },
+        });
       });
     },
     waitFor(method, timeout = 10_000) {

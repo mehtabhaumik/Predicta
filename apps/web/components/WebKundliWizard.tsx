@@ -1,11 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import type { CSSProperties } from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import type { CSSProperties, RefObject } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   applyManualBirthTimeEstimate,
-  buildChartRenderModel,
   composeDestinyPassport,
   estimateManualBirthTimeRectification,
   attachKundliEditHistory,
@@ -19,7 +18,12 @@ import type {
   KundliData,
   SupportedLanguage,
 } from '@pridicta/types';
-import { WEB_BIRTH_PLACES } from '../lib/birth-places';
+import {
+  WEB_BIRTH_PLACES,
+  getBirthPlaceLabel,
+  searchWebBirthPlaces,
+  type WebBirthPlace,
+} from '../lib/birth-places';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useLanguagePreference } from '../lib/language-preference';
 import {
@@ -31,9 +35,8 @@ import {
 } from '../lib/web-kundli-storage';
 import { AuthDialog } from './AuthDialog';
 import { WebDestinyPassportCard } from './WebDestinyPassportCard';
-import { ChartLegend, NorthIndianChartLines, WebKundliChart } from './WebKundliChart';
+import { NorthIndianChartLines, WebKundliChart } from './WebKundliChart';
 import { WebActiveKundliActions } from './WebActiveKundliActions';
-import { PlanetGlyph } from './PlanetGlyph';
 
 type CreationNote =
   | {
@@ -51,7 +54,16 @@ export function WebKundliWizard(): React.JSX.Element {
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
-  const [placeIndex, setPlaceIndex] = useState(0);
+  const [selectedPlace, setSelectedPlace] = useState<WebBirthPlace>(
+    WEB_BIRTH_PLACES[0],
+  );
+  const [birthPlaceQuery, setBirthPlaceQuery] = useState(
+    getBirthPlaceLabel(WEB_BIRTH_PLACES[0]),
+  );
+  const [placeSuggestions, setPlaceSuggestions] = useState<WebBirthPlace[]>(
+    WEB_BIRTH_PLACES.slice(0, 1),
+  );
+  const [isSearchingPlaces, setIsSearchingPlaces] = useState(false);
   const [editingKundliId, setEditingKundliId] = useState<string | undefined>();
   const [editingKundliName, setEditingKundliName] = useState<string | undefined>();
   const [isApproximate, setIsApproximate] = useState(false);
@@ -72,27 +84,41 @@ export function WebKundliWizard(): React.JSX.Element {
   const [error, setError] = useState<string | undefined>();
   const [showStorageNudge, setShowStorageNudge] = useState(false);
   const [showCreationReveal, setShowCreationReveal] = useState(false);
-  const place = WEB_BIRTH_PLACES[placeIndex] ?? WEB_BIRTH_PLACES[0];
+  const createdChartRef = useRef<HTMLElement | null>(null);
+  const selectedPlaceLabel = getBirthPlaceLabel(selectedPlace);
+  const isSelectedPlaceCurrent =
+    normalizeBirthPlaceLabel(birthPlaceQuery) ===
+      normalizeBirthPlaceLabel(selectedPlaceLabel) ||
+    normalizeBirthPlaceLabel(birthPlaceQuery) ===
+      normalizeBirthPlaceLabel(selectedPlace.place);
   const details = useMemo<BirthDetails>(
     () => ({
       date,
       isTimeApproximate: isApproximate,
-      latitude: place.latitude,
-      longitude: place.longitude,
+      latitude: selectedPlace.latitude,
+      longitude: selectedPlace.longitude,
       name: name.trim(),
-      place: place.place,
+      place: selectedPlace.place,
+      originalPlaceText:
+        birthPlaceQuery.trim() === selectedPlaceLabel
+          ? undefined
+          : birthPlaceQuery.trim(),
       resolvedBirthPlace: {
-        city: place.label.split(',')[0],
-        country: place.place.split(',').at(-1)?.trim() ?? place.place,
-        latitude: place.latitude,
-        longitude: place.longitude,
-        source: 'local-dataset',
-        timezone: place.timezone,
+        city: selectedPlace.city ?? selectedPlace.label.split(',')[0],
+        country:
+          selectedPlace.country ??
+          selectedPlace.place.split(',').at(-1)?.trim() ??
+          selectedPlace.place,
+        latitude: selectedPlace.latitude,
+        longitude: selectedPlace.longitude,
+        source: selectedPlace.source ?? 'local-dataset',
+        state: selectedPlace.state,
+        timezone: selectedPlace.timezone,
       },
       time,
-      timezone: place.timezone,
+      timezone: selectedPlace.timezone,
     }),
-    [date, isApproximate, name, place, time],
+    [birthPlaceQuery, date, isApproximate, name, selectedPlace, selectedPlaceLabel, time],
   );
   const rectificationEstimate = useMemo<ManualBirthTimeRectificationEstimate>(
     () =>
@@ -142,21 +168,61 @@ export function WebKundliWizard(): React.JSX.Element {
     }
 
     const birthDetails = record.birthDetails;
-    const matchingPlaceIndex = WEB_BIRTH_PLACES.findIndex(
+    const matchingPlace = WEB_BIRTH_PLACES.find(
       option =>
         option.place === birthDetails.place ||
         option.label === birthDetails.place ||
         option.timezone === birthDetails.timezone,
     );
+    const restoredPlace = matchingPlace ?? birthDetailsToWebPlace(birthDetails);
 
     setName(birthDetails.name);
     setDate(birthDetails.date);
     setTime(birthDetails.time);
-    setPlaceIndex(matchingPlaceIndex >= 0 ? matchingPlaceIndex : 0);
+    setSelectedPlace(restoredPlace);
+    setBirthPlaceQuery(getBirthPlaceLabel(restoredPlace));
+    setPlaceSuggestions([restoredPlace, ...WEB_BIRTH_PLACES].slice(0, 8));
     setIsApproximate(Boolean(birthDetails.isTimeApproximate));
     setEditingKundliId(record.id);
     setEditingKundliName(birthDetails.name);
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    const query = birthPlaceQuery.trim();
+
+    setIsSearchingPlaces(query.length >= 2);
+
+    const timer = window.setTimeout(() => {
+      void searchWebBirthPlaces(query).then(places => {
+        if (cancelled) {
+          return;
+        }
+
+        setPlaceSuggestions(places);
+        setIsSearchingPlaces(false);
+      });
+    }, 220);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [birthPlaceQuery]);
+
+  useEffect(() => {
+    if (!showCreationReveal) {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      createdChartRef.current?.scrollIntoView({
+        block: 'start',
+        behavior: 'smooth',
+      });
+      createdChartRef.current?.focus({ preventScroll: true });
+    });
+  }, [showCreationReveal, kundli?.id]);
 
   function resetFlow() {
     setError(undefined);
@@ -188,6 +254,13 @@ export function WebKundliWizard(): React.JSX.Element {
 
     if (!name.trim() || !date || !time) {
       setError('Please fill name, birth date, and birth time first.');
+      return;
+    }
+
+    if (!isSelectedPlaceCurrent) {
+      setError(
+        'Choose a matching birth place from the suggestions so Predicta can use the correct timezone and coordinates.',
+      );
       return;
     }
 
@@ -263,7 +336,9 @@ export function WebKundliWizard(): React.JSX.Element {
     setName('Aarav');
     setDate('2012-08-16');
     setTime('06:42');
-    setPlaceIndex(0);
+    setSelectedPlace(WEB_BIRTH_PLACES[0]);
+    setBirthPlaceQuery(getBirthPlaceLabel(WEB_BIRTH_PLACES[0]));
+    setPlaceSuggestions(WEB_BIRTH_PLACES.slice(0, 1));
     setIsApproximate(false);
     setRectificationStep('idle');
     setRectificationAnswers({});
@@ -275,6 +350,7 @@ export function WebKundliWizard(): React.JSX.Element {
   const readyFlow = kundli ? (
     <KundliReadyFlow
       creationNote={lastCreationNote}
+      createdChartRef={createdChartRef}
       kundli={kundli}
       showCreationReveal={showCreationReveal}
     />
@@ -354,19 +430,55 @@ export function WebKundliWizard(): React.JSX.Element {
           </label>
           <label>
             <span>Birth place</span>
-            <select
-              onChange={event => {
-                resetFlow();
-                setPlaceIndex(Number(event.target.value));
-              }}
-              value={placeIndex}
-            >
-              {WEB_BIRTH_PLACES.map((option, index) => (
-                <option key={option.place} value={index}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+            <div className="birth-place-search">
+              <input
+                aria-describedby="birth-place-help"
+                autoComplete="off"
+                onChange={event => {
+                  resetFlow();
+                  setBirthPlaceQuery(event.target.value);
+                }}
+                placeholder="Start typing city, state, country"
+                value={birthPlaceQuery}
+              />
+              <small id="birth-place-help">
+                Select the matching city so the chart uses the right timezone.
+              </small>
+              <div className="birth-place-suggestions" role="listbox">
+                {placeSuggestions.slice(0, 6).map(option => {
+                  const optionLabel = getBirthPlaceLabel(option);
+
+                  return (
+                    <button
+                      aria-selected={
+                        normalizeBirthPlaceLabel(optionLabel) ===
+                        normalizeBirthPlaceLabel(selectedPlaceLabel)
+                      }
+                      key={`${option.place}-${option.latitude}-${option.longitude}`}
+                      onClick={() => {
+                        resetFlow();
+                        setSelectedPlace(option);
+                        setBirthPlaceQuery(optionLabel);
+                        setPlaceSuggestions(current => [
+                          option,
+                          ...current.filter(item => item.place !== option.place),
+                        ]);
+                      }}
+                      role="option"
+                      type="button"
+                    >
+                      <strong>{option.city ?? option.label.split(',')[0]}</strong>
+                      <span>
+                        {[option.state, option.country]
+                          .filter(Boolean)
+                          .join(', ') || option.place}
+                      </span>
+                    </button>
+                  );
+                })}
+                {isSearchingPlaces ? <em>Searching places...</em> : null}
+              </div>
+            </div>
           </label>
         </div>
 
@@ -521,10 +633,12 @@ export function WebKundliWizard(): React.JSX.Element {
 
 function KundliReadyFlow({
   creationNote,
+  createdChartRef,
   kundli,
   showCreationReveal,
 }: {
   creationNote: CreationNote;
+  createdChartRef: RefObject<HTMLElement | null>;
   kundli: KundliData;
   showCreationReveal: boolean;
 }): React.JSX.Element {
@@ -541,6 +655,7 @@ function KundliReadyFlow({
           birthDetails={kundli.birthDetails}
           chart={kundli.charts.D1}
           creationNote={creationNote}
+          createdChartRef={createdChartRef}
           kundliId={kundli.id}
         />
       ) : (
@@ -829,18 +944,21 @@ function KundliCreationReveal({
   birthDetails,
   chart,
   creationNote,
+  createdChartRef,
   kundliId,
 }: {
   birthDetails?: BirthDetails;
   chart: ChartData;
   creationNote: CreationNote;
+  createdChartRef: RefObject<HTMLElement | null>;
   kundliId?: string;
 }): React.JSX.Element {
-  const renderModel = buildChartRenderModel({ birthDetails, chart });
-  const cells = renderModel.cells;
-
   return (
-    <section className="kundli-creation-reveal glass-panel">
+    <section
+      className="kundli-creation-reveal glass-panel"
+      ref={createdChartRef}
+      tabIndex={-1}
+    >
       <div className="kundli-creation-copy">
         <div className="section-title">KUNDLI CREATED</div>
         <h2>The chart is laid out.</h2>
@@ -857,70 +975,47 @@ function KundliCreationReveal({
           </p>
         )}
       </div>
-      <div
-        className="animated-kundli-board"
-        data-chart-school={renderModel.school.toLowerCase()}
-        data-chart-theme={renderModel.theme}
-      >
-        <NorthIndianChartLines />
-        {cells.map((cell, index) => {
-          const housePlanets = cell.renderPlanets;
-          const housePrompt = `Explain House ${cell.house} in my ${chart.chartType} chart with chart proof.`;
-
-          return (
-            <Link
-              aria-label={`Ask Predicta about House ${cell.house}, ${cell.sign}${
-                housePlanets.length
-                  ? `, ${housePlanets
-                      .map(
-                        planet =>
-                          `${planet.name} ${planet.degreeLabel}${
-                            planet.status.retrograde ? ' retrograde' : ''
-                          }`,
-                      )
-                      .join(', ')}`
-                  : ', empty'
-              }`}
-              className={`animated-kundli-house north-house-${cell.house}`}
-              href={buildPredictaChatHref({
-                chartName: chart.name,
-                chartType: chart.chartType,
-                kundliId,
-                prompt: housePrompt,
-                selectedHouse: cell.house,
-                sourceScreen: 'Kundli Created',
-              })}
-              key={cell.key}
-              style={
-                {
-                  '--creation-cell-index': index,
-                  '--house-x': `${cell.x}%`,
-                  '--house-y': `${cell.y}%`,
-                } as CSSProperties
-              }
-            >
-              <small className="north-house-meta">
-                <span className="north-sign-number">{cell.signNumber}</span>
-              </small>
-              <div className="creation-planet-stack">
-                {housePlanets.map(planet => (
-                  <PlanetGlyph
-                    key={planet.key}
-                    moonPhase={renderModel.moonPhase}
-                    planet={planet}
-                    showDegree
-                    showSign={false}
-                    size="full"
-                  />
-                ))}
-              </div>
-            </Link>
-          );
-        })}
+      <div className="kundli-created-chart-full">
+        <WebKundliChart
+          birthDetails={birthDetails}
+          centerLabel="Created Kundli"
+          chart={chart}
+          kundliId={kundliId}
+          sectionTitle="CREATED KUNDLI"
+        />
       </div>
-      <ChartLegend compact items={renderModel.legend} />
     </section>
   );
+}
+
+function birthDetailsToWebPlace(birthDetails: BirthDetails): WebBirthPlace {
+  const resolved = birthDetails.resolvedBirthPlace;
+
+  return {
+    city: resolved?.city ?? birthDetails.place.split(',')[0]?.trim(),
+    country:
+      resolved?.country ?? birthDetails.place.split(',').at(-1)?.trim(),
+    label:
+      resolved
+        ? [resolved.city, resolved.state, resolved.country]
+            .filter(Boolean)
+            .join(', ')
+        : birthDetails.place,
+    latitude: birthDetails.latitude,
+    longitude: birthDetails.longitude,
+    place: birthDetails.place,
+    source: resolved?.source ?? 'local-dataset',
+    state: resolved?.state,
+    timezone: birthDetails.timezone,
+  };
+}
+
+function normalizeBirthPlaceLabel(value?: string): string {
+  return (value ?? '')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s,]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 type KundliWizardCopy = {
