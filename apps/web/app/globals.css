@@ -11532,7 +11532,7 @@ button:disabled {
   text-align: center;
   transform: none;
   width: 100% !important;
-  z-index: 1;
+  z-index: 3;
 }
 
 .north-house-state-map {

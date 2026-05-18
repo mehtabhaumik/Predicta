@@ -2,8 +2,6 @@
 
 import {
   type CSSProperties,
-  type KeyboardEvent as ReactKeyboardEvent,
-  type MouseEvent as ReactMouseEvent,
   useMemo,
   useState,
 } from 'react';
@@ -16,7 +14,6 @@ import {
   buildChartRenderModel,
   buildChartSelectionPrompt,
   composeChartInsight,
-  findNorthIndianHouseAtPoint,
   getChartFocusLabel,
   getChartReadingNote,
   getChartRole,
@@ -100,22 +97,6 @@ export function WebKundliChart({
     setSelectedHouse(house);
   }
 
-  function selectHouseFromPointer(event: ReactMouseEvent<HTMLDivElement>) {
-    const house = getHouseFromPointerEvent(event);
-    selectHouse(house);
-  }
-
-  function updateHoveredHouse(event: ReactMouseEvent<HTMLDivElement>) {
-    setHoveredHouse(getHouseFromPointerEvent(event));
-  }
-
-  function handleHitLayerKeyDown(event: ReactKeyboardEvent<HTMLDivElement>) {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      selectHouse(hoveredHouse ?? selectedHouse);
-    }
-  }
-
   if (!chart.supported) {
     return (
       <div className="jyotish-chart-shell">
@@ -181,16 +162,24 @@ export function WebKundliChart({
             />
           ))}
         </svg>
-        <div
-          aria-label={`${renderModel.displayChartName} house selector. Click a house to select it.`}
-          className="north-house-hit-layer"
-          onClick={selectHouseFromPointer}
-          onKeyDown={handleHitLayerKeyDown}
-          onMouseLeave={() => setHoveredHouse(undefined)}
-          onMouseMove={updateHoveredHouse}
-          role="button"
-          tabIndex={0}
-        />
+        {cells.map(cell => (
+          <button
+            aria-label={cell.ariaLabel}
+            aria-pressed={activeCell?.house === cell.house}
+            className={`north-house north-house-${cell.house} ${
+              activeCell?.house === cell.house ? 'selected' : ''
+            }`}
+            key={`${cell.key}-target`}
+            onBlur={() => setHoveredHouse(undefined)}
+            onClick={() => selectHouse(cell.house)}
+            onFocus={() => setHoveredHouse(cell.house)}
+            onMouseEnter={() => setHoveredHouse(cell.house)}
+            onMouseLeave={() => setHoveredHouse(undefined)}
+            type="button"
+          >
+            <span className="sr-only">{cell.ariaLabel}</span>
+          </button>
+        ))}
         {cells.map((cell, index) => (
           <div
             aria-hidden
@@ -388,16 +377,6 @@ function getChartLanguageLabel(
   activeLanguage: SupportedLanguage,
 ): string {
   return activeLanguage === 'en' ? option.englishName : option.nativeName;
-}
-
-function getHouseFromPointerEvent(
-  event: ReactMouseEvent<HTMLDivElement>,
-): number | undefined {
-  const rect = event.currentTarget.getBoundingClientRect();
-  const x = ((event.clientX - rect.left) / rect.width) * 100;
-  const y = ((event.clientY - rect.top) / rect.height) * 100;
-
-  return findNorthIndianHouseAtPoint(x, y);
 }
 
 function getNorthHousePolygonPoints(house?: number): string {
