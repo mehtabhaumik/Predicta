@@ -196,7 +196,7 @@ const pricingPageCopy: Record<
     choiceCards: [
       {
         body: 'Best when you want ongoing Predicta guidance, monthly timing, remedies, saved chats, and family profiles.',
-        cta: 'See subscriptions',
+        cta: 'See plans',
         href: '#subscriptions',
         label: 'Subscription',
         title: 'I want guidance every month',

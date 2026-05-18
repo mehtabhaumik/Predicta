@@ -286,6 +286,7 @@ p {
   display: inline-flex;
   font-weight: 800;
   justify-content: center;
+  line-height: 1.22;
   min-height: 48px;
   padding: 14px 20px;
   text-align: center;
@@ -1256,6 +1257,15 @@ button:disabled {
   color: var(--muted);
   line-height: 1.58;
   margin: 0;
+}
+
+.pricing-difference-grid .button {
+  line-height: 1.15;
+  min-height: 68px;
+  overflow: visible;
+  padding-block: 18px;
+  white-space: normal;
+  width: 100%;
 }
 
 .feedback-page,
