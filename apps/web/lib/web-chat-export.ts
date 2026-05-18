@@ -43,7 +43,7 @@ export function formatWebChatTranscript(
   messages: WebChatTranscriptMessage[],
 ): string {
   if (!messages.length) {
-    return 'No Predicta chat has been saved on this device yet.';
+    return 'No saved Predicta chat is available yet.';
   }
 
   return messages
@@ -107,7 +107,7 @@ function buildPrintableChatHtml(messages: WebChatTranscriptMessage[]): string {
           `;
         })
         .join('')
-    : '<article class="turn"><p>No Predicta chat has been saved on this device yet.</p></article>';
+    : '<article class="turn"><p>No saved Predicta chat is available yet.</p></article>';
 
   return `
     <!doctype html>

@@ -31,8 +31,8 @@ export function SidebarNav({
   groups,
   adminLabel = 'Admin',
   ownerLabel = 'Owner',
-  privateSaveBody = 'Your chart is saved on this device. Sign in to keep it across devices.',
-  privateSaveTitle = 'PRIVATE SAVE',
+  privateSaveBody = 'Your Kundli stays safe here. Sign in to keep it with you on every device.',
+  privateSaveTitle = 'SAVED SAFELY',
   showAdmin,
 }: {
   adminLabel?: string;

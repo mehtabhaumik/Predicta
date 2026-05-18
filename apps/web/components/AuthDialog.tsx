@@ -405,7 +405,7 @@ const AUTH_COPY: Record<SupportedLanguage, AuthCopy> = {
   en: {
     backToSignIn: 'Back to sign in',
     body:
-      'Keep your Kundlis, report choices, family profiles, and saved chats with your account. You can still keep one Kundli on this device without signing in.',
+      'Keep your Kundlis, report choices, family profiles, and saved chats with your account. You can create one Kundli safely before signing in.',
     closeLabel: 'Close sign-in dialog',
     confirmPasswordLabel: 'Confirm password',
     confirmPasswordPlaceholder: 'Re-enter password',
@@ -431,7 +431,7 @@ const AUTH_COPY: Record<SupportedLanguage, AuthCopy> = {
     passwordPlaceholder: 'Enter password',
 	    registerAction: 'Create account',
 	    registerBody:
-	      'Create an account with Google or email/password so your Kundlis, reports, passes, and chats can stay with you across devices.',
+	      'Create an account with Google or email/password so your Kundlis, reports, passes, and chats stay with you everywhere.',
 	    registerTab: 'Create account',
 	    registerTitle: 'Create your Predicta account',
     accountCreatedSuccess:

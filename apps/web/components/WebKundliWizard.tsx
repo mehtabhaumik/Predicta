@@ -950,7 +950,7 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     editSavedKundli: 'EDIT SAVED KUNDLI',
     enterBirthDetails: 'Enter birth details in order.',
     guestLimitError:
-      'Your first Kundli is saved on this device. Please sign in before adding another Kundli, so family profiles and future edits stay protected.',
+      'Your first Kundli is safe here. Please sign in before adding another Kundli, so family profiles and future edits stay protected.',
     reviewBirthDetails: name => `Review ${name}'s birth details.`,
   },
   hi: {

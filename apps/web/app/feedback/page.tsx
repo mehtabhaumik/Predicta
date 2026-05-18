@@ -371,9 +371,9 @@ const feedbackCopy: Record<SupportedLanguage, FeedbackCopy> = {
     pagePlaceholder: 'Example: Dashboard, Chat, Report, KP',
     pass: 'Redeem Pass',
     saved:
-      'Saved. Thank you. We will review this before the next feedback review, and your note is kept on this device too.',
+      'Saved. Thank you. We will review this before the next feedback review, and your note stays available here too.',
     savedLocally:
-      'Saved on this device. If you want to send screenshots, use the email button too.',
+      'Saved here. If you want to send screenshots, use the email button too.',
     send: 'Send Feedback',
     sending: 'Sending...',
     signedInEmailNote:

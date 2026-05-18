@@ -2032,14 +2032,14 @@
       "gu": "Predicta જ્યોતિષને વિચારશીલ, ગોપનીયતા-પ્રથમ અને તબીબી, કાનૂની, આર્થિક અથવા આપત્તિ સલાહથી સ્પષ્ટ અલગ રાખે છે."
     },
     "ui.predictaKeepsThisBrowserProfileReadySignInWhenYouWantTo.dqmkgw": {
-      "en": "Predicta keeps this device ready. Sign in when you want to keep your Kundlis across devices.",
-      "hi": "Predicta इस डिवाइस को तैयार रखती है. अपनी कुंडलियां सभी डिवाइस पर रखने के लिए साइन इन करें.",
-      "gu": "Predicta આ ડિવાઇસ તૈયાર રાખે છે. તમારી કુંડળીઓ બધા ઉપકરણો પર રાખવા માટે સાઇન ઇન કરો."
+      "en": "Predicta keeps your work ready here. Sign in when you want your Kundlis with you everywhere.",
+      "hi": "Predicta आपका काम यहां तैयार रखती है. जब कुंडलियां हर जगह अपने साथ चाहिए हों, तब साइन इन करें.",
+      "gu": "Predicta તમારું કામ અહીં તૈયાર રાખે છે. જ્યારે કુંડળી દરેક જગ્યાએ સાથે જોઈએ ત્યારે સાઇન ઇન કરો."
     },
     "ui.predictaKeepsThisBrowserSessionReadySignInLaterWhenYouWant.1eoaebu": {
-      "en": "Predicta keeps this device ready. Sign in later when you want your Kundlis and reports available across devices.",
-      "hi": "Predicta इस डिवाइस को तैयार रखती है. जब कुंडलियां और रिपोर्ट दूसरे उपकरणों पर चाहिए हों, तब साइन इन करें.",
-      "gu": "Predicta આ ડિવાઇસ તૈયાર રાખે છે. જ્યારે કુંડળીઓ અને રિપોર્ટ બીજા ઉપકરણો પર જોઈએ ત્યારે સાઇન ઇન કરો."
+      "en": "Predicta keeps your work ready here. Sign in when you want your Kundlis, reports, and chats with you on every device.",
+      "hi": "Predicta आपका काम यहां तैयार रखती है. जब कुंडलियां, रिपोर्ट और चैट हर डिवाइस पर चाहिए हों, तब साइन इन करें.",
+      "gu": "Predicta તમારું કામ અહીં તૈયાર રાખે છે. જ્યારે કુંડળી, રિપોર્ટ અને ચેટ દરેક ડિવાઇસ પર જોઈએ, ત્યારે સાઇન ઇન કરો."
     },
     "ui.predictaPremiumIsDeeperAstrologyGuidanceNotMedicalLegalFinancialOrEmergency.1kjpo8r": {
       "en": "Predicta Premium is deeper astrology guidance, not medical, legal, financial, or emergency advice. Subscriptions and one-time reports should stay clear before purchase.",
@@ -2227,14 +2227,14 @@
       "gu": "ખાનગી પાસ નિયંત્રણ."
     },
     "ui.privateSave.ib4s2i": {
-      "en": "Private save",
-      "hi": "निजी सेव",
-      "gu": "ખાનગી સેવ"
+      "en": "Saved safely",
+      "hi": "सुरक्षित सेव",
+      "gu": "સુરક્ષિત સેવ"
     },
     "ui.privateSave.1iejme2": {
-      "en": "PRIVATE SAVE",
-      "hi": "प्राइवेट सेव",
-      "gu": "પ્રાઇવેટ સેવ"
+      "en": "SAVED SAFELY",
+      "hi": "सुरक्षित सेव",
+      "gu": "સુરક્ષિત સેવ"
     },
     "ui.professionalChartAwarenessPresentedClearly.n5ejvs": {
       "en": "Professional chart awareness, presented clearly.",
@@ -2852,9 +2852,9 @@
       "gu": "જન્મ વિગતો મળ્યા પહેલાં ડેશબોર્ડ ખાલી અથવા ગોઠવણ વગરનું ન લાગે, એટલે હાલ આ ટૂંકા રૂપમાં રહેશે."
     },
     "ui.thisBrowserRemembersYourChartSignInToKeepItAcrossDevices.1igu45e": {
-      "en": "Your chart is saved on this device. Sign in to keep it across devices.",
-      "hi": "आपका चार्ट इस डिवाइस पर सेव है. उसे सभी डिवाइस पर रखने के लिए साइन इन करें.",
-      "gu": "તમારો ચાર્ટ આ ડિવાઇસ પર સેવ છે. તેને બધા ઉપકરણો પર રાખવા માટે સાઇન ઇન કરો."
+      "en": "Your Kundli stays safe here. Sign in to keep it with you on every device.",
+      "hi": "आपकी कुंडली यहां सुरक्षित रहती है. हर डिवाइस पर अपने साथ रखने के लिए साइन इन करें.",
+      "gu": "તમારી કુંડળી અહીં સુરક્ષિત રહે છે. દરેક ડિવાઇસ પર સાથે રાખવા માટે સાઇન ઇન કરો."
     },
     "ui.thisPassNeedsAnEmailOnYourAccountSignInWithThe.1ganlv4": {
       "en": "This pass needs an email on your account. Sign in with the pass email, then try again.",
@@ -3227,9 +3227,9 @@
       "gu": "તમે"
     },
     "ui.yourChartIsSavedForThisBrowserSignInToKeepIt.6dx6vu": {
-      "en": "Your chart is saved on this device. Sign in to keep it across devices.",
-      "hi": "आपका चार्ट इस डिवाइस पर सेव है. उसे सभी डिवाइस पर रखने के लिए साइन इन करें.",
-      "gu": "તમારો ચાર્ટ આ ડિવાઇસ પર સેવ છે. તેને બધા ઉપકરણો પર રાખવા માટે સાઇન ઇન કરો."
+      "en": "Your Kundli stays safe here. Sign in to keep it with you on every device.",
+      "hi": "आपकी कुंडली यहां सुरक्षित रहती है. हर डिवाइस पर अपने साथ रखने के लिए साइन इन करें.",
+      "gu": "તમારી કુંડળી અહીં સુરક્ષિત રહે છે. દરેક ડિવાઇસ પર સાથે રાખવા માટે સાઇન ઇન કરો."
     },
     "ui.yourHolisticAstrologyCockpit.1rh6rhj": {
       "en": "Your holistic astrology cockpit",
@@ -3262,9 +3262,9 @@
       "gu": "તમારો વ્યક્તિગત હોલિસ્ટિક જ્યોતિષ સાથી"
     },
     "ui.yourWorkStartsPrivatelyHere.4kjiv5": {
-      "en": "Your work starts privately here.",
-      "hi": "आपका काम यहां निजी रूप से शुरू होता है.",
-      "gu": "તમારું કામ અહીં ખાનગી રીતે શરૂ થાય છે."
+      "en": "Your Kundli stays protected.",
+      "hi": "आपकी कुंडली सुरक्षित रहती है.",
+      "gu": "તમારી કુંડળી સુરક્ષિત રહે છે."
     },
     "ui.yourYearMadeBeautiful.1ori22y": {
       "en": "Your year, made beautiful.",
@@ -3292,39 +3292,84 @@
       "gu": "આ ખાતામાં અનેક કુંડળીઓ રાખી શકાય છે."
     },
     "ui.guestUseKeepsOneKundliInThisBrowser.9gaurd": {
-      "en": "Guest use keeps one Kundli on this device.",
-      "hi": "अतिथि उपयोग में एक कुंडली इस डिवाइस पर सेव रहती है.",
-      "gu": "મહેમાન ઉપયોગમાં એક કુંડળી આ ડિવાઇસ પર સેવ રહે છે."
+      "en": "Guest access keeps one Kundli safe here.",
+      "hi": "अतिथि उपयोग में एक कुंडली यहां सुरक्षित रहती है.",
+      "gu": "મહેમાન ઉપયોગમાં એક કુંડળી અહીં સુરક્ષિત રહે છે."
     },
     "ui.yourSavedKundliReportChoicesAndLanguageChoicesAreKeptFor.10gaurd": {
-      "en": "Your saved Kundli, report choices, and language choices are kept on this device and connected to your account after sign-in.",
-      "hi": "आपकी सेव कुंडली, रिपोर्ट पसंद और भाषा पसंद इस डिवाइस पर रहती हैं और साइन इन के बाद आपके खाते से जुड़ जाती हैं.",
-      "gu": "તમારી સેવ કુંડળી, રિપોર્ટ પસંદગીઓ અને ભાષા પસંદગીઓ આ ડિવાઇસ પર રહે છે અને સાઇન ઇન પછી તમારા ખાતા સાથે જોડાય છે."
+      "en": "Your saved Kundli, report choices, and language choices stay ready here and move into your account after sign-in.",
+      "hi": "आपकी सेव कुंडली, रिपोर्ट पसंद और भाषा पसंद यहां तैयार रहती हैं और साइन इन के बाद आपके खाते में जुड़ जाती हैं.",
+      "gu": "તમારી સેવ કુંડળી, રિપોર્ટ પસંદગી અને ભાષા પસંદગી અહીં તૈયાર રહે છે અને સાઇન ઇન પછી તમારા ખાતામાં જોડાય છે."
     },
     "ui.yourFirstKundliIsSafeInThisBrowserPleaseSignInBeforeAdding.11gaurd": {
-      "en": "Your first Kundli is safe on this device. Please sign in before adding another Kundli, so family profiles and future edits stay protected.",
-      "hi": "आपकी पहली कुंडली इस डिवाइस पर सुरक्षित है. दूसरी कुंडली जोड़ने से पहले साइन इन करें, ताकि परिवार प्रोफाइल और आगे के बदलाव सुरक्षित रहें.",
-      "gu": "તમારી પહેલી કુંડળી આ ડિવાઇસ પર સુરક્ષિત છે. બીજી કુંડળી ઉમેરતા પહેલાં સાઇન ઇન કરો, જેથી પરિવાર પ્રોફાઇલ અને આગળના ફેરફારો સુરક્ષિત રહે."
+      "en": "Your first Kundli is safe here. Please sign in before adding another Kundli, so family profiles and future edits stay protected.",
+      "hi": "आपकी पहली कुंडली यहां सुरक्षित है. दूसरी कुंडली जोड़ने से पहले साइन इन करें, ताकि परिवार प्रोफाइल और आगे के बदलाव सुरक्षित रहें.",
+      "gu": "તમારી પહેલી કુંડળી અહીં સુરક્ષિત છે. બીજી કુંડળી ઉમેરતા પહેલાં સાઇન ઇન કરો, જેથી પરિવાર પ્રોફાઇલ અને આગળના ફેરફારો સુરક્ષિત રહે."
     },
     "ui.predictaKeepsThisBrowserSessionReadySignInLaterWhenYouWant.12gaurd": {
-      "en": "Predicta keeps this device ready. Sign in later when you want your Kundlis and reports available across devices.",
-      "hi": "Predicta इस डिवाइस को तैयार रखती है. जब कुंडलियां और रिपोर्ट दूसरे उपकरणों पर चाहिए हों, तब साइन इन करें.",
-      "gu": "Predicta આ ડિવાઇસ તૈયાર રાખે છે. જ્યારે કુંડળીઓ અને રિપોર્ટ બીજા ઉપકરણો પર જોઈએ ત્યારે સાઇન ઇન કરો."
+      "en": "Predicta keeps your work ready here. Sign in when you want your Kundlis, reports, and chats with you on every device.",
+      "hi": "Predicta आपका काम यहां तैयार रखती है. जब कुंडलियां, रिपोर्ट और चैट हर डिवाइस पर चाहिए हों, तब साइन इन करें.",
+      "gu": "Predicta તમારું કામ અહીં તૈયાર રાખે છે. જ્યારે કુંડળી, રિપોર્ટ અને ચેટ દરેક ડિવાઇસ પર જોઈએ, ત્યારે સાઇન ઇન કરો."
     },
     "ui.predictaKeepsThisDeviceReadySignInLaterWhenYouWant.13gaurd": {
-      "en": "Predicta keeps this device ready. Sign in later when you want your Kundlis and reports available across devices.",
-      "hi": "Predicta इस डिवाइस को तैयार रखती है. जब कुंडलियां और रिपोर्ट दूसरे उपकरणों पर चाहिए हों, तब साइन इन करें.",
-      "gu": "Predicta આ ડિવાઇસ તૈયાર રાખે છે. જ્યારે કુંડળીઓ અને રિપોર્ટ બીજા ઉપકરણો પર જોઈએ ત્યારે સાઇન ઇન કરો."
+      "en": "Predicta keeps your work ready here. Sign in when you want your Kundlis, reports, and chats with you on every device.",
+      "hi": "Predicta आपका काम यहां तैयार रखती है. जब कुंडलियां, रिपोर्ट और चैट हर डिवाइस पर चाहिए हों, तब साइन इन करें.",
+      "gu": "Predicta તમારું કામ અહીં તૈયાર રાખે છે. જ્યારે કુંડળી, રિપોર્ટ અને ચેટ દરેક ડિવાઇસ પર જોઈએ, ત્યારે સાઇન ઇન કરો."
     },
     "ui.guestUseKeepsOneKundliOnThisDevice.14gaurd": {
-      "en": "Guest use keeps one Kundli on this device.",
-      "hi": "अतिथि उपयोग में एक कुंडली इस डिवाइस पर सेव रहती है.",
-      "gu": "મહેમાન ઉપયોગમાં એક કુંડળી આ ડિવાઇસ પર સેવ રહે છે."
+      "en": "Guest access keeps one Kundli safe here.",
+      "hi": "अतिथि उपयोग में एक कुंडली यहां सुरक्षित रहती है.",
+      "gu": "મહેમાન ઉપયોગમાં એક કુંડળી અહીં સુરક્ષિત રહે છે."
     },
     "ui.yourSavedKundliReportChoicesAndLanguageChoicesAreKeptOn.15gaurd": {
-      "en": "Your saved Kundli, report choices, and language choices are kept on this device and connected to your account after sign-in.",
-      "hi": "आपकी सेव कुंडली, रिपोर्ट पसंद और भाषा पसंद इस डिवाइस पर रहती हैं और साइन इन के बाद आपके खाते से जुड़ जाती हैं.",
-      "gu": "તમારી સેવ કુંડળી, રિપોર્ટ પસંદગીઓ અને ભાષા પસંદગીઓ આ ડિવાઇસ પર રહે છે અને સાઇન ઇન પછી તમારા ખાતા સાથે જોડાય છે."
+      "en": "Your saved Kundli, report choices, and language choices stay ready here and move into your account after sign-in.",
+      "hi": "आपकी सेव कुंडली, रिपोर्ट पसंद और भाषा पसंद यहां तैयार रहती हैं और साइन इन के बाद आपके खाते में जुड़ जाती हैं.",
+      "gu": "તમારી સેવ કુંડળી, રિપોર્ટ પસંદગી અને ભાષા પસંદગી અહીં તૈયાર રહે છે અને સાઇન ઇન પછી તમારા ખાતામાં જોડાય છે."
+    },
+    "ui.howyourkundlistayswithyou.0savepolish": {
+      "en": "How your Kundli stays with you",
+      "hi": "आपकी कुंडली आपके साथ कैसे रहती है",
+      "gu": "તમારી કુંડળી તમારી સાથે કેવી રીતે રહે છે"
+    },
+    "ui.yourreportchoicesstayreadyheresigninwh.0savepolish": {
+      "en": "Your report choices stay ready here. Sign in when you want Kundlis, reports, and chats protected with your account.",
+      "hi": "आपकी रिपोर्ट पसंद यहां तैयार रहती है. कुंडली, रिपोर्ट और चैट को अपने खाते में सुरक्षित रखने के लिए साइन इन करें.",
+      "gu": "તમારી રિપોર્ટ પસંદગી અહીં તૈયાર રહે છે. કુંડળી, રિપોર્ટ અને ચેટને તમારા ખાતામાં સુરક્ષિત રાખવા માટે સાઇન ઇન કરો."
+    },
+    "ui.signintokeepkundlischoicesandchatswith.0savepolish": {
+      "en": "Sign in to keep Kundlis, choices, and chats with your account.",
+      "hi": "कुंडली, पसंद और चैट अपने खाते में रखने के लिए साइन इन करें.",
+      "gu": "કુંડળી, પસંદગીઓ અને ચેટ તમારા ખાતામાં રાખવા માટે સાઇન ઇન કરો."
+    },
+    "ui.keepyourkundlisreportchoicesfamilyprof.0savepolish": {
+      "en": "Keep your Kundlis, report choices, family profiles, and saved chats with your account. You can create one Kundli safely before signing in.",
+      "hi": "अपनी कुंडलियां, रिपोर्ट पसंद, परिवार प्रोफाइल और सेव चैट खाते में रखें. साइन इन से पहले आप एक कुंडली सुरक्षित बना सकते हैं.",
+      "gu": "તમારી કુંડળી, રિપોર્ટ પસંદગી, પરિવાર પ્રોફાઇલ અને સેવ ચેટ તમારા ખાતામાં રાખો. સાઇન ઇન પહેલાં તમે એક કુંડળી સુરક્ષિત બનાવી શકો છો."
+    },
+    "ui.createanaccountwithgoogleoremailpasswo.0savepolish": {
+      "en": "Create an account with Google or email/password so your Kundlis, reports, passes, and chats stay with you everywhere.",
+      "hi": "Google या ईमेल/password से खाता बनाएं, ताकि कुंडलियां, रिपोर्ट, पास और चैट हर जगह आपके साथ रहें.",
+      "gu": "Google અથવા ઇમેઇલ/passwordથી ખાતું બનાવો, જેથી કુંડળી, રિપોર્ટ, પાસ અને ચેટ દરેક જગ્યાએ તમારી સાથે રહે."
+    },
+    "ui.savedthankyouwewillreviewthisbeforethe.0savepolish": {
+      "en": "Saved. Thank you. We will review this before the next feedback review, and your note stays available here too.",
+      "hi": "सेव हो गया. धन्यवाद. अगली feedback review से पहले हम इसे देखेंगे, और आपका नोट यहां भी उपलब्ध रहेगा.",
+      "gu": "સેવ થઈ ગયું. આભાર. આગામી feedback review પહેલાં અમે તેને જોઈશું, અને તમારી નોંધ અહીં પણ ઉપલબ્ધ રહેશે."
+    },
+    "ui.savedhereifyouwanttosendscreenshotsuse.0savepolish": {
+      "en": "Saved here. If you want to send screenshots, use the email button too.",
+      "hi": "यहां सेव हो गया. अगर screenshots भेजने हैं, तो email button भी इस्तेमाल करें.",
+      "gu": "અહીં સેવ થઈ ગયું. જો screenshots મોકલવા હોય, તો email button પણ વાપરો."
+    },
+    "ui.yourfirstkundliissafeheresigninbeforea.savepolish": {
+      "en": "Your first Kundli is safe here. Sign in before adding family profiles, multiple saved chats, or report preferences.",
+      "hi": "आपकी पहली कुंडली यहां सुरक्षित है. परिवार प्रोफाइल, कई सेव चैट या रिपोर्ट पसंद जोड़ने से पहले साइन इन करें.",
+      "gu": "તમારી પહેલી કુંડળી અહીં સુરક્ષિત છે. પરિવાર પ્રોફાઇલ, અનેક સેવ ચેટ અથવા રિપોર્ટ પસંદગી ઉમેરતા પહેલાં સાઇન ઇન કરો."
+    },
+    "ui.nosavedpredictachatisavailableyet.savepolish": {
+      "en": "No saved Predicta chat is available yet.",
+      "hi": "अभी कोई सेव Predicta चैट उपलब्ध नहीं है.",
+      "gu": "હજુ કોઈ સેવ Predicta ચેટ ઉપલબ્ધ નથી."
     }
   }
 }

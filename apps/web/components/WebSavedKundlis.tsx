@@ -713,7 +713,7 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     familyVaultEyebrow: 'FAMILY VAULT',
     familyVaultTitle: 'Family layer for saved Kundlis.',
     guestLimitBody:
-      'Your first Kundli is saved on this device. Sign in before adding family profiles, multiple saved chats, or report preferences.',
+      'Your first Kundli is safe here. Sign in before adding family profiles, multiple saved chats, or report preferences.',
     guestLimitTitle: 'Protect more Kundlis with sign-in',
     libraryEyebrow: 'KUNDLI LIBRARY',
     open: 'Open',

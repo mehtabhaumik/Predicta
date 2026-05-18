@@ -165,7 +165,7 @@ export function WebProfileSettings(): React.JSX.Element {
                   <span>
                     {user
                       ? t('Multiple Kundlis are available for this account.')
-                      : t('Guest use keeps one Kundli on this device.')}
+                      : t('Guest access keeps one Kundli safe here.')}
                   </span>
                 </div>
                 <StatusPill
@@ -179,7 +179,7 @@ export function WebProfileSettings(): React.JSX.Element {
                   <span>
                     {user
                       ? getSyncCopy(snapshot.accountSyncStatus, t)
-                      : t('Sign in to keep Kundlis and preferences with your account.')}
+                      : t('Sign in to keep Kundlis, choices, and chats with your account.')}
                   </span>
                 </div>
                 <Link className="button secondary" href="/dashboard/saved-kundlis">
@@ -260,7 +260,7 @@ export function WebProfileSettings(): React.JSX.Element {
             <h2>{t('Private by default')}</h2>
             <p>
               {t(
-                'Your saved Kundli, report choices, and language choices are kept on this device and connected to your account after sign-in.',
+                'Your saved Kundli, report choices, and language choices stay ready here and move into your account after sign-in.',
               )}
             </p>
             <div className="settings-stack">

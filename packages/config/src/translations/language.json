@@ -136,8 +136,8 @@
         "wrapped": "Wrapped"
       },
       "privateSave": {
-        "body": "Your chart is saved on this device. Sign in to keep it across devices.",
-        "title": "Private save"
+        "title": "Saved safely",
+        "body": "Your Kundli stays safe here. Sign in to keep it with you on every device."
       },
       "topbarDescription": "Holistic astrology guidance, reports, charts, and saved kundlis."
     },
@@ -188,8 +188,8 @@
         "wrapped": "वर्ष सार"
       },
       "privateSave": {
-        "body": "आपका चार्ट इस डिवाइस पर सेव है. दूसरे डिवाइस पर रखने के लिए साइन इन करें.",
-        "title": "निजी सेव"
+        "title": "सुरक्षित सेव",
+        "body": "आपकी कुंडली यहां सुरक्षित रहती है. हर डिवाइस पर अपने साथ रखने के लिए साइन इन करें."
       },
       "topbarDescription": "होलिस्टिक ज्योतिष मार्गदर्शन, रिपोर्ट, चार्ट और सेव कुंडलियां."
     },
@@ -240,8 +240,8 @@
         "wrapped": "વર્ષ સાર"
       },
       "privateSave": {
-        "body": "તમારો ચાર્ટ આ ડિવાઇસ પર સેવ છે. બીજા ડિવાઇસ પર રાખવા માટે સાઇન ઇન કરો.",
-        "title": "ખાનગી સેવ"
+        "title": "સુરક્ષિત સેવ",
+        "body": "તમારી કુંડળી અહીં સુરક્ષિત રહે છે. દરેક ડિવાઇસ પર સાથે રાખવા માટે સાઇન ઇન કરો."
       },
       "topbarDescription": "હોલિસ્ટિક જ્યોતિષ માર્ગદર્શન, રિપોર્ટ્સ, ચાર્ટ્સ અને સેવ કુંડળીઓ."
     }

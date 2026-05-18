@@ -1335,7 +1335,7 @@ function getReportBuilderCopy(language: SupportedLanguage): {
     selectedReport: 'Selected',
     seeEverythingIncluded: 'See everything included',
     signInNudgeBody:
-      'Report choices are saved on this device. Sign in when you want Kundlis, report choices, and chats protected with your account.',
+      'Your report choices stay ready here. Sign in when you want Kundlis, reports, and chats protected with your account.',
     signInNudgeTitle: 'Sign in to protect report choices',
     title: 'Make report download easy.',
     viewSelectedDetails: 'Selected report details',

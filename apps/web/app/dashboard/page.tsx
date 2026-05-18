@@ -145,16 +145,16 @@ export default function DashboardPage(): React.JSX.Element {
 
         <Card className="save-restore-card">
           <div className="card-content spacious">
-            <div className="section-title">{t('PRIVATE SAVE')}</div>
-            <h2>{t('Your work starts privately here.')}</h2>
+            <div className="section-title">{t('SAVED SAFELY')}</div>
+            <h2>{t('Your Kundli stays protected.')}</h2>
             <details className="info-drawer">
               <summary>
-                <span>{t('How saving works')}</span>
+                <span>{t('How your Kundli stays with you')}</span>
                 <strong>{t('Open')}</strong>
               </summary>
               <p>
                 {t(
-                  'Predicta keeps this device ready. Sign in later when you want your Kundlis and reports available across devices.',
+                  'Predicta keeps your work ready here. Sign in when you want your Kundlis, reports, and chats with you on every device.',
                 )}
               </p>
             </details>
