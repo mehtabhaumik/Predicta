@@ -21,6 +21,7 @@ import { useLanguagePreference } from '../lib/language-preference';
 import { Card } from './Card';
 import { WebKundliChart } from './WebKundliChart';
 import { AuthDialog } from './AuthDialog';
+import { BrandedDestructiveDialog } from './BrandedDestructiveDialog';
 
 export function WebSavedKundlis(): React.JSX.Element {
   const { chartLanguage, language } = useLanguagePreference();
@@ -30,6 +31,7 @@ export function WebSavedKundlis(): React.JSX.Element {
   const [dialogSelection, setDialogSelection] = useState<
     { kundli: KundliData; school: ChartRenderSchool } | undefined
   >();
+  const [pendingDelete, setPendingDelete] = useState<KundliData | undefined>();
 
   useEffect(() => {
     setKundli(loadWebKundli());
@@ -50,21 +52,14 @@ export function WebSavedKundlis(): React.JSX.Element {
   }
 
   function deleteProfile(record: KundliData): void {
-    const confirmed = window.confirm(
-      [
-        labels.deleteConfirmTitle(record.birthDetails.name),
-        '',
-        labels.deleteConfirmBody,
-      ].join('\n'),
-    );
-
-    if (!confirmed) {
-      return;
-    }
-
     const nextStore = deleteWebKundli(record.id);
     setKundli(nextStore.activeKundli);
     setSavedKundlis(nextStore.savedKundlis);
+    setPendingDelete(undefined);
+  }
+
+  function requestDelete(record: KundliData): void {
+    setPendingDelete(record);
   }
 
   const askPredictaToCreateHref = buildPredictaChatHref({
@@ -189,7 +184,7 @@ export function WebSavedKundlis(): React.JSX.Element {
                   </Link>
                   <button
                     className="button secondary danger"
-                    onClick={() => deleteProfile(record)}
+                    onClick={() => requestDelete(record)}
                     type="button"
                   >
                     {labels.delete}
@@ -207,9 +202,22 @@ export function WebSavedKundlis(): React.JSX.Element {
           onClose={() => setDialogSelection(undefined)}
           onDelete={() => {
             setDialogSelection(undefined);
-            deleteProfile(dialogSelection.kundli);
+            requestDelete(dialogSelection.kundli);
           }}
           selection={dialogSelection}
+        />
+      ) : null}
+      {pendingDelete ? (
+        <BrandedDestructiveDialog
+          body={labels.deleteConfirmBody}
+          cancelLabel={labels.deleteCancel}
+          confirmLabel={labels.deleteConfirmAction}
+          consequence={labels.deleteConfirmConsequence}
+          eyebrow={labels.deleteConfirmEyebrow}
+          onCancel={() => setPendingDelete(undefined)}
+          onConfirm={() => deleteProfile(pendingDelete)}
+          open
+          title={labels.deleteConfirmTitle(pendingDelete.birthDetails.name)}
         />
       ) : null}
     </>
@@ -547,7 +555,11 @@ type KundliLibraryCopy = {
   close: string;
   createNew: string;
   delete: string;
+  deleteCancel: string;
+  deleteConfirmAction: string;
   deleteConfirmBody: string;
+  deleteConfirmConsequence: string;
+  deleteConfirmEyebrow: string;
   deleteConfirmTitle: (name: string) => string;
   dialogAskPrompt: (name: string, chart: string) => string;
   dialogBody: string;
@@ -599,8 +611,13 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     close: 'Close',
     createNew: 'Create New Kundli',
     delete: 'Delete',
+    deleteCancel: 'Keep Kundli',
+    deleteConfirmAction: 'Delete Kundli',
     deleteConfirmBody:
       'This removes it from your Kundli Library. Old chats or reports may no longer have full chart context for this profile.',
+    deleteConfirmConsequence:
+      'If this is your active Kundli, Predicta will move to the next saved Kundli or ask you to create a new chart.',
+    deleteConfirmEyebrow: 'Delete carefully',
     deleteConfirmTitle: name => `Delete ${name}'s Kundli?`,
     dialogAskPrompt: (name, chart) =>
       `Use ${name}'s ${chart} chart from my Kundli Library. Confirm this chart in chat and tell me what I should ask next.`,
@@ -672,8 +689,13 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     close: 'बंद करें',
     createNew: 'नई कुंडली बनाएं',
     delete: 'हटाएं',
+    deleteCancel: 'रहने दें',
+    deleteConfirmAction: 'कुंडली हटाएं',
     deleteConfirmBody:
       'यह कुंडली लाइब्रेरी से हट जाएगी. पुराने चैट या रिपोर्ट में इस प्रोफाइल का पूरा चार्ट संदर्भ उपलब्ध नहीं रह सकता.',
+    deleteConfirmConsequence:
+      'अगर यही सक्रिय कुंडली है, तो Predicta अगली सेव कुंडली चुनेगी या नया चार्ट बनाने को कहेगी.',
+    deleteConfirmEyebrow: 'सावधानी से हटाएं',
     deleteConfirmTitle: name => `${name} की कुंडली हटाएं?`,
     dialogAskPrompt: (name, chart) =>
       `${name} की ${chart} कुंडली लाइब्रेरी से इस्तेमाल करें. चैट में चार्ट की पुष्टि करके बताएं कि आगे क्या पूछना सही रहेगा.`,
@@ -745,8 +767,13 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     close: 'બંધ કરો',
     createNew: 'નવી કુંડળી બનાવો',
     delete: 'કાઢી નાખો',
+    deleteCancel: 'રહવા દો',
+    deleteConfirmAction: 'કુંડળી કાઢી નાખો',
     deleteConfirmBody:
       'આ કુંડળી લાઇબ્રેરીમાંથી દૂર થશે. જૂના ચેટ અથવા રિપોર્ટમાં આ પ્રોફાઇલનો સંપૂર્ણ ચાર્ટ સંદર્ભ ઉપલબ્ધ ન રહી શકે.',
+    deleteConfirmConsequence:
+      'જો આ સક્રિય કુંડળી છે, તો Predicta આગળની સેવ કુંડળી પસંદ કરશે અથવા નવો ચાર્ટ બનાવવા કહેશે.',
+    deleteConfirmEyebrow: 'સાવચેતીથી કાઢો',
     deleteConfirmTitle: name => `${name} ની કુંડળી કાઢી નાખો?`,
     dialogAskPrompt: (name, chart) =>
       `${name} નો ${chart} ચાર્ટ કુંડળી લાઇબ્રેરીમાંથી વાપરો. ચેટમાં ચાર્ટની પુષ્ટિ કરીને આગળ શું પૂછવું તે કહો.`,
