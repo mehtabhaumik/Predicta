@@ -8936,6 +8936,7 @@ button:disabled {
   justify-content: center;
   padding: 28px;
   position: fixed;
+  overflow: auto;
   z-index: 60;
 }
 
@@ -8946,11 +8947,11 @@ button:disabled {
     rgba(18, 18, 28, 0.96);
   border-radius: 24px;
   max-height: calc(100vh - 56px);
-  max-width: 640px;
+  max-width: 720px;
   overflow: auto;
-  padding: 40px;
+  padding: 42px;
   position: relative;
-  width: min(100%, 640px);
+  width: min(100%, 720px);
 }
 
 .auth-dialog h2 {
@@ -8960,7 +8961,7 @@ button:disabled {
 }
 
 .auth-dialog-hero {
-  max-width: 520px;
+  max-width: 590px;
   padding-right: 44px;
 }
 
@@ -8984,12 +8985,28 @@ button:disabled {
   top: 22px;
 }
 
-.auth-provider-grid,
 .auth-mode-tabs,
 .dialog-actions {
   display: grid;
   gap: 14px;
   margin-top: 24px;
+}
+
+.auth-trust-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.auth-trust-strip span {
+  background: rgba(77, 175, 255, 0.09);
+  border: 1px solid rgba(77, 175, 255, 0.22);
+  border-radius: 999px;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 850;
+  padding: 8px 12px;
 }
 
 .auth-google-button {
@@ -9053,65 +9070,6 @@ button:disabled {
   font-weight: 900;
 }
 
-.apple-icon {
-  position: relative;
-}
-
-.apple-icon::before {
-  background: var(--text);
-  border-radius: 50% 50% 46% 46%;
-  content: '';
-  height: 15px;
-  position: absolute;
-  top: 10px;
-  width: 13px;
-}
-
-.apple-icon::after {
-  background: var(--text);
-  border-radius: 8px 8px 0 8px;
-  content: '';
-  height: 7px;
-  position: absolute;
-  right: 8px;
-  top: 6px;
-  transform: rotate(-28deg);
-  width: 8px;
-}
-
-.microsoft-icon {
-  display: grid;
-  gap: 2px;
-  grid-template-columns: repeat(2, 8px);
-  padding: 5px;
-}
-
-.microsoft-icon i {
-  display: block;
-  height: 8px;
-  width: 8px;
-}
-
-.microsoft-icon i:nth-child(1) {
-  background: #f25022;
-}
-
-.microsoft-icon i:nth-child(2) {
-  background: #7fba00;
-}
-
-.microsoft-icon i:nth-child(3) {
-  background: #00a4ef;
-}
-
-.microsoft-icon i:nth-child(4) {
-  background: #ffb900;
-}
-
-.auth-provider-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
 .auth-mode-tabs {
   background: rgba(255, 255, 255, 0.045);
   border: 1px solid var(--border-quiet);
@@ -9133,6 +9091,10 @@ button:disabled {
 .auth-mode-tabs button.active {
   background: rgba(255, 255, 255, 0.09);
   color: var(--text);
+}
+
+.auth-email-form {
+  margin-top: 4px;
 }
 
 .auth-dialog .field-stack {
@@ -9168,6 +9130,20 @@ button:disabled {
 .dialog-message.error {
   background: rgba(255, 93, 132, 0.1);
   border-color: rgba(255, 93, 132, 0.28);
+}
+
+.auth-legal-note {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 22px 0 0;
+}
+
+.auth-legal-note a {
+  color: var(--text);
+  font-weight: 850;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .pricing-page {
@@ -9792,7 +9768,6 @@ button:disabled {
 .report-included-grid,
 .report-builder-section-grid,
 .dossier-window-grid,
-.auth-provider-grid,
 .premium-feature-grid,
 .one-time-grid,
 .method-pillar-grid,
@@ -10693,7 +10668,6 @@ button:disabled {
     width: 100%;
   }
 
-  .auth-provider-grid,
   .dialog-actions {
     grid-template-columns: 1fr;
   }
