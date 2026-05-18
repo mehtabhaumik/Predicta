@@ -2308,6 +2308,14 @@ button:disabled {
   padding: 16px;
 }
 
+.guest-storage-nudge.compact {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 0;
+}
+
 .guest-storage-nudge strong {
   color: var(--text);
   font-size: 1rem;
@@ -7432,7 +7440,7 @@ button:disabled {
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: 18px;
+  margin-top: 12px;
 }
 
 .kundli-library-mini-chart {
@@ -8890,6 +8898,173 @@ button:disabled {
   width: 100%;
 }
 
+.kundli-library-command-card.compact {
+  border-color: rgba(77, 175, 255, 0.16);
+}
+
+.kundli-library-command-content {
+  display: grid;
+  gap: 18px;
+}
+
+.kundli-library-command-content.compact {
+  align-items: center;
+  gap: 18px;
+  grid-template-columns: minmax(300px, 0.34fr) minmax(0, 1fr);
+  padding: 20px;
+}
+
+.kundli-library-command-content.compact h2 {
+  font-size: clamp(22px, 2.4vw, 30px);
+  line-height: 1.14;
+  margin: 8px 0 0;
+}
+
+.kundli-library-command-copy {
+  min-width: 0;
+}
+
+.kundli-library-command-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.kundli-library-command-actions .button {
+  margin-top: 0;
+}
+
+.saved-kundli-list-heading {
+  align-items: end;
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+}
+
+.saved-kundli-list-heading h2 {
+  margin: 8px 0 0;
+}
+
+.saved-kundli-list-heading > span {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 900;
+  padding: 9px 12px;
+  white-space: nowrap;
+}
+
+.saved-kundli-card {
+  background:
+    radial-gradient(circle at 8% 0%, rgba(77, 175, 255, 0.08), transparent 28%),
+    rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--border-quiet);
+  border-radius: 18px;
+  display: grid;
+  gap: 22px;
+  padding: clamp(18px, 2.3vw, 28px);
+  width: 100%;
+}
+
+.saved-kundli-card.active {
+  background:
+    radial-gradient(circle at 8% 0%, rgba(77, 175, 255, 0.14), transparent 30%),
+    radial-gradient(circle at 92% 8%, rgba(123, 97, 255, 0.1), transparent 30%),
+    rgba(255, 255, 255, 0.045);
+  border-color: rgba(77, 175, 255, 0.24);
+}
+
+.saved-kundli-card-header {
+  align-items: flex-start;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.saved-kundli-profile {
+  min-width: 0;
+}
+
+.saved-kundli-profile h2 {
+  margin: 10px 0 10px;
+}
+
+.saved-kundli-status-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.library-status-pill {
+  background: rgba(77, 175, 255, 0.12);
+  border: 1px solid rgba(77, 175, 255, 0.3);
+  border-radius: 999px;
+  color: #9fd2ff;
+  font-size: 0.76rem;
+  font-weight: 900;
+  padding: 6px 10px;
+}
+
+.saved-kundli-meta {
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin: 0;
+}
+
+.saved-kundli-meta span {
+  min-width: 0;
+}
+
+.saved-kundli-primary-actions,
+.saved-kundli-secondary-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.saved-kundli-primary-actions {
+  justify-content: flex-end;
+}
+
+.saved-kundli-primary-actions .button,
+.saved-kundli-secondary-actions .button {
+  margin-top: 0;
+}
+
+.saved-kundli-preview-block {
+  background: rgba(255, 255, 255, 0.028);
+  border: 1px solid var(--border-quiet);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.saved-kundli-preview-heading {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  justify-content: space-between;
+}
+
+.saved-kundli-preview-heading strong {
+  color: var(--text);
+}
+
+.saved-kundli-preview-heading span {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.saved-kundli-secondary-actions {
+  justify-content: flex-start;
+}
+
 .settings-layout {
   display: grid;
   gap: 24px;
@@ -10046,12 +10221,30 @@ button:disabled {
 }
 
 @media (max-width: 820px) {
+  .kundli-library-command-content.compact {
+    grid-template-columns: 1fr;
+  }
+
+  .kundli-library-command-actions,
+  .guest-storage-nudge.compact {
+    justify-content: flex-start;
+  }
+
+  .saved-kundli-card-header {
+    grid-template-columns: 1fr;
+  }
+
+  .saved-kundli-primary-actions {
+    justify-content: flex-start;
+  }
+
   .kundli-library-mini-strip {
     grid-template-columns: 1fr;
   }
 
   .kundli-library-mini-chart {
     max-width: 360px;
+    width: 100%;
   }
 
   .jyotish-chart-toolbar {

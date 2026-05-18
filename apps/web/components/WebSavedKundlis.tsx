@@ -67,7 +67,8 @@ export function WebSavedKundlis(): React.JSX.Element {
       'Create a new Kundli for me. Ask only for the missing birth details and confirm them before calculation.',
     sourceScreen: 'Kundli Library',
   });
-  const canCreateMoreKundlis = canCreateAdditionalWebKundli().allowed;
+  const canCreateMoreKundlis =
+    profiles.length === 0 || canCreateAdditionalWebKundli().allowed;
 
   if (!kundli && profiles.length === 0) {
     return (
@@ -76,21 +77,30 @@ export function WebSavedKundlis(): React.JSX.Element {
         <LibraryHeader
           askPredictaHref={askPredictaToCreateHref}
           canCreateMoreKundlis={canCreateMoreKundlis}
+          hasProfiles={profiles.length > 0}
           labels={labels}
         />
-        <FamilyVaultCard labels={labels} />
-        <div className="saved-kundli-list">
-          <Card className="glass-panel">
-            <div className="card-content spacious">
-              <div className="section-title">{labels.libraryEyebrow}</div>
-              <h2>{labels.emptyTitle}</h2>
-              <p>{labels.emptyBody}</p>
+      <FamilyVaultCard labels={labels} />
+      <section className="saved-kundli-list" aria-label={labels.savedListTitle}>
+        <Card className="glass-panel">
+          <div className="card-content spacious">
+            <div className="section-title">{labels.libraryEyebrow}</div>
+            <h2>{labels.emptyTitle}</h2>
+            <p>{labels.emptyBody}</p>
+            <div className="action-row compact">
+              <Link className="button" href="/dashboard/kundli">
+                {labels.createNew}
+              </Link>
+              <Link className="button secondary" href={askPredictaToCreateHref}>
+                {labels.askToCreate}
+              </Link>
             </div>
-          </Card>
-        </div>
-      </>
-    );
-  }
+          </div>
+        </Card>
+      </section>
+    </>
+  );
+}
 
   return (
     <>
@@ -98,32 +108,89 @@ export function WebSavedKundlis(): React.JSX.Element {
       <LibraryHeader
         askPredictaHref={askPredictaToCreateHref}
         canCreateMoreKundlis={canCreateMoreKundlis}
+        hasProfiles={profiles.length > 0}
         labels={labels}
       />
       <FamilyVaultCard labels={labels} />
-      <div className="saved-kundli-list">
+      <section className="saved-kundli-list" aria-label={labels.savedListTitle}>
+        <div className="saved-kundli-list-heading">
+          <div>
+            <div className="section-title">{labels.savedListEyebrow}</div>
+            <h2>{labels.savedListTitle}</h2>
+          </div>
+          <span>{labels.savedCount(profiles.length)}</span>
+        </div>
         {profiles.map(record => {
           const active = record.id === kundli?.id;
+          const askHref = buildPredictaChatHref({
+            chartName: 'D1',
+            chartType: 'D1',
+            kundli: record,
+            kundliId: record.id,
+            prompt: `Use ${record.birthDetails.name}'s saved Kundli and tell me the most useful next reading.`,
+            purpose: 'family',
+            school: 'PARASHARI',
+            selectedSection: `Saved profile: ${record.birthDetails.name}`,
+            sourceScreen: 'Kundli Library',
+          });
 
           return (
-            <Card className={active ? 'glass-panel' : ''} key={record.id}>
-              <div className="card-content spacious">
-                <div className="section-title">
-                  {active ? labels.activeKundli : labels.savedKundli}
-                </div>
-                <h2>{record.birthDetails.name}</h2>
-                <p>
-                  {record.birthDetails.place} · {labels.risingSign}{' '}
-                  {record.lagna} · {labels.birthStar} {record.nakshatra}
-                </p>
-                {record.editHistory?.length ? (
-                  <p className="quiet-line">
-                    {labels.editHistory(
-                      record.editHistory.length,
-                      record.editHistory[0]?.fieldsChanged ?? [],
-                    )}
+            <article
+              className={`saved-kundli-card${active ? ' active' : ''}`}
+              key={record.id}
+            >
+              <div className="saved-kundli-card-header">
+                <div className="saved-kundli-profile">
+                  <div className="saved-kundli-status-row">
+                    <span className="section-title">
+                      {active ? labels.activeKundli : labels.savedKundli}
+                    </span>
+                    {active ? (
+                      <span className="library-status-pill">{labels.activeNow}</span>
+                    ) : null}
+                  </div>
+                  <h2>{record.birthDetails.name}</h2>
+                  <p className="saved-kundli-meta">
+                    <span>{record.birthDetails.place}</span>
+                    <span>
+                      {labels.risingSign} {record.lagna}
+                    </span>
+                    <span>
+                      {labels.birthStar} {record.nakshatra}
+                    </span>
                   </p>
-                ) : null}
+                  {record.editHistory?.length ? (
+                    <p className="quiet-line">
+                      {labels.editHistory(
+                        record.editHistory.length,
+                        record.editHistory[0]?.fieldsChanged ?? [],
+                      )}
+                    </p>
+                  ) : null}
+                </div>
+                <div className="saved-kundli-primary-actions">
+                  <Link
+                    className="button"
+                    href="/dashboard/kundli"
+                    onClick={() => activateProfile(record)}
+                  >
+                    {labels.open}
+                  </Link>
+                  <Link
+                    className="button secondary"
+                    href={askHref}
+                    onClick={() => activateProfile(record)}
+                  >
+                    {labels.askPredicta}
+                  </Link>
+                </div>
+              </div>
+
+              <div className="saved-kundli-preview-block">
+                <div className="saved-kundli-preview-heading">
+                  <strong>{labels.previewCharts}</strong>
+                  <span>{labels.previewChartsHint}</span>
+                </div>
                 <KundliMiniChartStrip
                   chartLanguage={chartLanguage}
                   kundli={record}
@@ -132,69 +199,46 @@ export function WebSavedKundlis(): React.JSX.Element {
                     setDialogSelection({ kundli: record, school })
                   }
                 />
-                <div className="action-row">
-                  <Link
-                    className="button secondary"
-                    href="/dashboard/kundli"
-                    onClick={() => activateProfile(record)}
-                  >
-                    {labels.open}
-                  </Link>
-                  {!active ? (
-                    <button
-                      className="button secondary"
-                      onClick={() => {
-                        activateProfile(record);
-                      }}
-                      type="button"
-                    >
-                      {labels.setActive}
-                    </button>
-                  ) : null}
-                  <Link
-                    className="button secondary"
-                    href={buildPredictaChatHref({
-                      chartName: 'D1',
-                      chartType: 'D1',
-                      kundli: record,
-                      kundliId: record.id,
-                      prompt: `Use ${record.birthDetails.name}'s saved Kundli and tell me the most useful next reading.`,
-                      purpose: 'family',
-                      school: 'PARASHARI',
-                      selectedSection: `Saved profile: ${record.birthDetails.name}`,
-                      sourceScreen: 'Kundli Library',
-                    })}
-                    onClick={() => activateProfile(record)}
-                  >
-                    {labels.askPredicta}
-                  </Link>
-                  <Link
-                    className="button secondary"
-                    href={`/dashboard/kundli?editKundliId=${encodeURIComponent(record.id)}`}
-                    onClick={() => activateProfile(record)}
-                  >
-                    {labels.edit}
-                  </Link>
-                  <Link
-                    className="button secondary"
-                    href="/dashboard/family"
-                    onClick={() => activateProfile(record)}
-                  >
-                    {labels.familyMap}
-                  </Link>
+              </div>
+
+              <div className="saved-kundli-secondary-actions">
+                {!active ? (
                   <button
-                    className="button secondary danger"
-                    onClick={() => requestDelete(record)}
+                    className="button secondary"
+                    onClick={() => {
+                      activateProfile(record);
+                    }}
                     type="button"
                   >
-                    {labels.delete}
+                    {labels.setActive}
                   </button>
-                </div>
+                ) : null}
+                <Link
+                  className="button secondary"
+                  href={`/dashboard/kundli?editKundliId=${encodeURIComponent(record.id)}`}
+                  onClick={() => activateProfile(record)}
+                >
+                  {labels.edit}
+                </Link>
+                <Link
+                  className="button secondary"
+                  href="/dashboard/family"
+                  onClick={() => activateProfile(record)}
+                >
+                  {labels.familyMap}
+                </Link>
+                <button
+                  className="button secondary danger"
+                  onClick={() => requestDelete(record)}
+                  type="button"
+                >
+                  {labels.delete}
+                </button>
               </div>
-            </Card>
+            </article>
           );
         })}
-      </div>
+      </section>
       {dialogSelection ? (
         <KundliLibraryChartDialog
           labels={labels}
@@ -472,26 +516,36 @@ function LibraryPageHeading({
 function LibraryHeader({
   askPredictaHref,
   canCreateMoreKundlis,
+  hasProfiles,
   labels,
 }: {
   askPredictaHref: string;
   canCreateMoreKundlis: boolean;
+  hasProfiles: boolean;
   labels: KundliLibraryCopy;
 }): React.JSX.Element {
   return (
-    <Card className="glass-panel">
-      <div className="card-content spacious">
-        <div className="section-title">{labels.actionsEyebrow}</div>
-        <h2>{labels.actionsTitle}</h2>
-        <details className="info-drawer">
-          <summary>
-            <span>{labels.actionsEyebrow}</span>
-            <strong>{labels.openDetails}</strong>
-          </summary>
-          <p>{labels.actionsBody}</p>
-        </details>
+    <Card className={`glass-panel kundli-library-command-card${hasProfiles ? ' compact' : ''}`}>
+      <div
+        className={`card-content kundli-library-command-content${
+          hasProfiles ? ' compact' : ' spacious'
+        }`}
+      >
+        <div className="kundli-library-command-copy">
+          <div className="section-title">{labels.actionsEyebrow}</div>
+          <h2>{labels.actionsTitle}</h2>
+          {!hasProfiles ? (
+            <details className="info-drawer">
+              <summary>
+                <span>{labels.actionsEyebrow}</span>
+                <strong>{labels.openDetails}</strong>
+              </summary>
+              <p>{labels.actionsBody}</p>
+            </details>
+          ) : null}
+        </div>
         {canCreateMoreKundlis ? (
-          <div className="action-row">
+          <div className="kundli-library-command-actions">
             <Link className="button" href="/dashboard/kundli">
               {labels.createNew}
             </Link>
@@ -500,9 +554,11 @@ function LibraryHeader({
             </Link>
           </div>
         ) : (
-          <div className="guest-storage-nudge">
-            <strong>{labels.guestLimitTitle}</strong>
-            <p>{labels.guestLimitBody}</p>
+          <div className={`guest-storage-nudge${hasProfiles ? ' compact' : ''}`}>
+            <div>
+              <strong>{labels.guestLimitTitle}</strong>
+              <p>{labels.guestLimitBody}</p>
+            </div>
             <AuthDialog />
           </div>
         )}
@@ -546,6 +602,7 @@ type KundliLibraryCopy = {
   actionsEyebrow: string;
   actionsTitle: string;
   activeKundli: string;
+  activeNow: string;
   addProfile: string;
   approximateTime: string;
   askPredicta: string;
@@ -589,9 +646,13 @@ type KundliLibraryCopy = {
   pageTitle: string;
   previewChartLabel: (school: ChartRenderSchool) => string;
   previewCharts: string;
+  previewChartsHint: string;
   rectifiedTime: string;
   risingSign: string;
   savedKundli: string;
+  savedCount: (count: number) => string;
+  savedListEyebrow: string;
+  savedListTitle: string;
   setActive: string;
 };
 
@@ -602,6 +663,7 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     actionsEyebrow: 'KUNDLI LIBRARY ACTIONS',
     actionsTitle: 'Create, switch, edit, or delete from one place.',
     activeKundli: 'Active Kundli',
+    activeNow: 'Active now',
     addProfile: 'Add Profile',
     approximateTime: 'Approximate time',
     askPredicta: 'Ask Predicta',
@@ -669,9 +731,13 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     previewChartLabel: school =>
       school === 'PARASHARI' ? 'D1' : school === 'KP' ? 'KP' : 'Nadi',
     previewCharts: 'Saved Kundli chart previews',
+    previewChartsHint: 'Tap any preview to inspect the chart before opening a full flow.',
     rectifiedTime: 'Rectified time',
     risingSign: 'Rising sign',
     savedKundli: 'Saved Kundli',
+    savedCount: count => `${count} saved ${count === 1 ? 'Kundli' : 'Kundlis'}`,
+    savedListEyebrow: 'Saved profiles',
+    savedListTitle: 'Your Kundlis',
     setActive: 'Set Active',
   },
   hi: {
@@ -680,6 +746,7 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     actionsEyebrow: 'कुंडली लाइब्रेरी कार्य',
     actionsTitle: 'एक ही जगह से बनाएं, बदलें, संपादित करें या हटाएं.',
     activeKundli: 'सक्रिय कुंडली',
+    activeNow: 'अभी सक्रिय',
     addProfile: 'प्रोफाइल जोड़ें',
     approximateTime: 'अनुमानित समय',
     askPredicta: 'Predicta से पूछें',
@@ -747,9 +814,13 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     previewChartLabel: school =>
       school === 'PARASHARI' ? 'D1' : school === 'KP' ? 'KP' : 'नाड़ी',
     previewCharts: 'सेव कुंडली चार्ट झलक',
+    previewChartsHint: 'पूरा प्रवाह खोलने से पहले किसी भी झलक पर टैप करके चार्ट देखें.',
     rectifiedTime: 'सुधारा गया समय',
     risingSign: 'लग्न',
     savedKundli: 'सेव कुंडली',
+    savedCount: count => `${count} सेव कुंडली`,
+    savedListEyebrow: 'सेव प्रोफाइल',
+    savedListTitle: 'आपकी कुंडलियां',
     setActive: 'सक्रिय करें',
   },
   gu: {
@@ -758,6 +829,7 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     actionsEyebrow: 'કુંડળી લાઇબ્રેરી કાર્ય',
     actionsTitle: 'એક જ જગ્યાએથી બનાવો, બદલો, સંપાદિત કરો અથવા કાઢી નાખો.',
     activeKundli: 'સક્રિય કુંડળી',
+    activeNow: 'હમણાં સક્રિય',
     addProfile: 'પ્રોફાઇલ ઉમેરો',
     approximateTime: 'અંદાજિત સમય',
     askPredicta: 'Predicta ને પૂછો',
@@ -825,9 +897,13 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     previewChartLabel: school =>
       school === 'PARASHARI' ? 'D1' : school === 'KP' ? 'KP' : 'નાડી',
     previewCharts: 'સાચવેલી કુંડળી ચાર્ટ ઝલક',
+    previewChartsHint: 'સંપૂર્ણ પ્રવાહ ખોલતા પહેલા કોઈ પણ ઝલક પર ટેપ કરીને ચાર્ટ જુઓ.',
     rectifiedTime: 'સુધારેલો સમય',
     risingSign: 'લગ્ન',
     savedKundli: 'સાચવેલી કુંડળી',
+    savedCount: count => `${count} સાચવેલી કુંડળી`,
+    savedListEyebrow: 'સાચવેલી પ્રોફાઇલ',
+    savedListTitle: 'તમારી કુંડળીઓ',
     setActive: 'સક્રિય કરો',
   },
 };
