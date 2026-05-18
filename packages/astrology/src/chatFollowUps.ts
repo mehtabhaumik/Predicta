@@ -158,6 +158,7 @@ export function buildPredictaSchoolHandoffContext({
     handoffBirthSummary: birthSummary,
     handoffFrom: from,
     handoffQuestion: question,
+    kundliId: kundli?.id,
     predictaSchool: to,
     selectedSection: [
       `${sourceName} passed this question to ${schoolName}.`,
@@ -287,7 +288,7 @@ function schoolHandoffFollowUps(
     return [
       {
         context,
-        href: `/dashboard/kp?handoffQuestion=${encodeURIComponent(text)}`,
+        href: buildSchoolHandoffHref('/dashboard/kp', context),
         id: 'open-kp-predicta',
         label:
           language === 'hi'
@@ -324,7 +325,7 @@ function schoolHandoffFollowUps(
     return [
       {
         context,
-        href: `/dashboard/nadi?handoffQuestion=${encodeURIComponent(text)}`,
+        href: buildSchoolHandoffHref('/dashboard/nadi', context),
         id: 'open-nadi-predicta',
         label:
           language === 'hi'
@@ -350,6 +351,29 @@ function schoolHandoffFollowUps(
   }
 
   return [];
+}
+
+function buildSchoolHandoffHref(path: string, context: ChartContext): string {
+  const params = new URLSearchParams();
+
+  setHrefParam(params, 'handoffQuestion', context.handoffQuestion);
+  setHrefParam(params, 'kundliId', context.kundliId);
+  setHrefParam(params, 'from', context.handoffFrom);
+  setHrefParam(params, 'school', context.predictaSchool);
+
+  return `${path}?${params.toString()}`;
+}
+
+function setHrefParam(
+  params: URLSearchParams,
+  key: string,
+  value: number | string | undefined,
+): void {
+  if (value === undefined || value === '') {
+    return;
+  }
+
+  params.set(key, String(value));
 }
 
 function localizeLabel(prompt: string, language: SupportedLanguage): string {

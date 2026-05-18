@@ -12,6 +12,7 @@
     "typecheck": "turbo typecheck",
     "test": "turbo test",
     "test:charts": "pnpm --filter @pridicta/astrology stress:charts",
+    "test:predicta-context": "node scripts/run-predicta-context-reliability-suite.mjs",
     "test:mobile": "pnpm --filter @pridicta/mobile exec jest --runInBand",
     "test:web": "pnpm --filter @pridicta/web test",
     "mobile:android": "pnpm --filter @pridicta/mobile android",

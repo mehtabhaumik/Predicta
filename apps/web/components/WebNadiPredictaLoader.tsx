@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   needsPredictaSchoolCalculation,
   type PredictaSchoolReadiness,
@@ -8,19 +8,38 @@ import {
 import type { KundliData } from '@pridicta/types';
 import { demoAccess } from '../lib/demo-state';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
-import { generateKundliFromWeb } from '../lib/web-kundli-storage';
+import {
+  generateKundliFromWeb,
+  setActiveWebKundli,
+} from '../lib/web-kundli-storage';
 import { WebActiveKundliActions } from './WebActiveKundliActions';
 import { WebNadiPredictaPanel } from './WebNadiPredictaPanel';
 
 export function WebNadiPredictaLoader(): React.JSX.Element {
-  const { activeKundli } = useWebKundliLibrary();
+  const { activeKundli, savedKundlis } = useWebKundliLibrary();
   const [handoffQuestion, setHandoffQuestion] = useState<string>();
-  const schoolReady = useSchoolReadyKundli(activeKundli, 'NADI');
+  const [requestedKundliId, setRequestedKundliId] = useState<string>();
+  const activatedRequestRef = useRef<string | undefined>(undefined);
+  const handoffKundli =
+    savedKundlis.find(item => item.id === requestedKundliId) ?? activeKundli;
+  const schoolReady = useSchoolReadyKundli(handoffKundli, 'NADI');
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setHandoffQuestion(params.get('handoffQuestion') ?? undefined);
+    setRequestedKundliId(params.get('kundliId') ?? undefined);
   }, []);
+
+  useEffect(() => {
+    if (
+      handoffKundli &&
+      requestedKundliId === handoffKundli.id &&
+      activatedRequestRef.current !== requestedKundliId
+    ) {
+      activatedRequestRef.current = requestedKundliId;
+      setActiveWebKundli(handoffKundli);
+    }
+  }, [handoffKundli, requestedKundliId]);
 
   return (
     <>
