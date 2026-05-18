@@ -15,6 +15,7 @@
     "test:buyer-rejection": "node scripts/run-end-to-end-buyer-rejection-test.mjs",
     "test:pdf-golden": "node scripts/run-pdf-report-golden-output-gate.mjs",
     "test:predicta-context": "node scripts/run-predicta-context-reliability-suite.mjs",
+    "test:public-greenlight": "node scripts/run-public-testing-greenlight-audit.mjs",
     "test:visual-proof": "node scripts/run-mobile-tablet-visual-proof-gate.mjs",
     "test:mobile": "pnpm --filter @pridicta/mobile exec jest --runInBand",
     "test:web": "pnpm --filter @pridicta/web test",

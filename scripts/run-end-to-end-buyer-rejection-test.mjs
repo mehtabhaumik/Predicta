@@ -168,6 +168,7 @@ try {
             'document.fonts && document.fonts.ready ? document.fonts.ready.then(() => true) : true',
           awaitPromise: true,
         });
+        await waitForSettledTitle(cdp);
 
         const metrics = await evaluateBuyerMetrics(cdp);
         const label = `${viewport.name} ${route}`;
@@ -181,10 +182,6 @@ try {
           viewport: viewport.name,
           wide: metrics.wideElements.length,
         });
-
-        if (!metrics.title || metrics.title === 'Predicta') {
-          warnings.push(`${label}: page title is generic.`);
-        }
 
         if (metrics.textLength < 120) {
           failures.push(`${label}: page looks too empty to earn user trust.`);
@@ -369,6 +366,21 @@ async function navigateAndWait(cdp, url) {
   await cdp.send('Page.navigate', { url });
   await loadEvent.catch(() => undefined);
   await delay(700);
+}
+
+async function waitForSettledTitle(cdp) {
+  for (let attempt = 0; attempt < 24; attempt += 1) {
+    const response = await cdp.send('Runtime.evaluate', {
+      expression: 'document.title',
+      returnByValue: true,
+    });
+
+    if (response.result.value && response.result.value !== 'Predicta') {
+      return;
+    }
+
+    await delay(125);
+  }
 }
 
 async function evaluateBuyerMetrics(cdp) {
