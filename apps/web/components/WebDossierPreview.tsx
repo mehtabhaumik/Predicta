@@ -436,9 +436,9 @@ export function WebDossierPreview(): React.JSX.Element {
               <tbody>
                 {differenceRows.map(row => (
                   <tr key={row.area}>
-                    <td>{row.area}</td>
-                    <td>{row.free}</td>
-                    <td>{row.premium}</td>
+                    <td data-label={builderCopy.differenceColumn}>{row.area}</td>
+                    <td data-label={labels.free}>{row.free}</td>
+                    <td data-label={labels.premium}>{row.premium}</td>
                   </tr>
                 ))}
               </tbody>
