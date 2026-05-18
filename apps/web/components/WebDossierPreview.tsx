@@ -54,6 +54,7 @@ export function WebDossierPreview(): React.JSX.Element {
   const [builderMode, setBuilderMode] = useState<'EVERYTHING' | 'CUSTOM'>(
     'EVERYTHING',
   );
+  const [isReportPreviewOpen, setReportPreviewOpen] = useState(false);
   const [selectedSectionKeys, setSelectedSectionKeys] = useState<string[]>([]);
   const [copyState, setCopyState] = useState<
     'idle' | 'report' | 'chat' | 'empty' | 'needKundli'
@@ -206,7 +207,8 @@ export function WebDossierPreview(): React.JSX.Element {
       return;
     }
 
-    window.print();
+    setReportPreviewOpen(true);
+    window.setTimeout(() => window.print(), 80);
   }
 
   function selectEverything() {
@@ -604,6 +606,18 @@ export function WebDossierPreview(): React.JSX.Element {
         </button>
       </div>
 
+      <details
+        className="report-drawer report-preview-drawer"
+        onToggle={event => setReportPreviewOpen(event.currentTarget.open)}
+        open={isReportPreviewOpen}
+      >
+        <summary>
+          <span>{builderCopy.previewDrawerTitle}</span>
+          <strong>{builderCopy.previewDrawerAction}</strong>
+        </summary>
+        <p className="report-preview-drawer-body">{builderCopy.previewDrawerBody}</p>
+        {isReportPreviewOpen ? (
+        <div className="report-preview-content">
       <section
         className={
           mode === 'PREMIUM'
@@ -694,10 +708,13 @@ export function WebDossierPreview(): React.JSX.Element {
         ))}
       </div>
 
-      <section className="report-print-safety-footer">
-        <strong>{reportPrintCopy.safetyTitle}</strong>
-        <p>{reportPrintCopy.safetyBody}</p>
-      </section>
+          <section className="report-print-safety-footer">
+            <strong>{reportPrintCopy.safetyTitle}</strong>
+            <p>{reportPrintCopy.safetyBody}</p>
+          </section>
+        </div>
+        ) : null}
+      </details>
     </div>
   );
 }
@@ -1092,6 +1109,9 @@ function getReportBuilderCopy(language: SupportedLanguage): {
   plannedSectionBulletFree: string;
   plannedSectionBulletPremium: string;
   plannedSectionEvidence: string;
+  previewDrawerAction: string;
+  previewDrawerBody: string;
+  previewDrawerTitle: string;
   premiumAccessBody: string;
   premiumAccessCta: string;
   premiumAccessLabel: string;
@@ -1155,6 +1175,10 @@ function getReportBuilderCopy(language: SupportedLanguage): {
       plannedSectionBulletFree: 'मुफ्त में उपयोगी समझ मिलेगी.',
       plannedSectionBulletPremium: 'प्रीमियम में विस्तृत समय और गहरा सार मिलेगा.',
       plannedSectionEvidence: 'कुंडली बनने के बाद चार्ट प्रमाण जुड़ेगा.',
+      previewDrawerAction: 'प्रीव्यू खोलें',
+      previewDrawerBody:
+        'यहां रिपोर्ट कवर, मुख्य संकेत, चार्ट और चुने हुए भाग दिखते हैं. पीडीएफ सेव करते समय पूरा प्रीव्यू अपने आप खुल जाएगा.',
+      previewDrawerTitle: 'रिपोर्ट प्रीव्यू',
       premiumAccessBody:
         'प्रीमियम पीडीएफ डाउनलोड के लिए प्रीमियम सदस्यता, डे पास या एक बार वाला प्रीमियम पीडीएफ अधिकार चाहिए.',
       premiumAccessCta: 'प्रीमियम विकल्प देखें',
@@ -1222,6 +1246,10 @@ function getReportBuilderCopy(language: SupportedLanguage): {
       plannedSectionBulletFree: 'મફતમાં ઉપયોગી સમજ મળશે.',
       plannedSectionBulletPremium: 'પ્રીમિયમમાં વિગતવાર સમય અને ઊંડો સાર મળશે.',
       plannedSectionEvidence: 'કુંડળી બન્યા પછી ચાર્ટ પુરાવો જોડાશે.',
+      previewDrawerAction: 'પ્રીવ્યૂ ખોલો',
+      previewDrawerBody:
+        'અહીં રિપોર્ટ કવર, મુખ્ય સંકેતો, ચાર્ટ્સ અને પસંદ કરેલા ભાગો દેખાય છે. પીડીએફ સેવ કરતી વખતે આખો પ્રીવ્યૂ પોતે ખુલી જશે.',
+      previewDrawerTitle: 'રિપોર્ટ પ્રીવ્યૂ',
       premiumAccessBody:
         'પ્રીમિયમ પીડીએફ ડાઉનલોડ કરવા પ્રીમિયમ સભ્યપદ, ડે પાસ અથવા એક વખતનો પ્રીમિયમ પીડીએફ અધિકાર જોઈએ.',
       premiumAccessCta: 'પ્રીમિયમ વિકલ્પો જુઓ',
@@ -1290,6 +1318,10 @@ function getReportBuilderCopy(language: SupportedLanguage): {
     plannedSectionBulletFree: 'Free includes useful insight.',
     plannedSectionBulletPremium: 'Premium adds detailed timing and synthesis.',
     plannedSectionEvidence: 'Chart evidence appears after Kundli creation.',
+    previewDrawerAction: 'Open preview',
+    previewDrawerBody:
+      'Preview the cover, key signals, charts, and chosen sections here. Saving the PDF opens the full preview automatically.',
+    previewDrawerTitle: 'Report preview',
     premiumAccessBody:
       'Premium PDF download needs Premium subscription, Day Pass, or one-time Premium PDF access.',
     premiumAccessCta: 'See Premium options',
