@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, useReducedMotion } from 'framer-motion';
-import { useState, type ReactNode } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 import { canSeeAdminRoute } from '@pridicta/access';
 import {
   getAppShellLabels,
@@ -12,6 +12,7 @@ import {
 import type { ResolvedAccess } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useLanguagePreference } from '../lib/language-preference';
+import { useDialogFocusTrap } from '../lib/use-dialog-focus-trap';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 import { SidebarNav, type SidebarGroup } from './SidebarNav';
 import { WebFooter } from './WebFooter';
@@ -104,6 +105,8 @@ export function DashboardShell({
   );
   const showAdmin = canSeeAdminRoute(access);
   const [menuOpen, setMenuOpen] = useState(false);
+  const mobileMenuRef = useRef<HTMLElement | null>(null);
+  const mobileMenuCloseRef = useRef<HTMLButtonElement | null>(null);
   const { activeKundli } = useWebKundliLibrary();
   const visibleGroups = showAdmin
     ? [
@@ -114,6 +117,12 @@ export function DashboardShell({
         },
       ]
     : navGroups;
+
+  useDialogFocusTrap(mobileMenuRef, {
+    active: menuOpen,
+    initialFocusRef: mobileMenuCloseRef,
+    onClose: () => setMenuOpen(false),
+  });
 
   return (
     <div className="dashboard-shell">
@@ -168,8 +177,12 @@ export function DashboardShell({
           >
             <aside
               aria-label="Dashboard menu"
+              aria-modal="true"
               className="dashboard-mobile-drawer"
               onClick={event => event.stopPropagation()}
+              ref={mobileMenuRef}
+              role="dialog"
+              tabIndex={-1}
             >
               <div className="dashboard-mobile-drawer-head">
                 <strong>Predicta</strong>
@@ -177,6 +190,7 @@ export function DashboardShell({
                   aria-label={shellLabels.actions.closeMenu}
                   className="dashboard-menu-close"
                   onClick={() => setMenuOpen(false)}
+                  ref={mobileMenuCloseRef}
                   type="button"
                 >
                   {shellLabels.actions.close}

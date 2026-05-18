@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { KundliData, SupportedLanguage } from '@pridicta/types';
 import {
   buildChartRenderModel,
@@ -18,6 +18,7 @@ import {
 } from '../lib/web-kundli-storage';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useLanguagePreference } from '../lib/language-preference';
+import { useDialogFocusTrap } from '../lib/use-dialog-focus-trap';
 import { Card } from './Card';
 import { WebKundliChart } from './WebKundliChart';
 import { AuthDialog } from './AuthDialog';
@@ -381,6 +382,14 @@ function KundliLibraryChartDialog({
 }): React.JSX.Element | null {
   const { kundli, school } = selection;
   const chart = kundli.charts.D1;
+  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+
+  useDialogFocusTrap(dialogRef, {
+    active: Boolean(chart?.supported),
+    initialFocusRef: closeButtonRef,
+    onClose,
+  });
 
   if (!chart?.supported) {
     return null;
@@ -406,20 +415,38 @@ function KundliLibraryChartDialog({
   });
 
   return (
-    <div className="kundli-chart-dialog-backdrop" role="presentation">
+    <div
+      className="kundli-chart-dialog-backdrop"
+      onMouseDown={event => {
+        if (event.target === event.currentTarget) {
+          onClose();
+        }
+      }}
+      role="presentation"
+    >
       <div
-        aria-label={labels.dialogTitle(kundli.birthDetails.name, chartTitle)}
+        aria-describedby="kundli-chart-dialog-body"
+        aria-labelledby="kundli-chart-dialog-title"
         aria-modal="true"
         className="kundli-chart-dialog"
+        ref={dialogRef}
         role="dialog"
+        tabIndex={-1}
       >
         <div className="kundli-chart-dialog-header">
           <div>
             <div className="section-title">{labels.dialogEyebrow}</div>
-            <h2>{labels.dialogTitle(kundli.birthDetails.name, chartTitle)}</h2>
-            <p>{labels.dialogBody}</p>
+            <h2 id="kundli-chart-dialog-title">
+              {labels.dialogTitle(kundli.birthDetails.name, chartTitle)}
+            </h2>
+            <p id="kundli-chart-dialog-body">{labels.dialogBody}</p>
           </div>
-          <button className="button secondary" onClick={onClose} type="button">
+          <button
+            className="button secondary"
+            onClick={onClose}
+            ref={closeButtonRef}
+            type="button"
+          >
             {labels.close}
           </button>
         </div>

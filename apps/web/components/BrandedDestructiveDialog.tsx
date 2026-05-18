@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useRef } from 'react';
+import { useDialogFocusTrap } from '../lib/use-dialog-focus-trap';
 
 type BrandedDestructiveDialogProps = {
   body: string;
@@ -25,21 +26,14 @@ export function BrandedDestructiveDialog({
   open,
   title,
 }: BrandedDestructiveDialogProps): React.JSX.Element | null {
-  useEffect(() => {
-    if (!open) {
-      return undefined;
-    }
+  const dialogRef = useRef<HTMLElement | null>(null);
+  const cancelButtonRef = useRef<HTMLButtonElement | null>(null);
 
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Escape') {
-        onCancel();
-      }
-    }
-
-    document.addEventListener('keydown', onKeyDown);
-
-    return () => document.removeEventListener('keydown', onKeyDown);
-  }, [onCancel, open]);
+  useDialogFocusTrap(dialogRef, {
+    active: open,
+    initialFocusRef: cancelButtonRef,
+    onClose: onCancel,
+  });
 
   if (!open) {
     return null;
@@ -47,19 +41,21 @@ export function BrandedDestructiveDialog({
 
   return (
     <div
-      aria-modal="true"
       className="destructive-dialog-backdrop"
       onMouseDown={event => {
         if (event.target === event.currentTarget) {
           onCancel();
         }
       }}
-      role="dialog"
     >
       <section
         aria-describedby="destructive-dialog-body"
         aria-labelledby="destructive-dialog-title"
+        aria-modal="true"
         className="destructive-dialog glass-panel"
+        ref={dialogRef}
+        role="dialog"
+        tabIndex={-1}
       >
         <div className="destructive-dialog-mark" aria-hidden>
           !
@@ -71,7 +67,12 @@ export function BrandedDestructiveDialog({
           <div className="destructive-dialog-note">{consequence}</div>
         ) : null}
         <div className="destructive-dialog-actions">
-          <button className="button secondary" onClick={onCancel} type="button">
+          <button
+            className="button secondary"
+            onClick={onCancel}
+            ref={cancelButtonRef}
+            type="button"
+          >
             {cancelLabel}
           </button>
           <button className="button danger" onClick={onConfirm} type="button">

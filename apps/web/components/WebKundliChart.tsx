@@ -2,6 +2,7 @@
 
 import {
   type CSSProperties,
+  useId,
   useMemo,
   useState,
 } from 'react';
@@ -65,6 +66,7 @@ export function WebKundliChart({
 }: WebKundliChartProps): React.JSX.Element {
   const [selectedHouse, setSelectedHouse] = useState(1);
   const [hoveredHouse, setHoveredHouse] = useState<number | undefined>();
+  const chartInstructionsId = useId();
   const { appLanguage, chartLanguage, setChartLanguage } = useLanguagePreference();
   const labels = getChartLanguageCopy(appLanguage);
   const insight = useMemo(
@@ -126,9 +128,9 @@ export function WebKundliChart({
         <div>
           <div className="section-title">{sectionTitle}</div>
           <h2>{renderModel.displayChartName}</h2>
-          <p>
-            Tap a house to understand that life area. Planet names, signs, and
-            degrees stay inside their house.
+          <p id={chartInstructionsId}>
+            Select a house to understand that life area. Keyboard users can tab
+            through the houses and press Enter or Space to choose one.
           </p>
         </div>
         <ChartLanguageSelector
@@ -143,6 +145,7 @@ export function WebKundliChart({
         data-chart-school={renderModel.school.toLowerCase()}
         data-chart-theme={renderModel.theme}
         aria-label={`${renderModel.displayChartName} North Indian chart`}
+        aria-describedby={chartInstructionsId}
         key={chart.chartType}
       >
         <NorthIndianChartLines />
@@ -166,6 +169,7 @@ export function WebKundliChart({
           <button
             aria-label={cell.ariaLabel}
             aria-pressed={activeCell?.house === cell.house}
+            aria-describedby={chartInstructionsId}
             className={`north-house north-house-${cell.house} ${
               activeCell?.house === cell.house ? 'selected' : ''
             }`}
@@ -250,6 +254,7 @@ export function WebKundliChart({
 
       {activeCell ? (
         <div
+          aria-live="polite"
           className="chart-drilldown"
           key={`${chart.chartType}-${activeCell.house}`}
         >

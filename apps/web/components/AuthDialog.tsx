@@ -1,6 +1,6 @@
 'use client';
 
-import { type FormEvent, useEffect, useState } from 'react';
+import { type FormEvent, useRef, useState } from 'react';
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -11,6 +11,7 @@ import {
 import type { SupportedLanguage } from '@pridicta/types';
 import { getFirebaseWebAuth } from '../lib/firebase/client';
 import { useLanguagePreference } from '../lib/language-preference';
+import { useDialogFocusTrap } from '../lib/use-dialog-focus-trap';
 
 type AuthMode = 'sign-in' | 'register' | 'reset';
 type AuthMessageTone = 'error' | 'success';
@@ -26,22 +27,14 @@ export function AuthDialog(): React.JSX.Element {
   const [message, setMessage] = useState('');
   const [messageTone, setMessageTone] = useState<AuthMessageTone>('success');
   const [busy, setBusy] = useState(false);
+  const dialogRef = useRef<HTMLElement | null>(null);
+  const emailInputRef = useRef<HTMLInputElement | null>(null);
 
-  useEffect(() => {
-    if (!open) {
-      return undefined;
-    }
-
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Escape') {
-        setOpen(false);
-      }
-    }
-
-    document.addEventListener('keydown', onKeyDown);
-
-    return () => document.removeEventListener('keydown', onKeyDown);
-  }, [open]);
+  useDialogFocusTrap(dialogRef, {
+    active: open,
+    initialFocusRef: emailInputRef,
+    onClose: () => setOpen(false),
+  });
 
   async function runAuth(
     action: () => Promise<unknown>,
@@ -145,19 +138,21 @@ export function AuthDialog(): React.JSX.Element {
 
       {open ? (
         <div
-          aria-modal="true"
           className="auth-dialog-backdrop"
           onMouseDown={event => {
             if (event.target === event.currentTarget) {
               setOpen(false);
             }
           }}
-          role="dialog"
         >
           <section
             aria-describedby="auth-dialog-body"
             aria-labelledby="auth-dialog-title"
+            aria-modal="true"
             className="auth-dialog glass-panel"
+            ref={dialogRef}
+            role="dialog"
+            tabIndex={-1}
           >
             <button
               aria-label={copy.closeLabel}
@@ -235,6 +230,7 @@ export function AuthDialog(): React.JSX.Element {
                   id="auth-email"
                   onChange={event => setEmail(event.target.value)}
                   placeholder="you@example.com"
+                  ref={emailInputRef}
                   type="email"
                   value={email}
                 />

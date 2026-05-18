@@ -2,7 +2,8 @@
 
 import Image from 'next/image';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useDialogFocusTrap } from '../lib/use-dialog-focus-trap';
 
 const INTRO_STORAGE_KEY = 'pridicta-web-intro-seen';
 
@@ -10,6 +11,8 @@ export function LandingIntroOverlay(): React.JSX.Element | null {
   const reduceMotion = useReducedMotion();
   const [visible, setVisible] = useState(false);
   const [ready, setReady] = useState(false);
+  const overlayRef = useRef<HTMLDivElement | null>(null);
+  const skipButtonRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     try {
@@ -39,6 +42,12 @@ export function LandingIntroOverlay(): React.JSX.Element | null {
     return () => window.clearTimeout(timer);
   }, [reduceMotion, visible]);
 
+  useDialogFocusTrap(overlayRef, {
+    active: visible,
+    initialFocusRef: skipButtonRef,
+    onClose: () => setVisible(false),
+  });
+
   if (!ready) {
     return null;
   }
@@ -48,10 +57,13 @@ export function LandingIntroOverlay(): React.JSX.Element | null {
       {visible ? (
         <motion.div
           aria-label="Predicta introduction"
+          aria-modal="true"
           className="intro-overlay"
           exit={{ opacity: 0 }}
           initial={{ opacity: 1 }}
           role="dialog"
+          ref={overlayRef}
+          tabIndex={-1}
           transition={{ duration: reduceMotion ? 0.18 : 0.55, ease: 'easeOut' }}
         >
           <motion.div
@@ -84,6 +96,7 @@ export function LandingIntroOverlay(): React.JSX.Element | null {
           <button
             className="intro-skip"
             onClick={() => setVisible(false)}
+            ref={skipButtonRef}
             type="button"
           >
             Skip

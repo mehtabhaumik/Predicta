@@ -326,6 +326,7 @@ export function WebDossierPreview(): React.JSX.Element {
 
             return (
             <button
+              aria-pressed={product.id === selectedReportId}
               className={
                 product.id === selectedReportId
                   ? 'report-product-card active'
@@ -447,6 +448,7 @@ export function WebDossierPreview(): React.JSX.Element {
 
         <div className="report-builder-choice-row" role="group" aria-label={builderCopy.title}>
           <button
+            aria-pressed={builderMode === 'EVERYTHING'}
             className={
               builderMode === 'EVERYTHING'
                 ? 'report-builder-choice active'
@@ -460,6 +462,7 @@ export function WebDossierPreview(): React.JSX.Element {
             <small>{builderCopy.everythingBody}</small>
           </button>
           <button
+            aria-pressed={builderMode === 'CUSTOM'}
             className={
               builderMode === 'CUSTOM'
                 ? 'report-builder-choice active'
@@ -508,6 +511,7 @@ export function WebDossierPreview(): React.JSX.Element {
           <div className="report-language-options" role="group" aria-label={reportLanguageCopy.title}>
             {SUPPORTED_LANGUAGE_OPTIONS.map(option => (
               <button
+                aria-pressed={option.code === reportLanguage}
                 className={option.code === reportLanguage ? 'active' : ''}
                 key={option.code}
                 onClick={() => setReportLanguage(option.code)}
