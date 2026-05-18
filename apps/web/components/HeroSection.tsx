@@ -92,7 +92,7 @@ export function HeroSection(): React.JSX.Element {
                       planet={planet}
                       showDegree
                       showSign={false}
-                      size="full"
+                      size="compact"
                     />
                   ))}
                 </em>

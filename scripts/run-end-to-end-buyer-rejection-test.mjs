@@ -362,10 +362,25 @@ async function closeTarget(debugPort, id) {
 }
 
 async function navigateAndWait(cdp, url) {
-  const loadEvent = cdp.waitFor('Page.loadEventFired', 20_000);
   await cdp.send('Page.navigate', { url });
-  await loadEvent.catch(() => undefined);
+  await waitForDocumentReady(cdp);
   await delay(700);
+}
+
+async function waitForDocumentReady(cdp) {
+  const deadline = Date.now() + 20_000;
+  while (Date.now() < deadline) {
+    const response = await cdp.send('Runtime.evaluate', {
+      expression: 'document.readyState',
+      returnByValue: true,
+    }).catch(() => ({ result: { value: 'loading' } }));
+
+    if (response.result.value === 'interactive' || response.result.value === 'complete') {
+      return;
+    }
+
+    await delay(150);
+  }
 }
 
 async function waitForSettledTitle(cdp) {

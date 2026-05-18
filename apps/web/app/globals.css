@@ -1057,6 +1057,13 @@ button:disabled {
   position: absolute;
 }
 
+.kundli-hero-visual .floating-insight-card {
+  background:
+    linear-gradient(135deg, rgba(34, 36, 52, 0.97), rgba(25, 27, 42, 0.98)),
+    var(--panel) !important;
+  z-index: 6;
+}
+
 .floating-insight-card:first-of-type {
   right: 0;
   top: 54px;
@@ -11810,7 +11817,7 @@ button:disabled {
 }
 
 .hero-kundli-board {
-  animation: heroKundliBreath 7.5s ease-in-out infinite !important;
+  animation: none !important;
   aspect-ratio: 1 / 1 !important;
   border-radius: 20px;
   box-shadow:
@@ -11851,7 +11858,7 @@ button:disabled {
 }
 
 .hero-kundli-board .north-chart-lines path {
-  animation: heroKundliLineBreath 5.8s ease-in-out infinite !important;
+  animation: none !important;
   stroke-width: 0.86;
 }
 
@@ -12561,24 +12568,23 @@ button:disabled {
 }
 
 .hero-kundli-board .north-chart-lines path {
-  animation:
-    heroLineDraw 950ms ease-out both,
-    heroKundliLineBreath 5.8s ease-in-out 1.05s infinite !important;
-  stroke-dasharray: 420 !important;
-  stroke-dashoffset: 420;
+  animation: none !important;
+  opacity: 0.92;
+  stroke-dasharray: 0 !important;
+  stroke-dashoffset: 0 !important;
 }
 
 .hero-kundli-board .north-chart-lines path:nth-child(1) {
-  animation-delay: 0ms, 1.05s !important;
+  animation-delay: 0ms !important;
 }
 
 .hero-kundli-board .north-chart-lines path:nth-child(2),
 .hero-kundli-board .north-chart-lines path:nth-child(3) {
-  animation-delay: 140ms, 1.08s !important;
+  animation-delay: 0ms !important;
 }
 
 .hero-kundli-board .north-chart-lines path:nth-child(4) {
-  animation-delay: 290ms, 1.12s !important;
+  animation-delay: 0ms !important;
 }
 
 .hero-chart-label {
@@ -12587,10 +12593,10 @@ button:disabled {
   animation-delay: calc(var(--chart-cell-index, 0) * 55ms + 1040ms);
   display: flex;
   flex-direction: column;
-  gap: clamp(4px, 0.8vw, 8px);
+  gap: clamp(2px, 0.5vw, 5px);
   justify-content: center;
   left: var(--house-x);
-  max-width: 25%;
+  max-width: 18%;
   min-width: 0;
   pointer-events: none;
   position: absolute;
@@ -12605,21 +12611,21 @@ button:disabled {
 .hero-chart-label-4,
 .hero-chart-label-7,
 .hero-chart-label-10 {
-  max-width: 34%;
+  max-width: 24%;
 }
 
 .hero-chart-label-2,
 .hero-chart-label-6,
 .hero-chart-label-8,
 .hero-chart-label-12 {
-  max-width: 25%;
+  max-width: 18%;
 }
 
 .hero-chart-label-3,
 .hero-chart-label-5,
 .hero-chart-label-9,
 .hero-chart-label-11 {
-  max-width: 22%;
+  max-width: 16%;
 }
 
 .hero-sign-meta {
@@ -12627,7 +12633,7 @@ button:disabled {
   color: var(--kundli-label-text);
   display: inline-flex;
   flex-wrap: wrap;
-  gap: 4px 6px;
+  gap: 2px 3px;
   justify-content: center;
   line-height: 1;
   max-width: 100%;
@@ -12640,24 +12646,24 @@ button:disabled {
   border-radius: 999px;
   color: var(--kundli-sign-color);
   display: inline-flex;
-  font-size: clamp(10px, 0.95vw, 15px);
+  font-size: clamp(7px, 0.62vw, 10px);
   font-weight: 950;
-  height: clamp(21px, 2vw, 30px);
+  height: clamp(14px, 1.22vw, 19px);
   justify-content: center;
-  min-width: clamp(21px, 2vw, 30px);
-  padding: 0 6px;
+  min-width: clamp(14px, 1.22vw, 19px);
+  padding: 0 4px;
 }
 
 .hero-sign-name {
   color: color-mix(in srgb, #8fc9ff 86%, var(--kundli-label-text));
-  font-size: clamp(12px, 1.18vw, 20px);
+  font-size: clamp(7px, 0.68vw, 12px);
   font-weight: 950;
   letter-spacing: 0;
 }
 
 .hero-sign-symbol {
   color: color-mix(in srgb, #b574ff 84%, var(--kundli-label-text));
-  font-size: clamp(16px, 1.5vw, 26px);
+  font-size: clamp(10px, 0.9vw, 15px);
   font-weight: 900;
   line-height: 1;
 }
@@ -12668,7 +12674,7 @@ button:disabled {
   animation-delay: calc(var(--chart-cell-index, 0) * 55ms + 1320ms);
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 3px;
   justify-content: center;
   max-width: 100%;
 }
@@ -12682,6 +12688,19 @@ button:disabled {
   padding: 4px 6px;
 }
 
+.hero-chart-planet-stack .planet-glyph.compact {
+  border-radius: 7px;
+  gap: 3px;
+  max-width: 100%;
+  padding: 2px 4px;
+}
+
+.hero-chart-planet-stack .planet-glyph-mark,
+.hero-chart-planet-stack .planet-glyph-mark svg {
+  height: clamp(11px, 0.9vw, 14px);
+  width: clamp(11px, 0.9vw, 14px);
+}
+
 .hero-chart-planet-stack .planet-glyph-copy {
   color: var(--kundli-label-text);
 }
@@ -12689,8 +12708,8 @@ button:disabled {
 .hero-chart-planet-stack .planet-glyph-copy strong,
 .hero-chart-planet-stack .planet-glyph-copy em {
   color: inherit;
-  font-size: clamp(9px, 0.88vw, 13px);
-  max-width: 9ch;
+  font-size: clamp(6px, 0.54vw, 9px);
+  max-width: 5ch;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -12707,6 +12726,7 @@ button:disabled {
 
   .hero-chart-label {
     gap: 4px;
+    max-width: 17%;
   }
 
   .hero-chart-planet-stack {
