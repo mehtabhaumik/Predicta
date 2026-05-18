@@ -12,6 +12,7 @@
     "typecheck": "turbo typecheck",
     "test": "turbo test",
     "test:charts": "pnpm --filter @pridicta/astrology stress:charts",
+    "test:pdf-golden": "node scripts/run-pdf-report-golden-output-gate.mjs",
     "test:predicta-context": "node scripts/run-predicta-context-reliability-suite.mjs",
     "test:visual-proof": "node scripts/run-mobile-tablet-visual-proof-gate.mjs",
     "test:mobile": "pnpm --filter @pridicta/mobile exec jest --runInBand",

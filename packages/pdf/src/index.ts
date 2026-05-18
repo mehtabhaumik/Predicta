@@ -213,7 +213,7 @@ export function composeReportSections({
       buildDossierExecutiveSummary(kundli, mode),
       language,
     ),
-    footer: 'Designed & Engineered by Bhaumik Mehta | Powered by chart-backed Jyotish synthesis + AI | © 2026',
+    footer: 'A Predicta promise by Bhaumik Mehta | Chart-backed Jyotish guidance with clear safety boundaries | © 2026',
     language,
     mode,
     sections: localizeSections(polishedSections, language),
@@ -395,7 +395,7 @@ function composeEmptyReport(mode: PDFMode, language: SupportedLanguage): PdfComp
         'All available charts, dasha, transits, remedies, and confidence labels appear after calculation.',
       ],
     }, language),
-    footer: 'Designed & Engineered by Bhaumik Mehta | Powered by chart-backed Jyotish synthesis + AI | © 2026',
+    footer: 'A Predicta promise by Bhaumik Mehta | Chart-backed Jyotish guidance with clear safety boundaries | © 2026',
     language,
     mode,
     sections: [
