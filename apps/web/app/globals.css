@@ -214,6 +214,16 @@ p {
   padding: 36px;
 }
 
+.card-content > .button:not(:first-child),
+.card-content > a.button:not(:first-child),
+.card-content > button.button:not(:first-child) {
+  margin-top: 18px;
+}
+
+.card-content > .status-pill:not(:first-child) {
+  margin-top: 14px;
+}
+
 .quiet-line {
   color: var(--text-muted);
   font-size: clamp(0.82rem, 1vw, 0.95rem);
@@ -323,6 +333,18 @@ label + input,
 label + select,
 label + textarea {
   margin-top: 12px;
+}
+
+ul + .button,
+ol + .button,
+ul + .button-row,
+ol + .button-row,
+ul + .action-row,
+ol + .action-row,
+.status-pill + ul,
+.status-pill + ol,
+.status-pill + .pricing-feature-list {
+  margin-top: 18px;
 }
 
 .button + .button,
