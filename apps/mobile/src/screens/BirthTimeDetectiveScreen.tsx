@@ -28,6 +28,7 @@ export function BirthTimeDetectiveScreen({
   const [applying, setApplying] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
   const kundli = useAppStore(state => state.activeKundli);
+  const auth = useAppStore(state => state.auth);
   const setActiveKundli = useAppStore(state => state.setActiveKundli);
   const setActiveChartContext = useAppStore(
     state => state.setActiveChartContext,
@@ -120,7 +121,9 @@ export function BirthTimeDetectiveScreen({
               birthDetails: finalDetails,
             };
       setActiveKundli(nextKundli);
-      const saved = await saveGeneratedKundliLocally(nextKundli);
+      const saved = await saveGeneratedKundliLocally(nextKundli, {
+        isLoggedIn: auth.isLoggedIn,
+      });
       setSavedKundlis(saved);
       setStatusMessage(
         `Entered birth time ${enteredTime} is now confirmed for this Kundli.`,
@@ -157,7 +160,9 @@ export function BirthTimeDetectiveScreen({
         },
       };
       setActiveKundli(nextKundli);
-      const saved = await saveGeneratedKundliLocally(nextKundli);
+      const saved = await saveGeneratedKundliLocally(nextKundli, {
+        isLoggedIn: auth.isLoggedIn,
+      });
       setSavedKundlis(saved);
       setStatusMessage(
         `Kundli recalculated with probable rectified time ${nextKundli.birthDetails.time}. Original entered time: ${

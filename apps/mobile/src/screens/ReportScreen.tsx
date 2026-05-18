@@ -20,9 +20,11 @@ import {
   getReportMarketplaceProducts,
   type ReportMarketplaceProduct,
 } from '@pridicta/config/pricing';
+import { SUPPORTED_LANGUAGE_OPTIONS } from '@pridicta/config/language';
 import { composeReportSections, type PdfSection } from '@pridicta/pdf';
 import { trackAnalyticsEvent } from '../services/analytics/analyticsService';
 import { syncRedeemedGuestPassToUser } from '../services/firebase/passCodePersistence';
+import { saveReportLanguagePreference } from '../services/preferences/languagePreferenceStorage';
 import { generateHoroscopePdf } from '../services/pdf/pdfGenerator';
 import { useAppStore } from '../store/useAppStore';
 import type { PDFMode } from '../types/astrology';
@@ -48,6 +50,9 @@ export function ReportScreen({
   const auth = useAppStore(state => state.auth);
   const kundli = useAppStore(state => state.activeKundli);
   const languagePreference = useAppStore(state => state.languagePreference);
+  const setReportLanguagePreference = useAppStore(
+    state => state.setReportLanguagePreference,
+  );
   const userPlan = useAppStore(state => state.userPlan);
   const canGeneratePdf = useAppStore(state => state.canGeneratePdf);
   const consumeGuestPdfQuota = useAppStore(state => state.consumeGuestPdfQuota);
@@ -66,6 +71,8 @@ export function ReportScreen({
   const selectedReport =
     marketplaceProducts.find(product => product.id === selectedReportId) ??
     marketplaceProducts[0];
+  const reportLanguage =
+    languagePreference.reportLanguage ?? languagePreference.language;
 
   function askFromReport(section: string) {
     setActiveChartContext({
@@ -80,10 +87,10 @@ export function ReportScreen({
     () =>
       composeReportSections({
         kundli,
-        language: languagePreference.language,
+        language: reportLanguage,
         mode: previewMode,
       }),
-    [kundli, languagePreference.language, previewMode],
+    [kundli, previewMode, reportLanguage],
   );
   const sectionOptions = useMemo(
     () =>
@@ -182,7 +189,7 @@ export function ReportScreen({
       setIsGenerating(true);
       const result = await generateHoroscopePdf({
         kundli,
-        language: languagePreference.language,
+        language: reportLanguage,
         mode,
         sectionKeys:
           builderMode === 'CUSTOM' ? selectedSectionKeys : undefined,
@@ -420,6 +427,41 @@ export function ReportScreen({
               {selectedSectionCount}/{reportPreview.sections.length || 0} selected
             </AppText>
           </Pressable>
+        </View>
+
+        <View className="mt-5 rounded-[18px] border border-[#252533] bg-[#191923] p-4">
+          <AppText tone="secondary" variant="caption">
+            REPORT LANGUAGE
+          </AppText>
+          <AppText className="mt-2" variant="body">
+            Choose PDF language
+          </AppText>
+          <AppText className="mt-2" tone="secondary">
+            Your app language stays the same. Only this report PDF uses the
+            selected language.
+          </AppText>
+          <View className="mt-4 gap-3">
+            {SUPPORTED_LANGUAGE_OPTIONS.map(option => (
+              <Pressable
+                accessibilityRole="button"
+                className={`rounded-[16px] border p-3 ${
+                  option.code === reportLanguage
+                    ? 'border-[#4DAFFF] bg-[#172233]'
+                    : 'border-[#252533] bg-[#101018]'
+                }`}
+                key={option.code}
+                onPress={() => {
+                  setReportLanguagePreference(option.code);
+                  saveReportLanguagePreference(option.code).catch(() => undefined);
+                }}
+              >
+                <AppText variant="body">{option.nativeName}</AppText>
+                <AppText tone="secondary" variant="caption">
+                  {option.englishName}
+                </AppText>
+              </Pressable>
+            ))}
+          </View>
         </View>
 
         {kundli ? (

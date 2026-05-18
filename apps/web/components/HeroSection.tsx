@@ -1,15 +1,34 @@
 'use client';
 
 import Link from 'next/link';
+import { useEffect, useState, type CSSProperties } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
+import {
+  getChartRenderTheme,
+  NORTH_INDIAN_HOUSE_POSITIONS,
+  type ChartRenderTheme,
+} from '@pridicta/astrology';
 import type { SupportedLanguage } from '@pridicta/types';
 import { useLanguagePreference } from '../lib/language-preference';
 import { FloatingInsightCard } from './FloatingInsightCard';
+import { NorthIndianChartLines } from './WebKundliChart';
+import { PlanetGlyph } from './PlanetGlyph';
 
 export function HeroSection(): React.JSX.Element {
   const reduceMotion = useReducedMotion();
+  const [heroChartTheme, setHeroChartTheme] = useState<ChartRenderTheme>('unknown');
   const { language } = useLanguagePreference();
   const copy = heroCopy[language] ?? heroCopy.en;
+
+  useEffect(() => {
+    const updateHeroTheme = () => {
+      setHeroChartTheme(getSystemTimeChartTheme());
+    };
+
+    updateHeroTheme();
+    const timer = window.setInterval(updateHeroTheme, 60_000);
+    return () => window.clearInterval(timer);
+  }, []);
 
   return (
     <section className="hero-section">
@@ -38,12 +57,46 @@ export function HeroSection(): React.JSX.Element {
         </div>
       </motion.div>
       <div className="hero-visual kundli-hero-visual" aria-label="North Indian Kundli preview">
-        <div className="hero-kundli-board" aria-hidden>
+        <div
+          className="hero-kundli-board"
+          data-chart-school="parashari"
+          data-chart-theme={heroChartTheme}
+          aria-hidden
+        >
+          <NorthIndianChartLines />
           {heroHouses.map((house, index) => (
-            <span className="hero-kundli-house" key={house.label}>
-              <small>{house.label}</small>
-              <strong>{house.sign}</strong>
-              {house.planet ? <em>{house.planet}</em> : null}
+            <span
+              className={`hero-chart-label hero-chart-label-${house.house} ${
+                house.planets.length >= 3 ? 'crowded' : ''
+              }`}
+              key={house.house}
+              style={{
+                ['--chart-cell-index' as string]: index,
+                ['--house-x' as string]: `${house.x}%`,
+                ['--house-y' as string]: `${house.y}%`,
+              } as CSSProperties}
+            >
+              <small className="hero-sign-meta">
+                <span className="hero-sign-number">{house.signNumber}</span>
+                <span className="hero-sign-name">{house.sign}</span>
+                <span className="hero-sign-symbol" aria-hidden>
+                  {house.signGlyph}
+                </span>
+              </small>
+              {house.planets.length ? (
+                <em className="hero-chart-planet-stack">
+                  {house.planets.map(planet => (
+                    <PlanetGlyph
+                      key={planet.name}
+                      moonPhase="waxing"
+                      planet={planet}
+                      showDegree
+                      showSign={false}
+                      size="full"
+                    />
+                  ))}
+                </em>
+              ) : null}
               <i style={{ animationDelay: `${index * 120}ms` }} />
             </span>
           ))}
@@ -65,6 +118,12 @@ export function HeroSection(): React.JSX.Element {
       </div>
     </section>
   );
+}
+
+function getSystemTimeChartTheme(date = new Date()): ChartRenderTheme {
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return getChartRenderTheme(`${hours}:${minutes}`);
 }
 
 const heroCopy: Record<
@@ -125,16 +184,48 @@ const heroCopy: Record<
 };
 
 const heroHouses = [
-  { label: '1', planet: 'Su', sign: 'Leo' },
-  { label: '2', sign: 'Vir' },
-  { label: '3', planet: 'Me', sign: 'Lib' },
-  { label: '4', sign: 'Sco' },
-  { label: '5', planet: 'Ke', sign: 'Sag' },
-  { label: '6', sign: 'Cap' },
-  { label: '7', planet: 'Mo', sign: 'Aqu' },
-  { label: '8', sign: 'Pis' },
-  { label: '9', planet: 'Ju', sign: 'Ari' },
-  { label: '10', planet: 'Sa', sign: 'Tau' },
-  { label: '11', sign: 'Gem' },
-  { label: '12', planet: 'Ve', sign: 'Can' },
-];
+  heroHouse(1, 'Leo', '♌', 5, [heroPlanet('Sun', 5.5), heroPlanet('Mercury', 0.9)]),
+  heroHouse(2, 'Virgo', '♍', 6, [heroPlanet('Jupiter', 22.4)]),
+  heroHouse(3, 'Libra', '♎', 7, [heroPlanet('Mars', 1.8)]),
+  heroHouse(4, 'Scorpio', '♏', 8, []),
+  heroHouse(5, 'Sagittarius', '♐', 9, [heroPlanet('Moon', 11.8)]),
+  heroHouse(6, 'Capricorn', '♑', 10, []),
+  heroHouse(7, 'Aquarius', '♒', 11, [heroPlanet('Ketu', 26.6, true)]),
+  heroHouse(8, 'Pisces', '♓', 12, []),
+  heroHouse(9, 'Aries', '♈', 1, []),
+  heroHouse(10, 'Taurus', '♉', 2, [heroPlanet('Saturn', 2.7)]),
+  heroHouse(11, 'Gemini', '♊', 3, [heroPlanet('Venus', 19.8)]),
+  heroHouse(12, 'Cancer', '♋', 4, [heroPlanet('Rahu', 26.6, true)]),
+] as const;
+
+function heroHouse(
+  house: number,
+  sign: string,
+  signGlyph: string,
+  signNumber: number,
+  planets: ReturnType<typeof heroPlanet>[],
+) {
+  const position = NORTH_INDIAN_HOUSE_POSITIONS[house];
+  return {
+    house,
+    planets,
+    sign,
+    signGlyph,
+    signNumber,
+    x: position.x,
+    y: position.y,
+  };
+}
+
+function heroPlanet(name: string, degree: number, retrograde = false) {
+  return {
+    absoluteLongitude: degree,
+    degree,
+    house: 1,
+    nakshatra: '',
+    name,
+    pada: 1,
+    retrograde,
+    sign: '',
+  };
+}

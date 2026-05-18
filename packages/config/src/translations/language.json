@@ -136,14 +136,14 @@
         "wrapped": "Wrapped"
       },
       "privateSave": {
-        "body": "This browser remembers your chart. Sign in to keep it across devices.",
+        "body": "Your chart is saved on this device. Sign in to keep it across devices.",
         "title": "Private save"
       },
       "topbarDescription": "Holistic astrology guidance, reports, charts, and saved kundlis."
     },
     "hi": {
       "access": {
-        "freePreview": "फ्री प्रीव्यू",
+        "freePreview": "मुफ्त झलक",
         "premiumDepthAvailable": "प्रीमियम गहराई उपलब्ध"
       },
       "actions": {
@@ -156,7 +156,7 @@
         "account": "खाता",
         "charts": "चार्ट",
         "guidance": "मार्गदर्शन",
-        "owner": "ओनर",
+        "owner": "मालिक",
         "savedWork": "सेव किया हुआ",
         "start": "शुरू करें"
       },
@@ -168,34 +168,34 @@
         "chat": "चैट",
         "decision": "निर्णय",
         "family": "परिवार",
-        "founderVision": "फाउंडर विजन",
+        "founderVision": "संस्थापक दृष्टि",
         "home": "प्रेडिक्टा होम",
         "holisticAstrology": "होलिस्टिक ज्योतिष",
         "kpPredicta": "KP प्रेडिक्टा",
         "kundli": "कुंडली",
         "legal": "कानूनी",
         "nadiPredicta": "नाड़ी प्रेडिक्टा",
-        "overview": "ओवरव्यू",
+        "overview": "सारांश",
         "premium": "प्रीमियम",
-        "redeemPass": "पास रिडीम करें",
+        "redeemPass": "पास उपयोग करें",
         "relationship": "रिश्ता",
         "remedies": "उपाय",
         "reports": "रिपोर्ट",
         "safetyPromise": "सुरक्षा वादा",
         "savedKundlis": "कुंडली लाइब्रेरी",
-        "settings": "सेटिंग्स",
-        "timeline": "टाइमलाइन",
-        "wrapped": "रैप्ड"
+        "settings": "व्यवस्था",
+        "timeline": "समयरेखा",
+        "wrapped": "वर्ष सार"
       },
       "privateSave": {
-        "body": "यह ब्राउजर आपका चार्ट याद रखता है. दूसरे डिवाइस पर रखने के लिए साइन इन करें.",
+        "body": "आपका चार्ट इस डिवाइस पर सेव है. दूसरे डिवाइस पर रखने के लिए साइन इन करें.",
         "title": "निजी सेव"
       },
-      "topbarDescription": "होलिस्टिक ज्योतिष मार्गदर्शन, रिपोर्ट, चार्ट और सेव कुंडली."
+      "topbarDescription": "होलिस्टिक ज्योतिष मार्गदर्शन, रिपोर्ट, चार्ट और सेव कुंडलियां."
     },
     "gu": {
       "access": {
-        "freePreview": "ફ્રી પ્રીવ્યૂ",
+        "freePreview": "મફત ઝલક",
         "premiumDepthAvailable": "પ્રીમિયમ ઊંડાઈ ઉપલબ્ધ"
       },
       "actions": {
@@ -205,10 +205,10 @@
         "openMenu": "ડેશબોર્ડ મેનૂ ખોલો"
       },
       "groups": {
-        "account": "એકાઉન્ટ",
+        "account": "ખાતું",
         "charts": "ચાર્ટ્સ",
         "guidance": "માર્ગદર્શન",
-        "owner": "ઓનર",
+        "owner": "માલિક",
         "savedWork": "સેવ કરેલું",
         "start": "શરૂ કરો"
       },
@@ -220,30 +220,30 @@
         "chat": "ચેટ",
         "decision": "નિર્ણય",
         "family": "પરિવાર",
-        "founderVision": "ફાઉન્ડર વિઝન",
+        "founderVision": "સ્થાપક દૃષ્ટિ",
         "home": "પ્રેડિક્ટા હોમ",
         "holisticAstrology": "હોલિસ્ટિક જ્યોતિષ",
         "kpPredicta": "KP પ્રેડિક્ટા",
         "kundli": "કુંડળી",
         "legal": "કાનૂની",
         "nadiPredicta": "નાડી પ્રેડિક્ટા",
-        "overview": "ઓવરવ્યૂ",
+        "overview": "સારાંશ",
         "premium": "પ્રીમિયમ",
-        "redeemPass": "પાસ રિડીમ કરો",
+        "redeemPass": "પાસ ઉપયોગ કરો",
         "relationship": "સંબંધ",
         "remedies": "ઉપાયો",
-        "reports": "રિપોર્ટ્સ",
-        "safetyPromise": "સેફ્ટી પ્રોમિસ",
+        "reports": "રિપોર્ટ",
+        "safetyPromise": "સુરક્ષા વચન",
         "savedKundlis": "કુંડળી લાઇબ્રેરી",
-        "settings": "સેટિંગ્સ",
-        "timeline": "ટાઇમલાઇન",
-        "wrapped": "રેપ્ડ"
+        "settings": "વ્યવસ્થા",
+        "timeline": "સમયરેખા",
+        "wrapped": "વર્ષ સાર"
       },
       "privateSave": {
-        "body": "આ બ્રાઉઝર તમારો ચાર્ટ યાદ રાખે છે. બીજા ડિવાઇસ માટે સાઇન ઇન કરો.",
-        "title": "પ્રાઇવેટ સેવ"
+        "body": "તમારો ચાર્ટ આ ડિવાઇસ પર સેવ છે. બીજા ડિવાઇસ પર રાખવા માટે સાઇન ઇન કરો.",
+        "title": "ખાનગી સેવ"
       },
-      "topbarDescription": "હોલિસ્ટિક જ્યોતિષ માર્ગદર્શન, રિપોર્ટ્સ, ચાર્ટ્સ અને સેવ કુંડળી."
+      "topbarDescription": "હોલિસ્ટિક જ્યોતિષ માર્ગદર્શન, રિપોર્ટ્સ, ચાર્ટ્સ અને સેવ કુંડળીઓ."
     }
   },
   "confidenceLabels": {

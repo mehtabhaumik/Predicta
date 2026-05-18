@@ -1393,7 +1393,7 @@ function buildAdvancedJyotishReply(
   }
 
   return [
-    'I will keep advanced Jyotish simple on the surface, with deeper details available when you want them.',
+    'I will keep advanced Jyotish simple to understand, with deeper details available when you want them.',
     `Birth star: ${coverage.nakshatraInsight.moonNakshatra} pada ${coverage.nakshatraInsight.pada}, lord ${coverage.nakshatraInsight.lord}.`,
     coverage.nakshatraInsight.simpleInsight,
     modules ? `What I am checking:\n${modules}` : '',
@@ -1621,7 +1621,10 @@ function buildBhavChalitReply(
   const bhav = foundation.bhavChalit;
   const shifts = bhav.shifts
     .slice(0, hasPremiumAccess ? 6 : 3)
-    .map(item => `- ${item.planet}: D1 house ${item.rashiHouse} to Bhav house ${item.bhavHouse}`)
+    .map(item => {
+      const targetHouse = 'chalitHouse' in item ? item.chalitHouse : item.bhavHouse;
+      return `- ${item.planet}: D1 house ${item.rashiHouse} to Chalit house ${targetHouse}`;
+    })
     .join('\n');
   const synthesis = hasPremiumAccess
     ? bhav.premiumSynthesis ?? bhav.freeInsight
@@ -1629,7 +1632,7 @@ function buildBhavChalitReply(
 
   if (language === 'hi') {
     return [
-      'Bhav Chalit Parashari house refinement hai. Yeh KP nahi hai, aur D1 Rashi ko replace nahi karta.',
+      'Chalit Parashari house refinement hai. Yeh KP cusp/sub-lord judgement nahi hai, aur D1 Rashi ko replace nahi karta.',
       synthesis,
       shifts ? `House shifts:\n${shifts}` : 'House shifts: no major shift is available in this Kundli yet.',
       foundation.premiumUnlock,
@@ -1638,7 +1641,7 @@ function buildBhavChalitReply(
 
   if (language === 'gu') {
     return [
-      'Bhav Chalit Parashari house refinement chhe. Aa KP nathi, ane D1 Rashi ne replace nathi kartu.',
+      'Chalit Parashari house refinement chhe. Aa KP cusp/sub-lord judgement nathi, ane D1 Rashi ne replace nathi kartu.',
       synthesis,
       shifts ? `House shifts:\n${shifts}` : 'House shifts: aa Kundli ma haju major shift available nathi.',
       foundation.premiumUnlock,
@@ -1646,7 +1649,7 @@ function buildBhavChalitReply(
   }
 
   return [
-    'Bhav Chalit is a Parashari house-refinement layer. It is not KP, and it does not replace D1 Rashi.',
+    'Chalit is a Parashari house-refinement layer. It is separate from KP cusp/sub-lord judgement, and it does not replace D1 Rashi.',
     synthesis,
     shifts ? `House shifts:\n${shifts}` : 'House shifts: no major shift is available in this Kundli yet.',
     foundation.premiumUnlock,
@@ -1712,24 +1715,24 @@ function buildKpPredictaReply(
 function nadiHandoffReply(language: SupportedLanguage): string {
   if (language === 'hi') {
     return [
-      'Yeh Nadi Predicta ka alag premium school hai. Main ise Parashari ya KP ke saath mix karke fake certainty nahi dungi.',
+      'Yeh Nadi Predicta ka alag premium school hai. Main ise Parashari ya KP ke saath mix karke overconfident answer nahi dungi.',
       'Neeche “Nadi Predicta dekho” dabaiye. Main aapka question aur birth profile Nadi reading room mein le jaungi.',
-      'Nadi Predicta planetary story links, karaka themes, validation questions aur timing activation se kaam karegi. Palm-leaf manuscript access ka fake claim nahi hoga.',
+      'Nadi Predicta planetary story links, karaka themes, validation questions aur timing activation se kaam karegi. Main real manuscript access ka claim nahi karungi.',
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      'Aa Nadi Predicta nu alag premium school chhe. Hu ene Parashari ke KP sathe mix kari ne fake certainty nahi aapu.',
+      'Aa Nadi Predicta nu alag premium school chhe. Hu ene Parashari ke KP sathe mix kari ne overconfident answer nahi aapu.',
       'Niche “Nadi Predicta jo” dabavo. Hu tamaro question ane birth profile Nadi reading room ma lai jaish.',
-      'Nadi Predicta planetary story links, karaka themes, validation questions ane timing activation thi kaam karse. Palm-leaf manuscript access no fake claim nahi hoy.',
+      'Nadi Predicta planetary story links, karaka themes, validation questions ane timing activation thi kaam karse. Hu real manuscript access no claim nahi karu.',
     ].join('\n\n');
   }
 
   return [
-    'That belongs to Nadi Predicta, a separate premium school. I will not mix it into Parashari or KP and pretend certainty.',
+    'That belongs to Nadi Predicta, a separate premium school. I will not mix it into Parashari or KP or sound more certain than the chart allows.',
     'Use “Open Nadi Predicta” below. I will carry your question and active birth profile into the Nadi reading room.',
-    'Nadi Predicta works through planetary story links, karaka themes, validation questions, and timing activation. It will not fake palm-leaf manuscript access.',
+    'Nadi Predicta works through planetary story links, karaka themes, validation questions, and timing activation. It does not claim real palm-leaf manuscript access.',
   ].join('\n\n');
 }
 
@@ -1833,7 +1836,7 @@ function buildUpsell(
       : action === 'yearly-horoscope'
       ? 'Turn this into a yearly horoscope map when you want 12-month Varshaphal planning, dasha-Gochar overlap, remedies, and annual guidance.'
       : action === 'bhav-chalit'
-      ? 'Turn this into a deeper Bhav Chalit reading when you want house-by-house delivery, shifted planet analysis, dasha relevance, and report-grade proof.'
+      ? 'Turn this into a deeper Chalit reading when you want house delivery, shifted planet analysis, dasha relevance, and report-grade proof.'
       : action === 'kp-predicta'
       ? 'Turn this into a KP event reading when you want cusp-by-cusp sub-lord judgment, significator strength, ruling-planet checks, dasha support, and event-focused report depth.'
       : action === 'life-timeline'

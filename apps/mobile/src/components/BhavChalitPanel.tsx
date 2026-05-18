@@ -1,7 +1,11 @@
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import type { ChalitBhavKpFoundation } from '../types/astrology';
+import type {
+  BhavChalitPlanetPlacement,
+  ChalitBhavKpFoundation,
+  ChalitPlanetPlacement,
+} from '../types/astrology';
 import { colors } from '../theme/colors';
 import { AppText } from './AppText';
 import { GlowCard } from './GlowCard';
@@ -24,14 +28,11 @@ export function BhavChalitPanel({
       <View style={styles.header}>
         <View className="flex-1">
           <AppText tone="secondary" variant="caption">
-            PARASHARI HOUSE REFINEMENT
+            PARASHARI CHALIT
           </AppText>
           <AppText className="mt-1" variant="subtitle">
             {bhav.title}
           </AppText>
-        </View>
-        <View style={styles.badge}>
-          <AppText variant="caption">Not KP</AppText>
         </View>
       </View>
       <AppText className="mt-3" tone="secondary">
@@ -46,15 +47,15 @@ export function BhavChalitPanel({
         </AppText>
       </View>
       <View style={styles.metricGrid}>
-        <Metric label="House shifts" value={String(bhav.shifts.length)} />
-        <Metric label="Cusps" value={String(bhav.cusps.length)} />
+        <Metric label="Chalit shifts" value={String(bhav.shifts.length)} />
+        <Metric label="Bhava boundaries" value={String(bhav.cusps.length)} />
       </View>
       <View className="mt-4 gap-2">
         {bhav.shifts.slice(0, 4).map(item => (
           <View key={item.planet} style={styles.shiftRow}>
             <AppText variant="caption">{item.planet}</AppText>
             <AppText tone="secondary" variant="caption">
-              H{item.rashiHouse} to H{item.bhavHouse} · {item.shiftDirection}
+              H{item.rashiHouse} to H{getChalitHouse(item)} · {item.shiftDirection}
             </AppText>
           </View>
         ))}
@@ -102,15 +103,13 @@ function Metric({
   );
 }
 
+function getChalitHouse(
+  item: BhavChalitPlanetPlacement | ChalitPlanetPlacement,
+): number {
+  return 'chalitHouse' in item ? item.chalitHouse : item.bhavHouse;
+}
+
 const styles = StyleSheet.create({
-  badge: {
-    backgroundColor: 'rgba(255,255,255,0.08)',
-    borderColor: colors.border,
-    borderRadius: 999,
-    borderWidth: 1,
-    paddingHorizontal: 10,
-    paddingVertical: 7,
-  },
   cta: {
     backgroundColor: colors.surfaceMuted,
     borderColor: colors.border,

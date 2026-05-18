@@ -251,7 +251,7 @@ function findPlanet(kundli: KundliData, name: string): PlanetPosition | undefine
 
 function planetLine(name: string, planet?: PlanetPosition): string {
   if (!planet) {
-    return `${name}: planet not available.`;
+    return `${name}: placement detail needs chart preparation.`;
   }
 
   return `${name}: ${planet.name} in ${planet.sign}, house ${planet.house}.`;

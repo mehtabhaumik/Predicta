@@ -13,9 +13,15 @@ export default function HolisticRoomsPage(): React.JSX.Element {
     <section className="dashboard-page">
       <div className="page-heading compact">
         <h1 className="gradient-text">Holistic astrology rooms.</h1>
-        <p>
-          Today, karma remedies, life balance, and timing in simple holistic astrology rooms.
-        </p>
+        <details className="info-drawer">
+          <summary>
+            <span>What these rooms do</span>
+            <strong>Open</strong>
+          </summary>
+          <p>
+            Today, karma remedies, life balance, and timing in simple holistic astrology rooms.
+          </p>
+        </details>
       </div>
 
       <section className="holistic-rooms-hero glass-panel">

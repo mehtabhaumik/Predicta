@@ -12,23 +12,31 @@ const LANGUAGE_CHANGE_EVENT = 'pridicta-language-change';
 
 export function useLanguagePreference(): {
   appLanguage: SupportedLanguage;
+  chartLanguage: SupportedLanguage;
   language: SupportedLanguage;
+  predictaReplyLanguage: SupportedLanguage;
+  reportLanguage: SupportedLanguage;
   setAppLanguage: (language: SupportedLanguage) => void;
+  setChartLanguage: (language: SupportedLanguage) => void;
   setLanguage: (language: SupportedLanguage) => void;
+  setPredictaReplyLanguage: (language: SupportedLanguage) => void;
+  setReportLanguage: (language: SupportedLanguage) => void;
 } {
-  const [language, setLanguageState] = useState<SupportedLanguage>('en');
+  const [preference, setPreferenceState] = useState<LanguagePreference>(() =>
+    buildLanguagePreference('en'),
+  );
 
   useEffect(() => {
-    setLanguageState(readStoredLanguage());
+    setPreferenceState(readStoredPreference());
 
     function handleStorage(event: StorageEvent) {
       if (event.key === LANGUAGE_STORAGE_KEY) {
-        setLanguageState(readLanguageFromValue(event.newValue));
+        setPreferenceState(readPreferenceFromValue(event.newValue));
       }
     }
 
     function handleLocalChange() {
-      setLanguageState(readStoredLanguage());
+      setPreferenceState(readStoredPreference());
     }
 
     window.addEventListener('storage', handleStorage);
@@ -40,43 +48,117 @@ export function useLanguagePreference(): {
     };
   }, []);
 
-  const setAppLanguage = useCallback((nextLanguage: SupportedLanguage) => {
-    const preference: LanguagePreference = {
-      appLanguage: nextLanguage,
-      language: nextLanguage,
+  const updatePreference = useCallback((patch: Partial<LanguagePreference>) => {
+    const currentPreference = readStoredPreference();
+    const nextPreference = normalizePreference({
+      ...currentPreference,
+      ...patch,
       updatedAt: new Date().toISOString(),
-    };
+    });
 
-    localStorage.setItem(LANGUAGE_STORAGE_KEY, JSON.stringify(preference));
+    localStorage.setItem(LANGUAGE_STORAGE_KEY, JSON.stringify(nextPreference));
     saveWebAutoSaveMemory({
       language: {
-        selected: nextLanguage,
-        updatedAt: preference.updatedAt,
+        selected: nextPreference.appLanguage ?? nextPreference.language,
+        updatedAt: nextPreference.updatedAt,
       },
     });
-    setLanguageState(nextLanguage);
+    setPreferenceState(nextPreference);
     window.dispatchEvent(new Event(LANGUAGE_CHANGE_EVENT));
   }, []);
 
-  return { appLanguage: language, language, setAppLanguage, setLanguage: setAppLanguage };
+  const setAppLanguage = useCallback(
+    (nextLanguage: SupportedLanguage) => {
+      updatePreference({
+        appLanguage: nextLanguage,
+        language: nextLanguage,
+      });
+    },
+    [updatePreference],
+  );
+  const setChartLanguage = useCallback(
+    (nextLanguage: SupportedLanguage) =>
+      updatePreference({ chartLanguage: nextLanguage }),
+    [updatePreference],
+  );
+  const setReportLanguage = useCallback(
+    (nextLanguage: SupportedLanguage) =>
+      updatePreference({ reportLanguage: nextLanguage }),
+    [updatePreference],
+  );
+  const setPredictaReplyLanguage = useCallback(
+    (nextLanguage: SupportedLanguage) =>
+      updatePreference({ predictaReplyLanguage: nextLanguage }),
+    [updatePreference],
+  );
+  const appLanguage = preference.appLanguage ?? preference.language;
+
+  return {
+    appLanguage,
+    chartLanguage: preference.chartLanguage ?? appLanguage,
+    language: appLanguage,
+    predictaReplyLanguage: preference.predictaReplyLanguage ?? appLanguage,
+    reportLanguage: preference.reportLanguage ?? appLanguage,
+    setAppLanguage,
+    setChartLanguage,
+    setLanguage: setAppLanguage,
+    setPredictaReplyLanguage,
+    setReportLanguage,
+  };
 }
 
-function readStoredLanguage(): SupportedLanguage {
-  return readLanguageFromValue(localStorage.getItem(LANGUAGE_STORAGE_KEY));
+function readStoredPreference(): LanguagePreference {
+  return readPreferenceFromValue(localStorage.getItem(LANGUAGE_STORAGE_KEY));
 }
 
-function readLanguageFromValue(value: string | null): SupportedLanguage {
+function readPreferenceFromValue(value: string | null): LanguagePreference {
   if (!value) {
-    return 'en';
+    return buildLanguagePreference('en');
   }
 
   try {
     const parsed = JSON.parse(value) as Partial<LanguagePreference> | string;
 
-    return typeof parsed === 'string'
-      ? normalizeLanguage(parsed)
-      : normalizeLanguage(parsed.appLanguage ?? parsed.language);
+    if (typeof parsed === 'string') {
+      return buildLanguagePreference(normalizeLanguage(parsed));
+    }
+
+    return normalizePreference(parsed);
   } catch {
-    return normalizeLanguage(value);
+    return buildLanguagePreference(normalizeLanguage(value));
   }
+}
+
+function buildLanguagePreference(language: SupportedLanguage): LanguagePreference {
+  return {
+    appLanguage: language,
+    chartLanguage: language,
+    language,
+    predictaReplyLanguage: language,
+    reportLanguage: language,
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+function normalizePreference(
+  preference: Partial<LanguagePreference>,
+): LanguagePreference {
+  const appLanguage = normalizeLanguage(
+    preference.appLanguage ?? preference.language,
+  );
+
+  return {
+    appLanguage,
+    chartLanguage: preference.chartLanguage
+      ? normalizeLanguage(preference.chartLanguage)
+      : appLanguage,
+    language: appLanguage,
+    predictaReplyLanguage: preference.predictaReplyLanguage
+      ? normalizeLanguage(preference.predictaReplyLanguage)
+      : appLanguage,
+    reportLanguage: preference.reportLanguage
+      ? normalizeLanguage(preference.reportLanguage)
+      : appLanguage,
+    updatedAt: preference.updatedAt ?? new Date().toISOString(),
+  };
 }

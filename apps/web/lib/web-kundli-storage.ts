@@ -5,6 +5,7 @@ import {
   getOrCreateWebGuestSession,
   type WebGuestSession,
 } from './web-guest-session';
+import { getFirebaseWebAuth } from './firebase/client';
 
 const ACTIVE_KUNDLI_KEY = 'pridicta.activeKundli.v1';
 const SAVED_KUNDLIS_KEY = 'pridicta.savedKundlis.v1';
@@ -21,6 +22,16 @@ export type WebKundliStore = {
   guestSession?: WebGuestSession;
   savedKundlis: KundliData[];
   updatedAt?: string;
+};
+
+export const WEB_GUEST_KUNDLI_LIMIT = 1;
+
+export type WebKundliStorageGate = {
+  allowed: boolean;
+  existingKundli?: KundliData;
+  reason?: 'SIGN_IN_REQUIRED_FOR_MULTIPLE_KUNDLIS';
+  savedCount: number;
+  signedIn: boolean;
 };
 
 type GenerateKundliOptions = {
@@ -95,14 +106,34 @@ export function loadWebKundliStore(): WebKundliStore {
   };
 }
 
-export function saveWebKundli(kundli: KundliData): void {
+export function saveWebKundli(kundli: KundliData): WebKundliStorageGate {
   const current = loadWebKundliStore();
+  const gate = canSaveWebKundli(kundli, current);
+
+  if (!gate.allowed) {
+    return gate;
+  }
+
+  const nextKundli =
+    gate.existingKundli && gate.existingKundli.id !== kundli.id
+      ? {
+          ...kundli,
+          editHistory: kundli.editHistory ?? gate.existingKundli.editHistory,
+          id: gate.existingKundli.id,
+        }
+      : kundli;
+
   saveWebKundliStore({
     ...current,
-    activeKundli: kundli,
-    activeKundliId: kundli.id,
-    savedKundlis: dedupeKundlis([kundli, ...current.savedKundlis]),
+    activeKundli: nextKundli,
+    activeKundliId: nextKundli.id,
+    savedKundlis: dedupeKundlis([nextKundli, ...current.savedKundlis]),
   });
+
+  return {
+    ...gate,
+    allowed: true,
+  };
 }
 
 export function setActiveWebKundli(kundli: KundliData): void {
@@ -113,6 +144,54 @@ export function setActiveWebKundli(kundli: KundliData): void {
     activeKundliId: kundli.id,
     savedKundlis: dedupeKundlis([kundli, ...current.savedKundlis]),
   });
+}
+
+export function canCreateAdditionalWebKundli(options: {
+  isUpdate?: boolean;
+} = {}): WebKundliStorageGate {
+  const current = loadWebKundliStore();
+  const signedIn = isWebUserSignedIn();
+
+  if (signedIn || options.isUpdate || current.savedKundlis.length < WEB_GUEST_KUNDLI_LIMIT) {
+    return {
+      allowed: true,
+      savedCount: current.savedKundlis.length,
+      signedIn,
+    };
+  }
+
+  return {
+    allowed: false,
+    reason: 'SIGN_IN_REQUIRED_FOR_MULTIPLE_KUNDLIS',
+    savedCount: current.savedKundlis.length,
+    signedIn,
+  };
+}
+
+export function canSaveWebKundli(
+  kundli: KundliData,
+  store: WebKundliStore = loadWebKundliStore(),
+): WebKundliStorageGate {
+  const signedIn = isWebUserSignedIn();
+  const existingKundli = store.savedKundlis.find(
+    item => item.id === kundli.id || haveSameBirthSignature(item, kundli),
+  );
+
+  if (signedIn || existingKundli || store.savedKundlis.length < WEB_GUEST_KUNDLI_LIMIT) {
+    return {
+      allowed: true,
+      existingKundli,
+      savedCount: store.savedKundlis.length,
+      signedIn,
+    };
+  }
+
+  return {
+    allowed: false,
+    reason: 'SIGN_IN_REQUIRED_FOR_MULTIPLE_KUNDLIS',
+    savedCount: store.savedKundlis.length,
+    signedIn,
+  };
 }
 
 export function deleteWebKundli(kundliId: string): WebKundliStore {
@@ -296,6 +375,28 @@ function dedupeKundlis(kundlis: KundliData[]): KundliData[] {
   }
 
   return result;
+}
+
+function haveSameBirthSignature(first: KundliData, second: KundliData): boolean {
+  return birthSignature(first.birthDetails) === birthSignature(second.birthDetails);
+}
+
+function birthSignature(details: BirthDetails): string {
+  return [
+    details.name.trim().toLowerCase(),
+    details.date,
+    details.time,
+    details.place.trim().toLowerCase(),
+    details.timezone,
+  ].join('|');
+}
+
+function isWebUserSignedIn(): boolean {
+  try {
+    return Boolean(getFirebaseWebAuth().currentUser?.uid);
+  } catch {
+    return false;
+  }
 }
 
 function getLocalDateKey(value?: string): string {

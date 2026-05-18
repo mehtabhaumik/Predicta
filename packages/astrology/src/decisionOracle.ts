@@ -78,7 +78,7 @@ export function composeDecisionMemo({
         {
           id: 'missing-kundli',
           interpretation: 'The Oracle needs birth chart, dasha, transit, and ashtakavarga evidence.',
-          observation: 'No active kundli is available.',
+          observation: 'Create or select a Kundli first.',
           source: 'safety',
           title: 'Kundli required',
           weight: 'neutral',
@@ -86,7 +86,7 @@ export function composeDecisionMemo({
       ],
       headline: 'Create a kundli before deciding with Predicta.',
       id: `decision-pending-${Date.now()}`,
-      nextAction: 'Generate a real kundli, then ask the decision again.',
+      nextAction: 'Create a Kundli, then ask the decision again.',
       question: cleanQuestion,
       remedies: [],
       risk: 'Without chart evidence, Predicta can only help frame the question.',

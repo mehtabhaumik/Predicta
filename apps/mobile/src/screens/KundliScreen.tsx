@@ -33,6 +33,7 @@ import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import { generateKundli } from '../services/astrology/astroEngine';
 import {
+  KundliStorageLimitError,
   listSavedKundlis,
   saveGeneratedKundliLocally,
 } from '../services/kundli/kundliRepository';
@@ -55,6 +56,7 @@ export function KundliScreen({
     useState<BirthDetails | null>(null);
   const [showAllCharts, setShowAllCharts] = useState(false);
   const kundli = useAppStore(state => state.activeKundli);
+  const auth = useAppStore(state => state.auth);
   const pendingBirthDetailsDraft = useAppStore(
     state => state.pendingBirthDetailsDraft,
   );
@@ -139,7 +141,10 @@ export function KundliScreen({
       setActiveKundli(finalKundli);
       clearPendingBirthDetailsDraft();
       clearPendingKundliEditId();
-      const saved = await saveGeneratedKundliLocally(finalKundli);
+      const saved = await saveGeneratedKundliLocally(finalKundli, {
+        isLoggedIn: auth.isLoggedIn,
+        isUpdate: mode === 'update',
+      });
       setSavedKundlis(saved);
       showGlassAlert({
         message:
@@ -151,6 +156,22 @@ export function KundliScreen({
         title: mode === 'update' ? 'Kundli updated' : 'Kundli generated',
       });
     } catch (error) {
+      if (error instanceof KundliStorageLimitError) {
+        showGlassAlert({
+          actions: [
+            { label: 'Not Now' },
+            {
+              label: 'Sign In',
+              onPress: () => navigation.navigate(routes.Login),
+            },
+          ],
+          message:
+            'You can keep one Kundli without signing in. Sign in to add family profiles, save multiple Kundlis, and restore them later.',
+          title: 'Sign in to save more Kundlis',
+        });
+        return;
+      }
+
       showGlassAlert({
         message:
           error instanceof Error

@@ -92,13 +92,13 @@
         "eyebrow": "Three Predictas",
         "items": [
           {
-            "caution": "D1 stays the root. Vargas, Bhav Chalit, dasha, and Gochar support the reading.",
+            "caution": "D1 stays the root. Vargas, Chalit, dasha, and Gochar support the reading.",
             "name": "Regular Parashari",
             "proof": [
               "D1 Rashi chart",
               "Vimshottari dasha",
               "Divisional charts",
-              "Yogas, Bhav Chalit, Gochar, remedies"
+              "Yogas, Chalit, Gochar, remedies"
             ],
             "summary": "Traditional Vedic Jyotish for lifelong patterns, life areas, timing, and holistic guidance."
           },
@@ -130,256 +130,256 @@
     },
     "hi": {
       "boundaries": {
-        "body": "ज्योतिष समय, प्रवृत्ति, दबाव और उपाय दिखा सकता है. इसे guaranteed verdict की तरह उपयोग नहीं करना चाहिए.",
+        "body": "ज्योतिष समय, प्रवृत्ति, दबाव और उपाय दिखा सकता है. इसे पक्के फैसले की तरह उपयोग नहीं करना चाहिए.",
         "eyebrow": "सटीकता की सीमाएं",
         "items": [
-          "सटीक जन्म समय और स्थान जरूरी हैं. कुछ minutes houses, divisional charts और timing बदल सकते हैं.",
-          "Unknown या doubtful birth time में deep timing से पहले rectification useful है.",
-          "Predictions probability और guidance हैं, guarantee नहीं.",
-          "Medical, legal, financial, crisis और emergency decisions में qualified real-world support जरूरी है.",
-          "Remedies traditional, reflective और karma-aligned practices हैं, guaranteed cure नहीं."
+          "सटीक जन्म समय और स्थान जरूरी हैं. कुछ मिनट भाव, वर्ग चार्ट और समय बदल सकते हैं.",
+          "अज्ञात या संदिग्ध जन्म समय में गहरे समय फलादेश से पहले समय सुधार उपयोगी है.",
+          "भविष्यवाणी संभावना और मार्गदर्शन है, गारंटी नहीं.",
+          "चिकित्सा, कानूनी, आर्थिक, संकट और आपात फैसलों में योग्य वास्तविक सहायता जरूरी है.",
+          "उपाय पारंपरिक, चिंतनशील और कर्म-संगत अभ्यास हैं, पक्का इलाज नहीं."
         ],
-        "title": "ईमानदार सीमाएं reading को ज्यादा भरोसेमंद बनाती हैं."
+        "title": "ईमानदार सीमाएं रीडिंग को ज्यादा भरोसेमंद बनाती हैं."
       },
       "calculation": {
-        "body": "Predicta जन्म विवरण से शुरू करती है और method visible रखती है ताकि user समझ सके reading कहां से आई.",
+        "body": "Predicta जन्म विवरण से शुरू करती है और पद्धति साफ रखती है ताकि व्यक्ति समझ सके कि रीडिंग कहां से आई.",
         "eyebrow": "गणना विधि",
         "items": [
           {
-            "detail": "Regular Parashari कुंडली और ज्यादातर divisional chart work के लिए.",
+            "detail": "Regular Parashari कुंडली और ज्यादातर वर्ग चार्ट कार्य के लिए.",
             "label": "राशि पद्धति",
-            "value": "Sidereal Vedic chart"
+            "value": "नाक्षत्र वैदिक चार्ट"
           },
           {
-            "detail": "Regular Vedic calculations में Lahiri use होता है, जब तक किसी school को अपनी method न चाहिए.",
-            "label": "Ayanamsa",
+            "detail": "सामान्य वैदिक गणना में लाहिड़ी उपयोग होता है, जब तक किसी पद्धति को अपनी विधि न चाहिए.",
+            "label": "अयनांश",
             "value": "Lahiri"
           },
           {
-            "detail": "Product standard North Indian chart style है.",
-            "label": "चार्ट style",
-            "value": "North Indian"
+            "detail": "उत्पाद मानक उत्तर भारतीय चार्ट शैली है.",
+            "label": "चार्ट शैली",
+            "value": "उत्तर भारतीय"
           },
           {
-            "detail": "Vimshottari Moon nakshatra से anchored होती है और chart proof के साथ पढ़ी जाती है.",
+            "detail": "विंशोत्तरी चंद्र नक्षत्र से जुड़ती है और चार्ट प्रमाण के साथ पढ़ी जाती है.",
             "label": "दशा",
-            "value": "Vimshottari"
+            "value": "विंशोत्तरी"
           },
           {
-            "detail": "गोचर वर्तमान date के लिए refresh होता है और active कुंडली से पढ़ा जाता है.",
+            "detail": "गोचर वर्तमान तारीख के लिए ताजा होता है और सक्रिय कुंडली से पढ़ा जाता है.",
             "label": "गोचर",
-            "value": "Daily गोचर"
+            "value": "दैनिक गोचर"
           }
         ],
         "title": "फलादेश से पहले चार्ट विधि साफ रहती है."
       },
       "cta": {
-        "note": "लक्ष्य blind belief नहीं है. लक्ष्य clear, respectful reading है जिसमें method और limits visible हों.",
+        "note": "लक्ष्य अंधविश्वास नहीं है. लक्ष्य साफ, सम्मानजनक रीडिंग है जिसमें पद्धति और सीमाएं स्पष्ट हों.",
         "primary": "कुंडली बनाएं",
-        "secondary": "Safety Promise पढ़ें"
+        "secondary": "सुरक्षा वादा पढ़ें"
       },
       "depth": {
-        "body": "Predicta free users से basic charts hide नहीं करती. Difference explanation depth, synthesis, timing, remedies और polished reports का है.",
+        "body": "Predicta मुफ्त उपयोगकर्ताओं से मुख्य चार्ट नहीं छिपाती. अंतर व्याख्या की गहराई, सार, समय, उपाय और सुंदर रिपोर्ट का है.",
         "eyebrow": "मुफ्त और प्रीमियम",
         "free": [
-          "Available charts देखे जा सकते हैं.",
-          "हर major chart या topic के लिए useful insight.",
-          "Basic dasha, Sade Sati, Gochar और report previews.",
-          "Plain language में short chart proof."
+          "उपलब्ध चार्ट देखे जा सकते हैं.",
+          "हर मुख्य चार्ट या विषय के लिए उपयोगी समझ.",
+          "मूल दशा, साढ़े साती, गोचर और रिपोर्ट झलक.",
+          "सरल भाषा में छोटा चार्ट प्रमाण."
         ],
         "premium": [
-          "D1, divisional charts, dasha, Gochar और remedies की detailed synthesis.",
-          "जहां available हो वहां deeper KP और premium Nadi-style pattern reading.",
-          "Report-ready explanations, monthly timing और richer follow-up guidance.",
-          "Family, relationship और life-calendar workflows ज्यादा complete."
+          "D1, वर्ग चार्ट, दशा, गोचर और उपाय का विस्तृत सार.",
+          "जहां उपलब्ध हो वहां गहरी KP और प्रीमियम नाड़ी-शैली पैटर्न रीडिंग.",
+          "रिपोर्ट के लिए तैयार व्याख्या, मासिक समय और बेहतर आगे का मार्गदर्शन.",
+          "परिवार, रिश्ते और जीवन-कैलेंडर प्रवाह ज्यादा पूर्ण."
         ],
-        "title": "मुफ्त chart दिखाता है. प्रीमियम उसे deeply समझाता है."
+        "title": "मुफ्त चार्ट दिखाता है. प्रीमियम उसे गहराई से समझाता है."
       },
       "hero": {
-        "body": "Predicta के पीछे की ज्योतिष method देखें: charts कैसे calculate होते हैं, Parashari, KP और Nadi कैसे अलग रहते हैं, और astrology में human judgment कहां जरूरी है.",
+        "body": "Predicta के पीछे की ज्योतिष विधि देखें: चार्ट कैसे बनते हैं, Parashari, KP और नाड़ी कैसे अलग रहते हैं, और ज्योतिष में मानवीय विवेक कहां जरूरी है.",
         "eyebrow": "सटीकता और विधि",
         "title": "पारदर्शी विधि से भरोसा बेहतर बनता है."
       },
       "pillars": [
         {
-          "body": "Serious answer में confident sentence के साथ chart factors भी दिखने चाहिए.",
+          "body": "गंभीर जवाब में स्पष्ट वाक्य के साथ चार्ट कारक भी दिखने चाहिए.",
           "title": "चार्ट प्रमाण पहले"
         },
         {
-          "body": "Regular Predicta, KP Predicta और Nadi Predicta के rules अलग हैं. इन्हें casually mix नहीं किया जाता.",
-          "title": "Schools अलग रहते हैं"
+          "body": "Regular Predicta, KP Predicta और नाड़ी Predicta के नियम अलग हैं. इन्हें लापरवाही से मिलाया नहीं जाता.",
+          "title": "पद्धतियां अलग रहती हैं"
         },
         {
-          "body": "Birth time sensitivity, uncertainty और safety limits साफ कही जाती हैं.",
+          "body": "जन्म समय की संवेदनशीलता, अनिश्चितता और सुरक्षा सीमाएं साफ कही जाती हैं.",
           "title": "साफ सीमाएं"
         }
       ],
       "schools": {
-        "body": "Predicta इन्हें ज्योतिष के separate rooms मानती है. Handoff में question और birth details जा सकते हैं, लेकिन हर school अपने rules से answer करता है.",
+        "body": "Predicta इन्हें ज्योतिष के अलग कक्ष मानती है. हस्तांतरण में सवाल और जन्म विवरण जा सकते हैं, लेकिन हर पद्धति अपने नियमों से जवाब देती है.",
         "eyebrow": "तीन Predicta",
         "items": [
           {
-            "caution": "D1 root रहता है. Vargas, Bhav Chalit, dasha और Gochar reading को support करते हैं.",
+            "caution": "D1 मूल रहता है. वर्ग चार्ट, चलित, दशा और गोचर रीडिंग को सहारा देते हैं.",
             "name": "Regular Parashari",
             "proof": [
-              "D1 Rashi chart",
-              "Vimshottari dasha",
-              "Divisional charts",
-              "Yogas, Bhav Chalit, Gochar, remedies"
+              "D1 राशि चार्ट",
+              "विंशोत्तरी दशा",
+              "वर्ग चार्ट",
+              "योग, चलित, गोचर, उपाय"
             ],
-            "summary": "Traditional Vedic Jyotish जो lifelong patterns, life areas, timing और holistic guidance पढ़ता है."
+            "summary": "पारंपरिक वैदिक ज्योतिष, जो जीवनभर के पैटर्न, जीवन क्षेत्र, समय और समग्र मार्गदर्शन पढ़ता है."
           },
           {
-            "caution": "KP side section नहीं है. इसका अपना method है और event questions KP rules से answer होने चाहिए.",
+            "caution": "KP कोई सहायक भाग नहीं है. इसकी अपनी पद्धति है और घटना-आधारित सवालों का जवाब KP नियमों से होना चाहिए.",
             "name": "KP Predicta",
             "proof": [
-              "KP ayanamsa",
-              "Placidus cusps",
-              "Star lords और sub lords",
-              "Significators और ruling planets"
+              "KP अयनांश",
+              "प्लेसिडस कस्प",
+              "स्टार लॉर्ड और सब लॉर्ड",
+              "संकेतक और शासक ग्रह"
             ],
-            "summary": "Krishnamurti Paddhati precise event-oriented judgment और timing के लिए."
+            "summary": "कृष्णमूर्ति पद्धति सटीक घटना-आधारित निर्णय और समय के लिए."
           },
           {
-            "caution": "Nadi Predicta कभी real ancient palm-leaf manuscript access करने का fake claim नहीं करती.",
+            "caution": "नाड़ी Predicta कभी यह दावा नहीं करती कि उसे वास्तविक प्राचीन पांडुलिपि मिली या उसका प्रवेश मिला.",
             "name": "Nadi Predicta",
             "proof": [
-              "Planet-to-planet story links",
-              "Karakas और karmic themes",
-              "Rahu-Ketu axis",
-              "Validation questions और timing triggers"
+              "ग्रह-से-ग्रह कहानी संबंध",
+              "कारक और कर्म संकेत",
+              "राहु-केतु धुरी",
+              "पुष्टि सवाल और समय संकेत"
             ],
-            "summary": "Karmic narratives और repeated life signatures के लिए premium pattern-reading room."
+            "summary": "कर्म कथा और दोहराए जाने वाले जीवन संकेतों के लिए प्रीमियम पैटर्न रीडिंग कक्ष."
           }
         ],
-        "title": "हर ज्योतिष school को अपनी विधि चाहिए."
+        "title": "हर ज्योतिष पद्धति को अपनी विधि चाहिए."
       }
     },
     "gu": {
       "boundaries": {
-        "body": "જ્યોતિષ સમય, પ્રવૃત્તિ, દબાણ અને ઉપાયો બતાવી શકે છે. તેને guaranteed verdict તરીકે ઉપયોગ ન કરવું.",
+        "body": "જ્યોતિષ સમય, પ્રવૃત્તિ, દબાણ અને ઉપાયો બતાવી શકે છે. તેને પાક્કા નિર્ણય તરીકે ઉપયોગ ન કરવો.",
         "eyebrow": "ચોકસાઈની મર્યાદા",
         "items": [
-          "ચોક્કસ જન્મ સમય અને સ્થળ જરૂરી છે. થોડા minutes houses, divisional charts અને timing બદલી શકે છે.",
-          "Unknown અથવા doubtful birth time હોય તો deep timing પહેલાં rectification useful છે.",
-          "Predictions probability અને guidance છે, guarantee નહીં.",
-          "Medical, legal, financial, crisis અને emergency decisions માટે qualified real-world support જરૂરી છે.",
-          "Remedies traditional, reflective અને karma-aligned practices છે, guaranteed cure નહીં."
+          "ચોક્કસ જન્મ સમય અને સ્થળ જરૂરી છે. થોડા મિનિટ ભાવ, વર્ગ ચાર્ટ અને સમય બદલી શકે છે.",
+          "અજાણ્યો અથવા શંકાસ્પદ જન્મ સમય હોય તો ઊંડા સમય ફળાદેશ પહેલાં સમય સુધાર ઉપયોગી છે.",
+          "આગાહી સંભાવના અને માર્ગદર્શન છે, ગેરંટી નહીં.",
+          "તબીબી, કાનૂની, આર્થિક, સંકટ અને આપત્તિ નિર્ણયોમાં યોગ્ય વાસ્તવિક સહાય જરૂરી છે.",
+          "ઉપાયો પરંપરાગત, વિચારપૂર્ણ અને કર્મ-સંગત અભ્યાસ છે, પાક્કો ઈલાજ નહીં."
         ],
-        "title": "ઈમાનદાર મર્યાદાઓ reading ને વધુ trustworthy બનાવે છે."
+        "title": "ઈમાનદાર મર્યાદાઓ રીડિંગને વધુ વિશ્વસનીય બનાવે છે."
       },
       "calculation": {
-        "body": "Predicta જન્મ વિગતો થી શરૂ કરે છે અને method visible રાખે છે જેથી user સમજી શકે reading ક્યાંથી આવી.",
+        "body": "Predicta જન્મ વિગતો થી શરૂ કરે છે અને પદ્ધતિ સ્પષ્ટ રાખે છે જેથી વ્યક્તિ સમજી શકે કે રીડિંગ ક્યાંથી આવી.",
         "eyebrow": "ગણતરી પદ્ધતિ",
         "items": [
           {
-            "detail": "Regular Parashari કુંડળી અને મોટાભાગના divisional chart work માટે.",
+            "detail": "Regular Parashari કુંડળી અને મોટાભાગના વર્ગ ચાર્ટ કાર્ય માટે.",
             "label": "રાશિ પદ્ધતિ",
-            "value": "Sidereal Vedic chart"
+            "value": "નક્ષત્ર વૈદિક ચાર્ટ"
           },
           {
-            "detail": "Regular Vedic calculations માં Lahiri use થાય છે, જ્યાં સુધી કોઈ school ને પોતાની method ન જોઈએ.",
-            "label": "Ayanamsa",
+            "detail": "સામાન્ય વૈદિક ગણતરીમાં લાહિરી ઉપયોગ થાય છે, જ્યાં સુધી કોઈ પદ્ધતિને પોતાની રીત ન જોઈએ.",
+            "label": "અયનાંશ",
             "value": "Lahiri"
           },
           {
-            "detail": "Product standard North Indian chart style છે.",
-            "label": "ચાર્ટ style",
-            "value": "North Indian"
+            "detail": "ઉત્પાદન ધોરણ ઉત્તર ભારતીય ચાર્ટ શૈલી છે.",
+            "label": "ચાર્ટ શૈલી",
+            "value": "ઉત્તર ભારતીય"
           },
           {
-            "detail": "Vimshottari Moon nakshatra થી anchored છે અને chart proof સાથે વાંચાય છે.",
+            "detail": "વિંશોત્તરી ચંદ્ર નક્ષત્રથી જોડાય છે અને ચાર્ટ પુરાવા સાથે વાંચાય છે.",
             "label": "દશા",
-            "value": "Vimshottari"
+            "value": "વિંશોત્તરી"
           },
           {
-            "detail": "ગોચર current date માટે refresh થાય છે અને active કુંડળી સામે વાંચાય છે.",
+            "detail": "ગોચર વર્તમાન તારીખ માટે તાજું થાય છે અને સક્રિય કુંડળી સામે વાંચાય છે.",
             "label": "ગોચર",
-            "value": "Daily ગોચર"
+            "value": "દૈનિક ગોચર"
           }
         ],
         "title": "ફળકથન પહેલાં ચાર્ટ પદ્ધતિ સ્પષ્ટ રહે છે."
       },
       "cta": {
-        "note": "લક્ષ્ય blind belief નથી. લક્ષ્ય clear, respectful reading છે જેમાં method અને limits visible હોય.",
+        "note": "લક્ષ્ય અંધવિશ્વાસ નથી. લક્ષ્ય સ્પષ્ટ, સન્માનપૂર્ણ રીડિંગ છે જેમાં પદ્ધતિ અને મર્યાદાઓ સ્પષ્ટ હોય.",
         "primary": "કુંડળી બનાવો",
-        "secondary": "Safety Promise વાંચો"
+        "secondary": "સુરક્ષા વચન વાંચો"
       },
       "depth": {
-        "body": "Predicta free users થી basic charts hide કરતી નથી. Difference explanation depth, synthesis, timing, remedies અને polished reports નો છે.",
+        "body": "Predicta મફત ઉપયોગકર્તાઓથી મુખ્ય ચાર્ટ્સ છુપાવતી નથી. ફરક સમજણની ઊંડાઈ, સાર, સમય, ઉપાયો અને સુંદર રિપોર્ટ્સનો છે.",
         "eyebrow": "મફત અને પ્રીમિયમ",
         "free": [
-          "Available charts જોઈ શકાય છે.",
-          "દરેક major chart અથવા topic માટે useful insight.",
-          "Basic dasha, Sade Sati, Gochar અને report previews.",
-          "Plain language માં short chart proof."
+          "ઉપલબ્ધ ચાર્ટ્સ જોઈ શકાય છે.",
+          "દરેક મુખ્ય ચાર્ટ અથવા વિષય માટે ઉપયોગી સમજ.",
+          "મૂળ દશા, સાડેસાતી, ગોચર અને રિપોર્ટ ઝલક.",
+          "સરળ ભાષામાં ટૂંકો ચાર્ટ પુરાવો."
         ],
         "premium": [
-          "D1, divisional charts, dasha, Gochar અને remedies ની detailed synthesis.",
-          "જ્યાં available હોય ત્યાં deeper KP અને premium Nadi-style pattern reading.",
-          "Report-ready explanations, monthly timing અને richer follow-up guidance.",
-          "Family, relationship અને life-calendar workflows વધુ complete."
+          "D1, વર્ગ ચાર્ટ્સ, દશા, ગોચર અને ઉપાયોનો વિગતવાર સાર.",
+          "જ્યાં ઉપલબ્ધ હોય ત્યાં ઊંડી KP અને પ્રીમિયમ નાડી-શૈલી પેટર્ન રીડિંગ.",
+          "રિપોર્ટ માટે તૈયાર સમજાવટ, માસિક સમય અને વધુ સારું આગળનું માર્ગદર્શન.",
+          "પરિવાર, સંબંધ અને જીવન-કેલેન્ડર પ્રવાહ વધુ પૂર્ણ."
         ],
-        "title": "મફત chart બતાવે છે. પ્રીમિયમ તેને deeply સમજાવે છે."
+        "title": "મફત ચાર્ટ બતાવે છે. પ્રીમિયમ તેને ઊંડાઈથી સમજાવે છે."
       },
       "hero": {
-        "body": "Predicta પાછળની જ્યોતિષ method જુઓ: charts કેવી રીતે calculate થાય છે, Parashari, KP અને Nadi કેવી રીતે અલગ રહે છે, અને astrology માં human judgment ક્યાં જરૂરી છે.",
+        "body": "Predicta પાછળની જ્યોતિષ રીત જુઓ: ચાર્ટ્સ કેવી રીતે બને છે, Parashari, KP અને નાડી કેવી રીતે અલગ રહે છે, અને જ્યોતિષમાં માનવીય સમજ ક્યાં જરૂરી છે.",
         "eyebrow": "ચોકસાઈ અને પદ્ધતિ",
         "title": "પારદર્શક પદ્ધતિથી ભરોસો વધુ મજબૂત બને છે."
       },
       "pillars": [
         {
-          "body": "Serious answer માં confident sentence સાથે chart factors પણ દેખાવા જોઈએ.",
+          "body": "ગંભીર જવાબમાં સ્પષ્ટ વાક્ય સાથે ચાર્ટ કારકો પણ દેખાવા જોઈએ.",
           "title": "ચાર્ટ પુરાવો પહેલા"
         },
         {
-          "body": "Regular Predicta, KP Predicta અને Nadi Predicta ના rules અલગ છે. તેને casually mix કરવામાં આવતા નથી.",
-          "title": "Schools અલગ રહે છે"
+          "body": "Regular Predicta, KP Predicta અને નાડી Predicta ના નિયમો અલગ છે. તેને લાપરવાઈથી ભેળવવામાં આવતા નથી.",
+          "title": "પદ્ધતિઓ અલગ રહે છે"
         },
         {
-          "body": "Birth time sensitivity, uncertainty અને safety limits સ્પષ્ટ કહેવામાં આવે છે.",
+          "body": "જન્મ સમયની સંવેદનશીલતા, અનિશ્ચિતતા અને સુરક્ષા મર્યાદા સ્પષ્ટ કહેવામાં આવે છે.",
           "title": "સ્પષ્ટ મર્યાદા"
         }
       ],
       "schools": {
-        "body": "Predicta તેને જ્યોતિષના separate rooms માને છે. Handoff માં question અને birth details જઈ શકે છે, પણ દરેક school પોતાના rules થી answer કરે છે.",
+        "body": "Predicta તેને જ્યોતિષના અલગ કક્ષ માને છે. હસ્તાંતરણમાં પ્રશ્ન અને જન્મ વિગતો જઈ શકે છે, પણ દરેક પદ્ધતિ પોતાના નિયમોથી જવાબ આપે છે.",
         "eyebrow": "ત્રણ Predicta",
         "items": [
           {
-            "caution": "D1 root રહે છે. Vargas, Bhav Chalit, dasha અને Gochar reading ને support કરે છે.",
+            "caution": "D1 મૂળ રહે છે. વર્ગ ચાર્ટ, ચલિત, દશા અને ગોચર રીડિંગને સહારો આપે છે.",
             "name": "Regular Parashari",
             "proof": [
-              "D1 Rashi chart",
-              "Vimshottari dasha",
-              "Divisional charts",
-              "Yogas, Bhav Chalit, Gochar, remedies"
+              "D1 રાશિ ચાર્ટ",
+              "વિંશોત્તરી દશા",
+              "વર્ગ ચાર્ટ્સ",
+              "યોગ, ચલિત, ગોચર, ઉપાયો"
             ],
-            "summary": "Traditional Vedic Jyotish lifelong patterns, life areas, timing અને holistic guidance માટે."
+            "summary": "પરંપરાગત વૈદિક જ્યોતિષ જીવનભરના પેટર્ન, જીવન ક્ષેત્રો, સમય અને સમન્વિત માર્ગદર્શન માટે."
           },
           {
-            "caution": "KP side section નથી. તેનો પોતાનો method છે અને event questions KP rules થી answer થવા જોઈએ.",
+            "caution": "KP કોઈ સહાયક ભાગ નથી. તેની પોતાની પદ્ધતિ છે અને ઘટના આધારિત પ્રશ્નોના જવાબ KP નિયમોથી થવા જોઈએ.",
             "name": "KP Predicta",
             "proof": [
-              "KP ayanamsa",
-              "Placidus cusps",
-              "Star lords અને sub lords",
-              "Significators અને ruling planets"
+              "KP અયનાંશ",
+              "પ્લેસિડસ કસ્પ",
+              "સ્ટાર લોર્ડ અને સબ લોર્ડ",
+              "સંકેતક અને શાસક ગ્રહો"
             ],
-            "summary": "Krishnamurti Paddhati precise event-oriented judgment અને timing માટે."
+            "summary": "કૃષ્ણમૂર્તિ પદ્ધતિ ચોક્કસ ઘટના આધારિત નિર્ણય અને સમય માટે."
           },
           {
-            "caution": "Nadi Predicta ક્યારેય real ancient palm-leaf manuscript access કરવાનો fake claim કરતી નથી.",
+            "caution": "નાડી Predicta ક્યારેય એવો દાવો કરતી નથી કે તેને વાસ્તવિક પ્રાચીન પાંડુલિપિ મળી અથવા તેનો પ્રવેશ મળ્યો.",
             "name": "Nadi Predicta",
             "proof": [
-              "Planet-to-planet story links",
-              "Karakas અને karmic themes",
-              "Rahu-Ketu axis",
-              "Validation questions અને timing triggers"
+              "ગ્રહ-થી-ગ્રહ વાર્તા સંબંધ",
+              "કારક અને કર્મ સંકેતો",
+              "રાહુ-કેતુ ધરી",
+              "પુષ્ટિ પ્રશ્નો અને સમય સંકેતો"
             ],
-            "summary": "Karmic narratives અને repeated life signatures માટે premium pattern-reading room."
+            "summary": "કર્મકથા અને વારંવાર દેખાતા જીવન સંકેતો માટે પ્રીમિયમ પેટર્ન રીડિંગ કક્ષ."
           }
         ],
-        "title": "દરેક જ્યોતિષ school માટે પોતાની પદ્ધતિ જોઈએ."
+        "title": "દરેક જ્યોતિષ પદ્ધતિ માટે પોતાની રીત જોઈએ."
       }
     }
   }

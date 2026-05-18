@@ -103,117 +103,117 @@ const founderCopy: Record<
   hi: {
     actions: {
       dashboard: 'Predicta खोलें',
-      safety: 'Safety Promise पढ़ें',
+      safety: 'सुरक्षा वादा पढ़ें',
       start: 'Predicta से शुरू करें',
     },
     final:
-      'Predicta उन लोगों के लिए है जो spiritual guidance को useful, safe, premium और respectful महसूस करना चाहते हैं.',
+      'Predicta उन लोगों के लिए है जो आध्यात्मिक मार्गदर्शन को उपयोगी, सुरक्षित, प्रीमियम और सम्मानजनक महसूस करना चाहते हैं.',
     hero: {
-      body: 'मैंने Predicta इसलिए बनाया कि Vedic astrology precise, private, calm और useful लगे.',
-      eyebrow: 'Founder vision',
-      title: 'Predicta उन लोगों के लिए बन रहा है जो noise के बिना clarity चाहते हैं.',
+      body: 'मैंने Predicta इसलिए बनाया कि वैदिक ज्योतिष सटीक, निजी, शांत और उपयोगी लगे.',
+      eyebrow: 'संस्थापक दृष्टि',
+      title: 'Predicta उन लोगों के लिए बन रहा है जो शोर के बिना स्पष्टता चाहते हैं.',
     },
     letter: {
       body: [
-        'Deep chart wisdom confusing, intimidating या cheaply packaged नहीं लगनी चाहिए. Kundli personal context रखती है और thoughtful experience deserve करती है.',
-        'Goal tradition को calmer voice, clear structure और confident chart exploration के साथ honor करना है.',
-        'Predicta chart-backed, safety-aware, mobile-first और हर answer में careful है.',
+        'गहरी चार्ट बुद्धि भ्रमित, डराने वाली या सस्ती पैकेजिंग जैसी नहीं लगनी चाहिए. कुंडली निजी संदर्भ रखती है और विचारशील अनुभव की हकदार है.',
+        'लक्ष्य परंपरा को शांत आवाज, साफ संरचना और भरोसेमंद चार्ट खोज के साथ सम्मान देना है.',
+        'Predicta चार्ट-आधारित, सुरक्षा-सचेत, मोबाइल-अनुकूल और हर जवाब में सावधान है.',
       ],
-      eyebrow: 'Predicta क्यों exists करता है',
+      eyebrow: 'Predicta क्यों मौजूद है',
       title:
-        'Astrology भरोसे लायक grounded और use करने में simple लगनी चाहिए.',
+        'ज्योतिष भरोसे लायक, जमीन से जुड़ा और उपयोग में सरल लगना चाहिए.',
     },
     portrait:
-      'Predicta intelligent, polished, private और human feel होनी चाहिए. यही standard हर जगह लागू है.',
+      'Predicta बुद्धिमान, सुंदर, निजी और मानवीय लगनी चाहिए. यही मानक हर जगह लागू है.',
     principles: [
       {
-        copy: 'Birth details, saved Kundlis और personal guidance को restraint, clarity और respect के साथ handle करना चाहिए.',
-        title: 'Privacy by temperament',
+        copy: 'जन्म विवरण, सेव कुंडलियां और निजी मार्गदर्शन संयम, स्पष्टता और सम्मान के साथ संभलना चाहिए.',
+        title: 'स्वभाव से निजी',
       },
       {
-        copy: 'Predicta chart patterns calmly explain करे. Fear, certainty या dependency sell न करे.',
-        title: 'Guidance without pressure',
+        copy: 'Predicta चार्ट पैटर्न शांत तरीके से समझाए. डर, पक्की गारंटी या निर्भरता न बेचे.',
+        title: 'बिना दबाव मार्गदर्शन',
       },
       {
-        copy: 'Regular Predicta, KP Predicta और Nadi Predicta method, purpose और safety boundaries में clear रहें.',
-        title: 'Clear astrology schools',
+        copy: 'Regular Predicta, KP Predicta और नाड़ी Predicta विधि, उद्देश्य और सुरक्षा सीमाओं में साफ रहें.',
+        title: 'साफ ज्योतिष पद्धतियां',
       },
       {
-        copy: 'Product नए user के लिए easy रहे, और serious Jyotish depth background में बनी रहे.',
-        title: 'Depth without confusion',
+        copy: 'उत्पाद नए उपयोगकर्ता के लिए आसान रहे, और गंभीर ज्योतिष गहराई भीतर बनी रहे.',
+        title: 'बिना भ्रम गहराई',
       },
     ],
     principlesHeader: {
-      eyebrow: 'Product principles',
-      title: 'एक deeply personal subject के लिए calm technology.',
+      eyebrow: 'उत्पाद सिद्धांत',
+      title: 'एक गहरे निजी विषय के लिए शांत तकनीक.',
     },
     vision: {
-      eyebrow: 'The vision',
+      eyebrow: 'दृष्टि',
       points: [
-        'Vedic tradition को respect करते हुए modern engineering से उसे समझना आसान बनाना.',
-        'Noisy astrology apps का calmer alternative बनाना, premium design और clear user control के साथ.',
-        'Predicta ज्यादा लोगों तक पहुंचे उससे पहले public safety visible और protected रखना.',
-        'Mobile और web पर same personal, careful product signature खोए बिना grow करना.',
+        'वैदिक परंपरा का सम्मान करते हुए आधुनिक तकनीक से उसे समझना आसान बनाना.',
+        'शोर भरे ज्योतिष ऐप्स का शांत विकल्प बनाना, प्रीमियम डिजाइन और साफ उपयोगकर्ता नियंत्रण के साथ.',
+        'Predicta ज्यादा लोगों तक पहुंचे उससे पहले सार्वजनिक सुरक्षा साफ और सुरक्षित रखना.',
+        'मोबाइल और वेब पर वही निजी, सावधान उत्पाद पहचान बनाए रखना.',
       ],
-      title: 'Mobile और web पर trusted astrology companion.',
+      title: 'मोबाइल और वेब पर भरोसेमंद ज्योतिष साथी.',
     },
   },
   gu: {
     actions: {
       dashboard: 'Predicta ખોલો',
-      safety: 'Safety Promise વાંચો',
+      safety: 'સુરક્ષા વચન વાંચો',
       start: 'Predicta થી શરૂ કરો',
     },
     final:
-      'Predicta એવા લોકો માટે છે જેમને spiritual guidance useful, safe, premium અને respectful લાગવી જોઈએ.',
+      'Predicta એવા લોકો માટે છે જેમને આધ્યાત્મિક માર્ગદર્શન ઉપયોગી, સુરક્ષિત, પ્રીમિયમ અને સન્માનજનક લાગવું જોઈએ.',
     hero: {
-      body: 'મેં Predicta એ માટે બનાવ્યું કે Vedic astrology precise, private, calm અને useful લાગે.',
-      eyebrow: 'Founder vision',
-      title: 'Predicta એવા લોકો માટે બની રહ્યું છે જેમને noise વગર clarity જોઈએ છે.',
+      body: 'મેં Predicta એ માટે બનાવ્યું કે વૈદિક જ્યોતિષ ચોક્કસ, ખાનગી, શાંત અને ઉપયોગી લાગે.',
+      eyebrow: 'સ્થાપક દૃષ્ટિ',
+      title: 'Predicta એવા લોકો માટે બની રહ્યું છે જેમને અવાજ વગર સ્પષ્ટતા જોઈએ છે.',
     },
     letter: {
       body: [
-        'Deep chart wisdom confusing, intimidating અથવા cheaply packaged ન લાગવી જોઈએ. Kundli personal context ધરાવે છે અને thoughtful experience deserve કરે છે.',
-        'Goal tradition ને calmer voice, clear structure અને confident chart exploration સાથે honor કરવાનો છે.',
-        'Predicta chart-backed, safety-aware, mobile-first અને દરેક answer માં careful છે.',
+        'ઊંડી ચાર્ટ બુદ્ધિ ગૂંચવતી, ડરાવતી અથવા સસ્તી પેકેજિંગ જેવી ન લાગવી જોઈએ. કુંડળી ખાનગી સંદર્ભ ધરાવે છે અને વિચારશીલ અનુભવને પાત્ર છે.',
+        'લક્ષ્ય પરંપરાને શાંત અવાજ, સ્પષ્ટ રચના અને વિશ્વાસભર્યા ચાર્ટ અન્વેષણ સાથે સન્માન કરવાનો છે.',
+        'Predicta ચાર્ટ-આધારિત, સુરક્ષા-સચેત, મોબાઇલ-અનુકૂળ અને દરેક જવાબમાં કાળજીપૂર્વક છે.',
       ],
-      eyebrow: 'Predicta કેમ exists કરે છે',
+      eyebrow: 'Predicta કેમ છે',
       title:
-        'Astrology trust કરવા જેવી grounded અને use કરવા simple લાગવી જોઈએ.',
+        'જ્યોતિષ ભરોસાપાત્ર, જમીનથી જોડાયેલ અને ઉપયોગમાં સરળ લાગવું જોઈએ.',
     },
     portrait:
-      'Predicta intelligent, polished, private અને human feel થવી જોઈએ. આ standard દરેક જગ્યાએ લાગુ પડે છે.',
+      'Predicta બુદ્ધિશાળી, સુંદર, ખાનગી અને માનવીય લાગવી જોઈએ. આ ધોરણ દરેક જગ્યાએ લાગુ પડે છે.',
     principles: [
       {
-        copy: 'Birth details, saved Kundlis અને personal guidance ને restraint, clarity અને respect સાથે handle કરવી જોઈએ.',
-        title: 'Privacy by temperament',
+        copy: 'જન્મ વિગતો, સેવ કુંડળીઓ અને ખાનગી માર્ગદર્શન સંયમ, સ્પષ્ટતા અને સન્માન સાથે સંભાળવા જોઈએ.',
+        title: 'સ્વભાવથી ખાનગી',
       },
       {
-        copy: 'Predicta chart patterns calmly explain કરે. Fear, certainty અથવા dependency sell ન કરે.',
-        title: 'Guidance without pressure',
+        copy: 'Predicta ચાર્ટ પેટર્ન શાંત રીતે સમજાવે. ડર, પાક્કી ગેરંટી અથવા નિર્ભરતા ન વેચે.',
+        title: 'દબાણ વગર માર્ગદર્શન',
       },
       {
-        copy: 'Regular Predicta, KP Predicta અને Nadi Predicta method, purpose અને safety boundaries માં clear રહે.',
-        title: 'Clear astrology schools',
+        copy: 'Regular Predicta, KP Predicta અને નાડી Predicta રીત, હેતુ અને સુરક્ષા મર્યાદામાં સ્પષ્ટ રહે.',
+        title: 'સ્પષ્ટ જ્યોતિષ પદ્ધતિઓ',
       },
       {
-        copy: 'Product નવા user માટે easy રહે, અને serious Jyotish depth background માં રહે.',
-        title: 'Depth without confusion',
+        copy: 'ઉત્પાદન નવા ઉપયોગકર્તા માટે સરળ રહે, અને ગંભીર જ્યોતિષ ઊંડાઈ અંદર જળવાય.',
+        title: 'ગૂંચવણ વગર ઊંડાઈ',
       },
     ],
     principlesHeader: {
-      eyebrow: 'Product principles',
-      title: 'Deeply personal subject માટે calm technology.',
+      eyebrow: 'ઉત્પાદન સિદ્ધાંતો',
+      title: 'ઊંડા ખાનગી વિષય માટે શાંત તકનીક.',
     },
     vision: {
-      eyebrow: 'The vision',
+      eyebrow: 'દૃષ્ટિ',
       points: [
-        'Vedic tradition ને respect કરીને modern engineering થી સમજવું સરળ બનાવવું.',
-        'Noisy astrology apps નો calmer alternative બનાવવો, premium design અને clear user control સાથે.',
-        'Predicta વધારે લોકો સુધી પહોંચે તે પહેલાં public safety visible અને protected રાખવી.',
-        'Mobile અને web પર same personal, careful product signature ગુમાવ્યા વગર grow કરવું.',
+        'વૈદિક પરંપરાનું સન્માન કરીને આધુનિક તકનીકથી સમજવું સરળ બનાવવું.',
+        'અવાજભર્યા જ્યોતિષ એપ્સનો શાંત વિકલ્પ બનાવવો, પ્રીમિયમ ડિઝાઇન અને સ્પષ્ટ ઉપયોગકર્તા નિયંત્રણ સાથે.',
+        'Predicta વધારે લોકો સુધી પહોંચે તે પહેલાં જાહેર સુરક્ષા સ્પષ્ટ અને સુરક્ષિત રાખવી.',
+        'મોબાઇલ અને વેબ પર એ જ ખાનગી, કાળજીપૂર્વક ઉત્પાદન ઓળખ જાળવવી.',
       ],
-      title: 'Mobile અને web પર trusted astrology companion.',
+      title: 'મોબાઇલ અને વેબ પર ભરોસાપાત્ર જ્યોતિષ સાથી.',
     },
   },
 };

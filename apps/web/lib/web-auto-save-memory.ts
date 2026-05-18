@@ -33,6 +33,7 @@ export type WebAutoSaveMemory = {
   report?: {
     builderMode?: 'EVERYTHING' | 'CUSTOM';
     mode: 'FREE' | 'PREMIUM';
+    reportLanguage?: SupportedLanguage;
     selectedReportId: string;
     selectedSectionKeys?: string[];
     updatedAt: string;

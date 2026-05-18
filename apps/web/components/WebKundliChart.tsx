@@ -1,45 +1,96 @@
 'use client';
 
-import { type CSSProperties, useMemo, useState } from 'react';
 import {
+  type CSSProperties,
+  type KeyboardEvent as ReactKeyboardEvent,
+  type MouseEvent as ReactMouseEvent,
+  useMemo,
+  useState,
+} from 'react';
+import {
+  SUPPORTED_LANGUAGE_OPTIONS,
+  getLanguageLabels,
+  type LanguageOption,
+} from '@pridicta/config/language';
+import {
+  buildChartRenderModel,
   buildChartSelectionPrompt,
-  buildNorthIndianChartCells,
   composeChartInsight,
-  findHouseCell,
-  findPlanetCell,
-  getPlanetAbbreviation,
+  findNorthIndianHouseAtPoint,
+  getChartFocusLabel,
+  getChartReadingNote,
+  getChartRole,
+  getSpecialPointMeaning,
+  isSpecialPoint,
+  NORTH_INDIAN_CHART_LINE_PATHS,
+  NORTH_INDIAN_HOUSE_POLYGONS,
+  shouldUseStandardHouseMeaning,
+  type ChartRenderLegendItem,
+  type ChartRenderSchool,
+  type MoonNakshatraPadaInsight,
 } from '@pridicta/astrology';
-import type { ChartData, ChartType } from '@pridicta/types';
+import type {
+  BirthDetails,
+  ChartData,
+  ChartType,
+  SupportedLanguage,
+} from '@pridicta/types';
 import Link from 'next/link';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
+import { useLanguagePreference } from '../lib/language-preference';
+import { PlanetGlyph } from './PlanetGlyph';
 import { StatusPill } from './StatusPill';
 
 type WebKundliChartProps = {
+  birthDetails?: BirthDetails;
   chart: ChartData;
+  centerLabel?: string;
+  chartRoleOverride?: string;
   hasPremiumAccess?: boolean;
   kundliId?: string;
   ownerName?: string;
+  readingNoteOverride?: string;
+  sectionTitle?: string;
+  schoolOverride?: ChartRenderSchool;
 };
 
 export function WebKundliChart({
+  birthDetails,
   chart,
+  centerLabel,
+  chartRoleOverride,
   hasPremiumAccess = false,
   kundliId,
   ownerName,
+  readingNoteOverride,
+  sectionTitle = 'NORTH INDIAN CHART',
+  schoolOverride,
 }: WebKundliChartProps): React.JSX.Element {
   const [selectedHouse, setSelectedHouse] = useState(1);
-  const [selectedPlanet, setSelectedPlanet] = useState<string | undefined>();
+  const [hoveredHouse, setHoveredHouse] = useState<number | undefined>();
+  const { appLanguage, chartLanguage, setChartLanguage } = useLanguagePreference();
+  const labels = getChartLanguageCopy(appLanguage);
   const insight = useMemo(
     () => composeChartInsight({ chart, hasPremiumAccess }),
     [chart, hasPremiumAccess],
   );
-  const cells = useMemo(() => buildNorthIndianChartCells(chart), [chart]);
-  const activeCell =
-    findPlanetCell(cells, selectedPlanet) ??
-    findHouseCell(cells, selectedHouse) ??
-    cells[0];
-  const activeHouseMeaning = getHouseMeaning(activeCell?.house);
-  const chartRole = getChartRole(chart.chartType);
+  const renderModel = useMemo(
+    () =>
+      buildChartRenderModel({
+        birthDetails,
+        chart,
+        language: chartLanguage,
+        school: schoolOverride,
+      }),
+    [birthDetails, chart, chartLanguage, schoolOverride],
+  );
+  const cells = renderModel.cells;
+  const activeCell = cells.find(cell => cell.house === selectedHouse) ?? cells[0];
+  const activeHouseMeaning = getChartFocusLabel(chart.chartType, activeCell?.house);
+  const chartRole = chartRoleOverride ?? getChartRole(chart.chartType);
+  const readingNote = readingNoteOverride ?? getChartReadingNote(chart.chartType);
+  const isD1 = shouldUseStandardHouseMeaning(chart.chartType);
+  const activeSpecialPoints = activeCell?.planetPositions.filter(isSpecialPoint) ?? [];
 
   function selectHouse(house?: number) {
     if (!house) {
@@ -47,14 +98,22 @@ export function WebKundliChart({
     }
 
     setSelectedHouse(house);
-    setSelectedPlanet(undefined);
   }
 
-  function selectPlanet(house: number | undefined, planet: string) {
-    if (house) {
-      setSelectedHouse(house);
+  function selectHouseFromPointer(event: ReactMouseEvent<HTMLDivElement>) {
+    const house = getHouseFromPointerEvent(event);
+    selectHouse(house);
+  }
+
+  function updateHoveredHouse(event: ReactMouseEvent<HTMLDivElement>) {
+    setHoveredHouse(getHouseFromPointerEvent(event));
+  }
+
+  function handleHitLayerKeyDown(event: ReactKeyboardEvent<HTMLDivElement>) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      selectHouse(hoveredHouse ?? selectedHouse);
     }
-    setSelectedPlanet(planet);
   }
 
   if (!chart.supported) {
@@ -84,50 +143,100 @@ export function WebKundliChart({
       ) : null}
       <div className="jyotish-chart-toolbar">
         <div>
-          <div className="section-title">NORTH INDIAN CHART</div>
-          <h2>{chart.name}</h2>
+          <div className="section-title">{sectionTitle}</div>
+          <h2>{renderModel.displayChartName}</h2>
           <p>
-            Tap a house to understand that life area. Planet shortcuts are shown
-            inside the house.
+            Tap a house to understand that life area. Planet names, signs, and
+            degrees stay inside their house.
           </p>
         </div>
+        <ChartLanguageSelector
+          activeLanguage={chartLanguage}
+          labels={labels}
+          onChange={setChartLanguage}
+        />
       </div>
 
       <div
         className="north-chart"
-        aria-label={`${chart.name} North Indian chart`}
+        data-chart-school={renderModel.school.toLowerCase()}
+        data-chart-theme={renderModel.theme}
+        aria-label={`${renderModel.displayChartName} North Indian chart`}
         key={chart.chartType}
       >
+        <NorthIndianChartLines />
+        <svg
+          aria-hidden
+          className="north-house-state-map"
+          preserveAspectRatio="none"
+          viewBox="0 0 100 100"
+        >
+          {cells.map(cell => (
+            <polygon
+              className={`north-house-state ${
+                hoveredHouse === cell.house ? 'hovered' : ''
+              } ${activeCell?.house === cell.house ? 'selected' : ''}`}
+              key={`${cell.key}-state`}
+              points={getNorthHousePolygonPoints(cell.house)}
+            />
+          ))}
+        </svg>
+        <div
+          aria-label={`${renderModel.displayChartName} house selector. Click a house to select it.`}
+          className="north-house-hit-layer"
+          onClick={selectHouseFromPointer}
+          onKeyDown={handleHitLayerKeyDown}
+          onMouseLeave={() => setHoveredHouse(undefined)}
+          onMouseMove={updateHoveredHouse}
+          role="button"
+          tabIndex={0}
+        />
         {cells.map((cell, index) => (
-          <button
-            className={`north-house ${
+          <div
+            aria-hidden
+            className={`north-house-label north-house-label-${cell.house} north-house-label-${cell.labelDensity} ${
               activeCell?.house === cell.house ? 'selected' : ''
             }`}
-            aria-pressed={activeCell?.house === cell.house}
-            key={cell.key}
-            onClick={() => selectHouse(cell.house)}
+            data-planet-count={cell.renderPlanets.length}
+            key={`${cell.key}-label`}
             style={{
               ['--chart-cell-index' as string]: index,
-              gridColumn: cell.col + 1,
-              gridRow: cell.row + 1,
+              ['--house-x' as string]: `${cell.x}%`,
+              ['--house-y' as string]: `${cell.y}%`,
             } as CSSProperties}
-            type="button"
           >
-            <span>
-              House {cell.house} · {cell.signShort}
+            <span className="north-house-meta">
+              <span className="north-house-number">{cell.house}</span>
+              <span className="north-sign-name">{cell.displaySign}</span>
+              <span className="north-sign-symbol">
+                {cell.signGlyph}
+              </span>
+              <span className="north-sign-number">{cell.signNumber}</span>
             </span>
-            <small>
-              {cell.planets.length
-                ? cell.planets.map(getPlanetAbbreviation).join(' ')
-                : 'Empty'}
-            </small>
-          </button>
+            {cell.renderPlanets.length ? (
+              <small className="north-planet-stack">
+                {cell.renderPlanets.map(planet => (
+                  <PlanetGlyph
+                    key={planet.key}
+                    moonPhase={renderModel.moonPhase}
+                    planet={planet}
+                    showDegree
+                    showSign={false}
+                    size={cell.renderPlanets.length >= 4 ? 'compact' : 'full'}
+                  />
+                ))}
+              </small>
+            ) : null}
+          </div>
         ))}
         <div className="north-chart-center">
           <span>{chart.chartType}</span>
-          <strong>{chart.chartType === 'D1' ? 'Root chart' : 'D1 anchor'}</strong>
+          <strong>{centerLabel ?? (chart.chartType === 'D1' ? 'Root chart' : 'D1 anchored')}</strong>
         </div>
       </div>
+
+      <ChartLegend items={renderModel.legend} />
+      <MoonNakshatraPadaStrip insight={renderModel.moonNakshatraPada} />
 
       <div className="chart-insight-panel">
         <div>
@@ -153,12 +262,12 @@ export function WebKundliChart({
       {activeCell ? (
         <div
           className="chart-drilldown"
-          key={`${chart.chartType}-${activeCell.house}-${selectedPlanet ?? 'house'}`}
+          key={`${chart.chartType}-${activeCell.house}`}
         >
           <div>
             <div className="section-title">DRILLDOWN</div>
             <h3>
-              House {activeCell.house} · {activeCell.sign}
+              House {activeCell.house} · {activeCell.displaySign}
             </h3>
             <p>
               {activeCell.planets.length
@@ -169,11 +278,11 @@ export function WebKundliChart({
           <div className="chart-drilldown-grid">
             <div>
               <span>Life area</span>
-              <strong>{activeHouseMeaning}</strong>
+              <strong>{isD1 ? activeHouseMeaning : chartRole}</strong>
             </div>
             <div>
-              <span>Chart role</span>
-              <strong>{chartRole}</strong>
+              <span>{isD1 ? 'Chart role' : 'Varga rule'}</span>
+              <strong>{isD1 ? chartRole : 'Use its specific purpose, not D1 house meanings'}</strong>
             </div>
             <div>
               <span>Reading rule</span>
@@ -183,10 +292,20 @@ export function WebKundliChart({
                   : `Read ${chart.chartType} with D1`}
               </strong>
             </div>
+            {activeSpecialPoints.length ? (
+              <div>
+                <span>Subtle points</span>
+                <strong>
+                  {activeSpecialPoints
+                    .map(point => `${point.name}: ${getSpecialPointMeaning(point)}`)
+                    .join('; ')}
+                </strong>
+              </div>
+            ) : null}
           </div>
           <div className="drilldown-actions">
             <StatusPill
-              label={selectedPlanet ? `Planet: ${selectedPlanet}` : `House ${activeCell.house}`}
+              label={`House ${activeCell.house}`}
               tone="premium"
             />
             <Link
@@ -196,7 +315,6 @@ export function WebKundliChart({
                 chartType: chart.chartType,
                 house: activeCell.house,
                 kundliId,
-                planet: selectedPlanet,
                 purpose: insight.summary,
               })}
             >
@@ -204,21 +322,157 @@ export function WebKundliChart({
             </Link>
           </div>
           {activeCell.planets.length ? (
-            <div className="planet-chip-row">
-              {activeCell.planets.map(planet => (
-                <button
-                  className={selectedPlanet === planet ? 'active' : ''}
-                  key={planet}
-                  onClick={() => selectPlanet(activeCell.house, planet)}
-                  type="button"
-                >
-                  {getPlanetAbbreviation(planet)} {planet}
-                </button>
+            <div className="planet-chip-row planet-chip-row-static" aria-label="Planets in selected house">
+              {activeCell.renderPlanets.map(planet => (
+                <span key={planet.key}>{planet.displayName}</span>
               ))}
             </div>
           ) : null}
+          {!isD1 || readingNoteOverride ? (
+            <p className="varga-reading-note">{readingNote}</p>
+          ) : null}
         </div>
       ) : null}
+    </div>
+  );
+}
+
+function ChartLanguageSelector({
+  activeLanguage,
+  labels,
+  onChange,
+}: {
+  activeLanguage: SupportedLanguage;
+  labels: ChartLanguageCopy;
+  onChange: (language: SupportedLanguage) => void;
+}): React.JSX.Element {
+  return (
+    <div className="chart-language-selector" role="group" aria-label={labels.title}>
+      <span>{labels.title}</span>
+      <div>
+        {SUPPORTED_LANGUAGE_OPTIONS.map(option => (
+          <button
+            aria-pressed={option.code === activeLanguage}
+            className={option.code === activeLanguage ? 'active' : ''}
+            key={option.code}
+            onClick={() => onChange(option.code)}
+            type="button"
+          >
+            {getChartLanguageLabel(option, activeLanguage)}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+type ChartLanguageCopy = {
+  title: string;
+};
+
+function getChartLanguageCopy(language: SupportedLanguage): ChartLanguageCopy {
+  const common = getLanguageLabels(language);
+  const titleByLanguage: Record<SupportedLanguage, string> = {
+    en: 'Chart language',
+    gu: 'ચાર્ટ ભાષા',
+    hi: 'चार्ट भाषा',
+  };
+
+  return {
+    title: titleByLanguage[language] ?? common.language,
+  };
+}
+
+function getChartLanguageLabel(
+  option: LanguageOption,
+  activeLanguage: SupportedLanguage,
+): string {
+  return activeLanguage === 'en' ? option.englishName : option.nativeName;
+}
+
+function getHouseFromPointerEvent(
+  event: ReactMouseEvent<HTMLDivElement>,
+): number | undefined {
+  const rect = event.currentTarget.getBoundingClientRect();
+  const x = ((event.clientX - rect.left) / rect.width) * 100;
+  const y = ((event.clientY - rect.top) / rect.height) * 100;
+
+  return findNorthIndianHouseAtPoint(x, y);
+}
+
+function getNorthHousePolygonPoints(house?: number): string {
+  return house
+    ? (NORTH_INDIAN_HOUSE_POLYGONS[house] ?? [])
+        .map(([x, y]) => `${x},${y}`)
+        .join(' ')
+    : '';
+}
+
+export function NorthIndianChartLines(): React.JSX.Element {
+  return (
+    <svg
+      className="north-chart-lines"
+      aria-hidden
+      preserveAspectRatio="none"
+      viewBox="0 0 100 100"
+    >
+      {NORTH_INDIAN_CHART_LINE_PATHS.map(path => (
+        <path d={path} key={path} />
+      ))}
+    </svg>
+  );
+}
+
+function MoonNakshatraPadaStrip({
+  insight,
+}: {
+  insight?: MoonNakshatraPadaInsight;
+}): React.JSX.Element | null {
+  if (!insight) {
+    return null;
+  }
+
+  return (
+    <div className="moon-nakshatra-strip">
+      <div>
+        <span>Moon rhythm</span>
+        <strong>{insight.moonPhaseLabel}</strong>
+        <small>{insight.moonPhaseMeaning}</small>
+      </div>
+      <div>
+        <span>Birth star</span>
+        <strong>
+          {insight.moonNakshatra}
+          {insight.pada ? ` pada ${insight.pada}` : ''}
+        </strong>
+        {insight.padaMeaning ? <small>{insight.padaMeaning}</small> : null}
+      </div>
+    </div>
+  );
+}
+
+export function ChartLegend({
+  compact = false,
+  items,
+}: {
+  compact?: boolean;
+  items: ChartRenderLegendItem[];
+}): React.JSX.Element | null {
+  if (!items.length) {
+    return null;
+  }
+
+  return (
+    <div
+      className={`chart-legend ${compact ? 'compact' : ''}`}
+      aria-label="Chart legend"
+    >
+      {items.map(item => (
+        <span className={`chart-legend-item ${item.tone}`} key={item.code}>
+          <b>{item.code}</b>
+          <span>{item.description}</span>
+        </span>
+      ))}
     </div>
   );
 }
@@ -228,14 +482,12 @@ function buildChartAskHref({
   chartType,
   house,
   kundliId,
-  planet,
   purpose,
 }: {
   chartName: string;
   chartType: ChartType;
   house?: number;
   kundliId?: string;
-  planet?: string;
   purpose: string;
 }): string {
   const context = {
@@ -243,7 +495,6 @@ function buildChartAskHref({
     chartType,
     purpose,
     selectedHouse: house,
-    selectedPlanet: planet,
     sourceScreen: 'Charts',
   };
   return buildPredictaChatHref({
@@ -253,46 +504,6 @@ function buildChartAskHref({
     prompt: buildChartSelectionPrompt(context),
     purpose,
     selectedHouse: house,
-    selectedPlanet: planet,
     sourceScreen: 'Charts',
   });
-}
-
-function getHouseMeaning(house?: number): string {
-  const meanings: Record<number, string> = {
-    1: 'self, body, identity',
-    2: 'money, speech, family values',
-    3: 'effort, courage, siblings',
-    4: 'home, mother, emotional base',
-    5: 'children, learning, merit',
-    6: 'work pressure, health discipline',
-    7: 'marriage, partners, contracts',
-    8: 'change, secrets, transformation',
-    9: 'fortune, dharma, teachers',
-    10: 'career, status, responsibility',
-    11: 'gains, network, ambitions',
-    12: 'sleep, expense, release',
-  };
-
-  return house ? meanings[house] ?? 'selected life area' : 'selected life area';
-}
-
-function getChartRole(chartType: ChartType): string {
-  if (chartType === 'D1') {
-    return 'main life chart';
-  }
-  if (chartType === 'D9') {
-    return 'marriage and maturity lens';
-  }
-  if (chartType === 'D10') {
-    return 'career confirmation lens';
-  }
-  if (chartType === 'D2') {
-    return 'wealth handling lens';
-  }
-  if (chartType === 'D12') {
-    return 'family and lineage lens';
-  }
-
-  return 'supporting divisional lens';
 }

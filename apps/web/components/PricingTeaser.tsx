@@ -59,15 +59,15 @@ function getPricingTeaserCopy(language: string): {
   if (language === 'hi') {
     return {
       dayPass: 'डे पास',
-      dayPassBody: 'Subscription के बिना 24 घंटे के लिए प्रीमियम depth try करें.',
+      dayPassBody: 'सदस्यता के बिना 24 घंटे के लिए प्रीमियम गहराई आजमाएं.',
       free: 'मुफ्त',
-      freeBody: 'मुख्य कुंडली, सेव profile और प्रीमियम जैसी मुफ्त report.',
+      freeBody: 'मुख्य कुंडली, सेव प्रोफाइल और सुंदर मुफ्त रिपोर्ट.',
       freeTitle: 'शांत शुरुआत करें',
-      monthlyPrefix: 'Monthly access शुरू होता है',
-      monthlySuffix: 'प्रीमियम depth और सुविधा देता है, guaranteed result नहीं.',
+      monthlyPrefix: 'मासिक प्रवेश शुरू होता है',
+      monthlySuffix: 'प्रीमियम गहराई और सुविधा देता है, पक्के परिणाम नहीं.',
       premium: 'प्रीमियम',
-      premiumBody: 'गहरी report, ज्यादा guidance और बेहतर chart insight.',
-      viewPricing: 'Pricing देखें',
+      premiumBody: 'गहरी रिपोर्ट, ज्यादा मार्गदर्शन और बेहतर चार्ट समझ.',
+      viewPricing: 'मूल्य देखें',
       yearlySuffix: '/ वर्ष',
     };
   }
@@ -75,15 +75,15 @@ function getPricingTeaserCopy(language: string): {
   if (language === 'gu') {
     return {
       dayPass: 'ડે પાસ',
-      dayPassBody: 'Subscription વિના 24 કલાક માટે પ્રીમિયમ depth try કરો.',
+      dayPassBody: 'સભ્યતા વગર 24 કલાક માટે પ્રીમિયમ ઊંડાઈ અજમાવો.',
       free: 'મફત',
-      freeBody: 'મુખ્ય કુંડળી, સેવ profile અને પ્રીમિયમ જેવી મફત report.',
+      freeBody: 'મુખ્ય કુંડળી, સેવ પ્રોફાઇલ અને સુંદર મફત રિપોર્ટ.',
       freeTitle: 'શાંતિથી શરૂઆત કરો',
-      monthlyPrefix: 'Monthly access શરૂ થાય છે',
-      monthlySuffix: 'પ્રીમિયમ depth અને સુવિધા આપે છે, guaranteed result નહીં.',
+      monthlyPrefix: 'માસિક પ્રવેશ શરૂ થાય છે',
+      monthlySuffix: 'પ્રીમિયમ ઊંડાઈ અને સુવિધા આપે છે, પાક્કા પરિણામ નહીં.',
       premium: 'પ્રીમિયમ',
-      premiumBody: 'ઊંડી report, વધુ guidance અને સારી chart insight.',
-      viewPricing: 'Pricing જુઓ',
+      premiumBody: 'ઊંડી રિપોર્ટ, વધુ માર્ગદર્શન અને સારી ચાર્ટ સમજ.',
+      viewPricing: 'કિંમત જુઓ',
       yearlySuffix: '/ વર્ષ',
     };
   }

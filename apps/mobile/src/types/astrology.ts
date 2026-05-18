@@ -129,6 +129,9 @@ export type PlanetPosition = {
   nakshatra: string;
   pada: number;
   retrograde: boolean;
+  kind?: 'classical' | 'modern' | 'sensitive' | 'upagraha';
+  simpleMeaning?: string;
+  calculationNote?: string;
 };
 
 export type YogaInsight = {
@@ -175,6 +178,37 @@ export type BhavChalitData = {
   cusps: BhavChalitCusp[];
   planetPlacements: BhavChalitPlanetPlacement[];
   shifts: BhavChalitPlanetPlacement[];
+  limitations: string[];
+};
+
+export type ChalitCusp = {
+  house: number;
+  midpointLongitude: number;
+  startLongitude: number;
+  endLongitude: number;
+  sign: string;
+  degree: number;
+};
+
+export type ChalitPlanetPlacement = {
+  planet: string;
+  rashiHouse: number;
+  chalitHouse: number;
+  rashiSign: string;
+  shifted: boolean;
+  shiftDirection: 'previous' | 'same' | 'next' | 'other';
+  absoluteLongitude: number;
+};
+
+export type ChalitData = {
+  status: 'ready' | 'pending';
+  houseSystem: 'EQUAL_BHAVA_FROM_LAGNA_DEGREE';
+  ayanamsa: 'LAHIRI';
+  ascendantDegree: number;
+  description: string;
+  cusps: ChalitCusp[];
+  planetPlacements: ChalitPlanetPlacement[];
+  shifts: ChalitPlanetPlacement[];
   limitations: string[];
 };
 
@@ -519,6 +553,7 @@ export type AdvancedJyotishInsightDepth = 'FREE' | 'PREMIUM';
 export type AdvancedJyotishModuleId =
   | 'yoga-dosha'
   | 'nakshatra'
+  | 'micro-points'
   | 'ashtakavarga'
   | 'panchang-muhurta'
   | 'compatibility'
@@ -560,8 +595,31 @@ export type AdvancedNakshatraInsight = {
   lord: string;
   theme: string;
   simpleInsight: string;
+  padaMeaning?: string;
+  rule?: string;
   premiumSynthesis?: string;
   evidence: AdvancedJyotishEvidenceItem[];
+};
+
+export type AdvancedMicroPointInsight = {
+  name: string;
+  kind: 'modern' | 'sensitive' | 'upagraha';
+  sign: string;
+  house: number;
+  degree: number;
+  nakshatra: string;
+  pada: number;
+  padaMeaning?: string;
+  simpleMeaning?: string;
+  howToUse: string;
+  calculationNote?: string;
+};
+
+export type AdvancedMicroPointIntelligence = {
+  rule: string;
+  freePolicy: string;
+  premiumPolicy: string;
+  points: AdvancedMicroPointInsight[];
 };
 
 export type AdvancedAshtakavargaHouse = {
@@ -608,6 +666,7 @@ export type AdvancedJyotishCoverage = {
   premiumPolicy: string;
   yogaDoshaInsights: AdvancedYogaDoshaInsight[];
   nakshatraInsight: AdvancedNakshatraInsight;
+  microPointIntelligence?: AdvancedMicroPointIntelligence;
   ashtakavargaDetail: AdvancedAshtakavargaHouse[];
   panchangMuhurta: AdvancedPanchangMuhurta;
   compatibility: AdvancedCompatibilityModel;
@@ -703,8 +762,8 @@ export type ChalitBhavKpFoundation = {
     subtitle: string;
     freeInsight: string;
     premiumSynthesis?: string;
-    shifts: BhavChalitPlanetPlacement[];
-    cusps: BhavChalitCusp[];
+    shifts: Array<BhavChalitPlanetPlacement | ChalitPlanetPlacement>;
+    cusps: Array<BhavChalitCusp | ChalitCusp>;
     evidence: string[];
     limitations: string[];
   };
@@ -754,7 +813,9 @@ export type SupportedLanguage = 'en' | 'hi' | 'gu';
 
 export type LanguagePreference = {
   appLanguage?: SupportedLanguage;
+  chartLanguage?: SupportedLanguage;
   predictaReplyLanguage?: SupportedLanguage;
+  reportLanguage?: SupportedLanguage;
   language: SupportedLanguage;
   updatedAt: string;
 };
@@ -1449,6 +1510,7 @@ export type KundliData = {
   planets: PlanetPosition[];
   houses: HouseData[];
   charts: Record<ChartType, ChartData>;
+  chalit?: ChalitData;
   bhavChalit?: BhavChalitData;
   kp?: KPSystemData;
   yearlyHoroscope?: YearlyHoroscopeData;
@@ -1825,6 +1887,11 @@ export type AIContextPayload = {
   >;
   coreIdentity: {
     lagna: string;
+    moonPada?: number;
+    moonPadaMeaning?: string;
+    moonPhase?: 'dark' | 'full' | 'unknown' | 'waning' | 'waxing';
+    moonPhaseLabel?: string;
+    moonPhaseMeaning?: string;
     moonSign: string;
     nakshatra: string;
   };
@@ -1915,6 +1982,7 @@ export type AIContextPayload = {
     | 'premiumPolicy'
     | 'yogaDoshaInsights'
     | 'nakshatraInsight'
+    | 'microPointIntelligence'
     | 'ashtakavargaDetail'
     | 'panchangMuhurta'
     | 'compatibility'

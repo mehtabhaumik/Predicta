@@ -33,6 +33,9 @@ class PlanetPosition(BaseModel):
     nakshatra: str
     pada: int
     retrograde: bool
+    kind: Literal["classical", "modern", "upagraha", "sensitive"] = "classical"
+    simpleMeaning: Optional[str] = None
+    calculationNote: Optional[str] = None
 
 
 class HouseData(BaseModel):
@@ -80,6 +83,37 @@ class BhavChalitData(BaseModel):
     cusps: List[BhavChalitCusp]
     planetPlacements: List[BhavChalitPlanetPlacement]
     shifts: List[BhavChalitPlanetPlacement]
+    limitations: List[str] = Field(default_factory=list)
+
+
+class ChalitCusp(BaseModel):
+    house: int
+    midpointLongitude: float
+    startLongitude: float
+    endLongitude: float
+    sign: str
+    degree: float
+
+
+class ChalitPlanetPlacement(BaseModel):
+    planet: str
+    rashiHouse: int
+    chalitHouse: int
+    rashiSign: str
+    shifted: bool
+    shiftDirection: Literal["previous", "same", "next", "other"]
+    absoluteLongitude: float
+
+
+class ChalitData(BaseModel):
+    status: Literal["ready", "pending"]
+    houseSystem: Literal["EQUAL_BHAVA_FROM_LAGNA_DEGREE"]
+    ayanamsa: Literal["LAHIRI"]
+    ascendantDegree: float
+    description: str
+    cusps: List[ChalitCusp]
+    planetPlacements: List[ChalitPlanetPlacement]
+    shifts: List[ChalitPlanetPlacement]
     limitations: List[str] = Field(default_factory=list)
 
 
@@ -279,6 +313,7 @@ class KundliData(BaseModel):
     planets: List[PlanetPosition]
     houses: List[HouseData]
     charts: Dict[str, ChartData]
+    chalit: Optional[ChalitData] = None
     bhavChalit: Optional[BhavChalitData] = None
     kp: Optional[KPSystemData] = None
     yearlyHoroscope: Optional[YearlyHoroscopeData] = None

@@ -21,16 +21,16 @@ export function composeBirthTimeDetective(
       cautiousJudgments: [],
       confidenceLabel: 'unreliable',
       confidenceScore: 0,
-      evidence: ['No kundli is active yet.'],
-      nextAction: 'Create a real kundli before checking birth time confidence.',
+      evidence: ['Create or select a Kundli first.'],
+      nextAction: 'Create a Kundli before checking birth time confidence.',
       questions: [],
       reasons: ['No birth chart calculation is available.'],
       safeJudgments: [],
       status: 'pending',
-      subtitle: 'Generate a kundli to unlock birth-time confidence checks.',
+      subtitle: 'Create a Kundli to start birth-time confidence checks.',
       summary: 'Birth time confidence cannot be judged without chart calculation.',
       title: 'Birth Time Detective is waiting.',
-      unsafeJudgments: ['D1, divisional charts, dasha timing, and D60 are unavailable.'],
+      unsafeJudgments: ['D1, divisional charts, dasha timing, and D60 need Kundli preparation first.'],
     };
   }
 

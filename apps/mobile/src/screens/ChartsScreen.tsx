@@ -192,7 +192,7 @@ export function ChartsScreen({
         onAskChalit={() => {
           setActiveChartContext({
             selectedSection:
-              'Explain Bhav Chalit house shifts as a Parashari house refinement. Do not mix KP or Nadi.',
+              'Explain my Parashari Chalit chart and house shifts. Do not mix it with KP or Nadi.',
             sourceScreen: 'Charts',
           });
           navigation.navigate(routes.Chat);

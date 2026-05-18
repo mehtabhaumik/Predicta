@@ -59,8 +59,8 @@ export function RedeemPassCodeScreen(): React.JSX.Element {
 
       if (!signedInAuth.userId) {
         showGlassAlert({
-          message:
-            'Please sign in before redeeming a guest pass. Use the email used when your pass was created. If you are not sure, contact the Predicta admin or the person who invited you.',
+        message:
+            'Please sign in before redeeming a guest pass. Use the email used when your pass was created. If you are not sure, contact the Predicta admin or pass creator.',
           title: 'Sign-in required',
         });
         return;
@@ -125,7 +125,7 @@ export function RedeemPassCodeScreen(): React.JSX.Element {
           Guest passes unlock expanded guidance for a limited period. Sign in
           with the email used for your pass, then enter the code. If you are
           not sure which email was used, contact the Predicta admin or the
-          person who invited you.
+          pass creator.
         </AppText>
         <View className="mt-6">
           <AppText className="mb-2" tone="secondary" variant="caption">
@@ -153,8 +153,8 @@ export function RedeemPassCodeScreen(): React.JSX.Element {
       <GlowCard className="mt-6" delay={220}>
         <AppText variant="subtitle">Privacy by default</AppText>
         <AppText className="mt-2" tone="secondary">
-          Pass codes are checked by their secure hash. Predicta does not need to
-          store your private code.
+          Predicta checks your pass safely. You only enter the code here, and
+          access is connected to the signed-in email approved for that pass.
         </AppText>
       </GlowCard>
     </Screen>

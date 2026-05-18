@@ -4,12 +4,18 @@ import {
   buildNorthIndianChartCells,
   findHouseCell,
   findPlanetCell,
-  getPlanetAbbreviation,
+  getLocalizedPlanetAbbreviation,
+  getLocalizedPlanetName,
+  getSpecialPointMeaning,
+  isSpecialPoint,
   type ChartCell,
 } from '@pridicta/astrology';
+import { SUPPORTED_LANGUAGE_OPTIONS } from '@pridicta/config/language';
 
+import { saveChartLanguagePreference } from '../../services/preferences/languagePreferenceStorage';
+import { useAppStore } from '../../store/useAppStore';
 import { colors } from '../../theme/colors';
-import type { ChartData } from '../../types/astrology';
+import type { ChartData, SupportedLanguage } from '../../types/astrology';
 import { AppText } from '../AppText';
 import { FadeInView } from '../FadeInView';
 
@@ -31,6 +37,16 @@ export const KundliChart = memo(function KundliChart({
   selectedPlanet,
   onFocusChange,
 }: KundliChartProps): React.JSX.Element {
+  const appLanguage = useAppStore(
+    state => state.languagePreference.appLanguage ?? state.languagePreference.language,
+  );
+  const chartLanguage = useAppStore(
+    state => state.languagePreference.chartLanguage ?? appLanguage ?? 'en',
+  );
+  const setChartLanguagePreference = useAppStore(
+    state => state.setChartLanguagePreference,
+  );
+
   if (!chart.supported) {
     return (
       <View style={styles.unsupported}>
@@ -42,7 +58,7 @@ export const KundliChart = memo(function KundliChart({
     );
   }
 
-  const cells = buildNorthIndianChartCells(chart);
+  const cells = buildNorthIndianChartCells(chart, chartLanguage);
   const activeCell =
     findPlanetCell(cells, selectedPlanet) ??
     findHouseCell(cells, selectedHouse) ??
@@ -53,6 +69,7 @@ export const KundliChart = memo(function KundliChart({
     : activeCell?.planets ?? [];
   const activeHouseMeaning = getHouseMeaning(activeCell?.house);
   const chartRole = getChartRole(chart.chartType);
+  const activeSpecialPoints = activeCell?.planetPositions.filter(isSpecialPoint) ?? [];
 
   return (
     <View style={styles.wrapper}>
@@ -67,6 +84,31 @@ export const KundliChart = memo(function KundliChart({
         </View>
         <View style={styles.ascendantBadge}>
           <AppText variant="caption">Tap houses</AppText>
+        </View>
+      </View>
+      <View style={styles.languageRow}>
+        <AppText tone="secondary" variant="caption">
+          {getChartLanguageTitle(chartLanguage)}
+        </AppText>
+        <View style={styles.languageOptions}>
+          {SUPPORTED_LANGUAGE_OPTIONS.map(option => (
+            <Pressable
+              accessibilityRole="button"
+              key={option.code}
+              onPress={() => {
+                setChartLanguagePreference(option.code);
+                void saveChartLanguagePreference(option.code);
+              }}
+              style={[
+                styles.languageOption,
+                option.code === chartLanguage ? styles.activeLanguageOption : undefined,
+              ]}
+            >
+              <AppText variant="caption">
+                {chartLanguage === 'en' ? option.englishName : option.nativeName}
+              </AppText>
+            </Pressable>
+          ))}
         </View>
       </View>
 
@@ -100,6 +142,7 @@ export const KundliChart = memo(function KundliChart({
 
           return (
             <ChartHouseCell
+              chartLanguage={chartLanguage}
               cell={cell}
               delay={80 + (cell.house ?? 0) * 18}
               key={cell.key}
@@ -126,7 +169,7 @@ export const KundliChart = memo(function KundliChart({
                 SELECTED HOUSE
               </AppText>
               <AppText className="mt-1" variant="subtitle">
-                House {activeCell.house} • {activeCell.sign}
+                House {activeCell.house} • {activeCell.displaySign}
               </AppText>
             </View>
             <AppText tone="secondary" variant="caption">
@@ -151,6 +194,18 @@ export const KundliChart = memo(function KundliChart({
                 {chartRole}
               </AppText>
             </View>
+            {activeSpecialPoints.length ? (
+              <View style={styles.focusCard}>
+                <AppText tone="secondary" variant="caption">
+                  Subtle points
+                </AppText>
+                <AppText className="mt-1" variant="caption">
+                  {activeSpecialPoints
+                    .map(point => `${point.name}: ${getSpecialPointMeaning(point)}`)
+                    .join('; ')}
+                </AppText>
+              </View>
+            ) : null}
           </View>
           <View style={styles.planetRow}>
             {(activeCell.planets.length ? activeCell.planets : ['No planets']).map(
@@ -175,7 +230,7 @@ export const KundliChart = memo(function KundliChart({
                     ]}
                   >
                     <AppText tone={empty ? 'secondary' : 'primary'} variant="caption">
-                      {empty ? planet : `${getPlanetAbbreviation(planet)} ${planet}`}
+                      {empty ? planet : `${getLocalizedPlanetAbbreviation(planet, chartLanguage)} ${getDisplayPlanetName(planet, chartLanguage)}`}
                     </AppText>
                   </Pressable>
                 );
@@ -195,11 +250,13 @@ export const KundliChart = memo(function KundliChart({
 });
 
 function ChartHouseCell({
+  chartLanguage,
   cell,
   delay,
   onFocusChange,
   selected,
 }: {
+  chartLanguage: SupportedLanguage;
   cell: ChartCell;
   delay: number;
   onFocusChange?: (focus: KundliChartFocus) => void;
@@ -217,7 +274,7 @@ function ChartHouseCell({
             H{cell.house}
           </AppText>
           <AppText tone="secondary" variant="caption">
-            {cell.signShort}
+            {cell.displaySignShort}
           </AppText>
         </View>
         <View style={styles.cellPlanetRow}>
@@ -234,7 +291,9 @@ function ChartHouseCell({
                 }
                 style={styles.cellPlanetPill}
               >
-                <AppText variant="caption">{getPlanetAbbreviation(planet)}</AppText>
+                <AppText variant="caption">
+                  {getLocalizedPlanetAbbreviation(planet, chartLanguage)}
+                </AppText>
               </Pressable>
             ))
           ) : (
@@ -265,6 +324,23 @@ function getHouseMeaning(house?: number): string {
   };
 
   return house ? meanings[house] ?? 'selected life area' : 'selected life area';
+}
+
+function getDisplayPlanetName(
+  planet: string,
+  language: SupportedLanguage,
+): string {
+  return getLocalizedPlanetName(planet, language);
+}
+
+function getChartLanguageTitle(language: SupportedLanguage): string {
+  return (
+    {
+      en: 'Chart language',
+      gu: 'ચાર્ટ ભાષા',
+      hi: 'चार्ट भाषा',
+    }[language] ?? 'Chart language'
+  );
 }
 
 function getChartRole(chartType: ChartData['chartType']): string {
@@ -349,6 +425,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  languageOption: {
+    backgroundColor: colors.surfaceMuted,
+    borderColor: colors.border,
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+  },
+  languageOptions: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+  },
+  languageRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    justifyContent: 'space-between',
+    marginTop: 12,
+  },
   focusCard: {
     backgroundColor: 'rgba(255, 255, 255, 0.045)',
     borderColor: colors.border,
@@ -397,6 +494,10 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.35,
     shadowRadius: 12,
+  },
+  activeLanguageOption: {
+    backgroundColor: 'rgba(77, 175, 255, 0.16)',
+    borderColor: colors.gradient[1],
   },
   selectedPlanetChip: {
     borderColor: colors.gradient[1],

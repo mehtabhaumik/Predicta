@@ -6,11 +6,17 @@ export default function RedeemPassPage(): React.JSX.Element {
     <section className="dashboard-page">
       <div className="page-heading compact">
         <h1 className="gradient-text">Private access starts here.</h1>
-        <p>
-          Your pass works only with the email used when it was created. If you
-          remember that email, sign in with it. If you are not sure, contact the
-          Predicta admin or the person who invited you.
-        </p>
+        <details className="info-drawer">
+          <summary>
+            <span>Before you redeem</span>
+            <strong>Open</strong>
+          </summary>
+          <p>
+            Your pass works only with the email used when it was created. If you
+            remember that email, sign in with it. If you are not sure, contact the
+            Predicta admin or the person who invited you.
+          </p>
+        </details>
       </div>
 
       <section className="redeem-preview-steps">

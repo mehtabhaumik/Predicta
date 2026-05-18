@@ -1,5 +1,9 @@
-import React, { useEffect } from 'react';
-import { Pressable, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import {
+  buildChartRenderModel,
+  type ChartRenderSchool,
+} from '@pridicta/astrology';
 
 import {
   AnimatedHeader,
@@ -9,6 +13,7 @@ import {
   Screen,
   useGlassAlert,
 } from '../components';
+import { KundliChart } from '../components/charts/KundliChart';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import {
@@ -17,13 +22,14 @@ import {
   saveKundliToCloud,
 } from '../services/kundli/kundliRepository';
 import { useAppStore } from '../store/useAppStore';
-import type { SavedKundliRecord } from '../types/astrology';
+import type { SavedKundliRecord, SupportedLanguage } from '../types/astrology';
 
 export function SavedKundlisScreen({
   navigation,
 }: RootScreenProps<typeof routes.SavedKundlis>): React.JSX.Element {
   const auth = useAppStore(state => state.auth);
   const savedKundlis = useAppStore(state => state.savedKundlis);
+  const languagePreference = useAppStore(state => state.languagePreference);
   const activeKundli = useAppStore(state => state.activeKundli);
   const clearActiveKundli = useAppStore(state => state.clearActiveKundli);
   const setPendingBirthDetailsDraft = useAppStore(
@@ -41,6 +47,14 @@ export function SavedKundlisScreen({
   const setActiveKundli = useAppStore(state => state.setActiveKundli);
   const setSavedKundlis = useAppStore(state => state.setSavedKundlis);
   const { glassAlert, showGlassAlert } = useGlassAlert();
+  const [chartDialog, setChartDialog] = useState<
+    { record: SavedKundliRecord; school: ChartRenderSchool } | undefined
+  >();
+  const chartLanguage =
+    languagePreference.chartLanguage ??
+    languagePreference.appLanguage ??
+    languagePreference.language ??
+    'en';
 
   useEffect(() => {
     listSavedKundlis()
@@ -89,12 +103,44 @@ export function SavedKundlisScreen({
   }
 
   function createNewKundli() {
+    if (!auth.isLoggedIn && savedKundlis.length >= 1) {
+      showGlassAlert({
+        actions: [
+          { label: 'Not Now' },
+          {
+            label: 'Sign In',
+            onPress: () => navigation.navigate(routes.Login),
+          },
+        ],
+        message:
+          'You can keep one Kundli without signing in. Sign in to add family profiles, save multiple Kundlis, and restore them later.',
+        title: 'Sign in to save more Kundlis',
+      });
+      return;
+    }
+
     setPendingBirthDetailsDraft(undefined);
     clearPendingKundliEditId();
     navigation.navigate(routes.Kundli);
   }
 
   function askPredictaToCreate() {
+    if (!auth.isLoggedIn && savedKundlis.length >= 1) {
+      showGlassAlert({
+        actions: [
+          { label: 'Not Now' },
+          {
+            label: 'Sign In',
+            onPress: () => navigation.navigate(routes.Login),
+          },
+        ],
+        message:
+          'Predicta can help after sign-in. Guest use keeps one Kundli in this app, and your existing Kundli remains safe.',
+        title: 'Sign in before adding another Kundli',
+      });
+      return;
+    }
+
     setPendingBirthDetailsDraft(undefined);
     clearPendingKundliEditId();
     setActiveChartContext({
@@ -122,13 +168,26 @@ export function SavedKundlisScreen({
     navigation.navigate(routes.Kundli);
   }
 
-  function askProfile(record: SavedKundliRecord) {
+  function askProfile(
+    record: SavedKundliRecord,
+    school: ChartRenderSchool = 'PARASHARI',
+  ) {
+    const chartLabel = school === 'PARASHARI' ? 'D1' : school === 'KP' ? 'KP' : 'Nadi';
+    const selectedSection =
+      school === 'PARASHARI'
+        ? `Use ${record.summary.name}'s saved Kundli and tell me the most useful next reading.`
+        : `Use ${record.summary.name}'s ${chartLabel} preview from Kundli Library and keep the answer in ${chartLabel} context.`;
+
     setActiveKundli(record.kundliData);
     setActiveChartContext({
+      chartName: 'D1',
+      chartType: 'D1',
+      handoffQuestion: selectedSection,
       kundliId: record.summary.id,
-      purpose: 'family',
-      selectedSection: `Use ${record.summary.name}'s saved Kundli and tell me the most useful next reading.`,
-      sourceScreen: 'Saved Kundlis',
+      predictaSchool: school,
+      purpose: school === 'PARASHARI' ? 'family' : school.toLowerCase(),
+      selectedSection,
+      sourceScreen: 'Kundli Library',
     });
     navigation.navigate(routes.Chat);
   }
@@ -190,7 +249,14 @@ export function SavedKundlisScreen({
           details from chat.
         </AppText>
         <View className="mt-5 gap-3">
-          <GlowButton label="Create New Kundli" onPress={createNewKundli} />
+          <GlowButton
+            label={
+              !auth.isLoggedIn && savedKundlis.length >= 1
+                ? 'Sign in to add another Kundli'
+                : 'Create New Kundli'
+            }
+            onPress={createNewKundli}
+          />
           <Pressable
             accessibilityRole="button"
             className="rounded-full border border-[#252533] bg-[#191923] px-4 py-3"
@@ -267,6 +333,13 @@ export function SavedKundlisScreen({
                           ) || 'birth details'}
                         </AppText>
                       ) : null}
+                      <MiniChartStrip
+                        chartLanguage={chartLanguage}
+                        kundli={record.kundliData}
+                        onOpenPreview={school =>
+                          setChartDialog({ record, school })
+                        }
+                      />
                     </View>
                     {isCloud ? (
                       <Pressable
@@ -313,7 +386,7 @@ export function SavedKundlisScreen({
                     <Pressable
                       accessibilityRole="button"
                       className="rounded-full border border-[#4DAFFF] bg-[#172233] px-4 py-3"
-                      onPress={() => askProfile(record)}
+                      onPress={() => askProfile(record, 'PARASHARI')}
                     >
                       <AppText variant="caption">Ask Predicta</AppText>
                     </Pressable>
@@ -343,6 +416,439 @@ export function SavedKundlisScreen({
           })
         )}
       </View>
+      {chartDialog ? (
+        <LibraryChartDialog
+          onAskPredicta={(record, school) => askProfile(record, school)}
+          onClose={() => setChartDialog(undefined)}
+          onDelete={record => requestDelete(record)}
+          onEdit={record => editRecord(record)}
+          onOpenFull={record => {
+            setActiveKundli(record.kundliData);
+            setActiveChartContext({
+              chartName: 'D1',
+              chartType: 'D1',
+              handoffQuestion:
+                chartDialog.school === 'PARASHARI'
+                  ? `Open ${record.summary.name}'s saved D1 Kundli from the library.`
+                  : `Open ${record.summary.name}'s ${chartDialog.school} room from the library.`,
+              kundliId: record.summary.id,
+              predictaSchool: chartDialog.school,
+              selectedSection:
+                chartDialog.school === 'PARASHARI'
+                  ? `${record.summary.name}'s saved D1 Kundli`
+                  : `${record.summary.name}'s ${chartDialog.school} chart preview`,
+              sourceScreen: 'Kundli Library',
+            });
+            setChartDialog(undefined);
+            navigation.navigate(
+              chartDialog.school === 'KP'
+                ? routes.KpPredicta
+                : chartDialog.school === 'NADI'
+                  ? routes.NadiPredicta
+                  : routes.Kundli,
+            );
+          }}
+          onSetActive={record => setAsActive(record)}
+          selection={chartDialog}
+        />
+      ) : null}
     </Screen>
   );
 }
+
+function MiniChartStrip({
+  chartLanguage,
+  kundli,
+  onOpenPreview,
+}: {
+  chartLanguage: SupportedLanguage;
+  kundli: SavedKundliRecord['kundliData'];
+  onOpenPreview: (school: ChartRenderSchool) => void;
+}): React.JSX.Element | null {
+  const chart = kundli.charts.D1;
+
+  if (!chart?.supported) {
+    return null;
+  }
+
+  return (
+    <View style={styles.miniStrip}>
+      {(['PARASHARI', 'KP', 'NADI'] as ChartRenderSchool[]).map(school => (
+        <MiniChartPreview
+          chartLanguage={chartLanguage}
+          key={`${kundli.id}-${school}`}
+          kundli={kundli}
+          label={school === 'PARASHARI' ? 'D1' : school === 'KP' ? 'KP' : 'Nadi'}
+          onOpen={() => onOpenPreview(school)}
+          school={school}
+        />
+      ))}
+    </View>
+  );
+}
+
+function MiniChartPreview({
+  chartLanguage,
+  kundli,
+  label,
+  onOpen,
+  school,
+}: {
+  chartLanguage: SupportedLanguage;
+  kundli: SavedKundliRecord['kundliData'];
+  label: string;
+  onOpen: () => void;
+  school: ChartRenderSchool;
+}): React.JSX.Element | null {
+  const chart = kundli.charts.D1;
+
+  if (!chart?.supported) {
+    return null;
+  }
+
+  const model = buildChartRenderModel({
+    birthDetails: kundli.birthDetails,
+    chart,
+    language: chartLanguage,
+    school,
+  });
+
+  return (
+    <Pressable
+      accessibilityLabel={`${label} chart preview`}
+      accessibilityRole="button"
+      onPress={onOpen}
+      style={styles.miniChart}
+    >
+      <View style={styles.miniLineDown} />
+      <View style={styles.miniLineUp} />
+      <View style={styles.miniDiamondTopLeft} />
+      <View style={styles.miniDiamondTopRight} />
+      <View style={styles.miniDiamondBottomLeft} />
+      <View style={styles.miniDiamondBottomRight} />
+      <View style={styles.miniChartTitle}>
+        <AppText variant="caption">{label}</AppText>
+      </View>
+      {model.cells.map(cell => (
+        <View
+          key={`${school}-${cell.key}`}
+          style={[
+            styles.miniCell,
+            {
+              left: `${cell.x}%`,
+              top: `${cell.y}%`,
+            },
+          ]}
+        >
+          <AppText variant="caption">{cell.signNumber}</AppText>
+          {cell.renderPlanets.length ? (
+            <View
+              style={[
+                styles.miniPlanetCount,
+                school === 'KP'
+                  ? styles.miniPlanetCountKp
+                  : school === 'NADI'
+                    ? styles.miniPlanetCountNadi
+                    : undefined,
+              ]}
+            >
+              <AppText variant="caption">{cell.renderPlanets.length}</AppText>
+            </View>
+          ) : null}
+        </View>
+      ))}
+    </Pressable>
+  );
+}
+
+function LibraryChartDialog({
+  onAskPredicta,
+  onClose,
+  onDelete,
+  onEdit,
+  onOpenFull,
+  onSetActive,
+  selection,
+}: {
+  onAskPredicta: (record: SavedKundliRecord, school: ChartRenderSchool) => void;
+  onClose: () => void;
+  onDelete: (record: SavedKundliRecord) => void;
+  onEdit: (record: SavedKundliRecord) => void;
+  onOpenFull: (record: SavedKundliRecord) => void;
+  onSetActive: (record: SavedKundliRecord) => void;
+  selection: { record: SavedKundliRecord; school: ChartRenderSchool };
+}): React.JSX.Element {
+  const { record, school } = selection;
+  const chart = record.kundliData.charts.D1;
+  const chartLabel = school === 'PARASHARI' ? 'D1' : school === 'KP' ? 'KP' : 'Nadi';
+
+  return (
+    <Modal
+      animationType="fade"
+      onRequestClose={onClose}
+      transparent
+      visible
+    >
+      <View style={styles.dialogBackdrop}>
+        <View style={styles.dialogPanel}>
+          <View style={styles.dialogHeader}>
+            <View style={styles.dialogHeaderText}>
+              <AppText tone="secondary" variant="caption">
+                SAVED CHART PREVIEW
+              </AppText>
+              <AppText className="mt-1" variant="subtitle">
+                {record.summary.name}'s {chartLabel} chart
+              </AppText>
+              <AppText className="mt-2" tone="secondary">
+                {record.summary.birthDate} at {record.summary.birthTime} ·{' '}
+                {record.summary.birthPlace}
+              </AppText>
+            </View>
+            <Pressable
+              accessibilityRole="button"
+              onPress={onClose}
+              style={styles.dialogClose}
+            >
+              <AppText variant="caption">Close</AppText>
+            </Pressable>
+          </View>
+          <ScrollView contentContainerStyle={styles.dialogScroll}>
+            {chart?.supported ? (
+              <KundliChart chart={chart} />
+            ) : (
+              <GlowCard>
+                <AppText variant="subtitle">Chart not ready</AppText>
+                <AppText className="mt-2" tone="secondary">
+                  Open the Kundli to recalculate this chart.
+                </AppText>
+              </GlowCard>
+            )}
+            <View style={styles.dialogActions}>
+              <GlowButton
+                label={
+                  school === 'PARASHARI'
+                    ? 'Open Full Kundli'
+                    : school === 'KP'
+                      ? 'Open KP Room'
+                      : 'Open Nadi Room'
+                }
+                onPress={() => onOpenFull(record)}
+              />
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => {
+                  onClose();
+                  onAskPredicta(record, school);
+                }}
+                style={styles.dialogActionButton}
+              >
+                <AppText variant="caption">Ask Predicta</AppText>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => {
+                  onSetActive(record);
+                  onClose();
+                }}
+                style={styles.dialogActionButton}
+              >
+                <AppText variant="caption">Set Active</AppText>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => {
+                  onClose();
+                  onEdit(record);
+                }}
+                style={styles.dialogActionButton}
+              >
+                <AppText variant="caption">Edit</AppText>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => {
+                  onClose();
+                  onDelete(record);
+                }}
+                style={[styles.dialogActionButton, styles.dialogDangerButton]}
+              >
+                <AppText variant="caption">Delete</AppText>
+              </Pressable>
+            </View>
+          </ScrollView>
+        </View>
+      </View>
+    </Modal>
+  );
+}
+
+const styles = StyleSheet.create({
+  miniCell: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderColor: 'rgba(255, 255, 255, 0.14)',
+    borderRadius: 999,
+    borderWidth: 1,
+    flexDirection: 'row',
+    gap: 2,
+    justifyContent: 'center',
+    minHeight: 16,
+    minWidth: 16,
+    paddingHorizontal: 3,
+    position: 'absolute',
+    transform: [{ translateX: -8 }, { translateY: -8 }],
+    zIndex: 2,
+  },
+  miniChart: {
+    aspectRatio: 1.62,
+    backgroundColor: 'rgba(12, 12, 20, 0.92)',
+    borderColor: 'rgba(255, 255, 255, 0.14)',
+    borderRadius: 10,
+    borderWidth: 1,
+    flex: 1,
+    minHeight: 72,
+    overflow: 'hidden',
+    position: 'relative',
+  },
+  miniChartTitle: {
+    backgroundColor: 'rgba(10, 10, 15, 0.78)',
+    borderColor: 'rgba(255, 255, 255, 0.14)',
+    borderRadius: 999,
+    borderWidth: 1,
+    left: 6,
+    paddingHorizontal: 6,
+    paddingVertical: 3,
+    position: 'absolute',
+    top: 6,
+    zIndex: 3,
+  },
+  miniDiamondBottomLeft: {
+    backgroundColor: 'rgba(244, 241, 255, 0.36)',
+    height: 1,
+    left: '25%',
+    position: 'absolute',
+    top: '75%',
+    transform: [{ rotate: '-34deg' }],
+    width: '36%',
+  },
+  miniDiamondBottomRight: {
+    backgroundColor: 'rgba(244, 241, 255, 0.36)',
+    height: 1,
+    position: 'absolute',
+    right: '25%',
+    top: '75%',
+    transform: [{ rotate: '34deg' }],
+    width: '36%',
+  },
+  miniDiamondTopLeft: {
+    backgroundColor: 'rgba(244, 241, 255, 0.36)',
+    height: 1,
+    left: '25%',
+    position: 'absolute',
+    top: '25%',
+    transform: [{ rotate: '34deg' }],
+    width: '36%',
+  },
+  miniDiamondTopRight: {
+    backgroundColor: 'rgba(244, 241, 255, 0.36)',
+    height: 1,
+    position: 'absolute',
+    right: '25%',
+    top: '25%',
+    transform: [{ rotate: '-34deg' }],
+    width: '36%',
+  },
+  miniLineDown: {
+    backgroundColor: 'rgba(244, 241, 255, 0.34)',
+    height: 1,
+    left: '-18%',
+    position: 'absolute',
+    top: '50%',
+    transform: [{ rotate: '32deg' }],
+    width: '136%',
+  },
+  miniLineUp: {
+    backgroundColor: 'rgba(244, 241, 255, 0.34)',
+    height: 1,
+    left: '-18%',
+    position: 'absolute',
+    top: '50%',
+    transform: [{ rotate: '-32deg' }],
+    width: '136%',
+  },
+  miniPlanetCount: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(77, 175, 255, 0.18)',
+    borderColor: 'rgba(77, 175, 255, 0.32)',
+    borderRadius: 999,
+    borderWidth: 1,
+    minHeight: 14,
+    minWidth: 14,
+    justifyContent: 'center',
+  },
+  miniPlanetCountKp: {
+    backgroundColor: 'rgba(255, 195, 77, 0.16)',
+    borderColor: 'rgba(255, 195, 77, 0.32)',
+  },
+  miniPlanetCountNadi: {
+    backgroundColor: 'rgba(255, 93, 184, 0.16)',
+    borderColor: 'rgba(255, 93, 184, 0.32)',
+  },
+  miniStrip: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 14,
+  },
+  dialogActionButton: {
+    alignItems: 'center',
+    backgroundColor: '#191923',
+    borderColor: '#252533',
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  dialogActions: {
+    gap: 10,
+    marginTop: 14,
+  },
+  dialogBackdrop: {
+    backgroundColor: 'rgba(4, 4, 9, 0.82)',
+    flex: 1,
+    justifyContent: 'center',
+    padding: 14,
+  },
+  dialogClose: {
+    backgroundColor: '#191923',
+    borderColor: '#252533',
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+  },
+  dialogDangerButton: {
+    backgroundColor: '#27171c',
+    borderColor: '#61404a',
+  },
+  dialogHeader: {
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    gap: 12,
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
+  dialogHeaderText: {
+    flex: 1,
+  },
+  dialogPanel: {
+    backgroundColor: '#101018',
+    borderColor: 'rgba(255, 255, 255, 0.16)',
+    borderRadius: 18,
+    borderWidth: 1,
+    maxHeight: '92%',
+    padding: 14,
+  },
+  dialogScroll: {
+    paddingBottom: 6,
+  },
+});

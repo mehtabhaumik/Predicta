@@ -21,6 +21,10 @@ export function WebAdvancedJyotishPanel({
   });
   const pattern = coverage.yogaDoshaInsights[0];
   const ashtaka = coverage.ashtakavargaDetail.slice(0, 3);
+  const subtlePoints = coverage.microPointIntelligence?.points.slice(
+    0,
+    hasPremiumAccess ? 6 : 3,
+  ) ?? [];
 
   return (
     <section className="gochar-panel advanced-jyotish-panel glass-panel">
@@ -72,6 +76,31 @@ export function WebAdvancedJyotishPanel({
               <p>{coverage.panchangMuhurta.simpleGuidance}</p>
             </article>
           </div>
+
+          {subtlePoints.length ? (
+            <div className="gochar-month-list">
+              <div>
+                <span>Subtle points</span>
+                <h3>Micro planets and upagrahas</h3>
+                <p>
+                  These refine the reading after Lagna, classical planets,
+                  dasha, and Gochar.
+                </p>
+              </div>
+              {subtlePoints.map(point => (
+                <article className="gochar-month-card" key={point.name}>
+                  <div>
+                    <strong>{point.name}</strong>
+                    <small>
+                      House {point.house} · {point.sign} · {point.nakshatra}{' '}
+                      pada {point.pada}
+                    </small>
+                  </div>
+                  <p>{point.simpleMeaning ?? point.howToUse}</p>
+                </article>
+              ))}
+            </div>
+          ) : null}
 
           <div className="gochar-month-list">
             <div>

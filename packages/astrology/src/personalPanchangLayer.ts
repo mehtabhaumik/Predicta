@@ -198,8 +198,8 @@ export function composePersonalPanchangLayer(
       `${weekday} is ruled by ${weekdayLord}.`,
       moonTransit
         ? `Current Moon is in ${moonTransit.sign}, house ${moonTransit.houseFromLagna} from Lagna and house ${moonTransit.houseFromMoon} from Moon.`
-        : 'Current Moon transit was not available, so natal Moon rhythm is used carefully.',
-      sunTransit ? `Current Sun is in ${sunTransit.sign}.` : 'Current Sun transit was not available.',
+        : 'Current Moon transit needs preparation, so natal Moon rhythm is used carefully.',
+      sunTransit ? `Current Sun is in ${sunTransit.sign}.` : 'Current Sun transit needs preparation.',
       `Current dasha is ${kundli.dasha.current.mahadasha}/${kundli.dasha.current.antardasha}.`,
     ],
     limitations: [

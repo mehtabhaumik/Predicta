@@ -34,7 +34,7 @@ const kundliUnlocks = [
     title: 'Timing map',
   },
   {
-    body: 'D1, D9, D10, Bhav Chalit, KP, and chart proof explained simply.',
+    body: 'D1, D9, D10, Chalit, KP, and chart proof explained simply.',
     title: 'Charts',
   },
   {
@@ -104,25 +104,34 @@ export default function DashboardPage(): React.JSX.Element {
               </Link>
             </div>
           </div>
-          <div className="kundli-empty-note">
-            <h3>{t('What happens next')}</h3>
+          <details className="info-drawer kundli-empty-note">
+            <summary>
+              <span>{t('What happens next')}</span>
+              <strong>{t('See next steps')}</strong>
+            </summary>
             <p>
               {t(
                 'After the Kundli is ready, Predicta will suggest today’s Gochar, today’s guidance, charts, reports, remedies, and the best next question.',
               )}
             </p>
-          </div>
+          </details>
         </section>
 
         <section className="kundli-unlock-preview">
           <div className="section-heading compact-left">
             <div className="section-title">{t('AFTER KUNDLI IS READY')}</div>
             <h2>{t('These sections will open with real chart data.')}</h2>
-            <p>
-              {t(
-                'They stay compact for now so the dashboard does not look broken or noisy before birth details are available.',
-              )}
-            </p>
+            <details className="info-drawer">
+              <summary>
+                <span>{t('Why compact?')}</span>
+                <strong>{t('Read')}</strong>
+              </summary>
+              <p>
+                {t(
+                  'They stay compact for now so the dashboard does not look broken or noisy before birth details are available.',
+                )}
+              </p>
+            </details>
           </div>
           <div className="kundli-unlock-grid">
             {kundliUnlocks.map(item => (
@@ -138,11 +147,17 @@ export default function DashboardPage(): React.JSX.Element {
           <div className="card-content spacious">
             <div className="section-title">{t('PRIVATE SAVE')}</div>
             <h2>{t('Your work starts privately here.')}</h2>
-            <p>
-              {t(
-                'Predicta keeps this browser session ready. Sign in later when you want your Kundlis and reports available across devices.',
-              )}
-            </p>
+            <details className="info-drawer">
+              <summary>
+                <span>{t('How saving works')}</span>
+                <strong>{t('Open')}</strong>
+              </summary>
+              <p>
+                {t(
+                  'Predicta keeps this device ready. Sign in later when you want your Kundlis and reports available across devices.',
+                )}
+              </p>
+            </details>
             <div className="action-row compact">
               <Link className="button secondary" href="/dashboard/redeem-pass">
                 {t('Redeem Guest Pass')}
@@ -212,10 +227,16 @@ export default function DashboardPage(): React.JSX.Element {
           <div>
             <div className="section-title">START WITH LIFE NEED</div>
             <h2>What do you need help with?</h2>
-            <p>
-              Pick a life area. Predicta will use your Kundli when available
-              and keep the reading proof-based.
-            </p>
+            <details className="info-drawer">
+              <summary>
+                <span>How this works</span>
+                <strong>Open</strong>
+              </summary>
+              <p>
+                Pick a life area. Predicta will use your Kundli when available
+                and keep the reading proof-based.
+              </p>
+            </details>
           </div>
         </div>
         <div className="outcome-entry-grid">
@@ -257,10 +278,16 @@ export default function DashboardPage(): React.JSX.Element {
           <div>
             <div className="section-title">SAVED WORK</div>
             <h2>Your Kundlis stay under your control.</h2>
-            <p>
-              Keep profiles, reports, and family charts organized without
-              crowding today’s guidance.
-            </p>
+            <details className="info-drawer">
+              <summary>
+                <span>What is saved?</span>
+                <strong>Open</strong>
+              </summary>
+              <p>
+                Keep profiles, reports, and family charts organized without
+                crowding today’s guidance.
+              </p>
+            </details>
           </div>
           <div className="action-row compact">
             <Link className="button secondary" href="/dashboard/saved-kundlis">
@@ -280,11 +307,17 @@ export default function DashboardPage(): React.JSX.Element {
         <div>
           <div className="section-title">WHEN YOU WANT MORE DEPTH</div>
           <h2>Upgrade only after the free reading helps.</h2>
-          <p>
-            Free stays useful. Paid options are for deeper timing, polished
-            PDFs, monthly planning, and longer guidance when you actually need
-            them.
-          </p>
+          <details className="info-drawer">
+            <summary>
+              <span>Why upgrade?</span>
+              <strong>Open</strong>
+            </summary>
+            <p>
+              Free stays useful. Paid options are for deeper timing, polished
+              PDFs, monthly planning, and longer guidance when you actually need
+              them.
+            </p>
+          </details>
         </div>
         <div className="smart-monetization-grid">
           <Link href="/dashboard/premium">
@@ -318,12 +351,18 @@ function FriendsFamilyWelcome({
       <div>
         <div className="section-title">PRIVATE PREVIEW</div>
         <h2>Start here. No hunting around.</h2>
-        <p>
-          Redeem your pass with the email used for it, create your Kundli, then
-          ask Predicta one question you actually care about. If you are not
-          sure which email was used, contact the Predicta admin or the person
-          who invited you.
-        </p>
+        <details className="info-drawer">
+          <summary>
+            <span>Pass instructions</span>
+            <strong>Open</strong>
+          </summary>
+          <p>
+            Redeem your pass with the email used for it, create your Kundli, then
+            ask Predicta one question you actually care about. If you are not
+            sure which email was used, contact the Predicta admin or the person
+            who invited you.
+          </p>
+        </details>
       </div>
       <div className="friends-family-actions">
         <Link className="button" href="/dashboard/redeem-pass?source=family-friends">

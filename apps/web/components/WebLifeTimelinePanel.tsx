@@ -35,7 +35,13 @@ export function WebLifeTimelinePanel({
         <div>
           <div className="section-title">LIFE TIMELINE</div>
           <h2>{presentation.title}</h2>
-          <p>{presentation.subtitle}</p>
+          <details className="info-drawer">
+            <summary>
+              <span>How to read this</span>
+              <strong>Open</strong>
+            </summary>
+            <p>{presentation.subtitle}</p>
+          </details>
         </div>
       </div>
 
@@ -61,7 +67,13 @@ export function WebLifeTimelinePanel({
         {presentation.sections.map(section => (
           <div className="life-timeline-section" key={section.id}>
             <h3>{section.title}</h3>
-            <p>{section.description}</p>
+            <details className="info-drawer">
+              <summary>
+                <span>Meaning</span>
+                <strong>Open</strong>
+              </summary>
+              <p>{section.description}</p>
+            </details>
             <div className="life-timeline-events">
               {section.events.length ? (
                 section.events.map(event => (

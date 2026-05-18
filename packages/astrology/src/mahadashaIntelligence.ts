@@ -396,8 +396,8 @@ function missingPlanetEvidence(
   return {
     id: `${titlePrefix.toLowerCase().replace(/\s+/g, '-')}-${planet.toLowerCase()}-missing`,
     interpretation:
-      'Predicta will keep this reading broad until this placement is available in the Kundli.',
-    observation: `${planet} placement is not available in the primary planet list.`,
+      'Predicta will keep this reading broad until this placement detail is prepared in the Kundli.',
+    observation: `${planet} placement detail needs chart preparation.`,
     title: titlePrefix,
     weight: 'neutral',
   };

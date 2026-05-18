@@ -19,8 +19,11 @@ export async function loadLanguagePreference(): Promise<LanguagePreference> {
 
   return {
     appLanguage: parsed.appLanguage ?? parsed.language,
+    chartLanguage: parsed.chartLanguage ?? parsed.appLanguage ?? parsed.language,
     language: parsed.appLanguage ?? parsed.language,
-    predictaReplyLanguage: parsed.predictaReplyLanguage,
+    predictaReplyLanguage:
+      parsed.predictaReplyLanguage ?? parsed.appLanguage ?? parsed.language,
+    reportLanguage: parsed.reportLanguage ?? parsed.appLanguage ?? parsed.language,
     updatedAt: parsed.updatedAt ?? new Date().toISOString(),
   };
 }
@@ -28,9 +31,73 @@ export async function loadLanguagePreference(): Promise<LanguagePreference> {
 export async function saveLanguagePreference(
   language: SupportedLanguage,
 ): Promise<LanguagePreference> {
-  const preference = {
+  const current = await AsyncStorage.getItem(LANGUAGE_STORAGE_KEY)
+    .then(raw => (raw ? parseStoredLanguagePreference(raw) : undefined))
+    .catch(() => undefined);
+  const preference: LanguagePreference = {
+    ...current,
     appLanguage: language,
     language,
+    updatedAt: new Date().toISOString(),
+  };
+
+  await AsyncStorage.setItem(LANGUAGE_STORAGE_KEY, JSON.stringify(preference));
+
+  return preference;
+}
+
+export async function saveReportLanguagePreference(
+  language: SupportedLanguage,
+): Promise<LanguagePreference> {
+  const current = await AsyncStorage.getItem(LANGUAGE_STORAGE_KEY)
+    .then(raw => (raw ? parseStoredLanguagePreference(raw) : undefined))
+    .catch(() => undefined);
+  const appLanguage = current?.appLanguage ?? current?.language ?? 'en';
+  const preference: LanguagePreference = {
+    ...current,
+    appLanguage,
+    language: appLanguage,
+    reportLanguage: language,
+    updatedAt: new Date().toISOString(),
+  };
+
+  await AsyncStorage.setItem(LANGUAGE_STORAGE_KEY, JSON.stringify(preference));
+
+  return preference;
+}
+
+export async function saveChartLanguagePreference(
+  language: SupportedLanguage,
+): Promise<LanguagePreference> {
+  const current = await AsyncStorage.getItem(LANGUAGE_STORAGE_KEY)
+    .then(raw => (raw ? parseStoredLanguagePreference(raw) : undefined))
+    .catch(() => undefined);
+  const appLanguage = current?.appLanguage ?? current?.language ?? 'en';
+  const preference: LanguagePreference = {
+    ...current,
+    appLanguage,
+    chartLanguage: language,
+    language: appLanguage,
+    updatedAt: new Date().toISOString(),
+  };
+
+  await AsyncStorage.setItem(LANGUAGE_STORAGE_KEY, JSON.stringify(preference));
+
+  return preference;
+}
+
+export async function savePredictaReplyLanguagePreference(
+  language: SupportedLanguage,
+): Promise<LanguagePreference> {
+  const current = await AsyncStorage.getItem(LANGUAGE_STORAGE_KEY)
+    .then(raw => (raw ? parseStoredLanguagePreference(raw) : undefined))
+    .catch(() => undefined);
+  const appLanguage = current?.appLanguage ?? current?.language ?? 'en';
+  const preference: LanguagePreference = {
+    ...current,
+    appLanguage,
+    language: appLanguage,
+    predictaReplyLanguage: language,
     updatedAt: new Date().toISOString(),
   };
 
@@ -46,23 +113,39 @@ function parseStoredLanguagePreference(raw: string): LanguagePreference {
     if (typeof parsed === 'string') {
       return {
         appLanguage: normalizeLanguage(parsed),
+        chartLanguage: normalizeLanguage(parsed),
         language: normalizeLanguage(parsed),
+        predictaReplyLanguage: normalizeLanguage(parsed),
+        reportLanguage: normalizeLanguage(parsed),
         updatedAt: new Date().toISOString(),
       };
     }
 
+    const appLanguage = normalizeLanguage(parsed.appLanguage ?? parsed.language);
+
     return {
-      appLanguage: normalizeLanguage(parsed.appLanguage ?? parsed.language),
-      language: normalizeLanguage(parsed.appLanguage ?? parsed.language),
+      appLanguage,
+      chartLanguage: parsed.chartLanguage
+        ? normalizeLanguage(parsed.chartLanguage)
+        : appLanguage,
+      language: appLanguage,
       predictaReplyLanguage: parsed.predictaReplyLanguage
         ? normalizeLanguage(parsed.predictaReplyLanguage)
-        : undefined,
+        : appLanguage,
+      reportLanguage: parsed.reportLanguage
+        ? normalizeLanguage(parsed.reportLanguage)
+        : appLanguage,
       updatedAt: parsed.updatedAt ?? new Date().toISOString(),
     };
   } catch {
+    const appLanguage = normalizeLanguage(raw);
+
     return {
-      appLanguage: normalizeLanguage(raw),
-      language: normalizeLanguage(raw),
+      appLanguage,
+      chartLanguage: appLanguage,
+      language: appLanguage,
+      predictaReplyLanguage: appLanguage,
+      reportLanguage: appLanguage,
       updatedAt: new Date().toISOString(),
     };
   }

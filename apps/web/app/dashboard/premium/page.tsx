@@ -19,20 +19,32 @@ export default function DashboardPremiumPage(): React.JSX.Element {
     <section className="dashboard-page">
       <div className="page-heading compact">
         <h1 className="gradient-text">Go deeper when the free reading helps.</h1>
-        <p>
-          Premium turns holistic astrology into deeper timing, richer reports,
-          family context, and longer Predicta guidance.
-        </p>
+        <details className="info-drawer">
+          <summary>
+            <span>What Premium adds</span>
+            <strong>Open</strong>
+          </summary>
+          <p>
+            Premium turns holistic astrology into deeper timing, richer reports,
+            family context, and longer Predicta guidance.
+          </p>
+        </details>
       </div>
 
       <section className="premium-feature-story glass-panel">
         <div>
           <div className="section-title">WHY PREMIUM</div>
           <h2>Predicta becomes your private Jyotish studio.</h2>
-          <p>
-            Free stays useful. Premium adds depth, memory, timing maps,
-            remedies, reports, and higher guidance limits.
-          </p>
+          <details className="info-drawer">
+            <summary>
+              <span>Why choose it?</span>
+              <strong>Open</strong>
+            </summary>
+            <p>
+              Free stays useful. Premium adds depth, memory, timing maps,
+              remedies, reports, and higher guidance limits.
+            </p>
+          </details>
         </div>
         <div className="premium-feature-grid">
           {PREMIUM_FEATURE_STORY.map(feature => (

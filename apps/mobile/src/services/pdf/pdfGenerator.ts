@@ -2,6 +2,7 @@ import { Image } from 'react-native';
 import {
   composeReportSections,
   type PdfComposition,
+  type PdfChartSnapshot,
   type PdfDecisionWindow,
   type PdfEvidenceRow,
   type PdfSection,
@@ -38,7 +39,55 @@ function escapeHtml(value: string): string {
     .replace(/'/g, '&#039;');
 }
 
-function section(title: string, body: string): string {
+function getPdfCopy(language: SupportedLanguage): {
+  coverModeFree: string;
+  coverModePremium: string;
+  evidenceTable: string;
+  footerLines: [string, string, string];
+  tagline: string;
+} {
+  if (language === 'hi') {
+    return {
+      coverModeFree: 'मुफ्त उपयोगी रिपोर्ट',
+      coverModePremium: 'प्रीमियम विस्तृत रिपोर्ट',
+      evidenceTable: 'Chart evidence',
+      footerLines: [
+        'Predicta reflection और planning के लिए है.',
+        'यह professional या emergency help की जगह नहीं है.',
+        'कोई prediction guaranteed नहीं है.',
+      ],
+      tagline: 'अपनी Kundli बनाएं. जीवन समझें. Chart proof के साथ पूछें.',
+    };
+  }
+
+  if (language === 'gu') {
+    return {
+      coverModeFree: 'મફત ઉપયોગી રિપોર્ટ',
+      coverModePremium: 'પ્રીમિયમ વિગતવાર રિપોર્ટ',
+      evidenceTable: 'Chart evidence',
+      footerLines: [
+        'Predicta reflection અને planning માટે છે.',
+        'તે professional અથવા emergency help ની જગ્યાએ નથી.',
+        'કોઈ prediction guaranteed નથી.',
+      ],
+      tagline: 'તમારી Kundli બનાવો. જીવન સમજો. Chart proof સાથે પૂછો.',
+    };
+  }
+
+  return {
+    coverModeFree: 'Free generous report',
+    coverModePremium: 'Premium detailed report',
+    evidenceTable: 'Chart evidence',
+    footerLines: [
+      'Predicta is for reflection and planning.',
+      'Not a replacement for professional or emergency help.',
+      'No prediction is guaranteed.',
+    ],
+    tagline: 'Create your Kundli. Understand your life. Ask with proof.',
+  };
+}
+
+function section(title: string, body: string, language: SupportedLanguage): string {
   return `
     <section class="page">
       <div class="page-header">
@@ -47,22 +96,29 @@ function section(title: string, body: string): string {
       </div>
       <h2>${escapeHtml(title)}</h2>
       ${body}
-      ${footer()}
+      ${footer(language)}
     </section>
   `;
 }
 
-function footer(): string {
+function footer(language: SupportedLanguage): string {
+  const copy = getPdfCopy(language);
+
   return `
     <footer>
-      <div>Predicta is for reflection and planning.</div>
-      <div>Not a replacement for professional or emergency help.</div>
-      <div>No prediction is guaranteed.</div>
+      <div>${escapeHtml(copy.footerLines[0])}</div>
+      <div>${escapeHtml(copy.footerLines[1])}</div>
+      <div>${escapeHtml(copy.footerLines[2])}</div>
     </footer>
   `;
 }
 
-function reportSectionBody(reportSection: PdfSection): string {
+function reportSectionBody(
+  reportSection: PdfSection,
+  language: SupportedLanguage,
+): string {
+  const copy = getPdfCopy(language);
+
   return `
     <div class="card">
       <div class="section-meta">
@@ -79,7 +135,7 @@ function reportSectionBody(reportSection: PdfSection): string {
       }
       ${
         reportSection.evidence.length
-          ? `<div class="evidence"><h3>Chart evidence</h3><ul>${reportSection.evidence
+          ? `<div class="evidence"><h3>${escapeHtml(copy.evidenceTable)}</h3><ul>${reportSection.evidence
               .map(item => `<li>${escapeHtml(item)}</li>`)
               .join('')}</ul></div>`
           : ''
@@ -162,7 +218,7 @@ function executiveSummary(report: PdfComposition): string {
             .join('')}
         </ul>
       </div>
-      ${footer()}
+      ${footer(report.language)}
     </section>
   `;
 }
@@ -197,9 +253,111 @@ function trustPanel(report: PdfComposition): string {
         <div class="eyebrow">Review note</div>
         <p>Predicta checked chart proof, limits, and safety notes before preparing this guidance.</p>
       </div>
-      ${footer()}
+      ${footer(report.language)}
     </section>
   `;
+}
+
+function chartSnapshotPages(report: PdfComposition): string {
+  if (!report.chartSnapshots.length) {
+    return '';
+  }
+
+  return `
+    <section class="page">
+      <div class="page-header">
+        <span>PREDICTA CHART PROOF</span>
+        <span>${escapeHtml(report.mode)}</span>
+      </div>
+      <h2>Charts in this report</h2>
+      <p>These chart snapshots use the same Kundli model, signs, houses, degrees, planet status markers, moon rhythm, and birth-time theme as the app charts.</p>
+      <div class="chart-snapshot-grid">
+        ${report.chartSnapshots.slice(0, 4).map(chartSnapshot).join('')}
+      </div>
+      ${footer(report.language)}
+    </section>
+  `;
+}
+
+function chartSnapshot(snapshot: PdfChartSnapshot): string {
+  return `
+    <article class="chart-snapshot ${escapeHtml(snapshot.theme)}">
+      <div class="chart-snapshot-head">
+        <span>${escapeHtml(snapshot.chartType)}</span>
+        <strong>${escapeHtml(snapshot.displayChartName ?? snapshot.chartName)}</strong>
+        <em>${escapeHtml(snapshot.school)}</em>
+      </div>
+      <div class="chart-mini">
+        <svg class="chart-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path d="M0 0 H100 V100 H0 Z" />
+          <path d="M0 0 L100 100" />
+          <path d="M100 0 L0 100" />
+          <path d="M50 0 L100 50 L50 100 L0 50 Z" />
+        </svg>
+        ${snapshot.cells.map(snapshotCell).join('')}
+      </div>
+      ${
+        snapshot.moonNakshatraPada
+          ? `<p class="chart-note">Moon: ${escapeHtml(snapshot.moonNakshatraPada.moonPhaseLabel)}. Birth star: ${escapeHtml(snapshot.moonNakshatraPada.moonNakshatra ?? 'not available')}${
+              snapshot.moonNakshatraPada.pada
+                ? ` pada ${snapshot.moonNakshatraPada.pada}`
+                : ''
+            }.</p>`
+          : ''
+      }
+      ${
+        snapshot.legend.length
+          ? `<div class="chart-mini-legend">${snapshot.legend
+              .map(item => `<span><b>${escapeHtml(item.code)}</b> ${escapeHtml(item.description)}</span>`)
+              .join('')}</div>`
+          : ''
+      }
+    </article>
+  `;
+}
+
+function snapshotCell(cell: PdfChartSnapshot['cells'][number]): string {
+  const point = houseLabelPoint(cell.house);
+
+  return `
+    <div class="chart-mini-cell" style="left:${point.x}%;top:${point.y}%;">
+      <span class="chart-sign">${cell.signNumber} ${escapeHtml(cell.displaySign ?? cell.sign)}</span>
+      ${cell.planets
+        .slice(0, 5)
+        .map(
+          planet => `
+            <span class="chart-planet">
+              ${escapeHtml(planet.displayName ?? planet.name)} ${escapeHtml(planet.degreeLabel)}${planet.status.retrograde ? ' R' : ''}${planet.status.exalted ? ' E' : ''}${planet.status.debilitated ? ' D' : ''}${planet.status.combust ? ' C' : ''}
+            </span>
+          `,
+        )
+        .join('')}
+      ${
+        cell.planets.length > 5
+          ? `<span class="chart-planet">+${cell.planets.length - 5} more</span>`
+          : ''
+      }
+    </div>
+  `;
+}
+
+function houseLabelPoint(house?: number): { x: number; y: number } {
+  const points: Record<number, { x: number; y: number }> = {
+    1: { x: 50, y: 20 },
+    2: { x: 25, y: 14 },
+    3: { x: 12, y: 30 },
+    4: { x: 26, y: 50 },
+    5: { x: 12, y: 70 },
+    6: { x: 25, y: 86 },
+    7: { x: 50, y: 80 },
+    8: { x: 75, y: 86 },
+    9: { x: 88, y: 70 },
+    10: { x: 74, y: 50 },
+    11: { x: 88, y: 30 },
+    12: { x: 75, y: 14 },
+  };
+
+  return points[house ?? 1] ?? points[1];
 }
 
 export function buildHoroscopePdfHtml({
@@ -210,6 +368,7 @@ export function buildHoroscopePdfHtml({
 }: GenerateHoroscopePdfInput): string {
   const logoUri = Image.resolveAssetSource(predictaLogo).uri;
   const report = composeReportSections({ kundli, language, mode });
+  const copy = getPdfCopy(report.language);
   const premium = mode === 'PREMIUM';
   const selectedKeySet = sectionKeys?.length ? new Set(sectionKeys) : undefined;
   const reportSections = selectedKeySet
@@ -410,6 +569,118 @@ export function buildHoroscopePdfHtml({
             font-size: 12px;
             margin-top: 4px;
           }
+          .chart-snapshot-grid {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            margin-top: 18px;
+          }
+          .chart-snapshot {
+            background:
+              radial-gradient(circle at 20% 14%, rgba(92,80,255,0.18), transparent 30%),
+              radial-gradient(circle at 76% 22%, rgba(77,175,255,0.12), transparent 34%),
+              linear-gradient(145deg, #080914, #101426 48%, #070812);
+            border: 1px solid rgba(166,186,255,0.28);
+            border-radius: 16px;
+            padding: 14px;
+          }
+          .chart-snapshot.sunrise {
+            background:
+              radial-gradient(circle at 18% 16%, rgba(255,170,64,0.22), transparent 32%),
+              linear-gradient(145deg, #24150f, #101421 72%);
+          }
+          .chart-snapshot.morning {
+            background:
+              radial-gradient(circle at 18% 16%, rgba(255,218,96,0.2), transparent 32%),
+              linear-gradient(145deg, #242016, #101421 72%);
+          }
+          .chart-snapshot.afternoon {
+            background:
+              radial-gradient(circle at 50% 14%, rgba(255,255,255,0.12), transparent 30%),
+              linear-gradient(145deg, #151b24, #090d14 74%);
+          }
+          .chart-snapshot.sunset {
+            background:
+              radial-gradient(circle at 18% 18%, rgba(255,129,76,0.22), transparent 32%),
+              linear-gradient(145deg, #2c1213, #09090f 74%);
+          }
+          .chart-snapshot-head span,
+          .chart-snapshot-head em {
+            color: ${colors.secondaryText};
+            display: block;
+            font-size: 10px;
+            font-style: normal;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+          }
+          .chart-snapshot-head strong {
+            color: ${colors.primaryText};
+            display: block;
+            font-size: 16px;
+            margin: 3px 0;
+          }
+          .chart-mini {
+            aspect-ratio: 1.38;
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 14px;
+            height: 260px;
+            margin-top: 10px;
+            overflow: hidden;
+            position: relative;
+          }
+          .chart-lines {
+            height: 100%;
+            inset: 0;
+            position: absolute;
+            width: 100%;
+          }
+          .chart-lines path {
+            fill: none;
+            stroke: rgba(205,216,255,0.5);
+            stroke-width: 0.24;
+          }
+          .chart-mini-cell {
+            align-items: center;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px;
+            justify-content: center;
+            max-width: 25%;
+            min-width: 76px;
+            position: absolute;
+            transform: translate(-50%, -50%);
+          }
+          .chart-sign,
+          .chart-planet {
+            background: rgba(13,33,53,0.82);
+            border: 1px solid rgba(77,175,255,0.34);
+            border-radius: 999px;
+            color: ${colors.primaryText};
+            display: inline-block;
+            font-size: 8px;
+            font-weight: 900;
+            padding: 3px 5px;
+            white-space: nowrap;
+          }
+          .chart-planet {
+            background: rgba(255,255,255,0.07);
+            border-color: rgba(255,255,255,0.16);
+          }
+          .chart-note {
+            font-size: 11px;
+            margin: 10px 0 0;
+          }
+          .chart-mini-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+          }
+          .chart-mini-legend span {
+            color: ${colors.secondaryText};
+            font-size: 10px;
+          }
           footer {
             border-top: 1px solid rgba(255,255,255,0.08);
             bottom: 34px;
@@ -430,18 +701,25 @@ export function buildHoroscopePdfHtml({
           <div>
             <img class="logo" src="${logoUri}" />
             <h1 class="gradient-text">PREDICTA</h1>
-            <div class="tagline">Create your Kundli. Understand your life. Ask with proof.</div>
+            <div class="tagline">${escapeHtml(copy.tagline)}</div>
             <p>${escapeHtml(report.cover.subtitle)}</p>
             <p>${report.cover.metadata.map(escapeHtml).join(' • ')}</p>
-            <div class="mode-pill">${escapeHtml(premium ? 'Premium detailed report' : 'Free generous report')}</div>
+            <div class="mode-pill">${escapeHtml(
+              premium ? copy.coverModePremium : copy.coverModeFree,
+            )}</div>
           </div>
-          ${footer()}
+          ${footer(report.language)}
         </section>
         ${executiveSummary(report)}
         ${trustPanel(report)}
+        ${chartSnapshotPages(report)}
         ${reportSections
           .map(reportSection =>
-            section(reportSection.title, reportSectionBody(reportSection)),
+            section(
+              reportSection.title,
+              reportSectionBody(reportSection, report.language),
+              report.language,
+            ),
           )
           .join('')}
       </body>

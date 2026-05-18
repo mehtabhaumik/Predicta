@@ -48,6 +48,18 @@ This document is the strict execution playbook for turning Predicta into a premi
    - A 10-year-old should understand what the chart/module is for before seeing advanced proof.
    - Advanced users may get technical detail through Premium/Advanced Mode, but simple mode must remain calm and guided.
 
+9. App language and Predicta reply language must stay separate.
+   - The app language controls navigation, pages, buttons, report UI, chart labels, and settings.
+   - Predicta reply language controls chat replies only.
+   - Chat language detection must never silently translate the entire app.
+   - Reports and charts may be viewed/downloaded in a chosen language without changing saved chart data.
+
+10. Kundli storage must be clear and account-safe.
+   - Guest users get one active Kundli and one active chat path.
+   - Multiple Kundlis and multiple chat sessions require sign-in.
+   - Saved Kundlis must remain canonical in English internally, while display/report language is user-selectable.
+   - Every Kundli-dependent CTA must carry enough context for Predicta to know the selected Kundli, chart, school, house, and intent.
+
 ---
 
 ## Phase 1: Destiny Passport
@@ -967,3 +979,518 @@ When the user says a phase keyword:
 Initial next keyword:
 
 `EXECUTE_DESTINY_PASSPORT`
+
+---
+
+## Completed Phase: Language Architecture Hardening
+
+**Execution Keyword:** `EXECUTE_LANGUAGE_ARCHITECTURE_HARDENING`
+
+### Goal
+
+Separate full app translation from Predicta chat reply language so multilingual chat never changes the entire product by accident.
+
+### What Was Locked
+
+- Language preference now has distinct app, chart, report, and Predicta reply language fields.
+- The web language selector changes the app language only.
+- Web chat regional-language detection updates only Predicta reply language, not the app language.
+- Mobile app-language selection no longer overwrites Predicta reply language.
+- Mobile preference storage preserves chart, report, and Predicta reply language values when app language changes.
+- Backward compatibility remains: older `language` values still load as app language.
+
+### Verification Rule
+
+Run:
+
+```bash
+corepack pnpm --filter @pridicta/web typecheck
+corepack pnpm --filter @pridicta/mobile typecheck
+git diff --check
+```
+
+Browser smoke must verify:
+
+- App language selector does not automatically change chat reply language.
+- Hindi/Gujarati chat detection changes only the chat reply badge/state.
+- App pages remain in the selected app language.
+
+---
+
+## Completed Phase: Multilingual Report Download Flow
+
+**Execution Keyword:** `EXECUTE_MULTILINGUAL_REPORT_DOWNLOAD_FLOW`
+
+### Implemented
+
+- Web report builder now has a dedicated PDF language picker for English, Hindi, and Gujarati.
+- Report language is separate from app language; changing report language does not translate the app shell.
+- Web report preview, section selector, printable cover/header, safety footer, confidence labels, and report copy use the selected report language.
+- Web report language is saved in the guest/account auto-save report preferences.
+- Mobile report generation now uses `reportLanguage`, not app language, and exposes the same report language selector.
+- Mobile report language is persisted separately from app language.
+- Mobile PDF cover, mode pill, and safety footer follow the selected report language while keeping Predicta branding.
+
+### Verification
+
+```bash
+corepack pnpm --filter @pridicta/web typecheck
+corepack pnpm --filter @pridicta/mobile typecheck
+git diff --check
+```
+
+Browser smoke verified:
+
+- `/dashboard/report?report-language-smoke=1` loads without visible failure.
+- App language can remain Gujarati while report sections switch to Hindi.
+- Report language selector shows English, Hindi, and Gujarati options.
+- Report section labels and confidence labels follow the selected report language.
+
+---
+
+## Completed Phase: Chart Polish And Release Sweep
+
+**Execution Keyword:** `EXECUTE_CHART_POLISH_AND_RELEASE_SWEEP`
+
+### What Was Locked
+
+- The shared chart renderer now uses the same North Indian geometry source for app rendering, hit detection, and stress verification.
+- The chart line model is restricted to the outer square, the two corner-to-corner diagonals, and the inner diamond. No center horizontal or vertical lines are allowed.
+- Chart house selection remains attached to the house surface, not planet labels.
+- Live chart scrolling now keeps the chart clear of the fixed dashboard header.
+- The release sweep must pass the deterministic chart stress suite before chart work is considered complete.
+
+### Verification Rule
+
+Run:
+
+```bash
+corepack pnpm --filter @pridicta/astrology stress:charts
+```
+
+The suite must verify:
+
+- North Indian line geometry.
+- House hit detection for every house center.
+- Bhaumik Mehta D1 expected house placements.
+- Seven-planet crowding in tight houses `2`, `6`, `8`, `11`, and `12`.
+
+---
+
+## Completed Phase: Report Page Drawer Compression
+
+**Execution Keyword:** `EXECUTE_REPORT_PAGE_DRAWER_COMPRESSION`
+
+### What Was Locked
+
+- The report page keeps the primary report choices, report section selector, and PDF/chat actions visible.
+- Explanation-heavy content now lives inside expandable drawers instead of stretching the page.
+- The selected-report details, free-vs-premium comparison, and full included-section list are available on demand.
+- Section checkboxes remain enabled so users can still choose the exact report parts they want.
+
+### Verification Rule
+
+Run:
+
+```bash
+corepack pnpm --filter @pridicta/web typecheck
+```
+
+Browser smoke must verify:
+
+- Drawer sections render and open.
+- Report product cards remain visible.
+- Report section checkboxes remain enabled.
+- PDF/copy actions remain reachable.
+- No browser console errors appear on the report page.
+
+---
+
+## Completed Phase: Free Premium Report Depth Reset
+
+**Execution Keyword:** `EXECUTE_FREE_PREMIUM_REPORT_DEPTH_RESET`
+
+### What Was Locked
+
+- Free reports are now polished essential reports, not full premium reports.
+- Premium reports now carry the complete deep section set.
+- Free report sections stay useful: executive summary, holistic spine, birth foundation, core chart proof, planets, dasha, transit, birth-time confidence, guidance, remedies, and limits.
+- Premium report sections add Chalit, KP, Nadi, timeline, yearly, Ashtakavarga, yogas, advanced Jyotish, area reports, full coverage, and richer evidence.
+- Free PDF chart snapshots use core charts first, while Premium can include the complete available chart set.
+- The report page copy now explains the difference as Free useful / Premium deep.
+
+### Verification Rule
+
+Run:
+
+```bash
+corepack pnpm --filter @pridicta/web typecheck
+```
+
+Browser smoke must verify:
+
+- Free mode shows the essential section count.
+- Premium mode shows the larger complete section count.
+- The free report note does not promise every section.
+- No browser console errors appear on the report page.
+
+---
+
+## Completed Phase: Global Chatter To Drawer Sweep
+
+**Execution Keyword:** `EXECUTE_GLOBAL_CHATTER_TO_DRAWER_SWEEP`
+
+### What Was Locked
+
+- High-traffic dashboard pages now keep the main heading and primary actions visible while moving secondary explanations into drawers.
+- The dashboard, report, charts, Kundli, KP, Chalit, timeline, saved Kundlis, holistic rooms, settings, premium, and invite/pass surfaces use the same reusable `info-drawer` pattern.
+- Functional content remains visible: charts, report product cards, section selectors, Kundli forms, KP evidence, and action CTAs were not hidden.
+- The drawer pattern is intentionally lightweight so pages feel quieter without deleting needed guidance.
+
+### Verification Rule
+
+Run:
+
+```bash
+corepack pnpm --filter @pridicta/web typecheck
+git diff --check
+```
+
+Browser smoke must verify:
+
+- Drawer sections render on dashboard, report, KP, charts, and Kundli pages.
+- Primary action buttons remain reachable.
+- No browser console errors appear on the checked pages.
+
+---
+
+## Completed Phase: Kundli Page Priority Reorder
+
+**Execution Keyword:** `EXECUTE_KUNDLI_PAGE_PRIORITY_REORDER`
+
+### What Was Locked
+
+- When an active Kundli exists, the Kundli page now shows the active chart area before the birth-detail form.
+- The chart, active Kundli quick actions, and Ask Predicta path are prioritized above supporting summary content.
+- The birth-detail form remains available below as a secondary "create another Kundli" flow, so existing creation and edit capability is not removed.
+- Newly created Kundlis still show the creation reveal immediately after the "Kundli created" text, preserving the animation and house handoff behavior.
+- Supporting summary, next-step CTAs, and Destiny Passport remain available after the primary chart area.
+
+### Verification Rule
+
+Run:
+
+```bash
+corepack pnpm --filter @pridicta/web typecheck
+corepack pnpm --filter @pridicta/astrology stress:charts
+git diff --check
+```
+
+Browser smoke must verify:
+
+- Active Kundli content appears before the secondary creation form.
+- The chart house selector remains present.
+- Ask Predicta actions remain reachable.
+- No browser console errors appear on the Kundli page.
+
+---
+
+## Completed Phase: Chart Language Rendering
+
+**Execution Keyword:** `EXECUTE_CHART_LANGUAGE_RENDERING`
+
+### Implemented
+
+- Shared chart render model now accepts a chart language and emits display-only labels for signs, planets, chart names, legends, and PDF snapshots.
+- Canonical chart data remains unchanged in English; Predicta handoffs and stored Kundli data continue to use stable planet, sign, house, and chart identifiers.
+- Web charts now include a chart language selector for English, Hindi, and Gujarati.
+- Web chart labels, planet chips, legends, report chart snapshots, and chart names use the selected chart language.
+- Mobile charts now use the same shared chart language model and expose the same chart language selector.
+- Mobile chart language choice is persisted separately from app and report language.
+- PDF chart snapshots use the selected report language for chart display labels while preserving canonical chart data.
+
+### Verification
+
+```bash
+corepack pnpm --filter @pridicta/astrology typecheck
+corepack pnpm --filter @pridicta/pdf typecheck
+corepack pnpm --filter @pridicta/web typecheck
+corepack pnpm --filter @pridicta/mobile typecheck
+```
+
+---
+
+## Completed Phase: Kundli Library Mini Charts
+
+**Execution Keyword:** `EXECUTE_KUNDLI_LIBRARY_MINI_CHARTS`
+
+### Implemented
+
+- Web Kundli Library cards now show a second-line chart strip with D1, KP, and Nadi mini previews.
+- Mobile saved Kundli cards now show the same D1, KP, and Nadi mini preview strip.
+- Mini previews use the shared chart render model, birth-time theme, current chart language, and canonical D1 chart data.
+- KP and Nadi previews are visually distinguished while staying read-only in this phase.
+- Existing library actions remain intact: Open, Set Active, Ask Predicta, Edit, Family Map, Delete, and mobile cloud save.
+
+### Verification
+
+```bash
+corepack pnpm --filter @pridicta/web typecheck
+corepack pnpm --filter @pridicta/mobile typecheck
+```
+
+---
+
+## Completed Phase: Kundli Library Chart Dialog
+
+**Execution Keyword:** `EXECUTE_KUNDLI_LIBRARY_CHART_DIALOG`
+
+### Goal
+
+Let users view a saved Kundli’s full D1 chart directly from the library without hunting through the app.
+
+### Strict Prompt For Codex
+
+You are implementing Kundli Library chart dialog.
+
+When a user clicks a Kundli preview, open a full-size D1 dialog. The dialog must show DOB, birth time, rectified-time label where relevant, place, chart language selector, and helpful CTAs.
+
+Rules:
+- Dialog shows D1 only.
+- CTAs must include Open full Kundli, Ask Predicta, Set active, Edit, and Delete where allowed.
+- If Ask Predicta is clicked, chat opens with Kundli context and shows/acknowledges the selected Kundli.
+- Mobile uses a full-screen modal or sheet with equivalent actions.
+
+### Required Deliverables
+
+- Web mini D1/KP/Nadi previews now open a full-size saved chart dialog.
+- Mobile mini D1/KP/Nadi previews now open a full-screen saved chart modal.
+- Dialog/modal shows saved birth details and keeps chart language controls through the chart component.
+- Dialog actions include open full flow, ask Predicta, set active, edit, delete, and close.
+- The full chart uses the shared chart render model and selected school context without duplicating chart layout logic.
+
+### Verification
+
+```bash
+corepack pnpm --filter @pridicta/web typecheck
+corepack pnpm --filter @pridicta/mobile typecheck
+```
+
+---
+
+## Completed Phase: Library To Predicta Context Handoff
+
+**Execution Keyword:** `EXECUTE_LIBRARY_TO_PREDICTA_CONTEXT_HANDOFF`
+
+### Goal
+
+Make every Kundli Library action carry exact context into Predicta chat.
+
+### Strict Prompt For Codex
+
+You are implementing library-to-Predicta handoff.
+
+When a user enters chat from a Kundli card, chart preview, KP preview, Nadi preview, report, or quick action, Predicta must know the Kundli id, school, chart, source, selected house if any, and user intent. Predicta must not ask for birth details if the context resolves to a valid saved Kundli.
+
+Rules:
+- Context must be explicit in CTA URLs/state.
+- Chat must recover the Kundli from guest/account store before asking the user.
+- Predicta must acknowledge the handoff in user-friendly language.
+- Web and mobile must stay in parity.
+
+### Required Deliverables
+
+- Web Kundli Library Ask Predicta links now include Kundli id, school, D1 chart type/name, source, purpose, and intent.
+- Web chart-preview dialog Ask Predicta links carry the selected D1/KP/Nadi school context and chart context together.
+- Web chat URL parsing now preserves school, chart, source, Kundli id, selected house/planet, and intent in one context object.
+- Web Predicta handoff intro now acknowledges the selected chart when entering from a school/chart context.
+- Mobile Kundli Library Ask Predicta actions now store Kundli id, school, D1 chart type/name, source, purpose, and intent in `activeChartContext`.
+- Mobile chart-preview modal Ask Predicta actions carry the selected D1/KP/Nadi context.
+- Mobile KP/Nadi room opens from the library now store the library handoff context before navigation.
+- Mobile Predicta handoff intro now acknowledges the selected chart when entering from a school/chart context.
+
+### Verification
+
+```bash
+corepack pnpm --filter @pridicta/web typecheck
+corepack pnpm --filter @pridicta/mobile typecheck
+git diff --check
+```
+
+---
+
+## Completed Phase: Auth-Gated Kundli Storage
+
+**Execution Keyword:** `EXECUTE_AUTH_GATED_KUNDLI_STORAGE`
+
+### Goal
+
+Control storage cost and protect user data by requiring sign-in for multiple Kundlis.
+
+### Strict Prompt For Codex
+
+You are implementing auth-gated Kundli storage.
+
+Guest users may create and keep one active Kundli in the browser. To save multiple Kundlis, restore across devices, or preserve long-term library data, users must sign in. When a guest signs in, their existing Kundli and preferences merge into the account.
+
+Rules:
+- Never surprise-delete guest data.
+- Explain the login nudge in simple language.
+- Mobile cloud-save behavior may remain mobile-specific, but user-facing parity must be clear.
+- Admin/full-access emails keep full access.
+
+### Required Deliverables
+
+- Guest Kundli limit enforcement.
+- Account merge path.
+- User-friendly login nudge.
+- Web and mobile parity.
+
+### Implementation Completed
+
+- Added shared web storage gating so guest users can keep one Kundli, signed-in users can save multiple Kundlis, and recalculations of the same birth details do not create duplicate guest records.
+- Added web Kundli creation and library nudges that explain sign-in is needed before adding another Kundli.
+- Added mobile local Kundli save gating and matching nudges from Kundli Library and active Kundli actions.
+- Kept existing guest data visible and safe; no existing local Kundli is deleted automatically.
+- Preserved existing guest-to-account merge behavior through the web guest session merge path.
+
+### Verification
+
+- `corepack pnpm --filter @pridicta/web typecheck`
+- `corepack pnpm --filter @pridicta/mobile typecheck`
+- `git diff --check`
+
+---
+
+## Completed Phase: User Profile Settings Area
+
+**Execution Keyword:** `EXECUTE_USER_PROFILE_SETTINGS_AREA`
+
+### Goal
+
+Give logged-in users a dedicated place to manage account, language, profile, privacy, and saved preferences.
+
+### Strict Prompt For Codex
+
+You are implementing the user profile settings area.
+
+Create a clear profile/settings area for signed-in users. It must show account email, app language, chart language default, report language default, Kundli storage status, chat-session access, privacy controls, and pass/subscription status where available.
+
+Rules:
+- No technical/dev wording.
+- Guest users see a simple sign-in nudge instead of account controls.
+- Preferences must persist in browser and account settings where available.
+- Mobile and web must stay in parity.
+
+### Required Deliverables
+
+- Web profile/settings page updates.
+- Mobile settings/profile parity.
+- Preference persistence.
+- Translation keys for all labels.
+
+### Implementation Completed
+
+- Replaced the web settings route with the live profile/settings surface that shows signed-in account state, guest state, Kundli storage, access, privacy, report preference, and chat-session status.
+- Added separate app, chart, report, and Predicta reply language controls on web settings.
+- Expanded mobile settings with matching account/profile, Kundli storage, chat access, guest pass, and separate language controls.
+- Added mobile persistence for Predicta reply language so app, chart, report, and chat language choices remain separate.
+- Kept guest users on a simple sign-in nudge while signed-in users see account-connected controls.
+
+### Verification
+
+- `corepack pnpm --filter @pridicta/web typecheck`
+- `corepack pnpm --filter @pridicta/mobile typecheck`
+- `git diff --check`
+
+---
+
+## Completed Phase: Auth-Gated Multi Chat Sessions
+
+**Execution Keyword:** `EXECUTE_AUTH_GATED_MULTI_CHAT_SESSIONS`
+
+### Goal
+
+Allow multiple Predicta chat sessions only for logged-in users to control cost and preserve context.
+
+### Strict Prompt For Codex
+
+You are implementing auth-gated multi chat sessions.
+
+Guest users may use one active chat thread. Signed-in users may create multiple chat sessions, name them, link them to Kundlis, and return later. Chat sessions must store Kundli id, school, selected chart, selected house, reply language, and feedback signals.
+
+Rules:
+- Do not lose current single-chat guest behavior.
+- Explain login benefits without pressure.
+- Pass/free users should receive cost-conscious guided prompts.
+- Web and mobile must stay in parity.
+
+### Required Deliverables
+
+- Chat session model.
+- Guest single-session behavior.
+- Signed-in multi-session UI.
+- Kundli-linked chat context.
+- Feedback signal linkage.
+
+### Implementation Completed
+
+- Added account-scoped web chat sessions so signed-in users can create and switch saved Predicta chats.
+- Kept web guests on one active chat thread with a clear sign-in nudge.
+- Connected web chat sessions to Kundli id, Predicta school, selected chart, selected house, reply language, and stored message history.
+- Linked web reply feedback and star ratings to the active chat session id when available.
+- Added mobile chat session state with guest single-thread behavior and signed-in multi-session creation/switching.
+- Linked mobile chat sessions to Kundli, chart context, selected house, school, and Predicta reply language.
+- Added matching chat-session controls on web and mobile chat surfaces.
+
+### Verification
+
+- `corepack pnpm --filter @pridicta/web typecheck`
+- `corepack pnpm --filter @pridicta/mobile typecheck`
+- `git diff --check`
+
+---
+
+## Completed Phase: Login Nudge Polish
+
+**Execution Keyword:** `EXECUTE_LOGIN_NUDGE_POLISH`
+
+### Goal
+
+Nudge users to sign in without making Predicta feel like a checkout or login wall.
+
+### Strict Prompt For Codex
+
+You are implementing login nudge polish.
+
+Add soft, context-aware login nudges when users try to save multiple Kundlis, preserve reports, redeem passes, use multiple chat sessions, or keep data across devices. The copy must be spoon-fed and non-technical.
+
+Rules:
+- Do not block core first-use Kundli creation.
+- Do not show approved pass email on wrong-email pass attempts.
+- If a pass requires sign-in, clearly ask users to sign in with the email used by the pass creator/admin.
+- Avoid exposing private email mappings.
+- Mobile and web must stay in parity.
+
+### Required Deliverables
+
+- Login nudge copy.
+- Pass redeem copy refinement.
+- Wrong-email denial without leaking assigned email.
+- Web/mobile parity verification.
+
+### Implementation Completed
+
+- Polished web Kundli save-limit nudges so guests understand one Kundli is safe in the browser and sign-in protects family profiles, chats, and report choices.
+- Added a report preference sign-in nudge on web without blocking free report creation.
+- Added a direct sign-in path from the web guest chat session strip.
+- Added mobile chat sign-in nudging for guests who want separate saved chats.
+- Refined web and mobile guest-pass redemption copy to avoid exposing the approved pass email.
+- Replaced technical pass privacy wording with user-facing safety copy.
+- Kept first Kundli creation usable without a login wall.
+
+### Verification
+
+- `corepack pnpm --filter @pridicta/web typecheck`
+- `corepack pnpm --filter @pridicta/mobile typecheck`
+- `git diff --check`

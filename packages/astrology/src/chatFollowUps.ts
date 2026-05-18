@@ -167,7 +167,7 @@ export function buildPredictaSchoolHandoffContext({
         ? 'Answer strictly from KP principles: KP ayanamsa, Placidus cusps, star lords, sub lords, significators, ruling planets, and KP event-timing rules. Do not casually mix Parashari D1/Varga/Yoga logic.'
         : to === 'NADI'
           ? 'Stay in Nadi Predicta reading space. Use Nadi-style planetary story links, karakas, validation questions, and timing activation only. Do not mix Parashari or KP, and do not claim palm-leaf manuscript access.'
-          : 'Answer strictly from regular Parashari Jyotish: D1, Vargas, dasha, yogas, Bhav Chalit, gochar, remedies, and reports. Do not use KP/Nadi methods unless the user requests handoff.',
+          : 'Answer strictly from regular Parashari Jyotish: D1, Vargas, dasha, yogas, Parashari Chalit, gochar, remedies, and reports. Do not use KP/Nadi methods unless the user requests handoff.',
     ]
       .filter(Boolean)
       .join('\n'),

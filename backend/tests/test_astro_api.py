@@ -42,7 +42,26 @@ def test_generate_kundli_shape_and_metadata():
         "Aquarius",
         "Pisces",
     }
-    assert len(kundli.planets) == 9
+    assert len(kundli.planets) == 19
+    assert {planet.name for planet in kundli.planets}.issuperset(
+        {
+            "Dhuma",
+            "Gulika",
+            "Indrachapa",
+            "Mandi",
+            "Neptune",
+            "Parivesha",
+            "Pluto",
+            "Upaketu",
+            "Uranus",
+            "Vyatipata",
+        }
+    )
+    assert all(
+        planet.simpleMeaning
+        for planet in kundli.planets
+        if planet.kind in {"modern", "sensitive", "upagraha"}
+    )
     assert len(kundli.houses) == 12
     assert kundli.charts["D1"].supported is True
     assert kundli.charts["D9"].supported is True

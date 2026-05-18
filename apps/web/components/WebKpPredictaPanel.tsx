@@ -127,20 +127,30 @@ export function WebKpPredictaPanel({
             <div>
               <div className="section-title">KP PREDICTA</div>
               <h1 className="gradient-text">A separate precision school.</h1>
-              <p>
-                KP Predicta stays inside Krishnamurti Paddhati: cusps, star
-                lords, sub lords, significators, ruling planets, dasha support,
-                and event-focused judgement. It does not casually mix with
-                Parashari charts.
-              </p>
+              <details className="info-drawer">
+                <summary>
+                  <span>KP method</span>
+                  <strong>Open</strong>
+                </summary>
+                <p>
+                  KP Predicta stays inside Krishnamurti Paddhati: cusps, star
+                  lords, sub lords, significators, ruling planets, dasha support,
+                  and event-focused judgement. It does not casually mix with
+                  Parashari charts.
+                </p>
+              </details>
             </div>
             <span className="school-badge premium">KP world</span>
           </div>
 
-          <div className="school-explain-box">
+          <details className="info-drawer school-explain-box">
+            <summary>
+              <span>Current KP reading</span>
+              <strong>{kp.title}</strong>
+            </summary>
             <strong>{kp.title}</strong>
             <p>{hasPremiumAccess ? kp.premiumSynthesis ?? kp.freeInsight : kp.freeInsight}</p>
-          </div>
+          </details>
 
           {ruling ? (
             <div className="school-grid ruling">
@@ -163,11 +173,17 @@ export function WebKpPredictaPanel({
             </div>
           ) : null}
 
-          <div className="school-callout">
-            Regular Predicta handles Parashari, D1, vargas, Bhav Chalit, dasha,
-            gochar, remedies, and reports. KP Predicta handles KP. Nadi Predicta
-            handles premium Nadi-style planetary story reading separately.
-          </div>
+          <details className="info-drawer school-callout">
+            <summary>
+              <span>School boundary</span>
+              <strong>Open</strong>
+            </summary>
+            <p>
+              Regular Predicta handles Parashari, D1, vargas, Chalit, dasha,
+              gochar, remedies, and reports. KP Predicta handles KP. Nadi Predicta
+              handles premium Nadi-style planetary story reading separately.
+            </p>
+          </details>
           {handoffQuestion ? (
             <div className="school-callout active">
               Question received: “{handoffQuestion}”. KP Predicta will carry this
@@ -183,10 +199,16 @@ export function WebKpPredictaPanel({
             <div>
               <div className="section-title">KP JUDGEMENT PATH</div>
               <h2>{selectedFocus.title}</h2>
-              <p>
-                Pick the event first. KP then checks the relevant houses, cusp
-                sub lord, significators, ruling planets, and dasha support.
-              </p>
+              <details className="info-drawer">
+                <summary>
+                  <span>How KP judges this</span>
+                  <strong>Open</strong>
+                </summary>
+                <p>
+                  Pick the event first. KP then checks the relevant houses, cusp
+                  sub lord, significators, ruling planets, and dasha support.
+                </p>
+              </details>
             </div>
             <span className="school-badge premium">Event first</span>
           </div>

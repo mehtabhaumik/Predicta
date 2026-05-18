@@ -1,13 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import type { CSSProperties } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import {
   applyManualBirthTimeEstimate,
-  buildNorthIndianChartCells,
+  buildChartRenderModel,
   composeDestinyPassport,
   estimateManualBirthTimeRectification,
-  getPlanetAbbreviation,
   attachKundliEditHistory,
   MANUAL_BIRTH_TIME_RECTIFICATION_QUESTIONS,
   type ManualBirthTimeRectificationAnswer,
@@ -17,7 +17,6 @@ import type {
   BirthDetails,
   ChartData,
   KundliData,
-  PlanetPosition,
   SupportedLanguage,
 } from '@pridicta/types';
 import { WEB_BIRTH_PLACES } from '../lib/birth-places';
@@ -25,13 +24,16 @@ import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useLanguagePreference } from '../lib/language-preference';
 import {
   generateKundliFromWeb,
+  canCreateAdditionalWebKundli,
   loadWebKundli,
   loadWebKundlis,
   saveWebKundli,
 } from '../lib/web-kundli-storage';
+import { AuthDialog } from './AuthDialog';
 import { WebDestinyPassportCard } from './WebDestinyPassportCard';
-import { WebKundliChart } from './WebKundliChart';
+import { ChartLegend, NorthIndianChartLines, WebKundliChart } from './WebKundliChart';
 import { WebActiveKundliActions } from './WebActiveKundliActions';
+import { PlanetGlyph } from './PlanetGlyph';
 
 type CreationNote =
   | {
@@ -68,6 +70,7 @@ export function WebKundliWizard(): React.JSX.Element {
   const [kundli, setKundli] = useState<KundliData | undefined>();
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | undefined>();
+  const [showStorageNudge, setShowStorageNudge] = useState(false);
   const [showCreationReveal, setShowCreationReveal] = useState(false);
   const place = WEB_BIRTH_PLACES[placeIndex] ?? WEB_BIRTH_PLACES[0];
   const details = useMemo<BirthDetails>(
@@ -157,16 +160,38 @@ export function WebKundliWizard(): React.JSX.Element {
 
   function resetFlow() {
     setError(undefined);
+    setShowStorageNudge(false);
     setRectificationStep('idle');
     setRectificationAnswers({});
     setShowCreationReveal(false);
   }
 
+  function blockIfGuestNeedsSignInForNewKundli(mode: 'new' | 'update'): boolean {
+    const gate = canCreateAdditionalWebKundli({
+      isUpdate: mode === 'update',
+    });
+
+    if (gate.allowed) {
+      return false;
+    }
+
+    setShowStorageNudge(true);
+    setError(
+      labels.guestLimitError,
+    );
+    return true;
+  }
+
   function requestGeneration() {
     setError(undefined);
+    setShowStorageNudge(false);
 
     if (!name.trim() || !date || !time) {
       setError('Please fill name, birth date, and birth time first.');
+      return;
+    }
+
+    if (!editingKundliId && blockIfGuestNeedsSignInForNewKundli('new')) {
       return;
     }
 
@@ -186,6 +211,10 @@ export function WebKundliWizard(): React.JSX.Element {
     setError(undefined);
 
     try {
+      if (blockIfGuestNeedsSignInForNewKundli(mode)) {
+        return;
+      }
+
       setActiveCreationNote(note);
       setIsGenerating(true);
       const generated = await generateKundliFromWeb(finalDetails, {
@@ -206,7 +235,14 @@ export function WebKundliWizard(): React.JSX.Element {
               source: 'manual',
             })
           : generated;
-      saveWebKundli(nextKundli);
+      const saveResult = saveWebKundli(nextKundli);
+      if (!saveResult.allowed) {
+        setShowStorageNudge(true);
+        setError(
+          'This Kundli was calculated, but saving another Kundli needs sign-in. Sign in first, then create it again so it stays protected with your account.',
+        );
+        return;
+      }
       setLastCreationNote(note);
       setKundli(nextKundli);
       setShowCreationReveal(true);
@@ -235,6 +271,15 @@ export function WebKundliWizard(): React.JSX.Element {
     setShowCreationReveal(false);
   }
 
+  const shouldShowReadyFirst = Boolean(kundli && !editingKundliId);
+  const readyFlow = kundli ? (
+    <KundliReadyFlow
+      creationNote={lastCreationNote}
+      kundli={kundli}
+      showCreationReveal={showCreationReveal}
+    />
+  ) : null;
+
   return (
     <div className="kundli-wizard">
       {isGenerating ? (
@@ -244,19 +289,31 @@ export function WebKundliWizard(): React.JSX.Element {
         />
       ) : null}
 
-      <section className="kundli-wizard-card glass-panel">
+      {shouldShowReadyFirst ? readyFlow : null}
+
+      <section
+        className={`kundli-wizard-card glass-panel${
+          shouldShowReadyFirst ? ' secondary-kundli-form' : ''
+        }`}
+      >
         <div className="section-title">
-          {editingKundliName
+          {shouldShowReadyFirst
+            ? labels.createAnotherKundliStep
+            : editingKundliName
             ? labels.editSavedKundli
             : labels.createKundliStep}
         </div>
         <h2>
-          {editingKundliName
+          {shouldShowReadyFirst
+            ? labels.createAnotherKundli
+            : editingKundliName
             ? labels.reviewBirthDetails(editingKundliName)
             : labels.enterBirthDetails}
         </h2>
         <p>
-          {editingKundliName
+          {shouldShowReadyFirst
+            ? labels.createAnotherBirthDetailsBody
+            : editingKundliName
             ? labels.editBirthDetailsBody
             : labels.createBirthDetailsBody}
         </p>
@@ -326,6 +383,16 @@ export function WebKundliWizard(): React.JSX.Element {
         </label>
 
         {error ? <p className="form-error">{error}</p> : null}
+        {showStorageNudge ? (
+          <div className="guest-storage-nudge">
+            <strong>Protect more Kundlis with sign-in</strong>
+            <p>
+              You can keep one Kundli as a guest. Sign in before adding family
+              profiles, multiple saved chats, or report preferences.
+            </p>
+            <AuthDialog />
+          </div>
+        ) : null}
 
         <div className="action-row">
           <button
@@ -447,113 +514,154 @@ export function WebKundliWizard(): React.JSX.Element {
         />
       ) : null}
 
-      {kundli ? (
-        <section className="kundli-ready-flow">
-          <WebActiveKundliActions
-            compact
-            kundli={kundli}
-            showDelete
-            sourceScreen="Kundli"
-          />
-          {showCreationReveal ? (
-            <KundliCreationReveal
-              chart={kundli.charts.D1}
-              creationNote={lastCreationNote}
-            />
-          ) : null}
-          <div className="plain-summary glass-panel">
-            <div className="section-title">STEP 2 · SIMPLE SUMMARY</div>
-            <h2>Your kundli is ready.</h2>
-            <p>
-              Start here before opening advanced tools. Rising sign means your
-              starting style. Moon sign means your emotional pattern. Dasha means
-              the current life chapter.
-            </p>
-            <div className="plain-summary-grid">
-              <div className="birth-detail-summary">
-                <span>Date of birth</span>
-                <strong>{kundli.birthDetails.date}</strong>
-              </div>
-              <div className="birth-detail-summary">
-                <span>Birth time</span>
-                <strong>
-                  {kundli.birthDetails.time}
-                  {isRectifiedBirthDetails(kundli.birthDetails) ? (
-                    <em>Rectified time</em>
-                  ) : null}
-                </strong>
-              </div>
-              <div className="birth-detail-summary">
-                <span>Birth place</span>
-                <strong>{kundli.birthDetails.place}</strong>
-              </div>
-              <div>
-                <span>Rising sign</span>
-                <strong>{kundli.lagna}</strong>
-              </div>
-              <div>
-                <span>Moon pattern</span>
-                <strong>{kundli.moonSign}</strong>
-              </div>
-              <div>
-                <span>Life chapter</span>
-                <strong>
-                  {kundli.dasha.current.mahadasha}/{kundli.dasha.current.antardasha}
-                </strong>
-              </div>
-            </div>
-            <div className="kundli-next-step-panel">
-              <div>
-                <h3>What would you like to see next?</h3>
-                <p>
-                  Predicta can now read this Kundli across today, timing, charts,
-                  remedies, and reports.
-                </p>
-              </div>
-              <div className="kundli-next-step-grid">
-                <Link
-                  className="quick-action primary"
-                  href={buildPredictaChatHref({
-                    kundli,
-                    prompt:
-                      'Use my newly created Kundli and tell me what I should look at first today.',
-                    sourceScreen: 'Kundli Created',
-                  })}
-                >
-                  <strong>Ask Predicta first</strong>
-                  <span>Start with a guided reading.</span>
-                </Link>
-                <Link className="quick-action" href="/dashboard">
-                  <strong>Today for me</strong>
-                  <span>See Gochar and daily guidance.</span>
-                </Link>
-                <Link className="quick-action" href="/dashboard/charts">
-                  <strong>Open charts</strong>
-                  <span>See D1, D9, D10, and more.</span>
-                </Link>
-                <Link className="quick-action" href="/dashboard/timeline">
-                  <strong>Timing map</strong>
-                  <span>Dasha, Sade Sati, and yearly timing.</span>
-                </Link>
-                <Link className="quick-action" href="/dashboard/report">
-                  <strong>Create report</strong>
-                  <span>Make a free or premium PDF.</span>
-                </Link>
-                <Link className="quick-action" href="/dashboard/remedies">
-                  <strong>Remedies</strong>
-                  <span>Get karma-based practices.</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          <WebDestinyPassportCard passport={composeDestinyPassport(kundli)} />
-          <div className="glass-panel kundli-chart-panel">
-            <WebKundliChart chart={kundli.charts.D1} kundliId={kundli.id} />
-          </div>
-        </section>
-      ) : null}
+      {!shouldShowReadyFirst ? readyFlow : null}
     </div>
+  );
+}
+
+function KundliReadyFlow({
+  creationNote,
+  kundli,
+  showCreationReveal,
+}: {
+  creationNote: CreationNote;
+  kundli: KundliData;
+  showCreationReveal: boolean;
+}): React.JSX.Element {
+  return (
+    <section className="kundli-ready-flow">
+      <WebActiveKundliActions
+        compact
+        kundli={kundli}
+        showDelete
+        sourceScreen="Kundli"
+      />
+      {showCreationReveal ? (
+        <KundliCreationReveal
+          birthDetails={kundli.birthDetails}
+          chart={kundli.charts.D1}
+          creationNote={creationNote}
+          kundliId={kundli.id}
+        />
+      ) : (
+        <div className="glass-panel kundli-chart-panel priority-kundli-chart">
+          <div className="kundli-priority-heading">
+            <div>
+              <div className="section-title">ACTIVE KUNDLI</div>
+              <h2>{kundli.birthDetails.name || 'Your Kundli'} is ready.</h2>
+            </div>
+            <Link
+              className="button secondary"
+              href={buildPredictaChatHref({
+                kundli,
+                prompt:
+                  'Use this active Kundli and tell me what I should look at first today.',
+                sourceScreen: 'Kundli',
+              })}
+            >
+              Ask Predicta
+            </Link>
+          </div>
+          <WebKundliChart
+            birthDetails={kundli.birthDetails}
+            chart={kundli.charts.D1}
+            kundliId={kundli.id}
+          />
+        </div>
+      )}
+      <div className="plain-summary glass-panel">
+        <div className="section-title">SIMPLE SUMMARY</div>
+        <h2>Your chart foundation.</h2>
+        <details className="info-drawer">
+          <summary>
+            <span>What this means</span>
+            <strong>Open</strong>
+          </summary>
+          <p>
+            Rising sign means your starting style. Moon sign means your
+            emotional pattern. Dasha means the current life chapter.
+          </p>
+        </details>
+        <div className="plain-summary-grid">
+          <div className="birth-detail-summary">
+            <span>Date of birth</span>
+            <strong>{kundli.birthDetails.date}</strong>
+          </div>
+          <div className="birth-detail-summary">
+            <span>Birth time</span>
+            <strong>
+              {kundli.birthDetails.time}
+              {isRectifiedBirthDetails(kundli.birthDetails) ? (
+                <em>Rectified time</em>
+              ) : null}
+            </strong>
+          </div>
+          <div className="birth-detail-summary">
+            <span>Birth place</span>
+            <strong>{kundli.birthDetails.place}</strong>
+          </div>
+          <div>
+            <span>Rising sign</span>
+            <strong>{kundli.lagna}</strong>
+          </div>
+          <div>
+            <span>Moon pattern</span>
+            <strong>{kundli.moonSign}</strong>
+          </div>
+          <div>
+            <span>Life chapter</span>
+            <strong>
+              {kundli.dasha.current.mahadasha}/{kundli.dasha.current.antardasha}
+            </strong>
+          </div>
+        </div>
+        <div className="kundli-next-step-panel">
+          <div>
+            <h3>What would you like to see next?</h3>
+            <p>
+              Predicta can now read this Kundli across today, timing, charts,
+              remedies, and reports.
+            </p>
+          </div>
+          <div className="kundli-next-step-grid">
+            <Link
+              className="quick-action primary"
+              href={buildPredictaChatHref({
+                kundli,
+                prompt:
+                  'Use my newly created Kundli and tell me what I should look at first today.',
+                sourceScreen: 'Kundli Created',
+              })}
+            >
+              <strong>Ask Predicta first</strong>
+              <span>Start with a guided reading.</span>
+            </Link>
+            <Link className="quick-action" href="/dashboard">
+              <strong>Today for me</strong>
+              <span>See Gochar and daily guidance.</span>
+            </Link>
+            <Link className="quick-action" href="/dashboard/charts">
+              <strong>Open charts</strong>
+              <span>See D1, D9, D10, and more.</span>
+            </Link>
+            <Link className="quick-action" href="/dashboard/timeline">
+              <strong>Timing map</strong>
+              <span>Dasha, Sade Sati, and yearly timing.</span>
+            </Link>
+            <Link className="quick-action" href="/dashboard/report">
+              <strong>Create report</strong>
+              <span>Make a free or premium PDF.</span>
+            </Link>
+            <Link className="quick-action" href="/dashboard/remedies">
+              <strong>Remedies</strong>
+              <span>Get karma-based practices.</span>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <WebDestinyPassportCard passport={composeDestinyPassport(kundli)} />
+    </section>
   );
 }
 
@@ -685,11 +793,12 @@ function KundliCreationDialog({
     <div className="kundli-creation-dialog" role="status">
       <div className="kundli-creation-dialog-card">
         <div className="animated-kundli-board compact">
+          <NorthIndianChartLines />
           {Array.from({ length: 12 }).map((_, index) => (
             <span
               className="animated-kundli-house"
               key={index}
-              style={{ '--creation-cell-index': index } as React.CSSProperties}
+              style={{ '--creation-cell-index': index } as CSSProperties}
             />
           ))}
         </div>
@@ -717,23 +826,22 @@ function KundliCreationDialog({
 }
 
 function KundliCreationReveal({
+  birthDetails,
   chart,
   creationNote,
+  kundliId,
 }: {
+  birthDetails?: BirthDetails;
   chart: ChartData;
   creationNote: CreationNote;
+  kundliId?: string;
 }): React.JSX.Element {
-  const cells = buildNorthIndianChartCells(chart);
-  const planetsByName = chart.planetDistribution.reduce<
-    Record<string, PlanetPosition>
-  >((current, planet) => {
-    current[planet.name] = planet;
-    return current;
-  }, {});
+  const renderModel = buildChartRenderModel({ birthDetails, chart });
+  const cells = renderModel.cells;
 
   return (
     <section className="kundli-creation-reveal glass-panel">
-      <div>
+      <div className="kundli-creation-copy">
         <div className="section-title">KUNDLI CREATED</div>
         <h2>The chart is laid out.</h2>
         {creationNote.mode === 'corrected' ? (
@@ -749,61 +857,91 @@ function KundliCreationReveal({
           </p>
         )}
       </div>
-      <div className="animated-kundli-board">
+      <div
+        className="animated-kundli-board"
+        data-chart-school={renderModel.school.toLowerCase()}
+        data-chart-theme={renderModel.theme}
+      >
+        <NorthIndianChartLines />
         {cells.map((cell, index) => {
-          const housePlanets = cell.planets
-            .map(planet => planetsByName[planet])
-            .filter(Boolean)
-            .sort((first, second) => first.degree - second.degree);
+          const housePlanets = cell.renderPlanets;
+          const housePrompt = `Explain House ${cell.house} in my ${chart.chartType} chart with chart proof.`;
 
           return (
-            <div
-              className="animated-kundli-house"
+            <Link
+              aria-label={`Ask Predicta about House ${cell.house}, ${cell.sign}${
+                housePlanets.length
+                  ? `, ${housePlanets
+                      .map(
+                        planet =>
+                          `${planet.name} ${planet.degreeLabel}${
+                            planet.status.retrograde ? ' retrograde' : ''
+                          }`,
+                      )
+                      .join(', ')}`
+                  : ', empty'
+              }`}
+              className={`animated-kundli-house north-house-${cell.house}`}
+              href={buildPredictaChatHref({
+                chartName: chart.name,
+                chartType: chart.chartType,
+                kundliId,
+                prompt: housePrompt,
+                selectedHouse: cell.house,
+                sourceScreen: 'Kundli Created',
+              })}
               key={cell.key}
               style={
-                { '--creation-cell-index': index } as React.CSSProperties
+                {
+                  '--creation-cell-index': index,
+                  '--house-x': `${cell.x}%`,
+                  '--house-y': `${cell.y}%`,
+                } as CSSProperties
               }
             >
-              <small>
-                House {cell.house} · {cell.signShort}
+              <small className="north-house-meta">
+                <span className="north-sign-number">{cell.signNumber}</span>
               </small>
               <div className="creation-planet-stack">
-                {housePlanets.slice(0, 3).map(planet => (
-                  <span
-                    className={planet.retrograde ? 'retrograde' : ''}
-                    key={planet.name}
-                    title={`${planet.name} ${planet.degree.toFixed(1)}°${
-                      planet.retrograde ? ' retrograde' : ''
-                    }`}
-                  >
-                    {getPlanetAbbreviation(planet.name)}
-                    <em>{planet.degree.toFixed(1)}°</em>
-                    {planet.retrograde ? <b>R</b> : null}
-                  </span>
+                {housePlanets.map(planet => (
+                  <PlanetGlyph
+                    key={planet.key}
+                    moonPhase={renderModel.moonPhase}
+                    planet={planet}
+                    showDegree
+                    showSign={false}
+                    size="full"
+                  />
                 ))}
-                {housePlanets.length > 3 ? (
-                  <strong>+{housePlanets.length - 3}</strong>
-                ) : null}
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>
+      <ChartLegend compact items={renderModel.legend} />
     </section>
   );
 }
 
 type KundliWizardCopy = {
+  createAnotherBirthDetailsBody: string;
+  createAnotherKundli: string;
+  createAnotherKundliStep: string;
   createBirthDetailsBody: string;
   createKundliStep: string;
   editBirthDetailsBody: string;
   editSavedKundli: string;
   enterBirthDetails: string;
   reviewBirthDetails: (name: string) => string;
+  guestLimitError: string;
 };
 
 const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
   en: {
+    createAnotherBirthDetailsBody:
+      'Your active Kundli stays above. Use this only when you want to create another chart.',
+    createAnotherKundli: 'Create another Kundli only when needed.',
+    createAnotherKundliStep: 'CREATE ANOTHER KUNDLI',
     createBirthDetailsBody:
       'Predicta needs only three things first: date, time, and place.',
     createKundliStep: 'STEP 1 · CREATE KUNDLI',
@@ -811,9 +949,15 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
       'Change only what is wrong, then confirm before Predicta recalculates the Kundli.',
     editSavedKundli: 'EDIT SAVED KUNDLI',
     enterBirthDetails: 'Enter birth details in order.',
+    guestLimitError:
+      'Your first Kundli is saved on this device. Please sign in before adding another Kundli, so family profiles and future edits stay protected.',
     reviewBirthDetails: name => `Review ${name}'s birth details.`,
   },
   hi: {
+    createAnotherBirthDetailsBody:
+      'आपकी सक्रिय कुंडली ऊपर रहेगी. नया चार्ट बनाना हो तभी यह इस्तेमाल करें.',
+    createAnotherKundli: 'जरूरत हो तभी दूसरी कुंडली बनाएं.',
+    createAnotherKundliStep: 'दूसरी कुंडली बनाएं',
     createBirthDetailsBody:
       'Predicta को पहले केवल तीन बातें चाहिए: तारीख, समय और स्थान.',
     createKundliStep: 'चरण 1 · कुंडली बनाएं',
@@ -821,9 +965,15 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
       'सिर्फ गलत विवरण बदलें, फिर Predicta कुंडली दोबारा गणना करने से पहले पुष्टि लेगी.',
     editSavedKundli: 'सेव कुंडली संपादित करें',
     enterBirthDetails: 'जन्म विवरण क्रम से भरें.',
+    guestLimitError:
+      'आपकी पहली कुंडली इस डिवाइस पर सेव है. दूसरी कुंडली जोड़ने से पहले साइन इन करें, ताकि परिवार प्रोफाइल और आगे के बदलाव सुरक्षित रहें.',
     reviewBirthDetails: name => `${name} के जन्म विवरण जांचें.`,
   },
   gu: {
+    createAnotherBirthDetailsBody:
+      'તમારી સક્રિય કુંડળી ઉપર રહેશે. બીજો ચાર્ટ બનાવવો હોય ત્યારે જ આ વાપરો.',
+    createAnotherKundli: 'જરૂર હોય ત્યારે જ બીજી કુંડળી બનાવો.',
+    createAnotherKundliStep: 'બીજી કુંડળી બનાવો',
     createBirthDetailsBody:
       'Predicta ને પહેલા માત્ર ત્રણ બાબતો જોઈએ: તારીખ, સમય અને સ્થળ.',
     createKundliStep: 'પગલું 1 · કુંડળી બનાવો',
@@ -831,6 +981,8 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
       'માત્ર ખોટી વિગતો બદલો, પછી Predicta કુંડળી ફરી ગણતા પહેલાં ખાતરી કરશે.',
     editSavedKundli: 'સાચવેલી કુંડળી સંપાદિત કરો',
     enterBirthDetails: 'જન્મ વિગતો ક્રમથી ભરો.',
+    guestLimitError:
+      'તમારી પહેલી કુંડળી આ ડિવાઇસ પર સેવ છે. બીજી કુંડળી ઉમેરતા પહેલાં સાઇન ઇન કરો, જેથી પરિવાર પ્રોફાઇલ અને આગળના ફેરફારો સુરક્ષિત રહે.',
     reviewBirthDetails: name => `${name} ની જન્મ વિગતો તપાસો.`,
   },
 };

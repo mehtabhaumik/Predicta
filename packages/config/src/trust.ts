@@ -21,11 +21,11 @@ export function getConfidenceCopy(
       },
       low: {
         label: 'Low confidence',
-        meaning: 'Evidence is missing, weak, or birth-time sensitive.',
+        meaning: 'Evidence is limited, weak, or birth-time sensitive.',
       },
       medium: {
         label: 'Medium confidence',
-        meaning: 'Useful signal exists, but there is mixed or incomplete evidence.',
+        meaning: 'Useful signal exists, with some limits in the evidence.',
       },
     },
     gu: {
@@ -35,11 +35,11 @@ export function getConfidenceCopy(
       },
       low: {
         label: 'Low confidence',
-        meaning: 'Evidence missing, weak athva birth-time sensitive chhe.',
+        meaning: 'Evidence limited, weak athva birth-time sensitive chhe.',
       },
       medium: {
         label: 'Medium confidence',
-        meaning: 'Useful signal chhe, pan evidence mixed athva incomplete chhe.',
+        meaning: 'Useful signal chhe, pan evidence ma thodi maryada chhe.',
       },
     },
     hi: {
@@ -49,11 +49,11 @@ export function getConfidenceCopy(
       },
       low: {
         label: 'Low confidence',
-        meaning: 'Evidence missing, weak ya birth-time sensitive hai.',
+        meaning: 'Evidence limited, weak ya birth-time sensitive hai.',
       },
       medium: {
         label: 'Medium confidence',
-        meaning: 'Useful signal hai, par evidence mixed ya incomplete hai.',
+        meaning: 'Useful signal hai, par evidence mein kuch limits hain.',
       },
     },
   };

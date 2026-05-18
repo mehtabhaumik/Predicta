@@ -10,6 +10,7 @@ import {
   composeHolisticFoundationModel,
   composeHolisticReadingRooms,
   composeMahadashaIntelligence,
+  buildKundliMoonNakshatraPadaInsight,
   composeNadiJyotishPlan,
   composePersonalPanchangLayer,
   composePredictaWrapped,
@@ -40,6 +41,7 @@ export function buildAIContext(
   userPlan: UserPlan = 'FREE',
 ): AIContextPayload {
   const hasPremiumAccess = userPlan === 'PREMIUM';
+  const moonNakshatraPada = buildKundliMoonNakshatraPadaInsight(kundliData);
   const selectedChartType = chartContext?.chartType;
   const allowedContextCharts: ChartType[] = hasPremiumAccess
     ? PREMIUM_CONTEXT_CHART_TYPES
@@ -183,6 +185,11 @@ export function buildAIContext(
     },
     coreIdentity: {
       lagna: kundliData.lagna,
+      moonPada: moonNakshatraPada.pada,
+      moonPadaMeaning: moonNakshatraPada.padaMeaning,
+      moonPhase: moonNakshatraPada.moonPhase,
+      moonPhaseLabel: moonNakshatraPada.moonPhaseLabel,
+      moonPhaseMeaning: moonNakshatraPada.moonPhaseMeaning,
       moonSign: kundliData.moonSign,
       nakshatra: kundliData.nakshatra,
     },
@@ -377,6 +384,12 @@ function compactAdvancedJyotishCoverage(
     freePolicy: coverage.freePolicy,
     limitations: coverage.limitations,
     moduleRegistry: coverage.moduleRegistry,
+    microPointIntelligence: coverage.microPointIntelligence
+      ? {
+          ...coverage.microPointIntelligence,
+          points: coverage.microPointIntelligence.points.slice(0, 10),
+        }
+      : undefined,
     nakshatraInsight: coverage.nakshatraInsight,
     panchangMuhurta: coverage.panchangMuhurta,
     prashna: coverage.prashna,

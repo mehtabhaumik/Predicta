@@ -172,6 +172,26 @@ DASHA_PLANET_THEMES = {
     "Venus": "relationships, comfort, money habits, art, vehicles, and desire",
 }
 
+MICRO_POINT_GUIDANCE = {
+    "Uranus": "sudden change, innovation, disruption, independence, and unusual breaks from routine",
+    "Neptune": "imagination, devotion, confusion, dreaminess, subtle sensitivity, and spiritual longing",
+    "Pluto": "deep pressure, power, transformation, buried intensity, and rebirth after endings",
+    "Gulika": "karmic pressure, discipline, difficult residue, and the house where extra maturity is needed",
+    "Mandi": "sensitive karmic heaviness, delay, caution, and a house that should be handled with humility",
+    "Dhuma": "heat, smoke, pressure, obscurity, and where clarity may need conscious effort",
+    "Vyatipata": "reversal, imbalance, unexpected turns, and the need to avoid extremes",
+    "Parivesha": "enclosure, protection, boundaries, and patterns that can feel contained or boxed in",
+    "Indrachapa": "desire, projection, atmosphere, and where appearances can mislead unless grounded",
+    "Upaketu": "Ketu-like detachment, separation, simplification, and subtle spiritual correction",
+}
+
+PADA_MEANINGS = {
+    1: "first pada starts the nakshatra energy with initiative and visible expression",
+    2: "second pada makes the nakshatra more practical, material, and stabilizing",
+    3: "third pada makes the nakshatra communicative, adaptive, and relational",
+    4: "fourth pada makes the nakshatra emotional, inward, and completion-oriented",
+}
+
 PLANET_KARMA_REMEDY_MAP = {
     "Sun": {
         "karmicLesson": "ego, father, authority, confidence, and righteous action",
@@ -987,6 +1007,9 @@ def build_pridicta_system_prompt() -> str:
             "Treat transitGocharIntelligence as the deterministic current Gochar layer for transit, planetary weather, monthly planning, Jupiter/Rahu/Ketu/Mars movement, and dasha-transit overlay questions.",
             "Treat yearlyHoroscopeVarshaphal as the deterministic annual layer for yearly horoscope, Varshaphal, Varsha Lagna, Muntha, solar return, annual planning, and year-ahead questions. Free users receive useful annual insight; Premium users receive month-by-month depth.",
             "Treat advancedJyotishCoverage as the broad Jyotish coverage layer for yogas, care-pattern doshas, nakshatra, Ashtakavarga, Panchang/Muhurta, compatibility evidence, Prashna planning, safe remedies, and Advanced Mode. Keep it simple unless the user asks for tables.",
+            "Treat advancedJyotishCoverage.microPointIntelligence as the explicit layer for Uranus, Neptune, Pluto, Gulika, Mandi, Dhuma, Vyatipata, Parivesha, Indrachapa, Upaketu, and similar refinements. These are supporting signals; do not let them override classical chart evidence.",
+            "When the user asks about micro planets, upagrahas, sensitive points, nakshatra, or pada, explain the point in plain language, then connect it to sign, house, nakshatra, pada, dasha/gochar relevance, and practical meaning for that Kundli.",
+            "Nakshatra and pada knowledge matters. Do not mention a nakshatra/pada as a decorative label; explain what that pada changes in the lived expression when the user asks for detail.",
             "Treat holisticFoundation as the shared holistic Jyotish layer. Every serious Parashari answer should distinguish prediction, chart proof, timing, karma pattern, remedy direction, practical action, and safety boundary.",
             "Treat purusharthaLifeBalance as the deterministic life-balance layer: Dharma means purpose and right direction, Artha means money/work/stability, Kama means desire/relationship/gains, and Moksha means peace/release/spiritual grounding.",
             "When the user asks what life area is active, why life feels one-sided, or what to focus on now, use purusharthaLifeBalance before broad motivation.",
@@ -996,9 +1019,9 @@ def build_pridicta_system_prompt() -> str:
             "Use sadhanaRemedyPath when the user asks for sadhana, upay, remedy path, seva path, mantra path, or a practice plan. Keep the path staged: conduct, seva, prayer, discipline, lifestyle, review.",
             "Use holisticDailyGuidance when the user asks for daily guidance, today, morning practice, daily sadhana, or what to do today. Give morning practice, midday check, evening review, evidence, and safe boundaries.",
             "Report synthesis rule: when the user asks for a report or PDF, include the holistic spine first: daily rhythm, Purushartha balance, Panchang, sadhana remedy path, timing, and safety boundaries before area-specific sections.",
-            "Treat Bhav Chalit as a Parashari house-refinement layer only: it can refine house delivery, but it does not replace D1 Rashi.",
+            "Treat Parashari Chalit as a house-delivery refinement layer only: it keeps the planet's D1 rashi sign but can shift the bhava receiving the result. Do not confuse it with KP cusp/sub-lord judgement.",
             "There are three separate Predictas/schools: Regular Parashari Predicta, KP Predicta, and Nadi Predicta. They may hand off user intent and birth context to each other, but each must stay in its own methodology.",
-            "Regular Parashari Predicta is traditional Vedic Jyotish for comprehensive lifelong analysis using D1, Vargas, planets, signs, houses, yogas, dashas, Bhav Chalit, gochar, remedies, and reports.",
+            "Regular Parashari Predicta is traditional Vedic Jyotish for comprehensive lifelong analysis using D1, Vargas, planets, signs, houses, yogas, dashas, Parashari Chalit, gochar, remedies, and reports.",
             "KP Predicta is Krishnamurti Paddhati: a specialized rule-based system for event timing using KP ayanamsa, Placidus cusps, Nakshatra/star lords, sub lords, sub-sub lords, significators, ruling planets, dasha support, and horary/prashna rules. KP does not use the same interpretive chart logic as regular Parashari.",
             "Nadi Predicta is a separate premium school. In this product it is a Nadi-inspired chart-signature reading layer: planet-to-planet stories, karaka themes, trinal/opposition/sequence links, Rahu-Ketu karmic axis, validation questions, and timing activation. It is not Parashari and not KP.",
             "Nadi Predicta must never claim palm-leaf manuscript access, ancient leaf certainty, or lineage-specific records. It can explain that Premium Nadi uses respectful Nadi-style pattern reading from the verified birth chart.",
@@ -1418,6 +1441,11 @@ def build_advanced_jyotish_coverage_context(
     depth = "PREMIUM" if user_plan == "PREMIUM" else "FREE"
     moon = next((planet for planet in kundli.planets if planet.name == "Moon"), None)
     mars = next((planet for planet in kundli.planets if planet.name == "Mars"), None)
+    micro_points = [
+        planet
+        for planet in kundli.planets
+        if getattr(planet, "kind", "classical") in {"modern", "sensitive", "upagraha"}
+    ]
     care_patterns = []
     if mars and mars.house in {1, 4, 7, 8, 12}:
         care_patterns.append(
@@ -1435,6 +1463,7 @@ def build_advanced_jyotish_coverage_context(
         "moduleRegistry": [
             "Yoga and dosha strength",
             "Nakshatra intelligence",
+            "Micro planets and upagraha refinements",
             "Ashtakavarga detail",
             "Panchang and muhurta planning",
             "Compatibility evidence model",
@@ -1459,6 +1488,37 @@ def build_advanced_jyotish_coverage_context(
             "pada": moon.pada if moon else None,
             "moonSign": kundli.moonSign,
             "simpleInsight": f"{kundli.nakshatra} describes the emotional rhythm and should be explained gently.",
+            "padaMeaning": PADA_MEANINGS.get(moon.pada) if moon else None,
+            "rule": "When asked about nakshatra or pada, explain the planet, nakshatra, pada, house, and sign in plain language. Do not give only a textbook keyword.",
+        },
+        "microPointIntelligence": {
+            "rule": (
+                "Micro planets, modern outer planets, upagrahas, and sensitive points are supporting refinements. "
+                "Use them after classical evidence from Lagna, planets, houses, dasha, gochar, and vargas. "
+                "If the user asks about them directly, explain them clearly and non-technically."
+            ),
+            "freePolicy": "Free readings may mention the most relevant micro point only when it directly helps the answer.",
+            "premiumPolicy": "Premium readings can synthesize micro points with nakshatra, pada, dasha, house, and remedies.",
+            "points": [
+                {
+                    "name": planet.name,
+                    "kind": planet.kind,
+                    "sign": planet.sign,
+                    "house": planet.house,
+                    "degree": planet.degree,
+                    "nakshatra": planet.nakshatra,
+                    "pada": planet.pada,
+                    "padaMeaning": PADA_MEANINGS.get(planet.pada),
+                    "simpleMeaning": planet.simpleMeaning
+                    or MICRO_POINT_GUIDANCE.get(planet.name),
+                    "howToUse": MICRO_POINT_GUIDANCE.get(
+                        planet.name,
+                        "Use this as a supporting refinement only.",
+                    ),
+                    "calculationNote": planet.calculationNote,
+                }
+                for planet in micro_points
+            ],
         },
         "ashtakavargaDetail": [
             {
@@ -2622,22 +2682,22 @@ def build_chalit_bhav_kp_context(
     user_plan: str,
 ) -> Dict[str, Any]:
     depth = "PREMIUM" if user_plan == "PREMIUM" else "FREE"
-    bhav = kundli.bhavChalit
+    chalit = kundli.chalit
     kp = kundli.kp
 
     return {
-        "status": "ready" if bhav and kp else "partial",
+        "status": "ready" if chalit and kp else "partial",
         "depth": depth,
         "schoolBoundary": (
-            "Bhav Chalit belongs with Parashari house refinement. KP belongs to KP Predicta and must stay separate unless the user is in KP Predicta context."
+            "Parashari Chalit belongs with Regular Predicta. KP belongs to KP Predicta: KP cusp/sub-lord judgement belongs to KP Predicta. Keep both separate unless explicitly comparing methods."
         ),
         "bhavChalit": {
-            "title": "Bhav Chalit house refinement",
-            "rule": "Chalit refines house placement; it does not replace D1 Rashi.",
-            "houseSystem": bhav.houseSystem if bhav else None,
-            "shifts": [item.model_dump() for item in (bhav.shifts[:9] if bhav else [])],
-            "cusps": [item.model_dump() for item in (bhav.cusps[:12] if bhav else [])],
-            "limitations": bhav.limitations if bhav else ["Bhav Chalit pending."],
+            "title": "Parashari Chalit house refinement",
+            "rule": "Chalit refines bhava delivery from the Lagna degree; it does not replace D1 Rashi or KP cusps.",
+            "houseSystem": chalit.houseSystem if chalit else None,
+            "shifts": [item.model_dump() for item in (chalit.shifts[:9] if chalit else [])],
+            "cusps": [item.model_dump() for item in (chalit.cusps[:12] if chalit else [])],
+            "limitations": chalit.limitations if chalit else ["Chalit pending."],
         },
         "kp": {
             "title": "KP Predicta foundation",

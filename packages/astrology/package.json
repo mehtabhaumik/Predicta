@@ -8,8 +8,9 @@
   "scripts": {
     "build": "tsc --noEmit",
     "lint": "eslint src --ext .ts",
+    "stress:charts": "node ../../scripts/run-chart-stress-suite.mjs",
     "typecheck": "tsc --noEmit",
-    "test": "echo \"@pridicta/astrology has no package-local tests\""
+    "test": "node ../../scripts/run-chart-stress-suite.mjs"
   },
   "dependencies": {
     "@pridicta/types": "workspace:*"

@@ -28,6 +28,7 @@ export function NadiPredictaScreen({
   navigation,
 }: RootScreenProps<typeof routes.NadiPredicta>): React.JSX.Element {
   const kundli = useAppStore(state => state.activeKundli);
+  const auth = useAppStore(state => state.auth);
   const getResolvedAccess = useAppStore(state => state.getResolvedAccess);
   const setActiveKundli = useAppStore(state => state.setActiveKundli);
   const setSavedKundlis = useAppStore(state => state.setSavedKundlis);
@@ -37,6 +38,7 @@ export function NadiPredictaScreen({
   );
   const schoolReady = useSchoolReadyKundli(
     kundli,
+    auth.isLoggedIn,
     setActiveKundli,
     setSavedKundlis,
   );
@@ -295,6 +297,7 @@ export function NadiPredictaScreen({
 
 function useSchoolReadyKundli(
   activeKundli: KundliData | undefined,
+  isLoggedIn: boolean,
   setActiveKundli: (kundli: KundliData) => void,
   setSavedKundlis: ReturnType<typeof useAppStore.getState>['setSavedKundlis'],
 ): {
@@ -325,7 +328,7 @@ function useSchoolReadyKundli(
         }
         setKundli(nextKundli);
         setActiveKundli(nextKundli);
-        return saveGeneratedKundliLocally(nextKundli);
+        return saveGeneratedKundliLocally(nextKundli, { isLoggedIn });
       })
       .then(records => {
         if (!cancelled && records) {
@@ -349,6 +352,7 @@ function useSchoolReadyKundli(
     };
   }, [
     activeKundli,
+    isLoggedIn,
     needsCalculation,
     setActiveKundli,
     setSavedKundlis,

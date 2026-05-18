@@ -27,6 +27,10 @@ export function AdvancedJyotishPanel({
   });
   const pattern = coverage.yogaDoshaInsights[0];
   const ashtaka = coverage.ashtakavargaDetail.slice(0, 3);
+  const subtlePoints = coverage.microPointIntelligence?.points.slice(
+    0,
+    hasPremiumAccess ? 6 : 3,
+  ) ?? [];
 
   return (
     <LinearGradient
@@ -93,6 +97,33 @@ export function AdvancedJyotishPanel({
               body={coverage.panchangMuhurta.simpleGuidance}
             />
           </View>
+
+          {subtlePoints.length ? (
+            <View style={styles.monthStack}>
+              <AppText tone="secondary" variant="caption">
+                Subtle points
+              </AppText>
+              <AppText className="mt-1" variant="subtitle">
+                Micro planets and upagrahas
+              </AppText>
+              <AppText className="mt-2" tone="secondary">
+                These refine the reading after Lagna, classical planets,
+                dasha, and Gochar.
+              </AppText>
+              {subtlePoints.map(point => (
+                <View key={point.name} style={styles.monthCard}>
+                  <AppText variant="subtitle">{point.name}</AppText>
+                  <AppText className="mt-1" tone="secondary" variant="caption">
+                    House {point.house} · {point.sign} · {point.nakshatra} pada{' '}
+                    {point.pada}
+                  </AppText>
+                  <AppText className="mt-2" tone="secondary">
+                    {point.simpleMeaning ?? point.howToUse}
+                  </AppText>
+                </View>
+              ))}
+            </View>
+          ) : null}
 
           <View style={styles.monthStack}>
             <AppText tone="secondary" variant="caption">

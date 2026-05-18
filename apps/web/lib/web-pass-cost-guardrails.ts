@@ -12,8 +12,8 @@ const PASS_USAGE_KEY = 'pridicta.passCostUsage.v2';
 const FREE_USAGE_KEY = 'pridicta.freeCostUsage.v2';
 
 const FREE_DAILY_LIMITS = {
-  deepReadingsTotal: 2,
-  questionsTotal: 6,
+  deepReadingsTotal: 1,
+  questionsTotal: 4,
 };
 
 type CostKind = 'question' | 'deep_reading';
@@ -57,6 +57,10 @@ export function consumeWebAiBudget(
   const pass = loadWebRedeemedGuestPass();
 
   if (isPassActive(pass)) {
+    if (pass.accessLevel === 'FULL_ACCESS') {
+      return buildUnrestrictedDecision(kind, language);
+    }
+
     return consumePassBudget(pass, kind, language);
   }
 
@@ -69,6 +73,10 @@ export function getWebPassCostDisplay(
   const pass = loadWebRedeemedGuestPass();
 
   if (isPassActive(pass)) {
+    if (pass.accessLevel === 'FULL_ACCESS') {
+      return undefined;
+    }
+
     const usage = loadPassUsage(pass);
     const deepRemaining = Math.max(
       0,
@@ -93,6 +101,11 @@ export function getWebPassCostDisplay(
   }
 
   const usage = loadFreeUsage();
+
+  if (usage.deepReadingsUsed === 0 && usage.questionsUsed === 0) {
+    return undefined;
+  }
+
   const deepRemaining = Math.max(
     0,
     FREE_DAILY_LIMITS.deepReadingsTotal - usage.deepReadingsUsed,
@@ -131,31 +144,31 @@ export function buildPassCostGuardrailReply({
   if (language === 'hi') {
     return [
       decision.display.kind === 'pass'
-        ? 'Aapka private pass safe hai. Is pass ki deep reading limit abhi use ho chuki hai.'
-        : 'Free guidance sabke liye fair rahe, isliye aaj ke extra deep readings ko maine pause kiya hai.',
+        ? 'Aapka private pass safe hai. Is pass par aaj ke deep follow-ups pause ho gaye hain.'
+        : 'Free guidance sabke liye fair rahe, isliye aaj ke extra deep follow-ups pause ho gaye hain.',
       hasKundli
         ? 'Main abhi bhi bina extra deep reading ke charts, Gochar summary, Mahadasha overview, remedies aur free report kholne mein help kar sakti hoon.'
         : 'Aap manual Kundli bana sakte hain. Uske baad main charts, daily guidance aur free report ke saath help karungi.',
-      'Agar deep follow-up chahiye, Premium, Day Pass, ya pass refresh best rahega.',
+      'Agar aur deep follow-up chahiye, Premium, Day Pass, ya pass refresh best rahega.',
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
       decision.display.kind === 'pass'
-        ? 'Tamaro private pass safe chhe. Aa pass ni deep reading limit atyare use thai gayi chhe.'
-        : 'Free guidance badha mate fair rahe, etle aaj na extra deep readings hu pause karu chhu.',
+        ? 'Tamaro private pass safe chhe. Aa pass par aaj na deep follow-ups pause thai gaya chhe.'
+        : 'Free guidance badha mate fair rahe, etle aaj na extra deep follow-ups pause thai gaya chhe.',
       hasKundli
         ? 'Hu haju pan extra deep reading vagar charts, Gochar summary, Mahadasha overview, remedies ane free report ma help kari shaku chhu.'
         : 'Tame manual Kundli banaavi shako. Pachhi hu charts, daily guidance ane free report sathe help karish.',
-      'Deep follow-up joiye to Premium, Day Pass, athva pass refresh best rahe.',
+      'Vadhu deep follow-up joiye to Premium, Day Pass, athva pass refresh best rahe.',
     ].join('\n\n');
   }
 
   return [
     decision.display.kind === 'pass'
-      ? 'Your private pass is safe. The deep reading limit for this pass has been used for now.'
-      : 'To keep free guidance fair for everyone, I have paused extra deep readings for today.',
+      ? 'Your private pass is safe. Deep follow-ups on this pass are paused for today.'
+      : 'To keep free guidance fair for everyone, extra deep follow-ups are paused for today.',
     hasKundli
       ? 'I can still help without another deep reading: open charts, show a Gochar summary, explain Mahadasha basics, suggest remedies, or create a free report.'
       : 'You can still create the Kundli manually. After that I can help with charts, daily guidance, and a free report.',
@@ -347,6 +360,35 @@ function isPassActive(pass?: RedeemedGuestPass): pass is RedeemedGuestPass {
   return Boolean(pass && new Date(pass.expiresAt).getTime() > Date.now());
 }
 
+function buildUnrestrictedDecision(
+  kind: CostKind,
+  language: SupportedLanguage,
+): WebPassBudgetDecision {
+  return {
+    allowed: true,
+    display: {
+      body:
+        language === 'hi'
+          ? 'Aapke pass mein deep guidance included hai.'
+          : language === 'gu'
+            ? 'Tamara pass ma deep guidance included chhe.'
+            : 'Deep guidance is included with your pass.',
+      kind: 'quiet',
+      title:
+        language === 'hi'
+          ? 'Full access'
+          : language === 'gu'
+            ? 'Full access'
+            : 'Full access',
+      tone: 'steady',
+    },
+    kind,
+    remainingAfter: Number.POSITIVE_INFINITY,
+    remainingBefore: Number.POSITIVE_INFINITY,
+    total: Number.POSITIVE_INFINITY,
+  };
+}
+
 function loadPassUsage(pass: RedeemedGuestPass): StoredPassUsage {
   try {
     const raw = window.localStorage.getItem(getStorageKey(PASS_USAGE_KEY));
@@ -419,14 +461,14 @@ function getLocalDateKey(): string {
 
 function passDisplayTitle(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'Private pass limit';
+    return 'Private pass guidance';
   }
 
   if (language === 'gu') {
-    return 'Private pass limit';
+    return 'Private pass guidance';
   }
 
-  return 'Private pass limit';
+  return 'Private pass guidance';
 }
 
 function passDisplayBody({
@@ -441,26 +483,26 @@ function passDisplayBody({
   questionRemaining: number;
 }): string {
   if (language === 'hi') {
-    return `${pass.label}: ${questionRemaining} normal questions aur ${deepRemaining} deep readings left.`;
+    return `${pass.label}: aaj ${questionRemaining} normal questions aur ${deepRemaining} deep follow-ups baaki hain.`;
   }
 
   if (language === 'gu') {
-    return `${pass.label}: ${questionRemaining} normal questions ane ${deepRemaining} deep readings left.`;
+    return `${pass.label}: aaje ${questionRemaining} normal questions ane ${deepRemaining} deep follow-ups baaki chhe.`;
   }
 
-  return `${pass.label}: ${questionRemaining} normal questions and ${deepRemaining} deep readings left.`;
+  return `${pass.label}: ${questionRemaining} normal questions and ${deepRemaining} deep follow-ups left today.`;
 }
 
 function freeDisplayTitle(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'Free guidance limit';
+    return 'Today’s free guidance';
   }
 
   if (language === 'gu') {
-    return 'Free guidance limit';
+    return 'Today’s free guidance';
   }
 
-  return 'Free guidance limit';
+  return 'Today’s free guidance';
 }
 
 function freeDisplayBody({
@@ -473,14 +515,14 @@ function freeDisplayBody({
   questionRemaining: number;
 }): string {
   if (language === 'hi') {
-    return `${questionRemaining} normal questions aur ${deepRemaining} deep readings aaj ke liye left.`;
+    return `${questionRemaining} normal questions aur ${deepRemaining} deep follow-ups aaj ke liye baaki hain.`;
   }
 
   if (language === 'gu') {
-    return `${questionRemaining} normal questions ane ${deepRemaining} deep readings aaje left.`;
+    return `${questionRemaining} normal questions ane ${deepRemaining} deep follow-ups aaje baaki chhe.`;
   }
 
-  return `${questionRemaining} normal questions and ${deepRemaining} deep readings left today.`;
+  return `${questionRemaining} normal questions and ${deepRemaining} deep follow-ups left today.`;
 }
 
 function navCta(

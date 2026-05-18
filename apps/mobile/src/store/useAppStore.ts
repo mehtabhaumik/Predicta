@@ -38,6 +38,19 @@ import type {
 
 const BIRTH_INTAKE_CONVERSATION_ID = 'birth-intake';
 
+type MobileChatSession = {
+  activeChartContext?: ChartContext;
+  createdAt: string;
+  id: string;
+  kundliId?: string;
+  replyLanguage: SupportedLanguage;
+  school?: 'KP' | 'NADI' | 'PARASHARI';
+  selectedChart?: string;
+  selectedHouse?: number;
+  title: string;
+  updatedAt: string;
+};
+
 function getDayKey(date = new Date()): string {
   return date.toISOString().slice(0, 10);
 }
@@ -80,13 +93,79 @@ function getKundliSessionId(kundli: KundliData): string {
   return `${name}-${date}-${time}`.toLowerCase().replace(/\s+/g, '-');
 }
 
+function getActiveConversationKey(state: AppState): string | undefined {
+  return state.activeChatSessionId ?? state.activeKundliId;
+}
+
+function createChatSessionId(): string {
+  return `chat-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+function buildChatSessionTitle(
+  messages: ChatMessage[] | undefined,
+  context?: ChartContext,
+): string {
+  const userText = messages?.find(message => message.role === 'user')?.text;
+  const base =
+    userText ??
+    context?.sourceScreen ??
+    context?.selectedSection ??
+    context?.chartName ??
+    'Predicta chat';
+  const compact = base.replace(/\s+/g, ' ').trim();
+
+  return compact.length > 34 ? `${compact.slice(0, 31)}...` : compact;
+}
+
+function getSchoolFromContext(
+  context?: ChartContext,
+): MobileChatSession['school'] {
+  if (context?.predictaSchool === 'KP') {
+    return 'KP';
+  }
+  if (context?.predictaSchool === 'NADI') {
+    return 'NADI';
+  }
+  return 'PARASHARI';
+}
+
+function upsertMobileKundliChatSession(
+  sessions: MobileChatSession[],
+  sessionId: string,
+  kundli: KundliData,
+  context: ChartContext | undefined,
+  replyLanguage: SupportedLanguage,
+): MobileChatSession[] {
+  const now = new Date().toISOString();
+  const existing = sessions.find(session => session.id === sessionId);
+  const nextSession: MobileChatSession = {
+    activeChartContext: context ?? existing?.activeChartContext,
+    createdAt: existing?.createdAt ?? now,
+    id: sessionId,
+    kundliId: kundli.id,
+    replyLanguage,
+    school: getSchoolFromContext(context ?? existing?.activeChartContext),
+    selectedChart: context?.chartType ?? existing?.selectedChart,
+    selectedHouse: context?.selectedHouse ?? existing?.selectedHouse,
+    title: existing?.title ?? `${kundli.birthDetails.name}'s Kundli`,
+    updatedAt: now,
+  };
+
+  return [
+    nextSession,
+    ...sessions.filter(session => session.id !== sessionId),
+  ].slice(0, 30);
+}
+
 type AppState = {
   activeChartContext?: ChartContext;
+  activeChatSessionId?: string;
   activeKundli?: KundliData;
   activeKundliId?: string;
   auth: AuthState;
   biometricsEnabled: boolean;
   chatSoundEnabled: boolean;
+  chatSessions: MobileChatSession[];
   conversationsByKundli: Record<string, ChatMessage[]>;
   languagePreference: LanguagePreference;
   onboardingComplete: boolean;
@@ -114,6 +193,7 @@ type AppState = {
   consumeGuestPdfQuota: () => boolean;
   consumeGuestQuestionQuota: () => boolean;
   consumePremiumPdfCredit: (kundliId: string) => boolean;
+  createChatSession: () => void;
   getActiveConversation: () => ChatMessage[];
   getResolvedAccess: () => ResolvedAccess;
   addOneTimeEntitlement: (entitlement: OneTimeEntitlement) => void;
@@ -124,9 +204,11 @@ type AppState = {
   setActiveChartContext: (context?: ChartContext) => void;
   setActiveKundli: (kundli: KundliData) => void;
   setAuth: (value: AuthState) => void;
+  switchChatSession: (sessionId: string) => void;
   setBiometricsEnabled: (value: boolean) => void;
   setChatSoundEnabled: (value: boolean) => void;
   setEntitlement: (value: EntitlementState) => void;
+  setChartLanguagePreference: (language: SupportedLanguage) => void;
   setLanguagePreference: (language: SupportedLanguage) => void;
   setMonetizationState: (value: MonetizationState) => void;
   setOnboardingComplete: (value: boolean) => void;
@@ -134,6 +216,7 @@ type AppState = {
   setPendingKundliEditId: (value?: string) => void;
   setPinEnabled: (value: boolean) => void;
   setPredictaReplyLanguage: (language: SupportedLanguage) => void;
+  setReportLanguagePreference: (language: SupportedLanguage) => void;
   setRedeemedGuestPass: (value?: RedeemedGuestPass) => void;
   setSavedKundlis: (records: SavedKundliRecord[]) => void;
   setSecurityEnabled: (value: boolean) => void;
@@ -145,9 +228,20 @@ export const useAppStore = create<AppState>((set, get) => ({
     isLoggedIn: false,
     provider: null,
   },
+  activeChatSessionId: BIRTH_INTAKE_CONVERSATION_ID,
   activeKundliId: BIRTH_INTAKE_CONVERSATION_ID,
   biometricsEnabled: true,
   chatSoundEnabled: true,
+  chatSessions: [
+    {
+      createdAt: new Date().toISOString(),
+      id: BIRTH_INTAKE_CONVERSATION_ID,
+      replyLanguage: 'en',
+      school: 'PARASHARI',
+      title: 'Birth details',
+      updatedAt: new Date().toISOString(),
+    },
+  ],
   conversationsByKundli: {
     [BIRTH_INTAKE_CONVERSATION_ID]: [
       {
@@ -160,8 +254,10 @@ export const useAppStore = create<AppState>((set, get) => ({
   },
   languagePreference: {
     appLanguage: 'en',
+    chartLanguage: 'en',
     language: 'en',
     predictaReplyLanguage: 'en',
+    reportLanguage: 'en',
     updatedAt: new Date().toISOString(),
   },
   monetization: createInitialMonetizationState(),
@@ -174,17 +270,39 @@ export const useAppStore = create<AppState>((set, get) => ({
   userPlan: 'FREE',
   appendConversationMessage: message =>
     set(state => {
-      if (!state.activeKundliId) {
+      const conversationKey = getActiveConversationKey(state);
+
+      if (!conversationKey) {
         return {};
       }
 
       const activeMessages =
-        state.conversationsByKundli[state.activeKundliId] ?? [];
+        state.conversationsByKundli[conversationKey] ?? [];
+      const updatedMessages = [...activeMessages, message];
 
       return {
+        chatSessions: state.chatSessions.map(session =>
+          session.id === conversationKey
+            ? {
+                ...session,
+                activeChartContext: message.context ?? session.activeChartContext,
+                kundliId: state.activeKundli?.id ?? session.kundliId,
+                replyLanguage: state.predictaReplyLanguage,
+                school: getSchoolFromContext(
+                  message.context ?? session.activeChartContext,
+                ),
+                selectedChart:
+                  message.context?.chartType ?? session.selectedChart,
+                selectedHouse:
+                  message.context?.selectedHouse ?? session.selectedHouse,
+                title: buildChatSessionTitle(updatedMessages, message.context),
+                updatedAt: new Date().toISOString(),
+              }
+            : session,
+        ),
         conversationsByKundli: {
           ...state.conversationsByKundli,
-          [state.activeKundliId]: [...activeMessages, message],
+          [conversationKey]: updatedMessages,
         },
       };
     }),
@@ -353,14 +471,69 @@ export const useAppStore = create<AppState>((set, get) => ({
 
     return result.consumed;
   },
+  createChatSession: () =>
+    set(state => {
+      if (!state.auth.isLoggedIn) {
+        const key = state.activeChatSessionId ?? BIRTH_INTAKE_CONVERSATION_ID;
+
+        return {
+          activeChatSessionId: key,
+          conversationsByKundli: {
+            ...state.conversationsByKundli,
+            [key]: [
+              {
+                createdAt: new Date().toISOString(),
+                id: `welcome-${key}`,
+                role: 'pridicta',
+                text: getBirthIntakeWelcome(state.predictaReplyLanguage),
+              },
+            ],
+          },
+        };
+      }
+
+      const id = createChatSessionId();
+      const now = new Date().toISOString();
+      const session: MobileChatSession = {
+        activeChartContext: state.activeChartContext,
+        createdAt: now,
+        id,
+        kundliId: state.activeKundli?.id,
+        replyLanguage: state.predictaReplyLanguage,
+        school: getSchoolFromContext(state.activeChartContext),
+        selectedChart: state.activeChartContext?.chartType,
+        selectedHouse: state.activeChartContext?.selectedHouse,
+        title: state.activeChartContext?.sourceScreen
+          ? `${state.activeChartContext.sourceScreen} chat`
+          : 'New Predicta chat',
+        updatedAt: now,
+      };
+
+      return {
+        activeChatSessionId: id,
+        chatSessions: [session, ...state.chatSessions].slice(0, 30),
+        conversationsByKundli: {
+          ...state.conversationsByKundli,
+          [id]: [
+            {
+              createdAt: now,
+              id: `welcome-${id}`,
+              role: 'pridicta',
+              text: getBirthIntakeWelcome(state.predictaReplyLanguage),
+            },
+          ],
+        },
+      };
+    }),
   getActiveConversation: () => {
     const state = get();
+    const conversationKey = getActiveConversationKey(state);
 
-    if (!state.activeKundliId) {
+    if (!conversationKey) {
       return [];
     }
 
-    return state.conversationsByKundli[state.activeKundliId] ?? [];
+    return state.conversationsByKundli[conversationKey] ?? [];
   },
   getResolvedAccess: () => {
     const state = get();
@@ -440,17 +613,19 @@ export const useAppStore = create<AppState>((set, get) => ({
     }),
   replaceConversationMessage: (messageId, message) =>
     set(state => {
-      if (!state.activeKundliId) {
+      const conversationKey = getActiveConversationKey(state);
+
+      if (!conversationKey) {
         return {};
       }
 
       const activeMessages =
-        state.conversationsByKundli[state.activeKundliId] ?? [];
+        state.conversationsByKundli[conversationKey] ?? [];
 
       return {
         conversationsByKundli: {
           ...state.conversationsByKundli,
-          [state.activeKundliId]: activeMessages.map(item =>
+          [conversationKey]: activeMessages.map(item =>
             item.id === messageId ? message : item,
           ),
         },
@@ -462,7 +637,19 @@ export const useAppStore = create<AppState>((set, get) => ({
 
     set(state => ({
       activeKundli: kundli,
+      activeChatSessionId: state.auth.isLoggedIn
+        ? state.activeChatSessionId ?? activeKundliId
+        : activeKundliId,
       activeKundliId,
+      chatSessions: upsertMobileKundliChatSession(
+        state.chatSessions,
+        state.auth.isLoggedIn
+          ? state.activeChatSessionId ?? activeKundliId
+          : activeKundliId,
+        kundli,
+        state.activeChartContext,
+        state.predictaReplyLanguage,
+      ),
       conversationsByKundli: {
         ...state.conversationsByKundli,
         [activeKundliId]: state.conversationsByKundli[activeKundliId] ?? [
@@ -477,6 +664,31 @@ export const useAppStore = create<AppState>((set, get) => ({
     }));
   },
   setAuth: value => set({ auth: value }),
+  switchChatSession: sessionId =>
+    set(state => {
+      if (!state.auth.isLoggedIn) {
+        return {};
+      }
+
+      const session = state.chatSessions.find(item => item.id === sessionId);
+
+      if (!session) {
+        return {};
+      }
+
+      return {
+        activeChartContext:
+          session.activeChartContext ?? state.activeChartContext,
+        activeChatSessionId: session.id,
+        activeKundliId: session.kundliId ?? state.activeKundliId,
+        predictaReplyLanguage: session.replyLanguage,
+        languagePreference: {
+          ...state.languagePreference,
+          predictaReplyLanguage: session.replyLanguage,
+          updatedAt: new Date().toISOString(),
+        },
+      };
+    }),
   setBiometricsEnabled: value => set({ biometricsEnabled: value }),
   setChatSoundEnabled: value => set({ chatSoundEnabled: value }),
   setEntitlement: value =>
@@ -487,16 +699,23 @@ export const useAppStore = create<AppState>((set, get) => ({
       },
       userPlan: value.plan,
     }),
-  setLanguagePreference: language =>
-    set({
+  setChartLanguagePreference: language =>
+    set(state => ({
       languagePreference: {
-        appLanguage: language,
-        language,
-        predictaReplyLanguage: language,
+        ...state.languagePreference,
+        chartLanguage: language,
         updatedAt: new Date().toISOString(),
       },
-      predictaReplyLanguage: language,
-    }),
+    })),
+  setLanguagePreference: language =>
+    set(state => ({
+      languagePreference: {
+        ...state.languagePreference,
+        appLanguage: language,
+        language,
+        updatedAt: new Date().toISOString(),
+      },
+    })),
   setMonetizationState: value =>
     set({
       monetization: value,
@@ -515,6 +734,14 @@ export const useAppStore = create<AppState>((set, get) => ({
         updatedAt: new Date().toISOString(),
       },
       predictaReplyLanguage: language,
+    })),
+  setReportLanguagePreference: language =>
+    set(state => ({
+      languagePreference: {
+        ...state.languagePreference,
+        reportLanguage: language,
+        updatedAt: new Date().toISOString(),
+      },
     })),
   setRedeemedGuestPass: value => set({ redeemedGuestPass: value }),
   setSavedKundlis: records => set({ savedKundlis: records }),

@@ -314,16 +314,16 @@ function buildPendingBriefingCopy(language: SupportedLanguage): Pick<
     bestAction: 'Create your kundli from verified birth details.',
     emotionalWeather: 'Pending until Moon, Lagna, and transit context are calculated.',
     evidence: [
-      'No kundli is active yet.',
-      'Daily briefing needs dasha, transit, Moon, Lagna, and ashtakavarga data.',
-      'Generate a kundli to unlock chart-aware daily guidance.',
+      'Create or select a Kundli first.',
+      'Daily briefing uses dasha, transit, Moon, Lagna, and ashtakavarga data.',
+      'Create a Kundli to prepare chart-aware daily guidance.',
     ],
     notificationBody: 'Create your kundli to unlock a personal daily briefing.',
     notificationTitle: 'Your Predicta briefing is waiting',
     remedyMicroAction: 'No remedy yet. First create a verified chart.',
     subtitle: 'A personal daily briefing appears after real chart calculation.',
     title: 'Daily briefing waiting',
-    todayTheme: 'Your personal day map is not ready yet.',
+    todayTheme: 'Create a Kundli to prepare your personal day map.',
   };
 }
 

@@ -462,7 +462,7 @@ function buildLimitations(
   ];
 
   if (!hasTransits) {
-    limitations.push('Current transit details are not available yet.');
+    limitations.push('Current transit details need to be prepared before fine timing.');
   }
 
   if (depth === 'FREE') {

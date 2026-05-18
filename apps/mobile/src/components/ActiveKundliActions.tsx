@@ -26,6 +26,8 @@ export function ActiveKundliActions({
   title = 'Reading this Kundli',
 }: ActiveKundliActionsProps): React.JSX.Element | null {
   const navigation = useNavigation<any>();
+  const auth = useAppStore(state => state.auth);
+  const savedKundlis = useAppStore(state => state.savedKundlis);
   const setActiveChartContext = useAppStore(
     state => state.setActiveChartContext,
   );
@@ -72,6 +74,21 @@ export function ActiveKundliActions({
   }
 
   function createNew() {
+    if (!auth.isLoggedIn && savedKundlis.length >= 1) {
+      Alert.alert(
+        'Sign in to save more Kundlis',
+        'You can keep one Kundli without signing in. Sign in to add family profiles, save multiple Kundlis, and restore them later.',
+        [
+          { style: 'cancel', text: 'Not Now' },
+          {
+            onPress: () => navigation.navigate(routes.Login),
+            text: 'Sign In',
+          },
+        ],
+      );
+      return;
+    }
+
     clearPendingBirthDetailsDraft();
     clearPendingKundliEditId();
     navigation.navigate(routes.Kundli);

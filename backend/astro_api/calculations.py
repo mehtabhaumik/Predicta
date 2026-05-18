@@ -4,7 +4,7 @@ import hashlib
 import json
 import math
 from datetime import datetime, timedelta, timezone
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 from zoneinfo import ZoneInfo
 
 import swisseph as swe
@@ -71,6 +71,29 @@ ALL_CHARTS = [
     "D45",
     "D60",
 ]
+
+MODERN_PLANET_IDS = {
+    "Uranus": swe.URANUS,
+    "Neptune": swe.NEPTUNE,
+    "Pluto": swe.PLUTO,
+}
+
+MICRO_POINT_MEANINGS = {
+    "Uranus": "Modern refinement for sudden change, innovation, disruption, and unusual independence.",
+    "Neptune": "Modern refinement for imagination, confusion, spirituality, and subtle sensitivity.",
+    "Pluto": "Modern refinement for deep transformation, pressure, power, and rebirth patterns.",
+    "Gulika": "Upagraha refinement used for karmic pressure, discipline, and sensitive house reading.",
+    "Mandi": "Upagraha refinement used for difficult karmic residue and careful house judgement.",
+    "Dhuma": "Solar sensitive point used as a subtle refinement for heat, pressure, and karmic smoke.",
+    "Vyatipata": "Solar sensitive point used as a subtle refinement for reversal and imbalance.",
+    "Parivesha": "Solar sensitive point used as a subtle refinement for enclosure and protection themes.",
+    "Indrachapa": "Solar sensitive point used as a subtle refinement for desire, projection, and atmospheric signals.",
+    "Upaketu": "Solar sensitive point used as a subtle refinement linked with Ketu-like detachment signals.",
+}
+
+UPAGRAHA_NOTE = (
+    "Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+)
 
 
 def normalize_longitude(value: float) -> float:
@@ -161,6 +184,32 @@ def house_from_lagna(planet_sign_index: int, lagna_sign_index: int) -> int:
     return ((planet_sign_index - lagna_sign_index) % 12) + 1
 
 
+def build_planet_position(
+    name: str,
+    longitude: float,
+    lagna_sign_index: int,
+    retrograde: bool = False,
+    kind: str = "classical",
+    simple_meaning: Optional[str] = None,
+    calculation_note: Optional[str] = None,
+) -> PlanetPosition:
+    normalized = normalize_longitude(longitude)
+    nakshatra, pada, _, _ = nakshatra_for(normalized)
+    return PlanetPosition(
+        name=name,
+        sign=sign_name(normalized),
+        degree=round(normalized % 30, 4),
+        absoluteLongitude=round(normalized, 6),
+        house=house_from_lagna(sign_index(normalized), lagna_sign_index),
+        nakshatra=nakshatra,
+        pada=pada,
+        retrograde=retrograde,
+        kind=kind,  # type: ignore[arg-type]
+        simpleMeaning=simple_meaning,
+        calculationNote=calculation_note,
+    )
+
+
 def calculate_planets(
     jd_ut: float,
     lagna_sign_index: int,
@@ -183,37 +232,211 @@ def calculate_planets(
     for name, body_id in planet_ids.items():
         result, _ = swe.calc_ut(jd_ut, body_id, flags)
         longitude = normalize_longitude(result[0])
-        nakshatra, pada, _, _ = nakshatra_for(longitude)
         planets.append(
-            PlanetPosition(
+            build_planet_position(
                 name=name,
-                sign=sign_name(longitude),
-                degree=round(longitude % 30, 4),
-                absoluteLongitude=round(longitude, 6),
-                house=house_from_lagna(sign_index(longitude), lagna_sign_index),
-                nakshatra=nakshatra,
-                pada=pada,
                 retrograde=result[3] < 0,
+                longitude=longitude,
+                lagna_sign_index=lagna_sign_index,
             )
         )
 
     rahu_longitude = next(p.absoluteLongitude for p in planets if p.name == "Rahu")
     ketu_longitude = normalize_longitude(rahu_longitude + 180)
-    ketu_nakshatra, ketu_pada, _, _ = nakshatra_for(ketu_longitude)
     planets.append(
-        PlanetPosition(
+        build_planet_position(
             name="Ketu",
-            sign=sign_name(ketu_longitude),
-            degree=round(ketu_longitude % 30, 4),
-            absoluteLongitude=round(ketu_longitude, 6),
-            house=house_from_lagna(sign_index(ketu_longitude), lagna_sign_index),
-            nakshatra=ketu_nakshatra,
-            pada=ketu_pada,
             retrograde=True,
+            longitude=ketu_longitude,
+            lagna_sign_index=lagna_sign_index,
         )
     )
 
     return planets
+
+
+def calculate_modern_planets(
+    jd_ut: float,
+    lagna_sign_index: int,
+    sid_mode: int = swe.SIDM_LAHIRI,
+) -> List[PlanetPosition]:
+    swe.set_sid_mode(sid_mode)
+    flags = swe.FLG_SWIEPH | swe.FLG_SIDEREAL | swe.FLG_SPEED
+    planets: List[PlanetPosition] = []
+
+    for name, body_id in MODERN_PLANET_IDS.items():
+        result, _ = swe.calc_ut(jd_ut, body_id, flags)
+        planets.append(
+            build_planet_position(
+                name=name,
+                longitude=result[0],
+                lagna_sign_index=lagna_sign_index,
+                retrograde=result[3] < 0,
+                kind="modern",
+                simple_meaning=MICRO_POINT_MEANINGS[name],
+                calculation_note=(
+                    "Calculated with Swiss Ephemeris as a modern outer-planet refinement. "
+                    "Use as supporting context, not as the main Vedic judgement."
+                ),
+            )
+        )
+
+    return planets
+
+
+def calculate_solar_sensitive_points(
+    sun_longitude: float,
+    lagna_sign_index: int,
+) -> List[PlanetPosition]:
+    dhuma = normalize_longitude(sun_longitude + 133 + 20 / 60)
+    vyatipata = normalize_longitude(360 - dhuma)
+    parivesha = normalize_longitude(vyatipata + 180)
+    indrachapa = normalize_longitude(360 - parivesha)
+    upaketu = normalize_longitude(indrachapa + 16 + 40 / 60)
+    points = {
+        "Dhuma": dhuma,
+        "Vyatipata": vyatipata,
+        "Parivesha": parivesha,
+        "Indrachapa": indrachapa,
+        "Upaketu": upaketu,
+    }
+
+    return [
+        build_planet_position(
+            name=name,
+            longitude=longitude,
+            lagna_sign_index=lagna_sign_index,
+            kind="sensitive",
+            simple_meaning=MICRO_POINT_MEANINGS[name],
+            calculation_note=(
+                f"{name} is derived from the sidereal Sun longitude. {UPAGRAHA_NOTE}"
+            ),
+        )
+        for name, longitude in points.items()
+    ]
+
+
+def sun_event_jd(
+    start_jd_ut: float,
+    event_flag: int,
+    latitude: float,
+    longitude: float,
+) -> Optional[float]:
+    try:
+        result, values = swe.rise_trans(
+            start_jd_ut,
+            swe.SUN,
+            event_flag,
+            (longitude, latitude, 0.0),
+            flags=swe.FLG_SWIEPH,
+        )
+    except swe.Error:
+        return None
+
+    if result != 0:
+        return None
+
+    return values[0]
+
+
+def local_date_julian_day(details: BirthDetails) -> float:
+    local_birth = birth_to_utc(details).astimezone(ZoneInfo(details.timezone))
+    local_midnight = local_birth.replace(hour=0, minute=0, second=0, microsecond=0)
+    return julian_day(local_midnight.astimezone(timezone.utc))
+
+
+def gulika_segment_index(local_weekday: int) -> int:
+    # Monday is 0 in Python. This maps the Saturn-ruled eighth-part segment
+    # used for Gulika/Mandi calculations: Sun=6, Mon=5, Tue=4, Wed=3,
+    # Thu=2, Fri=1, Sat=0.
+    return {6: 6, 0: 5, 1: 4, 2: 3, 3: 2, 4: 1, 5: 0}[local_weekday]
+
+
+def calculate_gulika_mandi(
+    jd_ut: float,
+    details: BirthDetails,
+    lagna_sign_index: int,
+) -> List[PlanetPosition]:
+    local_day_jd = local_date_julian_day(details)
+    sunrise = sun_event_jd(
+        local_day_jd - 0.25,
+        swe.CALC_RISE,
+        details.latitude,
+        details.longitude,
+    )
+    sunset = sun_event_jd(
+        local_day_jd - 0.25,
+        swe.CALC_SET,
+        details.latitude,
+        details.longitude,
+    )
+    next_sunrise = sun_event_jd(
+        local_day_jd + 0.5,
+        swe.CALC_RISE,
+        details.latitude,
+        details.longitude,
+    )
+    previous_sunset = sun_event_jd(
+        local_day_jd - 1.0,
+        swe.CALC_SET,
+        details.latitude,
+        details.longitude,
+    )
+
+    if sunrise is None or sunset is None:
+        return []
+
+    if sunrise <= jd_ut < sunset:
+        arc_start = sunrise
+        arc_end = sunset
+    elif jd_ut < sunrise and previous_sunset is not None:
+        arc_start = previous_sunset
+        arc_end = sunrise
+    elif next_sunrise is not None:
+        arc_start = sunset
+        arc_end = next_sunrise
+    else:
+        return []
+
+    arc_start_local = datetime_from_julian_day(arc_start).astimezone(
+        ZoneInfo(details.timezone)
+    )
+    segment = (arc_end - arc_start) / 8
+    saturn_segment = gulika_segment_index(arc_start_local.weekday())
+    gulika_jd = arc_start + segment * (saturn_segment + 1)
+    mandi_jd = arc_start + segment * saturn_segment
+    sensitive_points = {
+        "Gulika": calculate_lagna(gulika_jd, details.latitude, details.longitude),
+        "Mandi": calculate_lagna(mandi_jd, details.latitude, details.longitude),
+    }
+
+    return [
+        build_planet_position(
+            name=name,
+            longitude=longitude,
+            lagna_sign_index=lagna_sign_index,
+            kind="upagraha",
+            simple_meaning=MICRO_POINT_MEANINGS[name],
+            calculation_note=(
+                f"{name} is calculated from the Saturn segment boundary of the local day/night. "
+                f"{UPAGRAHA_NOTE}"
+            ),
+        )
+        for name, longitude in sensitive_points.items()
+    ]
+
+
+def calculate_micro_points(
+    jd_ut: float,
+    details: BirthDetails,
+    lagna_sign_index: int,
+    sun_longitude: float,
+) -> List[PlanetPosition]:
+    return [
+        *calculate_modern_planets(jd_ut, lagna_sign_index),
+        *calculate_solar_sensitive_points(sun_longitude, lagna_sign_index),
+        *calculate_gulika_mandi(jd_ut, details, lagna_sign_index),
+    ]
 
 
 def calculate_lagna(
@@ -340,13 +563,70 @@ def build_bhav_chalit(
         "status": "ready",
         "houseSystem": "PLACIDUS",
         "ayanamsa": "LAHIRI",
-        "description": "Bhav Chalit refines house placement from degree-based Placidus cusps while D1 Rashi remains the root sign chart.",
+        "description": "KP Bhava/cusp data uses Placidus-style cusps for star-lord, sub-lord, significator, and event-timing judgement.",
         "cusps": cusp_items,
         "planetPlacements": planet_placements,
         "shifts": [item for item in planet_placements if item["shifted"]],
         "limitations": [
-            "Chalit is a house-position refinement, not a replacement for D1 Rashi.",
-            "Use Chalit for house emphasis and event areas, then anchor conclusions back to D1, dasha, and transits.",
+            "This KP cusp layer is separate from Parashari Chalit.",
+            "Use it for KP cusp, star-lord, sub-lord, significator, and ruling-planet judgement.",
+        ],
+    }
+
+
+def build_parashari_chalit(
+    asc_longitude: float,
+    planets: List[PlanetPosition],
+):
+    ascendant_degree = round(asc_longitude % 30, 4)
+    first_house_start = normalize_longitude(asc_longitude - 15)
+    cusps = []
+    planet_placements = []
+
+    for house in range(1, 13):
+        midpoint = normalize_longitude(asc_longitude + (house - 1) * 30)
+        start = normalize_longitude(midpoint - 15)
+        end = normalize_longitude(midpoint + 15)
+        cusps.append(
+            {
+                "house": house,
+                "midpointLongitude": round(midpoint, 6),
+                "startLongitude": round(start, 6),
+                "endLongitude": round(end, 6),
+                "sign": sign_name(midpoint),
+                "degree": round(midpoint % 30, 4),
+            }
+        )
+
+    for planet in planets:
+        offset = normalize_longitude(planet.absoluteLongitude - first_house_start)
+        chalit_house = int(offset // 30) + 1
+        shifted = chalit_house != planet.house
+        planet_placements.append(
+            {
+                "planet": planet.name,
+                "rashiHouse": planet.house,
+                "chalitHouse": chalit_house,
+                "rashiSign": planet.sign,
+                "shifted": shifted,
+                "shiftDirection": shift_direction(planet.house, chalit_house),
+                "absoluteLongitude": round(planet.absoluteLongitude, 6),
+            }
+        )
+
+    return {
+        "status": "ready",
+        "houseSystem": "EQUAL_BHAVA_FROM_LAGNA_DEGREE",
+        "ayanamsa": "LAHIRI",
+        "ascendantDegree": ascendant_degree,
+        "description": "Parashari Chalit keeps the planet's rashi sign from D1, but refines house delivery using the Lagna degree as the midpoint of the first bhava.",
+        "cusps": cusps,
+        "planetPlacements": planet_placements,
+        "shifts": [item for item in planet_placements if item["shifted"]],
+        "limitations": [
+            "Chalit refines house delivery; it does not change the planet's sign.",
+            "D1 Rashi remains the root chart. Chalit is used to refine which bhava receives the result.",
+            "Very small birth-time changes can shift planets near bhava boundaries.",
         ],
     }
 
@@ -915,6 +1195,15 @@ def generate_kundli(details: BirthDetails) -> KundliData:
     planets = calculate_planets(jd_ut, lagna_sign_index)
     moon = next(planet for planet in planets if planet.name == "Moon")
     sun = next(planet for planet in planets if planet.name == "Sun")
+    planets = [
+        *planets,
+        *calculate_micro_points(
+            jd_ut,
+            details,
+            lagna_sign_index,
+            sun.absoluteLongitude,
+        ),
+    ]
     charts = {
         chart_type: build_chart(chart_type, planets, asc_longitude)
         for chart_type in ALL_CHARTS
@@ -940,6 +1229,7 @@ def generate_kundli(details: BirthDetails) -> KundliData:
         planets=planets,
         houses=build_houses(planets, lagna_sign_index),
         charts=charts,
+        chalit=build_parashari_chalit(asc_longitude, planets),
         bhavChalit=build_bhav_chalit(jd_ut, details, planets),
         kp=build_kp_system(jd_ut, utc_dt, details),
         yearlyHoroscope=build_yearly_horoscope(

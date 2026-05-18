@@ -11,6 +11,11 @@ import type {
   PlanetPosition,
 } from '@pridicta/types';
 import { composeHolisticFoundationModel } from './holisticFoundationModel';
+import {
+  getSpecialPointMeaning,
+  getSpecialPointMetadata,
+  isSpecialPoint,
+} from './specialPoints';
 
 const HOUSE_MEANINGS: Record<number, string> = {
   1: 'body, identity, confidence, and direction',
@@ -87,6 +92,14 @@ const MODULE_REGISTRY: AdvancedJyotishModulePolicy[] = [
     title: 'Nakshatra intelligence',
   },
   {
+    freeAccess: 'Relevant outer planets and upagrahas are explained only when they help.',
+    id: 'micro-points',
+    premiumDepth:
+      'Micro-point synthesis with sign, house, nakshatra, pada, timing, and remedy context.',
+    simpleName: 'Subtle Points',
+    title: 'Micro planets and upagraha refinements',
+  },
+  {
     freeAccess: 'Strongest and careful houses with simple guidance.',
     id: 'ashtakavarga',
     premiumDepth:
@@ -114,7 +127,7 @@ const MODULE_REGISTRY: AdvancedJyotishModulePolicy[] = [
     freeAccess: 'Explains how Prashna will be handled safely.',
     id: 'prashna',
     premiumDepth:
-      'Question-time chart planning with clear separation from birth Kundli and no fake certainty.',
+      'Question-time chart planning with clear separation from birth Kundli and careful confidence.',
     premiumOnly: true,
     simpleName: 'Question Chart',
     title: 'Prashna planning',
@@ -136,6 +149,13 @@ const MODULE_REGISTRY: AdvancedJyotishModulePolicy[] = [
     title: 'Astrologer-grade tables',
   },
 ];
+
+const PADA_MEANINGS: Record<number, string> = {
+  1: 'first pada starts the nakshatra energy with initiative and visible expression',
+  2: 'second pada makes the nakshatra more practical, material, and stabilizing',
+  3: 'third pada makes the nakshatra communicative, adaptive, and relational',
+  4: 'fourth pada makes the nakshatra emotional, inward, and completion-oriented',
+};
 
 export function composeAdvancedJyotishCoverage(
   kundli?: KundliData,
@@ -178,6 +198,7 @@ export function composeAdvancedJyotishCoverage(
       'Prashna must use a fresh question-time chart and should stay separate from birth-Kundli reading.',
     ],
     moduleRegistry: MODULE_REGISTRY,
+    microPointIntelligence: buildMicroPointIntelligence(kundli, depth),
     nakshatraInsight: buildNakshatraInsight(kundli, depth),
     ownerName: kundli.birthDetails.name,
     panchangMuhurta: buildPanchangMuhurta(kundli, nowIso),
@@ -190,10 +211,10 @@ export function composeAdvancedJyotishCoverage(
       requiredInputs: ['Question text', 'Question time', 'Question place or timezone'],
       status: 'planned',
       summary:
-        'Prashna will be a premium question-time chart workflow. It is planned here so Predicta does not mix it casually with birth-chart answers.',
+        'Prashna is a separate question-time chart reading. Predicta keeps it separate from birth-chart answers.',
     },
     premiumPolicy:
-      'Premium turns the same surface into detailed synthesis, strength checks, timing, remedies, deeper tables, and PDF-ready guidance.',
+      'Premium turns the same Jyotish areas into detailed synthesis, strength checks, timing, remedies, deeper tables, and PDF-ready guidance.',
     premiumUnlock:
       'Premium Advanced Mode adds detailed yoga/dosha scoring, BAV/SAV tables, nakshatra depth, muhurta planning, compatibility synthesis, Prashna workflow, and safe remedy schedules.',
     safeRemedies: buildSafeRemedies(kundli),
@@ -232,14 +253,21 @@ function buildPendingCoverage(
     ],
     depth,
     freePolicy:
-      'Free users get useful insight across the available Jyotish surface.',
+      'Free gives useful insight across the available Jyotish areas.',
     limitations: ['Create a Kundli first.'],
     moduleRegistry: MODULE_REGISTRY,
+    microPointIntelligence: {
+      freePolicy: 'Create Kundli first.',
+      premiumPolicy: 'Create Kundli first.',
+      points: [],
+      rule: 'Micro planets and upagrahas appear after Kundli calculation.',
+    },
     nakshatraInsight: {
       evidence: [],
       lord: 'Pending',
       moonNakshatra: 'Pending',
       pada: 0,
+      rule: 'Create Kundli first.',
       simpleInsight: 'Moon nakshatra appears after Kundli calculation.',
       theme: 'Pending',
     },
@@ -258,7 +286,7 @@ function buildPendingCoverage(
       guardrails: ['Create Kundli first for birth-chart context.'],
       requiredInputs: ['Question text', 'Question time', 'Question place'],
       status: 'planned',
-      summary: 'Prashna planning is available after the main chart is ready.',
+      summary: 'Prashna reading opens after the main chart is ready.',
     },
     premiumPolicy:
       'Premium adds detailed synthesis, timing, remedies, and deeper tables.',
@@ -266,7 +294,7 @@ function buildPendingCoverage(
       'Premium Advanced Mode adds detailed scoring, planning, and report depth.',
     safeRemedies: ['Create Kundli first so remedies can be evidence-linked.'],
     status: 'pending',
-    subtitle: 'Create Kundli first so Predicta can map the full Jyotish surface.',
+    subtitle: 'Create Kundli first so Predicta can map the full Jyotish picture.',
     title: 'Advanced Jyotish coverage is waiting.',
     yogaDoshaInsights: [],
   };
@@ -459,12 +487,54 @@ function buildNakshatraInsight(
     lord,
     moonNakshatra: kundli.nakshatra,
     pada: moon?.pada ?? 0,
+    padaMeaning: moon ? PADA_MEANINGS[moon.pada] : undefined,
     premiumSynthesis:
       depth === 'PREMIUM'
         ? `${kundli.nakshatra} should be read with Moon sign, pada, ${lord} dasha links, Tara-style compatibility checks, and a simple remedy tone.`
         : undefined,
+    rule:
+      'Explain nakshatra and pada through planet, sign, house, and lived expression, not only keywords.',
     simpleInsight: `${kundli.nakshatra} gives a ${theme} emotional style. Keep advice practical and gentle, especially during ${kundli.dasha.current.mahadasha}/${kundli.dasha.current.antardasha}.`,
     theme,
+  };
+}
+
+function buildMicroPointIntelligence(
+  kundli: KundliData,
+  depth: AdvancedJyotishInsightDepth,
+): NonNullable<AdvancedJyotishCoverage['microPointIntelligence']> {
+  const points = kundli.planets
+    .filter(isSpecialPoint)
+    .map(planet => {
+      const metadata = getSpecialPointMetadata(planet);
+
+      return {
+        calculationNote: planet.calculationNote,
+        degree: planet.degree,
+        house: planet.house,
+        howToUse:
+          metadata?.howToUse ?? 'Use this as a supporting refinement only.',
+        kind: (planet.kind ?? metadata?.kind ?? 'sensitive') as
+          | 'modern'
+          | 'sensitive'
+          | 'upagraha',
+        nakshatra: planet.nakshatra,
+        name: planet.name,
+        pada: planet.pada,
+        padaMeaning: PADA_MEANINGS[planet.pada],
+        sign: planet.sign,
+        simpleMeaning: getSpecialPointMeaning(planet),
+      };
+    });
+
+  return {
+    freePolicy:
+      'Free readings may mention the most relevant micro point only when it directly helps the answer.',
+    premiumPolicy:
+      'Premium readings can synthesize micro points with nakshatra, pada, dasha, house, and remedies.',
+    points: depth === 'PREMIUM' ? points : points.slice(0, 4),
+    rule:
+      'Micro planets, modern outer planets, upagrahas, and sensitive points are supporting refinements. Classical chart evidence remains primary.',
   };
 }
 
@@ -575,7 +645,7 @@ function buildAdvancedTables(
       summary:
         depth === 'PREMIUM'
           ? 'Premium can show expanded tables without confusing beginners.'
-          : 'Advanced details stay summarized in free mode.',
+          : 'Advanced details are kept simple in free mode.',
       title: 'Core Jyotish table',
     },
     {
@@ -586,7 +656,7 @@ function buildAdvancedTables(
         value: `${item.score} bindus - ${item.tone}`,
       })),
       summary:
-        'SAV table for houses. Free users see highlights; Premium can use the full table in reports.',
+        'SAV table for houses. Free shows highlights; Premium can use the full table in reports.',
       title: 'Ashtakavarga SAV table',
     },
   ];

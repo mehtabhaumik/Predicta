@@ -228,7 +228,7 @@ function buildSadeSatiEvidence({
           id: 'saturn-transit-missing',
           interpretation:
             'Predicta can explain the rule, but current status needs Saturn transit data.',
-          observation: 'Saturn transit is not available in this Kundli yet.',
+          observation: 'Saturn transit needs preparation for this Kundli.',
           title: 'Current Saturn transit',
           weight: 'neutral',
         },
@@ -367,7 +367,7 @@ function buildFreeInsight({
   saturnTransit?: TransitInsight;
 }): string {
   if (!saturnTransit) {
-    return 'Useful insight: Saturn transit is not available yet, so Sade Sati status cannot be confirmed from this Kundli.';
+    return 'Useful insight: Saturn transit evidence is needed before Sade Sati status can be confirmed from this Kundli.';
   }
 
   if (!active) {

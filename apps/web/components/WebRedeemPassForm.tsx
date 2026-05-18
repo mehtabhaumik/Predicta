@@ -49,7 +49,7 @@ export function WebRedeemPassForm(): React.JSX.Element {
     if (!user?.email) {
       setStatus({
         tone: 'error',
-        text: 'Please sign in first. Use Google sign-in or create an account with the email used for your pass. If you are not sure, contact the Predicta admin or the person who invited you.',
+        text: 'Please sign in first. Use Google sign-in or create an account with the email used for your pass. If you are not sure, contact the Predicta admin or pass creator.',
       });
       return;
     }
@@ -73,7 +73,7 @@ export function WebRedeemPassForm(): React.JSX.Element {
       if (!response.ok || result.status !== 'SUCCESS') {
         const detail =
           result.status === 'EMAIL_NOT_ALLOWED'
-            ? 'This pass is not available for the email currently signed in. Please sign out and sign in with the email used when your pass was created. If you are not sure, contact the Predicta admin or the person who invited you.'
+            ? 'This pass is tied to a different approved email. Please sign out and use the email shared with the pass. If you are not sure, contact the Predicta admin or pass creator.'
             : result.detail ?? result.message ?? 'This pass could not be redeemed.';
         setStatus({
           tone: 'error',
@@ -95,7 +95,7 @@ export function WebRedeemPassForm(): React.JSX.Element {
     } catch {
       setStatus({
         tone: 'error',
-        text: 'Private pass check is not available right now. Please try again later.',
+        text: 'We could not check this private pass right now. Please try again in a moment.',
       });
     } finally {
       setBusy(false);
@@ -108,9 +108,9 @@ export function WebRedeemPassForm(): React.JSX.Element {
         <div className="section-title">HOW TO REDEEM</div>
         <h2>Sign in with the pass email first.</h2>
         <p>
-          A private pass is tied to one email address. If you remember the email
-          used for your pass, sign in with it. If you are not sure, contact the
-          Predicta admin or the person who invited you.
+          A private pass is tied to one approved email address. If you remember
+          the email used for your pass, sign in with it. If you are not sure,
+          contact the Predicta admin or pass creator.
         </p>
         <ol>
           <li>Use Google sign-in, or create an account with the pass email.</li>

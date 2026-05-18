@@ -1,6 +1,6 @@
 import type {
-  BhavChalitCusp,
   BhavChalitPlanetPlacement,
+  ChalitPlanetPlacement,
   ChalitBhavKpFoundation,
   ChalitBhavKpInsightDepth,
   KPCusp,
@@ -24,13 +24,13 @@ export function composeChalitBhavKpFoundation(
     return buildPendingFoundation(depth);
   }
 
-  const bhav = kundli.bhavChalit;
+  const chalit = kundli.chalit;
   const kp = kundli.kp;
-  const bhavReady = Boolean(bhav?.cusps.length);
+  const bhavReady = Boolean(chalit?.cusps.length);
   const kpReady = Boolean(kp?.cusps.length);
   const status: ChalitBhavKpFoundation['status'] =
     bhavReady && kpReady ? 'ready' : bhavReady || kpReady ? 'partial' : 'pending';
-  const shifts = bhav?.shifts ?? [];
+  const shifts = chalit?.shifts ?? [];
   const topSignificators = (kp?.significators ?? [])
     .slice()
     .sort((a, b) => strengthRank(a.strength) - strengthRank(b.strength))
@@ -38,14 +38,14 @@ export function composeChalitBhavKpFoundation(
 
   return {
     askPrompt:
-      'Explain my Chalit/Bhav chart and KP horoscope separately, with simple proof and free vs premium depth.',
+      'Explain my Parashari Chalit chart and KP horoscope separately, with simple proof and free vs premium depth.',
     bhavChalit: {
-      cusps: bhav?.cusps ?? [],
+      cusps: chalit?.cusps ?? [],
       evidence: buildBhavEvidence(kundli, shifts),
       freeInsight: bhavReady
         ? buildBhavFreeInsight(kundli, shifts)
-        : 'Bhav Chalit will appear automatically once Predicta calculates exact house-cusp details from the saved birth profile.',
-      limitations: bhav?.limitations ?? [
+        : 'Chalit chart will appear automatically once Predicta calculates the Lagna-degree bhava boundaries from the saved birth profile.',
+      limitations: chalit?.limitations ?? [
         'Predicta needs exact birth date, time, place, coordinates, and timezone to calculate degree-based house refinement.',
       ],
       premiumSynthesis:
@@ -54,15 +54,15 @@ export function composeChalitBhavKpFoundation(
           : undefined,
       shifts,
       subtitle:
-        'Bhav Chalit refines house placement by exact cusps. It does not replace D1 Rashi.',
-      title: 'Bhav Chalit house refinement',
+        'Chalit refines house delivery from the Lagna degree. It does not replace D1 Rashi.',
+      title: 'Chalit chart house refinement',
     },
     ctas: [
       {
         id: 'explain-chalit',
         label: 'Explain Chalit',
         prompt:
-          'Explain my Bhav Chalit chart in simple words and tell me which planets shifted houses.',
+          'Explain my Parashari Chalit chart in simple words and tell me which planets shifted houses.',
       },
       {
         id: 'open-kp-world',
@@ -100,7 +100,7 @@ export function composeChalitBhavKpFoundation(
     },
     ownerName: kundli.birthDetails.name,
     premiumUnlock:
-      'Premium expands Chalit/KP into cusp-by-cusp analysis, sub-lord event judgment, significator strength, dasha support, ruling-planet checks, and report-ready synthesis.',
+      'Premium expands Parashari Chalit and KP separately: Chalit house delivery, KP cusp/sub-lord event judgment, significator strength, dasha support, ruling-planet checks, and report-ready synthesis.',
     status,
   };
 }
@@ -110,23 +110,23 @@ function buildPendingFoundation(
 ): ChalitBhavKpFoundation {
   return {
     askPrompt:
-      'Create my Kundli, then explain Chalit/Bhav and KP horoscope separately.',
+      'Create my Kundli, then explain Parashari Chalit and KP horoscope separately.',
     bhavChalit: {
       cusps: [],
       evidence: ['No Kundli is selected yet.'],
       freeInsight:
-        'Bhav Chalit needs a calculated birth chart because it refines exact house cusps from birth time and place.',
+        'Chalit needs a calculated birth chart because it refines house delivery from the Lagna degree.',
       limitations: ['Create a Kundli first.'],
       shifts: [],
       subtitle: 'Pending until birth chart calculation.',
-      title: 'Bhav Chalit house refinement',
+      title: 'Chalit chart house refinement',
     },
     ctas: [
       {
         id: 'create-kundli',
         label: 'Create Kundli',
         prompt:
-          'Create my Kundli first, then show Chalit/Bhav and KP horoscope.',
+          'Create my Kundli first, then show Chalit and KP horoscope separately.',
       },
     ],
     depth,
@@ -150,15 +150,15 @@ function buildPendingFoundation(
 
 function buildBhavFreeInsight(
   kundli: KundliData,
-  shifts: BhavChalitPlanetPlacement[],
+  shifts: Array<BhavChalitPlanetPlacement | ChalitPlanetPlacement>,
 ): string {
   if (!shifts.length) {
-    return `${kundli.birthDetails.name}'s Chalit layer does not show major planet house shifts from D1 Rashi. Read D1 houses normally, while still using exact cusps for fine judgment.`;
+    return `${kundli.birthDetails.name}'s Chalit layer does not show major planet house shifts from D1 Rashi. Read D1 houses normally, while still using Lagna-degree bhavas for fine judgment.`;
   }
 
   const top = shifts
     .slice(0, 3)
-    .map(item => `${item.planet} moves from house ${item.rashiHouse} to ${item.bhavHouse}`)
+    .map(item => `${item.planet} moves from house ${item.rashiHouse} to ${targetHouse(item)}`)
     .join('; ');
 
   return `${kundli.birthDetails.name}'s Chalit layer shows house refinement: ${top}. This changes house emphasis, not the planet's sign.`;
@@ -166,7 +166,7 @@ function buildBhavFreeInsight(
 
 function buildBhavPremiumSynthesis(
   kundli: KundliData,
-  shifts: BhavChalitPlanetPlacement[],
+  shifts: Array<BhavChalitPlanetPlacement | ChalitPlanetPlacement>,
 ): string {
   const current = kundli.dasha.current;
   const dashaShift = shifts.find(
@@ -176,10 +176,10 @@ function buildBhavPremiumSynthesis(
 
   return [
     shifts.length
-      ? `Premium Chalit reads ${shifts.length} shifted planet(s), exact cusps, D1 sign dignity, and house delivery together.`
+      ? `Premium Chalit reads ${shifts.length} shifted planet(s), Lagna-degree bhavas, D1 sign dignity, and house delivery together.`
       : 'Premium Chalit confirms that sign and house emphasis are broadly aligned, so D1 house reading remains stable.',
     dashaShift
-      ? `${dashaShift.planet} is active in dasha and shifts to Chalit house ${dashaShift.bhavHouse}, so that house deserves extra timing attention.`
+      ? `${dashaShift.planet} is active in dasha and shifts to Chalit house ${targetHouse(dashaShift)}, so that house deserves extra timing attention.`
       : `Current dasha ${current.mahadasha}/${current.antardasha} does not show a major Chalit shift from the available shift list.`,
   ].join(' ');
 }
@@ -238,15 +238,21 @@ function buildKpPremiumSynthesis(
 
 function buildBhavEvidence(
   kundli: KundliData,
-  shifts: BhavChalitPlanetPlacement[],
+  shifts: Array<BhavChalitPlanetPlacement | ChalitPlanetPlacement>,
 ): string[] {
   return [
     `D1 root remains ${kundli.lagna} Lagna with ${kundli.moonSign} Moon.`,
     `Chalit shifts detected: ${shifts.length}.`,
     shifts[0]
-      ? `${shifts[0].planet} is the first shift: D1 house ${shifts[0].rashiHouse} to Bhav house ${shifts[0].bhavHouse}.`
+      ? `${shifts[0].planet} is the first shift: D1 house ${shifts[0].rashiHouse} to Chalit house ${targetHouse(shifts[0])}.`
       : 'No major Chalit shift appears in this Kundli yet.',
   ];
+}
+
+function targetHouse(
+  item: BhavChalitPlanetPlacement | ChalitPlanetPlacement,
+): number {
+  return 'chalitHouse' in item ? item.chalitHouse : item.bhavHouse;
 }
 
 function buildKpEvidence(

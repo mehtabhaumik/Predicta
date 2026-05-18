@@ -23,8 +23,8 @@
     },
     "ui.aCleanStartingPointForTheWholeChart.19w7gwp": {
       "en": "A clean starting point for the whole chart.",
-      "hi": "पूरे chart के लिए साफ शुरुआत.",
-      "gu": "આખા chart માટે સ્પષ્ટ શરૂઆત."
+      "hi": "पूरे चार्ट के लिए साफ शुरुआत.",
+      "gu": "આખા ચાર્ટ માટે સ્પષ્ટ શરૂઆત."
     },
     "ui.aCompleteAstrologyExperienceWithRoomToBreathe.11rjpc1": {
       "en": "A complete astrology experience with room to breathe.",
@@ -143,13 +143,13 @@
     },
     "ui.allChartsStayVisible.1sztw1j": {
       "en": "All charts stay visible",
-      "hi": "सभी charts दिखते रहेंगे",
-      "gu": "બધા charts દેખાતા રહેશે"
+      "hi": "सभी चार्ट दिखते रहेंगे",
+      "gu": "બધા ચાર્ટ્સ દેખાતા રહેશે"
     },
     "ui.allVisibleCharts.a6fyv6": {
       "en": "All visible charts",
-      "hi": "सभी visible charts",
-      "gu": "બધા visible charts"
+      "hi": "सभी दिखने वाले चार्ट",
+      "gu": "બધા દેખાતા ચાર્ટ્સ"
     },
     "ui.annualPlanning.m899i6": {
       "en": "Annual planning",
@@ -377,9 +377,9 @@
       "gu": "જ્યારે ફક્ત શું થશે નહીં, શું કરવું છે પણ જાણવું હોય, ત્યારે best."
     },
     "ui.bhavChalit.1it39s0": {
-      "en": "Bhav Chalit",
-      "hi": "भाव चालित",
-      "gu": "ભાવ ચાલિત"
+      "en": "Chalit",
+      "hi": "चलित",
+      "gu": "ચાલિત"
     },
     "ui.birthDateTimeAndPlaceNeeded.17am3yz": {
       "en": "Birth date, time, and place needed",
@@ -428,8 +428,8 @@
     },
     "ui.bringYourChartIntoACalmerWorkspace.1lkzicv": {
       "en": "Bring your chart into a calmer workspace.",
-      "hi": "अपने chart को एक शांत workspace में लाएं.",
-      "gu": "તમારો chart શાંત workspace માં લાવો."
+      "hi": "अपने चार्ट को शांत जगह पर लाएं.",
+      "gu": "તમારો ચાર્ટ શાંત જગ્યાએ લાવો."
     },
     "ui.calculate.bwuurq": {
       "en": "Calculate",
@@ -458,13 +458,13 @@
     },
     "ui.careerTimingIsActive.1es20fc": {
       "en": "Career timing is active",
-      "hi": "करियर timing active है",
-      "gu": "કારકિર્દી timing active છે"
+      "hi": "करियर समय सक्रिय है",
+      "gu": "કારકિર્દી સમય સક્રિય છે"
     },
     "ui.careerMarriageWealthRemediesAndFullKundliPdfPreviews.1g6xb9z": {
       "en": "Career, marriage, wealth, remedies, and full Kundli PDF previews.",
-      "hi": "करियर, विवाह, धन, उपाय और पूरी कुंडली PDF preview.",
-      "gu": "કરિયર, લગ્ન, ધન, ઉપાય અને સંપૂર્ણ કુંડળી PDF preview."
+      "hi": "करियर, विवाह, धन, उपाय और पूरी कुंडली पीडीएफ झलक.",
+      "gu": "કારકિર્દી, લગ્ન, ધન, ઉપાય અને સંપૂર્ણ કુંડળી પીડીએફ ઝલક."
     },
     "ui.chalitKp.1d2ejbv": {
       "en": "Chalit / KP",
@@ -558,13 +558,13 @@
     },
     "ui.chooseOneReport.vjvruf": {
       "en": "Choose one report",
-      "hi": "एक report चुनें",
-      "gu": "એક report પસંદ કરો"
+      "hi": "एक रिपोर्ट चुनें",
+      "gu": "એક રિપોર્ટ પસંદ કરો"
     },
     "ui.chooseTheActiveProfile.1c2r6av": {
       "en": "Choose the active profile",
-      "hi": "Active profile चुनें",
-      "gu": "Active profile પસંદ કરો"
+      "hi": "सक्रिय प्रोफाइल चुनें",
+      "gu": "સક્રિય પ્રોફાઇલ પસંદ કરો"
     },
     "ui.chooseWhatYouWantToDo.7e5d96": {
       "en": "Choose what you want to do.",
@@ -643,8 +643,8 @@
     },
     "ui.createDetailedPdf.12486au": {
       "en": "Create detailed PDF",
-      "hi": "विस्तृत PDF बनाएं",
-      "gu": "વિગતવાર PDF બનાવો"
+      "hi": "विस्तृत पीडीएफ बनाएं",
+      "gu": "વિગતવાર પીડીએફ બનાવો"
     },
     "ui.createFamilyProfiles.1rje2aq": {
       "en": "Create family profiles",
@@ -787,9 +787,9 @@
       "gu": "D1 આધાર"
     },
     "ui.d1D9D10BhavChalitKpAndChartProofExplainedSimply.1h1k34n": {
-      "en": "D1, D9, D10, Bhav Chalit, KP, and chart proof explained simply.",
-      "hi": "D1, D9, D10, भाव चलित, KP और चार्ट प्रमाण आसान भाषा में.",
-      "gu": "D1, D9, D10, ભાવ ચલિત, KP અને ચાર્ટ પુરાવો સરળ ભાષામાં."
+      "en": "D1, D9, D10, Chalit, KP, and chart proof explained simply.",
+      "hi": "D1, D9, D10, चलित, KP और चार्ट प्रमाण आसान भाषा में.",
+      "gu": "D1, D9, D10, ચાલિત, KP અને ચાર્ટ પુરાવો સરળ ભાષામાં."
     },
     "ui.d10Career.1m6a2fv": {
       "en": "D10 CAREER",
@@ -803,8 +803,8 @@
     },
     "ui.dailyBriefingWaiting.qrteos": {
       "en": "Daily briefing waiting",
-      "hi": "Daily briefing तैयार होने का इंतजार",
-      "gu": "Daily briefing તૈયાર થવાની રાહ"
+      "hi": "दैनिक मार्गदर्शन तैयार होने का इंतजार",
+      "gu": "દૈનિક માર્ગદર્શન તૈયાર થવાની રાહ"
     },
     "ui.dailyCosmicBriefing.tohzgh": {
       "en": "DAILY COSMIC BRIEFING",
@@ -838,8 +838,8 @@
     },
     "ui.dashaAndGocharTiming.1sykv6a": {
       "en": "Dasha and Gochar timing",
-      "hi": "दशा और गोचर timing",
-      "gu": "દશા અને ગોચર timing"
+      "hi": "दशा और गोचर समय",
+      "gu": "દશા અને ગોચર સમય"
     },
     "ui.dashaTimelineWaiting.2j00ov": {
       "en": "Dasha timeline waiting",
@@ -1133,18 +1133,18 @@
     },
     "ui.founderPrice.ivb7g8": {
       "en": "Founder price",
-      "hi": "Founder मूल्य",
-      "gu": "Founder કિંમત"
+      "hi": "संस्थापक मूल्य",
+      "gu": "સ્થાપક કિંમત"
     },
     "ui.founderVision.49t67t": {
       "en": "Founder Vision",
-      "hi": "Founder दृष्टि",
-      "gu": "Founder વિઝન"
+      "hi": "संस्थापक दृष्टि",
+      "gu": "સ્થાપક દૃષ્ટિ"
     },
     "ui.freeAndPremiumReportsShareTheSameVisualQualityPremiumAddsDepth.1kexrj3": {
       "en": "Free and Premium reports share the same visual quality. Premium adds depth, not dignity.",
-      "hi": "मुफ्त और Premium रिपोर्ट की दृश्य गुणवत्ता समान रहती है. Premium सम्मान नहीं, गहराई जोड़ता है.",
-      "gu": "મફત અને Premium રિપોર્ટની દૃશ્ય ગુણવત્તા સમાન રહે છે. Premium સન્માન નહીં, ઊંડાણ ઉમેરે છે."
+      "hi": "मुफ्त और प्रीमियम रिपोर्ट की दृश्य गुणवत्ता समान रहती है. प्रीमियम सम्मान नहीं, गहराई जोड़ता है.",
+      "gu": "મફત અને પ્રીમિયમ રિપોર્ટની દૃશ્ય ગુણવત્તા સમાન રહે છે. પ્રીમિયમ સન્માન નહીં, ઊંડાણ ઉમેરે છે."
     },
     "ui.freeInsight.1fdwn44": {
       "en": "Free insight",
@@ -1153,8 +1153,8 @@
     },
     "ui.freePreview.dr688k": {
       "en": "Free preview",
-      "hi": "मुफ्त preview",
-      "gu": "મફત preview"
+      "hi": "मुफ्त झलक",
+      "gu": "મફત ઝલક"
     },
     "ui.freeReportPreview.luxjw0": {
       "en": "Free report preview",
@@ -1168,13 +1168,13 @@
     },
     "ui.freeStaysUsefulPremiumAddsDepthMemoryTimingMapsRemediesReportsAnd.15xkidp": {
       "en": "Free stays useful. Premium adds depth, memory, timing maps, remedies, reports, and higher guidance limits.",
-      "hi": "मुफ्त अनुभव उपयोगी रहता है. Premium गहराई, याददाश्त, समय नक्शे, उपाय, रिपोर्ट और अधिक मार्गदर्शन जोड़ता है.",
-      "gu": "મફત અનુભવ ઉપયોગી રહે છે. Premium ઊંડાણ, યાદ, સમય નકશા, ઉપાયો, રિપોર્ટ અને વધુ માર્ગદર્શન ઉમેરે છે."
+      "hi": "मुफ्त अनुभव उपयोगी रहता है. प्रीमियम गहराई, याददाश्त, समय नक्शे, उपाय, रिपोर्ट और अधिक मार्गदर्शन जोड़ता है.",
+      "gu": "મફત અનુભવ ઉપયોગી રહે છે. પ્રીમિયમ ઊંડાણ, યાદ, સમય નકશા, ઉપાયો, રિપોર્ટ અને વધુ માર્ગદર્શન ઉમેરે છે."
     },
     "ui.freeUsersCanOpenEveryChartWithUsefulInsightPremiumAddsDeeper.lh68se": {
       "en": "Free users can open every chart with useful insight. Premium adds deeper analysis, timing, and report-ready synthesis.",
-      "hi": "मुफ्त उपयोगकर्ता हर चार्ट उपयोगी संकेतों के साथ खोल सकते हैं. Premium गहरी व्याख्या, समय और रिपोर्ट-तैयार सार जोड़ता है.",
-      "gu": "મફત વપરાશકર્તા દરેક ચાર્ટ ઉપયોગી સંકેતો સાથે ખોલી શકે છે. Premium ઊંડી સમજ, સમય અને રિપોર્ટ માટે તૈયાર સાર ઉમેરે છે."
+      "hi": "मुफ्त उपयोगकर्ता हर चार्ट उपयोगी संकेतों के साथ खोल सकते हैं. प्रीमियम गहरी व्याख्या, समय और रिपोर्ट-तैयार सार जोड़ता है.",
+      "gu": "મફત વપરાશકર્તા દરેક ચાર્ટ ઉપયોગી સંકેતો સાથે ખોલી શકે છે. પ્રીમિયમ ઊંડી સમજ, સમય અને રિપોર્ટ માટે તૈયાર સાર ઉમેરે છે."
     },
     "ui.fullChartSynthesis.1ya3j5": {
       "en": "Full chart synthesis",
@@ -1333,8 +1333,8 @@
     },
     "ui.howToRedeem.xm2zn5": {
       "en": "HOW TO REDEEM",
-      "hi": "कैसे redeem करें",
-      "gu": "કેવી રીતે redeem કરવું"
+      "hi": "कैसे उपयोग करें",
+      "gu": "કેવી રીતે ઉપયોગ કરવો"
     },
     "ui.iNeedOneAnswerPreparedWell.1dxgd8": {
       "en": "I need one answer prepared well",
@@ -1343,8 +1343,8 @@
     },
     "ui.iWantGuidanceEveryMonth.5727vw": {
       "en": "I want guidance every month",
-      "hi": "मुझे हर महीने guidance चाहिए",
-      "gu": "મને દર મહિને guidance જોઈએ છે"
+      "hi": "मुझे हर महीने मार्गदर्शन चाहिए",
+      "gu": "મને દર મહિને માર્ગદર્શન જોઈએ છે"
     },
     "ui.iWantToTestEverythingToday.p18u7q": {
       "en": "I want to test everything today",
@@ -1408,8 +1408,8 @@
     },
     "ui.knowWhenTheChartCanBeTrusted.10d3xfm": {
       "en": "Know when the chart can be trusted.",
-      "hi": "जानें chart पर कब भरोसा किया जा सकता है.",
-      "gu": "જાણો chart પર ક્યારે trust કરી શકાય."
+      "hi": "जानें चार्ट पर कब भरोसा किया जा सकता है.",
+      "gu": "જાણો ચાર્ટ પર ક્યારે ભરોસો કરી શકાય."
     },
     "ui.kp.1ut": {
       "en": "KP",
@@ -1767,14 +1767,14 @@
       "gu": "હજુ કોઈ ચાર્ટ માહિતી સક્રિય નથી."
     },
     "ui.noConfusingFakeChartHere.15wtp8w": {
-      "en": "No confusing fake chart here.",
-      "hi": "यहां कोई भ्रमित करने वाला नकली चार्ट नहीं.",
-      "gu": "અહીં કોઈ ગૂંચવણ કરતો ખોટો ચાર્ટ નથી."
+      "en": "Every visible chart is based on calculated birth details.",
+      "hi": "हर दिखने वाला चार्ट गणना किए हुए जन्म विवरण पर आधारित है.",
+      "gu": "દરેક દેખાતો ચાર્ટ ગણતરી કરેલી જન્મ વિગતો પર આધારિત છે."
     },
     "ui.noFakeManuscriptClaims.fyeiit": {
-      "en": "No fake manuscript claims",
-      "hi": "झूठे पांडुलिपि दावे नहीं",
-      "gu": "ખોટા પાંડુલિપિ દાવા નહીં"
+      "en": "Clear Nadi method",
+      "hi": "स्पष्ट नाड़ी पद्धति",
+      "gu": "સ્પષ્ટ નાડી પદ્ધતિ"
     },
     "ui.noKundliIsActiveSoPredictaCannotProduceChartBackedConclusions.1rq9iaw": {
       "en": "No kundli is active, so Predicta cannot produce chart-backed conclusions.",
@@ -1823,13 +1823,13 @@
     },
     "ui.oneTimeReport.ss6h9c": {
       "en": "One-time report",
-      "hi": "एक बार की report",
-      "gu": "એક વારની report"
+      "hi": "एक बार की रिपोर्ट",
+      "gu": "એક વારની રિપોર્ટ"
     },
     "ui.openASpecificTool.17x7yyl": {
       "en": "Open a specific tool.",
-      "hi": "एक खास tool खोलें.",
-      "gu": "એક ચોક્કસ tool ખોલો."
+      "hi": "एक खास साधन खोलें.",
+      "gu": "એક ચોક્કસ સાધન ખોલો."
     },
     "ui.openDashboard.1mcj3ge": {
       "en": "Open Dashboard",
@@ -1928,23 +1928,23 @@
     },
     "ui.pickALifeAreaPredictaWillUseYourKundliWhenAvailableAnd.abtbs6": {
       "en": "Pick a life area. Predicta will use your Kundli when available and keep the reading proof-based.",
-      "hi": "एक जीवन क्षेत्र चुनें. Predicta आपकी कुंडली उपलब्ध होने पर उसका उपयोग करेगी और reading को proof-based रखेगी.",
-      "gu": "એક જીવન ક્ષેત્ર પસંદ કરો. Predicta તમારી કુંડળી ઉપલબ્ધ હોય ત્યારે તેનો ઉપયોગ કરશે અને reading proof-based રાખશે."
+      "hi": "एक जीवन क्षेत्र चुनें. Predicta आपकी कुंडली उपलब्ध होने पर उसका उपयोग करेगी और पढ़ाई को प्रमाण-आधारित रखेगी.",
+      "gu": "એક જીવન ક્ષેત્ર પસંદ કરો. Predicta તમારી કુંડળી ઉપલબ્ધ હોય ત્યારે તેનો ઉપયોગ કરશે અને વાંચન પુરાવા-આધારિત રાખશે."
     },
     "ui.pickOneLifeAreaPredictaWillUseYourKundliWhenAvailableAnd.32t4dv": {
       "en": "Pick one life area. Predicta will use your Kundli when available and keep the answer proof-based.",
-      "hi": "एक जीवन क्षेत्र चुनें. Predicta आपकी कुंडली उपलब्ध होने पर उसका उपयोग करेगी और जवाब को proof-based रखेगी.",
-      "gu": "એક જીવન ક્ષેત્ર પસંદ કરો. Predicta તમારી કુંડળી ઉપલબ્ધ હોય ત્યારે તેનો ઉપયોગ કરશે અને જવાબ proof-based રાખશે."
+      "hi": "एक जीवन क्षेत्र चुनें. Predicta आपकी कुंडली उपलब्ध होने पर उसका उपयोग करेगी और जवाब को प्रमाण-आधारित रखेगी.",
+      "gu": "એક જીવન ક્ષેત્ર પસંદ કરો. Predicta તમારી કુંડળી ઉપલબ્ધ હોય ત્યારે તેનો ઉપયોગ કરશે અને જવાબ પુરાવા-આધારિત રાખશે."
     },
     "ui.pickTheReportYouActuallyNeed.1djiro2": {
       "en": "Pick the report you actually need.",
-      "hi": "जो report सच में चाहिए, वही चुनें.",
-      "gu": "જે report ખરેખર જોઈએ છે, એ પસંદ કરો."
+      "hi": "जो रिपोर्ट सच में चाहिए, वही चुनें.",
+      "gu": "જે રિપોર્ટ ખરેખર જોઈએ છે, એ પસંદ કરો."
     },
     "ui.pickThisWhenYouWantOnePolishedPdfForAClearLife.662wkl": {
       "en": "Pick this when you want one polished PDF for a clear life question.",
-      "hi": "जब साफ जीवन सवाल के लिए सुंदर PDF चाहिए, इसे चुनें.",
-      "gu": "જ્યારે સ્પષ્ટ જીવન પ્રશ્ન માટે સુંદર PDF જોઈએ, આ પસંદ કરો."
+      "hi": "जब साफ जीवन सवाल के लिए सुंदर पीडीएफ चाहिए, इसे चुनें.",
+      "gu": "જ્યારે સ્પષ્ટ જીવન પ્રશ્ન માટે સુંદર પીડીએફ જોઈએ, આ પસંદ કરો."
     },
     "ui.pickThisWhenYouWantOngoingTimingDeeperChatRemediesAndMonthly.1hvu6lb": {
       "en": "Pick this when you want ongoing timing, deeper chat, remedies, and monthly planning.",
@@ -2032,14 +2032,14 @@
       "gu": "Predicta જ્યોતિષને વિચારશીલ, ગોપનીયતા-પ્રથમ અને તબીબી, કાનૂની, આર્થિક અથવા આપત્તિ સલાહથી સ્પષ્ટ અલગ રાખે છે."
     },
     "ui.predictaKeepsThisBrowserProfileReadySignInWhenYouWantTo.dqmkgw": {
-      "en": "Predicta keeps this browser profile ready. Sign in when you want to keep your Kundlis across devices.",
-      "hi": "Predicta इस ब्राउज़र प्रोफाइल को तैयार रखती है. अपनी कुंडलियां सभी डिवाइस पर रखने के लिए साइन इन करें.",
-      "gu": "Predicta આ બ્રાઉઝર પ્રોફાઇલ તૈયાર રાખે છે. તમારી કુંડળીઓ બધા ઉપકરણો પર રાખવા માટે સાઇન ઇન કરો."
+      "en": "Predicta keeps this device ready. Sign in when you want to keep your Kundlis across devices.",
+      "hi": "Predicta इस डिवाइस को तैयार रखती है. अपनी कुंडलियां सभी डिवाइस पर रखने के लिए साइन इन करें.",
+      "gu": "Predicta આ ડિવાઇસ તૈયાર રાખે છે. તમારી કુંડળીઓ બધા ઉપકરણો પર રાખવા માટે સાઇન ઇન કરો."
     },
     "ui.predictaKeepsThisBrowserSessionReadySignInLaterWhenYouWant.1eoaebu": {
-      "en": "Predicta keeps this browser session ready. Sign in later when you want your Kundlis and reports available across devices.",
-      "hi": "Predicta इस ब्राउज़र सत्र को तैयार रखती है. जब कुंडलियां और रिपोर्ट दूसरे उपकरणों पर चाहिए हों, तब sign in करें.",
-      "gu": "Predicta આ બ્રાઉઝર સત્ર તૈયાર રાખે છે. જ્યારે કુંડળીઓ અને રિપોર્ટ બીજા ઉપકરણો પર જોઈએ ત્યારે sign in કરો."
+      "en": "Predicta keeps this device ready. Sign in later when you want your Kundlis and reports available across devices.",
+      "hi": "Predicta इस डिवाइस को तैयार रखती है. जब कुंडलियां और रिपोर्ट दूसरे उपकरणों पर चाहिए हों, तब साइन इन करें.",
+      "gu": "Predicta આ ડિવાઇસ તૈયાર રાખે છે. જ્યારે કુંડળીઓ અને રિપોર્ટ બીજા ઉપકરણો પર જોઈએ ત્યારે સાઇન ઇન કરો."
     },
     "ui.predictaPremiumIsDeeperAstrologyGuidanceNotMedicalLegalFinancialOrEmergency.1kjpo8r": {
       "en": "Predicta Premium is deeper astrology guidance, not medical, legal, financial, or emergency advice. Subscriptions and one-time reports should stay clear before purchase.",
@@ -2063,8 +2063,8 @@
     },
     "ui.predictaWillAnswerFromTheSelectedPersonSChart.1to28et": {
       "en": "Predicta will answer from the selected person’s chart.",
-      "hi": "Predicta selected व्यक्ति की chart से जवाब देगी.",
-      "gu": "Predicta selected વ્યક્તિના chartથી જવાબ આપશે."
+      "hi": "Predicta चुने हुए व्यक्ति के चार्ट से जवाब देगी.",
+      "gu": "Predicta પસંદ કરેલા વ્યક્તિના ચાર્ટથી જવાબ આપશે."
     },
     "ui.predictaWrapped.9p5yj1": {
       "en": "Predicta Wrapped",
@@ -2078,13 +2078,13 @@
     },
     "ui.premiumAccessWithoutPressure.spsw8u": {
       "en": "Premium access without pressure.",
-      "hi": "बिना दबाव का प्रीमियम access.",
-      "gu": "દબાણ વિના પ્રીમિયમ access."
+      "hi": "बिना दबाव का प्रीमियम प्रवेश.",
+      "gu": "દબાણ વિના પ્રીમિયમ પ્રવેશ."
     },
     "ui.premiumAnswersShowChartFactorsConfidenceAndTimingContext.ae0llz": {
       "en": "Premium answers show chart factors, confidence, and timing context.",
-      "hi": "Premium जवाब चार्ट कारण, भरोसा और समय संदर्भ दिखाते हैं.",
-      "gu": "Premium જવાબ ચાર્ટ કારણ, વિશ્વાસ અને સમય સંદર્ભ બતાવે છે."
+      "hi": "प्रीमियम जवाब चार्ट कारण, भरोसा और समय संदर्भ दिखाते हैं.",
+      "gu": "પ્રીમિયમ જવાબ ચાર્ટ કારણ, વિશ્વાસ અને સમય સંદર્ભ બતાવે છે."
     },
     "ui.premiumDepth.1icd57e": {
       "en": "Premium depth",
@@ -2213,8 +2213,8 @@
     },
     "ui.privateAccess.161q30h": {
       "en": "Private access",
-      "hi": "निजी access",
-      "gu": "ખાનગી access"
+      "hi": "निजी प्रवेश",
+      "gu": "ખાનગી પ્રવેશ"
     },
     "ui.privateGuidance.57t8xh": {
       "en": "Private guidance",
@@ -2343,8 +2343,8 @@
     },
     "ui.remediesWithoutFear.1yknxd0": {
       "en": "Remedies without fear.",
-      "hi": "डर के बिना remedies.",
-      "gu": "ડર વિના remedies."
+      "hi": "डर के बिना उपाय.",
+      "gu": "ડર વિના ઉપાયો."
     },
     "ui.remediesHabitsSpiritualDisciplineAndGroundedSupport.b4raza": {
       "en": "Remedies, habits, spiritual discipline, and grounded support.",
@@ -2483,8 +2483,8 @@
     },
     "ui.saveEachPersonSKundliOnceThenKeepTheChartsSeparated.1h491f2": {
       "en": "Save each person’s Kundli once, then keep the charts separated.",
-      "hi": "हर व्यक्ति की कुंडली एक बार save करें, फिर charts अलग रखें.",
-      "gu": "દરેક વ્યક્તિની કુંડળી એક વાર save કરો, પછી charts અલગ રાખો."
+      "hi": "हर व्यक्ति की कुंडली एक बार सेव करें, फिर चार्ट अलग रखें.",
+      "gu": "દરેક વ્યક્તિની કુંડળી એક વાર સેવ કરો, પછી ચાર્ટ્સ અલગ રાખો."
     },
     "ui.savedFamilyProfilesComparisonAndSharedPatternGuidance.1moenki": {
       "en": "Saved family profiles, comparison, and shared pattern guidance.",
@@ -2523,13 +2523,13 @@
     },
     "ui.seeMySummary.xo6iin": {
       "en": "See My Summary",
-      "hi": "मेरी summary देखें",
-      "gu": "મારી summary જુઓ"
+      "hi": "मेरा सार देखें",
+      "gu": "મારો સાર જુઓ"
     },
     "ui.seePremium.vrsv2i": {
       "en": "See Premium",
-      "hi": "Premium देखें",
-      "gu": "Premium જુઓ"
+      "hi": "प्रीमियम देखें",
+      "gu": "પ્રીમિયમ જુઓ"
     },
     "ui.seeWhatLifeChapterIsActiveNowAndWhatComesNext.nq16st": {
       "en": "See what life chapter is active now and what comes next.",
@@ -2543,8 +2543,8 @@
     },
     "ui.seeYourChartWithoutGettingLost.503tro": {
       "en": "See your chart without getting lost.",
-      "hi": "Confuse हुए बिना अपना chart देखें.",
-      "gu": "Confuse થયા વિના તમારો chart જુઓ."
+      "hi": "उलझे बिना अपना चार्ट देखें.",
+      "gu": "ગૂંચવાયા વગર તમારો ચાર્ટ જુઓ."
     },
     "ui.selectLanguage.nm1r6k": {
       "en": "Select language",
@@ -2613,8 +2613,8 @@
     },
     "ui.signIn.1q2cqbs": {
       "en": "Sign in",
-      "hi": "Sign in करें",
-      "gu": "Sign in કરો"
+      "hi": "साइन इन करें",
+      "gu": "સાઇન ઇન કરો"
     },
     "ui.signInFirstThenRedeemThePassUsingTheSameEmailUsed.1pa7l16": {
       "en": "Sign in first, then redeem the pass using the same email used when the pass was created.",
@@ -2693,8 +2693,8 @@
     },
     "ui.startFreeTryADayPassOrMoveIntoPremiumWhenDeeper.2n81r9": {
       "en": "Start free, try a Day Pass, or move into Premium when deeper report and guidance limits matter.",
-      "hi": "मुफ्त शुरू करें, Day Pass आजमाएं, या गहरी रिपोर्ट और मार्गदर्शन सीमा जरूरी हो तब Premium लें.",
-      "gu": "મફત શરૂ કરો, Day Pass અજમાવો, અથવા ઊંડા રિપોર્ટ અને માર્ગદર્શન મર્યાદા જરૂરી હોય ત્યારે Premium લો."
+      "hi": "मुफ्त शुरू करें, डे पास आजमाएं, या गहरी रिपोर्ट और मार्गदर्शन सीमा जरूरी हो तब प्रीमियम लें.",
+      "gu": "મફત શરૂ કરો, ડે પાસ અજમાવો, અથવા ઊંડા રિપોર્ટ અને માર્ગદર્શન મર્યાદા જરૂરી હોય ત્યારે પ્રીમિયમ લો."
     },
     "ui.startHere.5ze4ge": {
       "en": "Start here",
@@ -2713,8 +2713,8 @@
     },
     "ui.startWithAUsefulFreePreviewGoDeeperOnlyWhenYouWant.1akqvnh": {
       "en": "Start with a useful free preview. Go deeper only when you want timing, remedies, chart proof, or a polished PDF.",
-      "hi": "उपयोगी मुफ्त झलक से शुरू करें. समय, उपाय, चार्ट प्रमाण या सुंदर PDF चाहिए तभी गहराई में जाएं.",
-      "gu": "ઉપયોગી મફત ઝલકથી શરૂ કરો. સમય, ઉપાયો, ચાર્ટ આધાર અથવા સુંદર PDF જોઈએ ત્યારે જ ઊંડાણમાં જાઓ."
+      "hi": "उपयोगी मुफ्त झलक से शुरू करें. समय, उपाय, चार्ट प्रमाण या सुंदर पीडीएफ चाहिए तभी गहराई में जाएं.",
+      "gu": "ઉપયોગી મફત ઝલકથી શરૂ કરો. સમય, ઉપાયો, ચાર્ટ આધાર અથવા સુંદર પીડીએફ જોઈએ ત્યારે જ ઊંડાણમાં જાઓ."
     },
     "ui.startWithLifeNeed.1oz981q": {
       "en": "START WITH LIFE NEED",
@@ -2723,13 +2723,13 @@
     },
     "ui.startWithTheLifeQuestionFreePreviewsStayUsefulPremiumAddsDepth.1kiqats": {
       "en": "Start with the life question. Free previews stay useful. Premium adds depth only when timing, synthesis, or a polished PDF is worth it.",
-      "hi": "पहले जीवन का सवाल चुनें. मुफ्त झलक उपयोगी रहती है. Premium गहराई तभी जोड़ता है जब समय, सार या सुंदर PDF काम आए.",
-      "gu": "પહેલા જીવનનો પ્રશ્ન પસંદ કરો. મફત ઝલક ઉપયોગી રહે છે. Premium ઊંડાણ ત્યારે જ ઉમેરે છે જ્યારે સમય, સાર અથવા સુંદર PDF કામ આવે."
+      "hi": "पहले जीवन का सवाल चुनें. मुफ्त झलक उपयोगी रहती है. प्रीमियम गहराई तभी जोड़ता है जब समय, सार या सुंदर पीडीएफ काम आए.",
+      "gu": "પહેલા જીવનનો પ્રશ્ન પસંદ કરો. મફત ઝલક ઉપયોગી રહે છે. પ્રીમિયમ ઊંડાણ ત્યારે જ ઉમેરે છે જ્યારે સમય, સાર અથવા સુંદર પીડીએફ કામ આવે."
     },
     "ui.startWithTheLifeQuestionPredictaKeepsEveryFreeReportUsefulThen.1t7lyyx": {
       "en": "Start with the life question. Predicta keeps every free report useful, then offers premium depth only when timing, synthesis, or a polished PDF is worth it.",
-      "hi": "पहले जीवन का सवाल चुनें. Predicta हर मुफ्त रिपोर्ट को उपयोगी रखती है, फिर समय, सार या सुंदर PDF सच में काम आए तभी Premium गहराई दिखाती है.",
-      "gu": "પહેલા જીવનનો પ્રશ્ન પસંદ કરો. Predicta દરેક મફત રિપોર્ટ ઉપયોગી રાખે છે, પછી સમય, સાર અથવા સુંદર PDF ખરેખર કામ આવે ત્યારે Premium ઊંડાણ બતાવે છે."
+      "hi": "पहले जीवन का सवाल चुनें. Predicta हर मुफ्त रिपोर्ट को उपयोगी रखती है, फिर समय, सार या सुंदर पीडीएफ सच में काम आए तभी प्रीमियम गहराई दिखाती है.",
+      "gu": "પહેલા જીવનનો પ્રશ્ન પસંદ કરો. Predicta દરેક મફત રિપોર્ટ ઉપયોગી રાખે છે, પછી સમય, સાર અથવા સુંદર પીડીએફ ખરેખર કામ આવે ત્યારે પ્રીમિયમ ઊંડાણ બતાવે છે."
     },
     "ui.startWithYourKundli.ayg7ds": {
       "en": "Start with your Kundli.",
@@ -2852,9 +2852,9 @@
       "gu": "જન્મ વિગતો મળ્યા પહેલાં ડેશબોર્ડ ખાલી અથવા ગોઠવણ વગરનું ન લાગે, એટલે હાલ આ ટૂંકા રૂપમાં રહેશે."
     },
     "ui.thisBrowserRemembersYourChartSignInToKeepItAcrossDevices.1igu45e": {
-      "en": "This browser remembers your chart. Sign in to keep it across devices.",
-      "hi": "यह ब्राउज़र आपका चार्ट याद रखता है. उसे सभी डिवाइस पर रखने के लिए साइन इन करें.",
-      "gu": "આ બ્રાઉઝર તમારો ચાર્ટ યાદ રાખે છે. તેને બધા ઉપકરણો પર રાખવા માટે સાઇન ઇન કરો."
+      "en": "Your chart is saved on this device. Sign in to keep it across devices.",
+      "hi": "आपका चार्ट इस डिवाइस पर सेव है. उसे सभी डिवाइस पर रखने के लिए साइन इन करें.",
+      "gu": "તમારો ચાર્ટ આ ડિવાઇસ પર સેવ છે. તેને બધા ઉપકરણો પર રાખવા માટે સાઇન ઇન કરો."
     },
     "ui.thisPassNeedsAnEmailOnYourAccountSignInWithThe.1ganlv4": {
       "en": "This pass needs an email on your account. Sign in with the pass email, then try again.",
@@ -3023,13 +3023,13 @@
     },
     "ui.understandSaturnPressureWithoutFear.lzng4e": {
       "en": "Understand Saturn pressure without fear.",
-      "hi": "शनि pressure को डर के बिना समझें.",
-      "gu": "શનિ pressure ને ડર વિના સમજો."
+      "hi": "शनि दबाव को डर के बिना समझें.",
+      "gu": "શનિ દબાણને ડર વિના સમજો."
     },
     "ui.understandTheWholeChartWithoutGettingLost.l6sgfu": {
       "en": "Understand the whole chart without getting lost.",
-      "hi": "उलझे बिना पूरा chart समझें.",
-      "gu": "ગૂંચવાયા વગર આખો chart સમજો."
+      "hi": "उलझे बिना पूरा चार्ट समझें.",
+      "gu": "ગૂંચવાયા વગર આખો ચાર્ટ સમજો."
     },
     "ui.unknown.mti622": {
       "en": "Unknown",
@@ -3038,18 +3038,18 @@
     },
     "ui.unlockOnePremiumDepthPdfForTheActiveKundli.1ncuaqc": {
       "en": "Unlock one premium-depth PDF for the active kundli.",
-      "hi": "चुनी हुई कुंडली के लिए एक गहरी Premium PDF खोलें.",
-      "gu": "પસંદ કરેલી કુંડળી માટે એક ઊંડી Premium PDF ખોલો."
+      "hi": "चुनी हुई कुंडली के लिए एक गहरी प्रीमियम पीडीएफ खोलें.",
+      "gu": "પસંદ કરેલી કુંડળી માટે એક ઊંડી પ્રીમિયમ પીડીએફ ખોલો."
     },
     "ui.unverified.p84oe9": {
       "en": "Unverified",
-      "hi": "अभी verify नहीं",
-      "gu": "હજુ verify નથી"
+      "hi": "अभी पुष्टि नहीं",
+      "gu": "હજુ પુષ્ટિ નથી"
     },
     "ui.useAsActive.3tgyez": {
       "en": "Use as active",
-      "hi": "Active बनाएं",
-      "gu": "Active બનાવો"
+      "hi": "सक्रिय बनाएं",
+      "gu": "સક્રિય બનાવો"
     },
     "ui.useGoogleSignInOrCreateAnAccountWithThePassEmail.k80czg": {
       "en": "Use Google sign-in, or create an account with the pass email.",
@@ -3068,8 +3068,8 @@
     },
     "ui.usefulFreePreview.17moke6": {
       "en": "Useful free preview",
-      "hi": "उपयोगी मुफ्त preview",
-      "gu": "ઉપયોગી મફત preview"
+      "hi": "उपयोगी मुफ्त झलक",
+      "gu": "ઉપયોગી મફત ઝલક"
     },
     "ui.usefulInsight.9p4ilq": {
       "en": "Useful insight",
@@ -3078,8 +3078,8 @@
     },
     "ui.usefulRemedies.1xvun54": {
       "en": "Useful remedies",
-      "hi": "उपयोगी remedies",
-      "gu": "ઉપયોગી remedies"
+      "hi": "उपयोगी उपाय",
+      "gu": "ઉપયોગી ઉપાયો"
     },
     "ui.validation.7avibd": {
       "en": "VALIDATION",
@@ -3218,8 +3218,8 @@
     },
     "ui.yogasAndStrengths.13w6958": {
       "en": "Yogas and strengths",
-      "hi": "योग और strengths",
-      "gu": "યોગ અને strengths"
+      "hi": "योग और बल",
+      "gu": "યોગ અને બળ"
     },
     "ui.you.1wqn": {
       "en": "You",
@@ -3227,9 +3227,9 @@
       "gu": "તમે"
     },
     "ui.yourChartIsSavedForThisBrowserSignInToKeepIt.6dx6vu": {
-      "en": "Your chart is saved for this browser. Sign in to keep it across devices.",
-      "hi": "आपका चार्ट इस ब्राउज़र में सेव है. उसे सभी डिवाइस पर रखने के लिए साइन इन करें.",
-      "gu": "તમારો ચાર્ટ આ બ્રાઉઝરમાં સાચવાયેલો છે. તેને બધા ઉપકરણો પર રાખવા માટે સાઇન ઇન કરો."
+      "en": "Your chart is saved on this device. Sign in to keep it across devices.",
+      "hi": "आपका चार्ट इस डिवाइस पर सेव है. उसे सभी डिवाइस पर रखने के लिए साइन इन करें.",
+      "gu": "તમારો ચાર્ટ આ ડિવાઇસ પર સેવ છે. તેને બધા ઉપકરણો પર રાખવા માટે સાઇન ઇન કરો."
     },
     "ui.yourHolisticAstrologyCockpit.1rh6rhj": {
       "en": "Your holistic astrology cockpit",
@@ -3243,8 +3243,8 @@
     },
     "ui.yourKundlisStayEasyToFind.1t6vp4u": {
       "en": "Your Kundlis stay easy to find.",
-      "hi": "आपकी Kundlis आसानी से मिलती रहें.",
-      "gu": "Tamari Kundlis સહેલાઈથી મળે."
+      "hi": "आपकी कुंडलियां आसानी से मिलती रहें.",
+      "gu": "તમારી કુંડળીઓ સહેલાઈથી મળે."
     },
     "ui.yourName.11rwri0": {
       "en": "Your name",
@@ -3252,7 +3252,7 @@
       "gu": "તમારું નામ"
     },
     "ui.yourPersonalDayMapIsNotReadyYet.1ndrgjv": {
-      "en": "Your personal day map is not ready yet.",
+      "en": "Create a Kundli to prepare your personal day map.",
       "hi": "आपका व्यक्तिगत दिन-नक्शा अभी तैयार नहीं है.",
       "gu": "તમારો વ્યક્તિગત દિવસ-નકશો હજી તૈયાર નથી."
     },
@@ -3268,13 +3268,63 @@
     },
     "ui.yourYearMadeBeautiful.1ori22y": {
       "en": "Your year, made beautiful.",
-      "hi": "आपका year, सुंदर रूप में.",
-      "gu": "Tamaro year, સુંદર રીતે."
+      "hi": "आपका वर्ष, सुंदर रूप में.",
+      "gu": "તમારું વર્ષ, સુંદર રીતે."
     },
     "ui.yourYearlyRecapIsWaiting.1gq3yel": {
       "en": "Your yearly recap is waiting.",
       "hi": "आपका वार्षिक सार इंतजार कर रहा है.",
       "gu": "તમારો વાર્ષિક સાર રાહ જોઈ રહ્યો છે."
+    },
+    "ui.manageSignInSavedKundlisLanguageReportsPassesPrivacyAndComfortSettings.2gaurd": {
+      "en": "Manage sign-in, saved Kundlis, language, reports, passes, privacy, and comfort settings from one place.",
+      "hi": "साइन इन, सेव कुंडलियां, भाषा, रिपोर्ट, पास, निजता और सुविधा सेटिंग एक ही जगह संभालें.",
+      "gu": "સાઇન ઇન, સેવ કુંડળીઓ, ભાષા, રિપોર્ટ, પાસ, ગોપનીયતા અને સુવિધા સેટિંગ્સ એક જ જગ્યાએ સંભાળો."
+    },
+    "ui.youCanStartAsAGuestSignInWhenYouWantMoreSaved.7gaurd": {
+      "en": "You can start as a guest. Sign in when you want more saved Kundlis and safer restore later.",
+      "hi": "आप अतिथि के रूप में शुरू कर सकते हैं. अधिक सेव कुंडलियां और सुरक्षित वापसी के लिए साइन इन करें.",
+      "gu": "તમે મહેમાન તરીકે શરૂ કરી શકો છો. વધુ સેવ કુંડળીઓ અને સુરક્ષિત પુનઃપ્રાપ્તિ માટે સાઇન ઇન કરો."
+    },
+    "ui.multipleKundlisAreAvailableForThisAccount.8gaurd": {
+      "en": "Multiple Kundlis are available for this account.",
+      "hi": "इस खाते में कई कुंडलियां रखी जा सकती हैं.",
+      "gu": "આ ખાતામાં અનેક કુંડળીઓ રાખી શકાય છે."
+    },
+    "ui.guestUseKeepsOneKundliInThisBrowser.9gaurd": {
+      "en": "Guest use keeps one Kundli on this device.",
+      "hi": "अतिथि उपयोग में एक कुंडली इस डिवाइस पर सेव रहती है.",
+      "gu": "મહેમાન ઉપયોગમાં એક કુંડળી આ ડિવાઇસ પર સેવ રહે છે."
+    },
+    "ui.yourSavedKundliReportChoicesAndLanguageChoicesAreKeptFor.10gaurd": {
+      "en": "Your saved Kundli, report choices, and language choices are kept on this device and connected to your account after sign-in.",
+      "hi": "आपकी सेव कुंडली, रिपोर्ट पसंद और भाषा पसंद इस डिवाइस पर रहती हैं और साइन इन के बाद आपके खाते से जुड़ जाती हैं.",
+      "gu": "તમારી સેવ કુંડળી, રિપોર્ટ પસંદગીઓ અને ભાષા પસંદગીઓ આ ડિવાઇસ પર રહે છે અને સાઇન ઇન પછી તમારા ખાતા સાથે જોડાય છે."
+    },
+    "ui.yourFirstKundliIsSafeInThisBrowserPleaseSignInBeforeAdding.11gaurd": {
+      "en": "Your first Kundli is safe on this device. Please sign in before adding another Kundli, so family profiles and future edits stay protected.",
+      "hi": "आपकी पहली कुंडली इस डिवाइस पर सुरक्षित है. दूसरी कुंडली जोड़ने से पहले साइन इन करें, ताकि परिवार प्रोफाइल और आगे के बदलाव सुरक्षित रहें.",
+      "gu": "તમારી પહેલી કુંડળી આ ડિવાઇસ પર સુરક્ષિત છે. બીજી કુંડળી ઉમેરતા પહેલાં સાઇન ઇન કરો, જેથી પરિવાર પ્રોફાઇલ અને આગળના ફેરફારો સુરક્ષિત રહે."
+    },
+    "ui.predictaKeepsThisBrowserSessionReadySignInLaterWhenYouWant.12gaurd": {
+      "en": "Predicta keeps this device ready. Sign in later when you want your Kundlis and reports available across devices.",
+      "hi": "Predicta इस डिवाइस को तैयार रखती है. जब कुंडलियां और रिपोर्ट दूसरे उपकरणों पर चाहिए हों, तब साइन इन करें.",
+      "gu": "Predicta આ ડિવાઇસ તૈયાર રાખે છે. જ્યારે કુંડળીઓ અને રિપોર્ટ બીજા ઉપકરણો પર જોઈએ ત્યારે સાઇન ઇન કરો."
+    },
+    "ui.predictaKeepsThisDeviceReadySignInLaterWhenYouWant.13gaurd": {
+      "en": "Predicta keeps this device ready. Sign in later when you want your Kundlis and reports available across devices.",
+      "hi": "Predicta इस डिवाइस को तैयार रखती है. जब कुंडलियां और रिपोर्ट दूसरे उपकरणों पर चाहिए हों, तब साइन इन करें.",
+      "gu": "Predicta આ ડિવાઇસ તૈયાર રાખે છે. જ્યારે કુંડળીઓ અને રિપોર્ટ બીજા ઉપકરણો પર જોઈએ ત્યારે સાઇન ઇન કરો."
+    },
+    "ui.guestUseKeepsOneKundliOnThisDevice.14gaurd": {
+      "en": "Guest use keeps one Kundli on this device.",
+      "hi": "अतिथि उपयोग में एक कुंडली इस डिवाइस पर सेव रहती है.",
+      "gu": "મહેમાન ઉપયોગમાં એક કુંડળી આ ડિવાઇસ પર સેવ રહે છે."
+    },
+    "ui.yourSavedKundliReportChoicesAndLanguageChoicesAreKeptOn.15gaurd": {
+      "en": "Your saved Kundli, report choices, and language choices are kept on this device and connected to your account after sign-in.",
+      "hi": "आपकी सेव कुंडली, रिपोर्ट पसंद और भाषा पसंद इस डिवाइस पर रहती हैं और साइन इन के बाद आपके खाते से जुड़ जाती हैं.",
+      "gu": "તમારી સેવ કુંડળી, રિપોર્ટ પસંદગીઓ અને ભાષા પસંદગીઓ આ ડિવાઇસ પર રહે છે અને સાઇન ઇન પછી તમારા ખાતા સાથે જોડાય છે."
     }
   }
 }

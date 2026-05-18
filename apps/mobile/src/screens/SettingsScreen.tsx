@@ -22,12 +22,15 @@ import { isBiometrySupported } from '../services/security/secureStorage';
 import { buildUsageDisplay } from '@pridicta/monetization';
 import {
   getAppShellLabels,
-  getLanguageLabels,
+  getLanguageOption,
   SUPPORTED_LANGUAGE_OPTIONS,
 } from '@pridicta/config/language';
 import {
   loadLanguagePreference,
+  saveChartLanguagePreference,
   saveLanguagePreference,
+  savePredictaReplyLanguagePreference,
+  saveReportLanguagePreference,
 } from '../services/preferences/languagePreferenceStorage';
 import { useAppStore } from '../store/useAppStore';
 import { colors } from '../theme/colors';
@@ -47,14 +50,24 @@ export function SettingsScreen({
   const userPlan = useAppStore(state => state.userPlan);
   const monetization = useAppStore(state => state.monetization);
   const redeemedGuestPass = useAppStore(state => state.redeemedGuestPass);
+  const savedKundlis = useAppStore(state => state.savedKundlis);
   const usage = useAppStore(state => state.usage);
   const setBiometricsEnabled = useAppStore(state => state.setBiometricsEnabled);
   const setChatSoundEnabled = useAppStore(state => state.setChatSoundEnabled);
+  const setChartLanguagePreference = useAppStore(
+    state => state.setChartLanguagePreference,
+  );
   const setLanguagePreference = useAppStore(
     state => state.setLanguagePreference,
   );
   const setPinEnabled = useAppStore(state => state.setPinEnabled);
   const setSecurityEnabled = useAppStore(state => state.setSecurityEnabled);
+  const setPredictaReplyLanguage = useAppStore(
+    state => state.setPredictaReplyLanguage,
+  );
+  const setReportLanguagePreference = useAppStore(
+    state => state.setReportLanguagePreference,
+  );
   const setAuth = useAppStore(state => state.setAuth);
   const setRedeemedGuestPass = useAppStore(state => state.setRedeemedGuestPass);
   const { glassAlert, showGlassAlert } = useGlassAlert();
@@ -69,7 +82,6 @@ export function SettingsScreen({
     usage,
     userPlan,
   });
-  const languageLabels = getLanguageLabels(languagePreference.language);
   const shellLabels = getAppShellLabels(languagePreference.language);
 
   useEffect(() => {
@@ -89,13 +101,48 @@ export function SettingsScreen({
       })
       .catch(() => undefined);
     loadLanguagePreference()
-      .then(preference => setLanguagePreference(preference.language))
+      .then(preference => {
+        setLanguagePreference(preference.appLanguage ?? preference.language);
+        setChartLanguagePreference(
+          preference.chartLanguage ?? preference.appLanguage ?? preference.language,
+        );
+        setReportLanguagePreference(
+          preference.reportLanguage ?? preference.appLanguage ?? preference.language,
+        );
+        setPredictaReplyLanguage(
+          preference.predictaReplyLanguage ??
+            preference.appLanguage ??
+            preference.language,
+        );
+      })
       .catch(() => undefined);
-  }, [setAuth, setLanguagePreference, setRedeemedGuestPass]);
+  }, [
+    setAuth,
+    setChartLanguagePreference,
+    setLanguagePreference,
+    setPredictaReplyLanguage,
+    setRedeemedGuestPass,
+    setReportLanguagePreference,
+  ]);
 
   async function chooseLanguage(language: SupportedLanguage) {
     setLanguagePreference(language);
     await saveLanguagePreference(language).catch(() => undefined);
+  }
+
+  async function chooseChartLanguage(language: SupportedLanguage) {
+    setChartLanguagePreference(language);
+    await saveChartLanguagePreference(language).catch(() => undefined);
+  }
+
+  async function chooseReportLanguage(language: SupportedLanguage) {
+    setReportLanguagePreference(language);
+    await saveReportLanguagePreference(language).catch(() => undefined);
+  }
+
+  async function choosePredictaReplyLanguage(language: SupportedLanguage) {
+    setPredictaReplyLanguage(language);
+    await savePredictaReplyLanguagePreference(language).catch(() => undefined);
   }
 
   async function handleAccountAccess() {
@@ -124,7 +171,75 @@ export function SettingsScreen({
       {glassAlert}
       <AnimatedHeader eyebrow="PRIVATE DEFAULTS" title="Settings" />
 
-      <GlassPanel className="mt-8" delay={100}>
+      <GlowCard className="mt-8" delay={80}>
+        <AppText tone="secondary" variant="caption">
+          ACCOUNT
+        </AppText>
+        <AppText className="mt-1" variant="subtitle">
+          {auth.isLoggedIn ? 'Signed in profile' : 'Guest profile'}
+        </AppText>
+        <AppText className="mt-2" tone="secondary" variant="caption">
+          {auth.isLoggedIn
+            ? auth.email ?? 'Your account is connected.'
+            : 'You can keep one Kundli as a guest. Sign in to save multiple Kundlis and restore them later.'}
+        </AppText>
+        <View className="mt-5 gap-4">
+          <SettingRow
+            description={
+              auth.isLoggedIn
+                ? `${savedKundlis.length} saved Kundli${savedKundlis.length === 1 ? '' : 's'} in your library.`
+                : 'Guest storage is limited to one Kundli on this device.'
+            }
+            title="Kundli storage"
+          >
+            <GlowButton
+              label="Open Library"
+              onPress={() => navigation.navigate(routes.SavedKundlis)}
+            />
+          </SettingRow>
+          <SettingRow
+            description={
+              auth.isLoggedIn
+                ? 'Multiple Predicta chats are available with your account.'
+                : 'Guests use one active Predicta chat. Sign in for multiple saved chats.'
+            }
+            title="Predicta chats"
+          >
+            <GlowButton
+              label="Open Chat"
+              onPress={() => navigation.navigate(routes.Chat)}
+            />
+          </SettingRow>
+          <SettingRow
+            description={
+              redeemedGuestPass
+                ? 'Your private testing pass is active.'
+                : 'Redeem a pass only after signing in with the approved email.'
+            }
+            title="Guest pass"
+          >
+            <GlowButton
+              label="Redeem"
+              onPress={() => navigation.navigate(routes.RedeemPassCode)}
+            />
+          </SettingRow>
+          <View className="mt-1">
+            <GlowButton
+              label={
+                authLoading
+                  ? 'Please wait...'
+                  : auth.isLoggedIn
+                  ? 'Sign Out'
+                  : 'Sign In or Register'
+              }
+              loading={authLoading}
+              onPress={handleAccountAccess}
+            />
+          </View>
+        </View>
+      </GlowCard>
+
+      <GlassPanel className="mt-6" delay={100}>
         <View className="gap-6">
           <SettingRow
             description="Require PIN or biometrics before opening sensitive chart data."
@@ -180,29 +295,46 @@ export function SettingsScreen({
 
       <GlowCard className="mt-6" delay={220}>
         <AppText tone="secondary" variant="caption">
-          {languageLabels.currentLanguage}
+          LANGUAGE
         </AppText>
         <AppText className="mt-1" variant="subtitle">
-          {languageLabels.language}
+          Language choices
         </AppText>
         <AppText className="mt-2" tone="secondary" variant="caption">
-          {languageLabels.languageHelper}
+          App text, chart labels, report PDFs, and Predicta replies can each use their own language.
         </AppText>
-        <View className="mt-4 flex-row flex-wrap gap-2">
-          {SUPPORTED_LANGUAGE_OPTIONS.map(option => (
-            <Pressable
-              accessibilityRole="button"
-              className={`rounded-full border px-3 py-2 ${
-                languagePreference.language === option.code
-                  ? 'border-[#4DAFFF] bg-[#172233]'
-                  : 'border-[#252533] bg-[#191923]'
-              }`}
-              key={option.code}
-              onPress={() => chooseLanguage(option.code)}
-            >
-              <AppText variant="caption">{option.nativeName}</AppText>
-            </Pressable>
-          ))}
+        <View className="mt-5 gap-5">
+          <LanguageChoiceRow
+            description="Controls menus, buttons, and page text."
+            onSelect={chooseLanguage}
+            selected={languagePreference.language}
+            title="App language"
+          />
+          <LanguageChoiceRow
+            description="Controls labels inside Kundli and chart views."
+            onSelect={chooseChartLanguage}
+            selected={
+              languagePreference.chartLanguage ?? languagePreference.language
+            }
+            title="Chart labels"
+          />
+          <LanguageChoiceRow
+            description="Controls the language used when reports are created."
+            onSelect={chooseReportLanguage}
+            selected={
+              languagePreference.reportLanguage ?? languagePreference.language
+            }
+            title="Report PDFs"
+          />
+          <LanguageChoiceRow
+            description="Controls Predicta replies unless the chat clearly needs another language."
+            onSelect={choosePredictaReplyLanguage}
+            selected={
+              languagePreference.predictaReplyLanguage ??
+              languagePreference.language
+            }
+            title="Predicta replies"
+          />
         </View>
       </GlowCard>
 
@@ -281,30 +413,6 @@ export function SettingsScreen({
         </View>
       </GlowCard>
 
-      <GlowCard className="mt-6" delay={420}>
-        <AppText variant="subtitle">
-          {auth.isLoggedIn ? 'Google connected' : 'Cloud sync is optional'}
-        </AppText>
-        <AppText className="mt-2" tone="secondary" variant="caption">
-          {auth.isLoggedIn
-            ? auth.email ?? 'Your Google account is connected.'
-            : 'Your kundlis stay on this device unless you choose to save them to cloud.'}
-        </AppText>
-        <View className="mt-5">
-          <GlowButton
-            label={
-              authLoading
-                ? 'Please wait...'
-                : auth.isLoggedIn
-                ? 'Sign Out'
-                : 'Sign In or Register'
-            }
-            loading={authLoading}
-            onPress={handleAccountAccess}
-          />
-        </View>
-      </GlowCard>
-
       <GlassPanel className="mt-6" delay={500}>
         <AppText variant="subtitle">PREDICTA</AppText>
         <AppText className="mt-2" tone="secondary" variant="caption">
@@ -314,6 +422,50 @@ export function SettingsScreen({
         </AppText>
       </GlassPanel>
     </Screen>
+  );
+}
+
+function LanguageChoiceRow({
+  description,
+  onSelect,
+  selected,
+  title,
+}: {
+  description: string;
+  onSelect: (language: SupportedLanguage) => void;
+  selected: SupportedLanguage;
+  title: string;
+}) {
+  const selectedOption = getLanguageOption(selected);
+
+  return (
+    <View className="gap-3">
+      <View>
+        <AppText variant="subtitle">{title}</AppText>
+        <AppText className="mt-1" tone="secondary" variant="caption">
+          {description}
+        </AppText>
+        <AppText className="mt-1" tone="secondary" variant="caption">
+          Current: {selectedOption.nativeName}
+        </AppText>
+      </View>
+      <View className="flex-row flex-wrap gap-2">
+        {SUPPORTED_LANGUAGE_OPTIONS.map(option => (
+          <Pressable
+            accessibilityRole="button"
+            className={`rounded-full border px-3 py-2 ${
+              selected === option.code
+                ? 'border-[#4DAFFF] bg-[#172233]'
+                : 'border-[#252533] bg-[#191923]'
+            }`}
+            key={option.code}
+            onPress={() => onSelect(option.code)}
+          >
+            <AppText variant="caption">{option.nativeName}</AppText>
+          </Pressable>
+        ))}
+      </View>
+    </View>
   );
 }
 

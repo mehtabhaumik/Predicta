@@ -6,7 +6,11 @@ import type { KundliData } from '@pridicta/types';
 import { translateUiText } from '@pridicta/config/uiTranslations';
 import { useLanguagePreference } from '../lib/language-preference';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
-import { deleteWebKundli } from '../lib/web-kundli-storage';
+import {
+  canCreateAdditionalWebKundli,
+  deleteWebKundli,
+} from '../lib/web-kundli-storage';
+import { AuthDialog } from './AuthDialog';
 
 type WebActiveKundliActionsProps = {
   compact?: boolean;
@@ -55,6 +59,7 @@ export function WebActiveKundliActions({
     prompt: `Use ${kundli.birthDetails.name}'s active Kundli and tell me the best next reading.`,
     sourceScreen,
   });
+  const canCreateMoreKundlis = canCreateAdditionalWebKundli().allowed;
 
   return (
     <section
@@ -78,9 +83,13 @@ export function WebActiveKundliActions({
         >
           {t('Edit')}
         </Link>
-        <Link className="button secondary" href="/dashboard/kundli">
-          {t('New')}
-        </Link>
+        {canCreateMoreKundlis ? (
+          <Link className="button secondary" href="/dashboard/kundli">
+            {t('New')}
+          </Link>
+        ) : (
+          <AuthDialog />
+        )}
         <Link className="button" href={askHref}>
           {t('Ask Predicta')}
         </Link>

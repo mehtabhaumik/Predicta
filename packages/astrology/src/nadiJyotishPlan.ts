@@ -121,7 +121,7 @@ export function composeNadiJyotishPlan(
     subtitle:
       depth === 'PREMIUM'
         ? 'A separate premium Nadi reading room with chart-signature depth.'
-        : 'A separate Nadi reading room. Free users see what the method found; Premium unlocks depth.',
+        : 'A separate Nadi reading room. Free gives a useful method summary; Premium unlocks depth.',
     title: `${kundli.birthDetails.name}'s Nadi Predicta plan`,
     validationQuestions: buildValidationQuestions(kundli, patterns),
   };
@@ -348,8 +348,8 @@ function buildValidationQuestions(
 
 function buildGuardrails(): string[] {
   return [
-    'No fake palm-leaf claim.',
-    'No ancient manuscript certainty unless a real external manuscript process exists.',
+    'Do not claim real palm-leaf manuscript access.',
+    'Explain that Nadi Predicta reads calculated planetary story patterns, not a verified manuscript record.',
     'Do not mix Nadi with Parashari yoga/dasha or KP sub-lord rules inside the same answer.',
     'Use validation questions before strong event statements.',
     'Give guidance, timing themes, and remedies without fear or guaranteed outcomes.',

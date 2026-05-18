@@ -31,7 +31,7 @@ export function SidebarNav({
   groups,
   adminLabel = 'Admin',
   ownerLabel = 'Owner',
-  privateSaveBody = 'This browser remembers your chart. Sign in to keep it across devices.',
+  privateSaveBody = 'Your chart is saved on this device. Sign in to keep it across devices.',
   privateSaveTitle = 'PRIVATE SAVE',
   showAdmin,
 }: {

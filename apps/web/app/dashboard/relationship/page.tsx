@@ -5,10 +5,16 @@ export default function RelationshipPage(): React.JSX.Element {
     <section className="dashboard-page">
       <div className="page-heading compact">
         <h1 className="gradient-text">A mirror for real relationships.</h1>
-        <p>
-          Compare two Kundlis across emotion, communication, commitment,
-          conflict, and timing.
-        </p>
+        <details className="info-drawer">
+          <summary>
+            <span>What Predicta compares</span>
+            <strong>Open</strong>
+          </summary>
+          <p>
+            Compare two Kundlis across emotion, communication, commitment,
+            conflict, and timing.
+          </p>
+        </details>
       </div>
 
       <WebRelationshipMirror />

@@ -133,6 +133,63 @@ function createMessage(
   };
 }
 
+function ChatSessionPanel({
+  activeSessionId,
+  isSignedIn,
+  onNewSession,
+  onSignIn,
+  onSwitchSession,
+  sessions,
+}: {
+  activeSessionId?: string;
+  isSignedIn: boolean;
+  onNewSession: () => void;
+  onSignIn: () => void;
+  onSwitchSession: (sessionId: string) => void;
+  sessions: Array<{ id: string; title: string }>;
+}) {
+  return (
+    <FadeInView className="mt-5 rounded-2xl border border-[#252533] bg-[#12121A] p-4">
+      <View className="gap-3">
+        <View>
+          <AppText variant="subtitle">
+            {isSignedIn ? 'Saved chat sessions' : 'One chat for guests'}
+          </AppText>
+          <AppText className="mt-1" tone="secondary" variant="caption">
+            {isSignedIn
+              ? 'Keep separate readings for different Kundlis or life questions.'
+              : 'Continue here for now. Sign in when you want separate saved chats for family Kundlis or different life questions.'}
+          </AppText>
+        </View>
+        {isSignedIn ? (
+          <View className="flex-row flex-wrap gap-2">
+            {sessions.slice(0, 6).map(session => (
+              <Pressable
+                accessibilityRole="button"
+                accessibilityState={{ selected: session.id === activeSessionId }}
+                className={`rounded-full border px-3 py-2 ${
+                  session.id === activeSessionId
+                    ? 'border-[#4DAFFF] bg-[#172233]'
+                    : 'border-[#252533] bg-[#191923]'
+                }`}
+                key={session.id}
+                onPress={() => onSwitchSession(session.id)}
+              >
+                <AppText variant="caption">{session.title}</AppText>
+              </Pressable>
+            ))}
+          </View>
+        ) : null}
+        {!isSignedIn ? <GlowButton label="Sign In" onPress={onSignIn} /> : null}
+        <GlowButton
+          label={isSignedIn ? 'New saved chat' : 'New chat'}
+          onPress={onNewSession}
+        />
+      </View>
+    </FadeInView>
+  );
+}
+
 function shouldGateForBirthDetailConfidence(
   text: string,
   kundli: KundliData,
@@ -366,6 +423,10 @@ export function ChatScreen({
   );
   const activeKundli = useAppStore(state => state.activeKundli);
   const auth = useAppStore(state => state.auth);
+  const activeChatSessionId = useAppStore(state => state.activeChatSessionId);
+  const chatSessions = useAppStore(state => state.chatSessions);
+  const createChatSession = useAppStore(state => state.createChatSession);
+  const switchChatSession = useAppStore(state => state.switchChatSession);
   const chatSoundEnabled = useAppStore(state => state.chatSoundEnabled);
   const languagePreference = useAppStore(state => state.languagePreference);
   const predictaReplyLanguage = useAppStore(
@@ -410,7 +471,9 @@ export function ChatScreen({
   const recordDeepCall = useAppStore(state => state.recordDeepCall);
   const savedKundliRecords = useAppStore(state => state.savedKundlis);
   const messages = useAppStore(state =>
-    state.activeKundliId
+    state.activeChatSessionId
+      ? state.conversationsByKundli[state.activeChatSessionId] ?? []
+      : state.activeKundliId
       ? state.conversationsByKundli[state.activeKundliId] ?? []
       : [],
   );
@@ -578,7 +641,9 @@ export function ChatScreen({
             };
 
       setActiveKundli(nextKundli);
-      const saved = await saveGeneratedKundliLocally(nextKundli);
+      const saved = await saveGeneratedKundliLocally(nextKundli, {
+        isLoggedIn: auth.isLoggedIn,
+      });
       setSavedKundlis(saved);
 
       streamAssistantResponse(
@@ -839,7 +904,9 @@ export function ChatScreen({
           responseLanguage,
         );
         setPredictaMemory(nextMemory);
-        saveGeneratedKundliLocally(nextKundli)
+        saveGeneratedKundliLocally(nextKundli, {
+          isLoggedIn: auth.isLoggedIn,
+        })
           .then(setSavedKundlis)
           .catch(() =>
             listSavedKundlis()
@@ -1221,7 +1288,10 @@ export function ChatScreen({
         source: 'chat',
       });
 
-      const next = await saveGeneratedKundliLocally(savedKundli);
+      const next = await saveGeneratedKundliLocally(savedKundli, {
+        isLoggedIn: auth.isLoggedIn,
+        isUpdate: decision === 'update-existing',
+      });
       setSavedKundlis(next);
       setActiveKundli(savedKundli);
 
@@ -1438,6 +1508,15 @@ export function ChatScreen({
           </AppText>
         </FadeInView>
       ) : null}
+
+      <ChatSessionPanel
+        activeSessionId={activeChatSessionId}
+        isSignedIn={auth.isLoggedIn}
+        sessions={chatSessions}
+        onNewSession={createChatSession}
+        onSignIn={() => navigation.navigate(routes.Login)}
+        onSwitchSession={switchChatSession}
+      />
 
       <FadeInView className="mt-5">
         <View style={styles.chatLanguageState}>
@@ -2023,10 +2102,12 @@ function buildMobileSchoolContextIntro(
         ? 'Nadi Predicta'
         : 'Regular Predicta';
   const question = context?.handoffQuestion ?? context?.selectedSection;
+  const chartFocus = context?.chartName ?? context?.chartType;
 
   if (language === 'hi') {
     return [
       `${school} ready hai.`,
+      chartFocus ? `Selected chart: ${chartFocus}.` : undefined,
       question ? `Aapka question: ${question}` : undefined,
       context?.predictaSchool === 'KP'
         ? 'Ab answer KP ke cusps, star lords, sub lords, significators aur ruling planets se hi grounded rahega.'
@@ -2042,6 +2123,7 @@ function buildMobileSchoolContextIntro(
   if (language === 'gu') {
     return [
       `${school} ready chhe.`,
+      chartFocus ? `Selected chart: ${chartFocus}.` : undefined,
       question ? `Tamaro question: ${question}` : undefined,
       context?.predictaSchool === 'KP'
         ? 'Have answer KP cusps, star lords, sub lords, significators ane ruling planets par grounded rahe.'
@@ -2056,6 +2138,7 @@ function buildMobileSchoolContextIntro(
 
   return [
     `${school} is ready.`,
+    chartFocus ? `Selected chart: ${chartFocus}.` : undefined,
     question ? `Your question: ${question}` : undefined,
     context?.predictaSchool === 'KP'
       ? 'The answer will now stay grounded in KP cusps, star lords, sub lords, significators, and ruling planets.'

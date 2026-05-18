@@ -1,9 +1,19 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  type CSSProperties,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import type { User } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import {
   getConfidenceLabel,
   getLanguageLabels,
+  getLanguageOption,
+  SUPPORTED_LANGUAGE_OPTIONS,
 } from '@pridicta/config/language';
 import {
   getReportPurchaseGuide,
@@ -11,7 +21,12 @@ import {
   type ReportPurchaseGuide,
   type ReportMarketplaceProduct,
 } from '@pridicta/config/pricing';
-import { composeReportSections, type PdfSection } from '@pridicta/pdf';
+import { getChartRenderTheme } from '@pridicta/astrology';
+import {
+  composeReportSections,
+  type PdfChartSnapshot,
+  type PdfSection,
+} from '@pridicta/pdf';
 import type { KundliData, SupportedLanguage } from '@pridicta/types';
 import { useLanguagePreference } from '../lib/language-preference';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
@@ -26,7 +41,10 @@ import {
 } from '../lib/web-auto-save-memory';
 import { loadWebKundliStore } from '../lib/web-kundli-storage';
 import { WebActiveKundliActions } from './WebActiveKundliActions';
+import { NorthIndianChartLines } from './WebKundliChart';
 import { WebTrustProofPanel } from './WebTrustProofPanel';
+import { AuthDialog } from './AuthDialog';
+import { getFirebaseWebAuth } from '../lib/firebase/client';
 
 export function WebDossierPreview(): React.JSX.Element {
   const didLoadSavedState = useRef(false);
@@ -40,9 +58,15 @@ export function WebDossierPreview(): React.JSX.Element {
   const [copyState, setCopyState] = useState<
     'idle' | 'report' | 'chat' | 'empty' | 'needKundli'
   >('idle');
-  const { language } = useLanguagePreference();
+  const {
+    language: appLanguage,
+    reportLanguage,
+    setReportLanguage,
+  } = useLanguagePreference();
   const [kundli, setKundli] = useState<KundliData | undefined>();
-  const labels = getLanguageLabels(language);
+  const [user, setUser] = useState<User | null>(null);
+  const labels = getLanguageLabels(appLanguage);
+  const reportLabels = getLanguageLabels(reportLanguage);
   const marketplaceProducts = useMemo(() => getReportMarketplaceProducts(), []);
   const purchaseGuide = useMemo(() => getReportPurchaseGuide(), []);
   const selectedReport =
@@ -50,7 +74,11 @@ export function WebDossierPreview(): React.JSX.Element {
     marketplaceProducts[0];
   const localizedSelectedReport = getLocalizedReportProduct(
     selectedReport,
-    language,
+    appLanguage,
+  );
+  const localizedReportTitle = getLocalizedReportProduct(
+    selectedReport,
+    reportLanguage,
   );
 
   useEffect(() => {
@@ -73,9 +101,20 @@ export function WebDossierPreview(): React.JSX.Element {
     if (savedReport?.selectedSectionKeys?.length) {
       setSelectedSectionKeys(savedReport.selectedSectionKeys);
     }
+    if (savedReport?.reportLanguage) {
+      setReportLanguage(savedReport.reportLanguage);
+    }
 
     didLoadSavedState.current = true;
-  }, [marketplaceProducts]);
+  }, [marketplaceProducts, setReportLanguage]);
+
+  useEffect(() => {
+    try {
+      return onAuthStateChanged(getFirebaseWebAuth(), setUser);
+    } catch {
+      return undefined;
+    }
+  }, []);
 
   useEffect(() => {
     if (!didLoadSavedState.current) {
@@ -88,36 +127,40 @@ export function WebDossierPreview(): React.JSX.Element {
         builderMode,
         selectedReportId,
         selectedSectionKeys,
+        reportLanguage,
         updatedAt: new Date().toISOString(),
       },
     });
-  }, [builderMode, mode, selectedReportId, selectedSectionKeys]);
+  }, [builderMode, mode, reportLanguage, selectedReportId, selectedSectionKeys]);
 
   const freeReport = useMemo(
     () =>
       composeReportSections({
         kundli,
-        language,
+        language: reportLanguage,
         mode: 'FREE',
       }),
-    [kundli, language],
+    [kundli, reportLanguage],
   );
   const premiumReport = useMemo(
     () =>
       composeReportSections({
         kundli,
-        language,
+        language: reportLanguage,
         mode: 'PREMIUM',
       }),
-    [kundli, language],
+    [kundli, reportLanguage],
   );
   const report = mode === 'PREMIUM' ? premiumReport : freeReport;
-  const builderCopy = getReportBuilderCopy(language);
+  const reportChartTheme = getChartRenderTheme(kundli?.birthDetails.time);
+  const builderCopy = getReportBuilderCopy(appLanguage);
+  const reportLanguageCopy = getReportLanguageCopy(appLanguage);
+  const reportPrintCopy = getReportPrintCopy(reportLanguage);
   const actualSectionOptions = report.sections.map((section, index) => ({
     key: getReportSectionKey(section, index),
     section,
   }));
-  const plannedSectionOptions = getComprehensiveReportSections(language).map(
+  const plannedSectionOptions = getComprehensiveReportSections(reportLanguage).map(
     (section, index) => ({
       key: `planned-${index}-${section.eyebrow}-${section.title}`,
       section: {
@@ -148,7 +191,7 @@ export function WebDossierPreview(): React.JSX.Element {
     builderMode === 'EVERYTHING'
       ? sectionOptions.length
       : sectionOptions.filter(option => selectedKeySet.has(option.key)).length;
-  const differenceRows = getFreePremiumDifferenceRows(language);
+  const differenceRows = getFreePremiumDifferenceRows(appLanguage);
 
   function printReport() {
     if (!kundli) {
@@ -195,7 +238,9 @@ export function WebDossierPreview(): React.JSX.Element {
 
   async function copyReportSummary() {
     const text = [
-      `${selectedReport.title} · ${mode === 'PREMIUM' ? labels.premium : labels.free}`,
+      `${localizedReportTitle.title} · ${
+        mode === 'PREMIUM' ? reportLabels.premium : reportLabels.free
+      }`,
       report.executiveSummary.headline,
       '',
       builderCopy.includesHeading,
@@ -222,7 +267,7 @@ export function WebDossierPreview(): React.JSX.Element {
       const validCurrent = current.filter(key => keySet.has(key));
       return validCurrent.length ? validCurrent : keys;
     });
-  }, [language, report.mode, selectedReportId, kundli?.id]);
+  }, [kundli?.id, report.mode, reportLanguage, selectedReportId]);
 
   return (
     <div className="dossier-preview">
@@ -246,29 +291,35 @@ export function WebDossierPreview(): React.JSX.Element {
           </div>
         </div>
 
-        <div className="report-choice-guide">
-          {purchaseGuide.map(item => {
-            const localizedItem = getLocalizedPurchaseGuideItem(
-              item,
-              language,
-            );
+        <details className="report-drawer">
+          <summary>
+            <span>{builderCopy.helpChoosingReport}</span>
+            <strong>{builderCopy.openDrawer}</strong>
+          </summary>
+          <div className="report-choice-guide">
+            {purchaseGuide.map(item => {
+              const localizedItem = getLocalizedPurchaseGuideItem(
+                item,
+                appLanguage,
+              );
 
-            return (
-            <div className="report-choice-card" key={item.label}>
-              <span>{localizedItem.label}</span>
-              <strong>{localizedItem.title}</strong>
-              <p>{localizedItem.body}</p>
-              <small>{localizedItem.cta}</small>
-            </div>
-            );
-          })}
-        </div>
+              return (
+              <div className="report-choice-card" key={item.label}>
+                <span>{localizedItem.label}</span>
+                <strong>{localizedItem.title}</strong>
+                <p>{localizedItem.body}</p>
+                <small>{localizedItem.cta}</small>
+              </div>
+              );
+            })}
+          </div>
+        </details>
 
         <div className="report-product-grid">
           {marketplaceProducts.map(product => {
             const localizedProduct = getLocalizedReportProduct(
               product,
-              language,
+              appLanguage,
             );
 
             return (
@@ -291,40 +342,46 @@ export function WebDossierPreview(): React.JSX.Element {
           })}
         </div>
 
-        <div className="report-selected-panel">
-          <div>
-            <div className="section-title">{builderCopy.selectedReport}</div>
-            <h3>{localizedSelectedReport.title}</h3>
-            <p>{localizedSelectedReport.bestFor}</p>
-            <small>{localizedSelectedReport.purchaseHint}</small>
-          </div>
-          <div className="report-depth-grid">
+        <details className="report-drawer">
+          <summary>
+            <span>{builderCopy.viewSelectedDetails}</span>
+            <strong>{localizedSelectedReport.title}</strong>
+          </summary>
+          <div className="report-selected-panel">
             <div>
-              <span>{builderCopy.freePreview}</span>
-              <p>{localizedSelectedReport.freeDepth}</p>
-              <ul>
-                {localizedSelectedReport.freeIncludes.map(item => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
+              <div className="section-title">{builderCopy.selectedReport}</div>
+              <h3>{localizedSelectedReport.title}</h3>
+              <p>{localizedSelectedReport.bestFor}</p>
+              <small>{localizedSelectedReport.purchaseHint}</small>
             </div>
-            <div>
-              <span>{builderCopy.premiumDepth}</span>
-              <p>{localizedSelectedReport.premiumDepth}</p>
-              <ul>
-                {localizedSelectedReport.premiumIncludes.map(item => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
+            <div className="report-depth-grid">
+              <div>
+                <span>{builderCopy.freePreview}</span>
+                <p>{localizedSelectedReport.freeDepth}</p>
+                <ul>
+                  {localizedSelectedReport.freeIncludes.map(item => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <span>{builderCopy.premiumDepth}</span>
+                <p>{localizedSelectedReport.premiumDepth}</p>
+                <ul>
+                  {localizedSelectedReport.premiumIncludes.map(item => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
+            <a
+              className="button secondary"
+              href={buildReportAskHref(selectedReport, kundli?.id)}
+            >
+              {builderCopy.askFromReport}
+            </a>
           </div>
-          <a
-            className="button secondary"
-            href={buildReportAskHref(selectedReport, kundli?.id)}
-          >
-            {builderCopy.askFromReport}
-          </a>
-        </div>
+        </details>
       </section>
 
       <section className="report-builder glass-panel">
@@ -342,43 +399,49 @@ export function WebDossierPreview(): React.JSX.Element {
           </div>
         </div>
 
-        <div className="report-builder-access-row">
-          <div>
-            <span>{builderCopy.freeAccessLabel}</span>
-            <strong>{builderCopy.freeAccessTitle}</strong>
-            <p>{builderCopy.freeAccessBody}</p>
+        <details className="report-drawer">
+          <summary>
+            <span>{builderCopy.compareDepth}</span>
+            <strong>{builderCopy.differenceEyebrow}</strong>
+          </summary>
+          <div className="report-builder-access-row">
+            <div>
+              <span>{builderCopy.freeAccessLabel}</span>
+              <strong>{builderCopy.freeAccessTitle}</strong>
+              <p>{builderCopy.freeAccessBody}</p>
+            </div>
+            <div className={mode === 'PREMIUM' ? 'active' : ''}>
+              <span>{builderCopy.premiumAccessLabel}</span>
+              <strong>{builderCopy.premiumAccessTitle}</strong>
+              <p>{builderCopy.premiumAccessBody}</p>
+              <a className="button secondary" href="/dashboard/premium">
+                {builderCopy.premiumAccessCta}
+              </a>
+            </div>
           </div>
-          <div className={mode === 'PREMIUM' ? 'active' : ''}>
-            <span>{builderCopy.premiumAccessLabel}</span>
-            <strong>{builderCopy.premiumAccessTitle}</strong>
-            <p>{builderCopy.premiumAccessBody}</p>
-            <a className="button secondary" href="/dashboard/premium">
-              {builderCopy.premiumAccessCta}
-            </a>
-          </div>
-        </div>
 
-        <div className="report-difference-table-wrap">
-          <div className="section-title">{builderCopy.differenceEyebrow}</div>
-          <table className="report-difference-table">
-            <thead>
-              <tr>
-                <th>{builderCopy.differenceColumn}</th>
-                <th>{labels.free}</th>
-                <th>{labels.premium}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {differenceRows.map(row => (
-                <tr key={row.area}>
-                  <td>{row.area}</td>
-                  <td>{row.free}</td>
-                  <td>{row.premium}</td>
+          <div className="report-difference-table-wrap">
+            <div className="section-title">{builderCopy.differenceEyebrow}</div>
+            <table className="report-difference-table">
+              <thead>
+                <tr>
+                  <th>{builderCopy.differenceColumn}</th>
+                  <th>{labels.free}</th>
+                  <th>{labels.premium}</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {differenceRows.map(row => (
+                  <tr key={row.area}>
+                    <td>{row.area}</td>
+                    <td>{row.free}</td>
+                    <td>{row.premium}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
 
         <div className="report-builder-choice-row" role="group" aria-label={builderCopy.title}>
           <button
@@ -409,20 +472,51 @@ export function WebDossierPreview(): React.JSX.Element {
           </button>
         </div>
 
-        <div className="report-included-list">
-          <div>
-            <div className="section-title">{builderCopy.everythingIncludesEyebrow}</div>
-            <h3>{builderCopy.everythingIncludesTitle}</h3>
-            <p>{builderCopy.everythingIncludesBody}</p>
+        <details className="report-drawer">
+          <summary>
+            <span>{builderCopy.seeEverythingIncluded}</span>
+            <strong>{builderCopy.everythingIncludesTitle}</strong>
+          </summary>
+          <div className="report-included-list">
+            <div>
+              <div className="section-title">{builderCopy.everythingIncludesEyebrow}</div>
+              <h3>{builderCopy.everythingIncludesTitle}</h3>
+              <p>{builderCopy.everythingIncludesBody}</p>
+            </div>
+            <div className="report-included-grid">
+              {getComprehensiveReportSections(reportLanguage).map(section => (
+                <span key={`${section.eyebrow}-${section.title}`}>
+                  {section.title}
+                </span>
+              ))}
+            </div>
           </div>
-          <div className="report-included-grid">
-            {getComprehensiveReportSections(language).map(section => (
-              <span key={`${section.eyebrow}-${section.title}`}>
-                {section.title}
-              </span>
+        </details>
+
+        <section className="report-language-panel" aria-label={reportLanguageCopy.title}>
+          <div>
+            <span>{reportLanguageCopy.eyebrow}</span>
+            <strong>{reportLanguageCopy.title}</strong>
+            <p>
+              {appLanguage === reportLanguage
+                ? reportLanguageCopy.body
+                : reportLanguageCopy.differentBody}
+            </p>
+          </div>
+          <div className="report-language-options" role="group" aria-label={reportLanguageCopy.title}>
+            {SUPPORTED_LANGUAGE_OPTIONS.map(option => (
+              <button
+                className={option.code === reportLanguage ? 'active' : ''}
+                key={option.code}
+                onClick={() => setReportLanguage(option.code)}
+                type="button"
+              >
+                <span>{option.nativeName}</span>
+                <small>{option.englishName}</small>
+              </button>
             ))}
           </div>
-        </div>
+        </section>
 
         <div className="report-builder-section-grid">
           {sectionOptions.map(({ key, section }) => (
@@ -443,10 +537,10 @@ export function WebDossierPreview(): React.JSX.Element {
               <strong>{section.title}</strong>
               <small>
                 {kundli
-                  ? `${section.tier === 'premium' ? labels.premium : labels.free} · ${getConfidenceLabel(
-                      language,
+                  ? `${section.tier === 'premium' ? reportLabels.premium : reportLabels.free} · ${getConfidenceLabel(
+                      reportLanguage,
                       section.confidence ?? 'medium',
-                    )} ${labels.confidence}`
+                    )} ${reportLabels.confidence}`
                   : builderCopy.createKundliToSelect}
               </small>
             </label>
@@ -467,6 +561,15 @@ export function WebDossierPreview(): React.JSX.Element {
             {builderCopy.downloadChatPdf}
           </button>
         </div>
+        {!user ? (
+          <div className="report-login-nudge">
+            <div>
+              <strong>{builderCopy.signInNudgeTitle}</strong>
+              <p>{builderCopy.signInNudgeBody}</p>
+            </div>
+            <AuthDialog />
+          </div>
+        ) : null}
         {copyState === 'empty' ? (
           <p className="report-builder-note">{builderCopy.emptySelection}</p>
         ) : copyState === 'needKundli' ? (
@@ -497,7 +600,7 @@ export function WebDossierPreview(): React.JSX.Element {
           </button>
         </div>
         <button className="button secondary" onClick={printReport} type="button">
-          Print / save PDF
+          {builderCopy.printSelected}
         </button>
       </div>
 
@@ -507,15 +610,16 @@ export function WebDossierPreview(): React.JSX.Element {
             ? 'report-print-cover premium'
             : 'report-print-cover free'
         }
+        data-chart-theme={reportChartTheme}
       >
         <div>
-          <span>PREDICTA HOLISTIC ASTROLOGY REPORT</span>
-          <h1>{selectedReport.title}</h1>
-          <h2>Create your Kundli. Understand your life. Ask with proof.</h2>
+          <span>{reportPrintCopy.coverEyebrow}</span>
+          <h1>{localizedReportTitle.title}</h1>
+          <h2>{reportPrintCopy.tagline}</h2>
           <p>{report.cover.subtitle}</p>
           <p>{report.cover.metadata.join(' • ')}</p>
         </div>
-        <strong>{mode === 'PREMIUM' ? labels.premium : labels.free}</strong>
+        <strong>{mode === 'PREMIUM' ? reportLabels.premium : reportLabels.free}</strong>
       </section>
 
       <section
@@ -524,30 +628,31 @@ export function WebDossierPreview(): React.JSX.Element {
             ? 'report-print-brand-header premium'
             : 'report-print-brand-header free'
         }
+        data-chart-theme={reportChartTheme}
       >
         <div>
           <span>PREDICTA</span>
-          <p>Holistic Vedic astrology with chart proof, timing, remedies, and safety boundaries.</p>
+          <p>{reportPrintCopy.brandLine}</p>
         </div>
-        <strong>{selectedReport.title}</strong>
+        <strong>{localizedReportTitle.title}</strong>
       </section>
 
       <section className="dossier-hero glass-panel">
         <div>
           <div className="section-title">
-            {selectedReport.title.toUpperCase()} · DOSSIER {report.dossierVersion}
+            {localizedReportTitle.title.toUpperCase()} · DOSSIER {report.dossierVersion}
           </div>
           <h2>
             {mode === 'PREMIUM'
-              ? 'Detailed report preview'
-              : 'Useful free preview'}
+              ? reportPrintCopy.premiumPreview
+              : reportPrintCopy.freePreview}
           </h2>
           <p>{report.executiveSummary.headline}</p>
         </div>
         <div className="dossier-confidence">
           <span>{labels.confidence}</span>
           <strong>
-            {getConfidenceLabel(language, report.executiveSummary.confidence)}
+            {getConfidenceLabel(reportLanguage, report.executiveSummary.confidence)}
           </strong>
         </div>
       </section>
@@ -563,27 +668,129 @@ export function WebDossierPreview(): React.JSX.Element {
 
       <WebTrustProofPanel trust={report.trustProfile} />
 
+      {report.chartSnapshots.length ? (
+        <section className="report-chart-sync-panel glass-panel">
+          <div className="section-title">{reportPrintCopy.chartsEyebrow}</div>
+          <h2>{reportPrintCopy.chartsTitle}</h2>
+          <p>{reportPrintCopy.chartsBody}</p>
+          <div className="report-chart-sync-grid">
+            {report.chartSnapshots.slice(0, 4).map(snapshot => (
+              <ReportChartSnapshot
+                key={`${snapshot.chartType}-${snapshot.chartName}`}
+                snapshot={snapshot}
+              />
+            ))}
+          </div>
+        </section>
+      ) : null}
+
       <div className="report-section-list">
         {visibleSections.map(section => (
           <DossierSection
             key={`${report.mode}-${section.title}`}
-            language={language}
+            language={reportLanguage}
             section={section}
           />
         ))}
       </div>
 
       <section className="report-print-safety-footer">
-        <strong>Safety note</strong>
-        <p>
-          Predicta is for reflection and planning. It does not replace medical,
-          legal, financial, emergency, or mental-health professionals. No
-          prediction is guaranteed; use real-world judgment for important
-          decisions.
-        </p>
+        <strong>{reportPrintCopy.safetyTitle}</strong>
+        <p>{reportPrintCopy.safetyBody}</p>
       </section>
     </div>
   );
+}
+
+function ReportChartSnapshot({
+  snapshot,
+}: {
+  snapshot: PdfChartSnapshot;
+}): React.JSX.Element {
+  return (
+    <article
+      className="report-chart-snapshot"
+      data-chart-theme={snapshot.theme}
+    >
+      <div className="report-chart-snapshot-header">
+        <div>
+          <span>{snapshot.chartType}</span>
+          <strong>{snapshot.displayChartName ?? snapshot.chartName}</strong>
+        </div>
+        <small>{snapshot.school}</small>
+      </div>
+      <div className="report-chart-mini">
+        <NorthIndianChartLines />
+        {snapshot.cells.map(cell => (
+          <div
+            className={`report-chart-mini-cell density-${cell.labelDensity}`}
+            key={`${snapshot.chartType}-${cell.house}`}
+            style={{
+              ['--house-x' as string]: `${houseLabelPoint(cell.house).x}%`,
+              ['--house-y' as string]: `${houseLabelPoint(cell.house).y}%`,
+            } as CSSProperties}
+          >
+            <span className="report-chart-sign">
+              {cell.signNumber}
+              <em>{cell.displaySign ?? cell.sign}</em>
+            </span>
+            {cell.planets.slice(0, 5).map(planet => (
+              <span className="report-chart-planet" key={`${planet.name}-${planet.degreeLabel}`}>
+                {planet.displayName ?? planet.name} {planet.degreeLabel}
+                {planet.status.retrograde ? ' R' : ''}
+                {planet.status.exalted ? ' E' : ''}
+                {planet.status.debilitated ? ' D' : ''}
+                {planet.status.combust ? ' C' : ''}
+              </span>
+            ))}
+            {cell.planets.length > 5 ? (
+              <span className="report-chart-planet">
+                +{cell.planets.length - 5} more
+              </span>
+            ) : null}
+          </div>
+        ))}
+      </div>
+      {snapshot.moonNakshatraPada ? (
+        <p>
+          Moon: {snapshot.moonNakshatraPada.moonPhaseLabel}. Birth star:{' '}
+          {snapshot.moonNakshatraPada.moonNakshatra}
+          {snapshot.moonNakshatraPada.pada
+            ? ` pada ${snapshot.moonNakshatraPada.pada}`
+            : ''}
+          .
+        </p>
+      ) : null}
+      {snapshot.legend.length ? (
+        <div className="report-chart-mini-legend">
+          {snapshot.legend.map(item => (
+            <span key={`${snapshot.chartType}-${item.code}`}>
+              <b>{item.code}</b> {item.description}
+            </span>
+          ))}
+        </div>
+      ) : null}
+    </article>
+  );
+}
+
+function houseLabelPoint(house?: number): { x: number; y: number } {
+  const points: Record<number, { x: number; y: number }> = {
+    1: { x: 50, y: 20 },
+    2: { x: 25, y: 14 },
+    3: { x: 12, y: 30 },
+    4: { x: 26, y: 50 },
+    5: { x: 12, y: 70 },
+    6: { x: 25, y: 86 },
+    7: { x: 50, y: 80 },
+    8: { x: 75, y: 86 },
+    9: { x: 88, y: 70 },
+    10: { x: 74, y: 50 },
+    11: { x: 88, y: 30 },
+    12: { x: 75, y: 14 },
+  };
+
+  return points[house ?? 1] ?? points[1];
 }
 
 function getReportSectionKey(section: PdfSection, index: number): string {
@@ -597,21 +804,21 @@ function getLocalizedPurchaseGuideItem(
   if (language === 'hi') {
     const map: Record<string, ReportPurchaseGuide> = {
       'One-time report': {
-        body: 'जब किसी साफ जीवन सवाल के लिए एक सुंदर PDF चाहिए, इसे चुनें.',
+        body: 'जब किसी साफ जीवन सवाल के लिए एक सुंदर पीडीएफ चाहिए, इसे चुनें.',
         cta: 'एक रिपोर्ट चुनें',
         label: 'एक बार की रिपोर्ट',
         title: 'मुझे एक जवाब अच्छे से तैयार चाहिए',
       },
       Subscription: {
-        body: 'जब नियमित समय मार्गदर्शन, गहरी chat, उपाय और मासिक planning चाहिए, इसे चुनें.',
+        body: 'जब नियमित समय मार्गदर्शन, गहरी चैट, उपाय और मासिक योजना चाहिए, इसे चुनें.',
         cta: 'प्रीमियम देखें',
-        label: 'Subscription',
+        label: 'सदस्यता',
         title: 'मुझे हर महीने मार्गदर्शन चाहिए',
       },
       'Day Pass': {
         body: 'निर्णय लेने से पहले पूरा अनुभव आजमाना हो, इसे चुनें.',
-        cta: 'Day Pass आजमाएं',
-        label: 'Day Pass',
+        cta: 'डे पास आजमाएं',
+        label: 'डे पास',
         title: 'मैं आज सब कुछ आजमाना चाहता/चाहती हूं',
       },
     };
@@ -622,21 +829,21 @@ function getLocalizedPurchaseGuideItem(
   if (language === 'gu') {
     const map: Record<string, ReportPurchaseGuide> = {
       'One-time report': {
-        body: 'સ્પષ્ટ જીવન પ્રશ્ન માટે એક સુંદર PDF જોઈએ ત્યારે આ પસંદ કરો.',
+        body: 'સ્પષ્ટ જીવન પ્રશ્ન માટે એક સુંદર પીડીએફ જોઈએ ત્યારે આ પસંદ કરો.',
         cta: 'એક રિપોર્ટ પસંદ કરો',
         label: 'એક વારની રિપોર્ટ',
         title: 'મને એક જવાબ સારી રીતે તૈયાર જોઈએ',
       },
       Subscription: {
-        body: 'નિયમિત સમય guidance, ઊંડી chat, ઉપાયો અને માસિક planning જોઈએ ત્યારે આ પસંદ કરો.',
+        body: 'નિયમિત સમય માર્ગદર્શન, ઊંડી ચેટ, ઉપાયો અને માસિક યોજના જોઈએ ત્યારે આ પસંદ કરો.',
         cta: 'પ્રીમિયમ જુઓ',
-        label: 'Subscription',
+        label: 'સભ્યતા',
         title: 'મારે દર મહિને માર્ગદર્શન જોઈએ',
       },
       'Day Pass': {
         body: 'નિર્ણય કરતા પહેલાં આખો અનુભવ અજમાવવો હોય ત્યારે આ પસંદ કરો.',
-        cta: 'Day Pass અજમાવો',
-        label: 'Day Pass',
+        cta: 'ડે પાસ અજમાવો',
+        label: 'ડે પાસ',
         title: 'હું આજે બધું અજમાવવા માગું છું',
       },
     };
@@ -659,85 +866,85 @@ function getLocalizedReportProduct(
         freeDepth: 'कुंडली, सभी दिखने वाले चार्ट और उपयोगी चार्ट संकेत.',
         freeIncludes: ['सभी दिखने वाले चार्ट', 'कुंडली सारांश', 'वर्तमान दशा', 'उपयोगी उपाय'],
         outcome: 'उलझे बिना पूरा चार्ट समझें.',
-        premiumDepth: 'सभी चार्ट, दशा, गोचर, योग और उपाय की पूरी synthesis.',
-        premiumIncludes: ['पूरी चार्ट synthesis', 'दशा और गोचर समय', 'योग और बल', 'प्रीमियम PDF संरचना'],
-        purchaseHint: 'जब पूरा जीवन overview चाहिए, यह सबसे अच्छी पहली रिपोर्ट है.',
+        premiumDepth: 'सभी चार्ट, दशा, गोचर, योग और उपाय का पूरा सार.',
+        premiumIncludes: ['पूरा चार्ट सार', 'दशा और गोचर समय', 'योग और बल', 'प्रीमियम पीडीएफ संरचना'],
+        purchaseHint: 'जब पूरा जीवन सार चाहिए, यह सबसे अच्छी पहली रिपोर्ट है.',
         title: 'कुंडली रिपोर्ट',
       },
       CAREER: {
         badge: 'काम',
         bestFor: 'करियर दिशा, नौकरी समय और काम के दबाव.',
-        freeDepth: '10वें भाव, D10, दशा और गोचर से सरल करियर focus.',
-        freeIncludes: ['करियर भाव', 'D10 संकेत', 'वर्तमान काम दबाव', 'एक practical action'],
+        freeDepth: '10वें भाव, D10, दशा और गोचर से सरल करियर ध्यान.',
+        freeIncludes: ['करियर भाव', 'D10 संकेत', 'वर्तमान काम दबाव', 'एक व्यावहारिक कदम'],
         outcome: 'काम की दिशा, समय दबाव और बेहतर अगला कदम देखें.',
-        premiumDepth: 'करियर timing, role fit, promotion windows और action plan.',
-        premiumIncludes: ['Role fit', 'Promotion/change windows', 'D1 plus D10 synthesis', 'मासिक action plan'],
-        purchaseHint: 'Job change, promotion, business या career direction के लिए best.',
+        premiumDepth: 'करियर समय, भूमिका मेल, पदोन्नति अवसर और कार्य योजना.',
+        premiumIncludes: ['भूमिका मेल', 'पदोन्नति/बदलाव अवसर', 'D1 और D10 सार', 'मासिक कार्य योजना'],
+        purchaseHint: 'नौकरी बदलाव, पदोन्नति, व्यापार या करियर दिशा के लिए अच्छा.',
         title: 'करियर रिपोर्ट',
       },
       MARRIAGE: {
         badge: 'विवाह',
-        bestFor: 'विवाह संभावना, रिश्ते की परिपक्वता और जीवनसाथी patterns.',
-        freeDepth: 'D1 और D9 relationship signals confidence के साथ.',
-        freeIncludes: ['D1 relationship signal', 'D9 preview', 'Venus/Jupiter tone', 'Gentle caution'],
-        outcome: 'रिश्ते की परिपक्वता, समय और साथी के pattern समझें.',
-        premiumDepth: 'D1 plus D9 synthesis, timing windows, remedies और red flags gently.',
-        premiumIncludes: ['D1 plus D9 synthesis', 'Timing windows', 'Compatibility cautions', 'Relationship remedies'],
-        purchaseHint: 'Marriage timing, partner nature, delay या family discussion के लिए best.',
+        bestFor: 'विवाह संभावना, रिश्ते की परिपक्वता और जीवनसाथी संकेत.',
+        freeDepth: 'D1 और D9 रिश्ते के संकेत भरोसे के साथ.',
+        freeIncludes: ['D1 रिश्ते का संकेत', 'D9 झलक', 'शुक्र/बृहस्पति स्वभाव', 'नरम सावधानी'],
+        outcome: 'रिश्ते की परिपक्वता, समय और साथी के संकेत समझें.',
+        premiumDepth: 'D1 और D9 का सार, समय अवसर, उपाय और सावधानियां नरमी से.',
+        premiumIncludes: ['D1 और D9 सार', 'समय अवसर', 'मिलान सावधानियां', 'रिश्ते के उपाय'],
+        purchaseHint: 'विवाह समय, साथी स्वभाव, देरी या परिवार चर्चा के लिए अच्छा.',
         title: 'विवाह रिपोर्ट',
       },
       WEALTH: {
         badge: 'धन',
-        bestFor: 'Income, बचत, धन आदतें और financial timing.',
-        freeDepth: 'धन भाव, वर्तमान दशा tone और practical guidance.',
-        freeIncludes: ['2nd/11th house signal', 'Dasha money tone', 'Savings caution', 'One grounded habit'],
-        outcome: 'धन प्रवाह, बचत आदतें और बेहतर financial समय पढ़ें.',
-        premiumDepth: 'D2, 2nd और 11th house synthesis, timing windows और monthly plan.',
-        premiumIncludes: ['D2 wealth synthesis', 'Income and gains windows', 'Monthly planning', 'Risk and discipline map'],
-        purchaseHint: 'Income, savings, investment timing या debt pressure के लिए best.',
+        bestFor: 'आय, बचत, धन आदतें और आर्थिक समय.',
+        freeDepth: 'धन भाव, वर्तमान दशा स्वभाव और व्यावहारिक मार्गदर्शन.',
+        freeIncludes: ['2/11 भाव संकेत', 'दशा धन स्वभाव', 'बचत सावधानी', 'एक जमीन से जुड़ी आदत'],
+        outcome: 'धन प्रवाह, बचत आदतें और बेहतर आर्थिक समय पढ़ें.',
+        premiumDepth: 'D2, दूसरे और ग्यारहवें भाव का सार, समय अवसर और मासिक योजना.',
+        premiumIncludes: ['D2 धन सार', 'आय और लाभ अवसर', 'मासिक योजना', 'जोखिम और अनुशासन मानचित्र'],
+        purchaseHint: 'आय, बचत, निवेश समय या कर्ज दबाव के लिए अच्छा.',
         title: 'धन रिपोर्ट',
       },
       SADESATI: {
         badge: 'शनि',
-        bestFor: 'साढ़े साती phase, दबाव windows, discipline और support.',
-        freeDepth: 'वर्तमान साढ़े साती status, phase और सरल guidance.',
-        freeIncludes: ['Current phase', 'Saturn theme', 'Simple caution', 'Saturn karma remedy'],
+        bestFor: 'साढ़े साती चरण, दबाव अवसर, अनुशासन और सहारा.',
+        freeDepth: 'वर्तमान साढ़े साती स्थिति, चरण और सरल मार्गदर्शन.',
+        freeIncludes: ['वर्तमान चरण', 'शनि स्वभाव', 'सरल सावधानी', 'शनि कर्म उपाय'],
         outcome: 'शनि दबाव को डर के बिना समझें.',
-        premiumDepth: 'Exact phase reading, Saturn transit dates, Ashtakavarga support और remedies.',
-        premiumIncludes: ['Exact phase reading', 'Saturn dates', 'Ashtakavarga support', 'Remedy and discipline plan'],
-        purchaseHint: 'Pressure, delay, responsibility या Saturn-related fear के लिए best.',
+        premiumDepth: 'सटीक चरण पढ़ाई, शनि गोचर तिथियां, अष्टकवर्ग सहारा और उपाय.',
+        premiumIncludes: ['सटीक चरण पढ़ाई', 'शनि तिथियां', 'अष्टकवर्ग सहारा', 'उपाय और अनुशासन योजना'],
+        purchaseHint: 'दबाव, देरी, जिम्मेदारी या शनि से जुड़े डर के लिए अच्छा.',
         title: 'साढ़े साती रिपोर्ट',
       },
       DASHA: {
         badge: 'समय',
-        bestFor: 'जीवन अवधि, turning points और अभी क्या active है.',
-        freeDepth: 'वर्तमान Mahadasha और Antardasha theme सरल भाषा में.',
-        freeIncludes: ['Current Mahadasha', 'Current Antardasha', 'Life theme', 'Next timing cue'],
-        outcome: 'अभी कौन सा जीवन chapter active है और आगे क्या आता है, देखें.',
-        premiumDepth: 'Mahadasha, Antardasha, Pratyantardasha, activation और timing map.',
-        premiumIncludes: ['Dasha tree', 'Pratyantardasha detail', 'Activation timing', 'Life map with windows'],
-        purchaseHint: 'जब सवाल “why now?” हो या life timing map चाहिए.',
+        bestFor: 'जीवन अवधि, मोड़ और अभी क्या सक्रिय है.',
+        freeDepth: 'वर्तमान महादशा और अंतरदशा स्वभाव सरल भाषा में.',
+        freeIncludes: ['वर्तमान महादशा', 'वर्तमान अंतरदशा', 'जीवन स्वभाव', 'अगला समय संकेत'],
+        outcome: 'अभी कौन सा जीवन अध्याय सक्रिय है और आगे क्या आता है, देखें.',
+        premiumDepth: 'महादशा, अंतरदशा, प्रत्यंतरदशा, सक्रियता और समय मानचित्र.',
+        premiumIncludes: ['दशा वृक्ष', 'प्रत्यंतरदशा विवरण', 'सक्रियता समय', 'अवसरों वाला जीवन मानचित्र'],
+        purchaseHint: 'जब सवाल “अभी क्यों?” हो या जीवन समय मानचित्र चाहिए.',
         title: 'दशा Life Map',
       },
       COMPATIBILITY: {
         badge: 'मिलान',
-        bestFor: 'विवाह matching, family discussion और compatibility clarity.',
-        freeDepth: 'Simple compatibility tone और major caution areas.',
-        freeIncludes: ['Compatibility tone', 'Major support points', 'Major caution points', 'Gentle summary'],
-        outcome: 'कम्पैटिबिलिटी को परिवार के साथ discuss करना आसान बनाएं.',
-        premiumDepth: 'Ashtakoota, Manglik, D1/D9 cross-check, timing और relationship guidance.',
-        premiumIncludes: ['Ashtakoota', 'Manglik check', 'D1/D9 comparison', 'Timing and practical guidance'],
-        purchaseHint: 'Marriage या family compatibility conversation के लिए best.',
+        bestFor: 'विवाह मिलान, परिवार चर्चा और मिलान की स्पष्टता.',
+        freeDepth: 'सरल मिलान स्वभाव और मुख्य सावधानी क्षेत्र.',
+        freeIncludes: ['मिलान स्वभाव', 'मुख्य सहारे', 'मुख्य सावधानियां', 'नरम सार'],
+        outcome: 'मिलान को परिवार के साथ समझना आसान बनाएं.',
+        premiumDepth: 'अष्टकूट, मांगलिक, D1/D9 तुलना, समय और रिश्ते का मार्गदर्शन.',
+        premiumIncludes: ['अष्टकूट', 'मांगलिक जांच', 'D1/D9 तुलना', 'समय और व्यावहारिक मार्गदर्शन'],
+        purchaseHint: 'विवाह या परिवार मिलान बातचीत के लिए अच्छा.',
         title: 'कम्पैटिबिलिटी रिपोर्ट',
       },
       REMEDIES: {
         badge: 'उपाय',
-        bestFor: 'उपाय, habits, spiritual discipline और grounded support.',
-        freeDepth: 'Simple safe remedies और reflection practices.',
-        freeIncludes: ['Planet focus', 'Safe simple remedy', 'Karma lesson', 'Weekly practice'],
-        outcome: 'चार्ट दबाव को कर्म-आधारित action में बदलें.',
-        premiumDepth: 'Planet-specific remedies, timing, consistency tracker और safety notes.',
-        premiumIncludes: ['Planet-specific path', 'Mantra/seva/discipline', 'Tracking rhythm', 'Safety and stop rules'],
+        bestFor: 'उपाय, आदतें, आध्यात्मिक अनुशासन और जमीन से जुड़ा सहारा.',
+        freeDepth: 'सरल सुरक्षित उपाय और चिंतन अभ्यास.',
+        freeIncludes: ['ग्रह ध्यान', 'सुरक्षित सरल उपाय', 'कर्म सीख', 'साप्ताहिक अभ्यास'],
+        outcome: 'चार्ट दबाव को कर्म-आधारित कदम में बदलें.',
+        premiumDepth: 'ग्रह-विशेष उपाय, समय, निरंतरता ट्रैकर और सुरक्षा नोट.',
+        premiumIncludes: ['ग्रह-विशेष मार्ग', 'मंत्र/सेवा/अनुशासन', 'नियमित लय', 'सुरक्षा और रुकने के नियम'],
         purchaseHint: 'जब सिर्फ क्या होगा नहीं, क्या करना है यह चाहिए.',
         title: 'उपाय रिपोर्ट',
       },
@@ -754,85 +961,85 @@ function getLocalizedReportProduct(
         freeDepth: 'કુંડળી, બધા દેખાતા ચાર્ટ્સ અને ઉપયોગી ચાર્ટ સંકેત.',
         freeIncludes: ['બધા દેખાતા ચાર્ટ્સ', 'કુંડળી સારાંશ', 'વર્તમાન દશા', 'ઉપયોગી ઉપાયો'],
         outcome: 'ગૂંચવાયા વગર આખો ચાર્ટ સમજો.',
-        premiumDepth: 'બધા ચાર્ટ્સ, દશા, ગોચર, યોગ અને ઉપાયોની સંપૂર્ણ synthesis.',
-        premiumIncludes: ['સંપૂર્ણ ચાર્ટ synthesis', 'દશા અને ગોચર સમય', 'યોગ અને બળ', 'પ્રીમિયમ PDF રચના'],
-        purchaseHint: 'જ્યારે સંપૂર્ણ જીવન overview જોઈએ ત્યારે આ best first report છે.',
+        premiumDepth: 'બધા ચાર્ટ્સ, દશા, ગોચર, યોગ અને ઉપાયોના સંપૂર્ણ સાર.',
+        premiumIncludes: ['સંપૂર્ણ ચાર્ટ સાર', 'દશા અને ગોચર સમય', 'યોગ અને બળ', 'પ્રીમિયમ પીડીએફ રચના'],
+        purchaseHint: 'જ્યારે સંપૂર્ણ જીવન સાર જોઈએ ત્યારે આ સારી પ્રથમ રિપોર્ટ છે.',
         title: 'કુંડળી રિપોર્ટ',
       },
       CAREER: {
         badge: 'કામ',
         bestFor: 'કારકિર્દી દિશા, નોકરી સમય અને કામના દબાણ.',
-        freeDepth: '10મા ભાવ, D10, દશા અને ગોચરથી સરળ કારકિર્દી focus.',
-        freeIncludes: ['કારકિર્દી ભાવ', 'D10 સંકેત', 'વર્તમાન કામ દબાણ', 'એક practical action'],
+        freeDepth: '10મા ભાવ, D10, દશા અને ગોચરથી સરળ કારકિર્દી ધ્યાન.',
+        freeIncludes: ['કારકિર્દી ભાવ', 'D10 સંકેત', 'વર્તમાન કામ દબાણ', 'એક વ્યવહારુ પગલું'],
         outcome: 'કામની દિશા, સમય દબાણ અને સારું આગળનું પગલું જુઓ.',
-        premiumDepth: 'કારકિર્દી timing, role fit, promotion windows અને action plan.',
-        premiumIncludes: ['Role fit', 'Promotion/change windows', 'D1 plus D10 synthesis', 'માસિક action plan'],
-        purchaseHint: 'Job change, promotion, business અથવા career direction માટે best.',
+        premiumDepth: 'કારકિર્દી સમય, ભૂમિકા મેળ, પ્રમોશન તક અને કાર્ય યોજના.',
+        premiumIncludes: ['ભૂમિકા મેળ', 'પ્રમોશન/બદલાવ તક', 'D1 અને D10 સાર', 'માસિક કાર્ય યોજના'],
+        purchaseHint: 'નોકરી બદલાવ, પ્રમોશન, વ્યવસાય અથવા કારકિર્દી દિશા માટે સારું.',
         title: 'કારકિર્દી રિપોર્ટ',
       },
       MARRIAGE: {
         badge: 'લગ્ન',
-        bestFor: 'લગ્ન સંભાવના, સંબંધની પરિપક્વતા અને spouse patterns.',
-        freeDepth: 'D1 અને D9 relationship signals confidence સાથે.',
-        freeIncludes: ['D1 relationship signal', 'D9 preview', 'Venus/Jupiter tone', 'Gentle caution'],
-        outcome: 'સંબંધની પરિપક્વતા, સમય અને સાથીના pattern સમજો.',
-        premiumDepth: 'D1 plus D9 synthesis, timing windows, remedies અને red flags gently.',
-        premiumIncludes: ['D1 plus D9 synthesis', 'Timing windows', 'Compatibility cautions', 'Relationship remedies'],
-        purchaseHint: 'Marriage timing, partner nature, delay અથવા family discussion માટે best.',
+        bestFor: 'લગ્ન સંભાવના, સંબંધની પરિપક્વતા અને સાથીના સંકેતો.',
+        freeDepth: 'D1 અને D9 સંબંધ સંકેતો વિશ્વાસ સાથે.',
+        freeIncludes: ['D1 સંબંધ સંકેત', 'D9 ઝલક', 'શુક્ર/બૃહસ્પતિ સ્વભાવ', 'નરમ સાવધાની'],
+        outcome: 'સંબંધની પરિપક્વતા, સમય અને સાથીના સંકેતો સમજો.',
+        premiumDepth: 'D1 અને D9 સાર, સમય તક, ઉપાયો અને સાવધાનીઓ નરમાઈથી.',
+        premiumIncludes: ['D1 અને D9 સાર', 'સમય તક', 'મિલાન સાવધાનીઓ', 'સંબંધ ઉપાયો'],
+        purchaseHint: 'લગ્ન સમય, સાથી સ્વભાવ, વિલંબ અથવા પરિવાર ચર્ચા માટે સારું.',
         title: 'લગ્ન રિપોર્ટ',
       },
       WEALTH: {
         badge: 'ધન',
-        bestFor: 'Income, savings, wealth habits અને financial timing.',
-        freeDepth: 'ધન ભાવ, વર્તમાન દશા tone અને practical guidance.',
-        freeIncludes: ['2nd/11th house signal', 'Dasha money tone', 'Savings caution', 'One grounded habit'],
-        outcome: 'ધન પ્રવાહ, બચત આદતો અને સારો financial સમય વાંચો.',
-        premiumDepth: 'D2, 2nd અને 11th house synthesis, timing windows અને monthly plan.',
-        premiumIncludes: ['D2 wealth synthesis', 'Income and gains windows', 'Monthly planning', 'Risk and discipline map'],
-        purchaseHint: 'Income, savings, investment timing અથવા debt pressure માટે best.',
+        bestFor: 'આવક, બચત, ધન આદતો અને આર્થિક સમય.',
+        freeDepth: 'ધન ભાવ, વર્તમાન દશા સ્વભાવ અને વ્યવહારુ માર્ગદર્શન.',
+        freeIncludes: ['2/11 ભાવ સંકેત', 'દશા ધન સ્વભાવ', 'બચત સાવધાની', 'એક જમીનથી જોડાયેલી આદત'],
+        outcome: 'ધન પ્રવાહ, બચત આદતો અને સારો આર્થિક સમય વાંચો.',
+        premiumDepth: 'D2, બીજા અને અગિયારમા ભાવનો સાર, સમય તક અને માસિક યોજના.',
+        premiumIncludes: ['D2 ધન સાર', 'આવક અને લાભ તક', 'માસિક યોજના', 'જોખમ અને શિસ્ત નકશો'],
+        purchaseHint: 'આવક, બચત, રોકાણ સમય અથવા દેવું દબાણ માટે સારું.',
         title: 'ધન રિપોર્ટ',
       },
       SADESATI: {
         badge: 'શનિ',
-        bestFor: 'સાડેસાતી phase, દબાણ windows, discipline અને support.',
-        freeDepth: 'વર્તમાન સાડેસાતી status, phase અને સરળ guidance.',
-        freeIncludes: ['Current phase', 'Saturn theme', 'Simple caution', 'Saturn karma remedy'],
+        bestFor: 'સાડેસાતી તબક્કો, દબાણ તક, શિસ્ત અને સહારો.',
+        freeDepth: 'વર્તમાન સાડેસાતી સ્થિતિ, તબક્કો અને સરળ માર્ગદર્શન.',
+        freeIncludes: ['વર્તમાન તબક્કો', 'શનિ સ્વભાવ', 'સરળ સાવધાની', 'શનિ કર્મ ઉપાય'],
         outcome: 'શનિ દબાણ ને ડર વગર સમજો.',
-        premiumDepth: 'Exact phase reading, Saturn transit dates, Ashtakavarga support અને remedies.',
-        premiumIncludes: ['Exact phase reading', 'Saturn dates', 'Ashtakavarga support', 'Remedy and discipline plan'],
-        purchaseHint: 'Pressure, delay, responsibility અથવા Saturn-related fear માટે best.',
+        premiumDepth: 'ચોક્કસ તબક્કા વાંચન, શનિ ગોચર તારીખો, અષ્ટકવર્ગ સહારો અને ઉપાયો.',
+        premiumIncludes: ['ચોક્કસ તબક્કા વાંચન', 'શનિ તારીખો', 'અષ્ટકવર્ગ સહારો', 'ઉપાય અને શિસ્ત યોજના'],
+        purchaseHint: 'દબાણ, વિલંબ, જવાબદારી અથવા શનિથી જોડાયેલા ડર માટે સારું.',
         title: 'સાડેસાતી રિપોર્ટ',
       },
       DASHA: {
         badge: 'સમય',
-        bestFor: 'જીવન અવધિ, turning points અને હાલમાં શું active છે.',
-        freeDepth: 'Current Mahadasha અને Antardasha theme સરળ ભાષામાં.',
-        freeIncludes: ['Current Mahadasha', 'Current Antardasha', 'Life theme', 'Next timing cue'],
-        outcome: 'હમણાં કયો જીવન chapter active છે અને આગળ શું આવે છે, જુઓ.',
-        premiumDepth: 'Mahadasha, Antardasha, Pratyantardasha, activation અને timing map.',
-        premiumIncludes: ['Dasha tree', 'Pratyantardasha detail', 'Activation timing', 'Life map with windows'],
-        purchaseHint: 'જ્યારે “why now?” એવો પ્રશ્ન હોય અથવા life timing map જોઈએ.',
+        bestFor: 'જીવન અવધિ, વળાંક અને હાલમાં શું સક્રિય છે.',
+        freeDepth: 'વર્તમાન મહાદશા અને અંતરદશા સ્વભાવ સરળ ભાષામાં.',
+        freeIncludes: ['વર્તમાન મહાદશા', 'વર્તમાન અંતરદશા', 'જીવન સ્વભાવ', 'આગલો સમય સંકેત'],
+        outcome: 'હમણાં કયો જીવન અધ્યાય સક્રિય છે અને આગળ શું આવે છે, જુઓ.',
+        premiumDepth: 'મહાદશા, અંતરદશા, પ્રત્યંતરદશા, સક્રિયતા અને સમય નકશો.',
+        premiumIncludes: ['દશા વૃક્ષ', 'પ્રત્યંતરદશા વિગત', 'સક્રિયતા સમય', 'તકવાળો જીવન નકશો'],
+        purchaseHint: 'જ્યારે “હમણાં કેમ?” એવો પ્રશ્ન હોય અથવા જીવન સમય નકશો જોઈએ.',
         title: 'દશા Life Map',
       },
       COMPATIBILITY: {
         badge: 'મિલાન',
-        bestFor: 'લગ્ન matching, family discussion અને compatibility clarity.',
-        freeDepth: 'Simple compatibility tone અને major caution areas.',
-        freeIncludes: ['Compatibility tone', 'Major support points', 'Major caution points', 'Gentle summary'],
-        outcome: 'કમ્પેટિબિલિટીને પરિવાર સાથે discuss કરવી સરળ બનાવો.',
-        premiumDepth: 'Ashtakoota, Manglik, D1/D9 cross-check, timing અને relationship guidance.',
-        premiumIncludes: ['Ashtakoota', 'Manglik check', 'D1/D9 comparison', 'Timing and practical guidance'],
-        purchaseHint: 'Marriage અથવા family compatibility conversation માટે best.',
+        bestFor: 'લગ્ન મિલાન, પરિવાર ચર્ચા અને મિલાનની સ્પષ્ટતા.',
+        freeDepth: 'સરળ મિલાન સ્વભાવ અને મુખ્ય સાવધાની ક્ષેત્રો.',
+        freeIncludes: ['મિલાન સ્વભાવ', 'મુખ્ય સહારા', 'મુખ્ય સાવધાનીઓ', 'નરમ સાર'],
+        outcome: 'મિલાનને પરિવાર સાથે સમજવું સરળ બનાવો.',
+        premiumDepth: 'અષ્ટકૂટ, માંગલિક, D1/D9 સરખામણી, સમય અને સંબંધ માર્ગદર્શન.',
+        premiumIncludes: ['અષ્ટકૂટ', 'માંગલિક તપાસ', 'D1/D9 સરખામણી', 'સમય અને વ્યવહારુ માર્ગદર્શન'],
+        purchaseHint: 'લગ્ન અથવા પરિવાર મિલાન ચર્ચા માટે સારું.',
         title: 'કમ્પેટિબિલિટી રિપોર્ટ',
       },
       REMEDIES: {
         badge: 'ઉપાયો',
-        bestFor: 'ઉપાયો, habits, spiritual discipline અને grounded support.',
-        freeDepth: 'Simple safe remedies અને reflection practices.',
-        freeIncludes: ['Planet focus', 'Safe simple remedy', 'Karma lesson', 'Weekly practice'],
-        outcome: 'ચાર્ટ દબાણને કર્મ આધારિત action માં બદલો.',
-        premiumDepth: 'Planet-specific remedies, timing, consistency tracker અને safety notes.',
-        premiumIncludes: ['Planet-specific path', 'Mantra/seva/discipline', 'Tracking rhythm', 'Safety and stop rules'],
+        bestFor: 'ઉપાયો, આદતો, આધ્યાત્મિક શિસ્ત અને જમીનથી જોડાયેલ સહારો.',
+        freeDepth: 'સરળ સુરક્ષિત ઉપાયો અને વિચાર અભ્યાસ.',
+        freeIncludes: ['ગ્રહ ધ્યાન', 'સુરક્ષિત સરળ ઉપાય', 'કર્મ શીખ', 'સાપ્તાહિક અભ્યાસ'],
+        outcome: 'ચાર્ટ દબાણને કર્મ આધારિત પગલામાં બદલો.',
+        premiumDepth: 'ગ્રહ-વિશેષ ઉપાયો, સમય, નિયમિતતા ટ્રેકર અને સુરક્ષા નોંધો.',
+        premiumIncludes: ['ગ્રહ-વિશેષ માર્ગ', 'મંત્ર/સેવા/શિસ્ત', 'નિયમિત લય', 'સુરક્ષા અને રોકાવાના નિયમો'],
         purchaseHint: 'જ્યારે માત્ર શું થશે નહીં, શું કરવું તે જોઈએ.',
         title: 'ઉપાય રિપોર્ટ',
       },
@@ -854,6 +1061,7 @@ function getReportBuilderCopy(language: SupportedLanguage): {
   customBody: string;
   customLabel: string;
   customTitle: string;
+  compareDepth: string;
   differenceColumn: string;
   differenceEyebrow: string;
   downloadChatPdf: string;
@@ -869,6 +1077,7 @@ function getReportBuilderCopy(language: SupportedLanguage): {
   freeAccessLabel: string;
   freeAccessTitle: string;
   freePreview: string;
+  helpChoosingReport: string;
   includesHeading: string;
   intro: string;
   marketplaceBody: string;
@@ -878,6 +1087,7 @@ function getReportBuilderCopy(language: SupportedLanguage): {
   marketplaceTitle: string;
   needKundli: string;
   note: string;
+  openDrawer: string;
   plannedSectionBody: string;
   plannedSectionBulletFree: string;
   plannedSectionBulletPremium: string;
@@ -890,7 +1100,11 @@ function getReportBuilderCopy(language: SupportedLanguage): {
   printSelected: string;
   selected: string;
   selectedReport: string;
+  seeEverythingIncluded: string;
+  signInNudgeBody: string;
+  signInNudgeTitle: string;
   title: string;
+  viewSelectedDetails: string;
 } {
   if (language === 'hi') {
     return {
@@ -900,54 +1114,62 @@ function getReportBuilderCopy(language: SupportedLanguage): {
       copied: 'कॉपी हो गया',
       copyChat: 'चैट कॉपी करें',
       copyReport: 'रिपोर्ट सारांश कॉपी करें',
-      customBody: 'जन्म विवरण, चार्ट, दशा, उपाय, KP, Nadi या जो भाग चाहिए वही रखें.',
+      customBody: 'जन्म विवरण, चार्ट, दशा, उपाय, KP, नाड़ी या जो भाग चाहिए वही रखें.',
       customLabel: 'भाग चुनें',
       customTitle: 'रिपोर्ट के भाग खुद चुनें',
+      compareDepth: 'मुफ्त और प्रीमियम देखें',
       differenceColumn: 'क्षेत्र',
       differenceEyebrow: 'मुफ्त और प्रीमियम का अंतर',
-      downloadChatPdf: 'चैट PDF सेव करें',
+      downloadChatPdf: 'चैट पीडीएफ सेव करें',
       emptySelection: 'कम से कम एक भाग चुनें.',
-      everythingBody: 'मुफ्त और प्रीमियम दोनों में पूरी रिपोर्ट मिलती है. प्रीमियम ज्यादा गहराई देता है.',
+      everythingBody: 'मुफ्त रिपोर्ट में जरूरी भाग आते हैं. प्रीमियम में पूरी गहरी रिपोर्ट खुलती है.',
       everythingIncludesBody:
-        'पूरी रिपोर्ट में यह संपूर्ण ज्योतिष कवरेज आता है. कुंडली बनने के बाद आप ठीक-ठीक भाग चुन सकते हैं.',
+        'प्रीमियम रिपोर्ट में यह संपूर्ण ज्योतिष कवरेज आता है. मुफ्त रिपोर्ट में जरूरी और उपयोगी भाग मिलते हैं.',
       everythingIncludesEyebrow: 'पूरी रिपोर्ट में शामिल',
       everythingIncludesTitle: 'रिपोर्ट में क्या-क्या आएगा',
-      everythingLabel: 'पूरी PDF',
+      everythingLabel: 'पूरी पीडीएफ',
       everythingTitle: 'सब कुछ शामिल करें',
       eyebrow: 'रिपोर्ट डाउनलोड',
       freeAccessBody:
-        'मुफ्त रिपोर्ट उदार रहती है: हर चार्ट और मुख्य भाग दिखता है, लेकिन समझाना संक्षिप्त रहता है.',
+        'मुफ्त रिपोर्ट उपयोगी रहती है: जरूरी चार्ट प्रमाण, वर्तमान समय-संकेत, उपाय और सुरक्षा नोट मिलते हैं.',
       freeAccessLabel: 'मुफ्त रिपोर्ट',
-      freeAccessTitle: 'उपयोगी insight शामिल',
+      freeAccessTitle: 'उपयोगी समझ शामिल',
       freePreview: 'मुफ्त प्रीव्यू',
+      helpChoosingReport: 'कौन-सा विकल्प चुनें?',
       includesHeading: 'शामिल भाग',
       intro:
-        'पूरी रिपोर्ट बनाएं या सिर्फ वही भाग रखें जो आपको सच में चाहिए. मुफ्त रिपोर्ट भी सुंदर और उदार रहती है.',
+        'मुफ्त जरूरी रिपोर्ट बनाएं या प्रीमियम में पूरी गहरी रिपोर्ट चुनें. दोनों साफ और सुंदर रहती हैं.',
       marketplaceBody:
-        'जीवन के सवाल से शुरू करें. मुफ्त रिपोर्ट उपयोगी रहती है; प्रीमियम तब चुनें जब समय, गहराई या सुंदर PDF चाहिए.',
+        'जीवन के सवाल से शुरू करें. मुफ्त रिपोर्ट उपयोगी रहती है; प्रीमियम तब चुनें जब समय, गहराई या सुंदर पीडीएफ चाहिए.',
       marketplaceEyebrow: 'रिपोर्ट विकल्प',
-      marketplacePromiseBody: 'प्रीमियम उन्हें गहराई से समझाता है.',
-      marketplacePromiseTitle: 'सारे चार्ट दिखाई देते हैं',
+      marketplacePromiseBody: 'प्रीमियम पूरी रिपोर्ट, समय खिड़कियां और गहरा सार जोड़ता है.',
+      marketplacePromiseTitle: 'मुफ्त उपयोगी, प्रीमियम गहरा',
       marketplaceTitle: 'जरूरत के हिसाब से चुनें.',
       needKundli:
         'रिपोर्ट बनाने के लिए पहले कुंडली चाहिए. आपकी रिपोर्ट पसंद सेव हो गई है.',
       note:
-        'मुफ्त उपयोगकर्ता भी हर भाग शामिल कर सकते हैं. प्रीमियम केवल विश्लेषण की गहराई, समय, उपाय और synthesis बढ़ाता है.',
+        'मुफ्त रिपोर्ट जरूरी भागों तक रहती है. प्रीमियम पूरा कवरेज, गहरा समय, उपाय और सार जोड़ता है.',
+      openDrawer: 'खोलें',
       plannedSectionBody:
         'यह भाग पूरी रिपोर्ट का हिस्सा है. कुंडली बनने के बाद Predicta इसे चार्ट प्रमाण से भरेगी.',
-      plannedSectionBulletFree: 'मुफ्त में उपयोगी insight मिलेगा.',
-      plannedSectionBulletPremium: 'प्रीमियम में विस्तृत समय और synthesis मिलेगा.',
+      plannedSectionBulletFree: 'मुफ्त में उपयोगी समझ मिलेगी.',
+      plannedSectionBulletPremium: 'प्रीमियम में विस्तृत समय और गहरा सार मिलेगा.',
       plannedSectionEvidence: 'कुंडली बनने के बाद चार्ट प्रमाण जुड़ेगा.',
       premiumAccessBody:
-        'प्रीमियम PDF डाउनलोड के लिए प्रीमियम subscription, Day Pass या one-time Premium PDF access चाहिए.',
+        'प्रीमियम पीडीएफ डाउनलोड के लिए प्रीमियम सदस्यता, डे पास या एक बार वाला प्रीमियम पीडीएफ अधिकार चाहिए.',
       premiumAccessCta: 'प्रीमियम विकल्प देखें',
       premiumAccessLabel: 'प्रीमियम रिपोर्ट',
-      premiumAccessTitle: 'विस्तृत गहराई के लिए access चाहिए',
+      premiumAccessTitle: 'विस्तृत गहराई के लिए प्रवेश चाहिए',
       premiumDepth: 'प्रीमियम गहराई',
-      printSelected: 'चुनी हुई PDF सेव करें',
+      printSelected: 'चुनी हुई पीडीएफ सेव करें',
       selected: 'चुना गया',
       selectedReport: 'चुना गया',
+      seeEverythingIncluded: 'पूरी रिपोर्ट में क्या आएगा?',
+      signInNudgeBody:
+        'रिपोर्ट पसंद इस डिवाइस पर सेव रहती हैं. साइन इन करेंगे तो कुंडली, रिपोर्ट पसंद और चैट आपके खाते के साथ सुरक्षित रहेंगी.',
+      signInNudgeTitle: 'रिपोर्ट पसंद सुरक्षित रखने के लिए साइन इन करें',
       title: 'रिपोर्ट डाउनलोड आसान बनाएं.',
+      viewSelectedDetails: 'चुनी हुई रिपोर्ट की जानकारी',
     };
   }
 
@@ -959,54 +1181,62 @@ function getReportBuilderCopy(language: SupportedLanguage): {
       copied: 'કૉપી થઈ ગયું',
       copyChat: 'ચેટ કૉપી કરો',
       copyReport: 'રિપોર્ટ સારાંશ કૉપી કરો',
-      customBody: 'જન્મ વિગતો, ચાર્ટ્સ, દશા, ઉપાયો, KP, Nadi અથવા જે ભાગ જોઈએ તે જ રાખો.',
+      customBody: 'જન્મ વિગતો, ચાર્ટ્સ, દશા, ઉપાયો, KP, નાડી અથવા જે ભાગ જોઈએ તે જ રાખો.',
       customLabel: 'ભાગો પસંદ કરો',
       customTitle: 'રિપોર્ટના ભાગો તમે પસંદ કરો',
+      compareDepth: 'મફત અને પ્રીમિયમ જુઓ',
       differenceColumn: 'ક્ષેત્ર',
       differenceEyebrow: 'મફત અને પ્રીમિયમનો ફરક',
-      downloadChatPdf: 'ચેટ PDF સેવ કરો',
+      downloadChatPdf: 'ચેટ પીડીએફ સેવ કરો',
       emptySelection: 'ઓછામાં ઓછો એક ભાગ પસંદ કરો.',
-      everythingBody: 'મફત અને પ્રીમિયમ બંનેમાં સંપૂર્ણ રિપોર્ટ મળે છે. પ્રીમિયમ વધુ ઊંડાઈ આપે છે.',
+      everythingBody: 'મફત રિપોર્ટમાં જરૂરી ભાગો મળે છે. પ્રીમિયમમાં સંપૂર્ણ ઊંડો રિપોર્ટ ખુલે છે.',
       everythingIncludesBody:
-        'સંપૂર્ણ રિપોર્ટમાં આ સંપૂર્ણ જ્યોતિષ આવરી લેવાય છે. કુંડળી બન્યા પછી તમે ચોક્કસ ભાગો પસંદ કરી શકો છો.',
+        'પ્રીમિયમ રિપોર્ટમાં આ સંપૂર્ણ જ્યોતિષ આવરણ આવે છે. મફત રિપોર્ટમાં જરૂરી અને ઉપયોગી ભાગો મળે છે.',
       everythingIncludesEyebrow: 'સંપૂર્ણ રિપોર્ટમાં સામેલ',
       everythingIncludesTitle: 'રિપોર્ટમાં શું આવશે',
-      everythingLabel: 'સંપૂર્ણ PDF',
+      everythingLabel: 'સંપૂર્ણ પીડીએફ',
       everythingTitle: 'બધું સામેલ કરો',
       eyebrow: 'રિપોર્ટ ડાઉનલોડ',
       freeAccessBody:
-        'મફત રિપોર્ટ ઉદાર રહે છે: દરેક ચાર્ટ અને મુખ્ય ભાગ દેખાય છે, પરંતુ સમજણ સંક્ષિપ્ત રહે છે.',
+        'મફત રિપોર્ટ ઉપયોગી રહે છે: જરૂરી ચાર્ટ પુરાવો, વર્તમાન સમય સંકેત, ઉપાય અને સુરક્ષા નોંધો મળે છે.',
       freeAccessLabel: 'મફત રિપોર્ટ',
-      freeAccessTitle: 'ઉપયોગી insight સામેલ',
+      freeAccessTitle: 'ઉપયોગી સમજ સામેલ',
       freePreview: 'મફત પ્રીવ્યૂ',
+      helpChoosingReport: 'કયો વિકલ્પ પસંદ કરવો?',
       includesHeading: 'સામેલ ભાગો',
       intro:
-        'સંપૂર્ણ રિપોર્ટ બનાવો અથવા તમને જે ભાગો સાચે જોઈએ તે જ રાખો. મફત રિપોર્ટ પણ સુંદર અને ઉદાર રહે છે.',
+        'મફત જરૂરી રિપોર્ટ બનાવો અથવા પ્રીમિયમમાં સંપૂર્ણ ઊંડો રિપોર્ટ પસંદ કરો. બંને સ્વચ્છ અને સુંદર રહે છે.',
       marketplaceBody:
-        'જીવનના પ્રશ્નથી શરૂ કરો. મફત રિપોર્ટ ઉપયોગી રહે છે; સમય, ઊંડાઈ અથવા સુંદર PDF જોઈએ ત્યારે પ્રીમિયમ પસંદ કરો.',
+        'જીવનના પ્રશ્નથી શરૂ કરો. મફત રિપોર્ટ ઉપયોગી રહે છે; સમય, ઊંડાઈ અથવા સુંદર પીડીએફ જોઈએ ત્યારે પ્રીમિયમ પસંદ કરો.',
       marketplaceEyebrow: 'રિપોર્ટ વિકલ્પો',
-      marketplacePromiseBody: 'પ્રીમિયમ તેને ઊંડાઈથી સમજાવે છે.',
-      marketplacePromiseTitle: 'બધા ચાર્ટ્સ દેખાય છે',
+      marketplacePromiseBody: 'પ્રીમિયમ સંપૂર્ણ રિપોર્ટ, સમય ખિડકીઓ અને ઊંડો સાર ઉમેરે છે.',
+      marketplacePromiseTitle: 'મફત ઉપયોગી, પ્રીમિયમ ઊંડો',
       marketplaceTitle: 'જરૂર મુજબ પસંદ કરો.',
       needKundli:
         'રિપોર્ટ બનાવવા પહેલાં કુંડળી જોઈએ. તમારી રિપોર્ટ પસંદગી સેવ થઈ ગઈ છે.',
       note:
-        'મફત ઉપયોગકર્તા પણ દરેક ભાગ સામેલ કરી શકે છે. પ્રીમિયમ ફક્ત વિશ્લેષણની ઊંડાઈ, સમય, ઉપાયો અને synthesis વધારે છે.',
+        'મફત રિપોર્ટ જરૂરી ભાગો સુધી રહે છે. પ્રીમિયમ સંપૂર્ણ આવરણ, ઊંડો સમય, ઉપાય અને સાર ઉમેરે છે.',
+      openDrawer: 'ખોલો',
       plannedSectionBody:
         'આ ભાગ સંપૂર્ણ રિપોર્ટનો હિસ્સો છે. કુંડળી બન્યા પછી Predicta તેને ચાર્ટ પુરાવા સાથે ભરે છે.',
-      plannedSectionBulletFree: 'મફતમાં ઉપયોગી insight મળશે.',
-      plannedSectionBulletPremium: 'પ્રીમિયમમાં વિગતવાર સમય અને synthesis મળશે.',
+      plannedSectionBulletFree: 'મફતમાં ઉપયોગી સમજ મળશે.',
+      plannedSectionBulletPremium: 'પ્રીમિયમમાં વિગતવાર સમય અને ઊંડો સાર મળશે.',
       plannedSectionEvidence: 'કુંડળી બન્યા પછી ચાર્ટ પુરાવો જોડાશે.',
       premiumAccessBody:
-        'પ્રીમિયમ PDF ડાઉનલોડ કરવા પ્રીમિયમ subscription, Day Pass અથવા one-time Premium PDF access જોઈએ.',
+        'પ્રીમિયમ પીડીએફ ડાઉનલોડ કરવા પ્રીમિયમ સભ્યપદ, ડે પાસ અથવા એક વખતનો પ્રીમિયમ પીડીએફ અધિકાર જોઈએ.',
       premiumAccessCta: 'પ્રીમિયમ વિકલ્પો જુઓ',
       premiumAccessLabel: 'પ્રીમિયમ રિપોર્ટ',
-      premiumAccessTitle: 'વિગતવાર ઊંડાઈ માટે access જોઈએ',
+      premiumAccessTitle: 'વિગતવાર ઊંડાઈ માટે પ્રવેશ જોઈએ',
       premiumDepth: 'પ્રીમિયમ ઊંડાઈ',
-      printSelected: 'પસંદ કરેલી PDF સેવ કરો',
+      printSelected: 'પસંદ કરેલી પીડીએફ સેવ કરો',
       selected: 'પસંદ કરેલું',
       selectedReport: 'પસંદ કરેલું',
+      seeEverythingIncluded: 'સંપૂર્ણ રિપોર્ટમાં શું આવશે?',
+      signInNudgeBody:
+        'રિપોર્ટ પસંદગીઓ આ ડિવાઇસ પર સેવ રહે છે. સાઇન ઇન કરશો તો કુંડળી, રિપોર્ટ પસંદગીઓ અને ચેટ તમારા ખાતા સાથે સુરક્ષિત રહેશે.',
+      signInNudgeTitle: 'રિપોર્ટ પસંદગીઓ સુરક્ષિત રાખવા સાઇન ઇન કરો',
       title: 'રિપોર્ટ ડાઉનલોડ સરળ બનાવો.',
+      viewSelectedDetails: 'પસંદ કરેલી રિપોર્ટની માહિતી',
     };
   }
 
@@ -1021,37 +1251,40 @@ function getReportBuilderCopy(language: SupportedLanguage): {
       'Keep only the birth details, charts, dasha, remedies, KP, Nadi, or parts the user wants.',
     customLabel: 'Choose parts',
     customTitle: 'Choose what to include',
+    compareDepth: 'Compare free and premium',
     differenceColumn: 'Area',
     differenceEyebrow: 'Free vs Premium difference',
     downloadChatPdf: 'Save chat PDF',
     emptySelection: 'Choose at least one part.',
     everythingBody:
-      'Free and Premium both get a complete report. Premium adds deeper analysis.',
+      'Free includes the essential report parts. Premium opens the complete deep report.',
     everythingIncludesBody:
-      'The complete report includes this full Jyotish coverage. After a Kundli is created, you can keep everything or choose exact parts.',
+      'Premium report includes this full Jyotish coverage. Free report keeps the most useful essential parts.',
     everythingIncludesEyebrow: 'Complete report includes',
     everythingIncludesTitle: 'What the full report contains',
     everythingLabel: 'Complete PDF',
     everythingTitle: 'Include everything',
     eyebrow: 'Report download',
     freeAccessBody:
-      'Free reports are generous: every chart and major section is available with concise useful insight.',
+      'Free reports stay useful: essential chart proof, current timing, remedies, and safety notes.',
     freeAccessLabel: 'Free report',
     freeAccessTitle: 'Useful insight included',
     freePreview: 'Free preview',
+    helpChoosingReport: 'Need help choosing?',
     includesHeading: 'Included parts',
     intro:
-      'Create the full report, or keep only the parts the user actually wants. Free reports stay polished and generous.',
+      'Create a polished free essential report, or use Premium for the complete deep report.',
     marketplaceBody:
       'Start with the life question. Predicta keeps every free report useful, then offers premium depth only when timing, synthesis, or a polished PDF is worth it.',
     marketplaceEyebrow: 'Report choices',
-    marketplacePromiseBody: 'Premium explains them deeper.',
-    marketplacePromiseTitle: 'All charts stay visible',
+    marketplacePromiseBody: 'Premium adds the complete report, timing windows, and deeper synthesis.',
+    marketplacePromiseTitle: 'Free useful, Premium deep',
     marketplaceTitle: 'Choose by outcome, not by complexity.',
     needKundli:
       'Create a Kundli first. Your report choices are saved and will be ready when the chart is created.',
     note:
-      'Free users can include every part. Premium adds deeper timing, remedies, synthesis, and explanation depth.',
+      'Free report includes essential parts. Premium adds complete coverage, deeper timing, remedies, and synthesis.',
+    openDrawer: 'Open',
     plannedSectionBody:
       'This part belongs in the complete report. Once a Kundli is active, Predicta fills it with chart proof.',
     plannedSectionBulletFree: 'Free includes useful insight.',
@@ -1066,7 +1299,117 @@ function getReportBuilderCopy(language: SupportedLanguage): {
     printSelected: 'Save selected PDF',
     selected: 'Selected',
     selectedReport: 'Selected',
+    seeEverythingIncluded: 'See everything included',
+    signInNudgeBody:
+      'Report choices are saved on this device. Sign in when you want Kundlis, report choices, and chats protected with your account.',
+    signInNudgeTitle: 'Sign in to protect report choices',
     title: 'Make report download easy.',
+    viewSelectedDetails: 'Selected report details',
+  };
+}
+
+function getReportLanguageCopy(language: SupportedLanguage): {
+  body: string;
+  differentBody: string;
+  eyebrow: string;
+  title: string;
+} {
+  if (language === 'hi') {
+    return {
+      body:
+        'पीडीएफ उसी भाषा में बनेगी जो ऐप में चुनी है. चाहें तो रिपोर्ट के लिए अलग भाषा चुनें.',
+      differentBody:
+        'ऐप भाषा अलग रहेगी. सिर्फ इस रिपोर्ट की पीडीएफ चुनी हुई भाषा में बनेगी.',
+      eyebrow: 'पीडीएफ भाषा',
+      title: 'रिपोर्ट किस भाषा में चाहिए?',
+    };
+  }
+
+  if (language === 'gu') {
+    return {
+      body:
+        'પીડીએફ એપમાં પસંદ કરેલી ભાષામાં બનશે. જરૂર હોય તો રિપોર્ટ માટે અલગ ભાષા પસંદ કરો.',
+      differentBody:
+        'એપ ભાષા અલગ રહેશે. ફક્ત આ રિપોર્ટની પીડીએફ પસંદ કરેલી ભાષામાં બનશે.',
+      eyebrow: 'પીડીએફ ભાષા',
+      title: 'રિપોર્ટ કઈ ભાષામાં જોઈએ?',
+    };
+  }
+
+  return {
+    body:
+      'The PDF will use your current app language. You can choose another language just for this report.',
+    differentBody:
+      'Your app language stays the same. Only this report PDF uses the selected language.',
+    eyebrow: 'PDF language',
+    title: 'Choose report language',
+  };
+}
+
+function getReportPrintCopy(language: SupportedLanguage): {
+  brandLine: string;
+  chartsBody: string;
+  chartsEyebrow: string;
+  chartsTitle: string;
+  coverEyebrow: string;
+  freePreview: string;
+  premiumPreview: string;
+  safetyBody: string;
+  safetyTitle: string;
+  tagline: string;
+} {
+  const languageName = getLanguageOption(language).englishName;
+
+  if (language === 'hi') {
+    return {
+      brandLine:
+        'चार्ट प्रमाण, समय, उपाय और साफ सुरक्षा सीमाओं के साथ होलिस्टिक वैदिक ज्योतिष.',
+      chartsBody:
+        'ये छपने योग्य चार्ट झलकियां वही कुंडली मॉडल, राशि, भाव, ग्रह अंश, स्थिति संकेत, चंद्र लय और जन्म-समय थीम उपयोग करती हैं जो ऐप चार्ट में है.',
+      chartsEyebrow: 'इस रिपोर्ट के चार्ट',
+      chartsTitle: 'चार्ट ऐप वाली कुंडली पद्धति से ही बने हैं.',
+      coverEyebrow: `PREDICTA HOLISTIC ASTROLOGY REPORT · ${languageName}`,
+      freePreview: 'उपयोगी मुफ्त रिपोर्ट झलक',
+      premiumPreview: 'विस्तृत प्रीमियम रिपोर्ट झलक',
+      safetyBody:
+        'Predicta चिंतन और योजना के लिए है. यह चिकित्सा, कानूनी, आर्थिक, आपात या मानसिक-स्वास्थ्य विशेषज्ञों की जगह नहीं लेती. कोई भविष्यवाणी पक्की नहीं है; बड़े फैसलों में वास्तविक विवेक रखें.',
+      safetyTitle: 'सुरक्षा नोट',
+      tagline: 'अपनी कुंडली बनाएं. जीवन समझें. चार्ट प्रमाण के साथ पूछें.',
+    };
+  }
+
+  if (language === 'gu') {
+    return {
+      brandLine:
+        'ચાર્ટ પુરાવો, સમય, ઉપાયો અને સ્પષ્ટ સુરક્ષા સીમાઓ સાથે હોલિસ્ટિક વૈદિક જ્યોતિષ.',
+      chartsBody:
+        'આ છાપી શકાય તેવી ચાર્ટ ઝલકો એ જ કુંડળી મોડેલ, રાશિ, ભાવ, ગ્રહ અંશ, સ્થિતિ સંકેત, ચંદ્ર લય અને જન્મ-સમય થીમ ઉપયોગ કરે છે જે એપ ચાર્ટમાં છે.',
+      chartsEyebrow: 'આ રિપોર્ટના ચાર્ટ્સ',
+      chartsTitle: 'ચાર્ટ એપ જેવી કુંડળી પદ્ધતિથી જ બને છે.',
+      coverEyebrow: `PREDICTA HOLISTIC ASTROLOGY REPORT · ${languageName}`,
+      freePreview: 'ઉપયોગી મફત રિપોર્ટ ઝલક',
+      premiumPreview: 'વિગતવાર પ્રીમિયમ રિપોર્ટ ઝલક',
+      safetyBody:
+        'Predicta વિચાર અને આયોજન માટે છે. તે તબીબી, કાનૂની, આર્થિક, આપાત અથવા માનસિક-આરોગ્ય નિષ્ણાતોની જગ્યાએ નથી. કોઈ આગાહી પાક્કી નથી; મોટા નિર્ણયોમાં વાસ્તવિક સમજ રાખો.',
+      safetyTitle: 'સુરક્ષા નોંધ',
+      tagline: 'તમારી કુંડળી બનાવો. જીવન સમજો. ચાર્ટ પુરાવા સાથે પૂછો.',
+    };
+  }
+
+  return {
+    brandLine:
+      'Holistic Vedic astrology with chart proof, timing, remedies, and safety boundaries.',
+    chartsBody:
+      'These printable chart snapshots use the same Kundli model, signs, houses, planet degrees, status markers, moon rhythm, and birth-time theme as the interactive charts.',
+    chartsEyebrow: 'Charts in this report',
+    chartsTitle: 'Charts use the same Kundli model as the app.',
+    coverEyebrow: `PREDICTA HOLISTIC ASTROLOGY REPORT · ${languageName}`,
+    freePreview: 'Useful free report preview',
+    premiumPreview: 'Detailed premium report preview',
+    safetyBody:
+      'Predicta is for reflection and planning. It does not replace medical, legal, financial, emergency, or mental-health professionals. No prediction is guaranteed; use real-world judgment for important decisions.',
+    safetyTitle: 'Safety note',
+    tagline: 'Create your Kundli. Understand your life. Ask with proof.',
   };
 }
 
@@ -1119,7 +1462,7 @@ function getComprehensiveReportSections(language: SupportedLanguage): Array<{
   return [
     { eyebrow: 'Birth', title: 'Birth details and calculation' },
     { eyebrow: 'Charts', title: 'D1 and all divisional charts' },
-    { eyebrow: 'Chalit', title: 'Bhav Chalit refinement' },
+    { eyebrow: 'Chalit', title: 'Parashari Chalit refinement' },
     { eyebrow: 'KP', title: 'KP cusp and sub-lord foundation' },
     { eyebrow: 'Nadi', title: 'Nadi pattern preview' },
     { eyebrow: 'Dasha', title: 'Mahadasha, Antardasha, timing' },
@@ -1145,23 +1488,23 @@ function getFreePremiumDifferenceRows(language: SupportedLanguage): Array<{
     return [
       {
         area: 'चार्ट',
-        free: 'सारे चार्ट दिखाई देते हैं और उपयोगी insight मिलती है.',
-        premium: 'हर चार्ट की विस्तृत synthesis, D1 आधार और timing.',
+        free: 'मुख्य चार्ट प्रमाण और उपयोगी समझ.',
+        premium: 'पूरा चार्ट समूह, विस्तृत सार, D1 आधार और समय.',
       },
       {
         area: 'दशा / गोचर',
-        free: 'वर्तमान theme और सरल मार्गदर्शन.',
-        premium: 'मासिक समय-खिड़कियां, activation timing और गहरा प्रमाण.',
+        free: 'वर्तमान स्वभाव और सरल मार्गदर्शन.',
+        premium: 'मासिक समय अवसर, सक्रियता समय और गहरा प्रमाण.',
       },
       {
         area: 'उपाय',
-        free: 'सुरक्षित कर्म-आधारित साप्ताहिक practice.',
-        premium: 'ग्रह-विशेष साधना, tracking और विस्तृत योजना.',
+        free: 'सुरक्षित कर्म-आधारित साप्ताहिक अभ्यास.',
+        premium: 'ग्रह-विशेष साधना, नियमित देखभाल और विस्तृत योजना.',
       },
       {
-        area: 'PDF सुंदरता',
+        area: 'पीडीएफ सुंदरता',
         free: 'प्रीमियम जैसी उपयोगी रिपोर्ट.',
-        premium: 'अलग पहचान वाली विस्तृत रिपोर्ट, अधिक भाग और प्रमाण.',
+        premium: 'अलग पहचान वाली पूरी गहरी रिपोर्ट, अधिक भाग और प्रमाण.',
       },
     ];
   }
@@ -1170,23 +1513,23 @@ function getFreePremiumDifferenceRows(language: SupportedLanguage): Array<{
     return [
       {
         area: 'ચાર્ટ્સ',
-        free: 'બધા ચાર્ટ્સ દેખાય છે અને ઉપયોગી insight મળે છે.',
-        premium: 'દરેક ચાર્ટની વિગતવાર synthesis, D1 આધાર અને timing.',
+        free: 'મુખ્ય ચાર્ટ પુરાવો અને ઉપયોગી સમજ.',
+        premium: 'સંપૂર્ણ ચાર્ટ સમૂહ, વિગતવાર સાર, D1 આધાર અને સમય.',
       },
       {
         area: 'દશા / ગોચર',
-        free: 'વર્તમાન theme અને સરળ માર્ગદર્શન.',
-        premium: 'માસિક સમય-ખિડકીઓ, activation timing અને ઊંડો પુરાવો.',
+        free: 'વર્તમાન સ્વભાવ અને સરળ માર્ગદર્શન.',
+        premium: 'માસિક સમય તક, સક્રિયતા સમય અને ઊંડો પુરાવો.',
       },
       {
         area: 'ઉપાયો',
-        free: 'સુરક્ષિત કર્મ આધારિત સાપ્તાહિક practice.',
-        premium: 'ગ્રહ-વિશેષ સાધના, tracking અને વિગતવાર યોજના.',
+        free: 'સુરક્ષિત કર્મ આધારિત સાપ્તાહિક અભ્યાસ.',
+        premium: 'ગ્રહ-વિશેષ સાધના, નિયમિત દેખરેખ અને વિગતવાર યોજના.',
       },
       {
-        area: 'PDF સુંદરતા',
+        area: 'પીડીએફ સુંદરતા',
         free: 'પ્રીમિયમ જેવી ઉપયોગી રિપોર્ટ.',
-        premium: 'અલગ ઓળખ ધરાવતી વિગતવાર રિપોર્ટ, વધુ ભાગો અને પુરાવો.',
+        premium: 'અલગ ઓળખ ધરાવતી સંપૂર્ણ ઊંડી રિપોર્ટ, વધુ ભાગો અને પુરાવો.',
       },
     ];
   }
@@ -1194,8 +1537,8 @@ function getFreePremiumDifferenceRows(language: SupportedLanguage): Array<{
   return [
     {
       area: 'Charts',
-      free: 'All charts are visible with useful insight.',
-      premium: 'Detailed synthesis for every chart, anchored to D1 and timing.',
+      free: 'Core chart proof with useful insight.',
+      premium: 'Complete chart set with detailed synthesis, anchored to D1 and timing.',
     },
     {
       area: 'Dasha / Gochar',
@@ -1204,13 +1547,13 @@ function getFreePremiumDifferenceRows(language: SupportedLanguage): Array<{
     },
     {
       area: 'Remedies',
-      free: 'Safe कर्म-आधारित weekly practice.',
+      free: 'Safe karma-based weekly practice.',
       premium: 'Planet-specific sadhana, tracking, and detailed plan.',
     },
     {
       area: 'PDF polish',
       free: 'Premium-looking useful report.',
-      premium: 'Distinctive detailed report with richer sections and proof.',
+      premium: 'Distinctive complete deep report with richer sections and proof.',
     },
   ];
 }

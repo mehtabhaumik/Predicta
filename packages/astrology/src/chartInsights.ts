@@ -1,5 +1,6 @@
 import type { ChartData, ChartType } from '@pridicta/types';
 import { getChartConfig } from './chartRegistry';
+import { getChartReadingNote } from './vargaInterpretation';
 
 export type ChartInsightDepth = 'free' | 'premium';
 
@@ -64,19 +65,20 @@ export function composeChartInsight({
   const strongestHouses = Object.entries(chart.housePlacements)
     .filter(([, planets]) => planets.length > 0)
     .slice(0, 3)
-    .map(([house, planets]) => `House ${house}: ${planets.join(', ')}`);
+    .map(([house, planets]) => `${chart.chartType} house ${house}: ${planets.join(', ')}`);
   const focus = CHART_FOCUS[chart.chartType];
+  const readingNote = getChartReadingNote(chart.chartType);
 
   if (!chart.supported) {
     return {
       bullets: [
-        'Predicta shows this chart, but keeps deep guidance paused until it is reviewed carefully.',
-        'Use the ready charts for prediction until this chart is cleared for guidance.',
+        'Predicta shows this chart and keeps the reading conservative until the chart evidence is complete.',
+        'Use the prepared charts for prediction while this chart receives a lighter explanation.',
       ],
-      eyebrow: 'Under review',
+      eyebrow: 'Careful reading',
       summary:
         chart.unsupportedReason ??
-        'This divisional chart is listed, but Predicta is still reviewing it before using it for guidance.',
+        'This divisional chart is listed with a lighter explanation until the full evidence is ready.',
       title: config.name,
     };
   }
@@ -89,6 +91,7 @@ export function composeChartInsight({
         strongestHouses.length
           ? `Useful starting points: ${strongestHouses.join('; ')}.`
           : 'No planet-heavy house stands out in this chart preview.',
+        readingNote,
         chart.chartType === 'D1'
           ? 'D1 remains the root chart for all predictions.'
           : `Read ${chart.chartType} together with D1; never judge this area from the varga alone.`,
@@ -105,6 +108,7 @@ export function composeChartInsight({
     bullets: [
       `${chart.chartType} focuses on ${focus}, and should be judged through D1 first.`,
       `Ascendant sign in this chart is ${chart.ascendantSign}, setting the lens for this area.`,
+      readingNote,
       strongestHouses.length
         ? `Detailed placement clusters: ${strongestHouses.join('; ')}.`
         : 'Detailed strength needs dignity, dasha, and D1 comparison because no house is heavily occupied.',
