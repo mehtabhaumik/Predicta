@@ -3,7 +3,23 @@ import { existsSync, readFileSync } from 'node:fs';
 const checks = [
   {
     label: 'web route exists for Vedic chat',
-    path: 'apps/web/app/dashboard/chat/page.tsx',
+    path: 'apps/web/app/dashboard/vedic/chat/page.tsx',
+  },
+  {
+    label: 'web route exists for KP chat',
+    path: 'apps/web/app/dashboard/kp/chat/page.tsx',
+  },
+  {
+    label: 'web route exists for Nadi chat',
+    path: 'apps/web/app/dashboard/nadi/chat/page.tsx',
+  },
+  {
+    label: 'web route exists for Numerology chat',
+    path: 'apps/web/app/dashboard/numerology/chat/page.tsx',
+  },
+  {
+    label: 'web route exists for Signature chat',
+    path: 'apps/web/app/dashboard/signature/chat/page.tsx',
   },
   {
     label: 'web route exists for KP Predicta',
@@ -44,7 +60,11 @@ const sourceContracts = [
     file: 'apps/web/components/DashboardShell.tsx',
     label: 'web dashboard nav exposes all specialist rooms',
     mustContain: [
-      '/dashboard/chat',
+      '/dashboard/vedic/chat',
+      '/dashboard/kp/chat',
+      '/dashboard/nadi/chat',
+      '/dashboard/numerology/chat',
+      '/dashboard/signature/chat',
       '/dashboard/kp',
       '/dashboard/nadi',
       '/dashboard/numerology',
@@ -111,8 +131,13 @@ const sourceContracts = [
   },
   {
     file: 'packages/astrology/src/chatFollowUps.ts',
-    label: 'Predicta follow-ups can hand off to Numerology',
-    mustContain: ["targetScreen: 'NumerologyPredicta'"],
+    label: 'Predicta follow-ups can hand off to specialist chat routes',
+    mustContain: [
+      "'/dashboard/kp/chat'",
+      "'/dashboard/nadi/chat'",
+      "'/dashboard/numerology/chat'",
+      "targetScreen: 'NumerologyPredicta'",
+    ],
   },
   {
     file: 'scripts/run-end-to-end-buyer-rejection-test.mjs',

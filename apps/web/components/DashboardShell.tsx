@@ -57,7 +57,7 @@ function buildDashboardNavModel(
       label: labels.nav.vedic,
       items: [
         { href: '/dashboard/vedic', label: labels.nav.vedicPredicta },
-        { href: '/dashboard/chat', label: labels.nav.chat },
+        { href: '/dashboard/vedic/chat', label: labels.nav.chat },
         { href: '/dashboard/kundli', label: labels.nav.kundli },
         { href: '/dashboard/charts', label: labels.nav.allCharts },
         { href: '/dashboard/timeline', label: labels.nav.timeline },
@@ -73,6 +73,7 @@ function buildDashboardNavModel(
       label: labels.nav.kp,
       items: [
         { href: '/dashboard/kp', label: labels.nav.kpPredicta },
+        { href: '/dashboard/kp/chat', label: labels.nav.chat },
       ],
     },
     {
@@ -81,6 +82,7 @@ function buildDashboardNavModel(
       label: labels.nav.nadi,
       items: [
         { href: '/dashboard/nadi', label: labels.nav.nadiPredicta },
+        { href: '/dashboard/nadi/chat', label: labels.nav.chat },
       ],
     },
     {
@@ -89,6 +91,7 @@ function buildDashboardNavModel(
       label: labels.nav.numerology,
       items: [
         { href: '/dashboard/numerology', label: labels.nav.numerologyPredicta },
+        { href: '/dashboard/numerology/chat', label: labels.nav.chat },
       ],
     },
     {
@@ -97,6 +100,7 @@ function buildDashboardNavModel(
       label: labels.nav.signature,
       items: [
         { href: '/dashboard/signature', label: labels.nav.signaturePredicta },
+        { href: '/dashboard/signature/chat', label: labels.nav.chat },
       ],
     },
     {

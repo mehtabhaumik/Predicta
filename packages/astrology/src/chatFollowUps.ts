@@ -138,7 +138,7 @@ export function buildPredictaSchoolHandoffContext({
         ? 'Nadi Predicta'
         : to === 'NUMEROLOGY'
           ? 'Numerology Predicta'
-        : 'Regular Parashari Predicta';
+        : 'Vedic Predicta';
   const sourceName =
     from === 'KP'
       ? 'KP Predicta'
@@ -146,7 +146,7 @@ export function buildPredictaSchoolHandoffContext({
         ? 'Nadi Predicta'
         : from === 'NUMEROLOGY'
           ? 'Numerology Predicta'
-        : 'Regular Parashari Predicta';
+        : 'Vedic Predicta';
   const birthSummary = kundli
     ? [
         kundli.birthDetails.name,
@@ -298,7 +298,7 @@ function schoolHandoffFollowUps(
     return [
       {
         context,
-        href: buildSchoolHandoffHref('/dashboard/kp', context),
+        href: buildSchoolHandoffHref('/dashboard/kp/chat', context),
         id: 'open-kp-predicta',
         label:
           language === 'hi'
@@ -335,7 +335,7 @@ function schoolHandoffFollowUps(
     return [
       {
         context,
-        href: buildSchoolHandoffHref('/dashboard/nadi', context),
+        href: buildSchoolHandoffHref('/dashboard/nadi/chat', context),
         id: 'open-nadi-predicta',
         label:
           language === 'hi'
@@ -372,7 +372,7 @@ function schoolHandoffFollowUps(
     return [
       {
         context,
-        href: buildSchoolHandoffHref('/dashboard/chat', context),
+        href: buildSchoolHandoffHref('/dashboard/numerology/chat', context),
         id: 'open-numerology-predicta',
         label:
           language === 'hi'

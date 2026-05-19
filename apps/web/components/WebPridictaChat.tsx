@@ -243,7 +243,19 @@ type ParsedProofReply = {
   };
 };
 
-export function WebPridictaChat(): React.JSX.Element {
+export type WebPredictaChatRoom = {
+  body: string;
+  prompt: string;
+  school: PredictaSchool;
+  sourceScreen: string;
+  title: string;
+};
+
+export function WebPridictaChat({
+  room,
+}: {
+  room?: WebPredictaChatRoom;
+} = {}): React.JSX.Element {
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
   const {
@@ -255,7 +267,7 @@ export function WebPridictaChat(): React.JSX.Element {
   const appLanguageOption = getLanguageOption(language);
   const loadedQueryPromptRef = useRef('');
   const searchParams = useSearchParams();
-  const queryString = searchParams.toString();
+  const queryString = buildRoomQueryString(searchParams.toString(), room);
   const didLoadMemory = useRef(false);
   const responseSafetyRef = useRef<ChatSafetyMeta | undefined>(undefined);
   const pendingRichBlocksRef = useRef<ChatMessageBlock[] | undefined>(
@@ -332,11 +344,13 @@ export function WebPridictaChat(): React.JSX.Element {
       if (recoveredKundli) {
         setKundli(recoveredKundli);
       }
-      setMessages(
-        stored.messages.length
-          ? stored.messages.map(sanitizeStoredMessage)
-          : buildInitialMessages(predictaReplyLanguage),
-      );
+      if (!room) {
+        setMessages(
+          stored.messages.length
+            ? stored.messages.map(sanitizeStoredMessage)
+            : buildInitialMessages(predictaReplyLanguage),
+        );
+      }
     }
 
     let unsubscribeAuth: (() => void) | undefined;
@@ -376,7 +390,9 @@ export function WebPridictaChat(): React.JSX.Element {
           setChatLanguage(activeSession.chatLanguage);
           setPredictaMemory(activeSession.predictaMemory);
           setActiveChartContext(current => current ?? activeSession.activeChartContext);
-          setMessages(activeSession.messages.map(sanitizeStoredMessage));
+          if (!room) {
+            setMessages(activeSession.messages.map(sanitizeStoredMessage));
+          }
         }
       });
 
@@ -1725,6 +1741,35 @@ export function WebPridictaChat(): React.JSX.Element {
       </div>
     </div>
   );
+}
+
+function buildRoomQueryString(
+  rawQueryString: string,
+  room: WebPredictaChatRoom | undefined,
+): string {
+  if (!room) {
+    return rawQueryString;
+  }
+
+  const params = new URLSearchParams(rawQueryString);
+
+  if (!params.has('school')) {
+    params.set('school', room.school);
+  }
+
+  if (!params.has('sourceScreen')) {
+    params.set('sourceScreen', room.sourceScreen);
+  }
+
+  if (
+    !params.has('prompt') &&
+    !params.has('selectedSection') &&
+    !params.has('handoffQuestion')
+  ) {
+    params.set('prompt', room.prompt);
+  }
+
+  return params.toString();
 }
 
 function buildEditedBirthDetails(
@@ -4002,7 +4047,7 @@ function buildSchoolContextIntro(
           ? 'Ab answer name number, birth number, destiny number, personal timing aur name rhythm par grounded rahega.'
       : context.predictaSchool === 'SIGNATURE'
           ? 'Ab answer confirmed signature traits, self-expression patterns, improvement suggestions aur safe reflection par grounded rahega. Yeh identity verification, handwriting forensics, legal proof ya diagnosis nahi hai.'
-          : 'Ab answer regular Parashari Jyotish context mein rahega.',
+          : 'Ab answer Vedic Parashari Jyotish context mein rahega.',
       'Press Ask, ya apna follow-up likhiye.',
     ]
       .filter(Boolean)
@@ -4025,7 +4070,7 @@ function buildSchoolContextIntro(
           ? 'Have answer name number, birth number, destiny number, personal timing ane name rhythm par grounded rahe.'
       : context.predictaSchool === 'SIGNATURE'
           ? 'Have answer confirmed signature traits, self-expression patterns, improvement suggestions ane safe reflection par grounded rahe. Aa identity verification, handwriting forensics, legal proof ke diagnosis nathi.'
-          : 'Have answer regular Parashari Jyotish context ma rahe.',
+          : 'Have answer Vedic Parashari Jyotish context ma rahe.',
       'Ask dabavo, athva tamaro follow-up lakho.',
     ]
       .filter(Boolean)
@@ -4047,7 +4092,7 @@ function buildSchoolContextIntro(
         ? 'The answer will now stay grounded in name number, birth number, destiny number, personal timing, and name rhythm.'
     : context.predictaSchool === 'SIGNATURE'
         ? 'The answer will now stay grounded in confirmed signature traits, self-expression patterns, improvement suggestions, and safe reflection. It is not identity verification, handwriting forensics, legal proof, or diagnosis.'
-        : 'The answer will now stay in regular Parashari Jyotish.',
+        : 'The answer will now stay in Vedic Parashari Jyotish.',
     'Press Ask, or type your follow-up.',
   ]
     .filter(Boolean)
@@ -4071,7 +4116,7 @@ function getPredictaSchoolLabel(school: PredictaSchool | undefined): string {
     return 'Signature Predicta';
   }
 
-  return 'Regular Predicta';
+  return 'Vedic Predicta';
 }
 
 function buildContextMessage({
