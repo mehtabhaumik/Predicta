@@ -3391,6 +3391,7 @@ button:disabled {
 }
 
 .signature-input-card,
+.signature-trait-panel,
 .signature-safety-panel {
   padding: 28px;
 }
@@ -3456,6 +3457,95 @@ button:disabled {
 
 .signature-preview-panel {
   margin-top: 18px;
+}
+
+.signature-trait-panel {
+  margin-top: 18px;
+}
+
+.signature-trait-panel h2 {
+  color: var(--text);
+  font-size: clamp(1.35rem, 2.2vw, 1.95rem);
+  line-height: 1.12;
+  margin: 8px 0 0;
+}
+
+.signature-trait-panel p {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 12px 0 0;
+}
+
+.signature-trait-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 20px;
+}
+
+.signature-trait-control {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.signature-trait-control strong {
+  color: var(--text);
+  display: block;
+  font-size: 14px;
+}
+
+.signature-trait-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.signature-trait-options button {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 850;
+  min-height: 36px;
+  padding: 8px 12px;
+}
+
+.signature-trait-options button.active,
+.signature-trait-options button[aria-pressed='true'] {
+  background: linear-gradient(135deg, rgba(107, 93, 255, 0.5), rgba(77, 175, 255, 0.26));
+  border-color: rgba(77, 175, 255, 0.52);
+  color: var(--text);
+}
+
+.signature-trait-summary {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(123, 110, 255, 0.16), transparent 38%),
+    rgba(255, 255, 255, 0.055);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-top: 18px;
+  padding: 18px;
+}
+
+.signature-trait-summary span {
+  color: var(--text);
+  display: block;
+  font-weight: 900;
+}
+
+.signature-trait-summary ul {
+  color: var(--muted);
+  display: grid;
+  gap: 8px;
+  line-height: 1.5;
+  margin: 12px 0 0;
+  padding-left: 18px;
 }
 
 .signature-preview-frame {
@@ -10606,6 +10696,7 @@ button:disabled {
   .report-product-grid,
   .numerology-number-grid,
   .signature-input-grid,
+  .signature-trait-grid,
   .signature-input-hero,
   .signature-preview-panel,
   .report-builder-access-row,

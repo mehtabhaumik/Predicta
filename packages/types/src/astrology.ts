@@ -1541,6 +1541,91 @@ export type NumerologyFoundationProfile = {
   limitations: string[];
 };
 
+export type SignatureInputSource =
+  | 'drawn-signature'
+  | 'manual-observation'
+  | 'uploaded-image';
+
+export type SignatureTraitKey =
+  | 'baseline'
+  | 'capital-emphasis'
+  | 'flourish'
+  | 'legibility'
+  | 'letter-connection'
+  | 'margin-use'
+  | 'pressure'
+  | 'signature-size'
+  | 'slant'
+  | 'spacing'
+  | 'speed'
+  | 'underline';
+
+export type SignatureTraitValue =
+  | 'abstract'
+  | 'balanced'
+  | 'clear'
+  | 'compact'
+  | 'connected'
+  | 'disconnected'
+  | 'downward'
+  | 'expansive'
+  | 'fast'
+  | 'heavy'
+  | 'high'
+  | 'large'
+  | 'left'
+  | 'light'
+  | 'low'
+  | 'medium'
+  | 'mixed'
+  | 'moderate'
+  | 'none'
+  | 'partial'
+  | 'right'
+  | 'single'
+  | 'small'
+  | 'slow'
+  | 'steady'
+  | 'tight'
+  | 'upward'
+  | 'wide';
+
+export type SignatureTraitObservation = {
+  confidence: 'high' | 'low' | 'medium';
+  evidence: string;
+  key: SignatureTraitKey;
+  label: string;
+  value: SignatureTraitValue;
+};
+
+export type SignatureInterpretationCard = {
+  caution: string;
+  evidence: string[];
+  key: SignatureTraitKey;
+  plainMeaning: string;
+  title: string;
+};
+
+export type SignatureAnalysisModel = {
+  status: 'pending' | 'ready';
+  method: {
+    extraction: 'USER_CONFIRMED_VISUAL_TRAITS';
+    interpretation: 'REFLECTIVE_SIGNATURE_ANALYSIS_RULES';
+    safety: 'NO_FORENSIC_IDENTITY_OR_DIAGNOSIS';
+  };
+  inputSource: SignatureInputSource;
+  observedTraits: SignatureTraitObservation[];
+  interpretationCards: SignatureInterpretationCard[];
+  summary: string;
+  strengths: string[];
+  cautions: string[];
+  practicePrompts: string[];
+  suggestedQuestions: string[];
+  evidence: string[];
+  limitations: string[];
+  safetyBoundaries: string[];
+};
+
 export type KundliData = {
   id: string;
   birthDetails: BirthDetails;

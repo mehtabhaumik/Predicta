@@ -33,6 +33,7 @@ export * from './relationshipMirror';
 export * from './sadeSatiIntelligence';
 export * from './sadhanaRemedyPath';
 export * from './schoolReadiness';
+export * from './signatureAnalysisModel';
 export * from './specialPoints';
 export * from './transitGocharIntelligence';
 export * from './yearlyHoroscopeVarshaphal';

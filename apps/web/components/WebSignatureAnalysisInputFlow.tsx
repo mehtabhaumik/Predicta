@@ -9,17 +9,28 @@ import {
   type ChangeEvent,
   type PointerEvent,
 } from 'react';
-import type { SupportedLanguage } from '@pridicta/types';
+import {
+  buildSignaturePredictaPromptContext,
+  composeSignatureAnalysisModel,
+} from '@pridicta/astrology';
+import type {
+  SignatureAnalysisModel,
+  SignatureTraitKey,
+  SignatureTraitValue,
+  SupportedLanguage,
+} from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useLanguagePreference } from '../lib/language-preference';
 
 const SIGNATURE_DRAFT_STORAGE_KEY = 'pridicta.signatureDraft.v1';
 
 type SignatureDraft = {
+  analysisModel?: SignatureAnalysisModel;
   createdAt: string;
   imageDataUrl?: string;
   mode: 'draw' | 'upload';
   note: string;
+  observedTraits?: Partial<Record<SignatureTraitKey, SignatureTraitValue>>;
 };
 
 type SignatureCopy = {
@@ -55,11 +66,78 @@ type SignatureCopy = {
     body: string;
     title: string;
   };
+  traits: {
+    body: string;
+    labels: Record<SignatureTraitKey, string>;
+    summaryTitle: string;
+    title: string;
+    values: Record<SignatureTraitValue, string>;
+  };
   upload: {
     body: string;
     hint: string;
     title: string;
   };
+};
+
+const SIGNATURE_TRAIT_CONTROLS: Array<{
+  key: SignatureTraitKey;
+  options: SignatureTraitValue[];
+}> = [
+  { key: 'baseline', options: ['upward', 'steady', 'downward', 'mixed'] },
+  { key: 'signature-size', options: ['small', 'medium', 'large'] },
+  { key: 'pressure', options: ['light', 'medium', 'heavy'] },
+  { key: 'slant', options: ['left', 'steady', 'right', 'mixed'] },
+  { key: 'legibility', options: ['clear', 'partial', 'abstract'] },
+  { key: 'spacing', options: ['tight', 'balanced', 'wide'] },
+  { key: 'flourish', options: ['none', 'moderate', 'expansive'] },
+  { key: 'underline', options: ['none', 'single', 'high'] },
+];
+
+const SIGNATURE_TRAIT_LABELS_EN: Record<SignatureTraitKey, string> = {
+  baseline: 'Baseline',
+  'capital-emphasis': 'Capital emphasis',
+  flourish: 'Flourish',
+  legibility: 'Legibility',
+  'letter-connection': 'Letter connection',
+  'margin-use': 'Space use',
+  pressure: 'Pressure',
+  'signature-size': 'Signature size',
+  slant: 'Slant',
+  spacing: 'Spacing',
+  speed: 'Rhythm',
+  underline: 'Underline',
+};
+
+const SIGNATURE_TRAIT_VALUES_EN: Record<SignatureTraitValue, string> = {
+  abstract: 'Abstract',
+  balanced: 'Balanced',
+  clear: 'Clear',
+  compact: 'Compact',
+  connected: 'Connected',
+  disconnected: 'Separated',
+  downward: 'Downward',
+  expansive: 'Expansive',
+  fast: 'Fast',
+  heavy: 'Heavy',
+  high: 'Strong',
+  large: 'Large',
+  left: 'Left',
+  light: 'Light',
+  low: 'Low',
+  medium: 'Medium',
+  mixed: 'Mixed',
+  moderate: 'Moderate',
+  none: 'None',
+  partial: 'Partly readable',
+  right: 'Right',
+  single: 'Single',
+  small: 'Small',
+  slow: 'Slow',
+  steady: 'Steady',
+  tight: 'Tight',
+  upward: 'Upward',
+  wide: 'Wide',
 };
 
 const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
@@ -102,6 +180,14 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
       body:
         'Signature analysis is for self-understanding and reflection. It is not identity verification, handwriting forensics, medical diagnosis, legal proof, hiring advice, or a guaranteed prediction.',
       title: 'Clear safety boundary',
+    },
+    traits: {
+      body:
+        'Confirm only what you can clearly see. Predicta uses these traits as soft reflection, not as proof about character.',
+      labels: SIGNATURE_TRAIT_LABELS_EN,
+      summaryTitle: 'Prepared reading',
+      title: 'Confirm visible traits',
+      values: SIGNATURE_TRAIT_VALUES_EN,
     },
     upload: {
       body:
@@ -150,6 +236,50 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
         'हस्ताक्षर analysis self-understanding और reflection के लिए है. यह identity verification, handwriting forensics, medical diagnosis, legal proof, hiring advice या guaranteed prediction नहीं है.',
       title: 'साफ सुरक्षा सीमा',
     },
+    traits: {
+      body:
+        'सिर्फ वही trait चुनें जो साफ दिख रहा है. प्रेडिक्टा इन्हें soft reflection की तरह पढ़ती है, character proof की तरह नहीं.',
+      labels: {
+        baseline: 'लाइन की दिशा',
+        'capital-emphasis': 'बड़े अक्षर का जोर',
+        flourish: 'अतिरिक्त शैली',
+        legibility: 'पढ़ने में स्पष्टता',
+        'letter-connection': 'अक्षरों का जुड़ाव',
+        'margin-use': 'जगह का उपयोग',
+        pressure: 'दबाव',
+        'signature-size': 'हस्ताक्षर का आकार',
+        slant: 'झुकाव',
+        spacing: 'अंतर',
+        speed: 'लय',
+        underline: 'अंडरलाइन',
+      },
+      summaryTitle: 'तैयार reading',
+      title: 'दिखने वाले traits confirm करें',
+      values: {
+        ...SIGNATURE_TRAIT_VALUES_EN,
+        abstract: 'बहुत abstract',
+        balanced: 'संतुलित',
+        clear: 'साफ',
+        downward: 'नीचे जाती',
+        expansive: 'फैली हुई',
+        heavy: 'भारी',
+        large: 'बड़ा',
+        left: 'बाएं',
+        light: 'हल्का',
+        medium: 'मध्यम',
+        mixed: 'मिला-जुला',
+        moderate: 'मध्यम शैली',
+        none: 'नहीं',
+        partial: 'थोड़ा readable',
+        right: 'दाएं',
+        single: 'एक line',
+        small: 'छोटा',
+        steady: 'स्थिर',
+        tight: 'कम अंतर',
+        upward: 'ऊपर जाती',
+        wide: 'ज्यादा अंतर',
+      },
+    },
     upload: {
       body:
         'ऐसी साफ image उपयोग करें जिसमें सिर्फ हस्ताक्षर दिखे. ID, address, account number और private documents crop कर दें.',
@@ -197,6 +327,50 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
         'સહી analysis self-understanding અને reflection માટે છે. આ identity verification, handwriting forensics, medical diagnosis, legal proof, hiring advice અથવા guaranteed prediction નથી.',
       title: 'સ્પષ્ટ સુરક્ષા સીમા',
     },
+    traits: {
+      body:
+        'ફક્ત જે trait સ્પષ્ટ દેખાય તે પસંદ કરો. પ્રેડિક્ટા તેને soft reflection તરીકે વાંચે છે, character proof તરીકે નહીં.',
+      labels: {
+        baseline: 'લાઇનની દિશા',
+        'capital-emphasis': 'મોટા અક્ષરનો ભાર',
+        flourish: 'વધારાની શૈલી',
+        legibility: 'વાંચવાની સ્પષ્ટતા',
+        'letter-connection': 'અક્ષરોનો જોડાણ',
+        'margin-use': 'જગ્યાનો ઉપયોગ',
+        pressure: 'દબાણ',
+        'signature-size': 'સહીનું કદ',
+        slant: 'ઝુકાવ',
+        spacing: 'અંતર',
+        speed: 'લય',
+        underline: 'અંડરલાઇન',
+      },
+      summaryTitle: 'તૈયાર reading',
+      title: 'દેખાતા traits confirm કરો',
+      values: {
+        ...SIGNATURE_TRAIT_VALUES_EN,
+        abstract: 'ખૂબ abstract',
+        balanced: 'સંતુલિત',
+        clear: 'સ્પષ્ટ',
+        downward: 'નીચે જતી',
+        expansive: 'ફેલાયેલી',
+        heavy: 'ભારે',
+        large: 'મોટી',
+        left: 'ડાબી',
+        light: 'હળવી',
+        medium: 'મધ્યમ',
+        mixed: 'મિશ્ર',
+        moderate: 'મધ્યમ શૈલી',
+        none: 'નથી',
+        partial: 'થોડી readable',
+        right: 'જમણી',
+        single: 'એક line',
+        small: 'નાની',
+        steady: 'સ્થિર',
+        tight: 'ઓછું અંતર',
+        upward: 'ઉપર જતી',
+        wide: 'વધુ અંતર',
+      },
+    },
     upload: {
       body:
         'એવી સ્પષ્ટ image વાપરો જેમાં માત્ર સહી દેખાય. ID, address, account number અને private documents crop કરો.',
@@ -216,6 +390,9 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
   const [mode, setMode] = useState<SignatureDraft['mode']>('draw');
   const [hasDrawing, setHasDrawing] = useState(false);
   const [isReady, setIsReady] = useState(false);
+  const [observedTraits, setObservedTraits] = useState<
+    Partial<Record<SignatureTraitKey, SignatureTraitValue>>
+  >({});
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -240,16 +417,13 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
   }, []);
 
   const canContinue = Boolean(previewUrl || hasDrawing);
-
-  const chatHref = useMemo(
+  const analysisModel = useMemo(
     () =>
-      buildPredictaChatHref({
-        prompt:
-          'Open Signature Predicta. Explain what signature shape, pressure, spacing, baseline, size, and rhythm can suggest. Keep it private, safe, and reflective.',
-        selectedSection: 'Signature Predicta input',
-        sourceScreen: 'Signature Predicta',
+      composeSignatureAnalysisModel({
+        inputSource: mode === 'draw' ? 'drawn-signature' : 'uploaded-image',
+        observedTraits,
       }),
-    [],
+    [mode, observedTraits],
   );
 
   function handleFileChange(event: ChangeEvent<HTMLInputElement>): void {
@@ -334,6 +508,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
     setPreviewUrl(undefined);
     setHasDrawing(false);
     setIsReady(false);
+    setObservedTraits({});
     localStorage.removeItem(SIGNATURE_DRAFT_STORAGE_KEY);
   }
 
@@ -356,11 +531,13 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
     }
 
     const draft: SignatureDraft = {
+      analysisModel,
       createdAt: new Date().toISOString(),
       imageDataUrl,
       mode,
       note:
         'Stored locally for Signature Predicta input. This is reflective guidance, not identity verification or handwriting forensics.',
+      observedTraits,
     };
     localStorage.setItem(SIGNATURE_DRAFT_STORAGE_KEY, JSON.stringify(draft));
     setPreviewUrl(imageDataUrl);
@@ -373,7 +550,29 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
       return;
     }
 
-    router.push(chatHref);
+    const modelContext = buildSignaturePredictaPromptContext(analysisModel);
+
+    router.push(
+      buildPredictaChatHref({
+        prompt:
+          analysisModel.status === 'ready'
+            ? `Open Signature Predicta. Use these confirmed signature traits. ${modelContext}`
+            : 'Open Signature Predicta. Explain what signature shape, pressure, spacing, baseline, size, and rhythm can suggest. Keep it private, safe, and reflective.',
+        selectedSection: 'Signature Predicta input',
+        sourceScreen: 'Signature Predicta',
+      }),
+    );
+  }
+
+  function updateObservedTrait(
+    key: SignatureTraitKey,
+    value: SignatureTraitValue,
+  ): void {
+    setObservedTraits(current => ({
+      ...current,
+      [key]: current[key] === value ? undefined : value,
+    }));
+    setIsReady(false);
   }
 
   function downloadSignature(): void {
@@ -471,6 +670,49 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
           </button>
         </section>
       </div>
+
+      <section className="signature-trait-panel glass-panel">
+        <div>
+          <div className="section-title">{copy.traits.title}</div>
+          <h2>{copy.traits.title}</h2>
+          <p>{copy.traits.body}</p>
+        </div>
+        <div className="signature-trait-grid">
+          {SIGNATURE_TRAIT_CONTROLS.map(control => (
+            <div className="signature-trait-control" key={control.key}>
+              <strong>{copy.traits.labels[control.key]}</strong>
+              <div className="signature-trait-options">
+                {control.options.map(option => (
+                  <button
+                    aria-pressed={observedTraits[control.key] === option}
+                    className={
+                      observedTraits[control.key] === option ? 'active' : ''
+                    }
+                    key={option}
+                    onClick={() => updateObservedTrait(control.key, option)}
+                    type="button"
+                  >
+                    {copy.traits.values[option]}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        {analysisModel.status === 'ready' ? (
+          <div className="signature-trait-summary">
+            <span>{copy.traits.summaryTitle}</span>
+            <p>{analysisModel.summary}</p>
+            <ul>
+              {analysisModel.interpretationCards.slice(0, 3).map(card => (
+                <li key={card.key}>
+                  {card.title}: {card.plainMeaning}.
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+      </section>
 
       <section className="signature-preview-panel glass-panel">
         <div>
