@@ -16,6 +16,7 @@ import { composeHolisticFoundationModel } from './holisticFoundationModel';
 import { composeHolisticReadingRooms } from './holisticReadingRooms';
 import { composeLifeTimeline } from './lifeTimeline';
 import { composeMahadashaIntelligence } from './mahadashaIntelligence';
+import { composeNadiJyotishPlan } from './nadiJyotishPlan';
 import { composeNumerologyFoundationModel } from './numerologyFoundationModel';
 import { composePersonalPanchangLayer } from './personalPanchangLayer';
 import { composePredictaWrapped } from './predictaWrapped';
@@ -44,6 +45,7 @@ export type PredictaAppActionId =
   | 'life-timeline'
   | 'mahadasha'
   | 'nadi-handoff'
+  | 'nadi-predicta'
   | 'numerology-handoff'
   | 'numerology-predicta'
   | 'signature-handoff'
@@ -177,6 +179,10 @@ const ACTION_PATTERNS: Array<{
   {
     id: 'nadi-handoff',
     pattern: /\b(nadi|naadi|palm\s*leaf|agastya|nadi\s*jyotish)\b/i,
+  },
+  {
+    id: 'nadi-predicta',
+    pattern: /\b(nadi\s*predicta|nadi\s*room|nadi\s*world|in\s+nadi|from\s+nadi)\b/i,
   },
   {
     id: 'numerology-predicta',
@@ -591,6 +597,28 @@ function resolveSchoolAwareAction(
   predictaSchool: PredictaSchool | undefined,
 ): PredictaAppActionId | undefined {
   if (
+    predictaSchool === 'KP' &&
+    (action === 'kp-handoff' || action === 'kp-predicta')
+  ) {
+    return 'kp-predicta';
+  }
+
+  if (predictaSchool !== 'KP' && action === 'kp-predicta') {
+    return 'kp-handoff';
+  }
+
+  if (
+    predictaSchool === 'NADI' &&
+    (action === 'nadi-handoff' || action === 'nadi-predicta')
+  ) {
+    return 'nadi-predicta';
+  }
+
+  if (predictaSchool !== 'NADI' && action === 'nadi-predicta') {
+    return 'nadi-handoff';
+  }
+
+  if (
     predictaSchool === 'NUMEROLOGY' &&
     (action === 'numerology-handoff' || action === 'numerology-predicta')
   ) {
@@ -618,7 +646,59 @@ function resolveSchoolAwareAction(
     return 'signature-handoff';
   }
 
+  if (!action || predictaSchool === 'PARASHARI' || !predictaSchool) {
+    return action;
+  }
+
+  if (isParashariRoomAction(action)) {
+    if (predictaSchool === 'KP') {
+      return 'kp-predicta';
+    }
+
+    if (predictaSchool === 'NADI') {
+      return 'nadi-predicta';
+    }
+
+    if (predictaSchool === 'NUMEROLOGY') {
+      return 'numerology-predicta';
+    }
+
+    if (predictaSchool === 'SIGNATURE') {
+      return 'signature-predicta';
+    }
+  }
+
   return action;
+}
+
+const PARASHARI_ROOM_ACTIONS = new Set<PredictaAppActionId>([
+  'advanced-jyotish',
+  'birth-time',
+  'bhav-chalit',
+  'chart',
+  'daily-briefing',
+  'decision-timing',
+  'destiny-passport',
+  'family-map',
+  'holistic-daily-guidance',
+  'holistic-reading-rooms',
+  'life-timeline',
+  'mahadasha',
+  'personal-panchang',
+  'purushartha',
+  'relationship',
+  'remedies',
+  'report',
+  'sadhana-remedy-path',
+  'sade-sati',
+  'transit-gochar',
+  'wow-radar',
+  'wrapped',
+  'yearly-horoscope',
+]);
+
+function isParashariRoomAction(action: PredictaAppActionId): boolean {
+  return PARASHARI_ROOM_ACTIONS.has(action);
 }
 
 function actionRequiresKundli(action: PredictaAppActionId): boolean {
@@ -712,6 +792,15 @@ function buildActionText({
       intro,
       nadiHandoffReply(language),
       insight,
+    ]);
+  }
+
+  if (action === 'nadi-predicta') {
+    return joinSections([
+      intro,
+      buildNadiPredictaReply(language, kundli, hasPremiumAccess),
+      insight,
+      buildUpsell(language, 'nadi-predicta', hasPremiumAccess),
     ]);
   }
 
@@ -1841,6 +1930,75 @@ function nadiHandoffReply(language: SupportedLanguage): string {
   ].join('\n\n');
 }
 
+function buildNadiPredictaReply(
+  language: SupportedLanguage,
+  kundli: KundliData | undefined,
+  hasPremiumAccess: boolean,
+): string {
+  const plan = composeNadiJyotishPlan(kundli, {
+    depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
+  });
+  const topPattern = plan.patterns[0];
+  const activation = plan.activations[0];
+  const validations = plan.validationQuestions.slice(0, hasPremiumAccess ? 3 : 2);
+  const limitations = plan.limitations.slice(0, 2);
+  const premiumLine = hasPremiumAccess
+    ? 'Premium Nadi depth is active: I can sequence the strongest planet links, ask validation questions, and keep timing cautious.'
+    : plan.premiumUnlock;
+
+  if (language === 'hi') {
+    return [
+      'Nadi Predicta mode: main planet-to-planet story links, karaka themes, validation questions aur timing activation se padhungi.',
+      plan.freePreview,
+      topPattern
+        ? `Strong pattern: ${topPattern.title}. ${topPattern.freeInsight}`
+        : undefined,
+      activation
+        ? `Timing activation: ${activation.title}. ${activation.timing}`
+        : undefined,
+      validations.length ? `Validation questions:\n${validations.map(item => `- ${item}`).join('\n')}` : undefined,
+      limitations.length ? `Boundary:\n${limitations.map(item => `- ${item}`).join('\n')}` : undefined,
+      premiumLine,
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      'Nadi Predicta mode: hu planet-to-planet story links, karaka themes, validation questions ane timing activation thi padhish.',
+      plan.freePreview,
+      topPattern
+        ? `Strong pattern: ${topPattern.title}. ${topPattern.freeInsight}`
+        : undefined,
+      activation
+        ? `Timing activation: ${activation.title}. ${activation.timing}`
+        : undefined,
+      validations.length ? `Validation questions:\n${validations.map(item => `- ${item}`).join('\n')}` : undefined,
+      limitations.length ? `Boundary:\n${limitations.map(item => `- ${item}`).join('\n')}` : undefined,
+      premiumLine,
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+  }
+
+  return [
+    'Nadi Predicta mode: I will read through planet-to-planet story links, karaka themes, validation questions, and timing activation.',
+    plan.freePreview,
+    topPattern
+      ? `Strong pattern: ${topPattern.title}. ${topPattern.freeInsight}`
+      : undefined,
+    activation
+      ? `Timing activation: ${activation.title}. ${activation.timing}`
+      : undefined,
+    validations.length ? `Validation questions:\n${validations.map(item => `- ${item}`).join('\n')}` : undefined,
+    limitations.length ? `Boundary:\n${limitations.map(item => `- ${item}`).join('\n')}` : undefined,
+    premiumLine,
+  ]
+    .filter(Boolean)
+    .join('\n\n');
+}
+
 function numerologyHandoffReply(language: SupportedLanguage): string {
   if (language === 'hi') {
     return [
@@ -2122,6 +2280,8 @@ function buildUpsell(
       ? 'Turn this into a deeper Chalit reading when you want house delivery, shifted planet analysis, dasha relevance, and report-grade proof.'
       : action === 'kp-predicta'
       ? 'Turn this into a KP event reading when you want cusp-by-cusp sub-lord judgment, significator strength, ruling-planet checks, dasha support, and event-focused report depth.'
+      : action === 'nadi-predicta'
+      ? 'Turn this into a Nadi pattern reading when you want planet-to-planet story sequencing, validation questions, timing activation, remedies, and a separate Nadi report.'
       : action === 'numerology-predicta'
       ? 'Turn this into a numerology life map when you want name spelling comparison, personal year/month/day planning, compatibility numbers, and a polished report.'
       : action === 'signature-predicta'

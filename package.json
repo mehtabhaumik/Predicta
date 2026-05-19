@@ -13,6 +13,7 @@
     "test": "turbo test",
     "test:charts": "pnpm --filter @pridicta/astrology stress:charts",
     "test:numerology": "node scripts/run-numerology-foundation-model.mjs",
+    "test:discipline-handoff": "node scripts/run-discipline-handoff-contract.mjs",
     "test:signature-report": "node scripts/run-signature-report-synthesis.mjs",
     "test:buyer-rejection": "node scripts/run-end-to-end-buyer-rejection-test.mjs",
     "test:pdf-golden": "node scripts/run-pdf-report-golden-output-gate.mjs",

@@ -100,6 +100,7 @@ import type {
   BirthDetailsDraft,
   BirthDetails,
   KundliData,
+  PredictaSchool,
   SupportedLanguage,
 } from '../types/astrology';
 
@@ -2095,22 +2096,20 @@ function buildMobileSchoolContextIntro(
   context: ChatMessage['context'],
   language: SupportedLanguage,
 ): string {
-  const school =
-    context?.predictaSchool === 'KP'
-      ? 'KP Predicta'
-      : context?.predictaSchool === 'NADI'
-        ? 'Nadi Predicta'
-        : context?.predictaSchool === 'NUMEROLOGY'
-          ? 'Numerology Predicta'
-          : context?.predictaSchool === 'SIGNATURE'
-            ? 'Signature Predicta'
-        : 'Regular Predicta';
+  const school = getMobilePredictaSchoolLabel(context?.predictaSchool);
+  const fromSchool =
+    context?.handoffFrom && context.handoffFrom !== context.predictaSchool
+      ? getMobilePredictaSchoolLabel(context.handoffFrom)
+      : undefined;
   const question = context?.handoffQuestion ?? context?.selectedSection;
   const chartFocus = context?.chartName ?? context?.chartType;
 
   if (language === 'hi') {
     return [
       `${school} ready hai.`,
+      fromSchool
+        ? `${fromSchool} se context carry ho gaya hai. Method mix nahi hoga.`
+        : undefined,
       chartFocus ? `Selected chart: ${chartFocus}.` : undefined,
       question ? `Aapka question: ${question}` : undefined,
       context?.predictaSchool === 'KP'
@@ -2131,6 +2130,9 @@ function buildMobileSchoolContextIntro(
   if (language === 'gu') {
     return [
       `${school} ready chhe.`,
+      fromSchool
+        ? `${fromSchool} thi context carry thai gayo chhe. Method mix nahi thay.`
+        : undefined,
       chartFocus ? `Selected chart: ${chartFocus}.` : undefined,
       question ? `Tamaro question: ${question}` : undefined,
       context?.predictaSchool === 'KP'
@@ -2150,6 +2152,9 @@ function buildMobileSchoolContextIntro(
 
   return [
     `${school} is ready.`,
+    fromSchool
+      ? `Context was carried from ${fromSchool}. The method will not be mixed.`
+      : undefined,
     chartFocus ? `Selected chart: ${chartFocus}.` : undefined,
     question ? `Your question: ${question}` : undefined,
     context?.predictaSchool === 'KP'
@@ -2165,6 +2170,28 @@ function buildMobileSchoolContextIntro(
   ]
     .filter(Boolean)
     .join('\n\n');
+}
+
+function getMobilePredictaSchoolLabel(
+  school: PredictaSchool | undefined,
+): string {
+  if (school === 'KP') {
+    return 'KP Predicta';
+  }
+
+  if (school === 'NADI') {
+    return 'Nadi Predicta';
+  }
+
+  if (school === 'NUMEROLOGY') {
+    return 'Numerology Predicta';
+  }
+
+  if (school === 'SIGNATURE') {
+    return 'Signature Predicta';
+  }
+
+  return 'Regular Predicta';
 }
 
 function buildMobileCtaContextIntro(

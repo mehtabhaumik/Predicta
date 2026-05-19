@@ -65,6 +65,7 @@ import type {
   ChatSuggestedCta,
   ChartType,
   KundliData,
+  PredictaSchool,
   SupportedLanguage,
 } from '@pridicta/types';
 import { findWebBirthPlace } from '../lib/birth-places';
@@ -3739,29 +3740,18 @@ function buildWowRadarSuggestions(
 }
 
 function chartContextFromParams(params: URLSearchParams): ChartContext | undefined {
-  const school = params.get('school');
+  const school = parsePredictaSchool(params.get('school'));
+  const fromSchool = parsePredictaSchool(params.get('from'));
   const handoffQuestion = params.get('handoffQuestion');
   const kundliId = params.get('kundliId') ?? undefined;
   const chartType = params.get('chartType') as ChartType | null;
   const selectedHouse = params.get('selectedHouse');
 
-  if (
-    school === 'KP' ||
-    school === 'NADI' ||
-    school === 'NUMEROLOGY' ||
-    school === 'SIGNATURE' ||
-    school === 'PARASHARI'
-  ) {
+  if (school) {
     return {
       chartName: params.get('chartName') ?? chartType ?? undefined,
       chartType: chartType ?? undefined,
-      handoffFrom:
-        params.get('from') === 'KP' ||
-        params.get('from') === 'NADI' ||
-        params.get('from') === 'NUMEROLOGY' ||
-        params.get('from') === 'SIGNATURE'
-          ? (params.get('from') as 'KP' | 'NADI' | 'NUMEROLOGY' | 'SIGNATURE')
-          : 'PARASHARI',
+      handoffFrom: fromSchool ?? (school !== 'PARASHARI' ? 'PARASHARI' : undefined),
       handoffQuestion: handoffQuestion ?? params.get('prompt') ?? undefined,
       kundliId,
       predictaSchool: school,
@@ -3804,7 +3794,9 @@ function ctaContextFromParams(params: URLSearchParams): ChartContext | undefined
 
   return {
     handoffQuestion: params.get('handoffQuestion') ?? undefined,
+    handoffFrom: parsePredictaSchool(params.get('from')),
     kundliId: params.get('kundliId') ?? undefined,
+    predictaSchool: parsePredictaSchool(params.get('school')),
     selectedBirthTimeDetective: params.get('birthTimeDetective') === 'true',
     selectedDailyBriefingDate:
       params.get('selectedDailyBriefingDate') ?? params.get('briefingDate') ?? undefined,
@@ -3833,6 +3825,20 @@ function ctaContextFromParams(params: URLSearchParams): ChartContext | undefined
     selectedTimelineEventWindow: params.get('selectedTimelineEventWindow') ?? undefined,
     sourceScreen: sourceScreen ?? 'Predicta',
   };
+}
+
+function parsePredictaSchool(value: string | null): PredictaSchool | undefined {
+  if (
+    value === 'PARASHARI' ||
+    value === 'KP' ||
+    value === 'NADI' ||
+    value === 'NUMEROLOGY' ||
+    value === 'SIGNATURE'
+  ) {
+    return value;
+  }
+
+  return undefined;
 }
 
 function parseOptionalNumber(value: string | null): number | undefined {
@@ -3910,22 +3916,20 @@ function buildSchoolContextIntro(
   context: ChartContext,
   language: SupportedLanguage,
 ): string {
-  const school =
-    context.predictaSchool === 'KP'
-      ? 'KP Predicta'
-      : context.predictaSchool === 'NADI'
-        ? 'Nadi Predicta'
-        : context.predictaSchool === 'NUMEROLOGY'
-          ? 'Numerology Predicta'
-          : context.predictaSchool === 'SIGNATURE'
-            ? 'Signature Predicta'
-        : 'Regular Predicta';
+  const school = getPredictaSchoolLabel(context.predictaSchool);
+  const fromSchool =
+    context.handoffFrom && context.handoffFrom !== context.predictaSchool
+      ? getPredictaSchoolLabel(context.handoffFrom)
+      : undefined;
   const question = context.handoffQuestion ?? context.selectedSection;
   const chartFocus = context.chartName ?? context.chartType;
 
   if (language === 'hi') {
     return [
       `${school} ready hai.`,
+      fromSchool
+        ? `${fromSchool} se context carry ho gaya hai. Method mix nahi hoga.`
+        : undefined,
       chartFocus ? `Selected chart: ${chartFocus}.` : undefined,
       question ? `Aapka question: ${question}` : undefined,
       context.predictaSchool === 'KP'
@@ -3946,6 +3950,9 @@ function buildSchoolContextIntro(
   if (language === 'gu') {
     return [
       `${school} ready chhe.`,
+      fromSchool
+        ? `${fromSchool} thi context carry thai gayo chhe. Method mix nahi thay.`
+        : undefined,
       chartFocus ? `Selected chart: ${chartFocus}.` : undefined,
       question ? `Tamaro question: ${question}` : undefined,
       context.predictaSchool === 'KP'
@@ -3965,6 +3972,9 @@ function buildSchoolContextIntro(
 
   return [
     `${school} is ready.`,
+    fromSchool
+      ? `Context was carried from ${fromSchool}. The method will not be mixed.`
+      : undefined,
     chartFocus ? `Selected chart: ${chartFocus}.` : undefined,
     question ? `Your question: ${question}` : undefined,
     context.predictaSchool === 'KP'
@@ -3980,6 +3990,26 @@ function buildSchoolContextIntro(
   ]
     .filter(Boolean)
     .join('\n\n');
+}
+
+function getPredictaSchoolLabel(school: PredictaSchool | undefined): string {
+  if (school === 'KP') {
+    return 'KP Predicta';
+  }
+
+  if (school === 'NADI') {
+    return 'Nadi Predicta';
+  }
+
+  if (school === 'NUMEROLOGY') {
+    return 'Numerology Predicta';
+  }
+
+  if (school === 'SIGNATURE') {
+    return 'Signature Predicta';
+  }
+
+  return 'Regular Predicta';
 }
 
 function buildContextMessage({
