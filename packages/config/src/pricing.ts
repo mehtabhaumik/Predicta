@@ -58,6 +58,7 @@ export type ReportMarketplaceProduct = {
     | 'DASHA'
     | 'COMPATIBILITY'
     | 'NUMEROLOGY'
+    | 'SIGNATURE'
     | 'REMEDIES';
   outcome: string;
   premiumIncludes: string[];
@@ -200,6 +201,20 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
       'Create my numerology report using name number, birth number, destiny number, personal year, personal month, personal day, and name rhythm.',
     purchaseHint: 'Best when you want number-based guidance or name spelling comparison without mixing methods.',
     title: 'Numerology Report',
+  },
+  {
+    badge: 'Signature',
+    bestFor: 'Signature self-expression, confidence style, and improvement guidance.',
+    freeIncludes: ['Visual-trait reading', 'Safety boundaries', 'Strengths and care points', 'Simple practice'],
+    freeDepth: 'Useful signature trait reading with safe self-expression guidance.',
+    id: 'SIGNATURE',
+    outcome: 'Understand what your signature style reflects and how to improve it safely.',
+    premiumIncludes: ['Detailed trait comparison', 'Improvement plan', 'Repeated signature review', 'Numerology + Signature synthesis'],
+    premiumDepth: 'Detailed Signature Predicta report with improvement plan and optional numerology synthesis.',
+    prompt:
+      'Create my Signature Predicta report using confirmed signature traits, improvement suggestions, safety boundaries, and optional Numerology plus Signature synthesis.',
+    purchaseHint: 'Best when you want signature-based self-expression guidance and a polished improvement plan.',
+    title: 'Signature Report',
   },
 ];
 

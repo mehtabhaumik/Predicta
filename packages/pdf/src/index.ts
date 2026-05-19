@@ -8,6 +8,7 @@ import type {
   PDFMode,
   PlanetPosition,
   SupportedLanguage,
+  SignatureAnalysisModel,
   TrustProfile,
 } from '@pridicta/types';
 import { buildTrustProfile } from '@pridicta/config/trust';
@@ -27,6 +28,7 @@ import {
   composePurusharthaLifeBalance,
   composeSadeSatiIntelligence,
   composeSadhanaRemedyPath,
+  composeSignatureAnalysisModel,
   composeTransitGocharIntelligence,
   composeYearlyHoroscopeVarshaphal,
   type ChartRenderLegendItem,
@@ -161,11 +163,13 @@ export function composeReportSections({
   kundli,
   language = 'en',
   mode,
+  signatureAnalysis,
 }: {
   kundli?: KundliData;
   language?: SupportedLanguage;
   mode: PDFMode;
   decisionMemo?: DecisionMemo;
+  signatureAnalysis?: SignatureAnalysisModel;
 }): PdfComposition {
   if (!kundli) {
     return composeEmptyReport(mode, language);
@@ -173,7 +177,14 @@ export function composeReportSections({
 
   const chartTypes = getReportChartTypes(kundli, mode);
   const chartSnapshots = buildPdfChartSnapshots(kundli, chartTypes, language);
-  const sections = buildReportSectionSet(kundli, chartTypes, mode, language, decisionMemo);
+  const sections = buildReportSectionSet(
+    kundli,
+    chartTypes,
+    mode,
+    language,
+    decisionMemo,
+    signatureAnalysis,
+  );
 
   const polishedSections = sections.map(section => enrichSection(section, mode));
   const trustProfile = buildTrustProfile({
@@ -256,6 +267,7 @@ function buildReportSectionSet(
   mode: PDFMode,
   language: SupportedLanguage,
   decisionMemo?: DecisionMemo,
+  signatureAnalysis?: SignatureAnalysisModel,
 ): PdfSection[] {
   const essentialSections = [
     buildExecutiveSummary(kundli, mode),
@@ -263,6 +275,7 @@ function buildReportSectionSet(
     buildBirthAndCalculationSection(kundli),
     buildChartSynthesisSection(kundli, chartTypes, mode, language),
     buildNumerologyReportSection(kundli, mode),
+    buildSignatureReportSection(signatureAnalysis, mode),
     buildPlanetaryStrengthSection(kundli, mode),
     buildDashaSection(kundli, mode),
     buildTransitSection(kundli, mode),
@@ -285,6 +298,8 @@ function buildReportSectionSet(
     buildKpFoundationSection(kundli, mode),
     buildNadiJyotishPlanSection(kundli, mode),
     buildNumerologyReportSection(kundli, mode),
+    buildSignatureReportSection(signatureAnalysis, mode),
+    buildSignatureNumerologySynthesisSection(kundli, signatureAnalysis),
     buildPlanetaryStrengthSection(kundli, mode),
     buildDashaSection(kundli, mode),
     buildTimelineSection(kundli, mode),
@@ -304,7 +319,7 @@ function buildReportSectionSet(
     ...(decisionMemo ? [buildDecisionMemoSection(decisionMemo)] : []),
     buildRemedySection(kundli),
     buildLimitationsSection(kundli, mode),
-  ];
+  ].filter((section): section is PdfSection => Boolean(section));
 }
 
 function buildBhavChalitSection(kundli: KundliData, mode: PDFMode): PdfSection {
@@ -1316,6 +1331,167 @@ function buildNumerologyReportSection(
     title: isPremium
       ? 'Numerology Predicta number synthesis'
       : 'Numerology useful insight',
+  };
+}
+
+function buildSignatureReportSection(
+  signatureAnalysis: SignatureAnalysisModel | undefined,
+  mode: PDFMode,
+): PdfSection {
+  const model =
+    signatureAnalysis ?? composeSignatureAnalysisModel({ inputSource: 'manual-observation' });
+  const isPremium = mode === 'PREMIUM';
+
+  if (model.status !== 'ready') {
+    return {
+      body:
+        'Signature Predicta can be added after the user uploads, draws, or confirms a recent natural signature. It stays separate from Kundli, KP, Nadi, and Numerology unless the user asks for synthesis.',
+      bullets: [
+        'Add one clear signature or confirm visible traits such as pressure, slant, baseline, size, spacing, and legibility.',
+        'The reading is reflective guidance about self-expression, not identity verification or handwriting forensics.',
+        'Premium reports can compare Signature with Numerology after both profiles are ready.',
+      ],
+      confidence: 'low',
+      evidence: [
+        ...model.evidence,
+        ...model.safetyBoundaries.slice(0, 2),
+      ],
+      eyebrow: 'SIGNATURE',
+      tier: 'free',
+      title: 'Signature Predicta preview',
+    };
+  }
+
+  const traitLines = model.observedTraits
+    .slice(0, isPremium ? 8 : 4)
+    .map(
+      trait =>
+        `${trait.label}: ${trait.value} (${trait.confidence} confidence).`,
+    );
+  const cardLines = model.interpretationCards
+    .slice(0, isPremium ? 6 : 3)
+    .map(card => `${card.title}: ${card.plainMeaning}.`);
+  const practiceLines = model.practicePrompts.slice(0, isPremium ? 5 : 2);
+
+  return {
+    body: isPremium
+      ? 'Premium Signature Predicta reads confirmed visual traits as a self-expression layer, then turns them into practical improvement guidance while keeping clear safety boundaries.'
+      : 'Signature Predicta gives a useful reading of confirmed visual traits in plain language, without making fixed character claims or identity claims.',
+    bullets: [
+      model.summary,
+      ...traitLines,
+      ...cardLines,
+      `Strengths: ${model.strengths.slice(0, isPremium ? 7 : 4).join(', ') || 'waiting for confirmed traits'}.`,
+      `Care points: ${model.cautions.slice(0, isPremium ? 5 : 2).join(', ') || 'keep the reading gentle and practical'}.`,
+      ...practiceLines,
+      ...(isPremium
+        ? [
+            'Premium depth can compare repeated signatures, name rhythm, and optional Numerology + Signature synthesis.',
+          ]
+        : [
+            'Paid depth adds trait comparison, improvement plan, and optional Numerology + Signature synthesis.',
+          ]),
+    ],
+    confidence: 'medium',
+    evidence: [
+      ...model.evidence,
+      ...model.limitations,
+      ...model.safetyBoundaries.slice(0, 3),
+    ],
+    evidenceTable: model.interpretationCards
+      .slice(0, isPremium ? 8 : 4)
+      .map(card => ({
+        confidence: card.key === 'legibility' && card.plainMeaning.includes('protected')
+          ? 'medium'
+          : 'medium',
+        factor: card.title,
+        implication: card.caution,
+        observation: `${card.plainMeaning}. ${card.evidence.join(' ')}`,
+      })),
+    eyebrow: 'SIGNATURE',
+    tier: isPremium ? 'premium' : 'free',
+    title: isPremium
+      ? 'Signature Predicta premium synthesis'
+      : 'Signature useful insight',
+  };
+}
+
+function buildSignatureNumerologySynthesisSection(
+  kundli: KundliData,
+  signatureAnalysis?: SignatureAnalysisModel,
+): PdfSection | undefined {
+  if (signatureAnalysis?.status !== 'ready') {
+    return undefined;
+  }
+
+  const numerology =
+    kundli.numerology ?? composeNumerologyFoundationModel(kundli.birthDetails);
+  if (numerology.status !== 'ready') {
+    return undefined;
+  }
+
+  const topSignatureTraits = signatureAnalysis.observedTraits
+    .slice(0, 4)
+    .map(trait => `${trait.label} ${trait.value}`);
+  const numberLines = [
+    `Name number ${numerology.nameNumber.root} (${numerology.nameNumber.label}) shows the name's public rhythm.`,
+    `Birth number ${numerology.birthNumber.root} (${numerology.birthNumber.label}) shows instinctive response style.`,
+    `Destiny number ${numerology.destinyNumber.root} (${numerology.destinyNumber.label}) shows the longer number direction.`,
+  ];
+
+  return {
+    body:
+      'This optional premium synthesis compares two separate layers: Numerology reads name and date rhythm, while Signature Predicta reads visible self-expression traits. It does not blend methods casually or treat either layer as proof of identity.',
+    bullets: [
+      numerology.summary,
+      signatureAnalysis.summary,
+      ...numberLines,
+      `Signature traits compared: ${topSignatureTraits.join(', ') || 'waiting for confirmed traits'}.`,
+      `Shared strengths to develop: ${[
+        ...numerology.strengths.slice(0, 3),
+        ...signatureAnalysis.strengths.slice(0, 3),
+      ].join(', ')}.`,
+      `Practice: ${signatureAnalysis.practicePrompts[0] ?? 'Use a natural signature practice and review how it feels.'}`,
+      'Keep this as reflective guidance; real-world decisions still need practical judgment.',
+    ],
+    confidence: 'medium',
+    evidence: [
+      ...numerology.evidence.slice(0, 4),
+      ...signatureAnalysis.evidence.slice(0, 4),
+      'Synthesis is optional and compares patterns only after both layers are available.',
+      ...signatureAnalysis.safetyBoundaries.slice(0, 2),
+    ],
+    evidenceTable: [
+      {
+        confidence: 'medium',
+        factor: 'Name rhythm',
+        implication: numerology.nameNumber.simpleMeaning,
+        observation: `Name number ${numerology.nameNumber.root}, compound ${numerology.nameNumber.compound}.`,
+      },
+      {
+        confidence: 'medium',
+        factor: 'Birth rhythm',
+        implication: numerology.birthNumber.simpleMeaning,
+        observation: `Birth number ${numerology.birthNumber.root}; destiny number ${numerology.destinyNumber.root}.`,
+      },
+      {
+        confidence: 'medium',
+        factor: 'Signature expression',
+        implication:
+          signatureAnalysis.cautions[0] ??
+          'Use signature traits as soft reflection, not a fixed judgment.',
+        observation: topSignatureTraits.join(', ') || signatureAnalysis.summary,
+      },
+      {
+        confidence: 'medium',
+        factor: 'Boundary',
+        implication: 'The report keeps Numerology and Signature as separate methods before comparison.',
+        observation: 'No identity, legal, medical, hiring, or certainty claims.',
+      },
+    ],
+    eyebrow: 'SIGNATURE + NUMEROLOGY',
+    tier: 'premium',
+    title: 'Numerology + Signature synthesis',
   };
 }
 

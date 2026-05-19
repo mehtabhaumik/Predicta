@@ -27,7 +27,11 @@ import {
   type PdfChartSnapshot,
   type PdfSection,
 } from '@pridicta/pdf';
-import type { KundliData, SupportedLanguage } from '@pridicta/types';
+import type {
+  KundliData,
+  SignatureAnalysisModel,
+  SupportedLanguage,
+} from '@pridicta/types';
 import { useLanguagePreference } from '../lib/language-preference';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import {
@@ -45,6 +49,13 @@ import { NorthIndianChartLines } from './WebKundliChart';
 import { WebTrustProofPanel } from './WebTrustProofPanel';
 import { AuthDialog } from './AuthDialog';
 import { getFirebaseWebAuth } from '../lib/firebase/client';
+
+const SIGNATURE_DRAFT_STORAGE_KEY = 'pridicta.signatureDraft.v1';
+
+type SignatureReportDraft = {
+  analysisModel?: SignatureAnalysisModel;
+  savedAt?: string;
+};
 
 export function WebDossierPreview(): React.JSX.Element {
   const didLoadSavedState = useRef(false);
@@ -65,6 +76,9 @@ export function WebDossierPreview(): React.JSX.Element {
     setReportLanguage,
   } = useLanguagePreference();
   const [kundli, setKundli] = useState<KundliData | undefined>();
+  const [signatureAnalysis, setSignatureAnalysis] = useState<
+    SignatureAnalysisModel | undefined
+  >();
   const [user, setUser] = useState<User | null>(null);
   const labels = getLanguageLabels(appLanguage);
   const reportLabels = getLanguageLabels(reportLanguage);
@@ -90,6 +104,7 @@ export function WebDossierPreview(): React.JSX.Element {
     );
 
     setKundli(loadWebKundliStore().activeKundli);
+    setSignatureAnalysis(loadSignatureAnalysisDraft());
     if (savedReportIsValid && savedReport?.selectedReportId) {
       setSelectedReportId(savedReport.selectedReportId as ReportMarketplaceProduct['id']);
     }
@@ -140,8 +155,9 @@ export function WebDossierPreview(): React.JSX.Element {
         kundli,
         language: reportLanguage,
         mode: 'FREE',
+        signatureAnalysis,
       }),
-    [kundli, reportLanguage],
+    [kundli, reportLanguage, signatureAnalysis],
   );
   const premiumReport = useMemo(
     () =>
@@ -149,8 +165,9 @@ export function WebDossierPreview(): React.JSX.Element {
         kundli,
         language: reportLanguage,
         mode: 'PREMIUM',
+        signatureAnalysis,
       }),
-    [kundli, reportLanguage],
+    [kundli, reportLanguage, signatureAnalysis],
   );
   const report = mode === 'PREMIUM' ? premiumReport : freeReport;
   const reportChartTheme = getChartRenderTheme(kundli?.birthDetails.time);
@@ -971,6 +988,17 @@ function getLocalizedReportProduct(
         purchaseHint: 'जब नाम, जन्मतिथि या spelling rhythm से guidance चाहिए.',
         title: 'Numerology रिपोर्ट',
       },
+      SIGNATURE: {
+        badge: 'हस्ताक्षर',
+        bestFor: 'हस्ताक्षर self-expression, confidence style और सुधार guidance.',
+        freeDepth: 'सुरक्षित self-expression guidance के साथ हस्ताक्षर traits की उपयोगी पढ़ाई.',
+        freeIncludes: ['Visual-trait reading', 'सुरक्षा सीमा', 'ताकत और care points', 'सरल अभ्यास'],
+        outcome: 'आपकी signature style क्या दिखाती है और उसे सुरक्षित तरीके से कैसे सुधारें.',
+        premiumDepth: 'सुधार योजना और optional अंक ज्योतिष synthesis के साथ detailed Signature Predicta report.',
+        premiumIncludes: ['गहरी trait तुलना', 'सुधार योजना', 'Repeated signature review', 'अंक ज्योतिष + हस्ताक्षर synthesis'],
+        purchaseHint: 'जब signature-based self-expression guidance और polished improvement plan चाहिए.',
+        title: 'Signature रिपोर्ट',
+      },
       REMEDIES: {
         badge: 'उपाय',
         bestFor: 'उपाय, आदतें, आध्यात्मिक अनुशासन और जमीन से जुड़ा सहारा.',
@@ -1076,6 +1104,17 @@ function getLocalizedReportProduct(
         premiumIncludes: ['નામ spelling સરખામણી', 'વ્યક્તિગત timing map', 'Compatibility numbers', 'Numerology PDF section'],
         purchaseHint: 'નામ, જન્મ તારીખ અથવા spelling rhythm પરથી guidance જોઈએ ત્યારે સારું.',
         title: 'Numerology રિપોર્ટ',
+      },
+      SIGNATURE: {
+        badge: 'હસ્તાક્ષર',
+        bestFor: 'હસ્તાક્ષર self-expression, confidence style અને સુધાર guidance.',
+        freeDepth: 'સુરક્ષિત self-expression guidance સાથે હસ્તાક્ષર traits ની ઉપયોગી વાંચન.',
+        freeIncludes: ['Visual-trait reading', 'સુરક્ષા મર્યાદા', 'તાકાત અને care points', 'સરળ અભ્યાસ'],
+        outcome: 'તમારી signature style શું બતાવે છે અને તેને સુરક્ષિત રીતે કેવી રીતે સુધારવી.',
+        premiumDepth: 'સુધાર યોજના અને optional અંક જ્યોતિષ synthesis સાથે detailed Signature Predicta report.',
+        premiumIncludes: ['ઊંડી trait સરખામણી', 'સુધાર યોજના', 'Repeated signature review', 'અંક જ્યોતિષ + હસ્તાક્ષર synthesis'],
+        purchaseHint: 'Signature-based self-expression guidance અને polished improvement plan જોઈએ ત્યારે સારું.',
+        title: 'Signature રિપોર્ટ',
       },
       REMEDIES: {
         badge: 'ઉપાયો',
@@ -1527,6 +1566,8 @@ function getComprehensiveReportSections(language: SupportedLanguage): Array<{
       { eyebrow: 'KP', title: 'KP कस्प और सब-लॉर्ड आधार' },
       { eyebrow: 'नाड़ी', title: 'नाड़ी pattern प्रीव्यू' },
       { eyebrow: 'अंक', title: 'Numerology नाम और जन्म अंक' },
+      { eyebrow: 'हस्ताक्षर', title: 'Signature Predicta और सुधार योजना' },
+      { eyebrow: 'संश्लेषण', title: 'अंक ज्योतिष + हस्ताक्षर synthesis' },
       { eyebrow: 'दशा', title: 'महादशा, अंतर्दशा और समय' },
       { eyebrow: 'गोचर', title: 'गोचर और साढ़े साती' },
       { eyebrow: 'वर्ष', title: 'वार्षिक राशिफल और वर्षफल' },
@@ -1549,6 +1590,8 @@ function getComprehensiveReportSections(language: SupportedLanguage): Array<{
       { eyebrow: 'KP', title: 'KP cusp અને sub-lord આધાર' },
       { eyebrow: 'નાડી', title: 'નાડી pattern પ્રીવ્યૂ' },
       { eyebrow: 'અંક', title: 'Numerology નામ અને જન્મ અંક' },
+      { eyebrow: 'હસ્તાક્ષર', title: 'Signature Predicta અને સુધાર યોજના' },
+      { eyebrow: 'સંશ્લેષણ', title: 'અંક જ્યોતિષ + હસ્તાક્ષર synthesis' },
       { eyebrow: 'દશા', title: 'મહાદશા, અંતર્દશા અને સમય' },
       { eyebrow: 'ગોચર', title: 'ગોચર અને સાડેસાતી' },
       { eyebrow: 'વર્ષ', title: 'વાર્ષિક રાશિફળ અને વર્ષફળ' },
@@ -1570,6 +1613,8 @@ function getComprehensiveReportSections(language: SupportedLanguage): Array<{
     { eyebrow: 'KP', title: 'KP cusp and sub-lord foundation' },
     { eyebrow: 'Nadi', title: 'Nadi pattern preview' },
     { eyebrow: 'Numerology', title: 'Numerology name and birth numbers' },
+    { eyebrow: 'Signature', title: 'Signature Predicta and improvement plan' },
+    { eyebrow: 'Synthesis', title: 'Numerology + Signature synthesis' },
     { eyebrow: 'Dasha', title: 'Mahadasha, Antardasha, timing' },
     { eyebrow: 'Transit', title: 'Gochar and Sade Sati' },
     { eyebrow: 'Year', title: 'Yearly horoscope and Varshaphal' },
@@ -1612,6 +1657,11 @@ function getFreePremiumDifferenceRows(language: SupportedLanguage): Array<{
         premium: 'नाम spelling तुलना, निजी समय map और compatibility numbers.',
       },
       {
+        area: 'हस्ताक्षर',
+        free: 'हस्ताक्षर traits की उपयोगी और सुरक्षित झलक.',
+        premium: 'गहरी trait तुलना, सुधार योजना और अंक ज्योतिष + हस्ताक्षर synthesis.',
+      },
+      {
         area: 'पीडीएफ सुंदरता',
         free: 'प्रीमियम जैसी उपयोगी रिपोर्ट.',
         premium: 'अलग पहचान वाली पूरी गहरी रिपोर्ट, अधिक भाग और प्रमाण.',
@@ -1640,6 +1690,11 @@ function getFreePremiumDifferenceRows(language: SupportedLanguage): Array<{
         area: 'અંક જ્યોતિષ',
         free: 'નામ, જન્મ અને ભાગ્ય અંકની ઉપયોગી ઝલક.',
         premium: 'નામ spelling સરખામણી, વ્યક્તિગત સમય map અને compatibility numbers.',
+      },
+      {
+        area: 'હસ્તાક્ષર',
+        free: 'હસ્તાક્ષર traits ની ઉપયોગી અને સુરક્ષિત ઝલક.',
+        premium: 'ઊંડી trait સરખામણી, સુધાર યોજના અને અંક જ્યોતિષ + હસ્તાક્ષર synthesis.',
       },
       {
         area: 'પીડીએફ સુંદરતા',
@@ -1671,6 +1726,11 @@ function getFreePremiumDifferenceRows(language: SupportedLanguage): Array<{
       premium: 'Name spelling comparison, personal timing map, and compatibility numbers.',
     },
     {
+      area: 'Signature',
+      free: 'Useful visual-trait reading with clear safety boundaries.',
+      premium: 'Detailed trait comparison, improvement plan, and optional Numerology + Signature synthesis.',
+    },
+    {
       area: 'PDF polish',
       free: 'Premium-looking useful report.',
       premium: 'Distinctive complete deep report with richer sections and proof.',
@@ -1688,6 +1748,24 @@ function buildReportAskHref(
     selectedSection: product.title,
     sourceScreen: 'Report',
   });
+}
+
+function loadSignatureAnalysisDraft(): SignatureAnalysisModel | undefined {
+  if (typeof window === 'undefined') {
+    return undefined;
+  }
+
+  try {
+    const raw = window.localStorage.getItem(SIGNATURE_DRAFT_STORAGE_KEY);
+    if (!raw) {
+      return undefined;
+    }
+
+    const draft = JSON.parse(raw) as SignatureReportDraft;
+    return draft.analysisModel;
+  } catch {
+    return undefined;
+  }
 }
 
 function DossierSection({
