@@ -229,9 +229,12 @@ function detectFieldCommand(text: string): KundliChatCommand | undefined {
     };
   }
 
-  const nameMatch = text.match(
-    /\b(?:name|rename|save\s*this\s*as)\b\s*(?:to|as|=|:)?\s*([a-zA-Z .'-]{2,})$/i,
-  );
+  const nameMatch =
+    /\bname\s*(?:number|vibration|correction)\b/i.test(text)
+      ? undefined
+      : text.match(
+          /\b(?:name|rename|save\s*this\s*as)\b\s*(?:to|as|=|:)?\s*([a-zA-Z .'-]{2,})$/i,
+        );
 
   if (nameMatch?.[1]) {
     return {

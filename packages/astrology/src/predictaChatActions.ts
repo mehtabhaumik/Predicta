@@ -1,5 +1,6 @@
 import type {
   KundliData,
+  PredictaSchool,
   SavedKundliRecord,
   SupportedLanguage,
 } from '@pridicta/types';
@@ -15,6 +16,7 @@ import { composeHolisticFoundationModel } from './holisticFoundationModel';
 import { composeHolisticReadingRooms } from './holisticReadingRooms';
 import { composeLifeTimeline } from './lifeTimeline';
 import { composeMahadashaIntelligence } from './mahadashaIntelligence';
+import { composeNumerologyFoundationModel } from './numerologyFoundationModel';
 import { composePersonalPanchangLayer } from './personalPanchangLayer';
 import { composePredictaWrapped } from './predictaWrapped';
 import { composePurusharthaLifeBalance } from './purusharthaLifeBalance';
@@ -41,6 +43,8 @@ export type PredictaAppActionId =
   | 'life-timeline'
   | 'mahadasha'
   | 'nadi-handoff'
+  | 'numerology-handoff'
+  | 'numerology-predicta'
   | 'holistic-reading-rooms'
   | 'personal-panchang'
   | 'pricing'
@@ -72,6 +76,7 @@ export type PredictaActionRequest = {
   kundli?: KundliData;
   language: SupportedLanguage;
   memory?: PredictaInteractionMemory;
+  predictaSchool?: PredictaSchool;
   savedKundlis?: KundliData[];
   text: string;
 };
@@ -169,6 +174,16 @@ const ACTION_PATTERNS: Array<{
   {
     id: 'nadi-handoff',
     pattern: /\b(nadi|naadi|palm\s*leaf|agastya|nadi\s*jyotish)\b/i,
+  },
+  {
+    id: 'numerology-predicta',
+    pattern:
+      /\b(numerology\s*predicta|numerology\s*room|ank\s*jyotish|ankjyotish|name\s*number|birth\s*number|destiny\s*number|life\s*path|personal\s*(year|month|day)|moolank|mulank|bhagyank|naam\s*ank|ank\s*shastra)\b/i,
+  },
+  {
+    id: 'numerology-handoff',
+    pattern:
+      /\b(numerology|ank\s*jyotish|ankjyotish|number\s*reading|name\s*vibration|name\s*correction)\b/i,
   },
   {
     id: 'life-timeline',
@@ -397,6 +412,7 @@ export function buildPredictaActionReply({
   kundli,
   language,
   memory,
+  predictaSchool,
   savedKundlis = [],
   text,
 }: PredictaActionRequest): PredictaActionReply {
@@ -405,7 +421,10 @@ export function buildPredictaActionReply({
     selectedLanguage: language,
     text,
   });
-  const action = detectPredictaAppAction(languageContext.normalizedText);
+  const action = resolveSchoolAwareAction(
+    detectPredictaAppAction(languageContext.normalizedText),
+    predictaSchool,
+  );
   const nextMemory = learnPredictaInteraction(
     memory,
     text,
@@ -554,11 +573,34 @@ function detectPredictaAppAction(
   return undefined;
 }
 
+function resolveSchoolAwareAction(
+  action: PredictaAppActionId | undefined,
+  predictaSchool: PredictaSchool | undefined,
+): PredictaAppActionId | undefined {
+  if (
+    predictaSchool === 'NUMEROLOGY' &&
+    (action === 'numerology-handoff' || action === 'numerology-predicta')
+  ) {
+    return 'numerology-predicta';
+  }
+
+  if (
+    predictaSchool !== 'NUMEROLOGY' &&
+    action === 'numerology-predicta'
+  ) {
+    return 'numerology-handoff';
+  }
+
+  return action;
+}
+
 function actionRequiresKundli(action: PredictaAppActionId): boolean {
   return ![
     'concierge',
     'kp-handoff',
     'nadi-handoff',
+    'numerology-handoff',
+    'numerology-predicta',
     'pricing',
     'saved-kundlis',
   ].includes(action);
@@ -641,6 +683,23 @@ function buildActionText({
       intro,
       nadiHandoffReply(language),
       insight,
+    ]);
+  }
+
+  if (action === 'numerology-handoff') {
+    return joinSections([
+      intro,
+      numerologyHandoffReply(language),
+      insight,
+    ]);
+  }
+
+  if (action === 'numerology-predicta') {
+    return joinSections([
+      intro,
+      buildNumerologyPredictaReply(language, kundli, hasPremiumAccess),
+      insight,
+      buildUpsell(language, 'numerology-predicta', hasPremiumAccess),
     ]);
   }
 
@@ -1736,6 +1795,110 @@ function nadiHandoffReply(language: SupportedLanguage): string {
   ].join('\n\n');
 }
 
+function numerologyHandoffReply(language: SupportedLanguage): string {
+  if (language === 'hi') {
+    return [
+      'Yeh Numerology Predicta ka kaam hai. Main ise Parashari, KP, ya Nadi ke saath casually mix nahi karungi.',
+      'Neeche “Numerology Predicta kholo” dabaiye. Main aapka question aur active birth profile wahan le jaungi.',
+      'Numerology Predicta name number, birth number, destiny number, personal year/month/day, aur name spelling rhythm se answer karegi.',
+    ].join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      'Aa Numerology Predicta nu kaam chhe. Hu ene Parashari, KP, ke Nadi sathe casually mix nahi karu.',
+      'Niche “Numerology Predicta kholo” dabavo. Hu tamaro question ane active birth profile tya lai jaish.',
+      'Numerology Predicta name number, birth number, destiny number, personal year/month/day ane name spelling rhythm thi jawab aapse.',
+    ].join('\n\n');
+  }
+
+  return [
+    'That belongs to Numerology Predicta. I will not casually mix it with Parashari, KP, or Nadi methods.',
+    'Use “Open Numerology Predicta” below. I will carry your question and active birth profile into the numerology room.',
+    'Numerology Predicta reads name number, birth number, destiny number, personal year/month/day, and name spelling rhythm.',
+  ].join('\n\n');
+}
+
+function buildNumerologyPredictaReply(
+  language: SupportedLanguage,
+  kundli: KundliData | undefined,
+  hasPremiumAccess: boolean,
+): string {
+  const profile = composeNumerologyFoundationModel(kundli?.birthDetails);
+
+  if (profile.status !== 'ready') {
+    if (language === 'hi') {
+      return [
+        'Numerology Predicta ready hai, lekin mujhe pehle name aur birth date chahiye.',
+        'Aap apna full name aur DOB bhej dijiye. Uske baad main name number, birth number, destiny number, aur current personal timing rhythm nikal dungi.',
+      ].join('\n\n');
+    }
+    if (language === 'gu') {
+      return [
+        'Numerology Predicta ready chhe, pan pehla mane name ane birth date joye.',
+        'Tamaro full name ane DOB moklo. Pachhi hu name number, birth number, destiny number ane current personal timing rhythm nikaali daish.',
+      ].join('\n\n');
+    }
+    return [
+      'Numerology Predicta is ready, but I need a name and birth date first.',
+      'Send the full name and date of birth. Then I can calculate name number, birth number, destiny number, and the current personal timing rhythm.',
+    ].join('\n\n');
+  }
+
+  const proof = profile.evidence
+    .slice(0, hasPremiumAccess ? 4 : 3)
+    .map(item => `- ${item}`)
+    .join('\n');
+  const strengths = profile.strengths.slice(0, 4).join(', ');
+  const cautions = profile.cautions.slice(0, 3).join(', ');
+  const premiumLine = hasPremiumAccess
+    ? 'Premium depth is active: I can compare spelling options, monthly timing, compatibility numbers, and report-ready synthesis.'
+    : 'Free insight stays useful. Premium adds spelling comparison, yearly/monthly timing, compatibility numbers, and a polished numerology report.';
+
+  if (language === 'hi') {
+    return [
+      'Numerology Predicta mode: main name aur DOB numbers se padhungi, Parashari/KP/Nadi logic mix nahi karungi jab tak aap synthesis na maangein.',
+      `${profile.name}: name number ${profile.nameNumber.root} (${profile.nameNumber.label}), birth number ${profile.birthNumber.root} (${profile.birthNumber.label}), destiny number ${profile.destinyNumber.root} (${profile.destinyNumber.label}).`,
+      `Current rhythm: personal year ${profile.personalYear.root}, month ${profile.personalMonth.root}, day ${profile.personalDay.root}.`,
+      `Useful insight: ${profile.summary}`,
+      strengths ? `Strengths: ${strengths}` : '',
+      cautions ? `Care points: ${cautions}` : '',
+      proof ? `Number proof:\n${proof}` : '',
+      premiumLine,
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      'Numerology Predicta mode: hu name ane DOB numbers thi padhish, Parashari/KP/Nadi logic mix nahi karu jya sudhi tame synthesis na maango.',
+      `${profile.name}: name number ${profile.nameNumber.root} (${profile.nameNumber.label}), birth number ${profile.birthNumber.root} (${profile.birthNumber.label}), destiny number ${profile.destinyNumber.root} (${profile.destinyNumber.label}).`,
+      `Current rhythm: personal year ${profile.personalYear.root}, month ${profile.personalMonth.root}, day ${profile.personalDay.root}.`,
+      `Useful insight: ${profile.summary}`,
+      strengths ? `Strengths: ${strengths}` : '',
+      cautions ? `Care points: ${cautions}` : '',
+      proof ? `Number proof:\n${proof}` : '',
+      premiumLine,
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+  }
+
+  return [
+    'Numerology Predicta mode: I will read from name and DOB numbers, not Parashari, KP, or Nadi logic unless you ask for synthesis.',
+    `${profile.name}: name number ${profile.nameNumber.root} (${profile.nameNumber.label}), birth number ${profile.birthNumber.root} (${profile.birthNumber.label}), destiny number ${profile.destinyNumber.root} (${profile.destinyNumber.label}).`,
+    `Current rhythm: personal year ${profile.personalYear.root}, month ${profile.personalMonth.root}, day ${profile.personalDay.root}.`,
+    `Useful insight: ${profile.summary}`,
+    strengths ? `Strengths: ${strengths}` : '',
+    cautions ? `Care points: ${cautions}` : '',
+    proof ? `Number proof:\n${proof}` : '',
+    premiumLine,
+  ]
+    .filter(Boolean)
+    .join('\n\n');
+}
+
 function buildMemoryInsight(
   language: SupportedLanguage,
   memory: PredictaInteractionMemory | undefined,
@@ -1839,6 +2002,8 @@ function buildUpsell(
       ? 'Turn this into a deeper Chalit reading when you want house delivery, shifted planet analysis, dasha relevance, and report-grade proof.'
       : action === 'kp-predicta'
       ? 'Turn this into a KP event reading when you want cusp-by-cusp sub-lord judgment, significator strength, ruling-planet checks, dasha support, and event-focused report depth.'
+      : action === 'numerology-predicta'
+      ? 'Turn this into a numerology life map when you want name spelling comparison, personal year/month/day planning, compatibility numbers, and a polished report.'
       : action === 'life-timeline'
       ? 'Turn this into a Life Calendar when you want monthly dasha/transit cards with reminders.'
       : action === 'holistic-daily-guidance'
@@ -1933,6 +2098,9 @@ function inferThemes(text: string, action?: PredictaAppActionId): string[] {
   }
   if (/\b(sadhana|remedy\s*path|upay\s*path|seva\s*path|mantra\s*path|practice\s*path)\b/i.test(normalized)) {
     themes.push('sadhana path');
+  }
+  if (/\b(numerology|name\s*number|birth\s*number|destiny\s*number|life\s*path|personal\s*(year|month|day)|ank\s*jyotish|moolank|mulank|bhagyank)\b/i.test(normalized)) {
+    themes.push('numerology');
   }
   if (/\b(timing|when|dasha|transit|calendar)\b/i.test(normalized)) {
     themes.push('timing');

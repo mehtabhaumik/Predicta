@@ -12,6 +12,7 @@ import {
   composeMahadashaIntelligence,
   buildKundliMoonNakshatraPadaInsight,
   composeNadiJyotishPlan,
+  composeNumerologyFoundationModel,
   composePersonalPanchangLayer,
   composePredictaWrapped,
   composePurusharthaLifeBalance,
@@ -231,6 +232,9 @@ export function buildAIContext(
         handoffQuestion: chartContext?.handoffQuestion,
       }),
     ),
+    numerologyFoundation: compactNumerologyFoundation(
+      composeNumerologyFoundationModel(kundliData.birthDetails),
+    ),
     chalitBhavKpFoundation: compactChalitBhavKpFoundation(
       composeChalitBhavKpFoundation(kundliData, {
         depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
@@ -422,6 +426,31 @@ function compactNadiJyotishPlan(
     subtitle: plan.subtitle,
     title: plan.title,
     validationQuestions: plan.validationQuestions.slice(0, 4),
+  };
+}
+
+function compactNumerologyFoundation(
+  profile: ReturnType<typeof composeNumerologyFoundationModel>,
+): NonNullable<AIContextPayload['numerologyFoundation']> {
+  return {
+    birthDate: profile.birthDate,
+    birthNumber: profile.birthNumber,
+    cautions: profile.cautions.slice(0, 5),
+    destinyNumber: profile.destinyNumber,
+    evidence: profile.evidence.slice(0, 4),
+    guidance: profile.guidance,
+    limitations: profile.limitations,
+    method: profile.method,
+    name: profile.name,
+    nameNumber: profile.nameNumber,
+    normalizedName: profile.normalizedName,
+    personalDay: profile.personalDay,
+    personalMonth: profile.personalMonth,
+    personalYear: profile.personalYear,
+    status: profile.status,
+    strengths: profile.strengths.slice(0, 6),
+    summary: profile.summary,
+    targetDate: profile.targetDate,
   };
 }
 

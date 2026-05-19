@@ -1606,7 +1606,7 @@ export type ChartContext = {
 
 export type ChatRole = 'user' | 'pridicta';
 
-export type PredictaSchool = 'PARASHARI' | 'KP' | 'NADI';
+export type PredictaSchool = 'PARASHARI' | 'KP' | 'NADI' | 'NUMEROLOGY';
 
 export type ChatChartInsight = {
   title: string;
@@ -2051,6 +2051,27 @@ export type AIContextPayload = {
     | 'guardrails'
     | 'limitations'
     | 'premiumUnlock'
+  >;
+  numerologyFoundation?: Pick<
+    NumerologyFoundationProfile,
+    | 'birthDate'
+    | 'birthNumber'
+    | 'cautions'
+    | 'destinyNumber'
+    | 'evidence'
+    | 'guidance'
+    | 'limitations'
+    | 'method'
+    | 'name'
+    | 'nameNumber'
+    | 'normalizedName'
+    | 'personalDay'
+    | 'personalMonth'
+    | 'personalYear'
+    | 'status'
+    | 'strengths'
+    | 'summary'
+    | 'targetDate'
   >;
   chalitBhavKpFoundation?: Pick<
     ChalitBhavKpFoundation,

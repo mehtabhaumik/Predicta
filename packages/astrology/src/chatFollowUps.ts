@@ -136,12 +136,16 @@ export function buildPredictaSchoolHandoffContext({
       ? 'KP Predicta'
       : to === 'NADI'
         ? 'Nadi Predicta'
+        : to === 'NUMEROLOGY'
+          ? 'Numerology Predicta'
         : 'Regular Parashari Predicta';
   const sourceName =
     from === 'KP'
       ? 'KP Predicta'
       : from === 'NADI'
         ? 'Nadi Predicta'
+        : from === 'NUMEROLOGY'
+          ? 'Numerology Predicta'
         : 'Regular Parashari Predicta';
   const birthSummary = kundli
     ? [
@@ -168,6 +172,8 @@ export function buildPredictaSchoolHandoffContext({
         ? 'Answer strictly from KP principles: KP ayanamsa, Placidus cusps, star lords, sub lords, significators, ruling planets, and KP event-timing rules. Do not casually mix Parashari D1/Varga/Yoga logic.'
         : to === 'NADI'
           ? 'Stay in Nadi Predicta reading space. Use Nadi-style planetary story links, karakas, validation questions, and timing activation only. Do not mix Parashari or KP, and do not claim palm-leaf manuscript access.'
+          : to === 'NUMEROLOGY'
+            ? 'Answer strictly from Numerology Predicta: name number, birth number, destiny number, personal year/month/day, name spelling rhythm, and compatibility numbers. Do not mix Parashari, KP, or Nadi unless the user explicitly asks for synthesis.'
           : 'Answer strictly from regular Parashari Jyotish: D1, Vargas, dasha, yogas, Parashari Chalit, gochar, remedies, and reports. Do not use KP/Nadi methods unless the user requests handoff.',
     ]
       .filter(Boolean)
@@ -275,6 +281,10 @@ function schoolHandoffFollowUps(
     /\b(nadi|naadi|palm\s*leaf|agastya|bhrigu\s*nandi|nandi\s*nadi)\b/i.test(
       normalized,
     );
+  const wantsNumerology =
+    /\b(numerology|ank\s*jyotish|ankjyotish|name\s*number|birth\s*number|destiny\s*number|life\s*path|personal\s*(year|month|day)|moolank|mulank|bhagyank|name\s*vibration|name\s*correction)\b/i.test(
+      normalized,
+    );
 
   if (wantsKp) {
     const context = buildPredictaSchoolHandoffContext({
@@ -345,6 +355,43 @@ function schoolHandoffFollowUps(
             : language === 'gu'
               ? 'Question save rakho'
               : 'Keep this question',
+        prompt,
+      },
+    ];
+  }
+
+  if (wantsNumerology) {
+    const context = buildPredictaSchoolHandoffContext({
+      from: 'PARASHARI',
+      kundli,
+      question: text,
+      to: 'NUMEROLOGY',
+    });
+    const prompt = context.selectedSection ?? text;
+
+    return [
+      {
+        context,
+        href: buildSchoolHandoffHref('/dashboard/chat', context),
+        id: 'open-numerology-predicta',
+        label:
+          language === 'hi'
+            ? 'Numerology Predicta kholo'
+            : language === 'gu'
+              ? 'Numerology Predicta kholo'
+              : 'Open Numerology Predicta',
+        prompt,
+        targetScreen: 'NumerologyPredicta',
+      },
+      {
+        context,
+        id: 'answer-in-numerology',
+        label:
+          language === 'hi'
+            ? 'Numerology se answer do'
+            : language === 'gu'
+              ? 'Numerology thi jawab aapo'
+              : 'Answer in Numerology',
         prompt,
       },
     ];

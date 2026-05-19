@@ -513,6 +513,8 @@ def build_deterministic_chart_reply(
         return build_deterministic_kp_reply(request)
     if school == "NADI":
         return build_deterministic_nadi_reply(request)
+    if school == "NUMEROLOGY":
+        return build_deterministic_numerology_reply(request)
 
     current_date = date.today()
     one_year_later = add_one_year(current_date)
@@ -679,6 +681,203 @@ def build_deterministic_nadi_reply(request: PridictaChatRequest) -> str:
             "Next step: answer the validation questions honestly, then I can narrow the story and timing without making fake-certainty claims.",
         ]
     )
+
+
+def build_deterministic_numerology_reply(request: PridictaChatRequest) -> str:
+    profile = build_numerology_foundation_context(request.kundli)
+    question = (
+        request.chartContext.handoffQuestion
+        if request.chartContext and request.chartContext.handoffQuestion
+        else request.message
+    )
+    proof = "\n".join(f"- {item}" for item in profile["evidence"][:3])
+    strengths = ", ".join(profile["strengths"][:4])
+    cautions = ", ".join(profile["cautions"][:3])
+
+    return "\n\n".join(
+        [
+            "Numerology Predicta mode. I will keep this inside name and DOB numbers unless you ask for a cross-method synthesis.",
+            f"Your question: {question}",
+            (
+                f"{profile['name']}: name number {profile['nameNumber']['root']} "
+                f"({profile['nameNumber']['label']}), birth number {profile['birthNumber']['root']} "
+                f"({profile['birthNumber']['label']}), destiny number {profile['destinyNumber']['root']} "
+                f"({profile['destinyNumber']['label']})."
+            ),
+            (
+                f"Current rhythm: personal year {profile['personalYear']['root']}, "
+                f"month {profile['personalMonth']['root']}, day {profile['personalDay']['root']}."
+            ),
+            f"Useful insight: {profile['summary']}",
+            f"Strengths: {strengths}" if strengths else "",
+            f"Care points: {cautions}" if cautions else "",
+            "Number proof:\n" + proof if proof else "",
+            "Free depth gives useful insight. Premium depth adds spelling comparison, yearly/monthly timing, compatibility numbers, and a polished numerology report.",
+        ]
+    ).strip()
+
+
+def build_numerology_foundation_context(kundli: KundliData) -> Dict[str, Any]:
+    birth = kundli.birthDetails
+    target_date = date.today().isoformat()
+    name_number = build_numerology_number(chaldean_name_total(birth.name))
+    birth_number = build_numerology_number(int(re.sub(r"\D", "", birth.date[-2:] or "0")))
+    destiny_number = build_numerology_number(sum_digits(re.sub(r"\D", "", birth.date)))
+    cycles = build_numerology_cycles(birth.date, target_date)
+    strengths = unique_ordered(
+        name_number["keywords"] + birth_number["keywords"] + destiny_number["keywords"]
+    )[:6]
+    cautions = unique_ordered(
+        number_meanings(name_number["root"])["cautions"]
+        + number_meanings(destiny_number["root"])["cautions"]
+        + number_meanings(cycles["personalYear"]["root"])["cautions"]
+    )[:5]
+
+    return {
+        "birthDate": birth.date,
+        "birthNumber": birth_number,
+        "cautions": cautions,
+        "destinyNumber": destiny_number,
+        "evidence": [
+            f"Name number {name_number['root']} comes from Chaldean letter values applied to {birth.name}.",
+            f"Birth number {birth_number['root']} comes from the birth day in {birth.date}.",
+            f"Destiny number {destiny_number['root']} comes from the full birth date {birth.date}.",
+            f"Personal year/month/day are calculated for {target_date}.",
+        ],
+        "guidance": (
+            f"Name number {name_number['root']} shows outer expression. "
+            f"Birth number {birth_number['root']} shows instinctive style. "
+            f"Destiny number {destiny_number['root']} shows longer life direction."
+        ),
+        "limitations": [
+            "Numerology is a guidance layer and should support practical judgement.",
+            "Name spelling matters. Legal name, common name, and spiritual name can produce different numbers.",
+        ],
+        "method": {
+            "birthNumber": "DAY_OF_MONTH_REDUCTION",
+            "destinyNumber": "FULL_BIRTH_DATE_REDUCTION",
+            "nameNumber": "CHALDEAN",
+            "personalCycles": "DOB_PLUS_TARGET_DATE_REDUCTION",
+        },
+        "name": birth.name,
+        "nameNumber": name_number,
+        "normalizedName": re.sub(r"[^A-Z]", "", birth.name.upper()),
+        "personalDay": cycles["personalDay"],
+        "personalMonth": cycles["personalMonth"],
+        "personalYear": cycles["personalYear"],
+        "status": "ready",
+        "strengths": strengths,
+        "summary": (
+            f"{birth.name} carries name number {name_number['root']}, birth number "
+            f"{birth_number['root']}, and destiny number {destiny_number['root']}. "
+            f"Today sits in a personal day {cycles['personalDay']['root']} rhythm."
+        ),
+        "targetDate": target_date,
+    }
+
+
+def build_numerology_cycles(birth_date: str, target_date: str) -> Dict[str, Any]:
+    birth_parts = [int(part) for part in birth_date.split("-")]
+    target_parts = [int(part) for part in target_date.split("-")]
+    personal_year = build_numerology_number(
+        sum_digits(f"{birth_parts[1]}{birth_parts[2]}{target_parts[0]}")
+    )
+    personal_month = build_numerology_number(personal_year["root"] + target_parts[1])
+    personal_day = build_numerology_number(personal_month["root"] + target_parts[2])
+    return {
+        "personalDay": {**personal_day, "date": target_date, "period": "day"},
+        "personalMonth": {**personal_month, "date": target_date, "period": "month"},
+        "personalYear": {**personal_year, "date": target_date, "period": "year"},
+    }
+
+
+def chaldean_name_total(name: str) -> int:
+    values = {
+        "A": 1,
+        "B": 2,
+        "C": 3,
+        "D": 4,
+        "E": 5,
+        "F": 8,
+        "G": 3,
+        "H": 5,
+        "I": 1,
+        "J": 1,
+        "K": 2,
+        "L": 3,
+        "M": 4,
+        "N": 5,
+        "O": 7,
+        "P": 8,
+        "Q": 1,
+        "R": 2,
+        "S": 3,
+        "T": 4,
+        "U": 6,
+        "V": 6,
+        "W": 6,
+        "X": 5,
+        "Y": 1,
+        "Z": 7,
+    }
+    return sum(values.get(letter, 0) for letter in re.sub(r"[^A-Z]", "", name.upper()))
+
+
+def build_numerology_number(value: int) -> Dict[str, Any]:
+    compound = max(0, int(value))
+    root = reduce_to_root(compound)
+    meaning = number_meanings(root)
+    return {
+        "compound": compound,
+        "keywords": meaning["keywords"],
+        "label": meaning["label"],
+        "root": root,
+        "simpleMeaning": meaning["meaning"],
+    }
+
+
+def number_meanings(root: int) -> Dict[str, Any]:
+    meanings = {
+        1: ("Leader", "independence, initiative, and confidence", ["leadership", "initiative", "identity"], ["ego clashes", "impatience"]),
+        2: ("Diplomat", "cooperation, sensitivity, and partnership", ["harmony", "support", "emotion"], ["over-sensitivity", "hesitation"]),
+        3: ("Creator", "communication, creativity, and expression", ["expression", "creativity", "joy"], ["scattered focus", "unfinished ideas"]),
+        4: ("Builder", "structure, discipline, and steady foundations", ["structure", "discipline", "foundation"], ["rigidity", "overwork"]),
+        5: ("Explorer", "freedom, adaptability, and movement", ["freedom", "change", "movement"], ["restlessness", "risk-taking"]),
+        6: ("Nurturer", "care, responsibility, and family", ["care", "family", "beauty"], ["over-responsibility", "people-pleasing"]),
+        7: ("Seeker", "research, privacy, and spiritual depth", ["research", "depth", "spirituality"], ["isolation", "over-analysis"]),
+        8: ("Strategist", "power, finance, and karmic responsibility", ["power", "money", "karma"], ["control issues", "money pressure"]),
+        9: ("Humanitarian", "completion, compassion, and broad wisdom", ["completion", "compassion", "wisdom"], ["emotional extremes", "savior pattern"]),
+    }
+    label, meaning, keywords, cautions = meanings.get(root, meanings[9])
+    return {
+        "cautions": cautions,
+        "keywords": keywords,
+        "label": label,
+        "meaning": meaning,
+    }
+
+
+def reduce_to_root(value: int) -> int:
+    current = abs(int(value))
+    if current == 0:
+        return 0
+    while current > 9:
+        current = sum_digits(str(current))
+    return current
+
+
+def sum_digits(value: str) -> int:
+    return sum(int(digit) for digit in re.sub(r"\D", "", str(value)) or "0")
+
+
+def unique_ordered(items: List[str]) -> List[str]:
+    seen = set()
+    result = []
+    for item in items:
+        if item not in seen:
+            seen.add(item)
+            result.append(item)
+    return result
 
 
 def localized_area_summary(area: str, confidence: str, language: str) -> str:
@@ -1020,14 +1219,16 @@ def build_pridicta_system_prompt() -> str:
             "Use holisticDailyGuidance when the user asks for daily guidance, today, morning practice, daily sadhana, or what to do today. Give morning practice, midday check, evening review, evidence, and safe boundaries.",
             "Report synthesis rule: when the user asks for a report or PDF, include the holistic spine first: daily rhythm, Purushartha balance, Panchang, sadhana remedy path, timing, and safety boundaries before area-specific sections.",
             "Treat Parashari Chalit as a house-delivery refinement layer only: it keeps the planet's D1 rashi sign but can shift the bhava receiving the result. Do not confuse it with KP cusp/sub-lord judgement.",
-            "There are three separate Predictas/schools: Regular Parashari Predicta, KP Predicta, and Nadi Predicta. They may hand off user intent and birth context to each other, but each must stay in its own methodology.",
+            "There are separate Predicta specialist rooms: Regular Parashari Predicta, KP Predicta, Nadi Predicta, and Numerology Predicta. They may hand off user intent and profile context to each other, but each must stay in its own methodology.",
             "Regular Parashari Predicta is traditional Vedic Jyotish for comprehensive lifelong analysis using D1, Vargas, planets, signs, houses, yogas, dashas, Parashari Chalit, gochar, remedies, and reports.",
             "KP Predicta is Krishnamurti Paddhati: a specialized rule-based system for event timing using KP ayanamsa, Placidus cusps, Nakshatra/star lords, sub lords, sub-sub lords, significators, ruling planets, dasha support, and horary/prashna rules. KP does not use the same interpretive chart logic as regular Parashari.",
             "Nadi Predicta is a separate premium school. In this product it is a Nadi-inspired chart-signature reading layer: planet-to-planet stories, karaka themes, trinal/opposition/sequence links, Rahu-Ketu karmic axis, validation questions, and timing activation. It is not Parashari and not KP.",
+            "Numerology Predicta is a separate number-reading room. It uses name number, birth number, destiny number, personal year/month/day, name spelling rhythm, and compatibility numbers. It is not Parashari, KP, or Nadi unless the user explicitly asks for a cross-method synthesis.",
             "Nadi Predicta must never claim palm-leaf manuscript access, ancient leaf certainty, or lineage-specific records. It can explain that Premium Nadi uses respectful Nadi-style pattern reading from the verified birth chart.",
             "If activeContext.predictaSchool is KP, answer as KP Predicta and use the original handoff question plus active birth profile. Do not casually mix Parashari D1/Varga/Yoga logic unless clearly explaining a boundary.",
             "If activeContext.predictaSchool is NADI, answer as Nadi Predicta using nadiJyotishPlan. Ask validation questions before strong event statements. Do not use Parashari yoga/dasha or KP sub-lord rules as the method, and do not fake palm-leaf access.",
-            "If activeContext.predictaSchool is PARASHARI or absent and the user asks about KP/Nadi, politely hand off to the proper section instead of answering from the wrong school.",
+            "If activeContext.predictaSchool is NUMEROLOGY, answer as Numerology Predicta using numerologyFoundation. Keep free answers useful and concise; Premium depth adds name spelling comparison, yearly/monthly timing, compatibility numbers, and report-ready synthesis.",
+            "If activeContext.predictaSchool is PARASHARI or absent and the user asks about KP/Nadi/Numerology, politely hand off to the proper specialist room instead of answering from the wrong school.",
             "Respect chartAccess strictly: every chart can be shown in free, but free chart readings are useful insight only. Premium readings add detailed D1 anchoring, dasha timing, confidence, remedies, and report-ready synthesis.",
             "Prioritize the user's active chart, house, planet, or report section before broadening.",
             "For every chart-based answer, include a 'Chart evidence' section with 3-5 bullets from jyotishAnalysis.evidence.",
@@ -3139,6 +3340,7 @@ def build_ai_context(
             user_plan,
             chart_context,
         ),
+        "numerologyFoundation": build_numerology_foundation_context(kundli),
         "chalitBhavKpFoundation": build_chalit_bhav_kp_context(
             kundli,
             user_plan,

@@ -140,7 +140,7 @@ type ReplyFeedbackSignal = {
   messageHash: string;
   messageId: string;
   route: string;
-  school: 'KP' | 'NADI' | 'PARASHARI';
+  school: 'KP' | 'NADI' | 'NUMEROLOGY' | 'PARASHARI';
   selectedChart?: string;
   selectedHouse?: number;
   selectedPlanet?: string;
@@ -168,7 +168,7 @@ type StarRatingSignal = {
   rating: number;
   replyCount: number;
   route: string;
-  school: 'KP' | 'NADI' | 'PARASHARI';
+  school: 'KP' | 'NADI' | 'NUMEROLOGY' | 'PARASHARI';
   selectedChart?: string;
   selectedHouse?: number;
   selectedPlanet?: string;
@@ -206,7 +206,7 @@ type WebChatSession = {
   messages: WebMessage[];
   predictaMemory?: PredictaInteractionMemory;
   replyLanguage: SupportedLanguage;
-  school?: 'KP' | 'NADI' | 'PARASHARI';
+  school?: 'KP' | 'NADI' | 'NUMEROLOGY' | 'PARASHARI';
   selectedChart?: string;
   selectedHouse?: number;
   title: string;
@@ -1040,6 +1040,7 @@ export function WebPridictaChat(): React.JSX.Element {
       kundli: activeKundli,
       language: responseLanguage,
       memory: predictaMemory,
+      predictaSchool: activeChartContext?.predictaSchool,
       savedKundlis,
       text,
     });
@@ -2233,6 +2234,10 @@ function getReplyFeedbackSchool(
 
   if (context?.predictaSchool === 'NADI') {
     return 'NADI';
+  }
+
+  if (context?.predictaSchool === 'NUMEROLOGY') {
+    return 'NUMEROLOGY';
   }
 
   return 'PARASHARI';
@@ -3736,13 +3741,20 @@ function chartContextFromParams(params: URLSearchParams): ChartContext | undefin
   const chartType = params.get('chartType') as ChartType | null;
   const selectedHouse = params.get('selectedHouse');
 
-  if (school === 'KP' || school === 'NADI' || school === 'PARASHARI') {
+  if (
+    school === 'KP' ||
+    school === 'NADI' ||
+    school === 'NUMEROLOGY' ||
+    school === 'PARASHARI'
+  ) {
     return {
       chartName: params.get('chartName') ?? chartType ?? undefined,
       chartType: chartType ?? undefined,
       handoffFrom:
-        params.get('from') === 'KP' || params.get('from') === 'NADI'
-          ? (params.get('from') as 'KP' | 'NADI')
+        params.get('from') === 'KP' ||
+        params.get('from') === 'NADI' ||
+        params.get('from') === 'NUMEROLOGY'
+          ? (params.get('from') as 'KP' | 'NADI' | 'NUMEROLOGY')
           : 'PARASHARI',
       handoffQuestion: handoffQuestion ?? params.get('prompt') ?? undefined,
       kundliId,
@@ -3897,6 +3909,8 @@ function buildSchoolContextIntro(
       ? 'KP Predicta'
       : context.predictaSchool === 'NADI'
         ? 'Nadi Predicta'
+        : context.predictaSchool === 'NUMEROLOGY'
+          ? 'Numerology Predicta'
         : 'Regular Predicta';
   const question = context.handoffQuestion ?? context.selectedSection;
   const chartFocus = context.chartName ?? context.chartType;
@@ -3910,6 +3924,8 @@ function buildSchoolContextIntro(
         ? 'Ab answer KP ke cusps, star lords, sub lords, significators aur ruling planets se hi grounded rahega.'
       : context.predictaSchool === 'NADI'
           ? 'Nadi Predicta ready hai. Main planetary story links aur validation questions se padhungi; ancient palm-leaf access ka daava nahi karungi.'
+      : context.predictaSchool === 'NUMEROLOGY'
+          ? 'Ab answer name number, birth number, destiny number, personal timing aur name rhythm par grounded rahega.'
           : 'Ab answer regular Parashari Jyotish context mein rahega.',
       'Press Ask, ya apna follow-up likhiye.',
     ]
@@ -3926,6 +3942,8 @@ function buildSchoolContextIntro(
         ? 'Have answer KP cusps, star lords, sub lords, significators ane ruling planets par grounded rahe.'
       : context.predictaSchool === 'NADI'
           ? 'Nadi Predicta ready chhe. Hu planetary story links ane validation questions thi padhish; ancient palm-leaf access no daavo nahi karu.'
+      : context.predictaSchool === 'NUMEROLOGY'
+          ? 'Have answer name number, birth number, destiny number, personal timing ane name rhythm par grounded rahe.'
           : 'Have answer regular Parashari Jyotish context ma rahe.',
       'Ask dabavo, athva tamaro follow-up lakho.',
     ]
@@ -3941,6 +3959,8 @@ function buildSchoolContextIntro(
       ? 'The answer will now stay grounded in KP cusps, star lords, sub lords, significators, and ruling planets.'
     : context.predictaSchool === 'NADI'
         ? 'Nadi Predicta is ready. I will read through planetary story links and validation questions, without claiming access to an ancient palm-leaf record.'
+    : context.predictaSchool === 'NUMEROLOGY'
+        ? 'The answer will now stay grounded in name number, birth number, destiny number, personal timing, and name rhythm.'
         : 'The answer will now stay in regular Parashari Jyotish.',
     'Press Ask, or type your follow-up.',
   ]
@@ -4313,6 +4333,9 @@ function getSchoolFromContext(
   }
   if (context?.predictaSchool === 'NADI') {
     return 'NADI';
+  }
+  if (context?.predictaSchool === 'NUMEROLOGY') {
+    return 'NUMEROLOGY';
   }
   return 'PARASHARI';
 }
