@@ -2100,6 +2100,8 @@ function buildMobileSchoolContextIntro(
       ? 'KP Predicta'
       : context?.predictaSchool === 'NADI'
         ? 'Nadi Predicta'
+        : context?.predictaSchool === 'NUMEROLOGY'
+          ? 'Numerology Predicta'
         : 'Regular Predicta';
   const question = context?.handoffQuestion ?? context?.selectedSection;
   const chartFocus = context?.chartName ?? context?.chartType;
@@ -2112,7 +2114,9 @@ function buildMobileSchoolContextIntro(
       context?.predictaSchool === 'KP'
         ? 'Ab answer KP ke cusps, star lords, sub lords, significators aur ruling planets se hi grounded rahega.'
         : context?.predictaSchool === 'NADI'
-          ? 'Nadi Predicta ready hai. Main planetary story links aur validation questions se padhungi; palm-leaf ka fake claim nahi hoga.'
+          ? 'Nadi Predicta ready hai. Main planetary story links aur validation questions se padhungi; ancient manuscript access ka daava nahi karungi.'
+          : context?.predictaSchool === 'NUMEROLOGY'
+            ? 'Ab answer name number, birth number, destiny number, personal timing aur name rhythm par grounded rahega.'
           : 'Ab answer regular Parashari Jyotish context mein rahega.',
       'Ask dabaiye, ya apna follow-up likhiye.',
     ]
@@ -2128,7 +2132,9 @@ function buildMobileSchoolContextIntro(
       context?.predictaSchool === 'KP'
         ? 'Have answer KP cusps, star lords, sub lords, significators ane ruling planets par grounded rahe.'
         : context?.predictaSchool === 'NADI'
-          ? 'Nadi Predicta ready chhe. Hu planetary story links ane validation questions thi padhish; palm-leaf no fake claim nahi hoy.'
+          ? 'Nadi Predicta ready chhe. Hu planetary story links ane validation questions thi padhish; ancient manuscript access no daavo nahi karu.'
+          : context?.predictaSchool === 'NUMEROLOGY'
+            ? 'Have answer name number, birth number, destiny number, personal timing ane name rhythm par grounded rahe.'
           : 'Have answer regular Parashari Jyotish context ma rahe.',
       'Ask dabavo, athva tamaro follow-up lakho.',
     ]
@@ -2143,7 +2149,9 @@ function buildMobileSchoolContextIntro(
     context?.predictaSchool === 'KP'
       ? 'The answer will now stay grounded in KP cusps, star lords, sub lords, significators, and ruling planets.'
       : context?.predictaSchool === 'NADI'
-        ? 'Nadi Predicta is ready. I will read through planetary story links and validation questions, without fake palm-leaf claims.'
+        ? 'Nadi Predicta is ready. I will read through planetary story links and validation questions, without claiming ancient manuscript access.'
+        : context?.predictaSchool === 'NUMEROLOGY'
+          ? 'The answer will now stay grounded in name number, birth number, destiny number, personal timing, and name rhythm.'
         : 'The answer will now stay in regular Parashari Jyotish.',
     'Press Ask, or type your follow-up.',
   ]

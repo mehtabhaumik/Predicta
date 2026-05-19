@@ -82,6 +82,7 @@ export type AppShellLabels = {
     safetyPromise: string;
     savedKundlis: string;
     settings: string;
+    signaturePredicta: string;
     timeline: string;
     wrapped: string;
   };
