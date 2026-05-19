@@ -16,6 +16,9 @@ documents for Predicta.
 - [PREDICTA_GROWTH_PHASE_PLAN.md](/Users/bhaumikmehta/Desktop/Predicta/docs/PREDICTA_GROWTH_PHASE_PLAN.md)  
   Feature roadmap, phase prompts, monetization direction, and implementation
   sequencing guidance.
+- [Word_navigation_rebuild.md](/Users/bhaumikmehta/Desktop/Predicta/docs/Word_navigation_rebuild.md)
+  Revival roadmap for rebuilding Predicta around Vedic, KP, Nadi, Numerology,
+  and Signature as distinct specialist worlds with shared context.
 
 ## Backend, Authority, And Security
 
@@ -36,4 +39,3 @@ documents for Predicta.
   Backend environment variables, deployment wiring, and runtime setup details.
 - [RELEASE_HARDENING.md](/Users/bhaumikmehta/Desktop/Predicta/docs/RELEASE_HARDENING.md)  
   Release-readiness checklist and production hardening expectations.
-
