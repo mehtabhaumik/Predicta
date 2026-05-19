@@ -27,6 +27,14 @@ type DashboardNavModel = {
   sections: SidebarSection[];
 };
 
+const SECTIONS_WITH_LOCAL_NAV = new Set([
+  'kundli',
+  'predicta',
+  'schools',
+  'family',
+  'account',
+]);
+
 function buildDashboardNavModel(
   labels: AppShellLabels,
   feedbackLabel: string,
@@ -363,6 +371,34 @@ export function DashboardShell({
               </div>
             </aside>
           </div>
+        ) : null}
+        {SECTIONS_WITH_LOCAL_NAV.has(activeSection.id) ? (
+          <nav
+            aria-label={`${activeSection.label} section navigation`}
+            className="dashboard-local-nav glass-panel"
+          >
+            <span>{shellLabels.groups.thisSection}</span>
+            <div>
+              {activeSection.items.map(item => {
+                const active = isDashboardNavItemActive(pathname, item.href);
+
+                return active ? (
+                  <span
+                    aria-current="page"
+                    aria-disabled="true"
+                    className="active disabled"
+                    key={item.href}
+                  >
+                    {item.label}
+                  </span>
+                ) : (
+                  <Link href={item.href} key={item.href}>
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </div>
+          </nav>
         ) : null}
         <motion.div
           key={pathname}
