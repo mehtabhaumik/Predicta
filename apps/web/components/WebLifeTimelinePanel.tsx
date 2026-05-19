@@ -1,13 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useId, useMemo, useRef, useState } from 'react';
 import { buildTrustProfile } from '@pridicta/config/trust';
 import type {
   LifeTimelineEventView,
   LifeTimelinePresentation,
 } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
+import { useDialogFocusTrap } from '../lib/use-dialog-focus-trap';
 import { WebTrustProofPanel } from './WebTrustProofPanel';
 
 type WebLifeTimelinePanelProps = {
@@ -35,13 +36,11 @@ export function WebLifeTimelinePanel({
         <div>
           <div className="section-title">LIFE TIMELINE</div>
           <h2>{presentation.title}</h2>
-          <details className="info-drawer">
-            <summary>
-              <span>How to read this</span>
-              <strong>Open</strong>
-            </summary>
-            <p>{presentation.subtitle}</p>
-          </details>
+          <TimelineInfoButton
+            body={presentation.subtitle}
+            eyebrow="How to read this"
+            title="Life Timeline"
+          />
         </div>
       </div>
 
@@ -66,14 +65,14 @@ export function WebLifeTimelinePanel({
       <div className="life-timeline-grid">
         {presentation.sections.map(section => (
           <div className="life-timeline-section" key={section.id}>
-            <h3>{section.title}</h3>
-            <details className="info-drawer">
-              <summary>
-                <span>Meaning</span>
-                <strong>Open</strong>
-              </summary>
-              <p>{section.description}</p>
-            </details>
+            <div className="life-timeline-section-heading">
+              <h3>{section.title}</h3>
+              <TimelineInfoButton
+                body={section.description}
+                eyebrow="Meaning"
+                title={section.title}
+              />
+            </div>
             <div className="life-timeline-events">
               {section.events.length ? (
                 section.events.map(event => (
@@ -134,6 +133,76 @@ export function WebLifeTimelinePanel({
         </div>
       ) : null}
     </section>
+  );
+}
+
+function TimelineInfoButton({
+  body,
+  eyebrow,
+  title,
+}: {
+  body: string;
+  eyebrow: string;
+  title: string;
+}): React.JSX.Element {
+  const [open, setOpen] = useState(false);
+  const dialogId = useId();
+  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+
+  useDialogFocusTrap(dialogRef, {
+    active: open,
+    initialFocusRef: closeButtonRef,
+    onClose: () => setOpen(false),
+  });
+
+  return (
+    <>
+      <button
+        aria-controls={open ? `${dialogId}-dialog` : undefined}
+        aria-expanded={open}
+        aria-haspopup="dialog"
+        className="info-help-button"
+        onClick={() => setOpen(true)}
+        type="button"
+      >
+        <span aria-hidden>?</span>
+        <span className="sr-only">{eyebrow}</span>
+      </button>
+      {open ? (
+        <div
+          className="info-dialog-backdrop"
+          onClick={() => setOpen(false)}
+          role="presentation"
+        >
+          <div
+            aria-describedby={`${dialogId}-body`}
+            aria-labelledby={`${dialogId}-title`}
+            aria-modal="true"
+            className="info-dialog"
+            id={`${dialogId}-dialog`}
+            onClick={event => event.stopPropagation()}
+            ref={dialogRef}
+            role="dialog"
+          >
+            <div className="info-dialog-header">
+              <span>{eyebrow}</span>
+              <button
+                aria-label="Close explanation"
+                className="dialog-close"
+                onClick={() => setOpen(false)}
+                ref={closeButtonRef}
+                type="button"
+              >
+                Close
+              </button>
+            </div>
+            <h3 id={`${dialogId}-title`}>{title}</h3>
+            <p id={`${dialogId}-body`}>{body}</p>
+          </div>
+        </div>
+      ) : null}
+    </>
   );
 }
 

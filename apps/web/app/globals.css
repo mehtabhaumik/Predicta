@@ -6322,6 +6322,14 @@ button:disabled {
   margin: 0;
 }
 
+.life-timeline-section-heading {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
 .life-timeline-section > p {
   margin: 8px 0 14px;
 }
@@ -6386,6 +6394,98 @@ button:disabled {
 
 .life-timeline-drilldown .button {
   justify-self: flex-start;
+}
+
+.info-help-button {
+  align-items: center;
+  background:
+    radial-gradient(circle at 35% 20%, rgba(77, 175, 255, 0.2), transparent 42%),
+    rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  color: var(--text);
+  cursor: pointer;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 14px;
+  font-weight: 950;
+  height: 34px;
+  justify-content: center;
+  line-height: 1;
+  min-width: 34px;
+  padding: 0;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.info-help-button:hover,
+.info-help-button:focus-visible {
+  border-color: rgba(77, 175, 255, 0.55);
+  box-shadow: 0 0 0 4px rgba(77, 175, 255, 0.12);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.info-dialog-backdrop {
+  align-items: center;
+  background:
+    radial-gradient(circle at 50% 12%, rgba(77, 175, 255, 0.14), transparent 34%),
+    rgba(4, 4, 8, 0.78);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  overflow: auto;
+  padding: 28px;
+  position: fixed;
+  z-index: 110;
+}
+
+.info-dialog {
+  background:
+    radial-gradient(circle at 16% 0%, rgba(77, 175, 255, 0.18), transparent 32%),
+    radial-gradient(circle at 86% 18%, rgba(255, 93, 184, 0.08), transparent 28%),
+    rgba(18, 18, 28, 0.97);
+  border: 1px solid rgba(77, 175, 255, 0.26);
+  border-radius: 22px;
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.52);
+  max-width: 520px;
+  padding: 24px;
+  width: min(100%, 520px);
+}
+
+.info-dialog-header {
+  align-items: center;
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.info-dialog-header span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.info-dialog .dialog-close {
+  position: static;
+}
+
+.info-dialog h3 {
+  font-size: clamp(24px, 3.6vw, 34px);
+  line-height: 1.08;
+  margin: 0 0 12px;
+}
+
+.info-dialog p {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.58;
+  margin: 0;
 }
 
 .chart-explorer,
@@ -8547,6 +8647,14 @@ button:disabled {
   font-size: 16px;
   line-height: 1.2;
   text-align: right;
+}
+
+.info-drawer summary strong {
+  flex: 0 0 auto;
+  font-size: 0;
+  height: 1px;
+  overflow: hidden;
+  width: 1px;
 }
 
 .report-drawer .report-choice-guide,
