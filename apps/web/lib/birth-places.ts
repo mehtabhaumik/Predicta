@@ -1,4 +1,5 @@
 export type WebBirthPlace = {
+  aliases?: string[];
   label: string;
   latitude: number;
   longitude: number;
@@ -14,6 +15,7 @@ export const WEB_BIRTH_PLACES: WebBirthPlace[] = [
   {
     label: 'Petlad, India',
     city: 'Petlad',
+    aliases: ['Patlad', 'Petelad', 'Petlad Gujarat'],
     country: 'India',
     latitude: 22.4768,
     longitude: 72.7997,
@@ -25,6 +27,7 @@ export const WEB_BIRTH_PLACES: WebBirthPlace[] = [
   {
     label: 'Mumbai, India',
     city: 'Mumbai',
+    aliases: ['Bombay'],
     country: 'India',
     latitude: 19.076,
     longitude: 72.8777,
@@ -36,6 +39,7 @@ export const WEB_BIRTH_PLACES: WebBirthPlace[] = [
   {
     label: 'Ahmedabad, India',
     city: 'Ahmedabad',
+    aliases: ['Ahmd', 'Amd', 'Ahemdabad', 'Ahmedabad Gujarat'],
     country: 'India',
     latitude: 23.0225,
     longitude: 72.5714,
@@ -46,6 +50,7 @@ export const WEB_BIRTH_PLACES: WebBirthPlace[] = [
   },
   {
     label: 'Delhi, India',
+    aliases: ['New Delhi', 'Dilli'],
     city: 'Delhi',
     country: 'India',
     latitude: 28.6139,
@@ -57,6 +62,7 @@ export const WEB_BIRTH_PLACES: WebBirthPlace[] = [
   },
   {
     label: 'New York, USA',
+    aliases: ['NYC', 'New York City', 'New York NY'],
     city: 'New York',
     country: 'United States',
     latitude: 40.7128,
@@ -68,6 +74,7 @@ export const WEB_BIRTH_PLACES: WebBirthPlace[] = [
   },
   {
     label: 'London, UK',
+    aliases: ['London England'],
     city: 'London',
     country: 'United Kingdom',
     latitude: 51.5072,
@@ -76,6 +83,30 @@ export const WEB_BIRTH_PLACES: WebBirthPlace[] = [
     source: 'local-dataset',
     state: 'England',
     timezone: 'Europe/London',
+  },
+  {
+    label: 'Rajkot, India',
+    aliases: ['Rajkot Gujarat'],
+    city: 'Rajkot',
+    country: 'India',
+    latitude: 22.3039,
+    longitude: 70.8022,
+    place: 'Rajkot, Gujarat, India',
+    source: 'local-dataset',
+    state: 'Gujarat',
+    timezone: 'Asia/Kolkata',
+  },
+  {
+    label: 'Sydney, Australia',
+    aliases: ['Sybdny', 'Sydny', 'Sidney', 'Sydney NSW'],
+    city: 'Sydney',
+    country: 'Australia',
+    latitude: -33.8688,
+    longitude: 151.2093,
+    place: 'Sydney, New South Wales, Australia',
+    source: 'local-dataset',
+    state: 'New South Wales',
+    timezone: 'Australia/Sydney',
   },
 ];
 
@@ -86,22 +117,17 @@ export function getBirthPlaceLabel(place: WebBirthPlace): string {
 }
 
 export function searchLocalWebBirthPlaces(query?: string): WebBirthPlace[] {
-  const normalizedQuery = normalizeBirthPlace(query);
+  const normalizedQuery = normalizeBirthPlace(resolveBirthPlaceSearchQuery(query));
 
   if (!normalizedQuery) {
-    return WEB_BIRTH_PLACES.slice(0, 1);
+    return [];
   }
 
   const directMatches = WEB_BIRTH_PLACES.filter(option => {
-    const city = normalizeBirthPlace(option.city ?? option.label.split(',')[0]);
-    const label = normalizeBirthPlace(getBirthPlaceLabel(option));
-    const place = normalizeBirthPlace(option.place);
+    const searchTerms = getBirthPlaceSearchTerms(option);
 
-    return (
-      city.includes(normalizedQuery) ||
-      normalizedQuery.includes(city) ||
-      label.includes(normalizedQuery) ||
-      place.includes(normalizedQuery)
+    return searchTerms.some(
+      term => term.includes(normalizedQuery) || normalizedQuery.includes(term),
     );
   });
 
@@ -111,9 +137,10 @@ export function searchLocalWebBirthPlaces(query?: string): WebBirthPlace[] {
 
   return WEB_BIRTH_PLACES.map(option => ({
     option,
-    score: similarityScore(
-      normalizedQuery,
-      normalizeBirthPlace(option.city ?? option.label.split(',')[0]),
+    score: Math.max(
+      ...getBirthPlaceSearchTerms(option).map(term =>
+        similarityScore(normalizedQuery, term),
+      ),
     ),
   }))
     .filter(item => item.score >= 0.58)
@@ -127,12 +154,13 @@ export async function searchWebBirthPlaces(
   const normalizedQuery = normalizeBirthPlace(query);
 
   if (normalizedQuery.length < 2) {
-    return WEB_BIRTH_PLACES.slice(0, 1);
+    return [];
   }
 
   try {
+    const searchQuery = resolveBirthPlaceSearchQuery(query);
     const response = await fetch(
-      `/api/places/search?q=${encodeURIComponent(query ?? '')}`,
+      `/api/places/search?q=${encodeURIComponent(searchQuery)}`,
       {
         headers: {
           Accept: 'application/json',
@@ -156,37 +184,102 @@ export async function searchWebBirthPlaces(
 }
 
 export function findWebBirthPlace(query?: string): WebBirthPlace | undefined {
-  const normalizedQuery = normalizeBirthPlace(query);
+  const normalizedQuery = normalizeBirthPlace(resolveBirthPlaceSearchQuery(query));
 
   if (!normalizedQuery) {
     return undefined;
   }
 
   return (
+    WEB_BIRTH_PLACES.find(place => doesBirthPlaceMatchQuery(place, query)) ??
     WEB_BIRTH_PLACES.find(place =>
-      normalizeBirthPlace(place.place).includes(normalizedQuery),
-    ) ??
-    WEB_BIRTH_PLACES.find(place =>
-      normalizedQuery.includes(normalizeBirthPlace(place.label)),
-    ) ??
-    WEB_BIRTH_PLACES.find(place =>
-      normalizeBirthPlace(place.label).includes(normalizedQuery),
-    ) ??
-    WEB_BIRTH_PLACES.find(place =>
-      normalizeBirthPlace(place.place)
-        .split(',')
-        .some(part => normalizedQuery.includes(part.trim())),
+      getBirthPlaceSearchTerms(place).some(term => term.includes(normalizedQuery)),
     )
   );
 }
 
-function normalizeBirthPlace(value?: string): string {
+export function doesBirthPlaceMatchQuery(
+  place: WebBirthPlace | undefined,
+  query?: string,
+): boolean {
+  if (!place) {
+    return false;
+  }
+
+  const normalizedQuery = normalizeBirthPlace(resolveBirthPlaceSearchQuery(query));
+
+  if (!normalizedQuery) {
+    return false;
+  }
+
+  return getBirthPlaceSearchTerms(place).some(
+    term =>
+      term === normalizedQuery ||
+      term.includes(normalizedQuery) ||
+      normalizedQuery.includes(term),
+  );
+}
+
+export function resolveBirthPlaceSearchQuery(query?: string): string {
+  const normalizedQuery = normalizeBirthPlace(query);
+
+  if (!normalizedQuery) {
+    return '';
+  }
+
+  const aliasMatch = BIRTH_PLACE_QUERY_ALIASES.find(alias =>
+    alias.matches.includes(normalizedQuery),
+  );
+
+  return aliasMatch?.search ?? query ?? '';
+}
+
+export function normalizeBirthPlace(value?: string): string {
   return (value ?? '')
     .toLowerCase()
     .replace(/[^a-z0-9\s,]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
 }
+
+function getBirthPlaceSearchTerms(place: WebBirthPlace): string[] {
+  return [
+    place.city,
+    place.label,
+    place.place,
+    getBirthPlaceLabel(place),
+    ...(place.aliases ?? []),
+  ]
+    .filter(Boolean)
+    .map(term => normalizeBirthPlace(term))
+    .filter(Boolean);
+}
+
+const BIRTH_PLACE_QUERY_ALIASES: Array<{
+  matches: string[];
+  search: string;
+}> = [
+  {
+    matches: ['nyc', 'new york city'],
+    search: 'New York',
+  },
+  {
+    matches: ['ahmd', 'amd', 'ahemdabad'],
+    search: 'Ahmedabad',
+  },
+  {
+    matches: ['sybdny', 'sydny', 'sidney'],
+    search: 'Sydney',
+  },
+  {
+    matches: ['bombay'],
+    search: 'Mumbai',
+  },
+  {
+    matches: ['patlad', 'petelad'],
+    search: 'Petlad',
+  },
+];
 
 function similarityScore(a: string, b: string): number {
   if (!a || !b) {

@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server';
 import {
   type WebBirthPlace,
+  doesBirthPlaceMatchQuery,
   getBirthPlaceLabel,
+  normalizeBirthPlace,
+  resolveBirthPlaceSearchQuery,
   searchLocalWebBirthPlaces,
 } from '../../../../lib/birth-places';
 
@@ -21,30 +24,32 @@ type OpenMeteoPlace = {
 
 export async function GET(request: Request): Promise<Response> {
   const query = new URL(request.url).searchParams.get('q')?.trim() ?? '';
+  const searchQuery = resolveBirthPlaceSearchQuery(query);
   const localMatches = searchLocalWebBirthPlaces(query).slice(0, 8);
 
   if (query.length < 2) {
-    return NextResponse.json({ places: localMatches });
+    return NextResponse.json({ places: [] });
   }
 
   if (localMatches.length > 0 && hasStrongLocalMatch(query, localMatches)) {
     return NextResponse.json({ places: localMatches.slice(0, 5) });
   }
 
-  const remoteMatches = await searchOpenMeteoPlaces(query);
+  const remoteMatches = await searchOpenMeteoPlaces(searchQuery);
   const places = mergePlaces([...localMatches, ...remoteMatches]).slice(0, 10);
 
   return NextResponse.json({ places });
 }
 
 function hasStrongLocalMatch(query: string, places: WebBirthPlace[]): boolean {
-  const normalizedQuery = normalizePlace(query);
+  const normalizedQuery = normalizeBirthPlace(resolveBirthPlaceSearchQuery(query));
 
   return places.some(place => {
-    const city = normalizePlace(place.city ?? place.label.split(',')[0]);
-    const label = normalizePlace(getBirthPlaceLabel(place));
+    const city = normalizeBirthPlace(place.city ?? place.label.split(',')[0]);
+    const label = normalizeBirthPlace(getBirthPlaceLabel(place));
 
     return (
+      doesBirthPlaceMatchQuery(place, query) ||
       city.includes(normalizedQuery) ||
       normalizedQuery.includes(city) ||
       label.includes(normalizedQuery) ||
@@ -142,14 +147,6 @@ function mergePlaces(places: WebBirthPlace[]): WebBirthPlace[] {
   }
 
   return merged;
-}
-
-function normalizePlace(value?: string): string {
-  return (value ?? '')
-    .toLowerCase()
-    .replace(/[^a-z0-9\s,]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
 }
 
 function similarityScore(a: string, b: string): number {

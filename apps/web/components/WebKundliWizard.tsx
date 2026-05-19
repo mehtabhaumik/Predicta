@@ -20,6 +20,7 @@ import type {
 } from '@pridicta/types';
 import {
   WEB_BIRTH_PLACES,
+  doesBirthPlaceMatchQuery,
   getBirthPlaceLabel,
   searchWebBirthPlaces,
   type WebBirthPlace,
@@ -54,15 +55,9 @@ export function WebKundliWizard(): React.JSX.Element {
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
-  const [selectedPlace, setSelectedPlace] = useState<WebBirthPlace>(
-    WEB_BIRTH_PLACES[0],
-  );
-  const [birthPlaceQuery, setBirthPlaceQuery] = useState(
-    getBirthPlaceLabel(WEB_BIRTH_PLACES[0]),
-  );
-  const [placeSuggestions, setPlaceSuggestions] = useState<WebBirthPlace[]>(
-    WEB_BIRTH_PLACES.slice(0, 1),
-  );
+  const [selectedPlace, setSelectedPlace] = useState<WebBirthPlace | undefined>();
+  const [birthPlaceQuery, setBirthPlaceQuery] = useState('');
+  const [placeSuggestions, setPlaceSuggestions] = useState<WebBirthPlace[]>([]);
   const [isSearchingPlaces, setIsSearchingPlaces] = useState(false);
   const [editingKundliId, setEditingKundliId] = useState<string | undefined>();
   const [editingKundliName, setEditingKundliName] = useState<string | undefined>();
@@ -85,61 +80,79 @@ export function WebKundliWizard(): React.JSX.Element {
   const [showStorageNudge, setShowStorageNudge] = useState(false);
   const [showCreationReveal, setShowCreationReveal] = useState(false);
   const createdChartRef = useRef<HTMLElement | null>(null);
-  const selectedPlaceLabel = getBirthPlaceLabel(selectedPlace);
+  const selectedPlaceLabel = selectedPlace ? getBirthPlaceLabel(selectedPlace) : '';
   const isSelectedPlaceCurrent =
-    normalizeBirthPlaceLabel(birthPlaceQuery) ===
-      normalizeBirthPlaceLabel(selectedPlaceLabel) ||
-    normalizeBirthPlaceLabel(birthPlaceQuery) ===
-      normalizeBirthPlaceLabel(selectedPlace.place);
-  const details = useMemo<BirthDetails>(
-    () => ({
-      date,
-      isTimeApproximate: isApproximate,
-      latitude: selectedPlace.latitude,
-      longitude: selectedPlace.longitude,
-      name: name.trim(),
-      place: selectedPlace.place,
-      originalPlaceText:
-        birthPlaceQuery.trim() === selectedPlaceLabel
-          ? undefined
-          : birthPlaceQuery.trim(),
-      resolvedBirthPlace: {
-        city: selectedPlace.city ?? selectedPlace.label.split(',')[0],
-        country:
-          selectedPlace.country ??
-          selectedPlace.place.split(',').at(-1)?.trim() ??
-          selectedPlace.place,
+    Boolean(selectedPlace) && doesBirthPlaceMatchQuery(selectedPlace, birthPlaceQuery);
+  const details = useMemo<BirthDetails | undefined>(
+    () => {
+      if (!selectedPlace) {
+        return undefined;
+      }
+
+      return {
+        date,
+        isTimeApproximate: isApproximate,
         latitude: selectedPlace.latitude,
         longitude: selectedPlace.longitude,
-        source: selectedPlace.source ?? 'local-dataset',
-        state: selectedPlace.state,
+        name: name.trim(),
+        place: selectedPlace.place,
+        originalPlaceText:
+          birthPlaceQuery.trim() === selectedPlaceLabel
+            ? undefined
+            : birthPlaceQuery.trim(),
+        resolvedBirthPlace: {
+          city: selectedPlace.city ?? selectedPlace.label.split(',')[0],
+          country:
+            selectedPlace.country ??
+            selectedPlace.place.split(',').at(-1)?.trim() ??
+            selectedPlace.place,
+          latitude: selectedPlace.latitude,
+          longitude: selectedPlace.longitude,
+          source: selectedPlace.source ?? 'local-dataset',
+          state: selectedPlace.state,
+          timezone: selectedPlace.timezone,
+        },
+        time,
         timezone: selectedPlace.timezone,
-      },
-      time,
-      timezone: selectedPlace.timezone,
-    }),
+      };
+    },
     [birthPlaceQuery, date, isApproximate, name, selectedPlace, selectedPlaceLabel, time],
   );
   const rectificationEstimate = useMemo<ManualBirthTimeRectificationEstimate>(
-    () =>
-      estimateManualBirthTimeRectification({
+    () => {
+      if (!details) {
+        return {
+          answeredCount: 0,
+          confidence: 'low',
+          evidence: [],
+          minuteAdjustment: 0,
+          originalTime: time,
+          probableTime: time,
+          summary:
+            'Select a matching birth place first so Predicta can check the birth time.',
+        };
+      }
+
+      return estimateManualBirthTimeRectification({
         answers: rectificationAnswers,
         birthDetails: details,
-      }),
-    [details, rectificationAnswers],
+      });
+    },
+    [details, rectificationAnswers, time],
   );
   const hasAnsweredAllRectificationQuestions =
     rectificationEstimate.answeredCount ===
     MANUAL_BIRTH_TIME_RECTIFICATION_QUESTIONS.length;
-  const confirmedDetails =
-    rectificationStep === 'confirm-corrected'
+  const confirmedDetails = details
+    ? rectificationStep === 'confirm-corrected'
       ? applyManualBirthTimeEstimate(details, rectificationEstimate)
       : {
           ...details,
           isTimeApproximate:
             rectificationStep === 'confirm-entered' ? false : isApproximate,
           timeConfidence: 'entered' as const,
-        };
+        }
+    : undefined;
   const confirmationNote: CreationNote =
     rectificationStep === 'confirm-corrected'
       ? {
@@ -193,13 +206,29 @@ export function WebKundliWizard(): React.JSX.Element {
 
     setIsSearchingPlaces(query.length >= 2);
 
+    if (selectedPlace && !doesBirthPlaceMatchQuery(selectedPlace, query)) {
+      setSelectedPlace(undefined);
+    }
+
     const timer = window.setTimeout(() => {
+      if (query.length < 2) {
+        setPlaceSuggestions([]);
+        setIsSearchingPlaces(false);
+        return;
+      }
+
       void searchWebBirthPlaces(query).then(places => {
         if (cancelled) {
           return;
         }
 
         setPlaceSuggestions(places);
+        const exactMatch = places.find(place =>
+          doesBirthPlaceMatchQuery(place, query),
+        );
+        if (exactMatch) {
+          setSelectedPlace(exactMatch);
+        }
         setIsSearchingPlaces(false);
       });
     }, 220);
@@ -208,7 +237,7 @@ export function WebKundliWizard(): React.JSX.Element {
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [birthPlaceQuery]);
+  }, [birthPlaceQuery, selectedPlace]);
 
   useEffect(() => {
     if (!showCreationReveal) {
@@ -257,7 +286,7 @@ export function WebKundliWizard(): React.JSX.Element {
       return;
     }
 
-    if (!isSelectedPlaceCurrent) {
+    if (!details || !selectedPlace || !isSelectedPlaceCurrent) {
       setError(
         'Choose a matching birth place from the suggestions so Predicta can use the correct timezone and coordinates.',
       );
@@ -338,7 +367,7 @@ export function WebKundliWizard(): React.JSX.Element {
     setTime('06:42');
     setSelectedPlace(WEB_BIRTH_PLACES[0]);
     setBirthPlaceQuery(getBirthPlaceLabel(WEB_BIRTH_PLACES[0]));
-    setPlaceSuggestions(WEB_BIRTH_PLACES.slice(0, 1));
+    setPlaceSuggestions([WEB_BIRTH_PLACES[0]]);
     setIsApproximate(false);
     setRectificationStep('idle');
     setRectificationAnswers({});
@@ -358,7 +387,7 @@ export function WebKundliWizard(): React.JSX.Element {
 
   return (
     <div className="kundli-wizard">
-      {isGenerating ? (
+      {isGenerating && confirmedDetails ? (
         <KundliCreationDialog
           birthDetails={confirmedDetails}
           creationNote={activeCreationNote}
@@ -451,8 +480,9 @@ export function WebKundliWizard(): React.JSX.Element {
                   return (
                     <button
                       aria-selected={
-                        normalizeBirthPlaceLabel(optionLabel) ===
-                        normalizeBirthPlaceLabel(selectedPlaceLabel)
+                        selectedPlace
+                          ? doesBirthPlaceMatchQuery(option, selectedPlaceLabel)
+                          : false
                       }
                       key={`${option.place}-${option.latitude}-${option.longitude}`}
                       onClick={() => {
@@ -607,8 +637,9 @@ export function WebKundliWizard(): React.JSX.Element {
         </section>
       ) : null}
 
-      {rectificationStep === 'confirm-entered' ||
-      rectificationStep === 'confirm-corrected' ? (
+      {(rectificationStep === 'confirm-entered' ||
+        rectificationStep === 'confirm-corrected') &&
+      confirmedDetails ? (
         <BirthDetailsConfirmation
           birthDetails={confirmedDetails}
           creationNote={confirmationNote}
