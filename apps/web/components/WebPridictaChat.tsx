@@ -140,7 +140,7 @@ type ReplyFeedbackSignal = {
   messageHash: string;
   messageId: string;
   route: string;
-  school: 'KP' | 'NADI' | 'NUMEROLOGY' | 'PARASHARI';
+  school: 'KP' | 'NADI' | 'NUMEROLOGY' | 'SIGNATURE' | 'PARASHARI';
   selectedChart?: string;
   selectedHouse?: number;
   selectedPlanet?: string;
@@ -168,7 +168,7 @@ type StarRatingSignal = {
   rating: number;
   replyCount: number;
   route: string;
-  school: 'KP' | 'NADI' | 'NUMEROLOGY' | 'PARASHARI';
+  school: 'KP' | 'NADI' | 'NUMEROLOGY' | 'SIGNATURE' | 'PARASHARI';
   selectedChart?: string;
   selectedHouse?: number;
   selectedPlanet?: string;
@@ -206,7 +206,7 @@ type WebChatSession = {
   messages: WebMessage[];
   predictaMemory?: PredictaInteractionMemory;
   replyLanguage: SupportedLanguage;
-  school?: 'KP' | 'NADI' | 'NUMEROLOGY' | 'PARASHARI';
+  school?: 'KP' | 'NADI' | 'NUMEROLOGY' | 'SIGNATURE' | 'PARASHARI';
   selectedChart?: string;
   selectedHouse?: number;
   title: string;
@@ -2240,6 +2240,10 @@ function getReplyFeedbackSchool(
     return 'NUMEROLOGY';
   }
 
+  if (context?.predictaSchool === 'SIGNATURE') {
+    return 'SIGNATURE';
+  }
+
   return 'PARASHARI';
 }
 
@@ -3745,6 +3749,7 @@ function chartContextFromParams(params: URLSearchParams): ChartContext | undefin
     school === 'KP' ||
     school === 'NADI' ||
     school === 'NUMEROLOGY' ||
+    school === 'SIGNATURE' ||
     school === 'PARASHARI'
   ) {
     return {
@@ -3753,8 +3758,9 @@ function chartContextFromParams(params: URLSearchParams): ChartContext | undefin
       handoffFrom:
         params.get('from') === 'KP' ||
         params.get('from') === 'NADI' ||
-        params.get('from') === 'NUMEROLOGY'
-          ? (params.get('from') as 'KP' | 'NADI' | 'NUMEROLOGY')
+        params.get('from') === 'NUMEROLOGY' ||
+        params.get('from') === 'SIGNATURE'
+          ? (params.get('from') as 'KP' | 'NADI' | 'NUMEROLOGY' | 'SIGNATURE')
           : 'PARASHARI',
       handoffQuestion: handoffQuestion ?? params.get('prompt') ?? undefined,
       kundliId,
@@ -3911,6 +3917,8 @@ function buildSchoolContextIntro(
         ? 'Nadi Predicta'
         : context.predictaSchool === 'NUMEROLOGY'
           ? 'Numerology Predicta'
+          : context.predictaSchool === 'SIGNATURE'
+            ? 'Signature Predicta'
         : 'Regular Predicta';
   const question = context.handoffQuestion ?? context.selectedSection;
   const chartFocus = context.chartName ?? context.chartType;
@@ -3926,6 +3934,8 @@ function buildSchoolContextIntro(
           ? 'Nadi Predicta ready hai. Main planetary story links aur validation questions se padhungi; ancient palm-leaf access ka daava nahi karungi.'
       : context.predictaSchool === 'NUMEROLOGY'
           ? 'Ab answer name number, birth number, destiny number, personal timing aur name rhythm par grounded rahega.'
+      : context.predictaSchool === 'SIGNATURE'
+          ? 'Ab answer confirmed signature traits, self-expression patterns, improvement suggestions aur safe reflection par grounded rahega. Yeh identity verification, handwriting forensics, legal proof ya diagnosis nahi hai.'
           : 'Ab answer regular Parashari Jyotish context mein rahega.',
       'Press Ask, ya apna follow-up likhiye.',
     ]
@@ -3944,6 +3954,8 @@ function buildSchoolContextIntro(
           ? 'Nadi Predicta ready chhe. Hu planetary story links ane validation questions thi padhish; ancient palm-leaf access no daavo nahi karu.'
       : context.predictaSchool === 'NUMEROLOGY'
           ? 'Have answer name number, birth number, destiny number, personal timing ane name rhythm par grounded rahe.'
+      : context.predictaSchool === 'SIGNATURE'
+          ? 'Have answer confirmed signature traits, self-expression patterns, improvement suggestions ane safe reflection par grounded rahe. Aa identity verification, handwriting forensics, legal proof ke diagnosis nathi.'
           : 'Have answer regular Parashari Jyotish context ma rahe.',
       'Ask dabavo, athva tamaro follow-up lakho.',
     ]
@@ -3961,6 +3973,8 @@ function buildSchoolContextIntro(
         ? 'Nadi Predicta is ready. I will read through planetary story links and validation questions, without claiming access to an ancient palm-leaf record.'
     : context.predictaSchool === 'NUMEROLOGY'
         ? 'The answer will now stay grounded in name number, birth number, destiny number, personal timing, and name rhythm.'
+    : context.predictaSchool === 'SIGNATURE'
+        ? 'The answer will now stay grounded in confirmed signature traits, self-expression patterns, improvement suggestions, and safe reflection. It is not identity verification, handwriting forensics, legal proof, or diagnosis.'
         : 'The answer will now stay in regular Parashari Jyotish.',
     'Press Ask, or type your follow-up.',
   ]
@@ -4336,6 +4350,9 @@ function getSchoolFromContext(
   }
   if (context?.predictaSchool === 'NUMEROLOGY') {
     return 'NUMEROLOGY';
+  }
+  if (context?.predictaSchool === 'SIGNATURE') {
+    return 'SIGNATURE';
   }
   return 'PARASHARI';
 }

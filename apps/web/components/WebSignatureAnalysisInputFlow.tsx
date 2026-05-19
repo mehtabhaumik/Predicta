@@ -554,6 +554,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
 
     router.push(
       buildPredictaChatHref({
+        school: 'SIGNATURE',
         prompt:
           analysisModel.status === 'ready'
             ? `Open Signature Predicta. Use these confirmed signature traits. ${modelContext}`

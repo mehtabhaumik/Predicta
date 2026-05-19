@@ -1691,7 +1691,12 @@ export type ChartContext = {
 
 export type ChatRole = 'user' | 'pridicta';
 
-export type PredictaSchool = 'PARASHARI' | 'KP' | 'NADI' | 'NUMEROLOGY';
+export type PredictaSchool =
+  | 'PARASHARI'
+  | 'KP'
+  | 'NADI'
+  | 'NUMEROLOGY'
+  | 'SIGNATURE';
 
 export type ChatChartInsight = {
   title: string;

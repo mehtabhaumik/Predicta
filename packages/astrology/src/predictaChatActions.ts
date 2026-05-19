@@ -24,6 +24,7 @@ import { composeRemedyCoach } from './remedyCoach';
 import { composeRelationshipMirror } from './relationshipMirror';
 import { composeSadhanaRemedyPath } from './sadhanaRemedyPath';
 import { composeSadeSatiIntelligence } from './sadeSatiIntelligence';
+import { composeSignatureAnalysisModel } from './signatureAnalysisModel';
 import { composeTransitGocharIntelligence } from './transitGocharIntelligence';
 import { composeYearlyHoroscopeVarshaphal } from './yearlyHoroscopeVarshaphal';
 
@@ -45,6 +46,8 @@ export type PredictaAppActionId =
   | 'nadi-handoff'
   | 'numerology-handoff'
   | 'numerology-predicta'
+  | 'signature-handoff'
+  | 'signature-predicta'
   | 'holistic-reading-rooms'
   | 'personal-panchang'
   | 'pricing'
@@ -184,6 +187,16 @@ const ACTION_PATTERNS: Array<{
     id: 'numerology-handoff',
     pattern:
       /\b(numerology|ank\s*jyotish|ankjyotish|number\s*reading|name\s*vibration|name\s*correction)\b/i,
+  },
+  {
+    id: 'signature-predicta',
+    pattern:
+      /\b(signature\s*predicta|signature\s*room|signature\s*analysis|signature\s*reading|read\s*my\s*signature|analyse\s*my\s*signature|analyze\s*my\s*signature|signature\s*improvement|signature\s*change|hastakshar\s*analysis|sahi\s*analysis)\b/i,
+  },
+  {
+    id: 'signature-handoff',
+    pattern:
+      /\b(signature|autograph|hastakshar|sahi|handwriting\s*signature)\b/i,
   },
   {
     id: 'life-timeline',
@@ -591,6 +604,20 @@ function resolveSchoolAwareAction(
     return 'numerology-handoff';
   }
 
+  if (
+    predictaSchool === 'SIGNATURE' &&
+    (action === 'signature-handoff' || action === 'signature-predicta')
+  ) {
+    return 'signature-predicta';
+  }
+
+  if (
+    predictaSchool !== 'SIGNATURE' &&
+    action === 'signature-predicta'
+  ) {
+    return 'signature-handoff';
+  }
+
   return action;
 }
 
@@ -601,6 +628,8 @@ function actionRequiresKundli(action: PredictaAppActionId): boolean {
     'nadi-handoff',
     'numerology-handoff',
     'numerology-predicta',
+    'signature-handoff',
+    'signature-predicta',
     'pricing',
     'saved-kundlis',
   ].includes(action);
@@ -700,6 +729,23 @@ function buildActionText({
       buildNumerologyPredictaReply(language, kundli, hasPremiumAccess),
       insight,
       buildUpsell(language, 'numerology-predicta', hasPremiumAccess),
+    ]);
+  }
+
+  if (action === 'signature-handoff') {
+    return joinSections([
+      intro,
+      signatureHandoffReply(language),
+      insight,
+    ]);
+  }
+
+  if (action === 'signature-predicta') {
+    return joinSections([
+      intro,
+      buildSignaturePredictaReply(language, text, hasPremiumAccess),
+      insight,
+      buildUpsell(language, 'signature-predicta', hasPremiumAccess),
     ]);
   }
 
@@ -1899,6 +1945,80 @@ function buildNumerologyPredictaReply(
     .join('\n\n');
 }
 
+function signatureHandoffReply(language: SupportedLanguage): string {
+  if (language === 'hi') {
+    return [
+      'Yeh Signature Predicta ka kaam hai. Main ise Kundli, KP, Nadi, ya Numerology ke saath casually mix nahi karungi.',
+      'Neeche “Signature Predicta kholo” dabaiye. Main aapka question wahan le jaungi.',
+      'Signature Predicta confirmed visual traits, self-expression pattern, aur practical improvement suggestions se answer karegi. Yeh identity verification, handwriting forensics, legal proof, medical diagnosis, hiring advice, ya guaranteed prediction nahi hai.',
+    ].join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      'Aa Signature Predicta nu kaam chhe. Hu ene Kundli, KP, Nadi, ke Numerology sathe casually mix nahi karu.',
+      'Niche “Signature Predicta kholo” dabavo. Hu tamaro question tya lai jaish.',
+      'Signature Predicta confirmed visual traits, self-expression pattern ane practical improvement suggestions thi jawab aapse. Aa identity verification, handwriting forensics, legal proof, medical diagnosis, hiring advice ke guaranteed prediction nathi.',
+    ].join('\n\n');
+  }
+
+  return [
+    'That belongs to Signature Predicta. I will not casually mix it with Kundli, KP, Nadi, or Numerology methods.',
+    'Use “Open Signature Predicta” below. I will carry your question into the signature room.',
+    'Signature Predicta reads confirmed visual traits, self-expression patterns, and practical improvement suggestions. It is not identity verification, handwriting forensics, legal proof, medical diagnosis, hiring advice, or a guaranteed prediction.',
+  ].join('\n\n');
+}
+
+function buildSignaturePredictaReply(
+  language: SupportedLanguage,
+  text: string,
+  hasPremiumAccess: boolean,
+): string {
+  const pending = composeSignatureAnalysisModel({
+    inputSource: 'manual-observation',
+  });
+  const promptHasConfirmedTraits = /signature\s*predicta\s*context|observed\s*traits|confirmed\s*signature\s*traits/i.test(
+    text,
+  );
+  const premiumLine = hasPremiumAccess
+    ? 'Premium depth is active: I can compare repeated signature samples, name rhythm, numerology, and Kundli context only when you explicitly ask for synthesis.'
+    : 'Free insight stays useful. Premium adds deeper comparison, name rhythm, optional numerology/Kundli synthesis, and a polished signature report.';
+
+  if (language === 'hi') {
+    return [
+      'Signature Predicta mode: main signature ko self-expression aur personal rhythm ke layer ki tarah padhungi.',
+      promptHasConfirmedTraits
+        ? 'Aapke confirmed signature traits mil gaye hain. Main unhi traits se reading karungi, guesswork nahi.'
+        : 'Pehle upload/draw signature karein ya visual traits confirm karein: size, slant, pressure, spacing, baseline, legibility, flourish, underline.',
+      'Main improvement suggestions de sakti hoon: cleaner readability, steadier baseline, balanced size, calmer spacing, aur confidence-friendly rhythm.',
+      pending.safetyBoundaries.join(' '),
+      premiumLine,
+    ].join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      'Signature Predicta mode: hu signature ne self-expression ane personal rhythm na layer tariqe padhish.',
+      promptHasConfirmedTraits
+        ? 'Tamara confirmed signature traits mali gaya chhe. Hu e traits thi reading karish, guesswork nahi.'
+        : 'Pehla signature upload/draw karo athva visual traits confirm karo: size, slant, pressure, spacing, baseline, legibility, flourish, underline.',
+      'Hu improvement suggestions api shaku chhu: cleaner readability, steadier baseline, balanced size, calmer spacing ane confidence-friendly rhythm.',
+      pending.safetyBoundaries.join(' '),
+      premiumLine,
+    ].join('\n\n');
+  }
+
+  return [
+    'Signature Predicta mode: I will read the signature as a self-expression and personal rhythm layer.',
+    promptHasConfirmedTraits
+      ? 'I have the confirmed signature traits. I will read only from those traits, not guess from hidden identity or document authenticity.'
+      : 'First upload/draw a signature or confirm visible traits: size, slant, pressure, spacing, baseline, legibility, flourish, and underline.',
+    'I can suggest improvements for clearer readability, steadier baseline, balanced size, calmer spacing, and more confident visual rhythm.',
+    pending.safetyBoundaries.join(' '),
+    premiumLine,
+  ].join('\n\n');
+}
+
 function buildMemoryInsight(
   language: SupportedLanguage,
   memory: PredictaInteractionMemory | undefined,
@@ -2004,6 +2124,8 @@ function buildUpsell(
       ? 'Turn this into a KP event reading when you want cusp-by-cusp sub-lord judgment, significator strength, ruling-planet checks, dasha support, and event-focused report depth.'
       : action === 'numerology-predicta'
       ? 'Turn this into a numerology life map when you want name spelling comparison, personal year/month/day planning, compatibility numbers, and a polished report.'
+      : action === 'signature-predicta'
+      ? 'Turn this into a signature expression report when you want deeper trait comparison, improvement practices, name rhythm, and optional Kundli or numerology synthesis.'
       : action === 'life-timeline'
       ? 'Turn this into a Life Calendar when you want monthly dasha/transit cards with reminders.'
       : action === 'holistic-daily-guidance'
@@ -2101,6 +2223,9 @@ function inferThemes(text: string, action?: PredictaAppActionId): string[] {
   }
   if (/\b(numerology|name\s*number|birth\s*number|destiny\s*number|life\s*path|personal\s*(year|month|day)|ank\s*jyotish|moolank|mulank|bhagyank)\b/i.test(normalized)) {
     themes.push('numerology');
+  }
+  if (/\b(signature|autograph|hastakshar|sahi|handwriting\s*signature)\b/i.test(normalized)) {
+    themes.push('signature');
   }
   if (/\b(timing|when|dasha|transit|calendar)\b/i.test(normalized)) {
     themes.push('timing');

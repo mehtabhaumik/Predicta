@@ -2102,6 +2102,8 @@ function buildMobileSchoolContextIntro(
         ? 'Nadi Predicta'
         : context?.predictaSchool === 'NUMEROLOGY'
           ? 'Numerology Predicta'
+          : context?.predictaSchool === 'SIGNATURE'
+            ? 'Signature Predicta'
         : 'Regular Predicta';
   const question = context?.handoffQuestion ?? context?.selectedSection;
   const chartFocus = context?.chartName ?? context?.chartType;
@@ -2117,6 +2119,8 @@ function buildMobileSchoolContextIntro(
           ? 'Nadi Predicta ready hai. Main planetary story links aur validation questions se padhungi; ancient manuscript access ka daava nahi karungi.'
           : context?.predictaSchool === 'NUMEROLOGY'
             ? 'Ab answer name number, birth number, destiny number, personal timing aur name rhythm par grounded rahega.'
+            : context?.predictaSchool === 'SIGNATURE'
+              ? 'Ab answer confirmed signature traits, self-expression patterns, improvement suggestions aur safe reflection par grounded rahega. Yeh identity verification ya forensic proof nahi hai.'
           : 'Ab answer regular Parashari Jyotish context mein rahega.',
       'Ask dabaiye, ya apna follow-up likhiye.',
     ]
@@ -2135,6 +2139,8 @@ function buildMobileSchoolContextIntro(
           ? 'Nadi Predicta ready chhe. Hu planetary story links ane validation questions thi padhish; ancient manuscript access no daavo nahi karu.'
           : context?.predictaSchool === 'NUMEROLOGY'
             ? 'Have answer name number, birth number, destiny number, personal timing ane name rhythm par grounded rahe.'
+            : context?.predictaSchool === 'SIGNATURE'
+              ? 'Have answer confirmed signature traits, self-expression patterns, improvement suggestions ane safe reflection par grounded rahe. Aa identity verification ke forensic proof nathi.'
           : 'Have answer regular Parashari Jyotish context ma rahe.',
       'Ask dabavo, athva tamaro follow-up lakho.',
     ]
@@ -2152,6 +2158,8 @@ function buildMobileSchoolContextIntro(
         ? 'Nadi Predicta is ready. I will read through planetary story links and validation questions, without claiming ancient manuscript access.'
         : context?.predictaSchool === 'NUMEROLOGY'
           ? 'The answer will now stay grounded in name number, birth number, destiny number, personal timing, and name rhythm.'
+          : context?.predictaSchool === 'SIGNATURE'
+            ? 'The answer will now stay grounded in confirmed signature traits, self-expression patterns, improvement suggestions, and safe reflection. It is not identity verification or forensic proof.'
         : 'The answer will now stay in regular Parashari Jyotish.',
     'Press Ask, or type your follow-up.',
   ]

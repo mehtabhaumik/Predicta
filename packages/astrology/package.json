@@ -9,6 +9,7 @@
     "build": "tsc --noEmit",
     "lint": "eslint src --ext .ts",
     "test:numerology": "node ../../scripts/run-numerology-foundation-model.mjs",
+    "test:signature-room": "node ../../scripts/run-signature-predicta-room.mjs",
     "test:signature": "node ../../scripts/run-signature-analysis-model.mjs",
     "stress:charts": "node ../../scripts/run-chart-stress-suite.mjs",
     "typecheck": "tsc --noEmit",
