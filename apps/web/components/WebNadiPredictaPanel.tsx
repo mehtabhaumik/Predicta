@@ -11,6 +11,24 @@ import {
 } from '../lib/web-auto-save-memory';
 import { Card } from './Card';
 
+const NADI_WORLD_PROOF_CARDS = [
+  {
+    body:
+      'Nadi Predicta reads planet-to-planet story links and karmic themes from the calculated chart.',
+    title: 'Story links',
+  },
+  {
+    body:
+      'It asks validation questions before strong event-level statements, so the reading stays careful.',
+    title: 'Validation first',
+  },
+  {
+    body:
+      'It never claims access to an ancient palm-leaf manuscript. The source is your calculated chart.',
+    title: 'Clear source',
+  },
+] as const;
+
 type WebNadiPredictaPanelProps = {
   handoffQuestion?: string;
   hasPremiumAccess?: boolean;
@@ -94,7 +112,25 @@ export function WebNadiPredictaPanel({
                 manuscripts.
               </p>
             </div>
-            <span className="school-badge premium">Premium Nadi</span>
+            <div className="world-hero-actions">
+              <span className="school-badge premium">Nadi world</span>
+              <a className="button primary" href={askHref}>
+                Chat with Nadi Predicta
+              </a>
+              <Link className="button secondary" href="/dashboard/report">
+                Build Nadi report
+              </Link>
+            </div>
+          </div>
+
+          <div className="school-grid">
+            {NADI_WORLD_PROOF_CARDS.map(card => (
+              <div key={card.title}>
+                <span>Proof</span>
+                <strong>{card.title}</strong>
+                <p>{card.body}</p>
+              </div>
+            ))}
           </div>
 
           <div className="school-explain-box">

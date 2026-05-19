@@ -14,6 +14,11 @@ type VedicWorldCopy = {
     create: string;
     reports: string;
   };
+  report: {
+    body: string;
+    cta: string;
+    title: string;
+  };
   cards: Array<{
     body: string;
     title: string;
@@ -63,6 +68,12 @@ const VEDIC_WORLD_COPY: Record<SupportedLanguage, VedicWorldCopy> = {
         'KP, Nadi, Numerology, and Signature now have their own worlds. Vedic Predicta stays focused on the core Jyotish reading.',
       title: 'Separate worlds, shared Kundli',
     },
+    report: {
+      body:
+        'Turn the Vedic reading into a polished Kundli, career, marriage, wealth, remedies, or timing report.',
+      cta: 'Build Vedic report',
+      title: 'Vedic report path',
+    },
   },
   hi: {
     actions: {
@@ -96,6 +107,12 @@ const VEDIC_WORLD_COPY: Record<SupportedLanguage, VedicWorldCopy> = {
       body:
         'KP, नाड़ी, अंक ज्योतिष और हस्ताक्षर के अपने अलग संसार हैं. वैदिक प्रेडिक्टा मुख्य ज्योतिष रीडिंग पर केंद्रित रहती है.',
       title: 'अलग संसार, साझा कुंडली',
+    },
+    report: {
+      body:
+        'वैदिक रीडिंग को कुंडली, करियर, विवाह, धन, उपाय या समय रिपोर्ट में बदलें.',
+      cta: 'वैदिक रिपोर्ट बनाएं',
+      title: 'वैदिक रिपोर्ट मार्ग',
     },
   },
   gu: {
@@ -131,6 +148,12 @@ const VEDIC_WORLD_COPY: Record<SupportedLanguage, VedicWorldCopy> = {
         'KP, નાડી, અંક જ્યોતિષ અને સહીના પોતાના અલગ વર્લ્ડ્સ છે. વેદિક પ્રેડિક્ટા મુખ્ય જ્યોતિષ રીડિંગ પર કેન્દ્રિત રહે છે.',
       title: 'અલગ વર્લ્ડ્સ, શેર કરેલી કુંડળી',
     },
+    report: {
+      body:
+        'વેદિક રીડિંગને કુંડળી, કરિયર, લગ્ન, પૈસા, ઉપાયો અથવા timing રિપોર્ટમાં બદલો.',
+      cta: 'વેદિક રિપોર્ટ બનાવો',
+      title: 'વેદિક રિપોર્ટ માર્ગ',
+    },
   },
 };
 
@@ -156,9 +179,15 @@ export default function VedicPredictaPage(): React.JSX.Element {
             <h1 className="gradient-text">{copy.hero.title}</h1>
             <p>{copy.hero.body}</p>
           </div>
-          <Link className="button primary" href={chatHref}>
-            {copy.actions.chat}
-          </Link>
+          <div className="world-hero-actions">
+            <span className="school-badge premium">Vedic world</span>
+            <Link className="button primary" href={chatHref}>
+              {copy.actions.chat}
+            </Link>
+            <Link className="button secondary" href="/dashboard/report">
+              {copy.report.cta}
+            </Link>
+          </div>
         </section>
 
         <section className="school-grid">
@@ -179,7 +208,7 @@ export default function VedicPredictaPage(): React.JSX.Element {
           </div>
           <div className="action-row">
             <Link className="button secondary" href="/dashboard/kundli">
-              {activeKundli ? copy.actions.create : copy.actions.create}
+              {copy.actions.create}
             </Link>
             <Link className="button secondary" href="/dashboard/charts">
               {copy.actions.charts}
@@ -189,6 +218,19 @@ export default function VedicPredictaPage(): React.JSX.Element {
             </Link>
             <Link className="button secondary" href="/dashboard/report">
               {copy.actions.reports}
+            </Link>
+          </div>
+        </section>
+
+        <section className="glass-panel">
+          <div className="section-heading-row">
+            <div>
+              <p className="section-title">REPORT PATH</p>
+              <h2>{copy.report.title}</h2>
+              <p>{copy.report.body}</p>
+            </div>
+            <Link className="button primary" href="/dashboard/report">
+              {copy.report.cta}
             </Link>
           </div>
         </section>

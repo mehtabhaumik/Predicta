@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
   useEffect,
@@ -56,10 +57,19 @@ type SignatureCopy = {
     items: string[];
     title: string;
   };
+  proof: Array<{
+    body: string;
+    title: string;
+  }>;
   preview: {
     body: string;
     empty: string;
     ready: string;
+    title: string;
+  };
+  report: {
+    body: string;
+    cta: string;
     title: string;
   };
   safety: {
@@ -169,12 +179,35 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
       ],
       title: 'Privacy first',
     },
+    proof: [
+      {
+        body:
+          'Predicta reads visible signature traits only after you upload, draw, or confirm them.',
+        title: 'Visible traits',
+      },
+      {
+        body:
+          'The reading stays reflective. It does not verify identity, diagnose health, or make legal claims.',
+        title: 'Safe boundary',
+      },
+      {
+        body:
+          'Signature reading can later be combined with Numerology only when you ask for synthesis.',
+        title: 'Optional synthesis',
+      },
+    ],
     preview: {
       body:
         'Once a signature is ready, Predicta can explain what shape, pressure, spacing, and rhythm usually represent in simple language.',
       empty: 'No signature selected yet.',
       ready: 'Signature ready locally',
       title: 'Signature preview',
+    },
+    report: {
+      body:
+        'Turn the confirmed signature traits into a reflection report, improvement plan, or Signature + Numerology synthesis.',
+      cta: 'Build Signature report',
+      title: 'Signature report path',
     },
     safety: {
       body:
@@ -224,12 +257,35 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
       ],
       title: 'पहले privacy',
     },
+    proof: [
+      {
+        body:
+          'प्रेडिक्टा केवल वही हस्ताक्षर traits पढ़ती है जिन्हें आप upload, draw या confirm करते हैं.',
+        title: 'दिखने वाले traits',
+      },
+      {
+        body:
+          'यह reading reflection के लिए है. यह identity, health diagnosis या legal claim नहीं करती.',
+        title: 'सुरक्षित सीमा',
+      },
+      {
+        body:
+          'Signature reading को Numerology के साथ तभी जोड़ा जाता है जब आप synthesis मांगते हैं.',
+        title: 'वैकल्पिक synthesis',
+      },
+    ],
     preview: {
       body:
         'हस्ताक्षर तैयार होने के बाद प्रेडिक्टा shape, pressure, spacing और rhythm का सरल अर्थ समझा सकती है.',
       empty: 'अभी कोई हस्ताक्षर चयनित नहीं है.',
       ready: 'हस्ताक्षर यहां तैयार है',
       title: 'हस्ताक्षर preview',
+    },
+    report: {
+      body:
+        'Confirm किए गए हस्ताक्षर traits को reflection report, improvement plan या Signature + Numerology synthesis में बदलें.',
+      cta: 'Signature report बनाएं',
+      title: 'Signature report मार्ग',
     },
     safety: {
       body:
@@ -315,12 +371,35 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
       ],
       title: 'પહેલા privacy',
     },
+    proof: [
+      {
+        body:
+          'પ્રેડિક્ટા ફક્ત તે સહી traits વાંચે છે જેને તમે upload, draw અથવા confirm કરો છો.',
+        title: 'દેખાતા traits',
+      },
+      {
+        body:
+          'આ reading reflection માટે છે. તે identity, health diagnosis અથવા legal claim કરતી નથી.',
+        title: 'સુરક્ષિત સીમા',
+      },
+      {
+        body:
+          'Signature reading ને Numerology સાથે ત્યારે જ જોડવામાં આવે છે જ્યારે તમે synthesis માંગો છો.',
+        title: 'વૈકલ્પિક synthesis',
+      },
+    ],
     preview: {
       body:
         'સહી તૈયાર થયા પછી પ્રેડિક્ટા shape, pressure, spacing અને rhythm નો સરળ અર્થ સમજાવી શકે છે.',
       empty: 'હજુ કોઈ સહી પસંદ કરેલી નથી.',
       ready: 'સહી અહીં તૈયાર છે',
       title: 'સહી preview',
+    },
+    report: {
+      body:
+        'Confirm કરેલા સહી traits ને reflection report, improvement plan અથવા Signature + Numerology synthesis માં બદલો.',
+      cta: 'Signature report બનાવો',
+      title: 'Signature report માર્ગ',
     },
     safety: {
       body:
@@ -606,6 +685,19 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
           <div className="section-title">{copy.hero.eyebrow}</div>
           <h2>{copy.hero.title}</h2>
           <p>{copy.hero.body}</p>
+          <div className="world-hero-actions inline">
+            <button
+              className="button primary"
+              disabled={!canContinue}
+              onClick={continueToPredicta}
+              type="button"
+            >
+              {copy.actions.askPredicta}
+            </button>
+            <Link className="button secondary" href="/dashboard/report">
+              {copy.report.cta}
+            </Link>
+          </div>
         </div>
         <div className="signature-privacy-card">
           <span>{copy.privacy.title}</span>
@@ -615,6 +707,16 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
             ))}
           </ul>
         </div>
+      </section>
+
+      <section className="school-grid">
+        {copy.proof.map(card => (
+          <article className="glass-panel" key={card.title}>
+            <span>Proof</span>
+            <strong>{card.title}</strong>
+            <p>{card.body}</p>
+          </article>
+        ))}
       </section>
 
       <div className="signature-input-grid">
@@ -762,6 +864,17 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
       <section className="signature-safety-panel glass-panel">
         <div className="section-title">{copy.safety.title}</div>
         <p>{copy.safety.body}</p>
+      </section>
+
+      <section className="signature-safety-panel glass-panel">
+        <div className="section-title">REPORT PATH</div>
+        <h2>{copy.report.title}</h2>
+        <p>{copy.report.body}</p>
+        <div className="action-row">
+          <Link className="button secondary" href="/dashboard/report">
+            {copy.report.cta}
+          </Link>
+        </div>
       </section>
     </>
   );

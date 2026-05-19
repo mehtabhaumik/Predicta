@@ -5780,9 +5780,36 @@ button:disabled {
   box-shadow: 0 0 30px rgba(255, 195, 77, 0.14);
 }
 
+.world-hero-actions {
+  align-items: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 12px;
+  min-width: min(260px, 100%);
+}
+
+.world-hero-actions.inline {
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.world-hero-actions .button {
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+}
+
+.world-hero-actions.inline .button {
+  width: auto;
+}
+
 .school-explain-box,
 .school-callout,
 .school-empty,
+.school-grid > article,
 .school-grid > div {
   background: rgba(255, 255, 255, 0.055);
   border: 1px solid var(--border);
@@ -5795,6 +5822,7 @@ button:disabled {
 }
 
 .school-explain-box strong,
+.school-grid > article strong,
 .school-grid strong {
   color: var(--text);
   display: block;
@@ -5803,6 +5831,7 @@ button:disabled {
 .school-explain-box p,
 .school-callout,
 .school-empty,
+.school-grid > article p,
 .school-grid p {
   color: var(--muted);
   margin: 8px 0 0;
@@ -5823,6 +5852,7 @@ button:disabled {
   grid-template-columns: repeat(2, minmax(280px, 1fr));
 }
 
+.school-grid > article span,
 .school-grid span {
   color: var(--muted);
   display: block;
@@ -5831,6 +5861,7 @@ button:disabled {
   text-transform: uppercase;
 }
 
+.school-grid > article strong,
 .school-grid strong {
   font-size: 24px;
   line-height: 1.1;
@@ -11526,12 +11557,22 @@ button:disabled {
 
   .gochar-badge,
   .school-badge,
+  .world-hero-actions,
   .saturn-badge,
   .depth-badge,
   .gochar-cta-row .button,
   .saturn-cta-row .button,
   .mahadasha-cta-row .button {
     text-align: left;
+    width: 100%;
+  }
+
+  .world-hero-actions.inline {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .world-hero-actions.inline .button {
     width: 100%;
   }
 

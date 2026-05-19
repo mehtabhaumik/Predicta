@@ -5,6 +5,24 @@ import { composeNumerologyFoundationModel } from '@pridicta/astrology';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 
+const NUMEROLOGY_WORLD_PROOF_CARDS = [
+  {
+    body:
+      'The room starts from the saved name, birth date, and current date before offering guidance.',
+    title: 'Calculated numbers',
+  },
+  {
+    body:
+      'Name number, birth number, destiny number, and personal timing are kept visible and explainable.',
+    title: 'Proof-first reading',
+  },
+  {
+    body:
+      'If the user asks for Vedic, KP, Nadi, or Signature analysis, the room should hand off instead of mixing methods.',
+    title: 'Clean boundaries',
+  },
+] as const;
+
 export function WebNumerologyPredictaPanel(): React.JSX.Element {
   const { activeKundli } = useWebKundliLibrary();
   const profile = composeNumerologyFoundationModel(activeKundli?.birthDetails);
@@ -33,7 +51,25 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
             and Signature unless you ask for a careful synthesis.
           </p>
         </div>
-        <div className="school-badge premium">Specialist room</div>
+        <div className="world-hero-actions">
+          <span className="school-badge premium">Numerology world</span>
+          <Link className="button primary" href={chatHref}>
+            Chat with Numerology Predicta
+          </Link>
+          <Link className="button secondary" href="/dashboard/report">
+            Build Numerology report
+          </Link>
+        </div>
+      </section>
+
+      <section className="school-grid">
+        {NUMEROLOGY_WORLD_PROOF_CARDS.map(card => (
+          <article className="glass-panel" key={card.title}>
+            <span>Proof</span>
+            <strong>{card.title}</strong>
+            <p>{card.body}</p>
+          </article>
+        ))}
       </section>
 
       <section className="glass-panel">
@@ -101,7 +137,7 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
         </p>
         <div className="action-row">
           <Link className="button secondary" href="/dashboard/report">
-            Add to report
+            Build Numerology report
           </Link>
           <Link className="button secondary" href="/dashboard/kundli">
             Select Kundli

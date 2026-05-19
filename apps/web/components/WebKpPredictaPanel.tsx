@@ -49,6 +49,24 @@ const KP_EVENT_FOCUS: Array<{
   },
 ];
 
+const KP_WORLD_PROOF_CARDS = [
+  {
+    body:
+      'KP starts with the event question and relevant houses before judging promise or timing.',
+    title: 'Event-first judgement',
+  },
+  {
+    body:
+      'Cusps, star lords, sub lords, ruling planets, significators, and dasha support stay inside KP.',
+    title: 'KP proof path',
+  },
+  {
+    body:
+      'Career, money, marriage, and property questions get their own KP house logic.',
+    title: 'Focused outcomes',
+  },
+] as const;
+
 type WebKpPredictaPanelProps = {
   handoffQuestion?: string;
   hasPremiumAccess?: boolean;
@@ -140,7 +158,25 @@ export function WebKpPredictaPanel({
                 </p>
               </details>
             </div>
-            <span className="school-badge premium">KP world</span>
+            <div className="world-hero-actions">
+              <span className="school-badge premium">KP world</span>
+              <a className="button primary" href={askHref}>
+                Chat with KP Predicta
+              </a>
+              <Link className="button secondary" href="/dashboard/report">
+                Build KP report
+              </Link>
+            </div>
+          </div>
+
+          <div className="school-grid">
+            {KP_WORLD_PROOF_CARDS.map(card => (
+              <div key={card.title}>
+                <span>Proof</span>
+                <strong>{card.title}</strong>
+                <p>{card.body}</p>
+              </div>
+            ))}
           </div>
 
           <details className="info-drawer school-explain-box">
