@@ -65,7 +65,6 @@ function buildDashboardNavModel(
       label: labels.groups.predicta,
       items: [
         { href: '/dashboard/chat', label: labels.nav.chat },
-        { href: '/dashboard/signature', label: labels.nav.signaturePredicta },
         { href: '/dashboard/timeline', label: labels.nav.timeline },
         { href: '/dashboard/holistic', label: labels.nav.holisticAstrology },
         { href: '/dashboard/remedies', label: labels.nav.remedies },
@@ -78,6 +77,8 @@ function buildDashboardNavModel(
       items: [
         { href: '/dashboard/kp', label: labels.nav.kpPredicta },
         { href: '/dashboard/nadi', label: labels.nav.nadiPredicta },
+        { href: '/dashboard/numerology', label: labels.nav.numerologyPredicta },
+        { href: '/dashboard/signature', label: labels.nav.signaturePredicta },
       ],
     },
     {

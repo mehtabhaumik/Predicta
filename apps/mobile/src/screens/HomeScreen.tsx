@@ -59,6 +59,8 @@ function buildMobileNavGroups(labels: AppShellLabels) {
       [labels.nav.allCharts, routes.Charts],
       [labels.nav.kpPredicta, routes.KpPredicta],
       [labels.nav.nadiPredicta, routes.NadiPredicta],
+      [labels.nav.numerologyPredicta, routes.NumerologyPredicta],
+      [labels.nav.signaturePredicta, routes.SignaturePredicta],
     ],
   },
   {

@@ -1,0 +1,165 @@
+import { existsSync, readFileSync } from 'node:fs';
+
+const checks = [
+  {
+    label: 'web route exists for Vedic chat',
+    path: 'apps/web/app/dashboard/chat/page.tsx',
+  },
+  {
+    label: 'web route exists for KP Predicta',
+    path: 'apps/web/app/dashboard/kp/page.tsx',
+  },
+  {
+    label: 'web route exists for Nadi Predicta',
+    path: 'apps/web/app/dashboard/nadi/page.tsx',
+  },
+  {
+    label: 'web route exists for Numerology Predicta',
+    path: 'apps/web/app/dashboard/numerology/page.tsx',
+  },
+  {
+    label: 'web route exists for Signature Predicta',
+    path: 'apps/web/app/dashboard/signature/page.tsx',
+  },
+  {
+    label: 'mobile screen exists for KP Predicta',
+    path: 'apps/mobile/src/screens/KpPredictaScreen.tsx',
+  },
+  {
+    label: 'mobile screen exists for Nadi Predicta',
+    path: 'apps/mobile/src/screens/NadiPredictaScreen.tsx',
+  },
+  {
+    label: 'mobile screen exists for Numerology Predicta',
+    path: 'apps/mobile/src/screens/NumerologyPredictaScreen.tsx',
+  },
+  {
+    label: 'mobile screen exists for Signature Predicta',
+    path: 'apps/mobile/src/screens/SignaturePredictaScreen.tsx',
+  },
+];
+
+const sourceContracts = [
+  {
+    file: 'apps/web/components/DashboardShell.tsx',
+    label: 'web dashboard nav exposes all specialist rooms',
+    mustContain: [
+      '/dashboard/chat',
+      '/dashboard/kp',
+      '/dashboard/nadi',
+      '/dashboard/numerology',
+      '/dashboard/signature',
+      'labels.nav.numerologyPredicta',
+      'labels.nav.signaturePredicta',
+    ],
+  },
+  {
+    file: 'apps/mobile/src/navigation/routes.ts',
+    label: 'mobile route names include all specialist rooms',
+    mustContain: [
+      "KpPredicta: 'KpPredicta'",
+      "NadiPredicta: 'NadiPredicta'",
+      "NumerologyPredicta: 'NumerologyPredicta'",
+      "SignaturePredicta: 'SignaturePredicta'",
+      '[routes.NumerologyPredicta]: undefined',
+      '[routes.SignaturePredicta]: undefined',
+    ],
+  },
+  {
+    file: 'apps/mobile/src/navigation/RootNavigator.tsx',
+    label: 'mobile navigator registers new rooms',
+    mustContain: [
+      'NumerologyPredictaScreen',
+      'SignaturePredictaScreen',
+      'name={routes.NumerologyPredicta}',
+      'name={routes.SignaturePredicta}',
+    ],
+  },
+  {
+    file: 'apps/mobile/src/screens/HomeScreen.tsx',
+    label: 'mobile home nav exposes new rooms',
+    mustContain: [
+      'labels.nav.numerologyPredicta',
+      'routes.NumerologyPredicta',
+      'labels.nav.signaturePredicta',
+      'routes.SignaturePredicta',
+    ],
+  },
+  {
+    file: 'apps/mobile/src/screens/ChatScreen.tsx',
+    label: 'mobile chat suggestions can navigate to new rooms',
+    mustContain: [
+      'suggestion.targetScreen === routes.NumerologyPredicta',
+      'navigation.navigate(routes.NumerologyPredicta)',
+      'suggestion.targetScreen === routes.SignaturePredicta',
+      'navigation.navigate(routes.SignaturePredicta)',
+    ],
+  },
+  {
+    file: 'packages/config/src/language.ts',
+    label: 'app shell label type includes Numerology Predicta',
+    mustContain: ['numerologyPredicta: string;'],
+  },
+  {
+    file: 'packages/config/src/translations/language.json',
+    label: 'app shell translations include Numerology Predicta in all app languages',
+    mustContain: [
+      '"numerologyPredicta": "Numerology Predicta"',
+      '"numerologyPredicta": "अंक प्रेडिक्टा"',
+      '"numerologyPredicta": "અંક પ્રેડિક્ટા"',
+    ],
+  },
+  {
+    file: 'packages/astrology/src/chatFollowUps.ts',
+    label: 'Predicta follow-ups can hand off to Numerology',
+    mustContain: ["targetScreen: 'NumerologyPredicta'"],
+  },
+  {
+    file: 'scripts/run-end-to-end-buyer-rejection-test.mjs',
+    label: 'buyer rejection gate covers new rooms',
+    mustContain: [
+      "'/dashboard/numerology'",
+      "'/dashboard/signature'",
+    ],
+  },
+  {
+    file: 'scripts/run-mobile-tablet-visual-proof-gate.mjs',
+    label: 'visual proof gate covers new rooms',
+    mustContain: [
+      "'/dashboard/numerology'",
+      "'/dashboard/signature'",
+    ],
+  },
+];
+
+const failures = [];
+
+for (const check of checks) {
+  if (!existsSync(check.path)) {
+    failures.push(`${check.label}: missing ${check.path}`);
+  }
+}
+
+for (const contract of sourceContracts) {
+  if (!existsSync(contract.file)) {
+    failures.push(`${contract.label}: missing ${contract.file}`);
+    continue;
+  }
+
+  const source = readFileSync(contract.file, 'utf8');
+  for (const expected of contract.mustContain) {
+    if (!source.includes(expected)) {
+      failures.push(`${contract.label}: missing "${expected}" in ${contract.file}`);
+    }
+  }
+}
+
+if (failures.length) {
+  console.error('Nav and new rooms QA gate failed:');
+  for (const failure of failures) {
+    console.error(`- ${failure}`);
+  }
+  process.exit(1);
+}
+
+console.log('Nav and new rooms QA gate passed: Vedic, KP, Nadi, Numerology, and Signature routes are present across web, mobile, nav, and QA coverage.');

@@ -25,6 +25,10 @@ const routes = [
   '/dashboard/report',
   '/dashboard/saved-kundlis',
   '/dashboard/chat',
+  '/dashboard/kp',
+  '/dashboard/nadi',
+  '/dashboard/numerology',
+  '/dashboard/signature',
 ];
 
 const viewports = [

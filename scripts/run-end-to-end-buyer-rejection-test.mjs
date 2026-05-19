@@ -28,6 +28,8 @@ const dashboardRoutes = [
   '/dashboard/chat',
   '/dashboard/kp',
   '/dashboard/nadi',
+  '/dashboard/numerology',
+  '/dashboard/signature',
   '/dashboard/redeem-pass',
 ];
 const routes = [...publicRoutes, ...dashboardRoutes];

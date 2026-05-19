@@ -1557,6 +1557,14 @@ export function ChatScreen({
                 navigation.navigate(routes.NadiPredicta);
                 return;
               }
+              if (suggestion.targetScreen === routes.NumerologyPredicta) {
+                navigation.navigate(routes.NumerologyPredicta);
+                return;
+              }
+              if (suggestion.targetScreen === routes.SignaturePredicta) {
+                navigation.navigate(routes.SignaturePredicta);
+                return;
+              }
               if (suggestion.targetScreen === routes.BirthTimeDetective) {
                 navigation.navigate(routes.BirthTimeDetective);
                 return;

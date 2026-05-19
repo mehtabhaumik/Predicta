@@ -73,6 +73,7 @@ export type AppShellLabels = {
     kundli: string;
     legal: string;
     nadiPredicta: string;
+    numerologyPredicta: string;
     overview: string;
     premium: string;
     redeemPass: string;

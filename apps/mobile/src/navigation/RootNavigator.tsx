@@ -24,6 +24,7 @@ import { LegalScreen } from '../screens/LegalScreen';
 import { LifeTimelineScreen } from '../screens/LifeTimelineScreen';
 import { LoginScreen } from '../screens/LoginScreen';
 import { NadiPredictaScreen } from '../screens/NadiPredictaScreen';
+import { NumerologyPredictaScreen } from '../screens/NumerologyPredictaScreen';
 import { OnboardingScreen } from '../screens/OnboardingScreen';
 import { PaywallScreen } from '../screens/PaywallScreen';
 import { PredictaWrappedScreen } from '../screens/PredictaWrappedScreen';
@@ -35,6 +36,7 @@ import { SavedKundlisScreen } from '../screens/SavedKundlisScreen';
 import { SafetyPromiseScreen } from '../screens/SafetyPromiseScreen';
 import { SecuritySetupScreen } from '../screens/SecuritySetupScreen';
 import { SettingsScreen } from '../screens/SettingsScreen';
+import { SignaturePredictaScreen } from '../screens/SignaturePredictaScreen';
 import { SplashScreen } from '../screens/SplashScreen';
 import { colors } from '../theme/colors';
 import { routes, type RootStackParamList } from './routes';
@@ -162,6 +164,11 @@ export function RootNavigator(): React.JSX.Element {
           options={{ title: 'Nadi Predicta' }}
         />
         <Stack.Screen
+          name={routes.NumerologyPredicta}
+          component={NumerologyPredictaScreen}
+          options={{ title: 'Numerology Predicta' }}
+        />
+        <Stack.Screen
           name={routes.PredictaWrapped}
           component={PredictaWrappedScreen}
           options={{ title: 'Predicta Wrapped' }}
@@ -190,6 +197,11 @@ export function RootNavigator(): React.JSX.Element {
           name={routes.SafetyPromise}
           component={SafetyPromiseScreen}
           options={{ title: 'Safety Promise' }}
+        />
+        <Stack.Screen
+          name={routes.SignaturePredicta}
+          component={SignaturePredictaScreen}
+          options={{ title: 'Signature Predicta' }}
         />
         <Stack.Screen
           name={routes.Paywall}

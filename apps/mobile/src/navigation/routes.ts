@@ -16,12 +16,14 @@ export const routes = {
   Legal: 'Legal',
   LifeTimeline: 'LifeTimeline',
   NadiPredicta: 'NadiPredicta',
+  NumerologyPredicta: 'NumerologyPredicta',
   PredictaWrapped: 'PredictaWrapped',
   RemedyCoach: 'RemedyCoach',
   RelationshipMirror: 'RelationshipMirror',
   Report: 'Report',
   SavedKundlis: 'SavedKundlis',
   SafetyPromise: 'SafetyPromise',
+  SignaturePredicta: 'SignaturePredicta',
   Paywall: 'Paywall',
   Login: 'Login',
   RedeemPassCode: 'RedeemPassCode',
@@ -47,12 +49,14 @@ export type RootStackParamList = {
   [routes.Legal]: undefined;
   [routes.LifeTimeline]: undefined;
   [routes.NadiPredicta]: undefined;
+  [routes.NumerologyPredicta]: undefined;
   [routes.PredictaWrapped]: undefined;
   [routes.RemedyCoach]: undefined;
   [routes.RelationshipMirror]: undefined;
   [routes.Report]: undefined;
   [routes.SavedKundlis]: undefined;
   [routes.SafetyPromise]: undefined;
+  [routes.SignaturePredicta]: undefined;
   [routes.Paywall]: undefined;
   [routes.Login]: undefined;
   [routes.RedeemPassCode]: undefined;
