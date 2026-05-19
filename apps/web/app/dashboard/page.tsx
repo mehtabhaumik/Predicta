@@ -8,6 +8,7 @@ import {
   composeDailyBriefing,
   composeDestinyPassport,
   composeHolisticDailyGuidance,
+  composeNumerologyFoundationModel,
   composePersonalPanchangLayer,
   composePurusharthaLifeBalance,
   composeTransitGocharIntelligence,
@@ -183,6 +184,7 @@ export default function DashboardPage(): React.JSX.Element {
   const purushartha = composePurusharthaLifeBalance(activeKundli);
   const personalPanchang = composePersonalPanchangLayer(activeKundli);
   const holisticDailyGuidance = composeHolisticDailyGuidance(activeKundli);
+  const numerology = composeNumerologyFoundationModel(activeKundli.birthDetails);
 
   return (
     <section className="dashboard-page">
@@ -211,6 +213,7 @@ export default function DashboardPage(): React.JSX.Element {
         dailyBriefing={dailyBriefing}
         gochar={gochar}
         kundli={activeKundli}
+        numerology={numerology}
         personalPanchang={personalPanchang}
         purushartha={purushartha}
         yearlyHoroscope={yearlyHoroscope}

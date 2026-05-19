@@ -22,6 +22,7 @@ import {
   composeHolisticReadingRooms,
   composeMahadashaIntelligence,
   composeNadiJyotishPlan,
+  composeNumerologyFoundationModel,
   composePersonalPanchangLayer,
   composePurusharthaLifeBalance,
   composeSadeSatiIntelligence,
@@ -261,6 +262,7 @@ function buildReportSectionSet(
     buildHolisticReportSynthesisSection(kundli, mode),
     buildBirthAndCalculationSection(kundli),
     buildChartSynthesisSection(kundli, chartTypes, mode, language),
+    buildNumerologyReportSection(kundli, mode),
     buildPlanetaryStrengthSection(kundli, mode),
     buildDashaSection(kundli, mode),
     buildTransitSection(kundli, mode),
@@ -282,6 +284,7 @@ function buildReportSectionSet(
     buildBhavChalitSection(kundli, mode),
     buildKpFoundationSection(kundli, mode),
     buildNadiJyotishPlanSection(kundli, mode),
+    buildNumerologyReportSection(kundli, mode),
     buildPlanetaryStrengthSection(kundli, mode),
     buildDashaSection(kundli, mode),
     buildTimelineSection(kundli, mode),
@@ -1223,6 +1226,96 @@ function buildNadiJyotishPlanSection(
     eyebrow: 'NADI',
     tier: mode === 'PREMIUM' ? 'premium' : 'free',
     title: 'Nadi Predicta premium plan',
+  };
+}
+
+function buildNumerologyReportSection(
+  kundli: KundliData,
+  mode: PDFMode,
+): PdfSection {
+  const profile =
+    kundli.numerology ?? composeNumerologyFoundationModel(kundli.birthDetails);
+  const isPremium = mode === 'PREMIUM';
+
+  if (profile.status !== 'ready') {
+    return {
+      body:
+        'Numerology needs the user name and birth date before it can prepare a number profile.',
+      bullets: [
+        'Add the full name and birth date to calculate name number, birth number, destiny number, and personal timing.',
+        'Numerology stays separate from Parashari, KP, and Nadi unless the user asks for synthesis.',
+      ],
+      confidence: 'low',
+      evidence: profile.evidence,
+      eyebrow: 'NUMEROLOGY',
+      tier: 'free',
+      title: 'Numerology profile',
+    };
+  }
+
+  const numberLines = [
+    `Name number ${profile.nameNumber.root} (${profile.nameNumber.label}): ${profile.nameNumber.simpleMeaning}.`,
+    `Birth number ${profile.birthNumber.root} (${profile.birthNumber.label}): ${profile.birthNumber.simpleMeaning}.`,
+    `Destiny number ${profile.destinyNumber.root} (${profile.destinyNumber.label}): ${profile.destinyNumber.simpleMeaning}.`,
+    `Current rhythm: personal year ${profile.personalYear.root}, month ${profile.personalMonth.root}, day ${profile.personalDay.root}.`,
+  ];
+  const premiumLines = isPremium
+    ? [
+        `Name method: ${profile.method.nameNumber}. Normalized name: ${profile.normalizedName}. Compound name value: ${profile.nameNumber.compound}.`,
+        `Cycle detail: year ${profile.personalYear.label}, month ${profile.personalMonth.label}, day ${profile.personalDay.label}.`,
+        'Premium depth uses this for name spelling comparison, compatibility numbers, monthly rhythm, and report-ready synthesis.',
+      ]
+    : [
+        'Free depth keeps this as a useful number profile. Premium adds spelling comparison, compatibility numbers, and a timing map.',
+      ];
+
+  return {
+    body:
+      'Numerology is included as its own Predicta room. It reads name rhythm and birth-date numbers without casually mixing Parashari, KP, or Nadi methods.',
+    bullets: [
+      profile.summary,
+      ...numberLines,
+      `Strengths: ${profile.strengths.slice(0, isPremium ? 6 : 3).join(', ') || 'waiting for number emphasis'}.`,
+      `Care points: ${profile.cautions.slice(0, isPremium ? 5 : 3).join(', ') || 'keep the reading practical and balanced'}.`,
+      profile.guidance,
+      ...premiumLines,
+    ],
+    confidence: 'medium',
+    evidence: [
+      ...profile.evidence,
+      ...profile.limitations,
+    ],
+    evidenceTable: [
+      {
+        confidence: 'medium',
+        factor: 'Name number',
+        implication: 'Shows how the name projects into the world.',
+        observation: `${profile.nameNumber.root} ${profile.nameNumber.label}; compound ${profile.nameNumber.compound}.`,
+      },
+      {
+        confidence: 'medium',
+        factor: 'Birth number',
+        implication: 'Shows instinctive style and natural response pattern.',
+        observation: `${profile.birthNumber.root} ${profile.birthNumber.label}; birth date ${profile.birthDate}.`,
+      },
+      {
+        confidence: 'medium',
+        factor: 'Destiny number',
+        implication: 'Shows the longer life direction in numerology.',
+        observation: `${profile.destinyNumber.root} ${profile.destinyNumber.label}.`,
+      },
+      {
+        confidence: 'medium',
+        factor: 'Personal timing',
+        implication: 'Frames the current number rhythm without replacing real-world judgement.',
+        observation: `Year ${profile.personalYear.root}, month ${profile.personalMonth.root}, day ${profile.personalDay.root} for ${profile.targetDate}.`,
+      },
+    ],
+    eyebrow: 'NUMEROLOGY',
+    tier: isPremium ? 'premium' : 'free',
+    title: isPremium
+      ? 'Numerology Predicta number synthesis'
+      : 'Numerology useful insight',
   };
 }
 

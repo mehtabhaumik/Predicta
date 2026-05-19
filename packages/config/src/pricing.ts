@@ -57,6 +57,7 @@ export type ReportMarketplaceProduct = {
     | 'SADESATI'
     | 'DASHA'
     | 'COMPATIBILITY'
+    | 'NUMEROLOGY'
     | 'REMEDIES';
   outcome: string;
   premiumIncludes: string[];
@@ -185,6 +186,20 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
       'Create my remedies report with safe practical remedies, planet focus, timing, and a simple consistency plan.',
     purchaseHint: 'Best when you want what to do, not only what may happen.',
     title: 'Remedies Report',
+  },
+  {
+    badge: 'Numbers',
+    bestFor: 'Name rhythm, birth number, destiny number, and personal timing.',
+    freeIncludes: ['Name number', 'Birth number', 'Destiny number', 'Today’s rhythm'],
+    freeDepth: 'Useful number profile with name, birth, destiny, and current personal day.',
+    id: 'NUMEROLOGY',
+    outcome: 'Understand the number pattern behind name, birth date, and current timing.',
+    premiumIncludes: ['Name spelling comparison', 'Personal year/month/day map', 'Compatibility numbers', 'Numerology PDF section'],
+    premiumDepth: 'Detailed number synthesis, spelling rhythm, timing cycles, and compatibility guidance.',
+    prompt:
+      'Create my numerology report using name number, birth number, destiny number, personal year, personal month, personal day, and name rhythm.',
+    purchaseHint: 'Best when you want number-based guidance or name spelling comparison without mixing methods.',
+    title: 'Numerology Report',
   },
 ];
 

@@ -3226,6 +3226,7 @@ button:disabled {
 
 .cockpit-panel,
 .chart-focus-strip,
+.numerology-dashboard-panel,
 .personal-panchang-panel,
 .purushartha-panel,
 .cockpit-bottom-row {
@@ -3267,6 +3268,69 @@ button:disabled {
 .personal-panchang-panel {
   display: grid;
   gap: 16px;
+}
+
+.numerology-dashboard-panel {
+  align-items: center;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.95fr) auto;
+}
+
+.numerology-dashboard-copy span,
+.numerology-number-card span {
+  color: var(--muted);
+  display: block;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.numerology-dashboard-copy strong {
+  color: var(--text);
+  display: block;
+  font-size: 18px;
+  line-height: 1.28;
+  margin-top: 6px;
+}
+
+.numerology-dashboard-copy p {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 8px 0 0;
+}
+
+.numerology-number-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.numerology-number-card {
+  background:
+    radial-gradient(circle at top right, rgba(255, 195, 77, 0.12), transparent 44%),
+    rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 195, 77, 0.2);
+  border-radius: 8px;
+  min-height: 94px;
+  padding: 12px;
+}
+
+.numerology-number-card strong {
+  color: var(--text);
+  display: block;
+  font-size: 30px;
+  line-height: 1;
+  margin-top: 8px;
+}
+
+.numerology-number-card small {
+  color: var(--muted);
+  display: block;
+  font-size: 12px;
+  line-height: 1.35;
+  margin-top: 8px;
 }
 
 .personal-panchang-copy p {
@@ -10343,6 +10407,10 @@ button:disabled {
     grid-template-columns: 1fr;
   }
 
+  .numerology-dashboard-panel {
+    grid-template-columns: 1fr;
+  }
+
   .hero-visual {
     display: grid;
     gap: 16px;
@@ -10379,6 +10447,7 @@ button:disabled {
   .premium-feature-grid,
   .report-choice-guide,
   .report-product-grid,
+  .numerology-number-grid,
   .report-builder-access-row,
   .report-builder-choice-row,
   .report-builder-section-grid,

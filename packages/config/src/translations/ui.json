@@ -1,6 +1,26 @@
 {
   "version": 1,
   "entries": {
+    "ui.askNumerologyPredicta.phase": {
+      "en": "Ask Numerology Predicta",
+      "hi": "अंक ज्योतिष Predicta से पूछें",
+      "gu": "અંક જ્યોતિષ Predicta ને પૂછો"
+    },
+    "ui.birth.phase": {
+      "en": "Birth",
+      "hi": "जन्म",
+      "gu": "જન્મ"
+    },
+    "ui.destiny.phase": {
+      "en": "Destiny",
+      "hi": "भाग्य",
+      "gu": "ભાગ્ય"
+    },
+    "ui.numerologyRhythm.phase": {
+      "en": "Numerology rhythm",
+      "hi": "अंक ज्योतिष लय",
+      "gu": "અંક જ્યોતિષ લય"
+    },
     "ui.1999Year.ja7f2h": {
       "en": "₹1,999 / year",
       "hi": "₹1,999 / वर्ष",

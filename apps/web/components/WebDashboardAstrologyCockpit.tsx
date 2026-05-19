@@ -4,6 +4,8 @@ import Link from 'next/link';
 import type {
   DailyBriefing,
   KundliData,
+  NumerologyFoundationProfile,
+  NumerologyNumberInsight,
   PersonalPanchangLayer,
   PurusharthaLifeBalance,
   TransitGocharIntelligence,
@@ -17,6 +19,7 @@ type WebDashboardAstrologyCockpitProps = {
   dailyBriefing: DailyBriefing;
   gochar: TransitGocharIntelligence;
   kundli?: KundliData;
+  numerology?: NumerologyFoundationProfile;
   personalPanchang: PersonalPanchangLayer;
   purushartha: PurusharthaLifeBalance;
   yearlyHoroscope: YearlyHoroscopeVarshaphal;
@@ -73,6 +76,7 @@ export function WebDashboardAstrologyCockpit({
   dailyBriefing,
   gochar,
   kundli,
+  numerology,
   personalPanchang,
   purushartha,
   yearlyHoroscope,
@@ -172,6 +176,47 @@ export function WebDashboardAstrologyCockpit({
           </div>
         </div>
       </div>
+
+      {numerology?.status === 'ready' ? (
+        <div className="numerology-dashboard-panel">
+          <div className="numerology-dashboard-copy">
+            <span>{t('Numerology rhythm')}</span>
+            <strong>
+              {t('Name')} {numerology.nameNumber.root} · {t('Birth')}{' '}
+              {numerology.birthNumber.root} · {t('Destiny')}{' '}
+              {numerology.destinyNumber.root}
+            </strong>
+            <p>{t(numerology.guidance)}</p>
+          </div>
+          <div className="numerology-number-grid">
+            {([
+              ['Name', numerology.nameNumber],
+              ['Birth', numerology.birthNumber],
+              ['Destiny', numerology.destinyNumber],
+              ['Today', numerology.personalDay],
+            ] as Array<[string, NumerologyNumberInsight]>).map(([label, item]) => (
+              <div className="numerology-number-card" key={String(label)}>
+                <span>{t(String(label))}</span>
+                <strong>{item.root}</strong>
+                <small>{t(item.label)}</small>
+              </div>
+            ))}
+          </div>
+          <Link
+            className="button secondary"
+            href={buildPredictaChatHref({
+              kundli,
+              prompt:
+                'Read my numerology profile with name number, birth number, destiny number, and current personal timing.',
+              school: 'NUMEROLOGY',
+              selectedSection: 'Numerology rhythm',
+              sourceScreen: 'Dashboard Numerology',
+            })}
+          >
+            {t('Ask Numerology Predicta')}
+          </Link>
+        </div>
+      ) : null}
 
       <div className="personal-panchang-panel">
         <div className="personal-panchang-copy">
