@@ -10603,6 +10603,21 @@ button:disabled {
     padding: 58px 20px 76px;
   }
 
+  .hero-visual,
+  .kundli-hero-visual {
+    justify-items: stretch;
+    width: 100%;
+  }
+
+  .kundli-hero-visual .hero-kundli-board {
+    max-width: none !important;
+    width: 100% !important;
+  }
+
+  .kundli-hero-visual .floating-insight-card {
+    width: 100%;
+  }
+
   .hero-copy h1,
   .page-heading h1,
   .founder-copy h1,
@@ -11133,6 +11148,34 @@ button:disabled {
 
   .auth-dialog {
     padding: 30px;
+  }
+}
+
+@media (max-width: 920px) {
+  .hero-section,
+  .capability-grid,
+  .testimonial-signal-grid,
+  .testimonial-quote-grid,
+  .web-growth-grid,
+  .trust-proof-grid,
+  .pricing-grid,
+  .one-time-grid,
+  .method-pillar-grid,
+  .method-school-grid,
+  .safety-commitments,
+  .founder-principle-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-visual,
+  .kundli-hero-visual {
+    justify-items: stretch;
+    width: 100%;
+  }
+
+  .kundli-hero-visual .hero-kundli-board {
+    max-width: none !important;
+    width: 100% !important;
   }
 }
 

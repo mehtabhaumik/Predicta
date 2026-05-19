@@ -585,17 +585,50 @@ function buildChartCellAriaLabel({
   const displaySign = getLocalizedSignName(sign, language);
 
   if (!planetPositions.length) {
+    if (language === 'hi') {
+      return `भाव ${house} चुनें, ${displaySign}, खाली`;
+    }
+
+    if (language === 'gu') {
+      return `ભાવ ${house} પસંદ કરો, ${displaySign}, ખાલી`;
+    }
+
     return `Select House ${house}, ${displaySign}, empty`;
   }
 
-  return `Select House ${house}, ${displaySign}, ${planetPositions
-    .map(
-      planet =>
-        `${getLocalizedPlanetName(planet.name, language)} in ${getLocalizedSignName(planet.sign, language)} ${planet.degree.toFixed(1)} degrees${
-          planet.retrograde ? ' retrograde' : ''
-        }`,
-    )
-    .join(', ')}`;
+  const planetSummary = planetPositions
+    .map(planet => {
+      const planetName = getLocalizedPlanetName(planet.name, language);
+      const signName = getLocalizedSignName(planet.sign, language);
+      const degree = planet.degree.toFixed(1);
+
+      if (language === 'hi') {
+        return `${planetName} ${signName} में ${degree} डिग्री${
+          planet.retrograde ? ' वक्री' : ''
+        }`;
+      }
+
+      if (language === 'gu') {
+        return `${planetName} ${signName} માં ${degree} ડિગ્રી${
+          planet.retrograde ? ' વક્રી' : ''
+        }`;
+      }
+
+      return `${planetName} in ${signName} ${degree} degrees${
+        planet.retrograde ? ' retrograde' : ''
+      }`;
+    })
+    .join(', ');
+
+  if (language === 'hi') {
+    return `भाव ${house} चुनें, ${displaySign}, ${planetSummary}`;
+  }
+
+  if (language === 'gu') {
+    return `ભાવ ${house} પસંદ કરો, ${displaySign}, ${planetSummary}`;
+  }
+
+  return `Select House ${house}, ${displaySign}, ${planetSummary}`;
 }
 
 function getCellLabelDensity(
@@ -704,16 +737,26 @@ function buildChartLegend(
   }
 
   if (hasModernRefinements) {
+    const outerCodeByLanguage: Record<SupportedLanguage, string> = {
+      en: 'Outer',
+      gu: 'બાહ્ય',
+      hi: 'बाहरी',
+    };
     legend.push({
-      code: 'Outer',
+      code: outerCodeByLanguage[language] ?? outerCodeByLanguage.en,
       description: getLocalizedLegendText('outer', language),
       tone: 'neutral',
     });
   }
 
   if (hasSensitiveRefinements) {
+    const upagrahaCodeByLanguage: Record<SupportedLanguage, string> = {
+      en: 'Upagraha',
+      gu: 'ઉપગ્રહ',
+      hi: 'उपग्रह',
+    };
     legend.push({
-      code: 'Upagraha',
+      code: upagrahaCodeByLanguage[language] ?? upagrahaCodeByLanguage.en,
       description: getLocalizedLegendText('upagraha', language),
       tone: 'neutral',
     });
@@ -969,18 +1012,18 @@ function getLocalizedLegendText(
     },
     kp: {
       en: 'KP readings use star lord, sub lord, and significators',
-      gu: 'KP reading star lord, sub lord અને significator પરથી ચાલે છે',
-      hi: 'KP reading star lord, sub lord aur significator se hoti hai',
+      gu: 'KP વાંચન નક્ષત્ર સ્વામી, સબ લોર્ડ અને સંકેતકોથી થાય છે',
+      hi: 'KP पढ़ाई नक्षत्र स्वामी, सब लॉर्ड और संकेतकों से होती है',
     },
     nadi: {
       en: 'Nadi readings use planet-to-planet story patterns',
-      gu: 'Nadi reading planet-to-planet story pattern જુએ છે',
-      hi: 'Nadi reading planet-to-planet story pattern dekhti hai',
+      gu: 'નાડી વાંચન ગ્રહથી ગ્રહ વચ્ચેના જીવન પેટર્નને જુએ છે',
+      hi: 'नाड़ी पढ़ाई ग्रह से ग्रह के जीवन पैटर्न को देखती है',
     },
     outer: {
       en: 'Modern outer planets are supporting refinements',
-      gu: 'Outer planets supportive refinement આપે છે',
-      hi: 'Outer planets supportive refinement dete hain',
+      gu: 'આધુનિક બાહ્ય ગ્રહો સહાયક સુધારો આપે છે',
+      hi: 'आधुनिक बाहरी ग्रह सहायक सुधार देते हैं',
     },
     retrograde: {
       en: 'Retrograde planet',
@@ -989,8 +1032,8 @@ function getLocalizedLegendText(
     },
     upagraha: {
       en: 'Sensitive Jyotish points refine, but do not replace, the main chart',
-      gu: 'Upagraha main chart ને replace નહીં કરે, ફક્ત refine કરે છે',
-      hi: 'Upagraha main chart ko replace nahi karta, sirf refine karta hai',
+      gu: 'ઉપગ્રહ મુખ્ય ચાર્ટને બદલે નથી, ફક્ત વાંચનને વધુ સૂક્ષ્મ બનાવે છે',
+      hi: 'उपग्रह मुख्य चार्ट को बदलते नहीं, केवल पढ़ाई को और सूक्ष्म बनाते हैं',
     },
   };
 
@@ -1011,14 +1054,14 @@ function getLocalizedMoonLegendLabels(
       waxing: { code: 'Waxing Moon', description: 'Moon light is increasing' },
     },
     gu: {
-      dark: { code: 'અમાસ ચંદ્ર', description: 'ચંદ્ર Amavasya પાસે છે' },
+      dark: { code: 'અમાસ ચંદ્ર', description: 'ચંદ્ર અમાસ પાસે છે' },
       full: { code: 'પૂર્ણિમા ચંદ્ર', description: 'ચંદ્ર પૂર્ણ પ્રકાશ પાસે છે' },
       waning: { code: 'ઘટતો ચંદ્ર', description: 'ચંદ્રનો પ્રકાશ ઘટી રહ્યો છે' },
       waxing: { code: 'વધતો ચંદ્ર', description: 'ચંદ્રનો પ્રકાશ વધી રહ્યો છે' },
     },
     hi: {
-      dark: { code: 'अमावस्या चंद्र', description: 'चंद्र Amavasya के पास है' },
-      full: { code: 'पूर्णिमा चंद्र', description: 'चंद्र full brightness के पास है' },
+      dark: { code: 'अमावस्या चंद्र', description: 'चंद्र अमावस्या के पास है' },
+      full: { code: 'पूर्णिमा चंद्र', description: 'चंद्र पूर्ण प्रकाश के पास है' },
       waning: { code: 'घटता चंद्र', description: 'चंद्र की रोशनी घट रही है' },
       waxing: { code: 'बढ़ता चंद्र', description: 'चंद्र की रोशनी बढ़ रही है' },
     },

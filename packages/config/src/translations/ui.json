@@ -3550,6 +3550,606 @@
       "en": "Check the deeper proof",
       "hi": "गहरा proof देखें",
       "gu": "ઊંડો proof જુઓ"
+    },
+    "ui.open.yjqpip": {
+      "en": "Open",
+      "hi": "खोलें",
+      "gu": "ખોલો"
+    },
+    "ui.read.yjyljr": {
+      "en": "Read",
+      "hi": "पढ़ें",
+      "gu": "વાંચો"
+    },
+    "ui.seenextsteps.1mhnws0": {
+      "en": "See next steps",
+      "hi": "अगले कदम देखें",
+      "gu": "આગલા પગલાં જુઓ"
+    },
+    "ui.whathappensaftercreation.3x6tbn": {
+      "en": "What happens after creation",
+      "hi": "कुंडली बनने के बाद क्या होगा",
+      "gu": "કુંડળી બન્યા પછી શું થશે"
+    },
+    "ui.name.yjpg1u": {
+      "en": "Name",
+      "hi": "नाम",
+      "gu": "નામ"
+    },
+    "ui.birthdate.83ma44": {
+      "en": "Birth date",
+      "hi": "जन्म तारीख",
+      "gu": "જન્મ તારીખ"
+    },
+    "ui.birthplace.1igtsfv": {
+      "en": "Birth place",
+      "hi": "जन्म स्थान",
+      "gu": "જન્મ સ્થળ"
+    },
+    "ui.starttypingcitystatecountry.1klmdwg": {
+      "en": "Start typing city, state, country",
+      "hi": "शहर, राज्य, देश लिखना शुरू करें",
+      "gu": "શહેર, રાજ્ય, દેશ લખવાનું શરૂ કરો"
+    },
+    "ui.selectthematchingcitysothechartuses.1tyqazp": {
+      "en": "Select the matching city so the chart uses the right timezone.",
+      "hi": "सही शहर चुनें ताकि चार्ट सही समय क्षेत्र से बने.",
+      "gu": "સાચું શહેર પસંદ કરો જેથી ચાર્ટ સાચા સમયક્ષેત્રથી બને."
+    },
+    "ui.searchingplaces.1b3s1fx": {
+      "en": "Searching places...",
+      "hi": "स्थान खोजे जा रहे हैं...",
+      "gu": "સ્થળ શોધાઈ રહ્યું છે..."
+    },
+    "ui.birthtimeisapproximate.17f3mfz": {
+      "en": "Birth time is approximate",
+      "hi": "जन्म समय अनुमानित है",
+      "gu": "જન્મ સમય અંદાજિત છે"
+    },
+    "ui.continue.5iqttw": {
+      "en": "Continue",
+      "hi": "आगे बढ़ें",
+      "gu": "આગળ વધો"
+    },
+    "ui.fillexample.vttuea": {
+      "en": "Fill Example",
+      "hi": "उदाहरण भरें",
+      "gu": "ઉદાહરણ ભરો"
+    },
+    "ui.protectmorekundliswithsignin.jdxow2": {
+      "en": "Protect more Kundlis with sign-in",
+      "hi": "साइन इन करके और कुंडलियां सुरक्षित रखें",
+      "gu": "સાઇન ઇન કરીને વધુ કુંડળીઓ સુરક્ષિત રાખો"
+    },
+    "ui.youcankeeponekundliasaguest.k8oxt2": {
+      "en": "You can keep one Kundli as a guest. Sign in before adding family profiles, multiple saved chats, or report preferences.",
+      "hi": "अतिथि रूप में आप एक कुंडली रख सकते हैं. परिवार प्रोफाइल, कई सेव चैट या रिपोर्ट पसंद जोड़ने से पहले साइन इन करें.",
+      "gu": "અતિથિ તરીકે તમે એક કુંડળી રાખી શકો છો. પરિવાર પ્રોફાઇલ, અનેક સેવ ચેટ અથવા રિપોર્ટ પસંદગીઓ ઉમેરતા પહેલાં સાઇન ઇન કરો."
+    },
+    "ui.calculating.wlkf4a": {
+      "en": "Calculating...",
+      "hi": "गणना हो रही है...",
+      "gu": "ગણતરી થઈ રહી છે..."
+    },
+    "ui.readingthiskundli.a4c5gg": {
+      "en": "Reading this Kundli",
+      "hi": "यह कुंडली पढ़ी जा रही है",
+      "gu": "આ કુંડળી વાંચાઈ રહી છે"
+    },
+    "ui.kundliactions.iscz15": {
+      "en": "Kundli actions",
+      "hi": "कुंडली क्रियाएं",
+      "gu": "કુંડળી ક્રિયાઓ"
+    },
+    "ui.switch.1irvi53": {
+      "en": "Switch",
+      "hi": "बदलें",
+      "gu": "બદલો"
+    },
+    "ui.edit.yjfqt5": {
+      "en": "Edit",
+      "hi": "संपादित करें",
+      "gu": "સંપાદિત કરો"
+    },
+    "ui.delete.16wmut8": {
+      "en": "Delete",
+      "hi": "हटाएं",
+      "gu": "દૂર કરો"
+    },
+    "ui.activekundli.6gs2vs": {
+      "en": "ACTIVE KUNDLI",
+      "hi": "सक्रिय कुंडली",
+      "gu": "સક્રિય કુંડળી"
+    },
+    "ui.askpredictafirst.17qb4ey": {
+      "en": "Ask Predicta first",
+      "hi": "पहले Predicta से पूछें",
+      "gu": "પહેલા Predicta ને પૂછો"
+    },
+    "ui.startwithaguidedreading.adar9g": {
+      "en": "Start with a guided reading.",
+      "hi": "मार्गदर्शित रीडिंग से शुरू करें.",
+      "gu": "માર્ગદર્શિત રીડિંગથી શરૂ કરો."
+    },
+    "ui.todayforme.1qo1jn5": {
+      "en": "Today for me",
+      "hi": "आज मेरे लिए",
+      "gu": "આજે મારા માટે"
+    },
+    "ui.seegocharanddailyguidance.1qqw9qk": {
+      "en": "See Gochar and daily guidance.",
+      "hi": "गोचर और दैनिक मार्गदर्शन देखें.",
+      "gu": "ગોચર અને દૈનિક માર્ગદર્શન જુઓ."
+    },
+    "ui.opencharts.19ueypa": {
+      "en": "Open charts",
+      "hi": "चार्ट खोलें",
+      "gu": "ચાર્ટ ખોલો"
+    },
+    "ui.seed1d9d10andmore.vsqhtz": {
+      "en": "See D1, D9, D10, and more.",
+      "hi": "D1, D9, D10 और बाकी चार्ट देखें.",
+      "gu": "D1, D9, D10 અને બીજા ચાર્ટ જુઓ."
+    },
+    "ui.dashasadesatiandyearlytiming.1remu2x": {
+      "en": "Dasha, Sade Sati, and yearly timing.",
+      "hi": "दशा, साढ़े साती और वार्षिक समय.",
+      "gu": "દશા, સાડેસાતી અને વાર્ષિક સમય."
+    },
+    "ui.createreport.545oq7": {
+      "en": "Create report",
+      "hi": "रिपोर्ट बनाएं",
+      "gu": "રિપોર્ટ બનાવો"
+    },
+    "ui.makeafreeorpremiumpdf.jn20o8": {
+      "en": "Make a free or premium PDF.",
+      "hi": "मुफ्त या प्रीमियम PDF बनाएं.",
+      "gu": "મફત અથવા પ્રીમિયમ PDF બનાવો."
+    },
+    "ui.getkarmabasedpractices.t6j3rx": {
+      "en": "Get karma-based practices.",
+      "hi": "कर्म-आधारित अभ्यास पाएं.",
+      "gu": "કર્મ આધારિત અભ્યાસ મેળવો."
+    },
+    "ui.simplesummary.19fkaqv": {
+      "en": "SIMPLE SUMMARY",
+      "hi": "सरल सारांश",
+      "gu": "સરળ સારાંશ"
+    },
+    "ui.yourchartfoundation.1hb9nml": {
+      "en": "Your chart foundation.",
+      "hi": "आपके चार्ट की नींव.",
+      "gu": "તમારા ચાર્ટનો આધાર."
+    },
+    "ui.whatthismeans.3m1q9p": {
+      "en": "What this means",
+      "hi": "इसका मतलब",
+      "gu": "તેનો અર્થ"
+    },
+    "ui.dateofbirth.1fmqqm5": {
+      "en": "Date of birth",
+      "hi": "जन्म तारीख",
+      "gu": "જન્મ તારીખ"
+    },
+    "ui.moonpattern.1anftqm": {
+      "en": "Moon pattern",
+      "hi": "चंद्र पैटर्न",
+      "gu": "ચંદ્ર પેટર્ન"
+    },
+    "ui.checkthesebirthdetails.1c3oe2t": {
+      "en": "Check these birth details.",
+      "hi": "इन जन्म विवरणों की जांच करें.",
+      "gu": "આ જન્મ વિગતો તપાસો."
+    },
+    "ui.confirmbeforecreation.1jipzlz": {
+      "en": "CONFIRM BEFORE CREATION",
+      "hi": "बनाने से पहले पुष्टि करें",
+      "gu": "બનાવતા પહેલાં ખાતરી કરો"
+    },
+    "ui.confirmbeforeupdate.192c4bj": {
+      "en": "CONFIRM BEFORE UPDATE",
+      "hi": "अपडेट से पहले पुष्टि करें",
+      "gu": "અપડેટ કરતાં પહેલાં ખાતરી કરો"
+    },
+    "ui.updateexistingkundli.ff0112": {
+      "en": "Update existing Kundli",
+      "hi": "मौजूदा कुंडली अपडेट करें",
+      "gu": "હાલની કુંડળી અપડેટ કરો"
+    },
+    "ui.saveasnewkundli.2nug63": {
+      "en": "Save as new Kundli",
+      "hi": "नई कुंडली के रूप में सेव करें",
+      "gu": "નવી કુંડળી તરીકે સેવ કરો"
+    },
+    "ui.editdetails.k0jhyz": {
+      "en": "Edit details",
+      "hi": "विवरण बदलें",
+      "gu": "વિગતો બદલો"
+    },
+    "ui.probablecorrectedtimeselected.d8dylf": {
+      "en": "Probable corrected time selected",
+      "hi": "संभावित सुधारा गया समय चुना गया",
+      "gu": "સંભવિત સુધારેલો સમય પસંદ થયો"
+    },
+    "ui.creatingkundli.1o8uz85": {
+      "en": "CREATING KUNDLI",
+      "hi": "कुंडली बन रही है",
+      "gu": "કુંડળી બની રહી છે"
+    },
+    "ui.drawingthechartcarefully.ml3dpd": {
+      "en": "Drawing the chart carefully.",
+      "hi": "चार्ट सावधानी से बनाया जा रहा है.",
+      "gu": "ચાર્ટ કાળજીપૂર્વક દોરાઈ રહ્યો છે."
+    },
+    "ui.kundlicreated.1f9b1jo": {
+      "en": "KUNDLI CREATED",
+      "hi": "कुंडली बन गई",
+      "gu": "કુંડળી બની ગઈ"
+    },
+    "ui.thechartislaidout.1sk499m": {
+      "en": "The chart is laid out.",
+      "hi": "चार्ट तैयार है.",
+      "gu": "ચાર્ટ તૈયાર છે."
+    },
+    "ui.rashichart.ox0k2w": {
+      "en": "Rashi Chart",
+      "hi": "राशि चार्ट",
+      "gu": "રાશિ ચાર્ટ"
+    },
+    "ui.rootchart.l5udhr": {
+      "en": "Root chart",
+      "hi": "मूल चार्ट",
+      "gu": "મૂળ ચાર્ટ"
+    },
+    "ui.d1anchored.19i5b0o": {
+      "en": "D1 anchored",
+      "hi": "D1 आधारित",
+      "gu": "D1 આધારિત"
+    },
+    "ui.selectahousetounderstandthatlifearea.1r4i5w1": {
+      "en": "Select a house to understand that life area. Keyboard users can tab through the houses and press Enter or Space to choose one.",
+      "hi": "उस जीवन क्षेत्र को समझने के लिए भाव चुनें. कीबोर्ड से Tab दबाकर भाव चुनें और Enter या Space से खोलें.",
+      "gu": "તે જીવન ક્ષેત્ર સમજવા માટે ભાવ પસંદ કરો. કીબોર્ડથી Tab દબાવી ભાવ પસંદ કરો અને Enter અથવા Space થી ખોલો."
+    },
+    "ui.vargarule.1qhkww8": {
+      "en": "Varga rule",
+      "hi": "वर्ग नियम",
+      "gu": "વર્ગ નિયમ"
+    },
+    "ui.useastherootchart.yr8p2f": {
+      "en": "Use as the root chart",
+      "hi": "इसे मूल चार्ट मानें",
+      "gu": "તેને મૂળ ચાર્ટ માનો"
+    },
+    "ui.useitsspecificpurposenotd1housemeanings.f2zeay": {
+      "en": "Use its specific purpose, not D1 house meanings",
+      "hi": "इसके विशेष उद्देश्य से पढ़ें, D1 भाव अर्थ से नहीं",
+      "gu": "તેના ખાસ હેતુથી વાંચો, D1 ભાવ અર્થથી નહીં"
+    },
+    "ui.subtlepoints.1ia9v43": {
+      "en": "Subtle points",
+      "hi": "सूक्ष्म बिंदु",
+      "gu": "સૂક્ષ્મ બિંદુઓ"
+    },
+    "ui.planetsinselectedhouse.1yj30gu": {
+      "en": "Planets in selected house",
+      "hi": "चुने हुए भाव के ग्रह",
+      "gu": "પસંદ કરેલા ભાવના ગ્રહો"
+    },
+    "ui.chartlegend.vvuf9k": {
+      "en": "Chart legend",
+      "hi": "चार्ट संकेत",
+      "gu": "ચાર્ટ સંકેત"
+    },
+    "ui.moonrhythm.2sybzo": {
+      "en": "Moon rhythm",
+      "hi": "चंद्र लय",
+      "gu": "ચંદ્ર લય"
+    },
+    "ui.freeusefulinsight.1vop5hn": {
+      "en": "Free useful insight",
+      "hi": "मुफ्त उपयोगी insight",
+      "gu": "મફત ઉપયોગી insight"
+    },
+    "ui.house.3ok6u9": {
+      "en": "House",
+      "hi": "भाव",
+      "gu": "ભાવ"
+    },
+    "ui.noplanetsoccupythissigninthepreview.9v3lz9": {
+      "en": "No planets occupy this sign in the preview chart.",
+      "hi": "इस संकेत में कोई ग्रह नहीं है.",
+      "gu": "આ સંકેતમાં કોઈ ગ્રહ નથી."
+    },
+    "ui.onechatforguests.vv7mxz": {
+      "en": "One chat for guests",
+      "hi": "अतिथि के लिए एक चैट",
+      "gu": "અતિથિ માટે એક ચેટ"
+    },
+    "ui.savedchatsessions.1yot2s3": {
+      "en": "Saved chat sessions",
+      "hi": "सेव चैट सेशन",
+      "gu": "સેવ ચેટ સેશન"
+    },
+    "ui.keepseparatereadingsforeachkundliorlife.167c1t0": {
+      "en": "Keep separate readings for each Kundli or life question.",
+      "hi": "हर कुंडली या जीवन सवाल के लिए अलग रीडिंग रखें.",
+      "gu": "દરેક કુંડળી અથવા જીવન પ્રશ્ન માટે અલગ રીડિંગ રાખો."
+    },
+    "ui.vargareadingrule.1ytl3wa": {
+      "en": "Varga reading rule",
+      "hi": "वर्ग पढ़ने का नियम",
+      "gu": "વર્ગ વાંચવાનો નિયમ"
+    },
+    "ui.accountcheck.1hnp3cy": {
+      "en": "Account check",
+      "hi": "खाता जांच",
+      "gu": "એકાઉન્ટ તપાસ"
+    },
+    "ui.checking.1tuluh9": {
+      "en": "Checking...",
+      "hi": "जांच हो रही है...",
+      "gu": "તપાસ થઈ રહી છે..."
+    },
+    "ui.passactive.v476wo": {
+      "en": "PASS ACTIVE",
+      "hi": "पास सक्रिय है",
+      "gu": "પાસ સક્રિય છે"
+    },
+    "ui.startwiththesethreesteps.1c70l3d": {
+      "en": "Start with these three steps.",
+      "hi": "इन तीन कदमों से शुरू करें.",
+      "gu": "આ ત્રણ પગલાંથી શરૂ કરો."
+    },
+    "ui.givefeedback.1oy1xch": {
+      "en": "Give Feedback",
+      "hi": "फीडबैक दें",
+      "gu": "ફીડબેક આપો"
+    },
+    "ui.privatepass.uoim61": {
+      "en": "Private pass",
+      "hi": "निजी पास",
+      "gu": "ખાનગી પાસ"
+    },
+    "ui.signedinas.1lejt0i": {
+      "en": "Signed in as",
+      "hi": "साइन इन किया है",
+      "gu": "સાઇન ઇન કર્યું છે"
+    },
+    "ui.yourholisticastrologycockpit.gf7za2": {
+      "en": "Your holistic astrology cockpit.",
+      "hi": "आपका होलिस्टिक ज्योतिष कॉकपिट.",
+      "gu": "તમારું holistic જ્યોતિષ cockpit."
+    },
+    "ui.seetodaytiminggocharremediesandthebest.1xjlk1a": {
+      "en": "See today, timing, Gochar, remedies, and the best next chart focus.",
+      "hi": "आज, समय, गोचर, उपाय और अगला सही चार्ट फोकस देखें.",
+      "gu": "આજ, સમય, ગોચર, ઉપાય અને આગળનો યોગ્ય chart focus જુઓ."
+    },
+    "ui.howthisworks.xohp9d": {
+      "en": "How this works",
+      "hi": "यह कैसे काम करता है",
+      "gu": "આ કેવી રીતે કામ કરે છે"
+    },
+    "ui.savedwork.fcewbl": {
+      "en": "SAVED WORK",
+      "hi": "सेव किया हुआ काम",
+      "gu": "સેવ કરેલું કામ"
+    },
+    "ui.yourkundlisstayunderyourcontrol.1j02rkp": {
+      "en": "Your Kundlis stay under your control.",
+      "hi": "आपकी कुंडलियां आपके नियंत्रण में रहती हैं.",
+      "gu": "તમારી કુંડળીઓ તમારા નિયંત્રણમાં રહે છે."
+    },
+    "ui.whatissaved.1ffpepb": {
+      "en": "What is saved?",
+      "hi": "क्या सेव होता है?",
+      "gu": "શું સેવ થાય છે?"
+    },
+    "ui.keepprofilesreportsandfamilychartsorganizedwithout.1orqyne": {
+      "en": "Keep profiles, reports, and family charts organized without crowding today’s guidance.",
+      "hi": "प्रोफाइल, रिपोर्ट और परिवार चार्ट व्यवस्थित रहें, आज का मार्गदर्शन भी साफ रहे.",
+      "gu": "પ્રોફાઇલ, રિપોર્ટ અને પરિવાર ચાર્ટ ગોઠવેલા રહે, આજનું માર્ગદર્શન પણ સ્પષ્ટ રહે."
+    },
+    "ui.savedkundlis.j68936": {
+      "en": "Saved Kundlis",
+      "hi": "सेव कुंडलियां",
+      "gu": "સેવ કુંડળીઓ"
+    },
+    "ui.whenyouwantmoredepth.16ao13a": {
+      "en": "WHEN YOU WANT MORE DEPTH",
+      "hi": "जब आपको अधिक गहराई चाहिए",
+      "gu": "જ્યારે તમને વધુ ઊંડાણ જોઈએ"
+    },
+    "ui.upgradeonlyafterthefreereadinghelps.18exxee": {
+      "en": "Upgrade only after the free reading helps.",
+      "hi": "मुफ्त रीडिंग उपयोगी लगे तभी अपग्रेड करें.",
+      "gu": "મફત રીડિંગ ઉપયોગી લાગે ત્યારે જ અપગ્રેડ કરો."
+    },
+    "ui.whyupgrade.1700dws": {
+      "en": "Why upgrade?",
+      "hi": "अपग्रेड क्यों करें?",
+      "gu": "અપગ્રેડ કેમ કરવું?"
+    },
+    "ui.freestaysusefulpaidoptionsarefordeeper.1rk9xqs": {
+      "en": "Free stays useful. Paid options are for deeper timing, polished PDFs, monthly planning, and longer guidance when you actually need them.",
+      "hi": "मुफ्त अनुभव उपयोगी रहता है. भुगतान विकल्प गहरे समय, सुंदर PDF, मासिक योजना और लंबे मार्गदर्शन के लिए हैं.",
+      "gu": "મફત અનુભવ ઉપયોગી રહે છે. ચૂકવેલ વિકલ્પો ઊંડા સમય, સુંદર PDF, માસિક યોજના અને લાંબા માર્ગદર્શન માટે છે."
+    },
+    "ui.ongoingguidance.1eir67u": {
+      "en": "Ongoing guidance",
+      "hi": "लगातार मार्गदर्शन",
+      "gu": "સતત માર્ગદર્શન"
+    },
+    "ui.onepolishedfile.10vcylj": {
+      "en": "One polished file",
+      "hi": "एक सुंदर तैयार फाइल",
+      "gu": "એક સુંદર તૈયાર ફાઇલ"
+    },
+    "ui.pdfreport.16xiwc9": {
+      "en": "PDF report",
+      "hi": "PDF रिपोर्ट",
+      "gu": "PDF રિપોર્ટ"
+    },
+    "ui.bestforkundlicareermarriagewealthorsade.1fdxyav": {
+      "en": "Best for Kundli, career, marriage, wealth, or Sade Sati.",
+      "hi": "कुंडली, करियर, विवाह, धन या साढ़े साती के लिए अच्छा.",
+      "gu": "કુંડળી, કારકિર્દી, લગ્ન, ધન અથવા સાડેસાતી માટે સારું."
+    },
+    "ui.tryfirst.gheizk": {
+      "en": "Try first",
+      "hi": "पहले आज़माएं",
+      "gu": "પહેલા અજમાવો"
+    },
+    "ui.usepremiumdepthfor24hoursbeforesubscribing.17z64mc": {
+      "en": "Use premium depth for 24 hours before subscribing.",
+      "hi": "सदस्यता से पहले 24 घंटे प्रीमियम गहराई इस्तेमाल करें.",
+      "gu": "સભ્યતા પહેલાં 24 કલાક પ્રીમિયમ ઊંડાણ વાપરો."
+    },
+    "ui.startherenohuntingaround.25ewm2": {
+      "en": "Start here. No hunting around.",
+      "hi": "यहीं से शुरू करें. ढूंढना नहीं पड़ेगा.",
+      "gu": "અહીંથી શરૂ કરો. શોધવું નહીં પડે."
+    },
+    "ui.passinstructions.hx6e67": {
+      "en": "Pass instructions",
+      "hi": "पास निर्देश",
+      "gu": "પાસ સૂચનાઓ"
+    },
+    "ui.redeemyourpasswiththeemailusedfor.frpcgl": {
+      "en": "Redeem your pass with the email used for it, create your Kundli, then ask Predicta one question you actually care about. If you are not sure which email was used, contact the Predicta admin or the person who invited you.",
+      "hi": "जिस ईमेल से पास बना है उसी से पास उपयोग करें, कुंडली बनाएं, फिर Predicta से अपना असली सवाल पूछें. ईमेल याद न हो तो Predicta व्यवस्थापक या आमंत्रित करने वाले व्यक्ति से संपर्क करें.",
+      "gu": "જે ઇમેઇલથી પાસ બન્યો છે તેનાથી પાસ ઉપયોગ કરો, કુંડળી બનાવો, પછી Predicta ને તમારો સાચો પ્રશ્ન પૂછો. ઇમેઇલ યાદ ન હોય તો Predicta સંચાલક અથવા આમંત્રિત કરનાર વ્યક્તિનો સંપર્ક કરો."
+    },
+    "ui.whattoask.1k3g825": {
+      "en": "What to ask",
+      "hi": "क्या पूछें",
+      "gu": "શું પૂછવું"
+    },
+    "ui.yourkundli.v8s2kl": {
+      "en": "Your Kundli",
+      "hi": "आपकी कुंडली",
+      "gu": "તમારી કુંડળી"
+    },
+    "ui.isready.3nov96": {
+      "en": "is ready.",
+      "hi": "तैयार है.",
+      "gu": "તૈયાર છે."
+    },
+    "ui.whatwouldyouliketoseenext.baea2a": {
+      "en": "What would you like to see next?",
+      "hi": "अब आप क्या देखना चाहेंगे?",
+      "gu": "હવે તમે શું જોવા માંગશો?"
+    },
+    "ui.predictacannowreadthiskundliacrosstoday.cmqvl9": {
+      "en": "Predicta can now read this Kundli across today, timing, charts, remedies, and reports.",
+      "hi": "Predicta अब इस कुंडली से आज, समय, चार्ट, उपाय और रिपोर्ट पढ़ सकती है.",
+      "gu": "Predicta હવે આ કુંડળીથી આજ, સમય, ચાર્ટ, ઉપાય અને રિપોર્ટ વાંચી શકે છે."
+    },
+    "ui.risingsignmeansyourstartingstylemoonsign.1nv5pnx": {
+      "en": "Rising sign means your starting style. Moon sign means your emotional pattern. Dasha means the current life chapter.",
+      "hi": "लग्न राशि आपकी शुरुआत की शैली दिखाती है. चंद्र राशि भावनात्मक पैटर्न दिखाती है. दशा वर्तमान जीवन अध्याय दिखाती है.",
+      "gu": "લગ્ન રાશિ તમારી શરૂઆતની શૈલી બતાવે છે. ચંદ્ર રાશિ ભાવનાત્મક પેટર્ન બતાવે છે. દશા હાલનો જીવન અધ્યાય બતાવે છે."
+    },
+    "ui.thechartwillclearlyrememberthisasa.tcdis1": {
+      "en": "The chart will clearly remember this as a probable corrected time.",
+      "hi": "चार्ट इसे संभावित सुधारे गए समय के रूप में याद रखेगा.",
+      "gu": "ચાર્ટ તેને સંભવિત સુધારેલા સમય તરીકે યાદ રાખશે."
+    },
+    "ui.thiskundliusesthebirthtimeyouconfirmed.hcmrq1": {
+      "en": "This Kundli uses the birth time you confirmed. No birth-time recalculation was applied.",
+      "hi": "यह कुंडली आपके पुष्टि किए गए जन्म समय से बनी है. जन्म समय दोबारा नहीं सुधारा गया.",
+      "gu": "આ કુંડળી તમે ખાતરી કરેલા જન્મ સમયથી બની છે. જન્મ સમય ફરી સુધારાયો નથી."
+    },
+    "ui.thiskundliusesaprobablecorrectedtime.v85w46": {
+      "en": "This Kundli uses a probable corrected time:",
+      "hi": "यह कुंडली संभावित सुधारे गए समय से बनी है:",
+      "gu": "આ કુંડળી સંભવિત સુધારેલા સમયથી बनी છે:"
+    },
+    "ui.originalenteredtime.9oft6i": {
+      "en": "Original entered time:",
+      "hi": "मूल दर्ज समय:",
+      "gu": "મૂળ દાખલ સમય:"
+    },
+    "ui.chartdrawnwith.1wjyr7j": {
+      "en": "Chart drawn with:",
+      "hi": "चार्ट बनाया गया समय:",
+      "gu": "ચાર્ટ બનાવેલો સમય:"
+    },
+    "ui.probabletime.fv3m5r": {
+      "en": "Probable time:",
+      "hi": "संभावित समय:",
+      "gu": "સંભવિત સમય:"
+    },
+    "ui.useprobabletime.ltwvx2": {
+      "en": "Use probable time",
+      "hi": "संभावित समय इस्तेमाल करें",
+      "gu": "સંભવિત સમય વાપરો"
+    },
+    "ui.useenteredtimeinstead.33hxi2": {
+      "en": "Use entered time instead",
+      "hi": "दर्ज समय ही इस्तेमाल करें",
+      "gu": "દાખલ કરેલો સમય જ વાપરો"
+    },
+    "ui.usemyenteredtime.1uc5hpq": {
+      "en": "Use my entered time",
+      "hi": "मेरा दर्ज समय इस्तेमाल करें",
+      "gu": "મારો દાખલ કરેલો સમય વાપરો"
+    },
+    "ui.nocorrectedtimewordingwillappearifyou.1l3ifkg": {
+      "en": "No corrected-time wording will appear if you choose this path.",
+      "hi": "यह विकल्प चुनने पर सुधारे गए समय की भाषा नहीं दिखेगी.",
+      "gu": "આ વિકલ્પ પસંદ કરશો તો સુધારેલા સમયની ભાષા નહીં દેખાય."
+    },
+    "ui.birthtimecheck.cya9sj": {
+      "en": "BIRTH TIME CHECK",
+      "hi": "जन्म समय जांच",
+      "gu": "જન્મ સમય તપાસ"
+    },
+    "ui.doyouwantpredictatorecheckthis.4vi7p2": {
+      "en": "Do you want Predicta to re-check this time?",
+      "hi": "क्या आप चाहते हैं कि Predicta यह समय दोबारा जांचे?",
+      "gu": "શું તમે ઈચ્છો છો કે Predicta આ સમય ફરી તપાસે?"
+    },
+    "ui.sinceyoumarkedthetimeapproximatepredictacan.14wp3et": {
+      "en": "Since you marked the time approximate, Predicta can ask a few simple yes/no life questions before creating the Kundli. You can also use the entered time if you are confident it is correct.",
+      "hi": "आपने समय अनुमानित बताया है, इसलिए कुंडली बनाने से पहले Predicta कुछ आसान हां/नहीं जीवन सवाल पूछ सकती है. भरोसा हो तो दर्ज समय भी इस्तेमाल कर सकते हैं.",
+      "gu": "તમે સમય અંદાજિત બતાવ્યો છે, તેથી કુંડળી બનાવતા પહેલાં Predicta થોડા સરળ હા/ના જીવન પ્રશ્નો પૂછી શકે છે. વિશ્વાસ હોય તો દાખલ સમય પણ વાપરી શકો છો."
+    },
+    "ui.answer.156lggp": {
+      "en": "Answer",
+      "hi": "उत्तर दें",
+      "gu": "જવાબ આપો"
+    },
+    "ui.morequestion.6tvq7y": {
+      "en": "more question",
+      "hi": "और सवाल",
+      "gu": "વધુ પ્રશ્ન"
+    },
+    "ui.morequestions.caqvd9": {
+      "en": "more questions",
+      "hi": "और सवाल",
+      "gu": "વધુ પ્રશ્નો"
+    },
+    "ui.togetaprobabletime.1uf6ho7": {
+      "en": "to get a probable time.",
+      "hi": "संभावित समय पाने के लिए.",
+      "gu": "સંભવિત સમય મેળવવા માટે."
+    },
+    "ui.yes.376p8q": {
+      "en": "Yes",
+      "hi": "हां",
+      "gu": "હા"
+    },
+    "ui.no.3hnac": {
+      "en": "No",
+      "hi": "नहीं",
+      "gu": "ના"
+    },
+    "ui.planetshere.1stiblg": {
+      "en": "Planets here:",
+      "hi": "यहां ग्रह:",
+      "gu": "અહીં ગ્રહો:"
     }
   }
 }

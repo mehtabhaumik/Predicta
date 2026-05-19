@@ -11,6 +11,7 @@ import {
   getLanguageLabels,
   type LanguageOption,
 } from '@pridicta/config/language';
+import { translateUiText } from '@pridicta/config/uiTranslations';
 import {
   buildChartRenderModel,
   buildChartSelectionPrompt,
@@ -23,6 +24,7 @@ import {
   NORTH_INDIAN_CHART_LINE_PATHS,
   NORTH_INDIAN_HOUSE_POLYGONS,
   shouldUseStandardHouseMeaning,
+  type ChartInsight,
   type ChartRenderLegendItem,
   type ChartRenderSchool,
   type MoonNakshatraPadaInsight,
@@ -84,6 +86,10 @@ export function WebKundliChart({
     [birthDetails, chart, chartLanguage, schoolOverride],
   );
   const cells = renderModel.cells;
+  const localizedInsight = useMemo(
+    () => localizeChartInsight(insight, chartLanguage),
+    [insight, chartLanguage],
+  );
   const activeCell = cells.find(cell => cell.house === selectedHouse) ?? cells[0];
   const activeHouseMeaning = getChartFocusLabel(chart.chartType, activeCell?.house);
   const chartRole = chartRoleOverride ?? getChartRole(chart.chartType);
@@ -106,11 +112,11 @@ export function WebKundliChart({
           <StatusPill label={`${ownerName}'s chart`} tone="quiet" />
         ) : null}
         <div className="unsupported-chart-state">
-          <div className="section-title">{insight.eyebrow}</div>
-          <h2>{insight.title}</h2>
-          <p>{insight.summary}</p>
+          <div className="section-title">{localizedInsight.eyebrow}</div>
+          <h2>{localizedInsight.title}</h2>
+          <p>{localizedInsight.summary}</p>
           <ul>
-            {insight.bullets.map(item => (
+            {localizedInsight.bullets.map(item => (
               <li key={item}>{item}</li>
             ))}
           </ul>
@@ -129,8 +135,10 @@ export function WebKundliChart({
           <div className="section-title">{sectionTitle}</div>
           <h2>{renderModel.displayChartName}</h2>
           <p id={chartInstructionsId}>
-            Select a house to understand that life area. Keyboard users can tab
-            through the houses and press Enter or Space to choose one.
+            {translateUiText(
+              'Select a house to understand that life area. Keyboard users can tab through the houses and press Enter or Space to choose one.',
+              appLanguage,
+            )}
           </p>
         </div>
         <ChartLanguageSelector
@@ -224,29 +232,38 @@ export function WebKundliChart({
         ))}
         <div className="north-chart-center">
           <span>{chart.chartType}</span>
-          <strong>{centerLabel ?? (chart.chartType === 'D1' ? 'Root chart' : 'D1 anchored')}</strong>
+          <strong>
+            {centerLabel ??
+              translateUiText(
+                chart.chartType === 'D1' ? 'Root chart' : 'D1 anchored',
+                chartLanguage,
+              )}
+          </strong>
         </div>
       </div>
 
-      <ChartLegend items={renderModel.legend} />
-      <MoonNakshatraPadaStrip insight={renderModel.moonNakshatraPada} />
+      <ChartLegend items={renderModel.legend} language={appLanguage} />
+      <MoonNakshatraPadaStrip
+        insight={renderModel.moonNakshatraPada}
+        language={chartLanguage}
+      />
 
       <div className="chart-insight-panel">
         <div>
-          <div className="section-title">{insight.eyebrow}</div>
-          <h3>{insight.title}</h3>
-          <p>{insight.summary}</p>
+          <div className="section-title">{localizedInsight.eyebrow}</div>
+          <h3>{localizedInsight.title}</h3>
+          <p>{localizedInsight.summary}</p>
         </div>
         <ul>
-          {insight.bullets.map(item => (
+          {localizedInsight.bullets.map(item => (
             <li key={item}>{item}</li>
           ))}
         </ul>
-        {insight.premiumNudge ? (
+        {localizedInsight.premiumNudge ? (
           <div className="chart-premium-nudge">
-            <span>{insight.premiumNudge}</span>
+            <span>{localizedInsight.premiumNudge}</span>
             <Link className="button secondary" href="/pricing">
-              See Premium
+              {translateUiText('See Premium', appLanguage)}
             </Link>
           </div>
         ) : null}
@@ -259,36 +276,56 @@ export function WebKundliChart({
           key={`${chart.chartType}-${activeCell.house}`}
         >
           <div>
-            <div className="section-title">DRILLDOWN</div>
+            <div className="section-title">
+              {translateUiText('DRILLDOWN', appLanguage)}
+            </div>
             <h3>
-              House {activeCell.house} · {activeCell.displaySign}
+              {formatHouseHeading(
+                activeCell.house ?? selectedHouse,
+                activeCell.displaySign,
+                chartLanguage,
+              )}
             </h3>
             <p>
               {activeCell.planets.length
-                ? `Planets here: ${activeCell.planets.join(', ')}.`
-                : 'No planets occupy this sign in the preview chart.'}
+                ? formatPlanetsHere(activeCell, chartLanguage)
+                : translateUiText(
+                    'No planets occupy this sign in the preview chart.',
+                    chartLanguage,
+                  )}
             </p>
           </div>
           <div className="chart-drilldown-grid">
             <div>
-              <span>Life area</span>
-              <strong>{isD1 ? activeHouseMeaning : chartRole}</strong>
+              <span>{translateUiText('Life area', appLanguage)}</span>
+              <strong>
+                {isD1
+                  ? localizeChartPhrase(activeHouseMeaning, chartLanguage)
+                  : localizeChartPhrase(chartRole, chartLanguage)}
+              </strong>
             </div>
             <div>
-              <span>{isD1 ? 'Chart role' : 'Varga rule'}</span>
-              <strong>{isD1 ? chartRole : 'Use its specific purpose, not D1 house meanings'}</strong>
+              <span>{translateUiText(isD1 ? 'Chart role' : 'Varga rule', appLanguage)}</span>
+              <strong>
+                {isD1
+                  ? localizeChartPhrase(chartRole, chartLanguage)
+                  : translateUiText(
+                      'Use its specific purpose, not D1 house meanings',
+                      chartLanguage,
+                    )}
+              </strong>
             </div>
             <div>
-              <span>Reading rule</span>
+              <span>{translateUiText('Reading rule', appLanguage)}</span>
               <strong>
                 {chart.chartType === 'D1'
-                  ? 'Use as the root chart'
-                  : `Read ${chart.chartType} with D1`}
+                  ? translateUiText('Use as the root chart', chartLanguage)
+                  : formatReadWithD1(chart.chartType, chartLanguage)}
               </strong>
             </div>
             {activeSpecialPoints.length ? (
               <div>
-                <span>Subtle points</span>
+                <span>{translateUiText('Subtle points', appLanguage)}</span>
                 <strong>
                   {activeSpecialPoints
                     .map(point => `${point.name}: ${getSpecialPointMeaning(point)}`)
@@ -299,7 +336,7 @@ export function WebKundliChart({
           </div>
           <div className="drilldown-actions">
             <StatusPill
-              label={`House ${activeCell.house}`}
+              label={formatHouseLabel(activeCell.house ?? selectedHouse, chartLanguage)}
               tone="premium"
             />
             <Link
@@ -309,21 +346,26 @@ export function WebKundliChart({
                 chartType: chart.chartType,
                 house: activeCell.house,
                 kundliId,
-                purpose: insight.summary,
+                purpose: localizedInsight.summary,
               })}
             >
-              Ask Predicta
+              {translateUiText('Ask Predicta', appLanguage)}
             </Link>
           </div>
           {activeCell.planets.length ? (
-            <div className="planet-chip-row planet-chip-row-static" aria-label="Planets in selected house">
+            <div
+              className="planet-chip-row planet-chip-row-static"
+              aria-label={translateUiText('Planets in selected house', appLanguage)}
+            >
               {activeCell.renderPlanets.map(planet => (
                 <span key={planet.key}>{planet.displayName}</span>
               ))}
             </div>
           ) : null}
           {!isD1 || readingNoteOverride ? (
-            <p className="varga-reading-note">{readingNote}</p>
+            <p className="varga-reading-note">
+              {localizeChartPhrase(readingNote, chartLanguage)}
+            </p>
           ) : null}
         </div>
       ) : null}
@@ -384,6 +426,354 @@ function getChartLanguageLabel(
   return activeLanguage === 'en' ? option.englishName : option.nativeName;
 }
 
+function localizeChartInsight(
+  insight: ChartInsight,
+  language: SupportedLanguage,
+): ChartInsight {
+  return {
+    ...insight,
+    bullets: insight.bullets.map(item => localizeChartPhrase(item, language)),
+    eyebrow: translateUiText(insight.eyebrow, language),
+    premiumNudge: insight.premiumNudge
+      ? localizeChartPhrase(insight.premiumNudge, language)
+      : undefined,
+    summary: localizeChartPhrase(insight.summary, language),
+    title: localizeChartTitle(insight.title, language),
+  };
+}
+
+function localizeChartTitle(value: string, language: SupportedLanguage): string {
+  if (language === 'en') {
+    return value;
+  }
+
+  return CHART_TITLE_TRANSLATIONS[value]?.[language] ?? translateUiText(value, language);
+}
+
+function localizeChartPhrase(value: string, language: SupportedLanguage): string {
+  if (language === 'en') {
+    return value;
+  }
+
+  const direct = translateUiText(value, language);
+  if (direct !== value) {
+    return direct;
+  }
+
+  const chartName = Object.keys(CHART_TITLE_TRANSLATIONS).find(name =>
+    value.includes(name),
+  );
+  const localizedChartName = chartName
+    ? localizeChartTitle(chartName, language)
+    : undefined;
+
+  if (/^This free view gives the practical purpose of .+ and the main placement pattern without deep prediction\.$/.test(value)) {
+    return language === 'hi'
+      ? `यह मुफ्त दृश्य ${localizedChartName ?? 'इस चार्ट'} का उद्देश्य और मुख्य ग्रह-स्थिति सरल रूप में दिखाता है.`
+      : `આ મફત દૃશ્ય ${localizedChartName ?? 'આ ચાર્ટ'} નો હેતુ અને મુખ્ય ગ્રહ-સ્થિતિ સરળ રીતે બતાવે છે.`;
+  }
+
+  if (/^Premium depth reads .+ as a real synthesis layer: D1 anchor, varga placements, dasha activation, confidence, and practical next steps\.$/.test(value)) {
+    return language === 'hi'
+      ? `प्रीमियम ${localizedChartName ?? 'इस चार्ट'} को D1 आधार, वर्ग स्थिति, दशा सक्रियता, भरोसे और व्यावहारिक अगले कदमों के साथ गहराई से पढ़ता है.`
+      : `પ્રીમિયમ ${localizedChartName ?? 'આ ચાર્ટ'} ને D1 આધાર, વર્ગ સ્થિતિ, દશા સક્રિયતા, વિશ્વાસ અને વ્યવહારુ આગળના પગલાં સાથે ઊંડાણથી વાંચે છે.`;
+  }
+
+  const focusMatch = value.match(/^(D\d+) focuses on (.+)\.$/);
+  if (focusMatch) {
+    const [, chartType, focus] = focusMatch;
+    return language === 'hi'
+      ? `${chartType} ${localizeFocusPhrase(focus, language)} पर ध्यान देता है.`
+      : `${chartType} ${localizeFocusPhrase(focus, language)} પર ધ્યાન આપે છે.`;
+  }
+
+  const focusD1Match = value.match(/^(D\d+) focuses on (.+), and should be judged through D1 first\.$/);
+  if (focusD1Match) {
+    const [, chartType, focus] = focusD1Match;
+    return language === 'hi'
+      ? `${chartType} ${localizeFocusPhrase(focus, language)} पर ध्यान देता है और इसे पहले D1 के आधार से पढ़ना चाहिए.`
+      : `${chartType} ${localizeFocusPhrase(focus, language)} પર ધ્યાન આપે છે અને તેને પહેલા D1 આધારથી વાંચવું જોઈએ.`;
+  }
+
+  const occupiedMatch = value.match(/^(\d+) houses have planet placements in this chart\.$/);
+  if (occupiedMatch) {
+    return language === 'hi'
+      ? `इस चार्ट में ${occupiedMatch[1]} भावों में ग्रह स्थित हैं.`
+      : `આ ચાર્ટમાં ${occupiedMatch[1]} ભાવોમાં ગ્રહો છે.`;
+  }
+
+  const usefulMatch = value.match(/^Useful starting points: (.+)\.$/);
+  if (usefulMatch) {
+    return language === 'hi'
+      ? `शुरू करने के उपयोगी बिंदु: ${localizePlacementList(usefulMatch[1], language)}.`
+      : `શરૂ કરવા માટે ઉપયોગી મુદ્દા: ${localizePlacementList(usefulMatch[1], language)}.`;
+  }
+
+  const clusterMatch = value.match(/^Detailed placement clusters: (.+)\.$/);
+  if (clusterMatch) {
+    return language === 'hi'
+      ? `विस्तृत ग्रह समूह: ${localizePlacementList(clusterMatch[1], language)}.`
+      : `વિગતવાર ગ્રહ સમૂહ: ${localizePlacementList(clusterMatch[1], language)}.`;
+  }
+
+  const ascendantMatch = value.match(/^Ascendant sign in this chart is (.+), setting the lens for this area\.$/);
+  if (ascendantMatch) {
+    return language === 'hi'
+      ? `इस चार्ट में लग्न राशि ${localizeSignName(ascendantMatch[1], language)} है, इसलिए इसी से यह क्षेत्र पढ़ा जाता है.`
+      : `આ ચાર્ટમાં લગ્ન રાશિ ${localizeSignName(ascendantMatch[1], language)} છે, એટલે આ ક્ષેત્ર એ આધારથી વાંચાય છે.`;
+  }
+
+  const readWithD1Match = value.match(/^Read (D\d+) together with D1; never judge this area from the varga alone\.$/);
+  if (readWithD1Match) {
+    return formatReadWithD1Detail(readWithD1Match[1], language);
+  }
+
+  return CHART_PHRASE_TRANSLATIONS[value]?.[language] ?? value;
+}
+
+function localizeFocusPhrase(value: string, language: SupportedLanguage): string {
+  return FOCUS_PHRASE_TRANSLATIONS[value]?.[language] ?? value;
+}
+
+function localizePlacementList(value: string, language: SupportedLanguage): string {
+  return value
+    .replace(/\b(D\d+) house (\d+):/g, (_match, chartType, house) =>
+      language === 'hi'
+        ? `${chartType} भाव ${house}:`
+        : `${chartType} ભાવ ${house}:`,
+    )
+    .replace(
+      /\b(Sun|Moon|Mars|Mercury|Jupiter|Venus|Saturn|Rahu|Ketu|Uranus|Neptune|Pluto|Gulika|Mandi|Dhuma|Vyatipata|Parivesha|Indrachapa|Upaketu)\b/g,
+      planet => PLANET_NAME_TRANSLATIONS[planet]?.[language] ?? planet,
+    );
+}
+
+function formatHouseHeading(
+  house: number,
+  displaySign: string,
+  language: SupportedLanguage,
+): string {
+  if (language === 'hi') {
+    return `भाव ${house} · ${displaySign}`;
+  }
+
+  if (language === 'gu') {
+    return `ભાવ ${house} · ${displaySign}`;
+  }
+
+  return `House ${house} · ${displaySign}`;
+}
+
+function formatHouseLabel(house: number, language: SupportedLanguage): string {
+  if (language === 'hi') {
+    return `भाव ${house}`;
+  }
+
+  if (language === 'gu') {
+    return `ભાવ ${house}`;
+  }
+
+  return `House ${house}`;
+}
+
+function formatPlanetsHere(
+  cell: { renderPlanets: { displayName: string }[] },
+  language: SupportedLanguage,
+): string {
+  const names = cell.renderPlanets.map(planet => planet.displayName).join(', ');
+  const prefix = translateUiText('Planets here:', language);
+  return `${prefix} ${names}.`;
+}
+
+function formatReadWithD1(chartType: ChartType, language: SupportedLanguage): string {
+  if (language === 'hi') {
+    return `${chartType} को D1 के साथ पढ़ें`;
+  }
+
+  if (language === 'gu') {
+    return `${chartType} ને D1 સાથે વાંચો`;
+  }
+
+  return `Read ${chartType} with D1`;
+}
+
+function formatReadWithD1Detail(chartType: string, language: SupportedLanguage): string {
+  if (language === 'hi') {
+    return `${chartType} को D1 के साथ पढ़ें; केवल वर्ग देखकर निर्णय न करें.`;
+  }
+
+  if (language === 'gu') {
+    return `${chartType} ને D1 સાથે વાંચો; માત્ર વર્ગ જોઈને નિર્ણય ન કરો.`;
+  }
+
+  return `Read ${chartType} together with D1; never judge this area from the varga alone.`;
+}
+
+function localizeSignName(sign: string, language: SupportedLanguage): string {
+  return SIGN_NAME_TRANSLATIONS[sign]?.[language] ?? sign;
+}
+
+const CHART_TITLE_TRANSLATIONS: Record<
+  string,
+  Partial<Record<SupportedLanguage, string>>
+> = {
+  'Rashi Chart': { gu: 'રાશિ ચાર્ટ', hi: 'राशि चार्ट' },
+  'Hora Chart': { gu: 'હોરા ચાર્ટ', hi: 'होरा चार्ट' },
+  'Drekkana Chart': { gu: 'દ્રેક્કાણ ચાર્ટ', hi: 'द्रेष्काण चार्ट' },
+  'Chaturthamsha Chart': { gu: 'ચતુર્થાંશ ચાર્ટ', hi: 'चतुर्थांश चार्ट' },
+  'Navamsha Chart': { gu: 'નવાંશ ચાર્ટ', hi: 'नवांश चार्ट' },
+  'Dashamsha Chart': { gu: 'દશાંશ ચાર્ટ', hi: 'दशांश चार्ट' },
+};
+
+const SIGN_NAME_TRANSLATIONS: Record<string, Partial<Record<SupportedLanguage, string>>> = {
+  Aries: { gu: 'મેષ', hi: 'मेष' },
+  Taurus: { gu: 'વૃષભ', hi: 'वृषभ' },
+  Gemini: { gu: 'મિથુન', hi: 'मिथुन' },
+  Cancer: { gu: 'કર્ક', hi: 'कर्क' },
+  Leo: { gu: 'સિંહ', hi: 'सिंह' },
+  Virgo: { gu: 'કન્યા', hi: 'कन्या' },
+  Libra: { gu: 'તુલા', hi: 'तुला' },
+  Scorpio: { gu: 'વૃશ્ચિક', hi: 'वृश्चिक' },
+  Sagittarius: { gu: 'ધનુ', hi: 'धनु' },
+  Capricorn: { gu: 'મકર', hi: 'मकर' },
+  Aquarius: { gu: 'કુંભ', hi: 'कुंभ' },
+  Pisces: { gu: 'મીન', hi: 'मीन' },
+};
+
+const PLANET_NAME_TRANSLATIONS: Record<string, Partial<Record<SupportedLanguage, string>>> = {
+  Dhuma: { gu: 'ધૂમ', hi: 'धूम' },
+  Gulika: { gu: 'ગુલિક', hi: 'गुलिक' },
+  Indrachapa: { gu: 'ઇન્દ્રચાપ', hi: 'इन्द्रचाप' },
+  Jupiter: { gu: 'ગુરુ', hi: 'गुरु' },
+  Ketu: { gu: 'કેતુ', hi: 'केतु' },
+  Mandi: { gu: 'માંડી', hi: 'मांडी' },
+  Mars: { gu: 'મંગળ', hi: 'मंगल' },
+  Mercury: { gu: 'બુધ', hi: 'बुध' },
+  Moon: { gu: 'ચંદ્ર', hi: 'चंद्र' },
+  Neptune: { gu: 'નેપચ્યુન', hi: 'नेप्च्यून' },
+  Parivesha: { gu: 'પરિવેષ', hi: 'परिवेष' },
+  Pluto: { gu: 'પ્લૂટો', hi: 'प्लूटो' },
+  Rahu: { gu: 'રાહુ', hi: 'राहु' },
+  Saturn: { gu: 'શનિ', hi: 'शनि' },
+  Sun: { gu: 'સૂર્ય', hi: 'सूर्य' },
+  Upaketu: { gu: 'ઉપકેતુ', hi: 'उपकेतु' },
+  Uranus: { gu: 'યુરેનસ', hi: 'यूरेनस' },
+  Venus: { gu: 'શુક્ર', hi: 'शुक्र' },
+  Vyatipata: { gu: 'વ્યતિપાત', hi: 'व्यतीपात' },
+};
+
+const FOCUS_PHRASE_TRANSLATIONS: Record<
+  string,
+  Partial<Record<SupportedLanguage, string>>
+> = {
+  'body, identity, life direction, houses, and visible karma': {
+    gu: 'શરીર, ઓળખ, જીવન દિશા, ભાવો અને દેખાતું કર્મ',
+    hi: 'शरीर, पहचान, जीवन दिशा, भाव और दिखने वाला कर्म',
+  },
+  'wealth handling, resources, and money temperament': {
+    gu: 'ધન વ્યવહાર, સંસાધન અને પૈસાનું સ્વભાવ',
+    hi: 'धन संभाल, संसाधन और पैसे का स्वभाव',
+  },
+  'courage, siblings, effort, and practical stamina': {
+    gu: 'હિંમત, ભાઈ-બહેન, પ્રયત્ન અને વ્યવહારુ સહનશક્તિ',
+    hi: 'साहस, भाई-बहन, प्रयास और व्यावहारिक सहनशक्ति',
+  },
+  'home, property, fixed assets, and inner stability': {
+    gu: 'ઘર, મિલકત, સ્થિર સંપત્તિ અને આંતરિક સ્થિરતા',
+    hi: 'घर, संपत्ति, स्थिर संपत्ति और अंदरूनी स्थिरता',
+  },
+  'marriage, dharma, maturity, and deeper planet strength': {
+    gu: 'લગ્ન, ધર્મ, પરિપક્વતા અને ગ્રહોની ઊંડી શક્તિ',
+    hi: 'विवाह, धर्म, परिपक्वता और ग्रहों की गहरी शक्ति',
+  },
+  'career, public work, authority, and contribution': {
+    gu: 'કારકિર્દી, જાહેર કાર્ય, અધિકાર અને યોગદાન',
+    hi: 'करियर, सार्वजनिक काम, अधिकार और योगदान',
+  },
+};
+
+const CHART_PHRASE_TRANSLATIONS: Record<
+  string,
+  Partial<Record<SupportedLanguage, string>>
+> = {
+  'No planet-heavy house stands out in this chart preview.': {
+    gu: 'આ ચાર્ટ પૂર્વદર્શનામાં કોઈ ભાવમાં ભારે ગ્રહ સમૂહ દેખાતો નથી.',
+    hi: 'इस चार्ट पूर्वावलोकन में कोई भाव ग्रहों से बहुत भारी नहीं दिखता.',
+  },
+  'D1 remains the root chart for all predictions.': {
+    gu: 'દરેક આગાહી માટે D1 મૂળ ચાર્ટ રહે છે.',
+    hi: 'हर prediction के लिए D1 मूल चार्ट रहता है.',
+  },
+  'Premium turns this into detailed chart synthesis with D1 anchoring, dasha timing, strength checks, and report-ready guidance.': {
+    gu: 'પ્રીમિયમ તેને D1 આધાર, દશા સમય, શક્તિ તપાસ અને રિપોર્ટ માટે તૈયાર માર્ગદર્શન સાથે ઊંડા ચાર્ટ વાંચનમાં ફેરવે છે.',
+    hi: 'प्रीमियम इसे D1 आधार, दशा समय, शक्ति जांच और रिपोर्ट के लिए तैयार मार्गदर्शन के साथ गहरी चार्ट रीडिंग में बदलता है.',
+  },
+  'D1 is the root chart. Houses can be read with standard house meanings, then refined by dasha, gochar, strength, and divisional support.': {
+    gu: 'D1 મૂળ ચાર્ટ છે. ભાવો સામાન્ય ભાવ અર્થથી વાંચાય છે, પછી દશા, ગોચર, શક્તિ અને વિભાગીય સહારે સુધારાય છે.',
+    hi: 'D1 मूल चार्ट है. भावों को सामान्य भाव अर्थ से पढ़ा जाता है, फिर दशा, गोचर, शक्ति और वर्गीय सहारे से सुधारा जाता है.',
+  },
+  'This varga is a focused divisional confirmation chart. Read it through its specific purpose and D1 anchor, not as a standalone general Kundli.': {
+    gu: 'આ વર્ગ ખાસ વિષય માટેનું પુષ્ટિ ચાર્ટ છે. તેને તેના હેતુ અને D1 આધારથી વાંચો, અલગ સામાન્ય કુંડળીની જેમ નહીં.',
+    hi: 'यह वर्ग खास विषय के लिए पुष्टि चार्ट है. इसे इसके उद्देश्य और D1 आधार से पढ़ें, अलग सामान्य कुंडली की तरह नहीं.',
+  },
+  'main life chart': {
+    gu: 'મુખ્ય જીવન ચાર્ટ',
+    hi: 'मुख्य जीवन चार्ट',
+  },
+  'focused divisional lens': {
+    gu: 'કેન્દ્રિત વર્ગીય દૃષ્ટિ',
+    hi: 'केंद्रित वर्गीय lens',
+  },
+  'self, body, identity': {
+    gu: 'સ્વ, શરીર, ઓળખ',
+    hi: 'स्वयं, शरीर, पहचान',
+  },
+  'money, speech, family values': {
+    gu: 'પૈસા, વાણી, પરિવારના મૂલ્યો',
+    hi: 'धन, वाणी, पारिवारिक मूल्य',
+  },
+  'effort, courage, siblings': {
+    gu: 'પ્રયત્ન, હિંમત, ભાઈ-બહેન',
+    hi: 'प्रयास, साहस, भाई-बहन',
+  },
+  'home, mother, emotional base': {
+    gu: 'ઘર, માતા, ભાવનાત્મક આધાર',
+    hi: 'घर, माता, भावनात्मक आधार',
+  },
+  'children, learning, merit': {
+    gu: 'સંતાન, શિક્ષણ, પુણ્ય',
+    hi: 'संतान, सीखना, पुण्य',
+  },
+  'work pressure, health discipline': {
+    gu: 'કામનો દબાવ, આરોગ્ય શિસ્ત',
+    hi: 'काम का दबाव, स्वास्थ्य अनुशासन',
+  },
+  'marriage, partners, contracts': {
+    gu: 'લગ્ન, ભાગીદાર, કરાર',
+    hi: 'विवाह, साथी, समझौते',
+  },
+  'change, secrets, transformation': {
+    gu: 'બદલાવ, રહસ્ય, પરિવર્તન',
+    hi: 'बदलाव, रहस्य, परिवर्तन',
+  },
+  'fortune, dharma, teachers': {
+    gu: 'ભાગ્ય, ધર્મ, ગુરુ',
+    hi: 'भाग्य, धर्म, गुरु',
+  },
+  'career, status, responsibility': {
+    gu: 'કારકિર્દી, સ્થાન, જવાબદારી',
+    hi: 'करियर, पद, जिम्मेदारी',
+  },
+  'gains, network, ambitions': {
+    gu: 'લાભ, નેટવર્ક, મહત્ત્વાકાંક્ષા',
+    hi: 'लाभ, नेटवर्क, महत्वाकांक्षा',
+  },
+  'sleep, expense, release': {
+    gu: 'નિંદ્રા, ખર્ચ, મુક્તિ',
+    hi: 'नींद, खर्च, मुक्ति',
+  },
+};
+
 function getNorthHousePolygonPoints(house?: number): string {
   return house
     ? (NORTH_INDIAN_HOUSE_POLYGONS[house] ?? [])
@@ -409,8 +799,10 @@ export function NorthIndianChartLines(): React.JSX.Element {
 
 function MoonNakshatraPadaStrip({
   insight,
+  language = 'en',
 }: {
   insight?: MoonNakshatraPadaInsight;
+  language?: SupportedLanguage;
 }): React.JSX.Element | null {
   if (!insight) {
     return null;
@@ -419,15 +811,15 @@ function MoonNakshatraPadaStrip({
   return (
     <div className="moon-nakshatra-strip">
       <div>
-        <span>Moon rhythm</span>
+        <span>{translateUiText('Moon rhythm', language)}</span>
         <strong>{insight.moonPhaseLabel}</strong>
         <small>{insight.moonPhaseMeaning}</small>
       </div>
       <div>
-        <span>Birth star</span>
+        <span>{translateUiText('Birth star', language)}</span>
         <strong>
           {insight.moonNakshatra}
-          {insight.pada ? ` pada ${insight.pada}` : ''}
+          {insight.pada ? formatPadaLabel(insight.pada, language) : ''}
         </strong>
         {insight.padaMeaning ? <small>{insight.padaMeaning}</small> : null}
       </div>
@@ -438,9 +830,11 @@ function MoonNakshatraPadaStrip({
 export function ChartLegend({
   compact = false,
   items,
+  language = 'en',
 }: {
   compact?: boolean;
   items: ChartRenderLegendItem[];
+  language?: SupportedLanguage;
 }): React.JSX.Element | null {
   if (!items.length) {
     return null;
@@ -449,7 +843,7 @@ export function ChartLegend({
   return (
     <div
       className={`chart-legend ${compact ? 'compact' : ''}`}
-      aria-label="Chart legend"
+      aria-label={translateUiText('Chart legend', language)}
     >
       {items.map(item => (
         <span className={`chart-legend-item ${item.tone}`} key={item.code}>
@@ -459,6 +853,18 @@ export function ChartLegend({
       ))}
     </div>
   );
+}
+
+function formatPadaLabel(pada: number, language: SupportedLanguage): string {
+  if (language === 'hi') {
+    return ` पाद ${pada}`;
+  }
+
+  if (language === 'gu') {
+    return ` પાદ ${pada}`;
+  }
+
+  return ` pada ${pada}`;
 }
 
 function buildChartAskHref({

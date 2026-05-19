@@ -71,7 +71,9 @@ export function useLanguagePreference(): {
     (nextLanguage: SupportedLanguage) => {
       updatePreference({
         appLanguage: nextLanguage,
+        chartLanguage: nextLanguage,
         language: nextLanguage,
+        reportLanguage: nextLanguage,
       });
     },
     [updatePreference],

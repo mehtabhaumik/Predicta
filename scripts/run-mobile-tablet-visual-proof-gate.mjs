@@ -84,7 +84,7 @@ try {
         await navigateAndWait(cdp, `${baseUrl}${route}`);
         await cdp.send('Runtime.evaluate', {
           expression:
-            'document.fonts && document.fonts.ready ? document.fonts.ready.then(() => true) : true',
+            'document.fonts && document.fonts.ready ? Promise.race([document.fonts.ready.then(() => true), new Promise(resolve => setTimeout(() => resolve(false), 4000))]) : true',
           awaitPromise: true,
         });
 
