@@ -65,8 +65,8 @@ function buildEventViews(
   kundli: KundliData,
   nowIso: string,
 ): LifeTimelineEventView[] {
-  const sourceEvents = collectEvents(kundli);
   const nowTime = parseTime(nowIso);
+  const sourceEvents = collectEvents(kundli, nowTime);
 
   return sourceEvents
     .map(event => {
@@ -92,36 +92,60 @@ function buildEventViews(
     .sort((a, b) => eventSort(a, b));
 }
 
-function collectEvents(kundli: KundliData): TimelineEvent[] {
+function collectEvents(kundli: KundliData, nowTime: number): TimelineEvent[] {
   const seen = new Set<string>();
   const events: TimelineEvent[] = [];
 
   for (const event of kundli.lifeTimeline ?? []) {
-    if (!seen.has(event.id)) {
-      seen.add(event.id);
+    if (isPastDasha(event, nowTime)) {
+      continue;
+    }
+
+    const key = eventIdentity(event);
+    if (!seen.has(key)) {
+      seen.add(key);
       events.push(event);
     }
   }
 
-  for (const dasha of kundli.dasha.timeline.slice(0, 5)) {
-    const id = `dasha-${dasha.mahadasha.toLowerCase()}`;
-    if (!seen.has(id)) {
-      seen.add(id);
-      events.push({
-        confidence: 'high',
-        endDate: dasha.endDate,
-        houses: [],
-        id,
-        kind: 'dasha',
-        planets: [dasha.mahadasha],
-        startDate: dasha.startDate,
-        summary: 'Major Vimshottari chapter for long-range planning.',
-        title: `${dasha.mahadasha} Mahadasha`,
-      });
+  const currentAndFutureDashas = [...kundli.dasha.timeline]
+    .filter(dasha => parseTime(dasha.endDate) >= nowTime)
+    .sort((a, b) => parseTime(a.startDate) - parseTime(b.startDate))
+    .slice(0, 5);
+
+  for (const dasha of currentAndFutureDashas) {
+    const event: TimelineEvent = {
+      confidence: 'high',
+      endDate: dasha.endDate,
+      houses: [],
+      id: `dasha-${dasha.mahadasha.toLowerCase()}-${dasha.startDate}`,
+      kind: 'dasha',
+      planets: [dasha.mahadasha],
+      startDate: dasha.startDate,
+      summary: 'Major Vimshottari chapter for long-range planning.',
+      title: `${dasha.mahadasha} Mahadasha`,
+    };
+    const key = eventIdentity(event);
+    if (!seen.has(key)) {
+      seen.add(key);
+      events.push(event);
     }
   }
 
   return events;
+}
+
+function eventIdentity(event: TimelineEvent): string {
+  return [
+    event.kind,
+    event.title.toLowerCase(),
+    event.startDate,
+    event.endDate ?? '',
+  ].join('|');
+}
+
+function isPastDasha(event: TimelineEvent, nowTime: number): boolean {
+  return event.kind === 'dasha' && event.endDate ? parseTime(event.endDate) < nowTime : false;
 }
 
 function buildSections(
@@ -138,13 +162,14 @@ function buildSections(
 function resolveStatus(event: TimelineEvent, nowTime: number): TimelineStatus {
   const startTime = parseTime(event.startDate);
   const endTime = event.endDate ? parseTime(event.endDate) : startTime;
+  const nextWindowMs = 18 * 30 * 24 * 60 * 60 * 1000;
 
   if (startTime <= nowTime && endTime >= nowTime) {
     return 'now';
   }
 
   if (startTime > nowTime) {
-    return 'next';
+    return startTime - nowTime <= nextWindowMs ? 'next' : 'later';
   }
 
   return event.kind === 'remedy' || event.kind === 'transit' ? 'now' : 'later';

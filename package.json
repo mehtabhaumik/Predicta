@@ -17,6 +17,7 @@
     "test:discipline-handoff": "node scripts/run-discipline-handoff-contract.mjs",
     "test:signature-report": "node scripts/run-signature-report-synthesis.mjs",
     "test:buyer-rejection": "node scripts/run-end-to-end-buyer-rejection-test.mjs",
+    "test:life-timeline": "node scripts/run-life-timeline-dasha-gate.mjs",
     "test:pdf-golden": "node scripts/run-pdf-report-golden-output-gate.mjs",
     "test:predicta-context": "node scripts/run-predicta-context-reliability-suite.mjs",
     "test:public-greenlight": "node scripts/run-public-testing-greenlight-audit.mjs",
