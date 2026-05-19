@@ -22,6 +22,9 @@ documents for Predicta.
 - [Predicta_Chat_Enhancements.md](/Users/bhaumikmehta/Desktop/Predicta/docs/Predicta_Chat_Enhancements.md)
   Single-phase prompt for rebuilding all Predicta chat rooms into a large,
   ChatGPT-style shared workspace shell.
+- [Predicta_kundli_and_chat_animation.md](/Users/bhaumikmehta/Desktop/Predicta/docs/Predicta_kundli_and_chat_animation.md)
+  Roadmap for rebuilding Kundli, chat, loading, and entrance animations without
+  disturbing North Indian chart geometry.
 
 ## Backend, Authority, And Security
 
