@@ -1,5 +1,90 @@
 # Word Navigation Rebuild Roadmap
 
+## Global Rule
+
+Predicta must be designed and implemented as **one product with five distinct worlds, five specialist Predictas, shared user context, and no method mixing**.
+
+The public/user-facing worlds are:
+
+- **Vedic**
+- **KP**
+- **Nadi**
+- **Numerology**
+- **Signature**
+
+These must not be treated as “schools,” hidden room selectors, buried tabs, or add-ons.
+
+Under the hood, Predicta can remain one shared system. In the user experience, each world must feel like a dedicated expert space with its own page, hero, proof cards, reports, and obvious chat CTA:
+
+- Chat with Vedic Predicta
+- Chat with KP Predicta
+- Chat with Nadi Predicta
+- Chat with Numerology Predicta
+- Chat with Signature Predicta
+
+Each chat must load its own room context automatically:
+
+- `/dashboard/vedic/chat`
+- `/dashboard/kp/chat`
+- `/dashboard/nadi/chat`
+- `/dashboard/numerology/chat`
+- `/dashboard/signature/chat`
+
+There must be no generic “Predicta Chart” surface where users hunt for Vedic, KP, Nadi, Numerology, or Signature modes.
+
+Main navigation must show:
+
+- Dashboard
+- Vedic
+- KP
+- Nadi
+- Numerology
+- Signature
+- Reports
+- Library
+- Account
+
+Inside each world, local navigation must show only relevant items.
+
+Each room needs:
+
+- separate prompt
+- separate memory
+- separate proof cards
+- separate allowed data
+- separate report format
+- separate safety language
+- strict handoff rules
+
+Do not claim fake authority such as “50 years experience” unless the quality is visible through the product. Trust must come from:
+
+- method proof
+- calculation steps
+- grounded explanation
+- visible data used
+- clear uncertainty
+
+Language rules:
+
+- App Hindi uses proper Hindi script.
+- App Gujarati uses proper Gujarati script.
+- Predicta Hindi replies use Hindi script.
+- Predicta Gujarati replies use Gujarati script.
+- English terms may appear only where normal users expect them, not randomly mixed.
+- No half-translated UI.
+
+Strict tests:
+
+- Vedic does not answer as KP.
+- KP does not answer as Vedic.
+- Nadi avoids fake manuscript claims.
+- Numerology actually calculates.
+- Signature gives useful analysis.
+- Hindi/Gujarati scripts render properly.
+- Handoffs preserve context.
+
+Recommendation: do not keep improving the current subtle implementation. Rebuild the product structure around the five worlds. That is the trust fix.
+
 You are right. The current direction is too subtle. It treats KP, Nadi, Numerology, and Signature like add-ons. That weakens trust.
 
 ## Core Correction
