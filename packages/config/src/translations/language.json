@@ -103,10 +103,16 @@
       "groups": {
         "account": "Account",
         "charts": "Charts",
+        "common": "Common",
         "guidance": "Guidance",
         "owner": "Owner",
+        "predicta": "Predicta",
         "savedWork": "Saved Work",
-        "start": "Start"
+        "sections": "Main Sections",
+        "schools": "Schools",
+        "start": "Start",
+        "thisSection": "This Section",
+        "trust": "Trust"
       },
       "nav": {
         "admin": "Admin",
@@ -155,10 +161,16 @@
       "groups": {
         "account": "खाता",
         "charts": "चार्ट",
+        "common": "सामान्य",
         "guidance": "मार्गदर्शन",
         "owner": "मालिक",
+        "predicta": "प्रेडिक्टा",
         "savedWork": "सेव किया हुआ",
-        "start": "शुरू करें"
+        "sections": "मुख्य भाग",
+        "schools": "ज्योतिष पद्धतियां",
+        "start": "शुरू करें",
+        "thisSection": "इस भाग में",
+        "trust": "विश्वास"
       },
       "nav": {
         "admin": "एडमिन",
@@ -207,10 +219,16 @@
       "groups": {
         "account": "ખાતું",
         "charts": "ચાર્ટ્સ",
+        "common": "સામાન્ય",
         "guidance": "માર્ગદર્શન",
         "owner": "માલિક",
+        "predicta": "પ્રેડિક્ટા",
         "savedWork": "સેવ કરેલું",
-        "start": "શરૂ કરો"
+        "sections": "મુખ્ય વિભાગો",
+        "schools": "જ્યોતિષ પદ્ધતિઓ",
+        "start": "શરૂ કરો",
+        "thisSection": "આ વિભાગમાં",
+        "trust": "વિશ્વાસ"
       },
       "nav": {
         "admin": "એડમિન",

@@ -47,10 +47,16 @@ export type AppShellLabels = {
   groups: {
     account: string;
     charts: string;
+    common: string;
     guidance: string;
     owner: string;
+    predicta: string;
     savedWork: string;
+    sections: string;
+    schools: string;
     start: string;
+    thisSection: string;
+    trust: string;
   };
   nav: {
     admin: string;

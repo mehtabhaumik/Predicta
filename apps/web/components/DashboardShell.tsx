@@ -14,66 +14,109 @@ import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useLanguagePreference } from '../lib/language-preference';
 import { useDialogFocusTrap } from '../lib/use-dialog-focus-trap';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
-import { SidebarNav, type SidebarGroup } from './SidebarNav';
+import {
+  SidebarNav,
+  type SidebarGroup,
+  type SidebarSection,
+} from './SidebarNav';
 import { WebFooter } from './WebFooter';
 import { WebLanguageSelector } from './WebLanguageSelector';
 
-function buildDashboardNavGroups(
+type DashboardNavModel = {
+  commonGroups: SidebarGroup[];
+  sections: SidebarSection[];
+};
+
+function buildDashboardNavModel(
   labels: AppShellLabels,
   feedbackLabel: string,
-): SidebarGroup[] {
-  return [
-  {
-    label: labels.groups.start,
-    items: [
-      { href: '/', label: labels.nav.home },
-      { href: '/dashboard', label: labels.nav.overview },
-      { href: '/dashboard/chat', label: labels.nav.chat },
-      { href: '/dashboard/decision', label: labels.nav.decision },
-    ],
-  },
-  {
-    label: labels.groups.charts,
-    items: [
-      { href: '/dashboard/kundli', label: labels.nav.kundli },
-      { href: '/dashboard/charts', label: labels.nav.allCharts },
-      { href: '/dashboard/kp', label: labels.nav.kpPredicta },
-      { href: '/dashboard/nadi', label: labels.nav.nadiPredicta },
-    ],
-  },
-  {
-    label: labels.groups.guidance,
-    items: [
-      { href: '/dashboard/timeline', label: labels.nav.timeline },
-      { href: '/dashboard/holistic', label: labels.nav.holisticAstrology },
-      { href: '/dashboard/remedies', label: labels.nav.remedies },
-      { href: '/dashboard/birth-time', label: labels.nav.birthTime },
-      { href: '/dashboard/relationship', label: labels.nav.relationship },
-      { href: '/dashboard/family', label: labels.nav.family },
-    ],
-  },
-  {
-    label: labels.groups.savedWork,
-    items: [
-      { href: '/dashboard/wrapped', label: labels.nav.wrapped },
-      { href: '/dashboard/report', label: labels.nav.reports },
-      { href: '/dashboard/saved-kundlis', label: labels.nav.savedKundlis },
-    ],
-  },
-  {
-    label: labels.groups.account,
-    items: [
-      { href: '/dashboard/premium', label: labels.nav.premium },
-      { href: '/dashboard/redeem-pass', label: labels.nav.redeemPass },
-      { href: '/dashboard/settings', label: labels.nav.settings },
-      { href: '/accuracy-method', label: labels.nav.accuracyMethod },
-      { href: '/safety', label: labels.nav.safetyPromise },
-      { href: '/founder', label: labels.nav.founderVision },
-      { href: '/feedback', label: feedbackLabel },
-      { href: '/legal', label: labels.nav.legal },
-    ],
-  },
+): DashboardNavModel {
+  const sections: SidebarSection[] = [
+    {
+      href: '/dashboard',
+      id: 'overview',
+      label: labels.nav.overview,
+      items: [
+        { href: '/dashboard', label: labels.nav.overview },
+        { href: '/dashboard/decision', label: labels.nav.decision },
+      ],
+    },
+    {
+      href: '/dashboard/kundli',
+      id: 'kundli',
+      label: labels.nav.kundli,
+      items: [
+        { href: '/dashboard/kundli', label: labels.nav.kundli },
+        { href: '/dashboard/charts', label: labels.nav.allCharts },
+        { href: '/dashboard/birth-time', label: labels.nav.birthTime },
+      ],
+    },
+    {
+      href: '/dashboard/chat',
+      id: 'predicta',
+      label: labels.groups.predicta,
+      items: [
+        { href: '/dashboard/chat', label: labels.nav.chat },
+        { href: '/dashboard/timeline', label: labels.nav.timeline },
+        { href: '/dashboard/holistic', label: labels.nav.holisticAstrology },
+        { href: '/dashboard/remedies', label: labels.nav.remedies },
+      ],
+    },
+    {
+      href: '/dashboard/kp',
+      id: 'schools',
+      label: labels.groups.schools,
+      items: [
+        { href: '/dashboard/kp', label: labels.nav.kpPredicta },
+        { href: '/dashboard/nadi', label: labels.nav.nadiPredicta },
+      ],
+    },
+    {
+      href: '/dashboard/family',
+      id: 'family',
+      label: labels.nav.family,
+      items: [
+        { href: '/dashboard/family', label: labels.nav.family },
+        { href: '/dashboard/relationship', label: labels.nav.relationship },
+      ],
+    },
+    {
+      href: '/dashboard/saved-kundlis',
+      id: 'library',
+      label: labels.groups.savedWork,
+      items: [
+        { href: '/dashboard/saved-kundlis', label: labels.nav.savedKundlis },
+        { href: '/dashboard/report', label: labels.nav.reports },
+        { href: '/dashboard/wrapped', label: labels.nav.wrapped },
+      ],
+    },
+    {
+      href: '/dashboard/settings',
+      id: 'account',
+      label: labels.groups.account,
+      items: [
+        { href: '/dashboard/settings', label: labels.nav.settings },
+        { href: '/dashboard/premium', label: labels.nav.premium },
+        { href: '/dashboard/redeem-pass', label: labels.nav.redeemPass },
+      ],
+    },
   ];
+
+  return {
+    commonGroups: [
+      {
+        label: labels.groups.trust,
+        items: [
+          { href: '/accuracy-method', label: labels.nav.accuracyMethod },
+          { href: '/safety', label: labels.nav.safetyPromise },
+          { href: '/founder', label: labels.nav.founderVision },
+          { href: '/feedback', label: feedbackLabel },
+          { href: '/legal', label: labels.nav.legal },
+        ],
+      },
+    ],
+    sections,
+  };
 }
 
 function isDashboardNavItemActive(pathname: string, href: string): boolean {
@@ -88,6 +131,17 @@ function isDashboardNavItemActive(pathname: string, href: string): boolean {
   return pathname.startsWith(href);
 }
 
+function getActiveDashboardSection(
+  pathname: string,
+  sections: SidebarSection[],
+): SidebarSection {
+  return (
+    sections.find(section =>
+      section.items.some(item => isDashboardNavItemActive(pathname, item.href)),
+    ) ?? sections[0]
+  );
+}
+
 export function DashboardShell({
   access,
   children,
@@ -99,24 +153,25 @@ export function DashboardShell({
   const reduceMotion = useReducedMotion();
   const { language } = useLanguagePreference();
   const shellLabels = getAppShellLabels(language);
-  const navGroups = buildDashboardNavGroups(
+  const { commonGroups, sections } = buildDashboardNavModel(
     shellLabels,
     getFeedbackNavLabel(language),
   );
+  const activeSection = getActiveDashboardSection(pathname, sections);
   const showAdmin = canSeeAdminRoute(access);
   const [menuOpen, setMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLElement | null>(null);
   const mobileMenuCloseRef = useRef<HTMLButtonElement | null>(null);
   const { activeKundli } = useWebKundliLibrary();
-  const visibleGroups = showAdmin
+  const supportGroups = showAdmin
     ? [
-        ...navGroups,
+        ...commonGroups,
         {
           label: shellLabels.groups.owner,
           items: [{ href: '/dashboard/admin', label: shellLabels.nav.admin }],
         },
       ]
-    : navGroups;
+    : commonGroups;
 
   useDialogFocusTrap(mobileMenuRef, {
     active: menuOpen,
@@ -127,12 +182,16 @@ export function DashboardShell({
   return (
     <div className="dashboard-shell">
       <SidebarNav
+        activeSection={activeSection}
         adminLabel={shellLabels.nav.admin}
-        groups={navGroups}
+        commonGroups={commonGroups}
         ownerLabel={shellLabels.groups.owner}
         privateSaveBody={shellLabels.privateSave.body}
         privateSaveTitle={shellLabels.privateSave.title}
+        sectionLabel={shellLabels.groups.sections}
+        sections={sections}
         showAdmin={showAdmin}
+        thisSectionLabel={shellLabels.groups.thisSection}
       />
       <main className="main-workspace">
         <div className="dashboard-topbar glass-panel">
@@ -197,7 +256,73 @@ export function DashboardShell({
                 </button>
               </div>
               <nav aria-label="Dashboard menu links">
-                {visibleGroups.map(group => (
+                <div className="dashboard-mobile-nav-section">
+                  <span>{shellLabels.groups.sections}</span>
+                  <div className="dashboard-mobile-section-switcher">
+                    {sections.map(section => {
+                      const active = section.id === activeSection.id;
+                      const exactPage = pathname === section.href;
+
+                      return (
+                        exactPage ? (
+                          <span
+                            aria-current="page"
+                            aria-disabled="true"
+                            className="active disabled"
+                            key={section.id}
+                          >
+                            {section.label}
+                          </span>
+                        ) : (
+                          <Link
+                            aria-current={active ? 'true' : undefined}
+                            className={active ? 'active' : undefined}
+                            href={section.href}
+                            key={section.id}
+                            onClick={() => setMenuOpen(false)}
+                          >
+                            {section.label}
+                          </Link>
+                        )
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="dashboard-mobile-nav-section">
+                  <span>{shellLabels.groups.thisSection}</span>
+                  <div>
+                    {activeSection.items.map(item => {
+                      const active = isDashboardNavItemActive(
+                        pathname,
+                        item.href,
+                      );
+
+                      return (
+                        active ? (
+                          <span
+                            aria-current="page"
+                            aria-disabled="true"
+                            className="active disabled"
+                            key={item.href}
+                          >
+                            {item.label}
+                          </span>
+                        ) : (
+                          <Link
+                            href={item.href}
+                            key={item.href}
+                            onClick={() => setMenuOpen(false)}
+                          >
+                            {item.label}
+                          </Link>
+                        )
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {supportGroups.map(group => (
                   <div className="dashboard-mobile-nav-section" key={group.label}>
                     <span>{group.label}</span>
                     <div>

@@ -1762,6 +1762,10 @@ button:disabled {
   gap: 7px;
 }
 
+.nav-section-switcher {
+  gap: 8px;
+}
+
 .nav-link {
   border: 1px solid transparent;
   border-radius: 12px;
@@ -1776,6 +1780,19 @@ button:disabled {
   background: rgba(255, 255, 255, 0.06);
   border-color: var(--border);
   color: var(--text);
+}
+
+.nav-section-link {
+  background: rgba(255, 255, 255, 0.035);
+  font-size: 13px;
+  padding-block: 11px;
+}
+
+.nav-section-link.active {
+  background:
+    linear-gradient(135deg, rgba(111, 99, 255, 0.18), rgba(77, 175, 255, 0.1)),
+    rgba(255, 255, 255, 0.055);
+  border-color: rgba(120, 155, 255, 0.34);
 }
 
 .sidebar-note {
@@ -1924,6 +1941,10 @@ button:disabled {
 .dashboard-mobile-nav-section > div {
   display: grid;
   gap: 8px;
+}
+
+.dashboard-mobile-section-switcher {
+  gap: 9px;
 }
 
 .dashboard-mobile-drawer nav a,
