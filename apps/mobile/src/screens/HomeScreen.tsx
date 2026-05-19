@@ -46,19 +46,11 @@ const predictaLogo = require('../assets/predicta-logo.png');
 function buildMobileNavGroups(labels: AppShellLabels) {
   return [
   {
-    label: labels.groups.start,
+    label: labels.groups.worlds,
     items: [
-      [labels.nav.kundli, routes.Kundli],
-      [labels.nav.chat, routes.Chat],
-      [labels.nav.decision, routes.DecisionOracle],
-    ],
-  },
-  {
-    label: labels.groups.charts,
-    items: [
-      [labels.nav.allCharts, routes.Charts],
-      [labels.nav.kpPredicta, routes.KpPredicta],
-      [labels.nav.nadiPredicta, routes.NadiPredicta],
+      [labels.nav.vedic, routes.Kundli],
+      [labels.nav.kp, routes.KpPredicta],
+      [labels.nav.nadi, routes.NadiPredicta],
       [labels.nav.numerologyPredicta, routes.NumerologyPredicta],
       [labels.nav.signaturePredicta, routes.SignaturePredicta],
     ],
@@ -66,26 +58,34 @@ function buildMobileNavGroups(labels: AppShellLabels) {
   {
     label: labels.groups.guidance,
     items: [
+      [labels.nav.chat, routes.Chat],
+      [labels.nav.allCharts, routes.Charts],
       [labels.nav.timeline, routes.LifeTimeline],
       [labels.nav.holisticAstrology, routes.HolisticReadingRooms],
       [labels.nav.remedies, routes.RemedyCoach],
       [labels.nav.birthTime, routes.BirthTimeDetective],
-      [labels.nav.relationship, routes.RelationshipMirror],
-      [labels.nav.family, routes.FamilyKarmaMap],
+      [labels.nav.decision, routes.DecisionOracle],
     ],
   },
   {
-    label: labels.groups.savedWork,
+    label: labels.nav.library,
     items: [
-      [labels.nav.wrapped, routes.PredictaWrapped],
-      [labels.nav.reports, routes.Report],
       [labels.nav.savedKundlis, routes.SavedKundlis],
+      [labels.nav.relationship, routes.RelationshipMirror],
+      [labels.nav.family, routes.FamilyKarmaMap],
+      [labels.nav.wrapped, routes.PredictaWrapped],
+    ],
+  },
+  {
+    label: labels.nav.reports,
+    items: [
+      [labels.nav.reports, routes.Report],
+      [labels.nav.premium, routes.Paywall],
     ],
   },
   {
     label: labels.groups.account,
     items: [
-      [labels.nav.premium, routes.Paywall],
       [labels.nav.redeemPass, routes.RedeemPassCode],
       [labels.nav.settings, routes.Settings],
       [labels.nav.accuracyMethod, routes.AccuracyMethod],

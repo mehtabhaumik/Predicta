@@ -57,11 +57,13 @@ export type AppShellLabels = {
     start: string;
     thisSection: string;
     trust: string;
+    worlds: string;
   };
   nav: {
     admin: string;
     accuracyMethod: string;
     allCharts: string;
+    account: string;
     birthTime: string;
     chat: string;
     decision: string;
@@ -69,10 +71,14 @@ export type AppShellLabels = {
     founderVision: string;
     home: string;
     holisticAstrology: string;
+    kp: string;
     kpPredicta: string;
     kundli: string;
+    library: string;
     legal: string;
+    nadi: string;
     nadiPredicta: string;
+    numerology: string;
     numerologyPredicta: string;
     overview: string;
     premium: string;
@@ -83,8 +89,11 @@ export type AppShellLabels = {
     safetyPromise: string;
     savedKundlis: string;
     settings: string;
+    signature: string;
     signaturePredicta: string;
     timeline: string;
+    vedic: string;
+    vedicPredicta: string;
     wrapped: string;
   };
   privateSave: {

@@ -88,7 +88,7 @@ export function WebNadiPredictaPanel({
               <div className="section-title">NADI PREDICTA</div>
               <h1 className="gradient-text">Premium Nadi reading room.</h1>
               <p>
-                Nadi Predicta is its own premium school. It reads planetary
+                Nadi Predicta is its own premium world. It reads planetary
                 story links, karaka themes, validation questions, and timing
                 activations. It does not pretend to access original palm-leaf
                 manuscripts.

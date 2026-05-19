@@ -28,10 +28,13 @@ type DashboardNavModel = {
 };
 
 const SECTIONS_WITH_LOCAL_NAV = new Set([
-  'kundli',
-  'predicta',
-  'schools',
-  'family',
+  'vedic',
+  'kp',
+  'nadi',
+  'numerology',
+  'signature',
+  'reports',
+  'library',
   'account',
 ]);
 
@@ -46,67 +49,82 @@ function buildDashboardNavModel(
       label: labels.nav.overview,
       items: [
         { href: '/dashboard', label: labels.nav.overview },
+      ],
+    },
+    {
+      href: '/dashboard/vedic',
+      id: 'vedic',
+      label: labels.nav.vedic,
+      items: [
+        { href: '/dashboard/vedic', label: labels.nav.vedicPredicta },
+        { href: '/dashboard/chat', label: labels.nav.chat },
+        { href: '/dashboard/kundli', label: labels.nav.kundli },
+        { href: '/dashboard/charts', label: labels.nav.allCharts },
+        { href: '/dashboard/timeline', label: labels.nav.timeline },
+        { href: '/dashboard/remedies', label: labels.nav.remedies },
+        { href: '/dashboard/holistic', label: labels.nav.holisticAstrology },
+        { href: '/dashboard/birth-time', label: labels.nav.birthTime },
         { href: '/dashboard/decision', label: labels.nav.decision },
       ],
     },
     {
-      href: '/dashboard/kundli',
-      id: 'kundli',
-      label: labels.nav.kundli,
-      items: [
-        { href: '/dashboard/kundli', label: labels.nav.kundli },
-        { href: '/dashboard/charts', label: labels.nav.allCharts },
-        { href: '/dashboard/birth-time', label: labels.nav.birthTime },
-      ],
-    },
-    {
-      href: '/dashboard/chat',
-      id: 'predicta',
-      label: labels.groups.predicta,
-      items: [
-        { href: '/dashboard/chat', label: labels.nav.chat },
-        { href: '/dashboard/timeline', label: labels.nav.timeline },
-        { href: '/dashboard/holistic', label: labels.nav.holisticAstrology },
-        { href: '/dashboard/remedies', label: labels.nav.remedies },
-      ],
-    },
-    {
       href: '/dashboard/kp',
-      id: 'schools',
-      label: labels.groups.schools,
+      id: 'kp',
+      label: labels.nav.kp,
       items: [
         { href: '/dashboard/kp', label: labels.nav.kpPredicta },
+      ],
+    },
+    {
+      href: '/dashboard/nadi',
+      id: 'nadi',
+      label: labels.nav.nadi,
+      items: [
         { href: '/dashboard/nadi', label: labels.nav.nadiPredicta },
+      ],
+    },
+    {
+      href: '/dashboard/numerology',
+      id: 'numerology',
+      label: labels.nav.numerology,
+      items: [
         { href: '/dashboard/numerology', label: labels.nav.numerologyPredicta },
+      ],
+    },
+    {
+      href: '/dashboard/signature',
+      id: 'signature',
+      label: labels.nav.signature,
+      items: [
         { href: '/dashboard/signature', label: labels.nav.signaturePredicta },
       ],
     },
     {
-      href: '/dashboard/family',
-      id: 'family',
-      label: labels.nav.family,
+      href: '/dashboard/report',
+      id: 'reports',
+      label: labels.nav.reports,
       items: [
-        { href: '/dashboard/family', label: labels.nav.family },
-        { href: '/dashboard/relationship', label: labels.nav.relationship },
+        { href: '/dashboard/report', label: labels.nav.reports },
+        { href: '/dashboard/premium', label: labels.nav.premium },
       ],
     },
     {
       href: '/dashboard/saved-kundlis',
       id: 'library',
-      label: labels.groups.savedWork,
+      label: labels.nav.library,
       items: [
         { href: '/dashboard/saved-kundlis', label: labels.nav.savedKundlis },
-        { href: '/dashboard/report', label: labels.nav.reports },
+        { href: '/dashboard/family', label: labels.nav.family },
+        { href: '/dashboard/relationship', label: labels.nav.relationship },
         { href: '/dashboard/wrapped', label: labels.nav.wrapped },
       ],
     },
     {
       href: '/dashboard/settings',
       id: 'account',
-      label: labels.groups.account,
+      label: labels.nav.account,
       items: [
         { href: '/dashboard/settings', label: labels.nav.settings },
-        { href: '/dashboard/premium', label: labels.nav.premium },
         { href: '/dashboard/redeem-pass', label: labels.nav.redeemPass },
       ],
     },

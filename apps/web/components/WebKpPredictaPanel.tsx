@@ -126,7 +126,7 @@ export function WebKpPredictaPanel({
           <div className="school-panel-hero">
             <div>
               <div className="section-title">KP PREDICTA</div>
-              <h1 className="gradient-text">A separate precision school.</h1>
+              <h1 className="gradient-text">A dedicated KP precision world.</h1>
               <details className="info-drawer">
                 <summary>
                   <span>KP method</span>
@@ -175,7 +175,7 @@ export function WebKpPredictaPanel({
 
           <details className="info-drawer school-callout">
             <summary>
-              <span>School boundary</span>
+              <span>World boundary</span>
               <strong>Open</strong>
             </summary>
             <p>
