@@ -19,6 +19,9 @@ documents for Predicta.
 - [Word_navigation_rebuild.md](/Users/bhaumikmehta/Desktop/Predicta/docs/Word_navigation_rebuild.md)
   Revival roadmap for rebuilding Predicta around Vedic, KP, Nadi, Numerology,
   and Signature as distinct specialist worlds with shared context.
+- [Predicta_Chat_Enhancements.md](/Users/bhaumikmehta/Desktop/Predicta/docs/Predicta_Chat_Enhancements.md)
+  Single-phase prompt for rebuilding all Predicta chat rooms into a large,
+  ChatGPT-style shared workspace shell.
 
 ## Backend, Authority, And Security
 
