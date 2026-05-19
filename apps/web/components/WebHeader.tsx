@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { SupportedLanguage } from '@pridicta/types';
 import { useLanguagePreference } from '../lib/language-preference';
 import { AuthDialog } from './AuthDialog';
@@ -69,7 +69,41 @@ export function WebHeader(): React.JSX.Element {
   const { language } = useLanguagePreference();
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement | null>(null);
   const copy = publicHeaderCopy[language] ?? publicHeaderCopy.en;
+
+  useEffect(() => {
+    if (!menuOpen) {
+      return undefined;
+    }
+
+    function onPointerDown(event: PointerEvent) {
+      const target = event.target;
+
+      if (
+        target instanceof Node &&
+        mobileMenuRef.current?.contains(target)
+      ) {
+        return;
+      }
+
+      setMenuOpen(false);
+    }
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setMenuOpen(false);
+      }
+    }
+
+    document.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [menuOpen]);
 
   return (
     <header className="web-header">
@@ -114,7 +148,7 @@ export function WebHeader(): React.JSX.Element {
           {copy.dashboard}
         </Link>
       </div>
-      <div className="mobile-menu">
+      <div className="mobile-menu" ref={mobileMenuRef}>
         <button
           aria-expanded={menuOpen}
           aria-label={copy.menu}
@@ -127,15 +161,13 @@ export function WebHeader(): React.JSX.Element {
           <span aria-hidden="true" />
         </button>
         {menuOpen ? (
-          <div
-            className="mobile-menu-scrim"
-            onClick={() => setMenuOpen(false)}
-            role="presentation"
-          >
+          <>
             <div
-              className="mobile-menu-panel"
-              onClick={event => event.stopPropagation()}
-            >
+              className="mobile-menu-scrim"
+              onClick={() => setMenuOpen(false)}
+              role="presentation"
+            />
+            <div className="mobile-menu-panel">
               <nav aria-label="Mobile navigation">
                 {copy.links.map(link => {
                   const active = isPublicNavActive(pathname, link.href);
@@ -172,7 +204,7 @@ export function WebHeader(): React.JSX.Element {
                 </Link>
               </div>
             </div>
-          </div>
+          </>
         ) : null}
       </div>
     </header>
