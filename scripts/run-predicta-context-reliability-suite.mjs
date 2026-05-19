@@ -60,6 +60,26 @@ const checks = [
   },
   {
     file: 'apps/web/components/WebPridictaChat.tsx',
+    label: 'explicit house prompts override stale selected-house context before AI handoff',
+    mustContain: [
+      'resolveChartContextForQuestion(text)',
+      'extractHouseNumbersFromText(text)',
+      'selectedHouse: explicitHouses.length === 1 ? explicitHouses[0] : undefined',
+      'chartContext: questionChartContext',
+    ],
+  },
+  {
+    file: 'apps/web/components/WebPridictaChat.tsx',
+    label: 'chat embedded Kundli uses house hit targets separate from labels',
+    mustContain: [
+      'north-house-state-map chat-house-state-map',
+      'className={`north-house north-house-${cell.house}',
+      'className={`north-house-label north-house-label-${cell.house}',
+      'points={getChatHousePolygonPoints(cell.house ?? 0)}',
+    ],
+  },
+  {
+    file: 'apps/web/components/WebPridictaChat.tsx',
     label: 'chat sessions persist school, chart, house, language, and Kundli context',
     mustContain: [
       'school: getSchoolFromContext(sessionPatch.activeChartContext)',

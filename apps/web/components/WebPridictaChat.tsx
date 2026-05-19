@@ -23,6 +23,7 @@ import {
   getChartReadingNote,
   findHouseCell,
   learnPredictaInteraction,
+  NORTH_INDIAN_HOUSE_POLYGONS,
   preparePredictaLanguageContext,
   shouldUseStandardHouseMeaning,
   shouldAskBeforeSwitchingToEnglish,
@@ -920,6 +921,7 @@ export function WebPridictaChat(): React.JSX.Element {
     responseLanguage: SupportedLanguage,
     acknowledgement?: string,
   ) {
+    const questionChartContext = resolveChartContextForQuestion(text);
     const budgetDecision = consumeWebAiBudget('deep_reading', responseLanguage);
     setPassCostDisplay(getWebPassCostDisplay(responseLanguage));
 
@@ -948,12 +950,18 @@ export function WebPridictaChat(): React.JSX.Element {
       responseLanguage,
     );
     setPredictaMemory(nextMemory);
+    if (questionChartContext !== activeChartContext) {
+      setActiveChartContext(questionChartContext);
+      if (questionChartContext) {
+        saveWebActiveChartContext(questionChartContext);
+      }
+    }
     const response = await askPridictaFromWeb({
       history: messages.slice(-MAX_AI_HISTORY_MESSAGES).map(message => ({
         role: message.role,
         text: message.text,
       })),
-      chartContext: activeChartContext,
+      chartContext: questionChartContext,
       kundli: activeKundli,
       language: responseLanguage,
       message: text,
@@ -980,6 +988,23 @@ export function WebPridictaChat(): React.JSX.Element {
     ]
       .filter(Boolean)
       .join('\n\n');
+  }
+
+  function resolveChartContextForQuestion(text: string): ChartContext | undefined {
+    const explicitHouses = extractHouseNumbersFromText(text);
+
+    if (!explicitHouses.length) {
+      return activeChartContext;
+    }
+
+    const nextContext: ChartContext = {
+      ...(activeChartContext ?? { sourceScreen: 'Predicta chat' }),
+      selectedHouse: explicitHouses.length === 1 ? explicitHouses[0] : undefined,
+      selectedSection: text,
+      sourceScreen: activeChartContext?.sourceScreen ?? 'Predicta chat',
+    };
+
+    return nextContext;
   }
 
   async function resolveSmartReply(text: string): Promise<string> {
@@ -2851,11 +2876,9 @@ function WebChatChartBlock({
 }): React.JSX.Element {
   const renderModel = buildChartRenderModel({ birthDetails, chart: block.chart });
   const cells = renderModel.cells;
-  const [selectedHouse, setSelectedHouse] = useState<number | undefined>(
-    cells[0]?.house,
-  );
-  const selectedCell =
-    findHouseCell(cells, selectedHouse) ?? cells.find(cell => cell.house === 1) ?? cells[0];
+  const [hoveredHouse, setHoveredHouse] = useState<number>();
+  const [selectedHouse, setSelectedHouse] = useState<number>();
+  const selectedCell = selectedHouse ? findHouseCell(cells, selectedHouse) : undefined;
   const useStandardHouseMeaning = shouldUseStandardHouseMeaning(block.chartType);
 
   return (
@@ -2877,25 +2900,53 @@ function WebChatChartBlock({
           aria-label={`${block.chartName} mini chart`}
         >
           <NorthIndianChartLines />
+          <svg
+            aria-hidden="true"
+            className="north-house-state-map chat-house-state-map"
+            preserveAspectRatio="none"
+            viewBox="0 0 100 100"
+          >
+            {cells.map(cell => (
+              <polygon
+                className={`north-house-state ${
+                  hoveredHouse === cell.house ? 'hovered' : ''
+                } ${selectedHouse === cell.house ? 'selected' : ''}`}
+                key={`state-${cell.key}`}
+                points={getChatHousePolygonPoints(cell.house ?? 0)}
+              />
+            ))}
+          </svg>
           {cells.map((cell, index) => (
             <button
-              aria-pressed={selectedCell?.house === cell.house}
+              aria-pressed={selectedHouse === cell.house}
               aria-label={cell.ariaLabel}
-              className={`north-house-${cell.house} ${
-                selectedCell?.house === cell.house ? 'selected' : ''
+              className={`north-house north-house-${cell.house} ${
+                selectedHouse === cell.house ? 'selected' : ''
               }`}
               data-house={cell.house}
               key={cell.key}
+              onBlur={() => setHoveredHouse(undefined)}
               onClick={() => {
                 setSelectedHouse(cell.house);
                 onUsePrompt(`Explain House ${cell.house} in my ${block.chartType} chart with D1 proof.`);
               }}
+              onFocus={() => setHoveredHouse(cell.house)}
+              onMouseEnter={() => setHoveredHouse(cell.house)}
+              onMouseLeave={() => setHoveredHouse(undefined)}
               style={{
                 ['--chart-cell-index' as string]: index,
                 ['--house-x' as string]: `${cell.x}%`,
                 ['--house-y' as string]: `${cell.y}%`,
               } as CSSProperties}
               type="button"
+            />
+          ))}
+          {cells.map(cell => (
+            <div
+              className={`north-house-label north-house-label-${cell.house} ${
+                selectedHouse === cell.house ? 'selected' : ''
+              } ${cell.renderPlanets.length > 2 ? 'north-house-label-stacked' : ''}`}
+              key={`label-${cell.key}`}
             >
               <span className="north-house-meta">
                 <span className="north-house-number">{cell.house}</span>
@@ -2903,28 +2954,24 @@ function WebChatChartBlock({
                 <span className="north-sign-symbol" aria-hidden>{cell.signGlyph}</span>
                 <span className="north-sign-number">{cell.signNumber}</span>
               </span>
-              <small>
-                {cell.renderPlanets.length ? (
-                  <span className="chat-mini-planet-row">
-                    {cell.renderPlanets.slice(0, 3).map(planet => (
-                      <PlanetGlyph
-                        key={planet.key}
-                        moonPhase={renderModel.moonPhase}
-                        planet={planet}
-                        showDegree
-                        showSign={false}
-                        size="full"
-                      />
-                    ))}
-                    {cell.renderPlanets.length > 3 ? (
-                      <em>+{cell.renderPlanets.length - 3}</em>
-                    ) : null}
-                  </span>
-                ) : (
-                  '-'
-                )}
-              </small>
-            </button>
+              {cell.renderPlanets.length ? (
+                <span className="chat-mini-planet-row north-planet-stack">
+                  {cell.renderPlanets.slice(0, 4).map(planet => (
+                    <PlanetGlyph
+                      key={planet.key}
+                      moonPhase={renderModel.moonPhase}
+                      planet={planet}
+                      showDegree
+                      showSign={false}
+                      size="full"
+                    />
+                  ))}
+                  {cell.renderPlanets.length > 4 ? (
+                    <em>+{cell.renderPlanets.length - 4}</em>
+                  ) : null}
+                </span>
+              ) : null}
+            </div>
           ))}
           <div className="chat-mini-chart-center">
             <span>{block.chartType}</span>
@@ -2997,6 +3044,21 @@ function WebChatChartBlock({
       </div>
     </div>
   );
+}
+
+function extractHouseNumbersFromText(text: string): number[] {
+  const matches = text.matchAll(/\b(?:house\s*)?(\d{1,2})(?:st|nd|rd|th)?\s+houses?\b/gi);
+  const houses = Array.from(matches)
+    .map(match => Number(match[1]))
+    .filter(house => Number.isInteger(house) && house >= 1 && house <= 12);
+
+  return [...new Set(houses)];
+}
+
+function getChatHousePolygonPoints(house: number): string {
+  return (NORTH_INDIAN_HOUSE_POLYGONS[house] ?? [])
+    .map(point => point.join(','))
+    .join(' ');
 }
 
 function buildInitialMessages(language: SupportedLanguage): WebMessage[] {
