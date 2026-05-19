@@ -8,6 +8,7 @@
   "scripts": {
     "build": "tsc --noEmit",
     "lint": "eslint src --ext .ts",
+    "test:numerology": "node ../../scripts/run-numerology-foundation-model.mjs",
     "stress:charts": "node ../../scripts/run-chart-stress-suite.mjs",
     "typecheck": "tsc --noEmit",
     "test": "node ../../scripts/run-chart-stress-suite.mjs"

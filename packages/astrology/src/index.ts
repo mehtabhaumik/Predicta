@@ -23,6 +23,7 @@ export * from './mahadashaIntelligence';
 export * from './manualBirthTimeRectification';
 export * from './moonNakshatraPada';
 export * from './nadiJyotishPlan';
+export * from './numerologyFoundationModel';
 export * from './personalPanchangLayer';
 export * from './predictaWrapped';
 export * from './predictaChatActions';

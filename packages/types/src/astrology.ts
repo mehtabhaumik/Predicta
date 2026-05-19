@@ -1500,6 +1500,47 @@ export type DestinyPassport = {
   shareSummary: string;
 };
 
+export type NumerologyNameMethod = 'CHALDEAN' | 'PYTHAGOREAN';
+
+export type NumerologyNumberInsight = {
+  root: number;
+  compound: number;
+  label: string;
+  keywords: string[];
+  simpleMeaning: string;
+};
+
+export type NumerologyCycleInsight = NumerologyNumberInsight & {
+  period: 'year' | 'month' | 'day';
+  date: string;
+};
+
+export type NumerologyFoundationProfile = {
+  status: 'ready' | 'pending';
+  method: {
+    nameNumber: NumerologyNameMethod;
+    birthNumber: 'DAY_OF_MONTH_REDUCTION';
+    destinyNumber: 'FULL_BIRTH_DATE_REDUCTION';
+    personalCycles: 'DOB_PLUS_TARGET_DATE_REDUCTION';
+  };
+  name: string;
+  birthDate: string;
+  targetDate: string;
+  normalizedName: string;
+  nameNumber: NumerologyNumberInsight;
+  birthNumber: NumerologyNumberInsight;
+  destinyNumber: NumerologyNumberInsight;
+  personalYear: NumerologyCycleInsight;
+  personalMonth: NumerologyCycleInsight;
+  personalDay: NumerologyCycleInsight;
+  summary: string;
+  strengths: string[];
+  cautions: string[];
+  guidance: string;
+  evidence: string[];
+  limitations: string[];
+};
+
 export type KundliData = {
   id: string;
   birthDetails: BirthDetails;
@@ -1527,6 +1568,7 @@ export type KundliData = {
   holisticReadingRooms?: HolisticReadingRooms;
   sadhanaRemedyPath?: SadhanaRemedyPath;
   holisticDailyGuidance?: HolisticDailyGuidance;
+  numerology?: NumerologyFoundationProfile;
   calculationMeta: CalculationMeta;
 };
 
