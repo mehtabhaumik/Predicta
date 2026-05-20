@@ -101,6 +101,10 @@ import {
   getWebPassCostDisplay,
   type WebPassCostDisplay,
 } from '../lib/web-pass-cost-guardrails';
+import {
+  getKundliAnimationStyle,
+  getKundliAnimationSurfaceProps,
+} from '../lib/kundli-animation-contract';
 import { WebActiveKundliActions } from './WebActiveKundliActions';
 import { AuthDialog } from './AuthDialog';
 import { PlanetGlyph } from './PlanetGlyph';
@@ -2971,9 +2975,10 @@ function WebChatChartBlock({
           className="chat-mini-chart"
           data-chart-school={renderModel.school.toLowerCase()}
           data-chart-theme={renderModel.theme}
+          {...getKundliAnimationSurfaceProps('chat')}
           aria-label={`${block.chartName} mini chart`}
         >
-          <NorthIndianChartLines />
+          <NorthIndianChartLines surface="chat" />
           <svg
             aria-hidden="true"
             className="north-house-state-map chat-house-state-map"
@@ -3015,12 +3020,14 @@ function WebChatChartBlock({
               type="button"
             />
           ))}
-          {cells.map(cell => (
+          {cells.map((cell, index) => (
             <div
               className={`north-house-label north-house-label-${cell.house} ${
                 selectedHouse === cell.house ? 'selected' : ''
               } ${cell.renderPlanets.length > 2 ? 'north-house-label-stacked' : ''}`}
+              data-kundli-animation-part="signs"
               key={`label-${cell.key}`}
+              style={getKundliAnimationStyle(index, 'signs', 'chat')}
             >
               <span className="north-house-meta">
                 <span className="north-house-number">{cell.house}</span>
@@ -3029,9 +3036,14 @@ function WebChatChartBlock({
                 <span className="north-sign-number">{cell.signNumber}</span>
               </span>
               {cell.renderPlanets.length ? (
-                <span className="chat-mini-planet-row north-planet-stack">
-                  {cell.renderPlanets.slice(0, 4).map(planet => (
+                <span
+                  className="chat-mini-planet-row north-planet-stack"
+                  data-kundli-animation-part="planets"
+                >
+                  {cell.renderPlanets.slice(0, 4).map((planet, planetIndex) => (
                     <PlanetGlyph
+                      animationIndex={planetIndex}
+                      animationSurface="chat"
                       key={planet.key}
                       moonPhase={renderModel.moonPhase}
                       planet={planet}
@@ -3091,7 +3103,7 @@ function WebChatChartBlock({
         </div>
       </div>
 
-      <ChartLegend compact items={renderModel.legend} />
+      <ChartLegend animationSurface="chat" compact items={renderModel.legend} />
       {renderModel.moonNakshatraPada ? (
         <div className="chat-moon-rhythm-note">
           <span>{renderModel.moonNakshatraPada.moonPhaseLabel}</span>

@@ -25,6 +25,10 @@ import {
   searchWebBirthPlaces,
   type WebBirthPlace,
 } from '../lib/birth-places';
+import {
+  getKundliAnimationStyle,
+  getKundliAnimationSurfaceProps,
+} from '../lib/kundli-animation-contract';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useLanguagePreference } from '../lib/language-preference';
 import {
@@ -937,14 +941,21 @@ function KundliCreationDialog({
 }): React.JSX.Element {
   return (
     <div className="kundli-creation-dialog" role="status">
-      <div className="kundli-creation-dialog-card">
-        <div className="animated-kundli-board compact">
-          <NorthIndianChartLines />
+        <div className="kundli-creation-dialog-card">
+        <div
+          className="animated-kundli-board compact"
+          {...getKundliAnimationSurfaceProps('creation')}
+        >
+          <NorthIndianChartLines surface="creation" />
           {Array.from({ length: 12 }).map((_, index) => (
             <span
               className="animated-kundli-house"
+              data-kundli-animation-part="signs"
               key={index}
-              style={{ '--creation-cell-index': index } as CSSProperties}
+              style={{
+                '--creation-cell-index': index,
+                ...getKundliAnimationStyle(index, 'signs', 'creation'),
+              } as CSSProperties}
             />
           ))}
         </div>

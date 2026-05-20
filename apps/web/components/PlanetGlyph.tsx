@@ -1,26 +1,37 @@
+import type { CSSProperties } from 'react';
 import type { PlanetPosition } from '@pridicta/types';
 import {
   getPlanetAbbreviation,
   type ChartRenderMoonPhase,
   type ChartRenderPlanet,
 } from '@pridicta/astrology';
+import {
+  getKundliAnimationStyle,
+  type KundliAnimationSurface,
+} from '../lib/kundli-animation-contract';
 
 type PlanetGlyphProps = {
+  animationIndex?: number;
+  animationSurface?: KundliAnimationSurface;
   moonPhase?: ChartRenderMoonPhase;
   planet: ChartRenderPlanet | PlanetPosition | string;
   showIcon?: boolean;
   showDegree?: boolean;
   showSign?: boolean;
   size?: 'compact' | 'full';
+  style?: CSSProperties;
 };
 
 export function PlanetGlyph({
+  animationIndex = 0,
+  animationSurface = 'standard',
   moonPhase = 'unknown',
   planet,
   showIcon = true,
   showDegree = true,
   showSign = true,
   size = 'full',
+  style,
 }: PlanetGlyphProps): React.JSX.Element {
   const position =
     typeof planet === 'string'
@@ -86,6 +97,11 @@ export function PlanetGlyph({
       } ${
         status.retrograde ? 'retrograde' : ''
       }`}
+      data-kundli-animation-part="planet"
+      style={{
+        ...getKundliAnimationStyle(animationIndex, 'planet', animationSurface),
+        ...style,
+      }}
       title={title}
     >
       {showIcon ? (

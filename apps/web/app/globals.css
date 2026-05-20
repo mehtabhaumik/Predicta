@@ -13408,7 +13408,7 @@ button:disabled {
   text-align: center;
   top: var(--house-y);
   transform: translate(-50%, -50%);
-  width: max-content;
+  width: clamp(52px, 15%, 118px);
   z-index: 3;
 }
 
@@ -13417,6 +13417,7 @@ button:disabled {
 .hero-chart-label-7,
 .hero-chart-label-10 {
   max-width: 24%;
+  width: clamp(60px, 20%, 136px);
 }
 
 .hero-chart-label-2,
@@ -13424,6 +13425,7 @@ button:disabled {
 .hero-chart-label-8,
 .hero-chart-label-12 {
   max-width: 18%;
+  width: clamp(52px, 16%, 120px);
 }
 
 .hero-chart-label-3,
@@ -13431,6 +13433,7 @@ button:disabled {
 .hero-chart-label-9,
 .hero-chart-label-11 {
   max-width: 16%;
+  width: clamp(48px, 14%, 108px);
 }
 
 .hero-sign-meta {
@@ -13532,6 +13535,28 @@ button:disabled {
   .hero-chart-label {
     gap: 4px;
     max-width: 17%;
+    width: clamp(42px, 15%, 76px);
+  }
+
+  .hero-chart-label-1,
+  .hero-chart-label-4,
+  .hero-chart-label-7,
+  .hero-chart-label-10 {
+    width: clamp(50px, 20%, 92px);
+  }
+
+  .hero-chart-label-2,
+  .hero-chart-label-6,
+  .hero-chart-label-8,
+  .hero-chart-label-12 {
+    width: clamp(44px, 16%, 80px);
+  }
+
+  .hero-chart-label-3,
+  .hero-chart-label-5,
+  .hero-chart-label-9,
+  .hero-chart-label-11 {
+    width: clamp(42px, 14%, 72px);
   }
 
   .hero-chart-planet-stack {
@@ -13641,6 +13666,98 @@ button:disabled {
   }
   50% {
     transform: translateX(-2px);
+  }
+}
+
+[data-kundli-animation='true'] .north-chart-lines path {
+  animation:
+    kundliLineDraw var(--kundli-line-draw-duration, 620ms) ease-out both,
+    chartLineBreath var(--kundli-line-breath-duration, 7s) ease-in-out infinite !important;
+  animation-delay:
+    var(--kundli-line-reveal-delay, 0ms),
+    calc(var(--kundli-line-reveal-delay, 0ms) + var(--kundli-line-draw-duration, 620ms) + 720ms) !important;
+  stroke-dasharray: 420 !important;
+  stroke-dashoffset: 420 !important;
+}
+
+[data-kundli-animation-surface='landing'] .north-chart-lines path {
+  animation:
+    kundliLineDraw var(--kundli-line-draw-duration, 700ms) ease-out both,
+    heroKundliLineBreath 5.8s ease-in-out infinite !important;
+  animation-delay:
+    var(--kundli-line-reveal-delay, 0ms),
+    calc(var(--kundli-line-reveal-delay, 0ms) + var(--kundli-line-draw-duration, 700ms) + 620ms) !important;
+}
+
+[data-kundli-animation='true'][data-kundli-animation-surface='landing'] {
+  animation: none;
+}
+
+[data-kundli-animation='true'] [data-kundli-animation-part='signs'] {
+  animation: kundliSignReveal 360ms ease-out both;
+  animation-delay: var(--kundli-sign-reveal-delay, var(--kundli-sign-delay, 420ms));
+}
+
+[data-kundli-animation='true'] [data-kundli-animation-part='planet'] {
+  animation: planetDropSettle 460ms cubic-bezier(0.2, 0.82, 0.24, 1.08) both !important;
+  animation-delay: var(--kundli-planet-reveal-delay, var(--kundli-planet-delay, 620ms)) !important;
+}
+
+[data-kundli-animation='true'] [data-kundli-animation-part='planet']:nth-child(2) {
+  animation-name: planetSoftCollision !important;
+}
+
+[data-kundli-animation='true'] [data-kundli-animation-part='planet']:nth-child(3) {
+  animation-name: planetSoftCollisionAlt !important;
+}
+
+[data-kundli-animation='true'] .planet-status-mark {
+  animation: kundliMarkerReveal 220ms ease-out both;
+  animation-delay: var(--kundli-marker-delay, 720ms);
+}
+
+[data-kundli-animation='true'] .planet-status-mark.retrograde {
+  animation:
+    kundliMarkerReveal 220ms ease-out both,
+    retrogradeNudge 1.8s ease-in-out infinite;
+  animation-delay: var(--kundli-marker-delay, 720ms), calc(var(--kundli-marker-delay, 720ms) + 260ms);
+}
+
+.chart-legend[data-kundli-animation-part='legend'] {
+  animation: kundliLegendReveal 300ms ease-out both;
+  animation-delay: calc(var(--kundli-marker-delay, 720ms) + 180ms);
+}
+
+@keyframes kundliSignReveal {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes kundliMarkerReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-2px) scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes kundliLegendReveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

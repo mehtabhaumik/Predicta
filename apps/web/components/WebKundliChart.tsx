@@ -37,6 +37,11 @@ import type {
 } from '@pridicta/types';
 import Link from 'next/link';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
+import {
+  getKundliAnimationStyle,
+  getKundliAnimationSurfaceProps,
+  type KundliAnimationSurface,
+} from '../lib/kundli-animation-contract';
 import { useLanguagePreference } from '../lib/language-preference';
 import { PlanetGlyph } from './PlanetGlyph';
 import { StatusPill } from './StatusPill';
@@ -152,11 +157,12 @@ export function WebKundliChart({
         className="north-chart"
         data-chart-school={renderModel.school.toLowerCase()}
         data-chart-theme={renderModel.theme}
+        {...getKundliAnimationSurfaceProps('standard')}
         aria-label={`${renderModel.displayChartName} North Indian chart`}
         aria-describedby={chartInstructionsId}
         key={chart.chartType}
       >
-        <NorthIndianChartLines />
+        <NorthIndianChartLines surface="standard" />
         <svg
           aria-hidden
           className="north-house-state-map"
@@ -198,10 +204,12 @@ export function WebKundliChart({
             className={`north-house-label north-house-label-${cell.house} north-house-label-${cell.labelDensity} ${
               activeCell?.house === cell.house ? 'selected' : ''
             }`}
+            data-kundli-animation-part="signs"
             data-planet-count={cell.renderPlanets.length}
             key={`${cell.key}-label`}
             style={{
               ['--chart-cell-index' as string]: index,
+              ...getKundliAnimationStyle(index, 'signs', 'standard'),
               ['--house-x' as string]: `${cell.x}%`,
               ['--house-y' as string]: `${cell.y}%`,
             } as CSSProperties}
@@ -215,9 +223,14 @@ export function WebKundliChart({
               <span className="north-sign-number">{cell.signNumber}</span>
             </span>
             {cell.renderPlanets.length ? (
-              <small className="north-planet-stack">
-                {cell.renderPlanets.map(planet => (
+              <small
+                className="north-planet-stack"
+                data-kundli-animation-part="planets"
+              >
+                {cell.renderPlanets.map((planet, planetIndex) => (
                   <PlanetGlyph
+                    animationIndex={planetIndex}
+                    animationSurface="standard"
                     key={planet.key}
                     moonPhase={renderModel.moonPhase}
                     planet={planet}
@@ -242,7 +255,11 @@ export function WebKundliChart({
         </div>
       </div>
 
-      <ChartLegend items={renderModel.legend} language={appLanguage} />
+      <ChartLegend
+        animationSurface="standard"
+        items={renderModel.legend}
+        language={appLanguage}
+      />
       <MoonNakshatraPadaStrip
         insight={renderModel.moonNakshatraPada}
         language={chartLanguage}
@@ -782,16 +799,26 @@ function getNorthHousePolygonPoints(house?: number): string {
     : '';
 }
 
-export function NorthIndianChartLines(): React.JSX.Element {
+export function NorthIndianChartLines({
+  surface = 'standard',
+}: {
+  surface?: KundliAnimationSurface;
+}): React.JSX.Element {
   return (
     <svg
       className="north-chart-lines"
       aria-hidden
+      data-kundli-animation-part="lines"
+      data-kundli-animation-surface={surface}
       preserveAspectRatio="none"
       viewBox="0 0 100 100"
     >
-      {NORTH_INDIAN_CHART_LINE_PATHS.map(path => (
-        <path d={path} key={path} />
+      {NORTH_INDIAN_CHART_LINE_PATHS.map((path, index) => (
+        <path
+          d={path}
+          key={path}
+          style={getKundliAnimationStyle(index, 'lines', surface)}
+        />
       ))}
     </svg>
   );
@@ -828,10 +855,12 @@ function MoonNakshatraPadaStrip({
 }
 
 export function ChartLegend({
+  animationSurface = 'standard',
   compact = false,
   items,
   language = 'en',
 }: {
+  animationSurface?: KundliAnimationSurface;
   compact?: boolean;
   items: ChartRenderLegendItem[];
   language?: SupportedLanguage;
@@ -844,6 +873,8 @@ export function ChartLegend({
     <div
       className={`chart-legend ${compact ? 'compact' : ''}`}
       aria-label={translateUiText('Chart legend', language)}
+      data-kundli-animation-part="legend"
+      data-kundli-animation-surface={animationSurface}
     >
       {items.map(item => (
         <span className={`chart-legend-item ${item.tone}`} key={item.code}>

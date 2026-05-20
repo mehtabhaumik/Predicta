@@ -9,6 +9,10 @@ import {
   type ChartRenderTheme,
 } from '@pridicta/astrology';
 import type { SupportedLanguage } from '@pridicta/types';
+import {
+  getKundliAnimationStyle,
+  getKundliAnimationSurfaceProps,
+} from '../lib/kundli-animation-contract';
 import { useLanguagePreference } from '../lib/language-preference';
 import { FloatingInsightCard } from './FloatingInsightCard';
 import { NorthIndianChartLines } from './WebKundliChart';
@@ -61,17 +65,20 @@ export function HeroSection(): React.JSX.Element {
           className="hero-kundli-board"
           data-chart-school="parashari"
           data-chart-theme={heroChartTheme}
+          {...getKundliAnimationSurfaceProps('landing')}
           aria-hidden
         >
-          <NorthIndianChartLines />
+          <NorthIndianChartLines surface="landing" />
           {heroHouses.map((house, index) => (
             <span
               className={`hero-chart-label hero-chart-label-${house.house} ${
                 house.planets.length >= 3 ? 'crowded' : ''
               }`}
+              data-kundli-animation-part="signs"
               key={house.house}
               style={{
                 ['--chart-cell-index' as string]: index,
+                ...getKundliAnimationStyle(index, 'signs', 'landing'),
                 ['--house-x' as string]: `${house.x}%`,
                 ['--house-y' as string]: `${house.y}%`,
               } as CSSProperties}
@@ -84,9 +91,14 @@ export function HeroSection(): React.JSX.Element {
                 </span>
               </small>
               {house.planets.length ? (
-                <em className="hero-chart-planet-stack">
-                  {house.planets.map(planet => (
+                <em
+                  className="hero-chart-planet-stack"
+                  data-kundli-animation-part="planets"
+                >
+                  {house.planets.map((planet, planetIndex) => (
                     <PlanetGlyph
+                      animationIndex={planetIndex}
+                      animationSurface="landing"
                       key={planet.name}
                       moonPhase="waxing"
                       planet={planet}
