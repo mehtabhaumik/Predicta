@@ -10,14 +10,16 @@ export function WebPredictaRoomChatPage({
   room: WebPredictaChatRoom;
 }): React.JSX.Element {
   return (
-    <section className="dashboard-page">
-      <div className="page-heading compact predicta-room-chat-heading">
-        <p className="section-title">{room.sourceScreen}</p>
-        <h1 className="gradient-text">{room.title}</h1>
-        <p>{room.body}</p>
+    <section
+      aria-label={`${room.sourceScreen}: ${room.title}`}
+      className="dashboard-page predicta-chat-page"
+    >
+      <div className="sr-only">
+        <span>{room.sourceScreen}</span>
+        <span>{room.title}</span>
+        <span>{room.body}</span>
       </div>
-
-      <Suspense fallback={<div className="card chat-panel" />}>
+      <Suspense fallback={<div className="card chat-panel predicta-chat-loading" />}>
         <WebPridictaChat room={room} />
       </Suspense>
     </section>

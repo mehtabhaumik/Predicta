@@ -1573,9 +1573,55 @@ export function WebPridictaChat({
     setInput('');
   }
 
+  const chatExportCopy = getChatExportCopy(chatLanguage);
+  const roomTitle = room?.title ?? 'Predicta chat';
+  const roomSource = room?.sourceScreen ?? 'Predicta';
+  const roomBody =
+    room?.body ??
+    'Ask with your Kundli context, chart proof, and calm follow-up guidance.';
+
   return (
     <div className="chat-workspace">
       <div className="card chat-panel">
+        <div className="chat-shell-header">
+          <div className="chat-shell-title-block">
+            <span className="chat-room-chip">{roomSource}</span>
+            <strong>{roomTitle}</strong>
+            <p>{roomBody}</p>
+          </div>
+          <details className="chat-utility-menu">
+            <summary aria-label="Chat tools">
+              <span>Tools</span>
+            </summary>
+            <div className="chat-utility-menu-panel" aria-label="Conversation actions">
+              <button
+                className="chat-export-button"
+                onClick={() => {
+                  void copyConversationTranscript(setConversationCopyState);
+                }}
+                type="button"
+              >
+                {conversationCopyState === 'copied'
+                  ? chatExportCopy.copied
+                  : chatExportCopy.copyConversation}
+              </button>
+              <button
+                className="chat-export-button"
+                onClick={openPrintableWebChatTranscript}
+                type="button"
+              >
+                {chatExportCopy.savePdf}
+              </button>
+              <button
+                className="chat-export-button"
+                onClick={startNewChat}
+                type="button"
+              >
+                {chatExportCopy.newChat}
+              </button>
+            </div>
+          </details>
+        </div>
         <WebChatSessionSwitcher
           activeSessionId={activeChatSessionId}
           isSignedIn={Boolean(chatAccount?.uid)}
@@ -1601,33 +1647,6 @@ export function WebPridictaChat({
           sourceScreen="Chat"
           title="Active Kundli"
         />
-        <div className="chat-export-row" aria-label="Conversation actions">
-          <button
-            className="chat-export-button"
-            onClick={() => {
-              void copyConversationTranscript(setConversationCopyState);
-            }}
-            type="button"
-          >
-            {conversationCopyState === 'copied'
-              ? getChatExportCopy(chatLanguage).copied
-              : getChatExportCopy(chatLanguage).copyConversation}
-          </button>
-          <button
-            className="chat-export-button"
-            onClick={openPrintableWebChatTranscript}
-            type="button"
-          >
-            {getChatExportCopy(chatLanguage).savePdf}
-          </button>
-          <button
-            className="chat-export-button"
-            onClick={startNewChat}
-            type="button"
-          >
-            {getChatExportCopy(chatLanguage).newChat}
-          </button>
-        </div>
         {passCostDisplay ? (
           <div className={`pass-cost-meter ${passCostDisplay.tone}`}>
             <span>{passCostDisplay.title}</span>

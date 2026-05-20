@@ -182,6 +182,9 @@ export function DashboardShell({
   children: ReactNode;
 }): React.JSX.Element {
   const pathname = usePathname();
+  const isChatRoute =
+    pathname === '/dashboard/chat' ||
+    (pathname.startsWith('/dashboard/') && pathname.endsWith('/chat'));
   const reduceMotion = useReducedMotion();
   const { language } = useLanguagePreference();
   const shellLabels = getAppShellLabels(language);
@@ -212,7 +215,7 @@ export function DashboardShell({
   });
 
   return (
-    <div className="dashboard-shell">
+    <div className={`dashboard-shell ${isChatRoute ? 'chat-route' : ''}`}>
       <SidebarNav
         activeSection={activeSection}
         adminLabel={shellLabels.nav.admin}
@@ -225,7 +228,7 @@ export function DashboardShell({
         showAdmin={showAdmin}
         thisSectionLabel={shellLabels.groups.thisSection}
       />
-      <main className="main-workspace">
+      <main className={`main-workspace ${isChatRoute ? 'chat-main-workspace' : ''}`}>
         <div className="dashboard-topbar glass-panel">
           <div>
             <p>{shellLabels.topbarDescription}</p>
@@ -396,7 +399,7 @@ export function DashboardShell({
             </aside>
           </div>
         ) : null}
-        {SECTIONS_WITH_LOCAL_NAV.has(activeSection.id) ? (
+        {!isChatRoute && SECTIONS_WITH_LOCAL_NAV.has(activeSection.id) ? (
           <nav
             aria-label={`${activeSection.label} section navigation`}
             className="dashboard-local-nav glass-panel"
@@ -425,6 +428,9 @@ export function DashboardShell({
           </nav>
         ) : null}
         <motion.div
+          className={`dashboard-motion-frame ${
+            isChatRoute ? 'chat-motion-frame' : ''
+          }`}
           key={pathname}
           initial={reduceMotion ? false : { opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
@@ -432,7 +438,7 @@ export function DashboardShell({
         >
           {children}
         </motion.div>
-        <WebFooter className="dashboard-footer" />
+        {!isChatRoute ? <WebFooter className="dashboard-footer" /> : null}
       </main>
     </div>
   );
