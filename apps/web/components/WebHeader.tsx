@@ -12,6 +12,7 @@ import { WebLanguageSelector } from './WebLanguageSelector';
 const publicHeaderCopy: Record<
   SupportedLanguage,
   {
+    brand: string;
     dashboard: string;
     links: Array<{ href: string; label: string }>;
     menu: string;
@@ -21,6 +22,7 @@ const publicHeaderCopy: Record<
   }
 > = {
   en: {
+    brand: 'PREDICTA',
     dashboard: 'Open Dashboard',
     links: [
       { href: '/dashboard', label: 'Dashboard' },
@@ -46,11 +48,12 @@ const publicHeaderCopy: Record<
     tagline: 'Holistic astrology',
   },
   hi: {
+    brand: 'प्रेडिक्टा',
     dashboard: 'डैशबोर्ड खोलें',
     links: [
       { href: '/dashboard', label: 'डैशबोर्ड' },
       { href: '/dashboard/vedic', label: 'वैदिक' },
-      { href: '/dashboard/kp', label: 'KP' },
+      { href: '/dashboard/kp', label: 'कृष्णमूर्ति' },
       { href: '/dashboard/nadi', label: 'नाड़ी' },
       { href: '/dashboard/numerology', label: 'अंक ज्योतिष' },
       { href: '/dashboard/signature', label: 'हस्ताक्षर' },
@@ -71,11 +74,12 @@ const publicHeaderCopy: Record<
     tagline: 'होलिस्टिक ज्योतिष',
   },
   gu: {
+    brand: 'પ્રેડિક્ટા',
     dashboard: 'ડેશબોર્ડ ખોલો',
     links: [
       { href: '/dashboard', label: 'ડેશબોર્ડ' },
       { href: '/dashboard/vedic', label: 'વેદિક' },
-      { href: '/dashboard/kp', label: 'KP' },
+      { href: '/dashboard/kp', label: 'કૃષ્ણમૂર્તિ' },
       { href: '/dashboard/nadi', label: 'નાડી' },
       { href: '/dashboard/numerology', label: 'અંક જ્યોતિષ' },
       { href: '/dashboard/signature', label: 'સહી' },
@@ -149,7 +153,7 @@ export function WebHeader(): React.JSX.Element {
           width={72}
         />
         <span>
-          <strong>PREDICTA</strong>
+          <strong>{copy.brand}</strong>
           <small>{copy.tagline}</small>
         </span>
       </Link>

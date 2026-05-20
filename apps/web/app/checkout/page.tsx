@@ -119,7 +119,7 @@ const checkoutCopy: Record<
     selected: 'चुना गया',
     signIn: 'खरीदारी से पहले साइन इन करें',
     subscription: 'सदस्यता प्रवेश',
-    title: 'अपना Predicta प्रवेश चुनें',
+    title: 'अपना प्रेडिक्टा प्रवेश चुनें',
   },
   gu: {
     body: 'કિંમત પેજમાંથી સભ્યપદ, ડે પાસ અથવા એક વખતનો રિપોર્ટ પસંદ કરો.',
@@ -130,6 +130,6 @@ const checkoutCopy: Record<
     selected: 'પસંદ કરેલું',
     signIn: 'ખરીદી પહેલાં સાઇન ઇન કરો',
     subscription: 'સભ્યપદ પ્રવેશ',
-    title: 'તમારો Predicta પ્રવેશ પસંદ કરો',
+    title: 'તમારો પ્રેડિક્ટા પ્રવેશ પસંદ કરો',
   },
 };

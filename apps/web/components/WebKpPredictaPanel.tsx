@@ -3,8 +3,10 @@
 import Link from 'next/link';
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 import { composeChalitBhavKpFoundation } from '@pridicta/astrology';
+import { translateUiText } from '@pridicta/config/uiTranslations';
 import type { KundliData } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
+import { useLanguagePreference } from '../lib/language-preference';
 import {
   loadWebAutoSaveMemory,
   saveWebAutoSaveMemory,
@@ -80,6 +82,8 @@ export function WebKpPredictaPanel({
   kundli,
   schoolCalculationStatus = 'idle',
 }: WebKpPredictaPanelProps): React.JSX.Element {
+  const { language } = useLanguagePreference();
+  const t = (value: string) => translateUiText(value, language);
   const foundation = composeChalitBhavKpFoundation(kundli, {
     depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
   });
@@ -143,28 +147,27 @@ export function WebKpPredictaPanel({
         <div className="card-content spacious">
           <div className="school-panel-hero">
             <div>
-              <div className="section-title">KP PREDICTA</div>
-              <h1 className="gradient-text">A dedicated KP precision world.</h1>
+              <div className="section-title">{t('KP PREDICTA')}</div>
+              <h1 className="gradient-text">{t('A dedicated KP precision world.')}</h1>
               <details className="info-drawer">
                 <summary>
-                  <span>KP method</span>
-                  <strong>Open</strong>
+                  <span>{t('KP method')}</span>
+                  <strong>{t('Open')}</strong>
                 </summary>
                 <p>
-                  KP Predicta stays inside Krishnamurti Paddhati: cusps, star
-                  lords, sub lords, significators, ruling planets, dasha support,
-                  and event-focused judgement. It does not casually mix with
-                  Parashari charts.
+                  {t(
+                    'KP Predicta stays inside Krishnamurti Paddhati: cusps, star lords, sub lords, significators, ruling planets, dasha support, and event-focused judgement. It does not casually mix with Parashari charts.',
+                  )}
                 </p>
               </details>
             </div>
             <div className="world-hero-actions">
-              <span className="school-badge premium">KP world</span>
+              <span className="school-badge premium">{t('KP world')}</span>
               <a className="button primary" href={askHref}>
-                Chat with KP Predicta
+                {t('Chat with KP Predicta')}
               </a>
               <Link className="button secondary" href="/dashboard/report">
-                Build KP report
+                {t('Build KP report')}
               </Link>
             </div>
           </div>
@@ -172,16 +175,16 @@ export function WebKpPredictaPanel({
           <div className="school-grid">
             {KP_WORLD_PROOF_CARDS.map(card => (
               <div key={card.title}>
-                <span>Proof</span>
-                <strong>{card.title}</strong>
-                <p>{card.body}</p>
+                <span>{t('Proof')}</span>
+                <strong>{t(card.title)}</strong>
+                <p>{t(card.body)}</p>
               </div>
             ))}
           </div>
 
           <details className="info-drawer school-explain-box">
             <summary>
-              <span>Current KP reading</span>
+              <span>{t('Current KP reading')}</span>
               <strong>{kp.title}</strong>
             </summary>
             <strong>{kp.title}</strong>
@@ -191,19 +194,19 @@ export function WebKpPredictaPanel({
           {ruling ? (
             <div className="school-grid ruling">
               <div>
-                <span>Day Lord</span>
+                <span>{t('Day Lord')}</span>
                 <strong>{ruling.dayLord}</strong>
               </div>
               <div>
-                <span>Moon Star</span>
+                <span>{t('Moon Star')}</span>
                 <strong>{ruling.moonStarLord}</strong>
               </div>
               <div>
-                <span>Moon Sub</span>
+                <span>{t('Moon Sub')}</span>
                 <strong>{ruling.moonSubLord}</strong>
               </div>
               <div>
-                <span>Lagna Sub</span>
+                <span>{t('Lagna Sub')}</span>
                 <strong>{ruling.lagnaSubLord}</strong>
               </div>
             </div>
@@ -211,19 +214,19 @@ export function WebKpPredictaPanel({
 
           <details className="info-drawer school-callout">
             <summary>
-              <span>World boundary</span>
-              <strong>Open</strong>
+              <span>{t('World boundary')}</span>
+              <strong>{t('Open')}</strong>
             </summary>
             <p>
-              Regular Predicta handles Parashari, D1, vargas, Chalit, dasha,
-              gochar, remedies, and reports. KP Predicta handles KP. Nadi Predicta
-              handles premium Nadi-style planetary story reading separately.
+              {t(
+                'Regular Predicta handles Parashari, D1, vargas, Chalit, dasha, gochar, remedies, and reports. KP Predicta handles KP. Nadi Predicta handles premium Nadi-style planetary story reading separately.',
+              )}
             </p>
           </details>
           {handoffQuestion ? (
             <div className="school-callout active">
-              Question received: “{handoffQuestion}”. KP Predicta will carry this
-              question with the active birth profile and answer from KP.
+              {t('Question received')}: “{handoffQuestion}”.{' '}
+              {t('KP Predicta will carry this question with the active birth profile and answer from KP.')}
             </div>
           ) : null}
         </div>
@@ -233,20 +236,21 @@ export function WebKpPredictaPanel({
         <div className="card-content spacious">
           <div className="school-panel-hero compact">
             <div>
-              <div className="section-title">KP JUDGEMENT PATH</div>
+              <div className="section-title">{t('KP JUDGEMENT PATH')}</div>
               <h2>{selectedFocus.title}</h2>
               <details className="info-drawer">
                 <summary>
-                  <span>How KP judges this</span>
-                  <strong>Open</strong>
+                  <span>{t('How KP judges this')}</span>
+                  <strong>{t('Open')}</strong>
                 </summary>
                 <p>
-                  Pick the event first. KP then checks the relevant houses, cusp
-                  sub lord, significators, ruling planets, and dasha support.
+                  {t(
+                    'Pick the event first. KP then checks the relevant houses, cusp sub lord, significators, ruling planets, and dasha support.',
+                  )}
                 </p>
               </details>
             </div>
-            <span className="school-badge premium">Event first</span>
+            <span className="school-badge premium">{t('Event first')}</span>
           </div>
 
           <div className="kp-event-row" aria-label="KP event focus">
@@ -261,38 +265,38 @@ export function WebKpPredictaPanel({
                 }}
                 type="button"
               >
-                <span>{item.title}</span>
-                <small>Houses {item.houses.join(', ')}</small>
+                <span>{t(item.title)}</span>
+                <small>{t('Houses')} {item.houses.join(', ')}</small>
               </button>
             ))}
           </div>
 
           <div className="kp-proof-path">
             <div>
-              <span>1. Houses</span>
+              <span>1. {t('Houses')}</span>
               <strong>{selectedFocus.houses.join(' / ')}</strong>
-              <p>These houses define the KP promise for this event.</p>
+              <p>{t('These houses define the KP promise for this event.')}</p>
             </div>
             <div>
-              <span>2. Cusp sub lord</span>
+              <span>2. {t('Cusp sub lord')}</span>
               <strong>
                 {selectedCuspData
                   ? `${selectedCuspData.house}: ${selectedCuspData.lordChain.subLord}`
                   : 'Pending'}
               </strong>
               <p>
-                The selected cusp becomes the main judgement point before timing.
+                {t('The selected cusp becomes the main judgement point before timing.')}
               </p>
             </div>
             <div>
-              <span>3. Significators</span>
+              <span>3. {t('Significators')}</span>
               <strong>{eventSignificators.length || 'Pending'}</strong>
-              <p>Planets connecting to these houses become event carriers.</p>
+              <p>{t('Planets connecting to these houses become event carriers.')}</p>
             </div>
             <div>
-              <span>4. Timing</span>
-              <strong>Ruling planets + dasha</strong>
-              <p>Premium depth checks period support and event windows.</p>
+              <span>4. {t('Timing')}</span>
+              <strong>{t('Ruling planets + dasha')}</strong>
+              <p>{t('Premium depth checks period support and event windows.')}</p>
             </div>
           </div>
         </div>
@@ -300,8 +304,8 @@ export function WebKpPredictaPanel({
 
       <Card className="glass-panel">
         <div className="card-content spacious">
-          <div className="section-title">KP CUSPS</div>
-          <h2>12 cusps with star and sub lords.</h2>
+          <div className="section-title">{t('KP CUSPS')}</div>
+          <h2>{t('12 cusps with star and sub lords.')}</h2>
           <div className="school-table-wrap">
             <table className="school-table">
               <thead>
@@ -346,8 +350,8 @@ export function WebKpPredictaPanel({
 
       <Card className="glass-panel">
         <div className="card-content spacious">
-          <div className="section-title">KP SIGNIFICATORS</div>
-          <h2>Event houses by planet.</h2>
+          <div className="section-title">{t('KP SIGNIFICATORS')}</div>
+          <h2>{t('Event houses by planet.')}</h2>
           <div className="kp-significator-map">
             {eventSignificators.map((item, index) => (
               <div

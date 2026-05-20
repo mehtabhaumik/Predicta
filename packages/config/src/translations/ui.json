@@ -173,8 +173,8 @@
     },
     "ui.12CuspsWithStarAndSubLords.1bddop4": {
       "en": "12 cusps with star and sub lords.",
-      "hi": "12 कस्प, नक्षत्र स्वामी और उप-स्वामी के साथ.",
-      "gu": "12 કસ્પ, નક્ષત્ર સ્વામી અને ઉપ-સ્વામી સાથે."
+      "hi": "स्टार और सब लॉर्ड सहित 12 कस्प.",
+      "gu": "સ્ટાર અને સબ લોર્ડ સાથે 12 કસ્પ."
     },
     "ui.5PredictaQuestions.xpf0yo": {
       "en": "5 Predicta Questions",
@@ -258,8 +258,8 @@
     },
     "ui.activationWindows.7ip7q1": {
       "en": "ACTIVATION WINDOWS",
-      "hi": "सक्रिय समय",
-      "gu": "સક્રિય સમય"
+      "hi": "सक्रियता समय",
+      "gu": "સક્રિયતા સમય"
     },
     "ui.add5PredictaQuestionsWhenYouNeedMoreGuidance.1iqricv": {
       "en": "Add 5 Predicta questions when you need more guidance.",
@@ -633,8 +633,8 @@
     },
     "ui.chalitKp.1d2ejbv": {
       "en": "Chalit / KP",
-      "hi": "चालित / KP",
-      "gu": "ચાલિત / KP"
+      "hi": "चालित / कृष्णमूर्ति पद्धति",
+      "gu": "ચાલિત / કૃષ્ણમૂર્તિ પદ્ધતિ"
     },
     "ui.change.xczjyo": {
       "en": "Change",
@@ -953,8 +953,8 @@
     },
     "ui.d1D9D10BhavChalitKpAndChartProofExplainedSimply.1h1k34n": {
       "en": "D1, D9, D10, Chalit, KP, and chart proof explained simply.",
-      "hi": "D1, D9, D10, चलित, KP और चार्ट प्रमाण आसान भाषा में.",
-      "gu": "D1, D9, D10, ચાલિત, KP અને ચાર્ટ પુરાવો સરળ ભાષામાં."
+      "hi": "D1, D9, D10, चलित, कृष्णमूर्ति पद्धति और चार्ट प्रमाण आसान भाषा में.",
+      "gu": "D1, D9, D10, ચાલિત, કૃષ્ણમૂર્તિ પદ્ધતિ અને ચાર્ટ પુરાવો સરળ ભાષામાં."
     },
     "ui.d10Career.1m6a2fv": {
       "en": "D10 CAREER",
@@ -1483,8 +1483,8 @@
     },
     "ui.holisticVedicAstrologyAi.mq32t7": {
       "en": "HOLISTIC VEDIC ASTROLOGY + AI",
-      "hi": "होलिस्टिक वैदिक ज्योतिष + AI",
-      "gu": "હોલિસ્ટિક વૈદિક જ્યોતિષ + AI"
+      "hi": "होलिस्टिक वैदिक ज्योतिष + एआई",
+      "gu": "હોલિસ્ટિક વૈદિક જ્યોતિષ + એઆઈ"
     },
     "ui.home.1cc1r": {
       "en": "Home",
@@ -1578,53 +1578,53 @@
     },
     "ui.kp.1ut": {
       "en": "KP",
-      "hi": "KP",
-      "gu": "KP"
+      "hi": "कृष्णमूर्ति पद्धति",
+      "gu": "કૃષ્ણમૂર્તિ પદ્ધતિ"
     },
     "ui.kpCusps.dp3ucp": {
       "en": "KP CUSPS",
-      "hi": "KP कस्प",
-      "gu": "KP કસ્પ"
+      "hi": "कृष्णमूर्ति पद्धति कस्प",
+      "gu": "કૃષ્ણમૂર્તિ પદ્ધતિ કસ્પ"
     },
     "ui.kpEventFocus.ow36vr": {
       "en": "KP event focus",
-      "hi": "KP घटना फोकस",
-      "gu": "KP ઘટના ફોકસ"
+      "hi": "कृष्णमूर्ति पद्धति घटना फोकस",
+      "gu": "કૃષ્ણમૂર્તિ પદ્ધતિ ઘટના ફોકસ"
     },
     "ui.kpHoroscopeFoundation.1e7kp6m": {
       "en": "KP Horoscope foundation",
-      "hi": "KP कुंडली आधार",
-      "gu": "KP કુંડળી આધાર"
+      "hi": "कृष्णमूर्ति पद्धति कुंडली आधार",
+      "gu": "કૃષ્ણમૂર્તિ પદ્ધતિ કુંડળી આધાર"
     },
     "ui.kpJudgementPath.l7v3xn": {
       "en": "KP JUDGEMENT PATH",
-      "hi": "KP निर्णय मार्ग",
-      "gu": "KP નિર્ણય માર્ગ"
+      "hi": "कृष्णमूर्ति पद्धति निर्णय मार्ग",
+      "gu": "કૃષ્ણમૂર્તિ પદ્ધતિ નિર્ણય માર્ગ"
     },
     "ui.kpPredicta.etugbn": {
       "en": "KP Predicta",
-      "hi": "KP प्रेडिक्टा",
-      "gu": "KP પ્રેડિક્ટા"
+      "hi": "कृष्णमूर्ति प्रेडिक्टा",
+      "gu": "કૃષ્ણમૂર્તિ પ્રેડિક્ટા"
     },
     "ui.kpPredicta.qpbbb7": {
       "en": "KP PREDICTA",
-      "hi": "KP प्रेडिक्टा",
-      "gu": "KP પ્રેડિક્ટા"
+      "hi": "कृष्णमूर्ति प्रेडिक्टा",
+      "gu": "કૃષ્ણમૂર્તિ પ્રેડિક્ટા"
     },
     "ui.kpSignificators.1qd56dq": {
       "en": "KP SIGNIFICATORS",
-      "hi": "KP संकेतक",
-      "gu": "KP સંકેતક"
+      "hi": "कृष्णमूर्ति पद्धति सिग्निफिकेटर",
+      "gu": "કૃષ્ણમૂર્તિ પદ્ધતિ સિગ્નિફિકેટર"
     },
     "ui.kpWorld.ei6ejb": {
       "en": "KP world",
-      "hi": "KP संसार",
-      "gu": "KP દુનિયા"
+      "hi": "कृष्णमूर्ति पद्धति संसार",
+      "gu": "કૃષ્ણમૂર્તિ પદ્ધતિ દુનિયા"
     },
     "ui.kpWorld.dzzvg7": {
       "en": "KP WORLD",
-      "hi": "KP जगत",
-      "gu": "KP જગત"
+      "hi": "कृष्णमूर्ति पद्धति जगत",
+      "gu": "કૃષ્ણમૂર્તિ પદ્ધતિ જગત"
     },
     "ui.kundli.11cpyd9": {
       "en": "Kundli",
@@ -1898,8 +1898,8 @@
     },
     "ui.nadiMethod.128va15": {
       "en": "NADI METHOD",
-      "hi": "नाड़ी पद्धति",
-      "gu": "નાડી પદ્ધતિ"
+      "hi": "नाड़ी विधि",
+      "gu": "નાડી રીત"
     },
     "ui.nadiPredicta.dna634": {
       "en": "Nadi Predicta",
@@ -4315,6 +4315,401 @@
       "en": "Planets here:",
       "hi": "यहां ग्रह:",
       "gu": "અહીં ગ્રહો:"
+    },
+    "manual.a_dedicated_kp_precision_world": {
+      "en": "A dedicated KP precision world.",
+      "hi": "समर्पित कृष्णमूर्ति पद्धति सटीकता संसार.",
+      "gu": "સમર્પિત કૃષ્ણમૂર્તિ પદ્ધતિ ચોકસાઈ દુનિયા."
+    },
+    "manual.kp_method": {
+      "en": "KP method",
+      "hi": "कृष्णमूर्ति पद्धति विधि",
+      "gu": "કૃષ્ણમૂર્તિ પદ્ધતિ રીત"
+    },
+    "manual.kp_predicta_stays_inside_krishnamurti_paddhati_c": {
+      "en": "KP Predicta stays inside Krishnamurti Paddhati: cusps, star lords, sub lords, significators, ruling planets, dasha support, and event-focused judgement. It does not casually mix with Parashari charts.",
+      "hi": "कृष्णमूर्ति प्रेडिक्टा कृष्णमूर्ति पद्धति के भीतर रहती है: कस्प, स्टार लॉर्ड, सब लॉर्ड, सिग्निफिकेटर, रूलिंग ग्रह, दशा सहारा और घटना-केंद्रित निर्णय. यह पराशरी चार्ट से लापरवाही से मिश्रण नहीं करती.",
+      "gu": "કૃષ્ણમૂર્તિ પ્રેડિક્ટા કૃષ્ણમૂર્તિ પદ્ધતિની અંદર રહે છે: કસ્પ, સ્ટાર લોર્ડ, સબ લોર્ડ, સિગ્નિફિકેટર, રૂલિંગ ગ્રહો, દશા સહારો અને ઘટના-કેન્દ્રિત નિર્ણય. તે પરાશરી ચાર્ટ્સ સાથે બેદરકારીથી મિશ્રણ કરતી નથી."
+    },
+    "manual.chat_with_kp_predicta": {
+      "en": "Chat with KP Predicta",
+      "hi": "कृष्णमूर्ति प्रेडिक्टा से चैट करें",
+      "gu": "કૃષ્ણમૂર્તિ પ્રેડિક્ટા સાથે ચેટ કરો"
+    },
+    "manual.build_kp_report": {
+      "en": "Build KP report",
+      "hi": "कृष्णमूर्ति पद्धति रिपोर्ट बनाएं",
+      "gu": "કૃષ્ણમૂર્તિ પદ્ધતિ રિપોર્ટ બનાવો"
+    },
+    "manual.current_kp_reading": {
+      "en": "Current KP reading",
+      "hi": "वर्तमान कृष्णमूर्ति पद्धति वाचन",
+      "gu": "વર્તમાન કૃષ્ણમૂર્તિ પદ્ધતિ વાચન"
+    },
+    "manual.world_boundary": {
+      "en": "World boundary",
+      "hi": "संसार सीमा",
+      "gu": "દુનિયા સીમા"
+    },
+    "manual.regular_predicta_handles_parashari_d1_vargas_cha": {
+      "en": "Regular Predicta handles Parashari, D1, vargas, Chalit, dasha, gochar, remedies, and reports. KP Predicta handles KP. Nadi Predicta handles premium Nadi-style planetary story reading separately.",
+      "hi": "वैदिक प्रेडिक्टा पराशरी, D1, वर्ग, चलित, दशा, गोचर, उपाय और रिपोर्ट संभालती है. कृष्णमूर्ति प्रेडिक्टा कृष्णमूर्ति पद्धति संभालती है. नाड़ी प्रेडिक्टा प्रीमियम नाड़ी शैली की ग्रह-कथा अलग से संभालती है.",
+      "gu": "વૈદિક પ્રેડિક્ટા પરાશરી, D1, વર્ગ, ચલિત, દશા, ગોચર, ઉપાયો અને રિપોર્ટ્સ સંભાળે છે. કૃષ્ણમૂર્તિ પ્રેડિક્ટા કૃષ્ણમૂર્તિ પદ્ધતિ સંભાળે છે. નાડી પ્રેડિક્ટા પ્રીમિયમ નાડી શૈલીની ગ્રહ-કથા અલગથી સંભાળે છે."
+    },
+    "manual.how_kp_judges_this": {
+      "en": "How KP judges this",
+      "hi": "कृष्णमूर्ति पद्धति इसे कैसे देखती है",
+      "gu": "કૃષ્ણમૂર્તિ પદ્ધતિ આને કેવી રીતે જુએ છે"
+    },
+    "manual.pick_the_event_first_kp_then_checks_the_relevant": {
+      "en": "Pick the event first. KP then checks the relevant houses, cusp sub lord, significators, ruling planets, and dasha support.",
+      "hi": "पहले घटना चुनें. कृष्णमूर्ति पद्धति फिर संबंधित भाव, कस्प सब लॉर्ड, सिग्निफिकेटर, रूलिंग ग्रह और दशा सहारा देखती है.",
+      "gu": "પહેલા ઘટના પસંદ કરો. કૃષ્ણમૂર્તિ પદ્ધતિ પછી સંબંધિત ભાવ, કસ્પ સબ લોર્ડ, સિગ્નિફિકેટર, રૂલિંગ ગ્રહો અને દશા સહારો જુએ છે."
+    },
+    "manual.event_houses_by_planet": {
+      "en": "Event houses by planet.",
+      "hi": "ग्रह अनुसार घटना भाव.",
+      "gu": "ગ્રહ મુજબ ઘટના ભાવ."
+    },
+    "manual.ask_kp_predicta": {
+      "en": "Ask KP Predicta",
+      "hi": "कृष्णमूर्ति प्रेडिक्टा से पूछें",
+      "gu": "કૃષ્ણમૂર્તિ પ્રેડિક્ટાને પૂછો"
+    },
+    "manual.see_kp_premium_depth": {
+      "en": "See KP Premium Depth",
+      "hi": "कृष्णमूर्ति पद्धति प्रीमियम गहराई देखें",
+      "gu": "કૃષ્ણમૂર્તિ પદ્ધતિ પ્રીમિયમ ઊંડાઈ જુઓ"
+    },
+    "manual.nadi_world": {
+      "en": "Nadi world",
+      "hi": "नाड़ी संसार",
+      "gu": "નાડી દુનિયા"
+    },
+    "manual.chat_with_nadi_predicta": {
+      "en": "Chat with Nadi Predicta",
+      "hi": "नाड़ी प्रेडिक्टा से चैट करें",
+      "gu": "નાડી પ્રેડિક્ટા સાથે ચેટ કરો"
+    },
+    "manual.build_nadi_report": {
+      "en": "Build Nadi report",
+      "hi": "नाड़ी रिपोर्ट बनाएं",
+      "gu": "નાડી રિપોર્ટ બનાવો"
+    },
+    "manual.nadi_predicta_reads_planet_to_planet_story_links": {
+      "en": "Nadi Predicta reads planet-to-planet story links and karmic themes from the calculated chart.",
+      "hi": "नाड़ी प्रेडिक्टा गणना किए गए चार्ट से ग्रह-से-ग्रह कथा संबंध और कर्म विषय पढ़ती है.",
+      "gu": "નાડી પ્રેડિક્ટા ગણતરી કરેલા ચાર્ટમાંથી ગ્રહથી ગ્રહ કથા-સંબંધ અને કર્મ વિષય વાંચે છે."
+    },
+    "manual.nadi_predicta_is_its_own_premium_world_it_reads_": {
+      "en": "Nadi Predicta is its own premium world. It reads planetary story links, karaka themes, validation questions, and timing activations. It does not pretend to access original palm-leaf manuscripts.",
+      "hi": "नाड़ी प्रेडिक्टा अपना प्रीमियम संसार है. यह ग्रह कथा-संबंध, कारक विषय, पुष्टि प्रश्न और समय सक्रियता पढ़ती है. यह असली ताड़पत्र पांडुलिपि तक पहुंच का दावा नहीं करती.",
+      "gu": "નાડી પ્રેડિક્ટા તેની પોતાની પ્રીમિયમ દુનિયા છે. તે ગ્રહ કથા-સંબંધ, કારક વિષય, પુષ્ટિ પ્રશ્નો અને સમય સક્રિયતા વાંચે છે. તે મૂળ તાડપત્ર પાંડુલિપિ સુધી પહોંચવાનો દાવો કરતી નથી."
+    },
+    "manual.separate_from_parashari_and_kp": {
+      "en": "Separate from Parashari and KP.",
+      "hi": "पराशरी और कृष्णमूर्ति पद्धति से अलग.",
+      "gu": "પરાશરી અને કૃષ્ણમૂર્તિ પદ્ધતિથી અલગ."
+    },
+    "manual.story_links": {
+      "en": "STORY LINKS",
+      "hi": "कथा संबंध",
+      "gu": "કથા સંબંધો"
+    },
+    "manual.what_the_nadi_layer_noticed": {
+      "en": "What the Nadi layer noticed.",
+      "hi": "नाड़ी स्तर ने क्या देखा.",
+      "gu": "નાડી સ્તરે શું જોયું."
+    },
+    "manual.when_the_story_is_more_likely_to_feel_active": {
+      "en": "When the story is more likely to feel active.",
+      "hi": "कथा कब अधिक सक्रिय महसूस हो सकती है.",
+      "gu": "કથા ક્યારે વધુ સક્રિય લાગી શકે."
+    },
+    "manual.predicta_asks_before_going_deep": {
+      "en": "Predicta asks before going deep.",
+      "hi": "गहराई में जाने से पहले प्रेडिक्टा पूछती है.",
+      "gu": "ઊંડાઈમાં જવા પહેલાં પ્રેડિક્ટા પૂછે છે."
+    },
+    "manual.ask_nadi_predicta": {
+      "en": "Ask Nadi Predicta",
+      "hi": "नाड़ी प्रेडिक्टा से पूछें",
+      "gu": "નાડી પ્રેડિક્ટાને પૂછો"
+    },
+    "manual.see_premium_nadi": {
+      "en": "See Premium Nadi",
+      "hi": "प्रीमियम नाड़ी देखें",
+      "gu": "પ્રીમિયમ નાડી જુઓ"
+    },
+    "manual.report_path": {
+      "en": "REPORT PATH",
+      "hi": "रिपोर्ट मार्ग",
+      "gu": "રિપોર્ટ માર્ગ"
+    },
+    "manual.vedic_world": {
+      "en": "Vedic world",
+      "hi": "वैदिक संसार",
+      "gu": "વૈદિક દુનિયા"
+    },
+    "manual.chat_with_vedic_predicta": {
+      "en": "Chat with Vedic Predicta",
+      "hi": "वैदिक प्रेडिक्टा से चैट करें",
+      "gu": "વૈદિક પ્રેડિક્ટા સાથે ચેટ કરો"
+    },
+    "manual.your_main_vedic_predicta_space": {
+      "en": "Your main Vedic Predicta space.",
+      "hi": "आपका मुख्य वैदिक प्रेडिक्टा स्थान.",
+      "gu": "તમારું મુખ્ય વૈદિક પ્રેડિક્ટા સ્થાન."
+    },
+    "manual.vedic_report_path": {
+      "en": "Vedic report path",
+      "hi": "वैदिक रिपोर्ट मार्ग",
+      "gu": "વૈદિક રિપોર્ટ માર્ગ"
+    },
+    "manual.use_this_world_for_the_main_vedic_reading_kundli": {
+      "en": "Use this world for the main Vedic reading: Kundli, charts, dasha, gochar, remedies, timing, and report-ready guidance.",
+      "hi": "मुख्य वैदिक वाचन के लिए इस संसार का उपयोग करें: कुंडली, चार्ट, दशा, गोचर, उपाय, समय और रिपोर्ट-योग्य मार्गदर्शन.",
+      "gu": "મુખ્ય વૈદિક વાચન માટે આ દુનિયા વાપરો: કુંડળી, ચાર્ટ્સ, દશા, ગોચર, ઉપાયો, સમય અને રિપોર્ટ માટે તૈયાર માર્ગદર્શન."
+    },
+    "manual.separate_worlds_shared_kundli": {
+      "en": "Separate worlds, shared Kundli",
+      "hi": "अलग संसार, साझा कुंडली",
+      "gu": "અલગ દુનિયા, શેર કરેલી કુંડળી"
+    },
+    "manual.default_vedic_predicta_uses_d1_varga_support_dasha_gocha": {
+      "en": "Default Vedic Predicta uses D1, varga support, dasha, gochar, remedies, and holistic context without mixing KP or Nadi methods.",
+      "hi": "वैदिक प्रेडिक्टा D1, वर्ग सहारा, दशा, गोचर, उपाय और समग्र संदर्भ का उपयोग करती है, बिना कृष्णमूर्ति पद्धति या नाड़ी विधि मिलाए.",
+      "gu": "વૈદિક પ્રેડિક્ટા D1, વર્ગ સહારો, દશા, ગોચર, ઉપાયો અને સમગ્ર સંદર્ભ વાપરે છે, કૃષ્ણમૂર્તિ પદ્ધતિ અથવા નાડી રીત મિક્સ કર્યા વગર."
+    },
+    "manual.chat_with_vedic_predicta.2": {
+      "en": "Chat with Vedic Predicta.",
+      "hi": "वैदिक प्रेडिक्टा से चैट करें.",
+      "gu": "વૈદિક પ્રેડિક્ટા સાથે ચેટ કરો."
+    },
+    "manual.kp_predicta_keeps_the_reading_inside_cusps_star_lords_su": {
+      "en": "KP Predicta keeps the reading inside cusps, star lords, sub lords, ruling planets, significators, and event timing.",
+      "hi": "कृष्णमूर्ति प्रेडिक्टा वाचन को कस्प, स्टार लॉर्ड, सब लॉर्ड, रूलिंग ग्रह, सिग्निफिकेटर और घटना समय के भीतर रखती है.",
+      "gu": "કૃષ્ણમૂર્તિ પ્રેડિક્ટા વાચનને કસ્પ, સ્ટાર લોર્ડ, સબ લોર્ડ, રૂલિંગ ગ્રહો, સિગ્નિફિકેટર અને ઘટના સમયની અંદર રાખે છે."
+    },
+    "manual.chat_with_kp_predicta.2": {
+      "en": "Chat with KP Predicta.",
+      "hi": "कृष्णमूर्ति प्रेडिक्टा से चैट करें.",
+      "gu": "કૃષ્ણમૂર્તિ પ્રેડિક્ટા સાથે ચેટ કરો."
+    },
+    "manual.nadi_predicta_reads_planet_to_planet_story_links_karmic_": {
+      "en": "Nadi Predicta reads planet-to-planet story links, karmic themes, and validation questions from the calculated chart.",
+      "hi": "नाड़ी प्रेडिक्टा गणना किए गए चार्ट से ग्रह-से-ग्रह कथा संबंध, कर्म विषय और पुष्टि प्रश्न पढ़ती है.",
+      "gu": "નાડી પ્રેડિક્ટા ગણતરી કરેલા ચાર્ટમાંથી ગ્રહથી ગ્રહ કથા-સંબંધ, કર્મ વિષય અને પુષ્ટિ પ્રશ્નો વાંચે છે."
+    },
+    "manual.chat_with_nadi_predicta.2": {
+      "en": "Chat with Nadi Predicta.",
+      "hi": "नाड़ी प्रेडिक्टा से चैट करें.",
+      "gu": "નાડી પ્રેડિક્ટા સાથે ચેટ કરો."
+    },
+    "manual.numerology_predicta_uses_name_number_birth_number_destin": {
+      "en": "Numerology Predicta uses name number, birth number, destiny number, personal timing, and name rhythm before synthesis.",
+      "hi": "अंक ज्योतिष प्रेडिक्टा सार देने से पहले नाम अंक, जन्म अंक, भाग्य अंक, निजी समय और नाम की लय देखती है.",
+      "gu": "અંક જ્યોતિષ પ્રેડિક્ટા સાર આપતા પહેલાં નામ અંક, જન્મ અંક, ભાગ્ય અંક, વ્યક્તિગત સમય અને નામની લય જુએ છે."
+    },
+    "manual.chat_with_numerology_predicta": {
+      "en": "Chat with Numerology Predicta.",
+      "hi": "अंक ज्योतिष प्रेडिक्टा से चैट करें.",
+      "gu": "અંક જ્યોતિષ પ્રેડિક્ટા સાથે ચેટ કરો."
+    },
+    "manual.signature_predicta_uses_confirmed_visible_traits_for_ref": {
+      "en": "Signature Predicta uses confirmed visible traits for reflective guidance, improvement suggestions, and optional Numerology synthesis.",
+      "hi": "हस्ताक्षर प्रेडिक्टा पुष्टि किए गए दिखने वाले संकेतों से चिंतन मार्गदर्शन, सुधार सुझाव और वैकल्पिक अंक ज्योतिष संयुक्त सार देती है.",
+      "gu": "હસ્તાક્ષર પ્રેડિક્ટા પુષ્ટિ કરેલા દેખાતા સંકેતોથી વિચાર માર્ગદર્શન, સુધારા સૂચનો અને વૈકલ્પિક અંક જ્યોતિષ સંયુક્ત સાર આપે છે."
+    },
+    "manual.chat_with_signature_predicta": {
+      "en": "Chat with Signature Predicta.",
+      "hi": "हस्ताक्षर प्रेडिक्टा से चैट करें.",
+      "gu": "હસ્તાક્ષર પ્રેડિક્ટા સાથે ચેટ કરો."
+    },
+    "manual.vedic_predicta": {
+      "en": "Vedic Predicta",
+      "hi": "वैदिक प्रेडिक्टा",
+      "gu": "વૈદિક પ્રેડિક્ટા"
+    },
+    "manual.numerology_predicta": {
+      "en": "Numerology Predicta",
+      "hi": "अंक ज्योतिष प्रेडिक्टा",
+      "gu": "અંક જ્યોતિષ પ્રેડિક્ટા"
+    },
+    "manual.signature_predicta": {
+      "en": "Signature Predicta",
+      "hi": "हस्ताक्षर प्रेडिक्टा",
+      "gu": "હસ્તાક્ષર પ્રેડિક્ટા"
+    },
+    "manual.proof": {
+      "en": "Proof",
+      "hi": "प्रमाण",
+      "gu": "પુરાવો"
+    },
+    "manual.question_received": {
+      "en": "Question received",
+      "hi": "प्रश्न मिला",
+      "gu": "પ્રશ્ન મળ્યો"
+    },
+    "manual.kp_predicta_will_carry_this_question_with_the_active_birth_profile_and": {
+      "en": "KP Predicta will carry this question with the active birth profile and answer from KP.",
+      "hi": "कृष्णमूर्ति प्रेडिक्टा इस प्रश्न को सक्रिय जन्म प्रोफाइल के साथ रखेगी और कृष्णमूर्ति पद्धति से उत्तर देगी.",
+      "gu": "કૃષ્ણમૂર્તિ પ્રેડિક્ટા આ પ્રશ્નને સક્રિય જન્મ પ્રોફાઇલ સાથે રાખશે અને કૃષ્ણમૂર્તિ પદ્ધતિથી જવાબ આપશે."
+    },
+    "manual.houses": {
+      "en": "Houses",
+      "hi": "भाव",
+      "gu": "ભાવ"
+    },
+    "manual.these_houses_define_the_kp_promise_for_this_event": {
+      "en": "These houses define the KP promise for this event.",
+      "hi": "ये भाव इस घटना के लिए कृष्णमूर्ति पद्धति का संकेत तय करते हैं.",
+      "gu": "આ ભાવો આ ઘટના માટે કૃષ્ણમૂર્તિ પદ્ધતિનો સંકેત નક્કી કરે છે."
+    },
+    "manual.cusp_sub_lord": {
+      "en": "Cusp sub lord",
+      "hi": "कस्प सब लॉर्ड",
+      "gu": "કસ્પ સબ લોર્ડ"
+    },
+    "manual.the_selected_cusp_becomes_the_main_judgement_point_before_timing": {
+      "en": "The selected cusp becomes the main judgement point before timing.",
+      "hi": "चुना हुआ कस्प समय देखने से पहले मुख्य निर्णय बिंदु बनता है.",
+      "gu": "પસંદ કરેલો કસ્પ સમય જોતા પહેલાં મુખ્ય નિર્ણય બિંદુ બને છે."
+    },
+    "manual.significators": {
+      "en": "Significators",
+      "hi": "सिग्निफिकेटर",
+      "gu": "સિગ્નિફિકેટર"
+    },
+    "manual.planets_connecting_to_these_houses_become_event_carriers": {
+      "en": "Planets connecting to these houses become event carriers.",
+      "hi": "इन भावों से जुड़ने वाले ग्रह घटना के वाहक बनते हैं.",
+      "gu": "આ ભાવોથી જોડાતા ગ્રહો ઘટનાના વાહક બને છે."
+    },
+    "manual.ruling_planets_dasha": {
+      "en": "Ruling planets + dasha",
+      "hi": "रूलिंग ग्रह + दशा",
+      "gu": "રૂલિંગ ગ્રહો + દશા"
+    },
+    "manual.premium_depth_checks_period_support_and_event_windows": {
+      "en": "Premium depth checks period support and event windows.",
+      "hi": "प्रीमियम गहराई दशा सहारा और घटना समय देखती है.",
+      "gu": "પ્રીમિયમ ઊંડાઈ દશા સહારો અને ઘટના સમય જુએ છે."
+    },
+    "manual.cusp": {
+      "en": "Cusp",
+      "hi": "कस्प",
+      "gu": "કસ્પ"
+    },
+    "manual.sign": {
+      "en": "Sign",
+      "hi": "राशि",
+      "gu": "રાશિ"
+    },
+    "manual.star_lord": {
+      "en": "Star Lord",
+      "hi": "स्टार लॉर्ड",
+      "gu": "સ્ટાર લોર્ડ"
+    },
+    "manual.sub_lord": {
+      "en": "Sub Lord",
+      "hi": "सब लॉर्ड",
+      "gu": "સબ લોર્ડ"
+    },
+    "manual.sub_sub": {
+      "en": "Sub-sub",
+      "hi": "सब-सब",
+      "gu": "સબ-સબ"
+    },
+    "manual.validation_first": {
+      "en": "Validation first",
+      "hi": "पहले पुष्टि",
+      "gu": "પહેલા પુષ્ટિ"
+    },
+    "manual.it_asks_validation_questions_before_strong_event_level_statements_so_t": {
+      "en": "It asks validation questions before strong event-level statements, so the reading stays careful.",
+      "hi": "यह मजबूत घटना-स्तर की बातों से पहले पुष्टि प्रश्न पूछती है, ताकि वाचन सावधान रहे.",
+      "gu": "તે મજબૂત ઘટના-સ્તરની વાતો પહેલાં પુષ્ટિ પ્રશ્નો પૂછે છે, જેથી વાચન સાવચેત રહે."
+    },
+    "manual.clear_source": {
+      "en": "Clear source",
+      "hi": "स्पष्ट स्रोत",
+      "gu": "સ્પષ્ટ સ્ત્રોત"
+    },
+    "manual.it_never_claims_access_to_an_ancient_palm_leaf_manuscript_the_source_i": {
+      "en": "It never claims access to an ancient palm-leaf manuscript. The source is your calculated chart.",
+      "hi": "यह प्राचीन ताड़पत्र पांडुलिपि तक पहुंच का दावा नहीं करती. स्रोत आपका गणना किया गया चार्ट है.",
+      "gu": "તે પ્રાચીન તાડપત્ર પાંડુલિપિ સુધી પહોંચવાનો દાવો કરતી નથી. સ્ત્રોત તમારો ગણતરી કરેલો ચાર્ટ છે."
+    },
+    "manual.nadi_predicta_will_keep_this_question_with_the_active_birth_profile_an": {
+      "en": "Nadi Predicta will keep this question with the active birth profile and read it only from Nadi-style planetary stories.",
+      "hi": "नाड़ी प्रेडिक्टा इस प्रश्न को सक्रिय जन्म प्रोफाइल के साथ रखेगी और इसे केवल नाड़ी शैली की ग्रह-कथाओं से पढ़ेगी.",
+      "gu": "નાડી પ્રેડિક્ટા આ પ્રશ્નને સક્રિય જન્મ પ્રોફાઇલ સાથે રાખશે અને તેને માત્ર નાડી શૈલીની ગ્રહ-કથાઓથી વાંચશે."
+    },
+    "manual.boundary": {
+      "en": "Boundary",
+      "hi": "सीमा",
+      "gu": "સીમા"
+    },
+    "manual.confidence": {
+      "en": "confidence",
+      "hi": "विश्वास",
+      "gu": "વિશ્વાસ"
+    },
+    "manual.validation_question": {
+      "en": "Validation question",
+      "hi": "पुष्टि प्रश्न",
+      "gu": "પુષ્ટિ પ્રશ્ન"
+    },
+    "manual.career_and_job": {
+      "en": "Career and job",
+      "hi": "करियर और नौकरी",
+      "gu": "કારકિર્દી અને નોકરી"
+    },
+    "manual.money_and_gains": {
+      "en": "Money and gains",
+      "hi": "धन और लाभ",
+      "gu": "પૈસા અને લાભ"
+    },
+    "manual.marriage_and_partner": {
+      "en": "Marriage and partner",
+      "hi": "विवाह और साथी",
+      "gu": "લગ્ન અને સાથી"
+    },
+    "manual.home_and_property": {
+      "en": "Home and property",
+      "hi": "घर और संपत्ति",
+      "gu": "ઘર અને મિલકત"
+    },
+    "manual.event_first_judgement": {
+      "en": "Event-first judgement",
+      "hi": "घटना-पहले निर्णय",
+      "gu": "ઘટના-પહેલા નિર્ણય"
+    },
+    "manual.kp_proof_path": {
+      "en": "KP proof path",
+      "hi": "कृष्णमूर्ति पद्धति प्रमाण मार्ग",
+      "gu": "કૃષ્ણમૂર્તિ પદ્ધતિ પુરાવો માર્ગ"
+    },
+    "manual.focused_outcomes": {
+      "en": "Focused outcomes",
+      "hi": "केंद्रित परिणाम",
+      "gu": "કેન્દ્રિત પરિણામો"
+    },
+    "manual.kp_starts_with_the_event_question_and_relevant_houses_before_judging_p": {
+      "en": "KP starts with the event question and relevant houses before judging promise or timing.",
+      "hi": "कृष्णमूर्ति पद्धति संकेत या समय देखने से पहले घटना प्रश्न और संबंधित भावों से शुरू करती है.",
+      "gu": "કૃષ્ણમૂર્તિ પદ્ધતિ સંકેત અથવા સમય જોતા પહેલાં ઘટના પ્રશ્ન અને સંબંધિત ભાવોથી શરૂ કરે છે."
+    },
+    "manual.cusps_star_lords_sub_lords_ruling_planets_significators_and_dasha_supp": {
+      "en": "Cusps, star lords, sub lords, ruling planets, significators, and dasha support stay inside KP.",
+      "hi": "कस्प, स्टार लॉर्ड, सब लॉर्ड, रूलिंग ग्रह, सिग्निफिकेटर और दशा सहारा कृष्णमूर्ति पद्धति के भीतर रहते हैं.",
+      "gu": "કસ્પ, સ્ટાર લોર્ડ, સબ લોર્ડ, રૂલિંગ ગ્રહો, સિગ્નિફિકેટર અને દશા સહારો કૃષ્ણમૂર્તિ પદ્ધતિની અંદર રહે છે."
+    },
+    "manual.career_money_marriage_and_property_questions_get_their_own_kp_house_lo": {
+      "en": "Career, money, marriage, and property questions get their own KP house logic.",
+      "hi": "करियर, धन, विवाह और संपत्ति के प्रश्नों को उनकी अपनी कृष्णमूर्ति पद्धति भाव-तर्क मिलता है.",
+      "gu": "કારકિર્દી, પૈસા, લગ્ન અને મિલકતના પ્રશ્નોને તેમની પોતાની કૃષ્ણમૂર્તિ પદ્ધતિ ભાવ-તર્ક મળે છે."
     }
   }
 }

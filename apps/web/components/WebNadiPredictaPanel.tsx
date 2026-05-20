@@ -3,8 +3,10 @@
 import Link from 'next/link';
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 import { composeNadiJyotishPlan } from '@pridicta/astrology';
+import { translateUiText } from '@pridicta/config/uiTranslations';
 import type { KundliData } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
+import { useLanguagePreference } from '../lib/language-preference';
 import {
   loadWebAutoSaveMemory,
   saveWebAutoSaveMemory,
@@ -42,6 +44,8 @@ export function WebNadiPredictaPanel({
   kundli,
   schoolCalculationStatus = 'idle',
 }: WebNadiPredictaPanelProps): React.JSX.Element {
+  const { language } = useLanguagePreference();
+  const t = (value: string) => translateUiText(value, language);
   const plan = composeNadiJyotishPlan(kundli, {
     depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
     handoffQuestion,
@@ -103,22 +107,21 @@ export function WebNadiPredictaPanel({
         <div className="card-content spacious">
           <div className="school-panel-hero">
             <div>
-              <div className="section-title">NADI PREDICTA</div>
-              <h1 className="gradient-text">Premium Nadi reading room.</h1>
+              <div className="section-title">{t('Nadi Predicta')}</div>
+              <h1 className="gradient-text">{t('Premium Nadi reading room.')}</h1>
               <p>
-                Nadi Predicta is its own premium world. It reads planetary
-                story links, karaka themes, validation questions, and timing
-                activations. It does not pretend to access original palm-leaf
-                manuscripts.
+                {t(
+                  'Nadi Predicta is its own premium world. It reads planetary story links, karaka themes, validation questions, and timing activations. It does not pretend to access original palm-leaf manuscripts.',
+                )}
               </p>
             </div>
             <div className="world-hero-actions">
-              <span className="school-badge premium">Nadi world</span>
+              <span className="school-badge premium">{t('Nadi world')}</span>
               <a className="button primary" href={askHref}>
-                Chat with Nadi Predicta
+                {t('Chat with Nadi Predicta')}
               </a>
               <Link className="button secondary" href="/dashboard/report">
-                Build Nadi report
+                {t('Build Nadi report')}
               </Link>
             </div>
           </div>
@@ -126,9 +129,9 @@ export function WebNadiPredictaPanel({
           <div className="school-grid">
             {NADI_WORLD_PROOF_CARDS.map(card => (
               <div key={card.title}>
-                <span>Proof</span>
-                <strong>{card.title}</strong>
-                <p>{card.body}</p>
+                <span>{t('Proof')}</span>
+                <strong>{t(card.title)}</strong>
+                <p>{t(card.body)}</p>
               </div>
             ))}
           </div>
@@ -141,9 +144,10 @@ export function WebNadiPredictaPanel({
           <div className="school-callout">{plan.schoolBoundary}</div>
           {handoffQuestion ? (
             <div className="school-callout active">
-              Question received: “{handoffQuestion}”. Nadi Predicta will keep
-              this question with the active birth profile and read it only from
-              Nadi-style planetary stories.
+              {t('Question received')}: “{handoffQuestion}”.{' '}
+              {t(
+                'Nadi Predicta will keep this question with the active birth profile and read it only from Nadi-style planetary stories.',
+              )}
             </div>
           ) : null}
         </div>
@@ -151,13 +155,13 @@ export function WebNadiPredictaPanel({
 
       <Card className="glass-panel">
         <div className="card-content spacious">
-          <div className="section-title">NADI METHOD</div>
-          <h2>Separate from Parashari and KP.</h2>
+          <div className="section-title">{t('NADI METHOD')}</div>
+          <h2>{t('Separate from Parashari and KP.')}</h2>
           <p>{plan.methodSummary}</p>
           <div className="school-grid significators">
             {plan.guardrails.slice(0, 5).map(item => (
               <div key={item}>
-                <span>Boundary</span>
+                <span>{t('Boundary')}</span>
                 <strong>{item}</strong>
               </div>
             ))}
@@ -167,8 +171,8 @@ export function WebNadiPredictaPanel({
 
       <Card className="glass-panel">
         <div className="card-content spacious">
-          <div className="section-title">STORY LINKS</div>
-          <h2>What the Nadi layer noticed.</h2>
+          <div className="section-title">{t('STORY LINKS')}</div>
+          <h2>{t('What the Nadi layer noticed.')}</h2>
           <div className="nadi-story-map">
             {plan.patterns.map((pattern, index) => (
               <button
@@ -179,7 +183,7 @@ export function WebNadiPredictaPanel({
                 style={{ ['--nadi-node-index' as string]: index } as CSSProperties}
                 type="button"
               >
-                <span>{pattern.confidence} confidence</span>
+                <span>{pattern.confidence} {t('confidence')}</span>
                 <strong>{pattern.planets.join(' + ')}</strong>
                 <small>{pattern.relation.replaceAll('-', ' ')}</small>
               </button>
@@ -193,7 +197,7 @@ export function WebNadiPredictaPanel({
           {selectedPattern ? (
             <div className="nadi-pattern-detail">
               <div>
-                <span>Selected story</span>
+                <span>{t('Selected story')}</span>
                 <h3>{selectedPattern.title}</h3>
                 <p>{hasPremiumAccess ? selectedPattern.premiumDetail ?? selectedPattern.meaning : selectedPattern.freeInsight}</p>
               </div>
@@ -214,8 +218,8 @@ export function WebNadiPredictaPanel({
 
       <Card className="glass-panel">
         <div className="card-content spacious">
-          <div className="section-title">ACTIVATION WINDOWS</div>
-          <h2>When the story is more likely to feel active.</h2>
+          <div className="section-title">{t('ACTIVATION WINDOWS')}</div>
+          <h2>{t('When the story is more likely to feel active.')}</h2>
           <div className="nadi-activation-list">
             {plan.activations.map((activation, index) => (
               <div
@@ -237,15 +241,15 @@ export function WebNadiPredictaPanel({
 
       <Card className="glass-panel">
         <div className="card-content spacious">
-          <div className="section-title">VALIDATION</div>
-          <h2>Predicta asks before going deep.</h2>
+          <div className="section-title">{t('VALIDATION')}</div>
+          <h2>{t('Predicta asks before going deep.')}</h2>
           <div className="nadi-validation-stack">
             {plan.validationQuestions.slice(0, 4).map((question, index) => (
               <div
                 key={question}
                 style={{ ['--nadi-node-index' as string]: index } as CSSProperties}
               >
-                <span>Validation question</span>
+                <span>{t('Validation question')}</span>
                 <strong>{question}</strong>
               </div>
             ))}
@@ -255,10 +259,10 @@ export function WebNadiPredictaPanel({
               className="button"
               href={askHref}
             >
-              Ask Nadi Predicta
+              {t('Ask Nadi Predicta')}
             </a>
             <Link className="button secondary" href="/pricing">
-              See Premium Nadi
+              {t('See Premium Nadi')}
             </Link>
           </div>
         </div>

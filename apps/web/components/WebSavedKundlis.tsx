@@ -787,8 +787,8 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     activeNow: 'अभी सक्रिय',
     addProfile: 'प्रोफाइल जोड़ें',
     approximateTime: 'अनुमानित समय',
-    askPredicta: 'Predicta से पूछें',
-    askToCreate: 'Predicta से बनवाएं',
+    askPredicta: 'प्रेडिक्टा से पूछें',
+    askToCreate: 'प्रेडिक्टा से बनवाएं',
     birthDetails: 'जन्म विवरण',
     birthStar: 'जन्म नक्षत्र',
     close: 'बंद करें',
@@ -799,25 +799,25 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     deleteConfirmBody:
       'यह कुंडली लाइब्रेरी से हट जाएगी. पुराने चैट या रिपोर्ट में इस प्रोफाइल का पूरा चार्ट संदर्भ उपलब्ध नहीं रह सकता.',
     deleteConfirmConsequence:
-      'अगर यही सक्रिय कुंडली है, तो Predicta अगली सेव कुंडली चुनेगी या नया चार्ट बनाने को कहेगी.',
+      'अगर यही सक्रिय कुंडली है, तो प्रेडिक्टा अगली सेव कुंडली चुनेगी या नया चार्ट बनाने को कहेगी.',
     deleteConfirmEyebrow: 'सावधानी से हटाएं',
     deleteConfirmTitle: name => `${name} की कुंडली हटाएं?`,
     dialogAskPrompt: (name, chart) =>
       `${name} की ${chart} कुंडली लाइब्रेरी से इस्तेमाल करें. चैट में चार्ट की पुष्टि करके बताएं कि आगे क्या पूछना सही रहेगा.`,
     dialogBody:
-      'यह झलक सेव जन्म विवरण से बनी है. पूरा प्रवाह खोलें, Predicta से पूछें, या इसे सक्रिय कुंडली बनाएं.',
+      'यह झलक सेव जन्म विवरण से बनी है. पूरा प्रवाह खोलें, प्रेडिक्टा से पूछें, या इसे सक्रिय कुंडली बनाएं.',
     dialogChartSection: school =>
       school === 'PARASHARI'
         ? 'D1 सेव कुंडली'
         : school === 'KP'
-          ? 'KP सेव कुंडली'
+          ? 'कृष्णमूर्ति पद्धति सेव कुंडली'
           : 'नाड़ी सेव कुंडली',
     dialogEyebrow: 'सेव चार्ट झलक',
     dialogReadingNote: school =>
       school === 'PARASHARI'
         ? 'D1 इस सेव कुंडली का मूल चार्ट रहता है.'
         : school === 'KP'
-          ? 'KP अपनी अलग नियम पद्धति रखता है. यह झलक KP संदर्भ में सेव जन्म चार्ट खोलती है.'
+          ? 'कृष्णमूर्ति पद्धति अपनी अलग नियम पद्धति रखता है. यह झलक कृष्णमूर्ति पद्धति संदर्भ में सेव जन्म चार्ट खोलती है.'
           : 'नाड़ी अपनी अलग पैटर्न रीडिंग रखती है. यह झलक नाड़ी संदर्भ में सेव जन्म चार्ट खोलती है.',
     dialogTitle: (name, chart) => `${name} का ${chart} चार्ट`,
     edit: 'संपादित करें',
@@ -844,13 +844,13 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
       school === 'PARASHARI'
         ? 'पूरी कुंडली खोलें'
         : school === 'KP'
-          ? 'KP कक्ष खोलें'
+          ? 'कृष्णमूर्ति पद्धति कक्ष खोलें'
           : 'नाड़ी कक्ष खोलें',
     pageBody:
       'यह आपकी सेव कुंडलियों की जगह है. सक्रिय प्रोफाइल चुनें, फिर पारिवारिक संकेतों और साझा प्रोफाइल के लिए परिवार वॉल्ट इस्तेमाल करें.',
     pageTitle: 'कुंडली लाइब्रेरी',
     previewChartLabel: school =>
-      school === 'PARASHARI' ? 'D1' : school === 'KP' ? 'KP' : 'नाड़ी',
+      school === 'PARASHARI' ? 'D1' : school === 'KP' ? 'कृष्णमूर्ति पद्धति' : 'नाड़ी',
     previewCharts: 'सेव कुंडली चार्ट झलक',
     previewChartsHint: 'पूरा प्रवाह खोलने से पहले किसी भी झलक पर टैप करके चार्ट देखें.',
     rectifiedTime: 'सुधारा गया समय',
@@ -870,8 +870,8 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     activeNow: 'હમણાં સક્રિય',
     addProfile: 'પ્રોફાઇલ ઉમેરો',
     approximateTime: 'અંદાજિત સમય',
-    askPredicta: 'Predicta ને પૂછો',
-    askToCreate: 'Predicta પાસે બનાવડાવો',
+    askPredicta: 'પ્રેડિક્ટા ને પૂછો',
+    askToCreate: 'પ્રેડિક્ટા પાસે બનાવડાવો',
     birthDetails: 'જન્મ વિગતો',
     birthStar: 'જન્મ નક્ષત્ર',
     close: 'બંધ કરો',
@@ -882,25 +882,25 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     deleteConfirmBody:
       'આ કુંડળી લાઇબ્રેરીમાંથી દૂર થશે. જૂના ચેટ અથવા રિપોર્ટમાં આ પ્રોફાઇલનો સંપૂર્ણ ચાર્ટ સંદર્ભ ઉપલબ્ધ ન રહી શકે.',
     deleteConfirmConsequence:
-      'જો આ સક્રિય કુંડળી છે, તો Predicta આગળની સેવ કુંડળી પસંદ કરશે અથવા નવો ચાર્ટ બનાવવા કહેશે.',
+      'જો આ સક્રિય કુંડળી છે, તો પ્રેડિક્ટા આગળની સેવ કુંડળી પસંદ કરશે અથવા નવો ચાર્ટ બનાવવા કહેશે.',
     deleteConfirmEyebrow: 'સાવચેતીથી કાઢો',
     deleteConfirmTitle: name => `${name} ની કુંડળી કાઢી નાખો?`,
     dialogAskPrompt: (name, chart) =>
       `${name} નો ${chart} ચાર્ટ કુંડળી લાઇબ્રેરીમાંથી વાપરો. ચેટમાં ચાર્ટની પુષ્ટિ કરીને આગળ શું પૂછવું તે કહો.`,
     dialogBody:
-      'આ ઝલક સાચવેલી જન્મ વિગતો પરથી છે. સંપૂર્ણ પ્રવાહ ખોલો, Predicta ને પૂછો, અથવા આ કુંડળી સક્રિય કરો.',
+      'આ ઝલક સાચવેલી જન્મ વિગતો પરથી છે. સંપૂર્ણ પ્રવાહ ખોલો, પ્રેડિક્ટા ને પૂછો, અથવા આ કુંડળી સક્રિય કરો.',
     dialogChartSection: school =>
       school === 'PARASHARI'
         ? 'D1 સાચવેલી કુંડળી'
         : school === 'KP'
-          ? 'KP સાચવેલી કુંડળી'
+          ? 'કૃષ્ણમૂર્તિ પદ્ધતિ સાચવેલી કુંડળી'
           : 'નાડી સાચવેલી કુંડળી',
     dialogEyebrow: 'સાચવેલી ચાર્ટ ઝલક',
     dialogReadingNote: school =>
       school === 'PARASHARI'
         ? 'D1 આ સેવ કુંડળીનો મૂળ ચાર્ટ રહે છે.'
         : school === 'KP'
-          ? 'KP પોતાની અલગ નિયમ પદ્ધતિ રાખે છે. આ ઝલક KP સંદર્ભમાં સેવ જન્મ ચાર્ટ ખોલે છે.'
+          ? 'કૃષ્ણમૂર્તિ પદ્ધતિ પોતાની અલગ નિયમ પદ્ધતિ રાખે છે. આ ઝલક કૃષ્ણમૂર્તિ પદ્ધતિ સંદર્ભમાં સેવ જન્મ ચાર્ટ ખોલે છે.'
           : 'નાડી પોતાની અલગ પેટર્ન રીડિંગ રાખે છે. આ ઝલક નાડી સંદર્ભમાં સેવ જન્મ ચાર્ટ ખોલે છે.',
     dialogTitle: (name, chart) => `${name} નો ${chart} ચાર્ટ`,
     edit: 'સંપાદિત કરો',
@@ -927,13 +927,13 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
       school === 'PARASHARI'
         ? 'સંપૂર્ણ કુંડળી ખોલો'
         : school === 'KP'
-          ? 'KP કક્ષ ખોલો'
+          ? 'કૃષ્ણમૂર્તિ પદ્ધતિ કક્ષ ખોલો'
           : 'નાડી કક્ષ ખોલો',
     pageBody:
       'આ તમારી સાચવેલી કુંડળીઓની જગ્યા છે. સક્રિય પ્રોફાઇલ પસંદ કરો, પછી પરિવારના સંકેતો અને સહિયારી પ્રોફાઇલ માટે પરિવાર વોલ્ટ વાપરો.',
     pageTitle: 'કુંડળી લાઇબ્રેરી',
     previewChartLabel: school =>
-      school === 'PARASHARI' ? 'D1' : school === 'KP' ? 'KP' : 'નાડી',
+      school === 'PARASHARI' ? 'D1' : school === 'KP' ? 'કૃષ્ણમૂર્તિ પદ્ધતિ' : 'નાડી',
     previewCharts: 'સાચવેલી કુંડળી ચાર્ટ ઝલક',
     previewChartsHint: 'સંપૂર્ણ પ્રવાહ ખોલતા પહેલા કોઈ પણ ઝલક પર ટેપ કરીને ચાર્ટ જુઓ.',
     rectifiedTime: 'સુધારેલો સમય',

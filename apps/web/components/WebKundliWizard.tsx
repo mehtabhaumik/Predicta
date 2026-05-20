@@ -1097,10 +1097,10 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     createAnotherKundli: 'जरूरत हो तभी दूसरी कुंडली बनाएं.',
     createAnotherKundliStep: 'दूसरी कुंडली बनाएं',
     createBirthDetailsBody:
-      'Predicta को पहले केवल तीन बातें चाहिए: तारीख, समय और स्थान.',
+      'प्रेडिक्टा को पहले केवल तीन बातें चाहिए: तारीख, समय और स्थान.',
     createKundliStep: 'चरण 1 · कुंडली बनाएं',
     editBirthDetailsBody:
-      'सिर्फ गलत विवरण बदलें, फिर Predicta कुंडली दोबारा गणना करने से पहले पुष्टि लेगी.',
+      'सिर्फ गलत विवरण बदलें, फिर प्रेडिक्टा कुंडली दोबारा गणना करने से पहले पुष्टि लेगी.',
     editSavedKundli: 'सेव कुंडली संपादित करें',
     enterBirthDetails: 'जन्म विवरण क्रम से भरें.',
     guestLimitError:
@@ -1113,10 +1113,10 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     createAnotherKundli: 'જરૂર હોય ત્યારે જ બીજી કુંડળી બનાવો.',
     createAnotherKundliStep: 'બીજી કુંડળી બનાવો',
     createBirthDetailsBody:
-      'Predicta ને પહેલા માત્ર ત્રણ બાબતો જોઈએ: તારીખ, સમય અને સ્થળ.',
+      'પ્રેડિક્ટા ને પહેલા માત્ર ત્રણ બાબતો જોઈએ: તારીખ, સમય અને સ્થળ.',
     createKundliStep: 'પગલું 1 · કુંડળી બનાવો',
     editBirthDetailsBody:
-      'માત્ર ખોટી વિગતો બદલો, પછી Predicta કુંડળી ફરી ગણતા પહેલાં ખાતરી કરશે.',
+      'માત્ર ખોટી વિગતો બદલો, પછી પ્રેડિક્ટા કુંડળી ફરી ગણતા પહેલાં ખાતરી કરશે.',
     editSavedKundli: 'સાચવેલી કુંડળી સંપાદિત કરો',
     enterBirthDetails: 'જન્મ વિગતો ક્રમથી ભરો.',
     guestLimitError:

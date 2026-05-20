@@ -15467,3 +15467,389 @@ select::-ms-expand {
     color: #ffffff !important;
   }
 }
+
+/* -------------------------------------------------------------------------
+   Kundli surface isolation
+   Keep these four render surfaces separate. Do not merge these selectors:
+   1. Landing hero Kundli
+   2. Regular full Kundli
+   3. Predicta chat Kundli
+   4. Kundli Library compact Kundli
+   ------------------------------------------------------------------------- */
+
+.jyotish-chart-shell > .north-chart .north-chart-lines,
+.predicta-chat-page .chat-chart-card .chat-mini-chart .north-chart-lines,
+.hero-kundli-board > .north-chart-lines,
+.kundli-library-mini-chart > .north-chart-lines {
+  height: 100% !important;
+  inset: 0 !important;
+  overflow: visible !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  width: 100% !important;
+  z-index: 0 !important;
+}
+
+.jyotish-chart-shell > .north-chart .north-chart-lines path,
+.predicta-chat-page .chat-chart-card .chat-mini-chart .north-chart-lines path,
+.hero-kundli-board > .north-chart-lines path,
+.kundli-library-mini-chart > .north-chart-lines path {
+  fill: none !important;
+  opacity: 1;
+  stroke-dasharray: none !important;
+  stroke-dashoffset: 0 !important;
+  stroke-linecap: square !important;
+  stroke-linejoin: miter !important;
+  vector-effect: non-scaling-stroke;
+}
+
+/* 1. Landing page Hero Kundli: demo-only, full geometry, no outerline draw. */
+.hero-kundli-board {
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 22px;
+  max-width: min(100%, 700px) !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  width: min(100%, 700px) !important;
+}
+
+.hero-kundli-board > .north-chart-lines path {
+  stroke-dasharray: none !important;
+  stroke-dashoffset: 0 !important;
+  stroke: var(--kundli-line-soft) !important;
+  stroke-width: 0.78 !important;
+}
+
+.hero-kundli-board > .north-chart-lines path:first-child {
+  animation: none !important;
+  opacity: 0.96;
+  stroke: var(--kundli-line-main) !important;
+  stroke-width: 0.92 !important;
+}
+
+.hero-kundli-board[data-kundli-animation-surface='landing'] > .north-chart-lines path:first-child {
+  animation: none !important;
+  stroke-dasharray: none !important;
+  stroke-dashoffset: 0 !important;
+}
+
+.hero-kundli-board[data-kundli-animation-surface='landing'] > .north-chart-lines path:not(:first-child) {
+  animation:
+    kundliLineFade 420ms ease-out both,
+    heroKundliLineBreath 6.4s ease-in-out infinite !important;
+  animation-delay:
+    var(--kundli-line-reveal-delay, 0ms),
+    calc(var(--kundli-line-reveal-delay, 0ms) + 520ms) !important;
+  stroke-dasharray: none !important;
+  stroke-dashoffset: 0 !important;
+}
+
+.hero-kundli-board .hero-chart-label {
+  gap: clamp(2px, 0.34vw, 5px);
+  max-width: 24%;
+  min-width: 0;
+  overflow: hidden;
+  padding: clamp(3px, 0.44vw, 7px);
+}
+
+.hero-kundli-board .hero-sign-meta {
+  gap: 3px 5px;
+  justify-content: center;
+}
+
+.hero-kundli-board .hero-sign-name {
+  font-size: clamp(9px, 0.82vw, 13px);
+  line-height: 1.05;
+}
+
+.hero-kundli-board .hero-sign-symbol {
+  font-size: clamp(12px, 1vw, 17px);
+}
+
+.hero-kundli-board .hero-chart-planet-stack {
+  gap: 3px;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.hero-kundli-board .hero-chart-planet-stack .planet-glyph {
+  border-radius: 7px;
+  gap: 3px;
+  max-width: 100%;
+  padding: 2px 4px;
+}
+
+.hero-kundli-board .hero-chart-planet-stack .planet-glyph-copy strong,
+.hero-kundli-board .hero-chart-planet-stack .planet-glyph-copy em,
+.hero-kundli-board .hero-chart-planet-stack .planet-status-mark {
+  font-size: clamp(7px, 0.68vw, 10px);
+}
+
+@media (max-width: 920px) {
+  .hero-section {
+    grid-template-columns: 1fr !important;
+  }
+
+  .hero-visual.kundli-hero-visual {
+    width: 100%;
+  }
+
+  .hero-kundli-board {
+    margin-inline: auto;
+    width: min(100%, 620px) !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .hero-kundli-board {
+    border-radius: 16px;
+    width: 100% !important;
+  }
+
+  .hero-kundli-board .hero-chart-label {
+    max-width: 26%;
+    padding: 2px;
+  }
+
+  .hero-kundli-board .hero-chart-planet-stack .planet-glyph-mark,
+  .hero-kundli-board .hero-chart-planet-stack .planet-glyph-mark svg {
+    height: 10px;
+    width: 10px;
+  }
+}
+
+/* 2. Regular full Kundli: the authoritative interactive chart. */
+.jyotish-chart-shell > .north-chart {
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 0 !important;
+  max-width: none !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  width: 100% !important;
+}
+
+.jyotish-chart-shell > .north-chart .north-chart-lines path {
+  stroke-dasharray: none !important;
+  stroke-dashoffset: 0 !important;
+  stroke: var(--kundli-line-main) !important;
+  stroke-width: 0.72 !important;
+}
+
+.jyotish-chart-shell > .north-chart .north-chart-lines path:nth-child(n + 2) {
+  stroke: var(--kundli-line-soft) !important;
+}
+
+.jyotish-chart-shell > .north-chart[data-kundli-animation='true'] .north-chart-lines path {
+  animation:
+    kundliLineFade var(--kundli-line-draw-duration, 360ms) ease-out both,
+    chartLineBreath var(--kundli-line-breath-duration, 7s) ease-in-out infinite !important;
+  animation-delay:
+    var(--kundli-line-reveal-delay, 0ms),
+    calc(var(--kundli-line-reveal-delay, 0ms) + 520ms) !important;
+  stroke-dasharray: none !important;
+  stroke-dashoffset: 0 !important;
+}
+
+/* 3. Predicta Chat Kundli: compact, contained, shared by all specialist rooms. */
+.predicta-chat-page .chat-chart-card .chat-mini-chart {
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 16px;
+  contain: layout paint;
+  margin-inline: auto;
+  max-width: min(100%, 760px) !important;
+  min-height: clamp(280px, 54vw, 680px) !important;
+  overflow: hidden !important;
+  width: 100% !important;
+}
+
+.predicta-chat-page .chat-chart-card .chat-mini-chart .north-chart-lines path {
+  stroke-dasharray: none !important;
+  stroke-dashoffset: 0 !important;
+  stroke: var(--kundli-line-main) !important;
+  stroke-width: 0.66 !important;
+}
+
+.predicta-chat-page .chat-chart-card .chat-mini-chart .north-chart-lines path:nth-child(n + 2) {
+  stroke: var(--kundli-line-soft) !important;
+}
+
+.predicta-chat-page .chat-chart-card .chat-mini-chart[data-kundli-animation='true'] .north-chart-lines path {
+  animation:
+    kundliLineFade var(--kundli-line-draw-duration, 260ms) ease-out both,
+    chartLineBreath 7.2s ease-in-out infinite !important;
+  animation-delay:
+    var(--kundli-line-reveal-delay, 0ms),
+    calc(var(--kundli-line-reveal-delay, 0ms) + 360ms) !important;
+  stroke-dasharray: none !important;
+  stroke-dashoffset: 0 !important;
+}
+
+.predicta-chat-page .chat-chart-card .chat-mini-chart .north-house-label {
+  gap: clamp(1px, 0.24vw, 4px);
+  max-width: var(--label-w, 24%);
+  overflow: hidden;
+  padding: clamp(2px, 0.28vw, 5px);
+}
+
+.predicta-chat-page .chat-chart-card .chat-mini-chart .north-house-label .north-house-meta {
+  gap: 2px 4px;
+}
+
+.predicta-chat-page .chat-chart-card .chat-mini-chart .north-sign-number {
+  font-size: clamp(8px, 0.72vw, 11px) !important;
+  height: clamp(16px, 1.18vw, 20px) !important;
+  min-width: clamp(16px, 1.18vw, 20px) !important;
+  padding: 0 4px !important;
+}
+
+.predicta-chat-page .chat-chart-card .chat-mini-chart .chat-mini-planet-row {
+  gap: 2px;
+  justify-content: center;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.predicta-chat-page .chat-chart-card .chat-mini-chart .chat-mini-planet-row .planet-glyph {
+  border-radius: 6px;
+  gap: 2px;
+  max-width: 100%;
+  padding: 2px 4px;
+}
+
+.predicta-chat-page .chat-chart-card .chat-mini-chart .chat-mini-planet-row .planet-glyph-mark,
+.predicta-chat-page .chat-chart-card .chat-mini-chart .chat-mini-planet-row .planet-glyph-mark svg {
+  height: clamp(10px, 1vw, 13px);
+  width: clamp(10px, 1vw, 13px);
+}
+
+.predicta-chat-page .chat-chart-card .chat-mini-chart .chat-mini-planet-row .planet-glyph-copy strong,
+.predicta-chat-page .chat-chart-card .chat-mini-chart .chat-mini-planet-row .planet-glyph-copy em,
+.predicta-chat-page .chat-chart-card .chat-mini-chart .chat-mini-planet-row .planet-status-mark {
+  font-size: clamp(7px, 0.72vw, 10px) !important;
+  max-width: 8ch;
+}
+
+.predicta-chat-page .chat-chart-card > .chart-legend.compact {
+  margin-inline: auto;
+  max-width: min(100%, 760px);
+  width: 100%;
+}
+
+@media (max-width: 560px) {
+  .predicta-chat-page .chat-chart-card .chat-mini-chart {
+    min-height: clamp(260px, 92vw, 390px) !important;
+  }
+}
+
+.message.thinking-message {
+  align-self: flex-start !important;
+  box-sizing: border-box !important;
+  justify-self: start !important;
+  max-width: min(620px, 92%) !important;
+  overflow: hidden !important;
+  width: min(620px, 92%) !important;
+}
+
+.message.thinking-message .predicta-thinking-row,
+.message.thinking-message .predicta-thinking-mark {
+  max-width: 100% !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+.message.thinking-message .predicta-thinking-row p {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  overflow-wrap: anywhere !important;
+}
+
+@media (max-width: 560px) {
+  .message.thinking-message {
+    max-width: calc(100% - 24px) !important;
+    width: calc(100% - 24px) !important;
+  }
+}
+
+/* 4. Kundli Library compact Kundli: small snapshot only. */
+.kundli-library-mini-chart {
+  aspect-ratio: 1.62 / 1 !important;
+  border-radius: 12px;
+  overflow: hidden !important;
+}
+
+.kundli-library-mini-chart > .north-chart-lines path {
+  animation: none !important;
+  stroke-dasharray: none !important;
+  stroke-dashoffset: 0 !important;
+  stroke: var(--kundli-line-main) !important;
+  stroke-width: 0.72 !important;
+}
+
+.kundli-library-mini-chart > .north-chart-lines path:first-child {
+  stroke-width: 0.92 !important;
+}
+
+/* Landing-only mobile tightening. Do not share these rules with regular,
+   chat, or library Kundlis. */
+@media (max-width: 560px) {
+  .hero-kundli-board {
+    aspect-ratio: 1 / 1 !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 0 !important;
+  }
+
+  .hero-kundli-board .hero-chart-label {
+    block-size: auto !important;
+    box-sizing: border-box !important;
+    inline-size: clamp(34px, 13.5vw, 52px) !important;
+    left: var(--house-x) !important;
+    max-height: 52px !important;
+    max-width: 16% !important;
+    overflow: hidden !important;
+    padding: 1px !important;
+    position: absolute !important;
+    top: var(--house-y) !important;
+    transform: translate(-50%, -50%) !important;
+    white-space: normal !important;
+  }
+
+  .hero-kundli-board .hero-sign-name {
+    display: none !important;
+  }
+
+  .hero-kundli-board .hero-sign-meta {
+    gap: 1px !important;
+  }
+
+  .hero-kundli-board .hero-sign-number {
+    font-size: 7px !important;
+    height: 14px !important;
+    min-width: 14px !important;
+    padding: 0 3px !important;
+  }
+
+  .hero-kundli-board .hero-sign-symbol {
+    font-size: 10px !important;
+  }
+
+  .hero-kundli-board .hero-chart-planet-stack {
+    gap: 1px !important;
+  }
+
+  .hero-kundli-board .hero-chart-planet-stack .planet-glyph {
+    border-radius: 5px !important;
+    max-width: 100% !important;
+    padding: 1px 2px !important;
+  }
+
+  .hero-kundli-board .hero-chart-planet-stack .planet-glyph-copy strong,
+  .hero-kundli-board .hero-chart-planet-stack .planet-glyph-copy em,
+  .hero-kundli-board .hero-chart-planet-stack .planet-status-mark {
+    font-size: 6px !important;
+    max-width: 4ch !important;
+  }
+}

@@ -69,7 +69,7 @@ const reportPageCopy: Record<
       'उपयोगी free preview से शुरू करें. Paid depth तभी चुनें जब real decision के लिए timing windows, remedies, chart proof या polished PDF चाहिए.',
     drawerTitle: 'कैसे चुनें',
     openDetails: 'खोलें',
-    premiumCta: 'Report options compare करें',
+    premiumCta: 'रिपोर्ट options compare करें',
     title: 'जो रिपोर्ट सच में चाहिए, वही चुनें.',
   },
   gu: {
@@ -78,7 +78,7 @@ const reportPageCopy: Record<
       'ઉપયોગી free preview થી શરૂ કરો. Paid depth ત્યારે પસંદ કરો જ્યારે real decision માટે timing windows, remedies, chart proof અથવા polished PDF જોઈએ.',
     drawerTitle: 'કેવી રીતે પસંદ કરવું',
     openDetails: 'ખોલો',
-    premiumCta: 'Report options compare કરો',
+    premiumCta: 'રિપોર્ટ options compare કરો',
     title: 'જે રિપોર્ટ સાચે જોઈએ, તે પસંદ કરો.',
   },
 };

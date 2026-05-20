@@ -68,7 +68,7 @@ const footerCopy: Record<
   hi: {
     bottom:
       'यह आत्म-समझ और चिंतन के लिए है. यह medical, legal, financial, emergency या guaranteed prediction advice नहीं है.',
-    copyright: '© 2026 Predicta. सर्वाधिकार सुरक्षित.',
+    copyright: '© 2026 प्रेडिक्टा. सर्वाधिकार सुरक्षित.',
     sections: [
       {
         heading: 'शुरू करें',
@@ -116,7 +116,7 @@ const footerCopy: Record<
   gu: {
     bottom:
       'આ આત્મસમજ અને વિચાર માટે છે. આ medical, legal, financial, emergency અથવા guaranteed prediction advice નથી.',
-    copyright: '© 2026 Predicta. સર્વ અધિકાર સુરક્ષિત.',
+    copyright: '© 2026 પ્રેડિક્ટા. સર્વ અધિકાર સુરક્ષિત.',
     sections: [
       {
         heading: 'શરૂ કરો',

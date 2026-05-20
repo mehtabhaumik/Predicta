@@ -105,7 +105,7 @@ const VEDIC_WORLD_COPY: Record<SupportedLanguage, VedicWorldCopy> = {
     },
     note: {
       body:
-        'KP, नाड़ी, अंक ज्योतिष और हस्ताक्षर के अपने अलग संसार हैं. वैदिक प्रेडिक्टा मुख्य ज्योतिष रीडिंग पर केंद्रित रहती है.',
+        'कृष्णमूर्ति पद्धति, नाड़ी, अंक ज्योतिष और हस्ताक्षर के अपने अलग संसार हैं. वैदिक प्रेडिक्टा मुख्य ज्योतिष वाचन पर केंद्रित रहती है.',
       title: 'अलग संसार, साझा कुंडली',
     },
     report: {
@@ -133,24 +133,24 @@ const VEDIC_WORLD_COPY: Record<SupportedLanguage, VedicWorldCopy> = {
         title: 'જીવનના પ્રશ્નો',
       },
       {
-        body: 'કર્મ આધારિત ઉપાયો, પુરુષાર્થ સંતુલન, પંચાંગ અને દૈનિક માર્ગદર્શન આ વેદિક વર્લ્ડમાં રહે છે.',
+        body: 'કર્મ આધારિત ઉપાયો, પુરુષાર્થ સંતુલન, પંચાંગ અને દૈનિક માર્ગદર્શન આ વૈદિક દુનિયામાં રહે છે.',
         title: 'હોલિસ્ટિક સહારો',
       },
     ],
     hero: {
       body:
-        'મુખ્ય વેદિક રીડિંગ માટે આ વર્લ્ડ વાપરો: કુંડળી, ચાર્ટ્સ, દશા, ગોચર, ઉપાયો, સમય અને રિપોર્ટ માટે તૈયાર માર્ગદર્શન.',
-      eyebrow: 'વેદિક વર્લ્ડ',
+        'મુખ્ય વૈદિક વાચન માટે આ દુનિયા વાપરો: કુંડળી, ચાર્ટ્સ, દશા, ગોચર, ઉપાયો, સમય અને રિપોર્ટ માટે તૈયાર માર્ગદર્શન.',
+      eyebrow: 'વૈદિક દુનિયા',
       title: 'તમારું મુખ્ય વેદિક પ્રેડિક્ટા સ્થાન.',
     },
     note: {
       body:
-        'KP, નાડી, અંક જ્યોતિષ અને સહીના પોતાના અલગ વર્લ્ડ્સ છે. વેદિક પ્રેડિક્ટા મુખ્ય જ્યોતિષ રીડિંગ પર કેન્દ્રિત રહે છે.',
-      title: 'અલગ વર્લ્ડ્સ, શેર કરેલી કુંડળી',
+        'કૃષ્ણમૂર્તિ પદ્ધતિ, નાડી, અંક જ્યોતિષ અને સહીની પોતાની અલગ દુનિયા છે. વૈદિક પ્રેડિક્ટા મુખ્ય જ્યોતિષ વાચન પર કેન્દ્રિત રહે છે.',
+      title: 'અલગ દુનિયા, શેર કરેલી કુંડળી',
     },
     report: {
       body:
-        'વેદિક રીડિંગને કુંડળી, કરિયર, લગ્ન, પૈસા, ઉપાયો અથવા timing રિપોર્ટમાં બદલો.',
+        'વૈદિક વાચનને કુંડળી, કરિયર, લગ્ન, પૈસા, ઉપાયો અથવા સમય રિપોર્ટમાં બદલો.',
       cta: 'વેદિક રિપોર્ટ બનાવો',
       title: 'વેદિક રિપોર્ટ માર્ગ',
     },
@@ -180,7 +180,7 @@ export default function VedicPredictaPage(): React.JSX.Element {
             <p>{copy.hero.body}</p>
           </div>
           <div className="world-hero-actions">
-            <span className="school-badge premium">Vedic world</span>
+            <span className="school-badge premium">{copy.hero.eyebrow}</span>
             <Link className="button primary" href={chatHref}>
               {copy.actions.chat}
             </Link>
@@ -225,7 +225,7 @@ export default function VedicPredictaPage(): React.JSX.Element {
         <section className="glass-panel">
           <div className="section-heading-row">
             <div>
-              <p className="section-title">REPORT PATH</p>
+              <p className="section-title">{copy.report.title}</p>
               <h2>{copy.report.title}</h2>
               <p>{copy.report.body}</p>
             </div>

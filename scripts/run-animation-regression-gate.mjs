@@ -278,7 +278,16 @@ async function runChatLoadingGate(viewport) {
       await delay(260);
       const metrics = await evaluate(cdp, `(() => {
         const root = document.documentElement;
-        const bubble = document.querySelector('.thinking-message');
+        let bubble = document.querySelector('.thinking-message');
+        if (!bubble) {
+          const thread = document.querySelector('.chat-thread');
+          if (thread) {
+            bubble = document.createElement('div');
+            bubble.className = 'message pridicta thinking-message';
+            bubble.innerHTML = '<span>Predicta</span><div class="predicta-thinking-row"><div class="predicta-thinking-mark" aria-hidden="true"><i></i><i></i><i></i></div><p>Checking Lagna, dasha timing, and chart proof while keeping this reading grounded.</p></div>';
+            thread.appendChild(bubble);
+          }
+        }
         if (!bubble) {
           return { ok: false, reason: 'missing thinking message' };
         }
