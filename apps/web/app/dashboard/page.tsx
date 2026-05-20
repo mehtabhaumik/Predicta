@@ -21,6 +21,7 @@ import { WebDestinyPassportCard } from '../../components/WebDestinyPassportCard'
 import { WebGocharSynopsisCard } from '../../components/WebGocharSynopsisCard';
 import { WebYearlySynopsisCard } from '../../components/WebYearlySynopsisCard';
 import { WebActiveKundliActions } from '../../components/WebActiveKundliActions';
+import { WebHookRetentionMoments } from '../../components/WebHookRetentionMoments';
 import { useLanguagePreference } from '../../lib/language-preference';
 import { buildPredictaChatHref } from '../../lib/predicta-chat-cta';
 import { useWebKundliLibrary } from '../../lib/use-web-kundli-library';
@@ -218,6 +219,8 @@ export default function DashboardPage(): React.JSX.Element {
         purushartha={purushartha}
         yearlyHoroscope={yearlyHoroscope}
       />
+
+      <WebHookRetentionMoments kundli={activeKundli} />
 
       <WebDailyBriefingCard
         briefing={dailyBriefing}

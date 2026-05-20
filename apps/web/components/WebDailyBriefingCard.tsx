@@ -55,7 +55,10 @@ export function WebDailyBriefingCard({
   }
 
   return (
-    <section className={`daily-briefing glass-panel ${ready ? 'ready' : 'pending'}`}>
+    <section
+      className={`daily-briefing glass-panel ${ready ? 'ready' : 'pending'}`}
+      id="daily-briefing"
+    >
       <div className="daily-briefing-header">
         <div>
           <div className="section-title">{briefing.labels.eyebrow}</div>

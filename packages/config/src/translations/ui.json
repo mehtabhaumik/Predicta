@@ -21,6 +21,151 @@
       "hi": "अंक ज्योतिष लय",
       "gu": "અંક જ્યોતિષ લય"
     },
+    "ui.continueYourRhythm.retention": {
+      "en": "CONTINUE YOUR RHYTHM",
+      "hi": "अपनी लय जारी रखें",
+      "gu": "તમારી લય ચાલુ રાખો"
+    },
+    "ui.yourNextUsefulStepIsReady.retention": {
+      "en": "Your next useful step is ready.",
+      "hi": "आपका अगला उपयोगी कदम तैयार है.",
+      "gu": "તમારું આગળનું ઉપયોગી પગલું તૈયાર છે."
+    },
+    "ui.predictaKeepsTodayYourLastQuestionAndReportProgressClose.retention": {
+      "en": "Predicta keeps today, your last question, and report progress close so you do not need to remember where to resume.",
+      "hi": "प्रेडिक्टा आज की दिशा, आपका पिछला प्रश्न और रिपोर्ट प्रगति पास रखती है, ताकि आपको याद न रखना पड़े कि कहां से शुरू करना है.",
+      "gu": "પ્રેડિક્ટા આજની દિશા, તમારો છેલ્લો પ્રશ્ન અને રિપોર્ટની પ્રગતિ નજીક રાખે છે, જેથી ફરી ક્યાંથી શરૂ કરવું તે યાદ રાખવું ન પડે."
+    },
+    "ui.progressSummary.retention": {
+      "en": "Progress summary",
+      "hi": "प्रगति सारांश",
+      "gu": "પ્રગતિ સારાંશ"
+    },
+    "ui.visits.retention": {
+      "en": "Visits",
+      "hi": "विजिट",
+      "gu": "મુલાકાત"
+    },
+    "ui.streak.retention": {
+      "en": "Streak",
+      "hi": "लगातार दिन",
+      "gu": "સતત દિવસ"
+    },
+    "ui.questions.retention": {
+      "en": "Questions",
+      "hi": "प्रश्न",
+      "gu": "પ્રશ્નો"
+    },
+    "ui.youAlreadyFinishedTheCleanAction.retention": {
+      "en": "You already finished the clean action. Ask what to watch for next.",
+      "hi": "आपने आज का छोटा काम पूरा कर लिया है. अब पूछें कि आगे किस बात पर ध्यान देना है.",
+      "gu": "તમે આજનું નાનું કામ પૂર્ણ કર્યું છે. હવે આગળ કઈ બાબત પર ધ્યાન આપવું તે પૂછો."
+    },
+    "ui.askFollowUp.retention": {
+      "en": "Ask follow-up",
+      "hi": "आगे पूछें",
+      "gu": "આગળ પૂછો"
+    },
+    "ui.turnTodayIntoAFollowUp.retention": {
+      "en": "Turn today into a follow-up.",
+      "hi": "आज को आगे की सलाह में बदलें.",
+      "gu": "આજને આગળની સલાહમાં ફેરવો."
+    },
+    "ui.completeOneSmallAction.retention": {
+      "en": "Complete one small action so Predicta becomes a daily habit, not a one-time reading.",
+      "hi": "एक छोटा काम पूरा करें, ताकि प्रेडिक्टा एक बार की रीडिंग नहीं बल्कि दैनिक आदत बने.",
+      "gu": "એક નાનું કામ પૂર્ણ કરો, જેથી પ્રેડિક્ટા એક વખતની રીડિંગ નહીં પણ દૈનિક આદત બને."
+    },
+    "ui.finishToday.retention": {
+      "en": "Finish today",
+      "hi": "आज पूरा करें",
+      "gu": "આજે પૂર્ણ કરો"
+    },
+    "ui.finishTodayCleanAction.retention": {
+      "en": "Finish today’s clean action.",
+      "hi": "आज का छोटा सही काम पूरा करें.",
+      "gu": "આજનું નાનું યોગ્ય કામ પૂર્ણ કરો."
+    },
+    "ui.continueFromYourLastQuestion.retention": {
+      "en": "Continue from your last question with the same selected Kundli.",
+      "hi": "इसी चुनी हुई कुंडली से अपने पिछले प्रश्न को आगे बढ़ाएं.",
+      "gu": "આ જ પસંદ કરેલી કુંડળીથી તમારો છેલ્લો પ્રશ્ન આગળ વધારવો."
+    },
+    "ui.askOneFocusedQuestion.retention": {
+      "en": "Ask one focused question and let Predicta build useful memory.",
+      "hi": "एक स्पष्ट प्रश्न पूछें और प्रेडिक्टा को उपयोगी याददाश्त बनाने दें.",
+      "gu": "એક સ્પષ્ટ પ્રશ્ન પૂછો અને પ્રેડિક્ટાને ઉપયોગી યાદશક્તિ બનાવા દો."
+    },
+    "ui.continueChat.retention": {
+      "en": "Continue chat",
+      "hi": "चैट जारी रखें",
+      "gu": "ચેટ ચાલુ રાખો"
+    },
+    "ui.startWithOneStrongQuestion.retention": {
+      "en": "Start with one strong question.",
+      "hi": "एक मजबूत प्रश्न से शुरू करें.",
+      "gu": "એક મજબૂત પ્રશ્નથી શરૂ કરો."
+    },
+    "ui.continueYourLastThread.retention": {
+      "en": "Continue your last thread.",
+      "hi": "अपनी पिछली बातचीत आगे बढ़ाएं.",
+      "gu": "તમારી છેલ્લી વાતચીત આગળ વધારો."
+    },
+    "ui.openSpecialist.retention": {
+      "en": "Open specialist",
+      "hi": "विशेषज्ञ खोलें",
+      "gu": "વિશેષજ્ઞ ખોલો"
+    },
+    "ui.moveFromAReadingIntoAPolishedFreeReportPreview.retention": {
+      "en": "Move from a reading into a polished free report preview.",
+      "hi": "रीडिंग से एक सुंदर फ्री रिपोर्ट प्रीव्यू में जाएं.",
+      "gu": "રીડિંગમાંથી સુંદર ફ્રી રિપોર્ટ પ્રિવ્યુમાં જાઓ."
+    },
+    "ui.openReports.retention": {
+      "en": "Open reports",
+      "hi": "रिपोर्ट खोलें",
+      "gu": "રિપોર્ટ ખોલો"
+    },
+    "ui.createYourFirstReport.retention": {
+      "en": "Create your first report.",
+      "hi": "अपनी पहली रिपोर्ट बनाएं.",
+      "gu": "તમારો પહેલો રિપોર્ટ બનાવો."
+    },
+    "ui.savedReport.retention": {
+      "en": "Saved report",
+      "hi": "सेव रिपोर्ट",
+      "gu": "સેવ રિપોર્ટ"
+    },
+    "ui.resumeReportChoices.retention": {
+      "en": "Resume report choices.",
+      "hi": "रिपोर्ट विकल्प फिर से खोलें.",
+      "gu": "રિપોર્ટ વિકલ્પો ફરી શરૂ કરો."
+    },
+    "ui.yourPreviousReportChoiceIsSaved.retention": {
+      "en": "Your previous report choice is saved. Continue from the same setup.",
+      "hi": "आपका पिछला रिपोर्ट विकल्प सेव है. उसी सेटअप से आगे बढ़ें.",
+      "gu": "તમારો પહેલાનો રિપોર્ટ વિકલ્પ સેવ છે. એ જ સેટઅપથી આગળ વધો."
+    },
+    "ui.continueReport.retention": {
+      "en": "Continue report",
+      "hi": "रिपोर्ट जारी रखें",
+      "gu": "રિપોર્ટ ચાલુ રાખો"
+    },
+    "ui.firstDashboardVisitSavedForThisDevice.retention": {
+      "en": "First dashboard visit saved for this device.",
+      "hi": "इस डिवाइस के लिए पहली डैशबोर्ड विजिट सेव हो गई है.",
+      "gu": "આ ડિવાઇસ માટે પહેલી ડેશબોર્ડ મુલાકાત સેવ થઈ ગઈ છે."
+    },
+    "ui.welcomeBackYourRhythmIsSavedHere.retention": {
+      "en": "Welcome back. Your rhythm is saved here.",
+      "hi": "वापसी पर स्वागत है. आपकी लय यहां सेव है.",
+      "gu": "પાછા આવવા બદલ સ્વાગત છે. તમારી લય અહીં સેવ છે."
+    },
+    "ui.welcomeBackYourLastVisitWasToday.retention": {
+      "en": "Welcome back. Your last visit was today.",
+      "hi": "वापसी पर स्वागत है. आपकी पिछली विजिट आज ही थी.",
+      "gu": "પાછા આવવા બદલ સ્વાગત છે. તમારી છેલ્લી મુલાકાત આજે જ હતી."
+    },
     "ui.1999Year.ja7f2h": {
       "en": "₹1,999 / year",
       "hi": "₹1,999 / वर्ष",
