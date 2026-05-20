@@ -16,6 +16,7 @@ import { BrandedDestructiveDialog } from './BrandedDestructiveDialog';
 
 type WebActiveKundliActionsProps = {
   compact?: boolean;
+  chatContext?: boolean;
   kundli?: KundliData;
   showDelete?: boolean;
   sourceScreen: string;
@@ -23,6 +24,7 @@ type WebActiveKundliActionsProps = {
 };
 
 export function WebActiveKundliActions({
+  chatContext = false,
   compact = false,
   kundli,
   showDelete = false,
@@ -58,7 +60,9 @@ export function WebActiveKundliActions({
 
   return (
     <section
-      className={`active-kundli-actions glass-panel${compact ? ' compact' : ''}`}
+      className={`active-kundli-actions glass-panel${compact ? ' compact' : ''}${
+        chatContext ? ' chat-context' : ''
+      }`}
     >
       <div className="active-kundli-copy">
         <div className="section-title">{t(title)}</div>
@@ -78,16 +82,23 @@ export function WebActiveKundliActions({
         >
           {t('Edit')}
         </Link>
-        {canCreateMoreKundlis ? (
-          <Link className="button secondary" href="/dashboard/kundli">
-            {t('New')}
-          </Link>
+        {chatContext ? null : canCreateMoreKundlis ? (
+          <>
+            <Link className="button secondary" href="/dashboard/kundli">
+              {t('New')}
+            </Link>
+            <Link className="button" href={askHref}>
+              {t('Ask Predicta')}
+            </Link>
+          </>
         ) : (
-          <AuthDialog />
+          <>
+            <AuthDialog />
+            <Link className="button" href={askHref}>
+              {t('Ask Predicta')}
+            </Link>
+          </>
         )}
-        <Link className="button" href={askHref}>
-          {t('Ask Predicta')}
-        </Link>
         {showDelete ? (
           <button
             className="button danger"

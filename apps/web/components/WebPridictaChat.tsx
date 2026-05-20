@@ -1646,10 +1646,11 @@ export function WebPridictaChat({
           ) : null}
         </div>
         <WebActiveKundliActions
+          chatContext
           compact
           kundli={kundli}
           sourceScreen="Chat"
-          title="Active Kundli"
+          title="Using Kundli"
         />
         {passCostDisplay ? (
           <div className={`pass-cost-meter ${passCostDisplay.tone}`}>
@@ -2463,10 +2464,9 @@ function WebChatSessionSwitcher({
     return (
       <div className="chat-session-strip guest">
         <div>
-          <strong>One chat for guests</strong>
+          <strong>Guest chat</strong>
           <span>
-            Continue here for now. Sign in when you want separate saved chats
-            for family Kundlis or different life questions.
+            Sign in for saved chat history and separate family readings.
           </span>
         </div>
         <div className="chat-session-actions">
@@ -2482,8 +2482,8 @@ function WebChatSessionSwitcher({
   return (
     <div className="chat-session-strip">
       <div>
-        <strong>Saved chat sessions</strong>
-        <span>Keep separate readings for each Kundli or life question.</span>
+        <strong>Saved chats</strong>
+        <span>Switch readings without losing context.</span>
       </div>
       <div className="chat-session-actions">
         {sessions.slice(0, 6).map(session => (
