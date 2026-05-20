@@ -105,6 +105,12 @@ try {
   assert.equal(model.interpretationCards.length, 7);
   assert.ok(model.strengths.includes('ambition'));
   assert.ok(model.cautions.length >= 3);
+  assert.equal(model.rhythm.pace, 'fast');
+  assert.equal(model.confidenceExpression.level, 'balanced');
+  assert.equal(model.consistency.level, 'flexible');
+  assert.ok(model.improvementPlan.length >= 4);
+  assert.match(model.improvementPlan.join(' '), /natural/i);
+  assert.match(model.synthesisReadiness.rule, /separate/i);
   assert.ok(model.practicePrompts.length >= 2);
   assert.ok(model.limitations.some(item => item.includes('does not verify identity')));
   assert.ok(
@@ -118,8 +124,11 @@ try {
   assert.match(context, /Signature Predicta context/);
   assert.match(context, /identity verification/);
   assert.match(context, /Observed traits/);
+  assert.match(context, /Writing rhythm/);
+  assert.match(context, /Confidence expression/);
+  assert.match(context, /Improvement plan/);
 
-  console.log('Signature analysis model passed: 18 deterministic assertions.');
+  console.log('Signature analysis model passed: 26 deterministic assertions.');
 } finally {
   await rm(tempRoot, { force: true, recursive: true });
 }

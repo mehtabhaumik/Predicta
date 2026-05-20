@@ -518,11 +518,16 @@ PREDICTA_ROOM_CONTRACTS: Dict[str, Dict[str, Any]] = {
             "underline",
             "capital emphasis",
             "signature size",
+            "writing rhythm",
+            "confidence expression",
+            "consistency pattern",
+            "improvement plan",
             "optional numerology synthesis when requested",
         ],
         "proofStyle": [
             "Use only visible or user-confirmed signature traits.",
             "Explain each trait as a soft tendency, not a fixed truth.",
+            "When traits are supplied, summarize rhythm, confidence expression, consistency, and one practical improvement.",
             "Give safe improvement suggestions without fear or shame.",
         ],
         "safetyBehavior": [
@@ -1022,6 +1027,28 @@ def build_deterministic_signature_reply(request: PridictaChatRequest) -> str:
         if request.chartContext and request.chartContext.handoffQuestion
         else request.message
     )
+    analysis = build_signature_analysis_context(question)
+    if analysis["status"] == "ready":
+        return "\n\n".join(
+            [
+                "Signature Predicta mode. I will read only from confirmed visible signature traits, not hidden identity or document authenticity.",
+                f"Your question: {question}",
+                "Traits observed: "
+                + ", ".join(
+                    f"{trait['label']} {trait['value']}"
+                    for trait in analysis["observedTraits"]
+                )
+                + ".",
+                f"Writing rhythm: {analysis['rhythm']['summary']}",
+                f"Confidence expression: {analysis['confidenceExpression']['summary']}",
+                f"Consistency: {analysis['consistency']['summary']}",
+                "Improvement plan:\n"
+                + "\n".join(f"- {item}" for item in analysis["improvementPlan"][:4]),
+                f"Optional synthesis: {analysis['synthesisReadiness']['rule']}",
+                "Safety: this is reflective self-expression guidance. It is not identity verification, handwriting forensics, legal proof, medical diagnosis, hiring advice, or a guaranteed prediction.",
+            ]
+        )
+
     return "\n\n".join(
         [
             "Signature Predicta mode. I will keep this inside reflective signature analysis.",
@@ -1032,6 +1059,298 @@ def build_deterministic_signature_reply(request: PridictaChatRequest) -> str:
             "Next step: upload or draw a recent natural signature, or tell me the visible traits you want me to read.",
         ]
     )
+
+
+SIGNATURE_TRAIT_RULES: Dict[str, Dict[str, Any]] = {
+    "baseline": {
+        "label": "Baseline",
+        "values": {
+            "upward": ("forward-moving public style", ["hope", "ambition", "momentum"], "Keep ambition practical."),
+            "steady": ("grounded presentation and controlled pacing", ["stability", "follow-through"], "Stay flexible when life changes."),
+            "mixed": ("changing confidence or uneven pacing", ["adaptability", "range"], "Ground important decisions."),
+            "downward": ("cautious or emotionally loaded expression", ["sensitivity", "realism"], "Watch tired timing and finishing energy."),
+        },
+    },
+    "capital emphasis": {
+        "label": "Capital emphasis",
+        "values": {
+            "high": ("strong identity projection", ["presence", "confidence"], "Avoid dominance or over-control."),
+            "medium": ("balanced public identity", ["balance", "measured confidence"], "Be direct when stakes are high."),
+            "low": ("modest presentation or privacy", ["humility", "softness"], "Do not shrink your voice."),
+        },
+    },
+    "flourish": {
+        "label": "Flourish",
+        "values": {
+            "expansive": ("expressive image awareness", ["style", "charisma"], "Avoid over-decoration."),
+            "moderate": ("controlled style and social polish", ["taste", "presentation skill"], "Keep the simple message visible."),
+            "none": ("direct practical communication", ["clarity", "simplicity"], "Do not undersell strengths."),
+        },
+    },
+    "legibility": {
+        "label": "Legibility",
+        "aliases": ["readability"],
+        "values": {
+            "clear": ("open and direct self-presentation", ["transparency", "directness"], "Keep healthy privacy."),
+            "partial": ("a mix of openness and guardedness", ["discernment", "controlled openness"], "Clarify expectations."),
+            "abstract": ("private shorthand or protected public self", ["privacy", "style"], "Make intent clear when trust matters."),
+        },
+    },
+    "letter connection": {
+        "label": "Letter connection",
+        "aliases": ["connection", "letters"],
+        "values": {
+            "connected": ("continuity and relational thinking", ["flow", "relationship awareness"], "Pause before commitments."),
+            "mixed": ("switching between flow and analysis", ["flexibility", "range"], "Set clear priorities."),
+            "disconnected": ("independent thinking and boundaries", ["independence", "analysis"], "Avoid unnecessary isolation."),
+        },
+    },
+    "space use": {
+        "label": "Space use",
+        "aliases": ["margin use", "margin"],
+        "values": {
+            "balanced": ("measured presence", ["proportion", "social awareness"], "Adapt to the setting."),
+            "compact": ("restraint and economical self-expression", ["focus", "discipline"], "Do not become too invisible."),
+            "expansive": ("larger presence and visible mark", ["presence", "boldness"], "Support visibility with follow-through."),
+        },
+    },
+    "pressure": {
+        "label": "Pressure",
+        "values": {
+            "heavy": ("intensity and strong effort", ["determination", "commitment"], "Use recovery time."),
+            "medium": ("balanced energy and controlled effort", ["balance", "stamina"], "Stress can still shift expression."),
+            "light": ("sensitivity and lower confrontation", ["gentleness", "adaptability"], "Use firmer boundaries when needed."),
+        },
+    },
+    "signature size": {
+        "label": "Signature size",
+        "aliases": ["size"],
+        "values": {
+            "large": ("confidence and stronger public presence", ["visibility", "leadership"], "Keep confidence grounded."),
+            "medium": ("balanced public presence", ["balance", "adaptability"], "Take a clear stand when needed."),
+            "small": ("privacy and selective visibility", ["focus", "precision"], "Do not hide strengths."),
+        },
+    },
+    "slant": {
+        "label": "Slant",
+        "values": {
+            "right": ("outward expression and social movement", ["warmth", "initiative"], "Keep boundaries."),
+            "steady": ("measured response and emotional control", ["control", "objectivity"], "Avoid suppression."),
+            "mixed": ("different styles in different contexts", ["range", "adaptability"], "Slow down under pressure."),
+            "left": ("reserved and reflective expression", ["reflection", "privacy"], "Accept support when needed."),
+        },
+    },
+    "spacing": {
+        "label": "Spacing",
+        "values": {
+            "balanced": ("healthy room between identity and connection", ["balance", "clear pacing"], "Support it with real boundaries."),
+            "tight": ("urgency or compact thinking", ["focus", "speed"], "Add breathing room."),
+            "wide": ("independence and personal room", ["perspective", "boundary awareness"], "Do not become distant."),
+        },
+    },
+    "writing rhythm": {
+        "label": "Writing rhythm",
+        "aliases": ["speed", "rhythm"],
+        "values": {
+            "fast": ("quick response and fast thought", ["quickness", "initiative"], "Slow down for commitments."),
+            "moderate": ("controlled pace and balanced response", ["pace control", "consistency"], "Rest when workload grows."),
+            "slow": ("careful and deliberate action", ["patience", "precision"], "Avoid hesitation."),
+        },
+    },
+    "underline": {
+        "label": "Underline",
+        "values": {
+            "high": ("strong assertion and reinforced identity", ["assertion", "self-belief"], "Stay humble and clear."),
+            "single": ("steady self-support and completion", ["focus", "completion"], "Let action support the mark."),
+            "none": ("clean self-presentation", ["simplicity", "ease"], "Use visible confidence when needed."),
+        },
+    },
+}
+
+
+def build_signature_analysis_context(message: str) -> Dict[str, Any]:
+    traits = extract_signature_traits_from_text(message)
+    if not traits:
+        return {
+            "status": "pending",
+            "observedTraits": [],
+            "prompt": "Ask for a signature image, drawing, or confirmed visible traits before interpretation.",
+            "safetyBoundaries": signature_safety_boundaries(),
+        }
+
+    rhythm = build_signature_rhythm(traits)
+    confidence = build_signature_confidence_expression(traits)
+    consistency = build_signature_consistency(traits)
+    improvement_plan = build_signature_improvement_plan(
+        traits,
+        rhythm,
+        confidence,
+        consistency,
+    )
+    strengths = unique_ordered(
+        strength
+        for trait in traits
+        for strength in trait["strengths"]
+    )[:7]
+    cautions = unique_ordered(trait["caution"] for trait in traits)[:5]
+
+    return {
+        "cautions": cautions,
+        "confidenceExpression": confidence,
+        "consistency": consistency,
+        "evidence": [
+            f"{trait['label']}: {trait['value']} ({trait['meaning']})."
+            for trait in traits
+        ],
+        "improvementPlan": improvement_plan,
+        "observedTraits": traits,
+        "rhythm": rhythm,
+        "safetyBoundaries": signature_safety_boundaries(),
+        "status": "ready",
+        "strengths": strengths,
+        "summary": f"Signature reading is ready from {len(traits)} confirmed visual trait{'s' if len(traits) != 1 else ''}.",
+        "synthesisReadiness": {
+            "numerology": "available-on-request",
+            "rule": "Signature and Numerology stay separate unless the user explicitly asks for synthesis.",
+        },
+    }
+
+
+def extract_signature_traits_from_text(message: str) -> List[Dict[str, Any]]:
+    traits: List[Dict[str, Any]] = []
+    normalized = message.lower()
+    for key, rule in SIGNATURE_TRAIT_RULES.items():
+        labels = [key] + rule.get("aliases", [])
+        label_pattern = "|".join(re.escape(label).replace(r"\ ", r"\s+") for label in labels)
+        for value, meaning in rule["values"].items():
+            value_pattern = re.escape(value).replace(r"\ ", r"\s+")
+            direct_pattern = rf"(?:{label_pattern})\s*[:=-]?\s*{value_pattern}\b"
+            reverse_pattern = rf"{value_pattern}\s+(?:{label_pattern})\b"
+            if re.search(direct_pattern, normalized, re.I) or re.search(reverse_pattern, normalized, re.I):
+                traits.append(
+                    {
+                        "caution": meaning[2],
+                        "key": key,
+                        "label": rule["label"],
+                        "meaning": meaning[0],
+                        "strengths": meaning[1],
+                        "value": value,
+                    }
+                )
+                break
+    return traits
+
+
+def build_signature_rhythm(traits: List[Dict[str, Any]]) -> Dict[str, str]:
+    speed = trait_value(traits, "writing rhythm")
+    pressure = trait_value(traits, "pressure")
+    slant = trait_value(traits, "slant")
+    if speed == "fast" or pressure == "heavy":
+        return {
+            "care": "Slow down before important signatures, agreements, or emotional decisions.",
+            "pace": "fast",
+            "summary": "The signature rhythm looks active and forceful; it can show quick response and strong effort.",
+        }
+    if speed == "slow" or slant == "left":
+        return {
+            "care": "Use deliberate pace as a strength, but do not let caution delay necessary action.",
+            "pace": "calm",
+            "summary": "The signature rhythm looks careful and inward; it can show thoughtfulness and protected expression.",
+        }
+    if speed == "moderate" or pressure == "medium":
+        return {
+            "care": "Keep the same rhythm across repeated signatures so the public mark feels stable.",
+            "pace": "measured",
+            "summary": "The signature rhythm looks measured; it can show controlled timing and steady effort.",
+        }
+    return {
+        "care": "Confirm speed, pressure, and slant before making rhythm claims.",
+        "pace": "variable",
+        "summary": "The rhythm signal is incomplete; more confirmed traits are needed for a sharper reading.",
+    }
+
+
+def build_signature_confidence_expression(traits: List[Dict[str, Any]]) -> Dict[str, str]:
+    size = trait_value(traits, "signature size")
+    capital = trait_value(traits, "capital emphasis")
+    underline = trait_value(traits, "underline")
+    flourish = trait_value(traits, "flourish")
+    if size == "large" or capital == "high" or underline == "high" or flourish == "expansive":
+        return {
+            "care": "Keep the visible confidence supported by follow-through, clarity, and humility.",
+            "level": "visible",
+            "summary": "The signature projects visible confidence and a stronger public mark.",
+        }
+    if size == "small" or capital == "low":
+        return {
+            "care": "Practice a slightly clearer and more visible version where trust and presence matter.",
+            "level": "reserved",
+            "summary": "The signature expresses confidence more privately, with restraint and selective visibility.",
+        }
+    return {
+        "care": "Use a clean, repeatable version so confidence feels natural rather than forced.",
+        "level": "balanced",
+        "summary": "The confidence expression looks balanced or still needs more confirmed traits.",
+    }
+
+
+def build_signature_consistency(traits: List[Dict[str, Any]]) -> Dict[str, str]:
+    baseline = trait_value(traits, "baseline")
+    spacing = trait_value(traits, "spacing")
+    connection = trait_value(traits, "letter connection")
+    slant = trait_value(traits, "slant")
+    if baseline == "steady" and spacing == "balanced" and connection != "mixed":
+        return {
+            "care": "Steady presentation still needs flexibility when the situation changes.",
+            "level": "steady",
+            "summary": "The signature has a stable structure and can show repeatable self-presentation.",
+        }
+    if baseline == "mixed" or slant == "mixed" or connection == "mixed":
+        return {
+            "care": "Choose one consistent practice version for important documents and professional settings.",
+            "level": "variable",
+            "summary": "The signature shows changing rhythm, which can feel adaptable but inconsistent.",
+        }
+    return {
+        "care": "Keep enough structure that the signature remains recognizable across repeated use.",
+        "level": "flexible",
+        "summary": "The consistency profile is flexible; it can adapt but should remain recognizable.",
+    }
+
+
+def build_signature_improvement_plan(
+    traits: List[Dict[str, Any]],
+    rhythm: Dict[str, str],
+    confidence: Dict[str, str],
+    consistency: Dict[str, str],
+) -> List[str]:
+    plan = [
+        "Keep the signature natural; do not force a new style suddenly.",
+        rhythm["care"],
+        confidence["care"],
+        consistency["care"],
+    ]
+    if any(trait["key"] == "legibility" and trait["value"] != "clear" for trait in traits):
+        plan.append("Make one professional version slightly clearer so important people can read your intent.")
+    if any(trait["key"] == "spacing" and trait["value"] == "tight" for trait in traits):
+        plan.append("Add a little breathing room between name parts to reduce visual pressure.")
+    if any(trait["key"] == "baseline" and trait["value"] == "downward" for trait in traits):
+        plan.append("Practice a steadier baseline for one week and compare how it feels.")
+    return unique_ordered(plan)[:6]
+
+
+def trait_value(traits: List[Dict[str, Any]], key: str) -> Optional[str]:
+    match = next((trait for trait in traits if trait["key"] == key), None)
+    return match["value"] if match else None
+
+
+def signature_safety_boundaries() -> List[str]:
+    return [
+        "Signature analysis is for reflection and self-understanding only.",
+        "It is not identity verification, handwriting forensics, legal proof, hiring advice, medical diagnosis, or mental-health diagnosis.",
+        "Treat every interpretation as a soft tendency, not a fixed truth about character or future events.",
+        "Use confirmed personal context before strong guidance, and avoid shame, fear, or certainty language.",
+    ]
 
 
 def build_numerology_foundation_context(
@@ -1867,7 +2186,7 @@ def build_pridicta_system_prompt() -> str:
             "If activeContext.predictaSchool is KP, answer as KP Predicta and use the original handoff question plus active birth profile. Do not casually mix Parashari D1/Varga/Yoga logic unless clearly explaining a boundary.",
             "If activeContext.predictaSchool is NADI, answer as Nadi Predicta using nadiJyotishPlan. Ask validation questions before strong event statements. Do not use Parashari yoga/dasha or KP sub-lord rules as the method, and do not fake palm-leaf access.",
             "If activeContext.predictaSchool is NUMEROLOGY, answer as Numerology Predicta using numerologyFoundation and its questionContext first. For name correction, compare the supplied spelling against the current name number. For compatibility, use the supplied partner name/DOB or ask for missing partner data. Keep free answers useful and concise; Premium depth adds multiple spelling comparisons, yearly/monthly timing, compatibility numbers, and report-ready synthesis.",
-            "If activeContext.predictaSchool is SIGNATURE, answer as Signature Predicta using confirmed signature traits and safe improvement guidance. Do not use Parashari, KP, Nadi, or Numerology as the method unless the user explicitly asks for synthesis.",
+            "If activeContext.predictaSchool is SIGNATURE, answer as Signature Predicta using signatureAnalysis first. If confirmed traits are present, include traits observed, writing rhythm, confidence expression, consistency, practical improvement plan, and safety boundary. Do not use Parashari, KP, Nadi, or Numerology as the method unless the user explicitly asks for synthesis.",
             "If activeContext.predictaSchool is PARASHARI or absent and the user asks about KP/Nadi/Numerology/Signature, politely hand off to the proper specialist room instead of answering from the wrong school.",
             "If the user is inside KP/Nadi/Numerology/Signature and asks a Vedic/Parashari chart question, give a short boundary and offer Vedic Predicta with the same Kundli context instead of pretending the active room can do everything.",
             "Respect chartAccess strictly: every chart can be shown in free, but free chart readings are useful insight only. Premium readings add detailed D1 anchoring, dasha timing, confidence, remedies, and report-ready synthesis.",
@@ -3986,6 +4305,7 @@ def build_ai_context(
             chart_context,
         ),
         "numerologyFoundation": build_numerology_foundation_context(kundli, message),
+        "signatureAnalysis": build_signature_analysis_context(message),
         "chalitBhavKpFoundation": build_chalit_bhav_kp_context(
             kundli,
             user_plan,

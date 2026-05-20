@@ -72,6 +72,9 @@ try {
   assert.equal(room.action, 'signature-predicta');
   assert.match(room.text, /Signature Predicta mode/i);
   assert.match(room.text, /confirmed signature traits/i);
+  assert.match(room.text, /Writing rhythm/i);
+  assert.match(room.text, /Confidence expression/i);
+  assert.match(room.text, /Improvement plan/i);
   assert.match(room.text, /identity verification/i);
   assert.doesNotMatch(room.text, /send date of birth/i);
 
@@ -85,7 +88,7 @@ try {
   assert.match(hindiRoom.text, /Signature Predicta mode/i);
   assert.match(hindiRoom.text, /visual traits/i);
 
-  console.log('Signature Predicta room passed: 12 deterministic assertions.');
+  console.log('Signature Predicta room passed: 15 deterministic assertions.');
 } finally {
   await rm(tempRoot, { force: true, recursive: true });
 }

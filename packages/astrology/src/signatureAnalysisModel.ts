@@ -431,12 +431,24 @@ export function composeSignatureAnalysisModel(
     interpretationCards.map(card => card.caution).filter(Boolean),
   ).slice(0, 5);
   const featured = interpretationCards.slice(0, 3).map(card => card.title);
+  const rhythm = buildWritingRhythm(observedTraits);
+  const confidenceExpression = buildConfidenceExpression(observedTraits);
+  const consistency = buildConsistencyProfile(observedTraits);
+  const improvementPlan = buildImprovementPlan(
+    observedTraits,
+    rhythm,
+    confidenceExpression,
+    consistency,
+  );
 
   return {
     cautions,
+    confidenceExpression,
+    consistency,
     evidence: observedTraits.map(
       trait => `${trait.label}: ${trait.value} (${trait.confidence} confidence).`,
     ),
+    improvementPlan,
     inputSource: input?.inputSource ?? 'manual-observation',
     interpretationCards,
     limitations: [
@@ -451,9 +463,15 @@ export function composeSignatureAnalysisModel(
     },
     observedTraits,
     practicePrompts: buildPracticePrompts(observedTraits),
+    rhythm,
     safetyBoundaries: SIGNATURE_ANALYSIS_SAFETY_BOUNDARIES,
     status: 'ready',
     strengths,
+    synthesisReadiness: {
+      numerology: 'available-on-request',
+      rule:
+        'Signature and Numerology stay separate unless the user explicitly asks for synthesis.',
+    },
     suggestedQuestions: [
       'What does this signature show about my self-expression?',
       'What should I improve in my signature without making fear-based changes?',
@@ -517,6 +535,11 @@ export function buildSignaturePredictaPromptContext(
     `Observed traits: ${model.observedTraits
       .map(trait => `${trait.label} ${trait.value}`)
       .join('; ')}.`,
+    `Writing rhythm: ${model.rhythm.summary} Care: ${model.rhythm.care}`,
+    `Confidence expression: ${model.confidenceExpression.summary} Care: ${model.confidenceExpression.care}`,
+    `Consistency: ${model.consistency.summary} Care: ${model.consistency.care}`,
+    `Improvement plan: ${model.improvementPlan.join(' ')}`,
+    `Synthesis rule: ${model.synthesisReadiness.rule}`,
     `Use safe language: ${SIGNATURE_ANALYSIS_SAFETY_BOUNDARIES.join(' ')}`,
   ].join(' ');
 }
@@ -529,6 +552,11 @@ function buildPendingSignatureAnalysisModel(
     evidence: ['Add a signature image, drawing, or confirmed visual traits to prepare a reading.'],
     inputSource,
     interpretationCards: [],
+    confidenceExpression: {
+      care: 'Confirm signature size, capital emphasis, and underline before reading confidence expression.',
+      level: 'balanced',
+      summary: 'Confidence expression is waiting for confirmed visual traits.',
+    },
     limitations: [
       'Signature analysis needs visible signature traits before interpretation.',
     ],
@@ -538,13 +566,31 @@ function buildPendingSignatureAnalysisModel(
       safety: 'NO_FORENSIC_IDENTITY_OR_DIAGNOSIS',
     },
     observedTraits: [],
+    consistency: {
+      care: 'Confirm baseline, spacing, and letter connection before reading consistency.',
+      level: 'variable',
+      summary: 'Consistency profile is waiting for confirmed visual traits.',
+    },
+    improvementPlan: [
+      'Confirm visible traits first, then choose one small signature improvement.',
+    ],
     practicePrompts: [
       'Upload or draw a recent natural signature.',
       'Confirm the visible traits before asking for interpretation.',
     ],
+    rhythm: {
+      care: 'Confirm writing speed, pressure, and slant before reading rhythm.',
+      pace: 'measured',
+      summary: 'Writing rhythm is waiting for confirmed visual traits.',
+    },
     safetyBoundaries: SIGNATURE_ANALYSIS_SAFETY_BOUNDARIES,
     status: 'pending',
     strengths: [],
+    synthesisReadiness: {
+      numerology: 'needs-name-and-dob',
+      rule:
+        'Signature and Numerology can be compared only after name, date of birth, and confirmed signature traits are ready.',
+    },
     suggestedQuestions: [
       'What signature traits should I confirm first?',
       'How does Signature Predicta read a signature safely?',
@@ -619,6 +665,192 @@ function buildPracticePrompts(
   }
 
   return prompts;
+}
+
+function buildWritingRhythm(
+  observedTraits: SignatureTraitObservation[],
+): SignatureAnalysisModel['rhythm'] {
+  const speed = findTrait(observedTraits, 'speed');
+  const pressure = findTrait(observedTraits, 'pressure');
+  const slant = findTrait(observedTraits, 'slant');
+
+  if (speed?.value === 'fast' || pressure?.value === 'heavy') {
+    return {
+      care:
+        'Slow down before important signatures, agreements, or emotional decisions so speed does not become pressure.',
+      pace: 'fast',
+      summary:
+        'The signature rhythm looks active and forceful; it can show quick response and strong effort.',
+    };
+  }
+
+  if (speed?.value === 'slow' || slant?.value === 'left') {
+    return {
+      care:
+        'Use deliberate pace as a strength, but do not let caution delay necessary action.',
+      pace: 'calm',
+      summary:
+        'The signature rhythm looks careful and inward; it can show thoughtfulness and protected expression.',
+    };
+  }
+
+  if (speed?.value === 'moderate' || pressure?.value === 'medium') {
+    return {
+      care:
+        'Keep the same rhythm across repeated signatures so the public mark feels stable.',
+      pace: 'measured',
+      summary:
+        'The signature rhythm looks measured; it can show controlled timing and steady effort.',
+    };
+  }
+
+  return {
+    care:
+      'Confirm speed, pressure, and slant from a recent natural signature before making rhythm claims.',
+    pace: 'variable',
+    summary:
+      'The rhythm signal is incomplete; more confirmed traits are needed for a sharper reading.',
+  };
+}
+
+function buildConfidenceExpression(
+  observedTraits: SignatureTraitObservation[],
+): SignatureAnalysisModel['confidenceExpression'] {
+  const size = findTrait(observedTraits, 'signature-size');
+  const capital = findTrait(observedTraits, 'capital-emphasis');
+  const underline = findTrait(observedTraits, 'underline');
+  const flourish = findTrait(observedTraits, 'flourish');
+
+  if (
+    size?.value === 'large' ||
+    capital?.value === 'high' ||
+    underline?.value === 'high' ||
+    flourish?.value === 'expansive'
+  ) {
+    return {
+      care:
+        'Keep the visible confidence supported by follow-through, clarity, and humility.',
+      level: 'visible',
+      summary:
+        'The signature projects visible confidence and a stronger public mark.',
+    };
+  }
+
+  if (size?.value === 'small' || capital?.value === 'low') {
+    return {
+      care:
+        'Practice a slightly clearer and more visible version for moments where trust and presence matter.',
+      level: 'reserved',
+      summary:
+        'The signature expresses confidence more privately, with restraint and selective visibility.',
+    };
+  }
+
+  return {
+    care:
+      'Use a clean, repeatable version so confidence feels natural rather than forced.',
+    level: 'balanced',
+    summary:
+      'The confidence expression looks balanced or still needs more confirmed traits.',
+  };
+}
+
+function buildConsistencyProfile(
+  observedTraits: SignatureTraitObservation[],
+): SignatureAnalysisModel['consistency'] {
+  const baseline = findTrait(observedTraits, 'baseline');
+  const spacing = findTrait(observedTraits, 'spacing');
+  const connection = findTrait(observedTraits, 'letter-connection');
+  const slant = findTrait(observedTraits, 'slant');
+
+  if (
+    baseline?.value === 'steady' &&
+    spacing?.value === 'balanced' &&
+    connection?.value !== 'mixed'
+  ) {
+    return {
+      care:
+        'Steady presentation still needs flexibility when the situation changes.',
+      level: 'steady',
+      summary:
+        'The signature has a stable structure and can show repeatable self-presentation.',
+    };
+  }
+
+  if (
+    baseline?.value === 'mixed' ||
+    slant?.value === 'mixed' ||
+    connection?.value === 'mixed'
+  ) {
+    return {
+      care:
+        'Choose one consistent practice version for important documents and professional settings.',
+      level: 'variable',
+      summary:
+        'The signature shows changing rhythm, which can feel adaptable but inconsistent.',
+    };
+  }
+
+  return {
+    care:
+      'Keep enough structure that the signature remains recognizable across repeated use.',
+    level: 'flexible',
+    summary:
+      'The consistency profile is flexible; it can adapt but should remain recognizable.',
+  };
+}
+
+function buildImprovementPlan(
+  observedTraits: SignatureTraitObservation[],
+  rhythm: SignatureAnalysisModel['rhythm'],
+  confidenceExpression: SignatureAnalysisModel['confidenceExpression'],
+  consistency: SignatureAnalysisModel['consistency'],
+): string[] {
+  const plan = [
+    'Keep the signature natural; do not force a new style suddenly.',
+    rhythm.care,
+    confidenceExpression.care,
+    consistency.care,
+  ];
+
+  if (
+    observedTraits.some(
+      trait => trait.key === 'legibility' && trait.value !== 'clear',
+    )
+  ) {
+    plan.push(
+      'Make one professional version slightly clearer so important people can read your intent.',
+    );
+  }
+
+  if (
+    observedTraits.some(
+      trait => trait.key === 'spacing' && trait.value === 'tight',
+    )
+  ) {
+    plan.push(
+      'Add a little breathing room between name parts to reduce visual pressure.',
+    );
+  }
+
+  if (
+    observedTraits.some(
+      trait => trait.key === 'baseline' && trait.value === 'downward',
+    )
+  ) {
+    plan.push(
+      'Practice a steadier baseline for one week and compare how it feels.',
+    );
+  }
+
+  return uniqueList(plan).slice(0, 6);
+}
+
+function findTrait(
+  observedTraits: SignatureTraitObservation[],
+  key: SignatureTraitKey,
+): SignatureTraitObservation | undefined {
+  return observedTraits.find(trait => trait.key === key);
 }
 
 function uniqueList(items: string[]): string[] {

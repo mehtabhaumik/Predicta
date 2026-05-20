@@ -329,6 +329,68 @@ def test_signature_predicta_has_safe_deterministic_boundary():
     assert "uploaded, drawn, or user-confirmed visual traits" in reply
 
 
+def test_signature_predicta_uses_confirmed_traits_in_prompt(monkeypatch):
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+
+    def fake_openai_response(**kwargs):
+        prompt = kwargs["user_prompt"]
+        assert '"signatureAnalysis"' in prompt
+        assert '"status": "ready"' in prompt
+        assert '"label": "Baseline"' in prompt
+        assert '"value": "upward"' in prompt
+        assert '"label": "Pressure"' in prompt
+        assert '"value": "heavy"' in prompt
+        assert '"rhythm"' in prompt
+        assert '"confidenceExpression"' in prompt
+        assert '"improvementPlan"' in prompt
+        assert "using signatureAnalysis first" in kwargs["system_prompt"]
+        return "Traits observed\n- Baseline upward.\n\nImprovement plan\n- Keep it natural."
+
+    monkeypatch.setattr(ai_module, "create_openai_text_response", fake_openai_response)
+    client = TestClient(app)
+    response = client.post(
+        "/ask-pridicta",
+        json={
+            "message": "Signature Predicta context: Observed traits: Baseline upward; Pressure heavy; Legibility partial.",
+            "chartContext": {
+                "predictaSchool": "SIGNATURE",
+                "sourceScreen": "Signature Predicta",
+                "handoffQuestion": "Signature Predicta context: Observed traits: Baseline upward; Pressure heavy; Legibility partial.",
+            },
+            "kundli": kundli.model_dump(mode="json"),
+            "history": [],
+            "userPlan": "FREE",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.json()["provider"] == "openai"
+
+
+def test_signature_predicta_deterministic_reply_reads_confirmed_traits():
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+    request = ai_module.PridictaChatRequest(
+        message="Signature Predicta context: Observed traits: Baseline upward; Pressure heavy; Legibility partial.",
+        chartContext={
+            "predictaSchool": "SIGNATURE",
+            "sourceScreen": "Signature Predicta",
+            "handoffQuestion": "Signature Predicta context: Observed traits: Baseline upward; Pressure heavy; Legibility partial.",
+        },
+        kundli=kundli,
+        history=[],
+        userPlan="FREE",
+    )
+
+    reply = ai_module.build_deterministic_signature_reply(request)
+
+    assert "Traits observed: Baseline upward, Legibility partial, Pressure heavy." in reply
+    assert "Writing rhythm:" in reply
+    assert "Confidence expression:" in reply
+    assert "Consistency:" in reply
+    assert "Improvement plan:" in reply
+    assert "identity verification" in reply
+
+
 def test_ask_pridicta_falls_back_to_gemini_when_openai_unavailable(monkeypatch):
     kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
 

@@ -2,6 +2,8 @@ import type {
   KundliData,
   PredictaSchool,
   SavedKundliRecord,
+  SignatureTraitKey,
+  SignatureTraitValue,
   SupportedLanguage,
 } from '@pridicta/types';
 import { composeAdvancedJyotishCoverage } from './advancedJyotishEngine';
@@ -2132,8 +2134,9 @@ function buildSignaturePredictaReply(
   text: string,
   hasPremiumAccess: boolean,
 ): string {
-  const pending = composeSignatureAnalysisModel({
+  const analysis = composeSignatureAnalysisModel({
     inputSource: 'manual-observation',
+    observedTraits: extractSignatureTraitsFromPromptText(text),
   });
   const promptHasConfirmedTraits = /signature\s*predicta\s*context|observed\s*traits|confirmed\s*signature\s*traits/i.test(
     text,
@@ -2143,25 +2146,65 @@ function buildSignaturePredictaReply(
     : 'Free insight stays useful. Premium adds deeper comparison, name rhythm, optional numerology/Kundli synthesis, and a polished signature report.';
 
   if (language === 'hi') {
+    if (analysis.status === 'ready') {
+      return [
+        'Signature Predicta mode: main confirmed signature traits se reading karungi, guesswork nahi.',
+        `Observed traits: ${analysis.observedTraits.map(trait => `${trait.label} ${trait.value}`).join(', ')}.`,
+        `Writing rhythm: ${analysis.rhythm.summary}`,
+        `Confidence expression: ${analysis.confidenceExpression.summary}`,
+        `Consistency: ${analysis.consistency.summary}`,
+        `Improvement plan: ${analysis.improvementPlan.slice(0, 3).join(' ')}`,
+        analysis.synthesisReadiness.rule,
+        analysis.safetyBoundaries.join(' '),
+        premiumLine,
+      ].join('\n\n');
+    }
     return [
       'Signature Predicta mode: main signature ko self-expression aur personal rhythm ke layer ki tarah padhungi.',
       promptHasConfirmedTraits
         ? 'Aapke confirmed signature traits mil gaye hain. Main unhi traits se reading karungi, guesswork nahi.'
         : 'Pehle upload/draw signature karein ya visual traits confirm karein: size, slant, pressure, spacing, baseline, legibility, flourish, underline.',
       'Main improvement suggestions de sakti hoon: cleaner readability, steadier baseline, balanced size, calmer spacing, aur confidence-friendly rhythm.',
-      pending.safetyBoundaries.join(' '),
+      analysis.safetyBoundaries.join(' '),
       premiumLine,
     ].join('\n\n');
   }
 
   if (language === 'gu') {
+    if (analysis.status === 'ready') {
+      return [
+        'Signature Predicta mode: hu confirmed signature traits thi reading karish, guesswork nahi.',
+        `Observed traits: ${analysis.observedTraits.map(trait => `${trait.label} ${trait.value}`).join(', ')}.`,
+        `Writing rhythm: ${analysis.rhythm.summary}`,
+        `Confidence expression: ${analysis.confidenceExpression.summary}`,
+        `Consistency: ${analysis.consistency.summary}`,
+        `Improvement plan: ${analysis.improvementPlan.slice(0, 3).join(' ')}`,
+        analysis.synthesisReadiness.rule,
+        analysis.safetyBoundaries.join(' '),
+        premiumLine,
+      ].join('\n\n');
+    }
     return [
       'Signature Predicta mode: hu signature ne self-expression ane personal rhythm na layer tariqe padhish.',
       promptHasConfirmedTraits
         ? 'Tamara confirmed signature traits mali gaya chhe. Hu e traits thi reading karish, guesswork nahi.'
         : 'Pehla signature upload/draw karo athva visual traits confirm karo: size, slant, pressure, spacing, baseline, legibility, flourish, underline.',
       'Hu improvement suggestions api shaku chhu: cleaner readability, steadier baseline, balanced size, calmer spacing ane confidence-friendly rhythm.',
-      pending.safetyBoundaries.join(' '),
+      analysis.safetyBoundaries.join(' '),
+      premiumLine,
+    ].join('\n\n');
+  }
+
+  if (analysis.status === 'ready') {
+    return [
+      'Signature Predicta mode: I will read only from the confirmed signature traits, not hidden identity or document authenticity.',
+      `Observed traits: ${analysis.observedTraits.map(trait => `${trait.label} ${trait.value}`).join(', ')}.`,
+      `Writing rhythm: ${analysis.rhythm.summary}`,
+      `Confidence expression: ${analysis.confidenceExpression.summary}`,
+      `Consistency: ${analysis.consistency.summary}`,
+      `Improvement plan: ${analysis.improvementPlan.slice(0, 4).join(' ')}`,
+      analysis.synthesisReadiness.rule,
+      analysis.safetyBoundaries.join(' '),
       premiumLine,
     ].join('\n\n');
   }
@@ -2172,9 +2215,105 @@ function buildSignaturePredictaReply(
       ? 'I have the confirmed signature traits. I will read only from those traits, not guess from hidden identity or document authenticity.'
       : 'First upload/draw a signature or confirm visible traits: size, slant, pressure, spacing, baseline, legibility, flourish, and underline.',
     'I can suggest improvements for clearer readability, steadier baseline, balanced size, calmer spacing, and more confident visual rhythm.',
-    pending.safetyBoundaries.join(' '),
+    analysis.safetyBoundaries.join(' '),
     premiumLine,
   ].join('\n\n');
+}
+
+function extractSignatureTraitsFromPromptText(
+  text: string,
+): Partial<Record<SignatureTraitKey, SignatureTraitValue>> {
+  const normalized = text.toLowerCase();
+  const controls: Array<{
+    key: SignatureTraitKey;
+    labels: string[];
+    values: SignatureTraitValue[];
+  }> = [
+    {
+      key: 'baseline',
+      labels: ['baseline'],
+      values: ['upward', 'steady', 'mixed', 'downward'],
+    },
+    {
+      key: 'capital-emphasis',
+      labels: ['capital emphasis', 'capital'],
+      values: ['high', 'medium', 'low'],
+    },
+    {
+      key: 'flourish',
+      labels: ['flourish'],
+      values: ['expansive', 'moderate', 'none'],
+    },
+    {
+      key: 'legibility',
+      labels: ['legibility', 'readability'],
+      values: ['clear', 'partial', 'abstract'],
+    },
+    {
+      key: 'letter-connection',
+      labels: ['letter connection', 'connection', 'letters'],
+      values: ['connected', 'mixed', 'disconnected'],
+    },
+    {
+      key: 'margin-use',
+      labels: ['space use', 'margin use', 'margin'],
+      values: ['balanced', 'compact', 'expansive'],
+    },
+    {
+      key: 'pressure',
+      labels: ['pressure'],
+      values: ['heavy', 'medium', 'light'],
+    },
+    {
+      key: 'signature-size',
+      labels: ['signature size', 'size'],
+      values: ['large', 'medium', 'small'],
+    },
+    {
+      key: 'slant',
+      labels: ['slant'],
+      values: ['right', 'steady', 'mixed', 'left'],
+    },
+    {
+      key: 'spacing',
+      labels: ['spacing'],
+      values: ['balanced', 'tight', 'wide'],
+    },
+    {
+      key: 'speed',
+      labels: ['writing rhythm', 'speed', 'rhythm'],
+      values: ['fast', 'moderate', 'slow'],
+    },
+    {
+      key: 'underline',
+      labels: ['underline'],
+      values: ['high', 'single', 'none'],
+    },
+  ];
+  const traits: Partial<Record<SignatureTraitKey, SignatureTraitValue>> = {};
+
+  for (const control of controls) {
+    const labelPattern = control.labels
+      .map(label => label.replace(/\s+/g, '\\s+'))
+      .join('|');
+    for (const value of control.values) {
+      const valuePattern = value.replace(/\s+/g, '\\s+');
+      const directPattern = new RegExp(
+        `(?:${labelPattern})\\s*[:=-]?\\s*${valuePattern}\\b`,
+        'i',
+      );
+      const reversePattern = new RegExp(
+        `${valuePattern}\\s+(?:${labelPattern})\\b`,
+        'i',
+      );
+      if (directPattern.test(normalized) || reversePattern.test(normalized)) {
+        traits[control.key] = value;
+        break;
+      }
+    }
+  }
+
+  return traits;
 }
 
 function buildMemoryInsight(

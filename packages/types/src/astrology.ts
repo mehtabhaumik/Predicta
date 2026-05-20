@@ -1616,10 +1616,30 @@ export type SignatureAnalysisModel = {
   inputSource: SignatureInputSource;
   observedTraits: SignatureTraitObservation[];
   interpretationCards: SignatureInterpretationCard[];
+  confidenceExpression: {
+    care: string;
+    level: 'reserved' | 'balanced' | 'visible';
+    summary: string;
+  };
+  consistency: {
+    care: string;
+    level: 'flexible' | 'steady' | 'variable';
+    summary: string;
+  };
   summary: string;
   strengths: string[];
   cautions: string[];
+  improvementPlan: string[];
   practicePrompts: string[];
+  rhythm: {
+    care: string;
+    pace: 'calm' | 'fast' | 'measured' | 'variable';
+    summary: string;
+  };
+  synthesisReadiness: {
+    numerology: 'available-on-request' | 'needs-name-and-dob';
+    rule: string;
+  };
   suggestedQuestions: string[];
   evidence: string[];
   limitations: string[];
