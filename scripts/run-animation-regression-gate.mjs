@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, rmSync } from 'node:fs';
 import { get as httpGet, request as httpRequest } from 'node:http';
+import { get as httpsGet, request as httpsRequest } from 'node:https';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawn } from 'node:child_process';
@@ -465,7 +466,8 @@ async function evaluate(cdp, expression) {
 
 function getJson(url) {
   return new Promise((resolve, reject) => {
-    httpGet(url, response => {
+    const get = url.startsWith('https:') ? httpsGet : httpGet;
+    get(url, response => {
       let data = '';
       response.setEncoding('utf8');
       response.on('data', chunk => {
@@ -484,7 +486,8 @@ function getJson(url) {
 
 function getText(url) {
   return new Promise((resolve, reject) => {
-    httpGet(url, response => {
+    const get = url.startsWith('https:') ? httpsGet : httpGet;
+    get(url, response => {
       let data = '';
       response.setEncoding('utf8');
       response.on('data', chunk => {
@@ -497,7 +500,8 @@ function getText(url) {
 
 function requestJson({ method, url }) {
   return new Promise((resolve, reject) => {
-    const request = httpRequest(url, { method }, response => {
+    const requestFn = url.startsWith('https:') ? httpsRequest : httpRequest;
+    const request = requestFn(url, { method }, response => {
       let data = '';
       response.setEncoding('utf8');
       response.on('data', chunk => {
