@@ -2960,7 +2960,7 @@ function WebChatChartBlock({
   const useStandardHouseMeaning = shouldUseStandardHouseMeaning(block.chartType);
 
   return (
-    <div className="chat-chart-card">
+    <div className="chat-chart-card" data-chat-kundli-reveal="true">
       <div className="chat-chart-card-header">
         <div>
           <div className="section-title">{block.chartType} · {block.insight.eyebrow}</div>

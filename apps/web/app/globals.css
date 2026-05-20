@@ -13742,6 +13742,17 @@ button:disabled {
   }
 }
 
+@keyframes chatKundliCardReveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 [data-kundli-animation='true'] .north-chart-lines path {
   animation:
     kundliLineDraw var(--kundli-line-draw-duration, 620ms) ease-out both,
@@ -13780,6 +13791,10 @@ button:disabled {
   animation-duration: 520ms !important;
 }
 
+[data-kundli-animation='true'][data-kundli-animation-surface='chat'] [data-kundli-animation-part='planet'] {
+  animation-duration: 340ms !important;
+}
+
 [data-kundli-animation='true'] [data-kundli-animation-part='planet']:nth-child(2) {
   animation-name: planetSoftCollision !important;
 }
@@ -13808,6 +13823,11 @@ button:disabled {
 .chart-legend[data-kundli-animation-part='legend'] {
   animation: kundliLegendReveal 300ms ease-out both;
   animation-delay: calc(var(--kundli-marker-delay, 720ms) + 180ms);
+}
+
+[data-kundli-animation-surface='chat'] + .chart-legend[data-kundli-animation-part='legend'],
+.chart-legend[data-kundli-animation-surface='chat'] {
+  animation-delay: calc(var(--kundli-marker-delay, 420ms) + 120ms);
 }
 
 [data-kundli-animation-surface='creation'] + .chart-legend[data-kundli-animation-part='legend'],
@@ -14146,19 +14166,66 @@ select::-ms-expand {
 }
 
 .predicta-chat-page .chat-chart-card {
+  animation: chatKundliCardReveal 260ms ease-out both;
+  contain: layout paint;
+  isolation: isolate;
+  min-width: 0;
+  overflow: hidden;
   width: 100%;
 }
 
 .predicta-chat-page .chat-chart-body {
+  gap: clamp(14px, 2vw, 22px);
   grid-template-columns: 1fr !important;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .predicta-chat-page .chat-chart-card .chat-mini-chart {
-  min-height: clamp(340px, 38vw, 560px);
+  aspect-ratio: 1 / 1 !important;
+  contain: layout paint;
+  height: auto;
+  margin-inline: auto;
+  max-width: min(100%, 720px);
+  min-height: 0;
+  overflow: hidden;
+  width: 100% !important;
+}
+
+.predicta-chat-page .chat-chart-card .chat-mini-chart[data-kundli-animation-surface='chat'] .north-chart-lines {
+  inset: 0;
+}
+
+.predicta-chat-page .chat-chart-card .chat-mini-chart[data-kundli-animation-surface='chat'] .north-chart-lines path {
+  animation-duration: var(--kundli-line-draw-duration, 420ms), 7.5s !important;
+}
+
+.predicta-chat-page .chat-chart-card .chat-mini-chart .north-house-label,
+.predicta-chat-page .chat-chart-card .chat-mini-chart .chat-mini-planet-row,
+.predicta-chat-page .chat-chart-card .chat-mini-chart .planet-glyph {
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .predicta-chat-page .chat-chart-card > .chart-legend.compact {
+  margin-inline: auto;
+  max-width: min(100%, 720px);
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  overflow: hidden;
+  width: 100%;
+}
+
+.predicta-chat-page .chat-chart-card > .chart-legend.compact .chart-legend-item,
+.predicta-chat-page .chat-moon-rhythm-note {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.predicta-chat-page .chat-moon-rhythm-note {
+  margin-inline: auto;
+  max-width: min(100%, 720px);
+  width: 100%;
 }
 
 .predicta-chat-page .chat-input-row {
@@ -14275,7 +14342,12 @@ select::-ms-expand {
   }
 
   .predicta-chat-page .chat-chart-card .chat-mini-chart {
-    min-height: clamp(230px, 68vw, 330px);
+    max-width: 100%;
+  }
+
+  .predicta-chat-page .chat-chart-card > .chart-legend.compact {
+    grid-template-columns: 1fr;
+    padding: 10px;
   }
 
   .predicta-chat-page .chat-input-row {
