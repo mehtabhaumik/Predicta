@@ -109,7 +109,6 @@ export function HeroSection(): React.JSX.Element {
                   ))}
                 </em>
               ) : null}
-              <i style={{ animationDelay: `${index * 120}ms` }} />
             </span>
           ))}
         </div>

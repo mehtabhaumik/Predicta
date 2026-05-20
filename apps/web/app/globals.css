@@ -13761,6 +13761,93 @@ button:disabled {
   }
 }
 
+.hero-kundli-board[data-kundli-animation-surface='landing'] {
+  animation: landingKundliGlow 7.4s ease-in-out infinite !important;
+  isolation: isolate;
+}
+
+.hero-kundli-board[data-kundli-animation-surface='landing'] .north-chart-lines path:first-child {
+  animation:
+    kundliLineFade 380ms ease-out both,
+    heroKundliLineBreath 6.4s ease-in-out infinite !important;
+  animation-delay: 0ms, 980ms !important;
+  stroke-dasharray: 0 !important;
+  stroke-dashoffset: 0 !important;
+}
+
+.hero-kundli-board[data-kundli-animation-surface='landing'] .north-chart-lines path:not(:first-child) {
+  animation:
+    kundliLineDraw var(--kundli-line-draw-duration, 700ms) ease-out both,
+    heroKundliLineBreath 5.8s ease-in-out infinite !important;
+  animation-delay:
+    var(--kundli-line-reveal-delay, 0ms),
+    calc(var(--kundli-line-reveal-delay, 0ms) + var(--kundli-line-draw-duration, 700ms) + 620ms) !important;
+  stroke-dasharray: 420 !important;
+  stroke-dashoffset: 420 !important;
+}
+
+.hero-kundli-board[data-kundli-animation-surface='landing'] .hero-chart-planet-stack {
+  animation: none !important;
+}
+
+.kundli-hero-visual .floating-insight-card {
+  backdrop-filter: blur(18px) saturate(130%);
+  background:
+    linear-gradient(145deg, rgba(29, 31, 46, 0.86), rgba(18, 20, 32, 0.88)),
+    var(--panel) !important;
+  border-color: rgba(255, 255, 255, 0.15);
+  max-width: 286px;
+  padding: 22px;
+}
+
+.kundli-hero-visual .floating-insight-card:first-of-type {
+  right: -6px;
+}
+
+.kundli-hero-visual .floating-insight-card:last-of-type {
+  left: 10px;
+}
+
+@keyframes landingKundliGlow {
+  0%,
+  100% {
+    box-shadow:
+      0 34px 110px rgba(77, 175, 255, 0.18),
+      0 18px 70px rgba(255, 151, 64, 0.12);
+    filter: saturate(1) brightness(1);
+  }
+  50% {
+    box-shadow:
+      0 38px 120px rgba(77, 175, 255, 0.25),
+      0 20px 78px rgba(255, 151, 64, 0.16);
+    filter: saturate(1.05) brightness(1.018);
+  }
+}
+
+@media (max-width: 1180px) {
+  .kundli-hero-visual {
+    align-items: stretch;
+    display: grid;
+    justify-content: stretch;
+  }
+
+  .kundli-hero-visual .floating-insight-card {
+    max-width: none;
+  }
+}
+
+@media (max-width: 820px) {
+  .kundli-hero-visual {
+    gap: 16px;
+  }
+
+  .kundli-hero-visual .floating-insight-card {
+    inset: auto !important;
+    position: relative;
+    width: 100%;
+  }
+}
+
 select:not([multiple]) {
   appearance: none;
   -webkit-appearance: none;
