@@ -12042,7 +12042,7 @@ button:disabled {
 
 @media (max-width: 560px) {
   .dashboard-topbar-spacer {
-    height: 110px;
+    height: 132px;
   }
 
   .dashboard-topbar-actions {
@@ -14273,6 +14273,31 @@ select::-ms-expand {
   min-height: 100dvh;
 }
 
+.chat-route .dashboard-topbar {
+  gap: 12px;
+  padding: 14px 18px;
+}
+
+.chat-route .dashboard-master-nav {
+  flex-wrap: nowrap;
+  min-width: 0;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: thin;
+}
+
+.chat-route .dashboard-master-nav a,
+.chat-route .dashboard-master-nav span {
+  flex: 0 0 auto;
+  font-size: 12px;
+  min-height: 34px;
+  padding: 7px 11px;
+}
+
+.chat-route .dashboard-topbar-spacer {
+  height: 128px;
+}
+
 .main-workspace.chat-main-workspace {
   display: flex;
   flex-direction: column;
@@ -14615,6 +14640,179 @@ select::-ms-expand {
   min-width: 0;
 }
 
+/* Spacious layout audit guardrails.
+   Keep these rules broad enough to catch newly added worlds, but scoped to the
+   dashboard/chat surfaces so public editorial pages keep their own rhythm. */
+.dashboard-motion-frame {
+  min-width: 0;
+}
+
+.dashboard-page,
+.kp-page-stack {
+  gap: clamp(28px, 3.2vw, 44px);
+}
+
+.dashboard-page .glass-panel,
+.kp-page-stack > .glass-panel,
+.kp-school-panel,
+.signature-input-card,
+.signature-trait-panel,
+.signature-safety-panel {
+  min-width: 0;
+}
+
+.dashboard-page > .kp-page-stack > .school-panel-hero.glass-panel,
+.dashboard-page > .kp-page-stack > .glass-panel:not(.card),
+.kp-school-panel .school-panel-hero,
+.signature-input-hero,
+.signature-preview-panel {
+  padding: clamp(28px, 3.4vw, 48px);
+}
+
+.school-panel-hero,
+.signature-input-hero,
+.signature-preview-panel,
+.section-heading-row {
+  gap: clamp(22px, 3vw, 42px);
+}
+
+.school-panel-hero > div:first-child,
+.signature-input-hero > div:first-child,
+.signature-preview-panel > div:first-child,
+.section-heading-row > div:first-child {
+  min-width: 0;
+}
+
+.school-panel-hero .section-title,
+.school-grid .section-title,
+.saved-kundli-preview-heading,
+.signature-input-card .section-title,
+.signature-trait-control strong {
+  overflow-wrap: anywhere;
+}
+
+.school-panel-hero h1,
+.school-panel-hero h2,
+.signature-input-hero h2,
+.signature-preview-panel h2 {
+  max-width: 980px;
+}
+
+.school-panel-hero p,
+.signature-input-hero p,
+.signature-preview-panel p {
+  max-width: 980px;
+}
+
+.world-hero-actions {
+  gap: 16px;
+  min-width: min(380px, 100%);
+}
+
+.world-hero-actions .button.primary,
+.school-panel-hero .button.primary {
+  min-height: 66px;
+}
+
+.world-hero-actions .button.secondary,
+.school-panel-hero .button.secondary {
+  min-height: 58px;
+}
+
+.school-grid > article,
+.school-grid > div,
+.school-explain-box,
+.school-callout,
+.school-empty {
+  min-width: 0;
+}
+
+.school-grid > article p,
+.school-grid > div p,
+.school-explain-box p,
+.school-callout {
+  overflow-wrap: anywhere;
+}
+
+.predicta-chat-page .chat-panel {
+  min-height: min(760px, calc(100dvh - 188px));
+}
+
+.predicta-chat-page .chat-session-strip:empty,
+.predicta-chat-page .pass-cost-meter:empty {
+  display: none;
+}
+
+.predicta-chat-page .chat-language-state {
+  align-items: center;
+  border-radius: 0;
+  border-left: 0;
+  border-right: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  justify-content: flex-end;
+  margin-left: 0;
+  margin-right: 0;
+  min-height: 44px;
+  padding: 8px 18px;
+}
+
+.predicta-chat-page .chat-language-state span,
+.predicta-chat-page .chat-language-state small {
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.predicta-chat-page .chat-language-state strong {
+  min-height: 30px;
+  padding: 6px 12px;
+}
+
+.predicta-chat-page .active-kundli-actions.chat-context {
+  margin-left: 18px;
+  margin-right: 18px;
+}
+
+.predicta-chat-page .active-kundli-actions.chat-context h2 {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.predicta-chat-page .active-kundli-actions.chat-context p {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.predicta-chat-page .chat-thread {
+  scroll-padding-bottom: 168px;
+}
+
+.kundli-library-mini-strip {
+  gap: clamp(14px, 2vw, 22px);
+}
+
+.kundli-library-mini-chart {
+  min-height: clamp(180px, 16vw, 260px);
+}
+
+.kundli-library-mini-cell {
+  max-width: 31%;
+}
+
+.kundli-library-mini-sign {
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.22);
+}
+
+.kundli-library-mini-planets b,
+.kundli-library-mini-planets em {
+  max-width: 72px;
+}
+
 @media (max-width: 1180px) {
   .main-workspace.chat-main-workspace {
     max-width: none;
@@ -14627,12 +14825,20 @@ select::-ms-expand {
   }
 
   .chat-route .dashboard-topbar-spacer {
-    height: 118px;
+    height: 112px;
   }
 
   .predicta-chat-page .chat-panel {
     height: calc(100dvh - 158px);
-    min-height: min(680px, calc(100dvh - 158px));
+    min-height: min(720px, calc(100dvh - 158px));
+  }
+
+  .dashboard-page > .kp-page-stack > .school-panel-hero.glass-panel,
+  .dashboard-page > .kp-page-stack > .glass-panel:not(.card),
+  .kp-school-panel .school-panel-hero,
+  .signature-input-hero,
+  .signature-preview-panel {
+    padding: 28px;
   }
 }
 
@@ -14647,7 +14853,7 @@ select::-ms-expand {
   }
 
   .chat-route .dashboard-topbar-spacer {
-    height: 118px;
+    height: 126px;
   }
 
   .chat-shell-header {
@@ -14667,7 +14873,7 @@ select::-ms-expand {
   .predicta-chat-page .chat-panel {
     border-radius: 18px 18px 0 0;
     height: calc(100dvh - 152px);
-    min-height: min(640px, calc(100dvh - 152px));
+    min-height: min(680px, calc(100dvh - 152px));
   }
 
   .predicta-chat-page .chat-session-strip,
@@ -14686,6 +14892,14 @@ select::-ms-expand {
     margin-bottom: 6px;
     margin-top: 6px;
     padding: 10px !important;
+  }
+
+  .predicta-chat-page .chat-language-state {
+    justify-content: flex-start;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 12px;
+    padding-right: 12px;
   }
 
   .predicta-chat-page .active-kundli-actions.chat-context .active-kundli-action-row {
@@ -14741,6 +14955,44 @@ select::-ms-expand {
 
   .predicta-chat-page .chat-input-row .button {
     width: 100%;
+  }
+
+  .school-panel-hero,
+  .signature-input-hero,
+  .signature-preview-panel,
+  .section-heading-row {
+    grid-template-columns: 1fr;
+  }
+
+  .school-panel-hero,
+  .signature-input-hero,
+  .signature-preview-panel {
+    flex-direction: column;
+  }
+
+  .dashboard-page > .kp-page-stack > .school-panel-hero.glass-panel,
+  .dashboard-page > .kp-page-stack > .glass-panel:not(.card),
+  .kp-school-panel .school-panel-hero,
+  .signature-input-hero,
+  .signature-preview-panel {
+    padding: 22px;
+  }
+
+  .world-hero-actions,
+  .world-hero-actions.inline {
+    align-items: stretch;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .world-hero-actions.inline .button,
+  .world-hero-actions .button {
+    width: 100%;
+  }
+
+  .kundli-library-mini-chart {
+    max-width: none;
+    min-height: 210px;
   }
 }
 
