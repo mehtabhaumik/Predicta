@@ -990,14 +990,14 @@ function getLocalizedReportProduct(
       },
       SIGNATURE: {
         badge: 'हस्ताक्षर',
-        bestFor: 'हस्ताक्षर self-expression, confidence style और सुधार guidance.',
-        freeDepth: 'सुरक्षित self-expression guidance के साथ हस्ताक्षर traits की उपयोगी पढ़ाई.',
-        freeIncludes: ['Visual-trait reading', 'सुरक्षा सीमा', 'ताकत और care points', 'सरल अभ्यास'],
-        outcome: 'आपकी signature style क्या दिखाती है और उसे सुरक्षित तरीके से कैसे सुधारें.',
-        premiumDepth: 'सुधार योजना और optional अंक ज्योतिष synthesis के साथ detailed Signature Predicta report.',
-        premiumIncludes: ['गहरी trait तुलना', 'सुधार योजना', 'Repeated signature review', 'अंक ज्योतिष + हस्ताक्षर synthesis'],
-        purchaseHint: 'जब signature-based self-expression guidance और polished improvement plan चाहिए.',
-        title: 'Signature रिपोर्ट',
+        bestFor: 'हस्ताक्षर आत्म-अभिव्यक्ति, भरोसे की शैली और सुधार मार्गदर्शन.',
+        freeDepth: 'सुरक्षित आत्म-अभिव्यक्ति मार्गदर्शन के साथ हस्ताक्षर संकेतों का उपयोगी वाचन.',
+        freeIncludes: ['दृश्य संकेत वाचन', 'सुरक्षा सीमा', 'ताकत और देखभाल बिंदु', 'सरल अभ्यास'],
+        outcome: 'आपकी हस्ताक्षर शैली क्या दिखाती है और उसे सुरक्षित तरीके से कैसे सुधारें.',
+        premiumDepth: 'सुधार योजना और वैकल्पिक अंक ज्योतिष संयुक्त सार के साथ विस्तृत हस्ताक्षर प्रेडिक्टा रिपोर्ट.',
+        premiumIncludes: ['गहरी संकेत तुलना', 'सुधार योजना', 'વારંવાર હસ્તાક્ષર સમીક્ષા', 'अंक ज्योतिष + हस्ताक्षर संयुक्त सार'],
+        purchaseHint: 'जब हस्ताक्षर-आधारित आत्म-अभिव्यक्ति मार्गदर्शन और सुंदर सुधार योजना चाहिए.',
+        title: 'हस्ताक्षर रिपोर्ट',
       },
       REMEDIES: {
         badge: 'उपाय',
@@ -1107,14 +1107,14 @@ function getLocalizedReportProduct(
       },
       SIGNATURE: {
         badge: 'હસ્તાક્ષર',
-        bestFor: 'હસ્તાક્ષર self-expression, confidence style અને સુધાર guidance.',
-        freeDepth: 'સુરક્ષિત self-expression guidance સાથે હસ્તાક્ષર traits ની ઉપયોગી વાંચન.',
-        freeIncludes: ['Visual-trait reading', 'સુરક્ષા મર્યાદા', 'તાકાત અને care points', 'સરળ અભ્યાસ'],
-        outcome: 'તમારી signature style શું બતાવે છે અને તેને સુરક્ષિત રીતે કેવી રીતે સુધારવી.',
-        premiumDepth: 'સુધાર યોજના અને optional અંક જ્યોતિષ synthesis સાથે detailed Signature Predicta report.',
-        premiumIncludes: ['ઊંડી trait સરખામણી', 'સુધાર યોજના', 'Repeated signature review', 'અંક જ્યોતિષ + હસ્તાક્ષર synthesis'],
-        purchaseHint: 'Signature-based self-expression guidance અને polished improvement plan જોઈએ ત્યારે સારું.',
-        title: 'Signature રિપોર્ટ',
+        bestFor: 'હસ્તાક્ષર આત્મ-અભિવ્યક્તિ, વિશ્વાસની શૈલી અને સુધાર માર્ગદર્શન.',
+        freeDepth: 'સુરક્ષિત આત્મ-અભિવ્યક્તિ માર્ગદર્શન સાથે હસ્તાક્ષર સંકેતોનું ઉપયોગી વાચન.',
+        freeIncludes: ['दृश्य संकेत वाचन', 'સુરક્ષા મર્યાદા', 'તાકાત અને કાળજી બિંદુઓ', 'સરળ અભ્યાસ'],
+        outcome: 'તમારી હસ્તાક્ષર શૈલી શું બતાવે છે અને તેને સુરક્ષિત રીતે કેવી રીતે સુધારવી.',
+        premiumDepth: 'સુધાર યોજના અને વૈકલ્પિક અંક જ્યોતિષ સંયુક્ત સાર સાથે વિગતવાર હસ્તાક્ષર પ્રેડિક્ટા રિપોર્ટ.',
+        premiumIncludes: ['ઊંડી સંકેત સરખામણી', 'સુધાર યોજના', 'વારંવાર હસ્તાક્ષર સમીક્ષા', 'અંક જ્યોતિષ + હસ્તાક્ષર સંયુક્ત સાર'],
+        purchaseHint: 'હસ્તાક્ષર-આધારિત આત્મ-અભિવ્યક્તિ માર્ગદર્શન અને સુંદર સુધાર યોજના જોઈએ ત્યારે સારું.',
+        title: 'હસ્તાક્ષર રિપોર્ટ',
       },
       REMEDIES: {
         badge: 'ઉપાયો',
@@ -1195,7 +1195,7 @@ function getReportBuilderCopy(language: SupportedLanguage): {
 } {
   if (language === 'hi') {
     return {
-      askFromReport: 'इस रिपोर्ट से Predicta से पूछें',
+      askFromReport: 'इस रिपोर्ट से प्रेडिक्टा से पूछें',
       createKundliCta: 'कुंडली बनाएं',
       createKundliToSelect: 'यह भाग चुनने के लिए पहले कुंडली बनाएं',
       copied: 'कॉपी हो गया',
@@ -1238,7 +1238,7 @@ function getReportBuilderCopy(language: SupportedLanguage): {
         'मुफ्त रिपोर्ट जरूरी भागों तक रहती है. प्रीमियम पूरा कवरेज, गहरा समय, उपाय और सार जोड़ता है.',
       openDrawer: 'खोलें',
       plannedSectionBody:
-        'यह भाग पूरी रिपोर्ट का हिस्सा है. कुंडली बनने के बाद Predicta इसे चार्ट प्रमाण से भरेगी.',
+        'यह भाग पूरी रिपोर्ट का हिस्सा है. कुंडली बनने के बाद प्रेडिक्टा इसे चार्ट प्रमाण से भरेगी.',
       plannedSectionBulletFree: 'मुफ्त में उपयोगी समझ मिलेगी.',
       plannedSectionBulletPremium: 'प्रीमियम में विस्तृत समय और गहरा सार मिलेगा.',
       plannedSectionEvidence: 'कुंडली बनने के बाद चार्ट प्रमाण जुड़ेगा.',
@@ -1266,7 +1266,7 @@ function getReportBuilderCopy(language: SupportedLanguage): {
 
   if (language === 'gu') {
     return {
-      askFromReport: 'આ રિપોર્ટ પરથી Predicta ને પૂછો',
+      askFromReport: 'આ રિપોર્ટ પરથી પ્રેડિક્ટાને પૂછો',
       createKundliCta: 'કુંડળી બનાવો',
       createKundliToSelect: 'આ ભાગ પસંદ કરવા પહેલાં કુંડળી બનાવો',
       copied: 'કૉપી થઈ ગયું',
@@ -1309,7 +1309,7 @@ function getReportBuilderCopy(language: SupportedLanguage): {
         'મફત રિપોર્ટ જરૂરી ભાગો સુધી રહે છે. પ્રીમિયમ સંપૂર્ણ આવરણ, ઊંડો સમય, ઉપાય અને સાર ઉમેરે છે.',
       openDrawer: 'ખોલો',
       plannedSectionBody:
-        'આ ભાગ સંપૂર્ણ રિપોર્ટનો હિસ્સો છે. કુંડળી બન્યા પછી Predicta તેને ચાર્ટ પુરાવા સાથે ભરે છે.',
+        'આ ભાગ સંપૂર્ણ રિપોર્ટનો હિસ્સો છે. કુંડળી બન્યા પછી પ્રેડિક્ટા તેને ચાર્ટ પુરાવા સાથે ભરે છે.',
       plannedSectionBulletFree: 'મફતમાં ઉપયોગી સમજ મળશે.',
       plannedSectionBulletPremium: 'પ્રીમિયમમાં વિગતવાર સમય અને ઊંડો સાર મળશે.',
       plannedSectionEvidence: 'કુંડળી બન્યા પછી ચાર્ટ પુરાવો જોડાશે.',
@@ -1513,7 +1513,7 @@ function getReportPrintCopy(language: SupportedLanguage): {
       freePreview: 'उपयोगी मुफ्त रिपोर्ट झलक',
       premiumPreview: 'विस्तृत प्रीमियम रिपोर्ट झलक',
       safetyBody:
-        'Predicta चिंतन और योजना के लिए है. यह चिकित्सा, कानूनी, आर्थिक, आपात या मानसिक-स्वास्थ्य विशेषज्ञों की जगह नहीं लेती. कोई भविष्यवाणी पक्की नहीं है; बड़े फैसलों में वास्तविक विवेक रखें.',
+        'प्रेडिक्टा चिंतन और योजना के लिए है. यह चिकित्सा, कानूनी, आर्थिक, आपात या मानसिक-स्वास्थ्य विशेषज्ञों की जगह नहीं लेती. कोई भविष्यवाणी पक्की नहीं है; बड़े फैसलों में वास्तविक विवेक रखें.',
       safetyTitle: 'सुरक्षा नोट',
       tagline: 'अपनी कुंडली बनाएं. जीवन समझें. चार्ट प्रमाण के साथ पूछें.',
     };
@@ -1531,7 +1531,7 @@ function getReportPrintCopy(language: SupportedLanguage): {
       freePreview: 'ઉપયોગી મફત રિપોર્ટ ઝલક',
       premiumPreview: 'વિગતવાર પ્રીમિયમ રિપોર્ટ ઝલક',
       safetyBody:
-        'Predicta વિચાર અને આયોજન માટે છે. તે તબીબી, કાનૂની, આર્થિક, આપાત અથવા માનસિક-આરોગ્ય નિષ્ણાતોની જગ્યાએ નથી. કોઈ આગાહી પાક્કી નથી; મોટા નિર્ણયોમાં વાસ્તવિક સમજ રાખો.',
+        'પ્રેડિક્ટા વિચાર અને આયોજન માટે છે. તે તબીબી, કાનૂની, આર્થિક, આપાત અથવા માનસિક-આરોગ્ય નિષ્ણાતોની જગ્યાએ નથી. કોઈ આગાહી પાક્કી નથી; મોટા નિર્ણયોમાં વાસ્તવિક સમજ રાખો.',
       safetyTitle: 'સુરક્ષા નોંધ',
       tagline: 'તમારી કુંડળી બનાવો. જીવન સમજો. ચાર્ટ પુરાવા સાથે પૂછો.',
     };
@@ -1566,8 +1566,8 @@ function getComprehensiveReportSections(language: SupportedLanguage): Array<{
       { eyebrow: 'KP', title: 'KP कस्प और सब-लॉर्ड आधार' },
       { eyebrow: 'नाड़ी', title: 'नाड़ी pattern प्रीव्यू' },
       { eyebrow: 'अंक', title: 'Numerology नाम और जन्म अंक' },
-      { eyebrow: 'हस्ताक्षर', title: 'Signature Predicta और सुधार योजना' },
-      { eyebrow: 'संश्लेषण', title: 'अंक ज्योतिष + हस्ताक्षर synthesis' },
+      { eyebrow: 'हस्ताक्षर', title: 'हस्ताक्षर प्रेडिक्टा और सुधार योजना' },
+      { eyebrow: 'संश्लेषण', title: 'अंक ज्योतिष + हस्ताक्षर संयुक्त सार' },
       { eyebrow: 'दशा', title: 'महादशा, अंतर्दशा और समय' },
       { eyebrow: 'गोचर', title: 'गोचर और साढ़े साती' },
       { eyebrow: 'वर्ष', title: 'वार्षिक राशिफल और वर्षफल' },
@@ -1590,8 +1590,8 @@ function getComprehensiveReportSections(language: SupportedLanguage): Array<{
       { eyebrow: 'KP', title: 'KP cusp અને sub-lord આધાર' },
       { eyebrow: 'નાડી', title: 'નાડી pattern પ્રીવ્યૂ' },
       { eyebrow: 'અંક', title: 'Numerology નામ અને જન્મ અંક' },
-      { eyebrow: 'હસ્તાક્ષર', title: 'Signature Predicta અને સુધાર યોજના' },
-      { eyebrow: 'સંશ્લેષણ', title: 'અંક જ્યોતિષ + હસ્તાક્ષર synthesis' },
+      { eyebrow: 'હસ્તાક્ષર', title: 'હસ્તાક્ષર પ્રેડિક્ટા અને સુધાર યોજના' },
+      { eyebrow: 'સંશ્લેષણ', title: 'અંક જ્યોતિષ + હસ્તાક્ષર સંયુક્ત સાર' },
       { eyebrow: 'દશા', title: 'મહાદશા, અંતર્દશા અને સમય' },
       { eyebrow: 'ગોચર', title: 'ગોચર અને સાડેસાતી' },
       { eyebrow: 'વર્ષ', title: 'વાર્ષિક રાશિફળ અને વર્ષફળ' },
@@ -1658,8 +1658,8 @@ function getFreePremiumDifferenceRows(language: SupportedLanguage): Array<{
       },
       {
         area: 'हस्ताक्षर',
-        free: 'हस्ताक्षर traits की उपयोगी और सुरक्षित झलक.',
-        premium: 'गहरी trait तुलना, सुधार योजना और अंक ज्योतिष + हस्ताक्षर synthesis.',
+        free: 'हस्ताक्षर संकेतों की उपयोगी और सुरक्षित झलक.',
+        premium: 'गहरी संकेत तुलना, सुधार योजना और अंक ज्योतिष + हस्ताक्षर संयुक्त सार.',
       },
       {
         area: 'पीडीएफ सुंदरता',
@@ -1693,8 +1693,8 @@ function getFreePremiumDifferenceRows(language: SupportedLanguage): Array<{
       },
       {
         area: 'હસ્તાક્ષર',
-        free: 'હસ્તાક્ષર traits ની ઉપયોગી અને સુરક્ષિત ઝલક.',
-        premium: 'ઊંડી trait સરખામણી, સુધાર યોજના અને અંક જ્યોતિષ + હસ્તાક્ષર synthesis.',
+        free: 'હસ્તાક્ષર સંકેતોની ઉપયોગી અને સુરક્ષિત ઝલક.',
+        premium: 'ઊંડી સંકેત સરખામણી, સુધાર યોજના અને અંક જ્યોતિષ + હસ્તાક્ષર સંયુક્ત સાર.',
       },
       {
         area: 'પીડીએફ સુંદરતા',

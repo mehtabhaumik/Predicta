@@ -234,8 +234,8 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
       askPredicta: 'हस्ताक्षर प्रेडिक्टा में आगे बढ़ें',
       clear: 'हस्ताक्षर हटाएं',
       download: 'कॉपी सेव करें',
-      useDrawing: 'इस ड्रॉइंग का उपयोग करें',
-      upload: 'हस्ताक्षर इमेज चुनें',
+      useDrawing: 'इस चित्र का उपयोग करें',
+      upload: 'हस्ताक्षर छवि चुनें',
     },
     canvas: {
       aria: 'अपना हस्ताक्षर बनाएं',
@@ -245,56 +245,56 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
     },
     hero: {
       body:
-        'निजी, reflection-based हस्ताक्षर reading के लिए हस्ताक्षर अपलोड करें या बनाएं. प्रेडिक्टा इसे पराशरी, KP, नाड़ी और अंक ज्योतिष से अलग रखती है.',
+        'निजी, चिंतन-आधारित हस्ताक्षर वाचन के लिए हस्ताक्षर अपलोड करें या बनाएं. प्रेडिक्टा इसे पराशरी, KP, नाड़ी और अंक ज्योतिष से अलग रखती है.',
       eyebrow: 'हस्ताक्षर प्रेडिक्टा',
-      title: 'हस्ताक्षर से self-expression पढ़ें.',
+      title: 'हस्ताक्षर से आत्म-अभिव्यक्ति पढ़ें.',
     },
     privacy: {
       items: [
-        'इस चरण में हस्ताक्षर preview इसी browser पर रहता है.',
-        'अगर सहज न हों तो legal, banking या government signature का उपयोग न करें.',
-        'पहली reading के लिए practice signature या initials भी उपयोग कर सकते हैं.',
+        'इस चरण में हस्ताक्षर पूर्वावलोकन इसी डिवाइस पर रहता है.',
+        'अगर सहज न हों तो कानूनी, बैंकिंग या सरकारी हस्ताक्षर का उपयोग न करें.',
+        'पहले वाचन के लिए अभ्यास हस्ताक्षर या आद्याक्षर भी उपयोग कर सकते हैं.',
       ],
-      title: 'पहले privacy',
+      title: 'पहले निजता',
     },
     proof: [
       {
         body:
-          'प्रेडिक्टा केवल वही हस्ताक्षर traits पढ़ती है जिन्हें आप upload, draw या confirm करते हैं.',
-        title: 'दिखने वाले traits',
+          'प्रेडिक्टा केवल वही हस्ताक्षर संकेत पढ़ती है जिन्हें आप अपलोड, बनाकर या पुष्टि करके देते हैं.',
+        title: 'दिखने वाले संकेत',
       },
       {
         body:
-          'यह reading reflection के लिए है. यह identity, health diagnosis या legal claim नहीं करती.',
+          'यह वाचन चिंतन के लिए है. यह पहचान, स्वास्थ्य निदान या कानूनी दावा नहीं करता.',
         title: 'सुरक्षित सीमा',
       },
       {
         body:
-          'Signature reading को Numerology के साथ तभी जोड़ा जाता है जब आप synthesis मांगते हैं.',
-        title: 'वैकल्पिक synthesis',
+          'हस्ताक्षर वाचन को अंक ज्योतिष के साथ तभी जोड़ा जाता है जब आप संयुक्त सार मांगते हैं.',
+        title: 'वैकल्पिक संयुक्त सार',
       },
     ],
     preview: {
       body:
-        'हस्ताक्षर तैयार होने के बाद प्रेडिक्टा shape, pressure, spacing और rhythm का सरल अर्थ समझा सकती है.',
+        'हस्ताक्षर तैयार होने के बाद प्रेडिक्टा आकार, दबाव, अंतर और लय का सरल अर्थ समझा सकती है.',
       empty: 'अभी कोई हस्ताक्षर चयनित नहीं है.',
       ready: 'हस्ताक्षर यहां तैयार है',
-      title: 'हस्ताक्षर preview',
+      title: 'हस्ताक्षर पूर्वावलोकन',
     },
     report: {
       body:
-        'Confirm किए गए हस्ताक्षर traits को reflection report, improvement plan या Signature + Numerology synthesis में बदलें.',
-      cta: 'Signature report बनाएं',
-      title: 'Signature report मार्ग',
+        'पुष्टि किए गए हस्ताक्षर संकेतों को चिंतन रिपोर्ट, सुधार योजना या हस्ताक्षर + अंक ज्योतिष संयुक्त सार में बदलें.',
+      cta: 'हस्ताक्षर रिपोर्ट बनाएं',
+      title: 'हस्ताक्षर रिपोर्ट मार्ग',
     },
     safety: {
       body:
-        'हस्ताक्षर analysis self-understanding और reflection के लिए है. यह identity verification, handwriting forensics, medical diagnosis, legal proof, hiring advice या guaranteed prediction नहीं है.',
+        'हस्ताक्षर विश्लेषण आत्म-समझ और चिंतन के लिए है. यह पहचान सत्यापन, हस्तलेखन जांच, चिकित्सा निदान, कानूनी प्रमाण, भर्ती सलाह या निश्चित भविष्यवाणी नहीं है.',
       title: 'साफ सुरक्षा सीमा',
     },
     traits: {
       body:
-        'सिर्फ वही trait चुनें जो साफ दिख रहा है. प्रेडिक्टा इन्हें soft reflection की तरह पढ़ती है, character proof की तरह नहीं.',
+        'सिर्फ वही संकेत चुनें जो साफ दिख रहा है. प्रेडिक्टा इन्हें हल्के चिंतन की तरह पढ़ती है, चरित्र प्रमाण की तरह नहीं.',
       labels: {
         baseline: 'लाइन की दिशा',
         'capital-emphasis': 'बड़े अक्षर का जोर',
@@ -309,11 +309,11 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
         speed: 'लय',
         underline: 'अंडरलाइन',
       },
-      summaryTitle: 'तैयार reading',
-      title: 'दिखने वाले traits confirm करें',
+      summaryTitle: 'तैयार वाचन',
+      title: 'दिखने वाले संकेत पुष्टि करें',
       values: {
         ...SIGNATURE_TRAIT_VALUES_EN,
-        abstract: 'बहुत abstract',
+        abstract: 'बहुत अमूर्त',
         balanced: 'संतुलित',
         clear: 'साफ',
         downward: 'नीचे जाती',
@@ -326,9 +326,9 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
         mixed: 'मिला-जुला',
         moderate: 'मध्यम शैली',
         none: 'नहीं',
-        partial: 'थोड़ा readable',
+        partial: 'थोड़ा पढ़ने योग्य',
         right: 'दाएं',
-        single: 'एक line',
+        single: 'एक रेखा',
         small: 'छोटा',
         steady: 'स्थिर',
         tight: 'कम अंतर',
@@ -338,7 +338,7 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
     },
     upload: {
       body:
-        'ऐसी साफ image उपयोग करें जिसमें सिर्फ हस्ताक्षर दिखे. ID, address, account number और private documents crop कर दें.',
+        'ऐसी साफ छवि उपयोग करें जिसमें सिर्फ हस्ताक्षर दिखे. पहचान पत्र, पता, खाता संख्या और निजी दस्तावेज काट दें.',
       hint: 'PNG, JPG या WebP सबसे अच्छा है.',
       title: 'हस्ताक्षर अपलोड करें',
     },
@@ -348,67 +348,67 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
       askPredicta: 'સહી પ્રેડિક્ટામાં આગળ વધો',
       clear: 'સહી દૂર કરો',
       download: 'કોપી સેવ કરો',
-      useDrawing: 'આ drawing વાપરો',
-      upload: 'સહી image પસંદ કરો',
+      useDrawing: 'આ ચિત્ર વાપરો',
+      upload: 'સહી છબી પસંદ કરો',
     },
     canvas: {
       aria: 'તમારી સહી દોરો',
-      empty: 'અહીં mouse, trackpad અથવા touch થી દોરો.',
+      empty: 'અહીં માઉસ, ટ્રેકપેડ અથવા સ્પર્શથી દોરો.',
       help: 'સ્વાભાવિક સહી કરો. તમે તેને ક્યારેય પણ દૂર કરી શકો છો.',
       title: 'સહી દોરો',
     },
     hero: {
       body:
-        'ખાનગી, reflection-based સહી reading માટે સહી upload કરો અથવા દોરો. પ્રેડિક્ટા તેને પરાશરી, KP, નાડી અને અંક જ્યોતિષથી અલગ રાખે છે.',
+        'ખાનગી, વિચાર-આધારિત સહી વાચન માટે સહી અપલોડ કરો અથવા દોરો. પ્રેડિક્ટા તેને પરાશરી, KP, નાડી અને અંક જ્યોતિષથી અલગ રાખે છે.',
       eyebrow: 'સહી પ્રેડિક્ટા',
-      title: 'સહીમાંથી self-expression વાંચો.',
+      title: 'સહીમાંથી આત્મ-અભિવ્યક્તિ વાંચો.',
     },
     privacy: {
       items: [
-        'આ તબક્કામાં સહી preview આ browser પર જ રહે છે.',
-        'સહજ ન લાગે તો legal, banking અથવા government signature નો ઉપયોગ ન કરો.',
-        'પહેલી reading માટે practice signature અથવા initials પણ વાપરી શકો છો.',
+        'આ તબક્કામાં સહી પૂર્વાવલોકન આ જ ડિવાઇસ પર રહે છે.',
+        'સહજ ન લાગે તો કાનૂની, બેન્કિંગ અથવા સરકારી સહીનો ઉપયોગ ન કરો.',
+        'પહેલા વાચન માટે અભ્યાસ સહી અથવા આદ્યાક્ષર પણ વાપરી શકો છો.',
       ],
-      title: 'પહેલા privacy',
+      title: 'પહેલા ગોપનીયતા',
     },
     proof: [
       {
         body:
-          'પ્રેડિક્ટા ફક્ત તે સહી traits વાંચે છે જેને તમે upload, draw અથવા confirm કરો છો.',
-        title: 'દેખાતા traits',
+          'પ્રેડિક્ટા ફક્ત તે સહી સંકેતો વાંચે છે જેને તમે અપલોડ, દોરીને અથવા પુષ્ટિ કરીને આપો છો.',
+        title: 'દેખાતા સંકેતો',
       },
       {
         body:
-          'આ reading reflection માટે છે. તે identity, health diagnosis અથવા legal claim કરતી નથી.',
+          'આ વાચન વિચાર માટે છે. તે ઓળખ, આરોગ્ય નિદાન અથવા કાનૂની દાવો કરતી નથી.',
         title: 'સુરક્ષિત સીમા',
       },
       {
         body:
-          'Signature reading ને Numerology સાથે ત્યારે જ જોડવામાં આવે છે જ્યારે તમે synthesis માંગો છો.',
-        title: 'વૈકલ્પિક synthesis',
+          'સહી વાચનને અંક જ્યોતિષ સાથે ત્યારે જ જોડવામાં આવે છે જ્યારે તમે સંયુક્ત સાર માંગો છો.',
+        title: 'વૈકલ્પિક સંયુક્ત સાર',
       },
     ],
     preview: {
       body:
-        'સહી તૈયાર થયા પછી પ્રેડિક્ટા shape, pressure, spacing અને rhythm નો સરળ અર્થ સમજાવી શકે છે.',
+        'સહી તૈયાર થયા પછી પ્રેડિક્ટા આકાર, દબાણ, અંતર અને લયનો સરળ અર્થ સમજાવી શકે છે.',
       empty: 'હજુ કોઈ સહી પસંદ કરેલી નથી.',
       ready: 'સહી અહીં તૈયાર છે',
-      title: 'સહી preview',
+      title: 'સહી પૂર્વાવલોકન',
     },
     report: {
       body:
-        'Confirm કરેલા સહી traits ને reflection report, improvement plan અથવા Signature + Numerology synthesis માં બદલો.',
-      cta: 'Signature report બનાવો',
-      title: 'Signature report માર્ગ',
+        'પુષ્ટિ કરેલા સહી સંકેતોને વિચાર રિપોર્ટ, સુધારણા યોજના અથવા સહી + અંક જ્યોતિષ સંયુક્ત સારમાં બદલો.',
+      cta: 'સહી રિપોર્ટ બનાવો',
+      title: 'સહી રિપોર્ટ માર્ગ',
     },
     safety: {
       body:
-        'સહી analysis self-understanding અને reflection માટે છે. આ identity verification, handwriting forensics, medical diagnosis, legal proof, hiring advice અથવા guaranteed prediction નથી.',
+        'સહી વિશ્લેષણ આત્મ-સમજ અને વિચાર માટે છે. આ ઓળખ ચકાસણી, હસ્તલેખન તપાસ, તબીબી નિદાન, કાનૂની પુરાવો, ભરતી સલાહ અથવા ખાતરીવાળી આગાહી નથી.',
       title: 'સ્પષ્ટ સુરક્ષા સીમા',
     },
     traits: {
       body:
-        'ફક્ત જે trait સ્પષ્ટ દેખાય તે પસંદ કરો. પ્રેડિક્ટા તેને soft reflection તરીકે વાંચે છે, character proof તરીકે નહીં.',
+        'ફક્ત જે સંકેત સ્પષ્ટ દેખાય તે પસંદ કરો. પ્રેડિક્ટા તેને હળવા વિચાર તરીકે વાંચે છે, સ્વભાવના પુરાવા તરીકે નહીં.',
       labels: {
         baseline: 'લાઇનની દિશા',
         'capital-emphasis': 'મોટા અક્ષરનો ભાર',
@@ -423,11 +423,11 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
         speed: 'લય',
         underline: 'અંડરલાઇન',
       },
-      summaryTitle: 'તૈયાર reading',
-      title: 'દેખાતા traits confirm કરો',
+      summaryTitle: 'તૈયાર વાચન',
+      title: 'દેખાતા સંકેતોની પુષ્ટિ કરો',
       values: {
         ...SIGNATURE_TRAIT_VALUES_EN,
-        abstract: 'ખૂબ abstract',
+        abstract: 'ખૂબ અમૂર્ત',
         balanced: 'સંતુલિત',
         clear: 'સ્પષ્ટ',
         downward: 'નીચે જતી',
@@ -440,9 +440,9 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
         mixed: 'મિશ્ર',
         moderate: 'મધ્યમ શૈલી',
         none: 'નથી',
-        partial: 'થોડી readable',
+        partial: 'થોડી વાંચી શકાય તેવી',
         right: 'જમણી',
-        single: 'એક line',
+        single: 'એક રેખા',
         small: 'નાની',
         steady: 'સ્થિર',
         tight: 'ઓછું અંતર',
@@ -452,9 +452,9 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
     },
     upload: {
       body:
-        'એવી સ્પષ્ટ image વાપરો જેમાં માત્ર સહી દેખાય. ID, address, account number અને private documents crop કરો.',
+        'એવી સ્પષ્ટ છબી વાપરો જેમાં માત્ર સહી દેખાય. ઓળખપત્ર, સરનામું, ખાતા નંબર અને ખાનગી દસ્તાવેજો કાપી નાખો.',
       hint: 'PNG, JPG અથવા WebP સૌથી સારું છે.',
-      title: 'સહી upload કરો',
+      title: 'સહી અપલોડ કરો',
     },
   },
 };

@@ -8,13 +8,13 @@
       "nativeName": "English"
     },
     {
-      "aiInstruction": "Answer in natural Roman Hinglish. Do not use Devanagari script in chat replies. Keep Jyotish/Sanskrit terms readable and explain them simply.",
+      "aiInstruction": "उत्तर स्वाभाविक हिंदी में दें और देवनागरी लिपि का उपयोग करें. ज्योतिष और संस्कृत शब्द तभी रखें जब वे उपयोगी हों, और उन्हें सरल भाषा में समझाएं.",
       "code": "hi",
       "englishName": "Hindi",
       "nativeName": "हिन्दी"
     },
     {
-      "aiInstruction": "Answer in natural Roman Gujlish. Do not use Gujarati script in chat replies. Keep Jyotish/Sanskrit terms readable and explain them simply.",
+      "aiInstruction": "જવાબ સ્વાભાવિક ગુજરાતી ભાષામાં આપો અને ગુજરાતી લિપિનો ઉપયોગ કરો. જ્યોતિષ અને સંસ્કૃત શબ્દો ઉપયોગી હોય ત્યારે જ રાખો અને તેમને સરળ ભાષામાં સમજાવો.",
       "code": "gu",
       "englishName": "Gujarati",
       "nativeName": "ગુજરાતી"
@@ -195,7 +195,7 @@
         "family": "परिवार",
         "founderVision": "संस्थापक दृष्टि",
         "home": "प्रेडिक्टा होम",
-        "holisticAstrology": "होलिस्टिक ज्योतिष",
+        "holisticAstrology": "समग्र ज्योतिष",
         "kp": "KP",
         "kpPredicta": "KP प्रेडिक्टा",
         "kundli": "कुंडली",
@@ -264,7 +264,7 @@
         "family": "પરિવાર",
         "founderVision": "સ્થાપક દૃષ્ટિ",
         "home": "પ્રેડિક્ટા હોમ",
-        "holisticAstrology": "હોલિસ્ટિક જ્યોતિષ",
+        "holisticAstrology": "સમગ્ર જ્યોતિષ",
         "kp": "KP",
         "kpPredicta": "KP પ્રેડિક્ટા",
         "kundli": "કુંડળી",

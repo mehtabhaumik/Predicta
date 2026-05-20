@@ -472,7 +472,7 @@ const AUTH_COPY: Record<SupportedLanguage, AuthCopy> = {
     invalidCredential:
       'ईमेल या पासवर्ड सही नहीं है. कृपया दोबारा कोशिश करें या पासवर्ड रीसेट करें.',
 	    legalLink: 'नियम और गोपनीयता',
-	    legalNote: 'आगे बढ़कर आप Predicta के',
+	    legalNote: 'आगे बढ़कर आप प्रेडिक्टा के',
 	    passwordHint: 'कम से कम 6 अक्षर रखें.',
     passwordLabel: 'पासवर्ड',
     passwordMismatch: 'दोनों पासवर्ड एक जैसे होने चाहिए.',
@@ -486,7 +486,7 @@ const AUTH_COPY: Record<SupportedLanguage, AuthCopy> = {
       'खाता बन गया. आपकी सेव कुंडली, रिपोर्ट और चैट इसी खाते में रहेंगी.',
 	    resetTitle: 'पासवर्ड रीसेट करें',
 	    resetBody:
-	      'अपने खाते का ईमेल लिखें. अगर उस ईमेल से Predicta खाता है, तो रीसेट लिंक भेजा जाएगा.',
+	      'अपने खाते का ईमेल लिखें. अगर उस ईमेल से प्रेडिक्टा खाता है, तो रीसेट लिंक भेजा जाएगा.',
     resetSentSuccess:
       'पासवर्ड रीसेट लिंक भेज दिया गया है. ईमेल देखें और फिर साइन इन करें.',
     sendReset: 'रीसेट लिंक भेजें',
@@ -524,7 +524,7 @@ const AUTH_COPY: Record<SupportedLanguage, AuthCopy> = {
     invalidCredential:
       'ઇમેઇલ અથવા પાસવર્ડ સાચો નથી. કૃપા કરીને ફરી પ્રયાસ કરો અથવા પાસવર્ડ રીસેટ કરો.',
 	    legalLink: 'નિયમો અને ગોપનીયતા',
-	    legalNote: 'આગળ વધીને તમે Predicta ના',
+	    legalNote: 'આગળ વધીને તમે પ્રેડિક્ટાના',
 	    passwordHint: 'ઓછામાં ઓછા 6 અક્ષર રાખો.',
     passwordLabel: 'પાસવર્ડ',
     passwordMismatch: 'બંને પાસવર્ડ એકસરખા હોવા જોઈએ.',
@@ -538,7 +538,7 @@ const AUTH_COPY: Record<SupportedLanguage, AuthCopy> = {
       'ખાતું બની ગયું. તમારી સેવ કુંડળી, રિપોર્ટ અને ચેટ આ ખાતા સાથે રહેશે.',
 	    resetTitle: 'પાસવર્ડ રીસેટ કરો',
 	    resetBody:
-	      'તમારા ખાતાનું ઇમેઇલ લખો. જો તે ઇમેઇલથી Predicta ખાતું હશે, તો રીસેટ લિંક મોકલાશે.',
+	      'તમારા ખાતાનું ઇમેઇલ લખો. જો તે ઇમેઇલથી પ્રેડિક્ટા ખાતું હશે, તો રીસેટ લિંક મોકલાશે.',
     resetSentSuccess:
       'પાસવર્ડ રીસેટ લિંક મોકલી છે. ઇમેઇલ જુઓ અને પછી સાઇન ઇન કરો.',
     sendReset: 'રીસેટ લિંક મોકલો',
