@@ -159,6 +159,78 @@ def test_ask_pridicta_uses_backend_ai_boundary(monkeypatch):
     assert len(payload["jyotishAnalysis"]["evidence"]) >= 5
 
 
+def test_ask_pridicta_includes_room_contract_for_each_specialist(monkeypatch):
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+    captured_prompts = []
+
+    def fake_openai_response(**kwargs):
+        captured_prompts.append(kwargs["user_prompt"])
+        return "Direct answer\n\nEvidence\n- Room contract is present."
+
+    monkeypatch.setattr(ai_module, "create_openai_text_response", fake_openai_response)
+    client = TestClient(app)
+
+    expected = {
+        "PARASHARI": ("Vedic Predicta", "D1/Rashi"),
+        "KP": ("KP Predicta", "cusp sub lord"),
+        "NADI": ("Nadi Predicta", "No palm-leaf access claims."),
+        "NUMEROLOGY": ("Numerology Predicta", "personal year"),
+        "SIGNATURE": ("Signature Predicta", "No identity verification."),
+    }
+
+    for school, (room_name, method_marker) in expected.items():
+        response = client.post(
+            "/ask-pridicta",
+            json={
+                "message": f"Answer inside {room_name}.",
+                "chartContext": {
+                    "predictaSchool": school,
+                    "sourceScreen": room_name,
+                    "handoffQuestion": f"Answer inside {room_name}.",
+                },
+                "kundli": kundli.model_dump(mode="json"),
+                "history": [],
+                "userPlan": "FREE",
+            },
+        )
+        assert response.status_code == 200
+
+    joined_prompts = "\n\n".join(captured_prompts)
+    for room_name, method_marker in expected.values():
+        assert room_name in joined_prompts
+        assert method_marker in joined_prompts
+    assert "Active room contract:" in joined_prompts
+    assert "do not mix methods" in joined_prompts
+
+
+def test_signature_predicta_has_safe_deterministic_boundary():
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+    request = ai_module.PridictaChatRequest(
+        message="Read my signature.",
+        chartContext={
+            "predictaSchool": "SIGNATURE",
+            "sourceScreen": "Signature Predicta",
+            "handoffQuestion": "Read my signature.",
+        },
+        kundli=kundli,
+        history=[],
+        userPlan="FREE",
+    )
+    analysis = build_jyotish_analysis(
+        kundli,
+        request.message,
+        request.chartContext,
+        request.userPlan,
+    )
+
+    reply = ai_module.build_deterministic_chart_reply(request, analysis)
+
+    assert "Signature Predicta mode" in reply
+    assert "identity verification" in reply
+    assert "handwriting forensics" in reply
+    assert "uploaded, drawn, or user-confirmed visual traits" in reply
+
+
 def test_ask_pridicta_falls_back_to_gemini_when_openai_unavailable(monkeypatch):
     kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
 

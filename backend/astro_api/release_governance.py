@@ -20,7 +20,7 @@ APPROVED_MODEL_PINS: Dict[str, str] = {
     "geminiFree": "gemini-2.5-flash",
     "geminiPremium": "gemini-2.5-pro",
     "moderation": "omni-moderation-latest",
-    "promptVersion": "predicta-chat-system-v1",
+    "promptVersion": "predicta-chat-room-contract-v2",
 }
 
 SAFETY_SLOS: Dict[str, str] = {

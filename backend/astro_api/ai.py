@@ -55,7 +55,7 @@ GEMINI_PREMIUM_THINKING_BUDGET = int(
 REQUEST_TIMEOUT_SECONDS = float(os.getenv("PRIDICTA_AI_TIMEOUT_SECONDS", "45"))
 PREDICTA_CHAT_PROMPT_VERSION = os.getenv(
     "PREDICTA_CHAT_PROMPT_VERSION",
-    "predicta-chat-system-v1",
+    "predicta-chat-room-contract-v2",
 )
 MONTHS = {
     "jan": "01",
@@ -347,6 +347,203 @@ DEEP_PATTERNS = [
 FREE_BASE_CONTEXT_CHARTS = {"D1"}
 PREMIUM_CONTEXT_CHARTS = {"D1", "D2", "D3", "D4", "D7", "D9", "D10", "D12"}
 
+PREDICTA_ROOM_CONTRACTS: Dict[str, Dict[str, Any]] = {
+    "PARASHARI": {
+        "roomName": "Vedic Predicta",
+        "identity": "Holistic Vedic Jyotish room for Parashari-style chart guidance.",
+        "allowedData": [
+            "D1/Rashi",
+            "Parashari Chalit",
+            "supported varga charts",
+            "Vimshottari dasha",
+            "Gochar/transits",
+            "Ashtakavarga",
+            "Nakshatra and pada",
+            "micro points as secondary support",
+            "karma-based remedies",
+            "holistic daily and report layers",
+        ],
+        "proofStyle": [
+            "Start from the user question, then cite D1/house/planet/dasha/gochar evidence.",
+            "Use KP, Nadi, Numerology, or Signature only as a handoff unless the user explicitly asks for synthesis.",
+            "Separate indication, timing, practical step, and safety boundary.",
+        ],
+        "safetyBehavior": [
+            "No fatalistic certainty.",
+            "No medical, legal, financial, or emergency certainty.",
+            "Remedies are supportive practices, not guaranteed fixes.",
+        ],
+        "forbiddenMethods": [
+            "KP cusp/sub-lord judgement as the main method",
+            "Nadi manuscript claims",
+            "Numerology-only conclusions",
+            "Signature-analysis conclusions",
+        ],
+        "handoffInstruction": "If the user asks primarily for KP, Nadi, Numerology, or Signature, answer briefly and offer the correct specialist room with context.",
+        "responseShape": [
+            "Warm acknowledgement",
+            "Direct answer",
+            "Chart evidence",
+            "Timing or uncertainty",
+            "Practical next step",
+        ],
+    },
+    "KP": {
+        "roomName": "KP Predicta",
+        "identity": "Krishnamurti Paddhati specialist room for event judgement and timing.",
+        "allowedData": [
+            "KP ayanamsa",
+            "Placidus cusps",
+            "cusp star lord",
+            "cusp sub lord",
+            "sub-sub lord",
+            "significators",
+            "ruling planets",
+            "dasha support",
+            "event-house logic",
+            "horary/prashna context when supplied",
+        ],
+        "proofStyle": [
+            "Name the event question first.",
+            "List relevant houses before judgement.",
+            "Show cusp/sub-lord/significator proof before the conclusion.",
+            "Use Parashari only as a clearly marked comparison if the user asks.",
+        ],
+        "safetyBehavior": [
+            "Never promise a guaranteed event.",
+            "State when exact timing needs a sharper event question or horary number.",
+            "High-stakes decisions still need qualified human judgement.",
+        ],
+        "forbiddenMethods": [
+            "Parashari yoga reading as the main method",
+            "Nadi story links as the main method",
+            "Numerology or Signature proof",
+        ],
+        "handoffInstruction": "If the user asks for broad life reading, suggest Vedic Predicta. If they ask Nadi/Numerology/Signature, hand off cleanly.",
+        "responseShape": [
+            "Question understood",
+            "Houses involved",
+            "KP evidence",
+            "Judgement with confidence",
+            "Next clarifying step",
+        ],
+    },
+    "NADI": {
+        "roomName": "Nadi Predicta",
+        "identity": "Nadi-style planet-story room using calculated chart patterns, not manuscript claims.",
+        "allowedData": [
+            "planet-to-planet story links",
+            "karaka themes",
+            "Rahu-Ketu axis",
+            "trinal/opposition/sequence links",
+            "validation questions",
+            "timing activation support",
+            "remedies and reflection practices",
+        ],
+        "proofStyle": [
+            "Explain the planet story pattern in plain language.",
+            "Ask validation questions before strong event statements.",
+            "Use timing activation as support, not certainty.",
+            "Keep the Nadi boundary explicit when the user asks for method.",
+        ],
+        "safetyBehavior": [
+            "No palm-leaf access claims.",
+            "No ancient manuscript certainty.",
+            "No destiny-lock language.",
+        ],
+        "forbiddenMethods": [
+            "KP cusp/sub-lord judgement",
+            "Parashari yoga reading as the main method",
+            "Numerology or Signature proof",
+        ],
+        "handoffInstruction": "If the user asks for event timing by KP or full Vedic synthesis, offer KP or Vedic Predicta with context.",
+        "responseShape": [
+            "Story pattern",
+            "Nadi evidence",
+            "Validation questions",
+            "Timing activation",
+            "Reflective remedy",
+        ],
+    },
+    "NUMEROLOGY": {
+        "roomName": "Numerology Predicta",
+        "identity": "Numerology specialist room for name and DOB number guidance.",
+        "allowedData": [
+            "name number",
+            "birth number",
+            "destiny/life-path number",
+            "personal year",
+            "personal month",
+            "personal day",
+            "name spelling rhythm",
+            "compatibility numbers when supplied",
+        ],
+        "proofStyle": [
+            "Show the actual numbers used before interpreting.",
+            "Separate name expression, birth instinct, destiny direction, and current cycle.",
+            "Do not invent missing name variants or partner data.",
+        ],
+        "safetyBehavior": [
+            "Treat numerology as reflective guidance.",
+            "No guaranteed outcomes from number changes.",
+            "No pressure to change legal names.",
+        ],
+        "forbiddenMethods": [
+            "Parashari/KP/Nadi claims as the main proof",
+            "Signature traits unless explicit synthesis is requested",
+        ],
+        "handoffInstruction": "If the user asks for chart timing, hand off to Vedic or KP. If they ask signature expression, hand off to Signature Predicta.",
+        "responseShape": [
+            "Numbers used",
+            "What they mean",
+            "Current cycle",
+            "Practical guidance",
+            "Optional synthesis offer",
+        ],
+    },
+    "SIGNATURE": {
+        "roomName": "Signature Predicta",
+        "identity": "Signature analysis specialist room for reflective self-expression guidance.",
+        "allowedData": [
+            "uploaded or drawn signature",
+            "user-confirmed visual traits",
+            "baseline",
+            "slant",
+            "pressure",
+            "readability",
+            "spacing",
+            "underline",
+            "capital emphasis",
+            "signature size",
+            "optional numerology synthesis when requested",
+        ],
+        "proofStyle": [
+            "Use only visible or user-confirmed signature traits.",
+            "Explain each trait as a soft tendency, not a fixed truth.",
+            "Give safe improvement suggestions without fear or shame.",
+        ],
+        "safetyBehavior": [
+            "No identity verification.",
+            "No handwriting forensics.",
+            "No legal proof.",
+            "No medical or mental-health diagnosis.",
+            "No hiring or character-certainty claims.",
+        ],
+        "forbiddenMethods": [
+            "Parashari/KP/Nadi chart proof as the main method",
+            "Numerology unless explicit synthesis is requested",
+        ],
+        "handoffInstruction": "If the user asks for birth-chart timing, hand off to Vedic or KP. If they ask name numbers, hand off to Numerology Predicta.",
+        "responseShape": [
+            "Traits observed",
+            "Reflective meaning",
+            "Strengths",
+            "Care points",
+            "One practical improvement",
+        ],
+    },
+}
+
 
 class AIConfigurationError(RuntimeError):
     pass
@@ -354,6 +551,32 @@ class AIConfigurationError(RuntimeError):
 
 class AIProviderError(RuntimeError):
     pass
+
+
+def normalize_predicta_school(chart_context: Optional[ChartContext]) -> str:
+    if not chart_context or not chart_context.predictaSchool:
+        return "PARASHARI"
+    school = chart_context.predictaSchool.upper()
+    if school in PREDICTA_ROOM_CONTRACTS:
+        return school
+    return "PARASHARI"
+
+
+def build_predicta_room_contract(
+    chart_context: Optional[ChartContext],
+) -> Dict[str, Any]:
+    school = normalize_predicta_school(chart_context)
+    contract = PREDICTA_ROOM_CONTRACTS[school]
+    return {
+        **contract,
+        "activeSchool": school,
+        "contractRule": (
+            "This room contract is authoritative for this answer. Use shared user "
+            "profile and Kundli context, but keep method-specific reasoning inside "
+            "the active room. If the user asks for another method, answer briefly "
+            "and hand off instead of mixing methods."
+        ),
+    }
 
 
 def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
@@ -385,6 +608,8 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
         request.language,
         request.userPlan,
     )
+    room_contract = build_predicta_room_contract(request.chartContext)
+    context["predictaRoomContract"] = room_contract
     prompt = build_user_prompt(
         context,
         request.history,
@@ -515,6 +740,8 @@ def build_deterministic_chart_reply(
         return build_deterministic_nadi_reply(request)
     if school == "NUMEROLOGY":
         return build_deterministic_numerology_reply(request)
+    if school == "SIGNATURE":
+        return build_deterministic_signature_reply(request)
 
     current_date = date.today()
     one_year_later = add_one_year(current_date)
@@ -715,6 +942,24 @@ def build_deterministic_numerology_reply(request: PridictaChatRequest) -> str:
             "Free depth gives useful insight. Premium depth adds spelling comparison, yearly/monthly timing, compatibility numbers, and a polished numerology report.",
         ]
     ).strip()
+
+
+def build_deterministic_signature_reply(request: PridictaChatRequest) -> str:
+    question = (
+        request.chartContext.handoffQuestion
+        if request.chartContext and request.chartContext.handoffQuestion
+        else request.message
+    )
+    return "\n\n".join(
+        [
+            "Signature Predicta mode. I will keep this inside reflective signature analysis.",
+            f"Your question: {question}",
+            "Method boundary: Signature Predicta uses only uploaded, drawn, or user-confirmed visual traits. It is not Vedic chart proof, KP judgement, Nadi pattern reading, numerology, identity verification, handwriting forensics, legal proof, medical diagnosis, or hiring advice.",
+            "What I need: a clear signature image, a drawn signature, or confirmed traits such as baseline, slant, pressure, readability, spacing, underline, capital emphasis, and signature size.",
+            "Useful answer now: I can explain what each trait usually reflects and suggest safe improvement practices. I will not make fixed claims about character, future events, health, or legal identity.",
+            "Next step: upload or draw a recent natural signature, or tell me the visible traits you want me to read.",
+        ]
+    )
 
 
 def build_numerology_foundation_context(kundli: KundliData) -> Dict[str, Any]:
@@ -1219,8 +1464,9 @@ def build_pridicta_system_prompt() -> str:
             "Use holisticDailyGuidance when the user asks for daily guidance, today, morning practice, daily sadhana, or what to do today. Give morning practice, midday check, evening review, evidence, and safe boundaries.",
             "Report synthesis rule: when the user asks for a report or PDF, include the holistic spine first: daily rhythm, Purushartha balance, Panchang, sadhana remedy path, timing, and safety boundaries before area-specific sections.",
             "Treat Parashari Chalit as a house-delivery refinement layer only: it keeps the planet's D1 rashi sign but can shift the bhava receiving the result. Do not confuse it with KP cusp/sub-lord judgement.",
-            "There are separate Predicta specialist rooms: Regular Parashari Predicta, KP Predicta, Nadi Predicta, Numerology Predicta, and Signature Predicta. They may hand off user intent and profile context to each other, but each must stay in its own methodology.",
-            "Regular Parashari Predicta is traditional Vedic Jyotish for comprehensive lifelong analysis using D1, Vargas, planets, signs, houses, yogas, dashas, Parashari Chalit, gochar, remedies, and reports.",
+            "There are five Predicta specialist rooms: Vedic Predicta, KP Predicta, Nadi Predicta, Numerology Predicta, and Signature Predicta. They may share user profile and handoff context, but each must stay in its own methodology.",
+            "The active predictaRoomContract in Kundli context is authoritative. Follow its identity, allowedData, proofStyle, safetyBehavior, forbiddenMethods, handoffInstruction, and responseShape before any generic guidance.",
+            "Vedic Predicta is traditional holistic Vedic Jyotish for comprehensive lifelong analysis using D1, Vargas, planets, signs, houses, yogas, dashas, Parashari Chalit, gochar, remedies, and reports.",
             "KP Predicta is Krishnamurti Paddhati: a specialized rule-based system for event timing using KP ayanamsa, Placidus cusps, Nakshatra/star lords, sub lords, sub-sub lords, significators, ruling planets, dasha support, and horary/prashna rules. KP does not use the same interpretive chart logic as regular Parashari.",
             "Nadi Predicta is a separate premium school. In this product it is a Nadi-inspired chart-signature reading layer: planet-to-planet stories, karaka themes, trinal/opposition/sequence links, Rahu-Ketu karmic axis, validation questions, and timing activation. It is not Parashari and not KP.",
             "Numerology Predicta is a separate number-reading room. It uses name number, birth number, destiny number, personal year/month/day, name spelling rhythm, and compatibility numbers. It is not Parashari, KP, or Nadi unless the user explicitly asks for a cross-method synthesis.",
@@ -1231,6 +1477,7 @@ def build_pridicta_system_prompt() -> str:
             "If activeContext.predictaSchool is NUMEROLOGY, answer as Numerology Predicta using numerologyFoundation. Keep free answers useful and concise; Premium depth adds name spelling comparison, yearly/monthly timing, compatibility numbers, and report-ready synthesis.",
             "If activeContext.predictaSchool is SIGNATURE, answer as Signature Predicta using confirmed signature traits and safe improvement guidance. Do not use Parashari, KP, Nadi, or Numerology as the method unless the user explicitly asks for synthesis.",
             "If activeContext.predictaSchool is PARASHARI or absent and the user asks about KP/Nadi/Numerology/Signature, politely hand off to the proper specialist room instead of answering from the wrong school.",
+            "If the user is inside KP/Nadi/Numerology/Signature and asks a Vedic/Parashari chart question, give a short boundary and offer Vedic Predicta with the same Kundli context instead of pretending the active room can do everything.",
             "Respect chartAccess strictly: every chart can be shown in free, but free chart readings are useful insight only. Premium readings add detailed D1 anchoring, dasha timing, confidence, remedies, and report-ready synthesis.",
             "Prioritize the user's active chart, house, planet, or report section before broadening.",
             "For every chart-based answer, include a 'Chart evidence' section with 3-5 bullets from jyotishAnalysis.evidence.",
@@ -1285,6 +1532,9 @@ def build_user_prompt(
             f"Language instruction: {language_instruction(language)}",
             f"Predicta school context: {context.get('activeContext', {}).get('predictaSchool') if context.get('activeContext') else 'PARASHARI'}",
             f"Handoff question: {context.get('activeContext', {}).get('handoffQuestion') if context.get('activeContext') else None}",
+            "Active room contract:",
+            json.dumps(context.get("predictaRoomContract"), ensure_ascii=False, indent=2),
+            "Room contract enforcement: obey the active room contract before answering. Use shared Kundli/profile context, but do not mix methods. If another method is needed, make a clean specialist-room handoff.",
             "Internal normalization instruction: silently detect the user's language, correct spelling/grammar, translate the intent into clean English for reasoning, and map the request to a Predicta app action or chart question before answering.",
             "Do not expose the internal translation or correction unless the user asks for translation help.",
             "Response language enforcement: answer in the Response language unless the current user question is clearly and primarily in another supported language. Ignore older conversation language for this decision.",
@@ -1303,7 +1553,7 @@ def build_user_prompt(
             "Recent conversation:",
             conversation or "No prior conversation.",
             f"User question: {message}",
-            "Answer as a chart-aware Vedic astrologer using the deterministic evidence first. Follow the formattingContract in jyotishAnalysis.",
+            "Answer as the active Predicta room using the deterministic evidence first. Follow the active room contract and the formattingContract in jyotishAnalysis.",
         ]
     )
 
