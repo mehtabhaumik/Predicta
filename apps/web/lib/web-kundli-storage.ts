@@ -34,6 +34,18 @@ export type WebKundliStorageGate = {
   signedIn: boolean;
 };
 
+export type SharedWebKundliContextResolution = {
+  chartContext?: ChartContext;
+  kundli?: KundliData;
+  source:
+    | 'active-kundli'
+    | 'birth-summary'
+    | 'explicit-kundli-id'
+    | 'preferred-kundli'
+    | 'saved-kundli'
+    | 'none';
+};
+
 type GenerateKundliOptions = {
   save?: boolean;
 };
@@ -95,9 +107,19 @@ export function loadWebKundliStore(): WebKundliStore {
     stored?.activeKundli ??
     legacyActive ??
     savedKundlis[0];
+  const activeChartContext =
+    stored?.activeChartContext && activeKundli
+      ? {
+          ...stored.activeChartContext,
+          handoffBirthSummary:
+            stored.activeChartContext.handoffBirthSummary ??
+            buildWebKundliBirthSummary(activeKundli),
+          kundliId: stored.activeChartContext.kundliId ?? activeKundli.id,
+        }
+      : stored?.activeChartContext;
 
   return {
-    activeChartContext: stored?.activeChartContext,
+    activeChartContext,
     activeKundli,
     activeKundliId: activeKundli?.id,
     guestSession: stored?.guestSession ?? getOrCreateWebGuestSession(),
@@ -299,13 +321,85 @@ export function resolveWebKundliForContext(
   return store.activeKundli ?? store.savedKundlis[0];
 }
 
+export function resolveSharedWebKundliContext(
+  context?: ChartContext,
+  preferredKundli?: KundliData,
+): SharedWebKundliContextResolution {
+  const store = loadWebKundliStore();
+  const byExplicitId = context?.kundliId
+    ? store.savedKundlis.find(item => item.id === context.kundliId)
+    : undefined;
+  const byPreferred =
+    preferredKundli && store.savedKundlis.find(item => item.id === preferredKundli.id)
+      ? preferredKundli
+      : undefined;
+  const byContext = byExplicitId
+    ? undefined
+    : context
+      ? resolveWebKundliForContext(context)
+      : undefined;
+  const kundli =
+    byExplicitId ??
+    byPreferred ??
+    byContext ??
+    store.activeKundli ??
+    store.savedKundlis[0];
+  const source = byExplicitId
+    ? 'explicit-kundli-id'
+    : byPreferred
+      ? 'preferred-kundli'
+      : byContext && context?.handoffBirthSummary
+        ? 'birth-summary'
+        : byContext
+          ? 'saved-kundli'
+          : store.activeKundli
+            ? 'active-kundli'
+            : store.savedKundlis[0]
+              ? 'saved-kundli'
+              : 'none';
+
+  return {
+    chartContext:
+      context && kundli
+        ? {
+            ...context,
+            handoffBirthSummary:
+              context.handoffBirthSummary ?? buildWebKundliBirthSummary(kundli),
+            kundliId: kundli.id,
+          }
+        : context,
+    kundli,
+    source,
+  };
+}
+
+export function buildWebKundliBirthSummary(kundli: KundliData): string {
+  return [
+    kundli.birthDetails.name,
+    kundli.birthDetails.date,
+    kundli.birthDetails.time,
+    kundli.birthDetails.place,
+  ]
+    .filter(Boolean)
+    .join(' | ');
+}
+
 function saveWebKundliStore(store: WebKundliStore): void {
   const activeKundli =
     store.activeKundli ??
     store.savedKundlis.find(item => item.id === store.activeKundliId) ??
     store.savedKundlis[0];
   const next: WebKundliStore = {
-    activeChartContext: store.activeChartContext,
+    activeChartContext:
+      store.activeChartContext && activeKundli
+        ? {
+            ...store.activeChartContext,
+            handoffBirthSummary:
+              store.activeChartContext.handoffBirthSummary ??
+              buildWebKundliBirthSummary(activeKundli),
+            kundliId: store.activeChartContext.kundliId ?? activeKundli.id,
+          }
+        : store.activeChartContext,
     activeKundli,
     activeKundliId: activeKundli?.id,
     guestSession: store.guestSession ?? getOrCreateWebGuestSession(),

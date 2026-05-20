@@ -6,6 +6,7 @@ import type {
   PredictaSchool,
   TimelineEvent,
 } from '@pridicta/types';
+import { loadWebKundliStore } from './web-kundli-storage';
 
 export type PredictaChatCtaContext = {
   birthTimeDetective?: boolean;
@@ -41,10 +42,12 @@ export type PredictaChatCtaContext = {
 
 export function buildPredictaChatHref(context: PredictaChatCtaContext): string {
   const params = new URLSearchParams();
+  const activeKundliId =
+    context.kundliId ?? context.kundli?.id ?? readActiveKundliId();
 
   setParam(params, 'sourceScreen', context.sourceScreen);
   setParam(params, 'prompt', context.prompt ?? context.selectedSection);
-  setParam(params, 'kundliId', context.kundliId ?? context.kundli?.id);
+  setParam(params, 'kundliId', activeKundliId);
   setParam(params, 'chartName', context.chartName);
   setParam(params, 'chartType', context.chartType);
   setParam(params, 'purpose', context.purpose);
@@ -84,6 +87,18 @@ export function buildPredictaChatHref(context: PredictaChatCtaContext): string {
   setParam(params, 'selectedPredictaWrappedYear', context.selectedPredictaWrappedYear);
 
   return `${getPredictaChatPath(context.school)}?${params.toString()}`;
+}
+
+function readActiveKundliId(): string | undefined {
+  if (typeof window === 'undefined') {
+    return undefined;
+  }
+
+  try {
+    return loadWebKundliStore().activeKundliId;
+  } catch {
+    return undefined;
+  }
 }
 
 function getPredictaChatPath(school: PredictaSchool | undefined): string {
