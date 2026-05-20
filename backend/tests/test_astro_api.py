@@ -203,6 +203,104 @@ def test_ask_pridicta_includes_room_contract_for_each_specialist(monkeypatch):
     assert "do not mix methods" in joined_prompts
 
 
+def test_numerology_predicta_prompt_carries_name_correction_context(monkeypatch):
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+
+    def fake_openai_response(**kwargs):
+        prompt = kwargs["user_prompt"]
+        assert '"focus": "name-correction"' in prompt
+        assert '"currentName": "Aarav Mehta"' in prompt
+        assert '"candidateName": "Arav Mehta"' in prompt
+        assert '"currentNameNumber"' in prompt
+        assert '"candidateNameNumber"' in prompt
+        assert "compare current spelling and candidate spelling" in prompt
+        return "Numbers used\n- Current and candidate spelling were compared."
+
+    monkeypatch.setattr(ai_module, "create_openai_text_response", fake_openai_response)
+    client = TestClient(app)
+    response = client.post(
+        "/ask-pridicta",
+        json={
+            "message": 'Should I change my name to "Arav Mehta"?',
+            "chartContext": {
+                "predictaSchool": "NUMEROLOGY",
+                "sourceScreen": "Numerology Predicta",
+                "handoffQuestion": 'Should I change my name to "Arav Mehta"?',
+            },
+            "kundli": kundli.model_dump(mode="json"),
+            "history": [],
+            "userPlan": "FREE",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.json()["provider"] == "openai"
+
+
+def test_numerology_deterministic_name_correction_uses_candidate_numbers():
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+    request = ai_module.PridictaChatRequest(
+        message='Should I change my name to "Arav Mehta"?',
+        chartContext={
+            "predictaSchool": "NUMEROLOGY",
+            "sourceScreen": "Numerology Predicta",
+            "handoffQuestion": 'Should I change my name to "Arav Mehta"?',
+        },
+        kundli=kundli,
+        history=[],
+        userPlan="FREE",
+    )
+
+    reply = ai_module.build_deterministic_numerology_reply(request)
+
+    assert "Current name: Aarav Mehta gives name number" in reply
+    assert "Suggested spelling: Arav Mehta gives name number" in reply
+    assert "not a guaranteed life fix" in reply
+    assert "do not change legal names from numerology alone" in reply
+
+
+def test_numerology_deterministic_compatibility_requires_partner_dob():
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+    request = ai_module.PridictaChatRequest(
+        message="Check my compatibility with Priya.",
+        chartContext={
+            "predictaSchool": "NUMEROLOGY",
+            "sourceScreen": "Numerology Predicta",
+            "handoffQuestion": "Check my compatibility with Priya.",
+        },
+        kundli=kundli,
+        history=[],
+        userPlan="FREE",
+    )
+
+    reply = ai_module.build_deterministic_numerology_reply(request)
+
+    assert "I will not invent the other person's data" in reply
+    assert "full name and date of birth" in reply
+
+
+def test_numerology_deterministic_compatibility_calculates_supplied_partner():
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+    request = ai_module.PridictaChatRequest(
+        message="Check compatibility with Priya Shah born on 1996-02-24.",
+        chartContext={
+            "predictaSchool": "NUMEROLOGY",
+            "sourceScreen": "Numerology Predicta",
+            "handoffQuestion": "Check compatibility with Priya Shah born on 1996-02-24.",
+        },
+        kundli=kundli,
+        history=[],
+        userPlan="FREE",
+    )
+
+    reply = ai_module.build_deterministic_numerology_reply(request)
+
+    assert "Your numbers: name" in reply
+    assert "Priya Shah:" in reply
+    assert "Compatibility tone:" in reply
+    assert "Care point:" in reply
+
+
 def test_signature_predicta_has_safe_deterministic_boundary():
     kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
     request = ai_module.PridictaChatRequest(

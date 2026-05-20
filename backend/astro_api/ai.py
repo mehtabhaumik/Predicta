@@ -476,11 +476,14 @@ PREDICTA_ROOM_CONTRACTS: Dict[str, Dict[str, Any]] = {
             "personal month",
             "personal day",
             "name spelling rhythm",
+            "current name versus candidate spelling comparison",
             "compatibility numbers when supplied",
         ],
         "proofStyle": [
             "Show the actual numbers used before interpreting.",
             "Separate name expression, birth instinct, destiny direction, and current cycle.",
+            "For name correction, compare current spelling and candidate spelling before advising.",
+            "For compatibility, calculate both people only when partner DOB is supplied; otherwise ask for it.",
             "Do not invent missing name variants or partner data.",
         ],
         "safetyBehavior": [
@@ -607,6 +610,7 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
         jyotish_analysis,
         request.language,
         request.userPlan,
+        request.message,
     )
     room_contract = build_predicta_room_contract(request.chartContext)
     context["predictaRoomContract"] = room_contract
@@ -911,15 +915,83 @@ def build_deterministic_nadi_reply(request: PridictaChatRequest) -> str:
 
 
 def build_deterministic_numerology_reply(request: PridictaChatRequest) -> str:
-    profile = build_numerology_foundation_context(request.kundli)
     question = (
         request.chartContext.handoffQuestion
         if request.chartContext and request.chartContext.handoffQuestion
         else request.message
     )
+    profile = build_numerology_foundation_context(request.kundli, question)
+    question_context = profile.get("questionContext", {})
     proof = "\n".join(f"- {item}" for item in profile["evidence"][:3])
     strengths = ", ".join(profile["strengths"][:4])
     cautions = ", ".join(profile["cautions"][:3])
+    focus = question_context.get("focus")
+
+    if focus == "name-correction" and question_context.get("nameCorrection"):
+        correction = question_context["nameCorrection"]
+        return "\n\n".join(
+            [
+                "Numerology Predicta mode. I will keep this as name-number guidance, not a guaranteed life fix.",
+                f"Your question: {question}",
+                (
+                    f"Current name: {correction['currentName']} gives name number "
+                    f"{correction['currentNameNumber']['root']} "
+                    f"({correction['currentNameNumber']['label']})."
+                ),
+                (
+                    f"Suggested spelling: {correction['candidateName']} gives name number "
+                    f"{correction['candidateNameNumber']['root']} "
+                    f"({correction['candidateNameNumber']['label']})."
+                ),
+                f"Current name tone: {correction['currentMeaning']}",
+                f"Candidate name tone: {correction['candidateMeaning']}",
+                f"How to use this: {correction['recommendation']}",
+                "Safety: do not change legal names from numerology alone. Treat spelling changes as reflective support and test how the name feels in real life.",
+                "Premium depth can compare several spellings, personal year timing, and a report-ready name rhythm map.",
+            ]
+        ).strip()
+
+    if focus == "compatibility":
+        compatibility = question_context.get("compatibility") or question_context
+        if compatibility.get("status") == "needs_partner_data":
+            return "\n\n".join(
+                [
+                    "Numerology Predicta mode. I can do compatibility, but I will not invent the other person's data.",
+                    f"Your question: {question}",
+                    (
+                        f"Your base numbers: name {profile['nameNumber']['root']}, "
+                        f"birth {profile['birthNumber']['root']}, destiny {profile['destinyNumber']['root']}."
+                    ),
+                    "Send the other person's full name and date of birth. Then I can compare name number, birth number, destiny number, and the current personal timing rhythm.",
+                    "Safety: compatibility numbers show pattern fit and friction points. They do not decide a relationship by themselves.",
+                ]
+            ).strip()
+        partner = compatibility.get("partner", {})
+        return "\n\n".join(
+            [
+                "Numerology Predicta mode. I will compare the supplied numbers and keep this as pattern guidance.",
+                f"Your question: {question}",
+                (
+                    f"Your numbers: name {profile['nameNumber']['root']}, "
+                    f"birth {profile['birthNumber']['root']}, destiny {profile['destinyNumber']['root']}."
+                ),
+                (
+                    f"{partner.get('name', 'Partner')}: "
+                    f"birth {partner.get('birthNumber', {}).get('root')}, "
+                    f"destiny {partner.get('destinyNumber', {}).get('root')}"
+                    + (
+                        f", name {partner.get('nameNumber', {}).get('root')}"
+                        if partner.get("nameNumber")
+                        else ""
+                    )
+                    + "."
+                ),
+                f"Compatibility tone: {compatibility.get('tone')}",
+                f"Support: {compatibility.get('support')}",
+                f"Care point: {compatibility.get('care')}",
+                "Best next step: compare communication rhythm and timing before making emotional or family decisions from numbers alone.",
+            ]
+        ).strip()
 
     return "\n\n".join(
         [
@@ -962,13 +1034,21 @@ def build_deterministic_signature_reply(request: PridictaChatRequest) -> str:
     )
 
 
-def build_numerology_foundation_context(kundli: KundliData) -> Dict[str, Any]:
+def build_numerology_foundation_context(
+    kundli: KundliData,
+    message: str = "",
+) -> Dict[str, Any]:
     birth = kundli.birthDetails
     target_date = date.today().isoformat()
     name_number = build_numerology_number(chaldean_name_total(birth.name))
     birth_number = build_numerology_number(int(re.sub(r"\D", "", birth.date[-2:] or "0")))
     destiny_number = build_numerology_number(sum_digits(re.sub(r"\D", "", birth.date)))
     cycles = build_numerology_cycles(birth.date, target_date)
+    question_context = build_numerology_question_context(
+        birth.name,
+        birth.date,
+        message,
+    )
     strengths = unique_ordered(
         name_number["keywords"] + birth_number["keywords"] + destiny_number["keywords"]
     )[:6]
@@ -1010,6 +1090,7 @@ def build_numerology_foundation_context(kundli: KundliData) -> Dict[str, Any]:
         "personalDay": cycles["personalDay"],
         "personalMonth": cycles["personalMonth"],
         "personalYear": cycles["personalYear"],
+        "questionContext": question_context,
         "status": "ready",
         "strengths": strengths,
         "summary": (
@@ -1018,6 +1099,317 @@ def build_numerology_foundation_context(kundli: KundliData) -> Dict[str, Any]:
             f"Today sits in a personal day {cycles['personalDay']['root']} rhythm."
         ),
         "targetDate": target_date,
+    }
+
+
+def build_numerology_question_context(
+    current_name: str,
+    current_birth_date: str,
+    message: str,
+) -> Dict[str, Any]:
+    clean_message = message.strip()
+    if not clean_message:
+        return {"focus": "profile", "status": "ready"}
+
+    if is_numerology_compatibility_question(clean_message):
+        return build_numerology_compatibility_context(
+            current_name,
+            current_birth_date,
+            clean_message,
+        )
+
+    if is_name_correction_question(clean_message):
+        candidate_name = extract_numerology_candidate_name(clean_message)
+        if candidate_name:
+            return {
+                "focus": "name-correction",
+                "status": "ready",
+                "nameCorrection": build_name_correction_context(
+                    current_name,
+                    candidate_name,
+                ),
+            }
+        return {
+            "focus": "name-correction",
+            "status": "needs_candidate_name",
+            "missing": "candidateName",
+            "prompt": "Ask for the spelling or name variant the user wants to compare.",
+        }
+
+    if re.search(
+        r"\b(personal\s+year|personal\s+month|personal\s+day|timing|cycle|today|this year|month)\b",
+        clean_message,
+        re.I,
+    ):
+        return {
+            "focus": "timing",
+            "status": "ready",
+            "timingRule": "Use personalYear, personalMonth, and personalDay before broad advice.",
+        }
+
+    return {"focus": "profile", "status": "ready"}
+
+
+def is_name_correction_question(message: str) -> bool:
+    return bool(
+        re.search(
+            r"\b(name\s+correction|name\s+change|change\s+my\s+name|change\s+name|rename|spelling|spellings?|naam|name\s+number|lucky\s+name)\b",
+            message,
+            re.I,
+        )
+    )
+
+
+def extract_numerology_candidate_name(message: str) -> Optional[str]:
+    quoted = re.findall(r"[\"“']([A-Za-z][A-Za-z .'-]{1,80})[\"”']", message)
+    if quoted:
+        return clean_candidate_name(quoted[-1])
+
+    patterns = [
+        r"(?:change|rename|switch|update)\s+(?:my\s+)?name\s+(?:to|as)\s+([A-Za-z][A-Za-z .'-]{1,80})",
+        r"(?:use|try|compare|check)\s+(?:the\s+)?(?:name|spelling)\s+([A-Za-z][A-Za-z .'-]{1,80})",
+        r"(?:name|spelling|naam)\s*[:=]\s*([A-Za-z][A-Za-z .'-]{1,80})",
+        r"(?:should\s+i\s+use|is)\s+([A-Za-z][A-Za-z .'-]{1,80})\s+(?:a\s+)?(?:good|better|lucky)\s+(?:name|spelling)",
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, message, re.I)
+        if match:
+            return clean_candidate_name(match.group(1))
+    return None
+
+
+def clean_candidate_name(value: str) -> Optional[str]:
+    candidate = re.split(
+        r"\b(for|because|instead|please|pls|dob|date|birth|with|and|or)\b",
+        value.strip(),
+        flags=re.I,
+    )[0].strip(" .,'\"")
+    if len(re.sub(r"[^A-Za-z]", "", candidate)) < 2:
+        return None
+    return " ".join(candidate.split())
+
+
+def build_name_correction_context(
+    current_name: str,
+    candidate_name: str,
+) -> Dict[str, Any]:
+    current_number = build_numerology_number(chaldean_name_total(current_name))
+    candidate_number = build_numerology_number(chaldean_name_total(candidate_name))
+    current_meaning = number_meanings(current_number["root"])["meaning"]
+    candidate_meaning = number_meanings(candidate_number["root"])["meaning"]
+    same_number = current_number["root"] == candidate_number["root"]
+    return {
+        "candidateMeaning": candidate_meaning,
+        "candidateName": candidate_name,
+        "candidateNameNumber": candidate_number,
+        "currentMeaning": current_meaning,
+        "currentName": current_name,
+        "currentNameNumber": current_number,
+        "method": "CHALDEAN_NAME_COMPARISON",
+        "recommendation": (
+            "The spelling changes the compound tone but keeps the same root. Judge the final name by clarity, family use, legal practicality, and how consistently you will use it."
+            if same_number
+            else "The spelling changes the root number, so compare whether the new expression supports the user's actual goal before using it publicly."
+        ),
+        "safetyRule": "No guaranteed outcome, no pressure to change a legal name, and no fear-based name advice.",
+    }
+
+
+def is_numerology_compatibility_question(message: str) -> bool:
+    return bool(
+        re.search(
+            r"\b(compatibility|compatible|match|matching|marriage|relationship|partner|couple|compare)\b",
+            message,
+            re.I,
+        )
+    )
+
+
+def build_numerology_compatibility_context(
+    current_name: str,
+    current_birth_date: str,
+    message: str,
+) -> Dict[str, Any]:
+    partner_date = extract_partner_birth_date(message)
+    partner_name = extract_partner_name(message, partner_date)
+    if not partner_date:
+        return {
+            "focus": "compatibility",
+            "status": "needs_partner_data",
+            "missing": ["partnerBirthDate", "partnerNameOptional"],
+            "prompt": "Ask for the other person's full name and date of birth before comparing compatibility.",
+        }
+
+    user_birth = build_numerology_number(
+        int(re.sub(r"\D", "", current_birth_date[-2:] or "0"))
+    )
+    user_destiny = build_numerology_number(
+        sum_digits(re.sub(r"\D", "", current_birth_date))
+    )
+    partner_birth = build_numerology_number(
+        int(re.sub(r"\D", "", partner_date[-2:] or "0"))
+    )
+    partner_destiny = build_numerology_number(
+        sum_digits(re.sub(r"\D", "", partner_date))
+    )
+    partner_name_number = (
+        build_numerology_number(chaldean_name_total(partner_name))
+        if partner_name
+        else None
+    )
+    fit = numerology_relationship_fit(
+        user_birth["root"],
+        user_destiny["root"],
+        partner_birth["root"],
+        partner_destiny["root"],
+    )
+    return {
+        "focus": "compatibility",
+        "partner": {
+            "birthDate": partner_date,
+            "birthNumber": partner_birth,
+            "destinyNumber": partner_destiny,
+            "name": partner_name or "Partner",
+            "nameNumber": partner_name_number,
+        },
+        "status": "ready",
+        "support": fit["support"],
+        "care": fit["care"],
+        "tone": fit["tone"],
+        "user": {
+            "birthDate": current_birth_date,
+            "birthNumber": user_birth,
+            "destinyNumber": user_destiny,
+            "name": current_name,
+        },
+    }
+
+
+def extract_partner_birth_date(message: str) -> Optional[str]:
+    iso = re.search(
+        r"\b(19\d{2}|20\d{2})-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])\b",
+        message,
+    )
+    if iso:
+        return normalize_date_parts(
+            int(iso.group(1)),
+            int(iso.group(2)),
+            int(iso.group(3)),
+        )
+
+    slash = re.search(
+        r"\b(0?[1-9]|[12]\d|3[01])[-/](0?[1-9]|1[0-2])[-/](19\d{2}|20\d{2})\b",
+        message,
+    )
+    if slash:
+        return normalize_date_parts(
+            int(slash.group(3)),
+            int(slash.group(2)),
+            int(slash.group(1)),
+        )
+
+    month_name = re.search(
+        r"\b(0?[1-9]|[12]\d|3[01])\s+([A-Za-z]{3,9})\s+(19\d{2}|20\d{2})\b",
+        message,
+        re.I,
+    )
+    if month_name:
+        month = MONTHS.get(month_name.group(2).lower())
+        if month:
+            return normalize_date_parts(
+                int(month_name.group(3)),
+                int(month),
+                int(month_name.group(1)),
+            )
+
+    return None
+
+
+def normalize_date_parts(year: int, month: int, day: int) -> Optional[str]:
+    try:
+        parsed = date(year, month, day)
+    except ValueError:
+        return None
+    return parsed.isoformat()
+
+
+def extract_partner_name(message: str, partner_date: Optional[str]) -> Optional[str]:
+    patterns = [
+        r"(?:with|partner|spouse|wife|husband|boyfriend|girlfriend)\s+([A-Za-z][A-Za-z .'-]{1,60})",
+        r"(?:compatibility\s+with|match\s+with|compare\s+with)\s+([A-Za-z][A-Za-z .'-]{1,60})",
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, message, re.I)
+        if match:
+            name = clean_partner_name(match.group(1), partner_date)
+            if name:
+                return name
+    quoted = re.findall(r"[\"“']([A-Za-z][A-Za-z .'-]{1,60})[\"”']", message)
+    if quoted:
+        return clean_partner_name(quoted[-1], partner_date)
+    return None
+
+
+def clean_partner_name(value: str, partner_date: Optional[str]) -> Optional[str]:
+    candidate = value
+    if partner_date:
+        candidate = candidate.replace(partner_date, "")
+    candidate = re.split(
+        r"\b(dob|date|born|birth|on|and|for|compatibility|match|please|pls)\b",
+        candidate.strip(),
+        flags=re.I,
+    )[0].strip(" .,'\"")
+    candidate = " ".join(candidate.split())
+    if len(re.sub(r"[^A-Za-z]", "", candidate)) < 2:
+        return None
+    return candidate
+
+
+def numerology_relationship_fit(
+    user_birth: int,
+    user_destiny: int,
+    partner_birth: int,
+    partner_destiny: int,
+) -> Dict[str, str]:
+    supportive_pairs = {
+        tuple(sorted(pair))
+        for pair in [
+            (1, 3),
+            (1, 5),
+            (2, 6),
+            (2, 9),
+            (3, 6),
+            (4, 8),
+            (5, 7),
+            (6, 9),
+            (7, 9),
+        ]
+    }
+    shared = user_birth == partner_birth or user_destiny == partner_destiny
+    birth_pair = tuple(sorted((user_birth, partner_birth)))
+    destiny_pair = tuple(sorted((user_destiny, partner_destiny)))
+    support_count = (
+        int(shared)
+        + int(birth_pair in supportive_pairs)
+        + int(destiny_pair in supportive_pairs)
+    )
+
+    if support_count >= 2:
+        return {
+            "care": "Still watch daily communication style; good number fit does not replace maturity.",
+            "support": "The birth and destiny numbers show natural resonance in at least two places.",
+            "tone": "supportive",
+        }
+    if support_count == 1:
+        return {
+            "care": "One layer supports the match, while another may need patience and clear expectations.",
+            "support": "There is at least one natural bridge between instinct, destiny, or timing rhythm.",
+            "tone": "mixed but workable",
+        }
+    return {
+        "care": "The numbers may need conscious effort around pace, expectations, and emotional language.",
+        "support": "Different numbers can still work when both people respect each other's rhythm.",
+        "tone": "requires conscious effort",
     }
 
 
@@ -1474,7 +1866,7 @@ def build_pridicta_system_prompt() -> str:
             "Nadi Predicta must never claim palm-leaf manuscript access, ancient leaf certainty, or lineage-specific records. It can explain that Premium Nadi uses respectful Nadi-style pattern reading from the verified birth chart.",
             "If activeContext.predictaSchool is KP, answer as KP Predicta and use the original handoff question plus active birth profile. Do not casually mix Parashari D1/Varga/Yoga logic unless clearly explaining a boundary.",
             "If activeContext.predictaSchool is NADI, answer as Nadi Predicta using nadiJyotishPlan. Ask validation questions before strong event statements. Do not use Parashari yoga/dasha or KP sub-lord rules as the method, and do not fake palm-leaf access.",
-            "If activeContext.predictaSchool is NUMEROLOGY, answer as Numerology Predicta using numerologyFoundation. Keep free answers useful and concise; Premium depth adds name spelling comparison, yearly/monthly timing, compatibility numbers, and report-ready synthesis.",
+            "If activeContext.predictaSchool is NUMEROLOGY, answer as Numerology Predicta using numerologyFoundation and its questionContext first. For name correction, compare the supplied spelling against the current name number. For compatibility, use the supplied partner name/DOB or ask for missing partner data. Keep free answers useful and concise; Premium depth adds multiple spelling comparisons, yearly/monthly timing, compatibility numbers, and report-ready synthesis.",
             "If activeContext.predictaSchool is SIGNATURE, answer as Signature Predicta using confirmed signature traits and safe improvement guidance. Do not use Parashari, KP, Nadi, or Numerology as the method unless the user explicitly asks for synthesis.",
             "If activeContext.predictaSchool is PARASHARI or absent and the user asks about KP/Nadi/Numerology/Signature, politely hand off to the proper specialist room instead of answering from the wrong school.",
             "If the user is inside KP/Nadi/Numerology/Signature and asks a Vedic/Parashari chart question, give a short boundary and offer Vedic Predicta with the same Kundli context instead of pretending the active room can do everything.",
@@ -3411,6 +3803,7 @@ def build_ai_context(
     jyotish_analysis: Any,
     language: str,
     user_plan: str,
+    message: str = "",
 ) -> Dict[str, Any]:
     allowed_charts = allowed_context_charts(user_plan, chart_context)
     selected_chart = None
@@ -3592,7 +3985,7 @@ def build_ai_context(
             user_plan,
             chart_context,
         ),
-        "numerologyFoundation": build_numerology_foundation_context(kundli),
+        "numerologyFoundation": build_numerology_foundation_context(kundli, message),
         "chalitBhavKpFoundation": build_chalit_bhav_kp_context(
             kundli,
             user_plan,
