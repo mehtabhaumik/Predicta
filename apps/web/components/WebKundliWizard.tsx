@@ -1019,6 +1019,7 @@ function KundliCreationReveal({
       </div>
       <div className="kundli-created-chart-full">
         <WebKundliChart
+          animationSurface="creation"
           birthDetails={birthDetails}
           centerLabel="Created Kundli"
           chart={chart}

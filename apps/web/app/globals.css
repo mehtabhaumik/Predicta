@@ -2687,6 +2687,7 @@ button:disabled {
 
 .kundli-created-chart-full {
   display: block;
+  min-width: 0;
   width: 100%;
 }
 
@@ -2695,9 +2696,50 @@ button:disabled {
   padding: 0;
 }
 
+.kundli-created-chart-full .jyotish-chart-toolbar {
+  animation: kundliCreationCopyReveal 360ms ease-out both;
+  animation-delay: 120ms;
+}
+
+.kundli-created-chart-full .north-chart[data-kundli-animation-surface='creation'] {
+  animation: kundliCreationBoardReveal 420ms ease-out both;
+  min-height: clamp(360px, 66vw, 820px);
+}
+
+.kundli-created-chart-full .chart-insight-panel,
+.kundli-created-chart-full .chart-drilldown,
+.kundli-created-chart-full .moon-nakshatra-strip {
+  animation: kundliCreationCopyReveal 320ms ease-out both;
+  animation-delay: 1.34s;
+}
+
+.kundli-created-chart-full .chart-legend[data-kundli-animation-surface='creation'] {
+  animation-delay: 1.52s;
+}
+
 .kundli-creation-reveal p {
   color: var(--muted);
   line-height: 1.5;
+}
+
+@media (max-width: 560px) {
+  .kundli-creation-reveal {
+    padding-inline: 0;
+  }
+
+  .kundli-creation-copy,
+  .kundli-created-chart-full .jyotish-chart-toolbar,
+  .kundli-created-chart-full .chart-legend,
+  .kundli-created-chart-full .moon-nakshatra-strip,
+  .kundli-created-chart-full .chart-insight-panel,
+  .kundli-created-chart-full .chart-drilldown {
+    margin-inline: 16px;
+  }
+
+  .kundli-created-chart-full .north-chart[data-kundli-animation-surface='creation'] {
+    border-left: 0;
+    border-right: 0;
+  }
 }
 
 .animated-kundli-board {
@@ -13669,6 +13711,37 @@ button:disabled {
   }
 }
 
+@keyframes kundliCreationBoardReveal {
+  from {
+    opacity: 0;
+    filter: saturate(0.92) brightness(0.96);
+  }
+  to {
+    opacity: 1;
+    filter: saturate(1) brightness(1);
+  }
+}
+
+@keyframes kundliCreationCopyReveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes kundliCreationFocusReveal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 [data-kundli-animation='true'] .north-chart-lines path {
   animation:
     kundliLineDraw var(--kundli-line-draw-duration, 620ms) ease-out both,
@@ -13703,6 +13776,10 @@ button:disabled {
   animation-delay: var(--kundli-planet-reveal-delay, var(--kundli-planet-delay, 620ms)) !important;
 }
 
+[data-kundli-animation='true'][data-kundli-animation-surface='creation'] [data-kundli-animation-part='planet'] {
+  animation-duration: 520ms !important;
+}
+
 [data-kundli-animation='true'] [data-kundli-animation-part='planet']:nth-child(2) {
   animation-name: planetSoftCollision !important;
 }
@@ -13716,6 +13793,11 @@ button:disabled {
   animation-delay: var(--kundli-marker-delay, 720ms);
 }
 
+[data-kundli-animation='true'][data-kundli-animation-surface='creation'] .north-house-state.selected {
+  animation: kundliCreationFocusReveal 260ms ease-out both;
+  animation-delay: calc(var(--kundli-marker-delay, 920ms) + 420ms);
+}
+
 [data-kundli-animation='true'] .planet-status-mark.retrograde {
   animation:
     kundliMarkerReveal 220ms ease-out both,
@@ -13726,6 +13808,11 @@ button:disabled {
 .chart-legend[data-kundli-animation-part='legend'] {
   animation: kundliLegendReveal 300ms ease-out both;
   animation-delay: calc(var(--kundli-marker-delay, 720ms) + 180ms);
+}
+
+[data-kundli-animation-surface='creation'] + .chart-legend[data-kundli-animation-part='legend'],
+.chart-legend[data-kundli-animation-surface='creation'] {
+  animation-delay: calc(var(--kundli-marker-delay, 920ms) + 360ms);
 }
 
 @keyframes kundliSignReveal {

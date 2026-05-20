@@ -47,6 +47,7 @@ import { PlanetGlyph } from './PlanetGlyph';
 import { StatusPill } from './StatusPill';
 
 type WebKundliChartProps = {
+  animationSurface?: KundliAnimationSurface;
   birthDetails?: BirthDetails;
   chart: ChartData;
   centerLabel?: string;
@@ -60,6 +61,7 @@ type WebKundliChartProps = {
 };
 
 export function WebKundliChart({
+  animationSurface = 'standard',
   birthDetails,
   chart,
   centerLabel,
@@ -157,12 +159,12 @@ export function WebKundliChart({
         className="north-chart"
         data-chart-school={renderModel.school.toLowerCase()}
         data-chart-theme={renderModel.theme}
-        {...getKundliAnimationSurfaceProps('standard')}
+        {...getKundliAnimationSurfaceProps(animationSurface)}
         aria-label={`${renderModel.displayChartName} North Indian chart`}
         aria-describedby={chartInstructionsId}
-        key={chart.chartType}
+        key={`${chart.chartType}-${animationSurface}`}
       >
-        <NorthIndianChartLines surface="standard" />
+        <NorthIndianChartLines surface={animationSurface} />
         <svg
           aria-hidden
           className="north-house-state-map"
@@ -209,7 +211,7 @@ export function WebKundliChart({
             key={`${cell.key}-label`}
             style={{
               ['--chart-cell-index' as string]: index,
-              ...getKundliAnimationStyle(index, 'signs', 'standard'),
+              ...getKundliAnimationStyle(index, 'signs', animationSurface),
               ['--house-x' as string]: `${cell.x}%`,
               ['--house-y' as string]: `${cell.y}%`,
             } as CSSProperties}
@@ -230,7 +232,7 @@ export function WebKundliChart({
                 {cell.renderPlanets.map((planet, planetIndex) => (
                   <PlanetGlyph
                     animationIndex={planetIndex}
-                    animationSurface="standard"
+                    animationSurface={animationSurface}
                     key={planet.key}
                     moonPhase={renderModel.moonPhase}
                     planet={planet}
@@ -256,7 +258,7 @@ export function WebKundliChart({
       </div>
 
       <ChartLegend
-        animationSurface="standard"
+        animationSurface={animationSurface}
         items={renderModel.legend}
         language={appLanguage}
       />
@@ -875,6 +877,7 @@ export function ChartLegend({
       aria-label={translateUiText('Chart legend', language)}
       data-kundli-animation-part="legend"
       data-kundli-animation-surface={animationSurface}
+      style={getKundliAnimationSurfaceProps(animationSurface).style}
     >
       {items.map(item => (
         <span className={`chart-legend-item ${item.tone}`} key={item.code}>
