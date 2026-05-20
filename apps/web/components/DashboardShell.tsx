@@ -283,6 +283,15 @@ export function DashboardShell({
               }),
             )}
           </nav>
+          <button
+            aria-expanded={menuOpen}
+            className="dashboard-mobile-current-section"
+            onClick={() => setMenuOpen(current => !current)}
+            type="button"
+          >
+            <span>{shellLabels.groups.sections}</span>
+            <strong>{activeSection.label}</strong>
+          </button>
           <div className="dashboard-topbar-actions">
             <WebLanguageSelector compact />
             <Link
@@ -339,6 +348,9 @@ export function DashboardShell({
                 >
                   {shellLabels.actions.close}
                 </button>
+              </div>
+              <div className="dashboard-mobile-language">
+                <WebLanguageSelector compact />
               </div>
               <nav aria-label="Dashboard menu links">
                 <div className="dashboard-mobile-nav-section">
