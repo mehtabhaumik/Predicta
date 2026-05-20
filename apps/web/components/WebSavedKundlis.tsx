@@ -351,15 +351,26 @@ function MiniKundliPreview({
       {model.cells.map(cell => (
         <div
           className="kundli-library-mini-cell"
+          data-density={cell.labelDensity}
           key={`${school}-${cell.key}`}
           style={{
             ['--house-x' as string]: `${cell.x}%`,
             ['--house-y' as string]: `${cell.y}%`,
           } as CSSProperties}
         >
-          <span>{cell.signNumber}</span>
+          <span className="kundli-library-mini-sign">{cell.signNumber}</span>
           {cell.renderPlanets.length ? (
-            <i>{cell.renderPlanets.length}</i>
+            <div className="kundli-library-mini-planets">
+              {cell.renderPlanets.slice(0, 3).map(planet => (
+                <b key={planet.key} title={planet.displayLabel}>
+                  {planet.displayAbbreviation} {planet.degreeLabel}
+                  {planet.status.retrograde ? <i>R</i> : null}
+                </b>
+              ))}
+              {cell.renderPlanets.length > 3 ? (
+                <em>+{cell.renderPlanets.length - 3}</em>
+              ) : null}
+            </div>
           ) : null}
         </div>
       ))}
