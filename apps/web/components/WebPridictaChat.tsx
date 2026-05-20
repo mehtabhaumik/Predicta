@@ -76,7 +76,11 @@ import {
   extractBirthDetailsFromWeb,
   getWebSafetyIdentifier,
 } from '../lib/pridicta-ai';
-import { saveWebAutoSaveMemory } from '../lib/web-auto-save-memory';
+import {
+  hydrateWebSpecialistContextSync,
+  saveWebAutoSaveMemory,
+  saveWebSpecialistPredictaContext,
+} from '../lib/web-auto-save-memory';
 import {
   canCreateAdditionalWebKundli,
   generateKundliFromWeb,
@@ -440,11 +444,24 @@ export function WebPridictaChat({
       return;
     }
 
-    const recoveredKundli = recoverActiveKundli(activeChartContext);
+    const synced = syncSpecialistContext(activeChartContext, kundli);
+    const recoveredKundli = synced.kundli;
+    const nextContext = synced.context ?? activeChartContext;
     if (recoveredKundli) {
+      if (recoveredKundli.id !== kundli?.id) {
+        setKundli(recoveredKundli);
+      }
       setSavedKundlis(loadWebKundliStore().savedKundlis);
     }
-    saveWebActiveChartContext(activeChartContext);
+    if (
+      nextContext.kundliId !== activeChartContext.kundliId ||
+      nextContext.specialistContexts?.length !==
+        activeChartContext.specialistContexts?.length
+    ) {
+      setActiveChartContext(nextContext);
+    }
+    saveWebActiveChartContext(nextContext);
+    saveWebSpecialistPredictaContext(nextContext, recoveredKundli);
   }, [activeChartContext, kundli?.id]);
 
   useEffect(() => {
@@ -549,22 +566,77 @@ export function WebPridictaChat({
   function recoverActiveKundli(
     context = activeChartContext,
   ): KundliData | undefined {
-    const shared = resolveSharedWebKundliContext(context, kundli);
+    const shared = resolveSharedWebKundliContext(
+      normalizeContextForRoom(context),
+      kundli,
+    );
     const recovered = shared.kundli;
+    const syncedContext = hydrateWebSpecialistContextSync(
+      shared.chartContext,
+      recovered,
+    );
 
     if (recovered && recovered.id !== kundli?.id) {
       setKundli(recovered);
     }
     if (
-      shared.chartContext &&
-      shared.chartContext.kundliId &&
-      shared.chartContext.kundliId !== context?.kundliId
+      syncedContext &&
+      syncedContext.kundliId &&
+      syncedContext.kundliId !== context?.kundliId
     ) {
-      setActiveChartContext(shared.chartContext);
-      saveWebActiveChartContext(shared.chartContext);
+      persistActiveChatContext(syncedContext, recovered);
     }
 
     return recovered;
+  }
+
+  function normalizeContextForRoom(
+    context: ChartContext | undefined,
+  ): ChartContext | undefined {
+    if (!context || context.predictaSchool || !room?.school) {
+      return context;
+    }
+
+    return {
+      ...context,
+      predictaSchool: room.school,
+    };
+  }
+
+  function syncSpecialistContext(
+    context: ChartContext | undefined,
+    preferredKundli?: KundliData,
+  ): {
+    context?: ChartContext;
+    kundli?: KundliData;
+  } {
+    const shared = resolveSharedWebKundliContext(
+      normalizeContextForRoom(context),
+      preferredKundli ?? kundli,
+    );
+    const syncedContext = hydrateWebSpecialistContextSync(
+      shared.chartContext,
+      shared.kundli,
+    );
+
+    return {
+      context: syncedContext,
+      kundli: shared.kundli,
+    };
+  }
+
+  function persistActiveChatContext(
+    context: ChartContext,
+    preferredKundli?: KundliData,
+  ): ChartContext {
+    const synced = syncSpecialistContext(context, preferredKundli);
+    const nextContext = synced.context ?? context;
+
+    setActiveChartContext(nextContext);
+    saveWebActiveChartContext(nextContext);
+    saveWebSpecialistPredictaContext(nextContext, synced.kundli);
+
+    return nextContext;
   }
 
   async function handleReplyFeedback(
@@ -663,9 +735,9 @@ export function WebPridictaChat({
           ...ctaContext,
           selectedSection,
         };
-        const shared = resolveSharedWebKundliContext(baseContext, kundli);
-        const nextContext = shared.chartContext ?? baseContext;
-        const contextKundli = shared.kundli;
+        const synced = syncSpecialistContext(baseContext, kundli);
+        const nextContext = synced.context ?? baseContext;
+        const contextKundli = synced.kundli;
 
         if (contextKundli) {
           setKundli(contextKundli);
@@ -685,8 +757,7 @@ export function WebPridictaChat({
           },
         );
 
-        setActiveChartContext(nextContext);
-        saveWebActiveChartContext(nextContext);
+        persistActiveChatContext(nextContext, contextKundli);
         setInput(selectedSection);
         setMessages(current =>
           current.length === 1 && current[0].id === 'welcome'
@@ -961,12 +1032,12 @@ export function WebPridictaChat({
     acknowledgement?: string,
   ) {
     const questionChartContext = resolveChartContextForQuestion(text);
-    const shared = resolveSharedWebKundliContext(
+    const synced = syncSpecialistContext(
       questionChartContext,
       activeKundli,
     );
     const nextQuestionChartContext =
-      shared.chartContext ?? questionChartContext;
+      synced.context ?? questionChartContext;
     const budgetDecision = consumeWebAiBudget('deep_reading', responseLanguage);
     setPassCostDisplay(getWebPassCostDisplay(responseLanguage));
 
@@ -995,11 +1066,8 @@ export function WebPridictaChat({
       responseLanguage,
     );
     setPredictaMemory(nextMemory);
-    if (nextQuestionChartContext !== activeChartContext) {
-      setActiveChartContext(nextQuestionChartContext);
-      if (nextQuestionChartContext) {
-        saveWebActiveChartContext(nextQuestionChartContext);
-      }
+    if (nextQuestionChartContext && nextQuestionChartContext !== activeChartContext) {
+      persistActiveChatContext(nextQuestionChartContext, activeKundli);
     }
     const response = await askPridictaFromWeb({
       history: messages.slice(-MAX_AI_HISTORY_MESSAGES).map(message => ({
@@ -1181,7 +1249,7 @@ export function WebPridictaChat({
 
     const baseContext = chartContextFromChatBlock(block, 'Chat');
     const context =
-      resolveSharedWebKundliContext(baseContext, activeKundli).chartContext ??
+      syncSpecialistContext(baseContext, activeKundli).context ??
       baseContext;
     const nextMemory = learnPredictaInteraction(
       predictaMemory,
@@ -1191,8 +1259,7 @@ export function WebPridictaChat({
       responseLanguage,
     );
     setPredictaMemory(nextMemory);
-    setActiveChartContext(context);
-    saveWebActiveChartContext(context);
+    persistActiveChatContext(context, activeKundli);
 
     return {
       message: {
@@ -1606,8 +1673,7 @@ export function WebPridictaChat({
     persistPredictaReplyLanguage(activeSession.replyLanguage);
     setPredictaMemory(activeSession.predictaMemory);
     setActiveChartContext(
-      resolveSharedWebKundliContext(activeSession.activeChartContext, kundli)
-        .chartContext,
+      syncSpecialistContext(activeSession.activeChartContext, kundli).context,
     );
     setMessages(activeSession.messages.map(sanitizeStoredMessage));
     setInput('');
@@ -1728,10 +1794,9 @@ export function WebPridictaChat({
                     if (block.type === 'chart') {
                       const baseContext = chartContextFromChatBlock(block, 'Chat');
                       const context =
-                        resolveSharedWebKundliContext(baseContext, kundli)
-                          .chartContext ?? baseContext;
-                      setActiveChartContext(context);
-                      saveWebActiveChartContext(context);
+                        syncSpecialistContext(baseContext, kundli).context ??
+                        baseContext;
+                      persistActiveChatContext(context, kundli);
                     }
                     setInput(prompt);
                   }}
@@ -1744,10 +1809,9 @@ export function WebPridictaChat({
                   onUseSuggestion={suggestion => {
                     if (suggestion.context) {
                       const sharedContext =
-                        resolveSharedWebKundliContext(suggestion.context, kundli)
-                          .chartContext ?? suggestion.context;
-                      setActiveChartContext(sharedContext);
-                      saveWebActiveChartContext(sharedContext);
+                        syncSpecialistContext(suggestion.context, kundli).context ??
+                        suggestion.context;
+                      persistActiveChatContext(sharedContext, kundli);
                     }
                     if (suggestion.href) {
                       window.location.assign(suggestion.href);

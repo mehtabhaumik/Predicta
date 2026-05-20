@@ -1685,6 +1685,7 @@ export type ChartContext = {
   handoffQuestion?: string;
   kundliId?: string;
   predictaSchool?: PredictaSchool;
+  specialistContexts?: SpecialistPredictaContextSnapshot[];
   purpose?: string;
   selectedPlanet?: string;
   selectedHouse?: number;
@@ -1707,6 +1708,19 @@ export type ChartContext = {
   selectedPredictaWrapped?: boolean;
   selectedPredictaWrappedYear?: number;
   sourceScreen: string;
+};
+
+export type SpecialistPredictaContextSnapshot = {
+  handoffFrom?: PredictaSchool;
+  handoffQuestion?: string;
+  kundliId?: string;
+  school: PredictaSchool;
+  selectedChart?: string;
+  selectedHouse?: number;
+  selectedPlanet?: string;
+  selectedSection?: string;
+  sourceScreen?: string;
+  updatedAt: string;
 };
 
 export type ChatRole = 'user' | 'pridicta';

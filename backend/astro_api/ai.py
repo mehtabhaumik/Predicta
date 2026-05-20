@@ -2409,8 +2409,11 @@ def build_user_prompt(
             json.dumps(context.get("predictaRoomContract"), ensure_ascii=False, indent=2),
             "Discipline handoff context:",
             json.dumps(context.get("disciplineHandoff"), ensure_ascii=False, indent=2),
+            "Synced specialist room context:",
+            json.dumps(context.get("specialistContextSync"), ensure_ascii=False, indent=2),
             "Room contract enforcement: obey the active room contract before answering. Use shared Kundli/profile context, but do not mix methods. If another method is needed, make a clean specialist-room handoff.",
             "Discipline handoff enforcement: if disciplineHandoff.requiresHandoff is true, do not provide the requested analysis in the active room. Hand off to disciplineHandoff.targetRoom and preserve disciplineHandoff.originalQuestion.",
+            "Specialist context sync rule: use synced specialist room context only to preserve the user's last focus and handoff continuity. Do not borrow another room's method unless the user explicitly asks for synthesis.",
             "Internal normalization instruction: silently detect the user's language, correct spelling/grammar, translate the intent into clean English for reasoning, and map the request to a Predicta app action or chart question before answering.",
             "Do not expose the internal translation or correction unless the user asks for translation help.",
             "Response language enforcement: answer in the Response language unless the current user question is clearly and primarily in another supported language. Ignore older conversation language for this decision.",
@@ -4408,6 +4411,10 @@ def build_ai_context(
     return {
         "activeContext": chart_context.model_dump() if chart_context else None,
         "disciplineHandoff": discipline_handoff,
+        "specialistContextSync": [
+            item.model_dump()
+            for item in (chart_context.specialistContexts if chart_context else [])
+        ],
         "requestedLanguage": language,
         "chartAccess": {
             "userPlan": user_plan,

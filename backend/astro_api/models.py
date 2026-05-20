@@ -327,6 +327,19 @@ class KundliData(BaseModel):
     calculationMeta: CalculationMeta
 
 
+class SpecialistPredictaContextSnapshot(BaseModel):
+    handoffFrom: Optional[str] = None
+    handoffQuestion: Optional[str] = None
+    kundliId: Optional[str] = None
+    school: str
+    selectedChart: Optional[str] = None
+    selectedHouse: Optional[int] = None
+    selectedPlanet: Optional[str] = None
+    selectedSection: Optional[str] = None
+    sourceScreen: Optional[str] = None
+    updatedAt: str
+
+
 class ChartContext(BaseModel):
     chartType: Optional[str] = None
     chartName: Optional[str] = None
@@ -334,6 +347,7 @@ class ChartContext(BaseModel):
     handoffFrom: Optional[str] = None
     handoffQuestion: Optional[str] = None
     predictaSchool: Optional[str] = None
+    specialistContexts: List[SpecialistPredictaContextSnapshot] = Field(default_factory=list)
     purpose: Optional[str] = None
     selectedPlanet: Optional[str] = None
     selectedHouse: Optional[int] = None

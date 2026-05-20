@@ -1,6 +1,12 @@
 'use client';
 
-import type { SupportedLanguage } from '@pridicta/types';
+import type {
+  ChartContext,
+  KundliData,
+  PredictaSchool,
+  SpecialistPredictaContextSnapshot,
+  SupportedLanguage,
+} from '@pridicta/types';
 import { getOrCreateWebGuestSession } from './web-guest-session';
 
 const WEB_AUTO_SAVE_MEMORY_KEY = 'pridicta.webAutoSaveMemory.v1';
@@ -39,6 +45,9 @@ export type WebAutoSaveMemory = {
     updatedAt: string;
   };
   schemaVersion: 1;
+  specialistContexts?: Partial<
+    Record<PredictaSchool, SpecialistPredictaContextSnapshot>
+  >;
   updatedAt: string;
 };
 
@@ -80,6 +89,89 @@ export function saveWebAutoSaveMemory(patch: WebAutoSavePatch): WebAutoSaveMemor
   }
 
   return next;
+}
+
+export function saveWebSpecialistPredictaContext(
+  context: ChartContext | undefined,
+  kundli: KundliData | undefined,
+): WebAutoSaveMemory {
+  const snapshot = buildWebSpecialistPredictaContextSnapshot(context, kundli);
+
+  if (!snapshot) {
+    return loadWebAutoSaveMemory();
+  }
+
+  const current = loadWebAutoSaveMemory();
+
+  return saveWebAutoSaveMemory({
+    specialistContexts: {
+      ...(current.specialistContexts ?? {}),
+      [snapshot.school]: snapshot,
+    },
+  });
+}
+
+export function hydrateWebSpecialistContextSync(
+  context: ChartContext | undefined,
+  kundli: KundliData | undefined,
+): ChartContext | undefined {
+  if (!context) {
+    return context;
+  }
+
+  const currentSnapshot = buildWebSpecialistPredictaContextSnapshot(
+    context,
+    kundli,
+  );
+  const memory = loadWebAutoSaveMemory();
+  const snapshots = Object.values({
+    ...(memory.specialistContexts ?? {}),
+    ...(currentSnapshot ? { [currentSnapshot.school]: currentSnapshot } : {}),
+  })
+    .filter(Boolean)
+    .sort((first, second) => {
+      const firstActive = first.school === context.predictaSchool ? 0 : 1;
+      const secondActive = second.school === context.predictaSchool ? 0 : 1;
+
+      if (firstActive !== secondActive) {
+        return firstActive - secondActive;
+      }
+
+      return (
+        new Date(second.updatedAt).getTime() -
+        new Date(first.updatedAt).getTime()
+      );
+    })
+    .slice(0, 5);
+
+  return {
+    ...context,
+    specialistContexts: snapshots,
+  };
+}
+
+function buildWebSpecialistPredictaContextSnapshot(
+  context: ChartContext | undefined,
+  kundli: KundliData | undefined,
+): SpecialistPredictaContextSnapshot | undefined {
+  const school = context?.predictaSchool;
+
+  if (!school) {
+    return undefined;
+  }
+
+  return {
+    handoffFrom: context.handoffFrom,
+    handoffQuestion: context.handoffQuestion,
+    kundliId: context.kundliId ?? kundli?.id,
+    school,
+    selectedChart: context.chartName ?? context.chartType,
+    selectedHouse: context.selectedHouse,
+    selectedPlanet: context.selectedPlanet,
+    selectedSection: context.selectedSection,
+    sourceScreen: context.sourceScreen,
+    updatedAt: new Date().toISOString(),
+  };
 }
 
 function pickNewestMemory(
