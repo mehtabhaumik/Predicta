@@ -64,6 +64,7 @@ export type PredictaAppActionId =
   | 'sade-sati'
   | 'transit-gochar'
   | 'yearly-horoscope'
+  | 'vedic-handoff'
   | 'wow-radar'
   | 'wrapped';
 
@@ -653,21 +654,7 @@ function resolveSchoolAwareAction(
   }
 
   if (isParashariRoomAction(action)) {
-    if (predictaSchool === 'KP') {
-      return 'kp-predicta';
-    }
-
-    if (predictaSchool === 'NADI') {
-      return 'nadi-predicta';
-    }
-
-    if (predictaSchool === 'NUMEROLOGY') {
-      return 'numerology-predicta';
-    }
-
-    if (predictaSchool === 'SIGNATURE') {
-      return 'signature-predicta';
-    }
+    return 'vedic-handoff';
   }
 
   return action;
@@ -712,6 +699,7 @@ function actionRequiresKundli(action: PredictaAppActionId): boolean {
     'numerology-predicta',
     'signature-handoff',
     'signature-predicta',
+    'vedic-handoff',
     'pricing',
     'saved-kundlis',
   ].includes(action);
@@ -837,6 +825,14 @@ function buildActionText({
       buildSignaturePredictaReply(language, text, hasPremiumAccess),
       insight,
       buildUpsell(language, 'signature-predicta', hasPremiumAccess),
+    ]);
+  }
+
+  if (action === 'vedic-handoff') {
+    return joinSections([
+      intro,
+      vedicHandoffReply(language),
+      insight,
     ]);
   }
 
@@ -2126,6 +2122,30 @@ function signatureHandoffReply(language: SupportedLanguage): string {
     'That belongs to Signature Predicta. I will not casually mix it with Kundli, KP, Nadi, or Numerology methods.',
     'Use “Open Signature Predicta” below. I will carry your question into the signature room.',
     'Signature Predicta reads confirmed visual traits, self-expression patterns, and practical improvement suggestions. It is not identity verification, handwriting forensics, legal proof, medical diagnosis, hiring advice, or a guaranteed prediction.',
+  ].join('\n\n');
+}
+
+function vedicHandoffReply(language: SupportedLanguage): string {
+  if (language === 'hi') {
+    return [
+      'Yeh Vedic Predicta ka chart-reading question hai. Main ise KP, Nadi, Numerology, ya Signature method ke andar mix karke answer nahi dungi.',
+      'Neeche “Vedic Predicta kholo” dabaiye. Main aapka question aur active Kundli Vedic room mein le jaungi.',
+      'Vedic Predicta D1/Rashi, Vargas, dasha, gochar, Parashari Chalit, yogas, remedies, aur holistic timing se answer karegi.',
+    ].join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      'Aa Vedic Predicta no chart-reading question chhe. Hu ene KP, Nadi, Numerology, ke Signature method ma mix kari ne answer nahi aapu.',
+      'Niche “Vedic Predicta kholo” dabavo. Hu tamaro question ane active Kundli Vedic room ma lai jaish.',
+      'Vedic Predicta D1/Rashi, Vargas, dasha, gochar, Parashari Chalit, yogas, remedies ane holistic timing thi jawab aapse.',
+    ].join('\n\n');
+  }
+
+  return [
+    'That belongs to Vedic Predicta. I will not answer a D1, varga, dasha, gochar, or Parashari chart question from the wrong specialist room.',
+    'Use “Open Vedic Predicta” below. I will carry your question and active Kundli into the Vedic room.',
+    'Vedic Predicta reads D1/Rashi, Vargas, dasha, gochar, Parashari Chalit, yogas, remedies, and holistic timing.',
   ].join('\n\n');
 }
 

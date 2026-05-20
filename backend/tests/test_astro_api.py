@@ -200,7 +200,44 @@ def test_ask_pridicta_includes_room_contract_for_each_specialist(monkeypatch):
         assert room_name in joined_prompts
         assert method_marker in joined_prompts
     assert "Active room contract:" in joined_prompts
+    assert "Discipline handoff context:" in joined_prompts
     assert "do not mix methods" in joined_prompts
+    assert '"requiresHandoff": false' in joined_prompts
+
+
+def test_ask_pridicta_carries_discipline_handoff_context(monkeypatch):
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+
+    def fake_openai_response(**kwargs):
+        prompt = kwargs["user_prompt"]
+        assert '"activeSchool": "KP"' in prompt
+        assert '"detectedRequestedSchool": "PARASHARI"' in prompt
+        assert '"requiresHandoff": true' in prompt
+        assert '"targetRoom": "Vedic Predicta"' in prompt
+        assert '"targetRoute": "/dashboard/vedic/chat"' in prompt
+        assert '"originalQuestion": "Show my D9 chart and mahadasha timing."' in prompt
+        assert "do not provide the requested analysis in the active room" in prompt
+        return "This belongs in Vedic Predicta, not inside KP Predicta."
+
+    monkeypatch.setattr(ai_module, "create_openai_text_response", fake_openai_response)
+    client = TestClient(app)
+    response = client.post(
+        "/ask-pridicta",
+        json={
+            "message": "Show my D9 chart and mahadasha timing.",
+            "chartContext": {
+                "predictaSchool": "KP",
+                "sourceScreen": "KP Predicta",
+                "handoffQuestion": "Show my D9 chart and mahadasha timing.",
+            },
+            "kundli": kundli.model_dump(mode="json"),
+            "history": [],
+            "userPlan": "FREE",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.json()["text"].startswith("This belongs in Vedic Predicta")
 
 
 def test_numerology_predicta_prompt_carries_name_correction_context(monkeypatch):

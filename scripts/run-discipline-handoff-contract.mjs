@@ -78,9 +78,9 @@ try {
     text: 'Show my D9 chart and mahadasha timing.',
   });
   assert.equal(kpRoomParashariTrigger.handled, true);
-  assert.equal(kpRoomParashariTrigger.action, 'kp-predicta');
-  assert.notEqual(kpRoomParashariTrigger.action, 'chart');
-  assert.notEqual(kpRoomParashariTrigger.action, 'mahadasha');
+  assert.equal(kpRoomParashariTrigger.action, 'vedic-handoff');
+  assert.match(kpRoomParashariTrigger.text, /belongs to Vedic Predicta/i);
+  assert.match(kpRoomParashariTrigger.text, /will carry your question and active Kundli/i);
 
   const parashariToNadi = buildPredictaActionReply({
     language: 'en',
@@ -107,8 +107,8 @@ try {
     text: 'Show my mahadasha and chart proof.',
   });
   assert.equal(nadiRoomParashariTrigger.handled, true);
-  assert.equal(nadiRoomParashariTrigger.action, 'nadi-predicta');
-  assert.notEqual(nadiRoomParashariTrigger.action, 'mahadasha');
+  assert.equal(nadiRoomParashariTrigger.action, 'vedic-handoff');
+  assert.match(nadiRoomParashariTrigger.text, /wrong specialist room/i);
 
   const numerologyRoomParashariTrigger = buildPredictaActionReply({
     language: 'en',
@@ -116,7 +116,7 @@ try {
     text: 'Show my dasha and chart proof.',
   });
   assert.equal(numerologyRoomParashariTrigger.handled, true);
-  assert.equal(numerologyRoomParashariTrigger.action, 'numerology-predicta');
+  assert.equal(numerologyRoomParashariTrigger.action, 'vedic-handoff');
 
   const signatureRoomParashariTrigger = buildPredictaActionReply({
     language: 'en',
@@ -124,7 +124,7 @@ try {
     text: 'Show my dasha and report.',
   });
   assert.equal(signatureRoomParashariTrigger.handled, true);
-  assert.equal(signatureRoomParashariTrigger.action, 'signature-predicta');
+  assert.equal(signatureRoomParashariTrigger.action, 'vedic-handoff');
 
   const signatureToNumerology = buildPredictaActionReply({
     language: 'en',
@@ -133,6 +133,38 @@ try {
   });
   assert.equal(signatureToNumerology.handled, true);
   assert.equal(signatureToNumerology.action, 'numerology-handoff');
+
+  const numerologyToSignature = buildPredictaActionReply({
+    language: 'en',
+    predictaSchool: 'NUMEROLOGY',
+    text: 'Read my signature improvement from the uploaded sample.',
+  });
+  assert.equal(numerologyToSignature.handled, true);
+  assert.equal(numerologyToSignature.action, 'signature-handoff');
+
+  const kpToNadi = buildPredictaActionReply({
+    language: 'en',
+    predictaSchool: 'KP',
+    text: 'Use Nadi story links for this repeating pattern.',
+  });
+  assert.equal(kpToNadi.handled, true);
+  assert.equal(kpToNadi.action, 'nadi-handoff');
+
+  const nadiToKp = buildPredictaActionReply({
+    language: 'en',
+    predictaSchool: 'NADI',
+    text: 'Use KP sub lord for this job change event.',
+  });
+  assert.equal(nadiToKp.handled, true);
+  assert.equal(nadiToKp.action, 'kp-handoff');
+
+  const parashariOwnMethod = buildPredictaActionReply({
+    language: 'en',
+    predictaSchool: 'PARASHARI',
+    text: 'Read my D1 and mahadasha timing.',
+  });
+  assert.equal(parashariOwnMethod.handled, true);
+  assert.equal(parashariOwnMethod.action, 'mahadasha');
 
   const webChat = await readFile(
     path.join(repoRoot, 'apps/web/components/WebPridictaChat.tsx'),
@@ -155,8 +187,10 @@ try {
   );
   assert.match(backendAi, /Signature Predicta is a separate signature-analysis room/);
   assert.match(backendAi, /If activeContext\.predictaSchool is SIGNATURE/);
+  assert.match(backendAi, /disciplineHandoff\.requiresHandoff is true/);
+  assert.match(backendAi, /build_discipline_handoff_context/);
 
-  console.log('Discipline handoff contract passed: 28 deterministic assertions.');
+  console.log('Discipline handoff contract passed: 42 deterministic assertions.');
 } finally {
   await rm(tempRoot, { force: true, recursive: true });
 }

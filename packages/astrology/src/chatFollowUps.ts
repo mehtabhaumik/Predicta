@@ -138,6 +138,8 @@ export function buildPredictaSchoolHandoffContext({
         ? 'Nadi Predicta'
         : to === 'NUMEROLOGY'
           ? 'Numerology Predicta'
+          : to === 'SIGNATURE'
+            ? 'Signature Predicta'
         : 'Vedic Predicta';
   const sourceName =
     from === 'KP'
@@ -146,6 +148,8 @@ export function buildPredictaSchoolHandoffContext({
         ? 'Nadi Predicta'
         : from === 'NUMEROLOGY'
           ? 'Numerology Predicta'
+          : from === 'SIGNATURE'
+            ? 'Signature Predicta'
         : 'Vedic Predicta';
   const birthSummary = kundli
     ? [
@@ -174,6 +178,8 @@ export function buildPredictaSchoolHandoffContext({
           ? 'Stay in Nadi Predicta reading space. Use Nadi-style planetary story links, karakas, validation questions, and timing activation only. Do not mix Parashari or KP, and do not claim palm-leaf manuscript access.'
           : to === 'NUMEROLOGY'
             ? 'Answer strictly from Numerology Predicta: name number, birth number, destiny number, personal year/month/day, name spelling rhythm, and compatibility numbers. Do not mix Parashari, KP, or Nadi unless the user explicitly asks for synthesis.'
+            : to === 'SIGNATURE'
+              ? 'Answer strictly from Signature Predicta: confirmed visual traits, writing rhythm, confidence expression, consistency, improvement suggestions, and safe reflection. Do not use Parashari, KP, Nadi, or Numerology unless the user explicitly asks for synthesis.'
           : 'Answer strictly from regular Parashari Jyotish: D1, Vargas, dasha, yogas, Parashari Chalit, gochar, remedies, and reports. Do not use KP/Nadi methods unless the user requests handoff.',
     ]
       .filter(Boolean)

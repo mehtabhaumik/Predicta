@@ -552,6 +552,73 @@ PREDICTA_ROOM_CONTRACTS: Dict[str, Dict[str, Any]] = {
     },
 }
 
+PREDICTA_ROOM_ROUTES: Dict[str, str] = {
+    "PARASHARI": "/dashboard/vedic/chat",
+    "KP": "/dashboard/kp/chat",
+    "NADI": "/dashboard/nadi/chat",
+    "NUMEROLOGY": "/dashboard/numerology/chat",
+    "SIGNATURE": "/dashboard/signature/chat",
+}
+
+PREDICTA_ROOM_LABELS: Dict[str, str] = {
+    "PARASHARI": "Vedic Predicta",
+    "KP": "KP Predicta",
+    "NADI": "Nadi Predicta",
+    "NUMEROLOGY": "Numerology Predicta",
+    "SIGNATURE": "Signature Predicta",
+}
+
+DISCIPLINE_DETECTION_PATTERNS: Dict[str, List[re.Pattern[str]]] = {
+    "KP": [
+        re.compile(pattern, re.I)
+        for pattern in [
+            r"\bkp\b",
+            r"krishnamurti|krishnamurthy|paddhati",
+            r"cuspal\s*sub|sub\s*lord|sublord|significator|ruling\s*planet",
+            r"\bhorary\b|\bprashna\b|\b249\b",
+        ]
+    ],
+    "NADI": [
+        re.compile(pattern, re.I)
+        for pattern in [
+            r"\bnadi\b|\bnaadi\b",
+            r"planet(?:ary)?\s*story|story\s*link|karaka\s*theme|karmic\s*axis",
+            r"palm\s*leaf|agastya",
+        ]
+    ],
+    "NUMEROLOGY": [
+        re.compile(pattern, re.I)
+        for pattern in [
+            r"numerology|ank\s*jyotish|ankjyotish|ank\s*shastra",
+            r"name\s*number|birth\s*number|destiny\s*number|life\s*path",
+            r"personal\s*(year|month|day)|moolank|mulank|bhagyank|naam\s*ank",
+            r"name\s*correction|name\s*vibration|number\s*reading",
+        ]
+    ],
+    "SIGNATURE": [
+        re.compile(pattern, re.I)
+        for pattern in [
+            r"signature|autograph|hastakshar|sahi",
+            r"handwriting\s*signature|signature\s*analysis|signature\s*reading",
+            r"signature\s*improvement|signature\s*change",
+        ]
+    ],
+    "PARASHARI": [
+        re.compile(pattern, re.I)
+        for pattern in [
+            r"\bvedic\b|parashari|parashara|jyotish",
+            r"\bd1\b|rashi|kundli|horoscope|lagna|varga|d9|d10",
+            r"mahadasha|antar\s*dasha|vimshottari|gochar|transit|sade\s*sati",
+            r"yoga|dosha|nakshatra|pada|parashari\s*chalit|chart\s*proof",
+        ]
+    ],
+}
+
+DISCIPLINE_SYNTHESIS_PATTERN = re.compile(
+    r"\b(compare|comparison|synthesis|synthesise|synthesize|combine|cross[-\s]?check|together|both|all\s+methods)\b",
+    re.I,
+)
+
 
 class AIConfigurationError(RuntimeError):
     pass
@@ -585,6 +652,92 @@ def build_predicta_room_contract(
             "and hand off instead of mixing methods."
         ),
     }
+
+
+def detect_requested_predicta_school(message: str) -> Optional[str]:
+    if not message or DISCIPLINE_SYNTHESIS_PATTERN.search(message):
+        return None
+
+    for school in ["KP", "NADI", "NUMEROLOGY", "SIGNATURE", "PARASHARI"]:
+        if any(pattern.search(message) for pattern in DISCIPLINE_DETECTION_PATTERNS[school]):
+            return school
+
+    return None
+
+
+def build_discipline_handoff_context(
+    chart_context: Optional[ChartContext],
+    message: str,
+) -> Dict[str, Any]:
+    active_school = normalize_predicta_school(chart_context)
+    requested_school = detect_requested_predicta_school(message)
+    original_question = (
+        chart_context.handoffQuestion
+        if chart_context and chart_context.handoffQuestion
+        else message
+    )
+    requires_handoff = bool(
+        requested_school and requested_school != active_school
+    )
+
+    target_school = requested_school if requires_handoff else active_school
+
+    return {
+        "activeSchool": active_school,
+        "activeRoom": PREDICTA_ROOM_LABELS[active_school],
+        "detectedRequestedSchool": requested_school,
+        "requiresHandoff": requires_handoff,
+        "targetSchool": target_school,
+        "targetRoom": PREDICTA_ROOM_LABELS[target_school],
+        "targetRoute": PREDICTA_ROOM_ROUTES[target_school],
+        "originalQuestion": original_question,
+        "rule": (
+            "If requiresHandoff is true, do not answer with the active room's method. "
+            "Give a short boundary, preserve the original question, and send the user "
+            "to targetRoom with the same profile/Kundli context."
+        ),
+    }
+
+
+def build_deterministic_discipline_handoff_reply(
+    handoff: Dict[str, Any],
+    language: str,
+) -> str:
+    if not handoff.get("requiresHandoff"):
+        return ""
+
+    active_room = handoff["activeRoom"]
+    target_room = handoff["targetRoom"]
+    route = handoff["targetRoute"]
+    question = handoff["originalQuestion"]
+
+    if language == "hi":
+        return "\n\n".join(
+            [
+                f"Yeh sawaal {target_room} ke liye zyada sahi hai, {active_room} ke andar mix karke answer nahi karna chahiye.",
+                f"Original question: {question}",
+                f"Open {target_room}: {route}",
+                "Main same Kundli/profile context carry karungi, lekin method alag rakha jayega.",
+            ]
+        )
+    if language == "gu":
+        return "\n\n".join(
+            [
+                f"Aa sawal {target_room} mate vadhare sacho chhe; {active_room} ma mix kari ne answer karvu nathi.",
+                f"Original question: {question}",
+                f"Open {target_room}: {route}",
+                "Hu same Kundli/profile context carry karish, pan method alag rahe.",
+            ]
+        )
+
+    return "\n\n".join(
+        [
+            f"This belongs in {target_room}, not inside {active_room}.",
+            f"Original question: {question}",
+            f"Open {target_room}: {route}",
+            "I will carry the same Kundli/profile context, but the method will stay separate.",
+        ]
+    )
 
 
 def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
@@ -738,6 +891,13 @@ def build_deterministic_chart_reply(
     request: PridictaChatRequest,
     analysis: JyotishAnalysis,
 ) -> str:
+    handoff = build_discipline_handoff_context(request.chartContext, request.message)
+    if handoff.get("requiresHandoff"):
+        return build_deterministic_discipline_handoff_reply(
+            handoff,
+            request.language,
+        )
+
     school = (
         request.chartContext.predictaSchool.upper()
         if request.chartContext and request.chartContext.predictaSchool
@@ -2189,6 +2349,7 @@ def build_pridicta_system_prompt() -> str:
             "If activeContext.predictaSchool is SIGNATURE, answer as Signature Predicta using signatureAnalysis first. If confirmed traits are present, include traits observed, writing rhythm, confidence expression, consistency, practical improvement plan, and safety boundary. Do not use Parashari, KP, Nadi, or Numerology as the method unless the user explicitly asks for synthesis.",
             "If activeContext.predictaSchool is PARASHARI or absent and the user asks about KP/Nadi/Numerology/Signature, politely hand off to the proper specialist room instead of answering from the wrong school.",
             "If the user is inside KP/Nadi/Numerology/Signature and asks a Vedic/Parashari chart question, give a short boundary and offer Vedic Predicta with the same Kundli context instead of pretending the active room can do everything.",
+            "The disciplineHandoff context is authoritative for cross-room requests. If disciplineHandoff.requiresHandoff is true, do not answer using the active room method. Preserve the original question, name the target room, and hand off cleanly.",
             "Respect chartAccess strictly: every chart can be shown in free, but free chart readings are useful insight only. Premium readings add detailed D1 anchoring, dasha timing, confidence, remedies, and report-ready synthesis.",
             "Prioritize the user's active chart, house, planet, or report section before broadening.",
             "For every chart-based answer, include a 'Chart evidence' section with 3-5 bullets from jyotishAnalysis.evidence.",
@@ -2245,7 +2406,10 @@ def build_user_prompt(
             f"Handoff question: {context.get('activeContext', {}).get('handoffQuestion') if context.get('activeContext') else None}",
             "Active room contract:",
             json.dumps(context.get("predictaRoomContract"), ensure_ascii=False, indent=2),
+            "Discipline handoff context:",
+            json.dumps(context.get("disciplineHandoff"), ensure_ascii=False, indent=2),
             "Room contract enforcement: obey the active room contract before answering. Use shared Kundli/profile context, but do not mix methods. If another method is needed, make a clean specialist-room handoff.",
+            "Discipline handoff enforcement: if disciplineHandoff.requiresHandoff is true, do not provide the requested analysis in the active room. Hand off to disciplineHandoff.targetRoom and preserve disciplineHandoff.originalQuestion.",
             "Internal normalization instruction: silently detect the user's language, correct spelling/grammar, translate the intent into clean English for reasoning, and map the request to a Predicta app action or chart question before answering.",
             "Do not expose the internal translation or correction unless the user asks for translation help.",
             "Response language enforcement: answer in the Response language unless the current user question is clearly and primarily in another supported language. Ignore older conversation language for this decision.",
@@ -4136,6 +4300,7 @@ def build_ai_context(
     selected_relationship_mirror = None
     selected_family_karma_map = None
     selected_predicta_wrapped = None
+    discipline_handoff = build_discipline_handoff_context(chart_context, message)
 
     if (
         chart_context
@@ -4241,6 +4406,7 @@ def build_ai_context(
 
     return {
         "activeContext": chart_context.model_dump() if chart_context else None,
+        "disciplineHandoff": discipline_handoff,
         "requestedLanguage": language,
         "chartAccess": {
             "userPlan": user_plan,
