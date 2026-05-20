@@ -5,6 +5,7 @@ import {
   type PdfChartSnapshot,
   type PdfDecisionWindow,
   type PdfEvidenceRow,
+  type PdfReportFocus,
   type PdfSection,
 } from '@pridicta/pdf';
 
@@ -23,6 +24,7 @@ type GenerateHoroscopePdfInput = {
   kundli: KundliData;
   language?: SupportedLanguage;
   mode: PDFMode;
+  reportFocus?: PdfReportFocus;
   sectionKeys?: string[];
 };
 
@@ -364,10 +366,11 @@ export function buildHoroscopePdfHtml({
   kundli,
   language = 'en',
   mode,
+  reportFocus,
   sectionKeys,
 }: GenerateHoroscopePdfInput): string {
   const logoUri = Image.resolveAssetSource(predictaLogo).uri;
-  const report = composeReportSections({ kundli, language, mode });
+  const report = composeReportSections({ kundli, language, mode, reportFocus });
   const copy = getPdfCopy(report.language);
   const premium = mode === 'PREMIUM';
   const selectedKeySet = sectionKeys?.length ? new Set(sectionKeys) : undefined;
@@ -731,6 +734,7 @@ export async function generateHoroscopePdf({
   kundli,
   language = 'en',
   mode,
+  reportFocus,
   sectionKeys,
 }: GenerateHoroscopePdfInput): Promise<HoroscopePdfResult> {
   const generatedAt = new Date().toISOString();
@@ -741,7 +745,7 @@ export async function generateHoroscopePdf({
     fileName: `pridicta-${
       kundli.birthDetails.name
     }-${mode.toLowerCase()}-${Date.now()}`,
-    html: buildHoroscopePdfHtml({ kundli, language, mode, sectionKeys }),
+    html: buildHoroscopePdfHtml({ kundli, language, mode, reportFocus, sectionKeys }),
     shouldPrintBackgrounds: true,
   });
 

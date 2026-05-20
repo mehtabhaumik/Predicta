@@ -172,8 +172,9 @@ expectIncludes('packages/pdf/src/index.ts', 'rectified birth time disclosure', [
 
 expectIncludes('packages/pdf/src/index.ts', 'free and premium depth boundaries', [
   "if (mode === 'PREMIUM')",
-  'return chartTypes;',
-  "new Set<ChartType>(['D1', 'D9', 'D10'])",
+  'return prioritizeChartTypes(chartTypes, reportFocus);',
+  'function getFreeChartTypesForFocus(',
+  "return ['D1', 'D9', 'D10'];",
   'buildBhavChalitSection',
   'buildKpFoundationSection',
   'buildNadiJyotishPlanSection',

@@ -89,8 +89,9 @@ export function ReportScreen({
         kundli,
         language: reportLanguage,
         mode: previewMode,
+        reportFocus: selectedReportId,
       }),
-    [kundli, previewMode, reportLanguage],
+    [kundli, previewMode, reportLanguage, selectedReportId],
   );
   const sectionOptions = useMemo(
     () =>
@@ -191,6 +192,7 @@ export function ReportScreen({
         kundli,
         language: reportLanguage,
         mode,
+        reportFocus: selectedReportId,
         sectionKeys:
           builderMode === 'CUSTOM' ? selectedSectionKeys : undefined,
       });

@@ -51,6 +51,9 @@ export type ReportMarketplaceProduct = {
   freeDepth: string;
   id:
     | 'KUNDLI'
+    | 'VEDIC'
+    | 'KP'
+    | 'NADI'
     | 'CAREER'
     | 'MARRIAGE'
     | 'WEALTH'
@@ -89,6 +92,48 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
       'Create a complete Kundli report preview with useful insights first, then show what a detailed premium PDF would add.',
     purchaseHint: 'Best first report when you want one complete life overview.',
     title: 'Kundli Report',
+  },
+  {
+    badge: 'Vedic',
+    bestFor: 'Parashari D1, varga charts, dasha, gochar, and remedies in one Vedic report.',
+    freeIncludes: ['D1 proof', 'Key varga preview', 'Current dasha', 'Safe remedy direction'],
+    freeDepth: 'Useful Vedic report from D1, key vargas, dasha, gochar, and remedies.',
+    id: 'VEDIC',
+    outcome: 'Read the chart through Vedic Predicta without mixing other methods.',
+    premiumIncludes: ['Full varga synthesis', 'Dasha and Gochar timing', 'Evidence tables', 'Remedy planning'],
+    premiumDepth: 'Detailed Vedic Predicta report with varga depth, timing windows, and remedy path.',
+    prompt:
+      'Create my Vedic Predicta report using D1, key varga charts, dasha, gochar, remedies, and holistic life balance. Do not mix KP, Nadi, Numerology, or Signature unless I ask.',
+    purchaseHint: 'Best when you want the main Vedic astrology reading with clear chart proof.',
+    title: 'Vedic Predicta Report',
+  },
+  {
+    badge: 'KP',
+    bestFor: 'Event questions, cusp proof, star lord, sub lord, ruling planets, and significators.',
+    freeIncludes: ['KP cusp preview', 'Star/sub-lord proof', 'Event houses', 'Method boundary'],
+    freeDepth: 'Useful KP proof path with cusp and sub-lord focus.',
+    id: 'KP',
+    outcome: 'Judge event questions through KP Predicta without casual Parashari mixing.',
+    premiumIncludes: ['All 12 cusps', 'Significator map', 'Ruling planet support', 'Timing confidence'],
+    premiumDepth: 'Detailed KP Predicta report with cusp chain, significators, ruling planets, and event timing.',
+    prompt:
+      'Create my KP Predicta report using cusps, star lord, sub lord, ruling planets, significators, and event timing. Stay in KP method only.',
+    purchaseHint: 'Best for event-oriented questions like job change, marriage timing, approval, or outcome judgment.',
+    title: 'KP Predicta Report',
+  },
+  {
+    badge: 'Nadi',
+    bestFor: 'Planet story links, karmic patterns, validation questions, and timing triggers.',
+    freeIncludes: ['Story-link preview', 'Karmic theme', 'Validation prompts', 'Safety boundary'],
+    freeDepth: 'Useful Nadi pattern preview from calculated chart links.',
+    id: 'NADI',
+    outcome: 'Read planet-to-planet patterns without fake manuscript claims.',
+    premiumIncludes: ['Pattern sequencing', 'Validation depth', 'Timing triggers', 'Reflection practices'],
+    premiumDepth: 'Detailed Nadi Predicta report with story links, validation, triggers, and reflection path.',
+    prompt:
+      'Create my Nadi Predicta report using planet-to-planet story links, karmic themes, validation questions, and timing triggers. Do not claim palm-leaf manuscript access.',
+    purchaseHint: 'Best when you want karmic pattern reading and repeated life-theme explanation.',
+    title: 'Nadi Predicta Report',
   },
   {
     badge: 'Work',

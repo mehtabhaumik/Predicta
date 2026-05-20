@@ -64,6 +64,21 @@ export type PdfDecisionWindow = {
   evidence: string[];
 };
 
+export type PdfReportFocus =
+  | 'CAREER'
+  | 'COMPATIBILITY'
+  | 'DASHA'
+  | 'KP'
+  | 'KUNDLI'
+  | 'MARRIAGE'
+  | 'NADI'
+  | 'NUMEROLOGY'
+  | 'REMEDIES'
+  | 'SADESATI'
+  | 'SIGNATURE'
+  | 'VEDIC'
+  | 'WEALTH';
+
 export type PdfComposition = {
   chartSnapshots: PdfChartSnapshot[];
   cover: {
@@ -163,25 +178,28 @@ export function composeReportSections({
   kundli,
   language = 'en',
   mode,
+  reportFocus = 'KUNDLI',
   signatureAnalysis,
 }: {
   kundli?: KundliData;
   language?: SupportedLanguage;
   mode: PDFMode;
   decisionMemo?: DecisionMemo;
+  reportFocus?: PdfReportFocus;
   signatureAnalysis?: SignatureAnalysisModel;
 }): PdfComposition {
   if (!kundli) {
     return composeEmptyReport(mode, language);
   }
 
-  const chartTypes = getReportChartTypes(kundli, mode);
+  const chartTypes = getReportChartTypes(kundli, mode, reportFocus);
   const chartSnapshots = buildPdfChartSnapshots(kundli, chartTypes, language);
   const sections = buildReportSectionSet(
     kundli,
     chartTypes,
     mode,
     language,
+    reportFocus,
     decisionMemo,
     signatureAnalysis,
   );
@@ -266,10 +284,18 @@ function buildReportSectionSet(
   chartTypes: ChartType[],
   mode: PDFMode,
   language: SupportedLanguage,
+  reportFocus: PdfReportFocus,
   decisionMemo?: DecisionMemo,
   signatureAnalysis?: SignatureAnalysisModel,
 ): PdfSection[] {
-  const essentialSections = [
+  const focusSections = buildRoomSpecificReportSections(
+    kundli,
+    mode,
+    reportFocus,
+    signatureAnalysis,
+  );
+  const essentialSections = uniqueReportSections([
+    ...focusSections,
     buildExecutiveSummary(kundli, mode),
     buildHolisticReportSynthesisSection(kundli, mode),
     buildBirthAndCalculationSection(kundli),
@@ -283,13 +309,14 @@ function buildReportSectionSet(
     buildGuidanceSection(kundli, mode),
     buildRemedySection(kundli),
     buildLimitationsSection(kundli, mode),
-  ];
+  ]);
 
   if (mode === 'FREE') {
     return essentialSections;
   }
 
-  return [
+  return uniqueReportSections([
+    ...focusSections,
     buildExecutiveSummary(kundli, mode),
     buildHolisticReportSynthesisSection(kundli, mode),
     buildBirthAndCalculationSection(kundli),
@@ -319,7 +346,199 @@ function buildReportSectionSet(
     ...(decisionMemo ? [buildDecisionMemoSection(decisionMemo)] : []),
     buildRemedySection(kundli),
     buildLimitationsSection(kundli, mode),
-  ].filter((section): section is PdfSection => Boolean(section));
+  ].filter((section): section is PdfSection => Boolean(section)));
+}
+
+function uniqueReportSections(sections: PdfSection[]): PdfSection[] {
+  const seen = new Set<string>();
+
+  return sections.filter(section => {
+    const key = `${section.eyebrow}:${section.title}`;
+    if (seen.has(key)) {
+      return false;
+    }
+    seen.add(key);
+    return true;
+  });
+}
+
+function buildRoomSpecificReportSections(
+  kundli: KundliData,
+  mode: PDFMode,
+  reportFocus: PdfReportFocus,
+  signatureAnalysis?: SignatureAnalysisModel,
+): PdfSection[] {
+  switch (reportFocus) {
+    case 'VEDIC':
+    case 'KUNDLI':
+    case 'CAREER':
+    case 'COMPATIBILITY':
+    case 'DASHA':
+    case 'MARRIAGE':
+    case 'REMEDIES':
+    case 'SADESATI':
+    case 'WEALTH':
+      return [buildVedicPredictaReportSection(kundli, mode, reportFocus)];
+    case 'KP':
+      return [buildKpFoundationSection(kundli, mode)];
+    case 'NADI':
+      return [buildNadiJyotishPlanSection(kundli, mode)];
+    case 'NUMEROLOGY':
+      return [buildNumerologyReportSection(kundli, mode)];
+    case 'SIGNATURE':
+      return [
+        buildSignatureReportSection(signatureAnalysis, mode),
+        ...(mode === 'PREMIUM'
+          ? [buildSignatureNumerologySynthesisSection(kundli, signatureAnalysis)]
+          : []),
+      ].filter((section): section is PdfSection => Boolean(section));
+    default:
+      return [buildVedicPredictaReportSection(kundli, mode, 'KUNDLI')];
+  }
+}
+
+function buildVedicPredictaReportSection(
+  kundli: KundliData,
+  mode: PDFMode,
+  reportFocus: PdfReportFocus,
+): PdfSection {
+  const dasha = kundli.dasha.current;
+  const focusMap: Partial<
+    Record<
+      PdfReportFocus,
+      {
+        charts: ChartType[];
+        houses: number[];
+        planets: string[];
+        title: string;
+        userOutcome: string;
+      }
+    >
+  > = {
+    CAREER: {
+      charts: ['D1', 'D10'],
+      houses: [6, 10, 11],
+      planets: ['Saturn', 'Sun', 'Mercury', 'Jupiter'],
+      title: 'Vedic career report proof',
+      userOutcome: 'career direction, job timing, public work, and professional pressure',
+    },
+    COMPATIBILITY: {
+      charts: ['D1', 'D9'],
+      houses: [2, 7, 11],
+      planets: ['Venus', 'Jupiter', 'Moon'],
+      title: 'Vedic compatibility report proof',
+      userOutcome: 'relationship maturity, compatibility discussion, and family decision support',
+    },
+    DASHA: {
+      charts: ['D1'],
+      houses: [1, 5, 9, 10],
+      planets: [dasha.mahadasha, dasha.antardasha],
+      title: 'Vedic dasha life map proof',
+      userOutcome: 'life chapter timing, active periods, and next planning windows',
+    },
+    KUNDLI: {
+      charts: ['D1', 'D9', 'D10'],
+      houses: [1, 5, 9, 10],
+      planets: [dasha.mahadasha, dasha.antardasha, 'Jupiter', 'Saturn'],
+      title: 'Vedic Predicta report proof',
+      userOutcome: 'whole-chart understanding without mixing KP, Nadi, Numerology, or Signature methods',
+    },
+    MARRIAGE: {
+      charts: ['D1', 'D9'],
+      houses: [2, 7, 11],
+      planets: ['Venus', 'Jupiter', 'Moon'],
+      title: 'Vedic marriage report proof',
+      userOutcome: 'marriage maturity, relationship timing, spouse patterns, and gentle cautions',
+    },
+    REMEDIES: {
+      charts: ['D1'],
+      houses: kundli.ashtakavarga.weakestHouses.slice(0, 4) as number[],
+      planets: [dasha.mahadasha, dasha.antardasha, 'Saturn', 'Ketu'],
+      title: 'Vedic remedy report proof',
+      userOutcome: 'karma-based remedies, conduct correction, service, mantra, and weekly practice',
+    },
+    SADESATI: {
+      charts: ['D1'],
+      houses: [1, 4, 8, 10, 12],
+      planets: ['Saturn', 'Moon'],
+      title: 'Vedic Sade Sati report proof',
+      userOutcome: 'Saturn pressure, discipline, responsibility, and fear-free planning',
+    },
+    VEDIC: {
+      charts: ['D1', 'D9', 'D10'],
+      houses: [1, 5, 9, 10],
+      planets: [dasha.mahadasha, dasha.antardasha, 'Jupiter', 'Saturn'],
+      title: 'Vedic Predicta report proof',
+      userOutcome: 'D1, varga charts, dasha, gochar, remedies, and holistic life balance',
+    },
+    WEALTH: {
+      charts: ['D1', 'D2'],
+      houses: [2, 9, 11],
+      planets: ['Jupiter', 'Venus', 'Mercury', 'Saturn'],
+      title: 'Vedic wealth report proof',
+      userOutcome: 'income, savings, gains, discipline, and financial timing',
+    },
+  };
+  const focus = focusMap[reportFocus] ?? focusMap.KUNDLI;
+  const chartLines =
+    focus?.charts
+      .map(chartType => chartSummary(kundli, chartType))
+      .filter(Boolean) ?? [];
+  const houseLines = (focus?.houses ?? [])
+    .slice()
+    .sort((first, second) => first - second)
+    .map(houseNumber => houseSummary(kundli, houseNumber));
+  const planetLines = uniqueValues(focus?.planets ?? [])
+    .map(name => findPlanet(kundli, name))
+    .filter((planet): planet is PlanetPosition => Boolean(planet))
+    .map(planet => planetaryLine(planet));
+
+  return {
+    body:
+      'This report is prepared inside Vedic Predicta. It uses Parashari Jyotish evidence first: D1, relevant varga charts, dasha, gochar, house strength, safe remedies, and holistic context. KP, Nadi, Numerology, and Signature stay separate unless the user chooses a synthesis.',
+    bullets: [
+      `Outcome: ${focus?.userOutcome ?? 'whole-chart understanding'}.`,
+      `Active timing: ${dasha.mahadasha} Mahadasha and ${dasha.antardasha} Antardasha until ${dasha.endDate}.`,
+      ...chartLines.slice(0, mode === 'PREMIUM' ? 5 : 2),
+      ...houseLines.slice(0, mode === 'PREMIUM' ? 6 : 3),
+      ...planetLines.slice(0, mode === 'PREMIUM' ? 6 : 3),
+      mode === 'PREMIUM'
+        ? 'Premium Vedic depth adds more varga checks, timing windows, evidence tables, and remedy planning.'
+        : 'Free Vedic depth gives a useful chart-backed answer and keeps deeper timing for Premium.',
+    ],
+    evidence: [
+      `Vedic method only: D1/Varga, dasha, gochar, house strength, and remedies.`,
+      `Relevant charts: ${(focus?.charts ?? ['D1']).join(', ')}.`,
+      `Relevant houses: ${(focus?.houses ?? []).slice().sort((first, second) => first - second).join(', ') || 'whole chart'}.`,
+      `Relevant planets: ${uniqueValues(focus?.planets ?? []).join(', ') || 'current dasha lords'}.`,
+    ],
+    evidenceTable: [
+      {
+        confidence: 'high',
+        factor: 'Method boundary',
+        implication: 'The report stays in Vedic Predicta unless the user explicitly chooses another specialist world.',
+        observation: 'Parashari D1, varga, dasha, gochar, remedy, and holistic layers are the source of proof.',
+      },
+      {
+        confidence: 'high',
+        factor: 'Timing',
+        implication: 'The current dasha frames how the report should be read now.',
+        observation: `${dasha.mahadasha}/${dasha.antardasha} until ${dasha.endDate}.`,
+      },
+      {
+        confidence: 'medium',
+        factor: 'Focus proof',
+        implication: focus?.userOutcome ?? 'Whole chart reading remains primary.',
+        observation: [
+          ...(focus?.charts ?? []).map(chart => `${chart}`),
+          ...(focus?.houses ?? []).map(houseNumber => `house ${houseNumber}`),
+        ].join(', '),
+      },
+    ],
+    eyebrow: 'VEDIC PREDICTA',
+    tier: mode === 'PREMIUM' ? 'premium' : 'free',
+    title: focus?.title ?? 'Vedic Predicta report proof',
+  };
 }
 
 function buildBhavChalitSection(kundli: KundliData, mode: PDFMode): PdfSection {
@@ -1674,17 +1893,57 @@ function chartSummary(kundli: KundliData, chartType: ChartType): string {
   return `${chartType} ${chart.name}: ${chart.ascendantSign} ascendant; occupied houses ${occupiedHouses(chart)}.`;
 }
 
-function getReportChartTypes(kundli: KundliData, mode: PDFMode): ChartType[] {
+function getReportChartTypes(
+  kundli: KundliData,
+  mode: PDFMode,
+  reportFocus: PdfReportFocus = 'KUNDLI',
+): ChartType[] {
   const chartTypes = (Object.keys(kundli.charts) as ChartType[]).sort(compareChartType);
 
   if (mode === 'PREMIUM') {
-    return chartTypes;
+    return prioritizeChartTypes(chartTypes, reportFocus);
   }
 
-  const freeChartTypes = new Set<ChartType>(['D1', 'D9', 'D10']);
+  const freeChartTypes = new Set<ChartType>(getFreeChartTypesForFocus(reportFocus));
   const availableFreeCharts = chartTypes.filter(chartType => freeChartTypes.has(chartType));
 
   return availableFreeCharts.length ? availableFreeCharts : chartTypes.slice(0, 3);
+}
+
+function prioritizeChartTypes(
+  chartTypes: ChartType[],
+  reportFocus: PdfReportFocus,
+): ChartType[] {
+  const priority = getFreeChartTypesForFocus(reportFocus);
+
+  return [
+    ...priority.filter(chartType => chartTypes.includes(chartType)),
+    ...chartTypes.filter(chartType => !priority.includes(chartType)),
+  ];
+}
+
+function getFreeChartTypesForFocus(reportFocus: PdfReportFocus): ChartType[] {
+  switch (reportFocus) {
+    case 'CAREER':
+      return ['D1', 'D10'];
+    case 'COMPATIBILITY':
+    case 'MARRIAGE':
+      return ['D1', 'D9'];
+    case 'WEALTH':
+      return ['D1', 'D2'];
+    case 'KP':
+    case 'NADI':
+    case 'NUMEROLOGY':
+    case 'REMEDIES':
+    case 'SADESATI':
+    case 'SIGNATURE':
+      return ['D1'];
+    case 'DASHA':
+    case 'KUNDLI':
+    case 'VEDIC':
+    default:
+      return ['D1', 'D9', 'D10'];
+  }
 }
 
 function compareChartType(a: ChartType, b: ChartType): number {
