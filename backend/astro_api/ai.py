@@ -714,19 +714,19 @@ def build_deterministic_discipline_handoff_reply(
     if language == "hi":
         return "\n\n".join(
             [
-                f"Yeh sawaal {target_room} ke liye zyada sahi hai, {active_room} ke andar mix karke answer nahi karna chahiye.",
-                f"Original question: {question}",
-                f"Open {target_room}: {route}",
-                "Main same Kundli/profile context carry karungi, lekin method alag rakha jayega.",
+                f"यह प्रश्न {target_room} के लिए ज़्यादा सही है। इसे {active_room} के अंदर मिलाकर जवाब नहीं देना चाहिए।",
+                f"मूल प्रश्न: {question}",
+                f"{target_room} खोलें: {route}",
+                "मैं वही Kundli और profile context साथ रखूंगी, लेकिन method अलग रहेगा।",
             ]
         )
     if language == "gu":
         return "\n\n".join(
             [
-                f"Aa sawal {target_room} mate vadhare sacho chhe; {active_room} ma mix kari ne answer karvu nathi.",
-                f"Original question: {question}",
-                f"Open {target_room}: {route}",
-                "Hu same Kundli/profile context carry karish, pan method alag rahe.",
+                f"આ પ્રશ્ન {target_room} માટે વધુ યોગ્ય છે। તેને {active_room} માં મિક્સ કરીને જવાબ આપવો યોગ્ય નથી.",
+                f"મૂળ પ્રશ્ન: {question}",
+                f"{target_room} ખોલો: {route}",
+                "હું એ જ Kundli અને profile context સાથે રાખીશ, પરંતુ method અલગ રહેશે.",
             ]
         )
 
@@ -920,62 +920,62 @@ def build_deterministic_chart_reply(
     safety_needed = is_high_stakes_message(request.message)
 
     if request.language == "hi":
-        intro = "Haan, main isse chart proof ke saath practical rakhungi."
+        intro = "हाँ, मैं इसे chart proof के साथ practical रखूंगी."
         direct = localized_area_summary(area.area if area else "general", area.confidence if area else "medium", "hi")
-        confidence = f"Confidence: {area.confidence if area else 'medium'}."
+        confidence = f"विश्वास स्तर: {area.confidence if area else 'medium'}."
         timing = (
-            f"Timing: next 1 year ka window {current_date.isoformat()} se {one_year_later.isoformat()} tak maana hai."
+            f"समय संकेत: अगले 1 साल की window {current_date.isoformat()} से {one_year_later.isoformat()} तक मानी है."
             if timing_needed
-            else "Timing: exact month ke liye dasha aur transit overlap ko aur narrow karna padega."
+            else "समय संकेत: exact month के लिए dasha और transit overlap को और narrow करना पड़ेगा."
         )
         safety = (
-            "Safety: medical, legal, financial, ya emergency decision ke liye qualified professional ki salah zaroor lein."
+            "Safety: medical, legal, financial या emergency decision के लिए qualified professional की सलाह ज़रूर लें."
             if safety_needed
             else ""
         )
-        practical = area.practicalFocus[0] if area and area.practicalFocus else "Ek practical step chuniye aur us par steady action rakhiye."
+        practical = area.practicalFocus[0] if area and area.practicalFocus else "एक practical step चुनिए और उस पर steady action रखिए."
         return "\n\n".join(
             [
                 intro,
                 direct,
                 confidence,
-                "Chart evidence:\n"
+                "Chart proof:\n"
                 + "\n".join(
                     f"- {item.title}: {item.interpretation}" for item in evidence
                 ),
                 timing,
                 safety,
-                f"Next step: {practical}",
+                f"अगला कदम: {practical}",
             ]
         ).strip()
 
     if request.language == "gu":
-        intro = "Haan, hu aa answer chart proof sathe practical rakhish."
+        intro = "હા, હું આ જવાબને chart proof સાથે practical રાખીશ."
         direct = localized_area_summary(area.area if area else "general", area.confidence if area else "medium", "gu")
-        confidence = f"Confidence: {area.confidence if area else 'medium'}."
+        confidence = f"વિશ્વાસ સ્તર: {area.confidence if area else 'medium'}."
         timing = (
-            f"Timing: next 1 year no window {current_date.isoformat()} thi {one_year_later.isoformat()} sudhi ganvo."
+            f"સમય સંકેત: આગામી 1 વર્ષની window {current_date.isoformat()} થી {one_year_later.isoformat()} સુધી ગણવી."
             if timing_needed
-            else "Timing: exact month mate dasha ane transit overlap vadhare narrow karvo pade."
+            else "સમય સંકેત: exact month માટે dasha અને transit overlap વધુ narrow કરવો પડશે."
         )
         safety = (
-            "Safety: medical, legal, financial, athva emergency decision mate qualified professional ni salah lo."
+            "Safety: medical, legal, financial અથવા emergency decision માટે qualified professional ની સલાહ લો."
             if safety_needed
             else ""
         )
-        practical = area.practicalFocus[0] if area and area.practicalFocus else "Ek practical step lo ane steady action rakho."
+        practical = area.practicalFocus[0] if area and area.practicalFocus else "એક practical step લો અને steady action રાખો."
         return "\n\n".join(
             [
                 intro,
                 direct,
                 confidence,
-                "Chart evidence:\n"
+                "Chart proof:\n"
                 + "\n".join(
                     f"- {item.title}: {item.interpretation}" for item in evidence
                 ),
                 timing,
                 safety,
-                f"Next step: {practical}",
+                f"આગલું પગલું: {practical}",
             ]
         ).strip()
 
@@ -2309,8 +2309,9 @@ def build_pridicta_system_prompt() -> str:
             "The supplied Response language is authoritative. Answer in that language unless the current user message is clearly and primarily in another supported language.",
             "Do not use prior conversation language to override the current Response language. If Response language is en and the current message is English, answer only in English.",
             "If the current user message clearly switches language from the selected app language, acknowledge gently once and continue in the user's dominant language. Do not make switching a big issue.",
-            "For Hindi responses, use Hinglish: Hindi tone in Roman/Hindi-friendly wording with natural English astrology and product terms. Do not use formal textbook Hindi unless the user clearly writes in Devanagari and wants it.",
-            "For Gujarati responses, use natural Gujarati tone with Gujarati/Hinglish-style wording and English astrology/product terms where useful. Do not make it stiff or overly literary.",
+            "For Hindi responses, use natural Hindi in Devanagari script. Keep expected product/chart codes such as Predicta, D1, D9, KP, Nadi, PDF, Premium, and common Jyotish terms only where they are normal for users.",
+            "For Gujarati responses, use natural Gujarati in Gujarati script. Keep expected product/chart codes such as Predicta, D1, D9, KP, Nadi, PDF, Premium, and common Jyotish terms only where they are normal for users.",
+            "Do not answer Hindi or Gujarati in romanized Hinglish/Gujlish. Avoid half-translated lines that mix scripts unnecessarily.",
             "Predicta must never send the user away unnecessarily. If the user asks for anything the app can do manually, do it from chat or stage it inside chat.",
             "Never say 'Go to the Kundli screen and come back', 'Open Dashboard > Kundli', or 'I cannot help with that' when the request is bounded to Predicta's app context.",
             "For app-bounded actions, say things like: 'Yes, I can do that here', 'I need your DOB, birth time, and birth place first', 'I created it here', or 'Here is the summary'.",
@@ -4525,13 +4526,15 @@ def build_ai_context(
 def language_instruction(language: str) -> str:
     if language == "hi":
         return (
-            "Answer in Hinglish with a Hindi tone: Roman/Hindi-friendly wording, natural English Jyotish/product terms, warm and conversational. "
-            "Explain terms like Lagna, dasha, gochar/transit, and nakshatra simply."
+            "हिंदी में देवनागरी script का उपयोग करें। भाषा natural, warm और conversational रहे। "
+            "Predicta, D1, D9, KP, Nadi, PDF, Premium जैसे expected product/chart terms रख सकते हैं, लेकिन romanized Hinglish में जवाब न दें। "
+            "Lagna, dasha, gochar/transit और nakshatra जैसे terms को आसान भाषा में समझाएं।"
         )
     if language == "gu":
         return (
-            "Answer in natural Gujarati tone with Gujarati/Hinglish-style wording and useful English Jyotish/product terms. "
-            "Explain terms like Lagna, dasha, gochar/transit, and nakshatra simply."
+            "ગુજરાતીમાં ગુજરાતી script નો ઉપયોગ કરો। ભાષા natural, warm અને conversational રહે। "
+            "Predicta, D1, D9, KP, Nadi, PDF, Premium જેવા expected product/chart terms રાખી શકો, પરંતુ romanized Gujlish માં જવાબ ન આપો। "
+            "Lagna, dasha, gochar/transit અને nakshatra જેવા terms સરળ રીતે સમજાવો."
         )
     return (
         "Answer in clear English. Explain terms like Lagna, dasha, transit, "

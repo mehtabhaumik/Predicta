@@ -217,8 +217,8 @@ def privacy_preserving_safety_identifier(
 def blocked_safety_reply(language: str, assessment: SafetyAssessment) -> str:
     if assessment.input_too_long:
         return {
-            "hi": "Aapka message bahut lamba ho gaya hai. Kripya ise chhote, focused question mein bhejiye, phir main chart proof ke saath help karungi.",
-            "gu": "Tamaro message bahu lambo thai gayo chhe. Kripya tene nano, focused question banaavi ne moklo; pachi hu chart proof sathe madad karish.",
+            "hi": "आपका message बहुत लंबा हो गया है। कृपया इसे छोटे, focused question में भेजिए, फिर मैं chart proof के साथ मदद करूंगी.",
+            "gu": "તમારો message બહુ લાંબો થઈ ગયો છે। કૃપા કરીને તેને નાના, focused question તરીકે મોકલો; પછી હું chart proof સાથે મદદ કરીશ.",
         }.get(
             language,
             "Your message is too long for a safe reading. Please send one shorter, focused question and I will answer with chart proof.",
@@ -226,16 +226,16 @@ def blocked_safety_reply(language: str, assessment: SafetyAssessment) -> str:
 
     if "self-harm-instructions" in assessment.categories:
         return {
-            "hi": "Main aapke dard ko halka nahi leti, lekin self-harm ke tareeke ya instructions mein madad nahi kar sakti. Agar urge strong hai, abhi local emergency service, crisis helpline, ya trusted person se contact kijiye. Main aapke saath rehkar safe grounding aur chart-based emotional support de sakti hoon.",
-            "gu": "Hu tamara dard ne halka nathi leti, pan self-harm ni method athva instructions ma madad kari shakti nathi. Jo urge strong hoy, to have local emergency service, crisis helpline, athva trusted person ne contact karo. Hu tamari sathe rahi safe grounding ane chart-based emotional support api shaku chhu.",
+            "hi": "मैं आपके दर्द को हल्का नहीं लेती, लेकिन self-harm के तरीके या instructions में मदद नहीं कर सकती। अगर urge strong है, अभी local emergency service, crisis helpline या trusted person से contact कीजिए। मैं आपके साथ रहकर safe grounding और chart-based emotional support दे सकती हूं.",
+            "gu": "હું તમારા દુઃખને હળવાશથી નથી લેતી, પરંતુ self-harm ની method અથવા instructions માં મદદ કરી શકતી નથી। જો urge strong હોય, તો અત્યારે local emergency service, crisis helpline અથવા trusted person ને contact કરો। હું તમારી સાથે રહીને safe grounding અને chart-based emotional support આપી શકું છું.",
         }.get(
             language,
             "I am taking your pain seriously, but I cannot help with self-harm methods or instructions. If the urge is strong, contact local emergency services, a crisis hotline, or a trusted person now. I can stay with you for safe grounding and chart-based emotional support.",
         )
 
     return {
-        "hi": "Main is tarah ki request mein nuksan, illegal kaam, ya unsafe instructions mein madad nahi kar sakti. Agar aap chahen, main situation ko safe, practical, aur non-harmful next steps mein reframe kar sakti hoon.",
-        "gu": "Hu aavi request ma nuksan, illegal kaam, athva unsafe instructions ma madad kari shakti nathi. Jo tame kaho, to hu aa situation ne safe, practical, non-harmful next steps ma reframe kari shaku chhu.",
+        "hi": "मैं इस तरह की request में नुकसान, illegal काम या unsafe instructions में मदद नहीं कर सकती। अगर आप चाहें, तो मैं situation को safe, practical और non-harmful next steps में reframe कर सकती हूं.",
+        "gu": "હું આવી request માં નુકસાન, illegal કામ અથવા unsafe instructions માં મદદ કરી શકતી નથી। જો તમે કહો, તો હું situation ને safe, practical અને non-harmful next steps માં reframe કરી શકું છું.",
     }.get(
         language,
         "I cannot help with harm, illegal action, or unsafe instructions. I can help reframe the situation into safe, practical, non-harmful next steps.",
@@ -283,15 +283,15 @@ def enforce_high_stakes_boundary(
 
     if "self-harm" in assessment.categories:
         lead = {
-            "hi": "Main aapka dard sun rahi hoon. Aap is waqt akela feel kar sakte hain, lekin is moment mein turant kisi trusted person ko message/call kijiye. Agar danger active hai, local emergency help ya crisis helpline se abhi contact kijiye.",
-            "gu": "Hu tamaro dard sambhli rahi chhu. Tame aa moment ma ekla feel karta hovo, pan have turant koi trusted person ne message/call karo. Jo danger active hoy, local emergency help athva crisis helpline ne have contact karo.",
+            "hi": "मैं आपका दर्द सुन रही हूं। आप इस समय अकेला महसूस कर सकते हैं, लेकिन इस moment में तुरंत किसी trusted person को message/call कीजिए। अगर danger active है, local emergency help या crisis helpline से अभी contact कीजिए.",
+            "gu": "હું તમારું દુઃખ સાંભળી રહી છું। તમે આ moment માં એકલા feel કરતા હશો, પરંતુ અત્યારે તરત કોઈ trusted person ને message/call કરો। જો danger active હોય, local emergency help અથવા crisis helpline ને અત્યારે contact કરો.",
         }.get(
             language,
             "I hear your pain. You may feel alone right now, but please contact a trusted person immediately. If there is active danger, contact local emergency help or a crisis hotline now.",
         )
         note = {
-            "hi": "Care note: Main chart ko emotional pressure aur support ke lens se dekh sakti hoon, lekin agar khud ko nuksan pahunchane ka urge active hai to abhi kisi trusted person, local emergency service, ya crisis helpline se contact kijiye. Jyotish guidance ko support samjhein, crisis care ka replacement nahi.",
-            "gu": "Care note: Hu chart ne emotional pressure ane support na lens thi joi shaku chhu, pan jo potane nuksan karva no urge active hoy to have trusted person, local emergency service, athva crisis helpline ne contact karo. Jyotish guidance support chhe, crisis care no replacement nathi.",
+            "hi": "Care note: मैं chart को emotional pressure और support के lens से देख सकती हूं, लेकिन अगर खुद को नुकसान पहुंचाने का urge active है तो अभी किसी trusted person, local emergency service या crisis helpline से contact कीजिए। Jyotish guidance support है, crisis care का replacement नहीं.",
+            "gu": "Care note: હું chart ને emotional pressure અને support ના lens થી જોઈ શકું છું, પરંતુ જો પોતાને નુકસાન કરવાની urge active હોય તો અત્યારે trusted person, local emergency service અથવા crisis helpline ને contact કરો। Jyotish guidance support છે, crisis care નો replacement નથી.",
         }.get(
             language,
             "Care note: I can read the chart through emotional pressure and support, but if the urge to hurt yourself is active, contact a trusted person, local emergency services, or a crisis hotline now. Jyotish guidance is support, not a replacement for crisis care.",
@@ -304,8 +304,8 @@ def enforce_high_stakes_boundary(
         if re.search(r"\bSafety:", text, re.I):
             return text
         note = {
-            "hi": "Safety: Isse reflective Jyotish guidance samjhein, medical/legal/financial/emergency advice nahi. Final high-stakes decision ke liye qualified professional se salah lein.",
-            "gu": "Safety: Aa reflective Jyotish guidance chhe, medical/legal/financial/emergency advice nathi. Final high-stakes decision mate qualified professional ni salah lo.",
+            "hi": "Safety: इसे reflective Jyotish guidance समझें, medical/legal/financial/emergency advice नहीं। Final high-stakes decision के लिए qualified professional से सलाह लें.",
+            "gu": "Safety: આ reflective Jyotish guidance છે, medical/legal/financial/emergency advice નથી। Final high-stakes decision માટે qualified professional ની સલાહ લો.",
         }.get(
             language,
             "Safety: Treat this as reflective Jyotish guidance, not medical, legal, financial, or emergency advice. For high-stakes decisions, speak with a qualified professional.",
@@ -327,15 +327,15 @@ def output_safety_rewrite_note(language: str, categories: Iterable[str]) -> str:
     labels = ", ".join(categories)
     if language == "hi":
         return (
-            "Safety: Predicta fatalistic certainty, harmful instructions, ya "
-            "medical/legal/financial guarantees nahi degi. Main isse reflective, "
-            f"chart-proof guidance tak rakh rahi hoon. Safety check: {labels}."
+            "Safety: Predicta fatalistic certainty, harmful instructions या "
+            "medical/legal/financial guarantees नहीं देगी। मैं इसे reflective "
+            f"chart-proof guidance तक रख रही हूं। Safety check: {labels}."
         )
     if language == "gu":
         return (
-            "Safety: Predicta fatalistic certainty, harmful instructions, athva "
-            "medical/legal/financial guarantees nahi aape. Hu aa guidance ne "
-            f"reflective chart proof sudhi rakhu chhu. Safety check: {labels}."
+            "Safety: Predicta fatalistic certainty, harmful instructions અથવા "
+            "medical/legal/financial guarantees નહીં આપે। હું આ guidance ને "
+            f"reflective chart proof સુધી રાખું છું। Safety check: {labels}."
         )
     return (
         "Safety: Predicta will not give fatalistic certainty, harmful instructions, "

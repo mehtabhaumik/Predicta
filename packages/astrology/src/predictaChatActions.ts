@@ -358,16 +358,16 @@ export function buildEnglishSwitchPrompt(
 ): string {
   if (currentLanguage === 'gu') {
     return [
-      'Mane lage chhe tame English ma poochi rahya cho.',
-      'Hu Gujarati tone continue karu ke English par switch karu?',
-      'Reply “switch to English” karsho to hu aa conversation English ma continue karish. App language selector alag raheshe.',
+      'મને લાગે છે કે તમે English માં પૂછ્યું છે.',
+      'શું હું આ conversation ગુજરાતી script માં જ રાખું કે English પર switch કરું?',
+      '“switch to English” લખશો તો હું આ conversation English માં continue કરીશ. App language selector અલગ રહેશે.',
     ].join('\n\n');
   }
 
   return [
-    'Mujhe lag raha hai aap English mein pooch rahe hain.',
-    'Main Hinglish/Hindi tone continue karu ya English par switch karu?',
-    'Reply “switch to English” karenge to main is conversation ko English mein continue karungi. App language selector alag rahega.',
+    'मुझे लग रहा है कि आपने English में पूछा है.',
+    'क्या मैं यह conversation हिंदी script में ही रखूं या English पर switch करूं?',
+    '“switch to English” लिखेंगे तो मैं यह conversation English में continue करूंगी. App language selector अलग रहेगा.',
   ].join('\n\n');
 }
 
@@ -383,10 +383,10 @@ export function buildEnglishSwitchDecisionReply({
   }
 
   if (currentLanguage === 'gu') {
-    return 'Saru. Hu Gujarati tone ma j rahish. Tame English words mix karo to pan hu context samjhi laish.';
+    return 'ઠીક છે. હું આ conversation ગુજરાતી script માં જ રાખીશ. તમે English words mix કરશો તો પણ હું context સમજી લઈશ.';
   }
 
-  return 'Theek hai. Main Hinglish/Hindi tone mein hi rahungi. Aap English words mix karenge to bhi main context samajh lungi.';
+  return 'ठीक है. मैं यह conversation हिंदी script में ही रखूंगी. आप English words mix करेंगे तो भी मैं context समझ लूंगी.';
 }
 
 export function normalizePredictaIntentText(text: string): string {
@@ -511,7 +511,7 @@ export function buildPredictaLearningSuggestion({
   if (language === 'hi') {
     return [
       insight,
-      `Meri taraf se next smart step: ${next}. Boliye to main yahin chat mein start kar dungi.`,
+      `मेरी तरफ़ से next smart step: ${next}. कहिए तो मैं यहीं chat में start कर दूंगी.`,
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -520,7 +520,7 @@ export function buildPredictaLearningSuggestion({
   if (language === 'gu') {
     return [
       insight,
-      `Mari taraf thi next smart step: ${next}. Kaho to hu ahi chat ma start kari dau.`,
+      `મારી તરફથી next smart step: ${next}. કહેશો તો હું અહીં chat માં start કરી દઈશ.`,
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -1290,17 +1290,17 @@ function buildNeedsKundliReply(
 
   if (language === 'hi') {
     return [
-      `Haan, main ${actionLabel} yahin chat mein kar sakti hoon.`,
-      'Pehle aapki Kundli chahiye. DOB, birth time, aur birth place bhej dein; main Kundli bana kar isi kaam ko aage badhaungi.',
-      'Agar sirf DOB pata hai, wahi bhejiye. Baaki main pyaar se pooch lungi.',
+      `हाँ, मैं ${actionLabel} यहीं chat में कर सकती हूं.`,
+      'पहले आपकी Kundli चाहिए. DOB, birth time और birth place भेज दीजिए; मैं Kundli बनाकर इसी काम को आगे बढ़ाऊंगी.',
+      'अगर सिर्फ DOB पता है, वही भेजिए. बाकी मैं आराम से पूछ लूंगी.',
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      `Haan, hu ${actionLabel} ahi chat ma kari shaku chhu.`,
-      'Pehla tamari Kundli joye. DOB, birth time ane birth place moklo; hu Kundli banaine aa kaam aagal vadharish.',
-      'Fakat DOB khabar hoy to e moklo. Baaki hu dhime thi poochi laish.',
+      `હા, હું ${actionLabel} અહીં chat માં કરી શકું છું.`,
+      'પહેલા તમારી Kundli જોઈએ. DOB, birth time અને birth place મોકલો; હું Kundli બનાવીને આ કામ આગળ વધારીશ.',
+      'ફક્ત DOB ખબર હોય તો એ મોકલો. બાકી હું શાંતિથી પૂછી લઈશ.',
     ].join('\n\n');
   }
 
@@ -1313,10 +1313,10 @@ function buildNeedsKundliReply(
 
 function actionIntro(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'Haan. Yeh main yahin kar deti hoon.';
+    return 'हाँ. यह मैं यहीं कर देती हूं.';
   }
   if (language === 'gu') {
-    return 'Haan. Aa hu ahi j kari dau chhu.';
+    return 'હા. આ હું અહીં જ કરી દઉં છું.';
   }
   return 'Yes. I can do that right here.';
 }
@@ -1354,10 +1354,10 @@ function pricingReply(
   }
 
   if (language === 'hi') {
-    return 'Premium ka clean path: Monthly/Yearly for deeper AI + timelines + remedies + reports. One-time PDF impulse purchase ke liye. Day Pass trial ke liye. Compatibility/Marriage report alag high-intent purchase rehna chahiye.';
+    return 'Premium का साफ़ रास्ता: Monthly/Yearly deeper AI, timelines, remedies और reports के लिए. One-time PDF अलग purchase के लिए. Day Pass trial के लिए. Compatibility/Marriage report अलग high-intent purchase रहनी चाहिए.';
   }
   if (language === 'gu') {
-    return 'Premium no clean path: Monthly/Yearly deeper AI + timelines + remedies + reports mate. One-time PDF impulse purchase mate. Day Pass trial mate. Compatibility/Marriage report alag high-intent purchase rehvu joye.';
+    return 'Premium નો સાફ રસ્તો: Monthly/Yearly deeper AI, timelines, remedies અને reports માટે. One-time PDF અલગ purchase માટે. Day Pass trial માટે. Compatibility/Marriage report અલગ high-intent purchase રહેવી જોઈએ.';
   }
   return 'Premium path: Monthly/Yearly for deeper AI, Life Calendar, remedies, and reports. One-time Premium PDF for impulse purchase. Day Pass for trial. Compatibility/Marriage report as a separate high-intent purchase.';
 }
@@ -1415,27 +1415,27 @@ function buildWowRadarReply({
 
   if (language === 'hi') {
     return [
-      'Predicta Radar: yeh quick “what stands out” scan hai, final fate statement nahi.',
-      `Strongest signal: ${current.mahadasha}/${current.antardasha} timing chapter is chart ko abhi drive kar raha hai.`,
+      'Predicta Radar: यह quick “what stands out” scan है, final fate statement नहीं.',
+      `Strongest signal: ${current.mahadasha}/${current.antardasha} timing chapter इस chart को अभी drive कर रहा है.`,
       themeLine
-        ? `Aapke recent questions se pattern dikhta hai: ${themeLine}. Isliye main jawab practical aur timing-focused rakhungi.`
-        : 'Abhi main saved chart aur current timing se pattern read kar rahi hoon.',
+        ? `आपके recent questions से pattern दिखता है: ${themeLine}. इसलिए मैं जवाब practical और timing-focused रखूंगी.`
+        : 'अभी मैं saved chart और current timing से pattern read कर रही हूं.',
       `Chart proof:\n${standoutSignals.map(signal => `- ${signal}`).join('\n')}`,
       `Memory check: ${comparison}`,
-      'Wow move: poochiye “is pattern ka daily action kya hai?” Main ise Gochar, Mahadasha aur remedy ke saath simple weekly plan mein badal dungi.',
+      'Wow move: पूछिए “इस pattern का daily action क्या है?” मैं इसे Gochar, Mahadasha और remedy के साथ simple weekly plan में बदल दूंगी.',
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      'Predicta Radar: aa quick “what stands out” scan chhe, final fate statement nathi.',
-      `Strongest signal: ${current.mahadasha}/${current.antardasha} timing chapter aa chart ne atyare drive kare chhe.`,
+      'Predicta Radar: આ quick “what stands out” scan છે, final fate statement નથી.',
+      `Strongest signal: ${current.mahadasha}/${current.antardasha} timing chapter આ chart ને અત્યારે drive કરે છે.`,
       themeLine
-        ? `Tamara recent questions thi pattern dekhaay chhe: ${themeLine}. Etle hu jawab practical ane timing-focused rakhish.`
-        : 'Atyare hu saved chart ane current timing thi pattern read karu chhu.',
+        ? `તમારા recent questions થી pattern દેખાય છે: ${themeLine}. એટલે હું જવાબ practical અને timing-focused રાખીશ.`
+        : 'અત્યારે હું saved chart અને current timing થી pattern read કરું છું.',
       `Chart proof:\n${standoutSignals.map(signal => `- ${signal}`).join('\n')}`,
       `Memory check: ${comparison}`,
-      'Wow move: poochho “aa pattern nu daily action shu chhe?” Hu ene Gochar, Mahadasha ane remedy sathe simple weekly plan ma badli daish.',
+      'Wow move: પૂછો “આ pattern નું daily action શું છે?” હું તેને Gochar, Mahadasha અને remedy સાથે simple weekly plan માં બદલી દઈશ.',
     ].join('\n\n');
   }
 
@@ -1463,13 +1463,13 @@ function savedKundlisReply(
 
   if (language === 'hi') {
     return count
-      ? `Aapke paas ${count} saved Kundli profile hain: ${names}. Main inhe relationship, family map, aur pattern comparison ke liye use kar sakti hoon.`
-      : 'Abhi saved Kundli nahi dikh rahi. Aap chat mein kisi family member ki birth details bhejiye, main profile bana sakti hoon.';
+      ? `आपके पास ${count} saved Kundli profile हैं: ${names}. मैं इन्हें relationship, family map और pattern comparison के लिए use कर सकती हूं.`
+      : 'अभी saved Kundli नहीं दिख रही. आप chat में किसी family member की birth details भेजिए, मैं profile बना सकती हूं.';
   }
   if (language === 'gu') {
     return count
-      ? `Tamari pase ${count} saved Kundli profile chhe: ${names}. Hu relationship, family map ane pattern comparison mate teno use kari shaku chhu.`
-      : 'Haju saved Kundli dekhaati nathi. Family member ni birth details chat ma moklo, hu profile banaavi shaku chhu.';
+      ? `તમારી પાસે ${count} saved Kundli profile છે: ${names}. હું relationship, family map અને pattern comparison માટે તેનો use કરી શકું છું.`
+      : 'હજુ saved Kundli દેખાતી નથી. Family member ની birth details chat માં મોકલો, હું profile બનાવી શકું છું.';
   }
   return count
     ? `You have ${count} saved Kundli profile${
@@ -1497,7 +1497,7 @@ function buildMahadashaReply(
 
   if (language === 'hi') {
     return [
-      `Main ${dasha.current.mahadasha}/${dasha.current.antardasha} ko dasha timing layer se padh rahi hoon.`,
+      `मैं ${dasha.current.mahadasha}/${dasha.current.antardasha} को dasha timing layer से पढ़ रही हूं.`,
       dasha.current.freeInsight,
       `Confidence: ${dasha.current.confidence}`,
       evidence ? `Proof:\n${evidence}` : '',
@@ -1510,7 +1510,7 @@ function buildMahadashaReply(
 
   if (language === 'gu') {
     return [
-      `Hu ${dasha.current.mahadasha}/${dasha.current.antardasha} ne dasha timing layer thi joi rahi chhu.`,
+      `હું ${dasha.current.mahadasha}/${dasha.current.antardasha} ને dasha timing layer થી જોઈ રહી છું.`,
       dasha.current.freeInsight,
       `Confidence: ${dasha.current.confidence}`,
       evidence ? `Proof:\n${evidence}` : '',
@@ -1556,7 +1556,7 @@ function buildAdvancedJyotishReply(
 
   if (language === 'hi') {
     return [
-      'Main advanced Jyotish ko simple language mein rakhungi, taaki deeper details confuse na kare.',
+      'मैं advanced Jyotish को simple language में रखूंगी, ताकि deeper details confuse न करें.',
       `Birth star: ${coverage.nakshatraInsight.moonNakshatra} pada ${coverage.nakshatraInsight.pada}, lord ${coverage.nakshatraInsight.lord}.`,
       coverage.nakshatraInsight.simpleInsight,
       modules ? `What I am checking:\n${modules}` : '',
@@ -1571,10 +1571,10 @@ function buildAdvancedJyotishReply(
 
   if (language === 'gu') {
     return [
-      'Hu advanced Jyotish ne simple language ma rakhish, jethi deeper details confuse na kare.',
+      'હું advanced Jyotish ને simple language માં રાખીશ, જેથી deeper details confuse ન કરે.',
       `Birth star: ${coverage.nakshatraInsight.moonNakshatra} pada ${coverage.nakshatraInsight.pada}, lord ${coverage.nakshatraInsight.lord}.`,
       coverage.nakshatraInsight.simpleInsight,
-      modules ? `Hu aa joi rahi chhu:\n${modules}` : '',
+      modules ? `હું આ જોઈ રહી છું:\n${modules}` : '',
       patterns ? `Yogas/care patterns:\n${patterns}` : '',
       ashtaka ? `Ashtakavarga highlights:\n${ashtaka}` : '',
       `Panchang/Muhurta: ${coverage.panchangMuhurta.simpleGuidance}`,
@@ -1623,7 +1623,7 @@ function buildSadeSatiReply(
 
   if (language === 'hi') {
     return [
-      `Main Saturn ko Moon se check kar rahi hoon. Status: ${sadeSati.phaseLabel}.`,
+      `मैं Saturn को Moon से check कर रही हूं. Status: ${sadeSati.phaseLabel}.`,
       sadeSati.freeInsight,
       `Confidence: ${sadeSati.confidence}`,
       evidence ? `Proof:\n${evidence}` : '',
@@ -1637,7 +1637,7 @@ function buildSadeSatiReply(
 
   if (language === 'gu') {
     return [
-      `Hu Saturn ne Moon thi check kari rahi chhu. Status: ${sadeSati.phaseLabel}.`,
+      `હું Saturn ને Moon થી check કરી રહી છું. Status: ${sadeSati.phaseLabel}.`,
       sadeSati.freeInsight,
       `Confidence: ${sadeSati.confidence}`,
       evidence ? `Proof:\n${evidence}` : '',
@@ -1685,7 +1685,7 @@ function buildTransitGocharReply(
 
   if (language === 'hi') {
     return [
-      `Main current Gochar ko Lagna aur Moon dono se padh rahi hoon. Overall tone: ${gochar.dominantWeight}.`,
+      `मैं current Gochar को Lagna और Moon दोनों से पढ़ रही हूं. Overall tone: ${gochar.dominantWeight}.`,
       gochar.snapshotSummary,
       opportunities ? `Support signals:\n${opportunities}` : '',
       cautions ? `Caution signals:\n${cautions}` : '',
@@ -1698,7 +1698,7 @@ function buildTransitGocharReply(
 
   if (language === 'gu') {
     return [
-      `Hu current Gochar ne Lagna ane Moon banne thi joi rahi chhu. Overall tone: ${gochar.dominantWeight}.`,
+      `હું current Gochar ને Lagna અને Moon બંનેથી જોઈ રહી છું. Overall tone: ${gochar.dominantWeight}.`,
       gochar.snapshotSummary,
       opportunities ? `Support signals:\n${opportunities}` : '',
       cautions ? `Caution signals:\n${cautions}` : '',
@@ -1742,7 +1742,7 @@ function buildYearlyHoroscopeReply(
 
   if (language === 'hi') {
     return [
-      `Main Varshaphal ko D1, dasha aur current Gochar ke saath anchor karke padh rahi hoon.`,
+      `मैं Varshaphal को D1, dasha और current Gochar के साथ anchor करके पढ़ रही हूं.`,
       `Solar year: ${yearly.yearLabel}. Varsha Lagna: ${yearly.varshaLagna}. Muntha: house ${yearly.munthaHouse} in ${yearly.munthaSign}.`,
       yearly.freeInsight,
       signals ? `Chart proof:\n${signals}` : '',
@@ -1756,7 +1756,7 @@ function buildYearlyHoroscopeReply(
 
   if (language === 'gu') {
     return [
-      `Hu Varshaphal ne D1, dasha ane current Gochar sathe anchor kari ne joi rahi chhu.`,
+      `હું Varshaphal ને D1, dasha અને current Gochar સાથે anchor કરીને જોઈ રહી છું.`,
       `Solar year: ${yearly.yearLabel}. Varsha Lagna: ${yearly.varshaLagna}. Muntha: house ${yearly.munthaHouse} in ${yearly.munthaSign}.`,
       yearly.freeInsight,
       signals ? `Chart proof:\n${signals}` : '',
@@ -1784,17 +1784,17 @@ function buildYearlyHoroscopeReply(
 function kpHandoffReply(language: SupportedLanguage): string {
   if (language === 'hi') {
     return [
-      'Yeh KP Predicta ka kaam hai. Main regular Parashari Predicta hoon, isliye KP ko D1/Varga reading ke saath mix nahi karungi.',
-      'Neeche “KP Predicta kholo” dabaiye. Main aapka original question aur active birth profile KP Predicta ko de dungi.',
-      'Wahan KP Predicta apni KP Kundli se cusps, star lords, sub lords, significators, ruling planets, aur event-focused judgment mein answer karegi.',
+      'यह KP Predicta का काम है. मैं regular Parashari Predicta हूं, इसलिए KP को D1/Varga reading के साथ mix नहीं करूंगी.',
+      'नीचे “KP Predicta खोलें” दबाइए. मैं आपका original question और active birth profile KP Predicta को दे दूंगी.',
+      'वहां KP Predicta अपनी KP Kundli से cusps, star lords, sub lords, significators, ruling planets और event-focused judgment में answer करेगी.',
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      'Aa KP Predicta nu kaam chhe. Hu regular Parashari Predicta chhu, etle KP ne D1/Varga reading sathe mix nahi karu.',
-      'Niche “KP Predicta kholo” dabavo. Hu tamaro original question ane active birth profile KP Predicta ne api daish.',
-      'Tya KP Predicta potani KP Kundli thi cusps, star lords, sub lords, significators, ruling planets ane event-focused judgment ma jawab aapse.',
+      'આ KP Predicta નું કામ છે. હું regular Parashari Predicta છું, એટલે KP ને D1/Varga reading સાથે mix નહીં કરું.',
+      'નીચે “KP Predicta ખોલો” દબાવો. હું તમારો original question અને active birth profile KP Predicta ને આપી દઈશ.',
+      'ત્યાં KP Predicta પોતાની KP Kundli થી cusps, star lords, sub lords, significators, ruling planets અને event-focused judgment માં જવાબ આપશે.',
     ].join('\n\n');
   }
 
@@ -1824,7 +1824,7 @@ function buildBhavChalitReply(
 
   if (language === 'hi') {
     return [
-      'Chalit Parashari house refinement hai. Yeh KP cusp/sub-lord judgement nahi hai, aur D1 Rashi ko replace nahi karta.',
+      'Chalit Parashari house refinement है. यह KP cusp/sub-lord judgement नहीं है, और D1 Rashi को replace नहीं करता.',
       synthesis,
       shifts ? `House shifts:\n${shifts}` : 'House shifts: no major shift is available in this Kundli yet.',
       foundation.premiumUnlock,
@@ -1833,9 +1833,9 @@ function buildBhavChalitReply(
 
   if (language === 'gu') {
     return [
-      'Chalit Parashari house refinement chhe. Aa KP cusp/sub-lord judgement nathi, ane D1 Rashi ne replace nathi kartu.',
+      'Chalit Parashari house refinement છે. આ KP cusp/sub-lord judgement નથી, અને D1 Rashi ને replace નથી કરતું.',
       synthesis,
-      shifts ? `House shifts:\n${shifts}` : 'House shifts: aa Kundli ma haju major shift available nathi.',
+      shifts ? `House shifts:\n${shifts}` : 'House shifts: આ Kundli માં હજુ major shift available નથી.',
       foundation.premiumUnlock,
     ].join('\n\n');
   }
@@ -1868,7 +1868,7 @@ function buildKpPredictaReply(
 
   if (language === 'hi') {
     return [
-      'KP Predicta mode: main sirf KP cusps, star lords, sub lords, significators aur ruling planets se bolungi.',
+      'KP Predicta mode: मैं सिर्फ KP cusps, star lords, sub lords, significators और ruling planets से बोलूंगी.',
       kp.freeInsight,
       cuspLine ? `Cusps:\n${cuspLine}` : '',
       significators ? `Significators:\n${significators}` : '',
@@ -1881,7 +1881,7 @@ function buildKpPredictaReply(
 
   if (language === 'gu') {
     return [
-      'KP Predicta mode: hu fakt KP cusps, star lords, sub lords, significators ane ruling planets thi bolish.',
+      'KP Predicta mode: હું ફક્ત KP cusps, star lords, sub lords, significators અને ruling planets થી બોલીશ.',
       kp.freeInsight,
       cuspLine ? `Cusps:\n${cuspLine}` : '',
       significators ? `Significators:\n${significators}` : '',
@@ -1907,17 +1907,17 @@ function buildKpPredictaReply(
 function nadiHandoffReply(language: SupportedLanguage): string {
   if (language === 'hi') {
     return [
-      'Yeh Nadi Predicta ka alag premium school hai. Main ise Parashari ya KP ke saath mix karke overconfident answer nahi dungi.',
-      'Neeche “Nadi Predicta dekho” dabaiye. Main aapka question aur birth profile Nadi reading room mein le jaungi.',
-      'Nadi Predicta planetary story links, karaka themes, validation questions aur timing activation se kaam karegi. Main real manuscript access ka claim nahi karungi.',
+      'यह Nadi Predicta का अलग premium world है. मैं इसे Parashari या KP के साथ mix करके overconfident answer नहीं दूंगी.',
+      'नीचे “Nadi Predicta खोलें” दबाइए. मैं आपका question और birth profile Nadi reading room में ले जाऊंगी.',
+      'Nadi Predicta planetary story links, karaka themes, validation questions और timing activation से काम करेगी. मैं real manuscript access का claim नहीं करूंगी.',
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      'Aa Nadi Predicta nu alag premium school chhe. Hu ene Parashari ke KP sathe mix kari ne overconfident answer nahi aapu.',
-      'Niche “Nadi Predicta jo” dabavo. Hu tamaro question ane birth profile Nadi reading room ma lai jaish.',
-      'Nadi Predicta planetary story links, karaka themes, validation questions ane timing activation thi kaam karse. Hu real manuscript access no claim nahi karu.',
+      'આ Nadi Predicta નું અલગ premium world છે. હું તેને Parashari કે KP સાથે mix કરીને overconfident answer નહીં આપું.',
+      'નીચે “Nadi Predicta ખોલો” દબાવો. હું તમારો question અને birth profile Nadi reading room માં લઈ જઈશ.',
+      'Nadi Predicta planetary story links, karaka themes, validation questions અને timing activation થી કામ કરશે. હું real manuscript access નો claim નહીં કરું.',
     ].join('\n\n');
   }
 
@@ -1946,7 +1946,7 @@ function buildNadiPredictaReply(
 
   if (language === 'hi') {
     return [
-      'Nadi Predicta mode: main planet-to-planet story links, karaka themes, validation questions aur timing activation se padhungi.',
+      'Nadi Predicta mode: मैं planet-to-planet story links, karaka themes, validation questions और timing activation से पढ़ूंगी.',
       plan.freePreview,
       topPattern
         ? `Strong pattern: ${topPattern.title}. ${topPattern.freeInsight}`
@@ -1964,7 +1964,7 @@ function buildNadiPredictaReply(
 
   if (language === 'gu') {
     return [
-      'Nadi Predicta mode: hu planet-to-planet story links, karaka themes, validation questions ane timing activation thi padhish.',
+      'Nadi Predicta mode: હું planet-to-planet story links, karaka themes, validation questions અને timing activation થી વાંચીશ.',
       plan.freePreview,
       topPattern
         ? `Strong pattern: ${topPattern.title}. ${topPattern.freeInsight}`
@@ -2000,17 +2000,17 @@ function buildNadiPredictaReply(
 function numerologyHandoffReply(language: SupportedLanguage): string {
   if (language === 'hi') {
     return [
-      'Yeh Numerology Predicta ka kaam hai. Main ise Parashari, KP, ya Nadi ke saath casually mix nahi karungi.',
-      'Neeche “Numerology Predicta kholo” dabaiye. Main aapka question aur active birth profile wahan le jaungi.',
-      'Numerology Predicta name number, birth number, destiny number, personal year/month/day, aur name spelling rhythm se answer karegi.',
+      'यह Numerology Predicta का काम है. मैं इसे Parashari, KP या Nadi के साथ casually mix नहीं करूंगी.',
+      'नीचे “Numerology Predicta खोलें” दबाइए. मैं आपका question और active birth profile वहां ले जाऊंगी.',
+      'Numerology Predicta name number, birth number, destiny number, personal year/month/day और name spelling rhythm से answer करेगी.',
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      'Aa Numerology Predicta nu kaam chhe. Hu ene Parashari, KP, ke Nadi sathe casually mix nahi karu.',
-      'Niche “Numerology Predicta kholo” dabavo. Hu tamaro question ane active birth profile tya lai jaish.',
-      'Numerology Predicta name number, birth number, destiny number, personal year/month/day ane name spelling rhythm thi jawab aapse.',
+      'આ Numerology Predicta નું કામ છે. હું તેને Parashari, KP કે Nadi સાથે casually mix નહીં કરું.',
+      'નીચે “Numerology Predicta ખોલો” દબાવો. હું તમારો question અને active birth profile ત્યાં લઈ જઈશ.',
+      'Numerology Predicta name number, birth number, destiny number, personal year/month/day અને name spelling rhythm થી જવાબ આપશે.',
     ].join('\n\n');
   }
 
@@ -2031,14 +2031,14 @@ function buildNumerologyPredictaReply(
   if (profile.status !== 'ready') {
     if (language === 'hi') {
       return [
-        'Numerology Predicta ready hai, lekin mujhe pehle name aur birth date chahiye.',
-        'Aap apna full name aur DOB bhej dijiye. Uske baad main name number, birth number, destiny number, aur current personal timing rhythm nikal dungi.',
+        'Numerology Predicta ready है, लेकिन मुझे पहले name और birth date चाहिए.',
+        'आप अपना full name और DOB भेज दीजिए. उसके बाद मैं name number, birth number, destiny number और current personal timing rhythm निकाल दूंगी.',
       ].join('\n\n');
     }
     if (language === 'gu') {
       return [
-        'Numerology Predicta ready chhe, pan pehla mane name ane birth date joye.',
-        'Tamaro full name ane DOB moklo. Pachhi hu name number, birth number, destiny number ane current personal timing rhythm nikaali daish.',
+        'Numerology Predicta ready છે, પરંતુ પહેલાં મને name અને birth date જોઈએ.',
+        'તમારું full name અને DOB મોકલો. પછી હું name number, birth number, destiny number અને current personal timing rhythm કાઢી દઈશ.',
       ].join('\n\n');
     }
     return [
@@ -2059,7 +2059,7 @@ function buildNumerologyPredictaReply(
 
   if (language === 'hi') {
     return [
-      'Numerology Predicta mode: main name aur DOB numbers se padhungi, Parashari/KP/Nadi logic mix nahi karungi jab tak aap synthesis na maangein.',
+      'Numerology Predicta mode: मैं name और DOB numbers से पढ़ूंगी. जब तक आप synthesis न मांगें, Parashari/KP/Nadi logic mix नहीं करूंगी.',
       `${profile.name}: name number ${profile.nameNumber.root} (${profile.nameNumber.label}), birth number ${profile.birthNumber.root} (${profile.birthNumber.label}), destiny number ${profile.destinyNumber.root} (${profile.destinyNumber.label}).`,
       `Current rhythm: personal year ${profile.personalYear.root}, month ${profile.personalMonth.root}, day ${profile.personalDay.root}.`,
       `Useful insight: ${profile.summary}`,
@@ -2074,7 +2074,7 @@ function buildNumerologyPredictaReply(
 
   if (language === 'gu') {
     return [
-      'Numerology Predicta mode: hu name ane DOB numbers thi padhish, Parashari/KP/Nadi logic mix nahi karu jya sudhi tame synthesis na maango.',
+      'Numerology Predicta mode: હું name અને DOB numbers થી વાંચીશ. જ્યાં સુધી તમે synthesis ન માગો, ત્યાં સુધી Parashari/KP/Nadi logic mix નહીં કરું.',
       `${profile.name}: name number ${profile.nameNumber.root} (${profile.nameNumber.label}), birth number ${profile.birthNumber.root} (${profile.birthNumber.label}), destiny number ${profile.destinyNumber.root} (${profile.destinyNumber.label}).`,
       `Current rhythm: personal year ${profile.personalYear.root}, month ${profile.personalMonth.root}, day ${profile.personalDay.root}.`,
       `Useful insight: ${profile.summary}`,
@@ -2104,17 +2104,17 @@ function buildNumerologyPredictaReply(
 function signatureHandoffReply(language: SupportedLanguage): string {
   if (language === 'hi') {
     return [
-      'Yeh Signature Predicta ka kaam hai. Main ise Kundli, KP, Nadi, ya Numerology ke saath casually mix nahi karungi.',
-      'Neeche “Signature Predicta kholo” dabaiye. Main aapka question wahan le jaungi.',
-      'Signature Predicta confirmed visual traits, self-expression pattern, aur practical improvement suggestions se answer karegi. Yeh identity verification, handwriting forensics, legal proof, medical diagnosis, hiring advice, ya guaranteed prediction nahi hai.',
+      'यह Signature Predicta का काम है. मैं इसे Kundli, KP, Nadi या Numerology के साथ casually mix नहीं करूंगी.',
+      'नीचे “Signature Predicta खोलें” दबाइए. मैं आपका question वहां ले जाऊंगी.',
+      'Signature Predicta confirmed visual traits, self-expression pattern और practical improvement suggestions से answer करेगी. यह identity verification, handwriting forensics, legal proof, medical diagnosis, hiring advice या guaranteed prediction नहीं है.',
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      'Aa Signature Predicta nu kaam chhe. Hu ene Kundli, KP, Nadi, ke Numerology sathe casually mix nahi karu.',
-      'Niche “Signature Predicta kholo” dabavo. Hu tamaro question tya lai jaish.',
-      'Signature Predicta confirmed visual traits, self-expression pattern ane practical improvement suggestions thi jawab aapse. Aa identity verification, handwriting forensics, legal proof, medical diagnosis, hiring advice ke guaranteed prediction nathi.',
+      'આ Signature Predicta નું કામ છે. હું તેને Kundli, KP, Nadi કે Numerology સાથે casually mix નહીં કરું.',
+      'નીચે “Signature Predicta ખોલો” દબાવો. હું તમારો question ત્યાં લઈ જઈશ.',
+      'Signature Predicta confirmed visual traits, self-expression pattern અને practical improvement suggestions થી જવાબ આપશે. આ identity verification, handwriting forensics, legal proof, medical diagnosis, hiring advice કે guaranteed prediction નથી.',
     ].join('\n\n');
   }
 
@@ -2128,17 +2128,17 @@ function signatureHandoffReply(language: SupportedLanguage): string {
 function vedicHandoffReply(language: SupportedLanguage): string {
   if (language === 'hi') {
     return [
-      'Yeh Vedic Predicta ka chart-reading question hai. Main ise KP, Nadi, Numerology, ya Signature method ke andar mix karke answer nahi dungi.',
-      'Neeche “Vedic Predicta kholo” dabaiye. Main aapka question aur active Kundli Vedic room mein le jaungi.',
+      'यह Vedic Predicta का chart-reading question है. मैं इसे KP, Nadi, Numerology या Signature method के अंदर mix करके answer नहीं दूंगी.',
+      'नीचे “Vedic Predicta खोलें” दबाइए. मैं आपका question और active Kundli Vedic room में ले जाऊंगी.',
       'Vedic Predicta D1/Rashi, Vargas, dasha, gochar, Parashari Chalit, yogas, remedies, aur holistic timing se answer karegi.',
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      'Aa Vedic Predicta no chart-reading question chhe. Hu ene KP, Nadi, Numerology, ke Signature method ma mix kari ne answer nahi aapu.',
-      'Niche “Vedic Predicta kholo” dabavo. Hu tamaro question ane active Kundli Vedic room ma lai jaish.',
-      'Vedic Predicta D1/Rashi, Vargas, dasha, gochar, Parashari Chalit, yogas, remedies ane holistic timing thi jawab aapse.',
+      'આ Vedic Predicta નો chart-reading question છે. હું તેને KP, Nadi, Numerology કે Signature method માં mix કરીને answer નહીં આપું.',
+      'નીચે “Vedic Predicta ખોલો” દબાવો. હું તમારો question અને active Kundli Vedic room માં લઈ જઈશ.',
+      'Vedic Predicta D1/Rashi, Vargas, dasha, gochar, Parashari Chalit, yogas, remedies અને holistic timing થી જવાબ આપશે.',
     ].join('\n\n');
   }
 
@@ -2168,7 +2168,7 @@ function buildSignaturePredictaReply(
   if (language === 'hi') {
     if (analysis.status === 'ready') {
       return [
-        'Signature Predicta mode: main confirmed signature traits se reading karungi, guesswork nahi.',
+        'Signature Predicta mode: मैं confirmed signature traits से reading करूंगी, guesswork नहीं.',
         `Observed traits: ${analysis.observedTraits.map(trait => `${trait.label} ${trait.value}`).join(', ')}.`,
         `Writing rhythm: ${analysis.rhythm.summary}`,
         `Confidence expression: ${analysis.confidenceExpression.summary}`,
@@ -2180,11 +2180,11 @@ function buildSignaturePredictaReply(
       ].join('\n\n');
     }
     return [
-      'Signature Predicta mode: main signature ko self-expression aur personal rhythm ke layer ki tarah padhungi.',
+      'Signature Predicta mode: मैं signature को self-expression और personal rhythm के layer की तरह पढ़ूंगी.',
       promptHasConfirmedTraits
-        ? 'Aapke confirmed signature traits mil gaye hain. Main unhi traits se reading karungi, guesswork nahi.'
-        : 'Pehle upload/draw signature karein ya visual traits confirm karein: size, slant, pressure, spacing, baseline, legibility, flourish, underline.',
-      'Main improvement suggestions de sakti hoon: cleaner readability, steadier baseline, balanced size, calmer spacing, aur confidence-friendly rhythm.',
+        ? 'आपके confirmed signature traits मिल गए हैं. मैं उन्हीं traits से reading करूंगी, guesswork नहीं.'
+        : 'पहले upload/draw signature करें या visual traits confirm करें: size, slant, pressure, spacing, baseline, legibility, flourish, underline.',
+      'मैं improvement suggestions दे सकती हूं: cleaner readability, steadier baseline, balanced size, calmer spacing और confidence-friendly rhythm.',
       analysis.safetyBoundaries.join(' '),
       premiumLine,
     ].join('\n\n');
@@ -2193,7 +2193,7 @@ function buildSignaturePredictaReply(
   if (language === 'gu') {
     if (analysis.status === 'ready') {
       return [
-        'Signature Predicta mode: hu confirmed signature traits thi reading karish, guesswork nahi.',
+        'Signature Predicta mode: હું confirmed signature traits થી reading કરીશ, guesswork નહીં.',
         `Observed traits: ${analysis.observedTraits.map(trait => `${trait.label} ${trait.value}`).join(', ')}.`,
         `Writing rhythm: ${analysis.rhythm.summary}`,
         `Confidence expression: ${analysis.confidenceExpression.summary}`,
@@ -2205,11 +2205,11 @@ function buildSignaturePredictaReply(
       ].join('\n\n');
     }
     return [
-      'Signature Predicta mode: hu signature ne self-expression ane personal rhythm na layer tariqe padhish.',
+      'Signature Predicta mode: હું signature ને self-expression અને personal rhythm ના layer તરીકે વાંચીશ.',
       promptHasConfirmedTraits
-        ? 'Tamara confirmed signature traits mali gaya chhe. Hu e traits thi reading karish, guesswork nahi.'
-        : 'Pehla signature upload/draw karo athva visual traits confirm karo: size, slant, pressure, spacing, baseline, legibility, flourish, underline.',
-      'Hu improvement suggestions api shaku chhu: cleaner readability, steadier baseline, balanced size, calmer spacing ane confidence-friendly rhythm.',
+        ? 'તમારા confirmed signature traits મળી ગયા છે. હું એ traits થી reading કરીશ, guesswork નહીં.'
+        : 'પહેલા signature upload/draw કરો અથવા visual traits confirm કરો: size, slant, pressure, spacing, baseline, legibility, flourish, underline.',
+      'હું improvement suggestions આપી શકું છું: cleaner readability, steadier baseline, balanced size, calmer spacing અને confidence-friendly rhythm.',
       analysis.safetyBoundaries.join(' '),
       premiumLine,
     ].join('\n\n');
@@ -2348,10 +2348,10 @@ function buildMemoryInsight(
     }
     const themes = memory.learnedThemes.slice(0, 3).join(', ');
     if (language === 'hi') {
-      return `Main aapka pattern learn kar rahi hoon: ${themes}.`;
+      return `मैं आपका pattern learn कर रही हूं: ${themes}.`;
     }
     if (language === 'gu') {
-      return `Hu tamaro pattern learn kari rahi chhu: ${themes}.`;
+      return `હું તમારો pattern learn કરી રહી છું: ${themes}.`;
     }
     return `I am learning your pattern: ${themes}.`;
   }
@@ -2366,32 +2366,32 @@ function buildMemoryInsight(
     )} with this Kundli. Not identical, but close enough that I would compare timing carefully.`;
 
     if (language === 'hi') {
-      return `Meri local memory mein ek close chart pattern dikha: ${
+      return `मेरी local memory में एक close chart pattern दिखा: ${
         similar.kundli.birthDetails.name
-      } mein ${similar.matches.join(
+      } में ${similar.matches.join(
         ', ',
-      )} similar hai. Identical nahi, lekin comparison useful rahega.`;
+      )} similar है. Identical नहीं, लेकिन comparison useful रहेगा.`;
     }
     if (language === 'gu') {
-      return `Mari local memory ma close chart pattern dekhaayu: ${
+      return `મારી local memory માં close chart pattern દેખાયું: ${
         similar.kundli.birthDetails.name
-      } ma ${similar.matches.join(
+      } માં ${similar.matches.join(
         ', ',
-      )} similar chhe. Identical nathi, pan comparison useful raheshe.`;
+      )} similar છે. Identical નથી, પણ comparison useful રહેશે.`;
     }
     return line;
   }
 
   if (memory?.chartSignatures.includes(chartSignature(kundli))) {
     if (language === 'hi') {
-      return `Mujhe ab yeh chart signature yaad hai: ${chartSignature(
+      return `मुझे अब यह chart signature याद है: ${chartSignature(
         kundli,
-      )}. Jaise-jaise aur Kundlis vault mein aayengi, main pattern comparison automatically karungi.`;
+      )}. जैसे-जैसे और Kundlis vault में आएंगी, मैं pattern comparison automatically करूंगी.`;
     }
     if (language === 'gu') {
-      return `Mane aa chart signature have yaad chhe: ${chartSignature(
+      return `મને આ chart signature હવે યાદ છે: ${chartSignature(
         kundli,
-      )}. Jem-jem vadhu Kundlis vault ma aavshe, hu pattern comparison automatically karish.`;
+      )}. જેમ-જેમ વધુ Kundlis vault માં આવશે, હું pattern comparison automatically કરીશ.`;
     }
     return `I remember this chart signature now: ${chartSignature(
       kundli,
@@ -2399,12 +2399,12 @@ function buildMemoryInsight(
   }
 
   if (language === 'hi') {
-    return `Main is chart signature ko memory mein add kar rahi hoon: ${chartSignature(
+    return `मैं इस chart signature को memory में add कर रही हूं: ${chartSignature(
       kundli,
     )}.`;
   }
   if (language === 'gu') {
-    return `Hu aa chart signature memory ma add kari rahi chhu: ${chartSignature(
+    return `હું આ chart signature memory માં add કરી રહી છું: ${chartSignature(
       kundli,
     )}.`;
   }
@@ -2462,10 +2462,10 @@ function buildUpsell(
       : 'Turn this into a deeper map when you want proof, timing confidence, and report-grade synthesis.';
 
   if (language === 'hi') {
-    return `Go deeper option: ${suggestion} Pehle free answer useful rahega; detailed map chahiye tab Premium, Day Pass, ya one-time report choose karein.`;
+    return `Go deeper option: ${suggestion} पहले free answer useful रहेगा; detailed map चाहिए तब Premium, Day Pass या one-time report choose करें.`;
   }
   if (language === 'gu') {
-    return `Go deeper option: ${suggestion} Pehla free answer useful raheshe; detailed map joiye tyare Premium, Day Pass, athva one-time report choose karo.`;
+    return `Go deeper option: ${suggestion} પહેલા free answer useful રહેશે; detailed map જોઈએ ત્યારે Premium, Day Pass અથવા one-time report choose કરો.`;
   }
   return `Go deeper option: ${suggestion} The free answer stays useful first; choose Premium, a Day Pass, or a one-time report only when you want the detailed map.`;
 }
@@ -2646,16 +2646,16 @@ function buildLanguageSwitchAcknowledgement(
   responseLanguage: SupportedLanguage,
 ): string | undefined {
   if (selectedLanguage === 'hi' && responseLanguage === 'gu') {
-    return 'I sense you want to talk in Gujarati. I will adjust accordingly.';
+    return 'લાગે છે કે તમે ગુજરાતી script માં વાત કરવા માંગો છો. હું આ conversation ગુજરાતી script માં રાખીશ.';
   }
   if (selectedLanguage === 'gu' && responseLanguage === 'hi') {
-    return 'Lagta hai aap Hindi/Hinglish mein comfortable ho. Main tone adjust kar leti hoon.';
+    return 'लगता है कि आप हिंदी script में comfortable हैं. मैं यह conversation हिंदी script में रखूंगी.';
   }
   if (selectedLanguage === 'en' && responseLanguage === 'hi') {
-    return 'I can feel the Hinglish tone in your message, so I will answer that way.';
+    return 'I can see you are asking in Hindi. I will answer in Hindi script, while the app language stays unchanged.';
   }
   if (selectedLanguage === 'en' && responseLanguage === 'gu') {
-    return 'I can feel the Gujarati tone in your message, so I will answer that way.';
+    return 'I can see you are asking in Gujarati. I will answer in Gujarati script, while the app language stays unchanged.';
   }
   return undefined;
 }

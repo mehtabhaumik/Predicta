@@ -1847,30 +1847,30 @@ function buildRenamedKundli(
 
 function buildKundliCreateFromChatReply(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'Bilkul. Nayi Kundli yahin chat mein bana dete hain. Name, DOB, birth time, aur birth place bhej dijiye. Agar sirf DOB pata hai, pehle wahi bhej dijiye.';
+    return 'बिल्कुल. नई Kundli यहीं chat में बना देते हैं. Name, DOB, birth time और birth place भेज दीजिए. अगर सिर्फ DOB पता है, पहले वही भेज दीजिए.';
   }
   if (language === 'gu') {
-    return 'Haan. Navi Kundli ahi chat ma banaavi dau. Name, DOB, birth time ane birth place moklo. Fakat DOB khabar hoy to pehla e moklo.';
+    return 'હા. નવી Kundli અહીં chat માં બનાવી દઉં. Name, DOB, birth time અને birth place મોકલો. ફક્ત DOB ખબર હોય તો પહેલા એ મોકલો.';
   }
   return 'Yes. I can create a new Kundli right here in chat. Send name, DOB, birth time, and birth place. If you only know the DOB, send that first.';
 }
 
 function buildNoKundliForCommandReply(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'Mujhe abhi koi saved Kundli nahi mil rahi. Pehle birth details bhejiye, main Kundli bana kar phir edit, delete, ya switch kar dungi.';
+    return 'मुझे अभी कोई saved Kundli नहीं मिल रही. पहले birth details भेजिए, मैं Kundli बनाकर फिर edit, delete या switch कर दूंगी.';
   }
   if (language === 'gu') {
-    return 'Mane haju saved Kundli mali nathi. Pehla birth details moklo, pachhi hu edit, delete, ke switch kari dau.';
+    return 'મને હજુ saved Kundli મળી નથી. પહેલા birth details મોકલો, પછી હું edit, delete કે switch કરી દઈશ.';
   }
   return 'I do not see a saved Kundli yet. Send birth details first; then I can edit, delete, or switch Kundlis for you.';
 }
 
 function buildGuestKundliLimitReply(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'Aapki pehli Kundli safe hai. Ek aur Kundli save karne ke liye sign in karein, taaki family profiles aur saved charts baad mein bhi mil sakein.';
+    return 'आपकी पहली Kundli safe है. एक और Kundli save करने के लिए sign in करें, ताकि family profiles और saved charts बाद में भी मिल सकें.';
   }
   if (language === 'gu') {
-    return 'Tamari pehli Kundli safe chhe. Biji Kundli save karva sign in karo, jethi family profiles ane saved charts pachhi pan mali shake.';
+    return 'તમારી પહેલી Kundli safe છે. બીજી Kundli save કરવા માટે sign in કરો, જેથી family profiles અને saved charts પછી પણ મળી શકે.';
   }
   return 'Your first Kundli is safe. Please sign in before saving another Kundli, so family profiles and saved charts stay protected for later.';
 }
@@ -1880,10 +1880,10 @@ function buildKundliSetActiveReply(
   kundli: KundliData,
 ): string {
   if (language === 'hi') {
-    return `${kundli.birthDetails.name} ki Kundli active kar di. Ab main isi chart se jawab dungi.`;
+    return `${kundli.birthDetails.name} की Kundli active कर दी. अब मैं इसी chart से जवाब दूंगी.`;
   }
   if (language === 'gu') {
-    return `${kundli.birthDetails.name} ni Kundli active kari didhi. Have hu aa chart thi jawab apish.`;
+    return `${kundli.birthDetails.name} ની Kundli active કરી દીધી. હવે હું આ chart થી જવાબ આપીશ.`;
   }
   return `${kundli.birthDetails.name}'s Kundli is now active. I will answer from this chart.`;
 }
@@ -1893,10 +1893,10 @@ function buildKundliDeleteConfirmReply(
   kundli: KundliData,
 ): string {
   if (language === 'hi') {
-    return `Aap ${kundli.birthDetails.name} ki Kundli delete karna chahte hain. Yeh library se hat jayegi. Confirm karne ke liye "delete Kundli" likhiye, ya "cancel" likhiye.`;
+    return `आप ${kundli.birthDetails.name} की Kundli delete करना चाहते हैं. यह library से हट जाएगी. Confirm करने के लिए "delete Kundli" लिखिए, या "cancel" लिखिए.`;
   }
   if (language === 'gu') {
-    return `Tame ${kundli.birthDetails.name} ni Kundli delete karva mango chho. Aa library mathi hati jashe. Confirm karva "delete Kundli" lakho, athva "cancel" lakho.`;
+    return `તમે ${kundli.birthDetails.name} ની Kundli delete કરવા માંગો છો. આ library માંથી હટી જશે. Confirm કરવા "delete Kundli" લખો, અથવા "cancel" લખો.`;
   }
   return `You are about to delete ${kundli.birthDetails.name}'s Kundli from your library. Reply "delete Kundli" to confirm, or "cancel" to stop.`;
 }
@@ -1906,10 +1906,10 @@ function buildKundliGenericEditReply(
   kundli: KundliData,
 ): string {
   if (language === 'hi') {
-    return `${kundli.birthDetails.name} ki Kundli edit kar sakti hoon. Bataiye kya badalna hai: birth time, DOB, birth place, ya name. Example: "change birth time to 06:45 AM".`;
+    return `${kundli.birthDetails.name} की Kundli edit कर सकती हूं. बताइए क्या बदलना है: birth time, DOB, birth place या name. Example: "change birth time to 06:45 AM".`;
   }
   if (language === 'gu') {
-    return `${kundli.birthDetails.name} ni Kundli edit kari shaku chhu. Shu badalvu chhe: birth time, DOB, birth place, ke name? Example: "change birth time to 06:45 AM".`;
+    return `${kundli.birthDetails.name} ની Kundli edit કરી શકું છું. શું બદલવું છે: birth time, DOB, birth place કે name? Example: "change birth time to 06:45 AM".`;
   }
   return `I can edit ${kundli.birthDetails.name}'s Kundli. Tell me what to change: birth time, DOB, birth place, or name. Example: "change birth time to 06:45 AM".`;
 }
@@ -1921,12 +1921,16 @@ function buildKundliEditNeedsValueReply(
   if (command.field === 'place') {
     return language === 'en'
       ? 'I could not identify that birth place. Please send city, state, and country.'
-      : 'Birth place clear nahi hua. City, state, aur country bhejiye.';
+      : language === 'hi'
+        ? 'Birth place clear नहीं हुआ. City, state और country भेजिए.'
+        : 'Birth place clear નથી થયું. City, state અને country મોકલો.';
   }
 
   return language === 'en'
     ? 'I need the exact value before editing the Kundli. Please send it once more clearly.'
-    : 'Kundli edit karne ke liye exact value chahiye. Ek baar clearly bhejiye.';
+    : language === 'hi'
+      ? 'Kundli edit करने के लिए exact value चाहिए. एक बार clearly भेजिए.'
+      : 'Kundli edit કરવા માટે exact value જોઈએ. એક વાર clearly મોકલો.';
 }
 
 function buildKundliEditConfirmReply(
@@ -1937,7 +1941,7 @@ function buildKundliEditConfirmReply(
 ): string {
   const changeLine = formatKundliChange(command.field, nextBirthDetails);
   if (language === 'hi') {
-    return `Main ${kundli.birthDetails.name} ki Kundli mein yeh change kar sakti hoon:\n${changeLine}\n\nDate, time, ya place badalne se chart dobara calculate hota hai. Reply karein: "update existing", "save as new", ya "cancel".`;
+    return `मैं ${kundli.birthDetails.name} की Kundli में यह change कर सकती हूं:\n${changeLine}\n\nDate, time या place बदलने से chart दोबारा calculate होता है. Reply करें: "update existing", "save as new" या "cancel".`;
   }
   if (language === 'gu') {
     return `Hu ${kundli.birthDetails.name} ni Kundli ma aa change kari shaku chhu:\n${changeLine}\n\nDate, time, ke place badlase to chart fari calculate thashe. Reply karo: "update existing", "save as new", ke "cancel".`;
@@ -1948,19 +1952,25 @@ function buildKundliEditConfirmReply(
 function buildKundliDeleteConfirmReminder(language: SupportedLanguage): string {
   return language === 'en'
     ? 'Please reply "delete Kundli" to confirm deletion, or "cancel" to stop.'
-    : 'Delete confirm karne ke liye "delete Kundli" likhiye, ya rokne ke liye "cancel" likhiye.';
+    : language === 'hi'
+      ? 'Delete confirm करने के लिए "delete Kundli" लिखिए, या रोकने के लिए "cancel" लिखिए.'
+      : 'Delete confirm કરવા માટે "delete Kundli" લખો, અથવા રોકવા માટે "cancel" લખો.';
 }
 
 function buildKundliEditConfirmReminder(language: SupportedLanguage): string {
   return language === 'en'
     ? 'Please reply "update existing", "save as new", or "cancel".'
-    : 'Please "update existing", "save as new", ya "cancel" likhiye.';
+    : language === 'hi'
+      ? 'Please "update existing", "save as new" या "cancel" लिखिए.'
+      : 'Please "update existing", "save as new" અથવા "cancel" લખો.';
 }
 
 function buildKundliCommandCancelledReply(language: SupportedLanguage): string {
   return language === 'en'
     ? 'Done. I did not change the Kundli.'
-    : 'Theek hai. Maine Kundli mein koi change nahi kiya.';
+    : language === 'hi'
+      ? 'ठीक है. मैंने Kundli में कोई change नहीं किया.'
+      : 'ઠીક છે. મેં Kundli માં કોઈ change કર્યું નથી.';
 }
 
 function buildKundliDeletedReply(
@@ -1976,9 +1986,9 @@ function buildKundliDeletedReply(
   }
   if (language === 'gu') {
     const nextLine = nextActive
-      ? ` Active Kundli have ${nextActive.birthDetails.name} chhe.`
+      ? ` Active Kundli હવે ${nextActive.birthDetails.name} છે.`
       : '';
-    return `${deletedName} ni Kundli library mathi delete thai gai.${nextLine}`;
+    return `${deletedName} ની Kundli library માંથી delete થઈ ગઈ.${nextLine}`;
   }
   const nextLine = nextActive
     ? ` Active Kundli: ${nextActive.birthDetails.name}.`
@@ -3369,21 +3379,21 @@ function buildBirthTimeConfirmedReply(
 
   if (language === 'hi') {
     return [
-      `Done. ${name} ke liye entered birth time ${enteredTime} confirm kar diya hai.`,
+      `Done. ${name} के लिए entered birth time ${enteredTime} confirm कर दिया है.`,
       restoredFromRectified
-        ? `Maine rectified time hata kar original entered time ${enteredTime} se Kundli dobara calculate kar di hai.`
-        : 'Ab is Kundli par rectified/probable time label nahi lagega.',
-      'Ab main normal chart guidance de sakti hoon. Exact event timing mein phir bhi humility rakhungi, because astrology guidance hai, guarantee nahi.',
+        ? `मैंने rectified time हटाकर original entered time ${enteredTime} से Kundli दोबारा calculate कर दी है.`
+        : 'अब इस Kundli पर rectified/probable time label नहीं लगेगा.',
+      'अब मैं normal chart guidance दे सकती हूं. Exact event timing में फिर भी सावधानी रखूंगी, क्योंकि astrology guidance है, guarantee नहीं.',
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      `Done. ${name} mate entered birth time ${enteredTime} confirm kari didho chhe.`,
+      `Done. ${name} માટે entered birth time ${enteredTime} confirm કરી દીધો છે.`,
       restoredFromRectified
-        ? `Maine rectified time hataavi ne original entered time ${enteredTime} thi Kundli fari calculate kari chhe.`
-        : 'Have aa Kundli par rectified/probable time label nahi lage.',
-      'Have hu normal chart guidance aapi shaku chhu. Exact event timing ma pan humility rakish, karan ke astrology guidance chhe, guarantee nathi.',
+        ? `મેં rectified time હટાવીને original entered time ${enteredTime} થી Kundli ફરી calculate કરી છે.`
+        : 'હવે આ Kundli પર rectified/probable time label નહીં લાગે.',
+      'હવે હું normal chart guidance આપી શકું છું. Exact event timing માં પણ સાવચેતી રાખીશ, કારણ કે astrology guidance છે, guarantee નથી.',
     ].join('\n\n');
   }
 
@@ -3398,11 +3408,11 @@ function buildBirthTimeConfirmationFailedReply(
   language: SupportedLanguage,
 ): string {
   if (language === 'hi') {
-    return 'Birth time confirm karte waqt issue aa gaya. Please ek baar Birth Time Detective ya Kundli page se dobara try karein.';
+    return 'Birth time confirm करते समय issue आ गया. Please एक बार Birth Time Detective या Kundli page से दोबारा try करें.';
   }
 
   if (language === 'gu') {
-    return 'Birth time confirm karti vakhat issue aavyo. Please Birth Time Detective athva Kundli page thi fari try karo.';
+    return 'Birth time confirm કરતી વખતે issue આવ્યો. Please Birth Time Detective અથવા Kundli page થી ફરી try કરો.';
   }
 
   return 'I could not confirm the birth time just now. Please try again from Birth Time Detective or the Kundli page.';
@@ -3420,21 +3430,21 @@ function buildBirthDetailConfidenceGateReply(
 
   if (language === 'hi') {
     return [
-      'Birth time check pehle karte hain.',
-      `Mere paas ${kundli.birthDetails.name} ki Kundli hai, par birth time ${timeText} ko deep prediction ke liye confirm karna zaroori hai. Even 10-15 minutes houses, divisional charts aur timing ko change kar sakte hain.`,
+      'Birth time check पहले करते हैं.',
+      `मेरे पास ${kundli.birthDetails.name} की Kundli है, पर birth time ${timeText} को deep prediction के लिए confirm करना ज़रूरी है. Even 10-15 minutes houses, divisional charts और timing को change कर सकते हैं.`,
       `Reason: ${reason}.`,
-      'Main abhi broad guidance de sakti hoon, lekin exact timing, marriage/career/finance prediction, D9/D10/KP/Nadi depth, ya report-grade answer se pehle time confirm karungi.',
-      'Agar time doubtful hai, main simple life-event questions pooch kar probable corrected birth time estimate kar sakti hoon. Isse reading safer aur zyada honest rahegi.',
+      'मैं अभी broad guidance दे सकती हूं, लेकिन exact timing, marriage/career/finance prediction, D9/D10/KP/Nadi depth या report-grade answer से पहले time confirm करूंगी.',
+      'अगर time doubtful है, मैं simple life-event questions पूछकर probable corrected birth time estimate कर सकती हूं. इससे reading safer और ज़्यादा honest रहेगी.',
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      'Birth time pehla confirm kariye.',
-      `Mare pase ${kundli.birthDetails.name} ni Kundli chhe, pan birth time ${timeText} deep prediction mate confirm karvo jaruri chhe. 10-15 minutes pan houses, divisional charts ane timing badli shake chhe.`,
+      'Birth time પહેલા confirm કરીએ.',
+      `મારી પાસે ${kundli.birthDetails.name} ની Kundli છે, પણ birth time ${timeText} deep prediction માટે confirm કરવો જરૂરી છે. 10-15 minutes પણ houses, divisional charts અને timing બદલી શકે છે.`,
       `Reason: ${reason}.`,
-      'Hu haal broad guidance aapi shaku chhu, pan exact timing, marriage/career/finance prediction, D9/D10/KP/Nadi depth, athva report-grade answer pehla time confirm karish.',
-      'Jo time doubtful hoy, hu simple life-event questions poochine probable corrected birth time estimate kari shaku chhu. Aa reading ne safer ane honest banave chhe.',
+      'હું હાલ broad guidance આપી શકું છું, પણ exact timing, marriage/career/finance prediction, D9/D10/KP/Nadi depth અથવા report-grade answer પહેલાં time confirm કરીશ.',
+      'જો time doubtful હોય, હું simple life-event questions પૂછીને probable corrected birth time estimate કરી શકું છું. આ reading ને safer અને honest બનાવે છે.',
     ].join('\n\n');
   }
 
@@ -3480,11 +3490,11 @@ function buildPartialBirthDetailGateReply(
 
   if (language === 'hi') {
     return [
-      'Main half details par deep prediction start nahi karungi.',
-      knownDetails ? `Abhi mere paas:\n${knownDetails}` : undefined,
+      'मैं half details पर deep prediction start नहीं करूंगी.',
+      knownDetails ? `अभी मेरे पास:\n${knownDetails}` : undefined,
       `Missing: ${missing.join(', ')}.`,
-      'DOB se broad baat ho sakti hai, lekin real Kundli, houses, dasha, timing, KP/Nadi aur reports ke liye birth time aur place zaroori hain.',
-      'Agar birth time exact nahi pata, “time unknown” likh dijiye. Main simple life questions pooch kar birth-time detective mode se guide karungi.',
+      'DOB से broad बात हो सकती है, लेकिन real Kundli, houses, dasha, timing, KP/Nadi और reports के लिए birth time और place ज़रूरी हैं.',
+      'अगर birth time exact नहीं पता, “time unknown” लिख दीजिए. मैं simple life questions पूछकर birth-time detective mode से guide करूंगी.',
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -3492,11 +3502,11 @@ function buildPartialBirthDetailGateReply(
 
   if (language === 'gu') {
     return [
-      'Hu half details par deep prediction start nahi karish.',
-      knownDetails ? `Haal ma mare pase:\n${knownDetails}` : undefined,
+      'હું half details પર deep prediction start નહીં કરું.',
+      knownDetails ? `હાલમાં મારી પાસે:\n${knownDetails}` : undefined,
       `Missing: ${missing.join(', ')}.`,
-      'DOB thi broad vaat thai shake, pan real Kundli, houses, dasha, timing, KP/Nadi ane reports mate birth time ane place jaruri chhe.',
-      'Jo birth time exact khabar nathi, “time unknown” lakho. Hu simple life questions poochine birth-time detective mode thi guide karish.',
+      'DOB થી broad વાત થઈ શકે, પણ real Kundli, houses, dasha, timing, KP/Nadi અને reports માટે birth time અને place જરૂરી છે.',
+      'જો birth time exact ખબર નથી, “time unknown” લખો. હું simple life questions પૂછીને birth-time detective mode થી guide કરીશ.',
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -3520,15 +3530,15 @@ function buildBirthDetailConfidenceSuggestions(
     return [
       {
         id: 'birth-confidence-confirm-time',
-        label: 'Time correct hai',
+        label: 'Time correct है',
         prompt:
-          'Mera birth time correct hai. Is confidence ke saath reading continue karo, par timing confidence clearly mention karna.',
+          'मेरा birth time correct है. इस confidence के साथ reading continue करो, पर timing confidence clearly mention करना.',
       },
       {
         id: 'birth-confidence-rectify',
         label: 'Time re-check karo',
         prompt:
-          'Mera birth time doubtful hai. Mujhe simple life-event questions pooch kar probable corrected birth time estimate karo.',
+          'मेरा birth time doubtful है. मुझे simple life-event questions पूछकर probable corrected birth time estimate करो.',
       },
       {
         href: '/dashboard/birth-time',
@@ -3544,15 +3554,15 @@ function buildBirthDetailConfidenceSuggestions(
     return [
       {
         id: 'birth-confidence-confirm-time',
-        label: 'Time correct chhe',
+        label: 'Time correct છે',
         prompt:
-          'Maro birth time correct chhe. Aa confidence sathe reading continue karo, pan timing confidence clearly mention karjo.',
+          'મારો birth time correct છે. આ confidence સાથે reading continue કરો, પણ timing confidence clearly mention કરજો.',
       },
       {
         id: 'birth-confidence-rectify',
         label: 'Time re-check karo',
         prompt:
-          'Maro birth time doubtful chhe. Mane simple life-event questions poochine probable corrected birth time estimate karo.',
+          'મારો birth time doubtful છે. મને simple life-event questions પૂછીને probable corrected birth time estimate કરો.',
       },
       {
         href: '/dashboard/birth-time',
@@ -3972,9 +3982,9 @@ function buildCtaContextIntro(
 
   if (language === 'hi') {
     return [
-      `${source} se aapka sawaal mil gaya hai.`,
-      focus ? `Ab hum yeh dekh rahe hain: ${focus}` : undefined,
-      'Main aapki selected Kundli se yahin jawab dungi. Aap Ask dabaiye ya apna follow-up likhiye.',
+      `${source} से आपका सवाल मिल गया है.`,
+      focus ? `अब हम यह देख रहे हैं: ${focus}` : undefined,
+      'मैं आपकी selected Kundli से यहीं जवाब दूंगी. आप Ask दबाइए या अपना follow-up लिखिए.',
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -3982,9 +3992,9 @@ function buildCtaContextIntro(
 
   if (language === 'gu') {
     return [
-      `${source} mathi tamaro sawal mali gayo chhe.`,
-      focus ? `Havye aapde aa joiye chhiye: ${focus}` : undefined,
-      'Hu tamari selected Kundli thi ahi j jawab aapish. Ask dabavo athva follow-up lakho.',
+      `${source} માંથી તમારો સવાલ મળી ગયો છે.`,
+      focus ? `હવે આપણે આ જોઈ રહ્યા છીએ: ${focus}` : undefined,
+      'હું તમારી selected Kundli થી અહીં જ જવાબ આપીશ. Ask દબાવો અથવા follow-up લખો.',
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -4033,22 +4043,22 @@ function buildSchoolContextIntro(
 
   if (language === 'hi') {
     return [
-      `${school} ready hai.`,
+      `${school} ready है.`,
       fromSchool
-        ? `${fromSchool} se context carry ho gaya hai. Method mix nahi hoga.`
+        ? `${fromSchool} से context आ गया है. Method mix नहीं होगा.`
         : undefined,
       chartFocus ? `Selected chart: ${chartFocus}.` : undefined,
-      question ? `Aapka question: ${question}` : undefined,
+      question ? `आपका question: ${question}` : undefined,
       context.predictaSchool === 'KP'
-        ? 'Ab answer KP ke cusps, star lords, sub lords, significators aur ruling planets se hi grounded rahega.'
+        ? 'अब answer KP के cusps, star lords, sub lords, significators और ruling planets से ही grounded रहेगा.'
       : context.predictaSchool === 'NADI'
-          ? 'Nadi Predicta ready hai. Main planetary story links aur validation questions se padhungi; ancient palm-leaf access ka daava nahi karungi.'
+          ? 'Nadi Predicta ready है. मैं planetary story links और validation questions से पढ़ूंगी; ancient palm-leaf access का दावा नहीं करूंगी.'
       : context.predictaSchool === 'NUMEROLOGY'
-          ? 'Ab answer name number, birth number, destiny number, personal timing aur name rhythm par grounded rahega.'
+          ? 'अब answer name number, birth number, destiny number, personal timing और name rhythm पर grounded रहेगा.'
       : context.predictaSchool === 'SIGNATURE'
-          ? 'Ab answer confirmed signature traits, self-expression patterns, improvement suggestions aur safe reflection par grounded rahega. Yeh identity verification, handwriting forensics, legal proof ya diagnosis nahi hai.'
-          : 'Ab answer Vedic Parashari Jyotish context mein rahega.',
-      'Press Ask, ya apna follow-up likhiye.',
+          ? 'अब answer confirmed signature traits, self-expression patterns, improvement suggestions और safe reflection पर grounded रहेगा. यह identity verification, handwriting forensics, legal proof या diagnosis नहीं है.'
+          : 'अब answer Vedic Parashari Jyotish context में रहेगा.',
+      'Press Ask या अपना follow-up लिखिए.',
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -4056,22 +4066,22 @@ function buildSchoolContextIntro(
 
   if (language === 'gu') {
     return [
-      `${school} ready chhe.`,
+      `${school} ready છે.`,
       fromSchool
-        ? `${fromSchool} thi context carry thai gayo chhe. Method mix nahi thay.`
+        ? `${fromSchool} થી context આવી ગયો છે. Method mix નહીં થાય.`
         : undefined,
       chartFocus ? `Selected chart: ${chartFocus}.` : undefined,
-      question ? `Tamaro question: ${question}` : undefined,
+      question ? `તમારો question: ${question}` : undefined,
       context.predictaSchool === 'KP'
-        ? 'Have answer KP cusps, star lords, sub lords, significators ane ruling planets par grounded rahe.'
+        ? 'હવે answer KP cusps, star lords, sub lords, significators અને ruling planets પર grounded રહેશે.'
       : context.predictaSchool === 'NADI'
-          ? 'Nadi Predicta ready chhe. Hu planetary story links ane validation questions thi padhish; ancient palm-leaf access no daavo nahi karu.'
+          ? 'Nadi Predicta ready છે. હું planetary story links અને validation questions થી વાંચીશ; ancient palm-leaf access નો દાવો નહીં કરું.'
       : context.predictaSchool === 'NUMEROLOGY'
-          ? 'Have answer name number, birth number, destiny number, personal timing ane name rhythm par grounded rahe.'
+          ? 'હવે answer name number, birth number, destiny number, personal timing અને name rhythm પર grounded રહેશે.'
       : context.predictaSchool === 'SIGNATURE'
-          ? 'Have answer confirmed signature traits, self-expression patterns, improvement suggestions ane safe reflection par grounded rahe. Aa identity verification, handwriting forensics, legal proof ke diagnosis nathi.'
-          : 'Have answer Vedic Parashari Jyotish context ma rahe.',
-      'Ask dabavo, athva tamaro follow-up lakho.',
+          ? 'હવે answer confirmed signature traits, self-expression patterns, improvement suggestions અને safe reflection પર grounded રહેશે. આ identity verification, handwriting forensics, legal proof કે diagnosis નથી.'
+          : 'હવે answer Vedic Parashari Jyotish context માં રહેશે.',
+      'Ask દબાવો અથવા તમારો follow-up લખો.',
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -4511,11 +4521,19 @@ function sanitizeStoredMessage(message: WebMessage): WebMessage {
 }
 
 function sanitizeChatCopy(text: string): string {
+  const oldHindiContextLine = new RegExp(
+    [
+      'Main isi context aur active Kundli se answer karungi\\.',
+      'Aap Ask d',
+      'abaiye ya apna follow-up likhiye\\.',
+    ].join(' '),
+    'g',
+  );
   return text
     .replace(/Dashboard Header context loaded hai\./g, 'I picked this up from your dashboard.')
     .replace(/Dashboard Header context loaded\./g, 'I picked this up from your dashboard.')
     .replace(/Focus: Help me from my active Kundli\./g, 'We are looking at: Help me from my selected Kundli.')
-    .replace(/Main isi context aur active Kundli se answer karungi\. Aap Ask dabaiye ya apna follow-up likhiye\./g, 'Main aapki selected Kundli se yahin jawab dungi. Aap Ask dabaiye ya apna follow-up likhiye.')
+    .replace(oldHindiContextLine, 'मैं आपकी selected Kundli से यहीं जवाब दूंगी. आप Ask दबाइए या अपना follow-up लिखिए.')
     .replace(/I will answer from this context and your active Kundli\. Press Ask or type your follow-up\./g, 'I will use your selected Kundli here. Press Ask or type your follow-up.')
     .replace(/\bactive Kundli\b/g, 'selected Kundli')
     .replace(/\bactive chart\b/g, 'selected chart')
