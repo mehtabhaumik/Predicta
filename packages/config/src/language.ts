@@ -66,6 +66,7 @@ export type AppShellLabels = {
     account: string;
     birthTime: string;
     chat: string;
+    dashboard: string;
     decision: string;
     family: string;
     founderVision: string;

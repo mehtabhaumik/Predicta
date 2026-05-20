@@ -15,54 +15,83 @@ const publicHeaderCopy: Record<
     dashboard: string;
     links: Array<{ href: string; label: string }>;
     menu: string;
+    supportLinks: Array<{ href: string; label: string }>;
+    supportTitle: string;
     tagline: string;
   }
 > = {
   en: {
     dashboard: 'Open Dashboard',
     links: [
+      { href: '/dashboard', label: 'Dashboard' },
       { href: '/dashboard/vedic', label: 'Vedic' },
       { href: '/dashboard/kp', label: 'KP' },
       { href: '/dashboard/nadi', label: 'Nadi' },
       { href: '/dashboard/numerology', label: 'Numerology' },
       { href: '/dashboard/signature', label: 'Signature' },
       { href: '/dashboard/report', label: 'Reports' },
+      { href: '/dashboard/saved-kundlis', label: 'Library' },
+      { href: '/dashboard/settings', label: 'Account' },
+    ],
+    supportLinks: [
       { href: '/accuracy-method', label: 'Method' },
       { href: '/safety', label: 'Safety' },
+      { href: '/founder', label: 'Founder' },
       { href: '/pricing', label: 'Pricing' },
+      { href: '/feedback', label: 'Feedback' },
+      { href: '/legal', label: 'Legal' },
     ],
+    supportTitle: 'Support',
     menu: 'Open navigation menu',
     tagline: 'Holistic astrology',
   },
   hi: {
     dashboard: 'डैशबोर्ड खोलें',
     links: [
+      { href: '/dashboard', label: 'डैशबोर्ड' },
       { href: '/dashboard/vedic', label: 'वैदिक' },
       { href: '/dashboard/kp', label: 'KP' },
       { href: '/dashboard/nadi', label: 'नाड़ी' },
       { href: '/dashboard/numerology', label: 'अंक ज्योतिष' },
       { href: '/dashboard/signature', label: 'हस्ताक्षर' },
       { href: '/dashboard/report', label: 'रिपोर्ट' },
+      { href: '/dashboard/saved-kundlis', label: 'कुंडली लाइब्रेरी' },
+      { href: '/dashboard/settings', label: 'अकाउंट' },
+    ],
+    supportLinks: [
       { href: '/accuracy-method', label: 'विधि' },
       { href: '/safety', label: 'सुरक्षा' },
+      { href: '/founder', label: 'संस्थापक' },
       { href: '/pricing', label: 'प्राइसिंग' },
+      { href: '/feedback', label: 'फीडबैक' },
+      { href: '/legal', label: 'कानूनी' },
     ],
+    supportTitle: 'सहायता',
     menu: 'नेविगेशन मेनू खोलें',
     tagline: 'होलिस्टिक ज्योतिष',
   },
   gu: {
     dashboard: 'ડેશબોર્ડ ખોલો',
     links: [
+      { href: '/dashboard', label: 'ડેશબોર્ડ' },
       { href: '/dashboard/vedic', label: 'વેદિક' },
       { href: '/dashboard/kp', label: 'KP' },
       { href: '/dashboard/nadi', label: 'નાડી' },
       { href: '/dashboard/numerology', label: 'અંક જ્યોતિષ' },
       { href: '/dashboard/signature', label: 'સહી' },
       { href: '/dashboard/report', label: 'રિપોર્ટ્સ' },
+      { href: '/dashboard/saved-kundlis', label: 'કુંડળી લાઇબ્રેરી' },
+      { href: '/dashboard/settings', label: 'એકાઉન્ટ' },
+    ],
+    supportLinks: [
       { href: '/accuracy-method', label: 'પદ્ધતિ' },
       { href: '/safety', label: 'સેફ્ટી' },
+      { href: '/founder', label: 'સ્થાપક' },
       { href: '/pricing', label: 'પ્રાઇસિંગ' },
+      { href: '/feedback', label: 'ફીડબેક' },
+      { href: '/legal', label: 'કાનૂની' },
     ],
+    supportTitle: 'સહાય',
     menu: 'નેવિગેશન મેનૂ ખોલો',
     tagline: 'હોલિસ્ટિક જ્યોતિષ',
   },
@@ -172,28 +201,27 @@ export function WebHeader(): React.JSX.Element {
             />
             <div className="mobile-menu-panel">
               <nav aria-label="Mobile navigation">
-                {copy.links.map(link => {
-                  const active = isPublicNavActive(pathname, link.href);
-
-                  return active ? (
-                    <span
-                      aria-current="page"
-                      aria-disabled="true"
-                      className="active disabled"
-                      key={link.href}
-                    >
-                      {link.label}
-                    </span>
-                  ) : (
-                    <Link
-                      href={link.href}
-                      key={link.href}
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      {link.label}
-                    </Link>
-                  );
-                })}
+                <div className="mobile-menu-nav-group">
+                  {copy.links.map(link =>
+                    renderPublicMobileLink({
+                      link,
+                      onClick: () => setMenuOpen(false),
+                      pathname,
+                    }),
+                  )}
+                </div>
+                <div className="mobile-menu-nav-group">
+                  <span className="mobile-menu-nav-title">
+                    {copy.supportTitle}
+                  </span>
+                  {copy.supportLinks.map(link =>
+                    renderPublicMobileLink({
+                      link,
+                      onClick: () => setMenuOpen(false),
+                      pathname,
+                    }),
+                  )}
+                </div>
               </nav>
               <div className="mobile-menu-actions">
                 <WebLanguageSelector compact />
@@ -215,5 +243,36 @@ export function WebHeader(): React.JSX.Element {
 }
 
 function isPublicNavActive(pathname: string, href: string): boolean {
+  if (href === '/dashboard') {
+    return pathname === href;
+  }
+
   return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function renderPublicMobileLink({
+  link,
+  onClick,
+  pathname,
+}: {
+  link: { href: string; label: string };
+  onClick: () => void;
+  pathname: string;
+}): React.JSX.Element {
+  const active = isPublicNavActive(pathname, link.href);
+
+  return active ? (
+    <span
+      aria-current="page"
+      aria-disabled="true"
+      className="active disabled"
+      key={link.href}
+    >
+      {link.label}
+    </span>
+  ) : (
+    <Link href={link.href} key={link.href} onClick={onClick}>
+      {link.label}
+    </Link>
+  );
 }

@@ -35,12 +35,10 @@ function isSidebarNavItemActive(pathname: string, href: string): boolean {
 export function SidebarNav({
   adminLabel = 'Admin',
   commonGroups,
-  sectionLabel = 'Main Sections',
   activeSection,
   ownerLabel = 'Owner',
   privateSaveBody = 'Your Kundli stays safe here. Sign in to keep it with you on every device.',
   privateSaveTitle = 'SAVED SAFELY',
-  sections,
   showAdmin,
   thisSectionLabel = 'This Section',
 }: {
@@ -50,8 +48,6 @@ export function SidebarNav({
   ownerLabel?: string;
   privateSaveBody?: string;
   privateSaveTitle?: string;
-  sectionLabel?: string;
-  sections: SidebarSection[];
   showAdmin: boolean;
   thisSectionLabel?: string;
 }): React.JSX.Element {
@@ -84,41 +80,6 @@ export function SidebarNav({
         </span>
       </Link>
       <nav aria-label="Dashboard navigation" className="nav-list">
-        <div className="nav-section">
-          <span className="nav-section-title">{sectionLabel}</span>
-          <div className="nav-section-links nav-section-switcher">
-            {sections.map(section => {
-              const active = section.id === activeSection.id;
-              const exactPage = pathname === section.href;
-
-              return (
-                <motion.div
-                  key={section.id}
-                  whileHover={reduceMotion || exactPage ? undefined : { x: 3 }}
-                >
-                  {exactPage ? (
-                    <span
-                      aria-current="page"
-                      aria-disabled="true"
-                      className="nav-link nav-section-link active disabled"
-                    >
-                      {section.label}
-                    </span>
-                  ) : (
-                    <Link
-                      aria-current={active ? 'true' : undefined}
-                      className={`nav-link nav-section-link${active ? ' active' : ''}`}
-                      href={section.href}
-                    >
-                      {section.label}
-                    </Link>
-                  )}
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-
         <div className="nav-section">
           <span className="nav-section-title">{thisSectionLabel}</span>
           <div className="nav-section-links">

@@ -46,7 +46,7 @@ function buildDashboardNavModel(
     {
       href: '/dashboard',
       id: 'overview',
-      label: labels.nav.overview,
+      label: labels.nav.dashboard,
       items: [
         { href: '/dashboard', label: labels.nav.overview },
       ],
@@ -167,10 +167,53 @@ function getActiveDashboardSection(
   pathname: string,
   sections: SidebarSection[],
 ): SidebarSection {
+  if (pathname === '/dashboard/chat') {
+    return sections.find(section => section.id === 'vedic') ?? sections[0];
+  }
+
   return (
     sections.find(section =>
       section.items.some(item => isDashboardNavItemActive(pathname, item.href)),
     ) ?? sections[0]
+  );
+}
+
+function renderDashboardMasterLink({
+  activeSection,
+  exactPage,
+  onClick,
+  section,
+}: {
+  activeSection: SidebarSection;
+  exactPage: boolean;
+  onClick?: () => void;
+  section: SidebarSection;
+}): React.JSX.Element {
+  const active = section.id === activeSection.id;
+
+  if (exactPage) {
+    return (
+      <span
+        aria-current="page"
+        aria-disabled="true"
+        className="active disabled"
+        key={section.id}
+      >
+        {section.label}
+      </span>
+    );
+  }
+
+  return (
+    <Link
+      aria-current={active ? 'true' : undefined}
+      className={active ? 'active' : undefined}
+      href={section.href}
+      key={section.id}
+      onClick={onClick}
+    >
+      {section.label}
+    </Link>
   );
 }
 
@@ -223,16 +266,23 @@ export function DashboardShell({
         ownerLabel={shellLabels.groups.owner}
         privateSaveBody={shellLabels.privateSave.body}
         privateSaveTitle={shellLabels.privateSave.title}
-        sectionLabel={shellLabels.groups.sections}
-        sections={sections}
         showAdmin={showAdmin}
         thisSectionLabel={shellLabels.groups.thisSection}
       />
       <main className={`main-workspace ${isChatRoute ? 'chat-main-workspace' : ''}`}>
         <div className="dashboard-topbar glass-panel">
-          <div>
-            <p>{shellLabels.topbarDescription}</p>
-          </div>
+          <nav
+            aria-label={shellLabels.groups.sections}
+            className="dashboard-master-nav"
+          >
+            {sections.map(section =>
+              renderDashboardMasterLink({
+                activeSection,
+                exactPage: pathname === section.href,
+                section,
+              }),
+            )}
+          </nav>
           <div className="dashboard-topbar-actions">
             <WebLanguageSelector compact />
             <Link
@@ -294,33 +344,14 @@ export function DashboardShell({
                 <div className="dashboard-mobile-nav-section">
                   <span>{shellLabels.groups.sections}</span>
                   <div className="dashboard-mobile-section-switcher">
-                    {sections.map(section => {
-                      const active = section.id === activeSection.id;
-                      const exactPage = pathname === section.href;
-
-                      return (
-                        exactPage ? (
-                          <span
-                            aria-current="page"
-                            aria-disabled="true"
-                            className="active disabled"
-                            key={section.id}
-                          >
-                            {section.label}
-                          </span>
-                        ) : (
-                          <Link
-                            aria-current={active ? 'true' : undefined}
-                            className={active ? 'active' : undefined}
-                            href={section.href}
-                            key={section.id}
-                            onClick={() => setMenuOpen(false)}
-                          >
-                            {section.label}
-                          </Link>
-                        )
-                      );
-                    })}
+                    {sections.map(section =>
+                      renderDashboardMasterLink({
+                        activeSection,
+                        exactPage: pathname === section.href,
+                        onClick: () => setMenuOpen(false),
+                        section,
+                      }),
+                    )}
                   </div>
                 </div>
 

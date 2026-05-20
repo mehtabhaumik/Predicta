@@ -602,7 +602,7 @@ button:disabled {
 
 .header-nav {
   align-items: center;
-  display: none;
+  display: flex;
   gap: clamp(12px, 1.4vw, 22px);
   margin-left: auto;
   min-width: 0;
@@ -639,7 +639,7 @@ button:disabled {
 }
 
 .mobile-menu {
-  display: block;
+  display: none;
   isolation: isolate;
   margin-left: auto;
   position: relative;
@@ -1878,12 +1878,45 @@ button:disabled {
   height: 124px;
 }
 
-.dashboard-topbar > div:first-of-type {
-  min-width: 0;
-}
-
 .dashboard-topbar p {
   margin: 0;
+}
+
+.dashboard-master-nav {
+  align-items: center;
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: min(100%, 560px);
+}
+
+.dashboard-master-nav a,
+.dashboard-master-nav span {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid var(--border-quiet);
+  border-radius: 999px;
+  color: var(--muted);
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 850;
+  line-height: 1.2;
+  min-height: 38px;
+  padding: 9px 13px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.dashboard-master-nav a:hover,
+.dashboard-master-nav a:focus-visible,
+.dashboard-master-nav a.active,
+.dashboard-master-nav span.active {
+  background:
+    linear-gradient(135deg, rgba(111, 99, 255, 0.2), rgba(77, 175, 255, 0.12)),
+    rgba(255, 255, 255, 0.08);
+  border-color: rgba(120, 155, 255, 0.36);
+  color: var(--text);
 }
 
 .dashboard-topbar-actions {
@@ -1968,6 +2001,21 @@ button:disabled {
 .dashboard-mobile-drawer nav {
   display: grid;
   gap: 20px;
+}
+
+.mobile-menu-nav-group {
+  display: grid;
+  gap: 10px;
+}
+
+.mobile-menu-nav-title {
+  background: transparent !important;
+  border: 0 !important;
+  color: var(--muted) !important;
+  font-size: 12px !important;
+  letter-spacing: 0.08em;
+  padding: 4px 2px !important;
+  text-transform: uppercase;
 }
 
 .dashboard-mobile-nav-section {
@@ -11012,6 +11060,10 @@ button:disabled {
     padding: 24px;
   }
 
+  .dashboard-master-nav {
+    display: none;
+  }
+
   .dashboard-menu-toggle {
     display: flex;
   }
@@ -11125,8 +11177,16 @@ button:disabled {
 }
 
 @media (max-width: 1120px) {
+  .header-nav {
+    display: none;
+  }
+
   .header-actions {
     display: none;
+  }
+
+  .mobile-menu {
+    display: block;
   }
 
   .web-footer-inner {
@@ -11158,7 +11218,7 @@ button:disabled {
     height: 174px;
   }
 
-  .dashboard-topbar > div:first-of-type {
+  .dashboard-master-nav {
     flex: 1 1 100%;
   }
 
@@ -11452,7 +11512,7 @@ button:disabled {
     padding: 20px;
   }
 
-  .dashboard-topbar > div:first-of-type {
+  .dashboard-master-nav {
     flex: 1 1 100%;
   }
 

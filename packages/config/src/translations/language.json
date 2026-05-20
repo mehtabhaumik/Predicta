@@ -150,7 +150,8 @@
         "timeline": "Timeline",
         "vedic": "Vedic",
         "vedicPredicta": "Vedic Predicta",
-        "wrapped": "Wrapped"
+        "wrapped": "Wrapped",
+        "dashboard": "Dashboard"
       },
       "privateSave": {
         "title": "Saved safely",
@@ -219,7 +220,8 @@
         "timeline": "समयरेखा",
         "vedic": "वैदिक",
         "vedicPredicta": "वैदिक प्रेडिक्टा",
-        "wrapped": "वर्ष सार"
+        "wrapped": "वर्ष सार",
+        "dashboard": "डैशबोर्ड"
       },
       "privateSave": {
         "title": "सुरक्षित सेव",
@@ -288,7 +290,8 @@
         "timeline": "સમયરેખા",
         "vedic": "વેદિક",
         "vedicPredicta": "વેદિક પ્રેડિક્ટા",
-        "wrapped": "વર્ષ સાર"
+        "wrapped": "વર્ષ સાર",
+        "dashboard": "ડેશબોર્ડ"
       },
       "privateSave": {
         "title": "સુરક્ષિત સેવ",
