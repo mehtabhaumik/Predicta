@@ -14458,6 +14458,31 @@ select::-ms-expand {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
+
+  [data-kundli-animation='true'],
+  [data-kundli-animation='true'] .north-chart-lines path,
+  [data-kundli-animation='true'] [data-kundli-animation-part],
+  [data-kundli-animation='true'] .planet-status-mark,
+  [data-kundli-animation='true'] .planet-status-mark.retrograde,
+  .hero-kundli-board[data-kundli-animation-surface='landing'],
+  .hero-kundli-board[data-kundli-animation-surface='landing'] .north-chart-lines path,
+  .hero-kundli-board[data-kundli-animation-surface='landing'] .north-chart-lines path:first-child,
+  .hero-kundli-board[data-kundli-animation-surface='landing'] .north-chart-lines path:not(:first-child),
+  .hero-kundli-board[data-kundli-animation-surface='landing'] .hero-chart-label,
+  .hero-kundli-board[data-kundli-animation-surface='landing'] .hero-chart-planet-stack,
+  .chart-legend[data-kundli-animation-part='legend'],
+  .predicta-chat-page,
+  .predicta-chat-page .chat-panel,
+  .predicta-chat-page .chat-thread,
+  .predicta-chat-page .chat-input-row,
+  .predicta-chat-page .chat-chart-card,
+  .thinking-message,
+  .thinking-message .predicta-thinking-mark,
+  .thinking-message .predicta-thinking-mark i {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 @media print {

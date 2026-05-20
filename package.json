@@ -12,6 +12,7 @@
     "typecheck": "turbo typecheck",
     "test": "turbo test",
     "test:charts": "pnpm --filter @pridicta/astrology stress:charts",
+    "test:animation-regression": "node scripts/run-animation-regression-gate.mjs",
     "test:numerology": "node scripts/run-numerology-foundation-model.mjs",
     "test:nav-new-rooms": "node scripts/run-nav-and-new-rooms-qa-gate.mjs",
     "test:native-script-chat": "node scripts/run-native-script-chat-language-rebuild.mjs",
