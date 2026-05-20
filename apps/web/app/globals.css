@@ -6981,23 +6981,39 @@ button:disabled {
 }
 
 .thinking-message {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  isolation: isolate;
   max-width: min(620px, 92%);
+  overflow: hidden;
+  width: min(620px, 92%);
 }
 
 .predicta-thinking-row {
   align-items: center;
+  box-sizing: border-box;
   display: flex;
   gap: 14px;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  width: 100%;
 }
 
 .predicta-thinking-mark {
+  --thinking-orbit-radius: 15px;
   border: 1px solid rgba(77, 175, 255, 0.24);
   border-radius: 999px;
+  box-sizing: border-box;
+  contain: paint;
   display: grid;
   flex: 0 0 auto;
   height: 42px;
+  isolation: isolate;
+  overflow: hidden;
   place-items: center;
   position: relative;
+  transform: translateZ(0);
   width: 42px;
 }
 
@@ -7016,8 +7032,12 @@ button:disabled {
   background: #4dafff;
   border-radius: 50%;
   height: 5px;
+  left: 50%;
+  margin-left: -2.5px;
+  margin-top: -2.5px;
   position: absolute;
-  transform-origin: 0 20px;
+  top: 50%;
+  transform-origin: center center;
   width: 5px;
 }
 
@@ -7029,6 +7049,16 @@ button:disabled {
 .predicta-thinking-mark i:nth-child(3) {
   animation-delay: -1200ms;
   background: #b88cff;
+}
+
+.predicta-thinking-row p {
+  flex: 1 1 auto;
+  line-height: 1.45;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 
 .chat-proof-card {
@@ -7493,10 +7523,10 @@ button:disabled {
 
 @keyframes thinkingOrbit {
   from {
-    transform: rotate(0deg) translateY(-20px);
+    transform: rotate(0deg) translateY(calc(var(--thinking-orbit-radius, 15px) * -1));
   }
   to {
-    transform: rotate(360deg) translateY(-20px);
+    transform: rotate(360deg) translateY(calc(var(--thinking-orbit-radius, 15px) * -1));
   }
 }
 
@@ -14290,10 +14320,15 @@ select::-ms-expand {
 }
 
 .thinking-message {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  isolation: isolate;
   max-width: min(620px, 92%);
+  width: min(620px, 92%);
 }
 
 .predicta-thinking-row {
+  max-width: 100%;
   min-width: 0;
 }
 
@@ -14369,6 +14404,21 @@ select::-ms-expand {
   .predicta-chat-page .message {
     max-width: 96%;
     padding: 18px;
+  }
+
+  .predicta-chat-page .predicta-thinking-row {
+    gap: 10px;
+  }
+
+  .predicta-chat-page .predicta-thinking-mark {
+    --thinking-orbit-radius: 12px;
+    height: 36px;
+    width: 36px;
+  }
+
+  .predicta-chat-page .predicta-thinking-mark::before {
+    height: 15px;
+    width: 15px;
   }
 
   .predicta-chat-page .message.rich-message,
