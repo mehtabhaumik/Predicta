@@ -153,7 +153,7 @@ const SIGNATURE_TRAIT_VALUES_EN: Record<SignatureTraitValue, string> = {
 const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
   en: {
     actions: {
-      askPredicta: 'Continue to Signature Predicta',
+      askPredicta: 'Chat with Signature Predicta',
       clear: 'Clear signature',
       download: 'Save a copy',
       useDrawing: 'Use this drawing',
@@ -231,7 +231,7 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
   },
   hi: {
     actions: {
-      askPredicta: 'हस्ताक्षर प्रेडिक्टा में आगे बढ़ें',
+      askPredicta: 'हस्ताक्षर प्रेडिक्टा से चैट करें',
       clear: 'हस्ताक्षर हटाएं',
       download: 'कॉपी सेव करें',
       useDrawing: 'इस चित्र का उपयोग करें',
@@ -345,7 +345,7 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
   },
   gu: {
     actions: {
-      askPredicta: 'સહી પ્રેડિક્ટામાં આગળ વધો',
+      askPredicta: 'સહી પ્રેડિક્ટા સાથે ચેટ કરો',
       clear: 'સહી દૂર કરો',
       download: 'કોપી સેવ કરો',
       useDrawing: 'આ ચિત્ર વાપરો',
@@ -668,7 +668,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
   }
 
   return (
-    <>
+    <div className="kp-page-stack">
       <div className="page-heading compact">
         <h1 className="gradient-text">{copy.hero.title}</h1>
         <details className="info-drawer">
@@ -876,6 +876,6 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
           </Link>
         </div>
       </section>
-    </>
+    </div>
   );
 }
