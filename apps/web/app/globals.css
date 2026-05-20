@@ -9,12 +9,19 @@
   --muted: #a0a0b2;
   --purple: #7b61ff;
   --blue: #4dafff;
-  --pink: #ff4da6;
+  --cyan: #53e0d2;
+  --gold: #ffc34d;
+  --pink: #e85bb6;
   --glass: rgba(18, 18, 26, 0.66);
   --glass-strong: rgba(24, 24, 34, 0.78);
   --shadow-soft: 0 28px 90px rgba(0, 0, 0, 0.34);
   --shadow-glow: 0 24px 80px rgba(123, 97, 255, 0.18);
-  --gradient: linear-gradient(90deg, var(--purple), var(--blue), var(--pink));
+  --control-bg: rgba(255, 255, 255, 0.064);
+  --control-border: rgba(244, 241, 255, 0.16);
+  --control-border-strong: rgba(77, 175, 255, 0.38);
+  --gradient: linear-gradient(92deg, var(--purple), var(--blue) 58%, var(--cyan));
+  --gradient-accent: linear-gradient(92deg, var(--purple), var(--blue) 54%, var(--pink));
+  --gradient-warm: linear-gradient(92deg, rgba(255, 195, 77, 0.34), rgba(77, 175, 255, 0.2));
   --max: 1180px;
   --dash-max: 1280px;
 }
@@ -96,7 +103,7 @@ p {
 }
 
 .page-shell::after {
-  background: linear-gradient(135deg, var(--blue), var(--pink));
+  background: linear-gradient(135deg, var(--blue), var(--cyan));
   bottom: -180px;
   height: 360px;
   left: -140px;
@@ -287,10 +294,15 @@ p {
 
 .button {
   align-items: center;
-  background: var(--gradient);
-  border: 0;
-  border-radius: 8px;
-  box-shadow: 0 18px 42px rgba(123, 97, 255, 0.26);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 42%),
+    var(--gradient);
+  border: 1px solid rgba(244, 241, 255, 0.18);
+  border-radius: 14px;
+  box-shadow:
+    0 18px 46px rgba(77, 175, 255, 0.22),
+    0 10px 28px rgba(123, 97, 255, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   color: white;
   cursor: pointer;
   display: inline-flex;
@@ -299,9 +311,15 @@ p {
   line-height: 1.22;
   min-height: 48px;
   padding: 14px 20px;
+  position: relative;
   text-align: center;
-  transition: transform 180ms ease, box-shadow 180ms ease,
-    border-color 180ms ease;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.22);
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
 }
 
 p + .button,
@@ -380,18 +398,40 @@ button:disabled {
 }
 
 .button:hover {
-  box-shadow: 0 22px 52px rgba(77, 175, 255, 0.26);
+  border-color: rgba(244, 241, 255, 0.28);
+  box-shadow:
+    0 22px 56px rgba(77, 175, 255, 0.28),
+    0 12px 34px rgba(83, 224, 210, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
   transform: translateY(-2px);
 }
 
 .button.secondary {
-  background: rgba(255, 255, 255, 0.055);
-  border: 1px solid var(--border);
-  box-shadow: none;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.028)),
+    rgba(255, 255, 255, 0.045);
+  border: 1px solid var(--control-border);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 10px 28px rgba(0, 0, 0, 0.14);
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: none;
+}
+
+.button.secondary:hover {
+  background:
+    linear-gradient(180deg, rgba(77, 175, 255, 0.12), rgba(255, 255, 255, 0.035)),
+    rgba(255, 255, 255, 0.055);
+  border-color: var(--control-border-strong);
+  box-shadow:
+    0 18px 42px rgba(77, 175, 255, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .button.danger {
-  background: rgba(255, 92, 122, 0.1);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent),
+    rgba(255, 92, 122, 0.1);
   border: 1px solid rgba(255, 92, 122, 0.34);
   box-shadow: none;
   color: #ffd8df;
@@ -482,13 +522,18 @@ button:disabled {
 
 .status-pill {
   align-items: center;
-  background: rgba(255, 255, 255, 0.055);
-  border: 1px solid var(--border);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.028)),
+    rgba(255, 255, 255, 0.042);
+  border: 1px solid var(--control-border);
   border-radius: 999px;
-  color: var(--muted);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  color: rgba(244, 241, 255, 0.74);
   display: inline-flex;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 850;
+  gap: 6px;
+  letter-spacing: 0;
   min-height: 34px;
   padding: 8px 12px;
   cursor: default;
@@ -496,11 +541,10 @@ button:disabled {
 }
 
 .status-pill.premium {
-  background: linear-gradient(
-    90deg,
-    rgba(123, 97, 255, 0.22),
-    rgba(77, 175, 255, 0.16)
-  );
+  background:
+    var(--gradient-warm),
+    rgba(255, 255, 255, 0.045);
+  border-color: rgba(255, 195, 77, 0.34);
   color: var(--text);
 }
 
@@ -2103,13 +2147,12 @@ button:disabled {
 }
 
 .language-options button.active {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 195, 77, 0.22),
-    rgba(123, 97, 255, 0.2)
-  );
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 44%),
+    linear-gradient(135deg, rgba(77, 175, 255, 0.28), rgba(123, 97, 255, 0.24));
+  border: 1px solid rgba(77, 175, 255, 0.26);
   box-shadow:
-    0 10px 24px rgba(123, 97, 255, 0.18),
+    0 10px 24px rgba(77, 175, 255, 0.16),
     inset 0 0 0 1px rgba(255, 255, 255, 0.12);
   color: var(--text);
 }
@@ -5564,14 +5607,18 @@ button:disabled {
 .gochar-badge,
 .saturn-badge,
 .depth-badge {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--border);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.028)),
+    rgba(255, 255, 255, 0.045);
+  border: 1px solid var(--control-border);
   border-radius: 999px;
-  color: var(--text);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.88);
   flex: 0 0 auto;
   font-size: 13px;
   font-weight: 900;
   padding: 10px 14px;
+  user-select: none;
 }
 
 .gochar-badge.supportive {
@@ -5818,11 +5865,13 @@ button:disabled {
 
 .school-badge {
   background:
-    linear-gradient(135deg, rgba(77, 175, 255, 0.12), rgba(123, 97, 255, 0.08)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.075), transparent 42%),
+    linear-gradient(135deg, rgba(77, 175, 255, 0.14), rgba(123, 97, 255, 0.09)),
     rgba(255, 255, 255, 0.045);
-  border: 1px solid rgba(77, 175, 255, 0.24);
+  border: 1px solid rgba(77, 175, 255, 0.28);
   border-radius: 999px;
-  color: var(--text);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.9);
   flex: 0 0 auto;
   font-size: 13px;
   font-weight: 900;
@@ -5862,13 +5911,13 @@ button:disabled {
 .school-panel-hero .button.primary,
 .section-heading-row > .button.primary {
   background:
-    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.28), transparent 34%),
-    linear-gradient(135deg, #6f64ff 0%, #4db2ff 56%, #9a7bff 100%);
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.3), transparent 34%),
+    linear-gradient(135deg, #625cff 0%, #4dafff 58%, #53e0d2 100%);
   border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 12px;
+  border-radius: 16px;
   box-shadow:
     0 22px 56px rgba(77, 175, 255, 0.24),
-    0 12px 34px rgba(123, 97, 255, 0.18);
+    0 12px 34px rgba(83, 224, 210, 0.12);
   font-size: clamp(1rem, 1.2vw, 1.12rem);
   min-height: 62px;
   padding-inline: 24px;
@@ -6653,15 +6702,23 @@ button:disabled {
 }
 
 .chat-export-button {
-  background: rgba(255, 255, 255, 0.055);
-  border: 1px solid var(--border-quiet);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025)),
+    rgba(255, 255, 255, 0.045);
+  border: 1px solid var(--control-border);
   border-radius: 999px;
-  color: var(--text);
+  color: rgba(255, 255, 255, 0.86);
   cursor: pointer;
   font-size: 13px;
   font-weight: 850;
   min-height: 36px;
   padding: 8px 13px;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
 }
 
 .chat-session-strip {
@@ -6715,8 +6772,10 @@ button:disabled {
 }
 
 .chat-session-pill {
-  background: rgba(255, 255, 255, 0.045);
-  border: 1px solid var(--border-quiet);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.062), rgba(255, 255, 255, 0.025)),
+    rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--control-border);
   border-radius: 999px;
   color: var(--muted);
   cursor: pointer;
@@ -6732,14 +6791,21 @@ button:disabled {
 
 .chat-session-pill.active,
 .chat-session-pill:hover {
-  background: rgba(77, 175, 255, 0.12);
-  border-color: rgba(77, 175, 255, 0.34);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent 42%),
+    rgba(77, 175, 255, 0.13);
+  border-color: rgba(77, 175, 255, 0.42);
   color: var(--text);
 }
 
 .chat-export-button:hover {
-  background: rgba(77, 175, 255, 0.11);
-  border-color: rgba(77, 175, 255, 0.28);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.09), transparent 42%),
+    rgba(77, 175, 255, 0.11);
+  border-color: rgba(77, 175, 255, 0.34);
+  box-shadow: 0 10px 24px rgba(77, 175, 255, 0.13);
+  color: var(--text);
+  transform: translateY(-1px);
 }
 
 .pass-cost-meter {
@@ -7181,10 +7247,12 @@ button:disabled {
 
 .chat-proof-chip-row span {
   animation: chatChipReveal 260ms ease-out both;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid var(--border-quiet);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.068), rgba(255, 255, 255, 0.028)),
+    rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--control-border);
   border-radius: 999px;
-  color: var(--muted);
+  color: rgba(244, 241, 255, 0.74);
   display: inline-flex;
   font-size: 12px;
   font-weight: 800;
@@ -7499,10 +7567,12 @@ button:disabled {
 }
 
 .chat-evidence-chips span {
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid var(--border-quiet);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.068), rgba(255, 255, 255, 0.028)),
+    rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--control-border);
   border-radius: 999px;
-  color: var(--muted);
+  color: rgba(244, 241, 255, 0.74);
   font-size: 12px;
   font-weight: 800;
   padding: 7px 9px;
@@ -14245,10 +14315,13 @@ select::-ms-expand {
 
 .chat-room-chip {
   align-self: flex-start;
-  background: rgba(77, 175, 255, 0.11);
-  border: 1px solid rgba(77, 175, 255, 0.28);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.028)),
+    rgba(77, 175, 255, 0.1);
+  border: 1px solid rgba(77, 175, 255, 0.32);
   border-radius: 999px;
-  color: var(--text);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.88);
   display: inline-flex;
   font-size: 10px;
   font-weight: 900;
@@ -14265,8 +14338,10 @@ select::-ms-expand {
 
 .chat-utility-menu summary {
   align-items: center;
-  background: rgba(255, 255, 255, 0.065);
-  border: 1px solid var(--border-quiet);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.028)),
+    rgba(255, 255, 255, 0.045);
+  border: 1px solid var(--control-border);
   border-radius: 999px;
   color: var(--text);
   cursor: pointer;
