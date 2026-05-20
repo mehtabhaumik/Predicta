@@ -2031,14 +2031,14 @@ function buildNumerologyPredictaReply(
   if (profile.status !== 'ready') {
     if (language === 'hi') {
       return [
-        'Numerology Predicta ready है, लेकिन मुझे पहले name और birth date चाहिए.',
-        'आप अपना full name और DOB भेज दीजिए. उसके बाद मैं name number, birth number, destiny number और current personal timing rhythm निकाल दूंगी.',
+        'अंक प्रेडिक्टा तैयार है, लेकिन मुझे पहले नाम और जन्म तिथि चाहिए.',
+        'कृपया पूरा नाम और जन्म तिथि भेजें. उसके बाद मैं नाम अंक, जन्म अंक, भाग्य अंक और वर्तमान निजी समय लय निकाल दूंगी.',
       ].join('\n\n');
     }
     if (language === 'gu') {
       return [
-        'Numerology Predicta ready છે, પરંતુ પહેલાં મને name અને birth date જોઈએ.',
-        'તમારું full name અને DOB મોકલો. પછી હું name number, birth number, destiny number અને current personal timing rhythm કાઢી દઈશ.',
+        'અંક પ્રેડિક્ટા તૈયાર છે, પરંતુ પહેલાં મને નામ અને જન્મ તારીખ જોઈએ.',
+        'કૃપા કરીને પૂરું નામ અને જન્મ તારીખ મોકલો. પછી હું નામ અંક, જન્મ અંક, ભાગ્ય અંક અને વર્તમાન વ્યક્તિગત સમય લય કાઢી દઈશ.',
       ].join('\n\n');
     }
     return [
@@ -2056,17 +2056,55 @@ function buildNumerologyPredictaReply(
   const premiumLine = hasPremiumAccess
     ? 'Premium depth is active: I can compare spelling options, monthly timing, compatibility numbers, and report-ready synthesis.'
     : 'Free insight stays useful. Premium adds spelling comparison, yearly/monthly timing, compatibility numbers, and a polished numerology report.';
+  const hindiProof = [
+    `- नाम अंक ${profile.nameNumber.root} ${profile.method.nameNumber} पद्धति से "${profile.normalizedName}" पर निकला है.`,
+    `- जन्म अंक ${profile.birthNumber.root} जन्म दिन ${profile.birthDate} से निकला है.`,
+    `- भाग्य अंक ${profile.destinyNumber.root} पूरी जन्म तिथि ${profile.birthDate} से निकला है.`,
+    hasPremiumAccess
+      ? `- निजी वर्ष/महीना/दिन ${profile.targetDate} के लिए निकाले गए हैं.`
+      : '',
+  ]
+    .filter(Boolean)
+    .join('\n');
+  const gujaratiProof = [
+    `- નામ અંક ${profile.nameNumber.root} ${profile.method.nameNumber} પદ્ધતિથી "${profile.normalizedName}" પરથી નીકળ્યો છે.`,
+    `- જન્મ અંક ${profile.birthNumber.root} જન્મ દિવસ ${profile.birthDate} પરથી નીકળ્યો છે.`,
+    `- ભાગ્ય અંક ${profile.destinyNumber.root} આખી જન્મ તારીખ ${profile.birthDate} પરથી નીકળ્યો છે.`,
+    hasPremiumAccess
+      ? `- વ્યક્તિગત વર્ષ/મહિનો/દિવસ ${profile.targetDate} માટે કાઢવામાં આવ્યા છે.`
+      : '',
+  ]
+    .filter(Boolean)
+    .join('\n');
 
   if (language === 'hi') {
     return [
-      'Numerology Predicta mode: मैं name और DOB numbers से पढ़ूंगी. जब तक आप synthesis न मांगें, Parashari/KP/Nadi logic mix नहीं करूंगी.',
-      `${profile.name}: name number ${profile.nameNumber.root} (${profile.nameNumber.label}), birth number ${profile.birthNumber.root} (${profile.birthNumber.label}), destiny number ${profile.destinyNumber.root} (${profile.destinyNumber.label}).`,
-      `Current rhythm: personal year ${profile.personalYear.root}, month ${profile.personalMonth.root}, day ${profile.personalDay.root}.`,
-      `Useful insight: ${profile.summary}`,
-      strengths ? `Strengths: ${strengths}` : '',
-      cautions ? `Care points: ${cautions}` : '',
-      proof ? `Number proof:\n${proof}` : '',
-      premiumLine,
+      'अंक प्रेडिक्टा मोड: मैं नाम और जन्म-तिथि अंकों से पढ़ूंगी. जब तक आप संयुक्त सार न मांगें, वैदिक, KP या नाड़ी तर्क नहीं मिलाऊंगी.',
+      `${profile.name}: नाम अंक ${profile.nameNumber.root} (${profile.nameNumber.label}), जन्म अंक ${profile.birthNumber.root} (${profile.birthNumber.label}), भाग्य अंक ${profile.destinyNumber.root} (${profile.destinyNumber.label}).`,
+      `वर्तमान लय: निजी वर्ष ${profile.personalYear.root}, महीना ${profile.personalMonth.root}, दिन ${profile.personalDay.root}.`,
+      `उपयोगी समझ: ${profile.name} में ${numerologyNativeKeyword(
+        'hi',
+        profile.nameNumber.root,
+      )}, ${numerologyNativeKeyword(
+        'hi',
+        profile.birthNumber.root,
+      )} और ${numerologyNativeKeyword(
+        'hi',
+        profile.destinyNumber.root,
+      )} की संयुक्त लय दिखती है. आज निजी दिन ${profile.personalDay.root} की दिशा में चल रहा है.`,
+      `ताकतें: ${[
+        numerologyNativeKeyword('hi', profile.nameNumber.root),
+        numerologyNativeKeyword('hi', profile.birthNumber.root),
+        numerologyNativeKeyword('hi', profile.destinyNumber.root),
+      ].join(', ')}`,
+      `ध्यान बिंदु: ${[
+        numerologyNativeCaution('hi', profile.nameNumber.root),
+        numerologyNativeCaution('hi', profile.personalYear.root),
+      ].join(', ')}`,
+      `अंक प्रमाण:\n${hindiProof}`,
+      hasPremiumAccess
+        ? 'प्रीमियम गहराई सक्रिय है: मैं नाम की अलग-अलग वर्तनी, मासिक समय, संगतता अंक और रिपोर्ट-तैयार सार की तुलना कर सकती हूं.'
+        : 'मुफ्त समझ उपयोगी रहेगी. प्रीमियम में नाम-वर्तनी तुलना, वार्षिक/मासिक समय, संगतता अंक और सुंदर अंक-रिपोर्ट मिलती है.',
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -2074,14 +2112,32 @@ function buildNumerologyPredictaReply(
 
   if (language === 'gu') {
     return [
-      'Numerology Predicta mode: હું name અને DOB numbers થી વાંચીશ. જ્યાં સુધી તમે synthesis ન માગો, ત્યાં સુધી Parashari/KP/Nadi logic mix નહીં કરું.',
-      `${profile.name}: name number ${profile.nameNumber.root} (${profile.nameNumber.label}), birth number ${profile.birthNumber.root} (${profile.birthNumber.label}), destiny number ${profile.destinyNumber.root} (${profile.destinyNumber.label}).`,
-      `Current rhythm: personal year ${profile.personalYear.root}, month ${profile.personalMonth.root}, day ${profile.personalDay.root}.`,
-      `Useful insight: ${profile.summary}`,
-      strengths ? `Strengths: ${strengths}` : '',
-      cautions ? `Care points: ${cautions}` : '',
-      proof ? `Number proof:\n${proof}` : '',
-      premiumLine,
+      'અંક પ્રેડિક્ટા મોડ: હું નામ અને જન્મ-તારીખના અંકો પરથી વાંચીશ. જ્યાં સુધી તમે સંયુક્ત સાર ન માગો, ત્યાં સુધી વૈદિક, KP કે નાડી તર્ક ભેળવીશ નહીં.',
+      `${profile.name}: નામ અંક ${profile.nameNumber.root} (${profile.nameNumber.label}), જન્મ અંક ${profile.birthNumber.root} (${profile.birthNumber.label}), ભાગ્ય અંક ${profile.destinyNumber.root} (${profile.destinyNumber.label}).`,
+      `વર્તમાન લય: વ્યક્તિગત વર્ષ ${profile.personalYear.root}, મહિનો ${profile.personalMonth.root}, દિવસ ${profile.personalDay.root}.`,
+      `ઉપયોગી સમજ: ${profile.name} માં ${numerologyNativeKeyword(
+        'gu',
+        profile.nameNumber.root,
+      )}, ${numerologyNativeKeyword(
+        'gu',
+        profile.birthNumber.root,
+      )} અને ${numerologyNativeKeyword(
+        'gu',
+        profile.destinyNumber.root,
+      )} ની સંયુક્ત લય દેખાય છે. આજે વ્યક્તિગત દિવસ ${profile.personalDay.root} ની દિશામાં ચાલે છે.`,
+      `તાકાતો: ${[
+        numerologyNativeKeyword('gu', profile.nameNumber.root),
+        numerologyNativeKeyword('gu', profile.birthNumber.root),
+        numerologyNativeKeyword('gu', profile.destinyNumber.root),
+      ].join(', ')}`,
+      `ધ્યાન રાખવાના મુદ્દા: ${[
+        numerologyNativeCaution('gu', profile.nameNumber.root),
+        numerologyNativeCaution('gu', profile.personalYear.root),
+      ].join(', ')}`,
+      `અંક આધાર:\n${gujaratiProof}`,
+      hasPremiumAccess
+        ? 'પ્રીમિયમ ઊંડાણ સક્રિય છે: હું નામની જુદી-જુદી જોડણી, માસિક સમય, સુસંગતતા અંક અને રિપોર્ટ-તૈયાર સારની તુલના કરી શકું છું.'
+        : 'મફત સમજ ઉપયોગી રહેશે. પ્રીમિયમમાં નામ-જોડણી તુલના, વાર્ષિક/માસિક સમય, સુસંગતતા અંક અને સુંદર અંક-રિપોર્ટ મળે છે.',
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -2099,6 +2155,70 @@ function buildNumerologyPredictaReply(
   ]
     .filter(Boolean)
     .join('\n\n');
+}
+
+function numerologyNativeKeyword(
+  language: SupportedLanguage,
+  root: number,
+): string {
+  const hindi: Record<number, string> = {
+    1: 'नेतृत्व और नई शुरुआत',
+    2: 'सहयोग और भावनात्मक समझ',
+    3: 'अभिव्यक्ति और रचनात्मकता',
+    4: 'व्यवस्था और अनुशासन',
+    5: 'बदलाव और अनुकूलन',
+    6: 'जिम्मेदारी और परिवार-भाव',
+    7: 'गहराई और खोज',
+    8: 'प्रबंधन और कर्म-फल',
+    9: 'सेवा और पूर्णता',
+  };
+  const gujarati: Record<number, string> = {
+    1: 'નેતૃત્વ અને નવી શરૂઆત',
+    2: 'સહકાર અને ભાવનાત્મક સમજ',
+    3: 'અભિવ્યક્તિ અને સર્જનાત્મકતા',
+    4: 'વ્યવસ્થા અને અનુશાસન',
+    5: 'બદલાવ અને અનુકૂલન',
+    6: 'જવાબદારી અને પરિવારભાવ',
+    7: 'ઊંડાણ અને શોધ',
+    8: 'વ્યવસ્થાપન અને કર્મફળ',
+    9: 'સેવા અને પૂર્ણતા',
+  };
+
+  return language === 'gu'
+    ? gujarati[root] ?? gujarati[1]
+    : hindi[root] ?? hindi[1];
+}
+
+function numerologyNativeCaution(
+  language: SupportedLanguage,
+  root: number,
+): string {
+  const hindi: Record<number, string> = {
+    1: 'अहंकार या जल्दीबाज़ी से बचें',
+    2: 'अति-संवेदनशीलता से बचें',
+    3: 'बिखरे फोकस से बचें',
+    4: 'कठोरता और अति-मेहनत से बचें',
+    5: 'बेचैनी और जल्दबाज़ फैसलों से बचें',
+    6: 'अति-जिम्मेदारी से बचें',
+    7: 'अति-विश्लेषण और अलगाव से बचें',
+    8: 'नियंत्रण और धन-दबाव से बचें',
+    9: 'भावनात्मक अतिरेक से बचें',
+  };
+  const gujarati: Record<number, string> = {
+    1: 'અહંકાર અથવા ઉતાવળથી બચો',
+    2: 'અતિ-સંવેદનશીલતાથી બચો',
+    3: 'વિખરાયેલા ધ્યાનથી બચો',
+    4: 'કઠોરતા અને અતિ-મહેનતથી બચો',
+    5: 'બેચેની અને ઉતાવળિયા નિર્ણયથી બચો',
+    6: 'અતિ-જવાબદારીથી બચો',
+    7: 'અતિ-વિશ્લેષણ અને અલગાવથી બચો',
+    8: 'નિયંત્રણ અને નાણાંના દબાણથી બચો',
+    9: 'ભાવનાત્મક અતિરેકથી બચો',
+  };
+
+  return language === 'gu'
+    ? gujarati[root] ?? gujarati[1]
+    : hindi[root] ?? hindi[1];
 }
 
 function signatureHandoffReply(language: SupportedLanguage): string {
@@ -2168,50 +2288,58 @@ function buildSignaturePredictaReply(
   if (language === 'hi') {
     if (analysis.status === 'ready') {
       return [
-        'Signature Predicta mode: मैं confirmed signature traits से reading करूंगी, guesswork नहीं.',
-        `Observed traits: ${analysis.observedTraits.map(trait => `${trait.label} ${trait.value}`).join(', ')}.`,
-        `Writing rhythm: ${analysis.rhythm.summary}`,
-        `Confidence expression: ${analysis.confidenceExpression.summary}`,
-        `Consistency: ${analysis.consistency.summary}`,
-        `Improvement plan: ${analysis.improvementPlan.slice(0, 3).join(' ')}`,
+        'हस्ताक्षर प्रेडिक्टा मोड: मैं केवल पक्के दिखने वाले हस्ताक्षर संकेतों से पढ़ूंगी, अनुमान नहीं लगाऊंगी.',
+        `देखे गए संकेत: ${analysis.observedTraits.map(trait => `${trait.label} ${trait.value}`).join(', ')}.`,
+        `लिखने की लय: ${analysis.rhythm.summary}`,
+        `आत्मविश्वास की अभिव्यक्ति: ${analysis.confidenceExpression.summary}`,
+        `स्थिरता: ${analysis.consistency.summary}`,
+        `सुधार योजना: ${analysis.improvementPlan.slice(0, 3).join(' ')}`,
         analysis.synthesisReadiness.rule,
         analysis.safetyBoundaries.join(' '),
-        premiumLine,
+        hasPremiumAccess
+          ? 'प्रीमियम गहराई सक्रिय है: मैं दोहराए गए हस्ताक्षर नमूने, नाम-लय, अंक और Kundli context की तुलना तभी करूंगी जब आप संयुक्त सार मांगें.'
+          : 'मुफ्त समझ उपयोगी रहेगी. प्रीमियम में गहरी तुलना, नाम-लय, वैकल्पिक numerology/Kundli synthesis और polished signature report मिलती है.',
       ].join('\n\n');
     }
     return [
-      'Signature Predicta mode: मैं signature को self-expression और personal rhythm के layer की तरह पढ़ूंगी.',
+      'हस्ताक्षर प्रेडिक्टा मोड: मैं हस्ताक्षर को आत्म-अभिव्यक्ति और निजी लय की परत की तरह पढ़ूंगी.',
       promptHasConfirmedTraits
-        ? 'आपके confirmed signature traits मिल गए हैं. मैं उन्हीं traits से reading करूंगी, guesswork नहीं.'
-        : 'पहले upload/draw signature करें या visual traits confirm करें: size, slant, pressure, spacing, baseline, legibility, flourish, underline.',
-      'मैं improvement suggestions दे सकती हूं: cleaner readability, steadier baseline, balanced size, calmer spacing और confidence-friendly rhythm.',
+        ? 'आपके पक्के हस्ताक्षर संकेत मिल गए हैं. मैं उन्हीं संकेतों से पढ़ूंगी, अनुमान नहीं लगाऊंगी.'
+        : 'पहले हस्ताक्षर upload/draw करें या दिखने वाले संकेत confirm करें: आकार, झुकाव, दबाव, दूरी, आधार-रेखा, पढ़ने की साफगोई, सजावट और underline.',
+      'मैं सुधार सुझाव दे सकती हूं: साफ readability, steady baseline, balanced size, calm spacing और confidence-friendly rhythm.',
       analysis.safetyBoundaries.join(' '),
-      premiumLine,
+      hasPremiumAccess
+        ? 'प्रीमियम गहराई सक्रिय है: मैं दोहराए गए हस्ताक्षर नमूने, नाम-लय, अंक और Kundli context की तुलना तभी करूंगी जब आप संयुक्त सार मांगें.'
+        : 'मुफ्त समझ उपयोगी रहेगी. प्रीमियम में गहरी तुलना, नाम-लय, वैकल्पिक numerology/Kundli synthesis और polished signature report मिलती है.',
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     if (analysis.status === 'ready') {
       return [
-        'Signature Predicta mode: હું confirmed signature traits થી reading કરીશ, guesswork નહીં.',
-        `Observed traits: ${analysis.observedTraits.map(trait => `${trait.label} ${trait.value}`).join(', ')}.`,
-        `Writing rhythm: ${analysis.rhythm.summary}`,
-        `Confidence expression: ${analysis.confidenceExpression.summary}`,
-        `Consistency: ${analysis.consistency.summary}`,
-        `Improvement plan: ${analysis.improvementPlan.slice(0, 3).join(' ')}`,
+        'હસ્તાક્ષર પ્રેડિક્ટા મોડ: હું માત્ર પક્કા દેખાતા હસ્તાક્ષર સંકેતોથી વાંચીશ, અંદાજ નહીં લગાવું.',
+        `જોવાયેલા સંકેતો: ${analysis.observedTraits.map(trait => `${trait.label} ${trait.value}`).join(', ')}.`,
+        `લખવાની લય: ${analysis.rhythm.summary}`,
+        `આત્મવિશ્વાસની અભિવ્યક્તિ: ${analysis.confidenceExpression.summary}`,
+        `સ્થિરતા: ${analysis.consistency.summary}`,
+        `સુધાર યોજના: ${analysis.improvementPlan.slice(0, 3).join(' ')}`,
         analysis.synthesisReadiness.rule,
         analysis.safetyBoundaries.join(' '),
-        premiumLine,
+        hasPremiumAccess
+          ? 'પ્રીમિયમ ઊંડાણ સક્રિય છે: હું વારંવારના હસ્તાક્ષર નમૂનાઓ, નામ-લય, અંક અને Kundli context ની તુલના ત્યારે જ કરીશ જ્યારે તમે સંયુક્ત સાર માગો.'
+          : 'મફત સમજ ઉપયોગી રહેશે. પ્રીમિયમમાં ઊંડી તુલના, નામ-લય, વૈકલ્પિક numerology/Kundli synthesis અને polished signature report મળે છે.',
       ].join('\n\n');
     }
     return [
-      'Signature Predicta mode: હું signature ને self-expression અને personal rhythm ના layer તરીકે વાંચીશ.',
+      'હસ્તાક્ષર પ્રેડિક્ટા મોડ: હું હસ્તાક્ષરને સ્વ-અભિવ્યક્તિ અને વ્યક્તિગત લયની પરત તરીકે વાંચીશ.',
       promptHasConfirmedTraits
-        ? 'તમારા confirmed signature traits મળી ગયા છે. હું એ traits થી reading કરીશ, guesswork નહીં.'
-        : 'પહેલા signature upload/draw કરો અથવા visual traits confirm કરો: size, slant, pressure, spacing, baseline, legibility, flourish, underline.',
-      'હું improvement suggestions આપી શકું છું: cleaner readability, steadier baseline, balanced size, calmer spacing અને confidence-friendly rhythm.',
+        ? 'તમારા પક્કા હસ્તાક્ષર સંકેતો મળી ગયા છે. હું એ સંકેતો પરથી વાંચીશ, અંદાજ નહીં લગાવું.'
+        : 'પહેલા હસ્તાક્ષર upload/draw કરો અથવા દેખાતા સંકેતો confirm કરો: કદ, ઝુકાવ, દબાણ, અંતર, આધાર-રેખા, વાંચવાની સ્પષ્ટતા, શણગાર અને underline.',
+      'હું સુધાર સૂચનો આપી શકું છું: સ્પષ્ટ readability, steady baseline, balanced size, calm spacing અને confidence-friendly rhythm.',
       analysis.safetyBoundaries.join(' '),
-      premiumLine,
+      hasPremiumAccess
+        ? 'પ્રીમિયમ ઊંડાણ સક્રિય છે: હું વારંવારના હસ્તાક્ષર નમૂનાઓ, નામ-લય, અંક અને Kundli context ની તુલના ત્યારે જ કરીશ જ્યારે તમે સંયુક્ત સાર માગો.'
+        : 'મફત સમજ ઉપયોગી રહેશે. પ્રીમિયમમાં ઊંડી તુલના, નામ-લય, વૈકલ્પિક numerology/Kundli synthesis અને polished signature report મળે છે.',
     ].join('\n\n');
   }
 

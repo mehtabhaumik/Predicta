@@ -10,6 +10,24 @@ const repoRoot = path.resolve(scriptDir, '..');
 const tempRoot = await mkdtemp(path.join(tmpdir(), 'predicta-signature-room-'));
 const tempConfig = path.join(tempRoot, 'tsconfig.json');
 const outDir = path.join(tempRoot, 'dist');
+const devanagari = /[\u0900-\u097F]/;
+const gujarati = /[\u0A80-\u0AFF]/;
+
+function assertNoOldRomanizedSpecialistCopy(label, value) {
+  const banned = [
+    /Signature Predicta mode:/i,
+    /visual traits/i,
+    /Observed traits/i,
+    /Writing rhythm/i,
+    /Confidence expression/i,
+    /Improvement plan/i,
+    /guesswork/i,
+  ];
+
+  for (const pattern of banned) {
+    assert.doesNotMatch(value, pattern, `${label} leaked old romanized copy`);
+  }
+}
 
 await writeFile(
   tempConfig,
@@ -85,10 +103,22 @@ try {
   });
   assert.equal(hindiRoom.handled, true);
   assert.equal(hindiRoom.action, 'signature-predicta');
-  assert.match(hindiRoom.text, /Signature Predicta mode/i);
-  assert.match(hindiRoom.text, /visual traits/i);
+  assert.match(hindiRoom.text, devanagari);
+  assert.match(hindiRoom.text, /हस्ताक्षर प्रेडिक्टा मोड/);
+  assertNoOldRomanizedSpecialistCopy('Hindi signature reply', hindiRoom.text);
 
-  console.log('Signature Predicta room passed: 15 deterministic assertions.');
+  const gujaratiRoom = buildPredictaActionReply({
+    language: 'gu',
+    predictaSchool: 'SIGNATURE',
+    text: 'Signature Predicta context observed traits large size upward baseline heavy pressure',
+  });
+  assert.equal(gujaratiRoom.handled, true);
+  assert.equal(gujaratiRoom.action, 'signature-predicta');
+  assert.match(gujaratiRoom.text, gujarati);
+  assert.match(gujaratiRoom.text, /હસ્તાક્ષર પ્રેડિક્ટા મોડ/);
+  assertNoOldRomanizedSpecialistCopy('Gujarati signature reply', gujaratiRoom.text);
+
+  console.log('Signature Predicta room passed: deterministic handoff, interpretation, and native-script checks.');
 } finally {
   await rm(tempRoot, { force: true, recursive: true });
 }

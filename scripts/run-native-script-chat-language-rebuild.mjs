@@ -53,6 +53,15 @@ function assertNoOldChatOutput(label, value) {
     /Aa KP/i,
     /Signature Predicta mode: main/i,
     /Signature Predicta mode: hu/i,
+    /Numerology Predicta mode:/i,
+    /Numerology Predicta ready/i,
+    /Signature Predicta mode:/i,
+    /name number/i,
+    /birth number/i,
+    /destiny number/i,
+    /Current rhythm/i,
+    /Useful insight/i,
+    /Number proof/i,
     /Mujhe abhi/i,
     /Mane haju/i,
   ];
@@ -147,6 +156,10 @@ try {
     'Aa KP Predicta',
     'Signature Predicta mode: main',
     'Signature Predicta mode: hu',
+    'Numerology Predicta mode: मैं',
+    'Numerology Predicta mode: હું',
+    'Numerology Predicta ready है',
+    'Numerology Predicta ready છે',
   ];
 
   for (const relativePath of sourceChecks) {

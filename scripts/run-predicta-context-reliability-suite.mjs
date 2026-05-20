@@ -12,12 +12,12 @@ const checks = [
   {
     file: 'packages/astrology/src/chatFollowUps.ts',
     label: 'KP handoff link preserves question, school, origin, and Kundli id',
-    mustContain: ["buildSchoolHandoffHref('/dashboard/kp', context)"],
+    mustContain: ["buildSchoolHandoffHref('/dashboard/kp/chat', context)"],
   },
   {
     file: 'packages/astrology/src/chatFollowUps.ts',
     label: 'Nadi handoff link preserves question, school, origin, and Kundli id',
-    mustContain: ["buildSchoolHandoffHref('/dashboard/nadi', context)"],
+    mustContain: ["buildSchoolHandoffHref('/dashboard/nadi/chat', context)"],
   },
   {
     file: 'apps/web/components/WebKpPredictaLoader.tsx',
