@@ -5,6 +5,10 @@
 This ledger turns the hostile public-readiness audit into concrete release
 blockers.
 
+Public-readiness evidence was re-audited locally and on the deployed App
+Hosting surface on 2026-05-21. All Critical and Major blockers below are now
+closed against the current audited build.
+
 Public launch is blocked until:
 
 - every `Critical` blocker is closed
@@ -52,7 +56,7 @@ by person.
 
 #### `PRB-001` Navigation overload and dashboard-shell first impression
 
-- Status: Open
+- Status: Closed
 - Severity: Critical
 - Phase: `PREDICTA_PUBLIC_PHASE_1_NAVIGATION_AND_SHELL_REBUILD`
 - Ownership: `Shell/Nav`
@@ -75,7 +79,7 @@ by person.
 
 #### `PRB-002` Kundli completion does not feel complete
 
-- Status: Open
+- Status: Closed
 - Severity: Critical
 - Phase: `PREDICTA_PUBLIC_PHASE_2_KUNDLI_ENTRY_AND_CHART_CREDIBILITY_REBUILD`
 - Ownership: `Kundli/Charts`
@@ -92,7 +96,7 @@ by person.
 
 #### `PRB-003` Redeem Pass trust surface is untranslated in Hindi and Gujarati
 
-- Status: Open
+- Status: Closed
 - Severity: Critical
 - Phase: `PREDICTA_PUBLIC_PHASE_3_TRANSLATION_AND_LANGUAGE_TRUST_GATE`
 - Ownership: `Account/Settings`, `Localization`
@@ -108,7 +112,7 @@ by person.
 
 #### `PRB-004` Default Vedic D1 surface leaks outer planets
 
-- Status: Open
+- Status: Closed
 - Severity: Critical
 - Phase: `PREDICTA_PUBLIC_PHASE_2_KUNDLI_ENTRY_AND_CHART_CREDIBILITY_REBUILD`
 - Ownership: `Kundli/Charts`
@@ -127,7 +131,7 @@ by person.
 
 #### `PRB-005` Prominent mixed-language leaks on localized routes
 
-- Status: Open
+- Status: Closed
 - Severity: Major
 - Phase: `PREDICTA_PUBLIC_PHASE_3_TRANSLATION_AND_LANGUAGE_TRUST_GATE`
 - Ownership: `Localization`
@@ -147,7 +151,7 @@ by person.
 
 #### `PRB-006` Advanced micro-points crowd the first chart layer
 
-- Status: Open
+- Status: Closed
 - Severity: Major
 - Phase: `PREDICTA_PUBLIC_PHASE_2_KUNDLI_ENTRY_AND_CHART_CREDIBILITY_REBUILD`
 - Ownership: `Kundli/Charts`
@@ -164,7 +168,7 @@ by person.
 
 #### `PRB-007` Five worlds exist but still feel like themed dashboard tabs
 
-- Status: Open
+- Status: Closed
 - Severity: Major
 - Phase: `PREDICTA_PUBLIC_PHASE_4_WORLD_IDENTITY_AND_LOCAL_IA_REBUILD`
 - Ownership: `Shell/Nav`, `Chat`, `Localization`
@@ -184,7 +188,7 @@ by person.
 
 #### `PRB-008` Report chooser is cluttered, verbose, and weak on mobile
 
-- Status: Open
+- Status: Closed
 - Severity: Major
 - Phase: `PREDICTA_PUBLIC_PHASE_6_REPORTS_AUTH_SETTINGS_AND_MONETIZATION_REBUILD`
 - Ownership: `Reports/Monetization`, `Localization`
@@ -199,7 +203,7 @@ by person.
 
 #### `PRB-009` Settings and auth surfaces feel busy and low-trust
 
-- Status: Open
+- Status: Closed
 - Severity: Major
 - Phase: `PREDICTA_PUBLIC_PHASE_6_REPORTS_AUTH_SETTINGS_AND_MONETIZATION_REBUILD`
 - Ownership: `Account/Settings`, `Localization`
@@ -215,7 +219,7 @@ by person.
 
 #### `PRB-010` Chat routes are brittle under incomplete or stale state
 
-- Status: Open
+- Status: Closed
 - Severity: Major
 - Phase: `PREDICTA_PUBLIC_PHASE_5_CHAT_RESILIENCE_AND_SPECIALIST_PRESENTATION`
 - Ownership: `Chat`
@@ -232,7 +236,7 @@ by person.
 
 #### `PRB-011` Library and Family Vault information architecture is muddy
 
-- Status: Open
+- Status: Closed
 - Severity: Major
 - Phase: `PREDICTA_PUBLIC_PHASE_7_LIBRARY_FAMILY_AND_DATA_CONFIDENCE_REBUILD`
 - Ownership: `Library/Family`, `Shell/Nav`, `Localization`
@@ -250,7 +254,7 @@ by person.
 
 #### `PRB-012` Internal/system-style wording weakens product trust
 
-- Status: Open
+- Status: Closed
 - Severity: Major
 - Phase: `PREDICTA_PUBLIC_PHASE_5_CHAT_RESILIENCE_AND_SPECIALIST_PRESENTATION`
 - Ownership: `Chat`, `Shell/Nav`, `Localization`

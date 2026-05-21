@@ -8,14 +8,24 @@ import { useLanguagePreference } from '../lib/language-preference';
 
 export function WebLanguageSelector({
   compact = false,
+  hideCompactLabel = false,
 }: {
   compact?: boolean;
+  hideCompactLabel?: boolean;
 }): React.JSX.Element {
   const { language, setLanguage } = useLanguagePreference();
   const labels = getLanguageLabels(language);
 
   return (
-    <div className={compact ? 'language-selector compact' : 'language-selector'}>
+    <div
+      className={[
+        'language-selector',
+        compact ? 'compact' : '',
+        compact && hideCompactLabel ? 'compact-hide-label' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
       <div className="language-selector-copy">
         <span>{labels.currentLanguage}</span>
         {!compact ? <p>{labels.languageHelper}</p> : null}

@@ -588,14 +588,15 @@ button:disabled {
   display: flex;
   flex-wrap: nowrap;
   gap: 18px;
-  max-width: calc(var(--max) + 80px);
+  justify-content: space-between;
+  max-width: calc(var(--max) + 180px);
   padding: 14px 18px;
   left: 50%;
   margin: 0;
   position: fixed;
   top: 18px;
   transform: translateX(-50%);
-  width: min(calc(100% - 48px), calc(var(--max) + 80px));
+  width: min(calc(100% - 48px), calc(var(--max) + 180px));
   z-index: 1000;
 }
 
@@ -605,6 +606,7 @@ button:disabled {
   display: inline-flex;
   flex: 0 0 auto;
   gap: 14px;
+  min-width: 252px;
 }
 
 .brand-logo,
@@ -631,9 +633,11 @@ button:disabled {
 .header-nav {
   align-items: center;
   display: flex;
+  flex: 1 1 auto;
   gap: clamp(12px, 1.4vw, 22px);
-  margin-left: auto;
+  justify-content: flex-end;
   min-width: 0;
+  padding-left: 20px;
 }
 
 .header-nav a,
@@ -641,6 +645,7 @@ button:disabled {
   color: var(--muted);
   font-size: clamp(12px, 0.95vw, 14px);
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .header-nav span.active {
@@ -662,8 +667,30 @@ button:disabled {
 .header-actions {
   align-items: center;
   display: flex;
+  flex: 0 0 auto;
   gap: 12px;
   margin-left: 0;
+  min-width: 0;
+}
+
+.header-actions .language-selector.compact {
+  flex: 0 1 auto;
+  gap: 10px;
+  min-width: 0;
+}
+
+.language-selector.compact.compact-hide-label .language-selector-copy {
+  display: none;
+}
+
+.header-actions .language-options {
+  flex-wrap: nowrap;
+  max-width: min(310px, 100%);
+}
+
+.header-actions .language-options button {
+  min-width: 70px;
+  padding-inline: 12px;
 }
 
 .mobile-menu {
@@ -956,8 +983,12 @@ button:disabled {
 
 .kundli-hero-visual {
   align-items: center;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  justify-items: stretch;
+  overflow: visible;
+  padding: 0;
 }
 
 .hero-kundli-board {
@@ -1135,17 +1166,30 @@ button:disabled {
   background:
     linear-gradient(135deg, rgba(34, 36, 52, 0.97), rgba(25, 27, 42, 0.98)),
     var(--panel) !important;
+  inset: auto;
+  max-width: none;
+  position: relative;
+  width: 100%;
   z-index: 6;
 }
 
-.floating-insight-card:first-of-type {
-  right: 0;
-  top: 54px;
+.kundli-hero-visual .hero-kundli-board {
+  grid-column: 1 / -1;
+  margin-inline: auto;
 }
 
-.floating-insight-card:last-of-type {
-  bottom: 54px;
-  left: 0;
+.kundli-hero-visual .floating-insight-card:first-of-type {
+  bottom: auto;
+  left: auto;
+  right: auto;
+  top: auto;
+}
+
+.kundli-hero-visual .floating-insight-card:last-of-type {
+  bottom: auto;
+  left: auto;
+  right: auto;
+  top: auto;
 }
 
 .floating-insight-card h3,
@@ -11987,6 +12031,7 @@ button:disabled {
 
   .kundli-hero-visual {
     justify-items: center;
+    padding: 0;
   }
 
   .hero-kundli-board {
@@ -11994,9 +12039,13 @@ button:disabled {
   }
 
   .floating-insight-card {
+    bottom: auto;
     inset: auto;
+    left: auto;
     max-width: 680px;
     position: relative;
+    right: auto;
+    top: auto;
     width: 100%;
   }
 
@@ -12895,6 +12944,10 @@ button:disabled {
   .kundli-hero-visual .hero-kundli-board {
     max-width: none !important;
     width: 100% !important;
+  }
+
+  .kundli-hero-visual {
+    padding: 0;
   }
 }
 

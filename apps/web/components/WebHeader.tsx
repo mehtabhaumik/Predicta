@@ -172,7 +172,7 @@ export function WebHeader(): React.JSX.Element {
         })}
       </nav>
       <div className="header-actions">
-        <WebLanguageSelector compact />
+        <WebLanguageSelector compact hideCompactLabel />
         <AuthDialog />
         <Link className="button secondary header-cta" href="/dashboard">
           {copy.dashboard}

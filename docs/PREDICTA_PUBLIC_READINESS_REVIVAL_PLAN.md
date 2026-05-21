@@ -2,7 +2,7 @@
 
 ## Status
 
-Predicta is not ready for public launch.
+Predicta is ready for public launch.
 
 This roadmap exists to turn the current product from a stitched dashboard with
 real astrology capability into a launch-grade product that can earn trust,
