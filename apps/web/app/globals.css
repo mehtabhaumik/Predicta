@@ -504,6 +504,34 @@ button:disabled {
   padding: 14px 16px;
 }
 
+.destructive-dialog-confirmation {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.destructive-dialog-confirmation span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.destructive-dialog-confirmation input {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  color: var(--text);
+  min-height: 48px;
+  padding: 12px 14px;
+}
+
+.destructive-dialog-confirmation small {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
 .destructive-dialog-actions {
   display: flex;
   flex-wrap: wrap;
@@ -5609,13 +5637,15 @@ button:disabled {
 
 .family-member-grid,
 .family-guidance-grid,
-.family-workflow-grid {
+.family-workflow-grid,
+.family-boundary-grid {
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .family-member-slot,
+.family-boundary-card,
 .family-guidance-card,
 .family-workflow-card,
 .family-privacy-panel,
@@ -5637,6 +5667,7 @@ button:disabled {
 }
 
 .family-member-slot span,
+.family-boundary-card span,
 .family-guidance-card span,
 .family-workflow-card span,
 .family-privacy-panel span {
@@ -5654,6 +5685,7 @@ button:disabled {
 }
 
 .family-member-slot p,
+.family-boundary-card p,
 .family-guidance-card p,
 .family-workflow-card p,
 .family-privacy-panel p,
@@ -5661,11 +5693,13 @@ button:disabled {
   margin: 0;
 }
 
+.family-boundary-card strong,
 .family-workflow-card strong {
   display: block;
   margin-bottom: 8px;
 }
 
+.family-boundary-card,
 .family-guidance-card,
 .family-workflow-card,
 .family-privacy-panel,
@@ -10202,6 +10236,72 @@ button:disabled {
   width: 100%;
 }
 
+.library-page-heading,
+.family-page-heading {
+  display: grid;
+  gap: 18px;
+}
+
+.library-page-heading p,
+.family-page-heading p {
+  margin: 12px 0 0;
+  max-width: 840px;
+}
+
+.library-overview-grid,
+.library-boundary-grid,
+.family-overview-grid,
+.family-boundary-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.family-overview-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 22px;
+}
+
+.library-overview-card,
+.library-boundary-card,
+.family-overview-card,
+.family-boundary-card {
+  background: rgba(255, 255, 255, 0.038);
+  border: 1px solid var(--border-quiet);
+  border-radius: 18px;
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+}
+
+.library-overview-card span,
+.library-boundary-card span,
+.family-overview-card span,
+.family-boundary-card span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.library-overview-card strong,
+.library-boundary-card strong,
+.family-overview-card strong {
+  color: var(--text);
+  font-size: clamp(20px, 2.2vw, 28px);
+  line-height: 1.12;
+}
+
+.library-overview-card p,
+.library-boundary-card p,
+.family-overview-card p,
+.family-boundary-card p {
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
 .kundli-library-command-card.compact {
   border-color: rgba(77, 175, 255, 0.16);
 }
@@ -10250,6 +10350,12 @@ button:disabled {
   margin: 8px 0 0;
 }
 
+.saved-kundli-list-heading p {
+  color: var(--muted);
+  margin: 10px 0 0;
+  max-width: 760px;
+}
+
 .saved-kundli-list-heading > span {
   background: rgba(255, 255, 255, 0.055);
   border: 1px solid var(--border);
@@ -10296,6 +10402,13 @@ button:disabled {
   margin: 10px 0 10px;
 }
 
+.saved-kundli-card-note {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 14px 0 0;
+  max-width: 70ch;
+}
+
 .saved-kundli-status-row {
   align-items: center;
   display: flex;
@@ -10309,6 +10422,16 @@ button:disabled {
   border-radius: 999px;
   color: #9fd2ff;
   font-size: 0.76rem;
+  font-weight: 900;
+  padding: 6px 10px;
+}
+
+.saved-kundli-badge {
+  background: rgba(255, 195, 77, 0.1);
+  border: 1px solid rgba(255, 195, 77, 0.24);
+  border-radius: 999px;
+  color: #ffd48d;
+  font-size: 0.74rem;
   font-weight: 900;
   padding: 6px 10px;
 }
@@ -11551,6 +11674,13 @@ button:disabled {
 }
 
 @media (max-width: 820px) {
+  .library-overview-grid,
+  .library-boundary-grid,
+  .family-overview-grid,
+  .family-boundary-grid {
+    grid-template-columns: 1fr;
+  }
+
   .kundli-library-command-content.compact {
     grid-template-columns: 1fr;
   }

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import type { KundliData, SupportedLanguage } from '@pridicta/types';
 import {
   buildChartRenderModel,
@@ -12,13 +12,12 @@ import {
 import {
   canCreateAdditionalWebKundli,
   deleteWebKundli,
-  loadWebKundli,
-  loadWebKundlis,
   setActiveWebKundli,
 } from '../lib/web-kundli-storage';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useLanguagePreference } from '../lib/language-preference';
 import { useDialogFocusTrap } from '../lib/use-dialog-focus-trap';
+import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 import { Card } from './Card';
 import { WebKundliChart } from './WebKundliChart';
 import { AuthDialog } from './AuthDialog';
@@ -27,35 +26,32 @@ import { BrandedDestructiveDialog } from './BrandedDestructiveDialog';
 export function WebSavedKundlis(): React.JSX.Element {
   const { chartLanguage, language } = useLanguagePreference();
   const labels = KUNDLI_LIBRARY_COPY[language] ?? KUNDLI_LIBRARY_COPY.en;
-  const [kundli, setKundli] = useState<KundliData | undefined>();
-  const [savedKundlis, setSavedKundlis] = useState<KundliData[]>([]);
+  const { activeKundli, savedKundlis } = useWebKundliLibrary();
   const [dialogSelection, setDialogSelection] = useState<
     { kundli: KundliData; school: ChartRenderSchool } | undefined
   >();
   const [pendingDelete, setPendingDelete] = useState<KundliData | undefined>();
-
-  useEffect(() => {
-    setKundli(loadWebKundli());
-    setSavedKundlis(loadWebKundlis());
-  }, []);
   const profiles = useMemo(() => {
-    if (!kundli) {
+    if (!activeKundli) {
       return savedKundlis;
     }
 
-    return [kundli, ...savedKundlis.filter(record => record.id !== kundli.id)];
-  }, [kundli, savedKundlis]);
+    return [
+      activeKundli,
+      ...savedKundlis.filter(record => record.id !== activeKundli.id),
+    ];
+  }, [activeKundli, savedKundlis]);
+  const familyReady = profiles.length >= 2;
+  const nextSuggestedActive = pendingDelete
+    ? profiles.find(record => record.id !== pendingDelete.id)
+    : undefined;
 
   function activateProfile(record: KundliData): void {
     setActiveWebKundli(record);
-    setKundli(record);
-    setSavedKundlis(loadWebKundlis());
   }
 
   function deleteProfile(record: KundliData): void {
-    const nextStore = deleteWebKundli(record.id);
-    setKundli(nextStore.activeKundli);
-    setSavedKundlis(nextStore.savedKundlis);
+    deleteWebKundli(record.id);
     setPendingDelete(undefined);
   }
 
@@ -66,63 +62,75 @@ export function WebSavedKundlis(): React.JSX.Element {
   const askPredictaToCreateHref = buildPredictaChatHref({
     prompt:
       'Create a new Kundli for me. Ask only for the missing birth details and confirm them before calculation.',
+    school: 'PARASHARI',
     sourceScreen: 'Kundli Library',
   });
   const canCreateMoreKundlis =
     profiles.length === 0 || canCreateAdditionalWebKundli().allowed;
 
-  if (!kundli && profiles.length === 0) {
+  if (!activeKundli && profiles.length === 0) {
     return (
       <>
-        <LibraryPageHeading labels={labels} />
+        <LibraryPageHeading
+          activeName={undefined}
+          familyReady={familyReady}
+          labels={labels}
+          savedCount={profiles.length}
+        />
         <LibraryHeader
           askPredictaHref={askPredictaToCreateHref}
           canCreateMoreKundlis={canCreateMoreKundlis}
           hasProfiles={profiles.length > 0}
           labels={labels}
         />
-      <FamilyVaultCard labels={labels} />
-      <section className="saved-kundli-list" aria-label={labels.savedListTitle}>
-        <Card className="glass-panel">
-          <div className="card-content spacious">
-            <div className="section-title">{labels.libraryEyebrow}</div>
-            <h2>{labels.emptyTitle}</h2>
-            <p>{labels.emptyBody}</p>
-            <div className="action-row compact">
-              <Link className="button" href="/dashboard/kundli">
-                {labels.createNew}
-              </Link>
-              <Link className="button secondary" href={askPredictaToCreateHref}>
-                {labels.askToCreate}
-              </Link>
+        <FamilyVaultCard familyReady={familyReady} labels={labels} />
+        <section className="saved-kundli-list" aria-label={labels.savedListTitle}>
+          <Card className="glass-panel">
+            <div className="card-content spacious">
+              <div className="section-title">{labels.libraryEyebrow}</div>
+              <h2>{labels.emptyTitle}</h2>
+              <p>{labels.emptyBody}</p>
+              <div className="action-row compact">
+                <Link className="button" href="/dashboard/kundli">
+                  {labels.createNew}
+                </Link>
+                <Link className="button secondary" href={askPredictaToCreateHref}>
+                  {labels.askToCreate}
+                </Link>
+              </div>
             </div>
-          </div>
-        </Card>
-      </section>
-    </>
-  );
-}
+          </Card>
+        </section>
+      </>
+    );
+  }
 
   return (
     <>
-      <LibraryPageHeading labels={labels} />
+      <LibraryPageHeading
+        activeName={activeKundli?.birthDetails.name}
+        familyReady={familyReady}
+        labels={labels}
+        savedCount={profiles.length}
+      />
       <LibraryHeader
         askPredictaHref={askPredictaToCreateHref}
         canCreateMoreKundlis={canCreateMoreKundlis}
         hasProfiles={profiles.length > 0}
         labels={labels}
       />
-      <FamilyVaultCard labels={labels} />
+      <FamilyVaultCard familyReady={familyReady} labels={labels} />
       <section className="saved-kundli-list" aria-label={labels.savedListTitle}>
         <div className="saved-kundli-list-heading">
           <div>
             <div className="section-title">{labels.savedListEyebrow}</div>
             <h2>{labels.savedListTitle}</h2>
+            <p>{labels.savedListBody}</p>
           </div>
           <span>{labels.savedCount(profiles.length)}</span>
         </div>
         {profiles.map(record => {
-          const active = record.id === kundli?.id;
+          const active = record.id === activeKundli?.id;
           const askHref = buildPredictaChatHref({
             chartName: 'D1',
             chartType: 'D1',
@@ -134,6 +142,7 @@ export function WebSavedKundlis(): React.JSX.Element {
             selectedSection: `Saved profile: ${record.birthDetails.name}`,
             sourceScreen: 'Kundli Library',
           });
+          const reviewHref = `/dashboard/kundli${active ? '' : `?focusKundliId=${encodeURIComponent(record.id)}`}`;
 
           return (
             <article
@@ -149,6 +158,7 @@ export function WebSavedKundlis(): React.JSX.Element {
                     {active ? (
                       <span className="library-status-pill">{labels.activeNow}</span>
                     ) : null}
+                    <span className="saved-kundli-badge">{labels.familyReadyBadge}</span>
                   </div>
                   <h2>{record.birthDetails.name}</h2>
                   <p className="saved-kundli-meta">
@@ -168,14 +178,17 @@ export function WebSavedKundlis(): React.JSX.Element {
                       )}
                     </p>
                   ) : null}
+                  <p className="saved-kundli-card-note">
+                    {active ? labels.activeProfileBody : labels.savedProfileBody}
+                  </p>
                 </div>
                 <div className="saved-kundli-primary-actions">
                   <Link
                     className="button"
-                    href="/dashboard/kundli"
+                    href={reviewHref}
                     onClick={() => activateProfile(record)}
                   >
-                    {labels.open}
+                    {active ? labels.continueChart : labels.reviewChart}
                   </Link>
                   <Link
                     className="button secondary"
@@ -226,7 +239,7 @@ export function WebSavedKundlis(): React.JSX.Element {
                   href="/dashboard/family"
                   onClick={() => activateProfile(record)}
                 >
-                  {labels.familyMap}
+                  {labels.useInFamilyVault}
                 </Link>
                 <button
                   className="button secondary danger"
@@ -254,10 +267,17 @@ export function WebSavedKundlis(): React.JSX.Element {
       ) : null}
       {pendingDelete ? (
         <BrandedDestructiveDialog
-          body={labels.deleteConfirmBody}
+          body={labels.deleteConfirmBody(pendingDelete.birthDetails.name)}
           cancelLabel={labels.deleteCancel}
+          confirmationHint={labels.deleteConfirmHint(pendingDelete.birthDetails.name)}
+          confirmationLabel={labels.deleteConfirmFieldLabel}
+          confirmationPhrase={pendingDelete.birthDetails.name}
+          confirmationPlaceholder={pendingDelete.birthDetails.name}
           confirmLabel={labels.deleteConfirmAction}
-          consequence={labels.deleteConfirmConsequence}
+          consequence={labels.deleteConfirmConsequence(
+            pendingDelete.birthDetails.name,
+            nextSuggestedActive?.birthDetails.name,
+          )}
           eyebrow={labels.deleteConfirmEyebrow}
           onCancel={() => setPendingDelete(undefined)}
           onConfirm={() => deleteProfile(pendingDelete)}
@@ -533,21 +553,38 @@ function KundliLibraryChartDialog({
 }
 
 function LibraryPageHeading({
+  activeName,
+  familyReady,
   labels,
+  savedCount,
 }: {
+  activeName?: string;
+  familyReady: boolean;
   labels: KundliLibraryCopy;
+  savedCount: number;
 }): React.JSX.Element {
   return (
-    <div className="page-heading compact">
-      <h1 className="gradient-text">{labels.pageTitle}</h1>
-      <details className="info-drawer">
-        <summary>
-          <span>{labels.libraryEyebrow}</span>
-          <strong>{labels.openDetails}</strong>
-        </summary>
+    <section className="page-heading compact library-page-heading">
+      <div>
+        <div className="section-title">{labels.libraryEyebrow}</div>
+        <h1 className="gradient-text">{labels.pageTitle}</h1>
         <p>{labels.pageBody}</p>
-      </details>
-    </div>
+      </div>
+      <div className="library-overview-grid" aria-label={labels.overviewLabel}>
+        <div className="library-overview-card">
+          <span>{labels.personalEyebrow}</span>
+          <strong>{labels.savedCount(savedCount)}</strong>
+          <p>{labels.personalBody(activeName)}</p>
+        </div>
+        <div className="library-overview-card">
+          <span>{labels.familyVaultEyebrow}</span>
+          <strong>
+            {familyReady ? labels.familyReadyTitle : labels.familyWaitingTitle}
+          </strong>
+          <p>{labels.familyOverviewBody(savedCount)}</p>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -570,17 +607,9 @@ function LibraryHeader({
         }`}
       >
         <div className="kundli-library-command-copy">
-          <div className="section-title">{labels.actionsEyebrow}</div>
+          <div className="section-title">{labels.personalEyebrow}</div>
           <h2>{labels.actionsTitle}</h2>
-          {!hasProfiles ? (
-            <details className="info-drawer">
-              <summary>
-                <span>{labels.actionsEyebrow}</span>
-                <strong>{labels.openDetails}</strong>
-              </summary>
-              <p>{labels.actionsBody}</p>
-            </details>
-          ) : null}
+          <p>{labels.actionsBody}</p>
         </div>
         {canCreateMoreKundlis ? (
           <div className="kundli-library-command-actions">
@@ -606,8 +635,10 @@ function LibraryHeader({
 }
 
 function FamilyVaultCard({
+  familyReady,
   labels,
 }: {
+  familyReady: boolean;
   labels: KundliLibraryCopy;
 }): React.JSX.Element {
   return (
@@ -615,19 +646,27 @@ function FamilyVaultCard({
       <div className="card-content spacious">
         <div className="section-title">{labels.familyVaultEyebrow}</div>
         <h2>{labels.familyVaultTitle}</h2>
-        <details className="info-drawer">
-          <summary>
+        <p>{labels.familyVaultBody}</p>
+        <div className="library-boundary-grid">
+          <div className="library-boundary-card">
+            <span>{labels.personalEyebrow}</span>
+            <strong>{labels.personalBoundaryTitle}</strong>
+            <p>{labels.personalBoundaryBody}</p>
+          </div>
+          <div className="library-boundary-card">
             <span>{labels.familyVaultEyebrow}</span>
-            <strong>{labels.openDetails}</strong>
-          </summary>
-          <p>{labels.familyVaultBody}</p>
-        </details>
+            <strong>
+              {familyReady ? labels.familyReadyTitle : labels.familyWaitingTitle}
+            </strong>
+            <p>{labels.familyBoundaryBody}</p>
+          </div>
+        </div>
         <div className="action-row compact">
           <Link className="button secondary" href="/dashboard/kundli">
             {labels.addProfile}
           </Link>
           <Link className="button secondary" href="/dashboard/family">
-            {labels.openFamilyMap}
+            {labels.goToFamilyVault}
           </Link>
         </div>
       </div>
@@ -637,10 +676,10 @@ function FamilyVaultCard({
 
 type KundliLibraryCopy = {
   actionsBody: string;
-  actionsEyebrow: string;
   actionsTitle: string;
   activeKundli: string;
   activeNow: string;
+  activeProfileBody: string;
   addProfile: string;
   approximateTime: string;
   askPredicta: string;
@@ -648,13 +687,19 @@ type KundliLibraryCopy = {
   birthDetails: string;
   birthStar: string;
   close: string;
+  continueChart: string;
   createNew: string;
   delete: string;
   deleteCancel: string;
   deleteConfirmAction: string;
-  deleteConfirmBody: string;
-  deleteConfirmConsequence: string;
+  deleteConfirmBody: (name: string) => string;
+  deleteConfirmConsequence: (
+    name: string,
+    nextActiveName?: string,
+  ) => string;
   deleteConfirmEyebrow: string;
+  deleteConfirmFieldLabel: string;
+  deleteConfirmHint: (name: string) => string;
   deleteConfirmTitle: (name: string) => string;
   dialogAskPrompt: (name: string, chart: string) => string;
   dialogBody: string;
@@ -669,39 +714,52 @@ type KundliLibraryCopy = {
   ) => string;
   emptyBody: string;
   emptyTitle: string;
+  familyBoundaryBody: string;
+  familyOverviewBody: (count: number) => string;
+  familyReadyBadge: string;
+  familyReadyTitle: string;
   familyMap: string;
   familyVaultBody: string;
   familyVaultEyebrow: string;
   familyVaultTitle: string;
+  familyWaitingTitle: string;
+  goToFamilyVault: string;
   guestLimitBody: string;
   guestLimitTitle: string;
   libraryEyebrow: string;
-  open: string;
-  openFamilyMap: string;
-  openDetails: string;
+  overviewLabel: string;
   openFullFlow: (school: ChartRenderSchool) => string;
   pageBody: string;
   pageTitle: string;
+  personalBody: (activeName?: string) => string;
+  personalBoundaryBody: string;
+  personalBoundaryTitle: string;
+  personalEyebrow: string;
   previewChartLabel: (school: ChartRenderSchool) => string;
   previewCharts: string;
   previewChartsHint: string;
   rectifiedTime: string;
+  reviewChart: string;
   risingSign: string;
+  savedListBody: string;
   savedKundli: string;
   savedCount: (count: number) => string;
   savedListEyebrow: string;
   savedListTitle: string;
+  savedProfileBody: string;
   setActive: string;
+  useInFamilyVault: string;
 };
 
 const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
   en: {
     actionsBody:
-      'Use this library as the main place for every saved Kundli. Family Vault uses these same profiles for comparisons and shared guidance.',
-    actionsEyebrow: 'KUNDLI LIBRARY ACTIONS',
-    actionsTitle: 'Create, switch, edit, or delete from one place.',
+      'Keep personal chart control here. Create, switch, edit, and delete profiles before using Family Vault for household comparison.',
+    actionsTitle: 'Personal Kundli control stays here.',
     activeKundli: 'Active Kundli',
     activeNow: 'Active now',
+    activeProfileBody:
+      'Predicta will use this saved chart first for personal readings and world handoffs.',
     addProfile: 'Add Profile',
     approximateTime: 'Approximate time',
     askPredicta: 'Ask Predicta',
@@ -709,15 +767,20 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     birthDetails: 'Birth details',
     birthStar: 'Birth star',
     close: 'Close',
+    continueChart: 'Continue with chart',
     createNew: 'Create New Kundli',
     delete: 'Delete',
     deleteCancel: 'Keep Kundli',
     deleteConfirmAction: 'Delete Kundli',
-    deleteConfirmBody:
-      'This removes it from your Kundli Library. Old chats or reports may no longer have full chart context for this profile.',
-    deleteConfirmConsequence:
-      'If this is your active Kundli, Predicta will move to the next saved Kundli or ask you to create a new chart.',
+    deleteConfirmBody: name =>
+      `This removes ${name}'s profile from your personal Kundli Library and from any Family Vault comparisons on this device.`,
+    deleteConfirmConsequence: (_name, nextActiveName) =>
+      nextActiveName
+        ? `Predicta will switch the active profile to ${nextActiveName}. Older chats or reports may lose full chart context for the deleted profile.`
+        : 'Older chats or reports may lose full chart context for the deleted profile. You may need to create or reactivate another Kundli before your next reading.',
     deleteConfirmEyebrow: 'Delete carefully',
+    deleteConfirmFieldLabel: 'Type the profile name to confirm deletion',
+    deleteConfirmHint: name => `Type ${name} exactly as shown.`,
     deleteConfirmTitle: name => `Delete ${name}'s Kundli?`,
     dialogAskPrompt: (name, chart) =>
       `Use ${name}'s ${chart} chart from my Kundli Library. Confirm this chart in chat and tell me what I should ask next.`,
@@ -743,22 +806,30 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
         fields.length ? fields.join(', ') : 'birth details'
       }`,
     emptyBody:
-      'Every Kundli you create will appear here first. Family Vault uses these saved profiles for family patterns.',
+      'Every Kundli you create will appear here first. Family Vault will stay empty until you save profiles here.',
     emptyTitle: 'Create your first Kundli.',
+    familyBoundaryBody:
+      'Family Vault compares saved profiles from this library. It does not create a second hidden copy of birth data.',
+    familyOverviewBody: count =>
+      count >= 2
+        ? 'Household comparison is ready because you have at least two saved profiles.'
+        : 'Save one more profile before opening household comparison and relationship patterns.',
+    familyReadyBadge: 'Available in Family Vault',
+    familyReadyTitle: 'Family comparison ready',
     familyMap: 'Family Map',
     familyVaultBody:
-      'Use your saved Kundlis as family profiles, compare patterns, and later invite family members when shared permissions are ready.',
+      'Family Vault is the comparison layer. Save, edit, and delete personal charts in the library first, then use Family Vault for shared patterns and household guidance.',
     familyVaultEyebrow: 'FAMILY VAULT',
-    familyVaultTitle: 'Family layer for saved Kundlis.',
+    familyVaultTitle: 'Family comparison uses library profiles.',
+    familyWaitingTitle: 'Needs more saved profiles',
+    goToFamilyVault: 'Go to Family Vault',
     guestLimitBody:
       'Your first Kundli is safe here. Sign in before adding family profiles, multiple saved chats, or report preferences.',
     guestLimitTitle: 'Protect more Kundlis with sign-in',
     libraryEyebrow: 'KUNDLI LIBRARY',
-    open: 'Open',
-    openDetails: 'Open',
-    openFamilyMap: 'Open Family Map',
+    overviewLabel: 'Kundli Library overview',
     pageBody:
-      'This is your Kundli Library. Choose the profile Predicta should read, then use Family Vault when you want family patterns and shared profiles.',
+      'Keep every saved Kundli here, choose one active personal profile, and open Family Vault only when you want careful household comparison.',
     openFullFlow: school =>
       school === 'PARASHARI'
         ? 'Open Full Kundli'
@@ -766,25 +837,40 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
           ? 'Open KP Room'
           : 'Open Nadi Room',
     pageTitle: 'Kundli Library',
+    personalBody: activeName =>
+      activeName
+        ? `Active profile: ${activeName}. Personal readings and edits stay in this library.`
+        : 'No active profile yet. Create a Kundli here before opening other worlds or Family Vault.',
+    personalBoundaryBody:
+      'Personal edits, switching, and deletion should happen in the library so Family Vault stays a read-only comparison layer.',
+    personalBoundaryTitle: 'Personal storage and edits',
+    personalEyebrow: 'PERSONAL LIBRARY',
     previewChartLabel: school =>
       school === 'PARASHARI' ? 'D1' : school === 'KP' ? 'KP' : 'Nadi',
     previewCharts: 'Saved Kundli chart previews',
     previewChartsHint: 'Tap any preview to inspect the chart before opening a full flow.',
     rectifiedTime: 'Rectified time',
+    reviewChart: 'Review chart',
     risingSign: 'Rising sign',
+    savedListBody:
+      'Choose the active personal profile here. Family Vault uses the same saved profiles later for comparison.',
     savedKundli: 'Saved Kundli',
     savedCount: count => `${count} saved ${count === 1 ? 'Kundli' : 'Kundlis'}`,
     savedListEyebrow: 'Saved profiles',
     savedListTitle: 'Your Kundlis',
+    savedProfileBody:
+      'This saved profile is available for personal readings now and can be used later inside Family Vault.',
     setActive: 'Set Active',
+    useInFamilyVault: 'Use in Family Vault',
   },
   hi: {
     actionsBody:
-      'हर सेव कुंडली के लिए यही मुख्य जगह रखें. Family Vault इन्हीं प्रोफाइलों से तुलना और साझा मार्गदर्शन करता है.',
-    actionsEyebrow: 'कुंडली लाइब्रेरी कार्य',
-    actionsTitle: 'एक ही जगह से बनाएं, बदलें, संपादित करें या हटाएं.',
+      'व्यक्तिगत चार्ट का नियंत्रण यहीं रखें. परिवार तुलना खोलने से पहले प्रोफाइल यहीं बनाएं, बदलें, संपादित करें और हटाएं.',
+    actionsTitle: 'व्यक्तिगत कुंडली नियंत्रण यहीं रहता है.',
     activeKundli: 'सक्रिय कुंडली',
     activeNow: 'अभी सक्रिय',
+    activeProfileBody:
+      'व्यक्तिगत रीडिंग और दुनिया-आधारित हैंडऑफ के लिए प्रेडिक्टा पहले यही सेव चार्ट पढ़ेगी.',
     addProfile: 'प्रोफाइल जोड़ें',
     approximateTime: 'अनुमानित समय',
     askPredicta: 'प्रेडिक्टा से पूछें',
@@ -792,15 +878,20 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     birthDetails: 'जन्म विवरण',
     birthStar: 'जन्म नक्षत्र',
     close: 'बंद करें',
+    continueChart: 'चार्ट जारी रखें',
     createNew: 'नई कुंडली बनाएं',
     delete: 'हटाएं',
     deleteCancel: 'रहने दें',
     deleteConfirmAction: 'कुंडली हटाएं',
-    deleteConfirmBody:
-      'यह कुंडली लाइब्रेरी से हट जाएगी. पुराने चैट या रिपोर्ट में इस प्रोफाइल का पूरा चार्ट संदर्भ उपलब्ध नहीं रह सकता.',
-    deleteConfirmConsequence:
-      'अगर यही सक्रिय कुंडली है, तो प्रेडिक्टा अगली सेव कुंडली चुनेगी या नया चार्ट बनाने को कहेगी.',
+    deleteConfirmBody: name =>
+      `यह ${name} की प्रोफाइल को आपकी व्यक्तिगत कुंडली लाइब्रेरी और इस डिवाइस के परिवार वॉल्ट तुलना दोनों से हटा देगा.`,
+    deleteConfirmConsequence: (_name, nextActiveName) =>
+      nextActiveName
+        ? `प्रेडिक्टा सक्रिय प्रोफाइल को ${nextActiveName} पर बदल देगी. हटाई गई प्रोफाइल के लिए पुराने चैट या रिपोर्ट पूरा चार्ट संदर्भ खो सकते हैं.`
+        : 'हटाई गई प्रोफाइल के लिए पुराने चैट या रिपोर्ट पूरा चार्ट संदर्भ खो सकते हैं. अगली रीडिंग से पहले आपको नई कुंडली बनानी या दूसरी कुंडली सक्रिय करनी पड़ सकती है.',
     deleteConfirmEyebrow: 'सावधानी से हटाएं',
+    deleteConfirmFieldLabel: 'हटाने की पुष्टि के लिए प्रोफाइल का नाम टाइप करें',
+    deleteConfirmHint: name => `${name} जैसा दिख रहा है वैसा ही लिखें.`,
     deleteConfirmTitle: name => `${name} की कुंडली हटाएं?`,
     dialogAskPrompt: (name, chart) =>
       `${name} की ${chart} कुंडली लाइब्रेरी से इस्तेमाल करें. चैट में चार्ट की पुष्टि करके बताएं कि आगे क्या पूछना सही रहेगा.`,
@@ -826,20 +917,28 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
         fields.length ? fields.join(', ') : 'जन्म विवरण'
       }`,
     emptyBody:
-      'आप जो भी कुंडली बनाएंगे, वह पहले यहां दिखेगी. परिवार वॉल्ट इन्हीं सेव प्रोफाइलों से पारिवारिक संकेत पढ़ता है.',
+      'आप जो भी कुंडली बनाएंगे, वह पहले यहां दिखेगी. यहां सेव किए बिना परिवार वॉल्ट तुलना नहीं खोलेगा.',
     emptyTitle: 'अपनी पहली कुंडली बनाएं.',
+    familyBoundaryBody:
+      'परिवार वॉल्ट इसी लाइब्रेरी की सेव प्रोफाइलों की तुलना करता है. यह जन्म विवरण की दूसरी छिपी हुई कॉपी नहीं बनाता.',
+    familyOverviewBody: count =>
+      count >= 2
+        ? 'कम से कम दो सेव प्रोफाइल होने से पारिवारिक तुलना तैयार है.'
+        : 'घर-परिवार तुलना और संबंध पैटर्न खोलने से पहले एक और प्रोफाइल सेव करें.',
+    familyReadyBadge: 'परिवार वॉल्ट में उपलब्ध',
+    familyReadyTitle: 'परिवार तुलना तैयार',
     familyMap: 'परिवार नक्शा',
     familyVaultBody:
-      'सेव कुंडलियों को परिवार प्रोफाइल की तरह इस्तेमाल करें, संकेतों की तुलना करें, और आगे अनुमति तैयार होने पर परिवार सदस्यों को जोड़ें.',
+      'परिवार वॉल्ट तुलना की परत है. व्यक्तिगत चार्ट पहले लाइब्रेरी में सेव, संपादित और हटाएं, फिर साझा संकेतों और पारिवारिक मार्गदर्शन के लिए परिवार वॉल्ट खोलें.',
     familyVaultEyebrow: 'परिवार वॉल्ट',
-    familyVaultTitle: 'सेव कुंडलियों के लिए परिवार स्तर.',
+    familyVaultTitle: 'परिवार तुलना लाइब्रेरी प्रोफाइलों से चलती है.',
+    familyWaitingTitle: 'और सेव प्रोफाइल चाहिए',
+    goToFamilyVault: 'परिवार वॉल्ट पर जाएं',
     guestLimitBody:
       'आपकी पहली कुंडली इस डिवाइस पर सुरक्षित रहती है. परिवार प्रोफाइल, कई चैट और रिपोर्ट पसंद सेव रखने के लिए साइन इन करें.',
     guestLimitTitle: 'अधिक कुंडलियां सुरक्षित रखने के लिए साइन इन करें',
     libraryEyebrow: 'कुंडली लाइब्रेरी',
-    open: 'खोलें',
-    openDetails: 'खोलें',
-    openFamilyMap: 'परिवार नक्शा खोलें',
+    overviewLabel: 'कुंडली लाइब्रेरी सार',
     openFullFlow: school =>
       school === 'PARASHARI'
         ? 'पूरी कुंडली खोलें'
@@ -847,27 +946,42 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
           ? 'कृष्णमूर्ति पद्धति कक्ष खोलें'
           : 'नाड़ी कक्ष खोलें',
     pageBody:
-      'यह आपकी सेव कुंडलियों की जगह है. सक्रिय प्रोफाइल चुनें, फिर पारिवारिक संकेतों और साझा प्रोफाइल के लिए परिवार वॉल्ट इस्तेमाल करें.',
+      'हर सेव कुंडली यहीं रखें, एक सक्रिय व्यक्तिगत प्रोफाइल चुनें, और सावधानी से पारिवारिक तुलना चाहिए तभी परिवार वॉल्ट खोलें.',
     pageTitle: 'कुंडली लाइब्रेरी',
+    personalBody: activeName =>
+      activeName
+        ? `सक्रिय प्रोफाइल: ${activeName}. व्यक्तिगत रीडिंग और संपादन इसी लाइब्रेरी में रहते हैं.`
+        : 'अभी कोई सक्रिय प्रोफाइल नहीं है. दूसरी दुनिया या परिवार वॉल्ट खोलने से पहले यहां कुंडली बनाएं.',
+    personalBoundaryBody:
+      'व्यक्तिगत संपादन, सक्रिय बदलना और हटाना लाइब्रेरी में ही होना चाहिए ताकि परिवार वॉल्ट केवल तुलना की परत बना रहे.',
+    personalBoundaryTitle: 'व्यक्तिगत संग्रह और संपादन',
+    personalEyebrow: 'व्यक्तिगत लाइब्रेरी',
     previewChartLabel: school =>
       school === 'PARASHARI' ? 'D1' : school === 'KP' ? 'कृष्णमूर्ति पद्धति' : 'नाड़ी',
     previewCharts: 'सेव कुंडली चार्ट झलक',
     previewChartsHint: 'पूरा प्रवाह खोलने से पहले किसी भी झलक पर टैप करके चार्ट देखें.',
     rectifiedTime: 'सुधारा गया समय',
+    reviewChart: 'चार्ट देखें',
     risingSign: 'लग्न',
+    savedListBody:
+      'सक्रिय व्यक्तिगत प्रोफाइल यहीं चुनें. परिवार वॉल्ट बाद में इन्हीं सेव प्रोफाइलों का तुलना के लिए इस्तेमाल करता है.',
     savedKundli: 'सेव कुंडली',
     savedCount: count => `${count} सेव कुंडली`,
     savedListEyebrow: 'सेव प्रोफाइल',
     savedListTitle: 'आपकी कुंडलियां',
+    savedProfileBody:
+      'यह सेव प्रोफाइल अभी व्यक्तिगत रीडिंग के लिए उपलब्ध है और बाद में परिवार वॉल्ट में इस्तेमाल हो सकती है.',
     setActive: 'सक्रिय करें',
+    useInFamilyVault: 'परिवार वॉल्ट में लें',
   },
   gu: {
     actionsBody:
-      'દરેક સાચવેલી કુંડળી માટે આ મુખ્ય જગ્યા રાખો. Family Vault આ જ પ્રોફાઇલોથી તુલના અને સહિયારું માર્ગદર્શન કરે છે.',
-    actionsEyebrow: 'કુંડળી લાઇબ્રેરી કાર્ય',
-    actionsTitle: 'એક જ જગ્યાએથી બનાવો, બદલો, સંપાદિત કરો અથવા કાઢી નાખો.',
+      'વ્યક્તિગત ચાર્ટનું નિયંત્રણ અહીં રાખો. પરિવાર તુલના ખોલતા પહેલાં પ્રોફાઇલ અહીં બનાવો, બદલો, સંપાદિત કરો અને કાઢી નાખો.',
+    actionsTitle: 'વ્યક્તિગત કુંડળી નિયંત્રણ અહીં રહે છે.',
     activeKundli: 'સક્રિય કુંડળી',
     activeNow: 'હમણાં સક્રિય',
+    activeProfileBody:
+      'વ્યક્તિગત વાંચન અને વર્લ્ડ હેન્ડઓફ માટે પ્રેડિક્ટા પહેલા આ સાચવેલો ચાર્ટ વાંચશે.',
     addProfile: 'પ્રોફાઇલ ઉમેરો',
     approximateTime: 'અંદાજિત સમય',
     askPredicta: 'પ્રેડિક્ટા ને પૂછો',
@@ -875,15 +989,20 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     birthDetails: 'જન્મ વિગતો',
     birthStar: 'જન્મ નક્ષત્ર',
     close: 'બંધ કરો',
+    continueChart: 'ચાર્ટ ચાલુ રાખો',
     createNew: 'નવી કુંડળી બનાવો',
     delete: 'કાઢી નાખો',
     deleteCancel: 'રહવા દો',
     deleteConfirmAction: 'કુંડળી કાઢી નાખો',
-    deleteConfirmBody:
-      'આ કુંડળી લાઇબ્રેરીમાંથી દૂર થશે. જૂના ચેટ અથવા રિપોર્ટમાં આ પ્રોફાઇલનો સંપૂર્ણ ચાર્ટ સંદર્ભ ઉપલબ્ધ ન રહી શકે.',
-    deleteConfirmConsequence:
-      'જો આ સક્રિય કુંડળી છે, તો પ્રેડિક્ટા આગળની સેવ કુંડળી પસંદ કરશે અથવા નવો ચાર્ટ બનાવવા કહેશે.',
+    deleteConfirmBody: name =>
+      `આ ${name} ની પ્રોફાઇલને તમારી વ્યક્તિગત કુંડળી લાઇબ્રેરીમાંથી અને આ ડિવાઇસના પરિવાર વોલ્ટ તુલનામાંથી દૂર કરશે.`,
+    deleteConfirmConsequence: (_name, nextActiveName) =>
+      nextActiveName
+        ? `પ્રેડિક્ટા સક્રિય પ્રોફાઇલને ${nextActiveName} પર બદલી દેશે. કાઢી નાખેલી પ્રોફાઇલ માટે જૂના ચેટ અથવા રિપોર્ટ સંપૂર્ણ ચાર્ટ સંદર્ભ ગુમાવી શકે છે.`
+        : 'કાઢી નાખેલી પ્રોફાઇલ માટે જૂના ચેટ અથવા રિપોર્ટ સંપૂર્ણ ચાર્ટ સંદર્ભ ગુમાવી શકે છે. આગળની વાંચન પહેલાં તમને નવી કુંડળી બનાવવી કે બીજી કુંડળી સક્રિય કરવી પડી શકે છે.',
     deleteConfirmEyebrow: 'સાવચેતીથી કાઢો',
+    deleteConfirmFieldLabel: 'કાઢી નાખવાની પુષ્ટિ માટે પ્રોફાઇલનું નામ લખો',
+    deleteConfirmHint: name => `${name} જેમ દેખાય છે એમ જ લખો.`,
     deleteConfirmTitle: name => `${name} ની કુંડળી કાઢી નાખો?`,
     dialogAskPrompt: (name, chart) =>
       `${name} નો ${chart} ચાર્ટ કુંડળી લાઇબ્રેરીમાંથી વાપરો. ચેટમાં ચાર્ટની પુષ્ટિ કરીને આગળ શું પૂછવું તે કહો.`,
@@ -909,20 +1028,28 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
         fields.length ? fields.join(', ') : 'જન્મ વિગતો'
       }`,
     emptyBody:
-      'તમે બનાવેલી દરેક કુંડળી પહેલા અહીં દેખાશે. પરિવાર વોલ્ટ આ જ સાચવેલી પ્રોફાઇલોથી પરિવારના સંકેતો વાંચે છે.',
+      'તમે બનાવેલી દરેક કુંડળી પહેલા અહીં દેખાશે. અહીં સાચવ્યા વિના પરિવાર વોલ્ટ તુલના ખોલશે નહીં.',
     emptyTitle: 'તમારી પહેલી કુંડળી બનાવો.',
+    familyBoundaryBody:
+      'પરિવાર વોલ્ટ આ લાઇબ્રેરીની સાચવેલી પ્રોફાઇલની તુલના કરે છે. તે જન્મ વિગતોની બીજી છુપાયેલી નકલ બનાવતું નથી.',
+    familyOverviewBody: count =>
+      count >= 2
+        ? 'ઓછામાં ઓછી બે સાચવેલી પ્રોફાઇલ હોવાથી પરિવાર તુલના તૈયાર છે.'
+        : 'ઘરેલુ તુલના અને સંબંધ પેટર્ન ખોલવા પહેલાં એક વધુ પ્રોફાઇલ સાચવો.',
+    familyReadyBadge: 'પરિવાર વોલ્ટમાં ઉપલબ્ધ',
+    familyReadyTitle: 'પરિવાર તુલના તૈયાર',
     familyMap: 'પરિવાર નકશો',
     familyVaultBody:
-      'સાચવેલી કુંડળીઓને પરિવાર પ્રોફાઇલ તરીકે વાપરો, સંકેતોની તુલના કરો, અને આગળ પરવાનગીઓ તૈયાર થાય ત્યારે પરિવાર સભ્યોને જોડો.',
+      'પરિવાર વોલ્ટ તુલનાની પરત છે. વ્યક્તિગત ચાર્ટ પહેલાં લાઇબ્રેરીમાં સાચવો, સંપાદિત કરો અને કાઢી નાખો, પછી શેર કરેલા સંકેતો અને ઘરેલુ માર્ગદર્શન માટે પરિવાર વોલ્ટ ખોલો.',
     familyVaultEyebrow: 'પરિવાર વોલ્ટ',
-    familyVaultTitle: 'સાચવેલી કુંડળીઓ માટે પરિવાર સ્તર.',
+    familyVaultTitle: 'પરિવાર તુલના લાઇબ્રેરી પ્રોફાઇલ પરથી ચાલે છે.',
+    familyWaitingTitle: 'વધુ સાચવેલી પ્રોફાઇલ જોઈએ',
+    goToFamilyVault: 'પરિવાર વોલ્ટ પર જાઓ',
     guestLimitBody:
       'તમારી પહેલી કુંડળી આ ડિવાઇસ પર સુરક્ષિત રહે છે. પરિવાર પ્રોફાઇલ, અનેક ચેટ અને રિપોર્ટ પસંદગીઓ સેવ રાખવા માટે સાઇન ઇન કરો.',
     guestLimitTitle: 'વધુ કુંડળીઓ સુરક્ષિત રાખવા સાઇન ઇન કરો',
     libraryEyebrow: 'કુંડળી લાઇબ્રેરી',
-    open: 'ખોલો',
-    openDetails: 'ખોલો',
-    openFamilyMap: 'પરિવાર નકશો ખોલો',
+    overviewLabel: 'કુંડળી લાઇબ્રેરી સાર',
     openFullFlow: school =>
       school === 'PARASHARI'
         ? 'સંપૂર્ણ કુંડળી ખોલો'
@@ -930,18 +1057,32 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
           ? 'કૃષ્ણમૂર્તિ પદ્ધતિ કક્ષ ખોલો'
           : 'નાડી કક્ષ ખોલો',
     pageBody:
-      'આ તમારી સાચવેલી કુંડળીઓની જગ્યા છે. સક્રિય પ્રોફાઇલ પસંદ કરો, પછી પરિવારના સંકેતો અને સહિયારી પ્રોફાઇલ માટે પરિવાર વોલ્ટ વાપરો.',
+      'દરેક સાચવેલી કુંડળી અહીં રાખો, એક સક્રિય વ્યક્તિગત પ્રોફાઇલ પસંદ કરો, અને સાવચેતીભરી ઘરેલુ તુલના જોઈએ ત્યારે જ પરિવાર વોલ્ટ ખોલો.',
     pageTitle: 'કુંડળી લાઇબ્રેરી',
+    personalBody: activeName =>
+      activeName
+        ? `સક્રિય પ્રોફાઇલ: ${activeName}. વ્યક્તિગત વાંચન અને સંપાદન આ જ લાઇબ્રેરીમાં રહે છે.`
+        : 'હજુ કોઈ સક્રિય પ્રોફાઇલ નથી. બીજા વર્લ્ડ અથવા પરિવાર વોલ્ટ ખોલતા પહેલાં અહીં કુંડળી બનાવો.',
+    personalBoundaryBody:
+      'વ્યક્તિગત સંપાદન, સક્રિય બદલવું અને કાઢી નાખવું લાઇબ્રેરીમાં જ થવું જોઈએ જેથી પરિવાર વોલ્ટ ફક્ત તુલનાની પરત રહે.',
+    personalBoundaryTitle: 'વ્યક્તિગત સંગ્રહ અને સંપાદન',
+    personalEyebrow: 'વ્યક્તિગત લાઇબ્રેરી',
     previewChartLabel: school =>
       school === 'PARASHARI' ? 'D1' : school === 'KP' ? 'કૃષ્ણમૂર્તિ પદ્ધતિ' : 'નાડી',
     previewCharts: 'સાચવેલી કુંડળી ચાર્ટ ઝલક',
     previewChartsHint: 'સંપૂર્ણ પ્રવાહ ખોલતા પહેલા કોઈ પણ ઝલક પર ટેપ કરીને ચાર્ટ જુઓ.',
     rectifiedTime: 'સુધારેલો સમય',
+    reviewChart: 'ચાર્ટ જુઓ',
     risingSign: 'લગ્ન',
+    savedListBody:
+      'સક્રિય વ્યક્તિગત પ્રોફાઇલ અહીં પસંદ કરો. પરિવાર વોલ્ટ બાદમાં આ જ સાચવેલી પ્રોફાઇલનો તુલનામાં ઉપયોગ કરે છે.',
     savedKundli: 'સાચવેલી કુંડળી',
     savedCount: count => `${count} સાચવેલી કુંડળી`,
     savedListEyebrow: 'સાચવેલી પ્રોફાઇલ',
     savedListTitle: 'તમારી કુંડળીઓ',
+    savedProfileBody:
+      'આ સાચવેલી પ્રોફાઇલ અત્યારે વ્યક્તિગત વાંચન માટે ઉપલબ્ધ છે અને પછી પરિવાર વોલ્ટમાં વાપરી શકાય છે.',
     setActive: 'સક્રિય કરો',
+    useInFamilyVault: 'પરિવાર વોલ્ટમાં લો',
   },
 };

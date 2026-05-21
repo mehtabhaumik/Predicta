@@ -1,11 +1,15 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDialogFocusTrap } from '../lib/use-dialog-focus-trap';
 
 type BrandedDestructiveDialogProps = {
   body: string;
   cancelLabel: string;
+  confirmationHint?: string;
+  confirmationLabel?: string;
+  confirmationPhrase?: string;
+  confirmationPlaceholder?: string;
   confirmLabel: string;
   consequence?: string;
   eyebrow: string;
@@ -18,6 +22,10 @@ type BrandedDestructiveDialogProps = {
 export function BrandedDestructiveDialog({
   body,
   cancelLabel,
+  confirmationHint,
+  confirmationLabel,
+  confirmationPhrase,
+  confirmationPlaceholder,
   confirmLabel,
   consequence,
   eyebrow,
@@ -28,6 +36,7 @@ export function BrandedDestructiveDialog({
 }: BrandedDestructiveDialogProps): React.JSX.Element | null {
   const dialogRef = useRef<HTMLElement | null>(null);
   const cancelButtonRef = useRef<HTMLButtonElement | null>(null);
+  const [confirmationValue, setConfirmationValue] = useState('');
 
   useDialogFocusTrap(dialogRef, {
     active: open,
@@ -35,9 +44,20 @@ export function BrandedDestructiveDialog({
     onClose: onCancel,
   });
 
+  useEffect(() => {
+    if (!open) {
+      setConfirmationValue('');
+    }
+  }, [open]);
+
   if (!open) {
     return null;
   }
+
+  const requiresConfirmation = Boolean(confirmationPhrase);
+  const confirmationMatched =
+    !requiresConfirmation ||
+    confirmationValue.trim() === confirmationPhrase?.trim();
 
   return (
     <div
@@ -66,6 +86,24 @@ export function BrandedDestructiveDialog({
         {consequence ? (
           <div className="destructive-dialog-note">{consequence}</div>
         ) : null}
+        {requiresConfirmation ? (
+          <label className="destructive-dialog-confirmation">
+            <span>{confirmationLabel}</span>
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              onChange={event => setConfirmationValue(event.target.value)}
+              placeholder={confirmationPlaceholder}
+              spellCheck={false}
+              type="text"
+              value={confirmationValue}
+            />
+            {confirmationHint ? (
+              <small>{confirmationHint}</small>
+            ) : null}
+          </label>
+        ) : null}
         <div className="destructive-dialog-actions">
           <button
             className="button secondary"
@@ -75,7 +113,12 @@ export function BrandedDestructiveDialog({
           >
             {cancelLabel}
           </button>
-          <button className="button danger" onClick={onConfirm} type="button">
+          <button
+            className="button danger"
+            disabled={!confirmationMatched}
+            onClick={onConfirm}
+            type="button"
+          >
             {confirmLabel}
           </button>
         </div>
