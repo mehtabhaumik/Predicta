@@ -3218,7 +3218,11 @@ function WebChatChartBlock({
   language: SupportedLanguage;
   onUsePrompt: (prompt: string) => void;
 }): React.JSX.Element {
-  const renderModel = buildChartRenderModel({ birthDetails, chart: block.chart });
+  const renderModel = buildChartRenderModel({
+    birthDetails,
+    chart: block.chart,
+    presentation: 'chat',
+  });
   const cells = renderModel.cells;
   const [hoveredHouse, setHoveredHouse] = useState<number>();
   const [selectedHouse, setSelectedHouse] = useState<number>();
@@ -3239,6 +3243,7 @@ function WebChatChartBlock({
       <div className="chat-chart-body">
         <div
           className="chat-mini-chart"
+          data-chart-presentation={renderModel.presentation}
           data-chart-school={renderModel.school.toLowerCase()}
           data-chart-theme={renderModel.theme}
           {...getKundliAnimationSurfaceProps('chat')}
@@ -3288,11 +3293,14 @@ function WebChatChartBlock({
               type="button"
             />
           ))}
-          {cells.map((cell, index) => (
+          {cells.map((cell, index) => {
+            const visiblePlanets = cell.renderPlanets.slice(0, cell.maxVisiblePlanets);
+            return (
             <div
               className={`north-house-label north-house-label-${cell.house} ${
                 selectedHouse === cell.house ? 'selected' : ''
               } ${cell.renderPlanets.length > 2 ? 'north-house-label-stacked' : ''}`}
+              data-density={cell.labelDensity}
               data-kundli-animation-part="signs"
               key={`label-${cell.key}`}
               style={{
@@ -3311,26 +3319,28 @@ function WebChatChartBlock({
                 <span
                   className="chat-mini-planet-row north-planet-stack"
                   data-kundli-animation-part="planets"
-                >
-                  {cell.renderPlanets.slice(0, 4).map((planet, planetIndex) => (
+              >
+                  {visiblePlanets.map((planet, planetIndex) => (
                     <PlanetGlyph
                       animationIndex={planetIndex}
                       animationSurface="chat"
                       key={planet.key}
                       moonPhase={renderModel.moonPhase}
                       planet={planet}
-                      showDegree
-                      showSign={false}
-                      size="full"
+                      showDegree={cell.showPlanetDegrees}
+                      showSign={cell.showPlanetSign}
+                      showStatusMarks={cell.showPlanetStatusMarks}
+                      size={cell.planetGlyphSize}
                     />
                   ))}
-                  {cell.renderPlanets.length > 4 ? (
-                    <em>+{cell.renderPlanets.length - 4}</em>
+                  {cell.hiddenPlanetCount ? (
+                    <span className="chart-overflow-counter">+{cell.hiddenPlanetCount}</span>
                   ) : null}
                 </span>
               ) : null}
             </div>
-          ))}
+            );
+          })}
           <div className="chat-mini-chart-center">
             <span>{block.chartType}</span>
             <strong>D1 anchor</strong>

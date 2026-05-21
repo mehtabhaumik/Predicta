@@ -18,6 +18,7 @@ type PlanetGlyphProps = {
   showIcon?: boolean;
   showDegree?: boolean;
   showSign?: boolean;
+  showStatusMarks?: boolean;
   size?: 'compact' | 'full';
   style?: CSSProperties;
 };
@@ -30,6 +31,7 @@ export function PlanetGlyph({
   showIcon = true,
   showDegree = true,
   showSign = true,
+  showStatusMarks = true,
   size = 'full',
   style,
 }: PlanetGlyphProps): React.JSX.Element {
@@ -123,7 +125,8 @@ export function PlanetGlyph({
           </em>
         ) : null}
       </span>
-      {status.retrograde || status.exalted || status.debilitated || status.combust ? (
+      {showStatusMarks &&
+      (status.retrograde || status.exalted || status.debilitated || status.combust) ? (
         <span className="planet-status-marks" aria-hidden>
           {status.retrograde ? (
             <b className="planet-status-mark retrograde">R</b>

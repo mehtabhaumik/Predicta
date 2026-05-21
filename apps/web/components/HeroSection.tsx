@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState, type CSSProperties } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import {
+  getChartSurfacePreset,
   getChartRenderTheme,
   NORTH_INDIAN_HOUSE_POSITIONS,
   type ChartRenderTheme,
@@ -23,6 +24,7 @@ export function HeroSection(): React.JSX.Element {
   const [heroChartTheme, setHeroChartTheme] = useState<ChartRenderTheme>('unknown');
   const { language } = useLanguagePreference();
   const copy = heroCopy[language] ?? heroCopy.en;
+  const landingPreset = getChartSurfacePreset('landing');
 
   useEffect(() => {
     const updateHeroTheme = () => {
@@ -63,6 +65,7 @@ export function HeroSection(): React.JSX.Element {
       <div className="hero-visual kundli-hero-visual" aria-label="North Indian Kundli preview">
         <div
           className="hero-kundli-board"
+          data-chart-presentation="landing"
           data-chart-school="parashari"
           data-chart-theme={heroChartTheme}
           {...getKundliAnimationSurfaceProps('landing')}
@@ -91,23 +94,31 @@ export function HeroSection(): React.JSX.Element {
                 </span>
               </small>
               {house.planets.length ? (
-                <em
+                <span
                   className="hero-chart-planet-stack"
                   data-kundli-animation-part="planets"
                 >
-                  {house.planets.map((planet, planetIndex) => (
+                  {house.planets
+                    .slice(0, landingPreset.maxVisiblePlanets)
+                    .map((planet, planetIndex) => (
                     <PlanetGlyph
                       animationIndex={planetIndex}
                       animationSurface="landing"
                       key={planet.name}
                       moonPhase="waxing"
                       planet={planet}
-                      showDegree
-                      showSign={false}
-                      size="compact"
+                      showDegree={landingPreset.showPlanetDegrees}
+                      showSign={landingPreset.showPlanetSign}
+                      showStatusMarks={landingPreset.showPlanetStatusMarks}
+                      size={landingPreset.planetGlyphSize}
                     />
                   ))}
-                </em>
+                  {house.planets.length > landingPreset.maxVisiblePlanets ? (
+                    <span className="chart-overflow-counter">
+                      +{house.planets.length - landingPreset.maxVisiblePlanets}
+                    </span>
+                  ) : null}
+                </span>
               ) : null}
             </span>
           ))}

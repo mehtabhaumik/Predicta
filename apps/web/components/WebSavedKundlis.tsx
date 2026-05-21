@@ -350,6 +350,7 @@ function MiniKundliPreview({
     birthDetails: kundli.birthDetails,
     chart,
     language: chartLanguage,
+    presentation: 'library',
     school,
   });
 
@@ -357,6 +358,7 @@ function MiniKundliPreview({
     <button
       aria-label={`${label}: ${kundli.birthDetails.name}`}
       className="kundli-library-mini-chart"
+      data-chart-presentation={model.presentation}
       data-chart-theme={model.theme}
       data-school={school.toLowerCase()}
       onClick={onOpen}
@@ -373,9 +375,11 @@ function MiniKundliPreview({
           <path d={path} key={path} />
         ))}
       </svg>
-      {model.cells.map(cell => (
+      {model.cells.map(cell => {
+        const visiblePlanets = cell.renderPlanets.slice(0, cell.maxVisiblePlanets);
+        return (
         <div
-          className="kundli-library-mini-cell"
+          className={`kundli-library-mini-cell kundli-library-mini-cell-${cell.house}`}
           data-density={cell.labelDensity}
           key={`${school}-${cell.key}`}
           style={{
@@ -384,21 +388,22 @@ function MiniKundliPreview({
           } as CSSProperties}
         >
           <span className="kundli-library-mini-sign">{cell.signNumber}</span>
-          {cell.renderPlanets.length ? (
+          {visiblePlanets.length ? (
             <div className="kundli-library-mini-planets">
-              {cell.renderPlanets.slice(0, 3).map(planet => (
+              {visiblePlanets.map(planet => (
                 <b key={planet.key} title={planet.displayLabel}>
-                  {planet.displayAbbreviation} {planet.degreeLabel}
+                  {planet.displayAbbreviation}
                   {planet.status.retrograde ? <i>R</i> : null}
                 </b>
               ))}
-              {cell.renderPlanets.length > 3 ? (
-                <em>+{cell.renderPlanets.length - 3}</em>
+              {cell.hiddenPlanetCount ? (
+                <span className="chart-overflow-counter">+{cell.hiddenPlanetCount}</span>
               ) : null}
             </div>
           ) : null}
         </div>
-      ))}
+        );
+      })}
     </button>
   );
 }

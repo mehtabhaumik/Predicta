@@ -13738,10 +13738,13 @@ button:disabled {
 }
 
 .planet-glyph-copy {
-  align-items: baseline;
+  align-items: center;
   color: var(--text);
   display: inline-flex;
   gap: 3px;
+  line-height: 1;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .planet-glyph-copy strong,
@@ -13750,6 +13753,14 @@ button:disabled {
   font-size: 10px;
   font-style: normal;
   line-height: 1;
+}
+
+.planet-glyph-copy strong,
+.planet-glyph-copy em {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .planet-glyph-copy em {
@@ -17317,10 +17328,10 @@ select::-ms-expand {
   .hero-kundli-board .hero-chart-label {
     block-size: auto !important;
     box-sizing: border-box !important;
-    width: clamp(30px, 10.8vw, 42px) !important;
+    width: clamp(38px, 12.4vw, 50px) !important;
     left: var(--house-x) !important;
-    max-height: 48px !important;
-    max-width: 42px !important;
+    max-height: 60px !important;
+    max-width: 50px !important;
     overflow: clip !important;
     padding: 1px !important;
     position: absolute !important;
@@ -17356,6 +17367,8 @@ select::-ms-expand {
   }
 
   .hero-kundli-board .hero-chart-planet-stack {
+    align-items: center !important;
+    flex-direction: column !important;
     gap: 1px !important;
     max-width: 100% !important;
     width: 100% !important;
@@ -17363,15 +17376,457 @@ select::-ms-expand {
 
   .hero-kundli-board .hero-chart-planet-stack .planet-glyph {
     border-radius: 5px !important;
+    justify-content: center !important;
     min-width: 0 !important;
     max-width: 100% !important;
     padding: 1px 2px !important;
   }
 
+  .hero-kundli-board .hero-chart-planet-stack .planet-glyph-copy em {
+    display: none !important;
+  }
+
   .hero-kundli-board .hero-chart-planet-stack .planet-glyph-copy strong,
-  .hero-kundli-board .hero-chart-planet-stack .planet-glyph-copy em,
   .hero-kundli-board .hero-chart-planet-stack .planet-status-mark {
     font-size: 6px !important;
     max-width: 3ch !important;
   }
+}
+
+/* Shared chart surface scale system. Main Kundli stays reference-rich; charts,
+   chat, landing, and library progressively degrade before any label leaks. */
+.north-house-label,
+.hero-chart-label,
+.kundli-library-mini-cell,
+.kundli-library-mini-planets,
+.chat-mini-chart .chat-mini-planet-row {
+  box-sizing: border-box;
+}
+
+.north-house-label,
+.hero-chart-label,
+.kundli-library-mini-cell {
+  contain: layout paint;
+}
+
+.north-house-label .north-planet-stack,
+.hero-chart-planet-stack,
+.kundli-library-mini-planets,
+.chat-mini-chart .chat-mini-planet-row {
+  overflow: hidden;
+}
+
+.north-house-label[data-density='compact'] .planet-glyph-copy em,
+.north-house-label[data-density='stacked'] .planet-glyph-copy em,
+.north-chart[data-chart-presentation='main'] .north-house-label[data-density='compact'] .planet-glyph-copy em,
+.north-chart[data-chart-presentation='main'] .north-house-label[data-density='stacked'] .planet-glyph-copy em,
+.north-chart[data-chart-presentation='charts'] .north-house-label[data-density='compact'] .planet-glyph-copy em,
+.north-chart[data-chart-presentation='charts'] .north-house-label[data-density='stacked'] .planet-glyph-copy em,
+.chat-mini-chart[data-chart-presentation='chat'] .planet-glyph-copy em,
+.hero-kundli-board[data-chart-presentation='landing'] .planet-glyph-copy em,
+.kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-planets em {
+  display: none !important;
+}
+
+.north-house-label[data-density='compact'] .planet-glyph-copy strong,
+.north-house-label[data-density='compact'] .planet-status-mark {
+  font-size: clamp(9px, 0.7vw, 12px);
+}
+
+.north-house-label[data-density='compact'] .north-house-meta,
+.north-house-label[data-density='stacked'] .north-house-meta {
+  gap: 2px 4px;
+}
+
+.north-house-label[data-density='compact'] .north-sign-name,
+.north-house-label[data-density='stacked'] .north-sign-name {
+  display: none;
+}
+
+.north-house-label[data-density='stacked'] {
+  gap: 2px;
+  justify-content: flex-start;
+}
+
+.north-house-label[data-density='stacked'] .planet-glyph {
+  border-radius: 6px;
+  gap: 2px;
+  padding: 2px 4px;
+}
+
+.north-house-label[data-density='stacked'] .planet-glyph-copy strong,
+.north-house-label[data-density='stacked'] .planet-status-mark {
+  font-size: clamp(8px, 0.64vw, 11px);
+}
+
+.north-house-label[data-density='stacked'] .planet-glyph-mark,
+.north-house-label[data-density='stacked'] .planet-glyph-mark svg {
+  height: 12px;
+  width: 12px;
+}
+
+.north-chart[data-chart-presentation='charts'] .north-house-label {
+  gap: clamp(2px, 0.34vw, 5px);
+  padding: clamp(2px, 0.34vw, 5px);
+}
+
+.north-chart[data-chart-presentation='charts'] .north-house-label-1,
+.north-chart[data-chart-presentation='charts'] .north-house-label-4,
+.north-chart[data-chart-presentation='charts'] .north-house-label-7,
+.north-chart[data-chart-presentation='charts'] .north-house-label-10 {
+  --label-h: 28%;
+  --label-w: 28%;
+}
+
+.north-chart[data-chart-presentation='charts'] .north-house-label-2,
+.north-chart[data-chart-presentation='charts'] .north-house-label-6,
+.north-chart[data-chart-presentation='charts'] .north-house-label-8,
+.north-chart[data-chart-presentation='charts'] .north-house-label-12 {
+  --label-h: 16%;
+  --label-w: 26%;
+}
+
+.north-chart[data-chart-presentation='charts'] .north-house-label-3,
+.north-chart[data-chart-presentation='charts'] .north-house-label-5,
+.north-chart[data-chart-presentation='charts'] .north-house-label-9,
+.north-chart[data-chart-presentation='charts'] .north-house-label-11 {
+  --label-h: 24%;
+  --label-w: 16%;
+}
+
+.north-chart[data-chart-presentation='charts'] .north-planet-stack .planet-glyph {
+  padding: 3px 4px;
+}
+
+.north-chart[data-chart-presentation='main'] .north-house-label-3,
+.north-chart[data-chart-presentation='main'] .north-house-label-5 {
+  --label-h: 25%;
+  --label-w: 18%;
+  --label-x: 12.5%;
+}
+
+.north-chart[data-chart-presentation='main'] .north-house-label-9,
+.north-chart[data-chart-presentation='main'] .north-house-label-11 {
+  --label-h: 25%;
+  --label-w: 18%;
+  --label-x: 87.5%;
+}
+
+.north-chart[data-chart-presentation='main'] .north-house-label[data-density='compact'] .planet-glyph,
+.north-chart[data-chart-presentation='charts'] .north-house-label[data-density='compact'] .planet-glyph {
+  border-radius: 6px;
+  gap: 2px;
+  padding: 2px 4px;
+}
+
+.north-chart[data-chart-presentation='main'] .north-house-label[data-density='compact'] .planet-glyph-mark,
+.north-chart[data-chart-presentation='main'] .north-house-label[data-density='compact'] .planet-glyph-mark svg,
+.north-chart[data-chart-presentation='charts'] .north-house-label[data-density='compact'] .planet-glyph-mark,
+.north-chart[data-chart-presentation='charts'] .north-house-label[data-density='compact'] .planet-glyph-mark svg {
+  height: 12px;
+  width: 12px;
+}
+
+.north-chart[data-chart-presentation='charts'] .north-planet-stack .planet-glyph-copy strong,
+.north-chart[data-chart-presentation='charts'] .north-planet-stack .planet-glyph-copy em {
+  font-size: clamp(9px, 0.7vw, 12px);
+  max-width: 7ch;
+}
+
+.chat-mini-chart[data-chart-presentation='chat'] .north-house-label-1,
+.chat-mini-chart[data-chart-presentation='chat'] .north-house-label-4,
+.chat-mini-chart[data-chart-presentation='chat'] .north-house-label-7,
+.chat-mini-chart[data-chart-presentation='chat'] .north-house-label-10 {
+  --label-h: 25%;
+  --label-w: 25%;
+}
+
+.chat-mini-chart[data-chart-presentation='chat'] .north-house-label-2,
+.chat-mini-chart[data-chart-presentation='chat'] .north-house-label-6,
+.chat-mini-chart[data-chart-presentation='chat'] .north-house-label-8,
+.chat-mini-chart[data-chart-presentation='chat'] .north-house-label-12 {
+  --label-h: 14%;
+  --label-w: 22%;
+}
+
+.chat-mini-chart[data-chart-presentation='chat'] .north-house-label-3,
+.chat-mini-chart[data-chart-presentation='chat'] .north-house-label-5,
+.chat-mini-chart[data-chart-presentation='chat'] .north-house-label-9,
+.chat-mini-chart[data-chart-presentation='chat'] .north-house-label-11 {
+  --label-h: 18%;
+  --label-w: 12%;
+}
+
+.chat-mini-chart[data-chart-presentation='chat'] .north-house-label {
+  gap: 1px;
+  padding: 1px;
+}
+
+.chat-mini-chart[data-chart-presentation='chat'] .north-house-label .north-house-meta {
+  gap: 2px;
+}
+
+.chat-mini-chart[data-chart-presentation='chat'] .north-house-label .north-sign-name {
+  display: none;
+}
+
+.chat-mini-chart[data-chart-presentation='chat'] .north-house-label .north-sign-number {
+  font-size: clamp(7px, 0.64vw, 10px) !important;
+  height: clamp(14px, 1vw, 18px);
+  min-width: clamp(14px, 1vw, 18px);
+  padding: 0 3px;
+}
+
+.chat-mini-chart[data-chart-presentation='chat'] .chat-mini-planet-row .planet-glyph {
+  border-radius: 5px;
+  padding: 1px 3px;
+}
+
+.chat-mini-chart[data-chart-presentation='chat'] .chat-mini-planet-row .planet-glyph-copy strong,
+.chat-mini-chart[data-chart-presentation='chat'] .chat-mini-planet-row .planet-status-mark {
+  font-size: clamp(7px, 0.64vw, 10px);
+  max-width: 4ch;
+}
+
+.hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label {
+  gap: clamp(1px, 0.34vw, 4px);
+  max-height: 54px;
+  max-width: 16%;
+  overflow: hidden;
+  padding: 1px;
+  width: clamp(40px, 13.5%, 96px);
+}
+
+.hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-1,
+.hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-4,
+.hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-7,
+.hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-10 {
+  max-width: 19%;
+  width: clamp(46px, 17%, 110px);
+}
+
+.hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-3,
+.hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-5,
+.hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-9,
+.hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-11 {
+  max-width: 13%;
+  width: clamp(34px, 11.6%, 78px);
+}
+
+.hero-kundli-board[data-chart-presentation='landing'] .hero-sign-name {
+  display: none;
+}
+
+.hero-kundli-board[data-chart-presentation='landing'] .hero-chart-planet-stack {
+  gap: 2px;
+  margin-top: 0;
+}
+
+.hero-kundli-board[data-chart-presentation='landing'] .hero-chart-planet-stack .planet-glyph {
+  border-radius: 5px;
+  gap: 2px;
+  padding: 2px 3px;
+}
+
+.hero-kundli-board[data-chart-presentation='landing'] .hero-chart-planet-stack .planet-glyph-mark,
+.hero-kundli-board[data-chart-presentation='landing'] .hero-chart-planet-stack .planet-glyph-mark svg {
+  height: 10px;
+  width: 10px;
+}
+
+.hero-kundli-board[data-chart-presentation='landing'] .hero-chart-planet-stack .planet-glyph-copy strong,
+.hero-kundli-board[data-chart-presentation='landing'] .hero-chart-planet-stack .planet-status-mark {
+  font-size: clamp(6px, 0.48vw, 8px);
+  max-width: 2.6ch;
+}
+
+@media (max-width: 720px) {
+  .hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label {
+    max-height: 50px;
+    width: clamp(36px, 12.2vw, 72px);
+  }
+
+  .hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-3,
+  .hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-5,
+  .hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-9,
+  .hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-11 {
+    width: clamp(30px, 10vw, 58px);
+  }
+
+  .hero-kundli-board[data-chart-presentation='landing'] .chart-overflow-counter,
+  .chat-mini-chart[data-chart-presentation='chat'] .chart-overflow-counter {
+    display: none;
+  }
+
+  .chat-mini-chart[data-chart-presentation='chat'] .north-house-label {
+    gap: 0;
+    padding: 0;
+  }
+
+  .chat-mini-chart[data-chart-presentation='chat'] .north-house-label .north-house-meta {
+    gap: 1px;
+  }
+
+  .chat-mini-chart[data-chart-presentation='chat'] .north-house-label .north-sign-symbol,
+  .chat-mini-chart[data-chart-presentation='chat'] .north-house-label .north-house-meta .north-sign-number:last-child {
+    display: none;
+  }
+
+  .chat-mini-chart[data-chart-presentation='chat'] .north-house-label .north-house-number {
+    font-size: 7px;
+    min-width: 0;
+  }
+
+  .chat-mini-chart[data-chart-presentation='chat'] .chat-mini-planet-row .planet-glyph {
+    padding: 1px 2px;
+  }
+}
+
+.kundli-library-mini-chart {
+  --kundli-bg:
+    radial-gradient(circle at 20% 14%, rgba(92, 80, 255, 0.16), transparent 30%),
+    radial-gradient(circle at 76% 22%, rgba(77, 175, 255, 0.1), transparent 34%),
+    linear-gradient(145deg, #080914, #101426 48%, #070812);
+  --kundli-border: rgba(166, 186, 255, 0.24);
+  --kundli-line-main: rgba(226, 235, 255, 0.64);
+  --kundli-line-soft: rgba(188, 183, 255, 0.44);
+  --kundli-sign-bg: rgba(143, 201, 255, 0.095);
+  --kundli-sign-border: rgba(188, 183, 255, 0.18);
+  --kundli-sign-color: rgba(248, 250, 255, 0.94);
+  background: var(--kundli-bg);
+  border-color: var(--kundli-border);
+}
+
+.kundli-library-mini-chart[data-chart-theme='sunrise'] {
+  --kundli-bg:
+    radial-gradient(circle at 18% 12%, rgba(255, 180, 76, 0.26), transparent 30%),
+    radial-gradient(circle at 86% 16%, rgba(255, 129, 85, 0.13), transparent 32%),
+    linear-gradient(135deg, rgba(255, 249, 236, 0.98), rgba(255, 237, 205, 0.95) 46%, rgba(244, 251, 255, 0.97));
+  --kundli-border: rgba(170, 96, 30, 0.32);
+  --kundli-line-main: rgba(108, 70, 32, 0.72);
+  --kundli-line-soft: rgba(149, 88, 35, 0.54);
+  --kundli-sign-bg: rgba(255, 255, 255, 0.64);
+  --kundli-sign-border: rgba(174, 104, 42, 0.34);
+  --kundli-sign-color: rgba(48, 32, 18, 0.95);
+}
+
+.kundli-library-mini-chart[data-chart-theme='morning'] {
+  --kundli-bg:
+    radial-gradient(circle at 24% 10%, rgba(255, 224, 121, 0.22), transparent 32%),
+    radial-gradient(circle at 78% 18%, rgba(143, 201, 255, 0.12), transparent 34%),
+    linear-gradient(135deg, rgba(255, 253, 238, 0.98), rgba(255, 247, 215, 0.96) 42%, rgba(239, 249, 255, 0.97));
+  --kundli-border: rgba(154, 119, 40, 0.28);
+  --kundli-line-main: rgba(84, 72, 35, 0.7);
+  --kundli-line-soft: rgba(132, 103, 40, 0.5);
+  --kundli-sign-bg: rgba(255, 255, 255, 0.68);
+  --kundli-sign-border: rgba(154, 119, 40, 0.26);
+  --kundli-sign-color: rgba(42, 36, 18, 0.95);
+}
+
+.kundli-library-mini-chart[data-chart-theme='afternoon'] {
+  --kundli-bg:
+    radial-gradient(circle at 50% 12%, rgba(255, 255, 255, 0.32), transparent 30%),
+    radial-gradient(circle at 18% 78%, rgba(77, 175, 255, 0.08), transparent 34%),
+    linear-gradient(135deg, rgba(249, 252, 255, 0.98), rgba(242, 247, 253, 0.96));
+  --kundli-border: rgba(82, 101, 123, 0.26);
+  --kundli-line-main: rgba(48, 62, 79, 0.64);
+  --kundli-line-soft: rgba(71, 87, 110, 0.44);
+  --kundli-sign-bg: rgba(255, 255, 255, 0.68);
+  --kundli-sign-border: rgba(82, 101, 123, 0.2);
+  --kundli-sign-color: rgba(24, 32, 43, 0.94);
+}
+
+.kundli-library-mini-chart[data-chart-theme='sunset'] {
+  --kundli-bg:
+    radial-gradient(circle at 22% 18%, rgba(255, 129, 76, 0.18), transparent 30%),
+    radial-gradient(circle at 82% 30%, rgba(12, 10, 16, 0.7), transparent 42%),
+    linear-gradient(135deg, rgba(37, 18, 17, 0.82), rgba(13, 14, 24, 0.96) 62%, rgba(7, 8, 13, 0.98));
+  --kundli-border: rgba(255, 142, 89, 0.31);
+  --kundli-line-main: rgba(255, 199, 154, 0.6);
+  --kundli-line-soft: rgba(255, 142, 89, 0.42);
+  --kundli-sign-bg: rgba(255, 142, 89, 0.12);
+  --kundli-sign-border: rgba(255, 199, 154, 0.24);
+  --kundli-sign-color: rgba(255, 239, 226, 0.96);
+}
+
+.kundli-library-mini-chart[data-chart-theme='night'],
+.kundli-library-mini-chart[data-chart-theme='unknown'] {
+  --kundli-bg:
+    radial-gradient(circle at 20% 14%, rgba(92, 80, 255, 0.16), transparent 30%),
+    radial-gradient(circle at 76% 22%, rgba(77, 175, 255, 0.1), transparent 34%),
+    linear-gradient(145deg, #080914, #101426 48%, #070812);
+  --kundli-border: rgba(166, 186, 255, 0.24);
+  --kundli-line-main: rgba(226, 235, 255, 0.64);
+  --kundli-line-soft: rgba(188, 183, 255, 0.44);
+  --kundli-sign-bg: rgba(143, 201, 255, 0.095);
+  --kundli-sign-border: rgba(188, 183, 255, 0.18);
+  --kundli-sign-color: rgba(248, 250, 255, 0.94);
+}
+
+.kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-cell {
+  gap: 2px;
+  max-width: none;
+  min-height: 0;
+  overflow: hidden;
+  padding: 1px;
+  width: var(--library-label-w, 24%);
+}
+
+.kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-cell-1,
+.kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-cell-4,
+.kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-cell-7,
+.kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-cell-10 {
+  --library-label-w: 25%;
+}
+
+.kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-cell-2,
+.kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-cell-6,
+.kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-cell-8,
+.kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-cell-12 {
+  --library-label-w: 20%;
+}
+
+.kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-cell-3,
+.kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-cell-5,
+.kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-cell-9,
+.kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-cell-11 {
+  --library-label-w: 14%;
+}
+
+.kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-sign {
+  font-size: 0.56rem;
+  height: 16px;
+  min-width: 16px;
+  padding: 0 3px;
+}
+
+.kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-planets {
+  gap: 1px;
+}
+
+.kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-planets b,
+.kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-planets em {
+  border-radius: 6px;
+  font-size: clamp(0.46rem, 0.66vw, 0.54rem);
+  max-width: 34px;
+  padding: 2px 3px;
+}
+
+.chart-overflow-counter {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  color: var(--kundli-label-muted);
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: clamp(7px, 0.62vw, 10px);
+  font-style: normal;
+  font-weight: 900;
+  justify-content: center;
+  line-height: 1;
+  max-width: 100%;
+  min-height: 14px;
+  min-width: 14px;
+  padding: 1px 4px;
 }

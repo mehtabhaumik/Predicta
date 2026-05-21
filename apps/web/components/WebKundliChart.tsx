@@ -18,6 +18,7 @@ import {
   composeChartInsight,
   type ChartInsightProfile,
   type ChartPremiumInsight,
+  type ChartRenderPresentation,
   getChartFocusLabel,
   getChartReadingNote,
   getChartRole,
@@ -60,6 +61,7 @@ type WebKundliChartProps = {
   kundliId?: string;
   kundli?: KundliData;
   ownerName?: string;
+  presentation?: ChartRenderPresentation;
   readingNoteOverride?: string;
   sectionTitle?: string;
   schoolOverride?: ChartRenderSchool;
@@ -76,6 +78,7 @@ export function WebKundliChart({
   kundliId,
   kundli,
   ownerName,
+  presentation = animationSurface === 'creation' ? 'creation' : 'main',
   readingNoteOverride,
   sectionTitle = 'NORTH INDIAN CHART',
   schoolOverride,
@@ -97,10 +100,10 @@ export function WebKundliChart({
         birthDetails,
         chart,
         language: chartLanguage,
-        presentation: 'default',
+        presentation,
         school: schoolOverride,
       }),
-    [birthDetails, chart, chartLanguage, schoolOverride],
+    [birthDetails, chart, chartLanguage, presentation, schoolOverride],
   );
   const cells = renderModel.cells;
   const localizedInsight = useMemo(
@@ -181,6 +184,7 @@ export function WebKundliChart({
 
       <div
         className="north-chart"
+        data-chart-presentation={renderModel.presentation}
         data-chart-school={renderModel.school.toLowerCase()}
         data-chart-theme={renderModel.theme}
         {...getKundliAnimationSurfaceProps(animationSurface)}
@@ -237,12 +241,15 @@ export function WebKundliChart({
             />
           ))}
         </svg>
-        {cells.map((cell, index) => (
+        {cells.map((cell, index) => {
+          const visiblePlanets = cell.renderPlanets.slice(0, cell.maxVisiblePlanets);
+          return (
           <div
             aria-hidden
             className={`north-house-label north-house-label-${cell.house} north-house-label-${cell.labelDensity} ${
               activeCell?.house === cell.house ? 'selected' : ''
             }`}
+            data-density={cell.labelDensity}
             data-kundli-animation-part="signs"
             data-planet-count={cell.renderPlanets.length}
             key={`${cell.key}-label`}
@@ -261,27 +268,32 @@ export function WebKundliChart({
               </span>
               <span className="north-sign-number">{cell.signNumber}</span>
             </span>
-            {cell.renderPlanets.length ? (
+            {visiblePlanets.length ? (
               <small
                 className="north-planet-stack"
                 data-kundli-animation-part="planets"
               >
-                {cell.renderPlanets.map((planet, planetIndex) => (
+                {visiblePlanets.map((planet, planetIndex) => (
                   <PlanetGlyph
                     animationIndex={planetIndex}
                     animationSurface={animationSurface}
                     key={planet.key}
                     moonPhase={renderModel.moonPhase}
                     planet={planet}
-                    showDegree
-                    showSign={false}
-                    size={cell.renderPlanets.length >= 4 ? 'compact' : 'full'}
+                    showDegree={cell.showPlanetDegrees}
+                    showSign={cell.showPlanetSign}
+                    showStatusMarks={cell.showPlanetStatusMarks}
+                    size={cell.planetGlyphSize}
                   />
                 ))}
+                {cell.hiddenPlanetCount ? (
+                  <span className="chart-overflow-counter">+{cell.hiddenPlanetCount}</span>
+                ) : null}
               </small>
             ) : null}
           </div>
-        ))}
+          );
+        })}
         <div className="north-chart-center">
           <span>{chart.chartType}</span>
           <strong>

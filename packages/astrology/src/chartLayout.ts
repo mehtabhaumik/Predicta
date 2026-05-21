@@ -58,7 +58,13 @@ export type ChartCell = {
 export type ChartRenderCell = ChartCell & {
   ariaLabel: string;
   hasManyPlanets: boolean;
+  hiddenPlanetCount: number;
   labelDensity: 'compact' | 'normal' | 'stacked';
+  maxVisiblePlanets: number;
+  planetGlyphSize: 'compact' | 'full';
+  showPlanetDegrees: boolean;
+  showPlanetSign: boolean;
+  showPlanetStatusMarks: boolean;
   renderPlanets: ChartRenderPlanet[];
   supportingPoints: PlanetPosition[];
 };
@@ -77,7 +83,14 @@ export type ChartRenderTheme =
   | 'sunset'
   | 'unknown';
 
-export type ChartRenderPresentation = 'default' | 'full';
+export type ChartRenderPresentation =
+  | 'charts'
+  | 'chat'
+  | 'creation'
+  | 'full'
+  | 'landing'
+  | 'library'
+  | 'main';
 
 export type ChartRenderModel = {
   cells: ChartRenderCell[];
@@ -89,6 +102,7 @@ export type ChartRenderModel = {
   legend: ChartRenderLegendItem[];
   moonPhase: ChartRenderMoonPhase;
   moonNakshatraPada?: MoonNakshatraPadaInsight;
+  presentation: ChartRenderPresentation;
   school: ChartRenderSchool;
   theme: ChartRenderTheme;
 };
@@ -313,6 +327,112 @@ const SIGN_GLYPHS: Record<string, string> = {
   Pisces: '♓',
 };
 
+type ChartSurfacePreset = {
+  compactHouses: number[];
+  labelDensityThresholds: {
+    compact: number;
+    stacked: number;
+  };
+  maxVisiblePlanets: number;
+  planetGlyphSize: 'compact' | 'full';
+  showPlanetDegrees: boolean;
+  showPlanetSign: boolean;
+  showPlanetStatusMarks: boolean;
+};
+
+const CHART_SURFACE_PRESETS: Record<ChartRenderPresentation, ChartSurfacePreset> = {
+  charts: {
+    compactHouses: [2, 3, 5, 6, 8, 9, 11, 12],
+    labelDensityThresholds: {
+      compact: 2,
+      stacked: 4,
+    },
+    maxVisiblePlanets: 7,
+    planetGlyphSize: 'full',
+    showPlanetDegrees: true,
+    showPlanetSign: false,
+    showPlanetStatusMarks: true,
+  },
+  chat: {
+    compactHouses: [2, 3, 4, 5, 6, 8, 9, 10, 11, 12],
+    labelDensityThresholds: {
+      compact: 1,
+      stacked: 2,
+    },
+    maxVisiblePlanets: 1,
+    planetGlyphSize: 'compact',
+    showPlanetDegrees: false,
+    showPlanetSign: false,
+    showPlanetStatusMarks: false,
+  },
+  creation: {
+    compactHouses: [2, 3, 5, 6, 8, 9, 11, 12],
+    labelDensityThresholds: {
+      compact: 2,
+      stacked: 4,
+    },
+    maxVisiblePlanets: 7,
+    planetGlyphSize: 'full',
+    showPlanetDegrees: true,
+    showPlanetSign: false,
+    showPlanetStatusMarks: true,
+  },
+  full: {
+    compactHouses: [2, 3, 5, 6, 8, 9, 11, 12],
+    labelDensityThresholds: {
+      compact: 2,
+      stacked: 5,
+    },
+    maxVisiblePlanets: 7,
+    planetGlyphSize: 'full',
+    showPlanetDegrees: true,
+    showPlanetSign: false,
+    showPlanetStatusMarks: true,
+  },
+  landing: {
+    compactHouses: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    labelDensityThresholds: {
+      compact: 1,
+      stacked: 2,
+    },
+    maxVisiblePlanets: 1,
+    planetGlyphSize: 'compact',
+    showPlanetDegrees: false,
+    showPlanetSign: false,
+    showPlanetStatusMarks: false,
+  },
+  library: {
+    compactHouses: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    labelDensityThresholds: {
+      compact: 1,
+      stacked: 2,
+    },
+    maxVisiblePlanets: 2,
+    planetGlyphSize: 'compact',
+    showPlanetDegrees: false,
+    showPlanetSign: false,
+    showPlanetStatusMarks: false,
+  },
+  main: {
+    compactHouses: [2, 3, 5, 6, 8, 9, 11, 12],
+    labelDensityThresholds: {
+      compact: 2,
+      stacked: 4,
+    },
+    maxVisiblePlanets: 7,
+    planetGlyphSize: 'full',
+    showPlanetDegrees: true,
+    showPlanetSign: false,
+    showPlanetStatusMarks: true,
+  },
+};
+
+export function getChartSurfacePreset(
+  presentation: ChartRenderPresentation,
+): ChartSurfacePreset {
+  return CHART_SURFACE_PRESETS[presentation];
+}
+
 const PLANET_DIGNITIES: Record<string, { debilitated: string; exalted: string }> = {
   Jupiter: { debilitated: 'Capricorn', exalted: 'Cancer' },
   Mars: { debilitated: 'Cancer', exalted: 'Capricorn' },
@@ -450,9 +570,10 @@ export function buildChartRenderModel({
   birthDetails,
   chart,
   language = 'en',
-  presentation = 'default',
+  presentation = 'main',
   school = detectChartRenderSchool(chart),
 }: BuildChartRenderModelOptions): ChartRenderModel {
+  const surfacePreset = getChartSurfacePreset(presentation);
   const ascendantIndex = SIGNS.indexOf(chart.ascendantSign as (typeof SIGNS)[number]);
   const useExplicitHouse = isHouseDeliveryChart(chart);
   const planetsByHouse = chart.planetDistribution.reduce<Record<number, PlanetPosition[]>>(
@@ -498,8 +619,16 @@ export function buildChartRenderModel({
     const renderPlanets = visiblePlanetPositions.map(planet =>
       buildChartRenderPlanet(planet, chart, language),
     );
-    const labelDensity = getCellLabelDensity(house, renderPlanets.length);
-
+    const labelDensity = getCellLabelDensity(
+      house,
+      renderPlanets.length,
+      presentation,
+    );
+    const cellDisplay = deriveCellPresentationSettings(
+      presentation,
+      labelDensity,
+      surfacePreset,
+    );
     return {
       ariaLabel: buildChartCellAriaLabel({
         house,
@@ -510,14 +639,23 @@ export function buildChartRenderModel({
       }),
       col: position.col,
       hasManyPlanets: renderPlanets.length >= 3,
+      hiddenPlanetCount: Math.max(
+        0,
+        renderPlanets.length - cellDisplay.maxVisiblePlanets,
+      ),
       house,
       key: `house-${house}`,
       labelDensity,
+      maxVisiblePlanets: cellDisplay.maxVisiblePlanets,
+      planetGlyphSize: cellDisplay.planetGlyphSize,
       planetPositions: visiblePlanetPositions,
       planets,
       renderPlanets,
       row: position.row,
       sign,
+      showPlanetDegrees: cellDisplay.showPlanetDegrees,
+      showPlanetSign: cellDisplay.showPlanetSign,
+      showPlanetStatusMarks: cellDisplay.showPlanetStatusMarks,
       supportingPoints,
       displaySign: getLocalizedSignName(sign, language),
       signGlyph: SIGN_GLYPHS[sign],
@@ -539,6 +677,7 @@ export function buildChartRenderModel({
     legend: buildChartLegend(cells, moonPhase, school, language),
     moonPhase,
     moonNakshatraPada: buildChartMoonNakshatraPadaInsight(chart, moonPhase),
+    presentation,
     school,
     theme: getChartRenderTheme(birthDetails?.time),
   };
@@ -676,16 +815,70 @@ function getSupportingPointAvailabilityHint(
 function getCellLabelDensity(
   house: number,
   planetCount: number,
+  presentation: ChartRenderPresentation,
 ): ChartRenderCell['labelDensity'] {
-  if (planetCount >= 4) {
+  const preset = getChartSurfacePreset(presentation);
+
+  if (planetCount >= preset.labelDensityThresholds.stacked) {
     return 'stacked';
   }
 
-  if (planetCount >= 2 || [2, 3, 5, 6, 8, 9, 11, 12].includes(house)) {
+  if (
+    planetCount >= preset.labelDensityThresholds.compact ||
+    preset.compactHouses.includes(house)
+  ) {
     return 'compact';
   }
 
   return 'normal';
+}
+
+function deriveCellPresentationSettings(
+  presentation: ChartRenderPresentation,
+  labelDensity: ChartRenderCell['labelDensity'],
+  preset: ChartSurfacePreset,
+): Pick<
+  ChartRenderCell,
+  | 'maxVisiblePlanets'
+  | 'planetGlyphSize'
+  | 'showPlanetDegrees'
+  | 'showPlanetSign'
+  | 'showPlanetStatusMarks'
+> {
+  if (labelDensity === 'normal') {
+    return {
+      maxVisiblePlanets: preset.maxVisiblePlanets,
+      planetGlyphSize: preset.planetGlyphSize,
+      showPlanetDegrees: preset.showPlanetDegrees,
+      showPlanetSign: preset.showPlanetSign,
+      showPlanetStatusMarks: preset.showPlanetStatusMarks,
+    };
+  }
+
+  if (labelDensity === 'compact') {
+    return {
+      maxVisiblePlanets:
+        presentation === 'main' ||
+        presentation === 'charts' ||
+        presentation === 'creation' ||
+        presentation === 'full'
+          ? Math.min(2, preset.maxVisiblePlanets)
+          : Math.min(1, preset.maxVisiblePlanets),
+      planetGlyphSize: 'compact',
+      showPlanetDegrees: false,
+      showPlanetSign: false,
+      showPlanetStatusMarks: false,
+    };
+  }
+
+  return {
+    maxVisiblePlanets:
+      presentation === 'library' ? Math.min(1, preset.maxVisiblePlanets) : 1,
+    planetGlyphSize: 'compact',
+    showPlanetDegrees: false,
+    showPlanetSign: false,
+    showPlanetStatusMarks: false,
+  };
 }
 
 function buildChartLegend(

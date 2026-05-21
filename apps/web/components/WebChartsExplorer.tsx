@@ -117,6 +117,7 @@ export function WebChartsExplorer({
             kundliId={kundli.id}
             kundli={kundli}
             ownerName={kundli.birthDetails.name}
+            presentation="charts"
           />
         </div>
       </Card>

@@ -57,6 +57,7 @@ export function WebBhavChalitPanel({
             kundli={kundli}
             kundliId={kundli?.id}
             ownerName={kundli?.birthDetails.name}
+            presentation="charts"
             readingNoteOverride="Parashari Chalit keeps each planet's rashi sign from D1, but places the planet in the bhava where it delivers results. This is separate from KP cusp/sub-lord judgement."
             sectionTitle="PARASHARI CHALIT CHART"
           />
