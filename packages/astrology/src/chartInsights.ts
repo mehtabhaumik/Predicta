@@ -5,7 +5,9 @@ import type {
   ChartType,
   KundliData,
 } from '@pridicta/types';
+import { composeChalitBhavKpFoundation } from './chalitBhavKpFoundation';
 import { getChartConfig } from './chartRegistry';
+import { composeNadiJyotishPlan } from './nadiJyotishPlan';
 import { getChartReadingNote } from './vargaInterpretation';
 
 export type ChartInsightDepth = 'free' | 'premium';
@@ -23,7 +25,18 @@ export type ChartInsight = {
   premiumDeepDive: string[];
   technicalSummary: string;
   technicalDetails: string[];
+  premiumInsight?: ChartPremiumInsight;
   premiumNudge?: string;
+};
+
+export type ChartPremiumInsight = {
+  headline: string;
+  timingWindows: string[];
+  contradictionSignals: string[];
+  crossChartSynthesis: string[];
+  practicalGuidance: string[];
+  remedyDirection: string[];
+  confidenceFraming: string;
 };
 
 export type ChartInsightProfile = 'default' | 'chalit';
@@ -163,11 +176,11 @@ export function composeChartInsight({
 
   if (!chart.supported) {
     if (isCoreVargaChartType(chart.chartType)) {
-      return composeUnsupportedCoreVargaInsight(chart.chartType, hasPremiumAccess);
+      return composeUnsupportedCoreVargaInsight(chart.chartType, hasPremiumAccess, kundli);
     }
 
     if (isAdvancedVargaChartType(chart.chartType)) {
-      return composeUnsupportedAdvancedVargaInsight(chart.chartType, hasPremiumAccess);
+      return composeUnsupportedAdvancedVargaInsight(chart.chartType, hasPremiumAccess, kundli);
     }
 
     return {
@@ -361,6 +374,13 @@ function composeD1ChartInsight(
       `Premium also explains how ${pressureArea} modifies the promise of ${dominantArea} across timing and maturity.`,
       'Premium then connects D1 with Chalit, core vargas, and practical next steps.',
     ],
+    premiumInsight: buildChartPremiumInsight({
+      chartType: 'D1',
+      kundli,
+      activeArea: dominantArea,
+      supportArea,
+      pressureArea,
+    }),
     premiumNudge:
       'Premium turns D1 into a layered life reading with timing, contradictions, and cross-chart synthesis.',
     technicalDetails: [
@@ -435,6 +455,15 @@ function composeChalitChartInsight(
         : 'Premium confirms where Chalit agrees with D1 and where only subtle timing refinement is needed.',
       'Premium keeps Chalit separate from KP and avoids mixing cusp-sub-lord logic into a Parashari house-delivery read.',
     ],
+    premiumInsight: buildChartPremiumInsight({
+      chartType: 'CHALIT',
+      kundli,
+      activeArea: shifts.length
+        ? formatHouseArea(targetHouse(dashaShift ?? shifts[0]!))
+        : 'life delivery and bhava emphasis',
+      supportArea: shifts.length ? formatHouseArea(shifts[0]!.rashiHouse) : 'D1 root promise',
+      pressureArea: shifts.length ? formatHouseArea((dashaShift ?? shifts[0]!).rashiHouse) : undefined,
+    }),
     premiumNudge:
       'Premium turns Chalit into a real lived-delivery reading with D1 comparison, active dasha timing, and sharper judgement.',
     technicalDetails: [
@@ -544,6 +573,13 @@ function composeCoreVargaInsight(
         : 'Premium also adds sharper timing, contradiction handling, and synthesis across related charts.',
       definition.premiumFinish,
     ],
+    premiumInsight: buildChartPremiumInsight({
+      chartType,
+      kundli,
+      activeArea,
+      supportArea,
+      pressureArea: dashaArea,
+    }),
     premiumNudge: definition.premiumNudge,
     technicalDetails: [
       `${chartType} focuses on ${CHART_FOCUS[chartType]}, and should always be judged through D1 first.`,
@@ -572,6 +608,7 @@ function composeCoreVargaInsight(
 function composeUnsupportedCoreVargaInsight(
   chartType: CoreVargaChartType,
   hasPremiumAccess: boolean,
+  kundli?: KundliData,
 ): ChartInsight {
   const config = getChartConfig(chartType);
   const definition = CORE_VARGA_INSIGHT_DEFINITIONS[chartType];
@@ -595,6 +632,12 @@ function composeUnsupportedCoreVargaInsight(
       `${definition.premiumLead} Premium should only go deeper once the chart evidence is fully ready.`,
       definition.premiumFinish,
     ],
+    premiumInsight: buildChartPremiumInsight({
+      chartType,
+      kundli,
+      activeArea: definition.defaultArea,
+      supportArea: definition.supportArea,
+    }),
     premiumNudge: hasPremiumAccess
       ? undefined
       : definition.premiumNudge,
@@ -699,6 +742,13 @@ function composeAdvancedVargaInsight(
         : 'Premium also adds tighter timing, contradiction handling, and cross-chart confidence framing.',
       definition.premiumFinish,
     ],
+    premiumInsight: buildChartPremiumInsight({
+      chartType,
+      kundli,
+      activeArea,
+      supportArea,
+      pressureArea: dashaArea,
+    }),
     premiumNudge: definition.premiumNudge,
     technicalDetails: [
       `${chartType} focuses on ${CHART_FOCUS[chartType]}, and should always be judged through D1 first.`,
@@ -727,6 +777,7 @@ function composeAdvancedVargaInsight(
 function composeUnsupportedAdvancedVargaInsight(
   chartType: AdvancedVargaChartType,
   hasPremiumAccess: boolean,
+  kundli?: KundliData,
 ): ChartInsight {
   const config = getChartConfig(chartType);
   const definition = ADVANCED_VARGA_INSIGHT_DEFINITIONS[chartType];
@@ -750,6 +801,12 @@ function composeUnsupportedAdvancedVargaInsight(
       `${definition.premiumLead} Premium should only go deeper once the chart evidence is fully ready.`,
       definition.premiumFinish,
     ],
+    premiumInsight: buildChartPremiumInsight({
+      chartType,
+      kundli,
+      activeArea: definition.defaultArea,
+      supportArea: definition.supportArea,
+    }),
     premiumNudge: hasPremiumAccess ? undefined : definition.premiumNudge,
     technicalDetails: [
       `${chartType} is visible but kept conservative until chart preparation is complete.`,
@@ -762,6 +819,365 @@ function composeUnsupportedAdvancedVargaInsight(
     whatItSays:
       `This ${config.name} governs ${definition.governs.toLowerCase()} Predicta is keeping the live reading careful until the chart evidence is complete, so the purpose stays visible without pretending to certainty.`,
   };
+}
+
+type PremiumSynthesisChartType = ChartType | 'CHALIT';
+
+function buildChartPremiumInsight({
+  chartType,
+  kundli,
+  activeArea,
+  supportArea,
+  pressureArea,
+}: {
+  chartType: PremiumSynthesisChartType;
+  kundli?: KundliData;
+  activeArea: string;
+  supportArea?: string;
+  pressureArea?: string;
+}): ChartPremiumInsight {
+  if (!kundli) {
+    return {
+      headline:
+        'Premium keeps the meaning clear here, but waits for fuller chart evidence before making strong synthesis claims.',
+      timingWindows: [
+        'Timing windows deepen after the saved Kundli evidence is fully prepared.',
+      ],
+      contradictionSignals: [
+        'Contradiction handling stays careful until the chart evidence is ready.',
+      ],
+      crossChartSynthesis: [
+        'Cross-chart synthesis becomes available once D1 anchoring and related chart evidence are fully prepared.',
+      ],
+      practicalGuidance: [
+        `Use ${activeArea} as the current topic, but let D1 remain the root reference until the chart is fully ready.`,
+      ],
+      remedyDirection: [
+        'Keep remedies simple and low-risk until Premium has a full chart evidence layer to confirm them.',
+      ],
+      confidenceFraming:
+        'Confidence is intentionally bounded because this chart is still in a careful-reading state.',
+    };
+  }
+
+  const current = kundli.dasha.current;
+  const nextMahadasha = findNextMahadasha(kundli);
+  const strongest = kundli.ashtakavarga.strongestHouses
+    .slice(0, 2)
+    .map(formatHouseArea);
+  const weakest = kundli.ashtakavarga.weakestHouses
+    .slice(0, 2)
+    .map(formatHouseArea);
+  const transitSupport = pickTransitByWeight(kundli, 'supportive');
+  const transitCaution = pickTransitByWeight(kundli, 'challenging');
+  const crossChartSynthesis = buildCrossChartSynthesis({
+    chartType,
+    kundli,
+    activeArea,
+    supportArea,
+  });
+
+  return {
+    headline: buildPremiumHeadline(chartType, activeArea, supportArea, pressureArea),
+    timingWindows: [
+      `Current timing window: ${current.mahadasha}/${current.antardasha} from ${current.startDate} to ${current.endDate}.`,
+      nextMahadasha
+        ? `Next major chapter: ${nextMahadasha.mahadasha} begins on ${nextMahadasha.startDate}, so Premium watches whether this chart gains or loses weight then.`
+        : `This chart should be read inside the active ${current.mahadasha}/${current.antardasha} chapter before making strong future claims.`,
+      transitSupport
+        ? `Transit support: ${transitSupport.planet} is currently helping through house ${transitSupport.houseFromLagna}, which can make ${activeArea} easier to activate.`
+        : transitCaution
+        ? `Transit caution: ${transitCaution.planet} is currently pressing house ${transitCaution.houseFromLagna}, so Premium keeps timing practical instead of dramatic.`
+        : `Transit overlay stays secondary here, so dasha remains the main timing frame for ${activeArea}.`,
+    ],
+    contradictionSignals: [
+      strongest.length
+        ? `Strength versus drag: D1 supports ${strongest.join(' and ')}, so Premium checks whether ${activeArea} is backed by those houses or fighting them.`
+        : `Strength versus drag: Premium checks whether ${activeArea} is actually supported by D1 before trusting the chart too quickly.`,
+      weakest.length
+        ? `Pressure check: D1 shows softness around ${weakest.join(' and ')}, so Premium treats overlap with ${pressureArea ?? activeArea} as a real caution instead of ignoring it.`
+        : `Pressure check: Premium looks for where ${pressureArea ?? activeArea} could be stretched by weaker D1 support.`,
+      supportArea
+        ? `Support check: ${supportArea} acts as the balancing layer, so Premium does not judge ${activeArea} in isolation.`
+        : `Support check: Premium looks for a second confirming life area before treating ${activeArea} as decisive.`,
+    ],
+    crossChartSynthesis,
+    practicalGuidance: buildPremiumGuidance(chartType, activeArea, supportArea, pressureArea),
+    remedyDirection: buildPremiumRemedyDirection(kundli, chartType, activeArea),
+    confidenceFraming: buildConfidenceFraming(kundli, chartType),
+  };
+}
+
+function buildPremiumHeadline(
+  chartType: PremiumSynthesisChartType,
+  activeArea: string,
+  supportArea?: string,
+  pressureArea?: string,
+): string {
+  if (chartType === 'D1') {
+    return `Premium reads ${activeArea} as the main life promise, then checks whether ${supportArea ?? 'the next support area'} and ${pressureArea ?? 'the pressure zone'} confirm or complicate it before giving advice.`;
+  }
+
+  if (chartType === 'CHALIT') {
+    return `Premium treats ${activeArea} as the lived-delivery layer, then checks whether D1 promise and the source house are actually aligned before making practical judgment.`;
+  }
+
+  return `Premium treats ${activeArea} as the main signal in ${chartType}, then checks whether D1, timing, and ${supportArea ?? 'a second support layer'} confirm it before calling it reliable.`;
+}
+
+function buildCrossChartSynthesis({
+  chartType,
+  kundli,
+  activeArea,
+  supportArea,
+}: {
+  chartType: PremiumSynthesisChartType;
+  kundli: KundliData;
+  activeArea: string;
+  supportArea?: string;
+}): string[] {
+  const chalitFoundation = composeChalitBhavKpFoundation(kundli, { depth: 'PREMIUM' });
+  const nadiPlan = composeNadiJyotishPlan(kundli, { depth: 'PREMIUM' });
+  const pairTargets = getCrossChartTargets(chartType);
+
+  const lines = pairTargets.map(target => {
+    if (target === 'CHALIT') {
+      return `${chartType === 'D1' ? 'D1 + Chalit' : `${chartType} + Chalit`}: ${chalitFoundation.bhavChalit.premiumSynthesis ?? chalitFoundation.bhavChalit.freeInsight}`;
+    }
+
+    if (target === 'KP') {
+      return `${chartType === 'D1' ? 'D1 + KP' : `${chartType} + KP`}: ${chalitFoundation.kp.premiumSynthesis ?? chalitFoundation.kp.freeInsight}`;
+    }
+
+    if (target === 'NADI') {
+      return `${chartType === 'D1' ? 'D1 + Nadi' : `${chartType} + Nadi`}: ${nadiPlan.premiumSynthesis ?? nadiPlan.freePreview}`;
+    }
+
+    return describeChartPairSignal(kundli, chartType, target, activeArea, supportArea);
+  });
+
+  return lines.slice(0, 5);
+}
+
+function getCrossChartTargets(
+  chartType: PremiumSynthesisChartType,
+): Array<ChartType | 'CHALIT' | 'KP' | 'NADI'> {
+  switch (chartType) {
+    case 'D1':
+      return ['D9', 'D10', 'CHALIT', 'KP', 'NADI'];
+    case 'CHALIT':
+      return ['D1', 'KP'];
+    case 'D2':
+      return ['D10', 'D1'];
+    case 'D4':
+      return ['D12', 'D1'];
+    case 'D7':
+      return ['D9', 'D1'];
+    case 'D9':
+      return ['D1', 'D7'];
+    case 'D10':
+      return ['D1', 'D2'];
+    case 'D12':
+      return ['D40', 'D45'];
+    case 'D20':
+      return ['D9', 'D1'];
+    case 'D24':
+      return ['D10', 'D1'];
+    case 'D30':
+      return ['D6', 'D1'];
+    case 'D5':
+      return ['D10', 'D1'];
+    case 'D6':
+      return ['D30', 'D1'];
+    case 'D8':
+      return ['D30', 'D1'];
+    case 'D11':
+      return ['D2', 'D10'];
+    case 'D16':
+      return ['D4', 'D1'];
+    case 'D17':
+      return ['D10', 'D11'];
+    case 'D18':
+      return ['D30', 'D1'];
+    case 'D19':
+      return ['D9', 'D20'];
+    case 'D21':
+      return ['D9', 'D1'];
+    case 'D22':
+      return ['D27', 'D1'];
+    case 'D23':
+      return ['D19', 'D1'];
+    case 'D25':
+      return ['D20', 'D27'];
+    case 'D26':
+      return ['D6', 'D30'];
+    case 'D27':
+      return ['D3', 'D6'];
+    case 'D28':
+      return ['D8', 'D30'];
+    case 'D29':
+      return ['D11', 'D19'];
+    case 'D31':
+      return ['D18', 'D30'];
+    case 'D32':
+      return ['D3', 'D27'];
+    case 'D33':
+      return ['D11', 'D19'];
+    case 'D34':
+      return ['D21', 'D60'];
+    case 'D40':
+      return ['D12', 'D1'];
+    case 'D45':
+      return ['D12', 'D1'];
+    case 'D60':
+      return ['D1', 'D9'];
+    default:
+      return ['D1'];
+  }
+}
+
+function describeChartPairSignal(
+  kundli: KundliData,
+  sourceChartType: PremiumSynthesisChartType,
+  targetChartType: ChartType,
+  activeArea: string,
+  supportArea?: string,
+): string {
+  const signal = getChartDominantSignal(kundli, targetChartType);
+  const pairLabel =
+    sourceChartType === 'D1'
+      ? `D1 + ${targetChartType}`
+      : `${sourceChartType} + ${targetChartType}`;
+  return `${pairLabel}: ${signal.chartName} is loudest around ${signal.area}, so Premium checks whether that supports ${activeArea}${supportArea ? ` and balances ${supportArea}` : ''} in the root chart.`;
+}
+
+function getChartDominantSignal(
+  kundli: KundliData,
+  chartType: ChartType,
+): { area: string; chartName: string } {
+  const chart = kundli.charts[chartType];
+  const chartName = getChartConfig(chartType).name;
+
+  if (!chart) {
+    return { area: getChartConfig(chartType).purpose, chartName };
+  }
+
+  const clusterMap = chart.planetDistribution
+    .filter(
+      planet =>
+        planet.kind !== 'modern' &&
+        planet.kind !== 'sensitive' &&
+        planet.kind !== 'upagraha',
+    )
+    .reduce<Record<number, number>>((accumulator, planet) => {
+      accumulator[planet.house] = (accumulator[planet.house] ?? 0) + 1;
+      return accumulator;
+    }, {});
+
+  const dominantHouse = Object.entries(clusterMap)
+    .sort((first, second) => second[1] - first[1])[0]?.[0];
+
+  return dominantHouse
+    ? { area: formatHouseArea(Number(dominantHouse)), chartName }
+    : { area: getChartConfig(chartType).purpose, chartName };
+}
+
+function buildPremiumGuidance(
+  chartType: PremiumSynthesisChartType,
+  activeArea: string,
+  supportArea?: string,
+  pressureArea?: string,
+): string[] {
+  const base = [
+    `Use ${activeArea} as the main decision lens, but let D1 decide how much of it is truly ready to act on.`,
+    supportArea
+      ? `Keep ${supportArea} involved as the balancing layer so this reading does not become one-dimensional.`
+      : `Look for a second supporting life area before treating this chart as decisive.`,
+  ];
+
+  if (pressureArea) {
+    base.push(`Move carefully where ${pressureArea} is under strain, because that is where timing and maturity matter most.`);
+  }
+
+  if (chartType === 'D1') {
+    base.push('Use Premium to decide what deserves action now, what needs patience, and what should not be forced this dasha.');
+  } else if (chartType === 'CHALIT') {
+    base.push('Use Premium to separate the promised area from the lived-delivery area before changing your conclusion.');
+  } else {
+    base.push(`Use Premium to keep ${chartType} in its proper role: focused, useful, and anchored to D1 rather than over-expanded.`);
+  }
+
+  return base;
+}
+
+function buildPremiumRemedyDirection(
+  kundli: KundliData,
+  chartType: PremiumSynthesisChartType,
+  activeArea: string,
+): string[] {
+  const remedyLines = (kundli.remedies ?? [])
+    .slice(0, 2)
+    .map(remedy => `${remedy.title}: ${remedy.practice}`);
+
+  if (remedyLines.length) {
+    return remedyLines;
+  }
+
+  const weeklyIntention = kundli.sadhanaRemedyPath?.weeklyIntention;
+
+  return [
+    weeklyIntention
+      ? `Keep the remedy tone practical: ${weeklyIntention}`
+      : `Keep remedies simple and tied to ${activeArea}, not to fear or grand promises.`,
+    chartType === 'D30' || chartType === 'D8' || chartType === 'D28'
+      ? 'Choose calming, disciplined remedies over intense or fear-driven actions.'
+      : 'Prefer steady discipline, cleaner routines, and one repeatable practice over too many symbolic actions.',
+  ];
+}
+
+function buildConfidenceFraming(
+  kundli: KundliData,
+  chartType: PremiumSynthesisChartType,
+): string {
+  const sensitiveCharts = new Set<PremiumSynthesisChartType>([
+    'D8',
+    'D18',
+    'D21',
+    'D22',
+    'D28',
+    'D30',
+    'D31',
+    'D34',
+    'D60',
+  ]);
+
+  if (kundli.birthDetails.isTimeApproximate || kundli.birthDetails.timeConfidence === 'approximate') {
+    return `Confidence stays medium at best because birth time is approximate, so ${chartType} should be used for pattern guidance more than sharp certainty.`;
+  }
+
+  if (sensitiveCharts.has(chartType)) {
+    return `Confidence stays intentionally restrained because ${chartType} is a narrow or sensitive chart and should not be overstated, even with a stable birth time.`;
+  }
+
+  return `Confidence is stronger here because birth time is stable, D1 anchoring is available, and ${chartType} can be judged with timing instead of guesswork.`;
+}
+
+function findNextMahadasha(
+  kundli: KundliData,
+): { mahadasha: string; startDate: string } | undefined {
+  const current = kundli.dasha.current.mahadasha;
+  const currentIndex = kundli.dasha.timeline.findIndex(
+    item => item.mahadasha === current,
+  );
+
+  return currentIndex >= 0 ? kundli.dasha.timeline[currentIndex + 1] : undefined;
+}
+
+function pickTransitByWeight(
+  kundli: KundliData,
+  weight: 'supportive' | 'challenging',
+) {
+  return (kundli.transits ?? []).find(transit => transit.weight === weight);
 }
 
 function deriveLifeAreas(purpose: string): string[] {

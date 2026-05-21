@@ -8616,6 +8616,66 @@ button:disabled {
   justify-content: space-between;
 }
 
+.chart-premium-depth {
+  background:
+    radial-gradient(circle at top left, rgba(255, 195, 77, 0.1), transparent 34%),
+    rgba(255, 195, 77, 0.06);
+  border: 1px solid rgba(255, 195, 77, 0.2);
+  border-radius: 10px;
+  color: var(--muted);
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+}
+
+.chart-premium-depth strong {
+  color: var(--text);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.chart-premium-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.chart-premium-block {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 14px;
+}
+
+.chart-premium-block span,
+.chart-premium-depth-footer span {
+  color: #ffd27a;
+  display: block;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.chart-premium-block ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.chart-premium-depth-footer {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.chart-premium-depth-footer p {
+  margin: 8px 0 0;
+}
+
 .chart-view-switcher {
   align-items: center;
   background: rgba(255, 255, 255, 0.035);
@@ -13155,6 +13215,7 @@ button:disabled {
   }
 
   .chart-technical-grid,
+  .chart-premium-grid,
   .chart-planet-detail-list,
   .chart-drilldown-grid {
     grid-template-columns: 1fr;

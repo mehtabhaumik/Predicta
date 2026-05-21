@@ -17,6 +17,7 @@ import {
   buildChartSelectionPrompt,
   composeChartInsight,
   type ChartInsightProfile,
+  type ChartPremiumInsight,
   getChartFocusLabel,
   getChartReadingNote,
   getChartRole,
@@ -145,6 +146,11 @@ export function WebKundliChart({
               <li key={item}>{item}</li>
             ))}
           </ul>
+          {renderPremiumInsightPanel({
+            appLanguage,
+            hasPremiumAccess,
+            insight: localizedInsight,
+          })}
         </div>
       </div>
     );
@@ -388,24 +394,11 @@ export function WebKundliChart({
                 )}
               </span>
             </div>
-            {localizedInsight.premiumNudge ? (
-              <div className="chart-premium-nudge">
-                <div>
-                  <strong>{translateUiText('Premium deep dive', appLanguage)}</strong>
-                  <ul>
-                    {localizedInsight.premiumDeepDive.map(item => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="chart-premium-nudge-actions">
-                  <span>{localizedInsight.premiumNudge}</span>
-                  <Link className="button secondary" href="/pricing">
-                    {translateUiText('See Premium', appLanguage)}
-                  </Link>
-                </div>
-              </div>
-            ) : null}
+            {renderPremiumInsightPanel({
+              appLanguage,
+              hasPremiumAccess,
+              insight: localizedInsight,
+            })}
           </div>
         </div>
       ) : activeCell ? (
@@ -686,6 +679,9 @@ function localizeChartInsight(
     premiumDeepDive: insight.premiumDeepDive.map(item =>
       localizeChartPhrase(item, language),
     ),
+    premiumInsight: insight.premiumInsight
+      ? localizePremiumInsight(insight.premiumInsight, language)
+      : undefined,
     premiumNudge: insight.premiumNudge
       ? localizeChartPhrase(insight.premiumNudge, language)
       : undefined,
@@ -696,6 +692,116 @@ function localizeChartInsight(
     title: localizeChartTitle(insight.title, language),
     whatItSays: localizeChartPhrase(insight.whatItSays, language),
   };
+}
+
+function localizePremiumInsight(
+  insight: ChartPremiumInsight,
+  language: SupportedLanguage,
+): ChartPremiumInsight {
+  return {
+    confidenceFraming: localizeChartPhrase(insight.confidenceFraming, language),
+    contradictionSignals: insight.contradictionSignals.map(item =>
+      localizeChartPhrase(item, language),
+    ),
+    crossChartSynthesis: insight.crossChartSynthesis.map(item =>
+      localizeChartPhrase(item, language),
+    ),
+    headline: localizeChartPhrase(insight.headline, language),
+    practicalGuidance: insight.practicalGuidance.map(item =>
+      localizeChartPhrase(item, language),
+    ),
+    remedyDirection: insight.remedyDirection.map(item =>
+      localizeChartPhrase(item, language),
+    ),
+    timingWindows: insight.timingWindows.map(item =>
+      localizeChartPhrase(item, language),
+    ),
+  };
+}
+
+function renderPremiumInsightPanel({
+  appLanguage,
+  hasPremiumAccess,
+  insight,
+}: {
+  appLanguage: SupportedLanguage;
+  hasPremiumAccess: boolean;
+  insight: ChartInsight;
+}): React.JSX.Element | null {
+  if (hasPremiumAccess && insight.premiumInsight) {
+    return (
+      <div className="chart-premium-depth">
+        <div>
+          <strong>{translateUiText('Premium deep dive', appLanguage)}</strong>
+          <p>{insight.premiumInsight.headline}</p>
+        </div>
+        <div className="chart-premium-grid">
+          <article className="chart-premium-block">
+            <span>{translateUiText('Timing windows', appLanguage)}</span>
+            <ul>
+              {insight.premiumInsight.timingWindows.map(item => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+          <article className="chart-premium-block">
+            <span>{translateUiText('Strength vs contradiction', appLanguage)}</span>
+            <ul>
+              {insight.premiumInsight.contradictionSignals.map(item => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+          <article className="chart-premium-block">
+            <span>{translateUiText('Cross-chart synthesis', appLanguage)}</span>
+            <ul>
+              {insight.premiumInsight.crossChartSynthesis.map(item => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+          <article className="chart-premium-block">
+            <span>{translateUiText('Practical guidance and remedies', appLanguage)}</span>
+            <ul>
+              {[
+                ...insight.premiumInsight.practicalGuidance,
+                ...insight.premiumInsight.remedyDirection,
+              ].map(item => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+        </div>
+        <div className="chart-premium-depth-footer">
+          <span>{translateUiText('Confidence framing', appLanguage)}</span>
+          <p>{insight.premiumInsight.confidenceFraming}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (insight.premiumNudge) {
+    return (
+      <div className="chart-premium-nudge">
+        <div>
+          <strong>{translateUiText('Premium deep dive', appLanguage)}</strong>
+          <ul>
+            {insight.premiumDeepDive.map(item => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="chart-premium-nudge-actions">
+          <span>{insight.premiumNudge}</span>
+          <Link className="button secondary" href="/pricing">
+            {translateUiText('See Premium', appLanguage)}
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
 }
 
 function localizeChartTitle(value: string, language: SupportedLanguage): string {
