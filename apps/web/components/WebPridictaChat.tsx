@@ -3427,9 +3427,9 @@ function WebChatChartBlock({
             ))}
           </div>
 
-          <p>{block.insight.summary}</p>
+          <p>{block.insight.whatItSays}</p>
           <ul className="chat-chart-insights">
-            {block.insight.bullets.slice(0, 4).map(bullet => (
+            {block.insight.freeInsights.slice(0, 4).map(bullet => (
               <li key={bullet}>{bullet}</li>
             ))}
           </ul>

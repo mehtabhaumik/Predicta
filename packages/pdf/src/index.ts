@@ -941,7 +941,7 @@ function buildChartSynthesisSection(
       : `${chartType}: chart proof will appear after chart preparation.`;
 
     return [
-      `${chartType} ${insight.title}: ${insight.summary}`,
+      `${chartType} ${insight.title}: ${insight.whatItSays}`,
       chartProof,
       ...(snapshot?.moonNakshatraPada
         ? [
@@ -952,7 +952,7 @@ function buildChartSynthesisSection(
             }.`,
           ]
         : []),
-      ...insight.bullets
+      ...insight.freeInsights
         .slice(0, hasPremiumAccess ? 3 : 2)
         .map(bullet => `${chartType}: ${bullet}`),
     ];

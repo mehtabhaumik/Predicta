@@ -92,9 +92,10 @@ export function WebChartsExplorer({
           </div>
           {selectedConfig ? (
             <div className="selected-chart-summary" aria-live="polite">
-              <span>{selectedConfig.id}</span>
+              <span>{copy.whyItMatters}</span>
               <strong>{selectedConfig.name}</strong>
               <p>{selectedConfig.purpose}</p>
+              <small>{copy.defaultInsightView}</small>
             </div>
           ) : null}
           <WebKundliChart
@@ -172,8 +173,10 @@ const CHART_EXPLORER_COPY: Record<
     emptyBody: string;
     emptyEyebrow: string;
     emptyTitle: string;
+    defaultInsightView: string;
     openGuide: string;
     selectChart: string;
+    whyItMatters: string;
   }
 > = {
   en: {
@@ -182,12 +185,15 @@ const CHART_EXPLORER_COPY: Record<
     chartGuide: 'What each chart is for',
     coreCharts: 'Core charts',
     createKundli: 'Create Kundli',
+    defaultInsightView:
+      'Every chart now opens in Insight View first, so you see meaning before technical detail.',
     emptyBody:
       'Create your Kundli first. Then this page will show your North Indian chart and explain each house in plain language.',
     emptyEyebrow: 'CHART NEEDS YOUR KUNDLI',
     emptyTitle: 'Create your Kundli to see real chart proof.',
     openGuide: 'Open guide',
     selectChart: 'SELECT CHART',
+    whyItMatters: 'WHY THIS CHART MATTERS',
   },
   hi: {
     activeTitle: 'चार्ट कुंडली',
@@ -195,12 +201,15 @@ const CHART_EXPLORER_COPY: Record<
     chartGuide: 'कौन-सा चार्ट क्या दिखाता है',
     coreCharts: 'मुख्य चार्ट',
     createKundli: 'कुंडली बनाएं',
+    defaultInsightView:
+      'हर चार्ट अब पहले Insight View में खुलता है, ताकि तकनीकी विवरण से पहले अर्थ दिखे.',
     emptyBody:
       'पहले अपनी कुंडली बनाएं. उसके बाद यह पेज आपका उत्तर भारतीय चार्ट दिखाएगा और हर भाव सरल भाषा में समझाएगा.',
     emptyEyebrow: 'चार्ट के लिए कुंडली चाहिए',
     emptyTitle: 'सही चार्ट प्रमाण देखने के लिए कुंडली बनाएं.',
     openGuide: 'गाइड खोलें',
     selectChart: 'चार्ट चुनें',
+    whyItMatters: 'यह चार्ट क्यों महत्वपूर्ण है',
   },
   gu: {
     activeTitle: 'ચાર્ટ કુંડળી',
@@ -208,11 +217,14 @@ const CHART_EXPLORER_COPY: Record<
     chartGuide: 'કયો ચાર્ટ શું બતાવે છે',
     coreCharts: 'મુખ્ય ચાર્ટ્સ',
     createKundli: 'કુંડળી બનાવો',
+    defaultInsightView:
+      'હવે દરેક ચાર્ટ પહેલા Insight View માં ખુલે છે, જેથી તકનિકી વિગતો પહેલાં અર્થ દેખાય.',
     emptyBody:
       'પહેલા તમારી કુંડળી બનાવો. ત્યાર પછી આ પેજ તમારો ઉત્તર ભારતીય ચાર્ટ બતાવશે અને દરેક ભાવ સરળ ભાષામાં સમજાવશે.',
     emptyEyebrow: 'ચાર્ટ માટે કુંડળી જોઈએ',
     emptyTitle: 'સાચો ચાર્ટ પુરાવો જોવા માટે કુંડળી બનાવો.',
     openGuide: 'ગાઈડ ખોલો',
     selectChart: 'ચાર્ટ પસંદ કરો',
+    whyItMatters: 'આ ચાર્ટ કેમ મહત્વનો છે',
   },
 };

@@ -7,8 +7,16 @@ export type ChartInsightDepth = 'free' | 'premium';
 export type ChartInsight = {
   title: string;
   eyebrow: string;
-  summary: string;
-  bullets: string[];
+  governs: string;
+  whatItSays: string;
+  mainStrength: string;
+  mainChallenge: string;
+  lifeAreas: string[];
+  currentGuidance: string;
+  freeInsights: string[];
+  premiumDeepDive: string[];
+  technicalSummary: string;
+  technicalDetails: string[];
   premiumNudge?: string;
 };
 
@@ -59,64 +67,145 @@ export function composeChartInsight({
   hasPremiumAccess: boolean;
 }): ChartInsight {
   const config = getChartConfig(chart.chartType);
-  const occupiedHouseCount = Object.values(chart.housePlacements).filter(
-    planets => planets.length > 0,
-  ).length;
-  const strongestHouses = Object.entries(chart.housePlacements)
+  const corePlanetsByHouse = chart.planetDistribution
+    .filter(
+      planet =>
+        planet.kind !== 'modern' &&
+        planet.kind !== 'sensitive' &&
+        planet.kind !== 'upagraha',
+    )
+    .reduce<Record<number, string[]>>((accumulator, planet) => {
+      const bucket = accumulator[planet.house] ?? [];
+      bucket.push(planet.name);
+      accumulator[planet.house] = bucket;
+      return accumulator;
+    }, {});
+  const occupiedClusters = Object.entries(corePlanetsByHouse)
     .filter(([, planets]) => planets.length > 0)
+    .sort((first, second) => second[1].length - first[1].length);
+  const occupiedHouseCount = occupiedClusters.length;
+  const strongestHouses = occupiedClusters
     .slice(0, 3)
-    .map(([house, planets]) => `${chart.chartType} house ${house}: ${planets.join(', ')}`);
+    .map(
+      ([house, planets]) =>
+        `${chart.chartType} house ${house}: ${planets.join(', ')}`,
+    );
+  const primaryCluster = occupiedClusters[0];
+  const primaryHouse = primaryCluster ? Number(primaryCluster[0]) : undefined;
+  const primaryPlanets = primaryCluster?.[1] ?? [];
   const focus = CHART_FOCUS[chart.chartType];
   const readingNote = getChartReadingNote(chart.chartType);
+  const lifeAreas = deriveLifeAreas(config.purpose);
+  const clusterMeaning = primaryHouse
+    ? `the strongest concentration is around house ${primaryHouse}${primaryPlanets.length ? ` with ${primaryPlanets.join(', ')}` : ''}`
+    : 'no single house is dominating the preview, so the chart should be read more carefully with D1 and timing support';
+  const governs = config.purpose;
+  const whatItSays = primaryHouse
+    ? `This chart is currently saying that ${clusterMeaning}, which makes this part of life speak louder than the rest.`
+    : `This chart is currently saying that the story here is subtle, so timing, D1 anchoring, and patient interpretation matter more than dramatic claims.`;
+  const mainStrength = primaryHouse
+    ? `Your clearest strength here is the focused pull around house ${primaryHouse}, because clustered placements usually make this area easier to notice and work with.`
+    : 'Your strength here is restraint: this chart is not screaming, so it can be judged carefully without panic or overstatement.';
+  const mainChallenge =
+    occupiedHouseCount >= 4
+      ? 'The challenge here is scattered pressure across multiple houses, so this area can feel split until priorities become clearer.'
+      : chart.chartType === 'D1'
+      ? 'The challenge is not to reduce your whole life chart to one loud placement. D1 still needs balance across houses, timing, and maturity.'
+      : `The challenge is not to treat ${chart.chartType} like a standalone life chart. It still needs D1 as the root anchor.`;
+  const currentGuidance =
+    chart.chartType === 'D1'
+      ? 'Use this chart to understand the main life pattern first, then ask Predicta about the specific area that feels most urgent right now.'
+      : `Use ${chart.chartType} as a focused lens, then compare it with D1 before making a strong conclusion.`;
+  const freeInsights = [
+    primaryHouse
+      ? `Start with the loudest signal: ${clusterMeaning}.`
+      : 'Start with the overall mood of the chart instead of hunting for one dramatic placement.',
+    occupiedHouseCount
+      ? `${occupiedHouseCount} houses are active in this chart, so the reading should stay grounded in what is actually emphasized.`
+      : 'This preview is quiet, so the chart should be read conservatively.',
+    chart.chartType === 'D1'
+      ? 'This is the root chart, so it tells you where the main life story is taking shape.'
+      : `This chart refines one area of life. It becomes more useful when it is compared with D1 and timing.`,
+    `The most useful question to ask next is how this chart affects ${lifeAreas.slice(0, 2).join(' and ')}.`,
+  ];
+  const premiumDeepDive = [
+    `Premium reads ${chart.chartType} with D1 anchoring, timing support, and confidence framing instead of stopping at placement labels.`,
+    primaryHouse
+      ? `Premium explains how house ${primaryHouse} supports, stretches, or complicates the rest of the chart.`
+      : 'Premium clarifies whether this quieter chart is supportive, mixed, or timing-sensitive.',
+    'Premium also adds deeper synthesis, contradiction handling, and report-ready interpretation.',
+  ];
+  const technicalSummary = hasPremiumAccess
+    ? `Technical View keeps the evidence layer visible while Premium adds deeper synthesis for ${config.name}.`
+    : `Technical View keeps the evidence layer visible, while the default Insight View explains what ${config.name} is trying to say in plain language.`;
+  const technicalDetails = [
+    chart.chartType === 'D1'
+      ? `D1 focuses on ${focus}.`
+      : `${chart.chartType} focuses on ${focus}, and should be judged through D1 first.`,
+    `${occupiedHouseCount} houses have planet placements in this chart.`,
+    strongestHouses.length
+      ? `Placement clusters: ${strongestHouses.join('; ')}.`
+      : 'No planet-heavy house stands out in this chart preview.',
+    readingNote,
+    chart.chartType === 'D1'
+      ? 'D1 remains the root chart for all predictions.'
+      : `Read ${chart.chartType} together with D1; never judge this area from the varga alone.`,
+  ];
 
   if (!chart.supported) {
     return {
-      bullets: [
+      eyebrow: 'Careful reading',
+      currentGuidance:
+        'Use the prepared charts for active prediction while this chart stays in a lighter, more careful state.',
+      freeInsights: [
+        'Predicta is keeping this chart conservative until the evidence is complete.',
+        'The point is to avoid fake certainty, not to hide the chart.',
+      ],
+      governs: config.purpose,
+      lifeAreas,
+      mainChallenge:
+        'This chart should not be overstated before the full evidence is ready.',
+      mainStrength:
+        'The chart is still visible, so you can understand its purpose before deeper calculation is available.',
+      premiumDeepDive: [
+        'Premium should only go deeper after the chart evidence is complete.',
+      ],
+      technicalDetails: [
         'Predicta shows this chart and keeps the reading conservative until the chart evidence is complete.',
         'Use the prepared charts for prediction while this chart receives a lighter explanation.',
       ],
-      eyebrow: 'Careful reading',
-      summary:
+      technicalSummary:
+        'This chart is listed with a lighter explanation until the full evidence is ready.',
+      title: config.name,
+      whatItSays:
         chart.unsupportedReason ??
-        'This divisional chart is listed with a lighter explanation until the full evidence is ready.',
-      title: config.name,
-    };
-  }
-
-  if (!hasPremiumAccess) {
-    return {
-      bullets: [
-        `${chart.chartType} focuses on ${focus}.`,
-        `${occupiedHouseCount} houses have planet placements in this chart.`,
-        strongestHouses.length
-          ? `Useful starting points: ${strongestHouses.join('; ')}.`
-          : 'No planet-heavy house stands out in this chart preview.',
-        readingNote,
-        chart.chartType === 'D1'
-          ? 'D1 remains the root chart for all predictions.'
-          : `Read ${chart.chartType} together with D1; never judge this area from the varga alone.`,
-      ],
-      eyebrow: 'Free useful insight',
-      premiumNudge:
-        'Premium turns this into detailed chart synthesis with D1 anchoring, dasha timing, strength checks, and report-ready guidance.',
-      summary: `This free view gives the practical purpose of ${config.name} and the main placement pattern without deep prediction.`,
-      title: config.name,
+        'This chart is visible, but Predicta is keeping the interpretation careful until the full evidence is ready.',
     };
   }
 
   return {
-    bullets: [
-      `${chart.chartType} focuses on ${focus}, and should be judged through D1 first.`,
-      `Ascendant sign in this chart is ${chart.ascendantSign}, setting the lens for this area.`,
-      readingNote,
-      strongestHouses.length
-        ? `Detailed placement clusters: ${strongestHouses.join('; ')}.`
-        : 'Detailed strength needs dignity, dasha, and D1 comparison because no house is heavily occupied.',
-      'Premium analysis should compare this chart with D1 houses, dasha activation, planet dignity, and timing windows.',
-      'For predictions, use this varga as confirmation, not as a standalone replacement for D1.',
-    ],
-    eyebrow: 'Premium detailed analysis',
-    summary: `Premium depth reads ${config.name} as a real synthesis layer: D1 anchor, varga placements, dasha activation, confidence, and practical next steps.`,
+    currentGuidance,
+    eyebrow: hasPremiumAccess ? 'Premium detailed analysis' : 'Free useful insight',
+    freeInsights,
+    governs,
+    lifeAreas,
+    mainChallenge,
+    mainStrength,
+    premiumDeepDive,
+    premiumNudge:
+      'Premium turns this into layered chart synthesis with D1 anchoring, timing, strength checks, and report-ready guidance.',
+    technicalDetails,
+    technicalSummary,
     title: config.name,
+    whatItSays,
   };
+}
+
+function deriveLifeAreas(purpose: string): string[] {
+  return purpose
+    .replace(/\.$/, '')
+    .split(/,| and /)
+    .map(item => item.trim())
+    .filter(Boolean)
+    .slice(0, 4);
 }

@@ -8454,6 +8454,12 @@ button:disabled {
   margin: 0;
 }
 
+.selected-chart-summary small {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
 .chart-guide-drawer {
   background: rgba(255, 255, 255, 0.035);
   border: 1px solid var(--border-quiet);
@@ -8563,15 +8569,156 @@ button:disabled {
 }
 
 .chart-premium-nudge {
-  align-items: center;
   background: rgba(255, 195, 77, 0.07);
   border: 1px solid rgba(255, 195, 77, 0.18);
   border-radius: 8px;
   color: var(--muted);
+  display: grid;
+  gap: 14px;
+  padding: 14px;
+}
+
+.chart-premium-nudge strong {
+  color: var(--text);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.chart-premium-nudge ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.chart-premium-nudge-actions {
+  align-items: flex-start;
   display: flex;
+  flex-wrap: wrap;
   gap: 14px;
   justify-content: space-between;
+}
+
+.chart-view-switcher {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--border-quiet);
+  border-radius: 999px;
+  display: inline-flex;
+  gap: 6px;
+  padding: 6px;
+  width: fit-content;
+}
+
+.chart-view-switcher button {
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 900;
+  min-height: 40px;
+  padding: 9px 14px;
+}
+
+.chart-view-switcher button.active {
+  background: linear-gradient(135deg, rgba(102, 96, 255, 0.9), rgba(77, 175, 255, 0.7));
+  box-shadow: 0 12px 24px rgba(77, 175, 255, 0.18);
+  color: #fff;
+}
+
+.chart-insight-stack,
+.chart-technical-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.chart-primary-insight {
+  background:
+    radial-gradient(circle at top left, rgba(77, 175, 255, 0.08), transparent 32%),
+    rgba(255, 255, 255, 0.045);
+  border: 1px solid var(--border-quiet);
+  border-radius: 12px;
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+}
+
+.chart-primary-insight h3 {
+  margin: 8px 0 0;
+}
+
+.chart-primary-insight > div > p {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 10px 0 0;
+  max-width: 900px;
+}
+
+.chart-insight-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.chart-insight-block {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-quiet);
+  border-radius: 10px;
+  display: grid;
+  gap: 8px;
+  min-width: 0;
   padding: 14px;
+}
+
+.chart-insight-block span {
+  color: var(--muted);
+  display: block;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.chart-insight-block strong {
+  color: var(--text);
+  display: block;
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.chart-life-area-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.chart-life-area-list span {
+  background: rgba(77, 175, 255, 0.12);
+  border: 1px solid rgba(77, 175, 255, 0.24);
+  border-radius: 999px;
+  color: var(--text);
+  font-size: 0.86rem;
+  font-weight: 850;
+  padding: 8px 12px;
+}
+
+.chart-insight-cta-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.chart-insight-cta-row span {
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 620px;
+}
+
+.chart-insight-panel-technical h3 {
+  margin: 8px 0 0;
 }
 
 .jyotish-chart-shell {
@@ -12645,6 +12792,31 @@ button:disabled {
     flex-direction: column;
   }
 
+  .chart-view-switcher {
+    width: 100%;
+  }
+
+  .chart-view-switcher button {
+    flex: 1 1 0;
+  }
+
+  .chart-insight-cta-row,
+  .chart-premium-nudge-actions,
+  .jyotish-chart-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .chart-language-selector {
+    justify-items: flex-start;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .chart-language-selector > div {
+    flex-wrap: wrap;
+  }
+
   .astrology-cockpit {
     padding: 22px;
   }
@@ -12883,10 +13055,15 @@ button:disabled {
 
   .chart-detail-card .jyotish-chart-toolbar,
   .chart-detail-card .north-chart,
+  .chart-detail-card .chart-primary-insight,
   .chart-detail-card .chart-insight-panel,
   .chart-detail-card .chart-drilldown {
     grid-column: auto;
     grid-row: auto;
+  }
+
+  .chart-insight-grid {
+    grid-template-columns: 1fr;
   }
 
   .chart-drilldown-grid {

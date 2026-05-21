@@ -1930,8 +1930,16 @@ export type PredictaSchool =
 export type ChatChartInsight = {
   title: string;
   eyebrow: string;
-  summary: string;
-  bullets: string[];
+  governs: string;
+  whatItSays: string;
+  mainStrength: string;
+  mainChallenge: string;
+  lifeAreas: string[];
+  currentGuidance: string;
+  freeInsights: string[];
+  premiumDeepDive: string[];
+  technicalSummary: string;
+  technicalDetails: string[];
   premiumNudge?: string;
 };
 

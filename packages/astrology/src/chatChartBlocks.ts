@@ -126,6 +126,7 @@ export function buildChatChartReplyText({
     block.chartType === 'D1'
       ? 'D1 is the root chart, so I will use it as the main proof layer.'
       : `I will read ${block.chartType} with D1 as the root chart, because D1 remains the main birth chart.`;
+  const meaningLine = block.insight.whatItSays;
   const depthLine = block.insight.premiumNudge
     ? 'Free insight is visible below. Premium adds dasha, transit, strength, remedies, and report-ready synthesis.'
     : 'Premium depth is active for dasha, transit, confidence, remedies, and report-ready synthesis.';
@@ -133,6 +134,7 @@ export function buildChatChartReplyText({
   if (language === 'hi') {
     return [
       `Haan. Maine ${block.chartType} ${block.chartName} yahin chat mein khol diya hai.`,
+      meaningLine,
       anchorLine,
       depthLine,
     ].join('\n\n');
@@ -141,6 +143,7 @@ export function buildChatChartReplyText({
   if (language === 'gu') {
     return [
       `Haan. Hu ${block.chartType} ${block.chartName} ahi chat ma kholi didhu chhe.`,
+      meaningLine,
       anchorLine,
       depthLine,
     ].join('\n\n');
@@ -148,6 +151,7 @@ export function buildChatChartReplyText({
 
   return [
     `Yes. I opened your ${block.chartType} ${block.chartName} right here in chat.`,
+    meaningLine,
     anchorLine,
     depthLine,
   ].join('\n\n');

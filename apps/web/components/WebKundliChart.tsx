@@ -75,6 +75,7 @@ export function WebKundliChart({
 }: WebKundliChartProps): React.JSX.Element {
   const [selectedHouse, setSelectedHouse] = useState(1);
   const [hoveredHouse, setHoveredHouse] = useState<number | undefined>();
+  const [viewMode, setViewMode] = useState<'insight' | 'technical'>('insight');
   const chartInstructionsId = useId();
   const { appLanguage, chartLanguage, setChartLanguage } = useLanguagePreference();
   const labels = getChartLanguageCopy(appLanguage);
@@ -122,9 +123,9 @@ export function WebKundliChart({
         <div className="unsupported-chart-state">
           <div className="section-title">{localizedInsight.eyebrow}</div>
           <h2>{localizedInsight.title}</h2>
-          <p>{localizedInsight.summary}</p>
+          <p>{localizedInsight.whatItSays}</p>
           <ul>
-            {localizedInsight.bullets.map(item => (
+            {localizedInsight.freeInsights.map(item => (
               <li key={item}>{item}</li>
             ))}
           </ul>
@@ -281,147 +282,256 @@ export function WebKundliChart({
         language={chartLanguage}
       />
 
-      <div className="chart-insight-panel">
-        <div>
-          <div className="section-title">{localizedInsight.eyebrow}</div>
-          <h3>{localizedInsight.title}</h3>
-          <p>{localizedInsight.summary}</p>
-        </div>
-        <ul>
-          {localizedInsight.bullets.map(item => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-        {localizedInsight.premiumNudge ? (
-          <div className="chart-premium-nudge">
-            <span>{localizedInsight.premiumNudge}</span>
-            <Link className="button secondary" href="/pricing">
-              {translateUiText('See Premium', appLanguage)}
-            </Link>
-          </div>
-        ) : null}
+      <div className="chart-view-switcher" role="tablist" aria-label={translateUiText('Chart reading mode', appLanguage)}>
+        <button
+          aria-selected={viewMode === 'insight'}
+          className={viewMode === 'insight' ? 'active' : ''}
+          onClick={() => setViewMode('insight')}
+          role="tab"
+          type="button"
+        >
+          {translateUiText('Insight View', appLanguage)}
+        </button>
+        <button
+          aria-selected={viewMode === 'technical'}
+          className={viewMode === 'technical' ? 'active' : ''}
+          onClick={() => setViewMode('technical')}
+          role="tab"
+          type="button"
+        >
+          {translateUiText('Technical View', appLanguage)}
+        </button>
       </div>
 
-      {activeCell ? (
-        <div
-          aria-live="polite"
-          className="chart-drilldown"
-          key={`${chart.chartType}-${activeCell.house}`}
-        >
-          <div>
-            <div className="section-title">
-              {translateUiText('DRILLDOWN', appLanguage)}
-            </div>
-            <h3>
-              {formatHouseHeading(
-                activeCell.house ?? selectedHouse,
-                activeCell.displaySign,
-                chartLanguage,
-              )}
-            </h3>
-            <p>
-              {activeCell.renderPlanets.length
-                ? formatPlanetsHere(activeCell, chartLanguage)
-                : activeSupportingPoints.length
-                ? translateUiText(
-                    'No core grahas occupy this sign in the primary reading. Supporting refinements are available below.',
-                    chartLanguage,
-                  )
-                : translateUiText(
-                    'No planets occupy this sign in the preview chart.',
-                    chartLanguage,
-                  )}
-            </p>
-          </div>
-          <div className="chart-drilldown-grid">
+      {viewMode === 'insight' ? (
+        <div className="chart-insight-stack">
+          <div className="chart-primary-insight">
             <div>
-              <span>{translateUiText('Life area', appLanguage)}</span>
-              <strong>
-                {isD1
-                  ? localizeChartPhrase(activeHouseMeaning, chartLanguage)
-                  : localizeChartPhrase(chartRole, chartLanguage)}
-              </strong>
+              <div className="section-title">{localizedInsight.eyebrow}</div>
+              <h3>{localizedInsight.title}</h3>
+              <p>{localizedInsight.whatItSays}</p>
             </div>
-            <div>
-              <span>{translateUiText(isD1 ? 'Chart role' : 'Varga rule', appLanguage)}</span>
-              <strong>
-                {isD1
-                  ? localizeChartPhrase(chartRole, chartLanguage)
-                  : translateUiText(
-                      'Use its specific purpose, not D1 house meanings',
-                      chartLanguage,
-                    )}
-              </strong>
-            </div>
-            <div>
-              <span>{translateUiText('Reading rule', appLanguage)}</span>
-              <strong>
-                {chart.chartType === 'D1'
-                  ? translateUiText('Use as the root chart', chartLanguage)
-                  : formatReadWithD1(chart.chartType, chartLanguage)}
-              </strong>
+            <div className="chart-insight-grid">
+              <article className="chart-insight-block">
+                <span>{translateUiText('What this chart governs', appLanguage)}</span>
+                <strong>{localizedInsight.governs}</strong>
+              </article>
+              <article className="chart-insight-block">
+                <span>{translateUiText('Main strength', appLanguage)}</span>
+                <strong>{localizedInsight.mainStrength}</strong>
+              </article>
+              <article className="chart-insight-block">
+                <span>{translateUiText('Main challenge', appLanguage)}</span>
+                <strong>{localizedInsight.mainChallenge}</strong>
+              </article>
+              <article className="chart-insight-block">
+                <span>{translateUiText('Current guidance', appLanguage)}</span>
+                <strong>{localizedInsight.currentGuidance}</strong>
+              </article>
             </div>
           </div>
-          <div className="drilldown-actions">
-            <StatusPill
-              label={formatHouseLabel(activeCell.house ?? selectedHouse, chartLanguage)}
-              tone="premium"
-            />
-            <Link
-              className="button secondary"
-              href={buildChartAskHref({
-                chartName: chart.name,
-                chartType: chart.chartType,
-                house: activeCell.house,
-                kundliId,
-                purpose: localizedInsight.summary,
-              })}
-            >
-              {translateUiText('Ask Predicta', appLanguage)}
-            </Link>
-          </div>
-          {activeCell.renderPlanets.length ? (
-            <div
-              className="planet-chip-row planet-chip-row-static"
-              aria-label={translateUiText('Planets in selected house', appLanguage)}
-            >
-              {activeCell.renderPlanets.map(planet => (
-                <span key={planet.key}>{planet.displayName}</span>
-              ))}
+
+          <div className="chart-insight-panel">
+            <div>
+              <div className="section-title">
+                {translateUiText('Life areas affected', appLanguage)}
+              </div>
+              <div className="chart-life-area-list">
+                {localizedInsight.lifeAreas.map(area => (
+                  <span key={area}>{area}</span>
+                ))}
+              </div>
             </div>
-          ) : null}
-          {activeSupportingPoints.length ? (
-            <details className="chart-supporting-points-drawer">
-              <summary>
-                <span>{translateUiText('Advanced refinements', appLanguage)}</span>
-                <strong>
-                  {formatSupportingPointCount(
-                    activeSupportingPoints.length,
-                    appLanguage,
-                  )}
-                </strong>
-              </summary>
-              <p>
-                {translateUiText(
-                  'These secondary markers can refine the reading, but the primary Vedic view stays anchored in the core grahas first.',
-                  chartLanguage,
-                )}
-              </p>
+            <div>
+              <div className="section-title">
+                {translateUiText('Free actionable reading', appLanguage)}
+              </div>
               <ul>
-                {activeSupportingPoints.map(point => (
-                  <li key={`${point.name}-${point.degree.toFixed(3)}`}>
-                    <strong>{localizePlanetName(point.name, chartLanguage)}</strong>{' '}
-                    <span>{localizeSupportingPointMeaning(point, chartLanguage)}</span>
-                  </li>
+                {localizedInsight.freeInsights.map(item => (
+                  <li key={item}>{item}</li>
                 ))}
               </ul>
-            </details>
-          ) : null}
-          {!isD1 || readingNoteOverride ? (
-            <p className="varga-reading-note">
-              {localizeChartPhrase(readingNote, chartLanguage)}
-            </p>
-          ) : null}
+            </div>
+            <div className="chart-insight-cta-row">
+              <Link
+                className="button secondary"
+                href={buildChartAskHref({
+                  chartName: chart.name,
+                  chartType: chart.chartType,
+                  house: activeCell?.house,
+                  kundliId,
+                  purpose: localizedInsight.whatItSays,
+                })}
+              >
+                {translateUiText('Ask Predicta about this chart', appLanguage)}
+              </Link>
+              <span>
+                {translateUiText(
+                  'Switch to Technical View when you want the house-by-house proof layer.',
+                  appLanguage,
+                )}
+              </span>
+            </div>
+            {localizedInsight.premiumNudge ? (
+              <div className="chart-premium-nudge">
+                <div>
+                  <strong>{translateUiText('Premium deep dive', appLanguage)}</strong>
+                  <ul>
+                    {localizedInsight.premiumDeepDive.map(item => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="chart-premium-nudge-actions">
+                  <span>{localizedInsight.premiumNudge}</span>
+                  <Link className="button secondary" href="/pricing">
+                    {translateUiText('See Premium', appLanguage)}
+                  </Link>
+                </div>
+              </div>
+            ) : null}
+          </div>
+        </div>
+      ) : activeCell ? (
+        <div
+          aria-live="polite"
+          className="chart-technical-stack"
+          key={`${chart.chartType}-${activeCell.house}`}
+        >
+          <div className="chart-insight-panel chart-insight-panel-technical">
+            <div>
+              <div className="section-title">
+                {translateUiText('Technical details', appLanguage)}
+              </div>
+              <h3>{translateUiText('Evidence and drilldown', appLanguage)}</h3>
+              <p>{localizedInsight.technicalSummary}</p>
+            </div>
+            <ul>
+              {localizedInsight.technicalDetails.map(item => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div
+            aria-live="polite"
+            className="chart-drilldown"
+            key={`${chart.chartType}-${activeCell.house}-technical`}
+          >
+            <div>
+              <div className="section-title">
+                {translateUiText('DRILLDOWN', appLanguage)}
+              </div>
+              <h3>
+                {formatHouseHeading(
+                  activeCell.house ?? selectedHouse,
+                  activeCell.displaySign,
+                  chartLanguage,
+                )}
+              </h3>
+              <p>
+                {activeCell.renderPlanets.length
+                  ? formatPlanetsHere(activeCell, chartLanguage)
+                  : activeSupportingPoints.length
+                  ? translateUiText(
+                      'No core grahas occupy this sign in the primary reading. Supporting refinements are available below.',
+                      chartLanguage,
+                    )
+                  : translateUiText(
+                      'No planets occupy this sign in the preview chart.',
+                      chartLanguage,
+                    )}
+              </p>
+            </div>
+            <div className="chart-drilldown-grid">
+              <div>
+                <span>{translateUiText('Life area', appLanguage)}</span>
+                <strong>
+                  {isD1
+                    ? localizeChartPhrase(activeHouseMeaning, chartLanguage)
+                    : localizeChartPhrase(chartRole, chartLanguage)}
+                </strong>
+              </div>
+              <div>
+                <span>{translateUiText(isD1 ? 'Chart role' : 'Varga rule', appLanguage)}</span>
+                <strong>
+                  {isD1
+                    ? localizeChartPhrase(chartRole, chartLanguage)
+                    : translateUiText(
+                        'Use its specific purpose, not D1 house meanings',
+                        chartLanguage,
+                      )}
+                </strong>
+              </div>
+              <div>
+                <span>{translateUiText('Reading rule', appLanguage)}</span>
+                <strong>
+                  {chart.chartType === 'D1'
+                    ? translateUiText('Use as the root chart', chartLanguage)
+                    : formatReadWithD1(chart.chartType, chartLanguage)}
+                </strong>
+              </div>
+            </div>
+            <div className="drilldown-actions">
+              <StatusPill
+                label={formatHouseLabel(activeCell.house ?? selectedHouse, chartLanguage)}
+                tone="premium"
+              />
+              <Link
+                className="button secondary"
+                href={buildChartAskHref({
+                  chartName: chart.name,
+                  chartType: chart.chartType,
+                  house: activeCell.house,
+                  kundliId,
+                  purpose: localizedInsight.whatItSays,
+                })}
+              >
+                {translateUiText('Ask Predicta', appLanguage)}
+              </Link>
+            </div>
+            {activeCell.renderPlanets.length ? (
+              <div
+                className="planet-chip-row planet-chip-row-static"
+                aria-label={translateUiText('Planets in selected house', appLanguage)}
+              >
+                {activeCell.renderPlanets.map(planet => (
+                  <span key={planet.key}>{planet.displayName}</span>
+                ))}
+              </div>
+            ) : null}
+            {activeSupportingPoints.length ? (
+              <details className="chart-supporting-points-drawer">
+                <summary>
+                  <span>{translateUiText('Advanced refinements', appLanguage)}</span>
+                  <strong>
+                    {formatSupportingPointCount(
+                      activeSupportingPoints.length,
+                      appLanguage,
+                    )}
+                  </strong>
+                </summary>
+                <p>
+                  {translateUiText(
+                    'These secondary markers can refine the reading, but the primary Vedic view stays anchored in the core grahas first.',
+                    chartLanguage,
+                  )}
+                </p>
+                <ul>
+                  {activeSupportingPoints.map(point => (
+                    <li key={`${point.name}-${point.degree.toFixed(3)}`}>
+                      <strong>{localizePlanetName(point.name, chartLanguage)}</strong>{' '}
+                      <span>{localizeSupportingPointMeaning(point, chartLanguage)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            ) : null}
+            {!isD1 || readingNoteOverride ? (
+              <p className="varga-reading-note">
+                {localizeChartPhrase(readingNote, chartLanguage)}
+              </p>
+            ) : null}
+          </div>
         </div>
       ) : null}
     </div>
@@ -487,13 +597,25 @@ function localizeChartInsight(
 ): ChartInsight {
   return {
     ...insight,
-    bullets: insight.bullets.map(item => localizeChartPhrase(item, language)),
+    currentGuidance: localizeChartPhrase(insight.currentGuidance, language),
     eyebrow: translateUiText(insight.eyebrow, language),
+    freeInsights: insight.freeInsights.map(item => localizeChartPhrase(item, language)),
+    governs: localizeChartPhrase(insight.governs, language),
+    lifeAreas: insight.lifeAreas.map(item => localizeChartPhrase(item, language)),
+    mainChallenge: localizeChartPhrase(insight.mainChallenge, language),
+    mainStrength: localizeChartPhrase(insight.mainStrength, language),
+    premiumDeepDive: insight.premiumDeepDive.map(item =>
+      localizeChartPhrase(item, language),
+    ),
     premiumNudge: insight.premiumNudge
       ? localizeChartPhrase(insight.premiumNudge, language)
       : undefined,
-    summary: localizeChartPhrase(insight.summary, language),
+    technicalDetails: insight.technicalDetails.map(item =>
+      localizeChartPhrase(item, language),
+    ),
+    technicalSummary: localizeChartPhrase(insight.technicalSummary, language),
     title: localizeChartTitle(insight.title, language),
+    whatItSays: localizeChartPhrase(insight.whatItSays, language),
   };
 }
 
