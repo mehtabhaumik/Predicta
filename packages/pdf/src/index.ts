@@ -936,26 +936,13 @@ function buildChartSynthesisSection(
     }
     const insight = composeChartInsight({ chart, hasPremiumAccess, kundli });
     const snapshot = chartSnapshots.find(item => item.chartType === chartType);
-    const chartProof = snapshot
-      ? `${chartType} chart proof: ${formatSnapshotOccupiedHouses(snapshot)}`
-      : `${chartType}: chart proof will appear after chart preparation.`;
 
-    return [
-      `${chartType} ${insight.title}: ${insight.whatItSays}`,
-      chartProof,
-      ...(snapshot?.moonNakshatraPada
-        ? [
-            `${chartType} Moon rhythm: ${snapshot.moonNakshatraPada.moonPhaseLabel}; birth star ${snapshot.moonNakshatraPada.moonNakshatra}${
-              snapshot.moonNakshatraPada.pada
-                ? ` pada ${snapshot.moonNakshatraPada.pada}`
-                : ''
-            }.`,
-          ]
-        : []),
-      ...insight.freeInsights
-        .slice(0, hasPremiumAccess ? 3 : 2)
-        .map(bullet => `${chartType}: ${bullet}`),
-    ];
+    return buildReportChartNarrative({
+      chartType,
+      hasPremiumAccess,
+      insight,
+      snapshot,
+    });
   });
   const unsupported = chartTypes
     .filter(chartType => kundli.charts[chartType] && !kundli.charts[chartType].supported)
@@ -969,22 +956,66 @@ function buildChartSynthesisSection(
 
   return {
     body: mode === 'PREMIUM'
-      ? 'Every available chart is included, and premium depth turns the chart list into detailed synthesis anchored to D1, timing, confidence, and remedies.'
-      : 'Free report includes the core chart snapshots and useful placement insight. Premium adds the complete chart set and deeper synthesis.',
+      ? 'Every chart now opens with human meaning first. Premium then adds timing windows, contradictions, cross-chart synthesis, remedies, and a technical appendix without making the reading feel mechanical.'
+      : 'Free report explains what each chart is trying to say in life before it drops into proof. The user gets real understanding first, not a wall of astrological mechanics.',
     bullets: supported,
     evidence: [
       `Charts included in this report: ${chartTypes.join(', ')}.`,
-      `Chart rendering is synced from the same North Indian chart model used in the app: ${chartSnapshots.map(item => item.chartType).join(', ') || 'none'}.`,
+      `Technical appendix uses the same North Indian chart model used in the app: ${chartSnapshots.map(item => item.chartType).join(', ') || 'none'}.`,
       `Chart themes included: ${uniqueValues(chartSnapshots.map(item => item.theme)).join(', ') || 'none'}.`,
       unsupported.length
-        ? `Charts kept out of guidance for now: ${unsupported.join(' ')}`
+        ? `Charts still in careful-reading mode: ${unsupported.join(' ')}`
         : 'All charts present in this Kundli are supported.',
     ],
     eyebrow: 'CHART SYNTHESIS',
     title: mode === 'PREMIUM'
-      ? 'All charts with premium depth'
-      : 'All charts with useful insight',
+      ? 'What the charts are saying with premium depth'
+      : 'What the charts are saying',
   };
+}
+
+function buildReportChartNarrative({
+  chartType,
+  hasPremiumAccess,
+  insight,
+  snapshot,
+}: {
+  chartType: ChartType;
+  hasPremiumAccess: boolean;
+  insight: ReturnType<typeof composeChartInsight>;
+  snapshot?: PdfChartSnapshot;
+}): string[] {
+  const freeLine = `Free understanding: ${insight.currentGuidance}`;
+  const premiumLine = hasPremiumAccess
+    ? insight.premiumInsight
+      ? `Premium depth: ${insight.premiumInsight.headline}`
+      : `Premium depth: ${insight.premiumDeepDive[0] ?? 'Premium adds timing, contradiction handling, and deeper synthesis.'}`
+    : undefined;
+
+  const timingLine = hasPremiumAccess
+    ? insight.premiumInsight?.timingWindows[0]
+    : insight.freeInsights[0];
+  const appendixLine = snapshot
+    ? `Technical appendix: ${formatSnapshotOccupiedHouses(snapshot)}`
+    : `${chartType} technical appendix appears after chart preparation.`;
+  const moonLine = snapshot?.moonNakshatraPada
+    ? `${chartType} Moon rhythm: ${snapshot.moonNakshatraPada.moonPhaseLabel}; birth star ${snapshot.moonNakshatraPada.moonNakshatra}${
+        snapshot.moonNakshatraPada.pada
+          ? ` pada ${snapshot.moonNakshatraPada.pada}`
+          : ''
+      }.`
+    : undefined;
+
+  return [
+    `${chartType} ${insight.title} governs: ${insight.governs}`,
+    `${chartType} is saying: ${insight.whatItSays}`,
+    `${chartType} key insight: ${insight.mainStrength}`,
+    freeLine,
+    ...(premiumLine ? [premiumLine] : []),
+    ...(timingLine ? [`${chartType} timing or next step: ${timingLine}`] : []),
+    appendixLine,
+    ...(moonLine ? [moonLine] : []),
+  ];
 }
 
 function buildPdfChartSnapshots(

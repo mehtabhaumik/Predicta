@@ -7921,6 +7921,36 @@ button:disabled {
   margin: 0;
 }
 
+.chat-chart-story-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.chat-chart-story-block {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding: 12px;
+}
+
+.chat-chart-story-block span {
+  color: var(--muted);
+  display: block;
+  font-size: 11px;
+  font-weight: 900;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.chat-chart-story-block strong {
+  color: var(--text);
+  line-height: 1.5;
+}
+
 .chat-evidence-chips span {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.068), rgba(255, 255, 255, 0.028)),
@@ -13218,6 +13248,10 @@ button:disabled {
   .chart-premium-grid,
   .chart-planet-detail-list,
   .chart-drilldown-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chat-chart-story-grid {
     grid-template-columns: 1fr;
   }
 

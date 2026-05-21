@@ -124,17 +124,20 @@ export function buildChatChartReplyText({
 }): string {
   const anchorLine =
     block.chartType === 'D1'
-      ? 'D1 is the root chart, so I will use it as the main proof layer.'
-      : `I will read ${block.chartType} with D1 as the root chart, because D1 remains the main birth chart.`;
+      ? 'I will keep D1 as the root proof layer while we go deeper.'
+      : `I will keep D1 as the anchor while reading ${block.chartType}, so the answer stays grounded instead of floating in chart jargon.`;
   const meaningLine = block.insight.whatItSays;
+  const guidanceLine = `Right now, the main takeaway is ${block.insight.currentGuidance}`;
   const depthLine = block.insight.premiumNudge
-    ? 'Free insight is visible below. Premium adds dasha, transit, strength, remedies, and report-ready synthesis.'
-    : 'Premium depth is active for dasha, transit, confidence, remedies, and report-ready synthesis.';
+    ? 'You already have the plain-language meaning here. From here we can go deeper into timing, remedies, D1 comparison, or the life area this chart touches most.'
+    : 'Premium depth is active, so I can keep going into timing, contradictions, D1 comparison, remedies, and report-grade synthesis without losing the plain-language meaning.';
 
   if (language === 'hi') {
     return [
-      `Haan. Maine ${block.chartType} ${block.chartName} yahin chat mein khol diya hai.`,
+      `Haan. ${block.chartType} ${block.chartName} ka seedha matlab yahaan khol diya hai.`,
+      `Yeh chart asal mein ${block.insight.governs}`,
       meaningLine,
+      guidanceLine,
       anchorLine,
       depthLine,
     ].join('\n\n');
@@ -142,16 +145,20 @@ export function buildChatChartReplyText({
 
   if (language === 'gu') {
     return [
-      `Haan. Hu ${block.chartType} ${block.chartName} ahi chat ma kholi didhu chhe.`,
+      `Haan. ${block.chartType} ${block.chartName} no sidho arth ahi kholi didho chhe.`,
+      `Aa chart kharekhar ${block.insight.governs}`,
       meaningLine,
+      guidanceLine,
       anchorLine,
       depthLine,
     ].join('\n\n');
   }
 
   return [
-    `Yes. I opened your ${block.chartType} ${block.chartName} right here in chat.`,
+    `Here is what your ${block.chartType} ${block.chartName} is really about.`,
+    block.insight.governs,
     meaningLine,
+    guidanceLine,
     anchorLine,
     depthLine,
   ].join('\n\n');
@@ -165,7 +172,7 @@ export function chartContextFromChatBlock(
     chartName: block.chartName,
     chartType: block.chartType,
     purpose: block.purpose,
-    selectedSection: `Discuss ${block.chartType} ${block.chartName} with D1 anchor`,
+    selectedSection: `Understand what ${block.chartType} ${block.chartName} is saying`,
     sourceScreen,
   };
 }
@@ -174,34 +181,67 @@ function buildChartCtas(
   chartType: ChartType,
   hasPremiumAccess: boolean,
 ): ChatChartBlock['ctas'] {
+  const humanArea = getChartHumanArea(chartType);
+
   return [
     {
-      id: 'ask-chart',
-      label: 'Ask About This Chart',
-      prompt: `Explain my ${chartType} chart with D1 proof.`,
+      id: 'ask-deeper',
+      label: 'Ask deeper',
+      prompt: hasPremiumAccess
+        ? `Go deeper into what my ${chartType} chart is saying, where it becomes stronger or weaker, and how D1 confirms it.`
+        : `Go deeper into what my ${chartType} chart is saying in plain language, and keep the answer grounded in chart proof.`,
     },
-    ...(chartType === 'D1'
-      ? []
-      : [
-          {
-            id: 'compare-d1',
-            label: 'Compare With D1',
-            prompt: `Compare my ${chartType} chart with D1 and tell me the strongest evidence.`,
-          },
-        ]),
     {
-      id: 'create-report',
-      label: 'Make Report',
-      prompt: `Create a report section for my ${chartType} chart.`,
+      id: 'ask-timing',
+      label: 'Ask timing',
+      prompt: `What timing activates the main promise of my ${chartType} chart? Keep it practical, chart-backed, and easy to act on.`,
     },
-    ...(hasPremiumAccess
-      ? []
-      : [
-          {
-            id: 'premium-depth',
-            label: 'Go Deeper',
-            prompt: `Show me premium depth for my ${chartType} chart.`,
-          },
-        ]),
+    {
+      id: 'ask-remedy',
+      label: 'Ask remedy',
+      prompt: `Give me one grounded remedy or practical correction for what my ${chartType} chart is showing. Keep it simple and realistic.`,
+    },
+    chartType === 'D1'
+      ? {
+          id: 'ask-life-area',
+          label: `Meaning for ${humanArea}`,
+          prompt: `What does my ${chartType} chart mean for ${humanArea}? Explain it simply, tell me why it matters, and keep it rooted in the chart.`,
+        }
+      : {
+          id: 'compare-d1',
+          label: 'Compare with D1',
+          prompt: `Compare my ${chartType} chart with D1 and explain what it changes for ${humanArea} in plain language.`,
+        },
   ];
+}
+
+function getChartHumanArea(chartType: ChartType): string {
+  switch (chartType) {
+    case 'D2':
+      return 'money';
+    case 'D4':
+      return 'home and property';
+    case 'D7':
+      return 'children and family';
+    case 'D9':
+      return 'love and marriage';
+    case 'D10':
+      return 'career';
+    case 'D12':
+      return 'parents and lineage';
+    case 'D20':
+      return 'faith and inner path';
+    case 'D24':
+      return 'learning and education';
+    case 'D30':
+      return 'stress and protection';
+    case 'D40':
+      return 'maternal family karma';
+    case 'D45':
+      return 'paternal family karma';
+    case 'D60':
+      return 'deep karma pattern';
+    default:
+      return 'life direction';
+  }
 }

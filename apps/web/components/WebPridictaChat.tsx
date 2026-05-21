@@ -1843,6 +1843,7 @@ export function WebPridictaChat({
                   block={block}
                   birthDetails={kundli?.birthDetails}
                   key={`${message.id}-${block.type}-${block.chartType}`}
+                  language={chatLanguage}
                   onUsePrompt={prompt => {
                     if (block.type === 'chart') {
                       const baseContext = chartContextFromChatBlock(block, 'Chat');
@@ -3227,10 +3228,12 @@ function WebChatSafetyCard({
 function WebChatMessageBlock({
   birthDetails,
   block,
+  language,
   onUsePrompt,
 }: {
   birthDetails?: BirthDetails;
   block: ChatMessageBlock;
+  language: SupportedLanguage;
   onUsePrompt: (prompt: string) => void;
 }): React.JSX.Element {
   if (block.type === 'chart') {
@@ -3238,6 +3241,7 @@ function WebChatMessageBlock({
       <WebChatChartBlock
         birthDetails={birthDetails}
         block={block}
+        language={language}
         onUsePrompt={onUsePrompt}
       />
     );
@@ -3275,10 +3279,12 @@ function WebChatSuggestions({
 function WebChatChartBlock({
   birthDetails,
   block,
+  language,
   onUsePrompt,
 }: {
   birthDetails?: BirthDetails;
   block: ChatChartBlock;
+  language: SupportedLanguage;
   onUsePrompt: (prompt: string) => void;
 }): React.JSX.Element {
   const renderModel = buildChartRenderModel({ birthDetails, chart: block.chart });
@@ -3336,7 +3342,9 @@ function WebChatChartBlock({
               onBlur={() => setHoveredHouse(undefined)}
               onClick={() => {
                 setSelectedHouse(cell.house);
-                onUsePrompt(`Explain House ${cell.house} in my ${block.chartType} chart with D1 proof.`);
+                onUsePrompt(
+                  `Tell me what House ${cell.house} in my ${block.chartType} chart is saying, why it matters, what timing activates it, and what practical next step it suggests. Keep D1 as the anchor and use chart proof instead of jargon.`,
+                );
               }}
               onFocus={() => setHoveredHouse(cell.house)}
               onMouseEnter={() => setHoveredHouse(cell.house)}
@@ -3425,6 +3433,25 @@ function WebChatChartBlock({
             {block.evidenceChips.map(chip => (
               <span key={chip}>{chip}</span>
             ))}
+          </div>
+
+          <div className="chat-chart-story-grid">
+            <article className="chat-chart-story-block">
+              <span>{translateUiText('What this chart governs', language)}</span>
+              <strong>{block.insight.governs}</strong>
+            </article>
+            <article className="chat-chart-story-block">
+              <span>{translateUiText('Main strength', language)}</span>
+              <strong>{block.insight.mainStrength}</strong>
+            </article>
+            <article className="chat-chart-story-block">
+              <span>{translateUiText('Main challenge', language)}</span>
+              <strong>{block.insight.mainChallenge}</strong>
+            </article>
+            <article className="chat-chart-story-block">
+              <span>{translateUiText('Current guidance', language)}</span>
+              <strong>{block.insight.currentGuidance}</strong>
+            </article>
           </div>
 
           <p>{block.insight.whatItSays}</p>

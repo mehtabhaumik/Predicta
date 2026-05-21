@@ -244,6 +244,7 @@ export function buildChartContextIntro(
   language: SupportedLanguage,
 ): string {
   const chart = context.chartName ?? context.chartType ?? 'selected chart';
+  const chartPurpose = context.purpose ?? chart;
   const focus = context.selectedPlanet
     ? `${context.selectedPlanet} in ${context.chartType ?? chart}`
     : context.selectedHouse
@@ -253,23 +254,23 @@ export function buildChartContextIntro(
   if (language === 'hi') {
     return [
       `Maine aapka selection pakad liya: ${focus}.`,
-      `${chart} ko main D1 birth chart ke anchor ke saath read karungi, taaki answer hawa mein na ho.`,
-      'Neeche se koi option choose kar sakte hain, ya apna sawaal seedha likh dijiye.',
+      `${chart} asal mein ${chartPurpose} ke baare mein bolta hai. Main pehle iska life meaning bataungi, phir D1 anchor aur chart proof se answer grounded rakhungi.`,
+      'Neeche se next direction choose kar sakte hain, ya seedha poochh sakte hain ki yeh career, love, family, timing, ya remedy mein kya keh raha hai.',
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
       `Mane tamaru selection samjhai gayu: ${focus}.`,
-      `${chart} ne hu D1 birth chart na anchor sathe read karish, etle answer grounded rahe.`,
-      'Niche thi option choose karo, athva tamaro sawal sidho lakho.',
+      `${chart} kharekhar ${chartPurpose} vishe bole chhe. Hu pela eno life-meaning kahish, pachhi D1 anchor ane chart proof sathe answer grounded rakhish.`,
+      'Niche thi agal nu direction choose karo, athva sidhu pucho ke aa career, love, family, timing, ke remedy ma shu kahe chhe.',
     ].join('\n\n');
   }
 
   return [
     `I picked up your selection: ${focus}.`,
-    `I will read ${chart} with D1 as the anchor, so the answer stays grounded in the birth chart.`,
-    'Choose one of the next questions below, or type your own question.',
+    `${chart} is really about ${chartPurpose}. I will start with what it means in life, then use D1 anchoring and chart proof to keep the answer grounded.`,
+    'Choose a next direction below, or ask directly what this means for career, love, family, timing, or remedies.',
   ].join('\n\n');
 }
 
@@ -281,7 +282,7 @@ export function buildChartSelectionPrompt(context: ChartContext): string {
       ? `House ${context.selectedHouse} in ${chart}`
       : chart;
 
-  return `Explain ${focus} with D1 anchoring, chart proof, timing relevance, and practical next steps.`;
+  return `Tell me what ${focus} is saying, why it matters in life, what timing activates it, and what one practical next step it suggests. Keep D1 as the anchor and use chart proof instead of jargon.`;
 }
 
 function chartFollowUps(
@@ -290,6 +291,7 @@ function chartFollowUps(
   language: SupportedLanguage,
 ): ChatSuggestedCta[] {
   const chart = context.chartType ?? 'this chart';
+  const lifeArea = getChartHumanArea(context.chartType);
   const focus = context.selectedPlanet
     ? context.selectedPlanet
     : context.selectedHouse
@@ -297,20 +299,60 @@ function chartFollowUps(
       : chart;
 
   const base: Array<[string, string]> = [
-    ['explain', `Explain ${focus} in ${chart} simply`],
-    ['timing', `What timing activates ${focus}?`],
-    ['remedy', `Give remedies for ${focus}`],
+    [
+      'deeper',
+      hasPremiumAccess
+        ? `Ask deeper about what ${focus} is saying, where it strengthens, and where it weakens.`
+        : `Ask deeper about what ${focus} is saying in plain language.`,
+    ],
+    ['timing', `Ask timing for ${focus}`],
+    ['remedy', `Ask remedy for ${focus}`],
   ];
 
   if (chart !== 'D1') {
-    base.splice(1, 0, ['compare', `Compare ${chart} with D1`]);
-  }
-
-  if (!hasPremiumAccess) {
-    base.push(['premium', `What would Premium add for ${chart}?`]);
+    base.push([
+      'compare',
+      `Compare ${chart} with D1 for ${lifeArea}`,
+    ]);
+  } else {
+    base.push([
+      'meaning',
+      `What does this mean for my ${lifeArea}?`,
+    ]);
   }
 
   return localizeActions(base.slice(0, 4), language);
+}
+
+function getChartHumanArea(chartType?: string): string {
+  switch (chartType) {
+    case 'D2':
+      return 'money';
+    case 'D4':
+      return 'home and property';
+    case 'D7':
+      return 'children and family';
+    case 'D9':
+      return 'love and marriage';
+    case 'D10':
+      return 'career';
+    case 'D12':
+      return 'parents and lineage';
+    case 'D20':
+      return 'faith and inner path';
+    case 'D24':
+      return 'learning and education';
+    case 'D30':
+      return 'stress and protection';
+    case 'D40':
+      return 'maternal family karma';
+    case 'D45':
+      return 'paternal family karma';
+    case 'D60':
+      return 'deep karma pattern';
+    default:
+      return 'life direction';
+  }
 }
 
 function localizeActions(
