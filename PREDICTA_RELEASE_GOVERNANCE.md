@@ -1,6 +1,13 @@
 # Predicta Release Governance
 
-Predicta can move toward public release only when the safety gate returns `READY`.
+Predicta can move toward public release only when the safety gate returns
+`READY` and the public-readiness gate is clear.
+
+Public-readiness source documents:
+
+- [docs/PREDICTA_PUBLIC_READINESS_REVIVAL_PLAN.md](./docs/PREDICTA_PUBLIC_READINESS_REVIVAL_PLAN.md)
+- [docs/PREDICTA_PUBLIC_BLOCKER_LEDGER.md](./docs/PREDICTA_PUBLIC_BLOCKER_LEDGER.md)
+- [docs/PREDICTA_PUBLIC_RELEASE_STOP_CONTRACT.md](./docs/PREDICTA_PUBLIC_RELEASE_STOP_CONTRACT.md)
 
 ## Safety SLOs
 
@@ -42,7 +49,23 @@ python3 -m backend.astro_api.release_governance
 - Approved model and prompt pins are unchanged or reviewed.
 - Blocked, high-stakes, low-confidence, and rewritten answers create audit events.
 - KP and Nadi school boundaries remain enforced.
+- No open `Critical` public blockers remain.
+- No open `Major` public blockers remain.
+- Public-readiness phases 0-8 are complete in order.
+- The public release-stop contract is no longer active.
 - Public release is blocked for fatalistic certainty, unsafe instructions, prompt injection, or missing high-stakes boundaries.
+
+## Public-Readiness Gate
+
+Safety readiness alone is not enough.
+
+Predicta must not be called public-ready while the release-stop rule in
+[docs/PREDICTA_PUBLIC_RELEASE_STOP_CONTRACT.md](./docs/PREDICTA_PUBLIC_RELEASE_STOP_CONTRACT.md)
+is active.
+
+Public-readiness remains blocked if the blocker ledger still contains open
+`Critical` or `Major` entries, or if the final route/device QA gate from the
+revival roadmap has not passed.
 
 ## Rollback Steps
 
