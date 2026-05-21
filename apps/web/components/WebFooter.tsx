@@ -76,7 +76,7 @@ const footerCopy: Record<
   },
   hi: {
     bottom:
-      'यह आत्म-समझ और चिंतन के लिए है. यह medical, legal, financial, emergency या guaranteed prediction advice नहीं है.',
+      'यह आत्म-समझ और चिंतन के लिए है. यह चिकित्सकीय, कानूनी, आर्थिक, आपातकालीन या पक्की भविष्यवाणी सलाह नहीं है.',
     compactLead: 'शांत समापन',
     compactLinks: [
       { href: '/accuracy-method', label: 'विधि' },
@@ -131,7 +131,7 @@ const footerCopy: Record<
   },
   gu: {
     bottom:
-      'આ આત્મસમજ અને વિચાર માટે છે. આ medical, legal, financial, emergency અથવા guaranteed prediction advice નથી.',
+      'આ આત્મસમજ અને વિચાર માટે છે. આ તબીબી, કાનૂની, આર્થિક, આપાતકાલીન અથવા પાક્કી આગાહી સલાહ નથી.',
     compactLead: 'શાંત અંત',
     compactLinks: [
       { href: '/accuracy-method', label: 'પદ્ધતિ' },

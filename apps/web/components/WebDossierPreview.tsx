@@ -213,20 +213,29 @@ export function WebDossierPreview(): React.JSX.Element {
       : sectionOptions.filter(option => selectedKeySet.has(option.key)).length;
   const differenceRows = getFreePremiumDifferenceRows(appLanguage);
 
-  function printReport() {
+  function openReportPreview(): boolean {
     if (!kundli) {
       setCopyState('needKundli');
       window.setTimeout(() => setCopyState('idle'), 3200);
-      return;
+      return false;
     }
 
     if (builderMode === 'CUSTOM' && !visibleSections.length) {
       setCopyState('empty');
       window.setTimeout(() => setCopyState('idle'), 1800);
-      return;
+      return false;
     }
 
     setReportPreviewOpen(true);
+    return true;
+  }
+
+  function printReport() {
+    const opened = openReportPreview();
+    if (!opened) {
+      return;
+    }
+
     window.setTimeout(() => window.print(), 80);
   }
 
@@ -364,38 +373,37 @@ export function WebDossierPreview(): React.JSX.Element {
           })}
         </div>
 
-        <details className="report-drawer">
-          <summary>
-            <span>{builderCopy.viewSelectedDetails}</span>
-            <strong>{localizedSelectedReport.title}</strong>
-          </summary>
-          <div className="report-selected-panel">
+        <div className="report-selected-panel">
+          <div>
+            <div className="section-title">{builderCopy.selectedReport}</div>
+            <h3>{localizedSelectedReport.title}</h3>
+            <p>{localizedSelectedReport.bestFor}</p>
+            <small>{localizedSelectedReport.purchaseHint}</small>
+          </div>
+          <div className="report-depth-grid">
             <div>
-              <div className="section-title">{builderCopy.selectedReport}</div>
-              <h3>{localizedSelectedReport.title}</h3>
-              <p>{localizedSelectedReport.bestFor}</p>
-              <small>{localizedSelectedReport.purchaseHint}</small>
+              <span>{builderCopy.freePreview}</span>
+              <p>{localizedSelectedReport.freeDepth}</p>
+              <ul>
+                {localizedSelectedReport.freeIncludes.map(item => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
             </div>
-            <div className="report-depth-grid">
-              <div>
-                <span>{builderCopy.freePreview}</span>
-                <p>{localizedSelectedReport.freeDepth}</p>
-                <ul>
-                  {localizedSelectedReport.freeIncludes.map(item => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <span>{builderCopy.premiumDepth}</span>
-                <p>{localizedSelectedReport.premiumDepth}</p>
-                <ul>
-                  {localizedSelectedReport.premiumIncludes.map(item => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
+            <div>
+              <span>{builderCopy.premiumDepth}</span>
+              <p>{localizedSelectedReport.premiumDepth}</p>
+              <ul>
+                {localizedSelectedReport.premiumIncludes.map(item => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
             </div>
+          </div>
+          <div className="report-selected-actions">
+            <button className="button" onClick={openReportPreview} type="button">
+              {builderCopy.previewSelected}
+            </button>
             <a
               className="button secondary"
               href={buildReportAskHref(selectedReport, kundli?.id)}
@@ -403,7 +411,7 @@ export function WebDossierPreview(): React.JSX.Element {
               {builderCopy.askFromReport}
             </a>
           </div>
-        </details>
+        </div>
       </section>
 
       <section className="report-builder glass-panel">
@@ -575,21 +583,15 @@ export function WebDossierPreview(): React.JSX.Element {
         </div>
 
         <div className="report-builder-actions">
-          <button className="button primary" onClick={printReport} type="button">
-            {builderCopy.printSelected}
+          <button className="button primary" onClick={openReportPreview} type="button">
+            {builderCopy.previewBuilder}
           </button>
           <button className="button secondary" onClick={copyReportSummary} type="button">
             {copyState === 'report' ? builderCopy.copied : builderCopy.copyReport}
           </button>
-          <button className="button secondary" onClick={copyChatTranscript} type="button">
-            {copyState === 'chat' ? builderCopy.copied : builderCopy.copyChat}
-          </button>
-          <button className="button secondary" onClick={openPrintableWebChatTranscript} type="button">
-            {builderCopy.downloadChatPdf}
-          </button>
         </div>
         {!user ? (
-          <div className="report-login-nudge">
+          <div className="report-account-panel">
             <div>
               <strong>{builderCopy.signInNudgeTitle}</strong>
               <p>{builderCopy.signInNudgeBody}</p>
@@ -626,9 +628,6 @@ export function WebDossierPreview(): React.JSX.Element {
             {labels.premium}
           </button>
         </div>
-        <button className="button secondary" onClick={printReport} type="button">
-          {builderCopy.printSelected}
-        </button>
       </div>
 
       <details
@@ -737,6 +736,25 @@ export function WebDossierPreview(): React.JSX.Element {
             <strong>{reportPrintCopy.safetyTitle}</strong>
             <p>{reportPrintCopy.safetyBody}</p>
           </section>
+
+          <div className="report-preview-actions">
+            <button className="button" onClick={printReport} type="button">
+              {builderCopy.printSelected}
+            </button>
+            <button className="button secondary" onClick={copyReportSummary} type="button">
+              {copyState === 'report' ? builderCopy.copied : builderCopy.copyReport}
+            </button>
+            <button className="button secondary" onClick={copyChatTranscript} type="button">
+              {copyState === 'chat' ? builderCopy.copied : builderCopy.copyChat}
+            </button>
+            <button
+              className="button secondary"
+              onClick={openPrintableWebChatTranscript}
+              type="button"
+            >
+              {builderCopy.downloadChatPdf}
+            </button>
+          </div>
         </div>
         ) : null}
       </details>
@@ -1252,6 +1270,8 @@ function getReportBuilderCopy(language: SupportedLanguage): {
   premiumAccessLabel: string;
   premiumAccessTitle: string;
   premiumDepth: string;
+  previewBuilder: string;
+  previewSelected: string;
   printSelected: string;
   selected: string;
   selectedReport: string;
@@ -1259,7 +1279,6 @@ function getReportBuilderCopy(language: SupportedLanguage): {
   signInNudgeBody: string;
   signInNudgeTitle: string;
   title: string;
-  viewSelectedDetails: string;
 } {
   if (language === 'hi') {
     return {
@@ -1320,15 +1339,16 @@ function getReportBuilderCopy(language: SupportedLanguage): {
       premiumAccessLabel: 'प्रीमियम रिपोर्ट',
       premiumAccessTitle: 'विस्तृत गहराई के लिए प्रवेश चाहिए',
       premiumDepth: 'प्रीमियम गहराई',
+      previewBuilder: 'इन बदलावों का प्रीव्यू देखें',
+      previewSelected: 'पहले रिपोर्ट देखें',
       printSelected: 'चुनी हुई पीडीएफ सेव करें',
       selected: 'चुना गया',
       selectedReport: 'चुना गया',
       seeEverythingIncluded: 'पूरी रिपोर्ट में क्या आएगा?',
       signInNudgeBody:
-        'रिपोर्ट पसंद इस डिवाइस पर सेव रहती हैं. साइन इन करेंगे तो कुंडली, रिपोर्ट पसंद और चैट आपके खाते के साथ सुरक्षित रहेंगी.',
-      signInNudgeTitle: 'रिपोर्ट पसंद सुरक्षित रखने के लिए साइन इन करें',
+        'साइन इन करने पर आपकी कुंडली, रिपोर्ट पसंद और सेव चैट एक ही खाते में सुरक्षित रहती हैं.',
+      signInNudgeTitle: 'रिपोर्ट और कुंडली एक ही खाते में रखें',
       title: 'रिपोर्ट डाउनलोड आसान बनाएं.',
-      viewSelectedDetails: 'चुनी हुई रिपोर्ट की जानकारी',
     };
   }
 
@@ -1391,15 +1411,16 @@ function getReportBuilderCopy(language: SupportedLanguage): {
       premiumAccessLabel: 'પ્રીમિયમ રિપોર્ટ',
       premiumAccessTitle: 'વિગતવાર ઊંડાઈ માટે પ્રવેશ જોઈએ',
       premiumDepth: 'પ્રીમિયમ ઊંડાઈ',
+      previewBuilder: 'આ બદલાવનું પ્રીવ્યૂ જુઓ',
+      previewSelected: 'પહેલાં રિપોર્ટ જુઓ',
       printSelected: 'પસંદ કરેલી પીડીએફ સેવ કરો',
       selected: 'પસંદ કરેલું',
       selectedReport: 'પસંદ કરેલું',
       seeEverythingIncluded: 'સંપૂર્ણ રિપોર્ટમાં શું આવશે?',
       signInNudgeBody:
-        'રિપોર્ટ પસંદગીઓ આ ડિવાઇસ પર સેવ રહે છે. સાઇન ઇન કરશો તો કુંડળી, રિપોર્ટ પસંદગીઓ અને ચેટ તમારા ખાતા સાથે સુરક્ષિત રહેશે.',
-      signInNudgeTitle: 'રિપોર્ટ પસંદગીઓ સુરક્ષિત રાખવા સાઇન ઇન કરો',
+        'સાઇન ઇન કર્યા પછી તમારી કુંડળી, રિપોર્ટ પસંદગીઓ અને સેવ ચેટ એક જ ખાતા સાથે રહે છે.',
+      signInNudgeTitle: 'રિપોર્ટ અને કુંડળી એક જ ખાતા સાથે રાખો',
       title: 'રિપોર્ટ ડાઉનલોડ સરળ બનાવો.',
-      viewSelectedDetails: 'પસંદ કરેલી રિપોર્ટની માહિતી',
     };
   }
 
@@ -1463,15 +1484,16 @@ function getReportBuilderCopy(language: SupportedLanguage): {
     premiumAccessLabel: 'Premium report',
     premiumAccessTitle: 'Choose access for detailed depth',
     premiumDepth: 'Premium depth',
+    previewBuilder: 'Preview after these changes',
+    previewSelected: 'Preview selected report',
     printSelected: 'Save selected PDF',
     selected: 'Selected',
     selectedReport: 'Selected',
     seeEverythingIncluded: 'See everything included',
     signInNudgeBody:
-      'Your report choices stay ready here. Sign in when you want Kundlis, reports, and chats protected with your account.',
-    signInNudgeTitle: 'Sign in to protect report choices',
+      'Sign in once and keep your Kundli, report choices, and saved chats with the same account.',
+    signInNudgeTitle: 'Keep reports and Kundlis with one account',
     title: 'Make report download easy.',
-    viewSelectedDetails: 'Selected report details',
   };
 }
 

@@ -42,6 +42,17 @@ export function WebRedeemPassForm(): React.JSX.Element {
     }
   }, []);
 
+  useEffect(() => {
+    setStatus(current =>
+      current.tone === 'idle'
+        ? {
+            tone: 'idle',
+            text: copy.initialStatus,
+          }
+        : current,
+    );
+  }, [copy.initialStatus]);
+
   async function redeem() {
     const normalized = normalizePassCode(code);
 
@@ -117,23 +128,33 @@ export function WebRedeemPassForm(): React.JSX.Element {
             <li key={step}>{step}</li>
           ))}
         </ol>
-        <div className="redeem-auth-row">
-          <AuthDialog />
-          <span>
+        <div className="redeem-account-status">
+          <span>{copy.account.eyebrow}</span>
+          <strong>
             {user?.email
               ? copy.account.signedInAs(user.email)
-              : copy.account.notSignedIn}
-          </span>
+              : copy.account.signInToContinue}
+          </strong>
+          <p>{copy.account.body}</p>
+          <div className="redeem-auth-row">
+            {user?.email ? (
+              <Link className="button secondary" href="/dashboard/settings">
+                {language === 'hi'
+                  ? 'खाता खोलें'
+                  : language === 'gu'
+                    ? 'ખાતું ખોલો'
+                    : 'Open account'}
+              </Link>
+            ) : (
+              <AuthDialog />
+            )}
+            <span>
+              {user?.email
+                ? copy.account.signedInAs(user.email)
+                : copy.account.notSignedIn}
+            </span>
+          </div>
         </div>
-      </div>
-      <div className="redeem-account-status">
-        <span>{copy.account.eyebrow}</span>
-        <strong>
-          {user?.email
-            ? copy.account.signedInAs(user.email)
-            : copy.account.signInToContinue}
-        </strong>
-        <p>{copy.account.body}</p>
       </div>
       <div className="field-stack">
         <label className="field-label" htmlFor="pass-code">

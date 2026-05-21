@@ -1474,6 +1474,10 @@ button:disabled {
   margin-top: 18px;
 }
 
+.checkout-path-grid {
+  margin-top: 24px;
+}
+
 .pricing-note p {
   margin: 0;
   max-width: 720px;
@@ -9357,7 +9361,16 @@ button:disabled {
   background: rgba(255, 255, 255, 0.045);
   border: 1px solid var(--border-quiet);
   border-radius: 8px;
+  display: grid;
+  gap: 18px;
   padding: 18px;
+}
+
+.report-selected-actions,
+.report-preview-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .report-builder {
@@ -9749,7 +9762,7 @@ button:disabled {
   gap: 12px;
 }
 
-.report-login-nudge {
+.report-account-panel {
   align-items: center;
   background: rgba(77, 175, 255, 0.08);
   border: 1px solid rgba(77, 175, 255, 0.24);
@@ -9761,12 +9774,12 @@ button:disabled {
   padding: 14px;
 }
 
-.report-login-nudge strong {
+.report-account-panel strong {
   color: var(--text);
   display: block;
 }
 
-.report-login-nudge p {
+.report-account-panel p {
   color: var(--muted);
   margin: 4px 0 0;
 }
@@ -10360,6 +10373,43 @@ button:disabled {
   display: grid;
   gap: 24px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.settings-overview-panel {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 24px;
+  padding: 24px;
+}
+
+.settings-overview-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-quiet);
+  border-radius: 18px;
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+}
+
+.settings-overview-card span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.settings-overview-card strong {
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1.15;
+}
+
+.settings-overview-card p {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
 }
 
 .settings-card .card-content {
@@ -11835,11 +11885,13 @@ button:disabled {
   .retention-moment-grid,
   .outcome-entry-grid,
   .chart-focus-grid,
+  .settings-overview-panel,
   .settings-grid,
   .settings-layout,
   .saved-kundli-grid,
   .capability-grid,
   .pricing-teaser,
+  .pricing-difference-grid,
   .pricing-grid,
   .one-time-grid,
   .admin-form-grid,
@@ -15602,7 +15654,7 @@ select::-ms-expand {
   .trust-proof-panel,
   .action-row,
   .chat-session-strip,
-  .report-login-nudge,
+  .report-account-panel,
   .chat-copy-button,
   .chat-reply-actions,
   .star-rating-message,
