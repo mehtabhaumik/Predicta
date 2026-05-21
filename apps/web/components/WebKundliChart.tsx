@@ -20,7 +20,6 @@ import {
   getChartReadingNote,
   getChartRole,
   getSpecialPointMeaning,
-  isSpecialPoint,
   NORTH_INDIAN_CHART_LINE_PATHS,
   NORTH_INDIAN_HOUSE_POLYGONS,
   shouldUseStandardHouseMeaning,
@@ -33,6 +32,7 @@ import type {
   BirthDetails,
   ChartData,
   ChartType,
+  PlanetPosition,
   SupportedLanguage,
 } from '@pridicta/types';
 import Link from 'next/link';
@@ -88,6 +88,7 @@ export function WebKundliChart({
         birthDetails,
         chart,
         language: chartLanguage,
+        presentation: 'default',
         school: schoolOverride,
       }),
     [birthDetails, chart, chartLanguage, schoolOverride],
@@ -102,7 +103,7 @@ export function WebKundliChart({
   const chartRole = chartRoleOverride ?? getChartRole(chart.chartType);
   const readingNote = readingNoteOverride ?? getChartReadingNote(chart.chartType);
   const isD1 = shouldUseStandardHouseMeaning(chart.chartType);
-  const activeSpecialPoints = activeCell?.planetPositions.filter(isSpecialPoint) ?? [];
+  const activeSupportingPoints = activeCell?.supportingPoints ?? [];
 
   function selectHouse(house?: number) {
     if (!house) {
@@ -181,25 +182,38 @@ export function WebKundliChart({
             />
           ))}
         </svg>
-        {cells.map(cell => (
-          <button
-            aria-label={cell.ariaLabel}
-            aria-pressed={activeCell?.house === cell.house}
-            aria-describedby={chartInstructionsId}
-            className={`north-house north-house-${cell.house} ${
-              activeCell?.house === cell.house ? 'selected' : ''
-            }`}
-            key={`${cell.key}-target`}
-            onBlur={() => setHoveredHouse(undefined)}
-            onClick={() => selectHouse(cell.house)}
-            onFocus={() => setHoveredHouse(cell.house)}
-            onMouseEnter={() => setHoveredHouse(cell.house)}
-            onMouseLeave={() => setHoveredHouse(undefined)}
-            type="button"
-          >
-            <span className="sr-only">{cell.ariaLabel}</span>
-          </button>
-        ))}
+        <svg
+          aria-label={translateUiText('House selection layer', appLanguage)}
+          className="north-house-hit-layer"
+          preserveAspectRatio="none"
+          viewBox="0 0 100 100"
+        >
+          {cells.map(cell => (
+            <polygon
+              aria-describedby={chartInstructionsId}
+              aria-label={cell.ariaLabel}
+              aria-pressed={activeCell?.house === cell.house}
+              className={`north-house-target ${
+                activeCell?.house === cell.house ? 'selected' : ''
+              }`}
+              key={`${cell.key}-target`}
+              onBlur={() => setHoveredHouse(undefined)}
+              onClick={() => selectHouse(cell.house)}
+              onFocus={() => setHoveredHouse(cell.house)}
+              onKeyDown={event => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  selectHouse(cell.house);
+                }
+              }}
+              onMouseEnter={() => setHoveredHouse(cell.house)}
+              onMouseLeave={() => setHoveredHouse(undefined)}
+              points={getNorthHousePolygonPoints(cell.house)}
+              role="button"
+              tabIndex={0}
+            />
+          ))}
+        </svg>
         {cells.map((cell, index) => (
           <div
             aria-hidden
@@ -306,8 +320,13 @@ export function WebKundliChart({
               )}
             </h3>
             <p>
-              {activeCell.planets.length
+              {activeCell.renderPlanets.length
                 ? formatPlanetsHere(activeCell, chartLanguage)
+                : activeSupportingPoints.length
+                ? translateUiText(
+                    'No core grahas occupy this sign in the primary reading. Supporting refinements are available below.',
+                    chartLanguage,
+                  )
                 : translateUiText(
                     'No planets occupy this sign in the preview chart.',
                     chartLanguage,
@@ -342,16 +361,6 @@ export function WebKundliChart({
                   : formatReadWithD1(chart.chartType, chartLanguage)}
               </strong>
             </div>
-            {activeSpecialPoints.length ? (
-              <div>
-                <span>{translateUiText('Subtle points', appLanguage)}</span>
-                <strong>
-                  {activeSpecialPoints
-                    .map(point => `${point.name}: ${getSpecialPointMeaning(point)}`)
-                    .join('; ')}
-                </strong>
-              </div>
-            ) : null}
           </div>
           <div className="drilldown-actions">
             <StatusPill
@@ -371,7 +380,7 @@ export function WebKundliChart({
               {translateUiText('Ask Predicta', appLanguage)}
             </Link>
           </div>
-          {activeCell.planets.length ? (
+          {activeCell.renderPlanets.length ? (
             <div
               className="planet-chip-row planet-chip-row-static"
               aria-label={translateUiText('Planets in selected house', appLanguage)}
@@ -380,6 +389,33 @@ export function WebKundliChart({
                 <span key={planet.key}>{planet.displayName}</span>
               ))}
             </div>
+          ) : null}
+          {activeSupportingPoints.length ? (
+            <details className="chart-supporting-points-drawer">
+              <summary>
+                <span>{translateUiText('Advanced refinements', appLanguage)}</span>
+                <strong>
+                  {formatSupportingPointCount(
+                    activeSupportingPoints.length,
+                    appLanguage,
+                  )}
+                </strong>
+              </summary>
+              <p>
+                {translateUiText(
+                  'These secondary markers can refine the reading, but the primary Vedic view stays anchored in the core grahas first.',
+                  chartLanguage,
+                )}
+              </p>
+              <ul>
+                {activeSupportingPoints.map(point => (
+                  <li key={`${point.name}-${point.degree.toFixed(3)}`}>
+                    <strong>{localizePlanetName(point.name, chartLanguage)}</strong>{' '}
+                    <span>{localizeSupportingPointMeaning(point, chartLanguage)}</span>
+                  </li>
+                ))}
+              </ul>
+            </details>
           ) : null}
           {!isD1 || readingNoteOverride ? (
             <p className="varga-reading-note">
@@ -602,6 +638,65 @@ function formatPlanetsHere(
   const names = cell.renderPlanets.map(planet => planet.displayName).join(', ');
   const prefix = translateUiText('Planets here:', language);
   return `${prefix} ${names}.`;
+}
+
+function formatSupportingPointCount(
+  count: number,
+  language: SupportedLanguage,
+): string {
+  if (language === 'hi') {
+    return `${count} सहायक बिंदु`;
+  }
+
+  if (language === 'gu') {
+    return `${count} સહાયક બિંદુ`;
+  }
+
+  return `${count} refinement${count === 1 ? '' : 's'}`;
+}
+
+function localizePlanetName(
+  name: string,
+  language: SupportedLanguage,
+): string {
+  return PLANET_NAME_TRANSLATIONS[name]?.[language] ?? name;
+}
+
+function localizeSupportingPointMeaning(
+  point: PlanetPosition,
+  language: SupportedLanguage,
+): string {
+  const meaning = point.simpleMeaning ?? getSpecialPointMeaning(point);
+
+  if (language === 'hi') {
+    return meaning
+      .replace('imagination, devotion, confusion, subtle sensitivity, and spiritual longing', 'कल्पना, भक्ति, भ्रम, सूक्ष्म संवेदनशीलता और आध्यात्मिक खिंचाव')
+      .replace('deep pressure, power, transformation, buried intensity, and rebirth', 'गहरा दबाव, शक्ति, परिवर्तन, छिपी तीव्रता और पुनर्जन्म विषय')
+      .replace('sudden change, innovation, disruption, independence, and unusual breaks', 'अचानक बदलाव, नवाचार, व्यवधान, स्वतंत्रता और असामान्य मोड़')
+      .replace('detachment, simplification, separation, and subtle correction', 'विरक्ति, सरलता, अलगाव और सूक्ष्म सुधार')
+      .replace('reversal, imbalance, unexpected turns, and avoiding extremes', 'उलटफेर, असंतुलन, अचानक मोड़ और अतियों से बचाव')
+      .replace('enclosure, protection, boundaries, and contained patterns', 'घेरा, सुरक्षा, सीमाएं और सीमित पैटर्न')
+      .replace('heat, smoke, pressure, obscurity, and hidden friction', 'गरमी, धुंध, दबाव, अस्पष्टता और छिपा घर्षण')
+      .replace('desire, projection, atmosphere, and misleading appearances', 'इच्छा, प्रक्षेपण, माहौल और भ्रमित करने वाली छवि')
+      .replace('karmic pressure, discipline, difficult residue, and extra maturity', 'कर्मिक दबाव, अनुशासन, कठिन अवशेष और अतिरिक्त परिपक्वता')
+      .replace('karmic heaviness, delay, caution, and humility lessons', 'कर्मिक भारीपन, देरी, सावधानी और विनम्रता के पाठ');
+  }
+
+  if (language === 'gu') {
+    return meaning
+      .replace('imagination, devotion, confusion, subtle sensitivity, and spiritual longing', 'કલ્પના, ભક્તિ, ગૂંચવણ, સૂક્ષ્મ સંવેદનશીલતા અને આધ્યાત્મિક ખેંચાણ')
+      .replace('deep pressure, power, transformation, buried intensity, and rebirth', 'ઊંડો દબાવ, શક્તિ, રૂપાંતર, દબાયેલી તીવ્રતા અને પુનર્જન્મના વિષયો')
+      .replace('sudden change, innovation, disruption, independence, and unusual breaks', 'અચાનક ફેરફાર, નવીનતા, અવરોધ, સ્વતંત્રતા અને અસામાન્ય વળાંકો')
+      .replace('detachment, simplification, separation, and subtle correction', 'અલિપ્તતા, સરળતા, અલગાવ અને સૂક્ષ્મ સુધારો')
+      .replace('reversal, imbalance, unexpected turns, and avoiding extremes', 'ઉલટફેર, અસંતુલન, અચાનક વળાંકો અને અતિરેકથી બચવું')
+      .replace('enclosure, protection, boundaries, and contained patterns', 'ઘેરાવ, સુરક્ષા, સીમાઓ અને બંધાયેલા પેટર્ન')
+      .replace('heat, smoke, pressure, obscurity, and hidden friction', 'ગરમી, ધુમ્મસ, દબાવ, અસ્પષ્ટતા અને છુપાયેલું ઘર્ષણ')
+      .replace('desire, projection, atmosphere, and misleading appearances', 'ઇચ્છા, પ્રક્ષેપણ, વાતાવરણ અને ભ્રમિત દેખાવ')
+      .replace('karmic pressure, discipline, difficult residue, and extra maturity', 'કર્મદબાવ, શિસ્ત, કઠિન અવશેષ અને વધારાની પરિપક્વતા')
+      .replace('karmic heaviness, delay, caution, and humility lessons', 'કર્મિક ભાર, વિલંબ, સાવચેતી અને વિનમ્રતાના પાઠ');
+  }
+
+  return meaning;
 }
 
 function formatReadWithD1(chartType: ChartType, language: SupportedLanguage): string {
@@ -879,8 +974,11 @@ export function ChartLegend({
       data-kundli-animation-surface={animationSurface}
       style={getKundliAnimationSurfaceProps(animationSurface).style}
     >
-      {items.map(item => (
-        <span className={`chart-legend-item ${item.tone}`} key={item.code}>
+      {items.map((item, index) => (
+        <span
+          className={`chart-legend-item ${item.tone}`}
+          key={`${item.code}-${item.description}-${index}`}
+        >
           <b>{item.code}</b>
           <span>{item.description}</span>
         </span>

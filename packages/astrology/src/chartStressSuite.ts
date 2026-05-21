@@ -91,6 +91,8 @@ export function runChartStressSuite(): ChartStressSuiteResult {
     stressCase('house hit map resolves every house center', assertHouseHitMap),
     stressCase('Bhaumik D1 planets stay in expected houses', assertBhaumikD1),
     stressCase('Bhaumik D1 signs stay in expected houses', assertBhaumikD1Signs),
+    stressCase('default Vedic D1 hides outer and subtle supporting points', assertDefaultVedicD1HidesSupportingPoints),
+    stressCase('full Vedic D1 can still expose supporting points when asked', assertFullVedicD1KeepsSupportingPoints),
     stressCase('Chalit renderer respects explicit house delivery', assertBhaumikChalit),
     ...[2, 6, 8, 11, 12].map(house =>
       stressCase(`7 planets stay bounded in tight house ${house}`, () =>
@@ -188,6 +190,70 @@ function assertBhaumikD1Signs(): void {
     assert(cell !== undefined, `Missing chart cell for house ${house}.`);
     assert(cell.sign === expectedSign, `House ${house} sign expected ${expectedSign}, received ${cell.sign}.`);
   }
+}
+
+function assertDefaultVedicD1HidesSupportingPoints(): void {
+  const chart = makeChart({
+    ascendantSign: 'Leo',
+    chartType: 'D1',
+    name: 'Rashi Chart',
+    planets: [
+      makePlanet({ absoluteLongitude: 125.5, degree: 5.5, house: 1, name: 'Sun', sign: 'Leo' }),
+      makePlanet({ absoluteLongitude: 126.5, degree: 6.5, house: 1, kind: 'modern', name: 'Uranus', sign: 'Leo' }),
+      makePlanet({ absoluteLongitude: 127.5, degree: 7.5, house: 1, kind: 'sensitive', name: 'Dhuma', sign: 'Leo' }),
+    ],
+  });
+  const renderModel = buildChartRenderModel({
+    birthDetails: BASE_BIRTH_DETAILS,
+    chart,
+  });
+  const cell = renderModel.cells.find(item => item.house === 1);
+
+  assert(cell !== undefined, 'Missing D1 test cell for house 1.');
+  assertEqual(
+    cell.renderPlanets.map(planet => planet.name),
+    ['Sun'],
+    'Default Vedic D1 should keep only core grahas in the primary layer.',
+  );
+  assertEqual(
+    cell.supportingPoints.map(planet => planet.name),
+    ['Uranus', 'Dhuma'],
+    'Supporting points must move into the secondary layer instead of disappearing.',
+  );
+  assert(
+    !renderModel.legend.some(item => /outer|upagraha/i.test(item.description)),
+    'Default Vedic D1 legend must not advertise hidden supporting layers.',
+  );
+}
+
+function assertFullVedicD1KeepsSupportingPoints(): void {
+  const chart = makeChart({
+    ascendantSign: 'Leo',
+    chartType: 'D1',
+    name: 'Rashi Chart',
+    planets: [
+      makePlanet({ absoluteLongitude: 125.5, degree: 5.5, house: 1, name: 'Sun', sign: 'Leo' }),
+      makePlanet({ absoluteLongitude: 126.5, degree: 6.5, house: 1, kind: 'modern', name: 'Uranus', sign: 'Leo' }),
+      makePlanet({ absoluteLongitude: 127.5, degree: 7.5, house: 1, kind: 'sensitive', name: 'Dhuma', sign: 'Leo' }),
+    ],
+  });
+  const renderModel = buildChartRenderModel({
+    birthDetails: BASE_BIRTH_DETAILS,
+    chart,
+    presentation: 'full',
+  });
+  const cell = renderModel.cells.find(item => item.house === 1);
+
+  assert(cell !== undefined, 'Missing full-presentation D1 test cell for house 1.');
+  assertEqual(
+    cell.renderPlanets.map(planet => planet.name),
+    ['Sun', 'Uranus', 'Dhuma'],
+    'Full D1 presentation should retain supporting points when an advanced surface asks for them.',
+  );
+  assert(
+    renderModel.legend.some(item => /outer|बाहरी|બાહ્ય/i.test(item.code)),
+    'Full D1 presentation should restore the outer-planet legend when modern points are visible.',
+  );
 }
 
 function assertBhaumikChalit(): void {
@@ -347,6 +413,7 @@ function makePlanet({
   absoluteLongitude,
   degree,
   house,
+  kind = 'classical',
   name,
   retrograde = false,
   sign,
@@ -354,6 +421,7 @@ function makePlanet({
   absoluteLongitude: number;
   degree: number;
   house: number;
+  kind?: PlanetPosition['kind'];
   name: string;
   retrograde?: boolean;
   sign: string;
@@ -362,6 +430,7 @@ function makePlanet({
     absoluteLongitude,
     degree,
     house,
+    kind,
     nakshatra: 'Test Nakshatra',
     name,
     pada: 1,

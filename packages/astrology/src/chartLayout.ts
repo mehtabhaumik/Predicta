@@ -7,6 +7,7 @@ import type {
 } from '@pridicta/types';
 import type { MoonNakshatraPadaInsight } from './moonNakshatraPada';
 import { buildChartMoonNakshatraPadaInsight, getPadaMeaning } from './moonNakshatraPada';
+import { isSpecialPoint } from './specialPoints';
 
 export type ChartRenderSchool = 'KP' | 'NADI' | 'PARASHARI';
 
@@ -59,6 +60,7 @@ export type ChartRenderCell = ChartCell & {
   hasManyPlanets: boolean;
   labelDensity: 'compact' | 'normal' | 'stacked';
   renderPlanets: ChartRenderPlanet[];
+  supportingPoints: PlanetPosition[];
 };
 
 export type ChartRenderLegendItem = {
@@ -74,6 +76,8 @@ export type ChartRenderTheme =
   | 'sunrise'
   | 'sunset'
   | 'unknown';
+
+export type ChartRenderPresentation = 'default' | 'full';
 
 export type ChartRenderModel = {
   cells: ChartRenderCell[];
@@ -93,6 +97,7 @@ export type BuildChartRenderModelOptions = {
   birthDetails?: BirthDetails;
   chart: ChartData;
   language?: SupportedLanguage;
+  presentation?: ChartRenderPresentation;
   school?: ChartRenderSchool;
 };
 
@@ -445,6 +450,7 @@ export function buildChartRenderModel({
   birthDetails,
   chart,
   language = 'en',
+  presentation = 'default',
   school = detectChartRenderSchool(chart),
 }: BuildChartRenderModelOptions): ChartRenderModel {
   const ascendantIndex = SIGNS.indexOf(chart.ascendantSign as (typeof SIGNS)[number]);
@@ -472,11 +478,24 @@ export function buildChartRenderModel({
         : SIGNS[index];
     const position = NORTH_INDIAN_HOUSE_POSITIONS[house];
     const planetPositions = planetsByHouse[house] ?? [];
+    const supportingPoints = planetPositions.filter(planet =>
+      shouldHideSupportingPoint({
+        chart,
+        planet,
+        presentation,
+        school,
+      }),
+    );
+    const visiblePlanetPositions = planetPositions.filter(
+      planet => !supportingPoints.includes(planet),
+    );
     const planets =
-      planetPositions.length > 0
-        ? planetPositions.map(planet => planet.name)
-        : chart.housePlacements[house] ?? chart.signPlacements[sign] ?? [];
-    const renderPlanets = planetPositions.map(planet =>
+      visiblePlanetPositions.length > 0
+        ? visiblePlanetPositions.map(planet => planet.name)
+        : planetPositions.length === 0
+          ? chart.housePlacements[house] ?? chart.signPlacements[sign] ?? []
+          : [];
+    const renderPlanets = visiblePlanetPositions.map(planet =>
       buildChartRenderPlanet(planet, chart, language),
     );
     const labelDensity = getCellLabelDensity(house, renderPlanets.length);
@@ -485,7 +504,8 @@ export function buildChartRenderModel({
       ariaLabel: buildChartCellAriaLabel({
         house,
         language,
-        planetPositions,
+        planetPositions: visiblePlanetPositions,
+        supportingPointCount: supportingPoints.length,
         sign,
       }),
       col: position.col,
@@ -493,11 +513,12 @@ export function buildChartRenderModel({
       house,
       key: `house-${house}`,
       labelDensity,
-      planetPositions,
+      planetPositions: visiblePlanetPositions,
       planets,
       renderPlanets,
       row: position.row,
       sign,
+      supportingPoints,
       displaySign: getLocalizedSignName(sign, language),
       signGlyph: SIGN_GLYPHS[sign],
       signNumber: SIGNS.indexOf(sign as (typeof SIGNS)[number]) + 1,
@@ -575,25 +596,31 @@ function buildChartCellAriaLabel({
   house,
   language,
   planetPositions,
+  supportingPointCount = 0,
   sign,
 }: {
   house: number;
   language: SupportedLanguage;
   planetPositions: PlanetPosition[];
+  supportingPointCount?: number;
   sign: string;
 }): string {
   const displaySign = getLocalizedSignName(sign, language);
+  const supportingHint =
+    supportingPointCount > 0
+      ? getSupportingPointAvailabilityHint(language, supportingPointCount)
+      : '';
 
   if (!planetPositions.length) {
     if (language === 'hi') {
-      return `भाव ${house} चुनें, ${displaySign}, खाली`;
+      return `भाव ${house} चुनें, ${displaySign}, खाली${supportingHint}`;
     }
 
     if (language === 'gu') {
-      return `ભાવ ${house} પસંદ કરો, ${displaySign}, ખાલી`;
+      return `ભાવ ${house} પસંદ કરો, ${displaySign}, ખાલી${supportingHint}`;
     }
 
-    return `Select House ${house}, ${displaySign}, empty`;
+    return `Select House ${house}, ${displaySign}, empty${supportingHint}`;
   }
 
   const planetSummary = planetPositions
@@ -621,14 +648,29 @@ function buildChartCellAriaLabel({
     .join(', ');
 
   if (language === 'hi') {
-    return `भाव ${house} चुनें, ${displaySign}, ${planetSummary}`;
+    return `भाव ${house} चुनें, ${displaySign}, ${planetSummary}${supportingHint}`;
   }
 
   if (language === 'gu') {
-    return `ભાવ ${house} પસંદ કરો, ${displaySign}, ${planetSummary}`;
+    return `ભાવ ${house} પસંદ કરો, ${displaySign}, ${planetSummary}${supportingHint}`;
   }
 
-  return `Select House ${house}, ${displaySign}, ${planetSummary}`;
+  return `Select House ${house}, ${displaySign}, ${planetSummary}${supportingHint}`;
+}
+
+function getSupportingPointAvailabilityHint(
+  language: SupportedLanguage,
+  count: number,
+): string {
+  if (language === 'hi') {
+    return `, ${count} सहायक सूक्ष्म बिंदु उपलब्ध`;
+  }
+
+  if (language === 'gu') {
+    return `, ${count} સહાયક સૂક્ષ્મ બિંદુ ઉપલબ્ધ`;
+  }
+
+  return `, ${count} supporting refinement${count === 1 ? '' : 's'} available`;
 }
 
 function getCellLabelDensity(
@@ -866,6 +908,28 @@ function deriveHouseFromSign(sign: string, ascendantIndex: number): number | und
 
 function isHouseDeliveryChart(chart: ChartData): boolean {
   return /chalit/i.test(chart.name);
+}
+
+function shouldHideSupportingPoint({
+  chart,
+  planet,
+  presentation,
+  school,
+}: {
+  chart: ChartData;
+  planet: PlanetPosition;
+  presentation: ChartRenderPresentation;
+  school: ChartRenderSchool;
+}): boolean {
+  if (presentation === 'full') {
+    return false;
+  }
+
+  if (school !== 'PARASHARI' || chart.chartType !== 'D1') {
+    return false;
+  }
+
+  return isSpecialPoint(planet);
 }
 
 export function findNorthIndianHouseAtPoint(

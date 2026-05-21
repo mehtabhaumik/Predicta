@@ -398,6 +398,11 @@ export function WebKundliWizard(): React.JSX.Element {
         />
       ) : null}
 
+      <KundliRouteHeader
+        editingKundliName={editingKundliName}
+        kundli={kundli}
+      />
+
       {shouldShowReadyFirst ? readyFlow : null}
 
       <section
@@ -510,7 +515,7 @@ export function WebKundliWizard(): React.JSX.Element {
                     </button>
                   );
                 })}
-                {isSearchingPlaces ? <em>Searching places...</em> : null}
+                {isSearchingPlaces ? <em>{labels.searchingPlaces}</em> : null}
               </div>
             </div>
           </label>
@@ -525,17 +530,14 @@ export function WebKundliWizard(): React.JSX.Element {
             }}
             type="checkbox"
           />
-          Birth time is approximate
+          {labels.birthTimeApproximate}
         </label>
 
         {error ? <p className="form-error">{error}</p> : null}
         {showStorageNudge ? (
           <div className="guest-storage-nudge">
-            <strong>Protect more Kundlis with sign-in</strong>
-            <p>
-              You can keep one Kundli as a guest. Sign in before adding family
-              profiles, multiple saved chats, or report preferences.
-            </p>
+            <strong>{labels.guestLimitTitle}</strong>
+            <p>{labels.guestLimitError}</p>
             <AuthDialog />
           </div>
         ) : null}
@@ -547,10 +549,10 @@ export function WebKundliWizard(): React.JSX.Element {
             onClick={requestGeneration}
             type="button"
           >
-            {isGenerating ? 'Calculating...' : 'Continue'}
+            {isGenerating ? labels.calculating : labels.continueLabel}
           </button>
           <button className="button secondary" onClick={fillExample} type="button">
-            Fill Example
+            {labels.fillExample}
           </button>
         </div>
       </section>
@@ -699,6 +701,11 @@ function KundliReadyFlow({
             <div>
               <div className="section-title">ACTIVE KUNDLI</div>
               <h2>{kundli.birthDetails.name || 'Your Kundli'} is ready.</h2>
+              <p className="kundli-priority-copy">
+                Start with one guided reading first. The chart below keeps the
+                core Vedic grahas in front and keeps supporting refinements
+                secondary.
+              </p>
             </div>
             <Link
               className="button secondary"
@@ -712,6 +719,10 @@ function KundliReadyFlow({
               Ask Predicta
             </Link>
           </div>
+          <KundliProofStrip
+            birthDetails={kundli.birthDetails}
+            creationNote={creationNote}
+          />
           <WebKundliChart
             birthDetails={kundli.birthDetails}
             chart={kundli.charts.D1}
@@ -767,15 +778,17 @@ function KundliReadyFlow({
         </div>
         <div className="kundli-next-step-panel">
           <div>
-            <h3>What would you like to see next?</h3>
+            <div className="section-title">NEXT STEP</div>
+            <h3>Start with Predicta first.</h3>
             <p>
-              Predicta can now read this Kundli across today, timing, charts,
-              remedies, and reports.
+              One guided reading is the fastest way to turn this chart into a
+              clear starting point. Open the deeper tools only after that first
+              read.
             </p>
           </div>
-          <div className="kundli-next-step-grid">
+          <div className="kundli-next-step-actions">
             <Link
-              className="quick-action primary"
+              className="button"
               href={buildPredictaChatHref({
                 kundli,
                 prompt:
@@ -783,35 +796,115 @@ function KundliReadyFlow({
                 sourceScreen: 'Kundli Created',
               })}
             >
-              <strong>Ask Predicta first</strong>
-              <span>Start with a guided reading.</span>
+              Ask Predicta first
             </Link>
-            <Link className="quick-action" href="/dashboard">
-              <strong>Today for me</strong>
-              <span>See Gochar and daily guidance.</span>
+            <Link className="button secondary" href="/dashboard/charts">
+              Open charts
             </Link>
-            <Link className="quick-action" href="/dashboard/charts">
-              <strong>Open charts</strong>
-              <span>See D1, D9, D10, and more.</span>
-            </Link>
-            <Link className="quick-action" href="/dashboard/timeline">
-              <strong>Timing map</strong>
-              <span>Dasha, Sade Sati, and yearly timing.</span>
-            </Link>
-            <Link className="quick-action" href="/dashboard/report">
-              <strong>Create report</strong>
-              <span>Make a free or premium PDF.</span>
-            </Link>
-            <Link className="quick-action" href="/dashboard/remedies">
-              <strong>Remedies</strong>
-              <span>Get karma-based practices.</span>
-            </Link>
+          </div>
+          <div className="kundli-secondary-links">
+            <Link href="/dashboard">Today for me</Link>
+            <Link href="/dashboard/timeline">Timing map</Link>
+            <Link href="/dashboard/report">Create report</Link>
+            <Link href="/dashboard/remedies">Remedies</Link>
           </div>
         </div>
       </div>
 
       <WebDestinyPassportCard passport={composeDestinyPassport(kundli)} />
     </section>
+  );
+}
+
+function KundliRouteHeader({
+  editingKundliName,
+  kundli,
+}: {
+  editingKundliName?: string;
+  kundli?: KundliData;
+}): React.JSX.Element {
+  const isEditing = Boolean(editingKundliName);
+  const isReady = Boolean(kundli && !editingKundliName);
+
+  return (
+    <section className="page-heading compact kundli-route-heading">
+      <div className="section-title">
+        {isEditing ? 'REVIEW SAVED KUNDLI' : isReady ? 'ACTIVE KUNDLI' : 'KUNDLI SETUP'}
+      </div>
+      <h1 className="gradient-text">
+        {isEditing
+          ? `Review ${editingKundliName}'s birth details carefully.`
+          : isReady
+          ? `${kundli?.birthDetails.name || 'Your'} Kundli is ready.`
+          : 'Create your Kundli carefully.'}
+      </h1>
+      <p>
+        {isEditing
+          ? 'Any change to birth date, time, or place recalculates the chart. Confirm only after the details look exact.'
+          : isReady
+          ? 'Start from one guided reading, then move deeper into charts, timing, reports, or remedies.'
+          : 'Match the birth place, confirm the timezone, and review the final birth details before Predicta calculates the chart.'}
+      </p>
+      <details className="info-drawer">
+        <summary>
+          <span>
+            {isEditing
+              ? 'How updates work'
+              : isReady
+              ? 'Why this chart is trustworthy'
+              : 'What happens after creation'}
+          </span>
+          <strong>Open</strong>
+        </summary>
+        <p>
+          {isEditing
+            ? 'Updating a saved Kundli recalculates the chart from the edited details. Save as new only when you intentionally want two separate records.'
+            : isReady
+            ? 'The chart uses the matched place, coordinates, and timezone from the selected city. The primary Vedic view keeps core grahas first and moves supporting refinements into a secondary layer.'
+            : 'Predicta matches the selected birth place to coordinates and timezone, asks for confirmation before calculation, and then moves you into an active-reading state instead of leaving you inside a setup-only page.'}
+        </p>
+      </details>
+    </section>
+  );
+}
+
+function KundliProofStrip({
+  birthDetails,
+  creationNote,
+}: {
+  birthDetails?: BirthDetails;
+  creationNote: CreationNote;
+}): React.JSX.Element {
+  return (
+    <div className="kundli-proof-strip">
+      <div>
+        <span>Birth place</span>
+        <strong>{birthDetails?.place ?? 'Matched city selected'}</strong>
+        <small>{birthDetails?.timezone ?? 'Timezone locked before calculation'}</small>
+      </div>
+      <div>
+        <span>Time basis</span>
+        <strong>
+          {creationNote.mode === 'corrected'
+            ? `Probable corrected time ${creationNote.probableTime}`
+            : isRectifiedBirthDetails(birthDetails)
+            ? `Saved rectified time ${birthDetails?.time ?? ''}`.trim()
+            : `Confirmed entered time ${birthDetails?.time ?? ''}`.trim()}
+        </strong>
+        <small>
+          {creationNote.mode === 'corrected'
+            ? `Original entry ${creationNote.originalTime}`
+            : isRectifiedBirthDetails(birthDetails)
+            ? 'This saved Kundli already carries a rectified-time note'
+            : 'No correction layer was applied'}
+        </small>
+      </div>
+      <div>
+        <span>Chart method</span>
+        <strong>Core Vedic grahas first</strong>
+        <small>Advanced refinements stay secondary on the first reading</small>
+      </div>
+    </div>
   );
 }
 
@@ -928,8 +1021,8 @@ function Detail({
   );
 }
 
-function isRectifiedBirthDetails(birthDetails: BirthDetails): boolean {
-  return birthDetails.timeConfidence === 'rectified';
+function isRectifiedBirthDetails(birthDetails?: BirthDetails): boolean {
+  return birthDetails?.timeConfidence === 'rectified';
 }
 
 function KundliCreationDialog({
@@ -1003,7 +1096,7 @@ function KundliCreationReveal({
     >
       <div className="kundli-creation-copy">
         <div className="section-title">KUNDLI CREATED</div>
-        <h2>The chart is laid out.</h2>
+        <h2>Your Kundli is ready.</h2>
         {creationNote.mode === 'corrected' ? (
           <p>
             This Kundli uses a probable corrected birth time of{' '}
@@ -1017,6 +1110,7 @@ function KundliCreationReveal({
           </p>
         )}
       </div>
+      <KundliProofStrip birthDetails={birthDetails} creationNote={creationNote} />
       <div className="kundli-created-chart-full">
         <WebKundliChart
           animationSurface="creation"
@@ -1062,6 +1156,9 @@ function normalizeBirthPlaceLabel(value?: string): string {
 }
 
 type KundliWizardCopy = {
+  birthTimeApproximate: string;
+  calculating: string;
+  continueLabel: string;
   createAnotherBirthDetailsBody: string;
   createAnotherKundli: string;
   createAnotherKundliStep: string;
@@ -1070,12 +1167,18 @@ type KundliWizardCopy = {
   editBirthDetailsBody: string;
   editSavedKundli: string;
   enterBirthDetails: string;
+  fillExample: string;
   reviewBirthDetails: (name: string) => string;
   guestLimitError: string;
+  guestLimitTitle: string;
+  searchingPlaces: string;
 };
 
 const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
   en: {
+    birthTimeApproximate: 'Birth time is approximate',
+    calculating: 'Calculating...',
+    continueLabel: 'Continue',
     createAnotherBirthDetailsBody:
       'Your active Kundli stays above. Use this only when you want to create another chart.',
     createAnotherKundli: 'Create another Kundli only when needed.',
@@ -1087,11 +1190,17 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
       'Change only what is wrong, then confirm before Predicta recalculates the Kundli.',
     editSavedKundli: 'EDIT SAVED KUNDLI',
     enterBirthDetails: 'Enter birth details in order.',
+    fillExample: 'Fill Example',
     guestLimitError:
       'Your first Kundli is safe here. Please sign in before adding another Kundli, so family profiles and future edits stay protected.',
+    guestLimitTitle: 'Protect more Kundlis with sign-in',
     reviewBirthDetails: name => `Review ${name}'s birth details.`,
+    searchingPlaces: 'Searching places...',
   },
   hi: {
+    birthTimeApproximate: 'जन्म समय अनुमानित है',
+    calculating: 'गणना हो रही है...',
+    continueLabel: 'आगे बढ़ें',
     createAnotherBirthDetailsBody:
       'आपकी सक्रिय कुंडली ऊपर रहेगी. नया चार्ट बनाना हो तभी यह इस्तेमाल करें.',
     createAnotherKundli: 'जरूरत हो तभी दूसरी कुंडली बनाएं.',
@@ -1103,11 +1212,17 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
       'सिर्फ गलत विवरण बदलें, फिर प्रेडिक्टा कुंडली दोबारा गणना करने से पहले पुष्टि लेगी.',
     editSavedKundli: 'सेव कुंडली संपादित करें',
     enterBirthDetails: 'जन्म विवरण क्रम से भरें.',
+    fillExample: 'उदाहरण भरें',
     guestLimitError:
       'आपकी पहली कुंडली इस डिवाइस पर सेव है. दूसरी कुंडली जोड़ने से पहले साइन इन करें, ताकि परिवार प्रोफाइल और आगे के बदलाव सुरक्षित रहें.',
+    guestLimitTitle: 'अधिक कुंडलियां सुरक्षित रखने के लिए साइन इन करें',
     reviewBirthDetails: name => `${name} के जन्म विवरण जांचें.`,
+    searchingPlaces: 'स्थान खोजे जा रहे हैं...',
   },
   gu: {
+    birthTimeApproximate: 'જન્મ સમય અંદાજિત છે',
+    calculating: 'ગણતરી થઈ રહી છે...',
+    continueLabel: 'આગળ વધો',
     createAnotherBirthDetailsBody:
       'તમારી સક્રિય કુંડળી ઉપર રહેશે. બીજો ચાર્ટ બનાવવો હોય ત્યારે જ આ વાપરો.',
     createAnotherKundli: 'જરૂર હોય ત્યારે જ બીજી કુંડળી બનાવો.',
@@ -1119,8 +1234,11 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
       'માત્ર ખોટી વિગતો બદલો, પછી પ્રેડિક્ટા કુંડળી ફરી ગણતા પહેલાં ખાતરી કરશે.',
     editSavedKundli: 'સાચવેલી કુંડળી સંપાદિત કરો',
     enterBirthDetails: 'જન્મ વિગતો ક્રમથી ભરો.',
+    fillExample: 'ઉદાહરણ भरो',
     guestLimitError:
       'તમારી પહેલી કુંડળી આ ડિવાઇસ પર સેવ છે. બીજી કુંડળી ઉમેરતા પહેલાં સાઇન ઇન કરો, જેથી પરિવાર પ્રોફાઇલ અને આગળના ફેરફારો સુરક્ષિત રહે.',
+    guestLimitTitle: 'વધુ કુંડળીઓ સુરક્ષિત રાખવા સાઇન ઇન કરો',
     reviewBirthDetails: name => `${name} ની જન્મ વિગતો તપાસો.`,
+    searchingPlaces: 'સ્થળો શોધાઈ રહ્યા છે...',
   },
 };
