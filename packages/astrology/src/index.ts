@@ -21,6 +21,7 @@ export * from './kundliChatCommands';
 export * from './lifeTimeline';
 export * from './mahadashaIntelligence';
 export * from './manualBirthTimeRectification';
+export * from './matchmakingAnalysis';
 export * from './moonNakshatraPada';
 export * from './nadiJyotishPlan';
 export * from './numerologyFoundationModel';

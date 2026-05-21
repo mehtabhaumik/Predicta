@@ -673,6 +673,9 @@ function FamilyVaultCard({
           <Link className="button secondary" href="/dashboard/family">
             {labels.goToFamilyVault}
           </Link>
+          <Link className="button secondary" href="/dashboard/matchmaking">
+            {labels.openMatchmaking}
+          </Link>
         </div>
       </div>
     </Card>
@@ -734,6 +737,7 @@ type KundliLibraryCopy = {
   libraryEyebrow: string;
   overviewLabel: string;
   openFullFlow: (school: ChartRenderSchool) => string;
+  openMatchmaking: string;
   pageBody: string;
   pageTitle: string;
   personalBody: (activeName?: string) => string;
@@ -841,6 +845,7 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
         : school === 'KP'
           ? 'Open KP Room'
           : 'Open Nadi Room',
+    openMatchmaking: 'Open Matchmaking',
     pageTitle: 'Kundli Library',
     personalBody: activeName =>
       activeName
@@ -950,6 +955,7 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
         : school === 'KP'
           ? 'कृष्णमूर्ति पद्धति कक्ष खोलें'
           : 'नाड़ी कक्ष खोलें',
+    openMatchmaking: 'विवाह मिलान खोलें',
     pageBody:
       'हर सेव कुंडली यहीं रखें, एक सक्रिय व्यक्तिगत प्रोफाइल चुनें, और सावधानी से पारिवारिक तुलना चाहिए तभी परिवार वॉल्ट खोलें.',
     pageTitle: 'कुंडली लाइब्रेरी',
@@ -1061,6 +1067,7 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
         : school === 'KP'
           ? 'કૃષ્ણમૂર્તિ પદ્ધતિ કક્ષ ખોલો'
           : 'નાડી કક્ષ ખોલો',
+    openMatchmaking: 'લગ્ન મિલાન ખોલો',
     pageBody:
       'દરેક સાચવેલી કુંડળી અહીં રાખો, એક સક્રિય વ્યક્તિગત પ્રોફાઇલ પસંદ કરો, અને સાવચેતીભરી ઘરેલુ તુલના જોઈએ ત્યારે જ પરિવાર વોલ્ટ ખોલો.',
     pageTitle: 'કુંડળી લાઇબ્રેરી',

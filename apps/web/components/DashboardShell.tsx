@@ -111,7 +111,7 @@ function buildDashboardNavModel(
       items: [
         { href: '/dashboard/saved-kundlis', label: labels.nav.savedKundlis },
         { href: '/dashboard/family', label: labels.nav.family },
-        { href: '/dashboard/relationship', label: labels.nav.relationship },
+        { href: '/dashboard/matchmaking', label: labels.nav.relationship },
         { href: '/dashboard/wrapped', label: labels.nav.wrapped },
       ],
     },

@@ -10319,8 +10319,178 @@ button:disabled {
 .family-experience-grid {
   display: grid;
   gap: 16px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   margin-top: 22px;
+}
+
+.matchmaking-panel {
+  display: grid;
+  gap: 22px;
+  margin-top: 22px;
+  padding: clamp(18px, 2.4vw, 28px);
+}
+
+.matchmaking-header {
+  align-items: flex-start;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.42fr);
+}
+
+.matchmaking-header h2 {
+  margin: 8px 0 0;
+}
+
+.matchmaking-header p,
+.matchmaking-score-copy p {
+  margin: 12px 0 0;
+}
+
+.matchmaking-helper,
+.matchmaking-score-panel,
+.matchmaking-premium,
+.matchmaking-selector-card,
+.matchmaking-breakdown-card,
+.matchmaking-summary-card,
+.matchmaking-premium-card {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--border-quiet);
+  border-radius: 18px;
+}
+
+.matchmaking-helper,
+.matchmaking-premium {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+}
+
+.matchmaking-helper span,
+.matchmaking-score-copy .section-title,
+.matchmaking-breakdown-card span,
+.matchmaking-summary-card span,
+.matchmaking-premium-card span,
+.matchmaking-selector-card > span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.matchmaking-note,
+.matchmaking-helper p,
+.matchmaking-breakdown-card p,
+.matchmaking-summary-card p,
+.matchmaking-premium-card p,
+.matchmaking-selector-card p,
+.matchmaking-selector-card small {
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.matchmaking-summary-card ul {
+  color: var(--muted);
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.matchmaking-summary-card li {
+  margin: 0;
+}
+
+.matchmaking-selector-grid,
+.matchmaking-breakdown-grid,
+.matchmaking-summary-grid,
+.matchmaking-premium-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.matchmaking-selector-card,
+.matchmaking-breakdown-card,
+.matchmaking-summary-card,
+.matchmaking-premium-card {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+}
+
+.matchmaking-selector-card.active {
+  border-color: rgba(77, 175, 255, 0.28);
+  box-shadow: 0 0 0 1px rgba(77, 175, 255, 0.1) inset;
+}
+
+.matchmaking-selector-card strong,
+.matchmaking-breakdown-card strong,
+.matchmaking-summary-card strong,
+.matchmaking-premium-card strong,
+.matchmaking-score-copy h3 {
+  color: var(--text);
+  line-height: 1.18;
+}
+
+.matchmaking-selector-card select {
+  background: rgba(9, 14, 24, 0.82);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  padding: 12px 14px;
+  width: 100%;
+}
+
+.matchmaking-score-panel {
+  align-items: center;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(180px, 0.34fr) minmax(0, 1fr);
+  padding: 18px;
+}
+
+.matchmaking-score-ring {
+  align-content: center;
+  aspect-ratio: 1;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(77, 175, 255, 0.22), transparent 42%),
+    radial-gradient(circle at 80% 78%, rgba(246, 190, 92, 0.16), transparent 32%),
+    rgba(6, 10, 18, 0.9);
+  border: 1px solid rgba(77, 175, 255, 0.22);
+  border-radius: 999px;
+  display: grid;
+  justify-items: center;
+  margin-inline: auto;
+  padding: 18px;
+  text-align: center;
+  width: min(180px, 100%);
+}
+
+.matchmaking-score-ring strong {
+  color: var(--text);
+  font-size: clamp(36px, 4.8vw, 56px);
+  line-height: 1;
+}
+
+.matchmaking-score-ring span {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  margin-top: 8px;
+  text-transform: uppercase;
+}
+
+.matchmaking-premium > div:first-child h3,
+.matchmaking-score-copy h3 {
+  margin: 8px 0 0;
+}
+
+.matchmaking-pending-note {
+  color: var(--muted);
+  margin: 0;
 }
 
 .family-experience-tile,
@@ -11834,6 +12004,10 @@ button:disabled {
   .family-map-summary-grid,
   .family-map-theme-grid,
   .family-map-relationship-grid,
+  .matchmaking-selector-grid,
+  .matchmaking-breakdown-grid,
+  .matchmaking-summary-grid,
+  .matchmaking-premium-grid,
   .pair-comparison-grid,
   .pair-comparison-highlights,
   .pair-comparison-premium-grid,
@@ -11926,6 +12100,8 @@ button:disabled {
   }
 
   .family-experience-header,
+  .matchmaking-header,
+  .matchmaking-score-panel,
   .pair-comparison-header,
   .family-map-matrix-row {
     grid-template-columns: 1fr;

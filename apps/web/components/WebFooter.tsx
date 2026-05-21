@@ -47,7 +47,7 @@ const footerCopy: Record<
           { href: '/pricing', label: 'Plans and Passes' },
           { href: '/dashboard/timeline', label: 'Life Calendar' },
           { href: '/dashboard/report', label: 'PDF Reports' },
-          { href: '/dashboard/relationship', label: 'Compatibility' },
+          { href: '/dashboard/matchmaking', label: 'Matchmaking' },
         ],
       },
       {
@@ -102,7 +102,7 @@ const footerCopy: Record<
           { href: '/pricing', label: 'प्लान और पास' },
           { href: '/dashboard/timeline', label: 'लाइफ कैलेंडर' },
           { href: '/dashboard/report', label: 'PDF रिपोर्ट' },
-          { href: '/dashboard/relationship', label: 'कम्पैटिबिलिटी' },
+          { href: '/dashboard/matchmaking', label: 'विवाह मिलान' },
         ],
       },
       {
@@ -157,7 +157,7 @@ const footerCopy: Record<
           { href: '/pricing', label: 'પ્લાન અને પાસ' },
           { href: '/dashboard/timeline', label: 'લાઇફ કેલેન્ડર' },
           { href: '/dashboard/report', label: 'PDF રિપોર્ટ્સ' },
-          { href: '/dashboard/relationship', label: 'કમ્પેટિબિલિટી' },
+          { href: '/dashboard/matchmaking', label: 'લગ્ન મિલાન' },
         ],
       },
       {

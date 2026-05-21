@@ -1267,6 +1267,65 @@ export type FamilyKarmaMap = {
   askPrompt: string;
 };
 
+export type MatchmakingDepth = 'FREE' | 'PREMIUM';
+
+export type MatchmakingCategoryId =
+  | 'traditional-foundation'
+  | 'emotional-compatibility'
+  | 'dharma-alignment'
+  | 'family-adaptation'
+  | 'conflict-recovery'
+  | 'long-term-stability';
+
+export type MatchmakingScoreBand =
+  | 'unusually-strong'
+  | 'strong-manageable'
+  | 'mixed-workable'
+  | 'difficult-serious-alignment'
+  | 'structurally-strained';
+
+export type MatchmakingScoreBreakdown = {
+  id: MatchmakingCategoryId;
+  title: string;
+  score: number;
+  maxScore: number;
+  summary: string;
+  evidence: string[];
+};
+
+export type MatchmakingDetailSection = {
+  id: string;
+  title: string;
+  summary: string;
+  guidance: string;
+  evidence: string[];
+};
+
+export type MatchmakingAnalysis = {
+  status: 'ready' | 'pending';
+  title: string;
+  subtitle: string;
+  boyName: string;
+  girlName: string;
+  overallScore: number;
+  scoreBand: MatchmakingScoreBand;
+  scoreBandLabel: string;
+  scoreBandExplanation: string;
+  overallConclusion: string;
+  strengths: string[];
+  cautionAreas: string[];
+  traditionalBaseline: string;
+  supportPotential: string;
+  familyBlendingRisk: string;
+  timingNote: string;
+  practicalAdvice: string[];
+  premiumUnlock: string;
+  scoreBreakdown: MatchmakingScoreBreakdown[];
+  premiumSections: MatchmakingDetailSection[];
+  shareSummary: string;
+  askPrompt: string;
+};
+
 export type PredictaWrappedCardKind =
   | 'year-theme'
   | 'hard-lesson'

@@ -10,6 +10,7 @@ type FamilyPageCopy = {
   actions: {
     addProfile: string;
     goToLibrary: string;
+    openMatchmaking: string;
     openCompare: string;
     openMap: string;
   };
@@ -37,6 +38,7 @@ const COPY: Record<SupportedLanguage, FamilyPageCopy> = {
     actions: {
       addProfile: 'Add Profile',
       goToLibrary: 'Go to Kundli Library',
+      openMatchmaking: 'Open Matchmaking',
       openCompare: 'Open Pair Comparison',
       openMap: 'Open Family Karma Map',
     },
@@ -70,6 +72,13 @@ const COPY: Record<SupportedLanguage, FamilyPageCopy> = {
         href: '/dashboard/family/karma-map',
         title: 'Family Karma Map',
       },
+      {
+        body:
+          'Marriage evaluation stays separate from Family Vault. Use one boy Kundli and one girl Kundli for a dedicated Vedic matchmaking score and a practical reading.',
+        cta: 'Open Matchmaking',
+        href: '/dashboard/matchmaking',
+        title: 'Matchmaking',
+      },
     ],
     body:
       'Family Vault is no longer a generic holding page. It is the comparison layer built on top of your saved Kundli Library.',
@@ -80,6 +89,7 @@ const COPY: Record<SupportedLanguage, FamilyPageCopy> = {
     actions: {
       addProfile: 'प्रोफाइल जोड़ें',
       goToLibrary: 'कुंडली लाइब्रेरी पर जाएं',
+      openMatchmaking: 'विवाह मिलान खोलें',
       openCompare: 'जोड़ेदार तुलना खोलें',
       openMap: 'परिवार कर्म नक्शा खोलें',
     },
@@ -113,6 +123,13 @@ const COPY: Record<SupportedLanguage, FamilyPageCopy> = {
         href: '/dashboard/family/karma-map',
         title: 'परिवार कर्म नक्शा',
       },
+      {
+        body:
+          'विवाह मूल्यांकन परिवार वॉल्ट से अलग रहता है. एक लड़के और एक लड़की की कुंडली चुनें और समर्पित वैदिक विवाह मिलान स्कोर के साथ व्यावहारिक रीडिंग पाएं.',
+        cta: 'विवाह मिलान खोलें',
+        href: '/dashboard/matchmaking',
+        title: 'विवाह मिलान',
+      },
     ],
     body:
       'परिवार वॉल्ट अब एक सामान्य होल्डिंग पेज नहीं है. यह आपकी सेव कुंडली लाइब्रेरी के ऊपर बनी तुलना परत है.',
@@ -123,6 +140,7 @@ const COPY: Record<SupportedLanguage, FamilyPageCopy> = {
     actions: {
       addProfile: 'પ્રોફાઇલ ઉમેરો',
       goToLibrary: 'કુંડળી લાઇબ્રેરી પર જાઓ',
+      openMatchmaking: 'લગ્ન મિલાન ખોલો',
       openCompare: 'જોડી તુલના ખોલો',
       openMap: 'પરિવાર કર્મ નકશો ખોલો',
     },
@@ -155,6 +173,13 @@ const COPY: Record<SupportedLanguage, FamilyPageCopy> = {
         cta: 'પરિવાર કર્મ નકશો ખોલો',
         href: '/dashboard/family/karma-map',
         title: 'પરિવાર કર્મ નકશો',
+      },
+      {
+        body:
+          'લગ્ન મૂલ્યાંકન પરિવાર વોલ્ટથી અલગ રહે છે. એક છોકરા અને એક છોકરીની કુંડળી પસંદ કરો અને સમર્પિત વૈદિક લગ્ન મિલાન સ્કોર સાથે પ્રાયોગિક વાંચન મેળવો.',
+        cta: 'લગ્ન મિલાન ખોલો',
+        href: '/dashboard/matchmaking',
+        title: 'લગ્ન મિલાન',
       },
     ],
     body:
