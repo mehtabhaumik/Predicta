@@ -429,7 +429,11 @@ function readStore(): WebKundliStore | undefined {
   try {
     const raw = localStorage.getItem(WEB_KUNDLI_STORE_KEY);
 
-    return raw ? (JSON.parse(raw) as WebKundliStore) : undefined;
+    if (!raw) {
+      return undefined;
+    }
+
+    return sanitizeStoredWebKundliStore(JSON.parse(raw) as unknown);
   } catch {
     return undefined;
   }
@@ -439,7 +443,11 @@ function readLegacyActiveKundli(): KundliData | undefined {
   try {
     const raw = localStorage.getItem(ACTIVE_KUNDLI_KEY);
 
-    return raw ? (JSON.parse(raw) as KundliData) : undefined;
+    if (!raw) {
+      return undefined;
+    }
+
+    return sanitizeStoredKundli(JSON.parse(raw) as unknown);
   } catch {
     return undefined;
   }
@@ -449,7 +457,14 @@ function readLegacySavedKundlis(): KundliData[] {
   try {
     const raw = localStorage.getItem(SAVED_KUNDLIS_KEY);
 
-    return raw ? (JSON.parse(raw) as KundliData[]) : [];
+    if (!raw) {
+      return [];
+    }
+
+    const parsed = JSON.parse(raw) as unknown;
+    return Array.isArray(parsed)
+      ? parsed.map(item => sanitizeStoredKundli(item)).filter(isDefinedKundli)
+      : [];
   } catch {
     return [];
   }
@@ -460,6 +475,9 @@ function dedupeKundlis(kundlis: KundliData[]): KundliData[] {
   const result: KundliData[] = [];
 
   for (const kundli of kundlis) {
+    if (!kundli?.birthDetails) {
+      continue;
+    }
     const key = kundli.id || kundli.calculationMeta?.inputHash;
     if (!key || seen.has(key)) {
       continue;
@@ -547,4 +565,61 @@ function notifyWebKundliUpdated(): void {
   } catch {
     // Storage still succeeds if same-tab listeners cannot be notified.
   }
+}
+
+function sanitizeStoredWebKundliStore(
+  value: unknown,
+): WebKundliStore | undefined {
+  if (!isRecord(value)) {
+    return undefined;
+  }
+
+  const activeKundli = sanitizeStoredKundli(value.activeKundli);
+  const savedKundlis = Array.isArray(value.savedKundlis)
+    ? value.savedKundlis
+        .map(item => sanitizeStoredKundli(item))
+        .filter(isDefinedKundli)
+    : [];
+
+  return {
+    activeChartContext: isRecord(value.activeChartContext)
+      ? (value.activeChartContext as ChartContext)
+      : undefined,
+    activeKundli,
+    activeKundliId:
+      typeof value.activeKundliId === 'string'
+        ? value.activeKundliId
+        : activeKundli?.id,
+    guestSession: isRecord(value.guestSession)
+      ? (value.guestSession as WebGuestSession)
+      : undefined,
+    savedKundlis,
+    updatedAt: typeof value.updatedAt === 'string' ? value.updatedAt : undefined,
+  };
+}
+
+function sanitizeStoredKundli(value: unknown): KundliData | undefined {
+  if (!isRecord(value) || !isRecord(value.birthDetails)) {
+    return undefined;
+  }
+
+  const birthDetails = value.birthDetails as BirthDetails;
+  if (
+    typeof birthDetails.name !== 'string' ||
+    typeof birthDetails.date !== 'string' ||
+    typeof birthDetails.place !== 'string' ||
+    typeof birthDetails.time !== 'string'
+  ) {
+    return undefined;
+  }
+
+  return value as KundliData;
+}
+
+function isRecord(value: unknown): value is Record<string, any> {
+  return typeof value === 'object' && value !== null;
+}
+
+function isDefinedKundli(value: KundliData | undefined): value is KundliData {
+  return Boolean(value);
 }

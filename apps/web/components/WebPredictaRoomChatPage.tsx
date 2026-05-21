@@ -13,6 +13,7 @@ export function WebPredictaRoomChatPage({
     <section
       aria-label={`${room.sourceScreen}: ${room.title}`}
       className="dashboard-page predicta-chat-page"
+      data-room-school={room.school.toLowerCase()}
     >
       <div className="sr-only">
         <span>{room.sourceScreen}</span>

@@ -14567,6 +14567,10 @@ select::-ms-expand {
 }
 
 .predicta-chat-page .chat-workspace {
+  --chat-room-accent: #d9b45b;
+  --chat-room-accent-soft: rgba(217, 180, 91, 0.14);
+  --chat-room-border: rgba(217, 180, 91, 0.3);
+  --chat-room-glow: rgba(217, 180, 91, 0.18);
   display: flex;
   flex: 1 1 auto;
   margin: 0 auto;
@@ -14575,10 +14579,42 @@ select::-ms-expand {
   width: 100%;
 }
 
+.predicta-chat-page .chat-workspace[data-chat-school='kp'] {
+  --chat-room-accent: #69c4ff;
+  --chat-room-accent-soft: rgba(105, 196, 255, 0.14);
+  --chat-room-border: rgba(105, 196, 255, 0.32);
+  --chat-room-glow: rgba(105, 196, 255, 0.18);
+}
+
+.predicta-chat-page .chat-workspace[data-chat-school='nadi'] {
+  --chat-room-accent: #77d69c;
+  --chat-room-accent-soft: rgba(119, 214, 156, 0.14);
+  --chat-room-border: rgba(119, 214, 156, 0.28);
+  --chat-room-glow: rgba(119, 214, 156, 0.16);
+}
+
+.predicta-chat-page .chat-workspace[data-chat-school='numerology'] {
+  --chat-room-accent: #ffb36b;
+  --chat-room-accent-soft: rgba(255, 179, 107, 0.14);
+  --chat-room-border: rgba(255, 179, 107, 0.3);
+  --chat-room-glow: rgba(255, 179, 107, 0.18);
+}
+
+.predicta-chat-page .chat-workspace[data-chat-school='signature'] {
+  --chat-room-accent: #f29db2;
+  --chat-room-accent-soft: rgba(242, 157, 178, 0.14);
+  --chat-room-border: rgba(242, 157, 178, 0.3);
+  --chat-room-glow: rgba(242, 157, 178, 0.16);
+}
+
 .predicta-chat-page .chat-panel {
   animation: predictaChatShellEnter 360ms cubic-bezier(0.2, 0.82, 0.24, 1) both;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+  border-top: 1px solid var(--chat-room-border);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 18px 42px rgba(0, 0, 0, 0.24);
   display: flex;
   flex: 1 1 auto;
   height: calc(100dvh - 188px);
@@ -14593,6 +14629,9 @@ select::-ms-expand {
 .chat-shell-header {
   animation: predictaChatPartEnter 300ms ease-out 70ms both;
   align-items: center;
+  background:
+    radial-gradient(circle at top right, var(--chat-room-glow), transparent 38%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01));
   border-bottom: 1px solid var(--border-quiet);
   display: grid;
   gap: 12px;
@@ -14630,8 +14669,8 @@ select::-ms-expand {
   align-self: flex-start;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.028)),
-    rgba(77, 175, 255, 0.1);
-  border: 1px solid rgba(77, 175, 255, 0.32);
+    var(--chat-room-accent-soft);
+  border: 1px solid var(--chat-room-border);
   border-radius: 999px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.88);
@@ -14683,7 +14722,7 @@ select::-ms-expand {
 
 .chat-utility-menu summary:hover,
 .chat-utility-menu summary:focus-visible {
-  border-color: rgba(77, 175, 255, 0.38);
+  border-color: var(--chat-room-border);
   outline: none;
 }
 
@@ -14723,6 +14762,45 @@ select::-ms-expand {
 .predicta-chat-page .pass-cost-meter {
   margin-left: 18px;
   margin-right: 18px;
+}
+
+.predicta-chat-page .chat-room-recovery {
+  align-items: center;
+  background:
+    radial-gradient(circle at top right, var(--chat-room-glow), transparent 36%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  border: 1px solid var(--chat-room-border);
+  border-radius: 18px;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  margin: 8px 18px 6px;
+  padding: 16px;
+}
+
+.predicta-chat-page .chat-room-recovery-copy {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.predicta-chat-page .chat-room-recovery-copy h2 {
+  font-size: clamp(16px, 1.4vw, 20px);
+  margin: 0;
+}
+
+.predicta-chat-page .chat-room-recovery-copy p,
+.predicta-chat-page .chat-room-recovery-copy small {
+  color: var(--muted);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.predicta-chat-page .chat-room-recovery-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
 }
 
 .predicta-chat-page .active-kundli-actions.chat-context {
@@ -15332,7 +15410,8 @@ select::-ms-expand {
   .predicta-chat-page .chat-session-strip,
   .predicta-chat-page .chat-language-state,
   .predicta-chat-page .active-kundli-actions,
-  .predicta-chat-page .pass-cost-meter {
+  .predicta-chat-page .pass-cost-meter,
+  .predicta-chat-page .chat-room-recovery {
     margin-left: 12px;
     margin-right: 12px;
     padding-left: 0;
@@ -15345,6 +15424,15 @@ select::-ms-expand {
     margin-bottom: 6px;
     margin-top: 6px;
     padding: 10px !important;
+  }
+
+  .predicta-chat-page .chat-room-recovery {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+
+  .predicta-chat-page .chat-room-recovery-actions {
+    justify-content: flex-start;
   }
 
   .predicta-chat-page .chat-language-state {

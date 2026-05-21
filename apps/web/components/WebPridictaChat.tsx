@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { type CSSProperties, useEffect, useRef, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -37,6 +38,7 @@ import {
   getLanguageLabels,
   getLanguageOption,
 } from '@pridicta/config/language';
+import { translateUiText } from '@pridicta/config/uiTranslations';
 import {
   buildBirthIntakeReply,
   type PredictaBirthMemory,
@@ -86,6 +88,7 @@ import {
   generateKundliFromWeb,
   deleteWebKundli,
   loadWebKundliStore,
+  resolveWebKundliForContext,
   resolveSharedWebKundliContext,
   saveWebKundli,
   saveWebActiveChartContext,
@@ -302,7 +305,7 @@ export function WebPridictaChat({
     useState<SupportedLanguage>(predictaReplyLanguage);
   const [activeChartContext, setActiveChartContext] = useState<ChartContext>();
   const [messages, setMessages] = useState<WebMessage[]>(() =>
-    buildInitialMessages(predictaReplyLanguage),
+    buildInitialMessages(predictaReplyLanguage, room),
   );
   const [copiedMessageId, setCopiedMessageId] = useState<string>();
   const [chatAccount, setChatAccount] = useState<
@@ -380,36 +383,52 @@ export function WebPridictaChat({
           return;
         }
 
+        const roomSeedContext = buildRoomSeedContext(
+          room,
+          loadWebKundliStore().activeKundli,
+          loadWebKundliStore().activeChartContext,
+        );
         const sessionState = ensureWebChatSessionStore(account.uid, {
-          activeChartContext,
+          activeChartContext: roomSeedContext ?? activeChartContext,
           birthMemory: stored?.birthMemory,
           chatLanguage: stored?.chatLanguage ?? predictaReplyLanguage,
-          kundliId: kundli?.id,
+          kundliId: roomSeedContext?.kundliId ?? kundli?.id,
           messages: stored?.messages.length
             ? stored.messages.map(sanitizeStoredMessage)
-            : buildInitialMessages(predictaReplyLanguage),
+            : buildInitialMessages(predictaReplyLanguage, room),
           predictaMemory: stored?.predictaMemory,
           replyLanguage: predictaReplyLanguage,
         });
-        const activeSession = getActiveWebChatSession(sessionState);
+        const nextSessionState =
+          room && !resolvePreferredRoomSession(sessionState, room)
+            ? createWebChatSession(account.uid, {
+                activeChartContext: roomSeedContext ?? activeChartContext,
+                chatLanguage: stored?.chatLanguage ?? predictaReplyLanguage,
+                kundliId: roomSeedContext?.kundliId ?? kundli?.id,
+                replyLanguage: predictaReplyLanguage,
+              })
+            : sessionState;
+        const preferredSession = resolvePreferredRoomSession(nextSessionState, room);
 
-        setChatSessions(sessionState.sessions);
-        setActiveChatSessionId(sessionState.activeSessionId);
-        if (activeSession) {
-          setBirthMemory(activeSession.birthMemory);
-          setChatLanguage(activeSession.chatLanguage);
-          setPredictaMemory(activeSession.predictaMemory);
+        setChatSessions(filterRoomSessions(nextSessionState.sessions, room));
+        setActiveChatSessionId(
+          preferredSession?.id ?? nextSessionState.activeSessionId,
+        );
+        if (preferredSession) {
+          setBirthMemory(preferredSession.birthMemory);
+          setChatLanguage(preferredSession.chatLanguage);
+          setPredictaMemory(preferredSession.predictaMemory);
           setActiveChartContext(current => {
             if (current) {
               return current;
             }
 
             return resolveSharedWebKundliContext(
-              activeSession.activeChartContext,
+              preferredSession.activeChartContext,
             ).chartContext;
           });
           if (!room) {
-            setMessages(activeSession.messages.map(sanitizeStoredMessage));
+            setMessages(preferredSession.messages.map(sanitizeStoredMessage));
           }
         }
       });
@@ -558,10 +577,10 @@ export function WebPridictaChat({
   useEffect(() => {
     setMessages(current =>
       current.length === 1 && current[0].id === 'welcome'
-        ? buildInitialMessages(chatLanguage)
+        ? buildInitialMessages(chatLanguage, room, Boolean(kundli))
         : current,
     );
-  }, [chatLanguage]);
+  }, [chatLanguage, kundli, room]);
 
   function recoverActiveKundli(
     context = activeChartContext,
@@ -593,13 +612,20 @@ export function WebPridictaChat({
   function normalizeContextForRoom(
     context: ChartContext | undefined,
   ): ChartContext | undefined {
-    if (!context || context.predictaSchool || !room?.school) {
+    if (!context || !room?.school) {
       return context;
     }
 
+    const handoffFrom =
+      context.predictaSchool && context.predictaSchool !== room.school
+        ? context.predictaSchool
+        : context.handoffFrom;
+
     return {
       ...context,
+      handoffFrom,
       predictaSchool: room.school,
+      sourceScreen: context.sourceScreen ?? room.sourceScreen,
     };
   }
 
@@ -737,7 +763,8 @@ export function WebPridictaChat({
         };
         const synced = syncSpecialistContext(baseContext, kundli);
         const nextContext = synced.context ?? baseContext;
-        const contextKundli = synced.kundli;
+        const contextKundli =
+          synced.kundli ?? resolveWebKundliForContext(nextContext);
 
         if (contextKundli) {
           setKundli(contextKundli);
@@ -757,7 +784,9 @@ export function WebPridictaChat({
           },
         );
 
-        persistActiveChatContext(nextContext, contextKundli);
+        setActiveChartContext(nextContext);
+        saveWebActiveChartContext(nextContext);
+        saveWebSpecialistPredictaContext(nextContext, contextKundli);
         setInput(selectedSection);
         setMessages(current =>
           current.length === 1 && current[0].id === 'welcome'
@@ -1031,13 +1060,13 @@ export function WebPridictaChat({
     responseLanguage: SupportedLanguage,
     acknowledgement?: string,
   ) {
-    const questionChartContext = resolveChartContextForQuestion(text);
+    const baseQuestionChartContext = resolveChartContextForQuestion(text);
     const synced = syncSpecialistContext(
-      questionChartContext,
+      baseQuestionChartContext,
       activeKundli,
     );
-    const nextQuestionChartContext =
-      synced.context ?? questionChartContext;
+    const questionChartContext =
+      synced.context ?? baseQuestionChartContext;
     const budgetDecision = consumeWebAiBudget('deep_reading', responseLanguage);
     setPassCostDisplay(getWebPassCostDisplay(responseLanguage));
 
@@ -1066,15 +1095,15 @@ export function WebPridictaChat({
       responseLanguage,
     );
     setPredictaMemory(nextMemory);
-    if (nextQuestionChartContext && nextQuestionChartContext !== activeChartContext) {
-      persistActiveChatContext(nextQuestionChartContext, activeKundli);
+    if (questionChartContext && questionChartContext !== activeChartContext) {
+      persistActiveChatContext(questionChartContext, activeKundli);
     }
     const response = await askPridictaFromWeb({
       history: messages.slice(-MAX_AI_HISTORY_MESSAGES).map(message => ({
         role: message.role,
         text: message.text,
       })),
-      chartContext: nextQuestionChartContext,
+      chartContext: questionChartContext,
       kundli: activeKundli,
       language: responseLanguage,
       message: text,
@@ -1629,28 +1658,36 @@ export function WebPridictaChat({
   }
 
   function startNewChat() {
+    const roomSeedContext = buildRoomSeedContext(room, kundli, activeChartContext);
+    const nextWelcome = buildInitialMessages(chatLanguage, room, Boolean(kundli));
+
     if (chatAccount?.uid) {
       const sessionState = createWebChatSession(chatAccount.uid, {
-        activeChartContext,
+        activeChartContext: roomSeedContext ?? activeChartContext,
         chatLanguage,
-        kundliId: kundli?.id,
+        kundliId: roomSeedContext?.kundliId ?? kundli?.id,
         replyLanguage: chatLanguage,
       });
       const activeSession = getActiveWebChatSession(sessionState);
 
       setActiveChatSessionId(sessionState.activeSessionId);
-      setChatSessions(sessionState.sessions);
+      setChatSessions(filterRoomSessions(sessionState.sessions, room));
       setBirthMemory(undefined);
       setPendingEnglishSwitch(undefined);
       setPredictaMemory(undefined);
-      setMessages(activeSession?.messages ?? buildInitialMessages(chatLanguage));
+      setMessages(
+        room
+          ? nextWelcome
+          : activeSession?.messages ?? buildInitialMessages(chatLanguage),
+      );
       setInput('');
       return;
     }
 
     setBirthMemory(undefined);
     setPendingEnglishSwitch(undefined);
-    setMessages(buildInitialMessages(chatLanguage));
+    setPredictaMemory(undefined);
+    setMessages(nextWelcome);
     setInput('');
   }
 
@@ -1662,12 +1699,12 @@ export function WebPridictaChat({
     const sessionState = activateWebChatSession(chatAccount.uid, sessionId);
     const activeSession = getActiveWebChatSession(sessionState);
 
-    if (!activeSession) {
+    if (!activeSession || !isSessionCompatibleWithRoom(activeSession, room)) {
       return;
     }
 
     setActiveChatSessionId(sessionId);
-    setChatSessions(sessionState.sessions);
+    setChatSessions(filterRoomSessions(sessionState.sessions, room));
     setBirthMemory(activeSession.birthMemory);
     setChatLanguage(activeSession.chatLanguage);
     persistPredictaReplyLanguage(activeSession.replyLanguage);
@@ -1680,14 +1717,20 @@ export function WebPridictaChat({
   }
 
   const chatExportCopy = getChatExportCopy(chatLanguage);
-  const roomTitle = room?.title ?? 'Predicta chat';
-  const roomSource = room?.sourceScreen ?? 'Predicta';
+  const t = (value: string) => translateUiText(value, language);
+  const roomTitle = t(room?.title ?? 'Predicta chat');
+  const roomSource = t(room?.sourceScreen ?? 'Predicta');
   const roomBody =
-    room?.body ??
-    'Ask with your Kundli context, chart proof, and calm follow-up guidance.';
+    t(
+      room?.body ??
+        'Ask with your Kundli context, chart proof, and calm follow-up guidance.',
+    );
 
   return (
-    <div className="chat-workspace">
+    <div
+      className="chat-workspace"
+      data-chat-school={(room?.school ?? 'PARASHARI').toLowerCase()}
+    >
       <div className="card chat-panel">
         <div className="chat-shell-header">
           <div className="chat-shell-title-block">
@@ -1696,10 +1739,13 @@ export function WebPridictaChat({
             <p>{roomBody}</p>
           </div>
           <details className="chat-utility-menu">
-            <summary aria-label="Chat tools">
-              <span>Tools</span>
+            <summary aria-label={chatExportCopy.tools}>
+              <span>{chatExportCopy.tools}</span>
             </summary>
-            <div className="chat-utility-menu-panel" aria-label="Conversation actions">
+            <div
+              className="chat-utility-menu-panel"
+              aria-label={chatExportCopy.conversationActions}
+            >
               <button
                 className="chat-export-button"
                 onClick={() => {
@@ -1731,9 +1777,11 @@ export function WebPridictaChat({
         <WebChatSessionSwitcher
           activeSessionId={activeChatSessionId}
           isSignedIn={Boolean(chatAccount?.uid)}
-          sessions={chatSessions}
+          language={language}
           onNewSession={startNewChat}
+          room={room}
           onSwitchSession={switchChatSession}
+          sessions={filterRoomSessions(chatSessions, room)}
         />
         <div className="chat-language-state" aria-live="polite">
           <span>{labels.chatLanguage}</span>
@@ -1754,6 +1802,9 @@ export function WebPridictaChat({
           sourceScreen="Chat"
           title="Using Kundli"
         />
+        {!kundli && room ? (
+          <WebChatRoomRecoveryCard language={language} room={room} />
+        ) : null}
         {passCostDisplay ? (
           <div className={`pass-cost-meter ${passCostDisplay.tone}`}>
             <span>{passCostDisplay.title}</span>
@@ -1902,6 +1953,72 @@ function buildRoomQueryString(
   return params.toString();
 }
 
+function buildRoomSeedContext(
+  room: WebPredictaChatRoom | undefined,
+  kundli?: KundliData,
+  context?: ChartContext,
+): ChartContext | undefined {
+  if (!room) {
+    return context;
+  }
+
+  return {
+    ...context,
+    handoffBirthSummary:
+      context?.handoffBirthSummary ??
+      (kundli ? buildKundliBirthSummaryForChat(kundli) : undefined),
+    handoffFrom:
+      context?.predictaSchool && context.predictaSchool !== room.school
+        ? context.predictaSchool
+        : context?.handoffFrom,
+    handoffQuestion: context?.handoffQuestion ?? room.prompt,
+    kundliId: context?.kundliId ?? kundli?.id,
+    predictaSchool: room.school,
+    selectedSection: context?.selectedSection ?? room.prompt,
+    sourceScreen: room.sourceScreen,
+  };
+}
+
+function isSessionCompatibleWithRoom(
+  session: WebChatSession,
+  room?: WebPredictaChatRoom,
+): boolean {
+  if (!room) {
+    return true;
+  }
+
+  const sessionSchool =
+    session.school ?? parsePredictaSchool(session.activeChartContext?.predictaSchool ?? null);
+
+  return room.school === 'PARASHARI'
+    ? sessionSchool === undefined || sessionSchool === 'PARASHARI'
+    : sessionSchool === room.school;
+}
+
+function filterRoomSessions(
+  sessions: WebChatSession[],
+  room?: WebPredictaChatRoom,
+): WebChatSession[] {
+  return room ? sessions.filter(session => isSessionCompatibleWithRoom(session, room)) : sessions;
+}
+
+function resolvePreferredRoomSession(
+  store: WebChatSessionStore,
+  room?: WebPredictaChatRoom,
+): WebChatSession | undefined {
+  const activeSession = getActiveWebChatSession(store);
+
+  if (!room) {
+    return activeSession;
+  }
+
+  if (activeSession && isSessionCompatibleWithRoom(activeSession, room)) {
+    return activeSession;
+  }
+
+  return store.sessions.find(session => isSessionCompatibleWithRoom(session, room));
+}
+
 function buildEditedBirthDetails(
   kundli: KundliData,
   command: Extract<KundliChatCommand, { kind: 'edit-field' }>,
@@ -1997,10 +2114,10 @@ function buildNoKundliForCommandReply(language: SupportedLanguage): string {
 
 function buildGuestKundliLimitReply(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'आपकी पहली कुंडली safe है. एक और कुंडली save करने के लिए sign in करें, ताकि family profiles और saved charts बाद में भी मिल सकें.';
+    return 'आपकी पहली कुंडली सुरक्षित है. एक और कुंडली सेव करने के लिए साइन इन करें, ताकि परिवार प्रोफाइल और सेव चार्ट बाद में भी मिल सकें.';
   }
   if (language === 'gu') {
-    return 'તમારી પહેલી કુંડળી safe છે. બીજી કુંડળી save કરવા માટે sign in કરો, જેથી family profiles અને saved charts પછી પણ મળી શકે.';
+    return 'તમારી પહેલી કુંડળી સુરક્ષિત છે. બીજી કુંડળી સેવ કરવા માટે સાઇન ઇન કરો, જેથી પરિવાર પ્રોફાઇલ અને સેવ ચાર્ટ પછી પણ મળી શકે.';
   }
   return 'Your first Kundli is safe. Please sign in before saving another Kundli, so family profiles and saved charts stay protected for later.';
 }
@@ -2519,66 +2636,170 @@ function createReplyFeedbackId(prefix: string): string {
 
 function getChatExportCopy(language: SupportedLanguage): {
   copied: string;
+  conversationActions: string;
   copyConversation: string;
   copyMessage: string;
   newChat: string;
+  newSavedChat: string;
   savePdf: string;
+  tools: string;
 } {
   if (language === 'hi') {
     return {
       copied: 'कॉपी हो गया',
+      conversationActions: 'बातचीत के कार्य',
       copyConversation: 'पूरी चैट कॉपी करें',
       copyMessage: 'कॉपी',
       newChat: 'नई चैट',
+      newSavedChat: 'नई सेव चैट',
       savePdf: 'चैट पीडीएफ सेव करें',
+      tools: 'उपकरण',
     };
   }
 
   if (language === 'gu') {
     return {
       copied: 'કૉપી થઈ ગયું',
+      conversationActions: 'વાતચીતના કાર્ય',
       copyConversation: 'પૂરી ચેટ કૉપી કરો',
       copyMessage: 'કૉપી',
       newChat: 'નવી ચેટ',
+      newSavedChat: 'નવી સાચવેલી ચેટ',
       savePdf: 'ચેટ પીડીએફ સેવ કરો',
+      tools: 'ટૂલ્સ',
     };
   }
 
   return {
     copied: 'Copied',
+    conversationActions: 'Conversation actions',
     copyConversation: 'Copy full chat',
     copyMessage: 'Copy',
     newChat: 'New chat',
+    newSavedChat: 'New saved chat',
     savePdf: 'Save chat PDF',
+    tools: 'Tools',
   };
+}
+
+function getChatSessionCopy(
+  language: SupportedLanguage,
+  room?: WebPredictaChatRoom,
+): {
+  guestBody: string;
+  guestTitle: string;
+  newChat: string;
+  newSavedChat: string;
+  savedBody: string;
+  savedTitle: string;
+} {
+  const roomLabel = room ? getPredictaSchoolLabel(room.school) : 'Predicta';
+
+  if (language === 'hi') {
+    return {
+      guestBody:
+        room
+          ? `${roomLabel} में एक कुंडली से पढ़ना शुरू करें. साइन इन करने पर अलग-अलग सेव चैट और परिवार रीडिंग सुरक्षित रहेंगी.`
+          : 'साइन इन करने पर सेव चैट और अलग परिवार रीडिंग सुरक्षित रहेंगी.',
+      guestTitle: room ? `${roomLabel} अतिथि चैट` : 'अतिथि चैट',
+      newChat: 'नई चैट',
+      newSavedChat: 'नई सेव चैट',
+      savedBody: room
+        ? `${roomLabel} की रीडिंग बदले बिना पुरानी बातचीत पर लौटें.`
+        : 'कॉन्टेक्स्ट खोए बिना पुरानी बातचीत पर लौटें.',
+      savedTitle: room ? `${roomLabel} की सेव चैट` : 'सेव चैट',
+    };
+  }
+
+  if (language === 'gu') {
+    return {
+      guestBody:
+        room
+          ? `${roomLabel} માં એક કુંડળીથી reading શરૂ કરો. સાઇન ઇન પછી અલગ સાચવેલી ચેટ અને પરિવાર reading સુરક્ષિત રહેશે.`
+          : 'સાઇન ઇન પછી સાચવેલી ચેટ અને અલગ પરિવાર reading સુરક્ષિત રહેશે.',
+      guestTitle: room ? `${roomLabel} ગેસ્ટ ચેટ` : 'ગેસ્ટ ચેટ',
+      newChat: 'નવી ચેટ',
+      newSavedChat: 'નવી સાચવેલી ચેટ',
+      savedBody: room
+        ? `${roomLabel} ની રીત બદલીયા વગર જૂની વાતચીત પર પાછા ફરો.`
+        : 'સંદર્ભ ગુમાવ્યા વગર જૂની વાતચીત પર પાછા ફરો.',
+      savedTitle: room ? `${roomLabel} ની સાચવેલી ચેટ` : 'સાચવેલી ચેટ',
+    };
+  }
+
+  return {
+    guestBody: room
+      ? `Start ${roomLabel} from one selected Kundli. Sign in to keep separate saved chats and family readings.`
+      : 'Sign in to keep saved chats and separate family readings.',
+    guestTitle: room ? `${roomLabel} guest chat` : 'Guest chat',
+    newChat: 'New chat',
+    newSavedChat: 'New saved chat',
+    savedBody: room
+      ? `Return to earlier ${roomLabel} conversations without mixing the room context.`
+      : 'Return to earlier conversations without losing context.',
+    savedTitle: room ? `${roomLabel} saved chats` : 'Saved chats',
+  };
+}
+
+function WebChatRoomRecoveryCard({
+  language,
+  room,
+}: {
+  language: SupportedLanguage;
+  room: WebPredictaChatRoom;
+}): React.JSX.Element {
+  const copy = getRoomRecoveryCopy(language, room);
+
+  return (
+    <section className="chat-room-recovery glass-panel">
+      <div className="chat-room-recovery-copy">
+        <span className="section-title">{copy.eyebrow}</span>
+        <h2>{copy.title}</h2>
+        <p>{copy.body}</p>
+        <small>{copy.footnote}</small>
+      </div>
+      <div className="chat-room-recovery-actions" aria-label={copy.actionsLabel}>
+        <Link className="button secondary" href="/dashboard/saved-kundlis">
+          {copy.openLibrary}
+        </Link>
+        <Link className="button" href="/dashboard/kundli">
+          {copy.createKundli}
+        </Link>
+      </div>
+    </section>
+  );
 }
 
 function WebChatSessionSwitcher({
   activeSessionId,
   isSignedIn,
+  language,
   onNewSession,
   onSwitchSession,
+  room,
   sessions,
 }: {
   activeSessionId?: string;
   isSignedIn: boolean;
+  language: SupportedLanguage;
   onNewSession: () => void;
   onSwitchSession: (sessionId: string) => void;
+  room?: WebPredictaChatRoom;
   sessions: WebChatSession[];
 }): React.JSX.Element {
+  const copy = getChatSessionCopy(language, room);
+
   if (!isSignedIn) {
     return (
       <div className="chat-session-strip guest">
         <div>
-          <strong>Guest chat</strong>
-          <span>
-            Sign in for saved chat history and separate family readings.
-          </span>
+          <strong>{copy.guestTitle}</strong>
+          <span>{copy.guestBody}</span>
         </div>
         <div className="chat-session-actions">
           <AuthDialog />
           <button className="chat-export-button" onClick={onNewSession} type="button">
-            New chat
+            {copy.newChat}
           </button>
         </div>
       </div>
@@ -2588,8 +2809,8 @@ function WebChatSessionSwitcher({
   return (
     <div className="chat-session-strip">
       <div>
-        <strong>Saved chats</strong>
-        <span>Switch readings without losing context.</span>
+        <strong>{copy.savedTitle}</strong>
+        <span>{copy.savedBody}</span>
       </div>
       <div className="chat-session-actions">
         {sessions.slice(0, 6).map(session => (
@@ -2606,7 +2827,7 @@ function WebChatSessionSwitcher({
           </button>
         ))}
         <button className="chat-export-button" onClick={onNewSession} type="button">
-          New saved chat
+          {copy.newSavedChat}
         </button>
       </div>
     </div>
@@ -3257,12 +3478,18 @@ function getChatHousePolygonPoints(house: number): string {
     .join(' ');
 }
 
-function buildInitialMessages(language: SupportedLanguage): WebMessage[] {
+function buildInitialMessages(
+  language: SupportedLanguage,
+  room?: WebPredictaChatRoom,
+  hasSelectedKundli = false,
+): WebMessage[] {
   return [
     {
       id: 'welcome',
       role: 'pridicta',
-      text: getBirthIntakeWelcome(language),
+      text: room
+        ? buildRoomWelcomeReply(language, room, hasSelectedKundli)
+        : getBirthIntakeWelcome(language),
     },
   ];
 }
@@ -4123,9 +4350,9 @@ function buildCtaContextIntro(
 
   if (language === 'hi') {
     return [
-      `${source} से आपका सवाल मिल गया है.`,
-      focus ? `अब हम यह देख रहे हैं: ${focus}` : undefined,
-      'मैं आपकी selected कुंडली से यहीं जवाब दूंगी. आप Ask दबाइए या अपना follow-up लिखिए.',
+      `${source} से आपका सवाल यहीं ले लिया है.`,
+      focus ? `फिलहाल फोकस यह है: ${focus}` : undefined,
+      'मैं इसी चुनी हुई कुंडली से यहीं जवाब दूंगी.',
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -4133,18 +4360,18 @@ function buildCtaContextIntro(
 
   if (language === 'gu') {
     return [
-      `${source} માંથી તમારો સવાલ મળી ગયો છે.`,
-      focus ? `હવે આપણે આ જોઈ રહ્યા છીએ: ${focus}` : undefined,
-      'હું તમારી selected કુંડળી થી અહીં જ જવાબ આપીશ. Ask દબાવો અથવા follow-up લખો.',
+      `${source} માંથી તમારો સવાલ અહીં લઈ લીધો છે.`,
+      focus ? `હમણાં ફોકસ આ છે: ${focus}` : undefined,
+      'હું આ પસંદ કરેલી કુંડળીથી અહીં જ જવાબ આપીશ.',
     ]
       .filter(Boolean)
       .join('\n\n');
   }
 
   return [
-    `I picked this up from ${source}.`,
-    focus ? `We are looking at: ${focus}` : undefined,
-    'I will use your selected Kundli here. Press Ask or type your follow-up.',
+    `I brought this over from ${source}.`,
+    focus ? `Focus: ${focus}` : undefined,
+    'I will answer from your selected Kundli here.',
   ]
     .filter(Boolean)
     .join('\n\n');
@@ -4184,22 +4411,22 @@ function buildSchoolContextIntro(
 
   if (language === 'hi') {
     return [
-      `${school} ready है.`,
+      `${school} यहीं है.`,
       fromSchool
-        ? `${fromSchool} से context आ गया है. Method mix नहीं होगा.`
+        ? `${fromSchool} से सवाल साथ आया है, लेकिन method mix नहीं होगा.`
         : undefined,
-      chartFocus ? `Selected chart: ${chartFocus}.` : undefined,
-      question ? `आपका question: ${question}` : undefined,
+      chartFocus ? `चार्ट फोकस: ${chartFocus}.` : undefined,
+      question ? `सवाल: ${question}` : undefined,
       context.predictaSchool === 'KP'
-        ? 'अब answer कृष्णमूर्ति पद्धति के cusps, star lords, sub lords, significators और ruling planets से ही grounded रहेगा.'
+        ? 'मैं केवल कृष्णमूर्ति पद्धति के cusps, star lords, sub lords, significators और ruling planets से पढ़ूंगी.'
       : context.predictaSchool === 'NADI'
-          ? 'नाड़ी प्रेडिक्टा ready है. मैं planetary story links और validation questions से पढ़ूंगी; ancient palm-leaf access का दावा नहीं करूंगी.'
+          ? 'मैं planetary story links और validation questions से पढ़ूंगी; किसी प्राचीन palm-leaf access का दावा नहीं करूंगी.'
       : context.predictaSchool === 'NUMEROLOGY'
-          ? 'अब answer name number, birth number, destiny number, personal timing और name rhythm पर grounded रहेगा.'
+          ? 'मैं name number, birth number, destiny number, personal timing और name rhythm से जवाब दूंगी.'
       : context.predictaSchool === 'SIGNATURE'
-          ? 'अब answer confirmed signature traits, self-expression patterns, improvement suggestions और safe reflection पर grounded रहेगा. यह identity verification, handwriting forensics, legal proof या diagnosis नहीं है.'
-          : 'अब answer वैदिक Parashari Jyotish context में रहेगा.',
-      'Press Ask या अपना follow-up लिखिए.',
+          ? 'मैं केवल पुष्टि किए गए हस्ताक्षर संकेतों, आत्म-अभिव्यक्ति के पैटर्न, सुधार सुझावों और सुरक्षित चिंतन से जवाब दूंगी. यह पहचान सत्यापन, हस्तलेखन जांच, कानूनी प्रमाण या निदान नहीं है.'
+          : 'मैं वैदिक Parashari Jyotish के संदर्भ में ही जवाब दूंगी.',
+      'आप यहीं आगे पूछ सकते हैं.',
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -4207,44 +4434,44 @@ function buildSchoolContextIntro(
 
   if (language === 'gu') {
     return [
-      `${school} ready છે.`,
+      `${school} અહીં તૈયાર છે.`,
       fromSchool
-        ? `${fromSchool} થી context આવી ગયો છે. Method mix નહીં થાય.`
+        ? `${fromSchool} થી સવાલ સાથે આવ્યો છે, પણ method mix નહીં થાય.`
         : undefined,
-      chartFocus ? `Selected chart: ${chartFocus}.` : undefined,
-      question ? `તમારો question: ${question}` : undefined,
+      chartFocus ? `ચાર્ટ ફોકસ: ${chartFocus}.` : undefined,
+      question ? `સવાલ: ${question}` : undefined,
       context.predictaSchool === 'KP'
-        ? 'હવે answer કૃષ્ણમૂર્તિ પદ્ધતિ cusps, star lords, sub lords, significators અને ruling planets પર grounded રહેશે.'
+        ? 'હું માત્ર કૃષ્ણમૂર્તિ પદ્ધતિના cusps, star lords, sub lords, significators અને ruling planets પરથી વાંચીશ.'
       : context.predictaSchool === 'NADI'
-          ? 'નાડી પ્રેડિક્ટા ready છે. હું planetary story links અને validation questions થી વાંચીશ; ancient palm-leaf access નો દાવો નહીં કરું.'
+          ? 'હું planetary story links અને validation questions થી વાંચીશ; ancient palm-leaf access નો દાવો નહીં કરું.'
       : context.predictaSchool === 'NUMEROLOGY'
-          ? 'હવે answer name number, birth number, destiny number, personal timing અને name rhythm પર grounded રહેશે.'
+          ? 'હું name number, birth number, destiny number, personal timing અને name rhythm પરથી જવાબ આપીશ.'
       : context.predictaSchool === 'SIGNATURE'
-          ? 'હવે answer confirmed signature traits, self-expression patterns, improvement suggestions અને safe reflection પર grounded રહેશે. આ identity verification, handwriting forensics, legal proof કે diagnosis નથી.'
-          : 'હવે answer વૈદિક Parashari Jyotish context માં રહેશે.',
-      'Ask દબાવો અથવા તમારો follow-up લખો.',
+          ? 'હું માત્ર પુષ્ટિ કરેલા હસ્તાક્ષર સંકેતો, સ્વ-અભિવ્યક્તિના પેટર્ન, સુધાર સૂચનો અને સુરક્ષિત પ્રતિબિંબ પરથી જવાબ આપીશ. આ ઓળખ ચકાસણી, હસ્તલેખન તપાસ, કાનૂની પુરાવો કે નિદાન નથી.'
+          : 'હું વૈદિક Parashari Jyotish ના સંદર્ભમાં જ જવાબ આપીશ.',
+      'તમે અહીંથી આગળ પૂછો.',
     ]
       .filter(Boolean)
       .join('\n\n');
   }
 
   return [
-    `${school} is ready.`,
+    `${school} is here.`,
     fromSchool
       ? `Context was carried from ${fromSchool}. The method will not be mixed.`
       : undefined,
-    chartFocus ? `Selected chart: ${chartFocus}.` : undefined,
-    question ? `Your question: ${question}` : undefined,
+    chartFocus ? `Chart focus: ${chartFocus}.` : undefined,
+    question ? `Question in view: ${question}` : undefined,
     context.predictaSchool === 'KP'
-      ? 'The answer will now stay grounded in KP cusps, star lords, sub lords, significators, and ruling planets.'
+      ? 'I will stay inside KP cusps, star lords, sub lords, significators, and ruling planets.'
     : context.predictaSchool === 'NADI'
-        ? 'Nadi Predicta is ready. I will read through planetary story links and validation questions, without claiming access to an ancient palm-leaf record.'
+        ? 'I will read through planetary story links and validation questions, without claiming access to an ancient palm-leaf record.'
     : context.predictaSchool === 'NUMEROLOGY'
-        ? 'The answer will now stay grounded in name number, birth number, destiny number, personal timing, and name rhythm.'
+        ? 'I will answer through name number, birth number, destiny number, personal timing, and name rhythm.'
     : context.predictaSchool === 'SIGNATURE'
-        ? 'The answer will now stay grounded in confirmed signature traits, self-expression patterns, improvement suggestions, and safe reflection. It is not identity verification, handwriting forensics, legal proof, or diagnosis.'
-        : 'The answer will now stay in Vedic Parashari Jyotish.',
-    'Press Ask, or type your follow-up.',
+        ? 'I will stay grounded in confirmed signature traits, self-expression patterns, improvement suggestions, and safe reflection. It is not identity verification, handwriting forensics, legal proof, or diagnosis.'
+        : 'I will stay in Vedic Parashari Jyotish.',
+    'You can continue right here.',
   ]
     .filter(Boolean)
     .join('\n\n');
@@ -4270,6 +4497,169 @@ function getPredictaSchoolLabel(school: PredictaSchool | undefined): string {
   return 'Vedic Predicta';
 }
 
+function buildRoomWelcomeReply(
+  language: SupportedLanguage,
+  room: WebPredictaChatRoom,
+  hasSelectedKundli: boolean,
+): string {
+  const roomLabel = getPredictaSchoolLabel(room.school);
+  const methodLine = getRoomMethodLine(language, room.school);
+
+  if (language === 'hi') {
+    return hasSelectedKundli
+      ? [
+          `${roomLabel} आपकी चुनी हुई कुंडली के साथ यहीं तैयार है.`,
+          methodLine,
+          'एक साफ सवाल पूछिए. मैं इसी room की विधि में रहकर जवाब दूंगी.',
+        ].join('\n\n')
+      : [
+          `${roomLabel} चुनी हुई कुंडली से पढ़ता है.`,
+          methodLine,
+          'अगर अभी कुंडली खुली नहीं है, सेव कुंडली चुनिए, नई कुंडली बनाइए, या birth details यहीं भेज दीजिए.',
+        ].join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return hasSelectedKundli
+      ? [
+          `${roomLabel} તમારી પસંદ કરેલી કુંડળી સાથે અહીં તૈયાર છે.`,
+          methodLine,
+          'એક સ્પષ્ટ સવાલ પૂછો. હું આ room ની રીતમાં રહીને જવાબ આપીશ.',
+        ].join('\n\n')
+      : [
+          `${roomLabel} પસંદ કરેલી કુંડળી પરથી વાંચે છે.`,
+          methodLine,
+          'જો અત્યારે કુંડળી ખુલ્લી નથી, તો સાચવેલી કુંડળી પસંદ કરો, નવી બનાવો, અથવા birth details અહીં મોકલો.',
+        ].join('\n\n');
+  }
+
+  return hasSelectedKundli
+    ? [
+        `${roomLabel} is ready with your selected Kundli.`,
+        methodLine,
+        'Ask one clear question and I will stay inside this room.',
+      ].join('\n\n')
+    : [
+        `${roomLabel} reads from a selected Kundli.`,
+        methodLine,
+        'If you do not have one open yet, choose a saved Kundli, create one, or paste birth details here.',
+      ].join('\n\n');
+}
+
+function getRoomMethodLine(
+  language: SupportedLanguage,
+  school: PredictaSchool,
+): string {
+  if (language === 'hi') {
+    if (school === 'KP') {
+      return 'यह room cusps, star lords, sub lords, significators और ruling planets पर रहेगा.';
+    }
+    if (school === 'NADI') {
+      return 'यह room planetary story links, karmic themes और validation questions पर रहेगा.';
+    }
+    if (school === 'NUMEROLOGY') {
+      return 'यह room name number, birth number, destiny number और personal timing पर रहेगा.';
+    }
+    if (school === 'SIGNATURE') {
+      return 'यह room confirmed signature traits, self-expression patterns और safe reflection पर रहेगा.';
+    }
+    return 'यह room D1, varga support, dasha, gochar, remedies और holistic context पर रहेगा.';
+  }
+
+  if (language === 'gu') {
+    if (school === 'KP') {
+      return 'આ room cusps, star lords, sub lords, significators અને ruling planets પર રહેશે.';
+    }
+    if (school === 'NADI') {
+      return 'આ room planetary story links, karmic themes અને validation questions પર રહેશે.';
+    }
+    if (school === 'NUMEROLOGY') {
+      return 'આ room name number, birth number, destiny number અને personal timing પર રહેશે.';
+    }
+    if (school === 'SIGNATURE') {
+      return 'આ room confirmed signature traits, self-expression patterns અને safe reflection પર રહેશે.';
+    }
+    return 'આ room D1, varga support, dasha, gochar, remedies અને holistic context પર રહેશે.';
+  }
+
+  if (school === 'KP') {
+    return 'This room stays with cusps, star lords, sub lords, significators, and ruling planets.';
+  }
+  if (school === 'NADI') {
+    return 'This room stays with planetary story links, karmic themes, and validation questions.';
+  }
+  if (school === 'NUMEROLOGY') {
+    return 'This room stays with name number, birth number, destiny number, and personal timing.';
+  }
+  if (school === 'SIGNATURE') {
+    return 'This room stays with confirmed signature traits, self-expression patterns, and safe reflection.';
+  }
+  return 'This room stays with D1, varga support, dasha, gochar, remedies, and holistic context.';
+}
+
+function getRoomRecoveryCopy(
+  language: SupportedLanguage,
+  room: WebPredictaChatRoom,
+): {
+  actionsLabel: string;
+  body: string;
+  createKundli: string;
+  eyebrow: string;
+  footnote: string;
+  openLibrary: string;
+  title: string;
+} {
+  const roomLabel = getPredictaSchoolLabel(room.school);
+
+  if (language === 'hi') {
+    return {
+      actionsLabel: 'कुंडली रिकवरी कार्य',
+      body: `${roomLabel} बिना चुनी हुई कुंडली के गहरा जवाब शुरू नहीं करेगा. पहले सही चार्ट चुनिए या यहीं बनाइए.`,
+      createKundli: 'नई कुंडली बनाएं',
+      eyebrow: 'चुनी हुई कुंडली चाहिए',
+      footnote:
+        'अगर birth details ready हैं, तो उन्हें सीधे इस chat में भेज दीजिए. मैं chart यहीं बना दूंगी.',
+      openLibrary: 'सेव कुंडली चुनें',
+      title: `${roomLabel} को चार्ट दें`,
+    };
+  }
+
+  if (language === 'gu') {
+    return {
+      actionsLabel: 'કુંડળી પુનઃપ્રાપ્તિ કાર્ય',
+      body: `${roomLabel} પસંદ કરેલી કુંડળી વગર ઊંડી reading શરૂ નહીં કરે. પહેલા સાચો chart પસંદ કરો અથવા અહીં જ બનાવો.`,
+      createKundli: 'નવી કુંડળી બનાવો',
+      eyebrow: 'પસંદ કરેલી કુંડળી જોઈએ',
+      footnote:
+        'જો birth details તૈયાર હોય, તો તેને સીધા આ chat માં મોકલો. હું chart અહીં જ બનાવી દઈશ.',
+      openLibrary: 'સાચવેલી કુંડળી પસંદ કરો',
+      title: `${roomLabel} ને chart આપો`,
+    };
+  }
+
+  return {
+    actionsLabel: 'Kundli recovery actions',
+    body: `${roomLabel} will not start a deep reading without a selected Kundli. Choose the right chart first, or create it here.`,
+    createKundli: 'Create Kundli',
+    eyebrow: 'Selected Kundli needed',
+    footnote:
+      'If you already have the birth details, paste them directly into this chat and I will create the chart here.',
+    openLibrary: 'Choose saved Kundli',
+    title: `Bring a chart into ${roomLabel}`,
+  };
+}
+
+function buildKundliBirthSummaryForChat(kundli: KundliData): string {
+  return [
+    kundli.birthDetails.name,
+    kundli.birthDetails.date,
+    kundli.birthDetails.time,
+    kundli.birthDetails.place,
+  ]
+    .filter(Boolean)
+    .join(' | ');
+}
+
 function buildContextMessage({
   birthTimeDetective,
   briefingDate,
@@ -4289,49 +4679,49 @@ function buildContextMessage({
 }): string {
   if (language === 'hi') {
     if (birthTimeDetective) {
-      return 'Birth Time Detective report loaded hai. Confidence aur safe timing limits samjhane ke liye poochiye.';
+      return 'Birth Time Detective summary यहाँ रखी है. Confidence और safe timing limits समझने के लिए पूछिए.';
     }
     if (remedyTitle) {
-      return `Remedy Coach practice loaded hai: ${remedyTitle}. Chart evidence se samjhane ke liye poochiye.`;
+      return `Remedy Coach practice यहाँ है: ${remedyTitle}. Chart evidence से समझाने के लिए पूछिए.`;
     }
     if (decisionQuestion) {
-      return `Decision Oracle memo loaded hai: ${decisionArea} / ${decisionState}. Chart evidence se samjhane ke liye poochiye.`;
+      return `Decision Oracle memo यहाँ है: ${decisionArea} / ${decisionState}. Chart evidence से समझाने के लिए पूछिए.`;
     }
     if (briefingDate) {
-      return `${briefingDate} ki daily briefing loaded hai. Chart evidence se samjhane ke liye poochiye.`;
+      return `${briefingDate} की daily briefing यहाँ है. Chart evidence से समझाने के लिए पूछिए.`;
     }
-    return 'Timeline event loaded hai. Chart evidence se samjhane ke liye poochiye.';
+    return 'Timeline event यहाँ है. Chart evidence से समझाने के लिए पूछिए.';
   }
 
   if (language === 'gu') {
     if (birthTimeDetective) {
-      return 'Birth Time Detective report loaded chhe. Confidence ane safe timing limits samjhava poochho.';
+      return 'Birth Time Detective summary અહીં છે. Confidence અને safe timing limits સમજવા પૂછો.';
     }
     if (remedyTitle) {
-      return `Remedy Coach practice loaded chhe: ${remedyTitle}. Chart evidence thi samjhava poochho.`;
+      return `Remedy Coach practice અહીં છે: ${remedyTitle}. Chart evidence થી સમજાવવા પૂછો.`;
     }
     if (decisionQuestion) {
-      return `Decision Oracle memo loaded chhe: ${decisionArea} / ${decisionState}. Chart evidence thi samjhava poochho.`;
+      return `Decision Oracle memo અહીં છે: ${decisionArea} / ${decisionState}. Chart evidence થી સમજાવવા પૂછો.`;
     }
     if (briefingDate) {
-      return `${briefingDate} ni daily briefing loaded chhe. Chart evidence thi samjhava poochho.`;
+      return `${briefingDate} ની daily briefing અહીં છે. Chart evidence થી સમજાવવા પૂછો.`;
     }
-    return 'Timeline event loaded chhe. Chart evidence thi samjhava poochho.';
+    return 'Timeline event અહીં છે. Chart evidence થી સમજાવવા પૂછો.';
   }
 
   if (birthTimeDetective) {
-    return 'I loaded your Birth Time Detective report. Press Ask when you want me to explain confidence and safe timing limits.';
+    return 'Your Birth Time Detective summary is here. Ask when you want the confidence limits explained carefully.';
   }
   if (remedyTitle) {
-    return `I loaded your Remedy Coach practice: ${remedyTitle}. Press Ask when you want me to explain it from chart evidence.`;
+    return `Your Remedy Coach practice is here: ${remedyTitle}. Ask when you want it explained from chart evidence.`;
   }
   if (decisionQuestion) {
-    return `I loaded your Decision Oracle memo: ${decisionArea} / ${decisionState}. Press Ask when you want me to explain it from chart evidence.`;
+    return `Your Decision Oracle memo is here: ${decisionArea} / ${decisionState}. Ask when you want it explained from chart evidence.`;
   }
   if (briefingDate) {
-    return `I loaded your daily briefing for ${briefingDate}. Press Ask when you want me to explain it from chart evidence.`;
+    return `Your daily briefing for ${briefingDate} is here. Ask when you want it explained from chart evidence.`;
   }
-  return 'I loaded your timeline event. Press Ask when you want me to explain it from chart evidence.';
+  return 'Your timeline event is here. Ask when you want it explained from chart evidence.';
 }
 
 function chatPlaceholder(language: SupportedLanguage): string {
@@ -4571,15 +4961,25 @@ function loadWebChatSessionStore(uid: string): WebChatSessionStore {
       return { sessions: [] };
     }
 
-    const parsed = JSON.parse(raw) as WebChatSessionStore;
+    const parsed = JSON.parse(raw) as unknown;
+    if (!isRecord(parsed)) {
+      return { sessions: [] };
+    }
+
+    const sessions = Array.isArray(parsed.sessions)
+      ? parsed.sessions
+          .map((session, index) => sanitizeStoredChatSession(session, index))
+          .filter(isDefinedChatSession)
+      : [];
+    const activeSessionId =
+      typeof parsed.activeSessionId === 'string' &&
+      sessions.some(session => session.id === parsed.activeSessionId)
+        ? parsed.activeSessionId
+        : sessions[0]?.id;
+
     return {
-      activeSessionId: parsed.activeSessionId,
-      sessions: Array.isArray(parsed.sessions)
-        ? parsed.sessions.map(session => ({
-            ...session,
-            messages: session.messages.map(sanitizeStoredMessage),
-          }))
-        : [],
+      activeSessionId,
+      sessions,
     };
   } catch {
     return { sessions: [] };
@@ -4645,10 +5045,152 @@ function getSchoolFromContext(
   return 'PARASHARI';
 }
 
+function sanitizeStoredChatSession(
+  value: unknown,
+  index: number,
+): WebChatSession | undefined {
+  if (!isRecord(value)) {
+    return undefined;
+  }
+
+  const activeChartContext = sanitizeStoredChartContext(value.activeChartContext);
+  const chatLanguage = isSupportedLanguageValue(value.chatLanguage)
+    ? value.chatLanguage
+    : 'en';
+  const replyLanguage = isSupportedLanguageValue(value.replyLanguage)
+    ? value.replyLanguage
+    : chatLanguage;
+  const messages = sanitizeStoredMessages(value.messages);
+  const id =
+    typeof value.id === 'string' && value.id.trim()
+      ? value.id
+      : `recovered-chat-${index}`;
+  const now = new Date().toISOString();
+
+  return {
+    activeChartContext,
+    birthMemory: isRecord(value.birthMemory)
+      ? (value.birthMemory as PredictaBirthMemory)
+      : undefined,
+    chatLanguage,
+    createdAt:
+      typeof value.createdAt === 'string' && value.createdAt.trim()
+        ? value.createdAt
+        : now,
+    id,
+    kundliId: typeof value.kundliId === 'string' ? value.kundliId : undefined,
+    messages: messages.length ? messages : buildInitialMessages(chatLanguage),
+    predictaMemory: isRecord(value.predictaMemory)
+      ? (value.predictaMemory as PredictaInteractionMemory)
+      : undefined,
+    replyLanguage,
+    school: getSchoolFromContext(activeChartContext),
+    selectedChart: activeChartContext?.chartType,
+    selectedHouse: activeChartContext?.selectedHouse,
+    title:
+      typeof value.title === 'string' && value.title.trim()
+        ? value.title
+        : buildWebChatSessionTitle(messages, activeChartContext, 'Predicta chat'),
+    updatedAt:
+      typeof value.updatedAt === 'string' && value.updatedAt.trim()
+        ? value.updatedAt
+        : now,
+  };
+}
+
+function sanitizeStoredChartContext(
+  value: unknown,
+): ChartContext | undefined {
+  return isRecord(value) ? (value as ChartContext) : undefined;
+}
+
+function sanitizeStoredMessages(value: unknown): WebMessage[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map(message => sanitizeStoredMessageCandidate(message))
+    .filter(isDefinedWebMessage);
+}
+
+function sanitizeStoredMessageCandidate(
+  value: unknown,
+): WebMessage | undefined {
+  if (!isRecord(value)) {
+    return undefined;
+  }
+
+  const role = value.role === 'user' || value.role === 'pridicta' ? value.role : undefined;
+  const text = typeof value.text === 'string' ? sanitizeChatCopy(value.text) : undefined;
+  if (!role || !text) {
+    return undefined;
+  }
+
+  return {
+    blocks: Array.isArray(value.blocks)
+      ? (value.blocks as ChatMessageBlock[])
+      : undefined,
+    context: sanitizeStoredChartContext(value.context),
+    id:
+      typeof value.id === 'string' && value.id.trim()
+        ? value.id
+        : `${role}-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
+    role,
+    safety: isRecord(value.safety) ? (value.safety as ChatSafetyMeta) : undefined,
+    suggestions: Array.isArray(value.suggestions)
+      ? (value.suggestions as ChatSuggestedCta[])
+      : undefined,
+    text,
+  };
+}
+
+function isSupportedLanguageValue(
+  value: unknown,
+): value is SupportedLanguage {
+  return value === 'en' || value === 'hi' || value === 'gu';
+}
+
+function isDefinedChatSession(
+  value: WebChatSession | undefined,
+): value is WebChatSession {
+  return Boolean(value);
+}
+
+function isDefinedWebMessage(
+  value: WebMessage | undefined,
+): value is WebMessage {
+  return Boolean(value);
+}
+
+function isRecord(value: unknown): value is Record<string, any> {
+  return typeof value === 'object' && value !== null;
+}
+
 function loadWebChatMemory(): WebChatMemory | undefined {
   try {
     const raw = window.localStorage.getItem(WEB_CHAT_MEMORY_KEY);
-    return raw ? (JSON.parse(raw) as WebChatMemory) : undefined;
+    if (!raw) {
+      return undefined;
+    }
+
+    const parsed = JSON.parse(raw) as unknown;
+    if (!isRecord(parsed)) {
+      return undefined;
+    }
+
+    return {
+      birthMemory: isRecord(parsed.birthMemory)
+        ? (parsed.birthMemory as PredictaBirthMemory)
+        : undefined,
+      chatLanguage: isSupportedLanguageValue(parsed.chatLanguage)
+        ? parsed.chatLanguage
+        : undefined,
+      messages: sanitizeStoredMessages(parsed.messages),
+      predictaMemory: isRecord(parsed.predictaMemory)
+        ? (parsed.predictaMemory as PredictaInteractionMemory)
+        : undefined,
+    };
   } catch {
     return undefined;
   }
