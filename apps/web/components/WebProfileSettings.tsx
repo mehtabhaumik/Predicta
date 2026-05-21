@@ -4,7 +4,10 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import type { User } from 'firebase/auth';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import type { SupportedLanguage } from '@pridicta/types';
+import type {
+  PredictaStylePreference,
+  SupportedLanguage,
+} from '@pridicta/types';
 import { SUPPORTED_LANGUAGE_OPTIONS } from '@pridicta/config/language';
 import { AuthDialog } from './AuthDialog';
 import { Card } from './Card';
@@ -70,6 +73,7 @@ type SettingsCopy = {
   privatePassBody: string;
   profileState: string;
   predictaReplyLanguage: string;
+  predictaStyle: string;
   redeem: string;
   reportLanguage: string;
   reportPreference: string;
@@ -84,6 +88,7 @@ type SettingsCopy = {
   signedInBody: string;
   signedInReady: string;
   startFree: string;
+  styleHelper: string;
   usagePill: string;
   usageSummary: string;
   viewPremium: string;
@@ -145,6 +150,7 @@ const SETTINGS_COPY: Record<SupportedLanguage, SettingsCopy> = {
       'Redeem a private invite with the approved email used for that pass.',
     profileState: 'Profile state',
     predictaReplyLanguage: 'Predicta reply language',
+    predictaStyle: 'Predicta tone style',
     redeem: 'Redeem',
     reportLanguage: 'Report language',
     reportPreference: 'Report preference',
@@ -162,6 +168,8 @@ const SETTINGS_COPY: Record<SupportedLanguage, SettingsCopy> = {
       'Your Kundli work, report choices, and saved chats stay with this account.',
     signedInReady: 'Signed in and ready',
     startFree: 'Start free, then protect your work',
+    styleHelper:
+      'Set the default tone once. Predicta still obeys explicit signals in the current message.',
     usagePill: 'Keep access clean',
     usageSummary:
       'Free keeps daily guidance and report preview useful. Premium adds deeper readings, saved continuity, and polished report depth.',
@@ -224,6 +232,7 @@ const SETTINGS_COPY: Record<SupportedLanguage, SettingsCopy> = {
       'उस पास के लिए स्वीकृत ईमेल से निजी निमंत्रण उपयोग करें.',
     profileState: 'प्रोफाइल स्थिति',
     predictaReplyLanguage: 'प्रेडिक्टा जवाब भाषा',
+    predictaStyle: 'प्रेडिक्टा शैली',
     redeem: 'उपयोग करें',
     reportLanguage: 'रिपोर्ट भाषा',
     reportPreference: 'रिपोर्ट पसंद',
@@ -241,6 +250,8 @@ const SETTINGS_COPY: Record<SupportedLanguage, SettingsCopy> = {
       'आपकी कुंडली, रिपोर्ट पसंद और सेव चैट इसी खाते के साथ रहती हैं.',
     signedInReady: 'साइन इन और तैयार',
     startFree: 'मुफ्त से शुरू करें, फिर काम सुरक्षित रखें',
+    styleHelper:
+      'डिफॉल्ट शैली एक बार चुनें. फिर भी प्रेडिक्टा मौजूदा संदेश के स्पष्ट संकेत मानेगी.',
     usagePill: 'प्रवेश साफ रखें',
     usageSummary:
       'मुफ्त उपयोग में दैनिक मार्गदर्शन और रिपोर्ट झलक उपयोगी रहती है. प्रीमियम गहरी रीडिंग, सेव निरंतरता और सुंदर रिपोर्ट गहराई जोड़ता है.',
@@ -303,6 +314,7 @@ const SETTINGS_COPY: Record<SupportedLanguage, SettingsCopy> = {
       'તે પાસ માટે મંજૂર ઇમેઇલ સાથે ખાનગી આમંત્રણ રિડીમ કરો.',
     profileState: 'પ્રોફાઇલ સ્થિતિ',
     predictaReplyLanguage: 'પ્રેડિક્ટા જવાબ ભાષા',
+    predictaStyle: 'પ્રેડિક્ટા શૈલી',
     redeem: 'રિડીમ કરો',
     reportLanguage: 'રિપોર્ટ ભાષા',
     reportPreference: 'રિપોર્ટ પસંદગી',
@@ -320,6 +332,8 @@ const SETTINGS_COPY: Record<SupportedLanguage, SettingsCopy> = {
       'તમારી કુંડળી, રિપોર્ટ પસંદગીઓ અને સેવ ચેટ આ જ ખાતા સાથે રહે છે.',
     signedInReady: 'સાઇન ઇન અને તૈયાર',
     startFree: 'મફતથી શરૂ કરો, પછી તમારું કામ સુરક્ષિત રાખો',
+    styleHelper:
+      'ડિફૉલ્ટ શૈલી એક વાર પસંદ કરો. છતાં પ્રેડિક્ટા હાલના સંદેશના સ્પષ્ટ સંકેતો માને છે.',
     usagePill: 'પ્રવેશ સ્વચ્છ રાખો',
     usageSummary:
       'મફત ઉપયોગમાં દૈનિક માર્ગદર્શન અને રિપોર્ટ ઝલક ઉપયોગી રહે છે. પ્રીમિયમ ઊંડી વાંચન, સેવ સતતતા અને સુંદર રિપોર્ટ ઊંડાઈ ઉમેરે છે.',
@@ -332,10 +346,12 @@ export function WebProfileSettings(): React.JSX.Element {
     chartLanguage,
     language,
     predictaReplyLanguage,
+    predictaStylePreference,
     reportLanguage,
     setChartLanguage,
     setLanguage,
     setPredictaReplyLanguage,
+    setPredictaStylePreference,
     setReportLanguage,
   } = useLanguagePreference();
   const copy = SETTINGS_COPY[language] ?? SETTINGS_COPY.en;
@@ -518,6 +534,13 @@ export function WebProfileSettings(): React.JSX.Element {
                 selected={predictaReplyLanguage}
                 uiLanguage={language}
               />
+              <PredictaStyleSettingRow
+                helper={copy.styleHelper}
+                label={copy.predictaStyle}
+                onSelect={setPredictaStylePreference}
+                selected={predictaStylePreference}
+                uiLanguage={language}
+              />
             </div>
           </div>
         </Card>
@@ -617,6 +640,113 @@ function LanguageSettingRow({
       </div>
     </div>
   );
+}
+
+function PredictaStyleSettingRow({
+  helper,
+  label,
+  onSelect,
+  selected,
+  uiLanguage,
+}: {
+  helper: string;
+  label: string;
+  onSelect: (style: PredictaStylePreference) => void;
+  selected: PredictaStylePreference;
+  uiLanguage: SupportedLanguage;
+}): React.JSX.Element {
+  const options = getPredictaStyleOptions(uiLanguage);
+  const selectedOption =
+    options.find(option => option.value === selected) ?? options[0];
+
+  return (
+    <div className="setting-row language-setting-row profile-language-row">
+      <div>
+        <strong>{label}</strong>
+        <span>{selectedOption.description}</span>
+      </div>
+      <div className="language-options compact-language-options">
+        {options.map(option => (
+          <button
+            className={selected === option.value ? 'selected' : ''}
+            key={option.value}
+            onClick={() => onSelect(option.value)}
+            type="button"
+            title={option.description}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
+      <small>{helper}</small>
+    </div>
+  );
+}
+
+function getPredictaStyleOptions(
+  language: SupportedLanguage,
+): Array<{
+  description: string;
+  label: string;
+  value: PredictaStylePreference;
+}> {
+  if (language === 'hi') {
+    return [
+      {
+        description: 'गर्म, संतुलित और संकेत-आधारित.',
+        label: 'संतुलित',
+        value: 'balanced',
+      },
+      {
+        description: 'देवotional संकेत मिलने पर थोड़ा भक्तिपूर्ण स्वर.',
+        label: 'भक्तिमय',
+        value: 'devotional',
+      },
+      {
+        description: 'ज्यादा तटस्थ, practical और गैर-धार्मिक.',
+        label: 'सेक्युलर',
+        value: 'secular',
+      },
+    ];
+  }
+
+  if (language === 'gu') {
+    return [
+      {
+        description: 'ઉષ્માભર્યું, સંતુલિત અને સંકેત આધારિત.',
+        label: 'સંતુલિત',
+        value: 'balanced',
+      },
+      {
+        description: 'સંકેત મળે ત્યારે થોડું ભક્તિપૂર્ણ સ્વર.',
+        label: 'ભક્તિમય',
+        value: 'devotional',
+      },
+      {
+        description: 'વધુ નિષ્પક્ષ, practical અને અર્ધાર્મિક નહીં.',
+        label: 'સેક્યુલર',
+        value: 'secular',
+      },
+    ];
+  }
+
+  return [
+    {
+      description: 'Warm, balanced, and signal-based.',
+      label: 'Balanced',
+      value: 'balanced',
+    },
+    {
+      description: 'More devotional when the user welcomes it.',
+      label: 'Devotional',
+      value: 'devotional',
+    },
+    {
+      description: 'More neutral, practical, and non-religious.',
+      label: 'Secular',
+      value: 'secular',
+    },
+  ];
 }
 
 function getLanguageName(

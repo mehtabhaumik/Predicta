@@ -125,6 +125,23 @@ export function WebDossierPreview(): React.JSX.Element {
   }, [marketplaceProducts, setReportLanguage]);
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const requestedFocus = params.get('focus');
+    const requestedMode = params.get('mode');
+
+    if (
+      requestedFocus &&
+      marketplaceProducts.some(product => product.id === requestedFocus)
+    ) {
+      setSelectedReportId(requestedFocus as ReportMarketplaceProduct['id']);
+    }
+
+    if (requestedMode === 'FREE' || requestedMode === 'PREMIUM') {
+      setMode(requestedMode);
+    }
+  }, [marketplaceProducts]);
+
+  useEffect(() => {
     try {
       return onAuthStateChanged(getFirebaseWebAuth(), setUser);
     } catch {

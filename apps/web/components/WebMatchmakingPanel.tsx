@@ -327,6 +327,56 @@ export function WebMatchmakingPanel({
               ))}
             </div>
           </div>
+
+          <div className="matchmaking-premium">
+            <div>
+              <div className="section-title">
+                {language === 'hi'
+                  ? 'प्रीमियम मिलान पैकेज'
+                  : language === 'gu'
+                    ? 'પ્રીમિયમ મિલાન પેકેજ'
+                    : 'Premium matchmaking asset'}
+              </div>
+              <h3>
+                {language === 'hi'
+                  ? 'स्कोर के पीछे की असली कहानी पढ़िए.'
+                  : language === 'gu'
+                    ? 'સ્કોર પાછળની સાચી વાર્તા વાંચો.'
+                    : 'Read the real story behind the score.'}
+              </h3>
+            </div>
+            <div className="matchmaking-premium-grid">
+              <article className="matchmaking-premium-card">
+                <span>
+                  {language === 'hi'
+                    ? 'गहरा विवाह मिलान रिपोर्ट'
+                    : language === 'gu'
+                      ? 'ઊંડો લગ્ન મિલાન રિપોર્ટ'
+                      : 'Matchmaking Deep Report'}
+                </span>
+                <strong>
+                  {language === 'hi'
+                    ? 'क्यों ऐसा स्कोर आया, यह साफ़ और सजे हुए तरीके से.'
+                    : language === 'gu'
+                      ? 'આવો સ્કોર કેમ આવ્યો, તે સ્પષ્ટ અને સજ્જ રીતે.'
+                      : 'A polished explanation of why the score landed here.'}
+                </strong>
+                <p>
+                  {language === 'hi'
+                    ? 'Premium में score logic, परिवार अनुकूलन, timing windows और practical marriage guidance जुड़ती है.'
+                    : language === 'gu'
+                      ? 'Premium માં score logic, પરિવાર અનુકૂલન, timing windows અને practical marriage guidance જોડાય છે.'
+                      : 'Premium adds score logic, family adaptation, timing windows, and practical marriage guidance.'}
+                </p>
+                <Link
+                  className="button secondary"
+                  href="/dashboard/report?focus=COMPATIBILITY&mode=PREMIUM"
+                >
+                  {copy.actions.reportOptions}
+                </Link>
+              </article>
+            </div>
+          </div>
         </>
       ) : (
         <article className="matchmaking-summary-card">

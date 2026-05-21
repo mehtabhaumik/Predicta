@@ -788,6 +788,7 @@ def build_predicta_tone_context(
     message: str,
     history: Iterable[Any],
     chart_context: Optional[ChartContext],
+    style_preference: str = "balanced",
 ) -> Dict[str, Any]:
     recent_user_turns = [
         turn.text
@@ -801,32 +802,51 @@ def build_predicta_tone_context(
         recent_user_turns,
         combined_text,
     )
-    support_style, support_reason = detect_predicta_support_style(combined_text)
+    support_style, support_reason = detect_predicta_support_style(
+        combined_text,
+        style_preference,
+    )
     needs_consolation = any(
         pattern.search(combined_text) for pattern in DISAPPOINTMENT_PATTERNS
     )
+    high_stakes = is_high_stakes_message(message)
     humor_policy = "avoid"
     if (
         stress_level == "low"
-        and not is_high_stakes_message(message)
+        and not high_stakes
         and not any(pattern.search(combined_text) for pattern in HUMOR_BAN_PATTERNS)
     ):
         humor_policy = "light-only"
-    if stress_level == "high" or is_high_stakes_message(message):
+    if stress_level == "high" or high_stakes:
         humor_policy = "avoid"
     room_tone = build_predicta_room_tone_profile(school)
 
     return {
+        "answerCadence": "brief-grounded" if high_stakes else "human-grounded",
+        "answerWarmth": "steady-comfort" if needs_consolation else "steady-clear",
+        "confidenceFrame": "bounded" if high_stakes else "normal",
+        "highStakesGuardrailMode": high_stakes,
+        "highStakesModeReason": (
+            "The user asked about a high-stakes topic, so the answer must be calmer, more bounded, and more practical."
+            if high_stakes
+            else "No high-stakes guardrail escalation was required."
+        ),
         "stressLevel": stress_level,
         "stressSignals": stress_signals,
+        "stylePreference": style_preference,
         "supportStyle": support_style,
         "supportStyleReason": support_reason,
-        "allowDevotionalPhrasing": support_style == "devotional",
-        "avoidDevotionalPhrasing": support_style == "secular",
+        "allowDevotionalPhrasing": support_style == "devotional" and not high_stakes,
+        "avoidDevotionalPhrasing": support_style == "secular" or high_stakes,
         "humorPolicy": humor_policy,
         "needsConsolation": needs_consolation,
         "headlineStyle": "short-first" if stress_level == "high" else "balanced",
         "gentleLandingNeeded": stress_level == "high" or needs_consolation,
+        "remedyGuardrail": (
+            "Prefer practical reflection, communication, professional support, and simple routine stabilizers before devotional or ritual remedies."
+            if high_stakes
+            else "Simple remedies are allowed when chart-grounded and culturally appropriate."
+        ),
         "roomTone": room_tone,
         "historyPressurePattern": (
             "repeated-user-pressure"
@@ -836,7 +856,10 @@ def build_predicta_tone_context(
     }
 
 
-def detect_predicta_support_style(text: str) -> tuple[str, str]:
+def detect_predicta_support_style(
+    text: str,
+    style_preference: str = "balanced",
+) -> tuple[str, str]:
     if any(pattern.search(text) for pattern in SECULAR_SIGNAL_PATTERNS):
         return (
             "secular",
@@ -847,9 +870,19 @@ def detect_predicta_support_style(text: str) -> tuple[str, str]:
             "devotional",
             "The user used devotional language or asked for Hindu-style remedies.",
         )
+    if style_preference == "secular":
+        return (
+            "secular",
+            "The user saved a secular Predicta style preference.",
+        )
+    if style_preference == "devotional":
+        return (
+            "devotional",
+            "The user saved a devotional Predicta style preference.",
+        )
     return (
         "warm-neutral",
-        "No reliable devotional or secular preference signal was present.",
+        "No reliable devotional or secular preference signal was present, so Predicta should stay balanced and neutral.",
     )
 
 
@@ -937,6 +970,7 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
         request.userPlan,
         request.message,
         request.history,
+        request.predictaStylePreference,
     )
     room_contract = build_predicta_room_contract(request.chartContext)
     context["predictaRoomContract"] = room_contract
@@ -997,7 +1031,9 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
         actual_model = "jyotish-deterministic-v1"
 
     if not text.strip():
-        raise AIProviderError("OpenAI returned an empty reading.")
+        text = build_deterministic_chart_reply(request, jyotish_analysis)
+        provider = "deterministic"
+        actual_model = "jyotish-deterministic-v1"
 
     output_safety_categories = unsafe_output_categories(text)
     if output_safety_categories:
@@ -1339,7 +1375,11 @@ def build_deterministic_numerology_reply(request: PridictaChatRequest) -> str:
         if request.chartContext and request.chartContext.handoffQuestion
         else request.message
     )
-    profile = build_numerology_foundation_context(request.kundli, question)
+    profile = build_numerology_foundation_context(
+        request.kundli,
+        question,
+        request.language,
+    )
     question_context = profile.get("questionContext", {})
     proof = "\n".join(f"- {item}" for item in profile["evidence"][:3])
     strengths = ", ".join(profile["strengths"][:4])
@@ -1348,6 +1388,50 @@ def build_deterministic_numerology_reply(request: PridictaChatRequest) -> str:
 
     if focus == "name-correction" and question_context.get("nameCorrection"):
         correction = question_context["nameCorrection"]
+        if request.language == "hi":
+            return "\n\n".join(
+                [
+                    "Numerology Predicta मोड। मैं इसे नाम-संख्या मार्गदर्शन तक रखूंगी, किसी पक्के जीवन-परिणाम के वादे की तरह नहीं।",
+                    f"आपका प्रश्न: {question}",
+                    (
+                        f"वर्तमान नाम: {correction['currentName']} की नाम संख्या "
+                        f"{correction['currentNameNumber']['root']} "
+                        f"({correction['currentNameNumber']['label']}) है।"
+                    ),
+                    (
+                        f"सुझाया गया नाम: {correction['candidateName']} की नाम संख्या "
+                        f"{correction['candidateNameNumber']['root']} "
+                        f"({correction['candidateNameNumber']['label']}) है।"
+                    ),
+                    f"वर्तमान नाम का स्वभाव: {correction['currentMeaning']}",
+                    f"नए नाम का स्वभाव: {correction['candidateMeaning']}",
+                    f"इसे कैसे समझें: {correction['recommendation']}",
+                    "सुरक्षा सीमा: केवल numerology के आधार पर कानूनी नाम न बदलें। वर्तनी परिवर्तन को सहायक संकेत मानें और देखें कि वह व्यवहारिक जीवन में कैसा बैठता है।",
+                    "Premium depth कई वर्तनी विकल्प, व्यक्तिगत वर्ष की टाइमिंग, और रिपोर्ट-योग्य नाम-लय मानचित्र दे सकती है।",
+                ]
+            ).strip()
+        if request.language == "gu":
+            return "\n\n".join(
+                [
+                    "Numerology Predicta મોડ। હું આને નામ-અંક માર્ગદર્શન સુધી જ રાખીશ, કોઈ ખાતરીવાળા જીવનપરિણામની રીતે નહીં।",
+                    f"તમારો પ્રશ્ન: {question}",
+                    (
+                        f"હાલનું નામ: {correction['currentName']}નો નામ અંક "
+                        f"{correction['currentNameNumber']['root']} "
+                        f"({correction['currentNameNumber']['label']}) છે।"
+                    ),
+                    (
+                        f"સૂચવાયેલ નામ: {correction['candidateName']}નો નામ અંક "
+                        f"{correction['candidateNameNumber']['root']} "
+                        f"({correction['candidateNameNumber']['label']}) છે।"
+                    ),
+                    f"હાલના નામનો સ્વભાવ: {correction['currentMeaning']}",
+                    f"નવા નામનો સ્વભાવ: {correction['candidateMeaning']}",
+                    f"આને કેવી રીતે વાપરવું: {correction['recommendation']}",
+                    "સુરક્ષા સીમા: માત્ર numerology પરથી કાનૂની નામ ન બદલો. સ્પેલિંગ ફેરફારને સહાયક સંકેત માનો અને જુઓ કે તે વાસ્તવિક જીવનમાં કેટલો સુસંગત લાગે છે।",
+                    "Premium depth અનેક સ્પેલિંગ વિકલ્પો, વ્યક્તિગત વર્ષની timing અને report-ready નામ લય નકશો આપી શકે છે।",
+                ]
+            ).strip()
         return "\n\n".join(
             [
                 "Numerology Predicta mode. I will keep this as name-number guidance, not a guaranteed life fix.",
@@ -1373,6 +1457,32 @@ def build_deterministic_numerology_reply(request: PridictaChatRequest) -> str:
     if focus == "compatibility":
         compatibility = question_context.get("compatibility") or question_context
         if compatibility.get("status") == "needs_partner_data":
+            if request.language == "hi":
+                return "\n\n".join(
+                    [
+                        "Numerology Predicta मोड। मैं compatibility देख सकती हूं, लेकिन सामने वाले व्यक्ति का data मैं बना कर नहीं दूंगी।",
+                        f"आपका प्रश्न: {question}",
+                        (
+                            f"आपके मूल अंक: नाम {profile['nameNumber']['root']}, "
+                            f"जन्म {profile['birthNumber']['root']}, भाग्य {profile['destinyNumber']['root']}।"
+                        ),
+                        "दूसरे व्यक्ति का पूरा नाम और जन्म तिथि भेजें। तब मैं नाम संख्या, जन्म संख्या, भाग्य संख्या, और वर्तमान व्यक्तिगत टाइमिंग लय की तुलना कर सकती हूं।",
+                        "सुरक्षा सीमा: compatibility numbers केवल pattern fit और friction points दिखाते हैं। वे अपने आप रिश्ते का अंतिम फैसला नहीं करते।",
+                    ]
+                ).strip()
+            if request.language == "gu":
+                return "\n\n".join(
+                    [
+                        "Numerology Predicta મોડ। હું compatibility જોઈ શકું છું, પણ બીજા વ્યક્તિનું data બનાવી નહીં દઉં।",
+                        f"તમારો પ્રશ્ન: {question}",
+                        (
+                            f"તમારા મૂળ અંક: નામ {profile['nameNumber']['root']}, "
+                            f"જન્મ {profile['birthNumber']['root']}, ભાગ્ય {profile['destinyNumber']['root']}।"
+                        ),
+                        "બીજા વ્યક્તિનું પૂરું નામ અને જન્મ તારીખ મોકલો. પછી હું નામ અંક, જન્મ અંક, ભાગ્ય અંક અને હાલની વ્યક્તિગત timing rhythm ની તુલના કરી શકું।",
+                        "સુરક્ષા સીમા: compatibility numbers ફક્ત pattern fit અને friction points બતાવે છે. તેઓ એકલા સંબંધનો આખરી નિર્ણય કરતા નથી।",
+                    ]
+                ).strip()
             return "\n\n".join(
                 [
                     "Numerology Predicta mode. I can do compatibility, but I will not invent the other person's data.",
@@ -1386,6 +1496,58 @@ def build_deterministic_numerology_reply(request: PridictaChatRequest) -> str:
                 ]
             ).strip()
         partner = compatibility.get("partner", {})
+        if request.language == "hi":
+            return "\n\n".join(
+                [
+                    "Numerology Predicta मोड। मैं दिए गए अंकों की तुलना करूंगी और इसे pattern guidance तक रखूंगी।",
+                    f"आपका प्रश्न: {question}",
+                    (
+                        f"आपके अंक: नाम {profile['nameNumber']['root']}, "
+                        f"जन्म {profile['birthNumber']['root']}, भाग्य {profile['destinyNumber']['root']}।"
+                    ),
+                    (
+                        f"{partner.get('name', 'Partner')}: "
+                        f"जन्म {partner.get('birthNumber', {}).get('root')}, "
+                        f"भाग्य {partner.get('destinyNumber', {}).get('root')}"
+                        + (
+                            f", नाम {partner.get('nameNumber', {}).get('root')}"
+                            if partner.get("nameNumber")
+                            else ""
+                        )
+                        + "।"
+                    ),
+                    f"मेल का स्वर: {compatibility.get('tone')}",
+                    f"समर्थन बिंदु: {compatibility.get('support')}",
+                    f"सावधानी बिंदु: {compatibility.get('care')}",
+                    "अगला सही कदम: केवल अंकों के आधार पर भावनात्मक या पारिवारिक फैसला लेने से पहले संवाद की लय और समय-चक्र को भी साथ में देखें।",
+                ]
+            ).strip()
+        if request.language == "gu":
+            return "\n\n".join(
+                [
+                    "Numerology Predicta મોડ। હું આપવામાં આવેલા અંકોની તુલના કરીશ અને આને pattern guidance સુધી જ રાખીશ।",
+                    f"તમારો પ્રશ્ન: {question}",
+                    (
+                        f"તમારા અંક: નામ {profile['nameNumber']['root']}, "
+                        f"જન્મ {profile['birthNumber']['root']}, ભાગ્ય {profile['destinyNumber']['root']}।"
+                    ),
+                    (
+                        f"{partner.get('name', 'Partner')}: "
+                        f"જન્મ {partner.get('birthNumber', {}).get('root')}, "
+                        f"ભાગ્ય {partner.get('destinyNumber', {}).get('root')}"
+                        + (
+                            f", નામ {partner.get('nameNumber', {}).get('root')}"
+                            if partner.get("nameNumber")
+                            else ""
+                        )
+                        + "।"
+                    ),
+                    f"મેળનો સ્વર: {compatibility.get('tone')}",
+                    f"સમર્થન બિંદુ: {compatibility.get('support')}",
+                    f"સાવચેતી બિંદુ: {compatibility.get('care')}",
+                    "આગલું યોગ્ય પગલું: માત્ર અંકો પરથી લાગણીસભર કે કુટુંબ સંબંધિત નિર્ણય લેતા પહેલાં સંવાદની લય અને સમયચક્રને પણ સાથે જુઓ।",
+                ]
+            ).strip()
         return "\n\n".join(
             [
                 "Numerology Predicta mode. I will compare the supplied numbers and keep this as pattern guidance.",
@@ -1412,6 +1574,50 @@ def build_deterministic_numerology_reply(request: PridictaChatRequest) -> str:
             ]
         ).strip()
 
+    if request.language == "hi":
+        return "\n\n".join(
+            [
+                "Numerology Predicta मोड। जब तक आप अलग पद्धति का संयुक्त पठन न मांगें, मैं इसे नाम और जन्मतिथि के अंकों के भीतर रखूंगी।",
+                f"आपका प्रश्न: {question}",
+                (
+                    f"{profile['name']}: नाम संख्या {profile['nameNumber']['root']} "
+                    f"({profile['nameNumber']['label']}), जन्म संख्या {profile['birthNumber']['root']} "
+                    f"({profile['birthNumber']['label']}), भाग्य संख्या {profile['destinyNumber']['root']} "
+                    f"({profile['destinyNumber']['label']})।"
+                ),
+                (
+                    f"वर्तमान लय: व्यक्तिगत वर्ष {profile['personalYear']['root']}, "
+                    f"माह {profile['personalMonth']['root']}, दिन {profile['personalDay']['root']}।"
+                ),
+                f"उपयोगी संकेत: {profile['summary']}",
+                f"ताकतें: {strengths}" if strengths else "",
+                f"ध्यान रखने योग्य बातें: {cautions}" if cautions else "",
+                "अंक-आधार:\n" + proof if proof else "",
+                "मुफ्त स्तर उपयोगी insight देता है। Premium depth वर्तनी तुलना, वार्षिक और मासिक timing, compatibility numbers, और polished numerology report जोड़ती है।",
+            ]
+        ).strip()
+    if request.language == "gu":
+        return "\n\n".join(
+            [
+                "Numerology Predicta મોડ। તમે અલગ પદ્ધતિનું સંયુક્ત વાંચન ન માંગો ત્યાં સુધી હું આને નામ અને જન્મતારીખના અંકોની અંદર જ રાખીશ।",
+                f"તમારો પ્રશ્ન: {question}",
+                (
+                    f"{profile['name']}: નામ અંક {profile['nameNumber']['root']} "
+                    f"({profile['nameNumber']['label']}), જન્મ અંક {profile['birthNumber']['root']} "
+                    f"({profile['birthNumber']['label']}), ભાગ્ય અંક {profile['destinyNumber']['root']} "
+                    f"({profile['destinyNumber']['label']})।"
+                ),
+                (
+                    f"હાલની લય: વ્યક્તિગત વર્ષ {profile['personalYear']['root']}, "
+                    f"મહિનો {profile['personalMonth']['root']}, દિવસ {profile['personalDay']['root']}।"
+                ),
+                f"ઉપયોગી સંકેત: {profile['summary']}",
+                f"શક્તિઓ: {strengths}" if strengths else "",
+                f"ધ્યાનમાં રાખવાના મુદ્દા: {cautions}" if cautions else "",
+                "અંક આધાર:\n" + proof if proof else "",
+                "મફત સ્તર ઉપયોગી insight આપે છે। Premium depth spelling comparison, yearly/monthly timing, compatibility numbers, અને polished numerology report ઉમેરે છે।",
+            ]
+        ).strip()
     return "\n\n".join(
         [
             "Numerology Predicta mode. I will keep this inside name and DOB numbers unless you ask for a cross-method synthesis.",
@@ -1441,18 +1647,51 @@ def build_deterministic_signature_reply(request: PridictaChatRequest) -> str:
         if request.chartContext and request.chartContext.handoffQuestion
         else request.message
     )
-    analysis = build_signature_analysis_context(question)
+    analysis = build_signature_analysis_context(question, request.language)
     if analysis["status"] == "ready":
+        trait_line = ", ".join(
+            f"{trait.get('displayLabel', trait['label'])} {trait.get('valueLabel', trait['value'])}"
+            for trait in analysis["observedTraits"]
+        )
+        if request.language == "hi":
+            return "\n\n".join(
+                [
+                    "हस्ताक्षर प्रेडिक्टा मोड। मैं केवल पुष्टि किए गए दिखने वाले संकेतों से पढ़ूंगी, छिपी पहचान या दस्तावेज़ की प्रामाणिकता का अनुमान नहीं लगाऊंगी।",
+                    f"आपका प्रश्न: {question}",
+                    f"देखे गए संकेत: {trait_line}।",
+                    f"लिखावट की लय: {analysis['rhythm']['summary']}",
+                    f"आत्म-अभिव्यक्ति का भरोसा: {analysis['confidenceExpression']['summary']}",
+                    f"स्थिरता: {analysis['consistency']['summary']}",
+                    "सुधार योजना:\n"
+                    + "\n".join(
+                        f"- {item}" for item in analysis["improvementPlan"][:4]
+                    ),
+                    f"वैकल्पिक संयुक्त सार: {analysis['synthesisReadiness']['rule']}",
+                    "सुरक्षा सीमा: यह आत्म-अभिव्यक्ति पर आधारित चिंतन है। यह पहचान सत्यापन, हस्तलेखन जांच, कानूनी प्रमाण, चिकित्सा निदान, भर्ती सलाह या पक्की भविष्यवाणी नहीं है।",
+                ]
+            )
+        if request.language == "gu":
+            return "\n\n".join(
+                [
+                    "હસ્તાક્ષર પ્રેડિક્ટા મોડ। હું માત્ર પુષ્ટિ કરેલા દેખાતા સંકેતો પરથી વાંચીશ, છુપાયેલી ઓળખ કે દસ્તાવેજની અસલિયતનો અંદાજ નહીં લગાવું।",
+                    f"તમારો પ્રશ્ન: {question}",
+                    f"જોવાયેલા સંકેતો: {trait_line}।",
+                    f"લખવાની લય: {analysis['rhythm']['summary']}",
+                    f"આત્મ-અભિવ્યક્તિનો વિશ્વાસ: {analysis['confidenceExpression']['summary']}",
+                    f"સ્થિરતા: {analysis['consistency']['summary']}",
+                    "સુધાર યોજના:\n"
+                    + "\n".join(
+                        f"- {item}" for item in analysis["improvementPlan"][:4]
+                    ),
+                    f"વૈકલ્પિક સંયુક્ત સાર: {analysis['synthesisReadiness']['rule']}",
+                    "સુરક્ષા સીમા: આ આત્મ-અભિવ્યક્તિ પર આધારિત પ્રતિબિંબ છે. આ ઓળખ ચકાસણી, હસ્તલેખન તપાસ, કાનૂની પુરાવો, તબીબી નિદાન, ભરતી સલાહ કે ખાતરીવાળી આગાહી નથી।",
+                ]
+            )
         return "\n\n".join(
             [
                 "Signature Predicta mode. I will read only from confirmed visible signature traits, not hidden identity or document authenticity.",
                 f"Your question: {question}",
-                "Traits observed: "
-                + ", ".join(
-                    f"{trait['label']} {trait['value']}"
-                    for trait in analysis["observedTraits"]
-                )
-                + ".",
+                "Traits observed: " + trait_line + ".",
                 f"Writing rhythm: {analysis['rhythm']['summary']}",
                 f"Confidence expression: {analysis['confidenceExpression']['summary']}",
                 f"Consistency: {analysis['consistency']['summary']}",
@@ -1465,12 +1704,48 @@ def build_deterministic_signature_reply(request: PridictaChatRequest) -> str:
 
     return "\n\n".join(
         [
-            "Signature Predicta mode. I will keep this inside reflective signature analysis.",
-            f"Your question: {question}",
-            "Method boundary: Signature Predicta uses only uploaded, drawn, or user-confirmed visual traits. It is not Vedic chart proof, KP judgement, Nadi pattern reading, numerology, identity verification, handwriting forensics, legal proof, medical diagnosis, or hiring advice.",
-            "What I need: a clear signature image, a drawn signature, or confirmed traits such as baseline, slant, pressure, readability, spacing, underline, capital emphasis, and signature size.",
-            "Useful answer now: I can explain what each trait usually reflects and suggest safe improvement practices. I will not make fixed claims about character, future events, health, or legal identity.",
-            "Next step: upload or draw a recent natural signature, or tell me the visible traits you want me to read.",
+            (
+                "हस्ताक्षर प्रेडिक्टा मोड। मैं इसे चिंतन-आधारित हस्ताक्षर विश्लेषण के भीतर रखूंगी।"
+                if request.language == "hi"
+                else "હસ્તાક્ષર પ્રેડિક્ટા મોડ। હું આને પ્રતિબિંબ આધારિત હસ્તાક્ષર વિશ્લેષણની અંદર રાખીશ।"
+                if request.language == "gu"
+                else "Signature Predicta mode. I will keep this inside reflective signature analysis."
+            ),
+            (
+                f"आपका प्रश्न: {question}"
+                if request.language == "hi"
+                else f"તમારો પ્રશ્ન: {question}"
+                if request.language == "gu"
+                else f"Your question: {question}"
+            ),
+            (
+                "विधि सीमा: हस्ताक्षर प्रेडिक्टा केवल अपलोड किए गए, बनाए गए या आपके द्वारा पुष्टि किए गए दिखने वाले संकेतों का उपयोग करती है। यह वैदिक चार्ट प्रमाण, कृष्णमूर्ति पद्धति का निर्णय, नाड़ी पठन, अंक ज्योतिष, पहचान सत्यापन, हस्तलेखन जांच, कानूनी प्रमाण, चिकित्सा निदान या भर्ती सलाह नहीं है।"
+                if request.language == "hi"
+                else "પદ્ધતિ સીમા: હસ્તાક્ષર પ્રેડિક્ટા માત્ર અપલોડ કરેલા, દોરેલા અથવા તમારી દ્વારા પુષ્ટિ કરેલા દેખાતા સંકેતોનો ઉપયોગ કરે છે. આ વૈદિક ચાર્ટ પુરાવો, કૃષ્ણમૂર્તિ પદ્ધતિનો નિર્ણય, નાડી વાંચન, અંક જ્યોતિષ, ઓળખ ચકાસણી, હસ્તલેખન તપાસ, કાનૂની પુરાવો, તબીબી નિદાન કે ભરતી સલાહ નથી।"
+                if request.language == "gu"
+                else "Method boundary: Signature Predicta uses only uploaded, drawn, or user-confirmed visual traits. It is not Vedic chart proof, KP judgement, Nadi pattern reading, numerology, identity verification, handwriting forensics, legal proof, medical diagnosis, or hiring advice."
+            ),
+            (
+                "मुझे क्या चाहिए: साफ हस्ताक्षर छवि, बनाया गया हस्ताक्षर, या पुष्टि किए गए संकेत जैसे आधार रेखा, झुकाव, दबाव, पढ़ने की स्पष्टता, अंतर, अंडरलाइन, बड़े अक्षर का जोर और हस्ताक्षर का आकार।"
+                if request.language == "hi"
+                else "મને શું જોઈએ: સ્પષ્ટ સહી છબી, દોરેલી સહી, અથવા પુષ્ટિ કરેલા સંકેતો જેમ કે આધાર રેખા, ઝુકાવ, દબાણ, વાંચવાની સ્પષ્ટતા, અંતર, અંડરલાઇન, મોટા અક્ષરનો ભાર અને સહીનું કદ।"
+                if request.language == "gu"
+                else "What I need: a clear signature image, a drawn signature, or confirmed traits such as baseline, slant, pressure, readability, spacing, underline, capital emphasis, and signature size."
+            ),
+            (
+                "अभी उपयोगी जवाब: मैं बता सकती हूं कि हर संकेत आमतौर पर क्या दिखाता है और कौन-सी सुरक्षित सुधार आदतें मदद करती हैं। मैं स्वभाव, भविष्य, स्वास्थ्य या कानूनी पहचान पर पक्के दावे नहीं करूंगी।"
+                if request.language == "hi"
+                else "હમણાં ઉપયોગી જવાબ: હું સમજાવી શકું છું કે દરેક સંકેત સામાન્ય રીતે શું બતાવે છે અને કઈ સુરક્ષિત સુધાર પ્રેક્ટિસ મદદ કરે છે. હું સ્વભાવ, ભવિષ્ય, આરોગ્ય કે કાનૂની ઓળખ વિશે પક્કા દાવા નહીં કરું।"
+                if request.language == "gu"
+                else "Useful answer now: I can explain what each trait usually reflects and suggest safe improvement practices. I will not make fixed claims about character, future events, health, or legal identity."
+            ),
+            (
+                "अगला कदम: हाल का स्वाभाविक हस्ताक्षर अपलोड या बनाएं, या वे दिखने वाले संकेत बताएं जिन्हें आप मुझसे पढ़वाना चाहते हैं।"
+                if request.language == "hi"
+                else "આગલું પગલું: તાજી સ્વાભાવિક સહી અપલોડ કરો અથવા દોરો, અથવા કયા દેખાતા સંકેતો હું વાંચું તે જણાવો।"
+                if request.language == "gu"
+                else "Next step: upload or draw a recent natural signature, or tell me the visible traits you want me to read."
+            ),
         ]
     )
 
@@ -1582,50 +1857,57 @@ SIGNATURE_TRAIT_RULES: Dict[str, Dict[str, Any]] = {
 }
 
 
-def build_signature_analysis_context(message: str) -> Dict[str, Any]:
+def build_signature_analysis_context(
+    message: str,
+    language: str = "en",
+) -> Dict[str, Any]:
     traits = extract_signature_traits_from_text(message)
     if not traits:
         return {
             "status": "pending",
             "observedTraits": [],
-            "prompt": "Ask for a signature image, drawing, or confirmed visible traits before interpretation.",
-            "safetyBoundaries": signature_safety_boundaries(),
+            "prompt": pending_signature_prompt(language),
+            "safetyBoundaries": signature_safety_boundaries(language),
         }
 
-    rhythm = build_signature_rhythm(traits)
-    confidence = build_signature_confidence_expression(traits)
-    consistency = build_signature_consistency(traits)
+    localized_traits = localize_signature_traits(traits, language)
+    rhythm = build_signature_rhythm(traits, language)
+    confidence = build_signature_confidence_expression(traits, language)
+    consistency = build_signature_consistency(traits, language)
     improvement_plan = build_signature_improvement_plan(
         traits,
         rhythm,
         confidence,
         consistency,
+        language,
     )
     strengths = unique_ordered(
         strength
         for trait in traits
         for strength in trait["strengths"]
     )[:7]
-    cautions = unique_ordered(trait["caution"] for trait in traits)[:5]
+    cautions = unique_ordered(
+        trait.get("displayCaution", trait["caution"]) for trait in localized_traits
+    )[:5]
 
     return {
         "cautions": cautions,
         "confidenceExpression": confidence,
         "consistency": consistency,
         "evidence": [
-            f"{trait['label']}: {trait['value']} ({trait['meaning']})."
-            for trait in traits
+            build_signature_evidence_line(trait, language)
+            for trait in localized_traits
         ],
         "improvementPlan": improvement_plan,
-        "observedTraits": traits,
+        "observedTraits": localized_traits,
         "rhythm": rhythm,
-        "safetyBoundaries": signature_safety_boundaries(),
+        "safetyBoundaries": signature_safety_boundaries(language),
         "status": "ready",
         "strengths": strengths,
-        "summary": f"Signature reading is ready from {len(traits)} confirmed visual trait{'s' if len(traits) != 1 else ''}.",
+        "summary": signature_ready_summary(len(traits), language),
         "synthesisReadiness": {
             "numerology": "available-on-request",
-            "rule": "Signature and Numerology stay separate unless the user explicitly asks for synthesis.",
+            "rule": signature_synthesis_rule(language),
         },
     }
 
@@ -1655,80 +1937,89 @@ def extract_signature_traits_from_text(message: str) -> List[Dict[str, Any]]:
     return traits
 
 
-def build_signature_rhythm(traits: List[Dict[str, Any]]) -> Dict[str, str]:
+def build_signature_rhythm(
+    traits: List[Dict[str, Any]],
+    language: str = "en",
+) -> Dict[str, str]:
     speed = trait_value(traits, "writing rhythm")
     pressure = trait_value(traits, "pressure")
     slant = trait_value(traits, "slant")
     if speed == "fast" or pressure == "heavy":
         return {
-            "care": "Slow down before important signatures, agreements, or emotional decisions.",
+            "care": signature_rhythm_care("fast", language),
             "pace": "fast",
-            "summary": "The signature rhythm looks active and forceful; it can show quick response and strong effort.",
+            "summary": signature_rhythm_summary("fast", language),
         }
     if speed == "slow" or slant == "left":
         return {
-            "care": "Use deliberate pace as a strength, but do not let caution delay necessary action.",
+            "care": signature_rhythm_care("calm", language),
             "pace": "calm",
-            "summary": "The signature rhythm looks careful and inward; it can show thoughtfulness and protected expression.",
+            "summary": signature_rhythm_summary("calm", language),
         }
     if speed == "moderate" or pressure == "medium":
         return {
-            "care": "Keep the same rhythm across repeated signatures so the public mark feels stable.",
+            "care": signature_rhythm_care("measured", language),
             "pace": "measured",
-            "summary": "The signature rhythm looks measured; it can show controlled timing and steady effort.",
+            "summary": signature_rhythm_summary("measured", language),
         }
     return {
-        "care": "Confirm speed, pressure, and slant before making rhythm claims.",
+        "care": signature_rhythm_care("variable", language),
         "pace": "variable",
-        "summary": "The rhythm signal is incomplete; more confirmed traits are needed for a sharper reading.",
+        "summary": signature_rhythm_summary("variable", language),
     }
 
 
-def build_signature_confidence_expression(traits: List[Dict[str, Any]]) -> Dict[str, str]:
+def build_signature_confidence_expression(
+    traits: List[Dict[str, Any]],
+    language: str = "en",
+) -> Dict[str, str]:
     size = trait_value(traits, "signature size")
     capital = trait_value(traits, "capital emphasis")
     underline = trait_value(traits, "underline")
     flourish = trait_value(traits, "flourish")
     if size == "large" or capital == "high" or underline == "high" or flourish == "expansive":
         return {
-            "care": "Keep the visible confidence supported by follow-through, clarity, and humility.",
+            "care": signature_confidence_care("visible", language),
             "level": "visible",
-            "summary": "The signature projects visible confidence and a stronger public mark.",
+            "summary": signature_confidence_summary("visible", language),
         }
     if size == "small" or capital == "low":
         return {
-            "care": "Practice a slightly clearer and more visible version where trust and presence matter.",
+            "care": signature_confidence_care("reserved", language),
             "level": "reserved",
-            "summary": "The signature expresses confidence more privately, with restraint and selective visibility.",
+            "summary": signature_confidence_summary("reserved", language),
         }
     return {
-        "care": "Use a clean, repeatable version so confidence feels natural rather than forced.",
+        "care": signature_confidence_care("balanced", language),
         "level": "balanced",
-        "summary": "The confidence expression looks balanced or still needs more confirmed traits.",
+        "summary": signature_confidence_summary("balanced", language),
     }
 
 
-def build_signature_consistency(traits: List[Dict[str, Any]]) -> Dict[str, str]:
+def build_signature_consistency(
+    traits: List[Dict[str, Any]],
+    language: str = "en",
+) -> Dict[str, str]:
     baseline = trait_value(traits, "baseline")
     spacing = trait_value(traits, "spacing")
     connection = trait_value(traits, "letter connection")
     slant = trait_value(traits, "slant")
     if baseline == "steady" and spacing == "balanced" and connection != "mixed":
         return {
-            "care": "Steady presentation still needs flexibility when the situation changes.",
+            "care": signature_consistency_care("steady", language),
             "level": "steady",
-            "summary": "The signature has a stable structure and can show repeatable self-presentation.",
+            "summary": signature_consistency_summary("steady", language),
         }
     if baseline == "mixed" or slant == "mixed" or connection == "mixed":
         return {
-            "care": "Choose one consistent practice version for important documents and professional settings.",
+            "care": signature_consistency_care("variable", language),
             "level": "variable",
-            "summary": "The signature shows changing rhythm, which can feel adaptable but inconsistent.",
+            "summary": signature_consistency_summary("variable", language),
         }
     return {
-        "care": "Keep enough structure that the signature remains recognizable across repeated use.",
+        "care": signature_consistency_care("flexible", language),
         "level": "flexible",
-        "summary": "The consistency profile is flexible; it can adapt but should remain recognizable.",
+        "summary": signature_consistency_summary("flexible", language),
     }
 
 
@@ -1737,19 +2028,20 @@ def build_signature_improvement_plan(
     rhythm: Dict[str, str],
     confidence: Dict[str, str],
     consistency: Dict[str, str],
+    language: str = "en",
 ) -> List[str]:
     plan = [
-        "Keep the signature natural; do not force a new style suddenly.",
+        signature_plan_intro(language),
         rhythm["care"],
         confidence["care"],
         consistency["care"],
     ]
     if any(trait["key"] == "legibility" and trait["value"] != "clear" for trait in traits):
-        plan.append("Make one professional version slightly clearer so important people can read your intent.")
+        plan.append(signature_legibility_plan(language))
     if any(trait["key"] == "spacing" and trait["value"] == "tight" for trait in traits):
-        plan.append("Add a little breathing room between name parts to reduce visual pressure.")
+        plan.append(signature_spacing_plan(language))
     if any(trait["key"] == "baseline" and trait["value"] == "downward" for trait in traits):
-        plan.append("Practice a steadier baseline for one week and compare how it feels.")
+        plan.append(signature_baseline_plan(language))
     return unique_ordered(plan)[:6]
 
 
@@ -1758,7 +2050,21 @@ def trait_value(traits: List[Dict[str, Any]], key: str) -> Optional[str]:
     return match["value"] if match else None
 
 
-def signature_safety_boundaries() -> List[str]:
+def signature_safety_boundaries(language: str = "en") -> List[str]:
+    if language == "hi":
+        return [
+            "हस्ताक्षर विश्लेषण केवल चिंतन और आत्म-समझ के लिए है।",
+            "यह पहचान सत्यापन, हस्तलेखन जांच, कानूनी प्रमाण, भर्ती सलाह, चिकित्सा निदान या मानसिक स्वास्थ्य निदान नहीं है।",
+            "हर व्याख्या को हल्की प्रवृत्ति की तरह लें, स्थायी चरित्र या भविष्य का पक्का सत्य नहीं।",
+            "मजबूत सलाह देने से पहले पुष्टि किया गया व्यक्तिगत संदर्भ रखें, और शर्म, डर या पक्के दावे वाली भाषा से बचें।",
+        ]
+    if language == "gu":
+        return [
+            "હસ્તાક્ષર વિશ્લેષણ માત્ર પ્રતિબિંબ અને આત્મસમજ માટે છે।",
+            "આ ઓળખ ચકાસણી, હસ્તલેખન તપાસ, કાનૂની પુરાવો, ભરતી સલાહ, તબીબી નિદાન અથવા માનસિક આરોગ્યનું નિદાન નથી।",
+            "દરેક અર્થઘટનને હળવી વૃત્તિ સમજો, પક્કા સ્વભાવ અથવા ભવિષ્યના સત્ય તરીકે નહીં।",
+            "મજબૂત માર્ગદર્શન આપતા પહેલાં પુષ્ટિ કરેલો વ્યક્તિગત સંદર્ભ રાખો, અને શરમ, ડર અથવા ખાતરીવાળા દાવાની ભાષાથી બચો।",
+        ]
     return [
         "Signature analysis is for reflection and self-understanding only.",
         "It is not identity verification, handwriting forensics, legal proof, hiring advice, medical diagnosis, or mental-health diagnosis.",
@@ -1767,28 +2073,406 @@ def signature_safety_boundaries() -> List[str]:
     ]
 
 
+def pending_signature_prompt(language: str) -> str:
+    if language == "hi":
+        return "व्याख्या से पहले हस्ताक्षर छवि, बनाया गया हस्ताक्षर, या पुष्टि किए गए दिखने वाले संकेत मांगें।"
+    if language == "gu":
+        return "અર્થઘટન પહેલાં સહીની છબી, દોરેલી સહી અથવા પુષ્ટિ કરેલા દેખાતા સંકેતો માંગો।"
+    return "Ask for a signature image, drawing, or confirmed visible traits before interpretation."
+
+
+def signature_ready_summary(count: int, language: str) -> str:
+    if language == "hi":
+        return f"हस्ताक्षर वाचन {count} पुष्टि किए गए दिखने वाले संकेतों के साथ तैयार है।"
+    if language == "gu":
+        return f"હસ્તાક્ષર વાંચન {count} પુષ્ટિ કરેલા દેખાતા સંકેતો સાથે તૈયાર છે।"
+    return f"Signature reading is ready from {count} confirmed visual trait{'s' if count != 1 else ''}."
+
+
+def signature_synthesis_rule(language: str) -> str:
+    if language == "hi":
+        return "हस्ताक्षर और अंक ज्योतिष अलग रहते हैं, जब तक आप स्पष्ट रूप से संयुक्त सार न मांगें।"
+    if language == "gu":
+        return "હસ્તાક્ષર અને અંક જ્યોતિષ જુદા રહે છે, જ્યાં સુધી તમે સ્પષ્ટ રીતે સંયુક્ત સાર ન માંગો।"
+    return "Signature and Numerology stay separate unless the user explicitly asks for synthesis."
+
+
+def build_signature_evidence_line(trait: Dict[str, Any], language: str) -> str:
+    label = trait.get("displayLabel", trait["label"])
+    value = trait.get("valueLabel", trait["value"])
+    if language == "hi":
+        return f"{label}: {value}."
+    if language == "gu":
+        return f"{label}: {value}."
+    return f"{label}: {value} ({trait['meaning']})."
+
+
+def localize_signature_traits(
+    traits: List[Dict[str, Any]],
+    language: str,
+) -> List[Dict[str, Any]]:
+    if language == "en":
+        return [dict(trait, valueLabel=trait["value"]) for trait in traits]
+
+    localized: List[Dict[str, Any]] = []
+    for trait in traits:
+        localized.append(
+            {
+                **trait,
+                "displayCaution": localize_signature_caution(
+                    trait["key"],
+                    trait["value"],
+                    trait["caution"],
+                    language,
+                ),
+                "displayLabel": localize_signature_label(trait["key"], language),
+                "valueLabel": localize_signature_value(trait["value"], language),
+            }
+        )
+    return localized
+
+
+def localize_signature_label(key: str, language: str) -> str:
+    labels = {
+        "hi": {
+            "baseline": "आधार रेखा",
+            "capital emphasis": "बड़े अक्षर का जोर",
+            "flourish": "अतिरिक्त शैली",
+            "legibility": "पढ़ने की स्पष्टता",
+            "letter connection": "अक्षरों का जुड़ाव",
+            "margin use": "जगह का उपयोग",
+            "pressure": "दबाव",
+            "signature size": "हस्ताक्षर का आकार",
+            "slant": "झुकाव",
+            "spacing": "अंतर",
+            "writing rhythm": "लिखावट की लय",
+            "underline": "अंडरलाइन",
+        },
+        "gu": {
+            "baseline": "આધાર રેખા",
+            "capital emphasis": "મોટા અક્ષરનો ભાર",
+            "flourish": "વધારાની શૈલી",
+            "legibility": "વાંચવાની સ્પષ્ટતા",
+            "letter connection": "અક્ષરોનો જોડાણ",
+            "margin use": "જગ્યાનો ઉપયોગ",
+            "pressure": "દબાણ",
+            "signature size": "સહીનું કદ",
+            "slant": "ઝુકાવ",
+            "spacing": "અંતર",
+            "writing rhythm": "લખવાની લય",
+            "underline": "અંડરલાઇન",
+        },
+    }
+    return labels.get(language, {}).get(key, key.title())
+
+
+def localize_signature_value(value: str, language: str) -> str:
+    values = {
+        "hi": {
+            "abstract": "बहुत अमूर्त",
+            "balanced": "संतुलित",
+            "clear": "साफ",
+            "compact": "सघन",
+            "connected": "जुड़ा हुआ",
+            "disconnected": "अलग-अलग",
+            "downward": "नीचे जाती",
+            "expansive": "फैली हुई",
+            "fast": "तेज़",
+            "heavy": "भारी",
+            "high": "मजबूत",
+            "large": "बड़ा",
+            "left": "बाएं",
+            "light": "हल्का",
+            "low": "कम",
+            "medium": "मध्यम",
+            "mixed": "मिला-जुला",
+            "moderate": "मध्यम",
+            "none": "नहीं",
+            "partial": "थोड़ा पढ़ने योग्य",
+            "right": "दाएं",
+            "single": "एक रेखा",
+            "small": "छोटा",
+            "slow": "धीमा",
+            "steady": "स्थिर",
+            "tight": "कम अंतर",
+            "upward": "ऊपर जाती",
+            "wide": "ज्यादा अंतर",
+        },
+        "gu": {
+            "abstract": "ખૂબ અમૂર્ત",
+            "balanced": "સંતુલિત",
+            "clear": "સ્પષ્ટ",
+            "compact": "સઘન",
+            "connected": "જોડાયેલ",
+            "disconnected": "અલગ",
+            "downward": "નીચે જતી",
+            "expansive": "ફેલાયેલી",
+            "fast": "ઝડપી",
+            "heavy": "ભારે",
+            "high": "મજબૂત",
+            "large": "મોટી",
+            "left": "ડાબી",
+            "light": "હળવી",
+            "low": "ઓછું",
+            "medium": "મધ્યમ",
+            "mixed": "મિશ્ર",
+            "moderate": "મધ્યમ",
+            "none": "નથી",
+            "partial": "થોડી વાંચી શકાય તેવી",
+            "right": "જમણી",
+            "single": "એક રેખા",
+            "small": "નાની",
+            "slow": "ધીમી",
+            "steady": "સ્થિર",
+            "tight": "ઓછું અંતર",
+            "upward": "ઉપર જતી",
+            "wide": "વધુ અંતર",
+        },
+    }
+    return values.get(language, {}).get(value, value)
+
+
+def localize_signature_caution(
+    key: str,
+    value: str,
+    default: str,
+    language: str,
+) -> str:
+    cautions = {
+        "hi": {
+            ("baseline", "upward"): "उत्साह को व्यवहारिक तैयारी के साथ रखें।",
+            ("baseline", "steady"): "स्थिरता के साथ लचीलापन भी बनाए रखें।",
+            ("baseline", "mixed"): "मूड बदलने पर बड़े फैसलों को ज़मीन से जोड़कर रखें।",
+            ("baseline", "downward"): "थकान और अधूरी छोड़ने की आदत पर ध्यान दें।",
+            ("pressure", "heavy"): "तेज़ दबाव को तनाव में बदलने से पहले विराम दें।",
+            ("pressure", "medium"): "संतुलित दबाव को भी समय-समय पर आराम चाहिए।",
+            ("pressure", "light"): "जहां मजबूती चाहिए वहां सीमाएं साफ रखें।",
+            ("legibility", "partial"): "गंभीर बातों में अपेक्षाएं साफ बोलें ताकि लोग गलत अर्थ न लें।",
+            ("legibility", "clear"): "स्पष्टता के साथ निजता की सीमा भी रखें।",
+            ("legibility", "abstract"): "जहां भरोसा जरूरी हो वहां थोड़ी अधिक स्पष्टता रखें।",
+        },
+        "gu": {
+            ("baseline", "upward"): "ઉત્સાહને વ્યવહારિક તૈયારી સાથે રાખો।",
+            ("baseline", "steady"): "સ્થિરતા સાથે લવચીકતા પણ જાળવો।",
+            ("baseline", "mixed"): "મૂડ બદલાય ત્યારે મોટા નિર્ણયોને જમીન પર રાખો।",
+            ("baseline", "downward"): "થાક અને અધૂરું છોડી દેવાની વૃત્તિ પર ધ્યાન આપો।",
+            ("pressure", "heavy"): "તીવ્ર દબાણને તાણમાં બદલાય તે પહેલાં વિરામ આપો।",
+            ("pressure", "medium"): "સંતુલિત દબાણને પણ સમયાંતરે આરામ જોઈએ।",
+            ("pressure", "light"): "જ્યાં મજબૂતી જોઈએ ત્યાં સીમા સ્પષ્ટ રાખો।",
+            ("legibility", "partial"): "ગંભીર વાતોમાં અપેક્ષા સ્પષ્ટ કહો જેથી લોકો ખોટો અર્થ ન કાઢે।",
+            ("legibility", "clear"): "સ્પષ્ટતા સાથે ગોપનીયતાની સીમા પણ રાખો।",
+            ("legibility", "abstract"): "જ્યાં વિશ્વાસ જરૂરી હોય ત્યાં થોડું વધુ સ્પષ્ટ રહો।",
+        },
+    }
+    return cautions.get(language, {}).get((key, value), default)
+
+
+def signature_rhythm_summary(level: str, language: str) -> str:
+    if language == "hi":
+        mapping = {
+            "fast": "हस्ताक्षर की लय सक्रिय और तेज़ दिखती है; यह जल्दी प्रतिक्रिया और मजबूत प्रयास दिखा सकती है।",
+            "calm": "हस्ताक्षर की लय सावधान और भीतर की ओर दिखती है; यह विचारशीलता और सुरक्षित अभिव्यक्ति दिखा सकती है।",
+            "measured": "हस्ताक्षर की लय संतुलित दिखती है; यह नियंत्रित समय-बोध और स्थिर प्रयास दिखा सकती है।",
+            "variable": "लय का संकेत अधूरा है; अधिक पुष्टि किए गए संकेतों से पढ़ाई और स्पष्ट होगी।",
+        }
+        return mapping[level]
+    if language == "gu":
+        mapping = {
+            "fast": "હસ્તાક્ષરની લય સક્રિય અને દબાણવાળી લાગે છે; તે ઝડપી પ્રતિસાદ અને મજબૂત પ્રયત્ન બતાવી શકે છે।",
+            "calm": "હસ્તાક્ષરની લય સાવધાન અને અંદરની તરફ લાગી શકે છે; તે વિચારપૂર્વકતા અને સુરક્ષિત અભિવ્યક્તિ બતાવી શકે છે।",
+            "measured": "હસ્તાક્ષરની લય માપેલી લાગે છે; તે નિયંત્રિત સમયબોધ અને સ્થિર પ્રયત્ન બતાવી શકે છે।",
+            "variable": "લયનો સંકેત અધૂરો છે; વધુ પુષ્ટિ કરેલા સંકેતો સાથે વાંચન વધુ સ્પષ્ટ બનશે।",
+        }
+        return mapping[level]
+    mapping = {
+        "fast": "The signature rhythm looks active and forceful; it can show quick response and strong effort.",
+        "calm": "The signature rhythm looks careful and inward; it can show thoughtfulness and protected expression.",
+        "measured": "The signature rhythm looks measured; it can show controlled timing and steady effort.",
+        "variable": "The rhythm signal is incomplete; more confirmed traits are needed for a sharper reading.",
+    }
+    return mapping[level]
+
+
+def signature_rhythm_care(level: str, language: str) -> str:
+    if language == "hi":
+        mapping = {
+            "fast": "महत्वपूर्ण हस्ताक्षर, समझौते या भावनात्मक फैसलों से पहले रफ्तार धीमी करें ताकि गति दबाव न बने।",
+            "calm": "सोच-समझकर चलने की ताकत रखें, लेकिन जरूरत के काम में देर न होने दें।",
+            "measured": "दोहराए गए हस्ताक्षरों में वही लय रखें ताकि सार्वजनिक छाप स्थिर लगे।",
+            "variable": "लय पर दावा करने से पहले गति, दबाव और झुकाव को हाल के स्वाभाविक हस्ताक्षर से पुष्टि करें।",
+        }
+        return mapping[level]
+    if language == "gu":
+        mapping = {
+            "fast": "મહત્વપૂર્ણ સહી, સમજૂતી અથવા લાગણીસભર નિર્ણય પહેલાં ગતિ ધીમી કરો જેથી ઝડપ દબાણમાં ન ફેરવે।",
+            "calm": "વિચારપૂર્વક ચાલવાની શક્તિ રાખો, પણ જરૂરી કાર્યમાં વધુ મોડું ન થવા દો।",
+            "measured": "વારંવારની સહીમાં એકસરખી લય રાખો જેથી જાહેર છાપ સ્થિર લાગે।",
+            "variable": "લય અંગે દાવો કરતા પહેલાં ગતિ, દબાણ અને ઝુકાવને તાજી સ્વાભાવિક સહીથી પુષ્ટિ કરો।",
+        }
+        return mapping[level]
+    mapping = {
+        "fast": "Slow down before important signatures, agreements, or emotional decisions.",
+        "calm": "Use deliberate pace as a strength, but do not let caution delay necessary action.",
+        "measured": "Keep the same rhythm across repeated signatures so the public mark feels stable.",
+        "variable": "Confirm speed, pressure, and slant before making rhythm claims.",
+    }
+    return mapping[level]
+
+
+def signature_confidence_summary(level: str, language: str) -> str:
+    if language == "hi":
+        mapping = {
+            "visible": "हस्ताक्षर में दिखने वाला आत्मविश्वास और मजबूत सार्वजनिक छाप दिखाई देती है।",
+            "reserved": "हस्ताक्षर का आत्मविश्वास अधिक निजी, संयमित और चुनिंदा दिखाई देता है।",
+            "balanced": "आत्मविश्वास की अभिव्यक्ति संतुलित लगती है या अभी और संकेतों की जरूरत है।",
+        }
+        return mapping[level]
+    if language == "gu":
+        mapping = {
+            "visible": "હસ્તાક્ષર સ્પષ્ટ આત્મવિશ્વાસ અને વધુ મજબૂત જાહેર છાપ બતાવે છે।",
+            "reserved": "હસ્તાક્ષરનો આત્મવિશ્વાસ વધુ ખાનગી, સંયમિત અને પસંદગીપૂર્વક દેખાય છે।",
+            "balanced": "આત્મવિશ્વાસની અભિવ્યક્તિ સંતુલિત લાગે છે અથવા હજુ વધુ સંકેતો જોઈએ।",
+        }
+        return mapping[level]
+    mapping = {
+        "visible": "The signature projects visible confidence and a stronger public mark.",
+        "reserved": "The signature expresses confidence more privately, with restraint and selective visibility.",
+        "balanced": "The confidence expression looks balanced or still needs more confirmed traits.",
+    }
+    return mapping[level]
+
+
+def signature_confidence_care(level: str, language: str) -> str:
+    if language == "hi":
+        mapping = {
+            "visible": "दिखने वाले आत्मविश्वास को स्पष्टता, विनम्रता और काम पूरा करने की आदत से सहारा दें।",
+            "reserved": "जहां भरोसा और उपस्थिति जरूरी हो वहां थोड़ा अधिक साफ और दिखने वाला रूप अभ्यास करें।",
+            "balanced": "ऐसा साफ और दोहराने योग्य रूप रखें जिससे आत्मविश्वास बनावटी न लगे।",
+        }
+        return mapping[level]
+    if language == "gu":
+        mapping = {
+            "visible": "દેખાતા આત્મવિશ્વાસને સ્પષ્ટતા, વિનમ્રતા અને કાર્યપૂર્ણતા સાથે સહારો આપો।",
+            "reserved": "જ્યાં વિશ્વાસ અને ઉપસ્થિતિ જરૂરી હોય ત્યાં થોડું વધુ સ્પષ્ટ અને દેખાતું સ્વરૂપ અભ્યાસ કરો।",
+            "balanced": "એવું સ્વચ્છ અને ફરી કરી શકાય એવું સ્વરૂપ રાખો કે આત્મવિશ્વાસ બળજબરીનો ન લાગે।",
+        }
+        return mapping[level]
+    mapping = {
+        "visible": "Keep the visible confidence supported by follow-through, clarity, and humility.",
+        "reserved": "Practice a slightly clearer and more visible version where trust and presence matter.",
+        "balanced": "Use a clean, repeatable version so confidence feels natural rather than forced.",
+    }
+    return mapping[level]
+
+
+def signature_consistency_summary(level: str, language: str) -> str:
+    if language == "hi":
+        mapping = {
+            "steady": "हस्ताक्षर की रचना स्थिर दिखती है और दोहराने योग्य आत्म-प्रस्तुति दिखा सकती है।",
+            "variable": "हस्ताक्षर बदलती लय दिखाता है, जो अनुकूलनशील तो लग सकता है पर असंगत भी बन सकता है।",
+            "flexible": "स्थिरता का रूप लचीला है; यह बदल सकता है लेकिन पहचान योग्य रहना चाहिए।",
+        }
+        return mapping[level]
+    if language == "gu":
+        mapping = {
+            "steady": "હસ્તાક્ષરની રચના સ્થિર લાગે છે અને ફરીથી દેખાડાય તેવી સ્વ-પ્રસ્તુતિ બતાવી શકે છે।",
+            "variable": "હસ્તાક્ષર બદલાતી લય બતાવે છે, જે અનુકૂળ તો લાગે પણ અસંગત પણ બની શકે છે।",
+            "flexible": "સ્થિરતાનો સ્વરૂપ લવચીક છે; તે બદલાઈ શકે છે પણ ઓળખાય તેવું રહેવું જોઈએ।",
+        }
+        return mapping[level]
+    mapping = {
+        "steady": "The signature has a stable structure and can show repeatable self-presentation.",
+        "variable": "The signature shows changing rhythm, which can feel adaptable but inconsistent.",
+        "flexible": "The consistency profile is flexible; it can adapt but should remain recognizable.",
+    }
+    return mapping[level]
+
+
+def signature_consistency_care(level: str, language: str) -> str:
+    if language == "hi":
+        mapping = {
+            "steady": "स्थिर प्रस्तुति के साथ बदलती परिस्थिति में लचीलापन भी रखें।",
+            "variable": "महत्वपूर्ण दस्तावेज़ों और पेशेवर स्थितियों के लिए एक स्थिर अभ्यास रूप चुनें।",
+            "flexible": "इतनी रचना रखें कि दोहराए जाने पर हस्ताक्षर पहचाना जा सके।",
+        }
+        return mapping[level]
+    if language == "gu":
+        mapping = {
+            "steady": "સ્થિર રજૂઆત સાથે બદલાતી પરિસ્થિતિમાં લવચીકતા પણ રાખો।",
+            "variable": "મહત્વપૂર્ણ દસ્તાવેજો અને વ્યાવસાયિક પરિસ્થિતિઓ માટે એક સ્થિર અભ્યાસ સ્વરૂપ પસંદ કરો।",
+            "flexible": "એટલી રચના રાખો કે વારંવાર વપરાય ત્યારે હસ્તાક્ષર ઓળખાય।",
+        }
+        return mapping[level]
+    mapping = {
+        "steady": "Steady presentation still needs flexibility when the situation changes.",
+        "variable": "Choose one consistent practice version for important documents and professional settings.",
+        "flexible": "Keep enough structure that the signature remains recognizable across repeated use.",
+    }
+    return mapping[level]
+
+
+def signature_plan_intro(language: str) -> str:
+    if language == "hi":
+        return "हस्ताक्षर को स्वाभाविक रखें; अचानक नया रूप जबरन न बनाएं।"
+    if language == "gu":
+        return "હસ્તાક્ષરને સ્વાભાવિક રાખો; અચાનક નવું સ્વરૂપ જબરદસ્તી ન બનાવો।"
+    return "Keep the signature natural; do not force a new style suddenly."
+
+
+def signature_legibility_plan(language: str) -> str:
+    if language == "hi":
+        return "एक पेशेवर रूप थोड़ा अधिक साफ रखें ताकि जरूरी लोग आपकी मंशा पढ़ सकें।"
+    if language == "gu":
+        return "એક વ્યાવસાયિક આવૃત્તિ થોડું વધુ સ્પષ્ટ રાખો જેથી જરૂરી લોકો તમારી ભાવના વાંચી શકે।"
+    return "Make one professional version slightly clearer so important people can read your intent."
+
+
+def signature_spacing_plan(language: str) -> str:
+    if language == "hi":
+        return "नाम के हिस्सों के बीच थोड़ा सांस लेने जैसा अंतर रखें ताकि दृश्य दबाव कम हो।"
+    if language == "gu":
+        return "નામના ભાગો વચ્ચે થોડું શ્વાસ જેવું અંતર રાખો જેથી દૃશ્ય દબાણ ઓછું થાય।"
+    return "Add a little breathing room between name parts to reduce visual pressure."
+
+
+def signature_baseline_plan(language: str) -> str:
+    if language == "hi":
+        return "एक हफ्ते तक अधिक स्थिर आधार रेखा का अभ्यास करें और देखें कि वह कैसा लगता है।"
+    if language == "gu":
+        return "એક અઠવાડિયા સુધી વધુ સ્થિર આધાર રેખાનો અભ્યાસ કરો અને જુઓ કે તે કેવી લાગે છે।"
+    return "Practice a steadier baseline for one week and compare how it feels."
+
+
 def build_numerology_foundation_context(
     kundli: KundliData,
     message: str = "",
+    language: str = "en",
 ) -> Dict[str, Any]:
     birth = kundli.birthDetails
     target_date = date.today().isoformat()
-    name_number = build_numerology_number(chaldean_name_total(birth.name))
-    birth_number = build_numerology_number(int(re.sub(r"\D", "", birth.date[-2:] or "0")))
-    destiny_number = build_numerology_number(sum_digits(re.sub(r"\D", "", birth.date)))
-    cycles = build_numerology_cycles(birth.date, target_date)
+    name_number = build_numerology_number(chaldean_name_total(birth.name), language)
+    birth_number = build_numerology_number(
+        int(re.sub(r"\D", "", birth.date[-2:] or "0")),
+        language,
+    )
+    destiny_number = build_numerology_number(
+        sum_digits(re.sub(r"\D", "", birth.date)),
+        language,
+    )
+    cycles = build_numerology_cycles(birth.date, target_date, language)
     question_context = build_numerology_question_context(
         birth.name,
         birth.date,
         message,
+        language,
     )
     strengths = unique_ordered(
         name_number["keywords"] + birth_number["keywords"] + destiny_number["keywords"]
     )[:6]
     cautions = unique_ordered(
-        number_meanings(name_number["root"])["cautions"]
-        + number_meanings(destiny_number["root"])["cautions"]
-        + number_meanings(cycles["personalYear"]["root"])["cautions"]
+        number_meanings(name_number["root"], language)["cautions"]
+        + number_meanings(destiny_number["root"], language)["cautions"]
+        + number_meanings(cycles["personalYear"]["root"], language)["cautions"]
     )[:5]
 
     return {
@@ -1796,21 +2480,22 @@ def build_numerology_foundation_context(
         "birthNumber": birth_number,
         "cautions": cautions,
         "destinyNumber": destiny_number,
-        "evidence": [
-            f"Name number {name_number['root']} comes from Chaldean letter values applied to {birth.name}.",
-            f"Birth number {birth_number['root']} comes from the birth day in {birth.date}.",
-            f"Destiny number {destiny_number['root']} comes from the full birth date {birth.date}.",
-            f"Personal year/month/day are calculated for {target_date}.",
-        ],
-        "guidance": (
-            f"Name number {name_number['root']} shows outer expression. "
-            f"Birth number {birth_number['root']} shows instinctive style. "
-            f"Destiny number {destiny_number['root']} shows longer life direction."
+        "evidence": build_numerology_foundation_evidence(
+            birth.name,
+            birth.date,
+            target_date,
+            name_number,
+            birth_number,
+            destiny_number,
+            language,
         ),
-        "limitations": [
-            "Numerology is a guidance layer and should support practical judgement.",
-            "Name spelling matters. Legal name, common name, and spiritual name can produce different numbers.",
-        ],
+        "guidance": build_numerology_foundation_guidance(
+            name_number,
+            birth_number,
+            destiny_number,
+            language,
+        ),
+        "limitations": build_numerology_foundation_limitations(language),
         "method": {
             "birthNumber": "DAY_OF_MONTH_REDUCTION",
             "destinyNumber": "FULL_BIRTH_DATE_REDUCTION",
@@ -1826,10 +2511,13 @@ def build_numerology_foundation_context(
         "questionContext": question_context,
         "status": "ready",
         "strengths": strengths,
-        "summary": (
-            f"{birth.name} carries name number {name_number['root']}, birth number "
-            f"{birth_number['root']}, and destiny number {destiny_number['root']}. "
-            f"Today sits in a personal day {cycles['personalDay']['root']} rhythm."
+        "summary": build_numerology_foundation_summary(
+            birth.name,
+            name_number,
+            birth_number,
+            destiny_number,
+            cycles["personalDay"],
+            language,
         ),
         "targetDate": target_date,
     }
@@ -1839,6 +2527,7 @@ def build_numerology_question_context(
     current_name: str,
     current_birth_date: str,
     message: str,
+    language: str = "en",
 ) -> Dict[str, Any]:
     clean_message = message.strip()
     if not clean_message:
@@ -1849,6 +2538,7 @@ def build_numerology_question_context(
             current_name,
             current_birth_date,
             clean_message,
+            language,
         )
 
     if is_name_correction_question(clean_message):
@@ -1860,6 +2550,7 @@ def build_numerology_question_context(
                 "nameCorrection": build_name_correction_context(
                     current_name,
                     candidate_name,
+                    language,
                 ),
             }
         return {
@@ -1925,11 +2616,18 @@ def clean_candidate_name(value: str) -> Optional[str]:
 def build_name_correction_context(
     current_name: str,
     candidate_name: str,
+    language: str = "en",
 ) -> Dict[str, Any]:
-    current_number = build_numerology_number(chaldean_name_total(current_name))
-    candidate_number = build_numerology_number(chaldean_name_total(candidate_name))
-    current_meaning = number_meanings(current_number["root"])["meaning"]
-    candidate_meaning = number_meanings(candidate_number["root"])["meaning"]
+    current_number = build_numerology_number(
+        chaldean_name_total(current_name),
+        language,
+    )
+    candidate_number = build_numerology_number(
+        chaldean_name_total(candidate_name),
+        language,
+    )
+    current_meaning = number_meanings(current_number["root"], language)["meaning"]
+    candidate_meaning = number_meanings(candidate_number["root"], language)["meaning"]
     same_number = current_number["root"] == candidate_number["root"]
     return {
         "candidateMeaning": candidate_meaning,
@@ -1939,12 +2637,8 @@ def build_name_correction_context(
         "currentName": current_name,
         "currentNameNumber": current_number,
         "method": "CHALDEAN_NAME_COMPARISON",
-        "recommendation": (
-            "The spelling changes the compound tone but keeps the same root. Judge the final name by clarity, family use, legal practicality, and how consistently you will use it."
-            if same_number
-            else "The spelling changes the root number, so compare whether the new expression supports the user's actual goal before using it publicly."
-        ),
-        "safetyRule": "No guaranteed outcome, no pressure to change a legal name, and no fear-based name advice.",
+        "recommendation": build_name_correction_recommendation(same_number, language),
+        "safetyRule": build_name_correction_safety_rule(language),
     }
 
 
@@ -1962,6 +2656,7 @@ def build_numerology_compatibility_context(
     current_name: str,
     current_birth_date: str,
     message: str,
+    language: str = "en",
 ) -> Dict[str, Any]:
     partner_date = extract_partner_birth_date(message)
     partner_name = extract_partner_name(message, partner_date)
@@ -1974,19 +2669,23 @@ def build_numerology_compatibility_context(
         }
 
     user_birth = build_numerology_number(
-        int(re.sub(r"\D", "", current_birth_date[-2:] or "0"))
+        int(re.sub(r"\D", "", current_birth_date[-2:] or "0")),
+        language,
     )
     user_destiny = build_numerology_number(
-        sum_digits(re.sub(r"\D", "", current_birth_date))
+        sum_digits(re.sub(r"\D", "", current_birth_date)),
+        language,
     )
     partner_birth = build_numerology_number(
-        int(re.sub(r"\D", "", partner_date[-2:] or "0"))
+        int(re.sub(r"\D", "", partner_date[-2:] or "0")),
+        language,
     )
     partner_destiny = build_numerology_number(
-        sum_digits(re.sub(r"\D", "", partner_date))
+        sum_digits(re.sub(r"\D", "", partner_date)),
+        language,
     )
     partner_name_number = (
-        build_numerology_number(chaldean_name_total(partner_name))
+        build_numerology_number(chaldean_name_total(partner_name), language)
         if partner_name
         else None
     )
@@ -1995,6 +2694,7 @@ def build_numerology_compatibility_context(
         user_destiny["root"],
         partner_birth["root"],
         partner_destiny["root"],
+        language,
     )
     return {
         "focus": "compatibility",
@@ -2103,6 +2803,7 @@ def numerology_relationship_fit(
     user_destiny: int,
     partner_birth: int,
     partner_destiny: int,
+    language: str = "en",
 ) -> Dict[str, str]:
     supportive_pairs = {
         tuple(sorted(pair))
@@ -2128,32 +2829,31 @@ def numerology_relationship_fit(
     )
 
     if support_count >= 2:
-        return {
-            "care": "Still watch daily communication style; good number fit does not replace maturity.",
-            "support": "The birth and destiny numbers show natural resonance in at least two places.",
-            "tone": "supportive",
-        }
+        return build_numerology_fit_copy("strong", language)
     if support_count == 1:
-        return {
-            "care": "One layer supports the match, while another may need patience and clear expectations.",
-            "support": "There is at least one natural bridge between instinct, destiny, or timing rhythm.",
-            "tone": "mixed but workable",
-        }
-    return {
-        "care": "The numbers may need conscious effort around pace, expectations, and emotional language.",
-        "support": "Different numbers can still work when both people respect each other's rhythm.",
-        "tone": "requires conscious effort",
-    }
+        return build_numerology_fit_copy("mixed", language)
+    return build_numerology_fit_copy("careful", language)
 
 
-def build_numerology_cycles(birth_date: str, target_date: str) -> Dict[str, Any]:
+def build_numerology_cycles(
+    birth_date: str,
+    target_date: str,
+    language: str = "en",
+) -> Dict[str, Any]:
     birth_parts = [int(part) for part in birth_date.split("-")]
     target_parts = [int(part) for part in target_date.split("-")]
     personal_year = build_numerology_number(
-        sum_digits(f"{birth_parts[1]}{birth_parts[2]}{target_parts[0]}")
+        sum_digits(f"{birth_parts[1]}{birth_parts[2]}{target_parts[0]}"),
+        language,
     )
-    personal_month = build_numerology_number(personal_year["root"] + target_parts[1])
-    personal_day = build_numerology_number(personal_month["root"] + target_parts[2])
+    personal_month = build_numerology_number(
+        personal_year["root"] + target_parts[1],
+        language,
+    )
+    personal_day = build_numerology_number(
+        personal_month["root"] + target_parts[2],
+        language,
+    )
     return {
         "personalDay": {**personal_day, "date": target_date, "period": "day"},
         "personalMonth": {**personal_month, "date": target_date, "period": "month"},
@@ -2193,10 +2893,10 @@ def chaldean_name_total(name: str) -> int:
     return sum(values.get(letter, 0) for letter in re.sub(r"[^A-Z]", "", name.upper()))
 
 
-def build_numerology_number(value: int) -> Dict[str, Any]:
+def build_numerology_number(value: int, language: str = "en") -> Dict[str, Any]:
     compound = max(0, int(value))
     root = reduce_to_root(compound)
-    meaning = number_meanings(root)
+    meaning = number_meanings(root, language)
     return {
         "compound": compound,
         "keywords": meaning["keywords"],
@@ -2206,18 +2906,8 @@ def build_numerology_number(value: int) -> Dict[str, Any]:
     }
 
 
-def number_meanings(root: int) -> Dict[str, Any]:
-    meanings = {
-        1: ("Leader", "independence, initiative, and confidence", ["leadership", "initiative", "identity"], ["ego clashes", "impatience"]),
-        2: ("Diplomat", "cooperation, sensitivity, and partnership", ["harmony", "support", "emotion"], ["over-sensitivity", "hesitation"]),
-        3: ("Creator", "communication, creativity, and expression", ["expression", "creativity", "joy"], ["scattered focus", "unfinished ideas"]),
-        4: ("Builder", "structure, discipline, and steady foundations", ["structure", "discipline", "foundation"], ["rigidity", "overwork"]),
-        5: ("Explorer", "freedom, adaptability, and movement", ["freedom", "change", "movement"], ["restlessness", "risk-taking"]),
-        6: ("Nurturer", "care, responsibility, and family", ["care", "family", "beauty"], ["over-responsibility", "people-pleasing"]),
-        7: ("Seeker", "research, privacy, and spiritual depth", ["research", "depth", "spirituality"], ["isolation", "over-analysis"]),
-        8: ("Strategist", "power, finance, and karmic responsibility", ["power", "money", "karma"], ["control issues", "money pressure"]),
-        9: ("Humanitarian", "completion, compassion, and broad wisdom", ["completion", "compassion", "wisdom"], ["emotional extremes", "savior pattern"]),
-    }
+def number_meanings(root: int, language: str = "en") -> Dict[str, Any]:
+    meanings = localized_numerology_meanings(language)
     label, meaning, keywords, cautions = meanings.get(root, meanings[9])
     return {
         "cautions": cautions,
@@ -2248,6 +2938,235 @@ def unique_ordered(items: List[str]) -> List[str]:
             seen.add(item)
             result.append(item)
     return result
+
+
+def localized_numerology_meanings(language: str) -> Dict[int, Any]:
+    if language == "hi":
+        return {
+            1: ("नेता", "स्वतंत्रता, पहल और आत्मविश्वास", ["नेतृत्व", "पहल", "पहचान"], ["अहं टकराव", "अधीरता"]),
+            2: ("समन्वयक", "सहयोग, संवेदनशीलता और साझेदारी", ["संतुलन", "सहयोग", "भावना"], ["अति-संवेदनशीलता", "हिचकिचाहट"]),
+            3: ("रचनाकार", "अभिव्यक्ति, रचनात्मकता और संवाद", ["अभिव्यक्ति", "रचनात्मकता", "आनंद"], ["बिखरा फोकस", "अधूरे विचार"]),
+            4: ("निर्माता", "संरचना, अनुशासन और स्थिर नींव", ["संरचना", "अनुशासन", "नींव"], ["कठोरता", "अधिक काम"]),
+            5: ("खोजी", "स्वतंत्रता, अनुकूलन और गति", ["स्वतंत्रता", "परिवर्तन", "गति"], ["बेचैनी", "जल्दबाजी वाला जोखिम"]),
+            6: ("पालनकर्ता", "देखभाल, जिम्मेदारी और परिवार", ["देखभाल", "परिवार", "सौंदर्य"], ["अति-जिम्मेदारी", "लोगों को खुश करने की आदत"]),
+            7: ("साधक", "खोज, निजता और आध्यात्मिक गहराई", ["अनुसंधान", "गहराई", "आध्यात्मिकता"], ["अलगाव", "अति-विश्लेषण"]),
+            8: ("रणनीतिकार", "शक्ति, वित्त और कर्मिक जिम्मेदारी", ["शक्ति", "धन", "कर्म"], ["नियंत्रण की प्रवृत्ति", "धन का दबाव"]),
+            9: ("मानवसेवी", "पूर्णता, करुणा और व्यापक बुद्धि", ["पूर्णता", "करुणा", "बुद्धि"], ["भावनात्मक अतिरेक", "उद्धारक प्रवृत्ति"]),
+        }
+    if language == "gu":
+        return {
+            1: ("નેતા", "સ્વતંત્રતા, પહેલ અને આત્મવિશ્વાસ", ["નેતૃત્વ", "પહેલ", "ઓળખ"], ["અહં અથડામણ", "અધીરાઈ"]),
+            2: ("સમન્વયક", "સહકાર, સંવેદનશીલતા અને ભાગીદારી", ["સંતુલન", "સહકાર", "ભાવના"], ["અતિ-સંવેદનશીલતા", "હિચકિચાટ"]),
+            3: ("સર્જક", "અભિવ્યક્તિ, સર્જનાત્મકતા અને સંવાદ", ["અભિવ્યક્તિ", "સર્જનાત્મકતા", "આનંદ"], ["વખરાયેલ ધ્યાન", "અધૂરા વિચાર"]),
+            4: ("નિર્માતા", "રચના, શિસ્ત અને સ્થિર પાયો", ["રચના", "શિસ્ત", "પાયો"], ["કઠોરતા", "વધુ કામ"]),
+            5: ("શોધક", "સ્વતંત્રતા, અનુકૂલન અને ગતિ", ["સ્વતંત્રતા", "પરિવર્તન", "ગતિ"], ["બેચેની", "ઉતાવળનો જોખમ"]),
+            6: ("પાલનકર્તા", "કાળજી, જવાબદારી અને પરિવાર", ["કાળજી", "પરિવાર", "સૌંદર્ય"], ["અતિ-જવાબદારી", "બધાને ખુશ રાખવાની વૃત્તિ"]),
+            7: ("સાધક", "શોધ, ગોપનીયતા અને આધ્યાત્મિક ઊંડાણ", ["શોધ", "ઊંડાણ", "આધ્યાત્મિકતા"], ["અલગાવ", "અતિ-વિશ્લેષણ"]),
+            8: ("રણનીતિકાર", "શક્તિ, નાણાં અને કર્મિક જવાબદારી", ["શક્તિ", "નાણાં", "કર્મ"], ["નિયંત્રણની વૃત્તિ", "નાણાંનો દબાણ"]),
+            9: ("માનવસેવી", "પૂર્ણતા, કરુણા અને વિસ્તૃત બુદ્ધિ", ["પૂર્ણતા", "કરુણા", "બુદ્ધિ"], ["ભાવનાત્મક અતિરેક", "ઉદ્ધારક વૃત્તિ"]),
+        }
+    return {
+        1: ("Leader", "independence, initiative, and confidence", ["leadership", "initiative", "identity"], ["ego clashes", "impatience"]),
+        2: ("Diplomat", "cooperation, sensitivity, and partnership", ["harmony", "support", "emotion"], ["over-sensitivity", "hesitation"]),
+        3: ("Creator", "communication, creativity, and expression", ["expression", "creativity", "joy"], ["scattered focus", "unfinished ideas"]),
+        4: ("Builder", "structure, discipline, and steady foundations", ["structure", "discipline", "foundation"], ["rigidity", "overwork"]),
+        5: ("Explorer", "freedom, adaptability, and movement", ["freedom", "change", "movement"], ["restlessness", "risk-taking"]),
+        6: ("Nurturer", "care, responsibility, and family", ["care", "family", "beauty"], ["over-responsibility", "people-pleasing"]),
+        7: ("Seeker", "research, privacy, and spiritual depth", ["research", "depth", "spirituality"], ["isolation", "over-analysis"]),
+        8: ("Strategist", "power, finance, and karmic responsibility", ["power", "money", "karma"], ["control issues", "money pressure"]),
+        9: ("Humanitarian", "completion, compassion, and broad wisdom", ["completion", "compassion", "wisdom"], ["emotional extremes", "savior pattern"]),
+    }
+
+
+def build_numerology_foundation_evidence(
+    name: str,
+    birth_date: str,
+    target_date: str,
+    name_number: Dict[str, Any],
+    birth_number: Dict[str, Any],
+    destiny_number: Dict[str, Any],
+    language: str,
+) -> List[str]:
+    if language == "hi":
+        return [
+            f"नाम संख्या {name_number['root']} {name} पर Chaldean letter values लगाने से निकलती है।",
+            f"जन्म संख्या {birth_number['root']} जन्म दिन {birth_date} से निकलती है।",
+            f"भाग्य संख्या {destiny_number['root']} पूरी जन्मतिथि {birth_date} से निकलती है।",
+            f"व्यक्तिगत वर्ष, माह, और दिन की गणना {target_date} के लिए की गई है।",
+        ]
+    if language == "gu":
+        return [
+            f"નામ અંક {name_number['root']} {name} પર Chaldean letter values લાગુ કરતાં મળે છે।",
+            f"જન્મ અંક {birth_number['root']} જન્મ તારીખના દિવસ {birth_date} પરથી મળે છે।",
+            f"ભાગ્ય અંક {destiny_number['root']} સંપૂર્ણ જન્મતારીખ {birth_date} પરથી મળે છે।",
+            f"વ્યક્તિગત વર્ષ, મહિનો અને દિવસની ગણતરી {target_date} માટે કરવામાં આવી છે।",
+        ]
+    return [
+        f"Name number {name_number['root']} comes from Chaldean letter values applied to {name}.",
+        f"Birth number {birth_number['root']} comes from the birth day in {birth_date}.",
+        f"Destiny number {destiny_number['root']} comes from the full birth date {birth_date}.",
+        f"Personal year/month/day are calculated for {target_date}.",
+    ]
+
+
+def build_numerology_foundation_guidance(
+    name_number: Dict[str, Any],
+    birth_number: Dict[str, Any],
+    destiny_number: Dict[str, Any],
+    language: str,
+) -> str:
+    if language == "hi":
+        return (
+            f"नाम संख्या {name_number['root']} बाहरी अभिव्यक्ति दिखाती है। "
+            f"जन्म संख्या {birth_number['root']} स्वाभाविक शैली दिखाती है। "
+            f"भाग्य संख्या {destiny_number['root']} लंबी जीवन-दिशा दिखाती है।"
+        )
+    if language == "gu":
+        return (
+            f"નામ અંક {name_number['root']} બહારની અભિવ્યક્તિ બતાવે છે। "
+            f"જન્મ અંક {birth_number['root']} સ્વાભાવિક શૈલી બતાવે છે। "
+            f"ભાગ્ય અંક {destiny_number['root']} લાંબી જીવનદિશા બતાવે છે।"
+        )
+    return (
+        f"Name number {name_number['root']} shows outer expression. "
+        f"Birth number {birth_number['root']} shows instinctive style. "
+        f"Destiny number {destiny_number['root']} shows longer life direction."
+    )
+
+
+def build_numerology_foundation_limitations(language: str) -> List[str]:
+    if language == "hi":
+        return [
+            "Numerology एक guidance layer है और इसे व्यवहारिक समझ के साथ पढ़ना चाहिए।",
+            "नाम की वर्तनी मायने रखती है। कानूनी नाम, रोज़मर्रा का नाम, और आध्यात्मिक नाम अलग अंक दे सकते हैं।",
+        ]
+    if language == "gu":
+        return [
+            "Numerology એક guidance layer છે અને તેને વ્યવહારુ સમજ સાથે વાંચવી જોઈએ।",
+            "નામની સ્પેલિંગ મહત્વ રાખે છે. કાનૂની નામ, રોજિંદું નામ અને આધ્યાત્મિક નામ જુદા અંક આપી શકે છે।",
+        ]
+    return [
+        "Numerology is a guidance layer and should support practical judgement.",
+        "Name spelling matters. Legal name, common name, and spiritual name can produce different numbers.",
+    ]
+
+
+def build_numerology_foundation_summary(
+    name: str,
+    name_number: Dict[str, Any],
+    birth_number: Dict[str, Any],
+    destiny_number: Dict[str, Any],
+    personal_day: Dict[str, Any],
+    language: str,
+) -> str:
+    if language == "hi":
+        return (
+            f"{name} की नाम संख्या {name_number['root']}, जन्म संख्या {birth_number['root']}, "
+            f"और भाग्य संख्या {destiny_number['root']} है। आज व्यक्तिगत दिन {personal_day['root']} की लय सक्रिय है।"
+        )
+    if language == "gu":
+        return (
+            f"{name} નો નામ અંક {name_number['root']}, જન્મ અંક {birth_number['root']}, "
+            f"અને ભાગ્ય અંક {destiny_number['root']} છે। આજે વ્યક્તિગત દિવસ {personal_day['root']} ની લય સક્રિય છે।"
+        )
+    return (
+        f"{name} carries name number {name_number['root']}, birth number "
+        f"{birth_number['root']}, and destiny number {destiny_number['root']}. "
+        f"Today sits in a personal day {personal_day['root']} rhythm."
+    )
+
+
+def build_name_correction_recommendation(same_number: bool, language: str) -> str:
+    if language == "hi":
+        if same_number:
+            return (
+                "वर्तनी compound tone बदलती है लेकिन root वही रखती है। अंतिम नाम का निर्णय स्पष्टता, परिवार में उपयोग, कानूनी व्यवहारिकता, और आप उसे कितनी स्थिरता से इस्तेमाल करेंगे, इन आधारों पर करें।"
+            )
+        return (
+            "वर्तनी root number बदलती है, इसलिए नया नाम आपकी वास्तविक जरूरत को सहारा देता है या नहीं, यह देखकर ही उसे सार्वजनिक रूप से अपनाएं।"
+        )
+    if language == "gu":
+        if same_number:
+            return (
+                "સ્પેલિંગ compound tone બદલે છે પરંતુ root એ જ રાખે છે. અંતિમ નામનો નિર્ણય સ્પષ્ટતા, પરિવારના ઉપયોગ, કાનૂની વ્યવહારિકતા અને તમે તેને કેટલા સતત રીતે વાપરશો તેના આધાર પર કરો।"
+            )
+        return (
+            "સ્પેલિંગ root number બદલે છે, તેથી નવું નામ તમારી વાસ્તવિક જરૂરિયાતને સહારો આપે છે કે નહીં તે જોઈને જ તેને જાહેર રીતે અપનાવો।"
+        )
+    if same_number:
+        return (
+            "The spelling changes the compound tone but keeps the same root. Judge the final name by clarity, family use, legal practicality, and how consistently you will use it."
+        )
+    return (
+        "The spelling changes the root number, so compare whether the new expression supports the user's actual goal before using it publicly."
+    )
+
+
+def build_name_correction_safety_rule(language: str) -> str:
+    if language == "hi":
+        return "कोई guaranteed outcome नहीं, कानूनी नाम बदलने का दबाव नहीं, और डर पैदा करने वाली name advice नहीं।"
+    if language == "gu":
+        return "કોઈ guaranteed outcome નહીં, કાનૂની નામ બદલવાનો દબાણ નહીં, અને ડર પેદા કરતી name advice નહીં।"
+    return "No guaranteed outcome, no pressure to change a legal name, and no fear-based name advice."
+
+
+def build_numerology_fit_copy(level: str, language: str) -> Dict[str, str]:
+    if language == "hi":
+        options = {
+            "strong": {
+                "care": "फिर भी रोज़मर्रा के संवाद पर ध्यान रखें; अच्छा अंक-मेल परिपक्वता की जगह नहीं लेता।",
+                "support": "जन्म और भाग्य अंकों में कम से कम दो जगह स्वाभाविक मेल दिख रहा है।",
+                "tone": "सहायक",
+            },
+            "mixed": {
+                "care": "एक परत मेल को सहारा देती है, जबकि दूसरी परत में धैर्य और साफ़ अपेक्षाओं की जरूरत है।",
+                "support": "स्वभाव, भाग्य, या timing rhythm में कम से कम एक प्राकृतिक पुल मौजूद है।",
+                "tone": "मिश्रित लेकिन संभव",
+            },
+            "careful": {
+                "care": "इन अंकों में गति, अपेक्षाओं, और भावनात्मक भाषा पर सचेत मेहनत की जरूरत पड़ सकती है।",
+                "support": "अलग अंक भी काम कर सकते हैं, अगर दोनों लोग एक-दूसरे की लय का सम्मान करें।",
+                "tone": "सचेत प्रयास जरूरी",
+            },
+        }
+        return options[level]
+    if language == "gu":
+        options = {
+            "strong": {
+                "care": "ત્યાં છતાં રોજિંદા સંવાદ પર ધ્યાન રાખો; સારો અંક મેળ પરિપક્વતાની જગ્યા લેતો નથી।",
+                "support": "જન્મ અને ભાગ્ય અંકોમાં ઓછામાં ઓછા બે જગ્યાએ સ્વાભાવિક અનુરણન દેખાય છે।",
+                "tone": "સમર્થક",
+            },
+            "mixed": {
+                "care": "એક સ્તર મેળને સહારો આપે છે, જ્યારે બીજે ધીરજ અને સ્પષ્ટ અપેક્ષાની જરૂર પડી શકે છે।",
+                "support": "સ્વભાવ, ભાગ્ય અથવા timing rhythm માં ઓછામાં ઓછો એક સ્વાભાવિક પુલ છે।",
+                "tone": "મિશ્રિત પણ ચાલે એવો",
+            },
+            "careful": {
+                "care": "આ અંકોમાં ગતિ, અપેક્ષા અને ભાવનાત્મક ભાષા અંગે સચેત પ્રયત્ન જરૂરી થઈ શકે છે।",
+                "support": "અલગ અંકો પણ કામ કરી શકે છે જો બંને લોકો એકબીજાની લયનો માન રાખે।",
+                "tone": "સચેત પ્રયત્ન જરૂરી",
+            },
+        }
+        return options[level]
+    options = {
+        "strong": {
+            "care": "Still watch daily communication style; good number fit does not replace maturity.",
+            "support": "The birth and destiny numbers show natural resonance in at least two places.",
+            "tone": "supportive",
+        },
+        "mixed": {
+            "care": "One layer supports the match, while another may need patience and clear expectations.",
+            "support": "There is at least one natural bridge between instinct, destiny, or timing rhythm.",
+            "tone": "mixed but workable",
+        },
+        "careful": {
+            "care": "The numbers may need conscious effort around pace, expectations, and emotional language.",
+            "support": "Different numbers can still work when both people respect each other's rhythm.",
+            "tone": "requires conscious effort",
+        },
+    }
+    return options[level]
 
 
 def localized_area_summary(area: str, confidence: str, language: str) -> str:
@@ -2573,6 +3492,11 @@ def build_pridicta_system_prompt() -> str:
             "For Hindi responses, use natural Hindi in Devanagari script. Keep expected product/chart codes such as Predicta, D1, D9, KP, Nadi, PDF, Premium, and common Jyotish terms only where they are normal for users.",
             "For Gujarati responses, use natural Gujarati in Gujarati script. Keep expected product/chart codes such as Predicta, D1, D9, KP, Nadi, PDF, Premium, and common Jyotish terms only where they are normal for users.",
             "Do not answer Hindi or Gujarati in romanized Hinglish/Gujlish. Avoid half-translated lines that mix scripts unnecessarily.",
+            "For Hindi and Gujarati specialist-room answers, translate ordinary English labels into the native script. Do not leave archetype labels such as Builder, Creator, Master Builder, profile, practical, system, or compatibility in English unless the user explicitly asks for English wording.",
+            "When you mention Numerology number archetypes in Hindi or Gujarati, show the meaning in native script first and keep any optional English gloss secondary or omit it entirely.",
+            "For Hindi and Gujarati Numerology answers, do not add English label echoes in parentheses after native-script labels. Prefer नाम संख्या, जन्म संख्या, भाग्य संख्या, વ્યક્તિગત વર્ષ, નામ અંક, જન્મ અંક, and ભાગ્ય અંક without Name Number or Birth Number repeats unless the user explicitly asks.",
+            "For Signature Predicta in Hindi or Gujarati, do not leave labels such as Baseline upward, Pressure heavy, Legibility partial, Writing rhythm, Confidence expression, or Improvement plan in English. Use native-script trait labels and value labels first.",
+            "When the response language is Hindi or Gujarati, greetings and connective phrases should also stay in native script. Do not start with romanized Namaste, Hinglish, or Gujlish.",
             "Predicta must never send the user away unnecessarily. If the user asks for anything the app can do manually, do it from chat or stage it inside chat.",
             "Never say 'Go to the Kundli screen and come back', 'Open Dashboard > Kundli', or 'I cannot help with that' when the request is bounded to Predicta's app context.",
             "For app-bounded actions, say things like: 'Yes, I can do that here', 'I need your DOB, birth time, and birth place first', 'I created it here', or 'Here is the summary'.",
@@ -2637,8 +3561,11 @@ def build_pridicta_system_prompt() -> str:
             "If predictaTone.allowDevotionalPhrasing is false, do not use deity names or ritual remedies unless the user explicitly asks for them in the same message.",
             "If predictaTone.allowDevotionalPhrasing is true, devotional language should still be occasional, natural, and culturally normal, never forced or repetitive.",
             "If predictaTone.humorPolicy is avoid, do not attempt humor.",
+            "If predictaTone.highStakesGuardrailMode is true, become calmer, less mystical, and more bounded. Lead with what is knowable, name uncertainty plainly, and give one practical stabilizing next step.",
+            "If predictaTone.remedyGuardrail asks for practical stabilizers first, do not jump straight into ritual remedies or deity references.",
             "If predictaTone.gentleLandingNeeded is true, end with one emotionally steady landing line after the practical next step.",
             "Use an audit-friendly but friendly structure: warm acknowledgement, direct answer, confidence, chart evidence, limitations, and practical next step.",
+            "Evidence should support the answer without sounding clinical. Start human, then ground the answer naturally in chart or system proof.",
             "The final feeling should be: smart astrologer, patient friend, product concierge, multilingual guide, and premium assistant.",
         ]
     )
@@ -2680,6 +3607,7 @@ def build_user_prompt(
             json.dumps(context.get("specialistContextSync"), ensure_ascii=False, indent=2),
             "Room contract enforcement: obey the active room contract before answering. Use shared Kundli/profile context, but do not mix methods. If another method is needed, make a clean specialist-room handoff.",
             "Tone enforcement: use predictaTone for answer cadence, devotional-versus-secular framing, humor limits, and emotional landing. Never infer religion beyond the explicit tone signals already provided.",
+            "Style preference enforcement: if predictaTone.stylePreference is devotional or secular, treat it as a saved tone preference unless the current user message explicitly asks for the opposite framing.",
             "Discipline handoff enforcement: if disciplineHandoff.requiresHandoff is true, do not provide the requested analysis in the active room. Hand off to disciplineHandoff.targetRoom and preserve disciplineHandoff.originalQuestion.",
             "Specialist context sync rule: use synced specialist room context only to preserve the user's last focus and handoff continuity. Do not borrow another room's method unless the user explicitly asks for synthesis.",
             "Internal normalization instruction: silently detect the user's language, correct spelling/grammar, translate the intent into clean English for reasoning, and map the request to a Predicta app action or chart question before answering.",
@@ -2689,6 +3617,7 @@ def build_user_prompt(
             f"High-stakes safety topic: {'yes' if is_high_stakes_message(message) else 'no'}",
             f"Safety protocol: {safety_line}",
             "Safety boundary: high-stakes astrology is allowed with disclaimers and safeguards. Do not provide medical/legal/financial certainty, diagnosis, professional instructions, harmful instructions, or guaranteed outcomes; advise qualified professional support for high-stakes action.",
+            "High-stakes delivery rule: for death fear, divorce certainty, child-loss fear, bankruptcy certainty, or terminal-health anxiety, keep the answer short-first, calm, bounded, and practical. No jokes, no ritual escalation, no certainty theater.",
             "Human answer order: direct answer first, then why, then chart or system proof, then next step, then a gentle landing if the answer is difficult.",
             "Holistic answer rule: when relevant, include the karma pattern and a safe practical remedy from holisticFoundation, especially for remedy, dasha, Sade Sati, Gochar, relationship, money, career, and emotional questions.",
             "Holistic reading room rule: when relevant, use holisticReadingRooms to choose one room, show proof chips, explain the practical room practice, and invite the next question without sending the user away.",
@@ -4561,6 +5490,7 @@ def build_ai_context(
     user_plan: str,
     message: str = "",
     history: Iterable[Any] = (),
+    style_preference: str = "balanced",
 ) -> Dict[str, Any]:
     allowed_charts = allowed_context_charts(user_plan, chart_context)
     selected_chart = None
@@ -4689,6 +5619,7 @@ def build_ai_context(
             message,
             history,
             chart_context,
+            style_preference,
         ),
         "requestedLanguage": language,
         "chartAccess": {
@@ -4753,8 +5684,12 @@ def build_ai_context(
             user_plan,
             chart_context,
         ),
-        "numerologyFoundation": build_numerology_foundation_context(kundli, message),
-        "signatureAnalysis": build_signature_analysis_context(message),
+        "numerologyFoundation": build_numerology_foundation_context(
+            kundli,
+            message,
+            language,
+        ),
+        "signatureAnalysis": build_signature_analysis_context(message, language),
         "chalitBhavKpFoundation": build_chalit_bhav_kp_context(
             kundli,
             user_plan,
@@ -4808,14 +5743,16 @@ def build_ai_context(
 def language_instruction(language: str) -> str:
     if language == "hi":
         return (
-            "हिंदी में देवनागरी script का उपयोग करें। भाषा natural, warm और conversational रहे। "
-            "Predicta, D1, D9, KP, Nadi, PDF, Premium जैसे expected product/chart terms रख सकते हैं, लेकिन romanized Hinglish में जवाब न दें। "
+            "हिंदी में देवनागरी लिपि का उपयोग करें। भाषा स्वाभाविक, गर्मजोशी भरी और बातचीत जैसी रहे। "
+            "Predicta, D1, D9, KP, Nadi, PDF, Premium जैसे अपेक्षित product/chart terms रख सकते हैं, लेकिन romanized Hinglish में जवाब न दें। "
+            "Greeting, transition, और archetype labels भी हिंदी में रखें; Builder, Creator, profile, practical, system जैसे साधारण अंग्रेजी शब्द न छोड़ें। "
             "Lagna, dasha, gochar/transit और nakshatra जैसे terms को आसान भाषा में समझाएं।"
         )
     if language == "gu":
         return (
-            "ગુજરાતીમાં ગુજરાતી script નો ઉપયોગ કરો। ભાષા natural, warm અને conversational રહે। "
-            "Predicta, D1, D9, KP, Nadi, PDF, Premium જેવા expected product/chart terms રાખી શકો, પરંતુ romanized Gujlish માં જવાબ ન આપો। "
+            "ગુજરાતીમાં ગુજરાતી લિપિનો ઉપયોગ કરો। ભાષા સ્વાભાવિક, ઉષ્માભરી અને વાતચીત જેવી રહે। "
+            "Predicta, D1, D9, KP, Nadi, PDF, Premium જેવા અપેક્ષિત product/chart terms રાખી શકો, પરંતુ romanized Gujlish માં જવાબ ન આપો। "
+            "Greeting, transition અને archetype labels પણ ગુજરાતીમાં રાખો; Builder, Creator, profile, practical, system જેવા સામાન્ય અંગ્રેજી શબ્દો ન છોડો। "
             "Lagna, dasha, gochar/transit અને nakshatra જેવા terms સરળ રીતે સમજાવો."
         )
     return (
@@ -4827,7 +5764,7 @@ def language_instruction(language: str) -> str:
 def is_high_stakes_message(message: str) -> bool:
     return bool(
         re.search(
-            r"\b(health|medical|medicine|doctor|surgery|pregnancy|disease|legal|court|lawsuit|contract|police|tax|finance|financial|invest|investing|investment|savings|stock|crypto|loan|debt|insurance|paisa|paise|money|nana|dhan|karz|udhar|self-harm|suicide|suicidal|violence|violent|abuse|emergency|behavior|behaviour|criminal|crime|psychopath|mental illness|mental health|depression|anxiety|addiction|aggression|anger issue)\b",
+            r"\b(health|medical|medicine|doctor|hospital|terminal|cancer|disease|surgery|pregnancy|miscarriage|legal|court|lawsuit|contract|police|tax|finance|financial|invest|investing|investment|savings|stock|crypto|loan|debt|insurance|bankrupt|bankruptcy|paisa|paise|money|nana|dhan|karz|udhar|divorce|separation|self-harm|suicide|suicidal|violence|violent|abuse|assault|emergency|behavior|behaviour|criminal|crime|psychopath|mental illness|mental health|depression|anxiety|addiction|aggression|anger issue|grief|death|dying)\b",
             message,
             re.IGNORECASE,
         )
@@ -4959,18 +5896,17 @@ def create_ai_text_response(
     openai_error: Optional[Exception] = None
 
     try:
-        return (
-            create_openai_text_response(
-                model=model,
-                system_prompt=system_prompt,
-                user_prompt=user_prompt,
-                max_output_tokens=max_output_tokens,
-                reasoning_effort=reasoning_effort,
-                safety_identifier=safety_identifier,
-            ),
-            "openai",
-            model,
+        openai_text = create_openai_text_response(
+            model=model,
+            system_prompt=system_prompt,
+            user_prompt=user_prompt,
+            max_output_tokens=max_output_tokens,
+            reasoning_effort=reasoning_effort,
+            safety_identifier=safety_identifier,
         )
+        if openai_text.strip():
+            return (openai_text, "openai", model)
+        openai_error = AIProviderError("OpenAI returned an empty reading.")
     except (AIConfigurationError, AIProviderError) as exc:
         openai_error = exc
 
@@ -4979,22 +5915,23 @@ def create_ai_text_response(
         "PREMIUM" if model == PREMIUM_DEEP_MODEL else "FREE",
     )
     try:
-        return (
-            create_gemini_text_response(
-                model=gemini_model,
-                system_prompt=system_prompt,
-                user_prompt=user_prompt,
-                max_output_tokens=max_output_tokens,
-            ),
-            "gemini",
-            gemini_model,
+        gemini_text = create_gemini_text_response(
+            model=gemini_model,
+            system_prompt=system_prompt,
+            user_prompt=user_prompt,
+            max_output_tokens=max_output_tokens,
         )
-    except AIConfigurationError as exc:
+        if gemini_text.strip():
+            return (gemini_text, "gemini", gemini_model)
+        raise AIProviderError("Gemini returned an empty reading.")
+    except (AIConfigurationError, AIProviderError) as exc:
         if isinstance(openai_error, AIConfigurationError):
-            raise AIConfigurationError(
-                "No AI provider is configured. Set OPENAI_API_KEY or GEMINI_API_KEY."
-            ) from exc
-        raise
+            if isinstance(exc, AIConfigurationError):
+                raise AIConfigurationError(
+                    "No AI provider is configured. Set OPENAI_API_KEY or GEMINI_API_KEY."
+                ) from exc
+            raise openai_error from exc
+        raise exc
 
 
 def create_gemini_text_response(

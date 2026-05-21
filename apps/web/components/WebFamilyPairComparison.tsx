@@ -272,6 +272,72 @@ export function WebFamilyPairComparison({
         </div>
       </div>
 
+      <div className="pair-comparison-premium">
+        <div>
+          <div className="section-title">
+            {language === 'hi'
+              ? 'प्रीमियम जोड़ी पैकेज'
+              : language === 'gu'
+                ? 'પ્રીમિયમ જોડી પેકેજ'
+                : 'Premium pair assets'}
+          </div>
+          <h3>
+            {language === 'hi'
+              ? 'जोड़ेदार तुलना को सजा हुआ गहरा सार बनाइए.'
+              : language === 'gu'
+                ? 'જોડી તુલનાને સજ્જ ઊંડા સારમાં ફેરવો.'
+                : 'Turn pair comparison into report-grade depth.'}
+          </h3>
+        </div>
+        <div className="pair-comparison-premium-grid">
+          {[
+            {
+              body:
+                language === 'hi'
+                  ? 'जीवन-क्षेत्र आधारित सजा हुआ सार: मेल, घर्षण, धन शैली, जिम्मेदारी का भार और सुधार का रास्ता.'
+                  : language === 'gu'
+                    ? 'જીવન-ક્ષેત્ર આધારિત સજ્જ સાર: મેળ, ઘર્ષણ, પૈસાની શૈલી, જવાબદારીનો ભાર અને સુધારનો રસ્તો.'
+                    : 'A polished life-area dossier: harmony, friction, money style, duty load, and repair path.',
+              cta: '/dashboard/report?focus=COMPATIBILITY&mode=PREMIUM',
+              title:
+                language === 'hi'
+                  ? 'जोड़ेदार तुलना सार'
+                  : language === 'gu'
+                    ? 'જોડી તુલના સાર'
+                    : 'Pair Comparison Dossier',
+            },
+            {
+              body:
+                language === 'hi'
+                  ? 'रिश्ते को तकनीकी भाषा से बाहर निकालकर व्यावहारिक सुधार कदमों में बदलिए.'
+                  : language === 'gu'
+                    ? 'સંબંધને technical jargon બહાર કાઢીને પ્રાયોગિક સુધાર પગલાંમાં ફેરવો.'
+                    : 'Turn the pair out of jargon and into practical healing steps.',
+              cta: '/dashboard/report?focus=REMEDIES&mode=PREMIUM',
+              title:
+                language === 'hi'
+                  ? 'रिश्ता सुधार मार्गदर्शिका'
+                  : language === 'gu'
+                    ? 'સંબંધ સુધાર માર્ગદર્શિકા'
+                    : 'Relationship Healing Guide',
+            },
+          ].map(asset => (
+            <article className="pair-comparison-premium-card" key={asset.title}>
+              <span>{asset.title}</span>
+              <strong>{hasPremiumAccess ? copy.premiumLabel : copy.premiumLocked}</strong>
+              <p>{asset.body}</p>
+              <Link className="button secondary" href={asset.cta}>
+                {language === 'hi'
+                  ? 'खोलें'
+                  : language === 'gu'
+                    ? 'ખોલો'
+                    : 'Open'}
+              </Link>
+            </article>
+          ))}
+        </div>
+      </div>
+
       <div className="action-row">
         <Link className="button" href={first && second ? askHref : '/dashboard/kundli'}>
           {copy.actions.askPredicta}

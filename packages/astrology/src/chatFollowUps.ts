@@ -23,9 +23,34 @@ export function buildChatFollowUps({
   lastText,
 }: FollowUpInput): ChatSuggestedCta[] {
   const schoolHandoff = schoolHandoffFollowUps(lastText, kundli, language);
+  const normalized = lastText.toLowerCase();
 
   if (schoolHandoff.length) {
     return schoolHandoff;
+  }
+
+  if (context?.selectedFamilyKarmaMap) {
+    return localizeActions(
+      [
+        ['family-deeper', 'Ask deeper about the household pattern'],
+        ['family-healing', 'Which pair heals fastest here?'],
+        ['family-pressure', 'Who amplifies pressure in this map?'],
+        ['family-guide', 'Give one practical household healing guide'],
+      ],
+      language,
+    );
+  }
+
+  if (context?.selectedRelationshipMirror) {
+    return localizeActions(
+      [
+        ['pair-deeper', 'Ask deeper about this pair'],
+        ['pair-timing', 'Check timing pressure for this pair'],
+        ['pair-remedy', 'Give one relationship repair step'],
+        ['pair-compare', 'Compare with another person'],
+      ],
+      language,
+    );
   }
 
   if (context?.chartType) {
@@ -76,10 +101,34 @@ export function buildChatFollowUps({
     );
   }
 
-  const normalized = lastText.toLowerCase();
+  if (
+    matches(normalized, [
+      'death',
+      'divorce',
+      'bankruptcy',
+      'terminal',
+      'hospital',
+      'panic',
+      'worried',
+      'scared',
+      'stress',
+    ])
+  ) {
+    return localizeActions(
+      [
+        ['certain', 'What looks most certain here?'],
+        ['stabilize', 'Give one stabilizing next step'],
+        ['timing-watch', 'What timing should I watch next?'],
+        ['compare-person', 'Compare with another person'],
+      ],
+      language,
+    );
+  }
+
   if (matches(normalized, ['money', 'finance', 'wealth', 'salary', 'paise', 'paisa'])) {
     return localizeActions(
       [
+        ['money-deeper', 'Ask deeper about my money pattern'],
         ['finance-year', 'Show my next 12-month finance windows'],
         ['money-house', 'Explain my 2nd and 11th house'],
         ['finance-remedy', 'Suggest practical money remedies'],
@@ -90,6 +139,7 @@ export function buildChatFollowUps({
   if (matches(normalized, ['marriage', 'relationship', 'partner', 'spouse', 'shaadi'])) {
     return localizeActions(
       [
+        ['relationship-deeper', 'Ask deeper about this relationship pattern'],
         ['d9', 'Show my D9 chart'],
         ['marriage-timing', 'Check marriage timing with proof'],
         ['partner-pattern', 'What partner pattern does my chart show?'],
@@ -100,6 +150,7 @@ export function buildChatFollowUps({
   if (matches(normalized, ['career', 'job', 'business', 'work'])) {
     return localizeActions(
       [
+        ['career-deeper', 'Ask deeper about my work pattern'],
         ['d10', 'Show my D10 career chart'],
         ['career-year', 'Check career timing for next 12 months'],
         ['career-remedy', 'Give career remedies and next action'],
@@ -111,10 +162,10 @@ export function buildChatFollowUps({
   const name = kundli?.birthDetails.name?.split(' ')[0] ?? 'me';
   return localizeActions(
     [
-      ['d9', `Show ${name === 'me' ? 'my' : `${name}'s`} D9 chart`],
-      ['finance', 'Tell me about money with proof'],
-      ['timeline', 'What is active in my timeline now?'],
+      ['deeper', `Ask deeper about ${name === 'me' ? 'my chart' : `${name}'s chart`}`],
+      ['timing', 'What timing is most active now?'],
       ['remedy', 'Give me one useful remedy'],
+      ['compare-person', 'Compare with another person'],
     ],
     language,
   );
@@ -430,8 +481,19 @@ function setHrefParam(
 }
 
 function localizeLabel(prompt: string, language: SupportedLanguage): string {
+  const exactLabel = localizeExactLabel(prompt, language);
+  if (exactLabel) {
+    return exactLabel;
+  }
+
   if (language === 'hi') {
     return prompt
+      .replace(/^Ask deeper about /, 'और गहराई से बताइए ')
+      .replace(/^Ask deeper /, 'और गहराई से बताइए ')
+      .replace(/^Ask /, 'पूछिए ')
+      .replace(/^Check /, 'जांचिए ')
+      .replace(/^Compare /, 'तुलना कीजिए ')
+      .replace(/^Make /, 'बनाइए ')
       .replace(/^Show my /, 'Dikhaiye ')
       .replace(/^Tell me about /, 'Bataye ')
       .replace(/^Explain /, 'Samjhaiye ')
@@ -440,6 +502,12 @@ function localizeLabel(prompt: string, language: SupportedLanguage): string {
   }
   if (language === 'gu') {
     return prompt
+      .replace(/^Ask deeper about /, 'Vadhu undaan thi kaho ')
+      .replace(/^Ask deeper /, 'Vadhu undaan thi kaho ')
+      .replace(/^Ask /, 'Pucho ')
+      .replace(/^Check /, 'Tapaso ')
+      .replace(/^Compare /, 'Tulna karo ')
+      .replace(/^Make /, 'Banao ')
       .replace(/^Show my /, 'Batavo ')
       .replace(/^Tell me about /, 'Kaho ')
       .replace(/^Explain /, 'Samjavo ')
@@ -447,6 +515,48 @@ function localizeLabel(prompt: string, language: SupportedLanguage): string {
       .replace(/^Give /, 'Aapo ');
   }
   return prompt;
+}
+
+function localizeExactLabel(
+  prompt: string,
+  language: SupportedLanguage,
+): string | undefined {
+  const table: Partial<Record<SupportedLanguage, Record<string, string>>> = {
+    gu: {
+      'Ask deeper about the household pattern': 'ઘરના પેટર્નને વધુ ઊંડાણથી પૂછો',
+      'Ask deeper about this pair': 'આ જોડી વિશે વધુ ઊંડાણથી પૂછો',
+      'Ask deeper about my money pattern': 'મારા પૈસાના પેટર્ન વિશે વધુ પૂછો',
+      'Ask deeper about my work pattern': 'મારા કામના પેટર્ન વિશે વધુ પૂછો',
+      'Ask deeper about my chart': 'મારી કુંડળી વિશે વધુ પૂછો',
+      'Compare with another person': 'બીજા વ્યક્તિ સાથે તુલના કરો',
+      'Give me one practical household healing guide': 'ઘર માટે એક પ્રાયોગિક ઉપચાર માર્ગ આપો',
+      'Give one relationship repair step': 'સંબંધ સુધારવાનો એક પગલું આપો',
+      'Give one stabilizing next step': 'એક સ્થિર કરતું આગળનું પગલું આપો',
+      'What looks most certain here?': 'અહીં સૌથી નિશ્ચિત શું લાગે છે?',
+      'What timing is most active now?': 'હાલ કયું સમયચક્ર સૌથી સક્રિય છે?',
+      'What timing should I watch next?': 'આગળ કયું સમયચક્ર જોવું?',
+      'Which pair heals fastest here?': 'અહીં કઈ જોડી ઝડપથી સાજી થાય છે?',
+      'Who amplifies pressure in this map?': 'આ નકશામાં દબાણ કોણ વધારે છે?',
+    },
+    hi: {
+      'Ask deeper about the household pattern': 'घर के पैटर्न को और गहराई से पूछें',
+      'Ask deeper about this pair': 'इस जोड़ी के बारे में और गहराई से पूछें',
+      'Ask deeper about my money pattern': 'मेरे धन पैटर्न के बारे में और पूछें',
+      'Ask deeper about my work pattern': 'मेरे काम के पैटर्न के बारे में और पूछें',
+      'Ask deeper about my chart': 'मेरी कुंडली के बारे में और पूछें',
+      'Compare with another person': 'किसी और व्यक्ति से तुलना करें',
+      'Give me one practical household healing guide': 'घर के लिए एक व्यावहारिक सुधार मार्ग दें',
+      'Give one relationship repair step': 'रिश्ता सुधारने का एक कदम दें',
+      'Give one stabilizing next step': 'एक स्थिर करने वाला अगला कदम दें',
+      'What looks most certain here?': 'यहां सबसे निश्चित क्या दिख रहा है?',
+      'What timing is most active now?': 'अभी कौन सा समय सबसे सक्रिय है?',
+      'What timing should I watch next?': 'अगला कौन सा समय देखना चाहिए?',
+      'Which pair heals fastest here?': 'यहां कौन सी जोड़ी सबसे जल्दी संभलती है?',
+      'Who amplifies pressure in this map?': 'इस नक्शे में दबाव कौन बढ़ाता है?',
+    },
+  };
+
+  return table[language]?.[prompt];
 }
 
 function matches(text: string, needles: string[]): boolean {

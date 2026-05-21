@@ -435,6 +435,66 @@ export function WebFamilyKarmaMap({
         </article>
       </div>
 
+      <div className="family-map-premium-grid">
+        <article className="family-map-premium-card">
+          <span>
+            {language === 'hi'
+              ? 'घर को कौन शांत करता है'
+              : language === 'gu'
+                ? 'ઘરને કોણ શાંત કરે છે'
+                : 'Who calms the house'}
+          </span>
+          <strong>{map.whoCalmsTheHouse ?? map.strongestSupportPair ?? copy.pendingLabel}</strong>
+          <p>{map.householdEmotionalClimate}</p>
+        </article>
+        <article className="family-map-premium-card">
+          <span>
+            {language === 'hi'
+              ? 'दबाव कौन बढ़ाता है'
+              : language === 'gu'
+                ? 'દબાણ કોણ વધારે છે'
+                : 'Who amplifies pressure'}
+          </span>
+          <strong>
+            {map.whoAmplifiesPressure ?? map.strongestFrictionPair ?? copy.pendingLabel}
+          </strong>
+          <p>{map.communicationFractureMap}</p>
+        </article>
+        <article className="family-map-premium-card">
+          <span>
+            {language === 'hi'
+              ? 'किसे नरम handling चाहिए'
+              : language === 'gu'
+                ? 'કોને નરમ વ્યવહાર જોઈએ'
+                : 'Who needs gentler handling'}
+          </span>
+          <strong>{map.whoNeedsGentlerHandling ?? copy.pendingLabel}</strong>
+          <p>{map.caregivingBurdenMap}</p>
+        </article>
+        <article className="family-map-premium-card">
+          <span>
+            {language === 'hi'
+              ? 'सबसे जल्दी संभलने वाली जोड़ी'
+              : language === 'gu'
+                ? 'ઝડપથી સંભળી જતી જોડી'
+                : 'Fastest healing pair'}
+          </span>
+          <strong>{map.fastestHealingPair ?? map.strongestSupportPair ?? copy.pendingLabel}</strong>
+          <p>{map.dharmaRepairPath ?? map.subtitle}</p>
+        </article>
+        <article className="family-map-premium-card">
+          <span>
+            {language === 'hi'
+              ? 'दिनचर्या और धन का दोहराया तनाव'
+              : language === 'gu'
+                ? 'દિનચર્યા અને પૈસાનો ફરી આવતો તણાવ'
+                : 'Repeated routine or money tension'}
+          </span>
+          <strong>{map.repeatedRoutineMoneyTension ?? map.ritualRoutineMoneyStressMap}</strong>
+          <p>{map.ritualRoutineMoneyStressMap}</p>
+        </article>
+      </div>
+
       <div className="family-map-sections">
         <section className="family-map-section">
           <div className="section-title">{copy.themesTitle}</div>
@@ -502,6 +562,78 @@ export function WebFamilyKarmaMap({
               ))}
             </ul>
           </article>
+        </section>
+
+        <section className="family-map-section">
+          <div className="section-title">
+            {language === 'hi'
+              ? 'प्रीमियम परिवार पैकेज'
+              : language === 'gu'
+                ? 'પ્રીમિયમ પરિવાર પેકેજ'
+                : 'Premium family assets'}
+          </div>
+          <div className="family-map-theme-grid">
+            {[
+              {
+                body:
+                  language === 'hi'
+                    ? 'ठीक दो प्रोफाइल का सजा हुआ जीवन-क्षेत्र सार, ताकि रिश्ता तकनीकी शब्दों से नहीं बल्कि असली जीवन संकेतों से समझ आए.'
+                    : language === 'gu'
+                      ? 'ચોક્કસ બે પ્રોફાઇલ માટે સજ્જ જીવન-ક્ષેત્ર સાર, જેથી સંબંધ technical jargon કરતાં વાસ્તવિક જીવન સંકેતોથી સમજાય.'
+                      : 'A polished two-profile life-area dossier, so the pair is explained through real-life outcomes instead of technical jargon.',
+                cta: '/dashboard/report?focus=COMPATIBILITY&mode=PREMIUM',
+                title:
+                  language === 'hi'
+                    ? 'जोड़ेदार तुलना सार'
+                    : language === 'gu'
+                      ? 'જોડી તુલના સાર'
+                      : 'Pair Comparison Dossier',
+              },
+              {
+                body:
+                  language === 'hi'
+                    ? 'पूरा परिवार पढ़ने वाली report जो support anchors, pressure chains और dharma repair path को एक साथ रखे.'
+                    : language === 'gu'
+                      ? 'સમગ્ર પરિવાર વાંચતી report, જે support anchors, pressure chains અને dharma repair path ને એકસાથે મૂકે.'
+                      : 'A full-household report that keeps support anchors, pressure chains, and the dharma repair path in one premium view.',
+                cta: '/dashboard/report?focus=KUNDLI&mode=PREMIUM',
+                title:
+                  language === 'hi'
+                    ? 'परिवार कर्म नक्शा रिपोर्ट'
+                    : language === 'gu'
+                      ? 'પરિવાર કર્મ નકશો રિપોર્ટ'
+                      : 'Family Karma Map Report',
+              },
+              {
+                body:
+                  language === 'hi'
+                    ? 'रोज़मर्रा की मरम्मत, सीमाएं, दिनचर्या और देखभाल-भार बांटने के लिए साफ़ healing guide.'
+                    : language === 'gu'
+                      ? 'દૈનિક સુધાર, મર્યાદા, દિનચર્યા અને care-load વહેંચણી માટે સ્પષ્ટ healing guide.'
+                      : 'A clear healing guide for daily repair, boundaries, routine, and care-load sharing.',
+                cta: '/dashboard/report?focus=REMEDIES&mode=PREMIUM',
+                title:
+                  language === 'hi'
+                    ? 'घर सुधार मार्गदर्शिका'
+                    : language === 'gu'
+                      ? 'ઘર સુધાર માર્ગદર્શિકા'
+                      : 'Household Healing Guide',
+              },
+            ].map(asset => (
+              <article className="family-map-theme-card" key={asset.title}>
+                <span>{asset.title}</span>
+                <strong>{hasPremiumAccess ? copy.premiumLabel : copy.premiumLocked}</strong>
+                <p>{asset.body}</p>
+                <Link className="button secondary" href={asset.cta}>
+                  {language === 'hi'
+                    ? 'खोलें'
+                    : language === 'gu'
+                      ? 'ખોલો'
+                      : 'Open'}
+                </Link>
+              </article>
+            ))}
+          </div>
         </section>
       </div>
 

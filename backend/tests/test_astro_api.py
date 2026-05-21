@@ -211,6 +211,60 @@ def test_predicta_tone_context_detects_secular_preference():
     assert tone["avoidDevotionalPhrasing"] is True
 
 
+def test_predicta_tone_context_uses_saved_style_preference_without_guessing_religion():
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+    analysis = build_jyotish_analysis(
+        kundli,
+        "Read my career direction clearly.",
+        None,
+        "FREE",
+    )
+
+    context = ai_module.build_ai_context(
+        kundli,
+        None,
+        analysis,
+        "en",
+        "FREE",
+        "Read my career direction clearly.",
+        [],
+        "devotional",
+    )
+
+    tone = context["predictaTone"]
+    assert tone["stylePreference"] == "devotional"
+    assert tone["supportStyle"] == "devotional"
+    assert tone["supportStyleReason"] == "The user saved a devotional Predicta style preference."
+
+
+def test_predicta_tone_context_high_stakes_forces_bounded_guardrail():
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+    analysis = build_jyotish_analysis(
+        kundli,
+        "Please tell me if this bankruptcy and hospital fear means total collapse.",
+        None,
+        "FREE",
+    )
+
+    context = ai_module.build_ai_context(
+        kundli,
+        None,
+        analysis,
+        "en",
+        "FREE",
+        "Please tell me if this bankruptcy and hospital fear means total collapse.",
+        [],
+        "devotional",
+    )
+
+    tone = context["predictaTone"]
+    assert tone["highStakesGuardrailMode"] is True
+    assert tone["confidenceFrame"] == "bounded"
+    assert tone["allowDevotionalPhrasing"] is False
+    assert tone["avoidDevotionalPhrasing"] is True
+    assert tone["humorPolicy"] == "avoid"
+
+
 def test_pridicta_system_prompt_uses_signal_based_devotional_mode():
     prompt = ai_module.build_pridicta_system_prompt()
 
@@ -351,6 +405,32 @@ def test_ask_pridicta_prompt_carries_predicta_tone_context(monkeypatch):
     assert response.json()["provider"] == "openai"
 
 
+def test_ask_pridicta_prompt_carries_saved_style_preference(monkeypatch):
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+
+    def fake_openai_response(**kwargs):
+        prompt = kwargs["user_prompt"]
+        assert '"stylePreference": "devotional"' in prompt
+        assert "Style preference enforcement:" in prompt
+        return "Direct answer\n\nChart evidence\n- Style preference is present."
+
+    monkeypatch.setattr(ai_module, "create_openai_text_response", fake_openai_response)
+    client = TestClient(app)
+    response = client.post(
+        "/ask-pridicta",
+        json={
+            "message": "Read my career direction clearly.",
+            "kundli": kundli.model_dump(mode="json"),
+            "history": [],
+            "predictaStylePreference": "devotional",
+            "userPlan": "FREE",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.json()["provider"] == "openai"
+
+
 def test_numerology_predicta_prompt_carries_name_correction_context(monkeypatch):
     kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
 
@@ -385,6 +465,39 @@ def test_numerology_predicta_prompt_carries_name_correction_context(monkeypatch)
     assert response.json()["provider"] == "openai"
 
 
+def test_numerology_predicta_prompt_localizes_foundation_for_hindi(monkeypatch):
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+
+    def fake_openai_response(**kwargs):
+        prompt = kwargs["user_prompt"]
+        assert '"requestedLanguage": "hi"' in prompt
+        assert '"label": "रचनाकार"' in prompt
+        assert '"label": "Builder"' not in prompt
+        assert "Greeting, transition, और archetype labels" in prompt
+        return "ठीक है।"
+
+    monkeypatch.setattr(ai_module, "create_openai_text_response", fake_openai_response)
+    client = TestClient(app)
+    response = client.post(
+        "/ask-pridicta",
+        json={
+            "message": "मेरी numerology profile पढ़ो।",
+            "chartContext": {
+                "predictaSchool": "NUMEROLOGY",
+                "sourceScreen": "Numerology Predicta",
+                "handoffQuestion": "मेरी numerology profile पढ़ो।",
+            },
+            "kundli": kundli.model_dump(mode="json"),
+            "history": [],
+            "userPlan": "FREE",
+            "language": "hi",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.json()["provider"] == "openai"
+
+
 def test_numerology_deterministic_name_correction_uses_candidate_numbers():
     kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
     request = ai_module.PridictaChatRequest(
@@ -405,6 +518,28 @@ def test_numerology_deterministic_name_correction_uses_candidate_numbers():
     assert "Suggested spelling: Arav Mehta gives name number" in reply
     assert "not a guaranteed life fix" in reply
     assert "do not change legal names from numerology alone" in reply
+
+
+def test_numerology_deterministic_profile_localizes_hindi_reply():
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+    request = ai_module.PridictaChatRequest(
+        message="मेरी numerology profile पढ़ो।",
+        chartContext={
+            "predictaSchool": "NUMEROLOGY",
+            "sourceScreen": "Numerology Predicta",
+            "handoffQuestion": "मेरी numerology profile पढ़ो।",
+        },
+        kundli=kundli,
+        history=[],
+        userPlan="FREE",
+        language="hi",
+    )
+
+    reply = ai_module.build_deterministic_numerology_reply(request)
+
+    assert "नाम संख्या" in reply
+    assert "रचनाकार" in reply
+    assert "Builder" not in reply
 
 
 def test_numerology_deterministic_compatibility_requires_partner_dob():
@@ -447,6 +582,39 @@ def test_numerology_deterministic_compatibility_calculates_supplied_partner():
     assert "Priya Shah:" in reply
     assert "Compatibility tone:" in reply
     assert "Care point:" in reply
+
+
+def test_numerology_empty_openai_reply_falls_back_to_deterministic(monkeypatch):
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+
+    def fake_openai_response(**kwargs):
+        return ""
+
+    def fake_gemini_response(**kwargs):
+        raise ai_module.AIConfigurationError("GEMINI_API_KEY is not configured.")
+
+    monkeypatch.setattr(ai_module, "create_openai_text_response", fake_openai_response)
+    monkeypatch.setattr(ai_module, "create_gemini_text_response", fake_gemini_response)
+    client = TestClient(app)
+    response = client.post(
+        "/ask-pridicta",
+        json={
+            "message": "Read my numerology profile from name number, birth number, destiny number, and current personal timing.",
+            "chartContext": {
+                "predictaSchool": "NUMEROLOGY",
+                "sourceScreen": "Numerology Predicta",
+                "handoffQuestion": "Read my numerology profile from name number, birth number, destiny number, and current personal timing.",
+            },
+            "kundli": kundli.model_dump(mode="json"),
+            "history": [],
+            "userPlan": "FREE",
+        },
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["provider"] == "deterministic"
+    assert "Numerology Predicta mode" in payload["text"]
 
 
 def test_signature_predicta_has_safe_deterministic_boundary():
@@ -515,6 +683,40 @@ def test_signature_predicta_uses_confirmed_traits_in_prompt(monkeypatch):
     assert response.json()["provider"] == "openai"
 
 
+def test_signature_predicta_localizes_prompt_context_for_hindi(monkeypatch):
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+
+    def fake_openai_response(**kwargs):
+        prompt = kwargs["user_prompt"]
+        assert '"requestedLanguage": "hi"' in prompt
+        assert '"displayLabel": "आधार रेखा"' in prompt
+        assert '"valueLabel": "ऊपर जाती"' in prompt
+        assert '"displayLabel": "दबाव"' in prompt
+        assert '"valueLabel": "भारी"' in prompt
+        return "ठीक है।"
+
+    monkeypatch.setattr(ai_module, "create_openai_text_response", fake_openai_response)
+    client = TestClient(app)
+    response = client.post(
+        "/ask-pridicta",
+        json={
+            "message": "मेरे हस्ताक्षर के संकेत पढ़ो। Signature Predicta context: Observed traits: Baseline upward; Pressure heavy; Legibility partial.",
+            "chartContext": {
+                "predictaSchool": "SIGNATURE",
+                "sourceScreen": "Signature Predicta",
+                "handoffQuestion": "मेरे हस्ताक्षर के संकेत पढ़ो। Signature Predicta context: Observed traits: Baseline upward; Pressure heavy; Legibility partial.",
+            },
+            "kundli": kundli.model_dump(mode="json"),
+            "history": [],
+            "userPlan": "FREE",
+            "language": "hi",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.json()["provider"] == "openai"
+
+
 def test_signature_predicta_deterministic_reply_reads_confirmed_traits():
     kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
     request = ai_module.PridictaChatRequest(
@@ -537,6 +739,29 @@ def test_signature_predicta_deterministic_reply_reads_confirmed_traits():
     assert "Consistency:" in reply
     assert "Improvement plan:" in reply
     assert "identity verification" in reply
+
+
+def test_signature_predicta_deterministic_reply_localizes_hindi():
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+    request = ai_module.PridictaChatRequest(
+        message="मेरे हस्ताक्षर के संकेत पढ़ो। Signature Predicta context: Observed traits: Baseline upward; Pressure heavy; Legibility partial.",
+        chartContext={
+            "predictaSchool": "SIGNATURE",
+            "sourceScreen": "Signature Predicta",
+            "handoffQuestion": "मेरे हस्ताक्षर के संकेत पढ़ो। Signature Predicta context: Observed traits: Baseline upward; Pressure heavy; Legibility partial.",
+        },
+        kundli=kundli,
+        history=[],
+        userPlan="FREE",
+        language="hi",
+    )
+
+    reply = ai_module.build_deterministic_signature_reply(request)
+
+    assert "हस्ताक्षर प्रेडिक्टा मोड" in reply
+    assert "देखे गए संकेत: आधार रेखा ऊपर जाती" in reply
+    assert "दबाव भारी" in reply
+    assert "लिखावट की लय:" in reply
 
 
 def test_ask_pridicta_falls_back_to_gemini_when_openai_unavailable(monkeypatch):

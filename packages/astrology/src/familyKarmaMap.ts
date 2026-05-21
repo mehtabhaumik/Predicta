@@ -848,6 +848,11 @@ export function composeFamilyKarmaMap(
       repeatedThemes: [],
       repeatingKarmaPattern: undefined,
       ritualRoutineMoneyStressMap: copy.pending.conclusion,
+      whoAmplifiesPressure: undefined,
+      whoCalmsTheHouse: undefined,
+      whoNeedsGentlerHandling: undefined,
+      fastestHealingPair: undefined,
+      repeatedRoutineMoneyTension: undefined,
       shareSummary:
         language === 'hi'
           ? 'प्रेडिक्टा परिवार कर्म नक्शा दो या अधिक सेव प्रोफाइल की प्रतीक्षा कर रहा है.'
@@ -886,6 +891,22 @@ export function composeFamilyKarmaMap(
     language,
   );
   const influenceMatrix = buildInfluenceMatrix(members, pairCards, language);
+  const whoCalmsTheHouse = buildWhoCalmsTheHouse(supportPair?.label, language);
+  const whoAmplifiesPressure = buildWhoAmplifiesPressure(
+    frictionPair?.label,
+    pairCards,
+    language,
+  );
+  const whoNeedsGentlerHandling = buildWhoNeedsGentlerHandling(
+    members,
+    pairCards,
+    language,
+  );
+  const fastestHealingPair = buildFastestHealingPair(supportPair?.label, language);
+  const repeatedRoutineMoneyTension = buildRepeatedRoutineMoneyTension(
+    ritualRoutineMoneyStressMap,
+    language,
+  );
   const actionableHealingGuidance = buildActionableHealingGuidance(
     frictionPair?.label,
     supportPair?.label,
@@ -900,6 +921,7 @@ export function composeFamilyKarmaMap(
     caregivingBurdenMap,
     communicationFractureMap,
     dharmaRepairPath,
+    fastestHealingPair,
     householdEmotionalClimate,
     householdSummary: copy.text.householdSummary(
       members.length,
@@ -912,6 +934,7 @@ export function composeFamilyKarmaMap(
     privacyNote: copy.text.privacyNote,
     relationshipCards: pairCards,
     repeatedThemes,
+    repeatedRoutineMoneyTension,
     repeatingKarmaPattern,
     ritualRoutineMoneyStressMap,
     shareSummary: copy.text.shareSummary(
@@ -928,6 +951,9 @@ export function composeFamilyKarmaMap(
         ? copy.text.subtitle.premium
         : copy.text.subtitle.free,
     title: copy.text.title(members.length),
+    whoAmplifiesPressure,
+    whoCalmsTheHouse,
+    whoNeedsGentlerHandling,
   };
 }
 
@@ -1307,6 +1333,121 @@ function buildActionableHealingGuidance(
     copy.text.healingGuidance.third(repeatedTheme),
     copy.text.healingGuidance.fourth,
   ];
+}
+
+function buildWhoCalmsTheHouse(
+  supportPair: string | undefined,
+  language: SupportedLanguage,
+): string | undefined {
+  if (!supportPair) {
+    return undefined;
+  }
+
+  if (language === 'hi') {
+    return `${supportPair} घर को सबसे जल्दी शांत कर सकते हैं.`
+  }
+  if (language === 'gu') {
+    return `${supportPair} ઘરનો તણાવ સૌથી ઝડપથી શાંત કરી શકે છે.`;
+  }
+  return `${supportPair} is the clearest calming anchor in the house.`;
+}
+
+function buildWhoAmplifiesPressure(
+  frictionPair: string | undefined,
+  pairCards: FamilyRelationshipGuidance[],
+  language: SupportedLanguage,
+): string | undefined {
+  const fallbackPair =
+    frictionPair ??
+    pairCards.find(card => card.tone === 'mixed')?.label ??
+    pairCards[0]?.label;
+
+  if (!fallbackPair) {
+    return undefined;
+  }
+
+  if (language === 'hi') {
+    return `${fallbackPair} में दबाव जल्दी बढ़ सकता है, इसलिए यहां प्रतिक्रिया से पहले ठहराव चाहिए.`;
+  }
+  if (language === 'gu') {
+    return `${fallbackPair} માં દબાણ ઝડપથી વધી શકે છે, તેથી અહીં પ્રતિભાવ પહેલા વિરામ જોઈએ.`;
+  }
+  return `${fallbackPair} is where pressure can spread fastest unless the tone is slowed down early.`;
+}
+
+function buildWhoNeedsGentlerHandling(
+  members: FamilyMemberProfile[],
+  pairCards: FamilyRelationshipGuidance[],
+  language: SupportedLanguage,
+): string | undefined {
+  const carefulCounts = new Map<string, number>();
+
+  pairCards
+    .filter(card => card.tone === 'careful')
+    .forEach(card => {
+      carefulCounts.set(
+        card.firstMemberId,
+        (carefulCounts.get(card.firstMemberId) ?? 0) + 1,
+      );
+      carefulCounts.set(
+        card.secondMemberId,
+        (carefulCounts.get(card.secondMemberId) ?? 0) + 1,
+      );
+    });
+
+  const gentlerMember = members
+    .map(member => ({
+      member,
+      score: carefulCounts.get(member.id) ?? 0,
+    }))
+    .sort((first, second) => second.score - first.score)[0];
+
+  const fallbackMember =
+    gentlerMember?.score && gentlerMember.score > 0
+      ? gentlerMember.member
+      : members.find(member => !member.isOwnerProfile) ?? members[0];
+
+  if (!fallbackMember) {
+    return undefined;
+  }
+
+  if (language === 'hi') {
+    return `${fallbackMember.name} को सबसे नरम और साफ़ व्यवहार की जरूरत है, खासकर दबाव वाले दिनों में.`;
+  }
+  if (language === 'gu') {
+    return `${fallbackMember.name} ને સૌથી નરમ અને સ્પષ્ટ વ્યવહાર જોઈએ, ખાસ કરીને દબાણવાળા દિવસોમાં.`;
+  }
+  return `${fallbackMember.name} needs the gentlest handling when the house is already under pressure.`;
+}
+
+function buildFastestHealingPair(
+  supportPair: string | undefined,
+  language: SupportedLanguage,
+): string | undefined {
+  if (!supportPair) {
+    return undefined;
+  }
+
+  if (language === 'hi') {
+    return `${supportPair} सबसे जल्दी संभल और फिर से संतुलित हो सकते हैं.`;
+  }
+  if (language === 'gu') {
+    return `${supportPair} સૌથી ઝડપથી સંભળી અને ફરી સંતુલિત થઈ શકે છે.`;
+  }
+  return `${supportPair} is the pair most likely to repair quickly after strain.`;
+}
+
+function buildRepeatedRoutineMoneyTension(
+  ritualRoutineMoneyStressMap: string,
+  language: SupportedLanguage,
+): string {
+  if (language === 'hi') {
+    return `दिनचर्या और धन का दोहराया तनाव: ${ritualRoutineMoneyStressMap}`;
+  }
+  if (language === 'gu') {
+    return `દિનચર્યા અને પૈસાનો ફરી આવતો તણાવ: ${ritualRoutineMoneyStressMap}`;
+  }
+  return `Repeated routine or money tension: ${ritualRoutineMoneyStressMap}`;
 }
 
 function buildDharmaRepairPath(

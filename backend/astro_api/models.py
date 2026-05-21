@@ -522,6 +522,9 @@ class PridictaChatRequest(BaseModel):
     userPlan: UserPlan
     deepAnalysis: bool = False
     language: SupportedLanguage = "en"
+    predictaStylePreference: Literal["balanced", "devotional", "secular"] = (
+        "balanced"
+    )
     safetyIdentifier: Optional[str] = None
 
 

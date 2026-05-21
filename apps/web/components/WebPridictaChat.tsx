@@ -272,6 +272,7 @@ export function WebPridictaChat({
   const {
     language,
     predictaReplyLanguage,
+    predictaStylePreference,
     setPredictaReplyLanguage: persistPredictaReplyLanguage,
   } = useLanguagePreference();
   const labels = getLanguageLabels(language);
@@ -1107,6 +1108,7 @@ export function WebPridictaChat({
       kundli: activeKundli,
       language: responseLanguage,
       message: text,
+      predictaStylePreference,
       userPlan: 'FREE',
     });
     responseSafetyRef.current = detectChatSafetyMeta(

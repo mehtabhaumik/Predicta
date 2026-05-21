@@ -811,10 +811,16 @@ export type CalculationMeta = {
 
 export type SupportedLanguage = 'en' | 'hi' | 'gu';
 
+export type PredictaStylePreference =
+  | 'balanced'
+  | 'devotional'
+  | 'secular';
+
 export type LanguagePreference = {
   appLanguage?: SupportedLanguage;
   chartLanguage?: SupportedLanguage;
   predictaReplyLanguage?: SupportedLanguage;
+  predictaStylePreference?: PredictaStylePreference;
   reportLanguage?: SupportedLanguage;
   language: SupportedLanguage;
   updatedAt: string;
@@ -1272,6 +1278,11 @@ export type FamilyKarmaMap = {
   caregivingBurdenMap: string;
   communicationFractureMap: string;
   ritualRoutineMoneyStressMap: string;
+  whoCalmsTheHouse?: string;
+  whoAmplifiesPressure?: string;
+  whoNeedsGentlerHandling?: string;
+  fastestHealingPair?: string;
+  repeatedRoutineMoneyTension?: string;
   actionableHealingGuidance: string[];
   privacyNote: string;
   shareSummary: string;
@@ -2137,6 +2148,7 @@ export type PridictaChatRequest = {
   userPlan: UserPlan;
   deepAnalysis?: boolean;
   language?: SupportedLanguage;
+  predictaStylePreference?: PredictaStylePreference;
   safetyIdentifier?: string;
 };
 

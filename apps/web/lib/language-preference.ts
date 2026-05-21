@@ -5,7 +5,11 @@ import {
   LANGUAGE_STORAGE_KEY,
   normalizeLanguage,
 } from '@pridicta/config/language';
-import type { LanguagePreference, SupportedLanguage } from '@pridicta/types';
+import type {
+  LanguagePreference,
+  PredictaStylePreference,
+  SupportedLanguage,
+} from '@pridicta/types';
 import { saveWebAutoSaveMemory } from './web-auto-save-memory';
 
 const LANGUAGE_CHANGE_EVENT = 'pridicta-language-change';
@@ -15,11 +19,13 @@ export function useLanguagePreference(): {
   chartLanguage: SupportedLanguage;
   language: SupportedLanguage;
   predictaReplyLanguage: SupportedLanguage;
+  predictaStylePreference: PredictaStylePreference;
   reportLanguage: SupportedLanguage;
   setAppLanguage: (language: SupportedLanguage) => void;
   setChartLanguage: (language: SupportedLanguage) => void;
   setLanguage: (language: SupportedLanguage) => void;
   setPredictaReplyLanguage: (language: SupportedLanguage) => void;
+  setPredictaStylePreference: (style: PredictaStylePreference) => void;
   setReportLanguage: (language: SupportedLanguage) => void;
 } {
   const [preference, setPreferenceState] = useState<LanguagePreference>(() =>
@@ -93,6 +99,11 @@ export function useLanguagePreference(): {
       updatePreference({ predictaReplyLanguage: nextLanguage }),
     [updatePreference],
   );
+  const setPredictaStylePreference = useCallback(
+    (nextStyle: PredictaStylePreference) =>
+      updatePreference({ predictaStylePreference: nextStyle }),
+    [updatePreference],
+  );
   const appLanguage = preference.appLanguage ?? preference.language;
 
   return {
@@ -100,11 +111,13 @@ export function useLanguagePreference(): {
     chartLanguage: preference.chartLanguage ?? appLanguage,
     language: appLanguage,
     predictaReplyLanguage: preference.predictaReplyLanguage ?? appLanguage,
+    predictaStylePreference: preference.predictaStylePreference ?? 'balanced',
     reportLanguage: preference.reportLanguage ?? appLanguage,
     setAppLanguage,
     setChartLanguage,
     setLanguage: setAppLanguage,
     setPredictaReplyLanguage,
+    setPredictaStylePreference,
     setReportLanguage,
   };
 }
@@ -137,6 +150,7 @@ function buildLanguagePreference(language: SupportedLanguage): LanguagePreferenc
     chartLanguage: language,
     language,
     predictaReplyLanguage: language,
+    predictaStylePreference: 'balanced',
     reportLanguage: language,
     updatedAt: new Date().toISOString(),
   };
@@ -158,6 +172,11 @@ function normalizePreference(
     predictaReplyLanguage: preference.predictaReplyLanguage
       ? normalizeLanguage(preference.predictaReplyLanguage)
       : appLanguage,
+    predictaStylePreference:
+      preference.predictaStylePreference === 'devotional' ||
+      preference.predictaStylePreference === 'secular'
+        ? preference.predictaStylePreference
+        : 'balanced',
     reportLanguage: preference.reportLanguage
       ? normalizeLanguage(preference.reportLanguage)
       : appLanguage,
