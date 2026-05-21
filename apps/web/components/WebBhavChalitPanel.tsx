@@ -37,7 +37,11 @@ export function WebBhavChalitPanel({
                 <span>What Chalit means</span>
                 <strong>Open</strong>
               </summary>
-              <p>{bhav.subtitle}</p>
+              <p>
+                Chalit shows where results actually land in daily life after
+                bhava boundaries refine the D1 chart. It keeps the rashi signs
+                from D1, but it can shift the house that receives the result.
+              </p>
             </details>
           </div>
         </div>
@@ -49,6 +53,8 @@ export function WebBhavChalitPanel({
             chart={chalitChart}
             chartRoleOverride="Parashari house-delivery refinement"
             hasPremiumAccess={hasPremiumAccess}
+            insightProfile="chalit"
+            kundli={kundli}
             kundliId={kundli?.id}
             ownerName={kundli?.birthDetails.name}
             readingNoteOverride="Parashari Chalit keeps each planet's rashi sign from D1, but places the planet in the bhava where it delivers results. This is separate from KP cusp/sub-lord judgement."
@@ -67,24 +73,28 @@ export function WebBhavChalitPanel({
             <strong>Open</strong>
           </summary>
           <strong>Simple meaning</strong>
-          <p>{hasPremiumAccess ? bhav.premiumSynthesis ?? bhav.freeInsight : bhav.freeInsight}</p>
+          <p>
+            {hasPremiumAccess
+              ? bhav.premiumSynthesis ?? bhav.freeInsight
+              : bhav.freeInsight}
+          </p>
         </details>
 
         <div className="school-grid two">
           <div>
-            <span>House shifts</span>
+            <span>Real-life shifts</span>
             <strong>{bhav.shifts.length}</strong>
             <p>
-              Chalit changes house delivery. The planet sign stays from D1
-              Rashi.
+              These are the planets whose results land in a different life area
+              than the plain D1 house grid suggests.
             </p>
           </div>
           <div>
-            <span>Cusps available</span>
+            <span>Bhava cusps ready</span>
             <strong>{bhav.cusps.length}</strong>
             <p>
-              Lagna-degree bhava boundaries refine which house receives the
-              planet.
+              Cusps refine where the planet delivers results in practice. This
+              is house delivery, not a change of sign.
             </p>
           </div>
         </div>
@@ -123,7 +133,8 @@ export function WebBhavChalitPanel({
             className="button secondary"
             href={buildPredictaChatHref({
               kundli,
-              prompt: 'Explain my Parashari Chalit chart and house shifts. Do not mix it with KP.',
+              prompt:
+                'Explain what my Parashari Chalit chart is actually changing in real life. Do not mix it with KP.',
               selectedSection: 'Chalit Chart',
               sourceScreen: 'Chalit Chart',
             })}

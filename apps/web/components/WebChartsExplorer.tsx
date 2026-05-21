@@ -103,6 +103,7 @@ export function WebChartsExplorer({
             chart={chart}
             hasPremiumAccess={hasPremiumAccess}
             kundliId={kundli.id}
+            kundli={kundli}
             ownerName={kundli.birthDetails.name}
           />
         </div>

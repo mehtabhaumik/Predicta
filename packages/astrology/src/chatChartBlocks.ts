@@ -89,7 +89,7 @@ export function composeChatChartBlock({
     return undefined;
   }
 
-  const insight = composeChartInsight({ chart, hasPremiumAccess });
+  const insight = composeChartInsight({ chart, hasPremiumAccess, kundli });
   const confidence = kundli.birthDetails.isTimeApproximate
     ? 'Approx birth time'
     : 'Birth time stable';

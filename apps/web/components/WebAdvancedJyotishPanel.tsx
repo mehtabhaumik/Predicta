@@ -21,10 +21,7 @@ export function WebAdvancedJyotishPanel({
   });
   const pattern = coverage.yogaDoshaInsights[0];
   const ashtaka = coverage.ashtakavargaDetail.slice(0, 3);
-  const subtlePoints = coverage.microPointIntelligence?.points.slice(
-    0,
-    hasPremiumAccess ? 6 : 3,
-  ) ?? [];
+  const subtlePointCount = coverage.microPointIntelligence?.points.length ?? 0;
 
   return (
     <section className="gochar-panel advanced-jyotish-panel glass-panel">
@@ -77,28 +74,30 @@ export function WebAdvancedJyotishPanel({
             </article>
           </div>
 
-          {subtlePoints.length ? (
+          {subtlePointCount ? (
             <div className="gochar-month-list">
               <div>
-                <span>Subtle points</span>
-                <h3>Micro planets and upagrahas</h3>
+                <span>Supporting refinements</span>
+                <h3>Subtle point review</h3>
                 <p>
-                  These refine the reading after Lagna, classical planets,
-                  dasha, and Gochar.
+                  Predicta keeps these refinements behind the main chart story.
+                  They are used only after Lagna, classical grahas, dasha, and
+                  Gochar are already clear.
                 </p>
               </div>
-              {subtlePoints.map(point => (
-                <article className="gochar-month-card" key={point.name}>
-                  <div>
-                    <strong>{point.name}</strong>
-                    <small>
-                      House {point.house} · {point.sign} · {point.nakshatra}{' '}
-                      pada {point.pada}
-                    </small>
-                  </div>
-                  <p>{point.simpleMeaning ?? point.howToUse}</p>
-                </article>
-              ))}
+              <article className="gochar-month-card">
+                <div>
+                  <strong>{subtlePointCount} supporting refinement{ subtlePointCount === 1 ? '' : 's' } prepared</strong>
+                  <small>
+                    Secondary evidence only
+                  </small>
+                </div>
+                <p>
+                  Free view keeps the life reading clean. Premium uses these
+                  refinements only when they materially sharpen judgement,
+                  timing, or contradiction handling.
+                </p>
+              </article>
             </div>
           ) : null}
 

@@ -749,6 +749,7 @@ function KundliReadyFlow({
           chart={kundli.charts.D1}
           creationNote={creationNote}
           createdChartRef={createdChartRef}
+          kundli={kundli}
           kundliId={kundli.id}
         />
       ) : (
@@ -782,6 +783,7 @@ function KundliReadyFlow({
           <WebKundliChart
             birthDetails={kundli.birthDetails}
             chart={kundli.charts.D1}
+            kundli={kundli}
             kundliId={kundli.id}
           />
         </div>
@@ -1136,12 +1138,14 @@ function KundliCreationReveal({
   chart,
   creationNote,
   createdChartRef,
+  kundli,
   kundliId,
 }: {
   birthDetails?: BirthDetails;
   chart: ChartData;
   creationNote: CreationNote;
   createdChartRef: RefObject<HTMLElement | null>;
+  kundli?: KundliData;
   kundliId?: string;
 }): React.JSX.Element {
   return (
@@ -1173,6 +1177,7 @@ function KundliCreationReveal({
           birthDetails={birthDetails}
           centerLabel="Created Kundli"
           chart={chart}
+          kundli={kundli}
           kundliId={kundliId}
           sectionTitle="CREATED KUNDLI"
         />

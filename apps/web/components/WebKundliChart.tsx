@@ -16,6 +16,7 @@ import {
   buildChartRenderModel,
   buildChartSelectionPrompt,
   composeChartInsight,
+  type ChartInsightProfile,
   getChartFocusLabel,
   getChartReadingNote,
   getChartRole,
@@ -32,6 +33,7 @@ import type {
   BirthDetails,
   ChartData,
   ChartType,
+  KundliData,
   PlanetPosition,
   SupportedLanguage,
 } from '@pridicta/types';
@@ -54,10 +56,12 @@ type WebKundliChartProps = {
   chartRoleOverride?: string;
   hasPremiumAccess?: boolean;
   kundliId?: string;
+  kundli?: KundliData;
   ownerName?: string;
   readingNoteOverride?: string;
   sectionTitle?: string;
   schoolOverride?: ChartRenderSchool;
+  insightProfile?: ChartInsightProfile;
 };
 
 export function WebKundliChart({
@@ -68,10 +72,12 @@ export function WebKundliChart({
   chartRoleOverride,
   hasPremiumAccess = false,
   kundliId,
+  kundli,
   ownerName,
   readingNoteOverride,
   sectionTitle = 'NORTH INDIAN CHART',
   schoolOverride,
+  insightProfile = 'default',
 }: WebKundliChartProps): React.JSX.Element {
   const [selectedHouse, setSelectedHouse] = useState(1);
   const [hoveredHouse, setHoveredHouse] = useState<number | undefined>();
@@ -80,8 +86,8 @@ export function WebKundliChart({
   const { appLanguage, chartLanguage, setChartLanguage } = useLanguagePreference();
   const labels = getChartLanguageCopy(appLanguage);
   const insight = useMemo(
-    () => composeChartInsight({ chart, hasPremiumAccess }),
-    [chart, hasPremiumAccess],
+    () => composeChartInsight({ chart, hasPremiumAccess, kundli, profile: insightProfile }),
+    [chart, hasPremiumAccess, kundli, insightProfile],
   );
   const renderModel = useMemo(
     () =>

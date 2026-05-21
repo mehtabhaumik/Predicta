@@ -934,7 +934,7 @@ function buildChartSynthesisSection(
     if (!chart) {
       return [`${chartType}: this chart is not part of this Kundli report.`];
     }
-    const insight = composeChartInsight({ chart, hasPremiumAccess });
+    const insight = composeChartInsight({ chart, hasPremiumAccess, kundli });
     const snapshot = chartSnapshots.find(item => item.chartType === chartType);
     const chartProof = snapshot
       ? `${chartType} chart proof: ${formatSnapshotOccupiedHouses(snapshot)}`

@@ -501,6 +501,7 @@ function KundliLibraryChartDialog({
           birthDetails={kundli.birthDetails}
           centerLabel={chartTitle}
           chart={chart}
+          kundli={kundli}
           kundliId={kundli.id}
           ownerName={kundli.birthDetails.name}
           readingNoteOverride={labels.dialogReadingNote(school)}
