@@ -5,11 +5,17 @@ import type {
   NadiJyotishPattern,
   NadiJyotishPremiumPlan,
   PlanetPosition,
+  SupportedLanguage,
 } from '@pridicta/types';
+import {
+  getLocalizedPlanetName,
+  getLocalizedSignName,
+} from './chartLayout';
 
 type Options = {
   depth?: NadiJyotishInsightDepth;
   handoffQuestion?: string;
+  language?: SupportedLanguage;
 };
 
 const SIGN_ORDER = [
@@ -60,13 +66,14 @@ export function composeNadiJyotishPlan(
 ): NadiJyotishPremiumPlan {
   const depth = options.depth ?? 'FREE';
   const handoffQuestion = options.handoffQuestion?.trim() || undefined;
+  const language = options.language ?? 'en';
 
   if (!kundli) {
-    return buildPendingPlan(depth, handoffQuestion);
+    return buildPendingPlan(depth, handoffQuestion, language);
   }
 
-  const patterns = buildPatterns(kundli, depth);
-  const activations = buildActivations(kundli, patterns, depth);
+  const patterns = buildPatterns(kundli, depth, language);
+  const activations = buildActivations(kundli, patterns, depth, language);
 
   return {
     activations,
@@ -76,60 +83,113 @@ export function composeNadiJyotishPlan(
     ctas: [
       {
         id: 'nadi-question',
-        label: 'Ask Nadi Predicta',
+        label: localize(
+          language,
+          'Ask Nadi Predicta',
+          'नाड़ी प्रेडिक्टा से पूछें',
+          'નાડી પ્રેડિક્ટાને પૂછો',
+        ),
         prompt: handoffQuestion
           ? `Use Nadi Predicta for this question: ${handoffQuestion}`
           : 'Use Nadi Predicta to read my strongest planetary story pattern.',
       },
       {
         id: 'nadi-validation',
-        label: 'Validate Pattern',
+        label: localize(language, 'Validate Pattern', 'पैटर्न की पुष्टि', 'પેટર્નની પુષ્ટિ'),
         prompt:
           'Ask me simple validation questions before giving a deeper Nadi reading.',
       },
       {
         id: 'nadi-premium',
-        label: 'Premium Nadi',
+        label: localize(language, 'Premium Nadi', 'प्रीमियम नाड़ी', 'પ્રીમિયમ નાડી'),
         prompt:
           'Show what Premium Nadi depth adds: planet links, timing activations, validation questions, and remedies.',
       },
     ],
     depth,
-    freePreview: buildFreePreview(kundli, patterns),
-    guardrails: buildGuardrails(),
+    freePreview: buildFreePreview(kundli, patterns, language),
+    guardrails: buildGuardrails(language),
     handoffQuestion,
     limitations: [
-      'Predicta does not claim access to original palm-leaf manuscripts or private lineage records.',
-      'This reading is a Nadi-inspired chart-signature layer, not Parashari yoga/dasha analysis and not KP sub-lord judgement.',
-      'Nadi-style patterns need validation from the user before deeper event timing is presented.',
-      'No Nadi answer should promise fixed events, death timing, medical certainty, legal certainty, or financial certainty.',
+      localize(
+        language,
+        'Predicta does not claim access to original palm-leaf manuscripts or private lineage records.',
+        'प्रेडिक्टा मूल ताड़पत्र पांडुलिपि या निजी परंपरा रिकॉर्ड तक पहुंच का दावा नहीं करती.',
+        'પ્રેડિક્ટા મૂળ તાડપત્ર પાંડુલિપિ અથવા ખાનગી પરંપરા રેકોર્ડ સુધી પહોંચવાનો દાવો કરતી નથી.',
+      ),
+      localize(
+        language,
+        'This reading is a Nadi-inspired chart-signature layer, not Parashari yoga/dasha analysis and not KP sub-lord judgement.',
+        'यह वाचन नाड़ी-प्रेरित चार्ट-सिग्नेचर स्तर है, पराशरी योग/दशा विश्लेषण नहीं और न ही कृष्णमूर्ति सब-लॉर्ड निर्णय.',
+        'આ વાંચન નાડી-પ્રેરિત ચાર્ટ-સિગ્નેચર સ્તર છે, પરાશરી યોગ/દશા વિશ્લેષણ નહીં અને કૃષ્ણમૂર્તિ સબ-લોર્ડ નિર્ણય પણ નહીં.',
+      ),
+      localize(
+        language,
+        'Nadi-style patterns need validation from the user before deeper event timing is presented.',
+        'गहरी घटना-समय बातों से पहले नाड़ी शैली के पैटर्न को उपयोगकर्ता पुष्टि चाहिए.',
+        'ઊંડી ઘટના-સમયની વાત પહેલાં નાડી શૈલીના પેટર્નને વપરાશકર્તાની પુષ્ટિ જોઈએ.',
+      ),
+      localize(
+        language,
+        'No Nadi answer should promise fixed events, death timing, medical certainty, legal certainty, or financial certainty.',
+        'कोई भी नाड़ी उत्तर तय घटनाएं, मृत्यु समय, चिकित्सीय निश्चितता, कानूनी निश्चितता या आर्थिक निश्चितता का वादा नहीं करेगा.',
+        'કોઈ પણ નાડી જવાબ નક્કી ઘટનાઓ, મૃત્યુ સમય, તબીબી નિશ્ચિતતા, કાનૂની નિશ્ચિતતા અથવા આર્થિક નિશ્ચિતતાનું વચન નહીં આપે.',
+      ),
     ],
-    methodSummary:
+    methodSummary: localize(
+      language,
       'Predicta Nadi reads planet-to-planet stories: conjunction-style links, trinal links, opposition links, karaka themes, Rahu/Ketu karmic axis, and slow-transit activation. It stays separate from Parashari and KP.',
+      'प्रेडिक्टा नाड़ी ग्रह-से-ग्रह कथाएं पढ़ती है: संयोजन शैली के संबंध, त्रिकोण संबंध, विपरीत संबंध, कारक विषय, राहु/केतु कर्म अक्ष और धीमे गोचर की सक्रियता. यह पराशरी और कृष्णमूर्ति पद्धति से अलग रहती है.',
+      'પ્રેડિક્ટા નાડી ગ્રહથી ગ્રહ વાર્તાઓ વાંચે છે: સંયોગ શૈલીના સંબંધ, ત્રિકોણ સંબંધ, વિરોધ સંબંધ, કારક વિષયો, રાહુ/કેતુ કર્મ અક્ષ અને ધીમા ગોચરની સક્રિયતા. તે પરાશરી અને કૃષ્ણમૂર્તિ પદ્ધતિથી અલગ રહે છે.',
+    ),
     ownerName: kundli.birthDetails.name,
     patterns,
     premiumOnly: true,
     premiumSynthesis:
       depth === 'PREMIUM'
-        ? buildPremiumSynthesis(kundli, patterns, activations)
+        ? buildPremiumSynthesis(kundli, patterns, activations, language)
         : undefined,
-    premiumUnlock:
+    premiumUnlock: localize(
+      language,
       'Premium Nadi unlocks full chart-signature reading, validation questions, karmic story sequencing, transit activation windows, remedies, and a separate Nadi report without mixing Parashari or KP methods.',
-    schoolBoundary:
+      'प्रीमियम नाड़ी पूर्ण चार्ट-सिग्नेचर वाचन, पुष्टि प्रश्न, कर्म कथा क्रम, गोचर सक्रियता समय, उपाय और अलग नाड़ी रिपोर्ट खोलती है, बिना पराशरी या कृष्णमूर्ति पद्धति मिलाए.',
+      'પ્રીમિયમ નાડી સંપૂર્ણ ચાર્ટ-સિગ્નેચર વાંચન, પુષ્ટિ પ્રશ્નો, કર્મકથા ક્રમ, ગોચર સક્રિયતા સમય, ઉપાયો અને અલગ નાડી રિપોર્ટ ખોલે છે, પરાશરી અથવા કૃષ્ણમૂર્તિ પદ્ધતિ મિક્સ કર્યા વગર.',
+    ),
+    schoolBoundary: localize(
+      language,
       'Regular Predicta reads Parashari. KP Predicta reads KP. Nadi Predicta reads Nadi-style planetary stories and validation patterns only.',
+      'सामान्य प्रेडिक्टा पराशरी पढ़ती है. कृष्णमूर्ति प्रेडिक्टा कृष्णमूर्ति पद्धति पढ़ती है. नाड़ी प्रेडिक्टा केवल नाड़ी शैली की ग्रह-कथा और पुष्टि पैटर्न पढ़ती है.',
+      'સામાન્ય પ્રેડિક્ટા પરાશરી વાંચે છે. કૃષ્ણમૂર્તિ પ્રેડિક્ટા કૃષ્ણમૂર્તિ પદ્ધતિ વાંચે છે. નાડી પ્રેડિક્ટા માત્ર નાડી શૈલીની ગ્રહકથા અને પુષ્ટિ પેટર્ન વાંચે છે.',
+    ),
     status: 'ready',
     subtitle:
       depth === 'PREMIUM'
-        ? 'A separate premium Nadi reading room with chart-signature depth.'
-        : 'A separate Nadi reading room. Free gives a useful method summary; Premium unlocks depth.',
-    title: `${kundli.birthDetails.name}'s Nadi Predicta plan`,
-    validationQuestions: buildValidationQuestions(kundli, patterns),
+        ? localize(
+            language,
+            'A separate premium Nadi reading room with chart-signature depth.',
+            'चार्ट-सिग्नेचर गहराई वाला अलग प्रीमियम नाड़ी रीडिंग रूम.',
+            'ચાર્ટ-સિગ્નેચર ઊંડાઈ ધરાવતું અલગ પ્રીમિયમ નાડી રીડિંગ રૂમ.',
+          )
+        : localize(
+            language,
+            'A separate Nadi reading room. Free gives a useful method summary; Premium unlocks depth.',
+            'अलग नाड़ी रीडिंग रूम. फ्री में उपयोगी विधि-सार मिलता है; प्रीमियम गहराई खोलता है.',
+            'અલગ નાડી રીડિંગ રૂમ. ફ્રીમાં ઉપયોગી પદ્ધતિ-સાર મળે છે; પ્રીમિયમ ઊંડાઈ ખોલે છે.',
+          ),
+    title: localize(
+      language,
+      `${kundli.birthDetails.name}'s Nadi Predicta plan`,
+      `${kundli.birthDetails.name} की नाड़ी प्रेडिक्टा योजना`,
+      `${kundli.birthDetails.name}ની નાડી પ્રેડિક્ટા યોજના`,
+    ),
+    validationQuestions: buildValidationQuestions(kundli, patterns, language),
   };
 }
 
 function buildPendingPlan(
   depth: NadiJyotishInsightDepth,
   handoffQuestion?: string,
+  language: SupportedLanguage = 'en',
 ): NadiJyotishPremiumPlan {
   return {
     activations: [],
@@ -138,36 +198,77 @@ function buildPendingPlan(
     ctas: [
       {
         id: 'create-kundli',
-        label: 'Create Kundli',
+        label: localize(language, 'Create Kundli', 'कुंडली बनाएं', 'કુંડળી બનાવો'),
         prompt:
           'Create my Kundli first, then keep my question ready for Nadi Predicta.',
       },
     ],
     depth,
-    freePreview:
+    freePreview: localize(
+      language,
       'Nadi Predicta needs a calculated birth profile before it can read planetary story links.',
-    guardrails: buildGuardrails(),
+      'नाड़ी प्रेडिक्टा को ग्रह-कथा संबंध पढ़ने से पहले गणना किया गया जन्म प्रोफाइल चाहिए.',
+      'નાડી પ્રેડિક્ટાને ગ્રહકથા સંબંધ વાંચવા પહેલાં ગણતરી કરેલું જન્મ પ્રોફાઇલ જોઈએ.',
+    ),
+    guardrails: buildGuardrails(language),
     handoffQuestion,
-    limitations: ['Create a Kundli first so Nadi Predicta has verified birth details.'],
-    methodSummary:
+    limitations: [
+      localize(
+        language,
+        'Create a Kundli first so Nadi Predicta has verified birth details.',
+        'पहले कुंडली बनाइए ताकि नाड़ी प्रेडिक्टा के पास सत्यापित जन्म विवरण हों.',
+        'પહેલા કુંડળી બનાવો જેથી નાડી પ્રેડિક્ટા પાસે ચકાસેલ જન્મ વિગતો હોય.',
+      ),
+    ],
+    methodSummary: localize(
+      language,
       'Nadi Predicta will read Nadi-style planetary stories after the birth profile is ready.',
+      'जन्म प्रोफाइल तैयार होने के बाद नाड़ी प्रेडिक्टा नाड़ी शैली की ग्रह-कथाएं पढ़ेगी.',
+      'જન્મ પ્રોફાઇલ તૈયાર થયા પછી નાડી પ્રેડિક્ટા નાડી શૈલીની ગ્રહકથાઓ વાંચશે.',
+    ),
     ownerName: 'You',
     patterns: [],
     premiumOnly: true,
-    premiumUnlock:
+    premiumUnlock: localize(
+      language,
       'Premium Nadi unlocks a separate reading room with planetary story links, validation questions, timing activation, and remedies.',
-    schoolBoundary:
+      'प्रीमियम नाड़ी ग्रह-कथा संबंध, पुष्टि प्रश्न, समय सक्रियता और उपायों वाला अलग रीडिंग रूम खोलती है.',
+      'પ્રીમિયમ નાડી ગ્રહકથા સંબંધ, પુષ્ટિ પ્રશ્નો, સમય સક્રિયતા અને ઉપાયો ધરાવતો અલગ રીડિંગ રૂમ ખોલે છે.',
+    ),
+    schoolBoundary: localize(
+      language,
       'Nadi Predicta is separate from Regular Parashari Predicta and KP Predicta.',
+      'नाड़ी प्रेडिक्टा सामान्य पराशरी प्रेडिक्टा और कृष्णमूर्ति प्रेडिक्टा से अलग है.',
+      'નાડી પ્રેડિક્ટા સામાન્ય પરાશરી પ્રેડિક્ટા અને કૃષ્ણમૂર્તિ પ્રેડિક્ટાથી અલગ છે.',
+    ),
     status: 'pending',
-    subtitle: 'Create your Kundli to begin the premium Nadi reading room.',
-    title: 'Nadi Predicta plan',
-    validationQuestions: ['Please share or create your birth profile first.'],
+    subtitle: localize(
+      language,
+      'Create your Kundli to begin the premium Nadi reading room.',
+      'प्रीमियम नाड़ी रीडिंग रूम शुरू करने के लिए अपनी कुंडली बनाइए.',
+      'પ્રીમિયમ નાડી રીડિંગ રૂમ શરૂ કરવા માટે તમારી કુંડળી બનાવો.',
+    ),
+    title: localize(
+      language,
+      'Nadi Predicta plan',
+      'नाड़ी प्रेडिक्टा योजना',
+      'નાડી પ્રેડિક્ટા યોજના',
+    ),
+    validationQuestions: [
+      localize(
+        language,
+        'Please share or create your birth profile first.',
+        'कृपया पहले अपना जन्म प्रोफाइल साझा करें या बनाएं.',
+        'કૃપા કરીને પહેલા તમારું જન્મ પ્રોફાઇલ શેર કરો અથવા બનાવો.',
+      ),
+    ],
   };
 }
 
 function buildPatterns(
   kundli: KundliData,
   depth: NadiJyotishInsightDepth,
+  language: SupportedLanguage,
 ): NadiJyotishPattern[] {
   const planets = kundli.planets.filter(planet => PLANET_KARAKAS[planet.name]);
   const patterns: NadiJyotishPattern[] = [];
@@ -180,7 +281,7 @@ function buildPatterns(
       if (!relation) {
         continue;
       }
-      patterns.push(buildPattern(first, second, relation));
+      patterns.push(buildPattern(first, second, relation, language));
     }
   }
 
@@ -190,20 +291,48 @@ function buildPatterns(
     patterns.push({
       confidence: 'medium',
       evidence: [
-        `Rahu is in ${rahu.sign}, house ${rahu.house}.`,
-        `Ketu is in ${ketu.sign}, house ${ketu.house}.`,
+        localize(
+          language,
+          `Rahu is in ${getLocalizedSignName(rahu.sign, language)}, house ${rahu.house}.`,
+          `राहु ${getLocalizedSignName(rahu.sign, language)} में, भाव ${rahu.house} में है.`,
+          `રાહુ ${getLocalizedSignName(rahu.sign, language)}માં, ભાવ ${rahu.house}માં છે.`,
+        ),
+        localize(
+          language,
+          `Ketu is in ${getLocalizedSignName(ketu.sign, language)}, house ${ketu.house}.`,
+          `केतु ${getLocalizedSignName(ketu.sign, language)} में, भाव ${ketu.house} में है.`,
+          `કેતુ ${getLocalizedSignName(ketu.sign, language)}માં, ભાવ ${ketu.house}માં છે.`,
+        ),
       ],
-      freeInsight:
+      freeInsight: localize(
+        language,
         'Rahu and Ketu show where life pulls you forward and where it asks for release.',
+        'राहु और केतु बताते हैं कि जीवन आपको कहां आगे खींचता है और कहां छोड़ना सिखाता है.',
+        'રાહુ અને કેતુ બતાવે છે કે જીવન તમને ક્યાં આગળ ખેંચે છે અને ક્યાં છોડવું શીખવે છે.',
+      ),
       id: 'nadi-rahu-ketu-axis',
       lifeAreas: ['general', 'spirituality'],
       meaning: `Rahu pulls toward ${HOUSE_MEANINGS[rahu.house]}; Ketu asks maturity around ${HOUSE_MEANINGS[ketu.house]}.`,
-      observation: `Rahu/Ketu axis runs through houses ${rahu.house}/${ketu.house}.`,
+      observation: localize(
+        language,
+        `Rahu/Ketu axis runs through houses ${rahu.house}/${ketu.house}.`,
+        `राहु/केतु अक्ष भाव ${rahu.house}/${ketu.house} से गुजरता है.`,
+        `રાહુ/કેતુ અક્ષ ભાવ ${rahu.house}/${ketu.house}માંથી પસાર થાય છે.`,
+      ),
       planets: ['Rahu', 'Ketu'],
-      premiumDetail:
+      premiumDetail: localize(
+        language,
         'Premium Nadi reads this as a karmic axis: appetite, unfinished desire, detachment, and the transit periods that awaken this story.',
+        'प्रीमियम नाड़ी इसे कर्म अक्ष की तरह पढ़ती है: इच्छा, अधूरी चाह, विरक्ति और वे गोचर समय जो इस कथा को जगाते हैं.',
+        'પ્રીમિયમ નાડી તેને કર્મ અક્ષ તરીકે વાંચે છે: ઇચ્છા, અધૂરી કામના, વિરક્તિ અને તે ગોચર સમય જે આ વાર્તાને જગાડે છે.',
+      ),
       relation: 'rahu-ketu-axis',
-      title: 'Rahu-Ketu karmic axis',
+      title: localize(
+        language,
+        'Rahu-Ketu karmic axis',
+        'राहु-केतु कर्म अक्ष',
+        'રાહુ-કેતુ કર્મ અક્ષ',
+      ),
       weight: 'mixed',
     });
   }
@@ -217,29 +346,77 @@ function buildPattern(
   first: PlanetPosition,
   second: PlanetPosition,
   relation: NadiJyotishPattern['relation'],
+  language: SupportedLanguage,
 ): NadiJyotishPattern {
-  const relationText = relationLabel(relation);
+  const relationText = relationLabel(relation, language);
+  const firstName = getLocalizedPlanetName(first.name, language);
+  const secondName = getLocalizedPlanetName(second.name, language);
+  const firstSign = getLocalizedSignName(first.sign, language);
+  const secondSign = getLocalizedSignName(second.sign, language);
   const lifeAreas = Array.from(
     new Set([...areasForPlanet(first.name), ...areasForPlanet(second.name)]),
   );
+  const lifeAreaText = lifeAreas
+    .map(area => localizeLifeArea(area, language))
+    .join(', ');
   const weight = patternWeight(first.name, second.name, relation);
 
   return {
     confidence: relation === 'same-sign' ? 'high' : 'medium',
     evidence: [
-      `${first.name}: ${first.sign}, house ${first.house}, ${first.nakshatra}.`,
-      `${second.name}: ${second.sign}, house ${second.house}, ${second.nakshatra}.`,
-      `${relationText} links their karakas.`,
+      localize(
+        language,
+        `${firstName}: ${firstSign}, house ${first.house}, ${first.nakshatra}.`,
+        `${firstName}: ${firstSign}, भाव ${first.house}, ${first.nakshatra}.`,
+        `${firstName}: ${firstSign}, ભાવ ${first.house}, ${first.nakshatra}.`,
+      ),
+      localize(
+        language,
+        `${secondName}: ${secondSign}, house ${second.house}, ${second.nakshatra}.`,
+        `${secondName}: ${secondSign}, भाव ${second.house}, ${second.nakshatra}.`,
+        `${secondName}: ${secondSign}, ભાવ ${second.house}, ${second.nakshatra}.`,
+      ),
+      localize(
+        language,
+        `${relationText} links their karakas.`,
+        `${relationText} उनके कारक विषयों को जोड़ता है.`,
+        `${relationText} તેમના કારક વિષયોને જોડે છે.`,
+      ),
     ],
-    freeInsight: `${first.name} and ${second.name} are linked by ${relationText}. This is a useful Nadi-style story marker, but Premium is needed for full sequencing and timing.`,
+    freeInsight: localize(
+      language,
+      `${firstName} and ${secondName} are linked by ${relationText}, so this pattern keeps repeating through ${lifeAreaText}. In plain Nadi language, one life topic keeps waking up another instead of staying isolated.`,
+      `${firstName} और ${secondName} ${relationText} से जुड़े हैं, इसलिए यह पैटर्न ${lifeAreaText} के माध्यम से बार-बार दोहराता है. सरल नाड़ी भाषा में, जीवन का एक विषय दूसरे विषय को बार-बार जगाता है.`,
+      `${firstName} અને ${secondName} ${relationText}થી જોડાયેલા છે, તેથી આ પેટર્ન ${lifeAreaText} દ્વારા વારંવાર ફરી ઊઠે છે. સરળ નાડી ભાષામાં, જીવનનો એક વિષય બીજાને વારંવાર જગાડે છે.`,
+    ),
     id: `nadi-${first.name.toLowerCase()}-${second.name.toLowerCase()}-${relation}`,
     lifeAreas,
-    meaning: `${first.name} carries ${PLANET_KARAKAS[first.name]}; ${second.name} carries ${PLANET_KARAKAS[second.name]}. Their link connects ${HOUSE_MEANINGS[first.house]} with ${HOUSE_MEANINGS[second.house]}.`,
-    observation: `${first.name} in ${first.sign} house ${first.house} has a ${relationText} with ${second.name} in ${second.sign} house ${second.house}.`,
+    meaning: localize(
+      language,
+      `${firstName} carries ${PLANET_KARAKAS[first.name]}; ${secondName} carries ${PLANET_KARAKAS[second.name]}. Their link connects ${HOUSE_MEANINGS[first.house]} with ${HOUSE_MEANINGS[second.house]}, so the story tends to repeat through ${lifeAreaText}.`,
+      `${firstName} ${PLANET_KARAKAS[first.name]} का विषय लाता है; ${secondName} ${PLANET_KARAKAS[second.name]} का. इनका संबंध ${HOUSE_MEANINGS[first.house]} को ${HOUSE_MEANINGS[second.house]} से जोड़ता है, इसलिए कथा ${lifeAreaText} के माध्यम से दोहराती है.`,
+      `${firstName} ${PLANET_KARAKAS[first.name]}નો વિષય લાવે છે; ${secondName} ${PLANET_KARAKAS[second.name]}નો. તેમનો સંબંધ ${HOUSE_MEANINGS[first.house]}ને ${HOUSE_MEANINGS[second.house]} સાથે જોડે છે, તેથી વાર્તા ${lifeAreaText} દ્વારા ફરી આવે છે.`,
+    ),
+    observation: localize(
+      language,
+      `${firstName} in ${firstSign} house ${first.house} has a ${relationText} with ${secondName} in ${secondSign} house ${second.house}.`,
+      `${firstSign} के भाव ${first.house} में ${firstName} का ${secondSign} के भाव ${second.house} में ${secondName} के साथ ${relationText} है.`,
+      `${firstSign}ના ભાવ ${first.house}માં ${firstName}નો ${secondSign}ના ભાવ ${second.house}માં ${secondName} સાથે ${relationText} છે.`,
+    ),
     planets: [first.name, second.name],
-    premiumDetail: `Premium Nadi reads this as a story chain: ${first.name} theme -> ${second.name} theme, then checks maturity age, slow-transit activation, and validation questions before giving event-level guidance.`,
+    premiumDetail: localize(
+      language,
+      `Premium Nadi reads this as a story chain: ${firstName} theme -> ${secondName} theme, then checks maturity age, slow-transit activation, repeated life evidence, and validation questions before giving event-level guidance.`,
+      `प्रीमियम नाड़ी इसे कथा-श्रृंखला की तरह पढ़ती है: ${firstName} विषय -> ${secondName} विषय, फिर परिपक्वता उम्र, धीमे गोचर की सक्रियता, दोहराते जीवन-प्रमाण और पुष्टि प्रश्न देखकर ही घटना-स्तर मार्गदर्शन देती है.`,
+      `પ્રીમિયમ નાડી તેને વાર્તા-શૃંખલા તરીકે વાંચે છે: ${firstName} વિષય -> ${secondName} વિષય, પછી પરિપક્વતા ઉંમર, ધીમા ગોચરની સક્રિયતા, પુનરાવર્તિત જીવન-પ્રમાણ અને પુષ્ટિ પ્રશ્નો જોઈને જ ઘટના-સ્તર માર્ગદર્શન આપે છે.`,
+    ),
     relation,
-    title: `${first.name}-${second.name} story link`,
+    title: localize(
+      language,
+      `${firstName}-${secondName} story link`,
+      `${firstName}-${secondName} कथा संबंध`,
+      `${firstName}-${secondName} કથા સંબંધ`,
+    ),
     weight,
   };
 }
@@ -248,6 +425,7 @@ function buildActivations(
   kundli: KundliData,
   patterns: NadiJyotishPattern[],
   depth: NadiJyotishInsightDepth,
+  language: SupportedLanguage,
 ): NadiJyotishActivation[] {
   const current = kundli.dasha.current;
   const dashaPattern = patterns.find(pattern =>
@@ -260,15 +438,33 @@ function buildActivations(
 
   if (dashaPattern) {
     activations.push({
-      guidance:
+      guidance: localize(
+        language,
         'Treat this as an active story, then validate with real-life events before going deeper.',
+        'इसे सक्रिय कथा मानें, फिर गहराई में जाने से पहले वास्तविक जीवन घटनाओं से पुष्टि करें.',
+        'આને સક્રિય વાર્તા માનો, પછી ઊંડે જવા પહેલાં વાસ્તવિક જીવનની ઘટનાઓથી પુષ્ટિ કરો.',
+      ),
       id: 'nadi-dasha-activation',
-      observation: `${current.mahadasha}/${current.antardasha} touches ${dashaPattern.planets.join(' and ')}.`,
-      premiumDetail:
+      observation: localize(
+        language,
+        `${current.mahadasha}/${current.antardasha} touches ${dashaPattern.planets.join(' and ')}.`,
+        `${current.mahadasha}/${current.antardasha} ${dashaPattern.planets.join(' और ')} को छूता है.`,
+        `${current.mahadasha}/${current.antardasha} ${dashaPattern.planets.join(' અને ')}ને સ્પર્શે છે.`,
+      ),
+      premiumDetail: localize(
+        language,
         'Premium connects this active story to sub-period timing, repeated life themes, and practical remedy discipline.',
+        'प्रीमियम इस सक्रिय कथा को उप-काल समय, दोहराते जीवन-विषय और व्यावहारिक उपाय अनुशासन से जोड़ती है.',
+        'પ્રીમિયમ આ સક્રિય વાર્તાને ઉપ-કાળ સમય, પુનરાવર્તિત જીવન-વિષયો અને વ્યવહારૂ ઉપાય શિસ્ત સાથે જોડે છે.',
+      ),
       timing: `${current.startDate} to ${current.endDate}`,
-      title: 'Current timing touches a Nadi story',
-      trigger: `${current.mahadasha}/${current.antardasha}`,
+      title: localize(
+        language,
+        'Current timing touches a Nadi story',
+        'वर्तमान समय एक नाड़ी कथा को छू रहा है',
+        'વર્તમાન સમય નાડી વાર્તાને સ્પર્શે છે',
+      ),
+      trigger: `${getLocalizedPlanetName(current.mahadasha, language)}/${getLocalizedPlanetName(current.antardasha, language)}`,
     });
   }
 
@@ -282,17 +478,46 @@ function buildActivations(
     activations.push({
       guidance:
         transit.weight === 'supportive'
-          ? 'Use this window for steady progress without overpromising outcomes.'
-          : 'Move slowly, validate facts, and avoid fear-based conclusions.',
+          ? localize(
+              language,
+              'Use this window for steady progress without overpromising outcomes.',
+              'इस समय का उपयोग स्थिर प्रगति के लिए करें, बिना परिणामों का अधिक वादा किए.',
+              'આ સમયનો ઉપયોગ સ્થિર પ્રગતિ માટે કરો, પરિણામોનું વધારે વચન આપ્યા વગર.',
+            )
+          : localize(
+              language,
+              'Move slowly, validate facts, and avoid fear-based conclusions.',
+              'धीरे चलें, तथ्यों की पुष्टि करें और डर-आधारित निष्कर्षों से बचें.',
+              'ધીમે ચાલો, તથ્યોની પુષ્ટિ કરો અને ભય આધારિત નિષ્કર્ષોથી બચો.',
+            ),
       id: `nadi-transit-${transit.planet.toLowerCase()}`,
       observation: linkedPattern
-        ? `${transit.planet} is moving through ${transit.sign}, touching a sign used by ${linkedPattern.title}.`
-        : `${transit.planet} is moving through ${transit.sign}, house ${transit.houseFromLagna} from Lagna.`,
-      premiumDetail:
+        ? localize(
+            language,
+            `${getLocalizedPlanetName(transit.planet, language)} is moving through ${getLocalizedSignName(transit.sign, language)}, touching a sign used by ${linkedPattern.title}.`,
+            `${getLocalizedPlanetName(transit.planet, language)} ${getLocalizedSignName(transit.sign, language)} से गुजर रहा है और ${linkedPattern.title} में उपयोग हुई राशि को छू रहा है.`,
+            `${getLocalizedPlanetName(transit.planet, language)} ${getLocalizedSignName(transit.sign, language)}માંથી પસાર થઈ રહ્યો છે અને ${linkedPattern.title}માં આવેલી રાશિને સ્પર્શે છે.`,
+          )
+        : localize(
+            language,
+            `${getLocalizedPlanetName(transit.planet, language)} is moving through ${getLocalizedSignName(transit.sign, language)}, house ${transit.houseFromLagna} from Lagna.`,
+            `${getLocalizedPlanetName(transit.planet, language)} ${getLocalizedSignName(transit.sign, language)} से गुजर रहा है, लग्न से भाव ${transit.houseFromLagna}.`,
+            `${getLocalizedPlanetName(transit.planet, language)} ${getLocalizedSignName(transit.sign, language)}માંથી પસાર થઈ રહ્યો છે, લગ્નથી ભાવ ${transit.houseFromLagna}.`,
+          ),
+      premiumDetail: localize(
+        language,
         'Premium checks whether this slow transit repeats a natal planet story and whether the user has already seen similar events.',
+        'प्रीमियम देखती है कि यह धीमा गोचर जन्मकुंडली की उसी ग्रह-कथा को दोहराता है या नहीं और क्या उपयोगकर्ता ने ऐसे ही अनुभव पहले देखे हैं.',
+        'પ્રીમિયમ તપાસે છે કે આ ધીમો ગોચર જન્મકુંડળીની એ જ ગ્રહકથાને ફરી જગાડે છે કે નહીં અને વપરાશકર્તાએ આવા અનુભવ પહેલેથી જોયા છે કે નહીં.',
+      ),
       timing: transit.calculatedAt,
-      title: `${transit.planet} activation`,
-      trigger: `${transit.planet} in ${transit.sign}`,
+      title: localize(
+        language,
+        `${getLocalizedPlanetName(transit.planet, language)} activation`,
+        `${getLocalizedPlanetName(transit.planet, language)} सक्रियता`,
+        `${getLocalizedPlanetName(transit.planet, language)} સક્રિયતા`,
+      ),
+      trigger: `${getLocalizedPlanetName(transit.planet, language)} ${localize(language, 'in', 'में', 'માં')} ${getLocalizedSignName(transit.sign, language)}`,
     });
   });
 
@@ -302,18 +527,30 @@ function buildActivations(
 function buildFreePreview(
   kundli: KundliData,
   patterns: NadiJyotishPattern[],
+  language: SupportedLanguage,
 ): string {
   const top = patterns[0];
   if (!top) {
-    return `${kundli.birthDetails.name}'s Nadi space is ready. Predicta will prepare the first preview once planetary story details are available from the saved birth profile.`;
+    return localize(
+      language,
+      `${kundli.birthDetails.name}'s Nadi space is ready. Predicta will prepare the first preview once planetary story details are available from the saved birth profile.`,
+      `${kundli.birthDetails.name} का नाड़ी स्थान तैयार है. सहेजे गए जन्म प्रोफाइल से ग्रह-कथा विवरण मिलते ही प्रेडिक्टा पहला प्रीव्यू तैयार करेगी.`,
+      `${kundli.birthDetails.name}નું નાડી સ્થળ તૈયાર છે. સચવાયેલા જન્મ પ્રોફાઇલથી ગ્રહકથા વિગતો મળતા જ પ્રેડિક્ટા પહેલું પ્રિવ્યૂ તૈયાર કરશે.`,
+    );
   }
-  return `Nadi preview: ${top.title} stands out. ${top.freeInsight}`;
+  return localize(
+    language,
+    `Nadi preview: ${top.title} is the strongest story right now. ${top.meaning}`,
+    `नाड़ी प्रीव्यू: ${top.title} अभी सबसे मजबूत कथा है. ${top.meaning}`,
+    `નાડી પ્રિવ્યૂ: ${top.title} અત્યારે સૌથી મજબૂત વાર્તા છે. ${top.meaning}`,
+  );
 }
 
 function buildPremiumSynthesis(
   kundli: KundliData,
   patterns: NadiJyotishPattern[],
   activations: NadiJyotishActivation[],
+  language: SupportedLanguage,
 ): string {
   const patternText = patterns
     .slice(0, 3)
@@ -323,36 +560,87 @@ function buildPremiumSynthesis(
     .slice(0, 2)
     .map(activation => activation.trigger)
     .join(', ');
-  return `${kundli.birthDetails.name}'s Premium Nadi reading will sequence ${patternText || 'planetary story links'} and check activation through ${activationText || 'current timing'} before giving practical guidance.`;
+  return localize(
+    language,
+    `${kundli.birthDetails.name}'s Premium Nadi reading will sequence ${patternText || 'planetary story links'}, check activation through ${activationText || 'current timing'}, and then turn that story into life guidance without pretending fixed fate.`,
+    `${kundli.birthDetails.name} का प्रीमियम नाड़ी वाचन ${patternText || 'ग्रह-कथा संबंध'} को क्रम में रखेगा, ${activationText || 'वर्तमान समय'} से सक्रियता देखेगा और फिर बिना तय भाग्य का दिखावा किए उसे जीवन-मार्गदर्शन में बदलेगा.`,
+    `${kundli.birthDetails.name}નું પ્રીમિયમ નાડી વાંચન ${patternText || 'ગ્રહકથા સંબંધ'}ને ક્રમમાં રાખશે, ${activationText || 'વર્તમાન સમય'}થી સક્રિયતા તપાસશે અને પછી નક્કી ભાગ્યનો દાવો કર્યા વગર તેને જીવન માર્ગદર્શનમાં ફેરવશે.`,
+  );
 }
 
 function buildValidationQuestions(
   kundli: KundliData,
   patterns: NadiJyotishPattern[],
+  language: SupportedLanguage,
 ): string[] {
   const questions = [
-    `Does ${kundli.birthDetails.name} relate more to practical responsibility first, or emotional restlessness first?`,
-    'Has the same life issue repeated in cycles rather than one isolated event?',
-    'Is the current question about an event, a relationship pattern, money/career movement, or spiritual direction?',
+    localize(
+      language,
+      `Does ${kundli.birthDetails.name} relate more to practical responsibility first, or emotional restlessness first?`,
+      `क्या ${kundli.birthDetails.name} पहले व्यावहारिक जिम्मेदारी से अधिक जुड़ते हैं, या पहले भावनात्मक बेचैनी से?`,
+      `શું ${kundli.birthDetails.name} પહેલા વ્યવહારૂ જવાબદારી સાથે વધુ જોડાય છે, કે પહેલા ભાવનાત્મક બેચેની સાથે?`,
+    ),
+    localize(
+      language,
+      'Has the same life issue repeated in cycles rather than one isolated event?',
+      'क्या वही जीवन-विषय एक अकेली घटना की जगह चक्रों में दोहराया है?',
+      'શું એ જ જીવનવિષય એક જ ઘટનાની બદલે ચક્રોમાં ફરી આવ્યો છે?',
+    ),
+    localize(
+      language,
+      'Is the current question about an event, a relationship pattern, money/career movement, or spiritual direction?',
+      'क्या वर्तमान प्रश्न किसी घटना, संबंध पैटर्न, धन/करियर गति या आध्यात्मिक दिशा के बारे में है?',
+      'શું વર્તમાન પ્રશ્ન કોઈ ઘટના, સંબંધ પેટર્ન, ધન/કારકિર્દી ગતિ કે આધ્યાત્મિક દિશા વિશે છે?',
+    ),
   ];
 
   const top = patterns[0];
   if (top) {
     questions.unshift(
-      `Before I go deeper: does the ${top.planets.join('-')} theme show up in real life as ${top.lifeAreas.join(', ')}?`,
+      localize(
+        language,
+        `Before I go deeper: does the ${top.planets.join('-')} theme show up in real life as ${top.lifeAreas.join(', ')}?`,
+        `गहराई में जाने से पहले: क्या ${top.planets.join('-')} का विषय वास्तविक जीवन में ${top.lifeAreas.map(area => localizeLifeArea(area, language)).join(', ')} की तरह दिखता है?`,
+        `ઊંડે જવા પહેલાં: શું ${top.planets.join('-')}નો વિષય વાસ્તવિક જીવનમાં ${top.lifeAreas.map(area => localizeLifeArea(area, language)).join(', ')} તરીકે દેખાય છે?`,
+      ),
     );
   }
 
   return questions;
 }
 
-function buildGuardrails(): string[] {
+function buildGuardrails(language: SupportedLanguage): string[] {
   return [
-    'Do not claim real palm-leaf manuscript access.',
-    'Explain that Nadi Predicta reads calculated planetary story patterns, not a verified manuscript record.',
-    'Do not mix Nadi with Parashari yoga/dasha or KP sub-lord rules inside the same answer.',
-    'Use validation questions before strong event statements.',
-    'Give guidance, timing themes, and remedies without fear or guaranteed outcomes.',
+    localize(
+      language,
+      'Do not claim real palm-leaf manuscript access.',
+      'वास्तविक ताड़पत्र पांडुलिपि तक पहुंच का दावा न करें.',
+      'વાસ્તવિક તાડપત્ર પાંડુલિપિ સુધી પહોંચવાનો દાવો ન કરો.',
+    ),
+    localize(
+      language,
+      'Explain that Nadi Predicta reads calculated planetary story patterns, not a verified manuscript record.',
+      'स्पष्ट करें कि नाड़ी प्रेडिक्टा गणना किए गए ग्रह-कथा पैटर्न पढ़ती है, सत्यापित पांडुलिपि रिकॉर्ड नहीं.',
+      'સ્પષ્ટ કરો કે નાડી પ્રેડિક્ટા ગણતરી કરેલા ગ્રહકથા પેટર્ન વાંચે છે, ચકાસેલ પાંડુલિપિ રેકોર્ડ નહીં.',
+    ),
+    localize(
+      language,
+      'Do not mix Nadi with Parashari yoga/dasha or KP sub-lord rules inside the same answer.',
+      'एक ही उत्तर में नाड़ी को पराशरी योग/दशा या कृष्णमूर्ति सब-लॉर्ड नियमों के साथ न मिलाएं.',
+      'એક જ જવાબમાં નાડીને પરાશરી યોગ/દશા અથવા કૃષ્ણમૂર્તિ સબ-લોર્ડ નિયમો સાથે મિક્સ ન કરો.',
+    ),
+    localize(
+      language,
+      'Use validation questions before strong event statements.',
+      'मजबूत घटना कथन से पहले पुष्टि प्रश्न पूछें.',
+      'મજબૂત ઘટના નિવેદન પહેલાં પુષ્ટિ પ્રશ્નો પૂછો.',
+    ),
+    localize(
+      language,
+      'Give guidance, timing themes, and remedies without fear or guaranteed outcomes.',
+      'डर या गारंटी वाले परिणामों के बिना मार्गदर्शन, समय-विषय और उपाय दें.',
+      'ભય અથવા ગેરંટીવાળા પરિણામો વગર માર્ગદર્શન, સમય-વિષયો અને ઉપાયો આપો.',
+    ),
   ];
 }
 
@@ -388,23 +676,31 @@ function signDistance(first: string, second: string): number {
   return (secondIndex - firstIndex + 12) % 12;
 }
 
-function relationLabel(relation: NadiJyotishPattern['relation']): string {
+function relationLabel(
+  relation: NadiJyotishPattern['relation'],
+  language: SupportedLanguage,
+): string {
   if (relation === 'same-sign') {
-    return 'same-sign conjunction-style link';
+    return localize(
+      language,
+      'same-sign conjunction-style link',
+      'समान राशि संयोजन-शैली संबंध',
+      'એક જ રાશિ સંયોગ-શૈલી સંબંધ',
+    );
   }
   if (relation === 'trine-link') {
-    return 'trinal story link';
+    return localize(language, 'trinal story link', 'त्रिकोण कथा संबंध', 'ત્રિકોણ કથા સંબંધ');
   }
   if (relation === 'opposition-link') {
-    return 'opposition story link';
+    return localize(language, 'opposition story link', 'विपरीत कथा संबंध', 'વિરોધ કથા સંબંધ');
   }
   if (relation === 'sequence-link') {
-    return 'sequence link';
+    return localize(language, 'sequence link', 'क्रम संबंध', 'ક્રમ સંબંધ');
   }
   if (relation === 'rahu-ketu-axis') {
-    return 'karmic axis';
+    return localize(language, 'karmic axis', 'कर्म अक्ष', 'કર્મ અક્ષ');
   }
-  return 'karaka link';
+  return localize(language, 'karaka link', 'कारक संबंध', 'કારક સંબંધ');
 }
 
 function areasForPlanet(planet: string): NadiJyotishPattern['lifeAreas'] {
@@ -466,4 +762,48 @@ function patternRank(pattern: NadiJyotishPattern): number {
     'karaka-link': 5,
   };
   return relationRank[pattern.relation];
+}
+
+function localize(
+  language: SupportedLanguage,
+  en: string,
+  hi: string,
+  gu: string,
+): string {
+  if (language === 'hi') {
+    return hi;
+  }
+
+  if (language === 'gu') {
+    return gu;
+  }
+
+  return en;
+}
+
+function localizeLifeArea(
+  area: NadiJyotishPattern['lifeAreas'][number],
+  language: SupportedLanguage,
+): string {
+  if (area === 'career') {
+    return localize(language, 'career', 'करियर', 'કારકિર્દી');
+  }
+
+  if (area === 'wealth') {
+    return localize(language, 'wealth', 'धन', 'ધન');
+  }
+
+  if (area === 'relationship') {
+    return localize(language, 'relationship', 'संबंध', 'સંબંધ');
+  }
+
+  if (area === 'wellbeing') {
+    return localize(language, 'wellbeing', 'स्वास्थ्य', 'સ્વાસ્થ્ય');
+  }
+
+  if (area === 'spirituality') {
+    return localize(language, 'spirituality', 'आध्यात्मिकता', 'આધ્યાત્મિકતા');
+  }
+
+  return localize(language, 'general', 'सामान्य', 'સામાન્ય');
 }

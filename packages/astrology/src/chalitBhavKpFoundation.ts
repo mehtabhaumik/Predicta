@@ -38,7 +38,7 @@ export function composeChalitBhavKpFoundation(
 
   return {
     askPrompt:
-      'Explain my Parashari Chalit chart and KP horoscope separately, with simple proof and free vs premium depth.',
+      'Explain what my Parashari Chalit chart is changing in real life, and what my KP chart is saying about concrete outcomes, separately and in plain language.',
     bhavChalit: {
       cusps: chalit?.cusps ?? [],
       evidence: buildBhavEvidence(kundli, shifts),
@@ -95,12 +95,12 @@ export function composeChalitBhavKpFoundation(
       rulingPlanets: kp?.rulingPlanets,
       significators: topSignificators,
       subtitle:
-        'KP is its own system: cusps, star lords, sub lords, significators, ruling planets, and event-focused judgment.',
-      title: 'KP Horoscope foundation',
+        'KP is an event-judgement system. It tells you where concrete results move, which cusp decides the event, and which planets actually carry it.',
+      title: 'What the KP layer is showing',
     },
     ownerName: kundli.birthDetails.name,
     premiumUnlock:
-      'Premium expands Parashari Chalit and KP separately: Chalit house delivery, KP cusp/sub-lord event judgment, significator strength, dasha support, ruling-planet checks, and report-ready synthesis.',
+      'Premium expands Parashari Chalit and KP separately: Chalit house delivery, KP event judgement, cusp and sub-lord logic, significator strength, dasha support, ruling-planet checks, and report-ready synthesis.',
     status,
   };
 }
@@ -191,18 +191,24 @@ function buildKpFreeInsight(
   const tenth = cusps.find(cusp => cusp.house === 10);
   const seventh = cusps.find(cusp => cusp.house === 7);
   const top = significators[0];
+  const topAreas = top
+    ? uniqueHouseAreas(top.signifiesHouses).slice(0, 3).join(', ')
+    : undefined;
 
   return [
-    'KP is separate from the normal D1/Varga reading. It focuses on cusps, star lords, sub lords, and significators.',
+    topAreas
+      ? `KP is saying that concrete results are currently more likely to move through ${topAreas}.`
+      : 'KP is saying that this chart should be used for a concrete event question, not broad personality reading.',
+    top
+      ? `${top.planet} looks like the clearest event carrier from the current significator list.`
+      : '',
     tenth
-      ? `10th cusp sub lord: ${tenth.lordChain.subLord} for career/event judgment.`
+      ? `Career judgement starts from the 10th cusp sub lord ${tenth.lordChain.subLord}.`
       : '',
     seventh
-      ? `7th cusp sub lord: ${seventh.lordChain.subLord} for relationship/partnership judgment.`
+      ? `Relationship judgement starts from the 7th cusp sub lord ${seventh.lordChain.subLord}.`
       : '',
-    top
-      ? `${top.planet} is a strong starter significator for houses ${top.signifiesHouses.join(', ')}.`
-      : '',
+    'KP becomes most useful when the user asks one exact event question and lets the houses, cusp sub lord, significators, and timing answer it.',
   ]
     .filter(Boolean)
     .join(' ');
@@ -215,19 +221,22 @@ function buildKpPremiumSynthesis(
 ): string {
   const tenth = cusps.find(cusp => cusp.house === 10);
   const eleventh = cusps.find(cusp => cusp.house === 11);
+  const top = significators[0];
 
   return [
-    'Premium KP should judge the exact question through the relevant cusp sub lord, supporting significators, dasha period, and ruling planets.',
+    top
+      ? `Premium KP reads the full event chain from ${top.planet} and the connected houses ${top.signifiesHouses.join(', ')} before making timing claims.`
+      : 'Premium KP judges the exact event through the relevant cusp sub lord, supporting significators, dasha period, and ruling planets.',
     tenth
-      ? `Career lens: 10th cusp star/sub/sub-sub chain is ${tenth.lordChain.starLord}/${tenth.lordChain.subLord}/${tenth.lordChain.subSubLord}.`
+      ? `Career lens: the 10th cusp star/sub/sub-sub chain is ${tenth.lordChain.starLord}/${tenth.lordChain.subLord}/${tenth.lordChain.subSubLord}.`
       : '',
     eleventh
-      ? `Fulfilment/gains lens: 11th cusp sub lord is ${eleventh.lordChain.subLord}.`
+      ? `Fulfilment and gains are checked through the 11th cusp sub lord ${eleventh.lordChain.subLord}.`
       : '',
     rulingPlanets
-      ? `Ruling planets available: day ${rulingPlanets.dayLord}, Moon star ${rulingPlanets.moonStarLord}, Lagna sub ${rulingPlanets.lagnaSubLord}.`
+      ? `Ruling planets keep the timing grounded: day ${rulingPlanets.dayLord}, Moon star ${rulingPlanets.moonStarLord}, Lagna sub ${rulingPlanets.lagnaSubLord}.`
       : '',
-    `Top significators included: ${significators
+    `Top event carriers included: ${significators
       .slice(0, 5)
       .map(item => `${item.planet}(${item.signifiesHouses.join('/')})`)
       .join(', ')}.`,
@@ -235,6 +244,31 @@ function buildKpPremiumSynthesis(
     .filter(Boolean)
     .join(' ');
 }
+
+function uniqueHouseAreas(houses: number[]): string[] {
+  return Array.from(
+    new Set(
+      houses
+        .map(house => HOUSE_MEANINGS[house])
+        .filter(Boolean),
+    ),
+  );
+}
+
+const HOUSE_MEANINGS: Record<number, string> = {
+  1: 'self, identity, and visible direction',
+  2: 'money, family, and stored value',
+  3: 'effort, movement, and initiative',
+  4: 'home, stability, and property',
+  5: 'creativity, merit, and speculation',
+  6: 'work, service, and pressure handling',
+  7: 'partnership, marriage, and public exchange',
+  8: 'sudden change, inheritance, and hidden pressure',
+  9: 'fortune, dharma, and blessings',
+  10: 'career, authority, and public role',
+  11: 'gains, fulfilment, and network support',
+  12: 'expense, release, and retreat',
+};
 
 function buildBhavEvidence(
   kundli: KundliData,

@@ -107,6 +107,17 @@ export function WebKpPredictaPanel({
         .slice(0, hasPremiumAccess ? 6 : 4),
     [hasPremiumAccess, kp.significators, selectedFocus.houses],
   );
+  const focusMeaning = useMemo(
+    () =>
+      buildKpFocusMeaning({
+        cusp: selectedCuspData,
+        focus: selectedFocus,
+        language,
+        ruling,
+        significators: eventSignificators,
+      }),
+    [eventSignificators, language, ruling, selectedCuspData, selectedFocus],
+  );
   const askHref = buildKpAskHref({
     cusp: selectedCuspData,
     focus: selectedFocus,
@@ -339,6 +350,57 @@ export function WebKpPredictaPanel({
             <span className="school-badge premium">{t('Event first')}</span>
           </div>
 
+          <div className="school-explain-box">
+            <strong>
+              {localizeKp(
+                language,
+                'What this KP setup is saying',
+                'यह KP सेटअप क्या कह रहा है',
+                'આ KP સેટઅપ શું કહી રહ્યું છે',
+              )}
+            </strong>
+            <p>{focusMeaning.whatItSays}</p>
+          </div>
+
+          <div className="school-grid significators">
+            <div>
+              <span>
+                {localizeKp(
+                  language,
+                  'Main event carrier',
+                  'मुख्य घटना वाहक',
+                  'મુખ્ય ઘટના વાહક',
+                )}
+              </span>
+              <strong>{focusMeaning.mainCarrier}</strong>
+              <p>{focusMeaning.strength}</p>
+            </div>
+            <div>
+              <span>
+                {localizeKp(
+                  language,
+                  'Main caution',
+                  'मुख्य सावधानी',
+                  'મુખ્ય સાવધાની',
+                )}
+              </span>
+              <strong>{focusMeaning.cautionTitle}</strong>
+              <p>{focusMeaning.caution}</p>
+            </div>
+            <div>
+              <span>
+                {localizeKp(
+                  language,
+                  'Next guidance',
+                  'अगला मार्गदर्शन',
+                  'આગળનું માર્ગદર્શન',
+                )}
+              </span>
+              <strong>{focusMeaning.guidanceTitle}</strong>
+              <p>{focusMeaning.guidance}</p>
+            </div>
+          </div>
+
           <div className="kp-event-row" aria-label="KP event focus">
             {KP_EVENT_FOCUS.map(item => (
               <button
@@ -533,3 +595,166 @@ function getKpCalculationMessage(
 
   return 'KP Predicta is preparing this layer from the saved birth profile.';
 }
+
+function buildKpFocusMeaning({
+  cusp,
+  focus,
+  language,
+  ruling,
+  significators,
+}: {
+  cusp?: {
+    house: number;
+    lordChain: { starLord: string; subLord: string; subSubLord: string };
+  };
+  focus: (typeof KP_EVENT_FOCUS)[number];
+  language: string;
+  ruling?: { dayLord: string; moonSubLord: string };
+  significators: Array<{ planet: string; simpleMeaning: string; signifiesHouses: number[] }>;
+}): {
+  caution: string;
+  cautionTitle: string;
+  guidance: string;
+  guidanceTitle: string;
+  mainCarrier: string;
+  strength: string;
+  whatItSays: string;
+} {
+  const areas = focus.houses.map(house => getKpHouseArea(house, language)).join(', ');
+  const carrier = significators[0];
+  const carrierName = carrier?.planet ?? localizeKp(language, 'Pending', 'प्रतीक्षारत', 'બાકી');
+  const cuspSummary = cusp
+    ? localizeKp(
+        language,
+        `Cusp ${cusp.house} is being judged through sub lord ${cusp.lordChain.subLord}.`,
+        `कस्प ${cusp.house} का निर्णय सब लॉर्ड ${cusp.lordChain.subLord} से हो रहा है.`,
+        `કસ્પ ${cusp.house}નો નિર્ણય સબ લોર્ડ ${cusp.lordChain.subLord}થી થઈ રહ્યો છે.`,
+      )
+    : localizeKp(
+        language,
+        'The main cusp is still being prepared.',
+        'मुख्य कस्प अभी तैयार हो रहा है.',
+        'મુખ્ય કસ્પ હજી તૈયાર થઈ રહ્યો છે.',
+      );
+  const rulingSummary = ruling
+    ? localizeKp(
+        language,
+        `Timing stays grounded through day lord ${ruling.dayLord} and Moon sub ${ruling.moonSubLord}.`,
+        `समय निर्धारण डे लॉर्ड ${ruling.dayLord} और मून सब ${ruling.moonSubLord} से जुड़ा रहता है.`,
+        `સમય નિર્ધારણ ડે લોર્ડ ${ruling.dayLord} અને મૂન સબ ${ruling.moonSubLord}થી સ્થિર થાય છે.`,
+      )
+    : localizeKp(
+        language,
+        'Timing will become sharper once ruling planets are ready.',
+        'रूलिंग प्लेनेट तैयार होने पर समय और स्पष्ट होगा.',
+        'રૂલિંગ પ્લેનેટ તૈયાર થયા પછી સમય વધુ સ્પષ્ટ બનશે.',
+      );
+
+  return {
+    caution: localizeKp(
+      language,
+      'Do not treat KP like a personality reading. It becomes accurate when the question is specific and event-based.',
+      'KP को व्यक्तित्व पढ़ाई की तरह न लें. यह तब सटीक होता है जब प्रश्न स्पष्ट और घटना-आधारित हो.',
+      'KP ને વ્યક્તિગત વાંચન જેમ ન લો. પ્રશ્ન સ્પષ્ટ અને ઘટના આધારિત હોય ત્યારે જ તે ચોક્કસ બને છે.',
+    ),
+    cautionTitle: localizeKp(language, 'Ask one exact question', 'एक सटीक प्रश्न पूछें', 'એક ચોક્કસ પ્રશ્ન પૂછો'),
+    guidance: localizeKp(
+      language,
+      `Start with ${focus.title.toLowerCase()}, let KP judge ${areas}, and then use timing only after the event carriers are clear.`,
+      `${focus.title} से शुरू करें, KP को ${areas} का निर्णय करने दें, और घटना वाहक साफ होने के बाद ही समय देखें.`,
+      `${focus.title}થી શરૂઆત કરો, KP ને ${areas}નું નિર્ણય કરવા દો, અને ઘટના વાહકો સ્પષ્ટ થયા પછી જ સમય જુઓ.`,
+    ),
+    guidanceTitle: localizeKp(language, 'Event before timing', 'समय से पहले घटना', 'સમય પહેલાં ઘટના'),
+    mainCarrier: carrierName,
+    strength: carrier
+      ? localizeKp(
+          language,
+          `${carrier.planet} is carrying the clearest event promise right now through ${carrier.signifiesHouses.map(house => getKpHouseArea(house, language)).slice(0, 2).join(', ')}.`,
+          `${carrier.planet} अभी सबसे स्पष्ट घटना संकेत दे रहा है, खासकर ${carrier.signifiesHouses.map(house => getKpHouseArea(house, language)).slice(0, 2).join(', ')} के माध्यम से.`,
+          `${carrier.planet} હાલ સૌથી સ્પષ્ટ ઘટના સંકેત આપી રહ્યો છે, ખાસ કરીને ${carrier.signifiesHouses.map(house => getKpHouseArea(house, language)).slice(0, 2).join(', ')} દ્વારા.`,
+        )
+      : localizeKp(
+          language,
+          'The event carriers will become clear once significators are ready.',
+          'सिग्निफिकेटर तैयार होने पर घटना वाहक स्पष्ट होंगे.',
+          'સિગ્નિફિકેટર તૈયાર થયા પછી ઘટના વાહકો સ્પષ્ટ થશે.',
+        ),
+    whatItSays: localizeKp(
+      language,
+      `KP is saying this question should be judged through ${areas}. ${cuspSummary} ${rulingSummary}`,
+      `KP कह रहा है कि इस प्रश्न का निर्णय ${areas} के माध्यम से होना चाहिए. ${cuspSummary} ${rulingSummary}`,
+      `KP કહી રહ્યું છે કે આ પ્રશ્નનું નિર્ણય ${areas} દ્વારા થવું જોઈએ. ${cuspSummary} ${rulingSummary}`,
+    ),
+  };
+}
+
+function getKpHouseArea(house: number, language: string): string {
+  const map =
+    language === 'hi'
+      ? KP_HOUSE_LABELS_HI
+      : language === 'gu'
+        ? KP_HOUSE_LABELS_GU
+        : KP_HOUSE_LABELS_EN;
+
+  return map[house] ?? `H${house}`;
+}
+
+function localizeKp(
+  language: string,
+  en: string,
+  hi: string,
+  gu: string,
+): string {
+  if (language === 'hi') {
+    return hi;
+  }
+  if (language === 'gu') {
+    return gu;
+  }
+  return en;
+}
+
+const KP_HOUSE_LABELS_EN: Record<number, string> = {
+  1: 'self and direction',
+  2: 'money and family',
+  3: 'effort and movement',
+  4: 'home and property',
+  5: 'creativity and speculation',
+  6: 'work and struggle',
+  7: 'marriage and partnership',
+  8: 'change and hidden pressure',
+  9: 'fortune and blessings',
+  10: 'career and public role',
+  11: 'gains and fulfilment',
+  12: 'expense and release',
+};
+
+const KP_HOUSE_LABELS_HI: Record<number, string> = {
+  1: 'स्व और दिशा',
+  2: 'धन और परिवार',
+  3: 'प्रयास और गति',
+  4: 'घर और संपत्ति',
+  5: 'रचनात्मकता और अटकल',
+  6: 'काम और संघर्ष',
+  7: 'विवाह और साझेदारी',
+  8: 'परिवर्तन और छिपा दबाव',
+  9: 'भाग्य और आशीर्वाद',
+  10: 'करियर और सार्वजनिक भूमिका',
+  11: 'लाभ और पूर्ति',
+  12: 'व्यय और मुक्ति',
+};
+
+const KP_HOUSE_LABELS_GU: Record<number, string> = {
+  1: 'સ્વ અને દિશા',
+  2: 'ધન અને પરિવાર',
+  3: 'પ્રયાસ અને ગતિ',
+  4: 'ઘર અને સંપત્તિ',
+  5: 'સર્જનાત્મકતા અને અનુમાન',
+  6: 'કામ અને સંઘર્ષ',
+  7: 'લગ્ન અને ભાગીદારી',
+  8: 'પરિવર્તન અને છુપાયેલ દબાણ',
+  9: 'ભાગ્ય અને આશીર્વાદ',
+  10: 'કારકિર્દી અને જાહેર ભૂમિકા',
+  11: 'લાભ અને પૂર્ણતા',
+  12: 'ખર્ચ અને મુકિત',
+};

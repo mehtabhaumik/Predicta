@@ -71,6 +71,15 @@ export function WebNadiPredictaPanel({
         : plan.activations[0],
     [language, plan.activations, selectedPattern],
   );
+  const selectedPatternMeaning = useMemo(
+    () =>
+      buildNadiPatternMeaning({
+        activation: selectedActivation,
+        language,
+        pattern: selectedPattern,
+      }),
+    [language, selectedActivation, selectedPattern],
+  );
   const askHref = buildNadiAskHref({
     activation: selectedActivation,
     handoffQuestion,
@@ -292,9 +301,50 @@ export function WebNadiPredictaPanel({
           {selectedPattern ? (
             <div className="nadi-pattern-detail">
               <div>
-                <span>{t('Selected story')}</span>
+                <span>
+                  {language === 'hi'
+                    ? 'यह नाड़ी पैटर्न क्या कह रहा है'
+                    : language === 'gu'
+                      ? 'આ નાડી પેટર્ન શું કહી રહ્યું છે'
+                      : 'What this Nadi pattern is saying'}
+                </span>
                 <h3>{selectedPattern.title}</h3>
-                <p>{hasPremiumAccess ? selectedPattern.premiumDetail ?? selectedPattern.meaning : selectedPattern.freeInsight}</p>
+                <p>{selectedPatternMeaning.whatItSays}</p>
+              </div>
+              <div className="school-grid significators">
+                <div>
+                  <span>
+                    {language === 'hi'
+                      ? 'मुख्य उपहार'
+                      : language === 'gu'
+                        ? 'મુખ્ય ભેટ'
+                        : 'Main gift'}
+                  </span>
+                  <strong>{selectedPatternMeaning.giftTitle}</strong>
+                  <p>{selectedPatternMeaning.gift}</p>
+                </div>
+                <div>
+                  <span>
+                    {language === 'hi'
+                      ? 'मुख्य सावधानी'
+                      : language === 'gu'
+                        ? 'મુખ્ય સાવધાની'
+                        : 'Main caution'}
+                  </span>
+                  <strong>{selectedPatternMeaning.cautionTitle}</strong>
+                  <p>{selectedPatternMeaning.caution}</p>
+                </div>
+                <div>
+                  <span>
+                    {language === 'hi'
+                      ? 'अगला मार्गदर्शन'
+                      : language === 'gu'
+                        ? 'આગળનું માર્ગદર્શન'
+                        : 'Next guidance'}
+                  </span>
+                  <strong>{selectedPatternMeaning.guidanceTitle}</strong>
+                  <p>{selectedPatternMeaning.guidance}</p>
+                </div>
               </div>
               <div className="nadi-evidence-row">
                 {selectedPattern.evidence.map(item => (
@@ -546,4 +596,132 @@ function getNadiLifeAreaLabel(
   }
 
   return area;
+}
+
+function buildNadiPatternMeaning({
+  activation,
+  language,
+  pattern,
+}: {
+  activation?: { guidance: string; title: string; trigger: string };
+  language: SupportedLanguage;
+  pattern?: {
+    freeInsight: string;
+    lifeAreas: string[];
+    meaning: string;
+    observation: string;
+    premiumDetail?: string;
+    title: string;
+    weight: 'supportive' | 'mixed' | 'challenging' | 'neutral';
+  };
+}): {
+  caution: string;
+  cautionTitle: string;
+  gift: string;
+  giftTitle: string;
+  guidance: string;
+  guidanceTitle: string;
+  whatItSays: string;
+} {
+  if (!pattern) {
+    return {
+      caution:
+        language === 'hi'
+          ? 'पहले कथा पैटर्न तैयार होने दें.'
+          : language === 'gu'
+            ? 'પહેલા કથા પેટર્ન તૈયાર થવા દો.'
+            : 'Let the story pattern prepare first.',
+      cautionTitle:
+        language === 'hi'
+          ? 'अभी प्रतीक्षा'
+          : language === 'gu'
+            ? 'હાલ રાહ જુઓ'
+            : 'Still preparing',
+      gift:
+        language === 'hi'
+          ? 'नाड़ी कहानी तैयार होने पर जीवन विषय साफ हो जाएंगे.'
+          : language === 'gu'
+            ? 'નાડી વાર્તા તૈયાર થયા પછી જીવન વિષયો સ્પષ્ટ થશે.'
+            : 'The life themes will become clearer once the Nadi story is ready.',
+      giftTitle:
+        language === 'hi' ? 'कथा प्रतीक्षारत' : language === 'gu' ? 'વાર્તા બાકી' : 'Story pending',
+      guidance:
+        language === 'hi'
+          ? 'जन्म प्रोफाइल सुरक्षित रखें और फिर नाड़ी पथ खोलें.'
+          : language === 'gu'
+            ? 'જન્મ પ્રોફાઇલ સાચવો અને પછી નાડી માર્ગ ખોલો.'
+            : 'Keep the birth profile saved, then reopen the Nadi path.',
+      guidanceTitle:
+        language === 'hi' ? 'अगला कदम' : language === 'gu' ? 'આગળનું પગલું' : 'Next step',
+      whatItSays:
+        language === 'hi'
+          ? 'नाड़ी परत अभी पहली कथा चुन रही है.'
+          : language === 'gu'
+            ? 'નાડી સ્તર હજી પહેલી વાર્તા પસંદ કરી રહ્યું છે.'
+            : 'The Nadi layer is still selecting the first story.',
+    };
+  }
+
+  const areaText = pattern.lifeAreas
+    .map(area => getNadiLifeAreaLabel(area, language))
+    .join(', ');
+  const cautionTitle =
+      pattern.weight === 'challenging'
+        ? language === 'hi'
+          ? 'गंभीर पैटर्न'
+          : language === 'gu'
+          ? 'ગંભીર પેટર્ન'
+          : 'Heavier pattern'
+      : language === 'hi'
+        ? 'मिश्रित पैटर्न'
+        : language === 'gu'
+          ? 'મિશ્ર પેટર્ન'
+          : 'Mixed pattern';
+
+  return {
+    caution:
+      pattern.weight === 'challenging'
+        ? language === 'hi'
+          ? 'इसे तय भाग्य की तरह नहीं पढ़ना है. पहले पुष्टि लें, फिर ही घटना स्तर मार्गदर्शन दें.'
+          : language === 'gu'
+            ? 'આને નક્કી ભાગ્ય તરીકે ન વાંચવું. પહેલાં પુષ્ટિ લો, પછી જ ઘટના સ્તર માર્ગદર્શન આપો.'
+            : 'Do not read this like fixed fate. Validate it first, then move into event-level guidance.'
+        : language === 'hi'
+          ? 'यह कथा एक जीवन-विषय को दूसरे से जोड़ती है, इसलिए जल्दबाज़ी में निष्कर्ष न लें.'
+          : language === 'gu'
+            ? 'આ વાર્તા એક જીવનવિષયને બીજા સાથે જોડે છે, તેથી ઉતાવળે નિષ્કર્ષ ન લો.'
+            : 'This story links one life area to another, so avoid rushing into conclusions.',
+    cautionTitle,
+    gift:
+      language === 'hi'
+        ? `${areaText} के बीच दोहराते पैटर्न को जल्दी पहचानने में यह कथा मदद करती है.`
+        : language === 'gu'
+          ? `${areaText} વચ્ચે ફરી આવતા પેટર્નને વહેલી ઓળખવામાં આ વાર્તા મદદ કરે છે.`
+          : `This story helps you spot repeating links across ${areaText}.`,
+    giftTitle:
+      language === 'hi'
+        ? 'दोहराता संकेत'
+        : language === 'gu'
+          ? 'પુનરાવર્તિત સંકેત'
+          : 'Repeating signal',
+    guidance:
+      activation
+        ? activation.guidance
+        : language === 'hi'
+          ? 'पहले वास्तविक जीवन उदाहरण ढूंढें, फिर कथा की गहराई में जाएं.'
+          : language === 'gu'
+            ? 'પહેલા વાસ્તવિક જીવનના ઉદાહરણો શોધો, પછી વાર્તાની ઊંડાઈમાં જાઓ.'
+            : 'Find the real-life examples first, then go deeper into the story.',
+    guidanceTitle:
+      activation?.title ??
+      (language === 'hi'
+        ? 'अगला कदम'
+        : language === 'gu'
+          ? 'આગળનું પગલું'
+          : 'Next step'),
+    whatItSays:
+      activation
+        ? `${pattern.meaning} ${activation.trigger}. ${activation.guidance}`
+        : pattern.meaning,
+  };
 }
