@@ -55,7 +55,7 @@ export function HeroSection(): React.JSX.Element {
           <Link className="button" href="/dashboard">
             {copy.primary}
           </Link>
-          <Link className="button secondary" href="/dashboard/chat">
+          <Link className="button secondary" href="/dashboard/vedic/chat">
             {copy.secondary}
           </Link>
         </div>

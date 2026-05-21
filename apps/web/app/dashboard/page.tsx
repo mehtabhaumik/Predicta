@@ -378,7 +378,7 @@ function FriendsFamilyWelcome({
           className="button secondary"
           href={
             hasKundli
-              ? '/dashboard/chat?sourceScreen=Private+Preview&prompt=Show+me+what+I+should+try+first+from+my+Kundli.'
+              ? '/dashboard/vedic/chat?sourceScreen=Private+Preview&prompt=Show+me+what+I+should+try+first+from+my+Kundli.'
               : '/dashboard/kundli'
           }
         >

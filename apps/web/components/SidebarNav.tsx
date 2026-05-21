@@ -34,22 +34,20 @@ function isSidebarNavItemActive(pathname: string, href: string): boolean {
 
 export function SidebarNav({
   adminLabel = 'Admin',
+  allSections,
   commonGroups,
   activeSection,
   ownerLabel = 'Owner',
-  privateSaveBody = 'Your Kundli stays safe here. Sign in to keep it with you on every device.',
-  privateSaveTitle = 'SAVED SAFELY',
   showAdmin,
-  thisSectionLabel = 'This Section',
+  worldsLabel = 'Predicta Worlds',
 }: {
   adminLabel?: string;
   activeSection: SidebarSection;
+  allSections: SidebarSection[];
   commonGroups: SidebarGroup[];
   ownerLabel?: string;
-  privateSaveBody?: string;
-  privateSaveTitle?: string;
   showAdmin: boolean;
-  thisSectionLabel?: string;
+  worldsLabel?: string;
 }): React.JSX.Element {
   const pathname = usePathname();
   const reduceMotion = useReducedMotion();
@@ -81,14 +79,14 @@ export function SidebarNav({
       </Link>
       <nav aria-label="Dashboard navigation" className="nav-list">
         <div className="nav-section">
-          <span className="nav-section-title">{thisSectionLabel}</span>
+          <span className="nav-section-title">{worldsLabel}</span>
           <div className="nav-section-links">
-            {activeSection.items.map(item => {
-              const active = isSidebarNavItemActive(pathname, item.href);
+            {allSections.map(section => {
+              const active = section.id === activeSection.id;
 
               return (
                 <motion.div
-                  key={item.href}
+                  key={section.href}
                   whileHover={reduceMotion ? undefined : { x: 3 }}
                 >
                   {active ? (
@@ -97,11 +95,11 @@ export function SidebarNav({
                       aria-disabled="true"
                       className="nav-link active disabled"
                     >
-                      {item.label}
+                      {section.label}
                     </span>
                   ) : (
-                    <Link className="nav-link" href={item.href}>
-                      {item.label}
+                    <Link className="nav-link" href={section.href}>
+                      {section.label}
                     </Link>
                   )}
                 </motion.div>
@@ -110,11 +108,52 @@ export function SidebarNav({
           </div>
         </div>
 
-        {supportGroups.map(group => (
-          <div className="nav-section" key={group.label}>
-            <span className="nav-section-title">{group.label}</span>
+        {activeSection.items.length > 1 ? (
+          <div className="nav-section">
+            <span className="nav-section-title">{activeSection.label}</span>
             <div className="nav-section-links">
-              {group.items.map(item => {
+              {activeSection.items
+                .filter(
+                  (item, index) =>
+                    !(
+                      index === 0 &&
+                      item.href === activeSection.href &&
+                      pathname === activeSection.href
+                    ),
+                )
+                .map(item => {
+                  const active = isSidebarNavItemActive(pathname, item.href);
+
+                  return (
+                    <motion.div
+                      key={item.href}
+                      whileHover={reduceMotion ? undefined : { x: 3 }}
+                    >
+                      {active ? (
+                        <span
+                          aria-current="page"
+                          aria-disabled="true"
+                          className="nav-link active disabled"
+                        >
+                          {item.label}
+                        </span>
+                      ) : (
+                        <Link className="nav-link" href={item.href}>
+                          {item.label}
+                        </Link>
+                      )}
+                    </motion.div>
+                  );
+                })}
+            </div>
+          </div>
+        ) : null}
+
+        {supportGroups.length ? (
+          <div className="nav-section nav-section-utility">
+            <span className="nav-section-title">{ownerLabel}</span>
+            <div className="nav-section-links">
+              {supportGroups.flatMap(group => group.items).map(item => {
                 const active = isSidebarNavItemActive(pathname, item.href);
 
                 return (
@@ -140,12 +179,8 @@ export function SidebarNav({
               })}
             </div>
           </div>
-        ))}
+        ) : null}
       </nav>
-      <div className="sidebar-note glass-panel">
-        <span className="section-title">{privateSaveTitle}</span>
-        <p>{privateSaveBody}</p>
-      </div>
     </aside>
   );
 }

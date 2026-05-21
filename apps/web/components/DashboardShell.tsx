@@ -9,7 +9,11 @@ import {
   getAppShellLabels,
   type AppShellLabels,
 } from '@pridicta/config/language';
-import type { ResolvedAccess } from '@pridicta/types';
+import type {
+  PredictaSchool,
+  ResolvedAccess,
+  SupportedLanguage,
+} from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useLanguagePreference } from '../lib/language-preference';
 import { useDialogFocusTrap } from '../lib/use-dialog-focus-trap';
@@ -27,20 +31,8 @@ type DashboardNavModel = {
   sections: SidebarSection[];
 };
 
-const SECTIONS_WITH_LOCAL_NAV = new Set([
-  'vedic',
-  'kp',
-  'nadi',
-  'numerology',
-  'signature',
-  'reports',
-  'library',
-  'account',
-]);
-
 function buildDashboardNavModel(
   labels: AppShellLabels,
-  feedbackLabel: string,
 ): DashboardNavModel {
   const sections: SidebarSection[] = [
     {
@@ -135,18 +127,7 @@ function buildDashboardNavModel(
   ];
 
   return {
-    commonGroups: [
-      {
-        label: labels.groups.trust,
-        items: [
-          { href: '/accuracy-method', label: labels.nav.accuracyMethod },
-          { href: '/safety', label: labels.nav.safetyPromise },
-          { href: '/founder', label: labels.nav.founderVision },
-          { href: '/feedback', label: feedbackLabel },
-          { href: '/legal', label: labels.nav.legal },
-        ],
-      },
-    ],
+    commonGroups: [],
     sections,
   };
 }
@@ -217,6 +198,160 @@ function renderDashboardMasterLink({
   );
 }
 
+function getTopbarPredictaSchool(
+  sectionId: SidebarSection['id'],
+): PredictaSchool | undefined {
+  if (sectionId === 'vedic') {
+    return 'PARASHARI';
+  }
+
+  if (sectionId === 'kp') {
+    return 'KP';
+  }
+
+  if (sectionId === 'nadi') {
+    return 'NADI';
+  }
+
+  if (sectionId === 'numerology') {
+    return 'NUMEROLOGY';
+  }
+
+  if (sectionId === 'signature') {
+    return 'SIGNATURE';
+  }
+
+  return undefined;
+}
+
+function getTopbarPredictaSourceScreen(
+  activeSection: SidebarSection,
+): string {
+  const school = getTopbarPredictaSchool(activeSection.id);
+
+  if (school === 'PARASHARI') {
+    return 'Vedic Predicta';
+  }
+
+  if (school === 'KP') {
+    return 'KP Predicta';
+  }
+
+  if (school === 'NADI') {
+    return 'Nadi Predicta';
+  }
+
+  if (school === 'NUMEROLOGY') {
+    return 'Numerology Predicta';
+  }
+
+  if (school === 'SIGNATURE') {
+    return 'Signature Predicta';
+  }
+
+  return 'Dashboard';
+}
+
+const TOPBAR_CONTEXT_COPY: Record<
+  SupportedLanguage,
+  Record<SidebarSection['id'], { eyebrow: string }>
+> = {
+  en: {
+    overview: {
+      eyebrow: 'Your home base',
+    },
+    vedic: {
+      eyebrow: 'Vedic world',
+    },
+    kp: {
+      eyebrow: 'KP world',
+    },
+    nadi: {
+      eyebrow: 'Nadi world',
+    },
+    numerology: {
+      eyebrow: 'Numerology world',
+    },
+    signature: {
+      eyebrow: 'Signature world',
+    },
+    reports: {
+      eyebrow: 'Reports',
+    },
+    library: {
+      eyebrow: 'Saved Kundlis',
+    },
+    account: {
+      eyebrow: 'Profile and access',
+    },
+  },
+  hi: {
+    overview: {
+      eyebrow: 'आपका केंद्र',
+    },
+    vedic: {
+      eyebrow: 'वैदिक संसार',
+    },
+    kp: {
+      eyebrow: 'केपी संसार',
+    },
+    nadi: {
+      eyebrow: 'नाड़ी संसार',
+    },
+    numerology: {
+      eyebrow: 'अंक ज्योतिष संसार',
+    },
+    signature: {
+      eyebrow: 'हस्ताक्षर संसार',
+    },
+    reports: {
+      eyebrow: 'रिपोर्ट',
+    },
+    library: {
+      eyebrow: 'सेव कुंडलियां',
+    },
+    account: {
+      eyebrow: 'प्रोफाइल और प्रवेश',
+    },
+  },
+  gu: {
+    overview: {
+      eyebrow: 'તમારું કેન્દ્ર',
+    },
+    vedic: {
+      eyebrow: 'વેદિક વર્લ્ડ',
+    },
+    kp: {
+      eyebrow: 'KP વર્લ્ડ',
+    },
+    nadi: {
+      eyebrow: 'નાડી વર્લ્ડ',
+    },
+    numerology: {
+      eyebrow: 'અંક જ્યોતિષ વર્લ્ડ',
+    },
+    signature: {
+      eyebrow: 'હસ્તાક્ષર વર્લ્ડ',
+    },
+    reports: {
+      eyebrow: 'રિપોર્ટ્સ',
+    },
+    library: {
+      eyebrow: 'સાચવેલી કુંડળીઓ',
+    },
+    account: {
+      eyebrow: 'પ્રોફાઇલ અને પ્રવેશ',
+    },
+  },
+};
+
+function getTopbarContextCopy(
+  language: SupportedLanguage,
+  sectionId: SidebarSection['id'],
+): { eyebrow: string } {
+  return TOPBAR_CONTEXT_COPY[language]?.[sectionId] ?? TOPBAR_CONTEXT_COPY.en[sectionId];
+}
+
 export function DashboardShell({
   access,
   children,
@@ -231,16 +366,22 @@ export function DashboardShell({
   const reduceMotion = useReducedMotion();
   const { language } = useLanguagePreference();
   const shellLabels = getAppShellLabels(language);
-  const { commonGroups, sections } = buildDashboardNavModel(
-    shellLabels,
-    getFeedbackNavLabel(language),
-  );
+  const { commonGroups, sections } = buildDashboardNavModel(shellLabels);
   const activeSection = getActiveDashboardSection(pathname, sections);
   const showAdmin = canSeeAdminRoute(access);
   const [menuOpen, setMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLElement | null>(null);
   const mobileMenuCloseRef = useRef<HTMLButtonElement | null>(null);
   const { activeKundli } = useWebKundliLibrary();
+  const topbarContext = getTopbarContextCopy(language, activeSection.id);
+  const activeSectionMenuItems = activeSection.items.filter(
+    (item, index) =>
+      !(
+        index === 0 &&
+        item.href === activeSection.href &&
+        pathname === activeSection.href
+      ),
+  );
   const supportGroups = showAdmin
     ? [
         ...commonGroups,
@@ -262,36 +403,18 @@ export function DashboardShell({
       <SidebarNav
         activeSection={activeSection}
         adminLabel={shellLabels.nav.admin}
+        allSections={sections}
         commonGroups={commonGroups}
         ownerLabel={shellLabels.groups.owner}
-        privateSaveBody={shellLabels.privateSave.body}
-        privateSaveTitle={shellLabels.privateSave.title}
         showAdmin={showAdmin}
-        thisSectionLabel={shellLabels.groups.thisSection}
+        worldsLabel={shellLabels.groups.sections}
       />
       <main className={`main-workspace ${isChatRoute ? 'chat-main-workspace' : ''}`}>
         <div className="dashboard-topbar glass-panel">
-          <nav
-            aria-label={shellLabels.groups.sections}
-            className="dashboard-master-nav"
-          >
-            {sections.map(section =>
-              renderDashboardMasterLink({
-                activeSection,
-                exactPage: pathname === section.href,
-                section,
-              }),
-            )}
-          </nav>
-          <button
-            aria-expanded={menuOpen}
-            className="dashboard-mobile-current-section"
-            onClick={() => setMenuOpen(current => !current)}
-            type="button"
-          >
-            <span>{shellLabels.groups.sections}</span>
+          <div className="dashboard-topbar-context">
+            <span>{topbarContext.eyebrow}</span>
             <strong>{activeSection.label}</strong>
-          </button>
+          </div>
           <div className="dashboard-topbar-actions">
             <WebLanguageSelector compact />
             <Link
@@ -299,7 +422,8 @@ export function DashboardShell({
               href={buildPredictaChatHref({
                 kundli: activeKundli,
                 prompt: 'Help me from my selected Kundli.',
-                sourceScreen: 'Dashboard',
+                school: getTopbarPredictaSchool(activeSection.id),
+                sourceScreen: getTopbarPredictaSourceScreen(activeSection),
               })}
             >
               {shellLabels.actions.askPredicta}
@@ -367,38 +491,40 @@ export function DashboardShell({
                   </div>
                 </div>
 
-                <div className="dashboard-mobile-nav-section">
-                  <span>{shellLabels.groups.thisSection}</span>
-                  <div>
-                    {activeSection.items.map(item => {
-                      const active = isDashboardNavItemActive(
-                        pathname,
-                        item.href,
-                      );
+                {activeSectionMenuItems.length ? (
+                  <div className="dashboard-mobile-nav-section">
+                    <span>{activeSection.label}</span>
+                    <div>
+                      {activeSectionMenuItems.map(item => {
+                        const active = isDashboardNavItemActive(
+                          pathname,
+                          item.href,
+                        );
 
-                      return (
-                        active ? (
-                          <span
-                            aria-current="page"
-                            aria-disabled="true"
-                            className="active disabled"
-                            key={item.href}
-                          >
-                            {item.label}
-                          </span>
-                        ) : (
-                          <Link
-                            href={item.href}
-                            key={item.href}
-                            onClick={() => setMenuOpen(false)}
-                          >
-                            {item.label}
-                          </Link>
-                        )
-                      );
-                    })}
+                        return (
+                          active ? (
+                            <span
+                              aria-current="page"
+                              aria-disabled="true"
+                              className="active disabled"
+                              key={item.href}
+                            >
+                              {item.label}
+                            </span>
+                          ) : (
+                            <Link
+                              href={item.href}
+                              key={item.href}
+                              onClick={() => setMenuOpen(false)}
+                            >
+                              {item.label}
+                            </Link>
+                          )
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
+                ) : null}
 
                 {supportGroups.map(group => (
                   <div className="dashboard-mobile-nav-section" key={group.label}>
@@ -435,40 +561,8 @@ export function DashboardShell({
                   </div>
                 ))}
               </nav>
-              <div className="dashboard-mobile-drawer-note">
-                <span>{shellLabels.privateSave.title}</span>
-                <p>{shellLabels.privateSave.body}</p>
-              </div>
             </aside>
           </div>
-        ) : null}
-        {!isChatRoute && SECTIONS_WITH_LOCAL_NAV.has(activeSection.id) ? (
-          <nav
-            aria-label={`${activeSection.label} section navigation`}
-            className="dashboard-local-nav glass-panel"
-          >
-            <span>{shellLabels.groups.thisSection}</span>
-            <div>
-              {activeSection.items.map(item => {
-                const active = isDashboardNavItemActive(pathname, item.href);
-
-                return active ? (
-                  <span
-                    aria-current="page"
-                    aria-disabled="true"
-                    className="active disabled"
-                    key={item.href}
-                  >
-                    {item.label}
-                  </span>
-                ) : (
-                  <Link href={item.href} key={item.href}>
-                    {item.label}
-                  </Link>
-                );
-              })}
-            </div>
-          </nav>
         ) : null}
         <motion.div
           className={`dashboard-motion-frame ${
@@ -481,20 +575,10 @@ export function DashboardShell({
         >
           {children}
         </motion.div>
-        {!isChatRoute ? <WebFooter className="dashboard-footer" /> : null}
+        {!isChatRoute ? (
+          <WebFooter className="dashboard-footer" variant="dashboard" />
+        ) : null}
       </main>
     </div>
   );
-}
-
-function getFeedbackNavLabel(language: 'en' | 'hi' | 'gu'): string {
-  if (language === 'hi') {
-    return 'फीडबैक';
-  }
-
-  if (language === 'gu') {
-    return 'ફીડબેક';
-  }
-
-  return 'Feedback';
 }
