@@ -193,8 +193,9 @@ export function isGuestPassActive(
 export function hasGuestQuota(
   pass: RedeemedGuestPass | undefined,
   kind: GuestQuotaKind,
+  now = new Date(),
 ): boolean {
-  if (!isGuestPassActive(pass)) {
+  if (!isGuestPassActive(pass, now)) {
     return false;
   }
 

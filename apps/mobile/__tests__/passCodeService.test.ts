@@ -104,7 +104,9 @@ describe('pass code service', () => {
     }
 
     const pass = result.redeemedPass;
-    expect(hasGuestQuota(pass, 'question')).toBe(true);
+    expect(
+      hasGuestQuota(pass, 'question', new Date('2026-04-25T00:00:00.000Z')),
+    ).toBe(true);
     expect(pass.questionsUsed).toBe(0);
 
     const afterSuccess = consumeGuestQuota(pass, 'question');

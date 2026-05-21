@@ -20,13 +20,17 @@ import type {
 
 const relationshipLabels: FamilyRelationshipLabel[] = [
   'self',
-  'parent',
-  'child',
-  'sibling',
+  'spouse',
   'partner',
-  'grandparent',
-  'relative',
+  'mother',
+  'father',
+  'son',
+  'daughter',
+  'brother',
+  'sister',
+  'cousin',
   'friend',
+  'co-worker',
   'other',
 ];
 
@@ -72,7 +76,7 @@ export function FamilyKarmaMapScreen({
           ...Object.fromEntries(
             merged.map((record, index) => [
               record.summary.id,
-              current[record.summary.id] ?? (index === 0 ? 'self' : 'relative'),
+              current[record.summary.id] ?? (index === 0 ? 'self' : 'other'),
             ]),
           ),
         }));
@@ -86,7 +90,7 @@ export function FamilyKarmaMapScreen({
         records.map((record, index) => ({
           kundli: record.kundliData,
           relationship:
-            relationshipById[record.summary.id] ?? (index === 0 ? 'self' : 'relative'),
+            relationshipById[record.summary.id] ?? (index === 0 ? 'self' : 'other'),
         })),
       ),
     [records, relationshipById],
@@ -154,7 +158,7 @@ export function FamilyKarmaMapScreen({
               record={record}
               selected={
                 relationshipById[record.summary.id] ??
-                (index === 0 ? 'self' : 'relative')
+                (index === 0 ? 'self' : 'other')
               }
             />
           ))

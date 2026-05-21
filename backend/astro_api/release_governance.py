@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Dict, List
 
 from . import ai
@@ -20,7 +21,7 @@ APPROVED_MODEL_PINS: Dict[str, str] = {
     "geminiFree": "gemini-2.5-flash",
     "geminiPremium": "gemini-2.5-pro",
     "moderation": "omni-moderation-latest",
-    "promptVersion": "predicta-chat-room-contract-v2",
+    "promptVersion": "predicta-chat-room-contract-v3",
 }
 
 SAFETY_SLOS: Dict[str, str] = {
@@ -58,6 +59,10 @@ ROLLBACK_STEPS = [
     "Review new safety reports and close or escalate each open severe report.",
     "Only re-enable release after the readiness endpoint returns READY.",
 ]
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+PUBLIC_BLOCKER_LEDGER_PATH = REPO_ROOT / "docs" / "PREDICTA_PUBLIC_BLOCKER_LEDGER.md"
+PUBLIC_ROADMAP_PATH = REPO_ROOT / "docs" / "PREDICTA_PUBLIC_READINESS_REVIVAL_PLAN.md"
 
 
 def evaluate_release_readiness() -> ReleaseReadinessReport:
@@ -113,6 +118,19 @@ def evaluate_release_readiness() -> ReleaseReadinessReport:
         )
     )
 
+    public_readiness_failures = evaluate_public_readiness_docs()
+    checks.append(
+        build_check(
+            name="Public-readiness docs",
+            passed=not public_readiness_failures,
+            details=(
+                "Public blocker ledger is clear and the roadmap status allows release."
+                if not public_readiness_failures
+                else "; ".join(public_readiness_failures)
+            ),
+        )
+    )
+
     blockers.extend(
         f"{check.name}: {check.details}"
         for check in checks
@@ -146,6 +164,51 @@ def evaluate_model_pins() -> List[str]:
         for key, expected in APPROVED_MODEL_PINS.items()
         if active.get(key) != expected
     ]
+
+
+def evaluate_public_readiness_docs() -> List[str]:
+    failures: List[str] = []
+
+    try:
+        ledger_text = PUBLIC_BLOCKER_LEDGER_PATH.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        return [f"Missing public blocker ledger: {PUBLIC_BLOCKER_LEDGER_PATH.name}"]
+
+    open_critical = 0
+    open_major = 0
+    current_severity = ""
+
+    for raw_line in ledger_text.splitlines():
+        line = raw_line.strip()
+        if line == "### Critical":
+            current_severity = "Critical"
+            continue
+        if line == "### Major":
+            current_severity = "Major"
+            continue
+        if line.startswith("### ") and line not in {"### Critical", "### Major"}:
+            current_severity = ""
+            continue
+        if line == "- Status: Open":
+            if current_severity == "Critical":
+                open_critical += 1
+            elif current_severity == "Major":
+                open_major += 1
+
+    if open_critical or open_major:
+        failures.append(
+            f"Public blocker ledger still has open Critical={open_critical} Major={open_major} entries."
+        )
+
+    try:
+        roadmap_text = PUBLIC_ROADMAP_PATH.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        return failures + [f"Missing public roadmap: {PUBLIC_ROADMAP_PATH.name}"]
+
+    if "Predicta is not ready for public launch." in roadmap_text:
+        failures.append("Public roadmap status still says not ready for public launch.")
+
+    return failures
 
 
 def build_check(name: str, passed: bool, details: str) -> ReleaseReadinessCheck:

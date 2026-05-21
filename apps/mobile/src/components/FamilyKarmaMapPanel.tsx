@@ -60,13 +60,48 @@ export function FamilyKarmaMapPanel({
             <View key={member.id} style={styles.memberCard}>
               <AppText variant="subtitle">{member.name}</AppText>
               <AppText className="mt-1" tone="secondary" variant="caption">
-                {formatLabel(member.relationship)} · {member.moonSign} Moon
+                {(member.relationshipDisplayLabel || formatLabel(member.relationship))} ·{' '}
+                {member.moonSign} Moon
               </AppText>
               <AppText className="mt-1" tone="secondary" variant="caption">
                 {member.nakshatra} · {member.currentDasha}
               </AppText>
             </View>
           ))}
+        </View>
+      ) : null}
+
+      {map.householdSummary ? (
+        <View style={styles.summaryCard}>
+          <AppText variant="subtitle">Household summary</AppText>
+          <AppText className="mt-2" tone="secondary">
+            {map.householdSummary}
+          </AppText>
+        </View>
+      ) : null}
+
+      {hasHouseholdInsightHighlights(map) ? (
+        <View style={styles.sectionStack}>
+          <InsightCard
+            body={map.whoCalmsTheHouse}
+            title="Who calms the house"
+          />
+          <InsightCard
+            body={map.whoAmplifiesPressure}
+            title="Who amplifies pressure"
+          />
+          <InsightCard
+            body={map.whoNeedsGentlerHandling}
+            title="Who needs gentler handling"
+          />
+          <InsightCard
+            body={map.fastestHealingPair}
+            title="Fastest healing pair"
+          />
+          <InsightCard
+            body={map.repeatedRoutineMoneyTension}
+            title="Routine or money tension"
+          />
         </View>
       ) : null}
 
@@ -147,7 +182,7 @@ export function FamilyKarmaMapPanel({
               {card.evidence.map(line => (
                 <AppText
                   className="mt-1"
-                  key={line}
+                  key={`${card.id}-${line}`}
                   tone="secondary"
                   variant="caption"
                 >
@@ -216,6 +251,14 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     padding: 18,
   },
+  summaryCard: {
+    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+    borderColor: colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    marginTop: 12,
+    padding: 12,
+  },
   themeCard: {
     backgroundColor: colors.surfaceMuted,
     borderColor: colors.border,
@@ -224,6 +267,37 @@ const styles = StyleSheet.create({
     padding: 12,
   },
 });
+
+function hasHouseholdInsightHighlights(map: FamilyKarmaMap): boolean {
+  return Boolean(
+    map.whoCalmsTheHouse ||
+      map.whoAmplifiesPressure ||
+      map.whoNeedsGentlerHandling ||
+      map.fastestHealingPair ||
+      map.repeatedRoutineMoneyTension,
+  );
+}
+
+function InsightCard({
+  body,
+  title,
+}: {
+  body?: string;
+  title: string;
+}): React.JSX.Element | null {
+  if (!body) {
+    return null;
+  }
+
+  return (
+    <View style={styles.themeCard}>
+      <AppText variant="subtitle">{title}</AppText>
+      <AppText className="mt-2" tone="secondary">
+        {body}
+      </AppText>
+    </View>
+  );
+}
 
 function formatLabel(label: string): string {
   return label

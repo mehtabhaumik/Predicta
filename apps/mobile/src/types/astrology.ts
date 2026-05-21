@@ -1107,19 +1107,64 @@ export type RelationshipMirror = {
 
 export type FamilyRelationshipLabel =
   | 'self'
-  | 'parent'
-  | 'child'
-  | 'sibling'
+  | 'spouse'
   | 'partner'
-  | 'grandparent'
-  | 'relative'
+  | 'fiance'
+  | 'son'
+  | 'daughter'
+  | 'mother'
+  | 'father'
+  | 'brother'
+  | 'sister'
+  | 'cousin'
+  | 'maternal-aunt'
+  | 'paternal-aunt'
+  | 'aunt'
+  | 'maternal-uncle'
+  | 'paternal-uncle'
+  | 'uncle'
+  | 'grandmother'
+  | 'grandfather'
+  | 'mother-in-law'
+  | 'father-in-law'
+  | 'sister-in-law'
+  | 'brother-in-law'
+  | 'aunt-in-law'
+  | 'uncle-in-law'
+  | 'niece'
+  | 'nephew'
   | 'friend'
+  | 'best-friend'
+  | 'co-worker'
+  | 'manager'
+  | 'business-partner'
+  | 'mentor'
+  | 'student'
   | 'other';
 
 export type FamilyMemberProfile = {
   id: string;
   name: string;
   relationship: FamilyRelationshipLabel;
+  relationshipDisplayLabel?: string;
+  relationshipColorToken?:
+    | 'deep-gold'
+    | 'rose-pink'
+    | 'soft-peach'
+    | 'calm-teal'
+    | 'saffron'
+    | 'slate-blue'
+    | 'gentle-green'
+    | 'sky-blue'
+    | 'lavender-blue'
+    | 'muted-steel'
+    | 'mauve'
+    | 'sand'
+    | 'deep-indigo'
+    | 'soft-plum'
+    | 'sage'
+    | 'warm-amber';
+  isOwnerProfile?: boolean;
   lagna: string;
   moonSign: string;
   nakshatra: string;
@@ -1140,8 +1185,12 @@ export type FamilyRelationshipGuidance = {
   firstMemberId: string;
   secondMemberId: string;
   label: string;
+  tone?: 'supportive' | 'mixed' | 'careful';
   emotionalPattern: string;
   supportPattern: string;
+  frictionPattern?: string;
+  dharmaSupport?: string;
+  careArea?: string;
   practicalGuidance: string;
   evidence: string[];
 };
@@ -1151,8 +1200,24 @@ export type FamilyKarmaMap = {
   title: string;
   subtitle: string;
   members: FamilyMemberProfile[];
+  householdSummary?: string;
+  strongestSupportPair?: string;
+  strongestFrictionPair?: string;
+  repeatingKarmaPattern?: string;
+  dharmaRepairPath?: string;
   repeatedThemes: FamilyKarmaTheme[];
   relationshipCards: FamilyRelationshipGuidance[];
+  householdEmotionalClimate?: string;
+  authorityDependencyPattern?: string;
+  caregivingBurdenMap?: string;
+  communicationFractureMap?: string;
+  ritualRoutineMoneyStressMap?: string;
+  whoCalmsTheHouse?: string;
+  whoAmplifiesPressure?: string;
+  whoNeedsGentlerHandling?: string;
+  fastestHealingPair?: string;
+  repeatedRoutineMoneyTension?: string;
+  actionableHealingGuidance?: string[];
   privacyNote: string;
   shareSummary: string;
   askPrompt: string;

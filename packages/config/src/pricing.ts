@@ -127,7 +127,7 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     freeIncludes: ['Story-link preview', 'Karmic theme', 'Validation prompts', 'Safety boundary'],
     freeDepth: 'Useful Nadi pattern preview from calculated chart links.',
     id: 'NADI',
-    outcome: 'Read planet-to-planet patterns without fake manuscript claims.',
+    outcome: 'Read planet-to-planet patterns without manufactured authority claims.',
     premiumIncludes: ['Pattern sequencing', 'Validation depth', 'Timing triggers', 'Reflection practices'],
     premiumDepth: 'Detailed Nadi Predicta report with story links, validation, triggers, and reflection path.',
     prompt:

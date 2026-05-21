@@ -25,7 +25,7 @@ Public-readiness source documents:
 - Gemini free fallback: `gemini-2.5-flash`.
 - Gemini premium fallback: `gemini-2.5-pro`.
 - Moderation model: `omni-moderation-latest`.
-- Prompt version: `predicta-chat-system-v1`.
+- Prompt version: `predicta-chat-room-contract-v3`.
 
 Any model, prompt, Jyotish engine, KP, Nadi, or safety-rule change must pass the readiness gate before deploy.
 

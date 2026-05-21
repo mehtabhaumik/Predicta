@@ -1878,6 +1878,7 @@ button:disabled {
 }
 
 .main-workspace {
+  box-sizing: border-box;
   margin: 0 auto;
   max-width: var(--dash-max);
   padding: 32px;
@@ -15214,6 +15215,7 @@ select::-ms-expand {
   margin: 0 auto;
   max-width: min(1100px, 100%);
   min-height: 0;
+  min-width: 0;
   width: 100%;
 }
 
@@ -15257,6 +15259,7 @@ select::-ms-expand {
   flex: 1 1 auto;
   height: calc(100dvh - 188px);
   min-height: 640px;
+  min-width: 0;
   width: 100%;
 }
 
@@ -15376,6 +15379,10 @@ select::-ms-expand {
   position: absolute;
   right: 0;
   top: calc(100% + 8px);
+}
+
+.chat-utility-menu:not([open]) .chat-utility-menu-panel {
+  display: none;
 }
 
 .chat-utility-menu-panel .chat-export-button {
@@ -16027,12 +16034,16 @@ select::-ms-expand {
 
   .chat-shell-header {
     gap: 12px;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr);
     padding: 14px;
   }
 
   .chat-shell-title-block p {
     display: none;
+  }
+
+  .chat-utility-menu {
+    justify-self: start;
   }
 
   .chat-utility-menu-panel {
@@ -16054,6 +16065,30 @@ select::-ms-expand {
     margin-right: 12px;
     padding-left: 0;
     padding-right: 0;
+  }
+
+  .predicta-chat-page .chat-session-strip {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .predicta-chat-page .chat-session-strip > div:first-child {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .predicta-chat-page .chat-session-strip span {
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+  }
+
+  .predicta-chat-page .chat-session-actions {
+    justify-content: flex-start;
+    width: 100%;
   }
 
   .predicta-chat-page .active-kundli-actions.chat-context {
@@ -16867,16 +16902,23 @@ select::-ms-expand {
   .hero-kundli-board .hero-chart-label {
     block-size: auto !important;
     box-sizing: border-box !important;
-    inline-size: clamp(34px, 13.5vw, 52px) !important;
+    width: clamp(30px, 10.8vw, 42px) !important;
     left: var(--house-x) !important;
-    max-height: 52px !important;
-    max-width: 16% !important;
-    overflow: hidden !important;
+    max-height: 48px !important;
+    max-width: 42px !important;
+    overflow: clip !important;
     padding: 1px !important;
     position: absolute !important;
     top: var(--house-y) !important;
     transform: translate(-50%, -50%) !important;
     white-space: normal !important;
+  }
+
+  .hero-kundli-board .hero-chart-label-3,
+  .hero-kundli-board .hero-chart-label-5,
+  .hero-kundli-board .hero-chart-label-9,
+  .hero-kundli-board .hero-chart-label-11 {
+    transform: translate(-58%, -50%) !important;
   }
 
   .hero-kundli-board .hero-sign-name {
@@ -16900,10 +16942,13 @@ select::-ms-expand {
 
   .hero-kundli-board .hero-chart-planet-stack {
     gap: 1px !important;
+    max-width: 100% !important;
+    width: 100% !important;
   }
 
   .hero-kundli-board .hero-chart-planet-stack .planet-glyph {
     border-radius: 5px !important;
+    min-width: 0 !important;
     max-width: 100% !important;
     padding: 1px 2px !important;
   }
@@ -16912,6 +16957,6 @@ select::-ms-expand {
   .hero-kundli-board .hero-chart-planet-stack .planet-glyph-copy em,
   .hero-kundli-board .hero-chart-planet-stack .planet-status-mark {
     font-size: 6px !important;
-    max-width: 4ch !important;
+    max-width: 3ch !important;
   }
 }
