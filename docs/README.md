@@ -26,6 +26,9 @@ Only live documents in this repo are listed here.
 - [PREDICTA_INTELLIGENCE_FAMILY_MATCHMAKING_ADDENDUM.md](./PREDICTA_INTELLIGENCE_FAMILY_MATCHMAKING_ADDENDUM.md)
   Pre-Phase 8 addendum for Predicta intelligence, Family Vault pair/multi-member
   karma comparison, relationship labels, and separate matchmaking scope.
+- [PREDICTA_PRE_PHASE8_ENHANCEMENT_PHASES.md](./PREDICTA_PRE_PHASE8_ENHANCEMENT_PHASES.md)
+  Strict pre-Phase-8 enhancement order, including the approved Phase `4B`
+  catch-up phase for the remaining Section 4 work.
 - [Predicta_kundli_and_chat_animation.md](./Predicta_kundli_and_chat_animation.md)
   Animation contract for chart and chat presentation without breaking chart
   geometry.

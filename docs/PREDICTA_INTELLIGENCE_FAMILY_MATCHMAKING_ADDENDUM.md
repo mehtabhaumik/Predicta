@@ -4,9 +4,11 @@
 
 Pre-Phase 8 enhancement addendum.
 
-This does not create a new phase.
+This addendum now creates one approved catch-up enhancement phase for the
+remaining Section 4 work.
 
-This does not rename the approved phase order.
+This does not rename the existing approved phases. It inserts one new phase
+before the final pre-Phase 8 QA gate.
 
 Apply this addendum before running
 `PREDICTA_PUBLIC_PHASE_8_FINAL_PUBLIC_READINESS_QA_GATE`.
@@ -642,7 +644,168 @@ Do not force proof chips to replace natural language.
 
 ---
 
-## Section 5: Expanded Phase 8 QA Requirement
+## Section 5: Approved Catch-Up Phase For Remaining Section 4 Work
+
+### 5.1 Why This New Phase Exists
+
+Phase 4 delivered a meaningful portion of Section 4, but not all of it.
+
+Completed or partially completed in earlier work:
+
+- `4.3 Add Household Insight Cards`
+  Family Karma Map now has real household insight cards, but this still needs
+  premium packaging completion and polish across downstream surfaces.
+- `4.6 Add Evidence Without Killing Warmth`
+  This is partially improved in some family and Predicta surfaces, but not yet
+  completed as a clear cross-product contract.
+
+Not completed:
+
+- `4.1 Ask Style Preferences Once`
+- `4.2 Add Predicta Follow-Up Intelligence`
+- `4.4 Add Premium Packaging That Feels Worth Paying For`
+- `4.5 Add Safety Limits To Emotional Readings`
+
+Because these items are too large and too product-critical to hide inside the
+final QA gate, they now require their own implementation phase.
+
+### 5.2 Exact New Phase Keyword
+
+`PREDICTA_PRE_PHASE8_ENHANCEMENT_PHASE_4B_SECTION4_COMPLETION_AND_PREMIUM_INTELLIGENCE_PACKAGING`
+
+### 5.3 Exact Placement In The Pre-Phase-8 Order
+
+The approved order is now:
+
+1. `PREDICTA_PRE_PHASE8_ENHANCEMENT_PHASE_1_PREDICTA_INTELLIGENCE_AND_TONE_REBUILD`
+2. `PREDICTA_PRE_PHASE8_ENHANCEMENT_PHASE_2_FAMILY_VAULT_RELATIONSHIPS_AND_PAIR_COMPARISON`
+3. `PREDICTA_PRE_PHASE8_ENHANCEMENT_PHASE_3_MATCHMAKING_PRODUCT_CONTRACT_AND_SCORING_REBUILD`
+4. `PREDICTA_PRE_PHASE8_ENHANCEMENT_PHASE_4_FAMILY_KARMA_MAP_INTELLIGENCE_REBUILD`
+5. `PREDICTA_PRE_PHASE8_ENHANCEMENT_PHASE_4B_SECTION4_COMPLETION_AND_PREMIUM_INTELLIGENCE_PACKAGING`
+6. `PREDICTA_PRE_PHASE8_ENHANCEMENT_PHASE_5_FINAL_PRE_PHASE8_QA_AND_DEPLOY_GATE`
+
+### 5.4 Required Scope
+
+This catch-up phase must complete all still-missing Section 4 work and finish
+the partial items.
+
+#### A. `4.1 Ask Style Preferences Once`
+
+Add a subtle preference control for:
+
+- `Devotional`
+- `Balanced`
+- `Secular`
+
+Rules:
+
+- preference should be easy to understand
+- preference should not feel like a power-user setting
+- preference must affect Predicta tone consistently across applicable rooms
+- preference must not override room method safety
+- preference must not force devotional language on uncertain users
+
+#### B. `4.2 Add Predicta Follow-Up Intelligence`
+
+After major answers, Predicta should suggest smart next steps such as:
+
+- `Ask deeper`
+- `Ask timing`
+- `Ask remedy`
+- `Compare with another person`
+
+Rules:
+
+- follow-ups must be context-sensitive
+- follow-ups must not feel generic or spammy
+- follow-ups must respect room type
+- follow-ups must respect high-stakes guardrails
+
+#### C. `4.3 Household Insight Cards` Completion
+
+This item is only partially complete.
+
+The phase must finish and polish:
+
+- who calms the house
+- who amplifies pressure
+- who needs gentler handling
+- which pair heals fastest
+- where routine or money creates repeated tension
+
+Rules:
+
+- these must feel premium and useful
+- they must appear in the right premium household surfaces
+- they must not read like debug labels or internal scoring output
+
+#### D. `4.4 Add Premium Packaging That Feels Worth Paying For`
+
+Build or finalize premium assets such as:
+
+- pair comparison dossier
+- family karma map report
+- household healing guide
+- matchmaking deep report
+
+Rules:
+
+- premium value must feel outcome-based
+- premium value must not equal astrology jargon dump
+- packaging must feel polished, intentional, and worth paying for
+
+#### E. `4.5 Add Safety Limits To Emotional Readings`
+
+When users ask about:
+
+- death
+- divorce certainty
+- child loss fear
+- bankruptcy certainty
+- terminal health outcomes
+
+Predicta must become:
+
+- calmer
+- more bounded
+- less mystical
+- more practical
+
+Rules:
+
+- this must work across relevant rooms
+- the system must avoid false certainty
+- the system must not collapse into empty empathy
+- the system must preserve usefulness while increasing safety
+
+#### F. `4.6 Add Evidence Without Killing Warmth` Completion
+
+This is partially complete and must be finished.
+
+Rules:
+
+- answers should stay human first
+- grounding should remain visible but not mechanical
+- evidence should support the answer instead of replacing natural language
+- premium reports, family reads, and Predicta chat should all follow the same
+  contract
+
+### 5.5 Exact Implementation Prompt
+
+> Complete the remaining Section 4 work in one strict catch-up phase before the
+> final pre-Phase 8 QA gate. Add subtle Predicta tone preferences
+> (`Devotional`, `Balanced`, `Secular`), intelligent follow-up suggestions,
+> finish and polish household insight cards, build premium packaging that feels
+> worth paying for, add calmer and more bounded behavior for high-stakes
+> emotional readings, and complete the answer-style contract where responses
+> remain human first, grounded second, and useful third. Include the partial
+> Section 4 work already started in Family Karma Map and make it fully
+> production-ready across all affected surfaces without breaking one Predicta,
+> five specialist rooms, or method safety.
+
+---
+
+## Section 6: Expanded Phase 8 QA Requirement
 
 When these enhancements are implemented, expand
 `PREDICTA_PUBLIC_PHASE_8_FINAL_PUBLIC_READINESS_QA_GATE` to cover at minimum:
