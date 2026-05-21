@@ -18,6 +18,7 @@ import type {
 } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useLanguagePreference } from '../lib/language-preference';
+import { PredictaWorldFrame } from './PredictaWorldFrame';
 
 const SIGNATURE_DRAFT_STORAGE_KEY = 'pridicta.signatureDraft.v1';
 
@@ -689,23 +690,120 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
   }
 
   return (
-    <div className="kp-page-stack">
-      <div className="page-heading compact">
-        <h1 className="gradient-text">{copy.hero.title}</h1>
-        <details className="info-drawer">
-          <summary>
-            <span>{copy.hero.eyebrow}</span>
-            <strong>{copy.hero.openLabel}</strong>
-          </summary>
-          <p>{copy.hero.body}</p>
-        </details>
-      </div>
+    <div className="predicta-world-page predicta-world-page--signature kp-page-stack">
+      <PredictaWorldFrame
+        badge={copy.hero.eyebrow}
+        body={copy.hero.body}
+        chatAction={
+          <button
+            className="button primary"
+            disabled={!canContinue}
+            onClick={continueToPredicta}
+            type="button"
+          >
+            {copy.actions.askPredicta}
+          </button>
+        }
+        chatHref="#signature-input"
+        chatLabel={copy.actions.askPredicta}
+        eyebrow={copy.hero.eyebrow}
+        localActions={[
+          {
+            href: '#signature-input',
+            label: copy.upload.title,
+            note:
+              language === 'hi'
+                ? 'छवि अपलोड करें या ड्रॉइंग से शुरुआत करें.'
+                : language === 'gu'
+                  ? 'છબી અપલોડ કરો અથવા ડ્રોઇંગથી શરૂઆત કરો.'
+                  : 'Start with an upload or a fresh drawn signature.',
+          },
+          {
+            href: '#signature-traits',
+            label: copy.traits.title,
+            note:
+              language === 'hi'
+                ? 'जो संकेत साफ दिखें, केवल उन्हें पुष्टि करें.'
+                : language === 'gu'
+                  ? 'જે સંકેતો સ્પષ્ટ દેખાય, ફક્ત તેમની પુષ્ટિ કરો.'
+                  : 'Confirm only the visible traits that are actually present.',
+          },
+          {
+            href: '#signature-preview',
+            label: copy.preview.title,
+            note:
+              language === 'hi'
+                ? 'तैयार वाचन और निजी पूर्वावलोकन यहीं देखें.'
+                : language === 'gu'
+                  ? 'તૈયાર વાચન અને ખાનગી પૂર્વાવલોકન અહીં જુઓ.'
+                  : 'Review the prepared reading and private preview here.',
+          },
+          {
+            href: '/dashboard/report',
+            label: copy.report.cta,
+            note:
+              language === 'hi'
+                ? 'जब सॉफ्ट रिफ्लेक्शन को रिपोर्ट में बदलना हो, यही अगला रास्ता है.'
+                : language === 'gu'
+                  ? 'જ્યારે હળવા પ્રતિબિંબને રિપોર્ટમાં ફેરવવો હોય, ત્યારે આ આગળનો માર્ગ છે.'
+                  : 'Use the report path when the reflection needs structure or synthesis.',
+          },
+        ]}
+        localEyebrow={copy.privacy.title}
+        localTitle={
+          language === 'hi'
+            ? 'हस्ताक्षर तैयार करें, संकेत पुष्टि करें, फिर निजी रीडिंग खोलें.'
+            : language === 'gu'
+              ? 'સહી તૈયાર કરો, સંકેતોની પુષ્ટિ કરો, પછી ખાનગી વાચન ખોલો.'
+              : 'Prepare the signature, confirm the visible traits, then open the private reading.'
+        }
+        pillars={[
+          {
+            label:
+              language === 'hi'
+                ? 'सीमा'
+                : language === 'gu'
+                  ? 'સીમા'
+                  : 'Boundary',
+            value: copy.safety.title,
+          },
+          {
+            label:
+              language === 'hi'
+                ? 'इनपुट'
+                : language === 'gu'
+                  ? 'ઇનપુટ'
+                  : 'Input',
+            value: copy.upload.title,
+          },
+          {
+            label:
+              language === 'hi'
+                ? 'वाचन'
+                : language === 'gu'
+                  ? 'વાચન'
+                  : 'Reading',
+            value: copy.traits.summaryTitle,
+          },
+        ]}
+        proofCards={copy.proof}
+        proofLabel={copy.proofLabel}
+        reportAction={
+          <Link className="button secondary" href="/dashboard/report">
+            {copy.report.cta}
+          </Link>
+        }
+        reportLabel={copy.report.cta}
+        reportNote={copy.report.body}
+        theme="signature"
+        title={copy.hero.title}
+      />
 
-      <section className="signature-input-hero glass-panel">
+      <section className="signature-input-hero glass-panel" id="signature-input">
         <div>
           <div className="section-title">{copy.hero.eyebrow}</div>
-          <h2>{copy.hero.title}</h2>
-          <p>{copy.hero.body}</p>
+          <h2>{copy.upload.title}</h2>
+          <p>{copy.upload.body}</p>
           <div className="world-hero-actions inline">
             <button
               className="button primary"
@@ -728,16 +826,6 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
             ))}
           </ul>
         </div>
-      </section>
-
-      <section className="school-grid">
-        {copy.proof.map(card => (
-          <article className="glass-panel" key={card.title}>
-            <span>{copy.proofLabel}</span>
-            <strong>{card.title}</strong>
-            <p>{card.body}</p>
-          </article>
-        ))}
       </section>
 
       <div className="signature-input-grid">
@@ -795,7 +883,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
         </section>
       </div>
 
-      <section className="signature-trait-panel glass-panel">
+      <section className="signature-trait-panel glass-panel" id="signature-traits">
         <div>
           <div className="section-title">{copy.traits.title}</div>
           <h2>{copy.traits.title}</h2>
@@ -836,7 +924,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
         ) : null}
       </section>
 
-      <section className="signature-preview-panel glass-panel">
+      <section className="signature-preview-panel glass-panel" id="signature-preview">
         <div>
           <div className="section-title">{copy.preview.title}</div>
           <h2>{isReady || canContinue ? copy.preview.ready : copy.preview.empty}</h2>

@@ -12,6 +12,7 @@ import {
   saveWebAutoSaveMemory,
 } from '../lib/web-auto-save-memory';
 import { Card } from './Card';
+import { PredictaWorldFrame } from './PredictaWorldFrame';
 
 const NADI_WORLD_PROOF_CARDS = [
   {
@@ -103,40 +104,131 @@ export function WebNadiPredictaPanel({
   }, [handoffQuestion, selectedPatternId]);
 
   return (
-    <div className="kp-page-stack">
+    <div className="predicta-world-page predicta-world-page--nadi kp-page-stack">
+      <PredictaWorldFrame
+        badge={t('Nadi world')}
+        body={t(
+          'Nadi Predicta is its own premium world. It reads planetary story links, karaka themes, validation questions, and timing activations. It does not pretend to access original palm-leaf manuscripts.',
+        )}
+        chatHref={askHref}
+        chatLabel={t('Chat with Nadi Predicta')}
+        eyebrow={t('Nadi Predicta')}
+        localActions={[
+          {
+            href: '#nadi-story-links',
+            label:
+              language === 'hi'
+                ? 'कथा संबंध'
+                : language === 'gu'
+                  ? 'કથા સંબંધ'
+                  : 'Story links',
+            note:
+              language === 'hi'
+                ? 'ग्रह-से-ग्रह संबंध से कक्षा की मुख्य कथा चुनें.'
+                : language === 'gu'
+                  ? 'ગ્રહથી ગ્રહ સંબંધમાંથી મુખ્ય કથા પસંદ કરો.'
+                  : 'Pick the main story pattern from planet-to-planet links.',
+          },
+          {
+            href: '#nadi-activations',
+            label:
+              language === 'hi'
+                ? 'सक्रिय समय'
+                : language === 'gu'
+                  ? 'સક્રિય સમય'
+                  : 'Activation windows',
+            note:
+              language === 'hi'
+                ? 'कथा कब अधिक चलती है, यह समय परत से देखें.'
+                : language === 'gu'
+                  ? 'કથા ક્યારે વધુ સક્રિય બને છે, તે સમય સ્તરથી જુઓ.'
+                  : 'See when the selected story is more likely to feel active.',
+          },
+          {
+            href: '#nadi-validation',
+            label:
+              language === 'hi'
+                ? 'पुष्टि प्रश्न'
+                : language === 'gu'
+                  ? 'પુષ્ટિ પ્રશ્નો'
+                  : 'Validation',
+            note:
+              language === 'hi'
+                ? 'मजबूत घटना स्तर उत्तर से पहले पुष्टि प्रश्न रखें.'
+                : language === 'gu'
+                  ? 'મજબૂત ઘટના સ્તરના જવાબ પહેલાં પુષ્ટિ પ્રશ્નો રાખો.'
+                  : 'Keep validation ahead of strong event-level claims.',
+          },
+          {
+            href: '/dashboard/report',
+            label: t('Build Nadi report'),
+            note:
+              language === 'hi'
+                ? 'जब कथा को क्रमबद्ध रिपोर्ट में बदलना हो, रिपोर्ट मार्ग लें.'
+                : language === 'gu'
+                  ? 'જ્યારે કથાને ગોઠવેલ રિપોર્ટમાં ફેરવવી હોય, ત્યારે રિપોર્ટ માર્ગ લો.'
+                  : 'Move into the report path when the pattern needs a structured reading.',
+          },
+        ]}
+        localEyebrow={t('NADI METHOD')}
+        localTitle={t('Separate from Parashari and KP.')}
+        pillars={[
+          {
+            label:
+              language === 'hi'
+                ? 'मुख्य स्रोत'
+                : language === 'gu'
+                  ? 'મુખ્ય સ્ત્રોત'
+                  : 'Source',
+            value:
+              language === 'hi'
+                ? 'ग्रह कथा'
+                : language === 'gu'
+                  ? 'ગ્રહ કથા'
+                  : 'Planet stories',
+          },
+          {
+            label:
+              language === 'hi'
+                ? 'सुरक्षा'
+                : language === 'gu'
+                  ? 'સુરક્ષા'
+                  : 'Safety',
+            value:
+              language === 'hi'
+                ? 'पहले पुष्टि'
+                : language === 'gu'
+                  ? 'પહેલાં પુષ્ટિ'
+                  : 'Validation first',
+          },
+          {
+            label:
+              language === 'hi'
+                ? 'समय'
+                : language === 'gu'
+                  ? 'સમય'
+                  : 'Timing',
+            value:
+              language === 'hi'
+                ? 'सक्रिय खिड़कियां'
+                : language === 'gu'
+                  ? 'સક્રિય ખિડકીઓ'
+                  : 'Active windows',
+          },
+        ]}
+        proofCards={NADI_WORLD_PROOF_CARDS.map(card => ({
+          body: t(card.body),
+          title: t(card.title),
+        }))}
+        proofLabel={t('Proof')}
+        reportLabel={t('Build Nadi report')}
+        reportNote={plan.schoolBoundary}
+        theme="nadi"
+        title={t('Premium Nadi reading room.')}
+      />
+
       <Card className="glass-panel kp-school-panel">
         <div className="card-content spacious">
-          <div className="school-panel-hero">
-            <div>
-              <div className="section-title">{t('Nadi Predicta')}</div>
-              <h1 className="gradient-text">{t('Premium Nadi reading room.')}</h1>
-              <p>
-                {t(
-                  'Nadi Predicta is its own premium world. It reads planetary story links, karaka themes, validation questions, and timing activations. It does not pretend to access original palm-leaf manuscripts.',
-                )}
-              </p>
-            </div>
-            <div className="world-hero-actions">
-              <span className="school-badge premium">{t('Nadi world')}</span>
-              <a className="button primary" href={askHref}>
-                {t('Chat with Nadi Predicta')}
-              </a>
-              <Link className="button secondary" href="/dashboard/report">
-                {t('Build Nadi report')}
-              </Link>
-            </div>
-          </div>
-
-          <div className="school-grid">
-            {NADI_WORLD_PROOF_CARDS.map(card => (
-              <div key={card.title}>
-                <span>{t('Proof')}</span>
-                <strong>{t(card.title)}</strong>
-                <p>{t(card.body)}</p>
-              </div>
-            ))}
-          </div>
-
           <div className="school-explain-box">
             <strong>{plan.title}</strong>
             <p>{hasPremiumAccess ? plan.premiumSynthesis ?? plan.freePreview : plan.freePreview}</p>
@@ -170,7 +262,7 @@ export function WebNadiPredictaPanel({
         </div>
       </Card>
 
-      <Card className="glass-panel">
+      <Card className="glass-panel" id="nadi-story-links">
         <div className="card-content spacious">
           <div className="section-title">{t('STORY LINKS')}</div>
           <h2>{t('What the Nadi layer noticed.')}</h2>
@@ -219,7 +311,7 @@ export function WebNadiPredictaPanel({
         </div>
       </Card>
 
-      <Card className="glass-panel">
+      <Card className="glass-panel" id="nadi-activations">
         <div className="card-content spacious">
           <div className="section-title">{t('ACTIVATION WINDOWS')}</div>
           <h2>{t('When the story is more likely to feel active.')}</h2>
@@ -242,7 +334,7 @@ export function WebNadiPredictaPanel({
         </div>
       </Card>
 
-      <Card className="glass-panel">
+      <Card className="glass-panel" id="nadi-validation">
         <div className="card-content spacious">
           <div className="section-title">{t('VALIDATION')}</div>
           <h2>{t('Predicta asks before going deep.')}</h2>

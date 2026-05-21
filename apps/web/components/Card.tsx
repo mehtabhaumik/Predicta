@@ -1,13 +1,18 @@
-import type { ReactNode } from 'react';
+import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 
 export function Card({
   children,
   className = '',
+  ...props
 }: {
   children: ReactNode;
   className?: string;
-}): React.JSX.Element {
-  return <section className={`card airy-card ${className}`}>{children}</section>;
+} & ComponentPropsWithoutRef<'section'>): React.JSX.Element {
+  return (
+    <section className={`card airy-card ${className}`} {...props}>
+      {children}
+    </section>
+  );
 }
 
 export function MetricCard({

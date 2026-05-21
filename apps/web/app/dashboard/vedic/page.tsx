@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import type { SupportedLanguage } from '@pridicta/types';
+import { PredictaWorldFrame } from '../../../components/PredictaWorldFrame';
 import { buildPredictaChatHref } from '../../../lib/predicta-chat-cta';
 import { useLanguagePreference } from '../../../lib/language-preference';
 import { useWebKundliLibrary } from '../../../lib/use-web-kundli-library';
@@ -172,39 +173,158 @@ export default function VedicPredictaPage(): React.JSX.Element {
 
   return (
     <section className="dashboard-page">
-      <div className="kp-page-stack">
-        <section className="glass-panel school-panel-hero">
-          <div>
-            <p className="section-title">{copy.hero.eyebrow}</p>
-            <h1 className="gradient-text">{copy.hero.title}</h1>
-            <p>{copy.hero.body}</p>
-          </div>
-          <div className="world-hero-actions">
-            <span className="school-badge premium">{copy.hero.eyebrow}</span>
-            <Link className="button primary" href={chatHref}>
-              {copy.actions.chat}
-            </Link>
-            <Link className="button secondary" href="/dashboard/report">
-              {copy.report.cta}
-            </Link>
-          </div>
-        </section>
+      <div className="predicta-world-page predicta-world-page--vedic">
+        <PredictaWorldFrame
+          badge={copy.hero.eyebrow}
+          body={copy.hero.body}
+          chatHref={chatHref}
+          chatLabel={copy.actions.chat}
+          eyebrow={copy.hero.eyebrow}
+          localActions={[
+            {
+              href: '/dashboard/charts',
+              label: copy.actions.charts,
+              note:
+                language === 'hi'
+                  ? 'D1, चलित और वर्ग चार्ट एक ही वैदिक धारा में देखें.'
+                  : language === 'gu'
+                    ? 'D1, ચલિત અને વર્ગ ચાર્ટ્સ એક જ વૈદિક ધારા માં જુઓ.'
+                    : 'Open D1, Chalit, and varga charts inside the same Vedic flow.',
+            },
+            {
+              href: '/dashboard/remedies',
+              label:
+                language === 'hi'
+                  ? 'उपाय'
+                  : language === 'gu'
+                    ? 'ઉપાયો'
+                    : 'Remedies',
+              note:
+                language === 'hi'
+                  ? 'कर्म, पुरुषार्थ और शांत सुधार की दिशा यहीं रखें.'
+                  : language === 'gu'
+                    ? 'કર્મ, પુરુષાર્થ અને શાંત સુધારાની દિશા અહીં રાખો.'
+                    : 'Keep remedies, Purushartha balance, and practical next steps here.',
+            },
+            {
+              href: '/dashboard/birth-time',
+              label: copy.actions.birthTime,
+              note:
+                language === 'hi'
+                  ? 'जन्म समय पर शक हो तो मुख्य वैदिक रीडिंग से पहले उसे साफ करें.'
+                  : language === 'gu'
+                    ? 'જન્મ સમય પર શંકા હોય તો મુખ્ય વૈદિક વાચન પહેલાં તેને સ્પષ્ટ કરો.'
+                    : 'Resolve time uncertainty before going deeper into the main chart.',
+            },
+            {
+              href: '/dashboard/report',
+              label: copy.report.cta,
+              note:
+                language === 'hi'
+                  ? 'जब उत्तर को साफ रिपोर्ट में बदलना हो, यहीं से आगे बढ़ें.'
+                  : language === 'gu'
+                    ? 'જ્યારે જવાબને સ્પષ્ટ રિપોર્ટમાં ફેરવવો હોય, ત્યારે અહીંથી આગળ વધો.'
+                    : 'Move into a polished Vedic report when the reading needs structure.',
+            },
+          ]}
+          localEyebrow={
+            language === 'hi'
+              ? 'दुनिया संरचना'
+              : language === 'gu'
+                ? 'દુનિયા રચના'
+                : 'World structure'
+          }
+          localTitle={copy.note.title}
+          pillars={[
+            {
+              label:
+                language === 'hi'
+                  ? 'चार्ट आधार'
+                  : language === 'gu'
+                    ? 'ચાર્ટ આધાર'
+                    : 'Chart root',
+              value: 'D1 + Varga',
+            },
+            {
+              label:
+                language === 'hi'
+                  ? 'समय'
+                  : language === 'gu'
+                    ? 'સમય'
+                    : 'Timing',
+              value:
+                language === 'hi'
+                  ? 'दशा + गोचर'
+                  : language === 'gu'
+                    ? 'દશા + ગોચર'
+                    : 'Dasha + Gochar',
+            },
+            {
+              label:
+                language === 'hi'
+                  ? 'दिशा'
+                  : language === 'gu'
+                    ? 'દિશા'
+                    : 'Guidance',
+              value:
+                language === 'hi'
+                  ? 'उपाय + संतुलन'
+                  : language === 'gu'
+                    ? 'ઉપાયો + સંતુલન'
+                    : 'Remedies + balance',
+            },
+          ]}
+          proofCards={copy.cards}
+          proofLabel={
+            language === 'hi'
+              ? 'वैदिक प्रमाण'
+              : language === 'gu'
+                ? 'વૈદિક પુરાવો'
+                : 'Vedic proof'
+          }
+          reportLabel={copy.report.cta}
+          reportNote={copy.report.body}
+          theme="vedic"
+          title={copy.hero.title}
+        />
 
-        <section className="school-grid">
-          {copy.cards.map(card => (
-            <article className="glass-panel" key={card.title}>
-              <p className="section-title">{card.title}</p>
-              <p>{card.body}</p>
+        <section className="glass-panel predicta-world-focus-panel">
+          <div className="predicta-world-focus-copy">
+            <p className="section-title">{copy.report.title}</p>
+            <h2>{copy.report.title}</h2>
+            <p>{copy.note.body}</p>
+          </div>
+          <div className="predicta-world-focus-grid">
+            <article>
+              <span>{copy.actions.create}</span>
+              <strong>
+                {language === 'hi'
+                  ? 'कुंडली से रूट चार्ट तैयार रखें.'
+                  : language === 'gu'
+                    ? 'કુંડળીથી મૂળ ચાર્ટ તૈયાર રાખો.'
+                    : 'Keep the root chart ready from Kundli.'}
+              </strong>
             </article>
-          ))}
-        </section>
-
-        <section className="glass-panel">
-          <div className="section-heading-row">
-            <div>
-              <p className="section-title">{copy.note.title}</p>
-              <p>{copy.note.body}</p>
-            </div>
+            <article>
+              <span>{copy.actions.charts}</span>
+              <strong>
+                {language === 'hi'
+                  ? 'चार्ट खोलकर उत्तर को प्रमाण के साथ पढ़ें.'
+                  : language === 'gu'
+                    ? 'ચાર્ટ ખોલીને જવાબને પુરાવા સાથે વાંચો.'
+                    : 'Read every answer with chart evidence when needed.'}
+              </strong>
+            </article>
+            <article>
+              <span>{copy.actions.reports}</span>
+              <strong>
+                {language === 'hi'
+                  ? 'रिपोर्ट तभी बनाएं जब निर्णय, समय या उपाय साफ चाहिए.'
+                  : language === 'gu'
+                    ? 'રિપોર્ટ ત્યારે જ બનાવો જ્યારે નિર્ણય, સમય કે ઉપાયો સ્પષ્ટ જોઈએ.'
+                    : 'Build the report when timing, remedies, or a decision summary is needed.'}
+              </strong>
+            </article>
           </div>
           <div className="action-row">
             <Link className="button secondary" href="/dashboard/kundli">
@@ -216,19 +336,6 @@ export default function VedicPredictaPage(): React.JSX.Element {
             <Link className="button secondary" href="/dashboard/birth-time">
               {copy.actions.birthTime}
             </Link>
-            <Link className="button secondary" href="/dashboard/report">
-              {copy.actions.reports}
-            </Link>
-          </div>
-        </section>
-
-        <section className="glass-panel">
-          <div className="section-heading-row">
-            <div>
-              <p className="section-title">{copy.report.title}</p>
-              <h2>{copy.report.title}</h2>
-              <p>{copy.report.body}</p>
-            </div>
             <Link className="button primary" href="/dashboard/report">
               {copy.report.cta}
             </Link>

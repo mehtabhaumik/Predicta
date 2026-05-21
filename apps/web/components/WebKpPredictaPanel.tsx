@@ -12,6 +12,7 @@ import {
   saveWebAutoSaveMemory,
 } from '../lib/web-auto-save-memory';
 import { Card } from './Card';
+import { PredictaWorldFrame } from './PredictaWorldFrame';
 
 type KpEventFocus = 'career' | 'money' | 'marriage' | 'property';
 
@@ -142,46 +143,131 @@ export function WebKpPredictaPanel({
   }, [handoffQuestion, selectedCusp, selectedEvent]);
 
   return (
-    <div className="kp-page-stack">
+    <div className="predicta-world-page predicta-world-page--kp kp-page-stack">
+      <PredictaWorldFrame
+        badge={t('KP world')}
+        body={t(
+          'KP Predicta stays inside Krishnamurti Paddhati: cusps, star lords, sub lords, significators, ruling planets, dasha support, and event-focused judgement. It does not casually mix with Parashari charts.',
+        )}
+        chatHref={askHref}
+        chatLabel={t('Chat with KP Predicta')}
+        eyebrow={t('KP PREDICTA')}
+        localActions={[
+          {
+            href: '#kp-judgement',
+            label:
+              language === 'hi'
+                ? 'निर्णय पथ'
+                : language === 'gu'
+                  ? 'નિર્ણય માર્ગ'
+                  : 'Judgement path',
+            note:
+              language === 'hi'
+                ? 'घटना, भाव, कस्प सब लॉर्ड और समय समर्थन से शुरुआत करें.'
+                : language === 'gu'
+                  ? 'ઘટના, ભાવ, કસ્પ સબ લોર્ડ અને સમય આધારથી શરૂઆત કરો.'
+                  : 'Start from the event, houses, cusp sub lord, and timing support.',
+          },
+          {
+            href: '#kp-cusps',
+            label:
+              language === 'hi'
+                ? '12 कस्प'
+                : language === 'gu'
+                  ? '12 કસ્પ'
+                  : '12 cusps',
+            note:
+              language === 'hi'
+                ? 'पूरा निर्णय तालिका में स्टार और सब लॉर्ड के साथ देखें.'
+                : language === 'gu'
+                  ? 'સ્ટાર અને સબ લોર્ડ સાથે આખો નિર્ણય કોષ્ટકમાં જુઓ.'
+                  : 'Inspect the full cusp table with star and sub lords.',
+          },
+          {
+            href: '#kp-significators',
+            label:
+              language === 'hi'
+                ? 'सिग्निफिकेटर'
+                : language === 'gu'
+                  ? 'સિગ્નિફિકેટર'
+                  : 'Significators',
+            note:
+              language === 'hi'
+                ? 'कौन से ग्रह घटना उठाते हैं, यह तुरंत साफ करें.'
+                : language === 'gu'
+                  ? 'કયા ગ્રહો ઘટના ઉઠાવે છે, તે તરત સ્પષ્ટ કરો.'
+                  : 'See which planets actually carry the event promise.',
+          },
+          {
+            href: '/dashboard/report',
+            label: t('Build KP report'),
+            note:
+              language === 'hi'
+                ? 'जब घटना को लिखित निर्णय में बदलना हो, रिपोर्ट पथ लें.'
+                : language === 'gu'
+                  ? 'જ્યારે ઘટનાને લખિત નિર્ણયમાં ફેરવવો હોય, ત્યારે રિપોર્ટ માર્ગ લો.'
+                  : 'Move into the KP report path when the judgement needs a formal write-up.',
+          },
+        ]}
+        localEyebrow={t('KP method')}
+        localTitle={t('A dedicated KP precision world.')}
+        pillars={[
+          {
+            label:
+              language === 'hi'
+                ? 'प्रारंभ'
+                : language === 'gu'
+                  ? 'શરૂઆત'
+                  : 'Start',
+            value:
+              language === 'hi'
+                ? 'घटना पहले'
+                : language === 'gu'
+                  ? 'પહેલા ઘટના'
+                  : 'Event first',
+          },
+          {
+            label:
+              language === 'hi'
+                ? 'मुख्य प्रमाण'
+                : language === 'gu'
+                  ? 'મુખ્ય પુરાવો'
+                  : 'Core proof',
+            value:
+              language === 'hi'
+                ? 'कस्प + सब लॉर्ड'
+                : language === 'gu'
+                  ? 'કસ્પ + સબ લોર્ડ'
+                  : 'Cusps + sub lords',
+          },
+          {
+            label:
+              language === 'hi'
+                ? 'समय'
+                : language === 'gu'
+                  ? 'સમય'
+                  : 'Timing',
+            value:
+              language === 'hi'
+                ? 'रूलिंग ग्रह + दशा'
+                : language === 'gu'
+                  ? 'રૂલિંગ ગ્રહો + દશા'
+                  : 'Ruling planets + dasha',
+          },
+        ]}
+        proofCards={KP_WORLD_PROOF_CARDS.map(card => ({
+          body: t(card.body),
+          title: t(card.title),
+        }))}
+        proofLabel={t('Proof')}
+        reportLabel={t('Build KP report')}
+        reportNote={t('Career, money, marriage, and property questions get their own KP house logic.')}
+        theme="kp"
+        title={t('A dedicated KP precision world.')}
+      />
+
       <Card className="glass-panel kp-school-panel">
         <div className="card-content spacious">
-          <div className="school-panel-hero">
-            <div>
-              <div className="section-title">{t('KP PREDICTA')}</div>
-              <h1 className="gradient-text">{t('A dedicated KP precision world.')}</h1>
-              <details className="info-drawer">
-                <summary>
-                  <span>{t('KP method')}</span>
-                  <strong>{t('Open')}</strong>
-                </summary>
-                <p>
-                  {t(
-                    'KP Predicta stays inside Krishnamurti Paddhati: cusps, star lords, sub lords, significators, ruling planets, dasha support, and event-focused judgement. It does not casually mix with Parashari charts.',
-                  )}
-                </p>
-              </details>
-            </div>
-            <div className="world-hero-actions">
-              <span className="school-badge premium">{t('KP world')}</span>
-              <a className="button primary" href={askHref}>
-                {t('Chat with KP Predicta')}
-              </a>
-              <Link className="button secondary" href="/dashboard/report">
-                {t('Build KP report')}
-              </Link>
-            </div>
-          </div>
-
-          <div className="school-grid">
-            {KP_WORLD_PROOF_CARDS.map(card => (
-              <div key={card.title}>
-                <span>{t('Proof')}</span>
-                <strong>{t(card.title)}</strong>
-                <p>{t(card.body)}</p>
-              </div>
-            ))}
-          </div>
-
           <details className="info-drawer school-explain-box">
             <summary>
               <span>{t('Current KP reading')}</span>
@@ -232,7 +318,7 @@ export function WebKpPredictaPanel({
         </div>
       </Card>
 
-      <Card className="glass-panel kp-judgement-card">
+      <Card className="glass-panel kp-judgement-card" id="kp-judgement">
         <div className="card-content spacious">
           <div className="school-panel-hero compact">
             <div>
@@ -302,7 +388,7 @@ export function WebKpPredictaPanel({
         </div>
       </Card>
 
-      <Card className="glass-panel">
+      <Card className="glass-panel" id="kp-cusps">
         <div className="card-content spacious">
           <div className="section-title">{t('KP CUSPS')}</div>
           <h2>{t('12 cusps with star and sub lords.')}</h2>
@@ -348,7 +434,7 @@ export function WebKpPredictaPanel({
         </div>
       </Card>
 
-      <Card className="glass-panel">
+      <Card className="glass-panel" id="kp-significators">
         <div className="card-content spacious">
           <div className="section-title">{t('KP SIGNIFICATORS')}</div>
           <h2>{t('Event houses by planet.')}</h2>

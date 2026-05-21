@@ -14893,6 +14893,218 @@ select::-ms-expand {
   gap: clamp(28px, 3.2vw, 44px);
 }
 
+.predicta-world-page {
+  display: grid;
+  gap: clamp(28px, 3vw, 40px);
+}
+
+.predicta-world-frame {
+  display: grid;
+  gap: clamp(20px, 2.6vw, 30px);
+}
+
+.predicta-world--vedic {
+  --world-accent: #d9b45b;
+  --world-accent-soft: rgba(217, 180, 91, 0.14);
+  --world-glow: rgba(217, 180, 91, 0.22);
+}
+
+.predicta-world--kp {
+  --world-accent: #69c4ff;
+  --world-accent-soft: rgba(105, 196, 255, 0.14);
+  --world-glow: rgba(105, 196, 255, 0.22);
+}
+
+.predicta-world--nadi {
+  --world-accent: #77d69c;
+  --world-accent-soft: rgba(119, 214, 156, 0.14);
+  --world-glow: rgba(119, 214, 156, 0.2);
+}
+
+.predicta-world--numerology {
+  --world-accent: #ffb36b;
+  --world-accent-soft: rgba(255, 179, 107, 0.14);
+  --world-glow: rgba(255, 179, 107, 0.22);
+}
+
+.predicta-world--signature {
+  --world-accent: #f29db2;
+  --world-accent-soft: rgba(242, 157, 178, 0.14);
+  --world-glow: rgba(242, 157, 178, 0.2);
+}
+
+.predicta-world-hero,
+.predicta-world-local-map,
+.predicta-world-focus-panel {
+  background:
+    radial-gradient(circle at top right, var(--world-glow), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.025));
+  border: 1px solid color-mix(in srgb, var(--world-accent) 28%, rgba(255, 255, 255, 0.14));
+}
+
+.predicta-world-hero {
+  display: grid;
+  gap: clamp(22px, 3vw, 40px);
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.8fr);
+  padding: clamp(28px, 3.4vw, 48px);
+}
+
+.predicta-world-hero-copy h1 {
+  margin: 10px 0 14px;
+}
+
+.predicta-world-hero-copy p,
+.predicta-world-report-note,
+.predicta-world-local-card p,
+.predicta-world-proof-card p,
+.predicta-world-focus-copy p,
+.predicta-world-focus-grid article strong {
+  color: var(--muted);
+  line-height: 1.58;
+}
+
+.predicta-world-aside {
+  display: grid;
+  gap: 16px;
+}
+
+.predicta-world-badge {
+  align-items: center;
+  background: var(--world-accent-soft);
+  border: 1px solid color-mix(in srgb, var(--world-accent) 44%, rgba(255, 255, 255, 0.12));
+  border-radius: 999px;
+  color: var(--text);
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  padding: 10px 14px;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.predicta-world-actions {
+  display: grid;
+  gap: 12px;
+}
+
+.predicta-world-actions .button.primary {
+  min-height: 68px;
+}
+
+.predicta-world-pillars {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.predicta-world-pillar,
+.predicta-world-local-card,
+.predicta-world-proof-card,
+.predicta-world-focus-grid article {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid color-mix(in srgb, var(--world-accent) 18%, rgba(255, 255, 255, 0.12));
+  border-radius: 18px;
+  min-width: 0;
+  padding: 18px;
+}
+
+.predicta-world-pillar span,
+.predicta-world-local-card strong,
+.predicta-world-proof-card span,
+.predicta-world-focus-grid article span {
+  color: var(--muted);
+  display: block;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.predicta-world-pillar strong,
+.predicta-world-proof-card strong,
+.predicta-world-focus-grid article strong,
+.predicta-world-local-heading h2 {
+  color: var(--text);
+  display: block;
+  font-size: clamp(22px, 2.2vw, 30px);
+  line-height: 1.12;
+  margin-top: 10px;
+}
+
+.predicta-world-local-map,
+.predicta-world-focus-panel {
+  display: grid;
+  gap: 22px;
+  padding: clamp(24px, 3vw, 38px);
+}
+
+.predicta-world-local-grid,
+.predicta-world-proof-grid,
+.predicta-world-focus-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.predicta-world-local-card {
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 160ms ease, transform 160ms ease, background 160ms ease;
+}
+
+.predicta-world-local-card:hover,
+.predicta-world-local-card:focus-visible {
+  background: var(--world-accent-soft);
+  border-color: color-mix(in srgb, var(--world-accent) 52%, rgba(255, 255, 255, 0.12));
+  transform: translateY(-2px);
+}
+
+.predicta-world-proof-grid {
+  align-items: stretch;
+}
+
+.predicta-world-proof-card strong {
+  font-size: 22px;
+}
+
+.predicta-world-focus-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 980px) {
+  .predicta-world-hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .predicta-world-pillars,
+  .predicta-world-local-grid,
+  .predicta-world-proof-grid,
+  .predicta-world-focus-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .predicta-world-hero,
+  .predicta-world-local-map,
+  .predicta-world-focus-panel {
+    padding: 22px;
+  }
+
+  .predicta-world-pillars,
+  .predicta-world-local-grid,
+  .predicta-world-proof-grid,
+  .predicta-world-focus-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .predicta-world-actions .button,
+  .predicta-world-local-card {
+    width: 100%;
+  }
+}
+
 .dashboard-page .glass-panel,
 .kp-page-stack > .glass-panel,
 .kp-school-panel,

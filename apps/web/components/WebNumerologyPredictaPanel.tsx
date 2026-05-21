@@ -6,6 +6,7 @@ import { translateUiText } from '@pridicta/config/uiTranslations';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useLanguagePreference } from '../lib/language-preference';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
+import { PredictaWorldFrame } from './PredictaWorldFrame';
 
 const NUMEROLOGY_WORLD_PROOF_CARDS = [
   {
@@ -41,39 +42,127 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
   });
 
   return (
-    <div className="kp-page-stack">
-      <section className="glass-panel school-panel-hero">
-        <div>
-          <p className="section-title">{t('Numerology Predicta')}</p>
-          <h1>{t('A separate number-reading room.')}</h1>
-          <p>
-            {t(
-              'Numerology Predicta reads name rhythm, birth number, destiny number, and current personal cycles. It stays separate from Vedic, KP, Nadi, and Signature unless you ask for a careful synthesis.',
-            )}
-          </p>
-        </div>
-        <div className="world-hero-actions">
-          <span className="school-badge premium">{t('Numerology world')}</span>
-          <Link className="button primary" href={chatHref}>
-            {t('Chat with Numerology Predicta')}
-          </Link>
-          <Link className="button secondary" href="/dashboard/report">
-            {t('Build Numerology report')}
-          </Link>
-        </div>
-      </section>
+    <div className="predicta-world-page predicta-world-page--numerology kp-page-stack">
+      <PredictaWorldFrame
+        badge={t('Numerology world')}
+        body={t(
+          'Numerology Predicta reads name rhythm, birth number, destiny number, and current personal cycles. It stays separate from Vedic, KP, Nadi, and Signature unless you ask for a careful synthesis.',
+        )}
+        chatHref={chatHref}
+        chatLabel={t('Chat with Numerology Predicta')}
+        eyebrow={t('Numerology Predicta')}
+        localActions={[
+          {
+            href: '#numerology-profile',
+            label:
+              language === 'hi'
+                ? 'प्रोफाइल सार'
+                : language === 'gu'
+                  ? 'પ્રોફાઇલ સાર'
+                  : 'Profile summary',
+            note:
+              language === 'hi'
+                ? 'सेव नाम और जन्म तिथि से बना मुख्य प्रोफाइल पहले पढ़ें.'
+                : language === 'gu'
+                  ? 'સેવ નામ અને જન્મ તારીખથી બનેલો મુખ્ય પ્રોફાઇલ પહેલાં વાંચો.'
+                  : 'Start from the saved name and birth-date profile.',
+          },
+          {
+            href: '#numerology-numbers',
+            label:
+              language === 'hi'
+                ? 'मुख्य अंक'
+                : language === 'gu'
+                  ? 'મુખ્ય અંક'
+                  : 'Core numbers',
+            note:
+              language === 'hi'
+                ? 'नाम अंक, जन्म अंक, भाग्य अंक और निजी समय एक साथ देखें.'
+                : language === 'gu'
+                  ? 'નામ અંક, જન્મ અંક, ભાગ્ય અંક અને વ્યક્તિગત સમય એક સાથે જુઓ.'
+                  : 'Keep name, birth, destiny, and timing visible together.',
+          },
+          {
+            href: '#numerology-boundary',
+            label:
+              language === 'hi'
+                ? 'कक्ष सीमा'
+                : language === 'gu'
+                  ? 'રૂમ સીમા'
+                  : 'Room boundary',
+            note:
+              language === 'hi'
+                ? 'जहां अंक ज्योतिष खत्म होती है और सही हैंडऑफ शुरू होता है, वह देखें.'
+                : language === 'gu'
+                  ? 'જ્યાં અંક જ્યોતિષ અટકે છે અને યોગ્ય હેન્ડઓફ શરૂ થાય છે, તે જુઓ.'
+                  : 'See where Numerology stops and the right handoff begins.',
+          },
+          {
+            href: '/dashboard/report',
+            label: t('Build Numerology report'),
+            note:
+              language === 'hi'
+                ? 'जब संख्या-आधारित उत्तर को रिपोर्ट में बदलना हो, यहीं जाएं.'
+                : language === 'gu'
+                  ? 'જ્યારે અંક આધારિત જવાબને રિપોર્ટમાં ફેરવવો હોય, ત્યારે અહીં જાઓ.'
+                  : 'Move into the report path when the reading needs a polished number-led summary.',
+          },
+        ]}
+        localEyebrow={
+          language === 'hi'
+            ? 'अंक प्रवाह'
+            : language === 'gu'
+              ? 'અંક પ્રવાહ'
+              : 'Number flow'
+        }
+        localTitle={
+          language === 'hi'
+            ? 'यह दुनिया संख्या, लय और निजी समय के क्रम से चलती है.'
+            : language === 'gu'
+              ? 'આ દુનિયા અંક, લય અને વ્યક્તિગત સમયના ક્રમથી ચાલે છે.'
+              : 'This world moves through number roots, rhythm, and personal timing.'
+        }
+        pillars={[
+          {
+            label:
+              language === 'hi'
+                ? 'नाम'
+                : language === 'gu'
+                  ? 'નામ'
+                  : 'Name',
+            value: t('Name number'),
+          },
+          {
+            label:
+              language === 'hi'
+                ? 'जन्म'
+                : language === 'gu'
+                  ? 'જન્મ'
+                  : 'Birth',
+            value: t('Birth number'),
+          },
+          {
+            label:
+              language === 'hi'
+                ? 'वर्तमान'
+                : language === 'gu'
+                  ? 'હાલ'
+                  : 'Current',
+            value: t('Personal timing'),
+          },
+        ]}
+        proofCards={NUMEROLOGY_WORLD_PROOF_CARDS.map(card => ({
+          body: t(card.body),
+          title: t(card.title),
+        }))}
+        proofLabel={t('Proof')}
+        reportLabel={t('Build Numerology report')}
+        reportNote={t('Name number, birth number, destiny number, and personal timing are kept visible and explainable.')}
+        theme="numerology"
+        title={t('A separate number-reading room.')}
+      />
 
-      <section className="school-grid">
-        {NUMEROLOGY_WORLD_PROOF_CARDS.map(card => (
-          <article className="glass-panel" key={card.title}>
-            <span>{t('Proof')}</span>
-            <strong>{t(card.title)}</strong>
-            <p>{t(card.body)}</p>
-          </article>
-        ))}
-      </section>
-
-      <section className="glass-panel">
+      <section className="glass-panel" id="numerology-profile">
         <div className="section-heading-row">
           <div>
             <p className="section-title">{t('CURRENT PROFILE')}</p>
@@ -92,7 +181,7 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
         </p>
       </section>
 
-      <section className="school-grid">
+      <section className="school-grid" id="numerology-numbers">
         {[
           {
             label: 'Name number',
@@ -133,7 +222,7 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
         ))}
       </section>
 
-      <section className="glass-panel">
+      <section className="glass-panel" id="numerology-boundary">
         <p className="section-title">{t('ROOM BOUNDARY')}</p>
         <h2>{t('Numerology answers with number logic first.')}</h2>
         <p>
