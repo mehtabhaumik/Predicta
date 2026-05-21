@@ -29,6 +29,9 @@ Only live documents in this repo are listed here.
 - [PREDICTA_PRE_PHASE8_ENHANCEMENT_PHASES.md](./PREDICTA_PRE_PHASE8_ENHANCEMENT_PHASES.md)
   Strict pre-Phase-8 enhancement order, including the approved Phase `4B`
   catch-up phase for the remaining Section 4 work.
+- [PREDICTA_CHART_INSIGHT_REBUILD_PHASES.md](./PREDICTA_CHART_INSIGHT_REBUILD_PHASES.md)
+  Strict chart-product rebuild order for insight-first D1, Chalit, varga, KP,
+  Nadi, premium synthesis, and final live QA.
 - [Predicta_kundli_and_chat_animation.md](./Predicta_kundli_and_chat_animation.md)
   Animation contract for chart and chat presentation without breaking chart
   geometry.
