@@ -32,6 +32,10 @@ Only live documents in this repo are listed here.
 - [PREDICTA_CHART_INSIGHT_REBUILD_PHASES.md](./PREDICTA_CHART_INSIGHT_REBUILD_PHASES.md)
   Strict chart-product rebuild order for insight-first D1, Chalit, varga, KP,
   Nadi, premium synthesis, and final live QA.
+- [PREDICTA_SUPPORT_CONFIRMATION_SYSTEM_PHASES.md](./PREDICTA_SUPPORT_CONFIRMATION_SYSTEM_PHASES.md)
+  Strict support-system rebuild order for canonical ticket intake, `PRD`
+  numbering, customer/internal email templates, Resend orchestration, and final
+  live smoke.
 - [Predicta_kundli_and_chat_animation.md](./Predicta_kundli_and_chat_animation.md)
   Animation contract for chart and chat presentation without breaking chart
   geometry.
