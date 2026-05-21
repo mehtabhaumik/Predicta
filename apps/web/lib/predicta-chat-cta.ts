@@ -6,7 +6,6 @@ import type {
   PredictaSchool,
   TimelineEvent,
 } from '@pridicta/types';
-import { loadWebKundliStore } from './web-kundli-storage';
 
 export type PredictaChatCtaContext = {
   birthTimeDetective?: boolean;
@@ -32,6 +31,7 @@ export type PredictaChatCtaContext = {
   selectedPredictaWrapped?: boolean;
   selectedPredictaWrappedYear?: number;
   selectedRelationshipMirror?: boolean;
+  selectedRelationshipNames?: string;
   selectedSection?: string;
   selectedTimelineEventId?: string;
   selectedTimelineEventKind?: TimelineEvent['kind'];
@@ -42,8 +42,7 @@ export type PredictaChatCtaContext = {
 
 export function buildPredictaChatHref(context: PredictaChatCtaContext): string {
   const params = new URLSearchParams();
-  const activeKundliId =
-    context.kundliId ?? context.kundli?.id ?? readActiveKundliId();
+  const activeKundliId = context.kundliId ?? context.kundli?.id;
 
   setParam(params, 'sourceScreen', context.sourceScreen);
   setParam(params, 'prompt', context.prompt ?? context.selectedSection);
@@ -73,6 +72,7 @@ export function buildPredictaChatHref(context: PredictaChatCtaContext): string {
     'selectedRelationshipMirror',
     context.selectedRelationshipMirror ? 'true' : undefined,
   );
+  setParam(params, 'selectedRelationshipNames', context.selectedRelationshipNames);
   setParam(
     params,
     'selectedFamilyKarmaMap',
@@ -87,18 +87,6 @@ export function buildPredictaChatHref(context: PredictaChatCtaContext): string {
   setParam(params, 'selectedPredictaWrappedYear', context.selectedPredictaWrappedYear);
 
   return `${getPredictaChatPath(context.school)}?${params.toString()}`;
-}
-
-function readActiveKundliId(): string | undefined {
-  if (typeof window === 'undefined') {
-    return undefined;
-  }
-
-  try {
-    return loadWebKundliStore().activeKundliId;
-  } catch {
-    return undefined;
-  }
 }
 
 function getPredictaChatPath(school: PredictaSchool | undefined): string {
@@ -122,7 +110,7 @@ function getPredictaChatPath(school: PredictaSchool | undefined): string {
     return '/dashboard/signature/chat';
   }
 
-  return '/dashboard/chat';
+  return '/dashboard/vedic/chat';
 }
 
 function setParam(

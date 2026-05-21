@@ -25,6 +25,7 @@ export * from './moonNakshatraPada';
 export * from './nadiJyotishPlan';
 export * from './numerologyFoundationModel';
 export * from './personalPanchangLayer';
+export * from './pairComparison';
 export * from './predictaWrapped';
 export * from './predictaChatActions';
 export * from './purusharthaLifeBalance';

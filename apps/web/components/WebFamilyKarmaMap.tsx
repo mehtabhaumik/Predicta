@@ -1,390 +1,303 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { composeFamilyKarmaMap } from '@pridicta/astrology';
-import type { SupportedLanguage } from '@pridicta/types';
-import type { FamilyRelationshipLabel } from '@pridicta/types';
+import type { KundliData, SupportedLanguage } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useLanguagePreference } from '../lib/language-preference';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 import { setActiveWebKundli } from '../lib/web-kundli-storage';
-
-const relationshipLabels: FamilyRelationshipLabel[] = [
-  'self',
-  'partner',
-  'parent',
-  'sibling',
-  'child',
-  'grandparent',
-  'relative',
-  'friend',
-  'other',
-];
+import { FamilyRelationshipBadge } from './FamilyRelationshipBadge';
 
 type FamilyMapCopy = {
   actions: {
     addProfile: string;
-    askFamilyMap: string;
     askPredicta: string;
-    reviewInLibrary: string;
+    pairComparison: string;
     savedKundlis: string;
     useAsActive: string;
   };
   boundaryCards: Array<{ body: string; title: string }>;
-  cards: Array<{ body: string; title: string }>;
-  empty: {
-    linkedProfiles: (count: number) => string;
-    needProfiles: string;
-    readyBody: string;
-    waitingBody: string;
+  helper: string;
+  includeLabel: string;
+  includedLabel: string;
+  matrix: {
+    title: string;
   };
-  profile: {
-    active: string;
-    relationshipFor: (name: string) => string;
-    saved: string;
-    summary: (lagna: string, moonSign: string, nakshatra: string) => string;
+  pendingLabel: string;
+  premiumLabel: string;
+  premiumLocked: string;
+  readyBody: string;
+  readyTitle: string;
+  selectors: {
+    max: (count: number) => string;
+    min: string;
   };
-  subtitle: (count: number) => string;
-  title: (count: number) => string;
-  privacyEyebrow: string;
-  privacyNote: string;
-  workflow: Array<{ body: string; title: string }>;
+  subtitle: string;
+  summary: {
+    friction: string;
+    household: string;
+    karma: string;
+    support: string;
+  };
+  themesTitle: string;
+  title: string;
 };
 
-const RELATIONSHIP_LABEL_COPY: Record<
-  SupportedLanguage,
-  Record<FamilyRelationshipLabel, string>
-> = {
-  en: {
-    child: 'Child',
-    friend: 'Friend',
-    grandparent: 'Grandparent',
-    other: 'Other',
-    parent: 'Parent',
-    partner: 'Partner',
-    relative: 'Relative',
-    self: 'Self',
-    sibling: 'Sibling',
-  },
-  hi: {
-    child: 'संतान',
-    friend: 'मित्र',
-    grandparent: 'दादा-दादी / नाना-नानी',
-    other: 'अन्य',
-    parent: 'माता-पिता',
-    partner: 'जीवनसाथी',
-    relative: 'रिश्तेदार',
-    self: 'स्वयं',
-    sibling: 'भाई-बहन',
-  },
-  gu: {
-    child: 'સંતાન',
-    friend: 'મિત્ર',
-    grandparent: 'દાદા-દાદી / નાના-નાની',
-    other: 'અન્ય',
-    parent: 'માતા-પિતા',
-    partner: 'જીવનસાથી',
-    relative: 'સગા',
-    self: 'પોતે',
-    sibling: 'ભાઈ-બહેન',
-  },
-};
-
-const FAMILY_MAP_COPY: Record<SupportedLanguage, FamilyMapCopy> = {
+const COPY: Record<SupportedLanguage, FamilyMapCopy> = {
   en: {
     actions: {
       addProfile: 'Add Profile',
-      askFamilyMap: 'Ask Family Map',
       askPredicta: 'Ask Predicta',
-      reviewInLibrary: 'Review in Library',
+      pairComparison: 'Open Pair Comparison',
       savedKundlis: 'Saved Kundlis',
       useAsActive: 'Use as active',
     },
     boundaryCards: [
       {
         body:
-          'Save, edit, and delete each person’s chart in Kundli Library first. Family Vault only reads those saved profiles for comparison.',
-        title: 'Library first',
+          'Family Karma Map compares saved profiles only. Birth details still live in Kundli Library, where edit and deletion stay personal.',
+        title: 'Library stays primary',
       },
       {
         body:
-          'Relationship labels help comparison and can be changed any time. They do not rewrite stored birth details.',
-        title: 'Comparison only',
+          'This map is for care, duty, and household repair. It is not permission to label one person as the family problem.',
+        title: 'No blame contract',
       },
     ],
-    cards: [
-      {
-        body:
-          'Shared Moon, nakshatra, dasha, and ashtakavarga patterns become gentle family themes with evidence.',
-        title: 'Repeated themes',
-      },
-      {
-        body:
-          'Stronger house overlaps become practical places for cooperation, rituals, routines, and repair.',
-        title: 'Support zones',
-      },
-      {
-        body:
-          'Each pair gets emotional pattern, support pattern, and one non-blaming next step.',
-        title: 'Relationship cards',
-      },
-    ],
-    empty: {
-      linkedProfiles: count => `${count} profiles linked`,
-      needProfiles: 'Add two or more calculated profiles',
-      readyBody:
-        'Predicta is using your saved Kundlis to compare repeated themes and support zones without blame or fear labels.',
-      waitingBody:
-        'Family Karma Map needs saved Kundlis before it can compare real household patterns.',
+    helper:
+      'Select at least two saved profiles. Predicta will map repeating patterns, support anchors, and pressure chains across the household.',
+    includeLabel: 'Include',
+    includedLabel: 'Included',
+    matrix: {
+      title: 'Household influence matrix',
     },
-    privacyEyebrow: 'Privacy-first rule',
-    privacyNote:
-      'Use this map to notice repeated care patterns, not to label, blame, or frighten anyone in the family.',
-    profile: {
-      active: 'Active profile',
-      relationshipFor: name => `Relationship for ${name}`,
-      saved: 'Saved profile',
-      summary: (lagna, moonSign, nakshatra) =>
-        `${lagna} Lagna · ${moonSign} Moon · ${nakshatra}`,
+    pendingLabel: 'Pending',
+    premiumLabel: 'Premium household depth',
+    premiumLocked:
+      'Premium family reading expands into pairwise influence, caregiving burden, authority patterns, money stress, and repair guidance by life area.',
+    readyBody:
+      'This is the wider household layer. Predicta compares how the saved charts reinforce, drain, soothe, or trigger one another.',
+    readyTitle: 'Choose your household circle',
+    selectors: {
+      max: count => `Up to ${count} profiles can be mapped at once.`,
+      min: 'Choose at least two profiles to unlock the map.',
     },
-    subtitle: count =>
-      count >= 2
-        ? 'Compare saved Kundlis for repeated emotional patterns, support zones, and care guidance.'
-        : 'Save two or more Kundlis to unlock household comparison with evidence and care-first language.',
-    title: count =>
-      count >= 2 ? `Family Karma Map for ${count} profiles` : 'Family Karma Map',
-    workflow: [
-      {
-        body: 'Save each person’s Kundli once, then keep the charts separated.',
-        title: 'Create family profiles',
-      },
-      {
-        body: 'Predicta will answer from the selected person’s chart.',
-        title: 'Choose the active profile',
-      },
-      {
-        body: 'Ask about one profile or open the family map for shared themes.',
-        title: 'Ask or compare',
-      },
-    ],
+    subtitle:
+      'Map how karma, dharma, timing, and emotional patterns repeat across the household.',
+    summary: {
+      friction: 'Strongest friction pair',
+      household: 'Household summary',
+      karma: 'Repeating karma pattern',
+      support: 'Strongest support pair',
+    },
+    themesTitle: 'Repeated household themes',
+    title: 'Family Karma Map',
   },
   hi: {
     actions: {
       addProfile: 'प्रोफाइल जोड़ें',
-      askFamilyMap: 'परिवार नक्शे से पूछें',
       askPredicta: 'प्रेडिक्टा से पूछें',
-      reviewInLibrary: 'लाइब्रेरी में देखें',
+      pairComparison: 'जोड़ेदार तुलना खोलें',
       savedKundlis: 'सेव कुंडलियां',
       useAsActive: 'सक्रिय बनाएं',
     },
     boundaryCards: [
       {
         body:
-          'हर व्यक्ति का चार्ट पहले कुंडली लाइब्रेरी में सेव, संपादित और हटाएं. परिवार वॉल्ट तुलना के लिए उन्हीं सेव प्रोफाइलों को पढ़ता है.',
-        title: 'पहले लाइब्रेरी',
+          'परिवार कर्म नक्शा केवल सेव प्रोफाइलों की तुलना करता है. जन्म विवरण अभी भी कुंडली लाइब्रेरी में रहते हैं, जहां संपादन और हटाना व्यक्तिगत रहता है.',
+        title: 'लाइब्रेरी ही मुख्य है',
       },
       {
         body:
-          'संबंध लेबल केवल तुलना के लिए हैं और कभी भी बदले जा सकते हैं. वे सेव जन्म विवरण नहीं बदलते.',
-        title: 'सिर्फ तुलना',
+          'यह नक्शा देखभाल, कर्तव्य और पारिवारिक सुधार के लिए है. यह किसी एक व्यक्ति को परिवार की समस्या कहने की अनुमति नहीं है.',
+        title: 'दोष नहीं देना',
       },
     ],
-    cards: [
-      {
-        body:
-          'साझा चंद्र, नक्षत्र, दशा और अष्टकवर्ग संकेत प्रमाण के साथ पारिवारिक थीम दिखाते हैं.',
-        title: 'दोहराए गए संकेत',
-      },
-      {
-        body:
-          'मजबूत भाव मिलान सहयोग, दिनचर्या, संस्कार और सुधार के व्यावहारिक क्षेत्र बनते हैं.',
-        title: 'सहारा क्षेत्र',
-      },
-      {
-        body:
-          'हर जोड़ी को भावनात्मक पैटर्न, सहारा पैटर्न और बिना दोष दिए अगला कदम मिलता है.',
-        title: 'संबंध कार्ड',
-      },
-    ],
-    empty: {
-      linkedProfiles: count => `${count} प्रोफाइल जुड़ी हुई`,
-      needProfiles: 'दो या अधिक गणना की हुई प्रोफाइल जोड़ें',
-      readyBody:
-        'प्रेडिक्टा आपकी सेव कुंडलियों से बिना डर या दोष के दोहराए गए संकेत और सहारा क्षेत्र देख रही है.',
-      waitingBody:
-        'परिवार कर्म नक्शा वास्तविक पारिवारिक पैटर्न देखने से पहले सेव कुंडलियां चाहता है.',
+    helper:
+      'कम से कम दो सेव प्रोफाइल चुनें. प्रेडिक्टा पूरे परिवार में दोहराए संकेत, सहारा केंद्र और दबाव श्रृंखला देखेगी.',
+    includeLabel: 'शामिल करें',
+    includedLabel: 'शामिल',
+    matrix: {
+      title: 'घर का प्रभाव मैट्रिक्स',
     },
-    privacyEyebrow: 'निजता पहले',
-    privacyNote:
-      'इस नक्शे का उपयोग देखभाल के दोहराए पैटर्न देखने के लिए करें, किसी को दोष देने या डराने के लिए नहीं.',
-    profile: {
-      active: 'सक्रिय प्रोफाइल',
-      relationshipFor: name => `${name} का रिश्ता`,
-      saved: 'सेव प्रोफाइल',
-      summary: (lagna, moonSign, nakshatra) =>
-        `${lagna} लग्न · ${moonSign} चंद्र · ${nakshatra}`,
+    pendingLabel: 'प्रतीक्षा में',
+    premiumLabel: 'प्रीमियम पारिवारिक गहराई',
+    premiumLocked:
+      'प्रीमियम परिवार रीडिंग जोड़ी-प्रभाव, देखभाल का भार, अधिकार पैटर्न, धन का तनाव और जीवन-क्षेत्र आधारित सुधार मार्गदर्शन तक जाती है.',
+    readyBody:
+      'यह बड़े परिवार की परत है. प्रेडिक्टा देखती है कि सेव चार्ट एक-दूसरे को कहां सहारा, थकान, शांति या ट्रिगर देते हैं.',
+    readyTitle: 'अपना पारिवारिक घेरा चुनें',
+    selectors: {
+      max: count => `एक साथ अधिकतम ${count} प्रोफाइल नक्शे में आ सकती हैं.`,
+      min: 'नक्शा खोलने के लिए कम से कम दो प्रोफाइल चुनें.',
     },
-    subtitle: count =>
-      count >= 2
-        ? 'सेव कुंडलियों में दोहराए भावनात्मक संकेत, सहारा क्षेत्र और देखभाल मार्गदर्शन देखें.'
-        : 'प्रमाण और देखभाल-प्रथम भाषा के साथ पारिवारिक तुलना खोलने के लिए दो या अधिक कुंडलियां सेव करें.',
-    title: count =>
-      count >= 2 ? `${count} प्रोफाइल के लिए परिवार कर्म नक्शा` : 'परिवार कर्म नक्शा',
-    workflow: [
-      {
-        body: 'हर व्यक्ति की कुंडली एक बार सेव करें, फिर चार्ट अलग रखें.',
-        title: 'परिवार प्रोफाइल बनाएं',
-      },
-      {
-        body: 'प्रेडिक्टा चुने हुए व्यक्ति के चार्ट से जवाब देगी.',
-        title: 'सक्रिय प्रोफाइल चुनें',
-      },
-      {
-        body: 'एक प्रोफाइल पर पूछें या साझा संकेतों के लिए परिवार नक्शा खोलें.',
-        title: 'पूछें या तुलना करें',
-      },
-    ],
+    subtitle:
+      'देखें कि कर्म, धर्म, समय और भावनात्मक संकेत पूरे परिवार में कैसे दोहराते हैं.',
+    summary: {
+      friction: 'सबसे अधिक घर्षण वाली जोड़ी',
+      household: 'परिवार का सार',
+      karma: 'दोहराया गया कर्म संकेत',
+      support: 'सबसे मजबूत सहारा जोड़ी',
+    },
+    themesTitle: 'दोहराए गए पारिवारिक संकेत',
+    title: 'परिवार कर्म नक्शा',
   },
   gu: {
     actions: {
       addProfile: 'પ્રોફાઇલ ઉમેરો',
-      askFamilyMap: 'પરિવાર નકશાને પૂછો',
       askPredicta: 'પ્રેડિક્ટા ને પૂછો',
-      reviewInLibrary: 'લાઇબ્રેરીમાં જુઓ',
+      pairComparison: 'જોડી તુલના ખોલો',
       savedKundlis: 'સાચવેલી કુંડળીઓ',
       useAsActive: 'સક્રિય બનાવો',
     },
     boundaryCards: [
       {
         body:
-          'દરેક વ્યક્તિનો ચાર્ટ પહેલા કુંડળી લાઇબ્રેરીમાં સાચવો, સંપાદિત કરો અને કાઢી નાખો. પરિવાર વોલ્ટ તુલના માટે એ જ સાચવેલી પ્રોફાઇલ વાંચે છે.',
-        title: 'પહેલા લાઇબ્રેરી',
+          'પરિવાર કર્મ નકશો ફક્ત સાચવેલી પ્રોફાઇલની તુલના કરે છે. જન્મ વિગતો હજુ પણ કુંડળી લાઇબ્રેરીમાં જ રહે છે, જ્યાં સંપાદન અને કાઢી નાખવું વ્યક્તિગત રહે છે.',
+        title: 'લાઇબ્રેરી જ મુખ્ય છે',
       },
       {
         body:
-          'સંબંધ લેબલ ફક્ત તુલના માટે છે અને ક્યારે પણ બદલી શકાય છે. તે સાચવેલી જન્મ વિગતો બદલેતા નથી.',
-        title: 'ફક્ત તુલના',
+          'આ નકશો કાળજી, ફરજ અને ઘરેલુ સુધાર માટે છે. તે કોઈ એક વ્યક્તિને પરિવારની સમસ્યા ગણાવવાની પરવાનગી નથી.',
+        title: 'દોષ નહીં',
       },
     ],
-    cards: [
-      {
-        body:
-          'સાંઝા ચંદ્ર, નક્ષત્ર, દશા અને અષ્ટકવર્ગના સંકેતો પુરાવા સાથે પરિવારની થીમ બતાવે છે.',
-        title: 'ફરી આવતા સંકેતો',
-      },
-      {
-        body:
-          'મજબૂત ભાવ-મેળ સહકાર, રીતભાત, રોજીનાં ધોરણો અને સુધારાના કામચલાઉ ક્ષેત્ર બનાવે છે.',
-        title: 'સહારો ક્ષેત્ર',
-      },
-      {
-        body:
-          'દરેક જોડી માટે ભાવનાત્મક પેટર્ન, સહારો પેટર્ન અને દોષ વગરનું આગળનું એક પગલું મળે છે.',
-        title: 'સંબંધ કાર્ડ',
-      },
-    ],
-    empty: {
-      linkedProfiles: count => `${count} પ્રોફાઇલ જોડાઈ`,
-      needProfiles: 'બે અથવા વધુ ગણતરી કરેલી પ્રોફાઇલ ઉમેરો',
-      readyBody:
-        'પ્રેડિક્ટા તમારી સાચવેલી કુંડળીઓથી ડર કે દોષ વગર ફરી આવતા સંકેતો અને સહારો ક્ષેત્ર જુએ છે.',
-      waitingBody:
-        'પરિવાર કર્મ નકશાને સાચવેલી કુંડળીઓ જોઈએ, પછી જ તે સાચા ઘરેલુ પેટર્નની તુલના કરી શકે.',
+    helper:
+      'ઓછામાં ઓછા બે સાચવેલા પ્રોફાઇલ પસંદ કરો. પ્રેડિક્ટા આખા ઘરમાં ફરી આવતા સંકેતો, સહારો બિંદુઓ અને દબાણની સાંકળો જોશે.',
+    includeLabel: 'સમાવેશ કરો',
+    includedLabel: 'સમાવેશિત',
+    matrix: {
+      title: 'ઘરનું અસર મેટ્રિક્સ',
     },
-    privacyEyebrow: 'ખાનગીપણું પહેલા',
-    privacyNote:
-      'આ નકશો કાળજીના ફરી આવતા પેટર્ન જોવા માટે વાપરો, કોઈને લેબલ કરવા, દોષ આપવા કે ડરાવવા માટે નહીં.',
-    profile: {
-      active: 'સક્રિય પ્રોફાઇલ',
-      relationshipFor: name => `${name} નો સંબંધ`,
-      saved: 'સાચવેલી પ્રોફાઇલ',
-      summary: (lagna, moonSign, nakshatra) =>
-        `${lagna} લગ્ન · ${moonSign} ચંદ્ર · ${nakshatra}`,
+    pendingLabel: 'બાકી',
+    premiumLabel: 'પ્રીમિયમ પરિવાર ઊંડાણ',
+    premiumLocked:
+      'પ્રીમિયમ પરિવાર વાંચન જોડી-અસર, કાળજીનો ભાર, સત્તા પેટર્ન, પૈસાનો તાણ અને જીવન ક્ષેત્ર આધારિત સુધાર માર્ગદર્શન સુધી જાય છે.',
+    readyBody:
+      'આ મોટા ઘરેલુ સ્તરની પરત છે. પ્રેડિક્ટા જુએ છે કે સાચવેલા ચાર્ટ એકબીજાને ક્યાં સહારો, થાક, શાંતિ કે ટ્રિગર આપે છે.',
+    readyTitle: 'તમારો પરિવારવર્તુળ પસંદ કરો',
+    selectors: {
+      max: count => `એક સાથે મહત્તમ ${count} પ્રોફાઇલ નકશામાં આવી શકે છે.`,
+      min: 'નકશો ખોલવા માટે ઓછામાં ઓછા બે પ્રોફાઇલ પસંદ કરો.',
     },
-    subtitle: count =>
-      count >= 2
-        ? 'સાચવેલી કુંડળીઓમાં ફરી આવતા ભાવનાત્મક સંકેતો, સહારો ક્ષેત્ર અને કાળજી માર્ગદર્શન જુઓ.'
-        : 'પુરાવા અને કાળજી-પ્રથમ ભાષા સાથે ઘરેલુ તુલના ખોલવા માટે બે અથવા વધુ કુંડળીઓ સાચવો.',
-    title: count =>
-      count >= 2 ? `${count} પ્રોફાઇલ માટે પરિવાર કર્મ નકશો` : 'પરિવાર કર્મ નકશો',
-    workflow: [
-      {
-        body: 'દરેક વ્યક્તિની કુંડળી એક વાર સાચવો, પછી ચાર્ટ અલગ રાખો.',
-        title: 'પરિવાર પ્રોફાઇલ બનાવો',
-      },
-      {
-        body: 'પ્રેડિક્ટા પસંદ કરેલી વ્યક્તિના ચાર્ટ પરથી જવાબ આપશે.',
-        title: 'સક્રિય પ્રોફાઇલ પસંદ કરો',
-      },
-      {
-        body: 'એક પ્રોફાઇલ વિષે પૂછો અથવા શેર કરેલા સંકેતો માટે પરિવાર નકશો ખોલો.',
-        title: 'પૂછો અથવા તુલના કરો',
-      },
-    ],
+    subtitle:
+      'કર્મ, ધર્મ, સમય અને ભાવનાત્મક સંકેતો આખા ઘરમાં કેવી રીતે ફરી આવે છે તે જુઓ.',
+    summary: {
+      friction: 'સૌથી વધુ ઘર્ષણ ધરાવતી જોડી',
+      household: 'ઘરનું સાર',
+      karma: 'ફરી આવતો કર્મ સંકેત',
+      support: 'સૌથી મજબૂત સહારો જોડી',
+    },
+    themesTitle: 'ફરી આવતા ઘરેલુ સંકેતો',
+    title: 'પરિવાર કર્મ નકશો',
   },
 };
 
-export function WebFamilyKarmaMap(): React.JSX.Element {
+export function WebFamilyKarmaMap({
+  hasPremiumAccess = false,
+}: {
+  hasPremiumAccess?: boolean;
+}): React.JSX.Element {
   const { language } = useLanguagePreference();
-  const [relationships, setRelationships] = useState<
-    Record<string, FamilyRelationshipLabel>
-  >({});
+  const copy = COPY[language] ?? COPY.en;
   const { activeKundli, savedKundlis } = useWebKundliLibrary();
-  const copy = FAMILY_MAP_COPY[language] ?? FAMILY_MAP_COPY.en;
-  const relationshipCopy =
-    RELATIONSHIP_LABEL_COPY[language] ?? RELATIONSHIP_LABEL_COPY.en;
   const profiles = useMemo(() => {
     const activeFirst = activeKundli
       ? [activeKundli, ...savedKundlis.filter(item => item.id !== activeKundli.id)]
       : savedKundlis;
 
-    return activeFirst.slice(0, 8);
+    return activeFirst.filter(item => item.familyVaultEligible !== false).slice(0, 8);
   }, [activeKundli, savedKundlis]);
+  const initialSelectedIds = useMemo(
+    () => profiles.slice(0, Math.min(3, profiles.length)).map(profile => profile.id),
+    [profiles],
+  );
+  const [selectedIds, setSelectedIds] = useState<string[]>(initialSelectedIds);
+
+  useEffect(() => {
+    if (!profiles.length) {
+      setSelectedIds([]);
+      return;
+    }
+
+    setSelectedIds(current => {
+      const stillValid = current.filter(id => profiles.some(profile => profile.id === id));
+      if (stillValid.length >= 2) {
+        return stillValid;
+      }
+      return profiles.slice(0, Math.min(3, profiles.length)).map(profile => profile.id);
+    });
+  }, [profiles]);
+
+  const selectedProfiles = useMemo(() => {
+    const selectedSet = new Set(selectedIds);
+    const chosen = profiles.filter(profile => selectedSet.has(profile.id));
+    return chosen.slice(0, profiles.length);
+  }, [profiles, selectedIds]);
+
   const map = useMemo(
     () =>
       composeFamilyKarmaMap(
-        profiles.map((kundli, index) => ({
+        selectedProfiles.map(kundli => ({
           kundli,
-          relationship:
-            relationships[kundli.id] ?? (index === 0 ? 'self' : 'relative'),
+          relationship: kundli.relationshipToOwner,
         })),
+        {
+          depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
+        },
       ),
-    [profiles, relationships],
+    [hasPremiumAccess, selectedProfiles],
   );
-  const askMapHref = activeKundli
-    ? buildPredictaChatHref({
-        kundli: activeKundli,
-        kundliId: activeKundli.id,
-        prompt: map.askPrompt,
-        purpose: 'family',
-        school: 'PARASHARI',
-        selectedFamilyKarmaMap: true,
-        selectedFamilyMemberCount: map.members.length,
-        selectedSection: map.askPrompt,
-        sourceScreen: 'Family Karma Map',
-      })
-    : '/dashboard/kundli';
-  const profileCount = profiles.length;
 
-  function activateProfile(kundli: typeof profiles[number]): void {
-    setActiveWebKundli(kundli);
+  const askHref =
+    map.status === 'ready' && activeKundli
+      ? buildPredictaChatHref({
+          kundli: activeKundli,
+          kundliId: activeKundli.id,
+          prompt: map.askPrompt,
+          purpose: 'family',
+          school: 'PARASHARI',
+          selectedFamilyKarmaMap: true,
+          selectedFamilyMemberCount: selectedProfiles.length,
+          selectedSection: map.title,
+          sourceScreen: 'Family Karma Map',
+        })
+      : '/dashboard/kundli';
+
+  function toggleProfile(profile: KundliData): void {
+    setSelectedIds(current => {
+      if (current.includes(profile.id)) {
+        if (current.length <= 2) {
+          return current;
+        }
+        return current.filter(id => id !== profile.id);
+      }
+
+      if (current.length >= profiles.length) {
+        return current;
+      }
+
+      return [...current, profile.id];
+    });
   }
 
   return (
-    <section className="family-karma-map glass-panel">
-      <div className="family-header">
+    <section className="family-experience-panel glass-panel">
+      <div className="family-experience-header">
         <div>
-          <div className="section-title">{copy.title(profileCount)}</div>
-          <h2>{copy.title(profileCount)}</h2>
-          <p>{copy.subtitle(profileCount)}</p>
+          <div className="section-title">{copy.title}</div>
+          <h2>{map.title}</h2>
+          <p>{copy.subtitle}</p>
+        </div>
+        <div className="family-experience-helper">
+          <span>{copy.readyTitle}</span>
+          <p>{copy.readyBody}</p>
         </div>
       </div>
 
-      <div className="family-privacy-panel">
-        <span>{copy.privacyEyebrow}</span>
-        <p>{copy.privacyNote}</p>
-      </div>
+      <p className="family-experience-note">{copy.helper}</p>
 
       <div className="family-boundary-grid">
         {copy.boundaryCards.map(card => (
@@ -395,53 +308,55 @@ export function WebFamilyKarmaMap(): React.JSX.Element {
         ))}
       </div>
 
-      <div className="family-workflow-grid">
-        {copy.workflow.map((item, index) => (
-          <div className="family-workflow-card" key={item.title}>
-            <span>{index + 1}</span>
-            <strong>{item.title}</strong>
-            <p>{item.body}</p>
-          </div>
-        ))}
+      <div className="family-selection-summary">
+        <strong>
+          {selectedProfiles.length >= 2
+            ? copy.selectors.max(profiles.length)
+            : copy.selectors.min}
+        </strong>
+        <span>{selectedProfiles.map(profile => profile.birthDetails.name).join(' · ')}</span>
       </div>
 
-      {profiles.length ? (
-        <div className="family-member-grid">
-          {profiles.map((kundli, index) => (
-            <div
-              className={`family-member-slot${
-                kundli.id === activeKundli?.id ? ' active' : ''
-              }`}
-              key={kundli.id}
+      <div className="family-profile-grid">
+        {profiles.map(profile => {
+          const selected = selectedIds.includes(profile.id);
+          const active = profile.id === activeKundli?.id;
+
+          return (
+            <article
+              className={`family-profile-card${selected ? ' selected' : ''}${active ? ' active' : ''}`}
+              key={profile.id}
             >
-              <span>
-                {kundli.id === activeKundli?.id
-                  ? copy.profile.active
-                  : copy.profile.saved}
-              </span>
-              <strong>{kundli.birthDetails.name}</strong>
-              <p>{copy.profile.summary(kundli.lagna, kundli.moonSign, kundli.nakshatra)}</p>
-              <select
-                aria-label={copy.profile.relationshipFor(kundli.birthDetails.name)}
-                onChange={event =>
-                  setRelationships(current => ({
-                    ...current,
-                    [kundli.id]: event.target.value as FamilyRelationshipLabel,
-                  }))
-                }
-                value={relationships[kundli.id] ?? (index === 0 ? 'self' : 'relative')}
-              >
-                {relationshipLabels.map(label => (
-                  <option key={label} value={label}>
-                    {relationshipCopy[label]}
-                  </option>
-                ))}
-              </select>
-              <div className="family-member-actions">
-                {kundli.id !== activeKundli?.id ? (
+              <div className="family-profile-card-top">
+                <div>
+                  <div className="saved-kundli-status-row">
+                    <span className="section-title">
+                      {active ? copy.actions.useAsActive : copy.actions.savedKundlis}
+                    </span>
+                    <FamilyRelationshipBadge
+                      language={language}
+                      relationship={profile.relationshipToOwner ?? 'other'}
+                    />
+                  </div>
+                  <h3>{profile.birthDetails.name}</h3>
+                  <p>
+                    {profile.lagna} Lagna · {profile.moonSign} Moon · {profile.nakshatra}
+                  </p>
+                </div>
+                <label className="family-select-toggle">
+                  <input
+                    checked={selected}
+                    onChange={() => toggleProfile(profile)}
+                    type="checkbox"
+                  />
+                  <span>{selected ? copy.includedLabel : copy.includeLabel}</span>
+                </label>
+              </div>
+              <div className="family-profile-actions">
+                {!active ? (
                   <button
                     className="button secondary"
-                    onClick={() => activateProfile(kundli)}
+                    onClick={() => setActiveWebKundli(profile)}
                     type="button"
                   >
                     {copy.actions.useAsActive}
@@ -449,67 +364,101 @@ export function WebFamilyKarmaMap(): React.JSX.Element {
                 ) : null}
                 <Link
                   className="button secondary"
-                  href={buildPredictaChatHref({
-                    kundli,
-                    kundliId: kundli.id,
-                    prompt: `Use ${kundli.birthDetails.name}'s saved Kundli as the active family profile and explain the best next family-focused reading for this profile.`,
-                    purpose: 'family',
-                    school: 'PARASHARI',
-                    selectedSection: `Family profile: ${kundli.birthDetails.name}`,
-                    sourceScreen: 'Family Profile',
-                  })}
-                  onClick={() => activateProfile(kundli)}
+                  href={`/dashboard/kundli?focusKundliId=${encodeURIComponent(profile.id)}`}
+                  onClick={() => setActiveWebKundli(profile)}
                 >
-                  {copy.actions.askPredicta}
-                </Link>
-                <Link
-                  className="button secondary"
-                  href={`/dashboard/kundli?focusKundliId=${encodeURIComponent(kundli.id)}`}
-                  onClick={() => activateProfile(kundli)}
-                >
-                  {copy.actions.reviewInLibrary}
+                  {copy.actions.savedKundlis}
                 </Link>
               </div>
-            </div>
-          ))}
-        </div>
-      ) : null}
-
-      <div className="family-guidance-grid">
-        {copy.cards.map(card => (
-          <div className="family-guidance-card" key={card.title}>
-            <span>{card.title}</span>
-            <p>{card.body}</p>
-          </div>
-        ))}
+            </article>
+          );
+        })}
       </div>
 
-      <div className="family-empty">
-        <h3>
-          {profiles.length >= 2
-            ? copy.empty.linkedProfiles(profiles.length)
-            : copy.empty.needProfiles}
-        </h3>
-        <p>
-          {profiles.length >= 2
-            ? copy.empty.readyBody
-            : copy.empty.waitingBody}
-        </p>
-        <div className="action-row">
-          <Link className="button" href="/dashboard/kundli">
-            {copy.actions.addProfile}
-          </Link>
-          <Link
-            aria-disabled={map.status !== 'ready'}
-            className="button secondary"
-            href={map.status === 'ready' ? askMapHref : '/dashboard/kundli'}
-          >
-            {copy.actions.askFamilyMap}
-          </Link>
-          <Link className="button secondary" href="/dashboard/saved-kundlis">
-            {copy.actions.savedKundlis}
-          </Link>
-        </div>
+      <div className="family-map-summary-grid">
+        <article className="family-map-summary-card">
+          <span>{copy.summary.household}</span>
+          <strong>{map.householdSummary}</strong>
+          <p>{map.privacyNote}</p>
+        </article>
+        <article className="family-map-summary-card">
+          <span>{copy.summary.support}</span>
+          <strong>{map.strongestSupportPair ?? copy.pendingLabel}</strong>
+          <p>{map.dharmaRepairPath ?? map.subtitle}</p>
+        </article>
+        <article className="family-map-summary-card">
+          <span>{copy.summary.friction}</span>
+          <strong>{map.strongestFrictionPair ?? copy.pendingLabel}</strong>
+          <p>{map.relationshipCards[0]?.frictionPattern ?? map.subtitle}</p>
+        </article>
+        <article className="family-map-summary-card">
+          <span>{copy.summary.karma}</span>
+          <strong>{map.repeatingKarmaPattern ?? copy.pendingLabel}</strong>
+          <p>{map.dharmaRepairPath ?? map.subtitle}</p>
+        </article>
+      </div>
+
+      <div className="family-map-sections">
+        <section className="family-map-section">
+          <div className="section-title">{copy.themesTitle}</div>
+          <div className="family-map-theme-grid">
+            {map.repeatedThemes.slice(0, hasPremiumAccess ? 6 : 4).map(theme => (
+              <article className="family-map-theme-card" key={theme.id}>
+                <span>{theme.title}</span>
+                <strong>{theme.summary}</strong>
+                <p>{theme.guidance}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="family-map-section">
+          <div className="section-title">{copy.matrix.title}</div>
+          <div className="family-map-matrix">
+            {map.influenceMatrix.slice(0, hasPremiumAccess ? map.influenceMatrix.length : 4).map(row => (
+              <article className="family-map-matrix-row" key={row.memberId}>
+                <div>
+                  <strong>{row.name}</strong>
+                  <span>{row.relationshipDisplayLabel}</span>
+                </div>
+                <p>{row.influence} {row.supportNeed}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="family-map-section">
+          <div className="section-title">{copy.premiumLabel}</div>
+          <div className="family-map-relationship-grid">
+            {map.relationshipCards
+              .slice(0, hasPremiumAccess ? map.relationshipCards.length : 4)
+              .map(card => (
+                <article className="family-map-relationship-card" key={card.id}>
+                  <span>{card.label}</span>
+                  <strong>{card.emotionalPattern}</strong>
+                  <p>{card.practicalGuidance}</p>
+                </article>
+              ))}
+          </div>
+          {!hasPremiumAccess ? (
+            <p className="family-premium-note">{copy.premiumLocked}</p>
+          ) : null}
+        </section>
+      </div>
+
+      <div className="action-row">
+        <Link className="button" href={map.status === 'ready' ? askHref : '/dashboard/kundli'}>
+          {copy.actions.askPredicta}
+        </Link>
+        <Link className="button secondary" href="/dashboard/family/compare">
+          {copy.actions.pairComparison}
+        </Link>
+        <Link className="button secondary" href="/dashboard/saved-kundlis">
+          {copy.actions.savedKundlis}
+        </Link>
+        <Link className="button secondary" href="/dashboard/kundli">
+          {copy.actions.addProfile}
+        </Link>
       </div>
     </section>
   );

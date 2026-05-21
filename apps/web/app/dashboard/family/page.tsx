@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import type { SupportedLanguage } from '@pridicta/types';
-import { WebFamilyKarmaMap } from '../../../components/WebFamilyKarmaMap';
+import { FamilyRelationshipBadge } from '../../../components/FamilyRelationshipBadge';
 import { useLanguagePreference } from '../../../lib/language-preference';
 import { useWebKundliLibrary } from '../../../lib/use-web-kundli-library';
 
@@ -10,112 +10,169 @@ type FamilyPageCopy = {
   actions: {
     addProfile: string;
     goToLibrary: string;
+    openCompare: string;
+    openMap: string;
   };
   cards: {
     activeBody: (name?: string) => string;
     activeFallback: string;
     activeTitle: string;
-    privacyBody: string;
-    privacyTitle: string;
+    ownerTitle: string;
     readinessBody: (count: number) => string;
     readinessTitle: (count: number) => string;
   };
+  experiences: Array<{
+    body: string;
+    cta: string;
+    href: string;
+    title: string;
+  }>;
   body: string;
   eyebrow: string;
   title: string;
 };
 
-const FAMILY_PAGE_COPY: Record<SupportedLanguage, FamilyPageCopy> = {
+const COPY: Record<SupportedLanguage, FamilyPageCopy> = {
   en: {
     actions: {
       addProfile: 'Add Profile',
       goToLibrary: 'Go to Kundli Library',
+      openCompare: 'Open Pair Comparison',
+      openMap: 'Open Family Karma Map',
     },
     cards: {
       activeBody: name =>
         name
-          ? `${name} is the current personal profile. Family Vault reads that profile first when you open comparison or ask Predicta from here.`
-          : 'Choose or save a personal profile in Kundli Library before using Family Vault.',
+          ? `${name} is the active chart right now. Predicta uses that profile first when family analysis needs a personal anchor.`
+          : 'Choose or save the owner profile first. Family analysis should never start without a real personal anchor.',
       activeFallback: 'No active profile',
-      activeTitle: 'Active personal profile',
-      privacyBody:
-        'Family Vault compares saved profiles from your library. Relationship labels help comparison only and do not rewrite birth details.',
-      privacyTitle: 'Data boundary',
+      activeTitle: 'Active chart anchor',
+      ownerTitle: 'Owner profile',
       readinessBody: count =>
         count >= 2
-          ? 'Enough saved profiles are available for real household comparison.'
-          : 'Save at least two profiles in Kundli Library before expecting family comparison.',
+          ? 'Family Vault is ready for both pair comparison and a household karma map.'
+          : 'Save at least two profiles in Kundli Library before expecting any real family comparison.',
       readinessTitle: count =>
-        count >= 2 ? `${count} profiles ready` : 'Needs more saved profiles',
+        count >= 2 ? `${count} saved profiles ready` : 'Needs more saved profiles',
     },
+    experiences: [
+      {
+        body:
+          'Select exactly two saved profiles. Predicta explains harmony, friction, karma, dharma, and practical next steps without turning the reading into technical jargon.',
+        cta: 'Open Pair Comparison',
+        href: '/dashboard/family/compare',
+        title: 'Pair Comparison',
+      },
+      {
+        body:
+          'Select the household circle and let Predicta map repeated emotional patterns, support anchors, pressure chains, and the best dharma repair path.',
+        cta: 'Open Family Karma Map',
+        href: '/dashboard/family/karma-map',
+        title: 'Family Karma Map',
+      },
+    ],
     body:
-      'Family Vault is the careful comparison layer. Keep personal edits and deletion in Kundli Library, then use this space for shared patterns, support zones, and household guidance.',
+      'Family Vault is no longer a generic holding page. It is the comparison layer built on top of your saved Kundli Library.',
     eyebrow: 'FAMILY VAULT',
-    title: 'Family comparison starts from saved profiles.',
+    title: 'Compare the people around you without losing personal chart control.',
   },
   hi: {
     actions: {
       addProfile: 'प्रोफाइल जोड़ें',
       goToLibrary: 'कुंडली लाइब्रेरी पर जाएं',
+      openCompare: 'जोड़ेदार तुलना खोलें',
+      openMap: 'परिवार कर्म नक्शा खोलें',
     },
     cards: {
       activeBody: name =>
         name
-          ? `${name} अभी सक्रिय व्यक्तिगत प्रोफाइल है. यहां से तुलना खोलने या प्रेडिक्टा से पूछने पर परिवार वॉल्ट पहले इसी प्रोफाइल को पढ़ेगा.`
-          : 'परिवार वॉल्ट इस्तेमाल करने से पहले कुंडली लाइब्रेरी में व्यक्तिगत प्रोफाइल चुनें या सेव करें.',
+          ? `${name} अभी सक्रिय चार्ट आधार है. जब परिवार विश्लेषण को व्यक्तिगत केंद्र चाहिए होता है, प्रेडिक्टा पहले इसी प्रोफाइल को पढ़ती है.`
+          : 'पहले मालिक प्रोफाइल चुनें या सेव करें. वास्तविक व्यक्तिगत आधार के बिना परिवार विश्लेषण शुरू नहीं होना चाहिए.',
       activeFallback: 'कोई सक्रिय प्रोफाइल नहीं',
-      activeTitle: 'सक्रिय व्यक्तिगत प्रोफाइल',
-      privacyBody:
-        'परिवार वॉल्ट आपकी लाइब्रेरी की सेव प्रोफाइलों की तुलना करता है. संबंध लेबल केवल तुलना के लिए हैं, जन्म विवरण बदलने के लिए नहीं.',
-      privacyTitle: 'डेटा सीमा',
+      activeTitle: 'सक्रिय चार्ट आधार',
+      ownerTitle: 'मालिक प्रोफाइल',
       readinessBody: count =>
         count >= 2
-          ? 'वास्तविक पारिवारिक तुलना के लिए पर्याप्त सेव प्रोफाइल उपलब्ध हैं.'
-          : 'पारिवारिक तुलना की अपेक्षा करने से पहले कुंडली लाइब्रेरी में कम से कम दो प्रोफाइल सेव करें.',
+          ? 'परिवार वॉल्ट अब जोड़ेदार तुलना और पूरे परिवार के कर्म नक्शे, दोनों के लिए तैयार है.'
+          : 'वास्तविक पारिवारिक तुलना की अपेक्षा करने से पहले कुंडली लाइब्रेरी में कम से कम दो प्रोफाइल सेव करें.',
       readinessTitle: count =>
-        count >= 2 ? `${count} प्रोफाइल तैयार` : 'और सेव प्रोफाइल चाहिए',
+        count >= 2 ? `${count} सेव प्रोफाइल तैयार` : 'और सेव प्रोफाइल चाहिए',
     },
+    experiences: [
+      {
+        body:
+          'ठीक दो सेव प्रोफाइल चुनें. प्रेडिक्टा सहमति, घर्षण, कर्म, धर्म और व्यावहारिक अगला कदम बताएगी, बिना रीडिंग को तकनीकी भाषा में बदले.',
+        cta: 'जोड़ेदार तुलना खोलें',
+        href: '/dashboard/family/compare',
+        title: 'जोड़ेदार तुलना',
+      },
+      {
+        body:
+          'परिवार का घेरा चुनें और प्रेडिक्टा से दोहराए गए भावनात्मक संकेत, सहारा केंद्र, दबाव श्रृंखला और सबसे अच्छा धर्म सुधार मार्ग देखें.',
+        cta: 'परिवार कर्म नक्शा खोलें',
+        href: '/dashboard/family/karma-map',
+        title: 'परिवार कर्म नक्शा',
+      },
+    ],
     body:
-      'परिवार वॉल्ट सावधानी से तुलना करने की परत है. व्यक्तिगत संपादन और हटाना कुंडली लाइब्रेरी में रखें, फिर इस जगह का उपयोग साझा संकेत, सहारा क्षेत्र और पारिवारिक मार्गदर्शन के लिए करें.',
+      'परिवार वॉल्ट अब एक सामान्य होल्डिंग पेज नहीं है. यह आपकी सेव कुंडली लाइब्रेरी के ऊपर बनी तुलना परत है.',
     eyebrow: 'परिवार वॉल्ट',
-    title: 'पारिवारिक तुलना सेव प्रोफाइलों से शुरू होती है.',
+    title: 'अपने आस-पास के लोगों की तुलना करें, बिना व्यक्तिगत चार्ट नियंत्रण खोए.',
   },
   gu: {
     actions: {
       addProfile: 'પ્રોફાઇલ ઉમેરો',
       goToLibrary: 'કુંડળી લાઇબ્રેરી પર જાઓ',
+      openCompare: 'જોડી તુલના ખોલો',
+      openMap: 'પરિવાર કર્મ નકશો ખોલો',
     },
     cards: {
       activeBody: name =>
         name
-          ? `${name} હાલ સક્રિય વ્યક્તિગત પ્રોફાઇલ છે. અહીંથી તુલના ખોલો અથવા પ્રેડિક્ટા ને પૂછો ત્યારે પરિવાર વોલ્ટ પહેલા આ જ પ્રોફાઇલ વાંચશે.`
-          : 'પરિવાર વોલ્ટ વાપરતા પહેલાં કુંડળી લાઇબ્રેરીમાં વ્યક્તિગત પ્રોફાઇલ પસંદ કરો અથવા સાચવો.',
-      activeFallback: 'હજુ કોઈ સક્રિય પ્રોફાઇલ નથી',
-      activeTitle: 'સક્રિય વ્યક્તિગત પ્રોફાઇલ',
-      privacyBody:
-        'પરિવાર વોલ્ટ તમારી લાઇબ્રેરીની સાચવેલી પ્રોફાઇલની તુલના કરે છે. સંબંધ લેબલ ફક્ત તુલના માટે છે, જન્મ વિગતો બદલવા માટે નથી.',
-      privacyTitle: 'ડેટા સીમા',
+          ? `${name} હાલ સક્રિય ચાર્ટ એન્કર છે. જ્યારે પરિવાર વિશ્લેષણને વ્યક્તિગત આધાર જોઈએ ત્યારે પ્રેડિક્ટા પહેલા આ પ્રોફાઇલ વાંચે છે.`
+          : 'પહેલાં માલિક પ્રોફાઇલ પસંદ કરો અથવા સાચવો. સાચા વ્યક્તિગત આધાર વિના પરિવાર વિશ્લેષણ શરૂ ન થવું જોઈએ.',
+      activeFallback: 'કોઈ સક્રિય પ્રોફાઇલ નથી',
+      activeTitle: 'સક્રિય ચાર્ટ આધાર',
+      ownerTitle: 'માલિક પ્રોફાઇલ',
       readinessBody: count =>
         count >= 2
-          ? 'વાસ્તવિક ઘરેલુ તુલના માટે પૂરતી સાચવેલી પ્રોફાઇલ ઉપલબ્ધ છે.'
-          : 'પરિવાર તુલનાની અપેક્ષા કરતા પહેલાં કુંડળી લાઇબ્રેરીમાં ઓછામાં ઓછી બે પ્રોફાઇલ સાચવો.',
+          ? 'પરિવાર વોલ્ટ હવે જોડી તુલના અને આખા પરિવારના કર્મ નકશા, બંને માટે તૈયાર છે.'
+          : 'વાસ્તવિક પરિવાર તુલનાની અપેક્ષા કરતા પહેલાં કુંડળી લાઇબ્રેરીમાં ઓછામાં ઓછી બે પ્રોફાઇલ સાચવો.',
       readinessTitle: count =>
-        count >= 2 ? `${count} પ્રોફાઇલ તૈયાર` : 'વધુ સાચવેલી પ્રોફાઇલ જોઈએ',
+        count >= 2 ? `${count} સાચવેલી પ્રોફાઇલ તૈયાર` : 'વધુ સાચવેલી પ્રોફાઇલ જોઈએ',
     },
+    experiences: [
+      {
+        body:
+          'ચોક્કસ બે સાચવેલી પ્રોફાઇલ પસંદ કરો. પ્રેડિક્ટા સહકાર, ઘર્ષણ, કર્મ, ધર્મ અને આગળનું પ્રાયોગિક પગલું સમજાવશે, અને વાંચનને ટેકનિકલ ભાષામાં ફેરવશે નહીં.',
+        cta: 'જોડી તુલના ખોલો',
+        href: '/dashboard/family/compare',
+        title: 'જોડી તુલના',
+      },
+      {
+        body:
+          'ઘરેલુ વર્તુળ પસંદ કરો અને પ્રેડિક્ટાથી ફરી આવતા ભાવનાત્મક સંકેતો, સહારો બિંદુઓ, દબાણની સાંકળો અને શ્રેષ્ઠ ધર્મ સુધાર માર્ગ જુઓ.',
+        cta: 'પરિવાર કર્મ નકશો ખોલો',
+        href: '/dashboard/family/karma-map',
+        title: 'પરિવાર કર્મ નકશો',
+      },
+    ],
     body:
-      'પરિવાર વોલ્ટ સાવચેતીભરી તુલનાની પરત છે. વ્યક્તિગત સંપાદન અને કાઢી નાખવું કુંડળી લાઇબ્રેરીમાં રાખો, પછી આ જગ્યા શેર કરેલા સંકેતો, સહારો ક્ષેત્ર અને ઘરેલુ માર્ગદર્શન માટે વાપરો.',
+      'પરિવાર વોલ્ટ હવે કોઈ સામાન્ય હોલ્ડિંગ પેજ નથી. તે તમારી સાચવેલી કુંડળી લાઇબ્રેરી ઉપર બનેલી તુલનાની પરત છે.',
     eyebrow: 'પરિવાર વોલ્ટ',
-    title: 'પરિવાર તુલના સાચવેલી પ્રોફાઇલથી શરૂ થાય છે.',
+    title: 'વ્યક્તિગત ચાર્ટ નિયંત્રણ ગુમાવ્યા વિના તમારા આસપાસના લોકોની તુલના કરો.',
   },
 };
 
 export default function FamilyPage(): React.JSX.Element {
   const { language } = useLanguagePreference();
   const { activeKundli, savedKundlis } = useWebKundliLibrary();
-  const copy = FAMILY_PAGE_COPY[language] ?? FAMILY_PAGE_COPY.en;
-  const profileCount = activeKundli
-    ? [activeKundli, ...savedKundlis.filter(item => item.id !== activeKundli.id)].length
-    : savedKundlis.length;
+  const copy = COPY[language] ?? COPY.en;
+  const profiles = activeKundli
+    ? [activeKundli, ...savedKundlis.filter(item => item.id !== activeKundli.id)]
+    : savedKundlis;
+  const ownerProfile =
+    profiles.find(profile => profile.isOwnerProfile) ?? profiles[0];
 
   return (
     <section className="dashboard-page">
@@ -142,18 +199,40 @@ export default function FamilyPage(): React.JSX.Element {
           <p>{copy.cards.activeBody(activeKundli?.birthDetails.name)}</p>
         </div>
         <div className="family-overview-card">
-          <span>{copy.cards.readinessTitle(profileCount)}</span>
-          <strong>{profileCount}</strong>
-          <p>{copy.cards.readinessBody(profileCount)}</p>
+          <span>{copy.cards.ownerTitle}</span>
+          <strong>{ownerProfile?.birthDetails.name ?? copy.cards.activeFallback}</strong>
+          <p>
+            {ownerProfile ? (
+              <FamilyRelationshipBadge
+                language={language}
+                relationship={ownerProfile.relationshipToOwner ?? 'self'}
+              />
+            ) : (
+              copy.cards.activeBody(undefined)
+            )}
+          </p>
         </div>
         <div className="family-overview-card">
-          <span>{copy.cards.privacyTitle}</span>
-          <strong>{copy.eyebrow}</strong>
-          <p>{copy.cards.privacyBody}</p>
+          <span>{copy.cards.readinessTitle(profiles.length)}</span>
+          <strong>{profiles.length}</strong>
+          <p>{copy.cards.readinessBody(profiles.length)}</p>
         </div>
       </div>
 
-      <WebFamilyKarmaMap />
+      <div className="family-experience-grid">
+        {copy.experiences.map(card => (
+          <article className="family-experience-tile" key={card.title}>
+            <span>{card.title}</span>
+            <strong>{card.title}</strong>
+            <p>{card.body}</p>
+            <div className="action-row compact">
+              <Link className="button" href={card.href}>
+                {card.cta}
+              </Link>
+            </div>
+          </article>
+        ))}
+      </div>
     </section>
   );
 }

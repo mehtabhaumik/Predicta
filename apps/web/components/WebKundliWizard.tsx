@@ -15,6 +15,7 @@ import {
 import type {
   BirthDetails,
   ChartData,
+  FamilyRelationshipLabel,
   KundliData,
   SupportedLanguage,
 } from '@pridicta/types';
@@ -30,6 +31,10 @@ import {
   getKundliAnimationSurfaceProps,
 } from '../lib/kundli-animation-contract';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
+import {
+  FAMILY_RELATIONSHIP_ORDER,
+  getFamilyRelationshipLabel,
+} from '../lib/family-relationships';
 import { useLanguagePreference } from '../lib/language-preference';
 import {
   generateKundliFromWeb,
@@ -66,6 +71,9 @@ export function WebKundliWizard(): React.JSX.Element {
   const [editingKundliId, setEditingKundliId] = useState<string | undefined>();
   const [editingKundliName, setEditingKundliName] = useState<string | undefined>();
   const [isApproximate, setIsApproximate] = useState(false);
+  const [relationshipToOwner, setRelationshipToOwner] = useState<
+    FamilyRelationshipLabel | ''
+  >('');
   const [rectificationStep, setRectificationStep] = useState<
     'confirm-corrected' | 'confirm-entered' | 'idle' | 'questions'
   >('idle');
@@ -84,6 +92,17 @@ export function WebKundliWizard(): React.JSX.Element {
   const [showStorageNudge, setShowStorageNudge] = useState(false);
   const [showCreationReveal, setShowCreationReveal] = useState(false);
   const createdChartRef = useRef<HTMLElement | null>(null);
+  const savedKundliRecords = useMemo(() => loadWebKundlis(), [kundli?.id]);
+  const editingRecord = useMemo(
+    () =>
+      editingKundliId
+        ? savedKundliRecords.find(item => item.id === editingKundliId)
+        : undefined,
+    [editingKundliId, savedKundliRecords],
+  );
+  const isOwnerProfile =
+    editingRecord?.isOwnerProfile ?? (!editingKundliId && savedKundliRecords.length === 0);
+  const shouldShowRelationshipSelector = !isOwnerProfile;
   const selectedPlaceLabel = selectedPlace ? getBirthPlaceLabel(selectedPlace) : '';
   const isSelectedPlaceCurrent =
     Boolean(selectedPlace) && doesBirthPlaceMatchQuery(selectedPlace, birthPlaceQuery);
@@ -200,6 +219,9 @@ export function WebKundliWizard(): React.JSX.Element {
     setBirthPlaceQuery(getBirthPlaceLabel(restoredPlace));
     setPlaceSuggestions([restoredPlace, ...WEB_BIRTH_PLACES].slice(0, 8));
     setIsApproximate(Boolean(birthDetails.isTimeApproximate));
+    setRelationshipToOwner(
+      record.isOwnerProfile ? '' : (record.relationshipToOwner ?? 'other'),
+    );
     setEditingKundliId(record.id);
     setEditingKundliName(birthDetails.name);
   }, []);
@@ -290,6 +312,11 @@ export function WebKundliWizard(): React.JSX.Element {
       return;
     }
 
+    if (shouldShowRelationshipSelector && !relationshipToOwner) {
+      setError(labels.relationshipRequiredError);
+      return;
+    }
+
     if (!details || !selectedPlace || !isSelectedPlaceCurrent) {
       setError(
         'Choose a matching birth place from the suggestions so Predicta can use the correct timezone and coordinates.',
@@ -341,7 +368,11 @@ export function WebKundliWizard(): React.JSX.Element {
               source: 'manual',
             })
           : generated;
-      const saveResult = saveWebKundli(nextKundli);
+      const saveResult = saveWebKundli(nextKundli, {
+        relationshipToOwner: shouldShowRelationshipSelector
+          ? relationshipToOwner || undefined
+          : 'self',
+      });
       if (!saveResult.allowed) {
         setShowStorageNudge(true);
         setError(
@@ -373,6 +404,7 @@ export function WebKundliWizard(): React.JSX.Element {
     setBirthPlaceQuery(getBirthPlaceLabel(WEB_BIRTH_PLACES[0]));
     setPlaceSuggestions([WEB_BIRTH_PLACES[0]]);
     setIsApproximate(false);
+    setRelationshipToOwner('');
     setRectificationStep('idle');
     setRectificationAnswers({});
     setLastCreationNote({ mode: 'entered' });
@@ -519,6 +551,30 @@ export function WebKundliWizard(): React.JSX.Element {
               </div>
             </div>
           </label>
+          {shouldShowRelationshipSelector ? (
+            <label>
+              <span>{labels.relationshipLabel}</span>
+              <select
+                onChange={event => {
+                  resetFlow();
+                  setRelationshipToOwner(
+                    event.target.value as FamilyRelationshipLabel | '',
+                  );
+                }}
+                value={relationshipToOwner}
+              >
+                <option value="">{labels.relationshipPlaceholder}</option>
+                {FAMILY_RELATIONSHIP_ORDER.filter(option => option !== 'self').map(
+                  option => (
+                    <option key={option} value={option}>
+                      {getFamilyRelationshipLabel(option, language)}
+                    </option>
+                  ),
+                )}
+              </select>
+              <small>{labels.relationshipHelp}</small>
+            </label>
+          ) : null}
         </div>
 
         <label className="kundli-checkbox">
@@ -1171,6 +1227,10 @@ type KundliWizardCopy = {
   reviewBirthDetails: (name: string) => string;
   guestLimitError: string;
   guestLimitTitle: string;
+  relationshipHelp: string;
+  relationshipLabel: string;
+  relationshipPlaceholder: string;
+  relationshipRequiredError: string;
   searchingPlaces: string;
 };
 
@@ -1194,6 +1254,12 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     guestLimitError:
       'Your first Kundli is safe here. Please sign in before adding another Kundli, so family profiles and future edits stay protected.',
     guestLimitTitle: 'Protect more Kundlis with sign-in',
+    relationshipHelp:
+      'Choose how this saved profile relates to you. Your main profile stays Self and does not need this field.',
+    relationshipLabel: 'Relationship to you',
+    relationshipPlaceholder: 'Select relationship',
+    relationshipRequiredError:
+      'Select how this saved profile is related to you before creating or updating it.',
     reviewBirthDetails: name => `Review ${name}'s birth details.`,
     searchingPlaces: 'Searching places...',
   },
@@ -1216,6 +1282,12 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     guestLimitError:
       'आपकी पहली कुंडली इस डिवाइस पर सेव है. दूसरी कुंडली जोड़ने से पहले साइन इन करें, ताकि परिवार प्रोफाइल और आगे के बदलाव सुरक्षित रहें.',
     guestLimitTitle: 'अधिक कुंडलियां सुरक्षित रखने के लिए साइन इन करें',
+    relationshipHelp:
+      'यह सेव प्रोफाइल आपसे कैसे जुड़ी है, यह चुनें. आपकी मुख्य प्रोफाइल स्वयं रहेगी और उसमें यह फ़ील्ड नहीं दिखेगी.',
+    relationshipLabel: 'आपसे संबंध',
+    relationshipPlaceholder: 'संबंध चुनें',
+    relationshipRequiredError:
+      'यह सेव प्रोफाइल आपसे कैसे जुड़ी है, यह चुने बिना कुंडली न बनाएं और न अपडेट करें.',
     reviewBirthDetails: name => `${name} के जन्म विवरण जांचें.`,
     searchingPlaces: 'स्थान खोजे जा रहे हैं...',
   },
@@ -1238,6 +1310,12 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     guestLimitError:
       'તમારી પહેલી કુંડળી આ ડિવાઇસ પર સેવ છે. બીજી કુંડળી ઉમેરતા પહેલાં સાઇન ઇન કરો, જેથી પરિવાર પ્રોફાઇલ અને આગળના ફેરફારો સુરક્ષિત રહે.',
     guestLimitTitle: 'વધુ કુંડળીઓ સુરક્ષિત રાખવા સાઇન ઇન કરો',
+    relationshipHelp:
+      'આ સાચવેલી પ્રોફાઇલ તમારાથી કેવી રીતે જોડાય છે તે પસંદ કરો. તમારી મુખ્ય પ્રોફાઇલ પોતે જ રહેશે અને તેમાં આ ક્ષેત્ર દેખાશે નહીં.',
+    relationshipLabel: 'તમારો સંબંધ',
+    relationshipPlaceholder: 'સંબંધ પસંદ કરો',
+    relationshipRequiredError:
+      'આ સાચવેલી પ્રોફાઇલ તમારાથી કેવી રીતે જોડાય છે તે પસંદ કર્યા વગર કુંડળી બનાવશો કે સુધારશો નહીં.',
     reviewBirthDetails: name => `${name} ની જન્મ વિગતો તપાસો.`,
     searchingPlaces: 'સ્થળો શોધાઈ રહ્યા છે...',
   },

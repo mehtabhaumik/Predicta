@@ -1107,19 +1107,110 @@ export type RelationshipMirror = {
 
 export type FamilyRelationshipLabel =
   | 'self'
-  | 'parent'
-  | 'child'
-  | 'sibling'
+  | 'spouse'
   | 'partner'
-  | 'grandparent'
-  | 'relative'
+  | 'fiance'
+  | 'son'
+  | 'daughter'
+  | 'mother'
+  | 'father'
+  | 'brother'
+  | 'sister'
+  | 'cousin'
+  | 'maternal-aunt'
+  | 'paternal-aunt'
+  | 'aunt'
+  | 'maternal-uncle'
+  | 'paternal-uncle'
+  | 'uncle'
+  | 'grandmother'
+  | 'grandfather'
+  | 'mother-in-law'
+  | 'father-in-law'
+  | 'sister-in-law'
+  | 'brother-in-law'
+  | 'aunt-in-law'
+  | 'uncle-in-law'
+  | 'niece'
+  | 'nephew'
   | 'friend'
+  | 'best-friend'
+  | 'co-worker'
+  | 'manager'
+  | 'business-partner'
+  | 'mentor'
+  | 'student'
   | 'other';
+
+export type FamilyRelationshipColorToken =
+  | 'deep-gold'
+  | 'rose-pink'
+  | 'soft-peach'
+  | 'calm-teal'
+  | 'saffron'
+  | 'slate-blue'
+  | 'gentle-green'
+  | 'sky-blue'
+  | 'lavender-blue'
+  | 'muted-steel'
+  | 'mauve'
+  | 'sand'
+  | 'deep-indigo'
+  | 'soft-plum'
+  | 'sage'
+  | 'warm-amber';
+
+export type PairComparisonTone = 'supportive' | 'mixed' | 'careful';
+
+export type PairComparisonHighlight = {
+  id: string;
+  title: string;
+  summary: string;
+  guidance: string;
+  evidence: string[];
+};
+
+export type PairComparisonPremiumSection = {
+  id:
+    | 'emotional-rhythm'
+    | 'communication-style'
+    | 'duty-friction'
+    | 'money-alignment'
+    | 'responsibility-balance'
+    | 'healing-potential'
+    | 'timing-window';
+  title: string;
+  summary: string;
+  guidance: string;
+  evidence: string[];
+};
+
+export type PairComparison = {
+  status: 'ready' | 'pending';
+  firstProfile: FamilyMemberProfile;
+  secondProfile: FamilyMemberProfile;
+  relationshipContextLabel: string;
+  headline: string;
+  overview: string;
+  overallTone: PairComparisonTone;
+  harmonyAreas: string[];
+  frictionAreas: string[];
+  karmaTheme: string;
+  dharmaLesson: string;
+  practicalGuidance: string;
+  freeHighlights: PairComparisonHighlight[];
+  premiumSections: PairComparisonPremiumSection[];
+  shareSummary: string;
+  askPrompt: string;
+};
 
 export type FamilyMemberProfile = {
   id: string;
   name: string;
   relationship: FamilyRelationshipLabel;
+  relationshipDisplayLabel: string;
+  relationshipColorToken: FamilyRelationshipColorToken;
+  isOwnerProfile: boolean;
   lagna: string;
   moonSign: string;
   nakshatra: string;
@@ -1140,10 +1231,22 @@ export type FamilyRelationshipGuidance = {
   firstMemberId: string;
   secondMemberId: string;
   label: string;
+  tone: PairComparisonTone;
   emotionalPattern: string;
   supportPattern: string;
+  frictionPattern: string;
+  dharmaSupport: string;
+  careArea: string;
   practicalGuidance: string;
   evidence: string[];
+};
+
+export type FamilyInfluenceMatrixRow = {
+  memberId: string;
+  name: string;
+  relationshipDisplayLabel: string;
+  influence: string;
+  supportNeed: string;
 };
 
 export type FamilyKarmaMap = {
@@ -1151,8 +1254,14 @@ export type FamilyKarmaMap = {
   title: string;
   subtitle: string;
   members: FamilyMemberProfile[];
+  householdSummary: string;
+  strongestSupportPair?: string;
+  strongestFrictionPair?: string;
+  repeatingKarmaPattern?: string;
+  dharmaRepairPath?: string;
   repeatedThemes: FamilyKarmaTheme[];
   relationshipCards: FamilyRelationshipGuidance[];
+  influenceMatrix: FamilyInfluenceMatrixRow[];
   privacyNote: string;
   shareSummary: string;
   askPrompt: string;
@@ -1650,6 +1759,11 @@ export type KundliData = {
   id: string;
   birthDetails: BirthDetails;
   editHistory?: KundliEditHistoryEntry[];
+  relationshipToOwner?: FamilyRelationshipLabel;
+  relationshipDisplayLabel?: string;
+  relationshipColorToken?: FamilyRelationshipColorToken;
+  isOwnerProfile?: boolean;
+  familyVaultEligible?: boolean;
   lagna: string;
   moonSign: string;
   nakshatra: string;

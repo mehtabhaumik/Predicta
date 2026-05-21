@@ -1211,7 +1211,7 @@ function buildActionText({
         .slice(0, 5)
         .map((item, index) => ({
           kundli: item,
-          relationship: index === 0 ? 'self' : 'relative',
+          relationship: index === 0 ? 'self' : 'other',
         })),
     );
     return joinSections([
@@ -1935,6 +1935,7 @@ function buildNadiPredictaReply(
 ): string {
   const plan = composeNadiJyotishPlan(kundli, {
     depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
+    language,
   });
   const topPattern = plan.patterns[0];
   const activation = plan.activations[0];

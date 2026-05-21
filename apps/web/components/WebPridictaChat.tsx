@@ -4299,6 +4299,7 @@ function ctaContextFromParams(params: URLSearchParams): ChartContext | undefined
       params.get('selectedPredictaWrappedYear'),
     ),
     selectedRelationshipMirror: params.get('selectedRelationshipMirror') === 'true',
+    selectedRelationshipNames: params.get('selectedRelationshipNames') ?? undefined,
     selectedRemedyId: params.get('remedyId') ?? undefined,
     selectedRemedyTitle: params.get('remedyTitle') ?? undefined,
     selectedSection: prompt,

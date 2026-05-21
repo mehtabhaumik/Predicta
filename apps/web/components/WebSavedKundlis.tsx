@@ -19,6 +19,7 @@ import { useLanguagePreference } from '../lib/language-preference';
 import { useDialogFocusTrap } from '../lib/use-dialog-focus-trap';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 import { Card } from './Card';
+import { FamilyRelationshipBadge } from './FamilyRelationshipBadge';
 import { WebKundliChart } from './WebKundliChart';
 import { AuthDialog } from './AuthDialog';
 import { BrandedDestructiveDialog } from './BrandedDestructiveDialog';
@@ -158,6 +159,10 @@ export function WebSavedKundlis(): React.JSX.Element {
                     {active ? (
                       <span className="library-status-pill">{labels.activeNow}</span>
                     ) : null}
+                    <FamilyRelationshipBadge
+                      language={language}
+                      relationship={record.relationshipToOwner ?? 'other'}
+                    />
                     <span className="saved-kundli-badge">{labels.familyReadyBadge}</span>
                   </div>
                   <h2>{record.birthDetails.name}</h2>

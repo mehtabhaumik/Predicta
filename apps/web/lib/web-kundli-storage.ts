@@ -1,11 +1,20 @@
 'use client';
 
-import type { BirthDetails, ChartContext, KundliData } from '@pridicta/types';
+import type {
+  BirthDetails,
+  ChartContext,
+  FamilyRelationshipLabel,
+  KundliData,
+} from '@pridicta/types';
 import {
   getOrCreateWebGuestSession,
   type WebGuestSession,
 } from './web-guest-session';
 import { getFirebaseWebAuth } from './firebase/client';
+import {
+  buildFamilyProfileMetadata,
+  getFamilyRelationshipColorToken,
+} from './family-relationships';
 
 const ACTIVE_KUNDLI_KEY = 'pridicta.activeKundli.v1';
 const SAVED_KUNDLIS_KEY = 'pridicta.savedKundlis.v1';
@@ -48,6 +57,10 @@ export type SharedWebKundliContextResolution = {
 
 type GenerateKundliOptions = {
   save?: boolean;
+};
+
+type SaveKundliOptions = {
+  relationshipToOwner?: FamilyRelationshipLabel;
 };
 
 export async function generateKundliFromWeb(
@@ -128,7 +141,10 @@ export function loadWebKundliStore(): WebKundliStore {
   };
 }
 
-export function saveWebKundli(kundli: KundliData): WebKundliStorageGate {
+export function saveWebKundli(
+  kundli: KundliData,
+  options: SaveKundliOptions = {},
+): WebKundliStorageGate {
   const current = loadWebKundliStore();
   const gate = canSaveWebKundli(kundli, current);
 
@@ -136,7 +152,7 @@ export function saveWebKundli(kundli: KundliData): WebKundliStorageGate {
     return gate;
   }
 
-  const nextKundli =
+  const nextKundliBase =
     gate.existingKundli && gate.existingKundli.id !== kundli.id
       ? {
           ...kundli,
@@ -144,6 +160,12 @@ export function saveWebKundli(kundli: KundliData): WebKundliStorageGate {
           id: gate.existingKundli.id,
         }
       : kundli;
+  const nextKundli = applyFamilyProfileMetadata(
+    nextKundliBase,
+    current,
+    options.relationshipToOwner,
+    gate.existingKundli,
+  );
 
   saveWebKundliStore({
     ...current,
@@ -162,10 +184,39 @@ export function setActiveWebKundli(kundli: KundliData): void {
   const current = loadWebKundliStore();
   saveWebKundliStore({
     ...current,
-    activeKundli: kundli,
+    activeKundli: applyFamilyProfileMetadata(kundli, current),
     activeKundliId: kundli.id,
     savedKundlis: dedupeKundlis([kundli, ...current.savedKundlis]),
   });
+}
+
+export function updateWebKundliFamilyRelationship(
+  kundliId: string,
+  relationshipToOwner: FamilyRelationshipLabel,
+): WebKundliStore {
+  const current = loadWebKundliStore();
+  const updated = current.savedKundlis.map((kundli, index) => {
+    if (kundli.id !== kundliId) {
+      return normalizeStoredFamilyProfile(kundli, current, index);
+    }
+    if (kundli.isOwnerProfile) {
+      return applyFamilyProfileMetadata(kundli, current, 'self', kundli);
+    }
+    return applyFamilyProfileMetadata(
+      kundli,
+      current,
+      relationshipToOwner,
+      kundli,
+    );
+  });
+  const activeKundli = updated.find(item => item.id === current.activeKundliId) ?? updated[0];
+  saveWebKundliStore({
+    ...current,
+    activeKundli,
+    activeKundliId: activeKundli?.id,
+    savedKundlis: updated,
+  });
+  return loadWebKundliStore();
 }
 
 export function canCreateAdditionalWebKundli(options: {
@@ -389,24 +440,28 @@ function saveWebKundliStore(store: WebKundliStore): void {
     store.activeKundli ??
     store.savedKundlis.find(item => item.id === store.activeKundliId) ??
     store.savedKundlis[0];
+  const normalizedSavedKundlis = dedupeKundlis([
+    ...(activeKundli ? [activeKundli] : []),
+    ...store.savedKundlis,
+  ]).map((kundli, index) => normalizeStoredFamilyProfile(kundli, store, index));
+  const normalizedActiveKundli =
+    normalizedSavedKundlis.find(item => item.id === activeKundli?.id) ??
+    normalizedSavedKundlis[0];
   const next: WebKundliStore = {
     activeChartContext:
-      store.activeChartContext && activeKundli
+      store.activeChartContext && normalizedActiveKundli
         ? {
             ...store.activeChartContext,
             handoffBirthSummary:
               store.activeChartContext.handoffBirthSummary ??
-              buildWebKundliBirthSummary(activeKundli),
-            kundliId: store.activeChartContext.kundliId ?? activeKundli.id,
+              buildWebKundliBirthSummary(normalizedActiveKundli),
+            kundliId: store.activeChartContext.kundliId ?? normalizedActiveKundli.id,
           }
         : store.activeChartContext,
-    activeKundli,
-    activeKundliId: activeKundli?.id,
+    activeKundli: normalizedActiveKundli,
+    activeKundliId: normalizedActiveKundli?.id,
     guestSession: store.guestSession ?? getOrCreateWebGuestSession(),
-    savedKundlis: dedupeKundlis([
-      ...(activeKundli ? [activeKundli] : []),
-      ...store.savedKundlis,
-    ]),
+    savedKundlis: normalizedSavedKundlis,
     updatedAt: new Date().toISOString(),
   };
 
@@ -622,4 +677,51 @@ function isRecord(value: unknown): value is Record<string, any> {
 
 function isDefinedKundli(value: KundliData | undefined): value is KundliData {
   return Boolean(value);
+}
+
+function applyFamilyProfileMetadata(
+  kundli: KundliData,
+  store: WebKundliStore,
+  requestedRelationship?: FamilyRelationshipLabel,
+  existingKundli?: KundliData,
+): KundliData {
+  const existing = existingKundli ?? store.savedKundlis.find(item => item.id === kundli.id);
+  const existingOwner = store.savedKundlis.find(item => item.isOwnerProfile);
+  const isFirstProfile = store.savedKundlis.length === 0;
+  const isOwnerProfile = existing?.isOwnerProfile ?? (!existingOwner && isFirstProfile);
+  const relationshipToOwner =
+    isOwnerProfile
+      ? 'self'
+      : requestedRelationship ??
+        existing?.relationshipToOwner ??
+        'other';
+  const metadata = buildFamilyProfileMetadata(
+    relationshipToOwner,
+    isOwnerProfile,
+  );
+
+  return {
+    ...existing,
+    ...kundli,
+    ...metadata,
+  };
+}
+
+function normalizeStoredFamilyProfile(
+  kundli: KundliData,
+  store: WebKundliStore,
+  index: number,
+): KundliData {
+  const hasOwnerProfile = store.savedKundlis.some(item => item.isOwnerProfile);
+  const isOwnerProfile = kundli.isOwnerProfile ?? (!hasOwnerProfile && index === 0);
+  const relationshipToOwner = isOwnerProfile
+    ? 'self'
+    : kundli.relationshipToOwner ?? 'other';
+  return {
+    ...kundli,
+    ...buildFamilyProfileMetadata(relationshipToOwner, isOwnerProfile),
+    relationshipColorToken:
+      kundli.relationshipColorToken ??
+      getFamilyRelationshipColorToken(relationshipToOwner),
+  };
 }

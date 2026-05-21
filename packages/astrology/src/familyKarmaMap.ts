@@ -1,216 +1,137 @@
 import type {
+  FamilyInfluenceMatrixRow,
   FamilyKarmaMap,
   FamilyKarmaTheme,
   FamilyMemberProfile,
   FamilyRelationshipGuidance,
   FamilyRelationshipLabel,
   KundliData,
+  PairComparisonTone,
 } from '@pridicta/types';
+import { composePairComparison } from './pairComparison';
 
 type FamilyKarmaInput = {
   kundli: KundliData;
   relationship?: FamilyRelationshipLabel;
 };
 
-const WATER_SIGNS = new Set(['Cancer', 'Scorpio', 'Pisces']);
-const FIRE_SIGNS = new Set(['Aries', 'Leo', 'Sagittarius']);
-const AIR_SIGNS = new Set(['Gemini', 'Libra', 'Aquarius']);
-const EARTH_SIGNS = new Set(['Taurus', 'Virgo', 'Capricorn']);
-
-const RELATIONSHIP_LABELS: Record<FamilyRelationshipLabel, string> = {
-  child: 'Child',
-  friend: 'Friend',
-  grandparent: 'Grandparent',
-  other: 'Other',
-  parent: 'Parent',
-  partner: 'Partner',
-  relative: 'Relative',
-  self: 'Self',
-  sibling: 'Sibling',
+type FamilyKarmaOptions = {
+  depth?: 'FREE' | 'PREMIUM';
 };
 
 export function composeFamilyKarmaMap(
   input: FamilyKarmaInput[] = [],
+  options: FamilyKarmaOptions = {},
 ): FamilyKarmaMap {
-  const familyInput = input
-    .filter(item => item.kundli)
-    .slice(0, 8);
-  const members = familyInput
-    .map((item, index) =>
-      toFamilyMemberProfile(item.kundli, item.relationship ?? defaultLabel(index)),
-    );
+  const familyInput = input.filter(item => item.kundli).slice(0, 8);
+  const members = familyInput.map((item, index) =>
+    toFamilyMemberProfile(item.kundli, item.relationship, index),
+  );
 
   if (members.length < 2) {
     return {
       askPrompt:
-        'Explain what Family Karma Map will do once two or more saved kundlis are selected. Keep the tone privacy-first and non-blaming.',
+        'Explain what Family Karma Map will do once two or more saved profiles are selected. Keep the tone privacy-first, useful, and non-blaming.',
+      dharmaRepairPath: undefined,
+      householdSummary:
+        'Family Karma Map opens once at least two real profiles are present.',
+      influenceMatrix: [],
       members,
       privacyNote:
-        'Family Karma Map stays private by default. It should explain patterns without blame, fear labels, or assigning responsibility for another person.',
+        'Family Karma Map stays private by default. It should explain repeating household patterns without blame, fear labels, or assigning one life to another person.',
       relationshipCards: [],
       repeatedThemes: [],
+      repeatingKarmaPattern: undefined,
       shareSummary:
-        'Predicta Family Karma Map is waiting for two or more saved kundlis.',
+        'Predicta Family Karma Map is waiting for two or more saved profiles.',
       status: 'pending',
+      strongestFrictionPair: undefined,
+      strongestSupportPair: undefined,
       subtitle:
-        'Add at least two calculated profiles to see repeated patterns, support zones, and relationship guidance.',
+        'Add at least two saved profiles to see repeated karma patterns, support zones, and care guidance.',
       title: 'Add family profiles to unlock the map.',
     };
   }
 
-  const repeatedThemes = buildRepeatedThemes(familyInput, members);
-  const relationshipCards = buildRelationshipCards(familyInput, members);
-  const familyNames = members.map(member => member.name).join(', ');
-  const title = `Family Karma Map for ${members.length} members`;
-  const subtitle =
-    repeatedThemes.length > 0
-      ? 'Repeated chart patterns are grouped into care-based guidance, not blame.'
-      : 'The map compares family charts and turns differences into practical support guidance.';
+  const pairCards = buildRelationshipCards(familyInput, members, options.depth);
+  const repeatedThemes = buildRepeatedThemes(familyInput, members, pairCards);
+  const supportPair = strongestPair(pairCards, 'supportive');
+  const frictionPair = strongestPair(pairCards, 'careful');
+  const repeatingKarmaPattern = repeatedThemes[0]?.summary;
+  const dharmaRepairPath = buildDharmaRepairPath(pairCards, repeatedThemes);
+  const influenceMatrix = buildInfluenceMatrix(members, pairCards);
 
   return {
     askPrompt: [
-      `Explain the Family Karma Map for ${familyNames}.`,
-      'Use family members, relationship type, emotional pattern, support pattern, repeated karmic themes, and practical guidance.',
-      'Keep it privacy-first, evidence-based, and non-blaming. Do not assign fear labels or make one person responsible for another person.',
+      `Explain the Family Karma Map for ${members.map(member => member.name).join(', ')}.`,
+      'Use repeated household themes, strongest support pair, strongest friction pair, karma pattern, dharma repair path, and one practical family-healing direction.',
+      'Keep it privacy-first, non-blaming, and life-area-focused.',
     ].join(' '),
+    dharmaRepairPath,
+    householdSummary: buildHouseholdSummary(
+      members,
+      supportPair?.label,
+      frictionPair?.label,
+      repeatedThemes,
+    ),
+    influenceMatrix,
     members,
     privacyNote:
-      'Only share the summary if every person is comfortable. The map uses birth-chart patterns for reflection, not diagnosis or blame.',
-    relationshipCards,
+      'Use this map for reflection and better handling, not for blame, labeling, or forcing one person to carry another person’s destiny.',
+    relationshipCards: pairCards,
     repeatedThemes,
+    repeatingKarmaPattern,
     shareSummary: [
       `Predicta Family Karma Map: ${members.length} profiles`,
-      `Members: ${members.map(member => `${member.name} (${RELATIONSHIP_LABELS[member.relationship]})`).join(', ')}`,
-      repeatedThemes.length
-        ? `Themes: ${repeatedThemes.map(theme => theme.title).join('; ')}`
-        : 'Themes: add more family profiles for stronger repeated-pattern evidence.',
-    ].join('\n'),
+      supportPair ? `Strongest support pair: ${supportPair.label}` : 'Strongest support pair: still forming',
+      frictionPair ? `Strongest friction pair: ${frictionPair.label}` : 'Strongest friction pair: still forming',
+      dharmaRepairPath ? `Repair path: ${dharmaRepairPath}` : '',
+    ]
+      .filter(Boolean)
+      .join('\n'),
     status: 'ready',
-    subtitle,
-    title,
+    strongestFrictionPair: frictionPair?.label,
+    strongestSupportPair: supportPair?.label,
+    subtitle:
+      options.depth === 'PREMIUM'
+        ? 'Household themes, pairwise guidance, and influence patterns are arranged into practical family repair signals.'
+        : 'Shared themes and pairwise patterns are grouped into gentle guidance, not blame.',
+    title: `Family Karma Map for ${members.length} profiles`,
   };
 }
 
 function toFamilyMemberProfile(
   kundli: KundliData,
-  relationship: FamilyRelationshipLabel,
+  relationshipOverride: FamilyRelationshipLabel | undefined,
+  index: number,
 ): FamilyMemberProfile {
+  const relationship = relationshipOverride ?? kundli.relationshipToOwner ?? (index === 0 ? 'self' : 'other');
   return {
     currentDasha: `${kundli.dasha.current.mahadasha}/${kundli.dasha.current.antardasha}`,
     id: kundli.id,
+    isOwnerProfile: kundli.isOwnerProfile ?? relationship === 'self',
     lagna: kundli.lagna,
     moonSign: kundli.moonSign,
     nakshatra: kundli.nakshatra,
     name: kundli.birthDetails.name,
     relationship,
+    relationshipColorToken: kundli.relationshipColorToken ?? 'sage',
+    relationshipDisplayLabel:
+      kundli.relationshipDisplayLabel ?? relationshipLabel(relationship),
   };
-}
-
-function buildRepeatedThemes(
-  input: FamilyKarmaInput[],
-  members: FamilyMemberProfile[],
-): FamilyKarmaTheme[] {
-  const byMoon = groupBy(members, member => member.moonSign);
-  const byNakshatra = groupBy(members, member => member.nakshatra);
-  const byDasha = groupBy(members, member => member.currentDasha.split('/')[0]);
-  const sharedWeakHouses = repeatedHouses(
-    input.map(item => item.kundli.ashtakavarga.weakestHouses.slice(0, 3)),
-  );
-  const sharedStrongHouses = repeatedHouses(
-    input.map(item => item.kundli.ashtakavarga.strongestHouses.slice(0, 3)),
-  );
-  const themes: FamilyKarmaTheme[] = [];
-
-  const repeatedMoon = firstRepeatedGroup(byMoon);
-  if (repeatedMoon) {
-    themes.push({
-      evidence: [
-        `Moon sign repeats: ${repeatedMoon.key}.`,
-        `Members: ${repeatedMoon.items.map(member => member.name).join(', ')}.`,
-      ],
-      guidance:
-        'When feelings rise, slow the room down before advising anyone. Shared Moon patterns often need acknowledgement first.',
-      id: `moon-${repeatedMoon.key.toLowerCase()}`,
-      members: repeatedMoon.items.map(member => member.id),
-      summary:
-        'A repeated Moon sign can make the family emotionally recognizable to itself, but also more reactive around familiar feelings.',
-      title: `${repeatedMoon.key} Moon emotional pattern`,
-    });
-  }
-
-  const repeatedNakshatra = firstRepeatedGroup(byNakshatra);
-  if (repeatedNakshatra) {
-    themes.push({
-      evidence: [
-        `Nakshatra repeats: ${repeatedNakshatra.key}.`,
-        `Members: ${repeatedNakshatra.items.map(member => member.name).join(', ')}.`,
-      ],
-      guidance:
-        'Give this pattern a healthy outlet through shared ritual, learning, service, or creative discipline instead of silent expectation.',
-      id: `nakshatra-${repeatedNakshatra.key.toLowerCase()}`,
-      members: repeatedNakshatra.items.map(member => member.id),
-      summary:
-        'A repeated nakshatra suggests a family habit that may echo through temperament, needs, and attention style.',
-      title: `${repeatedNakshatra.key} family echo`,
-    });
-  }
-
-  const repeatedDasha = firstRepeatedGroup(byDasha);
-  if (repeatedDasha) {
-    themes.push({
-      evidence: [
-        `Current Mahadasha repeats: ${repeatedDasha.key}.`,
-        `Members: ${repeatedDasha.items.map(member => member.name).join(', ')}.`,
-      ],
-      guidance:
-        'Avoid comparing progress. Similar timing can mean similar pressure, so support should be practical and specific.',
-      id: `dasha-${repeatedDasha.key.toLowerCase()}`,
-      members: repeatedDasha.items.map(member => member.id),
-      summary:
-        'A shared Mahadasha can make similar life lessons active at the same time.',
-      title: `${repeatedDasha.key} timing overlap`,
-    });
-  }
-
-  if (sharedWeakHouses.length > 0) {
-    themes.push({
-      evidence: [`Repeated low-support houses: ${sharedWeakHouses.join(', ')}.`],
-      guidance:
-        'Treat these as family care zones: plan, listen, and create structure before tension becomes personal.',
-      id: 'shared-sensitive-houses',
-      members: members.map(member => member.id),
-      summary:
-        'Repeated weaker ashtakavarga houses show topics that may need extra planning across the household.',
-      title: `Shared sensitivity in houses ${sharedWeakHouses.join(', ')}`,
-    });
-  }
-
-  if (sharedStrongHouses.length > 0) {
-    themes.push({
-      evidence: [`Repeated high-support houses: ${sharedStrongHouses.join(', ')}.`],
-      guidance:
-        'Use these as support zones. Let stronger areas carry family routines, celebrations, and collaborative decisions.',
-      id: 'shared-support-houses',
-      members: members.map(member => member.id),
-      summary:
-        'Repeated stronger ashtakavarga houses show where the family can find steadier support.',
-      title: `Shared support in houses ${sharedStrongHouses.join(', ')}`,
-    });
-  }
-
-  return themes.slice(0, 5);
 }
 
 function buildRelationshipCards(
   input: FamilyKarmaInput[],
   members: FamilyMemberProfile[],
+  depth: 'FREE' | 'PREMIUM' = 'FREE',
 ): FamilyRelationshipGuidance[] {
   const cards: FamilyRelationshipGuidance[] = [];
 
   for (let firstIndex = 0; firstIndex < input.length; firstIndex += 1) {
     for (let secondIndex = firstIndex + 1; secondIndex < input.length; secondIndex += 1) {
-      const first = input[firstIndex].kundli;
-      const second = input[secondIndex].kundli;
+      const first = input[firstIndex]?.kundli;
+      const second = input[secondIndex]?.kundli;
       const firstMember = members[firstIndex];
       const secondMember = members[secondIndex];
 
@@ -218,137 +139,244 @@ function buildRelationshipCards(
         continue;
       }
 
+      const pair = composePairComparison(first, second, { depth });
       cards.push({
-        emotionalPattern: emotionalPattern(firstMember, secondMember),
-        evidence: [
-          `${firstMember.name}: ${firstMember.moonSign} Moon, ${firstMember.nakshatra}, ${firstMember.currentDasha}.`,
-          `${secondMember.name}: ${secondMember.moonSign} Moon, ${secondMember.nakshatra}, ${secondMember.currentDasha}.`,
-          `Support zones: ${supportZones(first, second).join(', ') || 'no repeated top houses'}.`,
-        ],
+        careArea:
+          pair.frictionAreas[0] ??
+          'Watch how this pair speaks when pressure rises.',
+        dharmaSupport: pair.dharmaLesson,
+        emotionalPattern: pair.freeHighlights[0]?.summary ?? pair.overview,
+        evidence: pair.freeHighlights.flatMap(item => item.evidence).slice(0, 4),
         firstMemberId: firstMember.id,
+        frictionPattern:
+          pair.frictionAreas[0] ??
+          'Differences need earlier repair, not later blame.',
         id: `${firstMember.id}-${secondMember.id}`,
-        label: `${RELATIONSHIP_LABELS[firstMember.relationship]} / ${RELATIONSHIP_LABELS[secondMember.relationship]}`,
-        practicalGuidance: practicalGuidance(firstMember, secondMember),
+        label: `${firstMember.name} (${firstMember.relationshipDisplayLabel}) / ${secondMember.name} (${secondMember.relationshipDisplayLabel})`,
+        practicalGuidance: pair.practicalGuidance,
         secondMemberId: secondMember.id,
-        supportPattern: supportPattern(first, second),
+        supportPattern:
+          pair.harmonyAreas[0] ??
+          'A shared support bridge exists when both people keep the conversation direct.',
+        tone: pair.overallTone,
       });
     }
   }
 
-  return cards.slice(0, 8);
+  return cards.slice(0, 16);
 }
 
-function emotionalPattern(
-  first: FamilyMemberProfile,
-  second: FamilyMemberProfile,
+function buildRepeatedThemes(
+  input: FamilyKarmaInput[],
+  members: FamilyMemberProfile[],
+  pairCards: FamilyRelationshipGuidance[],
+): FamilyKarmaTheme[] {
+  const themes: FamilyKarmaTheme[] = [];
+  const repeatedMoonSigns = repeatedGroup(members, member => member.moonSign);
+  const repeatedNakshatras = repeatedGroup(members, member => member.nakshatra);
+  const repeatedMahadashas = repeatedGroup(
+    members,
+    member => member.currentDasha.split('/')[0] ?? member.currentDasha,
+  );
+  const sharedWeakHouses = repeatedHouses(
+    input.map(item => item.kundli.ashtakavarga.weakestHouses.slice(0, 3)),
+  );
+  const sharedStrongHouses = repeatedHouses(
+    input.map(item => item.kundli.ashtakavarga.strongestHouses.slice(0, 3)),
+  );
+
+  if (repeatedMoonSigns) {
+    themes.push({
+      evidence: [
+        `Repeated Moon sign: ${repeatedMoonSigns.key}.`,
+        `Members: ${repeatedMoonSigns.items.map(member => member.name).join(', ')}.`,
+      ],
+      guidance:
+        'When the same emotional style repeats, the house needs gentler pacing before advice or correction.',
+      id: `moon-${repeatedMoonSigns.key.toLowerCase()}`,
+      members: repeatedMoonSigns.items.map(member => member.id),
+      summary:
+        'A repeated Moon sign suggests the household reacts through a familiar emotional language, which can comfort and trigger at the same time.',
+      title: `${repeatedMoonSigns.key} Moon family pattern`,
+    });
+  }
+
+  if (repeatedNakshatras) {
+    themes.push({
+      evidence: [
+        `Repeated nakshatra: ${repeatedNakshatras.key}.`,
+        `Members: ${repeatedNakshatras.items.map(member => member.name).join(', ')}.`,
+      ],
+      guidance:
+        'This is a good theme to channel through ritual, routine, service, or a repeated family repair habit.',
+      id: `nakshatra-${repeatedNakshatras.key.toLowerCase()}`,
+      members: repeatedNakshatras.items.map(member => member.id),
+      summary:
+        'A repeated nakshatra often points to the same family script showing up through different people.',
+      title: `${repeatedNakshatras.key} karmic echo`,
+    });
+  }
+
+  if (repeatedMahadashas) {
+    themes.push({
+      evidence: [
+        `Repeated Mahadasha: ${repeatedMahadashas.key}.`,
+        `Members: ${repeatedMahadashas.items.map(member => member.name).join(', ')}.`,
+      ],
+      guidance:
+        'Do not compare who is struggling more. Similar timing often means similar pressure is loud at once.',
+      id: `dasha-${repeatedMahadashas.key.toLowerCase()}`,
+      members: repeatedMahadashas.items.map(member => member.id),
+      summary:
+        'A shared Mahadasha can make the same life lesson echo across the house at the same time.',
+      title: `${repeatedMahadashas.key} timing overlap`,
+    });
+  }
+
+  if (sharedWeakHouses.length) {
+    themes.push({
+      evidence: [`Repeated weak houses: ${sharedWeakHouses.join(', ')}.`],
+      guidance:
+        'Treat these houses as family care zones. Build structure there before tension becomes personal.',
+      id: 'shared-sensitive-houses',
+      members: members.map(member => member.id),
+      summary:
+        'Repeated lower-support houses show where the family may need more planning, patience, or financial/emotional structure.',
+      title: `Shared sensitivity in houses ${sharedWeakHouses.join(', ')}`,
+    });
+  }
+
+  if (sharedStrongHouses.length) {
+    themes.push({
+      evidence: [`Repeated strong houses: ${sharedStrongHouses.join(', ')}.`],
+      guidance:
+        'Use these as the house’s support anchors for routines, celebrations, logistics, and repair.',
+      id: 'shared-support-houses',
+      members: members.map(member => member.id),
+      summary:
+        'Repeated stronger houses show where the household already has usable support or natural flow.',
+      title: `Shared support in houses ${sharedStrongHouses.join(', ')}`,
+    });
+  }
+
+  if (pairCards.filter(card => card.tone === 'careful').length >= 2) {
+    themes.push({
+      evidence: pairCards
+        .filter(card => card.tone === 'careful')
+        .slice(0, 3)
+        .map(card => `${card.label}: ${card.frictionPattern}`),
+      guidance:
+        'When more than one pair is carrying friction, the fix is usually cleaner routines and clearer emotional boundaries, not more blame.',
+      id: 'pressure-chain',
+      members: members.map(member => member.id),
+      summary:
+        'More than one relationship pair is carrying pressure, so the issue is becoming household-level rather than person-level.',
+      title: 'Household pressure chain',
+    });
+  }
+
+  return themes.slice(0, 6);
+}
+
+function buildInfluenceMatrix(
+  members: FamilyMemberProfile[],
+  pairCards: FamilyRelationshipGuidance[],
+): FamilyInfluenceMatrixRow[] {
+  return members.map(member => {
+    const relatedCards = pairCards.filter(
+      card => card.firstMemberId === member.id || card.secondMemberId === member.id,
+    );
+    const supportiveCount = relatedCards.filter(card => card.tone === 'supportive').length;
+    const carefulCount = relatedCards.filter(card => card.tone === 'careful').length;
+
+    return {
+      influence:
+        supportiveCount > carefulCount
+          ? `${member.name} often acts as a support anchor when household pressure rises.`
+          : carefulCount > supportiveCount
+            ? `${member.name} is tied into one or more pressure chains, so handling around them must stay gentler and clearer.`
+            : `${member.name} sits in a mixed influence zone and may need cleaner expectations than advice.`,
+      memberId: member.id,
+      name: member.name,
+      relationshipDisplayLabel: member.relationshipDisplayLabel,
+      supportNeed:
+        relatedCards[0]?.careArea ??
+        'Give this person one clear role and one calm repair path.',
+    };
+  });
+}
+
+function buildHouseholdSummary(
+  members: FamilyMemberProfile[],
+  strongestSupportPair: string | undefined,
+  strongestFrictionPair: string | undefined,
+  repeatedThemes: FamilyKarmaTheme[],
 ): string {
-  if (first.moonSign === second.moonSign) {
-    return `${first.name} and ${second.name} may recognize each other's feelings quickly, so gentle boundaries matter.`;
-  }
-
-  if (sameElement(first.moonSign, second.moonSign)) {
-    return `${first.name} and ${second.name} share a ${elementName(first.moonSign)} emotional language; reassurance can land well.`;
-  }
-
-  return `${first.name} and ${second.name} may process feelings differently, so reflection works better than instant advice.`;
+  const repeatedTitle = repeatedThemes[0]?.title?.toLowerCase();
+  return [
+    `${members.length} saved profiles are active in this household map.`,
+    strongestSupportPair
+      ? `The strongest support pair right now is ${strongestSupportPair}.`
+      : 'A clear support pair has not formed yet.',
+    strongestFrictionPair
+      ? `The strongest friction pair right now is ${strongestFrictionPair}.`
+      : 'No dominant friction pair is repeating yet.',
+    repeatedTitle
+      ? `The repeating household pattern is ${repeatedTitle}.`
+      : 'The household pattern is still forming and needs more repeated evidence.',
+  ].join(' ');
 }
 
-function supportPattern(first: KundliData, second: KundliData): string {
-  const zones = supportZones(first, second);
-
-  if (zones.length > 0) {
-    return `Shared support appears around houses ${zones.join(', ')}. Use those topics for cooperation and trust-building.`;
+function buildDharmaRepairPath(
+  pairCards: FamilyRelationshipGuidance[],
+  repeatedThemes: FamilyKarmaTheme[],
+): string | undefined {
+  const carefulPair = pairCards.find(card => card.tone === 'careful');
+  if (carefulPair) {
+    return `Start with ${carefulPair.label}. ${carefulPair.practicalGuidance}`;
   }
-
-  return 'Their strongest support zones are different, so they may help each other by dividing responsibilities instead of forcing the same style.';
+  return repeatedThemes[0]?.guidance;
 }
 
-function practicalGuidance(
-  first: FamilyMemberProfile,
-  second: FamilyMemberProfile,
-): string {
-  if (first.currentDasha.split('/')[0] === second.currentDasha.split('/')[0]) {
-    return 'Do not compete over whose pressure is bigger. Make one practical agreement, then check in again after emotions settle.';
-  }
-
-  if (first.relationship === 'parent' || second.relationship === 'parent') {
-    return 'Use age-appropriate explanations, clear routines, and one calm repair sentence after conflict.';
-  }
-
-  if (first.relationship === 'partner' || second.relationship === 'partner') {
-    return 'Name the need directly, keep decisions small, and avoid making silence carry the whole message.';
-  }
-
-  return 'Translate the feeling into one request. The goal is support, not deciding who is right.';
+function strongestPair(
+  pairCards: FamilyRelationshipGuidance[],
+  tone: PairComparisonTone,
+): FamilyRelationshipGuidance | undefined {
+  return pairCards.find(card => card.tone === tone);
 }
 
-function supportZones(first: KundliData, second: KundliData): number[] {
-  return first.ashtakavarga.strongestHouses
-    .filter(house => second.ashtakavarga.strongestHouses.includes(house))
-    .slice(0, 3);
+function repeatedGroup(
+  members: FamilyMemberProfile[],
+  selector: (member: FamilyMemberProfile) => string,
+): { key: string; items: FamilyMemberProfile[] } | undefined {
+  const groups = new Map<string, FamilyMemberProfile[]>();
+  members.forEach(member => {
+    const key = selector(member);
+    const current = groups.get(key) ?? [];
+    current.push(member);
+    groups.set(key, current);
+  });
+  return [...groups.entries()]
+    .map(([key, items]) => ({ key, items }))
+    .filter(group => group.items.length >= 2)
+    .sort((first, second) => second.items.length - first.items.length)[0];
 }
 
 function repeatedHouses(houseGroups: number[][]): number[] {
   const counts = new Map<number, number>();
-
-  houseGroups.forEach(houses => {
-    new Set(houses).forEach(house => {
-      counts.set(house, (counts.get(house) ?? 0) + 1);
-    });
+  houseGroups.flat().forEach(house => {
+    counts.set(house, (counts.get(house) ?? 0) + 1);
   });
-
   return [...counts.entries()]
-    .filter(([, count]) => count > 1)
-    .sort((a, b) => b[1] - a[1])
+    .filter(([, count]) => count >= 2)
+    .sort((first, second) => second[1] - first[1])
     .map(([house]) => house)
     .slice(0, 3);
 }
 
-function groupBy<T>(items: T[], getKey: (item: T) => string): Map<string, T[]> {
-  const map = new Map<string, T[]>();
-
-  items.forEach(item => {
-    const key = getKey(item);
-    map.set(key, [...(map.get(key) ?? []), item]);
-  });
-
-  return map;
-}
-
-function firstRepeatedGroup<T>(
-  map: Map<string, T[]>,
-): { key: string; items: T[] } | undefined {
-  return [...map.entries()]
-    .filter(([, items]) => items.length > 1)
-    .sort((a, b) => b[1].length - a[1].length)
-    .map(([key, items]) => ({ key, items }))[0];
-}
-
-function defaultLabel(index: number): FamilyRelationshipLabel {
-  return index === 0 ? 'self' : 'relative';
-}
-
-function sameElement(firstSign: string, secondSign: string): boolean {
-  return (
-    (WATER_SIGNS.has(firstSign) && WATER_SIGNS.has(secondSign)) ||
-    (FIRE_SIGNS.has(firstSign) && FIRE_SIGNS.has(secondSign)) ||
-    (AIR_SIGNS.has(firstSign) && AIR_SIGNS.has(secondSign)) ||
-    (EARTH_SIGNS.has(firstSign) && EARTH_SIGNS.has(secondSign))
-  );
-}
-
-function elementName(sign: string): string {
-  if (WATER_SIGNS.has(sign)) {
-    return 'water';
-  }
-
-  if (FIRE_SIGNS.has(sign)) {
-    return 'fire';
-  }
-
-  if (AIR_SIGNS.has(sign)) {
-    return 'air';
-  }
-
-  return 'earth';
+function relationshipLabel(value: FamilyRelationshipLabel): string {
+  return value
+    .split('-')
+    .map(part => part[0]?.toUpperCase() + part.slice(1))
+    .join(' ');
 }
