@@ -1247,6 +1247,11 @@ export type FamilyInfluenceMatrixRow = {
   relationshipDisplayLabel: string;
   influence: string;
   supportNeed: string;
+  influenceTone: PairComparisonTone;
+  caregivingRole: string;
+  authorityPattern: string;
+  communicationRisk: string;
+  healingKey: string;
 };
 
 export type FamilyKarmaMap = {
@@ -1262,6 +1267,12 @@ export type FamilyKarmaMap = {
   repeatedThemes: FamilyKarmaTheme[];
   relationshipCards: FamilyRelationshipGuidance[];
   influenceMatrix: FamilyInfluenceMatrixRow[];
+  householdEmotionalClimate: string;
+  authorityDependencyPattern: string;
+  caregivingBurdenMap: string;
+  communicationFractureMap: string;
+  ritualRoutineMoneyStressMap: string;
+  actionableHealingGuidance: string[];
   privacyNote: string;
   shareSummary: string;
   askPrompt: string;

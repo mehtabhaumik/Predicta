@@ -246,9 +246,10 @@ export function WebFamilyKarmaMap({
         })),
         {
           depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
+          language,
         },
       ),
-    [hasPremiumAccess, selectedProfiles],
+    [hasPremiumAccess, language, selectedProfiles],
   );
 
   const askHref =
@@ -398,6 +399,42 @@ export function WebFamilyKarmaMap({
         </article>
       </div>
 
+      <div className="family-map-premium-grid">
+        <article className="family-map-premium-card">
+          <span>
+            {language === 'hi'
+              ? 'घर का भावनात्मक वातावरण'
+              : language === 'gu'
+                ? 'ઘરનું ભાવનાત્મક વાતાવરણ'
+                : 'Household emotional climate'}
+          </span>
+          <strong>{map.householdEmotionalClimate}</strong>
+          <p>{map.communicationFractureMap}</p>
+        </article>
+        <article className="family-map-premium-card">
+          <span>
+            {language === 'hi'
+              ? 'अधिकार और निर्भरता'
+              : language === 'gu'
+                ? 'સત્તા અને નિર્ભરતા'
+                : 'Authority and dependency'}
+          </span>
+          <strong>{map.authorityDependencyPattern}</strong>
+          <p>{map.caregivingBurdenMap}</p>
+        </article>
+        <article className="family-map-premium-card">
+          <span>
+            {language === 'hi'
+              ? 'दिनचर्या, विधि और धन दबाव'
+              : language === 'gu'
+                ? 'દિનચર્યા, વિધિ અને પૈસા દબાણ'
+                : 'Routine, ritual, and money stress'}
+          </span>
+          <strong>{map.ritualRoutineMoneyStressMap}</strong>
+          <p>{map.dharmaRepairPath ?? map.subtitle}</p>
+        </article>
+      </div>
+
       <div className="family-map-sections">
         <section className="family-map-section">
           <div className="section-title">{copy.themesTitle}</div>
@@ -421,7 +458,12 @@ export function WebFamilyKarmaMap({
                   <strong>{row.name}</strong>
                   <span>{row.relationshipDisplayLabel}</span>
                 </div>
-                <p>{row.influence} {row.supportNeed}</p>
+                <p>
+                  {row.influence} {row.supportNeed}
+                  {hasPremiumAccess
+                    ? ` ${row.caregivingRole} ${row.authorityPattern} ${row.communicationRisk} ${row.healingKey}`
+                    : ''}
+                </p>
               </article>
             ))}
           </div>
@@ -443,6 +485,23 @@ export function WebFamilyKarmaMap({
           {!hasPremiumAccess ? (
             <p className="family-premium-note">{copy.premiumLocked}</p>
           ) : null}
+        </section>
+
+        <section className="family-map-section">
+          <div className="section-title">
+            {language === 'hi'
+              ? 'उपचार और सुधार दिशा'
+              : language === 'gu'
+                ? 'ઉપચાર અને સુધાર દિશા'
+                : 'Healing direction'}
+          </div>
+          <article className="family-map-healing-card">
+            <ul>
+              {map.actionableHealingGuidance.map(item => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
         </section>
       </div>
 

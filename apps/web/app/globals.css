@@ -10512,6 +10512,7 @@ button:disabled {
 .family-experience-tile span,
 .family-selection-summary span,
 .family-map-summary-card span,
+.family-map-premium-card span,
 .family-map-theme-card span,
 .family-map-relationship-card span,
 .family-map-matrix-row span,
@@ -10530,6 +10531,7 @@ button:disabled {
 
 .family-experience-tile strong,
 .family-map-summary-card strong,
+.family-map-premium-card strong,
 .family-map-theme-card strong,
 .family-map-relationship-card strong,
 .pair-comparison-card strong,
@@ -10546,6 +10548,7 @@ button:disabled {
 .family-experience-note,
 .family-selection-summary strong,
 .family-map-summary-card p,
+.family-map-premium-card p,
 .family-map-theme-card p,
 .family-map-relationship-card p,
 .pair-comparison-card p,
@@ -10607,6 +10610,7 @@ button:disabled {
 .family-profile-grid,
 .pair-comparison-selector-grid,
 .family-map-summary-grid,
+.family-map-premium-grid,
 .family-map-theme-grid,
 .family-map-relationship-grid,
 .pair-comparison-grid,
@@ -10619,6 +10623,7 @@ button:disabled {
 
 .family-profile-card,
 .family-map-summary-card,
+.family-map-premium-card,
 .family-map-theme-card,
 .family-map-relationship-card,
 .pair-comparison-card,
@@ -10680,6 +10685,26 @@ button:disabled {
 .family-map-section {
   display: grid;
   gap: 14px;
+}
+
+.family-map-healing-card {
+  background: rgba(255, 255, 255, 0.032);
+  border: 1px solid var(--border-quiet);
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.family-map-healing-card ul {
+  color: var(--muted);
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.family-map-healing-card li {
+  line-height: 1.6;
+  margin: 0;
 }
 
 .family-map-matrix {
@@ -12002,6 +12027,7 @@ button:disabled {
   .family-experience-grid,
   .family-profile-grid,
   .family-map-summary-grid,
+  .family-map-premium-grid,
   .family-map-theme-grid,
   .family-map-relationship-grid,
   .matchmaking-selector-grid,
