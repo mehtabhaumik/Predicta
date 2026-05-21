@@ -286,19 +286,17 @@ export function preparePredictaLanguageContext({
   selectedLanguage: SupportedLanguage;
   text: string;
 }): PredictaLanguageContext {
+  const explicitLanguage = detectExplicitPredictaReplyLanguage(text);
   const dominantLanguage = detectDominantPredictaLanguage(text);
-  const responseLanguage =
-    selectedLanguage !== dominantLanguage &&
-    (dominantLanguage === 'hi' || dominantLanguage === 'gu')
-      ? dominantLanguage
-      : selectedLanguage;
+  const responseLanguage = explicitLanguage ?? dominantLanguage;
   const shouldAcknowledge =
-    responseLanguage !== selectedLanguage &&
-    memory?.preferredLanguageStyle !== responseLanguage;
+    explicitLanguage !== undefined &&
+    explicitLanguage !== selectedLanguage &&
+    memory?.preferredLanguageStyle !== explicitLanguage;
 
   return {
     acknowledgement: shouldAcknowledge
-      ? buildLanguageSwitchAcknowledgement(selectedLanguage, responseLanguage)
+      ? buildExplicitLanguageSwitchAcknowledgement(responseLanguage)
       : undefined,
     dominantLanguage,
     normalizedText: normalizePredictaIntentText(text),
@@ -326,7 +324,7 @@ export function shouldAskBeforeSwitchingToEnglish({
   context: PredictaLanguageContext;
   selectedLanguage: SupportedLanguage;
 }): boolean {
-  return selectedLanguage !== 'en' && context.dominantLanguage === 'en';
+  return false;
 }
 
 export function detectEnglishSwitchDecision(
@@ -357,18 +355,10 @@ export function buildEnglishSwitchPrompt(
   currentLanguage: SupportedLanguage,
 ): string {
   if (currentLanguage === 'gu') {
-    return [
-      'મને લાગે છે કે તમે English માં પૂછ્યું છે.',
-      'શું હું આ conversation ગુજરાતી script માં જ રાખું કે English પર switch કરું?',
-      '“switch to English” લખશો તો હું આ conversation English માં continue કરીશ. App language selector અલગ રહેશે.',
-    ].join('\n\n');
+    return 'I will continue in English. The app language can stay separate.';
   }
 
-  return [
-    'मुझे लग रहा है कि आपने English में पूछा है.',
-    'क्या मैं यह conversation हिंदी script में ही रखूं या English पर switch करूं?',
-    '“switch to English” लिखेंगे तो मैं यह conversation English में continue करूंगी. App language selector अलग रहेगा.',
-  ].join('\n\n');
+  return 'I will continue in English. The app language can stay separate.';
 }
 
 export function buildEnglishSwitchDecisionReply({
@@ -379,14 +369,46 @@ export function buildEnglishSwitchDecisionReply({
   decision: Exclude<PredictaEnglishSwitchDecision, 'none'>;
 }): string {
   if (decision === 'approve') {
-    return 'Done. I will continue this conversation in English. Your app language will stay the same unless you change it from the language selector.';
+    return 'Okay. I will continue in English now.';
   }
 
   if (currentLanguage === 'gu') {
-    return 'ઠીક છે. હું આ conversation ગુજરાતી script માં જ રાખીશ. તમે English words mix કરશો તો પણ હું context સમજી લઈશ.';
+    return 'ઠીક છે. હું ગુજરાતી માં જ જવાબ આપતી રહીશ.';
   }
 
-  return 'ठीक है. मैं यह conversation हिंदी script में ही रखूंगी. आप English words mix करेंगे तो भी मैं context समझ लूंगी.';
+  return 'ठीक है. मैं हिंदी में ही जवाब देती रहूंगी.';
+}
+
+function detectExplicitPredictaReplyLanguage(
+  text: string,
+): SupportedLanguage | undefined {
+  const normalized = normalizePredictaIntentText(text);
+
+  if (
+    /(?:\b(?:switch|change|answer|reply|respond|continue|speak|talk|write|keep)\b[\s\S]{0,24}\benglish\b)|(?:\bin english\b)|(?:\benglish please\b)|(?:^english$)/i.test(
+      normalized,
+    )
+  ) {
+    return 'en';
+  }
+
+  if (
+    /(?:\b(?:switch|change|answer|reply|respond|continue|speak|talk|write|keep)\b[\s\S]{0,24}\b(?:hindi|hindii|devanagari)\b)|(?:\bin hindi\b)|(?:\bhindi me\b)|(?:\bhindi mein\b)|(?:\bhindi please\b)|(?:हिंदी)|(?:हिन्दी)/i.test(
+      text,
+    )
+  ) {
+    return 'hi';
+  }
+
+  if (
+    /(?:\b(?:switch|change|answer|reply|respond|continue|speak|talk|write|keep)\b[\s\S]{0,24}\bgujarati\b)|(?:\bin gujarati\b)|(?:\bgujarati ma\b)|(?:\bgujarati please\b)|ગુજરાતી/i.test(
+      text,
+    )
+  ) {
+    return 'gu';
+  }
+
+  return undefined;
 }
 
 export function normalizePredictaIntentText(text: string): string {
@@ -400,33 +422,15 @@ export function normalizePredictaIntentText(text: string): string {
 export function detectDominantPredictaLanguage(
   text: string,
 ): SupportedLanguage {
-  const normalized = normalizePredictaIntentText(text);
   const hasGujaratiScript = /[\u0A80-\u0AFF]/.test(text);
   const hasDevanagari = /[\u0900-\u097F]/.test(text);
-  const guScore =
-    (hasGujaratiScript ? 2 : 0) +
-    countLanguageMatches(
-      normalized,
-      /\b(mane|mne|mare|mara|mari|tame|tamari|kem|shu|su|chhe|che|nathi|mate|nana|aavse|aavta|varas|bolo|kaho|samjavo)\b|\bkundli\s*banav/gi,
-    );
-  const hiScore =
-    (hasDevanagari ? 2 : 0) +
-    countLanguageMatches(
-      normalized,
-      /\b(mera|meri|mujhe|mujko|mujhko|main|mein|aap|tum|kya|kaise|kaisa|batao|hoga|hogi|paise|pata|nahin|nahi|kyun|kyu|kyo|tikte|tikta|shaadi|naukri)\b|\bkundli\s*bana/gi,
-    );
-
-  if (guScore > hiScore) {
+  if (hasGujaratiScript) {
     return 'gu';
   }
-  if (hiScore > 0) {
+  if (hasDevanagari) {
     return 'hi';
   }
   return 'en';
-}
-
-function countLanguageMatches(text: string, pattern: RegExp): number {
-  return Array.from(text.matchAll(pattern)).length;
 }
 
 export function buildPredictaActionReply({
@@ -2770,21 +2774,17 @@ function formatShortDate(value: string): string {
   });
 }
 
-function buildLanguageSwitchAcknowledgement(
-  selectedLanguage: SupportedLanguage,
+function buildExplicitLanguageSwitchAcknowledgement(
   responseLanguage: SupportedLanguage,
 ): string | undefined {
-  if (selectedLanguage === 'hi' && responseLanguage === 'gu') {
-    return 'લાગે છે કે તમે ગુજરાતી script માં વાત કરવા માંગો છો. હું આ conversation ગુજરાતી script માં રાખીશ.';
+  if (responseLanguage === 'hi') {
+    return 'ठीक है. मैं आगे हिंदी में जवाब दूंगी.';
   }
-  if (selectedLanguage === 'gu' && responseLanguage === 'hi') {
-    return 'लगता है कि आप हिंदी script में comfortable हैं. मैं यह conversation हिंदी script में रखूंगी.';
+  if (responseLanguage === 'gu') {
+    return 'ઠીક છે. હવે હું ગુજરાતી માં જવાબ આપીશ.';
   }
-  if (selectedLanguage === 'en' && responseLanguage === 'hi') {
-    return 'I can see you are asking in Hindi. I will answer in Hindi script, while the app language stays unchanged.';
-  }
-  if (selectedLanguage === 'en' && responseLanguage === 'gu') {
-    return 'I can see you are asking in Gujarati. I will answer in Gujarati script, while the app language stays unchanged.';
+  if (responseLanguage === 'en') {
+    return 'Okay. I will continue in English.';
   }
   return undefined;
 }

@@ -32,20 +32,16 @@ import {
   buildChartSelectionPrompt,
   buildPredictaActionReply,
   buildNorthIndianChartCells,
-  buildEnglishSwitchDecisionReply,
-  buildEnglishSwitchPrompt,
   buildPredictaLearningSuggestion,
   chartContextFromChatBlock,
   composeChatChartBlock,
   detectChatChartIntent,
-  detectEnglishSwitchDecision,
   detectKundliChatCommand,
   detectKundliCommandDecision,
   findKundliBySpokenName,
   getPlanetAbbreviation,
   learnPredictaInteraction,
   preparePredictaLanguageContext,
-  shouldAskBeforeSwitchingToEnglish,
   shouldAutoSwitchToRegionalLanguage,
   attachKundliEditHistory,
   type KundliChatCommand,
@@ -410,8 +406,6 @@ export function ChatScreen({
 }: RootScreenProps<typeof routes.Chat>): React.JSX.Element {
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [pendingEnglishSwitch, setPendingEnglishSwitch] =
-    useState<'gu' | 'hi'>();
   const [pendingKundliCommand, setPendingKundliCommand] =
     useState<PendingKundliCommand>();
   const [predictaMemory, setPredictaMemory] =
@@ -673,36 +667,6 @@ export function ChatScreen({
       text: trimmedInput,
     });
     const responseLanguage = languageContext.responseLanguage;
-    const switchDecision = pendingEnglishSwitch
-      ? detectEnglishSwitchDecision(trimmedInput)
-      : 'none';
-
-    if (pendingEnglishSwitch && switchDecision !== 'none') {
-      appendConversationMessage(
-        createMessage('user', trimmedInput, activeChartContext),
-      );
-      setInput('');
-      if (switchDecision === 'approve') {
-        setPredictaReplyLanguage('en');
-      }
-      streamAssistantResponse(
-        buildEnglishSwitchDecisionReply({
-          currentLanguage: pendingEnglishSwitch,
-          decision: switchDecision,
-        }),
-      );
-      setPendingEnglishSwitch(undefined);
-      return;
-    }
-
-    if (pendingEnglishSwitch && switchDecision === 'none') {
-      appendConversationMessage(
-        createMessage('user', trimmedInput, activeChartContext),
-      );
-      setInput('');
-      streamAssistantResponse(buildEnglishSwitchPrompt(pendingEnglishSwitch));
-      return;
-    }
 
     if (
       shouldAutoSwitchToRegionalLanguage({
@@ -711,22 +675,6 @@ export function ChatScreen({
       })
     ) {
       setPredictaReplyLanguage(responseLanguage);
-    }
-
-    if (
-      shouldAskBeforeSwitchingToEnglish({
-        context: languageContext,
-        selectedLanguage: predictaReplyLanguage,
-      })
-    ) {
-      const fromLanguage = predictaReplyLanguage as 'gu' | 'hi';
-      setPendingEnglishSwitch(fromLanguage);
-      appendConversationMessage(
-        createMessage('user', trimmedInput, activeChartContext),
-      );
-      setInput('');
-      streamAssistantResponse(buildEnglishSwitchPrompt(fromLanguage));
-      return;
     }
 
     const localSafety = detectChatSafetyMeta(trimmedInput, responseLanguage);

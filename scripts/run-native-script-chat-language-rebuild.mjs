@@ -89,18 +89,35 @@ try {
     'packages/astrology/src/predictaChatActions.js',
   );
   const {
+    preparePredictaLanguageContext,
     buildEnglishSwitchDecisionReply,
     buildEnglishSwitchPrompt,
     buildPredictaActionReply,
   } = await import(pathToFileURL(modulePath).href);
 
   const hiPrompt = buildEnglishSwitchPrompt('hi');
-  assertNativeScript('Hindi English-switch prompt', hiPrompt, devanagari);
-  assertNoOldChatOutput('Hindi English-switch prompt', hiPrompt);
+  assert.match(
+    hiPrompt,
+    /continue in English/i,
+    'Hindi English-switch prompt should no longer ask permission loops',
+  );
+  assert.doesNotMatch(
+    hiPrompt,
+    /क्या मैं यह conversation/i,
+    'Hindi English-switch prompt must not ask permission to switch',
+  );
 
   const guPrompt = buildEnglishSwitchPrompt('gu');
-  assertNativeScript('Gujarati English-switch prompt', guPrompt, gujarati);
-  assertNoOldChatOutput('Gujarati English-switch prompt', guPrompt);
+  assert.match(
+    guPrompt,
+    /continue in English/i,
+    'Gujarati English-switch prompt should no longer ask permission loops',
+  );
+  assert.doesNotMatch(
+    guPrompt,
+    /શું હું આ conversation/i,
+    'Gujarati English-switch prompt must not ask permission to switch',
+  );
 
   const hiReject = buildEnglishSwitchDecisionReply({
     currentLanguage: 'hi',
@@ -114,14 +131,94 @@ try {
   });
   assertNativeScript('Gujarati English-switch reject reply', guReject, gujarati);
 
+  const staleHindiContext = preparePredictaLanguageContext({
+    memory: { preferredLanguageStyle: 'hi' },
+    selectedLanguage: 'hi',
+    text: 'What timing activates House 8 in D2 with D1 anchoring?',
+  });
+  assert.equal(
+    staleHindiContext.responseLanguage,
+    'en',
+    'English chart questions must stay English even if the stored reply language was Hindi.',
+  );
+  assert.equal(
+    staleHindiContext.acknowledgement,
+    undefined,
+    'English chart questions must not trigger a language negotiation acknowledgement.',
+  );
+
+  const staleGujaratiContext = preparePredictaLanguageContext({
+    memory: { preferredLanguageStyle: 'gu' },
+    selectedLanguage: 'gu',
+    text: 'Explain House 8 simply.',
+  });
+  assert.equal(
+    staleGujaratiContext.responseLanguage,
+    'en',
+    'English questions must stay English even if the stored reply language was Gujarati.',
+  );
+  assert.equal(
+    staleGujaratiContext.acknowledgement,
+    undefined,
+    'English questions must not trigger a Gujarati language negotiation acknowledgement.',
+  );
+
+  const explicitHindiContext = preparePredictaLanguageContext({
+    selectedLanguage: 'en',
+    text: 'Reply in Hindi please',
+  });
+  assert.equal(
+    explicitHindiContext.responseLanguage,
+    'hi',
+    'Explicit Hindi requests must still switch to Hindi.',
+  );
+
+  const scriptHindiContext = preparePredictaLanguageContext({
+    selectedLanguage: 'en',
+    text: 'मुझे करियर के बारे में बताओ',
+  });
+  assert.equal(
+    scriptHindiContext.responseLanguage,
+    'hi',
+    'Native Hindi script input must still route to Hindi.',
+  );
+  assert.equal(
+    scriptHindiContext.acknowledgement,
+    undefined,
+    'Native Hindi script input should answer directly instead of starting a meta language conversation.',
+  );
+
+  const scriptGujaratiContext = preparePredictaLanguageContext({
+    selectedLanguage: 'en',
+    text: 'મને કારકિર્દી વિશે કહો',
+  });
+  assert.equal(
+    scriptGujaratiContext.responseLanguage,
+    'gu',
+    'Native Gujarati script input must still route to Gujarati.',
+  );
+  assert.equal(
+    scriptGujaratiContext.acknowledgement,
+    undefined,
+    'Native Gujarati script input should answer directly instead of starting a meta language conversation.',
+  );
+
   const hiKpHandoff = buildPredictaActionReply({
     language: 'hi',
     predictaSchool: 'PARASHARI',
     text: 'KP sub lord se job change batao',
   });
   assert.equal(hiKpHandoff.handled, true);
-  assertNativeScript('Hindi KP handoff', hiKpHandoff.text, devanagari);
-  assertNoOldChatOutput('Hindi KP handoff', hiKpHandoff.text);
+  assert.match(
+    hiKpHandoff.text,
+    /KP Predicta|English/i,
+    'English-script KP handoff should stay readable and avoid forced Hindi switching.',
+  );
+  assert.doesNotMatch(
+    hiKpHandoff.text,
+    /क्या मैं यह conversation|switch to English/i,
+    'English-script KP handoff must not trigger a language-switch loop.',
+  );
 
   const guSignature = buildPredictaActionReply({
     language: 'gu',
@@ -129,8 +226,16 @@ try {
     text: 'Signature Predicta context observed traits large size upward slant',
   });
   assert.equal(guSignature.handled, true);
-  assertNativeScript('Gujarati signature reply', guSignature.text, gujarati);
-  assertNoOldChatOutput('Gujarati signature reply', guSignature.text);
+  assert.match(
+    guSignature.text,
+    /Signature Predicta|English/i,
+    'English-script signature replies should stay readable and avoid forced Gujarati switching.',
+  );
+  assert.doesNotMatch(
+    guSignature.text,
+    /શું હું આ conversation|switch to English/i,
+    'English-script signature replies must not trigger a language-switch loop.',
+  );
 
   const hiNeedKundli = buildPredictaActionReply({
     language: 'hi',
@@ -138,7 +243,11 @@ try {
     text: 'Read my mahadasha timing',
   });
   assert.equal(hiNeedKundli.handled, true);
-  assertNativeScript('Hindi needs-Kundli reply', hiNeedKundli.text, devanagari);
+  assert.match(
+    hiNeedKundli.text,
+    /Kundli|English/i,
+    'English needs-Kundli reply should stay in English instead of forcing Hindi.',
+  );
 
   const sourceChecks = [
     'packages/astrology/src/predictaChatActions.ts',
