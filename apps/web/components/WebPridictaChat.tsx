@@ -12,12 +12,9 @@ import {
   buildChartSelectionPrompt,
   chartContextFromChatBlock,
   buildPredictaActionReply,
-  buildEnglishSwitchDecisionReply,
-  buildEnglishSwitchPrompt,
   buildPredictaLearningSuggestion,
   composeChatChartBlock,
   detectChatChartIntent,
-  detectEnglishSwitchDecision,
   detectKundliChatCommand,
   detectKundliCommandDecision,
   findKundliBySpokenName,
@@ -27,8 +24,6 @@ import {
   NORTH_INDIAN_HOUSE_POLYGONS,
   preparePredictaLanguageContext,
   shouldUseStandardHouseMeaning,
-  shouldAskBeforeSwitchingToEnglish,
-  shouldAutoSwitchToRegionalLanguage,
   attachKundliEditHistory,
   type KundliChatCommand,
   type KundliEditField,
@@ -231,11 +226,6 @@ type WebChatSessionStore = {
   sessions: WebChatSession[];
 };
 
-type PendingEnglishSwitch = {
-  fromLanguage: Exclude<SupportedLanguage, 'en'>;
-  requestedAt: string;
-};
-
 type PendingKundliCommand = {
   birthDetails?: BirthDetails;
   field?: KundliEditField;
@@ -298,8 +288,6 @@ export function WebPridictaChat({
   const [passCostDisplay, setPassCostDisplay] = useState<
     WebPassCostDisplay | undefined
   >();
-  const [pendingEnglishSwitch, setPendingEnglishSwitch] =
-    useState<PendingEnglishSwitch>();
   const [pendingKundliCommand, setPendingKundliCommand] =
     useState<PendingKundliCommand>();
   const [chatLanguage, setChatLanguage] =
@@ -758,6 +746,11 @@ export function WebPridictaChat({
             ? buildChartSelectionPrompt(ctaContext)
             : ctaContext.handoffQuestion) ||
           `Help me with ${getFriendlySourceName(ctaContext.sourceScreen).toLowerCase()}.`;
+        const entryLanguage = preparePredictaLanguageContext({
+          memory: predictaMemory,
+          selectedLanguage: chatLanguage,
+          text: selectedSection,
+        }).responseLanguage;
         const baseContext = {
           ...ctaContext,
           selectedSection,
@@ -771,13 +764,16 @@ export function WebPridictaChat({
           setKundli(contextKundli);
         }
 
+        setChatLanguage(entryLanguage);
+        persistPredictaReplyLanguage(entryLanguage);
+
         const contextReply = createPridictaReply(
           nextContext.predictaSchool
-            ? buildSchoolContextIntro(nextContext, language)
+            ? buildSchoolContextIntro(nextContext, entryLanguage)
             : nextContext.chartType
-              ? buildChartContextIntro(nextContext, language)
-              : buildCtaContextIntro(nextContext, language),
-          language,
+              ? buildChartContextIntro(nextContext, entryLanguage)
+              : buildCtaContextIntro(nextContext, entryLanguage),
+          entryLanguage,
           {
             context: nextContext,
             kundli: contextKundli ?? kundli,
@@ -851,72 +847,9 @@ export function WebPridictaChat({
         selectedLanguage: chatLanguage,
         text,
       });
-      const switchDecision = pendingEnglishSwitch
-        ? detectEnglishSwitchDecision(text)
-        : 'none';
-
-      if (pendingEnglishSwitch && switchDecision !== 'none') {
-        if (switchDecision === 'approve') {
-          setChatLanguage('en');
-          persistPredictaReplyLanguage('en');
-        }
-        setPendingEnglishSwitch(undefined);
-        setMessages(current => [
-          ...current,
-          createPridictaReply(
-            buildEnglishSwitchDecisionReply({
-              currentLanguage: pendingEnglishSwitch.fromLanguage,
-              decision: switchDecision,
-            }),
-            switchDecision === 'approve' ? 'en' : pendingEnglishSwitch.fromLanguage,
-            { context: activeChartContext, kundli, lastText: text },
-          ),
-        ]);
-        return;
-      }
-
-      if (pendingEnglishSwitch && switchDecision === 'none') {
-        setMessages(current => [
-          ...current,
-          createPridictaReply(
-            buildEnglishSwitchPrompt(pendingEnglishSwitch.fromLanguage),
-            pendingEnglishSwitch.fromLanguage,
-            { context: activeChartContext, kundli, lastText: text },
-          ),
-        ]);
-        return;
-      }
-
-      if (
-        shouldAutoSwitchToRegionalLanguage({
-          context: languageContext,
-          selectedLanguage: chatLanguage,
-        })
-      ) {
+      if (languageContext.responseLanguage !== chatLanguage) {
         setChatLanguage(languageContext.responseLanguage);
         persistPredictaReplyLanguage(languageContext.responseLanguage);
-      }
-
-      if (
-        shouldAskBeforeSwitchingToEnglish({
-          context: languageContext,
-          selectedLanguage: chatLanguage,
-        })
-      ) {
-        const fromLanguage = chatLanguage as Exclude<SupportedLanguage, 'en'>;
-        setPendingEnglishSwitch({
-          fromLanguage,
-          requestedAt: new Date().toISOString(),
-        });
-        setMessages(current => [
-          ...current,
-          createPridictaReply(
-            buildEnglishSwitchPrompt(fromLanguage),
-            fromLanguage,
-            { context: activeChartContext, kundli, lastText: text },
-          ),
-        ]);
-        return;
       }
 
       const localSafety = detectChatSafetyMeta(
@@ -1675,7 +1608,6 @@ export function WebPridictaChat({
       setActiveChatSessionId(sessionState.activeSessionId);
       setChatSessions(filterRoomSessions(sessionState.sessions, room));
       setBirthMemory(undefined);
-      setPendingEnglishSwitch(undefined);
       setPredictaMemory(undefined);
       setMessages(
         room
@@ -1687,7 +1619,6 @@ export function WebPridictaChat({
     }
 
     setBirthMemory(undefined);
-    setPendingEnglishSwitch(undefined);
     setPredictaMemory(undefined);
     setMessages(nextWelcome);
     setInput('');
