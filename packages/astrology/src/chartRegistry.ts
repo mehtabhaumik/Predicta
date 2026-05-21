@@ -12,20 +12,20 @@ export const CHART_REGISTRY: ChartConfig[] = [
     id: 'D2',
     name: 'Hora Chart',
     purpose:
-      'Wealth handling, nourishment, family resources, and financial temperament.',
+      'Money temperament, nourishment, family resources, and the way you handle what you earn.',
     category: 'core',
   },
   {
     id: 'D3',
     name: 'Drekkana Chart',
-    purpose: 'Courage, siblings, initiative, stamina, and practical effort.',
+    purpose: 'Courage, initiative, siblings, stamina, and the way effort turns into action.',
     category: 'core',
   },
   {
     id: 'D4',
     name: 'Chaturthamsha Chart',
     purpose:
-      'Home, property, inner stability, emotional foundations, and fixed assets.',
+      'Home, property, rootedness, emotional foundations, and the private base that supports life.',
     category: 'core',
   },
   {
@@ -46,7 +46,7 @@ export const CHART_REGISTRY: ChartConfig[] = [
     id: 'D7',
     name: 'Saptamsha Chart',
     purpose:
-      'Children, legacy, creativity, fertility themes, and generational blessings.',
+      'Children, creativity, legacy, fertility themes, and the blessings or duties of what you nurture.',
     category: 'core',
   },
   {
@@ -60,14 +60,14 @@ export const CHART_REGISTRY: ChartConfig[] = [
     id: 'D9',
     name: 'Navamsha Chart',
     purpose:
-      'Dharma, marriage, inner maturity, fortune, and the deeper strength of planets.',
+      'Marriage, dharma, inner maturity, fortune, and the deeper strength behind planetary promise.',
     category: 'core',
   },
   {
     id: 'D10',
     name: 'Dashamsha Chart',
     purpose:
-      'Career, public work, authority, professional rise, and contribution.',
+      'Career, public work, authority, contribution, and the role you are meant to deliver.',
     category: 'core',
   },
   {
@@ -80,7 +80,7 @@ export const CHART_REGISTRY: ChartConfig[] = [
     id: 'D12',
     name: 'Dwadashamsha Chart',
     purpose:
-      'Parents, lineage, inherited tendencies, and family karmic patterns.',
+      'Parents, lineage, inherited tendencies, and the family patterns you carry forward.',
     category: 'core',
   },
   {
@@ -100,7 +100,7 @@ export const CHART_REGISTRY: ChartConfig[] = [
     id: 'D16',
     name: 'Shodashamsha Chart',
     purpose:
-      'Vehicles, comforts, luxuries, conveyances, and emotional enjoyment.',
+      'Comfort, vehicles, lifestyle ease, emotional enjoyment, and how supported life feels.',
     category: 'core',
   },
   {
@@ -126,7 +126,7 @@ export const CHART_REGISTRY: ChartConfig[] = [
     id: 'D20',
     name: 'Vimshamsha Chart',
     purpose:
-      'Spiritual practice, devotion, mantra, inner discipline, and blessings.',
+      'Spiritual practice, devotion, mantra, inner discipline, and the blessings that support sincere effort.',
     category: 'core',
   },
   {
@@ -150,7 +150,7 @@ export const CHART_REGISTRY: ChartConfig[] = [
   {
     id: 'D24',
     name: 'Chaturvimshamsha Chart',
-    purpose: 'Education, learning, teachers, knowledge, and study discipline.',
+    purpose: 'Education, learning, teachers, knowledge, and the discipline that turns study into mastery.',
     category: 'core',
   },
   {
@@ -186,7 +186,7 @@ export const CHART_REGISTRY: ChartConfig[] = [
   {
     id: 'D30',
     name: 'Trimsamsha Chart',
-    purpose: 'Misfortunes, stress patterns, protection needs, and shadow work.',
+    purpose: 'Stress patterns, protection needs, vulnerability, and the places where caution matters most.',
     category: 'core',
   },
   {
@@ -219,21 +219,21 @@ export const CHART_REGISTRY: ChartConfig[] = [
     id: 'D40',
     name: 'Khavedamsha Chart',
     purpose:
-      'Maternal lineage, auspiciousness, inherited blessings, and emotional grace.',
+      'Maternal lineage, inherited blessings, auspiciousness, and the emotional grace that comes through the mother line.',
     category: 'core',
   },
   {
     id: 'D45',
     name: 'Akshavedamsha Chart',
     purpose:
-      'Paternal lineage, character, inherited honor, and deep family merit.',
+      'Paternal lineage, character, inherited honor, and the standards or merit carried through the father line.',
     category: 'core',
   },
   {
     id: 'D60',
     name: 'Shashtyamsha Chart',
     purpose:
-      'Deep karmic root, past-life momentum, destiny texture, and hidden causes.',
+      'Deep karmic root, destiny texture, hidden causes, and the background pattern beneath visible life.',
     category: 'core',
   },
 ];
