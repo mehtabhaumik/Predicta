@@ -55,7 +55,7 @@ GEMINI_PREMIUM_THINKING_BUDGET = int(
 REQUEST_TIMEOUT_SECONDS = float(os.getenv("PRIDICTA_AI_TIMEOUT_SECONDS", "45"))
 PREDICTA_CHAT_PROMPT_VERSION = os.getenv(
     "PREDICTA_CHAT_PROMPT_VERSION",
-    "predicta-chat-room-contract-v2",
+    "predicta-chat-room-contract-v3",
 )
 MONTHS = {
     "jan": "01",
@@ -619,6 +619,50 @@ DISCIPLINE_SYNTHESIS_PATTERN = re.compile(
     re.I,
 )
 
+DEVOTIONAL_SIGNAL_PATTERNS = [
+    re.compile(pattern, re.I)
+    for pattern in [
+        r"\bmahadev\b|\bbholenath\b|\bshiv\b|\bshiva\b|\bom\s+namah\s+shivaya\b",
+        r"\bkrishna\b|\bradhe\b|\bradhe\s+radhe\b|\bjai\s+shree\s+ram\b|\bsita\s+ram\b",
+        r"\bhanuman\b|\bbajrang\b|\bganesh\b|\bmata\s+rani\b|\bmaa\s+durga\b",
+        r"\bpuja\b|\bpooja\b|\bmantra\b|\bjapa\b|\bjaap\b|\bprasad\b|\bmandir\b|\bvrat\b|\bupay\b|\bupaay\b",
+        r"\bblessing\b|\bkripa\b|\bkrupa\b|\bdarshan\b",
+    ]
+]
+
+SECULAR_SIGNAL_PATTERNS = [
+    re.compile(pattern, re.I)
+    for pattern in [
+        r"\bsecular\b|\bpractical\s+only\b|\bno\s+religious\b|\bno\s+remedy\b|\bno\s+ritual\b",
+        r"\bwithout\s+(god|religion|mantra|puja|ritual)\b",
+        r"\bnon[-\s]?hindu\b|\bnot\s+hindu\b|\bi\s+am\s+(atheist|agnostic|christian|muslim|jain|sikh|buddhist|parsi)\b",
+        r"\bdon['’]?t\s+use\s+(god|deity|religious|hindu)\b|\bkeep\s+it\s+non[-\s]?religious\b",
+    ]
+]
+
+STRESS_SIGNAL_PATTERNS = [
+    ("panic wording", re.compile(r"\b(panic|panicking|terrified|scared|fear|afraid|desperate|helpless|stressed|anxious|anxiety|worried|worry)\b", re.I)),
+    ("urgency wording", re.compile(r"\b(urgent|asap|right now|immediately|please tell me now|today itself|abhi|jaldi)\b", re.I)),
+    ("doom framing", re.compile(r"\b(ruined|finished|over for me|nothing will work|never happen|worst|hopeless|doomed)\b", re.I)),
+    ("reassurance seeking", re.compile(r"\b(please tell me|be honest|say clearly|just tell me|again and again|still not|why me)\b", re.I)),
+]
+
+HUMOR_BAN_PATTERNS = [
+    re.compile(pattern, re.I)
+    for pattern in [
+        r"\b(grief|death|dying|terminal|cancer|hospital|surgery|suicide|self-harm|bankrupt|bankruptcy|divorce|separation|miscarriage|abuse|assault)\b",
+        r"\b(financial distress|loan pressure|debt trap|court case|police case)\b",
+    ]
+]
+
+DISAPPOINTMENT_PATTERNS = [
+    re.compile(pattern, re.I)
+    for pattern in [
+        r"\b(still no|still not|not happening|again failed|again rejected|you said|last time you said|but nothing changed)\b",
+        r"\b(why not me|why is it not working|i thought it would|it did not happen)\b",
+    ]
+]
+
 
 class AIConfigurationError(RuntimeError):
     pass
@@ -740,6 +784,129 @@ def build_deterministic_discipline_handoff_reply(
     )
 
 
+def build_predicta_tone_context(
+    message: str,
+    history: Iterable[Any],
+    chart_context: Optional[ChartContext],
+) -> Dict[str, Any]:
+    recent_user_turns = [
+        turn.text
+        for turn in list(history)[-6:]
+        if getattr(turn, "role", None) == "user" and getattr(turn, "text", None)
+    ]
+    combined_text = " ".join([*recent_user_turns, message]).strip()
+    school = normalize_predicta_school(chart_context)
+    stress_level, stress_signals = detect_predicta_stress_profile(
+        message,
+        recent_user_turns,
+        combined_text,
+    )
+    support_style, support_reason = detect_predicta_support_style(combined_text)
+    needs_consolation = any(
+        pattern.search(combined_text) for pattern in DISAPPOINTMENT_PATTERNS
+    )
+    humor_policy = "avoid"
+    if (
+        stress_level == "low"
+        and not is_high_stakes_message(message)
+        and not any(pattern.search(combined_text) for pattern in HUMOR_BAN_PATTERNS)
+    ):
+        humor_policy = "light-only"
+    if stress_level == "high" or is_high_stakes_message(message):
+        humor_policy = "avoid"
+    room_tone = build_predicta_room_tone_profile(school)
+
+    return {
+        "stressLevel": stress_level,
+        "stressSignals": stress_signals,
+        "supportStyle": support_style,
+        "supportStyleReason": support_reason,
+        "allowDevotionalPhrasing": support_style == "devotional",
+        "avoidDevotionalPhrasing": support_style == "secular",
+        "humorPolicy": humor_policy,
+        "needsConsolation": needs_consolation,
+        "headlineStyle": "short-first" if stress_level == "high" else "balanced",
+        "gentleLandingNeeded": stress_level == "high" or needs_consolation,
+        "roomTone": room_tone,
+        "historyPressurePattern": (
+            "repeated-user-pressure"
+            if len(recent_user_turns) >= 2 and stress_level in {"medium", "high"}
+            else "single-turn"
+        ),
+    }
+
+
+def detect_predicta_support_style(text: str) -> tuple[str, str]:
+    if any(pattern.search(text) for pattern in SECULAR_SIGNAL_PATTERNS):
+        return (
+            "secular",
+            "The user explicitly asked for practical or non-religious guidance.",
+        )
+    if any(pattern.search(text) for pattern in DEVOTIONAL_SIGNAL_PATTERNS):
+        return (
+            "devotional",
+            "The user used devotional language or asked for Hindu-style remedies.",
+        )
+    return (
+        "warm-neutral",
+        "No reliable devotional or secular preference signal was present.",
+    )
+
+
+def detect_predicta_stress_profile(
+    message: str,
+    recent_user_turns: List[str],
+    combined_text: str,
+) -> tuple[str, List[str]]:
+    signals: List[str] = []
+    for label, pattern in STRESS_SIGNAL_PATTERNS:
+        if pattern.search(combined_text):
+            signals.append(label)
+    if message.count("?") >= 2:
+        signals.append("repeated questions")
+    if re.search(r"[!?]{2,}", message):
+        signals.append("urgent punctuation")
+    uppercase_chars = [char for char in message if char.isalpha() and char.isupper()]
+    alpha_chars = [char for char in message if char.isalpha()]
+    if alpha_chars and len(uppercase_chars) >= 6 and len(uppercase_chars) / len(alpha_chars) >= 0.45:
+        signals.append("all-caps emphasis")
+    if len(recent_user_turns) >= 2 and sum(turn.count("?") for turn in recent_user_turns[-2:]) >= 3:
+        signals.append("looping follow-up pressure")
+
+    unique_signals = list(dict.fromkeys(signals))
+    if len(unique_signals) >= 3:
+        return ("high", unique_signals)
+    if len(unique_signals) >= 1:
+        return ("medium", unique_signals)
+    return ("low", [])
+
+
+def build_predicta_room_tone_profile(school: str) -> Dict[str, str]:
+    profiles = {
+        "PARASHARI": {
+            "identity": "Seasoned Vedic guide with karma, dharma, timing, and steady remedies.",
+            "proofRule": "Lead with the chart judgement, then explain karma pattern, proof, timing, and one simple remedy.",
+        },
+        "KP": {
+            "identity": "Calm KP specialist who keeps judgement crisp and event-focused.",
+            "proofRule": "Lead with the event answer, then cusp, star lord, sub lord, significator, and timing caution.",
+        },
+        "NADI": {
+            "identity": "Reflective Nadi guide who validates the planet story before strong claims.",
+            "proofRule": "Lead with the story pattern, then show planetary links, validation questions, and one reflective practice.",
+        },
+        "NUMEROLOGY": {
+            "identity": "Friendly numbers guide who explains what the numbers mean without mystical fog.",
+            "proofRule": "Show the actual numbers first, then the meaning, current cycle, and one practical use.",
+        },
+        "SIGNATURE": {
+            "identity": "Observant signature guide who stays reflective and non-forensic.",
+            "proofRule": "Describe visible traits first, then meaning, care point, and one grounded improvement step.",
+        },
+    }
+    return profiles.get(school, profiles["PARASHARI"])
+
+
 def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
     safety = assess_chat_safety(request.message)
     try:
@@ -769,6 +936,7 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
         request.language,
         request.userPlan,
         request.message,
+        request.history,
     )
     room_contract = build_predicta_room_contract(request.chartContext)
     context["predictaRoomContract"] = room_contract
@@ -918,11 +1086,31 @@ def build_deterministic_chart_reply(
     evidence = analysis.evidence[:4]
     timing_needed = bool(re.search(r"\b(next|year|future|when|timing|after)\b", request.message, re.I))
     safety_needed = is_high_stakes_message(request.message)
+    tone_context = build_predicta_tone_context(
+        request.message,
+        request.history,
+        request.chartContext,
+    )
+    holistic = build_holistic_foundation_context(request.kundli)
+    purushartha = build_purushartha_life_balance_context(request.kundli)
+    top_focus = holistic["activePlanetFocus"][0] if holistic["activePlanetFocus"] else None
 
     if request.language == "hi":
-        intro = "हाँ, मैं इसे chart proof के साथ practical रखूंगी."
+        intro = "मैं सीधी बात पहले रखती हूं।"
+        if tone_context["stressLevel"] == "high":
+            intro = "मैं आपकी घबराहट समझ रही हूं, इसलिए सीधी बात पहले रखती हूं।"
+        elif tone_context["supportStyle"] == "devotional":
+            intro = "शांत मन से देखें, chart डर से ज़्यादा साफ बोलता है।"
+        elif tone_context["supportStyle"] == "secular":
+            intro = "मैं इसे शांत, तथ्य-आधारित और practical रखूंगी।"
         direct = localized_area_summary(area.area if area else "general", area.confidence if area else "medium", "hi")
         confidence = f"विश्वास स्तर: {area.confidence if area else 'medium'}."
+        karma = (
+            f"कर्म संकेत: {top_focus['karmicPattern']}"
+            if top_focus
+            else "कर्म संकेत: इस समय steady conduct और practical responsibility सबसे ज़्यादा सहारा देंगे।"
+        )
+        balance = f"पुरुषार्थ संकेत: {purushartha['summary']}"
         timing = (
             f"समय संकेत: अगले 1 साल की window {current_date.isoformat()} से {one_year_later.isoformat()} तक मानी है."
             if timing_needed
@@ -934,25 +1122,51 @@ def build_deterministic_chart_reply(
             else ""
         )
         practical = area.practicalFocus[0] if area and area.practicalFocus else "एक practical step चुनिए और उस पर steady action रखिए."
+        remedy = (
+            f"सरल उपाय दिशा: {top_focus['simpleRemedy']}"
+            if top_focus
+            else "सरल उपाय दिशा: conduct correction, seva, और simple routine से शुरुआत करें।"
+        )
+        landing = (
+            "यह उत्तर शायद मनचाहा नहीं लगे, लेकिन chart बंद रास्ता नहीं दिखा रहा; यह सिर्फ सही लय और धैर्य मांग रहा है।"
+            if tone_context["gentleLandingNeeded"]
+            else ""
+        )
         return "\n\n".join(
             [
                 intro,
                 direct,
                 confidence,
+                karma,
+                balance,
                 "Chart proof:\n"
                 + "\n".join(
                     f"- {item.title}: {item.interpretation}" for item in evidence
                 ),
                 timing,
+                remedy,
                 safety,
                 f"अगला कदम: {practical}",
+                landing,
             ]
         ).strip()
 
     if request.language == "gu":
-        intro = "હા, હું આ જવાબને chart proof સાથે practical રાખીશ."
+        intro = "હું સીધી વાત પહેલા મૂકીશ."
+        if tone_context["stressLevel"] == "high":
+            intro = "હું તમારી ગભરામણ સમજી શકું છું, તેથી સીધી વાત પહેલા મૂકીશ."
+        elif tone_context["supportStyle"] == "devotional":
+            intro = "શાંતિથી જોઈએ, chart ડર કરતાં વધુ સ્પષ્ટ બોલે છે."
+        elif tone_context["supportStyle"] == "secular":
+            intro = "હું આને શાંત, તથ્ય આધારિત અને practical રાખીશ."
         direct = localized_area_summary(area.area if area else "general", area.confidence if area else "medium", "gu")
         confidence = f"વિશ્વાસ સ્તર: {area.confidence if area else 'medium'}."
+        karma = (
+            f"કર્મ સંકેત: {top_focus['karmicPattern']}"
+            if top_focus
+            else "કર્મ સંકેત: આ સમયમાં steady conduct અને practical responsibility સૌથી મોટો આધાર બનશે."
+        )
+        balance = f"પુરુષાર્થ સંકેત: {purushartha['summary']}"
         timing = (
             f"સમય સંકેત: આગામી 1 વર્ષની window {current_date.isoformat()} થી {one_year_later.isoformat()} સુધી ગણવી."
             if timing_needed
@@ -964,24 +1178,50 @@ def build_deterministic_chart_reply(
             else ""
         )
         practical = area.practicalFocus[0] if area and area.practicalFocus else "એક practical step લો અને steady action રાખો."
+        remedy = (
+            f"સરળ ઉપાય દિશા: {top_focus['simpleRemedy']}"
+            if top_focus
+            else "સરળ ઉપાય દિશા: conduct correction, seva અને simple routine થી શરૂઆત કરો."
+        )
+        landing = (
+            "આ જવાબ કદાચ મનગમતો ન લાગે, પરંતુ chart બંધ દરવાજો બતાવતું નથી; તે ફક્ત યોગ્ય લય અને ધીરજ માંગે છે."
+            if tone_context["gentleLandingNeeded"]
+            else ""
+        )
         return "\n\n".join(
             [
                 intro,
                 direct,
                 confidence,
+                karma,
+                balance,
                 "Chart proof:\n"
                 + "\n".join(
                     f"- {item.title}: {item.interpretation}" for item in evidence
                 ),
                 timing,
+                remedy,
                 safety,
                 f"આગલું પગલું: {practical}",
+                landing,
             ]
         ).strip()
 
-    intro = "I hear you. I can still keep this grounded in calculated chart proof."
+    intro = "I will give you the straight answer first and keep it chart-grounded."
+    if tone_context["stressLevel"] == "high":
+        intro = "I can hear the pressure, so let me give you the straight answer first."
+    elif tone_context["supportStyle"] == "devotional":
+        intro = "Let us read this steadily. The chart is clearer than the fear."
+    elif tone_context["supportStyle"] == "secular":
+        intro = "I hear the concern. I will keep this calm, factual, and practical."
     direct = area.summary if area else "The chart shows mixed but useful signals."
     confidence = f"Confidence: {area.confidence if area else 'medium'}."
+    karma = (
+        f"Karma pattern: {top_focus['karmicPattern']}"
+        if top_focus
+        else "Karma pattern: the chart is asking for steadier conduct, cleaner choices, and practical follow-through."
+    )
+    balance = f"Purushartha balance: {purushartha['summary']}"
     timing = (
         f"Timing: I am treating the next 1 year as {current_date.isoformat()} through {one_year_later.isoformat()}."
         if timing_needed
@@ -993,16 +1233,30 @@ def build_deterministic_chart_reply(
         else ""
     )
     practical = area.practicalFocus[0] if area and area.practicalFocus else "Choose one practical step and keep the action steady."
+    remedy = (
+        f"Simple remedy direction: {top_focus['simpleRemedy']}"
+        if top_focus
+        else "Simple remedy direction: start with conduct correction, small service, and a steady routine."
+    )
+    landing = (
+        "This may not be the answer you wanted, but it is not a hopeless chart signal. It asks for better timing and steadier effort, not panic."
+        if tone_context["gentleLandingNeeded"]
+        else ""
+    )
     return "\n\n".join(
         [
             intro,
             direct,
             confidence,
+            karma,
+            balance,
             "Chart evidence:\n"
             + "\n".join(f"- {item.title}: {item.interpretation}" for item in evidence),
             timing,
+            remedy,
             safety,
             f"Next step: {practical}",
+            landing,
         ]
     ).strip()
 
@@ -2298,9 +2552,16 @@ def build_pridicta_system_prompt() -> str:
     return "\n".join(
         [
             "You are Predicta, a warm, intelligent, flexible Vedic astrology guide inside the Predicta app. The API may use the legacy internal name Pridicta, but users should experience Predicta.",
-            "You are not a rigid chatbot. You are a helpful astrology companion, app concierge, and memory-aware guide.",
-            "You are warm, humble, kind, friendly, spiritually rooted, and never fear-based. Sound like a trusted friend with real Jyotish discipline, not a cold financial dashboard.",
-            "You are a Mahadev devotee, but do not repeat one phrase. Like a real Indian devotee, vary naturally: sometimes no religious phrase, sometimes Namaste, Pranam, Ram Ram, Om Namah Shivaya, Jai Bholenath, Jai Bhairav Baba, Jai Maa Durga, Jai Ganesh, Jai Shree Ram, Krishna, Maa, or simple human warmth when it fits.",
+            "You are not a rigid chatbot. You are a seasoned astrology guide, a careful app concierge, and a calm human-sounding reader with real method discipline.",
+            "Sound warm, observant, culturally aware, and emotionally steady. Never sound robotic, theatrical, synthetic, transactional, or like a dashboard wrapper.",
+            "Answer order usually matters: direct answer first, then why, then chart or system proof, then next step, then a gentle emotional landing if the truth is difficult.",
+            "Use emotional intelligence without becoming fake. Notice panic, stress, disappointment, looping reassurance, or shame in the user's wording and adapt the first paragraph accordingly.",
+            "When stress is high, shorten the opening, give the headline clearly, avoid jargon overload, acknowledge the pressure, and offer one stabilizing next step.",
+            "When the answer is not what the user hoped for, do not lie, do not sugarcoat into fake hope, and do not become cold. Tell the truth carefully and show where timing, support, or improvement still exists.",
+            "Devotional warmth is optional and signal-based. Use deity names, Hindu devotional phrases, or Hindu ritual remedies only when the user clearly welcomes that framing.",
+            "Never infer religion from the user's name, language, country, or family role. If there is no clear signal, stay warm and neutral.",
+            "If the user explicitly prefers practical, secular, non-religious, or non-Hindu framing, avoid deity names, avoid ritual prescriptions, and prefer reflection, discipline, charity, service, communication, boundaries, timing, and routine.",
+            "A light joke is allowed only when it genuinely reduces low-stakes panic. Never joke during grief, death anxiety, illness fear, separation panic, abuse, self-harm, or financial distress.",
             "Never sound robotic, judgmental, irritated, transactional, overly blunt, or preachy.",
             "Begin with a brief human acknowledgement before the chart answer. Use tiny micro-statements when helpful: 'I hear you', 'let us look gently', 'one thing stands out', 'this is not a judgment', 'we will keep it practical'.",
             "Understand messy input in English, Hindi, Hinglish, Gujarati, Roman Gujarati, mixed Hindi-English-Gujarati, broken spelling, wrong grammar, and casual WhatsApp-style typing.",
@@ -2338,7 +2599,7 @@ def build_pridicta_system_prompt() -> str:
             "Treat Parashari Chalit as a house-delivery refinement layer only: it keeps the planet's D1 rashi sign but can shift the bhava receiving the result. Do not confuse it with KP cusp/sub-lord judgement.",
             "There are five Predicta specialist rooms: Vedic Predicta, KP Predicta, Nadi Predicta, Numerology Predicta, and Signature Predicta. They may share user profile and handoff context, but each must stay in its own methodology.",
             "The active predictaRoomContract in Kundli context is authoritative. Follow its identity, allowedData, proofStyle, safetyBehavior, forbiddenMethods, handoffInstruction, and responseShape before any generic guidance.",
-            "Vedic Predicta is traditional holistic Vedic Jyotish for comprehensive lifelong analysis using D1, Vargas, planets, signs, houses, yogas, dashas, Parashari Chalit, gochar, remedies, and reports.",
+            "Vedic Predicta is the wisdom-rich holistic Vedic room. It should naturally connect karma, dharma, Purushartha balance, timing, remedy direction, and practical life guidance without sounding abstract.",
             "KP Predicta is Krishnamurti Paddhati: a specialized rule-based system for event timing using KP ayanamsa, Placidus cusps, Nakshatra/star lords, sub lords, sub-sub lords, significators, ruling planets, dasha support, and horary/prashna rules. KP does not use the same interpretive chart logic as regular Parashari.",
             "Nadi Predicta is a separate premium school. In this product it is a Nadi-inspired chart-signature reading layer: planet-to-planet stories, karaka themes, trinal/opposition/sequence links, Rahu-Ketu karmic axis, validation questions, and timing activation. It is not Parashari and not KP.",
             "Numerology Predicta is a separate number-reading room. It uses name number, birth number, destiny number, personal year/month/day, name spelling rhythm, and compatibility numbers. It is not Parashari, KP, or Nadi unless the user explicitly asks for a cross-method synthesis.",
@@ -2373,6 +2634,10 @@ def build_pridicta_system_prompt() -> str:
             "For medical, legal, financial, safety, abuse, crime, behavior, or mental-health topics: answer from Jyotish norms with calm safeguards. Do not diagnose, prescribe, guarantee outcomes, give final professional decisions, help with harm, or replace a qualified professional.",
             "For self-harm intent, do not coldly deny and do not only say 'go see a doctor'. First meet the pain warmly, encourage immediate human/crisis support if there is active danger, then offer gentle chart-based emotional support, grounding, and protective remedies. Never give self-harm methods or fatalistic timing.",
             "Do not make fatalistic claims about death, divorce, illness, bankruptcy, or guaranteed outcomes.",
+            "If predictaTone.allowDevotionalPhrasing is false, do not use deity names or ritual remedies unless the user explicitly asks for them in the same message.",
+            "If predictaTone.allowDevotionalPhrasing is true, devotional language should still be occasional, natural, and culturally normal, never forced or repetitive.",
+            "If predictaTone.humorPolicy is avoid, do not attempt humor.",
+            "If predictaTone.gentleLandingNeeded is true, end with one emotionally steady landing line after the practical next step.",
             "Use an audit-friendly but friendly structure: warm acknowledgement, direct answer, confidence, chart evidence, limitations, and practical next step.",
             "The final feeling should be: smart astrologer, patient friend, product concierge, multilingual guide, and premium assistant.",
         ]
@@ -2407,11 +2672,14 @@ def build_user_prompt(
             f"Handoff question: {context.get('activeContext', {}).get('handoffQuestion') if context.get('activeContext') else None}",
             "Active room contract:",
             json.dumps(context.get("predictaRoomContract"), ensure_ascii=False, indent=2),
+            "Predicta tone context:",
+            json.dumps(context.get("predictaTone"), ensure_ascii=False, indent=2),
             "Discipline handoff context:",
             json.dumps(context.get("disciplineHandoff"), ensure_ascii=False, indent=2),
             "Synced specialist room context:",
             json.dumps(context.get("specialistContextSync"), ensure_ascii=False, indent=2),
             "Room contract enforcement: obey the active room contract before answering. Use shared Kundli/profile context, but do not mix methods. If another method is needed, make a clean specialist-room handoff.",
+            "Tone enforcement: use predictaTone for answer cadence, devotional-versus-secular framing, humor limits, and emotional landing. Never infer religion beyond the explicit tone signals already provided.",
             "Discipline handoff enforcement: if disciplineHandoff.requiresHandoff is true, do not provide the requested analysis in the active room. Hand off to disciplineHandoff.targetRoom and preserve disciplineHandoff.originalQuestion.",
             "Specialist context sync rule: use synced specialist room context only to preserve the user's last focus and handoff continuity. Do not borrow another room's method unless the user explicitly asks for synthesis.",
             "Internal normalization instruction: silently detect the user's language, correct spelling/grammar, translate the intent into clean English for reasoning, and map the request to a Predicta app action or chart question before answering.",
@@ -2421,6 +2689,7 @@ def build_user_prompt(
             f"High-stakes safety topic: {'yes' if is_high_stakes_message(message) else 'no'}",
             f"Safety protocol: {safety_line}",
             "Safety boundary: high-stakes astrology is allowed with disclaimers and safeguards. Do not provide medical/legal/financial certainty, diagnosis, professional instructions, harmful instructions, or guaranteed outcomes; advise qualified professional support for high-stakes action.",
+            "Human answer order: direct answer first, then why, then chart or system proof, then next step, then a gentle landing if the answer is difficult.",
             "Holistic answer rule: when relevant, include the karma pattern and a safe practical remedy from holisticFoundation, especially for remedy, dasha, Sade Sati, Gochar, relationship, money, career, and emotional questions.",
             "Holistic reading room rule: when relevant, use holisticReadingRooms to choose one room, show proof chips, explain the practical room practice, and invite the next question without sending the user away.",
             "Sadhana remedy rule: remedies must be framed as a path of behavior correction and steady practice. Start with conduct, then seva, then prayer/mantra, then discipline, lifestyle, and review. Avoid guarantee language.",
@@ -4291,6 +4560,7 @@ def build_ai_context(
     language: str,
     user_plan: str,
     message: str = "",
+    history: Iterable[Any] = (),
 ) -> Dict[str, Any]:
     allowed_charts = allowed_context_charts(user_plan, chart_context)
     selected_chart = None
@@ -4415,6 +4685,11 @@ def build_ai_context(
             item.model_dump()
             for item in (chart_context.specialistContexts if chart_context else [])
         ],
+        "predictaTone": build_predicta_tone_context(
+            message,
+            history,
+            chart_context,
+        ),
         "requestedLanguage": language,
         "chartAccess": {
             "userPlan": user_plan,

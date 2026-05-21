@@ -159,6 +159,89 @@ def test_ask_pridicta_uses_backend_ai_boundary(monkeypatch):
     assert len(payload["jyotishAnalysis"]["evidence"]) >= 5
 
 
+def test_predicta_tone_context_detects_devotional_high_stress_signal():
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+    analysis = build_jyotish_analysis(
+        kundli,
+        "Mahadev please tell me right now!! I am panicking about marriage timing.",
+        None,
+        "FREE",
+    )
+
+    context = ai_module.build_ai_context(
+        kundli,
+        None,
+        analysis,
+        "en",
+        "FREE",
+        "Mahadev please tell me right now!! I am panicking about marriage timing.",
+        [],
+    )
+
+    tone = context["predictaTone"]
+    assert tone["supportStyle"] == "devotional"
+    assert tone["stressLevel"] == "high"
+    assert tone["allowDevotionalPhrasing"] is True
+    assert tone["humorPolicy"] == "avoid"
+    assert tone["headlineStyle"] == "short-first"
+
+
+def test_predicta_tone_context_detects_secular_preference():
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+    analysis = build_jyotish_analysis(
+        kundli,
+        "Keep it practical only. I am not Hindu and I do not want religious remedies.",
+        None,
+        "FREE",
+    )
+
+    context = ai_module.build_ai_context(
+        kundli,
+        None,
+        analysis,
+        "en",
+        "FREE",
+        "Keep it practical only. I am not Hindu and I do not want religious remedies.",
+        [],
+    )
+
+    tone = context["predictaTone"]
+    assert tone["supportStyle"] == "secular"
+    assert tone["allowDevotionalPhrasing"] is False
+    assert tone["avoidDevotionalPhrasing"] is True
+
+
+def test_pridicta_system_prompt_uses_signal_based_devotional_mode():
+    prompt = ai_module.build_pridicta_system_prompt()
+
+    assert "Never infer religion from the user's name, language, country, or family role." in prompt
+    assert "If the user explicitly prefers practical, secular, non-religious, or non-Hindu framing" in prompt
+    assert "You are a Mahadev devotee" not in prompt
+
+
+def test_deterministic_chart_reply_adds_karma_and_purushartha_guidance():
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+    request = ai_module.PridictaChatRequest(
+        message="Please just tell me clearly if career will improve soon. I am worried.",
+        kundli=kundli,
+        history=[],
+        userPlan="FREE",
+    )
+    analysis = build_jyotish_analysis(
+        kundli,
+        request.message,
+        request.chartContext,
+        request.userPlan,
+    )
+
+    reply = ai_module.build_deterministic_chart_reply(request, analysis)
+
+    assert "Karma pattern:" in reply
+    assert "Purushartha balance:" in reply
+    assert "Simple remedy direction:" in reply
+    assert "straight answer first" in reply
+
+
 def test_ask_pridicta_includes_room_contract_for_each_specialist(monkeypatch):
     kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
     captured_prompts = []
@@ -238,6 +321,34 @@ def test_ask_pridicta_carries_discipline_handoff_context(monkeypatch):
 
     assert response.status_code == 200
     assert response.json()["text"].startswith("This belongs in Vedic Predicta")
+
+
+def test_ask_pridicta_prompt_carries_predicta_tone_context(monkeypatch):
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+
+    def fake_openai_response(**kwargs):
+        prompt = kwargs["user_prompt"]
+        assert "Predicta tone context:" in prompt
+        assert '"supportStyle": "secular"' in prompt
+        assert '"allowDevotionalPhrasing": false' in prompt
+        assert '"headlineStyle": "short-first"' in prompt
+        assert "Tone enforcement: use predictaTone" in prompt
+        return "Direct answer\n\nChart evidence\n- Tone context is present."
+
+    monkeypatch.setattr(ai_module, "create_openai_text_response", fake_openai_response)
+    client = TestClient(app)
+    response = client.post(
+        "/ask-pridicta",
+        json={
+            "message": "Please tell me right now. Keep it practical only. I am not Hindu and I do not want religious remedies!!",
+            "kundli": kundli.model_dump(mode="json"),
+            "history": [],
+            "userPlan": "FREE",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.json()["provider"] == "openai"
 
 
 def test_numerology_predicta_prompt_carries_name_correction_context(monkeypatch):
