@@ -23,6 +23,9 @@ Only live documents in this repo are listed here.
   Structural rebuild direction for one Predicta with five first-class worlds.
 - [Predicta_Chat_Enhancements.md](./Predicta_Chat_Enhancements.md)
   Shared chat-shell rebuild contract for all Predicta specialist rooms.
+- [PREDICTA_INTELLIGENCE_FAMILY_MATCHMAKING_ADDENDUM.md](./PREDICTA_INTELLIGENCE_FAMILY_MATCHMAKING_ADDENDUM.md)
+  Pre-Phase 8 addendum for Predicta intelligence, Family Vault pair/multi-member
+  karma comparison, relationship labels, and separate matchmaking scope.
 - [Predicta_kundli_and_chat_animation.md](./Predicta_kundli_and_chat_animation.md)
   Animation contract for chart and chat presentation without breaking chart
   geometry.
