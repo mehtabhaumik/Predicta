@@ -44,6 +44,29 @@ type CoreVargaChartType =
   | 'D45'
   | 'D60';
 
+type AdvancedVargaChartType =
+  | 'D5'
+  | 'D6'
+  | 'D8'
+  | 'D11'
+  | 'D13'
+  | 'D15'
+  | 'D17'
+  | 'D18'
+  | 'D19'
+  | 'D21'
+  | 'D22'
+  | 'D23'
+  | 'D25'
+  | 'D26'
+  | 'D27'
+  | 'D28'
+  | 'D29'
+  | 'D31'
+  | 'D32'
+  | 'D33'
+  | 'D34';
+
 const CHART_FOCUS: Record<ChartType, string> = {
   D1: 'body, identity, life direction, houses, and visible karma',
   D2: 'wealth handling, resources, and money temperament',
@@ -100,6 +123,30 @@ const CORE_VARGA_TYPES = new Set<CoreVargaChartType>([
   'D60',
 ]);
 
+const ADVANCED_VARGA_TYPES = new Set<AdvancedVargaChartType>([
+  'D5',
+  'D6',
+  'D8',
+  'D11',
+  'D13',
+  'D15',
+  'D17',
+  'D18',
+  'D19',
+  'D21',
+  'D22',
+  'D23',
+  'D25',
+  'D26',
+  'D27',
+  'D28',
+  'D29',
+  'D31',
+  'D32',
+  'D33',
+  'D34',
+]);
+
 export function composeChartInsight({
   chart,
   hasPremiumAccess,
@@ -117,6 +164,10 @@ export function composeChartInsight({
   if (!chart.supported) {
     if (isCoreVargaChartType(chart.chartType)) {
       return composeUnsupportedCoreVargaInsight(chart.chartType, hasPremiumAccess);
+    }
+
+    if (isAdvancedVargaChartType(chart.chartType)) {
+      return composeUnsupportedAdvancedVargaInsight(chart.chartType, hasPremiumAccess);
     }
 
     return {
@@ -159,6 +210,10 @@ export function composeChartInsight({
 
   if (kundli && isCoreVargaChartType(chart.chartType)) {
     return composeCoreVargaInsight(chart, kundli, hasPremiumAccess);
+  }
+
+  if (kundli && isAdvancedVargaChartType(chart.chartType)) {
+    return composeAdvancedVargaInsight(chart, kundli, hasPremiumAccess);
   }
 
   const corePlanetsByHouse = chart.planetDistribution
@@ -556,6 +611,159 @@ function composeUnsupportedCoreVargaInsight(
   };
 }
 
+function composeAdvancedVargaInsight(
+  chart: ChartData,
+  kundli: KundliData,
+  hasPremiumAccess: boolean,
+): ChartInsight {
+  const chartType = chart.chartType as AdvancedVargaChartType;
+  const config = getChartConfig(chartType);
+  const definition = ADVANCED_VARGA_INSIGHT_DEFINITIONS[chartType];
+  const clusters = chart.planetDistribution
+    .filter(
+      planet =>
+        planet.kind !== 'modern' &&
+        planet.kind !== 'sensitive' &&
+        planet.kind !== 'upagraha',
+    )
+    .reduce<Record<number, string[]>>((accumulator, planet) => {
+      const bucket = accumulator[planet.house] ?? [];
+      bucket.push(planet.name);
+      accumulator[planet.house] = bucket;
+      return accumulator;
+    }, {});
+  const occupiedClusters = Object.entries(clusters)
+    .filter(([, planets]) => planets.length > 0)
+    .sort((first, second) => second[1].length - first[1].length);
+  const dominantHouse = occupiedClusters[0] ? Number(occupiedClusters[0][0]) : undefined;
+  const dominantPlanets = occupiedClusters[0]?.[1] ?? [];
+  const supportHouse = occupiedClusters[1] ? Number(occupiedClusters[1][0]) : undefined;
+  const supportPlanets = occupiedClusters[1]?.[1] ?? [];
+  const currentDasha = kundli.dasha.current;
+  const dashaPlanet = currentDasha.antardasha || currentDasha.mahadasha;
+  const dashaPlacement = chart.planetDistribution.find(
+    planet => planet.name === dashaPlanet || planet.name === currentDasha.mahadasha,
+  );
+  const activeArea = dominantHouse
+    ? formatHouseArea(dominantHouse)
+    : definition.defaultArea;
+  const supportArea = supportHouse ? formatHouseArea(supportHouse) : definition.supportArea;
+  const dashaArea = dashaPlacement
+    ? formatHouseArea(dashaPlacement.house)
+    : undefined;
+  const lifeAreas = uniqueStrings([
+    ...definition.lifeAreas,
+    activeArea,
+    supportArea,
+    dashaArea,
+  ]);
+  const dominantPlanetText = dominantPlanets.length
+    ? ` through ${dominantPlanets.join(', ')}`
+    : '';
+  const supportPlanetText = supportPlanets.length
+    ? ` with secondary reinforcement from ${supportPlanets.join(', ')}`
+    : '';
+  const dashaSentence = dashaPlacement
+    ? `${dashaPlacement.name} is active in this chart through ${formatHouseArea(dashaPlacement.house)}, so current timing is making this advanced layer louder in practical life.`
+    : `The current dasha of ${currentDasha.mahadasha}/${currentDasha.antardasha} still matters here, but this chart should stay a focused confirming lens instead of a standalone verdict.`;
+
+  return {
+    currentGuidance: dominantHouse
+      ? `${definition.guidanceLead} Start with ${activeArea}, then check whether D1 and the active dasha are actually carrying this theme into visible life.`
+      : `${definition.guidanceLead} Use this chart as a careful confirming lens and let D1 decide how much weight it deserves right now.`,
+    eyebrow: hasPremiumAccess
+      ? `Premium ${definition.premiumLabel}`
+      : `Free ${definition.freeLabel}`,
+    freeInsights: [
+      dominantHouse
+        ? `${definition.freeLead} ${activeArea}${dominantPlanetText} is where this advanced chart is speaking most clearly right now.`
+        : `${definition.freeLead} This chart is quieter, so it should be used as a subtle clue rather than a dramatic conclusion.`,
+      dashaSentence,
+      supportArea
+        ? `${definition.supportLead} ${supportArea}${supportPlanetText}.`
+        : `${definition.supportLead} D1 remains the anchor that decides how much of this chart becomes visible in lived life.`,
+      definition.userValueLine,
+    ],
+    governs: definition.governs,
+    lifeAreas,
+    mainChallenge: dominantHouse
+      ? `${definition.challengeLead} The risk here is treating ${activeArea} as a full-life judgement when this chart only refines one narrow layer and must stay anchored to D1.`
+      : definition.quietChallenge,
+    mainStrength: dominantHouse
+      ? `${definition.strengthLead} ${activeArea}${dominantPlanetText} stands out as the clearest advanced-chart signal.`
+      : definition.quietStrength,
+    premiumDeepDive: [
+      `${definition.premiumLead} Premium explains how ${config.name} supports, sharpens, or softens the main D1 promise.`,
+      dashaArea
+        ? `Premium also reads the timing emphasis through ${dashaArea} so this advanced chart becomes usable instead of decorative.`
+        : 'Premium also adds tighter timing, contradiction handling, and cross-chart confidence framing.',
+      definition.premiumFinish,
+    ],
+    premiumNudge: definition.premiumNudge,
+    technicalDetails: [
+      `${chartType} focuses on ${CHART_FOCUS[chartType]}, and should always be judged through D1 first.`,
+      dominantHouse
+        ? `Primary house emphasis: house ${dominantHouse} (${activeArea})${dominantPlanetText}.`
+        : 'No single house dominates this advanced chart preview, so the signal should stay conservative.',
+      supportHouse
+        ? `Secondary support: house ${supportHouse} (${supportArea})${supportPlanetText}.`
+        : 'No second cluster stands out strongly enough to overrule the main emphasis.',
+      dashaPlacement
+        ? `Dasha-linked placement: ${dashaPlacement.name} in house ${dashaPlacement.house} (${formatHouseArea(dashaPlacement.house)}).`
+        : `Current dasha: ${currentDasha.mahadasha}/${currentDasha.antardasha}.`,
+      getChartReadingNote(chart.chartType),
+      definition.technicalGuardrail,
+    ],
+    technicalSummary: hasPremiumAccess
+      ? `Technical View keeps the ${config.name} evidence visible while Premium adds deeper D1 synthesis, timing support, and caution framing.`
+      : `Technical View keeps the ${config.name} evidence visible, while Insight View explains the practical meaning of this advanced chart in plain language.`,
+    title: config.name,
+    whatItSays: dominantHouse
+      ? `${definition.storyLead} Right now the signal is strongest in ${activeArea}${dominantPlanetText}${supportArea ? `, with support around ${supportArea}` : ''}. ${dashaSentence}`
+      : `${definition.storyLead} This advanced chart is speaking softly right now, so it should be used as a careful confirming lens with D1 and current dasha rather than as a dramatic standalone reading.`,
+  };
+}
+
+function composeUnsupportedAdvancedVargaInsight(
+  chartType: AdvancedVargaChartType,
+  hasPremiumAccess: boolean,
+): ChartInsight {
+  const config = getChartConfig(chartType);
+  const definition = ADVANCED_VARGA_INSIGHT_DEFINITIONS[chartType];
+
+  return {
+    currentGuidance:
+      'Use the purpose of this advanced chart now, but wait for prepared chart evidence before using it for strong prediction or narrow technical claims.',
+    eyebrow: 'Careful reading',
+    freeInsights: [
+      `${config.name} still governs ${definition.governs.toLowerCase()}`,
+      'Predicta is keeping this advanced chart conservative until the chart evidence is fully prepared.',
+      definition.userValueLine,
+    ],
+    governs: definition.governs,
+    lifeAreas: definition.lifeAreas,
+    mainChallenge:
+      'The challenge is over-reading a narrow chart whose evidence is not fully prepared yet.',
+    mainStrength:
+      'You can still understand why this advanced chart matters before moving into deeper evidence.',
+    premiumDeepDive: [
+      `${definition.premiumLead} Premium should only go deeper once the chart evidence is fully ready.`,
+      definition.premiumFinish,
+    ],
+    premiumNudge: hasPremiumAccess ? undefined : definition.premiumNudge,
+    technicalDetails: [
+      `${chartType} is visible but kept conservative until chart preparation is complete.`,
+      definition.technicalGuardrail,
+      getChartReadingNote(chartType),
+    ],
+    technicalSummary:
+      'Technical View stays bounded here because full advanced-chart evidence is not yet prepared.',
+    title: config.name,
+    whatItSays:
+      `This ${config.name} governs ${definition.governs.toLowerCase()} Predicta is keeping the live reading careful until the chart evidence is complete, so the purpose stays visible without pretending to certainty.`,
+  };
+}
+
 function deriveLifeAreas(purpose: string): string[] {
   return purpose
     .replace(/\.$/, '')
@@ -593,6 +801,12 @@ function planetTheme(planet: string): string {
 
 function isCoreVargaChartType(chartType: ChartType): chartType is CoreVargaChartType {
   return CORE_VARGA_TYPES.has(chartType as CoreVargaChartType);
+}
+
+function isAdvancedVargaChartType(
+  chartType: ChartType,
+): chartType is AdvancedVargaChartType {
+  return ADVANCED_VARGA_TYPES.has(chartType as AdvancedVargaChartType);
 }
 
 const HOUSE_AREA_LABELS: Record<number, string> = {
@@ -652,30 +866,29 @@ const PLANET_THEME: Record<string, string> = {
   Ketu: 'detachment, simplification, release, and karmic pruning',
 };
 
-const CORE_VARGA_INSIGHT_DEFINITIONS: Record<
-  CoreVargaChartType,
-  {
-    defaultArea: string;
-    supportArea: string;
-    governs: string;
-    storyLead: string;
-    strengthLead: string;
-    challengeLead: string;
-    guidanceLead: string;
-    freeLead: string;
-    supportLead: string;
-    userValueLine: string;
-    premiumLead: string;
-    premiumFinish: string;
-    premiumLabel: string;
-    freeLabel: string;
-    premiumNudge: string;
-    quietChallenge: string;
-    quietStrength: string;
-    technicalGuardrail: string;
-    lifeAreas: string[];
-  }
-> = {
+type VargaInsightDefinition = {
+  defaultArea: string;
+  supportArea: string;
+  governs: string;
+  storyLead: string;
+  strengthLead: string;
+  challengeLead: string;
+  guidanceLead: string;
+  freeLead: string;
+  supportLead: string;
+  userValueLine: string;
+  premiumLead: string;
+  premiumFinish: string;
+  premiumLabel: string;
+  freeLabel: string;
+  premiumNudge: string;
+  quietChallenge: string;
+  quietStrength: string;
+  technicalGuardrail: string;
+  lifeAreas: string[];
+};
+
+const CORE_VARGA_INSIGHT_DEFINITIONS: Record<CoreVargaChartType, VargaInsightDefinition> = {
   D2: {
     defaultArea: 'money, speech, and family stability',
     supportArea: 'gains, networks, and long-term fulfilment',
@@ -1124,5 +1337,683 @@ const CORE_VARGA_INSIGHT_DEFINITIONS: Record<
     technicalGuardrail:
       'D60 needs careful birth-time confidence and must remain a bounded deep-karma confirmation layer.',
     lifeAreas: ['deep karma', 'hidden causes', 'root tendencies', 'destiny texture'],
+  },
+};
+
+const ADVANCED_VARGA_INSIGHT_DEFINITIONS: Record<
+  AdvancedVargaChartType,
+  VargaInsightDefinition
+> = {
+  D5: {
+    defaultArea: 'career, responsibility, and public role',
+    supportArea: 'creativity, children, merit, and self-expression',
+    governs:
+      'Authority, recognition, merit, creative stature, and how leadership becomes visible when your promise is strong enough to carry it.',
+    storyLead:
+      'This D5 chart is speaking about recognition, earned merit, and the type of authority that becomes visible when your work carries weight.',
+    strengthLead: 'The strongest D5 authority signal is that',
+    challengeLead:
+      'The caution in D5 is confusing visibility with substance or status with merit.',
+    guidanceLead:
+      'Use D5 to judge how leadership is earned and expressed, not to chase labels alone.',
+    freeLead: 'The authority story here says',
+    supportLead: 'The next merit support signal is',
+    userValueLine:
+      'Use this chart to understand where your recognition becomes credible, not just where you want to be seen.',
+    premiumLead:
+      'Premium turns D5 into a deeper authority, merit, and recognition reading.',
+    premiumFinish:
+      'Premium also connects D5 with D1 and D10 so leadership is read with life-direction and career context.',
+    premiumLabel: 'authority and merit analysis',
+    freeLabel: 'authority and merit insight',
+    premiumNudge:
+      'Premium turns D5 into a stronger recognition and leadership reading with D1 and D10 synthesis.',
+    quietChallenge:
+      'The caution here is overreach: a quiet D5 asks for steadier merit-building rather than image pressure.',
+    quietStrength:
+      'The strength here is credibility: even a calm D5 can show where authority grows naturally.',
+    technicalGuardrail:
+      'D5 is an authority and recognition lens. Read it with D1 and D10 instead of inflating it into a full life chart.',
+    lifeAreas: ['authority', 'recognition', 'leadership', 'merit'],
+  },
+  D6: {
+    defaultArea: 'work pressure, health discipline, and daily struggle',
+    supportArea: 'effort, courage, and initiative',
+    governs:
+      'Obstacles, service, discipline, health strain, competition, and the way pressure is handled in practical life.',
+    storyLead:
+      'This D6 chart is speaking about pressure, discipline, and how obstacles can be worked through without losing steadiness.',
+    strengthLead: 'The strongest D6 resilience signal is that',
+    challengeLead:
+      'The caution in D6 is allowing friction, health neglect, or reactive conflict to become a daily pattern.',
+    guidanceLead:
+      'Use D6 to become cleaner under pressure, not more anxious about every obstacle.',
+    freeLead: 'The obstacle-handling story here says',
+    supportLead: 'The next service-and-discipline support signal is',
+    userValueLine:
+      'Use this chart to understand where discipline and better habits reduce friction in real life.',
+    premiumLead:
+      'Premium turns D6 into a deeper reading of obstacles, service, and health discipline.',
+    premiumFinish:
+      'Premium also connects D6 with D1 and D30 so pressure is read practically instead of fearfully.',
+    premiumLabel: 'obstacle and discipline analysis',
+    freeLabel: 'obstacle and discipline insight',
+    premiumNudge:
+      'Premium turns D6 into a practical obstacle, discipline, and health-pattern reading.',
+    quietChallenge:
+      'The caution here is slow strain: a quiet D6 may be asking for routine correction more than alarm.',
+    quietStrength:
+      'The strength here is manageability: D6 becomes useful when it improves discipline rather than fear.',
+    technicalGuardrail:
+      'D6 is a pressure and service lens. It needs D1 and timing support before strong prediction.',
+    lifeAreas: ['obstacles', 'service', 'health discipline', 'competition'],
+  },
+  D8: {
+    defaultArea: 'change, vulnerability, and hidden pressure',
+    supportArea: 'rest, expense, healing, and release',
+    governs:
+      'Hidden pressure, transformation, sudden change, karmic intensity, and the places where life demands humility and careful handling.',
+    storyLead:
+      'This D8 chart is speaking about hidden pressure and transformation. It should guide caution and maturity, not fear.',
+    strengthLead: 'The strongest D8 stabilizing signal is that',
+    challengeLead:
+      'The caution in D8 is panic, fatalism, or treating a narrow chart like a sentence instead of a warning layer.',
+    guidanceLead:
+      'Use D8 to improve steadiness, caution, and depth of response when life becomes intense.',
+    freeLead: 'The transformation story here says',
+    supportLead: 'The next stabilizing support signal is',
+    userValueLine:
+      'Use this chart to understand where maturity and protection matter, not to create drama.',
+    premiumLead:
+      'Premium turns D8 into a bounded transformation and pressure reading.',
+    premiumFinish:
+      'Premium also explains what deserves caution, what is manageable, and what should not be overstated.',
+    premiumLabel: 'transformation and pressure analysis',
+    freeLabel: 'transformation and pressure insight',
+    premiumNudge:
+      'Premium turns D8 into a careful transformation reading with stronger caution framing and D1 support.',
+    quietChallenge:
+      'The caution here is interpretation risk: a quiet D8 should stay a subtle caution signal unless D1 and timing strongly support it.',
+    quietStrength:
+      'The strength here is preparedness: D8 helps you stay calmer when life asks for maturity.',
+    technicalGuardrail:
+      'D8 must stay careful, bounded, and non-fatalistic. Read it with D1, timing, and humility.',
+    lifeAreas: ['transformation', 'hidden pressure', 'sudden change', 'vulnerability'],
+  },
+  D11: {
+    defaultArea: 'gains, networks, and long-term fulfilment',
+    supportArea: 'career, responsibility, and public role',
+    governs:
+      'Gains, networks, fulfillment, social advantage, and the channels through which effort turns into larger result.',
+    storyLead:
+      'This D11 chart is speaking about gains, support networks, and how ambitions become materially or socially fulfilled.',
+    strengthLead: 'The strongest D11 gain signal is that',
+    challengeLead:
+      'The caution in D11 is chasing gains without grounding or mistaking noise for real support.',
+    guidanceLead:
+      'Use D11 to understand what kind of network or gain pattern truly supports your path.',
+    freeLead: 'The gains story here says',
+    supportLead: 'The next fulfillment support signal is',
+    userValueLine:
+      'Use this chart to understand how opportunities, networks, and gains actually arrive.',
+    premiumLead:
+      'Premium turns D11 into a deeper gains, ambition, and fulfillment reading.',
+    premiumFinish:
+      'Premium also connects D11 with D2 and D10 so income, status, and networks are read together.',
+    premiumLabel: 'gains and fulfillment analysis',
+    freeLabel: 'gains and fulfillment insight',
+    premiumNudge:
+      'Premium turns D11 into a stronger gains and network reading tied to D2 and D10.',
+    quietChallenge:
+      'The caution here is false expectation: a quiet D11 may be asking for patient network building.',
+    quietStrength:
+      'The strength here is sustainable support: this chart shows where help becomes real rather than flashy.',
+    technicalGuardrail:
+      'D11 is a gains and fulfillment lens, not a full life chart.',
+    lifeAreas: ['gains', 'networks', 'ambition', 'fulfillment'],
+  },
+  D13: {
+    defaultArea: 'home, emotional base, and private stability',
+    supportArea: 'rest, expense, healing, and release',
+    governs:
+      'Subtle comforts, material support, finer conveniences, and the quieter forms of ease that improve lived stability.',
+    storyLead:
+      'This D13 chart is speaking about subtle support and the quieter comforts that make life feel more held together.',
+    strengthLead: 'The strongest D13 support signal is that',
+    challengeLead:
+      'The caution in D13 is overvaluing comfort without asking whether it actually creates steadiness.',
+    guidanceLead:
+      'Use D13 to judge which supports make life smoother and which comforts become distracting.',
+    freeLead: 'The subtle-support story here says',
+    supportLead: 'The next comfort support signal is',
+    userValueLine:
+      'Use this chart to understand what makes life easier in a way that genuinely helps.',
+    premiumLead:
+      'Premium turns D13 into a finer reading of subtle support and material ease.',
+    premiumFinish:
+      'Premium also explains how D13 supports D4 and D16 so comfort is read with emotional reality.',
+    premiumLabel: 'subtle support analysis',
+    freeLabel: 'subtle support insight',
+    premiumNudge:
+      'Premium turns D13 into a nuanced comfort and support reading with D4 and D16 context.',
+    quietChallenge:
+      'The caution here is softness without structure: a quiet D13 needs D4 support to matter.',
+    quietStrength:
+      'The strength here is refinement: small supports can still noticeably improve lived stability.',
+    technicalGuardrail:
+      'D13 is a subtle-support lens and should stay secondary to D1, D4, and D16.',
+    lifeAreas: ['comfort', 'material support', 'ease', 'stability'],
+  },
+  D15: {
+    defaultArea: 'self, body, and identity',
+    supportArea: 'fortune, dharma, teachers, and belief',
+    governs:
+      'Character refinement, subtle personal fortune, ethical texture, and the quieter qualities that shape how life responds to you.',
+    storyLead:
+      'This D15 chart is speaking about refinement of character and the subtle fortune that grows from how you carry yourself.',
+    strengthLead: 'The strongest D15 refinement signal is that',
+    challengeLead:
+      'The caution in D15 is believing character quality is automatic instead of cultivated.',
+    guidanceLead:
+      'Use D15 to understand what should be refined inwardly so outer life responds more cleanly.',
+    freeLead: 'The refinement story here says',
+    supportLead: 'The next fortune support signal is',
+    userValueLine:
+      'Use this chart to understand what kind of inner refinement improves your outer path.',
+    premiumLead:
+      'Premium turns D15 into a deeper reading of subtle fortune and character patterning.',
+    premiumFinish:
+      'Premium also connects D15 with D1 and D9 so character growth is read with dharma context.',
+    premiumLabel: 'character refinement analysis',
+    freeLabel: 'character refinement insight',
+    premiumNudge:
+      'Premium turns D15 into a deeper subtle-fortune and character reading with D1 and D9 context.',
+    quietChallenge:
+      'The caution here is complacency: a quiet D15 still asks for inward polishing.',
+    quietStrength:
+      'The strength here is grace through refinement: this chart improves quality more than drama.',
+    technicalGuardrail:
+      'D15 is a subtle character-refinement lens and should stay anchored to D1 and D9.',
+    lifeAreas: ['character', 'subtle fortune', 'refinement', 'ethical texture'],
+  },
+  D17: {
+    defaultArea: 'career, responsibility, and public role',
+    supportArea: 'gains, networks, and long-term fulfilment',
+    governs:
+      'Fine-grained success strength, influence, and the subtle supporting force behind visible achievement.',
+    storyLead:
+      'This D17 chart is speaking about influence and the finer strength behind visible success.',
+    strengthLead: 'The strongest D17 influence signal is that',
+    challengeLead:
+      'The caution in D17 is assuming influence is stable without checking whether D1 and D10 can hold it.',
+    guidanceLead:
+      'Use D17 to understand what quietly strengthens success and what needs reinforcement before scale.',
+    freeLead: 'The influence story here says',
+    supportLead: 'The next success-support signal is',
+    userValueLine:
+      'Use this chart to understand the subtle force behind success, not just the outer result.',
+    premiumLead:
+      'Premium turns D17 into a deeper influence and success-strength reading.',
+    premiumFinish:
+      'Premium also connects D17 with D10 and D11 so visibility, gains, and support are read together.',
+    premiumLabel: 'influence and success-strength analysis',
+    freeLabel: 'influence and success-strength insight',
+    premiumNudge:
+      'Premium turns D17 into a finer influence and success reading with D10 and D11 synthesis.',
+    quietChallenge:
+      'The caution here is hidden fragility: a quiet D17 may be asking for stronger support before scaling.',
+    quietStrength:
+      'The strength here is subtle reinforcement: this chart shows where success can become more stable.',
+    technicalGuardrail:
+      'D17 is a success-strength lens and should stay secondary to D1 and D10.',
+    lifeAreas: ['influence', 'success strength', 'recognition support', 'stability'],
+  },
+  D18: {
+    defaultArea: 'change, vulnerability, and hidden pressure',
+    supportArea: 'work pressure, health discipline, and daily struggle',
+    governs:
+      'Inner conflicts, karmic weaknesses, hidden strain, and the places where self-sabotage or unresolved pressure can quietly accumulate.',
+    storyLead:
+      'This D18 chart is speaking about inner conflict and hidden weakness. It should be used for sober correction, not self-attack.',
+    strengthLead: 'The strongest D18 stabilizing signal is that',
+    challengeLead:
+      'The caution in D18 is amplifying shame, fear, or inner conflict beyond what the chart can responsibly prove.',
+    guidanceLead:
+      'Use D18 to identify pressure patterns that need gentle correction and better support.',
+    freeLead: 'The hidden-conflict story here says',
+    supportLead: 'The next stabilizing support signal is',
+    userValueLine:
+      'Use this chart to understand where inner pressure needs better handling, not harsher judgment.',
+    premiumLead:
+      'Premium turns D18 into a bounded inner-conflict and vulnerability reading.',
+    premiumFinish:
+      'Premium also shows which signals are actionable and which should stay secondary because of chart narrowness.',
+    premiumLabel: 'inner-conflict and vulnerability analysis',
+    freeLabel: 'inner-conflict and vulnerability insight',
+    premiumNudge:
+      'Premium turns D18 into a careful inner-conflict reading with stronger caution framing.',
+    quietChallenge:
+      'The caution here is projection: a quiet D18 should remain a soft correction signal unless multiple layers agree.',
+    quietStrength:
+      'The strength here is self-awareness: this chart can help reduce hidden strain when handled gently.',
+    technicalGuardrail:
+      'D18 must stay cautious, bounded, and non-fatalistic. Use it as a correction lens, not a doom chart.',
+    lifeAreas: ['inner conflict', 'hidden strain', 'vulnerability', 'correction'],
+  },
+  D19: {
+    defaultArea: 'fortune, dharma, teachers, and belief',
+    supportArea: 'rest, expense, healing, and release',
+    governs:
+      'Fulfillment, subtle prosperity, spiritual tendency, and the deeper satisfaction pattern behind visible life outcomes.',
+    storyLead:
+      'This D19 chart is speaking about subtle fulfillment and the kind of prosperity that feels inwardly meaningful.',
+    strengthLead: 'The strongest D19 fulfillment signal is that',
+    challengeLead:
+      'The caution in D19 is mistaking external gain for inner fulfillment or spiritual steadiness.',
+    guidanceLead:
+      'Use D19 to judge what kind of success actually leaves you settled instead of merely stimulated.',
+    freeLead: 'The fulfillment story here says',
+    supportLead: 'The next prosperity support signal is',
+    userValueLine:
+      'Use this chart to understand what kind of fulfillment really nourishes you.',
+    premiumLead:
+      'Premium turns D19 into a deeper fulfillment, grace, and subtle-prosperity reading.',
+    premiumFinish:
+      'Premium also connects D19 with D9 and D20 so fulfillment is read with dharma and practice context.',
+    premiumLabel: 'fulfillment and subtle prosperity analysis',
+    freeLabel: 'fulfillment and subtle prosperity insight',
+    premiumNudge:
+      'Premium turns D19 into a more precise fulfillment reading with dharma and practice support.',
+    quietChallenge:
+      'The caution here is vagueness: a quiet D19 needs D9 and lived reality before strong claims.',
+    quietStrength:
+      'The strength here is contentment: this chart helps separate nourishment from noise.',
+    technicalGuardrail:
+      'D19 is a subtle fulfillment lens and should stay anchored to D1, D9, and lived experience.',
+    lifeAreas: ['fulfillment', 'subtle prosperity', 'spiritual tendency', 'inner nourishment'],
+  },
+  D21: {
+    defaultArea: 'fortune, dharma, teachers, and belief',
+    supportArea: 'career, responsibility, and public role',
+    governs:
+      'Karmic extremes, deep fortune swings, dharmic pressure, and the places where life can feel unusually intensified.',
+    storyLead:
+      'This D21 chart is speaking about karmic intensity and dharmic pressure. It should be read with restraint and context.',
+    strengthLead: 'The strongest D21 stabilizing signal is that',
+    challengeLead:
+      'The caution in D21 is exaggeration. This is a narrow chart that can sound louder than it should if D1 does not support it.',
+    guidanceLead:
+      'Use D21 to notice intensified karmic pressure points without turning them into dramatic certainty.',
+    freeLead: 'The intensified-karma story here says',
+    supportLead: 'The next stabilizing support signal is',
+    userValueLine:
+      'Use this chart to understand where pressure feels amplified and where steadiness matters more.',
+    premiumLead:
+      'Premium turns D21 into a bounded karmic-pressure reading.',
+    premiumFinish:
+      'Premium also explains which intensified signals deserve weight and which should remain background context.',
+    premiumLabel: 'karmic-pressure analysis',
+    freeLabel: 'karmic-pressure insight',
+    premiumNudge:
+      'Premium turns D21 into a careful karmic-pressure reading with stronger restraint and D1 synthesis.',
+    quietChallenge:
+      'The caution here is inflation: a quiet D21 should stay secondary unless D1 and timing reinforce it clearly.',
+    quietStrength:
+      'The strength here is awareness under pressure: this chart can help you respond more carefully when life feels intensified.',
+    technicalGuardrail:
+      'D21 should stay a cautious karmic-pressure lens, not a dramatic prediction engine.',
+    lifeAreas: ['karmic pressure', 'dharmic intensity', 'fortune swings', 'stability'],
+  },
+  D22: {
+    defaultArea: 'self, body, and identity',
+    supportArea: 'work pressure, health discipline, and daily struggle',
+    governs:
+      'Strength, protection, vulnerability, accidents, and the practical relationship between resilience and exposure.',
+    storyLead:
+      'This D22 chart is speaking about strength and vulnerability. It should sharpen caution and resilience, not create alarm.',
+    strengthLead: 'The strongest D22 protection signal is that',
+    challengeLead:
+      'The caution in D22 is turning protection questions into fatalistic certainty.',
+    guidanceLead:
+      'Use D22 to strengthen resilience, bodily awareness, and practical caution where needed.',
+    freeLead: 'The protection story here says',
+    supportLead: 'The next resilience support signal is',
+    userValueLine:
+      'Use this chart to understand how to stay stronger and safer, not to fear every risk.',
+    premiumLead:
+      'Premium turns D22 into a bounded protection and resilience reading.',
+    premiumFinish:
+      'Premium also explains which vulnerabilities deserve practical attention and which do not deserve panic.',
+    premiumLabel: 'protection and resilience analysis',
+    freeLabel: 'protection and resilience insight',
+    premiumNudge:
+      'Premium turns D22 into a careful resilience and caution reading with stronger confidence framing.',
+    quietChallenge:
+      'The caution here is projection: a quiet D22 should stay a practical caution note, not a crisis claim.',
+    quietStrength:
+      'The strength here is prevention: this chart becomes valuable when it improves care and steadiness.',
+    technicalGuardrail:
+      'D22 must stay practical, bounded, and non-fatalistic as a resilience and protection lens.',
+    lifeAreas: ['strength', 'protection', 'vulnerability', 'resilience'],
+  },
+  D23: {
+    defaultArea: 'self, body, and identity',
+    supportArea: 'fortune, dharma, teachers, and belief',
+    governs:
+      'Mental steadiness, subtle support, refined fortune, and the quieter factors that help judgement stay balanced.',
+    storyLead:
+      'This D23 chart is speaking about steadiness and subtle support in the background of judgement and life flow.',
+    strengthLead: 'The strongest D23 steadiness signal is that',
+    challengeLead:
+      'The caution in D23 is overlooking small stabilizers and then misreading life as harsher than it is.',
+    guidanceLead:
+      'Use D23 to notice what quietly steadies your mind and path.',
+    freeLead: 'The steadiness story here says',
+    supportLead: 'The next subtle-support signal is',
+    userValueLine:
+      'Use this chart to understand what helps your mind and path stay quietly supported.',
+    premiumLead:
+      'Premium turns D23 into a deeper mental-steadiness and subtle-support reading.',
+    premiumFinish:
+      'Premium also connects D23 with D1 and D19 so steadiness is read with fulfillment context.',
+    premiumLabel: 'mental steadiness analysis',
+    freeLabel: 'mental steadiness insight',
+    premiumNudge:
+      'Premium turns D23 into a nuanced steadiness reading with stronger D1 context.',
+    quietChallenge:
+      'The caution here is subtle drift: a quiet D23 may still be asking for cleaner mental rhythm.',
+    quietStrength:
+      'The strength here is supportability: small supports can have a disproportionate stabilizing effect.',
+    technicalGuardrail:
+      'D23 is a subtle-steadiness lens and should stay secondary to D1 and lived evidence.',
+    lifeAreas: ['mental steadiness', 'subtle support', 'judgement', 'refined fortune'],
+  },
+  D25: {
+    defaultArea: 'effort, courage, and initiative',
+    supportArea: 'fortune, dharma, teachers, and belief',
+    governs:
+      'Spiritual strength, inner endurance, disciplined merit, and the subtle courage that supports sincere effort.',
+    storyLead:
+      'This D25 chart is speaking about inner endurance and the kind of subtle strength that keeps effort sincere over time.',
+    strengthLead: 'The strongest D25 endurance signal is that',
+    challengeLead:
+      'The caution in D25 is trying to force spiritual or moral strength without discipline.',
+    guidanceLead:
+      'Use D25 to understand what strengthens inner endurance without becoming rigid.',
+    freeLead: 'The endurance story here says',
+    supportLead: 'The next merit support signal is',
+    userValueLine:
+      'Use this chart to understand what kind of inner strength lasts when life gets demanding.',
+    premiumLead:
+      'Premium turns D25 into a deeper endurance and spiritual-strength reading.',
+    premiumFinish:
+      'Premium also connects D25 with D20 and D27 so spiritual and practical endurance are read together.',
+    premiumLabel: 'endurance and spiritual-strength analysis',
+    freeLabel: 'endurance and spiritual-strength insight',
+    premiumNudge:
+      'Premium turns D25 into a stronger endurance reading with D20 and D27 support.',
+    quietChallenge:
+      'The caution here is inconsistency: a quiet D25 may be asking for steadier practice and effort.',
+    quietStrength:
+      'The strength here is durable sincerity: this chart supports quiet inner staying power.',
+    technicalGuardrail:
+      'D25 is a subtle endurance lens and should stay anchored to D20, D27, and D1.',
+    lifeAreas: ['endurance', 'spiritual strength', 'disciplined merit', 'inner courage'],
+  },
+  D26: {
+    defaultArea: 'work pressure, health discipline, and daily struggle',
+    supportArea: 'rest, expense, healing, and release',
+    governs:
+      'Refined discomfort, emotional friction, sensitive correction points, and the subtle places where life asks for adjustment.',
+    storyLead:
+      'This D26 chart is speaking about refined discomfort and correction points. It should help adjustment, not self-criticism.',
+    strengthLead: 'The strongest D26 corrective signal is that',
+    challengeLead:
+      'The caution in D26 is amplifying minor friction into a larger judgement than the chart can support.',
+    guidanceLead:
+      'Use D26 to make small corrections that reduce repeated emotional or practical friction.',
+    freeLead: 'The correction-point story here says',
+    supportLead: 'The next easing support signal is',
+    userValueLine:
+      'Use this chart to understand where small adjustments can reduce repeated discomfort.',
+    premiumLead:
+      'Premium turns D26 into a bounded refined-discomfort and correction reading.',
+    premiumFinish:
+      'Premium also separates real friction signals from temporary sensitivity or noise.',
+    premiumLabel: 'correction-point analysis',
+    freeLabel: 'correction-point insight',
+    premiumNudge:
+      'Premium turns D26 into a careful correction reading with stronger caution and action guidance.',
+    quietChallenge:
+      'The caution here is oversensitivity: a quiet D26 should point to small refinements, not large conclusions.',
+    quietStrength:
+      'The strength here is precision: this chart helps improve life through small but meaningful corrections.',
+    technicalGuardrail:
+      'D26 should stay a refined-correction lens and avoid dramatic prediction language.',
+    lifeAreas: ['correction', 'emotional friction', 'discomfort', 'adjustment'],
+  },
+  D27: {
+    defaultArea: 'self, body, and identity',
+    supportArea: 'effort, courage, and initiative',
+    governs:
+      'Physical and mental strength, resilience, vitality, courage, recovery power, and how force can be sustained without collapse.',
+    storyLead:
+      'This D27 chart is speaking about resilience, vitality, and how your strength behaves under effort and recovery.',
+    strengthLead: 'The strongest D27 resilience signal is that',
+    challengeLead:
+      'The caution in D27 is wasting strength through poor pacing, ego reaction, or scattered effort.',
+    guidanceLead:
+      'Use D27 to understand how strength should be protected, built, and directed.',
+    freeLead: 'The resilience story here says',
+    supportLead: 'The next vitality support signal is',
+    userValueLine:
+      'Use this chart to understand what strengthens your body, mind, and staying power.',
+    premiumLead:
+      'Premium turns D27 into a deeper vitality and resilience reading.',
+    premiumFinish:
+      'Premium also connects D27 with D3 and D6 so courage, stamina, and pressure handling are read together.',
+    premiumLabel: 'resilience and vitality analysis',
+    freeLabel: 'resilience and vitality insight',
+    premiumNudge:
+      'Premium turns D27 into a stronger resilience reading with D3 and D6 support.',
+    quietChallenge:
+      'The caution here is uneven energy: a quiet D27 may be asking for smarter pacing rather than harder effort.',
+    quietStrength:
+      'The strength here is recoverability: this chart helps show where resilience can become more durable.',
+    technicalGuardrail:
+      'D27 is a strength and resilience lens that should stay anchored to D1 and real lived stamina.',
+    lifeAreas: ['resilience', 'vitality', 'courage', 'recovery'],
+  },
+  D28: {
+    defaultArea: 'change, vulnerability, and hidden pressure',
+    supportArea: 'rest, expense, healing, and release',
+    governs:
+      'Hidden adversity, restraint, karmic tests, and the deeper pressure patterns that call for patience and non-reactive handling.',
+    storyLead:
+      'This D28 chart is speaking about hidden adversity and restraint. It should sharpen patience and caution, not fear.',
+    strengthLead: 'The strongest D28 stabilizing signal is that',
+    challengeLead:
+      'The caution in D28 is reacting to deep pressure without context or turning restraint into helplessness.',
+    guidanceLead:
+      'Use D28 to understand where patience, protection, and disciplined response matter most.',
+    freeLead: 'The deep-test story here says',
+    supportLead: 'The next stabilizing support signal is',
+    userValueLine:
+      'Use this chart to understand deeper tests without giving them more power than they deserve.',
+    premiumLead:
+      'Premium turns D28 into a bounded hidden-adversity reading.',
+    premiumFinish:
+      'Premium also explains what deserves practical caution and what should remain quiet background context.',
+    premiumLabel: 'hidden-adversity analysis',
+    freeLabel: 'hidden-adversity insight',
+    premiumNudge:
+      'Premium turns D28 into a careful deep-test reading with stronger caution framing.',
+    quietChallenge:
+      'The caution here is over-reading shadow signals: a quiet D28 should stay secondary unless repeated elsewhere.',
+    quietStrength:
+      'The strength here is restraint: this chart helps you respond with steadiness under deeper pressure.',
+    technicalGuardrail:
+      'D28 must remain a cautious adversity lens, not a dramatic fate chart.',
+    lifeAreas: ['hidden adversity', 'restraint', 'deep tests', 'patience'],
+  },
+  D29: {
+    defaultArea: 'gains, networks, and long-term fulfilment',
+    supportArea: 'fortune, dharma, teachers, and belief',
+    governs:
+      'Subtle gains, unseen support, finer outcomes, and the background blessings that do not always announce themselves loudly.',
+    storyLead:
+      'This D29 chart is speaking about subtle gains and unseen support that help outcomes land more smoothly.',
+    strengthLead: 'The strongest D29 support signal is that',
+    challengeLead:
+      'The caution in D29 is overlooking quiet support because it does not look dramatic enough.',
+    guidanceLead:
+      'Use D29 to notice what quietly supports gains, timing, and softer outcomes.',
+    freeLead: 'The subtle-gains story here says',
+    supportLead: 'The next unseen-support signal is',
+    userValueLine:
+      'Use this chart to understand where results are being helped quietly in the background.',
+    premiumLead:
+      'Premium turns D29 into a finer subtle-gains and support reading.',
+    premiumFinish:
+      'Premium also connects D29 with D11 and D19 so support, gains, and fulfillment are read together.',
+    premiumLabel: 'subtle gains analysis',
+    freeLabel: 'subtle gains insight',
+    premiumNudge:
+      'Premium turns D29 into a deeper subtle-gains reading with D11 and D19 context.',
+    quietChallenge:
+      'The caution here is misreading quiet support as absence; this chart often works softly.',
+    quietStrength:
+      'The strength here is subtle help: D29 can show why outcomes feel better supported than expected.',
+    technicalGuardrail:
+      'D29 is a subtle-support lens and should stay secondary to stronger D1 and D11 evidence.',
+    lifeAreas: ['subtle gains', 'unseen support', 'finer outcomes', 'background help'],
+  },
+  D31: {
+    defaultArea: 'change, vulnerability, and hidden pressure',
+    supportArea: 'rest, expense, healing, and release',
+    governs:
+      'Fine-grained vulnerabilities, restraint, inner purification, and the subtler places where life asks for correction and humility.',
+    storyLead:
+      'This D31 chart is speaking about subtle vulnerabilities and purification. It should guide refinement, not fear.',
+    strengthLead: 'The strongest D31 stabilizing signal is that',
+    challengeLead:
+      'The caution in D31 is harsh self-judgement or dramatic reading of a very narrow chart.',
+    guidanceLead:
+      'Use D31 to understand what should be softened, purified, or handled more carefully.',
+    freeLead: 'The vulnerability-correction story here says',
+    supportLead: 'The next refining support signal is',
+    userValueLine:
+      'Use this chart to understand where smaller corrections can reduce deeper friction.',
+    premiumLead:
+      'Premium turns D31 into a bounded vulnerability and purification reading.',
+    premiumFinish:
+      'Premium also separates true correction points from passing intensity or noise.',
+    premiumLabel: 'vulnerability and purification analysis',
+    freeLabel: 'vulnerability and purification insight',
+    premiumNudge:
+      'Premium turns D31 into a careful purification reading with stronger caution and refinement guidance.',
+    quietChallenge:
+      'The caution here is over-interpretation: a quiet D31 should stay a subtle correction signal.',
+    quietStrength:
+      'The strength here is refinement through humility: this chart helps soften unnecessary friction.',
+    technicalGuardrail:
+      'D31 must stay narrow, careful, and non-dramatic as a vulnerability-correction lens.',
+    lifeAreas: ['vulnerability', 'purification', 'restraint', 'correction'],
+  },
+  D32: {
+    defaultArea: 'effort, courage, and initiative',
+    supportArea: 'work pressure, health discipline, and daily struggle',
+    governs:
+      'Strength distribution, hardship patterning, endurance, and the way effort behaves when life becomes demanding.',
+    storyLead:
+      'This D32 chart is speaking about endurance and hardship handling. It helps judge how effort holds under strain.',
+    strengthLead: 'The strongest D32 endurance signal is that',
+    challengeLead:
+      'The caution in D32 is trying to force strength where pacing, support, or recovery are missing.',
+    guidanceLead:
+      'Use D32 to understand where endurance is reliable and where support is needed before pushing harder.',
+    freeLead: 'The endurance-under-strain story here says',
+    supportLead: 'The next hardship-support signal is',
+    userValueLine:
+      'Use this chart to understand how your effort behaves when life gets heavier.',
+    premiumLead:
+      'Premium turns D32 into a deeper endurance and hardship-pattern reading.',
+    premiumFinish:
+      'Premium also connects D32 with D3, D6, and D27 so effort, strain, and resilience stay aligned.',
+    premiumLabel: 'endurance under strain analysis',
+    freeLabel: 'endurance under strain insight',
+    premiumNudge:
+      'Premium turns D32 into a stronger endurance reading with D3, D6, and D27 support.',
+    quietChallenge:
+      'The caution here is hidden depletion: a quiet D32 may still be asking for more recovery discipline.',
+    quietStrength:
+      'The strength here is realistic endurance: this chart improves pacing and sustainable effort.',
+    technicalGuardrail:
+      'D32 is an endurance-under-strain lens and should stay anchored to D1 and lived stamina.',
+    lifeAreas: ['endurance', 'hardship', 'effort under strain', 'pacing'],
+  },
+  D33: {
+    defaultArea: 'gains, networks, and long-term fulfilment',
+    supportArea: 'fortune, dharma, teachers, and belief',
+    governs:
+      'Subtle fortune, refined outcomes, and micro-patterns that quietly shape timing and result quality.',
+    storyLead:
+      'This D33 chart is speaking about refined fortune and subtle timing texture in the background of outcomes.',
+    strengthLead: 'The strongest D33 fortune signal is that',
+    challengeLead:
+      'The caution in D33 is demanding loud proof from a chart that works through finer patterns.',
+    guidanceLead:
+      'Use D33 to understand small timing textures and subtle advantages without overstating them.',
+    freeLead: 'The refined-outcome story here says',
+    supportLead: 'The next subtle-fortune signal is',
+    userValueLine:
+      'Use this chart to understand where quieter support improves the quality of outcomes.',
+    premiumLead:
+      'Premium turns D33 into a finer timing-texture and subtle-fortune reading.',
+    premiumFinish:
+      'Premium also connects D33 with D11 and timing so refined support becomes more interpretable.',
+    premiumLabel: 'refined fortune analysis',
+    freeLabel: 'refined fortune insight',
+    premiumNudge:
+      'Premium turns D33 into a nuanced subtle-fortune reading with timing context.',
+    quietChallenge:
+      'The caution here is impatience: a quiet D33 usually needs timing support before it becomes obvious.',
+    quietStrength:
+      'The strength here is refinement: this chart helps explain why some outcomes land more smoothly.',
+    technicalGuardrail:
+      'D33 is a subtle outcome-quality lens and should stay secondary to stronger chart layers.',
+    lifeAreas: ['subtle fortune', 'timing texture', 'refined outcomes', 'quiet support'],
+  },
+  D34: {
+    defaultArea: 'change, vulnerability, and hidden pressure',
+    supportArea: 'fortune, dharma, teachers, and belief',
+    governs:
+      'Specific karmic texture, nuanced correction points, and the finer destiny factors that should be read with caution and humility.',
+    storyLead:
+      'This D34 chart is speaking about specific karmic texture and fine correction points. It should stay careful and bounded.',
+    strengthLead: 'The strongest D34 stabilizing signal is that',
+    challengeLead:
+      'The caution in D34 is pretending high certainty from a very nuanced and narrow chart.',
+    guidanceLead:
+      'Use D34 to notice fine correction themes without turning them into absolute destiny claims.',
+    freeLead: 'The karmic-texture story here says',
+    supportLead: 'The next stabilizing support signal is',
+    userValueLine:
+      'Use this chart to understand fine correction themes with humility, not with dramatic certainty.',
+    premiumLead:
+      'Premium turns D34 into a bounded nuanced-karma reading.',
+    premiumFinish:
+      'Premium also explains which fine texture signals deserve weight and which should stay secondary.',
+    premiumLabel: 'nuanced karma analysis',
+    freeLabel: 'nuanced karma insight',
+    premiumNudge:
+      'Premium turns D34 into a careful nuanced-karma reading with stronger restraint and D1 synthesis.',
+    quietChallenge:
+      'The caution here is false certainty: a quiet D34 should remain a subtle background-correction layer.',
+    quietStrength:
+      'The strength here is nuance: this chart helps refine judgement when handled with restraint.',
+    technicalGuardrail:
+      'D34 must remain a subtle karmic-texture lens with cautious, non-dramatic language.',
+    lifeAreas: ['karmic texture', 'correction themes', 'nuance', 'subtle destiny factors'],
   },
 };

@@ -50,6 +50,7 @@ export function WebChartsExplorer({
 
   const chart = kundli.charts[selectedChart] ?? kundli.charts.D1;
   const selectedConfig = CHART_REGISTRY.find(item => item.id === selectedChart);
+  const selectedCategory = getChartCategory(selectedChart);
 
   return (
     <div className="chart-explorer">
@@ -92,10 +93,21 @@ export function WebChartsExplorer({
           </div>
           {selectedConfig ? (
             <div className="selected-chart-summary" aria-live="polite">
-              <span>{copy.whyItMatters}</span>
+              <div className="selected-chart-summary-meta">
+                <span>{copy.whyItMatters}</span>
+                <em>
+                  {selectedCategory === 'advanced'
+                    ? copy.advancedLibrary
+                    : copy.coreLibrary}
+                </em>
+              </div>
               <strong>{selectedConfig.name}</strong>
               <p>{selectedConfig.purpose}</p>
-              <small>{copy.defaultInsightView}</small>
+              <small>
+                {selectedCategory === 'advanced'
+                  ? copy.advancedChartHint
+                  : copy.defaultInsightView}
+              </small>
             </div>
           ) : null}
           <WebKundliChart
@@ -168,7 +180,10 @@ const CHART_EXPLORER_COPY: Record<
   {
     activeTitle: string;
     advancedCharts: string;
+    advancedChartHint: string;
+    advancedLibrary: string;
     chartGuide: string;
+    coreLibrary: string;
     coreCharts: string;
     createKundli: string;
     emptyBody: string;
@@ -182,8 +197,12 @@ const CHART_EXPLORER_COPY: Record<
 > = {
   en: {
     activeTitle: 'Chart Kundli',
+    advancedChartHint:
+      'Advanced charts stay meaning-first, but always read them through D1 and use Technical View for the evidence layer.',
     advancedCharts: 'Advanced charts',
+    advancedLibrary: 'Advanced chart library',
     chartGuide: 'What each chart is for',
+    coreLibrary: 'Core chart library',
     coreCharts: 'Core charts',
     createKundli: 'Create Kundli',
     defaultInsightView:
@@ -198,8 +217,12 @@ const CHART_EXPLORER_COPY: Record<
   },
   hi: {
     activeTitle: 'चार्ट कुंडली',
+    advancedChartHint:
+      'उन्नत चार्ट पहले अर्थ दिखाते हैं, लेकिन इन्हें हमेशा D1 के साथ पढ़ें और प्रमाण के लिए Technical View खोलें.',
     advancedCharts: 'उन्नत चार्ट',
+    advancedLibrary: 'उन्नत चार्ट लाइब्रेरी',
     chartGuide: 'कौन-सा चार्ट क्या दिखाता है',
+    coreLibrary: 'मुख्य चार्ट लाइब्रेरी',
     coreCharts: 'मुख्य चार्ट',
     createKundli: 'कुंडली बनाएं',
     defaultInsightView:
@@ -214,8 +237,12 @@ const CHART_EXPLORER_COPY: Record<
   },
   gu: {
     activeTitle: 'ચાર્ટ કુંડળી',
+    advancedChartHint:
+      'ઉન્નત ચાર્ટ પહેલા અર્થ બતાવે છે, પરંતુ તેમને હંમેશા D1 સાથે વાંચો અને પુરાવા માટે Technical View ખોલો.',
     advancedCharts: 'ઉન્નત ચાર્ટ્સ',
+    advancedLibrary: 'ઉન્નત ચાર્ટ લાઇબ્રેરી',
     chartGuide: 'કયો ચાર્ટ શું બતાવે છે',
+    coreLibrary: 'મુખ્ય ચાર્ટ લાઇબ્રેરી',
     coreCharts: 'મુખ્ય ચાર્ટ્સ',
     createKundli: 'કુંડળી બનાવો',
     defaultInsightView:

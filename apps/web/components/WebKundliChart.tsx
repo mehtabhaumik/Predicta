@@ -26,6 +26,7 @@ import {
   shouldUseStandardHouseMeaning,
   type ChartInsight,
   type ChartRenderLegendItem,
+  type ChartRenderPlanet,
   type ChartRenderSchool,
   type MoonNakshatraPadaInsight,
 } from '@pridicta/astrology';
@@ -111,6 +112,15 @@ export function WebKundliChart({
   const readingNote = readingNoteOverride ?? getChartReadingNote(chart.chartType);
   const isD1 = shouldUseStandardHouseMeaning(chart.chartType);
   const activeSupportingPoints = activeCell?.supportingPoints ?? [];
+  const technicalLabels = getTechnicalViewLabels(chartLanguage);
+  const technicalAnchorRule = formatTechnicalAnchorRule(chart.chartType, chartLanguage);
+  const technicalHouseEvidence = activeCell
+    ? formatTechnicalHouseEvidence(activeCell, chartLanguage)
+    : '';
+  const technicalConditionSummary = formatTechnicalConditionSummary(
+    activeCell?.renderPlanets ?? [],
+    chartLanguage,
+  );
 
   function selectHouse(house?: number) {
     if (!house) {
@@ -418,6 +428,24 @@ export function WebKundliChart({
               ))}
             </ul>
           </div>
+          <div className="chart-technical-grid">
+            <article className="chart-technical-block">
+              <span>{technicalLabels.anchorRule}</span>
+              <strong>{technicalAnchorRule}</strong>
+            </article>
+            <article className="chart-technical-block">
+              <span>{technicalLabels.chartSpecificNote}</span>
+              <strong>{localizeChartPhrase(readingNote, chartLanguage)}</strong>
+            </article>
+            <article className="chart-technical-block">
+              <span>{technicalLabels.houseEvidence}</span>
+              <strong>{technicalHouseEvidence}</strong>
+            </article>
+            <article className="chart-technical-block">
+              <span>{technicalLabels.planetCondition}</span>
+              <strong>{technicalConditionSummary}</strong>
+            </article>
+          </div>
           <div
             aria-live="polite"
             className="chart-drilldown"
@@ -505,6 +533,17 @@ export function WebKundliChart({
                 ))}
               </div>
             ) : null}
+            {activeCell.renderPlanets.length ? (
+              <div className="chart-planet-detail-list">
+                {activeCell.renderPlanets.map(planet => (
+                  <article className="chart-planet-detail-card" key={`${planet.key}-detail`}>
+                    <span>{planet.displayName}</span>
+                    <strong>{formatPlanetTechnicalDetail(planet, chartLanguage)}</strong>
+                    <small>{formatPlanetTechnicalCondition(planet, chartLanguage)}</small>
+                  </article>
+                ))}
+              </div>
+            ) : null}
             {activeSupportingPoints.length ? (
               <details className="chart-supporting-points-drawer">
                 <summary>
@@ -587,6 +626,40 @@ function getChartLanguageCopy(language: SupportedLanguage): ChartLanguageCopy {
 
   return {
     title: titleByLanguage[language] ?? common.language,
+  };
+}
+
+type TechnicalViewLabels = {
+  anchorRule: string;
+  chartSpecificNote: string;
+  houseEvidence: string;
+  planetCondition: string;
+};
+
+function getTechnicalViewLabels(language: SupportedLanguage): TechnicalViewLabels {
+  if (language === 'hi') {
+    return {
+      anchorRule: 'D1 आधार नियम',
+      chartSpecificNote: 'चार्ट विशेष नोट',
+      houseEvidence: 'भाव प्रमाण',
+      planetCondition: 'ग्रह स्थिति',
+    };
+  }
+
+  if (language === 'gu') {
+    return {
+      anchorRule: 'D1 આધાર નિયમ',
+      chartSpecificNote: 'ચાર્ટ વિશેષ નોંધ',
+      houseEvidence: 'ભાવ પુરાવો',
+      planetCondition: 'ગ્રહ સ્થિતિ',
+    };
+  }
+
+  return {
+    anchorRule: 'D1 anchor rule',
+    chartSpecificNote: 'Chart-specific note',
+    houseEvidence: 'House evidence',
+    planetCondition: 'Planet condition',
   };
 }
 
@@ -849,6 +922,129 @@ function formatReadWithD1Detail(chartType: string, language: SupportedLanguage):
   }
 
   return `Read ${chartType} together with D1; never judge this area from the varga alone.`;
+}
+
+function formatTechnicalAnchorRule(
+  chartType: ChartType,
+  language: SupportedLanguage,
+): string {
+  if (chartType === 'D1') {
+    if (language === 'hi') {
+      return 'D1 मूल चार्ट है. बाकी सभी चार्ट इसी आधार पर सत्यापित होते हैं.';
+    }
+
+    if (language === 'gu') {
+      return 'D1 મૂળ ચાર્ટ છે. બાકીના બધા ચાર્ટો આ આધાર પર જ ચકાસાય છે.';
+    }
+
+    return 'D1 is the root chart. Every other chart must be verified against it.';
+  }
+
+  return formatReadWithD1Detail(chartType, language);
+}
+
+function formatTechnicalHouseEvidence(
+  cell: {
+    displaySign: string;
+    house?: number;
+    renderPlanets: ChartRenderPlanet[];
+    supportingPoints: PlanetPosition[];
+  },
+  language: SupportedLanguage,
+): string {
+  const houseLabel = formatHouseLabel(cell.house ?? 1, language);
+  const coreCount = cell.renderPlanets.length;
+  const supportCount = cell.supportingPoints.length;
+
+  if (language === 'hi') {
+    return `${houseLabel} · ${cell.displaySign}. ${coreCount} मुख्य ग्रह${supportCount ? ` और ${supportCount} सहायक संकेत` : ''}.`;
+  }
+
+  if (language === 'gu') {
+    return `${houseLabel} · ${cell.displaySign}. ${coreCount} મુખ્ય ગ્રહ${supportCount ? ` અને ${supportCount} સહાયક સંકેત` : ''}.`;
+  }
+
+  return `${houseLabel} · ${cell.displaySign}. ${coreCount} core graha${coreCount === 1 ? '' : 's'}${supportCount ? ` and ${supportCount} supporting refinement${supportCount === 1 ? '' : 's'}` : ''}.`;
+}
+
+function formatTechnicalConditionSummary(
+  planets: ChartRenderPlanet[],
+  language: SupportedLanguage,
+): string {
+  if (!planets.length) {
+    if (language === 'hi') {
+      return 'इस भाव में कोई मुख्य ग्रह नहीं है; साइन, भूमिका और सहायक बिंदुओं से पढ़ें.';
+    }
+
+    if (language === 'gu') {
+      return 'આ ભાવમાં કોઈ મુખ્ય ગ્રહ નથી; રાશિ, ભૂમિકા અને સહાયક બિંદુઓથી વાંચો.';
+    }
+
+    return 'No core graha occupy this house; read the sign, chart role, and supporting refinements.';
+  }
+
+  const exalted = planets.filter(planet => planet.status.exalted).length;
+  const debilitated = planets.filter(planet => planet.status.debilitated).length;
+  const combust = planets.filter(planet => planet.status.combust).length;
+  const retrograde = planets.filter(planet => planet.status.retrograde).length;
+
+  if (language === 'hi') {
+    return `उच्च ${exalted}, नीच ${debilitated}, अस्त ${combust}, वक्री ${retrograde}.`;
+  }
+
+  if (language === 'gu') {
+    return `ઉચ્ચ ${exalted}, નીચ ${debilitated}, અસ્ત ${combust}, વક્રી ${retrograde}.`;
+  }
+
+  return `Exalted ${exalted}, debilitated ${debilitated}, combust ${combust}, retrograde ${retrograde}.`;
+}
+
+function formatPlanetTechnicalDetail(
+  planet: ChartRenderPlanet,
+  language: SupportedLanguage,
+): string {
+  if (language === 'hi') {
+    return `${planet.displaySign} · ${planet.degreeLabel} · ${planet.nakshatra} पाद ${planet.pada}`;
+  }
+
+  if (language === 'gu') {
+    return `${planet.displaySign} · ${planet.degreeLabel} · ${planet.nakshatra} પાદ ${planet.pada}`;
+  }
+
+  return `${planet.displaySign} · ${planet.degreeLabel} · ${planet.nakshatra} pada ${planet.pada}`;
+}
+
+function formatPlanetTechnicalCondition(
+  planet: ChartRenderPlanet,
+  language: SupportedLanguage,
+): string {
+  const states: string[] = [];
+
+  if (planet.status.exalted) {
+    states.push(language === 'hi' ? 'उच्च' : language === 'gu' ? 'ઉચ્ચ' : 'Exalted');
+  }
+
+  if (planet.status.debilitated) {
+    states.push(language === 'hi' ? 'नीच' : language === 'gu' ? 'નીચ' : 'Debilitated');
+  }
+
+  if (planet.status.combust) {
+    states.push(language === 'hi' ? 'अस्त' : language === 'gu' ? 'અસ્ત' : 'Combust');
+  }
+
+  if (planet.status.retrograde) {
+    states.push(language === 'hi' ? 'वक्री' : language === 'gu' ? 'વક્રી' : 'Retrograde');
+  }
+
+  if (!states.length) {
+    return language === 'hi'
+      ? 'स्थिति सामान्य'
+      : language === 'gu'
+      ? 'સ્થિતિ સામાન્ય'
+      : 'Condition steady';
+  }
+
+  return states.join(language === 'en' ? ' · ' : ' · ');
 }
 
 function localizeSignName(sign: string, language: SupportedLanguage): string {
