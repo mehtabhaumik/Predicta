@@ -32,7 +32,7 @@ export default function ReportPage(): React.JSX.Element {
         <Link
           className="button secondary"
           href={buildPredictaChatHref({
-            prompt: 'Help me choose the right report from my selected Kundli.',
+            prompt: copy.askPrompt,
             sourceScreen: 'Report Marketplace',
           })}
         >
@@ -47,6 +47,7 @@ const reportPageCopy: Record<
   SupportedLanguage,
   {
     askCta: string;
+    askPrompt: string;
     body: string;
     drawerTitle: string;
     openDetails: string;
@@ -56,6 +57,7 @@ const reportPageCopy: Record<
 > = {
   en: {
     askCta: 'Ask which report fits',
+    askPrompt: 'Help me choose the right report from my selected Kundli.',
     body:
       'Start with a useful free preview. Choose paid depth only when the report needs timing windows, remedies, chart proof, or a polished PDF for a real decision.',
     drawerTitle: 'How to choose',
@@ -64,21 +66,23 @@ const reportPageCopy: Record<
     title: 'Pick the report you actually need.',
   },
   hi: {
-    askCta: 'कौन सी report सही है पूछें',
+    askCta: 'पूछें कौन सी रिपोर्ट सही रहेगी',
+    askPrompt: 'मेरी चुनी हुई कुंडली के लिए सही रिपोर्ट चुनने में मदद करें.',
     body:
-      'उपयोगी free preview से शुरू करें. Paid depth तभी चुनें जब real decision के लिए timing windows, remedies, chart proof या polished PDF चाहिए.',
+      'उपयोगी मुफ्त झलक से शुरू करें. गहराई वाला सशुल्क विकल्प तभी चुनें जब किसी गंभीर निर्णय के लिए समय-खिड़कियां, उपाय, चार्ट प्रमाण या संभालकर रखने योग्य सजी हुई पीडीएफ चाहिए.',
     drawerTitle: 'कैसे चुनें',
     openDetails: 'खोलें',
-    premiumCta: 'रिपोर्ट options compare करें',
-    title: 'जो रिपोर्ट सच में चाहिए, वही चुनें.',
+    premiumCta: 'रिपोर्ट विकल्प देखें',
+    title: 'वही रिपोर्ट चुनें जिसकी सच में जरूरत है.',
   },
   gu: {
-    askCta: 'કઈ report યોગ્ય છે પૂછો',
+    askCta: 'પૂછો કઈ રિપોર્ટ યોગ્ય રહેશે',
+    askPrompt: 'મારી પસંદ કરેલી કુંડળી માટે યોગ્ય રિપોર્ટ પસંદ કરવામાં મદદ કરો.',
     body:
-      'ઉપયોગી free preview થી શરૂ કરો. Paid depth ત્યારે પસંદ કરો જ્યારે real decision માટે timing windows, remedies, chart proof અથવા polished PDF જોઈએ.',
+      'ઉપયોગી મફત ઝલકથી શરૂ કરો. વધુ ઊંડાઈવાળો સશુલ્ક વિકલ્પ ત્યારે જ પસંદ કરો જ્યારે કોઈ ગંભીર નિર્ણય માટે સમયની ખિડકીઓ, ઉપાયો, ચાર્ટ પુરાવો અથવા સાચવી રાખવા જેવી સજ્જ પીડીએફ જોઈએ.',
     drawerTitle: 'કેવી રીતે પસંદ કરવું',
     openDetails: 'ખોલો',
-    premiumCta: 'રિપોર્ટ options compare કરો',
-    title: 'જે રિપોર્ટ સાચે જોઈએ, તે પસંદ કરો.',
+    premiumCta: 'રિપોર્ટ વિકલ્પો જુઓ',
+    title: 'જે રિપોર્ટની ખરેખર જરૂર છે, તે પસંદ કરો.',
   },
 };

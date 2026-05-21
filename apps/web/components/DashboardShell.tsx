@@ -319,19 +319,19 @@ const TOPBAR_CONTEXT_COPY: Record<
       eyebrow: 'તમારું કેન્દ્ર',
     },
     vedic: {
-      eyebrow: 'વેદિક વર્લ્ડ',
+      eyebrow: 'વેદિક દુનિયા',
     },
     kp: {
-      eyebrow: 'KP વર્લ્ડ',
+      eyebrow: 'કૃષ્ણમૂર્તિ પદ્ધતિ દુનિયા',
     },
     nadi: {
-      eyebrow: 'નાડી વર્લ્ડ',
+      eyebrow: 'નાડી દુનિયા',
     },
     numerology: {
-      eyebrow: 'અંક જ્યોતિષ વર્લ્ડ',
+      eyebrow: 'અંક જ્યોતિષ દુનિયા',
     },
     signature: {
-      eyebrow: 'હસ્તાક્ષર વર્લ્ડ',
+      eyebrow: 'હસ્તાક્ષર દુનિયા',
     },
     reports: {
       eyebrow: 'રિપોર્ટ્સ',
@@ -404,7 +404,9 @@ export function DashboardShell({
         activeSection={activeSection}
         adminLabel={shellLabels.nav.admin}
         allSections={sections}
+        brandSubtitle={shellLabels.topbarDescription}
         commonGroups={commonGroups}
+        homeAriaLabel={shellLabels.nav.home}
         ownerLabel={shellLabels.groups.owner}
         showAdmin={showAdmin}
         worldsLabel={shellLabels.groups.sections}

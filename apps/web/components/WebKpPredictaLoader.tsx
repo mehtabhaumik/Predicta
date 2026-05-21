@@ -46,6 +46,7 @@ export function WebKpPredictaLoader(): React.JSX.Element {
       <WebActiveKundliActions
         compact
         kundli={schoolReady.kundli}
+        school="KP"
         sourceScreen="KP Predicta"
         title="KP reading Kundli"
       />

@@ -331,6 +331,141 @@
       "hi": "ऐप भाषा",
       "gu": "એપ ભાષા"
     },
+    "ui.profileAndSettings.settings": {
+      "en": "Profile and settings",
+      "hi": "प्रोफाइल और सेटिंग्स",
+      "gu": "પ્રોફાઇલ અને સેટિંગ્સ"
+    },
+    "ui.whatYouCanManage.settings": {
+      "en": "What you can manage",
+      "hi": "आप क्या संभाल सकते हैं",
+      "gu": "તમે શું સંભાળી શકો"
+    },
+    "ui.account.settings": {
+      "en": "ACCOUNT",
+      "hi": "खाता",
+      "gu": "ખાતું"
+    },
+    "ui.guestProfile.settings": {
+      "en": "Guest profile",
+      "hi": "अतिथि प्रोफाइल",
+      "gu": "ગેસ્ટ પ્રોફાઇલ"
+    },
+    "ui.email.settings": {
+      "en": "Email",
+      "hi": "ईमेल",
+      "gu": "ઈમેલ"
+    },
+    "ui.accountContinuity.settings": {
+      "en": "Account continuity",
+      "hi": "खाता निरंतरता",
+      "gu": "એકાઉન્ટ સતતતા"
+    },
+    "ui.openLibrary.settings": {
+      "en": "Open Library",
+      "hi": "लाइब्रेरी खोलें",
+      "gu": "લાઇબ્રેરી ખોલો"
+    },
+    "ui.language.settings": {
+      "en": "LANGUAGE",
+      "hi": "भाषा",
+      "gu": "ભાષા"
+    },
+    "ui.chooseHowPredictaSpeaksAndDisplaysCharts.settings": {
+      "en": "Choose how Predicta speaks and displays charts.",
+      "hi": "चुनें कि प्रेडिक्टा कैसे बोले और चार्ट कैसे दिखाए.",
+      "gu": "પ્રેડિક્ટા કેવી રીતે બોલે અને ચાર્ટ કેવી રીતે બતાવે તે પસંદ કરો."
+    },
+    "ui.appChartReportAndReplyLanguageStaySeparate.settings": {
+      "en": "App language, chart language, report language, and chat reply language stay separate.",
+      "hi": "ऐप भाषा, चार्ट भाषा, रिपोर्ट भाषा और चैट उत्तर भाषा अलग रहती हैं.",
+      "gu": "એપ ભાષા, ચાર્ટ ભાષા, રિપોર્ટ ભાષા અને ચેટ જવાબ ભાષા અલગ રહે છે."
+    },
+    "ui.chartLanguage.settings": {
+      "en": "Chart language",
+      "hi": "चार्ट भाषा",
+      "gu": "ચાર્ટ ભાષા"
+    },
+    "ui.reportLanguage.settings": {
+      "en": "Report language",
+      "hi": "रिपोर्ट भाषा",
+      "gu": "રિપોર્ટ ભાષા"
+    },
+    "ui.predictaReplyLanguage.settings": {
+      "en": "Predicta reply language",
+      "hi": "प्रेडिक्टा उत्तर भाषा",
+      "gu": "પ્રેડિક્ટા જવાબ ભાષા"
+    },
+    "ui.access.settings": {
+      "en": "ACCESS",
+      "hi": "प्रवेश",
+      "gu": "પ્રવેશ"
+    },
+    "ui.yourFreeGuidanceResetsTomorrow.settings": {
+      "en": "Your free guidance resets tomorrow",
+      "hi": "आपका मुफ्त मार्गदर्शन कल रीसेट होगा",
+      "gu": "તમારું મફત માર્ગદર્શન કાલે રીસેટ થશે"
+    },
+    "ui.viewPremium.settings": {
+      "en": "View Premium",
+      "hi": "प्रीमियम देखें",
+      "gu": "પ્રીમિયમ જુઓ"
+    },
+    "ui.reviewSubscriptionsAndOneTimeReportOptions.settings": {
+      "en": "Review subscriptions and one-time report options.",
+      "hi": "सब्सक्रिप्शन और एक-बार रिपोर्ट विकल्प देखें.",
+      "gu": "સબ્સ્ક્રિપ્શન અને એક વખતના રિપોર્ટ વિકલ્પો જુઓ."
+    },
+    "ui.guestPass.settings": {
+      "en": "Guest pass",
+      "hi": "गेस्ट पास",
+      "gu": "ગેસ્ટ પાસ"
+    },
+    "ui.redeemAPrivateInviteUsingTheApprovedEmail.settings": {
+      "en": "Redeem a private invite using the approved email.",
+      "hi": "स्वीकृत ईमेल का उपयोग करके निजी आमंत्रण रिडीम करें.",
+      "gu": "મંજૂર ઈમેલનો ઉપયોગ કરીને ખાનગી આમંત્રણ રિડીમ કરો."
+    },
+    "ui.privacy.settings": {
+      "en": "PRIVACY",
+      "hi": "प्राइवेसी",
+      "gu": "પ્રાઇવસી"
+    },
+    "ui.privateByDefault.settings": {
+      "en": "Private by default",
+      "hi": "डिफॉल्ट रूप से निजी",
+      "gu": "ડિફૉલ્ટ રૂપે ખાનગી"
+    },
+    "ui.reportPreference.settings": {
+      "en": "Report preference",
+      "hi": "रिपोर्ट पसंद",
+      "gu": "રિપોર્ટ પસંદગી"
+    },
+    "ui.lastReportLanguage.settings": {
+      "en": "Last report language",
+      "hi": "पिछली रिपोर्ट भाषा",
+      "gu": "છેલ્લી રિપોર્ટ ભાષા"
+    },
+    "ui.chatSessions.settings": {
+      "en": "Chat sessions",
+      "hi": "चैट सत्र",
+      "gu": "ચેટ સત્રો"
+    },
+    "ui.guestsUseOneActiveChat.settings": {
+      "en": "Guests use one active chat. Sign in for multiple sessions.",
+      "hi": "अतिथि एक सक्रिय चैट का उपयोग करते हैं. कई सत्रों के लिए साइन इन करें.",
+      "gu": "ગેસ્ટ એક સક્રિય ચેટનો ઉપયોગ કરે છે. ઘણા સત્રો માટે સાઇન ઇન કરો."
+    },
+    "ui.openChat.settings": {
+      "en": "Open Chat",
+      "hi": "चैट खोलें",
+      "gu": "ચેટ ખોલો"
+    },
+    "ui.saved.settings": {
+      "en": "saved",
+      "hi": "सेव",
+      "gu": "સેવ"
+    },
     "ui.appMap.1xrj44d": {
       "en": "APP MAP",
       "hi": "ऐप मार्ग",
@@ -2273,8 +2408,8 @@
     },
     "ui.premiumNadiReadingRoom.vc6fj4": {
       "en": "Premium Nadi reading room.",
-      "hi": "प्रीमियम नाड़ी रीडिंग रूम.",
-      "gu": "પ્રીમિયમ નાડી રીડિંગ રૂમ."
+      "hi": "प्रीमियम नाड़ी वाचन कक्ष.",
+      "gu": "પ્રીમિયમ નાડી વાચન કક્ષ."
     },
     "ui.premiumOnly.1g617ud": {
       "en": "Premium only",
@@ -4496,6 +4631,11 @@
       "hi": "कृष्णमूर्ति प्रेडिक्टा से चैट करें.",
       "gu": "કૃષ્ણમૂર્તિ પ્રેડિક્ટા સાથે ચેટ કરો."
     },
+    "manual.kp_reading_kundli": {
+      "en": "KP reading Kundli",
+      "hi": "कृष्णमूर्ति पद्धति पढ़ने की कुंडली",
+      "gu": "કૃષ્ણમૂર્તિ પદ્ધતિ વાંચન કુંડળી"
+    },
     "manual.nadi_predicta_reads_planet_to_planet_story_links_karmic_": {
       "en": "Nadi Predicta reads planet-to-planet story links, karmic themes, and validation questions from the calculated chart.",
       "hi": "नाड़ी प्रेडिक्टा गणना किए गए चार्ट से ग्रह-से-ग्रह कथा संबंध, कर्म विषय और पुष्टि प्रश्न पढ़ती है.",
@@ -4506,6 +4646,16 @@
       "hi": "नाड़ी प्रेडिक्टा से चैट करें.",
       "gu": "નાડી પ્રેડિક્ટા સાથે ચેટ કરો."
     },
+    "manual.nadi_reading_kundli": {
+      "en": "Nadi reading Kundli",
+      "hi": "नाड़ी पढ़ने की कुंडली",
+      "gu": "નાડી વાંચન કુંડળી"
+    },
+    "manual.story_links": {
+      "en": "Story links",
+      "hi": "कथा संबंध",
+      "gu": "કથા સંબંધ"
+    },
     "manual.numerology_predicta_uses_name_number_birth_number_destin": {
       "en": "Numerology Predicta uses name number, birth number, destiny number, personal timing, and name rhythm before synthesis.",
       "hi": "अंक ज्योतिष प्रेडिक्टा सार देने से पहले नाम अंक, जन्म अंक, भाग्य अंक, निजी समय और नाम की लय देखती है.",
@@ -4515,6 +4665,141 @@
       "en": "Chat with Numerology Predicta.",
       "hi": "अंक ज्योतिष प्रेडिक्टा से चैट करें.",
       "gu": "અંક જ્યોતિષ પ્રેડિક્ટા સાથે ચેટ કરો."
+    },
+    "manual.a_separate_number_reading_room": {
+      "en": "A separate number-reading room.",
+      "hi": "अंकों को अलग से पढ़ने का कमरा.",
+      "gu": "અંકોને અલગથી વાંચવાનો રૂમ."
+    },
+    "manual.numerology_predicta_reads_name_rhythm_birth_number_dest": {
+      "en": "Numerology Predicta reads name rhythm, birth number, destiny number, and current personal cycles. It stays separate from Vedic, KP, Nadi, and Signature unless you ask for a careful synthesis.",
+      "hi": "अंक ज्योतिष प्रेडिक्टा नाम की लय, जन्म अंक, भाग्य अंक और वर्तमान निजी चक्र पढ़ती है. जब तक आप सावधानी से संयुक्त सार न मांगें, यह वैदिक, केपी, नाड़ी और हस्ताक्षर पद्धति से अलग रहती है.",
+      "gu": "અંક જ્યોતિષ પ્રેડિક્ટા નામની લય, જન્મ અંક, ભાગ્ય અંક અને વર્તમાન વ્યક્તિગત ચક્ર વાંચે છે. જ્યાં સુધી તમે સાવધાનીથી સંયુક્ત સાર ન માંગો, ત્યાં સુધી તે વૈદિક, કેપી, નાડી અને હસ્તાક્ષર પદ્ધતિથી અલગ રહે છે."
+    },
+    "manual.numerology_world": {
+      "en": "Numerology world",
+      "hi": "अंक ज्योतिष दुनिया",
+      "gu": "અંક જ્યોતિષ વિશ્વ"
+    },
+    "manual.chat_with_numerology_predicta.3": {
+      "en": "Chat with Numerology Predicta",
+      "hi": "अंक ज्योतिष प्रेडिक्टा से चैट करें",
+      "gu": "અંક જ્યોતિષ પ્રેડિક્ટા સાથે ચેટ કરો"
+    },
+    "manual.build_numerology_report": {
+      "en": "Build Numerology report",
+      "hi": "अंक ज्योतिष रिपोर्ट बनाएं",
+      "gu": "અંક જ્યોતિષ રિપોર્ટ બનાવો"
+    },
+    "manual.calculated_numbers": {
+      "en": "Calculated numbers",
+      "hi": "गिने हुए अंक",
+      "gu": "ગણાયેલા અંક"
+    },
+    "manual.the_room_starts_from_the_saved_name_birth_date_and_curre": {
+      "en": "The room starts from the saved name, birth date, and current date before offering guidance.",
+      "hi": "यह कक्ष मार्गदर्शन देने से पहले सेव किए गए नाम, जन्म तिथि और आज की तारीख से शुरू करता है.",
+      "gu": "આ રૂમ માર્ગદર્શન આપતા પહેલાં સેવ કરેલા નામ, જન્મ તારીખ અને આજની તારીખથી શરૂઆત કરે છે."
+    },
+    "manual.proof_first_reading": {
+      "en": "Proof-first reading",
+      "hi": "पहले प्रमाण, फिर पढ़ाई",
+      "gu": "પહેલા પુરાવો, પછી વાંચન"
+    },
+    "manual.name_number_birth_number_destiny_number_and_personal_tim": {
+      "en": "Name number, birth number, destiny number, and personal timing are kept visible and explainable.",
+      "hi": "नाम अंक, जन्म अंक, भाग्य अंक और निजी समय को साफ दिखाया और समझाया जाता है.",
+      "gu": "નામ અંક, જન્મ અંક, ભાગ્ય અંક અને વ્યક્તિગત સમયને સ્પષ્ટ રીતે બતાવી અને સમજાવી શકાય છે."
+    },
+    "manual.clean_boundaries": {
+      "en": "Clean boundaries",
+      "hi": "स्पष्ट सीमाएं",
+      "gu": "સ્પષ્ટ સીમાઓ"
+    },
+    "manual.if_the_user_asks_for_vedic_kp_nadi_or_signature_analysis": {
+      "en": "If the user asks for Vedic, KP, Nadi, or Signature analysis, the room should hand off instead of mixing methods.",
+      "hi": "अगर उपयोगकर्ता वैदिक, केपी, नाड़ी या हस्ताक्षर विश्लेषण मांगे, तो यह कक्ष पद्धति मिलाने की जगह सही कक्ष में भेजे.",
+      "gu": "જો વપરાશકર્તા વૈદિક, કેપી, નાડી અથવા હસ્તાક્ષર વિશ્લેષણ માંગે, તો આ રૂમ પદ્ધતિઓ ભેળવવાને બદલે યોગ્ય રૂમમાં મોકલે."
+    },
+    "manual.current_profile.2": {
+      "en": "CURRENT PROFILE",
+      "hi": "वर्तमान प्रोफाइल",
+      "gu": "હાલની પ્રોફાઇલ"
+    },
+    "manual.create_a_kundli_first.2": {
+      "en": "Create a Kundli first",
+      "hi": "पहले कुंडली बनाएं",
+      "gu": "પહેલાં કુંડળી બનાવો"
+    },
+    "manual.numerology_needs_a_saved_name_and_birth_date_create_or_s": {
+      "en": "Numerology needs a saved name and birth date. Create or select a Kundli, then this room can read the number profile instantly.",
+      "hi": "अंक ज्योतिष को सेव किया हुआ नाम और जन्म तिथि चाहिए. कुंडली बनाएं या चुनें, फिर यह कक्ष तुरंत अंक प्रोफाइल पढ़ सकेगा.",
+      "gu": "અંક જ્યોતિષને સેવ કરેલું નામ અને જન્મ તારીખ જોઈએ. કુંડળી બનાવો અથવા પસંદ કરો, પછી આ રૂમ તરત અંક પ્રોફાઇલ વાંચી શકશે."
+    },
+    "manual.name_number.2": {
+      "en": "Name number",
+      "hi": "नाम अंक",
+      "gu": "નામ અંક"
+    },
+    "manual.pending.2": {
+      "en": "Pending",
+      "hi": "प्रतीक्षा",
+      "gu": "બાકી"
+    },
+    "manual.uses_the_saved_name_spelling": {
+      "en": "Uses the saved name spelling.",
+      "hi": "सेव की हुई नाम-वर्तनी का उपयोग करता है.",
+      "gu": "સેવ કરેલી નામની જોડણીનો ઉપયોગ કરે છે."
+    },
+    "manual.birth_number.2": {
+      "en": "Birth number",
+      "hi": "जन्म अंक",
+      "gu": "જન્મ અંક"
+    },
+    "manual.uses_the_birth_day": {
+      "en": "Uses the birth day.",
+      "hi": "जन्म दिन का उपयोग करता है.",
+      "gu": "જન્મ દિવસનો ઉપયોગ કરે છે."
+    },
+    "manual.destiny_number.2": {
+      "en": "Destiny number",
+      "hi": "भाग्य अंक",
+      "gu": "ભાગ્ય અંક"
+    },
+    "manual.uses_the_full_birth_date": {
+      "en": "Uses the full birth date.",
+      "hi": "पूरी जन्म तिथि का उपयोग करता है.",
+      "gu": "સંપૂર્ણ જન્મ તારીખનો ઉપયોગ કરે છે."
+    },
+    "manual.personal_timing.2": {
+      "en": "Personal timing",
+      "hi": "निजी समय",
+      "gu": "વ્યક્તિગત સમય"
+    },
+    "manual.uses_the_current_year_month_and_day": {
+      "en": "Uses the current year, month, and day.",
+      "hi": "वर्तमान वर्ष, महीना और दिन का उपयोग करता है.",
+      "gu": "વર્તમાન વર્ષ, મહિનો અને દિવસનો ઉપયોગ કરે છે."
+    },
+    "manual.room_boundary.2": {
+      "en": "ROOM BOUNDARY",
+      "hi": "कक्ष सीमा",
+      "gu": "રૂમ સીમા"
+    },
+    "manual.numerology_answers_with_number_logic_first": {
+      "en": "Numerology answers with number logic first.",
+      "hi": "अंक ज्योतिष पहले अंक-तर्क से उत्तर देती है.",
+      "gu": "અંક જ્યોતિષ પહેલા અંક-તર્કથી જવાબ આપે છે."
+    },
+    "manual.if_the_question_needs_parashari_kp_nadi_or_signature_ana": {
+      "en": "If the question needs Parashari, KP, Nadi, or Signature analysis, Predicta should hand you to the right room with your question intact.",
+      "hi": "अगर प्रश्न को पाराशरी, केपी, नाड़ी या हस्ताक्षर विश्लेषण चाहिए, तो प्रेडिक्टा आपके प्रश्न को सुरक्षित रखते हुए सही कक्ष में भेजे.",
+      "gu": "જો પ્રશ્નને પારાશરી, કેપી, નાડી અથવા હસ્તાક્ષર વિશ્લેષણ જોઈએ, તો પ્રેડિક્ટા તમારો પ્રશ્ન યથાવત રાખીને યોગ્ય રૂમમાં મોકલે."
+    },
+    "manual.select_kundli.2": {
+      "en": "Select Kundli",
+      "hi": "कुंडली चुनें",
+      "gu": "કુંડળી પસંદ કરો"
     },
     "manual.signature_predicta_uses_confirmed_visible_traits_for_ref": {
       "en": "Signature Predicta uses confirmed visible traits for reflective guidance, improvement suggestions, and optional Numerology synthesis.",
@@ -4621,6 +4906,11 @@
       "hi": "सब-सब",
       "gu": "સબ-સબ"
     },
+    "manual.not_clear_yet": {
+      "en": "Not clear yet",
+      "hi": "अभी स्पष्ट नहीं",
+      "gu": "હજુ સ્પષ્ટ નથી"
+    },
     "manual.validation_first": {
       "en": "Validation first",
       "hi": "पहले पुष्टि",
@@ -4645,6 +4935,26 @@
       "en": "Nadi Predicta will keep this question with the active birth profile and read it only from Nadi-style planetary stories.",
       "hi": "नाड़ी प्रेडिक्टा इस प्रश्न को सक्रिय जन्म प्रोफाइल के साथ रखेगी और इसे केवल नाड़ी शैली की ग्रह-कथाओं से पढ़ेगी.",
       "gu": "નાડી પ્રેડિક્ટા આ પ્રશ્નને સક્રિય જન્મ પ્રોફાઇલ સાથે રાખશે અને તેને માત્ર નાડી શૈલીની ગ્રહ-કથાઓથી વાંચશે."
+    },
+    "manual.create_a_kundli_once_then_nadi_predicta_will_prepare_its_story_links": {
+      "en": "Create a Kundli once, then Nadi Predicta will prepare its story links from those birth details.",
+      "hi": "एक बार कुंडली बनाइए, फिर नाड़ी प्रेडिक्टा उन्हीं जन्म विवरणों से अपने कथा संबंध तैयार करेगी.",
+      "gu": "એક વાર કુંડળી બનાવો, પછી નાડી પ્રેડિક્ટા એ જ જન્મ વિગતો પરથી પોતાના કથા સંબંધ તૈયાર કરશે."
+    },
+    "manual.preparing_nadi_story_links_from_your_saved_birth_details": {
+      "en": "Preparing Nadi story links from your saved birth details...",
+      "hi": "आपके सहेजे गए जन्म विवरणों से नाड़ी कथा संबंध तैयार किए जा रहे हैं...",
+      "gu": "તમારી સચવાયેલી જન્મ વિગતો પરથી નાડી કથા સંબંધ તૈયાર થઈ રહ્યા છે..."
+    },
+    "manual.predicta_has_your_birth_details_but_the_nadi_preparation_could_not": {
+      "en": "Predicta has your birth details, but the Nadi preparation could not complete right now. Please try again shortly.",
+      "hi": "प्रेडिक्टा के पास आपके जन्म विवरण हैं, लेकिन नाड़ी तैयारी अभी पूरी नहीं हो सकी. कृपया थोड़ी देर बाद फिर प्रयास करें.",
+      "gu": "પ્રેડિક્ટા પાસે તમારી જન્મ વિગતો છે, પરંતુ નાડી તૈયારી અત્યારે પૂર્ણ થઈ શકી નથી. કૃપા કરીને થોડા સમય પછી ફરી પ્રયાસ કરો."
+    },
+    "manual.nadi_predicta_is_preparing_this_layer_from_the_saved_birth_profile": {
+      "en": "Nadi Predicta is preparing this layer from the saved birth profile.",
+      "hi": "नाड़ी प्रेडिक्टा सहेजे गए जन्म प्रोफाइल से यह परत तैयार कर रही है.",
+      "gu": "નાડી પ્રેડિક્ટા સચવાયેલા જન્મ પ્રોફાઇલથી આ સ્તર તૈયાર કરી રહી છે."
     },
     "manual.boundary": {
       "en": "Boundary",
@@ -4710,6 +5020,26 @@
       "en": "Career, money, marriage, and property questions get their own KP house logic.",
       "hi": "करियर, धन, विवाह और संपत्ति के प्रश्नों को उनकी अपनी कृष्णमूर्ति पद्धति भाव-तर्क मिलता है.",
       "gu": "કારકિર્દી, પૈસા, લગ્ન અને મિલકતના પ્રશ્નોને તેમની પોતાની કૃષ્ણમૂર્તિ પદ્ધતિ ભાવ-તર્ક મળે છે."
+    },
+    "manual.create_a_kundli_once_then_kp_predicta_will_calculate_the_kp_horoscope": {
+      "en": "Create a Kundli once, then KP Predicta will calculate the KP horoscope from those birth details.",
+      "hi": "एक बार कुंडली बनाइए, फिर कृष्णमूर्ति प्रेडिक्टा उन्हीं जन्म विवरणों से कृष्णमूर्ति पद्धति की कुंडली तैयार करेगी.",
+      "gu": "એક વાર કુંડળી બનાવો, પછી કૃષ્ણમૂર્તિ પ્રેડિક્ટા એ જ જન્મ વિગતો પરથી કૃષ્ણમૂર્તિ પદ્ધતિની કુંડળી તૈયાર કરશે."
+    },
+    "manual.calculating_kp_cusps_star_lords_and_sub_lords_from_your_saved_birth": {
+      "en": "Calculating KP cusps, star lords, and sub lords from your saved birth details...",
+      "hi": "आपके सहेजे गए जन्म विवरणों से कृष्णमूर्ति पद्धति के कस्प, स्टार लॉर्ड और सब लॉर्ड निकाले जा रहे हैं...",
+      "gu": "તમારી સચવાયેલી જન્મ વિગતો પરથી કૃષ્ણમૂર્તિ પદ્ધતિના કસ્પ, સ્ટાર લોર્ડ અને સબ લોર્ડ ગણવામાં આવી રહ્યા છે..."
+    },
+    "manual.predicta_has_your_birth_details_but_kp_calculation_could_not_complete": {
+      "en": "Predicta has your birth details, but KP calculation could not complete right now. Please try again shortly.",
+      "hi": "प्रेडिक्टा के पास आपके जन्म विवरण हैं, लेकिन कृष्णमूर्ति पद्धति की गणना अभी पूरी नहीं हो सकी. कृपया थोड़ी देर बाद फिर प्रयास करें.",
+      "gu": "પ્રેડિક્ટા પાસે તમારી જન્મ વિગતો છે, પરંતુ કૃષ્ણમૂર્તિ પદ્ધતિની ગણતરી અત્યારે પૂર્ણ થઈ શકી નથી. કૃપા કરીને થોડા સમય પછી ફરી પ્રયાસ કરો."
+    },
+    "manual.kp_predicta_is_preparing_this_layer_from_the_saved_birth_profile": {
+      "en": "KP Predicta is preparing this layer from the saved birth profile.",
+      "hi": "कृष्णमूर्ति प्रेडिक्टा सहेजे गए जन्म प्रोफाइल से यह परत तैयार कर रही है.",
+      "gu": "કૃષ્ણમૂર્તિ પ્રેડિક્ટા સચવાયેલા જન્મ પ્રોફાઇલથી આ સ્તર તૈયાર કરી રહી છે."
     }
   }
 }

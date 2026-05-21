@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import {
   useEffect,
   useMemo,
@@ -10,10 +9,7 @@ import {
   type ChangeEvent,
   type PointerEvent,
 } from 'react';
-import {
-  buildSignaturePredictaPromptContext,
-  composeSignatureAnalysisModel,
-} from '@pridicta/astrology';
+import { composeSignatureAnalysisModel } from '@pridicta/astrology';
 import type {
   SignatureAnalysisModel,
   SignatureTraitKey,
@@ -51,6 +47,9 @@ type SignatureCopy = {
   hero: {
     body: string;
     eyebrow: string;
+    chatPromptFallback: string;
+    chatPromptReady: string;
+    openLabel: string;
     title: string;
   };
   privacy: {
@@ -61,6 +60,7 @@ type SignatureCopy = {
     body: string;
     title: string;
   }>;
+  proofLabel: string;
   preview: {
     body: string;
     empty: string;
@@ -70,6 +70,7 @@ type SignatureCopy = {
   report: {
     body: string;
     cta: string;
+    eyebrow: string;
     title: string;
   };
   safety: {
@@ -168,9 +169,14 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
     hero: {
       body:
         'Upload or draw a signature for a private, reflection-based signature reading. Predicta keeps this separate from Parashari, KP, Nadi, and Numerology.',
+      chatPromptFallback:
+        'Open Signature Predicta. Explain what signature shape, pressure, spacing, baseline, size, and rhythm can suggest. Keep it private, safe, and reflective.',
+      chatPromptReady: 'Open Signature Predicta. Use these confirmed signature traits.',
       eyebrow: 'SIGNATURE PREDICTA',
+      openLabel: 'Open',
       title: 'Read self-expression from a signature.',
     },
+    proofLabel: 'Proof',
     privacy: {
       items: [
         'The signature preview stays on this browser in this phase.',
@@ -207,6 +213,7 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
       body:
         'Turn the confirmed signature traits into a reflection report, improvement plan, or Signature + Numerology synthesis.',
       cta: 'Build Signature report',
+      eyebrow: 'REPORT PATH',
       title: 'Signature report path',
     },
     safety: {
@@ -246,9 +253,14 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
     hero: {
       body:
         'निजी, चिंतन-आधारित हस्ताक्षर वाचन के लिए हस्ताक्षर अपलोड करें या बनाएं. प्रेडिक्टा इसे पराशरी, कृष्णमूर्ति पद्धति, नाड़ी और अंक ज्योतिष से अलग रखती है.',
+      chatPromptFallback:
+        'हस्ताक्षर प्रेडिक्टा खोलें. समझाएं कि हस्ताक्षर का आकार, दबाव, अंतर, रेखा की दिशा, आकार और लय क्या संकेत दे सकते हैं. उत्तर निजी, सुरक्षित और चिंतनशील रहे.',
+      chatPromptReady: 'हस्ताक्षर प्रेडिक्टा खोलें. इन पुष्टि किए गए हस्ताक्षर संकेतों का उपयोग करें.',
       eyebrow: 'हस्ताक्षर प्रेडिक्टा',
+      openLabel: 'खोलें',
       title: 'हस्ताक्षर से आत्म-अभिव्यक्ति पढ़ें.',
     },
+    proofLabel: 'प्रमाण',
     privacy: {
       items: [
         'इस चरण में हस्ताक्षर पूर्वावलोकन इसी डिवाइस पर रहता है.',
@@ -285,6 +297,7 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
       body:
         'पुष्टि किए गए हस्ताक्षर संकेतों को चिंतन रिपोर्ट, सुधार योजना या हस्ताक्षर + अंक ज्योतिष संयुक्त सार में बदलें.',
       cta: 'हस्ताक्षर रिपोर्ट बनाएं',
+      eyebrow: 'रिपोर्ट मार्ग',
       title: 'हस्ताक्षर रिपोर्ट मार्ग',
     },
     safety: {
@@ -360,9 +373,14 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
     hero: {
       body:
         'ખાનગી, વિચાર-આધારિત સહી વાચન માટે સહી અપલોડ કરો અથવા દોરો. પ્રેડિક્ટા તેને પરાશરી, કૃષ્ણમૂર્તિ પદ્ધતિ, નાડી અને અંક જ્યોતિષથી અલગ રાખે છે.',
+      chatPromptFallback:
+        'સહી પ્રેડિક્ટા ખોલો. સમજાવો કે સહીનો આકાર, દબાણ, અંતર, લાઇનની દિશા, કદ અને લય શું સૂચવી શકે છે. જવાબ ખાનગી, સુરક્ષિત અને વિચારશીલ રાખો.',
+      chatPromptReady: 'સહી પ્રેડિક્ટા ખોલો. આ પુષ્ટિ કરેલા સહી સંકેતોનો ઉપયોગ કરો.',
       eyebrow: 'સહી પ્રેડિક્ટા',
+      openLabel: 'ખોલો',
       title: 'સહીમાંથી આત્મ-અભિવ્યક્તિ વાંચો.',
     },
+    proofLabel: 'પુરાવો',
     privacy: {
       items: [
         'આ તબક્કામાં સહી પૂર્વાવલોકન આ જ ડિવાઇસ પર રહે છે.',
@@ -399,6 +417,7 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
       body:
         'પુષ્ટિ કરેલા સહી સંકેતોને વિચાર રિપોર્ટ, સુધારણા યોજના અથવા સહી + અંક જ્યોતિષ સંયુક્ત સારમાં બદલો.',
       cta: 'સહી રિપોર્ટ બનાવો',
+      eyebrow: 'રિપોર્ટ માર્ગ',
       title: 'સહી રિપોર્ટ માર્ગ',
     },
     safety: {
@@ -460,7 +479,6 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
 };
 
 export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
-  const router = useRouter();
   const { language } = useLanguagePreference();
   const copy = SIGNATURE_COPY[language] ?? SIGNATURE_COPY.en;
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -629,19 +647,22 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
       return;
     }
 
-    const modelContext = buildSignaturePredictaPromptContext(analysisModel);
-
-    router.push(
-      buildPredictaChatHref({
-        school: 'SIGNATURE',
-        prompt:
-          analysisModel.status === 'ready'
-            ? `Open Signature Predicta. Use these confirmed signature traits. ${modelContext}`
-            : 'Open Signature Predicta. Explain what signature shape, pressure, spacing, baseline, size, and rhythm can suggest. Keep it private, safe, and reflective.',
-        selectedSection: 'Signature Predicta input',
-        sourceScreen: 'Signature Predicta',
-      }),
+    const modelContext = buildSignatureChatPromptContext(
+      analysisModel,
+      copy,
+      language,
     );
+    const href = buildPredictaChatHref({
+      school: 'SIGNATURE',
+      prompt:
+        analysisModel.status === 'ready'
+          ? `${copy.hero.chatPromptReady} ${modelContext}`
+          : copy.hero.chatPromptFallback,
+      selectedSection: 'Signature Predicta input',
+      sourceScreen: 'Signature Predicta',
+    });
+
+    window.location.assign(href);
   }
 
   function updateObservedTrait(
@@ -674,7 +695,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
         <details className="info-drawer">
           <summary>
             <span>{copy.hero.eyebrow}</span>
-            <strong>Open</strong>
+            <strong>{copy.hero.openLabel}</strong>
           </summary>
           <p>{copy.hero.body}</p>
         </details>
@@ -712,7 +733,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
       <section className="school-grid">
         {copy.proof.map(card => (
           <article className="glass-panel" key={card.title}>
-            <span>Proof</span>
+            <span>{copy.proofLabel}</span>
             <strong>{card.title}</strong>
             <p>{card.body}</p>
           </article>
@@ -805,13 +826,11 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
         {analysisModel.status === 'ready' ? (
           <div className="signature-trait-summary">
             <span>{copy.traits.summaryTitle}</span>
-            <p>{analysisModel.summary}</p>
+            <p>{buildPreparedReadingSummary(analysisModel, copy, language)}</p>
             <ul>
-              {analysisModel.interpretationCards.slice(0, 3).map(card => (
-                <li key={card.key}>
-                  {card.title}: {card.plainMeaning}.
-                </li>
-              ))}
+              {buildPreparedReadingItems(analysisModel, copy, language).map(item => {
+                return <li key={item}>{item}</li>;
+              })}
             </ul>
           </div>
         ) : null}
@@ -867,7 +886,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
       </section>
 
       <section className="signature-safety-panel glass-panel">
-        <div className="section-title">REPORT PATH</div>
+        <div className="section-title">{copy.report.eyebrow}</div>
         <h2>{copy.report.title}</h2>
         <p>{copy.report.body}</p>
         <div className="action-row">
@@ -878,4 +897,81 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
       </section>
     </div>
   );
+}
+
+function buildPreparedReadingSummary(
+  analysisModel: SignatureAnalysisModel,
+  copy: SignatureCopy,
+  language: SupportedLanguage,
+): string {
+  if (language === 'en') {
+    return analysisModel.summary;
+  }
+
+  const mainSignals = analysisModel.observedTraits
+    .slice(0, 3)
+    .map(
+      trait =>
+        `${copy.traits.labels[trait.key]} ${copy.traits.values[trait.value]}`,
+    )
+    .join(', ');
+
+  if (language === 'hi') {
+    return `हस्ताक्षर वाचन ${analysisModel.observedTraits.length} दिखने वाले संकेतों के साथ तैयार है. मुख्य संकेत: ${mainSignals}.`;
+  }
+
+  return `સહી વાચન ${analysisModel.observedTraits.length} દેખાતા સંકેતો સાથે તૈયાર છે. મુખ્ય સંકેતો: ${mainSignals}.`;
+}
+
+function buildPreparedReadingItems(
+  analysisModel: SignatureAnalysisModel,
+  copy: SignatureCopy,
+  language: SupportedLanguage,
+): string[] {
+  if (language === 'en') {
+    return analysisModel.interpretationCards
+      .slice(0, 3)
+      .map(card => `${card.title}: ${card.plainMeaning}.`);
+  }
+
+  return analysisModel.observedTraits.slice(0, 3).map(
+    trait => `${copy.traits.labels[trait.key]}: ${copy.traits.values[trait.value]}.`,
+  );
+}
+
+function buildSignatureChatPromptContext(
+  analysisModel: SignatureAnalysisModel,
+  copy: SignatureCopy,
+  language: SupportedLanguage,
+): string {
+  const observedTraits = buildPreparedReadingItems(
+    analysisModel,
+    copy,
+    language,
+  ).join(' ');
+
+  if (language === 'en') {
+    return [
+      'Signature Predicta context:',
+      buildPreparedReadingSummary(analysisModel, copy, language),
+      `Observed traits: ${observedTraits}`,
+      'Use only confirmed visible signature traits. Keep it reflective, safe, and never use it as identity verification or document proof.',
+    ].join(' ');
+  }
+
+  if (language === 'hi') {
+    return [
+      'हस्ताक्षर प्रेडिक्टा संदर्भ:',
+      buildPreparedReadingSummary(analysisModel, copy, language),
+      `देखे गए संकेत: ${observedTraits}`,
+      'केवल पुष्टि किए गए दिखने वाले संकेतों से पढ़ें. इसे चिंतन तक रखें, पहचान सत्यापन या दस्तावेज़ प्रमाण की तरह उपयोग न करें.',
+    ].join(' ');
+  }
+
+  return [
+    'હસ્તાક્ષર પ્રેડિક્ટા સંદર્ભ:',
+    buildPreparedReadingSummary(analysisModel, copy, language),
+    `જોવાયેલા સંકેતો: ${observedTraits}`,
+    'ફક્ત પુષ્ટિ કરેલા દેખાતા સંકેતો પરથી વાંચો. આને વિચાર સુધી રાખો, ઓળખ ચકાસણી અથવા દસ્તાવેજ પુરાવા તરીકે ન વાપરો.',
+  ].join(' ');
 }

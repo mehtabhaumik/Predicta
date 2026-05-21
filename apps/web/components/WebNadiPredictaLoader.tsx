@@ -46,6 +46,7 @@ export function WebNadiPredictaLoader(): React.JSX.Element {
       <WebActiveKundliActions
         compact
         kundli={schoolReady.kundli}
+        school="NADI"
         sourceScreen="Nadi Predicta"
         title="Nadi reading Kundli"
       />

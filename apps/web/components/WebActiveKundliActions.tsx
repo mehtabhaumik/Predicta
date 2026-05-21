@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import type { KundliData } from '@pridicta/types';
+import type { KundliData, PredictaSchool } from '@pridicta/types';
 import { translateUiText } from '@pridicta/config/uiTranslations';
 import { useLanguagePreference } from '../lib/language-preference';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
@@ -18,6 +18,7 @@ type WebActiveKundliActionsProps = {
   compact?: boolean;
   chatContext?: boolean;
   kundli?: KundliData;
+  school?: PredictaSchool;
   showDelete?: boolean;
   sourceScreen: string;
   title?: string;
@@ -27,6 +28,7 @@ export function WebActiveKundliActions({
   chatContext = false,
   compact = false,
   kundli,
+  school,
   showDelete = false,
   sourceScreen,
   title = 'Reading this Kundli',
@@ -54,6 +56,7 @@ export function WebActiveKundliActions({
   const askHref = buildPredictaChatHref({
     kundli,
     prompt: `Use ${kundli.birthDetails.name}'s active Kundli and tell me the best next reading.`,
+    school,
     sourceScreen,
   });
   const canCreateMoreKundlis = canCreateAdditionalWebKundli().allowed;

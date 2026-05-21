@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
-import { composeNadiJyotishPlan } from '@pridicta/astrology';
+import { composeNadiJyotishPlan, getLocalizedPlanetName } from '@pridicta/astrology';
 import { translateUiText } from '@pridicta/config/uiTranslations';
-import type { KundliData } from '@pridicta/types';
+import type { KundliData, SupportedLanguage } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useLanguagePreference } from '../lib/language-preference';
 import {
@@ -49,6 +49,7 @@ export function WebNadiPredictaPanel({
   const plan = composeNadiJyotishPlan(kundli, {
     depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
     handoffQuestion,
+    language,
   });
   const didLoadSavedState = useRef(false);
   const [selectedPatternId, setSelectedPatternId] = useState<string | undefined>(
@@ -63,11 +64,11 @@ export function WebNadiPredictaPanel({
         ? plan.activations.find(activation =>
             activation.observation.includes(selectedPattern.title) ||
             selectedPattern.planets.some(planet =>
-              activation.trigger.includes(planet),
+              activation.trigger.includes(getLocalizedPlanetName(planet, language)),
             ),
           ) ?? plan.activations[0]
         : plan.activations[0],
-    [plan.activations, selectedPattern],
+    [language, plan.activations, selectedPattern],
   );
   const askHref = buildNadiAskHref({
     activation: selectedActivation,
@@ -183,15 +184,17 @@ export function WebNadiPredictaPanel({
                 style={{ ['--nadi-node-index' as string]: index } as CSSProperties}
                 type="button"
               >
-                <span>{pattern.confidence} {t('confidence')}</span>
+                <span>
+                  {getNadiConfidenceLabel(pattern.confidence, language)} {t('confidence')}
+                </span>
                 <strong>{pattern.planets.join(' + ')}</strong>
-                <small>{pattern.relation.replaceAll('-', ' ')}</small>
+                <small>{getNadiRelationLabel(pattern.relation, language)}</small>
               </button>
             ))}
           </div>
           {!plan.patterns.length ? (
             <p>
-              {getNadiCalculationMessage(Boolean(kundli), schoolCalculationStatus)}
+              {t(getNadiCalculationMessage(Boolean(kundli), schoolCalculationStatus))}
             </p>
           ) : null}
           {selectedPattern ? (
@@ -208,7 +211,7 @@ export function WebNadiPredictaPanel({
               </div>
               <div className="nadi-area-row">
                 {selectedPattern.lifeAreas.map(area => (
-                  <strong key={area}>{area}</strong>
+                  <strong key={area}>{getNadiLifeAreaLabel(area, language)}</strong>
                 ))}
               </div>
             </div>
@@ -304,7 +307,6 @@ function buildNadiAskHref({
     .filter(Boolean)
     .join(' ');
   return buildPredictaChatHref({
-    from: 'PARASHARI',
     handoffQuestion,
     kundliId,
     prompt,
@@ -331,4 +333,125 @@ function getNadiCalculationMessage(
   }
 
   return 'Nadi Predicta is preparing this layer from the saved birth profile.';
+}
+
+function getNadiConfidenceLabel(
+  confidence: 'high' | 'medium' | 'low',
+  language: SupportedLanguage,
+): string {
+  if (language === 'hi') {
+    if (confidence === 'high') {
+      return 'उच्च';
+    }
+    if (confidence === 'medium') {
+      return 'मध्यम';
+    }
+    return 'कम';
+  }
+
+  if (language === 'gu') {
+    if (confidence === 'high') {
+      return 'ઉચ્ચ';
+    }
+    if (confidence === 'medium') {
+      return 'મધ્યમ';
+    }
+    return 'ઓછું';
+  }
+
+  return confidence;
+}
+
+function getNadiRelationLabel(
+  relation: string,
+  language: SupportedLanguage,
+): string {
+  if (language === 'hi') {
+    if (relation === 'same-sign') {
+      return 'समान राशि संबंध';
+    }
+    if (relation === 'trine-link') {
+      return 'त्रिकोण कथा संबंध';
+    }
+    if (relation === 'opposition-link') {
+      return 'विपरीत कथा संबंध';
+    }
+    if (relation === 'sequence-link') {
+      return 'क्रम संबंध';
+    }
+    if (relation === 'rahu-ketu-axis') {
+      return 'राहु-केतु कर्म अक्ष';
+    }
+    return 'कारक संबंध';
+  }
+
+  if (language === 'gu') {
+    if (relation === 'same-sign') {
+      return 'એક જ રાશિ સંબંધ';
+    }
+    if (relation === 'trine-link') {
+      return 'ત્રિકોણ કથા સંબંધ';
+    }
+    if (relation === 'opposition-link') {
+      return 'વિરોધ કથા સંબંધ';
+    }
+    if (relation === 'sequence-link') {
+      return 'ક્રમ સંબંધ';
+    }
+    if (relation === 'rahu-ketu-axis') {
+      return 'રાહુ-કેતુ કર્મ અક્ષ';
+    }
+    return 'કારક સંબંધ';
+  }
+
+  return relation.replaceAll('-', ' ');
+}
+
+function getNadiLifeAreaLabel(
+  area: string,
+  language: SupportedLanguage,
+): string {
+  if (language === 'hi') {
+    if (area === 'career') {
+      return 'करियर';
+    }
+    if (area === 'wealth') {
+      return 'धन';
+    }
+    if (area === 'relationship') {
+      return 'संबंध';
+    }
+    if (area === 'wellbeing') {
+      return 'स्वास्थ्य';
+    }
+    if (area === 'spirituality') {
+      return 'आध्यात्मिकता';
+    }
+    return 'सामान्य';
+  }
+
+  if (language === 'gu') {
+    if (area === 'career') {
+      return 'કારકિર્દી';
+    }
+    if (area === 'wealth') {
+      return 'ધન';
+    }
+    if (area === 'relationship') {
+      return 'સંબંધ';
+    }
+    if (area === 'wellbeing') {
+      return 'સ્વાસ્થ્ય';
+    }
+    if (area === 'spirituality') {
+      return 'આધ્યાત્મિકતા';
+    }
+    return 'સામાન્ય';
+  }
+
+  if (area === 'wellbeing') {
+    return 'wellbeing';
+  }
+
+  return area;
 }

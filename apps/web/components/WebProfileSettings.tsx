@@ -204,21 +204,25 @@ export function WebProfileSettings(): React.JSX.Element {
                 label={t('App language')}
                 selected={language}
                 onSelect={setLanguage}
+                uiLanguage={language}
               />
               <LanguageSettingRow
                 label={t('Chart language')}
                 selected={chartLanguage}
                 onSelect={setChartLanguage}
+                uiLanguage={language}
               />
               <LanguageSettingRow
                 label={t('Report language')}
                 selected={reportLanguage}
                 onSelect={setReportLanguage}
+                uiLanguage={language}
               />
               <LanguageSettingRow
                 label={t('Predicta reply language')}
                 selected={predictaReplyLanguage}
                 onSelect={setPredictaReplyLanguage}
+                uiLanguage={language}
               />
             </div>
           </div>
@@ -269,7 +273,7 @@ export function WebProfileSettings(): React.JSX.Element {
                   <strong>{t('Report preference')}</strong>
                   <span>
                     {snapshot.lastReportLanguage
-                      ? `${t('Last report language')}: ${getLanguageName(snapshot.lastReportLanguage)}`
+                      ? `${t('Last report language')}: ${getLanguageName(snapshot.lastReportLanguage, language)}`
                       : t('No report preference saved yet.')}
                   </span>
                 </div>
@@ -286,7 +290,7 @@ export function WebProfileSettings(): React.JSX.Element {
                       : t('Guests use one active chat. Sign in for multiple sessions.')}
                   </span>
                 </div>
-                <Link className="button secondary" href="/dashboard/chat">
+                <Link className="button secondary" href="/dashboard/vedic/chat">
                   {t('Open Chat')}
                 </Link>
               </div>
@@ -302,16 +306,18 @@ function LanguageSettingRow({
   label,
   onSelect,
   selected,
+  uiLanguage,
 }: {
   label: string;
   onSelect: (language: SupportedLanguage) => void;
   selected: SupportedLanguage;
+  uiLanguage: SupportedLanguage;
 }): React.JSX.Element {
   return (
     <div className="setting-row language-setting-row profile-language-row">
       <div>
         <strong>{label}</strong>
-        <span>{getLanguageName(selected)}</span>
+        <span>{getLanguageName(selected, uiLanguage)}</span>
       </div>
       <div className="language-options compact-language-options">
         {SUPPORTED_LANGUAGE_OPTIONS.map(option => (
@@ -321,7 +327,7 @@ function LanguageSettingRow({
             onClick={() => onSelect(option.code)}
             type="button"
           >
-            {option.nativeName}
+            {getLanguageName(option.code, uiLanguage)}
           </button>
         ))}
       </div>
@@ -329,10 +335,33 @@ function LanguageSettingRow({
   );
 }
 
-function getLanguageName(language: SupportedLanguage): string {
+function getLanguageName(
+  language: SupportedLanguage,
+  uiLanguage: SupportedLanguage,
+): string {
+  if (uiLanguage === 'hi') {
+    if (language === 'en') {
+      return 'अंग्रेजी';
+    }
+    if (language === 'hi') {
+      return 'हिन्दी';
+    }
+    return 'ગુજરાતી';
+  }
+
+  if (uiLanguage === 'gu') {
+    if (language === 'en') {
+      return 'અંગ્રેજી';
+    }
+    if (language === 'hi') {
+      return 'હિન્દી';
+    }
+    return 'ગુજરાતી';
+  }
+
   return (
     SUPPORTED_LANGUAGE_OPTIONS.find(option => option.code === language)
-      ?.nativeName ?? 'English'
+      ?.englishName ?? 'English'
   );
 }
 

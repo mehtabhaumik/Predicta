@@ -237,7 +237,7 @@ export function WebKpPredictaPanel({
           <div className="school-panel-hero compact">
             <div>
               <div className="section-title">{t('KP JUDGEMENT PATH')}</div>
-              <h2>{selectedFocus.title}</h2>
+              <h2>{t(selectedFocus.title)}</h2>
               <details className="info-drawer">
                 <summary>
                   <span>{t('How KP judges this')}</span>
@@ -282,7 +282,7 @@ export function WebKpPredictaPanel({
               <strong>
                 {selectedCuspData
                   ? `${selectedCuspData.house}: ${selectedCuspData.lordChain.subLord}`
-                  : 'Pending'}
+                  : t('Pending')}
               </strong>
               <p>
                 {t('The selected cusp becomes the main judgement point before timing.')}
@@ -290,7 +290,7 @@ export function WebKpPredictaPanel({
             </div>
             <div>
               <span>3. {t('Significators')}</span>
-              <strong>{eventSignificators.length || 'Pending'}</strong>
+              <strong>{eventSignificators.length || t('Pending')}</strong>
               <p>{t('Planets connecting to these houses become event carriers.')}</p>
             </div>
             <div>
@@ -310,11 +310,11 @@ export function WebKpPredictaPanel({
             <table className="school-table">
               <thead>
                 <tr>
-                  <th>Cusp</th>
-                  <th>Sign</th>
-                  <th>Star Lord</th>
-                  <th>Sub Lord</th>
-                  <th>Sub-sub</th>
+                  <th>{t('Cusp')}</th>
+                  <th>{t('Sign')}</th>
+                  <th>{t('Star Lord')}</th>
+                  <th>{t('Sub Lord')}</th>
+                  <th>{t('Sub-sub')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -343,7 +343,7 @@ export function WebKpPredictaPanel({
             </table>
           </div>
           {!kp.cusps.length ? (
-            <p>{getKpCalculationMessage(Boolean(kundli), schoolCalculationStatus)}</p>
+            <p>{t(getKpCalculationMessage(Boolean(kundli), schoolCalculationStatus))}</p>
           ) : null}
         </div>
       </Card>
@@ -377,7 +377,9 @@ export function WebKpPredictaPanel({
               <div key={item.planet}>
                 <span>{item.strength} significator</span>
                 <strong>{item.planet}</strong>
-                <p>Houses: {item.signifiesHouses.join(', ') || 'Not clear yet'}</p>
+                <p>
+                  {t('Houses')}: {item.signifiesHouses.join(', ') || t('Not clear yet')}
+                </p>
               </div>
             ))}
           </div>
@@ -386,10 +388,10 @@ export function WebKpPredictaPanel({
               className="button"
               href={askHref}
             >
-              Ask KP Predicta
+              {t('Ask KP Predicta')}
             </a>
             <Link className="button secondary" href="/pricing">
-              See KP Premium Depth
+              {t('See KP Premium Depth')}
             </Link>
           </div>
         </div>
@@ -417,7 +419,6 @@ function buildKpAskHref({
     ? `KP Predicta handoff question: ${handoffQuestion}. ${focus.prompt}`
     : `${focus.prompt}${cusp ? ` Selected cusp ${cusp.house} has star lord ${cusp.lordChain.starLord}, sub lord ${cusp.lordChain.subLord}, and sub-sub lord ${cusp.lordChain.subSubLord}.` : ''}`;
   return buildPredictaChatHref({
-    from: 'PARASHARI',
     handoffQuestion,
     kundliId,
     prompt,

@@ -37,6 +37,8 @@ export function SidebarNav({
   allSections,
   commonGroups,
   activeSection,
+  brandSubtitle = 'Holistic astrology guide',
+  homeAriaLabel = 'Predicta home',
   ownerLabel = 'Owner',
   showAdmin,
   worldsLabel = 'Predicta Worlds',
@@ -44,7 +46,9 @@ export function SidebarNav({
   adminLabel?: string;
   activeSection: SidebarSection;
   allSections: SidebarSection[];
+  brandSubtitle?: string;
   commonGroups: SidebarGroup[];
+  homeAriaLabel?: string;
   ownerLabel?: string;
   showAdmin: boolean;
   worldsLabel?: string;
@@ -63,7 +67,7 @@ export function SidebarNav({
 
   return (
     <aside className="sidebar">
-      <Link aria-label="Predicta home" className="dashboard-brand" href="/">
+      <Link aria-label={homeAriaLabel} className="dashboard-brand" href="/">
         <Image
           alt=""
           className="dashboard-logo"
@@ -74,7 +78,7 @@ export function SidebarNav({
         />
         <span>
           <strong>PREDICTA</strong>
-          <small>Holistic astrology guide</small>
+          <small>{brandSubtitle}</small>
         </span>
       </Link>
       <nav aria-label="Dashboard navigation" className="nav-list">

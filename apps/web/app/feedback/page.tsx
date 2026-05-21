@@ -525,7 +525,7 @@ const feedbackCopy: Record<SupportedLanguage, FeedbackCopy> = {
       { label: 'રોકાણકાર અથવા સમીક્ષક', value: 'investor-demo' },
       { label: 'જાહેર મુલાકાતી', value: 'public' },
     ],
-    title: 'જ્યાં confusion લાગ્યું, અમને કહો.',
+    title: 'જ્યાં ગૂંચવણ લાગી, અમને કહો.',
     writeHere: 'અહીં લખો',
   },
 };
