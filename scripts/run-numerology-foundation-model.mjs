@@ -95,12 +95,38 @@ try {
   assert.equal(profile.personalDay.root, 1);
   assert.ok(profile.evidence.length >= 4);
 
+  const hindiProfile = composeNumerologyFoundationModel(
+    {
+      birthDate: '1980-08-22',
+      name: 'Bhaumik Mehta',
+      targetDate: '2026-05-19',
+    },
+    'hi',
+  );
+  assert.equal(hindiProfile.nameNumber.label, 'निर्माता');
+  assert.match(hindiProfile.summary, /भाग्य अंक 3/);
+  assert.match(hindiProfile.guidance, /निजी वर्ष 4/);
+  assert.match(hindiProfile.evidence[0], /नाम अंक 4/);
+
+  const gujaratiProfile = composeNumerologyFoundationModel(
+    {
+      birthDate: '1980-08-22',
+      name: 'Bhaumik Mehta',
+      targetDate: '2026-05-19',
+    },
+    'gu',
+  );
+  assert.equal(gujaratiProfile.nameNumber.label, 'નિર્માતા');
+  assert.match(gujaratiProfile.summary, /ભાગ્ય અંક 3/);
+  assert.match(gujaratiProfile.guidance, /વ્યક્તિગત વર્ષ 4/);
+  assert.match(gujaratiProfile.evidence[0], /નામ અંક 4/);
+
   assert.throws(
     () => calculateDestinyNumber('1980-22-08'),
     /valid calendar date/,
   );
 
-  console.log('Numerology foundation model passed: 10 deterministic assertions.');
+  console.log('Numerology foundation model passed: deterministic English, Hindi, and Gujarati assertions.');
 } finally {
   await rm(tempRoot, { force: true, recursive: true });
 }

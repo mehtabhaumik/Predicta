@@ -451,12 +451,20 @@ export function buildPredictaActionReply({
     detectPredictaAppAction(languageContext.normalizedText),
     predictaSchool,
   );
+  const responseLanguage = shouldPreferNumerologyRoomLanguage({
+    action,
+    explicitLanguage: detectExplicitPredictaReplyLanguage(text),
+    predictaSchool,
+    selectedLanguage: language,
+  })
+    ? language
+    : languageContext.responseLanguage;
   const nextMemory = learnPredictaInteraction(
     memory,
     text,
     action,
     kundli,
-    languageContext.responseLanguage,
+    responseLanguage,
   );
 
   if (!action) {
@@ -473,7 +481,7 @@ export function buildPredictaActionReply({
       memory: nextMemory,
       text: withLanguageAcknowledgement(
         languageContext,
-        buildNeedsKundliReply(languageContext.responseLanguage, action),
+        buildNeedsKundliReply(responseLanguage, action),
       ),
     };
   }
@@ -482,18 +490,18 @@ export function buildPredictaActionReply({
     action,
     handled: true,
     memory: nextMemory,
-    text: withLanguageAcknowledgement(
-      languageContext,
-      buildActionText({
-        action,
-        hasPremiumAccess,
-        kundli,
-        language: languageContext.responseLanguage,
-        memory: nextMemory,
-        savedKundlis,
-        text,
-      }),
-    ),
+      text: withLanguageAcknowledgement(
+        languageContext,
+        buildActionText({
+          action,
+          hasPremiumAccess,
+          kundli,
+          language: responseLanguage,
+          memory: nextMemory,
+          savedKundlis,
+          text,
+        }),
+      ),
   };
 }
 
@@ -2031,7 +2039,10 @@ function buildNumerologyPredictaReply(
   kundli: KundliData | undefined,
   hasPremiumAccess: boolean,
 ): string {
-  const profile = composeNumerologyFoundationModel(kundli?.birthDetails);
+  const profile = composeNumerologyFoundationModel(
+    kundli?.birthDetails,
+    language,
+  );
 
   if (profile.status !== 'ready') {
     if (language === 'hi') {
@@ -2160,6 +2171,25 @@ function buildNumerologyPredictaReply(
   ]
     .filter(Boolean)
     .join('\n\n');
+}
+
+function shouldPreferNumerologyRoomLanguage({
+  action,
+  explicitLanguage,
+  predictaSchool,
+  selectedLanguage,
+}: {
+  action: PredictaAppActionId | undefined;
+  explicitLanguage: SupportedLanguage | undefined;
+  predictaSchool: PredictaSchool | undefined;
+  selectedLanguage: SupportedLanguage;
+}): boolean {
+  return (
+    action === 'numerology-predicta' &&
+    predictaSchool === 'NUMEROLOGY' &&
+    explicitLanguage === undefined &&
+    (selectedLanguage === 'hi' || selectedLanguage === 'gu')
+  );
 }
 
 function numerologyNativeKeyword(

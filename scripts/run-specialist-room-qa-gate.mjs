@@ -166,4 +166,18 @@ for (const nativeFragment of [
   );
 }
 
+const numerologyPanelSource = readWorkspaceFile(
+  'apps/web/components/WebNumerologyPredictaPanel.tsx',
+);
+assert.equal(
+  numerologyPanelSource.includes("from: 'PARASHARI'"),
+  false,
+  'Numerology panel must not fake a Parashari handoff inside the Numerology room',
+);
+assert.equal(
+  numerologyPanelSource.includes("composeNumerologyFoundationModel(activeKundli?.birthDetails, language)"),
+  true,
+  'Numerology panel must localize the active numerology profile',
+);
+
 console.log('Specialist room QA gate passed: room routes, context contracts, reports, language, and handoff safety are covered.');
