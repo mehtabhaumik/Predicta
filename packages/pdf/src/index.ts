@@ -287,58 +287,90 @@ function buildReportSectionSet(
     reportFocus,
     signatureAnalysis,
   );
-  const essentialSections = uniqueReportSections([
-    ...focusSections,
+  const commonSections = [
     buildExecutiveSummary(kundli, mode),
-    buildHolisticReportSynthesisSection(kundli, mode),
     buildBirthAndCalculationSection(kundli),
-    buildChartSynthesisSection(kundli, chartTypes, mode, language),
-    buildNumerologyReportSection(kundli, mode),
-    buildSignatureReportSection(signatureAnalysis, mode),
-    buildPlanetaryStrengthSection(kundli, mode),
-    buildDashaSection(kundli, mode),
-    buildTransitSection(kundli, mode),
-    buildRectificationSection(kundli),
     buildGuidanceSection(kundli, mode),
     buildRemedySection(kundli),
     buildLimitationsSection(kundli, mode),
-  ]);
+  ];
 
-  if (mode === 'FREE') {
-    return essentialSections;
+  if (reportFocus === 'KP') {
+    return uniqueReportSections([
+      ...focusSections,
+      ...commonSections,
+      ...(mode === 'PREMIUM' ? [buildRectificationSection(kundli)] : []),
+      ...(decisionMemo ? [buildDecisionMemoSection(decisionMemo)] : []),
+    ].filter((section): section is PdfSection => Boolean(section)));
   }
 
-  return uniqueReportSections([
-    ...focusSections,
-    buildExecutiveSummary(kundli, mode),
-    buildHolisticReportSynthesisSection(kundli, mode),
-    buildBirthAndCalculationSection(kundli),
-    buildChartSynthesisSection(kundli, chartTypes, mode, language),
-    buildBhavChalitSection(kundli, mode),
-    buildKpFoundationSection(kundli, mode),
-    buildNadiJyotishPlanSection(kundli, mode),
-    buildNumerologyReportSection(kundli, mode),
-    buildSignatureReportSection(signatureAnalysis, mode),
-    buildSignatureNumerologySynthesisSection(kundli, signatureAnalysis),
-    buildPlanetaryStrengthSection(kundli, mode),
-    buildDashaSection(kundli, mode),
-    buildTimelineSection(kundli, mode),
-    buildTransitSection(kundli, mode),
-    buildYearlyHoroscopeSection(kundli, mode),
-    buildRectificationSection(kundli),
-    buildAshtakavargaSection(kundli),
-    buildYogaSection(kundli, mode),
-    buildAdvancedJyotishCoverageSection(kundli, mode),
+  if (reportFocus === 'NADI') {
+    return uniqueReportSections([
+      ...focusSections,
+      ...commonSections,
+      ...(mode === 'PREMIUM' ? [buildRectificationSection(kundli)] : []),
+      ...(decisionMemo ? [buildDecisionMemoSection(decisionMemo)] : []),
+    ].filter((section): section is PdfSection => Boolean(section)));
+  }
+
+  if (reportFocus === 'NUMEROLOGY') {
+    return uniqueReportSections([
+      ...focusSections,
+      buildExecutiveSummary(kundli, mode),
+      buildGuidanceSection(kundli, mode),
+      buildLimitationsSection(kundli, mode),
+      ...(decisionMemo ? [buildDecisionMemoSection(decisionMemo)] : []),
+    ].filter((section): section is PdfSection => Boolean(section)));
+  }
+
+  if (reportFocus === 'SIGNATURE') {
+    return uniqueReportSections([
+      ...focusSections,
+      buildExecutiveSummary(kundli, mode),
+      buildGuidanceSection(kundli, mode),
+      buildLimitationsSection(kundli, mode),
+      ...(decisionMemo ? [buildDecisionMemoSection(decisionMemo)] : []),
+    ].filter((section): section is PdfSection => Boolean(section)));
+  }
+
+  const vedicAreaSections = [
     buildAreaSection(kundli, 'Career', ['D1', 'D10'], [10, 6, 11], ['Saturn', 'Sun', 'Mercury', 'Jupiter']),
     buildAreaSection(kundli, 'Relationship', ['D1', 'D9'], [7, 2, 11], ['Venus', 'Jupiter', 'Moon']),
     buildAreaSection(kundli, 'Wealth', ['D1', 'D2'], [2, 9, 11], ['Jupiter', 'Venus', 'Mercury']),
+  ];
+
+  const vedicCore = [
+    ...focusSections,
+    buildExecutiveSummary(kundli, mode),
+    buildHolisticReportSynthesisSection(kundli, mode),
+    buildBirthAndCalculationSection(kundli),
+    buildChartSynthesisSection(kundli, chartTypes, mode, language),
+    buildPlanetaryStrengthSection(kundli, mode),
+    buildDashaSection(kundli, mode),
+    buildTransitSection(kundli, mode),
+    ...vedicAreaSections,
+    buildRectificationSection(kundli),
+    buildGuidanceSection(kundli, mode),
+    buildRemedySection(kundli),
+    buildLimitationsSection(kundli, mode),
+  ];
+
+  if (mode === 'FREE') {
+    return uniqueReportSections(vedicCore.filter((section): section is PdfSection => Boolean(section)));
+  }
+
+  return uniqueReportSections([
+    ...vedicCore,
+    buildBhavChalitSection(kundli, mode),
+    buildTimelineSection(kundli, mode),
+    buildYearlyHoroscopeSection(kundli, mode),
+    buildAshtakavargaSection(kundli),
+    buildYogaSection(kundli, mode),
+    buildAdvancedJyotishCoverageSection(kundli, mode),
     buildAreaSection(kundli, 'Wellbeing', ['D1', 'D30'], [1, 6, 8, 12], ['Moon', 'Saturn', 'Mars']),
     buildAreaSection(kundli, 'Spiritual Practice', ['D1', 'D20'], [9, 12], ['Jupiter', 'Ketu', 'Moon']),
     buildFullJyotishCoverageSection(kundli, mode),
-    buildGuidanceSection(kundli, mode),
     ...(decisionMemo ? [buildDecisionMemoSection(decisionMemo)] : []),
-    buildRemedySection(kundli),
-    buildLimitationsSection(kundli, mode),
   ].filter((section): section is PdfSection => Boolean(section)));
 }
 

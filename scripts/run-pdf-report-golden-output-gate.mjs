@@ -172,7 +172,7 @@ expectIncludes('packages/pdf/src/reportDocument.tsx', 'premium document renderer
   '<Image src={options.logoSrc} style={styles.coverLogo} />',
   "'Premium' : 'Free insight report'",
   'These charts use the same house structure, signs, planets, degrees,',
-  'A polished astrology report built to feel crisp, premium, and easy to',
+  'A polished astrology report built like a keepsake dossier',
   'describeTheme(snapshot.theme, birthTime)',
 ]);
 

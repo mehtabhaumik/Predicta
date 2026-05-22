@@ -24,8 +24,6 @@ import {
   type PdfChartSnapshot,
   type PdfChartSnapshotCell,
   type PdfComposition,
-  type PdfDecisionWindow,
-  type PdfEvidenceRow,
   type PdfReportFocus,
   type PdfSection,
 } from './index';
@@ -40,7 +38,9 @@ export type PdfGenerationRequest = {
 };
 
 type PdfBuildResult = {
+  planningSections: PdfSection[];
   report: PdfComposition;
+  reportFocus: PdfReportFocus;
   sections: PdfSection[];
 };
 
@@ -56,6 +56,23 @@ type ThemePalette = {
   note: string;
   outline: string;
   panel: string;
+};
+
+type ReportScope = 'broad' | 'focused' | 'full';
+
+type PlannedSection = {
+  index: number;
+  planning: PdfSection;
+  section: PdfSection;
+};
+
+type PlannedSpread = {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  sections: PlannedSection[];
+  proofItems?: string[];
+  proofTitle?: string;
 };
 
 const styles = StyleSheet.create({
@@ -396,6 +413,56 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     padding: 12,
   },
+  sectionStack: {
+    marginBottom: 8,
+  },
+  sectionCard: {
+    borderRadius: 16,
+    borderWidth: 1,
+    marginBottom: 10,
+    padding: 14,
+  },
+  sectionCardEyebrow: {
+    color: '#6C7E9B',
+    fontSize: 8.2,
+    fontWeight: 700,
+    letterSpacing: 1,
+    marginBottom: 6,
+    textTransform: 'uppercase',
+  },
+  sectionCardTitle: {
+    color: '#1D2C45',
+    fontSize: 12,
+    fontWeight: 800,
+    lineHeight: 1.35,
+    marginBottom: 7,
+  },
+  sectionCardBody: {
+    color: '#4D5E78',
+    fontSize: 9.8,
+    lineHeight: 1.58,
+  },
+  sectionBulletList: {
+    marginTop: 9,
+  },
+  sectionBullet: {
+    color: '#31415A',
+    fontSize: 9.3,
+    lineHeight: 1.45,
+    marginBottom: 5,
+  },
+  closingTitle: {
+    fontSize: 24,
+    fontWeight: 800,
+    lineHeight: 1.25,
+    marginBottom: 12,
+  },
+  closingBody: {
+    color: '#4D5E78',
+    fontSize: 12,
+    lineHeight: 1.7,
+    marginBottom: 14,
+  },
 });
 
 export function buildPredictaPdfResult(
@@ -408,29 +475,55 @@ export function buildPredictaPdfResult(
     reportFocus: request.reportFocus,
     signatureAnalysis: request.signatureAnalysis,
   });
+  const planningReport =
+    request.language === 'en'
+      ? report
+      : composeReportSections({
+          kundli: request.kundli,
+          language: 'en',
+          mode: request.mode,
+          reportFocus: request.reportFocus,
+          signatureAnalysis: request.signatureAnalysis,
+        });
 
-  const selectedKeySet = request.sectionKeys?.length
-    ? new Set(request.sectionKeys)
+  const selectedIndexes = request.sectionKeys?.length
+    ? new Set(
+        request.sectionKeys
+          .map(key => Number.parseInt(key.split('-', 1)[0] ?? '', 10))
+          .filter(index => Number.isInteger(index) && index >= 0),
+      )
     : null;
 
-  const sections = selectedKeySet
-    ? report.sections.filter((section, index) =>
-        selectedKeySet.has(getPdfSectionKey(section, index)),
-      )
+  const sections = selectedIndexes
+    ? report.sections.filter((_, index) => selectedIndexes.has(index))
     : report.sections;
+  const planningSections = selectedIndexes
+    ? planningReport.sections.filter((_, index) => selectedIndexes.has(index))
+    : planningReport.sections;
 
   return {
+    planningSections,
     report,
+    reportFocus: request.reportFocus ?? 'KUNDLI',
     sections,
   };
 }
 
 export function PredictaReportPdfDocument({
+  planningSections,
   report,
+  reportFocus,
   sections,
 }: PdfBuildResult, options: PdfRenderOptions = {}): React.ReactElement<DocumentProps> {
   const palette = getModePalette(report.mode);
-  const chartRows = chunk(report.chartSnapshots, 2);
+  const plannedSpreads = buildPlannedSpreads({
+    planningSections,
+    report,
+    reportFocus,
+    sections,
+  });
+  const chartCards = buildChartCards(report.chartSnapshots);
+  const chartRows = chunk(chartCards, 2);
 
   return (
     <Document
@@ -468,8 +561,8 @@ export function PredictaReportPdfDocument({
         <Text style={styles.coverTitle}>{report.cover.subtitle}</Text>
         <Text style={styles.coverSubtitle}>{report.executiveSummary.headline}</Text>
         <Text style={styles.coverTagline}>
-          A polished astrology report built to feel crisp, premium, and easy to
-          read.
+          A polished astrology report built like a keepsake dossier: clear on
+          first read, chart-rooted, and calm to move through.
         </Text>
         <View
           style={[
@@ -497,8 +590,8 @@ export function PredictaReportPdfDocument({
         <Text style={styles.pageTitle}>What this report is saying first</Text>
         <Text style={styles.pageLead}>
           Start with the life direction, timing, and pressure that matter most.
-          The deeper sections that follow stay rooted in the chart but remain
-          readable, not technical-first.
+          The spreads that follow stay rooted in the chart while keeping the
+          reading editorial, not technical-first.
         </Text>
 
         <View
@@ -557,13 +650,13 @@ export function PredictaReportPdfDocument({
             <Text style={styles.cardLabel}>Read this report as</Text>
             <Text style={styles.cardText}>
               {report.mode === 'PREMIUM'
-                ? 'a full planning dossier with deeper timing and synthesis'
-                : 'a substantial insight report with meaningful guidance'}
+                ? 'a premium dossier with deeper timing, synthesis, and planning guidance'
+                : 'a substantial free report with real insight and clear next steps'}
             </Text>
             <Text style={styles.cardSubtext}>
               {report.mode === 'PREMIUM'
-                ? 'Premium adds chart synthesis, timing windows, and richer life-area coverage.'
-                : 'Free still keeps real insight, proof, and practical next steps.'}
+                ? 'Premium keeps the full Predicta depth, but the layout removes repetition before it removes substance.'
+                : 'Free keeps the reading meaningful without turning the PDF into a teaser or a wall of raw proof.'}
             </Text>
           </View>
         </View>
@@ -586,6 +679,42 @@ export function PredictaReportPdfDocument({
         </View>
       </Page>
 
+      {plannedSpreads.showOnboarding ? (
+        <Page size="A4" style={styles.page}>
+          <PdfFooter footer={report.footer} />
+          <PdfPageHeader
+            eyebrow={report.mode === 'PREMIUM' ? 'How to use this dossier' : 'How to use this report'}
+            title={plannedSpreads.scope === 'focused' ? 'Focused reading guide' : 'Reading guide'}
+          />
+          <Text style={styles.pageTitle}>
+            {report.mode === 'PREMIUM' ? 'How to use this dossier' : 'How to read this report'}
+          </Text>
+          <Text style={styles.pageLead}>
+            {plannedSpreads.scope === 'focused'
+              ? 'This is a focused reading. Move from the chart spread into the specific outcome pages first, then use the trust and guidance pages last.'
+              : 'This is a broader reading. Move from the summary into the charts, then through the life spreads, and leave the proof-heavy appendix material for the end.'}
+          </Text>
+          <View style={styles.cardGrid}>
+            {plannedSpreads.onboardingCards.map(card => (
+              <View
+                key={card.title}
+                style={[
+                  styles.halfCard,
+                  {
+                    backgroundColor: '#FFFFFF',
+                    borderColor: '#D6DDE9',
+                  },
+                ]}
+              >
+                <Text style={styles.cardLabel}>{card.eyebrow}</Text>
+                <Text style={styles.cardText}>{card.title}</Text>
+                <Text style={styles.cardSubtext}>{card.body}</Text>
+              </View>
+            ))}
+          </View>
+        </Page>
+      ) : null}
+
       {chartRows.map((row, rowIndex) => (
         <Page key={`charts-${rowIndex}`} size="A4" style={styles.page}>
           <PdfFooter footer={report.footer} />
@@ -597,110 +726,71 @@ export function PredictaReportPdfDocument({
           <Text style={styles.pageLead}>
             These charts use the same house structure, signs, planets, degrees,
             status marks, and birth-time theme logic as the real Kundli
-            surfaces.
+            surfaces. The PDF does not switch to a different chart vocabulary.
           </Text>
           <View style={styles.chartRow}>
             {row.map(snapshot => (
               <PdfChartCard
-                key={`${snapshot.chartType}-${snapshot.chartName}`}
-                palette={palette}
-                snapshot={snapshot}
+                key={`${snapshot.snapshot.chartType}-${snapshot.snapshot.chartName}`}
                 birthTime={report.cover.metadata[0] ?? ''}
+                showThemeNote={snapshot.showThemeNote}
+                snapshot={snapshot.snapshot}
               />
             ))}
           </View>
         </Page>
       ))}
 
-      {sections.map((section, index) => (
-        <Page key={`${section.eyebrow}-${section.title}-${index}`} size="A4" style={styles.page}>
+      {plannedSpreads.spreads.map((spread, index) => (
+        <Page key={`${spread.eyebrow}-${spread.title}-${index}`} size="A4" style={styles.page}>
           <PdfFooter footer={report.footer} />
           <PdfPageHeader
-            eyebrow={section.eyebrow}
-            title={section.tier === 'premium' ? 'Premium analysis spread' : 'Insight spread'}
+            eyebrow={spread.eyebrow}
+            title={report.mode === 'PREMIUM' ? 'Premium analysis spread' : 'Insight spread'}
           />
-          <Text style={styles.pageTitle}>{section.title}</Text>
+          <Text style={styles.pageTitle}>{spread.title}</Text>
+          <Text style={styles.pageLead}>{spread.lead}</Text>
 
-          <View
-            style={[
-              styles.sectionStory,
-              {
-                backgroundColor: palette.panel,
-                borderColor: palette.border,
-              },
-            ]}
-          >
-            <Text style={styles.panelEyebrow}>{section.eyebrow}</Text>
-            <Text style={styles.sectionStoryBody}>{section.body}</Text>
-            <Text
+          <View style={styles.sectionStack}>
+            {spread.sections.map(item => (
+              <View
+                key={`${item.index}-${item.section.title}`}
+                style={[
+                  styles.sectionCard,
+                  {
+                    backgroundColor: item.section.tier === 'premium' ? palette.note : '#FFFFFF',
+                    borderColor: '#D6DDE9',
+                  },
+                ]}
+              >
+                <Text style={styles.sectionCardEyebrow}>{item.section.eyebrow}</Text>
+                <Text style={styles.sectionCardTitle}>{item.section.title}</Text>
+                <Text style={styles.sectionCardBody}>{item.section.body}</Text>
+                {item.section.bullets.length ? (
+                  <View style={styles.sectionBulletList}>
+                    {item.section.bullets.slice(0, 4).map(bullet => (
+                      <Text key={bullet} style={styles.sectionBullet}>
+                        • {bullet}
+                      </Text>
+                    ))}
+                  </View>
+                ) : null}
+              </View>
+            ))}
+          </View>
+
+          {spread.proofItems?.length ? (
+            <View
               style={[
-                styles.confidenceChip,
+                styles.noteRow,
                 {
-                  backgroundColor: palette.accentSoft,
-                  borderColor: palette.border,
+                  backgroundColor: '#FFFFFF',
+                  borderColor: '#D6DDE9',
                 },
               ]}
             >
-              {section.tier ?? 'free'} · {section.confidence ?? 'medium'} confidence
-            </Text>
-          </View>
-
-          {section.bullets.length ? (
-            <View style={styles.infoGrid}>
-              {section.bullets.slice(0, 6).map(item => (
-                <View
-                    key={item}
-                    style={[
-                      styles.insightCard,
-                      {
-                        backgroundColor: '#FFFFFF',
-                        borderColor: '#D6DDE9',
-                      },
-                    ]}
-                  >
-                  <Text style={styles.cardLabel}>Insight</Text>
-                  <Text style={styles.cardText}>{item}</Text>
-                </View>
-              ))}
-            </View>
-          ) : null}
-
-          {section.decisionWindows?.length ? (
-            <View style={{ marginBottom: 10 }}>
-              {section.decisionWindows.slice(0, 4).map(window => (
-                <PdfDecisionWindowCard
-                  key={`${window.label}-${window.window}`}
-                  item={window}
-                  palette={palette}
-                />
-              ))}
-            </View>
-          ) : null}
-
-          {section.evidenceTable?.length ? (
-            <View style={{ marginBottom: 8 }}>
-              {section.evidenceTable.slice(0, 4).map(row => (
-                <PdfEvidenceCard
-                  key={`${row.factor}-${row.observation}`}
-                  row={row}
-                  palette={palette}
-                />
-              ))}
-            </View>
-          ) : null}
-
-          {section.evidence.length ? (
-            <View
-            style={[
-              styles.noteRow,
-              {
-                backgroundColor: '#FFFFFF',
-                borderColor: '#D6DDE9',
-              },
-            ]}
-          >
-              <Text style={styles.cardLabel}>Why Predicta is saying this</Text>
-              {section.evidence.slice(0, 5).map(item => (
+              <Text style={styles.cardLabel}>{spread.proofTitle ?? 'Why Predicta is saying this'}</Text>
+              {spread.proofItems.map(item => (
                 <Text key={item} style={styles.evidenceText}>
                   • {item}
                 </Text>
@@ -709,6 +799,59 @@ export function PredictaReportPdfDocument({
           ) : null}
         </Page>
       ))}
+
+      <Page size="A4" style={styles.page}>
+        <PdfFooter footer={report.footer} />
+        <PdfPageHeader
+          eyebrow={report.mode === 'PREMIUM' ? 'Close the dossier well' : 'Use the report well'}
+          title={report.mode === 'PREMIUM' ? 'Next steps' : 'What to do next'}
+        />
+        <Text style={styles.closingTitle}>
+          {report.mode === 'PREMIUM'
+            ? 'Use this dossier as a planning instrument, not as a one-line fate statement.'
+            : 'Use this report as a real starting point, not as a teaser.'}
+        </Text>
+        <Text style={styles.closingBody}>
+          {report.mode === 'PREMIUM'
+            ? 'The premium dossier keeps the full Predicta depth, but it works best when you move from the chart spread into the relevant life spreads and save proof-heavy material for the end.'
+            : 'The free report is meant to leave you with meaningful insight, clear guidance, and enough chart context to understand why Predicta is saying what it is saying.'}
+        </Text>
+        <View
+          style={[
+            styles.panel,
+            {
+              backgroundColor: palette.panel,
+              borderColor: palette.border,
+            },
+          ]}
+        >
+          <Text style={styles.panelEyebrow}>Fun chart note</Text>
+          <Text style={styles.panelTitle}>
+            {buildThemeFunFact(report.chartSnapshots[0]?.theme ?? 'unknown', report.cover.metadata[0] ?? '')}
+          </Text>
+          <Text style={styles.panelBody}>
+            Predicta keeps the same time-of-day chart atmosphere in the PDF so
+            the document still feels like your Kundli, not like a disconnected
+            export.
+          </Text>
+        </View>
+        <View
+          style={[
+            styles.noteRow,
+            {
+              backgroundColor: '#FFFFFF',
+              borderColor: '#D6DDE9',
+            },
+          ]}
+        >
+          <Text style={styles.cardLabel}>Keep in mind</Text>
+          {report.trustProfile.limitations.slice(0, 3).map(item => (
+            <Text key={item} style={styles.evidenceText}>
+              • {item}
+            </Text>
+          ))}
+        </View>
+      </Page>
     </Document>
   );
 }
@@ -718,6 +861,376 @@ export function createPredictaReportPdfElement(
   options?: PdfRenderOptions,
 ): React.ReactElement<DocumentProps> {
   return PredictaReportPdfDocument(result, options);
+}
+
+function buildPlannedSpreads({
+  planningSections,
+  report,
+  reportFocus,
+  sections,
+}: PdfBuildResult): {
+  onboardingCards: Array<{ body: string; eyebrow: string; title: string }>;
+  scope: ReportScope;
+  showOnboarding: boolean;
+  spreads: PlannedSpread[];
+} {
+  const scope = determineReportScope(report.mode, reportFocus, sections.length);
+  const plannedSections = sections.map((section, index) => ({
+    index,
+    planning: planningSections[index] ?? section,
+    section,
+  }));
+  const used = new Set<number>();
+  const spreads: PlannedSpread[] = [];
+  const isFocusedRoom = ['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus);
+
+  const pull = (kinds: string[], maxCards: number): PlannedSection[] => {
+    const kindSet = new Set(kinds);
+    const matches = plannedSections.filter(item => {
+      if (used.has(item.index)) {
+        return false;
+      }
+      return kindSet.has(classifySectionKind(item.planning));
+    });
+
+    for (const item of matches.slice(0, maxCards)) {
+      used.add(item.index);
+    }
+
+    return matches.slice(0, maxCards);
+  };
+
+  const addSpread = (
+    eyebrow: string,
+    title: string,
+    lead: string,
+    kinds: string[],
+    maxCards: number,
+    proofTitle?: string,
+  ): void => {
+    const selected = pull(kinds, maxCards);
+
+    if (!selected.length) {
+      return;
+    }
+
+    spreads.push({
+      eyebrow,
+      lead,
+      proofItems: extractProofItems(selected, 4),
+      proofTitle,
+      sections: selected,
+      title,
+    });
+  };
+
+  if (isFocusedRoom) {
+    addSpread(
+      'Focused synthesis',
+      report.mode === 'PREMIUM' ? 'What this specialist reading is saying' : 'What this focused reading is saying',
+      'This report stays with the selected method instead of mixing rooms. It surfaces the main meaning first, then the proof that matters.',
+      [`focus-${reportFocus.toLowerCase()}`, 'executive', 'holistic'],
+      2,
+      'Core proof',
+    );
+    addSpread(
+      'Focused interpretation',
+      'The chart or method details that matter most',
+      'These are the parts of the reading that change the practical meaning, not just the technical description.',
+      ['foundation', 'chart-synthesis', 'planets', 'timing', 'transits', 'rectification'],
+      2,
+      'Why this reading holds',
+    );
+    addSpread(
+      'Practical guidance',
+      'What to do with this reading',
+      'Guidance and limits sit together so the report stays useful without overclaiming.',
+      ['guidance', 'remedies', 'trust'],
+      2,
+      'Boundaries and next steps',
+    );
+  } else {
+    addSpread(
+      'Core synthesis',
+      'Life direction and chart promise',
+      'Start with the main promise, the chart-backed personality direction, and the strongest pressure or support visible right now.',
+      ['focus-vedic', 'executive', 'holistic', 'planets'],
+      3,
+      'Primary proof',
+    );
+    addSpread(
+      'Foundation',
+      'How the chart is grounded',
+      'This spread keeps the reading anchored in birth data, chart structure, and calculation confidence before the life-area pages deepen the story.',
+      ['foundation', 'chart-synthesis', 'rectification'],
+      2,
+      'Chart grounding',
+    );
+    addSpread(
+      'Timing',
+      'Timing and current cycle',
+      'This is where active periods, current motion, and near-term planning windows are condensed into one readable view.',
+      ['timing', 'timeline', 'transits', 'yearly'],
+      report.mode === 'PREMIUM' ? 3 : 2,
+      'Timing proof',
+    );
+    addSpread(
+      'Life areas',
+      'Career, relationships, wealth, and life balance',
+      'These spreads translate the chart into human outcomes instead of making the user decode technical fragments on their own.',
+      ['area-career', 'area-relationship', 'area-wealth', 'area-wellbeing', 'area-spiritual'],
+      report.mode === 'PREMIUM' ? 3 : 2,
+      'Life-area support',
+    );
+
+    if (report.mode === 'PREMIUM') {
+      addSpread(
+        'Advanced Vedic',
+        'Deeper chart layers and synthesis',
+        'Premium keeps the advanced chart coverage, but it groups those layers into one cleaner spread before moving into appendices.',
+        ['chalit', 'ashtakavarga', 'yogas', 'advanced', 'full-coverage'],
+        3,
+        'Advanced proof',
+      );
+    }
+
+    addSpread(
+      'Guidance and limits',
+      'Guidance, remedies, and limits',
+      'The report closes the main reading flow with practical alignment, honest limits, and only the proof that still adds value.',
+      ['guidance', 'remedies', 'trust'],
+      2,
+      'Use this well',
+    );
+  }
+
+  const remaining = plannedSections.filter(item => !used.has(item.index));
+  for (const row of chunk(remaining, 2)) {
+    spreads.push({
+      eyebrow: report.mode === 'PREMIUM' ? 'Appendix' : 'Additional notes',
+      lead: report.mode === 'PREMIUM'
+        ? 'These sections are kept late so the dossier preserves depth without forcing repetition into the main reading flow.'
+        : 'These extra notes stay at the end so the free report remains readable before it becomes technical.',
+      proofItems: extractProofItems(row, 3),
+      proofTitle: 'Supporting proof',
+      sections: row,
+      title: report.mode === 'PREMIUM' ? 'Appendix and supporting proof' : 'Additional chart-backed notes',
+    });
+  }
+
+  return {
+    onboardingCards: buildOnboardingCards(report.mode, scope),
+    scope,
+    showOnboarding: scope !== 'focused' || report.mode === 'PREMIUM' || sections.length > 7,
+    spreads,
+  };
+}
+
+function buildOnboardingCards(
+  mode: PDFMode,
+  scope: ReportScope,
+): Array<{ body: string; eyebrow: string; title: string }> {
+  return [
+    {
+      body: scope === 'focused'
+        ? 'Go straight from the chart spread into the focused interpretation pages, then use the trust page last.'
+        : 'Read the summary first, then the chart spread, then the life-area spreads before you open late proof pages.',
+      eyebrow: 'Start here',
+      title: 'Use the spreads in order',
+    },
+    {
+      body: 'The PDF keeps the same sign, planet, degree, and status-mark language as the app so the charts still feel like your Kundli.',
+      eyebrow: 'Charts',
+      title: 'The PDF does not switch chart vocabulary',
+    },
+    {
+      body: mode === 'PREMIUM'
+        ? 'Premium keeps the deeper synthesis and timing, but the layout removes repeated scaffolding before it removes substance.'
+        : 'Free still gives real insight, practical guidance, and enough chart proof to feel complete.',
+      eyebrow: mode === 'PREMIUM' ? 'Premium depth' : 'Free value',
+      title: mode === 'PREMIUM' ? 'Depth stays, clutter goes' : 'Free is not a teaser',
+    },
+    {
+      body: 'Use proof pages to support decisions, not to replace context, judgment, or professional help in serious matters.',
+      eyebrow: 'Boundaries',
+      title: 'Keep the trust pages in mind',
+    },
+  ];
+}
+
+function determineReportScope(
+  mode: PDFMode,
+  reportFocus: PdfReportFocus,
+  sectionCount: number,
+): ReportScope {
+  if (['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)) {
+    return 'focused';
+  }
+
+  if (reportFocus === 'KUNDLI') {
+    return sectionCount > 10 || mode === 'PREMIUM' ? 'full' : 'broad';
+  }
+
+  if (reportFocus === 'VEDIC') {
+    return 'broad';
+  }
+
+  return sectionCount > 8 ? 'broad' : 'focused';
+}
+
+function classifySectionKind(section: PdfSection): string {
+  const title = section.title.toLowerCase();
+  const eyebrow = section.eyebrow.toUpperCase();
+
+  if (title === 'executive summary') {
+    return 'executive';
+  }
+  if (title === 'birth and calculation foundation') {
+    return 'foundation';
+  }
+  if (eyebrow === 'HOLISTIC SYNTHESIS') {
+    return 'holistic';
+  }
+  if (eyebrow === 'CHART SYNTHESIS') {
+    return 'chart-synthesis';
+  }
+  if (eyebrow === 'PLANETS') {
+    return 'planets';
+  }
+  if (eyebrow === 'TIMING') {
+    return 'timing';
+  }
+  if (eyebrow === 'TIMELINE') {
+    return 'timeline';
+  }
+  if (eyebrow === 'TRANSITS') {
+    return 'transits';
+  }
+  if (eyebrow === 'YEARLY') {
+    return 'yearly';
+  }
+  if (eyebrow === 'RECTIFICATION') {
+    return 'rectification';
+  }
+  if (eyebrow === 'ASHTAKAVARGA') {
+    return 'ashtakavarga';
+  }
+  if (eyebrow === 'YOGAS') {
+    return 'yogas';
+  }
+  if (eyebrow === 'ADVANCED') {
+    return 'advanced';
+  }
+  if (eyebrow === 'FULL COVERAGE') {
+    return 'full-coverage';
+  }
+  if (eyebrow === 'CHALIT') {
+    return 'chalit';
+  }
+  if (eyebrow === 'GUIDANCE') {
+    return 'guidance';
+  }
+  if (eyebrow === 'REMEDIES') {
+    return 'remedies';
+  }
+  if (eyebrow === 'TRUST') {
+    return 'trust';
+  }
+  if (eyebrow === 'KP PREDICTA') {
+    return 'focus-kp';
+  }
+  if (eyebrow === 'NADI') {
+    return 'focus-nadi';
+  }
+  if (eyebrow === 'NUMEROLOGY') {
+    return title.includes('synthesis') ? 'signature-numerology' : 'focus-numerology';
+  }
+  if (eyebrow === 'SIGNATURE') {
+    return 'focus-signature';
+  }
+  if (eyebrow === 'SIGNATURE + NUMEROLOGY') {
+    return 'signature-numerology';
+  }
+  if (eyebrow === 'VEDIC PREDICTA') {
+    if (title.includes('career')) {
+      return 'focus-career';
+    }
+    if (title.includes('wealth')) {
+      return 'focus-wealth';
+    }
+    if (title.includes('marriage') || title.includes('compatibility')) {
+      return 'focus-relationship';
+    }
+    if (title.includes('dasha')) {
+      return 'focus-dasha';
+    }
+    if (title.includes('remedy')) {
+      return 'focus-remedies';
+    }
+    if (title.includes('sade sati')) {
+      return 'focus-sadesati';
+    }
+    return 'focus-vedic';
+  }
+  if (title === 'career') {
+    return 'area-career';
+  }
+  if (title === 'relationship') {
+    return 'area-relationship';
+  }
+  if (title === 'wealth') {
+    return 'area-wealth';
+  }
+  if (title === 'wellbeing') {
+    return 'area-wellbeing';
+  }
+  if (title === 'spiritual practice') {
+    return 'area-spiritual';
+  }
+  if (eyebrow === 'DECISION ORACLE') {
+    return 'decision';
+  }
+
+  return 'other';
+}
+
+function extractProofItems(items: PlannedSection[], maxItems: number): string[] {
+  const proof = items.flatMap(item => [
+    ...item.section.evidence.slice(0, 2),
+    ...(item.section.decisionWindows?.slice(0, 1).map(window => `${window.label}: ${window.window}. ${window.guidance}`) ?? []),
+    ...(item.section.evidenceTable?.slice(0, 1).map(row => `${row.factor}: ${row.implication}`) ?? []),
+  ]);
+
+  return uniqueStrings(proof).slice(0, maxItems);
+}
+
+function uniqueStrings(items: string[]): string[] {
+  const seen = new Set<string>();
+  const unique: string[] = [];
+
+  for (const item of items) {
+    const key = item.trim();
+    if (!key || seen.has(key)) {
+      continue;
+    }
+    seen.add(key);
+    unique.push(item);
+  }
+
+  return unique;
+}
+
+function buildChartCards(
+  snapshots: PdfChartSnapshot[],
+): Array<{ showThemeNote: boolean; snapshot: PdfChartSnapshot }> {
+  const seenThemes = new Set<PdfChartSnapshot['theme']>();
+
+  return snapshots.map(snapshot => {
+    const showThemeNote = !seenThemes.has(snapshot.theme);
+    seenThemes.add(snapshot.theme);
+
+    return { showThemeNote, snapshot };
+  });
 }
 
 function PdfPageHeader({
@@ -747,90 +1260,13 @@ function PdfFooter({ footer }: { footer: string }): React.JSX.Element {
   );
 }
 
-function PdfDecisionWindowCard({
-  item,
-  palette,
-}: {
-  item: PdfDecisionWindow;
-  palette: ThemePalette;
-}): React.JSX.Element {
-  return (
-    <View
-      style={[
-        styles.fullCard,
-        {
-          backgroundColor: '#FFFFFF',
-          borderColor: palette.border,
-        },
-      ]}
-    >
-      <Text style={styles.cardLabel}>Decision window</Text>
-      <Text style={styles.evidenceTitle}>{item.label}</Text>
-      <Text style={styles.cardText}>{item.window}</Text>
-      <Text style={styles.cardSubtext}>{item.guidance}</Text>
-      {item.evidence.slice(0, 3).map(line => (
-        <Text key={line} style={styles.evidenceText}>
-          • {line}
-        </Text>
-      ))}
-      <Text
-        style={[
-          styles.confidenceChip,
-          {
-            backgroundColor: palette.accentSoft,
-            borderColor: palette.border,
-          },
-        ]}
-      >
-        {item.confidence} confidence
-      </Text>
-    </View>
-  );
-}
-
-function PdfEvidenceCard({
-  row,
-  palette,
-}: {
-  row: PdfEvidenceRow;
-  palette: ThemePalette;
-}): React.JSX.Element {
-  return (
-    <View
-      style={[
-        styles.evidenceCard,
-        {
-          backgroundColor: '#FFFFFF',
-          borderColor: palette.border,
-        },
-      ]}
-    >
-      <Text style={styles.cardLabel}>Evidence factor</Text>
-      <Text style={styles.evidenceTitle}>{row.factor}</Text>
-      <Text style={styles.evidenceText}>{row.observation}</Text>
-      <Text style={styles.cardSubtext}>{row.implication}</Text>
-      <Text
-        style={[
-          styles.confidenceChip,
-          {
-            backgroundColor: palette.accentSoft,
-            borderColor: palette.border,
-          },
-        ]}
-      >
-        {row.confidence} confidence
-      </Text>
-    </View>
-  );
-}
-
 function PdfChartCard({
   birthTime,
-  palette,
+  showThemeNote = true,
   snapshot,
 }: {
   birthTime: string;
-  palette: ThemePalette;
+  showThemeNote?: boolean;
   snapshot: PdfChartSnapshot;
 }): React.JSX.Element {
   const themePalette = getChartThemePalette(snapshot.theme);
@@ -909,9 +1345,11 @@ function PdfChartCard({
         </Text>
       ) : null}
 
-      <Text style={styles.chartThemeNote}>
-        {describeTheme(snapshot.theme, birthTime)}
-      </Text>
+      {showThemeNote ? (
+        <Text style={styles.chartThemeNote}>
+          {describeTheme(snapshot.theme, birthTime)}
+        </Text>
+      ) : null}
     </View>
   );
 }
@@ -981,10 +1419,6 @@ function PdfChartCell({
   );
 }
 
-function getPdfSectionKey(section: PdfSection, index: number): string {
-  return `${index}-${section.eyebrow}-${section.title}`;
-}
-
 function chunk<T>(items: T[], size: number): T[][] {
   const result: T[][] = [];
 
@@ -1023,55 +1457,55 @@ function getChartThemePalette(theme: PdfChartSnapshot['theme']): ThemePalette {
   switch (theme) {
     case 'sunrise':
       return {
-        accent: '#FFCA72',
-        accentSoft: '#53361F',
-        background: '#22170F',
-        border: '#86654A',
-        note: '#2C1C13',
-        outline: '#9D7B5B',
-        panel: '#1F1712',
+        accent: '#D78B35',
+        accentSoft: '#FFF1D9',
+        background: '#FFF7EA',
+        border: '#E0C29A',
+        note: '#FFFDFC',
+        outline: '#C9A071',
+        panel: '#FFF9F1',
       };
     case 'morning':
       return {
-        accent: '#E8D57D',
-        accentSoft: '#3F3A1E',
-        background: '#1E1E16',
-        border: '#767147',
-        note: '#232417',
-        outline: '#8B8656',
-        panel: '#181B14',
+        accent: '#A38C2A',
+        accentSoft: '#F7F1D1',
+        background: '#FBF9EC',
+        border: '#D6CEA3',
+        note: '#FFFDFC',
+        outline: '#BCAF76',
+        panel: '#FFFDF6',
       };
     case 'afternoon':
       return {
-        accent: '#CFE5FF',
-        accentSoft: '#243148',
-        background: '#111721',
-        border: '#50617B',
-        note: '#151C27',
-        outline: '#687C99',
-        panel: '#0D121B',
+        accent: '#4A78B8',
+        accentSoft: '#E8F1FF',
+        background: '#F5F8FD',
+        border: '#CAD7EC',
+        note: '#FFFFFF',
+        outline: '#A8BAD7',
+        panel: '#FAFCFF',
       };
     case 'sunset':
       return {
-        accent: '#FFB488',
-        accentSoft: '#4B241D',
-        background: '#251114',
-        border: '#87524A',
-        note: '#2B1718',
-        outline: '#99635B',
-        panel: '#1D1115',
+        accent: '#C87457',
+        accentSoft: '#FBE7DF',
+        background: '#FFF4F0',
+        border: '#E4C1B6',
+        note: '#FFFFFF',
+        outline: '#C89A8B',
+        panel: '#FFF8F5',
       };
     case 'night':
     case 'unknown':
     default:
       return {
-        accent: '#98B8FF',
-        accentSoft: '#1C2540',
-        background: '#0E1019',
-        border: '#45516E',
-        note: '#171B29',
-        outline: '#65708D',
-        panel: '#0B101A',
+        accent: '#5A76B3',
+        accentSoft: '#EAF0FF',
+        background: '#F4F6FB',
+        border: '#CDD5E6',
+        note: '#FFFFFF',
+        outline: '#A6B1C8',
+        panel: '#FAFBFE',
       };
   }
 }
@@ -1111,5 +1545,27 @@ function describeTheme(theme: PdfChartSnapshot['theme'], birthTime: string): str
       return `${timeLine}This night palette reflects a later birth window, giving the chart a darker, more reflective tone.`;
     default:
       return 'This chart uses Predicta’s neutral chart palette because the birth-time window could not be classified cleanly.';
+  }
+}
+
+function buildThemeFunFact(
+  theme: PdfChartSnapshot['theme'],
+  birthTime: string,
+): string {
+  const timeLine = birthTime ? `Because you were born at ${birthTime}, ` : '';
+
+  switch (theme) {
+    case 'sunrise':
+      return `${timeLine}Predicta keeps the chart in a sunrise hue to echo first-light momentum and beginnings.`;
+    case 'morning':
+      return `${timeLine}Predicta keeps the chart in a daylight hue so the reading feels open, steady, and easy to track.`;
+    case 'afternoon':
+      return `${timeLine}Predicta keeps the chart in an afternoon hue to mirror a brighter high-day atmosphere.`;
+    case 'sunset':
+      return `${timeLine}Predicta keeps the chart in a sunset hue so the PDF carries a warmer dusk character.`;
+    case 'night':
+      return `${timeLine}Predicta keeps the chart in a night hue to reflect a quieter and more reflective birth window.`;
+    default:
+      return 'Predicta keeps a neutral chart hue when the birth-time window cannot be classified cleanly.';
   }
 }
