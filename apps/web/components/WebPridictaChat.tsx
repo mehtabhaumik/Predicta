@@ -4384,20 +4384,20 @@ function buildSchoolContextIntro(
     return [
       `${school} यहीं है.`,
       fromSchool
-        ? `${fromSchool} से सवाल साथ आया है, लेकिन method mix नहीं होगा.`
+        ? `${fromSchool} से आपका सवाल और चार्ट संदर्भ मेरे पास पहले से है. मैं जवाब को इसी कमरे की पद्धति में रखूंगी.`
         : undefined,
-      chartFocus ? `चार्ट फोकस: ${chartFocus}.` : undefined,
-      question ? `सवाल: ${question}` : undefined,
+      chartFocus ? `इस समय चार्ट फोकस: ${chartFocus}.` : undefined,
+      question ? `आपने पूछा: ${question}` : undefined,
       context.predictaSchool === 'KP'
-        ? 'मैं केवल कृष्णमूर्ति पद्धति के cusps, star lords, sub lords, significators और ruling planets से पढ़ूंगी.'
+        ? 'मैं इसे KP के cusps, star lords, sub lords, significators और ruling planets से पढ़ूंगी.'
       : context.predictaSchool === 'NADI'
-          ? 'मैं planetary story links और validation questions से पढ़ूंगी; किसी प्राचीन palm-leaf access का दावा नहीं करूंगी.'
+          ? 'मैं इसे planetary story links और validation questions से पढ़ूंगी; किसी प्राचीन palm-leaf access का दावा नहीं करूंगी.'
       : context.predictaSchool === 'NUMEROLOGY'
-          ? 'मैं name number, birth number, destiny number, personal timing और name rhythm से जवाब दूंगी.'
+          ? 'मैं name number, birth number, destiny number, personal timing और name rhythm से सीधा जवाब दूंगी.'
       : context.predictaSchool === 'SIGNATURE'
           ? 'मैं केवल पुष्टि किए गए हस्ताक्षर संकेतों, आत्म-अभिव्यक्ति के पैटर्न, सुधार सुझावों और सुरक्षित चिंतन से जवाब दूंगी. यह पहचान सत्यापन, हस्तलेखन जांच, कानूनी प्रमाण या निदान नहीं है.'
-          : 'मैं वैदिक Parashari Jyotish के संदर्भ में ही जवाब दूंगी.',
-      'आप यहीं आगे पूछ सकते हैं.',
+          : 'मैं इसे वैदिक Parashari Jyotish के संदर्भ में पढ़ूंगी.',
+      'अब मैं सीधे जवाब पर आती हूँ.',
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -4407,42 +4407,42 @@ function buildSchoolContextIntro(
     return [
       `${school} અહીં તૈયાર છે.`,
       fromSchool
-        ? `${fromSchool} થી સવાલ સાથે આવ્યો છે, પણ method mix નહીં થાય.`
+        ? `${fromSchool} થી તમારો સવાલ અને ચાર્ટ સંદર્ભ મારી પાસે પહેલાથી છે. હું જવાબને આ રૂમની જ પદ્ધતિમાં રાખીશ.`
         : undefined,
-      chartFocus ? `ચાર્ટ ફોકસ: ${chartFocus}.` : undefined,
-      question ? `સવાલ: ${question}` : undefined,
+      chartFocus ? `હાલનો ચાર્ટ ફોકસ: ${chartFocus}.` : undefined,
+      question ? `તમે પૂછ્યું: ${question}` : undefined,
       context.predictaSchool === 'KP'
-        ? 'હું માત્ર કૃષ્ણમૂર્તિ પદ્ધતિના cusps, star lords, sub lords, significators અને ruling planets પરથી વાંચીશ.'
+        ? 'હું તેને KP ના cusps, star lords, sub lords, significators અને ruling planets પરથી વાંચીશ.'
       : context.predictaSchool === 'NADI'
-          ? 'હું planetary story links અને validation questions થી વાંચીશ; ancient palm-leaf access નો દાવો નહીં કરું.'
+          ? 'હું તેને planetary story links અને validation questions થી વાંચીશ; ancient palm-leaf access નો દાવો નહીં કરું.'
       : context.predictaSchool === 'NUMEROLOGY'
-          ? 'હું name number, birth number, destiny number, personal timing અને name rhythm પરથી જવાબ આપીશ.'
+          ? 'હું name number, birth number, destiny number, personal timing અને name rhythm પરથી સીધો જવાબ આપીશ.'
       : context.predictaSchool === 'SIGNATURE'
           ? 'હું માત્ર પુષ્ટિ કરેલા હસ્તાક્ષર સંકેતો, સ્વ-અભિવ્યક્તિના પેટર્ન, સુધાર સૂચનો અને સુરક્ષિત પ્રતિબિંબ પરથી જવાબ આપીશ. આ ઓળખ ચકાસણી, હસ્તલેખન તપાસ, કાનૂની પુરાવો કે નિદાન નથી.'
-          : 'હું વૈદિક Parashari Jyotish ના સંદર્ભમાં જ જવાબ આપીશ.',
-      'તમે અહીંથી આગળ પૂછો.',
+          : 'હું તેને વૈદિક Parashari Jyotish ના સંદર્ભમાં વાંચીશ.',
+      'હવે હું સીધા જવાબ પર આવું છું.',
     ]
       .filter(Boolean)
       .join('\n\n');
   }
 
   return [
-    `${school} is here.`,
+    `${school} is ready.`,
     fromSchool
-      ? `Context was carried from ${fromSchool}. The method will not be mixed.`
+      ? `I already have your chart context and question from ${fromSchool}, so I will answer inside this room's method.`
       : undefined,
-    chartFocus ? `Chart focus: ${chartFocus}.` : undefined,
-    question ? `Question in view: ${question}` : undefined,
+    chartFocus ? `Chart in focus: ${chartFocus}.` : undefined,
+    question ? `You asked: ${question}` : undefined,
     context.predictaSchool === 'KP'
-      ? 'I will stay inside KP cusps, star lords, sub lords, significators, and ruling planets.'
+      ? 'I will read this through KP cusps, star lords, sub lords, significators, and ruling planets.'
     : context.predictaSchool === 'NADI'
-        ? 'I will read through planetary story links and validation questions, without claiming access to an ancient palm-leaf record.'
+        ? 'I will read this through planetary story links and validation questions, without claiming access to an ancient palm-leaf record.'
     : context.predictaSchool === 'NUMEROLOGY'
         ? 'I will answer through name number, birth number, destiny number, personal timing, and name rhythm.'
     : context.predictaSchool === 'SIGNATURE'
         ? 'I will stay grounded in confirmed signature traits, self-expression patterns, improvement suggestions, and safe reflection. It is not identity verification, handwriting forensics, legal proof, or diagnosis.'
-        : 'I will stay in Vedic Parashari Jyotish.',
-    'You can continue right here.',
+        : 'I will read this through Vedic Parashari Jyotish.',
+    'I will answer from here, directly and clearly.',
   ]
     .filter(Boolean)
     .join('\n\n');

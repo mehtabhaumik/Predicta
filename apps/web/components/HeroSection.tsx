@@ -21,7 +21,10 @@ import { PlanetGlyph } from './PlanetGlyph';
 
 export function HeroSection(): React.JSX.Element {
   const reduceMotion = useReducedMotion();
-  const [heroChartTheme, setHeroChartTheme] = useState<ChartRenderTheme>('unknown');
+  const [heroChartTheme, setHeroChartTheme] = useState<ChartRenderTheme>(() =>
+    typeof window === 'undefined' ? 'night' : getSystemTimeChartTheme(),
+  );
+  const [heroChartReady, setHeroChartReady] = useState(false);
   const { language } = useLanguagePreference();
   const copy = heroCopy[language] ?? heroCopy.en;
   const landingPreset = getChartSurfacePreset('landing');
@@ -32,8 +35,14 @@ export function HeroSection(): React.JSX.Element {
     };
 
     updateHeroTheme();
+    const paintReady = window.requestAnimationFrame(() => {
+      setHeroChartReady(true);
+    });
     const timer = window.setInterval(updateHeroTheme, 60_000);
-    return () => window.clearInterval(timer);
+    return () => {
+      window.cancelAnimationFrame(paintReady);
+      window.clearInterval(timer);
+    };
   }, []);
 
   return (
@@ -63,9 +72,16 @@ export function HeroSection(): React.JSX.Element {
         </div>
       </motion.div>
       <div className="hero-visual kundli-hero-visual" aria-label="North Indian Kundli preview">
+        {!heroChartReady ? (
+          <div className="hero-kundli-loading" aria-hidden="true">
+            <span>{copy.cardTwoTitle}</span>
+          </div>
+        ) : null}
         <div
+          aria-busy={!heroChartReady}
           className="hero-kundli-board"
           data-chart-presentation="landing"
+          data-chart-ready={heroChartReady ? 'true' : 'false'}
           data-chart-school="parashari"
           data-chart-theme={heroChartTheme}
           {...getKundliAnimationSurfaceProps('landing')}

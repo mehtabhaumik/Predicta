@@ -773,10 +773,9 @@ function getLanguageName(
     return 'ગુજરાતી';
   }
 
-  return (
-    SUPPORTED_LANGUAGE_OPTIONS.find(option => option.code === language)
-      ?.englishName ?? 'English'
-  );
+  const option = SUPPORTED_LANGUAGE_OPTIONS.find(item => item.code === language);
+
+  return option?.nativeName ?? 'English';
 }
 
 function getSyncCopy(

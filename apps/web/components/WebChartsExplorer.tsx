@@ -64,13 +64,13 @@ export function WebChartsExplorer({
         <div className="card-content spacious">
           <div className="chart-picker-inline">
             <div>
-              <div className="section-title">{copy.selectChart}</div>
+              <div className="section-title">{copy.activeChart}</div>
               <h2>{chart.name}</h2>
             </div>
             <label className="chart-picker-select">
-              <span>{copy.selectChart}</span>
+              <span>{copy.chooseChart}</span>
               <select
-                aria-label={copy.selectChart}
+                aria-label={copy.chooseChart}
                 onChange={event => setSelectedChart(event.target.value as ChartType)}
                 value={selectedChart}
               >
@@ -179,11 +179,13 @@ function formatChartOption(chartType: ChartType): string {
 const CHART_EXPLORER_COPY: Record<
   SupportedLanguage,
   {
+    activeChart: string;
     activeTitle: string;
     advancedCharts: string;
     advancedChartHint: string;
     advancedLibrary: string;
     chartGuide: string;
+    chooseChart: string;
     coreLibrary: string;
     coreCharts: string;
     createKundli: string;
@@ -197,12 +199,14 @@ const CHART_EXPLORER_COPY: Record<
   }
 > = {
   en: {
+    activeChart: 'ACTIVE CHART',
     activeTitle: 'Chart Kundli',
     advancedChartHint:
       'Advanced charts stay meaning-first, but always read them through D1 and use Technical View for the evidence layer.',
     advancedCharts: 'Advanced charts',
     advancedLibrary: 'Advanced chart library',
     chartGuide: 'What each chart is for',
+    chooseChart: 'Choose chart',
     coreLibrary: 'Core chart library',
     coreCharts: 'Core charts',
     createKundli: 'Create Kundli',
@@ -217,12 +221,14 @@ const CHART_EXPLORER_COPY: Record<
     whyItMatters: 'WHY THIS CHART MATTERS',
   },
   hi: {
+    activeChart: 'सक्रिय चार्ट',
     activeTitle: 'चार्ट कुंडली',
     advancedChartHint:
       'उन्नत चार्ट पहले अर्थ दिखाते हैं, लेकिन इन्हें हमेशा D1 के साथ पढ़ें और प्रमाण के लिए Technical View खोलें.',
     advancedCharts: 'उन्नत चार्ट',
     advancedLibrary: 'उन्नत चार्ट लाइब्रेरी',
     chartGuide: 'कौन-सा चार्ट क्या दिखाता है',
+    chooseChart: 'चार्ट चुनें',
     coreLibrary: 'मुख्य चार्ट लाइब्रेरी',
     coreCharts: 'मुख्य चार्ट',
     createKundli: 'कुंडली बनाएं',
@@ -237,12 +243,14 @@ const CHART_EXPLORER_COPY: Record<
     whyItMatters: 'यह चार्ट क्यों महत्वपूर्ण है',
   },
   gu: {
+    activeChart: 'સક્રિય ચાર્ટ',
     activeTitle: 'ચાર્ટ કુંડળી',
     advancedChartHint:
       'ઉન્નત ચાર્ટ પહેલા અર્થ બતાવે છે, પરંતુ તેમને હંમેશા D1 સાથે વાંચો અને પુરાવા માટે Technical View ખોલો.',
     advancedCharts: 'ઉન્નત ચાર્ટ્સ',
     advancedLibrary: 'ઉન્નત ચાર્ટ લાઇબ્રેરી',
     chartGuide: 'કયો ચાર્ટ શું બતાવે છે',
+    chooseChart: 'ચાર્ટ પસંદ કરો',
     coreLibrary: 'મુખ્ય ચાર્ટ લાઇબ્રેરી',
     coreCharts: 'મુખ્ય ચાર્ટ્સ',
     createKundli: 'કુંડળી બનાવો',
