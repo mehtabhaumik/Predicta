@@ -236,6 +236,17 @@ Reason:
 
 This is the recommended page architecture for the rebuilt PDF engine.
 
+**Important scope rule:**
+
+- the page counts below apply only to the **full report** variants
+- `16` pages is for the **full free report** only
+- `32` pages is for the **full premium report** only
+- single-focus reports such as `KP only`, `Nadi only`, `Signature only`,
+  `Numerology only`, `Matchmaking only`, or any other selected subset should
+  use their own smaller page architectures
+- the premium full report must still include everything Predicta offers; the
+  `32` page target is a packaging discipline, not a scope reduction
+
 ### Free PDF Blueprint
 
 Target feel:
@@ -247,7 +258,7 @@ Target feel:
 
 Target length:
 
-- `12` to `18` pages
+- `16` pages exactly for the **full free report**
 
 Page structure:
 
@@ -271,6 +282,8 @@ Rules:
 - no duplicated evidence sections
 - no raw evidence tables unless absolutely necessary
 - no full technical dumps in the main reading flow
+- this `16` page architecture is for the **full free report** only
+- smaller or method-specific reports should use different, tighter blueprints
 
 ### Premium PDF Blueprint
 
@@ -283,7 +296,7 @@ Target feel:
 
 Target length:
 
-- `20` to `32` pages
+- `32` pages exactly for the **full premium report**
 
 Page structure:
 
@@ -310,10 +323,14 @@ Page structure:
 
 Rules:
 
-- premium can be longer, but not bloated
+- premium must fit inside the `32` page full-report structure without losing
+  anything important
 - every spread must have a clear point
 - deeper interpretation should be prioritized over repeated scaffolding
 - technical proof belongs late, not early
+- this `32` page architecture is for the **full premium report** only
+- focused or single-method premium reports should use their own smaller page
+  plans
 
 ## Chart Spread Rules
 
