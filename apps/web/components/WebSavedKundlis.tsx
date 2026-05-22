@@ -504,6 +504,7 @@ function KundliLibraryChartDialog({
           ) : null}
         </div>
         <WebKundliChart
+          presentation="full"
           birthDetails={kundli.birthDetails}
           centerLabel={chartTitle}
           chart={chart}

@@ -17633,6 +17633,49 @@ select::-ms-expand {
   max-width: 7ch;
 }
 
+.north-chart[data-chart-presentation='full'] .north-house-label {
+  gap: clamp(3px, 0.38vw, 6px);
+  padding: clamp(3px, 0.4vw, 6px);
+}
+
+.north-chart[data-chart-presentation='full'] .north-house-label[data-density='compact'],
+.north-chart[data-chart-presentation='full'] .north-house-label[data-density='stacked'] {
+  justify-content: flex-start;
+}
+
+.north-chart[data-chart-presentation='full'] .north-house-label[data-density='compact'] .north-house-meta,
+.north-chart[data-chart-presentation='full'] .north-house-label[data-density='stacked'] .north-house-meta {
+  gap: 2px 4px;
+}
+
+.north-chart[data-chart-presentation='full'] .north-house-label[data-density='compact'] .planet-glyph-copy em,
+.north-chart[data-chart-presentation='full'] .north-house-label[data-density='stacked'] .planet-glyph-copy em {
+  display: block !important;
+  font-size: clamp(8px, 0.68vw, 11px);
+  max-width: 7ch;
+}
+
+.north-chart[data-chart-presentation='full'] .north-house-label[data-density='compact'] .planet-glyph,
+.north-chart[data-chart-presentation='full'] .north-house-label[data-density='stacked'] .planet-glyph {
+  border-radius: 6px;
+  gap: 2px;
+  padding: 2px 4px;
+}
+
+.north-chart[data-chart-presentation='full'] .north-house-label[data-density='compact'] .planet-glyph-mark,
+.north-chart[data-chart-presentation='full'] .north-house-label[data-density='compact'] .planet-glyph-mark svg,
+.north-chart[data-chart-presentation='full'] .north-house-label[data-density='stacked'] .planet-glyph-mark,
+.north-chart[data-chart-presentation='full'] .north-house-label[data-density='stacked'] .planet-glyph-mark svg {
+  height: 11px;
+  width: 11px;
+}
+
+.north-chart[data-chart-presentation='full'] .north-house-label[data-density='compact'] .planet-glyph-copy strong,
+.north-chart[data-chart-presentation='full'] .north-house-label[data-density='stacked'] .planet-glyph-copy strong {
+  font-size: clamp(8px, 0.68vw, 11px);
+  max-width: 6ch;
+}
+
 .chat-mini-chart[data-chart-presentation='chat'] .north-house-label-1,
 .chat-mini-chart[data-chart-presentation='chat'] .north-house-label-4,
 .chat-mini-chart[data-chart-presentation='chat'] .north-house-label-7,

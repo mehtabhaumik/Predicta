@@ -96,6 +96,10 @@ export function runChartStressSuite(): ChartStressSuiteResult {
       assertMajorSurfacesKeepThreePlanetCompactHousesVisible,
     ),
     stressCase(
+      'full chart surfaces preserve degree labels even in compact and stacked houses',
+      assertFullSurfacePreservesDegreesOnCrowdedHouses,
+    ),
+    stressCase(
       'compact overflow prioritizes Rahu and Ketu when a surface must truncate',
       assertNodePriorityOnCompactOverflow,
     ),
@@ -266,6 +270,41 @@ function assertNodePriorityOnCompactOverflow(): void {
   assert(
     cell.hiddenPlanetCount === 2,
     'Crowded KP report houses should still disclose the remaining hidden planet count accurately.',
+  );
+}
+
+function assertFullSurfacePreservesDegreesOnCrowdedHouses(): void {
+  const chart = makeChart({
+    ascendantSign: 'Leo',
+    chartType: 'D1',
+    name: 'Full dialog detail check',
+    planets: [
+      makePlanet({ absoluteLongitude: 90.9, degree: 0.9, house: 12, name: 'Mercury', sign: 'Cancer' }),
+      makePlanet({ absoluteLongitude: 95.5, degree: 5.5, house: 12, name: 'Sun', sign: 'Cancer' }),
+      makePlanet({ absoluteLongitude: 102.4, degree: 12.4, house: 12, name: 'Jupiter', sign: 'Cancer' }),
+      makePlanet({ absoluteLongitude: 116.6, degree: 26.6, house: 12, name: 'Rahu', retrograde: true, sign: 'Cancer' }),
+    ],
+  });
+
+  const renderModel = buildChartRenderModel({
+    birthDetails: BASE_BIRTH_DETAILS,
+    chart,
+    presentation: 'full',
+    school: 'KP',
+  });
+  const cell = renderModel.cells.find(item => item.house === 12);
+
+  assert(cell !== undefined, 'Missing full-surface crowded house cell.');
+  assert(cell.showPlanetDegrees, 'Full chart surface must keep degree labels visible in crowded houses.');
+  assert(cell.showPlanetStatusMarks, 'Full chart surface must keep status marks visible in crowded houses.');
+  assertEqual(
+    cell.renderPlanets.map(planet => planet.degreeLabel),
+    ['0.9°', '5.5°', '12.4°', '26.6°'],
+    'Full chart surface should keep degree labels for every visible planet in crowded houses.',
+  );
+  assert(
+    cell.hiddenPlanetCount === 0,
+    'Full chart surface should not hide crowded-house planets behind overflow chips.',
   );
 }
 
