@@ -47,6 +47,7 @@ import {
   getKundliAnimationSurfaceProps,
   type KundliAnimationSurface,
 } from '../lib/kundli-animation-contract';
+import { getChartThemeNote } from '../lib/chart-theme-copy';
 import { useLanguagePreference } from '../lib/language-preference';
 import { PlanetGlyph } from './PlanetGlyph';
 import { StatusPill } from './StatusPill';
@@ -109,6 +110,15 @@ export function WebKundliChart({
   const localizedInsight = useMemo(
     () => localizeChartInsight(insight, chartLanguage),
     [insight, chartLanguage],
+  );
+  const chartThemeNote = useMemo(
+    () =>
+      getChartThemeNote({
+        language: chartLanguage,
+        theme: renderModel.theme,
+        time: birthDetails?.time ?? kundli?.birthDetails.time,
+      }),
+    [birthDetails?.time, chartLanguage, kundli?.birthDetails.time, renderModel.theme],
   );
   const activeCell = cells.find(cell => cell.house === selectedHouse) ?? cells[0];
   const activeHouseMeaning = getChartFocusLabel(chart.chartType, activeCell?.house);
@@ -311,6 +321,11 @@ export function WebKundliChart({
         items={renderModel.legend}
         language={appLanguage}
       />
+      <div className="chart-theme-note" data-chart-theme={renderModel.theme}>
+        <span>{chartThemeNote.eyebrow}</span>
+        <strong>{chartThemeNote.title}</strong>
+        <p>{chartThemeNote.body}</p>
+      </div>
       <MoonNakshatraPadaStrip
         insight={renderModel.moonNakshatraPada}
         language={chartLanguage}

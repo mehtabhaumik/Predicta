@@ -10425,6 +10425,7 @@ button:disabled {
   display: grid;
   gap: 18px;
   padding: 24px;
+  scroll-margin-top: 132px;
 }
 
 .report-chart-sync-panel h2 {
@@ -10434,6 +10435,12 @@ button:disabled {
 .report-chart-sync-panel p {
   margin: 0;
   max-width: 880px;
+}
+
+.report-chart-sync-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .report-chart-sync-grid {
@@ -10510,83 +10517,125 @@ button:disabled {
   margin-top: 2px;
 }
 
-.report-chart-mini {
-  aspect-ratio: 1.38;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+.report-chart-board.north-chart {
+  aspect-ratio: 1.38 / 1 !important;
   border-radius: 8px;
-  --kundli-line-main: rgba(226, 235, 255, 0.64);
-  --kundli-line-soft: rgba(188, 183, 255, 0.44);
   min-height: 280px;
-  overflow: hidden;
-  position: relative;
+  scroll-margin-top: 132px;
 }
 
-.report-chart-mini .north-chart-lines {
-  inset: 0;
+.report-chart-board[data-chart-presentation='report'] .north-house-label {
+  gap: 2px;
+  padding: 2px;
 }
 
-.report-chart-mini .north-chart-lines path {
-  fill: none;
-  stroke: var(--kundli-line-main);
-  stroke-dasharray: none;
-  stroke-dashoffset: 0;
-  stroke-linecap: square;
-  stroke-linejoin: miter;
-  stroke-width: 0.72;
-  vector-effect: non-scaling-stroke;
+.report-chart-board[data-chart-presentation='report'] .north-house-label-1,
+.report-chart-board[data-chart-presentation='report'] .north-house-label-4,
+.report-chart-board[data-chart-presentation='report'] .north-house-label-7,
+.report-chart-board[data-chart-presentation='report'] .north-house-label-10 {
+  --label-h: 22%;
+  --label-w: 22%;
 }
 
-.report-chart-mini .north-chart-lines path:nth-child(n + 2) {
-  stroke: var(--kundli-line-soft);
+.report-chart-board[data-chart-presentation='report'] .north-house-label-2,
+.report-chart-board[data-chart-presentation='report'] .north-house-label-6,
+.report-chart-board[data-chart-presentation='report'] .north-house-label-8,
+.report-chart-board[data-chart-presentation='report'] .north-house-label-12 {
+  --label-h: 14%;
+  --label-w: 22%;
 }
 
-.report-chart-mini-cell {
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  justify-content: center;
-  left: var(--house-x);
-  max-width: 23%;
-  min-width: 92px;
-  pointer-events: none;
-  position: absolute;
-  top: var(--house-y);
-  transform: translate(-50%, -50%);
-  z-index: 2;
+.report-chart-board[data-chart-presentation='report'] .north-house-label-3,
+.report-chart-board[data-chart-presentation='report'] .north-house-label-5,
+.report-chart-board[data-chart-presentation='report'] .north-house-label-9,
+.report-chart-board[data-chart-presentation='report'] .north-house-label-11 {
+  --label-h: 18%;
+  --label-w: 12%;
 }
 
-.report-chart-mini-cell.density-compact,
-.report-chart-mini-cell.density-stacked {
-  gap: 3px;
-  max-width: 25%;
+.report-chart-board[data-chart-presentation='report'] .north-house-meta {
+  gap: 2px 4px;
 }
 
-.report-chart-sign,
-.report-chart-planet {
-  align-items: center;
-  background: rgba(13, 33, 53, 0.8);
-  border: 1px solid rgba(77, 175, 255, 0.34);
-  border-radius: 999px;
-  color: var(--text);
-  display: inline-flex;
-  font-size: 10px;
+.report-chart-board[data-chart-presentation='report'] .north-sign-name {
+  font-size: clamp(9px, 0.7vw, 12px);
+}
+
+.report-chart-board[data-chart-presentation='report'] .north-sign-symbol {
+  font-size: clamp(12px, 0.84vw, 15px) !important;
+}
+
+.report-chart-board[data-chart-presentation='report'] .north-sign-number {
+  font-size: clamp(8px, 0.66vw, 10px);
+  height: clamp(15px, 1.08vw, 18px);
+  min-width: clamp(15px, 1.08vw, 18px);
+  padding: 0 4px;
+}
+
+.report-chart-board[data-chart-presentation='report'] .north-planet-stack {
+  gap: 2px;
+  margin-top: 2px;
+}
+
+.report-chart-board[data-chart-presentation='report'] .north-planet-stack .planet-glyph {
+  border-radius: 6px;
+  gap: 2px;
+  padding: 2px 4px;
+}
+
+.report-chart-board[data-chart-presentation='report'] .north-planet-stack .planet-glyph-mark,
+.report-chart-board[data-chart-presentation='report'] .north-planet-stack .planet-glyph-mark svg {
+  height: 11px;
+  width: 11px;
+}
+
+.report-chart-board[data-chart-presentation='report'] .north-planet-stack .planet-glyph-copy strong,
+.report-chart-board[data-chart-presentation='report'] .north-planet-stack .planet-glyph-copy em,
+.report-chart-board[data-chart-presentation='report'] .north-planet-stack .planet-status-mark {
+  font-size: clamp(8px, 0.64vw, 10px);
+}
+
+.report-chart-board[data-chart-presentation='report'] .north-house-label[data-density='compact'] .north-sign-name,
+.report-chart-board[data-chart-presentation='report'] .north-house-label[data-density='stacked'] .north-sign-name {
+  display: none;
+}
+
+.report-chart-board[data-chart-presentation='report'] .north-house-label[data-density='compact'] .planet-glyph-copy em,
+.report-chart-board[data-chart-presentation='report'] .north-house-label[data-density='stacked'] .planet-glyph-copy em {
+  display: block !important;
+  max-width: 6ch;
+}
+
+.report-chart-board[data-chart-presentation='report'] .north-house-label[data-density='stacked'] {
+  justify-content: flex-start;
+}
+
+.report-chart-theme-note {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid var(--border-quiet);
+  border-radius: 12px;
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+}
+
+.report-chart-theme-note span {
+  color: var(--muted);
+  font-size: 11px;
   font-weight: 900;
-  gap: 4px;
-  line-height: 1.1;
-  max-width: 100%;
-  padding: 4px 7px;
-  white-space: nowrap;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-.report-chart-sign em {
-  color: #8fc9ff;
-  font-style: normal;
+.report-chart-theme-note strong {
+  color: var(--text);
+  font-size: 14px;
 }
 
-.report-chart-planet {
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 255, 255, 0.16);
+.report-chart-theme-note p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
 }
 
 .report-chart-mini-legend {
@@ -12911,19 +12960,22 @@ button:disabled {
     grid-template-columns: 1fr;
   }
 
-  .report-chart-mini {
+  .report-chart-board.north-chart {
     min-height: 240px;
   }
 
-  .report-chart-mini-cell {
-    max-width: 28%;
-    min-width: 72px;
+  .report-chart-board[data-chart-presentation='report'] .north-house-label-1,
+  .report-chart-board[data-chart-presentation='report'] .north-house-label-4,
+  .report-chart-board[data-chart-presentation='report'] .north-house-label-7,
+  .report-chart-board[data-chart-presentation='report'] .north-house-label-10 {
+    --label-w: 25%;
   }
 
-  .report-chart-sign,
-  .report-chart-planet {
-    font-size: 9px;
-    padding: 3px 5px;
+  .report-chart-board[data-chart-presentation='report'] .north-house-label-2,
+  .report-chart-board[data-chart-presentation='report'] .north-house-label-6,
+  .report-chart-board[data-chart-presentation='report'] .north-house-label-8,
+  .report-chart-board[data-chart-presentation='report'] .north-house-label-12 {
+    --label-w: 24%;
   }
 
   .safety-hero,
@@ -14320,6 +14372,36 @@ button:disabled {
   color: var(--muted);
   font-size: 13px;
   line-height: 1.55;
+}
+
+.chart-theme-note {
+  background: var(--kundli-legend-bg);
+  border: 1px solid var(--kundli-legend-border);
+  border-radius: 12px;
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 12px 14px;
+}
+
+.chart-theme-note span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.chart-theme-note strong {
+  color: var(--text);
+  font-size: 14px;
+}
+
+.chart-theme-note p {
+  color: var(--kundli-legend-text);
+  font-size: 13px;
+  line-height: 1.55;
+  margin: 0;
 }
 
 .chat-moon-rhythm-note {

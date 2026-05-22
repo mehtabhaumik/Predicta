@@ -434,9 +434,9 @@ const CHART_SURFACE_PRESETS: Record<ChartRenderPresentation, ChartSurfacePreset>
     },
     maxVisiblePlanets: 7,
     planetGlyphSize: 'compact',
-    showPlanetDegrees: false,
+    showPlanetDegrees: true,
     showPlanetSign: false,
-    showPlanetStatusMarks: false,
+    showPlanetStatusMarks: true,
   },
 };
 

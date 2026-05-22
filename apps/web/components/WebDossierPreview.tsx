@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  type CSSProperties,
   useEffect,
   useMemo,
   useRef,
@@ -44,7 +43,9 @@ import {
   saveWebAutoSaveMemory,
 } from '../lib/web-auto-save-memory';
 import { loadWebKundliStore } from '../lib/web-kundli-storage';
+import { getChartThemeNote } from '../lib/chart-theme-copy';
 import { WebActiveKundliActions } from './WebActiveKundliActions';
+import { PlanetGlyph } from './PlanetGlyph';
 import { NorthIndianChartLines } from './WebKundliChart';
 import { WebTrustProofPanel } from './WebTrustProofPanel';
 import { AuthDialog } from './AuthDialog';
@@ -59,6 +60,8 @@ type SignatureReportDraft = {
 
 export function WebDossierPreview(): React.JSX.Element {
   const didLoadSavedState = useRef(false);
+  const reportChartPanelRef = useRef<HTMLElement | null>(null);
+  const reportPreviewRef = useRef<HTMLDivElement | null>(null);
   const [mode, setMode] = useState<'FREE' | 'PREMIUM'>('FREE');
   const [selectedReportId, setSelectedReportId] =
     useState<ReportMarketplaceProduct['id']>('KUNDLI');
@@ -244,6 +247,12 @@ export function WebDossierPreview(): React.JSX.Element {
     }
 
     setReportPreviewOpen(true);
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        const target = reportChartPanelRef.current ?? reportPreviewRef.current;
+        target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
     return true;
   }
 
@@ -658,7 +667,7 @@ export function WebDossierPreview(): React.JSX.Element {
         </summary>
         <p className="report-preview-drawer-body">{builderCopy.previewDrawerBody}</p>
         {isReportPreviewOpen ? (
-        <div className="report-preview-content">
+        <div className="report-preview-content" ref={reportPreviewRef}>
       <section
         className={
           mode === 'PREMIUM'
@@ -724,14 +733,21 @@ export function WebDossierPreview(): React.JSX.Element {
       <WebTrustProofPanel trust={report.trustProfile} />
 
       {report.chartSnapshots.length ? (
-        <section className="report-chart-sync-panel glass-panel">
+        <section className="report-chart-sync-panel glass-panel" ref={reportChartPanelRef}>
           <div className="section-title">{reportPrintCopy.chartsEyebrow}</div>
           <h2>{reportPrintCopy.chartsTitle}</h2>
           <p>{reportPrintCopy.chartsBody}</p>
+          <div className="report-chart-sync-actions">
+            <button className="button" onClick={printReport} type="button">
+              {builderCopy.printSelected}
+            </button>
+          </div>
           <div className="report-chart-sync-grid">
             {report.chartSnapshots.slice(0, 4).map(snapshot => (
               <ReportChartSnapshot
+                birthTime={kundli?.birthDetails.time}
                 key={`${snapshot.chartType}-${snapshot.chartName}`}
+                language={reportLanguage}
                 snapshot={snapshot}
               />
             ))}
@@ -780,10 +796,20 @@ export function WebDossierPreview(): React.JSX.Element {
 }
 
 function ReportChartSnapshot({
+  birthTime,
+  language,
   snapshot,
 }: {
+  birthTime?: string;
+  language: SupportedLanguage;
   snapshot: PdfChartSnapshot;
 }): React.JSX.Element {
+  const chartThemeNote = getChartThemeNote({
+    language,
+    theme: snapshot.theme,
+    time: birthTime,
+  });
+
   return (
     <article
       className="report-chart-snapshot"
@@ -796,35 +822,44 @@ function ReportChartSnapshot({
         </div>
         <small>{snapshot.school}</small>
       </div>
-      <div className="report-chart-mini">
+      <div
+        aria-label={`${snapshot.displayChartName ?? snapshot.chartName} North Indian chart`}
+        className="report-chart-mini north-chart report-chart-board"
+        data-chart-presentation="report"
+        data-chart-theme={snapshot.theme}
+      >
         <NorthIndianChartLines />
         {snapshot.cells.map(cell => (
           <div
-            className={`report-chart-mini-cell density-${cell.labelDensity}`}
+            className={`north-house-label north-house-label-${cell.house} north-house-label-${cell.labelDensity}`}
+            data-density={cell.labelDensity}
             key={`${snapshot.chartType}-${cell.house}`}
-            style={{
-              ['--house-x' as string]: `${houseLabelPoint(cell.house).x}%`,
-              ['--house-y' as string]: `${houseLabelPoint(cell.house).y}%`,
-            } as CSSProperties}
           >
-            <span className="report-chart-sign">
-              {cell.signNumber}
-              <em>{cell.displaySign ?? cell.sign}</em>
+            <span className="north-house-meta">
+              <span className="north-house-number">{cell.house}</span>
+              <span className="north-sign-name">{cell.displaySign}</span>
+              <span className="north-sign-symbol">{cell.signGlyph}</span>
+              <span className="north-sign-number">{cell.signNumber}</span>
             </span>
-            {cell.planets.slice(0, cell.maxVisiblePlanets).map(planet => (
-              <span className="report-chart-planet" key={`${planet.name}-${planet.degreeLabel}`}>
-                {planet.displayName ?? planet.name}
-                {cell.showPlanetDegrees ? ` ${planet.degreeLabel}` : ''}
-                {cell.showPlanetStatusMarks && planet.status.retrograde ? ' R' : ''}
-                {cell.showPlanetStatusMarks && planet.status.exalted ? ' E' : ''}
-                {cell.showPlanetStatusMarks && planet.status.debilitated ? ' D' : ''}
-                {cell.showPlanetStatusMarks && planet.status.combust ? ' C' : ''}
-              </span>
-            ))}
-            {cell.planets.length > cell.maxVisiblePlanets ? (
-              <span className="report-chart-planet">
-                +{cell.planets.length - cell.maxVisiblePlanets} more
-              </span>
+            {cell.planets.length ? (
+              <small className="north-planet-stack">
+                {cell.planets.map((planet, index) => (
+                  <PlanetGlyph
+                    animationIndex={index}
+                    animationSurface="standard"
+                    key={planet.key}
+                    moonPhase={snapshot.moonPhase}
+                    planet={planet}
+                    showDegree={cell.showPlanetDegrees}
+                    showSign={cell.showPlanetSign}
+                    showStatusMarks={cell.showPlanetStatusMarks}
+                    size={cell.planetGlyphSize}
+                  />
+                ))}
+                {cell.hiddenPlanetCount ? (
+                  <span className="chart-overflow-counter">+{cell.hiddenPlanetCount}</span>
+                ) : null}
+              </small>
             ) : null}
           </div>
         ))}
@@ -839,6 +874,11 @@ function ReportChartSnapshot({
           .
         </p>
       ) : null}
+      <div className="report-chart-theme-note">
+        <span>{chartThemeNote.eyebrow}</span>
+        <strong>{chartThemeNote.title}</strong>
+        <p>{chartThemeNote.body}</p>
+      </div>
       {snapshot.legend.length ? (
         <div className="report-chart-mini-legend">
           {snapshot.legend.map(item => (
@@ -850,25 +890,6 @@ function ReportChartSnapshot({
       ) : null}
     </article>
   );
-}
-
-function houseLabelPoint(house?: number): { x: number; y: number } {
-  const points: Record<number, { x: number; y: number }> = {
-    1: { x: 50, y: 20 },
-    2: { x: 25, y: 14 },
-    3: { x: 12, y: 30 },
-    4: { x: 26, y: 50 },
-    5: { x: 12, y: 70 },
-    6: { x: 25, y: 86 },
-    7: { x: 50, y: 80 },
-    8: { x: 75, y: 86 },
-    9: { x: 88, y: 70 },
-    10: { x: 74, y: 50 },
-    11: { x: 88, y: 30 },
-    12: { x: 75, y: 14 },
-  };
-
-  return points[house ?? 1] ?? points[1];
 }
 
 function getReportSectionKey(section: PdfSection, index: number): string {

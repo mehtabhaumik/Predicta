@@ -33,6 +33,7 @@ import {
   composeYearlyHoroscopeVarshaphal,
   type ChartRenderLegendItem,
   type ChartRenderMoonPhase,
+  type ChartRenderPlanet,
   type ChartRenderSchool,
   type ChartRenderTheme,
 } from '@pridicta/astrology';
@@ -120,29 +121,18 @@ export type PdfChartSnapshot = {
 
 export type PdfChartSnapshotCell = {
   house?: number;
+  hiddenPlanetCount: number;
   labelDensity: 'compact' | 'normal' | 'stacked';
   maxVisiblePlanets: number;
-  planets: Array<{
-    degreeLabel: string;
-    displayLabel: string;
-    displayName: string;
-    displaySign: string;
-    label: string;
-    name: string;
-    sign: string;
-    status: {
-      combust: boolean;
-      debilitated: boolean;
-      exalted: boolean;
-      retrograde: boolean;
-    };
-  }>;
+  planetGlyphSize: 'compact' | 'full';
+  planets: ChartRenderPlanet[];
   displaySign: string;
   displaySignShort: string;
   sign: string;
   signGlyph: string;
   signNumber: number;
   showPlanetDegrees: boolean;
+  showPlanetSign: boolean;
   showPlanetStatusMarks: boolean;
 };
 
@@ -1044,16 +1034,14 @@ function buildPdfChartSnapshots(
       {
         cells: model.cells.map(cell => ({
           house: cell.house,
+          hiddenPlanetCount: cell.hiddenPlanetCount,
           labelDensity: cell.labelDensity,
           maxVisiblePlanets: cell.maxVisiblePlanets,
+          planetGlyphSize: cell.planetGlyphSize,
           planets: cell.renderPlanets.map(planet => ({
+            ...planet,
             degreeLabel: planet.degreeLabel,
-            displayLabel: planet.displayLabel,
             displayName: planet.displayName,
-            displaySign: planet.displaySign,
-            label: planet.label,
-            name: planet.name,
-            sign: planet.sign,
             status: planet.status,
           })),
           displaySign: cell.displaySign,
@@ -1062,6 +1050,7 @@ function buildPdfChartSnapshots(
           signGlyph: cell.signGlyph,
           signNumber: cell.signNumber,
           showPlanetDegrees: cell.showPlanetDegrees,
+          showPlanetSign: cell.showPlanetSign,
           showPlanetStatusMarks: cell.showPlanetStatusMarks,
         })),
         chartName: model.chartName,
