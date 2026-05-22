@@ -5,10 +5,10 @@ import type { CSSProperties } from 'react';
 import { useMemo, useRef, useState } from 'react';
 import type { KundliData, SupportedLanguage } from '@pridicta/types';
 import {
-  buildSchoolPreviewChart,
   buildChartRenderModel,
+  buildParashariChalitChart,
+  buildSchoolPreviewChart,
   NORTH_INDIAN_CHART_LINE_PATHS,
-  type ChartRenderSchool,
 } from '@pridicta/astrology';
 import {
   canCreateAdditionalWebKundli,
@@ -25,12 +25,14 @@ import { WebKundliChart } from './WebKundliChart';
 import { AuthDialog } from './AuthDialog';
 import { BrandedDestructiveDialog } from './BrandedDestructiveDialog';
 
+type KundliLibraryPreviewKind = 'PARASHARI' | 'CHALIT' | 'KP';
+
 export function WebSavedKundlis(): React.JSX.Element {
   const { chartLanguage, language } = useLanguagePreference();
   const labels = KUNDLI_LIBRARY_COPY[language] ?? KUNDLI_LIBRARY_COPY.en;
   const { activeKundli, savedKundlis } = useWebKundliLibrary();
   const [dialogSelection, setDialogSelection] = useState<
-    { kundli: KundliData; school: ChartRenderSchool } | undefined
+    { kundli: KundliData; school: KundliLibraryPreviewKind } | undefined
   >();
   const [pendingDelete, setPendingDelete] = useState<KundliData | undefined>();
   const profiles = useMemo(() => {
@@ -304,7 +306,7 @@ function KundliMiniChartStrip({
   chartLanguage: SupportedLanguage;
   kundli: KundliData;
   labels: KundliLibraryCopy;
-  onOpenPreview: (school: ChartRenderSchool) => void;
+  onOpenPreview: (school: KundliLibraryPreviewKind) => void;
 }): React.JSX.Element | null {
   const previewChart = buildSchoolPreviewChart(kundli, 'PARASHARI');
 
@@ -314,7 +316,7 @@ function KundliMiniChartStrip({
 
   return (
     <div className="kundli-library-mini-strip" aria-label={labels.previewCharts}>
-      {(['PARASHARI', 'KP', 'NADI'] as ChartRenderSchool[]).map(school => (
+      {(['PARASHARI', 'CHALIT', 'KP'] as KundliLibraryPreviewKind[]).map(school => (
         <MiniKundliPreview
           chartLanguage={chartLanguage}
           key={`${kundli.id}-${school}`}
@@ -339,9 +341,9 @@ function MiniKundliPreview({
   kundli: KundliData;
   label: string;
   onOpen: () => void;
-  school: ChartRenderSchool;
+  school: KundliLibraryPreviewKind;
 }): React.JSX.Element | null {
-  const chart = buildSchoolPreviewChart(kundli, school);
+  const chart = buildLibraryPreviewChart(kundli, school);
 
   if (!chart?.supported) {
     return null;
@@ -352,7 +354,7 @@ function MiniKundliPreview({
     chart,
     language: chartLanguage,
     presentation: 'library',
-    school,
+    school: school === 'KP' ? 'KP' : 'PARASHARI',
   });
 
   return (
@@ -420,10 +422,10 @@ function KundliLibraryChartDialog({
   onActivate: () => void;
   onClose: () => void;
   onDelete: () => void;
-  selection: { kundli: KundliData; school: ChartRenderSchool };
+  selection: { kundli: KundliData; school: KundliLibraryPreviewKind };
 }): React.JSX.Element | null {
   const { kundli, school } = selection;
-  const chart = buildSchoolPreviewChart(kundli, school);
+  const chart = buildLibraryPreviewChart(kundli, school);
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
 
@@ -441,8 +443,8 @@ function KundliLibraryChartDialog({
   const fullFlowHref =
     school === 'KP'
       ? '/dashboard/kp'
-      : school === 'NADI'
-        ? '/dashboard/nadi'
+      : school === 'CHALIT'
+        ? '/dashboard/charts'
         : '/dashboard/kundli';
   const askHref = buildPredictaChatHref({
     chartName: 'D1',
@@ -450,8 +452,8 @@ function KundliLibraryChartDialog({
     kundli,
     kundliId: kundli.id,
     prompt: labels.dialogAskPrompt(kundli.birthDetails.name, chartTitle),
-    purpose: school === 'PARASHARI' ? 'kundli' : school.toLowerCase(),
-    school,
+    purpose: school === 'KP' ? 'kp' : 'kundli',
+    school: school === 'KP' ? 'KP' : 'PARASHARI',
     selectedSection: `${chartTitle} chart preview`,
     sourceScreen: 'Kundli Library',
   });
@@ -512,7 +514,7 @@ function KundliLibraryChartDialog({
           kundliId={kundli.id}
           ownerName={kundli.birthDetails.name}
           readingNoteOverride={labels.dialogReadingNote(school)}
-          schoolOverride={school}
+          schoolOverride={school === 'KP' ? 'KP' : 'PARASHARI'}
           sectionTitle={labels.dialogChartSection(school)}
         />
         <div className="kundli-chart-dialog-actions">
@@ -690,6 +692,17 @@ function FamilyVaultCard({
   );
 }
 
+function buildLibraryPreviewChart(
+  kundli: KundliData,
+  school: KundliLibraryPreviewKind,
+) {
+  if (school === 'CHALIT') {
+    return buildParashariChalitChart(kundli);
+  }
+
+  return buildSchoolPreviewChart(kundli, school);
+}
+
 type KundliLibraryCopy = {
   actionsBody: string;
   actionsTitle: string;
@@ -719,9 +732,9 @@ type KundliLibraryCopy = {
   deleteConfirmTitle: (name: string) => string;
   dialogAskPrompt: (name: string, chart: string) => string;
   dialogBody: string;
-  dialogChartSection: (school: ChartRenderSchool) => string;
+  dialogChartSection: (school: KundliLibraryPreviewKind) => string;
   dialogEyebrow: string;
-  dialogReadingNote: (school: ChartRenderSchool) => string;
+  dialogReadingNote: (school: KundliLibraryPreviewKind) => string;
   dialogTitle: (name: string, chart: string) => string;
   edit: string;
   editHistory: (
@@ -744,7 +757,7 @@ type KundliLibraryCopy = {
   guestLimitTitle: string;
   libraryEyebrow: string;
   overviewLabel: string;
-  openFullFlow: (school: ChartRenderSchool) => string;
+  openFullFlow: (school: KundliLibraryPreviewKind) => string;
   openMatchmaking: string;
   pageBody: string;
   pageTitle: string;
@@ -752,7 +765,7 @@ type KundliLibraryCopy = {
   personalBoundaryBody: string;
   personalBoundaryTitle: string;
   personalEyebrow: string;
-  previewChartLabel: (school: ChartRenderSchool) => string;
+  previewChartLabel: (school: KundliLibraryPreviewKind) => string;
   previewCharts: string;
   previewChartsHint: string;
   rectifiedTime: string;
@@ -806,16 +819,16 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     dialogChartSection: school =>
       school === 'PARASHARI'
         ? 'D1 SAVED KUNDLI'
-        : school === 'KP'
-          ? 'KP SAVED KUNDLI'
-          : 'NADI SAVED KUNDLI',
+        : school === 'CHALIT'
+          ? 'CHALIT SAVED KUNDLI'
+          : 'KP SAVED KUNDLI',
     dialogEyebrow: 'SAVED CHART PREVIEW',
     dialogReadingNote: school =>
       school === 'PARASHARI'
         ? 'D1 remains the root chart for the saved Kundli.'
-        : school === 'KP'
-          ? 'KP keeps its own rule path. This preview opens the saved birth chart in KP context.'
-          : 'Nadi keeps its own pattern reading. This preview opens the saved birth chart in Nadi context.',
+        : school === 'CHALIT'
+          ? 'Parashari Chalit keeps the D1 sign but moves the planet into the bhava where it delivers results.'
+          : 'KP keeps its own rule path. This preview opens the saved birth chart in KP context.',
     dialogTitle: (name, chart) => `${name}'s ${chart} chart`,
     edit: 'Edit',
     editHistory: (count, fields) =>
@@ -850,9 +863,9 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     openFullFlow: school =>
       school === 'PARASHARI'
         ? 'Open Full Kundli'
-        : school === 'KP'
-          ? 'Open KP Room'
-          : 'Open Nadi Room',
+        : school === 'CHALIT'
+          ? 'Open Chalit Flow'
+          : 'Open KP Room',
     openMatchmaking: 'Open Matchmaking',
     pageTitle: 'Kundli Library',
     personalBody: activeName =>
@@ -864,7 +877,7 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     personalBoundaryTitle: 'Personal storage and edits',
     personalEyebrow: 'PERSONAL LIBRARY',
     previewChartLabel: school =>
-      school === 'PARASHARI' ? 'D1' : school === 'KP' ? 'KP' : 'Nadi',
+      school === 'PARASHARI' ? 'D1' : school === 'CHALIT' ? 'Chalit' : 'KP',
     previewCharts: 'Saved Kundli chart previews',
     previewChartsHint: 'Tap any preview to inspect the chart before opening a full flow.',
     rectifiedTime: 'Rectified time',
@@ -918,16 +931,16 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     dialogChartSection: school =>
       school === 'PARASHARI'
         ? 'D1 सेव कुंडली'
-        : school === 'KP'
-          ? 'कृष्णमूर्ति पद्धति सेव कुंडली'
-          : 'नाड़ी सेव कुंडली',
+        : school === 'CHALIT'
+          ? 'चलित सेव कुंडली'
+          : 'कृष्णमूर्ति पद्धति सेव कुंडली',
     dialogEyebrow: 'सेव चार्ट झलक',
     dialogReadingNote: school =>
       school === 'PARASHARI'
         ? 'D1 इस सेव कुंडली का मूल चार्ट रहता है.'
-        : school === 'KP'
-          ? 'कृष्णमूर्ति पद्धति अपनी अलग नियम पद्धति रखता है. यह झलक कृष्णमूर्ति पद्धति संदर्भ में सेव जन्म चार्ट खोलती है.'
-          : 'नाड़ी अपनी अलग पैटर्न रीडिंग रखती है. यह झलक नाड़ी संदर्भ में सेव जन्म चार्ट खोलती है.',
+        : school === 'CHALIT'
+          ? 'पाराशरी चलित D1 की राशि वही रखता है, लेकिन ग्रह को उस भाव में दिखाता है जहाँ उसका फल प्रकट होता है.'
+          : 'कृष्णमूर्ति पद्धति अपनी अलग नियम पद्धति रखता है. यह झलक कृष्णमूर्ति पद्धति संदर्भ में सेव जन्म चार्ट खोलती है.',
     dialogTitle: (name, chart) => `${name} का ${chart} चार्ट`,
     edit: 'संपादित करें',
     editHistory: (count, fields) =>
@@ -960,9 +973,9 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     openFullFlow: school =>
       school === 'PARASHARI'
         ? 'पूरी कुंडली खोलें'
-        : school === 'KP'
-          ? 'कृष्णमूर्ति पद्धति कक्ष खोलें'
-          : 'नाड़ी कक्ष खोलें',
+        : school === 'CHALIT'
+          ? 'चलित प्रवाह खोलें'
+          : 'कृष्णमूर्ति पद्धति कक्ष खोलें',
     openMatchmaking: 'विवाह मिलान खोलें',
     pageBody:
       'हर सेव कुंडली यहीं रखें, एक सक्रिय व्यक्तिगत प्रोफाइल चुनें, और सावधानी से पारिवारिक तुलना चाहिए तभी परिवार वॉल्ट खोलें.',
@@ -976,7 +989,7 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     personalBoundaryTitle: 'व्यक्तिगत संग्रह और संपादन',
     personalEyebrow: 'व्यक्तिगत लाइब्रेरी',
     previewChartLabel: school =>
-      school === 'PARASHARI' ? 'D1' : school === 'KP' ? 'कृष्णमूर्ति पद्धति' : 'नाड़ी',
+      school === 'PARASHARI' ? 'D1' : school === 'CHALIT' ? 'चलित' : 'कृष्णमूर्ति पद्धति',
     previewCharts: 'सेव कुंडली चार्ट झलक',
     previewChartsHint: 'पूरा प्रवाह खोलने से पहले किसी भी झलक पर टैप करके चार्ट देखें.',
     rectifiedTime: 'सुधारा गया समय',
@@ -1030,16 +1043,16 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     dialogChartSection: school =>
       school === 'PARASHARI'
         ? 'D1 સાચવેલી કુંડળી'
-        : school === 'KP'
-          ? 'કૃષ્ણમૂર્તિ પદ્ધતિ સાચવેલી કુંડળી'
-          : 'નાડી સાચવેલી કુંડળી',
+        : school === 'CHALIT'
+          ? 'ચાલિત સાચવેલી કુંડળી'
+          : 'કૃષ્ણમૂર્તિ પદ્ધતિ સાચવેલી કુંડળી',
     dialogEyebrow: 'સાચવેલી ચાર્ટ ઝલક',
     dialogReadingNote: school =>
       school === 'PARASHARI'
         ? 'D1 આ સેવ કુંડળીનો મૂળ ચાર્ટ રહે છે.'
-        : school === 'KP'
-          ? 'કૃષ્ણમૂર્તિ પદ્ધતિ પોતાની અલગ નિયમ પદ્ધતિ રાખે છે. આ ઝલક કૃષ્ણમૂર્તિ પદ્ધતિ સંદર્ભમાં સેવ જન્મ ચાર્ટ ખોલે છે.'
-          : 'નાડી પોતાની અલગ પેટર્ન રીડિંગ રાખે છે. આ ઝલક નાડી સંદર્ભમાં સેવ જન્મ ચાર્ટ ખોલે છે.',
+        : school === 'CHALIT'
+          ? 'પરાશરી ચાલિત D1 ની રાશિ એ જ રાખે છે, પણ ગ્રહને તે ભાવમાં મૂકે છે જ્યાં તેનું ફળ જીવનમાં પ્રગટ થાય છે.'
+          : 'કૃષ્ણમૂર્તિ પદ્ધતિ પોતાની અલગ નિયમ પદ્ધતિ રાખે છે. આ ઝલક કૃષ્ણમૂર્તિ પદ્ધતિ સંદર્ભમાં સેવ જન્મ ચાર્ટ ખોલે છે.',
     dialogTitle: (name, chart) => `${name} નો ${chart} ચાર્ટ`,
     edit: 'સંપાદિત કરો',
     editHistory: (count, fields) =>
@@ -1072,9 +1085,9 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     openFullFlow: school =>
       school === 'PARASHARI'
         ? 'સંપૂર્ણ કુંડળી ખોલો'
-        : school === 'KP'
-          ? 'કૃષ્ણમૂર્તિ પદ્ધતિ કક્ષ ખોલો'
-          : 'નાડી કક્ષ ખોલો',
+        : school === 'CHALIT'
+          ? 'ચાલિત પ્રવાહ ખોલો'
+          : 'કૃષ્ણમૂર્તિ પદ્ધતિ કક્ષ ખોલો',
     openMatchmaking: 'લગ્ન મિલાન ખોલો',
     pageBody:
       'દરેક સાચવેલી કુંડળી અહીં રાખો, એક સક્રિય વ્યક્તિગત પ્રોફાઇલ પસંદ કરો, અને સાવચેતીભરી ઘરેલુ તુલના જોઈએ ત્યારે જ પરિવાર વોલ્ટ ખોલો.',
@@ -1088,7 +1101,7 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     personalBoundaryTitle: 'વ્યક્તિગત સંગ્રહ અને સંપાદન',
     personalEyebrow: 'વ્યક્તિગત લાઇબ્રેરી',
     previewChartLabel: school =>
-      school === 'PARASHARI' ? 'D1' : school === 'KP' ? 'કૃષ્ણમૂર્તિ પદ્ધતિ' : 'નાડી',
+      school === 'PARASHARI' ? 'D1' : school === 'CHALIT' ? 'ચાલિત' : 'કૃષ્ણમૂર્તિ પદ્ધતિ',
     previewCharts: 'સાચવેલી કુંડળી ચાર્ટ ઝલક',
     previewChartsHint: 'સંપૂર્ણ પ્રવાહ ખોલતા પહેલા કોઈ પણ ઝલક પર ટેપ કરીને ચાર્ટ જુઓ.',
     rectifiedTime: 'સુધારેલો સમય',
