@@ -207,6 +207,9 @@ Reason:
 - free PDF should feel generous, clear, and premium
 - it should not be too dense or too magazine-like
 - it needs lighter pacing and stronger clarity
+- `Bline KPI` is a structure reference, not a brand-tone reference
+- the actual free PDF should still inherit Predicta’s premium visual surface
+  from the primary luxury references
 
 ### Best For Premium PDF
 
@@ -247,6 +250,9 @@ This is the recommended page architecture for the rebuilt PDF engine.
 - focused reports such as `KP only`, `Nadi only`, `Signature only`,
   `Numerology only`, `Matchmaking only`, or any other selected subset should
   use fewer pages while keeping the same design system and report quality
+- focused scopes should select only the spreads that materially help the user
+- broad scopes can use most of the spread inventory where it adds real value
+- full scopes may use the complete spread inventory when justified
 - premium reports must not lose meaningful coverage just to stay shorter; page
   count should be reduced by removing repetition, not by removing real value
 
@@ -263,7 +269,7 @@ Target length:
 
 - `8` to `16` pages depending on scope
 
-Page structure:
+Available spread inventory for free reports:
 
 1. Cover
 2. What this report is saying first
@@ -275,7 +281,7 @@ Page structure:
 8. Career / money / purpose spread
 9. Practical guidance and remedies spread
 10. Trust and limits spread
-11. Optional chart appendix spread
+11. Conditional chart appendix spread
 12. Closing spread
 
 Rules:
@@ -283,11 +289,18 @@ Rules:
 - one summary spread only
 - one chart-theme explanation only
 - no duplicated evidence sections
+- no spread should exist only to restate evidence already shown elsewhere
 - no raw evidence tables unless absolutely necessary
 - no full technical dumps in the main reading flow
-- free reports should scale toward the low end for focused scopes and toward
-  the high end for broad scopes
+- focused free reports should use fewer pages
+- broad free reports can expand toward `16`
+- full free reports may use the full `16` page envelope
 - shorter free reports must still feel complete, not teaser-like
+- broad or full free reports may use a full onboarding spread
+- smaller focused free reports should compress `How to read this report` into a
+  shorter intro block
+- the chart appendix should be included only when it adds real value and does
+  not create repetition
 
 ### Premium PDF Blueprint
 
@@ -302,7 +315,7 @@ Target length:
 
 - `14` to `32` pages depending on scope
 
-Page structure:
+Available spread inventory for premium reports:
 
 1. Premium cover
 2. Executive summary spread
@@ -327,13 +340,22 @@ Page structure:
 
 Rules:
 
-- premium should use the upper end of the range only when the selected scope
-  truly justifies it
+- focused premium reports should use fewer pages
+- broad premium reports can expand toward `32`
+- full premium reports may use the full `32` page envelope
 - every spread must have a clear point
 - deeper interpretation should be prioritized over repeated scaffolding
 - technical proof belongs late, not early
 - premium scope can be shorter, but it must still feel like a premium dossier
 - reduce repetition before reducing substance
+- broad or full premium reports may use a full onboarding spread
+- smaller focused premium reports should compress `How to use this dossier` into
+  a shorter intro block
+- a broad or full premium report must still preserve full Predicta depth across
+  all relevant selected areas; page discipline is achieved through better
+  synthesis and cleaner formatting, not by stripping coverage
+- appendix spreads should be included only when they add real value and do not
+  create repetition
 
 ## Chart Spread Rules
 
