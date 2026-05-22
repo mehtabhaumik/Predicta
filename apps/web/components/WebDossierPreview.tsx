@@ -8,6 +8,7 @@ import {
 } from 'react';
 import type { User } from 'firebase/auth';
 import { onAuthStateChanged } from 'firebase/auth';
+import { hasPremiumPdfCredit } from '@pridicta/monetization';
 import {
   getConfidenceLabel,
   getLanguageLabels,
@@ -28,16 +29,14 @@ import {
 } from '@pridicta/pdf';
 import type {
   KundliData,
+  MonetizationState,
+  RedeemedGuestPass,
+  ResolvedAccess,
   SignatureAnalysisModel,
   SupportedLanguage,
 } from '@pridicta/types';
 import { useLanguagePreference } from '../lib/language-preference';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
-import {
-  formatWebChatTranscript,
-  loadWebChatTranscript,
-  openPrintableWebChatTranscript,
-} from '../lib/web-chat-export';
 import {
   loadWebAutoSaveMemory,
   saveWebAutoSaveMemory,
@@ -50,6 +49,12 @@ import { NorthIndianChartLines } from './WebKundliChart';
 import { WebTrustProofPanel } from './WebTrustProofPanel';
 import { AuthDialog } from './AuthDialog';
 import { getFirebaseWebAuth } from '../lib/firebase/client';
+import {
+  loadWebMonetizationState,
+  loadWebRedeemedGuestPass,
+  resolveWebAccess,
+} from '../lib/web-access-state';
+import { createInitialMonetizationState } from '@pridicta/monetization';
 
 const SIGNATURE_DRAFT_STORAGE_KEY = 'pridicta.signatureDraft.v1';
 
@@ -70,8 +75,12 @@ export function WebDossierPreview(): React.JSX.Element {
   );
   const [isReportPreviewOpen, setReportPreviewOpen] = useState(false);
   const [selectedSectionKeys, setSelectedSectionKeys] = useState<string[]>([]);
+  const [reportSurfaceState, setReportSurfaceState] = useState<
+    'idle' | 'purchase' | 'ready' | 'signin'
+  >('idle');
+  const [generatedAt, setGeneratedAt] = useState<string | null>(null);
   const [copyState, setCopyState] = useState<
-    'idle' | 'report' | 'chat' | 'empty' | 'needKundli'
+    'idle' | 'report' | 'empty' | 'needKundli'
   >('idle');
   const {
     language: appLanguage,
@@ -83,6 +92,13 @@ export function WebDossierPreview(): React.JSX.Element {
     SignatureAnalysisModel | undefined
   >();
   const [user, setUser] = useState<User | null>(null);
+  const [monetization, setMonetization] = useState<MonetizationState>(
+    createInitialMonetizationState(),
+  );
+  const [redeemedGuestPass, setRedeemedGuestPass] = useState<
+    RedeemedGuestPass | undefined
+  >();
+  const [isAccessLoading, setIsAccessLoading] = useState(false);
   const labels = getLanguageLabels(appLanguage);
   const reportLabels = getLanguageLabels(reportLanguage);
   const marketplaceProducts = useMemo(() => getReportMarketplaceProducts(), []);
@@ -128,6 +144,10 @@ export function WebDossierPreview(): React.JSX.Element {
   }, [marketplaceProducts, setReportLanguage]);
 
   useEffect(() => {
+    setRedeemedGuestPass(loadWebRedeemedGuestPass());
+  }, []);
+
+  useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const requestedFocus = params.get('focus');
     const requestedMode = params.get('mode');
@@ -151,6 +171,33 @@ export function WebDossierPreview(): React.JSX.Element {
       return undefined;
     }
   }, []);
+
+  useEffect(() => {
+    if (!user?.uid) {
+      setMonetization(createInitialMonetizationState());
+      setIsAccessLoading(false);
+      return;
+    }
+
+    let cancelled = false;
+    setIsAccessLoading(true);
+
+    loadWebMonetizationState(user.uid)
+      .then(state => {
+        if (!cancelled) {
+          setMonetization(state);
+        }
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setIsAccessLoading(false);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.uid]);
 
   useEffect(() => {
     if (!didLoadSavedState.current) {
@@ -193,7 +240,41 @@ export function WebDossierPreview(): React.JSX.Element {
   );
   const report = mode === 'PREMIUM' ? premiumReport : freeReport;
   const reportChartTheme = getChartRenderTheme(kundli?.birthDetails.time);
+  const authState = useMemo(
+    () => ({
+      email: user?.email ?? undefined,
+      isLoggedIn: Boolean(user),
+      provider:
+        user?.providerData?.[0]?.providerId?.includes('google')
+          ? 'google'
+          : user?.providerData?.[0]?.providerId?.includes('password')
+            ? 'password'
+            : user?.providerData?.[0]?.providerId?.includes('apple')
+              ? 'apple'
+              : user?.providerData?.[0]?.providerId?.includes('microsoft')
+                ? 'microsoft'
+                : null,
+      userId: user?.uid ?? undefined,
+    }),
+    [user],
+  );
+  const resolvedAccess = useMemo<ResolvedAccess>(
+    () =>
+      resolveWebAccess({
+        auth: authState,
+        monetization,
+        redeemedGuestPass,
+      }),
+    [authState, monetization, redeemedGuestPass],
+  );
+  const hasDetailedReportAccess = useMemo(
+    () =>
+      resolvedAccess.hasPremiumAccess ||
+      hasPremiumPdfCredit(monetization.oneTimeEntitlements, kundli?.id),
+    [kundli?.id, monetization.oneTimeEntitlements, resolvedAccess.hasPremiumAccess],
+  );
   const builderCopy = getReportBuilderCopy(appLanguage);
+  const resultCopy = getReportResultCopy(appLanguage);
   const reportLanguageCopy = getReportLanguageCopy(appLanguage);
   const reportPrintCopy = getReportPrintCopy(reportLanguage);
   const actualSectionOptions = report.sections.map((section, index) => ({
@@ -231,7 +312,32 @@ export function WebDossierPreview(): React.JSX.Element {
     builderMode === 'EVERYTHING'
       ? sectionOptions.length
       : sectionOptions.filter(option => selectedKeySet.has(option.key)).length;
-  const differenceRows = getFreePremiumDifferenceRows(appLanguage);
+  const generatedSummaryLabel = generatedAt
+    ? new Intl.DateTimeFormat(undefined, {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+      }).format(new Date(generatedAt))
+    : null;
+
+  function scrollToGeneratedResult() {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    window.setTimeout(() => {
+      const target = reportPreviewRef.current ?? reportChartPanelRef.current;
+
+      if (!target) {
+        return;
+      }
+
+      const top = target.getBoundingClientRect().top + window.scrollY - 96;
+      window.scrollTo({
+        behavior: 'smooth',
+        top: Math.max(top, 0),
+      });
+    }, 80);
+  }
 
   function openReportPreview(): boolean {
     if (!kundli) {
@@ -246,13 +352,17 @@ export function WebDossierPreview(): React.JSX.Element {
       return false;
     }
 
+    if (mode === 'PREMIUM' && !hasDetailedReportAccess) {
+      setReportPreviewOpen(true);
+      setReportSurfaceState(user ? 'purchase' : 'signin');
+      scrollToGeneratedResult();
+      return false;
+    }
+
+    setGeneratedAt(new Date().toISOString());
     setReportPreviewOpen(true);
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        const target = reportChartPanelRef.current ?? reportPreviewRef.current;
-        target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    });
+    setReportSurfaceState('ready');
+    scrollToGeneratedResult();
     return true;
   }
 
@@ -308,13 +418,6 @@ export function WebDossierPreview(): React.JSX.Element {
     window.setTimeout(() => setCopyState('idle'), 1800);
   }
 
-  async function copyChatTranscript() {
-    const transcript = formatWebChatTranscript(loadWebChatTranscript());
-    await navigator.clipboard.writeText(transcript);
-    setCopyState('chat');
-    window.setTimeout(() => setCopyState('idle'), 1800);
-  }
-
   useEffect(() => {
     const keys = sectionOptions.map(option => option.key);
     const keySet = new Set(keys);
@@ -324,6 +427,27 @@ export function WebDossierPreview(): React.JSX.Element {
       return validCurrent.length ? validCurrent : keys;
     });
   }, [kundli?.id, report.mode, reportLanguage, selectedReportId]);
+
+  useEffect(() => {
+    if (!isReportPreviewOpen) {
+      return;
+    }
+
+    if (mode === 'PREMIUM' && !hasDetailedReportAccess) {
+      setReportSurfaceState(user ? 'purchase' : 'signin');
+      return;
+    }
+
+    setReportSurfaceState('ready');
+  }, [hasDetailedReportAccess, isReportPreviewOpen, mode, user]);
+
+  useEffect(() => {
+    if (!isReportPreviewOpen) {
+      return;
+    }
+
+    scrollToGeneratedResult();
+  }, [generatedAt, isReportPreviewOpen, reportSurfaceState]);
 
   return (
     <div className="dossier-preview">
@@ -418,12 +542,24 @@ export function WebDossierPreview(): React.JSX.Element {
             </div>
             <div>
               <span>{builderCopy.premiumDepth}</span>
-              <p>{localizedSelectedReport.premiumDepth}</p>
-              <ul>
-                {localizedSelectedReport.premiumIncludes.map(item => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
+              <p>
+                {isAccessLoading
+                  ? resultCopy.loadingBody
+                  : hasDetailedReportAccess
+                  ? localizedSelectedReport.premiumDepth
+                  : resultCopy.premiumLockedBody}
+              </p>
+              {isAccessLoading ? null : hasDetailedReportAccess ? (
+                <ul>
+                  {localizedSelectedReport.premiumIncludes.map(item => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              ) : (
+                <small className="report-depth-locked-note">
+                  {user ? resultCopy.premiumPurchaseHint : resultCopy.premiumSignInHint}
+                </small>
+              )}
             </div>
           </div>
           <div className="report-selected-actions">
@@ -469,33 +605,34 @@ export function WebDossierPreview(): React.JSX.Element {
             <div className={mode === 'PREMIUM' ? 'active' : ''}>
               <span>{builderCopy.premiumAccessLabel}</span>
               <strong>{builderCopy.premiumAccessTitle}</strong>
-              <p>{builderCopy.premiumAccessBody}</p>
-              <a className="button secondary" href="/dashboard/premium">
-                {builderCopy.premiumAccessCta}
-              </a>
+              <p>
+                {isAccessLoading
+                  ? resultCopy.loadingBody
+                  : user
+                  ? hasDetailedReportAccess
+                    ? resultCopy.premiumReadyBody
+                    : builderCopy.premiumAccessBody
+                  : resultCopy.premiumGuestBody}
+              </p>
+              {isAccessLoading ? null : hasDetailedReportAccess ? (
+                <span className="report-builder-access-note">
+                  {resultCopy.premiumReadyTag}
+                </span>
+              ) : user ? (
+                <a
+                  className="button secondary"
+                  href="/checkout?productId=pridicta_premium_pdf"
+                >
+                  {builderCopy.premiumAccessCta}
+                </a>
+              ) : (
+                <AuthDialog />
+              )}
             </div>
           </div>
-
-          <div className="report-difference-table-wrap">
-            <div className="section-title">{builderCopy.differenceEyebrow}</div>
-            <table className="report-difference-table">
-              <thead>
-                <tr>
-                  <th>{builderCopy.differenceColumn}</th>
-                  <th>{labels.free}</th>
-                  <th>{labels.premium}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {differenceRows.map(row => (
-                  <tr key={row.area}>
-                    <td data-label={builderCopy.differenceColumn}>{row.area}</td>
-                    <td data-label={labels.free}>{row.free}</td>
-                    <td data-label={labels.premium}>{row.premium}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="report-builder-access-note-panel">
+            <strong>{resultCopy.compareHeadline}</strong>
+            <p>{resultCopy.compareBody}</p>
           </div>
         </details>
 
@@ -551,62 +688,74 @@ export function WebDossierPreview(): React.JSX.Element {
           </div>
         </details>
 
-        <section className="report-language-panel" aria-label={reportLanguageCopy.title}>
-          <div>
+        <details className="report-drawer">
+          <summary>
             <span>{reportLanguageCopy.eyebrow}</span>
             <strong>{reportLanguageCopy.title}</strong>
-            <p>
-              {appLanguage === reportLanguage
-                ? reportLanguageCopy.body
-                : reportLanguageCopy.differentBody}
-            </p>
-          </div>
-          <div className="report-language-options" role="group" aria-label={reportLanguageCopy.title}>
-            {SUPPORTED_LANGUAGE_OPTIONS.map(option => (
-              <button
-                aria-pressed={option.code === reportLanguage}
-                className={option.code === reportLanguage ? 'active' : ''}
-                key={option.code}
-                onClick={() => setReportLanguage(option.code)}
-                type="button"
+          </summary>
+          <section className="report-language-panel" aria-label={reportLanguageCopy.title}>
+            <div>
+              <span>{reportLanguageCopy.eyebrow}</span>
+              <strong>{reportLanguageCopy.title}</strong>
+              <p>
+                {appLanguage === reportLanguage
+                  ? reportLanguageCopy.body
+                  : reportLanguageCopy.differentBody}
+              </p>
+            </div>
+            <div className="report-language-options" role="group" aria-label={reportLanguageCopy.title}>
+              {SUPPORTED_LANGUAGE_OPTIONS.map(option => (
+                <button
+                  aria-pressed={option.code === reportLanguage}
+                  className={option.code === reportLanguage ? 'active' : ''}
+                  key={option.code}
+                  onClick={() => setReportLanguage(option.code)}
+                  type="button"
+                >
+                  <span>{option.nativeName}</span>
+                  <small>{option.englishName}</small>
+                </button>
+              ))}
+            </div>
+          </section>
+        </details>
+
+        <details className="report-drawer">
+          <summary>
+            <span>{builderCopy.customLabel}</span>
+            <strong>{builderCopy.customTitle}</strong>
+          </summary>
+          <div className="report-builder-section-grid">
+            {sectionOptions.map(({ key, section }) => (
+              <label
+                className={
+                  kundli
+                    ? 'report-builder-section'
+                    : 'report-builder-section preview'
+                }
+                key={key}
               >
-                <span>{option.nativeName}</span>
-                <small>{option.englishName}</small>
-              </button>
+                <input
+                  checked={builderMode === 'EVERYTHING' || selectedKeySet.has(key)}
+                  onChange={() => toggleSection(key)}
+                  type="checkbox"
+                />
+                <span>{formatReportSectionEyebrow(section.eyebrow, reportLanguage)}</span>
+                <strong>{section.title}</strong>
+                <small>
+                  {kundli
+                    ? formatReportSectionMeta({
+                        confidence: section.confidence ?? 'medium',
+                        language: reportLanguage,
+                        labels: reportLabels,
+                        tier: section.tier ?? 'free',
+                      })
+                    : builderCopy.createKundliToSelect}
+                </small>
+              </label>
             ))}
           </div>
-        </section>
-
-        <div className="report-builder-section-grid">
-          {sectionOptions.map(({ key, section }) => (
-            <label
-              className={
-                kundli
-                  ? 'report-builder-section'
-                  : 'report-builder-section preview'
-              }
-              key={key}
-            >
-              <input
-                checked={builderMode === 'EVERYTHING' || selectedKeySet.has(key)}
-                onChange={() => toggleSection(key)}
-                type="checkbox"
-              />
-              <span>{formatReportSectionEyebrow(section.eyebrow, reportLanguage)}</span>
-              <strong>{section.title}</strong>
-              <small>
-                {kundli
-                  ? formatReportSectionMeta({
-                      confidence: section.confidence ?? 'medium',
-                      language: reportLanguage,
-                      labels: reportLabels,
-                      tier: section.tier ?? 'free',
-                    })
-                  : builderCopy.createKundliToSelect}
-              </small>
-            </label>
-          ))}
-        </div>
+        </details>
 
         <div className="report-builder-actions">
           <button className="button primary" onClick={openReportPreview} type="button">
@@ -656,141 +805,205 @@ export function WebDossierPreview(): React.JSX.Element {
         </div>
       </div>
 
-      <details
-        className="report-drawer report-preview-drawer"
-        onToggle={event => setReportPreviewOpen(event.currentTarget.open)}
-        open={isReportPreviewOpen}
-      >
-        <summary>
-          <span>{builderCopy.previewDrawerTitle}</span>
-          <strong>{builderCopy.previewDrawerAction}</strong>
-        </summary>
-        <p className="report-preview-drawer-body">{builderCopy.previewDrawerBody}</p>
-        {isReportPreviewOpen ? (
-        <div className="report-preview-content" ref={reportPreviewRef}>
-      <section
-        className={
-          mode === 'PREMIUM'
-            ? 'report-print-cover premium'
-            : 'report-print-cover free'
-        }
-        data-chart-theme={reportChartTheme}
-      >
-        <div>
-          <span>{reportPrintCopy.coverEyebrow}</span>
-          <h1>{localizedReportTitle.title}</h1>
-          <h2>{reportPrintCopy.tagline}</h2>
-          <p>{report.cover.subtitle}</p>
-          <p>{report.cover.metadata.join(' • ')}</p>
-        </div>
-        <strong>{mode === 'PREMIUM' ? reportLabels.premium : reportLabels.free}</strong>
-      </section>
-
-      <section
-        className={
-          mode === 'PREMIUM'
-            ? 'report-print-brand-header premium'
-            : 'report-print-brand-header free'
-        }
-        data-chart-theme={reportChartTheme}
-      >
-        <div>
-          <span>PREDICTA</span>
-          <p>{reportPrintCopy.brandLine}</p>
-        </div>
-        <strong>{localizedReportTitle.title}</strong>
-      </section>
-
-      <section className="dossier-hero glass-panel">
-        <div>
-          <div className="section-title">
-            {localizedReportTitle.title.toUpperCase()} · DOSSIER {report.dossierVersion}
-          </div>
-          <h2>
-            {mode === 'PREMIUM'
-              ? reportPrintCopy.premiumPreview
-              : reportPrintCopy.freePreview}
-          </h2>
-          <p>{report.executiveSummary.headline}</p>
-        </div>
-        <div className="dossier-confidence">
-          <span>{labels.confidence}</span>
-          <strong>
-            {getConfidenceLabel(reportLanguage, report.executiveSummary.confidence)}
-          </strong>
-        </div>
-      </section>
-
-      <div className="dossier-signal-grid">
-        {report.executiveSummary.keySignals.map(signal => (
-          <div className="dossier-signal" key={signal}>
-            <span>{labels.keySignal}</span>
-            <p>{signal}</p>
-          </div>
-        ))}
-      </div>
-
-      <WebTrustProofPanel trust={report.trustProfile} />
-
-      {report.chartSnapshots.length ? (
-        <section className="report-chart-sync-panel glass-panel" ref={reportChartPanelRef}>
-          <div className="section-title">{reportPrintCopy.chartsEyebrow}</div>
-          <h2>{reportPrintCopy.chartsTitle}</h2>
-          <p>{reportPrintCopy.chartsBody}</p>
-          <div className="report-chart-sync-actions">
-            <button className="button" onClick={printReport} type="button">
-              {builderCopy.printSelected}
-            </button>
-          </div>
-          <div className="report-chart-sync-grid">
-            {report.chartSnapshots.slice(0, 4).map(snapshot => (
-              <ReportChartSnapshot
-                birthTime={kundli?.birthDetails.time}
-                key={`${snapshot.chartType}-${snapshot.chartName}`}
-                language={reportLanguage}
-                snapshot={snapshot}
-              />
-            ))}
-          </div>
-        </section>
-      ) : null}
-
-      <div className="report-section-list">
-        {visibleSections.map(section => (
-          <DossierSection
-            key={`${report.mode}-${section.title}`}
-            language={reportLanguage}
-            section={section}
-          />
-        ))}
-      </div>
-
-          <section className="report-print-safety-footer">
-            <strong>{reportPrintCopy.safetyTitle}</strong>
-            <p>{reportPrintCopy.safetyBody}</p>
+      {isReportPreviewOpen ? (
+        <section className="report-download-stage glass-panel" ref={reportPreviewRef}>
+          <section
+            className={
+              mode === 'PREMIUM'
+                ? 'report-print-cover premium'
+                : 'report-print-cover free'
+            }
+            data-chart-theme={reportChartTheme}
+          >
+            <div>
+              <span>{reportPrintCopy.coverEyebrow}</span>
+              <h1>{localizedReportTitle.title}</h1>
+              <h2>{reportPrintCopy.tagline}</h2>
+              <p>{report.cover.subtitle}</p>
+              <p>{report.cover.metadata.join(' • ')}</p>
+            </div>
+            <strong>
+              {mode === 'PREMIUM' ? reportLabels.premium : reportLabels.free}
+            </strong>
           </section>
 
-          <div className="report-preview-actions">
-            <button className="button" onClick={printReport} type="button">
-              {builderCopy.printSelected}
-            </button>
-            <button className="button secondary" onClick={copyReportSummary} type="button">
-              {copyState === 'report' ? builderCopy.copied : builderCopy.copyReport}
-            </button>
-            <button className="button secondary" onClick={copyChatTranscript} type="button">
-              {copyState === 'chat' ? builderCopy.copied : builderCopy.copyChat}
-            </button>
-            <button
-              className="button secondary"
-              onClick={openPrintableWebChatTranscript}
-              type="button"
-            >
-              {builderCopy.downloadChatPdf}
-            </button>
-          </div>
-        </div>
-        ) : null}
-      </details>
+          <section
+            className={
+              mode === 'PREMIUM'
+                ? 'report-print-brand-header premium'
+                : 'report-print-brand-header free'
+            }
+            data-chart-theme={reportChartTheme}
+          >
+            <div>
+              <span>PREDICTA</span>
+              <p>{reportPrintCopy.brandLine}</p>
+            </div>
+            <strong>{localizedReportTitle.title}</strong>
+          </section>
+
+          {reportSurfaceState === 'ready' ? (
+            <>
+              <section className="report-download-hero">
+                <div>
+                  <div className="section-title">
+                    {localizedReportTitle.title.toUpperCase()} · DOSSIER{' '}
+                    {report.dossierVersion}
+                  </div>
+                  <h2>
+                    {mode === 'PREMIUM'
+                      ? resultCopy.readyPremiumTitle
+                      : resultCopy.readyFreeTitle}
+                  </h2>
+                  <p>{report.executiveSummary.headline}</p>
+                </div>
+                <div className="dossier-confidence">
+                  <span>{labels.confidence}</span>
+                  <strong>
+                    {getConfidenceLabel(
+                      reportLanguage,
+                      report.executiveSummary.confidence,
+                    )}
+                  </strong>
+                </div>
+              </section>
+
+              <div className="report-download-actions">
+                <button className="button" onClick={printReport} type="button">
+                  {builderCopy.printSelected}
+                </button>
+                <button
+                  className="button secondary"
+                  onClick={copyReportSummary}
+                  type="button"
+                >
+                  {copyState === 'report'
+                    ? builderCopy.copied
+                    : builderCopy.copyReport}
+                </button>
+                <a
+                  className="button secondary"
+                  href={buildReportAskHref(selectedReport, kundli?.id)}
+                >
+                  {builderCopy.askFromReport}
+                </a>
+              </div>
+
+              {report.chartSnapshots.length ? (
+                <section
+                  className="report-chart-sync-panel glass-panel"
+                  ref={reportChartPanelRef}
+                >
+                  <div className="section-title">
+                    {reportPrintCopy.chartsEyebrow}
+                  </div>
+                  <h2>{reportPrintCopy.chartsTitle}</h2>
+                  <p>{reportPrintCopy.chartsBody}</p>
+                  <div className="report-chart-sync-grid">
+                    {report.chartSnapshots.map(snapshot => (
+                      <ReportChartSnapshot
+                        birthTime={kundli?.birthDetails.time}
+                        key={`${snapshot.chartType}-${snapshot.chartName}`}
+                        language={reportLanguage}
+                        snapshot={snapshot}
+                      />
+                    ))}
+                  </div>
+                </section>
+              ) : null}
+
+              <div className="report-result-grid">
+                <section className="report-result-card">
+                  <span>{resultCopy.keySignalsEyebrow}</span>
+                  <strong>{resultCopy.keySignalsTitle}</strong>
+                  <div className="report-result-list">
+                    {report.executiveSummary.keySignals.map(signal => (
+                      <p key={signal}>{signal}</p>
+                    ))}
+                  </div>
+                </section>
+                <section className="report-result-card">
+                  <span>{builderCopy.includesHeading}</span>
+                  <strong>{resultCopy.includedTitle}</strong>
+                  <div className="report-included-grid compact">
+                    {visibleSections.map(section => (
+                      <span key={`${report.mode}-${section.title}`}>
+                        {section.title}
+                      </span>
+                    ))}
+                  </div>
+                </section>
+                <section className="report-result-card">
+                  <span>{resultCopy.deliveryEyebrow}</span>
+                  <strong>{resultCopy.deliveryTitle}</strong>
+                  <div className="report-result-list">
+                    <p>
+                      {mode === 'PREMIUM'
+                        ? resultCopy.deliveryPremiumBody
+                        : resultCopy.deliveryFreeBody}
+                    </p>
+                    {generatedSummaryLabel ? (
+                      <p>{resultCopy.generatedAtLabel(generatedSummaryLabel)}</p>
+                    ) : null}
+                    <p>
+                      {selectedSectionCount}/{sectionOptions.length}{' '}
+                      {resultCopy.sectionsSelected}
+                    </p>
+                  </div>
+                </section>
+              </div>
+
+              <WebTrustProofPanel trust={report.trustProfile} />
+
+              <section className="report-print-safety-footer">
+                <strong>{reportPrintCopy.safetyTitle}</strong>
+                <p>{reportPrintCopy.safetyBody}</p>
+              </section>
+            </>
+          ) : (
+            <section className="report-gate-panel">
+              <div className="section-title">{resultCopy.lockedEyebrow}</div>
+              <h2>
+                {reportSurfaceState === 'signin'
+                  ? resultCopy.signInTitle
+                  : resultCopy.purchaseTitle}
+              </h2>
+              <p>
+                {reportSurfaceState === 'signin'
+                  ? resultCopy.signInBody
+                  : resultCopy.purchaseBody}
+              </p>
+              <div className="report-download-actions">
+                {reportSurfaceState === 'signin' ? (
+                  <AuthDialog />
+                ) : (
+                  <>
+                    <a
+                      className="button"
+                      href="/checkout?productId=pridicta_premium_pdf"
+                    >
+                      {resultCopy.purchasePrimary}
+                    </a>
+                    <a
+                      className="button secondary"
+                      href="/checkout?productId=pridicta_day_pass_24h"
+                    >
+                      {resultCopy.purchaseSecondary}
+                    </a>
+                  </>
+                )}
+                <button
+                  className="button secondary"
+                  onClick={() => setMode('FREE')}
+                  type="button"
+                >
+                  {resultCopy.fallbackFreeCta}
+                </button>
+              </div>
+            </section>
+          )}
+        </section>
+      ) : null}
     </div>
   );
 }
@@ -1680,6 +1893,160 @@ function getReportPrintCopy(language: SupportedLanguage): {
       'Predicta is for reflection and planning. It does not replace medical, legal, financial, emergency, or mental-health professionals. No prediction is guaranteed; use real-world judgment for important decisions.',
     safetyTitle: 'Safety note',
     tagline: 'Create your Kundli. Understand your life. Ask with proof.',
+  };
+}
+
+function getReportResultCopy(language: SupportedLanguage): {
+  compareBody: string;
+  compareHeadline: string;
+  deliveryEyebrow: string;
+  deliveryFreeBody: string;
+  deliveryPremiumBody: string;
+  deliveryTitle: string;
+  fallbackFreeCta: string;
+  generatedAtLabel: (label: string) => string;
+  includedTitle: string;
+  keySignalsEyebrow: string;
+  keySignalsTitle: string;
+  loadingBody: string;
+  lockedEyebrow: string;
+  premiumGuestBody: string;
+  premiumLockedBody: string;
+  premiumPurchaseHint: string;
+  premiumReadyBody: string;
+  premiumReadyTag: string;
+  premiumSignInHint: string;
+  purchaseBody: string;
+  purchasePrimary: string;
+  purchaseSecondary: string;
+  purchaseTitle: string;
+  readyFreeTitle: string;
+  readyPremiumTitle: string;
+  sectionsSelected: string;
+  signInBody: string;
+  signInTitle: string;
+} {
+  if (language === 'hi') {
+    return {
+      compareBody:
+        'मुफ्त रिपोर्ट सम्मान के साथ पूरी उपयोगी समझ देती है. प्रीमियम वही रिपोर्ट गहराई, समय, उपाय और विस्तृत संश्लेषण के साथ खोलता है.',
+      compareHeadline: 'मुफ्त उपयोगी है. प्रीमियम गहरा है.',
+      deliveryEyebrow: 'रिपोर्ट डिलीवरी',
+      deliveryFreeBody:
+        'यह मुफ्त इनसाइट रिपोर्ट चार्ट, मुख्य संकेत और जरूरी जीवन मार्गदर्शन के साथ पीडीएफ में तैयार है.',
+      deliveryPremiumBody:
+        'यह विस्तृत विश्लेषण रिपोर्ट पूरा चार्ट संश्लेषण, समय, उपाय और गहरी व्याख्या के साथ पीडीएफ में तैयार है.',
+      deliveryTitle: 'अब अगला कदम आसान है.',
+      fallbackFreeCta: 'मुफ्त रिपोर्ट पर रहें',
+      generatedAtLabel: label => `तैयार किया गया: ${label}`,
+      includedTitle: 'इस पीडीएफ में शामिल रहेगा',
+      keySignalsEyebrow: 'मुख्य संकेत',
+      keySignalsTitle: 'इस रिपोर्ट में सबसे पहले क्या देखना है',
+      loadingBody: 'आपके रिपोर्ट प्रवेश की जाँच हो रही है.',
+      lockedEyebrow: 'विस्तृत रिपोर्ट प्रवेश',
+      premiumGuestBody:
+        'विस्तृत रिपोर्ट चुनने से पहले साइन इन करें. उसके बाद आप खरीद विकल्प साफ देख पाएंगे.',
+      premiumLockedBody:
+        'विस्तृत विश्लेषण, समय-खिड़कियां, उपाय और पूरा संश्लेषण यहां खुलेगा.',
+      premiumPurchaseHint: 'विस्तृत रिपोर्ट खरीदने पर यह पूरा पीडीएफ खुल जाएगा.',
+      premiumReadyBody:
+        'आपके पास विस्तृत रिपोर्ट प्रवेश है. यही स्क्रीन अब पूरी रिपोर्ट डिलीवरी के लिए तैयार है.',
+      premiumReadyTag: 'विस्तृत रिपोर्ट तैयार',
+      premiumSignInHint: 'साइन इन करने के बाद ही विस्तृत रिपोर्ट रास्ता खुलेगा.',
+      purchaseBody:
+        'आप साइन इन कर चुके हैं. अब विस्तृत रिपोर्ट के लिए खरीद या डे पास चुनें.',
+      purchasePrimary: 'विस्तृत पीडीएफ खोलें',
+      purchaseSecondary: 'पहले डे पास आजमाएं',
+      purchaseTitle: 'विस्तृत रिपोर्ट के लिए प्रवेश चुनें',
+      readyFreeTitle: 'यह रही आपकी मुफ्त इनसाइट रिपोर्ट.',
+      readyPremiumTitle: 'यह रही आपकी विस्तृत विश्लेषण रिपोर्ट.',
+      sectionsSelected: 'भाग चुने गए',
+      signInBody:
+        'आपने विस्तृत रिपोर्ट चुनी है. आगे बढ़ने के लिए साइन इन करें, फिर खरीद या मौजूदा प्रवेश का उपयोग करें.',
+      signInTitle: 'विस्तृत रिपोर्ट के लिए साइन इन करें',
+    };
+  }
+
+  if (language === 'gu') {
+    return {
+      compareBody:
+        'મફત રિપોર્ટ સન્માન સાથે ઉપયોગી સમજ આપે છે. પ્રીમિયમ એ જ રિપોર્ટને ઊંડાઈ, સમય, ઉપાયો અને વિગતવાર સંશ્લેષણ સાથે ખોલે છે.',
+      compareHeadline: 'મફત ઉપયોગી છે. પ્રીમિયમ ઊંડું છે.',
+      deliveryEyebrow: 'રિપોર્ટ ડિલિવરી',
+      deliveryFreeBody:
+        'આ મફત ઇનસાઇટ રિપોર્ટ ચાર્ટ્સ, મુખ્ય સંકેતો અને જરૂરી જીવન માર્ગદર્શન સાથે પીડીએફમાં તૈયાર છે.',
+      deliveryPremiumBody:
+        'આ વિગતવાર વિશ્લેષણ રિપોર્ટ સંપૂર્ણ ચાર્ટ સંશ્લેષણ, સમય, ઉપાયો અને ઊંડી વ્યાખ્યા સાથે પીડીએફમાં તૈયાર છે.',
+      deliveryTitle: 'હવે આગળનું પગલું સરળ છે.',
+      fallbackFreeCta: 'મફત રિપોર્ટ પર રહો',
+      generatedAtLabel: label => `તૈયાર થયું: ${label}`,
+      includedTitle: 'આ પીડીએફમાં શું આવશે',
+      keySignalsEyebrow: 'મુખ્ય સંકેતો',
+      keySignalsTitle: 'આ રિપોર્ટમાં સૌપ્રથમ શું જોવું',
+      loadingBody: 'તમારો રિપોર્ટ પ્રવેશ ચકાસાઈ રહ્યો છે.',
+      lockedEyebrow: 'વિગતવાર રિપોર્ટ પ્રવેશ',
+      premiumGuestBody:
+        'વિગતવાર રિપોર્ટ પસંદ કરતાં પહેલાં સાઇન ઇન કરો. ત્યાર બાદ તમે ખરીદી વિકલ્પો સ્પષ્ટ રીતે જોઈ શકશો.',
+      premiumLockedBody:
+        'વિગતવાર વિશ્લેષણ, સમય વિન્ડોઝ, ઉપાયો અને સંપૂર્ણ સંશ્લેષણ અહીં ખુલે છે.',
+      premiumPurchaseHint: 'વિગતવાર રિપોર્ટ ખરીદ્યા પછી આ સંપૂર્ણ પીડીએફ ખુલી જશે.',
+      premiumReadyBody:
+        'તમારા પાસે વિગતવાર રિપોર્ટ પ્રવેશ છે. આ જ સ્ક્રીન હવે સંપૂર્ણ રિપોર્ટ ડિલિવરી માટે તૈયાર છે.',
+      premiumReadyTag: 'વિગતવાર રિપોર્ટ તૈયાર',
+      premiumSignInHint: 'સાઇન ઇન કર્યા પછી જ વિગતવાર રિપોર્ટનો માર્ગ ખુલશે.',
+      purchaseBody:
+        'તમે સાઇન ઇન કરી દીધું છે. હવે વિગતવાર રિપોર્ટ માટે ખરીદી અથવા ડે પાસ પસંદ કરો.',
+      purchasePrimary: 'વિગતવાર પીડીએફ ખોલો',
+      purchaseSecondary: 'પહેલાં ડે પાસ અજમાવો',
+      purchaseTitle: 'વિગતવાર રિપોર્ટ માટે પ્રવેશ પસંદ કરો',
+      readyFreeTitle: 'આ રહ્યો તમારો મફત ઇનસાઇટ રિપોર્ટ.',
+      readyPremiumTitle: 'આ રહી તમારી વિગતવાર વિશ્લેષણ રિપોર્ટ.',
+      sectionsSelected: 'ભાગો પસંદ થયા',
+      signInBody:
+        'તમે વિગતવાર રિપોર્ટ પસંદ કર્યો છે. આગળ વધવા માટે સાઇન ઇન કરો, પછી ખરીદી અથવા હાજર પ્રવેશનો ઉપયોગ કરો.',
+      signInTitle: 'વિગતવાર રિપોર્ટ માટે સાઇન ઇન કરો',
+    };
+  }
+
+  return {
+    compareBody:
+      'Free stays genuinely useful. Premium keeps the same dignity and adds deeper timing, fuller synthesis, remedies, and a richer PDF.',
+    compareHeadline: 'Free is useful. Premium is deeper.',
+    deliveryEyebrow: 'Report delivery',
+    deliveryFreeBody:
+      'This free insight report is ready as a polished PDF with charts, key signals, and useful life guidance.',
+    deliveryPremiumBody:
+      'This detailed analysis report is ready as a polished PDF with full chart synthesis, timing, remedies, and deeper explanation.',
+    deliveryTitle: 'Now the next step is simple.',
+    fallbackFreeCta: 'Stay with free report',
+    generatedAtLabel: label => `Prepared: ${label}`,
+    includedTitle: 'Included in this PDF',
+    keySignalsEyebrow: 'Key signals',
+    keySignalsTitle: 'What this report wants you to notice first',
+    loadingBody: 'Checking your report access now.',
+    lockedEyebrow: 'Detailed report access',
+    premiumGuestBody:
+      'Sign in before opening a detailed report. After that, Predicta can show the correct purchase path cleanly.',
+    premiumLockedBody:
+      'Detailed analysis, timing windows, remedies, and full synthesis open here when detailed access is available.',
+    premiumPurchaseHint:
+      'Purchase the detailed report path and this full PDF will unlock here.',
+    premiumReadyBody:
+      'You already have detailed report access. This page is ready to deliver the full PDF.',
+    premiumReadyTag: 'Detailed report ready',
+    premiumSignInHint:
+      'Sign in first, then Predicta can open the detailed report path cleanly.',
+    purchaseBody:
+      'You are signed in. Choose a detailed report purchase or a Day Pass to unlock the full PDF path.',
+    purchasePrimary: 'Unlock detailed PDF',
+    purchaseSecondary: 'Try a Day Pass first',
+    purchaseTitle: 'Choose access for the detailed report',
+    readyFreeTitle: 'Here is your free insight report.',
+    readyPremiumTitle: 'Here is your detailed analysis report.',
+    sectionsSelected: 'sections selected',
+    signInBody:
+      'You chose the detailed report path. Sign in first, then continue into purchase or an existing access path.',
+    signInTitle: 'Sign in for the detailed report path',
   };
 }
 

@@ -29,14 +29,6 @@ import { generateHoroscopePdf } from '../services/pdf/pdfGenerator';
 import { useAppStore } from '../store/useAppStore';
 import type { PDFMode } from '../types/astrology';
 
-const fallbackSections = [
-  {
-    copy: 'Generate a kundli to unlock chart-derived timeline, transit, rectification, and remedy cards.',
-    context: 'Report overview',
-    title: 'Report insights',
-  },
-];
-
 export function ReportScreen({
   navigation,
 }: RootScreenProps<typeof routes.Report>): React.JSX.Element {
@@ -107,17 +99,10 @@ export function ReportScreen({
     () => new Set(selectedSectionKeys),
     [selectedSectionKeys],
   );
-  const sections = kundli
-    ? builderMode === 'EVERYTHING'
-      ? reportPreview.sections
-      : sectionOptions
-          .filter(option => selectedKeySet.has(option.key))
-          .map(option => option.section)
-    : fallbackSections;
   const selectedSectionCount = kundli
     ? builderMode === 'EVERYTHING'
       ? reportPreview.sections.length
-      : sections.length
+      : sectionOptions.filter(option => selectedKeySet.has(option.key)).length
     : 0;
 
   useEffect(() => {
@@ -512,53 +497,46 @@ export function ReportScreen({
         )}
       </GlowCard>
 
-      <View className="mt-8 gap-4">
-        {sections.map((section, index) => (
-          <Pressable
-            accessibilityRole="button"
-            key={section.title}
-            onPress={() =>
-              askFromReport(
-                'context' in section
-                  ? section.context
-                  : `${section.title}: ${section.body}`,
-              )
-            }
-          >
-            <GlowCard delay={120 + index * 80}>
-              <AppText variant="subtitle">{section.title}</AppText>
-              <AppText className="mt-2" tone="secondary">
-                {'copy' in section ? section.copy : section.body}
-              </AppText>
-              {'confidence' in section ? (
-                <AppText className="mt-3" tone="secondary" variant="caption">
-                  {section.tier?.toUpperCase()} · {section.confidence} confidence ·{' '}
-                  {section.evidenceTable?.length ?? 0} evidence rows
-                </AppText>
-              ) : null}
-              <AppText className="mt-4" tone="secondary" variant="caption">
-                Ask Predicta from this section
-              </AppText>
-            </GlowCard>
-          </Pressable>
-        ))}
-      </View>
-
       <GradientOutlineCard className="mt-8" delay={420}>
         <AppText tone="secondary" variant="caption">
-          HOROSCOPE PDF
+          REPORT DELIVERY
         </AppText>
         <AppText className="mt-2" variant="subtitle">
-          Premium PDF bundle
+          {previewMode === 'PREMIUM'
+            ? 'Here is your detailed analysis report path'
+            : 'Here is your free insight report path'}
         </AppText>
         <AppText className="mt-3" tone="secondary">
-          Free gives a useful preview. Premium turns the full report into
-          deeper timing, chart proof, remedies, and a polished PDF.
+          {reportPreview.executiveSummary.headline}
         </AppText>
+        <View className="mt-4 gap-3">
+          {reportPreview.executiveSummary.keySignals.slice(0, 3).map(signal => (
+            <View
+              className="rounded-[18px] border border-[#252533] bg-[#191923] p-4"
+              key={signal}
+            >
+              <AppText tone="secondary" variant="caption">
+                KEY SIGNAL
+              </AppText>
+              <AppText className="mt-2" tone="secondary">
+                {signal}
+              </AppText>
+            </View>
+          ))}
+        </View>
+        <View className="mt-5 rounded-[18px] border border-[#252533] bg-[#191923] p-4">
+          <AppText tone="secondary" variant="caption">
+            INCLUDED IN PDF
+          </AppText>
+          <AppText className="mt-2" tone="secondary">
+            {selectedSectionCount}/{reportPreview.sections.length || 0} sections selected.
+            The PDF is the full reading surface; this page keeps the choice flow simple.
+          </AppText>
+        </View>
         <View className="mt-5 gap-4">
           <GlowButton
             disabled={isGenerating}
-            label={isGenerating ? 'Generating...' : 'Generate Free PDF'}
+            label={isGenerating ? 'Generating...' : 'Download Free PDF'}
             loading={isGenerating}
             onPress={() => createPdf('FREE')}
           />
@@ -566,38 +544,22 @@ export function ReportScreen({
             disabled={isGenerating}
             label={
               userPlan === 'PREMIUM'
-                ? 'Create Detailed PDF'
-                : 'See Detailed PDF Option'
+                ? 'Download Detailed PDF'
+                : 'Unlock Detailed PDF'
             }
             onPress={() => createPdf('PREMIUM')}
           />
         </View>
-      </GradientOutlineCard>
-
-      <GlowCard className="mt-6" delay={520}>
-        <AppText tone="secondary" variant="caption">
-          CURRENT DASHA
-        </AppText>
-        <AppText className="mt-2" variant="subtitle">
-          {kundli
-            ? `${kundli.dasha.current.mahadasha} / ${kundli.dasha.current.antardasha}`
-            : 'No kundli generated'}
-        </AppText>
-        <AppText className="mt-2" tone="secondary">
-          {kundli
-            ? `${kundli.dasha.current.startDate} to ${kundli.dasha.current.endDate}`
-            : 'Generate a real kundli before opening dasha insights.'}
-        </AppText>
         <Pressable
           accessibilityRole="button"
           className="mt-4"
-          onPress={() => askFromReport('Current Dasha')}
+          onPress={() => askFromReport(selectedReport.prompt)}
         >
           <AppText className="font-bold text-[#4DAFFF]">
-            Ask Predicta about this dasha
+            Ask Predicta from this report
           </AppText>
         </Pressable>
-      </GlowCard>
+      </GradientOutlineCard>
     </Screen>
   );
 }

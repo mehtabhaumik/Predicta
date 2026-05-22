@@ -122,24 +122,33 @@ function reportSectionBody(
   const copy = getPdfCopy(language);
 
   return `
-    <div class="card">
+    <div class="card report-section-card">
       <div class="section-meta">
         <div class="eyebrow">${escapeHtml(reportSection.eyebrow)}</div>
         <span>${escapeHtml(reportSection.tier ?? 'free')} · ${escapeHtml(reportSection.confidence ?? 'medium')} confidence</span>
       </div>
-      <p>${escapeHtml(reportSection.body)}</p>
+      <div class="section-story">
+        <p>${escapeHtml(reportSection.body)}</p>
+      </div>
       ${
         reportSection.bullets.length
-          ? `<ul>${reportSection.bullets
-              .map(item => `<li>${escapeHtml(item)}</li>`)
-              .join('')}</ul>`
+          ? `<div class="section-points">${reportSection.bullets
+              .map(
+                item => `
+                  <div class="point-card">
+                    <span>Insight</span>
+                    <p>${escapeHtml(item)}</p>
+                  </div>
+                `,
+              )
+              .join('')}</div>`
           : ''
       }
       ${
         reportSection.evidence.length
-          ? `<div class="evidence"><h3>${escapeHtml(copy.evidenceTable)}</h3><ul>${reportSection.evidence
-              .map(item => `<li>${escapeHtml(item)}</li>`)
-              .join('')}</ul></div>`
+          ? `<div class="evidence"><h3>${escapeHtml(copy.evidenceTable)}</h3><div class="evidence-list">${reportSection.evidence
+              .map(item => `<p>${escapeHtml(item)}</p>`)
+              .join('')}</div></div>`
           : ''
       }
       ${reportSection.evidenceTable?.length ? evidenceTable(reportSection.evidenceTable) : ''}
@@ -151,31 +160,22 @@ function reportSectionBody(
 function evidenceTable(rows: PdfEvidenceRow[]): string {
   return `
     <div class="evidence-table">
-      <h3>Evidence table</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Factor</th>
-            <th>Observation</th>
-            <th>Confidence</th>
-            <th>Implication</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${rows
-            .map(
-              row => `
-                <tr>
-                  <td>${escapeHtml(row.factor)}</td>
-                  <td>${escapeHtml(row.observation)}</td>
-                  <td>${escapeHtml(row.confidence)}</td>
-                  <td>${escapeHtml(row.implication)}</td>
-                </tr>
-              `,
-            )
-            .join('')}
-        </tbody>
-      </table>
+      <h3>Why Predicta is saying this</h3>
+      <div class="evidence-card-grid">
+        ${rows
+          .map(
+            row => `
+              <article class="evidence-card">
+                <span>Factor</span>
+                <strong>${escapeHtml(row.factor)}</strong>
+                <p>${escapeHtml(row.observation)}</p>
+                <small>${escapeHtml(row.confidence)} confidence</small>
+                <div class="evidence-implication">${escapeHtml(row.implication)}</div>
+              </article>
+            `,
+          )
+          .join('')}
+      </div>
     </div>
   `;
 }
@@ -184,18 +184,22 @@ function decisionWindows(windows: PdfDecisionWindow[]): string {
   return `
     <div class="decision-windows">
       <h3>Decision windows</h3>
-      ${windows
-        .map(
-          item => `
-            <div class="window">
-              <strong>${escapeHtml(item.label)}</strong>
-              <span>${escapeHtml(item.window)} · ${escapeHtml(item.confidence)} confidence</span>
-              <p>${escapeHtml(item.guidance)}</p>
-              <ul>${item.evidence.map(line => `<li>${escapeHtml(line)}</li>`).join('')}</ul>
-            </div>
-          `,
-        )
-        .join('')}
+      <div class="window-grid">
+        ${windows
+          .map(
+            item => `
+              <div class="window">
+                <strong>${escapeHtml(item.label)}</strong>
+                <span>${escapeHtml(item.window)} · ${escapeHtml(item.confidence)} confidence</span>
+                <p>${escapeHtml(item.guidance)}</p>
+                <div class="window-evidence">${item.evidence
+                  .map(line => `<small>${escapeHtml(line)}</small>`)
+                  .join('')}</div>
+              </div>
+            `,
+          )
+          .join('')}
+      </div>
     </div>
   `;
 }
@@ -214,11 +218,18 @@ function executiveSummary(report: PdfComposition): string {
           <span>${escapeHtml(report.executiveSummary.confidence)} confidence</span>
         </div>
         <h3>${escapeHtml(report.executiveSummary.headline)}</h3>
-        <ul>
+        <div class="summary-grid">
           ${report.executiveSummary.keySignals
-            .map(signal => `<li>${escapeHtml(signal)}</li>`)
+            .map(
+              signal => `
+                <div class="summary-card">
+                  <span>Key signal</span>
+                  <p>${escapeHtml(signal)}</p>
+                </div>
+              `,
+            )
             .join('')}
-        </ul>
+        </div>
       </div>
       ${footer(report.language)}
     </section>
@@ -323,13 +334,15 @@ function snapshotCell(cell: PdfChartSnapshot['cells'][number]): string {
 
   return `
     <div class="chart-mini-cell" style="left:${point.x}%;top:${point.y}%;">
-      <span class="chart-sign">${cell.signNumber} ${escapeHtml(cell.displaySign ?? cell.sign)}</span>
+      <span class="chart-sign">
+        ${cell.signNumber} ${escapeHtml(cell.displaySign ?? cell.sign)}
+      </span>
       ${cell.planets
         .slice(0, 5)
         .map(
           planet => `
             <span class="chart-planet">
-              ${escapeHtml(planet.displayName ?? planet.name)} ${escapeHtml(planet.degreeLabel)}${planet.status.retrograde ? ' R' : ''}${planet.status.exalted ? ' E' : ''}${planet.status.debilitated ? ' D' : ''}${planet.status.combust ? ' C' : ''}
+              ${escapeHtml(planet.displayAbbreviation ?? planet.abbreviation)} ${escapeHtml(planet.degreeLabel)}${planet.status.retrograde ? ' R' : ''}${planet.status.exalted ? ' E' : ''}${planet.status.debilitated ? ' D' : ''}${planet.status.combust ? ' C' : ''}
             </span>
           `,
         )
@@ -520,29 +533,87 @@ export function buildHoroscopePdfHtml({
             font-size: 24px;
             margin-top: 0;
           }
+          .report-section-card {
+            display: grid;
+            gap: 16px;
+          }
+          .section-story {
+            background: rgba(255,255,255,0.035);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            padding: 16px;
+          }
+          .section-story p {
+            margin: 0;
+          }
+          .section-points,
+          .summary-grid,
+          .evidence-card-grid,
+          .window-grid {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+          .point-card,
+          .summary-card,
+          .evidence-card,
+          .window {
+            background: rgba(255,255,255,0.045);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 14px;
+          }
+          .point-card span,
+          .summary-card span,
+          .evidence-card span {
+            color: ${colors.secondaryText};
+            display: block;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+          }
+          .point-card p,
+          .summary-card p,
+          .evidence-card p,
+          .window p {
+            margin: 0;
+          }
+          .summary-card,
+          .evidence-card {
+            min-height: 120px;
+          }
+          .evidence-list {
+            display: grid;
+            gap: 10px;
+          }
+          .evidence-list p {
+            margin: 0;
+          }
+          .evidence-card strong {
+            display: block;
+            margin-bottom: 8px;
+          }
+          .evidence-card small,
+          .window-evidence small {
+            color: ${colors.secondaryText};
+            display: block;
+            font-size: 12px;
+            margin-top: 8px;
+          }
+          .evidence-implication {
+            color: ${colors.primaryText};
+            font-size: 14px;
+            line-height: 1.55;
+            margin-top: 10px;
+          }
           .page-header {
             align-items: center;
             border-bottom: 1px solid rgba(255,255,255,0.08);
             display: flex;
             justify-content: space-between;
             padding-bottom: 14px;
-          }
-          table {
-            border-collapse: collapse;
-            overflow: hidden;
-            width: 100%;
-          }
-          th {
-            color: ${colors.primaryText};
-            font-size: 12px;
-            letter-spacing: 1px;
-            padding: 12px;
-            text-align: left;
-            text-transform: uppercase;
-          }
-          td {
-            border-top: 1px solid rgba(255,255,255,0.08);
-            padding: 12px;
           }
           .evidence {
             background: rgba(77,175,255,0.07);
@@ -559,18 +630,16 @@ export function buildHoroscopePdfHtml({
           .decision-windows {
             margin-top: 18px;
           }
-          .decision-windows .window {
-            background: rgba(255,255,255,0.045);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 12px;
-            margin-top: 10px;
-            padding: 14px;
-          }
           .decision-windows .window span {
             color: ${colors.secondaryText};
             display: block;
             font-size: 12px;
             margin-top: 4px;
+          }
+          .window-evidence {
+            display: grid;
+            gap: 4px;
+            margin-top: 10px;
           }
           .chart-snapshot-grid {
             display: grid;
