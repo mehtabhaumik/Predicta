@@ -40,6 +40,9 @@ Only live documents in this repo are listed here.
   One strict report-product rebuild phase for a clean download-first reports
   experience, strong free/premium gating, synchronized chart previews, and
   polished PDF-first delivery.
+- [PREDICTA_PDF_PREMIUM_DOCUMENT_ENGINE_REBUILD_PHASE.md](./PREDICTA_PDF_PREMIUM_DOCUMENT_ENGINE_REBUILD_PHASE.md)
+  One strict PDF-engine rebuild phase to replace the current HTML-dump export
+  path with a premium document-grade astrology report renderer.
 - [Predicta_kundli_and_chat_animation.md](./Predicta_kundli_and_chat_animation.md)
   Animation contract for chart and chat presentation without breaking chart
   geometry.
