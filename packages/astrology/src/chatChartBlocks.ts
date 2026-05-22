@@ -35,6 +35,8 @@ const CHART_ALIAS_PATTERNS: Array<{
 
 const CHART_REQUEST_PATTERN =
   /\b(show|open|display|render|draw|view|see|pull\s*up|create|dikha|dikhao|batav|batavo|batao|jovo|dekhao)\b/i;
+const CHART_EXPLANATION_PATTERN =
+  /\b(what|why|how|mean|means|meaning|explain|explanation|interpret|tell\s+me|help\s+me\s+understand|keep\s+it\s+rooted|chart\s+proof|timing|remedy|simply|simple|plain\s+language|compare|difference|changes?)\b/i;
 
 export function detectChatChartIntent(text: string): ChatChartIntent | undefined {
   const normalized = text.trim();
@@ -43,10 +45,19 @@ export function detectChatChartIntent(text: string): ChatChartIntent | undefined
     return undefined;
   }
 
+  const wantsExplanation = CHART_EXPLANATION_PATTERN.test(normalized);
+  const wantsChartDisplay =
+    CHART_REQUEST_PATTERN.test(normalized) ||
+    /\b(chart|kundli|kundali)\b/i.test(normalized);
+
   const directType = normalized.match(/\bd\s*-?\s*(1|2|3|4|5|6|7|8|9|10|11|12|13|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|40|45|60)\b/i);
 
   if (directType) {
     const chartType = `D${directType[1]}` as ChartType;
+    if (wantsExplanation && !CHART_REQUEST_PATTERN.test(normalized)) {
+      return undefined;
+    }
+
     return CHART_REGISTRY.some(chart => chart.id === chartType)
       ? { chartType, matchedBy: 'chart-type' }
       : undefined;
@@ -56,7 +67,7 @@ export function detectChatChartIntent(text: string): ChatChartIntent | undefined
     item.pattern.test(normalized),
   );
 
-  if (aliasMatch && (CHART_REQUEST_PATTERN.test(normalized) || /\bchart|kundli|kundali\b/i.test(normalized))) {
+  if (aliasMatch && wantsChartDisplay && !wantsExplanation) {
     return {
       chartType: aliasMatch.chartType,
       matchedBy: 'alias',

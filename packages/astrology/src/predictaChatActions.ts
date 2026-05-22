@@ -259,7 +259,7 @@ const ACTION_PATTERNS: Array<{
   {
     id: 'chart',
     pattern:
-      /\b(chart|kundli|kundly|kundali|kundaly|janam\s*kundli|house|planet|lagna|moon|nakshatra|north\s*indian)\b/i,
+      /\b(show|open|display|preview|snapshot|see|view|render)\b[\s\w-]*\b(chart|kundli|kundly|kundali|kundaly|janam\s*kundli|north\s*indian)\b|\b(chart|kundli|kundly|kundali|kundaly|janam\s*kundli|north\s*indian)\b[\s\w-]*\b(show|open|display|preview|snapshot|see|view|render)\b/i,
   },
   {
     id: 'pricing',
