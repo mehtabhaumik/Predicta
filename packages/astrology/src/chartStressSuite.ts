@@ -91,6 +91,14 @@ export function runChartStressSuite(): ChartStressSuiteResult {
     stressCase('house hit map resolves every house center', assertHouseHitMap),
     stressCase('Bhaumik D1 planets stay in expected houses', assertBhaumikD1),
     stressCase('Bhaumik D1 signs stay in expected houses', assertBhaumikD1Signs),
+    stressCase(
+      'major chart surfaces keep three-planet compact houses visible',
+      assertMajorSurfacesKeepThreePlanetCompactHousesVisible,
+    ),
+    stressCase(
+      'compact overflow prioritizes Rahu and Ketu when a surface must truncate',
+      assertNodePriorityOnCompactOverflow,
+    ),
     stressCase('default Vedic D1 hides outer and subtle supporting points', assertDefaultVedicD1HidesSupportingPoints),
     stressCase('full Vedic D1 can still expose supporting points when asked', assertFullVedicD1KeepsSupportingPoints),
     stressCase('Chalit renderer respects explicit house delivery', assertBhaumikChalit),
@@ -190,6 +198,75 @@ function assertBhaumikD1Signs(): void {
     assert(cell !== undefined, `Missing chart cell for house ${house}.`);
     assert(cell.sign === expectedSign, `House ${house} sign expected ${expectedSign}, received ${cell.sign}.`);
   }
+}
+
+function assertMajorSurfacesKeepThreePlanetCompactHousesVisible(): void {
+  const chart = makeChart({
+    ascendantSign: 'Leo',
+    chartType: 'D1',
+    name: 'Compact three-planet visibility',
+    planets: [
+      makePlanet({ absoluteLongitude: 90.9, degree: 0.9, house: 12, name: 'Mercury', sign: 'Cancer' }),
+      makePlanet({ absoluteLongitude: 95.5, degree: 5.5, house: 12, name: 'Sun', sign: 'Cancer' }),
+      makePlanet({ absoluteLongitude: 116.6, degree: 26.6, house: 12, name: 'Rahu', retrograde: true, sign: 'Cancer' }),
+      makePlanet({ absoluteLongitude: 296.6, degree: 26.6, house: 6, name: 'Ketu', retrograde: true, sign: 'Capricorn' }),
+    ],
+  });
+
+  for (const presentation of ['main', 'charts', 'creation', 'full', 'report'] as const) {
+    const renderModel = buildChartRenderModel({
+      birthDetails: BASE_BIRTH_DETAILS,
+      chart,
+      presentation,
+      school: 'KP',
+    });
+    const cell = renderModel.cells.find(item => item.house === 12);
+
+    assert(cell !== undefined, `Missing compact-visibility cell for presentation ${presentation}.`);
+    assertEqual(
+      cell.renderPlanets.map(planet => planet.name),
+      ['Mercury', 'Sun', 'Rahu'],
+      `${presentation} should keep all three KP house planets visible in a compact house.`,
+    );
+    assert(
+      cell.hiddenPlanetCount === 0,
+      `${presentation} should not hide a third classical graha behind overflow in the compact house.`,
+    );
+  }
+}
+
+function assertNodePriorityOnCompactOverflow(): void {
+  const chart = makeChart({
+    ascendantSign: 'Leo',
+    chartType: 'D1',
+    name: 'Compact overflow priority',
+    planets: [
+      makePlanet({ absoluteLongitude: 90.9, degree: 0.9, house: 12, name: 'Mercury', sign: 'Cancer' }),
+      makePlanet({ absoluteLongitude: 95.5, degree: 5.5, house: 12, name: 'Sun', sign: 'Cancer' }),
+      makePlanet({ absoluteLongitude: 102.4, degree: 12.4, house: 12, name: 'Jupiter', sign: 'Cancer' }),
+      makePlanet({ absoluteLongitude: 116.6, degree: 26.6, house: 12, name: 'Rahu', retrograde: true, sign: 'Cancer' }),
+      makePlanet({ absoluteLongitude: 296.6, degree: 26.6, house: 6, name: 'Ketu', retrograde: true, sign: 'Capricorn' }),
+    ],
+  });
+
+  const renderModel = buildChartRenderModel({
+    birthDetails: BASE_BIRTH_DETAILS,
+    chart,
+    presentation: 'report',
+    school: 'KP',
+  });
+  const cell = renderModel.cells.find(item => item.house === 12);
+
+  assert(cell !== undefined, 'Missing overflow-priority cell for report presentation.');
+  assertEqual(
+    cell.renderPlanets.slice(0, cell.maxVisiblePlanets).map(planet => planet.name),
+    ['Rahu', 'Sun'],
+    'When report must truncate a crowded KP house, Rahu should stay visible ahead of repeated classical planets.',
+  );
+  assert(
+    cell.hiddenPlanetCount === 2,
+    'Crowded KP report houses should still disclose the remaining hidden planet count accurately.',
+  );
 }
 
 function assertDefaultVedicD1HidesSupportingPoints(): void {

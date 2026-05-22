@@ -427,12 +427,12 @@ const CHART_SURFACE_PRESETS: Record<ChartRenderPresentation, ChartSurfacePreset>
     showPlanetStatusMarks: true,
   },
   report: {
-    compactHouses: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    compactHouses: [2, 3, 5, 6, 8, 9, 11, 12],
     labelDensityThresholds: {
-      compact: 1,
-      stacked: 2,
+      compact: 2,
+      stacked: 4,
     },
-    maxVisiblePlanets: 2,
+    maxVisiblePlanets: 7,
     planetGlyphSize: 'compact',
     showPlanetDegrees: false,
     showPlanetSign: false,
@@ -621,24 +621,28 @@ export function buildChartRenderModel({
     const visiblePlanetPositions = planetPositions.filter(
       planet => !supportingPoints.includes(planet),
     );
-    const planets =
-      visiblePlanetPositions.length > 0
-        ? visiblePlanetPositions.map(planet => planet.name)
-        : planetPositions.length === 0
-          ? chart.housePlacements[house] ?? chart.signPlacements[sign] ?? []
-          : [];
-    const renderPlanets = visiblePlanetPositions.map(planet =>
-      buildChartRenderPlanet(planet, chart, language),
-    );
     const labelDensity = getCellLabelDensity(
       house,
-      renderPlanets.length,
+      visiblePlanetPositions.length,
       presentation,
     );
     const cellDisplay = deriveCellPresentationSettings(
       presentation,
       labelDensity,
       surfacePreset,
+    );
+    const displayPlanetPositions = prioritizePlanetPositionsForDisplay(
+      visiblePlanetPositions,
+      cellDisplay.maxVisiblePlanets,
+    );
+    const planets =
+      displayPlanetPositions.length > 0
+        ? displayPlanetPositions.map(planet => planet.name)
+        : planetPositions.length === 0
+          ? chart.housePlacements[house] ?? chart.signPlacements[sign] ?? []
+          : [];
+    const renderPlanets = displayPlanetPositions.map(planet =>
+      buildChartRenderPlanet(planet, chart, language),
     );
     return {
       ariaLabel: buildChartCellAriaLabel({
@@ -872,8 +876,9 @@ function deriveCellPresentationSettings(
         presentation === 'main' ||
         presentation === 'charts' ||
         presentation === 'creation' ||
-        presentation === 'full'
-          ? Math.min(2, preset.maxVisiblePlanets)
+        presentation === 'full' ||
+        presentation === 'report'
+          ? Math.min(3, preset.maxVisiblePlanets)
           : Math.min(1, preset.maxVisiblePlanets),
       planetGlyphSize: 'compact',
       showPlanetDegrees: false,
@@ -884,12 +889,56 @@ function deriveCellPresentationSettings(
 
   return {
     maxVisiblePlanets:
-      presentation === 'library' ? Math.min(1, preset.maxVisiblePlanets) : 1,
+      presentation === 'main' ||
+      presentation === 'charts' ||
+      presentation === 'creation' ||
+      presentation === 'full' ||
+      presentation === 'report'
+        ? Math.min(2, preset.maxVisiblePlanets)
+        : presentation === 'library'
+          ? Math.min(1, preset.maxVisiblePlanets)
+          : 1,
     planetGlyphSize: 'compact',
     showPlanetDegrees: false,
     showPlanetSign: false,
     showPlanetStatusMarks: false,
   };
+}
+
+function prioritizePlanetPositionsForDisplay(
+  planetPositions: PlanetPosition[],
+  maxVisiblePlanets: number,
+): PlanetPosition[] {
+  if (planetPositions.length <= maxVisiblePlanets) {
+    return planetPositions;
+  }
+
+  return [...planetPositions].sort((first, second) => {
+    const priorityDifference =
+      getPlanetDisplayPriority(first) - getPlanetDisplayPriority(second);
+
+    if (priorityDifference !== 0) {
+      return priorityDifference;
+    }
+
+    return first.degree - second.degree;
+  });
+}
+
+function getPlanetDisplayPriority(planet: PlanetPosition): number {
+  if (planet.name === 'Rahu' || planet.name === 'Ketu') {
+    return 0;
+  }
+
+  if (planet.name === 'Sun' || planet.name === 'Moon') {
+    return 1;
+  }
+
+  if (planet.kind === 'modern' || planet.kind === 'sensitive' || planet.kind === 'upagraha') {
+    return 3;
+  }
+
+  return 2;
 }
 
 function buildChartLegend(
