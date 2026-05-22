@@ -13,7 +13,7 @@
     }
   ],
   "hosting": {
-    "public": "apps/web/out",
+    "public": "apps/web/public",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -21,6 +21,18 @@
     ],
     "cleanUrls": true,
     "trailingSlash": false,
+    "redirects": [
+      {
+        "source": "/",
+        "destination": "https://predicta-web--predicta-a4758.asia-east1.hosted.app/",
+        "type": 301
+      },
+      {
+        "regex": "/(.*)",
+        "destination": "https://predicta-web--predicta-a4758.asia-east1.hosted.app/:1",
+        "type": 301
+      }
+    ],
     "headers": [
       {
         "source": "**/*.@(js|css)",
@@ -56,12 +68,6 @@
             "value": "strict-origin-when-cross-origin"
           }
         ]
-      }
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
       }
     ]
   }

@@ -141,7 +141,10 @@ try {
 
   for (const viewport of viewports) {
     for (const route of routes) {
-      const page = await createTarget(port, `${baseUrl}${route}`);
+      // Open a blank target and perform a single controlled navigation.
+      // Creating the target directly on the app URL and then navigating again
+      // can double-trigger route bootstrap and produce false buyer-gate failures.
+      const page = await createTarget(port, 'about:blank');
       const cdp = await connectWebSocket(page.webSocketDebuggerUrl);
       try {
         await cdp.send('Page.enable');

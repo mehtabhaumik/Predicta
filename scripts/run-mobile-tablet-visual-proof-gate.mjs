@@ -72,9 +72,12 @@ const summary = [];
 try {
   await waitForChrome(port);
 
-  for (const viewport of viewports) {
+    for (const viewport of viewports) {
     for (const route of routes) {
-      const page = await createTarget(port, `${baseUrl}${route}`);
+      // Open a blank target and perform one controlled navigation per route.
+      // Double-loading the same URL through /json/new and Page.navigate can
+      // create false visual-gate failures on otherwise healthy pages.
+      const page = await createTarget(port, 'about:blank');
       const cdp = await connectWebSocket(page.webSocketDebuggerUrl);
       try {
         await cdp.send('Page.enable');
@@ -163,7 +166,7 @@ console.log(
 process.exit(0);
 
 async function waitForChrome(debugPort) {
-  for (let attempt = 0; attempt < 80; attempt += 1) {
+  for (let attempt = 0; attempt < 160; attempt += 1) {
     try {
       await getJson(`http://127.0.0.1:${debugPort}/json/version`);
       return;
