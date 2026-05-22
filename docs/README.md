@@ -36,6 +36,10 @@ Only live documents in this repo are listed here.
   Strict support-system rebuild order for canonical ticket intake, `PRD`
   numbering, customer/internal email templates, Resend orchestration, and final
   live smoke.
+- [PREDICTA_REPORT_DOWNLOAD_FIRST_REBUILD_PHASE.md](./PREDICTA_REPORT_DOWNLOAD_FIRST_REBUILD_PHASE.md)
+  One strict report-product rebuild phase for a clean download-first reports
+  experience, strong free/premium gating, synchronized chart previews, and
+  polished PDF-first delivery.
 - [Predicta_kundli_and_chat_animation.md](./Predicta_kundli_and_chat_animation.md)
   Animation contract for chart and chat presentation without breaking chart
   geometry.
