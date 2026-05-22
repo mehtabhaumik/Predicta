@@ -1,5 +1,5 @@
-import { readFile } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
+import { access, readFile } from 'node:fs/promises';
+import path from 'node:path';
 import { NextResponse } from 'next/server';
 import { renderToBuffer } from '@react-pdf/renderer';
 
@@ -53,9 +53,22 @@ export async function POST(request: Request): Promise<Response> {
 }
 
 async function loadPredictaLogoDataUri(): Promise<string> {
-  const fileUrl = new URL('../../../../public/predicta-logo.png', import.meta.url);
-  const buffer = await readFile(fileURLToPath(fileUrl));
-  return `data:image/png;base64,${buffer.toString('base64')}`;
+  const candidates = [
+    path.join(process.cwd(), 'public', 'predicta-logo.png'),
+    path.join(process.cwd(), 'apps', 'web', 'public', 'predicta-logo.png'),
+  ];
+
+  for (const candidate of candidates) {
+    try {
+      await access(candidate);
+      const buffer = await readFile(candidate);
+      return `data:image/png;base64,${buffer.toString('base64')}`;
+    } catch {
+      continue;
+    }
+  }
+
+  throw new Error('Predicta logo asset is missing for PDF generation.');
 }
 
 function sanitizeFilename(value: string): string {
