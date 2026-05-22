@@ -15,6 +15,7 @@ import {
   buildPredictaLearningSuggestion,
   composeChatChartBlock,
   detectChatChartIntent,
+  shouldBypassLocalChartShortcuts,
   detectKundliChatCommand,
   detectKundliCommandDecision,
   findKundliBySpokenName,
@@ -907,9 +908,10 @@ export function WebPridictaChat({
       }
 
       const chartIntentKundli = recoverActiveKundli();
+      const wantsDeepChartAnswer = shouldBypassLocalChartShortcuts(text);
       if (
         chartIntentKundli &&
-        detectChatChartIntent(text) &&
+        (detectChatChartIntent(text) || wantsDeepChartAnswer) &&
         shouldGateForBirthDetailConfidence(text, chartIntentKundli)
       ) {
         setMessages(current => [
@@ -933,10 +935,12 @@ export function WebPridictaChat({
         return;
       }
 
-      const chartReply = resolveChatChartReply(
-        text,
-        languageContext.responseLanguage,
-      );
+      const chartReply = wantsDeepChartAnswer
+        ? undefined
+        : resolveChatChartReply(
+            text,
+            languageContext.responseLanguage,
+          );
 
       if (chartReply) {
         setMessages(current => [...current, chartReply.message]);
@@ -1114,6 +1118,7 @@ export function WebPridictaChat({
     }
 
     const activeKundli = recoverActiveKundli();
+    const wantsDeepChartAnswer = shouldBypassLocalChartShortcuts(text);
 
     if (activeKundli && isBirthTimeConfirmationRequest(text)) {
       return confirmEnteredBirthTimeFromChat(
@@ -1141,6 +1146,15 @@ export function WebPridictaChat({
       ]
         .filter(Boolean)
         .join('\n\n');
+    }
+
+    if (activeKundli && wantsDeepChartAnswer) {
+      return askWithProof(
+        text,
+        activeKundli,
+        responseLanguage,
+        languageContext.acknowledgement,
+      );
     }
 
     const actionReply = buildPredictaActionReply({

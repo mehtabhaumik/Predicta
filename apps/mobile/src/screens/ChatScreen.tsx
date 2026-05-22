@@ -36,6 +36,7 @@ import {
   chartContextFromChatBlock,
   composeChatChartBlock,
   detectChatChartIntent,
+  shouldBypassLocalChartShortcuts,
   detectKundliChatCommand,
   detectKundliCommandDecision,
   findKundliBySpokenName,
@@ -892,6 +893,8 @@ export function ChatScreen({
 
     const savedKundlis = savedKundliRecords.map(record => record.kundliData);
     const chartIntent = detectChatChartIntent(trimmedInput);
+    const wantsDeepChartAnswer =
+      shouldBypassLocalChartShortcuts(trimmedInput);
 
     if (isBirthTimeConfirmationRequest(trimmedInput)) {
       appendConversationMessage(
@@ -903,7 +906,8 @@ export function ChatScreen({
     }
 
     if (
-      shouldGateForBirthDetailConfidence(trimmedInput, activeKundli)
+      shouldGateForBirthDetailConfidence(trimmedInput, activeKundli) &&
+      (Boolean(chartIntent) || wantsDeepChartAnswer)
     ) {
       appendConversationMessage(
         createMessage('user', trimmedInput, activeChartContext),
@@ -918,7 +922,7 @@ export function ChatScreen({
       return;
     }
 
-    if (chartIntent) {
+    if (chartIntent && !wantsDeepChartAnswer) {
       const access = getResolvedAccess();
       const block = composeChatChartBlock({
         chartType: chartIntent.chartType,
@@ -952,29 +956,31 @@ export function ChatScreen({
       }
     }
 
-    const actionReply = buildPredictaActionReply({
-      hasPremiumAccess: getResolvedAccess().hasPremiumAccess,
-      kundli: activeKundli,
-      language: responseLanguage,
-      memory: predictaMemory,
-      savedKundlis,
-      text: trimmedInput,
-    });
-    setPredictaMemory(actionReply.memory);
-
-    if (actionReply.handled && actionReply.text) {
-      appendConversationMessage(
-        createMessage('user', trimmedInput, activeChartContext),
-      );
-      setInput('');
-      streamAssistantResponse(actionReply.text, {
-        suggestions: buildMobileFollowUps({
-          context: activeChartContext,
-          kundli: activeKundli,
-          lastText: trimmedInput,
-        }),
+    if (!wantsDeepChartAnswer) {
+      const actionReply = buildPredictaActionReply({
+        hasPremiumAccess: getResolvedAccess().hasPremiumAccess,
+        kundli: activeKundli,
+        language: responseLanguage,
+        memory: predictaMemory,
+        savedKundlis,
+        text: trimmedInput,
       });
-      return;
+      setPredictaMemory(actionReply.memory);
+
+      if (actionReply.handled && actionReply.text) {
+        appendConversationMessage(
+          createMessage('user', trimmedInput, activeChartContext),
+        );
+        setInput('');
+        streamAssistantResponse(actionReply.text, {
+          suggestions: buildMobileFollowUps({
+            context: activeChartContext,
+            kundli: activeKundli,
+            lastText: trimmedInput,
+          }),
+        });
+        return;
+      }
     }
 
     const freeQuestionAvailable = canAskQuestion();

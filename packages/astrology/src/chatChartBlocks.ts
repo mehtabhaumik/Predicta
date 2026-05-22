@@ -36,7 +36,9 @@ const CHART_ALIAS_PATTERNS: Array<{
 const CHART_REQUEST_PATTERN =
   /\b(show|open|display|render|draw|view|see|pull\s*up|create|dikha|dikhao|batav|batavo|batao|jovo|dekhao)\b/i;
 const CHART_EXPLANATION_PATTERN =
-  /\b(what|why|how|mean|means|meaning|explain|explanation|interpret|tell\s+me|help\s+me\s+understand|keep\s+it\s+rooted|chart\s+proof|timing|remedy|simply|simple|plain\s+language|compare|difference|changes?)\b/i;
+  /\b(what|why|how|when|mean|means|meaning|explain|explanation|interpret|tell\s+me|help\s+me\s+understand|keep\s+it\s+rooted|chart\s+proof|timing|activate|activates|activation|remedy|simply|simple|plain\s+language|compare|difference|changes?)\b/i;
+const CHART_CONCEPT_PATTERN =
+  /\b(chart|kundli|kundali|house\s*\d+|planet|lagna|ascendant|moon|nakshatra|dasha|gochar|transit|navamsha|dashamsha|hora|bhav|chalit|career\s*chart|marriage\s*chart|wealth\s*chart|money\s*chart|spouse\s*chart|children\s*chart|property\s*chart|kp|nadi)\b/i;
 
 export function detectChatChartIntent(text: string): ChatChartIntent | undefined {
   const normalized = text.trim();
@@ -82,6 +84,23 @@ export function detectChatChartIntent(text: string): ChatChartIntent | undefined
   }
 
   return undefined;
+}
+
+export function shouldBypassLocalChartShortcuts(text: string): boolean {
+  const normalized = text.trim();
+
+  if (!normalized) {
+    return false;
+  }
+
+  if (detectChatChartIntent(normalized)) {
+    return false;
+  }
+
+  return (
+    CHART_EXPLANATION_PATTERN.test(normalized) &&
+    CHART_CONCEPT_PATTERN.test(normalized)
+  );
 }
 
 export function composeChatChartBlock({
