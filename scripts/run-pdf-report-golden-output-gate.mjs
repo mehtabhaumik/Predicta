@@ -55,7 +55,8 @@ function expectNoBannedUserFacingCopy() {
   ];
   const files = [
     'packages/pdf/src/index.ts',
-    'apps/mobile/src/services/pdf/pdfGenerator.ts',
+    'packages/pdf/src/reportDocument.tsx',
+    'apps/web/app/api/report/pdf/route.ts',
     'apps/web/components/WebDossierPreview.tsx',
   ];
 
@@ -164,6 +165,24 @@ expectIncludes('packages/pdf/src/index.ts', 'composition source of truth', [
   'signNumber: cell.signNumber',
 ]);
 
+expectIncludes('packages/pdf/src/reportDocument.tsx', 'premium document renderer', [
+  "backgroundColor: '#ECEFF4'",
+  "backgroundColor: '#F3F6FB'",
+  "logoSrc?: string",
+  '<Image src={options.logoSrc} style={styles.coverLogo} />',
+  "'Premium' : 'Free insight report'",
+  'These charts use the same house structure, signs, planets, degrees,',
+  'A polished astrology report built to feel crisp, premium, and easy to',
+  'describeTheme(snapshot.theme, birthTime)',
+]);
+
+expectIncludes('apps/web/app/api/report/pdf/route.ts', 'logo-backed PDF route', [
+  "renderToBuffer(",
+  "logoSrc: await loadPredictaLogoDataUri()",
+  "data:image/png;base64,",
+  "attachment; filename=",
+]);
+
 expectIncludes('packages/pdf/src/index.ts', 'rectified birth time disclosure', [
   "timeConfidence === 'rectified'",
   'Rectified time used; original entered time:',
@@ -191,36 +210,6 @@ expectIncludes('packages/pdf/src/index.ts', 'safety and trust boundaries', [
   'clear safety boundaries',
 ]);
 
-expectIncludes('apps/mobile/src/services/pdf/pdfGenerator.ts', 'branded PDF output', [
-  'PREDICTA HOLISTIC ASTROLOGY',
-  'PREDICTA SAFETY PROMISE',
-  'getPdfCopy(language)',
-  'tagline',
-  'footerLines',
-  'Not a replacement for professional or emergency help.',
-  'No prediction is guaranteed.',
-  'chartSnapshotPages(report)',
-  "report.chartSnapshots.slice(0, 4).map(chartSnapshot).join('')",
-  '<path d="M0 0 H100 V100 H0 Z" />',
-  '<path d="M0 0 L100 100" />',
-  '<path d="M100 0 L0 100" />',
-  '<path d="M50 0 L100 50 L50 100 L0 50 Z" />',
-  'sectionKeys',
-  'selectedKeySet',
-  'report.sections.filter',
-  'escapeHtml',
-  'shouldPrintBackgrounds: true',
-  'coverModePremium',
-  'Premium detailed report',
-  'rgba(255,195,77',
-]);
-
-expectRegex(
-  'apps/mobile/src/services/pdf/pdfGenerator.ts',
-  'premium visual treatment changes cover size',
-  /font-size:\s*\$\{premium \? '62px' : '54px'\}/,
-);
-
 expectIncludes('apps/web/components/WebDossierPreview.tsx', 'web report builder sync', [
   'reportLanguage',
   'setReportLanguage',
@@ -230,8 +219,9 @@ expectIncludes('apps/web/components/WebDossierPreview.tsx', 'web report builder 
   "mode: 'PREMIUM'",
   'visibleSections',
   'selectedSectionKeys',
-  'printReport()',
-  'window.print()',
+  'downloadReportPdf()',
+  "/api/report/pdf",
+  'isPdfDownloading',
   'saveWebAutoSaveMemory({',
   'report: {',
 ]);

@@ -78,6 +78,10 @@ export function WebDossierPreview(): React.JSX.Element {
   const [reportSurfaceState, setReportSurfaceState] = useState<
     'idle' | 'purchase' | 'ready' | 'signin'
   >('idle');
+  const [isPdfDownloading, setIsPdfDownloading] = useState(false);
+  const [reportDownloadError, setReportDownloadError] = useState<string | null>(
+    null,
+  );
   const [generatedAt, setGeneratedAt] = useState<string | null>(null);
   const [copyState, setCopyState] = useState<
     'idle' | 'report' | 'empty' | 'needKundli'
@@ -366,13 +370,60 @@ export function WebDossierPreview(): React.JSX.Element {
     return true;
   }
 
-  function printReport() {
+  async function downloadReportPdf() {
     const opened = openReportPreview();
     if (!opened) {
       return;
     }
 
-    window.setTimeout(() => window.print(), 80);
+    if (!kundli) {
+      return;
+    }
+
+    try {
+      setIsPdfDownloading(true);
+      setReportDownloadError(null);
+
+      const response = await fetch('/api/report/pdf', {
+        body: JSON.stringify({
+          kundli,
+          language: reportLanguage,
+          mode,
+          reportFocus: selectedReportId,
+          sectionKeys:
+            builderMode === 'CUSTOM' ? selectedSectionKeys : undefined,
+          signatureAnalysis,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+      });
+
+      if (!response.ok) {
+        throw new Error('Predicta could not prepare the PDF right now.');
+      }
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download =
+        parseDownloadFilename(response.headers.get('Content-Disposition')) ??
+        `predicta-${selectedReportId.toLowerCase()}-${mode.toLowerCase()}.pdf`;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      setReportDownloadError(
+        error instanceof Error
+          ? error.message
+          : 'Predicta could not prepare the PDF right now.',
+      );
+    } finally {
+      setIsPdfDownloading(false);
+    }
   }
 
   function selectEverything() {
@@ -869,8 +920,15 @@ export function WebDossierPreview(): React.JSX.Element {
               </section>
 
               <div className="report-download-actions">
-                <button className="button" onClick={printReport} type="button">
-                  {builderCopy.printSelected}
+                <button
+                  className="button"
+                  disabled={isPdfDownloading}
+                  onClick={downloadReportPdf}
+                  type="button"
+                >
+                  {isPdfDownloading
+                    ? resultCopy.preparingPdf
+                    : builderCopy.printSelected}
                 </button>
                 <button
                   className="button secondary"
@@ -888,6 +946,11 @@ export function WebDossierPreview(): React.JSX.Element {
                   {builderCopy.askFromReport}
                 </a>
               </div>
+              {reportDownloadError ? (
+                <p className="report-builder-note important">
+                  {reportDownloadError}
+                </p>
+              ) : null}
 
               {report.chartSnapshots.length ? (
                 <section
@@ -1764,6 +1827,15 @@ function formatReportSectionEyebrow(
     .join(' ');
 }
 
+function parseDownloadFilename(contentDisposition: string | null): string | null {
+  if (!contentDisposition) {
+    return null;
+  }
+
+  const match = contentDisposition.match(/filename="([^"]+)"/i);
+  return match?.[1] ?? null;
+}
+
 function formatReportSectionMeta({
   confidence,
   language,
@@ -1916,6 +1988,7 @@ function getReportResultCopy(language: SupportedLanguage): {
   premiumReadyBody: string;
   premiumReadyTag: string;
   premiumSignInHint: string;
+  preparingPdf: string;
   purchaseBody: string;
   purchasePrimary: string;
   purchaseSecondary: string;
@@ -1953,6 +2026,7 @@ function getReportResultCopy(language: SupportedLanguage): {
         'आपके पास विस्तृत रिपोर्ट प्रवेश है. यही स्क्रीन अब पूरी रिपोर्ट डिलीवरी के लिए तैयार है.',
       premiumReadyTag: 'विस्तृत रिपोर्ट तैयार',
       premiumSignInHint: 'साइन इन करने के बाद ही विस्तृत रिपोर्ट रास्ता खुलेगा.',
+      preparingPdf: 'पीडीएफ तैयार की जा रही है...',
       purchaseBody:
         'आप साइन इन कर चुके हैं. अब विस्तृत रिपोर्ट के लिए खरीद या डे पास चुनें.',
       purchasePrimary: 'विस्तृत पीडीएफ खोलें',
@@ -1994,6 +2068,7 @@ function getReportResultCopy(language: SupportedLanguage): {
         'તમારા પાસે વિગતવાર રિપોર્ટ પ્રવેશ છે. આ જ સ્ક્રીન હવે સંપૂર્ણ રિપોર્ટ ડિલિવરી માટે તૈયાર છે.',
       premiumReadyTag: 'વિગતવાર રિપોર્ટ તૈયાર',
       premiumSignInHint: 'સાઇન ઇન કર્યા પછી જ વિગતવાર રિપોર્ટનો માર્ગ ખુલશે.',
+      preparingPdf: 'પીડીએફ તૈયાર થઈ રહી છે...',
       purchaseBody:
         'તમે સાઇન ઇન કરી દીધું છે. હવે વિગતવાર રિપોર્ટ માટે ખરીદી અથવા ડે પાસ પસંદ કરો.',
       purchasePrimary: 'વિગતવાર પીડીએફ ખોલો',
@@ -2036,6 +2111,7 @@ function getReportResultCopy(language: SupportedLanguage): {
     premiumReadyTag: 'Detailed report ready',
     premiumSignInHint:
       'Sign in first, then Predicta can open the detailed report path cleanly.',
+    preparingPdf: 'Preparing PDF...',
     purchaseBody:
       'You are signed in. Choose a detailed report purchase or a Day Pass to unlock the full PDF path.',
     purchasePrimary: 'Unlock detailed PDF',
