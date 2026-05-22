@@ -5,6 +5,7 @@ import type { CSSProperties } from 'react';
 import { useMemo, useRef, useState } from 'react';
 import type { KundliData, SupportedLanguage } from '@pridicta/types';
 import {
+  buildSchoolPreviewChart,
   buildChartRenderModel,
   NORTH_INDIAN_CHART_LINE_PATHS,
   type ChartRenderSchool,
@@ -305,9 +306,9 @@ function KundliMiniChartStrip({
   labels: KundliLibraryCopy;
   onOpenPreview: (school: ChartRenderSchool) => void;
 }): React.JSX.Element | null {
-  const d1Chart = kundli.charts.D1;
+  const previewChart = buildSchoolPreviewChart(kundli, 'PARASHARI');
 
-  if (!d1Chart?.supported) {
+  if (!previewChart?.supported) {
     return null;
   }
 
@@ -340,7 +341,7 @@ function MiniKundliPreview({
   onOpen: () => void;
   school: ChartRenderSchool;
 }): React.JSX.Element | null {
-  const chart = kundli.charts.D1;
+  const chart = buildSchoolPreviewChart(kundli, school);
 
   if (!chart?.supported) {
     return null;
@@ -422,7 +423,7 @@ function KundliLibraryChartDialog({
   selection: { kundli: KundliData; school: ChartRenderSchool };
 }): React.JSX.Element | null {
   const { kundli, school } = selection;
-  const chart = kundli.charts.D1;
+  const chart = buildSchoolPreviewChart(kundli, school);
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
 

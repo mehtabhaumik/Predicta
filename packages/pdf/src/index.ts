@@ -121,6 +121,7 @@ export type PdfChartSnapshot = {
 export type PdfChartSnapshotCell = {
   house?: number;
   labelDensity: 'compact' | 'normal' | 'stacked';
+  maxVisiblePlanets: number;
   planets: Array<{
     degreeLabel: string;
     displayLabel: string;
@@ -141,6 +142,8 @@ export type PdfChartSnapshotCell = {
   sign: string;
   signGlyph: string;
   signNumber: number;
+  showPlanetDegrees: boolean;
+  showPlanetStatusMarks: boolean;
 };
 
 const BENEFICS = new Set(['Jupiter', 'Venus', 'Mercury', 'Moon']);
@@ -1034,6 +1037,7 @@ function buildPdfChartSnapshots(
       birthDetails: kundli.birthDetails,
       chart,
       language,
+      presentation: 'report',
     });
 
     return [
@@ -1041,6 +1045,7 @@ function buildPdfChartSnapshots(
         cells: model.cells.map(cell => ({
           house: cell.house,
           labelDensity: cell.labelDensity,
+          maxVisiblePlanets: cell.maxVisiblePlanets,
           planets: cell.renderPlanets.map(planet => ({
             degreeLabel: planet.degreeLabel,
             displayLabel: planet.displayLabel,
@@ -1056,6 +1061,8 @@ function buildPdfChartSnapshots(
           sign: cell.sign,
           signGlyph: cell.signGlyph,
           signNumber: cell.signNumber,
+          showPlanetDegrees: cell.showPlanetDegrees,
+          showPlanetStatusMarks: cell.showPlanetStatusMarks,
         })),
         chartName: model.chartName,
         displayChartName: model.displayChartName,
@@ -1921,7 +1928,10 @@ function chartSummary(kundli: KundliData, chartType: ChartType): string {
     }.`;
   }
 
-  return `${chartType} ${chart.name}: ${chart.ascendantSign} ascendant; occupied houses ${occupiedHouses(chart)}.`;
+  const snapshot = buildPdfChartSnapshots(kundli, [chartType])[0];
+  const occupied = snapshot ? formatSnapshotOccupiedHouses(snapshot) : occupiedHouses(chart);
+
+  return `${chartType} ${chart.name}: ${chart.ascendantSign} ascendant; occupied houses ${occupied}.`;
 }
 
 function getReportChartTypes(
@@ -1987,6 +1997,7 @@ function chartTypeNumber(chartType: ChartType): number {
 
 function occupiedHouses(chart: ChartData): string {
   const occupied = Object.entries(chart.housePlacements)
+    .map(([houseNumber, planets]) => [houseNumber, filterReportPlanetNames(planets)] as const)
     .filter(([, planets]) => planets.length)
     .map(([houseNumber, planets]) => `${houseNumber} (${planets.join(', ')})`);
 
@@ -2004,7 +2015,25 @@ function houseSummary(kundli: KundliData, houseNumber: number): string {
   }
 
   const sav = houseSav(kundli, item);
-  return `House ${houseNumber}: ${item.sign}, lord ${item.lord}, planets ${item.planets.length ? item.planets.join(', ') : 'none'}${sav === undefined ? '' : `, SAV ${sav}`}; ${houseMeaning(houseNumber)}.`;
+  const planets = filterReportPlanetNames(item.planets);
+  return `House ${houseNumber}: ${item.sign}, lord ${item.lord}, planets ${planets.length ? planets.join(', ') : 'none'}${sav === undefined ? '' : `, SAV ${sav}`}; ${houseMeaning(houseNumber)}.`;
+}
+
+function filterReportPlanetNames(planets: string[]): string[] {
+  const hidden = new Set([
+    'Uranus',
+    'Neptune',
+    'Pluto',
+    'Dhuma',
+    'Vyatipata',
+    'Parivesha',
+    'Indrachapa',
+    'Upaketu',
+    'Gulika',
+    'Mandi',
+  ]);
+
+  return planets.filter(name => !hidden.has(name));
 }
 
 function house(kundli: KundliData, houseNumber: number): HouseData | undefined {

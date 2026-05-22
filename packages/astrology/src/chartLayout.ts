@@ -90,7 +90,8 @@ export type ChartRenderPresentation =
   | 'full'
   | 'landing'
   | 'library'
-  | 'main';
+  | 'main'
+  | 'report';
 
 export type ChartRenderModel = {
   cells: ChartRenderCell[];
@@ -407,7 +408,7 @@ const CHART_SURFACE_PRESETS: Record<ChartRenderPresentation, ChartSurfacePreset>
       compact: 1,
       stacked: 2,
     },
-    maxVisiblePlanets: 2,
+    maxVisiblePlanets: 1,
     planetGlyphSize: 'compact',
     showPlanetDegrees: false,
     showPlanetSign: false,
@@ -424,6 +425,18 @@ const CHART_SURFACE_PRESETS: Record<ChartRenderPresentation, ChartSurfacePreset>
     showPlanetDegrees: true,
     showPlanetSign: false,
     showPlanetStatusMarks: true,
+  },
+  report: {
+    compactHouses: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    labelDensityThresholds: {
+      compact: 1,
+      stacked: 2,
+    },
+    maxVisiblePlanets: 2,
+    planetGlyphSize: 'compact',
+    showPlanetDegrees: false,
+    showPlanetSign: false,
+    showPlanetStatusMarks: false,
   },
 };
 
@@ -575,7 +588,7 @@ export function buildChartRenderModel({
 }: BuildChartRenderModelOptions): ChartRenderModel {
   const surfacePreset = getChartSurfacePreset(presentation);
   const ascendantIndex = SIGNS.indexOf(chart.ascendantSign as (typeof SIGNS)[number]);
-  const useExplicitHouse = isHouseDeliveryChart(chart);
+  const useExplicitHouse = isHouseDeliveryChart(chart) || school === 'KP';
   const planetsByHouse = chart.planetDistribution.reduce<Record<number, PlanetPosition[]>>(
     (current, planet) => {
       const house = useExplicitHouse
@@ -601,10 +614,8 @@ export function buildChartRenderModel({
     const planetPositions = planetsByHouse[house] ?? [];
     const supportingPoints = planetPositions.filter(planet =>
       shouldHideSupportingPoint({
-        chart,
         planet,
         presentation,
-        school,
       }),
     );
     const visiblePlanetPositions = planetPositions.filter(
@@ -1104,25 +1115,121 @@ function isHouseDeliveryChart(chart: ChartData): boolean {
 }
 
 function shouldHideSupportingPoint({
-  chart,
   planet,
   presentation,
-  school,
 }: {
-  chart: ChartData;
   planet: PlanetPosition;
   presentation: ChartRenderPresentation;
-  school: ChartRenderSchool;
 }): boolean {
   if (presentation === 'full') {
     return false;
   }
 
-  if (school !== 'PARASHARI' || chart.chartType !== 'D1') {
+  if (!planet.kind || planet.kind === 'classical') {
     return false;
   }
 
-  return isSpecialPoint(planet);
+  return planet.kind === 'modern' || isSpecialPoint(planet);
+}
+
+export function buildSchoolPreviewChart(
+  kundli: KundliData,
+  school: ChartRenderSchool,
+): ChartData | undefined {
+  const d1Chart = kundli.charts.D1;
+
+  if (!d1Chart?.supported) {
+    return undefined;
+  }
+
+  if (school === 'KP') {
+    return buildKpPreviewChart(kundli, d1Chart);
+  }
+
+  if (school === 'NADI') {
+    return buildNadiPreviewChart(d1Chart);
+  }
+
+  return d1Chart;
+}
+
+function buildKpPreviewChart(
+  kundli: KundliData,
+  baseChart: ChartData,
+): ChartData {
+  const kp = kundli.kp;
+
+  if (!kp?.planets?.length) {
+    return buildNadiPreviewChart({
+      ...baseChart,
+      name: 'KP Horoscope',
+    });
+  }
+
+  const basePlanetByName = new Map(
+    kundli.planets.map(planet => [planet.name, planet] as const),
+  );
+  const kpPlanetDistribution: PlanetPosition[] = kp.planets.map(planet => {
+    const basePlanet = basePlanetByName.get(planet.planet);
+
+    return {
+      absoluteLongitude: planet.longitude,
+      calculationNote:
+        `KP house ${planet.house}; star lord ${planet.lordChain.starLord}; ` +
+        `sub lord ${planet.lordChain.subLord}.`,
+      degree: planet.degree,
+      house: planet.house,
+      kind: basePlanet?.kind ?? 'classical',
+      nakshatra: basePlanet?.nakshatra ?? planet.lordChain.nakshatra,
+      name: planet.planet,
+      pada: basePlanet?.pada ?? 0,
+      retrograde: planet.retrograde,
+      sign: planet.sign,
+      simpleMeaning: basePlanet?.simpleMeaning,
+    };
+  });
+
+  return {
+    ascendantSign: kp.cusps.find(cusp => cusp.house === 1)?.sign ?? baseChart.ascendantSign,
+    chartType: 'D1',
+    housePlacements: buildHousePlacementsFromPlanets(kpPlanetDistribution),
+    name: 'KP Horoscope',
+    planetDistribution: kpPlanetDistribution,
+    signPlacements: buildSignPlacementsFromPlanets(kpPlanetDistribution),
+    supported: true,
+  };
+}
+
+function buildNadiPreviewChart(baseChart: ChartData): ChartData {
+  const filteredPlanetDistribution = baseChart.planetDistribution.filter(
+    planet => !planet.kind || planet.kind === 'classical',
+  );
+
+  return {
+    ...baseChart,
+    housePlacements: buildHousePlacementsFromPlanets(filteredPlanetDistribution),
+    name: 'Nadi Chart Anchor',
+    planetDistribution: filteredPlanetDistribution,
+    signPlacements: buildSignPlacementsFromPlanets(filteredPlanetDistribution),
+  };
+}
+
+function buildHousePlacementsFromPlanets(
+  planets: PlanetPosition[],
+): Record<number, string[]> {
+  return planets.reduce<Record<number, string[]>>((current, planet) => {
+    current[planet.house] = [...(current[planet.house] ?? []), planet.name];
+    return current;
+  }, {});
+}
+
+function buildSignPlacementsFromPlanets(
+  planets: PlanetPosition[],
+): Record<string, string[]> {
+  return planets.reduce<Record<string, string[]>>((current, planet) => {
+    current[planet.sign] = [...(current[planet.sign] ?? []), planet.name];
+    return current;
+  }, {});
 }
 
 export function findNorthIndianHouseAtPoint(

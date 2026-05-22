@@ -10514,6 +10514,8 @@ button:disabled {
   aspect-ratio: 1.38;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 8px;
+  --kundli-line-main: rgba(226, 235, 255, 0.64);
+  --kundli-line-soft: rgba(188, 183, 255, 0.44);
   min-height: 280px;
   overflow: hidden;
   position: relative;
@@ -10521,6 +10523,21 @@ button:disabled {
 
 .report-chart-mini .north-chart-lines {
   inset: 0;
+}
+
+.report-chart-mini .north-chart-lines path {
+  fill: none;
+  stroke: var(--kundli-line-main);
+  stroke-dasharray: none;
+  stroke-dashoffset: 0;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  stroke-width: 0.72;
+  vector-effect: non-scaling-stroke;
+}
+
+.report-chart-mini .north-chart-lines path:nth-child(n + 2) {
+  stroke: var(--kundli-line-soft);
 }
 
 .report-chart-mini-cell {
@@ -17852,7 +17869,7 @@ select::-ms-expand {
   min-height: 0;
   overflow: hidden;
   padding: 1px;
-  width: var(--library-label-w, 24%);
+  width: var(--library-label-w, 26%);
 }
 
 .kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-cell-1,
@@ -17866,7 +17883,7 @@ select::-ms-expand {
 .kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-cell-6,
 .kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-cell-8,
 .kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-cell-12 {
-  --library-label-w: 20%;
+  --library-label-w: 22%;
 }
 
 .kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-cell-3,
@@ -17877,10 +17894,10 @@ select::-ms-expand {
 }
 
 .kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-sign {
-  font-size: 0.56rem;
-  height: 16px;
-  min-width: 16px;
-  padding: 0 3px;
+  font-size: 0.6rem;
+  height: 17px;
+  min-width: 17px;
+  padding: 0 4px;
 }
 
 .kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-planets {
@@ -17890,9 +17907,9 @@ select::-ms-expand {
 .kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-planets b,
 .kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-planets em {
   border-radius: 6px;
-  font-size: clamp(0.46rem, 0.66vw, 0.54rem);
-  max-width: 34px;
-  padding: 2px 3px;
+  font-size: clamp(0.5rem, 0.72vw, 0.58rem);
+  max-width: 40px;
+  padding: 2px 4px;
 }
 
 .chart-overflow-counter {

@@ -811,18 +811,19 @@ function ReportChartSnapshot({
               {cell.signNumber}
               <em>{cell.displaySign ?? cell.sign}</em>
             </span>
-            {cell.planets.slice(0, 5).map(planet => (
+            {cell.planets.slice(0, cell.maxVisiblePlanets).map(planet => (
               <span className="report-chart-planet" key={`${planet.name}-${planet.degreeLabel}`}>
-                {planet.displayName ?? planet.name} {planet.degreeLabel}
-                {planet.status.retrograde ? ' R' : ''}
-                {planet.status.exalted ? ' E' : ''}
-                {planet.status.debilitated ? ' D' : ''}
-                {planet.status.combust ? ' C' : ''}
+                {planet.displayName ?? planet.name}
+                {cell.showPlanetDegrees ? ` ${planet.degreeLabel}` : ''}
+                {cell.showPlanetStatusMarks && planet.status.retrograde ? ' R' : ''}
+                {cell.showPlanetStatusMarks && planet.status.exalted ? ' E' : ''}
+                {cell.showPlanetStatusMarks && planet.status.debilitated ? ' D' : ''}
+                {cell.showPlanetStatusMarks && planet.status.combust ? ' C' : ''}
               </span>
             ))}
-            {cell.planets.length > 5 ? (
+            {cell.planets.length > cell.maxVisiblePlanets ? (
               <span className="report-chart-planet">
-                +{cell.planets.length - 5} more
+                +{cell.planets.length - cell.maxVisiblePlanets} more
               </span>
             ) : null}
           </div>
