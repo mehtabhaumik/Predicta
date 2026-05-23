@@ -1,0 +1,20 @@
+Phase 0 verification commands run on 2026-05-23:
+
+1. node scripts/run-room-report-and-pdf-rebuild.mjs
+Result: PASS
+Output: Room report and PDF rebuild passed: 42 deterministic assertions.
+
+2. node scripts/run-pdf-report-golden-output-gate.mjs
+Result: FAILING BASELINE RECORDED
+Output:
+PDF report golden output gate failed.
+- packages/pdf/src/reportDocument.tsx / premium document renderer: missing backgroundColor: '#ECEFF4'
+- packages/pdf/src/reportDocument.tsx / premium document renderer: missing backgroundColor: '#F3F6FB'
+
+3. corepack pnpm --filter @pridicta/pdf build
+Result: PASS
+Output: @pridicta/pdf tsc --noEmit completed successfully.
+
+4. perl trailing whitespace/tab check for new markdown audit files
+Result: PASS
+Output: no trailing whitespace or tab findings.
