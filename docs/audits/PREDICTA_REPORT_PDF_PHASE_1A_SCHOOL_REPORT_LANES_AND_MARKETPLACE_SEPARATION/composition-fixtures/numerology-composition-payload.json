@@ -1,0 +1,917 @@
+{
+  "kundli": {
+    "id": "phase-0-bhaumik-crowded-baseline",
+    "birthDetails": {
+      "name": "Bhaumik Mehta",
+      "date": "1980-08-22",
+      "time": "06:30",
+      "place": "Petlad, Gujarat, India",
+      "latitude": 22.47,
+      "longitude": 72.8,
+      "timezone": "Asia/Kolkata",
+      "timeConfidence": "entered",
+      "resolvedBirthPlace": {
+        "city": "Petlad",
+        "state": "Gujarat",
+        "country": "India",
+        "latitude": 22.47,
+        "longitude": 72.8,
+        "timezone": "Asia/Kolkata",
+        "source": "manual-admin"
+      }
+    },
+    "lagna": "Leo",
+    "moonSign": "Leo",
+    "nakshatra": "Mula",
+    "planets": [
+      {
+        "name": "Sun",
+        "sign": "Leo",
+        "degree": 5.4,
+        "absoluteLongitude": 125.4,
+        "house": 1,
+        "nakshatra": "Mula",
+        "pada": 2,
+        "retrograde": false,
+        "kind": "classical"
+      },
+      {
+        "name": "Moon",
+        "sign": "Leo",
+        "degree": 12.2,
+        "absoluteLongitude": 132.2,
+        "house": 1,
+        "nakshatra": "Mula",
+        "pada": 4,
+        "retrograde": false,
+        "kind": "classical"
+      },
+      {
+        "name": "Mars",
+        "sign": "Leo",
+        "degree": 18.6,
+        "absoluteLongitude": 138.6,
+        "house": 1,
+        "nakshatra": "Mula",
+        "pada": 2,
+        "retrograde": false,
+        "kind": "classical"
+      },
+      {
+        "name": "Mercury",
+        "sign": "Leo",
+        "degree": 23.1,
+        "absoluteLongitude": 143.1,
+        "house": 1,
+        "nakshatra": "Mula",
+        "pada": 3,
+        "retrograde": false,
+        "kind": "classical"
+      },
+      {
+        "name": "Venus",
+        "sign": "Leo",
+        "degree": 27.4,
+        "absoluteLongitude": 147.4,
+        "house": 1,
+        "nakshatra": "Mula",
+        "pada": 1,
+        "retrograde": false,
+        "kind": "classical"
+      },
+      {
+        "name": "Jupiter",
+        "sign": "Sagittarius",
+        "degree": 9.8,
+        "absoluteLongitude": 249.8,
+        "house": 5,
+        "nakshatra": "Mula",
+        "pada": 3,
+        "retrograde": false,
+        "kind": "classical"
+      },
+      {
+        "name": "Saturn",
+        "sign": "Aquarius",
+        "degree": 16.2,
+        "absoluteLongitude": 316.2,
+        "house": 7,
+        "nakshatra": "Mula",
+        "pada": 1,
+        "retrograde": true,
+        "kind": "classical"
+      },
+      {
+        "name": "Rahu",
+        "sign": "Gemini",
+        "degree": 3.3,
+        "absoluteLongitude": 63.3,
+        "house": 11,
+        "nakshatra": "Mula",
+        "pada": 1,
+        "retrograde": true,
+        "kind": "classical"
+      },
+      {
+        "name": "Ketu",
+        "sign": "Sagittarius",
+        "degree": 3.3,
+        "absoluteLongitude": 243.3,
+        "house": 5,
+        "nakshatra": "Mula",
+        "pada": 1,
+        "retrograde": true,
+        "kind": "classical"
+      }
+    ],
+    "houses": [
+      {
+        "house": 1,
+        "sign": "Leo",
+        "lord": "Sun",
+        "planets": [
+          "Sun",
+          "Moon",
+          "Mars",
+          "Mercury",
+          "Venus"
+        ]
+      },
+      {
+        "house": 2,
+        "sign": "Virgo",
+        "lord": "Mercury",
+        "planets": []
+      },
+      {
+        "house": 3,
+        "sign": "Libra",
+        "lord": "Venus",
+        "planets": []
+      },
+      {
+        "house": 4,
+        "sign": "Scorpio",
+        "lord": "Mars",
+        "planets": []
+      },
+      {
+        "house": 5,
+        "sign": "Sagittarius",
+        "lord": "Jupiter",
+        "planets": [
+          "Jupiter",
+          "Ketu"
+        ]
+      },
+      {
+        "house": 6,
+        "sign": "Capricorn",
+        "lord": "Saturn",
+        "planets": []
+      },
+      {
+        "house": 7,
+        "sign": "Aquarius",
+        "lord": "Sun",
+        "planets": [
+          "Saturn"
+        ]
+      },
+      {
+        "house": 8,
+        "sign": "Pisces",
+        "lord": "Mercury",
+        "planets": []
+      },
+      {
+        "house": 9,
+        "sign": "Aries",
+        "lord": "Venus",
+        "planets": []
+      },
+      {
+        "house": 10,
+        "sign": "Taurus",
+        "lord": "Mars",
+        "planets": []
+      },
+      {
+        "house": 11,
+        "sign": "Gemini",
+        "lord": "Jupiter",
+        "planets": [
+          "Rahu"
+        ]
+      },
+      {
+        "house": 12,
+        "sign": "Cancer",
+        "lord": "Saturn",
+        "planets": []
+      }
+    ],
+    "charts": {
+      "D1": {
+        "chartType": "D1",
+        "name": "Rashi Chart",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [
+            "Rahu"
+          ],
+          "Cancer": [],
+          "Leo": [
+            "Sun",
+            "Moon",
+            "Mars",
+            "Mercury",
+            "Venus"
+          ],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [
+            "Jupiter",
+            "Ketu"
+          ],
+          "Capricorn": [],
+          "Aquarius": [
+            "Saturn"
+          ],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [
+            "Sun",
+            "Moon",
+            "Mars",
+            "Mercury",
+            "Venus"
+          ],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [
+            "Jupiter",
+            "Ketu"
+          ],
+          "6": [],
+          "7": [
+            "Saturn"
+          ],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [
+            "Rahu"
+          ],
+          "12": []
+        },
+        "planetDistribution": [
+          {
+            "name": "Sun",
+            "sign": "Leo",
+            "degree": 5.4,
+            "absoluteLongitude": 125.4,
+            "house": 1,
+            "nakshatra": "Mula",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical"
+          },
+          {
+            "name": "Moon",
+            "sign": "Leo",
+            "degree": 12.2,
+            "absoluteLongitude": 132.2,
+            "house": 1,
+            "nakshatra": "Mula",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "classical"
+          },
+          {
+            "name": "Mars",
+            "sign": "Leo",
+            "degree": 18.6,
+            "absoluteLongitude": 138.6,
+            "house": 1,
+            "nakshatra": "Mula",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical"
+          },
+          {
+            "name": "Mercury",
+            "sign": "Leo",
+            "degree": 23.1,
+            "absoluteLongitude": 143.1,
+            "house": 1,
+            "nakshatra": "Mula",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical"
+          },
+          {
+            "name": "Venus",
+            "sign": "Leo",
+            "degree": 27.4,
+            "absoluteLongitude": 147.4,
+            "house": 1,
+            "nakshatra": "Mula",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "classical"
+          },
+          {
+            "name": "Jupiter",
+            "sign": "Sagittarius",
+            "degree": 9.8,
+            "absoluteLongitude": 249.8,
+            "house": 5,
+            "nakshatra": "Mula",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical"
+          },
+          {
+            "name": "Saturn",
+            "sign": "Aquarius",
+            "degree": 16.2,
+            "absoluteLongitude": 316.2,
+            "house": 7,
+            "nakshatra": "Mula",
+            "pada": 1,
+            "retrograde": true,
+            "kind": "classical"
+          },
+          {
+            "name": "Rahu",
+            "sign": "Gemini",
+            "degree": 3.3,
+            "absoluteLongitude": 63.3,
+            "house": 11,
+            "nakshatra": "Mula",
+            "pada": 1,
+            "retrograde": true,
+            "kind": "classical"
+          },
+          {
+            "name": "Ketu",
+            "sign": "Sagittarius",
+            "degree": 3.3,
+            "absoluteLongitude": 243.3,
+            "house": 5,
+            "nakshatra": "Mula",
+            "pada": 1,
+            "retrograde": true,
+            "kind": "classical"
+          }
+        ],
+        "supported": true
+      },
+      "D9": {
+        "chartType": "D9",
+        "name": "Navamsha Chart",
+        "ascendantSign": "Gemini",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [
+            "Sun"
+          ],
+          "Cancer": [
+            "Moon"
+          ],
+          "Leo": [
+            "Mars"
+          ],
+          "Virgo": [
+            "Mercury"
+          ],
+          "Libra": [
+            "Venus"
+          ],
+          "Scorpio": [
+            "Jupiter"
+          ],
+          "Sagittarius": [
+            "Saturn"
+          ],
+          "Capricorn": [
+            "Rahu"
+          ],
+          "Aquarius": [
+            "Ketu"
+          ],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [
+            "Sun"
+          ],
+          "2": [
+            "Moon"
+          ],
+          "3": [
+            "Mars"
+          ],
+          "4": [
+            "Mercury"
+          ],
+          "5": [
+            "Venus"
+          ],
+          "6": [
+            "Jupiter"
+          ],
+          "7": [
+            "Saturn"
+          ],
+          "8": [
+            "Rahu"
+          ],
+          "9": [
+            "Ketu"
+          ],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [
+          {
+            "name": "Sun",
+            "sign": "Gemini",
+            "degree": 5.4,
+            "absoluteLongitude": 65.4,
+            "house": 1,
+            "nakshatra": "Mula",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical"
+          },
+          {
+            "name": "Moon",
+            "sign": "Cancer",
+            "degree": 12.2,
+            "absoluteLongitude": 102.2,
+            "house": 2,
+            "nakshatra": "Mula",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "classical"
+          },
+          {
+            "name": "Mars",
+            "sign": "Leo",
+            "degree": 18.6,
+            "absoluteLongitude": 138.6,
+            "house": 3,
+            "nakshatra": "Mula",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical"
+          },
+          {
+            "name": "Mercury",
+            "sign": "Virgo",
+            "degree": 23.1,
+            "absoluteLongitude": 173.1,
+            "house": 4,
+            "nakshatra": "Mula",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical"
+          },
+          {
+            "name": "Venus",
+            "sign": "Libra",
+            "degree": 27.4,
+            "absoluteLongitude": 207.4,
+            "house": 5,
+            "nakshatra": "Mula",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "classical"
+          },
+          {
+            "name": "Jupiter",
+            "sign": "Scorpio",
+            "degree": 9.8,
+            "absoluteLongitude": 219.8,
+            "house": 6,
+            "nakshatra": "Mula",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical"
+          },
+          {
+            "name": "Saturn",
+            "sign": "Sagittarius",
+            "degree": 16.2,
+            "absoluteLongitude": 256.2,
+            "house": 7,
+            "nakshatra": "Mula",
+            "pada": 1,
+            "retrograde": true,
+            "kind": "classical"
+          },
+          {
+            "name": "Rahu",
+            "sign": "Capricorn",
+            "degree": 3.3,
+            "absoluteLongitude": 273.3,
+            "house": 8,
+            "nakshatra": "Mula",
+            "pada": 1,
+            "retrograde": true,
+            "kind": "classical"
+          },
+          {
+            "name": "Ketu",
+            "sign": "Aquarius",
+            "degree": 3.3,
+            "absoluteLongitude": 303.3,
+            "house": 9,
+            "nakshatra": "Mula",
+            "pada": 1,
+            "retrograde": true,
+            "kind": "classical"
+          }
+        ],
+        "supported": true
+      },
+      "D10": {
+        "chartType": "D10",
+        "name": "Dashamsha Chart",
+        "ascendantSign": "Virgo",
+        "signPlacements": {
+          "Aries": [
+            "Venus"
+          ],
+          "Taurus": [
+            "Jupiter"
+          ],
+          "Gemini": [
+            "Saturn"
+          ],
+          "Cancer": [
+            "Rahu"
+          ],
+          "Leo": [
+            "Ketu"
+          ],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [
+            "Sun"
+          ],
+          "Capricorn": [
+            "Moon"
+          ],
+          "Aquarius": [
+            "Mars"
+          ],
+          "Pisces": [
+            "Mercury"
+          ]
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [
+            "Sun"
+          ],
+          "5": [
+            "Moon"
+          ],
+          "6": [
+            "Mars"
+          ],
+          "7": [
+            "Mercury"
+          ],
+          "8": [
+            "Venus"
+          ],
+          "9": [
+            "Jupiter"
+          ],
+          "10": [
+            "Saturn"
+          ],
+          "11": [
+            "Rahu"
+          ],
+          "12": [
+            "Ketu"
+          ]
+        },
+        "planetDistribution": [
+          {
+            "name": "Sun",
+            "sign": "Sagittarius",
+            "degree": 5.4,
+            "absoluteLongitude": 245.4,
+            "house": 4,
+            "nakshatra": "Mula",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical"
+          },
+          {
+            "name": "Moon",
+            "sign": "Capricorn",
+            "degree": 12.2,
+            "absoluteLongitude": 282.2,
+            "house": 5,
+            "nakshatra": "Mula",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "classical"
+          },
+          {
+            "name": "Mars",
+            "sign": "Aquarius",
+            "degree": 18.6,
+            "absoluteLongitude": 318.6,
+            "house": 6,
+            "nakshatra": "Mula",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical"
+          },
+          {
+            "name": "Mercury",
+            "sign": "Pisces",
+            "degree": 23.1,
+            "absoluteLongitude": 353.1,
+            "house": 7,
+            "nakshatra": "Mula",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical"
+          },
+          {
+            "name": "Venus",
+            "sign": "Aries",
+            "degree": 27.4,
+            "absoluteLongitude": 27.4,
+            "house": 8,
+            "nakshatra": "Mula",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "classical"
+          },
+          {
+            "name": "Jupiter",
+            "sign": "Taurus",
+            "degree": 9.8,
+            "absoluteLongitude": 39.8,
+            "house": 9,
+            "nakshatra": "Mula",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical"
+          },
+          {
+            "name": "Saturn",
+            "sign": "Gemini",
+            "degree": 16.2,
+            "absoluteLongitude": 76.2,
+            "house": 10,
+            "nakshatra": "Mula",
+            "pada": 1,
+            "retrograde": true,
+            "kind": "classical"
+          },
+          {
+            "name": "Rahu",
+            "sign": "Cancer",
+            "degree": 3.3,
+            "absoluteLongitude": 93.3,
+            "house": 11,
+            "nakshatra": "Mula",
+            "pada": 1,
+            "retrograde": true,
+            "kind": "classical"
+          },
+          {
+            "name": "Ketu",
+            "sign": "Leo",
+            "degree": 3.3,
+            "absoluteLongitude": 123.3,
+            "house": 12,
+            "nakshatra": "Mula",
+            "pada": 1,
+            "retrograde": true,
+            "kind": "classical"
+          }
+        ],
+        "supported": true
+      }
+    },
+    "dasha": {
+      "current": {
+        "mahadasha": "Venus",
+        "antardasha": "Saturn",
+        "startDate": "2024-07-01",
+        "endDate": "2027-11-30"
+      },
+      "timeline": [
+        {
+          "mahadasha": "Ketu",
+          "startDate": "1998-08-22",
+          "endDate": "2005-08-22",
+          "antardashas": [
+            {
+              "antardasha": "Venus",
+              "startDate": "2001-03-10",
+              "endDate": "2002-05-09"
+            }
+          ]
+        },
+        {
+          "mahadasha": "Venus",
+          "startDate": "2005-08-22",
+          "endDate": "2025-08-22",
+          "antardashas": [
+            {
+              "antardasha": "Saturn",
+              "startDate": "2024-07-01",
+              "endDate": "2027-11-30"
+            }
+          ]
+        },
+        {
+          "mahadasha": "Sun",
+          "startDate": "2025-08-22",
+          "endDate": "2031-08-22",
+          "antardashas": [
+            {
+              "antardasha": "Moon",
+              "startDate": "2025-08-22",
+              "endDate": "2026-02-22"
+            }
+          ]
+        }
+      ]
+    },
+    "ashtakavarga": {
+      "bav": {
+        "Sun": [
+          4,
+          3,
+          5,
+          2,
+          6,
+          3,
+          4,
+          2,
+          5,
+          3,
+          4,
+          2
+        ],
+        "Moon": [
+          4,
+          3,
+          5,
+          2,
+          6,
+          3,
+          4,
+          2,
+          5,
+          3,
+          4,
+          2
+        ],
+        "Mars": [
+          4,
+          3,
+          5,
+          2,
+          6,
+          3,
+          4,
+          2,
+          5,
+          3,
+          4,
+          2
+        ],
+        "Mercury": [
+          4,
+          3,
+          5,
+          2,
+          6,
+          3,
+          4,
+          2,
+          5,
+          3,
+          4,
+          2
+        ],
+        "Jupiter": [
+          4,
+          3,
+          5,
+          2,
+          6,
+          3,
+          4,
+          2,
+          5,
+          3,
+          4,
+          2
+        ],
+        "Venus": [
+          4,
+          3,
+          5,
+          2,
+          6,
+          3,
+          4,
+          2,
+          5,
+          3,
+          4,
+          2
+        ],
+        "Saturn": [
+          4,
+          3,
+          5,
+          2,
+          6,
+          3,
+          4,
+          2,
+          5,
+          3,
+          4,
+          2
+        ]
+      },
+      "sav": [
+        28,
+        24,
+        31,
+        22,
+        35,
+        26,
+        29,
+        21,
+        32,
+        25,
+        30,
+        23
+      ],
+      "totalScore": 326,
+      "strongestHouses": [
+        5,
+        9,
+        3
+      ],
+      "weakestHouses": [
+        8,
+        4,
+        12
+      ]
+    },
+    "yogas": [
+      {
+        "name": "Dharma focus",
+        "strength": "moderate",
+        "meaning": "A baseline fixture yoga for report rendering audit only."
+      }
+    ],
+    "transits": [],
+    "remedies": [],
+    "calculationMeta": {
+      "provider": "swiss-ephemeris",
+      "providerVersion": "phase-0-fixture",
+      "ephemerisVersion": "phase-0-fixture",
+      "zodiac": "SIDEREAL",
+      "ayanamsa": "LAHIRI",
+      "houseSystem": "WHOLE_SIGN",
+      "nodeType": "TRUE_NODE",
+      "calculatedAt": "2026-05-23T14:35:56.166Z",
+      "inputHash": "phase-0-baseline-fixture",
+      "utcDateTime": "1980-08-22T01:00:00.000Z"
+    }
+  },
+  "language": "en",
+  "mode": "FREE",
+  "reportFocus": "NUMEROLOGY"
+}

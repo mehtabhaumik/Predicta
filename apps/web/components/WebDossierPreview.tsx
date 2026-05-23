@@ -62,6 +62,101 @@ type SignatureReportDraft = {
   savedAt?: string;
 };
 
+type ReportSchoolLane = {
+  bestFor: string;
+  boundary: string;
+  freeDepth: string;
+  id: ReportMarketplaceProduct['school'];
+  premiumDepth: string;
+  productIds: ReportMarketplaceProduct['id'][];
+  promise: string;
+  readinessRequirement: string;
+  title: string;
+};
+
+const REPORT_SCHOOL_LANES: ReportSchoolLane[] = [
+  {
+    bestFor: 'Classical Kundli, charts, dasha, panchang, varga, remedies, and life-area Vedic reports.',
+    boundary:
+      'Vedic reports use Parashari Jyotish only. KP, Nadi, Numerology, and Signature stay outside this lane.',
+    freeDepth:
+      'Free gives a useful chart-backed Vedic reading with clear limits and dignity.',
+    id: 'VEDIC',
+    premiumDepth:
+      'Premium adds deeper varga synthesis, timing windows, evidence tables, and remedy planning.',
+    productIds: [
+      'KUNDLI',
+      'VEDIC',
+      'CAREER',
+      'MARRIAGE',
+      'WEALTH',
+      'SADESATI',
+      'DASHA',
+      'COMPATIBILITY',
+      'REMEDIES',
+    ],
+    promise: 'A classical Vedic report without method mixing.',
+    readinessRequirement: 'Needs a valid Kundli with birth date, time, and place.',
+    title: 'Vedic Reports',
+  },
+  {
+    bestFor: 'Event judgement, promise/block, timing readiness, ruling planets, and proof for a specific question.',
+    boundary:
+      'KP reports use cusps, star lords, sub lords, sub-sub lords where available, significators, ruling planets, dasha support, and transit triggers. They do not become Vedic personality reports.',
+    freeDepth:
+      'Free gives useful event promise and timing-readiness insight.',
+    id: 'KP',
+    premiumDepth:
+      'Premium gives full event proof, significator hierarchy, confidence, limitations, and timing reasoning.',
+    productIds: ['KP'],
+    promise: 'An event-answer lane for specific questions.',
+    readinessRequirement: 'Needs a valid Kundli; works best after the user selects or asks one clear event question.',
+    title: 'KP Reports',
+  },
+  {
+    bestFor: 'Karmic story threads, planet-to-planet links, Rahu/Ketu axis, validation, and activation timing.',
+    boundary:
+      'Nadi reports use planetary story links, karaka themes, karmic patterns, validation questions, and activation timing. They do not use KP cusp logic and never claim palm-leaf manuscript access.',
+    freeDepth:
+      'Free gives the strongest story-thread preview, gift, caution, validation questions, and gentle guidance.',
+    id: 'NADI',
+    premiumDepth:
+      'Premium gives deeper sequencing, validation-based deepening, activation windows, and practices.',
+    productIds: ['NADI'],
+    promise: 'A karmic story lane with explicit source boundaries.',
+    readinessRequirement: 'Needs a valid Kundli; deeper reading should validate patterns before strong timing.',
+    title: 'Nadi Reports',
+  },
+  {
+    bestFor: 'Name/date number rhythm, name number, birth number, destiny number, cycles, and name refinement.',
+    boundary:
+      'Numerology reports use number logic only. They do not include Kundli judgement unless a future synthesis report explicitly says so.',
+    freeDepth:
+      'Free gives core numbers, simple meaning, current cycle, strengths, cautions, and practical guidance.',
+    id: 'NUMEROLOGY',
+    premiumDepth:
+      'Premium adds detailed interpretation, timing calendar, compatibility, and name-spelling or brand-name comparison.',
+    productIds: ['NUMEROLOGY'],
+    promise: 'A number-led identity and timing lane.',
+    readinessRequirement: 'Needs a saved name and birth date from the active profile.',
+    title: 'Numerology Reports',
+  },
+  {
+    bestFor: 'Confirmed signature traits, self-expression, confidence rhythm, consistency, and improvement guidance.',
+    boundary:
+      'Signature reports use confirmed visible traits only. They do not include Numerology or Vedic synthesis unless a future synthesis report explicitly says so.',
+    freeDepth:
+      'Free gives reflective visible-trait insight with privacy and safety framing.',
+    id: 'SIGNATURE',
+    premiumDepth:
+      'Premium adds multi-sample comparison, before/after guidance, and a signature refinement plan.',
+    productIds: ['SIGNATURE'],
+    promise: 'A reflective self-expression lane, not forensic proof.',
+    readinessRequirement: 'Needs a signature sample or confirmed manual-observation state.',
+    title: 'Signature Reports',
+  },
+];
+
 export function WebDossierPreview(): React.JSX.Element {
   const didLoadSavedState = useRef(false);
   const reportChartPanelRef = useRef<HTMLElement | null>(null);
@@ -118,6 +213,9 @@ export function WebDossierPreview(): React.JSX.Element {
     selectedReport,
     reportLanguage,
   );
+  const selectedReportLane =
+    REPORT_SCHOOL_LANES.find(lane => lane.id === selectedReport.school) ??
+    REPORT_SCHOOL_LANES[0];
 
   useEffect(() => {
     const memory = loadWebAutoSaveMemory();
@@ -556,37 +654,112 @@ export function WebDossierPreview(): React.JSX.Element {
           </div>
         </details>
 
-        <div className="report-product-grid">
-          {marketplaceProducts.map(product => {
-            const localizedProduct = getLocalizedReportProduct(
-              product,
-              appLanguage,
+        <section
+          aria-label="Choose your report world"
+          className="report-school-marketplace"
+        >
+          <div className="report-school-heading">
+            <div className="section-title">School-separated reports</div>
+            <h3>Choose your report world</h3>
+            <p>
+              Each lane keeps its own method clean. Choose Vedic, KP, Nadi,
+              Numerology, or Signature without accidentally buying a mixed bag
+              report.
+            </p>
+          </div>
+          {REPORT_SCHOOL_LANES.map(lane => {
+            const laneProducts = marketplaceProducts.filter(
+              product =>
+                product.school === lane.id &&
+                lane.productIds.includes(product.id),
             );
+            const readiness = getReportLaneReadiness({
+              kundli,
+              lane,
+              signatureAnalysis,
+            });
+            const isActiveLane = lane.id === selectedReportLane.id;
 
             return (
-            <button
-              aria-pressed={product.id === selectedReportId}
-              className={
-                product.id === selectedReportId
-                  ? 'report-product-card active'
-                  : 'report-product-card'
-              }
-              key={product.id}
-              onClick={() => setSelectedReportId(product.id)}
-              type="button"
-            >
-              <span>{localizedProduct.badge}</span>
-              <strong>{localizedProduct.title}</strong>
-              <em>{localizedProduct.outcome}</em>
-              <small>{localizedProduct.bestFor}</small>
-            </button>
+              <article
+                className={
+                  isActiveLane
+                    ? 'report-school-lane active'
+                    : 'report-school-lane'
+                }
+                key={lane.id}
+              >
+                <div className="report-school-lane-header">
+                  <div>
+                    <span>{lane.promise}</span>
+                    <h4>{lane.title}</h4>
+                    <p>{lane.bestFor}</p>
+                  </div>
+                  <strong
+                    className={
+                      readiness.ready
+                        ? 'report-lane-readiness ready'
+                        : 'report-lane-readiness pending'
+                    }
+                  >
+                    {readiness.label}
+                  </strong>
+                </div>
+                <div className="report-lane-depth-row">
+                  <div>
+                    <span>Free/basic</span>
+                    <p>{lane.freeDepth}</p>
+                  </div>
+                  <div>
+                    <span>Premium/paid</span>
+                    <p>{lane.premiumDepth}</p>
+                  </div>
+                  <div>
+                    <span>Required input</span>
+                    <p>{readiness.detail}</p>
+                  </div>
+                </div>
+                <div className="report-lane-boundary">
+                  <span>Method boundary</span>
+                  <p>{lane.boundary}</p>
+                </div>
+                <div className="report-product-grid lane-products">
+                  {laneProducts.map(product => {
+                    const localizedProduct = getLocalizedReportProduct(
+                      product,
+                      appLanguage,
+                    );
+
+                    return (
+                      <button
+                        aria-pressed={product.id === selectedReportId}
+                        className={
+                          product.id === selectedReportId
+                            ? 'report-product-card active'
+                            : 'report-product-card'
+                        }
+                        key={product.id}
+                        onClick={() => setSelectedReportId(product.id)}
+                        type="button"
+                      >
+                        <span>{localizedProduct.badge}</span>
+                        <strong>{localizedProduct.title}</strong>
+                        <em>{localizedProduct.outcome}</em>
+                        <small>{localizedProduct.bestFor}</small>
+                      </button>
+                    );
+                  })}
+                </div>
+              </article>
             );
           })}
-        </div>
+        </section>
 
         <div className="report-selected-panel">
           <div>
-            <div className="section-title">{builderCopy.selectedReport}</div>
+            <div className="section-title">
+              {selectedReportLane.title} · {builderCopy.selectedReport}
+            </div>
             <h3>{localizedSelectedReport.title}</h3>
             <p>{localizedSelectedReport.bestFor}</p>
             <small>{localizedSelectedReport.purchaseHint}</small>
@@ -1394,8 +1567,8 @@ function getLocalizedReportProduct(
         freeDepth: 'सुरक्षित आत्म-अभिव्यक्ति मार्गदर्शन के साथ हस्ताक्षर संकेतों का उपयोगी वाचन.',
         freeIncludes: ['दृश्य संकेत वाचन', 'सुरक्षा सीमा', 'ताकत और देखभाल बिंदु', 'सरल अभ्यास'],
         outcome: 'आपकी हस्ताक्षर शैली क्या दिखाती है और उसे सुरक्षित तरीके से कैसे सुधारें.',
-        premiumDepth: 'सुधार योजना और वैकल्पिक अंक ज्योतिष संयुक्त सार के साथ विस्तृत हस्ताक्षर प्रेडिक्टा रिपोर्ट.',
-        premiumIncludes: ['गहरी संकेत तुलना', 'सुधार योजना', 'વારંવાર હસ્તાક્ષર સમીક્ષા', 'अंक ज्योतिष + हस्ताक्षर संयुक्त सार'],
+        premiumDepth: 'दृश्य संकेत गहराई, बार-बार नमूना तुलना और सुधार योजना के साथ विस्तृत हस्ताक्षर प्रेडिक्टा रिपोर्ट.',
+        premiumIncludes: ['गहरी संकेत तुलना', 'सुधार योजना', 'बार-बार हस्ताक्षर समीक्षा', 'हस्ताक्षर refinement योजना'],
         purchaseHint: 'जब हस्ताक्षर-आधारित आत्म-अभिव्यक्ति मार्गदर्शन और सुंदर सुधार योजना चाहिए.',
         title: 'हस्ताक्षर रिपोर्ट',
       },
@@ -1544,8 +1717,8 @@ function getLocalizedReportProduct(
         freeDepth: 'સુરક્ષિત આત્મ-અભિવ્યક્તિ માર્ગદર્શન સાથે હસ્તાક્ષર સંકેતોનું ઉપયોગી વાચન.',
         freeIncludes: ['દૃશ્ય સંકેત વાંચન', 'સુરક્ષા મર્યાદા', 'તાકાત અને કાળજી બિંદુઓ', 'સરળ અભ્યાસ'],
         outcome: 'તમારી હસ્તાક્ષર શૈલી શું બતાવે છે અને તેને સુરક્ષિત રીતે કેવી રીતે સુધારવી.',
-        premiumDepth: 'સુધાર યોજના અને વૈકલ્પિક અંક જ્યોતિષ સંયુક્ત સાર સાથે વિગતવાર હસ્તાક્ષર પ્રેડિક્ટા રિપોર્ટ.',
-        premiumIncludes: ['ઊંડી સંકેત સરખામણી', 'સુધાર યોજના', 'વારંવાર હસ્તાક્ષર સમીક્ષા', 'અંક જ્યોતિષ + હસ્તાક્ષર સંયુક્ત સાર'],
+        premiumDepth: 'દૃશ્ય સંકેત ઊંડાઈ, વારંવાર નમૂના સરખામણી અને સુધાર યોજના સાથે વિગતવાર હસ્તાક્ષર પ્રેડિક્ટા રિપોર્ટ.',
+        premiumIncludes: ['ઊંડી સંકેત સરખામણી', 'સુધાર યોજના', 'વારંવાર હસ્તાક્ષર સમીક્ષા', 'હસ્તાક્ષર refinement યોજના'],
         purchaseHint: 'હસ્તાક્ષર-આધારિત આત્મ-અભિવ્યક્તિ માર્ગદર્શન અને સુંદર સુધાર યોજના જોઈએ ત્યારે સારું.',
         title: 'હસ્તાક્ષર રિપોર્ટ',
       },
@@ -1674,7 +1847,7 @@ function getReportBuilderCopy(language: SupportedLanguage): {
       marketplaceEyebrow: 'रिपोर्ट विकल्प',
       marketplacePromiseBody: 'प्रीमियम पूरी रिपोर्ट, समय खिड़कियां और गहरा सार जोड़ता है.',
       marketplacePromiseTitle: 'मुफ्त उपयोगी, प्रीमियम गहरा',
-      marketplaceTitle: 'जरूरत के हिसाब से चुनें.',
+      marketplaceTitle: 'अपनी रिपोर्ट दुनिया चुनें.',
       needKundli:
         'रिपोर्ट बनाने के लिए पहले कुंडली चाहिए. आपकी रिपोर्ट पसंद सेव हो गई है.',
       note:
@@ -1751,7 +1924,7 @@ function getReportBuilderCopy(language: SupportedLanguage): {
       marketplaceEyebrow: 'રિપોર્ટ વિકલ્પો',
       marketplacePromiseBody: 'પ્રીમિયમ સંપૂર્ણ રિપોર્ટ, સમય ખિડકીઓ અને ઊંડો સાર ઉમેરે છે.',
       marketplacePromiseTitle: 'મફત ઉપયોગી, પ્રીમિયમ ઊંડો',
-      marketplaceTitle: 'જરૂર મુજબ પસંદ કરો.',
+      marketplaceTitle: 'તમારી રિપોર્ટ દુનિયા પસંદ કરો.',
       needKundli:
         'રિપોર્ટ બનાવવા પહેલાં કુંડળી જોઈએ. તમારી રિપોર્ટ પસંદગી સેવ થઈ ગઈ છે.',
       note:
@@ -1829,7 +2002,7 @@ function getReportBuilderCopy(language: SupportedLanguage): {
     marketplaceEyebrow: 'Report choices',
     marketplacePromiseBody: 'Paid depth adds complete coverage, timing windows, and deeper synthesis.',
     marketplacePromiseTitle: 'Free useful, paid depth when needed',
-    marketplaceTitle: 'Choose by outcome, not by complexity.',
+    marketplaceTitle: 'Choose your report world',
     needKundli:
       'Create a Kundli first. Your report choices are saved and will be ready when the chart is created.',
     note:
@@ -2194,7 +2367,6 @@ function getComprehensiveReportSections(language: SupportedLanguage): Array<{
       { eyebrow: 'नाड़ी', title: 'नाड़ी pattern प्रीव्यू' },
       { eyebrow: 'अंक', title: 'अंक ज्योतिष नाम और जन्म अंक' },
       { eyebrow: 'हस्ताक्षर', title: 'हस्ताक्षर प्रेडिक्टा और सुधार योजना' },
-      { eyebrow: 'संश्लेषण', title: 'अंक ज्योतिष + हस्ताक्षर संयुक्त सार' },
       { eyebrow: 'दशा', title: 'महादशा, अंतर्दशा और समय' },
       { eyebrow: 'गोचर', title: 'गोचर और साढ़े साती' },
       { eyebrow: 'वर्ष', title: 'वार्षिक राशिफल और वर्षफल' },
@@ -2218,7 +2390,6 @@ function getComprehensiveReportSections(language: SupportedLanguage): Array<{
       { eyebrow: 'નાડી', title: 'નાડી pattern પ્રીવ્યૂ' },
       { eyebrow: 'અંક', title: 'અંક જ્યોતિષ નામ અને જન્મ અંક' },
       { eyebrow: 'હસ્તાક્ષર', title: 'હસ્તાક્ષર પ્રેડિક્ટા અને સુધાર યોજના' },
-      { eyebrow: 'સંશ્લેષણ', title: 'અંક જ્યોતિષ + હસ્તાક્ષર સંયુક્ત સાર' },
       { eyebrow: 'દશા', title: 'મહાદશા, અંતર્દશા અને સમય' },
       { eyebrow: 'ગોચર', title: 'ગોચર અને સાડેસાતી' },
       { eyebrow: 'વર્ષ', title: 'વાર્ષિક રાશિફળ અને વર્ષફળ' },
@@ -2241,7 +2412,6 @@ function getComprehensiveReportSections(language: SupportedLanguage): Array<{
     { eyebrow: 'Nadi', title: 'Nadi pattern preview' },
     { eyebrow: 'Numerology', title: 'Numerology name and birth numbers' },
     { eyebrow: 'Signature', title: 'Signature Predicta and improvement plan' },
-    { eyebrow: 'Synthesis', title: 'Numerology + Signature synthesis' },
     { eyebrow: 'Dasha', title: 'Mahadasha, Antardasha, timing' },
     { eyebrow: 'Transit', title: 'Gochar and Sade Sati' },
     { eyebrow: 'Year', title: 'Yearly horoscope and Varshaphal' },
@@ -2286,7 +2456,7 @@ function getFreePremiumDifferenceRows(language: SupportedLanguage): Array<{
       {
         area: 'हस्ताक्षर',
         free: 'हस्ताक्षर संकेतों की उपयोगी और सुरक्षित झलक.',
-        premium: 'गहरी संकेत तुलना, सुधार योजना और अंक ज्योतिष + हस्ताक्षर संयुक्त सार.',
+        premium: 'गहरी संकेत तुलना, बार-बार समीक्षा और हस्ताक्षर सुधार योजना.',
       },
       {
         area: 'पीडीएफ सुंदरता',
@@ -2321,7 +2491,7 @@ function getFreePremiumDifferenceRows(language: SupportedLanguage): Array<{
       {
         area: 'હસ્તાક્ષર',
         free: 'હસ્તાક્ષર સંકેતોની ઉપયોગી અને સુરક્ષિત ઝલક.',
-        premium: 'ઊંડી સંકેત સરખામણી, સુધાર યોજના અને અંક જ્યોતિષ + હસ્તાક્ષર સંયુક્ત સાર.',
+        premium: 'ઊંડી સંકેત સરખામણી, વારંવાર સમીક્ષા અને હસ્તાક્ષર સુધાર યોજના.',
       },
       {
         area: 'પીડીએફ સુંદરતા',
@@ -2355,7 +2525,7 @@ function getFreePremiumDifferenceRows(language: SupportedLanguage): Array<{
     {
       area: 'Signature',
       free: 'Useful visual-trait reading with clear safety boundaries.',
-      premium: 'Detailed trait comparison, improvement plan, and optional Numerology + Signature synthesis.',
+      premium: 'Detailed trait comparison, repeated review, and signature refinement plan.',
     },
     {
       area: 'PDF polish',
@@ -2375,6 +2545,88 @@ function buildReportAskHref(
     selectedSection: product.title,
     sourceScreen: 'Report',
   });
+}
+
+function getReportLaneReadiness({
+  kundli,
+  lane,
+  signatureAnalysis,
+}: {
+  kundli?: KundliData;
+  lane: ReportSchoolLane;
+  signatureAnalysis?: SignatureAnalysisModel;
+}): {
+  detail: string;
+  label: string;
+  ready: boolean;
+} {
+  if (lane.id === 'SIGNATURE') {
+    if (!kundli) {
+      return {
+        detail:
+          'Pending: create or select a Kundli/profile, then add a signature sample for Signature report generation.',
+        label: 'Needs profile',
+        ready: false,
+      };
+    }
+
+    if (signatureAnalysis?.status === 'ready') {
+      return {
+        detail: 'Signature traits are available for this session.',
+        label: 'Ready',
+        ready: true,
+      };
+    }
+
+    return {
+      detail:
+        'Pending: upload, draw, or confirm a signature sample before generating a Signature report.',
+      label: 'Needs signature',
+      ready: false,
+    };
+  }
+
+  if (!kundli) {
+    return {
+      detail: `Pending: ${lane.readinessRequirement}`,
+      label: 'Needs Kundli',
+      ready: false,
+    };
+  }
+
+  if (lane.id === 'KP') {
+    return {
+      detail:
+        'Active Kundli found. For best KP accuracy, choose one clear event question before report generation.',
+      label: 'Kundli ready',
+      ready: true,
+    };
+  }
+
+  if (lane.id === 'NADI') {
+    return {
+      detail:
+        'Active Kundli found. Deeper Nadi timing should validate story patterns with the user first.',
+      label: 'Kundli ready',
+      ready: true,
+    };
+  }
+
+  if (lane.id === 'NUMEROLOGY') {
+    return {
+      detail: kundli.birthDetails.name
+        ? 'Saved name and birth date are available for Numerology.'
+        : 'Pending: add a name and birth date for Numerology.',
+      label: kundli.birthDetails.name ? 'Profile ready' : 'Needs profile',
+      ready: Boolean(kundli.birthDetails.name),
+    };
+  }
+
+  return {
+    detail: 'Active Kundli found for Vedic report preparation.',
+    label: 'Kundli ready',
+    ready: true,
+  };
 }
 
 function loadSignatureAnalysisDraft(): SignatureAnalysisModel | undefined {

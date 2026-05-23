@@ -9726,6 +9726,121 @@ button:disabled {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.report-school-marketplace {
+  display: grid;
+  gap: 16px;
+}
+
+.report-school-heading {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025)),
+    rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-quiet);
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.report-school-heading h3 {
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 0.98;
+  margin: 8px 0 0;
+}
+
+.report-school-heading p {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 12px 0 0;
+  max-width: 760px;
+}
+
+.report-school-lane {
+  background:
+    radial-gradient(circle at top right, rgba(77, 175, 255, 0.08), transparent 32%),
+    rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-quiet);
+  border-radius: 22px;
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.report-school-lane.active {
+  border-color: rgba(77, 175, 255, 0.38);
+  box-shadow: 0 18px 60px rgba(77, 175, 255, 0.08);
+}
+
+.report-school-lane-header {
+  align-items: flex-start;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.report-school-lane-header span,
+.report-lane-depth-row span,
+.report-lane-boundary span {
+  color: var(--muted);
+  display: block;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.report-school-lane-header h4 {
+  font-size: clamp(24px, 3vw, 34px);
+  line-height: 1.02;
+  margin: 0;
+}
+
+.report-school-lane-header p,
+.report-lane-depth-row p,
+.report-lane-boundary p {
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.report-lane-readiness {
+  border-radius: 999px;
+  flex: 0 0 auto;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  padding: 8px 11px;
+  text-transform: uppercase;
+}
+
+.report-lane-readiness.ready {
+  background: rgba(64, 214, 179, 0.12);
+  border: 1px solid rgba(64, 214, 179, 0.28);
+  color: rgb(160, 255, 226);
+}
+
+.report-lane-readiness.pending {
+  background: rgba(255, 195, 77, 0.12);
+  border: 1px solid rgba(255, 195, 77, 0.28);
+  color: rgb(255, 221, 147);
+}
+
+.report-lane-depth-row {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.report-lane-depth-row > div,
+.report-lane-boundary {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-quiet);
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.report-product-grid.lane-products {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .report-product-card {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border-quiet);
@@ -12725,6 +12840,8 @@ button:disabled {
   .premium-feature-grid,
   .report-choice-guide,
   .report-product-grid,
+  .report-product-grid.lane-products,
+  .report-lane-depth-row,
   .numerology-number-grid,
   .school-grid,
   .school-grid.two,
@@ -13139,6 +13256,8 @@ button:disabled {
   .report-builder-section-grid,
   .report-included-grid,
   .report-product-grid,
+  .report-product-grid.lane-products,
+  .report-lane-depth-row,
   .report-depth-grid,
   .guided-journey-grid,
   .plain-summary-grid,
@@ -18409,6 +18528,7 @@ select::-ms-expand {
   .report-download-hero,
   .report-builder-header,
   .report-marketplace-header,
+  .report-school-lane-header,
   .report-selected-panel {
     display: grid;
   }

@@ -1,0 +1,50 @@
+PREDICTA_REPORT_PDF_PHASE_1A_SCHOOL_REPORT_LANES_AND_MARKETPLACE_SEPARATION verification
+Audit date: 2026-05-24
+
+Commands run:
+
+1. corepack pnpm --filter @pridicta/pdf build
+Result: PASS
+Notes: tsc --noEmit passed for @pridicta/pdf.
+
+2. corepack pnpm test:room-report-pdf
+Result: PASS
+Notes: Room report and PDF rebuild passed with 58 deterministic assertions.
+
+3. Local /api/report/pdf generation for focused reports
+Result: PASS
+Generated artifacts:
+- KP: docs/audits/PREDICTA_REPORT_PDF_PHASE_1A_SCHOOL_REPORT_LANES_AND_MARKETPLACE_SEPARATION/pdfs/kp-school-report.pdf
+- Nadi: docs/audits/PREDICTA_REPORT_PDF_PHASE_1A_SCHOOL_REPORT_LANES_AND_MARKETPLACE_SEPARATION/pdfs/nadi-school-report.pdf
+- Numerology: docs/audits/PREDICTA_REPORT_PDF_PHASE_1A_SCHOOL_REPORT_LANES_AND_MARKETPLACE_SEPARATION/pdfs/numerology-school-report.pdf
+- Signature: docs/audits/PREDICTA_REPORT_PDF_PHASE_1A_SCHOOL_REPORT_LANES_AND_MARKETPLACE_SEPARATION/pdfs/signature-school-report.pdf
+
+4. Desktop/mobile-width marketplace runtime check through local Next dev server
+and headless Chrome CDP
+Result: PASS
+Evidence:
+- Desktop page contained "Choose your report world".
+- Desktop page contained 5 report lanes.
+- Mobile-width page contained "Choose your report world".
+- Mobile-width page contained 5 report lanes.
+- Both runs found Vedic Reports, KP Reports, Nadi Reports, Numerology Reports,
+  and Signature Reports.
+- Boundary notes were present for all 5 lanes.
+- Readiness states were visible, including pending states when data was not
+  available.
+
+5. corepack pnpm build:web
+Result: PASS
+Notes: Next.js production build completed successfully, route generation
+completed for 53 static pages, and the web app build exited 0.
+
+6. Focused PDF title scan
+Command:
+strings docs/audits/PREDICTA_REPORT_PDF_PHASE_1A_SCHOOL_REPORT_LANES_AND_MARKETPLACE_SEPARATION/pdfs/*.pdf | rg -i "KP Predicta|Nadi Predicta|Numerology Predicta|Signature Predicta"
+Result: PASS
+Notes: Generated PDFs expose the focused school report titles.
+
+Known non-blockers:
+- Desktop screenshot intentionally also proves pending readiness states; the
+  mobile-width screenshot proves ready states after seeded Kundli/signature
+  storage was available.

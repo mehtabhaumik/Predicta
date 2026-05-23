@@ -68,6 +68,7 @@ export type ReportMarketplaceProduct = {
   premiumDepth: string;
   prompt: string;
   purchaseHint: string;
+  school: 'KP' | 'NADI' | 'NUMEROLOGY' | 'SIGNATURE' | 'VEDIC';
   title: string;
 };
 
@@ -91,6 +92,7 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     prompt:
       'Create a complete Kundli report preview with useful insights first, then show what a detailed premium PDF would add.',
     purchaseHint: 'Best first report when you want one complete life overview.',
+    school: 'VEDIC',
     title: 'Kundli Report',
   },
   {
@@ -105,6 +107,7 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     prompt:
       'Create my Vedic Predicta report using D1, key varga charts, dasha, gochar, remedies, and holistic life balance. Do not mix KP, Nadi, Numerology, or Signature unless I ask.',
     purchaseHint: 'Best when you want the main Vedic astrology reading with clear chart proof.',
+    school: 'VEDIC',
     title: 'Vedic Predicta Report',
   },
   {
@@ -119,6 +122,7 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     prompt:
       'Create my KP Predicta report using cusps, star lord, sub lord, ruling planets, significators, and event timing. Stay in KP method only.',
     purchaseHint: 'Best for event-oriented questions like job change, marriage timing, approval, or outcome judgment.',
+    school: 'KP',
     title: 'KP Predicta Report',
   },
   {
@@ -133,6 +137,7 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     prompt:
       'Create my Nadi Predicta report using planet-to-planet story links, karmic themes, validation questions, and timing triggers. Do not claim palm-leaf manuscript access.',
     purchaseHint: 'Best when you want karmic pattern reading and repeated life-theme explanation.',
+    school: 'NADI',
     title: 'Nadi Predicta Report',
   },
   {
@@ -147,6 +152,7 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     prompt:
       'Create my career report using D1, D10, 10th house, dasha, gochar, and clear timing evidence.',
     purchaseHint: 'Best when the question is job change, promotion, business, or career direction.',
+    school: 'VEDIC',
     title: 'Career Report',
   },
   {
@@ -161,6 +167,7 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     prompt:
       'Create my marriage report using D1, D9, 7th house, Venus, Jupiter, dasha, and transit timing.',
     purchaseHint: 'Best for marriage timing, partner nature, delay, or family discussion.',
+    school: 'VEDIC',
     title: 'Marriage Report',
   },
   {
@@ -175,6 +182,7 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     prompt:
       'Create my wealth report using D1, D2, 2nd house, 11th house, dasha, gochar, and savings guidance.',
     purchaseHint: 'Best when you ask about income, savings, investment timing, or debt pressure.',
+    school: 'VEDIC',
     title: 'Wealth Report',
   },
   {
@@ -189,6 +197,7 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     prompt:
       'Create my Sade Sati report with current phase, Saturn transit, Moon chart impact, Ashtakavarga support, and remedies.',
     purchaseHint: 'Best when you feel pressure, delay, responsibility, or Saturn-related fear.',
+    school: 'VEDIC',
     title: 'Sade Sati Report',
   },
   {
@@ -203,6 +212,7 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     prompt:
       'Create my Dasha Life Map with Mahadasha, Antardasha, Pratyantardasha, active themes, and practical timing.',
     purchaseHint: 'Best when you ask “why now?” or want a life timing map.',
+    school: 'VEDIC',
     title: 'Dasha Life Map',
   },
   {
@@ -217,6 +227,7 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     prompt:
       'Create a compatibility report with Ashtakoota, Manglik, D1 and D9 comparison, timing, and gentle guidance.',
     purchaseHint: 'Best for a focused marriage or family compatibility conversation.',
+    school: 'VEDIC',
     title: 'Compatibility Report',
   },
   {
@@ -231,6 +242,7 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     prompt:
       'Create my remedies report with safe practical remedies, planet focus, timing, and a simple consistency plan.',
     purchaseHint: 'Best when you want what to do, not only what may happen.',
+    school: 'VEDIC',
     title: 'Remedies Report',
   },
   {
@@ -245,6 +257,7 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     prompt:
       'Create my numerology report using name number, birth number, destiny number, personal year, personal month, personal day, and name rhythm.',
     purchaseHint: 'Best when you want number-based guidance or name spelling comparison without mixing methods.',
+    school: 'NUMEROLOGY',
     title: 'Numerology Report',
   },
   {
@@ -254,11 +267,12 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     freeDepth: 'Useful signature trait reading with safe self-expression guidance.',
     id: 'SIGNATURE',
     outcome: 'Understand what your signature style reflects and how to improve it safely.',
-    premiumIncludes: ['Detailed trait comparison', 'Improvement plan', 'Repeated signature review', 'Numerology + Signature synthesis'],
-    premiumDepth: 'Detailed Signature Predicta report with improvement plan and optional numerology synthesis.',
+    premiumIncludes: ['Detailed trait comparison', 'Improvement plan', 'Repeated signature review', 'Signature refinement plan'],
+    premiumDepth: 'Detailed Signature Predicta report with visible-trait depth, repeated-sample comparison, and refinement guidance.',
     prompt:
-      'Create my Signature Predicta report using confirmed signature traits, improvement suggestions, safety boundaries, and optional Numerology plus Signature synthesis.',
+      'Create my Signature Predicta report using confirmed signature traits, improvement suggestions, and safety boundaries only. Do not mix Numerology or Vedic synthesis.',
     purchaseHint: 'Best when you want signature-based self-expression guidance and a polished improvement plan.',
+    school: 'SIGNATURE',
     title: 'Signature Report',
   },
 ];

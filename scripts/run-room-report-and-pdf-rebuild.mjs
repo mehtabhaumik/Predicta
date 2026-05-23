@@ -29,14 +29,30 @@ assert.match(pdfSource, /case 'KP':\n\s+return \[buildKpFoundationSection\(kundl
 assert.match(pdfSource, /case 'NADI':\n\s+return \[buildNadiJyotishPlanSection\(kundli, mode\)\]/);
 assert.match(pdfSource, /case 'NUMEROLOGY':\n\s+return \[buildNumerologyReportSection\(kundli, mode\)\]/);
 assert.match(pdfSource, /case 'SIGNATURE':/);
-assert.match(pdfSource, /buildSignatureNumerologySynthesisSection\(kundli, signatureAnalysis\)/);
+assert.doesNotMatch(pdfSource, /buildSignatureNumerologySynthesisSection/);
+assert.doesNotMatch(pdfSource, /SIGNATURE \+ NUMEROLOGY/);
 assert.match(pdfSource, /KP, Nadi, Numerology, and Signature stay separate/);
 assert.match(pdfSource, /It does not claim palm-leaf manuscript access/);
 assert.match(pdfSource, /It reads name rhythm and birth-date numbers without casually mixing/);
 assert.match(pdfSource, /not identity verification or handwriting forensics/);
 assert.match(pdfSource, /getReportChartTypes\(kundli, mode, reportFocus\)/);
 assert.match(pdfSource, /getFreeChartTypesForFocus\(reportFocus\)/);
+assert.match(pdfSource, /buildFocusedSchoolTrustSection/);
+assert.match(pdfSource, /reportFocus === 'NUMEROLOGY'/);
+assert.match(pdfSource, /No Numerology or Vedic synthesis is mixed into this Signature lane/);
 
+assert.match(webReportSource, /Choose your report world/);
+for (const lane of [
+  'Vedic Reports',
+  'KP Reports',
+  'Nadi Reports',
+  'Numerology Reports',
+  'Signature Reports',
+]) {
+  assert.match(webReportSource, new RegExp(lane), `web report page has ${lane}`);
+}
+assert.match(webReportSource, /REPORT_SCHOOL_LANES/);
+assert.match(webReportSource, /product\.school === lane\.id/);
 assert.match(webReportSource, /reportFocus: selectedReportId/);
 assert.match(mobileReportSource, /reportFocus: selectedReportId/);
 assert.match(mobilePdfSource, /type PdfReportFocus/);
@@ -68,4 +84,4 @@ for (const key of ['VEDIC PREDICTA', 'KP PREDICTA', 'NADI']) {
   assert.match(labels.eyebrowMap[key].gu, /[\u0A80-\u0AFF]/, `${key} Gujarati label uses native script`);
 }
 
-console.log('Room report and PDF rebuild passed: 42 deterministic assertions.');
+console.log('Room report and PDF rebuild passed: 58 deterministic assertions.');

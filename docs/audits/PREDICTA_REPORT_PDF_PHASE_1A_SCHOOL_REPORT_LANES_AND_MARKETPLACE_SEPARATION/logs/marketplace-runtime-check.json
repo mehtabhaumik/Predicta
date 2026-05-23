@@ -1,0 +1,82 @@
+{
+  "desktop": {
+    "title": true,
+    "lanes": [
+      "Vedic Reports",
+      "KP Reports",
+      "Nadi Reports",
+      "Numerology Reports",
+      "Signature Reports"
+    ],
+    "laneCount": 5,
+    "activeCards": [
+      "FoundationKundli ReportUnderstand the whole chart without getting lost.A clean starting point for the whole chart.",
+      "VedicVedic Predicta ReportRead the chart through Vedic Predicta without mixing other methods.Parashari D1, varga charts, dasha, gochar, and remedies in one Vedic report.",
+      "WorkCareer ReportSee work direction, timing pressure, and better next moves.Career direction, job timing, and professional pressure points.",
+      "MarriageMarriage ReportUnderstand relationship maturity, timing, and partner patterns.Marriage prospects, relationship maturity, and spouse patterns.",
+      "MoneyWealth ReportRead money flow, saving habits, and better financial timing.Income, savings, wealth habits, and financial timing.",
+      "SaturnSade Sati ReportUnderstand Saturn pressure without fear.Sade Sati phase, pressure windows, discipline, and support.",
+      "TimingDasha Life MapSee what life chapter is active now and what comes next.Life periods, turning points, and what is active now.",
+      "MatchCompatibility ReportMake compatibility easier to discuss with family.Marriage matching, family discussion, and compatibility clarity.",
+      "CareRemedies ReportTurn chart pressure into karma-based action.Remedies, habits, spiritual discipline, and grounded support.",
+      "KPKP Predicta ReportJudge event questions through KP Predicta without casual Parashari mixing.Event questions, cusp proof, star lord, sub lord, ruling planets, and significators.",
+      "NadiNadi Predicta ReportRead planet-to-planet patterns without manufactured authority claims.Planet story links, karmic patterns, validation questions, and timing triggers.",
+      "NumbersNumerology ReportUnderstand the number pattern behind name, birth date, and current timing.Name rhythm, birth number, destiny number, and personal timing.",
+      "SignatureSignature ReportUnderstand what your signature style reflects and how to improve it safely.Signature self-expression, confidence style, and improvement guidance."
+    ],
+    "boundaries": [
+      "Method boundaryVedic reports use Parashari Jyotish only. KP, Nadi, Numerology, and Signature stay outside this lane.",
+      "Method boundaryKP reports use cusps, star lords, sub lords, sub-sub lords where available, significators, ruling planets, dasha support, and transit triggers. They do not become Vedic personality reports.",
+      "Method boundaryNadi reports use planetary story links, karaka themes, karmic patterns, validation questions, and activation timing. They do not use KP cusp logic and never claim palm-leaf manuscript access.",
+      "Method boundaryNumerology reports use number logic only. They do not include Kundli judgement unless a future synthesis report explicitly says so.",
+      "Method boundarySignature reports use confirmed visible traits only. They do not include Numerology or Vedic synthesis unless a future synthesis report explicitly says so."
+    ],
+    "readiness": [
+      "Needs Kundli",
+      "Needs Kundli",
+      "Needs Kundli",
+      "Needs Kundli",
+      "Needs profile"
+    ]
+  },
+  "mobile": {
+    "title": true,
+    "lanes": [
+      "Vedic Reports",
+      "KP Reports",
+      "Nadi Reports",
+      "Numerology Reports",
+      "Signature Reports"
+    ],
+    "laneCount": 5,
+    "activeCards": [
+      "FoundationKundli ReportUnderstand the whole chart without getting lost.A clean starting point for the whole chart.",
+      "VedicVedic Predicta ReportRead the chart through Vedic Predicta without mixing other methods.Parashari D1, varga charts, dasha, gochar, and remedies in one Vedic report.",
+      "WorkCareer ReportSee work direction, timing pressure, and better next moves.Career direction, job timing, and professional pressure points.",
+      "MarriageMarriage ReportUnderstand relationship maturity, timing, and partner patterns.Marriage prospects, relationship maturity, and spouse patterns.",
+      "MoneyWealth ReportRead money flow, saving habits, and better financial timing.Income, savings, wealth habits, and financial timing.",
+      "SaturnSade Sati ReportUnderstand Saturn pressure without fear.Sade Sati phase, pressure windows, discipline, and support.",
+      "TimingDasha Life MapSee what life chapter is active now and what comes next.Life periods, turning points, and what is active now.",
+      "MatchCompatibility ReportMake compatibility easier to discuss with family.Marriage matching, family discussion, and compatibility clarity.",
+      "CareRemedies ReportTurn chart pressure into karma-based action.Remedies, habits, spiritual discipline, and grounded support.",
+      "KPKP Predicta ReportJudge event questions through KP Predicta without casual Parashari mixing.Event questions, cusp proof, star lord, sub lord, ruling planets, and significators.",
+      "NadiNadi Predicta ReportRead planet-to-planet patterns without manufactured authority claims.Planet story links, karmic patterns, validation questions, and timing triggers.",
+      "NumbersNumerology ReportUnderstand the number pattern behind name, birth date, and current timing.Name rhythm, birth number, destiny number, and personal timing.",
+      "SignatureSignature ReportUnderstand what your signature style reflects and how to improve it safely.Signature self-expression, confidence style, and improvement guidance."
+    ],
+    "boundaries": [
+      "Method boundaryVedic reports use Parashari Jyotish only. KP, Nadi, Numerology, and Signature stay outside this lane.",
+      "Method boundaryKP reports use cusps, star lords, sub lords, sub-sub lords where available, significators, ruling planets, dasha support, and transit triggers. They do not become Vedic personality reports.",
+      "Method boundaryNadi reports use planetary story links, karaka themes, karmic patterns, validation questions, and activation timing. They do not use KP cusp logic and never claim palm-leaf manuscript access.",
+      "Method boundaryNumerology reports use number logic only. They do not include Kundli judgement unless a future synthesis report explicitly says so.",
+      "Method boundarySignature reports use confirmed visible traits only. They do not include Numerology or Vedic synthesis unless a future synthesis report explicitly says so."
+    ],
+    "readiness": [
+      "Kundli ready",
+      "Kundli ready",
+      "Kundli ready",
+      "Profile ready",
+      "Ready"
+    ]
+  }
+}
