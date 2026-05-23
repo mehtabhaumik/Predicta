@@ -10516,9 +10516,131 @@ button:disabled {
   gap: 12px;
 }
 
+.report-download-dialog-backdrop {
+  align-items: center;
+  background:
+    radial-gradient(circle at 50% 22%, rgba(64, 214, 179, 0.14), transparent 26%),
+    radial-gradient(circle at 38% 36%, rgba(77, 175, 255, 0.2), transparent 30%),
+    radial-gradient(circle at 64% 30%, rgba(255, 69, 150, 0.16), transparent 28%),
+    rgba(3, 5, 12, 0.78);
+  backdrop-filter: blur(18px);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 24px;
+  position: fixed;
+  z-index: 80;
+}
+
+.report-download-dialog {
+  background:
+    linear-gradient(145deg, rgba(18, 20, 34, 0.98), rgba(10, 13, 24, 0.96)),
+    var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 28px;
+  box-shadow:
+    0 30px 110px rgba(0, 0, 0, 0.58),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  display: grid;
+  gap: 16px;
+  max-height: min(92vh, 760px);
+  max-width: 620px;
+  overflow: auto;
+  padding: clamp(22px, 4vw, 34px);
+  position: relative;
+  width: min(100%, 620px);
+}
+
+.report-download-dialog-orb {
+  background:
+    radial-gradient(circle, rgba(64, 214, 179, 0.72), transparent 58%),
+    radial-gradient(circle at 36% 36%, rgba(77, 175, 255, 0.84), transparent 48%),
+    radial-gradient(circle at 68% 36%, rgba(255, 69, 150, 0.72), transparent 46%);
+  filter: blur(2px);
+  height: 90px;
+  opacity: 0.78;
+  position: absolute;
+  right: 24px;
+  top: 18px;
+  width: 90px;
+}
+
+.report-download-dialog h2 {
+  color: var(--text);
+  font-size: clamp(34px, 5vw, 54px);
+  line-height: 0.98;
+  margin: 0;
+  max-width: 480px;
+  position: relative;
+}
+
+.report-download-dialog > p {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 520px;
+  position: relative;
+}
+
+.report-download-dialog-card,
+.report-download-dialog-preview {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  position: relative;
+}
+
+.report-download-dialog-card {
+  display: grid;
+  gap: 6px;
+  padding: 18px;
+}
+
+.report-download-dialog-card span,
+.report-download-dialog-card small,
+.report-download-dialog-preview li {
+  color: var(--muted);
+}
+
+.report-download-dialog-card strong {
+  color: var(--text);
+  font-size: 28px;
+  line-height: 1.08;
+}
+
+.report-download-dialog-preview {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+}
+
+.report-download-dialog-preview strong {
+  color: var(--text);
+  line-height: 1.45;
+}
+
+.report-download-dialog-preview ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.report-download-dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  position: relative;
+}
+
 .report-result-grid {
   display: grid;
   gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.report-result-grid.compact {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
@@ -18305,5 +18427,20 @@ select::-ms-expand {
   .report-marketplace,
   .report-builder {
     padding: 18px;
+  }
+
+  .report-download-dialog-backdrop {
+    align-items: flex-end;
+    padding: 14px;
+  }
+
+  .report-download-dialog {
+    border-radius: 22px;
+    max-height: 88vh;
+    padding: 22px;
+  }
+
+  .report-download-dialog-actions .button {
+    width: 100%;
   }
 }

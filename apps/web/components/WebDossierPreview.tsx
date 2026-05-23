@@ -46,7 +46,6 @@ import { getChartThemeNote } from '../lib/chart-theme-copy';
 import { WebActiveKundliActions } from './WebActiveKundliActions';
 import { PlanetGlyph } from './PlanetGlyph';
 import { NorthIndianChartLines } from './WebKundliChart';
-import { WebTrustProofPanel } from './WebTrustProofPanel';
 import { AuthDialog } from './AuthDialog';
 import { getFirebaseWebAuth } from '../lib/firebase/client';
 import {
@@ -74,6 +73,7 @@ export function WebDossierPreview(): React.JSX.Element {
     'EVERYTHING',
   );
   const [isReportPreviewOpen, setReportPreviewOpen] = useState(false);
+  const [isDownloadDialogOpen, setDownloadDialogOpen] = useState(false);
   const [selectedSectionKeys, setSelectedSectionKeys] = useState<string[]>([]);
   const [reportSurfaceState, setReportSurfaceState] = useState<
     'idle' | 'purchase' | 'ready' | 'signin'
@@ -343,7 +343,9 @@ export function WebDossierPreview(): React.JSX.Element {
     }, 80);
   }
 
-  function openReportPreview(): boolean {
+  function openReportPreview({
+    showDialog = true,
+  }: { showDialog?: boolean } = {}): boolean {
     if (!kundli) {
       setCopyState('needKundli');
       window.setTimeout(() => setCopyState('idle'), 3200);
@@ -358,6 +360,7 @@ export function WebDossierPreview(): React.JSX.Element {
 
     if (mode === 'PREMIUM' && !hasDetailedReportAccess) {
       setReportPreviewOpen(true);
+      setDownloadDialogOpen(false);
       setReportSurfaceState(user ? 'purchase' : 'signin');
       scrollToGeneratedResult();
       return false;
@@ -365,18 +368,20 @@ export function WebDossierPreview(): React.JSX.Element {
 
     setGeneratedAt(new Date().toISOString());
     setReportPreviewOpen(true);
+    setDownloadDialogOpen(showDialog);
     setReportSurfaceState('ready');
     scrollToGeneratedResult();
     return true;
   }
 
   async function downloadReportPdf() {
-    const opened = openReportPreview();
-    if (!opened) {
+    if (!kundli) {
+      openReportPreview({ showDialog: true });
       return;
     }
 
-    if (!kundli) {
+    if (builderMode === 'CUSTOM' && !visibleSections.length) {
+      openReportPreview({ showDialog: true });
       return;
     }
 
@@ -415,6 +420,7 @@ export function WebDossierPreview(): React.JSX.Element {
       anchor.click();
       anchor.remove();
       URL.revokeObjectURL(url);
+      setDownloadDialogOpen(false);
     } catch (error) {
       setReportDownloadError(
         error instanceof Error
@@ -424,6 +430,10 @@ export function WebDossierPreview(): React.JSX.Element {
     } finally {
       setIsPdfDownloading(false);
     }
+  }
+
+  function cancelDownloadDialog() {
+    setDownloadDialogOpen(false);
   }
 
   function selectEverything() {
@@ -614,7 +624,7 @@ export function WebDossierPreview(): React.JSX.Element {
             </div>
           </div>
           <div className="report-selected-actions">
-            <button className="button" onClick={openReportPreview} type="button">
+            <button className="button" onClick={() => openReportPreview()} type="button">
               {builderCopy.previewSelected}
             </button>
             <a
@@ -809,7 +819,7 @@ export function WebDossierPreview(): React.JSX.Element {
         </details>
 
         <div className="report-builder-actions">
-          <button className="button primary" onClick={openReportPreview} type="button">
+          <button className="button primary" onClick={() => openReportPreview()} type="button">
             {builderCopy.previewBuilder}
           </button>
           <button className="button secondary" onClick={copyReportSummary} type="button">
@@ -952,30 +962,7 @@ export function WebDossierPreview(): React.JSX.Element {
                 </p>
               ) : null}
 
-              {report.chartSnapshots.length ? (
-                <section
-                  className="report-chart-sync-panel glass-panel"
-                  ref={reportChartPanelRef}
-                >
-                  <div className="section-title">
-                    {reportPrintCopy.chartsEyebrow}
-                  </div>
-                  <h2>{reportPrintCopy.chartsTitle}</h2>
-                  <p>{reportPrintCopy.chartsBody}</p>
-                  <div className="report-chart-sync-grid">
-                    {report.chartSnapshots.map(snapshot => (
-                      <ReportChartSnapshot
-                        birthTime={kundli?.birthDetails.time}
-                        key={`${snapshot.chartType}-${snapshot.chartName}`}
-                        language={reportLanguage}
-                        snapshot={snapshot}
-                      />
-                    ))}
-                  </div>
-                </section>
-              ) : null}
-
-              <div className="report-result-grid">
+              <div className="report-result-grid compact">
                 <section className="report-result-card">
                   <span>{resultCopy.keySignalsEyebrow}</span>
                   <strong>{resultCopy.keySignalsTitle}</strong>
@@ -983,6 +970,17 @@ export function WebDossierPreview(): React.JSX.Element {
                     {report.executiveSummary.keySignals.map(signal => (
                       <p key={signal}>{signal}</p>
                     ))}
+                  </div>
+                </section>
+                <section className="report-result-card">
+                  <span>{reportPrintCopy.chartsEyebrow}</span>
+                  <strong>{reportPrintCopy.chartsTitle}</strong>
+                  <div className="report-result-list">
+                    <p>{reportPrintCopy.chartsBody}</p>
+                    <p>
+                      {report.chartSnapshots.length}{' '}
+                      {resultCopy.chartPreviewCount}
+                    </p>
                   </div>
                 </section>
                 <section className="report-result-card">
@@ -996,32 +994,7 @@ export function WebDossierPreview(): React.JSX.Element {
                     ))}
                   </div>
                 </section>
-                <section className="report-result-card">
-                  <span>{resultCopy.deliveryEyebrow}</span>
-                  <strong>{resultCopy.deliveryTitle}</strong>
-                  <div className="report-result-list">
-                    <p>
-                      {mode === 'PREMIUM'
-                        ? resultCopy.deliveryPremiumBody
-                        : resultCopy.deliveryFreeBody}
-                    </p>
-                    {generatedSummaryLabel ? (
-                      <p>{resultCopy.generatedAtLabel(generatedSummaryLabel)}</p>
-                    ) : null}
-                    <p>
-                      {selectedSectionCount}/{sectionOptions.length}{' '}
-                      {resultCopy.sectionsSelected}
-                    </p>
-                  </div>
-                </section>
               </div>
-
-              <WebTrustProofPanel trust={report.trustProfile} />
-
-              <section className="report-print-safety-footer">
-                <strong>{reportPrintCopy.safetyTitle}</strong>
-                <p>{reportPrintCopy.safetyBody}</p>
-              </section>
             </>
           ) : (
             <section className="report-gate-panel">
@@ -1066,6 +1039,65 @@ export function WebDossierPreview(): React.JSX.Element {
             </section>
           )}
         </section>
+      ) : null}
+      {isDownloadDialogOpen && reportSurfaceState === 'ready' ? (
+        <div
+          aria-labelledby="report-download-dialog-title"
+          aria-modal="true"
+          className="report-download-dialog-backdrop"
+          role="dialog"
+        >
+          <section className="report-download-dialog">
+            <div className="report-download-dialog-orb" aria-hidden="true" />
+            <div className="section-title">{builderCopy.dialogEyebrow}</div>
+            <h2 id="report-download-dialog-title">
+              {builderCopy.dialogTitle}
+            </h2>
+            <p>{builderCopy.dialogBody}</p>
+            <div className="report-download-dialog-card">
+              <span>{localizedReportTitle.title}</span>
+              <strong>{kundli?.birthDetails.name ?? 'Predicta'}</strong>
+              <small>
+                {mode === 'PREMIUM' ? reportLabels.premium : reportLabels.free}
+                {' · '}
+                {report.cover.metadata.slice(0, 2).join(' · ')}
+              </small>
+            </div>
+            <div className="report-download-dialog-preview">
+              <strong>{report.executiveSummary.headline}</strong>
+              <ul>
+                {report.executiveSummary.keySignals.slice(0, 3).map(signal => (
+                  <li key={signal}>{signal}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="report-download-dialog-actions">
+              <button
+                className="button primary"
+                disabled={isPdfDownloading}
+                onClick={downloadReportPdf}
+                type="button"
+              >
+                {isPdfDownloading
+                  ? resultCopy.preparingPdf
+                  : builderCopy.printSelected}
+              </button>
+              <button
+                className="button secondary"
+                disabled={isPdfDownloading}
+                onClick={cancelDownloadDialog}
+                type="button"
+              >
+                {builderCopy.cancelDownload}
+              </button>
+            </div>
+            {reportDownloadError ? (
+              <p className="report-builder-note important">
+                {reportDownloadError}
+              </p>
+            ) : null}
+          </section>
+        </div>
       ) : null}
     </div>
   );
@@ -1538,6 +1570,7 @@ function getLocalizedReportProduct(
 
 function getReportBuilderCopy(language: SupportedLanguage): {
   askFromReport: string;
+  cancelDownload: string;
   createKundliCta: string;
   createKundliToSelect: string;
   copyChat: string;
@@ -1549,6 +1582,9 @@ function getReportBuilderCopy(language: SupportedLanguage): {
   compareDepth: string;
   differenceColumn: string;
   differenceEyebrow: string;
+  dialogBody: string;
+  dialogEyebrow: string;
+  dialogTitle: string;
   downloadChatPdf: string;
   emptySelection: string;
   everythingBody: string;
@@ -1598,6 +1634,7 @@ function getReportBuilderCopy(language: SupportedLanguage): {
   if (language === 'hi') {
     return {
       askFromReport: 'इस रिपोर्ट से प्रेडिक्टा से पूछें',
+      cancelDownload: 'रद्द करें',
       createKundliCta: 'कुंडली बनाएं',
       createKundliToSelect: 'यह भाग चुनने के लिए पहले कुंडली बनाएं',
       copied: 'कॉपी हो गया',
@@ -1609,6 +1646,10 @@ function getReportBuilderCopy(language: SupportedLanguage): {
       compareDepth: 'मुफ्त और प्रीमियम देखें',
       differenceColumn: 'क्षेत्र',
       differenceEyebrow: 'मुफ्त और प्रीमियम का अंतर',
+      dialogBody:
+        'रिपोर्ट तैयार है. डाउनलोड करने से पहले नाम, रिपोर्ट प्रकार और मुख्य संकेत एक बार देख लें.',
+      dialogEyebrow: 'रिपोर्ट तैयार',
+      dialogTitle: 'अपनी रिपोर्ट डाउनलोड करें',
       downloadChatPdf: 'चैट पीडीएफ सेव करें',
       emptySelection: 'कम से कम एक भाग चुनें.',
       everythingBody: 'मुफ्त रिपोर्ट में जरूरी भाग आते हैं. प्रीमियम में पूरी गहरी रिपोर्ट खुलती है.',
@@ -1646,7 +1687,7 @@ function getReportBuilderCopy(language: SupportedLanguage): {
       plannedSectionEvidence: 'कुंडली बनने के बाद चार्ट प्रमाण जुड़ेगा.',
       previewDrawerAction: 'प्रीव्यू खोलें',
       previewDrawerBody:
-        'यहां रिपोर्ट कवर, मुख्य संकेत, चार्ट और चुने हुए भाग दिखते हैं. पीडीएफ सेव करते समय पूरा प्रीव्यू अपने आप खुल जाएगा.',
+        'यहां रिपोर्ट कवर, मुख्य संकेत, चार्ट और चुने हुए भाग दिखते हैं. पीडीएफ डाउनलोड करते समय साफ पुष्टि खुलेगी.',
       previewDrawerTitle: 'रिपोर्ट प्रीव्यू',
       premiumAccessBody:
         'प्रीमियम पीडीएफ डाउनलोड के लिए प्रीमियम सदस्यता, डे पास या एक बार वाला प्रीमियम पीडीएफ अधिकार चाहिए.',
@@ -1654,9 +1695,9 @@ function getReportBuilderCopy(language: SupportedLanguage): {
       premiumAccessLabel: 'प्रीमियम रिपोर्ट',
       premiumAccessTitle: 'विस्तृत गहराई के लिए प्रवेश चाहिए',
       premiumDepth: 'प्रीमियम गहराई',
-      previewBuilder: 'इन बदलावों का प्रीव्यू देखें',
-      previewSelected: 'पहले रिपोर्ट देखें',
-      printSelected: 'चुनी हुई पीडीएफ सेव करें',
+      previewBuilder: 'रिपोर्ट तैयार करें',
+      previewSelected: 'रिपोर्ट तैयार करें',
+      printSelected: 'अपनी रिपोर्ट डाउनलोड करें',
       selected: 'चुना गया',
       selectedReport: 'चुना गया',
       seeEverythingIncluded: 'पूरी रिपोर्ट में क्या आएगा?',
@@ -1670,6 +1711,7 @@ function getReportBuilderCopy(language: SupportedLanguage): {
   if (language === 'gu') {
     return {
       askFromReport: 'આ રિપોર્ટ પરથી પ્રેડિક્ટાને પૂછો',
+      cancelDownload: 'રદ કરો',
       createKundliCta: 'કુંડળી બનાવો',
       createKundliToSelect: 'આ ભાગ પસંદ કરવા પહેલાં કુંડળી બનાવો',
       copied: 'કૉપી થઈ ગયું',
@@ -1681,6 +1723,10 @@ function getReportBuilderCopy(language: SupportedLanguage): {
       compareDepth: 'મફત અને પ્રીમિયમ જુઓ',
       differenceColumn: 'ક્ષેત્ર',
       differenceEyebrow: 'મફત અને પ્રીમિયમનો ફરક',
+      dialogBody:
+        'રિપોર્ટ તૈયાર છે. ડાઉનલોડ કરતા પહેલાં નામ, રિપોર્ટ પ્રકાર અને મુખ્ય સંકેતો એક વાર જોઈ લો.',
+      dialogEyebrow: 'રિપોર્ટ તૈયાર',
+      dialogTitle: 'તમારો રિપોર્ટ ડાઉનલોડ કરો',
       downloadChatPdf: 'ચેટ પીડીએફ સેવ કરો',
       emptySelection: 'ઓછામાં ઓછો એક ભાગ પસંદ કરો.',
       everythingBody: 'મફત રિપોર્ટમાં જરૂરી ભાગો મળે છે. પ્રીમિયમમાં સંપૂર્ણ ઊંડો રિપોર્ટ ખુલે છે.',
@@ -1718,7 +1764,7 @@ function getReportBuilderCopy(language: SupportedLanguage): {
       plannedSectionEvidence: 'કુંડળી બન્યા પછી ચાર્ટ પુરાવો જોડાશે.',
       previewDrawerAction: 'પ્રીવ્યૂ ખોલો',
       previewDrawerBody:
-        'અહીં રિપોર્ટ કવર, મુખ્ય સંકેતો, ચાર્ટ્સ અને પસંદ કરેલા ભાગો દેખાય છે. પીડીએફ સેવ કરતી વખતે આખો પ્રીવ્યૂ પોતે ખુલી જશે.',
+        'અહીં રિપોર્ટ કવર, મુખ્ય સંકેતો, ચાર્ટ્સ અને પસંદ કરેલા ભાગો દેખાય છે. પીડીએફ ડાઉનલોડ કરતી વખતે સ્પષ્ટ પુષ્ટિ ખુલશે.',
       previewDrawerTitle: 'રિપોર્ટ પ્રીવ્યૂ',
       premiumAccessBody:
         'પ્રીમિયમ પીડીએફ ડાઉનલોડ કરવા પ્રીમિયમ સભ્યપદ, ડે પાસ અથવા એક વખતનો પ્રીમિયમ પીડીએફ અધિકાર જોઈએ.',
@@ -1726,9 +1772,9 @@ function getReportBuilderCopy(language: SupportedLanguage): {
       premiumAccessLabel: 'પ્રીમિયમ રિપોર્ટ',
       premiumAccessTitle: 'વિગતવાર ઊંડાઈ માટે પ્રવેશ જોઈએ',
       premiumDepth: 'પ્રીમિયમ ઊંડાઈ',
-      previewBuilder: 'આ બદલાવનું પ્રીવ્યૂ જુઓ',
-      previewSelected: 'પહેલાં રિપોર્ટ જુઓ',
-      printSelected: 'પસંદ કરેલી પીડીએફ સેવ કરો',
+      previewBuilder: 'રિપોર્ટ તૈયાર કરો',
+      previewSelected: 'રિપોર્ટ તૈયાર કરો',
+      printSelected: 'તમારો રિપોર્ટ ડાઉનલોડ કરો',
       selected: 'પસંદ કરેલું',
       selectedReport: 'પસંદ કરેલું',
       seeEverythingIncluded: 'સંપૂર્ણ રિપોર્ટમાં શું આવશે?',
@@ -1741,6 +1787,7 @@ function getReportBuilderCopy(language: SupportedLanguage): {
 
   return {
     askFromReport: 'Ask Predicta from this report',
+    cancelDownload: 'Cancel',
     createKundliCta: 'Create Kundli',
     createKundliToSelect: 'Create a Kundli to choose this part',
     copied: 'Copied',
@@ -1753,6 +1800,10 @@ function getReportBuilderCopy(language: SupportedLanguage): {
     compareDepth: 'Compare what you get',
     differenceColumn: 'Area',
     differenceEyebrow: 'Choose by need',
+    dialogBody:
+      'Your report is ready. Review the person, report type, and chart-backed preview before downloading.',
+    dialogEyebrow: 'Report ready',
+    dialogTitle: 'Download your report',
     downloadChatPdf: 'Save chat PDF',
     emptySelection: 'Choose at least one part.',
     everythingBody:
@@ -1791,7 +1842,7 @@ function getReportBuilderCopy(language: SupportedLanguage): {
     plannedSectionEvidence: 'Chart evidence appears after Kundli creation.',
     previewDrawerAction: 'Open preview',
     previewDrawerBody:
-      'Preview the cover, key signals, charts, and chosen sections here. Saving the PDF opens the full preview automatically.',
+      'Preview the cover, key signals, charts, and chosen sections here. Downloading the PDF opens a clean confirmation first.',
     previewDrawerTitle: 'Report preview',
     premiumAccessBody:
       'Detailed PDF download needs a subscription, Day Pass, or one-time report access.',
@@ -1799,9 +1850,9 @@ function getReportBuilderCopy(language: SupportedLanguage): {
     premiumAccessLabel: 'Premium report',
     premiumAccessTitle: 'Choose access for detailed depth',
     premiumDepth: 'Premium depth',
-    previewBuilder: 'Preview after these changes',
-    previewSelected: 'Preview selected report',
-    printSelected: 'Save selected PDF',
+    previewBuilder: 'Download your report',
+    previewSelected: 'Download your report',
+    printSelected: 'Download your report',
     selected: 'Selected',
     selectedReport: 'Selected',
     seeEverythingIncluded: 'See everything included',
@@ -1971,6 +2022,7 @@ function getReportPrintCopy(language: SupportedLanguage): {
 function getReportResultCopy(language: SupportedLanguage): {
   compareBody: string;
   compareHeadline: string;
+  chartPreviewCount: string;
   deliveryEyebrow: string;
   deliveryFreeBody: string;
   deliveryPremiumBody: string;
@@ -2004,6 +2056,7 @@ function getReportResultCopy(language: SupportedLanguage): {
       compareBody:
         'मुफ्त रिपोर्ट सम्मान के साथ पूरी उपयोगी समझ देती है. प्रीमियम वही रिपोर्ट गहराई, समय, उपाय और विस्तृत संश्लेषण के साथ खोलता है.',
       compareHeadline: 'मुफ्त उपयोगी है. प्रीमियम गहरा है.',
+      chartPreviewCount: 'चार्ट इस पीडीएफ में जाएंगे',
       deliveryEyebrow: 'रिपोर्ट डिलीवरी',
       deliveryFreeBody:
         'यह मुफ्त इनसाइट रिपोर्ट चार्ट, मुख्य संकेत और जरूरी जीवन मार्गदर्शन के साथ पीडीएफ में तैयार है.',
@@ -2046,6 +2099,7 @@ function getReportResultCopy(language: SupportedLanguage): {
       compareBody:
         'મફત રિપોર્ટ સન્માન સાથે ઉપયોગી સમજ આપે છે. પ્રીમિયમ એ જ રિપોર્ટને ઊંડાઈ, સમય, ઉપાયો અને વિગતવાર સંશ્લેષણ સાથે ખોલે છે.',
       compareHeadline: 'મફત ઉપયોગી છે. પ્રીમિયમ ઊંડું છે.',
+      chartPreviewCount: 'ચાર્ટ્સ આ પીડીએફમાં જશે',
       deliveryEyebrow: 'રિપોર્ટ ડિલિવરી',
       deliveryFreeBody:
         'આ મફત ઇનસાઇટ રિપોર્ટ ચાર્ટ્સ, મુખ્ય સંકેતો અને જરૂરી જીવન માર્ગદર્શન સાથે પીડીએફમાં તૈયાર છે.',
@@ -2087,6 +2141,7 @@ function getReportResultCopy(language: SupportedLanguage): {
     compareBody:
       'Free stays genuinely useful. Premium keeps the same dignity and adds deeper timing, fuller synthesis, remedies, and a richer PDF.',
     compareHeadline: 'Free is useful. Premium is deeper.',
+    chartPreviewCount: 'chart previews will go into this PDF',
     deliveryEyebrow: 'Report delivery',
     deliveryFreeBody:
       'This free insight report is ready as a polished PDF with charts, key signals, and useful life guidance.',

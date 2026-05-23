@@ -1,0 +1,29 @@
+{
+  "desktopClick": {
+    "clicked": true
+  },
+  "desktopDialog": {
+    "exists": true,
+    "title": "Download your report",
+    "buttons": [
+      "Download your report",
+      "Cancel"
+    ]
+  },
+  "cancelResult": {
+    "before": true,
+    "clicked": true,
+    "after": false
+  },
+  "mobileClick": {
+    "clicked": true
+  },
+  "mobileDialog": {
+    "exists": true,
+    "title": "Download your report",
+    "buttons": [
+      "Download your report",
+      "Cancel"
+    ]
+  }
+}

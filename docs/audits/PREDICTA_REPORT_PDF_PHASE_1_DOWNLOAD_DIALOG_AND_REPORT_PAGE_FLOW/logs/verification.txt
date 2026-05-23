@@ -1,0 +1,46 @@
+PREDICTA_REPORT_PDF_PHASE_1_DOWNLOAD_DIALOG_AND_REPORT_PAGE_FLOW verification
+Audit date: 2026-05-24
+
+Commands run:
+
+1. corepack pnpm --filter @pridicta/web typecheck
+Result: PASS
+Notes: next typegen completed and tsc --noEmit passed.
+
+2. corepack pnpm build:web
+Result: PASS
+Notes: Next.js production build completed successfully, route generation
+completed for 53 static pages, and the web app build exited 0.
+
+3. Runtime desktop/mobile dialog check through local Next dev server and
+headless Chrome CDP
+Result: PASS
+Evidence:
+- Desktop click opened dialog.
+- Desktop dialog title was "Download your report".
+- Desktop dialog buttons were "Download your report" and "Cancel".
+- Cancel changed dialog presence from true to false.
+- Mobile click opened dialog.
+- Mobile dialog title was "Download your report".
+- Mobile dialog buttons were "Download your report" and "Cancel".
+
+4. Report-flow copy scan
+Command:
+rg -n "Save Report|Save selected PDF|Preview selected report|Preview after these changes|Saving the PDF" apps/web/components/WebDossierPreview.tsx apps/web/app/globals.css || true
+Result: PASS
+Notes: No matching report-flow strings remain in the changed report page files.
+
+5. Shared PDF handler scan
+Command:
+rg -n "onClick=\{downloadReportPdf\}|onClick=\{\(\) => openReportPreview\(\)\}|report-download-dialog" apps/web/components/WebDossierPreview.tsx
+Result: PASS
+Notes: The dialog primary CTA and generated report page CTA both call
+downloadReportPdf. Preparation CTAs call openReportPreview to open the dialog.
+
+6. corepack pnpm test:room-report-pdf
+Result: PASS
+Notes: Room report and PDF rebuild passed with 42 deterministic assertions.
+
+Known non-blockers:
+- "Save chat PDF" still exists in the chat export copy and is not part of this
+  report download phase.
