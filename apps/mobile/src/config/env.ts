@@ -10,6 +10,9 @@ const runtimeEnv = runtime.process?.env ?? {};
 
 export const env = {
   astrologyApiUrl: runtimeEnv.PRIDICTA_ASTRO_API_URL ?? 'http://10.0.2.2:8000',
+  reportPdfApiUrl:
+    runtimeEnv.PRIDICTA_REPORT_PDF_API_URL ??
+    'http://10.0.2.2:3000/api/report/pdf',
   googleWebClientId: runtimeEnv.GOOGLE_WEB_CLIENT_ID ?? '',
   enableMockBilling: runtimeEnv.PRIDICTA_ENABLE_MOCK_BILLING === 'true',
 };

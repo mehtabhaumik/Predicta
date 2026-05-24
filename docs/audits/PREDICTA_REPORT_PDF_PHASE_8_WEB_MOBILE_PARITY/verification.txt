@@ -1,0 +1,27 @@
+PREDICTA_REPORT_PDF_PHASE_8_WEB_MOBILE_PARITY
+
+Status: green after strict command audit.
+Date: 2026-05-25
+
+Scope audited:
+- Web remains on the document-grade `@react-pdf/renderer` route through `/api/report/pdf`.
+- Mobile no longer builds the report PDF from a local HTML-string source of truth.
+- Mobile report generation now posts the same `PdfGenerationRequest` payload shape used by web to the configured report PDF API endpoint.
+- Mobile surface-specific work is now transport only: request document-grade PDF, convert returned bytes to base64, save the returned PDF file into the device document directory.
+- `react-native-html-to-pdf` was removed from the mobile app dependency graph.
+- `react-native-fs` was added so mobile can persist the returned PDF bytes without rebuilding report content.
+- Mobile and web continue to use shared `composeReportSections` for preview/selection and shared `@pridicta/pdf/reportDocument` for final PDF generation.
+- Shared PDF intelligence remains responsible for Moon/Chandra Lagna inclusion and chart ordering.
+
+Strict boundary notes:
+- Mobile must not reintroduce local HTML PDF rendering for reports.
+- Mobile PDF API URL must be configured through `PRIDICTA_REPORT_PDF_API_URL` for production/staging targets.
+- If mobile needs platform-specific file sharing later, it must wrap the downloaded PDF file only and must not recreate report content.
+
+Command audit passed:
+- corepack pnpm test:report-pdf-phase-8
+- corepack pnpm --filter @pridicta/pdf build
+- corepack pnpm --filter @pridicta/mobile typecheck
+- corepack pnpm test:room-report-pdf
+- corepack pnpm build:web
+- git diff --check

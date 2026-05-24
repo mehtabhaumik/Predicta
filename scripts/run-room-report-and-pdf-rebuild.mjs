@@ -55,9 +55,10 @@ assert.match(webReportSource, /REPORT_SCHOOL_LANES/);
 assert.match(webReportSource, /product\.school === lane\.id/);
 assert.match(webReportSource, /reportFocus: selectedReportId/);
 assert.match(mobileReportSource, /reportFocus: selectedReportId/);
-assert.match(mobilePdfSource, /type PdfReportFocus/);
+assert.match(mobilePdfSource, /PdfReportFocus/);
 assert.match(mobilePdfSource, /reportFocus\?: PdfReportFocus/);
-assert.match(mobilePdfSource, /composeReportSections\(\{ kundli, language, mode, reportFocus \}\)/);
+assert.match(mobilePdfSource, /buildMobileReportPdfPayload/);
+assert.match(mobilePdfSource, /fetch\(env\.reportPdfApiUrl/);
 
 for (const phrase of [
   'Vedic Predicta Report',
