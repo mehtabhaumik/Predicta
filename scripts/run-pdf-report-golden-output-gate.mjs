@@ -148,7 +148,7 @@ function expectLocalizedReportLabels() {
 
 expectIncludes('packages/pdf/src/index.ts', 'composition source of truth', [
   'chartSnapshots: PdfChartSnapshot[]',
-  'const chartSnapshots = buildPdfChartSnapshots(kundli, chartTypes, language);',
+  'const chartSnapshots = buildPdfChartSnapshots(kundli, chartTypes, language, reportFocus);',
   'function buildPdfChartSnapshots(',
   'buildChartRenderModel({',
   'birthDetails: kundli.birthDetails',
@@ -160,7 +160,7 @@ expectIncludes('packages/pdf/src/index.ts', 'composition source of truth', [
   'theme: model.theme',
   'degreeLabel: planet.degreeLabel',
   'status: planet.status',
-  'displayName: planet.displayName',
+  'displayName: formatPdfGrahaName(planet.name, language)',
   'displaySign: cell.displaySign',
   'signNumber: cell.signNumber',
 ]);
@@ -183,9 +183,20 @@ expectIncludes('packages/pdf/src/reportDocument.tsx', 'premium document renderer
   'report.cover.birthPlace',
   'report.cover.birthMomentSignature.map',
   '<PdfCelestialSeal />',
-  'These charts use the same house structure, signs, planets, degrees,',
+  'PdfHouseWisePlanetTablePage',
+  'Where each graha sits in the chart',
   'report.cover.subtitle',
   'describeTheme(snapshot.theme, birthTime)',
+]);
+
+expectIncludes('packages/pdf/src/index.ts', 'full-width chart-safe layout contract', [
+  "chartRole: ChartType | 'MOON'",
+  'houseWisePlanetRows: PdfHouseWisePlanetRow[]',
+  "composeVedicIntelligenceContract({ kundli }).moonChart.chart",
+  "entries.push({ chart: moonChart, role: 'MOON' })",
+  'hiddenPlanetCount: 0',
+  'buildPdfHouseWisePlanetRows',
+  'formatPdfGrahaName',
 ]);
 
 expectIncludes('packages/pdf/src/index.ts', 'celestial seal cover data contract', [

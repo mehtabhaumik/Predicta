@@ -384,7 +384,7 @@ const CHART_SURFACE_PRESETS: Record<ChartRenderPresentation, ChartSurfacePreset>
       compact: 2,
       stacked: 5,
     },
-    maxVisiblePlanets: 7,
+    maxVisiblePlanets: 12,
     planetGlyphSize: 'full',
     showPlanetDegrees: true,
     showPlanetSign: false,

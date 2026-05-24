@@ -29,6 +29,7 @@ import {
   type PdfChartSnapshot,
   type PdfChartSnapshotCell,
   type PdfComposition,
+  type PdfHouseWisePlanetRow,
   type PdfReportFocus,
   type PdfSection,
 } from './index';
@@ -516,7 +517,7 @@ const styles = StyleSheet.create({
   chartBoard: {
     borderRadius: 16,
     borderWidth: 1,
-    height: 430,
+    height: 450,
     marginBottom: 10,
     overflow: 'hidden',
     position: 'relative',
@@ -540,12 +541,28 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     borderWidth: 1,
     color: '#2F3440',
-    fontSize: 7.4,
+    fontSize: 6.6,
     fontWeight: 700,
     marginBottom: 3,
-    paddingHorizontal: 6,
-    paddingVertical: 2.5,
+    paddingHorizontal: 5,
+    paddingVertical: 2.2,
     textAlign: 'center',
+  },
+  nodePlanetChip: {
+    backgroundColor: '#EEF3F6',
+    borderColor: '#7A8C99',
+    color: '#24313F',
+  },
+  moonPhaseRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 6,
+  },
+  moonPhaseLabel: {
+    color: '#5B6677',
+    fontSize: 8.8,
+    lineHeight: 1.35,
   },
   chartNote: {
     color: '#5B6677',
@@ -555,8 +572,45 @@ const styles = StyleSheet.create({
   },
   chartThemeNote: {
     color: '#3E4658',
-    fontSize: 9,
+    fontSize: 8.6,
     lineHeight: 1.5,
+  },
+  placementTable: {
+    borderColor: '#D4C39A',
+    borderRadius: 16,
+    borderWidth: 0.8,
+    overflow: 'hidden',
+  },
+  placementTableHeader: {
+    backgroundColor: '#EEE7D8',
+    borderBottomColor: '#D4C39A',
+    borderBottomWidth: 0.6,
+    flexDirection: 'row',
+    paddingHorizontal: 8,
+    paddingVertical: 8,
+  },
+  placementTableRow: {
+    borderBottomColor: '#E3DDCE',
+    borderBottomWidth: 0.45,
+    flexDirection: 'row',
+    paddingHorizontal: 8,
+    paddingVertical: 6,
+  },
+  placementTableHeaderCell: {
+    color: '#776A54',
+    fontSize: 6,
+    fontWeight: 800,
+    letterSpacing: 0.4,
+    lineHeight: 1.25,
+    textTransform: 'uppercase',
+  },
+  placementTableCell: {
+    color: '#2E3442',
+    fontSize: 7.2,
+    lineHeight: 1.25,
+  },
+  placementGrahaCell: {
+    fontWeight: 800,
   },
   footer: {
     alignItems: 'center',
@@ -989,16 +1043,10 @@ export function PredictaReportPdfDocument({
             eyebrow="Chart proof"
             title={report.mode === 'PREMIUM' ? 'Chart spread' : 'Charts in your report'}
           />
-          <Text style={[styles.pageTitle, displayTextStyle]}>The charts, in the same language as Predicta</Text>
-          <Text style={styles.pageLead}>
-            These charts use the same house structure, signs, planets, degrees,
-            status marks, and birth-time theme logic as the real Kundli
-            surfaces. The PDF does not switch to a different chart vocabulary.
-          </Text>
           <View style={styles.chartRow}>
             {row.map(snapshot => (
               <PdfChartCard
-                key={`${snapshot.snapshot.chartType}-${snapshot.snapshot.chartName}`}
+                key={`${snapshot.snapshot.chartRole}-${snapshot.snapshot.chartName}`}
                 birthTime={report.cover.metadata[0] ?? ''}
                 showThemeNote={snapshot.showThemeNote}
                 snapshot={snapshot.snapshot}
@@ -1007,6 +1055,17 @@ export function PredictaReportPdfDocument({
           </View>
         </Page>
       ))}
+
+      {report.houseWisePlanetRows.length ? (
+        <PdfHouseWisePlanetTablePage
+          displayTextStyle={displayTextStyle}
+          documentFontFamily={documentFontFamily}
+          logoSrc={options.logoSrc}
+          rows={report.houseWisePlanetRows}
+          subjectName={subjectName}
+          watermark={report.watermark}
+        />
+      ) : null}
 
       {plannedSpreads.spreads.map((spread, index) => (
         <Page key={`${spread.eyebrow}-${spread.title}-${index}`} size="A4" style={[styles.page, { fontFamily: documentFontFamily }]}>
@@ -1565,6 +1624,122 @@ function PdfCelestialSeal(): React.JSX.Element {
   );
 }
 
+function PdfHouseWisePlanetTablePage({
+  displayTextStyle,
+  documentFontFamily,
+  logoSrc,
+  rows,
+  subjectName,
+  watermark,
+}: {
+  displayTextStyle: { fontFamily?: string };
+  documentFontFamily: string;
+  logoSrc?: string;
+  rows: PdfHouseWisePlanetRow[];
+  subjectName: string;
+  watermark: string;
+}): React.JSX.Element {
+  const columns: Array<{
+    key: keyof PdfHouseWisePlanetRow;
+    label: string;
+    width: string;
+  }> = [
+    { key: 'graha', label: 'Graha', width: '11%' },
+    { key: 'house', label: 'House', width: '6%' },
+    { key: 'sign', label: 'Sign', width: '11%' },
+    { key: 'degree', label: 'Degree', width: '8%' },
+    { key: 'nakshatraPada', label: 'Nakshatra / Pada', width: '18%' },
+    { key: 'retrograde', label: 'Retro', width: '7%' },
+    { key: 'combust', label: 'Combust', width: '8%' },
+    { key: 'exaltation', label: 'Exalted', width: '8%' },
+    { key: 'debilitation', label: 'Debilitated', width: '10%' },
+    { key: 'dignity', label: 'Dignity', width: '13%' },
+  ];
+
+  return (
+    <Page size="A4" style={[styles.page, { fontFamily: documentFontFamily }]}>
+      <PdfWatermark logoSrc={logoSrc} watermark={watermark} />
+      <PdfFooter subjectName={subjectName} />
+      <PdfPageHeader
+        eyebrow="Chart proof"
+        title="House-wise graha placement"
+      />
+      <Text style={[styles.pageTitle, displayTextStyle]}>
+        Where each graha sits in the chart
+      </Text>
+      <Text style={styles.pageLead}>
+        This table keeps every classical graha readable after the chart pages:
+        house, sign, degree, nakshatra/pada, retrogression, combustion,
+        exaltation, debilitation, and dignity are shown without crowding the
+        Kundli plate.
+      </Text>
+
+      <View style={styles.placementTable} wrap={false}>
+        <View style={styles.placementTableHeader}>
+          {columns.map(column => (
+            <Text
+              key={column.key}
+              style={[styles.placementTableHeaderCell, { width: column.width }]}
+            >
+              {column.label}
+            </Text>
+          ))}
+        </View>
+        {rows.map(row => (
+          <View key={`${row.graha}-${row.house}-${row.degree}`} style={styles.placementTableRow}>
+            {columns.map(column => (
+              <Text
+                key={column.key}
+                style={[
+                  styles.placementTableCell,
+                  ...(column.key === 'graha' ? [styles.placementGrahaCell] : []),
+                  { width: column.width },
+                ]}
+              >
+                {row[column.key]}
+              </Text>
+            ))}
+          </View>
+        ))}
+      </View>
+    </Page>
+  );
+}
+
+function PdfMoonPhaseDisc({
+  phase,
+}: {
+  phase: PdfChartSnapshot['moonPhase'];
+}): React.JSX.Element {
+  const fill =
+    phase === 'dark'
+      ? '#252A34'
+      : phase === 'full'
+        ? '#F8F1DA'
+        : '#D8CCAC';
+  const shadow =
+    phase === 'waxing'
+      ? 'M11 3 C5 6 5 18 11 21 C7 16 7 8 11 3'
+      : phase === 'waning'
+        ? 'M13 3 C19 6 19 18 13 21 C17 16 17 8 13 3'
+        : '';
+
+  return (
+    <Svg height={24} width={24}>
+      <Circle cx={12} cy={12} fill={fill} r={9} stroke="#C8A96A" strokeWidth={0.8} />
+      {phase === 'dark' ? (
+        <Circle cx={12} cy={12} fill="#151925" opacity={0.72} r={8} />
+      ) : null}
+      {shadow ? (
+        <Path d={shadow} fill="#1B2230" opacity={0.45} />
+      ) : null}
+      {phase === 'unknown' ? (
+        <Circle cx={12} cy={12} fill="transparent" opacity={0.5} r={4} stroke="#7A7467" strokeWidth={0.8} />
+      ) : null}
+    </Svg>
+  );
+}
+
 function PdfEvidenceTable({ rows }: { rows: NonNullable<PdfSection['evidenceTable']> }): React.JSX.Element {
   return (
     <View style={styles.evidenceTable}>
@@ -1740,7 +1915,7 @@ function PdfChartCard({
 }): React.JSX.Element {
   const themePalette = getChartThemePalette(snapshot.theme);
   const chartWidth = 432;
-  const chartHeight = 430;
+  const chartHeight = 450;
 
   return (
     <View
@@ -1755,7 +1930,9 @@ function PdfChartCard({
     >
       <View style={styles.chartHeader}>
         <View>
-          <Text style={styles.chartHeaderType}>{snapshot.chartType}</Text>
+          <Text style={styles.chartHeaderType}>
+            {snapshot.chartRole === 'MOON' ? 'Moon / Chandra Lagna' : snapshot.chartType}
+          </Text>
           <Text style={styles.chartHeaderTitle}>
             {snapshot.displayChartName ?? snapshot.chartName}
           </Text>
@@ -1803,6 +1980,13 @@ function PdfChartCard({
         ))}
       </View>
 
+      <View style={styles.moonPhaseRow}>
+        <PdfMoonPhaseDisc phase={snapshot.moonPhase} />
+        <Text style={styles.moonPhaseLabel}>
+          {snapshot.moonNakshatraPada?.moonPhaseLabel ?? 'Moon phase pending'}
+        </Text>
+      </View>
+
       {snapshot.moonNakshatraPada ? (
         <Text style={styles.chartNote}>
           Moon: {snapshot.moonNakshatraPada.moonPhaseLabel}. Birth star:{' '}
@@ -1835,11 +2019,13 @@ function PdfChartCell({
   palette: ThemePalette;
 }): React.JSX.Element {
   const point = houseLabelPoint(cell.house);
-  const cellWidth = cell.labelDensity === 'stacked' ? 112 : 100;
+  const planetCount = cell.planets.length;
+  const cellWidth = planetCount >= 5 ? 140 : cell.labelDensity === 'stacked' ? 126 : 112;
   const rawLeft = (point.x / 100) * boardWidth - cellWidth / 2;
-  const rawTop = (point.y / 100) * boardHeight - 20;
+  const cellHeight = 28 + planetCount * 15;
+  const rawTop = (point.y / 100) * boardHeight - cellHeight / 2;
   const left = clamp(rawLeft, 8, boardWidth - cellWidth - 8);
-  const top = clamp(rawTop, 8, boardHeight - 74);
+  const top = clamp(rawTop, 8, boardHeight - cellHeight - 8);
 
   return (
     <View style={[styles.chartCell, { left, top, width: cellWidth }]}>
@@ -1862,11 +2048,14 @@ function PdfChartCell({
             {
               backgroundColor: palette.note,
               borderColor: palette.border,
-              fontSize: cell.labelDensity === 'stacked' ? 6.9 : 7.4,
+              fontSize: planetCount >= 5 ? 6.1 : cell.labelDensity === 'stacked' ? 6.4 : 6.8,
             },
+            ...(planet.name === 'Rahu' || planet.name === 'Ketu'
+              ? [styles.nodePlanetChip]
+              : []),
           ]}
         >
-          {planet.displayAbbreviation} {cell.showPlanetDegrees ? planet.degreeLabel : ''}
+          {planet.displayName} {cell.showPlanetDegrees ? planet.degreeLabel : ''}
           {planet.status.retrograde ? ' R' : ''}
           {planet.status.exalted ? ' E' : ''}
           {planet.status.debilitated ? ' D' : ''}

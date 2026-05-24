@@ -1,0 +1,62 @@
+PREDICTA_REPORT_PDF_PHASE_5_FULL_WIDTH_CHART_SAFE_PDF_LAYOUT
+
+Status: GREEN after strict artifact audit.
+
+Generated PDFs:
+- artifacts/phase5-free-en.pdf
+- artifacts/phase5-premium-en.pdf
+- artifacts/phase5-free-hi.pdf
+- artifacts/phase5-free-gu.pdf
+
+Rendered screenshots:
+- screenshots/free-cover-page-1.png
+- screenshots/free-d1-page-4.png
+- screenshots/free-moon-page-5.png
+- screenshots/free-d9-page-6.png
+- screenshots/free-d10-page-7.png
+- screenshots/free-house-wise-table-page-8.png
+- screenshots/premium-d1-page-4.png
+- screenshots/premium-moon-page-5.png
+- screenshots/premium-d9-page-6.png
+- screenshots/premium-d10-page-7.png
+- screenshots/premium-house-wise-table-page-8.png
+- screenshots/hindi-d1-page-4.png
+- screenshots/hindi-moon-page-5.png
+- screenshots/hindi-house-wise-table-page-8.png
+- screenshots/gujarati-d1-page-4.png
+- screenshots/gujarati-moon-page-5.png
+- screenshots/gujarati-house-wise-table-page-8.png
+
+Audit results:
+- Chart pages render one full-width Kundli per page/row and no chart card splits across pages.
+- Chart order is D1 Rashi first, Moon Chart / Chandra Lagna second, D9 Navamsha third, then D10 Dashamsha.
+- D1, Moon, D9, and D10 inspected pages show all classical grahas without `+1`, `+2`, `+3`, or other overflow counters.
+- Moon chart is sourced from the shared Vedic intelligence Moon chart and is inserted only for Vedic chart-proof reports.
+- The fixture has Leo Lagna and Leo Moon, so D1 and Moon chart houses match by data, not by duplicated rendering logic.
+- PDF chart labels use Vedic graha names rather than Western glyph-only labels.
+- English chart labels use Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn, Rahu, and Ketu.
+- Hindi and Gujarati chart labels use romanized graha names such as Surya, Chandra, Mangal, Brahaspati/Guru, Shukra, Shani, Rahu, and Ketu while sign labels remain localized.
+- Rahu and Ketu render as restrained shadow-node badges instead of Western node glyphs or frightening imagery.
+- Moon phase discs render for dark and waxing inspected charts with readable labels.
+- House-wise graha placement table appears immediately after chart pages and includes graha, house, sign, degree, nakshatra/pada, retrograde, combust, exalted, debilitated, and dignity.
+- Free report rendered with 24 pages and premium report rendered with 30 pages, confirming there is no fixed page boundary.
+- The stale golden PDF gate was updated to assert the Phase 5 chart-safe layout contract.
+
+Commands run:
+- corepack pnpm test:report-pdf-phase-5
+- corepack pnpm test:report-pdf-phase-4b
+- corepack pnpm test:report-pdf-phase-4a
+- corepack pnpm test:report-pdf-phase-4
+- corepack pnpm test:pdf-golden
+- corepack pnpm test:room-report-pdf
+- corepack pnpm test:charts
+- corepack pnpm --filter @pridicta/astrology build
+- corepack pnpm --filter @pridicta/pdf build
+- corepack pnpm build:web
+- corepack pnpm test:translation-trust
+- corepack pnpm test:native-script-chat
+- git diff --check
+
+Artifact rendering:
+- PDFs were generated through the live web API route at /api/report/pdf.
+- Page screenshots were rendered from the generated PDFs with macOS PDFKit via a temporary Swift renderer.

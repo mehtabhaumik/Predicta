@@ -103,6 +103,7 @@ export type PdfComposition = {
     confidence: 'low' | 'medium' | 'high';
   };
   footer: string;
+  houseWisePlanetRows: PdfHouseWisePlanetRow[];
   language: SupportedLanguage;
   mode: PDFMode;
   sections: PdfSection[];
@@ -114,6 +115,7 @@ export type PdfComposition = {
 export type PdfChartSnapshot = {
   chartName: string;
   displayChartName: string;
+  chartRole: ChartType | 'MOON';
   chartType: ChartType;
   cells: PdfChartSnapshotCell[];
   legend: ChartRenderLegendItem[];
@@ -126,6 +128,19 @@ export type PdfChartSnapshot = {
   moonPhase: ChartRenderMoonPhase;
   school: ChartRenderSchool;
   theme: ChartRenderTheme;
+};
+
+export type PdfHouseWisePlanetRow = {
+  combust: string;
+  debilitation: string;
+  degree: string;
+  dignity: string;
+  exaltation: string;
+  graha: string;
+  house: string;
+  nakshatraPada: string;
+  retrograde: string;
+  sign: string;
 };
 
 export type PdfChartSnapshotCell = {
@@ -146,6 +161,17 @@ export type PdfChartSnapshotCell = {
 };
 
 const BENEFICS = new Set(['Jupiter', 'Venus', 'Mercury', 'Moon']);
+const CLASSICAL_GRAHA_ORDER = [
+  'Sun',
+  'Moon',
+  'Mars',
+  'Mercury',
+  'Jupiter',
+  'Venus',
+  'Saturn',
+  'Rahu',
+  'Ketu',
+];
 const PRESSURE_PLANETS = new Set(['Saturn', 'Mars', 'Rahu', 'Ketu', 'Sun']);
 const OWN_SIGNS: Record<string, string[]> = {
   Jupiter: ['Sagittarius', 'Pisces'],
@@ -195,7 +221,7 @@ export function composeReportSections({
   }
 
   const chartTypes = getReportChartTypes(kundli, mode, reportFocus);
-  const chartSnapshots = buildPdfChartSnapshots(kundli, chartTypes, language);
+  const chartSnapshots = buildPdfChartSnapshots(kundli, chartTypes, language, reportFocus);
   const sections = buildReportSectionSet(
     kundli,
     chartTypes,
@@ -230,6 +256,7 @@ export function composeReportSections({
       language,
     ),
     footer: 'Prepared by Predicta @2026',
+    houseWisePlanetRows: buildPdfHouseWisePlanetRows(kundli, language),
     language,
     mode,
     sections: localizeSections(polishedSections, language),
@@ -770,6 +797,7 @@ function composeEmptyReport(mode: PDFMode, language: SupportedLanguage): PdfComp
       ],
     }, language),
     footer: 'Prepared by Predicta @2026',
+    houseWisePlanetRows: [],
     language,
     mode,
     sections: [
@@ -1433,14 +1461,30 @@ function buildPdfChartSnapshots(
   kundli: KundliData,
   chartTypes: ChartType[],
   language: SupportedLanguage = 'en',
+  reportFocus: PdfReportFocus = 'KUNDLI',
 ): PdfChartSnapshot[] {
-  return chartTypes.flatMap(chartType => {
+  const moonChart = shouldIncludeMoonChart(reportFocus)
+    ? composeVedicIntelligenceContract({ kundli }).moonChart.chart
+    : undefined;
+  const chartEntries = chartTypes.flatMap(chartType => {
     const chart = kundli.charts[chartType];
 
     if (!chart?.supported) {
       return [];
     }
 
+    const entries: Array<{ chart: ChartData; role: ChartType | 'MOON' }> = [
+      { chart, role: chartType },
+    ];
+
+    if (chartType === 'D1' && moonChart?.supported) {
+      entries.push({ chart: moonChart, role: 'MOON' });
+    }
+
+    return entries;
+  });
+
+  return chartEntries.map(({ chart, role }) => {
     const model = buildChartRenderModel({
       birthDetails: kundli.birthDetails,
       chart,
@@ -1448,47 +1492,114 @@ function buildPdfChartSnapshots(
       presentation: 'full',
     });
 
-    return [
-      {
-        cells: model.cells.map(cell => ({
-          house: cell.house,
-          hiddenPlanetCount: cell.hiddenPlanetCount,
-          labelDensity: cell.labelDensity,
-          maxVisiblePlanets: cell.maxVisiblePlanets,
-          planetGlyphSize: cell.planetGlyphSize,
-          planets: cell.renderPlanets.map(planet => ({
-            ...planet,
-            degreeLabel: planet.degreeLabel,
-            displayName: planet.displayName,
-            status: planet.status,
-          })),
-          displaySign: cell.displaySign,
-          displaySignShort: cell.displaySignShort,
-          sign: cell.sign,
-          signGlyph: cell.signGlyph,
-          signNumber: cell.signNumber,
-          showPlanetDegrees: cell.showPlanetDegrees,
-          showPlanetSign: cell.showPlanetSign,
-          showPlanetStatusMarks: cell.showPlanetStatusMarks,
+    return {
+      cells: model.cells.map(cell => ({
+        house: cell.house,
+        hiddenPlanetCount: 0,
+        labelDensity: cell.labelDensity,
+        maxVisiblePlanets: Math.max(cell.maxVisiblePlanets, cell.renderPlanets.length),
+        planetGlyphSize: cell.planetGlyphSize,
+        planets: cell.renderPlanets.map(planet => ({
+          ...planet,
+          degreeLabel: planet.degreeLabel,
+          displayName: formatPdfGrahaName(planet.name, language),
+          status: planet.status,
         })),
-        chartName: model.chartName,
-        displayChartName: model.displayChartName,
-        chartType: model.chartType,
-        legend: model.legend,
-        moonNakshatraPada: model.moonNakshatraPada
-          ? {
-              moonNakshatra: model.moonNakshatraPada.moonNakshatra,
-              moonPhaseLabel: model.moonNakshatraPada.moonPhaseLabel,
-              pada: model.moonNakshatraPada.pada,
-              padaMeaning: model.moonNakshatraPada.padaMeaning,
-            }
-          : undefined,
-        moonPhase: model.moonPhase,
-        school: model.school,
-        theme: model.theme,
-      },
-    ];
+        displaySign: cell.displaySign,
+        displaySignShort: cell.displaySignShort,
+        sign: cell.sign,
+        signGlyph: cell.signGlyph,
+        signNumber: cell.signNumber,
+        showPlanetDegrees: cell.showPlanetDegrees,
+        showPlanetSign: cell.showPlanetSign,
+        showPlanetStatusMarks: cell.showPlanetStatusMarks,
+      })),
+      chartName: chart.name,
+      chartRole: role,
+      chartType: model.chartType,
+      displayChartName: role === 'MOON' ? 'Moon Chart / Chandra Lagna Chart' : model.displayChartName,
+      legend: model.legend,
+      moonNakshatraPada: model.moonNakshatraPada
+        ? {
+            moonNakshatra: model.moonNakshatraPada.moonNakshatra,
+            moonPhaseLabel: model.moonNakshatraPada.moonPhaseLabel,
+            pada: model.moonNakshatraPada.pada,
+            padaMeaning: model.moonNakshatraPada.padaMeaning,
+          }
+        : undefined,
+      moonPhase: model.moonPhase,
+      school: model.school,
+      theme: model.theme,
+    };
   });
+}
+
+function buildPdfHouseWisePlanetRows(
+  kundli: KundliData,
+  language: SupportedLanguage,
+): PdfHouseWisePlanetRow[] {
+  const d1 = kundli.charts.D1;
+
+  if (!d1?.supported) {
+    return [];
+  }
+
+  const model = buildChartRenderModel({
+    birthDetails: kundli.birthDetails,
+    chart: d1,
+    language,
+    presentation: 'full',
+  });
+  const planets = model.cells.flatMap(cell =>
+    cell.renderPlanets
+      .filter(planet => isClassicalGraha(planet.name))
+      .map(planet => ({
+        cell,
+        planet,
+      })),
+  );
+
+  return planets
+    .sort((first, second) => (first.cell.house ?? 0) - (second.cell.house ?? 0) || first.planet.position.degree - second.planet.position.degree)
+    .map(({ cell, planet }) => ({
+      combust: planet.status.combust ? 'Yes' : 'No',
+      debilitation: planet.status.debilitated ? 'Yes' : 'No',
+      degree: planet.degreeLabel,
+      dignity: planetDignity(planet.position),
+      exaltation: planet.status.exalted ? 'Yes' : 'No',
+      graha: formatPdfGrahaName(planet.name, language),
+      house: String(cell.house ?? planet.position.house),
+      nakshatraPada: `${planet.nakshatra} pada ${planet.pada}`,
+      retrograde: planet.status.retrograde ? 'Yes' : 'No',
+      sign: planet.displaySign,
+    }));
+}
+
+function shouldIncludeMoonChart(reportFocus: PdfReportFocus): boolean {
+  return !['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus);
+}
+
+function isClassicalGraha(name: string): boolean {
+  return CLASSICAL_GRAHA_ORDER.includes(name);
+}
+
+function formatPdfGrahaName(
+  name: string,
+  language: SupportedLanguage,
+): string {
+  const names: Record<string, Record<SupportedLanguage, string>> = {
+    Jupiter: { en: 'Jupiter', gu: 'Guru', hi: 'Brahaspati' },
+    Ketu: { en: 'Ketu', gu: 'Ketu', hi: 'Ketu' },
+    Mars: { en: 'Mars', gu: 'Mangal', hi: 'Mangal' },
+    Mercury: { en: 'Mercury', gu: 'Budh', hi: 'Budh' },
+    Moon: { en: 'Moon', gu: 'Chandra', hi: 'Chandra' },
+    Rahu: { en: 'Rahu', gu: 'Rahu', hi: 'Rahu' },
+    Saturn: { en: 'Saturn', gu: 'Shani', hi: 'Shani' },
+    Sun: { en: 'Sun', gu: 'Surya', hi: 'Surya' },
+    Venus: { en: 'Venus', gu: 'Shukra', hi: 'Shukra' },
+  };
+
+  return names[name]?.[language] ?? name;
 }
 
 function formatSnapshotOccupiedHouses(snapshot: PdfChartSnapshot): string {
@@ -2394,17 +2505,18 @@ function prioritizeChartTypes(
 function getFreeChartTypesForFocus(reportFocus: PdfReportFocus): ChartType[] {
   switch (reportFocus) {
     case 'CAREER':
-      return ['D1', 'D10'];
+      return ['D1', 'D9', 'D10'];
     case 'COMPATIBILITY':
     case 'MARRIAGE':
       return ['D1', 'D9'];
     case 'WEALTH':
-      return ['D1', 'D2'];
+      return ['D1', 'D9', 'D2'];
     case 'KP':
     case 'NADI':
     case 'NUMEROLOGY':
     case 'REMEDIES':
     case 'SADESATI':
+      return ['D1', 'D9'];
     case 'SIGNATURE':
       return ['D1'];
     case 'DASHA':
