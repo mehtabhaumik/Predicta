@@ -1,0 +1,61 @@
+PREDICTA_CHART_INSIGHT_PHASE_8_FINAL_QA_DEPLOY_AND_LIVE_SMOKE
+
+Status: green after strict command, deploy, and live-smoke audit.
+Date: 2026-05-25
+
+Final QA matrix:
+- Desktop: covered by `corepack pnpm build:web`, chart source gates, and live hosted route smoke.
+- Tablet: covered by responsive chart CSS/source gates and live hosted route smoke.
+- Mobile: covered by `corepack pnpm --filter @pridicta/mobile typecheck` and mobile chart/chat source gates.
+- English: covered by chart gates and web build.
+- Hindi: covered by native-script chat and translation-trust gates.
+- Gujarati: covered by native-script chat and translation-trust gates.
+- Free mode: covered by chart insight `freeInsights` gates and report/chart output gates.
+- Premium mode: covered by `premiumDeepDive` gates and report/chart output gates.
+- D1: covered by Phase 1/2 gates and final Phase 8 source gate.
+- Chalit: covered by Phase 2 gate and final Phase 8 source gate.
+- Core vargas: covered by Phase 3 gate and final Phase 8 source gate.
+- Advanced vargas: covered by Phase 5 gate and final Phase 8 source gate.
+- KP: covered by Phase 4 gate and final Phase 8 source gate.
+- Nadi: covered by Phase 4 gate and final Phase 8 source gate.
+- Chart page: covered by `WebChartsExplorer`, `WebKundliChart`, mobile chart screens, and live route smoke.
+- Chart inside chat: covered by Phase 7 gate and final Phase 8 source gate.
+- Chart report output: covered by Phase 7 gate, room/report PDF gate, and final Phase 8 source gate.
+
+Must-verify results:
+- Every chart answers what the chart governs and what this chart is saying.
+- Free users receive real chart meaning through free insight copy.
+- Premium depth is a deeper layer, not a replacement for basic meaning.
+- Technical View still exists and remains below Insight View.
+- Hindi and Gujarati trust gates prevent mixed-language leakage in prominent rebuilt chart/chat layers.
+- Fear-heavy charts and Nadi surfaces retain non-fatalistic boundaries.
+- KP and Nadi remain method-safe and do not mix Vedic/KP/Nadi logic.
+- Chart route, chart cards, chat chart blocks, and PDF chart output share the meaning-first hierarchy.
+
+Command audit passed:
+- corepack pnpm test:chart-insight-phase-1
+- corepack pnpm test:chart-insight-phase-2
+- corepack pnpm test:chart-insight-phase-3
+- corepack pnpm test:chart-insight-phase-4
+- corepack pnpm test:chart-insight-phase-5
+- corepack pnpm test:chart-insight-phase-6
+- corepack pnpm test:chart-insight-phase-7
+- corepack pnpm test:chart-insight-phase-8
+- corepack pnpm test:graha-names
+- corepack pnpm test:native-script-chat
+- corepack pnpm test:translation-trust
+- corepack pnpm test:room-report-pdf
+- corepack pnpm test:report-pdf-phase-8
+- corepack pnpm --filter @pridicta/astrology build
+- corepack pnpm --filter @pridicta/pdf build
+- corepack pnpm --filter @pridicta/mobile typecheck
+- corepack pnpm build:web
+- firebase deploy --only apphosting:predicta-web
+  - Source uploaded to Firebase App Hosting and rollout started.
+  - CLI printed that it was safe to exit after rollout start; the long-running
+    wait was stopped after backend rollout status was verified separately.
+  - `firebase apphosting:backends:get predicta-web --project predicta-a4758`
+    confirmed `updateTime: 2026-05-24T23:33:48.975235Z` and
+    `reconciling: false`.
+- live hosted route smoke passed; see `live-smoke.txt`
+- git diff --check

@@ -1,0 +1,14 @@
+PREDICTA_CHART_INSIGHT_PHASE_8_FINAL_QA_DEPLOY_AND_LIVE_SMOKE
+
+Smoke time UTC: 2026-05-24T23:35:07Z
+Backend updateTime: 2026-05-24T23:33:48.975235Z; reconciling: false; uri: predicta-web--predicta-a4758.asia-east1.hosted.app
+
+Routes:
+- / -> HTTP 200, 32325 bytes, title: Predicta
+- /dashboard/charts -> HTTP 200, 15354 bytes, title: Predicta
+- /dashboard/vedic/chat -> HTTP 200, 15659 bytes, title: Predicta
+- /dashboard/kp -> HTTP 200, 22642 bytes, title: Predicta
+- /dashboard/nadi -> HTTP 200, 21111 bytes, title: Predicta
+- /dashboard/report -> HTTP 200, 38057 bytes, title: Predicta
+
+Result: PASS. Hosted chart, chat, KP, Nadi, and report routes are reachable after App Hosting rollout.
