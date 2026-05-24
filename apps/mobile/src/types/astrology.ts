@@ -715,6 +715,18 @@ export type NadiJyotishPattern = {
   evidence: string[];
 };
 
+export type NadiChartStoryLens = {
+  strongestThread: string;
+  repeatingPattern: string;
+  activeLesson: string;
+  stuckPoint: string;
+  shiftThatHelps: string;
+  validationBridge: string;
+  activationSummary: string;
+  hiddenPatternSentence: string;
+  evidencePath: string[];
+};
+
 export type NadiJyotishActivation = {
   id: string;
   title: string;
@@ -737,6 +749,7 @@ export type NadiJyotishPremiumPlan = {
   handoffQuestion?: string;
   freePreview: string;
   premiumSynthesis?: string;
+  storyLens: NadiChartStoryLens;
   patterns: NadiJyotishPattern[];
   activations: NadiJyotishActivation[];
   validationQuestions: string[];
@@ -763,6 +776,28 @@ export type ChalitShiftMeaning = {
   awareness: string;
 };
 
+export type KpEventJudgement = {
+  verdictLabel:
+    | 'Likely'
+    | 'Delayed'
+    | 'Mixed'
+    | 'Needs more clarity'
+    | 'Not enough proof yet';
+  promise: string;
+  decisionPoint: string;
+  timingReadiness: string;
+  mainBlock: string;
+  confidence: 'clear' | 'partial' | 'uncertain';
+  plainLanguage: string;
+  nextQuestion: string;
+  proofPath: string[];
+  eventCarriers: Array<{
+    planet: string;
+    role: 'carrier' | 'supporter' | 'blocker';
+    reason: string;
+  }>;
+};
+
 export type ChalitBhavKpFoundation = {
   status: 'ready' | 'partial' | 'pending';
   ownerName: string;
@@ -786,6 +821,7 @@ export type ChalitBhavKpFoundation = {
     subtitle: string;
     freeInsight: string;
     premiumSynthesis?: string;
+    eventJudgement: KpEventJudgement;
     cusps: KPCusp[];
     planets: KPPlanet[];
     significators: KPSignificator[];
@@ -2122,6 +2158,7 @@ export type AIContextPayload = {
     | 'handoffQuestion'
     | 'freePreview'
     | 'premiumSynthesis'
+    | 'storyLens'
     | 'patterns'
     | 'activations'
     | 'validationQuestions'

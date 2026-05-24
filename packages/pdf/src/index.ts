@@ -685,6 +685,9 @@ function buildKpFoundationSection(kundli: KundliData, mode: PDFMode): PdfSection
       'KP is kept as a separate Krishnamurti Paddhati section. It uses cusps, star lords, sub lords, significators, and ruling planets for event-oriented analysis. It is not blended casually with Parashari chart synthesis.',
     bullets: [
       'Selected event question: general KP event-readiness report; choose a specific event for sharper final likelihood.',
+      `Event verdict compass: ${kp.eventJudgement.verdictLabel}. ${kp.eventJudgement.plainLanguage}`,
+      `Decision point: ${kp.eventJudgement.decisionPoint}`,
+      `Timing readiness: ${kp.eventJudgement.timingReadiness}`,
       `Relevant event houses surfaced from significators: ${eventHouses.join(', ') || 'pending a sharper event question'}.`,
       mode === 'PREMIUM' ? kp.premiumSynthesis ?? kp.freeInsight : kp.freeInsight,
       `KP cusps included: ${kp.cusps.length}.`,
@@ -711,6 +714,7 @@ function buildKpFoundationSection(kundli: KundliData, mode: PDFMode): PdfSection
       `Selected event question: ${'general KP event-readiness'}.`,
       `Relevant houses: ${eventHouses.join(', ') || 'pending event selection'}.`,
       `Dasha support: ${kundli.dasha.current.mahadasha}/${kundli.dasha.current.antardasha}.`,
+      ...kp.eventJudgement.proofPath,
       `Transit triggers included: ${triggerWindows.length}.`,
     ],
     evidenceTable: kp.cusps.slice(0, mode === 'PREMIUM' ? 12 : 4).map(cusp => ({
@@ -1756,6 +1760,9 @@ function buildNadiJyotishPlanSection(
       plan.schoolBoundary,
       plan.methodSummary,
       plan.freePreview,
+      `Hidden pattern sentence: ${plan.storyLens.hiddenPatternSentence}`,
+      `Active lesson: ${plan.storyLens.activeLesson}`,
+      `Shift that helps: ${plan.storyLens.shiftThatHelps}`,
       `Planetary story map: ${plan.patterns.slice(0, mode === 'PREMIUM' ? 5 : 2).map(pattern => pattern.title).join('; ') || 'pending'}.`,
       `Karaka links: ${plan.patterns.slice(0, mode === 'PREMIUM' ? 5 : 2).flatMap(pattern => pattern.planets).join(', ') || 'pending'}.`,
       `Rahu/Ketu axis: ${plan.patterns.find(pattern => pattern.id === 'nadi-rahu-ketu-axis')?.meaning ?? 'pending in this chart'}.`,
@@ -1767,6 +1774,7 @@ function buildNadiJyotishPlanSection(
     evidence: [
       ...plan.guardrails,
       ...plan.limitations,
+      ...plan.storyLens.evidencePath,
       plan.premiumUnlock,
       `Dasha/transit activation count: ${plan.activations.length}.`,
       `Past-pattern clues are handled as validation questions before deeper timing.`,

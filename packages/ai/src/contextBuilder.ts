@@ -423,6 +423,7 @@ function compactNadiJyotishPlan(
     premiumUnlock: plan.premiumUnlock,
     schoolBoundary: plan.schoolBoundary,
     status: plan.status,
+    storyLens: plan.storyLens,
     subtitle: plan.subtitle,
     title: plan.title,
     validationQuestions: plan.validationQuestions.slice(0, 4),

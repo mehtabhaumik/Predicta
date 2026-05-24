@@ -3,6 +3,7 @@ import type {
   ChalitPlanetPlacement,
   ChalitBhavKpFoundation,
   ChalitBhavKpInsightDepth,
+  KpEventJudgement,
   KPCusp,
   KPPlanet,
   KPRulingPlanets,
@@ -85,6 +86,7 @@ export function composeChalitBhavKpFoundation(
     kp: {
       cusps: kp?.cusps ?? [],
       evidence: buildKpEvidence(kp?.cusps, topSignificators, kp?.rulingPlanets),
+      eventJudgement: buildKpEventJudgement(kp?.cusps ?? [], topSignificators, kp?.rulingPlanets),
       freeInsight: kpReady && kp
         ? buildKpFreeInsight(kp.cusps, topSignificators)
         : 'KP horoscope details will appear automatically once Predicta calculates KP cusps, star lords, and sub lords from the saved birth profile.',
@@ -143,6 +145,7 @@ function buildPendingFoundation(
     kp: {
       cusps: [],
       evidence: ['No Kundli is selected yet.'],
+      eventJudgement: buildPendingKpEventJudgement(),
       freeInsight:
         'KP needs precise cusps, star lords, sub lords, and ruling planets, so it starts after Kundli calculation.',
       limitations: ['Create a Kundli first.'],
@@ -314,6 +317,106 @@ function buildKpPremiumSynthesis(
   ]
     .filter(Boolean)
     .join(' ');
+}
+
+function buildKpEventJudgement(
+  cusps: KPCusp[],
+  significators: KPSignificator[],
+  rulingPlanets?: KPRulingPlanets,
+): KpEventJudgement {
+  const tenth = cusps.find(cusp => cusp.house === 10);
+  const eleventh = cusps.find(cusp => cusp.house === 11);
+  const topCarrier = significators[0];
+  const supportCarrier = significators[1];
+  const blocker = significators.find(item => item.strength === 'D') ?? significators.at(-1);
+  const relevantAreas = topCarrier
+    ? uniqueHouseAreas(topCarrier.signifiesHouses).slice(0, 3)
+    : [];
+  const confidence: KpEventJudgement['confidence'] =
+    cusps.length >= 12 && significators.length >= 4 && rulingPlanets
+      ? 'clear'
+      : cusps.length || significators.length
+        ? 'partial'
+        : 'uncertain';
+  const verdictLabel: KpEventJudgement['verdictLabel'] =
+    confidence === 'clear'
+      ? 'Mixed'
+      : confidence === 'partial'
+        ? 'Needs more clarity'
+        : 'Not enough proof yet';
+
+  return {
+    confidence,
+    decisionPoint: tenth
+      ? `The decision point is the relevant cusp sub lord; for career-style events, the 10th cusp sub lord is ${tenth.lordChain.subLord}.`
+      : 'The decision point becomes clear once the relevant cusp sub lord is available.',
+    eventCarriers: [
+      topCarrier
+        ? {
+            planet: topCarrier.planet,
+            reason: `${topCarrier.planet} carries houses ${topCarrier.signifiesHouses.join(', ') || 'pending'} with ${topCarrier.strength} strength.`,
+            role: 'carrier' as const,
+          }
+        : undefined,
+      supportCarrier
+        ? {
+            planet: supportCarrier.planet,
+            reason: `${supportCarrier.planet} supports the event chain through houses ${supportCarrier.signifiesHouses.join(', ') || 'pending'}.`,
+            role: 'supporter' as const,
+          }
+        : undefined,
+      blocker && blocker !== topCarrier && blocker !== supportCarrier
+        ? {
+            planet: blocker.planet,
+            reason: `${blocker.planet} needs caution because its support is weaker or more indirect in the current significator list.`,
+            role: 'blocker' as const,
+          }
+        : undefined,
+    ].filter((item): item is KpEventJudgement['eventCarriers'][number] => Boolean(item)),
+    mainBlock: blocker
+      ? `${blocker.planet} is the caution point: do not treat this as a final promise until the exact event houses and timing support agree.`
+      : 'The main block is not a negative fate signal; it is missing proof for the exact event question.',
+    nextQuestion:
+      'Ask one exact KP question with a time window, such as "Will I change jobs in the next six months?"',
+    plainLanguage: topCarrier
+      ? `KP is not giving a personality reading here. It is saying the event should be judged through ${relevantAreas.join(', ') || 'the houses carried by the main significator'}, with ${topCarrier.planet} as the clearest carrier and cusp sub-lord proof before timing.`
+      : 'KP needs one concrete event question, then it checks the cusp sub lord, event carriers, ruling planets, and timing support before saying likely, delayed, or unclear.',
+    promise: topCarrier
+      ? `The promise is visible through ${topCarrier.planet} and the houses it carries: ${topCarrier.signifiesHouses.join(', ') || 'pending'}.`
+      : 'The promise is pending until significators are available.',
+    proofPath: [
+      '1. State the exact event question.',
+      `2. Check the event houses${tenth ? ` and the relevant cusp sub lord (${tenth.lordChain.subLord} shown on the 10th cusp for career-style events)` : ''}.`,
+      `3. Read event carriers${topCarrier ? `, starting with ${topCarrier.planet}` : ''}.`,
+      rulingPlanets
+        ? `4. Confirm timing with ruling planets: day ${rulingPlanets.dayLord}, Moon star ${rulingPlanets.moonStarLord}, Lagna sub ${rulingPlanets.lagnaSubLord}.`
+        : '4. Confirm timing only after ruling planets and dasha support are available.',
+    ],
+    timingReadiness: rulingPlanets
+      ? `Timing support is ${eleventh ? 'usable but still event-specific' : 'partial'} because ruling planets are available; final timing still needs the selected event and dasha/transit trigger.`
+      : 'Timing is not ready for a strong statement yet because ruling planets are missing.',
+    verdictLabel,
+  };
+}
+
+function buildPendingKpEventJudgement(): KpEventJudgement {
+  return {
+    confidence: 'uncertain',
+    decisionPoint: 'Create a Kundli first so KP can calculate cusps and sub lords.',
+    eventCarriers: [],
+    mainBlock: 'No KP proof exists yet.',
+    nextQuestion: 'Create the Kundli, then ask one exact KP event question.',
+    plainLanguage:
+      'KP will become useful after calculation because it answers concrete event questions through cusps, sub lords, significators, ruling planets, and timing support.',
+    promise: 'Pending until KP cusps and significators are calculated.',
+    proofPath: [
+      '1. Create a Kundli.',
+      '2. Let Predicta prepare KP cusps and significators.',
+      '3. Ask one concrete event question.',
+    ],
+    timingReadiness: 'Pending until KP ruling planets are calculated.',
+    verdictLabel: 'Not enough proof yet',
+  };
 }
 
 function uniqueHouseAreas(houses: number[]): string[] {

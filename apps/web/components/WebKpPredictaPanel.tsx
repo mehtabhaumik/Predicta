@@ -326,6 +326,24 @@ export function WebKpPredictaPanel({
               {t('KP Predicta will carry this question with the active birth profile and answer from KP.')}
             </div>
           ) : null}
+
+          <div className="school-grid significators" aria-label="KP event verdict compass">
+            <div>
+              <span>{t('EVENT VERDICT COMPASS')}</span>
+              <strong>{t(kp.eventJudgement.verdictLabel)}</strong>
+              <p>{kp.eventJudgement.plainLanguage}</p>
+            </div>
+            <div>
+              <span>{t('Timing readiness')}</span>
+              <strong>{t(kp.eventJudgement.confidence)}</strong>
+              <p>{kp.eventJudgement.timingReadiness}</p>
+            </div>
+            <div>
+              <span>{t('Decision point')}</span>
+              <strong>{t('Cusp sub lord')}</strong>
+              <p>{kp.eventJudgement.decisionPoint}</p>
+            </div>
+          </div>
         </div>
       </Card>
 
@@ -420,32 +438,13 @@ export function WebKpPredictaPanel({
           </div>
 
           <div className="kp-proof-path">
-            <div>
-              <span>1. {t('Houses')}</span>
-              <strong>{selectedFocus.houses.join(' / ')}</strong>
-              <p>{t('These houses define the KP promise for this event.')}</p>
-            </div>
-            <div>
-              <span>2. {t('Cusp sub lord')}</span>
-              <strong>
-                {selectedCuspData
-                  ? `${selectedCuspData.house}: ${selectedCuspData.lordChain.subLord}`
-                  : t('Pending')}
-              </strong>
-              <p>
-                {t('The selected cusp becomes the main judgement point before timing.')}
-              </p>
-            </div>
-            <div>
-              <span>3. {t('Significators')}</span>
-              <strong>{eventSignificators.length || t('Pending')}</strong>
-              <p>{t('Planets connecting to these houses become event carriers.')}</p>
-            </div>
-            <div>
-              <span>4. {t('Timing')}</span>
-              <strong>{t('Ruling planets + dasha')}</strong>
-              <p>{t('Premium depth checks period support and event windows.')}</p>
-            </div>
+            {kp.eventJudgement.proofPath.map((step, index) => (
+              <div key={step}>
+                <span>{index + 1}. {t('Proof step')}</span>
+                <strong>{index === 0 ? t('Question') : index === 1 ? t('Cusp') : index === 2 ? t('Carriers') : t('Timing')}</strong>
+                <p>{step}</p>
+              </div>
+            ))}
           </div>
         </div>
       </Card>

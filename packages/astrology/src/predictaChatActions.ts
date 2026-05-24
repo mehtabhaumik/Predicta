@@ -1881,6 +1881,7 @@ function buildKpPredictaReply(
   if (language === 'hi') {
     return [
       'KP Predicta mode: मैं सिर्फ KP cusps, star lords, sub lords, significators और ruling planets से बोलूंगी.',
+      `Event verdict: ${kp.eventJudgement.verdictLabel}. ${kp.eventJudgement.plainLanguage}`,
       kp.freeInsight,
       cuspLine ? `Cusps:\n${cuspLine}` : '',
       significators ? `Significators:\n${significators}` : '',
@@ -1894,6 +1895,7 @@ function buildKpPredictaReply(
   if (language === 'gu') {
     return [
       'KP Predicta mode: હું ફક્ત KP cusps, star lords, sub lords, significators અને ruling planets થી બોલીશ.',
+      `Event verdict: ${kp.eventJudgement.verdictLabel}. ${kp.eventJudgement.plainLanguage}`,
       kp.freeInsight,
       cuspLine ? `Cusps:\n${cuspLine}` : '',
       significators ? `Significators:\n${significators}` : '',
@@ -1906,6 +1908,7 @@ function buildKpPredictaReply(
 
   return [
     'KP Predicta mode: I will answer only from KP cusps, star lords, sub lords, significators, and ruling planets.',
+    `Event verdict: ${kp.eventJudgement.verdictLabel}. ${kp.eventJudgement.plainLanguage}`,
     kp.freeInsight,
     cuspLine ? `Cusps:\n${cuspLine}` : '',
     significators ? `Significators:\n${significators}` : '',
@@ -1960,6 +1963,7 @@ function buildNadiPredictaReply(
   if (language === 'hi') {
     return [
       'Nadi Predicta mode: मैं planet-to-planet story links, karaka themes, validation questions और timing activation से पढ़ूंगी.',
+      `Hidden pattern: ${plan.storyLens.hiddenPatternSentence}`,
       plan.freePreview,
       topPattern
         ? `Strong pattern: ${topPattern.title}. ${topPattern.freeInsight}`
@@ -1978,6 +1982,7 @@ function buildNadiPredictaReply(
   if (language === 'gu') {
     return [
       'Nadi Predicta mode: હું planet-to-planet story links, karaka themes, validation questions અને timing activation થી વાંચીશ.',
+      `Hidden pattern: ${plan.storyLens.hiddenPatternSentence}`,
       plan.freePreview,
       topPattern
         ? `Strong pattern: ${topPattern.title}. ${topPattern.freeInsight}`
@@ -1994,8 +1999,9 @@ function buildNadiPredictaReply(
   }
 
   return [
-    'Nadi Predicta mode: I will read through planet-to-planet story links, karaka themes, validation questions, and timing activation.',
-    plan.freePreview,
+      'Nadi Predicta mode: I will read through planet-to-planet story links, karaka themes, validation questions, and timing activation.',
+      `Hidden pattern: ${plan.storyLens.hiddenPatternSentence}`,
+      plan.freePreview,
     topPattern
       ? `Strong pattern: ${topPattern.title}. ${topPattern.freeInsight}`
       : undefined,

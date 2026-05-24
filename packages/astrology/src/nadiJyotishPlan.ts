@@ -1,5 +1,6 @@
 import type {
   KundliData,
+  NadiChartStoryLens,
   NadiJyotishActivation,
   NadiJyotishInsightDepth,
   NadiJyotishPattern,
@@ -162,6 +163,7 @@ export function composeNadiJyotishPlan(
       'સામાન્ય પ્રેડિક્ટા પરાશરી વાંચે છે. કૃષ્ણમૂર્તિ પ્રેડિક્ટા કૃષ્ણમૂર્તિ પદ્ધતિ વાંચે છે. નાડી પ્રેડિક્ટા માત્ર નાડી શૈલીની ગ્રહકથા અને પુષ્ટિ પેટર્ન વાંચે છે.',
     ),
     status: 'ready',
+    storyLens: buildNadiStoryLens(kundli, patterns, activations, language),
     subtitle:
       depth === 'PREMIUM'
         ? localize(
@@ -242,6 +244,7 @@ function buildPendingPlan(
       'નાડી પ્રેડિક્ટા સામાન્ય પરાશરી પ્રેડિક્ટા અને કૃષ્ણમૂર્તિ પ્રેડિક્ટાથી અલગ છે.',
     ),
     status: 'pending',
+    storyLens: buildPendingNadiStoryLens(language),
     subtitle: localize(
       language,
       'Create your Kundli to begin the premium Nadi reading room.',
@@ -522,6 +525,141 @@ function buildActivations(
   });
 
   return activations.slice(0, depth === 'PREMIUM' ? 5 : 3);
+}
+
+function buildNadiStoryLens(
+  kundli: KundliData,
+  patterns: NadiJyotishPattern[],
+  activations: NadiJyotishActivation[],
+  language: SupportedLanguage,
+): NadiChartStoryLens {
+  const top = patterns[0];
+  const activation = activations[0];
+  const areaText = top?.lifeAreas
+    .slice(0, 2)
+    .map(area => localizeLifeArea(area, language))
+    .join(', ');
+  const planetText = top?.planets.join('-') ?? localize(language, 'planet story', 'ग्रह कथा', 'ગ્રહકથા');
+
+  if (!top) {
+    return {
+      activationSummary: localize(
+        language,
+        'Activation will become clearer after the first planetary story link is available.',
+        'पहला ग्रह-कथा संबंध मिलने के बाद सक्रियता अधिक स्पष्ट होगी.',
+        'પહેલો ગ્રહકથા સંબંધ મળ્યા પછી સક્રિયતા વધુ સ્પષ્ટ થશે.',
+      ),
+      activeLesson: localize(
+        language,
+        'The active lesson is pending until Predicta can identify the strongest story link.',
+        'सबसे मजबूत कथा संबंध दिखने तक सक्रिय पाठ प्रतीक्षारत है.',
+        'સૌથી મજબૂત કથા સંબંધ દેખાય ત્યાં સુધી સક્રિય પાઠ બાકી છે.',
+      ),
+      evidencePath: [
+        localize(language, 'Calculated birth profile is required.', 'गणना किया गया जन्म प्रोफाइल चाहिए.', 'ગણતરી કરેલું જન્મ પ્રોફાઇલ જોઈએ.'),
+      ],
+      hiddenPatternSentence: localize(
+        language,
+        `${kundli.birthDetails.name}'s Nadi story is waiting for enough planetary-link evidence before Predicta names a pattern.`,
+        `${kundli.birthDetails.name} की नाड़ी कथा पैटर्न नाम देने से पहले पर्याप्त ग्रह-संबंध प्रमाण की प्रतीक्षा कर रही है.`,
+        `${kundli.birthDetails.name}ની નાડી કથા પેટર્નનું નામ આપતાં પહેલાં પૂરતા ગ્રહ-સંબંધ પુરાવાની રાહ જોઈ રહી છે.`,
+      ),
+      repeatingPattern: localize(
+        language,
+        'No repeating pattern is strong enough to name yet.',
+        'अभी कोई दोहराता पैटर्न नाम देने जितना मजबूत नहीं है.',
+        'હજુ કોઈ દોહરાતું પેટર્ન નામ આપવા જેટલું મજબૂત નથી.',
+      ),
+      shiftThatHelps: localize(
+        language,
+        'Validate real-life themes first, then go deeper.',
+        'पहले वास्तविक जीवन के विषयों की पुष्टि करें, फिर गहराई में जाएं.',
+        'પહેલા વાસ્તવિક જીવનના વિષયો પુષ્ટિ કરો, પછી ઊંડે જાઓ.',
+      ),
+      strongestThread: localize(language, 'Pending story thread', 'प्रतीक्षारत कथा', 'બાકી કથા'),
+      stuckPoint: localize(
+        language,
+        'The risk is filling missing evidence with spiritual-sounding certainty.',
+        'जोखिम यह है कि अधूरे प्रमाण को आध्यात्मिक निश्चितता से भर दिया जाए.',
+        'જોખમ એ છે કે અધૂરા પુરાવાને આધ્યાત્મિક નિશ્ચિતતાથી ભરી દેવામાં આવે.',
+      ),
+      validationBridge: localize(
+        language,
+        'Predicta should ask validation questions before making event-level statements.',
+        'घटना-स्तर कथन से पहले प्रेडिक्टा को पुष्टि प्रश्न पूछने चाहिए.',
+        'ઘટના-સ્તરના નિવેદન પહેલાં પ્રેડિક્ટાએ પુષ્ટિ પ્રશ્નો પૂછવા જોઈએ.',
+      ),
+    };
+  }
+
+  return {
+    activationSummary: activation
+      ? `${activation.title}: ${activation.guidance}`
+      : localize(
+          language,
+          'No timing activation should be overstated yet.',
+          'अभी समय सक्रियता को बढ़ा-चढ़ाकर नहीं कहना चाहिए.',
+          'હજુ સમય સક્રિયતાને વધારીને કહેવી નહીં.',
+        ),
+    activeLesson: localize(
+      language,
+      `The active lesson is to notice how ${planetText} keeps linking ${areaText || 'life areas'} instead of treating each event as isolated.`,
+      `सक्रिय पाठ यह देखना है कि ${planetText} कैसे ${areaText || 'जीवन क्षेत्रों'} को जोड़ता रहता है, हर घटना को अलग मानने की जगह.`,
+      `સક્રિય પાઠ એ જોવાનો છે કે ${planetText} કેવી રીતે ${areaText || 'જીવન ક્ષેત્રો'}ને જોડતું રહે છે, દરેક ઘટનાને અલગ માનવાના બદલે.`,
+    ),
+    evidencePath: [
+      top.observation,
+      ...top.evidence.slice(0, 2),
+      activation ? activation.observation : '',
+    ].filter(Boolean),
+    hiddenPatternSentence: localize(
+      language,
+      `${kundli.birthDetails.name}'s chart keeps turning ${planetText} into a repeating story through ${areaText || 'linked life areas'}; the shift is validation, patience, and conscious response rather than fixed fate.`,
+      `${kundli.birthDetails.name} की कुंडली ${planetText} को ${areaText || 'जुड़े जीवन क्षेत्रों'} में दोहराती कथा बना रही है; बदलाव पुष्टि, धैर्य और सचेत प्रतिक्रिया है, तय भाग्य नहीं.`,
+      `${kundli.birthDetails.name}ની કુંડળી ${planetText}ને ${areaText || 'જોડાયેલા જીવન ક્ષેત્રો'}માં દોહરાતી કથા બનાવે છે; ફેરફાર પુષ્ટિ, ધીરજ અને સજાગ પ્રતિભાવ છે, નક્કી ભાગ્ય નહીં.`,
+    ),
+    repeatingPattern: top.meaning,
+    shiftThatHelps: localize(
+      language,
+      `The helpful shift is to name the ${top.relation.replaceAll('-', ' ')} pattern, validate it in real life, and respond differently when it repeats.`,
+      `मददगार बदलाव ${top.relation.replaceAll('-', ' ')} पैटर्न को नाम देना, जीवन में पुष्टि करना और दोहराने पर अलग प्रतिक्रिया देना है.`,
+      `મદદરૂપ ફેરફાર ${top.relation.replaceAll('-', ' ')} પેટર્નને નામ આપવું, જીવનમાં પુષ્ટિ કરવી અને ફરી આવે ત્યારે અલગ પ્રતિભાવ આપવો છે.`,
+    ),
+    strongestThread: top.title,
+    stuckPoint: localize(
+      language,
+      `The stuck point is repeating ${areaText || 'the same linked life theme'} without realizing the same story is being activated again.`,
+      `अटकाव ${areaText || 'उसी जुड़े जीवन-विषय'} को दोहराना है, बिना समझे कि वही कथा फिर सक्रिय हो रही है.`,
+      `અટકાવ ${areaText || 'એ જ જોડાયેલા જીવન વિષય'}ને દોહરાવવો છે, એ સમજ્યા વગર કે એ જ કથા ફરી સક્રિય થઈ રહી છે.`,
+    ),
+    validationBridge: localize(
+      language,
+      `Before going deeper, confirm whether ${planetText} actually shows up in ${areaText || 'these life areas'} in real life.`,
+      `गहराई में जाने से पहले पुष्टि करें कि ${planetText} वास्तविक जीवन में ${areaText || 'इन जीवन क्षेत्रों'} में सचमुच दिखता है या नहीं.`,
+      `ઊંડે જવા પહેલાં પુષ્ટિ કરો કે ${planetText} વાસ્તવિક જીવનમાં ${areaText || 'આ જીવન ક્ષેત્રો'}માં ખરેખર દેખાય છે કે નહીં.`,
+    ),
+  };
+}
+
+function buildPendingNadiStoryLens(language: SupportedLanguage): NadiChartStoryLens {
+  return {
+    activationSummary: localize(language, 'Pending timing activation.', 'समय सक्रियता प्रतीक्षारत.', 'સમય સક્રિયતા બાકી.'),
+    activeLesson: localize(language, 'Create the Kundli first.', 'पहले कुंडली बनाएं.', 'પહેલા કુંડળી બનાવો.'),
+    evidencePath: [
+      localize(language, 'No calculated Nadi chart evidence yet.', 'अभी गणना किया गया नाड़ी चार्ट प्रमाण नहीं है.', 'હજુ ગણતરી કરેલો નાડી ચાર્ટ પુરાવો નથી.'),
+    ],
+    hiddenPatternSentence: localize(
+      language,
+      'Predicta will name the Nadi story only after calculated chart evidence exists.',
+      'गणना किए गए चार्ट प्रमाण के बाद ही प्रेडिक्टा नाड़ी कथा का नाम देगी.',
+      'ગણતરી કરેલા ચાર્ટ પુરાવા પછી જ પ્રેડિક્ટા નાડી કથાનું નામ આપશે.',
+    ),
+    repeatingPattern: localize(language, 'Pending.', 'प्रतीक्षारत.', 'બાકી.'),
+    shiftThatHelps: localize(language, 'Create or select a Kundli.', 'कुंडली बनाएं या चुनें.', 'કુંડળી બનાવો અથવા પસંદ કરો.'),
+    strongestThread: localize(language, 'Pending story thread', 'प्रतीक्षारत कथा', 'બાકી કથા'),
+    stuckPoint: localize(language, 'No interpretation before evidence.', 'प्रमाण से पहले व्याख्या नहीं.', 'પુરાવા પહેલાં અર્થઘટન નહીં.'),
+    validationBridge: localize(language, 'Validation comes after the first story thread.', 'पहले कथा संबंध के बाद पुष्टि होगी.', 'પહેલા કથા સંબંધ પછી પુષ્ટિ થશે.'),
+  };
 }
 
 function buildFreePreview(

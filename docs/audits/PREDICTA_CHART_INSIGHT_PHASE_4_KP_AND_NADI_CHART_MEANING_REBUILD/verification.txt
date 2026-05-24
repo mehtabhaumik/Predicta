@@ -1,0 +1,50 @@
+PREDICTA_CHART_INSIGHT_PHASE_4_KP_AND_NADI_CHART_MEANING_REBUILD
+Date: 2026-05-25
+
+Scope audited:
+- KP chart meaning layer: event verdict, promise, decision point, timing
+  readiness, confidence, proof path, event carriers, and method boundary.
+- Nadi chart meaning layer: strongest story thread, repeating pattern, active
+  lesson, stuck point, shift that helps, validation bridge, activation summary,
+  and no palm-leaf manuscript claim.
+- Web KP/Nadi surfaces.
+- Mobile KP/Nadi surfaces.
+- Chart preview profile routing for saved Kundli KP and Nadi previews.
+- Predicta AI context/chat payload seams.
+- KP/Nadi report/PDF composition text seams.
+
+Passing audit commands:
+- corepack pnpm test:chart-insight-phase-4
+- corepack pnpm --filter @pridicta/types typecheck
+- corepack pnpm --filter @pridicta/astrology typecheck
+- corepack pnpm --filter @pridicta/ai typecheck
+- corepack pnpm --filter @pridicta/pdf typecheck
+- corepack pnpm --filter @pridicta/web typecheck
+- corepack pnpm --filter @pridicta/mobile exec tsc --noEmit
+- corepack pnpm test:charts
+- corepack pnpm test:chart-insight-phase-1
+- corepack pnpm test:chart-insight-phase-2
+- corepack pnpm test:chart-insight-phase-3
+- corepack pnpm test:translation-trust
+- corepack pnpm test:native-script-chat
+- corepack pnpm --filter @pridicta/web build
+- git diff --check
+
+Blocked audit command:
+- corepack pnpm test:pdf-golden
+
+Blocking detail:
+- The PDF golden gate currently fails on pre-existing dirty
+  packages/pdf/src/reportDocument.tsx changes because the gate expects:
+  backgroundColor: '#ECEFF4' and backgroundColor: '#F3F6FB'.
+- HEAD still contains both expected strings.
+- The working copy of packages/pdf/src/reportDocument.tsx changes those
+  background colors and adds font/assets work that is outside this Phase 4
+  implementation.
+- Those unrelated PDF renderer files were not staged for this phase commit.
+
+Conclusion:
+- Phase 4 implementation seams are complete and locally verified.
+- This phase must not be called fully green until the unrelated PDF renderer
+  golden-gate drift is either approved, reconciled, or reverted by the owner of
+  that change.

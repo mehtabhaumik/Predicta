@@ -126,6 +126,15 @@ export function KpPredictaPanel({
             </AppText>
           </View>
         ) : null}
+        <View style={styles.explainBox}>
+          <AppText variant="caption">EVENT VERDICT COMPASS</AppText>
+          <AppText className="mt-2" variant="subtitle">
+            {kp.eventJudgement.verdictLabel}
+          </AppText>
+          <AppText className="mt-2" tone="secondary">
+            {kp.eventJudgement.plainLanguage}
+          </AppText>
+        </View>
       </GlowCard>
 
       {ruling ? (
@@ -176,20 +185,21 @@ export function KpPredictaPanel({
           })}
         </View>
         <View style={styles.pathGrid}>
-          <PathStep label="Houses" value={selectedFocus.houses.join(' / ')} />
-          <PathStep
-            label="Cusp sub lord"
-            value={
-              selectedCuspData
-                ? `${selectedCuspData.house}: ${selectedCuspData.lordChain.subLord}`
-                : 'Pending'
-            }
-          />
-          <PathStep
-            label="Significators"
-            value={String(eventSignificators.length || 'Pending')}
-          />
-          <PathStep label="Timing" value="Ruling planets + dasha" />
+          {kp.eventJudgement.proofPath.map((step, index) => (
+            <PathStep
+              key={step}
+              label={
+                index === 0
+                  ? 'Question'
+                  : index === 1
+                    ? 'Cusp'
+                    : index === 2
+                      ? 'Carriers'
+                      : 'Timing'
+              }
+              value={step}
+            />
+          ))}
         </View>
       </GlowCard>
 

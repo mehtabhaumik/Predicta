@@ -121,6 +121,12 @@ export function NadiPredictaScreen({
                 : plan.freePreview}
             </AppText>
           </View>
+          <View style={styles.explainBox}>
+            <AppText variant="caption">HIDDEN PATTERN SENTENCE</AppText>
+            <AppText className="mt-2" tone="secondary">
+              {plan.storyLens.hiddenPatternSentence}
+            </AppText>
+          </View>
           {handoffQuestion ? (
             <View style={styles.handoffBox}>
               <AppText variant="caption">QUESTION RECEIVED</AppText>
@@ -148,6 +154,32 @@ export function NadiPredictaScreen({
         </GlowCard>
 
         <GlowCard delay={180}>
+          <AppText tone="secondary" variant="caption">
+            KARMIC STORY MAP
+          </AppText>
+          <View className="mt-4 gap-2">
+            <View style={styles.row}>
+              <AppText variant="caption">{plan.storyLens.strongestThread}</AppText>
+              <AppText className="mt-1" tone="secondary" variant="caption">
+                {plan.storyLens.repeatingPattern}
+              </AppText>
+            </View>
+            <View style={styles.row}>
+              <AppText variant="caption">Active lesson</AppText>
+              <AppText className="mt-1" tone="secondary" variant="caption">
+                {plan.storyLens.activeLesson}
+              </AppText>
+            </View>
+            <View style={styles.row}>
+              <AppText variant="caption">Shift that helps</AppText>
+              <AppText className="mt-1" tone="secondary" variant="caption">
+                {plan.storyLens.shiftThatHelps}
+              </AppText>
+            </View>
+          </View>
+        </GlowCard>
+
+        <GlowCard delay={190}>
           <AppText tone="secondary" variant="caption">
             STORY LINKS
           </AppText>

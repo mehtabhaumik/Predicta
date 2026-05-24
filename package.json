@@ -15,6 +15,7 @@
     "test:chart-insight-phase-1": "node scripts/run-chart-insight-phase-1-gate.mjs",
     "test:chart-insight-phase-2": "node scripts/run-chart-insight-phase-2-gate.mjs",
     "test:chart-insight-phase-3": "node scripts/run-chart-insight-phase-3-gate.mjs",
+    "test:chart-insight-phase-4": "node scripts/run-chart-insight-phase-4-gate.mjs",
     "test:graha-names": "node scripts/run-graha-name-localization-gate.mjs",
     "test:animation-regression": "node scripts/run-animation-regression-gate.mjs",
     "test:numerology": "node scripts/run-numerology-foundation-model.mjs",

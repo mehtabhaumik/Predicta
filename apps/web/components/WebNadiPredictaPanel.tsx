@@ -243,6 +243,29 @@ export function WebNadiPredictaPanel({
             <p>{hasPremiumAccess ? plan.premiumSynthesis ?? plan.freePreview : plan.freePreview}</p>
           </div>
 
+          <div className="school-explain-box">
+            <strong>{t('HIDDEN PATTERN SENTENCE')}</strong>
+            <p>{plan.storyLens.hiddenPatternSentence}</p>
+          </div>
+
+          <div className="school-grid significators" aria-label="Nadi karmic story map">
+            <div>
+              <span>{t('Strongest story thread')}</span>
+              <strong>{plan.storyLens.strongestThread}</strong>
+              <p>{plan.storyLens.repeatingPattern}</p>
+            </div>
+            <div>
+              <span>{t('Active lesson')}</span>
+              <strong>{t('What repeats')}</strong>
+              <p>{plan.storyLens.activeLesson}</p>
+            </div>
+            <div>
+              <span>{t('Shift that helps')}</span>
+              <strong>{t('Conscious response')}</strong>
+              <p>{plan.storyLens.shiftThatHelps}</p>
+            </div>
+          </div>
+
           <div className="school-callout">{plan.schoolBoundary}</div>
           {handoffQuestion ? (
             <div className="school-callout active">

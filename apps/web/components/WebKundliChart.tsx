@@ -362,6 +362,10 @@ export function WebKundliChart({
                 {translateUiText(
                   insightProfile === 'chalit'
                     ? 'Chalit focus: lived house delivery and practical correction.'
+                    : insightProfile === 'kp'
+                      ? 'KP focus: event promise, decision point, timing readiness, and proof path.'
+                      : insightProfile === 'nadi'
+                        ? 'Nadi focus: planetary story pattern, validation, activation, and conscious shift.'
                     : chart.chartType === 'D1'
                       ? 'D1 focus: life pattern, main weight, open opportunity, and maturity pressure.'
                       : `Varga focus: ${localizedInsight.governs}`,

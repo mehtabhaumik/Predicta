@@ -200,6 +200,14 @@ export function composeChartInsight({
     return composeChalitChartInsight(kundli, hasPremiumAccess);
   }
 
+  if (profile === 'kp' && kundli) {
+    return composeKpChartInsight(kundli, hasPremiumAccess);
+  }
+
+  if (profile === 'nadi' && kundli) {
+    return composeNadiChartInsight(kundli, hasPremiumAccess);
+  }
+
   if (chart.chartType === 'D1' && kundli) {
     return composeD1ChartInsight(kundli, hasPremiumAccess);
   }
@@ -480,6 +488,138 @@ function composeChalitChartInsight(
     whatItSays: shifts.length
       ? `${foundation.bhavChalit.whatChanges} Right now ${activeShiftText}, so real life may feel more like ${formatHouseArea(targetHouse(dashaShift ?? shifts[0]!))} than expected from a simple D1-only reading.`
       : `${foundation.bhavChalit.whatChanges} The main story does not need dramatic reinterpretation right now; Chalit is acting more like confirmation and fine-tuning.`,
+  };
+}
+
+function composeKpChartInsight(
+  kundli: KundliData,
+  hasPremiumAccess: boolean,
+): ChartInsight {
+  const foundation = composeChalitBhavKpFoundation(kundli, {
+    depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
+  });
+  const kp = foundation.kp;
+  const judgement = kp.eventJudgement;
+
+  return {
+    currentGuidance:
+      'Start with one exact event question, then let the relevant houses, cusp sub lord, significators, ruling planets, and dasha support answer it.',
+    eyebrow: hasPremiumAccess ? 'Premium KP event insight' : 'Free KP event insight',
+    freeInsights: [
+      `Verdict compass: ${judgement.verdictLabel}.`,
+      `Promise: ${judgement.promise}`,
+      `Decision point: ${judgement.decisionPoint}`,
+      `Timing readiness: ${judgement.timingReadiness}`,
+      `Next best question: ${judgement.nextQuestion}`,
+    ],
+    governs:
+      'event promise, decision point, timing readiness, ruling planets, and significator proof',
+    lifeAreas: judgement.eventCarriers.length
+      ? judgement.eventCarriers.map(carrier => `${carrier.planet}: ${carrier.role}`)
+      : ['event question', 'cusp proof', 'timing readiness'],
+    mainChallenge: judgement.mainBlock,
+    mainStrength: judgement.plainLanguage,
+    premiumDeepDive: [
+      'Premium KP expands the selected event into a full proof path instead of a generic life reading.',
+      ...judgement.proofPath,
+      kp.premiumSynthesis ?? kp.freeInsight,
+    ],
+    premiumInsight: hasPremiumAccess
+      ? {
+          confidenceFraming:
+            'KP confidence stays event-specific. It should never guarantee outcomes or replace practical reality checks.',
+          contradictionSignals: [
+            judgement.mainBlock,
+            'If the event houses, significators, and ruling planets disagree, Predicta must call the timing mixed or delayed.',
+          ],
+          crossChartSynthesis: [
+            'KP remains separate from Parashari D1 and Chalit; it can reference birth context but must not become a personality reading.',
+          ],
+          headline: `KP event verdict: ${judgement.verdictLabel}`,
+          practicalGuidance: [judgement.nextQuestion, judgement.timingReadiness],
+          remedyDirection: [
+            'Use precision: define the event, time window, and real-world decision before asking for timing.',
+          ],
+          timingWindows: [judgement.timingReadiness],
+        }
+      : undefined,
+    premiumNudge:
+      'Premium KP turns this into a proof-backed event judgement with confidence, limitations, and timing support.',
+    technicalDetails: [
+      ...judgement.proofPath,
+      `KP cusps available: ${kp.cusps.length}.`,
+      `KP significators available: ${kp.significators.length}.`,
+      `Confidence: ${judgement.confidence}.`,
+    ],
+    technicalSummary:
+      'Technical View keeps KP evidence visible: cusps, star/sub/sub-sub lords, significators, ruling planets, and timing support.',
+    title: 'KP Horoscope event meaning',
+    whatItSays: judgement.plainLanguage,
+  };
+}
+
+function composeNadiChartInsight(
+  kundli: KundliData,
+  hasPremiumAccess: boolean,
+): ChartInsight {
+  const plan = composeNadiJyotishPlan(kundli, {
+    depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
+  });
+  const lens = plan.storyLens;
+
+  return {
+    currentGuidance:
+      'Treat the strongest story as a pattern to validate. Ask what repeats, where it activates, and what conscious shift changes the loop.',
+    eyebrow: hasPremiumAccess ? 'Premium Nadi story insight' : 'Free Nadi story insight',
+    freeInsights: [
+      `Strongest thread: ${lens.strongestThread}`,
+      `Repeating pattern: ${lens.repeatingPattern}`,
+      `Active lesson: ${lens.activeLesson}`,
+      `Where the user may be stuck: ${lens.stuckPoint}`,
+      `Shift that helps: ${lens.shiftThatHelps}`,
+    ],
+    governs:
+      'planetary story links, karmic pattern validation, Rahu-Ketu style axis awareness, and activation windows',
+    lifeAreas: plan.patterns[0]?.lifeAreas ?? ['karmic pattern', 'validation', 'activation'],
+    mainChallenge: lens.stuckPoint,
+    mainStrength: lens.hiddenPatternSentence,
+    premiumDeepDive: [
+      plan.premiumSynthesis ?? plan.freePreview,
+      `Validation bridge: ${lens.validationBridge}`,
+      `Activation summary: ${lens.activationSummary}`,
+      ...lens.evidencePath,
+    ],
+    premiumInsight: hasPremiumAccess
+      ? {
+          confidenceFraming:
+            'Nadi confidence grows through calculated story evidence plus user validation. It must not claim manuscript access or fixed fate.',
+          contradictionSignals: [
+            'If the user does not validate the pattern, Predicta must soften the reading and ask better questions.',
+            'Nadi does not use KP cusp/sub-lord proof.',
+          ],
+          crossChartSynthesis: [
+            'Nadi stays in its own story-link lane. It may feed a future synthesis report only when explicitly labeled as synthesis.',
+          ],
+          headline: lens.hiddenPatternSentence,
+          practicalGuidance: [lens.shiftThatHelps, lens.validationBridge],
+          remedyDirection: [
+            'Use reflective practice, validation questions, and gentle remedies instead of fear or fatalism.',
+          ],
+          timingWindows: [lens.activationSummary],
+        }
+      : undefined,
+    premiumNudge:
+      'Premium Nadi sequences multiple story links, validates them, and turns activation windows into careful guidance.',
+    technicalDetails: [
+      ...lens.evidencePath,
+      `Patterns available: ${plan.patterns.length}.`,
+      `Activations available: ${plan.activations.length}.`,
+      'No palm-leaf manuscript access is claimed.',
+    ],
+    technicalSummary:
+      'Technical View keeps Nadi evidence visible: planet links, relation type, life areas, validation questions, and activation windows.',
+    title: 'Nadi planetary story meaning',
+    whatItSays: lens.hiddenPatternSentence,
   };
 }
 
