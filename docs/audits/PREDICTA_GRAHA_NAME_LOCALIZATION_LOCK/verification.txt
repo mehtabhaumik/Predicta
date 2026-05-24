@@ -1,0 +1,32 @@
+Predicta graha name localization lock
+Date: 2026-05-24
+
+Approved user-facing graha display contract:
+- English: Sun, Moon, Mars, Jupiter, Venus, Saturn, Mercury, Rahu, Ketu.
+- Hindi: सूर्य, चंद्र, मंगल, बृहस्पति, शुक्र, शनि, बुध, राहु, केतु.
+- Gujarati: સૂર્ય, ચંદ્ર, મંગળ, ગુરુ, શુક્ર, શનિ, બુધ, રાહુ, કેતુ.
+
+Implementation scope:
+- Shared chart renderer mapping: packages/astrology/src/chartLayout.ts.
+- Web chart prose replacement mapping: apps/web/components/WebKundliChart.tsx.
+- Shared UI translation catalog entry for Jupiter: packages/config/src/translations/ui.json.
+
+Audit commands:
+- corepack pnpm test:graha-names
+- corepack pnpm test:translation-trust
+- corepack pnpm test:native-script-chat
+- corepack pnpm test:charts
+- corepack pnpm --filter @pridicta/astrology typecheck
+- corepack pnpm --filter @pridicta/web typecheck
+- corepack pnpm --filter @pridicta/mobile exec tsc --noEmit
+- corepack pnpm --filter @pridicta/web build
+
+Result:
+- All listed checks passed.
+
+Boundaries:
+- Internal calculation keys remain English because astrology engines, chart data,
+  and report serializers depend on stable planet identifiers.
+- Mercury remains included in the gate because it is part of Predicta's existing
+  canonical graha set even though it was not repeated in the latest user table.
+- Existing unrelated dirty PDF files were not touched by this lock.

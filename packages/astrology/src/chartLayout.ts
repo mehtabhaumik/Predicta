@@ -234,7 +234,7 @@ const PLANET_TRANSLATIONS: Record<
   Jupiter: {
     en: { abbreviation: 'Ju', name: 'Jupiter' },
     gu: { abbreviation: 'ગુ', name: 'ગુરુ' },
-    hi: { abbreviation: 'गु', name: 'गुरु' },
+    hi: { abbreviation: 'बृ', name: 'बृहस्पति' },
   },
   Ketu: {
     en: { abbreviation: 'Ke', name: 'Ketu' },
