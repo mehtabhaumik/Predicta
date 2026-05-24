@@ -76,7 +76,7 @@ for (const phrase of [
   'currentMahadashaAntardashaPratyantardasha',
   'pastMahadashas',
   'Pratyantardasha is a fine timing layer and should not be overclaimed',
-  'temporary and compound friendship are explicitly pending Phase 3 hardening',
+  'Natural, temporary, and compound relationships are calculated',
   'Pending deterministic module',
   "id: 'D1'",
   "id: 'MOON'",

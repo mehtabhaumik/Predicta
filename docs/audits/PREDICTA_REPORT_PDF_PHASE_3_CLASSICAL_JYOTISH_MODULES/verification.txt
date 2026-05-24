@@ -1,0 +1,33 @@
+PREDICTA_REPORT_PDF_PHASE_3_CLASSICAL_JYOTISH_MODULES
+Status: GREEN
+Date: 2026-05-25
+
+Scope audited:
+- Moon Chart / Chandra Lagna deterministic remap remains shared in the Vedic intelligence contract.
+- House-wise planet table now includes deterministic combustion, dignity, exalted/debilitated, retrograde, degree, nakshatra, and pada.
+- Planet friendship now includes natural, temporary, compound, and user-facing interpretation fields.
+- Natural and functional benefic/malefic classification remains deterministic by Lagna and is framed with limitations.
+- Ghatak/favorable, Karakamsha, Prastarashtakavarga, Avakhada Chakra, Chalit, Panchang, Ashtakavarga, and Samsa are present with ready output where the backend has evidence and explicit calculation-limited/pending states where exact source tables are not available.
+- Mahadasha Phala keeps past Mahadashas at Mahadasha-level summaries only and current dasha in the required three layers.
+- Roman graha labels are locked as English Moon/Sun/Mars/Jupiter/Venus/Saturn/Mercury/Rahu/Ketu, Hindi Chandra/Surya/Mangal/Brahaspati/Shukra/Shani/Budh/Rahu/Ketu, and Gujarati Chandra/Surya/Mangal/Guru/Shukra/Shani/Budh/Rahu/Ketu.
+
+Commands passed:
+- corepack pnpm test:report-pdf-phase-3
+- corepack pnpm test:report-pdf-phase-2
+- corepack pnpm --filter @pridicta/types typecheck
+- corepack pnpm --filter @pridicta/astrology build
+- corepack pnpm --filter @pridicta/pdf build
+- corepack pnpm --filter @pridicta/mobile exec tsc --noEmit
+- corepack pnpm --filter @pridicta/web typecheck
+- corepack pnpm test:graha-names
+- corepack pnpm test:charts
+- corepack pnpm test:translation-trust
+- corepack pnpm test:native-script-chat
+- corepack pnpm test:pdf-golden
+- corepack pnpm build:web
+- git diff --check
+
+Important audit note:
+- Samsa remains explicitly pending because the current backend does not expose a verified Samsa taxonomy.
+- Exact traditional Ghatak day/tithi/nakshatra/rashi factors, source-contributor Prastarashtakavarga bindu cells, and exact Avakhada Varna/Vashya/Yoni/Gana/Nadi factors are marked calculation-limited instead of invented.
+- No PDF visual/layout phase work was included here.

@@ -53,8 +53,10 @@ was already satisfied by an earlier phase.
 16. Vedic Kundli surfaces must use a Vedic/Indian graha visual language, not
     Western astrology glyph-only labeling. English surfaces use `Moon`, `Sun`,
     `Mars`, `Jupiter`, `Venus`, `Saturn`, `Mercury`, `Rahu`, and `Ketu`.
-    Hindi and Gujarati surfaces use `Chandra`, `Surya`, `Mangal`, `Guru`,
-    `Shukra`, `Shani`, `Rahu`, and `Ketu` as the canonical graha names.
+    Hindi roman surfaces use `Chandra`, `Surya`, `Mangal`, `Brahaspati`,
+    `Shukra`, `Shani`, `Budh`, `Rahu`, and `Ketu`. Gujarati roman surfaces use
+    `Chandra`, `Surya`, `Mangal`, `Guru`, `Shukra`, `Shani`, `Budh`, `Rahu`,
+    and `Ketu`.
 17. Moon phase visuals remain required, but must be refined as readable lunar
     phase discs for waxing, waning, full, and dark moon states instead of
     obscure symbol-only marks.
@@ -385,8 +387,10 @@ Reports consume the same data contract for PDF generation.
 - The shared contract must expose canonical graha display labels:
   - English: `Moon`, `Sun`, `Mars`, `Jupiter`, `Venus`, `Saturn`, `Mercury`,
     `Rahu`, `Ketu`
-  - Hindi and Gujarati: `Chandra`, `Surya`, `Mangal`, `Guru`, `Shukra`,
-    `Shani`, `Rahu`, `Ketu`
+  - Hindi roman: `Chandra`, `Surya`, `Mangal`, `Brahaspati`, `Shukra`,
+    `Shani`, `Budh`, `Rahu`, `Ketu`
+  - Gujarati roman: `Chandra`, `Surya`, `Mangal`, `Guru`, `Shukra`, `Shani`,
+    `Budh`, `Rahu`, `Ketu`
 - The shared contract must expose Vedic graha visual metadata for web, mobile,
   and PDF:
   - accessible label
@@ -517,8 +521,9 @@ This phase is green only when:
   Pratyantardasha timing
 - graha labels follow the approved language contract: English uses `Moon`,
   `Sun`, `Mars`, `Jupiter`, `Venus`, `Saturn`, `Mercury`, `Rahu`, `Ketu`; Hindi
-  and Gujarati use `Chandra`, `Surya`, `Mangal`, `Guru`, `Shukra`, `Shani`,
-  `Rahu`, `Ketu`
+  roman uses `Chandra`, `Surya`, `Mangal`, `Brahaspati`, `Shukra`, `Shani`,
+  `Budh`, `Rahu`, `Ketu`; Gujarati roman uses `Chandra`, `Surya`, `Mangal`,
+  `Guru`, `Shukra`, `Shani`, `Budh`, `Rahu`, `Ketu`
 - Sanskrit/Jyotish labels are spelled consistently in English, Hindi, and
   Gujarati surfaces where localized labels exist
 - `corepack pnpm --filter @pridicta/astrology build` passes
@@ -745,8 +750,10 @@ leakage.
   system.
 - Keep planet labels readable in the chart, legend, and house-wise table:
   English uses `Moon`, `Sun`, `Mars`, `Jupiter`, `Venus`, `Saturn`, `Mercury`,
-  `Rahu`, `Ketu`; Hindi and Gujarati use `Chandra`, `Surya`, `Mangal`, `Guru`,
-  `Shukra`, `Shani`, `Rahu`, `Ketu`.
+  `Rahu`, `Ketu`; Hindi roman uses `Chandra`, `Surya`, `Mangal`,
+  `Brahaspati`, `Shukra`, `Shani`, `Budh`, `Rahu`, `Ketu`; Gujarati roman uses
+  `Chandra`, `Surya`, `Mangal`, `Guru`, `Shukra`, `Shani`, `Budh`, `Rahu`,
+  `Ketu`.
 - Render Rahu and Ketu as polished shadow-node graha badges, not generic Western
   node glyphs or frightening demon imagery.
 - Render waxing, waning, full, and dark moon states as refined lunar phase discs

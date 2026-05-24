@@ -273,7 +273,9 @@ export type VedicFriendshipRelation =
 
 export type VedicPlanetFriendshipRow = {
   compoundRelationship: VedicFriendshipRelation;
+  compoundRelationships: Record<string, VedicFriendshipRelation>;
   fromPlanet: string;
+  interpretation: string;
   naturalRelationships: Record<string, VedicFriendshipRelation>;
   temporaryRelationships: Record<string, VedicFriendshipRelation>;
 };
