@@ -4,6 +4,8 @@ import type {
   DecisionState,
   KundliData,
   PredictaSchool,
+  ReportMemoryDepth,
+  ReportSchoolLaneId,
   TimelineEvent,
 } from '@pridicta/types';
 
@@ -22,6 +24,17 @@ export type PredictaChatCtaContext = {
   purpose?: string;
   remedyId?: string;
   remedyTitle?: string;
+  reportAvailableSections?: string[];
+  reportFocus?: string;
+  reportGeneratedAt?: string;
+  reportMode?: ReportMemoryDepth;
+  reportSchoolLane?: ReportSchoolLaneId;
+  reportSectionId?: string;
+  reportSectionPrompt?: string;
+  reportSectionTitle?: string;
+  reportSelectedSections?: string[];
+  reportSubjectName?: string;
+  reportType?: string;
   school?: PredictaSchool;
   selectedDailyBriefingDate?: string;
   selectedFamilyKarmaMap?: boolean;
@@ -66,6 +79,17 @@ export function buildPredictaChatHref(context: PredictaChatCtaContext): string {
   setParam(params, 'decisionState', context.decisionState);
   setParam(params, 'remedyId', context.remedyId);
   setParam(params, 'remedyTitle', context.remedyTitle);
+  setParam(params, 'reportFocus', context.reportFocus);
+  setParam(params, 'reportGeneratedAt', context.reportGeneratedAt);
+  setParam(params, 'reportMode', context.reportMode);
+  setParam(params, 'reportSchoolLane', context.reportSchoolLane);
+  setParam(params, 'reportSectionId', context.reportSectionId);
+  setParam(params, 'reportSectionPrompt', context.reportSectionPrompt);
+  setParam(params, 'reportSectionTitle', context.reportSectionTitle);
+  setParam(params, 'reportSubjectName', context.reportSubjectName);
+  setParam(params, 'reportType', context.reportType);
+  setListParam(params, 'reportAvailableSections', context.reportAvailableSections);
+  setListParam(params, 'reportSelectedSections', context.reportSelectedSections);
   setParam(params, 'birthTimeDetective', context.birthTimeDetective ? 'true' : undefined);
   setParam(
     params,
@@ -123,4 +147,18 @@ function setParam(
   }
 
   params.set(key, String(value));
+}
+
+function setListParam(
+  params: URLSearchParams,
+  key: string,
+  value: string[] | undefined,
+): void {
+  const cleanValue = value?.map(item => item.trim()).filter(Boolean);
+
+  if (!cleanValue?.length) {
+    return;
+  }
+
+  params.set(key, cleanValue.join('||'));
 }

@@ -53,6 +53,10 @@ export function buildChatFollowUps({
     );
   }
 
+  if (context?.reportFocus || context?.reportAvailableSections?.length) {
+    return reportMemoryFollowUps(context, language);
+  }
+
   if (context?.chartType) {
     return chartFollowUps(context, hasPremiumAccess, language);
   }
@@ -167,6 +171,57 @@ export function buildChatFollowUps({
       ['remedy', 'Give me one useful remedy'],
       ['compare-person', 'Compare with another person'],
     ],
+    language,
+  );
+}
+
+function reportMemoryFollowUps(
+  context: ChartContext,
+  language: SupportedLanguage,
+): ChatSuggestedCta[] {
+  const prompts = [
+    'Explain my friendship table',
+    'Explain my functional benefics and malefics',
+    'Explain my Chalit shifts',
+    'Explain my Moon chart',
+    'Explain my Mahadasha Phala',
+    'Explain my current Mahadasha, Antardasha, and Pratyantardasha',
+    'Explain my Avakhada chakra',
+    'Explain my Ashtakavarga score',
+    'Explain my Ghatak and favorable factors',
+  ];
+  const preferred = context.reportSchoolLane === 'KP'
+    ? [
+        'Explain the KP event verdict',
+        'Show the KP proof path',
+        'Explain the timing readiness',
+        'What is free vs premium here?',
+      ]
+    : context.reportSchoolLane === 'NADI'
+      ? [
+          'Explain my strongest Nadi story thread',
+          'Show my Rahu-Ketu axis',
+          'What validation question should I answer?',
+          'What is free vs premium here?',
+        ]
+    : context.reportSchoolLane === 'NUMEROLOGY'
+      ? [
+          'Explain my number signature',
+          'Explain my personal year cycle',
+          'Explain my missing and repeated numbers',
+          'What is free vs premium here?',
+        ]
+    : context.reportSchoolLane === 'SIGNATURE'
+      ? [
+          'Explain my confirmed signature traits',
+          'What can Signature Predicta not claim?',
+          'How can I refine my signature expression?',
+          'What is free vs premium here?',
+        ]
+      : prompts;
+
+  return localizeActions(
+    preferred.map((prompt, index) => [`report-${index + 1}`, prompt]),
     language,
   );
 }

@@ -21,6 +21,7 @@ import {
   type ReportPurchaseGuide,
   type ReportMarketplaceProduct,
 } from '@pridicta/config/pricing';
+import { buildGeneratedReportMemoryContext } from '@pridicta/config/predictaMemory';
 import { getChartRenderTheme } from '@pridicta/astrology';
 import {
   composeReportSections,
@@ -30,7 +31,9 @@ import {
 import type {
   KundliData,
   MonetizationState,
+  PredictaSchool,
   RedeemedGuestPass,
+  ReportSchoolLaneId,
   ResolvedAccess,
   SignatureAnalysisModel,
   SupportedLanguage,
@@ -325,10 +328,17 @@ export function WebDossierPreview(): React.JSX.Element {
       return;
     }
 
+    const existingGeneratedContext =
+      loadWebAutoSaveMemory().report?.generatedReportContext;
+
     saveWebAutoSaveMemory({
       report: {
         mode,
         builderMode,
+        generatedReportContext:
+          existingGeneratedContext?.reportFocus === selectedReportId
+            ? existingGeneratedContext
+            : undefined,
         selectedReportId,
         selectedSectionKeys,
         reportLanguage,
@@ -440,6 +450,40 @@ export function WebDossierPreview(): React.JSX.Element {
       }).format(new Date(generatedAt))
     : null;
 
+  function buildCurrentReportMemoryContext(generatedAtOverride?: string) {
+    return buildGeneratedReportMemoryContext({
+      availableSections: sectionOptions.map(option => option.section.title),
+      generatedAt: generatedAtOverride ?? generatedAt ?? undefined,
+      mode,
+      reportFocus: selectedReport.id,
+      reportTitle: localizedSelectedReport.title,
+      schoolLane: selectedReport.school,
+      selectedSections: visibleSections.map(section => section.title),
+      subjectName: kundli?.birthDetails.name,
+    });
+  }
+
+  function buildCurrentReportAskHref(section?: PdfSection): string {
+    const sectionTitle = section?.title ?? localizedSelectedReport.title;
+    const sectionPrompt = section
+      ? `Explain this report section: ${section.title}`
+      : localizedSelectedReport.prompt;
+
+    return buildReportAskHref({
+      availableSections: sectionOptions.map(option => option.section.title),
+      generatedAt: generatedAt ?? undefined,
+      kundliId: kundli?.id,
+      mode,
+      product: selectedReport,
+      reportTitle: localizedSelectedReport.title,
+      section,
+      sectionPrompt,
+      sectionTitle,
+      selectedSections: visibleSections.map(item => item.title),
+      subjectName: kundli?.birthDetails.name,
+    });
+  }
+
   function scrollToGeneratedResult() {
     if (typeof window === 'undefined') {
       return;
@@ -483,7 +527,19 @@ export function WebDossierPreview(): React.JSX.Element {
       return false;
     }
 
-    setGeneratedAt(new Date().toISOString());
+    const nextGeneratedAt = new Date().toISOString();
+    setGeneratedAt(nextGeneratedAt);
+    saveWebAutoSaveMemory({
+      report: {
+        builderMode,
+        generatedReportContext: buildCurrentReportMemoryContext(nextGeneratedAt),
+        mode,
+        reportLanguage,
+        selectedReportId,
+        selectedSectionKeys,
+        updatedAt: nextGeneratedAt,
+      },
+    });
     setReportPreviewOpen(true);
     setDownloadDialogOpen(showDialog);
     setReportSurfaceState('ready');
@@ -538,6 +594,19 @@ export function WebDossierPreview(): React.JSX.Element {
       anchor.remove();
       URL.revokeObjectURL(url);
       setDownloadDialogOpen(false);
+      saveWebAutoSaveMemory({
+        report: {
+          builderMode,
+          generatedReportContext: buildCurrentReportMemoryContext(
+            new Date().toISOString(),
+          ),
+          mode,
+          reportLanguage,
+          selectedReportId,
+          selectedSectionKeys,
+          updatedAt: new Date().toISOString(),
+        },
+      });
     } catch (error) {
       setReportDownloadError(
         error instanceof Error
@@ -905,7 +974,7 @@ export function WebDossierPreview(): React.JSX.Element {
             </button>
             <a
               className="button secondary"
-              href={buildReportAskHref(selectedReport, kundli?.id)}
+              href={buildCurrentReportAskHref()}
             >
               {builderCopy.askFromReport}
             </a>
@@ -1227,7 +1296,7 @@ export function WebDossierPreview(): React.JSX.Element {
                 </button>
                 <a
                   className="button secondary"
-                  href={buildReportAskHref(selectedReport, kundli?.id)}
+                  href={buildCurrentReportAskHref()}
                 >
                   {builderCopy.askFromReport}
                 </a>
@@ -2661,15 +2730,64 @@ function getFreePremiumDifferenceRows(language: SupportedLanguage): Array<{
 }
 
 function buildReportAskHref(
-  product: ReportMarketplaceProduct,
-  kundliId?: string,
+  {
+    availableSections,
+    generatedAt,
+    kundliId,
+    mode,
+    product,
+    reportTitle,
+    section,
+    sectionPrompt,
+    sectionTitle,
+    selectedSections,
+    subjectName,
+  }: {
+    availableSections: string[];
+    generatedAt?: string;
+    kundliId?: string;
+    mode: 'FREE' | 'PREMIUM';
+    product: ReportMarketplaceProduct;
+    reportTitle: string;
+    section?: PdfSection;
+    sectionPrompt: string;
+    sectionTitle: string;
+    selectedSections: string[];
+    subjectName?: string;
+  },
 ): string {
   return buildPredictaChatHref({
     kundliId,
-    prompt: product.prompt,
-    selectedSection: product.title,
+    prompt: sectionPrompt,
+    reportAvailableSections: availableSections,
+    reportFocus: product.id,
+    reportGeneratedAt: generatedAt,
+    reportMode: mode,
+    reportSchoolLane: product.school,
+    reportSectionId: section ? getReportSectionKey(section, 0) : undefined,
+    reportSectionPrompt: sectionPrompt,
+    reportSectionTitle: sectionTitle,
+    reportSelectedSections: selectedSections,
+    reportSubjectName: subjectName,
+    reportType: reportTitle,
+    school: mapReportLaneToPredictaSchool(product.school),
+    selectedSection: sectionTitle,
     sourceScreen: 'Report',
   });
+}
+
+function mapReportLaneToPredictaSchool(
+  school: ReportSchoolLaneId,
+): PredictaSchool | undefined {
+  if (school === 'VEDIC') {
+    return 'PARASHARI';
+  }
+
+  if (school === 'SYNTHESIS') {
+    return undefined;
+  }
+
+  return school;
 }
 
 function getReportLaneReadiness({

@@ -4230,6 +4230,7 @@ function chartContextFromParams(params: URLSearchParams): ChartContext | undefin
   const kundliId = params.get('kundliId') ?? undefined;
   const chartType = params.get('chartType') as ChartType | null;
   const selectedHouse = params.get('selectedHouse');
+  const reportContext = reportContextFromParams(params);
 
   if (school) {
     return {
@@ -4248,6 +4249,7 @@ function chartContextFromParams(params: URLSearchParams): ChartContext | undefin
         (handoffQuestion
           ? `${school} Predicta handoff question: ${handoffQuestion}`
           : undefined),
+      ...reportContext,
       sourceScreen: params.get('sourceScreen') ?? `${school} Predicta`,
     };
   }
@@ -4264,6 +4266,7 @@ function chartContextFromParams(params: URLSearchParams): ChartContext | undefin
     selectedHouse: selectedHouse ? Number(selectedHouse) : undefined,
     selectedPlanet: params.get('selectedPlanet') ?? undefined,
     selectedSection: params.get('prompt') ?? undefined,
+    ...reportContext,
     sourceScreen: params.get('sourceScreen') ?? 'Charts',
   };
 }
@@ -4308,8 +4311,60 @@ function ctaContextFromParams(params: URLSearchParams): ChartContext | undefined
       undefined,
     selectedTimelineEventTitle: params.get('selectedTimelineEventTitle') ?? undefined,
     selectedTimelineEventWindow: params.get('selectedTimelineEventWindow') ?? undefined,
+    ...reportContextFromParams(params),
     sourceScreen: sourceScreen ?? 'Predicta',
   };
+}
+
+function reportContextFromParams(
+  params: URLSearchParams,
+): Partial<ChartContext> {
+  const reportFocus = params.get('reportFocus') ?? undefined;
+
+  if (!reportFocus) {
+    return {};
+  }
+
+  return {
+    reportAvailableSections: parseListParam(params.get('reportAvailableSections')),
+    reportFocus,
+    reportGeneratedAt: params.get('reportGeneratedAt') ?? undefined,
+    reportMode:
+      params.get('reportMode') === 'PREMIUM' ? 'PREMIUM' : 'FREE',
+    reportSchoolLane: parseReportSchoolLane(params.get('reportSchoolLane')),
+    reportSectionId: params.get('reportSectionId') ?? undefined,
+    reportSectionPrompt: params.get('reportSectionPrompt') ?? undefined,
+    reportSectionTitle: params.get('reportSectionTitle') ?? undefined,
+    reportSelectedSections: parseListParam(params.get('reportSelectedSections')),
+    reportSubjectName: params.get('reportSubjectName') ?? undefined,
+    reportType: params.get('reportType') ?? undefined,
+  };
+}
+
+function parseReportSchoolLane(
+  value: string | null,
+): ChartContext['reportSchoolLane'] {
+  if (
+    value === 'VEDIC' ||
+    value === 'KP' ||
+    value === 'NADI' ||
+    value === 'NUMEROLOGY' ||
+    value === 'SIGNATURE' ||
+    value === 'SYNTHESIS'
+  ) {
+    return value;
+  }
+
+  return undefined;
+}
+
+function parseListParam(value: string | null): string[] | undefined {
+  const items = value
+    ?.split('||')
+    .map(item => item.trim())
+    .filter(Boolean);
+
+  return items?.length ? items : undefined;
 }
 
 function parsePredictaSchool(value: string | null): PredictaSchool | undefined {
@@ -4342,15 +4397,20 @@ function buildCtaContextIntro(
 ): string {
   const source = getFriendlySourceName(context.sourceScreen);
   const focus =
+    context.reportSectionPrompt ??
     context.selectedDecisionQuestion ??
     context.selectedRemedyTitle ??
     context.selectedTimelineEventTitle ??
+    context.reportSectionTitle ??
+    context.reportType ??
     context.selectedSection ??
     context.handoffQuestion;
+  const reportLine = formatReportContextLine(context);
 
   if (language === 'hi') {
     return [
       `${source} से आपका सवाल यहीं ले लिया है.`,
+      reportLine ? `रिपोर्ट संदर्भ: ${reportLine}` : undefined,
       focus ? `फिलहाल फोकस यह है: ${focus}` : undefined,
       'मैं इसी चुनी हुई कुंडली से यहीं जवाब दूंगी.',
     ]
@@ -4361,6 +4421,7 @@ function buildCtaContextIntro(
   if (language === 'gu') {
     return [
       `${source} માંથી તમારો સવાલ અહીં લઈ લીધો છે.`,
+      reportLine ? `રિપોર્ટ સંદર્ભ: ${reportLine}` : undefined,
       focus ? `હમણાં ફોકસ આ છે: ${focus}` : undefined,
       'હું આ પસંદ કરેલી કુંડળીથી અહીં જ જવાબ આપીશ.',
     ]
@@ -4370,6 +4431,7 @@ function buildCtaContextIntro(
 
   return [
     `I brought this over from ${source}.`,
+    reportLine ? `Report context: ${reportLine}` : undefined,
     focus ? `Focus: ${focus}` : undefined,
     'I will answer from your selected Kundli here.',
   ]
@@ -4397,6 +4459,21 @@ function getFriendlySourceName(source?: string): string {
   return normalized;
 }
 
+function formatReportContextLine(context: ChartContext): string | undefined {
+  if (!context.reportFocus) {
+    return undefined;
+  }
+
+  return [
+    context.reportType ?? 'Predicta report',
+    context.reportMode,
+    context.reportSchoolLane ? `${context.reportSchoolLane} lane` : undefined,
+    context.reportSubjectName ? `for ${context.reportSubjectName}` : undefined,
+  ]
+    .filter(Boolean)
+    .join(' · ');
+}
+
 function buildSchoolContextIntro(
   context: ChartContext,
   language: SupportedLanguage,
@@ -4408,6 +4485,7 @@ function buildSchoolContextIntro(
       : undefined;
   const question = context.handoffQuestion ?? context.selectedSection;
   const chartFocus = context.chartName ?? context.chartType;
+  const reportLine = formatReportContextLine(context);
 
   if (language === 'hi') {
     return [
@@ -4416,6 +4494,7 @@ function buildSchoolContextIntro(
         ? `${fromSchool} से आपका सवाल और चार्ट संदर्भ मेरे पास पहले से है. मैं जवाब को इसी कमरे की पद्धति में रखूंगी.`
         : undefined,
       chartFocus ? `इस समय चार्ट फोकस: ${chartFocus}.` : undefined,
+      reportLine ? `रिपोर्ट संदर्भ: ${reportLine}.` : undefined,
       question ? `आपने पूछा: ${question}` : undefined,
       context.predictaSchool === 'KP'
         ? 'मैं इसे KP के cusps, star lords, sub lords, significators और ruling planets से पढ़ूंगी.'
@@ -4439,6 +4518,7 @@ function buildSchoolContextIntro(
         ? `${fromSchool} થી તમારો સવાલ અને ચાર્ટ સંદર્ભ મારી પાસે પહેલાથી છે. હું જવાબને આ રૂમની જ પદ્ધતિમાં રાખીશ.`
         : undefined,
       chartFocus ? `હાલનો ચાર્ટ ફોકસ: ${chartFocus}.` : undefined,
+      reportLine ? `રિપોર્ટ સંદર્ભ: ${reportLine}.` : undefined,
       question ? `તમે પૂછ્યું: ${question}` : undefined,
       context.predictaSchool === 'KP'
         ? 'હું તેને KP ના cusps, star lords, sub lords, significators અને ruling planets પરથી વાંચીશ.'
@@ -4461,6 +4541,7 @@ function buildSchoolContextIntro(
       ? `Context was carried from ${fromSchool}. The method will not be mixed. I already have your chart context and question, so I will answer inside this room's method.`
       : undefined,
     chartFocus ? `Chart in focus: ${chartFocus}.` : undefined,
+    reportLine ? `Report context: ${reportLine}.` : undefined,
     question ? `You asked: ${question}` : undefined,
     context.predictaSchool === 'KP'
       ? 'I will read this through KP cusps, star lords, sub lords, significators, and ruling planets.'

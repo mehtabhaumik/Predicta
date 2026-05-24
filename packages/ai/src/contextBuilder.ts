@@ -1,4 +1,9 @@
 import {
+  PREDICTA_APP_MEMORY_DIGEST,
+  buildGeneratedReportMemoryContext,
+  findPredictaReportSectionMemory,
+} from '@pridicta/config';
+import {
   composeAdvancedJyotishCoverage,
   composeBirthTimeDetective,
   composeDailyBriefing,
@@ -148,9 +153,32 @@ export function buildAIContext(
     ([chartType, chart]) =>
       allowedContextCharts.includes(chartType as ChartType) && chart.supported,
   );
+  const generatedReportContext = chartContext?.reportFocus
+    ? buildGeneratedReportMemoryContext({
+        availableSections: chartContext.reportAvailableSections ?? [],
+        generatedAt: chartContext.reportGeneratedAt,
+        mode: chartContext.reportMode ?? (hasPremiumAccess ? 'PREMIUM' : 'FREE'),
+        reportFocus: chartContext.reportFocus,
+        reportTitle:
+          chartContext.reportType ??
+          chartContext.reportSectionTitle ??
+          chartContext.selectedSection ??
+          'Predicta report',
+        schoolLane: chartContext.reportSchoolLane ?? 'VEDIC',
+        selectedSections: chartContext.reportSelectedSections,
+        subjectName: chartContext.reportSubjectName ?? kundliData.birthDetails.name,
+      })
+    : chartContext?.generatedReport;
+  const reportSectionMemory = findPredictaReportSectionMemory(
+    chartContext?.reportSectionId ??
+      chartContext?.reportSectionTitle ??
+      chartContext?.reportSectionPrompt ??
+      chartContext?.selectedSection,
+  );
 
   return {
     activeContext: chartContext,
+    appMemoryDigest: PREDICTA_APP_MEMORY_DIGEST,
     ashtakavarga: kundliData.ashtakavarga,
     birthSummary: {
       date: kundliData.birthDetails.date,
@@ -266,6 +294,7 @@ export function buildAIContext(
     planets: kundliData.planets,
     rectification: kundliData.rectification,
     requestedLanguage: language,
+    generatedReportContext,
     remedies: kundliData.remedies,
     selectedChart:
       selectedChart && chartConfig
@@ -288,6 +317,7 @@ export function buildAIContext(
     selectedPredictaWrapped,
     selectedRelationshipMirror,
     selectedTimelineEvent,
+    reportSectionMemory,
     transits: kundliData.transits,
     yogas: kundliData.yogas,
   };

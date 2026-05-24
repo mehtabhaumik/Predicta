@@ -1,0 +1,34 @@
+PREDICTA_REPORT_PDF_PHASE_7_PREDICTA_MEMORY_AND_CHAT_AWARENESS
+
+Status: green after strict command audit.
+Date: 2026-05-25
+
+Scope audited:
+- Added an app-wide Predicta memory digest covering product structure, five specialist rooms, report lanes, approved Life Atlas synthesis, routes/flows/features, pricing boundaries, saved context, language, safety, and calculation capability map.
+- Added a report-section memory catalog so Predicta can explain Moon/Chandra Lagna, Mahadasha Phala, house-wise planet table, planet friendship, benefic/malefic classification, Chalit, Panchang, Samsa, Ghatak/favorable factors, Karakamsha, Ashtakavarga, Prastarashtakavarga, and Avakhada chakra.
+- Added report context fields to shared and mobile ChartContext plus AIContextPayload: generated report mode, report type, subject name, report focus, school/report lane, available sections, selected sections, and selected section handoff prompt.
+- Wired shared web CTA URLs to carry report context into chat.
+- Wired web report generation auto-save to persist generated report context where the existing web auto-save memory supports it.
+- Wired mobile report Ask Predicta flow to carry the same report context into active chat context.
+- Wired AI context builders to include app memory digest, generated report context, and selected report-section memory.
+- Added report-aware chat intros on web and mobile so users can see Predicta received the report lane/section context.
+- Added report follow-up prompts for major new tables and room-safe report boundaries.
+
+Strict boundary notes:
+- Vedic report sections remain Parashari/Vedic only.
+- KP, Nadi, Numerology, and Signature remain school-bounded unless the user explicitly enters an approved combined/synthesis path.
+- Predicta Life Atlas remains the approved all-school Synthesis Reports lane.
+- Pending calculations must be explained honestly and never fabricated.
+- Free and premium report truth stays the same; premium adds depth, not a different calculation.
+
+Command audit passed:
+- corepack pnpm test:report-pdf-phase-7
+- corepack pnpm --filter @pridicta/config build
+- corepack pnpm --filter @pridicta/astrology build
+- corepack pnpm --filter @pridicta/ai build
+- corepack pnpm --filter @pridicta/mobile typecheck
+- corepack pnpm test:native-script-chat
+- corepack pnpm test:translation-trust
+- corepack pnpm test:room-report-pdf
+- corepack pnpm build:web
+- git diff --check

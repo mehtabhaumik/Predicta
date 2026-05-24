@@ -1,6 +1,11 @@
 import type {
   BirthDetailsDraft,
   BirthDetailsExtractionResult,
+  GeneratedReportContext,
+  PredictaAppMemoryDigest,
+  PredictaReportSectionMemory,
+  ReportMemoryDepth,
+  ReportSchoolLaneId,
   SupportedLanguage,
 } from '@pridicta/types';
 
@@ -45,6 +50,343 @@ export const PREDICTA_LIFE_ATLAS_MEMORY_CONTRACT = {
     'guaranteed fate',
   ],
 } as const;
+
+export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
+  productStructure: [
+    'Predicta is one product with five specialist rooms/worlds: Vedic Predicta, KP Predicta, Nadi Predicta, Numerology Predicta, and Signature Predicta.',
+    'Shared Kundli/profile context can travel between rooms, but answers must remain bounded to the active room.',
+    'The Reports page has separated Vedic, KP, Nadi, Numerology, Signature, and approved Synthesis report lanes.',
+    'Predicta Life Atlas is the approved Synthesis Reports lane and the only all-school synthesis path.',
+  ],
+  coreUserFlows: [
+    'Create Kundli from birth details, open saved Kundlis, ask chat questions, switch specialist rooms, generate reports, and download PDFs.',
+    'Open remedies, review birth-time confidence, use family/relationship surfaces where available, and use premium/day-pass/report purchase flows.',
+    'When a user switches Kundli or report, Predicta must carry the active subject, selected report lane, and available section list into chat.',
+  ],
+  featureCatalog: [
+    'Dashboard cards guide users into Kundli, charts, reports, remedies, specialist rooms, saved context, and purchase surfaces.',
+    'Vedic world contains charts, dasha, gochar, Panchang, Ashtakavarga, remedies, and report-grade evidence tables.',
+    'Charts page contains D1, Moon/Chandra Lagna, D9, D10, Chalit, vargas, KP/Nadi chart meaning, and technical views where enabled.',
+    'Report marketplace options are school-separated; method-specific reports must not become mixed-bag reports.',
+    'Language preferences, safety/legal guidance, and saved recovery behavior must be explained calmly when asked.',
+  ],
+  astrologyCapabilityMap: [
+    'Parashari/Vedic: D1, Moon/Chandra Lagna, D9, D10, Chalit, vargas, dasha, Mahadasha Phala, gochar, Sade Sati, remedies, Panchang, Ashtakavarga, Prastarashtakavarga, Avakhada, Karakamsha, dignity, combustion, retrogression, benefic/malefic logic, friendship tables, and house-wise planet evidence.',
+    'KP: event-first judgement using cusps, star lords, sub lords, sub-sub lords where available, significators, ruling planets, dasha support, transit triggers, and confidence limits.',
+    'Nadi: story-link and validation-first interpretation using planetary links, karakas, Rahu/Ketu axis, recurring patterns, activation windows, and no unsupported palm-leaf claim.',
+    'Numerology: name number, birth number, destiny/life-path number, personal year/month/day, name rhythm, missing/repeated number patterns, compatibility, and optional name refinement.',
+    'Signature: confirmed visible signature traits only, privacy-first session handling, reflective self-expression guidance, and no forensic/diagnostic claims.',
+  ],
+  reportLanes: [
+    'Vedic Reports use Parashari/Vedic evidence only.',
+    'KP Reports use KP event proof only.',
+    'Nadi Reports use Nadi story-link and validation logic only.',
+    'Numerology Reports use number logic only unless the user explicitly requests approved Vedic-plus-Numerology combination.',
+    'Signature Reports use confirmed signature traits only unless the user explicitly requests approved Vedic-plus-Signature combination.',
+    'Synthesis Reports are clearly labeled; Predicta Life Atlas can combine available Vedic, KP, Nadi, Numerology, and optional Signature data.',
+  ],
+  roomBoundaries: [
+    'Vedic Predicta answers from Parashari/Vedic context only.',
+    'KP Predicta answers from Krishnamurti KP context only.',
+    'Nadi Predicta answers from Nadi context only.',
+    'Numerology Predicta can answer Numerology-only or Vedic-plus-Numerology when the user asks for combination.',
+    'Signature Predicta can answer Signature-only or Vedic-plus-Signature when the user asks for combination.',
+    'If the user asks for another method from the wrong room, Predicta should hand off or ask whether an approved combined reading is wanted.',
+  ],
+  userGuidanceRules: [
+    'Explain where to find an app feature and what it does without sounding generic.',
+    'Explain what a report section means, how it is calculated or why it is pending, and what free versus premium depth changes.',
+    'Never fabricate pending calculations or hidden data.',
+    'Use non-scary, non-fatalistic, confidence-aware wording.',
+    'Cite the active table/section context instead of inventing unrelated reasoning.',
+  ],
+  refreshRule:
+    'When routes, pricing, reports, calculations, or specialist-room capabilities change, update this digest and the section memory catalog before calling the phase green.',
+};
+
+export const PREDICTA_REPORT_TO_CHAT_FOLLOW_UPS = [
+  'Explain my friendship table',
+  'Explain my functional benefics and malefics',
+  'Explain my Chalit shifts',
+  'Explain my Moon chart',
+  'Explain my Mahadasha Phala',
+  'Explain my current Mahadasha, Antardasha, and Pratyantardasha',
+  'Explain my Avakhada chakra',
+  'Explain my Ashtakavarga score',
+  'Explain my Ghatak and favorable factors',
+] as const;
+
+export const PREDICTA_REPORT_SECTION_MEMORY_CATALOG: PredictaReportSectionMemory[] = [
+  {
+    boundary:
+      'Vedic-only chart context. Do not answer Moon chart questions with KP cusp logic or Nadi story-link logic.',
+    calculationState: 'available',
+    freeDepth:
+      'Explain Moon chart as the emotional and lived-experience lens in simple language.',
+    handoffPrompt: 'Explain my Moon chart',
+    id: 'moon-chart',
+    premiumDepth:
+      'Add D1 comparison, Moon sign/nakshatra evidence, timing relevance, and confidence limits.',
+    schoolLane: 'VEDIC',
+    title: 'Moon chart / Chandra Lagna chart',
+    whatItMeans:
+      'Shows the chart counted from the Moon so the user can understand mind, emotional rhythm, lived experience, and how timing feels internally.',
+  },
+  {
+    boundary:
+      'Vedic-only dasha context. Past Mahadashas stay Mahadasha-level; current dasha can be layered.',
+    calculationState: 'available',
+    freeDepth:
+      'Summarize past Mahadashas and explain the current Mahadasha, Antardasha, and Pratyantardasha in useful plain language.',
+    handoffPrompt: 'Explain my Mahadasha Phala',
+    id: 'mahadasha-phala',
+    premiumDepth:
+      'Use chart evidence, dignity, house, sign, nakshatra, strength, support/caution, and one-paragraph Pratyantardasha limits without overclaiming exact events.',
+    schoolLane: 'VEDIC',
+    title: 'Mahadasha Phala and Meaning',
+    whatItMeans:
+      'Explains the major life chapter, the active delivery channel, and the fine timing layer while keeping past periods summarized.',
+  },
+  {
+    boundary:
+      'Vedic-only placement evidence. Do not turn this table into a fatalistic judgement.',
+    calculationState: 'available',
+    freeDepth:
+      'Explain planet, house, sign, degree, nakshatra/pada, retrograde, combust, exalted/debilitated, and dignity in beginner language.',
+    handoffPrompt: 'Explain my house-wise planet table',
+    id: 'house-wise-planet-table',
+    premiumDepth:
+      'Cross-reference dignity, house delivery, dasha relevance, and contradictions in a readable evidence path.',
+    schoolLane: 'VEDIC',
+    title: 'House-wise planet placement table',
+    whatItMeans:
+      'Shows where each graha is placed and what condition it carries before interpretations are made.',
+  },
+  {
+    boundary:
+      'Vedic relationship-of-grahas table. Explain support/tension without fear language.',
+    calculationState: 'available',
+    freeDepth:
+      'Explain natural, temporary, and compound relationship as how planets cooperate or create friction.',
+    handoffPrompt: 'Explain my friendship table',
+    id: 'planet-friendship-table',
+    premiumDepth:
+      'Add compound relationship nuance, house relevance, dignity, and where the relationship helps or complicates life areas.',
+    schoolLane: 'VEDIC',
+    title: 'Planet friendship table',
+    whatItMeans:
+      'Shows how each planet relates to other planets in the Kundli so support and tension are visible.',
+  },
+  {
+    boundary:
+      'Vedic Lagna-specific classification. Natural and functional labels can differ and must be explained.',
+    calculationState: 'available',
+    freeDepth:
+      'Explain which planets are natural benefics/malefics and which become functional benefics/malefics by Lagna.',
+    handoffPrompt: 'Explain my functional benefics and malefics',
+    id: 'benefic-malefic-classification',
+    premiumDepth:
+      'Add house lordship, chart condition, contradiction handling, timing relevance, and practical guidance.',
+    schoolLane: 'VEDIC',
+    title: 'Natural and functional benefics/malefics',
+    whatItMeans:
+      'Separates a planet’s natural temperament from its role for the user’s Lagna.',
+  },
+  {
+    boundary:
+      'Vedic Chalit/Bhav Chalit delivery context. Keep D1 and Chalit differences clear.',
+    calculationState: 'available',
+    freeDepth:
+      'Explain whether a planet shifts from its D1 house to Chalit house and what practical delivery changes.',
+    handoffPrompt: 'Explain my Chalit shifts',
+    id: 'chalit-table',
+    premiumDepth:
+      'Add cusp proximity, shifted/unchanged meaning, life-area delivery, and dasha cross-reference.',
+    schoolLane: 'VEDIC',
+    title: 'Chalit table',
+    whatItMeans:
+      'Shows how house delivery can shift in Bhav Chalit even when the sign placement remains anchored in D1.',
+  },
+  {
+    boundary:
+      'Vedic Panchang context. Birth Panchang and current personal Panchang should not be confused.',
+    calculationState: 'available',
+    freeDepth:
+      'Explain weekday, tithi, Moon rhythm, favorable actions, cautions, and remedy tone simply.',
+    handoffPrompt: 'Explain my Panchang',
+    id: 'panchang',
+    premiumDepth:
+      'Add birth-vs-current distinction, timing relevance, and practical action planning.',
+    schoolLane: 'VEDIC',
+    title: 'Panchang',
+    whatItMeans:
+      'Describes the lunar day and calendar rhythm that colors birth or current timing.',
+  },
+  {
+    boundary:
+      'Vedic module that may be pending depending on deterministic support. Never fabricate if unavailable.',
+    calculationState: 'pending',
+    freeDepth:
+      'Explain what Samsa means and state honestly if the calculation is pending.',
+    handoffPrompt: 'Explain my Samsa',
+    id: 'samsa',
+    premiumDepth:
+      'When available, add detailed meaning and evidence; when pending, explain the limitation clearly.',
+    schoolLane: 'VEDIC',
+    title: 'Samsa',
+    whatItMeans:
+      'A classical identity/support factor that needs deterministic calculation before deeper interpretation.',
+  },
+  {
+    boundary:
+      'Vedic caution/support module. Caution must be practical, not scary.',
+    calculationState: 'available',
+    freeDepth:
+      'Explain Ghatak caution signals and favorable supports in gentle language.',
+    handoffPrompt: 'Explain my Ghatak and favorable factors',
+    id: 'ghatak-favorable',
+    premiumDepth:
+      'Add timing relevance, practical safeguards, and supportive factors that balance the caution.',
+    schoolLane: 'VEDIC',
+    title: 'Ghatak and favorable factors',
+    whatItMeans:
+      'Highlights traditional caution markers and supportive factors so the user can act calmly.',
+  },
+  {
+    boundary:
+      'Vedic Atmakaraka/Navamsha context. Explain purpose without overclaiming destiny.',
+    calculationState: 'available',
+    freeDepth:
+      'Explain Atmakaraka basis and Karakamsha purpose in simple, dharma-oriented language.',
+    handoffPrompt: 'Explain my Karakamsha',
+    id: 'karakamsha',
+    premiumDepth:
+      'Add Navamsha evidence, dharma implications, contradictions, and integration guidance.',
+    schoolLane: 'VEDIC',
+    title: 'Karakamsha',
+    whatItMeans:
+      'Uses Atmakaraka and Navamsha context to describe purpose, inner calling, and dharma direction.',
+  },
+  {
+    boundary:
+      'Vedic strength scoring. Explain score bands as support levels, not guarantees.',
+    calculationState: 'available',
+    freeDepth:
+      'Explain SAV/BAV score bands, strongest houses, weakest houses, and practical support/caution.',
+    handoffPrompt: 'Explain my Ashtakavarga score',
+    id: 'ashtakavarga',
+    premiumDepth:
+      'Add planet-level BAV, transit relevance, contradictions, and practical timing use.',
+    schoolLane: 'VEDIC',
+    title: 'Ashtakavarga',
+    whatItMeans:
+      'Shows numerical support patterns by house and planet for strength and transit judgment.',
+  },
+  {
+    boundary:
+      'Vedic bindu-source table. If detailed bindu source data is not present, say pending.',
+    calculationState: 'pending',
+    freeDepth:
+      'Explain what Prastarashtakavarga is and whether bindu source rows are available.',
+    handoffPrompt: 'Explain my Prastarashtakavarga',
+    id: 'prastarashtakavarga',
+    premiumDepth:
+      'When available, explain bindu sources and how they support strength/transit judgment.',
+    schoolLane: 'VEDIC',
+    title: 'Prastarashtakavarga',
+    whatItMeans:
+      'Breaks Ashtakavarga bindus down by source so the reason behind a score can be understood.',
+  },
+  {
+    boundary:
+      'Vedic birth-star identity context. Keep it beginner-friendly and avoid overwhelming lists.',
+    calculationState: 'available',
+    freeDepth:
+      'Explain gana, yoni, nadi, varna, vashya, tatva, and related fields as identity context.',
+    handoffPrompt: 'Explain my Avakhada chakra',
+    id: 'avakhada-chakra',
+    premiumDepth:
+      'Add detailed interpretation, compatibility relevance, and practical meaning for the user.',
+    schoolLane: 'VEDIC',
+    title: 'Avakhada chakra',
+    whatItMeans:
+      'Summarizes traditional birth-star identity fields so the user understands their Nakshatra profile.',
+  },
+];
+
+export function buildGeneratedReportMemoryContext({
+  availableSections,
+  generatedAt,
+  mode,
+  reportFocus,
+  reportTitle,
+  schoolLane,
+  selectedSections,
+  subjectName,
+}: {
+  availableSections: string[];
+  generatedAt?: string;
+  mode: ReportMemoryDepth;
+  reportFocus: string;
+  reportTitle: string;
+  schoolLane: ReportSchoolLaneId;
+  selectedSections?: string[];
+  subjectName?: string;
+}): GeneratedReportContext {
+  return {
+    availableSections,
+    generatedAt,
+    mode,
+    reportFocus,
+    reportTitle,
+    schoolLane,
+    selectedSections,
+    subjectName,
+  };
+}
+
+export function findPredictaReportSectionMemory(
+  query: string | undefined,
+): PredictaReportSectionMemory | undefined {
+  if (!query) {
+    return undefined;
+  }
+
+  const normalized = normalizeMemoryQuery(query);
+
+  return PREDICTA_REPORT_SECTION_MEMORY_CATALOG.find(section => {
+    const candidates = [
+      section.id,
+      section.title,
+      section.handoffPrompt,
+      section.whatItMeans,
+    ].map(normalizeMemoryQuery);
+
+    return candidates.some(candidate => {
+      return (
+        candidate.includes(normalized) ||
+        normalized.includes(candidate) ||
+        hasMeaningfulTokenOverlap(candidate, normalized)
+      );
+    });
+  });
+}
+
+function hasMeaningfulTokenOverlap(candidate: string, query: string): boolean {
+  const candidateTokens = new Set(
+    candidate.split(' ').filter(token => token.length > 3),
+  );
+  const queryTokens = query.split(' ').filter(token => token.length > 3);
+
+  return queryTokens.filter(token => candidateTokens.has(token)).length >= 2;
+}
+
+function normalizeMemoryQuery(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+}
 
 const GREETINGS: Record<SupportedLanguage, string[]> = {
   en: [

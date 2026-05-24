@@ -2,6 +2,7 @@
 
 import type {
   ChartContext,
+  GeneratedReportContext,
   KundliData,
   PredictaSchool,
   SpecialistPredictaContextSnapshot,
@@ -38,6 +39,7 @@ export type WebAutoSaveMemory = {
   };
   report?: {
     builderMode?: 'EVERYTHING' | 'CUSTOM';
+    generatedReportContext?: GeneratedReportContext;
     mode: 'FREE' | 'PREMIUM';
     reportLanguage?: SupportedLanguage;
     selectedReportId: string;
@@ -169,6 +171,12 @@ function buildWebSpecialistPredictaContextSnapshot(
     selectedHouse: context.selectedHouse,
     selectedPlanet: context.selectedPlanet,
     selectedSection: context.selectedSection,
+    reportFocus: context.reportFocus,
+    reportMode: context.reportMode,
+    reportSchoolLane: context.reportSchoolLane,
+    reportSectionTitle: context.reportSectionTitle,
+    reportSubjectName: context.reportSubjectName,
+    reportType: context.reportType,
     sourceScreen: context.sourceScreen,
     updatedAt: new Date().toISOString(),
   };

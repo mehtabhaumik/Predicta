@@ -2074,6 +2074,7 @@ function buildMobileSchoolContextIntro(
       : undefined;
   const question = context?.handoffQuestion ?? context?.selectedSection;
   const chartFocus = context?.chartName ?? context?.chartType;
+  const reportLine = formatMobileReportContextLine(context);
 
   if (language === 'hi') {
     return [
@@ -2082,6 +2083,7 @@ function buildMobileSchoolContextIntro(
         ? `${fromSchool} से context आ गया है. Method mix नहीं होगा.`
         : undefined,
       chartFocus ? `Selected chart: ${chartFocus}.` : undefined,
+      reportLine ? `Report context: ${reportLine}.` : undefined,
       question ? `आपका question: ${question}` : undefined,
       context?.predictaSchool === 'KP'
         ? 'अब answer KP के cusps, star lords, sub lords, significators और ruling planets से ही grounded रहेगा.'
@@ -2105,6 +2107,7 @@ function buildMobileSchoolContextIntro(
         ? `${fromSchool} થી context આવી ગયો છે. Method mix નહીં થાય.`
         : undefined,
       chartFocus ? `Selected chart: ${chartFocus}.` : undefined,
+      reportLine ? `Report context: ${reportLine}.` : undefined,
       question ? `તમારો question: ${question}` : undefined,
       context?.predictaSchool === 'KP'
         ? 'હવે answer KP cusps, star lords, sub lords, significators અને ruling planets પર grounded રહેશે.'
@@ -2127,6 +2130,7 @@ function buildMobileSchoolContextIntro(
       ? `Context was carried from ${fromSchool}. The method will not be mixed.`
       : undefined,
     chartFocus ? `Selected chart: ${chartFocus}.` : undefined,
+    reportLine ? `Report context: ${reportLine}.` : undefined,
     question ? `Your question: ${question}` : undefined,
     context?.predictaSchool === 'KP'
       ? 'The answer will now stay grounded in KP cusps, star lords, sub lords, significators, and ruling planets.'
@@ -2171,15 +2175,20 @@ function buildMobileCtaContextIntro(
 ): string {
   const source = getMobileFriendlySourceName(context?.sourceScreen);
   const focus =
+    context?.reportSectionPrompt ??
     context?.selectedDecisionQuestion ??
     context?.selectedRemedyTitle ??
     context?.selectedTimelineEventTitle ??
+    context?.reportSectionTitle ??
+    context?.reportType ??
     context?.selectedSection ??
     context?.handoffQuestion;
+  const reportLine = formatMobileReportContextLine(context);
 
   if (language === 'hi') {
     return [
       `${source} se aapka context mil gaya hai.`,
+      reportLine ? `Report context: ${reportLine}` : undefined,
       focus ? `Ab main yeh dekh rahi hoon: ${focus}` : undefined,
       'मैं selected Kundli से यहीं जवाब दूंगी. Ask दबाइए या अपना follow-up लिखिए.',
     ]
@@ -2190,6 +2199,7 @@ function buildMobileCtaContextIntro(
   if (language === 'gu') {
     return [
       `${source} માંથી તમારો context મળી ગયો છે.`,
+      reportLine ? `Report context: ${reportLine}` : undefined,
       focus ? `હવે હું આ જોઈ રહી છું: ${focus}` : undefined,
       'હું selected Kundli થી અહીં જ જવાબ આપીશ. Ask દબાવો અથવા follow-up લખો.',
     ]
@@ -2199,6 +2209,7 @@ function buildMobileCtaContextIntro(
 
   return [
     `I picked this up from ${source}.`,
+    reportLine ? `Report context: ${reportLine}` : undefined,
     focus ? `We are looking at: ${focus}` : undefined,
     'I will use your selected Kundli here. Press Ask or type your follow-up.',
   ]
@@ -2219,6 +2230,23 @@ function getMobileFriendlySourceName(source?: string): string {
   }
 
   return normalized;
+}
+
+function formatMobileReportContextLine(
+  context: ChatMessage['context'],
+): string | undefined {
+  if (!context?.reportFocus) {
+    return undefined;
+  }
+
+  return [
+    context.reportType ?? 'Predicta report',
+    context.reportMode,
+    context.reportSchoolLane ? `${context.reportSchoolLane} lane` : undefined,
+    context.reportSubjectName ? `for ${context.reportSubjectName}` : undefined,
+  ]
+    .filter(Boolean)
+    .join(' · ');
 }
 
 function MobileChatSuggestions({

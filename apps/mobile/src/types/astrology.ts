@@ -1771,6 +1771,7 @@ export type KundliData = {
 export type ChartContext = {
   chartType?: ChartType;
   chartName?: string;
+  generatedReport?: GeneratedReportContext;
   handoffBirthSummary?: string;
   handoffFrom?: PredictaSchool;
   handoffQuestion?: string;
@@ -1794,6 +1795,17 @@ export type ChartContext = {
   selectedBirthTimeDetective?: boolean;
   selectedRelationshipMirror?: boolean;
   selectedRelationshipNames?: string;
+  reportAvailableSections?: string[];
+  reportFocus?: string;
+  reportGeneratedAt?: string;
+  reportMode?: ReportMemoryDepth;
+  reportSchoolLane?: ReportSchoolLaneId;
+  reportSectionId?: string;
+  reportSectionPrompt?: string;
+  reportSectionTitle?: string;
+  reportSelectedSections?: string[];
+  reportSubjectName?: string;
+  reportType?: string;
   selectedFamilyKarmaMap?: boolean;
   selectedFamilyMemberCount?: number;
   selectedPredictaWrapped?: boolean;
@@ -1810,6 +1822,12 @@ export type SpecialistPredictaContextSnapshot = {
   selectedHouse?: number;
   selectedPlanet?: string;
   selectedSection?: string;
+  reportFocus?: string;
+  reportMode?: ReportMemoryDepth;
+  reportSchoolLane?: ReportSchoolLaneId;
+  reportSectionTitle?: string;
+  reportSubjectName?: string;
+  reportType?: string;
   sourceScreen?: string;
   updatedAt: string;
 };
@@ -1822,6 +1840,50 @@ export type PredictaSchool =
   | 'NADI'
   | 'NUMEROLOGY'
   | 'SIGNATURE';
+
+export type ReportSchoolLaneId =
+  | 'KP'
+  | 'NADI'
+  | 'NUMEROLOGY'
+  | 'SIGNATURE'
+  | 'SYNTHESIS'
+  | 'VEDIC';
+
+export type ReportMemoryDepth = 'FREE' | 'PREMIUM';
+
+export type GeneratedReportContext = {
+  availableSections: string[];
+  generatedAt?: string;
+  mode: ReportMemoryDepth;
+  reportFocus: string;
+  reportTitle: string;
+  schoolLane: ReportSchoolLaneId;
+  selectedSections?: string[];
+  subjectName?: string;
+};
+
+export type PredictaReportSectionMemory = {
+  id: string;
+  title: string;
+  schoolLane: ReportSchoolLaneId;
+  whatItMeans: string;
+  calculationState: 'available' | 'pending' | 'optional';
+  freeDepth: string;
+  premiumDepth: string;
+  handoffPrompt: string;
+  boundary: string;
+};
+
+export type PredictaAppMemoryDigest = {
+  productStructure: string[];
+  coreUserFlows: string[];
+  featureCatalog: string[];
+  astrologyCapabilityMap: string[];
+  reportLanes: string[];
+  roomBoundaries: string[];
+  userGuidanceRules: string[];
+  refreshRule: string;
+};
 
 export type ChartPremiumInsight = {
   headline: string;
@@ -2101,6 +2163,9 @@ export type AIContextPayload = {
     isTimeApproximate?: boolean;
   };
   activeContext?: ChartContext;
+  appMemoryDigest?: PredictaAppMemoryDigest;
+  generatedReportContext?: GeneratedReportContext;
+  reportSectionMemory?: PredictaReportSectionMemory;
   selectedChart?: {
     chartType: ChartType;
     name: string;

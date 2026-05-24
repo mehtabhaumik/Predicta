@@ -20,6 +20,7 @@ import {
   getReportMarketplaceProducts,
   type ReportMarketplaceProduct,
 } from '@pridicta/config/pricing';
+import { buildGeneratedReportMemoryContext } from '@pridicta/config/predictaMemory';
 import { SUPPORTED_LANGUAGE_OPTIONS } from '@pridicta/config/language';
 import { composeReportSections, type PdfSection } from '@pridicta/pdf';
 import { trackAnalyticsEvent } from '../services/analytics/analyticsService';
@@ -27,7 +28,7 @@ import { syncRedeemedGuestPassToUser } from '../services/firebase/passCodePersis
 import { saveReportLanguagePreference } from '../services/preferences/languagePreferenceStorage';
 import { generateHoroscopePdf } from '../services/pdf/pdfGenerator';
 import { useAppStore } from '../store/useAppStore';
-import type { PDFMode } from '../types/astrology';
+import type { PDFMode, PredictaSchool, ReportSchoolLaneId } from '../types/astrology';
 
 export function ReportScreen({
   navigation,
@@ -75,7 +76,36 @@ export function ReportScreen({
     languagePreference.reportLanguage ?? languagePreference.language;
 
   function askFromReport(section: string) {
+    const availableSections = reportPreview.sections.map(item => item.title);
+    const selectedSections =
+      builderMode === 'EVERYTHING'
+        ? availableSections
+        : sectionOptions
+            .filter(option => selectedKeySet.has(option.key))
+            .map(option => option.section.title);
+    const generatedReport = buildGeneratedReportMemoryContext({
+      availableSections,
+      mode: previewMode,
+      reportFocus: selectedReport.id,
+      reportTitle: selectedReport.title,
+      schoolLane: selectedReport.school,
+      selectedSections,
+      subjectName: kundli?.birthDetails.name,
+    });
+
     setActiveChartContext({
+      generatedReport,
+      kundliId: kundli?.id,
+      predictaSchool: mapReportLaneToPredictaSchool(selectedReport.school),
+      reportAvailableSections: availableSections,
+      reportFocus: selectedReport.id,
+      reportMode: previewMode,
+      reportSchoolLane: selectedReport.school,
+      reportSectionPrompt: section,
+      reportSectionTitle: selectedReport.title,
+      reportSelectedSections: selectedSections,
+      reportSubjectName: kundli?.birthDetails.name,
+      reportType: selectedReport.title,
       selectedSection: section,
       sourceScreen: 'Report',
     });
@@ -663,4 +693,18 @@ function syncGuestPassUsage(userId?: string): void {
 
 function getReportSectionKey(section: PdfSection, index: number): string {
   return `${index}-${section.eyebrow}-${section.title}`;
+}
+
+function mapReportLaneToPredictaSchool(
+  school: ReportSchoolLaneId,
+): PredictaSchool | undefined {
+  if (school === 'VEDIC') {
+    return 'PARASHARI';
+  }
+
+  if (school === 'SYNTHESIS') {
+    return undefined;
+  }
+
+  return school;
 }
