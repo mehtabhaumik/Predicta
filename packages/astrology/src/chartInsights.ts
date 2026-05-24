@@ -2,6 +2,9 @@ import type {
   BhavChalitPlanetPlacement,
   ChalitPlanetPlacement,
   ChartData,
+  ChartInsight,
+  ChartInsightProfile,
+  ChartPremiumInsight,
   ChartType,
   KundliData,
 } from '@pridicta/types';
@@ -10,36 +13,12 @@ import { getChartConfig } from './chartRegistry';
 import { composeNadiJyotishPlan } from './nadiJyotishPlan';
 import { getChartReadingNote } from './vargaInterpretation';
 
-export type ChartInsightDepth = 'free' | 'premium';
-
-export type ChartInsight = {
-  title: string;
-  eyebrow: string;
-  governs: string;
-  whatItSays: string;
-  mainStrength: string;
-  mainChallenge: string;
-  lifeAreas: string[];
-  currentGuidance: string;
-  freeInsights: string[];
-  premiumDeepDive: string[];
-  technicalSummary: string;
-  technicalDetails: string[];
-  premiumInsight?: ChartPremiumInsight;
-  premiumNudge?: string;
-};
-
-export type ChartPremiumInsight = {
-  headline: string;
-  timingWindows: string[];
-  contradictionSignals: string[];
-  crossChartSynthesis: string[];
-  practicalGuidance: string[];
-  remedyDirection: string[];
-  confidenceFraming: string;
-};
-
-export type ChartInsightProfile = 'default' | 'chalit';
+export type {
+  ChartInsight,
+  ChartInsightDepth,
+  ChartInsightProfile,
+  ChartPremiumInsight,
+} from '@pridicta/types';
 
 type CoreVargaChartType =
   | 'D2'

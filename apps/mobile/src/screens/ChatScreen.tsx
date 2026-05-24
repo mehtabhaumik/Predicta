@@ -956,6 +956,8 @@ export function ChatScreen({
       }
     }
 
+    let actionMemory = predictaMemory;
+
     if (!wantsDeepChartAnswer) {
       const actionReply = buildPredictaActionReply({
         hasPremiumAccess: getResolvedAccess().hasPremiumAccess,
@@ -965,6 +967,7 @@ export function ChatScreen({
         savedKundlis,
         text: trimmedInput,
       });
+      actionMemory = actionReply.memory;
       setPredictaMemory(actionReply.memory);
 
       if (actionReply.handled && actionReply.text) {
@@ -1035,7 +1038,7 @@ export function ChatScreen({
         response,
       );
       const nextMemory = learnPredictaInteraction(
-        actionReply.memory,
+        actionMemory,
         trimmedInput,
         undefined,
         activeKundli,
@@ -2469,7 +2472,12 @@ function MobileChatChartBlock({
       </View>
 
       <View className="mt-3 gap-2">
-        {block.insight.bullets.slice(0, 4).map(item => (
+        {[
+          block.insight.mainStrength,
+          block.insight.mainChallenge,
+          block.insight.currentGuidance,
+          ...block.insight.freeInsights,
+        ].slice(0, 4).map(item => (
           <AppText autoTranslate={false} key={item} tone="secondary" variant="caption">
             - {item}
           </AppText>

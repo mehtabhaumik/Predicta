@@ -8519,6 +8519,40 @@ button:disabled {
   line-height: 1.6;
 }
 
+.selected-chart-insight-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 4px;
+}
+
+.selected-chart-insight-grid span {
+  background:
+    linear-gradient(135deg, rgba(77, 175, 255, 0.08), rgba(255, 255, 255, 0.025));
+  border: 1px solid var(--border-quiet);
+  border-radius: 10px;
+  color: var(--text);
+  display: grid;
+  font-size: 0.88rem;
+  gap: 6px;
+  line-height: 1.55;
+  padding: 12px;
+}
+
+.selected-chart-insight-grid em {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  color: var(--blue);
+  display: block;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  padding: 0;
+  text-transform: uppercase;
+}
+
 .chart-guide-drawer {
   background: rgba(255, 255, 255, 0.035);
   border: 1px solid var(--border-quiet);
@@ -8765,6 +8799,14 @@ button:disabled {
 
 .chart-primary-insight h3 {
   margin: 8px 0 0;
+}
+
+.chart-insight-eyebrow {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  margin-top: 8px;
 }
 
 .chart-primary-insight > div > p {
@@ -13704,6 +13746,10 @@ button:disabled {
   }
 
   .chart-insight-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .selected-chart-insight-grid {
     grid-template-columns: 1fr;
   }
 

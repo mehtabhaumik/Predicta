@@ -43,6 +43,46 @@ export type ChartConfig = {
   category: 'core' | 'advanced';
 };
 
+export type ChartViewMode = 'insight' | 'technical';
+
+export type ChartViewHierarchyItem = {
+  id: ChartViewMode;
+  label: 'Insight View' | 'Technical View';
+  description: string;
+  default?: boolean;
+};
+
+export type ChartInsightDepth = 'free' | 'premium';
+
+export type ChartInsightProfile = 'default' | 'chalit';
+
+export type ChartPremiumInsight = {
+  headline: string;
+  timingWindows: string[];
+  contradictionSignals: string[];
+  crossChartSynthesis: string[];
+  practicalGuidance: string[];
+  remedyDirection: string[];
+  confidenceFraming: string;
+};
+
+export type ChartInsight = {
+  title: string;
+  eyebrow: string;
+  governs: string;
+  whatItSays: string;
+  mainStrength: string;
+  mainChallenge: string;
+  lifeAreas: string[];
+  currentGuidance: string;
+  freeInsights: string[];
+  premiumDeepDive: string[];
+  technicalSummary: string;
+  technicalDetails: string[];
+  premiumInsight?: ChartPremiumInsight;
+  premiumNudge?: string;
+};
+
 export type BirthDetails = {
   name: string;
   date: string;
@@ -1927,21 +1967,7 @@ export type PredictaSchool =
   | 'NUMEROLOGY'
   | 'SIGNATURE';
 
-export type ChatChartInsight = {
-  title: string;
-  eyebrow: string;
-  governs: string;
-  whatItSays: string;
-  mainStrength: string;
-  mainChallenge: string;
-  lifeAreas: string[];
-  currentGuidance: string;
-  freeInsights: string[];
-  premiumDeepDive: string[];
-  technicalSummary: string;
-  technicalDetails: string[];
-  premiumNudge?: string;
-};
+export type ChatChartInsight = ChartInsight;
 
 export type ChatChartCta = {
   id: string;

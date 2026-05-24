@@ -1,4 +1,25 @@
-import type { ChartConfig, ChartType } from '@pridicta/types';
+import type {
+  ChartConfig,
+  ChartType,
+  ChartViewHierarchyItem,
+  ChartViewMode,
+} from '@pridicta/types';
+
+export const CHART_VIEW_HIERARCHY: ChartViewHierarchyItem[] = [
+  {
+    id: 'insight',
+    label: 'Insight View',
+    description:
+      'Meaning first: what the chart governs, what it is saying, strengths, challenges, affected life areas, current guidance, and free/premium interpretation.',
+    default: true,
+  },
+  {
+    id: 'technical',
+    label: 'Technical View',
+    description:
+      'Evidence layer: houses, planets, D1 anchor rule, chart-specific notes, selected house details, and condition proof.',
+  },
+];
 
 export const CHART_REGISTRY: ChartConfig[] = [
   {
@@ -254,4 +275,8 @@ export function getChartConfig(chartType: ChartType): ChartConfig {
   }
 
   return chart;
+}
+
+export function getDefaultChartViewMode(): ChartViewMode {
+  return CHART_VIEW_HIERARCHY.find(item => item.default)?.id ?? 'insight';
 }

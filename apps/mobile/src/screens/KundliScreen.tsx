@@ -499,6 +499,7 @@ export function KundliScreen({
               const insight = composeChartInsight({
                 chart,
                 hasPremiumAccess: access.hasPremiumAccess,
+                kundli,
               });
 
               return (
@@ -514,7 +515,13 @@ export function KundliScreen({
                       {insight.eyebrow}
                     </AppText>
                     <AppText className="mt-1" tone="secondary" variant="caption">
-                      {insight.summary}
+                      {insight.whatItSays}
+                    </AppText>
+                    <AppText className="mt-2" tone="secondary" variant="caption">
+                      Strength: {insight.mainStrength}
+                    </AppText>
+                    <AppText className="mt-1" tone="secondary" variant="caption">
+                      Guidance: {insight.currentGuidance}
                     </AppText>
                   </View>
                   <View className="mt-4">

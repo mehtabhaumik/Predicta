@@ -1650,13 +1650,34 @@ export type PredictaSchool =
   | 'NUMEROLOGY'
   | 'SIGNATURE';
 
-export type ChatChartInsight = {
+export type ChartPremiumInsight = {
+  headline: string;
+  timingWindows: string[];
+  contradictionSignals: string[];
+  crossChartSynthesis: string[];
+  practicalGuidance: string[];
+  remedyDirection: string[];
+  confidenceFraming: string;
+};
+
+export type ChartInsight = {
   title: string;
   eyebrow: string;
-  summary: string;
-  bullets: string[];
+  governs: string;
+  whatItSays: string;
+  mainStrength: string;
+  mainChallenge: string;
+  lifeAreas: string[];
+  currentGuidance: string;
+  freeInsights: string[];
+  premiumDeepDive: string[];
+  technicalSummary: string;
+  technicalDetails: string[];
+  premiumInsight?: ChartPremiumInsight;
   premiumNudge?: string;
 };
+
+export type ChatChartInsight = ChartInsight;
 
 export type ChatChartCta = {
   id: string;

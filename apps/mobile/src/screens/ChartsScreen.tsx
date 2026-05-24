@@ -72,7 +72,14 @@ export function ChartsScreen({
   const insight = composeChartInsight({
     chart,
     hasPremiumAccess: access.hasPremiumAccess,
+    kundli,
   });
+  const insightBullets = [
+    `Strength: ${insight.mainStrength}`,
+    `Challenge: ${insight.mainChallenge}`,
+    `Guidance: ${insight.currentGuidance}`,
+    ...insight.freeInsights,
+  ].slice(0, 5);
 
   function askFromChart() {
     setActiveChartContext({
@@ -157,16 +164,19 @@ export function ChartsScreen({
 
       <GlowCard className="mt-5" delay={140}>
         <AppText tone="secondary" variant="caption">
-          {insight.eyebrow}
+          What This Chart Is Saying
         </AppText>
         <AppText className="mt-1" variant="subtitle">
           {insight.title}
         </AppText>
+        <AppText className="mt-1" tone="secondary" variant="caption">
+          {insight.eyebrow}
+        </AppText>
         <AppText className="mt-2" tone="secondary">
-          {insight.summary}
+          {insight.whatItSays}
         </AppText>
         <View className="mt-4 gap-2">
-          {insight.bullets.map(item => (
+          {insightBullets.map(item => (
             <AppText key={item} tone="secondary" variant="caption">
               - {item}
             </AppText>

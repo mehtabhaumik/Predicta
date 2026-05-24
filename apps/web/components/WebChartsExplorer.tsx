@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import {
   CHART_REGISTRY,
+  composeChartInsight,
   getChartTypesForAccess,
 } from '@pridicta/astrology';
 import type { ChartType, SupportedLanguage } from '@pridicta/types';
@@ -51,6 +52,11 @@ export function WebChartsExplorer({
   const chart = kundli.charts[selectedChart] ?? kundli.charts.D1;
   const selectedConfig = CHART_REGISTRY.find(item => item.id === selectedChart);
   const selectedCategory = getChartCategory(selectedChart);
+  const selectedInsight = composeChartInsight({
+    chart,
+    hasPremiumAccess,
+    kundli,
+  });
 
   return (
     <div className="chart-explorer">
@@ -102,7 +108,21 @@ export function WebChartsExplorer({
                 </em>
               </div>
               <strong>{selectedConfig.name}</strong>
-              <p>{selectedConfig.purpose}</p>
+              <p>{selectedInsight.whatItSays}</p>
+              <div className="selected-chart-insight-grid">
+                <span>
+                  <em>{copy.mainStrength}</em>
+                  {selectedInsight.mainStrength}
+                </span>
+                <span>
+                  <em>{copy.mainChallenge}</em>
+                  {selectedInsight.mainChallenge}
+                </span>
+                <span>
+                  <em>{copy.currentGuidance}</em>
+                  {selectedInsight.currentGuidance}
+                </span>
+              </div>
               <small>
                 {selectedCategory === 'advanced'
                   ? copy.advancedChartHint
@@ -189,10 +209,13 @@ const CHART_EXPLORER_COPY: Record<
     coreLibrary: string;
     coreCharts: string;
     createKundli: string;
+    currentGuidance: string;
     emptyBody: string;
     emptyEyebrow: string;
     emptyTitle: string;
     defaultInsightView: string;
+    mainChallenge: string;
+    mainStrength: string;
     openGuide: string;
     selectChart: string;
     whyItMatters: string;
@@ -210,12 +233,15 @@ const CHART_EXPLORER_COPY: Record<
     coreLibrary: 'Core chart library',
     coreCharts: 'Core charts',
     createKundli: 'Create Kundli',
+    currentGuidance: 'Current guidance',
     defaultInsightView:
       'Every chart now opens in Insight View first, so you see meaning before technical detail.',
     emptyBody:
       'Create your Kundli first. Then this page will show your North Indian chart and explain each house in plain language.',
     emptyEyebrow: 'CHART NEEDS YOUR KUNDLI',
     emptyTitle: 'Create your Kundli to see real chart proof.',
+    mainChallenge: 'Main challenge',
+    mainStrength: 'Main strength',
     openGuide: 'Open guide',
     selectChart: 'SELECT CHART',
     whyItMatters: 'WHY THIS CHART MATTERS',
@@ -232,12 +258,15 @@ const CHART_EXPLORER_COPY: Record<
     coreLibrary: 'मुख्य चार्ट लाइब्रेरी',
     coreCharts: 'मुख्य चार्ट',
     createKundli: 'कुंडली बनाएं',
+    currentGuidance: 'वर्तमान मार्गदर्शन',
     defaultInsightView:
       'हर चार्ट अब पहले Insight View में खुलता है, ताकि तकनीकी विवरण से पहले अर्थ दिखे.',
     emptyBody:
       'पहले अपनी कुंडली बनाएं. उसके बाद यह पेज आपका उत्तर भारतीय चार्ट दिखाएगा और हर भाव सरल भाषा में समझाएगा.',
     emptyEyebrow: 'चार्ट के लिए कुंडली चाहिए',
     emptyTitle: 'सही चार्ट प्रमाण देखने के लिए कुंडली बनाएं.',
+    mainChallenge: 'मुख्य चुनौती',
+    mainStrength: 'मुख्य शक्ति',
     openGuide: 'गाइड खोलें',
     selectChart: 'चार्ट चुनें',
     whyItMatters: 'यह चार्ट क्यों महत्वपूर्ण है',
@@ -254,12 +283,15 @@ const CHART_EXPLORER_COPY: Record<
     coreLibrary: 'મુખ્ય ચાર્ટ લાઇબ્રેરી',
     coreCharts: 'મુખ્ય ચાર્ટ્સ',
     createKundli: 'કુંડળી બનાવો',
+    currentGuidance: 'હાલનું માર્ગદર્શન',
     defaultInsightView:
       'હવે દરેક ચાર્ટ પહેલા Insight View માં ખુલે છે, જેથી તકનિકી વિગતો પહેલાં અર્થ દેખાય.',
     emptyBody:
       'પહેલા તમારી કુંડળી બનાવો. ત્યાર પછી આ પેજ તમારો ઉત્તર ભારતીય ચાર્ટ બતાવશે અને દરેક ભાવ સરળ ભાષામાં સમજાવશે.',
     emptyEyebrow: 'ચાર્ટ માટે કુંડળી જોઈએ',
     emptyTitle: 'સાચો ચાર્ટ પુરાવો જોવા માટે કુંડળી બનાવો.',
+    mainChallenge: 'મુખ્ય પડકાર',
+    mainStrength: 'મુખ્ય શક્તિ',
     openGuide: 'ગાઈડ ખોલો',
     selectChart: 'ચાર્ટ પસંદ કરો',
     whyItMatters: 'આ ચાર્ટ કેમ મહત્વનો છે',

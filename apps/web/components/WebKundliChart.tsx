@@ -13,6 +13,7 @@ import {
 } from '@pridicta/config/language';
 import { translateUiText } from '@pridicta/config/uiTranslations';
 import {
+  CHART_VIEW_HIERARCHY,
   buildChartRenderModel,
   buildChartSelectionPrompt,
   composeChartInsight,
@@ -20,6 +21,7 @@ import {
   type ChartPremiumInsight,
   type ChartRenderPresentation,
   getChartFocusLabel,
+  getDefaultChartViewMode,
   getChartReadingNote,
   getChartRole,
   getSpecialPointMeaning,
@@ -39,6 +41,7 @@ import type {
   KundliData,
   PlanetPosition,
   SupportedLanguage,
+  ChartViewMode,
 } from '@pridicta/types';
 import Link from 'next/link';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
@@ -87,7 +90,7 @@ export function WebKundliChart({
 }: WebKundliChartProps): React.JSX.Element {
   const [selectedHouse, setSelectedHouse] = useState(1);
   const [hoveredHouse, setHoveredHouse] = useState<number | undefined>();
-  const [viewMode, setViewMode] = useState<'insight' | 'technical'>('insight');
+  const [viewMode, setViewMode] = useState<ChartViewMode>(getDefaultChartViewMode);
   const chartInstructionsId = useId();
   const { appLanguage, chartLanguage, setChartLanguage } = useLanguagePreference();
   const labels = getChartLanguageCopy(appLanguage);
@@ -332,31 +335,29 @@ export function WebKundliChart({
       />
 
       <div className="chart-view-switcher" role="tablist" aria-label={translateUiText('Chart reading mode', appLanguage)}>
-        <button
-          aria-selected={viewMode === 'insight'}
-          className={viewMode === 'insight' ? 'active' : ''}
-          onClick={() => setViewMode('insight')}
-          role="tab"
-          type="button"
-        >
-          {translateUiText('Insight View', appLanguage)}
-        </button>
-        <button
-          aria-selected={viewMode === 'technical'}
-          className={viewMode === 'technical' ? 'active' : ''}
-          onClick={() => setViewMode('technical')}
-          role="tab"
-          type="button"
-        >
-          {translateUiText('Technical View', appLanguage)}
-        </button>
+        {CHART_VIEW_HIERARCHY.map(item => (
+          <button
+            aria-selected={viewMode === item.id}
+            className={viewMode === item.id ? 'active' : ''}
+            key={item.id}
+            onClick={() => setViewMode(item.id)}
+            role="tab"
+            title={translateUiText(item.description, appLanguage)}
+            type="button"
+          >
+            {translateUiText(item.label, appLanguage)}
+          </button>
+        ))}
       </div>
 
       {viewMode === 'insight' ? (
         <div className="chart-insight-stack">
           <div className="chart-primary-insight">
             <div>
-              <div className="section-title">{localizedInsight.eyebrow}</div>
+              <div className="section-title">
+                {translateUiText('What This Chart Is Saying', appLanguage)}
+              </div>
+              <div className="chart-insight-eyebrow">{localizedInsight.eyebrow}</div>
               <h3>{localizedInsight.title}</h3>
               <p>{localizedInsight.whatItSays}</p>
             </div>

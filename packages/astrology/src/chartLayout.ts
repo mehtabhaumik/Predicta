@@ -656,7 +656,7 @@ export function buildChartRenderModel({
       hasManyPlanets: renderPlanets.length >= 3,
       hiddenPlanetCount: Math.max(
         0,
-        renderPlanets.length - cellDisplay.maxVisiblePlanets,
+        renderPlanets.length - cellDisplay.maxVisiblePlanets + supportingPoints.length,
       ),
       house,
       key: `house-${house}`,
