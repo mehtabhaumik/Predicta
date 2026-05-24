@@ -123,6 +123,11 @@ export function composeChatChartBlock({
   const confidence = kundli.birthDetails.isTimeApproximate
     ? 'Approx birth time'
     : 'Birth time stable';
+  const reportHierarchy = buildChatChartReportHierarchy({
+    chartType,
+    hasPremiumAccess,
+    insight,
+  });
 
   return {
     chart,
@@ -139,6 +144,7 @@ export function composeChatChartBlock({
     insight,
     ownerName: kundli.birthDetails.name,
     purpose: config.purpose,
+    reportHierarchy,
     supported: chart.supported,
     type: 'chart',
     unsupportedReason: chart.unsupportedReason,
@@ -186,7 +192,11 @@ export function buildChatChartReplyText({
 
   return [
     `Here is what your ${block.chartType} ${block.chartName} is really about.`,
-    block.insight.governs,
+    `Meaning: ${block.reportHierarchy.meaning}`,
+    `Key insight: ${block.reportHierarchy.keyInsight}`,
+    `Free understanding: ${block.reportHierarchy.freeUnderstanding}`,
+    `Premium depth: ${block.reportHierarchy.premiumDepth}`,
+    `Technical appendix: ${block.reportHierarchy.technicalAppendix}`,
     meaningLine,
     guidanceLine,
     anchorLine,
@@ -231,11 +241,16 @@ function buildChartCtas(
       label: 'Ask remedy',
       prompt: `Give me one grounded remedy or practical correction for what my ${chartType} chart is showing. Keep it simple and realistic.`,
     },
+    {
+      id: 'ask-life-area',
+      label: `Understand ${humanArea}`,
+      prompt: `Help me understand what my ${chartType} chart means for ${humanArea}. Start with human meaning, then key insight, free understanding, premium depth if available, and only then the technical appendix.`,
+    },
     chartType === 'D1'
       ? {
-          id: 'ask-life-area',
-          label: `Meaning for ${humanArea}`,
-          prompt: `What does my ${chartType} chart mean for ${humanArea}? Explain it simply, tell me why it matters, and keep it rooted in the chart.`,
+          id: 'compare-moon',
+          label: 'Compare with Moon',
+          prompt: `Compare my D1 chart with the Moon/Chandra Lagna lens and explain what it changes for ${humanArea} in plain language.`,
         }
       : {
           id: 'compare-d1',
@@ -243,6 +258,31 @@ function buildChartCtas(
           prompt: `Compare my ${chartType} chart with D1 and explain what it changes for ${humanArea} in plain language.`,
         },
   ];
+}
+
+function buildChatChartReportHierarchy({
+  chartType,
+  hasPremiumAccess,
+  insight,
+}: {
+  chartType: ChartType;
+  hasPremiumAccess: boolean;
+  insight: ReturnType<typeof composeChartInsight>;
+}): ChatChartBlock['reportHierarchy'] {
+  return {
+    freeUnderstanding: insight.currentGuidance,
+    keyInsight: insight.mainStrength,
+    meaning: `${insight.governs} ${insight.whatItSays}`,
+    premiumDepth: hasPremiumAccess
+      ? insight.premiumInsight?.headline ??
+        insight.premiumDeepDive[0] ??
+        'Premium depth adds timing, contradictions, remedy direction, and cross-chart synthesis.'
+      : insight.premiumNudge ??
+        'Premium depth adds timing, contradictions, D1 comparison, remedy direction, and report-grade synthesis.',
+    technicalAppendix:
+      insight.technicalSummary ??
+      `${chartType} technical appendix is available after the meaning-led reading.`,
+  };
 }
 
 function getChartHumanArea(chartType: ChartType): string {

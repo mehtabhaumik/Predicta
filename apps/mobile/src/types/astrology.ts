@@ -1791,6 +1791,14 @@ export type ChatChartCta = {
   prompt: string;
 };
 
+export type ChatChartReportHierarchy = {
+  meaning: string;
+  keyInsight: string;
+  freeUnderstanding: string;
+  premiumDepth: string;
+  technicalAppendix: string;
+};
+
 export type ChatSuggestedCta = {
   context?: ChartContext;
   href?: string;
@@ -1880,6 +1888,7 @@ export type ChatChartBlock = {
   unsupportedReason?: string;
   chart: ChartData;
   insight: ChatChartInsight;
+  reportHierarchy: ChatChartReportHierarchy;
   evidenceChips: string[];
   ctas: ChatChartCta[];
 };

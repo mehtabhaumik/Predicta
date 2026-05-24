@@ -2471,6 +2471,25 @@ function MobileChatChartBlock({
         ))}
       </View>
 
+      <View style={styles.chatChartHierarchy}>
+        {[
+          ['Meaning', block.reportHierarchy.meaning],
+          ['Key insight', block.reportHierarchy.keyInsight],
+          ['Free understanding', block.reportHierarchy.freeUnderstanding],
+          ['Premium depth', block.reportHierarchy.premiumDepth],
+          ['Technical appendix', block.reportHierarchy.technicalAppendix],
+        ].map(([label, value]) => (
+          <View key={label} style={styles.chatChartHierarchyBlock}>
+            <AppText autoTranslate={false} tone="secondary" variant="caption">
+              {label}
+            </AppText>
+            <AppText autoTranslate={false} className="mt-1" variant="caption">
+              {value}
+            </AppText>
+          </View>
+        ))}
+      </View>
+
       <View className="mt-3 gap-2">
         {[
           block.insight.mainStrength,
@@ -2555,6 +2574,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 16,
     padding: 14,
+  },
+  chatChartHierarchy: {
+    gap: 8,
+    marginTop: 12,
+  },
+  chatChartHierarchyBlock: {
+    backgroundColor: 'rgba(40, 210, 171, 0.08)',
+    borderColor: 'rgba(40, 210, 171, 0.18)',
+    borderRadius: 10,
+    borderWidth: 1,
+    padding: 10,
   },
   chatChartStatus: {
     backgroundColor: 'rgba(255, 255, 255, 0.08)',

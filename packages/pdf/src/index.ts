@@ -1753,7 +1753,7 @@ function buildReportChartNarrative({
   insight: ReturnType<typeof composeChartInsight>;
   snapshot?: PdfChartSnapshot;
 }): string[] {
-  const freeLine = `Free understanding: ${insight.currentGuidance}`;
+  const freeLine = insight.currentGuidance;
   const premiumLine = hasPremiumAccess
     ? insight.premiumInsight
       ? `Premium depth: ${insight.premiumInsight.headline}`
@@ -1775,13 +1775,12 @@ function buildReportChartNarrative({
     : undefined;
 
   return [
-    `${chartType} ${insight.title} governs: ${insight.governs}`,
-    `${chartType} is saying: ${insight.whatItSays}`,
+    `${chartType} meaning: ${insight.governs} ${insight.whatItSays}`,
     `${chartType} key insight: ${insight.mainStrength}`,
-    freeLine,
+    `${chartType} free understanding: ${freeLine}`,
     ...(premiumLine ? [premiumLine] : []),
     ...(timingLine ? [`${chartType} timing or next step: ${timingLine}`] : []),
-    appendixLine,
+    `${chartType} technical appendix: ${appendixLine}`,
     ...(moonLine ? [moonLine] : []),
   ];
 }

@@ -8064,6 +8064,42 @@ button:disabled {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.chat-chart-hierarchy-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.chat-chart-hierarchy-block {
+  background:
+    linear-gradient(135deg, rgba(40, 210, 171, 0.08), rgba(77, 175, 255, 0.055)),
+    rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(40, 210, 171, 0.15);
+  border-radius: 12px;
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding: 12px;
+}
+
+.chat-chart-hierarchy-block:first-child {
+  grid-column: 1 / -1;
+}
+
+.chat-chart-hierarchy-block span {
+  color: var(--muted);
+  display: block;
+  font-size: 11px;
+  font-weight: 900;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.chat-chart-hierarchy-block strong {
+  color: var(--text);
+  line-height: 1.5;
+}
+
 .chat-chart-story-block {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);

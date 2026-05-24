@@ -3390,6 +3390,21 @@ function WebChatChartBlock({
             ))}
           </div>
 
+          <div className="chat-chart-hierarchy-grid">
+            {[
+              ['Meaning', block.reportHierarchy.meaning],
+              ['Key insight', block.reportHierarchy.keyInsight],
+              ['Free understanding', block.reportHierarchy.freeUnderstanding],
+              ['Premium depth', block.reportHierarchy.premiumDepth],
+              ['Technical appendix', block.reportHierarchy.technicalAppendix],
+            ].map(([label, value]) => (
+              <article className="chat-chart-hierarchy-block" key={label}>
+                <span>{label}</span>
+                <strong>{value}</strong>
+              </article>
+            ))}
+          </div>
+
           <div className="chat-chart-story-grid">
             <article className="chat-chart-story-block">
               <span>{translateUiText('What this chart governs', language)}</span>

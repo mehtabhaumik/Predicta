@@ -307,6 +307,7 @@ function chartFollowUps(
     ],
     ['timing', `Ask timing for ${focus}`],
     ['remedy', `Ask remedy for ${focus}`],
+    ['life-area', `Understand what this means for ${lifeArea}`],
   ];
 
   if (chart !== 'D1') {
@@ -316,12 +317,12 @@ function chartFollowUps(
     ]);
   } else {
     base.push([
-      'meaning',
-      `What does this mean for my ${lifeArea}?`,
+      'compare-moon',
+      `Compare D1 with Moon chart for ${lifeArea}`,
     ]);
   }
 
-  return localizeActions(base.slice(0, 4), language);
+  return localizeActions(base.slice(0, 5), language);
 }
 
 function getChartHumanArea(chartType?: string): string {
