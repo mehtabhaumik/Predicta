@@ -43,6 +43,32 @@ Only live documents in this repo are listed here.
 - [PREDICTA_PDF_PREMIUM_DOCUMENT_ENGINE_REBUILD_PHASE.md](./PREDICTA_PDF_PREMIUM_DOCUMENT_ENGINE_REBUILD_PHASE.md)
   One strict PDF-engine rebuild phase to replace the current HTML-dump export
   path with a premium document-grade astrology report renderer.
+- [PREDICTA_REPORT_PDF_STRICT_PHASES.md](./PREDICTA_REPORT_PDF_STRICT_PHASES.md)
+  Controlling strict phase contract for the next report/PDF rebuild, including
+  download dialog UX, full-width chart-safe PDFs, Vedic intelligence tables,
+  corrected `Prepared by Predicta @2026` footer rules, whole-app Predicta
+  memory/chat awareness, web/mobile parity, and golden artifact audits before
+  anything is called green.
+- [PREDICTA_LIFE_ATLAS_REPORT_STRICT_CONTRACT.md](./PREDICTA_LIFE_ATLAS_REPORT_STRICT_CONTRACT.md)
+  Standalone strict contract for the `Predicta Life Atlas` flagship synthesis
+  report, including core/optional data hierarchy, non-technical soul-purpose
+  sections, free versus premium depth, signature-optional handling, and
+  no-invented-source guardrails.
+- [PREDICTA_SIGNATURE_PREDICTA_ULTRA_STRICT_PHASE.md](./PREDICTA_SIGNATURE_PREDICTA_ULTRA_STRICT_PHASE.md)
+  Ultra-strict Signature Predicta phase for privacy-first upload/draw handling,
+  no raw signature persistence, immediate action receipts, scanning animation,
+  auto-detected trait maps, confirmation gating, web/mobile parity, and safe
+  reflective-analysis guardrails.
+- [PREDICTA_NUMEROLOGY_PREDICTA_STRICT_PHASE.md](./PREDICTA_NUMEROLOGY_PREDICTA_STRICT_PHASE.md)
+  Strict Numerology Predicta phase for a number identity dashboard, personal
+  number mandala, name energy scanner, personal year timeline, missing/repeated
+  number grid, premium name refinement, compatibility, PDF dossier depth, and
+  no-fear numerology guardrails.
+- [PREDICTA_KP_NADI_PREDICTA_STRICT_PHASE.md](./PREDICTA_KP_NADI_PREDICTA_STRICT_PHASE.md)
+  Strict KP/Nadi Predicta phase for an event-answer KP room, karmic-story Nadi
+  room, non-technical first views, proof/story appendices, wow moments, report
+  depth, room-safe Predicta memory payloads, and no-collision rules with the
+  report/PDF, chart insight, Life Atlas, Numerology, and Signature contracts.
 - [PREDICTA_PDF_TEMPLATE_SELECTION_RECOMMENDATION_SHEET.md](./PREDICTA_PDF_TEMPLATE_SELECTION_RECOMMENDATION_SHEET.md)
   Strict template-selection and page-blueprint recommendation sheet for the
   Predicta PDF rebuild, including ranked references for free PDFs, premium

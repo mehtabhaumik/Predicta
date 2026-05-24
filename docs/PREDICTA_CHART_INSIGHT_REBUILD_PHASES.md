@@ -526,7 +526,7 @@ Why this is first:
 
 - all later chart work depends on the shared insight contract
 - the current UI hierarchy is the root problem
-- D1, Chalit, varga, KP, Nadi, chat, and reports should not all invent their
+- D1, Moon chart / Chandra Lagna chart, Chalit, varga, KP, Nadi, chat, and reports should not all invent their
   own meaning format
 
 One universal contract first.

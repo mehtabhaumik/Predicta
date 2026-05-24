@@ -241,20 +241,18 @@ This is the recommended page architecture for the rebuilt PDF engine.
 
 **Important page-budget rule:**
 
-- page budgets are determined by **tier first**
-- `free` reports should usually land between `8` and `16` pages depending on
-  scope
-- `premium` reports should usually land between `14` and `32` pages depending
-  on scope
-- broader reports can use the upper end of the range
-- focused reports such as `KP only`, `Nadi only`, `Signature only`,
-  `Numerology only`, `Matchmaking only`, or any other selected subset should
-  use fewer pages while keeping the same design system and report quality
-- focused scopes should select only the spreads that materially help the user
-- broad scopes can use most of the spread inventory where it adds real value
-- full scopes may use the complete spread inventory when justified
-- premium reports must not lose meaningful coverage just to stay shorter; page
-  count should be reduced by removing repetition, not by removing real value
+- Predicta no longer uses fixed Free or Premium page envelopes.
+- There is no `8` to `16` page cap for Free reports.
+- There is no `14` to `32` page cap for Premium reports.
+- Page count is determined by selected report type, required sections, chart
+  safety, readable pagination, and meaningful coverage.
+- Focused reports should still avoid unnecessary pages.
+- Broad reports may expand as needed when every page carries real value.
+- Free reports must not lose important sections just to stay short.
+- Premium reports must not lose meaningful coverage just to fit an old page
+  range.
+- Page count should be reduced by removing repetition, clutter, and duplicated
+  evidence, not by removing important readings.
 
 ### Free PDF Blueprint
 
@@ -267,14 +265,17 @@ Target feel:
 
 Target length:
 
-- `8` to `16` pages depending on scope
+- no fixed page boundary
+- use as many pages as the selected report needs to remain complete, readable,
+  and chart-safe
 
 Available spread inventory for free reports:
 
 1. Cover
 2. What this report is saying first
 3. How to read this report
-4. Core chart spread
+4. Core chart spread in fixed order: D1, Moon chart / Chandra Lagna chart, D9
+   Navamsa, then remaining vargas when included
 5. Life direction and personality spread
 6. Timing and current cycle spread
 7. Relationships / family / life balance spread
@@ -292,9 +293,11 @@ Rules:
 - no spread should exist only to restate evidence already shown elsewhere
 - no raw evidence tables unless absolutely necessary
 - no full technical dumps in the main reading flow
-- focused free reports should use fewer pages
-- broad free reports can expand toward `16`
-- full free reports may use the full `16` page envelope
+- focused free reports should use fewer pages when fewer pages are sufficient
+- broad free reports can expand beyond the old envelope when the selected
+  report requires it
+- full free reports should include all important readings without artificial
+  page compression
 - shorter free reports must still feel complete, not teaser-like
 - broad or full free reports may use a full onboarding spread
 - smaller focused free reports should compress `How to read this report` into a
@@ -313,15 +316,18 @@ Target feel:
 
 Target length:
 
-- `14` to `32` pages depending on scope
+- no fixed page boundary
+- use as many pages as the selected report needs to feel complete, premium,
+  readable, and chart-safe
 
 Available spread inventory for premium reports:
 
 1. Premium cover
 2. Executive summary spread
 3. How to use this dossier
-4. Core chart spread
-5. Divisional chart spread
+4. Core chart spread in fixed order: D1, Moon chart / Chandra Lagna chart, D9
+   Navamsa, then remaining vargas when included
+5. Divisional chart spread for remaining vargas
 6. Life direction spread
 7. Career and work spread
 8. Wealth and resources spread
@@ -340,9 +346,11 @@ Available spread inventory for premium reports:
 
 Rules:
 
-- focused premium reports should use fewer pages
-- broad premium reports can expand toward `32`
-- full premium reports may use the full `32` page envelope
+- focused premium reports should use fewer pages when fewer pages are sufficient
+- broad premium reports can expand beyond the old envelope when the selected
+  report requires it
+- full premium reports should include all important readings without artificial
+  page compression
 - every spread must have a clear point
 - deeper interpretation should be prioritized over repeated scaffolding
 - technical proof belongs late, not early
