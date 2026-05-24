@@ -585,6 +585,11 @@ function composeKpChartInsight(
             'KP remains separate from Parashari D1 and Chalit; it can reference birth context but must not become a personality reading.',
           ],
           headline: `KP event verdict: ${judgement.verdictLabel}`,
+          layeredInterpretation: [
+            `Layer 1: the event answer is ${judgement.verdictLabel}, so Premium starts with the decision posture rather than a generic life reading.`,
+            `Layer 2: the proof path checks ${judgement.proofPath.slice(0, 2).join(' ')}`,
+            'Layer 3: timing is accepted only when event houses, significators, ruling planets, dasha support, and real-world readiness agree.',
+          ],
           practicalGuidance: [judgement.nextQuestion, judgement.timingReadiness],
           remedyDirection: [
             'Use precision: define the event, time window, and real-world decision before asking for timing.',
@@ -650,6 +655,11 @@ function composeNadiChartInsight(
             'Nadi stays in its own story-link lane. It may feed a future synthesis report only when explicitly labeled as synthesis.',
           ],
           headline: lens.hiddenPatternSentence,
+          layeredInterpretation: [
+            `Layer 1: the strongest story thread is ${lens.strongestThread}.`,
+            `Layer 2: Premium validates the repeating pattern through ${lens.validationBridge}`,
+            'Layer 3: activation windows are used as reflective timing prompts, not as fixed fate or manuscript claims.',
+          ],
           practicalGuidance: [lens.shiftThatHelps, lens.validationBridge],
           remedyDirection: [
             'Use reflective practice, validation questions, and gentle remedies instead of fear or fatalism.',
@@ -1229,6 +1239,11 @@ function buildChartPremiumInsight({
     return {
       headline:
         'Premium keeps the meaning clear here, but waits for fuller chart evidence before making strong synthesis claims.',
+      layeredInterpretation: [
+        'Layer 1: keep the basic chart meaning available first; do not hide the main point behind Premium.',
+        'Layer 2: wait for D1 anchoring, timing, and related chart evidence before turning this into a senior reading.',
+        'Layer 3: use Premium for practical synthesis only after the chart evidence is complete.',
+      ],
       timingWindows: [
         'Timing windows deepen after the saved Kundli evidence is fully prepared.',
       ],
@@ -1265,9 +1280,17 @@ function buildChartPremiumInsight({
     activeArea,
     supportArea,
   });
+  const layeredInterpretation = buildPremiumLayeredInterpretation({
+    activeArea,
+    chartType,
+    current,
+    pressureArea,
+    supportArea,
+  });
 
   return {
     headline: buildPremiumHeadline(chartType, activeArea, supportArea, pressureArea),
+    layeredInterpretation,
     timingWindows: [
       `Current timing window: ${current.mahadasha}/${current.antardasha} from ${current.startDate} to ${current.endDate}.`,
       nextMahadasha
@@ -1279,17 +1302,13 @@ function buildChartPremiumInsight({
         ? `Transit caution: ${transitCaution.planet} is currently pressing house ${transitCaution.houseFromLagna}, so Premium keeps timing practical instead of dramatic.`
         : `Transit overlay stays secondary here, so dasha remains the main timing frame for ${activeArea}.`,
     ],
-    contradictionSignals: [
-      strongest.length
-        ? `Strength versus drag: D1 supports ${strongest.join(' and ')}, so Premium checks whether ${activeArea} is backed by those houses or fighting them.`
-        : `Strength versus drag: Premium checks whether ${activeArea} is actually supported by D1 before trusting the chart too quickly.`,
-      weakest.length
-        ? `Pressure check: D1 shows softness around ${weakest.join(' and ')}, so Premium treats overlap with ${pressureArea ?? activeArea} as a real caution instead of ignoring it.`
-        : `Pressure check: Premium looks for where ${pressureArea ?? activeArea} could be stretched by weaker D1 support.`,
-      supportArea
-        ? `Support check: ${supportArea} acts as the balancing layer, so Premium does not judge ${activeArea} in isolation.`
-        : `Support check: Premium looks for a second confirming life area before treating ${activeArea} as decisive.`,
-    ],
+    contradictionSignals: buildStrengthContradictionAnalysis({
+      activeArea,
+      pressureArea,
+      strongest,
+      supportArea,
+      weakest,
+    }),
     crossChartSynthesis,
     practicalGuidance: buildPremiumGuidance(chartType, activeArea, supportArea, pressureArea),
     remedyDirection: buildPremiumRemedyDirection(kundli, chartType, activeArea),
@@ -1312,6 +1331,61 @@ function buildPremiumHeadline(
   }
 
   return `Premium treats ${activeArea} as the main signal in ${chartType}, then checks whether D1, timing, and ${supportArea ?? 'a second support layer'} confirm it before calling it reliable.`;
+}
+
+function buildPremiumLayeredInterpretation({
+  activeArea,
+  chartType,
+  current,
+  pressureArea,
+  supportArea,
+}: {
+  activeArea: string;
+  chartType: PremiumSynthesisChartType;
+  current: KundliData['dasha']['current'];
+  pressureArea?: string;
+  supportArea?: string;
+}): string[] {
+  const chartRole = chartType === 'D1'
+    ? 'the root life promise'
+    : chartType === 'CHALIT'
+    ? 'the lived delivery layer'
+    : `the focused ${chartType} topic layer`;
+
+  return [
+    `Layer 1: ${chartType} is read as ${chartRole}, with ${activeArea} as the first human concern rather than a placement label.`,
+    `Layer 2: D1, dasha, and ${supportArea ?? 'the next meaningful support chart'} are checked together so the reading can separate promise, support, and pressure.`,
+    `Layer 3: the active ${current.mahadasha}/${current.antardasha} period decides whether this insight is ready for action now or should remain preparation.`,
+    pressureArea
+      ? `Layer 4: ${pressureArea} is treated as the contradiction zone, so Premium explains what to strengthen before pushing harder.`
+      : 'Layer 4: Premium looks for contradiction before advice, so confidence comes from agreement across charts instead of one loud signal.',
+  ];
+}
+
+function buildStrengthContradictionAnalysis({
+  activeArea,
+  pressureArea,
+  strongest,
+  supportArea,
+  weakest,
+}: {
+  activeArea: string;
+  pressureArea?: string;
+  strongest: string[];
+  supportArea?: string;
+  weakest: string[];
+}): string[] {
+  return [
+    strongest.length
+      ? `Strength map: D1 supports ${strongest.join(' and ')}, so Premium checks whether ${activeArea} is backed by those houses or fighting them.`
+      : `Strength map: Premium checks whether ${activeArea} is actually supported by D1 before trusting the chart too quickly.`,
+    weakest.length
+      ? `Contradiction map: D1 shows softness around ${weakest.join(' and ')}, so overlap with ${pressureArea ?? activeArea} is handled as a real caution instead of ignored.`
+      : `Contradiction map: Premium looks for where ${pressureArea ?? activeArea} could be stretched by weaker D1 support.`,
+    supportArea
+      ? `Synthesis check: ${supportArea} acts as the balancing layer, so Premium does not judge ${activeArea} in isolation.`
+      : `Synthesis check: Premium looks for a second confirming life area before treating ${activeArea} as decisive.`,
+  ];
 }
 
 function buildCrossChartSynthesis({

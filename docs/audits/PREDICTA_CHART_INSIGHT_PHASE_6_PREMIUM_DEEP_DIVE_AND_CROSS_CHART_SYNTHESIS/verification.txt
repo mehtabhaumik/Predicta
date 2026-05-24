@@ -1,0 +1,38 @@
+PREDICTA_CHART_INSIGHT_PHASE_6_PREMIUM_DEEP_DIVE_AND_CROSS_CHART_SYNTHESIS
+
+Strict audit status: GREEN
+
+Scope verified:
+- Free chart meaning remains available before Premium depth.
+- Premium chart insight now includes a formal layered interpretation contract.
+- Premium depth includes timing windows, strength versus contradiction analysis,
+  D1-to-varga synthesis, meaningful varga-to-varga synthesis, practical guidance,
+  remedy direction, and confidence framing.
+- Required D1 synthesis pairs are covered: D1 + D9, D1 + D10, D1 + Chalit,
+  D1 + KP, and D1 + Nadi.
+- Web renders the layered Premium block inside the premium chart panel.
+- Mobile renders Premium deep dive content on the Charts screen instead of
+  showing only the free/nudge card.
+- PDF chart narrative still preserves Premium depth without making basic chart
+  meaning Premium-only.
+
+Commands required for green:
+- corepack pnpm test:chart-insight-phase-6
+- corepack pnpm test:chart-insight-phase-1
+- corepack pnpm test:chart-insight-phase-2
+- corepack pnpm test:chart-insight-phase-3
+- corepack pnpm test:chart-insight-phase-4
+- corepack pnpm test:chart-insight-phase-5
+- corepack pnpm test:charts
+- corepack pnpm --filter @pridicta/astrology typecheck
+- corepack pnpm --filter @pridicta/types typecheck
+- corepack pnpm --filter @pridicta/web typecheck
+- corepack pnpm --filter @pridicta/mobile exec tsc --noEmit
+- corepack pnpm test:translation-trust
+- corepack pnpm test:native-script-chat
+- corepack pnpm --filter @pridicta/web build
+- corepack pnpm test:pdf-golden
+- git diff --check
+
+Result:
+- All listed commands passed on 2026-05-25 before commit.

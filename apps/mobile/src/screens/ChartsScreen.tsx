@@ -182,7 +182,29 @@ export function ChartsScreen({
             </AppText>
           ))}
         </View>
-        {insight.premiumNudge ? (
+        {access.hasPremiumAccess && insight.premiumInsight ? (
+          <View className="mt-5 gap-3 rounded-3xl border border-[#FFD27A33] bg-[#FFD27A12] p-4">
+            <AppText className="text-[#FFD27A]" variant="caption">
+              PREMIUM DEEP DIVE
+            </AppText>
+            <AppText variant="subtitle">{insight.premiumInsight.headline}</AppText>
+            <PremiumMiniList
+              items={insight.premiumInsight.layeredInterpretation}
+              title="Layered interpretation"
+            />
+            <PremiumMiniList
+              items={insight.premiumInsight.crossChartSynthesis}
+              title="Cross-chart synthesis"
+            />
+            <PremiumMiniList
+              items={insight.premiumInsight.contradictionSignals}
+              title="Strength vs contradiction"
+            />
+            <AppText tone="secondary" variant="caption">
+              Confidence: {insight.premiumInsight.confidenceFraming}
+            </AppText>
+          </View>
+        ) : insight.premiumNudge ? (
           <View className="mt-5">
             <AppText tone="secondary" variant="caption">
               {insight.premiumNudge}
@@ -279,6 +301,27 @@ export function ChartsScreen({
         })}
       </View>
     </Screen>
+  );
+}
+
+function PremiumMiniList({
+  items,
+  title,
+}: {
+  items: string[];
+  title: string;
+}): React.JSX.Element {
+  return (
+    <View className="gap-1">
+      <AppText tone="secondary" variant="caption">
+        {title}
+      </AppText>
+      {items.slice(0, 3).map(item => (
+        <AppText key={item} tone="secondary" variant="caption">
+          - {item}
+        </AppText>
+      ))}
+    </View>
   );
 }
 

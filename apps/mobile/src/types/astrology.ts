@@ -1702,6 +1702,7 @@ export type PredictaSchool =
 
 export type ChartPremiumInsight = {
   headline: string;
+  layeredInterpretation: string[];
   timingWindows: string[];
   contradictionSignals: string[];
   crossChartSynthesis: string[];

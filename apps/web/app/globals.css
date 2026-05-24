@@ -8753,6 +8753,10 @@ button:disabled {
   padding: 14px;
 }
 
+.chart-premium-block-wide {
+  grid-column: 1 / -1;
+}
+
 .chart-premium-block span,
 .chart-premium-depth-footer span {
   color: #ffd27a;

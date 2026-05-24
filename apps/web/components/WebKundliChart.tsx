@@ -749,6 +749,9 @@ function localizePremiumInsight(
       localizeChartPhrase(item, language),
     ),
     headline: localizeChartPhrase(insight.headline, language),
+    layeredInterpretation: insight.layeredInterpretation.map(item =>
+      localizeChartPhrase(item, language),
+    ),
     practicalGuidance: insight.practicalGuidance.map(item =>
       localizeChartPhrase(item, language),
     ),
@@ -778,6 +781,14 @@ function renderPremiumInsightPanel({
           <p>{insight.premiumInsight.headline}</p>
         </div>
         <div className="chart-premium-grid">
+          <article className="chart-premium-block chart-premium-block-wide">
+            <span>{translateUiText('Layered interpretation', appLanguage)}</span>
+            <ul>
+              {insight.premiumInsight.layeredInterpretation.map(item => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
           <article className="chart-premium-block">
             <span>{translateUiText('Timing windows', appLanguage)}</span>
             <ul>
