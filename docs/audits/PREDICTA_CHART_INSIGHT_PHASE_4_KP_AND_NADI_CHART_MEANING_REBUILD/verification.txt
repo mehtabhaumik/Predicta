@@ -27,24 +27,26 @@ Passing audit commands:
 - corepack pnpm test:chart-insight-phase-3
 - corepack pnpm test:translation-trust
 - corepack pnpm test:native-script-chat
+- corepack pnpm test:pdf-golden
 - corepack pnpm --filter @pridicta/web build
 - git diff --check
 
-Blocked audit command:
-- corepack pnpm test:pdf-golden
+Preserved and parked unrelated PDF work:
+- git stash:
+  stash@{0}: On main: park pdf pearl editorial wip before chart insight phase 4 green
+- external backup:
+  /Users/bmehta/.codex/parked_work/Predicta/2026-05-25-pdf-pearl-editorial-wip/reportDocument.patch
+  /Users/bmehta/.codex/parked_work/Predicta/2026-05-25-pdf-pearl-editorial-wip/pdf-assets-fonts.tgz
 
-Blocking detail:
-- The PDF golden gate currently fails on pre-existing dirty
-  packages/pdf/src/reportDocument.tsx changes because the gate expects:
-  backgroundColor: '#ECEFF4' and backgroundColor: '#F3F6FB'.
-- HEAD still contains both expected strings.
-- The working copy of packages/pdf/src/reportDocument.tsx changes those
-  background colors and adds font/assets work that is outside this Phase 4
-  implementation.
-- Those unrelated PDF renderer files were not staged for this phase commit.
+Parking detail:
+- The parked PDF work looked like an intentional early Pearl Editorial/font
+  experiment, but it mixed Phase 4A interior work with later chart-safe layout
+  work and still retained PDF chart overflow counters.
+- It was preserved before cleanup instead of being discarded.
+- After parking it, the working tree returned to committed Phase 4 code only and
+  corepack pnpm test:pdf-golden passed: 120 checks.
 
 Conclusion:
 - Phase 4 implementation seams are complete and locally verified.
-- This phase must not be called fully green until the unrelated PDF renderer
-  golden-gate drift is either approved, reconciled, or reverted by the owner of
-  that change.
+- The previously blocked PDF golden gate is now unblocked and passing.
+- Phase 4 can be called green after this audit update is committed.
