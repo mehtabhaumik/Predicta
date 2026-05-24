@@ -86,6 +86,15 @@ export function composeChalitBhavKpFoundation(
     kp: {
       cusps: kp?.cusps ?? [],
       evidence: buildKpEvidence(kp?.cusps, topSignificators, kp?.rulingPlanets),
+      digest: buildKpDigest({
+        activeKundliId: kundli.id,
+        depth,
+        eventQuestion: 'General KP event-readiness. Ask one exact event question for a sharper answer.',
+        relevantHouses: buildRelevantHouses(topSignificators),
+        judgement: buildKpEventJudgement(kp?.cusps ?? [], topSignificators, kp?.rulingPlanets),
+        kpReady,
+        mainCusps: [10, 11].filter(house => kp?.cusps.some(cusp => cusp.house === house)),
+      }),
       eventJudgement: buildKpEventJudgement(kp?.cusps ?? [], topSignificators, kp?.rulingPlanets),
       freeInsight: kpReady && kp
         ? buildKpFreeInsight(kp.cusps, topSignificators)
@@ -150,6 +159,14 @@ function buildPendingFoundation(
         'KP needs precise cusps, star lords, sub lords, and ruling planets, so it starts after Kundli calculation.',
       limitations: ['Create a Kundli first.'],
       planets: [],
+      digest: buildKpDigest({
+        depth,
+        eventQuestion: 'Create a Kundli first, then ask one exact KP event question.',
+        judgement: buildPendingKpEventJudgement(),
+        kpReady: false,
+        mainCusps: [],
+        relevantHouses: [],
+      }),
       significators: [],
       subtitle: 'Pending until birth chart calculation.',
       title: 'KP Horoscope foundation',
@@ -340,10 +357,10 @@ function buildKpEventJudgement(
         : 'uncertain';
   const verdictLabel: KpEventJudgement['verdictLabel'] =
     confidence === 'clear'
-      ? 'Mixed'
+      ? 'Mixed promise'
       : confidence === 'partial'
         ? 'Needs more clarity'
-        : 'Not enough proof yet';
+        : 'Not enough proof';
 
   return {
     confidence,
@@ -392,10 +409,29 @@ function buildKpEventJudgement(
         ? `4. Confirm timing with ruling planets: day ${rulingPlanets.dayLord}, Moon star ${rulingPlanets.moonStarLord}, Lagna sub ${rulingPlanets.lagnaSubLord}.`
         : '4. Confirm timing only after ruling planets and dasha support are available.',
     ],
+    eventVerdictCompass: {
+      block: blocker
+        ? `${blocker.planet} is the caution or delay signal.`
+        : 'Block is pending until the event proof is sharper.',
+      confidence,
+      promise: topCarrier
+        ? `${topCarrier.planet} carries the clearest promise.`
+        : 'Promise is pending.',
+      timing: rulingPlanets ? 'Timing support is partial and usable.' : 'Timing is pending.',
+    },
     timingReadiness: rulingPlanets
       ? `Timing support is ${eleventh ? 'usable but still event-specific' : 'partial'} because ruling planets are available; final timing still needs the selected event and dasha/transit trigger.`
       : 'Timing is not ready for a strong statement yet because ruling planets are missing.',
+    timingReadinessState: rulingPlanets ? 'partial' : 'pending',
     verdictLabel,
+    questionClarityState: 'needs-exact-question',
+    questionToProofPath: [
+      'Event question',
+      'Relevant houses',
+      'Main cusp and sub lord',
+      'Event carriers',
+      'Timing support',
+    ],
   };
 }
 
@@ -414,9 +450,71 @@ function buildPendingKpEventJudgement(): KpEventJudgement {
       '2. Let Predicta prepare KP cusps and significators.',
       '3. Ask one concrete event question.',
     ],
+    eventVerdictCompass: {
+      block: 'No KP proof exists yet.',
+      confidence: 'uncertain',
+      promise: 'Pending until KP cusps and significators are calculated.',
+      timing: 'Pending until ruling planets and dasha support are available.',
+    },
     timingReadiness: 'Pending until KP ruling planets are calculated.',
-    verdictLabel: 'Not enough proof yet',
+    timingReadinessState: 'pending',
+    verdictLabel: 'Not enough proof',
+    questionClarityState: 'pending',
+    questionToProofPath: [
+      'Create Kundli',
+      'Prepare KP cusps',
+      'Ask exact event question',
+      'Judge carriers and timing',
+    ],
   };
+}
+
+function buildKpDigest({
+  activeKundliId,
+  depth,
+  eventQuestion,
+  judgement,
+  kpReady,
+  mainCusps,
+  relevantHouses,
+}: {
+  activeKundliId?: string;
+  depth: ChalitBhavKpInsightDepth;
+  eventQuestion: string;
+  judgement: KpEventJudgement;
+  kpReady: boolean;
+  mainCusps: number[];
+  relevantHouses: number[];
+}): ChalitBhavKpFoundation['kp']['digest'] {
+  return {
+    activeKundliId,
+    blockers: judgement.eventCarriers
+      .filter(item => item.role === 'blocker')
+      .map(item => item.planet),
+    currentVerdict: judgement.verdictLabel,
+    depthAvailable: depth,
+    eventCarriers: judgement.eventCarriers,
+    exactUserEventQuestion: eventQuestion,
+    latestReportSummary:
+      'KP report leads with event answer, timing readiness, confidence, practical next step, and keeps full technical proof in a Proof Appendix.',
+    mainCusps,
+    promiseBlockTimingConfidenceSummary: `${judgement.eventVerdictCompass.promise} ${judgement.eventVerdictCompass.block} ${judgement.eventVerdictCompass.timing} Confidence: ${judgement.eventVerdictCompass.confidence}.`,
+    proofAvailability: kpReady ? 'ready' : relevantHouses.length ? 'partial' : 'pending',
+    questionClarityState: judgement.questionClarityState,
+    relevantHouses,
+    selectedEventCategory: 'general',
+    timingReadiness: judgement.timingReadiness,
+  };
+}
+
+function buildRelevantHouses(significators: KPSignificator[]): number[] {
+  return Array.from(
+    new Set(
+      significators
+        .flatMap(item => item.signifiesHouses)
+        .filter(house => house >= 1 && house <= 12),
+    ),
+  ).slice(0, 8);
 }
 
 function uniqueHouseAreas(houses: number[]): string[] {

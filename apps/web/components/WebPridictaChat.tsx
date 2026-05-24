@@ -4443,7 +4443,7 @@ function buildSchoolContextIntro(
   return [
     `${school} is ready.`,
     fromSchool
-      ? `I already have your chart context and question from ${fromSchool}, so I will answer inside this room's method.`
+      ? `Context was carried from ${fromSchool}. The method will not be mixed. I already have your chart context and question, so I will answer inside this room's method.`
       : undefined,
     chartFocus ? `Chart in focus: ${chartFocus}.` : undefined,
     question ? `You asked: ${question}` : undefined,

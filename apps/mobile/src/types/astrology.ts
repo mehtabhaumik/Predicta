@@ -727,6 +727,31 @@ export type NadiChartStoryLens = {
   evidencePath: string[];
 };
 
+export type NadiRahuKetuAxis = {
+  pullsForward: string;
+  learningToRelease: string;
+  becomesLouder: string;
+  balancePractice: string;
+};
+
+export type NadiValidationStatus = 'confirmed' | 'partially-confirmed' | 'needs-validation';
+
+export type NadiPredictaDigest = {
+  activeKundliId?: string;
+  activeStoryFocus: string;
+  strongestStoryThread: string;
+  giftInsidePattern: string;
+  repeatingLesson: string;
+  rahuKetuAxisSummary: string;
+  validationQuestions: string[];
+  validationStatus: NadiValidationStatus;
+  activationWindows: string[];
+  nextPractice: string;
+  storyEvidenceAvailability: 'ready' | 'partial' | 'pending';
+  depthAvailable: NadiJyotishInsightDepth;
+  latestReportSummary: string;
+};
+
 export type NadiJyotishActivation = {
   id: string;
   title: string;
@@ -750,6 +775,9 @@ export type NadiJyotishPremiumPlan = {
   freePreview: string;
   premiumSynthesis?: string;
   storyLens: NadiChartStoryLens;
+  rahuKetuAxis: NadiRahuKetuAxis;
+  validationStatus: NadiValidationStatus;
+  digest: NadiPredictaDigest;
   patterns: NadiJyotishPattern[];
   activations: NadiJyotishActivation[];
   validationQuestions: string[];
@@ -780,9 +808,9 @@ export type KpEventJudgement = {
   verdictLabel:
     | 'Likely'
     | 'Delayed'
-    | 'Mixed'
+    | 'Mixed promise'
     | 'Needs more clarity'
-    | 'Not enough proof yet';
+    | 'Not enough proof';
   promise: string;
   decisionPoint: string;
   timingReadiness: string;
@@ -796,6 +824,32 @@ export type KpEventJudgement = {
     role: 'carrier' | 'supporter' | 'blocker';
     reason: string;
   }>;
+  eventVerdictCompass: {
+    promise: string;
+    block: string;
+    timing: string;
+    confidence: string;
+  };
+  questionClarityState: 'ready' | 'needs-exact-question' | 'pending';
+  questionToProofPath: string[];
+  timingReadinessState: 'ready' | 'partial' | 'pending';
+};
+
+export type KpPredictaDigest = {
+  activeKundliId?: string;
+  selectedEventCategory: string;
+  exactUserEventQuestion: string;
+  questionClarityState: KpEventJudgement['questionClarityState'];
+  currentVerdict: KpEventJudgement['verdictLabel'];
+  promiseBlockTimingConfidenceSummary: string;
+  relevantHouses: number[];
+  mainCusps: number[];
+  eventCarriers: KpEventJudgement['eventCarriers'];
+  blockers: string[];
+  timingReadiness: string;
+  proofAvailability: 'ready' | 'partial' | 'pending';
+  depthAvailable: ChalitBhavKpInsightDepth;
+  latestReportSummary: string;
 };
 
 export type ChalitBhavKpFoundation = {
@@ -828,6 +882,7 @@ export type ChalitBhavKpFoundation = {
     rulingPlanets?: KPRulingPlanets;
     evidence: string[];
     limitations: string[];
+    digest: KpPredictaDigest;
   };
   premiumUnlock: string;
   ctas: Array<{
@@ -2160,6 +2215,9 @@ export type AIContextPayload = {
     | 'freePreview'
     | 'premiumSynthesis'
     | 'storyLens'
+    | 'rahuKetuAxis'
+    | 'validationStatus'
+    | 'digest'
     | 'patterns'
     | 'activations'
     | 'validationQuestions'

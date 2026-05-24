@@ -1,0 +1,56 @@
+PREDICTA_KP_NADI_PREDICTA_STRICT_PHASE
+Status: GREEN
+Date: 2026-05-25
+
+Scope audited:
+- KP is rebuilt as an event-answer room with What are you asking, Event Verdict Compass, Question-To-Proof Path, Event Carriers Map, Timing Readiness, Ask Exact Question Wizard, and a proof drawer.
+- KP allowed verdict labels are locked to Likely, Delayed, Needs more clarity, Not enough proof, and Mixed promise.
+- KP shared digest exposes active event question/category, clarity state, verdict, promise/block/timing/confidence summary, relevant houses, main cusps, carriers/blockers, timing readiness, proof availability, depth, and report summary.
+- Nadi is rebuilt as a karmic-story room with strongest story thread, hidden pattern sentence, Past Pattern -> Current Lesson -> Next Practice, Karmic Story Map, Rahu-Ketu Axis Card, Validation Bridge, Activation Windows, and story evidence.
+- Nadi shared digest exposes active story focus, strongest thread, gift, repeating lesson, Rahu/Ketu axis summary, validation questions/status, activation windows, next practice, evidence availability, depth, and report summary.
+- Predicta context builders now include KP/Nadi digest payloads without creating a competing memory architecture.
+- KP/Nadi report lanes remain separate from Vedic, Numerology, and Signature.
+- KP report content now leads with event answer and keeps technical proof inside a Proof Appendix.
+- Nadi report content now leads with story/gift/lesson/practice and keeps technical story evidence inside a Story Evidence Appendix.
+
+Generated artifacts:
+- artifacts/web-kp-desktop.png
+- artifacts/web-kp-mobile-width.png
+- artifacts/web-nadi-desktop.png
+- artifacts/web-nadi-mobile-width.png
+- artifacts/web-report-marketplace-desktop.png
+- artifacts/web-report-marketplace-mobile-width.png
+- artifacts/kp-free.pdf
+- artifacts/kp-premium.pdf
+- artifacts/nadi-free.pdf
+- artifacts/nadi-premium.pdf
+- artifacts/kp-free-pages/kp-free.pdf.png
+- artifacts/kp-premium-pages/kp-premium.pdf.png
+- artifacts/nadi-free-pages/nadi-free.pdf.png
+- artifacts/nadi-premium-pages/nadi-premium.pdf.png
+
+Commands passed:
+- corepack pnpm test:kp-nadi-predicta
+- corepack pnpm --filter @pridicta/types typecheck
+- corepack pnpm --filter @pridicta/ai build
+- corepack pnpm --filter @pridicta/astrology build
+- corepack pnpm --filter @pridicta/pdf build
+- corepack pnpm --filter @pridicta/web typecheck
+- corepack pnpm --filter @pridicta/mobile exec tsc --noEmit
+- corepack pnpm test:discipline-handoff
+- corepack pnpm test:predicta-context
+- corepack pnpm test:charts
+- corepack pnpm test:translation-trust
+- corepack pnpm test:native-script-chat
+- corepack pnpm test:pdf-golden
+- corepack pnpm test:graha-names
+- corepack pnpm build:web
+- curl generated KP/Nadi free and premium PDFs from /api/report/pdf using the Phase 0 real Kundli fixture.
+- qlmanage rendered first-page PNG previews for each generated KP/Nadi PDF.
+- git diff --check
+
+Important audit notes:
+- KP remains event-first and does not become a Vedic personality report.
+- Nadi remains story/validation-first and does not use KP cusp logic.
+- Nadi does not claim real palm-leaf manuscript access.
+- Full app-wide Predicta memory architecture remains owned by PREDICTA_REPORT_PDF_PHASE_7_PREDICTA_MEMORY_AND_CHAT_AWARENESS; this phase feeds KP/Nadi digest payloads into the existing context architecture.

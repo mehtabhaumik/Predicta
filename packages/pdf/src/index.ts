@@ -690,6 +690,8 @@ function buildKpFoundationSection(kundli: KundliData, mode: PDFMode): PdfSection
       `Event verdict compass: ${kp.eventJudgement.verdictLabel}. ${kp.eventJudgement.plainLanguage}`,
       `Decision point: ${kp.eventJudgement.decisionPoint}`,
       `Timing readiness: ${kp.eventJudgement.timingReadiness}`,
+      `What to do next: ${kp.eventJudgement.nextQuestion}`,
+      `Question-To-Proof Path: ${kp.eventJudgement.questionToProofPath.join(' -> ')}.`,
       `Relevant event houses surfaced from significators: ${eventHouses.join(', ') || 'pending a sharper event question'}.`,
       mode === 'PREMIUM' ? kp.premiumSynthesis ?? kp.freeInsight : kp.freeInsight,
       `KP cusps included: ${kp.cusps.length}.`,
@@ -704,6 +706,7 @@ function buildKpFoundationSection(kundli: KundliData, mode: PDFMode): PdfSection
       mode === 'PREMIUM'
         ? 'Final likelihood: premium KP should state promise, block, timing readiness, confidence, and limitations for the selected event.'
         : 'Final likelihood: free KP gives a useful promise/timing signal and asks for a specific event before stronger judgment.',
+      'Proof Appendix: technical cusp chains, significator hierarchy, ruling planets, dasha support, and transit triggers stay here instead of crowding the main answer.',
       ...kp.significators
         .slice(0, mode === 'PREMIUM' ? 9 : 4)
         .map(
@@ -729,8 +732,8 @@ function buildKpFoundationSection(kundli: KundliData, mode: PDFMode): PdfSection
     tier: mode === 'PREMIUM' ? 'premium' : 'free',
     title:
       mode === 'PREMIUM'
-        ? 'KP horoscope cusp and significator foundation'
-        : 'KP horoscope useful insight',
+        ? 'KP event answer and Proof Appendix'
+        : 'KP event answer useful insight',
   };
 }
 
@@ -1813,6 +1816,8 @@ function buildNadiJyotishPlanSection(
       `Hidden pattern sentence: ${plan.storyLens.hiddenPatternSentence}`,
       `Active lesson: ${plan.storyLens.activeLesson}`,
       `Shift that helps: ${plan.storyLens.shiftThatHelps}`,
+      `Rahu-Ketu Axis Card: ${plan.rahuKetuAxis.pullsForward} ${plan.rahuKetuAxis.learningToRelease}`,
+      `Past Pattern -> Current Lesson -> Next Practice: ${plan.storyLens.repeatingPattern} -> ${plan.storyLens.activeLesson} -> ${plan.rahuKetuAxis.balancePractice}`,
       `Planetary story map: ${plan.patterns.slice(0, mode === 'PREMIUM' ? 5 : 2).map(pattern => pattern.title).join('; ') || 'pending'}.`,
       `Karaka links: ${plan.patterns.slice(0, mode === 'PREMIUM' ? 5 : 2).flatMap(pattern => pattern.planets).join(', ') || 'pending'}.`,
       `Rahu/Ketu axis: ${plan.patterns.find(pattern => pattern.id === 'nadi-rahu-ketu-axis')?.meaning ?? 'pending in this chart'}.`,
@@ -1828,10 +1833,14 @@ function buildNadiJyotishPlanSection(
       plan.premiumUnlock,
       `Dasha/transit activation count: ${plan.activations.length}.`,
       `Past-pattern clues are handled as validation questions before deeper timing.`,
+      `Story Evidence Appendix: planetary story map, karaka links, validation status ${plan.validationStatus}, activation windows, and limitations are kept separate from the main reading.`,
     ],
     eyebrow: 'NADI',
     tier: mode === 'PREMIUM' ? 'premium' : 'free',
-    title: 'Nadi Predicta premium plan',
+    title:
+      mode === 'PREMIUM'
+        ? 'Nadi karmic story and Story Evidence Appendix'
+        : 'Nadi karmic story useful insight',
   };
 }
 

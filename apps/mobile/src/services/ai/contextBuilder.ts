@@ -413,15 +413,18 @@ function compactNadiJyotishPlan(
     handoffQuestion: plan.handoffQuestion,
     limitations: plan.limitations,
     methodSummary: plan.methodSummary,
+    digest: plan.digest,
     patterns: plan.patterns.slice(0, 6),
     premiumOnly: plan.premiumOnly,
     premiumSynthesis: plan.premiumSynthesis,
     premiumUnlock: plan.premiumUnlock,
+    rahuKetuAxis: plan.rahuKetuAxis,
     schoolBoundary: plan.schoolBoundary,
     status: plan.status,
     storyLens: plan.storyLens,
     subtitle: plan.subtitle,
     title: plan.title,
+    validationStatus: plan.validationStatus,
     validationQuestions: plan.validationQuestions.slice(0, 4),
   };
 }

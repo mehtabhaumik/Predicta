@@ -139,7 +139,7 @@ export function NadiPredictaScreen({
 
         <GlowCard delay={140}>
           <AppText tone="secondary" variant="caption">
-            SCHOOL BOUNDARY
+            STORY EVIDENCE
           </AppText>
           <AppText className="mt-2" tone="secondary">
             {plan.schoolBoundary}
@@ -174,6 +174,45 @@ export function NadiPredictaScreen({
               <AppText variant="caption">Shift that helps</AppText>
               <AppText className="mt-1" tone="secondary" variant="caption">
                 {plan.storyLens.shiftThatHelps}
+              </AppText>
+            </View>
+            <View style={styles.row}>
+              <AppText variant="caption">Past Pattern - Current Lesson - Next Practice</AppText>
+              <AppText className="mt-1" tone="secondary" variant="caption">
+                {plan.storyLens.repeatingPattern} → {plan.storyLens.activeLesson} →{' '}
+                {plan.rahuKetuAxis.balancePractice}
+              </AppText>
+            </View>
+          </View>
+        </GlowCard>
+
+        <GlowCard delay={185}>
+          <AppText tone="secondary" variant="caption">
+            RAHU-KETU AXIS CARD
+          </AppText>
+          <View className="mt-4 gap-2">
+            <View style={styles.row}>
+              <AppText variant="caption">What pulls you forward</AppText>
+              <AppText className="mt-1" tone="secondary" variant="caption">
+                {plan.rahuKetuAxis.pullsForward}
+              </AppText>
+            </View>
+            <View style={styles.row}>
+              <AppText variant="caption">What you are learning to release</AppText>
+              <AppText className="mt-1" tone="secondary" variant="caption">
+                {plan.rahuKetuAxis.learningToRelease}
+              </AppText>
+            </View>
+            <View style={styles.row}>
+              <AppText variant="caption">Where the pattern becomes louder</AppText>
+              <AppText className="mt-1" tone="secondary" variant="caption">
+                {plan.rahuKetuAxis.becomesLouder}
+              </AppText>
+            </View>
+            <View style={styles.row}>
+              <AppText variant="caption">One practice for balance</AppText>
+              <AppText className="mt-1" tone="secondary" variant="caption">
+                {plan.rahuKetuAxis.balancePractice}
               </AppText>
             </View>
           </View>
@@ -282,7 +321,7 @@ export function NadiPredictaScreen({
 
         <GlowCard delay={220}>
           <AppText tone="secondary" variant="caption">
-            VALIDATION
+            Validation Bridge
           </AppText>
           <View className="mt-4 gap-2">
             {plan.validationQuestions.slice(0, 4).map(question => (

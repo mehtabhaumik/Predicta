@@ -75,6 +75,10 @@ export function composeNadiJyotishPlan(
 
   const patterns = buildPatterns(kundli, depth, language);
   const activations = buildActivations(kundli, patterns, depth, language);
+  const storyLens = buildNadiStoryLens(kundli, patterns, activations, language);
+  const rahuKetuAxis = buildRahuKetuAxis(kundli, patterns, activations, language);
+  const validationQuestions = buildValidationQuestions(kundli, patterns, language);
+  const validationStatus = patterns.length >= 3 ? 'partially-confirmed' : 'needs-validation';
 
   return {
     activations,
@@ -163,7 +167,19 @@ export function composeNadiJyotishPlan(
       'સામાન્ય પ્રેડિક્ટા પરાશરી વાંચે છે. કૃષ્ણમૂર્તિ પ્રેડિક્ટા કૃષ્ણમૂર્તિ પદ્ધતિ વાંચે છે. નાડી પ્રેડિક્ટા માત્ર નાડી શૈલીની ગ્રહકથા અને પુષ્ટિ પેટર્ન વાંચે છે.',
     ),
     status: 'ready',
-    storyLens: buildNadiStoryLens(kundli, patterns, activations, language),
+    storyLens,
+    rahuKetuAxis,
+    validationStatus,
+    digest: buildNadiDigest({
+      activations,
+      depth,
+      kundliId: kundli.id,
+      patterns,
+      rahuKetuAxis,
+      storyLens,
+      validationQuestions,
+      validationStatus,
+    }),
     subtitle:
       depth === 'PREMIUM'
         ? localize(
@@ -184,7 +200,7 @@ export function composeNadiJyotishPlan(
       `${kundli.birthDetails.name} की नाड़ी प्रेडिक्टा योजना`,
       `${kundli.birthDetails.name}ની નાડી પ્રેડિક્ટા યોજના`,
     ),
-    validationQuestions: buildValidationQuestions(kundli, patterns, language),
+    validationQuestions,
   };
 }
 
@@ -245,6 +261,28 @@ function buildPendingPlan(
     ),
     status: 'pending',
     storyLens: buildPendingNadiStoryLens(language),
+    rahuKetuAxis: {
+      balancePractice: localize(language, 'Create the Kundli first.', 'पहले कुंडली बनाएं.', 'પહેલાં કુંડળી બનાવો.'),
+      becomesLouder: localize(language, 'Pending until planetary links exist.', 'ग्रह संबंध आने तक लंबित.', 'ગ્રહ સંબંધ આવે ત્યાં સુધી બાકી.'),
+      learningToRelease: localize(language, 'Pending until Ketu evidence exists.', 'केतु प्रमाण आने तक लंबित.', 'કેતુ પુરાવો આવે ત્યાં સુધી બાકી.'),
+      pullsForward: localize(language, 'Pending until Rahu evidence exists.', 'राहु प्रमाण आने तक लंबित.', 'રાહુ પુરાવો આવે ત્યાં સુધી બાકી.'),
+    },
+    validationStatus: 'needs-validation',
+    digest: {
+      activeStoryFocus: 'Pending Nadi story focus',
+      activationWindows: [],
+      depthAvailable: depth,
+      giftInsidePattern: 'Pending until a Kundli exists.',
+      latestReportSummary:
+        'Nadi report leads with strongest story thread, gift, lesson, activation, and practice, with evidence in a Story Evidence Appendix.',
+      nextPractice: 'Create the Kundli first.',
+      rahuKetuAxisSummary: 'Pending until Rahu/Ketu evidence exists.',
+      repeatingLesson: 'Pending until a Kundli exists.',
+      storyEvidenceAvailability: 'pending',
+      strongestStoryThread: 'Pending',
+      validationQuestions: [],
+      validationStatus: 'needs-validation',
+    },
     subtitle: localize(
       language,
       'Create your Kundli to begin the premium Nadi reading room.',
@@ -659,6 +697,88 @@ function buildPendingNadiStoryLens(language: SupportedLanguage): NadiChartStoryL
     strongestThread: localize(language, 'Pending story thread', 'प्रतीक्षारत कथा', 'બાકી કથા'),
     stuckPoint: localize(language, 'No interpretation before evidence.', 'प्रमाण से पहले व्याख्या नहीं.', 'પુરાવા પહેલાં અર્થઘટન નહીં.'),
     validationBridge: localize(language, 'Validation comes after the first story thread.', 'पहले कथा संबंध के बाद पुष्टि होगी.', 'પહેલા કથા સંબંધ પછી પુષ્ટિ થશે.'),
+  };
+}
+
+function buildRahuKetuAxis(
+  kundli: KundliData,
+  patterns: NadiJyotishPattern[],
+  activations: NadiJyotishActivation[],
+  language: SupportedLanguage,
+) {
+  const axisPattern = patterns.find(pattern => pattern.relation === 'rahu-ketu-axis');
+  const rahu = kundli.planets.find(planet => planet.name === 'Rahu');
+  const ketu = kundli.planets.find(planet => planet.name === 'Ketu');
+  const activation = activations[0];
+
+  return {
+    balancePractice: localize(
+      language,
+      'Pause before chasing the pull; name the old release pattern, then choose one grounded action.',
+      'खींचाव के पीछे भागने से पहले ठहरें; पुराने छोड़ने वाले पैटर्न को नाम दें, फिर एक स्थिर कर्म चुनें.',
+      'ખેંચાણ પાછળ દોડતા પહેલાં થોભો; જૂના છોડવાના પેટર્નને નામ આપો, પછી એક સ્થિર ક્રિયા પસંદ કરો.',
+    ),
+    becomesLouder: activation
+      ? `${activation.title}: ${activation.timing}`
+      : localize(
+          language,
+          'This axis becomes louder when dasha or slow-transit activation touches the same story.',
+          'दशा या धीमा गोचर इसी कथा को छूता है तो यह अक्ष अधिक तेज महसूस होता है.',
+          'દશા અથવા ધીમો ગોચર એ જ કથાને સ્પર્શે ત્યારે આ અક્ષ વધુ તેજ લાગે છે.',
+        ),
+    learningToRelease: ketu
+      ? localize(
+          language,
+          `Ketu in ${getLocalizedSignName(ketu.sign, language)} points to releasing old reflexes around ${HOUSE_MEANINGS[ketu.house]}.`,
+          `${getLocalizedSignName(ketu.sign, language)} में केतु ${HOUSE_MEANINGS[ketu.house]} से जुड़े पुराने स्वभाव छोड़ने की सीख देता है.`,
+          `${getLocalizedSignName(ketu.sign, language)}માં કેતુ ${HOUSE_MEANINGS[ketu.house]} જોડાયેલી જૂની પ્રતિક્રિયા છોડવાનું શીખવે છે.`,
+        )
+      : localize(language, 'Ketu release point is pending.', 'केतु छोड़ने का बिंदु लंबित है.', 'કેતુ છોડવાનો બિંદુ બાકી છે.'),
+    pullsForward: rahu
+      ? localize(
+          language,
+          `Rahu in ${getLocalizedSignName(rahu.sign, language)} pulls attention toward ${HOUSE_MEANINGS[rahu.house]}.`,
+          `${getLocalizedSignName(rahu.sign, language)} में राहु ध्यान को ${HOUSE_MEANINGS[rahu.house]} की ओर खींचता है.`,
+          `${getLocalizedSignName(rahu.sign, language)}માં રાહુ ધ્યાનને ${HOUSE_MEANINGS[rahu.house]} તરફ ખેંચે છે.`,
+        )
+      : axisPattern?.meaning ?? localize(language, 'Rahu pull point is pending.', 'राहु खिंचाव बिंदु लंबित है.', 'રાહુ ખેંચાણ બિંદુ બાકી છે.'),
+  };
+}
+
+function buildNadiDigest({
+  activations,
+  depth,
+  kundliId,
+  patterns,
+  rahuKetuAxis,
+  storyLens,
+  validationQuestions,
+  validationStatus,
+}: {
+  activations: NadiJyotishActivation[];
+  depth: NadiJyotishInsightDepth;
+  kundliId?: string;
+  patterns: NadiJyotishPattern[];
+  rahuKetuAxis: ReturnType<typeof buildRahuKetuAxis>;
+  storyLens: NadiChartStoryLens;
+  validationQuestions: string[];
+  validationStatus: NadiJyotishPremiumPlan['validationStatus'];
+}): NadiJyotishPremiumPlan['digest'] {
+  return {
+    activeKundliId: kundliId,
+    activeStoryFocus: patterns[0]?.title ?? 'Pending Nadi story focus',
+    activationWindows: activations.map(item => `${item.title}: ${item.timing}`),
+    depthAvailable: depth,
+    giftInsidePattern: storyLens.shiftThatHelps,
+    latestReportSummary:
+      'Nadi report leads with strongest story thread, gift, lesson, activation, and practice, with evidence in a Story Evidence Appendix.',
+    nextPractice: rahuKetuAxis.balancePractice,
+    rahuKetuAxisSummary: `${rahuKetuAxis.pullsForward} ${rahuKetuAxis.learningToRelease}`,
+    repeatingLesson: storyLens.activeLesson,
+    storyEvidenceAvailability: patterns.length ? 'ready' : 'pending',
+    strongestStoryThread: storyLens.strongestThread,
+    validationQuestions: validationQuestions.slice(0, 5),
+    validationStatus,
   };
 }
 

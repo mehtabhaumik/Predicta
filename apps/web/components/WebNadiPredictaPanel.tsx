@@ -266,6 +266,24 @@ export function WebNadiPredictaPanel({
             </div>
           </div>
 
+          <div className="school-grid significators" aria-label="Nadi past pattern current lesson next practice">
+            <div>
+              <span>{t('Past Pattern')}</span>
+              <strong>{t('What keeps repeating')}</strong>
+              <p>{plan.storyLens.repeatingPattern}</p>
+            </div>
+            <div>
+              <span>{t('Current Lesson')}</span>
+              <strong>{t('What Predicta is validating')}</strong>
+              <p>{plan.storyLens.activeLesson}</p>
+            </div>
+            <div>
+              <span>{t('Next Practice')}</span>
+              <strong>{t('What helps now')}</strong>
+              <p>{plan.rahuKetuAxis.balancePractice}</p>
+            </div>
+          </div>
+
           <div className="school-callout">{plan.schoolBoundary}</div>
           {handoffQuestion ? (
             <div className="school-callout active">
@@ -280,16 +298,51 @@ export function WebNadiPredictaPanel({
 
       <Card className="glass-panel">
         <div className="card-content spacious">
-          <div className="section-title">{t('NADI METHOD')}</div>
-          <h2>{t('Separate from Parashari and KP.')}</h2>
-          <p>{plan.methodSummary}</p>
+          <details className="info-drawer school-explain-box">
+            <summary>
+              <span>{t('Story evidence')}</span>
+              <strong>{t('Nadi method and boundaries')}</strong>
+            </summary>
+            <div className="section-title">{t('NADI METHOD')}</div>
+            <h2>{t('Separate from Parashari and KP.')}</h2>
+            <p>{plan.methodSummary}</p>
+            <div className="school-grid significators">
+              {plan.guardrails.slice(0, 5).map(item => (
+                <div key={item}>
+                  <span>{t('Boundary')}</span>
+                  <strong>{item}</strong>
+                </div>
+              ))}
+            </div>
+          </details>
+        </div>
+      </Card>
+
+      <Card className="glass-panel">
+        <div className="card-content spacious">
+          <div className="section-title">{t('RAHU-KETU AXIS CARD')}</div>
+          <h2>{t('What pulls forward, and what asks to be released.')}</h2>
           <div className="school-grid significators">
-            {plan.guardrails.slice(0, 5).map(item => (
-              <div key={item}>
-                <span>{t('Boundary')}</span>
-                <strong>{item}</strong>
-              </div>
-            ))}
+            <div>
+              <span>{t('What pulls you forward')}</span>
+              <strong>{t('Rahu pull')}</strong>
+              <p>{plan.rahuKetuAxis.pullsForward}</p>
+            </div>
+            <div>
+              <span>{t('What you are learning to release')}</span>
+              <strong>{t('Ketu release')}</strong>
+              <p>{plan.rahuKetuAxis.learningToRelease}</p>
+            </div>
+            <div>
+              <span>{t('Where the pattern becomes louder')}</span>
+              <strong>{t('Activation')}</strong>
+              <p>{plan.rahuKetuAxis.becomesLouder}</p>
+            </div>
+            <div>
+              <span>{t('One practice for balance')}</span>
+              <strong>{t('Practice')}</strong>
+              <p>{plan.rahuKetuAxis.balancePractice}</p>
+            </div>
           </div>
         </div>
       </Card>
@@ -409,7 +462,7 @@ export function WebNadiPredictaPanel({
 
       <Card className="glass-panel" id="nadi-validation">
         <div className="card-content spacious">
-          <div className="section-title">{t('VALIDATION')}</div>
+          <div className="section-title">{t('Validation Bridge')}</div>
           <h2>{t('Predicta asks before going deep.')}</h2>
           <div className="nadi-validation-stack">
             {plan.validationQuestions.slice(0, 4).map((question, index) => (

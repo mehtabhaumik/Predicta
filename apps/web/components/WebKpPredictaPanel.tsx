@@ -14,7 +14,7 @@ import {
 import { Card } from './Card';
 import { PredictaWorldFrame } from './PredictaWorldFrame';
 
-type KpEventFocus = 'career' | 'money' | 'marriage' | 'property';
+type KpEventFocus = 'career' | 'money' | 'marriage' | 'property' | 'education' | 'travel' | 'custom';
 
 const KP_EVENT_FOCUS: Array<{
   id: KpEventFocus;
@@ -49,6 +49,27 @@ const KP_EVENT_FOCUS: Array<{
     prompt:
       'Using KP only, judge home, property, and relocation from houses 4, 11, 12, cusp sub lords, significators, ruling planets, and dasha support.',
     title: 'Home and property',
+  },
+  {
+    houses: [4, 5, 9, 11],
+    id: 'education',
+    prompt:
+      'Using KP only, judge education, exam, certification, and learning outcomes from houses 4, 5, 9, 11, cusp sub lords, significators, ruling planets, and dasha support.',
+    title: 'Education and exams',
+  },
+  {
+    houses: [3, 9, 12],
+    id: 'travel',
+    prompt:
+      'Using KP only, judge travel, foreign movement, and relocation readiness from houses 3, 9, 12, cusp sub lords, significators, ruling planets, and dasha support.',
+    title: 'Travel and relocation',
+  },
+  {
+    houses: [1, 6, 10, 11],
+    id: 'custom',
+    prompt:
+      'Using KP only, help refine the user custom event into an exact question with event type, time window, current situation, and desired outcome before judging cusps and significators.',
+    title: 'Custom exact question',
   },
 ];
 
@@ -334,14 +355,19 @@ export function WebKpPredictaPanel({
               <p>{kp.eventJudgement.plainLanguage}</p>
             </div>
             <div>
+              <span>{t('Promise')}</span>
+              <strong>{kp.eventJudgement.eventVerdictCompass.promise}</strong>
+              <p>{kp.eventJudgement.promise}</p>
+            </div>
+            <div>
+              <span>{t('Block')}</span>
+              <strong>{kp.eventJudgement.eventVerdictCompass.block}</strong>
+              <p>{kp.eventJudgement.mainBlock}</p>
+            </div>
+            <div>
               <span>{t('Timing readiness')}</span>
               <strong>{t(kp.eventJudgement.confidence)}</strong>
               <p>{kp.eventJudgement.timingReadiness}</p>
-            </div>
-            <div>
-              <span>{t('Decision point')}</span>
-              <strong>{t('Cusp sub lord')}</strong>
-              <p>{kp.eventJudgement.decisionPoint}</p>
             </div>
           </div>
         </div>
@@ -372,11 +398,16 @@ export function WebKpPredictaPanel({
             <strong>
               {localizeKp(
                 language,
-                'What this KP setup is saying',
-                'यह KP सेटअप क्या कह रहा है',
-                'આ KP સેટઅપ શું કહી રહ્યું છે',
+                'What are you asking?',
+                'आप क्या पूछ रहे हैं?',
+                'તમે શું પૂછો છો?',
               )}
             </strong>
+            <p>{t('Choose the event first. KP works best with an exact question, a time window, the current situation, and the outcome you want to judge.')}</p>
+          </div>
+
+          <div className="school-explain-box">
+            <strong>{t('KP current answer')}</strong>
             <p>{focusMeaning.whatItSays}</p>
           </div>
 
@@ -438,60 +469,71 @@ export function WebKpPredictaPanel({
           </div>
 
           <div className="kp-proof-path">
-            {kp.eventJudgement.proofPath.map((step, index) => (
+            {kp.eventJudgement.questionToProofPath.map((step, index) => (
               <div key={step}>
-                <span>{index + 1}. {t('Proof step')}</span>
-                <strong>{index === 0 ? t('Question') : index === 1 ? t('Cusp') : index === 2 ? t('Carriers') : t('Timing')}</strong>
-                <p>{step}</p>
+                <span>{index + 1}. {t('Question-To-Proof Path')}</span>
+                <strong>{t(step)}</strong>
+                <p>{kp.eventJudgement.proofPath[index] ?? step}</p>
               </div>
             ))}
+          </div>
+
+          <div className="school-explain-box">
+            <strong>{t('Ask Exact Question Wizard')}</strong>
+            <p>{kp.eventJudgement.nextQuestion}</p>
           </div>
         </div>
       </Card>
 
       <Card className="glass-panel" id="kp-cusps">
         <div className="card-content spacious">
-          <div className="section-title">{t('KP CUSPS')}</div>
-          <h2>{t('12 cusps with star and sub lords.')}</h2>
-          <div className="school-table-wrap">
-            <table className="school-table">
-              <thead>
-                <tr>
-                  <th>{t('Cusp')}</th>
-                  <th>{t('Sign')}</th>
-                  <th>{t('Star Lord')}</th>
-                  <th>{t('Sub Lord')}</th>
-                  <th>{t('Sub-sub')}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {kp.cusps.slice(0, 12).map((cusp, index) => (
-                  <tr
-                    className={
-                      selectedCusp === cusp.house ||
-                      selectedFocus.houses.includes(cusp.house)
-                        ? 'kp-relevant-row'
-                        : ''
-                    }
-                    key={cusp.house}
-                    onClick={() => setSelectedCusp(cusp.house)}
-                    style={{ ['--kp-row-index' as string]: index } as CSSProperties}
-                  >
-                    <td>{cusp.house}</td>
-                    <td>
-                      {cusp.sign} {cusp.degree.toFixed(2)}°
-                    </td>
-                    <td>{cusp.lordChain.starLord}</td>
-                    <td>{cusp.lordChain.subLord}</td>
-                    <td>{cusp.lordChain.subSubLord}</td>
+          <details className="info-drawer school-explain-box">
+            <summary>
+              <span>{t('Proof drawer')}</span>
+              <strong>{t('KP cusps, star lords, sub lords')}</strong>
+            </summary>
+            <div className="section-title">{t('KP CUSPS')}</div>
+            <h2>{t('12 cusps with star and sub lords.')}</h2>
+            <div className="school-table-wrap">
+              <table className="school-table">
+                <thead>
+                  <tr>
+                    <th>{t('Cusp')}</th>
+                    <th>{t('Sign')}</th>
+                    <th>{t('Star Lord')}</th>
+                    <th>{t('Sub Lord')}</th>
+                    <th>{t('Sub-sub')}</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          {!kp.cusps.length ? (
-            <p>{t(getKpCalculationMessage(Boolean(kundli), schoolCalculationStatus))}</p>
-          ) : null}
+                </thead>
+                <tbody>
+                  {kp.cusps.slice(0, 12).map((cusp, index) => (
+                    <tr
+                      className={
+                        selectedCusp === cusp.house ||
+                        selectedFocus.houses.includes(cusp.house)
+                          ? 'kp-relevant-row'
+                          : ''
+                      }
+                      key={cusp.house}
+                      onClick={() => setSelectedCusp(cusp.house)}
+                      style={{ ['--kp-row-index' as string]: index } as CSSProperties}
+                    >
+                      <td>{cusp.house}</td>
+                      <td>
+                        {cusp.sign} {cusp.degree.toFixed(2)}°
+                      </td>
+                      <td>{cusp.lordChain.starLord}</td>
+                      <td>{cusp.lordChain.subLord}</td>
+                      <td>{cusp.lordChain.subSubLord}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {!kp.cusps.length ? (
+              <p>{t(getKpCalculationMessage(Boolean(kundli), schoolCalculationStatus))}</p>
+            ) : null}
+          </details>
         </div>
       </Card>
 

@@ -8,7 +8,7 @@ import { FadeInView } from './FadeInView';
 import { GlowCard } from './GlowCard';
 import { GradientText } from './GradientText';
 
-type KpEventFocus = 'career' | 'money' | 'marriage' | 'property';
+type KpEventFocus = 'career' | 'money' | 'marriage' | 'property' | 'education' | 'travel' | 'custom';
 
 const KP_EVENT_FOCUS: Array<{
   id: KpEventFocus;
@@ -43,6 +43,27 @@ const KP_EVENT_FOCUS: Array<{
     prompt:
       'Using KP only, judge home, property, and relocation from houses 4, 11, 12, cusp sub lords, significators, ruling planets, and dasha support.',
     title: 'Home and property',
+  },
+  {
+    houses: [4, 5, 9, 11],
+    id: 'education',
+    prompt:
+      'Using KP only, judge education, exam, certification, and learning outcomes from houses 4, 5, 9, 11, cusp sub lords, significators, ruling planets, and dasha support.',
+    title: 'Education and exams',
+  },
+  {
+    houses: [3, 9, 12],
+    id: 'travel',
+    prompt:
+      'Using KP only, judge travel, foreign movement, and relocation readiness from houses 3, 9, 12, cusp sub lords, significators, ruling planets, and dasha support.',
+    title: 'Travel and relocation',
+  },
+  {
+    houses: [1, 6, 10, 11],
+    id: 'custom',
+    prompt:
+      'Using KP only, help refine the user custom event into an exact question with event type, time window, current situation, and desired outcome before judging cusps and significators.',
+    title: 'Custom exact question',
   },
 ];
 
@@ -134,6 +155,12 @@ export function KpPredictaPanel({
           <AppText className="mt-2" tone="secondary">
             {kp.eventJudgement.plainLanguage}
           </AppText>
+          <View style={styles.metricGrid}>
+            <Metric label="Promise" value={kp.eventJudgement.eventVerdictCompass.promise} />
+            <Metric label="Block" value={kp.eventJudgement.eventVerdictCompass.block} />
+            <Metric label="Timing" value={kp.eventJudgement.eventVerdictCompass.timing} />
+            <Metric label="Confidence" value={kp.eventJudgement.eventVerdictCompass.confidence} />
+          </View>
         </View>
       </GlowCard>
 
@@ -155,6 +182,13 @@ export function KpPredictaPanel({
         <AppText tone="secondary" variant="caption">
           KP JUDGEMENT PATH
         </AppText>
+        <View style={styles.explainBox}>
+          <AppText variant="caption">WHAT ARE YOU ASKING?</AppText>
+          <AppText className="mt-2" tone="secondary">
+            Choose the event first. KP works best with an exact question, a time
+            window, the current situation, and the outcome you want to judge.
+          </AppText>
+        </View>
         <AppText className="mt-1" variant="subtitle">
           {selectedFocus.title}
         </AppText>
@@ -185,7 +219,7 @@ export function KpPredictaPanel({
           })}
         </View>
         <View style={styles.pathGrid}>
-          {kp.eventJudgement.proofPath.map((step, index) => (
+          {kp.eventJudgement.questionToProofPath.map((step, index) => (
             <PathStep
               key={step}
               label={
@@ -197,15 +231,21 @@ export function KpPredictaPanel({
                       ? 'Carriers'
                       : 'Timing'
               }
-              value={step}
+              value={kp.eventJudgement.proofPath[index] ?? step}
             />
           ))}
+        </View>
+        <View style={styles.explainBox}>
+          <AppText variant="caption">ASK EXACT QUESTION WIZARD</AppText>
+          <AppText className="mt-2" tone="secondary">
+            {kp.eventJudgement.nextQuestion}
+          </AppText>
         </View>
       </GlowCard>
 
       <GlowCard delay={180}>
         <AppText tone="secondary" variant="caption">
-          KP CUSPS
+          PROOF DRAWER
         </AppText>
         <AppText className="mt-1" variant="subtitle">
           12 cusps with star and sub lords
