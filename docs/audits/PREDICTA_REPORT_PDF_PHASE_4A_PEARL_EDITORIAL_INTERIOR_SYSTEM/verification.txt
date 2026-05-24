@@ -1,0 +1,48 @@
+PREDICTA_REPORT_PDF_PHASE_4A_PEARL_EDITORIAL_INTERIOR_SYSTEM
+
+Status: GREEN after strict artifact audit.
+
+Generated PDFs:
+- artifacts/phase4a-free-en.pdf
+- artifacts/phase4a-premium-en.pdf
+- artifacts/phase4a-free-hi.pdf
+- artifacts/phase4a-free-gu.pdf
+
+Rendered screenshots:
+- screenshots/free-cover-page-1.png
+- screenshots/free-interior-page-2.png
+- screenshots/free-final-page-22.png
+- screenshots/premium-cover-page-1.png
+- screenshots/premium-chart-page-4.png
+- screenshots/premium-table-page-7.png
+- screenshots/premium-dense-reading-page-9.png
+- screenshots/premium-final-page-28.png
+- screenshots/hindi-interior-page-2.png
+- screenshots/gujarati-interior-page-2.png
+
+Audit results:
+- Free and premium interiors use the Predicta Pearl Editorial background, not light yellow.
+- Cover remains the dark Predicta theme and was not converted into an interior page.
+- Centered watermark appears on inspected cover, chart, table, dense reading, and final pages.
+- Text remains readable over the watermark.
+- Tables use muted header bands, hairline dividers, and generous row spacing.
+- Kundli chart plates use porcelain cards with refined gold/copper chart lines, not yellow cards.
+- English PDFs use bundled Source Serif 4 and Cormorant Garamond instead of Helvetica as primary report typography.
+- Hindi and Gujarati PDFs use registered Indic fonts and render native-script template copy without gibberish.
+- Free and premium screenshots share the same baseline visual dignity.
+- Inspected pages keep the corrected footer and avoid footer/content collision.
+
+Commands run:
+- corepack pnpm --filter @pridicta/pdf build
+- corepack pnpm test:report-pdf-phase-4a
+- corepack pnpm test:report-pdf-phase-4
+- corepack pnpm test:pdf-golden
+- corepack pnpm test:room-report-pdf
+- corepack pnpm build:web
+- corepack pnpm test:translation-trust
+- corepack pnpm test:native-script-chat
+- git diff --check
+
+Artifact rendering:
+- PDFs were generated through the live web API route at /api/report/pdf.
+- Page screenshots were rendered from the generated PDFs with macOS PDFKit via a temporary Swift renderer.

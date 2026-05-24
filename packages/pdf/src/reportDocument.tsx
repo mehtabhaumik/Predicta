@@ -92,13 +92,45 @@ const PDF_PAGE_TEMPLATES = {
     border: '#D9D1BF',
     ink: '#151925',
     muted: '#5B6677',
-    panel: '#FFFFFF',
+    panel: '#FDFCF8',
   },
   watermark: {
     opacity: 0.045,
     textOpacity: 0.055,
   },
 } as const;
+
+Font.register({
+  family: 'Predicta Editorial Display',
+  fonts: [
+    {
+      src: resolvePdfFontPath('CormorantGaramond-SemiBold.ttf'),
+      fontWeight: 600,
+    },
+    {
+      src: resolvePdfFontPath('CormorantGaramond-Bold.ttf'),
+      fontWeight: 700,
+    },
+  ],
+});
+
+Font.register({
+  family: 'Predicta Editorial Body',
+  fonts: [
+    {
+      src: resolvePdfFontPath('SourceSerif4-Regular.ttf'),
+      fontWeight: 400,
+    },
+    {
+      src: resolvePdfFontPath('SourceSerif4-SemiBold.ttf'),
+      fontWeight: 600,
+    },
+    {
+      src: resolvePdfFontPath('SourceSerif4-Bold.ttf'),
+      fontWeight: 700,
+    },
+  ],
+});
 
 Font.register({
   family: 'Predicta Devanagari',
@@ -114,7 +146,7 @@ const styles = StyleSheet.create({
   page: {
     backgroundColor: PDF_PAGE_TEMPLATES.interior.background,
     color: PDF_PAGE_TEMPLATES.interior.ink,
-    fontFamily: 'Helvetica',
+    fontFamily: 'Predicta Editorial Body',
     fontSize: 11,
     paddingBottom: 62,
     paddingHorizontal: 34,
@@ -123,7 +155,7 @@ const styles = StyleSheet.create({
   coverPage: {
     backgroundColor: PDF_PAGE_TEMPLATES.cover.background,
     color: '#F8FBFF',
-    fontFamily: 'Helvetica',
+    fontFamily: 'Predicta Editorial Body',
     paddingBottom: 56,
     paddingHorizontal: 40,
     paddingTop: 48,
@@ -218,33 +250,33 @@ const styles = StyleSheet.create({
   },
   pageHeader: {
     alignItems: 'center',
-    borderBottomColor: '#D5DCE8',
-    borderBottomWidth: 1,
+    borderBottomColor: '#D9D1BF',
+    borderBottomWidth: 0.7,
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 18,
     paddingBottom: 10,
   },
   pageHeaderEyebrow: {
-    color: '#6A7B98',
+    color: '#6F7481',
     fontSize: 9,
     fontWeight: 700,
     letterSpacing: 1.3,
     textTransform: 'uppercase',
   },
   pageHeaderTitle: {
-    color: '#20304D',
+    color: '#262A36',
     fontSize: 10,
     fontWeight: 700,
   },
   pageTitle: {
-    fontSize: 20,
-    fontWeight: 800,
+    fontSize: 23,
+    fontWeight: 700,
     lineHeight: 1.25,
     marginBottom: 10,
   },
   pageLead: {
-    color: '#55657E',
+    color: '#5B6677',
     fontSize: 11,
     lineHeight: 1.6,
     marginBottom: 16,
@@ -256,7 +288,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   panelEyebrow: {
-    color: '#6C7E9B',
+    color: '#7A7467',
     fontSize: 9,
     fontWeight: 700,
     letterSpacing: 1.1,
@@ -264,13 +296,13 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   panelTitle: {
-    fontSize: 16,
-    fontWeight: 800,
+    fontSize: 18,
+    fontWeight: 700,
     lineHeight: 1.3,
     marginBottom: 8,
   },
   panelBody: {
-    color: '#4D5E78',
+    color: '#465166',
     fontSize: 11,
     lineHeight: 1.65,
   },
@@ -283,7 +315,7 @@ const styles = StyleSheet.create({
   pill: {
     borderRadius: 999,
     borderWidth: 1,
-    color: '#20304D',
+    color: '#2F3440',
     fontSize: 9,
     fontWeight: 700,
     paddingHorizontal: 9,
@@ -309,7 +341,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   cardLabel: {
-    color: '#6C7D97',
+    color: '#7A7467',
     fontSize: 8,
     fontWeight: 700,
     letterSpacing: 1,
@@ -317,12 +349,12 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   cardText: {
-    color: '#1D2C45',
+    color: '#202532',
     fontSize: 10.5,
     lineHeight: 1.55,
   },
   cardSubtext: {
-    color: '#586A85',
+    color: '#5B6677',
     fontSize: 9.5,
     lineHeight: 1.5,
     marginTop: 8,
@@ -334,7 +366,7 @@ const styles = StyleSheet.create({
     padding: 14,
   },
   sectionStoryBody: {
-    color: '#31415A',
+    color: '#3D4658',
     fontSize: 11,
     lineHeight: 1.68,
   },
@@ -363,7 +395,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   evidenceText: {
-    color: '#546681',
+    color: '#4F5A6E',
     fontSize: 9.5,
     lineHeight: 1.55,
   },
@@ -371,7 +403,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     borderRadius: 999,
     borderWidth: 1,
-    color: '#20304D',
+    color: '#303542',
     fontSize: 8,
     fontWeight: 800,
     marginTop: 8,
@@ -386,9 +418,9 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   chartCard: {
-    borderRadius: 18,
+    borderRadius: 20,
     borderWidth: 1,
-    padding: 14,
+    padding: 16,
     width: '100%',
   },
   chartHeader: {
@@ -398,25 +430,25 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   chartHeaderType: {
-    color: '#6B7E9B',
+    color: '#7A7467',
     fontSize: 8,
     fontWeight: 700,
     letterSpacing: 1,
     textTransform: 'uppercase',
   },
   chartHeaderTitle: {
-    fontSize: 13,
-    fontWeight: 800,
+    fontSize: 16,
+    fontWeight: 700,
     marginTop: 2,
   },
   chartHeaderSchool: {
-    color: '#667A97',
+    color: '#7A7467',
     fontSize: 8.5,
     fontWeight: 700,
     textTransform: 'uppercase',
   },
   chartBoard: {
-    borderRadius: 14,
+    borderRadius: 16,
     borderWidth: 1,
     height: 430,
     marginBottom: 10,
@@ -430,7 +462,7 @@ const styles = StyleSheet.create({
   signChip: {
     borderRadius: 999,
     borderWidth: 1,
-    color: '#20304D',
+    color: '#2F3440',
     fontSize: 8.4,
     fontWeight: 800,
     marginBottom: 4,
@@ -441,7 +473,7 @@ const styles = StyleSheet.create({
   planetChip: {
     borderRadius: 999,
     borderWidth: 1,
-    color: '#20304D',
+    color: '#2F3440',
     fontSize: 7.4,
     fontWeight: 700,
     marginBottom: 3,
@@ -450,13 +482,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   chartNote: {
-    color: '#556680',
+    color: '#5B6677',
     fontSize: 9.5,
     lineHeight: 1.55,
     marginBottom: 8,
   },
   chartThemeNote: {
-    color: '#31415C',
+    color: '#3E4658',
     fontSize: 9,
     lineHeight: 1.5,
   },
@@ -509,7 +541,7 @@ const styles = StyleSheet.create({
   },
   noteRow: {
     borderRadius: 14,
-    borderWidth: 1,
+    borderWidth: 0.8,
     marginBottom: 10,
     padding: 12,
   },
@@ -518,12 +550,12 @@ const styles = StyleSheet.create({
   },
   sectionCard: {
     borderRadius: 16,
-    borderWidth: 1,
+    borderWidth: 0.8,
     marginBottom: 10,
     padding: 14,
   },
   sectionCardEyebrow: {
-    color: '#6C7E9B',
+    color: '#7A7467',
     fontSize: 8.2,
     fontWeight: 700,
     letterSpacing: 1,
@@ -531,14 +563,14 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   sectionCardTitle: {
-    color: '#1D2C45',
-    fontSize: 12,
-    fontWeight: 800,
+    color: '#202532',
+    fontSize: 13.5,
+    fontWeight: 700,
     lineHeight: 1.35,
     marginBottom: 7,
   },
   sectionCardBody: {
-    color: '#4D5E78',
+    color: '#465166',
     fontSize: 9.8,
     lineHeight: 1.58,
   },
@@ -546,22 +578,66 @@ const styles = StyleSheet.create({
     marginTop: 9,
   },
   sectionBullet: {
-    color: '#31415A',
+    color: '#3D4658',
     fontSize: 9.3,
     lineHeight: 1.45,
     marginBottom: 5,
   },
   closingTitle: {
-    fontSize: 24,
-    fontWeight: 800,
+    fontSize: 27,
+    fontWeight: 700,
     lineHeight: 1.25,
     marginBottom: 12,
   },
   closingBody: {
-    color: '#4D5E78',
+    color: '#465166',
     fontSize: 12,
     lineHeight: 1.7,
     marginBottom: 14,
+  },
+  evidenceTable: {
+    borderColor: '#DED6C7',
+    borderRadius: 12,
+    borderWidth: 0.6,
+    marginTop: 10,
+    overflow: 'hidden',
+  },
+  evidenceTableHeader: {
+    backgroundColor: '#EFE9DC',
+    borderBottomColor: '#D8CDBA',
+    borderBottomWidth: 0.6,
+    flexDirection: 'row',
+    minHeight: 24,
+  },
+  evidenceTableRow: {
+    backgroundColor: '#FDFBF6',
+    borderBottomColor: '#E8E1D4',
+    borderBottomWidth: 0.4,
+    flexDirection: 'row',
+    minHeight: 34,
+  },
+  evidenceTableHeaderCell: {
+    color: '#6F6657',
+    fontSize: 7.6,
+    fontWeight: 700,
+    letterSpacing: 0.6,
+    lineHeight: 1.35,
+    paddingHorizontal: 7,
+    paddingVertical: 6,
+    textTransform: 'uppercase',
+  },
+  evidenceTableCell: {
+    color: '#384154',
+    fontSize: 8.1,
+    lineHeight: 1.45,
+    paddingHorizontal: 7,
+    paddingVertical: 7,
+  },
+  evidenceTableCellWide: {
+    width: '40%',
+  },
+  evidenceTableCellNarrow: {
+    width: '20%',
   },
 });
 
@@ -626,6 +702,7 @@ export function PredictaReportPdfDocument({
   const chartRows = chunk(chartCards, 1);
   const subjectName = getReportSubjectName(report);
   const documentFontFamily = getDocumentFontFamily(report.language);
+  const displayTextStyle = getDisplayTextStyle(report.language);
   const templateCopy = getPdfTemplateCopy(report.language, report.mode);
 
   return (
@@ -663,7 +740,7 @@ export function PredictaReportPdfDocument({
           </View>
         </View>
         <Text style={[styles.coverWordmark, { color: '#F8FBFF' }]}>PREDICTA</Text>
-        <Text style={styles.coverTitle}>{report.cover.subtitle}</Text>
+        <Text style={[styles.coverTitle, displayTextStyle]}>{report.cover.subtitle}</Text>
         <Text style={styles.coverSubtitle}>{report.executiveSummary.headline}</Text>
         <Text style={styles.coverTagline}>
           A polished astrology report built like a keepsake dossier: clear on
@@ -693,7 +770,7 @@ export function PredictaReportPdfDocument({
           eyebrow={templateCopy.summaryEyebrow}
           title={templateCopy.reportModeLabel}
         />
-        <Text style={styles.pageTitle}>{templateCopy.summaryTitle}</Text>
+        <Text style={[styles.pageTitle, displayTextStyle]}>{templateCopy.summaryTitle}</Text>
         <Text style={styles.pageLead}>
           {templateCopy.summaryLead}
         </Text>
@@ -708,7 +785,7 @@ export function PredictaReportPdfDocument({
           ]}
         >
           <Text style={styles.panelEyebrow}>{templateCopy.executiveSummary}</Text>
-          <Text style={styles.panelTitle}>{report.executiveSummary.headline}</Text>
+          <Text style={[styles.panelTitle, displayTextStyle]}>{report.executiveSummary.headline}</Text>
           <Text style={styles.panelBody}>{report.summary}</Text>
           <View style={styles.pillRow}>
             {report.executiveSummary.keySignals.slice(0, 5).map(signal => (
@@ -733,26 +810,26 @@ export function PredictaReportPdfDocument({
             style={[
               styles.halfCard,
               {
-                backgroundColor: '#FFFFFF',
+                backgroundColor: '#FDFCF8',
                 borderColor: '#D6DDE9',
               },
             ]}
           >
             <Text style={styles.cardLabel}>{templateCopy.confidence}</Text>
-            <Text style={styles.cardText}>{report.trustProfile.confidenceLabel}</Text>
+            <Text style={[styles.cardText, displayTextStyle]}>{report.trustProfile.confidenceLabel}</Text>
             <Text style={styles.cardSubtext}>{report.trustProfile.summary}</Text>
           </View>
           <View
             style={[
               styles.halfCard,
               {
-                backgroundColor: '#FFFFFF',
+                backgroundColor: '#FDFCF8',
                 borderColor: '#D6DDE9',
               },
             ]}
           >
             <Text style={styles.cardLabel}>{templateCopy.readAs}</Text>
-            <Text style={styles.cardText}>
+            <Text style={[styles.cardText, displayTextStyle]}>
               {report.mode === 'PREMIUM'
                 ? 'a premium dossier with deeper timing, synthesis, and planning guidance'
                 : 'a substantial free report with real insight and clear next steps'}
@@ -769,7 +846,7 @@ export function PredictaReportPdfDocument({
           style={[
             styles.noteRow,
             {
-              backgroundColor: '#FFFFFF',
+              backgroundColor: '#FDFCF8',
               borderColor: '#D6DDE9',
             },
           ]}
@@ -791,7 +868,7 @@ export function PredictaReportPdfDocument({
             eyebrow={report.mode === 'PREMIUM' ? 'How to use this dossier' : 'How to use this report'}
             title={plannedSpreads.scope === 'focused' ? 'Focused reading guide' : 'Reading guide'}
           />
-          <Text style={styles.pageTitle}>
+          <Text style={[styles.pageTitle, displayTextStyle]}>
             {report.mode === 'PREMIUM' ? 'How to use this dossier' : 'How to read this report'}
           </Text>
           <Text style={styles.pageLead}>
@@ -806,13 +883,13 @@ export function PredictaReportPdfDocument({
                 style={[
                   styles.halfCard,
                   {
-                    backgroundColor: '#FFFFFF',
+                    backgroundColor: '#FDFCF8',
                     borderColor: '#D6DDE9',
                   },
                 ]}
               >
                 <Text style={styles.cardLabel}>{card.eyebrow}</Text>
-                <Text style={styles.cardText}>{card.title}</Text>
+                <Text style={[styles.cardText, displayTextStyle]}>{card.title}</Text>
                 <Text style={styles.cardSubtext}>{card.body}</Text>
               </View>
             ))}
@@ -828,7 +905,7 @@ export function PredictaReportPdfDocument({
             eyebrow="Chart proof"
             title={report.mode === 'PREMIUM' ? 'Chart spread' : 'Charts in your report'}
           />
-          <Text style={styles.pageTitle}>The charts, in the same language as Predicta</Text>
+          <Text style={[styles.pageTitle, displayTextStyle]}>The charts, in the same language as Predicta</Text>
           <Text style={styles.pageLead}>
             These charts use the same house structure, signs, planets, degrees,
             status marks, and birth-time theme logic as the real Kundli
@@ -855,23 +932,24 @@ export function PredictaReportPdfDocument({
             eyebrow={spread.eyebrow}
             title={report.mode === 'PREMIUM' ? 'Premium analysis spread' : 'Insight spread'}
           />
-          <Text style={styles.pageTitle}>{spread.title}</Text>
+          <Text style={[styles.pageTitle, displayTextStyle]}>{spread.title}</Text>
           <Text style={styles.pageLead}>{spread.lead}</Text>
 
           <View style={styles.sectionStack}>
             {spread.sections.map(item => (
               <View
                 key={`${item.index}-${item.section.title}`}
+                wrap={false}
                 style={[
                   styles.sectionCard,
                   {
-                    backgroundColor: item.section.tier === 'premium' ? palette.note : '#FFFFFF',
+                    backgroundColor: item.section.tier === 'premium' ? palette.note : '#FDFCF8',
                     borderColor: '#D6DDE9',
                   },
                 ]}
               >
                 <Text style={styles.sectionCardEyebrow}>{item.section.eyebrow}</Text>
-                <Text style={styles.sectionCardTitle}>{item.section.title}</Text>
+                <Text style={[styles.sectionCardTitle, displayTextStyle]}>{item.section.title}</Text>
                 <Text style={styles.sectionCardBody}>{item.section.body}</Text>
                 {item.section.bullets.length ? (
                   <View style={styles.sectionBulletList}>
@@ -882,6 +960,9 @@ export function PredictaReportPdfDocument({
                     ))}
                   </View>
                 ) : null}
+                {item.section.evidenceTable?.length ? (
+                  <PdfEvidenceTable rows={item.section.evidenceTable.slice(0, 4)} />
+                ) : null}
               </View>
             ))}
           </View>
@@ -891,7 +972,7 @@ export function PredictaReportPdfDocument({
               style={[
                 styles.noteRow,
                 {
-                  backgroundColor: '#FFFFFF',
+                  backgroundColor: '#FDFCF8',
                   borderColor: '#D6DDE9',
                 },
               ]}
@@ -914,7 +995,7 @@ export function PredictaReportPdfDocument({
           eyebrow={report.mode === 'PREMIUM' ? 'Close the dossier well' : 'Use the report well'}
           title={report.mode === 'PREMIUM' ? 'Next steps' : 'What to do next'}
         />
-        <Text style={styles.closingTitle}>
+        <Text style={[styles.closingTitle, displayTextStyle]}>
           {report.mode === 'PREMIUM'
             ? 'Use this dossier as a planning instrument, not as a one-line fate statement.'
             : 'Use this report as a real starting point, not as a teaser.'}
@@ -934,7 +1015,7 @@ export function PredictaReportPdfDocument({
           ]}
         >
           <Text style={styles.panelEyebrow}>Fun chart note</Text>
-          <Text style={styles.panelTitle}>
+          <Text style={[styles.panelTitle, displayTextStyle]}>
             {buildThemeFunFact(report.chartSnapshots[0]?.theme ?? 'unknown', report.cover.metadata[0] ?? '')}
           </Text>
           <Text style={styles.panelBody}>
@@ -947,7 +1028,7 @@ export function PredictaReportPdfDocument({
           style={[
             styles.noteRow,
             {
-              backgroundColor: '#FFFFFF',
+              backgroundColor: '#FDFCF8',
               borderColor: '#D6DDE9',
             },
           ]}
@@ -1356,6 +1437,37 @@ function PdfPageHeader({
   );
 }
 
+function PdfEvidenceTable({ rows }: { rows: NonNullable<PdfSection['evidenceTable']> }): React.JSX.Element {
+  return (
+    <View style={styles.evidenceTable}>
+      <View style={styles.evidenceTableHeader}>
+        <Text style={[styles.evidenceTableHeaderCell, styles.evidenceTableCellNarrow]}>
+          Factor
+        </Text>
+        <Text style={[styles.evidenceTableHeaderCell, styles.evidenceTableCellWide]}>
+          Observation
+        </Text>
+        <Text style={[styles.evidenceTableHeaderCell, styles.evidenceTableCellWide]}>
+          Meaning
+        </Text>
+      </View>
+      {rows.map(row => (
+        <View key={`${row.factor}-${row.observation}`} style={styles.evidenceTableRow}>
+          <Text style={[styles.evidenceTableCell, styles.evidenceTableCellNarrow]}>
+            {row.factor}
+          </Text>
+          <Text style={[styles.evidenceTableCell, styles.evidenceTableCellWide]}>
+            {row.observation}
+          </Text>
+          <Text style={[styles.evidenceTableCell, styles.evidenceTableCellWide]}>
+            {row.implication}
+          </Text>
+        </View>
+      ))}
+    </View>
+  );
+}
+
 function PdfCoverAtmosphere(): React.JSX.Element {
   return (
     <>
@@ -1406,7 +1518,15 @@ function getDocumentFontFamily(language: SupportedLanguage): string {
     return 'Predicta Gujarati';
   }
 
-  return 'Helvetica';
+  return 'Predicta Editorial Body';
+}
+
+function getDisplayTextStyle(language: SupportedLanguage): { fontFamily?: string } {
+  if (language === 'en') {
+    return { fontFamily: 'Predicta Editorial Display' };
+  }
+
+  return {};
 }
 
 function getPdfTemplateCopy(
@@ -1647,79 +1767,67 @@ function getModePalette(mode: PDFMode): ThemePalette {
   if (mode === 'PREMIUM') {
     return {
       accent: '#FFC56C',
-      accentSoft: '#FFF4D9',
-      background: '#ECEFF4',
-      border: '#E2C785',
-      note: '#FFF9ED',
+      accentSoft: '#F3ECE0',
+      background: PDF_PAGE_TEMPLATES.interior.background,
+      border: '#D3BE8A',
+      note: '#FDF8ED',
       outline: '#CFAF6A',
-      panel: '#FFFFFF',
+      panel: PDF_PAGE_TEMPLATES.interior.panel,
     };
   }
 
   return {
     accent: '#7BB7FF',
-    accentSoft: '#EAF3FF',
-    background: '#ECEFF4',
-    border: '#C5D7F0',
-    note: '#F6FAFF',
+    accentSoft: '#EEF3F5',
+    background: PDF_PAGE_TEMPLATES.interior.background,
+    border: '#C9D5DE',
+    note: '#F6F8F8',
     outline: '#8AAAD3',
-    panel: '#FFFFFF',
+    panel: PDF_PAGE_TEMPLATES.interior.panel,
   };
 }
 
 function getChartThemePalette(theme: PdfChartSnapshot['theme']): ThemePalette {
+  const pearl = {
+    accentSoft: '#F6EFE2',
+    background: '#F7F3EA',
+    border: '#D6B879',
+    note: '#FFFDF8',
+    panel: '#FDF9F1',
+  };
+
   switch (theme) {
     case 'sunrise':
       return {
-        accent: '#D78B35',
-        accentSoft: '#FFF1D9',
-        background: '#FFF7EA',
-        border: '#E0C29A',
-        note: '#FFFDFC',
-        outline: '#C9A071',
-        panel: '#FFF9F1',
+        ...pearl,
+        accent: '#B87532',
+        outline: '#B9874E',
       };
     case 'morning':
       return {
-        accent: '#A38C2A',
-        accentSoft: '#F7F1D1',
-        background: '#FBF9EC',
-        border: '#D6CEA3',
-        note: '#FFFDFC',
-        outline: '#BCAF76',
-        panel: '#FFFDF6',
+        ...pearl,
+        accent: '#9B8436',
+        outline: '#B9A161',
       };
     case 'afternoon':
       return {
-        accent: '#4A78B8',
-        accentSoft: '#E8F1FF',
-        background: '#F5F8FD',
-        border: '#CAD7EC',
-        note: '#FFFFFF',
-        outline: '#A8BAD7',
-        panel: '#FAFCFF',
+        ...pearl,
+        accent: '#6C8BAA',
+        outline: '#AA9A7A',
       };
     case 'sunset':
       return {
-        accent: '#C87457',
-        accentSoft: '#FBE7DF',
-        background: '#FFF4F0',
-        border: '#E4C1B6',
-        note: '#FFFFFF',
-        outline: '#C89A8B',
-        panel: '#FFF8F5',
+        ...pearl,
+        accent: '#B96F52',
+        outline: '#BA835F',
       };
     case 'night':
     case 'unknown':
     default:
       return {
-        accent: '#5A76B3',
-        accentSoft: '#EAF0FF',
-        background: '#F4F6FB',
-        border: '#CDD5E6',
-        note: '#FFFFFF',
-        outline: '#A6B1C8',
-        panel: '#FAFBFE',
+        ...pearl,
+        accent: '#657A9E',
+        outline: '#A78F68',
       };
   }
 }
