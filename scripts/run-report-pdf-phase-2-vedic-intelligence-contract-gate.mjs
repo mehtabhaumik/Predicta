@@ -107,9 +107,12 @@ for (const phrase of [
 }
 
 for (const phrase of [
-  'Shared Vedic intelligence used by this report',
-  'past Mahadashas summarized at Mahadasha level',
-  'Pratyantardasha caution',
+  'buildVedicIntelligencePackagingSections',
+  'Vedic snapshot',
+  'Moon Chart / Chandra Lagna Chart',
+  'Mahadasha Phala and Meaning',
+  'Past Mahadashas are summarized at Mahadasha level only',
+  'mahadasha.pratyantardashaCaution',
 ]) {
   assertIncludes(files.pdf, phrase, `PDF consumes contract with ${phrase}`);
 }

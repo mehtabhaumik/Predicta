@@ -1533,7 +1533,18 @@ function extractProofItems(items: PlannedSection[], maxItems: number): string[] 
     ...(item.section.evidenceTable?.slice(0, 1).map(row => `${row.factor}: ${row.implication}`) ?? []),
   ]);
 
-  return uniqueStrings(proof).slice(0, maxItems);
+  return uniqueStrings(proof).slice(0, maxItems).map(item => compactProofText(item));
+}
+
+function compactProofText(value: string): string {
+  const normalized = value.replace(/\s+/g, ' ').trim();
+  const maxLength = 155;
+
+  if (normalized.length <= maxLength) {
+    return normalized;
+  }
+
+  return `${normalized.slice(0, maxLength - 1).trim()}...`;
 }
 
 function uniqueStrings(items: string[]): string[] {

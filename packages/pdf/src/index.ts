@@ -10,6 +10,9 @@ import type {
   SupportedLanguage,
   SignatureAnalysisModel,
   TrustProfile,
+  VedicIntelligenceContract,
+  VedicIntelligenceSection,
+  VedicMahadashaPhalaBlock,
 } from '@pridicta/types';
 import { buildTrustProfile } from '@pridicta/config/trust';
 import { translateUiText } from '@pridicta/config/uiTranslations';
@@ -351,7 +354,7 @@ function buildReportSectionSet(
     buildExecutiveSummary(kundli, mode),
     buildHolisticReportSynthesisSection(kundli, mode),
     buildBirthAndCalculationSection(kundli),
-    buildVedicIntelligenceContractSection(kundli, mode),
+    ...buildVedicIntelligencePackagingSections(kundli, mode),
     buildChartSynthesisSection(kundli, chartTypes, mode, language),
     buildPlanetaryStrengthSection(kundli, mode),
     buildDashaSection(kundli, mode),
@@ -1365,52 +1368,378 @@ function buildChartSynthesisSection(
   };
 }
 
-function buildVedicIntelligenceContractSection(
+function buildVedicIntelligencePackagingSections(
   kundli: KundliData,
   mode: PDFMode,
-): PdfSection {
+): PdfSection[] {
   const intelligence = composeVedicIntelligenceContract({
     depth: mode === 'PREMIUM' ? 'PREMIUM' : 'FREE',
     kundli,
   });
-  const importantSections = [
-    intelligence.snapshot,
-    intelligence.moonChart,
-    intelligence.houseWisePlacements,
-    intelligence.friendshipTable,
-    intelligence.beneficMalefic,
-    intelligence.chalitTable,
-    intelligence.panchang,
-    intelligence.ashtakavarga,
-    intelligence.mahadashaPhala,
-    intelligence.samsa,
-    intelligence.ghatakFavorable,
-    intelligence.karakamsha,
-    intelligence.prastarashtakavarga,
-    intelligence.avakhadaChakra,
+
+  return [
+    buildVedicSnapshotReportSection(intelligence, mode),
+    buildMoonChartReportSection(intelligence, mode),
+    buildMahadashaPhalaReportSection(intelligence, mode),
+    ...buildHouseWisePlanetTableSections(intelligence, mode),
+    ...buildFriendshipTableSections(intelligence, mode),
+    buildBeneficMaleficReportSection(intelligence, mode),
+    ...buildChalitTableReportSections(intelligence, mode),
+    buildClassicalVedicReportSection(intelligence.panchang, 'PANCHANG', 'Panchang', mode),
+    buildClassicalVedicReportSection(intelligence.samsa, 'SAMSA', 'Samsa', mode),
+    buildClassicalVedicReportSection(
+      intelligence.ghatakFavorable,
+      'GHATAK / FAVORABLE',
+      'Ghatak and favorable factors',
+      mode,
+    ),
+    buildClassicalVedicReportSection(intelligence.karakamsha, 'KARAKAMSHA', 'Karakamsha', mode),
+    buildClassicalVedicReportSection(intelligence.ashtakavarga, 'ASHTAKAVARGA', 'Ashtakavarga', mode),
+    buildClassicalVedicReportSection(
+      intelligence.prastarashtakavarga,
+      'PRASTARASHTAKAVARGA',
+      'Prastarashtakavarga',
+      mode,
+    ),
+    buildClassicalVedicReportSection(
+      intelligence.avakhadaChakra,
+      'AVAKHADA',
+      'Avakhada chakra',
+      mode,
+    ),
   ];
+}
+
+function buildVedicSnapshotReportSection(
+  intelligence: VedicIntelligenceContract,
+  mode: PDFMode,
+): PdfSection {
+  const snapshot = intelligence.snapshot;
 
   return {
     body:
-      'This report uses the same shared Vedic intelligence contract as the Vedic section: Moon chart, Mahadasha Phala, graha labels, placement tables, friendship, benefic/malefic classification, Chalit, Panchang, Ashtakavarga, and explicit pending states where Phase 3 calculation modules are still limited.',
+      `${snapshot.explanation} ${vedicSectionMeaning(snapshot, mode)}`,
     bullets: [
+      `Lagna ${snapshot.lagna}; Moon ${snapshot.moonSign}; Nakshatra ${snapshot.nakshatra}.`,
+      `Current dasha: ${snapshot.currentDasha}.`,
+      `Strongest houses: ${snapshot.strongestHouses.join(', ') || 'pending'}. Weakest houses: ${snapshot.weakestHouses.join(', ') || 'pending'}.`,
       `Chart order: ${intelligence.chartOrder.map(item => item.title).join(' -> ') || 'pending'}.`,
-      `Moon chart: ${intelligence.moonChart.status === 'ready' ? 'included from Chandra Lagna reference' : 'pending'}.`,
-      `Mahadasha Phala: past Mahadashas summarized at Mahadasha level; current period split into Entire Mahadasha, Mahadasha plus Antardasha, and Mahadasha plus Antardasha plus Pratyantardasha.`,
-      ...importantSections.map(section =>
-        `${section.title}: ${section.status === 'ready' ? section.freeInsight : section.limitations[0]}`,
-      ),
     ],
     evidence: [
       `Contract generated for ${intelligence.ownerName} at ${intelligence.generatedAt}.`,
       `Graha labels available: ${intelligence.grahaVisualMetadata.map(item => item.displayLabel).join(', ')}.`,
-      `House-wise placement rows: ${intelligence.houseWisePlacements.rows.length}.`,
-      `Friendship rows: ${intelligence.friendshipTable.rows.length}.`,
-      `Pratyantardasha caution: ${intelligence.mahadashaPhala.pratyantardashaCaution}`,
+      ...sectionEvidence(snapshot),
     ],
     eyebrow: 'VEDIC INTELLIGENCE CONTRACT',
-    title: 'Shared Vedic intelligence used by this report',
+    title: 'Vedic snapshot',
   };
+}
+
+function buildMoonChartReportSection(
+  intelligence: VedicIntelligenceContract,
+  mode: PDFMode,
+): PdfSection {
+  const moonChart = intelligence.moonChart;
+
+  return {
+    body: `${moonChart.explanation} ${vedicSectionMeaning(moonChart, mode)}`,
+    bullets: [
+      `Moon chart status: ${moonChart.status === 'ready' ? 'ready and required' : 'pending'}.`,
+      `Chart order remains fixed: Lagna/Rashi D1 first, Moon/Chandra Lagna second, Navamsa D9 third, then other vargas.`,
+      `Moon chart reference: Chandra Lagna from ${intelligence.snapshot.moonSign} Moon.`,
+      moonChart.limitations[0] ?? 'Moon chart is read as an emotional and lived-experience lens, not a replacement for Lagna.',
+    ],
+    evidence: sectionEvidence(moonChart),
+    eyebrow: 'MOON CHART',
+    title: 'Moon Chart / Chandra Lagna Chart',
+  };
+}
+
+function buildMahadashaPhalaReportSection(
+  intelligence: VedicIntelligenceContract,
+  mode: PDFMode,
+): PdfSection {
+  const mahadasha = intelligence.mahadashaPhala;
+  const currentBlocks = [
+    mahadasha.currentEntireMahadasha,
+    mahadasha.currentMahadashaAntardasha,
+    mahadasha.currentMahadashaAntardashaPratyantardasha,
+  ];
+  const pastBlocks = mahadasha.pastMahadashas.slice(0, mode === 'PREMIUM' ? 6 : 3);
+  const blockText = (block: VedicMahadashaPhalaBlock) =>
+    `${block.title} (${block.period}): ${compactPdfText(mode === 'PREMIUM' ? block.premiumAnalysis : block.freeInsight, 170)}`;
+
+  return {
+    body:
+      `${mahadasha.explanation} Past Mahadashas are summarized at Mahadasha level only; they do not expand into Antardasha or Pratyantardasha drill-down.`,
+    bullets: [
+      ...currentBlocks.map(blockText),
+      pastBlocks.length
+        ? `Past Mahadasha summaries: ${pastBlocks.map(block => block.title).join(', ')}.`
+        : 'Past Mahadasha summaries will appear when the dasha timeline exposes completed periods.',
+    ],
+    evidence: [
+      ...sectionEvidence(mahadasha),
+      mahadasha.pratyantardashaCaution,
+      ...(mode === 'PREMIUM'
+        ? ['Premium keeps the current Pratyantardasha to one careful paragraph because the layer is too fine to overstate.']
+        : ['Free keeps the current Pratyantardasha practical and concise.']),
+    ],
+    evidenceTable: [
+      ...currentBlocks.map(block => mahadashaBlockToEvidenceRow(block, mode)),
+      ...pastBlocks.slice(0, 1).map(block => mahadashaBlockToEvidenceRow(block, mode)),
+    ],
+    eyebrow: 'MAHADASHA PHALA',
+    title: 'Mahadasha Phala and Meaning',
+  };
+}
+
+function buildHouseWisePlanetTableSections(
+  intelligence: VedicIntelligenceContract,
+  mode: PDFMode,
+): PdfSection[] {
+  const section = intelligence.houseWisePlacements;
+  const rows = section.rows;
+  const chunks = chunkArray(rows, 4);
+
+  return ensureAtLeastOneChunk(chunks).map((chunk, index) => ({
+    body:
+      index === 0
+        ? `${section.explanation} ${vedicSectionMeaning(section, mode)}`
+        : 'Continuation of the same house-wise planet table, kept in readable row blocks so no planet is hidden or cramped.',
+    bullets: index === 0
+      ? [
+          `Rows included: ${rows.length}.`,
+          'Each row keeps house, sign, degree, nakshatra, retrograde, combustion, exaltation, debilitation, and dignity visible.',
+          section.limitations[0] ?? 'Combustion and dignity are read conservatively with visible chart data.',
+        ]
+      : [`Rows ${index * 4 + 1}-${index * 4 + chunk.length} of ${rows.length}.`],
+    evidence: sectionEvidence(section),
+    evidenceTable: chunk.map(row => ({
+      confidence: 'high' as const,
+      factor: row.planet,
+      observation: `House ${row.house}; ${row.sign} ${formatDegree(row.degree)}; ${row.nakshatra} pada ${row.pada}.`,
+      implication: [
+        row.dignity,
+        row.retrograde ? 'retrograde' : 'direct',
+        row.combust ? 'combust' : 'not combust',
+        row.exalted ? 'exalted' : '',
+        row.debilitated ? 'debilitated' : '',
+      ].filter(Boolean).join('; '),
+    })),
+    eyebrow: 'HOUSE-WISE TABLE',
+    title: index === 0 ? 'House-wise planet table' : `House-wise planet table (continued ${index + 1})`,
+  }));
+}
+
+function buildFriendshipTableSections(
+  intelligence: VedicIntelligenceContract,
+  mode: PDFMode,
+): PdfSection[] {
+  const section = intelligence.friendshipTable;
+  const rows = section.rows;
+  const chunks = chunkArray(rows, 4);
+
+  return ensureAtLeastOneChunk(chunks).map((chunk, index) => ({
+    body:
+      index === 0
+        ? `${section.explanation} ${vedicSectionMeaning(section, mode)}`
+        : 'Continuation of the planet friendship table, split into readable blocks instead of a dense wall.',
+    bullets: index === 0
+      ? [
+          `Rows included: ${rows.length}.`,
+          'Natural, temporary, and compound relationship language is kept separate so the report does not over-simplify compatibility between grahas.',
+          section.limitations[0] ?? 'Relationship status is evidence, not a single final judgement.',
+        ]
+      : [`Rows ${index * 4 + 1}-${index * 4 + chunk.length} of ${rows.length}.`],
+    evidence: sectionEvidence(section),
+    evidenceTable: chunk.map(row => ({
+      confidence: 'medium' as const,
+      factor: row.fromPlanet,
+      observation: `Compound friends: ${summarizeRelationMap(row.compoundRelationships, 'friend')}; compound enemies: ${summarizeRelationMap(row.compoundRelationships, 'enemy')}.`,
+      implication: row.interpretation,
+    })),
+    eyebrow: 'FRIENDSHIP TABLE',
+    title: index === 0 ? 'Planet friendship table' : `Planet friendship table (continued ${index + 1})`,
+  }));
+}
+
+function buildBeneficMaleficReportSection(
+  intelligence: VedicIntelligenceContract,
+  mode: PDFMode,
+): PdfSection {
+  const section = intelligence.beneficMalefic;
+
+  return {
+    body: `${section.explanation} ${vedicSectionMeaning(section, mode)}`,
+    bullets: [
+      `Natural benefics: ${section.naturalBenefics.join(', ') || 'pending'}.`,
+      `Natural malefics: ${section.naturalMalefics.join(', ') || 'pending'}.`,
+      `Functional benefics for this Lagna: ${section.functionalBenefics.join(', ') || 'pending'}.`,
+      `Functional malefics for this Lagna: ${section.functionalMalefics.join(', ') || 'pending'}.`,
+    ],
+    evidence: sectionEvidence(section),
+    evidenceTable: [
+      {
+        confidence: section.status === 'ready' ? 'high' : 'low',
+        factor: 'Natural benefics',
+        observation: section.naturalBenefics.join(', ') || 'pending',
+        implication: 'Shows generally supportive graha nature before Lagna-specific ownership is applied.',
+      },
+      {
+        confidence: section.status === 'ready' ? 'high' : 'low',
+        factor: 'Natural malefics',
+        observation: section.naturalMalefics.join(', ') || 'pending',
+        implication: 'Shows generally sharper graha nature before Lagna-specific ownership is applied.',
+      },
+      {
+        confidence: section.status === 'ready' ? 'medium' : 'low',
+        factor: 'Functional benefics',
+        observation: section.functionalBenefics.join(', ') || 'pending',
+        implication: 'Shows planets that tend to support this specific Lagna by house ownership.',
+      },
+      {
+        confidence: section.status === 'ready' ? 'medium' : 'low',
+        factor: 'Functional malefics',
+        observation: section.functionalMalefics.join(', ') || 'pending',
+        implication: 'Shows planets that need more care for this specific Lagna by house ownership.',
+      },
+    ],
+    eyebrow: 'BENEFIC / MALEFIC',
+    title: 'Benefics and malefics',
+  };
+}
+
+function buildChalitTableReportSections(
+  intelligence: VedicIntelligenceContract,
+  mode: PDFMode,
+): PdfSection[] {
+  const section = intelligence.chalitTable;
+  const rows = section.rows;
+  const chunks = chunkArray(rows, 4);
+
+  return ensureAtLeastOneChunk(chunks).map((chunk, index) => ({
+    body:
+      index === 0
+        ? `${section.explanation} ${vedicSectionMeaning(section, mode)}`
+        : 'Continuation of the Chalit table, split into readable row blocks.',
+    bullets: index === 0
+      ? [
+          `Rows included: ${rows.length}.`,
+          `${rows.filter(row => row.shifted).length} planets shift house in the Chalit layer.`,
+          section.limitations[0] ?? 'Chalit is used as a house-strength refinement, not as a replacement for Rashi chart identity.',
+        ]
+      : [`Rows ${index * 4 + 1}-${index * 4 + chunk.length} of ${rows.length}.`],
+    evidence: sectionEvidence(section),
+    evidenceTable: chunk.map(row => ({
+      confidence: 'medium' as const,
+      factor: row.planet,
+      observation: `Rashi house ${row.rashiHouse} (${row.rashiSign}) -> Chalit house ${row.chalitHouse}.`,
+      implication: row.shifted
+        ? `House emphasis shifts ${row.shiftDirection}; read the planet through both Rashi and Chalit context.`
+        : 'House emphasis stays stable between Rashi and Chalit.',
+    })),
+    eyebrow: 'CHALIT TABLE',
+    title: index === 0 ? 'Chalit table' : `Chalit table (continued ${index + 1})`,
+  }));
+}
+
+function buildClassicalVedicReportSection(
+  section: VedicIntelligenceSection,
+  eyebrow: string,
+  title: string,
+  mode: PDFMode,
+): PdfSection {
+  return {
+    body: `${section.explanation} ${vedicSectionMeaning(section, mode)}`,
+    bullets: uniqueValues([
+      `Status: ${section.status}.`,
+      section.status === 'ready' ? section.freeInsight : section.limitations[0] ?? 'This layer is pending verified calculation data.',
+      ...(mode === 'PREMIUM'
+        ? [section.premiumAnalysis]
+        : ['Free includes the useful meaning and honest calculation boundary without turning this into a technical wall.']),
+      section.limitations[0] ?? 'No additional limitation is listed for this layer.',
+    ]),
+    evidence: sectionEvidence(section),
+    evidenceTable: sectionEvidence(section).slice(0, 4).map(item => ({
+      confidence: section.status === 'ready' ? 'medium' : 'low',
+      factor: title,
+      observation: item,
+      implication: section.status === 'ready'
+        ? vedicSectionMeaning(section, mode)
+        : 'Predicta shows the boundary instead of inventing unsupported detail.',
+    })),
+    eyebrow,
+    title,
+  };
+}
+
+function mahadashaBlockToEvidenceRow(
+  block: VedicMahadashaPhalaBlock,
+  mode: PDFMode,
+): PdfEvidenceRow {
+  return {
+    confidence: block.limitations.length ? 'medium' : 'high',
+    factor: block.title,
+    observation: block.period,
+    implication: compactPdfText(mode === 'PREMIUM' ? block.premiumAnalysis : block.freeInsight, 130),
+  };
+}
+
+function vedicSectionMeaning(
+  section: VedicIntelligenceSection,
+  mode: PDFMode,
+): string {
+  if (section.status !== 'ready') {
+    return section.limitations[0] ?? 'Predicta marks this layer pending until verified data is available.';
+  }
+
+  return mode === 'PREMIUM' ? section.premiumAnalysis : section.freeInsight;
+}
+
+function sectionEvidence(section: VedicIntelligenceSection): string[] {
+  const evidence = section.evidence.map(item => `${item.source}: ${item.observation}`);
+
+  return evidence.length ? evidence : section.limitations;
+}
+
+function summarizeRelationMap(
+  relations: Record<string, 'enemy' | 'friend' | 'neutral' | 'pending'>,
+  relation: 'enemy' | 'friend' | 'neutral' | 'pending',
+): string {
+  const matches = Object.entries(relations)
+    .filter(([, value]) => value === relation)
+    .map(([planet]) => planet);
+
+  return matches.length ? matches.join(', ') : 'none';
+}
+
+function formatDegree(degree: number): string {
+  return `${Number.isFinite(degree) ? degree.toFixed(2) : '0.00'}deg`;
+}
+
+function compactPdfText(value: string, maxLength: number): string {
+  const normalized = value.replace(/\s+/g, ' ').trim();
+
+  if (normalized.length <= maxLength) {
+    return normalized;
+  }
+
+  return `${normalized.slice(0, Math.max(0, maxLength - 1)).trim()}...`;
+}
+
+function chunkArray<T>(items: T[], size: number): T[][] {
+  const chunks: T[][] = [];
+
+  for (let index = 0; index < items.length; index += size) {
+    chunks.push(items.slice(index, index + size));
+  }
+
+  return chunks;
+}
+
+function ensureAtLeastOneChunk<T>(chunks: T[][]): T[][] {
+  return chunks.length ? chunks : [[]];
 }
 
 function buildReportChartNarrative({

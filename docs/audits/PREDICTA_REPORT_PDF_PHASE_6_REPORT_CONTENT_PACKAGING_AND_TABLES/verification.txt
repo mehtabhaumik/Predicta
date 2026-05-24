@@ -1,0 +1,49 @@
+PREDICTA_REPORT_PDF_PHASE_6_REPORT_CONTENT_PACKAGING_AND_TABLES
+Status: GREEN after strict code, artifact, and visual audit.
+
+Implementation summary:
+- Expanded Vedic PDF packaging from one broad shared-contract summary into explicit readable sections.
+- Free and premium Vedic reports now include Vedic snapshot, Moon Chart / Chandra Lagna Chart, Mahadasha Phala and Meaning, house-wise planet table, planet friendship table, benefics and malefics, Chalit table, Panchang, Samsa, Ghatak and favorable factors, Karakamsha, Ashtakavarga, Prastarashtakavarga, and Avakhada chakra.
+- Row-heavy modules are split into readable row-block cards so PDF tables do not become cramped walls.
+- Mahadasha Phala follows the approved structure: past Mahadashas stay Mahadasha-summary only, current period is split into Entire Mahadasha, Mahadasha plus Antardasha, and Mahadasha plus Antardasha plus Pratyantardasha.
+- Premium keeps deeper wording while Pratyantardasha remains conservative and paragraph-limited.
+- Supporting proof snippets are compacted to avoid orphan proof overflow pages.
+
+Generated PDF artifacts:
+- docs/audits/PREDICTA_REPORT_PDF_PHASE_6_REPORT_CONTENT_PACKAGING_AND_TABLES/free-en.pdf
+- docs/audits/PREDICTA_REPORT_PDF_PHASE_6_REPORT_CONTENT_PACKAGING_AND_TABLES/premium-en.pdf
+- docs/audits/PREDICTA_REPORT_PDF_PHASE_6_REPORT_CONTENT_PACKAGING_AND_TABLES/free-hi.pdf
+- docs/audits/PREDICTA_REPORT_PDF_PHASE_6_REPORT_CONTENT_PACKAGING_AND_TABLES/free-gu.pdf
+
+Rendered visual audit screenshots:
+- docs/audits/PREDICTA_REPORT_PDF_PHASE_6_REPORT_CONTENT_PACKAGING_AND_TABLES/screenshots/free-en/
+- docs/audits/PREDICTA_REPORT_PDF_PHASE_6_REPORT_CONTENT_PACKAGING_AND_TABLES/screenshots/premium-en/
+- docs/audits/PREDICTA_REPORT_PDF_PHASE_6_REPORT_CONTENT_PACKAGING_AND_TABLES/screenshots/free-hi/
+- docs/audits/PREDICTA_REPORT_PDF_PHASE_6_REPORT_CONTENT_PACKAGING_AND_TABLES/screenshots/free-gu/
+
+Manual visual audit:
+- English free PDF inspected across cover, D1, Moon chart, chart-safe house-wise table, Phase 6 content pages, and final pages.
+- English premium PDF inspected across cover, D1, Moon chart, chart-safe house-wise table, premium content pages, and appendix pages.
+- Hindi and Gujarati PDFs inspected across cover, D1, Moon chart, chart-safe house-wise table, and Phase 6 Mahadasha/content pages.
+- No PDF chart hides planets behind +1/+2/+3 counters.
+- Vedic chart order remains D1 first, Moon/Chandra Lagna second, D9 third, then remaining vargas.
+- The earlier Mahadasha orphan header/blank spread was caught during audit and fixed before green.
+
+Verification commands:
+- corepack pnpm --filter @pridicta/pdf build
+- curl POST /api/report/pdf for free English, premium English, free Hindi, and free Gujarati artifacts
+- swift /tmp/render_pdf_pages.swift for visual page renders
+- corepack pnpm test:report-pdf-phase-6
+- corepack pnpm test:report-pdf-phase-5
+- corepack pnpm test:report-pdf-phase-4b
+- corepack pnpm test:report-pdf-phase-4a
+- corepack pnpm test:report-pdf-phase-4
+- corepack pnpm test:report-pdf-phase-3
+- corepack pnpm test:report-pdf-phase-2
+- corepack pnpm test:pdf-golden
+- corepack pnpm test:room-report-pdf
+- corepack pnpm --filter @pridicta/pdf build
+- corepack pnpm build:web
+- corepack pnpm test:translation-trust
+- corepack pnpm test:native-script-chat
+- git diff --check
