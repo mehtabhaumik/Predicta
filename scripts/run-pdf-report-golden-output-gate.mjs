@@ -176,10 +176,27 @@ expectIncludes('packages/pdf/src/reportDocument.tsx', 'premium document renderer
   'Predicta Gujarati',
   "logoSrc?: string",
   '<Image src={options.logoSrc} style={styles.coverLogo} />',
-  "'Premium' : 'Free insight report'",
+  'report.cover.reportType',
+  'report.cover.subjectName',
+  'report.cover.dateOfBirth',
+  'report.cover.birthTime',
+  'report.cover.birthPlace',
+  'report.cover.birthMomentSignature.map',
+  '<PdfCelestialSeal />',
   'These charts use the same house structure, signs, planets, degrees,',
-  'A polished astrology report built like a keepsake dossier',
+  'report.cover.subtitle',
   'describeTheme(snapshot.theme, birthTime)',
+]);
+
+expectIncludes('packages/pdf/src/index.ts', 'celestial seal cover data contract', [
+  'function buildBaseCoverIdentity',
+  'birthMomentSignature',
+  'Moon:',
+  'Lagna:',
+  'Current Dasha:',
+  'getCoverReportFocusLabel',
+  'A Predicta ${focusLabel} Intelligence Report',
+  'Prepared with birth chart, panchang, dasha, and classical Jyotish analysis',
 ]);
 
 expectIncludes('apps/web/app/api/report/pdf/route.ts', 'logo-backed PDF route', [

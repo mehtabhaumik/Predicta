@@ -84,7 +84,15 @@ export type PdfReportFocus =
 export type PdfComposition = {
   chartSnapshots: PdfChartSnapshot[];
   cover: {
+    birthMomentSignature: string[];
+    birthPlace: string;
+    birthTime: string;
+    dateOfBirth: string;
+    descriptor: string;
     title: string;
+    preparationLine: string;
+    reportType: string;
+    subjectName: string;
     subtitle: string;
     metadata: string[];
   };
@@ -215,7 +223,7 @@ export function composeReportSections({
 
   return {
     chartSnapshots,
-    cover: buildReportCover(kundli, reportFocus),
+    cover: buildReportCover(kundli, reportFocus, mode),
     dossierVersion: '2.0',
     executiveSummary: localizeExecutiveSummary(
       buildDossierExecutiveSummary(kundli, mode, reportFocus, signatureAnalysis),
@@ -741,7 +749,15 @@ function composeEmptyReport(mode: PDFMode, language: SupportedLanguage): PdfComp
   return {
     chartSnapshots: [],
     cover: {
+      birthMomentSignature: [],
+      birthPlace: 'Birth place pending',
+      birthTime: 'Birth time pending',
+      dateOfBirth: 'Birth date pending',
+      descriptor: 'A Predicta Vedic Intelligence Report',
       metadata: ['Generate a kundli to unlock chart-derived synthesis'],
+      preparationLine: 'Prepared after birth chart, panchang, dasha, and classical Jyotish data are available',
+      reportType: mode === 'PREMIUM' ? 'Premium Vedic Report' : 'Free Kundli Report',
+      subjectName: 'Predicta User',
       subtitle: 'Personal Vedic Astrology Dossier',
       title: 'PREDICTA',
     },
@@ -792,6 +808,7 @@ function composeEmptyReport(mode: PDFMode, language: SupportedLanguage): PdfComp
 function buildReportCover(
   kundli: KundliData,
   reportFocus: PdfReportFocus,
+  mode: PDFMode,
 ): PdfComposition['cover'] {
   const birthLine = `${kundli.birthDetails.date} at ${kundli.birthDetails.time}`;
   const rectificationLine =
@@ -807,10 +824,12 @@ function buildReportCover(
     editLine,
     kundli.birthDetails.place,
   ].filter((item): item is string => Boolean(item));
+  const baseCover = buildBaseCoverIdentity(kundli, reportFocus, mode);
 
   if (reportFocus === 'KP') {
     const kp = composeChalitBhavKpFoundation(kundli, { depth: 'FREE' }).kp;
     return {
+      ...baseCover,
       metadata: [
         ...baseMetadata,
         `KP cusps ${kp.cusps.length} | significators ${kp.significators.length}`,
@@ -823,6 +842,7 @@ function buildReportCover(
   if (reportFocus === 'NADI') {
     const plan = composeNadiJyotishPlan(kundli, { depth: 'FREE' });
     return {
+      ...baseCover,
       metadata: [
         ...baseMetadata,
         `Nadi story patterns ${plan.patterns.length} | validation required before deeper timing`,
@@ -836,6 +856,7 @@ function buildReportCover(
     const profile =
       kundli.numerology ?? composeNumerologyFoundationModel(kundli.birthDetails);
     return {
+      ...baseCover,
       metadata: [
         ...baseMetadata.slice(0, 3),
         profile.status === 'ready'
@@ -849,6 +870,7 @@ function buildReportCover(
 
   if (reportFocus === 'SIGNATURE') {
     return {
+      ...baseCover,
       metadata: [
         kundli.birthDetails.name,
         'Confirmed visible signature traits only',
@@ -860,6 +882,7 @@ function buildReportCover(
   }
 
   return {
+    ...baseCover,
     metadata: [
       ...baseMetadata,
       `${kundli.lagna} Lagna | ${kundli.moonSign} Moon | ${kundli.nakshatra}`,
@@ -867,6 +890,65 @@ function buildReportCover(
     subtitle: `Personal Vedic Astrology Dossier for ${kundli.birthDetails.name}`,
     title: 'PREDICTA',
   };
+}
+
+function buildBaseCoverIdentity(
+  kundli: KundliData,
+  reportFocus: PdfReportFocus,
+  mode: PDFMode,
+): Omit<PdfComposition['cover'], 'metadata' | 'subtitle'> {
+  const focusLabel = getCoverReportFocusLabel(reportFocus);
+  const currentDasha = kundli.dasha?.current?.mahadasha;
+  const moonPada = kundli.planets.find(planet => planet.name === 'Moon')?.pada;
+  const birthMomentSignature = [
+    kundli.nakshatra
+      ? `Moon: ${kundli.nakshatra}${moonPada ? ` Pada ${moonPada}` : ''}`
+      : undefined,
+    kundli.lagna ? `Lagna: ${kundli.lagna}` : undefined,
+    currentDasha ? `Current Dasha: ${currentDasha}` : undefined,
+  ].filter((item): item is string => Boolean(item));
+
+  return {
+    birthMomentSignature,
+    birthPlace: kundli.birthDetails.place,
+    birthTime: kundli.birthDetails.time,
+    dateOfBirth: kundli.birthDetails.date,
+    descriptor: `A Predicta ${focusLabel} Intelligence Report`,
+    preparationLine: 'Prepared with birth chart, panchang, dasha, and classical Jyotish analysis',
+    reportType: `${mode === 'PREMIUM' ? 'Premium' : 'Free'} ${focusLabel} Report`,
+    subjectName: kundli.birthDetails.name,
+    title: 'PREDICTA',
+  };
+}
+
+function getCoverReportFocusLabel(reportFocus: PdfReportFocus): string {
+  switch (reportFocus) {
+    case 'KP':
+      return 'KP';
+    case 'NADI':
+      return 'Nadi';
+    case 'NUMEROLOGY':
+      return 'Numerology';
+    case 'SIGNATURE':
+      return 'Signature';
+    case 'CAREER':
+      return 'Career';
+    case 'COMPATIBILITY':
+      return 'Compatibility';
+    case 'DASHA':
+      return 'Dasha';
+    case 'MARRIAGE':
+      return 'Marriage';
+    case 'REMEDIES':
+      return 'Remedies';
+    case 'SADESATI':
+      return 'Sade Sati';
+    case 'VEDIC':
+    case 'KUNDLI':
+    case 'WEALTH':
+    default:
+      return reportFocus === 'WEALTH' ? 'Wealth' : 'Vedic';
+  }
 }
 
 function buildDossierExecutiveSummary(

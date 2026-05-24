@@ -2,10 +2,12 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import React from 'react';
 import {
+  Circle,
   Document,
   type DocumentProps,
   Font,
   Image,
+  Line,
   Page,
   Path,
   Rect,
@@ -194,11 +196,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 22,
+    marginBottom: 24,
   },
   coverLogo: {
-    height: 54,
-    width: 54,
+    height: 42,
+    width: 42,
   },
   coverBadge: {
     alignSelf: 'flex-start',
@@ -213,40 +215,104 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   coverWordmark: {
-    fontSize: 24,
+    color: '#F7F1E3',
+    fontSize: 18,
     fontWeight: 900,
-    letterSpacing: 3.2,
+    letterSpacing: 3.8,
     marginBottom: 6,
   },
   coverTitle: {
-    fontSize: 30,
-    fontWeight: 800,
-    lineHeight: 1.2,
-    marginBottom: 10,
+    color: '#F9F4E8',
+    fontSize: 44,
+    fontWeight: 700,
+    lineHeight: 1.05,
+    marginBottom: 14,
   },
   coverSubtitle: {
-    color: '#D7E3F4',
-    fontSize: 13,
+    color: '#D4DEEF',
+    fontSize: 11,
     lineHeight: 1.55,
-    marginBottom: 24,
+    marginBottom: 10,
   },
-  coverMetaCard: {
-    borderRadius: 18,
-    borderWidth: 1,
-    padding: 18,
+  coverDescriptor: {
+    color: '#F4E7C8',
+    fontSize: 12,
+    letterSpacing: 1.1,
+    lineHeight: 1.4,
+    marginBottom: 8,
+    textTransform: 'uppercase',
   },
-  coverMetaLine: {
-    color: '#DCE7F7',
-    fontSize: 10,
-    lineHeight: 1.6,
-    marginBottom: 6,
+  coverHeroRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 22,
   },
-  coverTagline: {
-    color: '#F3F7FF',
-    fontSize: 14,
+  coverHeroCopy: {
+    width: '59%',
+  },
+  coverSealWrap: {
+    alignItems: 'center',
+    height: 220,
+    justifyContent: 'center',
+    width: '38%',
+  },
+  coverDetailBlock: {
+    marginBottom: 18,
+    width: '100%',
+  },
+  coverDetailRow: {
+    borderBottomColor: '#C8A96A',
+    borderBottomWidth: 0.5,
+    flexDirection: 'row',
+    paddingVertical: 9,
+  },
+  coverDetailLabel: {
+    color: '#C8A96A',
+    fontSize: 8.5,
     fontWeight: 700,
-    lineHeight: 1.45,
+    letterSpacing: 1.2,
+    textTransform: 'uppercase',
+    width: '25%',
+  },
+  coverDetailValue: {
+    color: '#F7F1E3',
+    fontSize: 12,
+    lineHeight: 1.35,
+    width: '75%',
+  },
+  coverSignatureRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
     marginBottom: 16,
+  },
+  coverSignaturePill: {
+    borderColor: '#C8A96A',
+    borderRadius: 999,
+    borderWidth: 0.7,
+    color: '#F8EBCB',
+    fontSize: 9.5,
+    letterSpacing: 0.4,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+  },
+  coverPreparationLine: {
+    borderLeftColor: '#C8A96A',
+    borderLeftWidth: 1,
+    color: '#D4DEEF',
+    fontSize: 10.5,
+    lineHeight: 1.45,
+    paddingLeft: 10,
+    width: '72%',
+  },
+  coverReportType: {
+    color: '#F8EBCB',
+    fontSize: 10,
+    fontWeight: 700,
+    letterSpacing: 1.2,
+    marginBottom: 16,
+    textTransform: 'uppercase',
   },
   pageHeader: {
     alignItems: 'center',
@@ -721,7 +787,7 @@ export function PredictaReportPdfDocument({
           {options.logoSrc ? (
             <Image src={options.logoSrc} style={styles.coverLogo} />
           ) : (
-            <Text style={[styles.coverWordmark, { color: palette.accent, marginBottom: 0 }]}>
+            <Text style={[styles.coverWordmark, { marginBottom: 0 }]}>
               PREDICTA
             </Text>
           )}
@@ -729,38 +795,56 @@ export function PredictaReportPdfDocument({
             style={[
               styles.coverBadge,
               {
-                backgroundColor: palette.accentSoft,
-                borderColor: palette.border,
-                color: palette.accent,
+                backgroundColor: 'transparent',
+                borderColor: '#C8A96A',
+                color: '#F8EBCB',
                 marginBottom: 0,
               },
             ]}
           >
-            <Text>{report.mode === 'PREMIUM' ? 'Premium' : 'Free insight report'}</Text>
+            <Text>{report.cover.reportType}</Text>
           </View>
         </View>
-        <Text style={[styles.coverWordmark, { color: '#F8FBFF' }]}>PREDICTA</Text>
-        <Text style={[styles.coverTitle, displayTextStyle]}>{report.cover.subtitle}</Text>
-        <Text style={styles.coverSubtitle}>{report.executiveSummary.headline}</Text>
-        <Text style={styles.coverTagline}>
-          A polished astrology report built like a keepsake dossier: clear on
-          first read, chart-rooted, and calm to move through.
-        </Text>
-        <View
-          style={[
-            styles.coverMetaCard,
-            {
-              backgroundColor: palette.panel,
-              borderColor: palette.border,
-            },
-          ]}
-        >
-          {report.cover.metadata.map(line => (
-            <Text key={line} style={styles.coverMetaLine}>
-              {line}
+
+        <View style={styles.coverHeroRow}>
+          <View style={styles.coverHeroCopy}>
+            <Text style={styles.coverWordmark}>PREDICTA</Text>
+            <Text style={styles.coverReportType}>{report.cover.reportType}</Text>
+            <Text style={[styles.coverTitle, displayTextStyle]}>
+              {report.cover.subjectName}
+            </Text>
+            <Text style={styles.coverDescriptor}>{report.cover.descriptor}</Text>
+            <Text style={styles.coverSubtitle}>{report.cover.subtitle}</Text>
+          </View>
+          <View style={styles.coverSealWrap}>
+            <PdfCelestialSeal />
+          </View>
+        </View>
+
+        <View style={styles.coverDetailBlock}>
+          <View style={styles.coverDetailRow}>
+            <Text style={styles.coverDetailLabel}>Date of birth</Text>
+            <Text style={styles.coverDetailValue}>{report.cover.dateOfBirth}</Text>
+          </View>
+          <View style={styles.coverDetailRow}>
+            <Text style={styles.coverDetailLabel}>Birth time</Text>
+            <Text style={styles.coverDetailValue}>{report.cover.birthTime}</Text>
+          </View>
+          <View style={styles.coverDetailRow}>
+            <Text style={styles.coverDetailLabel}>Birth place</Text>
+            <Text style={styles.coverDetailValue}>{report.cover.birthPlace}</Text>
+          </View>
+        </View>
+
+        <View style={styles.coverSignatureRow}>
+          {report.cover.birthMomentSignature.map(item => (
+            <Text key={item} style={styles.coverSignaturePill}>
+              {item}
             </Text>
           ))}
         </View>
+
+        <Text style={styles.coverPreparationLine}>{report.cover.preparationLine}</Text>
       </Page>
 
       <Page size="A4" style={[styles.page, { fontFamily: documentFontFamily }]}>
@@ -1434,6 +1518,50 @@ function PdfPageHeader({
       <Text style={styles.pageHeaderEyebrow}>{eyebrow}</Text>
       <Text style={styles.pageHeaderTitle}>{title}</Text>
     </View>
+  );
+}
+
+function PdfCelestialSeal(): React.JSX.Element {
+  const gold = '#C8A96A';
+  const mutedGold = '#8E7446';
+  const blue = '#67B7FF';
+  const magenta = '#E45AA2';
+  const green = '#42D99A';
+
+  return (
+    <Svg height={210} width={210}>
+      <Circle cx={105} cy={105} fill="transparent" r={92} stroke={gold} strokeWidth={1.2} />
+      <Circle cx={105} cy={105} fill="transparent" opacity={0.42} r={78} stroke={blue} strokeWidth={0.7} />
+      <Circle cx={105} cy={105} fill="transparent" opacity={0.34} r={61} stroke={magenta} strokeWidth={0.6} />
+      <Path
+        d="M42 105 C58 52 150 40 170 96 C189 151 112 180 66 150 C44 136 36 122 42 105"
+        fill="transparent"
+        opacity={0.42}
+        stroke={green}
+        strokeWidth={0.8}
+      />
+      <Rect fill="transparent" height={108} opacity={0.62} stroke={mutedGold} strokeWidth={0.7} width={108} x={51} y={51} />
+      <Line opacity={0.66} stroke={mutedGold} strokeWidth={0.7} x1={51} x2={159} y1={51} y2={159} />
+      <Line opacity={0.66} stroke={mutedGold} strokeWidth={0.7} x1={159} x2={51} y1={51} y2={159} />
+      <Path
+        d="M105 51 L159 105 L105 159 L51 105 Z"
+        fill="transparent"
+        opacity={0.78}
+        stroke={gold}
+        strokeWidth={0.8}
+      />
+      <Circle cx={70} cy={52} fill={gold} opacity={0.72} r={1.2} />
+      <Circle cx={151} cy={70} fill={blue} opacity={0.7} r={1.1} />
+      <Circle cx={165} cy={129} fill={gold} opacity={0.68} r={1.3} />
+      <Circle cx={62} cy={145} fill={green} opacity={0.68} r={1.1} />
+      <Circle cx={114} cy={33} fill={magenta} opacity={0.64} r={1} />
+      <Circle cx={101} cy={105} fill="transparent" opacity={0.36} r={28} stroke={gold} strokeWidth={0.6} />
+      <Path
+        d="M96 84 C115 89 124 103 120 121 C108 118 99 110 94 99 C92 94 93 89 96 84"
+        fill={gold}
+        opacity={0.18}
+      />
+    </Svg>
   );
 }
 

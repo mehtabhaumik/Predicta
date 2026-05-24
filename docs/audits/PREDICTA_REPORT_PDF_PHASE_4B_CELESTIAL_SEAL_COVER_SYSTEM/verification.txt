@@ -1,0 +1,46 @@
+PREDICTA_REPORT_PDF_PHASE_4B_CELESTIAL_SEAL_COVER_SYSTEM
+
+Status: GREEN after strict artifact audit.
+
+Generated PDFs:
+- artifacts/phase4b-free-en.pdf
+- artifacts/phase4b-premium-en.pdf
+- artifacts/phase4b-free-hi.pdf
+- artifacts/phase4b-free-gu.pdf
+
+Rendered screenshots:
+- screenshots/free-cover-page-1.png
+- screenshots/free-interior-page-2.png
+- screenshots/premium-cover-page-1.png
+- screenshots/premium-interior-page-2.png
+- screenshots/premium-chart-page-4.png
+- screenshots/hindi-cover-page-1.png
+- screenshots/gujarati-cover-page-1.png
+
+Audit results:
+- Free and premium covers now render as a dark Predicta celestial certificate, not a metadata card, form, table, or generic title page.
+- Cover includes subject name, date of birth, birth time, birth place, report type, descriptor, preparation line, and deterministic birth moment signature.
+- Birth moment signature is sourced from report data: Moon nakshatra/pada, Lagna, and current Mahadasha.
+- Celestial seal appears on the cover with circular rings, North Indian Kundli geometry, lunar orbit, star points, and restrained champagne-gold linework.
+- Cover keeps the dark Predicta magenta, blue, and green atmosphere while interiors remain the Pearl Editorial light system.
+- Faint Predicta watermark and exact footer structure remain visible with real page number and total page count.
+- English cover uses bundled editorial fonts instead of Helvetica as primary report typography.
+- Hindi and Gujarati cover artifacts render without gibberish and continue using registered Indic font paths.
+- Free report rendered with 22 pages and premium report rendered with 28 pages, confirming real total page counts on the cover footer.
+- The stale golden PDF gate was updated to assert the new Phase 4B celestial cover contract instead of the removed Phase 4A cover copy.
+
+Commands run:
+- corepack pnpm --filter @pridicta/pdf build
+- corepack pnpm test:report-pdf-phase-4b
+- corepack pnpm test:report-pdf-phase-4a
+- corepack pnpm test:report-pdf-phase-4
+- corepack pnpm test:pdf-golden
+- corepack pnpm test:room-report-pdf
+- corepack pnpm build:web
+- corepack pnpm test:translation-trust
+- corepack pnpm test:native-script-chat
+- git diff --check
+
+Artifact rendering:
+- PDFs were generated through the live web API route at /api/report/pdf.
+- Page screenshots were rendered from the generated PDFs with macOS PDFKit via a temporary Swift renderer.
