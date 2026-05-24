@@ -364,7 +364,7 @@ export function WebKundliChart({
                     ? 'Chalit focus: lived house delivery and practical correction.'
                     : chart.chartType === 'D1'
                       ? 'D1 focus: life pattern, main weight, open opportunity, and maturity pressure.'
-                      : 'Chart focus: meaning first, technical proof second.',
+                      : `Varga focus: ${localizedInsight.governs}`,
                   appLanguage,
                 )}
               </div>

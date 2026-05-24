@@ -1,0 +1,35 @@
+PREDICTA_CHART_INSIGHT_PHASE_3_CORE_VARGA_INSIGHT_REBUILD
+Verification run: 2026-05-24
+
+PASS corepack pnpm test:chart-insight-phase-3
+Result: Chart Insight Phase 3 passed: core varga human-stakes library is locked.
+
+PASS corepack pnpm test:chart-insight-phase-2
+Result: Chart Insight Phase 2 passed: D1 and Chalit meaning rebuild is locked.
+
+PASS corepack pnpm test:chart-insight-phase-1
+Result: Chart Insight Phase 1 passed: universal contract and view hierarchy are locked.
+
+PASS corepack pnpm --filter @pridicta/astrology typecheck
+Result: tsc --noEmit completed successfully.
+
+PASS corepack pnpm --filter @pridicta/web typecheck
+Result: next typegen and tsc --noEmit completed successfully.
+
+PASS corepack pnpm --filter @pridicta/mobile exec tsc --noEmit
+Result: tsc --noEmit completed successfully.
+
+PASS corepack pnpm test:charts
+Result: Chart stress suite passed: 15 cases.
+
+PASS corepack pnpm test:translation-trust
+Result: Translation completion trust gate passed.
+
+PASS corepack pnpm --filter @pridicta/web build
+Result: next build completed successfully.
+
+PASS Browser DOM proof
+Route: http://localhost:3000/dashboard/charts?phase=chart-insight-3-proof
+Selected chart: D9 Navamsha
+Artifact: docs/audits/PREDICTA_CHART_INSIGHT_PHASE_3_CORE_VARGA_INSIGHT_REBUILD/browser-proof.json
+Result: core varga human-stakes language was visible and did not fall back to D1 focus language.

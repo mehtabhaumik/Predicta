@@ -491,6 +491,7 @@ function composeCoreVargaInsight(
   const chartType = chart.chartType as CoreVargaChartType;
   const config = getChartConfig(chartType);
   const definition = CORE_VARGA_INSIGHT_DEFINITIONS[chartType];
+  const humanStake = CORE_VARGA_HUMAN_STAKES[chartType];
   const clusters = chart.planetDistribution
     .filter(
       planet =>
@@ -530,42 +531,45 @@ function composeCoreVargaInsight(
     dashaArea,
   ]);
   const dominantPlanetText = dominantPlanets.length
-    ? ` through ${dominantPlanets.join(', ')}`
+    ? ` through ${formatPlanetList(dominantPlanets)}`
     : '';
   const supportPlanetText = supportPlanets.length
-    ? ` with secondary reinforcement from ${supportPlanets.join(', ')}`
+    ? ` with secondary reinforcement from ${formatPlanetList(supportPlanets)}`
     : '';
   const dashaSentence = dashaPlacement
-    ? `${dashaPlacement.name} is active in this chart through ${formatHouseArea(dashaPlacement.house)}, so the current dasha is making this layer louder in practical life.`
-    : `The current dasha of ${currentDasha.mahadasha}/${currentDasha.antardasha} still matters here, but this chart should be read as a focused confirmation rather than a standalone life chart.`;
+    ? `${humanStake.timingFrame} ${dashaPlacement.name} is active through ${formatHouseArea(dashaPlacement.house)}, so this chart is becoming louder through a concrete life area instead of staying abstract.`
+    : `${humanStake.timingFrame} The current dasha of ${currentDasha.mahadasha}/${currentDasha.antardasha} still matters, but this varga should be read as a focused confirmation rather than a standalone life chart.`;
 
   return {
     currentGuidance: dominantHouse
-      ? `${definition.guidanceLead} Start with ${activeArea}, then use D1 to judge whether this area is being supported, delayed, or stretched in the main life story.`
-      : `${definition.guidanceLead} Use this chart as a focused lens, then confirm the result through D1 and the current dasha before taking it as final.`,
+      ? `${humanStake.practicalGuidance} Start with ${activeArea}, then use D1 to judge whether this area is being supported, delayed, or stretched in the main life story.`
+      : `${humanStake.practicalGuidance} Use this chart as a focused lens, then confirm the result through D1 and the current dasha before taking it as final.`,
     eyebrow: hasPremiumAccess
       ? `Premium ${definition.premiumLabel}`
       : `Free ${definition.freeLabel}`,
     freeInsights: [
+      `Human stakes: ${humanStake.humanStakes}`,
       dominantHouse
-        ? `${definition.freeLead} ${activeArea}${dominantPlanetText} is where this chart is speaking most clearly right now.`
-        : `${definition.freeLead} This chart is quieter, so the signal should be taken as careful guidance rather than dramatic certainty.`,
+        ? `What it is saying: ${humanStake.currentSignal} The clearest signal is ${activeArea}${dominantPlanetText}.`
+        : `What it is saying: ${humanStake.currentSignal} This chart is quieter, so the signal should be taken as careful guidance rather than dramatic certainty.`,
+      `Strength revealed: ${humanStake.strengthReveals}`,
+      `Caution revealed: ${humanStake.cautionReveals}`,
       dashaSentence,
       supportArea
-        ? `${definition.supportLead} ${supportArea}${supportPlanetText}.`
-        : `${definition.supportLead} D1 remains the anchor that decides how much of this chart becomes visible in real life.`,
+        ? `Support layer: ${supportArea}${supportPlanetText}.`
+        : 'Support layer: D1 remains the anchor that decides how much of this chart becomes visible in real life.',
       definition.userValueLine,
     ],
     governs: definition.governs,
     lifeAreas,
     mainChallenge: dominantHouse
-      ? `${definition.challengeLead} The pressure point here is confusing ${activeArea} with your whole life story. This chart only governs one layer of experience and must stay anchored to D1.`
+      ? `${humanStake.cautionReveals} The pressure point here is confusing ${activeArea} with your whole life story. This chart only governs one layer of experience and must stay anchored to D1.`
       : definition.quietChallenge,
     mainStrength: dominantHouse
-      ? `${definition.strengthLead} ${activeArea}${dominantPlanetText} stands out as the clearest area of signal in this chart.`
+      ? `${humanStake.strengthReveals} In this chart, the clearest signal comes through ${activeArea}${dominantPlanetText}.`
       : definition.quietStrength,
     premiumDeepDive: [
-      `${definition.premiumLead} Premium explains how ${config.name} supports, complicates, or corrects the promise of D1.`,
+      `${definition.premiumLead} Premium explains how ${config.name} supports, complicates, or corrects the promise of D1 through ${humanStake.crossChartAnchor}.`,
       dashaArea
         ? `Premium also reads timing through ${dashaArea} so this chart does not stay theoretical.`
         : 'Premium also adds sharper timing, contradiction handling, and synthesis across related charts.',
@@ -598,8 +602,8 @@ function composeCoreVargaInsight(
       : `Technical View keeps the ${config.name} evidence visible, while Insight View explains what this chart is trying to say in plain language.`,
     title: config.name,
     whatItSays: dominantHouse
-      ? `${definition.storyLead} Right now the signal is strongest in ${activeArea}${dominantPlanetText}${supportArea ? `, with support around ${supportArea}` : ''}. ${dashaSentence}`
-      : `${definition.storyLead} This chart is speaking softly right now, so it should be used as a confirming lens with D1 and current dasha rather than as a dramatic standalone reading.`,
+      ? `${humanStake.humanStakes} Right now it is saying: ${humanStake.currentSignal} The signal is strongest in ${activeArea}${dominantPlanetText}${supportArea ? `, with support around ${supportArea}` : ''}. ${dashaSentence}`
+      : `${humanStake.humanStakes} This chart is speaking softly right now, so it should be used as a confirming lens with D1 and current dasha rather than as a dramatic standalone reading.`,
   };
 }
 
@@ -699,10 +703,10 @@ function composeAdvancedVargaInsight(
     dashaArea,
   ]);
   const dominantPlanetText = dominantPlanets.length
-    ? ` through ${dominantPlanets.join(', ')}`
+    ? ` through ${formatPlanetList(dominantPlanets)}`
     : '';
   const supportPlanetText = supportPlanets.length
-    ? ` with secondary reinforcement from ${supportPlanets.join(', ')}`
+    ? ` with secondary reinforcement from ${formatPlanetList(supportPlanets)}`
     : '';
   const dashaSentence = dashaPlacement
     ? `${dashaPlacement.name} is active in this chart through ${formatHouseArea(dashaPlacement.house)}, so current timing is making this advanced layer louder in practical life.`
@@ -731,7 +735,7 @@ function composeAdvancedVargaInsight(
       ? `${definition.challengeLead} The risk here is treating ${activeArea} as a full-life judgement when this chart only refines one narrow layer and must stay anchored to D1.`
       : definition.quietChallenge,
     mainStrength: dominantHouse
-      ? `${definition.strengthLead} ${activeArea}${dominantPlanetText} stands out as the clearest advanced-chart signal.`
+      ? `${definition.strengthLead} the clearest advanced-chart signal comes through ${activeArea}${dominantPlanetText}.`
       : definition.quietStrength,
     premiumDeepDive: [
       `${definition.premiumLead} Premium explains how ${config.name} supports, sharpens, or softens the main D1 promise.`,
@@ -1213,6 +1217,18 @@ function stripTrailingSentencePunctuation(value: string): string {
   return value.replace(/[.!?]+$/, '');
 }
 
+function formatPlanetList(planets: string[]): string {
+  if (planets.length <= 1) {
+    return planets[0] ?? '';
+  }
+
+  if (planets.length === 2) {
+    return `${planets[0]} and ${planets[1]}`;
+  }
+
+  return `${planets.slice(0, -1).join(', ')}, and ${planets[planets.length - 1]}`;
+}
+
 function moonStyle(sign: string): string {
   return MOON_STYLE[sign] ?? 'sensitive and changeable';
 }
@@ -1308,6 +1324,229 @@ type VargaInsightDefinition = {
   quietStrength: string;
   technicalGuardrail: string;
   lifeAreas: string[];
+};
+
+type CoreVargaHumanStake = {
+  humanStakes: string;
+  currentSignal: string;
+  strengthReveals: string;
+  cautionReveals: string;
+  practicalGuidance: string;
+  timingFrame: string;
+  crossChartAnchor: string;
+};
+
+const CORE_VARGA_HUMAN_STAKES: Record<CoreVargaChartType, CoreVargaHumanStake> = {
+  D2: {
+    humanStakes:
+      'D2 is about resource rhythm: how money is earned, held, shared, spent, and emotionally digested.',
+    currentSignal:
+      'resources need cleaner handling, steadier nourishment, and less reaction around security.',
+    strengthReveals:
+      'It reveals where financial steadiness, practical speech, and family-value support can become usable strength.',
+    cautionReveals:
+      'It cautions against money anxiety, careless spending, or treating wealth as the whole measure of safety.',
+    practicalGuidance:
+      'Make money decisions slower, document commitments, and build habits that protect what is already coming in.',
+    timingFrame:
+      'Money timing should be judged through active dasha, career support, and actual resource behavior.',
+    crossChartAnchor: 'D1 life direction, D10 work delivery, and timing',
+  },
+  D3: {
+    humanStakes:
+      'D3 is about nerve, initiative, siblings, stamina, and whether effort becomes clean action or scattered struggle.',
+    currentSignal:
+      'courage wants direction, not just intensity, and effort must be aimed where it can actually move life.',
+    strengthReveals:
+      'It reveals where self-driven effort, resilience, and practical courage can cut through resistance.',
+    cautionReveals:
+      'It cautions against reactive bravery, wasted movement, sibling friction, and effort without recovery.',
+    practicalGuidance:
+      'Choose fewer battles, pace the body, and put courage behind one useful action instead of ten noisy attempts.',
+    timingFrame:
+      'Effort timing should be judged through dasha pressure, D1 support, and whether daily stamina is available.',
+    crossChartAnchor: 'D1 initiative, D6 pressure handling, and lived stamina',
+  },
+  D4: {
+    humanStakes:
+      'D4 is about the private foundation: home, property, emotional rootedness, and whether life has a stable inner base.',
+    currentSignal:
+      'inner stability is becoming central, so outer progress depends on a calmer base behind the scenes.',
+    strengthReveals:
+      'It reveals where home, land, privacy, and emotional steadiness can become real support.',
+    cautionReveals:
+      'It cautions against restlessness, unsettled home patterns, or ignoring the emotional cost of instability.',
+    practicalGuidance:
+      'Stabilize the base first: routines, home decisions, rest, and emotional boundaries matter more than appearance.',
+    timingFrame:
+      'Home and property timing should be checked through D1, dasha, and whether emotional readiness exists.',
+    crossChartAnchor: 'D1 foundations, D12 lineage, and Chalit delivery',
+  },
+  D7: {
+    humanStakes:
+      'D7 is about what life asks you to nurture: children, creativity, fertility themes, and the legacy that grows through care.',
+    currentSignal:
+      'creation needs patience, protection, and responsibility rather than pressure or comparison.',
+    strengthReveals:
+      'It reveals where blessings can grow through mentoring, creative continuity, children, or patient nurturing.',
+    cautionReveals:
+      'It cautions against projecting expectations onto children, legacy, or creative outcomes too quickly.',
+    practicalGuidance:
+      'Care for what is growing without forcing its timeline; nurture consistently and reduce emotional pressure.',
+    timingFrame:
+      'Children and legacy timing should be read through D1, D9, dasha, and real-life readiness.',
+    crossChartAnchor: 'D1 fifth-house promise, D9 maturity, and timing',
+  },
+  D9: {
+    humanStakes:
+      'D9 is about dharma maturity: marriage truth, inner refinement, soul-strength, and what becomes meaningful with time.',
+    currentSignal:
+      'maturity is the test, so relationships and dharma must be judged by depth, consistency, and lived alignment.',
+    strengthReveals:
+      'It reveals where commitment, fortune, values, and inner strength deepen after surface desire settles.',
+    cautionReveals:
+      'It cautions against fantasy, immature promises, or judging marriage and dharma from outer attraction alone.',
+    practicalGuidance:
+      'Look for alignment over excitement; choose what matures well rather than what only feels immediate.',
+    timingFrame:
+      'Relationship and dharma timing should be checked through D1, dasha, and lived maturity.',
+    crossChartAnchor: 'D1 promise, relationship evidence, and dharma timing',
+  },
+  D10: {
+    humanStakes:
+      'D10 is about public delivery: career promise, responsibility, authority, contribution, and the role the world can recognize.',
+    currentSignal:
+      'work must become more defined, useful, and accountable before authority can feel stable.',
+    strengthReveals:
+      'It reveals where professional role, leadership, reputation, and contribution can become visible.',
+    cautionReveals:
+      'It cautions against chasing status without role clarity, responsibility, or sustained delivery.',
+    practicalGuidance:
+      'Refine the role, make the contribution concrete, and build authority through consistent public usefulness.',
+    timingFrame:
+      'Career timing should be read through D1, dasha, D2 resources, and actual professional momentum.',
+    crossChartAnchor: 'D1 career promise, D2 resource flow, and dasha timing',
+  },
+  D12: {
+    humanStakes:
+      'D12 is about lineage: parents, inheritance, family atmosphere, ancestral burdens, and patterns carried forward.',
+    currentSignal:
+      'family imprint is influencing the present, so inherited patterns need awareness instead of blame.',
+    strengthReveals:
+      'It reveals where parental support, ancestral memory, and family continuity can become wisdom.',
+    cautionReveals:
+      'It cautions against unconsciously repeating family burdens or calling inherited pressure personal failure.',
+    practicalGuidance:
+      'Honor what strengthens you, name what burdens you, and choose one family pattern to soften consciously.',
+    timingFrame:
+      'Lineage timing should be checked through D1, D40, D45, and active family-life events.',
+    crossChartAnchor: 'D1 roots, D40 maternal line, and D45 paternal line',
+  },
+  D16: {
+    humanStakes:
+      'D16 is about lived comfort: vehicles, lifestyle, ease, pleasure, emotional support, and whether life feels sustainable.',
+    currentSignal:
+      'comfort should support stability, not become escape, overindulgence, or a substitute for emotional repair.',
+    strengthReveals:
+      'It reveals where ease, beauty, vehicles, and lifestyle choices can restore the person.',
+    cautionReveals:
+      'It cautions against comfort without structure, pleasure that weakens steadiness, or lifestyle strain.',
+    practicalGuidance:
+      'Improve one comfort system practically: sleep, vehicle, home ease, spending rhythm, or recovery habit.',
+    timingFrame:
+      'Comfort timing should be judged through D1, D4, dasha, and whether the lifestyle can actually be maintained.',
+    crossChartAnchor: 'D1 support, D4 home base, and resource reality',
+  },
+  D20: {
+    humanStakes:
+      'D20 is about inner practice: devotion, mantra, discipline, surrender, and the spiritual rhythm that steadies life.',
+    currentSignal:
+      'practice needs sincerity and repetition rather than performance, intensity, or spiritual display.',
+    strengthReveals:
+      'It reveals where devotion, sadhana, grace, and inner discipline can make the person steadier.',
+    cautionReveals:
+      'It cautions against inconsistency, spiritual bypassing, or seeking relief without discipline.',
+    practicalGuidance:
+      'Choose one small practice and keep it regular; the chart rewards sincerity more than drama.',
+    timingFrame:
+      'Practice timing should be read through D1, D9, current dasha, and actual daily discipline.',
+    crossChartAnchor: 'D1 purpose, D9 dharma, and lived practice',
+  },
+  D24: {
+    humanStakes:
+      'D24 is about learning karma: education, teachers, study rhythm, knowledge confidence, and the discipline of mastery.',
+    currentSignal:
+      'knowledge needs structure, repetition, and the right teacher or method before it becomes usable skill.',
+    strengthReveals:
+      'It reveals where study, memory, teachers, and disciplined learning can become long-term advantage.',
+    cautionReveals:
+      'It cautions against scattered learning, information addiction, or quitting before skill matures.',
+    practicalGuidance:
+      'Pick a learning path, reduce noise, and turn knowledge into practice through a repeatable study rhythm.',
+    timingFrame:
+      'Education timing should be checked through D1, D10 skill expression, dasha, and current effort.',
+    crossChartAnchor: 'D1 direction, D10 application, and study discipline',
+  },
+  D30: {
+    humanStakes:
+      'D30 is about protection: stress, damage patterns, vulnerability, pressure points, and how to reduce avoidable harm.',
+    currentSignal:
+      'pressure must be handled practically, with boundaries and prevention instead of fear or fatalistic language.',
+    strengthReveals:
+      'It reveals where resilience, caution, and protective habits can reduce strain.',
+    cautionReveals:
+      'It cautions against unmanaged stress, repeated friction, hidden depletion, and careless exposure.',
+    practicalGuidance:
+      'Lower the stress load, protect routines, and treat caution as self-respect rather than fear.',
+    timingFrame:
+      'Stress timing should be read through D1, dasha, health habits, and repeated lived patterns.',
+    crossChartAnchor: 'D1 pressure houses, D6 struggle, and real-life prevention',
+  },
+  D40: {
+    humanStakes:
+      'D40 is about maternal inheritance: emotional grace, blessings, softness, and unresolved residue from the mother line.',
+    currentSignal:
+      'maternal-line influence is subtle, so emotional support and inherited tenderness need careful recognition.',
+    strengthReveals:
+      'It reveals where grace, softness, care, and maternal blessings can support the person.',
+    cautionReveals:
+      'It cautions against carrying maternal pain unconsciously or overlooking quiet inherited support.',
+    practicalGuidance:
+      'Notice what the mother line gave, what still hurts, and what emotional pattern can be healed gently.',
+    timingFrame:
+      'Maternal-line timing should be read through D12, D1, family events, and emotional evidence.',
+    crossChartAnchor: 'D12 lineage, D1 roots, and maternal evidence',
+  },
+  D45: {
+    humanStakes:
+      'D45 is about paternal inheritance: character, standards, honor, discipline, and the weight or merit of the father line.',
+    currentSignal:
+      'paternal-line standards are active, so discipline must become support rather than harsh self-judgement.',
+    strengthReveals:
+      'It reveals where inherited merit, character, duty, and standards can become stabilizing strength.',
+    cautionReveals:
+      'It cautions against rigidity, inherited pressure, pride, or carrying family honor as a burden.',
+    practicalGuidance:
+      'Keep the discipline that strengthens you and soften the standard that turns into punishment.',
+    timingFrame:
+      'Paternal-line timing should be read through D12, D1, duty patterns, and visible family context.',
+    crossChartAnchor: 'D12 lineage, D1 character, and paternal evidence',
+  },
+  D60: {
+    humanStakes:
+      'D60 is about deep karma: root tendencies, hidden causes, destiny texture, and patterns that feel older than the visible story.',
+    currentSignal:
+      'deep background patterning may be present, but it must be handled with humility and birth-time caution.',
+    strengthReveals:
+      'It reveals where a visible life pattern may have a deeper karmic root or repeating texture.',
+    cautionReveals:
+      'It cautions against false certainty, fear, or using deep-karma language without strong supporting evidence.',
+    practicalGuidance:
+      'Use D60 as a confirmation layer only; keep the guidance humble, practical, and anchored to D1.',
+    timingFrame:
+      'Deep-karma timing should be read only with D1, D9, dasha, and birth-time confidence.',
+    crossChartAnchor: 'D1, D9, dasha, and birth-time confidence',
+  },
 };
 
 const CORE_VARGA_INSIGHT_DEFINITIONS: Record<CoreVargaChartType, VargaInsightDefinition> = {
