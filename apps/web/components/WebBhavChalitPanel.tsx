@@ -4,6 +4,7 @@ import Link from 'next/link';
 import {
   buildParashariChalitChart,
   composeChalitBhavKpFoundation,
+  getChalitReadingNote,
 } from '@pridicta/astrology';
 import type { KundliData } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
@@ -32,6 +33,7 @@ export function WebBhavChalitPanel({
           <div>
             <div className="section-title">PARASHARI CHALIT</div>
             <h2>{bhav.title}</h2>
+            <p>{bhav.whatChanges}</p>
             <details className="info-drawer">
               <summary>
                 <span>What Chalit means</span>
@@ -58,7 +60,7 @@ export function WebBhavChalitPanel({
             kundliId={kundli?.id}
             ownerName={kundli?.birthDetails.name}
             presentation="charts"
-            readingNoteOverride="Parashari Chalit keeps each planet's rashi sign from D1, but places the planet in the bhava where it delivers results. This is separate from KP cusp/sub-lord judgement."
+            readingNoteOverride={`${getChalitReadingNote()} This is separate from KP cusp/sub-lord judgement.`}
             sectionTitle="PARASHARI CHALIT CHART"
           />
         ) : (
@@ -68,26 +70,33 @@ export function WebBhavChalitPanel({
           </div>
         )}
 
-        <details className="info-drawer school-explain-box">
-          <summary>
-            <span>Simple meaning</span>
-            <strong>Open</strong>
-          </summary>
-          <strong>Simple meaning</strong>
-          <p>
-            {hasPremiumAccess
-              ? bhav.premiumSynthesis ?? bhav.freeInsight
-              : bhav.freeInsight}
-          </p>
-        </details>
+        <div className="chalit-meaning-panel">
+          <div>
+            <span>What changes in lived experience</span>
+            <strong>{bhav.whatChanges}</strong>
+          </div>
+          <div>
+            <span>Practical correction</span>
+            <strong>{bhav.practicalCorrection}</strong>
+          </div>
+          <div>
+            <span>Plain-language insight</span>
+            <p>
+              {hasPremiumAccess
+                ? bhav.premiumSynthesis ?? bhav.freeInsight
+                : bhav.freeInsight}
+            </p>
+          </div>
+        </div>
 
         <div className="school-grid two">
           <div>
-            <span>Real-life shifts</span>
-            <strong>{bhav.shifts.length}</strong>
+            <span>Real-life shift areas</span>
+            <strong>{bhav.activeLifeAreas.length || bhav.shifts.length}</strong>
             <p>
-              These are the planets whose results land in a different life area
-              than the plain D1 house grid suggests.
+              {bhav.activeLifeAreas.length
+                ? bhav.activeLifeAreas.join(' · ')
+                : 'No major house-delivery shift is active, so D1 remains the main lived story.'}
             </p>
           </div>
           <div>
@@ -100,24 +109,28 @@ export function WebBhavChalitPanel({
           </div>
         </div>
 
-        {bhav.shifts.length ? (
+        {bhav.shiftMeanings.length ? (
           <div className="school-table-wrap">
             <table className="school-table">
               <thead>
                 <tr>
                   <th>Planet</th>
-                  <th>D1 House</th>
-                  <th>Chalit House</th>
-                  <th>Direction</th>
+                  <th>From D1 Meaning</th>
+                  <th>Lived Chalit Meaning</th>
+                  <th>Awareness</th>
                 </tr>
               </thead>
               <tbody>
-                {bhav.shifts.slice(0, hasPremiumAccess ? 9 : 4).map(item => (
+                {bhav.shiftMeanings.slice(0, hasPremiumAccess ? 9 : 4).map(item => (
                   <tr key={item.planet}>
                     <td>{item.planet}</td>
-                    <td>{item.rashiHouse}</td>
-                    <td>{'chalitHouse' in item ? item.chalitHouse : item.bhavHouse}</td>
-                    <td>{item.shiftDirection}</td>
+                    <td>
+                      House {item.fromHouse}: {item.fromArea}
+                    </td>
+                    <td>
+                      House {item.toHouse}: {item.toArea}
+                    </td>
+                    <td>{item.awareness}</td>
                   </tr>
                 ))}
               </tbody>

@@ -98,13 +98,21 @@ export function getChartRole(chartType: ChartType): string {
 
 export function getChartReadingNote(chartType: ChartType): string {
   if (chartType === 'D1') {
-    return 'D1 is the root chart. Houses can be read with standard house meanings, then refined by dasha, gochar, strength, and divisional support.';
+    return getD1LifeFoundationNote();
   }
 
   return (
     VARGA_READING_NOTES[chartType] ??
     'This varga is a focused divisional confirmation chart. Read it through its specific purpose and D1 anchor, not as a standalone general Kundli.'
   );
+}
+
+export function getD1LifeFoundationNote(): string {
+  return 'D1 is the life-foundation chart: it shows the root pattern of identity, direction, relationships, work, family, pressure, and opportunity. Read it as the main life story first, then refine with dasha, Chalit, gochar, strength, and divisional support.';
+}
+
+export function getChalitReadingNote(): string {
+  return 'Parashari Chalit is the lived-delivery layer. It does not change the planet sign or replace D1; it explains which bhava receives the planet result in real life after degree-based house refinement.';
 }
 
 export function getChartFocusLabel(chartType: ChartType, house?: number): string {

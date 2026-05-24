@@ -358,6 +358,16 @@ export function WebKundliChart({
                 {translateUiText('What This Chart Is Saying', appLanguage)}
               </div>
               <div className="chart-insight-eyebrow">{localizedInsight.eyebrow}</div>
+              <div className="chart-insight-focus">
+                {translateUiText(
+                  insightProfile === 'chalit'
+                    ? 'Chalit focus: lived house delivery and practical correction.'
+                    : chart.chartType === 'D1'
+                      ? 'D1 focus: life pattern, main weight, open opportunity, and maturity pressure.'
+                      : 'Chart focus: meaning first, technical proof second.',
+                  appLanguage,
+                )}
+              </div>
               <h3>{localizedInsight.title}</h3>
               <p>{localizedInsight.whatItSays}</p>
             </div>

@@ -793,6 +793,16 @@ export type NadiJyotishPremiumPlan = {
 
 export type ChalitBhavKpInsightDepth = 'FREE' | 'PREMIUM';
 
+export type ChalitShiftMeaning = {
+  planet: string;
+  fromHouse: number;
+  toHouse: number;
+  fromArea: string;
+  toArea: string;
+  meaning: string;
+  awareness: string;
+};
+
 export type ChalitBhavKpFoundation = {
   status: 'ready' | 'partial' | 'pending';
   ownerName: string;
@@ -800,6 +810,10 @@ export type ChalitBhavKpFoundation = {
   bhavChalit: {
     title: string;
     subtitle: string;
+    whatChanges: string;
+    activeLifeAreas: string[];
+    practicalCorrection: string;
+    shiftMeanings: ChalitShiftMeaning[];
     freeInsight: string;
     premiumSynthesis?: string;
     shifts: Array<BhavChalitPlanetPlacement | ChalitPlanetPlacement>;

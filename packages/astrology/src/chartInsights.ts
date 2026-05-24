@@ -11,7 +11,11 @@ import type {
 import { composeChalitBhavKpFoundation } from './chalitBhavKpFoundation';
 import { getChartConfig } from './chartRegistry';
 import { composeNadiJyotishPlan } from './nadiJyotishPlan';
-import { getChartReadingNote } from './vargaInterpretation';
+import {
+  getChalitReadingNote,
+  getChartReadingNote,
+  getD1LifeFoundationNote,
+} from './vargaInterpretation';
 
 export type {
   ChartInsight,
@@ -323,6 +327,12 @@ function composeD1ChartInsight(
   const dominantArea = formatHouseArea(dominantHouse);
   const supportArea = supportHouse ? formatHouseArea(supportHouse) : undefined;
   const pressureArea = formatHouseArea(pressureHouse);
+  const lagnaApproach = signApproach(kundli.lagna);
+  const lifePattern = `${kundli.lagna} Lagna gives this life ${withIndefiniteArticle(lagnaApproach)} outer direction, while ${kundli.moonSign} Moon gives the inner life a ${moonStyle(kundli.moonSign)} rhythm.`;
+  const opportunity = supportArea
+    ? `The area of ${dominantArea} opens the clearest opportunity, with ${supportArea} acting as the supporting lane.`
+    : `The area of ${dominantArea} opens the clearest opportunity when the user chooses steady, visible effort instead of scattering attention.`;
+  const maturityPressure = `${pressureArea} needs maturity because this is where the chart can leak energy through delay, fear, reaction, or over-correction.`;
   const lifeAreas = uniqueStrings([
     dominantArea,
     supportArea,
@@ -331,14 +341,16 @@ function composeD1ChartInsight(
   ]);
 
   return {
-    currentGuidance: `Start with ${dominantArea} as the active growth zone, but protect ${pressureArea} so the strongest parts of the chart do not get drained by neglect.`,
+    currentGuidance: `Treat ${dominantArea} as the first growth lane. Move there deliberately, but keep ${pressureArea} clean and mature so the life pattern does not lose strength through its pressure point.`,
     eyebrow: hasPremiumAccess ? 'Premium life-foundation analysis' : 'Free life-foundation insight',
     freeInsights: [
-      `${kundli.lagna} Lagna gives the chart a ${signApproach(kundli.lagna)} approach to life.`,
-      `${kundli.moonSign} Moon in ${kundli.nakshatra} shows how emotions, instinct, and inner timing tend to move.`,
-      `The current life chapter is ${currentDasha.mahadasha}/${currentDasha.antardasha}, so the chart is asking for maturity around ${planetTheme(currentDasha.mahadasha)}.`,
+      `Life pattern: ${lifePattern}`,
+      `Main weight: The area of ${dominantArea} is carrying the loudest signal, so it should not be treated as background.`,
+      `Opportunity: ${opportunity}`,
+      `Pressure needing maturity: ${maturityPressure}`,
+      `Current chapter: ${currentDasha.mahadasha}/${currentDasha.antardasha} is asking the user to handle ${planetTheme(currentDasha.mahadasha)} with more skill.`,
       firstYoga
-        ? `A notable pattern is ${firstYoga.name}, which adds a ${firstYoga.strength} emphasis around ${firstYoga.meaning.toLowerCase()}.`
+        ? `A notable pattern is ${firstYoga.name}, which adds a ${firstYoga.strength} emphasis around ${stripTrailingSentencePunctuation(firstYoga.meaning.toLowerCase())}.`
         : `The strongest support right now is around ${dominantArea}, so that is where visible progress can build fastest.`,
     ],
     governs:
@@ -346,8 +358,8 @@ function composeD1ChartInsight(
     lifeAreas,
     mainChallenge: `The pressure zone is ${pressureArea}, so this is where overreaction, delay, or emotional drain can distort the otherwise strong parts of the chart.`,
     mainStrength: supportArea
-      ? `Your strongest pattern is the support around ${dominantArea} and ${supportArea}, so life responds better when you build from those areas instead of forcing weaker ones.`
-      : `Your strongest pattern is the support around ${dominantArea}, so life responds better when you build from that area instead of forcing weaker ones.`,
+      ? `The life chart is strongest when ${dominantArea} and ${supportArea} are built patiently, because these areas carry the most usable momentum.`
+      : `The life chart is strongest when the area of ${dominantArea} is built patiently, because this area carries the most usable momentum.`,
     premiumDeepDive: [
       'Premium reads D1 through Lagna, Moon, dasha, yogas, and house strength together instead of stopping at one loud placement.',
       `Premium also explains how ${pressureArea} modifies the promise of ${dominantArea} across timing and maturity.`,
@@ -371,12 +383,12 @@ function composeD1ChartInsight(
       firstYoga
         ? `Primary yoga noted: ${firstYoga.name} (${firstYoga.strength}).`
         : 'No single yoga is being promoted as the whole story here.',
-      getChartReadingNote('D1'),
+      getD1LifeFoundationNote(),
     ],
     technicalSummary:
       'Technical View keeps the D1 evidence layer visible: Lagna, Moon, dasha, house emphasis, and yogic support.',
     title: config.name,
-    whatItSays: `${kundli.lagna} Lagna makes the life approach ${signApproach(kundli.lagna)}, and the chart is speaking most strongly through ${dominantArea}. ${kundli.moonSign} Moon adds an inner tone of ${moonStyle(kundli.moonSign)}, while ${currentDasha.mahadasha}/${currentDasha.antardasha} is pushing growth through ${planetTheme(currentDasha.mahadasha)}.`,
+    whatItSays: `${lifePattern} The strongest life weight is on ${dominantArea}, so the chart is not asking for vague self-improvement; it is asking the user to build that area consciously. ${opportunity} The caution is ${pressureArea}, where maturity matters more than speed. Current ${currentDasha.mahadasha}/${currentDasha.antardasha} timing makes ${planetTheme(currentDasha.mahadasha)} part of the active lesson.`,
   };
 }
 
@@ -385,6 +397,9 @@ function composeChalitChartInsight(
   hasPremiumAccess: boolean,
 ): ChartInsight {
   const shifts = kundli.chalit?.shifts ?? [];
+  const foundation = composeChalitBhavKpFoundation(kundli, {
+    depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
+  });
   const currentDasha = kundli.dasha.current;
   const dashaShift =
     shifts.find(
@@ -400,23 +415,27 @@ function composeChalitChartInsight(
   const activeShiftText = dashaShift
     ? `${dashaShift.planet} shifts lived results from ${formatHouseArea(dashaShift.rashiHouse)} into ${formatHouseArea(targetHouse(dashaShift))}`
     : 'the lived house delivery is staying close to the D1 picture';
+  const activeAreas = foundation.bhavChalit.activeLifeAreas.slice(0, 3);
 
   return {
     currentGuidance: dashaShift
-      ? `Read D1 for the promise, then use Chalit to judge how ${formatHouseArea(targetHouse(dashaShift))} is actually receiving the result right now.`
+      ? `${foundation.bhavChalit.practicalCorrection} Read D1 for the promise, then use Chalit to judge how ${formatHouseArea(targetHouse(dashaShift))} is actually receiving the result right now.`
       : 'Use Chalit as a fine-tuning layer, not as an excuse to rewrite a D1 picture that is already delivering clearly.',
     eyebrow: hasPremiumAccess ? 'Premium lived-delivery analysis' : 'Free Chalit insight',
     freeInsights: shifts.length
       ? [
-          `${shifts.length} planet${shifts.length === 1 ? '' : 's'} show meaningful house-delivery shifts in this chart.`,
+          `What changes: ${foundation.bhavChalit.whatChanges}`,
           `${activeShiftText}, so lived experience may feel different from a plain D1 house reading.`,
+          activeAreas.length
+            ? `Most active lived areas: ${activeAreas.join('; ')}.`
+            : 'The lived delivery layer is active, but the exact life area should be read carefully.',
+          `Practical correction: ${foundation.bhavChalit.practicalCorrection}`,
           'The sign stays from D1. What changes here is the house that receives the result.',
-          `The most useful next question is whether ${formatHouseArea(targetHouse(dashaShift ?? shifts[0]!))} is where life is actually becoming louder now.`,
         ]
       : [
-          'This Chalit chart is not showing major delivery shifts, so the lived story is broadly aligned with the D1 picture.',
+          `What changes: ${foundation.bhavChalit.whatChanges}`,
           'That is useful because it means you do not need a dramatic reinterpretation to understand the main life pattern.',
-          'Use Chalit here as confirmation and fine judgement, not as a contradiction machine.',
+          `Practical correction: ${foundation.bhavChalit.practicalCorrection}`,
         ],
     governs:
       'Real-life house delivery, activation shifts, and where planets actually deliver results after Lagna-degree bhava refinement.',
@@ -452,15 +471,15 @@ function composeChalitChartInsight(
         : 'No major Chalit house-delivery shift is active in this preview.',
       `Cusps available: ${kundli.chalit?.cusps.length ?? 0}.`,
       `Current dasha: ${currentDasha.mahadasha}/${currentDasha.antardasha}.`,
-      'Parashari Chalit keeps the D1 sign but refines the house that receives the result.',
+      getChalitReadingNote(),
       'This is separate from KP cusp/sub-lord event judgement.',
     ],
     technicalSummary:
       'Technical View keeps the bhava-shift evidence visible: shifted planets, cusp count, and the D1-versus-Chalit delivery rule.',
     title: 'Chalit Chart',
     whatItSays: shifts.length
-      ? `This Chalit chart is saying that some results land in different life areas than the plain D1 house picture suggests. Right now ${activeShiftText}, so real life may feel more like ${formatHouseArea(targetHouse(dashaShift ?? shifts[0]!))} than expected from a simple D1-only reading.`
-      : 'This Chalit chart is saying that lived experience is broadly aligned with the D1 picture, so the main story does not need dramatic reinterpretation right now.',
+      ? `${foundation.bhavChalit.whatChanges} Right now ${activeShiftText}, so real life may feel more like ${formatHouseArea(targetHouse(dashaShift ?? shifts[0]!))} than expected from a simple D1-only reading.`
+      : `${foundation.bhavChalit.whatChanges} The main story does not need dramatic reinterpretation right now; Chalit is acting more like confirmation and fine-tuning.`,
   };
 }
 
@@ -1184,6 +1203,14 @@ function formatHouseArea(house: number): string {
 
 function signApproach(sign: string): string {
   return SIGN_APPROACH[sign] ?? 'distinct and individual';
+}
+
+function withIndefiniteArticle(phrase: string): string {
+  return /^[aeiou]/i.test(phrase) ? `an ${phrase}` : `a ${phrase}`;
+}
+
+function stripTrailingSentencePunctuation(value: string): string {
+  return value.replace(/[.!?]+$/, '');
 }
 
 function moonStyle(sign: string): string {

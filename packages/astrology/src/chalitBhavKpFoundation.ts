@@ -40,6 +40,7 @@ export function composeChalitBhavKpFoundation(
     askPrompt:
       'Explain what my Parashari Chalit chart is changing in real life, and what my KP chart is saying about concrete outcomes, separately and in plain language.',
     bhavChalit: {
+      activeLifeAreas: buildBhavActiveLifeAreas(shifts),
       cusps: chalit?.cusps ?? [],
       evidence: buildBhavEvidence(kundli, shifts),
       freeInsight: bhavReady
@@ -52,10 +53,13 @@ export function composeChalitBhavKpFoundation(
         depth === 'PREMIUM' && bhavReady
           ? buildBhavPremiumSynthesis(kundli, shifts)
           : undefined,
+      practicalCorrection: buildBhavPracticalCorrection(shifts),
+      shiftMeanings: buildBhavShiftMeanings(shifts),
       shifts,
       subtitle:
         'Chalit refines house delivery from the Lagna degree. It does not replace D1 Rashi.',
       title: 'Chalit chart house refinement',
+      whatChanges: buildBhavWhatChanges(kundli, shifts),
     },
     ctas: [
       {
@@ -112,14 +116,20 @@ function buildPendingFoundation(
     askPrompt:
       'Create my Kundli, then explain Parashari Chalit and KP horoscope separately.',
     bhavChalit: {
+      activeLifeAreas: [],
       cusps: [],
       evidence: ['No Kundli is selected yet.'],
       freeInsight:
         'Chalit needs a calculated birth chart because it refines house delivery from the Lagna degree.',
       limitations: ['Create a Kundli first.'],
+      practicalCorrection:
+        'Create the Kundli first, then read Chalit as a lived-delivery refinement after D1.',
+      shiftMeanings: [],
       shifts: [],
       subtitle: 'Pending until birth chart calculation.',
       title: 'Chalit chart house refinement',
+      whatChanges:
+        'Nothing can be compared yet because Chalit needs a calculated D1 and degree-based bhava boundaries.',
     },
     ctas: [
       {
@@ -153,15 +163,18 @@ function buildBhavFreeInsight(
   shifts: Array<BhavChalitPlanetPlacement | ChalitPlanetPlacement>,
 ): string {
   if (!shifts.length) {
-    return `${kundli.birthDetails.name}'s Chalit layer does not show major planet house shifts from D1 Rashi. Read D1 houses normally, while still using Lagna-degree bhavas for fine judgment.`;
+    return `${kundli.birthDetails.name}'s Chalit layer does not show major planet house shifts from D1 Rashi. The lived house story is close to the life-foundation chart, so read D1 normally and use Chalit for fine judgment instead of dramatic reinterpretation.`;
   }
 
   const top = shifts
     .slice(0, 3)
-    .map(item => `${item.planet} moves from house ${item.rashiHouse} to ${targetHouse(item)}`)
+    .map(
+      item =>
+        `${item.planet} moves lived delivery from ${HOUSE_MEANINGS[item.rashiHouse]} to ${HOUSE_MEANINGS[targetHouse(item)]}`,
+    )
     .join('; ');
 
-  return `${kundli.birthDetails.name}'s Chalit layer shows house refinement: ${top}. This changes house emphasis, not the planet's sign.`;
+  return `${kundli.birthDetails.name}'s Chalit layer shows lived house refinement: ${top}. This changes where the result is experienced, not the planet's sign or the root D1 promise.`;
 }
 
 function buildBhavPremiumSynthesis(
@@ -182,6 +195,64 @@ function buildBhavPremiumSynthesis(
       ? `${dashaShift.planet} is active in dasha and shifts to Chalit house ${targetHouse(dashaShift)}, so that house deserves extra timing attention.`
       : `Current dasha ${current.mahadasha}/${current.antardasha} does not show a major Chalit shift from the available shift list.`,
   ].join(' ');
+}
+
+function buildBhavWhatChanges(
+  kundli: KundliData,
+  shifts: Array<BhavChalitPlanetPlacement | ChalitPlanetPlacement>,
+): string {
+  if (!shifts.length) {
+    return `${kundli.birthDetails.name}'s Chalit chart is saying the lived house delivery is broadly aligned with D1, so the root life pattern stays stable and Chalit mainly confirms fine timing and emphasis.`;
+  }
+
+  const activeAreas = buildBhavActiveLifeAreas(shifts).slice(0, 3);
+
+  return `${kundli.birthDetails.name}'s Chalit chart is saying some D1 promises are delivered through different lived houses. The areas becoming louder in real life are ${activeAreas.join('; ')}, while the planet signs remain unchanged.`;
+}
+
+function buildBhavActiveLifeAreas(
+  shifts: Array<BhavChalitPlanetPlacement | ChalitPlanetPlacement>,
+): string[] {
+  return Array.from(
+    new Set(
+      shifts
+        .map(item => HOUSE_MEANINGS[targetHouse(item)])
+        .filter(Boolean),
+    ),
+  );
+}
+
+function buildBhavPracticalCorrection(
+  shifts: Array<BhavChalitPlanetPlacement | ChalitPlanetPlacement>,
+): string {
+  if (!shifts.length) {
+    return 'Do not over-correct the chart. Use D1 as the main reading and Chalit only for subtle lived emphasis.';
+  }
+
+  const first = shifts[0];
+  const target = HOUSE_MEANINGS[targetHouse(first)];
+
+  return `When judging results, do not stop at the D1 house label. Check whether ${target} is where life is actually asking for attention, decisions, and maturity.`;
+}
+
+function buildBhavShiftMeanings(
+  shifts: Array<BhavChalitPlanetPlacement | ChalitPlanetPlacement>,
+) {
+  return shifts.map(item => {
+    const toHouse = targetHouse(item);
+    const fromArea = HOUSE_MEANINGS[item.rashiHouse];
+    const toArea = HOUSE_MEANINGS[toHouse];
+
+    return {
+      awareness: `${item.planet} should be interpreted through ${toArea} in lived delivery, while its D1 sign dignity and root promise remain the anchor.`,
+      fromArea,
+      fromHouse: item.rashiHouse,
+      meaning: `${item.planet} may feel less like a pure ${fromArea} story and more like a ${toArea} responsibility or opportunity in daily life.`,
+      planet: item.planet,
+      toArea,
+      toHouse,
+    };
+  });
 }
 
 function buildKpFreeInsight(

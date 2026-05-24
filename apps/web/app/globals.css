@@ -6328,6 +6328,35 @@ button:disabled {
   margin: 8px 0 0;
 }
 
+.chalit-meaning-panel {
+  background:
+    radial-gradient(circle at top left, rgba(83, 224, 210, 0.12), transparent 30%),
+    rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(83, 224, 210, 0.22);
+  border-radius: 22px;
+  display: grid;
+  gap: clamp(14px, 2vw, 20px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: clamp(18px, 2vw, 24px);
+}
+
+.chalit-meaning-panel span {
+  color: var(--blue);
+  display: block;
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.chalit-meaning-panel strong,
+.chalit-meaning-panel p {
+  color: var(--text);
+  display: block;
+  line-height: 1.65;
+  margin: 8px 0 0;
+}
+
 .school-grid {
   display: grid;
   gap: clamp(16px, 2vw, 22px);
@@ -8806,6 +8835,14 @@ button:disabled {
   font-size: 0.82rem;
   font-weight: 850;
   letter-spacing: 0.04em;
+  margin-top: 8px;
+}
+
+.chart-insight-focus {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.86rem;
+  font-weight: 850;
+  line-height: 1.55;
   margin-top: 8px;
 }
 
@@ -12889,6 +12926,7 @@ button:disabled {
   .school-grid.two,
   .school-grid.ruling,
   .school-grid.significators,
+  .chalit-meaning-panel,
   .signature-input-grid,
   .signature-trait-grid,
   .signature-input-hero,
@@ -13304,6 +13342,7 @@ button:disabled {
   .guided-journey-grid,
   .plain-summary-grid,
   .trust-proof-grid,
+  .chalit-meaning-panel,
   .school-grid.two,
   .school-grid.ruling,
   .school-grid.significators,
