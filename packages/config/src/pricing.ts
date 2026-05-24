@@ -60,6 +60,7 @@ export type ReportMarketplaceProduct = {
     | 'SADESATI'
     | 'DASHA'
     | 'COMPATIBILITY'
+    | 'LIFE_ATLAS'
     | 'NUMEROLOGY'
     | 'SIGNATURE'
     | 'REMEDIES';
@@ -68,7 +69,7 @@ export type ReportMarketplaceProduct = {
   premiumDepth: string;
   prompt: string;
   purchaseHint: string;
-  school: 'KP' | 'NADI' | 'NUMEROLOGY' | 'SIGNATURE' | 'VEDIC';
+  school: 'KP' | 'NADI' | 'NUMEROLOGY' | 'SIGNATURE' | 'SYNTHESIS' | 'VEDIC';
   title: string;
 };
 
@@ -80,6 +81,21 @@ export type ReportPurchaseGuide = {
 };
 
 const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
+  {
+    badge: 'Flagship',
+    bestFor: 'A non-technical life journey, soul purpose, hidden thread, current chapter, gifts, lessons, and next direction. Signature is optional enrichment only.',
+    freeIncludes: ['Soul portrait', 'Life journey summary', 'Current chapter', 'Top gifts and lessons'],
+    freeDepth: 'Useful Life Atlas with a clear soul portrait, life journey arc, current focus, gifts, lessons, and a closing letter.',
+    id: 'LIFE_ATLAS',
+    outcome: 'Understand your life story without reading planet, cusp, or technical proof.',
+    premiumIncludes: ['Deep life narrative', 'Soul-purpose synthesis', 'Karmic pattern map', 'Integration practices', 'Premium closing letter'],
+    premiumDepth: 'Flagship synthesis report with deeper life journey, destiny direction, love/work/money/purpose guidance, shadow-to-gift transformation, and practical practices.',
+    prompt:
+      'Create my Predicta Life Atlas as a non-technical synthesis report. Use Vedic, KP, Nadi, and Numerology as internal evidence, include Signature only if confirmed traits exist, and do not mix this into any school-specific report.',
+    purchaseHint: 'Best when you want Predicta to turn all available data into one non-technical life story.',
+    school: 'SYNTHESIS',
+    title: 'Predicta Life Atlas',
+  },
   {
     badge: 'Foundation',
     bestFor: 'A clean starting point for the whole chart.',

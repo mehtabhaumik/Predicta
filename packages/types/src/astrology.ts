@@ -2266,6 +2266,74 @@ export type SignatureAnalysisModel = {
   safetyBoundaries: string[];
 };
 
+export type LifeAtlasDepth = 'FREE' | 'PREMIUM';
+
+export type LifeAtlasEvidenceLayerId =
+  | 'vedic'
+  | 'kp'
+  | 'nadi'
+  | 'numerology'
+  | 'signature';
+
+export type LifeAtlasEvidenceLayer = {
+  id: LifeAtlasEvidenceLayerId;
+  label: string;
+  role: string;
+  status: 'ready' | 'missing' | 'optional';
+  summary: string;
+};
+
+export type LifeAtlasSectionId =
+  | 'opening-soul-portrait'
+  | 'why-you-came-here'
+  | 'life-journey-arc'
+  | 'destiny-pattern'
+  | 'current-life-chapter'
+  | 'gifts-you-carry'
+  | 'karmic-lessons'
+  | 'love-work-money-purpose'
+  | 'hidden-thread'
+  | 'what-is-intended'
+  | 'next-12-24-months'
+  | 'soul-practices'
+  | 'final-letter'
+  | 'how-predicta-built-this-reading';
+
+export type LifeAtlasReportSection = {
+  id: LifeAtlasSectionId;
+  title: string;
+  body: string;
+  bullets: string[];
+  evidence: string[];
+  tier: 'free' | 'premium';
+};
+
+export type LifeAtlasReport = {
+  name: 'Predicta Life Atlas';
+  depth: LifeAtlasDepth;
+  ownerName: string;
+  status: 'ready' | 'pending';
+  positioning: string;
+  synthesisFraming: string;
+  signatureNote: string;
+  lifeThemeSentence: string;
+  hiddenThread: string;
+  currentFocus: string;
+  freePromise: string;
+  premiumPromise: string;
+  evidenceLayers: LifeAtlasEvidenceLayer[];
+  sections: LifeAtlasReportSection[];
+  memoryDigest: {
+    activeKundliId?: string;
+    dataPoweredBy: string[];
+    omittedData: string[];
+    reportBoundary: string;
+    userCanAsk: string[];
+  };
+  guardrails: string[];
+  limitations: string[];
+};
+
 export type KundliData = {
   id: string;
   birthDetails: BirthDetails;
@@ -2840,6 +2908,24 @@ export type AIContextPayload = {
     | 'premiumUnlock'
     | 'ctas'
     | 'askPrompt'
+  >;
+  lifeAtlasReport?: Pick<
+    LifeAtlasReport,
+    | 'name'
+    | 'depth'
+    | 'status'
+    | 'positioning'
+    | 'synthesisFraming'
+    | 'signatureNote'
+    | 'lifeThemeSentence'
+    | 'hiddenThread'
+    | 'currentFocus'
+    | 'freePromise'
+    | 'premiumPromise'
+    | 'evidenceLayers'
+    | 'memoryDigest'
+    | 'guardrails'
+    | 'limitations'
   >;
   holisticFoundation?: Pick<
     HolisticFoundationModel,

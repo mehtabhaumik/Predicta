@@ -24,6 +24,7 @@ import {
   buildKundliMoonNakshatraPadaInsight,
   composeHolisticDailyGuidance,
   composeHolisticReadingRooms,
+  composeLifeAtlasReport,
   composeMahadashaIntelligence,
   composeNadiJyotishPlan,
   composeNumerologyFoundationModel,
@@ -35,6 +36,7 @@ import {
   composeTransitGocharIntelligence,
   composeVedicIntelligenceContract,
   composeYearlyHoroscopeVarshaphal,
+  LIFE_ATLAS_SIGNATURE_ENRICHMENT_INVITE,
   type ChartRenderLegendItem,
   type ChartRenderMoonPhase,
   type ChartRenderPlanet,
@@ -75,6 +77,7 @@ export type PdfReportFocus =
   | 'DASHA'
   | 'KP'
   | 'KUNDLI'
+  | 'LIFE_ATLAS'
   | 'MARRIAGE'
   | 'NADI'
   | 'NUMEROLOGY'
@@ -259,7 +262,8 @@ export function composeReportSections({
       language,
     ),
     footer: 'Prepared by Predicta @2026',
-    houseWisePlanetRows: buildPdfHouseWisePlanetRows(kundli, language),
+    houseWisePlanetRows:
+      reportFocus === 'LIFE_ATLAS' ? [] : buildPdfHouseWisePlanetRows(kundli, language),
     language,
     mode,
     sections: localizeSections(polishedSections, language),
@@ -310,6 +314,13 @@ function buildReportSectionSet(
     reportFocus,
     signatureAnalysis,
   );
+
+  if (reportFocus === 'LIFE_ATLAS') {
+    return uniqueReportSections([
+      ...focusSections,
+      ...(decisionMemo ? [buildDecisionMemoSection(decisionMemo)] : []),
+    ].filter((section): section is PdfSection => Boolean(section)));
+  }
 
   if (reportFocus === 'KP') {
     return uniqueReportSections([
@@ -417,6 +428,8 @@ function buildRoomSpecificReportSections(
       return [buildVedicPredictaReportSection(kundli, mode, reportFocus)];
     case 'KP':
       return [buildKpFoundationSection(kundli, mode)];
+    case 'LIFE_ATLAS':
+      return buildLifeAtlasReportSections(kundli, mode, signatureAnalysis);
     case 'NADI':
       return [buildNadiJyotishPlanSection(kundli, mode)];
     case 'NUMEROLOGY':
@@ -524,6 +537,97 @@ function buildFocusedSchoolTrustSection(
     tier: mode === 'PREMIUM' ? 'premium' : 'free',
     title: selected.title,
   };
+}
+
+function buildLifeAtlasReportSections(
+  kundli: KundliData,
+  mode: PDFMode,
+  signatureAnalysis?: SignatureAnalysisModel,
+): PdfSection[] {
+  const atlas = composeLifeAtlasReport(kundli, {
+    depth: mode,
+    signatureAnalysis,
+  });
+  const layerRows = atlas.evidenceLayers.map(layer => ({
+    confidence:
+      layer.status === 'ready'
+        ? 'high'
+        : layer.status === 'optional'
+          ? 'medium'
+          : 'low',
+    factor: layer.label,
+    implication: layer.role,
+    observation: layer.summary,
+  })) satisfies PdfEvidenceRow[];
+  const opening: PdfSection = {
+    body: atlas.synthesisFraming,
+    bullets: [
+      atlas.positioning,
+      atlas.freePromise,
+      atlas.premiumPromise,
+      atlas.signatureNote,
+      signatureAnalysis?.status === 'ready'
+        ? 'Signature enrichment used only confirmed visible traits from the current session.'
+        : LIFE_ATLAS_SIGNATURE_ENRICHMENT_INVITE,
+    ],
+    confidence: atlas.status === 'ready' ? 'high' : 'low',
+    evidence: [
+      'Predicta Life Atlas is the approved all-school synthesis report path.',
+      'School-specific Vedic, KP, Nadi, Numerology, and Signature reports remain separate.',
+      ...atlas.evidenceLayers.map(layer => `${layer.label}: ${layer.status}`),
+    ],
+    evidenceTable: layerRows,
+    eyebrow: 'LIFE ATLAS',
+    tier: 'free',
+    title: 'Predicta Life Atlas synthesis boundary',
+  };
+
+  return [
+    opening,
+    ...atlas.sections.map(section => ({
+      body: section.body,
+      bullets: section.bullets,
+      confidence: atlas.status === 'ready' ? 'high' as const : 'low' as const,
+      evidence: section.evidence,
+      evidenceTable: section.evidence.slice(0, mode === 'PREMIUM' ? 4 : 2).map(item => ({
+        confidence: 'medium' as const,
+        factor:
+          section.id === 'how-predicta-built-this-reading'
+            ? 'Evidence layer'
+            : 'Life-language synthesis',
+        implication:
+          section.id === 'how-predicta-built-this-reading'
+            ? 'Premium appendix stays user-friendly and technical-light.'
+            : 'Main reading stays non-technical and preserves agency.',
+        observation: item,
+      })),
+      eyebrow:
+        section.id === 'how-predicta-built-this-reading'
+          ? 'LIFE ATLAS APPENDIX'
+          : 'LIFE ATLAS',
+      tier: section.tier,
+      title: section.title,
+    })),
+    {
+      body:
+        'Predicta Life Atlas keeps mystical language grounded. It can describe life pattern, soul purpose, hidden thread, current chapter, gifts, lessons, and next steps, but it must not claim impossible certainty.',
+      bullets: atlas.guardrails,
+      confidence: 'high',
+      evidence: [
+        ...atlas.limitations,
+        'Main report prose does not expose raw planet, cusp, dasha, or technical proof.',
+      ],
+      evidenceTable: atlas.limitations.slice(0, 4).map(item => ({
+        confidence: 'high',
+        factor: 'Life Atlas safety',
+        implication: 'The report remains useful without fear, fatalism, or unsupported source claims.',
+        observation: item,
+      })),
+      eyebrow: 'LIFE ATLAS TRUST',
+      tier: 'free',
+      title: 'What this report can and cannot claim',
+    },
+  ];
 }
 
 function buildVedicPredictaReportSection(
@@ -912,6 +1016,29 @@ function buildReportCover(
     };
   }
 
+  if (reportFocus === 'LIFE_ATLAS') {
+    const atlas = composeLifeAtlasReport(kundli, { depth: mode });
+    return {
+      ...baseCover,
+      birthMomentSignature: [
+        'Hidden Thread: mature self-direction',
+        'Current Chapter: refine pressure into conscious response',
+        'Signature: optional enrichment only',
+      ],
+      descriptor: 'A Predicta Life Atlas Synthesis Report',
+      metadata: [
+        ...baseMetadata.slice(0, 3),
+        'Core inputs: Vedic, KP, Nadi, and Numerology',
+        'Signature is optional enrichment only',
+      ],
+      preparationLine:
+        'Prepared from your birth profile, timing rhythm, number pattern, and available expression signals',
+      reportType: mode === 'PREMIUM' ? 'Premium Predicta Life Atlas' : 'Free Predicta Life Atlas',
+      subtitle: `Predicta Life Atlas for ${kundli.birthDetails.name}`,
+      title: 'PREDICTA',
+    };
+  }
+
   return {
     ...baseCover,
     metadata: [
@@ -962,6 +1089,8 @@ function getCoverReportFocusLabel(reportFocus: PdfReportFocus): string {
       return 'Numerology';
     case 'SIGNATURE':
       return 'Signature';
+    case 'LIFE_ATLAS':
+      return 'Life Atlas';
     case 'CAREER':
       return 'Career';
     case 'COMPATIBILITY':
@@ -1070,6 +1199,27 @@ function buildDossierExecutiveSummary(
               'Signature sample or manual observation is required.',
               'No Numerology or Vedic synthesis is mixed into this Signature lane.',
             ],
+    };
+  }
+
+  if (reportFocus === 'LIFE_ATLAS') {
+    const atlas = composeLifeAtlasReport(kundli, {
+      depth: mode,
+      signatureAnalysis,
+    });
+
+    return {
+      confidence,
+      headline: `${kundli.birthDetails.name}'s Predicta Life Atlas turns available Predicta data into one non-technical life story about journey, soul purpose, current chapter, gifts, lessons, and next steps.`,
+      keySignals: [
+        atlas.synthesisFraming,
+        atlas.hiddenThread,
+        atlas.currentFocus,
+        atlas.signatureNote,
+        mode === 'PREMIUM'
+          ? 'Premium Life Atlas adds deeper synthesis, karmic pattern map, integration practices, and a memorable closing letter.'
+          : 'Free Life Atlas stays useful with a clear soul portrait, current focus, gifts, lessons, and closing guidance.',
+      ],
     };
   }
 
@@ -2780,6 +2930,14 @@ function buildOneLineSummary(
       : 'Signature Predicta report pending a signature sample or confirmed visible observations.';
   }
 
+  if (reportFocus === 'LIFE_ATLAS') {
+    const atlas = composeLifeAtlasReport(kundli, {
+      depth: 'FREE',
+      signatureAnalysis,
+    });
+    return `Predicta Life Atlas: ${atlas.lifeThemeSentence} ${atlas.signatureNote}`;
+  }
+
   return `${kundli.lagna} Lagna, ${kundli.moonSign} Moon, ${kundli.nakshatra} nakshatra, currently in ${kundli.dasha.current.mahadasha}/${kundli.dasha.current.antardasha}.`;
 }
 
@@ -2806,6 +2964,10 @@ function getReportChartTypes(
   mode: PDFMode,
   reportFocus: PdfReportFocus = 'KUNDLI',
 ): ChartType[] {
+  if (reportFocus === 'LIFE_ATLAS') {
+    return [];
+  }
+
   const chartTypes = (Object.keys(kundli.charts) as ChartType[]).sort(compareChartType);
 
   if (mode === 'PREMIUM') {
@@ -2832,6 +2994,8 @@ function prioritizeChartTypes(
 
 function getFreeChartTypesForFocus(reportFocus: PdfReportFocus): ChartType[] {
   switch (reportFocus) {
+    case 'LIFE_ATLAS':
+      return [];
     case 'CAREER':
       return ['D1', 'D9', 'D10'];
     case 'COMPATIBILITY':

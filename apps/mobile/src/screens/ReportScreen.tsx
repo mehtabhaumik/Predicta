@@ -60,6 +60,14 @@ export function ReportScreen({
   const { glassAlert, showGlassAlert } = useGlassAlert();
   const marketplaceProducts = useMemo(() => getReportMarketplaceProducts(), []);
   const purchaseGuide = useMemo(() => getReportPurchaseGuide(), []);
+  const synthesisProducts = useMemo(
+    () => marketplaceProducts.filter(product => product.school === 'SYNTHESIS'),
+    [marketplaceProducts],
+  );
+  const schoolProducts = useMemo(
+    () => marketplaceProducts.filter(product => product.school !== 'SYNTHESIS'),
+    [marketplaceProducts],
+  );
   const selectedReport =
     marketplaceProducts.find(product => product.id === selectedReportId) ??
     marketplaceProducts[0];
@@ -275,8 +283,43 @@ export function ReportScreen({
           ))}
         </View>
 
+        <View className="mt-5 rounded-[22px] border border-[#C8A96A55] bg-[#201B27] p-4">
+          <AppText tone="secondary" variant="caption">
+            SYNTHESIS REPORTS
+          </AppText>
+          <AppText className="mt-2" variant="subtitle">
+            Predicta Life Atlas
+          </AppText>
+          <AppText className="mt-2" tone="secondary">
+            This is the only all-school synthesis report. It turns available
+            Vedic, KP, Nadi, and Numerology data into one non-technical life
+            story. Signature is optional enrichment only.
+          </AppText>
+          <AppText className="mt-2" tone="secondary" variant="caption">
+            Signature expression layer was not included because no signature
+            sample was provided. Missing signature does not block generation.
+          </AppText>
+          <View className="mt-4 gap-3">
+            {synthesisProducts.map(product => (
+              <ReportProductButton
+                key={product.id}
+                product={product}
+                selected={selectedReportId === product.id}
+                onPress={() => setSelectedReportId(product.id)}
+              />
+            ))}
+          </View>
+        </View>
+
         <View className="mt-5 gap-3">
-          {marketplaceProducts.map(product => (
+          <AppText tone="secondary" variant="caption">
+            SCHOOL-SPECIFIC REPORTS
+          </AppText>
+          <AppText tone="secondary">
+            Vedic, KP, Nadi, Numerology, and Signature stay in their own lanes.
+            Choose these when you want one method, not a mixed bag report.
+          </AppText>
+          {schoolProducts.map(product => (
             <Pressable
               accessibilityRole="button"
               className={`rounded-[18px] border p-4 ${
@@ -561,6 +604,50 @@ export function ReportScreen({
         </Pressable>
       </GradientOutlineCard>
     </Screen>
+  );
+}
+
+function ReportProductButton({
+  onPress,
+  product,
+  selected,
+}: {
+  onPress: () => void;
+  product: ReportMarketplaceProduct;
+  selected: boolean;
+}): React.JSX.Element {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      className={`rounded-[18px] border p-4 ${
+        selected
+          ? 'border-[#C8A96A] bg-[#2A2330]'
+          : 'border-[#3D3346] bg-[#191923]'
+      }`}
+      onPress={onPress}
+    >
+      <View className="flex-row items-start justify-between gap-3">
+        <View className="flex-1">
+          <AppText tone="secondary" variant="caption">
+            {product.badge.toUpperCase()}
+          </AppText>
+          <AppText className="mt-1" variant="body">
+            {product.title}
+          </AppText>
+          <AppText className="mt-2" variant="caption">
+            {product.outcome}
+          </AppText>
+        </View>
+        {selected ? (
+          <AppText className="font-bold text-[#C8A96A]" variant="caption">
+            Selected
+          </AppText>
+        ) : null}
+      </View>
+      <AppText className="mt-2" tone="secondary">
+        {product.bestFor}
+      </AppText>
+    </Pressable>
   );
 }
 

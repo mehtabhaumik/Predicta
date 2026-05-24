@@ -1135,16 +1135,32 @@ export function PredictaReportPdfDocument({
         <PdfWatermark logoSrc={options.logoSrc} watermark={report.watermark} />
         <PdfFooter subjectName={subjectName} />
         <PdfPageHeader
-          eyebrow={report.mode === 'PREMIUM' ? 'Close the dossier well' : 'Use the report well'}
-          title={report.mode === 'PREMIUM' ? 'Next steps' : 'What to do next'}
+          eyebrow={
+            reportFocus === 'LIFE_ATLAS'
+              ? 'Final integration'
+              : report.mode === 'PREMIUM'
+                ? 'Close the dossier well'
+                : 'Use the report well'
+          }
+          title={
+            reportFocus === 'LIFE_ATLAS'
+              ? 'Carry the Life Atlas gently'
+              : report.mode === 'PREMIUM'
+                ? 'Next steps'
+                : 'What to do next'
+          }
         />
         <Text style={[styles.closingTitle, displayTextStyle]}>
-          {report.mode === 'PREMIUM'
+          {reportFocus === 'LIFE_ATLAS'
+            ? 'Use this Life Atlas as a mirror for alignment, not as a cage around your future.'
+            : report.mode === 'PREMIUM'
             ? 'Use this dossier as a planning instrument, not as a one-line fate statement.'
             : 'Use this report as a real starting point, not as a teaser.'}
         </Text>
         <Text style={styles.closingBody}>
-          {report.mode === 'PREMIUM'
+          {reportFocus === 'LIFE_ATLAS'
+            ? 'Return to the hidden thread, current chapter, practices, and closing letter when life feels noisy. Predicta keeps your agency in the center: insight is useful only when it helps you choose with more honesty and calm.'
+            : report.mode === 'PREMIUM'
             ? 'The premium dossier keeps the full Predicta depth, but it works best when you move from the chart spread into the relevant life spreads and save proof-heavy material for the end.'
             : 'The free report is meant to leave you with meaningful insight, clear guidance, and enough chart context to understand why Predicta is saying what it is saying.'}
         </Text>
@@ -1157,14 +1173,18 @@ export function PredictaReportPdfDocument({
             },
           ]}
         >
-          <Text style={styles.panelEyebrow}>Fun chart note</Text>
+          <Text style={styles.panelEyebrow}>
+            {reportFocus === 'LIFE_ATLAS' ? 'Life Atlas note' : 'Fun chart note'}
+          </Text>
           <Text style={[styles.panelTitle, displayTextStyle]}>
-            {buildThemeFunFact(report.chartSnapshots[0]?.theme ?? 'unknown', report.cover.metadata[0] ?? '')}
+            {reportFocus === 'LIFE_ATLAS'
+              ? 'Your story is not reduced to a chart page.'
+              : buildThemeFunFact(report.chartSnapshots[0]?.theme ?? 'unknown', report.cover.metadata[0] ?? '')}
           </Text>
           <Text style={styles.panelBody}>
-            Predicta keeps the same time-of-day chart atmosphere in the PDF so
-            the document still feels like your Kundli, not like a disconnected
-            export.
+            {reportFocus === 'LIFE_ATLAS'
+              ? 'Life Atlas uses the deeper Predicta data quietly in the background, then gives you the reading as human language: purpose, chapter, gifts, lessons, and next direction.'
+              : 'Predicta keeps the same time-of-day chart atmosphere in the PDF so the document still feels like your Kundli, not like a disconnected export.'}
           </Text>
         </View>
         <View
@@ -1214,6 +1234,7 @@ function buildPlannedSpreads({
   }));
   const used = new Set<number>();
   const spreads: PlannedSpread[] = [];
+  const isLifeAtlas = reportFocus === 'LIFE_ATLAS';
   const isFocusedRoom = ['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus);
 
   const pull = (kinds: string[], maxCards: number): PlannedSection[] => {
@@ -1256,7 +1277,32 @@ function buildPlannedSpreads({
     });
   };
 
-  if (isFocusedRoom) {
+  if (isLifeAtlas) {
+    addSpread(
+      'Life Atlas',
+      'Your life story in human language',
+      'This synthesis report starts with the soul portrait, purpose, current chapter, and hidden thread. It does not ask the reader to decode planets, cusps, or dasha jargon.',
+      ['life-atlas-core', 'life-atlas-purpose', 'life-atlas-current', 'life-atlas-hidden'],
+      report.mode === 'PREMIUM' ? 4 : 3,
+      'Synthesis sources',
+    );
+    addSpread(
+      'Life areas',
+      'Love, work, money, purpose, gifts, and lessons',
+      'These sections turn the available Predicta intelligence into practical life-language guidance without mixing this report into any school lane.',
+      ['life-atlas-arc', 'life-atlas-destiny', 'life-atlas-gifts', 'life-atlas-lessons', 'life-atlas-areas'],
+      report.mode === 'PREMIUM' ? 4 : 3,
+      'Human meaning',
+    );
+    addSpread(
+      'Integration',
+      'Next direction, practices, and closing letter',
+      'Life Atlas closes with grounded next steps and a personal letter, while keeping safety and source boundaries visible.',
+      ['life-atlas-next', 'life-atlas-practices', 'life-atlas-letter', 'life-atlas-trust'],
+      report.mode === 'PREMIUM' ? 4 : 3,
+      'Use this well',
+    );
+  } else if (isFocusedRoom) {
     addSpread(
       'Focused synthesis',
       report.mode === 'PREMIUM' ? 'What this specialist reading is saying' : 'What this focused reading is saying',
@@ -1351,7 +1397,7 @@ function buildPlannedSpreads({
   }
 
   return {
-    onboardingCards: buildOnboardingCards(report.mode, scope),
+    onboardingCards: buildOnboardingCards(report.mode, scope, reportFocus),
     scope,
     showOnboarding: scope !== 'focused' || report.mode === 'PREMIUM' || sections.length > 7,
     spreads,
@@ -1361,7 +1407,35 @@ function buildPlannedSpreads({
 function buildOnboardingCards(
   mode: PDFMode,
   scope: ReportScope,
+  reportFocus: PdfReportFocus,
 ): Array<{ body: string; eyebrow: string; title: string }> {
+  if (reportFocus === 'LIFE_ATLAS') {
+    return [
+      {
+        body: 'Read this as a personal life story. The report translates available Predicta data into meaning, not raw planet or cusp proof.',
+        eyebrow: 'Start here',
+        title: 'Begin with the soul portrait',
+      },
+      {
+        body: 'Life Atlas is the approved synthesis path. Vedic, KP, Nadi, Numerology, and Signature reports remain separate report lanes.',
+        eyebrow: 'Boundary',
+        title: 'This is not a school report',
+      },
+      {
+        body: mode === 'PREMIUM'
+          ? 'Premium adds deeper life narrative, karmic pattern map, integration practices, and a more personal closing letter.'
+          : 'Free gives a useful soul portrait, current chapter, gifts, lessons, and closing guidance.',
+        eyebrow: mode === 'PREMIUM' ? 'Premium depth' : 'Free value',
+        title: mode === 'PREMIUM' ? 'Depth without fatalism' : 'Useful, not hollow',
+      },
+      {
+        body: 'Signature is optional enrichment only. If no signature sample exists, Predicta says so instead of inventing traits.',
+        eyebrow: 'Signature',
+        title: 'Missing data stays honest',
+      },
+    ];
+  }
+
   return [
     {
       body: scope === 'focused'
@@ -1395,6 +1469,10 @@ function determineReportScope(
   reportFocus: PdfReportFocus,
   sectionCount: number,
 ): ReportScope {
+  if (reportFocus === 'LIFE_ATLAS') {
+    return mode === 'PREMIUM' || sectionCount > 10 ? 'full' : 'broad';
+  }
+
   if (['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)) {
     return 'focused';
   }
@@ -1482,6 +1560,48 @@ function classifySectionKind(section: PdfSection): string {
   }
   if (eyebrow === 'SIGNATURE + NUMEROLOGY') {
     return 'signature-numerology';
+  }
+  if (eyebrow === 'LIFE ATLAS') {
+    if (title.includes('boundary')) {
+      return 'life-atlas-core';
+    }
+    if (title.includes('opening') || title.includes('soul portrait')) {
+      return 'life-atlas-core';
+    }
+    if (title.includes('why you came')) {
+      return 'life-atlas-purpose';
+    }
+    if (title.includes('journey') || title.includes('destiny')) {
+      return 'life-atlas-arc';
+    }
+    if (title.includes('current')) {
+      return 'life-atlas-current';
+    }
+    if (title.includes('gifts')) {
+      return 'life-atlas-gifts';
+    }
+    if (title.includes('lessons')) {
+      return 'life-atlas-lessons';
+    }
+    if (title.includes('love') || title.includes('work') || title.includes('money')) {
+      return 'life-atlas-areas';
+    }
+    if (title.includes('hidden thread')) {
+      return 'life-atlas-hidden';
+    }
+    if (title.includes('next') || title.includes('intended')) {
+      return 'life-atlas-next';
+    }
+    if (title.includes('practices')) {
+      return 'life-atlas-practices';
+    }
+    if (title.includes('letter')) {
+      return 'life-atlas-letter';
+    }
+    return 'life-atlas-core';
+  }
+  if (eyebrow === 'LIFE ATLAS APPENDIX' || eyebrow === 'LIFE ATLAS TRUST') {
+    return 'life-atlas-trust';
   }
   if (eyebrow === 'VEDIC PREDICTA') {
     if (title.includes('career')) {

@@ -9,6 +9,7 @@ import {
   composeHolisticDecisionTimingSynthesis,
   composeHolisticFoundationModel,
   composeHolisticReadingRooms,
+  composeLifeAtlasReport,
   composeMahadashaIntelligence,
   buildKundliMoonNakshatraPadaInsight,
   composeNadiJyotishPlan,
@@ -237,6 +238,11 @@ export function buildAIContext(
     ),
     chalitBhavKpFoundation: compactChalitBhavKpFoundation(
       composeChalitBhavKpFoundation(kundliData, {
+        depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
+      }),
+    ),
+    lifeAtlasReport: compactLifeAtlasReport(
+      composeLifeAtlasReport(kundliData, {
         depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
       }),
     ),
@@ -479,6 +485,28 @@ function compactChalitBhavKpFoundation(
     },
     premiumUnlock: foundation.premiumUnlock,
     status: foundation.status,
+  };
+}
+
+function compactLifeAtlasReport(
+  atlas: ReturnType<typeof composeLifeAtlasReport>,
+): NonNullable<AIContextPayload['lifeAtlasReport']> {
+  return {
+    currentFocus: atlas.currentFocus,
+    depth: atlas.depth,
+    evidenceLayers: atlas.evidenceLayers,
+    freePromise: atlas.freePromise,
+    guardrails: atlas.guardrails,
+    hiddenThread: atlas.hiddenThread,
+    lifeThemeSentence: atlas.lifeThemeSentence,
+    limitations: atlas.limitations,
+    memoryDigest: atlas.memoryDigest,
+    name: atlas.name,
+    positioning: atlas.positioning,
+    premiumPromise: atlas.premiumPromise,
+    signatureNote: atlas.signatureNote,
+    status: atlas.status,
+    synthesisFraming: atlas.synthesisFraming,
   };
 }
 

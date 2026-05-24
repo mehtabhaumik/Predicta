@@ -10064,6 +10064,19 @@ button:disabled {
   box-shadow: 0 18px 60px rgba(77, 175, 255, 0.08);
 }
 
+.report-school-lane.synthesis {
+  background:
+    radial-gradient(circle at top left, rgba(217, 54, 149, 0.14), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(50, 209, 141, 0.1), transparent 30%),
+    rgba(255, 255, 255, 0.055);
+  border-color: rgba(200, 169, 106, 0.3);
+}
+
+.report-school-lane.synthesis.active {
+  border-color: rgba(200, 169, 106, 0.62);
+  box-shadow: 0 22px 70px rgba(200, 169, 106, 0.12);
+}
+
 .report-school-lane-header {
   align-items: flex-start;
   display: flex;

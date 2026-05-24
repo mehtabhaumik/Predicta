@@ -16,6 +16,36 @@ export type BirthIntakeReply = {
   text: string;
 };
 
+export const PREDICTA_LIFE_ATLAS_MEMORY_CONTRACT = {
+  approvedReportName: 'Predicta Life Atlas',
+  boundary:
+    'Predicta Life Atlas is the flagship synthesis report and the approved place for all-school synthesis. Vedic, KP, Nadi, Numerology, and Signature reports remain separate.',
+  coreEvidenceLayers: ['Vedic', 'KP', 'Nadi', 'Numerology'],
+  optionalEvidenceLayers: ['Signature'],
+  missingSignatureNote:
+    'Signature expression layer was not included because no signature sample was provided.',
+  positioning:
+    'A mystical, emotional, practical, non-technical life report about life journey, soul purpose, destiny direction, current chapter, gifts, lessons, and next steps.',
+  premiumBoundary:
+    'Free gives useful insight. Premium/paid gives deeper, more powerful, more comprehensive synthesis without guaranteeing fate.',
+  safeAnswers: [
+    'What is my Life Atlas report?',
+    'How is this different from my Vedic report?',
+    'Why does this report use multiple schools?',
+    'Why is signature not included?',
+    'What does my hidden thread mean?',
+    'What should I focus on now?',
+    'What changes in Premium?',
+  ],
+  unsupportedClaims: [
+    'Akashic Records',
+    'palm-leaf manuscript access',
+    'spirit guides',
+    'divine archives',
+    'guaranteed fate',
+  ],
+} as const;
+
 const GREETINGS: Record<SupportedLanguage, string[]> = {
   en: [
     'Namaste. I am here with you.',

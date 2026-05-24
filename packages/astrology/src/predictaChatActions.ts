@@ -16,6 +16,7 @@ import { composeHolisticDailyGuidance } from './holisticDailyGuidance';
 import { composeHolisticDecisionTimingSynthesis } from './holisticDecisionTimingSynthesis';
 import { composeHolisticFoundationModel } from './holisticFoundationModel';
 import { composeHolisticReadingRooms } from './holisticReadingRooms';
+import { composeLifeAtlasReport } from './lifeAtlasReport';
 import { composeLifeTimeline } from './lifeTimeline';
 import { composeMahadashaIntelligence } from './mahadashaIntelligence';
 import { composeNadiJyotishPlan } from './nadiJyotishPlan';
@@ -1268,6 +1269,9 @@ function buildActionText({
     const guidance = composeHolisticDailyGuidance(kundli, { language });
     const balance = composePurusharthaLifeBalance(kundli);
     const path = composeSadhanaRemedyPath(kundli);
+    const lifeAtlas = composeLifeAtlasReport(kundli, {
+      depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
+    });
     const activeStage =
       path.stages.find(stage => stage.status === 'active' || stage.status === 'review') ??
       path.stages[0];
@@ -1280,6 +1284,9 @@ function buildActionText({
         `Daily rhythm: morning - ${guidance.morningPractice}; midday - ${guidance.middayCheck}; evening - ${guidance.eveningReview}`,
         `Life balance: ${balance.dominant.label} leads now; ${balance.needsCare.label} needs steadier care.`,
         `Sadhana: ${activeStage.label} - ${activeStage.practice}`,
+        `Life Atlas: ${lifeAtlas.name} is the separate synthesis report. Hidden thread: ${lifeAtlas.hiddenThread}`,
+        `Life Atlas signature rule: ${lifeAtlas.signatureNote}`,
+        `Life Atlas boundary: it is not placed inside Vedic, KP, Nadi, Numerology, or Signature reports.`,
         `Free report: all charts, dasha, Gochar, Sade Sati, KP/Nadi sections, holistic synthesis, and useful insight.`,
         `Premium PDF bundle: detailed chart synthesis, timing windows, remedies, evidence tables, and report-ready depth.`,
         `Ask “prepare premium PDF bundle” when you want me to deepen it.`,

@@ -1,0 +1,41 @@
+PREDICTA_LIFE_ATLAS_REPORT_STRICT_CONTRACT verification
+
+Status: GREEN after strict audit.
+
+Implementation scope:
+- Added Predicta Life Atlas as a separate `SYNTHESIS` report family and `LIFE_ATLAS` PDF focus.
+- Kept Vedic, KP, Nadi, Numerology, and Signature report lanes separate from Life Atlas.
+- Added a shared Life Atlas model with free and premium depth, required main sections, optional signature enrichment, missing-signature note, and safety guardrails.
+- Added Life Atlas to Predicta AI context and memory contract so Predicta can explain what it is, what powered it, what was missing, and how it differs from school-specific reports.
+- Added web and mobile report-page separation so Life Atlas appears under Synthesis Reports instead of any school-specific lane.
+- Added Life Atlas PDF output with dark cover, Pearl Editorial interiors, centered watermark, exact footer, no chart spread, no house-wise table, and no raw planet/cusp/dasha proof in the main reading.
+
+Generated artifacts:
+- `artifacts/life-atlas-free-payload.json`
+- `artifacts/life-atlas-premium-payload.json`
+- `artifacts/life-atlas-free.pdf`
+- `artifacts/life-atlas-premium.pdf`
+- `screenshots/life-atlas-free-cover.png`
+- `screenshots/life-atlas-premium-cover.png`
+
+Visual audit:
+- Free and premium PDFs were rendered through the live web PDF route.
+- Cover pages were rendered to PNG using `qlmanage`.
+- Both cover screenshots were inspected. The dark Predicta cover, user details, Life Atlas report type, birth details, concise Life Atlas signature pills, faint watermark, and exact footer/page count are visible.
+- The cover no longer uses long clipped hidden-thread text.
+
+Commands passed:
+- `corepack pnpm --filter @pridicta/astrology build`
+- `corepack pnpm --filter @pridicta/pdf build`
+- `corepack pnpm --filter @pridicta/ai build`
+- `corepack pnpm --filter @pridicta/mobile typecheck`
+- `corepack pnpm test:life-atlas-report`
+- `corepack pnpm test:translation-trust`
+- `corepack pnpm test:native-script-chat`
+- `corepack pnpm test:room-report-pdf`
+- `corepack pnpm test:pdf-golden`
+- `corepack pnpm test:report-pdf-phase-6`
+- `corepack pnpm test:kp-nadi-predicta`
+- `corepack pnpm test:numerology-predicta`
+- `corepack pnpm test:signature-predicta`
+- `corepack pnpm build:web`

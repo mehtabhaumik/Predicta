@@ -157,6 +157,23 @@ const REPORT_SCHOOL_LANES: ReportSchoolLane[] = [
   },
 ];
 
+const REPORT_SYNTHESIS_LANE: ReportSchoolLane = {
+  bestFor:
+    'A non-technical life journey, soul purpose, hidden thread, current chapter, gifts, lessons, and next direction.',
+  boundary:
+    'Predicta Life Atlas is the only approved all-school synthesis report. It is not a Vedic, KP, Nadi, Numerology, or Signature report.',
+  freeDepth:
+    'Free gives a useful soul portrait, life journey summary, current chapter, gifts, lessons, and a closing letter.',
+  id: 'SYNTHESIS',
+  premiumDepth:
+    'Premium adds deeper life narrative, soul-purpose synthesis, karmic pattern map, integration practices, and a memorable closing letter.',
+  productIds: ['LIFE_ATLAS'],
+  promise: 'Flagship synthesis without technical clutter.',
+  readinessRequirement:
+    'Needs a valid Kundli/profile. Signature is optional enrichment only and missing signature does not block generation.',
+  title: 'Synthesis Reports',
+};
+
 export function WebDossierPreview(): React.JSX.Element {
   const didLoadSavedState = useRef(false);
   const reportChartPanelRef = useRef<HTMLElement | null>(null);
@@ -214,8 +231,10 @@ export function WebDossierPreview(): React.JSX.Element {
     reportLanguage,
   );
   const selectedReportLane =
-    REPORT_SCHOOL_LANES.find(lane => lane.id === selectedReport.school) ??
-    REPORT_SCHOOL_LANES[0];
+    selectedReport.school === 'SYNTHESIS'
+      ? REPORT_SYNTHESIS_LANE
+      : REPORT_SCHOOL_LANES.find(lane => lane.id === selectedReport.school) ??
+        REPORT_SCHOOL_LANES[0];
 
   useEffect(() => {
     const memory = loadWebAutoSaveMemory();
@@ -658,6 +677,90 @@ export function WebDossierPreview(): React.JSX.Element {
           aria-label="Choose your report world"
           className="report-school-marketplace"
         >
+          <article
+            className={
+              selectedReport.school === 'SYNTHESIS'
+                ? 'report-school-lane synthesis active'
+                : 'report-school-lane synthesis'
+            }
+          >
+            <div className="report-school-lane-header">
+              <div>
+                <span>{REPORT_SYNTHESIS_LANE.promise}</span>
+                <h4>{REPORT_SYNTHESIS_LANE.title}</h4>
+                <p>{REPORT_SYNTHESIS_LANE.bestFor}</p>
+              </div>
+              <strong
+                className={
+                  kundli
+                    ? 'report-lane-readiness ready'
+                    : 'report-lane-readiness pending'
+                }
+              >
+                {kundli ? 'Profile ready' : 'Needs Kundli'}
+              </strong>
+            </div>
+            <div className="report-lane-depth-row">
+              <div>
+                <span>Free/basic</span>
+                <p>{REPORT_SYNTHESIS_LANE.freeDepth}</p>
+              </div>
+              <div>
+                <span>Premium/paid</span>
+                <p>{REPORT_SYNTHESIS_LANE.premiumDepth}</p>
+              </div>
+              <div>
+                <span>Required input</span>
+                <p>
+                  {kundli
+                    ? 'Core Vedic, KP, Nadi, and Numerology inputs can be synthesized. Signature remains optional enrichment only.'
+                    : REPORT_SYNTHESIS_LANE.readinessRequirement}
+                </p>
+              </div>
+            </div>
+            <div className="report-lane-boundary">
+              <span>Synthesis boundary</span>
+              <p>{REPORT_SYNTHESIS_LANE.boundary}</p>
+            </div>
+            <div className="report-lane-boundary">
+              <span>Signature privacy</span>
+              <p>
+                {signatureAnalysis?.status === 'ready'
+                  ? 'Confirmed visible signature traits can enrich Life Atlas for this session.'
+                  : 'Signature expression layer was not included because no signature sample was provided. Missing signature does not block Life Atlas.'}
+              </p>
+            </div>
+            <div className="report-product-grid lane-products">
+              {marketplaceProducts
+                .filter(product => product.school === 'SYNTHESIS')
+                .map(product => {
+                  const localizedProduct = getLocalizedReportProduct(
+                    product,
+                    appLanguage,
+                  );
+
+                  return (
+                    <button
+                      aria-pressed={product.id === selectedReportId}
+                      className={
+                        product.id === selectedReportId
+                          ? 'report-product-card active'
+                          : 'report-product-card'
+                      }
+                      key={product.id}
+                      onClick={() => setSelectedReportId(product.id)}
+                      type="button"
+                    >
+                      <span>{localizedProduct.badge}</span>
+                      <strong>{localizedProduct.title}</strong>
+                      <em>{localizedProduct.outcome}</em>
+                      <small>{localizedProduct.bestFor}</small>
+                    </button>
+                  );
+                })}
+            </div>
+          </article>
+
           <div className="report-school-heading">
             <div className="section-title">School-separated reports</div>
             <h3>Choose your report world</h3>
@@ -1440,6 +1543,17 @@ function getLocalizedReportProduct(
 ): ReportMarketplaceProduct {
   if (language === 'hi') {
     const map: Partial<Record<ReportMarketplaceProduct['id'], Partial<ReportMarketplaceProduct>>> = {
+      LIFE_ATLAS: {
+        badge: 'प्रमुख',
+        bestFor: 'जीवन यात्रा, आत्म उद्देश्य, छिपा सूत्र, वर्तमान अध्याय, उपहार, सीख और अगली दिशा.',
+        freeDepth: 'स्पष्ट आत्म चित्र, जीवन यात्रा, वर्तमान ध्यान, उपहार, सीख और समापन पत्र.',
+        freeIncludes: ['आत्म चित्र', 'जीवन यात्रा सार', 'वर्तमान अध्याय', 'मुख्य उपहार और सीख'],
+        outcome: 'ग्रह या तकनीकी प्रमाण पढ़े बिना अपनी जीवन कथा समझें.',
+        premiumDepth: 'गहरी जीवन कथा, आत्म उद्देश्य सार, कर्म ढांचा मानचित्र, अभ्यास और यादगार समापन पत्र.',
+        premiumIncludes: ['गहरी जीवन कथा', 'आत्म उद्देश्य सार', 'कर्म ढांचा मानचित्र', 'अभ्यास योजना', 'प्रीमियम समापन पत्र'],
+        purchaseHint: 'जब सभी उपलब्ध प्रेडिक्टा डेटा से एक शक्तिशाली जीवन कथा चाहिए.',
+        title: 'प्रेडिक्टा लाइफ एटलस',
+      },
       KUNDLI: {
         badge: 'आधार',
         bestFor: 'पूरे चार्ट के लिए साफ शुरुआत.',
@@ -1590,6 +1704,17 @@ function getLocalizedReportProduct(
 
   if (language === 'gu') {
     const map: Partial<Record<ReportMarketplaceProduct['id'], Partial<ReportMarketplaceProduct>>> = {
+      LIFE_ATLAS: {
+        badge: 'મુખ્ય',
+        bestFor: 'જીવન યાત્રા, આત્મ હેતુ, છુપાયેલો સૂત્ર, વર્તમાન અધ્યાય, ઉપહાર, પાઠ અને આગળની દિશા.',
+        freeDepth: 'સ્પષ્ટ આત્મ છબી, જીવન યાત્રા, વર્તમાન ધ્યાન, ઉપહાર, પાઠ અને અંતિમ પત્ર.',
+        freeIncludes: ['આત્મ છબી', 'જીવન યાત્રા સાર', 'વર્તમાન અધ્યાય', 'મુખ્ય ઉપહાર અને પાઠ'],
+        outcome: 'ગ્રહો અથવા તકનીકી પુરાવા વાંચ્યા વગર તમારી જીવન વાર્તા સમજો.',
+        premiumDepth: 'ઊંડી જીવન વાર્તા, આત્મ હેતુ સાર, કર્મ નકશો, અભ્યાસ અને યાદગાર અંતિમ પત્ર.',
+        premiumIncludes: ['ઊંડી જીવન વાર્તા', 'આત્મ હેતુ સાર', 'કર્મ નકશો', 'અભ્યાસ યોજના', 'પ્રીમિયમ અંતિમ પત્ર'],
+        purchaseHint: 'જ્યારે બધા ઉપલબ્ધ પ્રેડિક્ટા ડેટાથી શક્તિશાળી જીવન વાર્તા જોઈએ.',
+        title: 'પ્રેડિક્ટા લાઇફ એટલસ',
+      },
       KUNDLI: {
         badge: 'આધાર',
         bestFor: 'પૂરા ચાર્ટ માટે સ્પષ્ટ શરૂઆત.',

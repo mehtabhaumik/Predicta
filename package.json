@@ -29,6 +29,7 @@
     "test:kp-nadi-predicta": "node scripts/run-kp-nadi-predicta-strict-phase-gate.mjs",
     "test:numerology-predicta": "node scripts/run-numerology-predicta-strict-phase-gate.mjs",
     "test:signature-predicta": "node scripts/run-signature-predicta-ultra-strict-phase-gate.mjs",
+    "test:life-atlas-report": "node scripts/run-life-atlas-report-strict-contract-gate.mjs",
     "test:graha-names": "node scripts/run-graha-name-localization-gate.mjs",
     "test:animation-regression": "node scripts/run-animation-regression-gate.mjs",
     "test:numerology": "node scripts/run-numerology-foundation-model.mjs",
