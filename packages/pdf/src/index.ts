@@ -1996,6 +1996,8 @@ function buildSignatureReportSection(
       bullets: [
         'Add one clear signature or confirm visible traits such as pressure, slant, baseline, size, spacing, and legibility.',
         'The reading is reflective guidance about self-expression, not identity verification or handwriting forensics.',
+        'Predicta does not store your signature image. It stays only in this session so we can prepare your reading. If you close this tab or leave the session, you may need to re-upload or re-draw it.',
+        'What this can and cannot tell you: it can reflect visible expression cues; it cannot verify identity, diagnose, predict, or provide forensic proof.',
         'Premium reports can compare multiple signature samples and provide a refinement plan, but they do not mix Numerology or Vedic synthesis in this lane.',
       ],
       confidence: 'low',
@@ -2025,9 +2027,11 @@ function buildSignatureReportSection(
       ? 'Premium Signature Predicta reads confirmed visual traits as a self-expression layer, then turns them into practical improvement guidance while keeping clear safety boundaries.'
       : 'Signature Predicta gives a useful reading of confirmed visual traits in plain language, without making fixed character claims or identity claims.',
     bullets: [
+      model.privacy.reportCopy,
       model.summary,
       ...traitLines,
       ...cardLines,
+      `What this can and cannot tell you: ${model.canAndCannotTellYou.join(' ')}`,
       `Strengths: ${model.strengths.slice(0, isPremium ? 7 : 4).join(', ') || 'waiting for confirmed traits'}.`,
       `Care points: ${model.cautions.slice(0, isPremium ? 5 : 2).join(', ') || 'keep the reading gentle and practical'}.`,
       ...practiceLines,
@@ -2041,6 +2045,7 @@ function buildSignatureReportSection(
     ],
     confidence: 'medium',
     evidence: [
+      model.privacy.reportCopy,
       ...model.evidence,
       ...model.limitations,
       ...model.safetyBoundaries.slice(0, 3),

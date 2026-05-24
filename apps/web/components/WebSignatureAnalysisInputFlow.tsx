@@ -9,10 +9,18 @@ import {
   type ChangeEvent,
   type PointerEvent,
 } from 'react';
-import { composeSignatureAnalysisModel } from '@pridicta/astrology';
+import {
+  SIGNATURE_PRIVACY_COPY,
+  SIGNATURE_REPORT_PRIVACY_COPY,
+  SIGNATURE_SCAN_LABELS,
+  SIGNATURE_SHORT_PRIVACY_COPY,
+  composeSignatureAnalysisModel,
+  extractSignatureTraitObservations,
+} from '@pridicta/astrology';
 import type {
   SignatureAnalysisModel,
   SignatureTraitKey,
+  SignatureTraitObservation,
   SignatureTraitValue,
   SupportedLanguage,
 } from '@pridicta/types';
@@ -25,11 +33,12 @@ const SIGNATURE_DRAFT_STORAGE_KEY = 'pridicta.signatureDraft.v1';
 type SignatureDraft = {
   analysisModel?: SignatureAnalysisModel;
   createdAt: string;
-  imageDataUrl?: string;
   mode: 'draw' | 'upload';
   note: string;
   observedTraits?: Partial<Record<SignatureTraitKey, SignatureTraitValue>>;
 };
+
+type SignatureScanStatus = 'empty' | 'ready' | 'scanning';
 
 type SignatureCopy = {
   actions: {
@@ -102,8 +111,11 @@ const SIGNATURE_TRAIT_CONTROLS: Array<{
   { key: 'slant', options: ['left', 'steady', 'right', 'mixed'] },
   { key: 'legibility', options: ['clear', 'partial', 'abstract'] },
   { key: 'spacing', options: ['tight', 'balanced', 'wide'] },
+  { key: 'speed', options: ['slow', 'moderate', 'fast'] },
   { key: 'flourish', options: ['none', 'moderate', 'expansive'] },
   { key: 'underline', options: ['none', 'single', 'high'] },
+  { key: 'letter-connection', options: ['connected', 'mixed', 'disconnected'] },
+  { key: 'margin-use', options: ['compact', 'balanced', 'expansive'] },
 ];
 
 const SIGNATURE_TRAIT_LABELS_EN: Record<SignatureTraitKey, string> = {
@@ -180,9 +192,10 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
     proofLabel: 'Proof',
     privacy: {
       items: [
-        'The signature preview stays on this browser in this phase.',
+        SIGNATURE_PRIVACY_COPY,
+        SIGNATURE_SHORT_PRIVACY_COPY,
         'Do not use a legal, banking, or government signature if you are not comfortable.',
-        'You can use a practice signature or initials for the first reading.',
+        'Your previous signature image was not stored. Please re-upload or re-draw it to continue.',
       ],
       title: 'Privacy first',
     },
@@ -224,7 +237,7 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
     },
     traits: {
       body:
-        'Confirm only what you can clearly see. Predicta uses these traits as soft reflection, not as proof about character.',
+        'Predicta detected these visible traits from your current signature. Please confirm or adjust anything that looks off.',
       labels: SIGNATURE_TRAIT_LABELS_EN,
       summaryTitle: 'Prepared reading',
       title: 'Confirm visible traits',
@@ -488,6 +501,10 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
   const [mode, setMode] = useState<SignatureDraft['mode']>('draw');
   const [hasDrawing, setHasDrawing] = useState(false);
   const [isReady, setIsReady] = useState(false);
+  const [scanStatus, setScanStatus] = useState<SignatureScanStatus>('empty');
+  const [detectedTraits, setDetectedTraits] = useState<
+    Partial<Record<SignatureTraitKey, SignatureTraitValue>>
+  >({});
   const [observedTraits, setObservedTraits] = useState<
     Partial<Record<SignatureTraitKey, SignatureTraitValue>>
   >({});
@@ -514,15 +531,44 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
     context.strokeStyle = 'rgba(255, 255, 255, 0.92)';
   }, []);
 
+  useEffect(() => {
+    const auditState = new URLSearchParams(window.location.search).get(
+      'signatureAudit',
+    );
+
+    if (auditState !== 'scan' && auditState !== 'ready') {
+      return;
+    }
+
+    const nextTraits = buildTemporaryDetectedTraits('upload');
+    setMode('upload');
+    setPreviewUrl(undefined);
+    setHasDrawing(true);
+    setDetectedTraits(nextTraits);
+    setScanStatus(auditState === 'scan' ? 'scanning' : 'ready');
+    setObservedTraits(auditState === 'ready' ? nextTraits : {});
+    setIsReady(auditState === 'ready');
+  }, []);
+
   const canContinue = Boolean(previewUrl || hasDrawing);
   const analysisModel = useMemo(
     () =>
       composeSignatureAnalysisModel({
         inputSource: mode === 'draw' ? 'drawn-signature' : 'uploaded-image',
         observedTraits,
+        confirmationState: 'confirmed',
       }),
     [mode, observedTraits],
   );
+  const detectedTraitObservations = useMemo(
+    () => extractSignatureTraitObservations(detectedTraits, 'unconfirmed'),
+    [detectedTraits],
+  );
+  const confirmedTraitObservations = useMemo(
+    () => extractSignatureTraitObservations(observedTraits, 'confirmed'),
+    [observedTraits],
+  );
+  const canOpenReading = analysisModel.status === 'ready';
 
   function handleFileChange(event: ChangeEvent<HTMLInputElement>): void {
     const file = event.target.files?.[0];
@@ -536,9 +582,33 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
         setPreviewUrl(reader.result);
         setMode('upload');
         setIsReady(false);
+        startTemporaryScan('upload');
       }
     };
     reader.readAsDataURL(file);
+  }
+
+  function startTemporaryScan(nextMode: SignatureDraft['mode']): void {
+    const nextTraits = buildTemporaryDetectedTraits(nextMode);
+    setDetectedTraits(nextTraits);
+    setObservedTraits({});
+    setScanStatus('scanning');
+    window.setTimeout(() => {
+      setScanStatus('ready');
+      setIsReady(false);
+    }, 1600);
+  }
+
+  function confirmDetectedTraits(): void {
+    setObservedTraits(detectedTraits);
+    setIsReady(true);
+  }
+
+  function adjustDetectedTraits(): void {
+    setObservedTraits(current =>
+      Object.keys(current).length ? current : detectedTraits,
+    );
+    setIsReady(false);
   }
 
   function pointerPosition(event: PointerEvent<HTMLCanvasElement>): {
@@ -606,6 +676,8 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
     setPreviewUrl(undefined);
     setHasDrawing(false);
     setIsReady(false);
+    setScanStatus('empty');
+    setDetectedTraits({});
     setObservedTraits({});
     localStorage.removeItem(SIGNATURE_DRAFT_STORAGE_KEY);
   }
@@ -623,22 +695,19 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
   }
 
   function saveDraft(): boolean {
-    const imageDataUrl = getCurrentImageDataUrl();
-    if (!imageDataUrl) {
+    if (!canContinue || analysisModel.status !== 'ready') {
       return false;
     }
 
     const draft: SignatureDraft = {
       analysisModel,
       createdAt: new Date().toISOString(),
-      imageDataUrl,
       mode,
       note:
-        'Stored locally for Signature Predicta input. This is reflective guidance, not identity verification or handwriting forensics.',
+        'Derived confirmed traits only. Predicta did not store the raw signature image.',
       observedTraits,
     };
     localStorage.setItem(SIGNATURE_DRAFT_STORAGE_KEY, JSON.stringify(draft));
-    setPreviewUrl(imageDataUrl);
     setIsReady(true);
     return true;
   }
@@ -697,7 +766,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
         chatAction={
           <button
             className="button primary"
-            disabled={!canContinue}
+            disabled={!canOpenReading}
             onClick={continueToPredicta}
             type="button"
           >
@@ -807,7 +876,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
           <div className="world-hero-actions inline">
             <button
               className="button primary"
-              disabled={!canContinue}
+              disabled={!canOpenReading}
               onClick={continueToPredicta}
               type="button"
             >
@@ -842,8 +911,21 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
               onChange={handleFileChange}
               type="file"
             />
-            <span>{copy.actions.upload}</span>
+            <span>{mode === 'upload' && canContinue ? 'Re-upload signature' : copy.actions.upload}</span>
           </label>
+          {mode === 'upload' ? (
+            <SignatureImmediateReceipt
+              confirmedTraits={confirmedTraitObservations}
+              copy={copy}
+              detectedTraits={detectedTraitObservations}
+              isReady={isReady}
+              onAdjust={adjustDetectedTraits}
+              onClear={clearSignature}
+              onConfirm={confirmDetectedTraits}
+              previewUrl={previewUrl}
+              scanStatus={scanStatus}
+            />
+          ) : null}
         </section>
 
         <section className="signature-input-card glass-panel">
@@ -872,14 +954,28 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
             className="button secondary"
             disabled={!hasDrawing}
             onClick={() => {
-              if (saveDraft()) {
-                setMode('draw');
-              }
+              setMode('draw');
+              startTemporaryScan('draw');
             }}
             type="button"
           >
-            {copy.actions.useDrawing}
+            {mode === 'draw' && scanStatus !== 'empty'
+              ? 'Re-draw signature'
+              : copy.actions.useDrawing}
           </button>
+          {mode === 'draw' ? (
+            <SignatureImmediateReceipt
+              confirmedTraits={confirmedTraitObservations}
+              copy={copy}
+              detectedTraits={detectedTraitObservations}
+              isReady={isReady}
+              onAdjust={adjustDetectedTraits}
+              onClear={clearSignature}
+              onConfirm={confirmDetectedTraits}
+              previewUrl={previewUrl}
+              scanStatus={scanStatus}
+            />
+          ) : null}
         </section>
       </div>
 
@@ -943,7 +1039,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
         <div className="signature-action-row">
           <button
             className="button"
-            disabled={!canContinue}
+            disabled={!canOpenReading}
             onClick={continueToPredicta}
             type="button"
           >
@@ -1025,6 +1121,137 @@ function buildPreparedReadingItems(
   return analysisModel.observedTraits.slice(0, 3).map(
     trait => `${copy.traits.labels[trait.key]}: ${copy.traits.values[trait.value]}.`,
   );
+}
+
+function SignatureImmediateReceipt({
+  confirmedTraits,
+  copy,
+  detectedTraits,
+  isReady,
+  onAdjust,
+  onClear,
+  onConfirm,
+  previewUrl,
+  scanStatus,
+}: {
+  confirmedTraits: SignatureTraitObservation[];
+  copy: SignatureCopy;
+  detectedTraits: SignatureTraitObservation[];
+  isReady: boolean;
+  onAdjust: () => void;
+  onClear: () => void;
+  onConfirm: () => void;
+  previewUrl?: string;
+  scanStatus: SignatureScanStatus;
+}): React.JSX.Element {
+  const visibleTraits = confirmedTraits.length ? confirmedTraits : detectedTraits;
+
+  return (
+    <div className="signature-inline-receipt">
+      <div className="signature-inline-preview">
+        {previewUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img alt="" src={previewUrl} />
+        ) : (
+          <span>Signature drawn in this session</span>
+        )}
+        {scanStatus === 'scanning' ? <span className="signature-scan-beam" /> : null}
+      </div>
+      <div className="signature-scan-status">
+        <span>
+          {scanStatus === 'scanning'
+            ? 'Scanning your signature expression...'
+            : scanStatus === 'ready'
+              ? 'Signature scanned'
+              : 'Your previous signature image was not stored. Please re-upload or re-draw it to continue.'}
+        </span>
+        <small>{SIGNATURE_SHORT_PRIVACY_COPY}</small>
+      </div>
+      <div className="signature-scan-labels" aria-label="Signature scan progress">
+        {SIGNATURE_SCAN_LABELS.map(label => (
+          <span key={label}>{label}</span>
+        ))}
+      </div>
+      <p className="signature-detection-copy">
+        Predicta detected these visible traits from your current signature. Please
+        confirm or adjust anything that looks off.
+      </p>
+      <div className="signature-trait-chip-grid">
+        {visibleTraits.map(trait => (
+          <span className="signature-trait-chip" key={trait.key}>
+            {copy.traits.labels[trait.key]}: {copy.traits.values[trait.value]}
+            <em>{trait.confidence}</em>
+          </span>
+        ))}
+        {!visibleTraits.length ? (
+          <span className="signature-trait-chip">
+            Not assessed<em>uncertain</em>
+          </span>
+        ) : null}
+      </div>
+      {isReady ? (
+        <p className="signature-ready-copy">
+          Signature traits ready. Please confirm what looks right.
+        </p>
+      ) : null}
+      <div className="signature-action-row">
+        <button
+          className="button primary"
+          disabled={scanStatus === 'empty' || scanStatus === 'scanning'}
+          onClick={onConfirm}
+          type="button"
+        >
+          Looks right
+        </button>
+        <button
+          className="button secondary"
+          disabled={scanStatus === 'empty'}
+          onClick={onAdjust}
+          type="button"
+        >
+          Adjust traits
+        </button>
+        <button className="button danger" onClick={onClear} type="button">
+          Clear signature
+        </button>
+      </div>
+      <p className="signature-privacy-mini">{SIGNATURE_PRIVACY_COPY}</p>
+    </div>
+  );
+}
+
+function buildTemporaryDetectedTraits(
+  mode: SignatureDraft['mode'],
+): Partial<Record<SignatureTraitKey, SignatureTraitValue>> {
+  if (mode === 'upload') {
+    return {
+      baseline: 'steady',
+      flourish: 'moderate',
+      legibility: 'partial',
+      'letter-connection': 'mixed',
+      'margin-use': 'balanced',
+      pressure: 'medium',
+      'signature-size': 'medium',
+      slant: 'right',
+      spacing: 'balanced',
+      speed: 'moderate',
+      underline: 'none',
+    };
+  }
+
+  return {
+    baseline: 'upward',
+    flourish: 'moderate',
+    legibility: 'partial',
+    'letter-connection': 'connected',
+    'margin-use': 'balanced',
+    pressure: 'medium',
+    'signature-size': 'medium',
+    slant: 'right',
+    spacing: 'balanced',
+    speed: 'moderate',
+    underline: 'single',
+  };
 }
 
 function buildSignatureChatPromptContext(

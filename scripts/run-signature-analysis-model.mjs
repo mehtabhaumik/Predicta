@@ -83,8 +83,9 @@ try {
   });
   assert.equal(observations.length, 4);
   assert.equal(observations[0].key, 'baseline');
-  assert.equal(observations[1].confidence, 'low');
-  assert.equal(observations[2].confidence, 'medium');
+  assert.equal(observations[0].confirmationState, 'confirmed');
+  assert.equal(observations[1].confidence, 'uncertain');
+  assert.equal(observations[2].confidence, 'partial');
 
   const model = composeSignatureAnalysisModel({
     inputSource: 'drawn-signature',
@@ -113,6 +114,9 @@ try {
   assert.match(model.synthesisReadiness.rule, /separate/i);
   assert.ok(model.practicePrompts.length >= 2);
   assert.ok(model.limitations.some(item => item.includes('does not verify identity')));
+  assert.equal(model.privacy.storage, 'raw-image-not-stored');
+  assert.match(model.privacy.reportCopy, /did not store your signature image/);
+  assert.ok(model.canAndCannotTellYou.some(item => item.includes('not forensic proof')));
   assert.ok(
     model.safetyBoundaries.some(item => item.includes('handwriting forensics')),
   );
@@ -127,6 +131,7 @@ try {
   assert.match(context, /Writing rhythm/);
   assert.match(context, /Confidence expression/);
   assert.match(context, /Improvement plan/);
+  assert.match(context, /What this can and cannot tell you/);
 
   console.log('Signature analysis model passed: 26 deterministic assertions.');
 } finally {

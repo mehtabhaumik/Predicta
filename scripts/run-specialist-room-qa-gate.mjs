@@ -125,7 +125,7 @@ expectIncludes('packages/pdf/src/index.ts', [
   'buildRoomSpecificReportSections',
   'buildVedicPredictaReportSection',
   'does not claim palm-leaf manuscript access',
-  'without casually mixing Parashari, KP, or Nadi methods',
+  'without casually mixing Parashari, KP, Nadi, or Signature methods',
   'not identity verification or handwriting forensics',
 ]);
 

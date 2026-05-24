@@ -1,0 +1,55 @@
+PREDICTA_SIGNATURE_PREDICTA_ULTRA_STRICT_PHASE
+Status: GREEN after strict audit
+Phase executed: PREDICTA_SIGNATURE_PREDICTA_PHASE_1_PRIVACY_FIRST_SCAN_AND_TRAIT_MAP_REBUILD
+
+Scope verified:
+- Web no longer persists raw signature image data in the Signature report draft. Only derived confirmed traits and the analysis model are stored for report handoff.
+- Web shows the immediate in-place receipt inside the upload/draw card: preview/status, scan labels, trait map, confidence chips, privacy copy, Looks right, Adjust traits, and Clear signature.
+- Upload and draw actions now expose Re-upload signature and Re-draw signature states after interaction.
+- Mobile now has an in-session upload/draw scan flow with trait map, confidence chips, privacy copy, confirmation, clear action, and sticky Signature ready · Not stored · Continue state.
+- Shared Signature analysis now uses clear/partial/uncertain confidence labels, confirmed/not-assessed/unconfirmed state, privacy copy, and What this can and cannot tell you guardrails.
+- Chat handoff and reports pass only confirmed derived traits, not raw images.
+- Signature PDF includes confirmed traits, privacy copy, confidence per trait, and What this can and cannot tell you.
+- Hindi/Gujarati Signature Predicta room replies remain native-script safe.
+
+Generated artifacts:
+- artifacts/signature-free-payload.json
+- artifacts/signature-premium-payload.json
+- artifacts/signature-missing-payload.json
+- artifacts/signature-free.pdf
+- artifacts/signature-premium.pdf
+- artifacts/signature-missing.pdf
+- artifacts/signature-free-pages/signature-free.pdf.png
+- artifacts/signature-premium-pages/signature-premium.pdf.png
+- artifacts/signature-missing-pages/signature-missing.pdf.png
+- artifacts/web-signature-upload-empty.png
+- artifacts/web-signature-scan-state.png
+- artifacts/web-signature-ready-confirmed.png
+- artifacts/mobile-width-signature-scan-state.png
+- artifacts/mobile-width-signature-ready-confirmed.png
+
+Audit notes:
+- Browser reload/raw image non-recovery is enforced by removing raw image persistence and by keeping uploaded/drawn image data only in component memory.
+- Mobile app restart/raw image non-recovery is enforced by keeping the mobile Signature sample state in screen-local React state only, with no AsyncStorage/Keychain/MMKV/SecureStore persistence.
+- Life Atlas is not implemented as a runnable report focus in the current app. This phase verifies Signature optional-enrichment rules at the shared model/report boundary and generated the missing-signature Signature PDF artifact; the future Life Atlas phase must consume the same privacy and missing-data rules.
+- The local dev backend returned a known /api/generate-kundli 503 during browser capture, but Signature page screenshots and Signature PDF generation completed successfully.
+
+Commands passed:
+- corepack pnpm test:signature-predicta
+- node scripts/run-signature-analysis-model.mjs
+- node scripts/run-signature-predicta-room.mjs
+- corepack pnpm test:signature-report
+- corepack pnpm --filter @pridicta/types typecheck
+- corepack pnpm --filter @pridicta/astrology build
+- corepack pnpm --filter @pridicta/pdf build
+- corepack pnpm --filter @pridicta/web typecheck
+- corepack pnpm --filter @pridicta/mobile exec tsc --noEmit
+- corepack pnpm test:discipline-handoff
+- corepack pnpm test:predicta-context
+- corepack pnpm test:translation-trust
+- corepack pnpm test:native-script-chat
+- corepack pnpm test:room-report-pdf
+- corepack pnpm test:specialist-room-qa
+- corepack pnpm test:pdf-golden
+- corepack pnpm build:web
+- git diff --check

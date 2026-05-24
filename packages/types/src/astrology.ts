@@ -2204,10 +2204,11 @@ export type SignatureTraitValue =
   | 'wide';
 
 export type SignatureTraitObservation = {
-  confidence: 'high' | 'low' | 'medium';
+  confidence: 'clear' | 'partial' | 'uncertain';
   evidence: string;
   key: SignatureTraitKey;
   label: string;
+  confirmationState: 'confirmed' | 'not-assessed' | 'unconfirmed';
   value: SignatureTraitValue;
 };
 
@@ -2253,6 +2254,12 @@ export type SignatureAnalysisModel = {
     numerology: 'available-on-request' | 'needs-name-and-dob';
     rule: string;
   };
+  privacy: {
+    storage: 'raw-image-not-stored';
+    sessionBehavior: string;
+    reportCopy: string;
+  };
+  canAndCannotTellYou: string[];
   suggestedQuestions: string[];
   evidence: string[];
   limitations: string[];

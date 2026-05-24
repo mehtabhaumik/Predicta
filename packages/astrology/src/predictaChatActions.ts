@@ -27,7 +27,10 @@ import { composeRemedyCoach } from './remedyCoach';
 import { composeRelationshipMirror } from './relationshipMirror';
 import { composeSadhanaRemedyPath } from './sadhanaRemedyPath';
 import { composeSadeSatiIntelligence } from './sadeSatiIntelligence';
-import { composeSignatureAnalysisModel } from './signatureAnalysisModel';
+import {
+  SIGNATURE_ANALYSIS_SAFETY_BOUNDARIES,
+  composeSignatureAnalysisModel,
+} from './signatureAnalysisModel';
 import { composeTransitGocharIntelligence } from './transitGocharIntelligence';
 import { composeYearlyHoroscopeVarshaphal } from './yearlyHoroscopeVarshaphal';
 
@@ -2191,8 +2194,8 @@ function shouldPreferNumerologyRoomLanguage({
   selectedLanguage: SupportedLanguage;
 }): boolean {
   return (
-    action === 'numerology-predicta' &&
-    predictaSchool === 'NUMEROLOGY' &&
+    (action === 'numerology-predicta' || action === 'signature-predicta') &&
+    (predictaSchool === 'NUMEROLOGY' || predictaSchool === 'SIGNATURE') &&
     explicitLanguage === undefined &&
     (selectedLanguage === 'hi' || selectedLanguage === 'gu')
   );
@@ -2336,7 +2339,7 @@ function buildSignaturePredictaReply(
         `स्थिरता: ${analysis.consistency.summary}`,
         `सुधार योजना: ${analysis.improvementPlan.slice(0, 3).join(' ')}`,
         analysis.synthesisReadiness.rule,
-        analysis.safetyBoundaries.join(' '),
+        buildSignatureSafetyReply(language),
         hasPremiumAccess
           ? 'प्रीमियम गहराई सक्रिय है: मैं दोहराए गए हस्ताक्षर नमूने, नाम-लय, अंक और Kundli context की तुलना तभी करूंगी जब आप संयुक्त सार मांगें.'
           : 'मुफ्त समझ उपयोगी रहेगी. प्रीमियम में गहरी तुलना, नाम-लय, वैकल्पिक numerology/Kundli synthesis और polished signature report मिलती है.',
@@ -2348,7 +2351,7 @@ function buildSignaturePredictaReply(
         ? 'आपके पक्के हस्ताक्षर संकेत मिल गए हैं. मैं उन्हीं संकेतों से पढ़ूंगी, अनुमान नहीं लगाऊंगी.'
         : 'पहले हस्ताक्षर upload/draw करें या दिखने वाले संकेत confirm करें: आकार, झुकाव, दबाव, दूरी, आधार-रेखा, पढ़ने की साफगोई, सजावट और underline.',
       'मैं सुधार सुझाव दे सकती हूं: साफ readability, steady baseline, balanced size, calm spacing और confidence-friendly rhythm.',
-      analysis.safetyBoundaries.join(' '),
+      buildSignatureSafetyReply(language),
       hasPremiumAccess
         ? 'प्रीमियम गहराई सक्रिय है: मैं दोहराए गए हस्ताक्षर नमूने, नाम-लय, अंक और Kundli context की तुलना तभी करूंगी जब आप संयुक्त सार मांगें.'
         : 'मुफ्त समझ उपयोगी रहेगी. प्रीमियम में गहरी तुलना, नाम-लय, वैकल्पिक numerology/Kundli synthesis और polished signature report मिलती है.',
@@ -2365,7 +2368,7 @@ function buildSignaturePredictaReply(
         `સ્થિરતા: ${analysis.consistency.summary}`,
         `સુધાર યોજના: ${analysis.improvementPlan.slice(0, 3).join(' ')}`,
         analysis.synthesisReadiness.rule,
-        analysis.safetyBoundaries.join(' '),
+        buildSignatureSafetyReply(language),
         hasPremiumAccess
           ? 'પ્રીમિયમ ઊંડાણ સક્રિય છે: હું વારંવારના હસ્તાક્ષર નમૂનાઓ, નામ-લય, અંક અને Kundli context ની તુલના ત્યારે જ કરીશ જ્યારે તમે સંયુક્ત સાર માગો.'
           : 'મફત સમજ ઉપયોગી રહેશે. પ્રીમિયમમાં ઊંડી તુલના, નામ-લય, વૈકલ્પિક numerology/Kundli synthesis અને polished signature report મળે છે.',
@@ -2377,7 +2380,7 @@ function buildSignaturePredictaReply(
         ? 'તમારા પક્કા હસ્તાક્ષર સંકેતો મળી ગયા છે. હું એ સંકેતો પરથી વાંચીશ, અંદાજ નહીં લગાવું.'
         : 'પહેલા હસ્તાક્ષર upload/draw કરો અથવા દેખાતા સંકેતો confirm કરો: કદ, ઝુકાવ, દબાણ, અંતર, આધાર-રેખા, વાંચવાની સ્પષ્ટતા, શણગાર અને underline.',
       'હું સુધાર સૂચનો આપી શકું છું: સ્પષ્ટ readability, steady baseline, balanced size, calm spacing અને confidence-friendly rhythm.',
-      analysis.safetyBoundaries.join(' '),
+      buildSignatureSafetyReply(language),
       hasPremiumAccess
         ? 'પ્રીમિયમ ઊંડાણ સક્રિય છે: હું વારંવારના હસ્તાક્ષર નમૂનાઓ, નામ-લય, અંક અને Kundli context ની તુલના ત્યારે જ કરીશ જ્યારે તમે સંયુક્ત સાર માગો.'
         : 'મફત સમજ ઉપયોગી રહેશે. પ્રીમિયમમાં ઊંડી તુલના, નામ-લય, વૈકલ્પિક numerology/Kundli synthesis અને polished signature report મળે છે.',
@@ -2407,6 +2410,28 @@ function buildSignaturePredictaReply(
     analysis.safetyBoundaries.join(' '),
     premiumLine,
   ].join('\n\n');
+}
+
+function buildSignatureSafetyReply(language: SupportedLanguage): string {
+  if (language === 'hi') {
+    return [
+      'हस्ताक्षर प्रेडिक्टा केवल चिंतन और आत्म-समझ के लिए है.',
+      'यह पहचान सत्यापन, फॉरेंसिक लिखावट जांच, कानूनी प्रमाण, नियुक्ति सलाह, चिकित्सा निदान या मानसिक-स्वास्थ्य निदान नहीं है.',
+      'हर अर्थ को नरम संकेत मानें, चरित्र या भविष्य की पक्की बात नहीं.',
+      'कच्ची हस्ताक्षर छवि संग्रहित नहीं होती; सत्र बंद होने पर फिर से अपलोड या ड्रॉ करना पड़ सकता है.',
+    ].join(' ');
+  }
+
+  if (language === 'gu') {
+    return [
+      'હસ્તાક્ષર પ્રેડિક્ટા માત્ર વિચાર અને સ્વ-સમજ માટે છે.',
+      'આ ઓળખ ચકાસણી, ફોરેન્સિક લખાણ તપાસ, કાનૂની પુરાવો, ભરતી સલાહ, તબીબી નિદાન અથવા માનસિક-આરોગ્ય નિદાન નથી.',
+      'દરેક અર્થને નરમ સંકેત માનો, સ્વભાવ કે ભવિષ્યની પક્કી વાત નહીં.',
+      'કાચી સહીની છબી સંગ્રહિત થતી નથી; સત્ર બંધ થાય તો ફરી અપલોડ અથવા ડ્રૉ કરવાની જરૂર પડી શકે.',
+    ].join(' ');
+  }
+
+  return SIGNATURE_ANALYSIS_SAFETY_BOUNDARIES.join(' ');
 }
 
 function extractSignatureTraitsFromPromptText(

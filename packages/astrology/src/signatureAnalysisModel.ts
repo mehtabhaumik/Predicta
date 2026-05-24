@@ -10,6 +10,7 @@ import type {
 export type SignatureAnalysisInput = {
   inputSource?: SignatureInputSource;
   observedTraits?: Partial<Record<SignatureTraitKey, SignatureTraitValue>>;
+  confirmationState?: 'confirmed' | 'unconfirmed';
 };
 
 type SignatureTraitMeaning = {
@@ -30,6 +31,33 @@ export const SIGNATURE_ANALYSIS_SAFETY_BOUNDARIES = [
   'It must not be used as identity verification, handwriting forensics, legal proof, hiring advice, medical diagnosis, or mental-health diagnosis.',
   'Treat every interpretation as a soft tendency, not a fixed truth about character or future events.',
   'Use confirmed personal context before giving strong guidance, and avoid shame, fear, or certainty language.',
+  'Signature Predicta helps you reflect on self-expression, presentation, confidence rhythm, consistency, and improvement practices. It does not predict the future.',
+];
+
+export const SIGNATURE_PRIVACY_COPY =
+  'Predicta does not store your signature image. It stays only in this session so we can prepare your reading. If you close this tab or leave the session, you may need to re-upload or re-draw it.';
+
+export const SIGNATURE_SHORT_PRIVACY_COPY =
+  'Not stored by Predicta. If you close this session, you may need to re-upload or re-draw.';
+
+export const SIGNATURE_REPORT_PRIVACY_COPY =
+  'Predicta did not store your signature image. This section uses only confirmed visible traits from your current session.';
+
+export const SIGNATURE_CAN_AND_CANNOT_TELL_YOU = [
+  'It reads visible expression cues from confirmed traits only.',
+  'It is not forensic proof.',
+  'It is not identity verification.',
+  'It is not prediction.',
+  'It is not diagnosis.',
+  'It should support reflection, not replace judgment.',
+];
+
+export const SIGNATURE_SCAN_LABELS = [
+  'Baseline detected',
+  'Slant measured',
+  'Rhythm mapped',
+  'Legibility checked',
+  'Flourish noted',
 ];
 
 const SIGNATURE_TRAIT_RULES: Record<SignatureTraitKey, SignatureTraitRule> = {
@@ -414,7 +442,10 @@ const SIGNATURE_TRAIT_RULES: Record<SignatureTraitKey, SignatureTraitRule> = {
 export function composeSignatureAnalysisModel(
   input?: SignatureAnalysisInput,
 ): SignatureAnalysisModel {
-  const observedTraits = extractSignatureTraitObservations(input?.observedTraits);
+  const observedTraits = extractSignatureTraitObservations(
+    input?.observedTraits,
+    input?.confirmationState ?? 'confirmed',
+  ).filter(trait => trait.confirmationState === 'confirmed');
 
   if (!observedTraits.length) {
     return buildPendingSignatureAnalysisModel(input?.inputSource);
@@ -455,6 +486,7 @@ export function composeSignatureAnalysisModel(
       'Signature traits can change with mood, pen, surface, time pressure, and language script.',
       'A real reading should use a recent natural signature and confirmed user context.',
       'This model interprets user-confirmed visual traits; it does not verify identity or authenticate documents.',
+      SIGNATURE_REPORT_PRIVACY_COPY,
     ],
     method: {
       extraction: 'USER_CONFIRMED_VISUAL_TRAITS',
@@ -465,6 +497,13 @@ export function composeSignatureAnalysisModel(
     practicePrompts: buildPracticePrompts(observedTraits),
     rhythm,
     safetyBoundaries: SIGNATURE_ANALYSIS_SAFETY_BOUNDARIES,
+    canAndCannotTellYou: SIGNATURE_CAN_AND_CANNOT_TELL_YOU,
+    privacy: {
+      reportCopy: SIGNATURE_REPORT_PRIVACY_COPY,
+      sessionBehavior:
+        'Raw signature images stay only in current in-memory interaction state. Closing or reloading may require re-upload or re-draw.',
+      storage: 'raw-image-not-stored',
+    },
     status: 'ready',
     strengths,
     synthesisReadiness: {
@@ -486,6 +525,7 @@ export function composeSignatureAnalysisModel(
 
 export function extractSignatureTraitObservations(
   traits?: Partial<Record<SignatureTraitKey, SignatureTraitValue>>,
+  confirmationState: SignatureTraitObservation['confirmationState'] = 'confirmed',
 ): SignatureTraitObservation[] {
   if (!traits) {
     return [];
@@ -502,6 +542,7 @@ export function extractSignatureTraitObservations(
 
       return {
         confidence: inferTraitConfidence(key, value),
+        confirmationState,
         evidence: rule.evidence,
         key,
         label: rule.label,
@@ -533,8 +574,10 @@ export function buildSignaturePredictaPromptContext(
     'Signature Predicta context:',
     model.summary,
     `Observed traits: ${model.observedTraits
-      .map(trait => `${trait.label} ${trait.value}`)
+      .map(trait => `${trait.label} ${trait.value} (${trait.confidence}, ${trait.confirmationState})`)
       .join('; ')}.`,
+    model.privacy.reportCopy,
+    `What this can and cannot tell you: ${model.canAndCannotTellYou.join(' ')}`,
     `Writing rhythm: ${model.rhythm.summary} Care: ${model.rhythm.care}`,
     `Confidence expression: ${model.confidenceExpression.summary} Care: ${model.confidenceExpression.care}`,
     `Consistency: ${model.consistency.summary} Care: ${model.consistency.care}`,
@@ -559,6 +602,7 @@ function buildPendingSignatureAnalysisModel(
     },
     limitations: [
       'Signature analysis needs visible signature traits before interpretation.',
+      SIGNATURE_PRIVACY_COPY,
     ],
     method: {
       extraction: 'USER_CONFIRMED_VISUAL_TRAITS',
@@ -584,6 +628,13 @@ function buildPendingSignatureAnalysisModel(
       summary: 'Writing rhythm is waiting for confirmed visual traits.',
     },
     safetyBoundaries: SIGNATURE_ANALYSIS_SAFETY_BOUNDARIES,
+    canAndCannotTellYou: SIGNATURE_CAN_AND_CANNOT_TELL_YOU,
+    privacy: {
+      reportCopy: SIGNATURE_REPORT_PRIVACY_COPY,
+      sessionBehavior:
+        'Raw signature images stay only in current in-memory interaction state. Closing or reloading may require re-upload or re-draw.',
+      storage: 'raw-image-not-stored',
+    },
     status: 'pending',
     strengths: [],
     synthesisReadiness: {
@@ -634,14 +685,14 @@ function inferTraitConfidence(
     value === 'mixed' ||
     value === 'partial'
   ) {
-    return 'medium';
+    return 'partial';
   }
 
   if (value === 'abstract') {
-    return 'low';
+    return 'uncertain';
   }
 
-  return 'high';
+  return 'clear';
 }
 
 function buildPracticePrompts(
