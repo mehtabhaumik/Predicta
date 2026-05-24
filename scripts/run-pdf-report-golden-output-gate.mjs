@@ -166,8 +166,14 @@ expectIncludes('packages/pdf/src/index.ts', 'composition source of truth', [
 ]);
 
 expectIncludes('packages/pdf/src/reportDocument.tsx', 'premium document renderer', [
-  "backgroundColor: '#ECEFF4'",
-  "backgroundColor: '#F3F6FB'",
+  "backgroundColor: PDF_PAGE_TEMPLATES.interior.background",
+  "backgroundColor: PDF_PAGE_TEMPLATES.cover.background",
+  'PDF_PAGE_TEMPLATES',
+  'PdfWatermark',
+  'Prepared by Predicta @2026',
+  'render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}',
+  'Predicta Devanagari',
+  'Predicta Gujarati',
   "logoSrc?: string",
   '<Image src={options.logoSrc} style={styles.coverLogo} />',
   "'Premium' : 'Free insight report'",
@@ -206,8 +212,7 @@ expectIncludes('packages/pdf/src/index.ts', 'safety and trust boundaries', [
   'buildTrustProfile',
   'Predictions are evidence-weighted guidance, not guaranteed outcomes.',
   'Limitations',
-  'A Predicta promise by Bhaumik Mehta',
-  'clear safety boundaries',
+  'Prepared by Predicta @2026',
 ]);
 
 expectIncludes('apps/web/components/WebDossierPreview.tsx', 'web report builder sync', [

@@ -221,7 +221,7 @@ export function composeReportSections({
       buildDossierExecutiveSummary(kundli, mode, reportFocus, signatureAnalysis),
       language,
     ),
-    footer: 'A Predicta promise by Bhaumik Mehta | Chart-backed Jyotish guidance with clear safety boundaries | © 2026',
+    footer: 'Prepared by Predicta @2026',
     language,
     mode,
     sections: localizeSections(polishedSections, language),
@@ -753,7 +753,7 @@ function composeEmptyReport(mode: PDFMode, language: SupportedLanguage): PdfComp
         'All available charts, dasha, transits, remedies, and confidence labels appear after calculation.',
       ],
     }, language),
-    footer: 'A Predicta promise by Bhaumik Mehta | Chart-backed Jyotish guidance with clear safety boundaries | © 2026',
+    footer: 'Prepared by Predicta @2026',
     language,
     mode,
     sections: [
@@ -1363,7 +1363,7 @@ function buildPdfChartSnapshots(
       birthDetails: kundli.birthDetails,
       chart,
       language,
-      presentation: 'report',
+      presentation: 'full',
     });
 
     return [

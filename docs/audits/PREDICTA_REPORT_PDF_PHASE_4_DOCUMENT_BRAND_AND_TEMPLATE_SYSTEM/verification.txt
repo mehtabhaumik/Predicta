@@ -1,0 +1,45 @@
+PREDICTA_REPORT_PDF_PHASE_4_DOCUMENT_BRAND_AND_TEMPLATE_SYSTEM
+
+Status: GREEN after strict artifact audit.
+
+Generated PDFs:
+- artifacts/phase4-free-en.pdf
+- artifacts/phase4-premium-en.pdf
+- artifacts/phase4-free-hi.pdf
+- artifacts/phase4-free-gu.pdf
+
+Rendered screenshots:
+- screenshots/free-cover-page-1.png
+- screenshots/free-interior-page-2.png
+- screenshots/free-final-page-17.png
+- screenshots/premium-cover-page-1.png
+- screenshots/premium-chart-page-4.png
+- screenshots/premium-analysis-page-8.png
+- screenshots/premium-final-page-23.png
+- screenshots/hindi-interior-page-2.png
+- screenshots/gujarati-interior-page-2.png
+
+Audit results:
+- Free PDF has a dark Predicta cover and light editorial interior pages.
+- Premium PDF has a dark Predicta cover and light editorial interior pages.
+- Every inspected page has a faint centered Predicta logo watermark.
+- Every inspected page has the structured footer:
+  left Prepared by Predicta @2026, center Bhaumik Mehta, right real page / total.
+- Hindi and Gujarati PDFs render native-script template text without Helvetica glyph corruption.
+- PDF chart rendering was tightened during this phase because the artifact audit caught a +3 overflow counter.
+- The inspected chart page now renders one Kundli per chart page/card and does not hide planets behind +1/+2/+3 counters.
+- No inspected page shows footer/content collision.
+
+Commands run:
+- corepack pnpm --filter @pridicta/pdf build
+- corepack pnpm test:report-pdf-phase-4
+- corepack pnpm test:pdf-golden
+- corepack pnpm test:room-report-pdf
+- corepack pnpm build:web
+- corepack pnpm test:translation-trust
+- corepack pnpm test:native-script-chat
+- git diff --check
+
+Artifact rendering:
+- PDFs were generated through the live web API route at /api/report/pdf.
+- Page screenshots were rendered from the generated PDFs with macOS PDFKit via a temporary Swift renderer.

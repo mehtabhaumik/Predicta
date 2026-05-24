@@ -1,7 +1,10 @@
+import { existsSync } from 'node:fs';
+import path from 'node:path';
 import React from 'react';
 import {
   Document,
   type DocumentProps,
+  Font,
   Image,
   Page,
   Path,
@@ -75,22 +78,85 @@ type PlannedSpread = {
   proofTitle?: string;
 };
 
+const PDF_PREPARED_BY_TEXT = 'Prepared by Predicta @2026';
+
+const PDF_PAGE_TEMPLATES = {
+  cover: {
+    background: '#07101F',
+    blueGlow: '#1F6FFF',
+    greenGlow: '#32D18D',
+    magentaGlow: '#D93695',
+  },
+  interior: {
+    background: '#F7F7F2',
+    border: '#D9D1BF',
+    ink: '#151925',
+    muted: '#5B6677',
+    panel: '#FFFFFF',
+  },
+  watermark: {
+    opacity: 0.045,
+    textOpacity: 0.055,
+  },
+} as const;
+
+Font.register({
+  family: 'Predicta Devanagari',
+  src: resolvePdfFontPath('NotoSerifDevanagari-Regular.ttf'),
+});
+
+Font.register({
+  family: 'Predicta Gujarati',
+  src: resolvePdfFontPath('NotoSerifGujarati-Regular.ttf'),
+});
+
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: '#ECEFF4',
-    color: '#172033',
+    backgroundColor: PDF_PAGE_TEMPLATES.interior.background,
+    color: PDF_PAGE_TEMPLATES.interior.ink,
     fontFamily: 'Helvetica',
     fontSize: 11,
-    paddingBottom: 48,
+    paddingBottom: 62,
     paddingHorizontal: 34,
     paddingTop: 38,
   },
   coverPage: {
-    backgroundColor: '#F3F6FB',
-    color: '#172033',
+    backgroundColor: PDF_PAGE_TEMPLATES.cover.background,
+    color: '#F8FBFF',
+    fontFamily: 'Helvetica',
     paddingBottom: 56,
     paddingHorizontal: 40,
     paddingTop: 48,
+  },
+  coverAuroraMagenta: {
+    backgroundColor: PDF_PAGE_TEMPLATES.cover.magentaGlow,
+    borderRadius: 180,
+    height: 240,
+    left: -70,
+    opacity: 0.24,
+    position: 'absolute',
+    top: 42,
+    width: 240,
+  },
+  coverAuroraBlue: {
+    backgroundColor: PDF_PAGE_TEMPLATES.cover.blueGlow,
+    borderRadius: 190,
+    height: 270,
+    opacity: 0.22,
+    position: 'absolute',
+    right: -92,
+    top: 110,
+    width: 270,
+  },
+  coverAuroraGreen: {
+    backgroundColor: PDF_PAGE_TEMPLATES.cover.greenGlow,
+    borderRadius: 170,
+    bottom: 90,
+    height: 210,
+    opacity: 0.16,
+    position: 'absolute',
+    right: 66,
+    width: 210,
   },
   coverTopRow: {
     alignItems: 'center',
@@ -127,7 +193,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   coverSubtitle: {
-    color: '#4E5E79',
+    color: '#D7E3F4',
     fontSize: 13,
     lineHeight: 1.55,
     marginBottom: 24,
@@ -138,13 +204,13 @@ const styles = StyleSheet.create({
     padding: 18,
   },
   coverMetaLine: {
-    color: '#53627D',
+    color: '#DCE7F7',
     fontSize: 10,
     lineHeight: 1.6,
     marginBottom: 6,
   },
   coverTagline: {
-    color: '#20304D',
+    color: '#F3F7FF',
     fontSize: 14,
     fontWeight: 700,
     lineHeight: 1.45,
@@ -323,7 +389,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     borderWidth: 1,
     padding: 14,
-    width: '48%',
+    width: '100%',
   },
   chartHeader: {
     alignItems: 'flex-start',
@@ -352,7 +418,7 @@ const styles = StyleSheet.create({
   chartBoard: {
     borderRadius: 14,
     borderWidth: 1,
-    height: 290,
+    height: 430,
     marginBottom: 10,
     overflow: 'hidden',
     position: 'relative',
@@ -395,17 +461,51 @@ const styles = StyleSheet.create({
     lineHeight: 1.5,
   },
   footer: {
-    bottom: 20,
-    color: '#72829C',
+    alignItems: 'center',
+    borderTopColor: '#D9D1BF',
+    borderTopWidth: 0.5,
+    bottom: 18,
+    color: '#667086',
     flexDirection: 'row',
     fontSize: 8.5,
     justifyContent: 'space-between',
     left: 34,
+    paddingTop: 7,
     position: 'absolute',
     right: 34,
   },
+  footerLeft: {
+    textAlign: 'left',
+    width: '33%',
+  },
   footerCenter: {
     textAlign: 'center',
+    width: '34%',
+  },
+  footerRight: {
+    textAlign: 'right',
+    width: '33%',
+  },
+  watermarkLogo: {
+    height: 260,
+    left: '50%',
+    marginLeft: -130,
+    opacity: PDF_PAGE_TEMPLATES.watermark.opacity,
+    position: 'absolute',
+    top: '35%',
+    width: 260,
+  },
+  watermarkText: {
+    color: '#151925',
+    fontSize: 48,
+    fontWeight: 900,
+    left: 0,
+    letterSpacing: 7,
+    opacity: PDF_PAGE_TEMPLATES.watermark.textOpacity,
+    position: 'absolute',
+    right: 0,
+    textAlign: 'center',
+    top: '44%',
   },
   noteRow: {
     borderRadius: 14,
@@ -523,7 +623,10 @@ export function PredictaReportPdfDocument({
     sections,
   });
   const chartCards = buildChartCards(report.chartSnapshots);
-  const chartRows = chunk(chartCards, 2);
+  const chartRows = chunk(chartCards, 1);
+  const subjectName = getReportSubjectName(report);
+  const documentFontFamily = getDocumentFontFamily(report.language);
+  const templateCopy = getPdfTemplateCopy(report.language, report.mode);
 
   return (
     <Document
@@ -533,8 +636,10 @@ export function PredictaReportPdfDocument({
       subject={report.cover.subtitle}
       title={`${report.cover.subtitle} | Predicta`}
     >
-      <Page size="A4" style={styles.coverPage}>
-        <PdfFooter footer={report.footer} />
+      <Page size="A4" style={[styles.coverPage, { fontFamily: documentFontFamily }]}>
+        <PdfCoverAtmosphere />
+        <PdfWatermark logoSrc={options.logoSrc} watermark={report.watermark} />
+        <PdfFooter subjectName={subjectName} />
         <View style={styles.coverTopRow}>
           {options.logoSrc ? (
             <Image src={options.logoSrc} style={styles.coverLogo} />
@@ -557,7 +662,7 @@ export function PredictaReportPdfDocument({
             <Text>{report.mode === 'PREMIUM' ? 'Premium' : 'Free insight report'}</Text>
           </View>
         </View>
-        <Text style={[styles.coverWordmark, { color: '#20304D' }]}>PREDICTA</Text>
+        <Text style={[styles.coverWordmark, { color: '#F8FBFF' }]}>PREDICTA</Text>
         <Text style={styles.coverTitle}>{report.cover.subtitle}</Text>
         <Text style={styles.coverSubtitle}>{report.executiveSummary.headline}</Text>
         <Text style={styles.coverTagline}>
@@ -581,17 +686,16 @@ export function PredictaReportPdfDocument({
         </View>
       </Page>
 
-      <Page size="A4" style={styles.page}>
-        <PdfFooter footer={report.footer} />
+      <Page size="A4" style={[styles.page, { fontFamily: documentFontFamily }]}>
+        <PdfWatermark logoSrc={options.logoSrc} watermark={report.watermark} />
+        <PdfFooter subjectName={subjectName} />
         <PdfPageHeader
-          eyebrow="Predicta summary"
-          title={report.mode === 'PREMIUM' ? 'Detailed analysis report' : 'Free insight report'}
+          eyebrow={templateCopy.summaryEyebrow}
+          title={templateCopy.reportModeLabel}
         />
-        <Text style={styles.pageTitle}>What this report is saying first</Text>
+        <Text style={styles.pageTitle}>{templateCopy.summaryTitle}</Text>
         <Text style={styles.pageLead}>
-          Start with the life direction, timing, and pressure that matter most.
-          The spreads that follow stay rooted in the chart while keeping the
-          reading editorial, not technical-first.
+          {templateCopy.summaryLead}
         </Text>
 
         <View
@@ -603,7 +707,7 @@ export function PredictaReportPdfDocument({
             },
           ]}
         >
-          <Text style={styles.panelEyebrow}>Executive summary</Text>
+          <Text style={styles.panelEyebrow}>{templateCopy.executiveSummary}</Text>
           <Text style={styles.panelTitle}>{report.executiveSummary.headline}</Text>
           <Text style={styles.panelBody}>{report.summary}</Text>
           <View style={styles.pillRow}>
@@ -634,7 +738,7 @@ export function PredictaReportPdfDocument({
               },
             ]}
           >
-            <Text style={styles.cardLabel}>Confidence</Text>
+            <Text style={styles.cardLabel}>{templateCopy.confidence}</Text>
             <Text style={styles.cardText}>{report.trustProfile.confidenceLabel}</Text>
             <Text style={styles.cardSubtext}>{report.trustProfile.summary}</Text>
           </View>
@@ -647,7 +751,7 @@ export function PredictaReportPdfDocument({
               },
             ]}
           >
-            <Text style={styles.cardLabel}>Read this report as</Text>
+            <Text style={styles.cardLabel}>{templateCopy.readAs}</Text>
             <Text style={styles.cardText}>
               {report.mode === 'PREMIUM'
                 ? 'a premium dossier with deeper timing, synthesis, and planning guidance'
@@ -670,7 +774,7 @@ export function PredictaReportPdfDocument({
             },
           ]}
         >
-          <Text style={styles.cardLabel}>Trust and limits</Text>
+          <Text style={styles.cardLabel}>{templateCopy.trustLimits}</Text>
           {report.trustProfile.limitations.slice(0, 4).map(item => (
             <Text key={item} style={styles.evidenceText}>
               • {item}
@@ -680,8 +784,9 @@ export function PredictaReportPdfDocument({
       </Page>
 
       {plannedSpreads.showOnboarding ? (
-        <Page size="A4" style={styles.page}>
-          <PdfFooter footer={report.footer} />
+        <Page size="A4" style={[styles.page, { fontFamily: documentFontFamily }]}>
+          <PdfWatermark logoSrc={options.logoSrc} watermark={report.watermark} />
+          <PdfFooter subjectName={subjectName} />
           <PdfPageHeader
             eyebrow={report.mode === 'PREMIUM' ? 'How to use this dossier' : 'How to use this report'}
             title={plannedSpreads.scope === 'focused' ? 'Focused reading guide' : 'Reading guide'}
@@ -716,8 +821,9 @@ export function PredictaReportPdfDocument({
       ) : null}
 
       {chartRows.map((row, rowIndex) => (
-        <Page key={`charts-${rowIndex}`} size="A4" style={styles.page}>
-          <PdfFooter footer={report.footer} />
+        <Page key={`charts-${rowIndex}`} size="A4" style={[styles.page, { fontFamily: documentFontFamily }]}>
+          <PdfWatermark logoSrc={options.logoSrc} watermark={report.watermark} />
+          <PdfFooter subjectName={subjectName} />
           <PdfPageHeader
             eyebrow="Chart proof"
             title={report.mode === 'PREMIUM' ? 'Chart spread' : 'Charts in your report'}
@@ -742,8 +848,9 @@ export function PredictaReportPdfDocument({
       ))}
 
       {plannedSpreads.spreads.map((spread, index) => (
-        <Page key={`${spread.eyebrow}-${spread.title}-${index}`} size="A4" style={styles.page}>
-          <PdfFooter footer={report.footer} />
+        <Page key={`${spread.eyebrow}-${spread.title}-${index}`} size="A4" style={[styles.page, { fontFamily: documentFontFamily }]}>
+          <PdfWatermark logoSrc={options.logoSrc} watermark={report.watermark} />
+          <PdfFooter subjectName={subjectName} />
           <PdfPageHeader
             eyebrow={spread.eyebrow}
             title={report.mode === 'PREMIUM' ? 'Premium analysis spread' : 'Insight spread'}
@@ -800,8 +907,9 @@ export function PredictaReportPdfDocument({
         </Page>
       ))}
 
-      <Page size="A4" style={styles.page}>
-        <PdfFooter footer={report.footer} />
+      <Page size="A4" style={[styles.page, { fontFamily: documentFontFamily }]}>
+        <PdfWatermark logoSrc={options.logoSrc} watermark={report.watermark} />
+        <PdfFooter subjectName={subjectName} />
         <PdfPageHeader
           eyebrow={report.mode === 'PREMIUM' ? 'Close the dossier well' : 'Use the report well'}
           title={report.mode === 'PREMIUM' ? 'Next steps' : 'What to do next'}
@@ -1248,16 +1356,129 @@ function PdfPageHeader({
   );
 }
 
-function PdfFooter({ footer }: { footer: string }): React.JSX.Element {
+function PdfCoverAtmosphere(): React.JSX.Element {
+  return (
+    <>
+      <View fixed style={styles.coverAuroraMagenta} />
+      <View fixed style={styles.coverAuroraBlue} />
+      <View fixed style={styles.coverAuroraGreen} />
+    </>
+  );
+}
+
+function PdfWatermark({
+  logoSrc,
+  watermark,
+}: {
+  logoSrc?: string;
+  watermark: string;
+}): React.JSX.Element {
+  if (logoSrc) {
+    return <Image fixed src={logoSrc} style={styles.watermarkLogo} />;
+  }
+
+  return (
+    <Text fixed style={styles.watermarkText}>
+      {watermark}
+    </Text>
+  );
+}
+
+function PdfFooter({ subjectName }: { subjectName: string }): React.JSX.Element {
   return (
     <View fixed style={styles.footer}>
-      <Text>{footer}</Text>
+      <Text style={styles.footerLeft}>{PDF_PREPARED_BY_TEXT}</Text>
+      <Text style={styles.footerCenter}>{subjectName}</Text>
       <Text
         render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
-        style={styles.footerCenter}
+        style={styles.footerRight}
       />
     </View>
   );
+}
+
+function getDocumentFontFamily(language: SupportedLanguage): string {
+  if (language === 'hi') {
+    return 'Predicta Devanagari';
+  }
+
+  if (language === 'gu') {
+    return 'Predicta Gujarati';
+  }
+
+  return 'Helvetica';
+}
+
+function getPdfTemplateCopy(
+  language: SupportedLanguage,
+  mode: PDFMode,
+): {
+  confidence: string;
+  executiveSummary: string;
+  readAs: string;
+  reportModeLabel: string;
+  summaryEyebrow: string;
+  summaryLead: string;
+  summaryTitle: string;
+  trustLimits: string;
+} {
+  if (language === 'hi') {
+    return {
+      confidence: 'विश्वास',
+      executiveSummary: 'मुख्य सारांश',
+      readAs: 'इस रिपोर्ट को ऐसे पढ़ें',
+      reportModeLabel: mode === 'PREMIUM' ? 'विस्तृत विश्लेषण रिपोर्ट' : 'मुफ़्त अंतर्दृष्टि रिपोर्ट',
+      summaryEyebrow: 'प्रेडिक्टा सारांश',
+      summaryLead:
+        'सबसे पहले जीवन-दिशा, समय और मुख्य दबाव को समझें। आगे के पृष्ठ चार्ट से जुड़े रहते हैं, लेकिन पढ़ने में शांत और संपादकीय हैं।',
+      summaryTitle: 'यह रिपोर्ट सबसे पहले क्या कह रही है',
+      trustLimits: 'विश्वास और सीमाएँ',
+    };
+  }
+
+  if (language === 'gu') {
+    return {
+      confidence: 'વિશ્વાસ',
+      executiveSummary: 'મુખ્ય સારાંશ',
+      readAs: 'આ રિપોર્ટ આ રીતે વાંચો',
+      reportModeLabel: mode === 'PREMIUM' ? 'વિગતવાર વિશ્લેષણ રિપોર્ટ' : 'મફત ઇનસાઇટ રિપોર્ટ',
+      summaryEyebrow: 'પ્રેડિક્ટા સારાંશ',
+      summaryLead:
+        'સૌથી પહેલા જીવનની દિશા, સમય અને મુખ્ય દબાણને સમજો. આગળના પાનાં ચાર્ટ સાથે જોડાયેલા રહે છે, પરંતુ વાંચવામાં શાંત અને સંપાદકીય છે.',
+      summaryTitle: 'આ રિપોર્ટ સૌથી પહેલા શું કહે છે',
+      trustLimits: 'વિશ્વાસ અને મર્યાદાઓ',
+    };
+  }
+
+  return {
+    confidence: 'Confidence',
+    executiveSummary: 'Executive summary',
+    readAs: 'Read this report as',
+    reportModeLabel: mode === 'PREMIUM' ? 'Detailed analysis report' : 'Free insight report',
+    summaryEyebrow: 'Predicta summary',
+    summaryLead:
+      'Start with the life direction, timing, and pressure that matter most. The spreads that follow stay rooted in the chart while keeping the reading editorial, not technical-first.',
+    summaryTitle: 'What this report is saying first',
+    trustLimits: 'Trust and limits',
+  };
+}
+
+function resolvePdfFontPath(fileName: string): string {
+  const workspaceCandidates = [
+    path.join(process.cwd(), 'packages', 'pdf', 'assets', 'fonts', fileName),
+    path.join(process.cwd(), '..', '..', 'packages', 'pdf', 'assets', 'fonts', fileName),
+    path.join(process.cwd(), 'assets', 'fonts', fileName),
+  ];
+  const fontPath = workspaceCandidates.find(candidate => existsSync(candidate));
+
+  return fontPath ?? workspaceCandidates[0];
+}
+
+function getReportSubjectName(report: PdfComposition): string {
+  const subtitleMatch = /\bfor\s+(.+)$/i.exec(report.cover.subtitle);
+  const candidate = subtitleMatch?.[1]?.trim();
+
+  return candidate || report.cover.subtitle;
 }
 
 function PdfChartCard({
@@ -1270,8 +1491,8 @@ function PdfChartCard({
   snapshot: PdfChartSnapshot;
 }): React.JSX.Element {
   const themePalette = getChartThemePalette(snapshot.theme);
-  const chartWidth = 238;
-  const chartHeight = 290;
+  const chartWidth = 432;
+  const chartHeight = 430;
 
   return (
     <View
@@ -1366,9 +1587,11 @@ function PdfChartCell({
   palette: ThemePalette;
 }): React.JSX.Element {
   const point = houseLabelPoint(cell.house);
-  const cellWidth = cell.labelDensity === 'stacked' ? 92 : 84;
-  const left = (point.x / 100) * boardWidth - cellWidth / 2;
-  const top = (point.y / 100) * boardHeight - 18;
+  const cellWidth = cell.labelDensity === 'stacked' ? 112 : 100;
+  const rawLeft = (point.x / 100) * boardWidth - cellWidth / 2;
+  const rawTop = (point.y / 100) * boardHeight - 20;
+  const left = clamp(rawLeft, 8, boardWidth - cellWidth - 8);
+  const top = clamp(rawTop, 8, boardHeight - 74);
 
   return (
     <View style={[styles.chartCell, { left, top, width: cellWidth }]}>
@@ -1402,21 +1625,12 @@ function PdfChartCell({
           {planet.status.combust ? ' C' : ''}
         </Text>
       ))}
-      {cell.hiddenPlanetCount > 0 ? (
-        <Text
-          style={[
-            styles.planetChip,
-            {
-              backgroundColor: palette.note,
-              borderColor: palette.border,
-            },
-          ]}
-        >
-          +{cell.hiddenPlanetCount}
-        </Text>
-      ) : null}
     </View>
   );
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max);
 }
 
 function chunk<T>(items: T[], size: number): T[][] {
