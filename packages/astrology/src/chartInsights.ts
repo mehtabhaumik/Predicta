@@ -7,6 +7,7 @@ import type {
   ChartPremiumInsight,
   ChartType,
   KundliData,
+  PlanetPosition,
 } from '@pridicta/types';
 import { composeChalitBhavKpFoundation } from './chalitBhavKpFoundation';
 import { getChartConfig } from './chartRegistry';
@@ -62,6 +63,8 @@ type AdvancedVargaChartType =
   | 'D32'
   | 'D33'
   | 'D34';
+
+type AdvancedVargaConfidenceTier = 'supporting' | 'narrow' | 'sensitive';
 
 const CHART_FOCUS: Record<ChartType, string> = {
   D1: 'body, identity, life direction, houses, and visible karma',
@@ -142,6 +145,52 @@ const ADVANCED_VARGA_TYPES = new Set<AdvancedVargaChartType>([
   'D33',
   'D34',
 ]);
+
+const ADVANCED_VARGA_CONFIDENCE_TIERS: Record<
+  AdvancedVargaChartType,
+  AdvancedVargaConfidenceTier
+> = {
+  D5: 'supporting',
+  D6: 'sensitive',
+  D8: 'sensitive',
+  D11: 'supporting',
+  D13: 'narrow',
+  D15: 'narrow',
+  D17: 'narrow',
+  D18: 'sensitive',
+  D19: 'narrow',
+  D21: 'sensitive',
+  D22: 'sensitive',
+  D23: 'narrow',
+  D25: 'narrow',
+  D26: 'sensitive',
+  D27: 'narrow',
+  D28: 'sensitive',
+  D29: 'narrow',
+  D31: 'sensitive',
+  D32: 'sensitive',
+  D33: 'narrow',
+  D34: 'sensitive',
+};
+
+const PLANET_DIGNITIES: Record<string, { debilitated: string; exalted: string }> = {
+  Jupiter: { debilitated: 'Capricorn', exalted: 'Cancer' },
+  Mars: { debilitated: 'Cancer', exalted: 'Capricorn' },
+  Mercury: { debilitated: 'Pisces', exalted: 'Virgo' },
+  Moon: { debilitated: 'Scorpio', exalted: 'Taurus' },
+  Saturn: { debilitated: 'Aries', exalted: 'Libra' },
+  Sun: { debilitated: 'Libra', exalted: 'Aries' },
+  Venus: { debilitated: 'Virgo', exalted: 'Pisces' },
+};
+
+const COMBUSTION_ORBS: Record<string, number> = {
+  Jupiter: 11,
+  Mars: 17,
+  Mercury: 14,
+  Moon: 12,
+  Saturn: 15,
+  Venus: 10,
+};
 
 export function composeChartInsight({
   chart,
@@ -796,6 +845,198 @@ function composeUnsupportedCoreVargaInsight(
   };
 }
 
+function advancedVargaConfidenceFrame(chartType: AdvancedVargaChartType): {
+  freeSentence: string;
+  technicalSentence: string;
+} {
+  const tier = ADVANCED_VARGA_CONFIDENCE_TIERS[chartType];
+
+  if (tier === 'sensitive') {
+    return {
+      freeSentence:
+        'This is a sensitive advanced lens, so Predicta uses it for correction, protection, and steadier choices rather than fear or fixed fate.',
+      technicalSentence:
+        'Advanced confidence: sensitive. Treat this as a bounded confirmation layer and require D1, dasha, and lived evidence before any strong conclusion.',
+    };
+  }
+
+  if (tier === 'narrow') {
+    return {
+      freeSentence:
+        'This is a narrow advanced lens, so it is useful for refinement but should not carry the whole reading by itself.',
+      technicalSentence:
+        'Advanced confidence: narrow. Use this chart to refine a specific topic, then verify the promise through D1 and the relevant core varga.',
+    };
+  }
+
+  return {
+    freeSentence:
+      'This is a supporting advanced lens. It can clarify the topic, but D1 and the relevant core varga still decide the main weight.',
+    technicalSentence:
+      'Advanced confidence: supporting. Read the chart as topic evidence, not as a standalone replacement for D1 or core varga judgement.',
+  };
+}
+
+function buildAdvancedTechnicalEvidence({
+  chart,
+  chartType,
+  currentDasha,
+  dashaPlacement,
+  dominantHouse,
+  supportHouse,
+}: {
+  chart: ChartData;
+  chartType: AdvancedVargaChartType;
+  currentDasha: KundliData['dasha']['current'];
+  dashaPlacement?: PlanetPosition;
+  dominantHouse?: number;
+  supportHouse?: number;
+}): string[] {
+  const confidence = advancedVargaConfidenceFrame(chartType);
+  const dashaEvidence = dashaPlacement
+    ? `Dasha evidence: ${dashaPlacement.name} currently links ${currentDasha.mahadasha}/${currentDasha.antardasha} to house ${dashaPlacement.house} (${formatHouseArea(dashaPlacement.house)}) in ${chartType}.`
+    : `Dasha evidence: ${currentDasha.mahadasha}/${currentDasha.antardasha} is active, but no direct ${chartType} planet placement should be overstated from it.`;
+
+  return [
+    `D1 anchor: ${chartType} is a confirming divisional chart. D1 remains the root promise and this chart only refines its specific topic.`,
+    confidence.technicalSentence,
+    `Chart-specific interpretation note: ${getChartReadingNote(chart.chartType)}`,
+    formatAdvancedHousePlanetDetails(chart, dominantHouse, supportHouse),
+    formatAdvancedPlanetConditionProof(chart),
+    dashaEvidence,
+  ];
+}
+
+function formatAdvancedHousePlanetDetails(
+  chart: ChartData,
+  dominantHouse?: number,
+  supportHouse?: number,
+): string {
+  const occupied = Array.from(
+    chart.planetDistribution
+      .filter(isCoreJudgementPlanet)
+      .reduce<Map<number, PlanetPosition[]>>((accumulator, planet) => {
+        const bucket = accumulator.get(planet.house) ?? [];
+        bucket.push(planet);
+        accumulator.set(planet.house, bucket);
+        return accumulator;
+      }, new Map()),
+  )
+    .sort((first, second) => {
+      if (first[0] === dominantHouse) {
+        return -1;
+      }
+
+      if (second[0] === dominantHouse) {
+        return 1;
+      }
+
+      if (first[0] === supportHouse) {
+        return -1;
+      }
+
+      if (second[0] === supportHouse) {
+        return 1;
+      }
+
+      return second[1].length - first[1].length;
+    })
+    .slice(0, 4)
+    .map(([house, planets]) => {
+      const planetSummary = planets
+        .slice(0, 5)
+        .map(planet => `${planet.name} ${planet.sign} ${planet.degree.toFixed(1)}°`)
+        .join(', ');
+
+      return `house ${house} (${formatHouseArea(house)}): ${planetSummary}`;
+    });
+
+  if (!occupied.length) {
+    return 'House/planet details: no core graha cluster is strong enough to carry a narrow technical claim.';
+  }
+
+  return `House/planet details: ${occupied.join('; ')}.`;
+}
+
+function formatAdvancedPlanetConditionProof(chart: ChartData): string {
+  const sun = chart.planetDistribution.find(planet => planet.name === 'Sun');
+  const conditionRows = chart.planetDistribution
+    .filter(isCoreJudgementPlanet)
+    .map(planet => ({
+      planet,
+      states: describePlanetConditions(planet, sun),
+    }))
+    .filter(item => item.states.length > 0);
+
+  if (!conditionRows.length) {
+    return 'Planet condition proof: no exalted, debilitated, combust, or retrograde condition stands out among core grahas; read sign, house, and D1 support before increasing confidence.';
+  }
+
+  const proof = conditionRows
+    .slice(0, 6)
+    .map(
+      ({ planet, states }) =>
+        `${planet.name} in ${planet.sign} house ${planet.house} (${states.join(', ')})`,
+    )
+    .join('; ');
+
+  return `Planet condition proof: ${proof}.`;
+}
+
+function describePlanetConditions(
+  planet: PlanetPosition,
+  sun?: PlanetPosition,
+): string[] {
+  const conditions: string[] = [];
+  const dignity = PLANET_DIGNITIES[planet.name];
+
+  if (dignity?.exalted === planet.sign) {
+    conditions.push('exalted');
+  }
+
+  if (dignity?.debilitated === planet.sign) {
+    conditions.push('debilitated');
+  }
+
+  if (planet.retrograde) {
+    conditions.push('retrograde');
+  }
+
+  if (isCombustPlanet(planet, sun)) {
+    conditions.push('combust');
+  }
+
+  return conditions;
+}
+
+function isCombustPlanet(planet: PlanetPosition, sun?: PlanetPosition): boolean {
+  if (!sun || planet.name === 'Sun' || planet.name === 'Rahu' || planet.name === 'Ketu') {
+    return false;
+  }
+
+  const orb = COMBUSTION_ORBS[planet.name];
+
+  if (orb === undefined) {
+    return false;
+  }
+
+  return getAngularSeparation(planet.absoluteLongitude, sun.absoluteLongitude) <= orb;
+}
+
+function getAngularSeparation(first: number, second: number): number {
+  const raw = Math.abs(first - second) % 360;
+
+  return raw > 180 ? 360 - raw : raw;
+}
+
+function isCoreJudgementPlanet(planet: PlanetPosition): boolean {
+  return (
+    planet.kind !== 'modern' &&
+    planet.kind !== 'sensitive' &&
+    planet.kind !== 'upagraha'
+  );
+}
+
 function composeAdvancedVargaInsight(
   chart: ChartData,
   kundli: KundliData,
@@ -804,13 +1045,9 @@ function composeAdvancedVargaInsight(
   const chartType = chart.chartType as AdvancedVargaChartType;
   const config = getChartConfig(chartType);
   const definition = ADVANCED_VARGA_INSIGHT_DEFINITIONS[chartType];
+  const confidence = advancedVargaConfidenceFrame(chartType);
   const clusters = chart.planetDistribution
-    .filter(
-      planet =>
-        planet.kind !== 'modern' &&
-        planet.kind !== 'sensitive' &&
-        planet.kind !== 'upagraha',
-    )
+    .filter(isCoreJudgementPlanet)
     .reduce<Record<number, string[]>>((accumulator, planet) => {
       const bucket = accumulator[planet.house] ?? [];
       bucket.push(planet.name);
@@ -851,6 +1088,14 @@ function composeAdvancedVargaInsight(
   const dashaSentence = dashaPlacement
     ? `${dashaPlacement.name} is active in this chart through ${formatHouseArea(dashaPlacement.house)}, so current timing is making this advanced layer louder in practical life.`
     : `The current dasha of ${currentDasha.mahadasha}/${currentDasha.antardasha} still matters here, but this chart should stay a focused confirming lens instead of a standalone verdict.`;
+  const technicalEvidence = buildAdvancedTechnicalEvidence({
+    chart,
+    chartType,
+    currentDasha,
+    dashaPlacement,
+    dominantHouse,
+    supportHouse,
+  });
 
   return {
     currentGuidance: dominantHouse
@@ -868,6 +1113,7 @@ function composeAdvancedVargaInsight(
         ? `${definition.supportLead} ${supportArea}${supportPlanetText}.`
         : `${definition.supportLead} D1 remains the anchor that decides how much of this chart becomes visible in lived life.`,
       definition.userValueLine,
+      confidence.freeSentence,
     ],
     governs: definition.governs,
     lifeAreas,
@@ -893,17 +1139,14 @@ function composeAdvancedVargaInsight(
     }),
     premiumNudge: definition.premiumNudge,
     technicalDetails: [
-      `${chartType} focuses on ${CHART_FOCUS[chartType]}, and should always be judged through D1 first.`,
+      `${chartType} focus: ${CHART_FOCUS[chartType]}.`,
       dominantHouse
         ? `Primary house emphasis: house ${dominantHouse} (${activeArea})${dominantPlanetText}.`
         : 'No single house dominates this advanced chart preview, so the signal should stay conservative.',
       supportHouse
         ? `Secondary support: house ${supportHouse} (${supportArea})${supportPlanetText}.`
         : 'No second cluster stands out strongly enough to overrule the main emphasis.',
-      dashaPlacement
-        ? `Dasha-linked placement: ${dashaPlacement.name} in house ${dashaPlacement.house} (${formatHouseArea(dashaPlacement.house)}).`
-        : `Current dasha: ${currentDasha.mahadasha}/${currentDasha.antardasha}.`,
-      getChartReadingNote(chart.chartType),
+      ...technicalEvidence,
       definition.technicalGuardrail,
     ],
     technicalSummary: hasPremiumAccess
@@ -923,6 +1166,7 @@ function composeUnsupportedAdvancedVargaInsight(
 ): ChartInsight {
   const config = getChartConfig(chartType);
   const definition = ADVANCED_VARGA_INSIGHT_DEFINITIONS[chartType];
+  const confidence = advancedVargaConfidenceFrame(chartType);
 
   return {
     currentGuidance:
@@ -932,6 +1176,7 @@ function composeUnsupportedAdvancedVargaInsight(
       `${config.name} still governs ${definition.governs.toLowerCase()}`,
       'Predicta is keeping this advanced chart conservative until the chart evidence is fully prepared.',
       definition.userValueLine,
+      confidence.freeSentence,
     ],
     governs: definition.governs,
     lifeAreas: definition.lifeAreas,
@@ -952,8 +1197,10 @@ function composeUnsupportedAdvancedVargaInsight(
     premiumNudge: hasPremiumAccess ? undefined : definition.premiumNudge,
     technicalDetails: [
       `${chartType} is visible but kept conservative until chart preparation is complete.`,
+      `D1 anchor: ${chartType} is a confirming divisional chart. D1 remains the root promise and this chart only refines its specific topic.`,
+      confidence.technicalSentence,
       definition.technicalGuardrail,
-      getChartReadingNote(chartType),
+      `Chart-specific interpretation note: ${getChartReadingNote(chartType)}`,
     ],
     technicalSummary:
       'Technical View stays bounded here because full advanced-chart evidence is not yet prepared.',

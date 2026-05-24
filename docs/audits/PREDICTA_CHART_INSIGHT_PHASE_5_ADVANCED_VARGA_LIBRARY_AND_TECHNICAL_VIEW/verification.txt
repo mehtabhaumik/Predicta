@@ -1,0 +1,37 @@
+PREDICTA_CHART_INSIGHT_PHASE_5_ADVANCED_VARGA_LIBRARY_AND_TECHNICAL_VIEW
+
+Strict audit status: GREEN
+
+Scope verified:
+- All required advanced vargas are present in the shared advanced chart set:
+  D5, D6, D8, D11, D13, D15, D17, D18, D19, D21, D22, D23, D25, D26,
+  D27, D28, D29, D31, D32, D33, D34.
+- Each advanced varga has a plain-language meaning definition.
+- Each advanced varga has a confidence tier so narrow and sensitive charts
+  remain conservative.
+- Technical View evidence now includes D1 anchor rule, chart-specific note,
+  house/planet details, planet condition proof, and dasha evidence.
+- Sensitive vargas are explicitly bounded as correction/protection lenses,
+  not fear or fixed-fate claims.
+- Web Technical View already exposes the evidence surface with D1 anchor,
+  chart-specific note, house evidence, and planet condition cards.
+
+Commands required for green:
+- corepack pnpm test:chart-insight-phase-5
+- corepack pnpm test:chart-insight-phase-1
+- corepack pnpm test:chart-insight-phase-2
+- corepack pnpm test:chart-insight-phase-3
+- corepack pnpm test:chart-insight-phase-4
+- corepack pnpm test:charts
+- corepack pnpm --filter @pridicta/astrology typecheck
+- corepack pnpm --filter @pridicta/types typecheck
+- corepack pnpm --filter @pridicta/web typecheck
+- corepack pnpm --filter @pridicta/mobile exec tsc --noEmit
+- corepack pnpm test:translation-trust
+- corepack pnpm test:native-script-chat
+- corepack pnpm --filter @pridicta/web build
+- corepack pnpm test:pdf-golden
+- git diff --check
+
+Result:
+- All listed commands passed on 2026-05-25 before commit.
