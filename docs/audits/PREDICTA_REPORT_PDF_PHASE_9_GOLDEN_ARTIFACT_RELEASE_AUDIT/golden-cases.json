@@ -1,0 +1,65 @@
+[
+  {
+    "id": "free-kundli-en",
+    "language": "en",
+    "mode": "FREE",
+    "reportFocus": "KUNDLI",
+    "crowdedFixture": true
+  },
+  {
+    "id": "premium-kundli-en",
+    "language": "en",
+    "mode": "PREMIUM",
+    "reportFocus": "KUNDLI",
+    "crowdedFixture": true
+  },
+  {
+    "id": "kp-report-en",
+    "language": "en",
+    "mode": "PREMIUM",
+    "reportFocus": "KP",
+    "crowdedFixture": true
+  },
+  {
+    "id": "nadi-report-en",
+    "language": "en",
+    "mode": "PREMIUM",
+    "reportFocus": "NADI",
+    "crowdedFixture": true
+  },
+  {
+    "id": "numerology-report-en",
+    "language": "en",
+    "mode": "PREMIUM",
+    "reportFocus": "NUMEROLOGY",
+    "crowdedFixture": true
+  },
+  {
+    "id": "signature-report-en",
+    "language": "en",
+    "mode": "PREMIUM",
+    "reportFocus": "SIGNATURE",
+    "crowdedFixture": true
+  },
+  {
+    "id": "free-kundli-gu",
+    "language": "gu",
+    "mode": "FREE",
+    "reportFocus": "KUNDLI",
+    "crowdedFixture": true
+  },
+  {
+    "id": "free-kundli-hi",
+    "language": "hi",
+    "mode": "FREE",
+    "reportFocus": "KUNDLI",
+    "crowdedFixture": true
+  },
+  {
+    "id": "crowded-chart-kundli-en",
+    "language": "en",
+    "mode": "PREMIUM",
+    "reportFocus": "KUNDLI",
+    "crowdedFixture": true
+  }
+]

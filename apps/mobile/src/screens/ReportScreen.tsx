@@ -609,7 +609,7 @@ export function ReportScreen({
         <View className="mt-5 gap-4">
           <GlowButton
             disabled={isGenerating}
-            label={isGenerating ? 'Generating...' : 'Download Free PDF'}
+            label={isGenerating ? 'Preparing your report...' : 'Download your report'}
             loading={isGenerating}
             onPress={() => createPdf('FREE')}
           />
@@ -617,7 +617,7 @@ export function ReportScreen({
             disabled={isGenerating}
             label={
               userPlan === 'PREMIUM'
-                ? 'Download Detailed PDF'
+                ? 'Download your report'
                 : 'Unlock Detailed PDF'
             }
             onPress={() => createPdf('PREMIUM')}

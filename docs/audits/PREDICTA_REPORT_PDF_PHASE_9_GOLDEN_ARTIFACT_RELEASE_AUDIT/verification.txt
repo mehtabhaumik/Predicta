@@ -1,0 +1,146 @@
+PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT
+==========================================================
+
+Audit date: 2026-05-25 IST
+Repo: /Users/bmehta/Downloads/Predicta
+
+Phase intent
+------------
+Run the final no-goof-ups audit before the report/PDF rebuild can be called
+green. This audit uses generated PDFs, rendered page images, desktop/tablet/
+mobile report-page screenshots, and deterministic gates.
+
+Golden PDFs generated through the real web API
+----------------------------------------------
+Local renderer used:
+- corepack pnpm --filter @pridicta/web dev --hostname 127.0.0.1 --port 4309
+- POST http://127.0.0.1:4309/api/report/pdf
+
+Generated PDFs:
+- free-kundli-en.pdf: 39 pages, 1496254 bytes
+- premium-kundli-en.pdf: 47 pages, 1536362 bytes
+- kp-report-en.pdf: 10 pages, 1351917 bytes
+- nadi-report-en.pdf: 10 pages, 1354357 bytes
+- numerology-report-en.pdf: 10 pages, 1354775 bytes
+- signature-report-en.pdf: 10 pages, 1353804 bytes
+- free-kundli-gu.pdf: 38 pages, 1535946 bytes
+- free-kundli-hi.pdf: 38 pages, 1536315 bytes
+- crowded-chart-kundli-en.pdf: 47 pages, 1536361 bytes
+
+Page render evidence
+--------------------
+All PDFs were rendered to images with temporary local Python renderer dependency:
+- python3 -m pip install --target /tmp/predicta-pypdfium2 pypdfium2
+- PYTHONPATH=/tmp/predicta-pypdfium2 python3 <render script>
+
+Rendered page images:
+- Total rendered images: 249
+- Manifest: artifact-manifest.json
+- Render folder: page-renders/
+
+Manual visual samples inspected
+-------------------------------
+- premium-kundli-en/page-01.png: dark Celestial Seal cover includes subject
+  name, DOB, birth time, birth place, report type, birth moment signature,
+  watermark-safe layout, and real page footer.
+- premium-kundli-en/page-04.png: D1 Rashi chart is full-width, no overflow
+  counters, no visible label bleed.
+- premium-kundli-en/page-05.png: Moon Chart / Chandra Lagna appears immediately
+  after D1.
+- premium-kundli-en/page-06.png: D9 Navamsa appears after Moon chart.
+- premium-kundli-en/page-08.png: house-wise graha placement table is present.
+- free-kundli-hi/page-06.png: Hindi chart page renders native script without
+  visible gibberish.
+- premium-kundli-en/page-47.png: final page uses footer and Pearl Editorial
+  interior treatment.
+
+Baseline comparison
+-------------------
+Phase 0 baseline failures were:
+- cramped chart labels and visible overflow counters
+- missing chart-safe PDF layout
+- Indic text rendered without proper font support
+- report page and PDF path not fully aligned
+
+Phase 9 generated artifacts show:
+- no +1, +2, +3, or overflow-counter chips on inspected PDF chart pages
+- D1, Moon/Chandra Lagna, D9, then remaining varga chart order
+- proper Indic font registration for Hindi/Gujarati report output
+- corrected footer format: Prepared by Predicta @2026, subject name, page / total
+- dark Predicta cover and light Pearl Editorial interiors
+- centered Predicta watermark visible on interior pages
+
+Report page desktop/mobile audit
+--------------------------------
+Command:
+- PREDICTA_VISUAL_BASE_URL=http://127.0.0.1:4309 PREDICTA_VISUAL_OUTPUT_DIR=/Users/bmehta/Downloads/Predicta/docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/screenshots corepack pnpm test:visual-proof
+
+Result:
+- PASS: 33 route and viewport checks
+- PASS: desktop /dashboard/report screenshot captured
+- PASS: tablet /dashboard/report screenshot captured
+- PASS: mobile /dashboard/report screenshot captured
+- PASS: no clipped text, no horizontal overflow, no wide elements reported
+
+Deterministic verification commands
+-----------------------------------
+- corepack pnpm test:pdf-golden
+- corepack pnpm test:report-pdf-phase-2
+- corepack pnpm test:report-pdf-phase-3
+- corepack pnpm test:report-pdf-phase-4
+- corepack pnpm test:report-pdf-phase-4a
+- corepack pnpm test:report-pdf-phase-4b
+- corepack pnpm test:report-pdf-phase-5
+- corepack pnpm test:report-pdf-phase-6
+- corepack pnpm test:report-pdf-phase-7
+- corepack pnpm test:report-pdf-phase-8
+- corepack pnpm test:report-pdf-phase-9
+- corepack pnpm test:room-report-pdf
+- corepack pnpm test:kp-nadi-predicta
+- corepack pnpm test:numerology-predicta
+- corepack pnpm test:signature-predicta
+- corepack pnpm test:life-atlas-report
+- corepack pnpm test:graha-names
+- corepack pnpm --filter @pridicta/astrology build
+- corepack pnpm --filter @pridicta/pdf build
+- corepack pnpm --filter @pridicta/mobile typecheck
+- corepack pnpm build:web
+- git diff --check
+
+Command results
+---------------
+- PASS: corepack pnpm test:pdf-golden
+- PASS: corepack pnpm test:report-pdf-phase-2
+- PASS: corepack pnpm test:report-pdf-phase-3
+- PASS: corepack pnpm test:report-pdf-phase-4
+- PASS: corepack pnpm test:report-pdf-phase-4a
+- PASS: corepack pnpm test:report-pdf-phase-4b
+- PASS: corepack pnpm test:report-pdf-phase-5
+- PASS: corepack pnpm test:report-pdf-phase-6
+- PASS: corepack pnpm test:report-pdf-phase-7
+- PASS: corepack pnpm test:report-pdf-phase-8
+- PASS: corepack pnpm test:report-pdf-phase-9
+- PASS: corepack pnpm test:room-report-pdf
+- PASS: corepack pnpm test:kp-nadi-predicta
+- PASS: corepack pnpm test:numerology-predicta
+- PASS: corepack pnpm test:signature-predicta
+- PASS: corepack pnpm test:life-atlas-report
+- PASS: corepack pnpm test:graha-names
+- PASS: corepack pnpm --filter @pridicta/astrology build
+- PASS: corepack pnpm --filter @pridicta/pdf build
+- PASS: corepack pnpm --filter @pridicta/mobile typecheck
+- PASS: corepack pnpm build:web
+- PASS: git diff --check
+
+Phase 9 correction made during audit
+------------------------------------
+The new Phase 9 gate caught a real mobile parity issue: mobile still labeled
+report buttons as "Download Free PDF" and "Download Detailed PDF". The target
+flow now uses "Download your report" for free and premium download actions,
+while the locked premium upsell remains "Unlock Detailed PDF".
+
+Final audit status
+------------------
+GREEN. The generated artifact matrix, rendered page images, desktop/tablet/
+mobile report-page screenshots, deterministic gates, package builds, web build,
+and whitespace audit all pass.
