@@ -3,7 +3,9 @@
 import Link from 'next/link';
 import type { SupportedLanguage } from '@pridicta/types';
 import { PredictaWorldFrame } from '../../../components/PredictaWorldFrame';
+import { WebVedicIntelligencePanel } from '../../../components/WebVedicIntelligencePanel';
 import { buildPredictaChatHref } from '../../../lib/predicta-chat-cta';
+import { demoAccess } from '../../../lib/demo-state';
 import { useLanguagePreference } from '../../../lib/language-preference';
 import { useWebKundliLibrary } from '../../../lib/use-web-kundli-library';
 
@@ -341,6 +343,11 @@ export default function VedicPredictaPage(): React.JSX.Element {
             </Link>
           </div>
         </section>
+
+        <WebVedicIntelligencePanel
+          hasPremiumAccess={demoAccess.hasPremiumAccess}
+          kundli={activeKundli}
+        />
       </div>
     </section>
   );

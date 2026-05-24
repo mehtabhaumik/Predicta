@@ -30,6 +30,7 @@ import {
   composeSadhanaRemedyPath,
   composeSignatureAnalysisModel,
   composeTransitGocharIntelligence,
+  composeVedicIntelligenceContract,
   composeYearlyHoroscopeVarshaphal,
   type ChartRenderLegendItem,
   type ChartRenderMoonPhase,
@@ -315,6 +316,7 @@ function buildReportSectionSet(
     buildExecutiveSummary(kundli, mode),
     buildHolisticReportSynthesisSection(kundli, mode),
     buildBirthAndCalculationSection(kundli),
+    buildVedicIntelligenceContractSection(kundli, mode),
     buildChartSynthesisSection(kundli, chartTypes, mode, language),
     buildPlanetaryStrengthSection(kundli, mode),
     buildDashaSection(kundli, mode),
@@ -1247,6 +1249,54 @@ function buildChartSynthesisSection(
     title: mode === 'PREMIUM'
       ? 'What the charts are saying with premium depth'
       : 'What the charts are saying',
+  };
+}
+
+function buildVedicIntelligenceContractSection(
+  kundli: KundliData,
+  mode: PDFMode,
+): PdfSection {
+  const intelligence = composeVedicIntelligenceContract({
+    depth: mode === 'PREMIUM' ? 'PREMIUM' : 'FREE',
+    kundli,
+  });
+  const importantSections = [
+    intelligence.snapshot,
+    intelligence.moonChart,
+    intelligence.houseWisePlacements,
+    intelligence.friendshipTable,
+    intelligence.beneficMalefic,
+    intelligence.chalitTable,
+    intelligence.panchang,
+    intelligence.ashtakavarga,
+    intelligence.mahadashaPhala,
+    intelligence.samsa,
+    intelligence.ghatakFavorable,
+    intelligence.karakamsha,
+    intelligence.prastarashtakavarga,
+    intelligence.avakhadaChakra,
+  ];
+
+  return {
+    body:
+      'This report uses the same shared Vedic intelligence contract as the Vedic section: Moon chart, Mahadasha Phala, graha labels, placement tables, friendship, benefic/malefic classification, Chalit, Panchang, Ashtakavarga, and explicit pending states where Phase 3 calculation modules are still limited.',
+    bullets: [
+      `Chart order: ${intelligence.chartOrder.map(item => item.title).join(' -> ') || 'pending'}.`,
+      `Moon chart: ${intelligence.moonChart.status === 'ready' ? 'included from Chandra Lagna reference' : 'pending'}.`,
+      `Mahadasha Phala: past Mahadashas summarized at Mahadasha level; current period split into Entire Mahadasha, Mahadasha plus Antardasha, and Mahadasha plus Antardasha plus Pratyantardasha.`,
+      ...importantSections.map(section =>
+        `${section.title}: ${section.status === 'ready' ? section.freeInsight : section.limitations[0]}`,
+      ),
+    ],
+    evidence: [
+      `Contract generated for ${intelligence.ownerName} at ${intelligence.generatedAt}.`,
+      `Graha labels available: ${intelligence.grahaVisualMetadata.map(item => item.displayLabel).join(', ')}.`,
+      `House-wise placement rows: ${intelligence.houseWisePlacements.rows.length}.`,
+      `Friendship rows: ${intelligence.friendshipTable.rows.length}.`,
+      `Pratyantardasha caution: ${intelligence.mahadashaPhala.pratyantardashaCaution}`,
+    ],
+    eyebrow: 'VEDIC INTELLIGENCE CONTRACT',
+    title: 'Shared Vedic intelligence used by this report',
   };
 }
 

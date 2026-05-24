@@ -12,6 +12,7 @@ import {
   KundliChart,
   type KundliChartFocus,
   Screen,
+  VedicIntelligencePanel,
 } from '../components';
 import {
   buildChartSelectionPrompt,
@@ -161,6 +162,11 @@ export function ChartsScreen({
           selectedPlanet={focus.planet}
         />
       </View>
+
+      <VedicIntelligencePanel
+        hasPremiumAccess={access.hasPremiumAccess}
+        kundli={kundli}
+      />
 
       <GlowCard className="mt-5" delay={140}>
         <AppText tone="secondary" variant="caption">

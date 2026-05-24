@@ -1,0 +1,42 @@
+PREDICTA_REPORT_PDF_PHASE_2_VEDIC_INTELLIGENCE_DATA_CONTRACT
+
+Strict audit status: GREEN
+
+Scope verified:
+- One shared Vedic intelligence contract exists in @pridicta/astrology and
+  shared @pridicta/types.
+- The contract includes Vedic snapshot, Moon chart / Chandra Lagna chart,
+  Mahadasha Phala and Meaning, graha visual metadata, house-wise placements,
+  friendship table, benefics/malefics, Chalit table, Panchang, Samsa,
+  Ghatak/favorable, Karakamsha, Ashtakavarga, Prastarashtakavarga, and Avakhada
+  chakra.
+- Every section has explanation, free insight, premium analysis, evidence, and
+  limitations/pending state.
+- Pending Phase 3 modules are explicit pending states, not fabricated values.
+- The Mahadasha Phala contract exposes past Mahadasha summaries only and the
+  three current blocks: Entire Mahadasha, Mahadasha plus Antardasha, and
+  Mahadasha plus Antardasha plus Pratyantardasha.
+- Graha labels follow the approved contract: English uses Moon, Sun, Mars,
+  Jupiter, Venus, Saturn, Mercury, Rahu, Ketu; Hindi/Gujarati metadata uses
+  Chandra, Surya, Mangal, Guru, Shukra, Shani, Rahu, Ketu.
+- The Vedic section shows the shared intelligence panel and Moon chart when a
+  valid Kundli is active.
+- Mobile chart surface imports the same shared Vedic intelligence contract.
+- PDF report composition imports and consumes the same shared Vedic
+  intelligence contract.
+
+Commands required for green:
+- corepack pnpm test:report-pdf-phase-2
+- corepack pnpm --filter @pridicta/astrology build
+- corepack pnpm --filter @pridicta/pdf build
+- corepack pnpm --filter @pridicta/types typecheck
+- corepack pnpm --filter @pridicta/web typecheck
+- corepack pnpm --filter @pridicta/mobile exec tsc --noEmit
+- corepack pnpm test:translation-trust
+- corepack pnpm test:native-script-chat
+- corepack pnpm test:pdf-golden
+- corepack pnpm build:web
+- git diff --check
+
+Result:
+- All listed commands passed on 2026-05-25 before commit.

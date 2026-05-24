@@ -192,6 +192,170 @@ export type ChartData = {
   unsupportedReason?: string;
 };
 
+export type VedicIntelligenceStatus = 'pending' | 'ready';
+
+export type VedicIntelligenceSectionId =
+  | 'avakhada-chakra'
+  | 'ashtakavarga'
+  | 'benefic-malefic'
+  | 'chalit-table'
+  | 'friendship-table'
+  | 'ghatak-favorable'
+  | 'house-wise-placements'
+  | 'karakamsha'
+  | 'mahadasha-phala'
+  | 'moon-chart'
+  | 'panchang'
+  | 'prastarashtakavarga'
+  | 'samsa'
+  | 'snapshot';
+
+export type VedicIntelligenceEvidence = {
+  source: string;
+  observation: string;
+};
+
+export type VedicIntelligenceSection = {
+  id: VedicIntelligenceSectionId;
+  title: string;
+  explanation: string;
+  freeInsight: string;
+  premiumAnalysis: string;
+  evidence: VedicIntelligenceEvidence[];
+  limitations: string[];
+  status: VedicIntelligenceStatus;
+};
+
+export type VedicGrahaVisualToken =
+  | 'benefic-soft'
+  | 'lunar-disc-dark'
+  | 'lunar-disc-full'
+  | 'lunar-disc-unknown'
+  | 'lunar-disc-waning'
+  | 'lunar-disc-waxing'
+  | 'node-shadow'
+  | 'planet-fire'
+  | 'planet-gold'
+  | 'planet-green'
+  | 'planet-silver'
+  | 'planet-steel'
+  | 'planet-water';
+
+export type VedicGrahaVisualMetadata = {
+  accessibleLabel: string;
+  badgeToken: VedicGrahaVisualToken;
+  displayLabel: string;
+  graha: string;
+  localizedDisplayLabel: Record<SupportedLanguage, string>;
+  shadowNode: boolean;
+  shortLabel: string;
+};
+
+export type VedicHouseWisePlanetPlacement = {
+  combust: boolean;
+  debilitated: boolean;
+  degree: number;
+  dignity: 'debilitated' | 'exalted' | 'neutral';
+  exalted: boolean;
+  house: number;
+  nakshatra: string;
+  pada: number;
+  planet: string;
+  retrograde: boolean;
+  sign: string;
+};
+
+export type VedicFriendshipRelation =
+  | 'enemy'
+  | 'friend'
+  | 'neutral'
+  | 'pending';
+
+export type VedicPlanetFriendshipRow = {
+  compoundRelationship: VedicFriendshipRelation;
+  fromPlanet: string;
+  naturalRelationships: Record<string, VedicFriendshipRelation>;
+  temporaryRelationships: Record<string, VedicFriendshipRelation>;
+};
+
+export type VedicBeneficMaleficClassification = {
+  functionalBenefics: string[];
+  functionalMalefics: string[];
+  naturalBenefics: string[];
+  naturalMalefics: string[];
+};
+
+export type VedicChalitTableRow = {
+  planet: string;
+  rashiHouse: number;
+  chalitHouse: number;
+  rashiSign: string;
+  shifted: boolean;
+  shiftDirection: 'previous' | 'same' | 'next' | 'other';
+};
+
+export type VedicMahadashaPhalaBlock = {
+  id: string;
+  title: string;
+  period: string;
+  freeInsight: string;
+  premiumAnalysis: string;
+  evidence: VedicIntelligenceEvidence[];
+  limitations: string[];
+};
+
+export type VedicMahadashaPhala = {
+  pastMahadashas: VedicMahadashaPhalaBlock[];
+  currentEntireMahadasha: VedicMahadashaPhalaBlock;
+  currentMahadashaAntardasha: VedicMahadashaPhalaBlock;
+  currentMahadashaAntardashaPratyantardasha: VedicMahadashaPhalaBlock;
+  pratyantardashaCaution: string;
+};
+
+export type VedicIntelligenceContract = {
+  ownerName: string;
+  generatedAt: string;
+  depth: 'FREE' | 'PREMIUM';
+  snapshot: VedicIntelligenceSection & {
+    lagna: string;
+    moonSign: string;
+    nakshatra: string;
+    currentDasha: string;
+    strongestHouses: number[];
+    weakestHouses: number[];
+  };
+  chartOrder: Array<{
+    id: 'D1' | 'MOON' | 'D9' | ChartType;
+    title: string;
+    chart?: ChartData;
+    explanation: string;
+  }>;
+  moonChart: VedicIntelligenceSection & {
+    chart?: ChartData;
+  };
+  grahaVisualMetadata: VedicGrahaVisualMetadata[];
+  houseWisePlacements: VedicIntelligenceSection & {
+    rows: VedicHouseWisePlanetPlacement[];
+  };
+  friendshipTable: VedicIntelligenceSection & {
+    rows: VedicPlanetFriendshipRow[];
+  };
+  beneficMalefic: VedicIntelligenceSection & VedicBeneficMaleficClassification;
+  chalitTable: VedicIntelligenceSection & {
+    rows: VedicChalitTableRow[];
+  };
+  panchang: VedicIntelligenceSection;
+  samsa: VedicIntelligenceSection;
+  ghatakFavorable: VedicIntelligenceSection;
+  karakamsha: VedicIntelligenceSection;
+  ashtakavarga: VedicIntelligenceSection;
+  prastarashtakavarga: VedicIntelligenceSection;
+  avakhadaChakra: VedicIntelligenceSection;
+  mahadashaPhala: VedicIntelligenceSection & VedicMahadashaPhala;
+  sections: VedicIntelligenceSection[];
+  limitations: string[];
+};
+
 export type BhavChalitCusp = {
   house: number;
   longitude: number;

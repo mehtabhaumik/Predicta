@@ -8767,6 +8767,84 @@ button:disabled {
   text-transform: uppercase;
 }
 
+.vedic-intelligence-panel {
+  display: grid;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.vedic-intelligence-heading {
+  align-items: start;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.35fr);
+}
+
+.vedic-intelligence-heading h2,
+.vedic-moon-chart-card h3 {
+  margin: 0;
+}
+
+.vedic-intelligence-heading p,
+.vedic-moon-chart-card p,
+.vedic-intelligence-card p {
+  color: var(--muted);
+}
+
+.vedic-intelligence-snapshot,
+.vedic-chart-order article,
+.vedic-intelligence-card {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 18px;
+  padding: 16px;
+}
+
+.vedic-intelligence-snapshot span,
+.vedic-chart-order span,
+.vedic-intelligence-card span {
+  color: #ffd27a;
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.vedic-chart-order,
+.vedic-intelligence-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.vedic-chart-order p,
+.vedic-intelligence-card p,
+.vedic-intelligence-card small,
+.vedic-intelligence-card em {
+  display: block;
+  margin-top: 8px;
+}
+
+.vedic-intelligence-card.is-pending {
+  border-color: rgba(255, 210, 122, 0.22);
+}
+
+.vedic-intelligence-card small {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.vedic-intelligence-card em {
+  color: rgba(255, 210, 122, 0.82);
+  font-style: normal;
+}
+
+.vedic-moon-chart-card {
+  display: grid;
+  gap: 18px;
+}
+
 .chart-premium-block ul {
   margin: 0;
   padding-left: 18px;
@@ -18606,6 +18684,9 @@ select::-ms-expand {
 }
 
 @media (max-width: 960px) {
+  .vedic-intelligence-heading,
+  .vedic-chart-order,
+  .vedic-intelligence-grid,
   .report-download-hero,
   .report-result-grid,
   .report-builder-header,

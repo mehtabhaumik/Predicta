@@ -32,4 +32,5 @@ export * from './Screen';
 export * from './SadeSatiPanel';
 export * from './TransitGocharPanel';
 export * from './TrustProofPanel';
+export * from './VedicIntelligencePanel';
 export * from './YearlyHoroscopePanel';

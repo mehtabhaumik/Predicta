@@ -18,6 +18,7 @@
     "test:chart-insight-phase-4": "node scripts/run-chart-insight-phase-4-gate.mjs",
     "test:chart-insight-phase-5": "node scripts/run-chart-insight-phase-5-gate.mjs",
     "test:chart-insight-phase-6": "node scripts/run-chart-insight-phase-6-gate.mjs",
+    "test:report-pdf-phase-2": "node scripts/run-report-pdf-phase-2-vedic-intelligence-contract-gate.mjs",
     "test:graha-names": "node scripts/run-graha-name-localization-gate.mjs",
     "test:animation-regression": "node scripts/run-animation-regression-gate.mjs",
     "test:numerology": "node scripts/run-numerology-foundation-model.mjs",
