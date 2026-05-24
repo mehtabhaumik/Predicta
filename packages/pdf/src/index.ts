@@ -1868,34 +1868,48 @@ function buildNumerologyReportSection(
     };
   }
 
+  const dashboard = profile.identityDashboard;
   const numberLines = [
     `Name number ${profile.nameNumber.root} (${profile.nameNumber.label}): ${profile.nameNumber.simpleMeaning}.`,
     `Birth number ${profile.birthNumber.root} (${profile.birthNumber.label}): ${profile.birthNumber.simpleMeaning}.`,
     `Destiny number ${profile.destinyNumber.root} (${profile.destinyNumber.label}): ${profile.destinyNumber.simpleMeaning}.`,
     `Current rhythm: personal year ${profile.personalYear.root}, month ${profile.personalMonth.root}, day ${profile.personalDay.root}.`,
   ];
-  const numberPattern = buildNumerologyFrequencyPattern(profile.normalizedName, profile.birthDate);
+  const timelinePreview = dashboard.personalYearTimeline
+    .slice(0, isPremium ? 12 : 4)
+    .map(month => `${month.monthLabel}: ${month.keyword} ${month.cycleNumber}`)
+    .join('; ');
   const premiumLines = isPremium
     ? [
-        `Name method: ${profile.method.nameNumber}. Normalized name: ${profile.normalizedName}. Compound name value: ${profile.nameNumber.compound}.`,
-        `Cycle detail: year ${profile.personalYear.label}, month ${profile.personalMonth.label}, day ${profile.personalDay.label}.`,
-        'Premium depth uses this for name spelling comparison, compatibility numbers, monthly rhythm, and report-ready synthesis.',
+        `Full name analysis: ${dashboard.nameStrength} ${dashboard.firstLetterInfluence}`,
+        `Name Energy Scanner: ${dashboard.nameScanner.reducedExpression}.`,
+        `Name Fit Score: ${dashboard.nameRefinement.currentNameFit.summary}`,
+        `Personal Year Timeline: ${timelinePreview}.`,
+        `Name Refinement: ${dashboard.nameRefinement.comparisonNote}`,
+        `Compatibility: ${dashboard.compatibilityLens.howToWorkBetter}`,
+        `Supportive Toolkit: ${dashboard.supportiveToolkit.framing} Colors ${dashboard.supportiveToolkit.colors.join(', ') || 'pending'}; days ${dashboard.supportiveToolkit.days.join(', ') || 'pending'}.`,
+        `How Predicta calculated your numbers: ${dashboard.calculationNote}`,
       ]
     : [
-        'Free depth keeps this as a useful number profile. Premium adds spelling comparison, compatibility numbers, and a timing map.',
+        'Free depth keeps this as a useful number profile. Premium adds spelling comparison, compatibility lens, name fit breakdown, and a full timing map.',
       ];
 
   return {
     body:
-      'Numerology is included as its own Predicta room. It reads name rhythm and birth-date numbers without casually mixing Parashari, KP, or Nadi methods.',
+      'Your Number Signature is a Numerology-only dossier. It reads name rhythm and birth-date numbers without casually mixing Parashari, KP, Nadi, or Signature methods.',
     bullets: [
+      `Life Theme Sentence: ${dashboard.lifeThemeSentence}`,
       profile.summary,
       ...numberLines,
-      `Repeated number pattern: ${numberPattern.repeated.length ? numberPattern.repeated.join(', ') : 'no strong repeat detected yet'}.`,
-      `Missing number pattern: ${numberPattern.missing.length ? numberPattern.missing.join(', ') : 'all core digits appear at least once'}.`,
+      `Best Use Of This Cycle: ${dashboard.bestUseOfCurrentCycle}`,
+      `Name Rhythm: compound ${profile.nameNumber.compound}, root ${profile.nameNumber.root}, method ${profile.method.nameNumber}.`,
+      `Birth Code: ${dashboard.maturityDirection}`,
+      `Repeated number pattern: ${dashboard.repeatedNumbers.length ? dashboard.repeatedNumbers.join(', ') : 'no strong repeat detected yet'}.`,
+      `Missing number pattern: ${dashboard.missingNumbers.length ? dashboard.missingNumbers.join(', ') : 'all core digits appear at least once'}.`,
       `Timing calendar: personal year ${profile.personalYear.root}, personal month ${profile.personalMonth.root}, personal day ${profile.personalDay.root}.`,
       `Strengths: ${profile.strengths.slice(0, isPremium ? 6 : 3).join(', ') || 'waiting for number emphasis'}.`,
       `Care points: ${profile.cautions.slice(0, isPremium ? 5 : 3).join(', ') || 'keep the reading practical and balanced'}.`,
+      `Work, relationships, money, and self-expression guidance: ${dashboard.freeInsight}`,
       profile.guidance,
       ...premiumLines,
     ],
@@ -1903,9 +1917,17 @@ function buildNumerologyReportSection(
     evidence: [
       ...profile.evidence,
       ...profile.limitations,
-      `Repeated/missing pattern calculated from available name and birth-date digits: repeated ${numberPattern.repeated.join(', ') || 'none'}, missing ${numberPattern.missing.join(', ') || 'none'}.`,
+      dashboard.calculationNote,
+      `Missing/repeated grid calculated from available name and birth-date digits: repeated ${dashboard.repeatedNumbers.join(', ') || 'none'}, missing ${dashboard.missingNumbers.join(', ') || 'none'}.`,
+      'Name fit and compatibility are confidence-framed reflective tools, not guarantees or pressure to change a name.',
     ],
     evidenceTable: [
+      ...dashboard.mandalaNodes.slice(0, 6).map(node => ({
+        confidence: 'medium' as const,
+        factor: `Personal Number Mandala: ${node.label}`,
+        implication: node.shortMeaning,
+        observation: `${node.number} ${node.keyword}.`,
+      })),
       {
         confidence: 'medium',
         factor: 'Name number',
@@ -1926,6 +1948,26 @@ function buildNumerologyReportSection(
       },
       {
         confidence: 'medium',
+        factor: 'Missing / Repeated Number Pattern',
+        implication: 'Highlights visible number emphasis without unsupported claims.',
+        observation: dashboard.frequencyMap
+          .map(cell => `${cell.number}:${cell.count}/${cell.tone}`)
+          .join(', '),
+      },
+      {
+        confidence: dashboard.nameRefinement.currentNameFit.confidence,
+        factor: 'Name Fit Score',
+        implication: 'Premium-only reflective fit score with limitations.',
+        observation: `${dashboard.nameRefinement.currentNameFit.score}/100; expression ${dashboard.nameRefinement.currentNameFit.expression}, stability ${dashboard.nameRefinement.currentNameFit.stability}, public rhythm ${dashboard.nameRefinement.currentNameFit.publicRhythm}, destiny support ${dashboard.nameRefinement.currentNameFit.destinySupport}.`,
+      },
+      {
+        confidence: dashboard.compatibilityLens.confidence,
+        factor: 'Compatibility',
+        implication: 'Pending until the user supplies another name, birth date, brand, or business input.',
+        observation: dashboard.compatibilityLens.status,
+      },
+      {
+        confidence: 'medium',
         factor: 'Personal timing',
         implication: 'Frames the current number rhythm without replacing real-world judgement.',
         observation: `Year ${profile.personalYear.root}, month ${profile.personalMonth.root}, day ${profile.personalDay.root} for ${profile.targetDate}.`,
@@ -1934,8 +1976,8 @@ function buildNumerologyReportSection(
     eyebrow: 'NUMEROLOGY',
     tier: isPremium ? 'premium' : 'free',
     title: isPremium
-      ? 'Numerology Predicta number synthesis'
-      : 'Numerology useful insight',
+      ? 'Your Number Signature premium dossier'
+      : 'Your Number Signature useful insight',
   };
 }
 
@@ -2018,43 +2060,6 @@ function buildSignatureReportSection(
     title: isPremium
       ? 'Signature Predicta premium synthesis'
       : 'Signature useful insight',
-  };
-}
-
-function buildNumerologyFrequencyPattern(
-  normalizedName: string,
-  birthDate: string,
-): {
-  missing: string[];
-  repeated: string[];
-} {
-  const source = `${normalizedName}${birthDate}`.toUpperCase();
-  const counts = new Map<string, number>();
-  const values: Record<string, number> = {
-    A: 1, I: 1, J: 1, Q: 1, Y: 1,
-    B: 2, K: 2, R: 2,
-    C: 3, G: 3, L: 3, S: 3,
-    D: 4, M: 4, T: 4,
-    E: 5, H: 5, N: 5, X: 5,
-    U: 6, V: 6, W: 6,
-    O: 7, Z: 7,
-    F: 8, P: 8,
-  };
-
-  for (const character of source) {
-    const value = /\d/.test(character)
-      ? Number(character)
-      : values[character];
-    if (!value || value < 1 || value > 9) {
-      continue;
-    }
-    counts.set(String(value), (counts.get(String(value)) ?? 0) + 1);
-  }
-
-  const digits = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
-  return {
-    missing: digits.filter(digit => !counts.has(digit)),
-    repeated: digits.filter(digit => (counts.get(digit) ?? 0) >= 3),
   };
 }
 

@@ -443,6 +443,7 @@ function compactNumerologyFoundation(
     destinyNumber: profile.destinyNumber,
     evidence: profile.evidence.slice(0, 4),
     guidance: profile.guidance,
+    identityDashboard: profile.identityDashboard,
     limitations: profile.limitations,
     method: profile.method,
     name: profile.name,

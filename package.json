@@ -21,6 +21,7 @@
     "test:report-pdf-phase-2": "node scripts/run-report-pdf-phase-2-vedic-intelligence-contract-gate.mjs",
     "test:report-pdf-phase-3": "node scripts/run-report-pdf-phase-3-classical-jyotish-modules-gate.mjs",
     "test:kp-nadi-predicta": "node scripts/run-kp-nadi-predicta-strict-phase-gate.mjs",
+    "test:numerology-predicta": "node scripts/run-numerology-predicta-strict-phase-gate.mjs",
     "test:graha-names": "node scripts/run-graha-name-localization-gate.mjs",
     "test:animation-regression": "node scripts/run-animation-regression-gate.mjs",
     "test:numerology": "node scripts/run-numerology-foundation-model.mjs",

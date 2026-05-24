@@ -2017,6 +2017,116 @@ export type NumerologyCycleInsight = NumerologyNumberInsight & {
   date: string;
 };
 
+export type NumerologyPatternTone =
+  | 'balanced'
+  | 'missing'
+  | 'repeated'
+  | 'strong';
+
+export type NumerologyFrequencyCell = {
+  number: number;
+  count: number;
+  tone: NumerologyPatternTone;
+  keyword: string;
+  insight: string;
+};
+
+export type NumerologyMandalaNode = {
+  id:
+    | 'birth'
+    | 'destiny'
+    | 'name'
+    | 'personal-day'
+    | 'personal-month'
+    | 'personal-year';
+  label: string;
+  number: number;
+  colorToken: string;
+  keyword: string;
+  shortMeaning: string;
+  accessibleLabel: string;
+};
+
+export type NumerologyNameScannerStep = {
+  letter: string;
+  value: number;
+};
+
+export type NumerologyYearTimelineMonth = {
+  monthLabel: string;
+  cycleNumber: number;
+  keyword: string;
+  guidance: string;
+};
+
+export type NumerologyNameFitScore = {
+  score: number;
+  confidence: 'high' | 'low' | 'medium';
+  expression: number;
+  stability: number;
+  publicRhythm: number;
+  destinySupport: number;
+  summary: string;
+  limitations: string[];
+};
+
+export type NumerologyCompatibilityLens = {
+  status: 'pending' | 'ready';
+  supportZones: string[];
+  frictionZones: string[];
+  howToWorkBetter: string;
+  confidence: 'high' | 'low' | 'medium';
+  limitations: string[];
+};
+
+export type NumerologySupportiveToolkit = {
+  colors: string[];
+  days: string[];
+  numbers: number[];
+  affirmation: string;
+  habits: string[];
+  framing: string;
+};
+
+export type NumerologyNameRefinement = {
+  status: 'pending' | 'ready';
+  currentNameFit: NumerologyNameFitScore;
+  comparisonNote: string;
+  suggestedInputs: string[];
+  limitations: string[];
+};
+
+export type NumerologyIdentityDashboard = {
+  lifeThemeSentence: string;
+  bestUseOfCurrentCycle: string;
+  currentCycleLeanInto: string;
+  currentCycleAvoid: string;
+  maturityDirection: string;
+  firstLetterInfluence: string;
+  nameStrength: string;
+  missingNumbers: number[];
+  repeatedNumbers: number[];
+  strongNumbers: number[];
+  frequencyMap: NumerologyFrequencyCell[];
+  mandalaNodes: NumerologyMandalaNode[];
+  nameScanner: {
+    method: NumerologyNameMethod;
+    normalizedName: string;
+    steps: NumerologyNameScannerStep[];
+    compound: number;
+    root: number;
+    reducedExpression: string;
+  };
+  personalYearTimeline: NumerologyYearTimelineMonth[];
+  supportiveToolkit: NumerologySupportiveToolkit;
+  nameRefinement: NumerologyNameRefinement;
+  compatibilityLens: NumerologyCompatibilityLens;
+  freeInsight: string;
+  premiumDetail: string;
+  calculationNote: string;
+  reportSummary: string;
+};
+
 export type NumerologyFoundationProfile = {
   status: 'ready' | 'pending';
   method: {
@@ -2039,6 +2149,7 @@ export type NumerologyFoundationProfile = {
   strengths: string[];
   cautions: string[];
   guidance: string;
+  identityDashboard: NumerologyIdentityDashboard;
   evidence: string[];
   limitations: string[];
 };
@@ -2690,6 +2801,7 @@ export type AIContextPayload = {
     | 'destinyNumber'
     | 'evidence'
     | 'guidance'
+    | 'identityDashboard'
     | 'limitations'
     | 'method'
     | 'name'

@@ -94,6 +94,34 @@ try {
   assert.equal(profile.destinyNumber.root, 3);
   assert.equal(profile.personalDay.root, 1);
   assert.ok(profile.evidence.length >= 4);
+  assert.equal(
+    profile.identityDashboard.lifeThemeSentence,
+    'Your number pattern asks you to turn structure into expression while keeping structure steady.',
+  );
+  assert.equal(profile.identityDashboard.nameScanner.compound, 40);
+  assert.equal(profile.identityDashboard.nameScanner.root, 4);
+  assert.equal(profile.identityDashboard.nameScanner.steps.length, 12);
+  assert.equal(
+    profile.identityDashboard.nameScanner.reducedExpression,
+    '2 + 5 + 1 + 6 + 4 + 1 + 2 + 4 + 5 + 5 + 4 + 1 -> 40/4',
+  );
+  assert.deepEqual(profile.identityDashboard.missingNumbers, [3, 7]);
+  assert.deepEqual(profile.identityDashboard.strongNumbers, [1, 2, 4, 5]);
+  assert.equal(profile.identityDashboard.frequencyMap.length, 9);
+  assert.equal(profile.identityDashboard.frequencyMap[0].count, 4);
+  assert.equal(profile.identityDashboard.frequencyMap[2].tone, 'missing');
+  assert.equal(profile.identityDashboard.personalYearTimeline.length, 12);
+  assert.equal(profile.identityDashboard.personalYearTimeline[0].keyword, 'Explore');
+  assert.equal(profile.identityDashboard.personalYearTimeline[4].keyword, 'Close');
+  assert.equal(
+    profile.identityDashboard.nameRefinement.currentNameFit.score,
+    84,
+  );
+  assert.equal(profile.identityDashboard.compatibilityLens.status, 'pending');
+  assert.match(
+    profile.identityDashboard.supportiveToolkit.framing,
+    /not as guaranteed lucky rules/,
+  );
 
   const hindiProfile = composeNumerologyFoundationModel(
     {
@@ -107,6 +135,7 @@ try {
   assert.match(hindiProfile.summary, /भाग्य अंक 3/);
   assert.match(hindiProfile.guidance, /निजी वर्ष 4/);
   assert.match(hindiProfile.evidence[0], /नाम अंक 4/);
+  assert.match(hindiProfile.identityDashboard.lifeThemeSentence, /अंक पैटर्न/);
 
   const gujaratiProfile = composeNumerologyFoundationModel(
     {
@@ -120,6 +149,7 @@ try {
   assert.match(gujaratiProfile.summary, /ભાગ્ય અંક 3/);
   assert.match(gujaratiProfile.guidance, /વ્યક્તિગત વર્ષ 4/);
   assert.match(gujaratiProfile.evidence[0], /નામ અંક 4/);
+  assert.match(gujaratiProfile.identityDashboard.lifeThemeSentence, /અંક પેટર્ન/);
 
   assert.throws(
     () => calculateDestinyNumber('1980-22-08'),
