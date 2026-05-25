@@ -1,5 +1,6 @@
 'use client';
 
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
@@ -172,76 +173,76 @@ const CHECKOUT_COPY: Record<
     title: 'Prepare your Predicta access',
   },
   hi: {
-    body: 'मूल्य पेज से सदस्यता, डे पास या एक बार वाली रिपोर्ट चुनें, फिर उस प्रवेश को सही खाते से जोड़कर रखें.',
-    change: 'चयन बदलें',
-    emailSupport: 'सपोर्ट को ईमेल करें',
-    note: 'प्रेडिक्टा पहले प्रवेश को सही ईमेल से जोड़ती है ताकि आपकी कुंडली, रिपोर्ट और पास अलग-अलग खातों में न बिखरें.',
-    oneTime: 'एक बार का प्रवेश',
-    openAccount: 'खाता सेटिंग खोलें',
-    pill: 'प्रवेश तैयार करें',
+    body: getNativeCopy("native.apps.web.app.checkout.page.tsx.d02d649ff9"),
+    change: getNativeCopy("native.apps.web.app.checkout.page.tsx.df2ec9b391"),
+    emailSupport: getNativeCopy("native.apps.web.app.checkout.page.tsx.a739cb4d32"),
+    note: getNativeCopy("native.apps.web.app.checkout.page.tsx.81cb946fbb"),
+    oneTime: getNativeCopy("native.apps.web.app.checkout.page.tsx.633b350da2"),
+    openAccount: getNativeCopy("native.apps.web.app.checkout.page.tsx.7ab9674a9f"),
+    pill: getNativeCopy("native.apps.web.app.checkout.page.tsx.ba9b006fa1"),
     planBody: billingCopy =>
-      `${billingCopy} वही खाता रखें जिसे आप लगातार प्रेडिक्टा मार्गदर्शन से जोड़ना चाहते हैं.`,
+      formatNativeCopy("native.apps.web.app.checkout.page.tsx.aa7e9c428f", [billingCopy]),
     productBody: description =>
-      `${description} इस चयन को उसी खाते से जोड़कर रखें जिसमें संबंधित कुंडली और रिपोर्ट इतिहास रहेगा.`,
-    redeemPass: 'निजी पास उपयोग करें',
-    reviewTitle: label => `${label} के लिए प्रवेश देखें`,
-    selected: 'चुना गया',
+      formatNativeCopy("native.apps.web.app.checkout.page.tsx.5a046dc018", [description]),
+    redeemPass: getNativeCopy("native.apps.web.app.checkout.page.tsx.5a061d44a5"),
+    reviewTitle: label => formatNativeCopy("native.apps.web.app.checkout.page.tsx.6139944ca0", [label]),
+    selected: getNativeCopy("native.apps.web.app.checkout.page.tsx.0593802992"),
     steps: [
       {
-        body: 'उसी ईमेल से साइन इन करें जिसे आप अपनी कुंडली, रिपोर्ट और बाद की रिकवरी से जोड़ना चाहते हैं.',
+        body: getNativeCopy("native.apps.web.app.checkout.page.tsx.a7e5a1e057"),
         label: '1',
-        title: 'सही खाता चुनें',
+        title: getNativeCopy("native.apps.web.app.checkout.page.tsx.42f1f3e3ee"),
       },
       {
-        body: 'एक साफ चयन रखें ताकि प्रेडिक्टा रिपोर्ट खरीद रास्ते को गेस्ट या परिवार प्रवेश के साथ न मिलाए.',
+        body: getNativeCopy("native.apps.web.app.checkout.page.tsx.a00e28e59c"),
         label: '2',
-        title: 'प्रवेश रास्ता तय करें',
+        title: getNativeCopy("native.apps.web.app.checkout.page.tsx.5e02f3f637"),
       },
       {
-        body: 'अगर आपके पास निजी निमंत्रण है तो पहले उसे उपयोग करें. अन्यथा खाते से आगे बढ़ें या मदद के लिए सपोर्ट से संपर्क करें.',
+        body: getNativeCopy("native.apps.web.app.checkout.page.tsx.ccebc8e9b1"),
         label: '3',
-        title: 'खाता निरंतरता से पूरा करें',
+        title: getNativeCopy("native.apps.web.app.checkout.page.tsx.f4e7896234"),
       },
     ],
-    subscription: 'सदस्यता प्रवेश',
+    subscription: getNativeCopy("native.apps.web.app.checkout.page.tsx.1a2647f494"),
     supportSubject: 'Predicta access review',
-    title: 'अपना प्रेडिक्टा प्रवेश तैयार करें',
+    title: getNativeCopy("native.apps.web.app.checkout.page.tsx.7d3065db46"),
   },
   gu: {
-    body: 'કિંમત પેજ પરથી સભ્યપદ, ડે પાસ અથવા એક વખતનો રિપોર્ટ પસંદ કરો, પછી તે પ્રવેશને સાચા ખાતા સાથે જોડીને રાખો.',
-    change: 'પસંદગી બદલો',
-    emailSupport: 'સપોર્ટને ઇમેઇલ કરો',
-    note: 'પ્રેડિક્ટા પહેલે પ્રવેશને સાચા ઇમેઇલ સાથે જોડે છે જેથી તમારી કુંડળી, રિપોર્ટ અને પાસ જુદા ખાતાઓમાં ન ફેલાય.',
-    oneTime: 'એક વખતનો પ્રવેશ',
-    openAccount: 'ખાતા સેટિંગ્સ ખોલો',
-    pill: 'પ્રવેશ તૈયાર કરો',
+    body: getNativeCopy("native.apps.web.app.checkout.page.tsx.e4cafcc2bf"),
+    change: getNativeCopy("native.apps.web.app.checkout.page.tsx.f056cefb0f"),
+    emailSupport: getNativeCopy("native.apps.web.app.checkout.page.tsx.940fa58c03"),
+    note: getNativeCopy("native.apps.web.app.checkout.page.tsx.69b2b3be9b"),
+    oneTime: getNativeCopy("native.apps.web.app.checkout.page.tsx.226398a7ac"),
+    openAccount: getNativeCopy("native.apps.web.app.checkout.page.tsx.8ee7771be8"),
+    pill: getNativeCopy("native.apps.web.app.checkout.page.tsx.52bc465b20"),
     planBody: billingCopy =>
-      `${billingCopy} એ જ ખાતું રાખો જેને તમે સતત પ્રેડિક્ટા માર્ગદર્શન સાથે જોડવા માંગો છો.`,
+      formatNativeCopy("native.apps.web.app.checkout.page.tsx.b94f395bd8", [billingCopy]),
     productBody: description =>
-      `${description} આ પસંદગીને એ જ ખાતા સાથે જોડેલી રાખો જેમાં સંબંધિત કુંડળી અને રિપોર્ટ ઇતિહાસ રહેશે.`,
-    redeemPass: 'ખાનગી પાસ ઉપયોગ કરો',
-    reviewTitle: label => `${label} માટે પ્રવેશ જુઓ`,
-    selected: 'પસંદ કરેલું',
+      formatNativeCopy("native.apps.web.app.checkout.page.tsx.10999e0021", [description]),
+    redeemPass: getNativeCopy("native.apps.web.app.checkout.page.tsx.4351cd8e77"),
+    reviewTitle: label => formatNativeCopy("native.apps.web.app.checkout.page.tsx.14943c66d0", [label]),
+    selected: getNativeCopy("native.apps.web.app.checkout.page.tsx.14cd4f3b08"),
     steps: [
       {
-        body: 'એ જ ઇમેઇલથી સાઇન ઇન કરો જેને તમે તમારી કુંડળી, રિપોર્ટ અને પછીની પુનઃસ્થાપન સાથે જોડવા માંગો છો.',
+        body: getNativeCopy("native.apps.web.app.checkout.page.tsx.4c9048569e"),
         label: '1',
-        title: 'સાચું ખાતું વાપરો',
+        title: getNativeCopy("native.apps.web.app.checkout.page.tsx.00978c4325"),
       },
       {
-        body: 'એક સ્પષ્ટ પસંદગી રાખો જેથી પ્રેડિક્ટા રિપોર્ટ ખરીદીના રસ્તાને ગેસ્ટ અથવા પરિવાર પ્રવેશ સાથે ન ભેળવે.',
+        body: getNativeCopy("native.apps.web.app.checkout.page.tsx.292b902f4d"),
         label: '2',
-        title: 'પ્રવેશનો રસ્તો નક્કી કરો',
+        title: getNativeCopy("native.apps.web.app.checkout.page.tsx.9828d3d5c6"),
       },
       {
-        body: 'જો તમારી પાસે ખાનગી આમંત્રણ છે તો પહેલે તે રિડીમ કરો. નહીંતર તમારા ખાતાથી આગળ વધો અથવા મદદ માટે સપોર્ટનો સંપર્ક કરો.',
+        body: getNativeCopy("native.apps.web.app.checkout.page.tsx.2ade3f7cdb"),
         label: '3',
-        title: 'ખાતાની સતતતા સાથે પૂર્ણ કરો',
+        title: getNativeCopy("native.apps.web.app.checkout.page.tsx.b4baa199df"),
       },
     ],
-    subscription: 'સભ્યપદ પ્રવેશ',
+    subscription: getNativeCopy("native.apps.web.app.checkout.page.tsx.4d8971912c"),
     supportSubject: 'Predicta access review',
-    title: 'તમારો પ્રેડિક્ટા પ્રવેશ તૈયાર કરો',
+    title: getNativeCopy("native.apps.web.app.checkout.page.tsx.da63c0f6b1"),
   },
 };
 
@@ -256,40 +257,40 @@ function getLocalizedAccessLabel(
 
   const map: Record<string, Record<Exclude<SupportedLanguage, 'en'>, string>> = {
     pridicta_day_pass_24h: {
-      gu: 'ડે પાસ',
-      hi: 'डे पास',
+      gu: getNativeCopy("native.apps.web.app.checkout.page.tsx.039eabd9e9"),
+      hi: getNativeCopy("native.apps.web.app.checkout.page.tsx.ec32113b0b"),
     },
     pridicta_five_questions: {
-      gu: 'પાંચ પ્રશ્ન',
-      hi: 'पांच प्रश्न',
+      gu: getNativeCopy("native.apps.web.app.checkout.page.tsx.4c4ad26d1b"),
+      hi: getNativeCopy("native.apps.web.app.checkout.page.tsx.95856bffbb"),
     },
     pridicta_premium_pdf: {
-      gu: 'પ્રીમિયમ પીડીએફ',
-      hi: 'प्रीमियम पीडीएफ',
+      gu: getNativeCopy("native.apps.web.app.checkout.page.tsx.d7ca86dc4e"),
+      hi: getNativeCopy("native.apps.web.app.checkout.page.tsx.31641beaac"),
     },
     pridicta_detailed_kundli_report: {
-      gu: 'વિગતવાર કુંડળી રિપોર્ટ',
-      hi: 'विस्तृत कुंडली रिपोर्ट',
+      gu: getNativeCopy("native.apps.web.app.checkout.page.tsx.2836b2970a"),
+      hi: getNativeCopy("native.apps.web.app.checkout.page.tsx.8106a328fe"),
     },
     pridicta_marriage_compatibility_report: {
-      gu: 'કમ્પેટિબિલિટી રિપોર્ટ',
-      hi: 'कम्पैटिबिलिटी रिपोर्ट',
+      gu: getNativeCopy("native.apps.web.app.checkout.page.tsx.79ba9fc513"),
+      hi: getNativeCopy("native.apps.web.app.checkout.page.tsx.d8fb1adccb"),
     },
     pridicta_premium_weekly: {
-      gu: 'સાપ્તાહિક',
-      hi: 'साप्ताहिक',
+      gu: getNativeCopy("native.apps.web.app.checkout.page.tsx.146383f56e"),
+      hi: getNativeCopy("native.apps.web.app.checkout.page.tsx.47d5bb4f4c"),
     },
     pridicta_premium_monthly: {
-      gu: 'માસિક',
-      hi: 'मासिक',
+      gu: getNativeCopy("native.apps.web.app.checkout.page.tsx.2681c30f73"),
+      hi: getNativeCopy("native.apps.web.app.checkout.page.tsx.57dc4243a2"),
     },
     pridicta_premium_quarterly: {
-      gu: 'ત્રિમાસિક',
-      hi: 'त्रैमासिक',
+      gu: getNativeCopy("native.apps.web.app.checkout.page.tsx.2fd463f085"),
+      hi: getNativeCopy("native.apps.web.app.checkout.page.tsx.d64cb5865a"),
     },
     pridicta_premium_yearly_founder: {
-      gu: 'વાર્ષિક',
-      hi: 'वार्षिक',
+      gu: getNativeCopy("native.apps.web.app.checkout.page.tsx.5a1cce3f9b"),
+      hi: getNativeCopy("native.apps.web.app.checkout.page.tsx.9b81fb55ef"),
     },
   };
 

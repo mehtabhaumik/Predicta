@@ -1,5 +1,6 @@
 'use client';
 
+import { getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { useEffect, useState, type CSSProperties } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
@@ -194,30 +195,30 @@ const heroCopy: Record<
     title: 'Your personal holistic astrology companion',
   },
   hi: {
-    body: 'अपनी कुंडली बनाएं, चार्ट प्रमाण पढ़ें, और समय, कर्म, उपाय और दैनिक जीवन पर शांत समग्र ज्योतिष मार्गदर्शन पूछें.',
-    cardOneBody: 'आगे के सवाल उसी जीवन क्षेत्र पर केंद्रित रहते हैं जिसे आप समझ रहे हैं.',
-    cardOneEyebrow: 'D10 करियर',
-    cardOneTitle: 'करियर समय सक्रिय है',
-    cardTwoBody: 'प्रेडिक्टा समय, चार्ट प्रमाण और व्यावहारिक उपायों को डर के बिना जोड़ती है.',
-    cardTwoEyebrow: 'समग्र समय',
-    cardTwoTitle: 'दशा + गोचर + कर्म',
-    eyebrow: 'समग्र वैदिक ज्योतिष + एआई',
-    primary: 'प्रेडिक्टा खोलें',
-    secondary: 'बुद्धि देखें',
-    title: 'आपकी निजी समग्र ज्योतिष साथी',
+    body: getNativeCopy("native.apps.web.components.HeroSection.tsx.684af6c175"),
+    cardOneBody: getNativeCopy("native.apps.web.components.HeroSection.tsx.6e19291dba"),
+    cardOneEyebrow: getNativeCopy("native.apps.web.components.HeroSection.tsx.6e9568694f"),
+    cardOneTitle: getNativeCopy("native.apps.web.components.HeroSection.tsx.d76db00ccf"),
+    cardTwoBody: getNativeCopy("native.apps.web.components.HeroSection.tsx.53d1c7574a"),
+    cardTwoEyebrow: getNativeCopy("native.apps.web.components.HeroSection.tsx.f07eb187ad"),
+    cardTwoTitle: getNativeCopy("native.apps.web.components.HeroSection.tsx.1936f96aa0"),
+    eyebrow: getNativeCopy("native.apps.web.components.HeroSection.tsx.d82843d577"),
+    primary: getNativeCopy("native.apps.web.components.HeroSection.tsx.0ebae40818"),
+    secondary: getNativeCopy("native.apps.web.components.HeroSection.tsx.4ba099bfd8"),
+    title: getNativeCopy("native.apps.web.components.HeroSection.tsx.0308e9287f"),
   },
   gu: {
-    body: 'તમારી કુંડળી બનાવો, ચાર્ટ પુરાવો વાંચો, અને સમય, કર્મ, ઉપાયો અને દૈનિક જીવન માટે શાંત સમગ્ર જ્યોતિષ માર્ગદર્શન પૂછો.',
-    cardOneBody: 'આગળના પ્રશ્નો તમે જે જીવન ક્ષેત્ર સમજી રહ્યા છો ત્યાં જ કેન્દ્રિત રહે છે.',
-    cardOneEyebrow: 'D10 કરિયર',
-    cardOneTitle: 'કરિયર સમય સક્રિય છે',
-    cardTwoBody: 'પ્રેડિક્ટા સમય, ચાર્ટ પુરાવો અને વ્યવહારુ ઉપાયોને ડર વિના જોડે છે.',
-    cardTwoEyebrow: 'સમગ્ર સમય',
-    cardTwoTitle: 'દશા + ગોચર + કર્મ',
-    eyebrow: 'સમગ્ર વૈદિક જ્યોતિષ + એઆઈ',
-    primary: 'પ્રેડિક્ટા ખોલો',
-    secondary: 'બુદ્ધિ જુઓ',
-    title: 'તમારી ખાનગી સમગ્ર જ્યોતિષ સાથી',
+    body: getNativeCopy("native.apps.web.components.HeroSection.tsx.5bd3e36092"),
+    cardOneBody: getNativeCopy("native.apps.web.components.HeroSection.tsx.10e8e47d6d"),
+    cardOneEyebrow: getNativeCopy("native.apps.web.components.HeroSection.tsx.8c76810d2f"),
+    cardOneTitle: getNativeCopy("native.apps.web.components.HeroSection.tsx.e9226c777d"),
+    cardTwoBody: getNativeCopy("native.apps.web.components.HeroSection.tsx.235982ebff"),
+    cardTwoEyebrow: getNativeCopy("native.apps.web.components.HeroSection.tsx.c5e06910c2"),
+    cardTwoTitle: getNativeCopy("native.apps.web.components.HeroSection.tsx.8d114f0a80"),
+    eyebrow: getNativeCopy("native.apps.web.components.HeroSection.tsx.fe61b52345"),
+    primary: getNativeCopy("native.apps.web.components.HeroSection.tsx.c3f0d6a611"),
+    secondary: getNativeCopy("native.apps.web.components.HeroSection.tsx.29fbbda133"),
+    title: getNativeCopy("native.apps.web.components.HeroSection.tsx.5ea804eebb"),
   },
 };
 

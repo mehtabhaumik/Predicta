@@ -1,5 +1,6 @@
 'use client';
 
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { composeFamilyKarmaMap } from '@pridicta/astrology';
@@ -97,101 +98,101 @@ const COPY: Record<SupportedLanguage, FamilyMapCopy> = {
   },
   hi: {
     actions: {
-      addProfile: 'प्रोफाइल जोड़ें',
-      askPredicta: 'प्रेडिक्टा से पूछें',
-      pairComparison: 'जोड़ेदार तुलना खोलें',
-      savedKundlis: 'सेव कुंडलियां',
-      useAsActive: 'सक्रिय बनाएं',
+      addProfile: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.8451479867"),
+      askPredicta: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.c6b9045108"),
+      pairComparison: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.4683953b3a"),
+      savedKundlis: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.bc3580d452"),
+      useAsActive: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.86cbd95a3e"),
     },
     boundaryCards: [
       {
         body:
-          'परिवार कर्म नक्शा केवल सेव प्रोफाइलों की तुलना करता है. जन्म विवरण अभी भी कुंडली लाइब्रेरी में रहते हैं, जहां संपादन और हटाना व्यक्तिगत रहता है.',
-        title: 'लाइब्रेरी ही मुख्य है',
+          getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.a868fbcb82"),
+        title: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.b9d2b0418d"),
       },
       {
         body:
-          'यह नक्शा देखभाल, कर्तव्य और पारिवारिक सुधार के लिए है. यह किसी एक व्यक्ति को परिवार की समस्या कहने की अनुमति नहीं है.',
-        title: 'दोष नहीं देना',
+          getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.96f61c3a68"),
+        title: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.4f34732a9c"),
       },
     ],
     helper:
-      'कम से कम दो सेव प्रोफाइल चुनें. प्रेडिक्टा पूरे परिवार में दोहराए संकेत, सहारा केंद्र और दबाव श्रृंखला देखेगी.',
-    includeLabel: 'शामिल करें',
-    includedLabel: 'शामिल',
+      getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.e8e22f5539"),
+    includeLabel: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.774818b0c4"),
+    includedLabel: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.9b4856e21d"),
     matrix: {
-      title: 'घर का प्रभाव मैट्रिक्स',
+      title: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.59f483c588"),
     },
-    pendingLabel: 'प्रतीक्षा में',
-    premiumLabel: 'प्रीमियम पारिवारिक गहराई',
+    pendingLabel: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.e808f55dd6"),
+    premiumLabel: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.204a4b5893"),
     premiumLocked:
-      'प्रीमियम परिवार रीडिंग जोड़ी-प्रभाव, देखभाल का भार, अधिकार पैटर्न, धन का तनाव और जीवन-क्षेत्र आधारित सुधार मार्गदर्शन तक जाती है.',
+      getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.0bcc310b13"),
     readyBody:
-      'यह बड़े परिवार की परत है. प्रेडिक्टा देखती है कि सेव चार्ट एक-दूसरे को कहां सहारा, थकान, शांति या ट्रिगर देते हैं.',
-    readyTitle: 'अपना पारिवारिक घेरा चुनें',
+      getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.ef9dea298f"),
+    readyTitle: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.9451eee970"),
     selectors: {
-      max: count => `एक साथ अधिकतम ${count} प्रोफाइल नक्शे में आ सकती हैं.`,
-      min: 'नक्शा खोलने के लिए कम से कम दो प्रोफाइल चुनें.',
+      max: count => formatNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.fcac92d9ad", [count]),
+      min: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.9610de0dfb"),
     },
     subtitle:
-      'देखें कि कर्म, धर्म, समय और भावनात्मक संकेत पूरे परिवार में कैसे दोहराते हैं.',
+      getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.f5e7c7fcef"),
     summary: {
-      friction: 'सबसे अधिक घर्षण वाली जोड़ी',
-      household: 'परिवार का सार',
-      karma: 'दोहराया गया कर्म संकेत',
-      support: 'सबसे मजबूत सहारा जोड़ी',
+      friction: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.efee38b037"),
+      household: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.9d3034095c"),
+      karma: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.eb9130c112"),
+      support: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.4ce34f706e"),
     },
-    themesTitle: 'दोहराए गए पारिवारिक संकेत',
-    title: 'परिवार कर्म नक्शा',
+    themesTitle: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.8fe3c701f1"),
+    title: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.541b1bf91a"),
   },
   gu: {
     actions: {
-      addProfile: 'પ્રોફાઇલ ઉમેરો',
-      askPredicta: 'પ્રેડિક્ટા ને પૂછો',
-      pairComparison: 'જોડી તુલના ખોલો',
-      savedKundlis: 'સાચવેલી કુંડળીઓ',
-      useAsActive: 'સક્રિય બનાવો',
+      addProfile: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.9b55a692c0"),
+      askPredicta: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.52ca01d0e0"),
+      pairComparison: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.810299ef1b"),
+      savedKundlis: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.7d2df2a8a8"),
+      useAsActive: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.1b8417017a"),
     },
     boundaryCards: [
       {
         body:
-          'પરિવાર કર્મ નકશો ફક્ત સાચવેલી પ્રોફાઇલની તુલના કરે છે. જન્મ વિગતો હજુ પણ કુંડળી લાઇબ્રેરીમાં જ રહે છે, જ્યાં સંપાદન અને કાઢી નાખવું વ્યક્તિગત રહે છે.',
-        title: 'લાઇબ્રેરી જ મુખ્ય છે',
+          getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.36f2bbdab4"),
+        title: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.ee17fe3af3"),
       },
       {
         body:
-          'આ નકશો કાળજી, ફરજ અને ઘરેલુ સુધાર માટે છે. તે કોઈ એક વ્યક્તિને પરિવારની સમસ્યા ગણાવવાની પરવાનગી નથી.',
-        title: 'દોષ નહીં',
+          getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.43ab434ece"),
+        title: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.00670d2fc2"),
       },
     ],
     helper:
-      'ઓછામાં ઓછા બે સાચવેલા પ્રોફાઇલ પસંદ કરો. પ્રેડિક્ટા આખા ઘરમાં ફરી આવતા સંકેતો, સહારો બિંદુઓ અને દબાણની સાંકળો જોશે.',
-    includeLabel: 'સમાવેશ કરો',
-    includedLabel: 'સમાવેશિત',
+      getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.526a57c2c3"),
+    includeLabel: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.be2875ab05"),
+    includedLabel: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.f5c40d934d"),
     matrix: {
-      title: 'ઘરનું અસર મેટ્રિક્સ',
+      title: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.40bf2efcfe"),
     },
-    pendingLabel: 'બાકી',
-    premiumLabel: 'પ્રીમિયમ પરિવાર ઊંડાણ',
+    pendingLabel: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.577270f404"),
+    premiumLabel: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.2e2806a154"),
     premiumLocked:
-      'પ્રીમિયમ પરિવાર વાંચન જોડી-અસર, કાળજીનો ભાર, સત્તા પેટર્ન, પૈસાનો તાણ અને જીવન ક્ષેત્ર આધારિત સુધાર માર્ગદર્શન સુધી જાય છે.',
+      getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.e40abf9315"),
     readyBody:
-      'આ મોટા ઘરેલુ સ્તરની પરત છે. પ્રેડિક્ટા જુએ છે કે સાચવેલા ચાર્ટ એકબીજાને ક્યાં સહારો, થાક, શાંતિ કે ટ્રિગર આપે છે.',
-    readyTitle: 'તમારો પરિવારવર્તુળ પસંદ કરો',
+      getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.cbbe28db44"),
+    readyTitle: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.afdcea6662"),
     selectors: {
-      max: count => `એક સાથે મહત્તમ ${count} પ્રોફાઇલ નકશામાં આવી શકે છે.`,
-      min: 'નકશો ખોલવા માટે ઓછામાં ઓછા બે પ્રોફાઇલ પસંદ કરો.',
+      max: count => formatNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.b280298db5", [count]),
+      min: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.f42583c6f5"),
     },
     subtitle:
-      'કર્મ, ધર્મ, સમય અને ભાવનાત્મક સંકેતો આખા ઘરમાં કેવી રીતે ફરી આવે છે તે જુઓ.',
+      getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.d9aa7f95a3"),
     summary: {
-      friction: 'સૌથી વધુ ઘર્ષણ ધરાવતી જોડી',
-      household: 'ઘરનું સાર',
-      karma: 'ફરી આવતો કર્મ સંકેત',
-      support: 'સૌથી મજબૂત સહારો જોડી',
+      friction: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.11f4f4ba73"),
+      household: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.d21e8676b6"),
+      karma: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.591036d784"),
+      support: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.e86ec14194"),
     },
-    themesTitle: 'ફરી આવતા ઘરેલુ સંકેતો',
-    title: 'પરિવાર કર્મ નકશો',
+    themesTitle: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.0e5e779006"),
+    title: getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.f42a117fe6"),
   },
 };
 
@@ -403,9 +404,9 @@ export function WebFamilyKarmaMap({
         <article className="family-map-premium-card">
           <span>
             {language === 'hi'
-              ? 'घर का भावनात्मक वातावरण'
+              ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.3b93796781")
               : language === 'gu'
-                ? 'ઘરનું ભાવનાત્મક વાતાવરણ'
+                ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.041062d30d")
                 : 'Household emotional climate'}
           </span>
           <strong>{map.householdEmotionalClimate}</strong>
@@ -414,9 +415,9 @@ export function WebFamilyKarmaMap({
         <article className="family-map-premium-card">
           <span>
             {language === 'hi'
-              ? 'अधिकार और निर्भरता'
+              ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.d76e85b7f2")
               : language === 'gu'
-                ? 'સત્તા અને નિર્ભરતા'
+                ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.a1fe5becc8")
                 : 'Authority and dependency'}
           </span>
           <strong>{map.authorityDependencyPattern}</strong>
@@ -425,9 +426,9 @@ export function WebFamilyKarmaMap({
         <article className="family-map-premium-card">
           <span>
             {language === 'hi'
-              ? 'दिनचर्या, विधि और धन दबाव'
+              ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.a5598c724f")
               : language === 'gu'
-                ? 'દિનચર્યા, વિધિ અને પૈસા દબાણ'
+                ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.fbc727918b")
                 : 'Routine, ritual, and money stress'}
           </span>
           <strong>{map.ritualRoutineMoneyStressMap}</strong>
@@ -439,9 +440,9 @@ export function WebFamilyKarmaMap({
         <article className="family-map-premium-card">
           <span>
             {language === 'hi'
-              ? 'घर को कौन शांत करता है'
+              ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.33af92cd69")
               : language === 'gu'
-                ? 'ઘરને કોણ શાંત કરે છે'
+                ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.006108c35f")
                 : 'Who calms the house'}
           </span>
           <strong>{map.whoCalmsTheHouse ?? map.strongestSupportPair ?? copy.pendingLabel}</strong>
@@ -450,9 +451,9 @@ export function WebFamilyKarmaMap({
         <article className="family-map-premium-card">
           <span>
             {language === 'hi'
-              ? 'दबाव कौन बढ़ाता है'
+              ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.5f04df7754")
               : language === 'gu'
-                ? 'દબાણ કોણ વધારે છે'
+                ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.e73ccc7bfb")
                 : 'Who amplifies pressure'}
           </span>
           <strong>
@@ -463,9 +464,9 @@ export function WebFamilyKarmaMap({
         <article className="family-map-premium-card">
           <span>
             {language === 'hi'
-              ? 'किसे नरम handling चाहिए'
+              ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.fc8563d265")
               : language === 'gu'
-                ? 'કોને નરમ વ્યવહાર જોઈએ'
+                ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.0e891adf5a")
                 : 'Who needs gentler handling'}
           </span>
           <strong>{map.whoNeedsGentlerHandling ?? copy.pendingLabel}</strong>
@@ -474,9 +475,9 @@ export function WebFamilyKarmaMap({
         <article className="family-map-premium-card">
           <span>
             {language === 'hi'
-              ? 'सबसे जल्दी संभलने वाली जोड़ी'
+              ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.2000dd6656")
               : language === 'gu'
-                ? 'ઝડપથી સંભળી જતી જોડી'
+                ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.378354ea9a")
                 : 'Fastest healing pair'}
           </span>
           <strong>{map.fastestHealingPair ?? map.strongestSupportPair ?? copy.pendingLabel}</strong>
@@ -485,9 +486,9 @@ export function WebFamilyKarmaMap({
         <article className="family-map-premium-card">
           <span>
             {language === 'hi'
-              ? 'दिनचर्या और धन का दोहराया तनाव'
+              ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.c9d31ed842")
               : language === 'gu'
-                ? 'દિનચર્યા અને પૈસાનો ફરી આવતો તણાવ'
+                ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.47cf170970")
                 : 'Repeated routine or money tension'}
           </span>
           <strong>{map.repeatedRoutineMoneyTension ?? map.ritualRoutineMoneyStressMap}</strong>
@@ -550,9 +551,9 @@ export function WebFamilyKarmaMap({
         <section className="family-map-section">
           <div className="section-title">
             {language === 'hi'
-              ? 'उपचार और सुधार दिशा'
+              ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.eb7838a9cd")
               : language === 'gu'
-                ? 'ઉપચાર અને સુધાર દિશા'
+                ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.d851d93898")
                 : 'Healing direction'}
           </div>
           <article className="family-map-healing-card">
@@ -567,9 +568,9 @@ export function WebFamilyKarmaMap({
         <section className="family-map-section">
           <div className="section-title">
             {language === 'hi'
-              ? 'प्रीमियम परिवार पैकेज'
+              ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.c582cd1f87")
               : language === 'gu'
-                ? 'પ્રીમિયમ પરિવાર પેકેજ'
+                ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.d9281b5512")
                 : 'Premium family assets'}
           </div>
           <div className="family-map-theme-grid">
@@ -577,46 +578,46 @@ export function WebFamilyKarmaMap({
               {
                 body:
                   language === 'hi'
-                    ? 'ठीक दो प्रोफाइल का सजा हुआ जीवन-क्षेत्र सार, ताकि रिश्ता तकनीकी शब्दों से नहीं बल्कि असली जीवन संकेतों से समझ आए.'
+                    ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.f159e95c74")
                     : language === 'gu'
-                      ? 'ચોક્કસ બે પ્રોફાઇલ માટે સજ્જ જીવન-ક્ષેત્ર સાર, જેથી સંબંધ technical jargon કરતાં વાસ્તવિક જીવન સંકેતોથી સમજાય.'
+                      ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.d3ac27c351")
                       : 'A polished two-profile life-area dossier, so the pair is explained through real-life outcomes instead of technical jargon.',
                 cta: '/dashboard/report?focus=COMPATIBILITY&mode=PREMIUM',
                 title:
                   language === 'hi'
-                    ? 'जोड़ेदार तुलना सार'
+                    ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.b2613f3e37")
                     : language === 'gu'
-                      ? 'જોડી તુલના સાર'
+                      ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.2d94979ef9")
                       : 'Pair Comparison Dossier',
               },
               {
                 body:
                   language === 'hi'
-                    ? 'पूरा परिवार पढ़ने वाली report जो support anchors, pressure chains और dharma repair path को एक साथ रखे.'
+                    ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.032906ad9f")
                     : language === 'gu'
-                      ? 'સમગ્ર પરિવાર વાંચતી report, જે support anchors, pressure chains અને dharma repair path ને એકસાથે મૂકે.'
+                      ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.49e6d8b711")
                       : 'A full-household report that keeps support anchors, pressure chains, and the dharma repair path in one premium view.',
                 cta: '/dashboard/report?focus=KUNDLI&mode=PREMIUM',
                 title:
                   language === 'hi'
-                    ? 'परिवार कर्म नक्शा रिपोर्ट'
+                    ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.f66411c58b")
                     : language === 'gu'
-                      ? 'પરિવાર કર્મ નકશો રિપોર્ટ'
+                      ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.a93c4cf295")
                       : 'Family Karma Map Report',
               },
               {
                 body:
                   language === 'hi'
-                    ? 'रोज़मर्रा की मरम्मत, सीमाएं, दिनचर्या और देखभाल-भार बांटने के लिए साफ़ healing guide.'
+                    ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.8281f7fbf0")
                     : language === 'gu'
-                      ? 'દૈનિક સુધાર, મર્યાદા, દિનચર્યા અને care-load વહેંચણી માટે સ્પષ્ટ healing guide.'
+                      ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.560f71a680")
                       : 'A clear healing guide for daily repair, boundaries, routine, and care-load sharing.',
                 cta: '/dashboard/report?focus=REMEDIES&mode=PREMIUM',
                 title:
                   language === 'hi'
-                    ? 'घर सुधार मार्गदर्शिका'
+                    ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.893ecd5d4d")
                     : language === 'gu'
-                      ? 'ઘર સુધાર માર્ગદર્શિકા'
+                      ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.49094d1a0c")
                       : 'Household Healing Guide',
               },
             ].map(asset => (
@@ -626,9 +627,9 @@ export function WebFamilyKarmaMap({
                 <p>{asset.body}</p>
                 <Link className="button secondary" href={asset.cta}>
                   {language === 'hi'
-                    ? 'खोलें'
+                    ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.901879c422")
                     : language === 'gu'
-                      ? 'ખોલો'
+                      ? getNativeCopy("native.apps.web.components.WebFamilyKarmaMap.tsx.e0185a82d6")
                       : 'Open'}
                 </Link>
               </article>

@@ -16,6 +16,7 @@
     "test": "node ../../scripts/run-chart-stress-suite.mjs"
   },
   "dependencies": {
+    "@pridicta/config": "workspace:*",
     "@pridicta/types": "workspace:*"
   }
 }

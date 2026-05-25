@@ -6,6 +6,7 @@ export * from './cacheConfig';
 export * from './guestAccessLimits';
 export * from './language';
 export * from './legal';
+export * from './nativeCopy';
 export * from './predictaUx';
 export * from './predictaMemory';
 export * from './trust';

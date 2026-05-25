@@ -1,5 +1,6 @@
 'use client';
 
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import {
   useEffect,
@@ -45,6 +46,8 @@ type SignatureCopy = {
     askPredicta: string;
     clear: string;
     download: string;
+    redraw: string;
+    reupload: string;
     useDrawing: string;
     upload: string;
   };
@@ -86,6 +89,21 @@ type SignatureCopy = {
   safety: {
     body: string;
     title: string;
+  };
+  receipt: {
+    adjust: string;
+    confidence: Record<'clear' | 'partial' | 'uncertain', string>;
+    detectedBody: string;
+    drawnPlaceholder: string;
+    looksRight: string;
+    missing: string;
+    notAssessed: string;
+    privacyShort: string;
+    ready: string;
+    scanned: string;
+    scanning: string;
+    scanLabels: string[];
+    scanProgressLabel: string;
   };
   traits: {
     body: string;
@@ -170,6 +188,8 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
       askPredicta: 'Chat with Signature Predicta',
       clear: 'Clear signature',
       download: 'Save a copy',
+      redraw: 'Re-draw signature',
+      reupload: 'Re-upload signature',
       useDrawing: 'Use this drawing',
       upload: 'Choose signature image',
     },
@@ -235,6 +255,27 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
         'Signature analysis is for self-understanding and reflection. It is not identity verification, handwriting forensics, medical diagnosis, legal proof, hiring advice, or a guaranteed prediction.',
       title: 'Clear safety boundary',
     },
+    receipt: {
+      adjust: 'Adjust traits',
+      confidence: {
+        clear: 'clear',
+        partial: 'partial',
+        uncertain: 'uncertain',
+      },
+      detectedBody:
+        'Predicta detected these visible traits from your current signature. Please confirm or adjust anything that looks off.',
+      drawnPlaceholder: 'Signature drawn in this session',
+      looksRight: 'Looks right',
+      missing:
+        'Your previous signature image was not stored. Please re-upload or re-draw it to continue.',
+      notAssessed: 'Not assessed',
+      privacyShort: SIGNATURE_SHORT_PRIVACY_COPY,
+      ready: 'Signature traits ready. Please confirm what looks right.',
+      scanned: 'Signature scanned',
+      scanning: 'Scanning your signature expression...',
+      scanLabels: SIGNATURE_SCAN_LABELS,
+      scanProgressLabel: 'Signature scan progress',
+    },
     traits: {
       body:
         'Predicta detected these visible traits from your current signature. Please confirm or adjust anything that looks off.',
@@ -252,242 +293,296 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
   },
   hi: {
     actions: {
-      askPredicta: 'हस्ताक्षर प्रेडिक्टा से चैट करें',
-      clear: 'हस्ताक्षर हटाएं',
-      download: 'कॉपी सेव करें',
-      useDrawing: 'इस चित्र का उपयोग करें',
-      upload: 'हस्ताक्षर छवि चुनें',
+      askPredicta: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.2e623089bd"),
+      clear: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.8d381a4bbc"),
+      download: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.65e4031f46"),
+      redraw: getNativeCopy('signature.receipt.actions.redraw.hi'),
+      reupload: getNativeCopy('signature.receipt.actions.reupload.hi'),
+      useDrawing: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.136b9a7b32"),
+      upload: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.9e30f80456"),
     },
     canvas: {
-      aria: 'अपना हस्ताक्षर बनाएं',
-      empty: 'यहां माउस, ट्रैकपैड या टच से बनाएं.',
-      help: 'स्वाभाविक हस्ताक्षर करें. आप इसे कभी भी हटा सकते हैं.',
-      title: 'हस्ताक्षर बनाएं',
+      aria: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.90711847c5"),
+      empty: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.7dab154212"),
+      help: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.a1cbd590d1"),
+      title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.3e38d8505a"),
     },
     hero: {
       body:
-        'निजी, चिंतन-आधारित हस्ताक्षर वाचन के लिए हस्ताक्षर अपलोड करें या बनाएं. प्रेडिक्टा इसे पराशरी, कृष्णमूर्ति पद्धति, नाड़ी और अंक ज्योतिष से अलग रखती है.',
+        getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.b90e465671"),
       chatPromptFallback:
-        'हस्ताक्षर प्रेडिक्टा खोलें. समझाएं कि हस्ताक्षर का आकार, दबाव, अंतर, रेखा की दिशा, आकार और लय क्या संकेत दे सकते हैं. उत्तर निजी, सुरक्षित और चिंतनशील रहे.',
-      chatPromptReady: 'हस्ताक्षर प्रेडिक्टा खोलें. इन पुष्टि किए गए हस्ताक्षर संकेतों का उपयोग करें.',
-      eyebrow: 'हस्ताक्षर प्रेडिक्टा',
-      openLabel: 'खोलें',
-      title: 'हस्ताक्षर से आत्म-अभिव्यक्ति पढ़ें.',
+        getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.ca02113c31"),
+      chatPromptReady: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.ec560db104"),
+      eyebrow: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.61d1bb2452"),
+      openLabel: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.901879c422"),
+      title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.45036be472"),
     },
-    proofLabel: 'प्रमाण',
+    proofLabel: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.94d3627e46"),
     privacy: {
       items: [
-        'इस चरण में हस्ताक्षर पूर्वावलोकन इसी डिवाइस पर रहता है.',
-        'अगर सहज न हों तो कानूनी, बैंकिंग या सरकारी हस्ताक्षर का उपयोग न करें.',
-        'पहले वाचन के लिए अभ्यास हस्ताक्षर या आद्याक्षर भी उपयोग कर सकते हैं.',
+        getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.839e44e3a3"),
+        getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.8f7efab5a1"),
+        getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.0ba6625c68"),
       ],
-      title: 'पहले निजता',
+      title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.1e4e8fc099"),
     },
     proof: [
       {
         body:
-          'प्रेडिक्टा केवल वही हस्ताक्षर संकेत पढ़ती है जिन्हें आप अपलोड, बनाकर या पुष्टि करके देते हैं.',
-        title: 'दिखने वाले संकेत',
+          getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.5858296caa"),
+        title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.a201b2ad24"),
       },
       {
         body:
-          'यह वाचन चिंतन के लिए है. यह पहचान, स्वास्थ्य निदान या कानूनी दावा नहीं करता.',
-        title: 'सुरक्षित सीमा',
+          getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.c9462a44af"),
+        title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.76be207438"),
       },
       {
         body:
-          'हस्ताक्षर वाचन को अंक ज्योतिष के साथ तभी जोड़ा जाता है जब आप संयुक्त सार मांगते हैं.',
-        title: 'वैकल्पिक संयुक्त सार',
+          getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.610fcad5a4"),
+        title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.8d9470ff50"),
       },
     ],
     preview: {
       body:
-        'हस्ताक्षर तैयार होने के बाद प्रेडिक्टा आकार, दबाव, अंतर और लय का सरल अर्थ समझा सकती है.',
-      empty: 'अभी कोई हस्ताक्षर चयनित नहीं है.',
-      ready: 'हस्ताक्षर यहां तैयार है',
-      title: 'हस्ताक्षर पूर्वावलोकन',
+        getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.5d005935fe"),
+      empty: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.6fa5908ca2"),
+      ready: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.ffdf82b69f"),
+      title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.3fba8a2db2"),
     },
     report: {
       body:
-        'पुष्टि किए गए हस्ताक्षर संकेतों को चिंतन रिपोर्ट, सुधार योजना या हस्ताक्षर + अंक ज्योतिष संयुक्त सार में बदलें.',
-      cta: 'हस्ताक्षर रिपोर्ट बनाएं',
-      eyebrow: 'रिपोर्ट मार्ग',
-      title: 'हस्ताक्षर रिपोर्ट मार्ग',
+        getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.5647df5926"),
+      cta: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.e442131b33"),
+      eyebrow: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.2a58941e16"),
+      title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.bcb211ecbb"),
     },
     safety: {
       body:
-        'हस्ताक्षर विश्लेषण आत्म-समझ और चिंतन के लिए है. यह पहचान सत्यापन, हस्तलेखन जांच, चिकित्सा निदान, कानूनी प्रमाण, भर्ती सलाह या निश्चित भविष्यवाणी नहीं है.',
-      title: 'साफ सुरक्षा सीमा',
+        getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.8968de077e"),
+      title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.25e0b522e2"),
+    },
+    receipt: {
+      adjust: getNativeCopy('signature.receipt.adjust.hi'),
+      confidence: {
+        clear: getNativeCopy('signature.receipt.clearConfidence.hi'),
+        partial: getNativeCopy('signature.receipt.partialConfidence.hi'),
+        uncertain: getNativeCopy('signature.receipt.uncertainConfidence.hi'),
+      },
+      detectedBody: getNativeCopy('signature.receipt.detectedBody.hi'),
+      drawnPlaceholder: getNativeCopy('signature.receipt.drawn.hi'),
+      looksRight: getNativeCopy('signature.receipt.looksRight.hi'),
+      missing: getNativeCopy('signature.receipt.missing.hi'),
+      notAssessed: getNativeCopy('signature.receipt.notAssessed.hi'),
+      privacyShort: getNativeCopy('signature.receipt.privacyShort.hi'),
+      ready: getNativeCopy('signature.receipt.ready.hi'),
+      scanned: getNativeCopy('signature.receipt.scanned.hi'),
+      scanning: getNativeCopy('signature.receipt.scanning.hi'),
+      scanLabels: [
+        getNativeCopy('signature.receipt.scan.baseline.hi'),
+        getNativeCopy('signature.receipt.scan.slant.hi'),
+        getNativeCopy('signature.receipt.scan.rhythm.hi'),
+        getNativeCopy('signature.receipt.scan.legibility.hi'),
+        getNativeCopy('signature.receipt.scan.flourish.hi'),
+      ],
+      scanProgressLabel: getNativeCopy('signature.receipt.scanProgressLabel.hi'),
     },
     traits: {
       body:
-        'सिर्फ वही संकेत चुनें जो साफ दिख रहा है. प्रेडिक्टा इन्हें हल्के चिंतन की तरह पढ़ती है, चरित्र प्रमाण की तरह नहीं.',
+        getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.dc0b517e95"),
       labels: {
-        baseline: 'लाइन की दिशा',
-        'capital-emphasis': 'बड़े अक्षर का जोर',
-        flourish: 'अतिरिक्त शैली',
-        legibility: 'पढ़ने में स्पष्टता',
-        'letter-connection': 'अक्षरों का जुड़ाव',
-        'margin-use': 'जगह का उपयोग',
-        pressure: 'दबाव',
-        'signature-size': 'हस्ताक्षर का आकार',
-        slant: 'झुकाव',
-        spacing: 'अंतर',
-        speed: 'लय',
-        underline: 'अंडरलाइन',
+        baseline: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.c49c390915"),
+        'capital-emphasis': getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.2bb288c0c1"),
+        flourish: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.8227420af6"),
+        legibility: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.148dceee24"),
+        'letter-connection': getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.50d9cef5c2"),
+        'margin-use': getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.7e0145ec51"),
+        pressure: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.9dc252d2dc"),
+        'signature-size': getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.a68cd59e9f"),
+        slant: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.7c0dc808ae"),
+        spacing: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.cc95dfe340"),
+        speed: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.e553b13df6"),
+        underline: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.60ee6c60ad"),
       },
-      summaryTitle: 'तैयार वाचन',
-      title: 'दिखने वाले संकेत पुष्टि करें',
+      summaryTitle: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.4d262ff3e7"),
+      title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.cb2caf6458"),
       values: {
         ...SIGNATURE_TRAIT_VALUES_EN,
-        abstract: 'बहुत अमूर्त',
-        balanced: 'संतुलित',
-        clear: 'साफ',
-        downward: 'नीचे जाती',
-        expansive: 'फैली हुई',
-        heavy: 'भारी',
-        large: 'बड़ा',
-        left: 'बाएं',
-        light: 'हल्का',
-        medium: 'मध्यम',
-        mixed: 'मिला-जुला',
-        moderate: 'मध्यम शैली',
-        none: 'नहीं',
-        partial: 'थोड़ा पढ़ने योग्य',
-        right: 'दाएं',
-        single: 'एक रेखा',
-        small: 'छोटा',
-        steady: 'स्थिर',
-        tight: 'कम अंतर',
-        upward: 'ऊपर जाती',
-        wide: 'ज्यादा अंतर',
+        abstract: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.98fd540899"),
+        balanced: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.f7c78e24a3"),
+        clear: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.b94172d315"),
+        downward: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.c2e3dc35cc"),
+        expansive: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.b29373be4c"),
+        heavy: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.2bde36b489"),
+        large: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.cf03817480"),
+        left: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.6025e96ffe"),
+        light: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.0f64eb9a6d"),
+        medium: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.151a391fb1"),
+        mixed: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.9ad1f1cedc"),
+        moderate: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.2817f07a22"),
+        none: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.01522e35dd"),
+        partial: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.397a8a1245"),
+        right: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.f150000103"),
+        single: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.28f07119d8"),
+        small: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.6aec1d9f30"),
+        steady: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.4fa815ac3f"),
+        tight: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.30fb5bb9e4"),
+        upward: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.d8d22d7152"),
+        wide: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.05b2d800a6"),
       },
     },
     upload: {
       body:
-        'ऐसी साफ छवि उपयोग करें जिसमें सिर्फ हस्ताक्षर दिखे. पहचान पत्र, पता, खाता संख्या और निजी दस्तावेज काट दें.',
-      hint: 'PNG, JPG या WebP सबसे अच्छा है.',
-      title: 'हस्ताक्षर अपलोड करें',
+        getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.cd43b41f49"),
+      hint: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.c9e7051818"),
+      title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.24feec78f2"),
     },
   },
   gu: {
     actions: {
-      askPredicta: 'સહી પ્રેડિક્ટા સાથે ચેટ કરો',
-      clear: 'સહી દૂર કરો',
-      download: 'કોપી સેવ કરો',
-      useDrawing: 'આ ચિત્ર વાપરો',
-      upload: 'સહી છબી પસંદ કરો',
+      askPredicta: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.2e089f8d56"),
+      clear: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.b890629137"),
+      download: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.d269ed9829"),
+      redraw: getNativeCopy('signature.receipt.actions.redraw.gu'),
+      reupload: getNativeCopy('signature.receipt.actions.reupload.gu'),
+      useDrawing: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.17ba897714"),
+      upload: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.4a40d077ff"),
     },
     canvas: {
-      aria: 'તમારી સહી દોરો',
-      empty: 'અહીં માઉસ, ટ્રેકપેડ અથવા સ્પર્શથી દોરો.',
-      help: 'સ્વાભાવિક સહી કરો. તમે તેને ક્યારેય પણ દૂર કરી શકો છો.',
-      title: 'સહી દોરો',
+      aria: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.79ffd3781e"),
+      empty: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.4e571929db"),
+      help: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.bd0eb01601"),
+      title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.05f79fce2f"),
     },
     hero: {
       body:
-        'ખાનગી, વિચાર-આધારિત સહી વાચન માટે સહી અપલોડ કરો અથવા દોરો. પ્રેડિક્ટા તેને પરાશરી, કૃષ્ણમૂર્તિ પદ્ધતિ, નાડી અને અંક જ્યોતિષથી અલગ રાખે છે.',
+        getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.b92faa1229"),
       chatPromptFallback:
-        'સહી પ્રેડિક્ટા ખોલો. સમજાવો કે સહીનો આકાર, દબાણ, અંતર, લાઇનની દિશા, કદ અને લય શું સૂચવી શકે છે. જવાબ ખાનગી, સુરક્ષિત અને વિચારશીલ રાખો.',
-      chatPromptReady: 'સહી પ્રેડિક્ટા ખોલો. આ પુષ્ટિ કરેલા સહી સંકેતોનો ઉપયોગ કરો.',
-      eyebrow: 'સહી પ્રેડિક્ટા',
-      openLabel: 'ખોલો',
-      title: 'સહીમાંથી આત્મ-અભિવ્યક્તિ વાંચો.',
+        getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.a715206f55"),
+      chatPromptReady: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.2c521a66c5"),
+      eyebrow: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.de715f3016"),
+      openLabel: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.e0185a82d6"),
+      title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.fb653c53c9"),
     },
-    proofLabel: 'પુરાવો',
+    proofLabel: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.d8e7018875"),
     privacy: {
       items: [
-        'આ તબક્કામાં સહી પૂર્વાવલોકન આ જ ડિવાઇસ પર રહે છે.',
-        'સહજ ન લાગે તો કાનૂની, બેન્કિંગ અથવા સરકારી સહીનો ઉપયોગ ન કરો.',
-        'પહેલા વાચન માટે અભ્યાસ સહી અથવા આદ્યાક્ષર પણ વાપરી શકો છો.',
+        getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.4264f58f00"),
+        getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.535856228d"),
+        getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.bd6977af6a"),
       ],
-      title: 'પહેલા ગોપનીયતા',
+      title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.d5cc6f7bda"),
     },
     proof: [
       {
         body:
-          'પ્રેડિક્ટા ફક્ત તે સહી સંકેતો વાંચે છે જેને તમે અપલોડ, દોરીને અથવા પુષ્ટિ કરીને આપો છો.',
-        title: 'દેખાતા સંકેતો',
+          getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.ffa5293311"),
+        title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.2565064ae5"),
       },
       {
         body:
-          'આ વાચન વિચાર માટે છે. તે ઓળખ, આરોગ્ય નિદાન અથવા કાનૂની દાવો કરતી નથી.',
-        title: 'સુરક્ષિત સીમા',
+          getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.160a795aaa"),
+        title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.c8fce8a5ef"),
       },
       {
         body:
-          'સહી વાચનને અંક જ્યોતિષ સાથે ત્યારે જ જોડવામાં આવે છે જ્યારે તમે સંયુક્ત સાર માંગો છો.',
-        title: 'વૈકલ્પિક સંયુક્ત સાર',
+          getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.6a27941250"),
+        title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.ae3e28878d"),
       },
     ],
     preview: {
       body:
-        'સહી તૈયાર થયા પછી પ્રેડિક્ટા આકાર, દબાણ, અંતર અને લયનો સરળ અર્થ સમજાવી શકે છે.',
-      empty: 'હજુ કોઈ સહી પસંદ કરેલી નથી.',
-      ready: 'સહી અહીં તૈયાર છે',
-      title: 'સહી પૂર્વાવલોકન',
+        getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.66c51750ef"),
+      empty: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.fbf9eea882"),
+      ready: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.9847483a75"),
+      title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.98db769694"),
     },
     report: {
       body:
-        'પુષ્ટિ કરેલા સહી સંકેતોને વિચાર રિપોર્ટ, સુધારણા યોજના અથવા સહી + અંક જ્યોતિષ સંયુક્ત સારમાં બદલો.',
-      cta: 'સહી રિપોર્ટ બનાવો',
-      eyebrow: 'રિપોર્ટ માર્ગ',
-      title: 'સહી રિપોર્ટ માર્ગ',
+        getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.3ff190b528"),
+      cta: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.9f7c38e03e"),
+      eyebrow: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.6b9f52686c"),
+      title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.4c842ccb5a"),
     },
     safety: {
       body:
-        'સહી વિશ્લેષણ આત્મ-સમજ અને વિચાર માટે છે. આ ઓળખ ચકાસણી, હસ્તલેખન તપાસ, તબીબી નિદાન, કાનૂની પુરાવો, ભરતી સલાહ અથવા ખાતરીવાળી આગાહી નથી.',
-      title: 'સ્પષ્ટ સુરક્ષા સીમા',
+        getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.ddc86992a0"),
+      title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.7608e39455"),
+    },
+    receipt: {
+      adjust: getNativeCopy('signature.receipt.adjust.gu'),
+      confidence: {
+        clear: getNativeCopy('signature.receipt.clearConfidence.gu'),
+        partial: getNativeCopy('signature.receipt.partialConfidence.gu'),
+        uncertain: getNativeCopy('signature.receipt.uncertainConfidence.gu'),
+      },
+      detectedBody: getNativeCopy('signature.receipt.detectedBody.gu'),
+      drawnPlaceholder: getNativeCopy('signature.receipt.drawn.gu'),
+      looksRight: getNativeCopy('signature.receipt.looksRight.gu'),
+      missing: getNativeCopy('signature.receipt.missing.gu'),
+      notAssessed: getNativeCopy('signature.receipt.notAssessed.gu'),
+      privacyShort: getNativeCopy('signature.receipt.privacyShort.gu'),
+      ready: getNativeCopy('signature.receipt.ready.gu'),
+      scanned: getNativeCopy('signature.receipt.scanned.gu'),
+      scanning: getNativeCopy('signature.receipt.scanning.gu'),
+      scanLabels: [
+        getNativeCopy('signature.receipt.scan.baseline.gu'),
+        getNativeCopy('signature.receipt.scan.slant.gu'),
+        getNativeCopy('signature.receipt.scan.rhythm.gu'),
+        getNativeCopy('signature.receipt.scan.legibility.gu'),
+        getNativeCopy('signature.receipt.scan.flourish.gu'),
+      ],
+      scanProgressLabel: getNativeCopy('signature.receipt.scanProgressLabel.gu'),
     },
     traits: {
       body:
-        'ફક્ત જે સંકેત સ્પષ્ટ દેખાય તે પસંદ કરો. પ્રેડિક્ટા તેને હળવા વિચાર તરીકે વાંચે છે, સ્વભાવના પુરાવા તરીકે નહીં.',
+        getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.44d389eff5"),
       labels: {
-        baseline: 'લાઇનની દિશા',
-        'capital-emphasis': 'મોટા અક્ષરનો ભાર',
-        flourish: 'વધારાની શૈલી',
-        legibility: 'વાંચવાની સ્પષ્ટતા',
-        'letter-connection': 'અક્ષરોનો જોડાણ',
-        'margin-use': 'જગ્યાનો ઉપયોગ',
-        pressure: 'દબાણ',
-        'signature-size': 'સહીનું કદ',
-        slant: 'ઝુકાવ',
-        spacing: 'અંતર',
-        speed: 'લય',
-        underline: 'અંડરલાઇન',
+        baseline: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.2a04b5fc90"),
+        'capital-emphasis': getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.dc1420ff8c"),
+        flourish: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.48e71af82b"),
+        legibility: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.3fd822c47a"),
+        'letter-connection': getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.6188a5890a"),
+        'margin-use': getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.0d6a5dad15"),
+        pressure: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.67e9408d19"),
+        'signature-size': getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.dd278e57f8"),
+        slant: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.cc6887d613"),
+        spacing: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.0984419841"),
+        speed: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.637f5319d8"),
+        underline: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.18b3cab2a3"),
       },
-      summaryTitle: 'તૈયાર વાચન',
-      title: 'દેખાતા સંકેતોની પુષ્ટિ કરો',
+      summaryTitle: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.85fff65237"),
+      title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.49feabdc54"),
       values: {
         ...SIGNATURE_TRAIT_VALUES_EN,
-        abstract: 'ખૂબ અમૂર્ત',
-        balanced: 'સંતુલિત',
-        clear: 'સ્પષ્ટ',
-        downward: 'નીચે જતી',
-        expansive: 'ફેલાયેલી',
-        heavy: 'ભારે',
-        large: 'મોટી',
-        left: 'ડાબી',
-        light: 'હળવી',
-        medium: 'મધ્યમ',
-        mixed: 'મિશ્ર',
-        moderate: 'મધ્યમ શૈલી',
-        none: 'નથી',
-        partial: 'થોડી વાંચી શકાય તેવી',
-        right: 'જમણી',
-        single: 'એક રેખા',
-        small: 'નાની',
-        steady: 'સ્થિર',
-        tight: 'ઓછું અંતર',
-        upward: 'ઉપર જતી',
-        wide: 'વધુ અંતર',
+        abstract: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.9e52673cd7"),
+        balanced: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.368f2e1772"),
+        clear: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.6369b869b8"),
+        downward: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.4a5b121bf2"),
+        expansive: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.df4f16f2b6"),
+        heavy: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.d27beb19e9"),
+        large: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.99faaa96a4"),
+        left: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.391a0c7352"),
+        light: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.09557f1be9"),
+        medium: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.fbb412035d"),
+        mixed: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.2e5a810939"),
+        moderate: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.fce73b4fe0"),
+        none: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.f7ced09b18"),
+        partial: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.e88f1b9c95"),
+        right: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.04168c5e02"),
+        single: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.7940d82b03"),
+        small: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.bb8df8075d"),
+        steady: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.4ac42d543f"),
+        tight: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.87ff5cacf0"),
+        upward: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.07136b0e9d"),
+        wide: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.c9fb71b040"),
       },
     },
     upload: {
       body:
-        'એવી સ્પષ્ટ છબી વાપરો જેમાં માત્ર સહી દેખાય. ઓળખપત્ર, સરનામું, ખાતા નંબર અને ખાનગી દસ્તાવેજો કાપી નાખો.',
-      hint: 'PNG, JPG અથવા WebP સૌથી સારું છે.',
-      title: 'સહી અપલોડ કરો',
+        getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.041a693235"),
+      hint: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.a330ee87f3"),
+      title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.06f8000b57"),
     },
   },
 };
@@ -782,9 +877,9 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
             label: copy.upload.title,
             note:
               language === 'hi'
-                ? 'छवि अपलोड करें या ड्रॉइंग से शुरुआत करें.'
+                ? getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.19291b20fe")
                 : language === 'gu'
-                  ? 'છબી અપલોડ કરો અથવા ડ્રોઇંગથી શરૂઆત કરો.'
+                  ? getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.378bede9ac")
                   : 'Start with an upload or a fresh drawn signature.',
           },
           {
@@ -792,9 +887,9 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
             label: copy.traits.title,
             note:
               language === 'hi'
-                ? 'जो संकेत साफ दिखें, केवल उन्हें पुष्टि करें.'
+                ? getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.31de48dcad")
                 : language === 'gu'
-                  ? 'જે સંકેતો સ્પષ્ટ દેખાય, ફક્ત તેમની પુષ્ટિ કરો.'
+                  ? getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.b332e279c3")
                   : 'Confirm only the visible traits that are actually present.',
           },
           {
@@ -802,9 +897,9 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
             label: copy.preview.title,
             note:
               language === 'hi'
-                ? 'तैयार वाचन और निजी पूर्वावलोकन यहीं देखें.'
+                ? getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.a5bc3fe09d")
                 : language === 'gu'
-                  ? 'તૈયાર વાચન અને ખાનગી પૂર્વાવલોકન અહીં જુઓ.'
+                  ? getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.2e57123d43")
                   : 'Review the prepared reading and private preview here.',
           },
           {
@@ -812,45 +907,45 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
             label: copy.report.cta,
             note:
               language === 'hi'
-                ? 'जब सॉफ्ट रिफ्लेक्शन को रिपोर्ट में बदलना हो, यही अगला रास्ता है.'
+                ? getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.0cfd0a332a")
                 : language === 'gu'
-                  ? 'જ્યારે હળવા પ્રતિબિંબને રિપોર્ટમાં ફેરવવો હોય, ત્યારે આ આગળનો માર્ગ છે.'
+                  ? getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.c78633ffeb")
                   : 'Use the report path when the reflection needs structure or synthesis.',
           },
         ]}
         localEyebrow={copy.privacy.title}
         localTitle={
           language === 'hi'
-            ? 'हस्ताक्षर तैयार करें, संकेत पुष्टि करें, फिर निजी रीडिंग खोलें.'
+            ? getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.a68b8ba292")
             : language === 'gu'
-              ? 'સહી તૈયાર કરો, સંકેતોની પુષ્ટિ કરો, પછી ખાનગી વાચન ખોલો.'
+              ? getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.9e4e969726")
               : 'Prepare the signature, confirm the visible traits, then open the private reading.'
         }
         pillars={[
           {
             label:
               language === 'hi'
-                ? 'सीमा'
+                ? getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.6909e9b264")
                 : language === 'gu'
-                  ? 'સીમા'
+                  ? getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.d71971faa7")
                   : 'Boundary',
             value: copy.safety.title,
           },
           {
             label:
               language === 'hi'
-                ? 'इनपुट'
+                ? getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.8c25d980c3")
                 : language === 'gu'
-                  ? 'ઇનપુટ'
+                  ? getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.1e7a173f2f")
                   : 'Input',
             value: copy.upload.title,
           },
           {
             label:
               language === 'hi'
-                ? 'वाचन'
+                ? getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.da4cf8c726")
                 : language === 'gu'
-                  ? 'વાચન'
+                  ? getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.cfdbea66fc")
                   : 'Reading',
             value: copy.traits.summaryTitle,
           },
@@ -911,7 +1006,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
               onChange={handleFileChange}
               type="file"
             />
-            <span>{mode === 'upload' && canContinue ? 'Re-upload signature' : copy.actions.upload}</span>
+            <span>{mode === 'upload' && canContinue ? copy.actions.reupload : copy.actions.upload}</span>
           </label>
           {mode === 'upload' ? (
             <SignatureImmediateReceipt
@@ -960,7 +1055,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
             type="button"
           >
             {mode === 'draw' && scanStatus !== 'empty'
-              ? 'Re-draw signature'
+              ? copy.actions.redraw
               : copy.actions.useDrawing}
           </button>
           {mode === 'draw' ? (
@@ -1101,10 +1196,10 @@ function buildPreparedReadingSummary(
     .join(', ');
 
   if (language === 'hi') {
-    return `हस्ताक्षर वाचन ${analysisModel.observedTraits.length} दिखने वाले संकेतों के साथ तैयार है. मुख्य संकेत: ${mainSignals}.`;
+    return formatNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.88dc9b1ffc", [analysisModel.observedTraits.length, mainSignals]);
   }
 
-  return `સહી વાચન ${analysisModel.observedTraits.length} દેખાતા સંકેતો સાથે તૈયાર છે. મુખ્ય સંકેતો: ${mainSignals}.`;
+  return formatNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.e087899122", [analysisModel.observedTraits.length, mainSignals]);
 }
 
 function buildPreparedReadingItems(
@@ -1153,46 +1248,41 @@ function SignatureImmediateReceipt({
           // eslint-disable-next-line @next/next/no-img-element
           <img alt="" src={previewUrl} />
         ) : (
-          <span>Signature drawn in this session</span>
+          <span>{copy.receipt.drawnPlaceholder}</span>
         )}
         {scanStatus === 'scanning' ? <span className="signature-scan-beam" /> : null}
       </div>
       <div className="signature-scan-status">
         <span>
           {scanStatus === 'scanning'
-            ? 'Scanning your signature expression...'
+            ? copy.receipt.scanning
             : scanStatus === 'ready'
-              ? 'Signature scanned'
-              : 'Your previous signature image was not stored. Please re-upload or re-draw it to continue.'}
+              ? copy.receipt.scanned
+              : copy.receipt.missing}
         </span>
-        <small>{SIGNATURE_SHORT_PRIVACY_COPY}</small>
+        <small>{copy.receipt.privacyShort}</small>
       </div>
-      <div className="signature-scan-labels" aria-label="Signature scan progress">
-        {SIGNATURE_SCAN_LABELS.map(label => (
+      <div className="signature-scan-labels" aria-label={copy.receipt.scanProgressLabel}>
+        {copy.receipt.scanLabels.map(label => (
           <span key={label}>{label}</span>
         ))}
       </div>
-      <p className="signature-detection-copy">
-        Predicta detected these visible traits from your current signature. Please
-        confirm or adjust anything that looks off.
-      </p>
+      <p className="signature-detection-copy">{copy.receipt.detectedBody}</p>
       <div className="signature-trait-chip-grid">
         {visibleTraits.map(trait => (
           <span className="signature-trait-chip" key={trait.key}>
             {copy.traits.labels[trait.key]}: {copy.traits.values[trait.value]}
-            <em>{trait.confidence}</em>
+            <em>{copy.receipt.confidence[trait.confidence]}</em>
           </span>
         ))}
         {!visibleTraits.length ? (
           <span className="signature-trait-chip">
-            Not assessed<em>uncertain</em>
+            {copy.receipt.notAssessed}<em>{copy.receipt.confidence.uncertain}</em>
           </span>
         ) : null}
       </div>
       {isReady ? (
-        <p className="signature-ready-copy">
-          Signature traits ready. Please confirm what looks right.
-        </p>
+        <p className="signature-ready-copy">{copy.receipt.ready}</p>
       ) : null}
       <div className="signature-action-row">
         <button
@@ -1201,7 +1291,7 @@ function SignatureImmediateReceipt({
           onClick={onConfirm}
           type="button"
         >
-          Looks right
+          {copy.receipt.looksRight}
         </button>
         <button
           className="button secondary"
@@ -1209,13 +1299,13 @@ function SignatureImmediateReceipt({
           onClick={onAdjust}
           type="button"
         >
-          Adjust traits
+          {copy.receipt.adjust}
         </button>
         <button className="button danger" onClick={onClear} type="button">
-          Clear signature
+          {copy.actions.clear}
         </button>
       </div>
-      <p className="signature-privacy-mini">{SIGNATURE_PRIVACY_COPY}</p>
+      <p className="signature-privacy-mini">{copy.receipt.privacyShort}</p>
     </div>
   );
 }
@@ -1276,17 +1366,17 @@ function buildSignatureChatPromptContext(
 
   if (language === 'hi') {
     return [
-      'हस्ताक्षर प्रेडिक्टा संदर्भ:',
+      getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.24bec7794f"),
       buildPreparedReadingSummary(analysisModel, copy, language),
-      `देखे गए संकेत: ${observedTraits}`,
-      'केवल पुष्टि किए गए दिखने वाले संकेतों से पढ़ें. इसे चिंतन तक रखें, पहचान सत्यापन या दस्तावेज़ प्रमाण की तरह उपयोग न करें.',
+      formatNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.a48d8ff3ef", [observedTraits]),
+      getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.c83e0cde0f"),
     ].join(' ');
   }
 
   return [
-    'હસ્તાક્ષર પ્રેડિક્ટા સંદર્ભ:',
+    getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.b4cdec5d1a"),
     buildPreparedReadingSummary(analysisModel, copy, language),
-    `જોવાયેલા સંકેતો: ${observedTraits}`,
-    'ફક્ત પુષ્ટિ કરેલા દેખાતા સંકેતો પરથી વાંચો. આને વિચાર સુધી રાખો, ઓળખ ચકાસણી અથવા દસ્તાવેજ પુરાવા તરીકે ન વાપરો.',
+    formatNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.86c2fe770d", [observedTraits]),
+    getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.ad7bebcde8"),
   ].join(' ');
 }

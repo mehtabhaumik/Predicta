@@ -1,3 +1,4 @@
+import { getNativeCopy } from '@pridicta/config';
 import type { BirthDetails, ChartData, PlanetPosition } from '@pridicta/types';
 import {
   buildChartRenderModel,
@@ -367,7 +368,13 @@ function assertFullVedicD1KeepsSupportingPoints(): void {
     'Full D1 presentation should retain supporting points when an advanced surface asks for them.',
   );
   assert(
-    renderModel.legend.some(item => /outer|बाहरी|બાહ્ય/i.test(item.code)),
+    renderModel.legend.some(item =>
+      [
+        'outer',
+        getNativeCopy('native.packages.astrology.src.chartStressSuite.outer.hi'),
+        getNativeCopy('native.packages.astrology.src.chartStressSuite.outer.gu'),
+      ].some(term => item.code.toLowerCase().includes(term.toLowerCase())),
+    ),
     'Full D1 presentation should restore the outer-planet legend when modern points are visible.',
   );
 }

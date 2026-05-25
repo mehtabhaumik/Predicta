@@ -1,5 +1,6 @@
 'use client';
 
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import type { SupportedLanguage } from '@pridicta/types';
 import { FamilyRelationshipBadge } from '../../../components/FamilyRelationshipBadge';
@@ -87,105 +88,105 @@ const COPY: Record<SupportedLanguage, FamilyPageCopy> = {
   },
   hi: {
     actions: {
-      addProfile: 'प्रोफाइल जोड़ें',
-      goToLibrary: 'कुंडली लाइब्रेरी पर जाएं',
-      openMatchmaking: 'विवाह मिलान खोलें',
-      openCompare: 'जोड़ेदार तुलना खोलें',
-      openMap: 'परिवार कर्म नक्शा खोलें',
+      addProfile: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.8451479867"),
+      goToLibrary: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.560ebadcf0"),
+      openMatchmaking: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.b38135169e"),
+      openCompare: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.4683953b3a"),
+      openMap: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.17008848e9"),
     },
     cards: {
       activeBody: name =>
         name
-          ? `${name} अभी सक्रिय चार्ट आधार है. जब परिवार विश्लेषण को व्यक्तिगत केंद्र चाहिए होता है, प्रेडिक्टा पहले इसी प्रोफाइल को पढ़ती है.`
-          : 'पहले मालिक प्रोफाइल चुनें या सेव करें. वास्तविक व्यक्तिगत आधार के बिना परिवार विश्लेषण शुरू नहीं होना चाहिए.',
-      activeFallback: 'कोई सक्रिय प्रोफाइल नहीं',
-      activeTitle: 'सक्रिय चार्ट आधार',
-      ownerTitle: 'मालिक प्रोफाइल',
+          ? formatNativeCopy("native.apps.web.app.dashboard.family.page.tsx.0021b4f4ea", [name])
+          : getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.7d8715d39b"),
+      activeFallback: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.24d07545aa"),
+      activeTitle: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.c809fd9d22"),
+      ownerTitle: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.af78e01243"),
       readinessBody: count =>
         count >= 2
-          ? 'परिवार वॉल्ट अब जोड़ेदार तुलना और पूरे परिवार के कर्म नक्शे, दोनों के लिए तैयार है.'
-          : 'वास्तविक पारिवारिक तुलना की अपेक्षा करने से पहले कुंडली लाइब्रेरी में कम से कम दो प्रोफाइल सेव करें.',
+          ? getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.252dc54c13")
+          : getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.adb8fcfbcc"),
       readinessTitle: count =>
-        count >= 2 ? `${count} सेव प्रोफाइल तैयार` : 'और सेव प्रोफाइल चाहिए',
+        count >= 2 ? formatNativeCopy("native.apps.web.app.dashboard.family.page.tsx.337fb30706", [count]) : getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.ecafcbc76b"),
     },
     experiences: [
       {
         body:
-          'ठीक दो सेव प्रोफाइल चुनें. प्रेडिक्टा सहमति, घर्षण, कर्म, धर्म और व्यावहारिक अगला कदम बताएगी, बिना रीडिंग को तकनीकी भाषा में बदले.',
-        cta: 'जोड़ेदार तुलना खोलें',
+          getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.cd1c7c447a"),
+        cta: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.4683953b3a"),
         href: '/dashboard/family/compare',
-        title: 'जोड़ेदार तुलना',
+        title: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.458bfa4431"),
       },
       {
         body:
-          'परिवार का घेरा चुनें और प्रेडिक्टा से दोहराए गए भावनात्मक संकेत, सहारा केंद्र, दबाव श्रृंखला और सबसे अच्छा धर्म सुधार मार्ग देखें.',
-        cta: 'परिवार कर्म नक्शा खोलें',
+          getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.bd3f94c146"),
+        cta: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.17008848e9"),
         href: '/dashboard/family/karma-map',
-        title: 'परिवार कर्म नक्शा',
+        title: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.541b1bf91a"),
       },
       {
         body:
-          'विवाह मूल्यांकन परिवार वॉल्ट से अलग रहता है. एक लड़के और एक लड़की की कुंडली चुनें और समर्पित वैदिक विवाह मिलान स्कोर के साथ व्यावहारिक रीडिंग पाएं.',
-        cta: 'विवाह मिलान खोलें',
+          getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.d4f4dea5f7"),
+        cta: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.b38135169e"),
         href: '/dashboard/matchmaking',
-        title: 'विवाह मिलान',
+        title: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.1952f57972"),
       },
     ],
     body:
-      'परिवार वॉल्ट अब एक सामान्य होल्डिंग पेज नहीं है. यह आपकी सेव कुंडली लाइब्रेरी के ऊपर बनी तुलना परत है.',
-    eyebrow: 'परिवार वॉल्ट',
-    title: 'अपने आस-पास के लोगों की तुलना करें, बिना व्यक्तिगत चार्ट नियंत्रण खोए.',
+      getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.7a4ad9c67b"),
+    eyebrow: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.dc49ce1d21"),
+    title: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.a745d846fb"),
   },
   gu: {
     actions: {
-      addProfile: 'પ્રોફાઇલ ઉમેરો',
-      goToLibrary: 'કુંડળી લાઇબ્રેરી પર જાઓ',
-      openMatchmaking: 'લગ્ન મિલાન ખોલો',
-      openCompare: 'જોડી તુલના ખોલો',
-      openMap: 'પરિવાર કર્મ નકશો ખોલો',
+      addProfile: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.9b55a692c0"),
+      goToLibrary: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.3db33c18ca"),
+      openMatchmaking: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.bdbcedc1d8"),
+      openCompare: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.810299ef1b"),
+      openMap: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.05de9e0d3e"),
     },
     cards: {
       activeBody: name =>
         name
-          ? `${name} હાલ સક્રિય ચાર્ટ એન્કર છે. જ્યારે પરિવાર વિશ્લેષણને વ્યક્તિગત આધાર જોઈએ ત્યારે પ્રેડિક્ટા પહેલા આ પ્રોફાઇલ વાંચે છે.`
-          : 'પહેલાં માલિક પ્રોફાઇલ પસંદ કરો અથવા સાચવો. સાચા વ્યક્તિગત આધાર વિના પરિવાર વિશ્લેષણ શરૂ ન થવું જોઈએ.',
-      activeFallback: 'કોઈ સક્રિય પ્રોફાઇલ નથી',
-      activeTitle: 'સક્રિય ચાર્ટ આધાર',
-      ownerTitle: 'માલિક પ્રોફાઇલ',
+          ? formatNativeCopy("native.apps.web.app.dashboard.family.page.tsx.dcf5d6aedb", [name])
+          : getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.884b3a9c1c"),
+      activeFallback: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.578e662d71"),
+      activeTitle: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.07225d277e"),
+      ownerTitle: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.531c54665d"),
       readinessBody: count =>
         count >= 2
-          ? 'પરિવાર વોલ્ટ હવે જોડી તુલના અને આખા પરિવારના કર્મ નકશા, બંને માટે તૈયાર છે.'
-          : 'વાસ્તવિક પરિવાર તુલનાની અપેક્ષા કરતા પહેલાં કુંડળી લાઇબ્રેરીમાં ઓછામાં ઓછી બે પ્રોફાઇલ સાચવો.',
+          ? getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.13206c0c29")
+          : getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.fb9fcd3b7e"),
       readinessTitle: count =>
-        count >= 2 ? `${count} સાચવેલી પ્રોફાઇલ તૈયાર` : 'વધુ સાચવેલી પ્રોફાઇલ જોઈએ',
+        count >= 2 ? formatNativeCopy("native.apps.web.app.dashboard.family.page.tsx.8473ea6b35", [count]) : getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.ac1a3687d1"),
     },
     experiences: [
       {
         body:
-          'ચોક્કસ બે સાચવેલી પ્રોફાઇલ પસંદ કરો. પ્રેડિક્ટા સહકાર, ઘર્ષણ, કર્મ, ધર્મ અને આગળનું પ્રાયોગિક પગલું સમજાવશે, અને વાંચનને ટેકનિકલ ભાષામાં ફેરવશે નહીં.',
-        cta: 'જોડી તુલના ખોલો',
+          getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.69efade335"),
+        cta: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.810299ef1b"),
         href: '/dashboard/family/compare',
-        title: 'જોડી તુલના',
+        title: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.24cb3a63db"),
       },
       {
         body:
-          'ઘરેલુ વર્તુળ પસંદ કરો અને પ્રેડિક્ટાથી ફરી આવતા ભાવનાત્મક સંકેતો, સહારો બિંદુઓ, દબાણની સાંકળો અને શ્રેષ્ઠ ધર્મ સુધાર માર્ગ જુઓ.',
-        cta: 'પરિવાર કર્મ નકશો ખોલો',
+          getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.568c6211d8"),
+        cta: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.05de9e0d3e"),
         href: '/dashboard/family/karma-map',
-        title: 'પરિવાર કર્મ નકશો',
+        title: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.f42a117fe6"),
       },
       {
         body:
-          'લગ્ન મૂલ્યાંકન પરિવાર વોલ્ટથી અલગ રહે છે. એક છોકરા અને એક છોકરીની કુંડળી પસંદ કરો અને સમર્પિત વૈદિક લગ્ન મિલાન સ્કોર સાથે પ્રાયોગિક વાંચન મેળવો.',
-        cta: 'લગ્ન મિલાન ખોલો',
+          getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.7b7a30b3e5"),
+        cta: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.bdbcedc1d8"),
         href: '/dashboard/matchmaking',
-        title: 'લગ્ન મિલાન',
+        title: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.a2ef635763"),
       },
     ],
     body:
-      'પરિવાર વોલ્ટ હવે કોઈ સામાન્ય હોલ્ડિંગ પેજ નથી. તે તમારી સાચવેલી કુંડળી લાઇબ્રેરી ઉપર બનેલી તુલનાની પરત છે.',
-    eyebrow: 'પરિવાર વોલ્ટ',
-    title: 'વ્યક્તિગત ચાર્ટ નિયંત્રણ ગુમાવ્યા વિના તમારા આસપાસના લોકોની તુલના કરો.',
+      getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.bf82673cb5"),
+    eyebrow: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.dde3029f16"),
+    title: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.f39673ca1e"),
   },
 };
 

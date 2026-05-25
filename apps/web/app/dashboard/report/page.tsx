@@ -1,5 +1,6 @@
 'use client';
 
+import { getNativeCopy } from '@pridicta/config';
 import { WebDossierPreview } from '../../../components/WebDossierPreview';
 import { useLanguagePreference } from '../../../lib/language-preference';
 import type { SupportedLanguage } from '@pridicta/types';
@@ -44,16 +45,16 @@ const reportPageCopy: Record<
   },
   hi: {
     body:
-      'पहले जीवन परिणाम चुनें, चाहें तो पीडीएफ को थोड़ा ट्यून करें, और फिर लंबी पढ़ने वाली पेज में फंसे बिना रिपोर्ट डाउनलोड करें.',
-    drawerTitle: 'कैसे चुनें',
-    openDetails: 'खोलें',
-    title: 'वही रिपोर्ट चुनें जिसकी सच में जरूरत है.',
+      getNativeCopy("native.apps.web.app.dashboard.report.page.tsx.4cb7da7657"),
+    drawerTitle: getNativeCopy("native.apps.web.app.dashboard.report.page.tsx.8bc285214f"),
+    openDetails: getNativeCopy("native.apps.web.app.dashboard.report.page.tsx.901879c422"),
+    title: getNativeCopy("native.apps.web.app.dashboard.report.page.tsx.1060722048"),
   },
   gu: {
     body:
-      'પહેલાં જીવન પરિણામ પસંદ કરો, ઇચ્છો તો પીડીએફને થોડું ટ્યુન કરો, અને પછી લાંબી વાંચન પેજમાં અટવાયા વગર રિપોર્ટ ડાઉનલોડ કરો.',
-    drawerTitle: 'કેવી રીતે પસંદ કરવું',
-    openDetails: 'ખોલો',
-    title: 'જે રિપોર્ટની ખરેખર જરૂર છે, તે પસંદ કરો.',
+      getNativeCopy("native.apps.web.app.dashboard.report.page.tsx.f425d99c36"),
+    drawerTitle: getNativeCopy("native.apps.web.app.dashboard.report.page.tsx.af1eea1bb8"),
+    openDetails: getNativeCopy("native.apps.web.app.dashboard.report.page.tsx.e0185a82d6"),
+    title: getNativeCopy("native.apps.web.app.dashboard.report.page.tsx.7ccc712909"),
   },
 };

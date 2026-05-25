@@ -1,5 +1,6 @@
 'use client';
 
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 import { composeNadiJyotishPlan, getLocalizedPlanetName } from '@pridicta/astrology';
@@ -127,45 +128,45 @@ export function WebNadiPredictaPanel({
             href: '#nadi-story-links',
             label:
               language === 'hi'
-                ? 'कथा संबंध'
+                ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.4efb702f65")
                 : language === 'gu'
-                  ? 'કથા સંબંધ'
+                  ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.5b5bfadcf8")
                   : 'Story links',
             note:
               language === 'hi'
-                ? 'ग्रह-से-ग्रह संबंध से कक्षा की मुख्य कथा चुनें.'
+                ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.9aa8ec7546")
                 : language === 'gu'
-                  ? 'ગ્રહથી ગ્રહ સંબંધમાંથી મુખ્ય કથા પસંદ કરો.'
+                  ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.b7c3c567c6")
                   : 'Pick the main story pattern from planet-to-planet links.',
           },
           {
             href: '#nadi-activations',
             label:
               language === 'hi'
-                ? 'सक्रिय समय'
+                ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.3fb9795530")
                 : language === 'gu'
-                  ? 'સક્રિય સમય'
+                  ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.c10d34398e")
                   : 'Activation windows',
             note:
               language === 'hi'
-                ? 'कथा कब अधिक चलती है, यह समय परत से देखें.'
+                ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.ccc2967c3f")
                 : language === 'gu'
-                  ? 'કથા ક્યારે વધુ સક્રિય બને છે, તે સમય સ્તરથી જુઓ.'
+                  ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.28eaacc395")
                   : 'See when the selected story is more likely to feel active.',
           },
           {
             href: '#nadi-validation',
             label:
               language === 'hi'
-                ? 'पुष्टि प्रश्न'
+                ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.ccee03accb")
                 : language === 'gu'
-                  ? 'પુષ્ટિ પ્રશ્નો'
+                  ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.1a43a38677")
                   : 'Validation',
             note:
               language === 'hi'
-                ? 'मजबूत घटना स्तर उत्तर से पहले पुष्टि प्रश्न रखें.'
+                ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.bc098cddc4")
                 : language === 'gu'
-                  ? 'મજબૂત ઘટના સ્તરના જવાબ પહેલાં પુષ્ટિ પ્રશ્નો રાખો.'
+                  ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.e60c58c1d3")
                   : 'Keep validation ahead of strong event-level claims.',
           },
           {
@@ -173,9 +174,9 @@ export function WebNadiPredictaPanel({
             label: t('Build Nadi report'),
             note:
               language === 'hi'
-                ? 'जब कथा को क्रमबद्ध रिपोर्ट में बदलना हो, रिपोर्ट मार्ग लें.'
+                ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.c598a416d7")
                 : language === 'gu'
-                  ? 'જ્યારે કથાને ગોઠવેલ રિપોર્ટમાં ફેરવવી હોય, ત્યારે રિપોર્ટ માર્ગ લો.'
+                  ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.8399a70a7f")
                   : 'Move into the report path when the pattern needs a structured reading.',
           },
         ]}
@@ -185,43 +186,43 @@ export function WebNadiPredictaPanel({
           {
             label:
               language === 'hi'
-                ? 'मुख्य स्रोत'
+                ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.eb28ad3ea8")
                 : language === 'gu'
-                  ? 'મુખ્ય સ્ત્રોત'
+                  ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.c4fa0f6e97")
                   : 'Source',
             value:
               language === 'hi'
-                ? 'ग्रह कथा'
+                ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.1abbb9b898")
                 : language === 'gu'
-                  ? 'ગ્રહ કથા'
+                  ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.bfbbf65644")
                   : 'Planet stories',
           },
           {
             label:
               language === 'hi'
-                ? 'सुरक्षा'
+                ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.cb4800046a")
                 : language === 'gu'
-                  ? 'સુરક્ષા'
+                  ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.8c1ae6f5ea")
                   : 'Safety',
             value:
               language === 'hi'
-                ? 'पहले पुष्टि'
+                ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.40eb95717e")
                 : language === 'gu'
-                  ? 'પહેલાં પુષ્ટિ'
+                  ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.058153827e")
                   : 'Validation first',
           },
           {
             label:
               language === 'hi'
-                ? 'समय'
+                ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.7457c45e9e")
                 : language === 'gu'
-                  ? 'સમય'
+                  ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.82e44a590f")
                   : 'Timing',
             value:
               language === 'hi'
-                ? 'सक्रिय खिड़कियां'
+                ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.045a445e95")
                 : language === 'gu'
-                  ? 'સક્રિય ખિડકીઓ'
+                  ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.d71734810c")
                   : 'Active windows',
           },
         ]}
@@ -379,9 +380,9 @@ export function WebNadiPredictaPanel({
               <div>
                 <span>
                   {language === 'hi'
-                    ? 'यह नाड़ी पैटर्न क्या कह रहा है'
+                    ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.e4b872a11d")
                     : language === 'gu'
-                      ? 'આ નાડી પેટર્ન શું કહી રહ્યું છે'
+                      ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.ca5852cd5a")
                       : 'What this Nadi pattern is saying'}
                 </span>
                 <h3>{selectedPattern.title}</h3>
@@ -391,9 +392,9 @@ export function WebNadiPredictaPanel({
                 <div>
                   <span>
                     {language === 'hi'
-                      ? 'मुख्य उपहार'
+                      ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.49e81bc5f3")
                       : language === 'gu'
-                        ? 'મુખ્ય ભેટ'
+                        ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.411444a64e")
                         : 'Main gift'}
                   </span>
                   <strong>{selectedPatternMeaning.giftTitle}</strong>
@@ -402,9 +403,9 @@ export function WebNadiPredictaPanel({
                 <div>
                   <span>
                     {language === 'hi'
-                      ? 'मुख्य सावधानी'
+                      ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.136ef2d0e3")
                       : language === 'gu'
-                        ? 'મુખ્ય સાવધાની'
+                        ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.abdcc45994")
                         : 'Main caution'}
                   </span>
                   <strong>{selectedPatternMeaning.cautionTitle}</strong>
@@ -413,9 +414,9 @@ export function WebNadiPredictaPanel({
                 <div>
                   <span>
                     {language === 'hi'
-                      ? 'अगला मार्गदर्शन'
+                      ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.7db067306d")
                       : language === 'gu'
-                        ? 'આગળનું માર્ગદર્શન'
+                        ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.e2b6f1e905")
                         : 'Next guidance'}
                   </span>
                   <strong>{selectedPatternMeaning.guidanceTitle}</strong>
@@ -559,22 +560,22 @@ function getNadiConfidenceLabel(
 ): string {
   if (language === 'hi') {
     if (confidence === 'high') {
-      return 'उच्च';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.f710a0185f");
     }
     if (confidence === 'medium') {
-      return 'मध्यम';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.151a391fb1");
     }
-    return 'कम';
+    return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.424846591f");
   }
 
   if (language === 'gu') {
     if (confidence === 'high') {
-      return 'ઉચ્ચ';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.ce9c14c0f1");
     }
     if (confidence === 'medium') {
-      return 'મધ્યમ';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.fbb412035d");
     }
-    return 'ઓછું';
+    return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.38d92beee2");
   }
 
   return confidence;
@@ -586,40 +587,40 @@ function getNadiRelationLabel(
 ): string {
   if (language === 'hi') {
     if (relation === 'same-sign') {
-      return 'समान राशि संबंध';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.5670906f40");
     }
     if (relation === 'trine-link') {
-      return 'त्रिकोण कथा संबंध';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.8b6d34b5ab");
     }
     if (relation === 'opposition-link') {
-      return 'विपरीत कथा संबंध';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.19485b7889");
     }
     if (relation === 'sequence-link') {
-      return 'क्रम संबंध';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.e12cbc0e90");
     }
     if (relation === 'rahu-ketu-axis') {
-      return 'राहु-केतु कर्म अक्ष';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.a053a1ea60");
     }
-    return 'कारक संबंध';
+    return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.5559a543b3");
   }
 
   if (language === 'gu') {
     if (relation === 'same-sign') {
-      return 'એક જ રાશિ સંબંધ';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.74e47c12d6");
     }
     if (relation === 'trine-link') {
-      return 'ત્રિકોણ કથા સંબંધ';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.07f57f7d14");
     }
     if (relation === 'opposition-link') {
-      return 'વિરોધ કથા સંબંધ';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.0f9aea8a84");
     }
     if (relation === 'sequence-link') {
-      return 'ક્રમ સંબંધ';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.6652e87836");
     }
     if (relation === 'rahu-ketu-axis') {
-      return 'રાહુ-કેતુ કર્મ અક્ષ';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.5dca588e68");
     }
-    return 'કારક સંબંધ';
+    return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.aba2d89499");
   }
 
   return relation.replaceAll('-', ' ');
@@ -631,40 +632,40 @@ function getNadiLifeAreaLabel(
 ): string {
   if (language === 'hi') {
     if (area === 'career') {
-      return 'करियर';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.3968c1424c");
     }
     if (area === 'wealth') {
-      return 'धन';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.4a727823f0");
     }
     if (area === 'relationship') {
-      return 'संबंध';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.9d4cd64169");
     }
     if (area === 'wellbeing') {
-      return 'स्वास्थ्य';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.c6ed8f708a");
     }
     if (area === 'spirituality') {
-      return 'आध्यात्मिकता';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.b2637a1b95");
     }
-    return 'सामान्य';
+    return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.4b5c7ff538");
   }
 
   if (language === 'gu') {
     if (area === 'career') {
-      return 'કારકિર્દી';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.0de6a39828");
     }
     if (area === 'wealth') {
-      return 'ધન';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.a0cf33e8c0");
     }
     if (area === 'relationship') {
-      return 'સંબંધ';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.a870d9ae3e");
     }
     if (area === 'wellbeing') {
-      return 'સ્વાસ્થ્ય';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.8648ceb3b0");
     }
     if (area === 'spirituality') {
-      return 'આધ્યાત્મિકતા';
+      return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.43589e1d94");
     }
-    return 'સામાન્ય';
+    return getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.20b6231dd7");
   }
 
   if (area === 'wellbeing') {
@@ -703,37 +704,37 @@ function buildNadiPatternMeaning({
     return {
       caution:
         language === 'hi'
-          ? 'पहले कथा पैटर्न तैयार होने दें.'
+          ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.f4c9fbf7ea")
           : language === 'gu'
-            ? 'પહેલા કથા પેટર્ન તૈયાર થવા દો.'
+            ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.a1f2e5f60e")
             : 'Let the story pattern prepare first.',
       cautionTitle:
         language === 'hi'
-          ? 'अभी प्रतीक्षा'
+          ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.c402d3eea9")
           : language === 'gu'
-            ? 'હાલ રાહ જુઓ'
+            ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.8beea29c17")
             : 'Still preparing',
       gift:
         language === 'hi'
-          ? 'नाड़ी कहानी तैयार होने पर जीवन विषय साफ हो जाएंगे.'
+          ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.973929493d")
           : language === 'gu'
-            ? 'નાડી વાર્તા તૈયાર થયા પછી જીવન વિષયો સ્પષ્ટ થશે.'
+            ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.16cd2e5bb2")
             : 'The life themes will become clearer once the Nadi story is ready.',
       giftTitle:
-        language === 'hi' ? 'कथा प्रतीक्षारत' : language === 'gu' ? 'વાર્તા બાકી' : 'Story pending',
+        language === 'hi' ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.85c1667cde") : language === 'gu' ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.7e92e105c0") : 'Story pending',
       guidance:
         language === 'hi'
-          ? 'जन्म प्रोफाइल सुरक्षित रखें और फिर नाड़ी पथ खोलें.'
+          ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.fec68472ed")
           : language === 'gu'
-            ? 'જન્મ પ્રોફાઇલ સાચવો અને પછી નાડી માર્ગ ખોલો.'
+            ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.63eadc31ac")
             : 'Keep the birth profile saved, then reopen the Nadi path.',
       guidanceTitle:
-        language === 'hi' ? 'अगला कदम' : language === 'gu' ? 'આગળનું પગલું' : 'Next step',
+        language === 'hi' ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.723d5c159a") : language === 'gu' ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.7b316efad6") : 'Next step',
       whatItSays:
         language === 'hi'
-          ? 'नाड़ी परत अभी पहली कथा चुन रही है.'
+          ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.5974001088")
           : language === 'gu'
-            ? 'નાડી સ્તર હજી પહેલી વાર્તા પસંદ કરી રહ્યું છે.'
+            ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.4ff6b38f17")
             : 'The Nadi layer is still selecting the first story.',
     };
   }
@@ -744,56 +745,56 @@ function buildNadiPatternMeaning({
   const cautionTitle =
       pattern.weight === 'challenging'
         ? language === 'hi'
-          ? 'गंभीर पैटर्न'
+          ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.bde372aab5")
           : language === 'gu'
-          ? 'ગંભીર પેટર્ન'
+          ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.e50334ec5f")
           : 'Heavier pattern'
       : language === 'hi'
-        ? 'मिश्रित पैटर्न'
+        ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.48f51d1ae9")
         : language === 'gu'
-          ? 'મિશ્ર પેટર્ન'
+          ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.44694a620e")
           : 'Mixed pattern';
 
   return {
     caution:
       pattern.weight === 'challenging'
         ? language === 'hi'
-          ? 'इसे तय भाग्य की तरह नहीं पढ़ना है. पहले पुष्टि लें, फिर ही घटना स्तर मार्गदर्शन दें.'
+          ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.f35fb26028")
           : language === 'gu'
-            ? 'આને નક્કી ભાગ્ય તરીકે ન વાંચવું. પહેલાં પુષ્ટિ લો, પછી જ ઘટના સ્તર માર્ગદર્શન આપો.'
+            ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.b02e551869")
             : 'Do not read this like fixed fate. Validate it first, then move into event-level guidance.'
         : language === 'hi'
-          ? 'यह कथा एक जीवन-विषय को दूसरे से जोड़ती है, इसलिए जल्दबाज़ी में निष्कर्ष न लें.'
+          ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.2f1918321f")
           : language === 'gu'
-            ? 'આ વાર્તા એક જીવનવિષયને બીજા સાથે જોડે છે, તેથી ઉતાવળે નિષ્કર્ષ ન લો.'
+            ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.fbebb443ab")
             : 'This story links one life area to another, so avoid rushing into conclusions.',
     cautionTitle,
     gift:
       language === 'hi'
-        ? `${areaText} के बीच दोहराते पैटर्न को जल्दी पहचानने में यह कथा मदद करती है.`
+        ? formatNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.d850817a6a", [areaText])
         : language === 'gu'
-          ? `${areaText} વચ્ચે ફરી આવતા પેટર્નને વહેલી ઓળખવામાં આ વાર્તા મદદ કરે છે.`
+          ? formatNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.bb64ddaed2", [areaText])
           : `This story helps you spot repeating links across ${areaText}.`,
     giftTitle:
       language === 'hi'
-        ? 'दोहराता संकेत'
+        ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.d37e68f146")
         : language === 'gu'
-          ? 'પુનરાવર્તિત સંકેત'
+          ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.f73c51ae0b")
           : 'Repeating signal',
     guidance:
       activation
         ? activation.guidance
         : language === 'hi'
-          ? 'पहले वास्तविक जीवन उदाहरण ढूंढें, फिर कथा की गहराई में जाएं.'
+          ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.c13b368031")
           : language === 'gu'
-            ? 'પહેલા વાસ્તવિક જીવનના ઉદાહરણો શોધો, પછી વાર્તાની ઊંડાઈમાં જાઓ.'
+            ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.18d750053d")
             : 'Find the real-life examples first, then go deeper into the story.',
     guidanceTitle:
       activation?.title ??
       (language === 'hi'
-        ? 'अगला कदम'
+        ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.723d5c159a")
         : language === 'gu'
-          ? 'આગળનું પગલું'
+          ? getNativeCopy("native.apps.web.components.WebNadiPredictaPanel.tsx.7b316efad6")
           : 'Next step'),
     whatItSays:
       activation

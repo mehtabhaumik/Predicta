@@ -1,3 +1,4 @@
+import { getNativeCopy } from '@pridicta/config';
 import React, { memo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import {
@@ -337,8 +338,8 @@ function getChartLanguageTitle(language: SupportedLanguage): string {
   return (
     {
       en: 'Chart language',
-      gu: 'ચાર્ટ ભાષા',
-      hi: 'चार्ट भाषा',
+      gu: getNativeCopy("native.apps.mobile.src.components.charts.KundliChart.tsx.61f1e652e0"),
+      hi: getNativeCopy("native.apps.mobile.src.components.charts.KundliChart.tsx.099ec5792c"),
     }[language] ?? 'Chart language'
   );
 }

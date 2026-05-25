@@ -1,5 +1,6 @@
 'use client';
 
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -134,26 +135,26 @@ function getActiveKundliDeleteCopy(
   if (language === 'hi') {
     return {
       body:
-        'यह कुंडली आपकी लाइब्रेरी से हट जाएगी. पुराने चैट या रिपोर्ट में इस प्रोफाइल का पूरा चार्ट संदर्भ उपलब्ध नहीं रह सकता.',
-      cancelLabel: 'रहने दें',
-      confirmLabel: 'कुंडली हटाएं',
+        getNativeCopy("native.apps.web.components.WebActiveKundliActions.tsx.abbd51ddb8"),
+      cancelLabel: getNativeCopy("native.apps.web.components.WebActiveKundliActions.tsx.4df0d0f76d"),
+      confirmLabel: getNativeCopy("native.apps.web.components.WebActiveKundliActions.tsx.4d0c32c905"),
       consequence:
-        'अगर यही सक्रिय कुंडली है, तो प्रेडिक्टा अगली सेव कुंडली चुनेगी या नया चार्ट बनाने को कहेगी.',
-      eyebrow: 'सावधानी से हटाएं',
-      title: `${name} की कुंडली हटाएं?`,
+        getNativeCopy("native.apps.web.components.WebActiveKundliActions.tsx.c58b2a7b8b"),
+      eyebrow: getNativeCopy("native.apps.web.components.WebActiveKundliActions.tsx.5ec84fece1"),
+      title: formatNativeCopy("native.apps.web.components.WebActiveKundliActions.tsx.3913ebaae3", [name]),
     };
   }
 
   if (language === 'gu') {
     return {
       body:
-        'આ કુંડળી તમારી લાઇબ્રેરીમાંથી દૂર થશે. જૂના ચેટ અથવા રિપોર્ટમાં આ પ્રોફાઇલનો સંપૂર્ણ ચાર્ટ સંદર્ભ ઉપલબ્ધ ન રહી શકે.',
-      cancelLabel: 'રહવા દો',
-      confirmLabel: 'કુંડળી કાઢી નાખો',
+        getNativeCopy("native.apps.web.components.WebActiveKundliActions.tsx.11bad785cd"),
+      cancelLabel: getNativeCopy("native.apps.web.components.WebActiveKundliActions.tsx.d8bd753ad9"),
+      confirmLabel: getNativeCopy("native.apps.web.components.WebActiveKundliActions.tsx.4811688cd2"),
       consequence:
-        'જો આ સક્રિય કુંડળી છે, તો પ્રેડિક્ટા આગળની સેવ કુંડળી પસંદ કરશે અથવા નવો ચાર્ટ બનાવવા કહેશે.',
-      eyebrow: 'સાવચેતીથી કાઢો',
-      title: `${name} ની કુંડળી કાઢી નાખો?`,
+        getNativeCopy("native.apps.web.components.WebActiveKundliActions.tsx.12986e9966"),
+      eyebrow: getNativeCopy("native.apps.web.components.WebActiveKundliActions.tsx.791a0b37d2"),
+      title: formatNativeCopy("native.apps.web.components.WebActiveKundliActions.tsx.b4d456ea1a", [name]),
     };
   }
 

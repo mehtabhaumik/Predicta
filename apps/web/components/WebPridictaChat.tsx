@@ -1,5 +1,6 @@
 'use client';
 
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { type CSSProperties, useEffect, useRef, useState } from 'react';
@@ -2042,30 +2043,30 @@ function buildRenamedKundli(
 
 function buildKundliCreateFromChatReply(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'बिल्कुल. नई कुंडली यहीं chat में बना देते हैं. Name, DOB, birth time और birth place भेज दीजिए. अगर सिर्फ DOB पता है, पहले वही भेज दीजिए.';
+    return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.a9ee5e8abd");
   }
   if (language === 'gu') {
-    return 'હા. નવી કુંડળી અહીં chat માં બનાવી દઉં. Name, DOB, birth time અને birth place મોકલો. ફક્ત DOB ખબર હોય તો પહેલા એ મોકલો.';
+    return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.741ab6c9e1");
   }
   return 'Yes. I can create a new Kundli right here in chat. Send name, DOB, birth time, and birth place. If you only know the DOB, send that first.';
 }
 
 function buildNoKundliForCommandReply(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'मुझे अभी कोई saved कुंडली नहीं मिल रही. पहले birth details भेजिए, मैं कुंडली बनाकर फिर edit, delete या switch कर दूंगी.';
+    return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.029e3bfa57");
   }
   if (language === 'gu') {
-    return 'મને હજુ saved કુંડળી મળી નથી. પહેલા birth details મોકલો, પછી હું edit, delete કે switch કરી દઈશ.';
+    return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.cf6e5775f3");
   }
   return 'I do not see a saved Kundli yet. Send birth details first; then I can edit, delete, or switch Kundlis for you.';
 }
 
 function buildGuestKundliLimitReply(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'आपकी पहली कुंडली सुरक्षित है. एक और कुंडली सेव करने के लिए साइन इन करें, ताकि परिवार प्रोफाइल और सेव चार्ट बाद में भी मिल सकें.';
+    return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.03b5e54f17");
   }
   if (language === 'gu') {
-    return 'તમારી પહેલી કુંડળી સુરક્ષિત છે. બીજી કુંડળી સેવ કરવા માટે સાઇન ઇન કરો, જેથી પરિવાર પ્રોફાઇલ અને સેવ ચાર્ટ પછી પણ મળી શકે.';
+    return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.bf5953710d");
   }
   return 'Your first Kundli is safe. Please sign in before saving another Kundli, so family profiles and saved charts stay protected for later.';
 }
@@ -2075,10 +2076,10 @@ function buildKundliSetActiveReply(
   kundli: KundliData,
 ): string {
   if (language === 'hi') {
-    return `${kundli.birthDetails.name} की कुंडली active कर दी. अब मैं इसी chart से जवाब दूंगी.`;
+    return formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.ec58a9861a", [kundli.birthDetails.name]);
   }
   if (language === 'gu') {
-    return `${kundli.birthDetails.name} ની કુંડળી active કરી દીધી. હવે હું આ chart થી જવાબ આપીશ.`;
+    return formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.e68cd7848a", [kundli.birthDetails.name]);
   }
   return `${kundli.birthDetails.name}'s Kundli is now active. I will answer from this chart.`;
 }
@@ -2088,10 +2089,10 @@ function buildKundliDeleteConfirmReply(
   kundli: KundliData,
 ): string {
   if (language === 'hi') {
-    return `आप ${kundli.birthDetails.name} की कुंडली delete करना चाहते हैं. यह library से हट जाएगी. Confirm करने के लिए "delete कुंडली" लिखिए, या "cancel" लिखिए.`;
+    return formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.7af29eabee", [kundli.birthDetails.name]);
   }
   if (language === 'gu') {
-    return `તમે ${kundli.birthDetails.name} ની કુંડળી delete કરવા માંગો છો. આ library માંથી હટી જશે. Confirm કરવા "delete કુંડળી" લખો, અથવા "cancel" લખો.`;
+    return formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.151cbc3ffa", [kundli.birthDetails.name]);
   }
   return `You are about to delete ${kundli.birthDetails.name}'s Kundli from your library. Reply "delete Kundli" to confirm, or "cancel" to stop.`;
 }
@@ -2101,10 +2102,10 @@ function buildKundliGenericEditReply(
   kundli: KundliData,
 ): string {
   if (language === 'hi') {
-    return `${kundli.birthDetails.name} की कुंडली edit कर सकती हूं. बताइए क्या बदलना है: birth time, DOB, birth place या name. Example: "change birth time to 06:45 AM".`;
+    return formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.8b799ecbe6", [kundli.birthDetails.name]);
   }
   if (language === 'gu') {
-    return `${kundli.birthDetails.name} ની કુંડળી edit કરી શકું છું. શું બદલવું છે: birth time, DOB, birth place કે name? Example: "change birth time to 06:45 AM".`;
+    return formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.dac0fdb5e6", [kundli.birthDetails.name]);
   }
   return `I can edit ${kundli.birthDetails.name}'s Kundli. Tell me what to change: birth time, DOB, birth place, or name. Example: "change birth time to 06:45 AM".`;
 }
@@ -2117,15 +2118,15 @@ function buildKundliEditNeedsValueReply(
     return language === 'en'
       ? 'I could not identify that birth place. Please send city, state, and country.'
       : language === 'hi'
-        ? 'Birth place clear नहीं हुआ. City, state और country भेजिए.'
-        : 'Birth place clear નથી થયું. City, state અને country મોકલો.';
+        ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.c1c05856b2")
+        : getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.f26d1825e4");
   }
 
   return language === 'en'
     ? 'I need the exact value before editing the Kundli. Please send it once more clearly.'
     : language === 'hi'
-      ? 'कुंडली edit करने के लिए exact value चाहिए. एक बार clearly भेजिए.'
-      : 'કુંડળી edit કરવા માટે exact value જોઈએ. એક વાર clearly મોકલો.';
+      ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.e84f244bdf")
+      : getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.dbbfb263de");
 }
 
 function buildKundliEditConfirmReply(
@@ -2136,7 +2137,7 @@ function buildKundliEditConfirmReply(
 ): string {
   const changeLine = formatKundliChange(command.field, nextBirthDetails);
   if (language === 'hi') {
-    return `मैं ${kundli.birthDetails.name} की कुंडली में यह change कर सकती हूं:\n${changeLine}\n\nDate, time या place बदलने से chart दोबारा calculate होता है. Reply करें: "update existing", "save as new" या "cancel".`;
+    return formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.9d29c9a076", [kundli.birthDetails.name, changeLine]);
   }
   if (language === 'gu') {
     return `Hu ${kundli.birthDetails.name} ni Kundli ma aa change kari shaku chhu:\n${changeLine}\n\nDate, time, ke place badlase to chart fari calculate thashe. Reply karo: "update existing", "save as new", ke "cancel".`;
@@ -2148,24 +2149,24 @@ function buildKundliDeleteConfirmReminder(language: SupportedLanguage): string {
   return language === 'en'
     ? 'Please reply "delete Kundli" to confirm deletion, or "cancel" to stop.'
     : language === 'hi'
-      ? 'Delete confirm करने के लिए "delete कुंडली" लिखिए, या रोकने के लिए "cancel" लिखिए.'
-      : 'Delete confirm કરવા માટે "delete કુંડળી" લખો, અથવા રોકવા માટે "cancel" લખો.';
+      ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.a2218ff58f")
+      : getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.1cdf2f9772");
 }
 
 function buildKundliEditConfirmReminder(language: SupportedLanguage): string {
   return language === 'en'
     ? 'Please reply "update existing", "save as new", or "cancel".'
     : language === 'hi'
-      ? 'Please "update existing", "save as new" या "cancel" लिखिए.'
-      : 'Please "update existing", "save as new" અથવા "cancel" લખો.';
+      ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.9054956606")
+      : getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.70bf2b9c9c");
 }
 
 function buildKundliCommandCancelledReply(language: SupportedLanguage): string {
   return language === 'en'
     ? 'Done. I did not change the Kundli.'
     : language === 'hi'
-      ? 'ठीक है. मैंने कुंडली में कोई change नहीं किया.'
-      : 'ઠીક છે. મેં કુંડળી માં કોઈ change કર્યું નથી.';
+      ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.cedbdafd34")
+      : getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.0816b566f7");
 }
 
 function buildKundliDeletedReply(
@@ -2181,9 +2182,9 @@ function buildKundliDeletedReply(
   }
   if (language === 'gu') {
     const nextLine = nextActive
-      ? ` Active કુંડળી હવે ${nextActive.birthDetails.name} છે.`
+      ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.84cda36140", [nextActive.birthDetails.name])
       : '';
-    return `${deletedName} ની કુંડળી library માંથી delete થઈ ગઈ.${nextLine}`;
+    return formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.603784e73c", [deletedName, nextLine]);
   }
   const nextLine = nextActive
     ? ` Active Kundli: ${nextActive.birthDetails.name}.`
@@ -2594,27 +2595,27 @@ function getChatExportCopy(language: SupportedLanguage): {
 } {
   if (language === 'hi') {
     return {
-      copied: 'कॉपी हो गया',
-      conversationActions: 'बातचीत के कार्य',
-      copyConversation: 'पूरी चैट कॉपी करें',
-      copyMessage: 'कॉपी',
-      newChat: 'नई चैट',
-      newSavedChat: 'नई सेव चैट',
-      savePdf: 'चैट पीडीएफ सेव करें',
-      tools: 'उपकरण',
+      copied: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.d6758a813a"),
+      conversationActions: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.9f47b903ab"),
+      copyConversation: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.d38f7c0170"),
+      copyMessage: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.4b4214b9f4"),
+      newChat: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.ab78000705"),
+      newSavedChat: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.a93d8505ea"),
+      savePdf: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.76162615d9"),
+      tools: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.47ac995da2"),
     };
   }
 
   if (language === 'gu') {
     return {
-      copied: 'કૉપી થઈ ગયું',
-      conversationActions: 'વાતચીતના કાર્ય',
-      copyConversation: 'પૂરી ચેટ કૉપી કરો',
-      copyMessage: 'કૉપી',
-      newChat: 'નવી ચેટ',
-      newSavedChat: 'નવી સાચવેલી ચેટ',
-      savePdf: 'ચેટ પીડીએફ સેવ કરો',
-      tools: 'ટૂલ્સ',
+      copied: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.2e020f4ba5"),
+      conversationActions: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.14e99900d3"),
+      copyConversation: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.67cc3d4e3c"),
+      copyMessage: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.fe09de18e7"),
+      newChat: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.c01be190c1"),
+      newSavedChat: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.53837aa568"),
+      savePdf: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.1963597f21"),
+      tools: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.96924835e5"),
     };
   }
 
@@ -2647,15 +2648,15 @@ function getChatSessionCopy(
     return {
       guestBody:
         room
-          ? `${roomLabel} में एक कुंडली से पढ़ना शुरू करें. साइन इन करने पर अलग-अलग सेव चैट और परिवार रीडिंग सुरक्षित रहेंगी.`
-          : 'साइन इन करने पर सेव चैट और अलग परिवार रीडिंग सुरक्षित रहेंगी.',
-      guestTitle: room ? `${roomLabel} अतिथि चैट` : 'अतिथि चैट',
-      newChat: 'नई चैट',
-      newSavedChat: 'नई सेव चैट',
+          ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.0160cbd35d", [roomLabel])
+          : getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.a65875a7e5"),
+      guestTitle: room ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.a7b3c35f3f", [roomLabel]) : getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.e73be1f0bd"),
+      newChat: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.ab78000705"),
+      newSavedChat: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.a93d8505ea"),
       savedBody: room
-        ? `${roomLabel} की रीडिंग बदले बिना पुरानी बातचीत पर लौटें.`
-        : 'कॉन्टेक्स्ट खोए बिना पुरानी बातचीत पर लौटें.',
-      savedTitle: room ? `${roomLabel} की सेव चैट` : 'सेव चैट',
+        ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.724e81b107", [roomLabel])
+        : getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.8c79466cc2"),
+      savedTitle: room ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.85dc83245c", [roomLabel]) : getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.7265266ae8"),
     };
   }
 
@@ -2663,15 +2664,15 @@ function getChatSessionCopy(
     return {
       guestBody:
         room
-          ? `${roomLabel} માં એક કુંડળીથી reading શરૂ કરો. સાઇન ઇન પછી અલગ સાચવેલી ચેટ અને પરિવાર reading સુરક્ષિત રહેશે.`
-          : 'સાઇન ઇન પછી સાચવેલી ચેટ અને અલગ પરિવાર reading સુરક્ષિત રહેશે.',
-      guestTitle: room ? `${roomLabel} ગેસ્ટ ચેટ` : 'ગેસ્ટ ચેટ',
-      newChat: 'નવી ચેટ',
-      newSavedChat: 'નવી સાચવેલી ચેટ',
+          ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.776cd72c96", [roomLabel])
+          : getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.54aba28e1b"),
+      guestTitle: room ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.ff9af9d419", [roomLabel]) : getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.72846bc15b"),
+      newChat: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.c01be190c1"),
+      newSavedChat: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.53837aa568"),
       savedBody: room
-        ? `${roomLabel} ની રીત બદલીયા વગર જૂની વાતચીત પર પાછા ફરો.`
-        : 'સંદર્ભ ગુમાવ્યા વગર જૂની વાતચીત પર પાછા ફરો.',
-      savedTitle: room ? `${roomLabel} ની સાચવેલી ચેટ` : 'સાચવેલી ચેટ',
+        ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.03f443901d", [roomLabel])
+        : getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.a7efa14459"),
+      savedTitle: room ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.48e7af1a1c", [roomLabel]) : getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.e770e1ae22"),
     };
   }
 
@@ -3746,21 +3747,21 @@ function buildBirthTimeConfirmedReply(
 
   if (language === 'hi') {
     return [
-      `Done. ${name} के लिए entered birth time ${enteredTime} confirm कर दिया है.`,
+      formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.c4ae433afe", [name, enteredTime]),
       restoredFromRectified
-        ? `मैंने rectified time हटाकर original entered time ${enteredTime} से कुंडली दोबारा calculate कर दी है.`
-        : 'अब इस कुंडली पर rectified/probable time label नहीं लगेगा.',
-      'अब मैं normal chart guidance दे सकती हूं. Exact event timing में फिर भी सावधानी रखूंगी, क्योंकि astrology guidance है, guarantee नहीं.',
+        ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.7bfce54406", [enteredTime])
+        : getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.cf527a59c0"),
+      getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.155e3da570"),
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      `Done. ${name} માટે entered birth time ${enteredTime} confirm કરી દીધો છે.`,
+      formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.2923797bfd", [name, enteredTime]),
       restoredFromRectified
-        ? `મેં rectified time હટાવીને original entered time ${enteredTime} થી કુંડળી ફરી calculate કરી છે.`
-        : 'હવે આ કુંડળી પર rectified/probable time label નહીં લાગે.',
-      'હવે હું normal chart guidance આપી શકું છું. Exact event timing માં પણ સાવચેતી રાખીશ, કારણ કે astrology guidance છે, guarantee નથી.',
+        ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.81de3e3bdf", [enteredTime])
+        : getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.03bbfe6cdd"),
+      getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.1e231b6275"),
     ].join('\n\n');
   }
 
@@ -3775,11 +3776,11 @@ function buildBirthTimeConfirmationFailedReply(
   language: SupportedLanguage,
 ): string {
   if (language === 'hi') {
-    return 'Birth time confirm करते समय issue आ गया. Please एक बार Birth Time Detective या कुंडली page से दोबारा try करें.';
+    return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.29211c271c");
   }
 
   if (language === 'gu') {
-    return 'Birth time confirm કરતી વખતે issue આવ્યો. Please Birth Time Detective અથવા કુંડળી page થી ફરી try કરો.';
+    return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.797905672f");
   }
 
   return 'I could not confirm the birth time just now. Please try again from Birth Time Detective or the Kundli page.';
@@ -3797,21 +3798,21 @@ function buildBirthDetailConfidenceGateReply(
 
   if (language === 'hi') {
     return [
-      'Birth time check पहले करते हैं.',
-      `मेरे पास ${kundli.birthDetails.name} की कुंडली है, पर birth time ${timeText} को deep prediction के लिए confirm करना ज़रूरी है. Even 10-15 minutes houses, divisional charts और timing को change कर सकते हैं.`,
+      getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.cac2fe6595"),
+      formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.1a0f27032f", [kundli.birthDetails.name, timeText]),
       `Reason: ${reason}.`,
-      'मैं अभी broad guidance दे सकती हूं, लेकिन exact timing, marriage/career/finance prediction, D9/D10/कृष्णमूर्ति पद्धति/नाड़ी depth या report-grade answer से पहले time confirm करूंगी.',
-      'अगर time doubtful है, मैं simple life-event questions पूछकर probable corrected birth time estimate कर सकती हूं. इससे reading safer और ज़्यादा honest रहेगी.',
+      getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.e5558dc633"),
+      getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.f2b497986c"),
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      'Birth time પહેલા confirm કરીએ.',
-      `મારી પાસે ${kundli.birthDetails.name} ની કુંડળી છે, પણ birth time ${timeText} deep prediction માટે confirm કરવો જરૂરી છે. 10-15 minutes પણ houses, divisional charts અને timing બદલી શકે છે.`,
+      getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.5aaeb161ac"),
+      formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.405642e0f3", [kundli.birthDetails.name, timeText]),
       `Reason: ${reason}.`,
-      'હું હાલ broad guidance આપી શકું છું, પણ exact timing, marriage/career/finance prediction, D9/D10/કૃષ્ણમૂર્તિ પદ્ધતિ/નાડી depth અથવા report-grade answer પહેલાં time confirm કરીશ.',
-      'જો time doubtful હોય, હું simple life-event questions પૂછીને probable corrected birth time estimate કરી શકું છું. આ reading ને safer અને honest બનાવે છે.',
+      getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.35d79bb2c8"),
+      getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.1265e2e7de"),
     ].join('\n\n');
   }
 
@@ -3857,11 +3858,11 @@ function buildPartialBirthDetailGateReply(
 
   if (language === 'hi') {
     return [
-      'मैं half details पर deep prediction start नहीं करूंगी.',
-      knownDetails ? `अभी मेरे पास:\n${knownDetails}` : undefined,
+      getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.02240d2df7"),
+      knownDetails ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.82da83a710", [knownDetails]) : undefined,
       `Missing: ${missing.join(', ')}.`,
-      'DOB से broad बात हो सकती है, लेकिन real कुंडली, houses, dasha, timing, कृष्णमूर्ति पद्धति/नाड़ी और reports के लिए birth time और place ज़रूरी हैं.',
-      'अगर birth time exact नहीं पता, “time unknown” लिख दीजिए. मैं simple life questions पूछकर birth-time detective mode से guide करूंगी.',
+      getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.57be3900cb"),
+      getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.7393a99250"),
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -3869,11 +3870,11 @@ function buildPartialBirthDetailGateReply(
 
   if (language === 'gu') {
     return [
-      'હું half details પર deep prediction start નહીં કરું.',
-      knownDetails ? `હાલમાં મારી પાસે:\n${knownDetails}` : undefined,
+      getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.6bb83ed98f"),
+      knownDetails ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.117972b0d2", [knownDetails]) : undefined,
       `Missing: ${missing.join(', ')}.`,
-      'DOB થી broad વાત થઈ શકે, પણ real કુંડળી, houses, dasha, timing, કૃષ્ણમૂર્તિ પદ્ધતિ/નાડી અને reports માટે birth time અને place જરૂરી છે.',
-      'જો birth time exact ખબર નથી, “time unknown” લખો. હું simple life questions પૂછીને birth-time detective mode થી guide કરીશ.',
+      getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.eb4a3e3999"),
+      getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.436ebbe0d4"),
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -3897,15 +3898,15 @@ function buildBirthDetailConfidenceSuggestions(
     return [
       {
         id: 'birth-confidence-confirm-time',
-        label: 'Time correct है',
+        label: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.22499a41ff"),
         prompt:
-          'मेरा birth time correct है. इस confidence के साथ reading continue करो, पर timing confidence clearly mention करना.',
+          getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.58edc91733"),
       },
       {
         id: 'birth-confidence-rectify',
         label: 'Time re-check karo',
         prompt:
-          'मेरा birth time doubtful है. मुझे simple life-event questions पूछकर probable corrected birth time estimate करो.',
+          getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.7e96dc5da7"),
       },
       {
         href: '/dashboard/birth-time',
@@ -3921,15 +3922,15 @@ function buildBirthDetailConfidenceSuggestions(
     return [
       {
         id: 'birth-confidence-confirm-time',
-        label: 'Time correct છે',
+        label: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.7a1292c011"),
         prompt:
-          'મારો birth time correct છે. આ confidence સાથે reading continue કરો, પણ timing confidence clearly mention કરજો.',
+          getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.8b2a88f05c"),
       },
       {
         id: 'birth-confidence-rectify',
         label: 'Time re-check karo',
         prompt:
-          'મારો birth time doubtful છે. મને simple life-event questions પૂછીને probable corrected birth time estimate કરો.',
+          getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.ec48b89375"),
       },
       {
         href: '/dashboard/birth-time',
@@ -4409,10 +4410,10 @@ function buildCtaContextIntro(
 
   if (language === 'hi') {
     return [
-      `${source} से आपका सवाल यहीं ले लिया है.`,
-      reportLine ? `रिपोर्ट संदर्भ: ${reportLine}` : undefined,
-      focus ? `फिलहाल फोकस यह है: ${focus}` : undefined,
-      'मैं इसी चुनी हुई कुंडली से यहीं जवाब दूंगी.',
+      formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.8032a9a72c", [source]),
+      reportLine ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.c5aaf9219b", [reportLine]) : undefined,
+      focus ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.36be1ac62b", [focus]) : undefined,
+      getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.38cf8c714b"),
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -4420,10 +4421,10 @@ function buildCtaContextIntro(
 
   if (language === 'gu') {
     return [
-      `${source} માંથી તમારો સવાલ અહીં લઈ લીધો છે.`,
-      reportLine ? `રિપોર્ટ સંદર્ભ: ${reportLine}` : undefined,
-      focus ? `હમણાં ફોકસ આ છે: ${focus}` : undefined,
-      'હું આ પસંદ કરેલી કુંડળીથી અહીં જ જવાબ આપીશ.',
+      formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.34e51ee93f", [source]),
+      reportLine ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.41fb305196", [reportLine]) : undefined,
+      focus ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.1fc67b025d", [focus]) : undefined,
+      getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.2bed0de907"),
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -4489,23 +4490,23 @@ function buildSchoolContextIntro(
 
   if (language === 'hi') {
     return [
-      `${school} यहीं है.`,
+      formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.7eaafbc010", [school]),
       fromSchool
-        ? `${fromSchool} से आपका सवाल और चार्ट संदर्भ मेरे पास पहले से है. मैं जवाब को इसी कमरे की पद्धति में रखूंगी.`
+        ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.73cbb528ba", [fromSchool])
         : undefined,
-      chartFocus ? `इस समय चार्ट फोकस: ${chartFocus}.` : undefined,
-      reportLine ? `रिपोर्ट संदर्भ: ${reportLine}.` : undefined,
-      question ? `आपने पूछा: ${question}` : undefined,
+      chartFocus ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.9dd2573f6e", [chartFocus]) : undefined,
+      reportLine ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.9972f8632b", [reportLine]) : undefined,
+      question ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.fa565f3c2b", [question]) : undefined,
       context.predictaSchool === 'KP'
-        ? 'मैं इसे KP के cusps, star lords, sub lords, significators और ruling planets से पढ़ूंगी.'
+        ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.7de5e77289")
       : context.predictaSchool === 'NADI'
-          ? 'मैं इसे planetary story links और validation questions से पढ़ूंगी; किसी प्राचीन palm-leaf access का दावा नहीं करूंगी.'
+          ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.f39e7d7570")
       : context.predictaSchool === 'NUMEROLOGY'
-          ? 'मैं name number, birth number, destiny number, personal timing और name rhythm से सीधा जवाब दूंगी.'
+          ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.b93160df27")
       : context.predictaSchool === 'SIGNATURE'
-          ? 'मैं केवल पुष्टि किए गए हस्ताक्षर संकेतों, आत्म-अभिव्यक्ति के पैटर्न, सुधार सुझावों और सुरक्षित चिंतन से जवाब दूंगी. यह पहचान सत्यापन, हस्तलेखन जांच, कानूनी प्रमाण या निदान नहीं है.'
-          : 'मैं इसे वैदिक Parashari Jyotish के संदर्भ में पढ़ूंगी.',
-      'अब मैं सीधे जवाब पर आती हूँ.',
+          ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.fb37f54845")
+          : getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.500da5904c"),
+      getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.ddee9ee7be"),
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -4513,23 +4514,23 @@ function buildSchoolContextIntro(
 
   if (language === 'gu') {
     return [
-      `${school} અહીં તૈયાર છે.`,
+      formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.e9cdf280b7", [school]),
       fromSchool
-        ? `${fromSchool} થી તમારો સવાલ અને ચાર્ટ સંદર્ભ મારી પાસે પહેલાથી છે. હું જવાબને આ રૂમની જ પદ્ધતિમાં રાખીશ.`
+        ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.b03477faf7", [fromSchool])
         : undefined,
-      chartFocus ? `હાલનો ચાર્ટ ફોકસ: ${chartFocus}.` : undefined,
-      reportLine ? `રિપોર્ટ સંદર્ભ: ${reportLine}.` : undefined,
-      question ? `તમે પૂછ્યું: ${question}` : undefined,
+      chartFocus ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.9acd846583", [chartFocus]) : undefined,
+      reportLine ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.2d33397be8", [reportLine]) : undefined,
+      question ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.2a64d28f73", [question]) : undefined,
       context.predictaSchool === 'KP'
-        ? 'હું તેને KP ના cusps, star lords, sub lords, significators અને ruling planets પરથી વાંચીશ.'
+        ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.626c67ff92")
       : context.predictaSchool === 'NADI'
-          ? 'હું તેને planetary story links અને validation questions થી વાંચીશ; ancient palm-leaf access નો દાવો નહીં કરું.'
+          ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.fe94f5c55b")
       : context.predictaSchool === 'NUMEROLOGY'
-          ? 'હું name number, birth number, destiny number, personal timing અને name rhythm પરથી સીધો જવાબ આપીશ.'
+          ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.bd7eb2446b")
       : context.predictaSchool === 'SIGNATURE'
-          ? 'હું માત્ર પુષ્ટિ કરેલા હસ્તાક્ષર સંકેતો, સ્વ-અભિવ્યક્તિના પેટર્ન, સુધાર સૂચનો અને સુરક્ષિત પ્રતિબિંબ પરથી જવાબ આપીશ. આ ઓળખ ચકાસણી, હસ્તલેખન તપાસ, કાનૂની પુરાવો કે નિદાન નથી.'
-          : 'હું તેને વૈદિક Parashari Jyotish ના સંદર્ભમાં વાંચીશ.',
-      'હવે હું સીધા જવાબ પર આવું છું.',
+          ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.13dcc7333b")
+          : getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.6611907f49"),
+      getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.186fb7a2a7"),
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -4589,28 +4590,28 @@ function buildRoomWelcomeReply(
   if (language === 'hi') {
     return hasSelectedKundli
       ? [
-          `${roomLabel} आपकी चुनी हुई कुंडली के साथ यहीं तैयार है.`,
+          formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.9c880b5d6e", [roomLabel]),
           methodLine,
-          'एक साफ सवाल पूछिए. मैं इसी room की विधि में रहकर जवाब दूंगी.',
+          getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.57eb44c0f8"),
         ].join('\n\n')
       : [
-          `${roomLabel} चुनी हुई कुंडली से पढ़ता है.`,
+          formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.a42a479c7d", [roomLabel]),
           methodLine,
-          'अगर अभी कुंडली खुली नहीं है, सेव कुंडली चुनिए, नई कुंडली बनाइए, या birth details यहीं भेज दीजिए.',
+          getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.51b0988382"),
         ].join('\n\n');
   }
 
   if (language === 'gu') {
     return hasSelectedKundli
       ? [
-          `${roomLabel} તમારી પસંદ કરેલી કુંડળી સાથે અહીં તૈયાર છે.`,
+          formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.24d76f387e", [roomLabel]),
           methodLine,
-          'એક સ્પષ્ટ સવાલ પૂછો. હું આ room ની રીતમાં રહીને જવાબ આપીશ.',
+          getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.09a8bc6db7"),
         ].join('\n\n')
       : [
-          `${roomLabel} પસંદ કરેલી કુંડળી પરથી વાંચે છે.`,
+          formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.b090500505", [roomLabel]),
           methodLine,
-          'જો અત્યારે કુંડળી ખુલ્લી નથી, તો સાચવેલી કુંડળી પસંદ કરો, નવી બનાવો, અથવા birth details અહીં મોકલો.',
+          getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.39f98b7049"),
         ].join('\n\n');
   }
 
@@ -4633,34 +4634,34 @@ function getRoomMethodLine(
 ): string {
   if (language === 'hi') {
     if (school === 'KP') {
-      return 'यह room cusps, star lords, sub lords, significators और ruling planets पर रहेगा.';
+      return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.d88e5f2875");
     }
     if (school === 'NADI') {
-      return 'यह room planetary story links, karmic themes और validation questions पर रहेगा.';
+      return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.6898b053ad");
     }
     if (school === 'NUMEROLOGY') {
-      return 'यह room name number, birth number, destiny number और personal timing पर रहेगा.';
+      return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.378129e024");
     }
     if (school === 'SIGNATURE') {
-      return 'यह room confirmed signature traits, self-expression patterns और safe reflection पर रहेगा.';
+      return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.ffdb93e54a");
     }
-    return 'यह room D1, varga support, dasha, gochar, remedies और holistic context पर रहेगा.';
+    return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.6323365e9b");
   }
 
   if (language === 'gu') {
     if (school === 'KP') {
-      return 'આ room cusps, star lords, sub lords, significators અને ruling planets પર રહેશે.';
+      return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.e5c580817f");
     }
     if (school === 'NADI') {
-      return 'આ room planetary story links, karmic themes અને validation questions પર રહેશે.';
+      return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.891b805cac");
     }
     if (school === 'NUMEROLOGY') {
-      return 'આ room name number, birth number, destiny number અને personal timing પર રહેશે.';
+      return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.bc8bf3e3fe");
     }
     if (school === 'SIGNATURE') {
-      return 'આ room confirmed signature traits, self-expression patterns અને safe reflection પર રહેશે.';
+      return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.bced7aa7d2");
     }
-    return 'આ room D1, varga support, dasha, gochar, remedies અને holistic context પર રહેશે.';
+    return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.b9b9ec2a66");
   }
 
   if (school === 'KP') {
@@ -4694,27 +4695,27 @@ function getRoomRecoveryCopy(
 
   if (language === 'hi') {
     return {
-      actionsLabel: 'कुंडली रिकवरी कार्य',
-      body: `${roomLabel} बिना चुनी हुई कुंडली के गहरा जवाब शुरू नहीं करेगा. पहले सही चार्ट चुनिए या यहीं बनाइए.`,
-      createKundli: 'नई कुंडली बनाएं',
-      eyebrow: 'चुनी हुई कुंडली चाहिए',
+      actionsLabel: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.f6013f4342"),
+      body: formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.a4a1077c8c", [roomLabel]),
+      createKundli: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.36dd98b386"),
+      eyebrow: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.a60f4cb5e4"),
       footnote:
-        'अगर birth details ready हैं, तो उन्हें सीधे इस chat में भेज दीजिए. मैं chart यहीं बना दूंगी.',
-      openLibrary: 'सेव कुंडली चुनें',
-      title: `${roomLabel} को चार्ट दें`,
+        getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.5e87d520a6"),
+      openLibrary: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.5e6f70db49"),
+      title: formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.4525b1b50b", [roomLabel]),
     };
   }
 
   if (language === 'gu') {
     return {
-      actionsLabel: 'કુંડળી પુનઃપ્રાપ્તિ કાર્ય',
-      body: `${roomLabel} પસંદ કરેલી કુંડળી વગર ઊંડી reading શરૂ નહીં કરે. પહેલા સાચો chart પસંદ કરો અથવા અહીં જ બનાવો.`,
-      createKundli: 'નવી કુંડળી બનાવો',
-      eyebrow: 'પસંદ કરેલી કુંડળી જોઈએ',
+      actionsLabel: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.82dddd860f"),
+      body: formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.f9ac7c373e", [roomLabel]),
+      createKundli: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.46e90ece90"),
+      eyebrow: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.4bdf642357"),
       footnote:
-        'જો birth details તૈયાર હોય, તો તેને સીધા આ chat માં મોકલો. હું chart અહીં જ બનાવી દઈશ.',
-      openLibrary: 'સાચવેલી કુંડળી પસંદ કરો',
-      title: `${roomLabel} ને chart આપો`,
+        getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.7f46fb8168"),
+      openLibrary: getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.c34be9a780"),
+      title: formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.97bc447a05", [roomLabel]),
     };
   }
 
@@ -4760,34 +4761,34 @@ function buildContextMessage({
 }): string {
   if (language === 'hi') {
     if (birthTimeDetective) {
-      return 'Birth Time Detective summary यहाँ रखी है. Confidence और safe timing limits समझने के लिए पूछिए.';
+      return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.4352c37f50");
     }
     if (remedyTitle) {
-      return `Remedy Coach practice यहाँ है: ${remedyTitle}. Chart evidence से समझाने के लिए पूछिए.`;
+      return formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.e36bde5a81", [remedyTitle]);
     }
     if (decisionQuestion) {
-      return `Decision Oracle memo यहाँ है: ${decisionArea} / ${decisionState}. Chart evidence से समझाने के लिए पूछिए.`;
+      return formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.0d30b2b6d4", [decisionArea, decisionState]);
     }
     if (briefingDate) {
-      return `${briefingDate} की daily briefing यहाँ है. Chart evidence से समझाने के लिए पूछिए.`;
+      return formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.b4d517c31b", [briefingDate]);
     }
-    return 'Timeline event यहाँ है. Chart evidence से समझाने के लिए पूछिए.';
+    return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.f92b63c069");
   }
 
   if (language === 'gu') {
     if (birthTimeDetective) {
-      return 'Birth Time Detective summary અહીં છે. Confidence અને safe timing limits સમજવા પૂછો.';
+      return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.ba59597dd0");
     }
     if (remedyTitle) {
-      return `Remedy Coach practice અહીં છે: ${remedyTitle}. Chart evidence થી સમજાવવા પૂછો.`;
+      return formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.fb7ff71acc", [remedyTitle]);
     }
     if (decisionQuestion) {
-      return `Decision Oracle memo અહીં છે: ${decisionArea} / ${decisionState}. Chart evidence થી સમજાવવા પૂછો.`;
+      return formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.78ba85bbc5", [decisionArea, decisionState]);
     }
     if (briefingDate) {
-      return `${briefingDate} ની daily briefing અહીં છે. Chart evidence થી સમજાવવા પૂછો.`;
+      return formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.071b812126", [briefingDate]);
     }
-    return 'Timeline event અહીં છે. Chart evidence થી સમજાવવા પૂછો.';
+    return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.bbe8e5468f");
   }
 
   if (birthTimeDetective) {
@@ -5297,7 +5298,7 @@ function sanitizeChatCopy(text: string): string {
     .replace(/Dashboard Header context loaded hai\./g, 'I picked this up from your dashboard.')
     .replace(/Dashboard Header context loaded\./g, 'I picked this up from your dashboard.')
     .replace(/Focus: Help me from my active Kundli\./g, 'We are looking at: Help me from my selected Kundli.')
-    .replace(oldHindiContextLine, 'मैं आपकी selected कुंडली से यहीं जवाब दूंगी. आप Ask दबाइए या अपना follow-up लिखिए.')
+    .replace(oldHindiContextLine, getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.616b4154a4"))
     .replace(/I will answer from this context and your active Kundli\. Press Ask or type your follow-up\./g, 'I will use your selected Kundli here. Press Ask or type your follow-up.')
     .replace(/\bactive Kundli\b/g, 'selected Kundli')
     .replace(/\bactive chart\b/g, 'selected chart')

@@ -1,5 +1,6 @@
 'use client';
 
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { formatPassCode, normalizePassCode } from '@pridicta/access';
@@ -140,9 +141,9 @@ export function WebRedeemPassForm(): React.JSX.Element {
             {user?.email ? (
               <Link className="button secondary" href="/dashboard/settings">
                 {language === 'hi'
-                  ? 'खाता खोलें'
+                  ? getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.de781e7886")
                   : language === 'gu'
-                    ? 'ખાતું ખોલો'
+                    ? getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.b98a22f015")
                     : 'Open account'}
               </Link>
             ) : (
@@ -304,97 +305,97 @@ const REDEEM_PASS_FORM_COPY: Record<
   hi: {
     account: {
       body:
-        'प्रेडिक्टा आपके साइन-इन किए गए ईमेल को पास से अपने आप मिलाती है. इस पेज पर आपको ईमेल अलग से लिखने की जरूरत नहीं है.',
-      eyebrow: 'खाता जांच',
-      notSignedIn: 'अभी साइन इन नहीं है',
-      signInToContinue: 'आगे बढ़ने के लिए साइन इन करें',
-      signedInAs: email => `${email} के रूप में साइन इन है`,
+        getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.00d3752d37"),
+      eyebrow: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.97c4c6db87"),
+      notSignedIn: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.ee7b30a0c4"),
+      signInToContinue: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.486fcc5015"),
+      signedInAs: email => formatNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.9bc3624836", [email]),
     },
-    busyLabel: 'जांच रहे हैं...',
-    fieldLabel: 'पास कोड',
+    busyLabel: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.0e1a31a572"),
+    fieldLabel: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.d7bfe6491c"),
     guidance: {
       body:
-        'निजी पास एक स्वीकृत ईमेल पते से जुड़ा होता है. अगर पास वाला ईमेल याद है तो उसी से साइन इन करें. यदि याद नहीं है, तो प्रेडिक्टा व्यवस्थापक या पास बनाने वाले व्यक्ति से संपर्क करें.',
-      eyebrow: 'पास उपयोग कैसे करें',
+        getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.f466855c66"),
+      eyebrow: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.aa1bfedc7c"),
       steps: [
-        'Google साइन-इन करें या पास वाले ईमेल से खाता बनाएं.',
-        'निजी पास कोड उसी तरह लिखें जैसा साझा किया गया था.',
-        'यदि ईमेल मेल नहीं खाता, तो प्रेडिक्टा पास सक्रिय नहीं करेगी.',
+        getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.b57e0ad8f0"),
+        getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.4ed7bd7751"),
+        getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.9d090801c7"),
       ],
-      title: 'पहले पास वाले ईमेल से साइन इन करें.',
+      title: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.0ac266cfd4"),
     },
-    initialStatus: 'पहले पास वाले ईमेल से साइन इन करें, फिर कोड लिखें.',
+    initialStatus: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.89f665c471"),
     nextSteps: {
-      askPredicta: 'प्रेडिक्टा से पूछें',
-      askPrompt: 'मेरी कुंडली के साथ शुरुआत करने में मदद करें.',
+      askPredicta: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.c6b9045108"),
+      askPrompt: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.1e652917d8"),
       body:
-        'आपकी निजी झलक सक्रिय है. सबसे तेज रास्ता है: कुंडली बनाएं, प्रेडिक्टा से एक असली सवाल पूछें, फिर रिपोर्ट झलक देखें.',
-      createKundli: 'कुंडली बनाएं',
-      eyebrow: 'पास सक्रिय',
-      giveFeedback: 'सुझाव भेजें',
-      previewReport: 'रिपोर्ट झलक देखें',
-      title: 'इन तीन कदमों से शुरू करें.',
+        getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.73431e9bf1"),
+      createKundli: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.7cacfebde9"),
+      eyebrow: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.3f475f88dc"),
+      giveFeedback: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.5d32b685d5"),
+      previewReport: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.30cd3ddf6a"),
+      title: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.3bfd1a297f"),
     },
     placeholderSeed: 'pridicta vip udaharan',
     status: {
-      activeFor: (label, email) => `${label} ${email} के लिए सक्रिय है.`,
-      couldNotRedeem: 'यह पास अभी सक्रिय नहीं हो सका.',
+      activeFor: (label, email) => formatNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.04611b4e00", [label, email]),
+      couldNotRedeem: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.b8a6d4b6f9"),
       emailNotAllowed:
-        'यह पास किसी दूसरे स्वीकृत ईमेल से जुड़ा है. कृपया साइन आउट करें और वही ईमेल उपयोग करें जो पास के साथ साझा किया गया था. यदि पक्का न हो, तो प्रेडिक्टा व्यवस्थापक या पास बनाने वाले व्यक्ति से संपर्क करें.',
-      enterCode: 'पहले गेस्ट पास कोड लिखें.',
+        getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.e37bcc99d9"),
+      enterCode: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.65ba8b2f4d"),
       signInFirst:
-        'पहले साइन इन करें. Google साइन-इन करें या पास वाले ईमेल से खाता बनाएं. यदि पक्का न हो, तो प्रेडिक्टा व्यवस्थापक या पास बनाने वाले व्यक्ति से संपर्क करें.',
+        getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.b2c1e0f6fb"),
       tryAgain:
-        'अभी यह निजी पास जांचा नहीं जा सका. कृपया थोड़ी देर बाद फिर प्रयास करें.',
+        getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.d5e8d1f538"),
     },
-    submitLabel: 'पास उपयोग करें',
+    submitLabel: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.14a25015c5"),
   },
   gu: {
     account: {
       body:
-        'પ્રેડિક્ટા તમારા સાઇન-ઇન કરેલા ઇમેઇલને પાસ સાથે આપમેળે મિલાવે છે. આ પેજ પર ઇમેઇલ અલગથી લખવાની જરૂર નથી.',
-      eyebrow: 'ખાતા તપાસ',
-      notSignedIn: 'હજુ સાઇન ઇન નથી',
-      signInToContinue: 'આગળ વધવા સાઇન ઇન કરો',
-      signedInAs: email => `${email} તરીકે સાઇન ઇન છે`,
+        getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.83665b12ac"),
+      eyebrow: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.535308edba"),
+      notSignedIn: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.57259beda0"),
+      signInToContinue: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.6ba83e3216"),
+      signedInAs: email => formatNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.16ad325f26", [email]),
     },
-    busyLabel: 'ચકાસી રહ્યા છીએ...',
-    fieldLabel: 'પાસ કોડ',
+    busyLabel: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.f3051d15a3"),
+    fieldLabel: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.851c44c016"),
     guidance: {
       body:
-        'ખાનગી પાસ એક મંજૂર ઇમેઇલ સરનામા સાથે જોડાયેલો હોય છે. પાસવાળું ઇમેઇલ યાદ હોય તો એ જથી સાઇન ઇન કરો. યાદ ન હોય તો પ્રેડિક્ટા સંચાલક અથવા પાસ બનાવનાર વ્યક્તિનો સંપર્ક કરો.',
-      eyebrow: 'પાસ કેવી રીતે વાપરવો',
+        getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.48dfac935f"),
+      eyebrow: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.5ebe3b56d3"),
       steps: [
-        'Google સાઇન-ઇન કરો અથવા પાસવાળા ઇમેઇલથી ખાતું બનાવો.',
-        'ખાનગી પાસ કોડ જેમ શેર થયો હતો તેમ જ લખો.',
-        'ઇમેઇલ મેળ ન ખાતું હોય તો પ્રેડિક્ટા પાસ રીડીમ નહીં કરે.',
+        getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.cbe4e32ec8"),
+        getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.e101ba4ae6"),
+        getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.bc50820ebf"),
       ],
-      title: 'પહેલાં પાસવાળા ઇમેઇલથી સાઇન ઇન કરો.',
+      title: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.87af632065"),
     },
-    initialStatus: 'પહેલાં પાસવાળા ઇમેઇલથી સાઇન ઇન કરો, પછી કોડ લખો.',
+    initialStatus: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.e35eefead4"),
     nextSteps: {
-      askPredicta: 'પ્રેડિક્ટાને પૂછો',
-      askPrompt: 'મારી કુંડળી સાથે શરૂઆત કરવામાં મદદ કરો.',
+      askPredicta: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.5b9053b229"),
+      askPrompt: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.5b33e68a45"),
       body:
-        'તમારી ખાનગી ઝલક સક્રિય છે. સૌથી ઝડપનો રસ્તો છે: કુંડળી બનાવો, પ્રેડિક્ટાને એક સાચો પ્રશ્ન પૂછો, પછી રિપોર્ટ ઝલક જુઓ.',
-      createKundli: 'કુંડળી બનાવો',
-      eyebrow: 'પાસ સક્રિય',
-      giveFeedback: 'સૂચન મોકલો',
-      previewReport: 'રિપોર્ટ ઝલક જુઓ',
-      title: 'આ ત્રણ પગલાંથી શરૂઆત કરો.',
+        getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.362c2072d6"),
+      createKundli: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.c0e4dc5abd"),
+      eyebrow: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.4af50473c1"),
+      giveFeedback: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.18feda7507"),
+      previewReport: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.3227033f83"),
+      title: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.1c312c341f"),
     },
     placeholderSeed: 'pridicta vip udaharan',
     status: {
-      activeFor: (label, email) => `${label} ${email} માટે સક્રિય છે.`,
-      couldNotRedeem: 'આ પાસ અત્યારે રીડીમ થઈ શક્યો નથી.',
+      activeFor: (label, email) => formatNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.35ee31ee38", [label, email]),
+      couldNotRedeem: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.dd365bf982"),
       emailNotAllowed:
-        'આ પાસ બીજા મંજૂર ઇમેઇલ સાથે જોડાયેલો છે. કૃપા કરીને સાઇન આઉટ કરો અને પાસ સાથે શેર કરાયેલું એ જ ઇમેઇલ વાપરો. ખાતરી ન હોય તો પ્રેડિક્ટા સંચાલક અથવા પાસ બનાવનાર વ્યક્તિનો સંપર્ક કરો.',
-      enterCode: 'પહેલાં ગેસ્ટ પાસ કોડ લખો.',
+        getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.17b5ea407c"),
+      enterCode: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.cc2f86688d"),
       signInFirst:
-        'પહેલાં સાઇન ઇન કરો. Google સાઇન-ઇન કરો અથવા પાસવાળા ઇમેઇલથી ખાતું બનાવો. ખાતરી ન હોય તો પ્રેડિક્ટા સંચાલક અથવા પાસ બનાવનાર વ્યક્તિનો સંપર્ક કરો.',
+        getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.b78e35b2c8"),
       tryAgain:
-        'અત્યારે આ ખાનગી પાસ ચકાસી શકાયો નથી. કૃપા કરીને થોડા સમય પછી ફરી પ્રયાસ કરો.',
+        getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.878fa65b8d"),
     },
-    submitLabel: 'પાસ રીડીમ કરો',
+    submitLabel: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.f1ef3ce5ab"),
   },
 };

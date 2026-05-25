@@ -1,3 +1,4 @@
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import type {
   BirthDetails,
   NumerologyCycleInsight,
@@ -678,11 +679,11 @@ export function buildLifeThemeSentence({
   nameNumber: NumerologyNumberInsight;
 }): string {
   if (language === 'hi') {
-    return `आपका अंक पैटर्न ${nameNumber.keywords[0] ?? 'लय'} को ${destinyNumber.keywords[0] ?? 'दिशा'} में बदलने और ${birthNumber.keywords[0] ?? 'स्वभाव'} को संतुलित रखने के लिए कहता है.`;
+    return formatNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.a7384082fe", [nameNumber.keywords[0] ?? getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.7751c27b2e"), destinyNumber.keywords[0] ?? getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.a61eb801b1"), birthNumber.keywords[0] ?? getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.f1e36daa89")]);
   }
 
   if (language === 'gu') {
-    return `તમારો અંક પેટર્ન ${nameNumber.keywords[0] ?? 'લય'} ને ${destinyNumber.keywords[0] ?? 'દિશા'} માં ફેરવવા અને ${birthNumber.keywords[0] ?? 'સ્વભાવ'} ને સંતુલિત રાખવા કહે છે.`;
+    return formatNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.7e9de291ed", [nameNumber.keywords[0] ?? getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.efed2f999d"), destinyNumber.keywords[0] ?? getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.bc42b4cf4a"), birthNumber.keywords[0] ?? getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.3650639f1a")]);
   }
 
   return `Your number pattern asks you to turn ${nameNumber.keywords[0] ?? 'inner rhythm'} into ${destinyNumber.keywords[0] ?? 'life direction'} while keeping ${birthNumber.keywords[0] ?? 'instinct'} steady.`;
@@ -778,19 +779,19 @@ function buildGuidance({
 }): string {
   if (language === 'hi') {
     return [
-      `नाम अंक ${nameNumber.root} बताता है कि नाम दुनिया में कैसी छाप भेजता है.`,
-      `जन्म अंक ${birthNumber.root} सहज स्वभाव दिखाता है.`,
-      `भाग्य अंक ${destinyNumber.root} लंबी जीवन-दिशा दिखाता है.`,
-      `निजी वर्ष ${personalYear.root}, महीना ${personalMonth.root} और दिन ${personalDay.root} वर्तमान समय की लय दिखाते हैं.`,
+      formatNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.a236786f29", [nameNumber.root]),
+      formatNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.8a6a3db811", [birthNumber.root]),
+      formatNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.057fbfede3", [destinyNumber.root]),
+      formatNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.9b0e36a27e", [personalYear.root, personalMonth.root, personalDay.root]),
     ].join(' ');
   }
 
   if (language === 'gu') {
     return [
-      `નામ અંક ${nameNumber.root} બતાવે છે કે નામ દુનિયામાં કેવી છાપ મૂકે છે.`,
-      `જન્મ અંક ${birthNumber.root} સહજ સ્વભાવ બતાવે છે.`,
-      `ભાગ્ય અંક ${destinyNumber.root} લાંબી જીવન-દિશા બતાવે છે.`,
-      `વ્યક્તિગત વર્ષ ${personalYear.root}, મહિનો ${personalMonth.root} અને દિવસ ${personalDay.root} વર્તમાન સમયની લય બતાવે છે.`,
+      formatNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.b244c873cb", [nameNumber.root]),
+      formatNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.fd1505088e", [birthNumber.root]),
+      formatNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.208ce845fe", [destinyNumber.root]),
+      formatNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.77ddcc8299", [personalYear.root, personalMonth.root, personalDay.root]),
     ].join(' ');
   }
 
@@ -927,9 +928,9 @@ function buildSupportiveToolkit({
   return {
     affirmation:
       language === 'hi'
-        ? 'मैं अपनी संख्या-लय को व्यावहारिक, शांत और जागरूक चुनावों में बदलता/बदलती हूं.'
+        ? getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.b4a368faee")
         : language === 'gu'
-          ? 'હું મારી અંક-લયને વ્યવહારુ, શાંત અને જાગૃત પસંદગીઓમાં ફેરવું છું.'
+          ? getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.9959867eea")
           : 'I turn my number rhythm into practical, calm, and conscious choices.',
     colors: uniqueList([
       ...(colorMap[nameNumber.root] ?? []),
@@ -1045,16 +1046,16 @@ function buildNumberInsight(
       keywords: [],
       label:
         language === 'hi'
-          ? 'प्रतीक्षा'
+          ? getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.44f60df260")
           : language === 'gu'
-            ? 'બાકી'
+            ? getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.577270f404")
             : 'Pending',
       root,
       simpleMeaning:
         language === 'hi'
-          ? 'नाम और जन्म तिथि की प्रतीक्षा'
+          ? getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.f5522d020e")
           : language === 'gu'
-            ? 'નામ અને જન્મ તારીખની રાહમાં'
+            ? getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.28f77b17e9")
             : 'waiting for name and birth date',
     };
   }
@@ -1144,11 +1145,11 @@ function buildSummary({
   personalDay: NumerologyCycleInsight;
 }): string {
   if (language === 'hi') {
-    return `${name} में नाम अंक ${nameNumber.root}, जन्म अंक ${birthNumber.root} और भाग्य अंक ${destinyNumber.root} की संयुक्त लय है. आज निजी दिन ${personalDay.root} की दिशा सक्रिय है.`;
+    return formatNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.e5bd892dc3", [name, nameNumber.root, birthNumber.root, destinyNumber.root, personalDay.root]);
   }
 
   if (language === 'gu') {
-    return `${name} માં નામ અંક ${nameNumber.root}, જન્મ અંક ${birthNumber.root} અને ભાગ્ય અંક ${destinyNumber.root} ની સંયુક્ત લય છે. આજે વ્યક્તિગત દિવસ ${personalDay.root} ની દિશા સક્રિય છે.`;
+    return formatNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.e0f4940ad9", [name, nameNumber.root, birthNumber.root, destinyNumber.root, personalDay.root]);
   }
 
   return `${name} carries name number ${nameNumber.root}, birth number ${birthNumber.root}, and destiny number ${destinyNumber.root}. Today sits in a personal day ${personalDay.root} rhythm.`;
@@ -1175,19 +1176,19 @@ function buildEvidence({
 }): string[] {
   if (language === 'hi') {
     return [
-      `नाम अंक ${nameNumber.root} "${normalizedName}" पर ${method.toLowerCase()} अक्षर मान लगाकर निकाला गया है.`,
-      `जन्म अंक ${birthNumber.root} जन्म दिन ${birthDate} से निकाला गया है.`,
-      `भाग्य अंक ${destinyNumber.root} पूरी जन्म तिथि ${birthDate} से निकाला गया है.`,
-      `निजी वर्ष, महीना और दिन ${targetDate} के लिए निकाले गए हैं.`,
+      formatNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.a6a403c3ee", [nameNumber.root, normalizedName, method.toLowerCase()]),
+      formatNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.df18ec1801", [birthNumber.root, birthDate]),
+      formatNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.b3b125c701", [destinyNumber.root, birthDate]),
+      formatNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.871dbd082e", [targetDate]),
     ];
   }
 
   if (language === 'gu') {
     return [
-      `નામ અંક ${nameNumber.root} "${normalizedName}" પર ${method.toLowerCase()} અક્ષર મૂલ્યો લગાવીને કાઢવામાં આવ્યો છે.`,
-      `જન્મ અંક ${birthNumber.root} જન્મ દિવસ ${birthDate} પરથી કાઢવામાં આવ્યો છે.`,
-      `ભાગ્ય અંક ${destinyNumber.root} સંપૂર્ણ જન્મ તારીખ ${birthDate} પરથી કાઢવામાં આવ્યો છે.`,
-      `વ્યક્તિગત વર્ષ, મહિનો અને દિવસ ${targetDate} માટે કાઢવામાં આવ્યા છે.`,
+      formatNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.6d4503347a", [nameNumber.root, normalizedName, method.toLowerCase()]),
+      formatNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.aed390a3fe", [birthNumber.root, birthDate]),
+      formatNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ff4bcbbd45", [destinyNumber.root, birthDate]),
+      formatNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ecc9794af7", [targetDate]),
     ];
   }
 
@@ -1202,17 +1203,17 @@ function buildEvidence({
 function buildLimitations(language: SupportedLanguage): string[] {
   if (language === 'hi') {
     return [
-      'अंक ज्योतिष मार्गदर्शन की परत है. यह चिंतन में मदद करे, व्यावहारिक निर्णय की जगह न ले.',
-      'नाम की वर्तनी मायने रखती है. कानूनी नाम, रोज़ का नाम और आध्यात्मिक नाम अलग नाम अंक दे सकते हैं.',
-      'पूर्ण प्रेडिक्टा संयुक्त सार के लिए अंक ज्योतिष को कुंडली, दशा, गोचर और उपाय के साथ अलग परत की तरह पढ़ना चाहिए.',
+      getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.63d886f292"),
+      getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.8243b94e1f"),
+      getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.7ad1335325"),
     ];
   }
 
   if (language === 'gu') {
     return [
-      'અંક જ્યોતિષ માર્ગદર્શનની એક પરત છે. તે વિચારમાં મદદ કરે, પરંતુ વ્યાવહારિક નિર્ણયની જગ્યા લેતી નથી.',
-      'નામની જોડણી મહત્વની છે. કાનૂની નામ, રોજિંદું નામ અને આધ્યાત્મિક નામ અલગ નામ અંક આપી શકે છે.',
-      'પૂર્ણ પ્રેડિક્ટા સંયુક્ત સાર માટે અંક જ્યોતિષને કુંડળી, દશા, ગોચર અને ઉપાયો સાથે અલગ પરત તરીકે વાંચવું જોઈએ.',
+      getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.b5e3345f3f"),
+      getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.d8afb0a229"),
+      getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.1a3d692bc2"),
     ];
   }
 
@@ -1225,11 +1226,11 @@ function buildLimitations(language: SupportedLanguage): string[] {
 
 function getPendingEvidence(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'अंक प्रोफाइल तैयार करने के लिए नाम और जन्म तिथि जोड़ें.';
+    return getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.cc534b5de1");
   }
 
   if (language === 'gu') {
-    return 'અંક પ્રોફાઇલ તૈયાર કરવા માટે નામ અને જન્મ તારીખ ઉમેરો.';
+    return getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.6b199c662b");
   }
 
   return 'Add name and birth date to prepare a numerology profile.';
@@ -1237,11 +1238,11 @@ function getPendingEvidence(language: SupportedLanguage): string {
 
 function getPendingGuidance(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'नाम, जन्म अंक, भाग्य अंक और निजी समय निकालने के लिए नाम और जन्म तिथि जोड़ें.';
+    return getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.53249a73ab");
   }
 
   if (language === 'gu') {
-    return 'નામ અંક, જન્મ અંક, ભાગ્ય અંક અને વ્યક્તિગત સમય કાઢવા માટે નામ અને જન્મ તારીખ ઉમેરો.';
+    return getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.15e9e779ab");
   }
 
   return 'Add name and birth date to calculate name, birth, destiny, and personal timing numbers.';
@@ -1249,11 +1250,11 @@ function getPendingGuidance(language: SupportedLanguage): string {
 
 function getPendingLimitation(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'अंक ज्योतिष के लिए नाम और जन्म तिथि चाहिए.';
+    return getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.6d54419174");
   }
 
   if (language === 'gu') {
-    return 'અંક જ્યોતિષ માટે નામ અને જન્મ તારીખ જોઈએ.';
+    return getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ccb026fc16");
   }
 
   return 'Numerology needs a name and birth date.';
@@ -1261,11 +1262,11 @@ function getPendingLimitation(language: SupportedLanguage): string {
 
 function getPendingSummary(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'अंक प्रोफाइल नाम और जन्म तिथि की प्रतीक्षा में है.';
+    return getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.34b4b01e64");
   }
 
   if (language === 'gu') {
-    return 'અંક પ્રોફાઇલ નામ અને જન્મ તારીખની રાહમાં છે.';
+    return getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.f9444262a4");
   }
 
   return 'Numerology profile is waiting for name and birth date.';
@@ -1301,121 +1302,121 @@ function getNumberMeaning(
 }
 
 const HINDI_NUMBER_LABELS: Record<number, string> = {
-  1: 'नेता',
-  2: 'समन्वयक',
-  3: 'रचनाकार',
-  4: 'निर्माता',
-  5: 'अन्वेषक',
-  6: 'पालनकर्ता',
-  7: 'खोजी',
-  8: 'रणनीतिकार',
-  9: 'लोकसेवी',
+  1: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.9e7a9842a2"),
+  2: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.4f3e3ad92c"),
+  3: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.5d8223c2fb"),
+  4: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.fd3d395466"),
+  5: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ae9196edc0"),
+  6: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.3c3bc883da"),
+  7: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ba1388c56c"),
+  8: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.d09eeb3568"),
+  9: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.bf742455f7"),
 };
 
 const HINDI_NUMBER_MEANINGS: Record<number, string> = {
-  1: 'स्वतंत्रता, आत्म-निर्देशन, आत्मविश्वास और शुरुआत की शक्ति',
-  2: 'सहयोग, संवेदनशीलता, साझेदारी और भावनात्मक जागरूकता',
-  3: 'संचार, रचनात्मकता, आनंद और खुली आत्म-अभिव्यक्ति',
-  4: 'व्यवस्था, व्यावहारिक अनुशासन, प्रणाली और स्थिर नींव',
-  5: 'स्वतंत्रता, यात्रा, अनुकूलन, संवाद और परिवर्तन',
-  6: 'परिवार, सेवा, सौंदर्य, जिम्मेदारी और भावनात्मक मरम्मत',
-  7: 'विश्लेषण, आध्यात्मिक खोज, निजता और गहरी समझ',
-  8: 'शक्ति, धन, प्रबंधन, जिम्मेदारी और कर्मफल',
-  9: 'पूर्णता, करुणा, बुद्धि, सेवा और व्यापक दृष्टि',
+  1: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.64a249c30f"),
+  2: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.7577a9e1aa"),
+  3: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.438bf77e57"),
+  4: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.50d30ded87"),
+  5: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.3e1e69df2f"),
+  6: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.eba316709d"),
+  7: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.59f40ff40e"),
+  8: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.d6990381dd"),
+  9: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.6d3552c1b3"),
 };
 
 const HINDI_NUMBER_KEYWORDS: Record<number, string[]> = {
-  1: ['नेतृत्व', 'पहल', 'पहचान'],
-  2: ['सामंजस्य', 'सहयोग', 'भावना'],
-  3: ['अभिव्यक्ति', 'रचनात्मकता', 'आनंद'],
-  4: ['संरचना', 'अनुशासन', 'नींव'],
-  5: ['स्वतंत्रता', 'परिवर्तन', 'गति'],
-  6: ['देखभाल', 'परिवार', 'सौंदर्य'],
-  7: ['अनुसंधान', 'गहराई', 'आध्यात्मिकता'],
-  8: ['शक्ति', 'धन', 'कर्म'],
-  9: ['पूर्णता', 'करुणा', 'बुद्धि'],
+  1: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ebd28e6ef6"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.680aa6745d"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.93ccc33645")],
+  2: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.c026fe845c"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.f0cba40bb5"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.956bf5affd")],
+  3: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.25abcbd3aa"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.b269ed25b0"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.782985cb68")],
+  4: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.23a1d4589f"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.b91619dc76"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ca6d5b27f1")],
+  5: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.64428d178f"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.1fff57011f"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.9a4e8b4162")],
+  6: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.0b7fdcfc02"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.e54f837797"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.99cedbca78")],
+  7: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ee1e80d776"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.71d2beb2cf"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.b2637a1b95")],
+  8: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ed8fc47126"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.4a727823f0"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.a87de9316a")],
+  9: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.b2a5b5b441"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.18e414b636"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.e084867897")],
 };
 
 const HINDI_NUMBER_STRENGTHS: Record<number, string[]> = {
-  1: ['स्पष्ट नेतृत्व', 'नई शुरुआत', 'जिम्मेदारी लेना'],
-  2: ['मध्यस्थता', 'विश्वास बनाना', 'भावनात्मक स्वर समझना'],
-  3: ['अच्छा बोलना', 'रचना करना', 'माहौल हल्का करना'],
-  4: ['योजना बनाना', 'काम पूरा करना', 'विश्वसनीय दिनचर्या बनाना'],
-  5: ['तेजी से ढलना', 'नेटवर्क बनाना', 'विविध अनुभव से सीखना'],
-  6: ['गहराई से देखभाल', 'स्थान बेहतर बनाना', 'परिवार की रक्षा करना'],
-  7: ['शोध करना', 'पैटर्न पकड़ना', 'गहराई से काम करना'],
-  8: ['संसाधन व्यवस्थित करना', 'दबाव संभालना', 'प्रभाव बनाना'],
-  9: ['उदार सेवा', 'बड़ी तस्वीर देखना', 'समझदारी से क्षमा करना'],
+  1: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.71dc9fba75"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.eb918b9f69"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.edaab0320e")],
+  2: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.afea731585"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.a5bc63d5cf"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ff4b7a1be6")],
+  3: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.95745e7121"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.0d762c7017"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.11d5730374")],
+  4: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.86fe8c30f2"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.6e8368f2fe"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.7a2da3fad5")],
+  5: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.17f3863a04"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.74a9b518ab"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.9cebdf98dd")],
+  6: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.3b8671a214"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.cf68768e91"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.11baafd24c")],
+  7: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.507a6d9ae8"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.a1e1e33447"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.2d3007c177")],
+  8: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.40750d4152"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.14d7130764"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.82fd0f2350")],
+  9: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.eb7ee789d2"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.210d39f06d"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.cad49a5a62")],
 };
 
 const HINDI_NUMBER_CAUTIONS: Record<number, string[]> = {
-  1: ['अहं टकराव', 'अधीरता', 'सब कुछ अकेले करना'],
-  2: ['अतिसंवेदनशीलता', 'निर्भरता', 'निर्णय में हिचक'],
-  3: ['बिखरा ध्यान', 'बहुत बोलना', 'अधूरे विचार'],
-  4: ['कठोरता', 'अधिक काम', 'परिवर्तन का डर'],
-  5: ['बेचैनी', 'अनावश्यक जोखिम', 'अनुशासन में अस्थिरता'],
-  6: ['अधिक जिम्मेदारी', 'देखभाल के बहाने नियंत्रण', 'सबको खुश करने की प्रवृत्ति'],
-  7: ['अलगाव', 'अतिविश्लेषण', 'अविश्वास'],
-  8: ['नियंत्रण की समस्या', 'धन का दबाव', 'कठोरता'],
-  9: ['भावनात्मक अतिशयता', 'उद्धारक प्रवृत्ति', 'चक्र बंद करने में कठिनाई'],
+  1: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.683eacc879"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ac83cc9b12"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ca766e602c")],
+  2: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.e4f44ffaa7"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.b8855e6e5f"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.07265340e0")],
+  3: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.2da1250ea1"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.218ef40d6d"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.f7fa6ceb6a")],
+  4: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.a086330882"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.899e4d4302"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.e7c8a93015")],
+  5: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.dc3ec7858a"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.2e7b022b84"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.e1c4580a7d")],
+  6: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ed66b405be"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.14d8132f8e"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.e6a980e0a8")],
+  7: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.7f0cb4b89d"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.a0f8152119"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.bea67941e8")],
+  8: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.e43b3cdfc1"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.b9e5ad98da"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.a086330882")],
+  9: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.1631accfc1"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.4d7566ecd6"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.6d395b805b")],
 };
 
 const GUJARATI_NUMBER_LABELS: Record<number, string> = {
-  1: 'નેતા',
-  2: 'સમન્વયક',
-  3: 'રચનાકાર',
-  4: 'નિર્માતા',
-  5: 'અન્વેષક',
-  6: 'પોષક',
-  7: 'શોધક',
-  8: 'રણનીતિકાર',
-  9: 'લોકહિતકારી',
+  1: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.98545e19c1"),
+  2: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ac0bc5ef37"),
+  3: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.5f9f684371"),
+  4: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.4694f22d69"),
+  5: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ab770ed05e"),
+  6: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.f36f689718"),
+  7: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.d7f646ecae"),
+  8: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.429e1f518b"),
+  9: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.a629916ddc"),
 };
 
 const GUJARATI_NUMBER_MEANINGS: Record<number, string> = {
-  1: 'સ્વતંત્રતા, સ્વ-દિશા, આત્મવિશ્વાસ અને શરૂઆતની શક્તિ',
-  2: 'સહયોગ, સંવેદનશીલતા, ભાગીદારી અને ભાવનાત્મક જાગૃતિ',
-  3: 'અભિવ્યક્તિ, સર્જનાત્મકતા, આનંદ અને ખુલ્લી સ્વ-અભિવ્યક્તિ',
-  4: 'ક્રમ, વ્યવહારુ અનુશાસન, પ્રણાલી અને સ્થિર પાયો',
-  5: 'સ્વતંત્રતા, પ્રવાસ, અનુકૂલન, સંવાદ અને પરિવર્તન',
-  6: 'પરિવાર, સેવા, સૌંદર્ય, જવાબદારી અને લાગણીસભર સમારકામ',
-  7: 'વિશ્લેષણ, આધ્યાત્મિક શોધ, ગોપનીયતા અને ઊંડી સમજ',
-  8: 'શક્તિ, ધન, સંચાલન, જવાબદારી અને કર્મફળ',
-  9: 'પૂર્ણતા, કરુણા, જ્ઞાન, સેવા અને વ્યાપક દૃષ્ટિ',
+  1: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.8b3d282abc"),
+  2: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.37c9d923a3"),
+  3: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.f00b9f769c"),
+  4: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.4ea9ce6a0f"),
+  5: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.480d03e38f"),
+  6: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.aee26f9102"),
+  7: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.35db7b7980"),
+  8: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ca4bd7a525"),
+  9: getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.813cd0d607"),
 };
 
 const GUJARATI_NUMBER_KEYWORDS: Record<number, string[]> = {
-  1: ['નેતૃત્વ', 'પહેલ', 'ઓળખ'],
-  2: ['સામંજસ્ય', 'સહકાર', 'ભાવના'],
-  3: ['અભિવ્યક્તિ', 'સર્જનાત્મકતા', 'આનંદ'],
-  4: ['રચના', 'અનુશાસન', 'પાયો'],
-  5: ['સ્વતંત્રતા', 'પરિવર્તન', 'ગતિ'],
-  6: ['કાળજી', 'પરિવાર', 'સૌંદર્ય'],
-  7: ['શોધ', 'ઊંડાણ', 'આધ્યાત્મિકતા'],
-  8: ['શક્તિ', 'ધન', 'કર્મ'],
-  9: ['પૂર્ણતા', 'કરુણા', 'જ્ઞાન'],
+  1: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.fec62cfb47"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.95892eb1c5"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.89369a4cad")],
+  2: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.c05b580201"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.7cb39b9856"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.4186f190c0")],
+  3: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.e2668111b5"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.1d01b4e7fd"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.8de5fdc0ad")],
+  4: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.04e24fa8b2"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.6c3e02ce45"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.22392c6eb0")],
+  5: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.35a6d007a9"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.c3dce661bc"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.b673aaf416")],
+  6: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.a6d53b1f38"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.1a6e5f54df"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.07774c6e6f")],
+  7: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.83aa535e47"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.32594b0143"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.43589e1d94")],
+  8: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.a46b154e3d"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.a0cf33e8c0"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.9e5104ffee")],
+  9: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ae478aa10f"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.1f33ac1dae"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.b67556d464")],
 };
 
 const GUJARATI_NUMBER_STRENGTHS: Record<number, string[]> = {
-  1: ['સ્પષ્ટ નેતૃત્વ', 'નવી શરૂઆત', 'જવાબદારી લેવો'],
-  2: ['મધ્યસ્થતા', 'વિશ્વાસ બાંધવો', 'ભાવનાત્મક સ્વર વાંચવો'],
-  3: ['સારું બોલવું', 'સર્જન કરવું', 'માહોલ હળવો કરવો'],
-  4: ['યોજનાબદ્ધ કામ', 'કાર્ય પૂર્ણ કરવું', 'વિશ્વસનીય નિયમિતતા બાંધવી'],
-  5: ['ઝડપી અનુકૂલન', 'નેટવર્કિંગ', 'વૈવિધ્યમાંથી શીખવું'],
-  6: ['ઊંડે સુધી કાળજી', 'સ્થળ સુધારવું', 'પરિવારનું રક્ષણ'],
-  7: ['શોધખોળ', 'પેટર્ન ઓળખવું', 'ઊંડાણપૂર્વક કામ'],
-  8: ['સાધનો ગોઠવવા', 'દબાણ સંભાળવું', 'અધિકાર બાંધવો'],
-  9: ['ઉદાર સેવા', 'મોટી તસવીર જોવી', 'સમજદારીથી માફ કરવું'],
+  1: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.57c35ecb9b"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.762e7cb5f1"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.f72b63ba6c")],
+  2: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.1b4c6fe253"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.e76b1350fe"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.b9bfd9a2eb")],
+  3: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.9e1c2177ff"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.6bf4f789fc"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.9040cdffdf")],
+  4: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.d95633fbe0"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.db68f244fd"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.8eb75652dc")],
+  5: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ec3f1e4375"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.52ff9bc625"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.69b23200eb")],
+  6: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.a6c6577df6"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.efc540b88d"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.252dda4a53")],
+  7: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.4356349d55"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.a3314978b8"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.3f851fb6f8")],
+  8: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.863773d208"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.583d81cead"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.4ae69c6479")],
+  9: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.a9acc2baf5"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.38f9862cc9"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.b3c120dca9")],
 };
 
 const GUJARATI_NUMBER_CAUTIONS: Record<number, string[]> = {
-  1: ['અહં અથડામણ', 'અધીરાઈ', 'બધું એકલા કરવું'],
-  2: ['અતિસંવેદનશીલતા', 'આસરિતતા', 'નિર્ણયમાં હચકાટ'],
-  3: ['વિખરાયેલ ધ્યાન', 'વધારે બોલવું', 'અધૂરા વિચારો'],
-  4: ['કઠોરતા', 'વધારે કામ', 'પરિવર્તનનો ભય'],
-  5: ['બેચેની', 'જોખમ લેવાની આદત', 'અનુશાસનમાં અસ્થિરતા'],
-  6: ['વધારે જવાબદારી', 'કાળજીના નામે નિયંત્રણ', 'બધાને ખુશ કરવાની ટેવ'],
-  7: ['અલગાવ', 'અતિ-વિશ્લેષણ', 'અવિશ્વાસ'],
-  8: ['નિયંત્રણની સમસ્યા', 'ધનનું દબાણ', 'કઠોરતા'],
-  9: ['લાગણીના અતિરેક', 'ઉદ્ધારક વૃત્તિ', 'ચક્ર પૂર્ણ કરવામાં મુશ્કેલી'],
+  1: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.9fce1e5912"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ea9d6d8af9"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.a4f5e5d2ba")],
+  2: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.2d9edcaf3d"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.61a3dabfe8"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.44974e1aef")],
+  3: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.5d40543f38"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.fca7919814"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.cf076beb69")],
+  4: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ee1989b117"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.876c55a732"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.b8ad10fa2f")],
+  5: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ba541bcad8"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.2d75e46762"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.35f58892a1")],
+  6: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.4413380f84"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.f836a73bd0"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.7ff93e65cf")],
+  7: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.f0f21454b9"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.c09b886bd7"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.2978f431dd")],
+  8: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.2d6f4f1978"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.af0dd8c216"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.ee1989b117")],
+  9: [getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.7c0bd9211d"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.3b0b5e5e68"), getNativeCopy("native.packages.astrology.src.numerologyFoundationModel.ts.65051bc7ef")],
 };

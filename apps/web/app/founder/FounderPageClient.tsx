@@ -1,5 +1,6 @@
 'use client';
 
+import { getNativeCopy } from '@pridicta/config';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { SupportedLanguage } from '@pridicta/types';
@@ -102,118 +103,118 @@ const founderCopy: Record<
   },
   hi: {
     actions: {
-      dashboard: 'प्रेडिक्टा खोलें',
-      safety: 'सुरक्षा वादा पढ़ें',
-      start: 'प्रेडिक्टा से शुरू करें',
+      dashboard: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.0ebae40818"),
+      safety: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.b8f6668b7c"),
+      start: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.80a469aaf0"),
     },
     final:
-      'प्रेडिक्टा उन लोगों के लिए है जो आध्यात्मिक मार्गदर्शन को उपयोगी, सुरक्षित, प्रीमियम और सम्मानजनक महसूस करना चाहते हैं.',
+      getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.734085cf91"),
     hero: {
-      body: 'मैंने प्रेडिक्टा इसलिए बनाया कि वैदिक ज्योतिष सटीक, निजी, शांत और उपयोगी लगे.',
-      eyebrow: 'संस्थापक दृष्टि',
-      title: 'प्रेडिक्टा उन लोगों के लिए बन रहा है जो शोर के बिना स्पष्टता चाहते हैं.',
+      body: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.f754d1f03e"),
+      eyebrow: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.829157fb64"),
+      title: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.584d826205"),
     },
     letter: {
       body: [
-        'गहरी चार्ट बुद्धि भ्रमित, डराने वाली या सस्ती पैकेजिंग जैसी नहीं लगनी चाहिए. कुंडली निजी संदर्भ रखती है और विचारशील अनुभव की हकदार है.',
-        'लक्ष्य परंपरा को शांत आवाज, साफ संरचना और भरोसेमंद चार्ट खोज के साथ सम्मान देना है.',
-        'प्रेडिक्टा चार्ट-आधारित, सुरक्षा-सचेत, मोबाइल-अनुकूल और हर जवाब में सावधान है.',
+        getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.5775c74335"),
+        getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.33d2f51a2a"),
+        getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.681f1c40e0"),
       ],
-      eyebrow: 'प्रेडिक्टा क्यों मौजूद है',
+      eyebrow: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.8ce8973c3e"),
       title:
-        'ज्योतिष भरोसे लायक, जमीन से जुड़ा और उपयोग में सरल लगना चाहिए.',
+        getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.9c1d7f47d2"),
     },
     portrait:
-      'प्रेडिक्टा बुद्धिमान, सुंदर, निजी और मानवीय लगनी चाहिए. यही मानक हर जगह लागू है.',
+      getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.c55e6b6759"),
     principles: [
       {
-        copy: 'जन्म विवरण, सेव कुंडलियां और निजी मार्गदर्शन संयम, स्पष्टता और सम्मान के साथ संभलना चाहिए.',
-        title: 'स्वभाव से निजी',
+        copy: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.0b39d6ba7a"),
+        title: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.ce89af439f"),
       },
       {
-        copy: 'प्रेडिक्टा चार्ट पैटर्न शांत तरीके से समझाए. डर, पक्की गारंटी या निर्भरता न बेचे.',
-        title: 'बिना दबाव मार्गदर्शन',
+        copy: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.01dbe124dd"),
+        title: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.f6b0d2f181"),
       },
       {
-        copy: 'वैदिक प्रेडिक्टा, कृष्णमूर्ति पद्धति प्रेडिक्टा और नाड़ी प्रेडिक्टा विधि, उद्देश्य और सुरक्षा सीमाओं में साफ रहें.',
-        title: 'साफ ज्योतिष पद्धतियां',
+        copy: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.923f36c6fa"),
+        title: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.959bc1a7fd"),
       },
       {
-        copy: 'उत्पाद नए उपयोगकर्ता के लिए आसान रहे, और गंभीर ज्योतिष गहराई भीतर बनी रहे.',
-        title: 'बिना भ्रम गहराई',
+        copy: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.7820fc0752"),
+        title: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.2401d07279"),
       },
     ],
     principlesHeader: {
-      eyebrow: 'उत्पाद सिद्धांत',
-      title: 'एक गहरे निजी विषय के लिए शांत तकनीक.',
+      eyebrow: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.c48f0040b1"),
+      title: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.11fe97de27"),
     },
     vision: {
-      eyebrow: 'दृष्टि',
+      eyebrow: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.7807aec563"),
       points: [
-        'वैदिक परंपरा का सम्मान करते हुए आधुनिक तकनीक से उसे समझना आसान बनाना.',
-        'शोर भरे ज्योतिष ऐप्स का शांत विकल्प बनाना, प्रीमियम डिजाइन और साफ उपयोगकर्ता नियंत्रण के साथ.',
-        'प्रेडिक्टा ज्यादा लोगों तक पहुंचे उससे पहले सार्वजनिक सुरक्षा साफ और सुरक्षित रखना.',
-        'मोबाइल और वेब पर वही निजी, सावधान उत्पाद पहचान बनाए रखना.',
+        getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.8b1db6f66e"),
+        getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.6cc3927e9e"),
+        getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.343ecbe7b2"),
+        getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.87e5974b0d"),
       ],
-      title: 'मोबाइल और वेब पर भरोसेमंद ज्योतिष साथी.',
+      title: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.f9df5722c1"),
     },
   },
   gu: {
     actions: {
-      dashboard: 'પ્રેડિક્ટા ખોલો',
-      safety: 'સુરક્ષા વચન વાંચો',
-      start: 'પ્રેડિક્ટા થી શરૂ કરો',
+      dashboard: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.c3f0d6a611"),
+      safety: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.910f52e371"),
+      start: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.803ce5680f"),
     },
     final:
-      'પ્રેડિક્ટા એવા લોકો માટે છે જેમને આધ્યાત્મિક માર્ગદર્શન ઉપયોગી, સુરક્ષિત, પ્રીમિયમ અને સન્માનજનક લાગવું જોઈએ.',
+      getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.980abeecce"),
     hero: {
-      body: 'મેં પ્રેડિક્ટા એ માટે બનાવ્યું કે વૈદિક જ્યોતિષ ચોક્કસ, ખાનગી, શાંત અને ઉપયોગી લાગે.',
-      eyebrow: 'સ્થાપક દૃષ્ટિ',
-      title: 'પ્રેડિક્ટા એવા લોકો માટે બની રહ્યું છે જેમને અવાજ વગર સ્પષ્ટતા જોઈએ છે.',
+      body: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.6e7533514e"),
+      eyebrow: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.6f8fb18a5e"),
+      title: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.3d0ba446f8"),
     },
     letter: {
       body: [
-        'ઊંડી ચાર્ટ બુદ્ધિ ગૂંચવતી, ડરાવતી અથવા સસ્તી પેકેજિંગ જેવી ન લાગવી જોઈએ. કુંડળી ખાનગી સંદર્ભ ધરાવે છે અને વિચારશીલ અનુભવને પાત્ર છે.',
-        'લક્ષ્ય પરંપરાને શાંત અવાજ, સ્પષ્ટ રચના અને વિશ્વાસભર્યા ચાર્ટ અન્વેષણ સાથે સન્માન કરવાનો છે.',
-        'પ્રેડિક્ટા ચાર્ટ-આધારિત, સુરક્ષા-સચેત, મોબાઇલ-અનુકૂળ અને દરેક જવાબમાં કાળજીપૂર્વક છે.',
+        getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.d780f1bfd1"),
+        getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.6d76751ebb"),
+        getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.f643679fc2"),
       ],
-      eyebrow: 'પ્રેડિક્ટા કેમ છે',
+      eyebrow: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.c40fbdeb43"),
       title:
-        'જ્યોતિષ ભરોસાપાત્ર, જમીનથી જોડાયેલ અને ઉપયોગમાં સરળ લાગવું જોઈએ.',
+        getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.f691ec3887"),
     },
     portrait:
-      'પ્રેડિક્ટા બુદ્ધિશાળી, સુંદર, ખાનગી અને માનવીય લાગવી જોઈએ. આ ધોરણ દરેક જગ્યાએ લાગુ પડે છે.',
+      getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.2d71e3b4e7"),
     principles: [
       {
-        copy: 'જન્મ વિગતો, સેવ કુંડળીઓ અને ખાનગી માર્ગદર્શન સંયમ, સ્પષ્ટતા અને સન્માન સાથે સંભાળવા જોઈએ.',
-        title: 'સ્વભાવથી ખાનગી',
+        copy: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.8885c326a3"),
+        title: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.4a3c00299b"),
       },
       {
-        copy: 'પ્રેડિક્ટા ચાર્ટ પેટર્ન શાંત રીતે સમજાવે. ડર, પાક્કી ગેરંટી અથવા નિર્ભરતા ન વેચે.',
-        title: 'દબાણ વગર માર્ગદર્શન',
+        copy: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.b7220e3b24"),
+        title: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.8624e26772"),
       },
       {
-        copy: 'વૈદિક પ્રેડિક્ટા, કૃષ્ણમૂર્તિ પદ્ધતિ પ્રેડિક્ટા અને નાડી પ્રેડિક્ટા રીત, હેતુ અને સુરક્ષા મર્યાદામાં સ્પષ્ટ રહે.',
-        title: 'સ્પષ્ટ જ્યોતિષ પદ્ધતિઓ',
+        copy: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.8e87cee046"),
+        title: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.3017a41456"),
       },
       {
-        copy: 'ઉત્પાદન નવા ઉપયોગકર્તા માટે સરળ રહે, અને ગંભીર જ્યોતિષ ઊંડાઈ અંદર જળવાય.',
-        title: 'ગૂંચવણ વગર ઊંડાઈ',
+        copy: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.7f19e8dc4f"),
+        title: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.f38c1bdaba"),
       },
     ],
     principlesHeader: {
-      eyebrow: 'ઉત્પાદન સિદ્ધાંતો',
-      title: 'ઊંડા ખાનગી વિષય માટે શાંત તકનીક.',
+      eyebrow: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.df4313ab44"),
+      title: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.4f4e068c6a"),
     },
     vision: {
-      eyebrow: 'દૃષ્ટિ',
+      eyebrow: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.9f36b8a09b"),
       points: [
-        'વૈદિક પરંપરાનું સન્માન કરીને આધુનિક તકનીકથી સમજવું સરળ બનાવવું.',
-        'અવાજભર્યા જ્યોતિષ એપ્સનો શાંત વિકલ્પ બનાવવો, પ્રીમિયમ ડિઝાઇન અને સ્પષ્ટ ઉપયોગકર્તા નિયંત્રણ સાથે.',
-        'પ્રેડિક્ટા વધારે લોકો સુધી પહોંચે તે પહેલાં જાહેર સુરક્ષા સ્પષ્ટ અને સુરક્ષિત રાખવી.',
-        'મોબાઇલ અને વેબ પર એ જ ખાનગી, કાળજીપૂર્વક ઉત્પાદન ઓળખ જાળવવી.',
+        getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.c58f03d86f"),
+        getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.6a498c9854"),
+        getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.39711492c8"),
+        getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.7d054981b0"),
       ],
-      title: 'મોબાઇલ અને વેબ પર ભરોસાપાત્ર જ્યોતિષ સાથી.',
+      title: getNativeCopy("native.apps.web.app.founder.FounderPageClient.tsx.1f83fef4a3"),
     },
   },
 };

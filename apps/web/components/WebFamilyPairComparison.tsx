@@ -1,5 +1,6 @@
 'use client';
 
+import { getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { composePairComparison } from '@pridicta/astrology';
@@ -68,61 +69,61 @@ const COPY: Record<SupportedLanguage, PairComparisonCopy> = {
   },
   hi: {
     actions: {
-      addProfile: 'प्रोफाइल जोड़ें',
-      askPredicta: 'प्रेडिक्टा से पूछें',
-      included: 'तुलना में शामिल',
-      include: 'इस प्रोफाइल को चुनें',
-      openFamilyMap: 'परिवार कर्म नक्शा खोलें',
-      savedKundlis: 'सेव कुंडलियां',
-      useAsActive: 'सक्रिय बनाएं',
+      addProfile: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.8451479867"),
+      askPredicta: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.c6b9045108"),
+      included: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.69d9dd488e"),
+      include: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.2a63b3547a"),
+      openFamilyMap: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.17008848e9"),
+      savedKundlis: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.bc3580d452"),
+      useAsActive: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.86cbd95a3e"),
     },
     helper:
-      'जोड़ेदार तुलना केवल विवाह के लिए नहीं है. इसे साथी, माता-पिता, भाई-बहन, मित्र, सहकर्मी या ससुराल संबंधों के लिए भी इस्तेमाल करें.',
-    karmaLabel: 'कर्म',
-    pendingComparisonNote: 'प्रेडिक्टा केवल वास्तविक सेव चार्टों की तुलना करेगी.',
-    premiumLabel: 'प्रीमियम जीवन-क्षेत्र गहराई',
+      getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.1807dda592"),
+    karmaLabel: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.a87de9316a"),
+    pendingComparisonNote: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.f6eb5415aa"),
+    premiumLabel: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.9d9656d93c"),
     premiumLocked:
-      'प्रीमियम गहराई इसे भावनात्मक लय, कर्तव्य टकराव, धन शैली, उपचार क्षमता और समय-सचेत मार्गदर्शन तक बढ़ाती है.',
+      getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.4f12a30900"),
     readyBody:
-      'प्रेडिक्टा ठीक दो सेव प्रोफाइलों की तुलना करती है और तकनीकी शब्दजाल की जगह उपयोगी जीवन-परिणामों पर रहती है.',
-    readyTitle: 'ठीक दो प्रोफाइल चुनें',
+      getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.180297cdd5"),
+    readyTitle: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.22acb8f26e"),
     selectors: {
-      first: 'पहली प्रोफाइल',
-      second: 'दूसरी प्रोफाइल',
-      placeholder: 'सेव प्रोफाइल चुनें',
+      first: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.3ec5aa0929"),
+      second: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.ea360cd387"),
+      placeholder: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.df9fa435e5"),
     },
     subtitle:
-      'किसी भी दो सेव प्रोफाइल की सहमति, घर्षण, कर्म, धर्म और व्यावहारिक मार्गदर्शन के लिए तुलना करें.',
-    title: 'जोड़ेदार तुलना',
+      getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.1c806124d6"),
+    title: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.458bfa4431"),
   },
   gu: {
     actions: {
-      addProfile: 'પ્રોફાઇલ ઉમેરો',
-      askPredicta: 'પ્રેડિક્ટા ને પૂછો',
-      included: 'તુલનામાં સામેલ',
-      include: 'આ પ્રોફાઇલ પસંદ કરો',
-      openFamilyMap: 'પરિવાર કર્મ નકશો ખોલો',
-      savedKundlis: 'સાચવેલી કુંડળીઓ',
-      useAsActive: 'સક્રિય બનાવો',
+      addProfile: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.9b55a692c0"),
+      askPredicta: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.52ca01d0e0"),
+      included: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.0b6d01930b"),
+      include: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.efbd6ad130"),
+      openFamilyMap: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.05de9e0d3e"),
+      savedKundlis: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.7d2df2a8a8"),
+      useAsActive: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.1b8417017a"),
     },
     helper:
-      'જોડી તુલના માત્ર લગ્ન માટે નથી. તેને જીવનસાથી, માતા-પિતા, ભાઈ-બહેન, મિત્ર, સહકર્મી કે સસરિયાના સંબંધ માટે પણ વાપરો.',
-    karmaLabel: 'કર્મ',
-    pendingComparisonNote: 'પ્રેડિક્ટા ફક્ત સાચવેલા વાસ્તવિક ચાર્ટની જ તુલના કરશે.',
-    premiumLabel: 'પ્રીમિયમ જીવન-ક્ષેત્ર ઊંડાણ',
+      getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.82daf7187c"),
+    karmaLabel: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.9e5104ffee"),
+    pendingComparisonNote: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.f832c0d798"),
+    premiumLabel: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.213a5c8b07"),
     premiumLocked:
-      'પ્રીમિયમ ઊંડાણ આને ભાવનાત્મક લય, ફરજ ઘર્ષણ, પૈસાની શૈલી, ઉપચાર ક્ષમતા અને સમય-સચેત માર્ગદર્શન સુધી વધારે છે.',
+      getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.ae39bbfdf3"),
     readyBody:
-      'પ્રેડિક્ટા ચોક્કસ બે સાચવેલી પ્રોફાઇલની તુલના કરે છે અને ટેકનિકલ શબ્દજાળ કરતાં ઉપયોગી જીવનફળ પર રહે છે.',
-    readyTitle: 'ચોક્કસ બે પ્રોફાઇલ પસંદ કરો',
+      getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.d4bf8e61bc"),
+    readyTitle: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.3856f6695d"),
     selectors: {
-      first: 'પહેલી પ્રોફાઇલ',
-      second: 'બીજી પ્રોફાઇલ',
-      placeholder: 'સાચવેલી પ્રોફાઇલ પસંદ કરો',
+      first: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.da87b1d2ea"),
+      second: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.aed5da8a8f"),
+      placeholder: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.d8605618a1"),
     },
     subtitle:
-      'કોઈપણ બે સાચવેલી પ્રોફાઇલને સહકાર, ઘર્ષણ, કર્મ, ધર્મ અને પ્રાયોગિક માર્ગદર્શન માટે તુલના કરો.',
-    title: 'જોડી તુલના',
+      getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.b255c35a4f"),
+    title: getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.24cb3a63db"),
   },
 };
 
@@ -276,16 +277,16 @@ export function WebFamilyPairComparison({
         <div>
           <div className="section-title">
             {language === 'hi'
-              ? 'प्रीमियम जोड़ी पैकेज'
+              ? getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.cbfbbfa83a")
               : language === 'gu'
-                ? 'પ્રીમિયમ જોડી પેકેજ'
+                ? getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.a6b1a9b081")
                 : 'Premium pair assets'}
           </div>
           <h3>
             {language === 'hi'
-              ? 'जोड़ेदार तुलना को सजा हुआ गहरा सार बनाइए.'
+              ? getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.c113de93dd")
               : language === 'gu'
-                ? 'જોડી તુલનાને સજ્જ ઊંડા સારમાં ફેરવો.'
+                ? getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.1fcb4abc48")
                 : 'Turn pair comparison into report-grade depth.'}
           </h3>
         </div>
@@ -294,31 +295,31 @@ export function WebFamilyPairComparison({
             {
               body:
                 language === 'hi'
-                  ? 'जीवन-क्षेत्र आधारित सजा हुआ सार: मेल, घर्षण, धन शैली, जिम्मेदारी का भार और सुधार का रास्ता.'
+                  ? getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.236c979f6a")
                   : language === 'gu'
-                    ? 'જીવન-ક્ષેત્ર આધારિત સજ્જ સાર: મેળ, ઘર્ષણ, પૈસાની શૈલી, જવાબદારીનો ભાર અને સુધારનો રસ્તો.'
+                    ? getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.87af972be3")
                     : 'A polished life-area dossier: harmony, friction, money style, duty load, and repair path.',
               cta: '/dashboard/report?focus=COMPATIBILITY&mode=PREMIUM',
               title:
                 language === 'hi'
-                  ? 'जोड़ेदार तुलना सार'
+                  ? getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.b2613f3e37")
                   : language === 'gu'
-                    ? 'જોડી તુલના સાર'
+                    ? getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.2d94979ef9")
                     : 'Pair Comparison Dossier',
             },
             {
               body:
                 language === 'hi'
-                  ? 'रिश्ते को तकनीकी भाषा से बाहर निकालकर व्यावहारिक सुधार कदमों में बदलिए.'
+                  ? getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.cef6b0f341")
                   : language === 'gu'
-                    ? 'સંબંધને technical jargon બહાર કાઢીને પ્રાયોગિક સુધાર પગલાંમાં ફેરવો.'
+                    ? getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.f60700430a")
                     : 'Turn the pair out of jargon and into practical healing steps.',
               cta: '/dashboard/report?focus=REMEDIES&mode=PREMIUM',
               title:
                 language === 'hi'
-                  ? 'रिश्ता सुधार मार्गदर्शिका'
+                  ? getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.8961e62340")
                   : language === 'gu'
-                    ? 'સંબંધ સુધાર માર્ગદર્શિકા'
+                    ? getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.fe3b312a3c")
                     : 'Relationship Healing Guide',
             },
           ].map(asset => (
@@ -328,9 +329,9 @@ export function WebFamilyPairComparison({
               <p>{asset.body}</p>
               <Link className="button secondary" href={asset.cta}>
                 {language === 'hi'
-                  ? 'खोलें'
+                  ? getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.901879c422")
                   : language === 'gu'
-                    ? 'ખોલો'
+                    ? getNativeCopy("native.apps.web.components.WebFamilyPairComparison.tsx.e0185a82d6")
                     : 'Open'}
               </Link>
             </article>

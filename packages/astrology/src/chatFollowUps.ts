@@ -1,3 +1,4 @@
+import { getNativeCopy } from '@pridicta/config';
 import type {
   ChartContext,
   ChatSuggestedCta,
@@ -586,12 +587,12 @@ function localizeLabel(prompt: string, language: SupportedLanguage): string {
 
   if (language === 'hi') {
     return prompt
-      .replace(/^Ask deeper about /, 'और गहराई से बताइए ')
-      .replace(/^Ask deeper /, 'और गहराई से बताइए ')
-      .replace(/^Ask /, 'पूछिए ')
-      .replace(/^Check /, 'जांचिए ')
-      .replace(/^Compare /, 'तुलना कीजिए ')
-      .replace(/^Make /, 'बनाइए ')
+      .replace(/^Ask deeper about /, getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.6ddf815971"))
+      .replace(/^Ask deeper /, getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.6ddf815971"))
+      .replace(/^Ask /, getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.2acf8c5291"))
+      .replace(/^Check /, getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.3cd247ba04"))
+      .replace(/^Compare /, getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.6c505234b8"))
+      .replace(/^Make /, getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.364119cfe1"))
       .replace(/^Show my /, 'Dikhaiye ')
       .replace(/^Tell me about /, 'Bataye ')
       .replace(/^Explain /, 'Samjhaiye ')
@@ -621,36 +622,36 @@ function localizeExactLabel(
 ): string | undefined {
   const table: Partial<Record<SupportedLanguage, Record<string, string>>> = {
     gu: {
-      'Ask deeper about the household pattern': 'ઘરના પેટર્નને વધુ ઊંડાણથી પૂછો',
-      'Ask deeper about this pair': 'આ જોડી વિશે વધુ ઊંડાણથી પૂછો',
-      'Ask deeper about my money pattern': 'મારા પૈસાના પેટર્ન વિશે વધુ પૂછો',
-      'Ask deeper about my work pattern': 'મારા કામના પેટર્ન વિશે વધુ પૂછો',
-      'Ask deeper about my chart': 'મારી કુંડળી વિશે વધુ પૂછો',
-      'Compare with another person': 'બીજા વ્યક્તિ સાથે તુલના કરો',
-      'Give me one practical household healing guide': 'ઘર માટે એક પ્રાયોગિક ઉપચાર માર્ગ આપો',
-      'Give one relationship repair step': 'સંબંધ સુધારવાનો એક પગલું આપો',
-      'Give one stabilizing next step': 'એક સ્થિર કરતું આગળનું પગલું આપો',
-      'What looks most certain here?': 'અહીં સૌથી નિશ્ચિત શું લાગે છે?',
-      'What timing is most active now?': 'હાલ કયું સમયચક્ર સૌથી સક્રિય છે?',
-      'What timing should I watch next?': 'આગળ કયું સમયચક્ર જોવું?',
-      'Which pair heals fastest here?': 'અહીં કઈ જોડી ઝડપથી સાજી થાય છે?',
-      'Who amplifies pressure in this map?': 'આ નકશામાં દબાણ કોણ વધારે છે?',
+      'Ask deeper about the household pattern': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.afa04ce03f"),
+      'Ask deeper about this pair': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.de5f41b0e9"),
+      'Ask deeper about my money pattern': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.a705fbede3"),
+      'Ask deeper about my work pattern': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.8a5d9e988d"),
+      'Ask deeper about my chart': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.c8acedbd97"),
+      'Compare with another person': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.714b2a00cc"),
+      'Give me one practical household healing guide': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.ca2a928fe8"),
+      'Give one relationship repair step': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.89b65af6b1"),
+      'Give one stabilizing next step': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.48c17173ed"),
+      'What looks most certain here?': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.d79c96e383"),
+      'What timing is most active now?': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.0305e3b17a"),
+      'What timing should I watch next?': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.f4002d8e57"),
+      'Which pair heals fastest here?': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.0de560e418"),
+      'Who amplifies pressure in this map?': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.0812d3be39"),
     },
     hi: {
-      'Ask deeper about the household pattern': 'घर के पैटर्न को और गहराई से पूछें',
-      'Ask deeper about this pair': 'इस जोड़ी के बारे में और गहराई से पूछें',
-      'Ask deeper about my money pattern': 'मेरे धन पैटर्न के बारे में और पूछें',
-      'Ask deeper about my work pattern': 'मेरे काम के पैटर्न के बारे में और पूछें',
-      'Ask deeper about my chart': 'मेरी कुंडली के बारे में और पूछें',
-      'Compare with another person': 'किसी और व्यक्ति से तुलना करें',
-      'Give me one practical household healing guide': 'घर के लिए एक व्यावहारिक सुधार मार्ग दें',
-      'Give one relationship repair step': 'रिश्ता सुधारने का एक कदम दें',
-      'Give one stabilizing next step': 'एक स्थिर करने वाला अगला कदम दें',
-      'What looks most certain here?': 'यहां सबसे निश्चित क्या दिख रहा है?',
-      'What timing is most active now?': 'अभी कौन सा समय सबसे सक्रिय है?',
-      'What timing should I watch next?': 'अगला कौन सा समय देखना चाहिए?',
-      'Which pair heals fastest here?': 'यहां कौन सी जोड़ी सबसे जल्दी संभलती है?',
-      'Who amplifies pressure in this map?': 'इस नक्शे में दबाव कौन बढ़ाता है?',
+      'Ask deeper about the household pattern': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.a752b1ef30"),
+      'Ask deeper about this pair': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.4095eae723"),
+      'Ask deeper about my money pattern': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.644a0d6630"),
+      'Ask deeper about my work pattern': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.659ea97351"),
+      'Ask deeper about my chart': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.2d6f38cd23"),
+      'Compare with another person': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.29bccf27bc"),
+      'Give me one practical household healing guide': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.c46de6ccaa"),
+      'Give one relationship repair step': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.60561c08e2"),
+      'Give one stabilizing next step': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.ae7ac5e152"),
+      'What looks most certain here?': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.d15c5948cd"),
+      'What timing is most active now?': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.1f9391656f"),
+      'What timing should I watch next?': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.14b2c787a5"),
+      'Which pair heals fastest here?': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.aee4fae149"),
+      'Who amplifies pressure in this map?': getNativeCopy("native.packages.astrology.src.chatFollowUps.ts.dd9974d792"),
     },
   };
 

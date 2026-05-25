@@ -1,3 +1,4 @@
+import { getNativeCopy } from '@pridicta/config';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import React from 'react';
@@ -1978,29 +1979,29 @@ function getPdfTemplateCopy(
 } {
   if (language === 'hi') {
     return {
-      confidence: 'विश्वास',
-      executiveSummary: 'मुख्य सारांश',
-      readAs: 'इस रिपोर्ट को ऐसे पढ़ें',
-      reportModeLabel: mode === 'PREMIUM' ? 'विस्तृत विश्लेषण रिपोर्ट' : 'मुफ़्त अंतर्दृष्टि रिपोर्ट',
-      summaryEyebrow: 'प्रेडिक्टा सारांश',
+      confidence: getNativeCopy("native.packages.pdf.src.reportDocument.tsx.479e87c228"),
+      executiveSummary: getNativeCopy("native.packages.pdf.src.reportDocument.tsx.35b4e52eb3"),
+      readAs: getNativeCopy("native.packages.pdf.src.reportDocument.tsx.756e040946"),
+      reportModeLabel: mode === 'PREMIUM' ? getNativeCopy("native.packages.pdf.src.reportDocument.tsx.5f6159ace7") : getNativeCopy("native.packages.pdf.src.reportDocument.tsx.2acd08b1c1"),
+      summaryEyebrow: getNativeCopy("native.packages.pdf.src.reportDocument.tsx.e629fe5a2f"),
       summaryLead:
-        'सबसे पहले जीवन-दिशा, समय और मुख्य दबाव को समझें। आगे के पृष्ठ चार्ट से जुड़े रहते हैं, लेकिन पढ़ने में शांत और संपादकीय हैं।',
-      summaryTitle: 'यह रिपोर्ट सबसे पहले क्या कह रही है',
-      trustLimits: 'विश्वास और सीमाएँ',
+        getNativeCopy("native.packages.pdf.src.reportDocument.tsx.aee140ba30"),
+      summaryTitle: getNativeCopy("native.packages.pdf.src.reportDocument.tsx.b69a152c39"),
+      trustLimits: getNativeCopy("native.packages.pdf.src.reportDocument.tsx.73c57a19ae"),
     };
   }
 
   if (language === 'gu') {
     return {
-      confidence: 'વિશ્વાસ',
-      executiveSummary: 'મુખ્ય સારાંશ',
-      readAs: 'આ રિપોર્ટ આ રીતે વાંચો',
-      reportModeLabel: mode === 'PREMIUM' ? 'વિગતવાર વિશ્લેષણ રિપોર્ટ' : 'મફત ઇનસાઇટ રિપોર્ટ',
-      summaryEyebrow: 'પ્રેડિક્ટા સારાંશ',
+      confidence: getNativeCopy("native.packages.pdf.src.reportDocument.tsx.712cb1a1bc"),
+      executiveSummary: getNativeCopy("native.packages.pdf.src.reportDocument.tsx.138b9610f4"),
+      readAs: getNativeCopy("native.packages.pdf.src.reportDocument.tsx.ae41ad2104"),
+      reportModeLabel: mode === 'PREMIUM' ? getNativeCopy("native.packages.pdf.src.reportDocument.tsx.23047de708") : getNativeCopy("native.packages.pdf.src.reportDocument.tsx.36154469b2"),
+      summaryEyebrow: getNativeCopy("native.packages.pdf.src.reportDocument.tsx.722c11f016"),
       summaryLead:
-        'સૌથી પહેલા જીવનની દિશા, સમય અને મુખ્ય દબાણને સમજો. આગળના પાનાં ચાર્ટ સાથે જોડાયેલા રહે છે, પરંતુ વાંચવામાં શાંત અને સંપાદકીય છે.',
-      summaryTitle: 'આ રિપોર્ટ સૌથી પહેલા શું કહે છે',
-      trustLimits: 'વિશ્વાસ અને મર્યાદાઓ',
+        getNativeCopy("native.packages.pdf.src.reportDocument.tsx.b8e19c0e77"),
+      summaryTitle: getNativeCopy("native.packages.pdf.src.reportDocument.tsx.3279003ba8"),
+      trustLimits: getNativeCopy("native.packages.pdf.src.reportDocument.tsx.9b399c0b9b"),
     };
   }
 

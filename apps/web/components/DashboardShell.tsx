@@ -1,5 +1,6 @@
 'use client';
 
+import { getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, useReducedMotion } from 'framer-motion';
@@ -287,60 +288,60 @@ const TOPBAR_CONTEXT_COPY: Record<
   },
   hi: {
     overview: {
-      eyebrow: 'आपका केंद्र',
+      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.a58a16f75f"),
     },
     vedic: {
-      eyebrow: 'वैदिक संसार',
+      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.4433fb4239"),
     },
     kp: {
-      eyebrow: 'केपी संसार',
+      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.52b093a650"),
     },
     nadi: {
-      eyebrow: 'नाड़ी संसार',
+      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.23accab6c6"),
     },
     numerology: {
-      eyebrow: 'अंक ज्योतिष संसार',
+      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.6266a5cb0b"),
     },
     signature: {
-      eyebrow: 'हस्ताक्षर संसार',
+      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.a334c40338"),
     },
     reports: {
-      eyebrow: 'रिपोर्ट',
+      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.89a0ae86a5"),
     },
     library: {
-      eyebrow: 'सेव कुंडलियां',
+      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.bc3580d452"),
     },
     account: {
-      eyebrow: 'प्रोफाइल और प्रवेश',
+      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.fdf9aaead1"),
     },
   },
   gu: {
     overview: {
-      eyebrow: 'તમારું કેન્દ્ર',
+      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.7c0d6dcdaa"),
     },
     vedic: {
-      eyebrow: 'વેદિક દુનિયા',
+      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.ef488c5215"),
     },
     kp: {
-      eyebrow: 'કૃષ્ણમૂર્તિ પદ્ધતિ દુનિયા',
+      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.147aaffa0e"),
     },
     nadi: {
-      eyebrow: 'નાડી દુનિયા',
+      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.d80bf7ecf0"),
     },
     numerology: {
-      eyebrow: 'અંક જ્યોતિષ દુનિયા',
+      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.57d87b38a6"),
     },
     signature: {
-      eyebrow: 'હસ્તાક્ષર દુનિયા',
+      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.a0be021643"),
     },
     reports: {
-      eyebrow: 'રિપોર્ટ્સ',
+      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.d6aa714c20"),
     },
     library: {
-      eyebrow: 'સાચવેલી કુંડળીઓ',
+      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.7d2df2a8a8"),
     },
     account: {
-      eyebrow: 'પ્રોફાઇલ અને પ્રવેશ',
+      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.b2de3ab000"),
     },
   },
 };

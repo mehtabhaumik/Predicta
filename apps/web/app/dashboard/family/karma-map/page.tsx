@@ -1,5 +1,6 @@
 'use client';
 
+import { getNativeCopy } from '@pridicta/config';
 import type { SupportedLanguage } from '@pridicta/types';
 import { WebFamilyKarmaMap } from '../../../../components/WebFamilyKarmaMap';
 import { demoAccess } from '../../../../lib/demo-state';
@@ -14,15 +15,15 @@ const COPY: Record<SupportedLanguage, { body: string; eyebrow: string; title: st
   },
   hi: {
     body:
-      'पूरे परिवार को एक जीवित तंत्र की तरह पढ़ें. प्रेडिक्टा देखती है कि कौन से कर्म संकेत दोहरते हैं, कौन सा धर्म सुधार मार्ग है, और कौन सी जोड़ी घर को शांत या तनावपूर्ण बनाती है.',
-    eyebrow: 'परिवार कर्म नक्शा',
-    title: 'देखें कि घर खुद को कैसे आकार देता है.',
+      getNativeCopy("native.apps.web.app.dashboard.family.karma.map.page.tsx.e4c683cdd9"),
+    eyebrow: getNativeCopy("native.apps.web.app.dashboard.family.karma.map.page.tsx.541b1bf91a"),
+    title: getNativeCopy("native.apps.web.app.dashboard.family.karma.map.page.tsx.e7e0bd1ede"),
   },
   gu: {
     body:
-      'આખા પરિવારને જીવંત તંત્ર તરીકે વાંચો. પ્રેડિક્ટા જુએ છે કે કયા કર્મ સંકેતો ફરી આવે છે, કયો ધર્મ સુધાર માર્ગ છે, અને કઈ જોડીઓ ઘરને શાંત કે તંગ બનાવે છે.',
-    eyebrow: 'પરિવાર કર્મ નકશો',
-    title: 'જોવો કે ઘર પોતાને કેવી રીતે ઘડે છે.',
+      getNativeCopy("native.apps.web.app.dashboard.family.karma.map.page.tsx.ddfd3834a8"),
+    eyebrow: getNativeCopy("native.apps.web.app.dashboard.family.karma.map.page.tsx.f42a117fe6"),
+    title: getNativeCopy("native.apps.web.app.dashboard.family.karma.map.page.tsx.96c1cea58e"),
   },
 };
 

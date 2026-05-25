@@ -1,3 +1,4 @@
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import type {
   BirthDetails,
   ChartData,
@@ -152,63 +153,63 @@ const SIGN_TRANSLATIONS: Record<
 > = {
   Aries: {
     en: { name: 'Aries', short: 'Ari' },
-    gu: { name: 'મેષ', short: 'મેષ' },
-    hi: { name: 'मेष', short: 'मेष' },
+    gu: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.f800c7a7fd"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.f800c7a7fd") },
+    hi: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.d0dc38337c"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.d0dc38337c") },
   },
   Taurus: {
     en: { name: 'Taurus', short: 'Tau' },
-    gu: { name: 'વૃષભ', short: 'વૃષ' },
-    hi: { name: 'वृषभ', short: 'वृष' },
+    gu: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.32a5dc415e"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.c2948243b0") },
+    hi: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.46c13ac334"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.edb656e8e8") },
   },
   Gemini: {
     en: { name: 'Gemini', short: 'Gem' },
-    gu: { name: 'મિથુન', short: 'મિથુ' },
-    hi: { name: 'मिथुन', short: 'मिथु' },
+    gu: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.e7606cff4c"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.15f903be7b") },
+    hi: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.6e4aa0522b"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.060efab06e") },
   },
   Cancer: {
     en: { name: 'Cancer', short: 'Can' },
-    gu: { name: 'કર્ક', short: 'કર્ક' },
-    hi: { name: 'कर्क', short: 'कर्क' },
+    gu: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.eca5bc33ba"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.eca5bc33ba") },
+    hi: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.6ca2aec5ed"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.6ca2aec5ed") },
   },
   Leo: {
     en: { name: 'Leo', short: 'Leo' },
-    gu: { name: 'સિંહ', short: 'સિંહ' },
-    hi: { name: 'सिंह', short: 'सिंह' },
+    gu: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.78091d77e7"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.78091d77e7") },
+    hi: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.69a4330681"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.69a4330681") },
   },
   Virgo: {
     en: { name: 'Virgo', short: 'Vir' },
-    gu: { name: 'કન્યા', short: 'કન્યા' },
-    hi: { name: 'कन्या', short: 'कन्या' },
+    gu: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.9cbd01ebe5"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.9cbd01ebe5") },
+    hi: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.bb3330123e"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.bb3330123e") },
   },
   Libra: {
     en: { name: 'Libra', short: 'Lib' },
-    gu: { name: 'તુલા', short: 'તુલા' },
-    hi: { name: 'तुला', short: 'तुला' },
+    gu: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.83554f40e6"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.83554f40e6") },
+    hi: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.b4fddac1a5"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.b4fddac1a5") },
   },
   Scorpio: {
     en: { name: 'Scorpio', short: 'Sco' },
-    gu: { name: 'વૃશ્ચિક', short: 'વૃશ્ચિ' },
-    hi: { name: 'वृश्चिक', short: 'वृश्चि' },
+    gu: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.034d53679c"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.6081919bdd") },
+    hi: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.ebe7bb360f"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.34e2c12cea") },
   },
   Sagittarius: {
     en: { name: 'Sagittarius', short: 'Sag' },
-    gu: { name: 'ધનુ', short: 'ધનુ' },
-    hi: { name: 'धनु', short: 'धनु' },
+    gu: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.6f8eca9b34"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.6f8eca9b34") },
+    hi: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.53e2e69514"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.53e2e69514") },
   },
   Capricorn: {
     en: { name: 'Capricorn', short: 'Cap' },
-    gu: { name: 'મકર', short: 'મકર' },
-    hi: { name: 'मकर', short: 'मकर' },
+    gu: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.fe7a2e292e"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.fe7a2e292e") },
+    hi: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.6b818972e3"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.6b818972e3") },
   },
   Aquarius: {
     en: { name: 'Aquarius', short: 'Aqu' },
-    gu: { name: 'કુંભ', short: 'કુંભ' },
-    hi: { name: 'कुंभ', short: 'कुंभ' },
+    gu: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.50172db085"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.50172db085") },
+    hi: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.f3ef823bbc"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.f3ef823bbc") },
   },
   Pisces: {
     en: { name: 'Pisces', short: 'Pis' },
-    gu: { name: 'મીન', short: 'મીન' },
-    hi: { name: 'मीन', short: 'मीन' },
+    gu: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.dae6bb0928"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.dae6bb0928") },
+    hi: { name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.797c695cf4"), short: getNativeCopy("native.packages.astrology.src.chartLayout.ts.797c695cf4") },
   },
 };
 
@@ -218,98 +219,98 @@ const PLANET_TRANSLATIONS: Record<
 > = {
   Dhuma: {
     en: { abbreviation: 'Dh', name: 'Dhuma' },
-    gu: { abbreviation: 'ધૂ', name: 'ધૂમ' },
-    hi: { abbreviation: 'धू', name: 'धूम' },
+    gu: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.449c38f096"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.9c0df42525") },
+    hi: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.60e9686150"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.c95fdb63fb") },
   },
   Gulika: {
     en: { abbreviation: 'Gu', name: 'Gulika' },
-    gu: { abbreviation: 'ગુ', name: 'ગુલિક' },
-    hi: { abbreviation: 'गु', name: 'गुलिक' },
+    gu: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.45674a4a11"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.a8bbe5b052") },
+    hi: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.42bb907cf8"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.a796629d37") },
   },
   Indrachapa: {
     en: { abbreviation: 'In', name: 'Indrachapa' },
-    gu: { abbreviation: 'ઇ', name: 'ઇન્દ્રચાપ' },
-    hi: { abbreviation: 'इ', name: 'इन्द्रचाप' },
+    gu: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.e2dca72ed0"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.c80d9e6362") },
+    hi: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.5e8c3d0dff"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.6b6e06f106") },
   },
   Jupiter: {
     en: { abbreviation: 'Ju', name: 'Jupiter' },
-    gu: { abbreviation: 'ગુ', name: 'ગુરુ' },
-    hi: { abbreviation: 'बृ', name: 'बृहस्पति' },
+    gu: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.45674a4a11"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.0b4f0d81dd") },
+    hi: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.a12c59fe29"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.fed71b7fad") },
   },
   Ketu: {
     en: { abbreviation: 'Ke', name: 'Ketu' },
-    gu: { abbreviation: 'કે', name: 'કેતુ' },
-    hi: { abbreviation: 'के', name: 'केतु' },
+    gu: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.5399a42e4e"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.08b2d07348") },
+    hi: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.7ab56acfc6"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.b2e59a556b") },
   },
   Mandi: {
     en: { abbreviation: 'Mn', name: 'Mandi' },
-    gu: { abbreviation: 'મા', name: 'માંડી' },
-    hi: { abbreviation: 'मा', name: 'मांडी' },
+    gu: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.d501f34acf"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.257967b1f9") },
+    hi: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.a983d7beae"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.b32178ae34") },
   },
   Mars: {
     en: { abbreviation: 'Ma', name: 'Mars' },
-    gu: { abbreviation: 'મં', name: 'મંગળ' },
-    hi: { abbreviation: 'मं', name: 'मंगल' },
+    gu: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.095c33cee3"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.36fcde7d5d") },
+    hi: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.44ea2d1b3c"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.394bdcfe82") },
   },
   Mercury: {
     en: { abbreviation: 'Me', name: 'Mercury' },
-    gu: { abbreviation: 'બુ', name: 'બુધ' },
-    hi: { abbreviation: 'बु', name: 'बुध' },
+    gu: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.a0a6286719"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.6f554fd42f") },
+    hi: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.caff319e47"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.57589c204d") },
   },
   Moon: {
     en: { abbreviation: 'Mo', name: 'Moon' },
-    gu: { abbreviation: 'ચં', name: 'ચંદ્ર' },
-    hi: { abbreviation: 'चं', name: 'चंद्र' },
+    gu: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.f0432d6e4c"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.c1ba41ab4e") },
+    hi: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.aa9cf33a5f"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.b2254985ce") },
   },
   Neptune: {
     en: { abbreviation: 'Ne', name: 'Neptune' },
-    gu: { abbreviation: 'ને', name: 'નેપ્ચ્યુન' },
-    hi: { abbreviation: 'ने', name: 'नेपच्यून' },
+    gu: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.fe6e933de9"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.80833bf7f7") },
+    hi: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.f158ea8f46"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.bea26e43fb") },
   },
   Parivesha: {
     en: { abbreviation: 'Pa', name: 'Parivesha' },
-    gu: { abbreviation: 'પ', name: 'પરિવેષ' },
-    hi: { abbreviation: 'प', name: 'परिवेष' },
+    gu: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.25fd92b6b0"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.5771d9a524") },
+    hi: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.1458d40367"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.8e15d53f5c") },
   },
   Pluto: {
     en: { abbreviation: 'Pl', name: 'Pluto' },
-    gu: { abbreviation: 'પ્લૂ', name: 'પ્લૂટો' },
-    hi: { abbreviation: 'प्लू', name: 'प्लूटो' },
+    gu: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.2693b47a0e"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.2d5c3169c8") },
+    hi: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.8831af6a61"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.7b9f0e4ee5") },
   },
   Rahu: {
     en: { abbreviation: 'Ra', name: 'Rahu' },
-    gu: { abbreviation: 'રા', name: 'રાહુ' },
-    hi: { abbreviation: 'रा', name: 'राहु' },
+    gu: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.2683a1293d"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.f08d431a96") },
+    hi: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.96817df44e"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.f7d54a79e0") },
   },
   Saturn: {
     en: { abbreviation: 'Sa', name: 'Saturn' },
-    gu: { abbreviation: 'શ', name: 'શનિ' },
-    hi: { abbreviation: 'श', name: 'शनि' },
+    gu: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.7d38c2923f"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.4b0976b0f5") },
+    hi: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.ec44b5dfa4"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.76e8e9058e") },
   },
   Sun: {
     en: { abbreviation: 'Su', name: 'Sun' },
-    gu: { abbreviation: 'સૂ', name: 'સૂર્ય' },
-    hi: { abbreviation: 'सू', name: 'सूर्य' },
+    gu: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.56ba1ec090"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.5525333802") },
+    hi: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.72862ba660"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.10ecf3a7a0") },
   },
   Upaketu: {
     en: { abbreviation: 'Uk', name: 'Upaketu' },
-    gu: { abbreviation: 'ઉ', name: 'ઉપકેતુ' },
-    hi: { abbreviation: 'उ', name: 'उपकेतु' },
+    gu: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.9e3a7dbcd8"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.c64775dfb0") },
+    hi: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.895e715f97"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.4365b00da5") },
   },
   Uranus: {
     en: { abbreviation: 'Ur', name: 'Uranus' },
-    gu: { abbreviation: 'યુ', name: 'યુરેનસ' },
-    hi: { abbreviation: 'यू', name: 'यूरेनस' },
+    gu: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.901713f15a"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.e2a3e35cdc") },
+    hi: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.e0747f1f27"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.9efb413451") },
   },
   Venus: {
     en: { abbreviation: 'Ve', name: 'Venus' },
-    gu: { abbreviation: 'શુ', name: 'શુક્ર' },
-    hi: { abbreviation: 'शु', name: 'शुक्र' },
+    gu: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.a017d600a2"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.0bffb88e1c") },
+    hi: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.8b46da792f"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.b2e75355d1") },
   },
   Vyatipata: {
     en: { abbreviation: 'Vy', name: 'Vyatipata' },
-    gu: { abbreviation: 'વ્ય', name: 'વ્યતીપાત' },
-    hi: { abbreviation: 'व्य', name: 'व्यतीपात' },
+    gu: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.74ded711ab"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.51235c86d0") },
+    hi: { abbreviation: getNativeCopy("native.packages.astrology.src.chartLayout.ts.af02372b11"), name: getNativeCopy("native.packages.astrology.src.chartLayout.ts.c14d5e361f") },
   },
 };
 
@@ -767,11 +768,11 @@ function buildChartCellAriaLabel({
 
   if (!planetPositions.length) {
     if (language === 'hi') {
-      return `भाव ${house} चुनें, ${displaySign}, खाली${supportingHint}`;
+      return formatNativeCopy("native.packages.astrology.src.chartLayout.ts.38f43375d1", [house, displaySign, supportingHint]);
     }
 
     if (language === 'gu') {
-      return `ભાવ ${house} પસંદ કરો, ${displaySign}, ખાલી${supportingHint}`;
+      return formatNativeCopy("native.packages.astrology.src.chartLayout.ts.dfb84186d7", [house, displaySign, supportingHint]);
     }
 
     return `Select House ${house}, ${displaySign}, empty${supportingHint}`;
@@ -784,15 +785,11 @@ function buildChartCellAriaLabel({
       const degree = planet.degree.toFixed(1);
 
       if (language === 'hi') {
-        return `${planetName} ${signName} में ${degree} डिग्री${
-          planet.retrograde ? ' वक्री' : ''
-        }`;
+        return formatNativeCopy("native.packages.astrology.src.chartLayout.ts.657c379074", [planetName, signName, degree, planet.retrograde ? getNativeCopy("native.packages.astrology.src.chartLayout.ts.9d37f1a416") : '']);
       }
 
       if (language === 'gu') {
-        return `${planetName} ${signName} માં ${degree} ડિગ્રી${
-          planet.retrograde ? ' વક્રી' : ''
-        }`;
+        return formatNativeCopy("native.packages.astrology.src.chartLayout.ts.401c51411e", [planetName, signName, degree, planet.retrograde ? getNativeCopy("native.packages.astrology.src.chartLayout.ts.fe92f7ea5f") : '']);
       }
 
       return `${planetName} in ${signName} ${degree} degrees${
@@ -802,11 +799,11 @@ function buildChartCellAriaLabel({
     .join(', ');
 
   if (language === 'hi') {
-    return `भाव ${house} चुनें, ${displaySign}, ${planetSummary}${supportingHint}`;
+    return formatNativeCopy("native.packages.astrology.src.chartLayout.ts.df7dcf28fa", [house, displaySign, planetSummary, supportingHint]);
   }
 
   if (language === 'gu') {
-    return `ભાવ ${house} પસંદ કરો, ${displaySign}, ${planetSummary}${supportingHint}`;
+    return formatNativeCopy("native.packages.astrology.src.chartLayout.ts.f82ff7ccec", [house, displaySign, planetSummary, supportingHint]);
   }
 
   return `Select House ${house}, ${displaySign}, ${planetSummary}${supportingHint}`;
@@ -817,11 +814,11 @@ function getSupportingPointAvailabilityHint(
   count: number,
 ): string {
   if (language === 'hi') {
-    return `, ${count} सहायक सूक्ष्म बिंदु उपलब्ध`;
+    return formatNativeCopy("native.packages.astrology.src.chartLayout.ts.de1d1379fb", [count]);
   }
 
   if (language === 'gu') {
-    return `, ${count} સહાયક સૂક્ષ્મ બિંદુ ઉપલબ્ધ`;
+    return formatNativeCopy("native.packages.astrology.src.chartLayout.ts.c3f05df996", [count]);
   }
 
   return `, ${count} supporting refinement${count === 1 ? '' : 's'} available`;
@@ -1052,8 +1049,8 @@ function buildChartLegend(
   if (hasModernRefinements) {
     const outerCodeByLanguage: Record<SupportedLanguage, string> = {
       en: 'Outer',
-      gu: 'બાહ્ય',
-      hi: 'बाहरी',
+      gu: getNativeCopy("native.packages.astrology.src.chartLayout.ts.abe75c1a23"),
+      hi: getNativeCopy("native.packages.astrology.src.chartLayout.ts.a5486b439a"),
     };
     legend.push({
       code: outerCodeByLanguage[language] ?? outerCodeByLanguage.en,
@@ -1065,8 +1062,8 @@ function buildChartLegend(
   if (hasSensitiveRefinements) {
     const upagrahaCodeByLanguage: Record<SupportedLanguage, string> = {
       en: 'Upagraha',
-      gu: 'ઉપગ્રહ',
-      hi: 'उपग्रह',
+      gu: getNativeCopy("native.packages.astrology.src.chartLayout.ts.583ecef7da"),
+      hi: getNativeCopy("native.packages.astrology.src.chartLayout.ts.73ab40b64d"),
     };
     legend.push({
       code: upagrahaCodeByLanguage[language] ?? upagrahaCodeByLanguage.en,
@@ -1404,10 +1401,10 @@ function getLocalizedChartName(
   language: SupportedLanguage,
 ): string {
   const baseNames: Partial<Record<ChartData['chartType'], Record<SupportedLanguage, string>>> = {
-    D1: { en: chart.name, gu: 'રાશિ ચાર્ટ', hi: 'राशि चार्ट' },
-    D2: { en: chart.name, gu: 'હોરા ચાર્ટ', hi: 'होरा चार्ट' },
-    D9: { en: chart.name, gu: 'નવાંશ ચાર્ટ', hi: 'नवांश चार्ट' },
-    D10: { en: chart.name, gu: 'દશાંશ ચાર્ટ', hi: 'दशांश चार्ट' },
+    D1: { en: chart.name, gu: getNativeCopy("native.packages.astrology.src.chartLayout.ts.f689aaad0d"), hi: getNativeCopy("native.packages.astrology.src.chartLayout.ts.ca2a577128") },
+    D2: { en: chart.name, gu: getNativeCopy("native.packages.astrology.src.chartLayout.ts.929fc27e79"), hi: getNativeCopy("native.packages.astrology.src.chartLayout.ts.c992bda0de") },
+    D9: { en: chart.name, gu: getNativeCopy("native.packages.astrology.src.chartLayout.ts.0c65a1e8b4"), hi: getNativeCopy("native.packages.astrology.src.chartLayout.ts.9378b6d412") },
+    D10: { en: chart.name, gu: getNativeCopy("native.packages.astrology.src.chartLayout.ts.9ea8d55b43"), hi: getNativeCopy("native.packages.astrology.src.chartLayout.ts.c8507bd795") },
   };
 
   return baseNames[chart.chartType]?.[language] ?? chart.name;
@@ -1428,43 +1425,43 @@ function getLocalizedLegendText(
   const labels: Record<typeof key, Record<SupportedLanguage, string>> = {
     combust: {
       en: 'Combust planet',
-      gu: 'અસ્ત ગ્રહ',
-      hi: 'अस्त ग्रह',
+      gu: getNativeCopy("native.packages.astrology.src.chartLayout.ts.0cbf29e694"),
+      hi: getNativeCopy("native.packages.astrology.src.chartLayout.ts.5af11e4be9"),
     },
     debilitated: {
       en: 'Debilitated planet',
-      gu: 'નીચ ગ્રહ',
-      hi: 'नीच ग्रह',
+      gu: getNativeCopy("native.packages.astrology.src.chartLayout.ts.09bf28a5f9"),
+      hi: getNativeCopy("native.packages.astrology.src.chartLayout.ts.78a646a5c7"),
     },
     exalted: {
       en: 'Exalted planet',
-      gu: 'ઉચ્ચ ગ્રહ',
-      hi: 'उच्च ग्रह',
+      gu: getNativeCopy("native.packages.astrology.src.chartLayout.ts.57e6c9a91d"),
+      hi: getNativeCopy("native.packages.astrology.src.chartLayout.ts.47dc00a896"),
     },
     kp: {
       en: 'KP readings use star lord, sub lord, and significators',
-      gu: 'KP વાંચન નક્ષત્ર સ્વામી, સબ લોર્ડ અને સંકેતકોથી થાય છે',
-      hi: 'KP पढ़ाई नक्षत्र स्वामी, सब लॉर्ड और संकेतकों से होती है',
+      gu: getNativeCopy("native.packages.astrology.src.chartLayout.ts.338b959047"),
+      hi: getNativeCopy("native.packages.astrology.src.chartLayout.ts.c8e988e87d"),
     },
     nadi: {
       en: 'Nadi readings use planet-to-planet story patterns',
-      gu: 'નાડી વાંચન ગ્રહથી ગ્રહ વચ્ચેના જીવન પેટર્નને જુએ છે',
-      hi: 'नाड़ी पढ़ाई ग्रह से ग्रह के जीवन पैटर्न को देखती है',
+      gu: getNativeCopy("native.packages.astrology.src.chartLayout.ts.d8c4ec09b6"),
+      hi: getNativeCopy("native.packages.astrology.src.chartLayout.ts.014bc85e70"),
     },
     outer: {
       en: 'Modern outer planets are supporting refinements',
-      gu: 'આધુનિક બાહ્ય ગ્રહો સહાયક સુધારો આપે છે',
-      hi: 'आधुनिक बाहरी ग्रह सहायक सुधार देते हैं',
+      gu: getNativeCopy("native.packages.astrology.src.chartLayout.ts.e3d1795b68"),
+      hi: getNativeCopy("native.packages.astrology.src.chartLayout.ts.c34b24abd5"),
     },
     retrograde: {
       en: 'Retrograde planet',
-      gu: 'વક્રી ગ્રહ',
-      hi: 'वक्री ग्रह',
+      gu: getNativeCopy("native.packages.astrology.src.chartLayout.ts.dd5e07ab0d"),
+      hi: getNativeCopy("native.packages.astrology.src.chartLayout.ts.324cbd6b70"),
     },
     upagraha: {
       en: 'Sensitive Jyotish points refine, but do not replace, the main chart',
-      gu: 'ઉપગ્રહ મુખ્ય ચાર્ટને બદલે નથી, ફક્ત વાંચનને વધુ સૂક્ષ્મ બનાવે છે',
-      hi: 'उपग्रह मुख्य चार्ट को बदलते नहीं, केवल पढ़ाई को और सूक्ष्म बनाते हैं',
+      gu: getNativeCopy("native.packages.astrology.src.chartLayout.ts.0abfdc7af2"),
+      hi: getNativeCopy("native.packages.astrology.src.chartLayout.ts.1d44c0fff8"),
     },
   };
 
@@ -1485,16 +1482,16 @@ function getLocalizedMoonLegendLabels(
       waxing: { code: 'Waxing Moon', description: 'Moon light is increasing' },
     },
     gu: {
-      dark: { code: 'અમાસ ચંદ્ર', description: 'ચંદ્ર અમાસ પાસે છે' },
-      full: { code: 'પૂર્ણિમા ચંદ્ર', description: 'ચંદ્ર પૂર્ણ પ્રકાશ પાસે છે' },
-      waning: { code: 'ઘટતો ચંદ્ર', description: 'ચંદ્રનો પ્રકાશ ઘટી રહ્યો છે' },
-      waxing: { code: 'વધતો ચંદ્ર', description: 'ચંદ્રનો પ્રકાશ વધી રહ્યો છે' },
+      dark: { code: getNativeCopy("native.packages.astrology.src.chartLayout.ts.64e6519701"), description: getNativeCopy("native.packages.astrology.src.chartLayout.ts.bbe2759dbe") },
+      full: { code: getNativeCopy("native.packages.astrology.src.chartLayout.ts.334d80662f"), description: getNativeCopy("native.packages.astrology.src.chartLayout.ts.1b006ea803") },
+      waning: { code: getNativeCopy("native.packages.astrology.src.chartLayout.ts.af8741f450"), description: getNativeCopy("native.packages.astrology.src.chartLayout.ts.fcb91873c8") },
+      waxing: { code: getNativeCopy("native.packages.astrology.src.chartLayout.ts.3b2e2e40cc"), description: getNativeCopy("native.packages.astrology.src.chartLayout.ts.6bbd21ffe4") },
     },
     hi: {
-      dark: { code: 'अमावस्या चंद्र', description: 'चंद्र अमावस्या के पास है' },
-      full: { code: 'पूर्णिमा चंद्र', description: 'चंद्र पूर्ण प्रकाश के पास है' },
-      waning: { code: 'घटता चंद्र', description: 'चंद्र की रोशनी घट रही है' },
-      waxing: { code: 'बढ़ता चंद्र', description: 'चंद्र की रोशनी बढ़ रही है' },
+      dark: { code: getNativeCopy("native.packages.astrology.src.chartLayout.ts.c6a43e68a3"), description: getNativeCopy("native.packages.astrology.src.chartLayout.ts.c0846ec2a9") },
+      full: { code: getNativeCopy("native.packages.astrology.src.chartLayout.ts.8b4658fd93"), description: getNativeCopy("native.packages.astrology.src.chartLayout.ts.4c3a51e535") },
+      waning: { code: getNativeCopy("native.packages.astrology.src.chartLayout.ts.e9ea9253d7"), description: getNativeCopy("native.packages.astrology.src.chartLayout.ts.e01c10c99c") },
+      waxing: { code: getNativeCopy("native.packages.astrology.src.chartLayout.ts.9e4f345beb"), description: getNativeCopy("native.packages.astrology.src.chartLayout.ts.abf8a204d4") },
     },
   };
 

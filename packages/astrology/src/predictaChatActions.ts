@@ -1,3 +1,4 @@
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import type {
   KundliData,
   PredictaSchool,
@@ -377,16 +378,23 @@ export function buildEnglishSwitchDecisionReply({
   }
 
   if (currentLanguage === 'gu') {
-    return 'ઠીક છે. હું ગુજરાતી માં જ જવાબ આપતી રહીશ.';
+    return getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.8a126c2382");
   }
 
-  return 'ठीक है. मैं हिंदी में ही जवाब देती रहूंगी.';
+  return getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.b23bb91b02");
 }
 
 function detectExplicitPredictaReplyLanguage(
   text: string,
 ): SupportedLanguage | undefined {
   const normalized = normalizePredictaIntentText(text);
+  const hasHindiNativeAlias = [
+    getNativeCopy('native.localization.language.hindiNameModern'),
+    getNativeCopy('native.localization.language.hindiNameTraditional'),
+  ].some(alias => text.includes(alias));
+  const hasGujaratiNativeAlias = text.includes(
+    getNativeCopy('native.localization.language.gujaratiName'),
+  );
 
   if (
     /(?:\b(?:switch|change|answer|reply|respond|continue|speak|talk|write|keep)\b[\s\S]{0,24}\benglish\b)|(?:\bin english\b)|(?:\benglish please\b)|(?:^english$)/i.test(
@@ -397,17 +405,19 @@ function detectExplicitPredictaReplyLanguage(
   }
 
   if (
-    /(?:\b(?:switch|change|answer|reply|respond|continue|speak|talk|write|keep)\b[\s\S]{0,24}\b(?:hindi|hindii|devanagari)\b)|(?:\bin hindi\b)|(?:\bhindi me\b)|(?:\bhindi mein\b)|(?:\bhindi please\b)|(?:हिंदी)|(?:हिन्दी)/i.test(
-      text,
-    )
+    /(?:\b(?:switch|change|answer|reply|respond|continue|speak|talk|write|keep)\b[\s\S]{0,24}\b(?:hindi|hindii|devanagari)\b)|(?:\bin hindi\b)|(?:\bhindi me\b)|(?:\bhindi mein\b)|(?:\bhindi please\b)/i.test(
+      normalized,
+    ) ||
+    hasHindiNativeAlias
   ) {
     return 'hi';
   }
 
   if (
-    /(?:\b(?:switch|change|answer|reply|respond|continue|speak|talk|write|keep)\b[\s\S]{0,24}\bgujarati\b)|(?:\bin gujarati\b)|(?:\bgujarati ma\b)|(?:\bgujarati please\b)|ગુજરાતી/i.test(
-      text,
-    )
+    /(?:\b(?:switch|change|answer|reply|respond|continue|speak|talk|write|keep)\b[\s\S]{0,24}\bgujarati\b)|(?:\bin gujarati\b)|(?:\bgujarati ma\b)|(?:\bgujarati please\b)/i.test(
+      normalized,
+    ) ||
+    hasGujaratiNativeAlias
   ) {
     return 'gu';
   }
@@ -527,7 +537,7 @@ export function buildPredictaLearningSuggestion({
   if (language === 'hi') {
     return [
       insight,
-      `मेरी तरफ़ से next smart step: ${next}. कहिए तो मैं यहीं chat में start कर दूंगी.`,
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.8e2ca76b22", [next]),
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -536,7 +546,7 @@ export function buildPredictaLearningSuggestion({
   if (language === 'gu') {
     return [
       insight,
-      `મારી તરફથી next smart step: ${next}. કહેશો તો હું અહીં chat માં start કરી દઈશ.`,
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.054feee388", [next]),
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -1314,17 +1324,17 @@ function buildNeedsKundliReply(
 
   if (language === 'hi') {
     return [
-      `हाँ, मैं ${actionLabel} यहीं chat में कर सकती हूं.`,
-      'पहले आपकी Kundli चाहिए. DOB, birth time और birth place भेज दीजिए; मैं Kundli बनाकर इसी काम को आगे बढ़ाऊंगी.',
-      'अगर सिर्फ DOB पता है, वही भेजिए. बाकी मैं आराम से पूछ लूंगी.',
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.4d96329497", [actionLabel]),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.898d0b09fa"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.ac6be6ea3f"),
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      `હા, હું ${actionLabel} અહીં chat માં કરી શકું છું.`,
-      'પહેલા તમારી Kundli જોઈએ. DOB, birth time અને birth place મોકલો; હું Kundli બનાવીને આ કામ આગળ વધારીશ.',
-      'ફક્ત DOB ખબર હોય તો એ મોકલો. બાકી હું શાંતિથી પૂછી લઈશ.',
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.30337fc546", [actionLabel]),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.3f91640cf2"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.c3c23d56da"),
     ].join('\n\n');
   }
 
@@ -1337,10 +1347,10 @@ function buildNeedsKundliReply(
 
 function actionIntro(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'हाँ. यह मैं यहीं कर देती हूं.';
+    return getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.62d3f1db6c");
   }
   if (language === 'gu') {
-    return 'હા. આ હું અહીં જ કરી દઉં છું.';
+    return getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.0e2af953d7");
   }
   return 'Yes. I can do that right here.';
 }
@@ -1378,10 +1388,10 @@ function pricingReply(
   }
 
   if (language === 'hi') {
-    return 'Premium का साफ़ रास्ता: Monthly/Yearly deeper AI, timelines, remedies और reports के लिए. One-time PDF अलग purchase के लिए. Day Pass trial के लिए. Compatibility/Marriage report अलग high-intent purchase रहनी चाहिए.';
+    return getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.30314227ea");
   }
   if (language === 'gu') {
-    return 'Premium નો સાફ રસ્તો: Monthly/Yearly deeper AI, timelines, remedies અને reports માટે. One-time PDF અલગ purchase માટે. Day Pass trial માટે. Compatibility/Marriage report અલગ high-intent purchase રહેવી જોઈએ.';
+    return getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.695bfc2b0c");
   }
   return 'Premium path: Monthly/Yearly for deeper AI, Life Calendar, remedies, and reports. One-time Premium PDF for impulse purchase. Day Pass for trial. Compatibility/Marriage report as a separate high-intent purchase.';
 }
@@ -1439,27 +1449,27 @@ function buildWowRadarReply({
 
   if (language === 'hi') {
     return [
-      'Predicta Radar: यह quick “what stands out” scan है, final fate statement नहीं.',
-      `Strongest signal: ${current.mahadasha}/${current.antardasha} timing chapter इस chart को अभी drive कर रहा है.`,
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.16a1e551e8"),
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.7427e3238c", [current.mahadasha, current.antardasha]),
       themeLine
-        ? `आपके recent questions से pattern दिखता है: ${themeLine}. इसलिए मैं जवाब practical और timing-focused रखूंगी.`
-        : 'अभी मैं saved chart और current timing से pattern read कर रही हूं.',
+        ? formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.06c2ee80dc", [themeLine])
+        : getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.cedff2ba93"),
       `Chart proof:\n${standoutSignals.map(signal => `- ${signal}`).join('\n')}`,
       `Memory check: ${comparison}`,
-      'Wow move: पूछिए “इस pattern का daily action क्या है?” मैं इसे Gochar, Mahadasha और remedy के साथ simple weekly plan में बदल दूंगी.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.ecc7b8bd74"),
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      'Predicta Radar: આ quick “what stands out” scan છે, final fate statement નથી.',
-      `Strongest signal: ${current.mahadasha}/${current.antardasha} timing chapter આ chart ને અત્યારે drive કરે છે.`,
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.f5bece9007"),
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.820bbd6cc8", [current.mahadasha, current.antardasha]),
       themeLine
-        ? `તમારા recent questions થી pattern દેખાય છે: ${themeLine}. એટલે હું જવાબ practical અને timing-focused રાખીશ.`
-        : 'અત્યારે હું saved chart અને current timing થી pattern read કરું છું.',
+        ? formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.01499297b9", [themeLine])
+        : getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.4d3b9c0ae2"),
       `Chart proof:\n${standoutSignals.map(signal => `- ${signal}`).join('\n')}`,
       `Memory check: ${comparison}`,
-      'Wow move: પૂછો “આ pattern નું daily action શું છે?” હું તેને Gochar, Mahadasha અને remedy સાથે simple weekly plan માં બદલી દઈશ.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.3d7d8c579d"),
     ].join('\n\n');
   }
 
@@ -1487,13 +1497,13 @@ function savedKundlisReply(
 
   if (language === 'hi') {
     return count
-      ? `आपके पास ${count} saved Kundli profile हैं: ${names}. मैं इन्हें relationship, family map और pattern comparison के लिए use कर सकती हूं.`
-      : 'अभी saved Kundli नहीं दिख रही. आप chat में किसी family member की birth details भेजिए, मैं profile बना सकती हूं.';
+      ? formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.a1f6dcd421", [count, names])
+      : getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.ec7dacc0d4");
   }
   if (language === 'gu') {
     return count
-      ? `તમારી પાસે ${count} saved Kundli profile છે: ${names}. હું relationship, family map અને pattern comparison માટે તેનો use કરી શકું છું.`
-      : 'હજુ saved Kundli દેખાતી નથી. Family member ની birth details chat માં મોકલો, હું profile બનાવી શકું છું.';
+      ? formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.caaad35b60", [count, names])
+      : getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.ee5b896b97");
   }
   return count
     ? `You have ${count} saved Kundli profile${
@@ -1521,7 +1531,7 @@ function buildMahadashaReply(
 
   if (language === 'hi') {
     return [
-      `मैं ${dasha.current.mahadasha}/${dasha.current.antardasha} को dasha timing layer से पढ़ रही हूं.`,
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.16851ef744", [dasha.current.mahadasha, dasha.current.antardasha]),
       dasha.current.freeInsight,
       `Confidence: ${dasha.current.confidence}`,
       evidence ? `Proof:\n${evidence}` : '',
@@ -1534,7 +1544,7 @@ function buildMahadashaReply(
 
   if (language === 'gu') {
     return [
-      `હું ${dasha.current.mahadasha}/${dasha.current.antardasha} ને dasha timing layer થી જોઈ રહી છું.`,
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.8942035854", [dasha.current.mahadasha, dasha.current.antardasha]),
       dasha.current.freeInsight,
       `Confidence: ${dasha.current.confidence}`,
       evidence ? `Proof:\n${evidence}` : '',
@@ -1580,7 +1590,7 @@ function buildAdvancedJyotishReply(
 
   if (language === 'hi') {
     return [
-      'मैं advanced Jyotish को simple language में रखूंगी, ताकि deeper details confuse न करें.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.b44e95f49c"),
       `Birth star: ${coverage.nakshatraInsight.moonNakshatra} pada ${coverage.nakshatraInsight.pada}, lord ${coverage.nakshatraInsight.lord}.`,
       coverage.nakshatraInsight.simpleInsight,
       modules ? `What I am checking:\n${modules}` : '',
@@ -1595,10 +1605,10 @@ function buildAdvancedJyotishReply(
 
   if (language === 'gu') {
     return [
-      'હું advanced Jyotish ને simple language માં રાખીશ, જેથી deeper details confuse ન કરે.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.7efbde942e"),
       `Birth star: ${coverage.nakshatraInsight.moonNakshatra} pada ${coverage.nakshatraInsight.pada}, lord ${coverage.nakshatraInsight.lord}.`,
       coverage.nakshatraInsight.simpleInsight,
-      modules ? `હું આ જોઈ રહી છું:\n${modules}` : '',
+      modules ? formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.e2d9ec5321", [modules]) : '',
       patterns ? `Yogas/care patterns:\n${patterns}` : '',
       ashtaka ? `Ashtakavarga highlights:\n${ashtaka}` : '',
       `Panchang/Muhurta: ${coverage.panchangMuhurta.simpleGuidance}`,
@@ -1647,7 +1657,7 @@ function buildSadeSatiReply(
 
   if (language === 'hi') {
     return [
-      `मैं Saturn को Moon से check कर रही हूं. Status: ${sadeSati.phaseLabel}.`,
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.4a82a1e541", [sadeSati.phaseLabel]),
       sadeSati.freeInsight,
       `Confidence: ${sadeSati.confidence}`,
       evidence ? `Proof:\n${evidence}` : '',
@@ -1661,7 +1671,7 @@ function buildSadeSatiReply(
 
   if (language === 'gu') {
     return [
-      `હું Saturn ને Moon થી check કરી રહી છું. Status: ${sadeSati.phaseLabel}.`,
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.4357a54c27", [sadeSati.phaseLabel]),
       sadeSati.freeInsight,
       `Confidence: ${sadeSati.confidence}`,
       evidence ? `Proof:\n${evidence}` : '',
@@ -1709,7 +1719,7 @@ function buildTransitGocharReply(
 
   if (language === 'hi') {
     return [
-      `मैं current Gochar को Lagna और Moon दोनों से पढ़ रही हूं. Overall tone: ${gochar.dominantWeight}.`,
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.ee24336b10", [gochar.dominantWeight]),
       gochar.snapshotSummary,
       opportunities ? `Support signals:\n${opportunities}` : '',
       cautions ? `Caution signals:\n${cautions}` : '',
@@ -1722,7 +1732,7 @@ function buildTransitGocharReply(
 
   if (language === 'gu') {
     return [
-      `હું current Gochar ને Lagna અને Moon બંનેથી જોઈ રહી છું. Overall tone: ${gochar.dominantWeight}.`,
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.a01cfad085", [gochar.dominantWeight]),
       gochar.snapshotSummary,
       opportunities ? `Support signals:\n${opportunities}` : '',
       cautions ? `Caution signals:\n${cautions}` : '',
@@ -1766,7 +1776,7 @@ function buildYearlyHoroscopeReply(
 
   if (language === 'hi') {
     return [
-      `मैं Varshaphal को D1, dasha और current Gochar के साथ anchor करके पढ़ रही हूं.`,
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.46247ed290"),
       `Solar year: ${yearly.yearLabel}. Varsha Lagna: ${yearly.varshaLagna}. Muntha: house ${yearly.munthaHouse} in ${yearly.munthaSign}.`,
       yearly.freeInsight,
       signals ? `Chart proof:\n${signals}` : '',
@@ -1780,7 +1790,7 @@ function buildYearlyHoroscopeReply(
 
   if (language === 'gu') {
     return [
-      `હું Varshaphal ને D1, dasha અને current Gochar સાથે anchor કરીને જોઈ રહી છું.`,
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.0112c1c649"),
       `Solar year: ${yearly.yearLabel}. Varsha Lagna: ${yearly.varshaLagna}. Muntha: house ${yearly.munthaHouse} in ${yearly.munthaSign}.`,
       yearly.freeInsight,
       signals ? `Chart proof:\n${signals}` : '',
@@ -1808,17 +1818,17 @@ function buildYearlyHoroscopeReply(
 function kpHandoffReply(language: SupportedLanguage): string {
   if (language === 'hi') {
     return [
-      'यह KP Predicta का काम है. मैं regular Parashari Predicta हूं, इसलिए KP को D1/Varga reading के साथ mix नहीं करूंगी.',
-      'नीचे “KP Predicta खोलें” दबाइए. मैं आपका original question और active birth profile KP Predicta को दे दूंगी.',
-      'वहां KP Predicta अपनी KP Kundli से cusps, star lords, sub lords, significators, ruling planets और event-focused judgment में answer करेगी.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.811aca654d"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.0d02c48913"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.722cf02f48"),
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      'આ KP Predicta નું કામ છે. હું regular Parashari Predicta છું, એટલે KP ને D1/Varga reading સાથે mix નહીં કરું.',
-      'નીચે “KP Predicta ખોલો” દબાવો. હું તમારો original question અને active birth profile KP Predicta ને આપી દઈશ.',
-      'ત્યાં KP Predicta પોતાની KP Kundli થી cusps, star lords, sub lords, significators, ruling planets અને event-focused judgment માં જવાબ આપશે.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.568e7b29f2"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.4e3b0fbfb5"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.ceb2e55c91"),
     ].join('\n\n');
   }
 
@@ -1848,7 +1858,7 @@ function buildBhavChalitReply(
 
   if (language === 'hi') {
     return [
-      'Chalit Parashari house refinement है. यह KP cusp/sub-lord judgement नहीं है, और D1 Rashi को replace नहीं करता.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.3cc082dd65"),
       synthesis,
       shifts ? `House shifts:\n${shifts}` : 'House shifts: no major shift is available in this Kundli yet.',
       foundation.premiumUnlock,
@@ -1857,9 +1867,9 @@ function buildBhavChalitReply(
 
   if (language === 'gu') {
     return [
-      'Chalit Parashari house refinement છે. આ KP cusp/sub-lord judgement નથી, અને D1 Rashi ને replace નથી કરતું.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.17d3a30abb"),
       synthesis,
-      shifts ? `House shifts:\n${shifts}` : 'House shifts: આ Kundli માં હજુ major shift available નથી.',
+      shifts ? `House shifts:\n${shifts}` : getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.55577c28b3"),
       foundation.premiumUnlock,
     ].join('\n\n');
   }
@@ -1892,7 +1902,7 @@ function buildKpPredictaReply(
 
   if (language === 'hi') {
     return [
-      'KP Predicta mode: मैं सिर्फ KP cusps, star lords, sub lords, significators और ruling planets से बोलूंगी.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.0f0614b58d"),
       `Event verdict: ${kp.eventJudgement.verdictLabel}. ${kp.eventJudgement.plainLanguage}`,
       kp.freeInsight,
       cuspLine ? `Cusps:\n${cuspLine}` : '',
@@ -1906,7 +1916,7 @@ function buildKpPredictaReply(
 
   if (language === 'gu') {
     return [
-      'KP Predicta mode: હું ફક્ત KP cusps, star lords, sub lords, significators અને ruling planets થી બોલીશ.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.5aac1f7478"),
       `Event verdict: ${kp.eventJudgement.verdictLabel}. ${kp.eventJudgement.plainLanguage}`,
       kp.freeInsight,
       cuspLine ? `Cusps:\n${cuspLine}` : '',
@@ -1934,17 +1944,17 @@ function buildKpPredictaReply(
 function nadiHandoffReply(language: SupportedLanguage): string {
   if (language === 'hi') {
     return [
-      'यह Nadi Predicta का अलग premium world है. मैं इसे Parashari या KP के साथ mix करके overconfident answer नहीं दूंगी.',
-      'नीचे “Nadi Predicta खोलें” दबाइए. मैं आपका question और birth profile Nadi reading room में ले जाऊंगी.',
-      'Nadi Predicta planetary story links, karaka themes, validation questions और timing activation से काम करेगी. मैं real manuscript access का claim नहीं करूंगी.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.17ba95ec78"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.35f7556a0a"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.a5bd2e6e5a"),
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      'આ Nadi Predicta નું અલગ premium world છે. હું તેને Parashari કે KP સાથે mix કરીને overconfident answer નહીં આપું.',
-      'નીચે “Nadi Predicta ખોલો” દબાવો. હું તમારો question અને birth profile Nadi reading room માં લઈ જઈશ.',
-      'Nadi Predicta planetary story links, karaka themes, validation questions અને timing activation થી કામ કરશે. હું real manuscript access નો claim નહીં કરું.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.667821ccf8"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.2d1c4e7c4e"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.1458c88812"),
     ].join('\n\n');
   }
 
@@ -1974,7 +1984,7 @@ function buildNadiPredictaReply(
 
   if (language === 'hi') {
     return [
-      'Nadi Predicta mode: मैं planet-to-planet story links, karaka themes, validation questions और timing activation से पढ़ूंगी.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.93b59c5cd3"),
       `Hidden pattern: ${plan.storyLens.hiddenPatternSentence}`,
       plan.freePreview,
       topPattern
@@ -1993,7 +2003,7 @@ function buildNadiPredictaReply(
 
   if (language === 'gu') {
     return [
-      'Nadi Predicta mode: હું planet-to-planet story links, karaka themes, validation questions અને timing activation થી વાંચીશ.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.0862c7d26b"),
       `Hidden pattern: ${plan.storyLens.hiddenPatternSentence}`,
       plan.freePreview,
       topPattern
@@ -2031,17 +2041,17 @@ function buildNadiPredictaReply(
 function numerologyHandoffReply(language: SupportedLanguage): string {
   if (language === 'hi') {
     return [
-      'यह Numerology Predicta का काम है. मैं इसे Parashari, KP या Nadi के साथ casually mix नहीं करूंगी.',
-      'नीचे “Numerology Predicta खोलें” दबाइए. मैं आपका question और active birth profile वहां ले जाऊंगी.',
-      'Numerology Predicta name number, birth number, destiny number, personal year/month/day और name spelling rhythm से answer करेगी.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.2e6c562765"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.57074b8834"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.06e36dccc8"),
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      'આ Numerology Predicta નું કામ છે. હું તેને Parashari, KP કે Nadi સાથે casually mix નહીં કરું.',
-      'નીચે “Numerology Predicta ખોલો” દબાવો. હું તમારો question અને active birth profile ત્યાં લઈ જઈશ.',
-      'Numerology Predicta name number, birth number, destiny number, personal year/month/day અને name spelling rhythm થી જવાબ આપશે.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.47f7deb0f1"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.73f8e51c2c"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.bc765fcd02"),
     ].join('\n\n');
   }
 
@@ -2065,14 +2075,14 @@ function buildNumerologyPredictaReply(
   if (profile.status !== 'ready') {
     if (language === 'hi') {
       return [
-        'अंक प्रेडिक्टा तैयार है, लेकिन मुझे पहले नाम और जन्म तिथि चाहिए.',
-        'कृपया पूरा नाम और जन्म तिथि भेजें. उसके बाद मैं नाम अंक, जन्म अंक, भाग्य अंक और वर्तमान निजी समय लय निकाल दूंगी.',
+        getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.a1338e8c1e"),
+        getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.a69d1a9816"),
       ].join('\n\n');
     }
     if (language === 'gu') {
       return [
-        'અંક પ્રેડિક્ટા તૈયાર છે, પરંતુ પહેલાં મને નામ અને જન્મ તારીખ જોઈએ.',
-        'કૃપા કરીને પૂરું નામ અને જન્મ તારીખ મોકલો. પછી હું નામ અંક, જન્મ અંક, ભાગ્ય અંક અને વર્તમાન વ્યક્તિગત સમય લય કાઢી દઈશ.',
+        getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.07016ecc9e"),
+        getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.6fb34dedaa"),
       ].join('\n\n');
     }
     return [
@@ -2091,21 +2101,21 @@ function buildNumerologyPredictaReply(
     ? 'Premium depth is active: I can compare spelling options, monthly timing, compatibility numbers, and report-ready synthesis.'
     : 'Free insight stays useful. Premium adds spelling comparison, yearly/monthly timing, compatibility numbers, and a polished numerology report.';
   const hindiProof = [
-    `- नाम अंक ${profile.nameNumber.root} ${profile.method.nameNumber} पद्धति से "${profile.normalizedName}" पर निकला है.`,
-    `- जन्म अंक ${profile.birthNumber.root} जन्म दिन ${profile.birthDate} से निकला है.`,
-    `- भाग्य अंक ${profile.destinyNumber.root} पूरी जन्म तिथि ${profile.birthDate} से निकला है.`,
+    formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.fb197f9e37", [profile.nameNumber.root, profile.method.nameNumber, profile.normalizedName]),
+    formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.d8a399b132", [profile.birthNumber.root, profile.birthDate]),
+    formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.fb3c9f9abc", [profile.destinyNumber.root, profile.birthDate]),
     hasPremiumAccess
-      ? `- निजी वर्ष/महीना/दिन ${profile.targetDate} के लिए निकाले गए हैं.`
+      ? formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.474594337d", [profile.targetDate])
       : '',
   ]
     .filter(Boolean)
     .join('\n');
   const gujaratiProof = [
-    `- નામ અંક ${profile.nameNumber.root} ${profile.method.nameNumber} પદ્ધતિથી "${profile.normalizedName}" પરથી નીકળ્યો છે.`,
-    `- જન્મ અંક ${profile.birthNumber.root} જન્મ દિવસ ${profile.birthDate} પરથી નીકળ્યો છે.`,
-    `- ભાગ્ય અંક ${profile.destinyNumber.root} આખી જન્મ તારીખ ${profile.birthDate} પરથી નીકળ્યો છે.`,
+    formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.6733238c4b", [profile.nameNumber.root, profile.method.nameNumber, profile.normalizedName]),
+    formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.28a1f16de6", [profile.birthNumber.root, profile.birthDate]),
+    formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.792ea5740d", [profile.destinyNumber.root, profile.birthDate]),
     hasPremiumAccess
-      ? `- વ્યક્તિગત વર્ષ/મહિનો/દિવસ ${profile.targetDate} માટે કાઢવામાં આવ્યા છે.`
+      ? formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.17986a06f7", [profile.targetDate])
       : '',
   ]
     .filter(Boolean)
@@ -2113,32 +2123,32 @@ function buildNumerologyPredictaReply(
 
   if (language === 'hi') {
     return [
-      'अंक प्रेडिक्टा मोड: मैं नाम और जन्म-तिथि अंकों से पढ़ूंगी. जब तक आप संयुक्त सार न मांगें, वैदिक, KP या नाड़ी तर्क नहीं मिलाऊंगी.',
-      `${profile.name}: नाम अंक ${profile.nameNumber.root} (${profile.nameNumber.label}), जन्म अंक ${profile.birthNumber.root} (${profile.birthNumber.label}), भाग्य अंक ${profile.destinyNumber.root} (${profile.destinyNumber.label}).`,
-      `वर्तमान लय: निजी वर्ष ${profile.personalYear.root}, महीना ${profile.personalMonth.root}, दिन ${profile.personalDay.root}.`,
-      `उपयोगी समझ: ${profile.name} में ${numerologyNativeKeyword(
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.eb11afe365"),
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.3ea05ea292", [profile.name, profile.nameNumber.root, profile.nameNumber.label, profile.birthNumber.root, profile.birthNumber.label, profile.destinyNumber.root, profile.destinyNumber.label]),
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.609a49b4e5", [profile.personalYear.root, profile.personalMonth.root, profile.personalDay.root]),
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.7288cc83f2", [profile.name, numerologyNativeKeyword(
         'hi',
         profile.nameNumber.root,
-      )}, ${numerologyNativeKeyword(
+      ), numerologyNativeKeyword(
         'hi',
         profile.birthNumber.root,
-      )} और ${numerologyNativeKeyword(
+      ), numerologyNativeKeyword(
         'hi',
         profile.destinyNumber.root,
-      )} की संयुक्त लय दिखती है. आज निजी दिन ${profile.personalDay.root} की दिशा में चल रहा है.`,
-      `ताकतें: ${[
+      ), profile.personalDay.root]),
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.d0fe0a77b0", [[
         numerologyNativeKeyword('hi', profile.nameNumber.root),
         numerologyNativeKeyword('hi', profile.birthNumber.root),
         numerologyNativeKeyword('hi', profile.destinyNumber.root),
-      ].join(', ')}`,
-      `ध्यान बिंदु: ${[
+      ].join(', ')]),
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.b3cc47c35d", [[
         numerologyNativeCaution('hi', profile.nameNumber.root),
         numerologyNativeCaution('hi', profile.personalYear.root),
-      ].join(', ')}`,
-      `अंक प्रमाण:\n${hindiProof}`,
+      ].join(', ')]),
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.d0c265886c", [hindiProof]),
       hasPremiumAccess
-        ? 'प्रीमियम गहराई सक्रिय है: मैं नाम की अलग-अलग वर्तनी, मासिक समय, संगतता अंक और रिपोर्ट-तैयार सार की तुलना कर सकती हूं.'
-        : 'मुफ्त समझ उपयोगी रहेगी. प्रीमियम में नाम-वर्तनी तुलना, वार्षिक/मासिक समय, संगतता अंक और सुंदर अंक-रिपोर्ट मिलती है.',
+        ? getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.e101bc5f12")
+        : getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.a8b7b706b7"),
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -2146,32 +2156,32 @@ function buildNumerologyPredictaReply(
 
   if (language === 'gu') {
     return [
-      'અંક પ્રેડિક્ટા મોડ: હું નામ અને જન્મ-તારીખના અંકો પરથી વાંચીશ. જ્યાં સુધી તમે સંયુક્ત સાર ન માગો, ત્યાં સુધી વૈદિક, KP કે નાડી તર્ક ભેળવીશ નહીં.',
-      `${profile.name}: નામ અંક ${profile.nameNumber.root} (${profile.nameNumber.label}), જન્મ અંક ${profile.birthNumber.root} (${profile.birthNumber.label}), ભાગ્ય અંક ${profile.destinyNumber.root} (${profile.destinyNumber.label}).`,
-      `વર્તમાન લય: વ્યક્તિગત વર્ષ ${profile.personalYear.root}, મહિનો ${profile.personalMonth.root}, દિવસ ${profile.personalDay.root}.`,
-      `ઉપયોગી સમજ: ${profile.name} માં ${numerologyNativeKeyword(
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.6ce2a63373"),
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.cd8c9b66ae", [profile.name, profile.nameNumber.root, profile.nameNumber.label, profile.birthNumber.root, profile.birthNumber.label, profile.destinyNumber.root, profile.destinyNumber.label]),
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.8bb45d8d96", [profile.personalYear.root, profile.personalMonth.root, profile.personalDay.root]),
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.2a7b7b313c", [profile.name, numerologyNativeKeyword(
         'gu',
         profile.nameNumber.root,
-      )}, ${numerologyNativeKeyword(
+      ), numerologyNativeKeyword(
         'gu',
         profile.birthNumber.root,
-      )} અને ${numerologyNativeKeyword(
+      ), numerologyNativeKeyword(
         'gu',
         profile.destinyNumber.root,
-      )} ની સંયુક્ત લય દેખાય છે. આજે વ્યક્તિગત દિવસ ${profile.personalDay.root} ની દિશામાં ચાલે છે.`,
-      `તાકાતો: ${[
+      ), profile.personalDay.root]),
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.d247dae1fa", [[
         numerologyNativeKeyword('gu', profile.nameNumber.root),
         numerologyNativeKeyword('gu', profile.birthNumber.root),
         numerologyNativeKeyword('gu', profile.destinyNumber.root),
-      ].join(', ')}`,
-      `ધ્યાન રાખવાના મુદ્દા: ${[
+      ].join(', ')]),
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.67074473a0", [[
         numerologyNativeCaution('gu', profile.nameNumber.root),
         numerologyNativeCaution('gu', profile.personalYear.root),
-      ].join(', ')}`,
-      `અંક આધાર:\n${gujaratiProof}`,
+      ].join(', ')]),
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.8b720810fd", [gujaratiProof]),
       hasPremiumAccess
-        ? 'પ્રીમિયમ ઊંડાણ સક્રિય છે: હું નામની જુદી-જુદી જોડણી, માસિક સમય, સુસંગતતા અંક અને રિપોર્ટ-તૈયાર સારની તુલના કરી શકું છું.'
-        : 'મફત સમજ ઉપયોગી રહેશે. પ્રીમિયમમાં નામ-જોડણી તુલના, વાર્ષિક/માસિક સમય, સુસંગતતા અંક અને સુંદર અંક-રિપોર્ટ મળે છે.',
+        ? getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.ce4c4dec42")
+        : getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.351fd7bc84"),
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -2215,26 +2225,26 @@ function numerologyNativeKeyword(
   root: number,
 ): string {
   const hindi: Record<number, string> = {
-    1: 'नेतृत्व और नई शुरुआत',
-    2: 'सहयोग और भावनात्मक समझ',
-    3: 'अभिव्यक्ति और रचनात्मकता',
-    4: 'व्यवस्था और अनुशासन',
-    5: 'बदलाव और अनुकूलन',
-    6: 'जिम्मेदारी और परिवार-भाव',
-    7: 'गहराई और खोज',
-    8: 'प्रबंधन और कर्म-फल',
-    9: 'सेवा और पूर्णता',
+    1: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.61bb9d8404"),
+    2: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.d9f4c970ff"),
+    3: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.5b0ab544ba"),
+    4: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.2317a1df9a"),
+    5: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.31abd9f988"),
+    6: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.a4f2b461e2"),
+    7: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.ef7a9fe575"),
+    8: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.721c2d26ed"),
+    9: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.389e461a47"),
   };
   const gujarati: Record<number, string> = {
-    1: 'નેતૃત્વ અને નવી શરૂઆત',
-    2: 'સહકાર અને ભાવનાત્મક સમજ',
-    3: 'અભિવ્યક્તિ અને સર્જનાત્મકતા',
-    4: 'વ્યવસ્થા અને અનુશાસન',
-    5: 'બદલાવ અને અનુકૂલન',
-    6: 'જવાબદારી અને પરિવારભાવ',
-    7: 'ઊંડાણ અને શોધ',
-    8: 'વ્યવસ્થાપન અને કર્મફળ',
-    9: 'સેવા અને પૂર્ણતા',
+    1: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.5b4700a702"),
+    2: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.cffc715e72"),
+    3: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.503f2f681b"),
+    4: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.150e084f7a"),
+    5: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.8ac97d8bda"),
+    6: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.0de1f958aa"),
+    7: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.c6a25688fe"),
+    8: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.ed52f2ee40"),
+    9: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.a4d7b29f43"),
   };
 
   return language === 'gu'
@@ -2247,26 +2257,26 @@ function numerologyNativeCaution(
   root: number,
 ): string {
   const hindi: Record<number, string> = {
-    1: 'अहंकार या जल्दीबाज़ी से बचें',
-    2: 'अति-संवेदनशीलता से बचें',
-    3: 'बिखरे फोकस से बचें',
-    4: 'कठोरता और अति-मेहनत से बचें',
-    5: 'बेचैनी और जल्दबाज़ फैसलों से बचें',
-    6: 'अति-जिम्मेदारी से बचें',
-    7: 'अति-विश्लेषण और अलगाव से बचें',
-    8: 'नियंत्रण और धन-दबाव से बचें',
-    9: 'भावनात्मक अतिरेक से बचें',
+    1: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.4ed712e274"),
+    2: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.9b99bcd40f"),
+    3: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.00923834d0"),
+    4: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.22e5f31270"),
+    5: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.abfb1a57b1"),
+    6: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.5d8b6ff207"),
+    7: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.10bb1276a5"),
+    8: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.9f50f11658"),
+    9: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.6e4b318e33"),
   };
   const gujarati: Record<number, string> = {
-    1: 'અહંકાર અથવા ઉતાવળથી બચો',
-    2: 'અતિ-સંવેદનશીલતાથી બચો',
-    3: 'વિખરાયેલા ધ્યાનથી બચો',
-    4: 'કઠોરતા અને અતિ-મહેનતથી બચો',
-    5: 'બેચેની અને ઉતાવળિયા નિર્ણયથી બચો',
-    6: 'અતિ-જવાબદારીથી બચો',
-    7: 'અતિ-વિશ્લેષણ અને અલગાવથી બચો',
-    8: 'નિયંત્રણ અને નાણાંના દબાણથી બચો',
-    9: 'ભાવનાત્મક અતિરેકથી બચો',
+    1: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.420d29fb33"),
+    2: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.4cd481c097"),
+    3: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.73e8cfebff"),
+    4: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.1f2b311f1b"),
+    5: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.39f9389dbf"),
+    6: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.c600b18eb2"),
+    7: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.a5e11984c5"),
+    8: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.8c234fa6fc"),
+    9: getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.10f5958862"),
   };
 
   return language === 'gu'
@@ -2277,17 +2287,17 @@ function numerologyNativeCaution(
 function signatureHandoffReply(language: SupportedLanguage): string {
   if (language === 'hi') {
     return [
-      'यह Signature Predicta का काम है. मैं इसे Kundli, KP, Nadi या Numerology के साथ casually mix नहीं करूंगी.',
-      'नीचे “Signature Predicta खोलें” दबाइए. मैं आपका question वहां ले जाऊंगी.',
-      'Signature Predicta confirmed visual traits, self-expression pattern और practical improvement suggestions से answer करेगी. यह identity verification, handwriting forensics, legal proof, medical diagnosis, hiring advice या guaranteed prediction नहीं है.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.286ffab532"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.4755072060"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.5411acb244"),
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      'આ Signature Predicta નું કામ છે. હું તેને Kundli, KP, Nadi કે Numerology સાથે casually mix નહીં કરું.',
-      'નીચે “Signature Predicta ખોલો” દબાવો. હું તમારો question ત્યાં લઈ જઈશ.',
-      'Signature Predicta confirmed visual traits, self-expression pattern અને practical improvement suggestions થી જવાબ આપશે. આ identity verification, handwriting forensics, legal proof, medical diagnosis, hiring advice કે guaranteed prediction નથી.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.ab9efb65b7"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.5f672c2184"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.c9aa7d40b1"),
     ].join('\n\n');
   }
 
@@ -2301,17 +2311,17 @@ function signatureHandoffReply(language: SupportedLanguage): string {
 function vedicHandoffReply(language: SupportedLanguage): string {
   if (language === 'hi') {
     return [
-      'यह Vedic Predicta का chart-reading question है. मैं इसे KP, Nadi, Numerology या Signature method के अंदर mix करके answer नहीं दूंगी.',
-      'नीचे “Vedic Predicta खोलें” दबाइए. मैं आपका question और active Kundli Vedic room में ले जाऊंगी.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.2d62b07e1c"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.d192f5efaf"),
       'Vedic Predicta D1/Rashi, Vargas, dasha, gochar, Parashari Chalit, yogas, remedies, aur holistic timing se answer karegi.',
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      'આ Vedic Predicta નો chart-reading question છે. હું તેને KP, Nadi, Numerology કે Signature method માં mix કરીને answer નહીં આપું.',
-      'નીચે “Vedic Predicta ખોલો” દબાવો. હું તમારો question અને active Kundli Vedic room માં લઈ જઈશ.',
-      'Vedic Predicta D1/Rashi, Vargas, dasha, gochar, Parashari Chalit, yogas, remedies અને holistic timing થી જવાબ આપશે.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.d1c42379c4"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.b6871942f8"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.19fbc37793"),
     ].join('\n\n');
   }
 
@@ -2341,58 +2351,58 @@ function buildSignaturePredictaReply(
   if (language === 'hi') {
     if (analysis.status === 'ready') {
       return [
-        'हस्ताक्षर प्रेडिक्टा मोड: मैं केवल पक्के दिखने वाले हस्ताक्षर संकेतों से पढ़ूंगी, अनुमान नहीं लगाऊंगी.',
-        `देखे गए संकेत: ${analysis.observedTraits.map(trait => `${trait.label} ${trait.value}`).join(', ')}.`,
-        `लिखने की लय: ${analysis.rhythm.summary}`,
-        `आत्मविश्वास की अभिव्यक्ति: ${analysis.confidenceExpression.summary}`,
-        `स्थिरता: ${analysis.consistency.summary}`,
-        `सुधार योजना: ${analysis.improvementPlan.slice(0, 3).join(' ')}`,
+        getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.3c85ccbb21"),
+        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.137999bcf4", [analysis.observedTraits.map(trait => `${trait.label} ${trait.value}`).join(', ')]),
+        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.b5ff3c7ab1", [analysis.rhythm.summary]),
+        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.9f79999b19", [analysis.confidenceExpression.summary]),
+        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.5cfb28687b", [analysis.consistency.summary]),
+        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.5febe3034b", [analysis.improvementPlan.slice(0, 3).join(' ')]),
         analysis.synthesisReadiness.rule,
         buildSignatureSafetyReply(language),
         hasPremiumAccess
-          ? 'प्रीमियम गहराई सक्रिय है: मैं दोहराए गए हस्ताक्षर नमूने, नाम-लय, अंक और Kundli context की तुलना तभी करूंगी जब आप संयुक्त सार मांगें.'
-          : 'मुफ्त समझ उपयोगी रहेगी. प्रीमियम में गहरी तुलना, नाम-लय, वैकल्पिक numerology/Kundli synthesis और polished signature report मिलती है.',
+          ? getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.8693f76105")
+          : getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.37661ca05e"),
       ].join('\n\n');
     }
     return [
-      'हस्ताक्षर प्रेडिक्टा मोड: मैं हस्ताक्षर को आत्म-अभिव्यक्ति और निजी लय की परत की तरह पढ़ूंगी.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.d809e5ea83"),
       promptHasConfirmedTraits
-        ? 'आपके पक्के हस्ताक्षर संकेत मिल गए हैं. मैं उन्हीं संकेतों से पढ़ूंगी, अनुमान नहीं लगाऊंगी.'
-        : 'पहले हस्ताक्षर upload/draw करें या दिखने वाले संकेत confirm करें: आकार, झुकाव, दबाव, दूरी, आधार-रेखा, पढ़ने की साफगोई, सजावट और underline.',
-      'मैं सुधार सुझाव दे सकती हूं: साफ readability, steady baseline, balanced size, calm spacing और confidence-friendly rhythm.',
+        ? getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.a2aaa90b2c")
+        : getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.266e3f0e1c"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.04084f8b45"),
       buildSignatureSafetyReply(language),
       hasPremiumAccess
-        ? 'प्रीमियम गहराई सक्रिय है: मैं दोहराए गए हस्ताक्षर नमूने, नाम-लय, अंक और Kundli context की तुलना तभी करूंगी जब आप संयुक्त सार मांगें.'
-        : 'मुफ्त समझ उपयोगी रहेगी. प्रीमियम में गहरी तुलना, नाम-लय, वैकल्पिक numerology/Kundli synthesis और polished signature report मिलती है.',
+        ? getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.8693f76105")
+        : getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.37661ca05e"),
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     if (analysis.status === 'ready') {
       return [
-        'હસ્તાક્ષર પ્રેડિક્ટા મોડ: હું માત્ર પક્કા દેખાતા હસ્તાક્ષર સંકેતોથી વાંચીશ, અંદાજ નહીં લગાવું.',
-        `જોવાયેલા સંકેતો: ${analysis.observedTraits.map(trait => `${trait.label} ${trait.value}`).join(', ')}.`,
-        `લખવાની લય: ${analysis.rhythm.summary}`,
-        `આત્મવિશ્વાસની અભિવ્યક્તિ: ${analysis.confidenceExpression.summary}`,
-        `સ્થિરતા: ${analysis.consistency.summary}`,
-        `સુધાર યોજના: ${analysis.improvementPlan.slice(0, 3).join(' ')}`,
+        getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.19438314a3"),
+        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.d49acb1d59", [analysis.observedTraits.map(trait => `${trait.label} ${trait.value}`).join(', ')]),
+        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.7bdd1b3aae", [analysis.rhythm.summary]),
+        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.5b3f1b3e99", [analysis.confidenceExpression.summary]),
+        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.6dd421f350", [analysis.consistency.summary]),
+        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.efabd4020f", [analysis.improvementPlan.slice(0, 3).join(' ')]),
         analysis.synthesisReadiness.rule,
         buildSignatureSafetyReply(language),
         hasPremiumAccess
-          ? 'પ્રીમિયમ ઊંડાણ સક્રિય છે: હું વારંવારના હસ્તાક્ષર નમૂનાઓ, નામ-લય, અંક અને Kundli context ની તુલના ત્યારે જ કરીશ જ્યારે તમે સંયુક્ત સાર માગો.'
-          : 'મફત સમજ ઉપયોગી રહેશે. પ્રીમિયમમાં ઊંડી તુલના, નામ-લય, વૈકલ્પિક numerology/Kundli synthesis અને polished signature report મળે છે.',
+          ? getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.1887861c4c")
+          : getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.c374e6b5f8"),
       ].join('\n\n');
     }
     return [
-      'હસ્તાક્ષર પ્રેડિક્ટા મોડ: હું હસ્તાક્ષરને સ્વ-અભિવ્યક્તિ અને વ્યક્તિગત લયની પરત તરીકે વાંચીશ.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.1604456c1b"),
       promptHasConfirmedTraits
-        ? 'તમારા પક્કા હસ્તાક્ષર સંકેતો મળી ગયા છે. હું એ સંકેતો પરથી વાંચીશ, અંદાજ નહીં લગાવું.'
-        : 'પહેલા હસ્તાક્ષર upload/draw કરો અથવા દેખાતા સંકેતો confirm કરો: કદ, ઝુકાવ, દબાણ, અંતર, આધાર-રેખા, વાંચવાની સ્પષ્ટતા, શણગાર અને underline.',
-      'હું સુધાર સૂચનો આપી શકું છું: સ્પષ્ટ readability, steady baseline, balanced size, calm spacing અને confidence-friendly rhythm.',
+        ? getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.368254f316")
+        : getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.9ea028a5cb"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.96c53fceea"),
       buildSignatureSafetyReply(language),
       hasPremiumAccess
-        ? 'પ્રીમિયમ ઊંડાણ સક્રિય છે: હું વારંવારના હસ્તાક્ષર નમૂનાઓ, નામ-લય, અંક અને Kundli context ની તુલના ત્યારે જ કરીશ જ્યારે તમે સંયુક્ત સાર માગો.'
-        : 'મફત સમજ ઉપયોગી રહેશે. પ્રીમિયમમાં ઊંડી તુલના, નામ-લય, વૈકલ્પિક numerology/Kundli synthesis અને polished signature report મળે છે.',
+        ? getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.1887861c4c")
+        : getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.c374e6b5f8"),
     ].join('\n\n');
   }
 
@@ -2424,19 +2434,19 @@ function buildSignaturePredictaReply(
 function buildSignatureSafetyReply(language: SupportedLanguage): string {
   if (language === 'hi') {
     return [
-      'हस्ताक्षर प्रेडिक्टा केवल चिंतन और आत्म-समझ के लिए है.',
-      'यह पहचान सत्यापन, फॉरेंसिक लिखावट जांच, कानूनी प्रमाण, नियुक्ति सलाह, चिकित्सा निदान या मानसिक-स्वास्थ्य निदान नहीं है.',
-      'हर अर्थ को नरम संकेत मानें, चरित्र या भविष्य की पक्की बात नहीं.',
-      'कच्ची हस्ताक्षर छवि संग्रहित नहीं होती; सत्र बंद होने पर फिर से अपलोड या ड्रॉ करना पड़ सकता है.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.fdca8c608f"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.5d9d22e7c4"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.4752020518"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.a83cd9cfdb"),
     ].join(' ');
   }
 
   if (language === 'gu') {
     return [
-      'હસ્તાક્ષર પ્રેડિક્ટા માત્ર વિચાર અને સ્વ-સમજ માટે છે.',
-      'આ ઓળખ ચકાસણી, ફોરેન્સિક લખાણ તપાસ, કાનૂની પુરાવો, ભરતી સલાહ, તબીબી નિદાન અથવા માનસિક-આરોગ્ય નિદાન નથી.',
-      'દરેક અર્થને નરમ સંકેત માનો, સ્વભાવ કે ભવિષ્યની પક્કી વાત નહીં.',
-      'કાચી સહીની છબી સંગ્રહિત થતી નથી; સત્ર બંધ થાય તો ફરી અપલોડ અથવા ડ્રૉ કરવાની જરૂર પડી શકે.',
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.096b43cf1d"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.5e71456f86"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.3d1ddb88cb"),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.8a7095b2ef"),
     ].join(' ');
   }
 
@@ -2551,10 +2561,10 @@ function buildMemoryInsight(
     }
     const themes = memory.learnedThemes.slice(0, 3).join(', ');
     if (language === 'hi') {
-      return `मैं आपका pattern learn कर रही हूं: ${themes}.`;
+      return formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.d948055616", [themes]);
     }
     if (language === 'gu') {
-      return `હું તમારો pattern learn કરી રહી છું: ${themes}.`;
+      return formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.736bb3f11e", [themes]);
     }
     return `I am learning your pattern: ${themes}.`;
   }
@@ -2569,32 +2579,28 @@ function buildMemoryInsight(
     )} with this Kundli. Not identical, but close enough that I would compare timing carefully.`;
 
     if (language === 'hi') {
-      return `मेरी local memory में एक close chart pattern दिखा: ${
-        similar.kundli.birthDetails.name
-      } में ${similar.matches.join(
+      return formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.3294f30d6e", [similar.kundli.birthDetails.name, similar.matches.join(
         ', ',
-      )} similar है. Identical नहीं, लेकिन comparison useful रहेगा.`;
+      )]);
     }
     if (language === 'gu') {
-      return `મારી local memory માં close chart pattern દેખાયું: ${
-        similar.kundli.birthDetails.name
-      } માં ${similar.matches.join(
+      return formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.37b4225197", [similar.kundli.birthDetails.name, similar.matches.join(
         ', ',
-      )} similar છે. Identical નથી, પણ comparison useful રહેશે.`;
+      )]);
     }
     return line;
   }
 
   if (memory?.chartSignatures.includes(chartSignature(kundli))) {
     if (language === 'hi') {
-      return `मुझे अब यह chart signature याद है: ${chartSignature(
+      return formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.471f5e915d", [chartSignature(
         kundli,
-      )}. जैसे-जैसे और Kundlis vault में आएंगी, मैं pattern comparison automatically करूंगी.`;
+      )]);
     }
     if (language === 'gu') {
-      return `મને આ chart signature હવે યાદ છે: ${chartSignature(
+      return formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.59a57bcdff", [chartSignature(
         kundli,
-      )}. જેમ-જેમ વધુ Kundlis vault માં આવશે, હું pattern comparison automatically કરીશ.`;
+      )]);
     }
     return `I remember this chart signature now: ${chartSignature(
       kundli,
@@ -2602,14 +2608,14 @@ function buildMemoryInsight(
   }
 
   if (language === 'hi') {
-    return `मैं इस chart signature को memory में add कर रही हूं: ${chartSignature(
+    return formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.57294bc99c", [chartSignature(
       kundli,
-    )}.`;
+    )]);
   }
   if (language === 'gu') {
-    return `હું આ chart signature memory માં add કરી રહી છું: ${chartSignature(
+    return formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.ca111a330c", [chartSignature(
       kundli,
-    )}.`;
+    )]);
   }
   return `I am adding this chart signature to memory: ${chartSignature(
     kundli,
@@ -2665,10 +2671,10 @@ function buildUpsell(
       : 'Turn this into a deeper map when you want proof, timing confidence, and report-grade synthesis.';
 
   if (language === 'hi') {
-    return `Go deeper option: ${suggestion} पहले free answer useful रहेगा; detailed map चाहिए तब Premium, Day Pass या one-time report choose करें.`;
+    return formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.4fffdcca9c", [suggestion]);
   }
   if (language === 'gu') {
-    return `Go deeper option: ${suggestion} પહેલા free answer useful રહેશે; detailed map જોઈએ ત્યારે Premium, Day Pass અથવા one-time report choose કરો.`;
+    return formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.62dcb6329d", [suggestion]);
   }
   return `Go deeper option: ${suggestion} The free answer stays useful first; choose Premium, a Day Pass, or a one-time report only when you want the detailed map.`;
 }
@@ -2848,10 +2854,10 @@ function buildExplicitLanguageSwitchAcknowledgement(
   responseLanguage: SupportedLanguage,
 ): string | undefined {
   if (responseLanguage === 'hi') {
-    return 'ठीक है. मैं आगे हिंदी में जवाब दूंगी.';
+    return getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.a481c7cb5c");
   }
   if (responseLanguage === 'gu') {
-    return 'ઠીક છે. હવે હું ગુજરાતી માં જવાબ આપીશ.';
+    return getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.f736087524");
   }
   if (responseLanguage === 'en') {
     return 'Okay. I will continue in English.';

@@ -1,5 +1,6 @@
 'use client';
 
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 import { composeChalitBhavKpFoundation } from '@pridicta/astrology';
@@ -189,45 +190,45 @@ export function WebKpPredictaPanel({
             href: '#kp-judgement',
             label:
               language === 'hi'
-                ? 'निर्णय पथ'
+                ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.bde0f8a88a")
                 : language === 'gu'
-                  ? 'નિર્ણય માર્ગ'
+                  ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.db0b9d9f38")
                   : 'Judgement path',
             note:
               language === 'hi'
-                ? 'घटना, भाव, कस्प सब लॉर्ड और समय समर्थन से शुरुआत करें.'
+                ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.fe50c2547a")
                 : language === 'gu'
-                  ? 'ઘટના, ભાવ, કસ્પ સબ લોર્ડ અને સમય આધારથી શરૂઆત કરો.'
+                  ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.b33624985c")
                   : 'Start from the event, houses, cusp sub lord, and timing support.',
           },
           {
             href: '#kp-cusps',
             label:
               language === 'hi'
-                ? '12 कस्प'
+                ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.537e460b1e")
                 : language === 'gu'
-                  ? '12 કસ્પ'
+                  ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.20df417cf2")
                   : '12 cusps',
             note:
               language === 'hi'
-                ? 'पूरा निर्णय तालिका में स्टार और सब लॉर्ड के साथ देखें.'
+                ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.847e8e1ded")
                 : language === 'gu'
-                  ? 'સ્ટાર અને સબ લોર્ડ સાથે આખો નિર્ણય કોષ્ટકમાં જુઓ.'
+                  ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.8086a5e48d")
                   : 'Inspect the full cusp table with star and sub lords.',
           },
           {
             href: '#kp-significators',
             label:
               language === 'hi'
-                ? 'सिग्निफिकेटर'
+                ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.10afdbe036")
                 : language === 'gu'
-                  ? 'સિગ્નિફિકેટર'
+                  ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.a66a370488")
                   : 'Significators',
             note:
               language === 'hi'
-                ? 'कौन से ग्रह घटना उठाते हैं, यह तुरंत साफ करें.'
+                ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.2d599780ac")
                 : language === 'gu'
-                  ? 'કયા ગ્રહો ઘટના ઉઠાવે છે, તે તરત સ્પષ્ટ કરો.'
+                  ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.1e47f411c9")
                   : 'See which planets actually carry the event promise.',
           },
           {
@@ -235,9 +236,9 @@ export function WebKpPredictaPanel({
             label: t('Build KP report'),
             note:
               language === 'hi'
-                ? 'जब घटना को लिखित निर्णय में बदलना हो, रिपोर्ट पथ लें.'
+                ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.9cea8c0abf")
                 : language === 'gu'
-                  ? 'જ્યારે ઘટનાને લખિત નિર્ણયમાં ફેરવવો હોય, ત્યારે રિપોર્ટ માર્ગ લો.'
+                  ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.ba540326e6")
                   : 'Move into the KP report path when the judgement needs a formal write-up.',
           },
         ]}
@@ -247,43 +248,43 @@ export function WebKpPredictaPanel({
           {
             label:
               language === 'hi'
-                ? 'प्रारंभ'
+                ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.ef1d697a27")
                 : language === 'gu'
-                  ? 'શરૂઆત'
+                  ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.d379463006")
                   : 'Start',
             value:
               language === 'hi'
-                ? 'घटना पहले'
+                ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.d6a448e134")
                 : language === 'gu'
-                  ? 'પહેલા ઘટના'
+                  ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.1decbaa667")
                   : 'Event first',
           },
           {
             label:
               language === 'hi'
-                ? 'मुख्य प्रमाण'
+                ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.ddd3c38e4e")
                 : language === 'gu'
-                  ? 'મુખ્ય પુરાવો'
+                  ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.7d39d099a5")
                   : 'Core proof',
             value:
               language === 'hi'
-                ? 'कस्प + सब लॉर्ड'
+                ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.7fa427e159")
                 : language === 'gu'
-                  ? 'કસ્પ + સબ લોર્ડ'
+                  ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.6fac5620e9")
                   : 'Cusps + sub lords',
           },
           {
             label:
               language === 'hi'
-                ? 'समय'
+                ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.7457c45e9e")
                 : language === 'gu'
-                  ? 'સમય'
+                  ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.82e44a590f")
                   : 'Timing',
             value:
               language === 'hi'
-                ? 'रूलिंग ग्रह + दशा'
+                ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.bb788bb24a")
                 : language === 'gu'
-                  ? 'રૂલિંગ ગ્રહો + દશા'
+                  ? getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.e6d8fc24e6")
                   : 'Ruling planets + dasha',
           },
         ]}
@@ -399,8 +400,8 @@ export function WebKpPredictaPanel({
               {localizeKp(
                 language,
                 'What are you asking?',
-                'आप क्या पूछ रहे हैं?',
-                'તમે શું પૂછો છો?',
+                getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.9982bf713c"),
+                getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.99c963fc2f"),
               )}
             </strong>
             <p>{t('Choose the event first. KP works best with an exact question, a time window, the current situation, and the outcome you want to judge.')}</p>
@@ -417,8 +418,8 @@ export function WebKpPredictaPanel({
                 {localizeKp(
                   language,
                   'Main event carrier',
-                  'मुख्य घटना वाहक',
-                  'મુખ્ય ઘટના વાહક',
+                  getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.242aa9d432"),
+                  getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.b73b5969a8"),
                 )}
               </span>
               <strong>{focusMeaning.mainCarrier}</strong>
@@ -429,8 +430,8 @@ export function WebKpPredictaPanel({
                 {localizeKp(
                   language,
                   'Main caution',
-                  'मुख्य सावधानी',
-                  'મુખ્ય સાવધાની',
+                  getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.136ef2d0e3"),
+                  getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.abdcc45994"),
                 )}
               </span>
               <strong>{focusMeaning.cautionTitle}</strong>
@@ -441,8 +442,8 @@ export function WebKpPredictaPanel({
                 {localizeKp(
                   language,
                   'Next guidance',
-                  'अगला मार्गदर्शन',
-                  'આગળનું માર્ગદર્શન',
+                  getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.7db067306d"),
+                  getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.e2b6f1e905"),
                 )}
               </span>
               <strong>{focusMeaning.guidanceTitle}</strong>
@@ -663,68 +664,68 @@ function buildKpFocusMeaning({
 } {
   const areas = focus.houses.map(house => getKpHouseArea(house, language)).join(', ');
   const carrier = significators[0];
-  const carrierName = carrier?.planet ?? localizeKp(language, 'Pending', 'प्रतीक्षारत', 'બાકી');
+  const carrierName = carrier?.planet ?? localizeKp(language, 'Pending', getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.0ab46976f5"), getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.577270f404"));
   const cuspSummary = cusp
     ? localizeKp(
         language,
         `Cusp ${cusp.house} is being judged through sub lord ${cusp.lordChain.subLord}.`,
-        `कस्प ${cusp.house} का निर्णय सब लॉर्ड ${cusp.lordChain.subLord} से हो रहा है.`,
-        `કસ્પ ${cusp.house}નો નિર્ણય સબ લોર્ડ ${cusp.lordChain.subLord}થી થઈ રહ્યો છે.`,
+        formatNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.77bc952542", [cusp.house, cusp.lordChain.subLord]),
+        formatNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.c34b99cb8a", [cusp.house, cusp.lordChain.subLord]),
       )
     : localizeKp(
         language,
         'The main cusp is still being prepared.',
-        'मुख्य कस्प अभी तैयार हो रहा है.',
-        'મુખ્ય કસ્પ હજી તૈયાર થઈ રહ્યો છે.',
+        getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.194212fd03"),
+        getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.5005ad0685"),
       );
   const rulingSummary = ruling
     ? localizeKp(
         language,
         `Timing stays grounded through day lord ${ruling.dayLord} and Moon sub ${ruling.moonSubLord}.`,
-        `समय निर्धारण डे लॉर्ड ${ruling.dayLord} और मून सब ${ruling.moonSubLord} से जुड़ा रहता है.`,
-        `સમય નિર્ધારણ ડે લોર્ડ ${ruling.dayLord} અને મૂન સબ ${ruling.moonSubLord}થી સ્થિર થાય છે.`,
+        formatNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.8247fd7c06", [ruling.dayLord, ruling.moonSubLord]),
+        formatNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.47c1757069", [ruling.dayLord, ruling.moonSubLord]),
       )
     : localizeKp(
         language,
         'Timing will become sharper once ruling planets are ready.',
-        'रूलिंग प्लेनेट तैयार होने पर समय और स्पष्ट होगा.',
-        'રૂલિંગ પ્લેનેટ તૈયાર થયા પછી સમય વધુ સ્પષ્ટ બનશે.',
+        getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.4deae2e4aa"),
+        getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.f416ac2d06"),
       );
 
   return {
     caution: localizeKp(
       language,
       'Do not treat KP like a personality reading. It becomes accurate when the question is specific and event-based.',
-      'KP को व्यक्तित्व पढ़ाई की तरह न लें. यह तब सटीक होता है जब प्रश्न स्पष्ट और घटना-आधारित हो.',
-      'KP ને વ્યક્તિગત વાંચન જેમ ન લો. પ્રશ્ન સ્પષ્ટ અને ઘટના આધારિત હોય ત્યારે જ તે ચોક્કસ બને છે.',
+      getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.b1c91a0afd"),
+      getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.abac67cba0"),
     ),
-    cautionTitle: localizeKp(language, 'Ask one exact question', 'एक सटीक प्रश्न पूछें', 'એક ચોક્કસ પ્રશ્ન પૂછો'),
+    cautionTitle: localizeKp(language, 'Ask one exact question', getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.c91439a8ab"), getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.0625a88268")),
     guidance: localizeKp(
       language,
       `Start with ${focus.title.toLowerCase()}, let KP judge ${areas}, and then use timing only after the event carriers are clear.`,
-      `${focus.title} से शुरू करें, KP को ${areas} का निर्णय करने दें, और घटना वाहक साफ होने के बाद ही समय देखें.`,
-      `${focus.title}થી શરૂઆત કરો, KP ને ${areas}નું નિર્ણય કરવા દો, અને ઘટના વાહકો સ્પષ્ટ થયા પછી જ સમય જુઓ.`,
+      formatNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.417e758d23", [focus.title, areas]),
+      formatNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.8d48b41932", [focus.title, areas]),
     ),
-    guidanceTitle: localizeKp(language, 'Event before timing', 'समय से पहले घटना', 'સમય પહેલાં ઘટના'),
+    guidanceTitle: localizeKp(language, 'Event before timing', getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.268ca3dbee"), getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.7371e19ec6")),
     mainCarrier: carrierName,
     strength: carrier
       ? localizeKp(
           language,
           `${carrier.planet} is carrying the clearest event promise right now through ${carrier.signifiesHouses.map(house => getKpHouseArea(house, language)).slice(0, 2).join(', ')}.`,
-          `${carrier.planet} अभी सबसे स्पष्ट घटना संकेत दे रहा है, खासकर ${carrier.signifiesHouses.map(house => getKpHouseArea(house, language)).slice(0, 2).join(', ')} के माध्यम से.`,
-          `${carrier.planet} હાલ સૌથી સ્પષ્ટ ઘટના સંકેત આપી રહ્યો છે, ખાસ કરીને ${carrier.signifiesHouses.map(house => getKpHouseArea(house, language)).slice(0, 2).join(', ')} દ્વારા.`,
+          formatNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.87b447c9d9", [carrier.planet, carrier.signifiesHouses.map(house => getKpHouseArea(house, language)).slice(0, 2).join(', ')]),
+          formatNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.1c54750858", [carrier.planet, carrier.signifiesHouses.map(house => getKpHouseArea(house, language)).slice(0, 2).join(', ')]),
         )
       : localizeKp(
           language,
           'The event carriers will become clear once significators are ready.',
-          'सिग्निफिकेटर तैयार होने पर घटना वाहक स्पष्ट होंगे.',
-          'સિગ્નિફિકેટર તૈયાર થયા પછી ઘટના વાહકો સ્પષ્ટ થશે.',
+          getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.a0468afcba"),
+          getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.593f34f72a"),
         ),
     whatItSays: localizeKp(
       language,
       `KP is saying this question should be judged through ${areas}. ${cuspSummary} ${rulingSummary}`,
-      `KP कह रहा है कि इस प्रश्न का निर्णय ${areas} के माध्यम से होना चाहिए. ${cuspSummary} ${rulingSummary}`,
-      `KP કહી રહ્યું છે કે આ પ્રશ્નનું નિર્ણય ${areas} દ્વારા થવું જોઈએ. ${cuspSummary} ${rulingSummary}`,
+      formatNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.4e72c8f478", [areas, cuspSummary, rulingSummary]),
+      formatNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.45aa9bc698", [areas, cuspSummary, rulingSummary]),
     ),
   };
 }
@@ -771,31 +772,31 @@ const KP_HOUSE_LABELS_EN: Record<number, string> = {
 };
 
 const KP_HOUSE_LABELS_HI: Record<number, string> = {
-  1: 'स्व और दिशा',
-  2: 'धन और परिवार',
-  3: 'प्रयास और गति',
-  4: 'घर और संपत्ति',
-  5: 'रचनात्मकता और अटकल',
-  6: 'काम और संघर्ष',
-  7: 'विवाह और साझेदारी',
-  8: 'परिवर्तन और छिपा दबाव',
-  9: 'भाग्य और आशीर्वाद',
-  10: 'करियर और सार्वजनिक भूमिका',
-  11: 'लाभ और पूर्ति',
-  12: 'व्यय और मुक्ति',
+  1: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.51f243501b"),
+  2: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.7f4fb1e401"),
+  3: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.e4616a7d65"),
+  4: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.f90d1bac21"),
+  5: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.e2950f8428"),
+  6: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.77b7ffca60"),
+  7: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.355c4ab12b"),
+  8: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.96a61c7d83"),
+  9: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.a37f31ed70"),
+  10: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.7f2193efb9"),
+  11: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.7e5590f133"),
+  12: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.d1a302583f"),
 };
 
 const KP_HOUSE_LABELS_GU: Record<number, string> = {
-  1: 'સ્વ અને દિશા',
-  2: 'ધન અને પરિવાર',
-  3: 'પ્રયાસ અને ગતિ',
-  4: 'ઘર અને સંપત્તિ',
-  5: 'સર્જનાત્મકતા અને અનુમાન',
-  6: 'કામ અને સંઘર્ષ',
-  7: 'લગ્ન અને ભાગીદારી',
-  8: 'પરિવર્તન અને છુપાયેલ દબાણ',
-  9: 'ભાગ્ય અને આશીર્વાદ',
-  10: 'કારકિર્દી અને જાહેર ભૂમિકા',
-  11: 'લાભ અને પૂર્ણતા',
-  12: 'ખર્ચ અને મુકિત',
+  1: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.d54fd48796"),
+  2: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.90d7bd7f8f"),
+  3: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.26abf63af0"),
+  4: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.6f431df66f"),
+  5: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.6dbb7c5434"),
+  6: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.f9c1cb9cf9"),
+  7: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.e08fc97426"),
+  8: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.876f82b789"),
+  9: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.ef10750fd6"),
+  10: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.562ff83d51"),
+  11: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.bba9869001"),
+  12: getNativeCopy("native.apps.web.components.WebKpPredictaPanel.tsx.763f0c9e92"),
 };

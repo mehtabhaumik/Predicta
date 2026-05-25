@@ -1,5 +1,6 @@
 'use client';
 
+import { getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { composeMatchmakingAnalysis } from '@pridicta/astrology';
@@ -83,77 +84,77 @@ const COPY: Record<SupportedLanguage, MatchmakingCopy> = {
   },
   hi: {
     actions: {
-      addProfile: 'प्रोफाइल जोड़ें',
-      askPredicta: 'प्रेडिक्टा से पूछें',
-      familyVault: 'परिवार वॉल्ट खोलें',
-      reportOptions: 'रिपोर्ट विकल्प देखें',
-      savedKundlis: 'सेव कुंडलियां',
-      useAsActive: 'सक्रिय बनाएं',
+      addProfile: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.8451479867"),
+      askPredicta: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.c6b9045108"),
+      familyVault: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.6fdd68f33c"),
+      reportOptions: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.e95db1c212"),
+      savedKundlis: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.bc3580d452"),
+      useAsActive: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.86cbd95a3e"),
     },
     bands: {
-      scoreOutOf100: '100 में से स्कोर',
+      scoreOutOf100: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.23801e0d8f"),
     },
     helper:
-      'विवाह मिलान अलग वैदिक उत्पाद है. यह पारंपरिक मिलान को कर्म, धर्म, परिवार अनुकूलन, विवाद सुधार और दीर्घकालीन स्थिरता के साथ जोड़ता है.',
+      getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.eae5bd5a59"),
     pendingHint:
-      'एक लड़के और एक लड़की की कुंडली चुनें. दोनों चार्ट के बिना प्रेडिक्टा विवाह स्कोर नहीं बनाएगी.',
-    premiumLabel: 'प्रीमियम विवाह मिलान गहराई',
+      getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.452d64fa2a"),
+    premiumLabel: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.da3fdd836e"),
     premiumLocked:
-      'प्रीमियम में स्कोर तर्क, विवाह दबाव बिंदु, सहारा क्षमता, परिवार मेल जोखिम, समय और व्यावहारिक मार्गदर्शन जुड़ता है.',
+      getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.f1e08c4146"),
     readyBody:
-      'यह केवल विवाह या दीर्घकालीन साझेदारी के लिए है. परिवार वॉल्ट व्यापक रहता है; विवाह मिलान विशिष्ट रहता है.',
-    readyTitle: 'मिलान जोड़ी चुनें',
+      getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.9b92993a94"),
+    readyTitle: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.6ca151de51"),
     roles: {
-      boy: 'लड़के की कुंडली',
-      girl: 'लड़की की कुंडली',
-      include: 'विवाह मिलान के लिए चुना गया',
-      placeholder: 'सेव प्रोफाइल चुनें',
+      boy: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.fd439b89ec"),
+      girl: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.5f48ac4bb3"),
+      include: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.15c73827e8"),
+      placeholder: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.df9fa435e5"),
     },
     sections: {
-      caution: 'सावधानी क्षेत्र',
-      conclusion: 'सरल निष्कर्ष',
-      strengths: 'मजबूत पक्ष',
+      caution: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.bb8d7eacac"),
+      conclusion: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.4a27053c90"),
+      strengths: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.db95324647"),
     },
     subtitle:
-      'एक लड़के और एक लड़की के मिलान को वैदिक संगति, कर्म-धर्म मेल और जीवन प्रभाव से पढ़ें.',
-    title: 'विवाह मिलान',
+      getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.e590062feb"),
+    title: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.1952f57972"),
   },
   gu: {
     actions: {
-      addProfile: 'પ્રોફાઇલ ઉમેરો',
-      askPredicta: 'પ્રેડિક્ટા ને પૂછો',
-      familyVault: 'પરિવાર વોલ્ટ ખોલો',
-      reportOptions: 'રિપોર્ટ વિકલ્પો જુઓ',
-      savedKundlis: 'સાચવેલી કુંડળીઓ',
-      useAsActive: 'સક્રિય બનાવો',
+      addProfile: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.9b55a692c0"),
+      askPredicta: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.52ca01d0e0"),
+      familyVault: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.4c07c4b85b"),
+      reportOptions: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.cddc4c91b8"),
+      savedKundlis: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.7d2df2a8a8"),
+      useAsActive: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.1b8417017a"),
     },
     bands: {
-      scoreOutOf100: '100 માંથી સ્કોર',
+      scoreOutOf100: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.ecf1a17eb8"),
     },
     helper:
-      'લગ્ન મિલાન અલગ વૈદિક ઉત્પાદન છે. તે પરંપરાગત મેળવણીને કર્મ, ધર્મ, પરિવાર અનુકૂલન, ઘર્ષણ પછીનો સુધાર અને દીર્ઘકાલીન સ્થિરતા સાથે જોડે છે.',
+      getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.503126db79"),
     pendingHint:
-      'એક છોકરા અને એક છોકરીની કુંડળી પસંદ કરો. બન્ને ચાર્ટ વિના પ્રેડિક્ટા લગ્ન સ્કોર નહીં બનાવે.',
-    premiumLabel: 'પ્રીમિયમ લગ્ન મિલાન ઊંડાણ',
+      getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.78cab27eb5"),
+    premiumLabel: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.d1bb4d15ac"),
     premiumLocked:
-      'પ્રીમિયમમાં સ્કોર તર્ક, લગ્ન દબાણ બિંદુઓ, સહારો શક્તિ, પરિવાર મેળ જોખમ, સમય અને પ્રાયોગિક માર્ગદર્શન જોડાય છે.',
+      getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.d58d40bd81"),
     readyBody:
-      'આ ફક્ત લગ્ન અથવા લાંબા ગાળાની ભાગીદારી માટે છે. પરિવાર વોલ્ટ વ્યાપક રહે છે; લગ્ન મિલાન ચોક્કસ રહે છે.',
-    readyTitle: 'મિલાન જોડી પસંદ કરો',
+      getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.86c5a86004"),
+    readyTitle: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.caea34906c"),
     roles: {
-      boy: 'છોકરાની કુંડળી',
-      girl: 'છોકરીની કુંડળી',
-      include: 'લગ્ન મિલાન માટે પસંદ',
-      placeholder: 'સાચવેલી પ્રોફાઇલ પસંદ કરો',
+      boy: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.dba54831b1"),
+      girl: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.432959da47"),
+      include: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.43b401e36d"),
+      placeholder: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.d8605618a1"),
     },
     sections: {
-      caution: 'સાવચેતી ક્ષેત્રો',
-      conclusion: 'સરળ નિષ્કર્ષ',
-      strengths: 'મજબૂત પક્ષ',
+      caution: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.a17c43f17f"),
+      conclusion: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.453015ea97"),
+      strengths: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.87ecb78580"),
     },
     subtitle:
-      'એક છોકરા અને એક છોકરીના મિલાનને વૈદિક સુસંગતતા, કર્મ-ધર્મ મેળ અને જીવન અસરથી વાંચો.',
-    title: 'લગ્ન મિલાન',
+      getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.4290d28626"),
+    title: getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.a2ef635763"),
   },
 };
 
@@ -332,16 +333,16 @@ export function WebMatchmakingPanel({
             <div>
               <div className="section-title">
                 {language === 'hi'
-                  ? 'प्रीमियम मिलान पैकेज'
+                  ? getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.e3902a93f5")
                   : language === 'gu'
-                    ? 'પ્રીમિયમ મિલાન પેકેજ'
+                    ? getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.95a18a8650")
                     : 'Premium matchmaking asset'}
               </div>
               <h3>
                 {language === 'hi'
-                  ? 'स्कोर के पीछे की असली कहानी पढ़िए.'
+                  ? getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.db1eb665a8")
                   : language === 'gu'
-                    ? 'સ્કોર પાછળની સાચી વાર્તા વાંચો.'
+                    ? getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.0a8cd7578b")
                     : 'Read the real story behind the score.'}
               </h3>
             </div>
@@ -349,23 +350,23 @@ export function WebMatchmakingPanel({
               <article className="matchmaking-premium-card">
                 <span>
                   {language === 'hi'
-                    ? 'गहरा विवाह मिलान रिपोर्ट'
+                    ? getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.c4531a9fb4")
                     : language === 'gu'
-                      ? 'ઊંડો લગ્ન મિલાન રિપોર્ટ'
+                      ? getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.292ddec7bb")
                       : 'Matchmaking Deep Report'}
                 </span>
                 <strong>
                   {language === 'hi'
-                    ? 'क्यों ऐसा स्कोर आया, यह साफ़ और सजे हुए तरीके से.'
+                    ? getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.7b2ec352a7")
                     : language === 'gu'
-                      ? 'આવો સ્કોર કેમ આવ્યો, તે સ્પષ્ટ અને સજ્જ રીતે.'
+                      ? getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.bb34b397aa")
                       : 'A polished explanation of why the score landed here.'}
                 </strong>
                 <p>
                   {language === 'hi'
-                    ? 'Premium में score logic, परिवार अनुकूलन, timing windows और practical marriage guidance जुड़ती है.'
+                    ? getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.11a4c236c0")
                     : language === 'gu'
-                      ? 'Premium માં score logic, પરિવાર અનુકૂલન, timing windows અને practical marriage guidance જોડાય છે.'
+                      ? getNativeCopy("native.apps.web.components.WebMatchmakingPanel.tsx.0facc4497e")
                       : 'Premium adds score logic, family adaptation, timing windows, and practical marriage guidance.'}
                 </p>
                 <Link

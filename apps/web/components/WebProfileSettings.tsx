@@ -1,5 +1,6 @@
 'use client';
 
+import { getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import type { User } from 'firebase/auth';
@@ -177,167 +178,167 @@ const SETTINGS_COPY: Record<SupportedLanguage, SettingsCopy> = {
   },
   hi: {
     accessBody:
-      'इस पेज से साइन इन, सेव कुंडली, रिपोर्ट भाषा, निजी प्रवेश और रिकवरी को शांत और साफ रखें.',
-    accessTitle: 'रिपोर्ट और प्रवेश',
-    accountContinuity: 'खाता निरंतरता',
-    accountReady: 'खाता तैयार',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.a6731daf97"),
+    accessTitle: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.474e2f3753"),
+    accountContinuity: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.39ef6af708"),
+    accountReady: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.ff5a69fb24"),
     accountRestoreFailed:
-      'आपकी कुंडली यहां सुरक्षित है. खाता पुनर्स्थापना बाद में फिर कोशिश करेगी.',
-    accountSynced: 'आपकी गेस्ट कुंडली इस खाते से जुड़ गई है.',
-    accountTitle: 'खाता निरंतरता',
-    appLanguage: 'ऐप भाषा',
-    chartLanguage: 'चार्ट भाषा',
-    chatSessions: 'चैट सत्र',
-    chooseDepth: 'ज्यादा गहराई तभी चुनें जब मुफ्त मूल्य साफ हो जाए.',
-    currentAccount: 'वर्तमान खाता',
-    drawerAction: 'खोलें',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.ace4d6dc56"),
+    accountSynced: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.bb8e689e0f"),
+    accountTitle: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.39ef6af708"),
+    appLanguage: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.f4a7c54c92"),
+    chartLanguage: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.099ec5792c"),
+    chatSessions: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.e4b700040d"),
+    chooseDepth: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.eb80765af2"),
+    currentAccount: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.6bea6d3b30"),
+    drawerAction: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.901879c422"),
     drawerBody:
-      'इस पेज से साइन इन, सेव कुंडली, रिपोर्ट भाषा, निजी प्रवेश और रिकवरी को शांत और साफ रखें.',
-    drawerEyebrow: 'यहां क्या रहता है',
-    guestChats: 'गेस्ट एक सक्रिय चैट रखते हैं. कई सत्रों के लिए साइन इन करें.',
-    guestMode: 'गेस्ट मोड',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.a6731daf97"),
+    drawerEyebrow: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.b0ed0feaf4"),
+    guestChats: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.320004b3d4"),
+    guestMode: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.6c634c5814"),
     guestModeBody:
-      'आप गेस्ट के रूप में एक कुंडली सुरक्षित रख सकते हैं, फिर निरंतरता चाहिए तो साइन इन करें.',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.10b7b4be85"),
     guestModeLibrary:
-      'गेस्ट मोड यहां एक कुंडली सुरक्षित रखता है जब तक आप साइन इन न करें.',
-    guestReady: 'आपकी गेस्ट कुंडली इस खाते के लिए तैयार है.',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.c8e17f677c"),
+    guestReady: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.bf2170a819"),
     guestSignInPrompt:
-      'एक बार साइन इन करें ताकि कुंडली, रिपोर्ट पसंद और चैट आपके खाते के साथ रहें.',
-    heading: 'खाता, भाषा और प्रवेश',
-    keepSeparate: 'ऐप, चार्ट, रिपोर्ट और चैट भाषा अलग रखें.',
-    kundliLibrary: 'कुंडली लाइब्रेरी',
-    languageControl: 'भाषा नियंत्रण',
-    lastReportLanguage: 'पिछली रिपोर्ट भाषा',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.1b819f55d9"),
+    heading: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.641778ac5e"),
+    keepSeparate: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.092ce017d5"),
+    kundliLibrary: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.66249ce6af"),
+    languageControl: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.e501da6b0b"),
+    lastReportLanguage: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.9e39747025"),
     libraryBody:
-      'लाइब्रेरी, रिपोर्ट पसंद और मौजूदा चैट निरंतरता इस डिवाइस या खाते से जुड़ी रहती है.',
-    multipleChats: 'आपके खाते से कई चैट सत्र उपलब्ध हैं.',
-    multipleKundlis: 'इस खाते में कई कुंडलियां रह सकती हैं.',
-    noReportPreference: 'अभी कोई रिपोर्ट पसंद सेव नहीं है.',
-    notChosenYet: 'अभी नहीं चुना',
-    notSignedInYet: 'अभी साइन इन नहीं है',
-    oneTimeReports: 'प्रीमियम और एक बार की रिपोर्ट',
-    openChat: 'चैट खोलें',
-    openLibrary: 'लाइब्रेरी खोलें',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.431c914859"),
+    multipleChats: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.7289e7f56d"),
+    multipleKundlis: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.14161d7add"),
+    noReportPreference: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.fafa0cfda0"),
+    notChosenYet: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.dc33c4aca3"),
+    notSignedInYet: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.ee7b30a0c4"),
+    oneTimeReports: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.81aa8e9828"),
+    openChat: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.6cc0093632"),
+    openLibrary: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.5528c606cb"),
     pageBody:
-      'सिर्फ वही सतह बदलें जो चाहिए. प्रेडिक्टा को सब कुछ एक साथ बदलने की जरूरत नहीं है.',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.a13c29f892"),
     premiumBody:
-      'सदस्यता, डे पास और तैयार रिपोर्ट रास्ते बिना दबाव के देखें.',
-    premiumTitle: 'प्रीमियम और एक बार की रिपोर्ट',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.0464e90ccc"),
+    premiumTitle: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.81aa8e9828"),
     privacyBody:
-      'सेव कुंडली, रिपोर्ट पसंद और भाषा पसंद यहां तैयार रहती हैं और साइन इन के बाद आपके खाते में जा सकती हैं.',
-    privacyTitle: 'गोपनीयता और पुनर्स्थापना',
-    privateByDefault: 'डिफॉल्ट रूप से निजी, और बाद में शांत रिकवरी.',
-    privatePass: 'निजी पास',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.fe90d7a33d"),
+    privacyTitle: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.27913d923f"),
+    privateByDefault: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.2e53feefa3"),
+    privatePass: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.b6895c451d"),
     privatePassBody:
-      'उस पास के लिए स्वीकृत ईमेल से निजी निमंत्रण उपयोग करें.',
-    profileState: 'प्रोफाइल स्थिति',
-    predictaReplyLanguage: 'प्रेडिक्टा जवाब भाषा',
-    predictaStyle: 'प्रेडिक्टा शैली',
-    redeem: 'उपयोग करें',
-    reportLanguage: 'रिपोर्ट भाषा',
-    reportPreference: 'रिपोर्ट पसंद',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.4db17f4d2e"),
+    profileState: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.193d989a4d"),
+    predictaReplyLanguage: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.4339b4a3a2"),
+    predictaStyle: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.3de5541fb3"),
+    redeem: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.2f9782442e"),
+    reportLanguage: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.593dbb24c0"),
+    reportPreference: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.338f69faf8"),
     reportStateBody:
-      'रिपोर्ट अपनी भाषा अलग रखती हैं और बाकी ऐप नहीं बदलतीं.',
-    reports: 'रिपोर्ट',
-    reportsAndAccess: 'रिपोर्ट और प्रवेश',
-    saved: 'सेव',
-    savedWork: 'सेव काम',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.7acf5b9815"),
+    reports: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.89a0ae86a5"),
+    reportsAndAccess: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.474e2f3753"),
+    saved: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.6dcff641a7"),
+    savedWork: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.05fd9fe16d"),
     savedWorkBody:
-      'लाइब्रेरी, रिपोर्ट पसंद और मौजूदा चैट निरंतरता इस डिवाइस या खाते से जुड़ी रहती है.',
-    signOut: 'साइन आउट',
-    signOutBusy: 'कृपया प्रतीक्षा करें...',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.431c914859"),
+    signOut: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.6fe87913b6"),
+    signOutBusy: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.77a27046c4"),
     signedInBody:
-      'आपकी कुंडली, रिपोर्ट पसंद और सेव चैट इसी खाते के साथ रहती हैं.',
-    signedInReady: 'साइन इन और तैयार',
-    startFree: 'मुफ्त से शुरू करें, फिर काम सुरक्षित रखें',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.e8a6377473"),
+    signedInReady: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.45058603d3"),
+    startFree: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.8f6f9926be"),
     styleHelper:
-      'डिफॉल्ट शैली एक बार चुनें. फिर भी प्रेडिक्टा मौजूदा संदेश के स्पष्ट संकेत मानेगी.',
-    usagePill: 'प्रवेश साफ रखें',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.df6d9a5415"),
+    usagePill: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.c525975fea"),
     usageSummary:
-      'मुफ्त उपयोग में दैनिक मार्गदर्शन और रिपोर्ट झलक उपयोगी रहती है. प्रीमियम गहरी रीडिंग, सेव निरंतरता और सुंदर रिपोर्ट गहराई जोड़ता है.',
-    viewPremium: 'प्रीमियम देखें',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.a6d7ed9ee9"),
+    viewPremium: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.58c75c2e00"),
   },
   gu: {
     accessBody:
-      'આ પેજ પરથી સાઇન ઇન, સેવ કુંડળી, રિપોર્ટ ભાષા, ખાનગી પ્રવેશ અને રિકવરીને શાંત અને સ્પષ્ટ રાખો.',
-    accessTitle: 'રિપોર્ટ અને પ્રવેશ',
-    accountContinuity: 'ખાતાની સતતતા',
-    accountReady: 'ખાતું તૈયાર',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.3e71aa3215"),
+    accessTitle: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.dbb559e5d0"),
+    accountContinuity: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.dd6487c135"),
+    accountReady: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.e31ed1876c"),
     accountRestoreFailed:
-      'તમારી કુંડળી અહીં સુરક્ષિત છે. ખાતું પુનઃસ્થાપન પછી ફરી પ્રયાસ કરશે.',
-    accountSynced: 'તમારી ગેસ્ટ કુંડળી આ ખાતા સાથે જોડાઈ ગઈ છે.',
-    accountTitle: 'ખાતાની સતતતા',
-    appLanguage: 'એપ ભાષા',
-    chartLanguage: 'ચાર્ટ ભાષા',
-    chatSessions: 'ચેટ સત્રો',
-    chooseDepth: 'વધુ ઊંડાઈ ત્યારે જ પસંદ કરો જ્યારે મફત મૂલ્ય સ્પષ્ટ થઈ જાય.',
-    currentAccount: 'વર્તમાન ખાતું',
-    drawerAction: 'ખોલો',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.0406e143ef"),
+    accountSynced: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.6e669b9a2e"),
+    accountTitle: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.dd6487c135"),
+    appLanguage: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.f516a47baa"),
+    chartLanguage: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.61f1e652e0"),
+    chatSessions: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.0dcd277a88"),
+    chooseDepth: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.43c6d99d2e"),
+    currentAccount: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.4b14dd69b9"),
+    drawerAction: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.e0185a82d6"),
     drawerBody:
-      'આ પેજ પરથી સાઇન ઇન, સેવ કુંડળી, રિપોર્ટ ભાષા, ખાનગી પ્રવેશ અને રિકવરીને શાંત અને સ્પષ્ટ રાખો.',
-    drawerEyebrow: 'અહીં શું રહે છે',
-    guestChats: 'ગેસ્ટ એક સક્રિય ચેટ વાપરે છે. અનેક સત્રો માટે સાઇન ઇન કરો.',
-    guestMode: 'ગેસ્ટ મોડ',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.3e71aa3215"),
+    drawerEyebrow: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.53aa633e34"),
+    guestChats: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.912c227374"),
+    guestMode: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.bbc4a0fd8a"),
     guestModeBody:
-      'તમે ગેસ્ટ તરીકે એક કુંડળી સુરક્ષિત રાખી શકો છો, પછી સતતતા જોઈએ ત્યારે સાઇન ઇન કરો.',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.e5108ae8ac"),
     guestModeLibrary:
-      'ગેસ્ટ મોડ અહીં એક કુંડળી સુરક્ષિત રાખે છે જ્યાં સુધી તમે સાઇન ઇન ન કરો.',
-    guestReady: 'તમારી ગેસ્ટ કુંડળી આ ખાતા માટે તૈયાર છે.',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.c477c42101"),
+    guestReady: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.777a802df0"),
     guestSignInPrompt:
-      'એક વાર સાઇન ઇન કરો જેથી કુંડળી, રિપોર્ટ પસંદગીઓ અને ચેટ તમારા ખાતા સાથે રહે.',
-    heading: 'ખાતું, ભાષા અને પ્રવેશ',
-    keepSeparate: 'એપ, ચાર્ટ, રિપોર્ટ અને ચેટ ભાષા અલગ રાખો.',
-    kundliLibrary: 'કુંડળી લાઇબ્રેરી',
-    languageControl: 'ભાષા નિયંત્રણ',
-    lastReportLanguage: 'છેલ્લી રિપોર્ટ ભાષા',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.6ea3d93578"),
+    heading: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.d0bc2c284b"),
+    keepSeparate: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.dcb3d3e318"),
+    kundliLibrary: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.69e24edda7"),
+    languageControl: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.17e102819e"),
+    lastReportLanguage: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.14f8152a05"),
     libraryBody:
-      'લાઇબ્રેરી, રિપોર્ટ પસંદગીઓ અને હાલની ચેટ સતતતા આ ડિવાઇસ અથવા ખાતા સાથે જોડાયેલી રહે છે.',
-    multipleChats: 'તમારા ખાતાથી અનેક ચેટ સત્રો ઉપલબ્ધ છે.',
-    multipleKundlis: 'આ ખાતા સાથે અનેક કુંડળીઓ રહી શકે છે.',
-    noReportPreference: 'હજુ કોઈ રિપોર્ટ પસંદગી સેવ નથી.',
-    notChosenYet: 'હજુ પસંદ નથી',
-    notSignedInYet: 'હજુ સાઇન ઇન નથી',
-    oneTimeReports: 'પ્રીમિયમ અને એક વખતની રિપોર્ટ',
-    openChat: 'ચેટ ખોલો',
-    openLibrary: 'લાઇબ્રેરી ખોલો',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.0e8cdcc38b"),
+    multipleChats: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.2b404d6ec1"),
+    multipleKundlis: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.0001faea76"),
+    noReportPreference: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.db2a766847"),
+    notChosenYet: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.1c08ffd7d1"),
+    notSignedInYet: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.57259beda0"),
+    oneTimeReports: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.048f43cdff"),
+    openChat: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.9648eba94c"),
+    openLibrary: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.c621b91547"),
     pageBody:
-      'ફક્ત જે સપાટી બદલવી હોય તે જ બદલો. પ્રેડિક્ટાને બધું એક સાથે બદલવાની જરૂર નથી.',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.dd4016a58d"),
     premiumBody:
-      'સભ્યપદ, ડે પાસ અને તૈયાર રિપોર્ટના રસ્તાઓ દબાણ વગર જુઓ.',
-    premiumTitle: 'પ્રીમિયમ અને એક વખતની રિપોર્ટ',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.1913a7b334"),
+    premiumTitle: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.048f43cdff"),
     privacyBody:
-      'સેવ કુંડળી, રિપોર્ટ પસંદગીઓ અને ભાષા પસંદગીઓ અહીં તૈયાર રહે છે અને સાઇન ઇન પછી તમારા ખાતામાં જઈ શકે છે.',
-    privacyTitle: 'ગોપનીયતા અને પુનઃસ્થાપન',
-    privateByDefault: 'ડિફૉલ્ટ રીતે ખાનગી, અને પછી શાંત રિકવરી.',
-    privatePass: 'ખાનગી પાસ',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.5ed8f3e42a"),
+    privacyTitle: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.8180cd0189"),
+    privateByDefault: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.2aa7b86ffd"),
+    privatePass: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.f73b66205c"),
     privatePassBody:
-      'તે પાસ માટે મંજૂર ઇમેઇલ સાથે ખાનગી આમંત્રણ રિડીમ કરો.',
-    profileState: 'પ્રોફાઇલ સ્થિતિ',
-    predictaReplyLanguage: 'પ્રેડિક્ટા જવાબ ભાષા',
-    predictaStyle: 'પ્રેડિક્ટા શૈલી',
-    redeem: 'રિડીમ કરો',
-    reportLanguage: 'રિપોર્ટ ભાષા',
-    reportPreference: 'રિપોર્ટ પસંદગી',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.75299cc037"),
+    profileState: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.839aa44de2"),
+    predictaReplyLanguage: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.118174aeb5"),
+    predictaStyle: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.467673ba10"),
+    redeem: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.5efa721933"),
+    reportLanguage: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.8d40c699f7"),
+    reportPreference: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.912f16de9b"),
     reportStateBody:
-      'રિપોર્ટ પોતાની ભાષા અલગ રાખે છે અને બાકી એપ બદલે નહીં.',
-    reports: 'રિપોર્ટ્સ',
-    reportsAndAccess: 'રિપોર્ટ અને પ્રવેશ',
-    saved: 'સેવ',
-    savedWork: 'સેવ કામ',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.06122c721d"),
+    reports: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.d6aa714c20"),
+    reportsAndAccess: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.dbb559e5d0"),
+    saved: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.f2547c79fb"),
+    savedWork: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.b8973d03a4"),
     savedWorkBody:
-      'લાઇબ્રેરી, રિપોર્ટ પસંદગીઓ અને હાલની ચેટ સતતતા આ ડિવાઇસ અથવા ખાતા સાથે જોડાયેલી રહે છે.',
-    signOut: 'સાઇન આઉટ',
-    signOutBusy: 'કૃપા કરીને રાહ જુઓ...',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.0e8cdcc38b"),
+    signOut: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.ed53d0da2a"),
+    signOutBusy: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.2dd10567cd"),
     signedInBody:
-      'તમારી કુંડળી, રિપોર્ટ પસંદગીઓ અને સેવ ચેટ આ જ ખાતા સાથે રહે છે.',
-    signedInReady: 'સાઇન ઇન અને તૈયાર',
-    startFree: 'મફતથી શરૂ કરો, પછી તમારું કામ સુરક્ષિત રાખો',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.08743b257d"),
+    signedInReady: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.9b9c58dbf1"),
+    startFree: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.faf51f6847"),
     styleHelper:
-      'ડિફૉલ્ટ શૈલી એક વાર પસંદ કરો. છતાં પ્રેડિક્ટા હાલના સંદેશના સ્પષ્ટ સંકેતો માને છે.',
-    usagePill: 'પ્રવેશ સ્વચ્છ રાખો',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.8e04d8aff9"),
+    usagePill: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.4cc03e8647"),
     usageSummary:
-      'મફત ઉપયોગમાં દૈનિક માર્ગદર્શન અને રિપોર્ટ ઝલક ઉપયોગી રહે છે. પ્રીમિયમ ઊંડી વાંચન, સેવ સતતતા અને સુંદર રિપોર્ટ ઊંડાઈ ઉમેરે છે.',
-    viewPremium: 'પ્રીમિયમ જુઓ',
+      getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.0c70efadd0"),
+    viewPremium: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.23df8c32af"),
   },
 };
 
@@ -693,18 +694,18 @@ function getPredictaStyleOptions(
   if (language === 'hi') {
     return [
       {
-        description: 'गर्म, संतुलित और संकेत-आधारित.',
-        label: 'संतुलित',
+        description: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.aa0444ea5e"),
+        label: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.f7c78e24a3"),
         value: 'balanced',
       },
       {
-        description: 'देवotional संकेत मिलने पर थोड़ा भक्तिपूर्ण स्वर.',
-        label: 'भक्तिमय',
+        description: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.79d086e204"),
+        label: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.9ef8604c00"),
         value: 'devotional',
       },
       {
-        description: 'ज्यादा तटस्थ, practical और गैर-धार्मिक.',
-        label: 'सेक्युलर',
+        description: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.9d76245605"),
+        label: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.1d93c53c90"),
         value: 'secular',
       },
     ];
@@ -713,18 +714,18 @@ function getPredictaStyleOptions(
   if (language === 'gu') {
     return [
       {
-        description: 'ઉષ્માભર્યું, સંતુલિત અને સંકેત આધારિત.',
-        label: 'સંતુલિત',
+        description: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.45863ce969"),
+        label: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.368f2e1772"),
         value: 'balanced',
       },
       {
-        description: 'સંકેત મળે ત્યારે થોડું ભક્તિપૂર્ણ સ્વર.',
-        label: 'ભક્તિમય',
+        description: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.7b23b4e0c7"),
+        label: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.19b08e4fc8"),
         value: 'devotional',
       },
       {
-        description: 'વધુ નિષ્પક્ષ, practical અને અર્ધાર્મિક નહીં.',
-        label: 'સેક્યુલર',
+        description: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.761c78cf89"),
+        label: getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.0ec3b79272"),
         value: 'secular',
       },
     ];
@@ -755,22 +756,22 @@ function getLanguageName(
 ): string {
   if (uiLanguage === 'hi') {
     if (language === 'en') {
-      return 'अंग्रेजी';
+      return getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.3a7369a641");
     }
     if (language === 'hi') {
-      return 'हिन्दी';
+      return getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.cff4c47628");
     }
-    return 'ગુજરાતી';
+    return getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.073960263e");
   }
 
   if (uiLanguage === 'gu') {
     if (language === 'en') {
-      return 'અંગ્રેજી';
+      return getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.e8831dd929");
     }
     if (language === 'hi') {
-      return 'હિન્દી';
+      return getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.a123b8bbf1");
     }
-    return 'ગુજરાતી';
+    return getNativeCopy("native.apps.web.components.WebProfileSettings.tsx.073960263e");
   }
 
   const option = SUPPORTED_LANGUAGE_OPTIONS.find(item => item.code === language);

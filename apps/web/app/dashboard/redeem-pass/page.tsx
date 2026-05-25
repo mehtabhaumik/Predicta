@@ -1,5 +1,6 @@
 'use client';
 
+import { getNativeCopy } from '@pridicta/config';
 import { Card } from '../../../components/Card';
 import { WebRedeemPassForm } from '../../../components/WebRedeemPassForm';
 import type { SupportedLanguage } from '@pridicta/types';
@@ -80,44 +81,44 @@ const REDEEM_PASS_PAGE_COPY: Record<
   },
   hi: {
     drawerBody:
-      'आपका पास केवल उसी ईमेल पर काम करता है जिससे इसे बनाया गया था. अगर वह ईमेल याद है तो उसी से साइन इन करें. अगर याद नहीं है तो प्रेडिक्टा व्यवस्थापक या आमंत्रित करने वाले व्यक्ति से संपर्क करें.',
-    drawerTitle: 'उपयोग से पहले',
-    openLabel: 'खोलें',
+      getNativeCopy("native.apps.web.app.dashboard.redeem.pass.page.tsx.c326680c2a"),
+    drawerTitle: getNativeCopy("native.apps.web.app.dashboard.redeem.pass.page.tsx.c69d1c9e06"),
+    openLabel: getNativeCopy("native.apps.web.app.dashboard.redeem.pass.page.tsx.901879c422"),
     steps: [
       {
-        body: 'Google साइन-इन और ईमेल साइन-अप दोनों चलेंगे. प्रेडिक्टा ईमेल अपने आप जांच लेती है.',
-        title: 'पास वाला ईमेल उपयोग करें.',
+        body: getNativeCopy("native.apps.web.app.dashboard.redeem.pass.page.tsx.251e208bf5"),
+        title: getNativeCopy("native.apps.web.app.dashboard.redeem.pass.page.tsx.2e4eb7634a"),
       },
       {
-        body: 'कोड वही लिखें जैसा साझा किया गया था. प्रेडिक्टा सक्रिय पास की पुष्टि करेगी.',
-        title: 'पास उपयोग करें.',
+        body: getNativeCopy("native.apps.web.app.dashboard.redeem.pass.page.tsx.60663553b4"),
+        title: getNativeCopy("native.apps.web.app.dashboard.redeem.pass.page.tsx.1e0e63d843"),
       },
       {
-        body: 'पहले कुंडली बनाएं, फिर चैट, गोचर, रिपोर्ट, कृष्णमूर्ति पद्धति या नाड़ी आजमाएं.',
-        title: 'कुंडली से शुरू करें.',
+        body: getNativeCopy("native.apps.web.app.dashboard.redeem.pass.page.tsx.faaea785c9"),
+        title: getNativeCopy("native.apps.web.app.dashboard.redeem.pass.page.tsx.7df627648f"),
       },
     ],
-    title: 'निजी प्रवेश यहीं से शुरू होता है.',
+    title: getNativeCopy("native.apps.web.app.dashboard.redeem.pass.page.tsx.d2188a872c"),
   },
   gu: {
     drawerBody:
-      'તમારો પાસ ફક્ત એ જ ઇમેઇલ સાથે કામ કરે છે જેના પરથી તે બનાવાયો હતો. તે ઇમેઇલ યાદ હોય તો એ જથી સાઇન ઇન કરો. યાદ ન હોય તો પ્રેડિક્ટા સંચાલક અથવા આમંત્રિત કરનાર વ્યક્તિનો સંપર્ક કરો.',
-    drawerTitle: 'ઉપયોગ પહેલાં',
-    openLabel: 'ખોલો',
+      getNativeCopy("native.apps.web.app.dashboard.redeem.pass.page.tsx.02c384ca87"),
+    drawerTitle: getNativeCopy("native.apps.web.app.dashboard.redeem.pass.page.tsx.8ac8ad6087"),
+    openLabel: getNativeCopy("native.apps.web.app.dashboard.redeem.pass.page.tsx.e0185a82d6"),
     steps: [
       {
-        body: 'Google સાઇન-ઇન અને ઇમેઇલ સાઇન-અપ બંને ચાલે છે. પ્રેડિક્ટા ઇમેઇલ આપમેળે ચકાસે છે.',
-        title: 'પાસવાળું ઇમેઇલ વાપરો.',
+        body: getNativeCopy("native.apps.web.app.dashboard.redeem.pass.page.tsx.44647a1703"),
+        title: getNativeCopy("native.apps.web.app.dashboard.redeem.pass.page.tsx.5301b77e78"),
       },
       {
-        body: 'કોડ જેમ શેર થયો હતો તેમ જ લખો. પ્રેડિક્ટા સક્રિય પાસની પુષ્ટિ કરશે.',
-        title: 'પાસ રીડીમ કરો.',
+        body: getNativeCopy("native.apps.web.app.dashboard.redeem.pass.page.tsx.5547ebf379"),
+        title: getNativeCopy("native.apps.web.app.dashboard.redeem.pass.page.tsx.d5127639c8"),
       },
       {
-        body: 'પહેલાં કુંડળી બનાવો, પછી ચેટ, ગોચર, રિપોર્ટ, કૃષ્ણમૂર્તિ પદ્ધતિ કે નાડી અજમાવો.',
-        title: 'કુંડળીથી શરૂ કરો.',
+        body: getNativeCopy("native.apps.web.app.dashboard.redeem.pass.page.tsx.6fbbeead37"),
+        title: getNativeCopy("native.apps.web.app.dashboard.redeem.pass.page.tsx.2087ba9876"),
       },
     ],
-    title: 'ખાનગી પ્રવેશ અહીંથી શરૂ થાય છે.',
+    title: getNativeCopy("native.apps.web.app.dashboard.redeem.pass.page.tsx.96813a34ec"),
   },
 };

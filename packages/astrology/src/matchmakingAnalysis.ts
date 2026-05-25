@@ -1,3 +1,4 @@
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import type {
   KundliData,
   MatchmakingAnalysis,
@@ -178,186 +179,186 @@ const COPY: Record<SupportedLanguage, Copy> = {
   },
   hi: {
     bandLabels: {
-      'difficult-serious-alignment': 'गंभीर सामंजस्य के बिना कठिन',
-      'mixed-workable': 'मिश्रित, परिपक्वता के साथ संभव',
-      'strong-manageable': 'मजबूत, संभालने योग्य घर्षण के साथ',
-      'structurally-strained': 'संरचनात्मक रूप से तनावपूर्ण',
-      'unusually-strong': 'असाधारण रूप से मजबूत',
+      'difficult-serious-alignment': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.1b852e6afb"),
+      'mixed-workable': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.5f78868a3b"),
+      'strong-manageable': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.1c3410e06c"),
+      'structurally-strained': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.9e476e7696"),
+      'unusually-strong': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.1e94c6e523"),
     },
     pending: {
       askPrompt:
-        'समझाएं कि एक लड़के और एक लड़की की कुंडली चुनने के बाद मैचमेकिंग क्या देखेगी. भाषा मानवीय, वैदिक और गैर-नियतिवादी रखें.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.a80e400231"),
       baseline:
-        'दोनों चार्ट चुने जाने पर प्रेडिक्टा पारंपरिक आधार समझाएगी.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.d307afde65"),
       conclusion:
-        'विवाह या दीर्घकालीन साझेदारी रीडिंग से पहले एक लड़के और एक लड़की की कुंडली चुनें.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.fbc7eb89b1"),
       familyRisk:
-        'दोनों चार्ट चुने जाने के बाद ही पारिवारिक मेल और दबाव संकेत दिखेंगे.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.f9bec83903"),
       premiumUnlock:
-        'प्रीमियम में स्कोर का तर्क, दबाव बिंदु, सहारा क्षमता, परिवार मेल मार्गदर्शन और समय-संवेदनशील सलाह जुड़ती है.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.e2f27b491d"),
       support:
-        'सहारा क्षमता दोनों चार्ट चुने जाने के बाद दिखेगी.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.ea68415b2a"),
       subtitle:
-        'एक लड़के और एक लड़की की प्रोफाइल चुनें और समर्पित वैदिक विवाह मिलान पढ़ें.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.c1b360e210"),
       timing:
-        'समय नोट्स दोनों चार्ट चुने जाने के बाद दिखेंगे.',
-      title: 'एक लड़के और एक लड़की की कुंडली चुनें.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.cfbe95ec08"),
+      title: getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.c1fbba29d8"),
     },
     titles: {
-      'conflict-recovery': 'विवाद के बाद सुधार',
-      'dharma-alignment': 'धर्म सामंजस्य',
-      'emotional-compatibility': 'भावनात्मक संगति',
-      'family-adaptation': 'परिवार अनुकूलन',
-      'long-term-stability': 'दीर्घकालीन स्थिरता',
-      'traditional-foundation': 'पारंपरिक आधार',
+      'conflict-recovery': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.4d53f61079"),
+      'dharma-alignment': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.112d7854c5"),
+      'emotional-compatibility': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.77b1c80895"),
+      'family-adaptation': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.2cdebef51f"),
+      'long-term-stability': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.2b8bceeded"),
+      'traditional-foundation': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.2adacaeba7"),
     },
     sectionTitles: {
-      familyBlending: 'परिवार मेल का जोखिम',
-      practicalAdvice: 'व्यावहारिक सलाह',
-      pressurePoints: 'विवाह दबाव बिंदु',
-      scoreLogic: 'यह स्कोर ऐसा क्यों है',
-      supportPotential: 'सहारा क्षमता',
-      timing: 'समय नोट्स',
+      familyBlending: getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.fc9c5eb0b1"),
+      practicalAdvice: getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.f8cb56e342"),
+      pressurePoints: getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.55dc1d453f"),
+      scoreLogic: getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.d9af55c2c4"),
+      supportPotential: getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.c15f4a9584"),
+      timing: getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.8416675807"),
     },
     sentences: {
       askPrompt: (boy, girl) =>
-        `${boy} और ${girl} के बीच विवाह मिलान को पारंपरिक वैदिक संगति, D1, D9, शुक्र, बृहस्पति, मंगल संतुलन, दशा समय, परिवार मेल और व्यावहारिक विवाह मार्गदर्शन के साथ पढ़ें.`,
+        formatNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.226278a555", [boy, girl]),
       baseline:
-        'यह स्कोर पारंपरिक वैदिक आधार को भावनात्मक, धर्म, परिवार, विवाद और दीर्घकालीन स्थिरता की परतों के साथ जोड़ता है.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.a373a24066"),
       conclusion: {
         'difficult-serious-alignment':
-          'यह मिलान असंभव नहीं है, लेकिन प्रतिबद्धता से पहले बहुत साफ अपेक्षाएँ चाहिए.',
+          getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.73f44c56fa"),
         'mixed-workable':
-          'यह मिलान परिपक्वता के साथ संभव है, बशर्ते दोनों लोग सहज सामंजस्य की उम्मीद न करें.',
+          getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.5f76bcfe4f"),
         'strong-manageable':
-          'यह मिलान आगे बढ़ सकता है, यदि ज्ञात घर्षण बिंदुओं को जल्दी संभाला जाए.',
+          getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.b939715b20"),
         'structurally-strained':
-          'इस मिलान में संरचनात्मक तनाव है. इसे जल्दी या कल्पना में सुंदर मानकर नहीं चलना चाहिए.',
+          getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.d1160192b4"),
         'unusually-strong':
-          'इस मिलान में आकर्षण, परिवार समायोजन और दीर्घकालीन विकास के बीच दुर्लभ स्थिरता दिखती है.',
+          getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.b5743ec529"),
       },
       emotionalStrong:
-        'भावनात्मक और स्नेह की लय में इतनी गर्माहट है कि असहमति के बाद सुधार संभव रहे.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.dbfce4a4c3"),
       emotionalWeak:
-        'भावनात्मक लय को उतना सरल मत मानिए. यहां अधिक धैर्य, अनुवाद और आश्वासन चाहिए.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.5acdd168ed"),
       familyStrong:
-        'घर, वाणी और कर्तव्य संकेत एक-दूसरे को पूरी तरह नहीं काट रहे, इसलिए पारिवारिक समायोजन थोड़ा आसान लग रहा है.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.43356e3415"),
       familyWeak:
-        'परिवार का समायोजन यहां वास्तविक परीक्षा बन सकता है, खासकर अपेक्षा, घर के स्वर और अदृश्य जिम्मेदारी को लेकर.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.30dcf58cd8"),
       premiumUnlock:
-        'प्रीमियम में स्कोर का तर्क, दबाव बिंदु, सहारा क्षमता, परिवार मेल मार्गदर्शन और समय-संवेदनशील सलाह जुड़ती है.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.e2f27b491d"),
       scoreBandExplanation: {
         'difficult-serious-alignment':
-          'विवाह की संभावना है, लेकिन स्पष्टता और अनुशासन के बिना तनाव जल्दी बढ़ेगा.',
+          getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.e8db723190"),
         'mixed-workable':
-          'यहां आधार है, पर रसायन से अधिक परिपक्वता काम आएगी.',
+          getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.faf7b5ced6"),
         'strong-manageable':
-          'चार्ट में सहारा है, पर वह कमजोर संवाद या सीमाहीनता को माफ नहीं करेगा.',
+          getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.de7ef39316"),
         'structurally-strained':
-          'बहुत से मुख्य संकेत एक-दूसरे से दूर जा रहे हैं. सिर्फ एक संख्या इसे नहीं छिपा सकती.',
+          getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.d7bff8b149"),
         'unusually-strong':
-          'कई बुनियादी परतें एक-दूसरे का समर्थन कर रही हैं, काट नहीं रही.',
+          getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.830f57f851"),
       },
       subtitle:
-        'शास्त्रीय वैदिक मिलान को कर्म, धर्म, परिवार दबाव और जीवन-प्रभाव की भाषा में पढ़ें.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.f0d9571126"),
       supportPotential:
-        'सहारा क्षमता सबसे अधिक तब खुलती है जब यह जोड़ी शांत चार्ट-स्तरों को सचेत रूप से जीती है, एक-दूसरे की परीक्षा नहीं लेती.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.225f6c101b"),
       timing:
-        'चल रही दशा भाग्य नहीं तय करती, पर यह जरूर बताती है कि दोनों चार्ट एक जैसे पाठ उठा रहे हैं या एक ही समय अलग दबाव.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.1954742557"),
       traditional:
-        'पारंपरिक मिलान चंद्र, सप्तम भाव पथ, मंगल संतुलन और विवाह-सहायक चार्ट परतों को देखकर निष्कर्ष बनाता है.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.e78922087a"),
     },
   },
   gu: {
     bandLabels: {
-      'difficult-serious-alignment': 'ગંભીર મેળવણી વગર કઠિન',
-      'mixed-workable': 'મિશ્ર, પરિપક્વતા સાથે શક્ય',
-      'strong-manageable': 'મજબૂત, સંભાળી શકાય તેવા ઘર્ષણ સાથે',
-      'structurally-strained': 'રચનાત્મક રીતે તણાવગ્રસ્ત',
-      'unusually-strong': 'અસાધારણ રીતે મજબૂત',
+      'difficult-serious-alignment': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.7d316ee200"),
+      'mixed-workable': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.e8a69ac308"),
+      'strong-manageable': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.9e3fe7f528"),
+      'structurally-strained': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.c19f7d6cb3"),
+      'unusually-strong': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.789e6a7654"),
     },
     pending: {
       askPrompt:
-        'સમજાવો કે એક છોકરા અને એક છોકરીની કુંડળી પસંદ થયા પછી મેચમેકિંગ શું જોશે. ભાષા માનવીય, વૈદિક અને બિન-નિયતિવાદી રાખો.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.114c57b138"),
       baseline:
-        'બન્ને ચાર્ટ પસંદ થયા પછી પ્રેડિક્ટા પરંપરાગત આધાર સમજાવશે.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.cd51e3c6a7"),
       conclusion:
-        'લગ્ન અથવા લાંબા ગાળાની ભાગીદારી વાંચન પહેલાં એક છોકરા અને એક છોકરીની કુંડળી પસંદ કરો.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.43ca8aa945"),
       familyRisk:
-        'બન્ને ચાર્ટ પસંદ થયા પછી જ પરિવાર મેળ અને દબાણ સંકેતો દેખાશે.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.eb40ffc72c"),
       premiumUnlock:
-        'પ્રીમિયમમાં સ્કોરનું તર્ક, દબાણ બિંદુઓ, સહારો શક્તિ, પરિવાર મેળ માર્ગદર્શન અને સમય-સચેત સલાહ ઉમેરાય છે.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.6593ab3d76"),
       support:
-        'સહારો શક્તિ બન્ને ચાર્ટ પસંદ થયા પછી દેખાશે.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.331d72226b"),
       subtitle:
-        'એક છોકરા અને એક છોકરીની પ્રોફાઇલ પસંદ કરો અને સમર્પિત વૈદિક લગ્ન મિલાન વાંચો.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.17690ad9f9"),
       timing:
-        'સમય નોંધો બન્ને ચાર્ટ પસંદ થયા પછી દેખાશે.',
-      title: 'એક છોકરા અને એક છોકરીની કુંડળી પસંદ કરો.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.7e07b1660e"),
+      title: getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.ad923fe95d"),
     },
     titles: {
-      'conflict-recovery': 'ઘર્ષણ પછી સુધાર',
-      'dharma-alignment': 'ધર્મ મેળવણી',
-      'emotional-compatibility': 'ભાવનાત્મક સુસંગતતા',
-      'family-adaptation': 'પરિવાર અનુકૂલન',
-      'long-term-stability': 'દીર્ઘકાલીન સ્થિરતા',
-      'traditional-foundation': 'પરંપરાગત આધાર',
+      'conflict-recovery': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.17a6fc8cff"),
+      'dharma-alignment': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.87f41b5eb0"),
+      'emotional-compatibility': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.075d432e13"),
+      'family-adaptation': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.f9ef445eb8"),
+      'long-term-stability': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.1b5cc0fdcc"),
+      'traditional-foundation': getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.2699667d9c"),
     },
     sectionTitles: {
-      familyBlending: 'પરિવાર મેળનો જોખમ',
-      practicalAdvice: 'પ્રાયોગિક સલાહ',
-      pressurePoints: 'લગ્ન દબાણ બિંદુઓ',
-      scoreLogic: 'આ સ્કોર આવો કેમ છે',
-      supportPotential: 'સહારો શક્તિ',
-      timing: 'સમય નોંધો',
+      familyBlending: getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.3453895efd"),
+      practicalAdvice: getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.420d120c80"),
+      pressurePoints: getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.2b146b9ef7"),
+      scoreLogic: getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.373be93591"),
+      supportPotential: getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.ae27dbd14e"),
+      timing: getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.7e18f2b3b9"),
     },
     sentences: {
       askPrompt: (boy, girl) =>
-        `${boy} અને ${girl} વચ્ચેના લગ્ન મિલાનને પરંપરાગત વૈદિક સુસંગતતા, D1, D9, શુક્ર, ગુરુ, મંગળ સંતુલન, દશા સમય, પરિવાર મેળ અને પ્રાયોગિક લગ્ન માર્ગદર્શન સાથે વાંચો.`,
+        formatNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.d1a5a866a8", [boy, girl]),
       baseline:
-        'આ સ્કોર પરંપરાગત વૈદિક આધારને ભાવનાત્મક, ધર્મ, પરિવાર, ઘર્ષણ અને દીર્ઘકાલીન સ્થિરતાની પરતો સાથે જોડે છે.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.a825d05f41"),
       conclusion: {
         'difficult-serious-alignment':
-          'આ મેળ અશક્ય નથી, પણ પ્રતિબદ્ધતા પહેલાં બહુ સ્પષ્ટ અપેક્ષાઓ જોઈએ.',
+          getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.876e4b9f8b"),
         'mixed-workable':
-          'આ મેળ પરિપક્વતા સાથે શક્ય છે, જો બન્ને સહજ સુમેળની અપેક્ષા ન રાખે.',
+          getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.10e968b02f"),
         'strong-manageable':
-          'આ મેળ આગળ વધી શકે છે, જો જાણીતા ઘર્ષણ બિંદુઓ વહેલા સંભાળવામાં આવે.',
+          getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.0dd89670b4"),
         'structurally-strained':
-          'આ મેળમાં રચનાત્મક તણાવ છે. તેને ઉતાવળમાં અથવા કલ્પનામાં સુંદર માનીને આગળ ન વધવું.',
+          getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.2955f72f25"),
         'unusually-strong':
-          'આ મેળમાં આકર્ષણ, પરિવાર મેળવણી અને દીર્ઘકાલીન વિકાસ વચ્ચે દુર્લભ સ્થિરતા દેખાય છે.',
+          getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.16c8f643e0"),
       },
       emotionalStrong:
-        'ભાવનાત્મક અને સ્નેહની લયમાં એટલી ઉષ્ણતા છે કે અસહમતિ પછી સુધાર શક્ય રહે.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.fe7ed28a3e"),
       emotionalWeak:
-        'અહીં વધુ અનુવાદ, ધીરજ અને આશ્વાસન જોઈએ, જેટલું શરૂઆતમાં લાગતું નથી.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.3ed2ac0b45"),
       familyStrong:
-        'ઘર, વાણી અને ફરજના સંકેતો એકબીજાને સંપૂર્ણ રીતે કાપતા નથી, તેથી પરિવાર મેળવણી થોડી સહેલી લાગે છે.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.4daa6103bd"),
       familyWeak:
-        'પરિવાર મેળવણી અહીં વાસ્તવિક પરીક્ષા બની શકે છે, ખાસ કરીને અપેક્ષા, ઘરના સ્વર અને અદૃશ્ય ફરજને લઈને.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.9b84cd7d14"),
       premiumUnlock:
-        'પ્રીમિયમમાં સ્કોરનું તર્ક, દબાણ બિંદુઓ, સહારો શક્તિ, પરિવાર મેળ માર્ગદર્શન અને સમય-સચેત સલાહ ઉમેરાય છે.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.6593ab3d76"),
       scoreBandExplanation: {
         'difficult-serious-alignment':
-          'લગ્નની શક્યતા છે, પણ સ્પષ્ટતા અને અનુશાસન વિના તણાવ ઝડપથી વધશે.',
+          getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.647f691dd9"),
         'mixed-workable':
-          'અહીં આધાર છે, પણ રસાયણથી વધુ પરિપક્વતા કામ લાગશે.',
+          getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.3e20fd95f2"),
         'strong-manageable':
-          'ચાર્ટમાં સહારો છે, પણ તે નબળા સંવાદ અથવા મર્યાદા વિનાના વર્તનને માફ નહીં કરે.',
+          getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.cbdd8aa609"),
         'structurally-strained':
-          'ઘણા મુખ્ય સંકેતો એકબીજાથી દૂર ખેંચાઈ રહ્યા છે. એક આંકડો આ સત્ય છુપાવી શકતો નથી.',
+          getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.0c2e9e6f22"),
         'unusually-strong':
-          'ઘણી બેઝિક પરતો એકબીજાને ટેકો આપે છે, કાપતી નથી.',
+          getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.efd3447862"),
       },
       subtitle:
-        'શાસ્ત્રીય વૈદિક મિલાનને કર્મ, ધર્મ, પરિવાર દબાણ અને જીવન-પ્રભાવની ભાષામાં વાંચો.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.d6b5d4a9dc"),
       supportPotential:
-        'સહારો શક્તિ ત્યારે વધારે ખીલે છે જ્યારે આ જોડી શાંત ચાર્ટ-સ્તરોને જાગૃત રીતે જીવે છે, એકબીજાની કસોટી કરતી નથી.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.6f520c2d00"),
       timing:
-        'ચાલતી દશા ભાગ્ય નક્કી કરતી નથી, પણ એ બતાવે છે કે બન્ને ચાર્ટ સમાન પાઠ ઉઠાવી રહ્યા છે કે અલગ દબાણ.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.806549bec5"),
       traditional:
-        'પરંપરાગત મિલાન ચંદ્ર, સાતમા ભાવનો માર્ગ, મંગળ સંતુલન અને લગ્ન-સહાયક ચાર્ટ પરતો જોઈને નિષ્કર્ષ આપે છે.',
+        getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.6d9127c4ac"),
     },
   },
 };
@@ -458,9 +459,9 @@ export function composeMatchmakingAnalysis(
     timingNote: copy.sentences.timing,
     title:
       language === 'hi'
-        ? `${boy.birthDetails.name} और ${girl.birthDetails.name} का विवाह मिलान`
+        ? formatNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.2e487d2a6f", [boy.birthDetails.name, girl.birthDetails.name])
         : language === 'gu'
-          ? `${boy.birthDetails.name} અને ${girl.birthDetails.name}નું લગ્ન મિલાન`
+          ? formatNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.3179c08339", [boy.birthDetails.name, girl.birthDetails.name])
           : `${boy.birthDetails.name} and ${girl.birthDetails.name} Matchmaking`,
     traditionalBaseline: copy.sentences.traditional,
   };
@@ -728,9 +729,9 @@ function buildPracticalAdvice(
   if (lowest.includes('family-adaptation')) {
     notes.push(
       language === 'hi'
-        ? 'रिश्ता आगे बढ़ाने से पहले परिवार की अपेक्षाएँ, रहने की शैली और जिम्मेदारी विभाजन पर साफ बात करें.'
+        ? getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.85289bda63")
         : language === 'gu'
-          ? 'સંબંધ આગળ વધારતા પહેલાં પરિવારની અપેક્ષા, રહેવાની રીત અને જવાબદારી વહેંચણી પર સ્પષ્ટ વાત કરો.'
+          ? getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.f21375e4db")
           : 'Before progressing, speak clearly about family expectations, living style, and invisible duty load.',
     );
   }
@@ -738,9 +739,9 @@ function buildPracticalAdvice(
   if (lowest.includes('conflict-recovery')) {
     notes.push(
       language === 'hi'
-        ? 'सहमति से पहले यह देखें कि असहमति आने पर दोनों कैसे शांत होते हैं.'
+        ? getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.9115c81924")
         : language === 'gu'
-          ? 'સહમતિ પહેલાં જુઓ કે અસહમતિ આવે ત્યારે બન્ને કેવી રીતે શાંત થાય છે.'
+          ? getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.5d2541406a")
           : 'Before commitment, test how both people repair after disagreement instead of how they behave on good days.',
     );
   }
@@ -809,10 +810,10 @@ function cautionSentence(copy: Copy, area: 'commitment' | 'conflict' | 'dharma' 
 
 function pendingName(language: SupportedLanguage, role: 'boy' | 'girl'): string {
   if (language === 'hi') {
-    return role === 'boy' ? 'लड़का' : 'लड़की';
+    return role === 'boy' ? getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.1e93c1c22e") : getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.400185e418");
   }
   if (language === 'gu') {
-    return role === 'boy' ? 'છોકરો' : 'છોકરી';
+    return role === 'boy' ? getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.e34b6123fc") : getNativeCopy("native.packages.astrology.src.matchmakingAnalysis.ts.eab6a83879");
   }
   return role === 'boy' ? 'Boy' : 'Girl';
 }

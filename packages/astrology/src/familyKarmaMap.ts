@@ -1,3 +1,4 @@
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import type {
   FamilyInfluenceMatrixRow,
   FamilyKarmaMap,
@@ -397,210 +398,210 @@ const COPY: Record<SupportedLanguage, HouseholdCopy> = {
   hi: {
     pending: {
       askPrompt:
-        'समझाएं कि दो या अधिक सेव प्रोफाइल चुने जाने पर परिवार कर्म नक्शा क्या करेगा. भाषा गोपनीयता-प्रथम, उपयोगी और दोषारोपण-रहित रखें.',
-      climate: 'कम से कम दो वास्तविक प्रोफाइल चुने जाने के बाद ही घर का भावनात्मक वातावरण दिखेगा.',
+        getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.c521897718"),
+      climate: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.2dff81c5d4"),
       communication:
-        'नक्शे के पास पर्याप्त पारिवारिक संकेत होने पर ही संवाद दरार और सुधार संकेत दिखेंगे.',
+        getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.ae93b8ac2e"),
       conclusion:
-        'वास्तविक पारिवारिक नक्शे के लिए कम से कम दो सेव प्रोफाइल जोड़ें.',
+        getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.cb77e00920"),
       guidance: [
-        'पहले दो या अधिक वास्तविक प्रोफाइल सेव करें.',
-        'परिवार कर्म नक्शा देखभाल और सुधार के लिए है, दोष देने के लिए नहीं.',
+        getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.b615aac328"),
+        getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.b86a6df43b"),
       ],
       householdSummary:
-        'कम से कम दो वास्तविक प्रोफाइल आने पर परिवार कर्म नक्शा खुलता है.',
+        getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.c5b9c32001"),
       privacy:
-        'परिवार कर्म नक्शा डिफॉल्ट रूप से निजी रहता है. इसका काम दोहराए गए घरेलू संकेत समझाना है, किसी एक व्यक्ति पर डर या दोष नहीं डालना.',
+        getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.d4839d491d"),
       subtitle:
-        'दो या अधिक सेव प्रोफाइल जोड़ें और दोहराए गए कर्म संकेत, सहारा क्षेत्र और देखभाल मार्गदर्शन देखें.',
-      title: 'नक्शा खोलने के लिए पारिवारिक प्रोफाइल जोड़ें.',
+        getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.10e031b44a"),
+      title: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.ab57ad01d7"),
     },
     prompts: {
       ask: names =>
-        `${names} के लिए परिवार कर्म नक्शा समझाएं. घर का भावनात्मक वातावरण, सबसे मजबूत सहारा जोड़ी, सबसे अधिक घर्षण जोड़ी, दोहराया गया कर्म संकेत, धर्म सुधार मार्ग, देखभाल का भार, संवाद दरार और एक व्यावहारिक सुधार दिशा शामिल करें. भाषा गोपनीयता-प्रथम और दोषरहित रखें.`,
+        formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.605a3e2e23", [names]),
     },
     labels: {
-      householdPressure: 'घर का दबाव श्रृंखला',
-      repeatedEmotion: value => `${value} चंद्र पारिवारिक संकेत`,
-      repeatedNakshatra: value => `${value} कर्म प्रतिध्वनि`,
-      sharedSupport: houses => `साझा सहारा भाव ${houses}`,
-      sharedWeakness: houses => `साझा संवेदनशील भाव ${houses}`,
-      timingOverlap: value => `${value} समय ओवरलैप`,
+      householdPressure: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.933797fd4d"),
+      repeatedEmotion: value => formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.748cf9d9b7", [value]),
+      repeatedNakshatra: value => formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.cfb412c76b", [value]),
+      sharedSupport: houses => formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.28cf55b594", [houses]),
+      sharedWeakness: houses => formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.fea7885435", [houses]),
+      timingOverlap: value => formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.acb2f2abe3", [value]),
     },
     summary: {
       climate: {
         balanced:
-          'घर का वातावरण मिश्रित है पर संभाला जा सकता है. अलग लोग अलग तरह से शांति लाते हैं, इसलिए तीव्रता से अधिक स्पष्टता जरूरी है.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.6fa70f3f4f"),
         careful:
-          'घर का वातावरण स्पष्ट दबाव में है. एक से अधिक रिश्ते एक साथ प्रतिक्रिया कर रहे हैं, इसलिए छोटे ट्रिगर भी जल्दी फैल सकते हैं.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.9a67dd56e3"),
         supportive:
-          'घर के वातावरण में इतनी गर्माहट और उपयोगी सहारा है कि हर बात घरेलू नाटक बने बिना सुधार हो सकता है.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.652e868640"),
       },
       communication: {
         balanced:
-          'संवाद टूटा हुआ नहीं, पर असमान है. इस घर को साफ समय और कम परतदार बातचीत चाहिए.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.1234befd10"),
         careful:
-          'दबाव के समय संवाद दरार दिखती है, खासकर जब एक व्यक्ति चुप हो जाए और दूसरा दबाव बनाए रखे.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.88275ca9a1"),
         supportive:
-          'यहां संवाद जल्दी सुधर सकता है, यदि मुद्दे को शुरुआत में नाम दिया जाए और जमा न होने दिया जाए.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.72898a1824"),
       },
       authority: {
         mixed:
-          'अधिकार साझा या अस्पष्ट है, इसलिए अनकही अपेक्षाएं सीधे मतभेद से भी जल्दी घर्षण पैदा कर सकती हैं.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.9becd0a5ac"),
         ownerWeighted:
-          'मालिक प्रोफाइल या जीवनसाथी स्तर बहुत अधिक भावनात्मक अधिकार उठा रहा है, इसलिए घर का संतुलन एक व्यक्ति के मूड पर टिक सकता है.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.579cc53237"),
         parentWeighted:
-          'माता-पिता या बड़े का प्रभाव घर का भावनात्मक तापमान बहुत तय कर रहा है, इसलिए मर्यादा और सीमा दोनों का संतुलन चाहिए.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.1d782e89a1"),
       },
       caregiving: {
         high:
-          'देखभाल का भार केंद्रित है. एक या दो लोग भावनात्मक सफाई, घरेलू जिम्मेदारी या अदृश्य बोझ अधिक उठा रहे हैं.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.eb862889da"),
         low:
-          'देखभाल का भार हल्का दिखता है. सहारा फिर भी बेहतर हो सकता है, पर घर पूरी तरह एक ही व्यक्ति पर नहीं टिका है.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.23dfa8f0e0"),
         medium:
-          'देखभाल का भार साझा है, पर समान नहीं. घर को साफ कहना होगा कि फॉलो-अप, व्यवस्था और भावनात्मक सुधार कौन संभालेगा.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.ac57bb5e47"),
       },
       ritualMoney: {
         stress:
-          'दिनचर्या, धन या घरेलू व्यवस्था तनाव बढ़ाने वाली परत बन सकती है, यदि घर साफ संरचना न रखे.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.7b8e51d11c"),
         support:
-          'दिनचर्या और धन सहारा बन सकते हैं, यदि घर सरल नियम बनाए और उन्हें दोहराए.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.78d8e06463"),
       },
     },
     text: {
       householdSummary: (memberCount, supportPair, frictionPair, repeated) =>
         [
-          `${memberCount} सेव प्रोफाइल इस घर के नक्शे में सक्रिय हैं.`,
+          formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.31e76882d7", [memberCount]),
           supportPair
-            ? `अभी सबसे मजबूत सहारा जोड़ी ${supportPair} है.`
-            : 'अभी कोई स्पष्ट सहारा जोड़ी नहीं बनी है.',
+            ? formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.8176930229", [supportPair])
+            : getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.b9af7fb4d0"),
           frictionPair
-            ? `अभी सबसे अधिक घर्षण वाली जोड़ी ${frictionPair} है.`
-            : 'अभी कोई प्रमुख दोहराया गया घर्षण जोड़ा नहीं दिख रहा.',
+            ? formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.459e46530c", [frictionPair])
+            : getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.e1841a79aa"),
           repeated
-            ? `सबसे स्पष्ट दोहराया गया घरेलू संकेत ${repeated} है.`
-            : 'घरेलू पैटर्न अभी बन रहा है और और अधिक संकेत चाहता है.',
+            ? formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.73ca748a62", [repeated])
+            : getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.57210d1514"),
         ].join(' '),
       privacyNote:
-        'इस नक्शे का उपयोग समझ और बेहतर संभाल के लिए करें, दोष, लेबल या किसी एक व्यक्ति पर दूसरे की नियति लादने के लिए नहीं.',
+        getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.48c7956b5e"),
       themeGuidance: {
         dasha:
-          'कौन अधिक संघर्ष कर रहा है, इसकी तुलना न करें. समान समय का अर्थ है कि समान दबाव एक साथ तेज हो सकता है.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.eb53c4c79a"),
         moon:
-          'जब एक ही भावनात्मक शैली दोहरती है, तो घर को सलाह या सुधार से पहले नरम गति चाहिए.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.2c835bbb27"),
         nakshatra:
-          'इस संकेत को विधि, दिनचर्या, सेवा या दोहराए गए पारिवारिक सुधार अभ्यास में बदलना अच्छा रहता है.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.e0814baa1f"),
         pressureChain:
-          'जब एक से अधिक जोड़ी घर्षण ढो रही हो, तो उपाय अधिक दोष नहीं बल्कि साफ दिनचर्या और साफ सीमाएं होती हैं.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.8811382e02"),
         strongHouses:
-          'इन भावों को घर के सहारा बिंदु बनाएं: दिनचर्या, उत्सव, व्यवस्था और सुधार यहीं से मजबूत होंगे.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.69f5997b34"),
         weakHouses:
-          'इन भावों को पारिवारिक देखभाल क्षेत्र मानें. तनाव व्यक्तिगत बनने से पहले यहां संरचना बनाएं.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.fb810829be"),
       },
       influence: {
         supportive: name =>
-          `${name} घर के दबाव के समय अक्सर सहारा केंद्र की तरह काम करता/करती है.`,
+          formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.998e344cb3", [name]),
         careful: name =>
-          `${name} एक या अधिक दबाव श्रृंखलाओं से जुड़ा/जुड़ी है, इसलिए इनके आसपास संभाल अधिक नरम और स्पष्ट रहनी चाहिए.`,
+          formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.8f7e0ac773", [name]),
         mixed: name =>
-          `${name} मिश्रित प्रभाव क्षेत्र में है और इन्हें सलाह से अधिक साफ अपेक्षाएं चाहिए.`,
+          formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.92ca11c195", [name]),
         caregiving: {
-          anchor: 'अक्सर भावनात्मक सहारा या व्यावहारिक देखभाल का केंद्र बन जाता/जाती है.',
-          shared: 'देखभाल साझा करता/करती है, पर दूसरों की जरूरत का अनुमान लगाने पर नहीं छोड़ा जाना चाहिए.',
-          strain: 'दिखने से अधिक भावनात्मक या व्यावहारिक सफाई उठा रहा/रही हो सकता/सकती है.',
+          anchor: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.2548348408"),
+          shared: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.f8b2d66e60"),
+          strain: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.b41168595e"),
         },
         authority: {
-          owner: 'घर की दिशा या भावनात्मक स्वर जल्दी तय कर देता/देती है.',
-          parent: 'माता-पिता या बड़े की भूमिका अपेक्षाओं को इनके आसपास मजबूत करती है.',
-          equal: 'अधिकार साझा या धुंधला है, इसलिए साफ समझौते जरूरी हैं.',
+          owner: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.be69bf04ff"),
+          parent: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.e07d00984a"),
+          equal: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.6864512e61"),
         },
         communication: {
-          direct: 'छोटी और सीधी बातचीत से जल्दी सुधार हो सकता है.',
-          fragile: 'तनाव बढ़ने पर चुप्पी या बचाव वाले चक्र में जा सकता/सकती है.',
-          uneven: 'शांत समय की जरूरत है, क्योंकि मिश्रित संकेत पूरे घर में जल्दी फैलते हैं.',
+          direct: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.1303fb689a"),
+          fragile: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.1b82ea9e97"),
+          uneven: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.e46a92489c"),
         },
         healing: {
-          careful: 'सुधार एक हल्की बातचीत और दिनचर्या के एक दिखने वाले बदलाव से शुरू करें.',
-          mixed: 'इन्हें एक साफ भूमिका और एक साफ आश्वासन मार्ग दें.',
-          supportive: 'इन्हें सुधार का पुल बनाएं, पूरा समाधान नहीं.',
+          careful: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.3bc4972fa6"),
+          mixed: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.38f6d55380"),
+          supportive: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.ca2f8d6223"),
         },
         supportNeed: {
-          careful: 'पारिवारिक दबाव में अधिक नरम संभाल और साफ सीमाएं चाहिए.',
-          mixed: 'भावनात्मक अनुमान नहीं, साफ अपेक्षाएं चाहिए.',
-          supportive: 'अगर शुरुआत में शामिल किया जाए तो घर को स्थिर कर सकते/सकती हैं.',
+          careful: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.b7cb7cf80d"),
+          mixed: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.d6b2e87779"),
+          supportive: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.9c0fcf417c"),
         },
       },
       relationshipCard: {
         supportive: {
           emotional:
-            'यह रिश्ता कमरे को शांत कर सकता है, यदि दोनों लोग अपनी जरूरतें ईमानदारी से रखें.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.aac68892cb"),
           friction:
-            'यहां घर्षण संभालने योग्य है, यदि पूरे घर का भावनात्मक बोझ इसी जोड़ी पर न डाला जाए.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.2442975c30"),
           practical:
-            'इस जोड़ी को घर के सुधार-पुल की तरह उपयोग करें, पूरा भावनात्मक बोझ उठाने वाली जगह की तरह नहीं.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.97a72ecf14"),
           support:
-            'इस जोड़ी में स्वाभाविक सहारा ऊर्जा है और दबाव के समय घर को थाम सकती है.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.c78dff0b76"),
         },
         careful: {
           emotional:
-            'यह रिश्ता सक्रिय दबाव में है, इसलिए छोटी गलतफहमी भी अपेक्षा से बड़ी लग सकती है.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.3bfd337263"),
           friction:
-            'इस जोड़ी को जल्दी सुधार, धीमी प्रतिक्रिया और कर्तव्य के आसपास साफ सीमा चाहिए.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.ab8866c64e"),
           practical:
-            'भावनात्मक सुधार मांगने से पहले छोटी साफ बातचीत और एक अदृश्य जिम्मेदारी हटाएं.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.1e89f0312c"),
           support:
-            'यहां सहारा संभव है, पर अनुमान से नहीं, संरचना से आएगा.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.ba441f5739"),
         },
         mixed: {
           emotional:
-            'यह रिश्ता समय के अनुसार सहारा और तनाव दोनों देता है, इसलिए स्पष्टता तीव्रता से अधिक जरूरी है.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.8f383e3250"),
           friction:
-            'घर्षण स्थायी नहीं, पर असमान संवाद एक ही मुद्दे को बार-बार लौटा सकता है.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.298d0c45f7"),
           practical:
-            'इस जोड़ी को एक व्यावहारिक जिम्मेदारी और एक भावनात्मक नियम दें, ताकि संकेत मिश्रित न रहें.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.ba027a6b0f"),
           support:
-            'यह जोड़ी घर की मदद कर सकती है, लेकिन तभी जब अपेक्षाएं साफ कही जाएं.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.e47bbcd8ed"),
         },
       },
       dharmaSupport: label =>
-        `${label} के लिए धर्म सहारा तब स्थिर होता है, जब कर्तव्य भावनात्मक अनुमान से नहीं, साफ शब्दों में कहा जाए.`,
+        formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.2998a77ebd", [label]),
       dharmaRepair: {
-        pair: (label, guidance) => `${label} से शुरुआत करें. ${guidance}`,
+        pair: (label, guidance) => formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.59b2a28ceb", [label, guidance]),
         theme: guidance => guidance,
       },
       healingGuidance: {
         first: pair =>
           pair
-            ? `${pair} वाले रिश्ते से शुरुआत करें. पूरे घर को एक साथ ठीक करने से पहले सबसे तेज घर्षण को संभालें.`
-            : 'पूरे घर को एक साथ ठीक करने से पहले सबसे तेज घर्षण को संभालें.',
+            ? formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.06378cccf9", [pair])
+            : getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.72f8b68ef0"),
         second: supportPair =>
           supportPair
-            ? `${supportPair} को सहारा पुल की तरह रखें, पर पूरे परिवार का सुधार सिर्फ इसी जोड़ी पर न छोड़ें.`
-            : 'सबसे शांत जोड़ी को सहारा पुल बनाएं, पर सारा सुधार उन्हीं पर न छोड़ें.',
+            ? formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.ff35c1eba6", [supportPair])
+            : getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.7147ef6f37"),
         third: theme =>
           theme
-            ? `${theme.toLowerCase()} के आसपास एक दोहराया जाने वाला पारिवारिक अभ्यास बनाएं, ताकि सुधार सिर्फ भावनात्मक न रहकर संरचनात्मक बने.`
-            : 'एक दोहराया जाने वाला पारिवारिक अभ्यास बनाएं, ताकि सुधार सिर्फ भावनात्मक न रहकर संरचनात्मक बने.',
+            ? formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.2a10f27cba", [theme.toLowerCase()])
+            : getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.e0e7d092dc"),
         fourth:
-          'घर के लिए एक कर्तव्य नियम, एक धन नियम और एक संवाद नियम तय करें, ताकि दबाव को छिपने की जगह कम मिले.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.167960df62"),
       },
-      title: memberCount => `${memberCount} प्रोफाइल का परिवार कर्म नक्शा`,
+      title: memberCount => formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.1e07e7366c", [memberCount]),
       subtitle: {
         free:
-          'साझा संकेत और जोड़ी पैटर्न को नरम मार्गदर्शन में रखा गया है, दोष में नहीं.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.bd21bfbf29"),
         premium:
-          'घरेलू संकेत, जोड़ी मार्गदर्शन और प्रभाव पैटर्न को व्यावहारिक पारिवारिक सुधार संकेतों में रखा गया है.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.e93dc5e215"),
       },
       shareSummary: (memberCount, supportPair, frictionPair, repairPath) =>
         [
-          `प्रेडिक्टा परिवार कर्म नक्शा: ${memberCount} प्रोफाइल`,
+          formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.9a47369f04", [memberCount]),
           supportPair
-            ? `सबसे मजबूत सहारा जोड़ी: ${supportPair}`
-            : 'सबसे मजबूत सहारा जोड़ी: अभी बन रही है',
+            ? formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.86ab9b2a28", [supportPair])
+            : getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.bc1a1ef1f0"),
           frictionPair
-            ? `सबसे अधिक घर्षण जोड़ी: ${frictionPair}`
-            : 'सबसे अधिक घर्षण जोड़ी: अभी बन रही है',
-          repairPath ? `सुधार मार्ग: ${repairPath}` : '',
+            ? formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.3a26fef142", [frictionPair])
+            : getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.335a1f0db1"),
+          repairPath ? formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.10bd5180e1", [repairPath]) : '',
         ]
           .filter(Boolean)
           .join('\n'),
@@ -609,210 +610,210 @@ const COPY: Record<SupportedLanguage, HouseholdCopy> = {
   gu: {
     pending: {
       askPrompt:
-        'સમજાવો કે બે અથવા વધુ સાચવેલી પ્રોફાઇલ પસંદ થયા પછી પરિવાર કર્મ નકશો શું કરશે. ભાષા ગોપનીયતા-પ્રથમ, ઉપયોગી અને દોષારોપણ વિના રાખો.',
-      climate: 'ઓછામાં ઓછા બે સાચા પ્રોફાઇલ પસંદ થયા પછી જ ઘરનું ભાવનાત્મક વાતાવરણ દેખાશે.',
+        getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.190cf9a541"),
+      climate: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.89a2a444cd"),
       communication:
-        'નકશા પાસે પૂરતા પરિવાર સંકેત થયા પછી જ સંવાદ તૂટણ અને સુધાર નોંધો દેખાશે.',
+        getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.c6b553239d"),
       conclusion:
-        'સાચો ઘરેલુ નકશો માંગતા પહેલાં ઓછામાં ઓછા બે સાચવેલી પ્રોફાઇલ ઉમેરો.',
+        getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.2684b80dc9"),
       guidance: [
-        'પહેલાં બે અથવા વધુ સાચી પ્રોફાઇલ સાચવો.',
-        'પરિવાર કર્મ નકશો કાળજી અને સુધાર માટે છે, દોષારોપણ માટે નહીં.',
+        getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.81a70fbda7"),
+        getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.4b943cd9bf"),
       ],
       householdSummary:
-        'ઓછામાં ઓછા બે સાચા પ્રોફાઇલ આવ્યા પછી પરિવાર કર્મ નકશો ખૂલે છે.',
+        getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.c40cbc993f"),
       privacy:
-        'પરિવાર કર્મ નકશો મૂળભૂત રીતે ખાનગી રહે છે. તેનું કામ ફરી આવતા ઘરેલુ સંકેતો સમજાવવાનું છે, કોઈ એક વ્યક્તિ પર ભય કે દોષ મૂકવાનું નથી.',
+        getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.5aec976d87"),
       subtitle:
-        'બે અથવા વધુ સાચવેલી પ્રોફાઇલ ઉમેરો અને ફરી આવતા કર્મ સંકેતો, સહારો ક્ષેત્રો અને કાળજી માર્ગદર્શન જુઓ.',
-      title: 'નકશો ખોલવા માટે પરિવાર પ્રોફાઇલ ઉમેરો.',
+        getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.e9ba350715"),
+      title: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.92cf9d926c"),
     },
     prompts: {
       ask: names =>
-        `${names} માટે પરિવાર કર્મ નકશો સમજાવો. ઘરનું ભાવનાત્મક વાતાવરણ, સૌથી મજબૂત સહારો જોડી, સૌથી વધુ ઘર્ષણ જોડી, ફરી આવતો કર્મ સંકેત, ધર્મ સુધાર માર્ગ, કાળજીનો ભાર, સંવાદ તૂટણ અને એક પ્રાયોગિક સુધાર દિશા સામેલ કરો. ભાષા ગોપનીયતા-પ્રથમ અને નિર્દોષ રાખો.`,
+        formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.a65ebcc3bf", [names]),
     },
     labels: {
-      householdPressure: 'ઘરનું દબાણ સાંકળ',
-      repeatedEmotion: value => `${value} ચંદ્ર પરિવાર સંકેત`,
-      repeatedNakshatra: value => `${value} કર્મ પ્રતિધ્વનિ`,
-      sharedSupport: houses => `સાંઝા સહારો ભાવ ${houses}`,
-      sharedWeakness: houses => `સાંઝા સંવેદનશીલ ભાવ ${houses}`,
-      timingOverlap: value => `${value} સમય આવર્તન`,
+      householdPressure: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.5773756549"),
+      repeatedEmotion: value => formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.032fcb9477", [value]),
+      repeatedNakshatra: value => formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.e6fec7bf02", [value]),
+      sharedSupport: houses => formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.4973204738", [houses]),
+      sharedWeakness: houses => formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.de903b4536", [houses]),
+      timingOverlap: value => formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.12cd93eaea", [value]),
     },
     summary: {
       climate: {
         balanced:
-          'ઘરનું વાતાવરણ મિશ્ર છે પરંતુ સંભાળી શકાય એવું છે. અલગ લોકો અલગ રીતે શાંતિ લાવે છે, તેથી તીવ્રતા કરતા સ્પષ્ટતા વધુ જરૂરી છે.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.3f9df01ff4"),
         careful:
-          'ઘરનું વાતાવરણ સ્પષ્ટ દબાણમાં છે. એકથી વધુ સંબંધ એકસાથે પ્રતિક્રિયા કરી રહ્યા છે, તેથી નાનાં ટ્રિગર પણ ઝડપથી ફેલાઈ શકે છે.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.ddbbec049b"),
         supportive:
-          'ઘરમાં એટલું ઉષ્મા અને ઉપયોગી સહારો છે કે દરેક વાત ઘરેલુ નાટક બન્યા વગર સુધરી શકે છે.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.29b3e35390"),
       },
       communication: {
         balanced:
-          'સંવાદ તૂટેલો નથી, પરંતુ અસમાન છે. આ ઘરને વધુ સ્વચ્છ સમય અને ઓછી સ્તરવાળી વાતચીત જોઈએ.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.5101e17277"),
         careful:
-          'દબાણ વખતે સંવાદ તૂટણ દેખાય છે, ખાસ કરીને જ્યારે એક વ્યક્તિ મૌન થાય અને બીજી દબાણ વધારતી રહે.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.8b5b0d6411"),
         supportive:
-          'અહીં સંવાદ ઝડપથી સુધરી શકે છે, જો મુદ્દાને શરૂઆતમાં જ નામ આપવામાં આવે.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.d8ffe46ada"),
       },
       authority: {
         mixed:
-          'સત્તા વહેંચાયેલી અથવા અસ્પષ્ટ છે, એટલે અનકહેલી અપેક્ષાઓ સીધા મતભેદ કરતાં પણ વહેલું ઘર્ષણ લાવી શકે છે.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.37020d3aa5"),
         ownerWeighted:
-          'માલિક પ્રોફાઇલ અથવા જીવનસાથી સ્તર ખૂબ જ ભાવનાત્મક સત્તા લઈ રહ્યું છે, તેથી ઘરનો સંતુલન એક જ વ્યક્તિના સ્વર પર અટકી શકે છે.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.39c87e678f"),
         parentWeighted:
-          'માતા-પિતા અથવા વડીલની ઊર્જા ઘરનું ભાવનાત્મક તાપમાન મજબૂતીથી નક્કી કરે છે, તેથી માન અને સીમા બંનેનું સંતુલન જોઈએ.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.70fce16565"),
       },
       caregiving: {
         high:
-          'કાળજીનો ભાર કેન્દ્રિત છે. એક કે બે લોકો ભાવનાત્મક સફાઈ, ઘરેલુ ફરજ અથવા અદૃશ્ય જવાબદારી વધારે ઉઠાવી રહ્યા છે.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.2021493a80"),
         low:
-          'કાળજીનો ભાર હળવો દેખાય છે. સહારો સુધરી શકે છે, પરંતુ ઘર પૂરું એક જ વ્યક્તિ પર ટકેલું નથી.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.e31deeb966"),
         medium:
-          'કાળજીનો ભાર વહેંચાયેલો છે, પરંતુ સમાન રીતે નહીં. ઘરએ સ્પષ્ટ કહેવું પડશે કે અનુસરણ, વ્યવસ્થા અને ભાવનાત્મક સુધાર કોણ સંભાળશે.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.740e9db824"),
       },
       ritualMoney: {
         stress:
-          'દિનચર્યા, પૈસા અથવા ઘરેલુ ગોઠવણ તણાવ વધારતી પરત બની શકે છે, જો ઘર સ્પષ્ટ માળખું ન રાખે.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.40f128f977"),
         support:
-          'દિનચર્યા અને પૈસા સહારો બની શકે છે, જો ઘર સરળ નિયમો બનાવે અને તેમને સતત જાળવે.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.d87ab5d5e4"),
       },
     },
     text: {
       householdSummary: (memberCount, supportPair, frictionPair, repeated) =>
         [
-          `${memberCount} સાચવેલી પ્રોફાઇલ આ ઘરેલુ નકશામાં સક્રિય છે.`,
+          formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.a3e95dc26f", [memberCount]),
           supportPair
-            ? `હાલની સૌથી મજબૂત સહારો જોડી ${supportPair} છે.`
-            : 'હાલ કોઈ સ્પષ્ટ સહારો જોડી बनी નથી.',
+            ? formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.7c636be110", [supportPair])
+            : getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.2042d982ad"),
           frictionPair
-            ? `હાલની સૌથી વધુ ઘર્ષણ જોડી ${frictionPair} છે.`
-            : 'હાલ કોઈ પ્રબળ ફરી આવતી ઘર્ષણ જોડી દેખાતી નથી.',
+            ? formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.ecb07fb39b", [frictionPair])
+            : getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.92bd74998c"),
           repeated
-            ? `સૌથી સ્પષ્ટ ફરી આવતો ઘરેલુ સંકેત ${repeated} છે.`
-            : 'ઘરેલુ પેટર્ન હજુ બની રહ્યું છે અને વધુ સંકેતો માંગે છે.',
+            ? formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.eacb89a1b9", [repeated])
+            : getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.76754c385d"),
         ].join(' '),
       privacyNote:
-        'આ નકશાનો ઉપયોગ સમજ અને સારી સંભાળ માટે કરો, દોષ, લેબલ કે કોઈ એક વ્યક્તિ પર બીજાનું ભાગ્ય લાદવા માટે નહીં.',
+        getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.97ac2aafe5"),
       themeGuidance: {
         dasha:
-          'કોણ વધુ સંઘર્ષ કરે છે તેની તુલના ન કરો. સમાન સમયનો અર્થ છે કે સમાન દબાણ એકસાથે તેજ થઈ શકે છે.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.6a063d4410"),
         moon:
-          'જ્યારે એક જ ભાવનાત્મક શૈલી ફરી આવે, ત્યારે ઘરને સલાહ કે સુધાર પહેલાં વધુ નરમ ગતિ જોઈએ.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.2988c8e309"),
         nakshatra:
-          'આ સંકેતને વિધિ, દિનચર્યા, સેવા અથવા ફરી આવતા પરિવાર સુધાર અભ્યાસમાં ફેરવવો સારો રહે છે.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.a64383b0fe"),
         pressureChain:
-          'જ્યારે એકથી વધુ જોડી ઘર્ષણ વહન કરે, ત્યારે ઉપાય વધુ દોષ નહીં પણ વધુ સ્વચ્છ દિનચર્યા અને વધુ સ્પષ્ટ સીમાઓ છે.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.10ed679498"),
         strongHouses:
-          'આ ભાવોને ઘરનું સહારો કેન્દ્ર બનાવો: દિનચર્યા, ઉજવણી, ગોઠવણ અને સુધાર અહીંથી મજબૂત થશે.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.c1fa424b05"),
         weakHouses:
-          'આ ભાવોને પરિવાર કાળજી ક્ષેત્ર માનો. તણાવ વ્યક્તિગત બને તે પહેલાં અહીં માળખું બનાવો.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.dfd4acf9f2"),
       },
       influence: {
         supportive: name =>
-          `${name} ઘરેલુ દબાણ વધે ત્યારે વારંવાર સહારો કેન્દ્ર તરીકે કામ કરે છે.`,
+          formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.c42b701a04", [name]),
         careful: name =>
-          `${name} એક અથવા વધુ દબાણ સાંકળ સાથે જોડાયેલ છે, તેથી તેમની આસપાસ વ્યવહાર વધુ નરમ અને વધુ સ્પષ્ટ રહેવું જોઈએ.`,
+          formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.bb7d1eaa82", [name]),
         mixed: name =>
-          `${name} મિશ્ર અસર વિસ્તારમાં છે અને તેમને સલાહ કરતાં વધુ સ્વચ્છ અપેક્ષાઓ જોઈએ.`,
+          formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.e6bcc90a57", [name]),
         caregiving: {
-          anchor: 'વારંવાર ભાવનાત્મક સહારો અથવા પ્રાયોગિક સંભાળનો આધાર બને છે.',
-          shared: 'કાળજી વહેંચે છે, પરંતુ બીજાઓ શું ઈચ્છે છે તેનું અનુમાન કરવા પર મૂકવું નહીં.',
-          strain: 'દેખાતું હોય તે કરતા વધુ ભાવનાત્મક કે પ્રાયોગિક સફાઈ ઉઠાવી રહ્યો/રહી હોઈ શકે છે.',
+          anchor: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.89013780ad"),
+          shared: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.c258e1851d"),
+          strain: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.a70a7c617f"),
         },
         authority: {
-          owner: 'ઘરની દિશા અથવા ભાવનાત્મક સ્વર ઝડપથી નક્કી કરે છે.',
-          parent: 'માતા-પિતા અથવા વડીલની ભૂમિકા તેમની આસપાસ અપેક્ષાઓ મજબૂત બનાવે છે.',
-          equal: 'સત્તા વહેંચાયેલી અથવા ધૂંધળી છે, તેથી સ્પષ્ટ સમજૂતી જરૂરી છે.',
+          owner: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.f6d8e65e42"),
+          parent: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.eed526b465"),
+          equal: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.aa31709c9f"),
         },
         communication: {
-          direct: 'ટૂંકી અને સીધી વાતચીતથી ઝડપથી સુધરી શકે છે.',
-          fragile: 'તણાવ વધે ત્યારે મૌન અથવા બચાવ ચક્રમાં જઈ શકે છે.',
-          uneven: 'શાંત સમયની જરૂર છે, કારણ કે મિશ્ર સંકેતો આખા ઘરમાં ઝડપથી ફેલાઈ શકે છે.',
+          direct: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.7552164de4"),
+          fragile: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.b488365bcb"),
+          uneven: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.36a7724cc6"),
         },
         healing: {
-          careful: 'સુધાર એક હળવી વાતચીત અને દિનચર્યાના એક દેખાતા બદલાવથી શરૂ કરો.',
-          mixed: 'આ વ્યક્તિને એક સ્વચ્છ ભૂમિકા અને એક સ્વચ્છ આશ્વાસન માર્ગ આપો.',
-          supportive: 'આ વ્યક્તિને સુધારનો પુલ બનાવો, સંપૂર્ણ ઉકેલ નહીં.',
+          careful: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.51342bc76a"),
+          mixed: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.f27d0fa15e"),
+          supportive: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.d72cf3aba4"),
         },
         supportNeed: {
-          careful: 'પરિવાર દબાણમાં વધુ નરમ સંભાળ અને વધુ સ્પષ્ટ સીમાઓ જોઈએ.',
-          mixed: 'ભાવનાત્મક અનુમાન નહીં, વધુ સ્પષ્ટ અપેક્ષાઓ જોઈએ.',
-          supportive: 'શરૂઆતમાં સામેલ કરવામાં આવે તો ઘર ને સ્થિર કરી શકે છે.',
+          careful: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.a4b58eeb3e"),
+          mixed: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.4488ba11fa"),
+          supportive: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.3e096191d5"),
         },
       },
       relationshipCard: {
         supportive: {
           emotional:
-            'આ જોડાણ રૂમને શાંત કરી શકે છે, જો બન્ને લોકો પોતાની જરૂરિયાતો સાચાઈથી કહે.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.7d56fea180"),
           friction:
-            'અહીં ઘર્ષણ સંભાળી શકાય એવું છે, જો આખા ઘરની ભાવનાત્મક ફરજ આ જોડી પર ન નાખવામાં આવે.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.b719897ad3"),
           practical:
-            'આ જોડીનો ઉપયોગ ઘર સુધારના પુલ તરીકે કરો, આખો ભાવનાત્મક ભાર વહન કરતી જગ્યાની જેમ નહીં.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.1b1c254b31"),
           support:
-            'આ જોડીમાં સ્વાભાવિક સહારો છે અને દબાણ સમયે ઘર ને થંભાવી શકે છે.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.22a85b0436"),
         },
         careful: {
           emotional:
-            'આ જોડાણ સક્રિય દબાણમાં છે, એટલે નાની ગેરસમજ પણ અપેક્ષા કરતા મોટી લાગી શકે છે.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.732da08722"),
           friction:
-            'આ જોડી ને વહેલો સુધાર, ધીમો પ્રતિસાદ અને ફરજ આસપાસ વધુ સ્પષ્ટ સીમાઓ જોઈએ.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.78c55e6379"),
           practical:
-            'ભાવનાત્મક સુધાર માંગતા પહેલાં ટૂંકી સ્વચ્છ વાતચીત અને એક અદૃશ્ય ફરજ દૂર કરો.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.c0d58130e9"),
           support:
-            'અહીં સહારો શક્ય છે, પરંતુ અનુમાનથી નહીં, માળખાથી આવશે.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.98319daf13"),
         },
         mixed: {
           emotional:
-            'આ જોડાણ સમયમાં સહારો અને તણાવ બંને આપે છે, તેથી તીવ્રતા કરતાં સ્પષ્ટતા વધુ જરૂરી છે.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.7202a65ac0"),
           friction:
-            'ઘર્ષણ સ્થિર નથી, પરંતુ અસમાન સંવાદ એ જ મુદ્દાને ફરી ફરી પાછો લાવી શકે છે.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.9012366130"),
           practical:
-            'આ જોડી ને એક પ્રાયોગિક જવાબદારી અને એક ભાવનાત્મક નિયમ આપો, જેથી સંકેત મિશ્ર ન રહે.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.2d837fc687"),
           support:
-            'આ જોડી ઘર માટે ઉપયોગી બની શકે છે, પરંતુ અપેક્ષાઓ સ્પષ્ટ રીતે કહેવામાં આવે ત્યારે જ.',
+            getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.75fc0fc450"),
         },
       },
       dharmaSupport: label =>
-        `${label} માટેનો ધર્મ સહારો ત્યારે સ્થિર થાય છે જ્યારે ફરજ ભાવનાત્મક અનુમાનથી નહીં, સ્પષ્ટ શબ્દોમાં કહેવામાં આવે.`,
+        formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.dbb678a3ce", [label]),
       dharmaRepair: {
-        pair: (label, guidance) => `${label} થી શરૂઆત કરો. ${guidance}`,
+        pair: (label, guidance) => formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.527e288c4c", [label, guidance]),
         theme: guidance => guidance,
       },
       healingGuidance: {
         first: pair =>
           pair
-            ? `${pair} ના સંબંધથી શરૂઆત કરો. આખું ઘર એકસાથે સુધારવા પહેલાં સૌથી ઊંચો ઘર્ષણ પહેલો સંભાળો.`
-            : 'આખું ઘર એકસાથે સુધારવા પહેલાં સૌથી ઊંચો ઘર્ષણ પહેલો સંભાળો.',
+            ? formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.6b0596af4b", [pair])
+            : getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.8d98278bcd"),
         second: supportPair =>
           supportPair
-            ? `${supportPair} ને સહારો પુલ તરીકે રાખો, પરંતુ આખો પરિવાર સુધાર ફક્ત આ જોડી પર ન છોડો.`
-            : 'સૌથી શાંત જોડી ને સહારો પુલ બનાવો, પરંતુ આખો સુધાર એમની પર ન છોડો.',
+            ? formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.70673b7271", [supportPair])
+            : getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.28ef08aa5d"),
         third: theme =>
           theme
-            ? `${theme.toLowerCase()} આસપાસ એક ફરી આવતો પરિવાર અભ્યાસ બનાવો, જેથી સુધાર ફક્ત ભાવનાત્મક નહીં રહે પરંતુ માળખાકીય બને.`
-            : 'એક ફરી આવતો પરિવાર અભ્યાસ બનાવો, જેથી સુધાર ફક્ત ભાવનાત્મક નહીં રહે પરંતુ માળખાકીય બને.',
+            ? formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.319d92f608", [theme.toLowerCase()])
+            : getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.b9a2c7d1ec"),
         fourth:
-          'ઘર માટે એક ફરજ નિયમ, એક પૈસા નિયમ અને એક સંવાદ નિયમ નક્કી કરો, જેથી દબાણને છુપાવાની જગ્યાઓ ઓછી મળે.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.0d7976943d"),
       },
-      title: memberCount => `${memberCount} પ્રોફાઇલનો પરિવાર કર્મ નકશો`,
+      title: memberCount => formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.8d04686858", [memberCount]),
       subtitle: {
         free:
-          'સાંઝા સંકેત અને જોડી પેટર્ન ને નરમ માર્ગદર્શન તરીકે ગોઠવાયા છે, દોષ તરીકે નહીં.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.e34435ffee"),
         premium:
-          'ઘરેલુ સંકેત, જોડી માર્ગદર્શન અને અસર પેટર્ન ને પ્રાયોગિક પરિવાર સુધાર સંકેતોમાં ગોઠવાયા છે.',
+          getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.3f19f96067"),
       },
       shareSummary: (memberCount, supportPair, frictionPair, repairPath) =>
         [
-          `પ્રેડિક્ટા પરિવાર કર્મ નકશો: ${memberCount} પ્રોફાઇલ`,
+          formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.7d17453c94", [memberCount]),
           supportPair
-            ? `સૌથી મજબૂત સહારો જોડી: ${supportPair}`
-            : 'સૌથી મજબૂત સહારો જોડી: હજુ બની રહી છે',
+            ? formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.33714cfc93", [supportPair])
+            : getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.a283aca075"),
           frictionPair
-            ? `સૌથી વધુ ઘર્ષણ જોડી: ${frictionPair}`
-            : 'સૌથી વધુ ઘર્ષણ જોડી: હજુ બની રહી છે',
-          repairPath ? `સુધાર માર્ગ: ${repairPath}` : '',
+            ? formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.a04d36a12c", [frictionPair])
+            : getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.c1ae58e679"),
+          repairPath ? formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.03c38fc2c5", [repairPath]) : '',
         ]
           .filter(Boolean)
           .join('\n'),
@@ -855,9 +856,9 @@ export function composeFamilyKarmaMap(
       repeatedRoutineMoneyTension: undefined,
       shareSummary:
         language === 'hi'
-          ? 'प्रेडिक्टा परिवार कर्म नक्शा दो या अधिक सेव प्रोफाइल की प्रतीक्षा कर रहा है.'
+          ? getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.7f90aebb0f")
           : language === 'gu'
-            ? 'પ્રેડિક્ટા પરિવાર કર્મ નકશો બે અથવા વધુ સાચવેલી પ્રોફાઇલની રાહ જોઈ રહ્યું છે.'
+            ? getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.bad0f58797")
             : 'Predicta Family Karma Map is waiting for two or more saved profiles.',
       status: 'pending',
       strongestFrictionPair: undefined,
@@ -1062,9 +1063,9 @@ function buildRepeatedThemes(
       members: repeatedMoonSigns.items.map(member => member.id),
       summary:
         language === 'hi'
-          ? 'एक जैसा चंद्र संकेत बताता है कि घर एक ही भावनात्मक भाषा में सांत्वना भी देता है और ट्रिगर भी होता है.'
+          ? getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.0d8d9ce842")
           : language === 'gu'
-            ? 'એક જેવો ચંદ્ર સંકેત બતાવે છે કે ઘર એક જ ભાવનાત્મક ભાષામાં સાંત્વના પણ આપે છે અને ટ્રિગર પણ થાય છે.'
+            ? getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.2800b852b6")
             : 'A repeated Moon sign suggests the household reacts through a familiar emotional language, which can comfort and trigger at the same time.',
       title: copy.labels.repeatedEmotion(repeatedMoonSigns.key),
     });
@@ -1081,9 +1082,9 @@ function buildRepeatedThemes(
       members: repeatedNakshatras.items.map(member => member.id),
       summary:
         language === 'hi'
-          ? 'दोहराया गया नक्षत्र अक्सर बताता है कि परिवार की वही कहानी अलग-अलग लोगों से फिर सामने आती है.'
+          ? getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.5d6a7e961f")
           : language === 'gu'
-            ? 'ફરી આવતો નક્ષત્ર ઘણી વાર બતાવે છે કે પરિવારની એ જ વાર્તા અલગ અલગ લોકો દ્વારા ફરી સામે આવે છે.'
+            ? getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.c898f89a60")
             : 'A repeated nakshatra often points to the same family script showing up through different people.',
       title: copy.labels.repeatedNakshatra(repeatedNakshatras.key),
     });
@@ -1100,9 +1101,9 @@ function buildRepeatedThemes(
       members: repeatedMahadashas.items.map(member => member.id),
       summary:
         language === 'hi'
-          ? 'साझी महादशा एक ही जीवन-पाठ को पूरे घर में एक साथ तेज कर सकती है.'
+          ? getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.6d88c0f851")
           : language === 'gu'
-            ? 'સાંઝી મહાદશા એક જ જીવનપાઠને આખા ઘરમાં એકસાથે તેજ કરી શકે છે.'
+            ? getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.6c5bc64a3c")
             : 'A shared Mahadasha can make the same life lesson echo across the house at the same time.',
       title: copy.labels.timingOverlap(repeatedMahadashas.key),
     });
@@ -1116,9 +1117,9 @@ function buildRepeatedThemes(
       members: members.map(member => member.id),
       summary:
         language === 'hi'
-          ? 'दोहराए गए कमज़ोर भाव बताते हैं कि यहीं योजना, धैर्य या भावनात्मक संरचना की सबसे अधिक जरूरत है.'
+          ? getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.c1e43cd17f")
           : language === 'gu'
-            ? 'ફરી આવતા નબળા ભાવ બતાવે છે કે અહીં યોજના, ધૈર્ય અથવા ભાવનાત્મક માળખાની સૌથી વધારે જરૂર છે.'
+            ? getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.56e867e93a")
             : 'Repeated lower-support houses show where the family may need more planning, patience, or emotional structure.',
       title: copy.labels.sharedWeakness(sharedWeakHouses.join(', ')),
     });
@@ -1132,9 +1133,9 @@ function buildRepeatedThemes(
       members: members.map(member => member.id),
       summary:
         language === 'hi'
-          ? 'दोहराए गए मजबूत भाव बताते हैं कि घर के पास पहले से कुछ प्राकृतिक सहारा मौजूद है.'
+          ? getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.81c46fa5ec")
           : language === 'gu'
-            ? 'ફરી આવતા મજબૂત ભાવ બતાવે છે કે ઘર પાસે પહેલેથી કેટલીક સ્વાભાવિક સહારો શક્તિ છે.'
+            ? getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.a478a87831")
             : 'Repeated stronger houses show where the household already has usable support or natural flow.',
       title: copy.labels.sharedSupport(sharedStrongHouses.join(', ')),
     });
@@ -1151,9 +1152,9 @@ function buildRepeatedThemes(
       members: members.map(member => member.id),
       summary:
         language === 'hi'
-          ? 'एक से अधिक रिश्ते दबाव उठा रहे हैं, इसलिए समस्या व्यक्ति-स्तर से निकलकर घर-स्तर की बन रही है.'
+          ? getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.5c484cdb3a")
           : language === 'gu'
-            ? 'એકથી વધુ સંબંધ દબાણ વહન કરી રહ્યા છે, એટલે સમસ્યા વ્યક્તિ સ્તરથી વધી ઘર સ્તરની બની રહી છે.'
+            ? getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.fca328c7ce")
             : 'More than one relationship pair is carrying pressure, so the issue is becoming household-level rather than person-level.',
       title: copy.labels.householdPressure,
     });
@@ -1344,10 +1345,10 @@ function buildWhoCalmsTheHouse(
   }
 
   if (language === 'hi') {
-    return `${supportPair} घर को सबसे जल्दी शांत कर सकते हैं.`
+    return formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.a4320397b1", [supportPair])
   }
   if (language === 'gu') {
-    return `${supportPair} ઘરનો તણાવ સૌથી ઝડપથી શાંત કરી શકે છે.`;
+    return formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.9841891ac0", [supportPair]);
   }
   return `${supportPair} is the clearest calming anchor in the house.`;
 }
@@ -1367,10 +1368,10 @@ function buildWhoAmplifiesPressure(
   }
 
   if (language === 'hi') {
-    return `${fallbackPair} में दबाव जल्दी बढ़ सकता है, इसलिए यहां प्रतिक्रिया से पहले ठहराव चाहिए.`;
+    return formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.087860d2a7", [fallbackPair]);
   }
   if (language === 'gu') {
-    return `${fallbackPair} માં દબાણ ઝડપથી વધી શકે છે, તેથી અહીં પ્રતિભાવ પહેલા વિરામ જોઈએ.`;
+    return formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.60d10ae45d", [fallbackPair]);
   }
   return `${fallbackPair} is where pressure can spread fastest unless the tone is slowed down early.`;
 }
@@ -1412,10 +1413,10 @@ function buildWhoNeedsGentlerHandling(
   }
 
   if (language === 'hi') {
-    return `${fallbackMember.name} को सबसे नरम और साफ़ व्यवहार की जरूरत है, खासकर दबाव वाले दिनों में.`;
+    return formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.f4375c2b6e", [fallbackMember.name]);
   }
   if (language === 'gu') {
-    return `${fallbackMember.name} ને સૌથી નરમ અને સ્પષ્ટ વ્યવહાર જોઈએ, ખાસ કરીને દબાણવાળા દિવસોમાં.`;
+    return formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.7f96bcb1d2", [fallbackMember.name]);
   }
   return `${fallbackMember.name} needs the gentlest handling when the house is already under pressure.`;
 }
@@ -1429,10 +1430,10 @@ function buildFastestHealingPair(
   }
 
   if (language === 'hi') {
-    return `${supportPair} सबसे जल्दी संभल और फिर से संतुलित हो सकते हैं.`;
+    return formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.b85232ed9f", [supportPair]);
   }
   if (language === 'gu') {
-    return `${supportPair} સૌથી ઝડપથી સંભળી અને ફરી સંતુલિત થઈ શકે છે.`;
+    return formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.0020d70de6", [supportPair]);
   }
   return `${supportPair} is the pair most likely to repair quickly after strain.`;
 }
@@ -1442,10 +1443,10 @@ function buildRepeatedRoutineMoneyTension(
   language: SupportedLanguage,
 ): string {
   if (language === 'hi') {
-    return `दिनचर्या और धन का दोहराया तनाव: ${ritualRoutineMoneyStressMap}`;
+    return formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.a81e515d11", [ritualRoutineMoneyStressMap]);
   }
   if (language === 'gu') {
-    return `દિનચર્યા અને પૈસાનો ફરી આવતો તણાવ: ${ritualRoutineMoneyStressMap}`;
+    return formatNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.38ea148787", [ritualRoutineMoneyStressMap]);
   }
   return `Repeated routine or money tension: ${ritualRoutineMoneyStressMap}`;
 }
@@ -1564,82 +1565,82 @@ function relationshipLabel(
 
   if (language === 'hi') {
     const map: Partial<Record<FamilyRelationshipLabel, string>> = {
-      self: 'स्वयं',
-      spouse: 'जीवनसाथी',
-      partner: 'साथी',
-      fiance: 'मंगेतर',
-      son: 'पुत्र',
-      daughter: 'पुत्री',
-      mother: 'माता',
-      father: 'पिता',
-      brother: 'भाई',
-      sister: 'बहन',
-      cousin: 'कज़िन',
-      'maternal-aunt': 'मौसी',
-      'paternal-aunt': 'बुआ',
-      aunt: 'आंटी',
-      'maternal-uncle': 'मामा',
-      'paternal-uncle': 'चाचा',
-      uncle: 'अंकल',
-      grandmother: 'दादी/नानी',
-      grandfather: 'दादा/नाना',
-      'mother-in-law': 'सास',
-      'father-in-law': 'ससुर',
-      'sister-in-law': 'ननद/भाभी',
-      'brother-in-law': 'देवर/जीजा',
-      'aunt-in-law': 'ससुराल की आंटी',
-      'uncle-in-law': 'ससुराल के अंकल',
-      niece: 'भतीजी/भांजी',
-      nephew: 'भतीजा/भांजा',
-      friend: 'मित्र',
-      'best-friend': 'सबसे करीबी मित्र',
-      'co-worker': 'सहकर्मी',
-      manager: 'प्रबंधक',
-      'business-partner': 'व्यावसायिक साथी',
-      mentor: 'मार्गदर्शक',
-      student: 'विद्यार्थी',
-      other: 'अन्य',
+      self: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.bb64a0f542"),
+      spouse: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.936c9c3bcf"),
+      partner: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.8837ebf260"),
+      fiance: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.52d171c113"),
+      son: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.9d1ada82ab"),
+      daughter: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.78ece2bd0d"),
+      mother: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.952ce081b6"),
+      father: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.7898283bd4"),
+      brother: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.431a779b03"),
+      sister: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.a105e9ac83"),
+      cousin: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.4fa18ce66f"),
+      'maternal-aunt': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.d3790369a9"),
+      'paternal-aunt': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.0d6687a270"),
+      aunt: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.8912f1fad2"),
+      'maternal-uncle': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.8f7ef6000a"),
+      'paternal-uncle': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.3189797b9f"),
+      uncle: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.22b3724bce"),
+      grandmother: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.f0936160c4"),
+      grandfather: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.a227561e60"),
+      'mother-in-law': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.b89ab7f666"),
+      'father-in-law': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.7f415a0005"),
+      'sister-in-law': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.9a2320cd39"),
+      'brother-in-law': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.fab00ab3d8"),
+      'aunt-in-law': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.93d5a3006d"),
+      'uncle-in-law': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.0e054dea41"),
+      niece: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.7971e5b2fa"),
+      nephew: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.b7267e650e"),
+      friend: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.740727fc5f"),
+      'best-friend': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.2a6a547038"),
+      'co-worker': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.10eda161fe"),
+      manager: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.5d14c13bb7"),
+      'business-partner': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.713b5c7904"),
+      mentor: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.106fb7e732"),
+      student: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.d786fb4e34"),
+      other: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.03d46de7bb"),
     };
     return map[value] ?? english;
   }
 
   if (language === 'gu') {
     const map: Partial<Record<FamilyRelationshipLabel, string>> = {
-      self: 'સ્વ',
-      spouse: 'જીવનસાથી',
-      partner: 'સાથી',
-      fiance: 'મંગેતર',
-      son: 'પુત્ર',
-      daughter: 'પુત્રી',
-      mother: 'માતા',
-      father: 'પિતા',
-      brother: 'ભાઈ',
-      sister: 'બહેન',
-      cousin: 'કઝિન',
-      'maternal-aunt': 'માસી',
-      'paternal-aunt': 'ફોઈ',
-      aunt: 'આન્ટી',
-      'maternal-uncle': 'મામા',
-      'paternal-uncle': 'કાકા',
-      uncle: 'અંકલ',
-      grandmother: 'દાદી/નાની',
-      grandfather: 'દાદા/નાના',
-      'mother-in-law': 'સાસુ',
-      'father-in-law': 'સસરા',
-      'sister-in-law': 'નણંદ/ભાવી',
-      'brother-in-law': 'દેવર/જેઠ/જીજા',
-      'aunt-in-law': 'સસરિયાની આન્ટી',
-      'uncle-in-law': 'સસરિયાના અંકલ',
-      niece: 'ભત્રીજી/ભાણજી',
-      nephew: 'ભત્રીજો/ભાણજો',
-      friend: 'મિત્ર',
-      'best-friend': 'સૌથી નજીકનો મિત્ર',
-      'co-worker': 'સહકર્મી',
-      manager: 'મેનેજર',
-      'business-partner': 'વ્યવસાયિક ભાગીદાર',
-      mentor: 'માર્ગદર્શક',
-      student: 'વિદ્યાર્થી',
-      other: 'અન્ય',
+      self: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.ebe10731db"),
+      spouse: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.1e0a69e2ab"),
+      partner: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.d1f17591f7"),
+      fiance: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.8bcc7fd9fe"),
+      son: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.2eadada20b"),
+      daughter: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.76059c124b"),
+      mother: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.5efcd5d8a5"),
+      father: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.7ed4b48e6b"),
+      brother: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.a829bd389e"),
+      sister: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.d163ec2566"),
+      cousin: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.f04bd4d78b"),
+      'maternal-aunt': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.4d3897d0a8"),
+      'paternal-aunt': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.cdcc30cd53"),
+      aunt: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.acf44fafce"),
+      'maternal-uncle': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.40f2b919e2"),
+      'paternal-uncle': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.6af1244650"),
+      uncle: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.1ac007a855"),
+      grandmother: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.6da27c2e12"),
+      grandfather: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.1c09a5b0a4"),
+      'mother-in-law': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.78d8f25b70"),
+      'father-in-law': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.954cb631b1"),
+      'sister-in-law': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.c23cbbc5da"),
+      'brother-in-law': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.f32bb1f317"),
+      'aunt-in-law': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.83cc3a48e2"),
+      'uncle-in-law': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.0d0ec140af"),
+      niece: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.3fb6483c01"),
+      nephew: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.d1d2203a45"),
+      friend: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.55e1390c02"),
+      'best-friend': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.a1b7a4c96c"),
+      'co-worker': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.937dd2006a"),
+      manager: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.42951580b4"),
+      'business-partner': getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.702e711fdf"),
+      mentor: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.b3b9ca035c"),
+      student: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.4b7a886f19"),
+      other: getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.24bec44d1e"),
     };
     return map[value] ?? english;
   }

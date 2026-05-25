@@ -12,6 +12,9 @@ async function readWorkspaceFile(file) {
 
 const chartLayout = await readWorkspaceFile('packages/astrology/src/chartLayout.ts');
 const webKundliChart = await readWorkspaceFile('apps/web/components/WebKundliChart.tsx');
+const nativeCopyTranslations = JSON.parse(
+  await readWorkspaceFile('packages/config/src/translations/nativeCopy.json'),
+);
 const uiTranslations = await readWorkspaceFile('packages/config/src/translations/ui.json');
 
 const grahaContract = {
@@ -33,20 +36,20 @@ for (const [planet, names] of Object.entries(grahaContract)) {
     new RegExp(`en: \\{ abbreviation: '[^']+', name: '${escapeRegExp(names.en)}' \\}`),
     `${planet} has English shared chart name`,
   );
-  assert.match(
-    sharedEntry,
-    new RegExp(`hi: \\{ abbreviation: '[^']+', name: '${escapeRegExp(names.hi)}' \\}`),
+  assert.equal(
+    resolveSharedPlanetName(sharedEntry, 'hi'),
+    names.hi,
     `${planet} has Hindi shared chart name`,
   );
-  assert.match(
-    sharedEntry,
-    new RegExp(`gu: \\{ abbreviation: '[^']+', name: '${escapeRegExp(names.gu)}' \\}`),
+  assert.equal(
+    resolveSharedPlanetName(sharedEntry, 'gu'),
+    names.gu,
     `${planet} has Gujarati shared chart name`,
   );
 
   const webEntry = extractObjectEntry(webKundliChart, planet);
-  assert.match(webEntry, new RegExp(`hi: '${escapeRegExp(names.hi)}'`), `${planet} has Hindi web prose name`);
-  assert.match(webEntry, new RegExp(`gu: '${escapeRegExp(names.gu)}'`), `${planet} has Gujarati web prose name`);
+  assert.equal(resolveWebPlanetName(webEntry, 'hi'), names.hi, `${planet} has Hindi web prose name`);
+  assert.equal(resolveWebPlanetName(webEntry, 'gu'), names.gu, `${planet} has Gujarati web prose name`);
 }
 
 const ui = JSON.parse(uiTranslations);
@@ -97,4 +100,32 @@ function extractObjectEntry(source, key) {
 
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function resolveSharedPlanetName(entry, language) {
+  const languageEntry = entry.match(
+    new RegExp(`${language}: \\{ abbreviation: [^,]+, name: ([^}]+) \\}`),
+  )?.[1];
+  assert.ok(languageEntry, `${language} shared planet entry exists`);
+  return resolveStringExpression(languageEntry.trim());
+}
+
+function resolveWebPlanetName(entry, language) {
+  const languageEntry = entry.match(new RegExp(`${language}: ([^,}]+)`))?.[1];
+  assert.ok(languageEntry, `${language} web planet entry exists`);
+  return resolveStringExpression(languageEntry.trim());
+}
+
+function resolveStringExpression(expression) {
+  const stringLiteral = expression.match(/^'([^']*)'$/)?.[1];
+  if (stringLiteral !== undefined) {
+    return stringLiteral;
+  }
+
+  const nativeCopyKey = expression.match(/^getNativeCopy\("([^"]+)"\)$/)?.[1];
+  assert.ok(nativeCopyKey, `Unsupported localized string expression: ${expression}`);
+
+  const entry = nativeCopyTranslations.entries?.[nativeCopyKey];
+  assert.equal(entry?.kind, 'text', `${nativeCopyKey} resolves to a text native-copy entry`);
+  return entry.value;
 }

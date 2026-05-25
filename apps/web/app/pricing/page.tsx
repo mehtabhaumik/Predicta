@@ -1,5 +1,6 @@
 'use client';
 
+import { getNativeCopy } from '@pridicta/config';
 import {
   PREMIUM_FEATURE_STORY,
   getOneTimeProducts,
@@ -254,130 +255,130 @@ const pricingPageCopy: Record<
     title: 'Pay only when you know what you need.',
   },
   hi: {
-    back: 'प्रेडिक्टा पर वापस',
-    body: 'भुगतान वाला विकल्प तभी चुनें जब प्रेडिक्टा मदद कर चुकी हो और आपको समय, तैयार रिपोर्ट, परिवार संदर्भ या ज्यादा गहराई चाहिए.',
+    back: getNativeCopy("native.apps.web.app.pricing.page.tsx.c6be9647f0"),
+    body: getNativeCopy("native.apps.web.app.pricing.page.tsx.ec1deae9ad"),
     choiceCards: [
       {
-        body: 'जब हर महीने प्रेडिक्टा मार्गदर्शन, समय, उपाय, सेव चैट और परिवार प्रोफाइल चाहिए.',
-        cta: 'सदस्यता देखें',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.8fad7b9aed"),
+        cta: getNativeCopy("native.apps.web.app.pricing.page.tsx.83c6b66c84"),
         href: '#subscriptions',
-        label: 'सदस्यता',
-        title: 'मुझे हर महीने मार्गदर्शन चाहिए',
+        label: getNativeCopy("native.apps.web.app.pricing.page.tsx.597355aef3"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.265ca6864f"),
       },
       {
-        body: 'जब कुंडली, करियर, धन, विवाह, साढ़े साती या अनुकूलता की एक सुंदर PDF चाहिए.',
-        cta: 'एक रिपोर्ट चुनें',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.423e6dc7dd"),
+        cta: getNativeCopy("native.apps.web.app.pricing.page.tsx.37bac83a8d"),
         href: '#one-time',
-        label: 'एक रिपोर्ट',
-        title: 'मुझे एक जवाब अच्छे से तैयार चाहिए',
+        label: getNativeCopy("native.apps.web.app.pricing.page.tsx.a47be277a9"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.93ce110a50"),
       },
       {
-        body: 'जब दोस्त या परिवार निर्णय से पहले एक दिन प्रीमियम गहराई आजमाना चाहें.',
-        cta: 'दिन पास आजमाएं',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.8429bea137"),
+        cta: getNativeCopy("native.apps.web.app.pricing.page.tsx.2041cc8192"),
         href: '/checkout?productId=pridicta_day_pass_24h',
-        label: '24 घंटे परीक्षण',
-        title: 'मुझे आज सब आजमाना है',
+        label: getNativeCopy("native.apps.web.app.pricing.page.tsx.be935cf75e"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.0d654f407f"),
       },
     ],
-    choiceEyebrow: 'जरूरत से चुनें',
-    choiceTitle: 'योजना मत खरीदें. जो परिणाम चाहिए, वह चुनें.',
+    choiceEyebrow: getNativeCopy("native.apps.web.app.pricing.page.tsx.f3d6aa53a8"),
+    choiceTitle: getNativeCopy("native.apps.web.app.pricing.page.tsx.03cce45a41"),
     differenceCards: [
       {
-        body: 'कुंडली बनाएं, चार्ट देखें, सीमित सवाल पूछें, और उपयोगी रिपोर्ट झलक डाउनलोड करें.',
-        title: 'मुफ्त',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.c497d6b9a2"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.835e9402fb"),
       },
       {
-        body: 'मासिक समय, चार्ट सार, उपाय, सेव स्मृति, परिवार संदर्भ और विस्तृत PDF के लिए प्रीमियम लें.',
-        title: 'प्रीमियम',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.f1e747ac96"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.b552bca1c9"),
       },
       {
-        body: 'सदस्यता नहीं चाहिए तो specific moment के लिए Day Pass या एक रिपोर्ट लें.',
-        title: 'एक बार खरीदें',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.0465e2864e"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.75bd25236b"),
       },
     ],
-    differenceEyebrow: 'क्या बदलता है',
-    differenceTitle: 'मुफ्त स्पष्टता देता है. प्रीमियम गहराई देता है.',
+    differenceEyebrow: getNativeCopy("native.apps.web.app.pricing.page.tsx.f424566b28"),
+    differenceTitle: getNativeCopy("native.apps.web.app.pricing.page.tsx.d6615c7997"),
     legalBody:
-      'प्रेडिक्टा प्रीमियम गहरा ज्योतिष मार्गदर्शन है, डॉक्टर, वकील, वित्तीय सलाहकार या आपात मदद का विकल्प नहीं. खरीदारी से पहले सदस्यता और एक बार की रिपोर्ट साफ समझ में आनी चाहिए.',
-    legalTitle: 'साफ सीमाएं, डर बेचने वाला तरीका नहीं.',
-    oneTimeBody: 'जब एक life question का prepared answer चाहिए और subscription नहीं चाहिए.',
-    oneTimeTitle: 'एक बार की खरीदारी',
-    pill: 'असीमित दावे नहीं',
+      getNativeCopy("native.apps.web.app.pricing.page.tsx.dc28bded86"),
+    legalTitle: getNativeCopy("native.apps.web.app.pricing.page.tsx.fc0240f0f8"),
+    oneTimeBody: getNativeCopy("native.apps.web.app.pricing.page.tsx.c7af4104d2"),
+    oneTimeTitle: getNativeCopy("native.apps.web.app.pricing.page.tsx.2027a14703"),
+    pill: getNativeCopy("native.apps.web.app.pricing.page.tsx.20a0f0e3e8"),
     planFeatures: [
-      'चार्ट प्रमाण के साथ गहरे प्रेडिक्टा जवाब',
-      'Life Calendar और timing windows',
-      'Serious questions के लिए detailed PDFs',
-      'Family profiles, saved chats और continuity',
+      getNativeCopy("native.apps.web.app.pricing.page.tsx.49d897ef5d"),
+      getNativeCopy("native.apps.web.app.pricing.page.tsx.4a408981da"),
+      getNativeCopy("native.apps.web.app.pricing.page.tsx.8fc7dae347"),
+      getNativeCopy("native.apps.web.app.pricing.page.tsx.ae3bbfbce3"),
     ],
-    readPolicies: 'नीतियां पढ़ें',
-    selectPrefix: 'चुनें',
-    storyBody: 'प्रीमियम उन उपयोगकर्ताओं के लिए है जिन्हें प्रेडिक्टा से तैयारी, स्मृति, तुलना और गहरी व्याख्या चाहिए.',
-    storyEyebrow: 'प्रीमियम कहानी',
-    storyTitle: 'कुंडली बनाएं. जीवन समझें. बेहतर सवाल पूछें. सुंदर रिपोर्ट पाएं.',
-    title: 'तभी भुगतान करें जब जरूरत साफ हो.',
+    readPolicies: getNativeCopy("native.apps.web.app.pricing.page.tsx.e9003ca9b9"),
+    selectPrefix: getNativeCopy("native.apps.web.app.pricing.page.tsx.d9b97570b7"),
+    storyBody: getNativeCopy("native.apps.web.app.pricing.page.tsx.6fc238a336"),
+    storyEyebrow: getNativeCopy("native.apps.web.app.pricing.page.tsx.fd027a6cab"),
+    storyTitle: getNativeCopy("native.apps.web.app.pricing.page.tsx.81e2a0d0b2"),
+    title: getNativeCopy("native.apps.web.app.pricing.page.tsx.20eb2b83b9"),
   },
   gu: {
-    back: 'પ્રેડિક્ટા પર પાછા',
-    body: 'ચુકવણીવાળો વિકલ્પ ત્યારે પસંદ કરો જ્યારે પ્રેડિક્ટા મદદ કરી ચૂકી હોય અને તમને સમય, તૈયાર રિપોર્ટ, પરિવાર સંદર્ભ અથવા વધુ ઊંડાઈ જોઈએ.',
+    back: getNativeCopy("native.apps.web.app.pricing.page.tsx.1ccba119f2"),
+    body: getNativeCopy("native.apps.web.app.pricing.page.tsx.e7c287823b"),
     choiceCards: [
       {
-        body: 'જ્યારે દર મહિને પ્રેડિક્ટા માર્ગદર્શન, સમય, ઉપાયો, સેવ ચેટ અને પરિવાર પ્રોફાઇલ જોઈએ.',
-        cta: 'સભ્યપદ જુઓ',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.1827c232f8"),
+        cta: getNativeCopy("native.apps.web.app.pricing.page.tsx.d20d4680a8"),
         href: '#subscriptions',
-        label: 'સભ્યપદ',
-        title: 'મારે દર મહિને માર્ગદર્શન જોઈએ',
+        label: getNativeCopy("native.apps.web.app.pricing.page.tsx.da938ec36c"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.5ba388bc38"),
       },
       {
-        body: 'જ્યારે કુંડળી, કારકિર્દી, ધન, લગ્ન, સાડેસાતી અથવા અનુકૂળતા માટે એક સુંદર PDF જોઈએ.',
-        cta: 'એક રિપોર્ટ પસંદ કરો',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.840a3e434e"),
+        cta: getNativeCopy("native.apps.web.app.pricing.page.tsx.72eedd6de0"),
         href: '#one-time',
-        label: 'એક રિપોર્ટ',
-        title: 'મારે એક જવાબ સારી રીતે તૈયાર જોઈએ',
+        label: getNativeCopy("native.apps.web.app.pricing.page.tsx.71ad46e28e"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.ab3cad5253"),
       },
       {
-        body: 'જ્યારે મિત્રો અથવા પરિવાર નિર્ણય પહેલાં એક દિવસ પ્રીમિયમ ઊંડાઈ અજમાવવા માંગે.',
-        cta: 'દિવસ પાસ અજમાવો',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.295b03fa35"),
+        cta: getNativeCopy("native.apps.web.app.pricing.page.tsx.76b757b9d9"),
         href: '/checkout?productId=pridicta_day_pass_24h',
-        label: '24 કલાક પરીક્ષણ',
-        title: 'મારે આજે બધું અજમાવવું છે',
+        label: getNativeCopy("native.apps.web.app.pricing.page.tsx.8a2a6fe085"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.d0390e6dac"),
       },
     ],
-    choiceEyebrow: 'જરૂર મુજબ પસંદ કરો',
-    choiceTitle: 'યોજના ન ખરીદો. જે પરિણામ જોઈએ તે પસંદ કરો.',
+    choiceEyebrow: getNativeCopy("native.apps.web.app.pricing.page.tsx.a857a20139"),
+    choiceTitle: getNativeCopy("native.apps.web.app.pricing.page.tsx.524542179c"),
     differenceCards: [
       {
-        body: 'કુંડળી બનાવો, ચાર્ટ જુઓ, મર્યાદિત પ્રશ્નો પૂછો, અને ઉપયોગી રિપોર્ટ ઝલક ડાઉનલોડ કરો.',
-        title: 'મફત',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.a9eda8b937"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.11494ad2d1"),
       },
       {
-        body: 'માસિક સમય, ચાર્ટ સાર, ઉપાયો, સેવ સ્મૃતિ, પરિવાર સંદર્ભ અને વિગતવાર PDF માટે પ્રીમિયમ લો.',
-        title: 'પ્રીમિયમ',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.2097251d20"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.81ee678383"),
       },
       {
-        body: 'સભ્યપદ ન જોઈએ તો ખાસ સમય માટે દિવસ પાસ અથવા એક રિપોર્ટ લો.',
-        title: 'એક વાર ખરીદો',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.4185f2e0b6"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.333023f9c7"),
       },
     ],
-    differenceEyebrow: 'શું બદલાય છે',
-    differenceTitle: 'મફત સ્પષ્ટતા આપે છે. પ્રીમિયમ ઊંડાઈ આપે છે.',
+    differenceEyebrow: getNativeCopy("native.apps.web.app.pricing.page.tsx.6bb307aeb0"),
+    differenceTitle: getNativeCopy("native.apps.web.app.pricing.page.tsx.1ea5102755"),
     legalBody:
-      'પ્રેડિક્ટા પ્રીમિયમ ઊંડું જ્યોતિષ માર્ગદર્શન છે, ડૉક્ટર, વકીલ, નાણાકીય સલાહકાર અથવા આપાત મદદનો વિકલ્પ નથી. ખરીદી પહેલાં સભ્યતા અને એક વારની રિપોર્ટ સ્પષ્ટ સમજાય તે જરૂરી છે.',
-    legalTitle: 'સ્પષ્ટ મર્યાદા, ડર વેચવાનું નહીં.',
-    oneTimeBody: 'જ્યારે એક life question નો prepared answer જોઈએ અને subscription ન જોઈએ.',
-    oneTimeTitle: 'એક વારની ખરીદી',
-    pill: 'અસીમ દાવા નહીં',
+      getNativeCopy("native.apps.web.app.pricing.page.tsx.206d854986"),
+    legalTitle: getNativeCopy("native.apps.web.app.pricing.page.tsx.1fe53c0e5d"),
+    oneTimeBody: getNativeCopy("native.apps.web.app.pricing.page.tsx.c58000dd6e"),
+    oneTimeTitle: getNativeCopy("native.apps.web.app.pricing.page.tsx.06a467df6d"),
+    pill: getNativeCopy("native.apps.web.app.pricing.page.tsx.0e01479583"),
     planFeatures: [
-      'ચાર્ટ પુરાવા સાથે ઊંડા પ્રેડિક્ટા જવાબ',
-      'Life Calendar અને timing windows',
-      'Serious questions માટે detailed PDFs',
-      'Family profiles, saved chats અને continuity',
+      getNativeCopy("native.apps.web.app.pricing.page.tsx.93c2ec5a8d"),
+      getNativeCopy("native.apps.web.app.pricing.page.tsx.210f9a95f1"),
+      getNativeCopy("native.apps.web.app.pricing.page.tsx.af7515e4f9"),
+      getNativeCopy("native.apps.web.app.pricing.page.tsx.59050e1152"),
     ],
-    readPolicies: 'નીતિઓ વાંચો',
-    selectPrefix: 'પસંદ કરો',
-    storyBody: 'પ્રીમિયમ એ ઉપયોગકર્તાઓ માટે છે જેને પ્રેડિક્ટા પાસેથી તૈયારી, સ્મૃતિ, તુલના અને ઊંડી સમજ જોઈએ.',
-    storyEyebrow: 'પ્રીમિયમ વાર્તા',
-    storyTitle: 'કુંડળી બનાવો. જીવન સમજો. સારા પ્રશ્નો પૂછો. સુંદર રિપોર્ટ્સ મેળવો.',
-    title: 'જરૂર સ્પષ્ટ હોય ત્યારે જ ચૂકવણી કરો.',
+    readPolicies: getNativeCopy("native.apps.web.app.pricing.page.tsx.60f826fa78"),
+    selectPrefix: getNativeCopy("native.apps.web.app.pricing.page.tsx.1619f196ef"),
+    storyBody: getNativeCopy("native.apps.web.app.pricing.page.tsx.e722c2451d"),
+    storyEyebrow: getNativeCopy("native.apps.web.app.pricing.page.tsx.86ff854935"),
+    storyTitle: getNativeCopy("native.apps.web.app.pricing.page.tsx.84aafda299"),
+    title: getNativeCopy("native.apps.web.app.pricing.page.tsx.6a29b2f183"),
   },
 };
 
@@ -392,18 +393,18 @@ function getLocalizedPlanCopy(
 } {
   if (language === 'hi') {
     const map: Record<string, { badge?: string; billingCopy: string; label: string; monthlyEquivalent?: string }> = {
-      WEEKLY: { billingCopy: 'प्रति सप्ताह', label: 'साप्ताहिक' },
-      MONTHLY: { billingCopy: 'प्रति माह', label: 'मासिक' },
+      WEEKLY: { billingCopy: getNativeCopy("native.apps.web.app.pricing.page.tsx.964f5e544f"), label: getNativeCopy("native.apps.web.app.pricing.page.tsx.47d5bb4f4c") },
+      MONTHLY: { billingCopy: getNativeCopy("native.apps.web.app.pricing.page.tsx.fe11c7096b"), label: getNativeCopy("native.apps.web.app.pricing.page.tsx.57dc4243a2") },
       QUARTERLY: {
-        billingCopy: 'हर 3 महीने',
-        label: 'त्रैमासिक',
-        monthlyEquivalent: 'लगभग प्रति माह',
+        billingCopy: getNativeCopy("native.apps.web.app.pricing.page.tsx.40c8c7b448"),
+        label: getNativeCopy("native.apps.web.app.pricing.page.tsx.d64cb5865a"),
+        monthlyEquivalent: getNativeCopy("native.apps.web.app.pricing.page.tsx.31d1f61931"),
       },
       YEARLY: {
-        badge: 'संस्थापक मूल्य',
-        billingCopy: 'प्रति वर्ष',
-        label: 'वार्षिक',
-        monthlyEquivalent: 'लगभग प्रति माह',
+        badge: getNativeCopy("native.apps.web.app.pricing.page.tsx.da1fc8f483"),
+        billingCopy: getNativeCopy("native.apps.web.app.pricing.page.tsx.d22bdbff0b"),
+        label: getNativeCopy("native.apps.web.app.pricing.page.tsx.9b81fb55ef"),
+        monthlyEquivalent: getNativeCopy("native.apps.web.app.pricing.page.tsx.31d1f61931"),
       },
     };
 
@@ -412,18 +413,18 @@ function getLocalizedPlanCopy(
 
   if (language === 'gu') {
     const map: Record<string, { badge?: string; billingCopy: string; label: string; monthlyEquivalent?: string }> = {
-      WEEKLY: { billingCopy: 'દર અઠવાડિયે', label: 'સાપ્તાહિક' },
-      MONTHLY: { billingCopy: 'દર મહિને', label: 'માસિક' },
+      WEEKLY: { billingCopy: getNativeCopy("native.apps.web.app.pricing.page.tsx.dae0aacb66"), label: getNativeCopy("native.apps.web.app.pricing.page.tsx.146383f56e") },
+      MONTHLY: { billingCopy: getNativeCopy("native.apps.web.app.pricing.page.tsx.072202297b"), label: getNativeCopy("native.apps.web.app.pricing.page.tsx.2681c30f73") },
       QUARTERLY: {
-        billingCopy: 'દર 3 મહિને',
-        label: 'ત્રિમાસિક',
-        monthlyEquivalent: 'લગભગ દર મહિને',
+        billingCopy: getNativeCopy("native.apps.web.app.pricing.page.tsx.2060330fec"),
+        label: getNativeCopy("native.apps.web.app.pricing.page.tsx.2fd463f085"),
+        monthlyEquivalent: getNativeCopy("native.apps.web.app.pricing.page.tsx.dc43c28d53"),
       },
       YEARLY: {
-        badge: 'સ્થાપક મૂલ્ય',
-        billingCopy: 'દર વર્ષે',
-        label: 'વાર્ષિક',
-        monthlyEquivalent: 'લગભગ દર મહિને',
+        badge: getNativeCopy("native.apps.web.app.pricing.page.tsx.caf0d6ca05"),
+        billingCopy: getNativeCopy("native.apps.web.app.pricing.page.tsx.48d22808b0"),
+        label: getNativeCopy("native.apps.web.app.pricing.page.tsx.5a1cce3f9b"),
+        monthlyEquivalent: getNativeCopy("native.apps.web.app.pricing.page.tsx.dc43c28d53"),
       },
     };
 
@@ -458,24 +459,24 @@ function getLocalizedOneTimeProductCopy(
   if (language === 'hi') {
     const map: Record<string, { description: string; label: string }> = {
       DAY_PASS: {
-        description: 'सदस्यता के बिना एक दिन के लिए प्रीमियम गहराई आजमाएं.',
-        label: 'डे पास',
+        description: getNativeCopy("native.apps.web.app.pricing.page.tsx.132402e0c4"),
+        label: getNativeCopy("native.apps.web.app.pricing.page.tsx.ec32113b0b"),
       },
       DETAILED_KUNDLI_REPORT: {
-        description: 'सक्रिय कुंडली के लिए एक गहरी कुंडली रिपोर्ट बनाएं.',
-        label: 'विस्तृत कुंडली रिपोर्ट',
+        description: getNativeCopy("native.apps.web.app.pricing.page.tsx.2b9fe8fbd2"),
+        label: getNativeCopy("native.apps.web.app.pricing.page.tsx.8106a328fe"),
       },
       FIVE_QUESTIONS: {
-        description: 'जब ज्यादा मार्गदर्शन चाहिए तब 5 प्रेडिक्टा सवाल जोड़ें.',
-        label: '5 प्रेडिक्टा सवाल',
+        description: getNativeCopy("native.apps.web.app.pricing.page.tsx.2dcc46afb6"),
+        label: getNativeCopy("native.apps.web.app.pricing.page.tsx.e3687de986"),
       },
       MARRIAGE_COMPATIBILITY_REPORT: {
-        description: 'दो चार्ट के रिश्ते और विवाह समय पर केंद्रित रिपोर्ट.',
-        label: 'विवाह मिलान रिपोर्ट',
+        description: getNativeCopy("native.apps.web.app.pricing.page.tsx.6c2a86e4af"),
+        label: getNativeCopy("native.apps.web.app.pricing.page.tsx.41971490fb"),
       },
       PREMIUM_PDF: {
-        description: 'सक्रिय कुंडली के लिए एक प्रीमियम गहराई वाली पीडीएफ खोलें.',
-        label: 'प्रीमियम पीडीएफ',
+        description: getNativeCopy("native.apps.web.app.pricing.page.tsx.dd6621dfa2"),
+        label: getNativeCopy("native.apps.web.app.pricing.page.tsx.31641beaac"),
       },
     };
 
@@ -485,24 +486,24 @@ function getLocalizedOneTimeProductCopy(
   if (language === 'gu') {
     const map: Record<string, { description: string; label: string }> = {
       DAY_PASS: {
-        description: 'સભ્યતા વગર એક દિવસ માટે પ્રીમિયમ ઊંડાઈ અજમાવો.',
-        label: 'ડે પાસ',
+        description: getNativeCopy("native.apps.web.app.pricing.page.tsx.15479dc7d6"),
+        label: getNativeCopy("native.apps.web.app.pricing.page.tsx.039eabd9e9"),
       },
       DETAILED_KUNDLI_REPORT: {
-        description: 'સક્રિય કુંડળી માટે ઊંડી કુંડળી રિપોર્ટ બનાવો.',
-        label: 'વિગતવાર કુંડળી રિપોર્ટ',
+        description: getNativeCopy("native.apps.web.app.pricing.page.tsx.68ec0fea87"),
+        label: getNativeCopy("native.apps.web.app.pricing.page.tsx.2836b2970a"),
       },
       FIVE_QUESTIONS: {
-        description: 'જ્યારે વધુ માર્ગદર્શન જોઈએ ત્યારે 5 પ્રેડિક્ટા પ્રશ્નો ઉમેરો.',
-        label: '5 પ્રેડિક્ટા પ્રશ્નો',
+        description: getNativeCopy("native.apps.web.app.pricing.page.tsx.59dd1df18c"),
+        label: getNativeCopy("native.apps.web.app.pricing.page.tsx.74e3e3be71"),
       },
       MARRIAGE_COMPATIBILITY_REPORT: {
-        description: 'બે ચાર્ટના સંબંધ અને લગ્ન સમય પર કેન્દ્રિત રિપોર્ટ.',
-        label: 'લગ્ન મિલાન રિપોર્ટ',
+        description: getNativeCopy("native.apps.web.app.pricing.page.tsx.5ba901e904"),
+        label: getNativeCopy("native.apps.web.app.pricing.page.tsx.ef78467017"),
       },
       PREMIUM_PDF: {
-        description: 'સક્રિય કુંડળી માટે પ્રીમિયમ ઊંડાઈવાળી પીડીએફ ખોલો.',
-        label: 'પ્રીમિયમ પીડીએફ',
+        description: getNativeCopy("native.apps.web.app.pricing.page.tsx.72d90e9880"),
+        label: getNativeCopy("native.apps.web.app.pricing.page.tsx.d7ca86dc4e"),
       },
     };
 
@@ -539,24 +540,24 @@ function getLocalizedPremiumFeatureStory(
   if (language === 'hi') {
     return [
       {
-        body: 'प्रीमियम जवाब चार्ट कारण, भरोसा स्तर और समय संदर्भ दिखाते हैं.',
-        title: 'प्रमाण के साथ पूछें',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.71e5b79033"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.2579e0387b"),
       },
       {
-        body: 'दशा और गोचर का महीने-दर-महीने जीवन कैलेंडर.',
-        title: 'जीवन कैलेंडर',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.1ab7856c18"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.a8de3e503c"),
       },
       {
-        body: 'कई पारिवारिक कुंडलियां निजी रूप से सेव और तुलना करें.',
-        title: 'परिवार वॉल्ट',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.35248cb9ba"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.dc49ce1d21"),
       },
       {
-        body: 'कुंडली, करियर, विवाह, धन, संतान और उपाय के केंद्रित पैक.',
-        title: 'प्रीमियम रिपोर्ट पैक',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.44b4290b1d"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.08ee4f4e5a"),
       },
       {
-        body: 'वर्ग चार्ट, दशा, गोचर, अष्टकवर्ग और प्रमाण तालिकाएं देखें.',
-        title: 'गंभीर ज्योतिष मोड',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.00933ab14e"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.df5538cc3e"),
       },
     ];
   }
@@ -564,24 +565,24 @@ function getLocalizedPremiumFeatureStory(
   if (language === 'gu') {
     return [
       {
-        body: 'પ્રીમિયમ જવાબ ચાર્ટ કારણો, વિશ્વાસ સ્તર અને સમય સંદર્ભ બતાવે છે.',
-        title: 'પુરાવા સાથે પૂછો',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.6246178a2a"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.70c99740d9"),
       },
       {
-        body: 'દશા અને ગોચરનું મહિના પ્રમાણે જીવન કેલેન્ડર.',
-        title: 'જીવન કેલેન્ડર',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.18b106ea08"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.f1bbb59092"),
       },
       {
-        body: 'ઘણી પરિવાર કુંડળીઓ ખાનગી રીતે સેવ અને સરખાવો.',
-        title: 'પરિવાર વોલ્ટ',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.8719c9e199"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.dde3029f16"),
       },
       {
-        body: 'કુંડળી, કારકિર્દી, લગ્ન, ધન, સંતાન અને ઉપાયો માટે કેન્દ્રિત પેક.',
-        title: 'પ્રીમિયમ રિપોર્ટ પેક',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.11392f9f8a"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.31b3b61838"),
       },
       {
-        body: 'વર્ગ ચાર્ટ, દશા, ગોચર, અષ્ટકવર્ગ અને પુરાવા કોષ્ટકો જુઓ.',
-        title: 'ગંભીર જ્યોતિષ મોડ',
+        body: getNativeCopy("native.apps.web.app.pricing.page.tsx.068ec4ecda"),
+        title: getNativeCopy("native.apps.web.app.pricing.page.tsx.34ba619053"),
       },
     ];
   }

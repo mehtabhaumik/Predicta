@@ -1,5 +1,6 @@
 'use client';
 
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import type { CSSProperties, RefObject } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -1269,59 +1270,59 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     searchingPlaces: 'Searching places...',
   },
   hi: {
-    birthTimeApproximate: 'जन्म समय अनुमानित है',
-    calculating: 'गणना हो रही है...',
-    continueLabel: 'आगे बढ़ें',
+    birthTimeApproximate: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.abe190eefa"),
+    calculating: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.6c8fdc8295"),
+    continueLabel: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.aa9a542091"),
     createAnotherBirthDetailsBody:
-      'आपकी सक्रिय कुंडली ऊपर रहेगी. नया चार्ट बनाना हो तभी यह इस्तेमाल करें.',
-    createAnotherKundli: 'जरूरत हो तभी दूसरी कुंडली बनाएं.',
-    createAnotherKundliStep: 'दूसरी कुंडली बनाएं',
+      getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.04d60c154e"),
+    createAnotherKundli: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.9524ee86a7"),
+    createAnotherKundliStep: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.72bfdc185c"),
     createBirthDetailsBody:
-      'प्रेडिक्टा को पहले केवल तीन बातें चाहिए: तारीख, समय और स्थान.',
-    createKundliStep: 'चरण 1 · कुंडली बनाएं',
+      getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.bb01300395"),
+    createKundliStep: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.3f1201483c"),
     editBirthDetailsBody:
-      'सिर्फ गलत विवरण बदलें, फिर प्रेडिक्टा कुंडली दोबारा गणना करने से पहले पुष्टि लेगी.',
-    editSavedKundli: 'सेव कुंडली संपादित करें',
-    enterBirthDetails: 'जन्म विवरण क्रम से भरें.',
-    fillExample: 'उदाहरण भरें',
+      getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.b4c91e2690"),
+    editSavedKundli: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.9ab7f097a3"),
+    enterBirthDetails: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.7c8f5f32b0"),
+    fillExample: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.cc062f671d"),
     guestLimitError:
-      'आपकी पहली कुंडली इस डिवाइस पर सेव है. दूसरी कुंडली जोड़ने से पहले साइन इन करें, ताकि परिवार प्रोफाइल और आगे के बदलाव सुरक्षित रहें.',
-    guestLimitTitle: 'अधिक कुंडलियां सुरक्षित रखने के लिए साइन इन करें',
+      getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.4cdc4132e7"),
+    guestLimitTitle: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.69426948bc"),
     relationshipHelp:
-      'यह सेव प्रोफाइल आपसे कैसे जुड़ी है, यह चुनें. आपकी मुख्य प्रोफाइल स्वयं रहेगी और उसमें यह फ़ील्ड नहीं दिखेगी.',
-    relationshipLabel: 'आपसे संबंध',
-    relationshipPlaceholder: 'संबंध चुनें',
+      getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.ac5916328d"),
+    relationshipLabel: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.920f52e152"),
+    relationshipPlaceholder: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.06da9e136b"),
     relationshipRequiredError:
-      'यह सेव प्रोफाइल आपसे कैसे जुड़ी है, यह चुने बिना कुंडली न बनाएं और न अपडेट करें.',
-    reviewBirthDetails: name => `${name} के जन्म विवरण जांचें.`,
-    searchingPlaces: 'स्थान खोजे जा रहे हैं...',
+      getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.fa7f447f5e"),
+    reviewBirthDetails: name => formatNativeCopy("native.apps.web.components.WebKundliWizard.tsx.78c98d45b0", [name]),
+    searchingPlaces: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.f530cdfa76"),
   },
   gu: {
-    birthTimeApproximate: 'જન્મ સમય અંદાજિત છે',
-    calculating: 'ગણતરી થઈ રહી છે...',
-    continueLabel: 'આગળ વધો',
+    birthTimeApproximate: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.f92bd5d28b"),
+    calculating: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.38007d95c3"),
+    continueLabel: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.9e3014236d"),
     createAnotherBirthDetailsBody:
-      'તમારી સક્રિય કુંડળી ઉપર રહેશે. બીજો ચાર્ટ બનાવવો હોય ત્યારે જ આ વાપરો.',
-    createAnotherKundli: 'જરૂર હોય ત્યારે જ બીજી કુંડળી બનાવો.',
-    createAnotherKundliStep: 'બીજી કુંડળી બનાવો',
+      getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.b2d20cc0da"),
+    createAnotherKundli: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.1beb027425"),
+    createAnotherKundliStep: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.df15299f0b"),
     createBirthDetailsBody:
-      'પ્રેડિક્ટા ને પહેલા માત્ર ત્રણ બાબતો જોઈએ: તારીખ, સમય અને સ્થળ.',
-    createKundliStep: 'પગલું 1 · કુંડળી બનાવો',
+      getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.3daa0a51c7"),
+    createKundliStep: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.7fa5156756"),
     editBirthDetailsBody:
-      'માત્ર ખોટી વિગતો બદલો, પછી પ્રેડિક્ટા કુંડળી ફરી ગણતા પહેલાં ખાતરી કરશે.',
-    editSavedKundli: 'સાચવેલી કુંડળી સંપાદિત કરો',
-    enterBirthDetails: 'જન્મ વિગતો ક્રમથી ભરો.',
-    fillExample: 'ઉદાહરણ भरो',
+      getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.66668b5ce0"),
+    editSavedKundli: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.f2f57c2164"),
+    enterBirthDetails: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.f08fc8d0eb"),
+    fillExample: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.a8375c5abe"),
     guestLimitError:
-      'તમારી પહેલી કુંડળી આ ડિવાઇસ પર સેવ છે. બીજી કુંડળી ઉમેરતા પહેલાં સાઇન ઇન કરો, જેથી પરિવાર પ્રોફાઇલ અને આગળના ફેરફારો સુરક્ષિત રહે.',
-    guestLimitTitle: 'વધુ કુંડળીઓ સુરક્ષિત રાખવા સાઇન ઇન કરો',
+      getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.df109a4a8f"),
+    guestLimitTitle: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.2d3fc8eba7"),
     relationshipHelp:
-      'આ સાચવેલી પ્રોફાઇલ તમારાથી કેવી રીતે જોડાય છે તે પસંદ કરો. તમારી મુખ્ય પ્રોફાઇલ પોતે જ રહેશે અને તેમાં આ ક્ષેત્ર દેખાશે નહીં.',
-    relationshipLabel: 'તમારો સંબંધ',
-    relationshipPlaceholder: 'સંબંધ પસંદ કરો',
+      getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.5071b4480b"),
+    relationshipLabel: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.142d267dd0"),
+    relationshipPlaceholder: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.9c93179b60"),
     relationshipRequiredError:
-      'આ સાચવેલી પ્રોફાઇલ તમારાથી કેવી રીતે જોડાય છે તે પસંદ કર્યા વગર કુંડળી બનાવશો કે સુધારશો નહીં.',
-    reviewBirthDetails: name => `${name} ની જન્મ વિગતો તપાસો.`,
-    searchingPlaces: 'સ્થળો શોધાઈ રહ્યા છે...',
+      getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.d369f850b5"),
+    reviewBirthDetails: name => formatNativeCopy("native.apps.web.components.WebKundliWizard.tsx.4b0b53bf8b", [name]),
+    searchingPlaces: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.78a7225ab4"),
   },
 };

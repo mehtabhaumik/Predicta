@@ -1,5 +1,6 @@
 'use client';
 
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import {
   type CSSProperties,
   useId,
@@ -655,8 +656,8 @@ function getChartLanguageCopy(language: SupportedLanguage): ChartLanguageCopy {
   const common = getLanguageLabels(language);
   const titleByLanguage: Record<SupportedLanguage, string> = {
     en: 'Chart language',
-    gu: 'ચાર્ટ ભાષા',
-    hi: 'चार्ट भाषा',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.61f1e652e0"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.099ec5792c"),
   };
 
   return {
@@ -674,19 +675,19 @@ type TechnicalViewLabels = {
 function getTechnicalViewLabels(language: SupportedLanguage): TechnicalViewLabels {
   if (language === 'hi') {
     return {
-      anchorRule: 'D1 आधार नियम',
-      chartSpecificNote: 'चार्ट विशेष नोट',
-      houseEvidence: 'भाव प्रमाण',
-      planetCondition: 'ग्रह स्थिति',
+      anchorRule: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.f19deea49e"),
+      chartSpecificNote: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.dab0e99529"),
+      houseEvidence: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.3f5f51a73c"),
+      planetCondition: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.90d025f564"),
     };
   }
 
   if (language === 'gu') {
     return {
-      anchorRule: 'D1 આધાર નિયમ',
-      chartSpecificNote: 'ચાર્ટ વિશેષ નોંધ',
-      houseEvidence: 'ભાવ પુરાવો',
-      planetCondition: 'ગ્રહ સ્થિતિ',
+      anchorRule: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.532b79ebb2"),
+      chartSpecificNote: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.1713459672"),
+      houseEvidence: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.2ed3cb1b39"),
+      planetCondition: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.0813cc745d"),
     };
   }
 
@@ -884,58 +885,58 @@ function localizeChartPhrase(value: string, language: SupportedLanguage): string
 
   if (/^This free view gives the practical purpose of .+ and the main placement pattern without deep prediction\.$/.test(value)) {
     return language === 'hi'
-      ? `यह मुफ्त दृश्य ${localizedChartName ?? 'इस चार्ट'} का उद्देश्य और मुख्य ग्रह-स्थिति सरल रूप में दिखाता है.`
-      : `આ મફત દૃશ્ય ${localizedChartName ?? 'આ ચાર્ટ'} નો હેતુ અને મુખ્ય ગ્રહ-સ્થિતિ સરળ રીતે બતાવે છે.`;
+      ? formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.bc8d3d636f", [localizedChartName ?? getNativeCopy("native.apps.web.components.WebKundliChart.tsx.70f9384caa")])
+      : formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.05d2705b81", [localizedChartName ?? getNativeCopy("native.apps.web.components.WebKundliChart.tsx.fcb697dfc8")]);
   }
 
   if (/^Premium depth reads .+ as a real synthesis layer: D1 anchor, varga placements, dasha activation, confidence, and practical next steps\.$/.test(value)) {
     return language === 'hi'
-      ? `प्रीमियम ${localizedChartName ?? 'इस चार्ट'} को D1 आधार, वर्ग स्थिति, दशा सक्रियता, भरोसे और व्यावहारिक अगले कदमों के साथ गहराई से पढ़ता है.`
-      : `પ્રીમિયમ ${localizedChartName ?? 'આ ચાર્ટ'} ને D1 આધાર, વર્ગ સ્થિતિ, દશા સક્રિયતા, વિશ્વાસ અને વ્યવહારુ આગળના પગલાં સાથે ઊંડાણથી વાંચે છે.`;
+      ? formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.622ff9b469", [localizedChartName ?? getNativeCopy("native.apps.web.components.WebKundliChart.tsx.05a472f792")])
+      : formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.817701e0f5", [localizedChartName ?? getNativeCopy("native.apps.web.components.WebKundliChart.tsx.054eb085bd")]);
   }
 
   const focusMatch = value.match(/^(D\d+) focuses on (.+)\.$/);
   if (focusMatch) {
     const [, chartType, focus] = focusMatch;
     return language === 'hi'
-      ? `${chartType} ${localizeFocusPhrase(focus, language)} पर ध्यान देता है.`
-      : `${chartType} ${localizeFocusPhrase(focus, language)} પર ધ્યાન આપે છે.`;
+      ? formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.05ff8a05f1", [chartType, localizeFocusPhrase(focus, language)])
+      : formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.7e037c0a72", [chartType, localizeFocusPhrase(focus, language)]);
   }
 
   const focusD1Match = value.match(/^(D\d+) focuses on (.+), and should be judged through D1 first\.$/);
   if (focusD1Match) {
     const [, chartType, focus] = focusD1Match;
     return language === 'hi'
-      ? `${chartType} ${localizeFocusPhrase(focus, language)} पर ध्यान देता है और इसे पहले D1 के आधार से पढ़ना चाहिए.`
-      : `${chartType} ${localizeFocusPhrase(focus, language)} પર ધ્યાન આપે છે અને તેને પહેલા D1 આધારથી વાંચવું જોઈએ.`;
+      ? formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.a838941b82", [chartType, localizeFocusPhrase(focus, language)])
+      : formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.a3fcaecf58", [chartType, localizeFocusPhrase(focus, language)]);
   }
 
   const occupiedMatch = value.match(/^(\d+) houses have planet placements in this chart\.$/);
   if (occupiedMatch) {
     return language === 'hi'
-      ? `इस चार्ट में ${occupiedMatch[1]} भावों में ग्रह स्थित हैं.`
-      : `આ ચાર્ટમાં ${occupiedMatch[1]} ભાવોમાં ગ્રહો છે.`;
+      ? formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.96c15852f4", [occupiedMatch[1]])
+      : formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.2cab2f6f8f", [occupiedMatch[1]]);
   }
 
   const usefulMatch = value.match(/^Useful starting points: (.+)\.$/);
   if (usefulMatch) {
     return language === 'hi'
-      ? `शुरू करने के उपयोगी बिंदु: ${localizePlacementList(usefulMatch[1], language)}.`
-      : `શરૂ કરવા માટે ઉપયોગી મુદ્દા: ${localizePlacementList(usefulMatch[1], language)}.`;
+      ? formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.2fe6dbb09d", [localizePlacementList(usefulMatch[1], language)])
+      : formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.d8c0d76c53", [localizePlacementList(usefulMatch[1], language)]);
   }
 
   const clusterMatch = value.match(/^Detailed placement clusters: (.+)\.$/);
   if (clusterMatch) {
     return language === 'hi'
-      ? `विस्तृत ग्रह समूह: ${localizePlacementList(clusterMatch[1], language)}.`
-      : `વિગતવાર ગ્રહ સમૂહ: ${localizePlacementList(clusterMatch[1], language)}.`;
+      ? formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.ca7230cfd9", [localizePlacementList(clusterMatch[1], language)])
+      : formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.71e684e832", [localizePlacementList(clusterMatch[1], language)]);
   }
 
   const ascendantMatch = value.match(/^Ascendant sign in this chart is (.+), setting the lens for this area\.$/);
   if (ascendantMatch) {
     return language === 'hi'
-      ? `इस चार्ट में लग्न राशि ${localizeSignName(ascendantMatch[1], language)} है, इसलिए इसी से यह क्षेत्र पढ़ा जाता है.`
-      : `આ ચાર્ટમાં લગ્ન રાશિ ${localizeSignName(ascendantMatch[1], language)} છે, એટલે આ ક્ષેત્ર એ આધારથી વાંચાય છે.`;
+      ? formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.74469055a1", [localizeSignName(ascendantMatch[1], language)])
+      : formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.ab4ee0729d", [localizeSignName(ascendantMatch[1], language)]);
   }
 
   const readWithD1Match = value.match(/^Read (D\d+) together with D1; never judge this area from the varga alone\.$/);
@@ -954,8 +955,8 @@ function localizePlacementList(value: string, language: SupportedLanguage): stri
   return value
     .replace(/\b(D\d+) house (\d+):/g, (_match, chartType, house) =>
       language === 'hi'
-        ? `${chartType} भाव ${house}:`
-        : `${chartType} ભાવ ${house}:`,
+        ? formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.d43ffa0ee8", [chartType, house])
+        : formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.023d508447", [chartType, house]),
     )
     .replace(
       /\b(Sun|Moon|Mars|Mercury|Jupiter|Venus|Saturn|Rahu|Ketu|Uranus|Neptune|Pluto|Gulika|Mandi|Dhuma|Vyatipata|Parivesha|Indrachapa|Upaketu)\b/g,
@@ -969,11 +970,11 @@ function formatHouseHeading(
   language: SupportedLanguage,
 ): string {
   if (language === 'hi') {
-    return `भाव ${house} · ${displaySign}`;
+    return formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.0850edc3d6", [house, displaySign]);
   }
 
   if (language === 'gu') {
-    return `ભાવ ${house} · ${displaySign}`;
+    return formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.4ecbca2ba4", [house, displaySign]);
   }
 
   return `House ${house} · ${displaySign}`;
@@ -981,11 +982,11 @@ function formatHouseHeading(
 
 function formatHouseLabel(house: number, language: SupportedLanguage): string {
   if (language === 'hi') {
-    return `भाव ${house}`;
+    return formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.20dd7ecbd1", [house]);
   }
 
   if (language === 'gu') {
-    return `ભાવ ${house}`;
+    return formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.0cc8a4ad12", [house]);
   }
 
   return `House ${house}`;
@@ -1005,11 +1006,11 @@ function formatSupportingPointCount(
   language: SupportedLanguage,
 ): string {
   if (language === 'hi') {
-    return `${count} सहायक बिंदु`;
+    return formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.38ce047162", [count]);
   }
 
   if (language === 'gu') {
-    return `${count} સહાયક બિંદુ`;
+    return formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.1825f32893", [count]);
   }
 
   return `${count} refinement${count === 1 ? '' : 's'}`;
@@ -1030,30 +1031,30 @@ function localizeSupportingPointMeaning(
 
   if (language === 'hi') {
     return meaning
-      .replace('imagination, devotion, confusion, subtle sensitivity, and spiritual longing', 'कल्पना, भक्ति, भ्रम, सूक्ष्म संवेदनशीलता और आध्यात्मिक खिंचाव')
-      .replace('deep pressure, power, transformation, buried intensity, and rebirth', 'गहरा दबाव, शक्ति, परिवर्तन, छिपी तीव्रता और पुनर्जन्म विषय')
-      .replace('sudden change, innovation, disruption, independence, and unusual breaks', 'अचानक बदलाव, नवाचार, व्यवधान, स्वतंत्रता और असामान्य मोड़')
-      .replace('detachment, simplification, separation, and subtle correction', 'विरक्ति, सरलता, अलगाव और सूक्ष्म सुधार')
-      .replace('reversal, imbalance, unexpected turns, and avoiding extremes', 'उलटफेर, असंतुलन, अचानक मोड़ और अतियों से बचाव')
-      .replace('enclosure, protection, boundaries, and contained patterns', 'घेरा, सुरक्षा, सीमाएं और सीमित पैटर्न')
-      .replace('heat, smoke, pressure, obscurity, and hidden friction', 'गरमी, धुंध, दबाव, अस्पष्टता और छिपा घर्षण')
-      .replace('desire, projection, atmosphere, and misleading appearances', 'इच्छा, प्रक्षेपण, माहौल और भ्रमित करने वाली छवि')
-      .replace('karmic pressure, discipline, difficult residue, and extra maturity', 'कर्मिक दबाव, अनुशासन, कठिन अवशेष और अतिरिक्त परिपक्वता')
-      .replace('karmic heaviness, delay, caution, and humility lessons', 'कर्मिक भारीपन, देरी, सावधानी और विनम्रता के पाठ');
+      .replace('imagination, devotion, confusion, subtle sensitivity, and spiritual longing', getNativeCopy("native.apps.web.components.WebKundliChart.tsx.9714ec11d2"))
+      .replace('deep pressure, power, transformation, buried intensity, and rebirth', getNativeCopy("native.apps.web.components.WebKundliChart.tsx.89750d700d"))
+      .replace('sudden change, innovation, disruption, independence, and unusual breaks', getNativeCopy("native.apps.web.components.WebKundliChart.tsx.cb703041cb"))
+      .replace('detachment, simplification, separation, and subtle correction', getNativeCopy("native.apps.web.components.WebKundliChart.tsx.3e3dd5a375"))
+      .replace('reversal, imbalance, unexpected turns, and avoiding extremes', getNativeCopy("native.apps.web.components.WebKundliChart.tsx.35592da8dc"))
+      .replace('enclosure, protection, boundaries, and contained patterns', getNativeCopy("native.apps.web.components.WebKundliChart.tsx.60dc4f4e9b"))
+      .replace('heat, smoke, pressure, obscurity, and hidden friction', getNativeCopy("native.apps.web.components.WebKundliChart.tsx.eb8fc26655"))
+      .replace('desire, projection, atmosphere, and misleading appearances', getNativeCopy("native.apps.web.components.WebKundliChart.tsx.bb57c703a1"))
+      .replace('karmic pressure, discipline, difficult residue, and extra maturity', getNativeCopy("native.apps.web.components.WebKundliChart.tsx.15ba3c071c"))
+      .replace('karmic heaviness, delay, caution, and humility lessons', getNativeCopy("native.apps.web.components.WebKundliChart.tsx.246ffd72d0"));
   }
 
   if (language === 'gu') {
     return meaning
-      .replace('imagination, devotion, confusion, subtle sensitivity, and spiritual longing', 'કલ્પના, ભક્તિ, ગૂંચવણ, સૂક્ષ્મ સંવેદનશીલતા અને આધ્યાત્મિક ખેંચાણ')
-      .replace('deep pressure, power, transformation, buried intensity, and rebirth', 'ઊંડો દબાવ, શક્તિ, રૂપાંતર, દબાયેલી તીવ્રતા અને પુનર્જન્મના વિષયો')
-      .replace('sudden change, innovation, disruption, independence, and unusual breaks', 'અચાનક ફેરફાર, નવીનતા, અવરોધ, સ્વતંત્રતા અને અસામાન્ય વળાંકો')
-      .replace('detachment, simplification, separation, and subtle correction', 'અલિપ્તતા, સરળતા, અલગાવ અને સૂક્ષ્મ સુધારો')
-      .replace('reversal, imbalance, unexpected turns, and avoiding extremes', 'ઉલટફેર, અસંતુલન, અચાનક વળાંકો અને અતિરેકથી બચવું')
-      .replace('enclosure, protection, boundaries, and contained patterns', 'ઘેરાવ, સુરક્ષા, સીમાઓ અને બંધાયેલા પેટર્ન')
-      .replace('heat, smoke, pressure, obscurity, and hidden friction', 'ગરમી, ધુમ્મસ, દબાવ, અસ્પષ્ટતા અને છુપાયેલું ઘર્ષણ')
-      .replace('desire, projection, atmosphere, and misleading appearances', 'ઇચ્છા, પ્રક્ષેપણ, વાતાવરણ અને ભ્રમિત દેખાવ')
-      .replace('karmic pressure, discipline, difficult residue, and extra maturity', 'કર્મદબાવ, શિસ્ત, કઠિન અવશેષ અને વધારાની પરિપક્વતા')
-      .replace('karmic heaviness, delay, caution, and humility lessons', 'કર્મિક ભાર, વિલંબ, સાવચેતી અને વિનમ્રતાના પાઠ');
+      .replace('imagination, devotion, confusion, subtle sensitivity, and spiritual longing', getNativeCopy("native.apps.web.components.WebKundliChart.tsx.bdd7515253"))
+      .replace('deep pressure, power, transformation, buried intensity, and rebirth', getNativeCopy("native.apps.web.components.WebKundliChart.tsx.7b9c12bd08"))
+      .replace('sudden change, innovation, disruption, independence, and unusual breaks', getNativeCopy("native.apps.web.components.WebKundliChart.tsx.b952cec437"))
+      .replace('detachment, simplification, separation, and subtle correction', getNativeCopy("native.apps.web.components.WebKundliChart.tsx.6cc216826d"))
+      .replace('reversal, imbalance, unexpected turns, and avoiding extremes', getNativeCopy("native.apps.web.components.WebKundliChart.tsx.a2291e821f"))
+      .replace('enclosure, protection, boundaries, and contained patterns', getNativeCopy("native.apps.web.components.WebKundliChart.tsx.f76499c543"))
+      .replace('heat, smoke, pressure, obscurity, and hidden friction', getNativeCopy("native.apps.web.components.WebKundliChart.tsx.2b21fc31fa"))
+      .replace('desire, projection, atmosphere, and misleading appearances', getNativeCopy("native.apps.web.components.WebKundliChart.tsx.6031421aad"))
+      .replace('karmic pressure, discipline, difficult residue, and extra maturity', getNativeCopy("native.apps.web.components.WebKundliChart.tsx.e3fcc838cc"))
+      .replace('karmic heaviness, delay, caution, and humility lessons', getNativeCopy("native.apps.web.components.WebKundliChart.tsx.30f402706e"));
   }
 
   return meaning;
@@ -1061,11 +1062,11 @@ function localizeSupportingPointMeaning(
 
 function formatReadWithD1(chartType: ChartType, language: SupportedLanguage): string {
   if (language === 'hi') {
-    return `${chartType} को D1 के साथ पढ़ें`;
+    return formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.73d63ccc32", [chartType]);
   }
 
   if (language === 'gu') {
-    return `${chartType} ને D1 સાથે વાંચો`;
+    return formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.0b69432ef4", [chartType]);
   }
 
   return `Read ${chartType} with D1`;
@@ -1073,11 +1074,11 @@ function formatReadWithD1(chartType: ChartType, language: SupportedLanguage): st
 
 function formatReadWithD1Detail(chartType: string, language: SupportedLanguage): string {
   if (language === 'hi') {
-    return `${chartType} को D1 के साथ पढ़ें; केवल वर्ग देखकर निर्णय न करें.`;
+    return formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.a24836c010", [chartType]);
   }
 
   if (language === 'gu') {
-    return `${chartType} ને D1 સાથે વાંચો; માત્ર વર્ગ જોઈને નિર્ણય ન કરો.`;
+    return formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.a53c55b8a3", [chartType]);
   }
 
   return `Read ${chartType} together with D1; never judge this area from the varga alone.`;
@@ -1089,11 +1090,11 @@ function formatTechnicalAnchorRule(
 ): string {
   if (chartType === 'D1') {
     if (language === 'hi') {
-      return 'D1 मूल चार्ट है. बाकी सभी चार्ट इसी आधार पर सत्यापित होते हैं.';
+      return getNativeCopy("native.apps.web.components.WebKundliChart.tsx.5f90f13e3d");
     }
 
     if (language === 'gu') {
-      return 'D1 મૂળ ચાર્ટ છે. બાકીના બધા ચાર્ટો આ આધાર પર જ ચકાસાય છે.';
+      return getNativeCopy("native.apps.web.components.WebKundliChart.tsx.b594002853");
     }
 
     return 'D1 is the root chart. Every other chart must be verified against it.';
@@ -1116,11 +1117,31 @@ function formatTechnicalHouseEvidence(
   const supportCount = cell.supportingPoints.length;
 
   if (language === 'hi') {
-    return `${houseLabel} · ${cell.displaySign}. ${coreCount} मुख्य ग्रह${supportCount ? ` और ${supportCount} सहायक संकेत` : ''}.`;
+    return formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.e9b8813f98", [
+      houseLabel,
+      cell.displaySign,
+      coreCount,
+      supportCount
+        ? formatNativeCopy(
+            'native.apps.web.components.WebKundliChart.supportingHint.hi',
+            [supportCount],
+          )
+        : '',
+    ]);
   }
 
   if (language === 'gu') {
-    return `${houseLabel} · ${cell.displaySign}. ${coreCount} મુખ્ય ગ્રહ${supportCount ? ` અને ${supportCount} સહાયક સંકેત` : ''}.`;
+    return formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.a8b9567d00", [
+      houseLabel,
+      cell.displaySign,
+      coreCount,
+      supportCount
+        ? formatNativeCopy(
+            'native.apps.web.components.WebKundliChart.supportingHint.gu',
+            [supportCount],
+          )
+        : '',
+    ]);
   }
 
   return `${houseLabel} · ${cell.displaySign}. ${coreCount} core graha${coreCount === 1 ? '' : 's'}${supportCount ? ` and ${supportCount} supporting refinement${supportCount === 1 ? '' : 's'}` : ''}.`;
@@ -1132,11 +1153,11 @@ function formatTechnicalConditionSummary(
 ): string {
   if (!planets.length) {
     if (language === 'hi') {
-      return 'इस भाव में कोई मुख्य ग्रह नहीं है; साइन, भूमिका और सहायक बिंदुओं से पढ़ें.';
+      return getNativeCopy("native.apps.web.components.WebKundliChart.tsx.21681c64c5");
     }
 
     if (language === 'gu') {
-      return 'આ ભાવમાં કોઈ મુખ્ય ગ્રહ નથી; રાશિ, ભૂમિકા અને સહાયક બિંદુઓથી વાંચો.';
+      return getNativeCopy("native.apps.web.components.WebKundliChart.tsx.ff53cd62da");
     }
 
     return 'No core graha occupy this house; read the sign, chart role, and supporting refinements.';
@@ -1148,11 +1169,11 @@ function formatTechnicalConditionSummary(
   const retrograde = planets.filter(planet => planet.status.retrograde).length;
 
   if (language === 'hi') {
-    return `उच्च ${exalted}, नीच ${debilitated}, अस्त ${combust}, वक्री ${retrograde}.`;
+    return formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.d66f170d76", [exalted, debilitated, combust, retrograde]);
   }
 
   if (language === 'gu') {
-    return `ઉચ્ચ ${exalted}, નીચ ${debilitated}, અસ્ત ${combust}, વક્રી ${retrograde}.`;
+    return formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.57d93671aa", [exalted, debilitated, combust, retrograde]);
   }
 
   return `Exalted ${exalted}, debilitated ${debilitated}, combust ${combust}, retrograde ${retrograde}.`;
@@ -1163,11 +1184,11 @@ function formatPlanetTechnicalDetail(
   language: SupportedLanguage,
 ): string {
   if (language === 'hi') {
-    return `${planet.displaySign} · ${planet.degreeLabel} · ${planet.nakshatra} पाद ${planet.pada}`;
+    return formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.f897d9efc2", [planet.displaySign, planet.degreeLabel, planet.nakshatra, planet.pada]);
   }
 
   if (language === 'gu') {
-    return `${planet.displaySign} · ${planet.degreeLabel} · ${planet.nakshatra} પાદ ${planet.pada}`;
+    return formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.470345e1be", [planet.displaySign, planet.degreeLabel, planet.nakshatra, planet.pada]);
   }
 
   return `${planet.displaySign} · ${planet.degreeLabel} · ${planet.nakshatra} pada ${planet.pada}`;
@@ -1180,26 +1201,26 @@ function formatPlanetTechnicalCondition(
   const states: string[] = [];
 
   if (planet.status.exalted) {
-    states.push(language === 'hi' ? 'उच्च' : language === 'gu' ? 'ઉચ્ચ' : 'Exalted');
+    states.push(language === 'hi' ? getNativeCopy("native.apps.web.components.WebKundliChart.tsx.f710a0185f") : language === 'gu' ? getNativeCopy("native.apps.web.components.WebKundliChart.tsx.ce9c14c0f1") : 'Exalted');
   }
 
   if (planet.status.debilitated) {
-    states.push(language === 'hi' ? 'नीच' : language === 'gu' ? 'નીચ' : 'Debilitated');
+    states.push(language === 'hi' ? getNativeCopy("native.apps.web.components.WebKundliChart.tsx.311c331b37") : language === 'gu' ? getNativeCopy("native.apps.web.components.WebKundliChart.tsx.28de395740") : 'Debilitated');
   }
 
   if (planet.status.combust) {
-    states.push(language === 'hi' ? 'अस्त' : language === 'gu' ? 'અસ્ત' : 'Combust');
+    states.push(language === 'hi' ? getNativeCopy("native.apps.web.components.WebKundliChart.tsx.5472273c2e") : language === 'gu' ? getNativeCopy("native.apps.web.components.WebKundliChart.tsx.a90482b9f1") : 'Combust');
   }
 
   if (planet.status.retrograde) {
-    states.push(language === 'hi' ? 'वक्री' : language === 'gu' ? 'વક્રી' : 'Retrograde');
+    states.push(language === 'hi' ? getNativeCopy("native.apps.web.components.WebKundliChart.tsx.886d2a37c5") : language === 'gu' ? getNativeCopy("native.apps.web.components.WebKundliChart.tsx.49f722a423") : 'Retrograde');
   }
 
   if (!states.length) {
     return language === 'hi'
-      ? 'स्थिति सामान्य'
+      ? getNativeCopy("native.apps.web.components.WebKundliChart.tsx.46d91af4a8")
       : language === 'gu'
-      ? 'સ્થિતિ સામાન્ય'
+      ? getNativeCopy("native.apps.web.components.WebKundliChart.tsx.01914d7110")
       : 'Condition steady';
   }
 
@@ -1214,49 +1235,49 @@ const CHART_TITLE_TRANSLATIONS: Record<
   string,
   Partial<Record<SupportedLanguage, string>>
 > = {
-  'Rashi Chart': { gu: 'રાશિ ચાર્ટ', hi: 'राशि चार्ट' },
-  'Hora Chart': { gu: 'હોરા ચાર્ટ', hi: 'होरा चार्ट' },
-  'Drekkana Chart': { gu: 'દ્રેક્કાણ ચાર્ટ', hi: 'द्रेष्काण चार्ट' },
-  'Chaturthamsha Chart': { gu: 'ચતુર્થાંશ ચાર્ટ', hi: 'चतुर्थांश चार्ट' },
-  'Navamsha Chart': { gu: 'નવાંશ ચાર્ટ', hi: 'नवांश चार्ट' },
-  'Dashamsha Chart': { gu: 'દશાંશ ચાર્ટ', hi: 'दशांश चार्ट' },
+  'Rashi Chart': { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.f689aaad0d"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.ca2a577128") },
+  'Hora Chart': { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.929fc27e79"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.c992bda0de") },
+  'Drekkana Chart': { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.c19f646afa"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.90d5fc923b") },
+  'Chaturthamsha Chart': { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.3a3092e7fc"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.1567808453") },
+  'Navamsha Chart': { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.0c65a1e8b4"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.9378b6d412") },
+  'Dashamsha Chart': { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.9ea8d55b43"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.c8507bd795") },
 };
 
 const SIGN_NAME_TRANSLATIONS: Record<string, Partial<Record<SupportedLanguage, string>>> = {
-  Aries: { gu: 'મેષ', hi: 'मेष' },
-  Taurus: { gu: 'વૃષભ', hi: 'वृषभ' },
-  Gemini: { gu: 'મિથુન', hi: 'मिथुन' },
-  Cancer: { gu: 'કર્ક', hi: 'कर्क' },
-  Leo: { gu: 'સિંહ', hi: 'सिंह' },
-  Virgo: { gu: 'કન્યા', hi: 'कन्या' },
-  Libra: { gu: 'તુલા', hi: 'तुला' },
-  Scorpio: { gu: 'વૃશ્ચિક', hi: 'वृश्चिक' },
-  Sagittarius: { gu: 'ધનુ', hi: 'धनु' },
-  Capricorn: { gu: 'મકર', hi: 'मकर' },
-  Aquarius: { gu: 'કુંભ', hi: 'कुंभ' },
-  Pisces: { gu: 'મીન', hi: 'मीन' },
+  Aries: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.f800c7a7fd"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.d0dc38337c") },
+  Taurus: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.32a5dc415e"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.46c13ac334") },
+  Gemini: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.e7606cff4c"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.6e4aa0522b") },
+  Cancer: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.eca5bc33ba"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.6ca2aec5ed") },
+  Leo: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.78091d77e7"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.69a4330681") },
+  Virgo: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.9cbd01ebe5"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.bb3330123e") },
+  Libra: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.83554f40e6"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.b4fddac1a5") },
+  Scorpio: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.034d53679c"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.ebe7bb360f") },
+  Sagittarius: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.6f8eca9b34"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.53e2e69514") },
+  Capricorn: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.fe7a2e292e"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.6b818972e3") },
+  Aquarius: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.50172db085"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.f3ef823bbc") },
+  Pisces: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.dae6bb0928"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.797c695cf4") },
 };
 
 const PLANET_NAME_TRANSLATIONS: Record<string, Partial<Record<SupportedLanguage, string>>> = {
-  Dhuma: { gu: 'ધૂમ', hi: 'धूम' },
-  Gulika: { gu: 'ગુલિક', hi: 'गुलिक' },
-  Indrachapa: { gu: 'ઇન્દ્રચાપ', hi: 'इन्द्रचाप' },
-  Jupiter: { gu: 'ગુરુ', hi: 'बृहस्पति' },
-  Ketu: { gu: 'કેતુ', hi: 'केतु' },
-  Mandi: { gu: 'માંડી', hi: 'मांडी' },
-  Mars: { gu: 'મંગળ', hi: 'मंगल' },
-  Mercury: { gu: 'બુધ', hi: 'बुध' },
-  Moon: { gu: 'ચંદ્ર', hi: 'चंद्र' },
-  Neptune: { gu: 'નેપચ્યુન', hi: 'नेप्च्यून' },
-  Parivesha: { gu: 'પરિવેષ', hi: 'परिवेष' },
-  Pluto: { gu: 'પ્લૂટો', hi: 'प्लूटो' },
-  Rahu: { gu: 'રાહુ', hi: 'राहु' },
-  Saturn: { gu: 'શનિ', hi: 'शनि' },
-  Sun: { gu: 'સૂર્ય', hi: 'सूर्य' },
-  Upaketu: { gu: 'ઉપકેતુ', hi: 'उपकेतु' },
-  Uranus: { gu: 'યુરેનસ', hi: 'यूरेनस' },
-  Venus: { gu: 'શુક્ર', hi: 'शुक्र' },
-  Vyatipata: { gu: 'વ્યતિપાત', hi: 'व्यतीपात' },
+  Dhuma: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.9c0df42525"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.c95fdb63fb") },
+  Gulika: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.a8bbe5b052"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.a796629d37") },
+  Indrachapa: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.c80d9e6362"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.6b6e06f106") },
+  Jupiter: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.0b4f0d81dd"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.fed71b7fad") },
+  Ketu: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.08b2d07348"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.b2e59a556b") },
+  Mandi: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.257967b1f9"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.b32178ae34") },
+  Mars: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.36fcde7d5d"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.394bdcfe82") },
+  Mercury: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.6f554fd42f"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.57589c204d") },
+  Moon: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.c1ba41ab4e"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.b2254985ce") },
+  Neptune: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.ff903ad1e4"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.c8d2c800a4") },
+  Parivesha: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.5771d9a524"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.8e15d53f5c") },
+  Pluto: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.2d5c3169c8"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.7b9f0e4ee5") },
+  Rahu: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.f08d431a96"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.f7d54a79e0") },
+  Saturn: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.4b0976b0f5"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.76e8e9058e") },
+  Sun: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.5525333802"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.10ecf3a7a0") },
+  Upaketu: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.c64775dfb0"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.4365b00da5") },
+  Uranus: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.e2a3e35cdc"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.9efb413451") },
+  Venus: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.0bffb88e1c"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.b2e75355d1") },
+  Vyatipata: { gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.e9fd6a3e73"), hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.c14d5e361f") },
 };
 
 const FOCUS_PHRASE_TRANSLATIONS: Record<
@@ -1264,28 +1285,28 @@ const FOCUS_PHRASE_TRANSLATIONS: Record<
   Partial<Record<SupportedLanguage, string>>
 > = {
   'body, identity, life direction, houses, and visible karma': {
-    gu: 'શરીર, ઓળખ, જીવન દિશા, ભાવો અને દેખાતું કર્મ',
-    hi: 'शरीर, पहचान, जीवन दिशा, भाव और दिखने वाला कर्म',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.988a3c24c0"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.6060bcec94"),
   },
   'wealth handling, resources, and money temperament': {
-    gu: 'ધન વ્યવહાર, સંસાધન અને પૈસાનું સ્વભાવ',
-    hi: 'धन संभाल, संसाधन और पैसे का स्वभाव',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.7306d3e315"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.7a4e7aa802"),
   },
   'courage, siblings, effort, and practical stamina': {
-    gu: 'હિંમત, ભાઈ-બહેન, પ્રયત્ન અને વ્યવહારુ સહનશક્તિ',
-    hi: 'साहस, भाई-बहन, प्रयास और व्यावहारिक सहनशक्ति',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.ac0c004d19"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.4ec11c32c8"),
   },
   'home, property, fixed assets, and inner stability': {
-    gu: 'ઘર, મિલકત, સ્થિર સંપત્તિ અને આંતરિક સ્થિરતા',
-    hi: 'घर, संपत्ति, स्थिर संपत्ति और अंदरूनी स्थिरता',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.630252f49d"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.854ffb5654"),
   },
   'marriage, dharma, maturity, and deeper planet strength': {
-    gu: 'લગ્ન, ધર્મ, પરિપક્વતા અને ગ્રહોની ઊંડી શક્તિ',
-    hi: 'विवाह, धर्म, परिपक्वता और ग्रहों की गहरी शक्ति',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.bb317501e3"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.8330cb075f"),
   },
   'career, public work, authority, and contribution': {
-    gu: 'કારકિર્દી, જાહેર કાર્ય, અધિકાર અને યોગદાન',
-    hi: 'करियर, सार्वजनिक काम, अधिकार और योगदान',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.fb0b1cf126"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.4e655f8c2b"),
   },
 };
 
@@ -1294,80 +1315,80 @@ const CHART_PHRASE_TRANSLATIONS: Record<
   Partial<Record<SupportedLanguage, string>>
 > = {
   'No planet-heavy house stands out in this chart preview.': {
-    gu: 'આ ચાર્ટ પૂર્વદર્શનામાં કોઈ ભાવમાં ભારે ગ્રહ સમૂહ દેખાતો નથી.',
-    hi: 'इस चार्ट पूर्वावलोकन में कोई भाव ग्रहों से बहुत भारी नहीं दिखता.',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.a56533d71f"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.18ed35202c"),
   },
   'D1 remains the root chart for all predictions.': {
-    gu: 'દરેક આગાહી માટે D1 મૂળ ચાર્ટ રહે છે.',
-    hi: 'हर prediction के लिए D1 मूल चार्ट रहता है.',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.a9feeca0ad"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.dbccf5c9a9"),
   },
   'Premium turns this into detailed chart synthesis with D1 anchoring, dasha timing, strength checks, and report-ready guidance.': {
-    gu: 'પ્રીમિયમ તેને D1 આધાર, દશા સમય, શક્તિ તપાસ અને રિપોર્ટ માટે તૈયાર માર્ગદર્શન સાથે ઊંડા ચાર્ટ વાંચનમાં ફેરવે છે.',
-    hi: 'प्रीमियम इसे D1 आधार, दशा समय, शक्ति जांच और रिपोर्ट के लिए तैयार मार्गदर्शन के साथ गहरी चार्ट रीडिंग में बदलता है.',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.82e53111be"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.646a6ca857"),
   },
   'D1 is the root chart. Houses can be read with standard house meanings, then refined by dasha, gochar, strength, and divisional support.': {
-    gu: 'D1 મૂળ ચાર્ટ છે. ભાવો સામાન્ય ભાવ અર્થથી વાંચાય છે, પછી દશા, ગોચર, શક્તિ અને વિભાગીય સહારે સુધારાય છે.',
-    hi: 'D1 मूल चार्ट है. भावों को सामान्य भाव अर्थ से पढ़ा जाता है, फिर दशा, गोचर, शक्ति और वर्गीय सहारे से सुधारा जाता है.',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.93f05a6cc4"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.becec1d0e9"),
   },
   'This varga is a focused divisional confirmation chart. Read it through its specific purpose and D1 anchor, not as a standalone general Kundli.': {
-    gu: 'આ વર્ગ ખાસ વિષય માટેનું પુષ્ટિ ચાર્ટ છે. તેને તેના હેતુ અને D1 આધારથી વાંચો, અલગ સામાન્ય કુંડળીની જેમ નહીં.',
-    hi: 'यह वर्ग खास विषय के लिए पुष्टि चार्ट है. इसे इसके उद्देश्य और D1 आधार से पढ़ें, अलग सामान्य कुंडली की तरह नहीं.',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.b3b1216e85"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.802ab06d8c"),
   },
   'main life chart': {
-    gu: 'મુખ્ય જીવન ચાર્ટ',
-    hi: 'मुख्य जीवन चार्ट',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.dc42ef9d4b"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.699d3ba032"),
   },
   'focused divisional lens': {
-    gu: 'કેન્દ્રિત વર્ગીય દૃષ્ટિ',
-    hi: 'केंद्रित वर्गीय lens',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.f29a26142a"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.680ba85a9c"),
   },
   'self, body, identity': {
-    gu: 'સ્વ, શરીર, ઓળખ',
-    hi: 'स्वयं, शरीर, पहचान',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.c532cb7374"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.43217d12ed"),
   },
   'money, speech, family values': {
-    gu: 'પૈસા, વાણી, પરિવારના મૂલ્યો',
-    hi: 'धन, वाणी, पारिवारिक मूल्य',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.dbc2cfb1f3"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.a167de3df5"),
   },
   'effort, courage, siblings': {
-    gu: 'પ્રયત્ન, હિંમત, ભાઈ-બહેન',
-    hi: 'प्रयास, साहस, भाई-बहन',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.c6ca8db6f8"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.b5b9038744"),
   },
   'home, mother, emotional base': {
-    gu: 'ઘર, માતા, ભાવનાત્મક આધાર',
-    hi: 'घर, माता, भावनात्मक आधार',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.2710b372c1"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.9a42f522b3"),
   },
   'children, learning, merit': {
-    gu: 'સંતાન, શિક્ષણ, પુણ્ય',
-    hi: 'संतान, सीखना, पुण्य',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.e993a1db6c"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.78d35152fc"),
   },
   'work pressure, health discipline': {
-    gu: 'કામનો દબાવ, આરોગ્ય શિસ્ત',
-    hi: 'काम का दबाव, स्वास्थ्य अनुशासन',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.8f053fbce5"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.b6ee7a5748"),
   },
   'marriage, partners, contracts': {
-    gu: 'લગ્ન, ભાગીદાર, કરાર',
-    hi: 'विवाह, साथी, समझौते',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.b079e87195"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.ed6e0520c5"),
   },
   'change, secrets, transformation': {
-    gu: 'બદલાવ, રહસ્ય, પરિવર્તન',
-    hi: 'बदलाव, रहस्य, परिवर्तन',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.9c864e600e"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.12ca292b15"),
   },
   'fortune, dharma, teachers': {
-    gu: 'ભાગ્ય, ધર્મ, ગુરુ',
-    hi: 'भाग्य, धर्म, गुरु',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.e01ec9aa11"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.26c68c26ad"),
   },
   'career, status, responsibility': {
-    gu: 'કારકિર્દી, સ્થાન, જવાબદારી',
-    hi: 'करियर, पद, जिम्मेदारी',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.c79ef0d697"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.d0f0868de3"),
   },
   'gains, network, ambitions': {
-    gu: 'લાભ, નેટવર્ક, મહત્ત્વાકાંક્ષા',
-    hi: 'लाभ, नेटवर्क, महत्वाकांक्षा',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.78aa609b98"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.95539f2248"),
   },
   'sleep, expense, release': {
-    gu: 'નિંદ્રા, ખર્ચ, મુક્તિ',
-    hi: 'नींद, खर्च, मुक्ति',
+    gu: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.1c719c656b"),
+    hi: getNativeCopy("native.apps.web.components.WebKundliChart.tsx.bc4c2d5ec9"),
   },
 };
 
@@ -1472,11 +1493,11 @@ export function ChartLegend({
 
 function formatPadaLabel(pada: number, language: SupportedLanguage): string {
   if (language === 'hi') {
-    return ` पाद ${pada}`;
+    return formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.2766e49a02", [pada]);
   }
 
   if (language === 'gu') {
-    return ` પાદ ${pada}`;
+    return formatNativeCopy("native.apps.web.components.WebKundliChart.tsx.cb9c29c82f", [pada]);
   }
 
   return ` pada ${pada}`;

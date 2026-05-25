@@ -1,3 +1,4 @@
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import type { SupportedLanguage } from '@pridicta/types';
 import type { ChartRenderTheme } from '@pridicta/astrology';
 
@@ -75,38 +76,38 @@ function getHindiThemeNote(
   theme: ChartRenderTheme,
   time?: string,
 ): ChartThemeNote {
-  const timeLead = time ? `आपका जन्म समय ${time} है` : 'दिया गया जन्म समय';
+  const timeLead = time ? formatNativeCopy("native.apps.web.lib.chart.theme.copy.ts.1a87c6c217", [time]) : getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.081d316602");
 
   const notes: Record<ChartRenderTheme, ChartThemeNote> = {
     afternoon: {
-      eyebrow: 'जन्म-समय थीम',
-      title: 'दोपहर की चार्ट रोशनी',
-      body: `${timeLead}, इसलिए यह कुंडली Predicta की afternoon palette में दिखाई जाती है. मज़ेदार बात: दोपहर वाले चार्ट ज़्यादा साफ और practical महसूस होते हैं, इसलिए जीवन की सीधी डिलीवरी समझना आसान लगता है.`,
+      eyebrow: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.573f79a241"),
+      title: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.8029bd8ebb"),
+      body: formatNativeCopy("native.apps.web.lib.chart.theme.copy.ts.8b782d696a", [timeLead]),
     },
     morning: {
-      eyebrow: 'जन्म-समय थीम',
-      title: 'सुबह की चार्ट रोशनी',
-      body: `${timeLead}, इसलिए यह कुंडली Predicta की morning palette में दिखाई जाती है. मज़ेदार बात: सुबह वाले चार्ट अक्सर growth, शुरुआत और build-up की energy देते हैं.`,
+      eyebrow: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.573f79a241"),
+      title: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.4459660554"),
+      body: formatNativeCopy("native.apps.web.lib.chart.theme.copy.ts.6af0fa1139", [timeLead]),
     },
     night: {
-      eyebrow: 'जन्म-समय थीम',
-      title: 'रात की चार्ट रोशनी',
-      body: `${timeLead}, इसलिए यह कुंडली Predicta की night palette में दिखाई जाती है. मज़ेदार बात: रात वाले चार्ट अंदरूनी मन, छिपे कारण और गहरे timing संकेतों को अधिक शांत ढंग से महसूस कराते हैं.`,
+      eyebrow: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.573f79a241"),
+      title: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.57b72f3d97"),
+      body: formatNativeCopy("native.apps.web.lib.chart.theme.copy.ts.e6295d61be", [timeLead]),
     },
     sunrise: {
-      eyebrow: 'जन्म-समय थीम',
-      title: 'सूर्योदय की चार्ट रोशनी',
-      body: `${timeLead}, इसलिए यह कुंडली Predicta की sunrise palette में दिखाई जाती है. मज़ेदार बात: सूर्योदय वाले चार्ट अक्सर नई शुरुआत, visibility और fresh momentum की कहानी सुनाते हैं.`,
+      eyebrow: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.573f79a241"),
+      title: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.8f3f51d874"),
+      body: formatNativeCopy("native.apps.web.lib.chart.theme.copy.ts.245f2bdc59", [timeLead]),
     },
     sunset: {
-      eyebrow: 'जन्म-समय थीम',
-      title: 'सूर्यास्त की चार्ट रोशनी',
-      body: `${timeLead}, इसलिए यह कुंडली Predicta की sunset palette में दिखाई जाती है. मज़ेदार बात: सूर्यास्त वाले चार्ट transition, जिम्मेदारी और पकते हुए परिणामों को उभारते हैं.`,
+      eyebrow: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.573f79a241"),
+      title: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.16838f33ea"),
+      body: formatNativeCopy("native.apps.web.lib.chart.theme.copy.ts.0d2954b4d3", [timeLead]),
     },
     unknown: {
-      eyebrow: 'जन्म-समय थीम',
-      title: 'डिफॉल्ट चार्ट रोशनी',
-      body: 'Predicta इस कुंडली को किसी साफ sunrise, day, sunset या night band में नहीं रख पाया, इसलिए neutral default palette दिखाई जा रही है.',
+      eyebrow: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.573f79a241"),
+      title: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.3d6f496629"),
+      body: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.8ace7b3ccd"),
     },
   };
 
@@ -117,38 +118,38 @@ function getGujaratiThemeNote(
   theme: ChartRenderTheme,
   time?: string,
 ): ChartThemeNote {
-  const timeLead = time ? `તમારો જન્મ સમય ${time} છે` : 'આપેલ જન્મ સમય';
+  const timeLead = time ? formatNativeCopy("native.apps.web.lib.chart.theme.copy.ts.1a8ab1bc99", [time]) : getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.a9733519b4");
 
   const notes: Record<ChartRenderTheme, ChartThemeNote> = {
     afternoon: {
-      eyebrow: 'જન્મ-સમય થીમ',
-      title: 'બપોરનો ચાર્ટ પ્રકાશ',
-      body: `${timeLead}, તેથી આ કુંડળી Predicta ની afternoon palette માં દેખાય છે. રસપ્રદ વાત: બપોરના ચાર્ટ સામાન્ય રીતે વધુ સ્પષ્ટ અને practical લાગે છે, એટલે જીવનની actual delivery વધુ સીધી લાગે છે.`,
+      eyebrow: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.0f20d10632"),
+      title: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.b5e400e0ae"),
+      body: formatNativeCopy("native.apps.web.lib.chart.theme.copy.ts.bd09dcec97", [timeLead]),
     },
     morning: {
-      eyebrow: 'જન્મ-સમય થીમ',
-      title: 'સવારનો ચાર્ટ પ્રકાશ',
-      body: `${timeLead}, તેથી આ કુંડળી Predicta ની morning palette માં દેખાય છે. રસપ્રદ વાત: સવારના ચાર્ટમાં growth, શરૂઆત અને unfolding energy વધારે અનુભવે છે.`,
+      eyebrow: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.0f20d10632"),
+      title: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.60d1285d5f"),
+      body: formatNativeCopy("native.apps.web.lib.chart.theme.copy.ts.e613465d7e", [timeLead]),
     },
     night: {
-      eyebrow: 'જન્મ-સમય થીમ',
-      title: 'રાતનો ચાર્ટ પ્રકાશ',
-      body: `${timeLead}, તેથી આ કુંડળી Predicta ની night palette માં દેખાય છે. રસપ્રદ વાત: રાતના ચાર્ટ અંદરની પ્રેરણા, છુપાયેલી વાતો અને ઊંડા timing સંકેતોને વધારે શાંતિથી બતાવે છે.`,
+      eyebrow: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.0f20d10632"),
+      title: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.25dcaffdf9"),
+      body: formatNativeCopy("native.apps.web.lib.chart.theme.copy.ts.65040fed3e", [timeLead]),
     },
     sunrise: {
-      eyebrow: 'જન્મ-સમય થીમ',
-      title: 'સૂર્યોદયનો ચાર્ટ પ્રકાશ',
-      body: `${timeLead}, તેથી આ કુંડળી Predicta ની sunrise palette માં દેખાય છે. રસપ્રદ વાત: સૂર્યોદયના ચાર્ટ નવી શરૂઆત, visibility અને fresh momentum ની લાગણી આપે છે.`,
+      eyebrow: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.0f20d10632"),
+      title: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.e7afef4319"),
+      body: formatNativeCopy("native.apps.web.lib.chart.theme.copy.ts.14a737360d", [timeLead]),
     },
     sunset: {
-      eyebrow: 'જન્મ-સમય થીમ',
-      title: 'સૂર્યાસ્તનો ચાર્ટ પ્રકાશ',
-      body: `${timeLead}, તેથી આ કુંડળી Predicta ની sunset palette માં દેખાય છે. રસપ્રદ વાત: સૂર્યાસ્તના ચાર્ટ transition, જવાબદારી અને પકવાયેલા પરિણામોને વધારે સ્પષ્ટ કરે છે.`,
+      eyebrow: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.0f20d10632"),
+      title: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.67e212896e"),
+      body: formatNativeCopy("native.apps.web.lib.chart.theme.copy.ts.46e410ba6b", [timeLead]),
     },
     unknown: {
-      eyebrow: 'જન્મ-સમય થીમ',
-      title: 'ડિફોલ્ટ ચાર્ટ પ્રકાશ',
-      body: 'Predicta આ કુંડળીને ચોક્કસ sunrise, day, sunset અથવા night band માં મૂકી શક્યો નથી, તેથી neutral default palette બતાવવામાં આવી રહી છે.',
+      eyebrow: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.0f20d10632"),
+      title: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.8c43dcefbe"),
+      body: getNativeCopy("native.apps.web.lib.chart.theme.copy.ts.1b5d519c01"),
     },
   };
 

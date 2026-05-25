@@ -1,3 +1,4 @@
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import type {
   DailyBriefing,
   DailyBriefingCue,
@@ -17,22 +18,22 @@ const LABELS: Record<SupportedLanguage, DailyBriefing['labels']> = {
     theme: "Today's theme",
   },
   gu: {
-    avoidAction: 'ટાળો',
-    bestAction: 'શ્રેષ્ઠ પગલું',
-    emotionalWeather: 'ભાવનાત્મક વાતાવરણ',
-    eyebrow: 'દૈનિક કોસ્મિક બ્રીફિંગ',
-    proof: 'ચાર્ટ પુરાવો',
-    remedy: 'નાનો ઉપાય',
-    theme: 'આજની થીમ',
+    avoidAction: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.dd1f1c5678"),
+    bestAction: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.c1b04052a8"),
+    emotionalWeather: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.ab19a438b8"),
+    eyebrow: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.8a82fbe34d"),
+    proof: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.7e2d581bfd"),
+    remedy: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.dd1c059e84"),
+    theme: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.a957de9cda"),
   },
   hi: {
-    avoidAction: 'बचें',
-    bestAction: 'सबसे अच्छा कदम',
-    emotionalWeather: 'भावनात्मक मौसम',
-    eyebrow: 'दैनिक कॉस्मिक ब्रीफिंग',
-    proof: 'चार्ट प्रमाण',
-    remedy: 'छोटा उपाय',
-    theme: 'आज की थीम',
+    avoidAction: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.e0d10c98ec"),
+    bestAction: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.c2b9d3434a"),
+    emotionalWeather: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.30b254fb05"),
+    eyebrow: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.beb8c523e5"),
+    proof: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.53cc4db45e"),
+    remedy: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.36106fbe5f"),
+    theme: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.ca27ce10e9"),
   },
 };
 
@@ -141,10 +142,10 @@ export function composeDailyBriefing(
 
 function buildLocalizedAskPrompt(language: SupportedLanguage, date: string): string {
   if (language === 'hi') {
-    return `${date} की मेरी दैनिक कॉस्मिक ब्रीफिंग समझाइए. दशा, गोचर, Moon, Lagna, अष्टकवर्ग, उपाय, जोखिम और एक व्यावहारिक अगला कदम शामिल करें.`;
+    return formatNativeCopy("native.packages.astrology.src.dailyBriefing.ts.b740e70de6", [date]);
   }
   if (language === 'gu') {
-    return `${date} માટે મારી દૈનિક કોસ્મિક બ્રીફિંગ સમજાવો. દશા, ગોચર, Moon, Lagna, અષ્ટકવર્ગ, ઉપાય, જોખમ અને એક વ્યવહારુ આગળનું પગલું ઉમેરો.`;
+    return formatNativeCopy("native.packages.astrology.src.dailyBriefing.ts.efb9e5e1be", [date]);
   }
   return `Explain my daily cosmic briefing for ${date}. Use my dasha, transit weather, Moon, Lagna, ashtakavarga, remedy, risks, and one practical next step.`;
 }
@@ -182,39 +183,39 @@ function localizeBriefingContent({
 > {
   if (language === 'hi') {
     return {
-      avoidAction: `घर ${weakHouse} से जुड़े विषयों में जल्दबाज़ी न करें. जहां routine, timing या expectations unclear हों, बात सरल रखें.`,
-      bestAction: `आज एक focused काम पूरा करें; नए commitments जोड़ने से पहले ${transitPhrase} को practical रूप से संभालें.`,
+      avoidAction: formatNativeCopy("native.packages.astrology.src.dailyBriefing.ts.c324d235ef", [weakHouse]),
+      bestAction: formatNativeCopy("native.packages.astrology.src.dailyBriefing.ts.e3d81fa5f1", [transitPhrase]),
       cues: cues.map(cue => ({
         ...cue,
-        label: cue.area === 'career' ? 'करियर' : cue.area === 'money' ? 'धन' : 'संबंध',
+        label: cue.area === 'career' ? getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.3968c1424c") : cue.area === 'money' ? getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.4a727823f0") : getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.9d4cd64169"),
         text: hindiCueText(cue),
       })),
       emotionalWeather:
-        'Moon यानी मन का संकेत: भावना को पहले साफ शब्दों में बोलें, फिर निर्णय लें.',
+        getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.7c493d81a8"),
       remedyMicroAction:
         remedyMicroAction === ''
-          ? 'तीन शांत मिनट लेकर आज की एक priority लिखें.'
-          : `सरल उपाय: ${remedyMicroAction}`,
-      todayTheme: `${firstName}, आज steady काम और साफ चुनाव आपकी मदद करेंगे. Sanskrit/Jyotish शब्द आएं तो उनका अर्थ सरल रूप में समझें.`,
+          ? getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.b5b11afae6")
+          : formatNativeCopy("native.packages.astrology.src.dailyBriefing.ts.225960ffc3", [remedyMicroAction]),
+      todayTheme: formatNativeCopy("native.packages.astrology.src.dailyBriefing.ts.a41b9fdead", [firstName]),
     };
   }
 
   if (language === 'gu') {
     return {
-      avoidAction: `ઘર ${weakHouse} સાથે જોડાયેલા વિષયોમાં ઉતાવળ ન કરો. routine, timing અથવા expectations અસ્પષ્ટ હોય ત્યાં વાત સરળ રાખો.`,
-      bestAction: `આજે એક focused કામ પૂરું કરો; નવા commitments ઉમેરતા પહેલાં ${transitPhrase} ને practical રીતે સંભાળો.`,
+      avoidAction: formatNativeCopy("native.packages.astrology.src.dailyBriefing.ts.b9af0d4bb9", [weakHouse]),
+      bestAction: formatNativeCopy("native.packages.astrology.src.dailyBriefing.ts.cd1fca0d88", [transitPhrase]),
       cues: cues.map(cue => ({
         ...cue,
-        label: cue.area === 'career' ? 'કારકિર્દી' : cue.area === 'money' ? 'ધન' : 'સંબંધ',
+        label: cue.area === 'career' ? getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.0de6a39828") : cue.area === 'money' ? getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.a0cf33e8c0") : getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.a870d9ae3e"),
         text: gujaratiCueText(cue),
       })),
       emotionalWeather:
-        'Moon એટલે મનનો સંકેત: નિર્ણય પહેલાં લાગણીને સરળ શબ્દોમાં બોલો.',
+        getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.af948174fd"),
       remedyMicroAction:
         remedyMicroAction === ''
-          ? 'ત્રણ શાંત મિનિટ લઈને આજની એક priority લખો.'
-          : `સરળ ઉપાય: ${remedyMicroAction}`,
-      todayTheme: `${firstName}, આજે steady કામ અને સ્પષ્ટ પસંદગી તમને મદદ કરશે. Sanskrit/Jyotish શબ્દ આવે તો તેનો અર્થ સરળ રીતે સમજવો.`,
+          ? getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.ed37506765")
+          : formatNativeCopy("native.packages.astrology.src.dailyBriefing.ts.d249f4bda6", [remedyMicroAction]),
+      todayTheme: formatNativeCopy("native.packages.astrology.src.dailyBriefing.ts.0ed11bf63a", [firstName]),
     };
   }
 
@@ -230,22 +231,22 @@ function localizeBriefingContent({
 
 function hindiCueText(cue: DailyBriefingCue): string {
   if (cue.area === 'career') {
-    return 'काम में visible output और साफ follow-through रखें.';
+    return getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.dbc0f543c3");
   }
   if (cue.area === 'money') {
-    return 'पैसों में सरल हिसाब और conservative promise बेहतर रहेगा.';
+    return getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.be5202f357");
   }
-  return 'सीधी और दयालु भाषा इस्तेमाल करें; चुप्पी को परीक्षा न बनाएं.';
+  return getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.3f95a9b107");
 }
 
 function gujaratiCueText(cue: DailyBriefingCue): string {
   if (cue.area === 'career') {
-    return 'કામમાં visible output અને સ્પષ્ટ follow-through રાખો.';
+    return getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.aaab67ae56");
   }
   if (cue.area === 'money') {
-    return 'પૈસામાં સરળ હિસાબ અને conservative promise વધુ સારું રહેશે.';
+    return getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.d8aa4526fe");
   }
-  return 'સીધી અને દયાળુ ભાષા વાપરો; મૌનને પરીક્ષા ન બનાવો.';
+  return getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.9f66808863");
 }
 
 function buildPendingBriefingCopy(language: SupportedLanguage): Pick<
@@ -266,44 +267,44 @@ function buildPendingBriefingCopy(language: SupportedLanguage): Pick<
   if (language === 'hi') {
     return {
       askPrompt:
-        'मेरी कुंडली बनने के बाद दशा, गोचर, Moon, Lagna, अष्टकवर्ग और उपाय के प्रमाण से दैनिक कॉस्मिक ब्रीफिंग बनाइए.',
-      avoidAction: 'Generic horoscope को निजी मार्गदर्शन न मानें.',
-      bestAction: 'सत्यापित जन्म विवरण से अपनी कुंडली बनाएं.',
+        getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.78b46af0fc"),
+      avoidAction: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.5fa42fd7a9"),
+      bestAction: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.373a86f065"),
       emotionalWeather:
-        'Moon, Lagna और गोचर संदर्भ calculate होने तक प्रतीक्षा में.',
+        getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.07b9023877"),
       evidence: [
-        'अभी कोई सक्रिय कुंडली नहीं है.',
-        'दैनिक ब्रीफिंग के लिए दशा, गोचर, Moon, Lagna और अष्टकवर्ग data चाहिए.',
-        'Chart-aware daily guidance खोलने के लिए कुंडली बनाएं.',
+        getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.86d6c3a377"),
+        getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.66417aae31"),
+        getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.7c61bd0dfe"),
       ],
-      notificationBody: 'Personal daily briefing खोलने के लिए कुंडली बनाएं.',
-      notificationTitle: 'आपकी Predicta briefing प्रतीक्षा में है',
-      remedyMicroAction: 'अभी उपाय नहीं. पहले verified chart बनाएं.',
-      subtitle: 'Real chart calculation के बाद personal daily briefing दिखेगी.',
-      title: 'Daily briefing प्रतीक्षा में',
-      todayTheme: 'आपका personal day map अभी तैयार नहीं है.',
+      notificationBody: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.682c1fa071"),
+      notificationTitle: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.d5daec55a1"),
+      remedyMicroAction: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.5283fbb87f"),
+      subtitle: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.23c87a8dec"),
+      title: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.950a91c0a5"),
+      todayTheme: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.0926de4292"),
     };
   }
 
   if (language === 'gu') {
     return {
       askPrompt:
-        'મારી કુંડળી બને પછી દશા, ગોચર, Moon, Lagna, અષ્ટકવર્ગ અને ઉપાયના પુરાવાથી દૈનિક કોસ્મિક બ્રીફિંગ બનાવો.',
-      avoidAction: 'Generic horoscope ને વ્યક્તિગત માર્ગદર્શન ન માનો.',
-      bestAction: 'ચકાસેલા જન્મવિગતોથી તમારી કુંડળી બનાવો.',
+        getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.a79d49d309"),
+      avoidAction: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.fce6d3e1a7"),
+      bestAction: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.557d6d278b"),
       emotionalWeather:
-        'Moon, Lagna અને ગોચર context calculate થાય ત્યાં સુધી pending.',
+        getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.d36002c9af"),
       evidence: [
-        'હજુ કોઈ active કુંડળી નથી.',
-        'દૈનિક briefing માટે દશા, ગોચર, Moon, Lagna અને અષ્ટકવર્ગ data જોઈએ.',
-        'Chart-aware daily guidance unlock કરવા કુંડળી બનાવો.',
+        getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.ecee209247"),
+        getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.a98ceebb51"),
+        getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.3ec20e60b0"),
       ],
-      notificationBody: 'Personal daily briefing unlock કરવા કુંડળી બનાવો.',
-      notificationTitle: 'તમારી Predicta briefing રાહ જોઈ રહી છે',
-      remedyMicroAction: 'હજુ ઉપાય નથી. પહેલા verified chart બનાવો.',
-      subtitle: 'Real chart calculation પછી personal daily briefing દેખાશે.',
+      notificationBody: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.081ad33645"),
+      notificationTitle: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.b435c97801"),
+      remedyMicroAction: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.7c5f02cc23"),
+      subtitle: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.03072009c1"),
       title: 'Daily briefing waiting',
-      todayTheme: 'તમારો personal day map હજુ તૈયાર નથી.',
+      todayTheme: getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.80b286ed84"),
     };
   }
 
@@ -335,14 +336,14 @@ function buildPendingCues(language: SupportedLanguage): DailyBriefingCue[] {
       ['Relationship', 'Pending until Moon and Venus context are available.'],
     ],
     gu: [
-      ['કારકિર્દી', 'Chart calculate થાય ત્યાં સુધી pending.'],
-      ['ધન', 'દશા અને house strength મળે ત્યાં સુધી pending.'],
-      ['સંબંધ', 'Moon અને Venus context મળે ત્યાં સુધી pending.'],
+      [getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.0de6a39828"), getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.0d8a26d4ae")],
+      [getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.a0cf33e8c0"), getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.701c33b2ee")],
+      [getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.a870d9ae3e"), getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.4cbaec883b")],
     ],
     hi: [
-      ['करियर', 'Chart calculate होने तक प्रतीक्षा में.'],
-      ['धन', 'दशा और house strength मिलने तक प्रतीक्षा में.'],
-      ['संबंध', 'Moon और Venus context मिलने तक प्रतीक्षा में.'],
+      [getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.3968c1424c"), getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.9f8a367737")],
+      [getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.4a727823f0"), getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.0b98227f88")],
+      [getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.9d4cd64169"), getNativeCopy("native.packages.astrology.src.dailyBriefing.ts.c36a02d14f")],
     ],
   }[language];
 

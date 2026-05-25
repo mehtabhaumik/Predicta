@@ -1,3 +1,4 @@
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Image,
@@ -242,7 +243,7 @@ function buildBirthDetailConfidenceGateReply(
       'Birth time check pehle karte hain.',
       `Mere paas ${kundli.birthDetails.name} ki Kundli hai, par birth time ${timeText} ko deep prediction ke liye confirm karna zaroori hai. Even 10-15 minutes houses, divisional charts aur timing ko change kar sakte hain.`,
       `Reason: ${reason}.`,
-      'मैं अभी broad guidance दे सकती हूं, लेकिन exact timing, marriage/career/finance prediction, D9/D10/KP/Nadi depth या report-grade answer से पहले time confirm करूंगी.',
+      getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.91825d0d48"),
       'Agar time doubtful hai, main simple life-event questions pooch kar probable corrected birth time estimate kar sakti hoon.',
     ].join('\n\n');
   }
@@ -252,8 +253,8 @@ function buildBirthDetailConfidenceGateReply(
       'Birth time pehla confirm kariye.',
       `Mare pase ${kundli.birthDetails.name} ni Kundli chhe, pan birth time ${timeText} deep prediction mate confirm karvo jaruri chhe. 10-15 minutes pan houses, divisional charts ane timing badli shake chhe.`,
       `Reason: ${reason}.`,
-      'હું હાલ broad guidance આપી શકું છું, પણ exact timing, marriage/career/finance prediction, D9/D10/KP/Nadi depth અથવા report-grade answer પહેલાં time confirm કરીશ.',
-      'જો time doubtful હોય, હું simple life-event questions પૂછીને probable corrected birth time estimate કરી શકું છું.',
+      getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.e976f7d8f9"),
+      getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.39fbd464a3"),
     ].join('\n\n');
   }
 
@@ -298,11 +299,11 @@ function buildPartialBirthDetailGateReply(
 
   if (language === 'hi') {
     return [
-      'मैं half details पर deep prediction start नहीं करूंगी.',
+      getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.02240d2df7"),
       knownDetails ? `Abhi mere paas:\n${knownDetails}` : undefined,
       `Missing: ${missing.join(', ')}.`,
       'Real Kundli, houses, dasha, timing, KP/Nadi aur reports ke liye birth time aur place zaroori hain.',
-      'अगर birth time exact नहीं पता, “time unknown” लिख दीजिए. मैं simple life questions पूछकर guide करूंगी.',
+      getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.359d1587f7"),
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -310,11 +311,11 @@ function buildPartialBirthDetailGateReply(
 
   if (language === 'gu') {
     return [
-      'હું half details પર deep prediction start નહીં કરું.',
+      getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.6bb83ed98f"),
       knownDetails ? `Haal ma mare pase:\n${knownDetails}` : undefined,
       `Missing: ${missing.join(', ')}.`,
-      'Real Kundli, houses, dasha, timing, KP/Nadi અને reports માટે birth time અને place જરૂરી છે.',
-      'જો birth time exact ખબર નથી, “time unknown” લખો. હું simple life questions પૂછીને guide કરીશ.',
+      getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.a9686c9c70"),
+      getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.43a911ed20"),
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -361,15 +362,15 @@ function buildBirthDetailConfidenceSuggestions(
     return [
       {
         id: 'birth-confidence-confirm-time',
-        label: 'Time correct છે',
+        label: getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.7a1292c011"),
         prompt:
-          'મારો birth time correct છે. આ confidence સાથે reading continue કરો, પણ timing confidence clearly mention કરજો.',
+          getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.8b2a88f05c"),
       },
       {
         id: 'birth-confidence-rectify',
         label: 'Time re-check karo',
         prompt:
-          'મારો birth time doubtful છે. મને simple life-event questions પૂછીને probable corrected birth time estimate કરો.',
+          getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.ec48b89375"),
       },
       {
         id: 'birth-confidence-detective',
@@ -1743,20 +1744,20 @@ function buildRenamedKundli(
 
 function buildKundliCreateFromChatReply(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'बिल्कुल. नई Kundli यहीं chat में बना देते हैं. Name, DOB, birth time और birth place भेज दीजिए. अगर सिर्फ DOB पता है, पहले वही भेज दीजिए.';
+    return getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.da03e43b60");
   }
   if (language === 'gu') {
-    return 'હા. નવી Kundli અહીં chat માં બનાવી દઉં. Name, DOB, birth time અને birth place મોકલો. ફક્ત DOB ખબર હોય તો પહેલા એ મોકલો.';
+    return getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.7e7eccff57");
   }
   return 'Yes. I can create a new Kundli right here in chat. Send name, DOB, birth time, and birth place. If you only know the DOB, send that first.';
 }
 
 function buildNoKundliForCommandReply(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'मुझे अभी कोई saved Kundli नहीं मिल रही. पहले birth details भेजिए, मैं Kundli बनाकर फिर edit, delete या switch कर दूंगी.';
+    return getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.92cf795526");
   }
   if (language === 'gu') {
-    return 'મને હજુ saved Kundli મળી નથી. પહેલા birth details મોકલો, પછી હું edit, delete કે switch કરી દઈશ.';
+    return getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.35ced5a3b2");
   }
   return 'I do not see a saved Kundli yet. Send birth details first; then I can edit, delete, or switch Kundlis for you.';
 }
@@ -1766,10 +1767,10 @@ function buildKundliSetActiveReply(
   kundli: KundliData,
 ): string {
   if (language === 'hi') {
-    return `${kundli.birthDetails.name} की Kundli active कर दी. अब मैं इसी chart से जवाब दूंगी.`;
+    return formatNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.27070699cf", [kundli.birthDetails.name]);
   }
   if (language === 'gu') {
-    return `${kundli.birthDetails.name} ની Kundli active કરી દીધી. હવે હું આ chart થી જવાબ આપીશ.`;
+    return formatNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.f5f4c4ea7b", [kundli.birthDetails.name]);
   }
   return `${kundli.birthDetails.name}'s Kundli is now active. I will answer from this chart.`;
 }
@@ -1779,10 +1780,10 @@ function buildKundliDeleteConfirmReply(
   kundli: KundliData,
 ): string {
   if (language === 'hi') {
-    return `आप ${kundli.birthDetails.name} की Kundli delete करना चाहते हैं. यह library से हट जाएगी. Confirm करने के लिए "delete Kundli" लिखिए, या "cancel" लिखिए.`;
+    return formatNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.c25665f976", [kundli.birthDetails.name]);
   }
   if (language === 'gu') {
-    return `તમે ${kundli.birthDetails.name} ની Kundli delete કરવા માંગો છો. આ library માંથી હટી જશે. Confirm કરવા "delete Kundli" લખો, અથવા "cancel" લખો.`;
+    return formatNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.d811c98927", [kundli.birthDetails.name]);
   }
   return `You are about to delete ${kundli.birthDetails.name}'s Kundli from your library. Reply "delete Kundli" to confirm, or "cancel" to stop.`;
 }
@@ -1795,7 +1796,7 @@ function buildKundliGenericEditReply(
     return `${kundli.birthDetails.name} ki Kundli edit kar sakti hoon. Bataiye kya badalna hai: birth time, DOB, birth place, ya name. Example: "change birth time to 06:45 AM".`;
   }
   if (language === 'gu') {
-    return `${kundli.birthDetails.name} ની Kundli edit કરી શકું છું. શું બદલવું છે: birth time, DOB, birth place કે name? Example: "change birth time to 06:45 AM".`;
+    return formatNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.7bc0843ee9", [kundli.birthDetails.name]);
   }
   return `I can edit ${kundli.birthDetails.name}'s Kundli. Tell me what to change: birth time, DOB, birth place, or name. Example: "change birth time to 06:45 AM".`;
 }
@@ -1823,7 +1824,7 @@ function buildKundliEditConfirmReply(
 ): string {
   const changeLine = formatKundliChange(command.field, nextBirthDetails);
   if (language === 'hi') {
-    return `मैं ${kundli.birthDetails.name} की Kundli में यह change कर सकती हूं:\n${changeLine}\n\nDate, time या place बदलने से chart दोबारा calculate होता है. Reply करें: "update existing", "save as new" या "cancel".`;
+    return formatNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.9dd92a2956", [kundli.birthDetails.name, changeLine]);
   }
   if (language === 'gu') {
     return `Hu ${kundli.birthDetails.name} ni Kundli ma aa change kari shaku chhu:\n${changeLine}\n\nDate, time, ke place badlase to chart fari calculate thashe. Reply karo: "update existing", "save as new", ke "cancel".`;
@@ -1835,24 +1836,24 @@ function buildKundliDeleteConfirmReminder(language: SupportedLanguage): string {
   return language === 'en'
     ? 'Please reply "delete Kundli" to confirm deletion, or "cancel" to stop.'
     : language === 'hi'
-      ? 'Delete confirm करने के लिए "delete Kundli" लिखिए, या रोकने के लिए "cancel" लिखिए.'
-      : 'Delete confirm કરવા માટે "delete Kundli" લખો, અથવા રોકવા માટે "cancel" લખો.';
+      ? getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.79cec946ea")
+      : getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.7f113f5916");
 }
 
 function buildKundliEditConfirmReminder(language: SupportedLanguage): string {
   return language === 'en'
     ? 'Please reply "update existing", "save as new", or "cancel".'
     : language === 'hi'
-      ? 'Please "update existing", "save as new" या "cancel" लिखिए.'
-      : 'Please "update existing", "save as new" અથવા "cancel" લખો.';
+      ? getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.9054956606")
+      : getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.70bf2b9c9c");
 }
 
 function buildKundliCommandCancelledReply(language: SupportedLanguage): string {
   return language === 'en'
     ? 'Done. I did not change the Kundli.'
     : language === 'hi'
-      ? 'ठीक है. मैंने Kundli में कोई change नहीं किया.'
-      : 'ઠીક છે. મેં Kundli માં કોઈ change કર્યું નથી.';
+      ? getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.d6988ddfa1")
+      : getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.42086b0be9");
 }
 
 function buildKundliDeletedReply(
@@ -1868,9 +1869,9 @@ function buildKundliDeletedReply(
   }
   if (language === 'gu') {
     const nextLine = nextActive
-      ? ` Active Kundli હવે ${nextActive.birthDetails.name} છે.`
+      ? formatNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.2c193e176a", [nextActive.birthDetails.name])
       : '';
-    return `${deletedName} ની Kundli library માંથી delete થઈ ગઈ.${nextLine}`;
+    return formatNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.ed7c467cc2", [deletedName, nextLine]);
   }
   const nextLine = nextActive
     ? ` Active Kundli: ${nextActive.birthDetails.name}.`
@@ -2078,23 +2079,23 @@ function buildMobileSchoolContextIntro(
 
   if (language === 'hi') {
     return [
-      `${school} ready है.`,
+      formatNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.f83a4b3ad9", [school]),
       fromSchool
-        ? `${fromSchool} से context आ गया है. Method mix नहीं होगा.`
+        ? formatNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.440185f06a", [fromSchool])
         : undefined,
       chartFocus ? `Selected chart: ${chartFocus}.` : undefined,
       reportLine ? `Report context: ${reportLine}.` : undefined,
-      question ? `आपका question: ${question}` : undefined,
+      question ? formatNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.8e19844ac1", [question]) : undefined,
       context?.predictaSchool === 'KP'
-        ? 'अब answer KP के cusps, star lords, sub lords, significators और ruling planets से ही grounded रहेगा.'
+        ? getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.792f6b537e")
         : context?.predictaSchool === 'NADI'
-          ? 'Nadi Predicta ready है. मैं planetary story links और validation questions से पढ़ूंगी; ancient manuscript access का दावा नहीं करूंगी.'
+          ? getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.24512570b2")
           : context?.predictaSchool === 'NUMEROLOGY'
-            ? 'अब answer name number, birth number, destiny number, personal timing और name rhythm पर grounded रहेगा.'
+            ? getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.b7bf034f4d")
             : context?.predictaSchool === 'SIGNATURE'
-              ? 'अब answer confirmed signature traits, self-expression patterns, improvement suggestions और safe reflection पर grounded रहेगा. यह identity verification या forensic proof नहीं है.'
-          : 'अब answer regular Parashari Jyotish context में रहेगा.',
-      'Ask दबाइए या अपना follow-up लिखिए.',
+              ? getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.d345cf2a51")
+          : getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.8fd7e0b7bf"),
+      getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.fbe92869f3"),
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -2102,23 +2103,23 @@ function buildMobileSchoolContextIntro(
 
   if (language === 'gu') {
     return [
-      `${school} ready છે.`,
+      formatNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.51787e3526", [school]),
       fromSchool
-        ? `${fromSchool} થી context આવી ગયો છે. Method mix નહીં થાય.`
+        ? formatNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.feeeeedde9", [fromSchool])
         : undefined,
       chartFocus ? `Selected chart: ${chartFocus}.` : undefined,
       reportLine ? `Report context: ${reportLine}.` : undefined,
-      question ? `તમારો question: ${question}` : undefined,
+      question ? formatNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.fb75530093", [question]) : undefined,
       context?.predictaSchool === 'KP'
-        ? 'હવે answer KP cusps, star lords, sub lords, significators અને ruling planets પર grounded રહેશે.'
+        ? getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.9d4073d0c6")
         : context?.predictaSchool === 'NADI'
-          ? 'Nadi Predicta ready છે. હું planetary story links અને validation questions થી વાંચીશ; ancient manuscript access નો દાવો નહીં કરું.'
+          ? getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.f0039683e7")
           : context?.predictaSchool === 'NUMEROLOGY'
-            ? 'હવે answer name number, birth number, destiny number, personal timing અને name rhythm પર grounded રહેશે.'
+            ? getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.c8c43ccae1")
             : context?.predictaSchool === 'SIGNATURE'
-              ? 'હવે answer confirmed signature traits, self-expression patterns, improvement suggestions અને safe reflection પર grounded રહેશે. આ identity verification કે forensic proof નથી.'
-          : 'હવે answer regular Parashari Jyotish context માં રહેશે.',
-      'Ask દબાવો અથવા તમારો follow-up લખો.',
+              ? getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.6b2d0bee75")
+          : getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.95ce23a1fc"),
+      getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.d015e1ff78"),
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -2190,7 +2191,7 @@ function buildMobileCtaContextIntro(
       `${source} se aapka context mil gaya hai.`,
       reportLine ? `Report context: ${reportLine}` : undefined,
       focus ? `Ab main yeh dekh rahi hoon: ${focus}` : undefined,
-      'मैं selected Kundli से यहीं जवाब दूंगी. Ask दबाइए या अपना follow-up लिखिए.',
+      getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.6f813b4d01"),
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -2198,10 +2199,10 @@ function buildMobileCtaContextIntro(
 
   if (language === 'gu') {
     return [
-      `${source} માંથી તમારો context મળી ગયો છે.`,
+      formatNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.19cc501786", [source]),
       reportLine ? `Report context: ${reportLine}` : undefined,
-      focus ? `હવે હું આ જોઈ રહી છું: ${focus}` : undefined,
-      'હું selected Kundli થી અહીં જ જવાબ આપીશ. Ask દબાવો અથવા follow-up લખો.',
+      focus ? formatNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.c12e397136", [focus]) : undefined,
+      getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.bde8f22400"),
     ]
       .filter(Boolean)
       .join('\n\n');

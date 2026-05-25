@@ -1,5 +1,6 @@
 'use client';
 
+import { getNativeCopy } from '@pridicta/config';
 import type { SupportedLanguage } from '@pridicta/types';
 import { WebMatchmakingPanel } from '../../../components/WebMatchmakingPanel';
 import { demoAccess } from '../../../lib/demo-state';
@@ -14,15 +15,15 @@ const COPY: Record<SupportedLanguage, { body: string; eyebrow: string; title: st
   },
   hi: {
     body:
-      'एक लड़के और एक लड़की की कुंडली चुनें और स्कोर, मजबूत पक्ष, सावधानी क्षेत्र और व्यावहारिक निष्कर्ष के साथ समर्पित वैदिक विवाह रीडिंग पाएं.',
-    eyebrow: 'विवाह मिलान',
-    title: 'विवाह मूल्यांकन किसी साधारण मिलान उपकरण जैसा नहीं लगना चाहिए.',
+      getNativeCopy("native.apps.web.app.dashboard.matchmaking.page.tsx.5b3f996ae5"),
+    eyebrow: getNativeCopy("native.apps.web.app.dashboard.matchmaking.page.tsx.1952f57972"),
+    title: getNativeCopy("native.apps.web.app.dashboard.matchmaking.page.tsx.885326b9c2"),
   },
   gu: {
     body:
-      'એક છોકરા અને એક છોકરીની કુંડળી પસંદ કરો અને સ્કોર, મજબૂત પક્ષ, સાવચેતી ક્ષેત્રો અને પ્રાયોગિક નિષ્કર્ષ સાથે સમર્પિત વૈદિક લગ્ન વાંચન મેળવો.',
-    eyebrow: 'લગ્ન મિલાન',
-    title: 'લગ્ન મૂલ્યાંકન કોઈ સામાન્ય મેળ સાધન જેવું લાગવું જોઈએ નહીં.',
+      getNativeCopy("native.apps.web.app.dashboard.matchmaking.page.tsx.153866cc64"),
+    eyebrow: getNativeCopy("native.apps.web.app.dashboard.matchmaking.page.tsx.a2ef635763"),
+    title: getNativeCopy("native.apps.web.app.dashboard.matchmaking.page.tsx.309382e1ec"),
   },
 };
 

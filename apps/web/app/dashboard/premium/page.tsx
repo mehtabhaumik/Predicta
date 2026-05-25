@@ -1,5 +1,6 @@
 'use client';
 
+import { getNativeCopy } from '@pridicta/config';
 import {
   PREMIUM_FEATURE_STORY,
   getDayPassProduct,
@@ -159,24 +160,24 @@ function getLocalizedPremiumFeatureStory(
   if (language === 'hi') {
     return [
       {
-        body: 'गंभीर सवाल को चार्ट प्रमाण, भरोसा, समय संदर्भ और अगले कदम में बदलें.',
-        title: 'गहरा उत्तर लें',
+        body: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.393e08ea2f"),
+        title: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.475ac9df85"),
       },
       {
-        body: 'मौजूदा जीवन चरण के पीछे महीने-दर-महीने दशा और गोचर खिड़कियां देखें.',
-        title: 'समय साफ देखें',
+        body: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.15cae29ede"),
+        title: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.fd641e3266"),
       },
       {
-        body: 'परिवार की कुंडलियां साथ रखें, पैटर्न तुलना करें, और सही प्रोफाइल के साथ प्रेडिक्टा से पूछें.',
-        title: 'परिवार चार्ट समझें',
+        body: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.366e9e6e0b"),
+        title: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.7e54da53ba"),
       },
       {
-        body: 'कुंडली, करियर, विवाह, धन, संतान और उपाय के लिए तैयार पीडीएफ बनाएं.',
-        title: 'सुंदर रिपोर्ट बनाएं',
+        body: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.aa01b42dec"),
+        title: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.630c2bd5be"),
       },
       {
-        body: 'जब पूरी वजह चाहिए, तब वर्ग, दशा, गोचर, अष्टकवर्ग और प्रमाण तालिकाएं खोलें.',
-        title: 'गहरा प्रमाण देखें',
+        body: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.3149dca624"),
+        title: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.952ae20151"),
       },
     ];
   }
@@ -184,24 +185,24 @@ function getLocalizedPremiumFeatureStory(
   if (language === 'gu') {
     return [
       {
-        body: 'ગંભીર પ્રશ્નને ચાર્ટ પુરાવો, વિશ્વાસ, સમય સંદર્ભ અને આગળના પગલામાં ફેરવો.',
-        title: 'ઊંડો જવાબ મેળવો',
+        body: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.8a66c368a5"),
+        title: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.eb88453a93"),
       },
       {
-        body: 'મૌજૂદા જીવન ચરણ પાછળની મહિનો-દર-મહિનો દશા અને ગોચર વિન્ડોઝ જુઓ.',
-        title: 'સમય સ્પષ્ટ જુઓ',
+        body: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.4abaa377f9"),
+        title: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.59424338c5"),
       },
       {
-        body: 'પરિવારની કુંડળીઓ સાથે રાખો, પેટર્ન સરખાવો, અને સાચી પ્રોફાઇલ સાથે પ્રેડિક્ટાને પૂછો.',
-        title: 'પરિવાર ચાર્ટ સમજો',
+        body: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.48336b64ea"),
+        title: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.5d259cf525"),
       },
       {
-        body: 'કુંડળી, કારકિર્દી, લગ્ન, ધન, સંતાન અને ઉપાયો માટે તૈયાર પીડીએફ બનાવો.',
-        title: 'સુંદર રિપોર્ટ બનાવો',
+        body: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.9f94102175"),
+        title: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.a2dcade661"),
       },
       {
-        body: 'જ્યારે સંપૂર્ણ કારણ જોઈએ ત્યારે વર્ગ, દશા, ગોચર, અષ્ટકવર્ગ અને પુરાવા કોષ્ટકો ખોલો.',
-        title: 'ઊંડો પુરાવો જુઓ',
+        body: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.9ca43b0fda"),
+        title: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.e2d2cbb1d2"),
       },
     ];
   }
@@ -304,86 +305,86 @@ const PREMIUM_PAGE_COPY: Record<
   hi: {
     choiceCards: [
       {
-        body: 'जब आपको हर महीने समय, उपाय, सेव चैट और निरंतरता के साथ प्रेडिक्टा चाहिए.',
-        cta: 'सदस्यता देखें',
+        body: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.db904975ab"),
+        cta: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.83c6b66c84"),
         href: '#subscriptions',
-        label: 'मासिक मार्गदर्शन',
-        title: 'मुझे हर महीने प्रेडिक्टा चाहिए',
+        label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.c342cc070d"),
+        title: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.20f2c97d55"),
       },
       {
-        body: 'जब एक जीवन सवाल के लिए तैयार जवाब और सुंदर पीडीएफ चाहिए जिसे आप रख सकें या साझा कर सकें.',
-        cta: 'एक रिपोर्ट चुनें',
+        body: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.d8d766cc24"),
+        cta: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.37bac83a8d"),
         href: '#one-time',
-        label: 'एक तैयार जवाब',
-        title: 'मुझे एक सधी हुई रिपोर्ट चाहिए',
+        label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.33db074726"),
+        title: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.00de0b3230"),
       },
       {
-        body: 'जब लंबी प्रतिबद्धता से पहले एक दिन की पूरी गहराई आजमानी हो.',
-        cta: 'डे पास आजमाएं',
+        body: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.80a2b585ab"),
+        cta: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.bfe67ba47e"),
         href: '/checkout?productId=pridicta_day_pass_24h',
-        label: 'ट्रायल गहराई',
-        title: 'मैं आज पूरी गहराई आजमाना चाहता/चाहती हूं',
+        label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.2d093df33b"),
+        title: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.4cae53716a"),
       },
     ],
-    choiceEyebrow: 'जरूरत से चुनें',
-    choiceTitle: 'भुगतान तभी करें जब सवाल सच में ज्यादा गहराई मांगता हो.',
-    choosePrefix: 'चुनें',
+    choiceEyebrow: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.f3d6aa53a8"),
+    choiceTitle: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.67b420336f"),
+    choosePrefix: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.d9b97570b7"),
     dayPassCta: (label, price) => `${label} · ${price}`,
-    drawerAction: 'खोलें',
+    drawerAction: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.901879c422"),
     drawerBody:
-      'पहले मुफ्त उपयोगी होना चाहिए. भुगतान वाली गहराई तब लें जब ज्यादा साफ समय, गहरा सार, परिवार संदर्भ या तैयार रिपोर्ट चाहिए.',
-    drawerEyebrow: 'कैसे चुनें',
+      getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.c5b44c78d7"),
+    drawerEyebrow: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.8bc285214f"),
     oneTimeBody:
-      'डे पास या एक रिपोर्ट तब लें जब सदस्यता के बिना एक केंद्रित जवाब चाहिए.',
-    oneTimeTitle: 'एक बार का प्रवेश',
-    pill: 'भरोसा पहले',
+      getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.c9abc115a9"),
+    oneTimeTitle: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.633b350da2"),
+    pill: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.210e0e04a6"),
     storyBody:
-      'प्रीमियम उन लोगों के लिए है जो चाहते हैं कि प्रेडिक्टा ज्यादा तैयारी करे, याद रखे, तुलना करे और प्रमाण के साथ समझाए.',
-    storyEyebrow: 'क्या बदलता है',
-    storyTitle: 'प्रीमियम तैयारी, समय, स्मृति और प्रमाण बढ़ाता है.',
-    title: 'ज्यादा गहराई तभी चुनें जब उससे मदद मिले.',
+      getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.673bb905a9"),
+    storyEyebrow: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.f424566b28"),
+    storyTitle: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.4d739608fa"),
+    title: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.0ac0f9839d"),
   },
   gu: {
     choiceCards: [
       {
-        body: 'જ્યારે દર મહિને સમય, ઉપાયો, સેવ ચેટ અને સતતતા સાથે પ્રેડિક્ટા જોઈએ.',
-        cta: 'સભ્યપદ જુઓ',
+        body: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.5aa8285438"),
+        cta: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.d20d4680a8"),
         href: '#subscriptions',
-        label: 'માસિક માર્ગદર્શન',
-        title: 'મારે દર મહિને પ્રેડિક્ટા જોઈએ',
+        label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.4b39572687"),
+        title: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.6f99fdefc9"),
       },
       {
-        body: 'જ્યારે એક જીવન પ્રશ્ન માટે તૈયાર જવાબ અને સુંદર પીડીએફ જોઈએ જેને તમે રાખી અથવા શેર કરી શકો.',
-        cta: 'એક રિપોર્ટ પસંદ કરો',
+        body: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.226f444f6f"),
+        cta: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.72eedd6de0"),
         href: '#one-time',
-        label: 'એક તૈયાર જવાબ',
-        title: 'મારે એક સધી રિપોર્ટ જોઈએ',
+        label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.9a4076573b"),
+        title: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.4e43b0f16f"),
       },
       {
-        body: 'જ્યારે લાંબી પ્રતિબદ્ધતા પહેલાં એક દિવસની સંપૂર્ણ ઊંડાઈ અજમાવવી હોય.',
-        cta: 'ડે પાસ અજમાવો',
+        body: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.30072351a5"),
+        cta: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.95ea9365f4"),
         href: '/checkout?productId=pridicta_day_pass_24h',
-        label: 'ટ્રાયલ ઊંડાઈ',
-        title: 'હું આજે સંપૂર્ણ ઊંડાઈ અજમાવવા માગું છું',
+        label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.37c8856e06"),
+        title: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.64cc31b4a0"),
       },
     ],
-    choiceEyebrow: 'જરૂર પ્રમાણે પસંદ કરો',
-    choiceTitle: 'ચુકવણી ત્યારે જ કરો જ્યારે પ્રશ્ન ખરેખર વધુ ઊંડાઈ માંગે.',
-    choosePrefix: 'પસંદ કરો',
+    choiceEyebrow: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.6fba8c84e7"),
+    choiceTitle: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.917fc87109"),
+    choosePrefix: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.1619f196ef"),
     dayPassCta: (label, price) => `${label} · ${price}`,
-    drawerAction: 'ખોલો',
+    drawerAction: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.e0185a82d6"),
     drawerBody:
-      'પહેલાં મફત ઉપયોગી હોવું જોઈએ. ચૂકવેલી ઊંડાઈ ત્યારે લો જ્યારે વધારે સ્પષ્ટ સમય, ઊંડો સાર, પરિવાર સંદર્ભ અથવા તૈયાર રિપોર્ટ જોઈએ.',
-    drawerEyebrow: 'કેવી રીતે પસંદ કરવું',
+      getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.509da289a6"),
+    drawerEyebrow: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.af1eea1bb8"),
     oneTimeBody:
-      'ડે પાસ અથવા એક રિપોર્ટ ત્યારે લો જ્યારે સભ્યપદ વગર એક કેન્દ્રિત જવાબ જોઈએ.',
-    oneTimeTitle: 'એક વખતનો પ્રવેશ',
-    pill: 'ભરોસો પહેલાં',
+      getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.19e7ee6f26"),
+    oneTimeTitle: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.226398a7ac"),
+    pill: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.61effb6106"),
     storyBody:
-      'પ્રીમિયમ તે વપરાશકર્તાઓ માટે છે જેઓ ઇચ્છે છે કે પ્રેડિક્ટા વધુ તૈયારી કરે, યાદ રાખે, સરખાવે અને પુરાવા સાથે સમજાવે.',
-    storyEyebrow: 'શું બદલાય છે',
-    storyTitle: 'પ્રીમિયમ તૈયારી, સમય, સ્મૃતિ અને પુરાવો વધારે છે.',
-    title: 'વધુ ઊંડાઈ ત્યારે જ પસંદ કરો જ્યારે તે મદદ કરે.',
+      getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.365e494df3"),
+    storyEyebrow: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.6bb307aeb0"),
+    storyTitle: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.9d176377f3"),
+    title: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.f24b4d18e0"),
   },
 };
 
@@ -418,46 +419,46 @@ const PLAN_COPY: Record<
   },
   hi: {
     WEEKLY: {
-      billingCopy: 'एक सप्ताह की गहरी प्रेडिक्टा मार्गदर्शन.',
-      label: 'साप्ताहिक',
+      billingCopy: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.f4b33f844d"),
+      label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.47d5bb4f4c"),
     },
     MONTHLY: {
-      badge: 'सबसे व्यावहारिक',
-      billingCopy: 'लगातार सवाल, समय और सेव निरंतरता के लिए मासिक प्रेडिक्टा गहराई.',
-      label: 'मासिक',
+      badge: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.9b310aebb3"),
+      billingCopy: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.3d00426e52"),
+      label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.57dc4243a2"),
     },
     QUARTERLY: {
-      badge: 'बेहतर मूल्य',
-      billingCopy: 'मौसमी समय और स्थिर फॉलो-थ्रू चाहने वालों के लिए तिमाही प्रवेश.',
-      label: 'त्रैमासिक',
+      badge: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.2d3e3e05c3"),
+      billingCopy: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.94d6a51330"),
+      label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.d64cb5865a"),
     },
     YEARLY: {
-      badge: 'सबसे गहरा मूल्य',
-      billingCopy: 'उन लोगों के लिए पूरे वर्ष का प्रवेश जो प्रेडिक्टा को नियमित जीवन-समय प्रणाली की तरह इस्तेमाल करना चाहते हैं.',
-      label: 'वार्षिक',
-      monthlyEquivalent: 'प्रति माह के बराबर',
+      badge: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.35e1534f49"),
+      billingCopy: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.055d2ae6bf"),
+      label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.9b81fb55ef"),
+      monthlyEquivalent: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.01b6dcd6ec"),
     },
   },
   gu: {
     WEEKLY: {
-      billingCopy: 'એક અઠવાડિયાની ઊંડી પ્રેડિક્ટા માર્ગદર્શન.',
-      label: 'સાપ્તાહિક',
+      billingCopy: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.7c822ac7f9"),
+      label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.146383f56e"),
     },
     MONTHLY: {
-      badge: 'સૌથી વ્યવહારુ',
-      billingCopy: 'ચાલુ પ્રશ્નો, સમય અને સેવ સતતતા માટે માસિક પ્રેડિક્ટા ઊંડાઈ.',
-      label: 'માસિક',
+      badge: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.55becf64b1"),
+      billingCopy: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.5ae853ab7b"),
+      label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.2681c30f73"),
     },
     QUARTERLY: {
-      badge: 'વધારે સારું મૂલ્ય',
-      billingCopy: 'મોસમી સમય અને વધુ સ્થિર અનુસરણ ઇચ્છતા વપરાશકર્તાઓ માટે ત્રિમાસિક પ્રવેશ.',
-      label: 'ત્રિમાસિક',
+      badge: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.1a4c157aef"),
+      billingCopy: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.1873c72834"),
+      label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.2fd463f085"),
     },
     YEARLY: {
-      badge: 'સૌથી ઊંડું મૂલ્ય',
-      billingCopy: 'જે વપરાશકર્તાઓ પ્રેડિક્ટાને નિયમિત જીવન-સમય સિસ્ટમ તરીકે ઉપયોગ કરવા માંગે છે તેમના માટે આખા વર્ષની પ્રવેશ.',
-      label: 'વાર્ષિક',
-      monthlyEquivalent: 'દર મહિને અસરકારક',
+      badge: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.fa5b15d9ec"),
+      billingCopy: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.ec028dfa86"),
+      label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.5a1cce3f9b"),
+      monthlyEquivalent: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.cbce027d33"),
     },
   },
 };
@@ -478,22 +479,22 @@ const ONE_TIME_COPY: Record<
   },
   hi: {
     MARRIAGE_COMPATIBILITY_REPORT: {
-      description: 'विवाह या परिवार चर्चा के लिए तैयार मिलान रिपोर्ट.',
-      label: 'कम्पैटिबिलिटी रिपोर्ट',
+      description: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.c211fb60d0"),
+      label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.d8fb1adccb"),
     },
     PREMIUM_PDF: {
-      description: 'जब किसी खास सवाल के लिए तैयार जवाब चाहिए तब एक सुंदर रिपोर्ट.',
-      label: 'प्रीमियम पीडीएफ',
+      description: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.fef02f7f2f"),
+      label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.31641beaac"),
     },
   },
   gu: {
     MARRIAGE_COMPATIBILITY_REPORT: {
-      description: 'લગ્ન અથવા પરિવાર ચર્ચા માટે તૈયાર મિલાન રિપોર્ટ.',
-      label: 'કમ્પેટિબિલિટી રિપોર્ટ',
+      description: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.671c1aee98"),
+      label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.79ba9fc513"),
     },
     PREMIUM_PDF: {
-      description: 'જ્યારે ખાસ પ્રશ્ન માટે તૈયાર જવાબ જોઈએ ત્યારે એક સુંદર રિપોર્ટ.',
-      label: 'પ્રીમિયમ પીડીએફ',
+      description: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.0848f65b68"),
+      label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.d7ca86dc4e"),
     },
   },
 };

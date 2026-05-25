@@ -1,5 +1,6 @@
 'use client';
 
+import { getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import type { SupportedLanguage } from '@pridicta/types';
 import { PredictaWorldFrame } from '../../../components/PredictaWorldFrame';
@@ -80,82 +81,82 @@ const VEDIC_WORLD_COPY: Record<SupportedLanguage, VedicWorldCopy> = {
   },
   hi: {
     actions: {
-      birthTime: 'जन्म समय जांचें',
-      chat: 'वैदिक प्रेडिक्टा से चैट करें',
-      charts: 'चार्ट खोलें',
-      create: 'कुंडली बनाएं',
-      reports: 'रिपोर्ट बनाएं',
+      birthTime: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.8d490f9dcd"),
+      chat: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.a67d2686b8"),
+      charts: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.39fccd39c2"),
+      create: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.7cacfebde9"),
+      reports: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.a5f7053738"),
     },
     cards: [
       {
-        body: 'D1, चलित, वर्ग चार्ट, दशा, गोचर और भाव प्रमाण साथ रहते हैं.',
-        title: 'पहले चार्ट प्रमाण',
+        body: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.d3e377e0cd"),
+        title: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.a39a7c203f"),
       },
       {
-        body: 'करियर, धन, विवाह, स्वास्थ्य सावधानी, परिवार, समय और उपाय पूछें.',
-        title: 'जीवन के प्रश्न',
+        body: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.3154fb8261"),
+        title: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.f6e23b2e8c"),
       },
       {
-        body: 'कर्म आधारित उपाय, पुरुषार्थ संतुलन, पंचांग और दैनिक मार्गदर्शन इसी वैदिक संसार में रहते हैं.',
-        title: 'होलिस्टिक सहारा',
+        body: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.d5e1ee77c9"),
+        title: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.2d88fadbfc"),
       },
     ],
     hero: {
       body:
-        'मुख्य वैदिक रीडिंग के लिए इस संसार का उपयोग करें: कुंडली, चार्ट, दशा, गोचर, उपाय, समय और रिपोर्ट-योग्य मार्गदर्शन.',
-      eyebrow: 'वैदिक संसार',
-      title: 'आपका मुख्य वैदिक प्रेडिक्टा स्थान.',
+        getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.19648f7ce7"),
+      eyebrow: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.4433fb4239"),
+      title: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.861a634c9e"),
     },
     note: {
       body:
-        'कृष्णमूर्ति पद्धति, नाड़ी, अंक ज्योतिष और हस्ताक्षर के अपने अलग संसार हैं. वैदिक प्रेडिक्टा मुख्य ज्योतिष वाचन पर केंद्रित रहती है.',
-      title: 'अलग संसार, साझा कुंडली',
+        getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.9fea2d66c9"),
+      title: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.dc31b7a777"),
     },
     report: {
       body:
-        'वैदिक रीडिंग को कुंडली, करियर, विवाह, धन, उपाय या समय रिपोर्ट में बदलें.',
-      cta: 'वैदिक रिपोर्ट बनाएं',
-      title: 'वैदिक रिपोर्ट मार्ग',
+        getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.73516f089d"),
+      cta: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.a11279c170"),
+      title: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.df38e07305"),
     },
   },
   gu: {
     actions: {
-      birthTime: 'જન્મ સમય તપાસો',
-      chat: 'વેદિક પ્રેડિક્ટા સાથે ચેટ કરો',
-      charts: 'ચાર્ટ્સ ખોલો',
-      create: 'કુંડળી બનાવો',
-      reports: 'રિપોર્ટ બનાવો',
+      birthTime: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.00a76e817b"),
+      chat: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.64b1ebeafa"),
+      charts: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.dcc1de4a22"),
+      create: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.c0e4dc5abd"),
+      reports: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.729dc16940"),
     },
     cards: [
       {
-        body: 'D1, ચલિત, વર્ગ ચાર્ટ્સ, દશા, ગોચર અને ભાવ પુરાવો સાથે રહે છે.',
-        title: 'પહેલા ચાર્ટ પુરાવો',
+        body: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.bedf1278a5"),
+        title: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.5293d2cbd1"),
       },
       {
-        body: 'કરિયર, પૈસા, લગ્ન, સ્વાસ્થ્ય સાવચેતી, પરિવાર, સમય અને ઉપાયો પૂછો.',
-        title: 'જીવનના પ્રશ્નો',
+        body: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.b4a139d262"),
+        title: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.31c681c292"),
       },
       {
-        body: 'કર્મ આધારિત ઉપાયો, પુરુષાર્થ સંતુલન, પંચાંગ અને દૈનિક માર્ગદર્શન આ વૈદિક દુનિયામાં રહે છે.',
-        title: 'હોલિસ્ટિક સહારો',
+        body: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.5a8c51908d"),
+        title: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.775de3163b"),
       },
     ],
     hero: {
       body:
-        'મુખ્ય વૈદિક વાચન માટે આ દુનિયા વાપરો: કુંડળી, ચાર્ટ્સ, દશા, ગોચર, ઉપાયો, સમય અને રિપોર્ટ માટે તૈયાર માર્ગદર્શન.',
-      eyebrow: 'વૈદિક દુનિયા',
-      title: 'તમારું મુખ્ય વેદિક પ્રેડિક્ટા સ્થાન.',
+        getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.49e6c07c4c"),
+      eyebrow: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.eee556bafa"),
+      title: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.9daf86316e"),
     },
     note: {
       body:
-        'કૃષ્ણમૂર્તિ પદ્ધતિ, નાડી, અંક જ્યોતિષ અને સહીની પોતાની અલગ દુનિયા છે. વૈદિક પ્રેડિક્ટા મુખ્ય જ્યોતિષ વાચન પર કેન્દ્રિત રહે છે.',
-      title: 'અલગ દુનિયા, શેર કરેલી કુંડળી',
+        getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.c8fff2bb92"),
+      title: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.16901fb4aa"),
     },
     report: {
       body:
-        'વૈદિક વાચનને કુંડળી, કરિયર, લગ્ન, પૈસા, ઉપાયો અથવા સમય રિપોર્ટમાં બદલો.',
-      cta: 'વેદિક રિપોર્ટ બનાવો',
-      title: 'વેદિક રિપોર્ટ માર્ગ',
+        getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.bf62cc104e"),
+      cta: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.224efad342"),
+      title: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.bfeb531ede"),
     },
   },
 };
@@ -188,24 +189,24 @@ export default function VedicPredictaPage(): React.JSX.Element {
               label: copy.actions.charts,
               note:
                 language === 'hi'
-                  ? 'D1, चलित और वर्ग चार्ट एक ही वैदिक धारा में देखें.'
+                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.7afa44a32b")
                   : language === 'gu'
-                    ? 'D1, ચલિત અને વર્ગ ચાર્ટ્સ એક જ વૈદિક ધારા માં જુઓ.'
+                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.8fe0ca1d9c")
                     : 'Open D1, Chalit, and varga charts inside the same Vedic flow.',
             },
             {
               href: '/dashboard/remedies',
               label:
                 language === 'hi'
-                  ? 'उपाय'
+                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.a05042b6ab")
                   : language === 'gu'
-                    ? 'ઉપાયો'
+                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.d701b81bf4")
                     : 'Remedies',
               note:
                 language === 'hi'
-                  ? 'कर्म, पुरुषार्थ और शांत सुधार की दिशा यहीं रखें.'
+                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.9cc2d93136")
                   : language === 'gu'
-                    ? 'કર્મ, પુરુષાર્થ અને શાંત સુધારાની દિશા અહીં રાખો.'
+                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.4d227d1381")
                     : 'Keep remedies, Purushartha balance, and practical next steps here.',
             },
             {
@@ -213,9 +214,9 @@ export default function VedicPredictaPage(): React.JSX.Element {
               label: copy.actions.birthTime,
               note:
                 language === 'hi'
-                  ? 'जन्म समय पर शक हो तो मुख्य वैदिक रीडिंग से पहले उसे साफ करें.'
+                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.8f16c0ec72")
                   : language === 'gu'
-                    ? 'જન્મ સમય પર શંકા હોય તો મુખ્ય વૈદિક વાચન પહેલાં તેને સ્પષ્ટ કરો.'
+                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.0cb5af4e58")
                     : 'Resolve time uncertainty before going deeper into the main chart.',
             },
             {
@@ -223,17 +224,17 @@ export default function VedicPredictaPage(): React.JSX.Element {
               label: copy.report.cta,
               note:
                 language === 'hi'
-                  ? 'जब उत्तर को साफ रिपोर्ट में बदलना हो, यहीं से आगे बढ़ें.'
+                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.27aeb2c1ff")
                   : language === 'gu'
-                    ? 'જ્યારે જવાબને સ્પષ્ટ રિપોર્ટમાં ફેરવવો હોય, ત્યારે અહીંથી આગળ વધો.'
+                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.2f4f66b64a")
                     : 'Move into a polished Vedic report when the reading needs structure.',
             },
           ]}
           localEyebrow={
             language === 'hi'
-              ? 'दुनिया संरचना'
+              ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.632a8980f0")
               : language === 'gu'
-                ? 'દુનિયા રચના'
+                ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.859c796ba9")
                 : 'World structure'
           }
           localTitle={copy.note.title}
@@ -241,47 +242,47 @@ export default function VedicPredictaPage(): React.JSX.Element {
             {
               label:
                 language === 'hi'
-                  ? 'चार्ट आधार'
+                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.a1f243119f")
                   : language === 'gu'
-                    ? 'ચાર્ટ આધાર'
+                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.18192a2e16")
                     : 'Chart root',
               value: 'D1 + Varga',
             },
             {
               label:
                 language === 'hi'
-                  ? 'समय'
+                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.7457c45e9e")
                   : language === 'gu'
-                    ? 'સમય'
+                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.82e44a590f")
                     : 'Timing',
               value:
                 language === 'hi'
-                  ? 'दशा + गोचर'
+                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.2b210d2200")
                   : language === 'gu'
-                    ? 'દશા + ગોચર'
+                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.16a08b64b2")
                     : 'Dasha + Gochar',
             },
             {
               label:
                 language === 'hi'
-                  ? 'दिशा'
+                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.0d095ae4b3")
                   : language === 'gu'
-                    ? 'દિશા'
+                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.1410444e8b")
                     : 'Guidance',
               value:
                 language === 'hi'
-                  ? 'उपाय + संतुलन'
+                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.1b21812771")
                   : language === 'gu'
-                    ? 'ઉપાયો + સંતુલન'
+                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.3cc7fb68e7")
                     : 'Remedies + balance',
             },
           ]}
           proofCards={copy.cards}
           proofLabel={
             language === 'hi'
-              ? 'वैदिक प्रमाण'
+              ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.a571b7b906")
               : language === 'gu'
-                ? 'વૈદિક પુરાવો'
+                ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.b63b0a3dab")
                 : 'Vedic proof'
           }
           reportLabel={copy.report.cta}
@@ -301,9 +302,9 @@ export default function VedicPredictaPage(): React.JSX.Element {
               <span>{copy.actions.create}</span>
               <strong>
                 {language === 'hi'
-                  ? 'कुंडली से रूट चार्ट तैयार रखें.'
+                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.2d2e8499b0")
                   : language === 'gu'
-                    ? 'કુંડળીથી મૂળ ચાર્ટ તૈયાર રાખો.'
+                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.5bf245ba8a")
                     : 'Keep the root chart ready from Kundli.'}
               </strong>
             </article>
@@ -311,9 +312,9 @@ export default function VedicPredictaPage(): React.JSX.Element {
               <span>{copy.actions.charts}</span>
               <strong>
                 {language === 'hi'
-                  ? 'चार्ट खोलकर उत्तर को प्रमाण के साथ पढ़ें.'
+                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.2740516bfe")
                   : language === 'gu'
-                    ? 'ચાર્ટ ખોલીને જવાબને પુરાવા સાથે વાંચો.'
+                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.e21d98254c")
                     : 'Read every answer with chart evidence when needed.'}
               </strong>
             </article>
@@ -321,9 +322,9 @@ export default function VedicPredictaPage(): React.JSX.Element {
               <span>{copy.actions.reports}</span>
               <strong>
                 {language === 'hi'
-                  ? 'रिपोर्ट तभी बनाएं जब निर्णय, समय या उपाय साफ चाहिए.'
+                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.076fe71e40")
                   : language === 'gu'
-                    ? 'રિપોર્ટ ત્યારે જ બનાવો જ્યારે નિર્ણય, સમય કે ઉપાયો સ્પષ્ટ જોઈએ.'
+                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.85ad1af2de")
                     : 'Build the report when timing, remedies, or a decision summary is needed.'}
               </strong>
             </article>

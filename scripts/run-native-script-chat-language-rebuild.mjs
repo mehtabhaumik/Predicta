@@ -1,6 +1,6 @@
 import { spawnSync } from 'node:child_process';
 import { strict as assert } from 'node:assert';
-import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -28,6 +28,8 @@ await writeFile(
       },
       include: [
         path.join(repoRoot, 'packages/astrology/src/**/*.ts'),
+        path.join(repoRoot, 'packages/config/src/**/*.ts'),
+        path.join(repoRoot, 'packages/config/src/translations/**/*.json'),
         path.join(repoRoot, 'packages/types/src/**/*.ts'),
       ],
     },
@@ -83,6 +85,19 @@ try {
     process.stderr.write(compile.stderr);
     process.exit(compile.status ?? 1);
   }
+
+  const configShimDir = path.join(tempRoot, 'node_modules/@pridicta/config');
+  await mkdir(configShimDir, { recursive: true });
+  await writeFile(
+    path.join(configShimDir, 'package.json'),
+    JSON.stringify({
+      main: path.relative(
+        configShimDir,
+        path.join(outDir, 'packages/config/src/index.js'),
+      ),
+      type: 'commonjs',
+    }),
+  );
 
   const modulePath = path.join(
     outDir,

@@ -1,5 +1,6 @@
 'use client';
 
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { composeNumerologyFoundationModel } from '@pridicta/astrology';
 import { translateUiText } from '@pridicta/config/uiTranslations';
@@ -56,45 +57,45 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
             href: '#numerology-profile',
             label:
               language === 'hi'
-                ? 'प्रोफाइल सार'
+                ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.9e4cce57e7")
                 : language === 'gu'
-                  ? 'પ્રોફાઇલ સાર'
+                  ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.10e07db594")
                   : 'Profile summary',
             note:
               language === 'hi'
-                ? 'सेव नाम और जन्म तिथि से बना मुख्य प्रोफाइल पहले पढ़ें.'
+                ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.b126f30318")
                 : language === 'gu'
-                  ? 'સેવ નામ અને જન્મ તારીખથી બનેલો મુખ્ય પ્રોફાઇલ પહેલાં વાંચો.'
+                  ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.0fd38fba32")
                   : 'Start from the saved name and birth-date profile.',
           },
           {
             href: '#numerology-numbers',
             label:
               language === 'hi'
-                ? 'मुख्य अंक'
+                ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.a8cb7ad89e")
                 : language === 'gu'
-                  ? 'મુખ્ય અંક'
+                  ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.a2d4f7ffee")
                   : 'Core numbers',
             note:
               language === 'hi'
-                ? 'नाम अंक, जन्म अंक, भाग्य अंक और निजी समय एक साथ देखें.'
+                ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.0deab11ee2")
                 : language === 'gu'
-                  ? 'નામ અંક, જન્મ અંક, ભાગ્ય અંક અને વ્યક્તિગત સમય એક સાથે જુઓ.'
+                  ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.29394e56bb")
                   : 'Keep name, birth, destiny, and timing visible together.',
           },
           {
             href: '#numerology-boundary',
             label:
               language === 'hi'
-                ? 'कक्ष सीमा'
+                ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.6cccba1224")
                 : language === 'gu'
-                  ? 'રૂમ સીમા'
+                  ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.c723515d70")
                   : 'Room boundary',
             note:
               language === 'hi'
-                ? 'जहां अंक ज्योतिष खत्म होती है और सही हैंडऑफ शुरू होता है, वह देखें.'
+                ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.d3f0661027")
                 : language === 'gu'
-                  ? 'જ્યાં અંક જ્યોતિષ અટકે છે અને યોગ્ય હેન્ડઓફ શરૂ થાય છે, તે જુઓ.'
+                  ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.58dfd5904b")
                   : 'See where Numerology stops and the right handoff begins.',
           },
           {
@@ -102,51 +103,51 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
             label: t('Build Numerology report'),
             note:
               language === 'hi'
-                ? 'जब संख्या-आधारित उत्तर को रिपोर्ट में बदलना हो, यहीं जाएं.'
+                ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.7313e5d320")
                 : language === 'gu'
-                  ? 'જ્યારે અંક આધારિત જવાબને રિપોર્ટમાં ફેરવવો હોય, ત્યારે અહીં જાઓ.'
+                  ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.02e7d5097f")
                   : 'Move into the report path when the reading needs a polished number-led summary.',
           },
         ]}
         localEyebrow={
           language === 'hi'
-            ? 'अंक प्रवाह'
+            ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.b9a19c5e8f")
             : language === 'gu'
-              ? 'અંક પ્રવાહ'
+              ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.3e0565212e")
               : 'Number flow'
         }
         localTitle={
           language === 'hi'
-            ? 'यह दुनिया संख्या, लय और निजी समय के क्रम से चलती है.'
+            ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.959bbb1e69")
             : language === 'gu'
-              ? 'આ દુનિયા અંક, લય અને વ્યક્તિગત સમયના ક્રમથી ચાલે છે.'
+              ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.8230a834e4")
               : 'This world moves through number roots, rhythm, and personal timing.'
         }
         pillars={[
           {
             label:
               language === 'hi'
-                ? 'नाम'
+                ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.e61d8b148c")
                 : language === 'gu'
-                  ? 'નામ'
+                  ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.7f0bf4f835")
                   : 'Name',
             value: t('Name number'),
           },
           {
             label:
               language === 'hi'
-                ? 'जन्म'
+                ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.d7d8a5c275")
                 : language === 'gu'
-                  ? 'જન્મ'
+                  ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.7742cd425c")
                   : 'Birth',
             value: t('Birth number'),
           },
           {
             label:
               language === 'hi'
-                ? 'वर्तमान'
+                ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.8a4e4c9299")
                 : language === 'gu'
-                  ? 'હાલ'
+                  ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.167fe40ee8")
                   : 'Current',
             value: t('Personal timing'),
           },
@@ -377,11 +378,11 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
 
 function formatPersonalYearValue(root: number, language: 'en' | 'hi' | 'gu'): string {
   if (language === 'hi') {
-    return `वर्ष ${root}`;
+    return formatNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.242d624a8f", [root]);
   }
 
   if (language === 'gu') {
-    return `વર્ષ ${root}`;
+    return formatNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.d3f0be40ce", [root]);
   }
 
   return `Year ${root}`;

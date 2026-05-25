@@ -1,5 +1,6 @@
 'use client';
 
+import { getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { getDayPassProduct, getPricingPlans } from '@pridicta/config/pricing';
 import { useLanguagePreference } from '../lib/language-preference';
@@ -58,33 +59,33 @@ function getPricingTeaserCopy(language: string): {
 } {
   if (language === 'hi') {
     return {
-      dayPass: 'डे पास',
-      dayPassBody: 'सदस्यता के बिना 24 घंटे के लिए प्रीमियम गहराई आजमाएं.',
-      free: 'मुफ्त',
-      freeBody: 'मुख्य कुंडली, सेव प्रोफाइल और सुंदर मुफ्त रिपोर्ट.',
-      freeTitle: 'शांत शुरुआत करें',
-      monthlyPrefix: 'मासिक प्रवेश शुरू होता है',
-      monthlySuffix: 'प्रीमियम गहराई और सुविधा देता है, पक्के परिणाम नहीं.',
-      premium: 'प्रीमियम',
-      premiumBody: 'गहरी रिपोर्ट, ज्यादा मार्गदर्शन और बेहतर चार्ट समझ.',
-      viewPricing: 'मूल्य देखें',
-      yearlySuffix: '/ वर्ष',
+      dayPass: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.ec32113b0b"),
+      dayPassBody: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.e11b9330e8"),
+      free: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.835e9402fb"),
+      freeBody: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.06de00de0c"),
+      freeTitle: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.820b20981f"),
+      monthlyPrefix: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.56525f7226"),
+      monthlySuffix: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.c307eae826"),
+      premium: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.b552bca1c9"),
+      premiumBody: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.54c6bcfe69"),
+      viewPricing: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.4a29f4c5f7"),
+      yearlySuffix: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.449d522e4d"),
     };
   }
 
   if (language === 'gu') {
     return {
-      dayPass: 'ડે પાસ',
-      dayPassBody: 'સભ્યતા વગર 24 કલાક માટે પ્રીમિયમ ઊંડાઈ અજમાવો.',
-      free: 'મફત',
-      freeBody: 'મુખ્ય કુંડળી, સેવ પ્રોફાઇલ અને સુંદર મફત રિપોર્ટ.',
-      freeTitle: 'શાંતિથી શરૂઆત કરો',
-      monthlyPrefix: 'માસિક પ્રવેશ શરૂ થાય છે',
-      monthlySuffix: 'પ્રીમિયમ ઊંડાઈ અને સુવિધા આપે છે, પાક્કા પરિણામ નહીં.',
-      premium: 'પ્રીમિયમ',
-      premiumBody: 'ઊંડી રિપોર્ટ, વધુ માર્ગદર્શન અને સારી ચાર્ટ સમજ.',
-      viewPricing: 'કિંમત જુઓ',
-      yearlySuffix: '/ વર્ષ',
+      dayPass: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.039eabd9e9"),
+      dayPassBody: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.fe6c9b9ce1"),
+      free: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.11494ad2d1"),
+      freeBody: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.3440bf2bd0"),
+      freeTitle: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.b0f11e9d9a"),
+      monthlyPrefix: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.fe7f80250c"),
+      monthlySuffix: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.c4174b8c42"),
+      premium: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.81ee678383"),
+      premiumBody: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.7b3b0fe33a"),
+      viewPricing: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.d081b9e07b"),
+      yearlySuffix: getNativeCopy("native.apps.web.components.PricingTeaser.tsx.ca16adda5d"),
     };
   }
 

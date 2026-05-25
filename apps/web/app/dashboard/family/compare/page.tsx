@@ -1,5 +1,6 @@
 'use client';
 
+import { getNativeCopy } from '@pridicta/config';
 import type { SupportedLanguage } from '@pridicta/types';
 import { WebFamilyPairComparison } from '../../../../components/WebFamilyPairComparison';
 import { demoAccess } from '../../../../lib/demo-state';
@@ -14,15 +15,15 @@ const COPY: Record<SupportedLanguage, { body: string; eyebrow: string; title: st
   },
   hi: {
     body:
-      'ठीक दो सेव प्रोफाइल की तुलना करें और सहारा, घर्षण, कर्म, धर्म और व्यावहारिक अगला कदम देखें. यह केवल दंपति के लिए नहीं, किसी भी वास्तविक संबंध के लिए है.',
-    eyebrow: 'जोड़ेदार तुलना',
-    title: 'दो चार्ट. एक ईमानदार संबंध रीडिंग.',
+      getNativeCopy("native.apps.web.app.dashboard.family.compare.page.tsx.6d33d25b8d"),
+    eyebrow: getNativeCopy("native.apps.web.app.dashboard.family.compare.page.tsx.458bfa4431"),
+    title: getNativeCopy("native.apps.web.app.dashboard.family.compare.page.tsx.e18a3a9f23"),
   },
   gu: {
     body:
-      'ચોક્કસ બે સાચવેલી પ્રોફાઇલની તુલના કરો અને સહારો, ઘર્ષણ, કર્મ, ધર્મ અને આગળનું પ્રાયોગિક પગલું જુઓ. આ ફક્ત દંપતિ માટે નહીં, કોઈપણ સાચા સંબંધ માટે છે.',
-    eyebrow: 'જોડી તુલના',
-    title: 'બે ચાર્ટ. એક સચ્ચી સંબંધ વાંચન.',
+      getNativeCopy("native.apps.web.app.dashboard.family.compare.page.tsx.eeb309ea0b"),
+    eyebrow: getNativeCopy("native.apps.web.app.dashboard.family.compare.page.tsx.24cb3a63db"),
+    title: getNativeCopy("native.apps.web.app.dashboard.family.compare.page.tsx.26c15ff7b0"),
   },
 };
 

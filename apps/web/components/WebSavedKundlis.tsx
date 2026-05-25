@@ -1,5 +1,6 @@
 'use client';
 
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
 import { useMemo, useRef, useState } from 'react';
@@ -911,250 +912,246 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
   },
   hi: {
     actionsBody:
-      'व्यक्तिगत चार्ट का नियंत्रण यहीं रखें. परिवार तुलना खोलने से पहले प्रोफाइल यहीं बनाएं, बदलें, संपादित करें और हटाएं.',
-    actionsTitle: 'व्यक्तिगत कुंडली नियंत्रण यहीं रहता है.',
-    activeKundli: 'सक्रिय कुंडली',
-    activeNow: 'अभी सक्रिय',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.69a06a1497"),
+    actionsTitle: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.f1c18ddd1b"),
+    activeKundli: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.17e3e2f747"),
+    activeNow: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.5d6d37d2c7"),
     activeProfileBody:
-      'व्यक्तिगत रीडिंग और दुनिया-आधारित हैंडऑफ के लिए प्रेडिक्टा पहले यही सेव चार्ट पढ़ेगी.',
-    addProfile: 'प्रोफाइल जोड़ें',
-    approximateTime: 'अनुमानित समय',
-    askPredicta: 'प्रेडिक्टा से पूछें',
-    askToCreate: 'प्रेडिक्टा से बनवाएं',
-    birthDetails: 'जन्म विवरण',
-    birthStar: 'जन्म नक्षत्र',
-    close: 'बंद करें',
-    continueChart: 'चार्ट जारी रखें',
-    createNew: 'नई कुंडली बनाएं',
-    delete: 'हटाएं',
-    deleteCancel: 'रहने दें',
-    deleteConfirmAction: 'कुंडली हटाएं',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.be534383ee"),
+    addProfile: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.8451479867"),
+    approximateTime: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.2b2d1b0617"),
+    askPredicta: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.c6b9045108"),
+    askToCreate: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.2f363cbbc2"),
+    birthDetails: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.7e51e803a9"),
+    birthStar: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.3bc3363fa1"),
+    close: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.0e77e8f76b"),
+    continueChart: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.364cb6d3b9"),
+    createNew: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.36dd98b386"),
+    delete: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.07bde4305e"),
+    deleteCancel: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.4df0d0f76d"),
+    deleteConfirmAction: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.4d0c32c905"),
     deleteConfirmBody: name =>
-      `यह ${name} की प्रोफाइल को आपकी व्यक्तिगत कुंडली लाइब्रेरी और इस डिवाइस के परिवार वॉल्ट तुलना दोनों से हटा देगा.`,
+      formatNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.1ccf207490", [name]),
     deleteConfirmConsequence: (_name, nextActiveName) =>
       nextActiveName
-        ? `प्रेडिक्टा सक्रिय प्रोफाइल को ${nextActiveName} पर बदल देगी. हटाई गई प्रोफाइल के लिए पुराने चैट या रिपोर्ट पूरा चार्ट संदर्भ खो सकते हैं.`
-        : 'हटाई गई प्रोफाइल के लिए पुराने चैट या रिपोर्ट पूरा चार्ट संदर्भ खो सकते हैं. अगली रीडिंग से पहले आपको नई कुंडली बनानी या दूसरी कुंडली सक्रिय करनी पड़ सकती है.',
-    deleteConfirmEyebrow: 'सावधानी से हटाएं',
-    deleteConfirmFieldLabel: 'हटाने की पुष्टि के लिए प्रोफाइल का नाम टाइप करें',
-    deleteConfirmHint: name => `${name} जैसा दिख रहा है वैसा ही लिखें.`,
-    deleteConfirmTitle: name => `${name} की कुंडली हटाएं?`,
+        ? formatNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.0a1aabb8f8", [nextActiveName])
+        : getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.03f8df77c7"),
+    deleteConfirmEyebrow: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.5ec84fece1"),
+    deleteConfirmFieldLabel: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.d377705032"),
+    deleteConfirmHint: name => formatNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.aea64136a8", [name]),
+    deleteConfirmTitle: name => formatNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.3913ebaae3", [name]),
     dialogAskPrompt: (name, chart) =>
-      `${name} की ${chart} कुंडली लाइब्रेरी से इस्तेमाल करें. चैट में चार्ट की पुष्टि करके बताएं कि आगे क्या पूछना सही रहेगा.`,
+      formatNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.36e6fa9eda", [name, chart]),
     dialogBody:
-      'यह झलक सेव जन्म विवरण से बनी है. पूरा प्रवाह खोलें, प्रेडिक्टा से पूछें, या इसे सक्रिय कुंडली बनाएं.',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.e61cfb9b8e"),
     dialogChartSection: school =>
       school === 'PARASHARI'
-        ? 'D1 सेव कुंडली'
+        ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.0ebe59f794")
         : school === 'CHALIT'
-          ? 'चलित सेव कुंडली'
+          ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.6c98bff250")
           : school === 'KP'
-            ? 'कृष्णमूर्ति पद्धति सेव कुंडली'
-            : 'नाड़ी सेव कुंडली',
-    dialogEyebrow: 'सेव चार्ट झलक',
+            ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.c1e39ca5b7")
+            : getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.ce68692d77"),
+    dialogEyebrow: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.ac25b4f6e9"),
     dialogReadingNote: school =>
       school === 'PARASHARI'
-        ? 'D1 इस सेव कुंडली का मूल चार्ट रहता है.'
+        ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.fa9e474a24")
         : school === 'CHALIT'
-          ? 'पाराशरी चलित D1 की राशि वही रखता है, लेकिन ग्रह को उस भाव में दिखाता है जहाँ उसका फल प्रकट होता है.'
+          ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.d5c81f6120")
           : school === 'KP'
-            ? 'कृष्णमूर्ति पद्धति अपनी अलग नियम पद्धति रखता है. यह झलक कृष्णमूर्ति पद्धति संदर्भ में सेव जन्म चार्ट खोलती है.'
-            : 'नाड़ी अपनी अलग ग्रह-कथा पद्धति रखती है. यह झलक पांडुलिपि पहुंच का दावा किए बिना नाड़ी संदर्भ में सेव जन्म चार्ट खोलती है.',
-    dialogTitle: (name, chart) => `${name} का ${chart} चार्ट`,
-    edit: 'संपादित करें',
+            ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.bb89356cd9")
+            : getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.cb080d5085"),
+    dialogTitle: (name, chart) => formatNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.9bf2a3b0a7", [name, chart]),
+    edit: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.710ed4c9e7"),
     editHistory: (count, fields) =>
-      `${count} बार संपादित · आखिरी बदलाव: ${
-        fields.length ? fields.join(', ') : 'जन्म विवरण'
-      }`,
+      formatNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.e18b1bf6b6", [count, fields.length ? fields.join(', ') : getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.ea55fc2d51")]),
     emptyBody:
-      'आप जो भी कुंडली बनाएंगे, वह पहले यहां दिखेगी. यहां सेव किए बिना परिवार वॉल्ट तुलना नहीं खोलेगा.',
-    emptyTitle: 'अपनी पहली कुंडली बनाएं.',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.6850716336"),
+    emptyTitle: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.e8c40ee08a"),
     familyBoundaryBody:
-      'परिवार वॉल्ट इसी लाइब्रेरी की सेव प्रोफाइलों की तुलना करता है. यह जन्म विवरण की दूसरी छिपी हुई कॉपी नहीं बनाता.',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.fe69db8176"),
     familyOverviewBody: count =>
       count >= 2
-        ? 'कम से कम दो सेव प्रोफाइल होने से पारिवारिक तुलना तैयार है.'
-        : 'घर-परिवार तुलना और संबंध पैटर्न खोलने से पहले एक और प्रोफाइल सेव करें.',
-    familyReadyBadge: 'परिवार वॉल्ट में उपलब्ध',
-    familyReadyTitle: 'परिवार तुलना तैयार',
-    familyMap: 'परिवार नक्शा',
+        ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.50a9220ed3")
+        : getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.293132b648"),
+    familyReadyBadge: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.de1f532fed"),
+    familyReadyTitle: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.3626f35345"),
+    familyMap: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.144f69bc72"),
     familyVaultBody:
-      'परिवार वॉल्ट तुलना की परत है. व्यक्तिगत चार्ट पहले लाइब्रेरी में सेव, संपादित और हटाएं, फिर साझा संकेतों और पारिवारिक मार्गदर्शन के लिए परिवार वॉल्ट खोलें.',
-    familyVaultEyebrow: 'परिवार वॉल्ट',
-    familyVaultTitle: 'परिवार तुलना लाइब्रेरी प्रोफाइलों से चलती है.',
-    familyWaitingTitle: 'और सेव प्रोफाइल चाहिए',
-    goToFamilyVault: 'परिवार वॉल्ट पर जाएं',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.7ef6c8320e"),
+    familyVaultEyebrow: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.dc49ce1d21"),
+    familyVaultTitle: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.46202b8075"),
+    familyWaitingTitle: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.ecafcbc76b"),
+    goToFamilyVault: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.9d296217f4"),
     guestLimitBody:
-      'आपकी पहली कुंडली इस डिवाइस पर सुरक्षित रहती है. परिवार प्रोफाइल, कई चैट और रिपोर्ट पसंद सेव रखने के लिए साइन इन करें.',
-    guestLimitTitle: 'अधिक कुंडलियां सुरक्षित रखने के लिए साइन इन करें',
-    libraryEyebrow: 'कुंडली लाइब्रेरी',
-    overviewLabel: 'कुंडली लाइब्रेरी सार',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.1be1b8708f"),
+    guestLimitTitle: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.69426948bc"),
+    libraryEyebrow: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.66249ce6af"),
+    overviewLabel: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.cbfda0ed89"),
     openFullFlow: school =>
       school === 'PARASHARI'
-        ? 'पूरी कुंडली खोलें'
+        ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.9fd41055dd")
         : school === 'CHALIT'
-          ? 'चलित प्रवाह खोलें'
+          ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.efd13c1209")
           : school === 'KP'
-            ? 'कृष्णमूर्ति पद्धति कक्ष खोलें'
-            : 'नाड़ी कक्ष खोलें',
-    openMatchmaking: 'विवाह मिलान खोलें',
+            ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.5dff21317c")
+            : getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.049c7f74fe"),
+    openMatchmaking: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.b38135169e"),
     pageBody:
-      'हर सेव कुंडली यहीं रखें, एक सक्रिय व्यक्तिगत प्रोफाइल चुनें, और सावधानी से पारिवारिक तुलना चाहिए तभी परिवार वॉल्ट खोलें.',
-    pageTitle: 'कुंडली लाइब्रेरी',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.5516ac86ad"),
+    pageTitle: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.66249ce6af"),
     personalBody: activeName =>
       activeName
-        ? `सक्रिय प्रोफाइल: ${activeName}. व्यक्तिगत रीडिंग और संपादन इसी लाइब्रेरी में रहते हैं.`
-        : 'अभी कोई सक्रिय प्रोफाइल नहीं है. दूसरी दुनिया या परिवार वॉल्ट खोलने से पहले यहां कुंडली बनाएं.',
+        ? formatNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.340fcba20b", [activeName])
+        : getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.a47e722980"),
     personalBoundaryBody:
-      'व्यक्तिगत संपादन, सक्रिय बदलना और हटाना लाइब्रेरी में ही होना चाहिए ताकि परिवार वॉल्ट केवल तुलना की परत बना रहे.',
-    personalBoundaryTitle: 'व्यक्तिगत संग्रह और संपादन',
-    personalEyebrow: 'व्यक्तिगत लाइब्रेरी',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.27286e2bc3"),
+    personalBoundaryTitle: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.fd202bdd9d"),
+    personalEyebrow: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.a3fbf290ee"),
     previewChartLabel: school =>
       school === 'PARASHARI'
         ? 'D1'
         : school === 'CHALIT'
-          ? 'चलित'
+          ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.80d88aaddd")
           : school === 'KP'
-            ? 'कृष्णमूर्ति पद्धति'
-            : 'नाड़ी',
-    previewCharts: 'सेव कुंडली चार्ट झलक',
-    previewChartsHint: 'पूरा प्रवाह खोलने से पहले किसी भी झलक पर टैप करके चार्ट देखें.',
-    rectifiedTime: 'सुधारा गया समय',
-    reviewChart: 'चार्ट देखें',
-    risingSign: 'लग्न',
+            ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.7e907cebdf")
+            : getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.1849d6330d"),
+    previewCharts: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.c21d1705bd"),
+    previewChartsHint: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.5521c9c8ee"),
+    rectifiedTime: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.ad5728e2d6"),
+    reviewChart: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.15dca593bd"),
+    risingSign: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.86a1e127c9"),
     savedListBody:
-      'सक्रिय व्यक्तिगत प्रोफाइल यहीं चुनें. परिवार वॉल्ट बाद में इन्हीं सेव प्रोफाइलों का तुलना के लिए इस्तेमाल करता है.',
-    savedKundli: 'सेव कुंडली',
-    savedCount: count => `${count} सेव कुंडली`,
-    savedListEyebrow: 'सेव प्रोफाइल',
-    savedListTitle: 'आपकी कुंडलियां',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.d490a40c8d"),
+    savedKundli: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.0209046462"),
+    savedCount: count => formatNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.b7e0b35de7", [count]),
+    savedListEyebrow: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.032c8ad559"),
+    savedListTitle: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.94de4cd1fd"),
     savedProfileBody:
-      'यह सेव प्रोफाइल अभी व्यक्तिगत रीडिंग के लिए उपलब्ध है और बाद में परिवार वॉल्ट में इस्तेमाल हो सकती है.',
-    setActive: 'सक्रिय करें',
-    useInFamilyVault: 'परिवार वॉल्ट में लें',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.ecdac94baf"),
+    setActive: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.009a505477"),
+    useInFamilyVault: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.3ee4db0cbb"),
   },
   gu: {
     actionsBody:
-      'વ્યક્તિગત ચાર્ટનું નિયંત્રણ અહીં રાખો. પરિવાર તુલના ખોલતા પહેલાં પ્રોફાઇલ અહીં બનાવો, બદલો, સંપાદિત કરો અને કાઢી નાખો.',
-    actionsTitle: 'વ્યક્તિગત કુંડળી નિયંત્રણ અહીં રહે છે.',
-    activeKundli: 'સક્રિય કુંડળી',
-    activeNow: 'હમણાં સક્રિય',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.dd06e65a93"),
+    actionsTitle: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.8b9b40e9f1"),
+    activeKundli: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.ce8ef161b5"),
+    activeNow: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.8537ea5b16"),
     activeProfileBody:
-      'વ્યક્તિગત વાંચન અને વર્લ્ડ હેન્ડઓફ માટે પ્રેડિક્ટા પહેલા આ સાચવેલો ચાર્ટ વાંચશે.',
-    addProfile: 'પ્રોફાઇલ ઉમેરો',
-    approximateTime: 'અંદાજિત સમય',
-    askPredicta: 'પ્રેડિક્ટા ને પૂછો',
-    askToCreate: 'પ્રેડિક્ટા પાસે બનાવડાવો',
-    birthDetails: 'જન્મ વિગતો',
-    birthStar: 'જન્મ નક્ષત્ર',
-    close: 'બંધ કરો',
-    continueChart: 'ચાર્ટ ચાલુ રાખો',
-    createNew: 'નવી કુંડળી બનાવો',
-    delete: 'કાઢી નાખો',
-    deleteCancel: 'રહવા દો',
-    deleteConfirmAction: 'કુંડળી કાઢી નાખો',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.4c1a1ca251"),
+    addProfile: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.9b55a692c0"),
+    approximateTime: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.868a86797b"),
+    askPredicta: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.52ca01d0e0"),
+    askToCreate: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.93046a7c23"),
+    birthDetails: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.f946ce6629"),
+    birthStar: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.014db4f1b4"),
+    close: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.903d5b5729"),
+    continueChart: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.1b16d42687"),
+    createNew: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.46e90ece90"),
+    delete: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.ab08cec697"),
+    deleteCancel: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.d8bd753ad9"),
+    deleteConfirmAction: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.4811688cd2"),
     deleteConfirmBody: name =>
-      `આ ${name} ની પ્રોફાઇલને તમારી વ્યક્તિગત કુંડળી લાઇબ્રેરીમાંથી અને આ ડિવાઇસના પરિવાર વોલ્ટ તુલનામાંથી દૂર કરશે.`,
+      formatNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.66166a4f2d", [name]),
     deleteConfirmConsequence: (_name, nextActiveName) =>
       nextActiveName
-        ? `પ્રેડિક્ટા સક્રિય પ્રોફાઇલને ${nextActiveName} પર બદલી દેશે. કાઢી નાખેલી પ્રોફાઇલ માટે જૂના ચેટ અથવા રિપોર્ટ સંપૂર્ણ ચાર્ટ સંદર્ભ ગુમાવી શકે છે.`
-        : 'કાઢી નાખેલી પ્રોફાઇલ માટે જૂના ચેટ અથવા રિપોર્ટ સંપૂર્ણ ચાર્ટ સંદર્ભ ગુમાવી શકે છે. આગળની વાંચન પહેલાં તમને નવી કુંડળી બનાવવી કે બીજી કુંડળી સક્રિય કરવી પડી શકે છે.',
-    deleteConfirmEyebrow: 'સાવચેતીથી કાઢો',
-    deleteConfirmFieldLabel: 'કાઢી નાખવાની પુષ્ટિ માટે પ્રોફાઇલનું નામ લખો',
-    deleteConfirmHint: name => `${name} જેમ દેખાય છે એમ જ લખો.`,
-    deleteConfirmTitle: name => `${name} ની કુંડળી કાઢી નાખો?`,
+        ? formatNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.97e86af69e", [nextActiveName])
+        : getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.987d364d4e"),
+    deleteConfirmEyebrow: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.791a0b37d2"),
+    deleteConfirmFieldLabel: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.0b4eb5407a"),
+    deleteConfirmHint: name => formatNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.ad0db551de", [name]),
+    deleteConfirmTitle: name => formatNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.b4d456ea1a", [name]),
     dialogAskPrompt: (name, chart) =>
-      `${name} નો ${chart} ચાર્ટ કુંડળી લાઇબ્રેરીમાંથી વાપરો. ચેટમાં ચાર્ટની પુષ્ટિ કરીને આગળ શું પૂછવું તે કહો.`,
+      formatNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.9b57337009", [name, chart]),
     dialogBody:
-      'આ ઝલક સાચવેલી જન્મ વિગતો પરથી છે. સંપૂર્ણ પ્રવાહ ખોલો, પ્રેડિક્ટા ને પૂછો, અથવા આ કુંડળી સક્રિય કરો.',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.1b050ae21e"),
     dialogChartSection: school =>
       school === 'PARASHARI'
-        ? 'D1 સાચવેલી કુંડળી'
+        ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.0e9d69bc57")
         : school === 'CHALIT'
-          ? 'ચાલિત સાચવેલી કુંડળી'
+          ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.777e7e4f96")
           : school === 'KP'
-            ? 'કૃષ્ણમૂર્તિ પદ્ધતિ સાચવેલી કુંડળી'
-            : 'નાડી સાચવેલી કુંડળી',
-    dialogEyebrow: 'સાચવેલી ચાર્ટ ઝલક',
+            ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.44592d7c8f")
+            : getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.d3787d3441"),
+    dialogEyebrow: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.a0f9079c28"),
     dialogReadingNote: school =>
       school === 'PARASHARI'
-        ? 'D1 આ સેવ કુંડળીનો મૂળ ચાર્ટ રહે છે.'
+        ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.3e25a9fe73")
         : school === 'CHALIT'
-          ? 'પરાશરી ચાલિત D1 ની રાશિ એ જ રાખે છે, પણ ગ્રહને તે ભાવમાં મૂકે છે જ્યાં તેનું ફળ જીવનમાં પ્રગટ થાય છે.'
+          ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.0bebc14ffb")
           : school === 'KP'
-            ? 'કૃષ્ણમૂર્તિ પદ્ધતિ પોતાની અલગ નિયમ પદ્ધતિ રાખે છે. આ ઝલક કૃષ્ણમૂર્તિ પદ્ધતિ સંદર્ભમાં સેવ જન્મ ચાર્ટ ખોલે છે.'
-            : 'નાડી પોતાની અલગ ગ્રહકથા પદ્ધતિ રાખે છે. આ ઝલક પાંડુલિપિ ઍક્સેસનો દાવો કર્યા વગર નાડી સંદર્ભમાં સેવ જન્મ ચાર્ટ ખોલે છે.',
-    dialogTitle: (name, chart) => `${name} નો ${chart} ચાર્ટ`,
-    edit: 'સંપાદિત કરો',
+            ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.d584ba7ddb")
+            : getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.1ee2edb186"),
+    dialogTitle: (name, chart) => formatNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.950bf70fd3", [name, chart]),
+    edit: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.ee4214e530"),
     editHistory: (count, fields) =>
-      `${count} વખત સંપાદિત · છેલ્લો ફેરફાર: ${
-        fields.length ? fields.join(', ') : 'જન્મ વિગતો'
-      }`,
+      formatNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.f91671f99a", [count, fields.length ? fields.join(', ') : getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.a4f489851b")]),
     emptyBody:
-      'તમે બનાવેલી દરેક કુંડળી પહેલા અહીં દેખાશે. અહીં સાચવ્યા વિના પરિવાર વોલ્ટ તુલના ખોલશે નહીં.',
-    emptyTitle: 'તમારી પહેલી કુંડળી બનાવો.',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.edbc0ebf08"),
+    emptyTitle: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.02967241dc"),
     familyBoundaryBody:
-      'પરિવાર વોલ્ટ આ લાઇબ્રેરીની સાચવેલી પ્રોફાઇલની તુલના કરે છે. તે જન્મ વિગતોની બીજી છુપાયેલી નકલ બનાવતું નથી.',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.9548c9aebb"),
     familyOverviewBody: count =>
       count >= 2
-        ? 'ઓછામાં ઓછી બે સાચવેલી પ્રોફાઇલ હોવાથી પરિવાર તુલના તૈયાર છે.'
-        : 'ઘરેલુ તુલના અને સંબંધ પેટર્ન ખોલવા પહેલાં એક વધુ પ્રોફાઇલ સાચવો.',
-    familyReadyBadge: 'પરિવાર વોલ્ટમાં ઉપલબ્ધ',
-    familyReadyTitle: 'પરિવાર તુલના તૈયાર',
-    familyMap: 'પરિવાર નકશો',
+        ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.d516baaf24")
+        : getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.f84e74e2fc"),
+    familyReadyBadge: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.bfb0b8b574"),
+    familyReadyTitle: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.1373704560"),
+    familyMap: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.64211d67ac"),
     familyVaultBody:
-      'પરિવાર વોલ્ટ તુલનાની પરત છે. વ્યક્તિગત ચાર્ટ પહેલાં લાઇબ્રેરીમાં સાચવો, સંપાદિત કરો અને કાઢી નાખો, પછી શેર કરેલા સંકેતો અને ઘરેલુ માર્ગદર્શન માટે પરિવાર વોલ્ટ ખોલો.',
-    familyVaultEyebrow: 'પરિવાર વોલ્ટ',
-    familyVaultTitle: 'પરિવાર તુલના લાઇબ્રેરી પ્રોફાઇલ પરથી ચાલે છે.',
-    familyWaitingTitle: 'વધુ સાચવેલી પ્રોફાઇલ જોઈએ',
-    goToFamilyVault: 'પરિવાર વોલ્ટ પર જાઓ',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.42a6395d73"),
+    familyVaultEyebrow: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.dde3029f16"),
+    familyVaultTitle: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.4e2a4f97fe"),
+    familyWaitingTitle: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.ac1a3687d1"),
+    goToFamilyVault: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.b3d9f80d48"),
     guestLimitBody:
-      'તમારી પહેલી કુંડળી આ ડિવાઇસ પર સુરક્ષિત રહે છે. પરિવાર પ્રોફાઇલ, અનેક ચેટ અને રિપોર્ટ પસંદગીઓ સેવ રાખવા માટે સાઇન ઇન કરો.',
-    guestLimitTitle: 'વધુ કુંડળીઓ સુરક્ષિત રાખવા સાઇન ઇન કરો',
-    libraryEyebrow: 'કુંડળી લાઇબ્રેરી',
-    overviewLabel: 'કુંડળી લાઇબ્રેરી સાર',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.efb0508171"),
+    guestLimitTitle: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.2d3fc8eba7"),
+    libraryEyebrow: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.69e24edda7"),
+    overviewLabel: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.0a9e37222b"),
     openFullFlow: school =>
       school === 'PARASHARI'
-        ? 'સંપૂર્ણ કુંડળી ખોલો'
+        ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.2afe4d7155")
         : school === 'CHALIT'
-          ? 'ચાલિત પ્રવાહ ખોલો'
+          ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.67d2dc8b2c")
           : school === 'KP'
-            ? 'કૃષ્ણમૂર્તિ પદ્ધતિ કક્ષ ખોલો'
-            : 'નાડી કક્ષ ખોલો',
-    openMatchmaking: 'લગ્ન મિલાન ખોલો',
+            ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.fb85a47483")
+            : getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.78d75d1a2b"),
+    openMatchmaking: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.bdbcedc1d8"),
     pageBody:
-      'દરેક સાચવેલી કુંડળી અહીં રાખો, એક સક્રિય વ્યક્તિગત પ્રોફાઇલ પસંદ કરો, અને સાવચેતીભરી ઘરેલુ તુલના જોઈએ ત્યારે જ પરિવાર વોલ્ટ ખોલો.',
-    pageTitle: 'કુંડળી લાઇબ્રેરી',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.f359d97bbc"),
+    pageTitle: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.69e24edda7"),
     personalBody: activeName =>
       activeName
-        ? `સક્રિય પ્રોફાઇલ: ${activeName}. વ્યક્તિગત વાંચન અને સંપાદન આ જ લાઇબ્રેરીમાં રહે છે.`
-        : 'હજુ કોઈ સક્રિય પ્રોફાઇલ નથી. બીજા વર્લ્ડ અથવા પરિવાર વોલ્ટ ખોલતા પહેલાં અહીં કુંડળી બનાવો.',
+        ? formatNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.b261528f52", [activeName])
+        : getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.87ed8a899a"),
     personalBoundaryBody:
-      'વ્યક્તિગત સંપાદન, સક્રિય બદલવું અને કાઢી નાખવું લાઇબ્રેરીમાં જ થવું જોઈએ જેથી પરિવાર વોલ્ટ ફક્ત તુલનાની પરત રહે.',
-    personalBoundaryTitle: 'વ્યક્તિગત સંગ્રહ અને સંપાદન',
-    personalEyebrow: 'વ્યક્તિગત લાઇબ્રેરી',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.089143883b"),
+    personalBoundaryTitle: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.239d982716"),
+    personalEyebrow: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.f49f1a1741"),
     previewChartLabel: school =>
       school === 'PARASHARI'
         ? 'D1'
         : school === 'CHALIT'
-          ? 'ચાલિત'
+          ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.a99901ec5c")
           : school === 'KP'
-            ? 'કૃષ્ણમૂર્તિ પદ્ધતિ'
-            : 'નાડી',
-    previewCharts: 'સાચવેલી કુંડળી ચાર્ટ ઝલક',
-    previewChartsHint: 'સંપૂર્ણ પ્રવાહ ખોલતા પહેલા કોઈ પણ ઝલક પર ટેપ કરીને ચાર્ટ જુઓ.',
-    rectifiedTime: 'સુધારેલો સમય',
-    reviewChart: 'ચાર્ટ જુઓ',
-    risingSign: 'લગ્ન',
+            ? getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.70d983ba08")
+            : getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.d653d63a61"),
+    previewCharts: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.031f99a93f"),
+    previewChartsHint: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.fd3329ed4b"),
+    rectifiedTime: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.de8a6dee24"),
+    reviewChart: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.a76b0e7a30"),
+    risingSign: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.8a6353c98a"),
     savedListBody:
-      'સક્રિય વ્યક્તિગત પ્રોફાઇલ અહીં પસંદ કરો. પરિવાર વોલ્ટ બાદમાં આ જ સાચવેલી પ્રોફાઇલનો તુલનામાં ઉપયોગ કરે છે.',
-    savedKundli: 'સાચવેલી કુંડળી',
-    savedCount: count => `${count} સાચવેલી કુંડળી`,
-    savedListEyebrow: 'સાચવેલી પ્રોફાઇલ',
-    savedListTitle: 'તમારી કુંડળીઓ',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.0af85feec9"),
+    savedKundli: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.b75f0aa9a6"),
+    savedCount: count => formatNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.ac9f9feafb", [count]),
+    savedListEyebrow: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.4d5a59bf21"),
+    savedListTitle: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.aa7ea031f9"),
     savedProfileBody:
-      'આ સાચવેલી પ્રોફાઇલ અત્યારે વ્યક્તિગત વાંચન માટે ઉપલબ્ધ છે અને પછી પરિવાર વોલ્ટમાં વાપરી શકાય છે.',
-    setActive: 'સક્રિય કરો',
-    useInFamilyVault: 'પરિવાર વોલ્ટમાં લો',
+      getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.5a448905b5"),
+    setActive: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.f1e1302c3c"),
+    useInFamilyVault: getNativeCopy("native.apps.web.components.WebSavedKundlis.tsx.3072ce4086"),
   },
 };

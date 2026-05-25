@@ -1,5 +1,6 @@
 'use client';
 
+import { getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import type { SupportedLanguage } from '@pridicta/types';
 import { useLanguagePreference } from '../lib/language-preference';
@@ -76,113 +77,113 @@ const footerCopy: Record<
   },
   hi: {
     bottom:
-      'यह आत्म-समझ और चिंतन के लिए है. यह चिकित्सकीय, कानूनी, आर्थिक, आपातकालीन या पक्की भविष्यवाणी सलाह नहीं है.',
-    compactLead: 'शांत समापन',
+      getNativeCopy("native.apps.web.components.WebFooter.tsx.33b099b60d"),
+    compactLead: getNativeCopy("native.apps.web.components.WebFooter.tsx.5075bc4b49"),
     compactLinks: [
-      { href: '/accuracy-method', label: 'विधि' },
-      { href: '/safety', label: 'सुरक्षा' },
-      { href: '/legal', label: 'कानूनी' },
-      { href: '/feedback', label: 'फीडबैक' },
+      { href: '/accuracy-method', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.a83c03a71e") },
+      { href: '/safety', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.cb4800046a") },
+      { href: '/legal', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.1a14c904bf") },
+      { href: '/feedback', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.c874f33caa") },
     ],
-    copyright: '© 2026 प्रेडिक्टा. सर्वाधिकार सुरक्षित.',
+    copyright: getNativeCopy("native.apps.web.components.WebFooter.tsx.fb643b2aa6"),
     sections: [
       {
-        heading: 'शुरू करें',
+        heading: getNativeCopy("native.apps.web.components.WebFooter.tsx.3b3fc90088"),
         links: [
-          { href: '/dashboard/kundli', label: 'कुंडली बनाएं' },
-          { href: '/dashboard/charts', label: 'चार्ट देखें' },
-          { href: '/dashboard/vedic/chat', label: 'वैदिक प्रेडिक्टा से पूछें' },
-          { href: '/dashboard/saved-kundlis', label: 'कुंडली लाइब्रेरी' },
-          { href: '/dashboard/family', label: 'परिवार वॉल्ट' },
+          { href: '/dashboard/kundli', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.7cacfebde9") },
+          { href: '/dashboard/charts', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.15dca593bd") },
+          { href: '/dashboard/vedic/chat', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.9d80e60dc8") },
+          { href: '/dashboard/saved-kundlis', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.66249ce6af") },
+          { href: '/dashboard/family', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.dc49ce1d21") },
         ],
       },
       {
-        heading: 'प्रीमियम',
+        heading: getNativeCopy("native.apps.web.components.WebFooter.tsx.b552bca1c9"),
         links: [
-          { href: '/pricing', label: 'प्लान और पास' },
-          { href: '/dashboard/timeline', label: 'लाइफ कैलेंडर' },
-          { href: '/dashboard/report', label: 'PDF रिपोर्ट' },
-          { href: '/dashboard/matchmaking', label: 'विवाह मिलान' },
+          { href: '/pricing', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.cd48221509") },
+          { href: '/dashboard/timeline', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.e9cddcb045") },
+          { href: '/dashboard/report', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.317d6fcb6e") },
+          { href: '/dashboard/matchmaking', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.1952f57972") },
         ],
       },
       {
-        heading: 'भरोसा',
+        heading: getNativeCopy("native.apps.web.components.WebFooter.tsx.4da58ca099"),
         links: [
-          { href: '/legal#privacy', label: 'प्राइवेसी पॉलिसी' },
-          { href: '/legal#terms', label: 'टर्म्स ऑफ यूज' },
-          { href: '/legal#refund', label: 'रिफंड पॉलिसी' },
-          { href: '/legal#disclaimer', label: 'डिस्क्लेमर' },
-          { href: '/legal#age-guidance', label: 'उम्र मार्गदर्शन' },
-          { href: '/accuracy-method', label: 'सटीकता और विधि' },
-          { href: '/safety', label: 'सुरक्षा वादा' },
-          { href: '/founder', label: 'फाउंडर विजन' },
-          { href: '/feedback', label: 'फीडबैक' },
+          { href: '/legal#privacy', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.92fe1e293c") },
+          { href: '/legal#terms', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.2fc975ec58") },
+          { href: '/legal#refund', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.f77138b547") },
+          { href: '/legal#disclaimer', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.afa2530bc9") },
+          { href: '/legal#age-guidance', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.470ec9393a") },
+          { href: '/accuracy-method', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.3fdb3ca074") },
+          { href: '/safety', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.372b8a25c1") },
+          { href: '/founder', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.c9261d9894") },
+          { href: '/feedback', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.c874f33caa") },
           {
             href: 'mailto:support@predicta.app?subject=Predicta%20Safety%20Report',
-            label: 'समस्या रिपोर्ट करें',
+            label: getNativeCopy("native.apps.web.components.WebFooter.tsx.10bc01d775"),
           },
         ],
       },
     ],
     tagline:
-      'अपनी कुंडली बनाएं. होलिस्टिक ज्योतिष से जीवन समझें. बेहतर सवाल पूछें. सुंदर रिपोर्ट पाएं.',
+      getNativeCopy("native.apps.web.components.WebFooter.tsx.3a3194eba4"),
     trust:
-      'चार्ट प्रमाण, कर्म-आधारित उपाय, सेव कुंडली, निजी पसंद और साफ सुरक्षा सीमाओं के साथ वैदिक ज्योतिष मार्गदर्शन.',
+      getNativeCopy("native.apps.web.components.WebFooter.tsx.bd090d736b"),
   },
   gu: {
     bottom:
-      'આ આત્મસમજ અને વિચાર માટે છે. આ તબીબી, કાનૂની, આર્થિક, આપાતકાલીન અથવા પાક્કી આગાહી સલાહ નથી.',
-    compactLead: 'શાંત અંત',
+      getNativeCopy("native.apps.web.components.WebFooter.tsx.ce42af2a0a"),
+    compactLead: getNativeCopy("native.apps.web.components.WebFooter.tsx.63f752a915"),
     compactLinks: [
-      { href: '/accuracy-method', label: 'પદ્ધતિ' },
-      { href: '/safety', label: 'સુરક્ષા' },
-      { href: '/legal', label: 'કાનૂની' },
-      { href: '/feedback', label: 'ફીડબેક' },
+      { href: '/accuracy-method', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.0b99007136") },
+      { href: '/safety', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.8c1ae6f5ea") },
+      { href: '/legal', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.a987e56694") },
+      { href: '/feedback', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.ccc4bb654d") },
     ],
-    copyright: '© 2026 પ્રેડિક્ટા. સર્વ અધિકાર સુરક્ષિત.',
+    copyright: getNativeCopy("native.apps.web.components.WebFooter.tsx.1da1875585"),
     sections: [
       {
-        heading: 'શરૂ કરો',
+        heading: getNativeCopy("native.apps.web.components.WebFooter.tsx.a45a75d31d"),
         links: [
-          { href: '/dashboard/kundli', label: 'કુંડળી બનાવો' },
-          { href: '/dashboard/charts', label: 'ચાર્ટ્સ જુઓ' },
-          { href: '/dashboard/vedic/chat', label: 'વેદિક પ્રેડિક્ટા ને પૂછો' },
-          { href: '/dashboard/saved-kundlis', label: 'કુંડળી લાઇબ્રેરી' },
-          { href: '/dashboard/family', label: 'પરિવાર વોલ્ટ' },
+          { href: '/dashboard/kundli', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.c0e4dc5abd") },
+          { href: '/dashboard/charts', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.077280e1d9") },
+          { href: '/dashboard/vedic/chat', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.335a17db38") },
+          { href: '/dashboard/saved-kundlis', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.69e24edda7") },
+          { href: '/dashboard/family', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.dde3029f16") },
         ],
       },
       {
-        heading: 'પ્રીમિયમ',
+        heading: getNativeCopy("native.apps.web.components.WebFooter.tsx.81ee678383"),
         links: [
-          { href: '/pricing', label: 'પ્લાન અને પાસ' },
-          { href: '/dashboard/timeline', label: 'લાઇફ કેલેન્ડર' },
-          { href: '/dashboard/report', label: 'PDF રિપોર્ટ્સ' },
-          { href: '/dashboard/matchmaking', label: 'લગ્ન મિલાન' },
+          { href: '/pricing', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.2fe7ebb270") },
+          { href: '/dashboard/timeline', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.40f90b2816") },
+          { href: '/dashboard/report', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.2cb8f33c5e") },
+          { href: '/dashboard/matchmaking', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.a2ef635763") },
         ],
       },
       {
-        heading: 'ભરોસો',
+        heading: getNativeCopy("native.apps.web.components.WebFooter.tsx.41648cb969"),
         links: [
-          { href: '/legal#privacy', label: 'પ્રાઇવસી પોલિસી' },
-          { href: '/legal#terms', label: 'ટર્મ્સ ઓફ યુઝ' },
-          { href: '/legal#refund', label: 'રિફંડ પોલિસી' },
-          { href: '/legal#disclaimer', label: 'ડિસ્ક્લેમર' },
-          { href: '/legal#age-guidance', label: 'ઉંમર માર્ગદર્શન' },
-          { href: '/accuracy-method', label: 'ચોકસાઈ અને પદ્ધતિ' },
-          { href: '/safety', label: 'સેફ્ટી પ્રોમિસ' },
-          { href: '/founder', label: 'ફાઉન્ડર વિઝન' },
-          { href: '/feedback', label: 'ફીડબેક' },
+          { href: '/legal#privacy', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.39601af9d2") },
+          { href: '/legal#terms', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.4902bb041c") },
+          { href: '/legal#refund', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.446f06d549") },
+          { href: '/legal#disclaimer', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.5dc2ffd764") },
+          { href: '/legal#age-guidance', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.ee8fa80135") },
+          { href: '/accuracy-method', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.2c0b9ee372") },
+          { href: '/safety', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.604da01c8c") },
+          { href: '/founder', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.1f7291f95a") },
+          { href: '/feedback', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.ccc4bb654d") },
           {
             href: 'mailto:support@predicta.app?subject=Predicta%20Safety%20Report',
-            label: 'સમસ્યા રિપોર્ટ કરો',
+            label: getNativeCopy("native.apps.web.components.WebFooter.tsx.d1bc9bfa58"),
           },
         ],
       },
     ],
     tagline:
-      'તમારી કુંડળી બનાવો. હોલિસ્ટિક જ્યોતિષથી જીવન સમજો. સારા પ્રશ્નો પૂછો. સુંદર રિપોર્ટ્સ મેળવો.',
+      getNativeCopy("native.apps.web.components.WebFooter.tsx.cff17c8c8b"),
     trust:
-      'ચાર્ટ પુરાવા, કર્મ આધારિત ઉપાયો, સેવ કુંડળી, ખાનગી પસંદગીઓ અને સ્પષ્ટ સુરક્ષા મર્યાદાઓ સાથે વૈદિક જ્યોતિષ માર્ગદર્શન.',
+      getNativeCopy("native.apps.web.components.WebFooter.tsx.3d18426098"),
   },
 };
 

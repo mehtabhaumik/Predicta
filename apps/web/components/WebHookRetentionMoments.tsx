@@ -1,5 +1,6 @@
 'use client';
 
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { translateUiText } from '@pridicta/config/uiTranslations';
@@ -303,10 +304,10 @@ function buildLastSeenLabel(
 
   const days = Math.round(hours / 24);
   if (language === 'hi') {
-    return `${days} दिन बाद वापसी पर स्वागत है.`;
+    return formatNativeCopy("native.apps.web.components.WebHookRetentionMoments.tsx.97e0c4e9e0", [days]);
   }
   if (language === 'gu') {
-    return `${days} દિવસ પછી પાછા આવવા બદલ સ્વાગત છે.`;
+    return formatNativeCopy("native.apps.web.components.WebHookRetentionMoments.tsx.ff4befca15", [days]);
   }
   return translateUiText(`Welcome back after ${days} day${days === 1 ? '' : 's'}.`, language);
 }
