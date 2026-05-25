@@ -142,6 +142,7 @@ export function ReportScreen({
       ? reportPreview.sections.length
       : sectionOptions.filter(option => selectedKeySet.has(option.key)).length
     : 0;
+  const inlinePreviewSections = reportPreview.sections.slice(0, 6);
 
   useEffect(() => {
     if (!kundli) {
@@ -263,6 +264,125 @@ export function ReportScreen({
     }
   }
 
+  function renderInlineReportComposer(
+    product: ReportMarketplaceProduct,
+  ): React.JSX.Element | null {
+    if (selectedReportId !== product.id) {
+      return null;
+    }
+
+    const isVedicReport = product.school === 'VEDIC';
+
+    return (
+      <View className="mt-3 rounded-[24px] border border-[#4DAFFF66] bg-[#101826] p-4">
+        <AppText tone="secondary" variant="caption">
+          {isVedicReport ? 'VEDIC REPORT BUILDER' : 'REPORT READY'}
+        </AppText>
+        <AppText className="mt-2" variant="subtitle">
+          {product.title}
+        </AppText>
+        <AppText className="mt-2" tone="secondary">
+          {product.bestFor}
+        </AppText>
+        <AppText className="mt-2" tone="secondary" variant="caption">
+          {kundli?.birthDetails.name ?? 'Create a Kundli first'} ·{' '}
+          {selectedSectionCount}/{reportPreview.sections.length || 0} sections
+        </AppText>
+
+        {isVedicReport ? (
+          <>
+            <View className="mt-4 flex-row gap-3">
+              <Pressable
+                accessibilityRole="button"
+                className={`flex-1 rounded-[18px] border p-3 ${
+                  builderMode === 'EVERYTHING'
+                    ? 'border-[#C8A96A] bg-[#2A2330]'
+                    : 'border-[#252533] bg-[#191923]'
+                }`}
+                onPress={() => {
+                  setBuilderMode('EVERYTHING');
+                  setSelectedSectionKeys(sectionOptions.map(option => option.key));
+                }}
+              >
+                <AppText variant="body">Recommended</AppText>
+                <AppText className="mt-1" tone="secondary" variant="caption">
+                  Predicta chooses the full bundle
+                </AppText>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                className={`flex-1 rounded-[18px] border p-3 ${
+                  builderMode === 'CUSTOM'
+                    ? 'border-[#C8A96A] bg-[#2A2330]'
+                    : 'border-[#252533] bg-[#191923]'
+                }`}
+                onPress={() => {
+                  setBuilderMode('CUSTOM');
+                  setSelectedSectionKeys(
+                    sectionOptions.slice(0, 8).map(option => option.key),
+                  );
+                }}
+              >
+                <AppText variant="body">Customize</AppText>
+                <AppText className="mt-1" tone="secondary" variant="caption">
+                  Pick the sections you want
+                </AppText>
+              </Pressable>
+            </View>
+            <View className="mt-4 flex-row flex-wrap gap-2">
+              {inlinePreviewSections.map(section => (
+                <View
+                  className="rounded-full border border-[#C8A96A55] bg-[#241F27] px-3 py-2"
+                  key={`${section.eyebrow}-${section.title}`}
+                >
+                  <AppText variant="caption">{section.title}</AppText>
+                </View>
+              ))}
+            </View>
+          </>
+        ) : (
+          <View className="mt-4 rounded-[18px] border border-[#252533] bg-[#191923] p-4">
+            <AppText tone="secondary" variant="caption">
+              WHAT YOU GET
+            </AppText>
+            <AppText className="mt-2" tone="secondary">
+              {previewMode === 'PREMIUM'
+                ? product.premiumDepth
+                : product.freeDepth}
+            </AppText>
+          </View>
+        )}
+
+        <View className="mt-5 gap-3">
+          <GlowButton
+            disabled={isGenerating}
+            label={isGenerating ? 'Preparing your report...' : 'Download your report'}
+            loading={isGenerating}
+            onPress={() => createPdf('FREE')}
+          />
+          <GlowButton
+            disabled={isGenerating}
+            label={
+              userPlan === 'PREMIUM'
+                ? 'Download your report'
+                : 'Unlock Detailed PDF'
+            }
+            onPress={() => createPdf('PREMIUM')}
+          />
+        </View>
+        <Pressable
+          accessibilityRole="button"
+          className="mt-4"
+          onPress={() => askFromReport(product.prompt)}
+        >
+          <AppText className="font-bold text-[#4DAFFF]">
+            Ask Predicta from this report
+          </AppText>
+        </Pressable>
+      </View>
+    );
+  }
+
   return (
     <Screen>
       {glassAlert}
@@ -331,12 +451,14 @@ export function ReportScreen({
           </AppText>
           <View className="mt-4 gap-3">
             {synthesisProducts.map(product => (
-              <ReportProductButton
-                key={product.id}
-                product={product}
-                selected={selectedReportId === product.id}
-                onPress={() => setSelectedReportId(product.id)}
-              />
+              <View key={product.id}>
+                <ReportProductButton
+                  product={product}
+                  selected={selectedReportId === product.id}
+                  onPress={() => setSelectedReportId(product.id)}
+                />
+                {renderInlineReportComposer(product)}
+              </View>
             ))}
           </View>
         </View>
@@ -350,38 +472,40 @@ export function ReportScreen({
             Choose these when you want one method, not a mixed bag report.
           </AppText>
           {schoolProducts.map(product => (
-            <Pressable
-              accessibilityRole="button"
-              className={`rounded-[18px] border p-4 ${
-                selectedReportId === product.id
-                  ? 'border-[#4DAFFF] bg-[#172233]'
-                  : 'border-[#252533] bg-[#191923]'
-              }`}
-              key={product.id}
-              onPress={() => setSelectedReportId(product.id)}
-            >
-              <View className="flex-row items-start justify-between gap-3">
-                <View className="flex-1">
-                  <AppText tone="secondary" variant="caption">
-                    {product.badge.toUpperCase()}
-                  </AppText>
-                  <AppText className="mt-1" variant="body">
-                    {product.title}
-                  </AppText>
-                  <AppText className="mt-2" variant="caption">
-                    {product.outcome}
-                  </AppText>
+            <View key={product.id}>
+              <Pressable
+                accessibilityRole="button"
+                className={`rounded-[18px] border p-4 ${
+                  selectedReportId === product.id
+                    ? 'border-[#4DAFFF] bg-[#172233]'
+                    : 'border-[#252533] bg-[#191923]'
+                }`}
+                onPress={() => setSelectedReportId(product.id)}
+              >
+                <View className="flex-row items-start justify-between gap-3">
+                  <View className="flex-1">
+                    <AppText tone="secondary" variant="caption">
+                      {product.badge.toUpperCase()}
+                    </AppText>
+                    <AppText className="mt-1" variant="body">
+                      {product.title}
+                    </AppText>
+                    <AppText className="mt-2" variant="caption">
+                      {product.outcome}
+                    </AppText>
+                  </View>
+                  {selectedReportId === product.id ? (
+                    <AppText className="font-bold text-[#4DAFFF]" variant="caption">
+                      Selected
+                    </AppText>
+                  ) : null}
                 </View>
-                {selectedReportId === product.id ? (
-                  <AppText className="font-bold text-[#4DAFFF]" variant="caption">
-                    Selected
-                  </AppText>
-                ) : null}
-              </View>
-              <AppText className="mt-2" tone="secondary">
-                {product.bestFor}
-              </AppText>
-            </Pressable>
+                <AppText className="mt-2" tone="secondary">
+                  {product.bestFor}
+                </AppText>
+              </Pressable>
+              {renderInlineReportComposer(product)}
+            </View>
           ))}
         </View>
       </GlowCard>

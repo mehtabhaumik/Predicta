@@ -2,6 +2,7 @@
 
 import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import {
+  Fragment,
   useEffect,
   useMemo,
   useRef,
@@ -180,6 +181,7 @@ const REPORT_SYNTHESIS_LANE: ReportSchoolLane = {
 
 export function WebDossierPreview(): React.JSX.Element {
   const didLoadSavedState = useRef(false);
+  const inlineComposerRef = useRef<HTMLDivElement | null>(null);
   const reportChartPanelRef = useRef<HTMLElement | null>(null);
   const reportPreviewRef = useRef<HTMLDivElement | null>(null);
   const [mode, setMode] = useState<'FREE' | 'PREMIUM'>('FREE');
@@ -190,6 +192,7 @@ export function WebDossierPreview(): React.JSX.Element {
   );
   const [isReportPreviewOpen, setReportPreviewOpen] = useState(false);
   const [isDownloadDialogOpen, setDownloadDialogOpen] = useState(false);
+  const [showStickyReportBar, setShowStickyReportBar] = useState(false);
   const [selectedSectionKeys, setSelectedSectionKeys] = useState<string[]>([]);
   const [reportSurfaceState, setReportSurfaceState] = useState<
     'idle' | 'purchase' | 'ready' | 'signin'
@@ -505,6 +508,26 @@ export function WebDossierPreview(): React.JSX.Element {
     }, 80);
   }
 
+  useEffect(() => {
+    const node = inlineComposerRef.current;
+
+    if (!node || typeof IntersectionObserver === 'undefined') {
+      setShowStickyReportBar(false);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowStickyReportBar(!entry.isIntersecting && window.scrollY > 160);
+      },
+      { threshold: 0.12 },
+    );
+
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, [selectedReportId, builderMode, mode, selectedSectionCount]);
+
   function openReportPreview({
     showDialog = true,
   }: { showDialog?: boolean } = {}): boolean {
@@ -666,6 +689,233 @@ export function WebDossierPreview(): React.JSX.Element {
     window.setTimeout(() => setCopyState('idle'), 1800);
   }
 
+  function renderInlineReportComposer(
+    product: ReportMarketplaceProduct,
+  ): React.JSX.Element | null {
+    if (product.id !== selectedReportId) {
+      return null;
+    }
+
+    const isVedicReport = product.school === 'VEDIC';
+    const summarySections = visibleSections.slice(0, 8);
+
+    return (
+      <div
+        className={
+          isVedicReport
+            ? 'report-inline-composer vedic'
+            : 'report-inline-composer direct'
+        }
+        ref={inlineComposerRef}
+      >
+        <div className="report-inline-composer-top">
+          <div>
+            <div className="section-title">
+              {selectedReportLane.title} · {builderCopy.selectedReport}
+            </div>
+            <h3>{localizedSelectedReport.title}</h3>
+            <p>{localizedSelectedReport.bestFor}</p>
+            <small>
+              {kundli?.birthDetails.name ?? builderCopy.needKundli} ·{' '}
+              {mode === 'PREMIUM' ? reportLabels.premium : reportLabels.free}
+            </small>
+          </div>
+          <div className="report-inline-mode-card">
+            <span>{labels.reportDepth}</span>
+            <div className="dossier-mode-switch" aria-label={labels.reportDepth}>
+              <button
+                className={mode === 'FREE' ? 'active' : ''}
+                onClick={() => setMode('FREE')}
+                type="button"
+              >
+                {labels.free}
+              </button>
+              <button
+                className={mode === 'PREMIUM' ? 'active' : ''}
+                onClick={() => setMode('PREMIUM')}
+                type="button"
+              >
+                {labels.premium}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {isVedicReport ? (
+          <>
+            <div className="report-inline-recommended">
+              <div>
+                <span>Recommended by Predicta</span>
+                <strong>
+                  {builderMode === 'EVERYTHING'
+                    ? 'Complete Vedic bundle'
+                    : 'Custom Vedic bundle'}
+                </strong>
+                <p>
+                  Predicta will include the most important sections for this
+                  report. Customize only if you want a narrower PDF.
+                </p>
+              </div>
+              <div className="report-builder-count">
+                <span>{builderCopy.selected}</span>
+                <strong>
+                  {selectedSectionCount}/{sectionOptions.length}
+                </strong>
+              </div>
+            </div>
+            <div className="report-builder-choice-row" role="group" aria-label={builderCopy.title}>
+              <button
+                aria-pressed={builderMode === 'EVERYTHING'}
+                className={
+                  builderMode === 'EVERYTHING'
+                    ? 'report-builder-choice active'
+                    : 'report-builder-choice'
+                }
+                onClick={selectEverything}
+                type="button"
+              >
+                <span>{builderCopy.everythingLabel}</span>
+                <strong>{builderCopy.everythingTitle}</strong>
+                <small>{builderCopy.everythingBody}</small>
+              </button>
+              <button
+                aria-pressed={builderMode === 'CUSTOM'}
+                className={
+                  builderMode === 'CUSTOM'
+                    ? 'report-builder-choice active'
+                    : 'report-builder-choice'
+                }
+                onClick={selectCustomStarter}
+                type="button"
+              >
+                <span>{builderCopy.customLabel}</span>
+                <strong>{builderCopy.customTitle}</strong>
+                <small>{builderCopy.customBody}</small>
+              </button>
+            </div>
+            <div className="report-inline-chip-grid" aria-label="Selected Vedic sections">
+              {summarySections.map(section => (
+                <span key={`${section.eyebrow}-${section.title}`}>
+                  {section.title}
+                </span>
+              ))}
+              {visibleSections.length > summarySections.length ? (
+                <span>+{visibleSections.length - summarySections.length} more</span>
+              ) : null}
+            </div>
+            <details className="report-drawer report-inline-customize">
+              <summary>
+                <span>{builderCopy.customLabel}</span>
+                <strong>{builderCopy.customTitle}</strong>
+              </summary>
+              <div className="report-builder-section-grid">
+                {sectionOptions.map(({ key, section }) => (
+                  <label
+                    className={
+                      kundli
+                        ? 'report-builder-section'
+                        : 'report-builder-section preview'
+                    }
+                    key={key}
+                  >
+                    <input
+                      checked={builderMode === 'EVERYTHING' || selectedKeySet.has(key)}
+                      onChange={() => toggleSection(key)}
+                      type="checkbox"
+                    />
+                    <span>{formatReportSectionEyebrow(section.eyebrow, reportLanguage)}</span>
+                    <strong>{section.title}</strong>
+                    <small>
+                      {kundli
+                        ? formatReportSectionMeta({
+                            confidence: section.confidence ?? 'medium',
+                            language: reportLanguage,
+                            labels: reportLabels,
+                            tier: section.tier ?? 'free',
+                          })
+                        : builderCopy.createKundliToSelect}
+                    </small>
+                  </label>
+                ))}
+              </div>
+            </details>
+          </>
+        ) : (
+          <div className="report-depth-grid inline">
+            <div>
+              <span>{builderCopy.freePreview}</span>
+              <p>{localizedSelectedReport.freeDepth}</p>
+            </div>
+            <div>
+              <span>{builderCopy.premiumDepth}</span>
+              <p>
+                {isAccessLoading
+                  ? resultCopy.loadingBody
+                  : hasDetailedReportAccess
+                    ? localizedSelectedReport.premiumDepth
+                    : resultCopy.premiumLockedBody}
+              </p>
+            </div>
+          </div>
+        )}
+
+        <details className="report-drawer report-inline-language">
+          <summary>
+            <span>{reportLanguageCopy.eyebrow}</span>
+            <strong>{reportLanguageCopy.title}</strong>
+          </summary>
+          <section className="report-language-panel" aria-label={reportLanguageCopy.title}>
+            <div>
+              <span>{reportLanguageCopy.eyebrow}</span>
+              <strong>{reportLanguageCopy.title}</strong>
+              <p>
+                {appLanguage === reportLanguage
+                  ? reportLanguageCopy.body
+                  : reportLanguageCopy.differentBody}
+              </p>
+            </div>
+            <div className="report-language-options" role="group" aria-label={reportLanguageCopy.title}>
+              {SUPPORTED_LANGUAGE_OPTIONS.map(option => (
+                <button
+                  aria-pressed={option.code === reportLanguage}
+                  className={option.code === reportLanguage ? 'active' : ''}
+                  key={option.code}
+                  onClick={() => setReportLanguage(option.code)}
+                  type="button"
+                >
+                  <span>{option.nativeName}</span>
+                  <small>{option.englishName}</small>
+                </button>
+              ))}
+            </div>
+          </section>
+        </details>
+
+        <div className="report-inline-actions">
+          <button className="button primary" onClick={() => openReportPreview()} type="button">
+            {builderCopy.previewSelected}
+          </button>
+          <a className="button secondary" href={buildCurrentReportAskHref()}>
+            {builderCopy.askFromReport}
+          </a>
+          <button className="button secondary" onClick={copyReportSummary} type="button">
+            {copyState === 'report' ? builderCopy.copied : builderCopy.copyReport}
+          </button>
+        </div>
+        {copyState === 'empty' ? (
+          <p className="report-builder-note">{builderCopy.emptySelection}</p>
+        ) : copyState === 'needKundli' ? (
+          <p className="report-builder-note important">
+            {builderCopy.needKundli}{' '}
+            <a href="/dashboard/kundli">{builderCopy.createKundliCta}</a>
+          </p>
+        ) : (
+          <p className="report-builder-note">{builderCopy.note}</p>
+        )}
+      </div>
+    );
+  }
+
   useEffect(() => {
     const keys = sectionOptions.map(option => option.key);
     const keySet = new Set(keys);
@@ -810,22 +1060,24 @@ export function WebDossierPreview(): React.JSX.Element {
                   );
 
                   return (
-                    <button
-                      aria-pressed={product.id === selectedReportId}
-                      className={
-                        product.id === selectedReportId
-                          ? 'report-product-card active'
-                          : 'report-product-card'
-                      }
-                      key={product.id}
-                      onClick={() => setSelectedReportId(product.id)}
-                      type="button"
-                    >
-                      <span>{localizedProduct.badge}</span>
-                      <strong>{localizedProduct.title}</strong>
-                      <em>{localizedProduct.outcome}</em>
-                      <small>{localizedProduct.bestFor}</small>
-                    </button>
+                    <Fragment key={product.id}>
+                      <button
+                        aria-pressed={product.id === selectedReportId}
+                        className={
+                          product.id === selectedReportId
+                            ? 'report-product-card active'
+                            : 'report-product-card'
+                        }
+                        onClick={() => setSelectedReportId(product.id)}
+                        type="button"
+                      >
+                        <span>{localizedProduct.badge}</span>
+                        <strong>{localizedProduct.title}</strong>
+                        <em>{localizedProduct.outcome}</em>
+                        <small>{localizedProduct.bestFor}</small>
+                      </button>
+                      {renderInlineReportComposer(product)}
+                    </Fragment>
                   );
                 })}
             </div>
@@ -904,22 +1156,24 @@ export function WebDossierPreview(): React.JSX.Element {
                     );
 
                     return (
-                      <button
-                        aria-pressed={product.id === selectedReportId}
-                        className={
-                          product.id === selectedReportId
-                            ? 'report-product-card active'
-                            : 'report-product-card'
-                        }
-                        key={product.id}
-                        onClick={() => setSelectedReportId(product.id)}
-                        type="button"
-                      >
-                        <span>{localizedProduct.badge}</span>
-                        <strong>{localizedProduct.title}</strong>
-                        <em>{localizedProduct.outcome}</em>
-                        <small>{localizedProduct.bestFor}</small>
-                      </button>
+                      <Fragment key={product.id}>
+                        <button
+                          aria-pressed={product.id === selectedReportId}
+                          className={
+                            product.id === selectedReportId
+                              ? 'report-product-card active'
+                              : 'report-product-card'
+                          }
+                          onClick={() => setSelectedReportId(product.id)}
+                          type="button"
+                        >
+                          <span>{localizedProduct.badge}</span>
+                          <strong>{localizedProduct.title}</strong>
+                          <em>{localizedProduct.outcome}</em>
+                          <small>{localizedProduct.bestFor}</small>
+                        </button>
+                        {renderInlineReportComposer(product)}
+                      </Fragment>
                     );
                   })}
                 </div>
@@ -927,271 +1181,22 @@ export function WebDossierPreview(): React.JSX.Element {
             );
           })}
         </section>
-
-        <div className="report-selected-panel">
-          <div>
-            <div className="section-title">
-              {selectedReportLane.title} · {builderCopy.selectedReport}
-            </div>
-            <h3>{localizedSelectedReport.title}</h3>
-            <p>{localizedSelectedReport.bestFor}</p>
-            <small>{localizedSelectedReport.purchaseHint}</small>
-          </div>
-          <div className="report-depth-grid">
-            <div>
-              <span>{builderCopy.freePreview}</span>
-              <p>{localizedSelectedReport.freeDepth}</p>
-              <ul>
-                {localizedSelectedReport.freeIncludes.map(item => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <span>{builderCopy.premiumDepth}</span>
-              <p>
-                {isAccessLoading
-                  ? resultCopy.loadingBody
-                  : hasDetailedReportAccess
-                  ? localizedSelectedReport.premiumDepth
-                  : resultCopy.premiumLockedBody}
-              </p>
-              {isAccessLoading ? null : hasDetailedReportAccess ? (
-                <ul>
-                  {localizedSelectedReport.premiumIncludes.map(item => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              ) : (
-                <small className="report-depth-locked-note">
-                  {user ? resultCopy.premiumPurchaseHint : resultCopy.premiumSignInHint}
-                </small>
-              )}
-            </div>
-          </div>
-          <div className="report-selected-actions">
-            <button className="button" onClick={() => openReportPreview()} type="button">
-              {builderCopy.previewSelected}
-            </button>
-            <a
-              className="button secondary"
-              href={buildCurrentReportAskHref()}
-            >
-              {builderCopy.askFromReport}
-            </a>
-          </div>
-        </div>
       </section>
 
-      <section className="report-builder glass-panel">
-        <div className="report-builder-header">
+      {showStickyReportBar ? (
+        <div className="report-sticky-mini-bar" role="status">
           <div>
-            <div className="section-title">{builderCopy.eyebrow}</div>
-            <h2>{builderCopy.title}</h2>
-            <p>{builderCopy.intro}</p>
-          </div>
-        <div className="report-builder-count">
-            <span>{builderCopy.selected}</span>
+            <span>{localizedSelectedReport.title}</span>
             <strong>
-              {selectedSectionCount}/{sectionOptions.length}
+              {selectedSectionCount} sections ·{' '}
+              {mode === 'PREMIUM' ? reportLabels.premium : reportLabels.free}
             </strong>
           </div>
-        </div>
-
-        <details className="report-drawer">
-          <summary>
-            <span>{builderCopy.compareDepth}</span>
-            <strong>{builderCopy.differenceEyebrow}</strong>
-          </summary>
-          <div className="report-builder-access-row">
-            <div>
-              <span>{builderCopy.freeAccessLabel}</span>
-              <strong>{builderCopy.freeAccessTitle}</strong>
-              <p>{builderCopy.freeAccessBody}</p>
-            </div>
-            <div className={mode === 'PREMIUM' ? 'active' : ''}>
-              <span>{builderCopy.premiumAccessLabel}</span>
-              <strong>{builderCopy.premiumAccessTitle}</strong>
-              <p>
-                {isAccessLoading
-                  ? resultCopy.loadingBody
-                  : user
-                  ? hasDetailedReportAccess
-                    ? resultCopy.premiumReadyBody
-                    : builderCopy.premiumAccessBody
-                  : resultCopy.premiumGuestBody}
-              </p>
-              {isAccessLoading ? null : hasDetailedReportAccess ? (
-                <span className="report-builder-access-note">
-                  {resultCopy.premiumReadyTag}
-                </span>
-              ) : user ? (
-                <a
-                  className="button secondary"
-                  href="/checkout?productId=pridicta_premium_pdf"
-                >
-                  {builderCopy.premiumAccessCta}
-                </a>
-              ) : (
-                <AuthDialog />
-              )}
-            </div>
-          </div>
-          <div className="report-builder-access-note-panel">
-            <strong>{resultCopy.compareHeadline}</strong>
-            <p>{resultCopy.compareBody}</p>
-          </div>
-        </details>
-
-        <div className="report-builder-choice-row" role="group" aria-label={builderCopy.title}>
-          <button
-            aria-pressed={builderMode === 'EVERYTHING'}
-            className={
-              builderMode === 'EVERYTHING'
-                ? 'report-builder-choice active'
-                : 'report-builder-choice'
-            }
-            onClick={selectEverything}
-            type="button"
-          >
-            <span>{builderCopy.everythingLabel}</span>
-            <strong>{builderCopy.everythingTitle}</strong>
-            <small>{builderCopy.everythingBody}</small>
-          </button>
-          <button
-            aria-pressed={builderMode === 'CUSTOM'}
-            className={
-              builderMode === 'CUSTOM'
-                ? 'report-builder-choice active'
-                : 'report-builder-choice'
-            }
-            onClick={selectCustomStarter}
-            type="button"
-          >
-            <span>{builderCopy.customLabel}</span>
-            <strong>{builderCopy.customTitle}</strong>
-            <small>{builderCopy.customBody}</small>
-          </button>
-        </div>
-
-        <details className="report-drawer">
-          <summary>
-            <span>{builderCopy.seeEverythingIncluded}</span>
-            <strong>{builderCopy.everythingIncludesTitle}</strong>
-          </summary>
-          <div className="report-included-list">
-            <div>
-              <div className="section-title">{builderCopy.everythingIncludesEyebrow}</div>
-              <h3>{builderCopy.everythingIncludesTitle}</h3>
-              <p>{builderCopy.everythingIncludesBody}</p>
-            </div>
-            <div className="report-included-grid">
-              {getComprehensiveReportSections(reportLanguage).map(section => (
-                <span key={`${section.eyebrow}-${section.title}`}>
-                  {section.title}
-                </span>
-              ))}
-            </div>
-          </div>
-        </details>
-
-        <details className="report-drawer">
-          <summary>
-            <span>{reportLanguageCopy.eyebrow}</span>
-            <strong>{reportLanguageCopy.title}</strong>
-          </summary>
-          <section className="report-language-panel" aria-label={reportLanguageCopy.title}>
-            <div>
-              <span>{reportLanguageCopy.eyebrow}</span>
-              <strong>{reportLanguageCopy.title}</strong>
-              <p>
-                {appLanguage === reportLanguage
-                  ? reportLanguageCopy.body
-                  : reportLanguageCopy.differentBody}
-              </p>
-            </div>
-            <div className="report-language-options" role="group" aria-label={reportLanguageCopy.title}>
-              {SUPPORTED_LANGUAGE_OPTIONS.map(option => (
-                <button
-                  aria-pressed={option.code === reportLanguage}
-                  className={option.code === reportLanguage ? 'active' : ''}
-                  key={option.code}
-                  onClick={() => setReportLanguage(option.code)}
-                  type="button"
-                >
-                  <span>{option.nativeName}</span>
-                  <small>{option.englishName}</small>
-                </button>
-              ))}
-            </div>
-          </section>
-        </details>
-
-        <details className="report-drawer">
-          <summary>
-            <span>{builderCopy.customLabel}</span>
-            <strong>{builderCopy.customTitle}</strong>
-          </summary>
-          <div className="report-builder-section-grid">
-            {sectionOptions.map(({ key, section }) => (
-              <label
-                className={
-                  kundli
-                    ? 'report-builder-section'
-                    : 'report-builder-section preview'
-                }
-                key={key}
-              >
-                <input
-                  checked={builderMode === 'EVERYTHING' || selectedKeySet.has(key)}
-                  onChange={() => toggleSection(key)}
-                  type="checkbox"
-                />
-                <span>{formatReportSectionEyebrow(section.eyebrow, reportLanguage)}</span>
-                <strong>{section.title}</strong>
-                <small>
-                  {kundli
-                    ? formatReportSectionMeta({
-                        confidence: section.confidence ?? 'medium',
-                        language: reportLanguage,
-                        labels: reportLabels,
-                        tier: section.tier ?? 'free',
-                      })
-                    : builderCopy.createKundliToSelect}
-                </small>
-              </label>
-            ))}
-          </div>
-        </details>
-
-        <div className="report-builder-actions">
           <button className="button primary" onClick={() => openReportPreview()} type="button">
-            {builderCopy.previewBuilder}
-          </button>
-          <button className="button secondary" onClick={copyReportSummary} type="button">
-            {copyState === 'report' ? builderCopy.copied : builderCopy.copyReport}
+            {builderCopy.previewSelected}
           </button>
         </div>
-        {!user ? (
-          <div className="report-account-panel">
-            <div>
-              <strong>{builderCopy.signInNudgeTitle}</strong>
-              <p>{builderCopy.signInNudgeBody}</p>
-            </div>
-            <AuthDialog />
-          </div>
-        ) : null}
-        {copyState === 'empty' ? (
-          <p className="report-builder-note">{builderCopy.emptySelection}</p>
-        ) : copyState === 'needKundli' ? (
-          <p className="report-builder-note important">
-            {builderCopy.needKundli}{' '}
-            <a href="/dashboard/kundli">{builderCopy.createKundliCta}</a>
-          </p>
-        ) : (
-          <p className="report-builder-note">{builderCopy.note}</p>
-        )}
-      </section>
+      ) : null}
 
       <div className="dossier-toolbar">
         <div className="dossier-mode-switch" aria-label={labels.reportDepth}>

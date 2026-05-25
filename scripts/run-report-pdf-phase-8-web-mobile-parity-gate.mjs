@@ -105,7 +105,7 @@ for (const phrase of [
 
 for (const phrase of [
   'shouldIncludeMoonChart(reportFocus)',
-  "return !['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)",
+  "return !['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus)",
   "'D1'",
   "'MOON'",
   "'D9'",
