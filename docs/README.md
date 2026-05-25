@@ -49,6 +49,12 @@ Only live documents in this repo are listed here.
   corrected `Prepared by Predicta @2026` footer rules, whole-app Predicta
   memory/chat awareness, web/mobile parity, and golden artifact audits before
   anything is called green.
+- [PREDICTA_KUNDLI_REPORT_VALUE_REBUILD_STRICT_PHASES.md](./PREDICTA_KUNDLI_REPORT_VALUE_REBUILD_STRICT_PHASES.md)
+  Strict value-quality rebuild for AstroSage-level Kundli coverage with
+  Predicta polish, chart purity, focus-chart order, full Varga library
+  preservation, Swamsa/Karakamsha/Chalit first-class treatment, prediction
+  language, Mahadasha/remedy streamlining, KP/Nadi chart boundaries, and final
+  memory/artifact audits.
 - [PREDICTA_LIFE_ATLAS_REPORT_STRICT_CONTRACT.md](./PREDICTA_LIFE_ATLAS_REPORT_STRICT_CONTRACT.md)
   Standalone strict contract for the `Predicta Life Atlas` flagship synthesis
   report, including core/optional data hierarchy, non-technical soul-purpose
