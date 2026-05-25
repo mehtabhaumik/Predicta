@@ -40,5 +40,6 @@ export * from './signatureAnalysisModel';
 export * from './specialPoints';
 export * from './transitGocharIntelligence';
 export * from './vedicIntelligenceContract';
+export * from './vedicFocusChartOrder';
 export * from './yearlyHoroscopeVarshaphal';
 export * from './vargaInterpretation';

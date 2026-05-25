@@ -131,8 +131,9 @@ assert.doesNotMatch(
 );
 
 for (const fragment of [
-  "entries.push({ chart: moonChart, role: 'MOON' })",
-  "displayChartName: role === 'MOON' ? 'Moon Chart / Chandra Lagna Chart' : model.displayChartName",
+  'VEDIC_FOCUS_CHART_ORDER',
+  "buildParashariChalitChart(kundli)",
+  'getReportChartDisplayName(role, model.displayChartName, language)',
   'hiddenPlanetCount: 0',
   'buildPdfHouseWisePlanetRows',
   'buildMahadashaPhalaReportSection',
@@ -156,9 +157,9 @@ for (const fragment of [
   assertIncludes(pdfComposition, fragment, `PDF composition includes ${fragment}`);
 }
 
-const moonIndex = pdfComposition.indexOf("entries.push({ chart: moonChart, role: 'MOON' })");
+const moonIndex = pdfComposition.indexOf('...VEDIC_FOCUS_CHART_ORDER');
 const d9Index = pdfComposition.indexOf("return prioritizeChartTypes(chartTypes, reportFocus)");
-assert.ok(moonIndex > 0 && d9Index > moonIndex, 'Moon/Chandra Lagna is inserted before later varga prioritization');
+assert.ok(moonIndex > 0 && d9Index > moonIndex, 'Vedic focus chart order is locked before later varga prioritization');
 
 for (const fragment of [
   'Choose your report world',

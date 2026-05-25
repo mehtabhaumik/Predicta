@@ -17,6 +17,7 @@ import type {
 import { buildTrustProfile } from '@pridicta/config/trust';
 import { translateUiText } from '@pridicta/config/uiTranslations';
 import {
+  buildParashariChalitChart,
   buildChartRenderModel,
   composeChartInsight,
   composeChalitBhavKpFoundation,
@@ -36,12 +37,15 @@ import {
   composeTransitGocharIntelligence,
   composeVedicIntelligenceContract,
   composeYearlyHoroscopeVarshaphal,
+  getVedicFocusChartLabel,
   LIFE_ATLAS_SIGNATURE_ENRICHMENT_INVITE,
+  VEDIC_FOCUS_CHART_ORDER,
   type ChartRenderLegendItem,
   type ChartRenderMoonPhase,
   type ChartRenderPlanet,
   type ChartRenderSchool,
   type ChartRenderTheme,
+  type VedicFocusChartRole,
 } from '@pridicta/astrology';
 
 export type PdfSection = {
@@ -121,7 +125,7 @@ export type PdfComposition = {
 export type PdfChartSnapshot = {
   chartName: string;
   displayChartName: string;
-  chartRole: ChartType | 'MOON';
+  chartRole: ChartType | 'MOON' | 'CHALIT';
   chartType: ChartType;
   cells: PdfChartSnapshotCell[];
   legend: ChartRenderLegendItem[];
@@ -1941,31 +1945,54 @@ function buildPdfChartSnapshots(
   language: SupportedLanguage = 'en',
   reportFocus: PdfReportFocus = 'KUNDLI',
 ): PdfChartSnapshot[] {
-  const moonChart = shouldIncludeMoonChart(reportFocus)
+  const includeVedicFocusCharts = shouldIncludeMoonChart(reportFocus);
+  const moonChart = includeVedicFocusCharts
     ? composeVedicIntelligenceContract({ kundli }).moonChart.chart
     : undefined;
-  const chartEntries = chartTypes.flatMap(chartType => {
+  const chalitChart = includeVedicFocusCharts
+    ? buildParashariChalitChart(kundli)
+    : undefined;
+  const chartByRole = new Map<ChartType | 'MOON' | 'CHALIT', ChartData>();
+
+  for (const chartType of chartTypes) {
     const chart = kundli.charts[chartType];
 
-    if (!chart?.supported) {
+    if (chart?.supported) {
+      chartByRole.set(chartType, chart);
+    }
+  }
+
+  if (moonChart?.supported) {
+    chartByRole.set('MOON', moonChart);
+  }
+
+  if (chalitChart?.supported) {
+    chartByRole.set('CHALIT', chalitChart);
+  }
+
+  const orderedRoles = includeVedicFocusCharts
+    ? [
+        ...VEDIC_FOCUS_CHART_ORDER,
+        ...chartTypes.filter(chartType => !isVedicFocusChartType(chartType)),
+      ]
+    : chartTypes;
+  const seenRoles = new Set<ChartType | VedicFocusChartRole>();
+  const chartEntries = orderedRoles.flatMap(role => {
+    if (seenRoles.has(role)) {
       return [];
     }
 
-    const entries: Array<{ chart: ChartData; role: ChartType | 'MOON' }> = [
-      { chart, role: chartType },
-    ];
+    seenRoles.add(role);
+    const chart = chartByRole.get(role);
 
-    if (chartType === 'D1' && moonChart?.supported) {
-      entries.push({ chart: moonChart, role: 'MOON' });
-    }
-
-    return entries;
+    return chart?.supported ? [{ chart, role }] : [];
   });
 
   return chartEntries.map(({ chart, role }) => {
+    const plateChart = filterReportChartForMainPlate(chart);
     const model = buildChartRenderModel({
       birthDetails: kundli.birthDetails,
-      chart,
+      chart: plateChart,
       language,
       presentation: 'full',
     });
@@ -1992,10 +2019,10 @@ function buildPdfChartSnapshots(
         showPlanetSign: cell.showPlanetSign,
         showPlanetStatusMarks: cell.showPlanetStatusMarks,
       })),
-      chartName: chart.name,
+      chartName: plateChart.name,
       chartRole: role,
       chartType: model.chartType,
-      displayChartName: role === 'MOON' ? 'Moon Chart / Chandra Lagna Chart' : model.displayChartName,
+      displayChartName: getReportChartDisplayName(role, model.displayChartName, language),
       legend: model.legend,
       moonNakshatraPada: model.moonNakshatraPada
         ? {
@@ -2010,6 +2037,57 @@ function buildPdfChartSnapshots(
       theme: model.theme,
     };
   });
+}
+
+function getReportChartDisplayName(
+  role: ChartType | 'MOON' | 'CHALIT',
+  fallback: string,
+  language: SupportedLanguage,
+): string {
+  if (isVedicFocusChartRole(role)) {
+    return getVedicFocusChartLabel(role, language);
+  }
+
+  return fallback;
+}
+
+function isVedicFocusChartRole(role: ChartType | 'MOON' | 'CHALIT'): role is VedicFocusChartRole {
+  return role === 'D1' || role === 'MOON' || role === 'D9' || role === 'D10' || role === 'CHALIT';
+}
+
+function isVedicFocusChartType(chartType: ChartType): boolean {
+  return chartType === 'D1' || chartType === 'D9' || chartType === 'D10';
+}
+
+function filterReportChartForMainPlate(chart: ChartData): ChartData {
+  const planetDistribution = chart.planetDistribution.filter(planet =>
+    isClassicalGraha(planet.name),
+  );
+
+  return {
+    ...chart,
+    housePlacements: buildReportHousePlacementsFromPlanets(planetDistribution),
+    planetDistribution,
+    signPlacements: buildReportSignPlacementsFromPlanets(planetDistribution),
+  };
+}
+
+function buildReportHousePlacementsFromPlanets(
+  planets: PlanetPosition[],
+): Record<number, string[]> {
+  return planets.reduce<Record<number, string[]>>((placements, planet) => {
+    placements[planet.house] = [...(placements[planet.house] ?? []), planet.name];
+    return placements;
+  }, {});
+}
+
+function buildReportSignPlacementsFromPlanets(
+  planets: PlanetPosition[],
+): Record<string, string[]> {
+  return planets.reduce<Record<string, string[]>>((placements, planet) => {
+    placements[planet.sign] = [...(placements[planet.sign] ?? []), planet.name];
+    return placements;
+  }, {});
 }
 
 function buildPdfHouseWisePlanetRows(
@@ -2054,7 +2132,7 @@ function buildPdfHouseWisePlanetRows(
 }
 
 function shouldIncludeMoonChart(reportFocus: PdfReportFocus): boolean {
-  return !['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus);
+  return !['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus);
 }
 
 function isClassicalGraha(name: string): boolean {

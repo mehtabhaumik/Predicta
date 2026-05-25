@@ -20,6 +20,10 @@ import {
   composeChalitBhavKpFoundation,
   composeChartInsight,
   getChartTypesForAccess,
+  getVedicFocusChartLabel,
+  getVedicFocusChartShortLabel,
+  isSelectableVargaFocusRole,
+  VEDIC_FOCUS_CHART_ORDER,
 } from '@pridicta/astrology';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
@@ -83,6 +87,14 @@ export function ChartsScreen({
     `Guidance: ${insight.currentGuidance}`,
     ...insight.freeInsights,
   ].slice(0, 5);
+  const focusOrderItems = VEDIC_FOCUS_CHART_ORDER.map((role, index) => ({
+    active: isSelectableVargaFocusRole(role) && safeSelectedChart === role,
+    available: getFocusChartAvailability(kundli, role),
+    index,
+    label: getVedicFocusChartLabel(role, 'en'),
+    role,
+    shortLabel: getVedicFocusChartShortLabel(role),
+  }));
 
   function askFromChart() {
     setActiveChartContext({
@@ -114,6 +126,59 @@ export function ChartsScreen({
         sourceScreen="Charts"
         title="Chart Kundli"
       />
+
+      <GlowCard className="mt-7" delay={60}>
+        <AppText tone="secondary" variant="caption">
+          REQUIRED VEDIC FOCUS ORDER
+        </AppText>
+        <View className="mt-4 flex-row flex-wrap gap-2">
+          {focusOrderItems.map(item =>
+            isSelectableVargaFocusRole(item.role) ? (
+              <Pressable
+                accessibilityRole="button"
+                className={`min-w-[96px] flex-1 rounded-3xl border px-3 py-3 ${
+                  item.active
+                    ? 'border-[#4DAFFF] bg-[#4DAFFF22]'
+                    : 'border-[#FFFFFF18] bg-[#FFFFFF0A]'
+                }`}
+                key={item.role}
+                onPress={() => {
+                  setSelectedChart(item.role as ChartType);
+                  setFocus({});
+                }}
+              >
+                <AppText className="text-[#FFD27A]" variant="caption">
+                  {item.index + 1}
+                </AppText>
+                <AppText variant="subtitle">{item.shortLabel}</AppText>
+                <AppText tone="secondary" variant="caption">
+                  {item.label}
+                </AppText>
+              </Pressable>
+            ) : (
+              <View
+                className={`min-w-[96px] flex-1 rounded-3xl border px-3 py-3 ${
+                  item.available
+                    ? 'border-[#FFFFFF18] bg-[#FFFFFF0A]'
+                    : 'border-[#FFFFFF12] bg-[#FFFFFF06]'
+                }`}
+                key={item.role}
+              >
+                <AppText className="text-[#FFD27A]" variant="caption">
+                  {item.index + 1}
+                </AppText>
+                <AppText variant="subtitle">{item.shortLabel}</AppText>
+                <AppText tone="secondary" variant="caption">
+                  {item.label}
+                </AppText>
+              </View>
+            ),
+          )}
+        </View>
+        <AppText className="mt-3" tone="secondary" variant="caption">
+          These are focus charts only. The full Varga library remains available below.
+        </AppText>
+      </GlowCard>
 
       <GlowCard className="mt-7" delay={80}>
         <AppText tone="secondary" variant="caption">
@@ -310,6 +375,21 @@ export function ChartsScreen({
       </View>
     </Screen>
   );
+}
+
+function getFocusChartAvailability(
+  kundli: KundliData,
+  role: (typeof VEDIC_FOCUS_CHART_ORDER)[number],
+): boolean {
+  if (role === 'MOON') {
+    return Boolean(kundli.moonSign);
+  }
+
+  if (role === 'CHALIT') {
+    return Boolean(kundli.chalit?.status === 'ready' || kundli.bhavChalit?.status === 'ready');
+  }
+
+  return Boolean(kundli.charts[role]?.supported);
 }
 
 function PremiumMiniList({

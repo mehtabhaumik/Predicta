@@ -1,0 +1,7 @@
+PREDICTA_KUNDLI_VALUE_PHASE_1_CHART_PURITY_AND_FOCUS_ORDER_LOCK verification
+
+Implemented shared Vedic focus order contract: D1/Rashi, Moon/Chandra Lagna, D9/Navamsa, D10/Dashamsa, Chalit.
+Generated free and premium Kundli PDFs from a deliberately polluted fixture containing micro/special points.
+Main PDF chart plate composition now filters to classical grahas only before rendering.
+PDF renderer and web report preview no longer render report-chart overflow counters.
+Web and mobile Charts screens expose the focus order while preserving the full selectable Varga library.

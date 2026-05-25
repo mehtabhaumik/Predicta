@@ -1471,7 +1471,7 @@ function ReportChartSnapshot({
     >
       <div className="report-chart-snapshot-header">
         <div>
-          <span>{snapshot.chartType}</span>
+          <span>{formatReportPreviewChartRole(snapshot)}</span>
           <strong>{snapshot.displayChartName ?? snapshot.chartName}</strong>
         </div>
         <small>{snapshot.school}</small>
@@ -1510,9 +1510,6 @@ function ReportChartSnapshot({
                     size={cell.planetGlyphSize}
                   />
                 ))}
-                {cell.hiddenPlanetCount ? (
-                  <span className="chart-overflow-counter">+{cell.hiddenPlanetCount}</span>
-                ) : null}
               </small>
             ) : null}
           </div>
@@ -1544,6 +1541,18 @@ function ReportChartSnapshot({
       ) : null}
     </article>
   );
+}
+
+function formatReportPreviewChartRole(snapshot: PdfChartSnapshot): string {
+  if (snapshot.chartRole === 'MOON') {
+    return 'Moon / Chandra Lagna';
+  }
+
+  if (snapshot.chartRole === 'CHALIT') {
+    return 'Chalit';
+  }
+
+  return snapshot.chartType;
 }
 
 function getReportSectionKey(section: PdfSection, index: number): string {

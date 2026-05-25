@@ -2063,7 +2063,7 @@ function PdfChartCard({
       <View style={styles.chartHeader}>
         <View>
           <Text style={styles.chartHeaderType}>
-            {snapshot.chartRole === 'MOON' ? 'Moon / Chandra Lagna' : snapshot.chartType}
+            {formatPdfChartRole(snapshot)}
           </Text>
           <Text style={styles.chartHeaderTitle}>
             {snapshot.displayChartName ?? snapshot.chartName}
@@ -2137,6 +2137,18 @@ function PdfChartCard({
       ) : null}
     </View>
   );
+}
+
+function formatPdfChartRole(snapshot: PdfChartSnapshot): string {
+  if (snapshot.chartRole === 'MOON') {
+    return 'Moon / Chandra Lagna';
+  }
+
+  if (snapshot.chartRole === 'CHALIT') {
+    return 'Chalit';
+  }
+
+  return snapshot.chartType;
 }
 
 function PdfChartCell({

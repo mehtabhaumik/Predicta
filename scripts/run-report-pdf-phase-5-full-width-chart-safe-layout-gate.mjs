@@ -33,17 +33,18 @@ for (const phrase of [
   'report.houseWisePlanetRows',
   'PdfMoonPhaseDisc',
   'nodePlanetChip',
-  "snapshot.chartRole === 'MOON'",
+  'formatPdfChartRole(snapshot)',
   'planet.displayName',
 ]) {
   assert.match(renderer, new RegExp(escapeRegExp(phrase)), `renderer includes ${phrase}`);
 }
 
 for (const phrase of [
-  "chartRole: ChartType | 'MOON'",
+  "chartRole: ChartType | 'MOON' | 'CHALIT'",
   'houseWisePlanetRows: PdfHouseWisePlanetRow[]',
   "composeVedicIntelligenceContract({ kundli }).moonChart.chart",
-  "entries.push({ chart: moonChart, role: 'MOON' })",
+  'VEDIC_FOCUS_CHART_ORDER',
+  "buildParashariChalitChart(kundli)",
   "presentation: 'full'",
   'hiddenPlanetCount: 0',
   'buildPdfHouseWisePlanetRows',

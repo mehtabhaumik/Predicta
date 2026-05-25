@@ -8575,6 +8575,69 @@ button:disabled {
   margin: 8px 0 0;
 }
 
+.vedic-focus-order-card {
+  margin-bottom: 18px;
+}
+
+.vedic-focus-order-rail {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.vedic-focus-order-rail button,
+.vedic-focus-order-rail div {
+  background:
+    linear-gradient(135deg, rgba(77, 175, 255, 0.1), rgba(255, 255, 255, 0.035));
+  border: 1px solid var(--border-quiet);
+  border-radius: 18px;
+  color: var(--text);
+  display: grid;
+  gap: 4px;
+  min-height: 96px;
+  padding: 12px;
+  text-align: left;
+}
+
+.vedic-focus-order-rail button {
+  cursor: pointer;
+}
+
+.vedic-focus-order-rail button.active {
+  border-color: rgba(77, 175, 255, 0.65);
+  box-shadow: 0 0 0 1px rgba(77, 175, 255, 0.24);
+}
+
+.vedic-focus-order-rail div.pending {
+  opacity: 0.7;
+}
+
+.vedic-focus-order-rail span {
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+}
+
+.vedic-focus-order-rail strong {
+  font-size: 18px;
+  line-height: 1.1;
+}
+
+.vedic-focus-order-rail em {
+  color: var(--muted);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 850;
+  line-height: 1.35;
+}
+
+.vedic-focus-order-note {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 12px 0 0;
+}
+
 .chart-picker-panel p {
   color: var(--muted);
   margin: 8px 0 0;
@@ -13567,6 +13630,7 @@ button:disabled {
   .method-depth-grid,
   .chart-picker-panel,
   .chart-picker-inline,
+  .vedic-focus-order-rail,
   .report-choice-guide,
   .report-builder-access-row,
   .report-builder-choice-row,

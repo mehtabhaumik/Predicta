@@ -7,6 +7,10 @@ import {
   CHART_REGISTRY,
   composeChartInsight,
   getChartTypesForAccess,
+  getVedicFocusChartLabel,
+  getVedicFocusChartShortLabel,
+  isSelectableVargaFocusRole,
+  VEDIC_FOCUS_CHART_ORDER,
 } from '@pridicta/astrology';
 import type {
   ChartConfig,
@@ -66,6 +70,14 @@ export function WebChartsExplorer({
     hasPremiumAccess,
     kundli,
   });
+  const focusOrderItems = VEDIC_FOCUS_CHART_ORDER.map((role, index) => ({
+    active: isSelectableVargaFocusRole(role) && selectedChart === role,
+    available: getFocusChartAvailability(kundli, role),
+    index,
+    label: getVedicFocusChartLabel(role, language),
+    role,
+    shortLabel: getVedicFocusChartShortLabel(role),
+  }));
 
   return (
     <div className="chart-explorer">
@@ -75,6 +87,42 @@ export function WebChartsExplorer({
         sourceScreen="Charts"
         title={copy.activeTitle}
       />
+      <Card className="glass-panel vedic-focus-order-card">
+        <div className="card-content compact">
+          <div className="section-title">Required Vedic focus order</div>
+          <div
+            aria-label="Required Vedic focus chart order: D1/Rashi, Moon/Chandra Lagna, D9/Navamsa, D10/Dashamsa, Chalit"
+            className="vedic-focus-order-rail"
+          >
+            {focusOrderItems.map(item =>
+              isSelectableVargaFocusRole(item.role) ? (
+                <button
+                  className={item.active ? 'active' : ''}
+                  key={item.role}
+                  onClick={() => setSelectedChart(item.role as ChartType)}
+                  type="button"
+                >
+                  <span>{item.index + 1}</span>
+                  <strong>{item.shortLabel}</strong>
+                  <em>{item.label}</em>
+                </button>
+              ) : (
+                <div
+                  className={item.available ? 'available' : 'pending'}
+                  key={item.role}
+                >
+                  <span>{item.index + 1}</span>
+                  <strong>{item.shortLabel}</strong>
+                  <em>{item.label}</em>
+                </div>
+              ),
+            )}
+          </div>
+          <p className="vedic-focus-order-note">
+            These are the focus charts. The full Varga library remains available below.
+          </p>
+        </div>
+      </Card>
       <Card className="chart-detail-card glass-panel">
         <div className="card-content spacious">
           <div className="chart-picker-inline">
@@ -187,6 +235,21 @@ export function WebChartsExplorer({
       </details>
     </div>
   );
+}
+
+function getFocusChartAvailability(
+  kundli: KundliData,
+  role: (typeof VEDIC_FOCUS_CHART_ORDER)[number],
+): boolean {
+  if (role === 'MOON') {
+    return Boolean(kundli.moonSign);
+  }
+
+  if (role === 'CHALIT') {
+    return Boolean(kundli.chalit?.status === 'ready' || kundli.bhavChalit?.status === 'ready');
+  }
+
+  return Boolean(kundli.charts[role]?.supported);
 }
 
 function getChartCategory(chartType: ChartType): 'advanced' | 'core' {

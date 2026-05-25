@@ -1,0 +1,21 @@
+{
+  "purpose": "Fixture intentionally includes special points in D1 and Chalit source data so the Phase 1 gate can prove main report chart plates filter them out.",
+  "requiredFocusOrder": [
+    "D1/Rashi",
+    "Moon/Chandra Lagna",
+    "D9/Navamsa",
+    "D10/Dashamsa",
+    "Chalit"
+  ],
+  "bannedMainPlateNames": [
+    "Dhuma",
+    "Gulika",
+    "Mandi",
+    "Upaketu",
+    "Vyatipata",
+    "Indrachapa",
+    "Uranus",
+    "Neptune",
+    "Pluto"
+  ]
+}

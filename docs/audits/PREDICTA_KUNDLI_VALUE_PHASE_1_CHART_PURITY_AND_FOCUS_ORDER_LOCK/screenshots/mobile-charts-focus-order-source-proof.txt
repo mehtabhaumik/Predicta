@@ -1,0 +1,3 @@
+Mobile focus order is implemented in apps/mobile/src/screens/ChartsScreen.tsx.
+The screen imports VEDIC_FOCUS_CHART_ORDER and renders the sequence D1, Moon, D9, D10, Chalit above the selectable full Varga library.
+Runtime mobile screenshot capture is deferred to device/emulator visual QA, but the strict source gate blocks the sequence from drifting.

@@ -1,0 +1,42 @@
+[
+  {
+    "file": "artifacts/phase1-free-kundli.pdf",
+    "bytes": 1522716
+  },
+  {
+    "file": "artifacts/phase1-premium-kundli.pdf",
+    "bytes": 1568007
+  },
+  {
+    "file": "artifacts/phase1-free-kundli-payload.json",
+    "bytes": 33342
+  },
+  {
+    "file": "artifacts/phase1-premium-kundli-payload.json",
+    "bytes": 33345
+  },
+  {
+    "file": "artifacts/phase1-fixture-notes.json",
+    "bytes": 453
+  },
+  {
+    "file": "artifacts/web-charts-page-text.txt",
+    "bytes": 1898
+  },
+  {
+    "file": "screenshots/phase1-free-kundli.pdf.png",
+    "bytes": 245032
+  },
+  {
+    "file": "screenshots/web-charts-focus-order.png",
+    "bytes": 71963
+  },
+  {
+    "file": "screenshots/mobile-charts-focus-order-source-proof.txt",
+    "bytes": 351
+  },
+  {
+    "file": "verification.txt",
+    "bytes": 575
+  }
+]
