@@ -1,0 +1,73 @@
+{
+  "phase": "PREDICTA_KUNDLI_VALUE_PHASE_0_ASTROSAGE_BENCHMARK_AND_CURRENT_REDLINE_AUDIT",
+  "createdAt": "2026-05-25",
+  "benchmark": {
+    "type": "external_pdf_extract",
+    "source": "/Users/bmehta/Downloads/HindiPdfNew.pdf",
+    "generatedArtifacts": [
+      "artifacts/astrosage_free_benchmark-page-map.txt",
+      "artifacts/pdf-coverage-matrix.json"
+    ]
+  },
+  "predictaReports": [
+    {
+      "kind": "free_vedic_pdf",
+      "source": "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/pdfs/free-kundli-en.pdf",
+      "generatedArtifacts": [
+        "artifacts/predicta_free_current-page-map.txt",
+        "artifacts/pdf-coverage-matrix.json"
+      ]
+    },
+    {
+      "kind": "premium_vedic_pdf",
+      "source": "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/pdfs/premium-kundli-en.pdf",
+      "generatedArtifacts": [
+        "artifacts/predicta_premium_current-page-map.txt",
+        "artifacts/pdf-coverage-matrix.json"
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "surface": "web_vedic_overview",
+      "artifact": "screenshots/web-vedic-overview-desktop.png"
+    },
+    {
+      "surface": "mobile_vedic_overview",
+      "artifact": "screenshots/mobile-vedic-overview.png"
+    },
+    {
+      "surface": "charts_section_desktop",
+      "artifact": "screenshots/charts-section-desktop.png"
+    },
+    {
+      "surface": "charts_section_mobile",
+      "artifact": "screenshots/charts-section-mobile.png"
+    },
+    {
+      "surface": "kp_page_desktop",
+      "artifact": "screenshots/kp-page-desktop.png"
+    },
+    {
+      "surface": "kp_page_mobile",
+      "artifact": "screenshots/kp-page-mobile.png"
+    },
+    {
+      "surface": "nadi_page_desktop",
+      "artifact": "screenshots/nadi-page-desktop.png"
+    },
+    {
+      "surface": "nadi_page_mobile",
+      "artifact": "screenshots/nadi-page-mobile.png"
+    },
+    {
+      "surface": "predicta_free_d1_pdf_page",
+      "artifact": "screenshots/predicta-free-d1-chart-page.png"
+    },
+    {
+      "surface": "predicta_premium_d1_pdf_page",
+      "artifact": "screenshots/predicta-premium-d1-chart-page.png"
+    }
+  ],
+  "note": "Screenshots are copied from the latest strict report/chart audits so Phase 0 remains a redline audit, not a new implementation phase."
+}

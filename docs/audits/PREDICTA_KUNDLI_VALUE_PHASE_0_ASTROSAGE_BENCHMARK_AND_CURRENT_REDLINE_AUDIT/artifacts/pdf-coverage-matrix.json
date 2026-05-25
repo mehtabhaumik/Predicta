@@ -1,0 +1,573 @@
+{
+  "generatedAt": "2026-05-25",
+  "phase": "PREDICTA_KUNDLI_VALUE_PHASE_0_ASTROSAGE_BENCHMARK_AND_CURRENT_REDLINE_AUDIT",
+  "coverage": {
+    "astrosage_free_benchmark": {
+      "source": "/Users/bmehta/Downloads/HindiPdfNew.pdf",
+      "pageCount": 56,
+      "textCharacterCount": 129488,
+      "termCounts": {
+        "Basic Details": 1,
+        "Ghatak": 1,
+        "Favourable": 1,
+        "Favorable": 6,
+        "Avkahada": 1,
+        "Lagna": 27,
+        "Rashi": 6,
+        "Moon": 68,
+        "Chalit": 2,
+        "Vimshottari": 20,
+        "Mahadasha": 18,
+        "Antardasha": 1,
+        "Pratyantar": 10,
+        "Friendship": 8,
+        "Shadbala": 8,
+        "Bhavabala": 1,
+        "Shodashvarga": 7,
+        "Manglik": 5,
+        "KP": 2,
+        "Swamsa": 2,
+        "Remedies": 16,
+        "Uranus": 1,
+        "Neptune": 1,
+        "Pluto": 1
+      },
+      "pagesByTerm": {
+        "Basic Details": [
+          2
+        ],
+        "Ghatak": [
+          2
+        ],
+        "Favourable": [
+          2
+        ],
+        "Favorable": [
+          5,
+          15,
+          17,
+          26,
+          37
+        ],
+        "Avkahada": [
+          2
+        ],
+        "Lagna": [
+          2,
+          3,
+          10,
+          15,
+          16,
+          34,
+          40,
+          41,
+          44
+        ],
+        "Rashi": [
+          11,
+          12,
+          13,
+          34,
+          44,
+          54
+        ],
+        "Moon": [
+          2,
+          3,
+          4,
+          5,
+          10,
+          14,
+          17,
+          19,
+          23,
+          26,
+          30,
+          31,
+          33,
+          34,
+          35,
+          37,
+          40,
+          44,
+          49,
+          50
+        ],
+        "Chalit": [
+          3,
+          52
+        ],
+        "Vimshottari": [
+          3,
+          19,
+          20,
+          45,
+          46,
+          47,
+          48
+        ],
+        "Mahadasha": [
+          19,
+          20
+        ],
+        "Antardasha": [
+          24
+        ],
+        "Pratyantar": [
+          45,
+          46,
+          47,
+          48
+        ],
+        "Friendship": [
+          5,
+          8,
+          49
+        ],
+        "Shadbala": [
+          50
+        ],
+        "Bhavabala": [
+          50
+        ],
+        "Shodashvarga": [
+          40,
+          41,
+          42,
+          43
+        ],
+        "Manglik": [
+          10
+        ],
+        "KP": [
+          44,
+          53
+        ],
+        "Swamsa": [
+          23
+        ],
+        "Remedies": [
+          10,
+          15,
+          30,
+          31,
+          32,
+          33
+        ],
+        "Uranus": [
+          44
+        ],
+        "Neptune": [
+          44
+        ],
+        "Pluto": [
+          44
+        ]
+      }
+    },
+    "predicta_free_current": {
+      "source": "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/pdfs/free-kundli-en.pdf",
+      "pageCount": 39,
+      "textCharacterCount": 47687,
+      "termCounts": {
+        "Panchang": 10,
+        "Ghatak": 4,
+        "Favorable": 6,
+        "Avakhada": 7,
+        "Lagna": 32,
+        "Rashi": 8,
+        "Moon": 110,
+        "Chandra": 6,
+        "Navamsa": 9,
+        "D9": 15,
+        "D10": 8,
+        "Chalit": 9,
+        "Vimshottari": 1,
+        "Mahadasha": 23,
+        "Antardasha": 14,
+        "Pratyantar": 2,
+        "Friendship": 10,
+        "Ashtakavarga": 32,
+        "Prastara": 7,
+        "Prastarashtakavarga": 7,
+        "KP": 3,
+        "Karakamsha": 4,
+        "Remedies": 9,
+        "Remedy": 5,
+        "Mandi": 1
+      },
+      "pagesByTerm": {
+        "Panchang": [
+          1,
+          11,
+          28,
+          29,
+          35
+        ],
+        "Ghatak": [
+          30
+        ],
+        "Favorable": [
+          30
+        ],
+        "Avakhada": [
+          35
+        ],
+        "Lagna": [
+          1,
+          2,
+          5,
+          10,
+          11,
+          13,
+          15,
+          19,
+          20,
+          26,
+          27
+        ],
+        "Rashi": [
+          4,
+          9,
+          16,
+          17,
+          19,
+          20,
+          30,
+          37
+        ],
+        "Moon": [
+          1,
+          2,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          13,
+          15,
+          16,
+          17,
+          19,
+          20,
+          22,
+          23,
+          24,
+          25
+        ],
+        "Chandra": [
+          5,
+          19,
+          20
+        ],
+        "Navamsa": [
+          19,
+          20,
+          32,
+          33
+        ],
+        "D9": [
+          9,
+          11,
+          13,
+          17,
+          19,
+          20,
+          32
+        ],
+        "D10": [
+          9,
+          11,
+          13,
+          16
+        ],
+        "Chalit": [
+          28,
+          29
+        ],
+        "Vimshottari": [
+          22
+        ],
+        "Mahadasha": [
+          9,
+          10,
+          14,
+          15,
+          21,
+          22
+        ],
+        "Antardasha": [
+          9,
+          10,
+          14,
+          15,
+          21
+        ],
+        "Pratyantar": [
+          14,
+          21
+        ],
+        "Friendship": [
+          24,
+          25,
+          26,
+          27
+        ],
+        "Ashtakavarga": [
+          10,
+          18,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35
+        ],
+        "Prastara": [
+          34,
+          35
+        ],
+        "Prastarashtakavarga": [
+          34,
+          35
+        ],
+        "KP": [
+          9
+        ],
+        "Karakamsha": [
+          32,
+          33
+        ],
+        "Remedies": [
+          9,
+          11,
+          14,
+          18
+        ],
+        "Remedy": [
+          2,
+          9,
+          11,
+          18
+        ],
+        "Mandi": [
+          26
+        ]
+      }
+    },
+    "predicta_premium_current": {
+      "source": "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/pdfs/premium-kundli-en.pdf",
+      "pageCount": 47,
+      "textCharacterCount": 60736,
+      "termCounts": {
+        "Panchang": 15,
+        "Ghatak": 4,
+        "Favorable": 7,
+        "Avakhada": 10,
+        "Lagna": 40,
+        "Rashi": 11,
+        "Moon": 124,
+        "Chandra": 6,
+        "Navamsa": 6,
+        "D9": 22,
+        "D10": 11,
+        "Chalit": 13,
+        "Vimshottari": 1,
+        "Mahadasha": 24,
+        "Antardasha": 18,
+        "Pratyantar": 5,
+        "Friendship": 10,
+        "Ashtakavarga": 37,
+        "Prastara": 6,
+        "Prastarashtakavarga": 6,
+        "KP": 4,
+        "Karakamsha": 4,
+        "Remedies": 13,
+        "Remedy": 9
+      },
+      "pagesByTerm": {
+        "Panchang": [
+          1,
+          11,
+          33,
+          38,
+          39
+        ],
+        "Ghatak": [
+          35
+        ],
+        "Favorable": [
+          35
+        ],
+        "Avakhada": [
+          38,
+          39
+        ],
+        "Lagna": [
+          1,
+          2,
+          5,
+          10,
+          11,
+          13,
+          15,
+          19,
+          20,
+          22,
+          23,
+          31,
+          32,
+          41,
+          42
+        ],
+        "Rashi": [
+          4,
+          9,
+          16,
+          17,
+          18,
+          19,
+          22,
+          23,
+          35,
+          44,
+          45
+        ],
+        "Moon": [
+          1,
+          2,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          13,
+          15,
+          16,
+          17,
+          18,
+          20,
+          22,
+          23,
+          25,
+          26
+        ],
+        "Chandra": [
+          5,
+          22,
+          23
+        ],
+        "Navamsa": [
+          22,
+          23,
+          36,
+          37
+        ],
+        "D9": [
+          9,
+          11,
+          13,
+          17,
+          22,
+          23,
+          36,
+          37,
+          46
+        ],
+        "D10": [
+          9,
+          11,
+          13,
+          16,
+          46
+        ],
+        "Chalit": [
+          19,
+          20,
+          33
+        ],
+        "Vimshottari": [
+          25
+        ],
+        "Mahadasha": [
+          9,
+          10,
+          14,
+          15,
+          24,
+          25,
+          46
+        ],
+        "Antardasha": [
+          9,
+          10,
+          14,
+          15,
+          24,
+          46
+        ],
+        "Pratyantar": [
+          14,
+          24
+        ],
+        "Friendship": [
+          28,
+          29,
+          31,
+          32
+        ],
+        "Ashtakavarga": [
+          10,
+          14,
+          19,
+          20,
+          21,
+          24,
+          35,
+          37,
+          46
+        ],
+        "Prastara": [
+          37
+        ],
+        "Prastarashtakavarga": [
+          37
+        ],
+        "KP": [
+          9,
+          19
+        ],
+        "Karakamsha": [
+          36,
+          37
+        ],
+        "Remedies": [
+          2,
+          9,
+          10,
+          11,
+          13,
+          14,
+          21,
+          43,
+          44
+        ],
+        "Remedy": [
+          2,
+          9,
+          11,
+          15,
+          21,
+          22,
+          43
+        ]
+      }
+    }
+  }
+}
