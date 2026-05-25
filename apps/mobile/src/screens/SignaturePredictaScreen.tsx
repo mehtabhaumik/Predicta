@@ -166,7 +166,8 @@ export function SignaturePredictaScreen({
   const [confirmedTraits, setConfirmedTraits] = useState<
     Partial<Record<SignatureTraitKey, SignatureTraitValue>>
   >({});
-  const hasSignature = scanStatus !== 'empty';
+  const hasSignature =
+    scanStatus === 'ready' && Boolean(Object.keys(detectedTraits).length);
   const detectedTraitRows = useMemo(
     () => extractSignatureTraitObservations(detectedTraits, 'unconfirmed'),
     [detectedTraits],
@@ -187,10 +188,9 @@ export function SignaturePredictaScreen({
 
   function startScan(nextMode: SignatureInputMode): void {
     setMode(nextMode);
-    setDetectedTraits(buildMobileDetectedTraits(nextMode));
+    setDetectedTraits({});
     setConfirmedTraits({});
-    setScanStatus('scanning');
-    setTimeout(() => setScanStatus('ready'), 300);
+    setScanStatus('empty');
   }
 
   function clearSignature(): void {
@@ -200,6 +200,10 @@ export function SignaturePredictaScreen({
   }
 
   function confirmTraits(): void {
+    if (!hasSignature) {
+      return;
+    }
+
     setConfirmedTraits(detectedTraits);
   }
 
@@ -284,9 +288,11 @@ export function SignaturePredictaScreen({
                   : copy.scanned}
             </AppText>
             <AppText className="mt-2" tone="secondary" variant="caption">
-              {scanStatus === 'scanning'
-                ? copy.reducedMotion
-                : copy.ready}
+              {scanStatus === 'empty'
+                ? copy.onlyConfirmed
+                : scanStatus === 'scanning'
+                  ? copy.reducedMotion
+                  : copy.ready}
             </AppText>
           </View>
           <View style={styles.chipRow}>
@@ -328,6 +334,7 @@ export function SignaturePredictaScreen({
           </View>
           <View className="mt-5">
             <GlowButton
+              disabled={!hasSignature}
               label={copy.actions.looksRight}
               onPress={confirmTraits}
             />
@@ -369,40 +376,6 @@ export function SignaturePredictaScreen({
       </View>
     </Screen>
   );
-}
-
-function buildMobileDetectedTraits(
-  mode: SignatureInputMode,
-): Partial<Record<SignatureTraitKey, SignatureTraitValue>> {
-  if (mode === 'upload') {
-    return {
-      baseline: 'steady',
-      flourish: 'moderate',
-      legibility: 'partial',
-      'letter-connection': 'mixed',
-      'margin-use': 'balanced',
-      pressure: 'medium',
-      'signature-size': 'medium',
-      slant: 'right',
-      spacing: 'balanced',
-      speed: 'moderate',
-      underline: 'none',
-    };
-  }
-
-  return {
-    baseline: 'upward',
-    flourish: 'moderate',
-    legibility: 'partial',
-    'letter-connection': 'connected',
-    'margin-use': 'balanced',
-    pressure: 'medium',
-    'signature-size': 'medium',
-    slant: 'right',
-    spacing: 'balanced',
-    speed: 'moderate',
-    underline: 'single',
-  };
 }
 
 const styles = StyleSheet.create({

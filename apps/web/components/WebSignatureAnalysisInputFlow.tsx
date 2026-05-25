@@ -592,6 +592,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
   const copy = SIGNATURE_COPY[language] ?? SIGNATURE_COPY.en;
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const drawingRef = useRef(false);
+  const scanTimeoutRef = useRef<number | undefined>(undefined);
   const [previewUrl, setPreviewUrl] = useState<string | undefined>();
   const [mode, setMode] = useState<SignatureDraft['mode']>('draw');
   const [hasDrawing, setHasDrawing] = useState(false);
@@ -627,22 +628,11 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
   }, []);
 
   useEffect(() => {
-    const auditState = new URLSearchParams(window.location.search).get(
-      'signatureAudit',
-    );
-
-    if (auditState !== 'scan' && auditState !== 'ready') {
-      return;
-    }
-
-    const nextTraits = buildTemporaryDetectedTraits('upload');
-    setMode('upload');
-    setPreviewUrl(undefined);
-    setHasDrawing(true);
-    setDetectedTraits(nextTraits);
-    setScanStatus(auditState === 'scan' ? 'scanning' : 'ready');
-    setObservedTraits(auditState === 'ready' ? nextTraits : {});
-    setIsReady(auditState === 'ready');
+    return () => {
+      if (scanTimeoutRef.current) {
+        window.clearTimeout(scanTimeoutRef.current);
+      }
+    };
   }, []);
 
   const canContinue = Boolean(previewUrl || hasDrawing);
@@ -650,10 +640,10 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
     () =>
       composeSignatureAnalysisModel({
         inputSource: mode === 'draw' ? 'drawn-signature' : 'uploaded-image',
-        observedTraits,
+        observedTraits: canContinue ? observedTraits : {},
         confirmationState: 'confirmed',
       }),
-    [mode, observedTraits],
+    [canContinue, mode, observedTraits],
   );
   const detectedTraitObservations = useMemo(
     () => extractSignatureTraitObservations(detectedTraits, 'unconfirmed'),
@@ -663,7 +653,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
     () => extractSignatureTraitObservations(observedTraits, 'confirmed'),
     [observedTraits],
   );
-  const canOpenReading = analysisModel.status === 'ready';
+  const canOpenReading = canContinue && analysisModel.status === 'ready';
 
   function handleFileChange(event: ChangeEvent<HTMLInputElement>): void {
     const file = event.target.files?.[0];
@@ -674,32 +664,62 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
     const reader = new FileReader();
     reader.onload = () => {
       if (typeof reader.result === 'string') {
-        setPreviewUrl(reader.result);
-        setMode('upload');
-        setIsReady(false);
-        startTemporaryScan('upload');
+        void prepareUploadedSignature(reader.result);
       }
     };
     reader.readAsDataURL(file);
   }
 
+  async function prepareUploadedSignature(
+    previewDataUrl: string,
+  ): Promise<void> {
+    const hasVisibleSignature =
+      await previewDataUrlHasVisibleInk(previewDataUrl);
+    if (!hasVisibleSignature) {
+      clearSignature();
+      return;
+    }
+
+    setPreviewUrl(previewDataUrl);
+    setMode('upload');
+    setHasDrawing(false);
+    setIsReady(false);
+    startTemporaryScan('upload');
+  }
+
   function startTemporaryScan(nextMode: SignatureDraft['mode']): void {
+    if (nextMode === 'draw' && !hasDrawing) {
+      return;
+    }
+
     const nextTraits = buildTemporaryDetectedTraits(nextMode);
     setDetectedTraits(nextTraits);
     setObservedTraits({});
     setScanStatus('scanning');
-    window.setTimeout(() => {
+    if (scanTimeoutRef.current) {
+      window.clearTimeout(scanTimeoutRef.current);
+    }
+    scanTimeoutRef.current = window.setTimeout(() => {
+      scanTimeoutRef.current = undefined;
       setScanStatus('ready');
       setIsReady(false);
     }, 1600);
   }
 
   function confirmDetectedTraits(): void {
+    if (!canContinue || scanStatus !== 'ready') {
+      return;
+    }
+
     setObservedTraits(detectedTraits);
     setIsReady(true);
   }
 
   function adjustDetectedTraits(): void {
+    if (!canContinue || scanStatus === 'empty') {
+      return;
+    }
+
     setObservedTraits(current =>
       Object.keys(current).length ? current : detectedTraits,
     );
@@ -762,6 +782,11 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
   }
 
   function clearSignature(): void {
+    if (scanTimeoutRef.current) {
+      window.clearTimeout(scanTimeoutRef.current);
+      scanTimeoutRef.current = undefined;
+    }
+
     const canvas = canvasRef.current;
     const context = canvas?.getContext('2d');
     if (canvas && context) {
@@ -834,6 +859,10 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
     key: SignatureTraitKey,
     value: SignatureTraitValue,
   ): void {
+    if (!canContinue) {
+      return;
+    }
+
     setObservedTraits(current => ({
       ...current,
       [key]: current[key] === value ? undefined : value,
@@ -1013,6 +1042,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
               confirmedTraits={confirmedTraitObservations}
               copy={copy}
               detectedTraits={detectedTraitObservations}
+              hasSignatureInput={canContinue}
               isReady={isReady}
               onAdjust={adjustDetectedTraits}
               onClear={clearSignature}
@@ -1063,6 +1093,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
               confirmedTraits={confirmedTraitObservations}
               copy={copy}
               detectedTraits={detectedTraitObservations}
+              hasSignatureInput={canContinue}
               isReady={isReady}
               onAdjust={adjustDetectedTraits}
               onClear={clearSignature}
@@ -1091,6 +1122,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
                     className={
                       observedTraits[control.key] === option ? 'active' : ''
                     }
+                    disabled={!canContinue}
                     key={option}
                     onClick={() => updateObservedTrait(control.key, option)}
                     type="button"
@@ -1102,7 +1134,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
             </div>
           ))}
         </div>
-        {analysisModel.status === 'ready' ? (
+        {canContinue && analysisModel.status === 'ready' ? (
           <div className="signature-trait-summary">
             <span>{copy.traits.summaryTitle}</span>
             <p>{buildPreparedReadingSummary(analysisModel, copy, language)}</p>
@@ -1222,6 +1254,7 @@ function SignatureImmediateReceipt({
   confirmedTraits,
   copy,
   detectedTraits,
+  hasSignatureInput,
   isReady,
   onAdjust,
   onClear,
@@ -1232,6 +1265,7 @@ function SignatureImmediateReceipt({
   confirmedTraits: SignatureTraitObservation[];
   copy: SignatureCopy;
   detectedTraits: SignatureTraitObservation[];
+  hasSignatureInput: boolean;
   isReady: boolean;
   onAdjust: () => void;
   onClear: () => void;
@@ -1239,7 +1273,12 @@ function SignatureImmediateReceipt({
   previewUrl?: string;
   scanStatus: SignatureScanStatus;
 }): React.JSX.Element {
-  const visibleTraits = confirmedTraits.length ? confirmedTraits : detectedTraits;
+  const visibleTraits = confirmedTraits.length
+    ? confirmedTraits
+    : detectedTraits;
+  const canConfirm =
+    hasSignatureInput && scanStatus === 'ready' && detectedTraits.length > 0;
+  const canAdjust = hasSignatureInput && scanStatus !== 'empty';
 
   return (
     <div className="signature-inline-receipt">
@@ -1256,7 +1295,7 @@ function SignatureImmediateReceipt({
         <span>
           {scanStatus === 'scanning'
             ? copy.receipt.scanning
-            : scanStatus === 'ready'
+            : scanStatus === 'ready' && hasSignatureInput
               ? copy.receipt.scanned
               : copy.receipt.missing}
         </span>
@@ -1287,7 +1326,7 @@ function SignatureImmediateReceipt({
       <div className="signature-action-row">
         <button
           className="button primary"
-          disabled={scanStatus === 'empty' || scanStatus === 'scanning'}
+          disabled={!canConfirm}
           onClick={onConfirm}
           type="button"
         >
@@ -1295,7 +1334,7 @@ function SignatureImmediateReceipt({
         </button>
         <button
           className="button secondary"
-          disabled={scanStatus === 'empty'}
+          disabled={!canAdjust}
           onClick={onAdjust}
           type="button"
         >
@@ -1308,6 +1347,77 @@ function SignatureImmediateReceipt({
       <p className="signature-privacy-mini">{copy.receipt.privacyShort}</p>
     </div>
   );
+}
+
+async function previewDataUrlHasVisibleInk(
+  previewDataUrl: string,
+): Promise<boolean> {
+  if (typeof window === 'undefined') {
+    return false;
+  }
+
+  const image = await new Promise<HTMLImageElement>((resolve, reject) => {
+    const nextImage = new Image();
+    nextImage.onload = () => resolve(nextImage);
+    nextImage.onerror = () =>
+      reject(new Error('Signature image could not be read.'));
+    nextImage.src = previewDataUrl;
+  }).catch(() => undefined);
+
+  if (!image) {
+    return false;
+  }
+
+  const canvas = document.createElement('canvas');
+  const maxSide = 160;
+  const scale = Math.min(
+    1,
+    maxSide /
+      Math.max(
+        image.naturalWidth || image.width,
+        image.naturalHeight || image.height,
+        1,
+      ),
+  );
+  canvas.width = Math.max(
+    1,
+    Math.floor((image.naturalWidth || image.width) * scale),
+  );
+  canvas.height = Math.max(
+    1,
+    Math.floor((image.naturalHeight || image.height) * scale),
+  );
+
+  const context = canvas.getContext('2d', { willReadFrequently: true });
+  if (!context) {
+    return false;
+  }
+
+  context.drawImage(image, 0, 0, canvas.width, canvas.height);
+  const { data } = context.getImageData(0, 0, canvas.width, canvas.height);
+  let visiblePixels = 0;
+  let darkOrColoredPixels = 0;
+
+  for (let index = 0; index < data.length; index += 4) {
+    const alpha = data[index + 3] ?? 0;
+    if (alpha < 24) {
+      continue;
+    }
+
+    visiblePixels += 1;
+    const red = data[index] ?? 255;
+    const green = data[index + 1] ?? 255;
+    const blue = data[index + 2] ?? 255;
+    const brightness = (red + green + blue) / 3;
+    const colorSpread = Math.max(red, green, blue) - Math.min(red, green, blue);
+
+    if (brightness < 245 || colorSpread > 12) {
+      darkOrColoredPixels += 1;
+    }
+  }
+
+  const minimumInkPixels = Math.max(18, Math.floor(visiblePixels * 0.002));
+  return darkOrColoredPixels >= minimumInkPixels;
 }
 
 function buildTemporaryDetectedTraits(

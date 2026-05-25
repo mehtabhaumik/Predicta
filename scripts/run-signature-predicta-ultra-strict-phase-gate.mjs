@@ -82,6 +82,29 @@ assert.ok(
   'web draft does not persist raw signature image data',
 );
 assert.ok(
+  !/signatureAudit/i.test(files.web),
+  'web Signature flow does not auto-create scan or ready state from URL audit parameters',
+);
+assertIncludes(
+  files.web,
+  'observedTraits: canContinue ? observedTraits : {}',
+  'web Signature analysis is gated behind a real upload or drawing',
+);
+assertIncludes(
+  files.web,
+  'disabled={!canContinue}',
+  'web Signature trait controls are disabled until a real signature input exists',
+);
+assert.ok(
+  !/setDetectedTraits\(buildMobileDetectedTraits/i.test(files.mobile),
+  'mobile Signature flow does not manufacture detected traits from placeholder buttons',
+);
+assertIncludes(
+  files.mobile,
+  'disabled={!hasSignature}',
+  'mobile Signature confirmation is disabled until a real signature input exists',
+);
+assert.ok(
   !/AsyncStorage|Keychain|MMKV|SecureStore|localStorage|sessionStorage|IndexedDB/i.test(files.mobile),
   'mobile Signature screen does not use persistent storage for raw signatures',
 );
