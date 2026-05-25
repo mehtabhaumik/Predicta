@@ -10,7 +10,7 @@ export const CHART_VIEW_HIERARCHY: ChartViewHierarchyItem[] = [
     id: 'insight',
     label: 'Insight View',
     description:
-      'Meaning first: what the chart governs, what it is saying, strengths, challenges, affected life areas, current guidance, and free/premium interpretation.',
+      'Prediction first: what the chart points to now, support, pressure, active timing, practical action, evidence, and free/premium interpretation.',
     default: true,
   },
   {

@@ -1,0 +1,70 @@
+{
+  "phase": "PREDICTA_KUNDLI_VALUE_PHASE_4_PREDICTION_LANGUAGE_AND_DEPTH_REBUILD",
+  "auditPurpose": "Verify that Kundli chart and report language answers what this means for me instead of stopping at what the chart governs.",
+  "samples": [
+    {
+      "section": "D1 Rashi Chart",
+      "freePrediction": "The root chart must identify the loudest life area, the maturity pressure, and the practical next move instead of describing D1 as a life blueprint only.",
+      "premiumDepth": "Premium adds Lagna, Moon, dasha, yogas, house strength, contradiction handling, and timing relevance to explain where the life promise is supported or delayed.",
+      "answersWhatThisMeansForMe": true,
+      "avoidsFatalism": true,
+      "notJustGovernsCopy": true
+    },
+    {
+      "section": "Moon / Chandra Lagna Chart",
+      "freePrediction": "The Moon chart must explain the emotional and lived-experience pattern the user is likely feeling now, with one grounding action.",
+      "premiumDepth": "Premium connects Moon chart pressure with D1 and dasha timing so the user understands the difference between inner reaction and outer direction.",
+      "answersWhatThisMeansForMe": true,
+      "avoidsFatalism": true,
+      "notJustGovernsCopy": true
+    },
+    {
+      "section": "D9 Navamsa Chart",
+      "freePrediction": "The Navamsa paragraph must say how relationships, dharma maturity, and inner alignment are strengthening or asking for patience.",
+      "premiumDepth": "Premium reads D9 with D1 anchoring, timing, contradictions, and practical choices instead of only saying that D9 is marriage and dharma.",
+      "answersWhatThisMeansForMe": true,
+      "avoidsFatalism": true,
+      "notJustGovernsCopy": true
+    },
+    {
+      "section": "D10 Dashamsa Chart",
+      "freePrediction": "The Dashamsa paragraph must say where career delivery is supported, where it may be blocked, and what kind of work behavior improves outcomes.",
+      "premiumDepth": "Premium adds D1 plus D10 synthesis, timing support, authority pressure, public reputation, and realistic action guidance.",
+      "answersWhatThisMeansForMe": true,
+      "avoidsFatalism": true,
+      "notJustGovernsCopy": true
+    },
+    {
+      "section": "Chalit Chart",
+      "freePrediction": "The Chalit reading must describe how house delivery changes in lived life and what practical correction the user should make.",
+      "premiumDepth": "Premium explains shifted and stable house emphasis, cross-checks D1, and separates identity promise from real-world delivery.",
+      "answersWhatThisMeansForMe": true,
+      "avoidsFatalism": true,
+      "notJustGovernsCopy": true
+    },
+    {
+      "section": "Swamsa and Karakamsha",
+      "freePrediction": "Soul charts must explain inner direction, Atmakaraka-linked life direction, and practical self-correction without claiming fixed fate.",
+      "premiumDepth": "Premium deepens the soul-direction reading through Navamsa evidence, D1 anchoring, current dasha, and careful spiritual growth language.",
+      "answersWhatThisMeansForMe": true,
+      "avoidsFatalism": true,
+      "notJustGovernsCopy": true
+    },
+    {
+      "section": "Selected Full Varga Library Chart",
+      "freePrediction": "Any selected varga must give one useful prediction for its topic, including support, pressure, and what to do now.",
+      "premiumDepth": "Premium stays concise on-screen but adds evidence, timing, contradiction handling, cross-chart synthesis, and report-ready depth in the PDF.",
+      "answersWhatThisMeansForMe": true,
+      "avoidsFatalism": true,
+      "notJustGovernsCopy": true
+    },
+    {
+      "section": "Report Chart Narrative",
+      "freePrediction": "PDF chart bullets now lead with prediction, support, pressure, practical action, timing or next step, and evidence anchor.",
+      "premiumDepth": "Premium PDF lines use Premium prediction depth and explain chart evidence without burying the user in a technical appendix first.",
+      "answersWhatThisMeansForMe": true,
+      "avoidsFatalism": true,
+      "notJustGovernsCopy": true
+    }
+  ]
+}

@@ -93,7 +93,7 @@ for (const phrase of [
   assert.match(chartInsights, new RegExp(escapeRegExp(phrase)), `composeCoreVargaInsight uses ${phrase}`);
 }
 
-assert.match(webChart, /Varga focus: \$\{localizedInsight\.governs\}/);
+assert.match(webChart, /Varga prediction focus: \$\{localizedInsight\.governs\}/);
 assert.match(vargaInterpretation, /D2 is Hora/);
 assert.match(vargaInterpretation, /D9 is Navamsha/);
 assert.match(vargaInterpretation, /D30 refines stress/);

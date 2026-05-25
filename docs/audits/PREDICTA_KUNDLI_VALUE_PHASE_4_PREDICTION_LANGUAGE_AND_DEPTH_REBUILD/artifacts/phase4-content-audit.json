@@ -1,0 +1,45 @@
+{
+  "phase": "PREDICTA_KUNDLI_VALUE_PHASE_4_PREDICTION_LANGUAGE_AND_DEPTH_REBUILD",
+  "status": "strict-audit-ready",
+  "sourceFindings": [
+    {
+      "surface": "shared chart insight model",
+      "file": "packages/astrology/src/chartInsights.ts",
+      "finding": "Generic chart fallback now says what the chart points to, expected behavior, support, pressure, current action, and evidence limits."
+    },
+    {
+      "surface": "unsupported chart states",
+      "file": "packages/astrology/src/chartInsights.ts",
+      "finding": "Calculation-limited charts are marked as topic markers and cannot invent support, delay, timing, or life results."
+    },
+    {
+      "surface": "PDF chart narrative",
+      "file": "packages/pdf/src/index.ts",
+      "finding": "Report bullets now use prediction, support, pressure, practical action, premium prediction depth, evidence anchor, and evidence appendix."
+    },
+    {
+      "surface": "web chart insight",
+      "file": "apps/web/components/WebKundliChart.tsx",
+      "finding": "User-facing label changed from governs-first copy to what this points to now."
+    },
+    {
+      "surface": "chat chart hierarchy",
+      "file": "packages/astrology/src/chatChartBlocks.ts",
+      "finding": "Predicta replies open with direct prediction signal and evidence focus, then expose support, free understanding, premium depth, and evidence appendix."
+    }
+  ],
+  "bannedCopyAudit": {
+    "removed": [
+      "What this chart governs",
+      "${chartType} meaning:",
+      "${chartType} technical appendix:",
+      "Every chart now opens with human meaning first.",
+      "This chart is currently saying that"
+    ],
+    "allowedTechnicalUse": "The internal field name governs remains in shared types as metadata, but it is no longer presented as the primary value proposition."
+  },
+  "freePremiumRule": {
+    "free": "Concise, useful, non-technical prediction with support, pressure, active theme, and practical action.",
+    "premium": "Deeper evidence, contradictions, timing relevance, cross-chart synthesis, and report-grade practical guidance."
+  }
+}

@@ -26,7 +26,11 @@ const files = {
 };
 
 for (const phrase of [
-  "ChartInsightProfile = 'default' | 'chalit' | 'kp' | 'nadi'",
+  'export type ChartInsightProfile',
+  "| 'default'",
+  "| 'chalit'",
+  "| 'kp'",
+  "| 'nadi'",
   'export type KpEventJudgement',
   'export type NadiChartStoryLens',
   'eventJudgement: KpEventJudgement',

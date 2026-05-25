@@ -25,11 +25,11 @@ const files = {
 
 for (const phrase of [
   'PREDICTA_CHART_INSIGHT_PHASE_7_CHAT_REPORT_AND_CTA_INTEGRATION',
-  'meaning',
+  'prediction',
   'key insight',
   'free understanding',
   'premium depth',
-  'technical appendix',
+  'evidence appendix',
   'Remove stale chart copy that still sounds like a mechanic’s note',
 ]) {
   assertIncludes(files.doc, phrase, `Phase 7 contract includes ${phrase}`);
@@ -61,11 +61,11 @@ for (const [name, source] of [
 for (const phrase of [
   'buildChatChartReportHierarchy',
   'reportHierarchy',
-  'Meaning:',
+  'Prediction:',
   'Key insight:',
   'Free understanding:',
   'Premium depth:',
-  'Technical appendix:',
+  'Evidence appendix:',
   'Ask deeper',
   'Ask timing',
   'Ask remedy',
@@ -116,11 +116,12 @@ for (const phrase of [
 }
 
 for (const phrase of [
-  '${chartType} meaning:',
-  '${chartType} key insight:',
-  '${chartType} free understanding:',
-  'Premium depth:',
-  '${chartType} technical appendix:',
+  '${chartType} prediction:',
+  '${chartType} support:',
+  '${chartType} pressure:',
+  '${chartType} practical action:',
+  'Premium prediction depth:',
+  '${chartType} evidence appendix:',
 ]) {
   assertIncludes(files.pdf, phrase, `PDF chart narrative preserves ${phrase}`);
 }
@@ -132,7 +133,7 @@ assert.ok(
   'chart chat copy must not say the chart was merely opened',
 );
 
-console.log('Chart Insight Phase 7 passed: chat, reports, and chart CTAs share the meaning-first hierarchy.');
+console.log('Chart Insight Phase 7 passed: chat, reports, and chart CTAs share the prediction-first hierarchy.');
 
 function assertIncludes(source, phrase, label) {
   assert.ok(source.includes(phrase), label);

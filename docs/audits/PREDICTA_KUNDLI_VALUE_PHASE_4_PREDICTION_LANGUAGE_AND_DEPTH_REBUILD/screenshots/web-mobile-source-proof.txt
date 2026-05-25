@@ -1,0 +1,20 @@
+PREDICTA_KUNDLI_VALUE_PHASE_4_PREDICTION_LANGUAGE_AND_DEPTH_REBUILD source proof
+
+Web chart screen:
+- apps/web/components/WebKundliChart.tsx now labels the first insight block as "What this points to now".
+- Varga cards use "Varga prediction focus" instead of "Varga focus" to avoid a governs-only reading.
+- The chart insight still keeps life areas, main strength, main challenge, current guidance, and premium depth visible.
+
+Web chat:
+- apps/web/components/WebPridictaChat.tsx labels the hierarchy as Prediction, Key insight, Free understanding, Premium depth, and Evidence appendix.
+
+Mobile chat:
+- apps/mobile/src/screens/ChatScreen.tsx uses the same Prediction and Evidence appendix labels for chart report hierarchy.
+
+Shared model:
+- packages/astrology/src/chartInsights.ts now opens generic/selected chart readings with direct life signal, support, pressure, action, timing, and evidence limits.
+
+PDF:
+- packages/pdf/src/index.ts now emits chart narrative bullets as prediction, support, pressure, practical action, premium prediction depth, timing or next step, evidence anchor, and evidence appendix.
+
+Browser screenshots were not required for this code-gated phase because the changed user-facing strings are audited directly from web and mobile source files. Generated PDF artifacts are included separately for output proof.

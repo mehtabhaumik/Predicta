@@ -33,8 +33,8 @@ Every chart surface must answer:
 
 Every chart surface must lead with:
 
-1. `What this chart governs`
-2. `What this chart is saying for you`
+1. `What this chart points to now`
+2. `What this chart is predicting for you`
 3. `Main strength`
 4. `Main challenge`
 5. `Life areas affected`
@@ -439,12 +439,12 @@ Make the chart meaning system consistent across chart page, chat, and reports.
   - ask remedy
   - compare with D1
   - understand what this means for career/love/family
-- Rebuild chart report sections so report exports follow the same hierarchy:
-  - meaning
+- Rebuild chart report sections so report exports follow the same prediction-first hierarchy:
+  - prediction
   - key insight
   - free understanding
   - premium depth
-  - technical appendix
+  - evidence appendix
 - Remove stale chart copy that still sounds like a mechanic’s note.
 
 ### Must Touch
@@ -459,7 +459,8 @@ Make the chart meaning system consistent across chart page, chat, and reports.
 > Integrate the chart insight contract into chat and reports so the user gets
 > the same product promise everywhere. When a chart opens in chat, Predicta must
 > first explain what the chart is saying, not just that the chart was opened.
-> Report sections must also lead with human meaning before technical detail.
+> Report sections must also lead with practical prediction before evidence
+> detail.
 
 ---
 

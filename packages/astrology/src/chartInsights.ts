@@ -219,30 +219,30 @@ export function composeChartInsight({
     return {
       eyebrow: 'Careful reading',
       currentGuidance:
-        'Use the prepared charts for active prediction while this chart stays in a lighter, more careful state.',
+        'Use the prepared charts for the actual prediction today. This chart is shown as a boundary marker until its evidence is strong enough to read safely.',
       freeInsights: [
-        'Predicta is keeping this chart conservative until the evidence is complete.',
-        'The point is to avoid fake certainty, not to hide the chart.',
+        'No prediction is being invented from this chart yet; the stronger prepared charts carry the reading.',
+        'The useful takeaway is restraint: wait for evidence before treating this layer as a life signal.',
       ],
       governs: config.purpose,
       lifeAreas,
       mainChallenge:
-        'This chart should not be overstated before the full evidence is ready.',
+        'The risk is false confidence: this chart should not be used to promise support, delay, or timing before the full evidence is ready.',
       mainStrength:
-        'The chart is still visible, so you can understand its purpose before deeper calculation is available.',
+        'The honest strength is transparency: Predicta shows the chart boundary instead of dressing uncertainty as a prediction.',
       premiumDeepDive: [
-        'Premium should only go deeper after the chart evidence is complete.',
+        'Premium must wait for complete chart evidence before adding timing, contradiction handling, or practical prediction from this layer.',
       ],
       technicalDetails: [
         'Predicta shows this chart and keeps the reading conservative until the chart evidence is complete.',
-        'Use the prepared charts for prediction while this chart receives a lighter explanation.',
+        'Use the prepared charts for prediction while this chart remains evidence-limited.',
       ],
       technicalSummary:
-        'This chart is listed with a lighter explanation until the full evidence is ready.',
+        'This chart is listed as evidence-limited until the full calculation proof is ready.',
       title: config.name,
       whatItSays:
         chart.unsupportedReason ??
-        'This chart is visible, but Predicta is keeping the interpretation careful until the full evidence is ready.',
+        'This chart is visible, but it is not allowed to drive the reading yet. Use D1, Moon, D9, D10, Chalit, and prepared vargas for the actual life guidance.',
     };
   }
 
@@ -311,43 +311,43 @@ export function composeChartInsight({
   const focus = CHART_FOCUS[chart.chartType];
   const readingNote = getChartReadingNote(chart.chartType);
   const clusterMeaning = primaryHouse
-    ? `the strongest concentration is around house ${primaryHouse}${primaryPlanets.length ? ` with ${primaryPlanets.join(', ')}` : ''}`
-    : 'no single house is dominating the preview, so the chart should be read more carefully with D1 and timing support';
+    ? `${formatHouseArea(primaryHouse)} is receiving the loudest push${primaryPlanets.length ? ` through ${primaryPlanets.join(', ')}` : ''}`
+    : 'no single life area is loud enough to carry the prediction by itself';
   const governs = config.purpose;
   const whatItSays = primaryHouse
-    ? `This chart is currently saying that ${clusterMeaning}, which makes this part of life speak louder than the rest.`
-    : `This chart is currently saying that the story here is subtle, so timing, D1 anchoring, and patient interpretation matter more than dramatic claims.`;
+    ? `This chart points to ${clusterMeaning}. Expect this topic to ask for clearer choices, steadier effort, and less avoidance before it gives its best results.`
+    : `This chart is not making a loud promise on its own. The useful prediction is to move slowly, confirm through D1 and timing, and avoid turning a quiet signal into a dramatic life conclusion.`;
   const mainStrength = primaryHouse
-    ? `Your clearest strength here is the focused pull around house ${primaryHouse}, because clustered placements usually make this area easier to notice and work with.`
+    ? `Your usable strength is focus: ${formatHouseArea(primaryHouse)} is easier to notice, improve, and consciously direct because the chart keeps pulling attention there.`
     : 'Your strength here is restraint: this chart is not screaming, so it can be judged carefully without panic or overstatement.';
   const mainChallenge =
     occupiedHouseCount >= 4
-      ? 'The challenge here is scattered pressure across multiple houses, so this area can feel split until priorities become clearer.'
+      ? 'The challenge is scattered pressure. Too many topics can compete at once, so the prediction improves when the user chooses one practical priority instead of trying to fix everything together.'
       : chart.chartType === 'D1'
-      ? 'The challenge is not to reduce your whole life chart to one loud placement. D1 still needs balance across houses, timing, and maturity.'
-      : `The challenge is not to treat ${chart.chartType} like a standalone life chart. It still needs D1 as the root anchor.`;
+      ? 'The challenge is not to reduce the whole life to one loud placement. D1 still needs balance across houses, timing, and maturity.'
+      : `The challenge is not to treat ${chart.chartType} like a standalone life verdict. It still needs D1 as the root anchor.`;
   const currentGuidance =
     chart.chartType === 'D1'
-      ? 'Use this chart to understand the main life pattern first, then ask Predicta about the specific area that feels most urgent right now.'
-      : `Use ${chart.chartType} as a focused lens, then compare it with D1 before making a strong conclusion.`;
+      ? 'Choose the life area that feels most urgent and ask Predicta for the next practical move; D1 should turn into a decision, not just an observation.'
+      : `Use ${chart.chartType} to sharpen one life topic, then compare it with D1 before making a strong conclusion or major choice.`;
   const freeInsights = [
     primaryHouse
-      ? `Start with the loudest signal: ${clusterMeaning}.`
+      ? `Start with the loudest signal: ${clusterMeaning}, so this is where effort is most likely to produce visible change.`
       : 'Start with the overall mood of the chart instead of hunting for one dramatic placement.',
     occupiedHouseCount
-      ? `${occupiedHouseCount} houses are active in this chart, so the reading should stay grounded in what is actually emphasized.`
+      ? `${occupiedHouseCount} houses are active, so the chart is asking for priority and sequencing rather than scattered reaction.`
       : 'This preview is quiet, so the chart should be read conservatively.',
     chart.chartType === 'D1'
-      ? 'This is the root chart, so it tells you where the main life story is taking shape.'
-      : `This chart refines one area of life. It becomes more useful when it is compared with D1 and timing.`,
-    `The most useful question to ask next is how this chart affects ${lifeAreas.slice(0, 2).join(' and ')}.`,
+      ? 'This is the root chart, so the prediction should start with identity, choices, and lived direction.'
+      : `This chart refines one life topic; it becomes useful when it tells the user what to strengthen, wait on, or handle carefully.`,
+    `The most useful question to ask next is what to do about ${lifeAreas.slice(0, 2).join(' and ')} in the current chapter.`,
   ];
   const premiumDeepDive = [
-    `Premium reads ${chart.chartType} with D1 anchoring, timing support, and confidence framing instead of stopping at placement labels.`,
+    `Premium reads ${chart.chartType} with D1 anchoring, timing support, and confidence framing so the user gets a prediction, not just placement labels.`,
     primaryHouse
-      ? `Premium explains how house ${primaryHouse} supports, stretches, or complicates the rest of the chart.`
+      ? `Premium explains how ${formatHouseArea(primaryHouse)} supports, stretches, or complicates the rest of the chart and what the user should do with that pressure.`
       : 'Premium clarifies whether this quieter chart is supportive, mixed, or timing-sensitive.',
-    'Premium also adds deeper synthesis, contradiction handling, and report-ready interpretation.',
+    'Premium also adds deeper synthesis, contradiction handling, timing relevance, and report-ready practical guidance.',
   ];
   const technicalSummary = hasPremiumAccess
     ? `Technical View keeps the evidence layer visible while Premium adds deeper synthesis for ${config.name}.`
@@ -855,13 +855,13 @@ function composeCoreVargaInsight(
     governs: definition.governs,
     lifeAreas,
     mainChallenge: dominantHouse
-      ? `${humanStake.cautionReveals} The pressure point here is confusing ${activeArea} with your whole life story. This chart only governs one layer of experience and must stay anchored to D1.`
+      ? `${humanStake.cautionReveals} The pressure point is treating ${activeArea} as the whole story. The prediction is stronger when this chart stays anchored to D1 and is used for one specific life decision.`
       : definition.quietChallenge,
     mainStrength: dominantHouse
       ? `${humanStake.strengthReveals} In this chart, the clearest signal comes through ${activeArea}${dominantPlanetText}.`
       : definition.quietStrength,
     premiumDeepDive: [
-      `${definition.premiumLead} Premium explains how ${config.name} supports, complicates, or corrects the promise of D1 through ${humanStake.crossChartAnchor}.`,
+      `${definition.premiumLead} Premium explains what ${config.name} is likely to support, delay, or correct in real life through ${humanStake.crossChartAnchor}.`,
       dashaArea
         ? `Premium also reads timing through ${dashaArea} so this chart does not stay theoretical.`
         : 'Premium also adds sharper timing, contradiction handling, and synthesis across related charts.',
@@ -891,7 +891,7 @@ function composeCoreVargaInsight(
     ],
     technicalSummary: hasPremiumAccess
       ? `Technical View keeps the ${config.name} evidence visible while Premium adds deeper D1 synthesis and timing.`
-      : `Technical View keeps the ${config.name} evidence visible, while Insight View explains what this chart is trying to say in plain language.`,
+      : `Technical View keeps the ${config.name} evidence visible, while Insight View explains the actual life signal in plain language.`,
     title: config.name,
     whatItSays: dominantHouse
       ? `${humanStake.humanStakes} Right now it is saying: ${humanStake.currentSignal} The signal is strongest in ${activeArea}${dominantPlanetText}${supportArea ? `, with support around ${supportArea}` : ''}. ${dashaSentence}`
@@ -909,22 +909,22 @@ function composeUnsupportedCoreVargaInsight(
 
   return {
     currentGuidance:
-      'Use the purpose of this chart now, but wait for prepared chart evidence before using it for strong prediction or technical detail.',
+      'Use this chart as a topic marker only. Do not make a strong prediction from it until the prepared chart evidence is available.',
     eyebrow: 'Careful reading',
     freeInsights: [
-      `${config.name} still governs ${definition.governs.toLowerCase()}`,
-      'Predicta is keeping this chart conservative until the chart evidence is fully prepared.',
-      definition.userValueLine,
+      `${config.name} can point toward ${definition.defaultArea}, but this chart is not yet strong enough to judge support, delay, or timing.`,
+      'Predicta is keeping the reading conservative because a useful prediction needs prepared evidence, not a topic label.',
+      `${definition.userValueLine} Treat this as context, not a conclusion.`,
     ],
     governs: definition.governs,
     lifeAreas: definition.lifeAreas,
     mainChallenge:
-      'The challenge is over-reading a chart whose evidence is not fully prepared yet.',
+      'The challenge is over-reading a chart whose evidence is not fully prepared and turning a topic into a prediction.',
     mainStrength:
-      'You can still understand what this chart is for before moving into deeper evidence.',
+      'You can still understand which life topic this chart belongs to while Predicta refuses to invent unsupported detail.',
     premiumDeepDive: [
-      `${definition.premiumLead} Premium should only go deeper once the chart evidence is fully ready.`,
-      definition.premiumFinish,
+      `${definition.premiumLead} Premium should only add timing, contradiction handling, and specific guidance once the chart evidence is fully ready.`,
+      `${definition.premiumFinish} Until then, D1, Moon, D9, D10, and Chalit carry the actionable reading.`,
     ],
     premiumInsight: buildChartPremiumInsight({
       chartType,
@@ -944,7 +944,7 @@ function composeUnsupportedCoreVargaInsight(
       'Technical View stays bounded here because full chart evidence is not yet prepared.',
     title: config.name,
     whatItSays:
-      `This ${config.name} governs ${definition.governs.toLowerCase()} Predicta is keeping the live reading careful until the chart evidence is complete, so the purpose stays visible without pretending to certainty.`,
+      `${config.name} is calculation-limited right now. The safe prediction is to use ${definition.defaultArea} as a question to explore, not as a confirmed life result, until the evidence is complete.`,
   };
 }
 
@@ -1221,13 +1221,13 @@ function composeAdvancedVargaInsight(
     governs: definition.governs,
     lifeAreas,
     mainChallenge: dominantHouse
-      ? `${definition.challengeLead} The risk here is treating ${activeArea} as a full-life judgement when this chart only refines one narrow layer and must stay anchored to D1.`
+      ? `${definition.challengeLead} The risk is treating ${activeArea} as a full-life judgement. This chart should sharpen one practical prediction while D1 decides the main weight.`
       : definition.quietChallenge,
     mainStrength: dominantHouse
       ? `${definition.strengthLead} the clearest advanced-chart signal comes through ${activeArea}${dominantPlanetText}.`
       : definition.quietStrength,
     premiumDeepDive: [
-      `${definition.premiumLead} Premium explains how ${config.name} supports, sharpens, or softens the main D1 promise.`,
+      `${definition.premiumLead} Premium explains where ${config.name} is likely to support, delay, sharpen, or soften the main D1 promise.`,
       dashaArea
         ? `Premium also reads the timing emphasis through ${dashaArea} so this advanced chart becomes usable instead of decorative.`
         : 'Premium also adds tighter timing, contradiction handling, and cross-chart confidence framing.',
@@ -1254,7 +1254,7 @@ function composeAdvancedVargaInsight(
     ],
     technicalSummary: hasPremiumAccess
       ? `Technical View keeps the ${config.name} evidence visible while Premium adds deeper D1 synthesis, timing support, and caution framing.`
-      : `Technical View keeps the ${config.name} evidence visible, while Insight View explains the practical meaning of this advanced chart in plain language.`,
+      : `Technical View keeps the ${config.name} evidence visible, while Insight View explains the practical prediction in plain language.`,
     title: config.name,
     whatItSays: dominantHouse
       ? `${definition.storyLead} Right now the signal is strongest in ${activeArea}${dominantPlanetText}${supportArea ? `, with support around ${supportArea}` : ''}. ${dashaSentence}`
@@ -1273,23 +1273,23 @@ function composeUnsupportedAdvancedVargaInsight(
 
   return {
     currentGuidance:
-      'Use the purpose of this advanced chart now, but wait for prepared chart evidence before using it for strong prediction or narrow technical claims.',
+      'Use this advanced chart as a topic marker only. Do not make a narrow prediction from it until the prepared chart evidence is available.',
     eyebrow: 'Careful reading',
     freeInsights: [
-      `${config.name} still governs ${definition.governs.toLowerCase()}`,
-      'Predicta is keeping this advanced chart conservative until the chart evidence is fully prepared.',
-      definition.userValueLine,
+      `${config.name} can point toward ${definition.defaultArea}, but it is not yet strong enough to judge support, delay, or timing.`,
+      'Predicta is keeping this advanced chart conservative because prediction quality matters more than filling space.',
+      `${definition.userValueLine} Treat this as a careful question, not a confirmed outcome.`,
       confidence.freeSentence,
     ],
     governs: definition.governs,
     lifeAreas: definition.lifeAreas,
     mainChallenge:
-      'The challenge is over-reading a narrow chart whose evidence is not fully prepared yet.',
+      'The challenge is over-reading a narrow chart and turning incomplete evidence into false certainty.',
     mainStrength:
-      'You can still understand why this advanced chart matters before moving into deeper evidence.',
+      'You can still understand why this advanced chart matters while Predicta waits for enough evidence to make it useful.',
     premiumDeepDive: [
-      `${definition.premiumLead} Premium should only go deeper once the chart evidence is fully ready.`,
-      definition.premiumFinish,
+      `${definition.premiumLead} Premium should only add timing, contradiction handling, and practical prediction once the chart evidence is fully ready.`,
+      `${definition.premiumFinish} Until then, this chart remains a supporting lens, not the main verdict.`,
     ],
     premiumInsight: buildChartPremiumInsight({
       chartType,
@@ -1309,7 +1309,7 @@ function composeUnsupportedAdvancedVargaInsight(
       'Technical View stays bounded here because full advanced-chart evidence is not yet prepared.',
     title: config.name,
     whatItSays:
-      `This ${config.name} governs ${definition.governs.toLowerCase()} Predicta is keeping the live reading careful until the chart evidence is complete, so the purpose stays visible without pretending to certainty.`,
+      `${config.name} is calculation-limited right now. The safe prediction is to treat ${definition.defaultArea} as a subtle topic to verify, not as a confirmed life result, until the evidence is complete.`,
   };
 }
 

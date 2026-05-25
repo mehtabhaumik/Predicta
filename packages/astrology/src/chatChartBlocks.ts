@@ -170,8 +170,8 @@ export function buildChatChartReplyText({
 
   if (language === 'hi') {
     return [
-      `Haan. ${block.chartType} ${block.chartName} ka seedha matlab yahaan khol diya hai.`,
-      `Yeh chart asal mein ${block.insight.governs}`,
+      `Haan. ${block.chartType} ${block.chartName} ka seedha, practical signal yahaan khol diya hai.`,
+      `Yeh chart abhi is life area ki taraf ishara kar raha hai: ${block.insight.governs}`,
       meaningLine,
       guidanceLine,
       anchorLine,
@@ -181,8 +181,8 @@ export function buildChatChartReplyText({
 
   if (language === 'gu') {
     return [
-      `Haan. ${block.chartType} ${block.chartName} no sidho arth ahi kholi didho chhe.`,
-      `Aa chart kharekhar ${block.insight.governs}`,
+      `Haan. ${block.chartType} ${block.chartName} no sidho, practical signal ahi kholi didho chhe.`,
+      `Aa chart atyare aa life area taraf isharo kare chhe: ${block.insight.governs}`,
       meaningLine,
       guidanceLine,
       anchorLine,
@@ -191,12 +191,12 @@ export function buildChatChartReplyText({
   }
 
   return [
-    `Here is what your ${block.chartType} ${block.chartName} is really about.`,
-    `Meaning: ${block.reportHierarchy.meaning}`,
+    `Here is the direct prediction signal from your ${block.chartType} ${block.chartName}.`,
+    `Prediction: ${block.reportHierarchy.meaning}`,
     `Key insight: ${block.reportHierarchy.keyInsight}`,
     `Free understanding: ${block.reportHierarchy.freeUnderstanding}`,
     `Premium depth: ${block.reportHierarchy.premiumDepth}`,
-    `Technical appendix: ${block.reportHierarchy.technicalAppendix}`,
+    `Evidence appendix: ${block.reportHierarchy.technicalAppendix}`,
     meaningLine,
     guidanceLine,
     anchorLine,
@@ -244,7 +244,7 @@ function buildChartCtas(
     {
       id: 'ask-life-area',
       label: `Understand ${humanArea}`,
-      prompt: `Help me understand what my ${chartType} chart means for ${humanArea}. Start with human meaning, then key insight, free understanding, premium depth if available, and only then the technical appendix.`,
+      prompt: `Help me understand what my ${chartType} chart predicts for ${humanArea}. Start with the practical life signal, then key support, pressure, next action, premium depth if available, and only then the evidence appendix.`,
     },
     chartType === 'D1'
       ? {
@@ -272,7 +272,7 @@ function buildChatChartReportHierarchy({
   return {
     freeUnderstanding: insight.currentGuidance,
     keyInsight: insight.mainStrength,
-    meaning: `${insight.governs} ${insight.whatItSays}`,
+    meaning: `${insight.whatItSays} Evidence focus: ${insight.governs}`,
     premiumDepth: hasPremiumAccess
       ? insight.premiumInsight?.headline ??
         insight.premiumDeepDive[0] ??
@@ -281,7 +281,7 @@ function buildChatChartReportHierarchy({
         'Premium depth adds timing, contradictions, D1 comparison, remedy direction, and report-grade synthesis.',
     technicalAppendix:
       insight.technicalSummary ??
-      `${chartType} technical appendix is available after the meaning-led reading.`,
+      `${chartType} evidence appendix is available after the prediction-led reading.`,
   };
 }
 

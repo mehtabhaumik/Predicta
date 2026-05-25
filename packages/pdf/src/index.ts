@@ -1508,8 +1508,8 @@ function buildChartSynthesisSection(
 
   return {
     body: mode === 'PREMIUM'
-      ? 'Every chart now opens with human meaning first. Premium then adds timing windows, contradictions, cross-chart synthesis, remedies, and a technical appendix without making the reading feel mechanical.'
-      : 'Free report explains what each chart is trying to say in life before it drops into proof. The user gets real understanding first, not a wall of astrological mechanics.',
+      ? 'Every chart now opens with a direct life prediction first. Premium then adds evidence, timing windows, contradiction handling, cross-chart synthesis, and a compact appendix without making the reading feel mechanical.'
+      : 'Free report explains what each chart is pointing toward in life before it drops into proof. The user gets a useful prediction first, not a wall of astrological mechanics.',
     bullets: supported,
     evidence: [
       `Charts included in this report: ${chartTypes.join(', ')}.`,
@@ -1915,16 +1915,16 @@ function buildReportChartNarrative({
   const freeLine = insight.currentGuidance;
   const premiumLine = hasPremiumAccess
     ? insight.premiumInsight
-      ? `Premium depth: ${insight.premiumInsight.headline}`
-      : `Premium depth: ${insight.premiumDeepDive[0] ?? 'Premium adds timing, contradiction handling, and deeper synthesis.'}`
+      ? `Premium prediction depth: ${insight.premiumInsight.headline}`
+      : `Premium prediction depth: ${insight.premiumDeepDive[0] ?? 'Premium adds timing, contradiction handling, and deeper synthesis.'}`
     : undefined;
 
   const timingLine = hasPremiumAccess
     ? insight.premiumInsight?.timingWindows[0]
     : insight.freeInsights[0];
   const appendixLine = snapshot
-    ? `Technical appendix: ${formatSnapshotOccupiedHouses(snapshot)}`
-    : `${chartType} technical appendix appears after chart preparation.`;
+    ? `Evidence appendix: ${formatSnapshotOccupiedHouses(snapshot)}`
+    : `${chartType} evidence appendix appears after chart preparation.`;
   const moonLine = snapshot?.moonNakshatraPada
     ? `${chartType} Moon rhythm: ${snapshot.moonNakshatraPada.moonPhaseLabel}; birth star ${snapshot.moonNakshatraPada.moonNakshatra}${
         snapshot.moonNakshatraPada.pada
@@ -1934,12 +1934,14 @@ function buildReportChartNarrative({
     : undefined;
 
   return [
-    `${chartType} meaning: ${insight.governs} ${insight.whatItSays}`,
-    `${chartType} key insight: ${insight.mainStrength}`,
-    `${chartType} free understanding: ${freeLine}`,
+    `${chartType} prediction: ${insight.whatItSays}`,
+    `${chartType} support: ${insight.mainStrength}`,
+    `${chartType} pressure: ${insight.mainChallenge}`,
+    `${chartType} practical action: ${freeLine}`,
     ...(premiumLine ? [premiumLine] : []),
     ...(timingLine ? [`${chartType} timing or next step: ${timingLine}`] : []),
-    `${chartType} technical appendix: ${appendixLine}`,
+    `${chartType} evidence anchor: ${insight.governs}`,
+    `${chartType} evidence appendix: ${appendixLine}`,
     ...(moonLine ? [moonLine] : []),
   ];
 }

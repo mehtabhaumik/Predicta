@@ -135,11 +135,11 @@ assertIncludes(
 
 for (const phrase of [
   'reportHierarchy',
-  'Meaning:',
+  'Prediction:',
   'Key insight:',
   'Free understanding:',
   'Premium depth:',
-  'Technical appendix:',
+  'Evidence appendix:',
   'block.reportHierarchy.meaning',
 ]) {
   assertIncludes(
@@ -171,7 +171,7 @@ assertIncludes(
 
 assertIncludes(
   files.mobileCharts,
-  'buildMissingChartPlaceholder(safeSelectedChart, selectedConfig, kundli)',
+  'buildMissingChartPlaceholder(selectedChart, selectedConfig, kundli)',
   'mobile chart selector must not silently fall back to D1 for missing selected charts',
 );
 
@@ -217,7 +217,7 @@ assert.ok(
 await assertExists(`${auditRoot}/verification.txt`, 'Phase 8 verification artifact exists');
 await assertExists(`${auditRoot}/live-smoke.txt`, 'Phase 8 live-smoke artifact exists');
 
-console.log('Chart Insight Phase 8 passed: final QA matrix, deploy smoke artifacts, and meaning-first chart surfaces are locked.');
+console.log('Chart Insight Phase 8 passed: final QA matrix, deploy smoke artifacts, and prediction-first chart surfaces are locked.');
 
 function assertIncludes(source, phrase, label) {
   assert.ok(source.includes(phrase), label);

@@ -391,7 +391,7 @@ export function WebKundliChart({
                         ? 'Nadi focus: planetary story pattern, validation, activation, and conscious shift.'
                     : chart.chartType === 'D1'
                       ? 'D1 focus: life pattern, main weight, open opportunity, and maturity pressure.'
-                      : `Varga focus: ${localizedInsight.governs}`,
+                      : `Varga prediction focus: ${localizedInsight.governs}`,
                   appLanguage,
                 )}
               </div>
@@ -400,7 +400,7 @@ export function WebKundliChart({
             </div>
             <div className="chart-insight-grid">
               <article className="chart-insight-block">
-                <span>{translateUiText('What this chart governs', appLanguage)}</span>
+                <span>{translateUiText('What this points to now', appLanguage)}</span>
                 <strong>{localizedInsight.governs}</strong>
               </article>
               <article className="chart-insight-block">

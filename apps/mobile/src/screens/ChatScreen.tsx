@@ -2502,11 +2502,11 @@ function MobileChatChartBlock({
 
       <View style={styles.chatChartHierarchy}>
         {[
-          ['Meaning', block.reportHierarchy.meaning],
+          ['Prediction', block.reportHierarchy.meaning],
           ['Key insight', block.reportHierarchy.keyInsight],
           ['Free understanding', block.reportHierarchy.freeUnderstanding],
           ['Premium depth', block.reportHierarchy.premiumDepth],
-          ['Technical appendix', block.reportHierarchy.technicalAppendix],
+          ['Evidence appendix', block.reportHierarchy.technicalAppendix],
         ].map(([label, value]) => (
           <View key={label} style={styles.chatChartHierarchyBlock}>
             <AppText autoTranslate={false} tone="secondary" variant="caption">

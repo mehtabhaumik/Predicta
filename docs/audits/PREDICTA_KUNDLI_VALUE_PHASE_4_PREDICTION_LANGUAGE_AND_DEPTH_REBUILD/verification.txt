@@ -1,0 +1,39 @@
+PREDICTA_KUNDLI_VALUE_PHASE_4_PREDICTION_LANGUAGE_AND_DEPTH_REBUILD verification
+
+Phase intent:
+- Replace technical blabber with direct, useful, evidence-weighted prediction language.
+- Free users receive concise, useful chart predictions.
+- Premium users receive deeper evidence, contradiction handling, timing relevance, and practical guidance.
+
+Implementation audit:
+- packages/astrology/src/chartInsights.ts rewrites generic chart predictions, unsupported chart states, core varga pressure language, and advanced varga confidence framing.
+- packages/pdf/src/index.ts changes report chart bullets from "meaning" and "technical appendix" to prediction, support, pressure, practical action, evidence anchor, and evidence appendix.
+- packages/astrology/src/chatChartBlocks.ts changes Predicta chat replies to direct prediction signal and evidence focus.
+- apps/web/components/WebKundliChart.tsx removes "What this chart governs" as the primary value label.
+- apps/web/components/WebPridictaChat.tsx and apps/mobile/src/screens/ChatScreen.tsx align chart report hierarchy labels with Prediction and Evidence appendix.
+- docs/PREDICTA_CHART_INSIGHT_REBUILD_PHASES.md is aligned so old chart insight docs do not contradict the Kundli value rebuild.
+
+Artifact audit:
+- artifacts/phase4-prediction-language-samples.json samples D1, Moon, D9, D10, Chalit, Swamsa/Karakamsha, selected varga, and PDF chart narrative.
+- artifacts/phase4-content-audit.json records source-level copy findings and free/premium depth rules.
+- artifacts/phase4-free-payload.json and artifacts/phase4-premium-payload.json use the Phase 3 crowded Kundli payloads for regression continuity.
+- artifacts/phase4-free-kundli.pdf and artifacts/phase4-premium-kundli.pdf are generated PDF outputs from the live web PDF route.
+
+Commands required for green:
+- corepack pnpm --filter @pridicta/astrology typecheck
+- corepack pnpm --filter @pridicta/pdf typecheck
+- corepack pnpm --filter @pridicta/web typecheck
+- corepack pnpm --filter @pridicta/mobile typecheck
+- corepack pnpm test:charts
+- corepack pnpm test:chart-insight-phase-3
+- corepack pnpm test:chart-insight-phase-6
+- corepack pnpm test:chart-insight-phase-7
+- corepack pnpm test:chart-insight-phase-8
+- corepack pnpm test:kundli-value-phase-1
+- corepack pnpm test:kundli-value-phase-2
+- corepack pnpm test:kundli-value-phase-3
+- corepack pnpm test:kundli-value-phase-4
+- corepack pnpm test:report-pdf-phase-5
+- corepack pnpm test:report-pdf-phase-6
+- corepack pnpm test:pdf-golden
+- corepack pnpm test:report-pdf-phase-9

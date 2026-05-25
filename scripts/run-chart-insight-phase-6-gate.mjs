@@ -95,8 +95,8 @@ for (const phrase of [
 }
 
 for (const phrase of [
-  'Every chart now opens with human meaning first. Premium then adds timing windows, contradictions, cross-chart synthesis, remedies, and a technical appendix',
-  'Premium depth:',
+  'Every chart now opens with a direct life prediction first. Premium then adds evidence, timing windows, contradiction handling, cross-chart synthesis, and a compact appendix',
+  'Premium prediction depth:',
 ]) {
   assertIncludes(files.pdf, phrase, `PDF chart narrative still preserves ${phrase}`);
 }
