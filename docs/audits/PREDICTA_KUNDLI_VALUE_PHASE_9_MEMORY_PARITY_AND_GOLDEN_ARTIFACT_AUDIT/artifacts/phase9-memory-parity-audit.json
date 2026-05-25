@@ -1,0 +1,83 @@
+{
+  "phase": "PREDICTA_KUNDLI_VALUE_PHASE_9_MEMORY_PARITY_AND_GOLDEN_ARTIFACT_AUDIT",
+  "status": "strict-audit-green",
+  "lifeAtlasBoundary": "only-approved-all-school-synthesis",
+  "memoryParityRules": [
+    {
+      "id": "focus-chart-order",
+      "rule": "Predicta knows the Vedic focus order is D1, Moon/Chandra Lagna, D9, D10, Chalit.",
+      "source": "packages/config/src/predictaMemory.ts"
+    },
+    {
+      "id": "full-varga-library",
+      "rule": "Predicta knows the focus charts are not the only charts; the full Varga library remains selectable.",
+      "source": "packages/config/src/predictaMemory.ts"
+    },
+    {
+      "id": "selected-chart-prediction",
+      "rule": "Predicta knows every supported selected chart receives a useful prediction-first summary.",
+      "source": "packages/config/src/predictaMemory.ts"
+    },
+    {
+      "id": "swamsa",
+      "rule": "Predicta has a first-class Swamsa memory section and can explain it without mixing schools.",
+      "source": "packages/config/src/predictaMemory.ts"
+    },
+    {
+      "id": "karakamsha",
+      "rule": "Predicta has a first-class Karakamsha memory section and can explain it without mixing schools.",
+      "source": "packages/config/src/predictaMemory.ts"
+    },
+    {
+      "id": "chalit",
+      "rule": "Predicta knows Chalit is lived house delivery and must distinguish it from D1.",
+      "source": "packages/config/src/predictaMemory.ts"
+    },
+    {
+      "id": "chart-purity",
+      "rule": "Predicta knows main Vedic report chart plates exclude micro/special points and outer planets.",
+      "source": "packages/config/src/predictaMemory.ts"
+    },
+    {
+      "id": "mahadasha-phala",
+      "rule": "Predicta knows Mahadasha Phala has a dedicated structure and layered current-period explanation.",
+      "source": "packages/config/src/predictaMemory.ts"
+    },
+    {
+      "id": "consolidated-remedy",
+      "rule": "Predicta knows the report uses one consolidated remedy/action plan instead of duplicate remedy blocks.",
+      "source": "packages/config/src/predictaMemory.ts"
+    },
+    {
+      "id": "school-report-separation",
+      "rule": "Predicta knows Vedic, KP, Nadi, Numerology, and Signature reports are separate lanes.",
+      "source": "packages/config/src/predictaMemory.ts"
+    },
+    {
+      "id": "kp-primary-chart-boundary",
+      "rule": "Predicta knows KP must use Bhav Chalit/cusp-oriented evidence and not D1 as the primary KP chart surface.",
+      "source": "packages/config/src/predictaMemory.ts"
+    },
+    {
+      "id": "nadi-story-first",
+      "rule": "Predicta knows Nadi remains story-link and validation-first without unsupported palm-leaf claims.",
+      "source": "packages/config/src/predictaMemory.ts"
+    },
+    {
+      "id": "depth-boundary",
+      "rule": "Predicta knows free stays useful and premium adds evidence, timing, contradictions, and practical depth.",
+      "source": "packages/config/src/predictaMemory.ts"
+    },
+    {
+      "id": "surface-boundary",
+      "rule": "Predicta knows PDF is the complete dossier surface and app screens are progressive exploration surfaces.",
+      "source": "packages/config/src/predictaMemory.ts"
+    }
+  ],
+  "contextPath": [
+    "packages/config/src/predictaMemory.ts exports PREDICTA_APP_MEMORY_DIGEST and report section memory.",
+    "packages/ai/src/contextBuilder.ts injects appMemoryDigest and reportSectionMemory.",
+    "apps/mobile/src/services/ai/contextBuilder.ts injects appMemoryDigest and reportSectionMemory.",
+    "Web and mobile report handoffs carry reportFocus, reportSchoolLane, available sections, and selected section prompts."
+  ]
+}

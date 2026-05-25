@@ -1,0 +1,47 @@
+PREDICTA_KUNDLI_VALUE_PHASE_9_MEMORY_PARITY_AND_GOLDEN_ARTIFACT_AUDIT verification
+
+Phase intent:
+- Make Predicta aware of every new chart, report section, depth rule, and school boundary.
+- Verify generated/golden PDF artifacts and app screenshots before the Kundli value rebuild can be called green.
+- Keep Life Atlas as the only all-school synthesis report while every school-specific report remains bounded.
+
+Implementation audit:
+- Added Swamsa as a first-class Predicta report-section memory entry.
+- Added explicit memory facts for focus chart order, full Varga availability, selected-chart prediction behavior, Swamsa/Karakamsha, chart purity, Mahadasha Phala, consolidated remedy plan, KP chart boundary, Nadi story-first behavior, free/premium depth, and app-versus-PDF surface boundaries.
+- Confirmed web and mobile AI context builders inject `appMemoryDigest`, `reportSectionMemory`, and generated report context into chat.
+- Confirmed chat follow-ups and report actions expose Swamsa, Karakamsha, school-lane memory, and report-specific explanation paths.
+
+Artifact audit:
+- `artifacts/phase9-memory-parity-audit.json` records the required memory parity rules and context path.
+- `artifacts/golden-artifact-coverage-manifest.json` records the required PDF classes and web/mobile screenshot sources.
+- `artifacts/predicta-chat-transcripts.json` records room-safe transcript fixtures proving Predicta can explain the new sections and boundaries.
+- Existing generated golden PDFs and rendered page images are audited from `docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT`.
+- Signature missing-state PDF is audited from `docs/audits/PREDICTA_SIGNATURE_PREDICTA_ULTRA_STRICT_PHASE`.
+
+Commands passed for green:
+- corepack pnpm --filter @pridicta/pdf typecheck
+- corepack pnpm --filter @pridicta/web typecheck
+- corepack pnpm --filter @pridicta/mobile typecheck
+- corepack pnpm test:kundli-value-phase-1
+- corepack pnpm test:kundli-value-phase-2
+- corepack pnpm test:kundli-value-phase-3
+- corepack pnpm test:kundli-value-phase-4
+- corepack pnpm test:kundli-value-phase-5
+- corepack pnpm test:kundli-value-phase-6
+- corepack pnpm test:kundli-value-phase-7
+- corepack pnpm test:kundli-value-phase-8
+- corepack pnpm test:kundli-value-phase-9
+- corepack pnpm test:report-pdf-phase-7
+- corepack pnpm test:report-pdf-phase-9
+- corepack pnpm test:pdf-golden
+- corepack pnpm test:predicta-context
+- corepack pnpm test:kp-nadi-predicta
+- corepack pnpm test:numerology-predicta
+- corepack pnpm test:signature-predicta
+- corepack pnpm test:life-atlas-report
+- corepack pnpm test:localization-architecture
+- corepack pnpm test:translation-trust
+- git diff --check
+
+Status:
+- GREEN after memory parity source audit, room-safe transcript artifact audit, golden PDF/page-render audit, web/mobile screenshot audit, prior phase verification chain, specialist report gates, localization gates, typechecks, and whitespace audit.

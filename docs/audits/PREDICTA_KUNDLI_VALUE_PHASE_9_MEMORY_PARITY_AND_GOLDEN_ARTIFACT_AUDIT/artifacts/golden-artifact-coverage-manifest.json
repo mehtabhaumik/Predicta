@@ -1,0 +1,64 @@
+{
+  "phase": "PREDICTA_KUNDLI_VALUE_PHASE_9_MEMORY_PARITY_AND_GOLDEN_ARTIFACT_AUDIT",
+  "status": "strict-audit-green",
+  "requiredPdfs": [
+    {
+      "id": "free-vedic",
+      "source": "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/pdfs/free-kundli-en.pdf",
+      "renderedPageFolder": "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/page-renders/free-kundli-en"
+    },
+    {
+      "id": "premium-vedic",
+      "source": "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/pdfs/premium-kundli-en.pdf",
+      "renderedPageFolder": "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/page-renders/premium-kundli-en"
+    },
+    {
+      "id": "kp",
+      "source": "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/pdfs/kp-report-en.pdf",
+      "renderedPageFolder": "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/page-renders/kp-report-en"
+    },
+    {
+      "id": "nadi",
+      "source": "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/pdfs/nadi-report-en.pdf",
+      "renderedPageFolder": "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/page-renders/nadi-report-en"
+    },
+    {
+      "id": "numerology",
+      "source": "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/pdfs/numerology-report-en.pdf",
+      "renderedPageFolder": "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/page-renders/numerology-report-en"
+    },
+    {
+      "id": "signature-confirmed",
+      "source": "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/pdfs/signature-report-en.pdf",
+      "renderedPageFolder": "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/page-renders/signature-report-en"
+    },
+    {
+      "id": "signature-missing",
+      "source": "docs/audits/PREDICTA_SIGNATURE_PREDICTA_ULTRA_STRICT_PHASE/artifacts/signature-missing.pdf",
+      "renderedPageFolder": "docs/audits/PREDICTA_SIGNATURE_PREDICTA_ULTRA_STRICT_PHASE/artifacts/signature-missing-pages"
+    }
+  ],
+  "webScreenshots": [
+    "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/screenshots/desktop-dashboard-kundli.png",
+    "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/screenshots/desktop-dashboard-charts.png",
+    "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/screenshots/desktop-dashboard-kp.png",
+    "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/screenshots/desktop-dashboard-nadi.png",
+    "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/screenshots/desktop-dashboard-numerology.png",
+    "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/screenshots/desktop-dashboard-signature.png"
+  ],
+  "mobileScreenshots": [
+    "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/screenshots/mobile-dashboard-kundli.png",
+    "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/screenshots/mobile-dashboard-charts.png",
+    "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/screenshots/mobile-dashboard-kp.png",
+    "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/screenshots/mobile-dashboard-nadi.png",
+    "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/screenshots/mobile-dashboard-numerology.png",
+    "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/screenshots/mobile-dashboard-signature.png"
+  ],
+  "inspectionRules": [
+    "Vedic PDFs must preserve chart purity, chart order, prediction-first language, Mahadasha Phala, and consolidated remedies.",
+    "KP PDFs must remain event-answer reports with proof appendix and no D1-primary KP chart behavior.",
+    "Nadi PDFs must remain story/validation first and avoid unsupported palm-leaf access claims.",
+    "Numerology PDFs must stay number-dossier focused.",
+    "Signature PDFs must use confirmed visible traits or missing-state copy and avoid hard prediction."
+  ]
+}

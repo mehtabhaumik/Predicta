@@ -1,0 +1,86 @@
+{
+  "phase": "PREDICTA_KUNDLI_VALUE_PHASE_9_MEMORY_PARITY_AND_GOLDEN_ARTIFACT_AUDIT",
+  "status": "strict-audit-green",
+  "transcripts": [
+    {
+      "id": "vedic-focus-order",
+      "room": "Vedic Predicta",
+      "user": "Why do you show these charts first?",
+      "answer": "In Vedic Predicta I keep the focus order as D1, Moon/Chandra Lagna, D9, D10, and Chalit. These are the first lenses because they show the birth promise, lived emotional lens, dharma/marriage maturity, career delivery, and lived house delivery before advanced vargas.",
+      "mustMention": "D1, Moon/Chandra Lagna, D9, D10, and Chalit",
+      "roomSafe": true
+    },
+    {
+      "id": "full-varga-library",
+      "room": "Vedic Predicta",
+      "user": "Did you remove the other varga charts?",
+      "answer": "No. The focus charts guide the first reading, but the full Varga library remains selectable. When you open a supported chart, Predicta gives a plain-language prediction summary on screen and keeps the complete dossier depth for the PDF.",
+      "mustMention": "full Varga library remains selectable",
+      "roomSafe": true
+    },
+    {
+      "id": "swamsa-karakamsha",
+      "room": "Vedic Predicta",
+      "user": "Explain my Swamsa and Karakamsha.",
+      "answer": "Swamsa is the inner self-direction lens and Karakamsha uses Atmakaraka/Navamsha context for life-direction meaning. I keep this Vedic-only and explain what it suggests for your effort, calling, and growth instead of mixing KP or Nadi methods.",
+      "mustMention": "Swamsa is the inner self-direction lens",
+      "roomSafe": true
+    },
+    {
+      "id": "chart-purity",
+      "room": "Vedic Predicta",
+      "user": "Why are Dhuma and other tiny points not on the main PDF chart?",
+      "answer": "Main Vedic report chart plates exclude micro/special points and outer planets so the Kundli stays readable. If those technical points are available, they belong in advanced evidence areas, not on the main chart plate.",
+      "mustMention": "exclude micro/special points and outer planets",
+      "roomSafe": true
+    },
+    {
+      "id": "mahadasha-remedy",
+      "room": "Vedic Predicta",
+      "user": "Where should I read timing and remedies?",
+      "answer": "Use the dedicated Mahadasha Phala section for timing. Past Mahadashas stay summarized, the current Mahadasha is layered, and remedies are kept in one consolidated remedy/action plan so the report does not repeat itself.",
+      "mustMention": "one consolidated remedy/action plan",
+      "roomSafe": true
+    },
+    {
+      "id": "kp-boundary",
+      "room": "KP Predicta",
+      "user": "Show my KP chart proof.",
+      "answer": "KP Predicta stays event-first. Where a chart surface is needed, KP uses Bhav Chalit/cusp-oriented evidence and does not use D1 as the primary KP chart. I will keep the answer around verdict, promise, timing readiness, confidence, and proof.",
+      "mustMention": "does not use D1 as the primary KP chart",
+      "roomSafe": true
+    },
+    {
+      "id": "nadi-boundary",
+      "room": "Nadi Predicta",
+      "user": "What is my Nadi reading based on?",
+      "answer": "Nadi Predicta is story-link and validation-first. I can explain repeated patterns, Rahu-Ketu axis, activation windows, and validation questions, but I will not claim palm-leaf manuscript access.",
+      "mustMention": "story-link and validation-first",
+      "roomSafe": true
+    },
+    {
+      "id": "numerology-boundary",
+      "room": "Numerology Predicta",
+      "user": "What does my Numerology report cover?",
+      "answer": "Numerology Predicta stays in the number lane: number signature, name rhythm, birth and destiny numbers, personal cycles, missing/repeated patterns, and premium name or compatibility depth.",
+      "mustMention": "number signature",
+      "roomSafe": true
+    },
+    {
+      "id": "signature-boundary",
+      "room": "Signature Predicta",
+      "user": "Can you predict my future from my signature?",
+      "answer": "No. Signature Predicta uses confirmed visible traits only as reflective self-expression guidance. It is not forensic handwriting analysis, identity verification, diagnosis, or guaranteed prediction.",
+      "mustMention": "confirmed visible traits only",
+      "roomSafe": true
+    },
+    {
+      "id": "life-atlas-boundary",
+      "room": "Predicta Life Atlas",
+      "user": "Can this combine all schools?",
+      "answer": "Predicta Life Atlas is the only approved all-school synthesis path. Vedic, KP, Nadi, Numerology, and Signature reports stay separate; Life Atlas can synthesize available Vedic, KP, Nadi, Numerology, and optional Signature evidence into non-technical life-language.",
+      "mustMention": "only approved all-school synthesis path",
+      "roomSafe": true
+    }
+  ]
+}

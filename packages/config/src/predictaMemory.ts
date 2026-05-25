@@ -66,13 +66,16 @@ export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
   featureCatalog: [
     'Dashboard cards guide users into Kundli, charts, reports, remedies, specialist rooms, saved context, and purchase surfaces.',
     'Vedic world contains charts, dasha, gochar, Panchang, Ashtakavarga, remedies, and report-grade evidence tables.',
-    'Charts page contains D1, Moon/Chandra Lagna, D9, D10, Chalit, vargas, KP/Nadi chart meaning, and technical views where enabled.',
+    'Charts page opens with the focus order D1, Moon/Chandra Lagna, D9, D10, Chalit, then keeps the full Varga library selectable with prediction-first summaries for every supported chart.',
+    'Swamsa and Karakamsha are first-class Vedic soul-direction chart surfaces, not optional hidden notes.',
     'Report marketplace options are school-separated; method-specific reports must not become mixed-bag reports.',
+    'PDF reports are the complete dossier surface; app screens stay progressive, clean, and CTA-led so users are not forced through a long reading wall.',
     'Language preferences, safety/legal guidance, and saved recovery behavior must be explained calmly when asked.',
   ],
   astrologyCapabilityMap: [
-    'Parashari/Vedic: D1, Moon/Chandra Lagna, D9, D10, Chalit, vargas, dasha, Mahadasha Phala, gochar, Sade Sati, remedies, Panchang, Ashtakavarga, Prastarashtakavarga, Avakhada, Karakamsha, dignity, combustion, retrogression, benefic/malefic logic, friendship tables, and house-wise planet evidence.',
-    'KP: event-first judgement using cusps, star lords, sub lords, sub-sub lords where available, significators, ruling planets, dasha support, transit triggers, and confidence limits.',
+    'Parashari/Vedic: D1, Moon/Chandra Lagna, D9, D10, Chalit, full Varga library, selected-chart prediction behavior, Swamsa, Karakamsha, dasha, Mahadasha Phala, gochar, Sade Sati, consolidated remedy plan, Panchang, Ashtakavarga, Prastarashtakavarga, Avakhada, dignity, combustion, retrogression, benefic/malefic logic, friendship tables, and house-wise planet evidence.',
+    'Main Vedic report chart plates exclude micro/special points and outer planets from the visible graha set; Predicta can explain those points only in advanced technical contexts when evidence exists.',
+    'KP: event-first judgement using cusps, star lords, sub lords, sub-sub lords where available, significators, ruling planets, dasha support, transit triggers, and confidence limits. KP must use Bhav Chalit/cusp-oriented evidence where a chart is needed and must not use D1 as the primary KP chart surface.',
     'Nadi: story-link and validation-first interpretation using planetary links, karakas, Rahu/Ketu axis, recurring patterns, activation windows, and no unsupported palm-leaf claim.',
     'Numerology: name number, birth number, destiny/life-path number, personal year/month/day, name rhythm, missing/repeated number patterns, compatibility, and optional name refinement.',
     'Signature: confirmed visible signature traits only, privacy-first session handling, reflective self-expression guidance, and no forensic/diagnostic claims.',
@@ -97,6 +100,8 @@ export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
     'Explain where to find an app feature and what it does without sounding generic.',
     'Explain what a report section means, how it is calculated or why it is pending, and what free versus premium depth changes.',
     'Never fabricate pending calculations or hidden data.',
+    'Free answers remain useful and non-technical; premium answers add evidence, timing, contradictions, and practical depth without changing respectability.',
+    'When asked about report content, explain what it means for the user rather than merely defining what an area governs.',
     'Use non-scary, non-fatalistic, confidence-aware wording.',
     'Cite the active table/section context instead of inventing unrelated reasoning.',
   ],
@@ -109,6 +114,8 @@ export const PREDICTA_REPORT_TO_CHAT_FOLLOW_UPS = [
   'Explain my functional benefics and malefics',
   'Explain my Chalit shifts',
   'Explain my Moon chart',
+  'Explain my Swamsa chart',
+  'Explain my Karakamsha chart',
   'Explain my Mahadasha Phala',
   'Explain my current Mahadasha, Antardasha, and Pratyantardasha',
   'Explain my Avakhada chakra',
@@ -251,6 +258,21 @@ export const PREDICTA_REPORT_SECTION_MEMORY_CATALOG: PredictaReportSectionMemory
     title: 'Ghatak and favorable factors',
     whatItMeans:
       'Highlights traditional caution markers and supportive factors so the user can act calmly.',
+  },
+  {
+    boundary:
+      'Vedic Jaimini soul-direction context. Explain Swamsa from verified Navamsha/self-direction evidence and do not mix it with KP or Nadi.',
+    calculationState: 'available',
+    freeDepth:
+      'Explain Swamsa as the inner self-direction chart in one clear, practical paragraph.',
+    handoffPrompt: 'Explain my Swamsa chart',
+    id: 'swamsa',
+    premiumDepth:
+      'Add Atmakaraka/Navamsha comparison, purpose pattern, strength/caution, timing relevance, and integration guidance.',
+    schoolLane: 'VEDIC',
+    title: 'Swamsa',
+    whatItMeans:
+      'Shows the self-direction lens derived through Jaimini/Navamsha context so the user can understand inner calling and soul effort.',
   },
   {
     boundary:

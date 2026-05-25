@@ -111,7 +111,7 @@ for (const fragment of [
 }
 
 const vedicPanel = readWorkspaceFile('apps/web/components/WebVedicIntelligencePanel.tsx');
-assertIncludes(vedicPanel, 'insightProfile="moon"', 'web Vedic panel reads Moon chart through Moon profile');
+assertIncludes(vedicPanel, "profile: 'moon'", 'web Vedic panel reads Moon chart through Moon profile');
 
 const mobileCharts = readWorkspaceFile('apps/mobile/src/screens/ChartsScreen.tsx');
 for (const fragment of [
