@@ -1298,7 +1298,7 @@ function buildActionText({
         `Life Atlas signature rule: ${lifeAtlas.signatureNote}`,
         `Life Atlas boundary: it is not placed inside Vedic, KP, Nadi, Numerology, or Signature reports.`,
         `Reports are school-lane aware: Vedic, KP, Nadi, Numerology, Signature, and the separate Life Atlas synthesis lane must not become a mixed bag.`,
-        `Vedic report memory includes Moon/Chandra Lagna, Mahadasha Phala, house-wise planets, friendship table, functional benefics/malefics, Chalit, Panchang, Samsa, Ghatak/favorable, Karakamsha, Ashtakavarga, Prastarashtakavarga, and Avakhada chakra.`,
+        `Vedic report memory includes Moon/Chandra Lagna, Swamsa, Karakamsha, Mahadasha Phala, house-wise planets, friendship table, functional benefics/malefics, Chalit, Panchang, Samsa, Ghatak/favorable, Ashtakavarga, Prastarashtakavarga, and Avakhada chakra.`,
         `Free report: every included section stays useful with concise insight and confidence limits.`,
         `Premium PDF bundle: the same calculation truth with deeper analysis, timing windows, contradictions, remedies, evidence tables, and report-ready depth.`,
         `Ask “prepare premium PDF bundle” when you want me to deepen it.`,

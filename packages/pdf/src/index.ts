@@ -18,7 +18,9 @@ import { buildTrustProfile } from '@pridicta/config/trust';
 import { translateUiText } from '@pridicta/config/uiTranslations';
 import {
   buildParashariChalitChart,
+  buildKarakamshaChart,
   buildChartRenderModel,
+  buildSwamsaChart,
   composeChartInsight,
   composeChalitBhavKpFoundation,
   composeAdvancedJyotishCoverage,
@@ -47,6 +49,8 @@ import {
   type ChartRenderTheme,
   type VedicFocusChartRole,
 } from '@pridicta/astrology';
+
+type PdfChartRole = ChartType | 'MOON' | 'SWAMSA' | 'KARAKAMSHA' | 'CHALIT';
 
 export type PdfSection = {
   title: string;
@@ -125,7 +129,7 @@ export type PdfComposition = {
 export type PdfChartSnapshot = {
   chartName: string;
   displayChartName: string;
-  chartRole: ChartType | 'MOON' | 'CHALIT';
+  chartRole: PdfChartRole;
   chartType: ChartType;
   cells: PdfChartSnapshotCell[];
   legend: ChartRenderLegendItem[];
@@ -1547,6 +1551,7 @@ function buildVedicIntelligencePackagingSections(
       'Ghatak and favorable factors',
       mode,
     ),
+    buildClassicalVedicReportSection(intelligence.swamsa, 'SWAMSA', 'Swamsa chart', mode),
     buildClassicalVedicReportSection(intelligence.karakamsha, 'KARAKAMSHA', 'Karakamsha', mode),
     buildClassicalVedicReportSection(intelligence.ashtakavarga, 'ASHTAKAVARGA', 'Ashtakavarga', mode),
     buildClassicalVedicReportSection(
@@ -1952,7 +1957,9 @@ function buildPdfChartSnapshots(
   const chalitChart = includeVedicFocusCharts
     ? buildParashariChalitChart(kundli)
     : undefined;
-  const chartByRole = new Map<ChartType | 'MOON' | 'CHALIT', ChartData>();
+  const swamsaChart = includeVedicFocusCharts ? buildSwamsaChart(kundli) : undefined;
+  const karakamshaChart = includeVedicFocusCharts ? buildKarakamshaChart(kundli) : undefined;
+  const chartByRole = new Map<PdfChartRole, ChartData>();
 
   for (const chartType of chartTypes) {
     const chart = kundli.charts[chartType];
@@ -1970,13 +1977,23 @@ function buildPdfChartSnapshots(
     chartByRole.set('CHALIT', chalitChart);
   }
 
-  const orderedRoles = includeVedicFocusCharts
+  if (swamsaChart?.supported) {
+    chartByRole.set('SWAMSA', swamsaChart);
+  }
+
+  if (karakamshaChart?.supported) {
+    chartByRole.set('KARAKAMSHA', karakamshaChart);
+  }
+
+  const orderedRoles: PdfChartRole[] = includeVedicFocusCharts
     ? [
         ...VEDIC_FOCUS_CHART_ORDER,
+        'SWAMSA',
+        'KARAKAMSHA',
         ...chartTypes.filter(chartType => !isVedicFocusChartType(chartType)),
       ]
     : chartTypes;
-  const seenRoles = new Set<ChartType | VedicFocusChartRole>();
+  const seenRoles = new Set<PdfChartRole>();
   const chartEntries = orderedRoles.flatMap(role => {
     if (seenRoles.has(role)) {
       return [];
@@ -2040,7 +2057,7 @@ function buildPdfChartSnapshots(
 }
 
 function getReportChartDisplayName(
-  role: ChartType | 'MOON' | 'CHALIT',
+  role: PdfChartRole,
   fallback: string,
   language: SupportedLanguage,
 ): string {
@@ -2048,10 +2065,20 @@ function getReportChartDisplayName(
     return getVedicFocusChartLabel(role, language);
   }
 
+  if (role === 'SWAMSA') {
+    return 'Swamsa Chart';
+  }
+
+  if (role === 'KARAKAMSHA') {
+    return 'Karakamsha Chart';
+  }
+
   return fallback;
 }
 
-function isVedicFocusChartRole(role: ChartType | 'MOON' | 'CHALIT'): role is VedicFocusChartRole {
+function isVedicFocusChartRole(
+  role: PdfChartRole,
+): role is VedicFocusChartRole {
   return role === 'D1' || role === 'MOON' || role === 'D9' || role === 'D10' || role === 'CHALIT';
 }
 

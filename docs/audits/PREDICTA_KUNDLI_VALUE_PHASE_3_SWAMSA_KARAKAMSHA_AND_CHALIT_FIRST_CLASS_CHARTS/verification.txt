@@ -1,0 +1,16 @@
+PREDICTA_KUNDLI_VALUE_PHASE_3_SWAMSA_KARAKAMSHA_AND_CHALIT_FIRST_CLASS_CHARTS verification
+
+Status: GREEN after strict source audit, typechecks, chart stress, phase gates, and generated PDF artifacts.
+
+Implemented:
+- Added shared Jaimini soul chart builder for Swamsa and Karakamsha.
+- Added alias normalization for Swamsha, Svamsa, Karakmasa, and Karakamsha.
+- Added Swamsa and Karakamsha to Vedic intelligence memory/sections with honest pending states.
+- Added Swamsa and Karakamsha selectable web/mobile chart experiences.
+- Kept Chalit first-class in free/premium via selectable chart path, Chalit panel, and PDF chart/table path.
+- Added free practical insight and premium deeper evidence/timing/guidance through dedicated chart insight profiles.
+- Generated free and premium PDF artifacts for this phase.
+
+Artifact note:
+- PDF files are real generated PDFs from the local Next API.
+- Browser/mobile screenshots are source-proof text artifacts because browser policy/simulator access blocked screenshot capture in this environment.

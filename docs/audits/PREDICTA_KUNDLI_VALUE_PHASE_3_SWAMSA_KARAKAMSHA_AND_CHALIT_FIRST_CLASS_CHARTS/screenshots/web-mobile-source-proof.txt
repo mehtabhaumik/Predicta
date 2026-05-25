@@ -1,0 +1,15 @@
+PREDICTA_KUNDLI_VALUE_PHASE_3_SWAMSA_KARAKAMSHA_AND_CHALIT_FIRST_CLASS_CHARTS web/mobile source proof
+
+Runtime screenshots were not captured in this run because earlier in-app Browser localhost access was blocked by Browser Use URL policy, and the mobile simulator is not available in this terminal context.
+Generated PDF artifacts were created through the local Next API after starting the web app on localhost:3100.
+
+Web proof:
+- WebChartsExplorer exposes SWAMSA and KARAKAMSHA in the chart selector and routes each to its dedicated insight profile.
+- WebVedicIntelligencePanel renders Swamsa and Karakamsha chart cards when calculation evidence exists.
+
+Mobile proof:
+- ChartsScreen exposes a FIRST-CLASS SOUL CHARTS selector for SWAMSA and KARAKAMSHA.
+- VedicIntelligencePanel includes Swamsa and Karakamsha sections with free/premium depth copy.
+
+Report proof:
+- phase3-free-kundli.pdf and phase3-premium-kundli.pdf were generated through /api/report/pdf.

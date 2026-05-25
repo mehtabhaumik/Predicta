@@ -27,6 +27,7 @@ export function VedicIntelligencePanel({
     intelligence.mahadashaPhala,
     intelligence.samsa,
     intelligence.ghatakFavorable,
+    intelligence.swamsa,
     intelligence.karakamsha,
     intelligence.prastarashtakavarga,
     intelligence.avakhadaChakra,

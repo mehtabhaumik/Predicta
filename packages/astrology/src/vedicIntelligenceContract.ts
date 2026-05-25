@@ -14,6 +14,12 @@ import type {
   VedicMahadashaPhalaBlock,
   VedicPlanetFriendshipRow,
 } from '@pridicta/types';
+import { buildParashariChalitChart } from './chartLayout';
+import {
+  buildKarakamshaChart,
+  buildSwamsaChart,
+  resolveAtmakaraka,
+} from './jaiminiSoulCharts';
 import { composeMahadashaIntelligence } from './mahadashaIntelligence';
 import { composePersonalPanchangLayer } from './personalPanchangLayer';
 
@@ -129,6 +135,9 @@ export function composeVedicIntelligenceContract({
   }
 
   const moonChart = buildMoonChart(kundli);
+  const swamsaChart = buildSwamsaChart(kundli);
+  const karakamshaChart = buildKarakamshaChart(kundli);
+  const chalitChart = buildParashariChalitChart(kundli);
   const houseWisePlacements = buildHouseWisePlacements(kundli);
   const friendshipTable = buildFriendshipRows(kundli);
   const beneficMalefic = buildBeneficMaleficClassification(kundli);
@@ -155,9 +164,18 @@ export function composeVedicIntelligenceContract({
     }),
     chart: moonChart,
   };
+  const swamsaSection = {
+    ...buildSwamsaSection(kundli, swamsaChart),
+    chart: swamsaChart,
+  };
+  const karakamshaSection = {
+    ...buildKarakamshaSection(kundli, karakamshaChart),
+    chart: karakamshaChart,
+  };
   const sections = [
     snapshot,
     moonSection,
+    swamsaSection,
     houseWisePlacements,
     friendshipTable,
     beneficMalefic,
@@ -165,7 +183,7 @@ export function composeVedicIntelligenceContract({
     buildPanchangSection(panchangLayer),
     buildPendingClassicalSection('samsa', 'Samsa', 'Samsa remains calculation-limited because this backend does not yet expose a verified Samsa taxonomy. Predicta must not invent it.'),
     buildGhatakFavorableSection(kundli),
-    buildKarakamshaSection(kundli),
+    karakamshaSection,
     buildAshtakavargaSection(kundli),
     buildPrastarashtakavargaSection(kundli),
     buildAvakhadaSection(kundli, panchangLayer),
@@ -180,14 +198,14 @@ export function composeVedicIntelligenceContract({
       ...sections.find(section => section.id === 'chalit-table')!,
       rows: chalitRows,
     },
-    chartOrder: buildVedicChartOrder(kundli, moonChart),
+    chartOrder: buildVedicChartOrder(kundli, moonChart, swamsaChart, karakamshaChart, chalitChart),
     depth,
     friendshipTable,
     generatedAt: nowIso,
     ghatakFavorable: sections.find(section => section.id === 'ghatak-favorable')!,
     grahaVisualMetadata: buildGrahaVisualMetadata(moonChart),
     houseWisePlacements,
-    karakamsha: sections.find(section => section.id === 'karakamsha')!,
+    karakamsha: karakamshaSection,
     limitations: sections.flatMap(section => section.limitations),
     mahadashaPhala: mahadasha.section,
     moonChart: moonSection,
@@ -197,6 +215,7 @@ export function composeVedicIntelligenceContract({
     samsa: sections.find(section => section.id === 'samsa')!,
     sections,
     snapshot,
+    swamsa: swamsaSection,
   };
 }
 
@@ -251,7 +270,10 @@ function buildPendingVedicIntelligence(
       ...buildPendingClassicalSection('house-wise-placements', 'House-wise Planet Table', 'House-wise table needs planet data.'),
       rows: [],
     },
-    karakamsha: buildPendingClassicalSection('karakamsha', 'Karakamsha', 'Karakamsha needs a calculated Kundli.'),
+    karakamsha: {
+      ...buildPendingClassicalSection('karakamsha', 'Karakamsha', 'Karakamsha needs a calculated Kundli.'),
+      chart: undefined,
+    },
     limitations: [pendingSection.limitations[0]],
     mahadashaPhala: mahadashaSection,
     moonChart: {
@@ -271,6 +293,10 @@ function buildPendingVedicIntelligence(
       nakshatra: 'Pending',
       strongestHouses: [],
       weakestHouses: [],
+    },
+    swamsa: {
+      ...buildPendingClassicalSection('swamsa', 'Swamsa Chart', 'Swamsa needs a calculated Navamsa chart.'),
+      chart: undefined,
     },
   };
 }
@@ -311,9 +337,12 @@ function buildMoonChart(kundli: KundliData): ChartData | undefined {
 function buildVedicChartOrder(
   kundli: KundliData,
   moonChart?: ChartData,
+  swamsaChart?: ChartData,
+  karakamshaChart?: ChartData,
+  chalitChart?: ChartData,
 ): VedicIntelligenceContract['chartOrder'] {
   const remaining = (Object.keys(kundli.charts) as ChartType[])
-    .filter(chartType => chartType !== 'D1' && chartType !== 'D9')
+    .filter(chartType => chartType !== 'D1' && chartType !== 'D9' && chartType !== 'D10')
     .sort((first, second) => chartTypeNumber(first) - chartTypeNumber(second));
 
   return [
@@ -334,6 +363,30 @@ function buildVedicChartOrder(
       explanation: 'Navamsa D9 follows the Moon chart for dharma, maturity, and deeper planet strength.',
       id: 'D9',
       title: 'Navamsa Chart D9',
+    },
+    {
+      chart: kundli.charts.D10,
+      explanation: 'Dashamsa D10 follows D9 for career, public contribution, and visible work results.',
+      id: 'D10',
+      title: 'Dashamsa Chart D10',
+    },
+    {
+      chart: chalitChart,
+      explanation: 'Chalit follows the core charts as the lived house-delivery layer for practical result shifts.',
+      id: 'CHALIT',
+      title: 'Chalit Chart',
+    },
+    {
+      chart: swamsaChart,
+      explanation: 'Swamsa is a first-class inner self-direction chart based on the Navamsa self lens.',
+      id: 'SWAMSA',
+      title: 'Swamsa Chart',
+    },
+    {
+      chart: karakamshaChart,
+      explanation: 'Karakamsha is a first-class Atmakaraka-linked life-direction chart based on Navamsa evidence.',
+      id: 'KARAKAMSHA',
+      title: 'Karakamsha Chart',
     },
     ...remaining.map(chartType => ({
       chart: kundli.charts[chartType],
@@ -600,13 +653,48 @@ function buildGhatakFavorableSection(kundli: KundliData): VedicIntelligenceSecti
   });
 }
 
-function buildKarakamshaSection(kundli: KundliData): VedicIntelligenceSection {
+function buildSwamsaSection(
+  kundli: KundliData,
+  chart?: ChartData,
+): VedicIntelligenceSection {
+  const navamsa = kundli.charts.D9;
+
+  if (!chart || !navamsa?.supported) {
+    return buildPendingClassicalSection(
+      'swamsa',
+      'Swamsa Chart',
+      'Swamsa is pending because verified Navamsa chart evidence is not available in this Kundli.',
+    );
+  }
+
+  return buildReadySection({
+    evidence: [
+      {
+        observation: `Swamsa uses ${chart.ascendantSign} as the Navamsa self-reference and keeps D9 planet signs intact.`,
+        source: 'D9 Navamsa ascendant and planet placements',
+      },
+    ],
+    explanation:
+      'Swamsa is the Navamsa self-direction lens. It translates inner motivation, soul-style expression, and the deeper pattern behind action into practical language.',
+    freeInsight:
+      `Swamsa points the inner compass through ${chart.ascendantSign}, so the user should read this as self-direction and authentic action style, not as a fixed fate claim.`,
+    id: 'swamsa',
+    premiumAnalysis:
+      `Premium reads Swamsa through D9 ${chart.ascendantSign}, D1 promise, Chalit delivery, and active dasha before giving practical spiritual guidance.`,
+    title: 'Swamsa Chart',
+  });
+}
+
+function buildKarakamshaSection(
+  kundli: KundliData,
+  chart?: ChartData,
+): VedicIntelligenceSection {
   const atmakaraka = resolveAtmakaraka(kundli);
   const navamsaPlanet = atmakaraka
     ? kundli.charts.D9?.planetDistribution.find(planet => planet.name === atmakaraka.name)
     : undefined;
 
-  if (!atmakaraka || !navamsaPlanet) {
+  if (!atmakaraka || !navamsaPlanet || !chart) {
     return buildPendingClassicalSection(
       'karakamsha',
       'Karakamsha',
@@ -622,13 +710,13 @@ function buildKarakamshaSection(kundli: KundliData): VedicIntelligenceSection {
       },
     ],
     explanation:
-      'Karakamsha uses the Atmakaraka carried into Navamsa to describe a subtle soul-direction lens.',
+      'Karakamsha uses the Atmakaraka carried into Navamsa to describe a subtle soul-direction and spiritual growth lens.',
     freeInsight:
-      `${atmakaraka.name} as Atmakaraka points the deeper life lesson toward ${navamsaPlanet.sign} themes in Navamsa.`,
+      `${atmakaraka.name} as Atmakaraka points the deeper life lesson toward ${navamsaPlanet.sign} themes in Navamsa, so this chart should be read as growth direction rather than fatalistic destiny.`,
     id: 'karakamsha',
     premiumAnalysis:
-      `Premium reads ${atmakaraka.name} through D1 house ${atmakaraka.house}, ${atmakaraka.sign} dignity, D9 ${navamsaPlanet.sign}, and active dasha before giving soul-purpose language.`,
-    title: 'Karakamsha',
+      `Premium reads ${atmakaraka.name} through D1 house ${atmakaraka.house}, ${atmakaraka.sign} dignity, D9 ${navamsaPlanet.sign}, Karakamsha ascendant ${chart.ascendantSign}, Chalit delivery, and active dasha before giving soul-purpose language.`,
+    title: 'Karakamsha Chart',
   });
 }
 
@@ -1051,12 +1139,6 @@ function summarizeFriendship(
   return `${fromPlanet} has ${friendCount} supportive compound links and ${enemyCount} tense links in this Kundli${
     pendingCount ? `, with ${pendingCount} link(s) left calculation-limited` : ''
   }.`;
-}
-
-function resolveAtmakaraka(kundli: KundliData): PlanetPosition | undefined {
-  return kundli.planets
-    .filter(planet => isCoreGraha(planet) && planet.name !== 'Rahu' && planet.name !== 'Ketu')
-    .sort((first, second) => second.degree - first.degree)[0];
 }
 
 function strongestHouseFromScores(scores: number[]): number {

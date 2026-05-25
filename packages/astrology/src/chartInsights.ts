@@ -11,6 +11,7 @@ import type {
 } from '@pridicta/types';
 import { composeChalitBhavKpFoundation } from './chalitBhavKpFoundation';
 import { getChartConfig } from './chartRegistry';
+import { resolveAtmakaraka } from './jaiminiSoulCharts';
 import { composeNadiJyotishPlan } from './nadiJyotishPlan';
 import {
   getChalitReadingNote,
@@ -251,6 +252,14 @@ export function composeChartInsight({
 
   if (profile === 'moon' && kundli) {
     return composeMoonChartInsight(kundli, hasPremiumAccess);
+  }
+
+  if (profile === 'swamsa' && kundli) {
+    return composeSwamsaChartInsight(chart, kundli, hasPremiumAccess);
+  }
+
+  if (profile === 'karakamsha' && kundli) {
+    return composeKarakamshaChartInsight(chart, kundli, hasPremiumAccess);
   }
 
   if (profile === 'kp' && kundli) {
@@ -1304,7 +1313,165 @@ function composeUnsupportedAdvancedVargaInsight(
   };
 }
 
-type PremiumSynthesisChartType = ChartType | 'MOON' | 'CHALIT';
+function composeSwamsaChartInsight(
+  chart: ChartData,
+  kundli: KundliData,
+  hasPremiumAccess: boolean,
+): ChartInsight {
+  const currentDasha = kundli.dasha.current;
+  const navamsaSignal = getChartDominantSignal(kundli, 'D9');
+  const activeArea = navamsaSignal.area;
+  const supportArea = kundli.ashtakavarga.strongestHouses[0]
+    ? formatHouseArea(kundli.ashtakavarga.strongestHouses[0])
+    : undefined;
+  const pressureArea = kundli.ashtakavarga.weakestHouses[0]
+    ? formatHouseArea(kundli.ashtakavarga.weakestHouses[0])
+    : undefined;
+
+  return {
+    currentGuidance:
+      `Use Swamsa as an inner-direction check: act in a way that matches ${activeArea}, but keep the current ${currentDasha.mahadasha}/${currentDasha.antardasha} lesson practical instead of mystical for its own sake.`,
+    eyebrow: hasPremiumAccess ? 'Premium Swamsa analysis' : 'Free Swamsa insight',
+    freeInsights: [
+      `Swamsa starts from the Navamsa self-lens, so it shows how the deeper self wants to move when outer pressure is quieter.`,
+      `The strongest Swamsa signal is around ${activeArea}, which makes this an inner compass rather than a public-performance chart.`,
+      pressureArea
+        ? `The caution is ${pressureArea}; when this area is tense, the user can act from reaction instead of true self-direction.`
+        : 'The caution is to avoid turning one subtle chart into absolute certainty.',
+      `Current timing asks the user to express ${planetTheme(currentDasha.mahadasha)} with more maturity.`,
+    ],
+    governs:
+      'Inner self-direction, soul-style expression, private motivation, and the deeper pattern behind action.',
+    lifeAreas: uniqueStrings([
+      'inner self-direction',
+      'soul-style expression',
+      activeArea,
+      supportArea,
+      pressureArea,
+    ]),
+    mainChallenge: pressureArea
+      ? `The challenge is letting pressure around ${pressureArea} hijack the inner compass.`
+      : 'The challenge is over-mystifying Swamsa instead of using it as a careful Navamsa-based self-direction lens.',
+    mainStrength:
+      `The strength is that Swamsa points toward ${activeArea}, giving the user a cleaner sense of what feels internally aligned before outer validation arrives.`,
+    premiumDeepDive: [
+      'Premium reads Swamsa with D9, D1, dasha, and Chalit so inner direction is not separated from real-life timing.',
+      supportArea
+        ? `Premium checks whether ${supportArea} supports this inner compass or only distracts from it.`
+        : 'Premium checks whether the Swamsa signal is confirmed by D1 and timing before giving practical advice.',
+      pressureArea
+        ? `Premium explains how ${pressureArea} can pull the user away from authentic action and what correction keeps the chart grounded.`
+        : 'Premium keeps confidence bounded because Swamsa should never pretend to be the whole life reading.',
+    ],
+    premiumInsight: buildChartPremiumInsight({
+      activeArea,
+      chartType: 'SWAMSA',
+      kundli,
+      pressureArea,
+      supportArea,
+    }),
+    premiumNudge:
+      'Premium turns Swamsa into a deeper self-direction reading with D1, D9, Chalit, and dasha support.',
+    technicalDetails: [
+      `Swamsa source chart: ${chart.name}.`,
+      `Swamsa ascendant reference: ${chart.ascendantSign}.`,
+      `D9 dominant signal: ${navamsaSignal.area}.`,
+      `Current dasha: ${currentDasha.mahadasha}/${currentDasha.antardasha}.`,
+      'Swamsa is kept as a subtle self-direction lens, not a deterministic fate statement.',
+    ],
+    technicalSummary:
+      'Technical View keeps the Swamsa evidence visible: Navamsa reference, ascendant, dominant signal, and dasha frame.',
+    title: 'Swamsa Chart',
+    whatItSays:
+      `Swamsa is saying the user's inner compass wants to move through ${activeArea}. This is not a generic spiritual label; it is a practical clue about how action feels most aligned when the noise is lower. ${pressureArea ? `The pressure point is ${pressureArea}, where reaction can blur that compass. ` : ''}The active ${currentDasha.mahadasha}/${currentDasha.antardasha} period asks for ${planetTheme(currentDasha.mahadasha)} to be expressed with steadiness.`,
+  };
+}
+
+function composeKarakamshaChartInsight(
+  chart: ChartData,
+  kundli: KundliData,
+  hasPremiumAccess: boolean,
+): ChartInsight {
+  const atmakaraka = resolveAtmakaraka(kundli);
+  const currentDasha = kundli.dasha.current;
+  const activeArea = atmakaraka
+    ? `${atmakaraka.name} Atmakaraka in ${atmakaraka.sign}`
+    : 'Atmakaraka-linked life direction';
+  const navamsaArea = getChartDominantSignal(kundli, 'D9').area;
+  const pressureArea = kundli.ashtakavarga.weakestHouses[0]
+    ? formatHouseArea(kundli.ashtakavarga.weakestHouses[0])
+    : undefined;
+
+  return {
+    currentGuidance:
+      `Use Karakamsha to ask whether the current path is refining the soul lesson or only chasing noise. During ${currentDasha.mahadasha}/${currentDasha.antardasha}, keep the guidance practical and evidence-led.`,
+    eyebrow: hasPremiumAccess
+      ? 'Premium Karakamsha analysis'
+      : 'Free Karakamsha insight',
+    freeInsights: [
+      atmakaraka
+        ? `${atmakaraka.name} is the Atmakaraka, so Karakamsha reads the deeper life direction through that planet's Navamsa context.`
+        : 'Karakamsha needs Atmakaraka evidence before it can become a strong reading.',
+      `The Navamsa support signal points toward ${navamsaArea}, so the soul-direction language must stay grounded there.`,
+      pressureArea
+        ? `The caution is ${pressureArea}; this is where growth can feel heavy until the user acts with more maturity.`
+        : 'The caution is to keep Karakamsha as a refinement lens, not a guaranteed destiny claim.',
+      `Current timing brings ${planetTheme(currentDasha.mahadasha)} into the active lesson.`,
+    ],
+    governs:
+      'Atmakaraka-linked life direction, spiritual growth pattern, subtle dharma, and the lesson behind repeated life choices.',
+    lifeAreas: uniqueStrings([
+      'Atmakaraka-linked life direction',
+      'spiritual growth',
+      navamsaArea,
+      pressureArea,
+      atmakaraka?.name,
+    ]),
+    mainChallenge: pressureArea
+      ? `The challenge is that ${pressureArea} can make the soul lesson feel like burden unless the user turns it into disciplined growth.`
+      : 'The challenge is using Karakamsha too grandly before D1, D9, and timing agree.',
+    mainStrength:
+      atmakaraka
+        ? `The strength is that ${atmakaraka.name} gives the reading a clear Atmakaraka anchor, so spiritual growth can be described without vague filler.`
+        : 'The strength is caution: Predicta will not invent Atmakaraka language without evidence.',
+    premiumDeepDive: [
+      atmakaraka
+        ? `Premium reads ${atmakaraka.name} through D1 house ${atmakaraka.house}, ${atmakaraka.sign}, D9, and active timing.`
+        : 'Premium waits for Atmakaraka evidence before deepening this chart.',
+      `Premium checks whether ${navamsaArea} is supported by D1 and Chalit before calling it a practical life direction.`,
+      pressureArea
+        ? `Premium explains how ${pressureArea} becomes the growth friction and what the user should do with it.`
+        : 'Premium keeps the language hopeful and bounded instead of fatalistic.',
+    ],
+    premiumInsight: buildChartPremiumInsight({
+      activeArea,
+      chartType: 'KARAKAMSHA',
+      kundli,
+      pressureArea,
+      supportArea: navamsaArea,
+    }),
+    premiumNudge:
+      'Premium turns Karakamsha into Atmakaraka-linked life-direction analysis with D1, D9, dasha, and practical correction.',
+    technicalDetails: [
+      `Karakamsha source chart: ${chart.name}.`,
+      `Karakamsha ascendant reference: ${chart.ascendantSign}.`,
+      atmakaraka
+        ? `Atmakaraka: ${atmakaraka.name}, D1 house ${atmakaraka.house}, ${atmakaraka.sign}, ${atmakaraka.degree.toFixed(1)} degrees.`
+        : 'Atmakaraka evidence is pending.',
+      `Current dasha: ${currentDasha.mahadasha}/${currentDasha.antardasha}.`,
+      'Karakamsha is read as a Jaimini-style refinement lens, not as a replacement for D1 or D9.',
+    ],
+    technicalSummary:
+      'Technical View keeps the Karakamsha evidence visible: Atmakaraka, Navamsa reference, ascendant, and timing frame.',
+    title: 'Karakamsha Chart',
+    whatItSays:
+      atmakaraka
+        ? `Karakamsha is saying ${atmakaraka.name} is carrying the deeper life lesson, and its Navamsa context points the user toward ${navamsaArea}. This should feel practical: repeated choices are asking for growth through that lane, not abstract spiritual performance. ${pressureArea ? `The pressure point is ${pressureArea}, where maturity matters more than speed. ` : ''}Current ${currentDasha.mahadasha}/${currentDasha.antardasha} timing makes ${planetTheme(currentDasha.mahadasha)} part of the lesson.`
+        : 'Karakamsha is pending because Predicta does not have enough Atmakaraka evidence to make a grounded chart reading.',
+  };
+}
+
+type PremiumSynthesisChartType = ChartType | 'MOON' | 'SWAMSA' | 'KARAKAMSHA' | 'CHALIT';
 
 function buildChartPremiumInsight({
   chartType,
@@ -1418,6 +1585,14 @@ function buildPremiumHeadline(
     return `Premium treats ${activeArea} as the felt-life Moon layer, then checks whether D1, Chalit, and timing support the same emotional story before giving guidance.`;
   }
 
+  if (chartType === 'SWAMSA') {
+    return `Premium treats ${activeArea} as the Swamsa inner-direction signal, then checks D1, D9, Chalit, and dasha before turning it into practical advice.`;
+  }
+
+  if (chartType === 'KARAKAMSHA') {
+    return `Premium treats ${activeArea} as the Atmakaraka-linked life-direction signal, then checks D1, D9, Chalit, and timing before using soul-purpose language.`;
+  }
+
   return `Premium treats ${activeArea} as the main signal in ${chartType}, then checks whether D1, timing, and ${supportArea ?? 'a second support layer'} confirm it before calling it reliable.`;
 }
 
@@ -1438,6 +1613,10 @@ function buildPremiumLayeredInterpretation({
     ? 'the root life promise'
     : chartType === 'MOON'
     ? 'the Chandra Lagna lived-experience layer'
+    : chartType === 'SWAMSA'
+    ? 'the Swamsa inner self-direction layer'
+    : chartType === 'KARAKAMSHA'
+    ? 'the Karakamsha Atmakaraka life-direction layer'
     : chartType === 'CHALIT'
     ? 'the lived delivery layer'
     : `the focused ${chartType} topic layer`;
@@ -1520,6 +1699,10 @@ function getCrossChartTargets(
       return ['D9', 'D10', 'CHALIT', 'KP', 'NADI'];
     case 'MOON':
       return ['D1', 'D9', 'CHALIT'];
+    case 'SWAMSA':
+      return ['D9', 'D1', 'CHALIT'];
+    case 'KARAKAMSHA':
+      return ['D9', 'D1', 'CHALIT'];
     case 'CHALIT':
       return ['D1', 'KP'];
     case 'D2':
@@ -1658,6 +1841,10 @@ function buildPremiumGuidance(
     base.push('Use Premium to decide what deserves action now, what needs patience, and what should not be forced this dasha.');
   } else if (chartType === 'MOON') {
     base.push('Use Premium to separate genuine intuition from emotional reaction before turning the Moon chart into action.');
+  } else if (chartType === 'SWAMSA') {
+    base.push('Use Premium to keep Swamsa practical: inner direction should become cleaner action, not vague spiritual certainty.');
+  } else if (chartType === 'KARAKAMSHA') {
+    base.push('Use Premium to translate the Atmakaraka lesson into grounded choices instead of fatalistic soul-purpose claims.');
   } else if (chartType === 'CHALIT') {
     base.push('Use Premium to separate the promised area from the lived-delivery area before changing your conclusion.');
   } else {

@@ -40,7 +40,7 @@ for (const phrase of [
 }
 
 for (const phrase of [
-  "chartRole: ChartType | 'MOON' | 'CHALIT'",
+  'type PdfChartRole = ChartType |',
   'houseWisePlanetRows: PdfHouseWisePlanetRow[]',
   "composeVedicIntelligenceContract({ kundli }).moonChart.chart",
   'VEDIC_FOCUS_CHART_ORDER',

@@ -56,9 +56,12 @@ for (const chartType of chartTypes) {
 
 assertIncludes(
   typeSource,
-  "export type ChartInsightProfile = 'default' | 'moon' | 'chalit' | 'kp' | 'nadi'",
+  "'moon'",
   'shared ChartInsightProfile includes Moon and school-safe profiles',
 );
+assertIncludes(typeSource, "'chalit'", 'shared ChartInsightProfile includes Chalit profile');
+assertIncludes(typeSource, "'kp'", 'shared ChartInsightProfile includes KP profile');
+assertIncludes(typeSource, "'nadi'", 'shared ChartInsightProfile includes Nadi profile');
 
 const insights = readWorkspaceFile('packages/astrology/src/chartInsights.ts');
 for (const fragment of [
@@ -67,7 +70,7 @@ for (const fragment of [
   'function composeChalitChartInsight',
   'function composeCoreVargaInsight',
   'function composeAdvancedVargaInsight',
-  "type PremiumSynthesisChartType = ChartType | 'MOON' | 'CHALIT'",
+  "type PremiumSynthesisChartType = ChartType | 'MOON'",
   "case 'MOON':",
   'Moon chart complements D1; it does not replace Lagna/Rashi judgement.',
 ]) {
@@ -80,7 +83,8 @@ for (const chartType of chartTypes) {
 const webCharts = readWorkspaceFile('apps/web/components/WebChartsExplorer.tsx');
 for (const fragment of [
   'type ChartExplorerSelection = ChartType |',
-  "'MOON' | 'CHALIT'",
+  "'MOON'",
+  "'CHALIT'",
   'composeVedicIntelligenceContract',
   'buildParashariChalitChart',
   'resolveSelectedChart',
@@ -112,7 +116,8 @@ assertIncludes(vedicPanel, 'insightProfile="moon"', 'web Vedic panel reads Moon 
 const mobileCharts = readWorkspaceFile('apps/mobile/src/screens/ChartsScreen.tsx');
 for (const fragment of [
   'type ChartScreenSelection = ChartType |',
-  "'MOON' | 'CHALIT'",
+  "'MOON'",
+  "'CHALIT'",
   'composeVedicIntelligenceContract',
   'buildParashariChalitChart',
   'resolveSelectedChart',

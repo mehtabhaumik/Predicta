@@ -185,6 +185,8 @@ function reportMemoryFollowUps(
     'Explain my functional benefics and malefics',
     'Explain my Chalit shifts',
     'Explain my Moon chart',
+    'Explain my Swamsa chart',
+    'Explain my Karakamsha chart',
     'Explain my Mahadasha Phala',
     'Explain my current Mahadasha, Antardasha, and Pratyantardasha',
     'Explain my Avakhada chakra',

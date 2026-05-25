@@ -190,7 +190,7 @@ expectIncludes('packages/pdf/src/reportDocument.tsx', 'premium document renderer
 ]);
 
 expectIncludes('packages/pdf/src/index.ts', 'full-width chart-safe layout contract', [
-  "chartRole: ChartType | 'MOON' | 'CHALIT'",
+  'type PdfChartRole = ChartType |',
   'houseWisePlanetRows: PdfHouseWisePlanetRow[]',
   "composeVedicIntelligenceContract({ kundli }).moonChart.chart",
   'VEDIC_FOCUS_CHART_ORDER',

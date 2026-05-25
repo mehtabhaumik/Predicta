@@ -16,6 +16,8 @@ import {
 } from '../components';
 import {
   buildParashariChalitChart,
+  buildKarakamshaChart,
+  buildSwamsaChart,
   buildChartSelectionPrompt,
   CHART_REGISTRY,
   composeChalitBhavKpFoundation,
@@ -31,7 +33,7 @@ import type { RootScreenProps } from '../navigation/types';
 import { useAppStore } from '../store/useAppStore';
 import type { ChartConfig, ChartData, ChartType, KundliData } from '../types/astrology';
 
-type ChartScreenSelection = ChartType | 'MOON' | 'CHALIT';
+type ChartScreenSelection = ChartType | 'MOON' | 'SWAMSA' | 'KARAKAMSHA' | 'CHALIT';
 
 export function ChartsScreen({
   navigation,
@@ -173,6 +175,47 @@ export function ChartsScreen({
         <AppText className="mt-3" tone="secondary" variant="caption">
           These are focus charts only. The full Varga library remains available below.
         </AppText>
+      </GlowCard>
+
+      <GlowCard className="mt-5" delay={90}>
+        <AppText tone="secondary" variant="caption">
+          FIRST-CLASS SOUL CHARTS
+        </AppText>
+        <AppText className="mt-1" variant="subtitle">
+          Swamsa and Karakamsha
+        </AppText>
+        <AppText className="mt-2" tone="secondary" variant="caption">
+          These do not replace D1 or D9. They add inner self-direction and Atmakaraka-linked life direction when evidence exists.
+        </AppText>
+        <View className="mt-4 flex-row flex-wrap gap-2">
+          {(['SWAMSA', 'KARAKAMSHA'] as const).map(selection => {
+            const active = safeSelectedChart === selection;
+            const label = selection === 'SWAMSA' ? 'Swamsa' : 'Karakamsha';
+
+            return (
+              <Pressable
+                accessibilityRole="button"
+                className={`min-w-[140px] flex-1 rounded-3xl border px-4 py-3 ${
+                  active
+                    ? 'border-[#FFD27A] bg-[#FFD27A22]'
+                    : 'border-[#FFFFFF18] bg-[#FFFFFF0A]'
+                }`}
+                key={selection}
+                onPress={() => {
+                  setSelectedChart(selection);
+                  setFocus({});
+                }}
+              >
+                <AppText className="text-[#FFD27A]" variant="caption">
+                  {selection}
+                </AppText>
+                <AppText className="mt-1" variant="subtitle">
+                  {label}
+                </AppText>
+              </Pressable>
+            );
+          })}
+        </View>
       </GlowCard>
 
       <GlowCard className="mt-7" delay={80}>
@@ -443,14 +486,42 @@ function getChartConfigForSelection(selection: ChartScreenSelection): ChartConfi
     };
   }
 
+  if (selection === 'SWAMSA') {
+    return {
+      category: 'core',
+      id: 'D9',
+      name: 'Swamsa Chart',
+      purpose:
+        'Inner self-direction, soul-style expression, and the deeper pattern behind action.',
+    };
+  }
+
+  if (selection === 'KARAKAMSHA') {
+    return {
+      category: 'core',
+      id: 'D9',
+      name: 'Karakamsha Chart',
+      purpose:
+        'Atmakaraka-linked life direction, spiritual growth, and the lesson behind repeated choices.',
+    };
+  }
+
   return getChartConfig(selection);
 }
 
 function getInsightProfileForSelection(
   selection: ChartScreenSelection,
-): 'default' | 'moon' | 'chalit' {
+): 'default' | 'moon' | 'swamsa' | 'karakamsha' | 'chalit' {
   if (selection === 'MOON') {
     return 'moon';
+  }
+
+  if (selection === 'SWAMSA') {
+    return 'swamsa';
+  }
+
+  if (selection === 'KARAKAMSHA') {
+    return 'karakamsha';
   }
 
   if (selection === 'CHALIT') {
@@ -493,6 +564,28 @@ function resolveSelectedChart({
     );
   }
 
+  if (selectedChart === 'SWAMSA') {
+    return (
+      buildSwamsaChart(kundli) ??
+      buildMissingSpecialChartPlaceholder(
+        selectedConfig,
+        kundli,
+        'Swamsa chart needs verified Navamsa evidence before it can be read safely.',
+      )
+    );
+  }
+
+  if (selectedChart === 'KARAKAMSHA') {
+    return (
+      buildKarakamshaChart(kundli) ??
+      buildMissingSpecialChartPlaceholder(
+        selectedConfig,
+        kundli,
+        'Karakamsha chart needs Atmakaraka and Navamsa evidence before it can be read safely.',
+      )
+    );
+  }
+
   return (
     kundli.charts[selectedChart] ??
     buildMissingChartPlaceholder(selectedChart, selectedConfig, kundli)
@@ -508,7 +601,7 @@ function buildMissingSpecialChartPlaceholder(
 
   return {
     ascendantSign: d1?.ascendantSign ?? kundli.lagna ?? 'Aries',
-    chartType: 'D1',
+    chartType: config.id,
     housePlacements: {},
     name: config.name,
     planetDistribution: [],

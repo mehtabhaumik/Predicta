@@ -54,7 +54,14 @@ export type ChartViewHierarchyItem = {
 
 export type ChartInsightDepth = 'free' | 'premium';
 
-export type ChartInsightProfile = 'default' | 'moon' | 'chalit' | 'kp' | 'nadi';
+export type ChartInsightProfile =
+  | 'default'
+  | 'moon'
+  | 'swamsa'
+  | 'karakamsha'
+  | 'chalit'
+  | 'kp'
+  | 'nadi';
 
 export type ChartPremiumInsight = {
   headline: string;
@@ -208,6 +215,7 @@ export type VedicIntelligenceSectionId =
   | 'panchang'
   | 'prastarashtakavarga'
   | 'samsa'
+  | 'swamsa'
   | 'snapshot';
 
 export type VedicIntelligenceEvidence = {
@@ -327,12 +335,15 @@ export type VedicIntelligenceContract = {
     weakestHouses: number[];
   };
   chartOrder: Array<{
-    id: 'D1' | 'MOON' | 'D9' | ChartType;
+    id: 'D1' | 'MOON' | 'D9' | 'SWAMSA' | 'KARAKAMSHA' | 'CHALIT' | ChartType;
     title: string;
     chart?: ChartData;
     explanation: string;
   }>;
   moonChart: VedicIntelligenceSection & {
+    chart?: ChartData;
+  };
+  swamsa: VedicIntelligenceSection & {
     chart?: ChartData;
   };
   grahaVisualMetadata: VedicGrahaVisualMetadata[];
@@ -349,7 +360,9 @@ export type VedicIntelligenceContract = {
   panchang: VedicIntelligenceSection;
   samsa: VedicIntelligenceSection;
   ghatakFavorable: VedicIntelligenceSection;
-  karakamsha: VedicIntelligenceSection;
+  karakamsha: VedicIntelligenceSection & {
+    chart?: ChartData;
+  };
   ashtakavarga: VedicIntelligenceSection;
   prastarashtakavarga: VedicIntelligenceSection;
   avakhadaChakra: VedicIntelligenceSection;

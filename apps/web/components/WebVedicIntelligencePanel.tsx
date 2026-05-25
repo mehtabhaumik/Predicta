@@ -25,6 +25,7 @@ export function WebVedicIntelligencePanel({
     intelligence.mahadashaPhala,
     intelligence.samsa,
     intelligence.ghatakFavorable,
+    intelligence.swamsa,
     intelligence.karakamsha,
     intelligence.prastarashtakavarga,
     intelligence.avakhadaChakra,
@@ -80,6 +81,48 @@ export function WebVedicIntelligencePanel({
           />
         </div>
       ) : null}
+
+      <div className="vedic-soul-chart-grid">
+        {kundli && intelligence.swamsa.chart ? (
+          <div className="vedic-moon-chart-card">
+            <div>
+              <p className="section-title">SWAMSA</p>
+              <h3>{intelligence.swamsa.title}</h3>
+              <p>{intelligence.swamsa.freeInsight}</p>
+            </div>
+            <WebKundliChart
+              birthDetails={kundli.birthDetails}
+              chart={intelligence.swamsa.chart}
+              hasPremiumAccess={hasPremiumAccess}
+              insightProfile="swamsa"
+              kundli={kundli}
+              presentation="full"
+              centerLabel="Swamsa"
+              sectionTitle="Swamsa Chart"
+            />
+          </div>
+        ) : null}
+
+        {kundli && intelligence.karakamsha.chart ? (
+          <div className="vedic-moon-chart-card">
+            <div>
+              <p className="section-title">KARAKAMSHA</p>
+              <h3>{intelligence.karakamsha.title}</h3>
+              <p>{intelligence.karakamsha.freeInsight}</p>
+            </div>
+            <WebKundliChart
+              birthDetails={kundli.birthDetails}
+              chart={intelligence.karakamsha.chart}
+              hasPremiumAccess={hasPremiumAccess}
+              insightProfile="karakamsha"
+              kundli={kundli}
+              presentation="full"
+              centerLabel="Karakamsha"
+              sectionTitle="Karakamsha Chart"
+            />
+          </div>
+        ) : null}
+      </div>
 
       <div className="vedic-intelligence-grid">
         {visibleSections.map(section => (

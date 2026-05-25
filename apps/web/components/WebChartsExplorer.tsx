@@ -5,6 +5,8 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import {
   buildParashariChalitChart,
+  buildKarakamshaChart,
+  buildSwamsaChart,
   CHART_REGISTRY,
   composeChartInsight,
   composeVedicIntelligenceContract,
@@ -30,7 +32,7 @@ import { WebBhavChalitPanel } from './WebBhavChalitPanel';
 import { WebAdvancedJyotishPanel } from './WebAdvancedJyotishPanel';
 import { WebKundliChart } from './WebKundliChart';
 
-type ChartExplorerSelection = ChartType | 'MOON' | 'CHALIT';
+type ChartExplorerSelection = ChartType | 'MOON' | 'SWAMSA' | 'KARAKAMSHA' | 'CHALIT';
 
 export function WebChartsExplorer({
   hasPremiumAccess = false,
@@ -149,6 +151,10 @@ export function WebChartsExplorer({
                   <option value="MOON">Moon · Chandra Lagna Chart</option>
                   <option value="CHALIT">Chalit · Bhav Chalit Chart</option>
                 </optgroup>
+                <optgroup label={copy.soulCharts}>
+                  <option value="SWAMSA">Swamsa · Inner Self-Direction Chart</option>
+                  <option value="KARAKAMSHA">Karakamsha · Atmakaraka Life-Direction Chart</option>
+                </optgroup>
                 <optgroup label={copy.coreCharts}>
                   {groupedCharts.core.map(chartType => (
                     <option key={chartType} value={chartType}>
@@ -209,6 +215,10 @@ export function WebChartsExplorer({
             centerLabel={
               selectedChart === 'MOON'
                 ? 'Chandra Lagna'
+                : selectedChart === 'SWAMSA'
+                  ? 'Swamsa'
+                  : selectedChart === 'KARAKAMSHA'
+                    ? 'Karakamsha'
                 : selectedChart === 'CHALIT'
                   ? 'Bhav Chalit'
                   : undefined
@@ -216,6 +226,10 @@ export function WebChartsExplorer({
             sectionTitle={
               selectedChart === 'MOON'
                 ? 'Moon / Chandra Lagna Chart'
+                : selectedChart === 'SWAMSA'
+                  ? 'Swamsa Chart'
+                  : selectedChart === 'KARAKAMSHA'
+                    ? 'Karakamsha Chart'
                 : selectedChart === 'CHALIT'
                   ? 'Chalit Chart'
                   : undefined
@@ -318,13 +332,38 @@ function getChartConfigForSelection(selection: ChartExplorerSelection): ChartCon
     };
   }
 
+  if (selection === 'SWAMSA') {
+    return {
+      category: 'core',
+      id: 'D9',
+      name: 'Swamsa Chart',
+      purpose:
+        'Inner self-direction, soul-style expression, and the deeper pattern behind action.',
+    };
+  }
+
+  if (selection === 'KARAKAMSHA') {
+    return {
+      category: 'core',
+      id: 'D9',
+      name: 'Karakamsha Chart',
+      purpose:
+        'Atmakaraka-linked life direction, spiritual growth, and the lesson behind repeated choices.',
+    };
+  }
+
   return getChartConfig(selection);
 }
 
 function getChartCategoryForSelection(
   selection: ChartExplorerSelection,
 ): 'advanced' | 'core' {
-  if (selection === 'MOON' || selection === 'CHALIT') {
+  if (
+    selection === 'MOON' ||
+    selection === 'SWAMSA' ||
+    selection === 'KARAKAMSHA' ||
+    selection === 'CHALIT'
+  ) {
     return 'core';
   }
 
@@ -340,6 +379,14 @@ function getInsightProfileForSelection(
 
   if (selection === 'CHALIT') {
     return 'chalit';
+  }
+
+  if (selection === 'SWAMSA') {
+    return 'swamsa';
+  }
+
+  if (selection === 'KARAKAMSHA') {
+    return 'karakamsha';
   }
 
   return 'default';
@@ -374,6 +421,28 @@ function resolveSelectedChart({
         selectedConfig,
         kundli,
         'Chalit chart needs calculated bhava shifts before it can be read safely.',
+      )
+    );
+  }
+
+  if (selectedChart === 'SWAMSA') {
+    return (
+      buildSwamsaChart(kundli) ??
+      buildMissingSpecialChartPlaceholder(
+        selectedConfig,
+        kundli,
+        'Swamsa chart needs verified Navamsa evidence before it can be read safely.',
+      )
+    );
+  }
+
+  if (selectedChart === 'KARAKAMSHA') {
+    return (
+      buildKarakamshaChart(kundli) ??
+      buildMissingSpecialChartPlaceholder(
+        selectedConfig,
+        kundli,
+        'Karakamsha chart needs Atmakaraka and Navamsa evidence before it can be read safely.',
       )
     );
   }
@@ -420,7 +489,7 @@ function buildMissingSpecialChartPlaceholder(
 
   return {
     ascendantSign: d1?.ascendantSign ?? kundli.lagna ?? 'Aries',
-    chartType: 'D1',
+    chartType: config.id,
     housePlacements: {},
     name: config.name,
     planetDistribution: [],
@@ -453,6 +522,7 @@ const CHART_EXPLORER_COPY: Record<
     mainStrength: string;
     openGuide: string;
     selectChart: string;
+    soulCharts: string;
     whyItMatters: string;
   }
 > = {
@@ -480,6 +550,7 @@ const CHART_EXPLORER_COPY: Record<
     mainStrength: 'Main strength',
     openGuide: 'Open guide',
     selectChart: 'SELECT CHART',
+    soulCharts: 'Soul charts',
     whyItMatters: 'WHY THIS CHART MATTERS',
   },
   hi: {
@@ -506,6 +577,7 @@ const CHART_EXPLORER_COPY: Record<
     mainStrength: getNativeCopy("native.apps.web.components.WebChartsExplorer.tsx.f81259160d"),
     openGuide: getNativeCopy("native.apps.web.components.WebChartsExplorer.tsx.181f8ba049"),
     selectChart: getNativeCopy("native.apps.web.components.WebChartsExplorer.tsx.063c748eab"),
+    soulCharts: 'Soul charts',
     whyItMatters: getNativeCopy("native.apps.web.components.WebChartsExplorer.tsx.f217e49e3c"),
   },
   gu: {
@@ -532,6 +604,7 @@ const CHART_EXPLORER_COPY: Record<
     mainStrength: getNativeCopy("native.apps.web.components.WebChartsExplorer.tsx.66e9b3720a"),
     openGuide: getNativeCopy("native.apps.web.components.WebChartsExplorer.tsx.87e083f018"),
     selectChart: getNativeCopy("native.apps.web.components.WebChartsExplorer.tsx.33bb40198a"),
+    soulCharts: 'Soul charts',
     whyItMatters: getNativeCopy("native.apps.web.components.WebChartsExplorer.tsx.f2e417dd98"),
   },
 };

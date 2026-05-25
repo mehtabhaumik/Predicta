@@ -1,0 +1,60 @@
+{
+  "phase": "PREDICTA_KUNDLI_VALUE_PHASE_3_SWAMSA_KARAKAMSHA_AND_CHALIT_FIRST_CLASS_CHARTS",
+  "generatedAt": "2026-05-25T13:56:20.874Z",
+  "aliases": {
+    "Swamsa": [
+      "Swamsa",
+      "Swamsha",
+      "Svamsa"
+    ],
+    "Karakamsha": [
+      "Karakamsha",
+      "Karakmasa"
+    ]
+  },
+  "surfaces": [
+    {
+      "chart": "Swamsa",
+      "calculationEvidence": "D9/Navamsa supported chart and Navamsa ascendant",
+      "webChartsSelector": true,
+      "webVedicPanelChart": true,
+      "mobileChartsSelector": true,
+      "mobileVedicPanelSection": true,
+      "pdfChartSnapshot": true,
+      "pdfClassicalSection": true,
+      "freeInsight": "one polished practical paragraph via Vedic intelligence and chart insight profile",
+      "premiumDepth": "premium chart insight includes D1, D9, Chalit, dasha, evidence, timing, and guidance",
+      "pendingRule": "show pending when verified Navamsa evidence is missing"
+    },
+    {
+      "chart": "Karakamsha",
+      "calculationEvidence": "Atmakaraka from D1 highest sign degree plus Atmakaraka D9 placement",
+      "webChartsSelector": true,
+      "webVedicPanelChart": true,
+      "mobileChartsSelector": true,
+      "mobileVedicPanelSection": true,
+      "pdfChartSnapshot": true,
+      "pdfClassicalSection": true,
+      "freeInsight": "Atmakaraka-linked life direction in plain language",
+      "premiumDepth": "premium chart insight includes Atmakaraka, D1, D9, Chalit, dasha, timing, and practical correction",
+      "pendingRule": "show pending when Atmakaraka or Navamsa evidence is missing"
+    },
+    {
+      "chart": "Chalit",
+      "calculationEvidence": "Parashari Chalit house-delivery refinement from saved Kundli",
+      "webChartsSelector": true,
+      "webVedicPanelChart": "existing Chalit panel plus selectable chart path",
+      "mobileChartsSelector": true,
+      "mobileVedicPanelSection": true,
+      "pdfChartSnapshot": true,
+      "pdfClassicalSection": "Chalit table and lived-delivery section",
+      "freeInsight": "lived house delivery and practical shifts",
+      "premiumDepth": "D1 promise, Chalit delivery, timing, and correction",
+      "pendingRule": "show pending when Chalit house refinement is not available"
+    }
+  ],
+  "generatedPdfArtifacts": [
+    "artifacts/phase3-free-kundli.pdf",
+    "artifacts/phase3-premium-kundli.pdf"
+  ]
+}

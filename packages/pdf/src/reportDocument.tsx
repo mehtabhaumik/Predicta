@@ -2148,6 +2148,14 @@ function formatPdfChartRole(snapshot: PdfChartSnapshot): string {
     return 'Chalit';
   }
 
+  if (snapshot.chartRole === 'SWAMSA') {
+    return 'Swamsa';
+  }
+
+  if (snapshot.chartRole === 'KARAKAMSHA') {
+    return 'Karakamsha';
+  }
+
   return snapshot.chartType;
 }
 

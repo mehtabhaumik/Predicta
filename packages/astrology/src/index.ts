@@ -18,6 +18,7 @@ export * from './holisticDecisionTimingSynthesis';
 export * from './holisticReadingRooms';
 export * from './kundliEditHistory';
 export * from './kundliChatCommands';
+export * from './jaiminiSoulCharts';
 export * from './lifeAtlasReport';
 export * from './lifeTimeline';
 export * from './mahadashaIntelligence';

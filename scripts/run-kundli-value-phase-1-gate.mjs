@@ -62,7 +62,7 @@ assert.ok(
 
 const pdfComposer = readWorkspaceFile('packages/pdf/src/index.ts');
 for (const fragment of [
-  "chartRole: ChartType | 'MOON' | 'CHALIT'",
+  'type PdfChartRole = ChartType |',
   'VEDIC_FOCUS_CHART_ORDER',
   'buildParashariChalitChart(kundli)',
   'filterReportChartForMainPlate(chart)',
@@ -93,7 +93,7 @@ for (const point of bannedSpecialPoints) {
 }
 
 const pdfRenderer = readWorkspaceFile('packages/pdf/src/reportDocument.tsx');
-assertIncludes(pdfRenderer, 'formatPdfChartRole(snapshot)', 'PDF renderer formats Moon and Chalit labels');
+assertIncludes(pdfRenderer, 'formatPdfChartRole(snapshot)', 'PDF renderer formats special chart labels');
 assertNotIncludes(
   pdfRenderer,
   'chart-overflow-counter',
