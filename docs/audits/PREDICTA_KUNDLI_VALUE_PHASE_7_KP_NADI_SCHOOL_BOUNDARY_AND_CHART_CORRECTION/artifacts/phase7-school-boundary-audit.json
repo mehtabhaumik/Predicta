@@ -1,0 +1,39 @@
+{
+  "phase": "PREDICTA_KUNDLI_VALUE_PHASE_7_KP_NADI_SCHOOL_BOUNDARY_AND_CHART_CORRECTION",
+  "status": "strict-audit-ready",
+  "kp": {
+    "primaryExperience": "event-answer-first",
+    "primaryChartSurface": "Bhav Chalit / cusp-oriented",
+    "forbiddenPrimarySurface": "generic D1 / Rashi personality chart",
+    "requiredEvidence": [
+      "event question",
+      "relevant houses",
+      "cusp/sub-lord evidence",
+      "significator hierarchy",
+      "ruling planets",
+      "timing readiness",
+      "verdict/confidence"
+    ],
+    "proofPlacement": "technical details stay in proof drawer or report appendix"
+  },
+  "nadi": {
+    "primarySurface": "karmic-story-first",
+    "forbiddenPrimarySurface": "generic D1 personality chart dump",
+    "forbiddenLogic": "KP cusp/sub-lord judgement",
+    "requiredEvidence": [
+      "strongest story thread",
+      "gift inside the pattern",
+      "repeating lesson",
+      "activation areas",
+      "validation questions",
+      "activation windows"
+    ],
+    "sourceBoundary": "Nadi-style planetary story intelligence only; no palm-leaf manuscript claim"
+  },
+  "schoolSeparation": {
+    "reportsRemainSeparate": true,
+    "chatRoomBoundary": true,
+    "lifeAtlasOnlyApprovedSynthesis": true,
+    "savedLibraryPreviewUsesSchoolSpecificChart": true
+  }
+}

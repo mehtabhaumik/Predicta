@@ -1173,7 +1173,7 @@ function deriveHouseFromSign(sign: string, ascendantIndex: number): number | und
 }
 
 function isHouseDeliveryChart(chart: ChartData): boolean {
-  return /chalit/i.test(chart.name);
+  return /chalit|kp|cusp/i.test(chart.name);
 }
 
 function shouldHideSupportingPoint({
@@ -1224,7 +1224,7 @@ function buildKpPreviewChart(
   if (!kp?.planets?.length) {
     return buildNadiPreviewChart({
       ...baseChart,
-      name: 'KP Horoscope',
+      name: 'KP Bhav Chalit Cusp Chart',
     });
   }
 
@@ -1237,7 +1237,7 @@ function buildKpPreviewChart(
     return {
       absoluteLongitude: planet.longitude,
       calculationNote:
-        `KP house ${planet.house}; star lord ${planet.lordChain.starLord}; ` +
+        `KP Bhav Chalit house ${planet.house}; star lord ${planet.lordChain.starLord}; ` +
         `sub lord ${planet.lordChain.subLord}.`,
       degree: planet.degree,
       house: planet.house,
@@ -1255,7 +1255,7 @@ function buildKpPreviewChart(
     ascendantSign: kp.cusps.find(cusp => cusp.house === 1)?.sign ?? baseChart.ascendantSign,
     chartType: 'D1',
     housePlacements: buildHousePlacementsFromPlanets(kpPlanetDistribution),
-    name: 'KP Horoscope',
+    name: 'KP Bhav Chalit Cusp Chart',
     planetDistribution: kpPlanetDistribution,
     signPlacements: buildSignPlacementsFromPlanets(kpPlanetDistribution),
     supported: true,

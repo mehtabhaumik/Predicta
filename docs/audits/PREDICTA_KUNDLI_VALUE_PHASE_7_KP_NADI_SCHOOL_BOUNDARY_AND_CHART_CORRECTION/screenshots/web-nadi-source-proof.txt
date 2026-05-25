@@ -1,0 +1,12 @@
+PREDICTA_KUNDLI_VALUE_PHASE_7 web Nadi source proof
+
+Audited files:
+- apps/web/components/WebNadiPredictaPanel.tsx
+- packages/astrology/src/chartLayout.ts
+- apps/web/components/WebSavedKundlis.tsx
+
+Evidence:
+- Web Nadi room starts with the hidden pattern sentence, strongest story thread, Karmic Story Map, Rahu-Ketu Axis Card, story links, activation windows, and Validation Bridge.
+- Web Nadi room does not render a WebKundliChart and does not access kp.cusps.
+- Nadi ask prompt explicitly says: Stay in Nadi Predicta only. Do not mix Parashari or KP. Do not claim palm-leaf manuscript access.
+- Web saved Kundli library passes Nadi chartName as Nadi Chart Anchor and schoolOverride=NADI for preview context.

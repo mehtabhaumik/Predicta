@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import {
   buildChartRenderModel,
+  buildSchoolPreviewChart,
   type ChartRenderSchool,
 } from '@pridicta/astrology';
 
@@ -172,7 +173,12 @@ export function SavedKundlisScreen({
     record: SavedKundliRecord,
     school: ChartRenderSchool = 'PARASHARI',
   ) {
-    const chartLabel = school === 'PARASHARI' ? 'D1' : school === 'KP' ? 'KP' : 'Nadi';
+    const chartLabel =
+      school === 'PARASHARI'
+        ? 'D1'
+        : school === 'KP'
+          ? 'KP Bhav Chalit cusp'
+          : 'Nadi story';
     const selectedSection =
       school === 'PARASHARI'
         ? `Use ${record.summary.name}'s saved Kundli and tell me the most useful next reading.`
@@ -180,7 +186,12 @@ export function SavedKundlisScreen({
 
     setActiveKundli(record.kundliData);
     setActiveChartContext({
-      chartName: 'D1',
+      chartName:
+        school === 'KP'
+          ? 'KP Bhav Chalit Cusp Chart'
+          : school === 'NADI'
+            ? 'Nadi Chart Anchor'
+            : 'D1',
       chartType: 'D1',
       handoffQuestion: selectedSection,
       kundliId: record.summary.id,
@@ -500,7 +511,7 @@ function MiniChartPreview({
   onOpen: () => void;
   school: ChartRenderSchool;
 }): React.JSX.Element | null {
-  const chart = kundli.charts.D1;
+  const chart = buildSchoolPreviewChart(kundli, school);
 
   if (!chart?.supported) {
     return null;
@@ -579,8 +590,13 @@ function LibraryChartDialog({
   selection: { record: SavedKundliRecord; school: ChartRenderSchool };
 }): React.JSX.Element {
   const { record, school } = selection;
-  const chart = record.kundliData.charts.D1;
-  const chartLabel = school === 'PARASHARI' ? 'D1' : school === 'KP' ? 'KP' : 'Nadi';
+  const chart = buildSchoolPreviewChart(record.kundliData, school);
+  const chartLabel =
+    school === 'PARASHARI'
+      ? 'D1'
+      : school === 'KP'
+        ? 'KP Bhav Chalit Cusp'
+        : 'Nadi Story Anchor';
 
   return (
     <Modal

@@ -1,0 +1,12 @@
+PREDICTA_KUNDLI_VALUE_PHASE_7 web KP source proof
+
+Audited files:
+- apps/web/components/WebKpPredictaPanel.tsx
+- packages/astrology/src/chartLayout.ts
+- apps/web/components/WebSavedKundlis.tsx
+
+Evidence:
+- Web KP room starts with PredictaWorldFrame and the event-answer hierarchy, not a WebKundliChart.
+- Web KP room shows Event Verdict Compass, KP Judgement Path, exact-event choices, Question-To-Proof Path, ruling planets, significator map, and proof drawer.
+- packages/astrology/src/chartLayout.ts labels KP preview as KP Bhav Chalit Cusp Chart and uses KP Bhav Chalit house calculation notes.
+- Web saved Kundli library passes KP chartName as KP Bhav Chalit Cusp Chart and schoolOverride=KP when a preview chart is opened.

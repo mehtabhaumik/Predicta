@@ -441,6 +441,14 @@ function KundliLibraryChartDialog({
   }
 
   const chartTitle = labels.previewChartLabel(school);
+  const chartName =
+    school === 'KP'
+      ? 'KP Bhav Chalit Cusp Chart'
+      : school === 'NADI'
+        ? 'Nadi Chart Anchor'
+        : school === 'CHALIT'
+          ? 'Chalit Chart'
+          : 'D1';
   const fullFlowHref =
     school === 'KP'
       ? '/dashboard/kp'
@@ -450,7 +458,7 @@ function KundliLibraryChartDialog({
         ? '/dashboard/charts'
         : '/dashboard/kundli';
   const askHref = buildPredictaChatHref({
-    chartName: 'D1',
+    chartName,
     chartType: 'D1',
     kundli,
     kundliId: kundli.id,

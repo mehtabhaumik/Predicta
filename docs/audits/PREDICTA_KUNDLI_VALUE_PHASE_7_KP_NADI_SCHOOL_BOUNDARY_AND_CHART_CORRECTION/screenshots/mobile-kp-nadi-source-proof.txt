@@ -1,0 +1,12 @@
+PREDICTA_KUNDLI_VALUE_PHASE_7 mobile KP/Nadi source proof
+
+Audited files:
+- apps/mobile/src/components/KpPredictaPanel.tsx
+- apps/mobile/src/screens/NadiPredictaScreen.tsx
+- apps/mobile/src/screens/SavedKundlisScreen.tsx
+
+Evidence:
+- Mobile KP room renders Event Verdict Compass, KP Judgement Path, Proof Drawer, KP Significator Map, and KP Significators. It does not render the KundliChart component as a generic D1 primary surface.
+- Mobile Nadi room renders Hidden Pattern Sentence, Karmic Story Map, Rahu-Ketu Axis Card, Story Links, Activation Windows, and Validation Bridge. It does not render KundliChart and does not read kp.cusps.
+- Mobile saved Kundli preview now calls buildSchoolPreviewChart(kundli, school) for mini previews and buildSchoolPreviewChart(record.kundliData, school) for the dialog, so KP/Nadi no longer open raw D1 as their preview chart.
+- Mobile chat context names KP as KP Bhav Chalit Cusp Chart and Nadi as Nadi Chart Anchor.

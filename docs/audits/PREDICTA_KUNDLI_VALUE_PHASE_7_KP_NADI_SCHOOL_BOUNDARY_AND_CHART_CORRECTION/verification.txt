@@ -1,0 +1,38 @@
+PREDICTA_KUNDLI_VALUE_PHASE_7_KP_NADI_SCHOOL_BOUNDARY_AND_CHART_CORRECTION verification
+
+Phase intent:
+- Stop KP and Nadi from visually or logically mixing with Vedic chart behavior.
+- KP must remain event-answer first and must not use D1 as the primary chart surface.
+- Nadi must remain karmic-story first and must not become a Vedic chart dump or KP proof table.
+
+Implementation audit:
+- KP shared preview chart is now named KP Bhav Chalit Cusp Chart and carries KP Bhav Chalit house calculation notes.
+- KP preview chart is treated as a house-delivery/cusp chart in render-model logic.
+- Web saved Kundli library passes school-aware chart names for KP and Nadi chat context.
+- Mobile saved Kundli mini previews and dialogs now use buildSchoolPreviewChart instead of raw kundli.charts.D1 for KP/Nadi.
+- KP web/mobile rooms remain event-answer first with proof drawers.
+- Nadi web/mobile rooms remain story-first with validation and activation windows.
+
+Artifact audit:
+- artifacts/phase7-school-boundary-audit.json records the KP/Nadi boundary requirements.
+- screenshots/web-kp-school-boundary.png captures the local web KP room showing event-answer-first layout with no primary D1 chart.
+- screenshots/web-nadi-story-first.png captures the local web Nadi room showing story/validation-first layout with no generic D1 chart dump.
+- screenshots/web-kp-source-proof.txt records web KP source evidence.
+- screenshots/web-nadi-source-proof.txt records web Nadi source evidence.
+- screenshots/mobile-kp-nadi-source-proof.txt records mobile source evidence where simulator screenshots are not available in this local phase run.
+
+Commands passed for green:
+- PASS corepack pnpm --filter @pridicta/astrology typecheck
+- PASS corepack pnpm --filter @pridicta/web typecheck
+- PASS corepack pnpm --filter @pridicta/mobile typecheck
+- PASS corepack pnpm test:charts
+- PASS corepack pnpm test:kundli-value-phase-6
+- PASS corepack pnpm test:kundli-value-phase-7
+- PASS corepack pnpm test:kp-nadi-predicta
+- PASS corepack pnpm test:chart-insight-phase-8
+- PASS corepack pnpm test:pdf-golden
+- PASS corepack pnpm test:localization-architecture
+- PASS corepack pnpm test:translation-trust
+- PASS git diff --check
+
+Status: GREEN after strict source audit, school-boundary gate, KP/Nadi regression gate, PDF golden gate, localization gates, and whitespace audit.
