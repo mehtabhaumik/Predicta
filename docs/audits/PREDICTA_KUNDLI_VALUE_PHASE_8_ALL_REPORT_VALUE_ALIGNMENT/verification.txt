@@ -1,0 +1,41 @@
+PREDICTA_KUNDLI_VALUE_PHASE_8_ALL_REPORT_VALUE_ALIGNMENT verification
+
+Phase intent:
+- Align all school reports around the same value standard without mixing schools.
+- Keep Vedic, KP, Nadi, Numerology, and Signature reports separate.
+- Keep Predicta Life Atlas as the only approved all-school synthesis report.
+- Keep free reports useful and premium reports materially deeper.
+
+Implementation audit:
+- Web report marketplace already separates Vedic Reports, KP Reports, Nadi Reports, Numerology Reports, Signature Reports, and Synthesis Reports.
+- Mobile report marketplace separates Synthesis Reports from School-Specific Reports and carries reportFocus/reportSchoolLane into Predicta chat.
+- PDF composition routes each school through its own focused report section and focused school trust section.
+- Vedic reports keep charts, Mahadasha Phala, Panchang/tables, prediction sections, and one consolidated remedy/action plan.
+- KP reports remain event-answer reports with proof appendix language.
+- Nadi reports remain story/validation/activation reports with no palm-leaf access claim.
+- Numerology reports include Number Signature, mandala, name rhythm, cycles, missing/repeated pattern, and premium name/compatibility depth.
+- Signature reports use confirmed visible traits or a pending-state preview and keep reflective safety boundaries.
+
+Artifact audit:
+- artifacts/phase8-report-value-alignment.json records the required value standard for every school lane.
+- artifacts/source-alignment-matrix.txt records source evidence across web, mobile, PDF composition, and regression gates.
+
+Commands passed for green:
+- corepack pnpm --filter @pridicta/pdf typecheck
+- corepack pnpm --filter @pridicta/web typecheck
+- corepack pnpm --filter @pridicta/mobile typecheck
+- corepack pnpm test:kundli-value-phase-7
+- corepack pnpm test:kundli-value-phase-8
+- corepack pnpm test:kp-nadi-predicta
+- corepack pnpm test:numerology-predicta
+- corepack pnpm test:signature-predicta
+- corepack pnpm test:life-atlas-report
+- corepack pnpm test:report-pdf-phase-6
+- corepack pnpm test:report-pdf-phase-9
+- corepack pnpm test:pdf-golden
+- corepack pnpm test:localization-architecture
+- corepack pnpm test:translation-trust
+- git diff --check
+
+Status:
+- GREEN after strict report-value alignment gate, source artifact audit, specialist report gates, PDF golden/release gates, localization gates, and whitespace audit.

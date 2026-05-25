@@ -1,0 +1,81 @@
+{
+  "phase": "PREDICTA_KUNDLI_VALUE_PHASE_8_ALL_REPORT_VALUE_ALIGNMENT",
+  "status": "strict-audit-green",
+  "freeReportsUseful": true,
+  "premiumReportsDeeper": true,
+  "noSilentSchoolMixing": true,
+  "schoolLanes": [
+    {
+      "id": "VEDIC",
+      "standard": "classical Kundli report with charts, dasha, Panchang, tables, predictions, and consolidated remedy plan",
+      "freeValue": "core charts, birth snapshot, Mahadasha Phala, classical tables, predictions, and one remedy/action plan",
+      "premiumDepth": "deeper varga synthesis, timing windows, evidence tables, and practical guidance",
+      "sourceChecks": [
+        "REPORT_SCHOOL_LANES Vedic Reports",
+        "buildVedicReportStructureSections",
+        "buildMahadashaPhalaReportSection",
+        "Consolidated remedy/action plan"
+      ]
+    },
+    {
+      "id": "KP",
+      "standard": "event-answer report with verdict, timing, confidence, and proof appendix",
+      "freeValue": "event promise, blocker, timing-readiness insight, and confidence framing",
+      "premiumDepth": "full proof chain, cusp/sub-lord evidence, significator hierarchy, ruling planets, and limitations",
+      "sourceChecks": [
+        "KP Reports lane",
+        "buildKpFoundationSection",
+        "KP event answer and Proof Appendix",
+        "buildFocusedSchoolTrustSection"
+      ]
+    },
+    {
+      "id": "NADI",
+      "standard": "karmic-story report with validation, patterns, activation windows, and practical guidance",
+      "freeValue": "strongest story thread, gift, caution, validation questions, and activation preview",
+      "premiumDepth": "story sequencing, validation-based deepening, activation windows, and practices",
+      "sourceChecks": [
+        "Nadi Reports lane",
+        "buildNadiJyotishPlanSection",
+        "Story Evidence Appendix",
+        "no palm-leaf manuscript claim"
+      ]
+    },
+    {
+      "id": "NUMEROLOGY",
+      "standard": "number identity dossier with mandala, name rhythm, personal cycles, missing/repeated grid, and premium name/compatibility depth",
+      "freeValue": "core numbers, current cycle, strengths, cautions, and practical guidance",
+      "premiumDepth": "name scanner, personal year timeline, name fit score, compatibility, and name refinement",
+      "sourceChecks": [
+        "Numerology Reports lane",
+        "buildNumerologyReportSection",
+        "Personal Number Mandala",
+        "Missing / Repeated Number Pattern"
+      ]
+    },
+    {
+      "id": "SIGNATURE",
+      "standard": "reflective expression report from confirmed visible traits only, never hard prediction or personality certainty",
+      "freeValue": "privacy-safe visible-trait insight and what-this-can/cannot-tell-you guardrails",
+      "premiumDepth": "multi-sample comparison, before/after guidance, and signature refinement plan",
+      "sourceChecks": [
+        "Signature Reports lane",
+        "buildSignatureReportSection",
+        "confirmed visible traits only",
+        "What this can and cannot tell you"
+      ]
+    }
+  ],
+  "synthesisLane": {
+    "id": "LIFE_ATLAS",
+    "title": "Predicta Life Atlas",
+    "onlyApprovedAllSchoolSynthesis": true,
+    "signatureOptional": true,
+    "sourceChecks": [
+      "Synthesis Reports lane",
+      "buildLifeAtlasReportSections",
+      "Life Atlas is the approved synthesis path",
+      "Signature is optional enrichment only"
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+PREDICTA_KUNDLI_VALUE_PHASE_8 source alignment matrix
+
+Web marketplace:
+- apps/web/components/WebDossierPreview.tsx has Vedic Reports, KP Reports, Nadi Reports, Numerology Reports, Signature Reports, and Synthesis Reports.
+- Web copy states Predicta Life Atlas is the only approved all-school synthesis report.
+- Web copy states Vedic, KP, Nadi, Numerology, and Signature stay in their own lanes.
+
+Mobile marketplace:
+- apps/mobile/src/screens/ReportScreen.tsx separates Synthesis Reports from School-Specific Reports.
+- Mobile copy states Predicta Life Atlas is the only all-school synthesis report.
+- Mobile Ask Predicta context carries reportFocus, reportSchoolLane, and mapReportLaneToPredictaSchool so chat receives the selected report lane.
+
+PDF composition:
+- packages/pdf/src/index.ts routes Vedic/Kundli-style reports to Vedic report sections.
+- KP reportFocus returns buildKpFoundationSection and focused school trust only, not Vedic area sections.
+- Nadi reportFocus returns buildNadiJyotishPlanSection and focused school trust only, not KP cusp proof or Vedic area sections.
+- Numerology reportFocus returns buildNumerologyReportSection and focused school trust only, not Kundli judgement.
+- Signature reportFocus returns buildSignatureReportSection and focused school trust only, using confirmed signature traits or pending-state copy.
+- Life Atlas reportFocus returns buildLifeAtlasReportSections and remains the only synthesis path.
+
+Value depth:
+- Free reports include useful summaries and practical insight in every lane.
+- Premium reports add deeper proof, timing, interpretation, comparison, sequencing, or refinement without changing the school boundary.
+- Signature remains reflective guidance, not prediction, diagnosis, identity verification, or personality certainty.
+
+Regression gates tied to this phase:
+- test:kp-nadi-predicta
+- test:numerology-predicta
+- test:signature-predicta
+- test:life-atlas-report
+- test:pdf-golden
