@@ -1,6 +1,7 @@
 import reportLabelTranslations from './translations/reportLabels.json';
 import type {
   ChartData,
+  ChartInsightProfile,
   ChartType,
   DecisionMemo,
   HouseData,
@@ -369,20 +370,17 @@ function buildReportSectionSet(
   ];
 
   const vedicCore = [
+    ...buildVedicReportStructureSections(kundli, chartTypes, mode, language),
     ...focusSections,
     buildExecutiveSummary(kundli, mode),
     buildHolisticReportSynthesisSection(kundli, mode),
-    buildBirthAndCalculationSection(kundli),
-    ...buildVedicIntelligencePackagingSections(kundli, mode),
-    buildChartSynthesisSection(kundli, chartTypes, mode, language),
     buildPlanetaryStrengthSection(kundli, mode),
-    buildDashaSection(kundli, mode),
     buildTransitSection(kundli, mode),
     ...vedicAreaSections,
     buildRectificationSection(kundli),
     buildGuidanceSection(kundli, mode),
-    buildRemedySection(kundli),
     buildLimitationsSection(kundli, mode),
+    buildRemedySection(kundli),
   ];
 
   if (mode === 'FREE') {
@@ -1349,12 +1347,12 @@ function buildHolisticReportSynthesisSection(
     };
   const reportDepth =
     mode === 'PREMIUM'
-      ? 'Premium turns this into a full report spine: daily rhythm, life aim balance, timing room, sadhana path, remedy tracking, and evidence rows.'
+      ? 'Premium turns this into a full report spine: daily rhythm, life aim balance, timing room, sadhana path reference, and evidence rows.'
       : 'Free gives the useful spine first: what today asks, which life aim is active, and what practice keeps the reading grounded.';
 
   return {
     body:
-      'This section joins the report into one human reading. Predicta reads the chart through today, life balance, timing, and karma-based remedy before moving into detailed chart sections.',
+      'This section joins the report into one human reading. Predicta reads the chart through today, life balance, timing, and one light supporting practice reference before moving into detailed chart sections.',
     bullets: [
       daily.headline,
       `Daily rhythm: morning - ${daily.morningPractice}; midday - ${daily.middayCheck}; evening - ${daily.eveningReview}`,
@@ -1362,7 +1360,7 @@ function buildHolisticReportSynthesisSection(
       `Personal Panchang: ${panchang.weekdayLord} day, ${panchang.tithi}, Moon rhythm ${panchang.moonNakshatra}.`,
       `Sadhana: ${activeStage.label} - ${activeStage.practice}`,
       `Featured room: ${featuredRoom.title} - ${featuredRoom.primaryFocus}`,
-      `Remedy direction: ${daily.remedy}`,
+      `Supporting practice reference: ${daily.remedy}`,
       reportDepth,
     ],
     decisionWindows: [
@@ -1567,6 +1565,196 @@ function buildVedicIntelligencePackagingSections(
       mode,
     ),
   ];
+}
+
+function buildVedicReportStructureSections(
+  kundli: KundliData,
+  chartTypes: ChartType[],
+  mode: PDFMode,
+  language: SupportedLanguage,
+): PdfSection[] {
+  const intelligence = composeVedicIntelligenceContract({
+    depth: mode === 'PREMIUM' ? 'PREMIUM' : 'FREE',
+    kundli,
+  });
+
+  return [
+    // Phase 5 order lock: cover is handled by the renderer; sections begin with Birth Snapshot.
+    buildBirthAndCalculationSection(kundli),
+    buildVedicSnapshotReportSection(intelligence, mode),
+    buildClassicalVedicReportSection(intelligence.panchang, 'PANCHANG', 'Panchang', mode),
+    buildClassicalVedicReportSection(
+      intelligence.avakhadaChakra,
+      'AVAKHADA',
+      'Avakhada chakra',
+      mode,
+    ),
+    buildClassicalVedicReportSection(
+      intelligence.ghatakFavorable,
+      'GHATAK / FAVORABLE',
+      'Ghatak and favorable factors',
+      mode,
+    ),
+    buildCoreChartInterpretationSection(kundli, chartTypes, intelligence, mode, language),
+    ...buildHouseWisePlanetTableSections(intelligence, mode),
+    buildBeneficMaleficReportSection(intelligence, mode),
+    buildMahadashaPhalaReportSection(intelligence, mode),
+    ...buildFriendshipTableSections(intelligence, mode),
+    ...buildChalitTableReportSections(intelligence, mode),
+    buildClassicalVedicReportSection(intelligence.samsa, 'SAMSA', 'Samsa', mode),
+    buildClassicalVedicReportSection(intelligence.swamsa, 'SWAMSA', 'Swamsa chart', mode),
+    buildClassicalVedicReportSection(intelligence.karakamsha, 'KARAKAMSHA', 'Karakamsha', mode),
+    buildClassicalVedicReportSection(intelligence.ashtakavarga, 'ASHTAKAVARGA', 'Ashtakavarga', mode),
+    buildClassicalVedicReportSection(
+      intelligence.prastarashtakavarga,
+      'PRASTARASHTAKAVARGA',
+      'Prastarashtakavarga',
+      mode,
+    ),
+    ...(mode === 'PREMIUM'
+      ? buildPremiumVargaInterpretationSections(kundli, chartTypes, mode, language)
+      : []),
+  ];
+}
+
+function buildCoreChartInterpretationSection(
+  kundli: KundliData,
+  chartTypes: ChartType[],
+  intelligence: VedicIntelligenceContract,
+  mode: PDFMode,
+  language: SupportedLanguage,
+): PdfSection {
+  const snapshots = buildPdfChartSnapshots(kundli, chartTypes, language, 'KUNDLI');
+  const snapshotByRole = new Map<PdfChartRole, PdfChartSnapshot>(
+    snapshots.map(snapshot => [snapshot.chartRole, snapshot]),
+  );
+  const chalitChart = buildParashariChalitChart(kundli);
+  const coreEntries: Array<{
+    chart?: ChartData;
+    label: string;
+    profile?: ChartInsightProfile;
+    role: PdfChartRole;
+  }> = [
+    {
+      chart: kundli.charts.D1,
+      label: 'D1/Rashi',
+      role: 'D1',
+    },
+    {
+      chart: intelligence.moonChart.chart,
+      label: 'Moon/Chandra Lagna',
+      profile: 'moon',
+      role: 'MOON',
+    },
+    {
+      chart: kundli.charts.D9,
+      label: 'D9/Navamsa',
+      role: 'D9',
+    },
+    {
+      chart: kundli.charts.D10,
+      label: 'D10/Dashamsa',
+      role: 'D10',
+    },
+    {
+      chart: chalitChart,
+      label: 'Chalit',
+      profile: 'chalit',
+      role: 'CHALIT',
+    },
+  ];
+  const bullets = coreEntries.map(entry => {
+    if (!entry.chart?.supported) {
+      return `${entry.label}: chart evidence is pending, so Predicta does not invent a prediction for this layer.`;
+    }
+
+    const insight = composeChartInsight({
+      chart: entry.chart,
+      hasPremiumAccess: mode === 'PREMIUM',
+      kundli,
+      profile: entry.profile,
+    });
+    const premiumLine =
+      mode === 'PREMIUM'
+        ? ` Premium depth: ${insight.premiumInsight?.headline ?? insight.premiumDeepDive[0] ?? 'deeper evidence, timing, and contradiction handling are applied.'}`
+        : '';
+
+    return `${entry.label}: ${compactPdfText(insight.whatItSays, 210)} ${compactPdfText(insight.currentGuidance, 150)}${premiumLine}`;
+  });
+
+  return {
+    body:
+      'Core charts come first because the user needs the main prediction before tables. Predicta reads D1, Moon, D9, D10, and Chalit in a fixed order, then uses later sections as evidence.',
+    bullets,
+    evidence: [
+      'Approved focus chart order: D1/Rashi -> Moon/Chandra Lagna -> D9/Navamsa -> D10/Dashamsa -> Chalit.',
+      `Chart pages generated before interpretation: ${snapshots.map(snapshot => snapshot.chartRole).join(', ') || 'none'}.`,
+      `Core chart snapshots available: ${coreEntries.filter(entry => snapshotByRole.has(entry.role)).map(entry => entry.label).join(', ') || 'none'}.`,
+    ],
+    evidenceTable: coreEntries.map(entry => ({
+      confidence: entry.chart?.supported ? 'high' : 'low',
+      factor: entry.label,
+      implication: entry.chart?.supported
+        ? 'This focus chart contributes a direct prediction before technical tables.'
+        : 'This focus chart is visible as pending and cannot drive prediction yet.',
+      observation: snapshotByRole.has(entry.role)
+        ? `${entry.role} chart snapshot rendered.`
+        : `${entry.role} chart snapshot pending or unavailable.`,
+    })),
+    eyebrow: 'CORE CHARTS FIRST',
+    title: mode === 'PREMIUM'
+      ? 'Core chart interpretation with premium depth'
+      : 'Core chart interpretation',
+  };
+}
+
+function buildPremiumVargaInterpretationSections(
+  kundli: KundliData,
+  chartTypes: ChartType[],
+  mode: PDFMode,
+  language: SupportedLanguage,
+): PdfSection[] {
+  const premiumVargas = chartTypes.filter(
+    chartType => !['D1', 'D9', 'D10'].includes(chartType),
+  );
+  const chunks = chunkArray(premiumVargas, 4);
+
+  return ensureAtLeastOneChunk(chunks).flatMap((chunk, index) => {
+    if (!chunk.length) {
+      return [];
+    }
+
+    return [{
+      body:
+        index === 0
+          ? 'Premium vargas remain available as detailed predictive lenses, but they are grouped after core charts, evidence tables, Mahadasha Phala, and classical tables so the report does not feel scattered.'
+          : 'Continuation of premium varga interpretation, kept in readable groups instead of crowding the page.',
+      bullets: chunk.map(chartType => {
+        const chart = kundli.charts[chartType];
+        const insight = chart
+          ? composeChartInsight({
+              chart,
+              hasPremiumAccess: true,
+              kundli,
+            })
+          : undefined;
+
+        return insight
+          ? `${chartType}: ${compactPdfText(insight.whatItSays, 190)} Premium reading: ${compactPdfText(insight.premiumInsight?.headline ?? insight.premiumDeepDive[0] ?? insight.currentGuidance, 150)}`
+          : `${chartType}: chart evidence is pending, so this varga is not interpreted as a prediction yet.`;
+      }),
+      evidence: [
+        `Premium vargas in this group: ${chunk.join(', ')}.`,
+        `Language context for chart labels: ${language}.`,
+        'D1 remains the anchor; premium vargas refine a topic instead of replacing the root chart.',
+      ],
+      eyebrow: 'PREMIUM VARGAS',
+      tier: 'premium' as const,
+      title: index === 0
+        ? 'Premium varga predictive sections'
+        : `Premium varga predictive sections (continued ${index + 1})`,
+    }];
+  });
 }
 
 function buildVedicSnapshotReportSection(
@@ -2940,19 +3128,19 @@ function buildGuidanceSection(kundli: KundliData, mode: PDFMode): PdfSection {
   const weakHouses = kundli.ashtakavarga.weakestHouses;
 
   return {
-    body: 'Guidance is tied to chart evidence: current dasha, weak houses, and repeated pressure signatures. Remedies are kept practical and non-fearful.',
+    body: 'Guidance is tied to chart evidence: current dasha, weak houses, and repeated pressure signatures. Full remedy guidance is intentionally kept for the single consolidated remedy/action plan at the end.',
     bullets: [
       maha ? `Work with ${current.mahadasha} through the discipline of house ${maha.house}: ${houseMeaning(maha.house)}.` : `Work consciously with the ${current.mahadasha} period through steadiness and clean commitments.`,
       `Protect weakest houses ${weakHouses.join(', ')} through routine, restraint, and honest review.`,
-      `Use simple mantra, prayer, silence, or service as consistency practices rather than panic remedies.`,
-      mode === 'PREMIUM' ? 'Review the detailed chart sections before making irreversible timing decisions.' : 'Upgrade depth is most useful when you need area-by-area timing, remedies, and advanced synthesis.',
+      'Supporting practice reference only: use consistency, service, silence, or prayer as grounding habits until the final remedy/action plan lists the full practices.',
+      mode === 'PREMIUM' ? 'Review the detailed chart sections before making irreversible timing decisions.' : 'Upgrade depth is most useful when you need area-by-area timing, evidence, and advanced synthesis.',
     ],
     evidence: [
       `Dasha: ${current.mahadasha}/${current.antardasha}`,
       `Weakest ashtakavarga houses: ${weakHouses.join(', ')}`,
     ],
     eyebrow: 'GUIDANCE',
-    title: 'Practical guidance and remedies',
+    title: 'Practical next steps',
   };
 }
 
@@ -2960,7 +3148,7 @@ function buildRemedySection(kundli: KundliData): PdfSection {
   const remedies = kundli.remedies ?? [];
 
   return {
-    body: 'Remedies are practical correction practices tied to timing, weaker houses, and confidence limits. They are intentionally non-fearful and non-exploitative.',
+    body: 'This is the only full remedy/action plan in the report. Remedies are practical correction practices tied to timing, weaker houses, and confidence limits. They are intentionally non-fearful and non-exploitative.',
     bullets: remedies.length
       ? remedies.map(
           remedy =>
@@ -2972,7 +3160,7 @@ function buildRemedySection(kundli: KundliData): PdfSection {
         `${remedy.id}: ${remedy.rationale} Planets ${remedy.linkedPlanets.join(', ') || 'none'}, houses ${remedy.linkedHouses.join(', ') || 'none'}. Caution: ${remedy.caution}`,
     ),
     eyebrow: 'REMEDIES',
-    title: 'Remedy plan',
+    title: 'Consolidated remedy/action plan',
   };
 }
 

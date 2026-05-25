@@ -1,0 +1,33 @@
+PREDICTA_KUNDLI_VALUE_PHASE_5_VEDIC_REPORT_STRUCTURE_MAHADASHA_AND_REMEDY_STREAMLINE verification
+
+Phase intent:
+- Rebuild Vedic report order.
+- Make Mahadasha Phala a dedicated major section after core chart readings and planet/house evidence.
+- Remove duplicated remedy blocks and keep one consolidated remedy/action plan.
+
+Implementation audit:
+- packages/pdf/src/index.ts adds buildVedicReportStructureSections for the approved Vedic report order.
+- packages/pdf/src/index.ts adds buildCoreChartInterpretationSection for D1, Moon, D9, D10, and Chalit predictions before tables.
+- packages/pdf/src/index.ts adds buildPremiumVargaInterpretationSections so premium vargas are available after core/classical sections without crowding the first report pages.
+- buildDashaSection remains available as source logic, but it is not included in the Vedic core report order because Mahadasha Phala is the dedicated approved section.
+- buildGuidanceSection and buildHolisticReportSynthesisSection no longer present full remedy guidance; they use supporting practice references only.
+- buildRemedySection is retitled Consolidated remedy/action plan and is placed once at the end of the Vedic report flow.
+- packages/pdf/src/translations/reportLabels.json includes dedicated Hindi and Gujarati labels for new report titles and eyebrows.
+
+Artifact audit:
+- artifacts/phase5-structure-audit.json records the approved order and dedupe rules.
+- artifacts/phase5-free-payload.json and artifacts/phase5-premium-payload.json preserve the crowded Phase 4 Kundli fixture.
+- artifacts/phase5-free-kundli.pdf and artifacts/phase5-premium-kundli.pdf are generated through the live /api/report/pdf route.
+
+Commands required for green:
+- corepack pnpm --filter @pridicta/astrology typecheck
+- corepack pnpm --filter @pridicta/pdf typecheck
+- corepack pnpm --filter @pridicta/web typecheck
+- corepack pnpm --filter @pridicta/mobile typecheck
+- corepack pnpm test:charts
+- corepack pnpm test:kundli-value-phase-4
+- corepack pnpm test:kundli-value-phase-5
+- corepack pnpm test:report-pdf-phase-5
+- corepack pnpm test:report-pdf-phase-6
+- corepack pnpm test:pdf-golden
+- corepack pnpm test:report-pdf-phase-9

@@ -1,0 +1,82 @@
+{
+  "phase": "PREDICTA_KUNDLI_VALUE_PHASE_5_VEDIC_REPORT_STRUCTURE_MAHADASHA_AND_REMEDY_STREAMLINE",
+  "status": "strict-audit-ready",
+  "approvedOrder": [
+    "Celestial cover",
+    "Birth Snapshot",
+    "Core Charts First",
+    "Core chart interpretation",
+    "Planet and house evidence",
+    "Mahadasha Phala",
+    "Classical tables",
+    "Premium vargas",
+    "One consolidated remedy/action plan"
+  ],
+  "implementation": [
+    {
+      "orderStep": "Birth Snapshot",
+      "source": "buildVedicReportStructureSections",
+      "sections": [
+        "Birth and calculation foundation",
+        "Vedic snapshot",
+        "Panchang",
+        "Avakhada chakra",
+        "Ghatak and favorable factors"
+      ]
+    },
+    {
+      "orderStep": "Core Charts First",
+      "source": "buildCoreChartInterpretationSection",
+      "sections": [
+        "D1/Rashi",
+        "Moon/Chandra Lagna",
+        "D9/Navamsa",
+        "D10/Dashamsa",
+        "Chalit"
+      ]
+    },
+    {
+      "orderStep": "Planet and house evidence",
+      "source": "buildHouseWisePlanetTableSections and buildBeneficMaleficReportSection",
+      "sections": [
+        "House-wise planet table",
+        "Benefics and malefics"
+      ]
+    },
+    {
+      "orderStep": "Mahadasha Phala",
+      "source": "buildMahadashaPhalaReportSection",
+      "sections": [
+        "Past Mahadasha summaries only",
+        "Current Entire Mahadasha",
+        "Current Mahadasha plus Antardasha",
+        "Current Mahadasha plus Antardasha plus Pratyantardasha"
+      ]
+    },
+    {
+      "orderStep": "Classical tables",
+      "source": "friendship, Chalit table, Samsa, Swamsa, Karakamsha, Ashtakavarga, Prastarashtakavarga",
+      "sections": [
+        "Planet friendship table",
+        "Chalit table",
+        "Samsa",
+        "Swamsa chart",
+        "Karakamsha",
+        "Ashtakavarga",
+        "Prastarashtakavarga"
+      ]
+    },
+    {
+      "orderStep": "One consolidated remedy/action plan",
+      "source": "buildRemedySection",
+      "sections": [
+        "Consolidated remedy/action plan"
+      ]
+    }
+  ],
+  "dedupeRules": {
+    "fullRemedySectionCount": 1,
+    "inlineSectionsMayUse": "supporting practice reference",
+    "removedDuplicateTimingSection": "buildDashaSection is not included in vedicCore because Mahadasha Phala is the approved dedicated section"
+  }
+}

@@ -1,0 +1,18 @@
+PREDICTA_KUNDLI_VALUE_PHASE_5_VEDIC_REPORT_STRUCTURE_MAHADASHA_AND_REMEDY_STREAMLINE source proof
+
+PDF report source:
+- packages/pdf/src/index.ts now routes Vedic/Kundli reports through buildVedicReportStructureSections.
+- buildVedicReportStructureSections starts with birth/calculation, Vedic snapshot, Panchang, Avakhada, and Ghatak/favorable factors.
+- buildCoreChartInterpretationSection reads D1/Rashi, Moon/Chandra Lagna, D9/Navamsa, D10/Dashamsa, and Chalit in fixed order.
+- House-wise planet tables and benefic/malefic evidence appear before Mahadasha Phala.
+- Mahadasha Phala is the dedicated timing section and the old generic buildDashaSection is not included in the Vedic core report order.
+- Classical tables follow Mahadasha Phala.
+- Premium varga predictive sections are grouped after classical tables.
+- The final full remedy section is buildRemedySection with title Consolidated remedy/action plan.
+
+Redundancy audit:
+- Guidance now uses a supporting practice reference only.
+- Holistic synthesis now uses a supporting practice reference only.
+- Full remedy guidance appears once at the end of the report.
+
+Generated PDF artifacts are included separately for output proof.
