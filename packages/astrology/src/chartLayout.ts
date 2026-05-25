@@ -868,7 +868,7 @@ function deriveCellPresentationSettings(
   }
 
   if (labelDensity === 'compact') {
-    if (presentation === 'full') {
+    if (presentation === 'full' || presentation === 'charts') {
       return {
         maxVisiblePlanets: preset.maxVisiblePlanets,
         planetGlyphSize: 'compact',
@@ -881,7 +881,6 @@ function deriveCellPresentationSettings(
     return {
       maxVisiblePlanets:
         presentation === 'main' ||
-        presentation === 'charts' ||
         presentation === 'creation' ||
         presentation === 'report'
           ? Math.min(3, preset.maxVisiblePlanets)
@@ -893,7 +892,7 @@ function deriveCellPresentationSettings(
     };
   }
 
-  if (presentation === 'full') {
+  if (presentation === 'full' || presentation === 'charts') {
     return {
       maxVisiblePlanets: preset.maxVisiblePlanets,
       planetGlyphSize: 'compact',
@@ -906,7 +905,6 @@ function deriveCellPresentationSettings(
   return {
     maxVisiblePlanets:
       presentation === 'main' ||
-      presentation === 'charts' ||
       presentation === 'creation' ||
       presentation === 'report'
         ? Math.min(2, preset.maxVisiblePlanets)

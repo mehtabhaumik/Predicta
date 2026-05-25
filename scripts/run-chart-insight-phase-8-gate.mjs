@@ -20,9 +20,12 @@ async function assertExists(file, label) {
 const files = {
   chartDoc: await readWorkspaceFile('docs/PREDICTA_CHART_INSIGHT_REBUILD_PHASES.md'),
   chartInsights: await readWorkspaceFile('packages/astrology/src/chartInsights.ts'),
+  chartLayout: await readWorkspaceFile('packages/astrology/src/chartLayout.ts'),
   chartRegistry: await readWorkspaceFile('packages/astrology/src/chartRegistry.ts'),
   chatBlocks: await readWorkspaceFile('packages/astrology/src/chatChartBlocks.ts'),
+  css: await readWorkspaceFile('apps/web/app/globals.css'),
   mobileCharts: await readWorkspaceFile('apps/mobile/src/screens/ChartsScreen.tsx'),
+  mobileChartComponent: await readWorkspaceFile('apps/mobile/src/components/charts/KundliChart.tsx'),
   mobileKundli: await readWorkspaceFile('apps/mobile/src/screens/KundliScreen.tsx'),
   mobileChat: await readWorkspaceFile('apps/mobile/src/screens/ChatScreen.tsx'),
   nadiPlan: await readWorkspaceFile('packages/astrology/src/nadiJyotishPlan.ts'),
@@ -159,6 +162,52 @@ for (const phrase of [
     `desktop/tablet/mobile chart surfaces expose ${phrase}`,
   );
 }
+
+assertIncludes(
+  files.webCharts,
+  'buildMissingChartPlaceholder(selectedChart, selectedConfig, kundli)',
+  'web chart selector must not silently fall back to D1 for missing selected charts',
+);
+
+assertIncludes(
+  files.mobileCharts,
+  'buildMissingChartPlaceholder(safeSelectedChart, selectedConfig, kundli)',
+  'mobile chart selector must not silently fall back to D1 for missing selected charts',
+);
+
+assert.ok(
+  !files.webCharts.includes('kundli.charts[selectedChart] ?? kundli.charts.D1'),
+  'web chart selector must not render D1 under another chart name',
+);
+
+for (const phrase of [
+  "presentation === 'full' || presentation === 'charts'",
+  'showPlanetDegrees: true',
+]) {
+  assertIncludes(
+    files.chartLayout,
+    phrase,
+    `Charts surface keeps planet-degree rendering for compact/stacked cells: ${phrase}`,
+  );
+}
+
+assertIncludes(
+  files.mobileChartComponent,
+  'formatPlanetChip(planet.name, planet.degree, chartLanguage)',
+  'mobile chart cells display planet degrees instead of abbreviation-only pills',
+);
+
+assertIncludes(
+  files.css,
+  '.chart-detail-card .jyotish-chart-shell--unsupported',
+  'unsupported chart state stacks instead of leaving a blank left column',
+);
+
+assertIncludes(
+  files.css,
+  ".north-chart[data-chart-presentation='charts'] .north-house-label[data-density='compact'] .planet-glyph-copy em",
+  'web Charts surface explicitly shows degrees even when chart cells are compact',
+);
 
 assert.ok(
   !/chart was opened/i.test(files.chatBlocks + files.webChat + files.mobileChat + files.pdf),

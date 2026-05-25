@@ -24,7 +24,7 @@ import {
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import { useAppStore } from '../store/useAppStore';
-import type { ChartConfig, ChartType } from '../types/astrology';
+import type { ChartConfig, ChartData, ChartType, KundliData } from '../types/astrology';
 
 export function ChartsScreen({
   navigation,
@@ -69,7 +69,9 @@ export function ChartsScreen({
 
   const safeSelectedChart = selectedChart;
   const selectedConfig = getChartConfig(safeSelectedChart);
-  const chart = kundli.charts[safeSelectedChart];
+  const chart =
+    kundli.charts[safeSelectedChart] ??
+    buildMissingChartPlaceholder(safeSelectedChart, selectedConfig, kundli);
   const insight = composeChartInsight({
     chart,
     hasPremiumAccess: access.hasPremiumAccess,
@@ -339,4 +341,25 @@ function getChartConfig(chartType: ChartType): ChartConfig {
   }
 
   return config;
+}
+
+function buildMissingChartPlaceholder(
+  chartType: ChartType,
+  config: ChartConfig,
+  kundli: KundliData,
+): ChartData {
+  const d1 = kundli.charts.D1;
+
+  return {
+    ascendantSign: d1?.ascendantSign ?? kundli.lagna ?? 'Aries',
+    chartType,
+    housePlacements: {},
+    name: config.name,
+    planetDistribution: [],
+    signPlacements: {},
+    supported: false,
+    unsupportedReason:
+      `${config.name} is selected, but this Kundli does not include calculated placements for it yet. ` +
+      'Predicta will not fall back to D1 or show a repeated chart as if it were calculated.',
+  };
 }

@@ -3,6 +3,7 @@
 import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import {
   type CSSProperties,
+  useEffect,
   useId,
   useMemo,
   useState,
@@ -140,6 +141,11 @@ export function WebKundliChart({
     chartLanguage,
   );
 
+  useEffect(() => {
+    setSelectedHouse(1);
+    setHoveredHouse(undefined);
+  }, [chart.chartType, chart.name]);
+
   function selectHouse(house?: number) {
     if (!house) {
       return;
@@ -150,7 +156,7 @@ export function WebKundliChart({
 
   if (!chart.supported) {
     return (
-      <div className="jyotish-chart-shell">
+      <div className="jyotish-chart-shell jyotish-chart-shell--unsupported">
         {ownerName ? (
           <StatusPill label={`${ownerName}'s chart`} tone="quiet" />
         ) : null}
@@ -204,7 +210,7 @@ export function WebKundliChart({
         {...getKundliAnimationSurfaceProps(animationSurface)}
         aria-label={`${renderModel.displayChartName} North Indian chart`}
         aria-describedby={chartInstructionsId}
-        key={`${chart.chartType}-${animationSurface}`}
+        key={`${chart.chartType}-${chart.name}-${animationSurface}`}
       >
         <NorthIndianChartLines surface={animationSurface} />
         <svg

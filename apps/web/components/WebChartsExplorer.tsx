@@ -8,7 +8,13 @@ import {
   composeChartInsight,
   getChartTypesForAccess,
 } from '@pridicta/astrology';
-import type { ChartType, SupportedLanguage } from '@pridicta/types';
+import type {
+  ChartConfig,
+  ChartData,
+  ChartType,
+  KundliData,
+  SupportedLanguage,
+} from '@pridicta/types';
 import { useLanguagePreference } from '../lib/language-preference';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 import { Card } from './Card';
@@ -50,8 +56,10 @@ export function WebChartsExplorer({
     );
   }
 
-  const chart = kundli.charts[selectedChart] ?? kundli.charts.D1;
-  const selectedConfig = CHART_REGISTRY.find(item => item.id === selectedChart);
+  const selectedConfig = getChartConfig(selectedChart);
+  const chart =
+    kundli.charts[selectedChart] ??
+    buildMissingChartPlaceholder(selectedChart, selectedConfig, kundli);
   const selectedCategory = getChartCategory(selectedChart);
   const selectedInsight = composeChartInsight({
     chart,
@@ -98,39 +106,37 @@ export function WebChartsExplorer({
               </select>
             </label>
           </div>
-          {selectedConfig ? (
-            <div className="selected-chart-summary" aria-live="polite">
-              <div className="selected-chart-summary-meta">
-                <span>{copy.whyItMatters}</span>
-                <em>
-                  {selectedCategory === 'advanced'
-                    ? copy.advancedLibrary
-                    : copy.coreLibrary}
-                </em>
-              </div>
-              <strong>{selectedConfig.name}</strong>
-              <p>{selectedInsight.whatItSays}</p>
-              <div className="selected-chart-insight-grid">
-                <span>
-                  <em>{copy.mainStrength}</em>
-                  {selectedInsight.mainStrength}
-                </span>
-                <span>
-                  <em>{copy.mainChallenge}</em>
-                  {selectedInsight.mainChallenge}
-                </span>
-                <span>
-                  <em>{copy.currentGuidance}</em>
-                  {selectedInsight.currentGuidance}
-                </span>
-              </div>
-              <small>
+          <div className="selected-chart-summary" aria-live="polite">
+            <div className="selected-chart-summary-meta">
+              <span>{copy.whyItMatters}</span>
+              <em>
                 {selectedCategory === 'advanced'
-                  ? copy.advancedChartHint
-                  : copy.defaultInsightView}
-              </small>
+                  ? copy.advancedLibrary
+                  : copy.coreLibrary}
+              </em>
             </div>
-          ) : null}
+            <strong>{selectedConfig.name}</strong>
+            <p>{selectedInsight.whatItSays}</p>
+            <div className="selected-chart-insight-grid">
+              <span>
+                <em>{copy.mainStrength}</em>
+                {selectedInsight.mainStrength}
+              </span>
+              <span>
+                <em>{copy.mainChallenge}</em>
+                {selectedInsight.mainChallenge}
+              </span>
+              <span>
+                <em>{copy.currentGuidance}</em>
+                {selectedInsight.currentGuidance}
+              </span>
+            </div>
+            <small>
+              {selectedCategory === 'advanced'
+                ? copy.advancedChartHint
+                : copy.defaultInsightView}
+            </small>
+          </div>
           <WebKundliChart
             birthDetails={kundli.birthDetails}
             chart={chart}
@@ -191,10 +197,41 @@ function getChartCategory(chartType: ChartType): 'advanced' | 'core' {
   );
 }
 
+function getChartConfig(chartType: ChartType): ChartConfig {
+  const config = CHART_REGISTRY.find(item => item.id === chartType);
+
+  if (!config) {
+    throw new Error(`Unknown chart type ${chartType}`);
+  }
+
+  return config;
+}
+
 function formatChartOption(chartType: ChartType): string {
   const config = CHART_REGISTRY.find(item => item.id === chartType);
 
   return config ? `${chartType} · ${config.name}` : chartType;
+}
+
+function buildMissingChartPlaceholder(
+  chartType: ChartType,
+  config: ChartConfig,
+  kundli: KundliData,
+): ChartData {
+  const d1 = kundli.charts.D1;
+
+  return {
+    ascendantSign: d1?.ascendantSign ?? kundli.lagna ?? 'Aries',
+    chartType,
+    housePlacements: {},
+    name: config.name,
+    planetDistribution: [],
+    signPlacements: {},
+    supported: false,
+    unsupportedReason:
+      `${config.name} is selected, but this Kundli does not include calculated placements for it yet. ` +
+      'Predicta will not fall back to D1 or show a repeated chart as if it were calculated.',
+  };
 }
 
 const CHART_EXPLORER_COPY: Record<

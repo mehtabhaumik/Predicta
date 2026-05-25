@@ -9724,6 +9724,14 @@ button:disabled {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.chart-detail-card .jyotish-chart-shell--unsupported {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.chart-detail-card .jyotish-chart-shell--unsupported > * {
+  grid-column: 1 / -1;
+}
+
 .chart-detail-card .jyotish-chart-toolbar {
   grid-column: 1 / -1;
 }
@@ -18289,6 +18297,11 @@ select::-ms-expand {
 .hero-kundli-board[data-chart-presentation='landing'] .planet-glyph-copy em,
 .kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-planets em {
   display: none !important;
+}
+
+.north-chart[data-chart-presentation='charts'] .north-house-label[data-density='compact'] .planet-glyph-copy em,
+.north-chart[data-chart-presentation='charts'] .north-house-label[data-density='stacked'] .planet-glyph-copy em {
+  display: block !important;
 }
 
 .north-house-label[data-density='compact'] .planet-glyph-copy strong,

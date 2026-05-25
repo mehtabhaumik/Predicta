@@ -65,9 +65,10 @@ export const KundliChart = memo(function KundliChart({
     findHouseCell(cells, selectedHouse) ??
     cells.find(cell => cell.house === 1) ??
     cells[0];
-  const activePlanets = selectedPlanet
-    ? [selectedPlanet]
-    : activeCell?.planets ?? [];
+  const activePlanetPositions = selectedPlanet
+    ? activeCell?.planetPositions.filter(planet => planet.name === selectedPlanet) ?? []
+    : activeCell?.planetPositions ?? [];
+  const activePlanets = activePlanetPositions.map(planet => planet.name);
   const activeHouseMeaning = getHouseMeaning(activeCell?.house);
   const chartRole = getChartRole(chart.chartType);
   const activeSpecialPoints = activeCell?.planetPositions.filter(isSpecialPoint) ?? [];
@@ -209,33 +210,33 @@ export const KundliChart = memo(function KundliChart({
             ) : null}
           </View>
           <View style={styles.planetRow}>
-            {(activeCell.planets.length ? activeCell.planets : ['No planets']).map(
-              planet => {
-                const empty = planet === 'No planets';
-
-                return (
-                  <Pressable
-                    accessibilityRole="button"
-                    disabled={empty}
-                    key={planet}
-                    onPress={() =>
-                      onFocusChange?.({
-                        house: activeCell.house,
-                        planet,
-                      })
-                    }
-                    style={[
-                      styles.planetChip,
-                      selectedPlanet === planet ? styles.selectedPlanetChip : undefined,
-                      empty ? styles.emptyPlanetChip : undefined,
-                    ]}
-                  >
-                    <AppText tone={empty ? 'secondary' : 'primary'} variant="caption">
-                      {empty ? planet : `${getLocalizedPlanetAbbreviation(planet, chartLanguage)} ${getDisplayPlanetName(planet, chartLanguage)}`}
-                    </AppText>
-                  </Pressable>
-                );
-              },
+            {activePlanetPositions.length ? (
+              activePlanetPositions.map(planet => (
+                <Pressable
+                  accessibilityRole="button"
+                  key={`${planet.name}-${planet.degree}`}
+                  onPress={() =>
+                    onFocusChange?.({
+                      house: activeCell.house,
+                      planet: planet.name,
+                    })
+                  }
+                  style={[
+                    styles.planetChip,
+                    selectedPlanet === planet.name ? styles.selectedPlanetChip : undefined,
+                  ]}
+                >
+                  <AppText variant="caption">
+                    {formatPlanetDisplay(planet.name, planet.degree, chartLanguage)}
+                  </AppText>
+                </Pressable>
+              ))
+            ) : (
+              <View style={[styles.planetChip, styles.emptyPlanetChip]}>
+                <AppText tone="secondary" variant="caption">
+                  No planets
+                </AppText>
+              </View>
             )}
           </View>
           {activePlanets.length ? (
@@ -279,21 +280,21 @@ function ChartHouseCell({
           </AppText>
         </View>
         <View style={styles.cellPlanetRow}>
-          {cell.planets.length ? (
-            cell.planets.map(planet => (
+          {cell.planetPositions.length ? (
+            cell.planetPositions.map(planet => (
               <Pressable
                 accessibilityRole="button"
-                key={planet}
+                key={`${planet.name}-${planet.degree}`}
                 onPress={() =>
                   onFocusChange?.({
                     house: cell.house,
-                    planet,
+                    planet: planet.name,
                   })
                 }
                 style={styles.cellPlanetPill}
               >
                 <AppText variant="caption">
-                  {getLocalizedPlanetAbbreviation(planet, chartLanguage)}
+                  {formatPlanetChip(planet.name, planet.degree, chartLanguage)}
                 </AppText>
               </Pressable>
             ))
@@ -332,6 +333,26 @@ function getDisplayPlanetName(
   language: SupportedLanguage,
 ): string {
   return getLocalizedPlanetName(planet, language);
+}
+
+function formatPlanetDisplay(
+  planet: string,
+  degree: number,
+  language: SupportedLanguage,
+): string {
+  return `${getLocalizedPlanetAbbreviation(planet, language)} ${formatPlanetDegree(degree)} ${getDisplayPlanetName(planet, language)}`;
+}
+
+function formatPlanetChip(
+  planet: string,
+  degree: number,
+  language: SupportedLanguage,
+): string {
+  return `${getLocalizedPlanetAbbreviation(planet, language)} ${formatPlanetDegree(degree)}`;
+}
+
+function formatPlanetDegree(degree: number): string {
+  return `${degree.toFixed(1)}°`;
 }
 
 function getChartLanguageTitle(language: SupportedLanguage): string {
