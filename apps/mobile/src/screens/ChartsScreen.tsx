@@ -271,6 +271,14 @@ export function ChartsScreen({
       <VedicIntelligencePanel
         hasPremiumAccess={access.hasPremiumAccess}
         kundli={kundli}
+        onAskPrompt={prompt => {
+          setActiveChartContext({
+            selectedSection: prompt,
+            sourceScreen: 'Vedic Progressive Disclosure',
+          });
+          navigation.navigate(routes.Chat);
+        }}
+        onDownloadFullReport={() => navigation.navigate(routes.Report)}
       />
 
       <GlowCard className="mt-5" delay={140}>

@@ -8984,13 +8984,19 @@ button:disabled {
 
 .vedic-intelligence-heading p,
 .vedic-moon-chart-card p,
-.vedic-intelligence-card p {
+.vedic-intelligence-card p,
+.vedic-progressive-heading p,
+.vedic-action-band p,
+.vedic-disclosure p {
   color: var(--muted);
 }
 
 .vedic-intelligence-snapshot,
 .vedic-chart-order article,
-.vedic-intelligence-card {
+.vedic-intelligence-card,
+.vedic-progressive-group,
+.vedic-action-band,
+.vedic-disclosure {
   background: rgba(255, 255, 255, 0.045);
   border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 18px;
@@ -8999,7 +9005,10 @@ button:disabled {
 
 .vedic-intelligence-snapshot span,
 .vedic-chart-order span,
-.vedic-intelligence-card span {
+.vedic-intelligence-card span,
+.vedic-progressive-heading span,
+.vedic-action-band span,
+.vedic-disclosure summary span {
   color: #ffd27a;
   display: block;
   font-size: 11px;
@@ -9016,10 +9025,17 @@ button:disabled {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.vedic-intelligence-grid.compact {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .vedic-chart-order p,
 .vedic-intelligence-card p,
 .vedic-intelligence-card small,
-.vedic-intelligence-card em {
+.vedic-intelligence-card em,
+.vedic-disclosure p,
+.vedic-disclosure small,
+.vedic-disclosure em {
   display: block;
   margin-top: 8px;
 }
@@ -9035,6 +9051,66 @@ button:disabled {
 .vedic-intelligence-card em {
   color: rgba(255, 210, 122, 0.82);
   font-style: normal;
+}
+
+.vedic-progressive-group {
+  display: grid;
+  gap: 16px;
+}
+
+.vedic-progressive-heading,
+.vedic-action-band {
+  align-items: center;
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+}
+
+.vedic-progressive-heading strong,
+.vedic-action-band strong,
+.vedic-disclosure summary strong {
+  display: block;
+  font-size: 18px;
+}
+
+.vedic-classical-stack {
+  display: grid;
+  gap: 10px;
+}
+
+.vedic-disclosure {
+  overflow: hidden;
+}
+
+.vedic-disclosure summary {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+  list-style: none;
+}
+
+.vedic-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.vedic-disclosure small,
+.vedic-disclosure em {
+  color: rgba(255, 255, 255, 0.78);
+  font-style: normal;
+}
+
+.vedic-soul-disclosure {
+  display: grid;
+  gap: 16px;
+}
+
+.vedic-action-band {
+  background:
+    radial-gradient(circle at 10% 10%, rgba(77, 175, 255, 0.16), transparent 35%),
+    radial-gradient(circle at 90% 10%, rgba(255, 74, 166, 0.14), transparent 35%),
+    rgba(255, 255, 255, 0.045);
 }
 
 .vedic-moon-chart-card {
@@ -18821,6 +18897,21 @@ select::-ms-expand {
 }
 
 @media (max-width: 820px) {
+  .vedic-intelligence-heading,
+  .vedic-progressive-heading,
+  .vedic-action-band,
+  .vedic-chart-order,
+  .vedic-intelligence-grid,
+  .vedic-soul-chart-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vedic-progressive-heading,
+  .vedic-action-band {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
   .chart-picker-inline {
     gap: 14px;
     grid-template-columns: 1fr;

@@ -1,0 +1,11 @@
+PREDICTA_KUNDLI_VALUE_PHASE_6_WEB_MOBILE_PROGRESSIVE_DISCLOSURE mobile source proof
+
+Mobile progressive hierarchy:
+- apps/mobile/src/components/VedicIntelligencePanel.tsx renders BIRTH SNAPSHOT, CHARTS, WHAT THIS MEANS, CURRENT TIMING, Classical Tables, ASK PREDICTA, and Download Full Report.
+- Classical Tables use DisclosureButton and showClassicalTables state, so advanced tables do not create an immediate wall.
+- Swamsa and Karakamsha use showSoulCharts state, keeping required soul charts available without crowding the default view.
+- Focus charts are D1, Moon/Chandra Lagna, D9, D10, and Chalit.
+- apps/mobile/src/screens/ChartsScreen.tsx passes onAskPrompt and onDownloadFullReport, so the action/result stays near the panel.
+
+Mobile runtime screenshot note:
+- The strict gate audits the mobile React Native source because the current phase runs in the local desktop workspace without a mobile simulator screenshot target.

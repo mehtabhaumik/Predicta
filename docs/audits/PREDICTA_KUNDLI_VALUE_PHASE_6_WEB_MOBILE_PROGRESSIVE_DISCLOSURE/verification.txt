@@ -1,0 +1,35 @@
+PREDICTA_KUNDLI_VALUE_PHASE_6_WEB_MOBILE_PROGRESSIVE_DISCLOSURE verification
+
+Phase intent:
+- Adopt AstroSage-level useful content on web/mobile without creating a 56-page wall.
+- Keep Vedic surfaces calm, clean, progressive, and section-aware.
+- Keep the PDF as the complete reading surface.
+
+Implementation audit:
+- Web Vedic panel now groups content into Birth Snapshot, Charts, What This Means, Current Timing, Classical Tables, Ask Predicta, and Download Full Report.
+- Web Classical Tables use HTML details/summary disclosure.
+- Web Swamsa and Karakamsha remain present but are hidden behind a disclosure by default.
+- Mobile Vedic panel mirrors the same hierarchy with tap-to-open disclosures.
+- Mobile Charts screen passes Ask Predicta and Download Full Report actions directly into the Vedic panel.
+- Full chart library remains accessible deliberately through the Charts screen instead of crowding the Vedic overview.
+
+Artifact audit:
+- artifacts/phase6-progressive-disclosure-audit.json records the web/mobile hierarchy and non-clutter policy.
+- screenshots/web-vedic-progressive-disclosure.png is captured from the local web Vedic screen with the audited Phase 5 Kundli fixture seeded into a temporary browser profile, proving the populated hierarchy instead of only the empty state.
+- screenshots/mobile-source-proof.txt records mobile source evidence for the same hierarchy.
+
+Commands passed for green:
+- PASS corepack pnpm --filter @pridicta/astrology typecheck
+- PASS corepack pnpm --filter @pridicta/web typecheck
+- PASS corepack pnpm --filter @pridicta/mobile typecheck
+- PASS corepack pnpm test:charts
+- PASS corepack pnpm test:kundli-value-phase-5
+- PASS corepack pnpm test:kundli-value-phase-6
+- PASS corepack pnpm test:chart-insight-phase-8
+- PASS corepack pnpm test:report-pdf-phase-5
+- PASS corepack pnpm test:pdf-golden
+- PASS corepack pnpm test:localization-architecture
+- PASS corepack pnpm test:translation-trust
+- PASS git diff --check
+
+Status: GREEN after strict web artifact, mobile source audit, phase gate, regression gates, localization gates, and whitespace audit.

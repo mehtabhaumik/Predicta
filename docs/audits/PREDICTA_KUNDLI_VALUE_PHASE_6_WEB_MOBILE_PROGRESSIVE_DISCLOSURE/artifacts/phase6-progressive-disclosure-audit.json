@@ -1,0 +1,41 @@
+{
+  "phase": "PREDICTA_KUNDLI_VALUE_PHASE_6_WEB_MOBILE_PROGRESSIVE_DISCLOSURE",
+  "status": "strict-audit-ready",
+  "hierarchy": [
+    "Birth Snapshot",
+    "Charts",
+    "What This Means",
+    "Current Timing",
+    "Classical Tables",
+    "Ask Predicta",
+    "Download Full Report"
+  ],
+  "web": {
+    "surface": "apps/web/components/WebVedicIntelligencePanel.tsx",
+    "rules": [
+      "Birth Snapshot shows Panchang, Avakhada, and Ghatak/favorable cards.",
+      "Charts shows D1, Moon, D9, D10, and Chalit first.",
+      "What This Means shows compact predictive cards per focus chart.",
+      "Classical Tables are hidden in disclosure details until the user opens proof.",
+      "Swamsa and Karakamsha stay available in a disclosure so soul charts are not removed.",
+      "Download Full Report is visible as the deep reading CTA."
+    ]
+  },
+  "mobile": {
+    "surface": "apps/mobile/src/components/VedicIntelligencePanel.tsx",
+    "rules": [
+      "Birth Snapshot is one compact card group.",
+      "Charts lists focus charts before all other vargas.",
+      "What This Means uses short predictive cards.",
+      "Classical Tables are behind a tap-to-open disclosure.",
+      "Swamsa and Karakamsha stay available behind a tap-to-open disclosure.",
+      "Ask Predicta and Download Full Report actions are near the progressive panel."
+    ]
+  },
+  "nonClutterPolicy": {
+    "pdfIsDeepSurface": true,
+    "premiumOnScreen": "valuable but compact",
+    "tables": "collapsible or horizontally safe",
+    "fullChartLibrary": "deliberate navigation, not forced inline"
+  }
+}
