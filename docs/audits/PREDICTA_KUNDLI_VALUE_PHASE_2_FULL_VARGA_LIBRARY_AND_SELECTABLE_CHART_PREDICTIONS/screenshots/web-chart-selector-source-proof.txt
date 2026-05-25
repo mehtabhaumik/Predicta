@@ -1,0 +1,9 @@
+PREDICTA_KUNDLI_VALUE_PHASE_2_FULL_VARGA_LIBRARY_AND_SELECTABLE_CHART_PREDICTIONS web source proof
+
+Browser screenshot capture attempted through the Codex in-app browser, but the browser policy blocked the localhost charts page reload. No alternate browser workaround was used.
+Verified from source instead:
+- apps/web/components/WebChartsExplorer.tsx uses ChartExplorerSelection = ChartType | MOON | CHALIT.
+- Moon uses composeVedicIntelligenceContract().moonChart.chart and insightProfile moon.
+- Chalit uses buildParashariChalitChart(kundli) and insightProfile chalit.
+- The native select exposes MOON and CHALIT focus options and chartTypes.map keeps the full registry-backed Varga library available.
+- WebKundliChart renders What This Chart Is Saying, main strength, main challenge, current guidance, Ask Predicta CTA, and Download full report CTA.

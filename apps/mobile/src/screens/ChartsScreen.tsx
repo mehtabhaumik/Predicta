@@ -15,14 +15,15 @@ import {
   VedicIntelligencePanel,
 } from '../components';
 import {
+  buildParashariChalitChart,
   buildChartSelectionPrompt,
   CHART_REGISTRY,
   composeChalitBhavKpFoundation,
   composeChartInsight,
+  composeVedicIntelligenceContract,
   getChartTypesForAccess,
   getVedicFocusChartLabel,
   getVedicFocusChartShortLabel,
-  isSelectableVargaFocusRole,
   VEDIC_FOCUS_CHART_ORDER,
 } from '@pridicta/astrology';
 import { routes } from '../navigation/routes';
@@ -30,10 +31,12 @@ import type { RootScreenProps } from '../navigation/types';
 import { useAppStore } from '../store/useAppStore';
 import type { ChartConfig, ChartData, ChartType, KundliData } from '../types/astrology';
 
+type ChartScreenSelection = ChartType | 'MOON' | 'CHALIT';
+
 export function ChartsScreen({
   navigation,
 }: RootScreenProps<typeof routes.Charts>): React.JSX.Element {
-  const [selectedChart, setSelectedChart] = useState<ChartType>('D1');
+  const [selectedChart, setSelectedChart] = useState<ChartScreenSelection>('D1');
   const [focus, setFocus] = useState<KundliChartFocus>({});
   const kundli = useAppStore(state => state.activeKundli);
   const setActiveChartContext = useAppStore(
@@ -72,14 +75,23 @@ export function ChartsScreen({
   }
 
   const safeSelectedChart = selectedChart;
-  const selectedConfig = getChartConfig(safeSelectedChart);
-  const chart =
-    kundli.charts[safeSelectedChart] ??
-    buildMissingChartPlaceholder(safeSelectedChart, selectedConfig, kundli);
+  const intelligence = composeVedicIntelligenceContract({
+    depth: access.hasPremiumAccess ? 'PREMIUM' : 'FREE',
+    kundli,
+  });
+  const selectedConfig = getChartConfigForSelection(safeSelectedChart);
+  const chart = resolveSelectedChart({
+    intelligence,
+    kundli,
+    selectedChart: safeSelectedChart,
+    selectedConfig,
+  });
+  const selectedInsightProfile = getInsightProfileForSelection(safeSelectedChart);
   const insight = composeChartInsight({
     chart,
     hasPremiumAccess: access.hasPremiumAccess,
     kundli,
+    profile: selectedInsightProfile,
   });
   const insightBullets = [
     `Strength: ${insight.mainStrength}`,
@@ -88,7 +100,7 @@ export function ChartsScreen({
     ...insight.freeInsights,
   ].slice(0, 5);
   const focusOrderItems = VEDIC_FOCUS_CHART_ORDER.map((role, index) => ({
-    active: isSelectableVargaFocusRole(role) && safeSelectedChart === role,
+    active: safeSelectedChart === role,
     available: getFocusChartAvailability(kundli, role),
     index,
     label: getVedicFocusChartLabel(role, 'en'),
@@ -99,13 +111,13 @@ export function ChartsScreen({
   function askFromChart() {
     setActiveChartContext({
       chartName: selectedConfig.name,
-      chartType: safeSelectedChart,
+      chartType: chart.chartType,
       purpose: selectedConfig.purpose,
       selectedHouse: focus.house,
       selectedPlanet: focus.planet,
       selectedSection: buildChartSelectionPrompt({
         chartName: selectedConfig.name,
-        chartType: safeSelectedChart,
+        chartType: chart.chartType,
         purpose: selectedConfig.purpose,
         selectedHouse: focus.house,
         selectedPlanet: focus.planet,
@@ -132,48 +144,31 @@ export function ChartsScreen({
           REQUIRED VEDIC FOCUS ORDER
         </AppText>
         <View className="mt-4 flex-row flex-wrap gap-2">
-          {focusOrderItems.map(item =>
-            isSelectableVargaFocusRole(item.role) ? (
-              <Pressable
-                accessibilityRole="button"
-                className={`min-w-[96px] flex-1 rounded-3xl border px-3 py-3 ${
-                  item.active
-                    ? 'border-[#4DAFFF] bg-[#4DAFFF22]'
-                    : 'border-[#FFFFFF18] bg-[#FFFFFF0A]'
-                }`}
-                key={item.role}
-                onPress={() => {
-                  setSelectedChart(item.role as ChartType);
-                  setFocus({});
-                }}
-              >
-                <AppText className="text-[#FFD27A]" variant="caption">
-                  {item.index + 1}
-                </AppText>
-                <AppText variant="subtitle">{item.shortLabel}</AppText>
-                <AppText tone="secondary" variant="caption">
-                  {item.label}
-                </AppText>
-              </Pressable>
-            ) : (
-              <View
-                className={`min-w-[96px] flex-1 rounded-3xl border px-3 py-3 ${
-                  item.available
+          {focusOrderItems.map(item => (
+            <Pressable
+              accessibilityRole="button"
+              className={`min-w-[96px] flex-1 rounded-3xl border px-3 py-3 ${
+                item.active
+                  ? 'border-[#4DAFFF] bg-[#4DAFFF22]'
+                  : item.available
                     ? 'border-[#FFFFFF18] bg-[#FFFFFF0A]'
                     : 'border-[#FFFFFF12] bg-[#FFFFFF06]'
-                }`}
-                key={item.role}
-              >
-                <AppText className="text-[#FFD27A]" variant="caption">
-                  {item.index + 1}
-                </AppText>
-                <AppText variant="subtitle">{item.shortLabel}</AppText>
-                <AppText tone="secondary" variant="caption">
-                  {item.label}
-                </AppText>
-              </View>
-            ),
-          )}
+              }`}
+              key={item.role}
+              onPress={() => {
+                setSelectedChart(item.role);
+                setFocus({});
+              }}
+            >
+              <AppText className="text-[#FFD27A]" variant="caption">
+                {item.index + 1}
+              </AppText>
+              <AppText variant="subtitle">{item.shortLabel}</AppText>
+              <AppText tone="secondary" variant="caption">
+                {item.label}
+              </AppText>
+            </Pressable>
+          ))}
         </View>
         <AppText className="mt-3" tone="secondary" variant="caption">
           These are focus charts only. The full Varga library remains available below.
@@ -292,6 +287,23 @@ export function ChartsScreen({
         ) : null}
       </GlowCard>
 
+      <View className="mt-5 gap-3">
+        <GlowButton
+          label="Download full report for detailed analysis"
+          onPress={() => navigation.navigate(routes.Report)}
+        />
+        <GlowButton
+          label={
+            focus.planet
+              ? `Ask about ${focus.planet} in ${safeSelectedChart}`
+              : focus.house
+                ? `Ask about House ${focus.house} in ${safeSelectedChart}`
+                : `Ask Predicta about ${selectedConfig.name}`
+          }
+          onPress={askFromChart}
+        />
+      </View>
+
       <BhavChalitPanel
         foundation={chalitKpFoundation}
         onAskChalit={() => {
@@ -317,19 +329,6 @@ export function ChartsScreen({
             navigation.navigate(routes.Chat);
           }}
           onCreateKundli={() => navigation.navigate(routes.Kundli)}
-        />
-      </View>
-
-      <View className="mt-5">
-        <GlowButton
-          label={
-            focus.planet
-              ? `Ask about ${focus.planet} in ${safeSelectedChart}`
-              : focus.house
-                ? `Ask about House ${focus.house} in ${safeSelectedChart}`
-                : `Ask Predicta about ${safeSelectedChart}`
-          }
-          onPress={askFromChart}
         />
       </View>
 
@@ -421,6 +420,102 @@ function getChartConfig(chartType: ChartType): ChartConfig {
   }
 
   return config;
+}
+
+function getChartConfigForSelection(selection: ChartScreenSelection): ChartConfig {
+  if (selection === 'MOON') {
+    return {
+      category: 'core',
+      id: 'D1',
+      name: 'Moon Chart / Chandra Lagna Chart',
+      purpose:
+        'Mind, emotional rhythm, lived response patterns, and how the same Kundli feels from the Moon.',
+    };
+  }
+
+  if (selection === 'CHALIT') {
+    return {
+      category: 'core',
+      id: 'D1',
+      name: 'Chalit Chart',
+      purpose:
+        'Real-life house delivery, bhava shifts, and where D1 promise actually lands in lived experience.',
+    };
+  }
+
+  return getChartConfig(selection);
+}
+
+function getInsightProfileForSelection(
+  selection: ChartScreenSelection,
+): 'default' | 'moon' | 'chalit' {
+  if (selection === 'MOON') {
+    return 'moon';
+  }
+
+  if (selection === 'CHALIT') {
+    return 'chalit';
+  }
+
+  return 'default';
+}
+
+function resolveSelectedChart({
+  intelligence,
+  kundli,
+  selectedChart,
+  selectedConfig,
+}: {
+  intelligence: ReturnType<typeof composeVedicIntelligenceContract>;
+  kundli: KundliData;
+  selectedChart: ChartScreenSelection;
+  selectedConfig: ChartConfig;
+}): ChartData {
+  if (selectedChart === 'MOON') {
+    return (
+      intelligence.moonChart.chart ??
+      buildMissingSpecialChartPlaceholder(
+        selectedConfig,
+        kundli,
+        'Moon chart needs a calculated Moon sign before it can be read safely.',
+      )
+    );
+  }
+
+  if (selectedChart === 'CHALIT') {
+    return (
+      buildParashariChalitChart(kundli) ??
+      buildMissingSpecialChartPlaceholder(
+        selectedConfig,
+        kundli,
+        'Chalit chart needs calculated bhava shifts before it can be read safely.',
+      )
+    );
+  }
+
+  return (
+    kundli.charts[selectedChart] ??
+    buildMissingChartPlaceholder(selectedChart, selectedConfig, kundli)
+  );
+}
+
+function buildMissingSpecialChartPlaceholder(
+  config: ChartConfig,
+  kundli: KundliData,
+  unsupportedReason: string,
+): ChartData {
+  const d1 = kundli.charts.D1;
+
+  return {
+    ascendantSign: d1?.ascendantSign ?? kundli.lagna ?? 'Aries',
+    chartType: 'D1',
+    housePlacements: {},
+    name: config.name,
+    planetDistribution: [],
+    signPlacements: {},
+    supported: false,
+    unsupportedReason,
+  };
 }
 
 function buildMissingChartPlaceholder(

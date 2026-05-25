@@ -169,6 +169,22 @@ export function WebKundliChart({
               <li key={item}>{item}</li>
             ))}
           </ul>
+          <div className="chart-insight-cta-row">
+            <Link
+              className="button secondary"
+              href={buildChartAskHref({
+                chartName: chart.name,
+                chartType: chart.chartType,
+                kundliId,
+                purpose: localizedInsight.whatItSays,
+              })}
+            >
+              {translateUiText('Ask Predicta about this chart', appLanguage)}
+            </Link>
+            <Link className="button secondary" href="/dashboard/report">
+              {translateUiText('Download full report for detailed analysis', appLanguage)}
+            </Link>
+          </div>
           {renderPremiumInsightPanel({
             appLanguage,
             hasPremiumAccess,
@@ -442,6 +458,9 @@ export function WebKundliChart({
                   appLanguage,
                 )}
               </span>
+              <Link className="button secondary" href="/dashboard/report">
+                {translateUiText('Download full report for detailed analysis', appLanguage)}
+              </Link>
             </div>
             {renderPremiumInsightPanel({
               appLanguage,

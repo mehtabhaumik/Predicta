@@ -4,20 +4,23 @@ import { getNativeCopy } from '@pridicta/config';
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import {
+  buildParashariChalitChart,
   CHART_REGISTRY,
   composeChartInsight,
+  composeVedicIntelligenceContract,
   getChartTypesForAccess,
   getVedicFocusChartLabel,
   getVedicFocusChartShortLabel,
-  isSelectableVargaFocusRole,
   VEDIC_FOCUS_CHART_ORDER,
 } from '@pridicta/astrology';
 import type {
   ChartConfig,
   ChartData,
+  ChartInsightProfile,
   ChartType,
   KundliData,
   SupportedLanguage,
+  VedicIntelligenceContract,
 } from '@pridicta/types';
 import { useLanguagePreference } from '../lib/language-preference';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
@@ -27,12 +30,14 @@ import { WebBhavChalitPanel } from './WebBhavChalitPanel';
 import { WebAdvancedJyotishPanel } from './WebAdvancedJyotishPanel';
 import { WebKundliChart } from './WebKundliChart';
 
+type ChartExplorerSelection = ChartType | 'MOON' | 'CHALIT';
+
 export function WebChartsExplorer({
   hasPremiumAccess = false,
 }: {
   hasPremiumAccess?: boolean;
 }): React.JSX.Element {
-  const [selectedChart, setSelectedChart] = useState<ChartType>('D1');
+  const [selectedChart, setSelectedChart] = useState<ChartExplorerSelection>('D1');
   const { language } = useLanguagePreference();
   const copy = CHART_EXPLORER_COPY[language];
   const { activeKundli: kundli } = useWebKundliLibrary();
@@ -60,18 +65,27 @@ export function WebChartsExplorer({
     );
   }
 
-  const selectedConfig = getChartConfig(selectedChart);
-  const chart =
-    kundli.charts[selectedChart] ??
-    buildMissingChartPlaceholder(selectedChart, selectedConfig, kundli);
-  const selectedCategory = getChartCategory(selectedChart);
+  const intelligence = composeVedicIntelligenceContract({
+    depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
+    kundli,
+  });
+  const selectedConfig = getChartConfigForSelection(selectedChart);
+  const chart = resolveSelectedChart({
+    intelligence,
+    kundli,
+    selectedChart,
+    selectedConfig,
+  });
+  const selectedCategory = getChartCategoryForSelection(selectedChart);
+  const selectedInsightProfile = getInsightProfileForSelection(selectedChart);
   const selectedInsight = composeChartInsight({
     chart,
     hasPremiumAccess,
     kundli,
+    profile: selectedInsightProfile,
   });
   const focusOrderItems = VEDIC_FOCUS_CHART_ORDER.map((role, index) => ({
-    active: isSelectableVargaFocusRole(role) && selectedChart === role,
+    active: selectedChart === role,
     available: getFocusChartAvailability(kundli, role),
     index,
     label: getVedicFocusChartLabel(role, language),
@@ -94,29 +108,23 @@ export function WebChartsExplorer({
             aria-label="Required Vedic focus chart order: D1/Rashi, Moon/Chandra Lagna, D9/Navamsa, D10/Dashamsa, Chalit"
             className="vedic-focus-order-rail"
           >
-            {focusOrderItems.map(item =>
-              isSelectableVargaFocusRole(item.role) ? (
-                <button
-                  className={item.active ? 'active' : ''}
-                  key={item.role}
-                  onClick={() => setSelectedChart(item.role as ChartType)}
-                  type="button"
-                >
-                  <span>{item.index + 1}</span>
-                  <strong>{item.shortLabel}</strong>
-                  <em>{item.label}</em>
-                </button>
-              ) : (
-                <div
-                  className={item.available ? 'available' : 'pending'}
-                  key={item.role}
-                >
-                  <span>{item.index + 1}</span>
-                  <strong>{item.shortLabel}</strong>
-                  <em>{item.label}</em>
-                </div>
-              ),
-            )}
+            {focusOrderItems.map(item => (
+              <button
+                className={[
+                  item.active ? 'active' : '',
+                  item.available ? 'available' : 'pending',
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
+                key={item.role}
+                onClick={() => setSelectedChart(item.role)}
+                type="button"
+              >
+                <span>{item.index + 1}</span>
+                <strong>{item.shortLabel}</strong>
+                <em>{item.label}</em>
+              </button>
+            ))}
           </div>
           <p className="vedic-focus-order-note">
             These are the focus charts. The full Varga library remains available below.
@@ -134,9 +142,13 @@ export function WebChartsExplorer({
               <span>{copy.chooseChart}</span>
               <select
                 aria-label={copy.chooseChart}
-                onChange={event => setSelectedChart(event.target.value as ChartType)}
+                onChange={event => setSelectedChart(event.target.value as ChartExplorerSelection)}
                 value={selectedChart}
               >
+                <optgroup label={copy.focusCharts}>
+                  <option value="MOON">Moon · Chandra Lagna Chart</option>
+                  <option value="CHALIT">Chalit · Bhav Chalit Chart</option>
+                </optgroup>
                 <optgroup label={copy.coreCharts}>
                   {groupedCharts.core.map(chartType => (
                     <option key={chartType} value={chartType}>
@@ -191,8 +203,23 @@ export function WebChartsExplorer({
             hasPremiumAccess={hasPremiumAccess}
             kundliId={kundli.id}
             kundli={kundli}
+            insightProfile={selectedInsightProfile}
             ownerName={kundli.birthDetails.name}
             presentation="charts"
+            centerLabel={
+              selectedChart === 'MOON'
+                ? 'Chandra Lagna'
+                : selectedChart === 'CHALIT'
+                  ? 'Bhav Chalit'
+                  : undefined
+            }
+            sectionTitle={
+              selectedChart === 'MOON'
+                ? 'Moon / Chandra Lagna Chart'
+                : selectedChart === 'CHALIT'
+                  ? 'Chalit Chart'
+                  : undefined
+            }
           />
         </div>
       </Card>
@@ -270,6 +297,93 @@ function getChartConfig(chartType: ChartType): ChartConfig {
   return config;
 }
 
+function getChartConfigForSelection(selection: ChartExplorerSelection): ChartConfig {
+  if (selection === 'MOON') {
+    return {
+      category: 'core',
+      id: 'D1',
+      name: 'Moon Chart / Chandra Lagna Chart',
+      purpose:
+        'Mind, emotional rhythm, lived response patterns, and how the same Kundli feels from the Moon.',
+    };
+  }
+
+  if (selection === 'CHALIT') {
+    return {
+      category: 'core',
+      id: 'D1',
+      name: 'Chalit Chart',
+      purpose:
+        'Real-life house delivery, bhava shifts, and where D1 promise actually lands in lived experience.',
+    };
+  }
+
+  return getChartConfig(selection);
+}
+
+function getChartCategoryForSelection(
+  selection: ChartExplorerSelection,
+): 'advanced' | 'core' {
+  if (selection === 'MOON' || selection === 'CHALIT') {
+    return 'core';
+  }
+
+  return getChartCategory(selection);
+}
+
+function getInsightProfileForSelection(
+  selection: ChartExplorerSelection,
+): ChartInsightProfile {
+  if (selection === 'MOON') {
+    return 'moon';
+  }
+
+  if (selection === 'CHALIT') {
+    return 'chalit';
+  }
+
+  return 'default';
+}
+
+function resolveSelectedChart({
+  intelligence,
+  kundli,
+  selectedChart,
+  selectedConfig,
+}: {
+  intelligence: VedicIntelligenceContract;
+  kundli: KundliData;
+  selectedChart: ChartExplorerSelection;
+  selectedConfig: ChartConfig;
+}): ChartData {
+  if (selectedChart === 'MOON') {
+    return (
+      intelligence.moonChart.chart ??
+      buildMissingSpecialChartPlaceholder(
+        selectedConfig,
+        kundli,
+        'Moon chart needs a calculated Moon sign before it can be read safely.',
+      )
+    );
+  }
+
+  if (selectedChart === 'CHALIT') {
+    return (
+      buildParashariChalitChart(kundli) ??
+      buildMissingSpecialChartPlaceholder(
+        selectedConfig,
+        kundli,
+        'Chalit chart needs calculated bhava shifts before it can be read safely.',
+      )
+    );
+  }
+
+  return (
+    kundli.charts[selectedChart] ??
+    buildMissingChartPlaceholder(selectedChart, selectedConfig, kundli)
+  );
+}
+
 function formatChartOption(chartType: ChartType): string {
   const config = CHART_REGISTRY.find(item => item.id === chartType);
 
@@ -297,6 +411,25 @@ function buildMissingChartPlaceholder(
   };
 }
 
+function buildMissingSpecialChartPlaceholder(
+  config: ChartConfig,
+  kundli: KundliData,
+  unsupportedReason: string,
+): ChartData {
+  const d1 = kundli.charts.D1;
+
+  return {
+    ascendantSign: d1?.ascendantSign ?? kundli.lagna ?? 'Aries',
+    chartType: 'D1',
+    housePlacements: {},
+    name: config.name,
+    planetDistribution: [],
+    signPlacements: {},
+    supported: false,
+    unsupportedReason,
+  };
+}
+
 const CHART_EXPLORER_COPY: Record<
   SupportedLanguage,
   {
@@ -315,6 +448,7 @@ const CHART_EXPLORER_COPY: Record<
     emptyEyebrow: string;
     emptyTitle: string;
     defaultInsightView: string;
+    focusCharts: string;
     mainChallenge: string;
     mainStrength: string;
     openGuide: string;
@@ -341,6 +475,7 @@ const CHART_EXPLORER_COPY: Record<
       'Create your Kundli first. Then this page will show your North Indian chart and explain each house in plain language.',
     emptyEyebrow: 'CHART NEEDS YOUR KUNDLI',
     emptyTitle: 'Create your Kundli to see real chart proof.',
+    focusCharts: 'Focus charts',
     mainChallenge: 'Main challenge',
     mainStrength: 'Main strength',
     openGuide: 'Open guide',
@@ -366,6 +501,7 @@ const CHART_EXPLORER_COPY: Record<
       getNativeCopy("native.apps.web.components.WebChartsExplorer.tsx.18b03cd483"),
     emptyEyebrow: getNativeCopy("native.apps.web.components.WebChartsExplorer.tsx.845d2668e2"),
     emptyTitle: getNativeCopy("native.apps.web.components.WebChartsExplorer.tsx.eb0aef11a6"),
+    focusCharts: 'Focus charts',
     mainChallenge: getNativeCopy("native.apps.web.components.WebChartsExplorer.tsx.e5589ed86a"),
     mainStrength: getNativeCopy("native.apps.web.components.WebChartsExplorer.tsx.f81259160d"),
     openGuide: getNativeCopy("native.apps.web.components.WebChartsExplorer.tsx.181f8ba049"),
@@ -391,6 +527,7 @@ const CHART_EXPLORER_COPY: Record<
       getNativeCopy("native.apps.web.components.WebChartsExplorer.tsx.59f8ba512e"),
     emptyEyebrow: getNativeCopy("native.apps.web.components.WebChartsExplorer.tsx.5fedbbe5ce"),
     emptyTitle: getNativeCopy("native.apps.web.components.WebChartsExplorer.tsx.110d92d453"),
+    focusCharts: 'Focus charts',
     mainChallenge: getNativeCopy("native.apps.web.components.WebChartsExplorer.tsx.b7dc7f2bdb"),
     mainStrength: getNativeCopy("native.apps.web.components.WebChartsExplorer.tsx.66e9b3720a"),
     openGuide: getNativeCopy("native.apps.web.components.WebChartsExplorer.tsx.87e083f018"),

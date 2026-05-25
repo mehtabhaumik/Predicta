@@ -1,0 +1,79 @@
+{
+  "phase": "PREDICTA_KUNDLI_VALUE_PHASE_2_FULL_VARGA_LIBRARY_AND_SELECTABLE_CHART_PREDICTIONS",
+  "generatedAt": "2026-05-25T11:28:32.904Z",
+  "note": "Runtime browser screenshot capture was blocked by Browser Use URL policy for the localhost chart page, so this matrix is source-backed and gate-enforced. Manual runtime should verify these same selections after the local browser policy allows localhost access.",
+  "selections": [
+    {
+      "selection": "D1",
+      "chartVisible": true,
+      "freePredictionVisible": true,
+      "premiumDepthVisible": true,
+      "askCtaVisible": true,
+      "downloadCtaVisible": true,
+      "screenDepthRule": "On-screen gives enough value; full chart-by-chart deep dive remains in PDF."
+    },
+    {
+      "selection": "MOON",
+      "chartVisible": true,
+      "freePredictionVisible": true,
+      "premiumDepthVisible": true,
+      "askCtaVisible": true,
+      "downloadCtaVisible": true,
+      "screenDepthRule": "On-screen gives enough value; full chart-by-chart deep dive remains in PDF."
+    },
+    {
+      "selection": "D9",
+      "chartVisible": true,
+      "freePredictionVisible": true,
+      "premiumDepthVisible": true,
+      "askCtaVisible": true,
+      "downloadCtaVisible": true,
+      "screenDepthRule": "On-screen gives enough value; full chart-by-chart deep dive remains in PDF."
+    },
+    {
+      "selection": "D10",
+      "chartVisible": true,
+      "freePredictionVisible": true,
+      "premiumDepthVisible": true,
+      "askCtaVisible": true,
+      "downloadCtaVisible": true,
+      "screenDepthRule": "On-screen gives enough value; full chart-by-chart deep dive remains in PDF."
+    },
+    {
+      "selection": "CHALIT",
+      "chartVisible": true,
+      "freePredictionVisible": true,
+      "premiumDepthVisible": true,
+      "askCtaVisible": true,
+      "downloadCtaVisible": true,
+      "screenDepthRule": "On-screen gives enough value; full chart-by-chart deep dive remains in PDF."
+    },
+    {
+      "selection": "D2",
+      "chartVisible": true,
+      "freePredictionVisible": true,
+      "premiumDepthVisible": true,
+      "askCtaVisible": true,
+      "downloadCtaVisible": true,
+      "screenDepthRule": "On-screen gives enough value; full chart-by-chart deep dive remains in PDF."
+    },
+    {
+      "selection": "D5",
+      "chartVisible": true,
+      "freePredictionVisible": true,
+      "premiumDepthVisible": true,
+      "askCtaVisible": true,
+      "downloadCtaVisible": true,
+      "screenDepthRule": "On-screen gives enough value; full chart-by-chart deep dive remains in PDF."
+    },
+    {
+      "selection": "D24",
+      "chartVisible": true,
+      "freePredictionVisible": true,
+      "premiumDepthVisible": true,
+      "askCtaVisible": true,
+      "downloadCtaVisible": true,
+      "screenDepthRule": "On-screen gives enough value; full chart-by-chart deep dive remains in PDF."
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+PREDICTA_KUNDLI_VALUE_PHASE_2_FULL_VARGA_LIBRARY_AND_SELECTABLE_CHART_PREDICTIONS mobile source proof
+
+Mobile runtime screenshot capture is not available in this desktop browser context. Source and typecheck verification are used for this strict gate.
+Verified from source instead:
+- apps/mobile/src/screens/ChartsScreen.tsx uses ChartScreenSelection = ChartType | MOON | CHALIT.
+- Moon uses composeVedicIntelligenceContract().moonChart.chart and insightProfile moon.
+- Chalit uses buildParashariChalitChart(kundli) and insightProfile chalit.
+- chartTypes.map keeps every registry-backed Varga chart selectable in the mobile chart selector and lower chart cards.
+- The selected chart shows chart, prediction summary, strength, challenge, guidance, premium deep dive/nudge, Ask Predicta CTA, and Download full report CTA.

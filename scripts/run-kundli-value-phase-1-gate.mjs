@@ -45,7 +45,6 @@ for (const fragment of [
   "'D10'",
   "'CHALIT'",
   'getVedicFocusChartLabel',
-  'isSelectableVargaFocusRole',
 ]) {
   assertIncludes(focusOrder, fragment, `focus order contract includes ${fragment}`);
 }
@@ -127,7 +126,6 @@ for (const fragment of [
   'VEDIC_FOCUS_CHART_ORDER',
   'getVedicFocusChartLabel',
   'getVedicFocusChartShortLabel',
-  'isSelectableVargaFocusRole',
   'full Varga library remains available below',
 ]) {
   assertIncludes(webCharts, fragment, `web Charts screen includes ${fragment}`);
@@ -138,7 +136,6 @@ for (const fragment of [
   'VEDIC_FOCUS_CHART_ORDER',
   'getVedicFocusChartLabel',
   'getVedicFocusChartShortLabel',
-  'isSelectableVargaFocusRole',
   'full Varga library remains available below',
 ]) {
   assertIncludes(mobileCharts, fragment, `mobile Charts screen includes ${fragment}`);

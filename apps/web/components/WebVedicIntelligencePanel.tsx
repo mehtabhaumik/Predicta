@@ -72,8 +72,11 @@ export function WebVedicIntelligencePanel({
             birthDetails={kundli.birthDetails}
             chart={intelligence.moonChart.chart}
             hasPremiumAccess={hasPremiumAccess}
+            insightProfile="moon"
             kundli={kundli}
             presentation="full"
+            centerLabel="Chandra Lagna"
+            sectionTitle="Moon / Chandra Lagna Chart"
           />
         </div>
       ) : null}

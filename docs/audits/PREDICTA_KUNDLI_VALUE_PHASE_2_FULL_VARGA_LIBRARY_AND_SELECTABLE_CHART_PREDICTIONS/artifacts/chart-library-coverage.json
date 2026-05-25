@@ -1,0 +1,349 @@
+{
+  "phase": "PREDICTA_KUNDLI_VALUE_PHASE_2_FULL_VARGA_LIBRARY_AND_SELECTABLE_CHART_PREDICTIONS",
+  "generatedAt": "2026-05-25T11:28:32.903Z",
+  "rule": "Every supported Varga chart remains selectable and must route through composeChartInsight before the report CTA.",
+  "chartTypes": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6",
+    "D7",
+    "D8",
+    "D9",
+    "D10",
+    "D11",
+    "D12",
+    "D13",
+    "D15",
+    "D16",
+    "D17",
+    "D18",
+    "D19",
+    "D20",
+    "D21",
+    "D22",
+    "D23",
+    "D24",
+    "D25",
+    "D26",
+    "D27",
+    "D28",
+    "D29",
+    "D30",
+    "D31",
+    "D32",
+    "D33",
+    "D34",
+    "D40",
+    "D45",
+    "D60"
+  ],
+  "entries": [
+    {
+      "chartType": "D1",
+      "name": "Rashi Chart",
+      "category": "core",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D2",
+      "name": "Hora Chart",
+      "category": "core",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D3",
+      "name": "Drekkana Chart",
+      "category": "core",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D4",
+      "name": "Chaturthamsha Chart",
+      "category": "core",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D5",
+      "name": "Panchamsha Chart",
+      "category": "advanced",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D6",
+      "name": "Shashthamsha Chart",
+      "category": "advanced",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D7",
+      "name": "Saptamsha Chart",
+      "category": "core",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D8",
+      "name": "Ashtamsha Chart",
+      "category": "advanced",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D9",
+      "name": "Navamsha Chart",
+      "category": "core",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D10",
+      "name": "Dashamsha Chart",
+      "category": "core",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D11",
+      "name": "Rudramsha Chart",
+      "category": "advanced",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D12",
+      "name": "Dwadashamsha Chart",
+      "category": "core",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D13",
+      "name": "Trayodashamsha Chart",
+      "category": "advanced",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D15",
+      "name": "Panchadashamsha Chart",
+      "category": "advanced",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D16",
+      "name": "Shodashamsha Chart",
+      "category": "core",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D17",
+      "name": "Saptadashamsha Chart",
+      "category": "advanced",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D18",
+      "name": "Ashtadashamsha Chart",
+      "category": "advanced",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D19",
+      "name": "Ekonavimshamsha Chart",
+      "category": "advanced",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D20",
+      "name": "Vimshamsha Chart",
+      "category": "core",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D21",
+      "name": "Ekavimshamsha Chart",
+      "category": "advanced",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D22",
+      "name": "Bhamsha Chart",
+      "category": "advanced",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D23",
+      "name": "Akshavedamsha Chart",
+      "category": "advanced",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D24",
+      "name": "Chaturvimshamsha Chart",
+      "category": "core",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D25",
+      "name": "Panchavimshamsha Chart",
+      "category": "advanced",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D26",
+      "name": "Shadvimshamsha Chart",
+      "category": "advanced",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D27",
+      "name": "Saptavimshamsha Chart",
+      "category": "advanced",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D28",
+      "name": "Ashtavimshamsha Chart",
+      "category": "advanced",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D29",
+      "name": "Ekonavimshamsha Chart",
+      "category": "advanced",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D30",
+      "name": "Trimsamsha Chart",
+      "category": "core",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D31",
+      "name": "Ekatrimshamsha Chart",
+      "category": "advanced",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D32",
+      "name": "Dvatrimshamsha Chart",
+      "category": "advanced",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D33",
+      "name": "Trayatrimshamsha Chart",
+      "category": "advanced",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D34",
+      "name": "Chaturtrimshamsha Chart",
+      "category": "advanced",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D40",
+      "name": "Khavedamsha Chart",
+      "category": "core",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D45",
+      "name": "Akshavedamsha Chart",
+      "category": "core",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    },
+    {
+      "chartType": "D60",
+      "name": "Shashtyamsha Chart",
+      "category": "core",
+      "selectable": true,
+      "meaningLayer": "composeChartInsight",
+      "fullReportDepth": "PDF premium deep-dive remains the complete dossier surface"
+    }
+  ],
+  "specialSelections": [
+    {
+      "selection": "MOON",
+      "chartRole": "Moon / Chandra Lagna Chart",
+      "source": "composeVedicIntelligenceContract().moonChart.chart",
+      "profile": "moon",
+      "selectable": true
+    },
+    {
+      "selection": "CHALIT",
+      "chartRole": "Chalit Chart",
+      "source": "buildParashariChalitChart(kundli)",
+      "profile": "chalit",
+      "selectable": true
+    }
+  ]
+}

@@ -249,6 +249,10 @@ export function composeChartInsight({
     return composeChalitChartInsight(kundli, hasPremiumAccess);
   }
 
+  if (profile === 'moon' && kundli) {
+    return composeMoonChartInsight(kundli, hasPremiumAccess);
+  }
+
   if (profile === 'kp' && kundli) {
     return composeKpChartInsight(kundli, hasPremiumAccess);
   }
@@ -446,6 +450,86 @@ function composeD1ChartInsight(
       'Technical View keeps the D1 evidence layer visible: Lagna, Moon, dasha, house emphasis, and yogic support.',
     title: config.name,
     whatItSays: `${lifePattern} The strongest life weight is on ${dominantArea}, so the chart is not asking for vague self-improvement; it is asking the user to build that area consciously. ${opportunity} The caution is ${pressureArea}, where maturity matters more than speed. Current ${currentDasha.mahadasha}/${currentDasha.antardasha} timing makes ${planetTheme(currentDasha.mahadasha)} part of the active lesson.`,
+  };
+}
+
+function composeMoonChartInsight(
+  kundli: KundliData,
+  hasPremiumAccess: boolean,
+): ChartInsight {
+  const moonArea = `${kundli.moonSign} Moon in ${kundli.nakshatra}`;
+  const emotionalStyle = moonStyle(kundli.moonSign);
+  const currentDasha = kundli.dasha.current;
+  const supportHouse = kundli.ashtakavarga.strongestHouses[0];
+  const pressureHouse = kundli.ashtakavarga.weakestHouses[0];
+  const supportArea = supportHouse ? formatHouseArea(supportHouse) : undefined;
+  const pressureArea = pressureHouse ? formatHouseArea(pressureHouse) : undefined;
+  const activeDashaTheme = planetTheme(currentDasha.mahadasha);
+  const lifeAreas = uniqueStrings([
+    'mind and emotional rhythm',
+    'daily reactions',
+    supportArea,
+    pressureArea,
+    'felt life experience',
+  ]);
+
+  return {
+    currentGuidance: pressureArea
+      ? `Watch how the mind reacts around ${pressureArea}. The Moon chart is asking for steadier response before speed, especially during ${currentDasha.mahadasha}/${currentDasha.antardasha}.`
+      : `Use the Moon chart to notice your first emotional response before acting. This keeps the current ${currentDasha.mahadasha}/${currentDasha.antardasha} chapter cleaner and less reactive.`,
+    eyebrow: hasPremiumAccess
+      ? 'Premium Chandra Lagna analysis'
+      : 'Free Moon chart insight',
+    freeInsights: [
+      `Inner rhythm: ${moonArea} gives the lived experience a ${emotionalStyle} pattern.`,
+      supportArea
+        ? `Emotional support grows fastest through ${supportArea}, so this area should not be treated as background.`
+        : 'The Moon chart is more useful as a response-pattern lens than as a dramatic standalone prediction here.',
+      pressureArea
+        ? `The main emotional leak is around ${pressureArea}, where reaction, worry, or delay can distort judgement.`
+        : 'The main caution is over-reading one mood as the whole life story.',
+      `Current chapter: ${currentDasha.mahadasha}/${currentDasha.antardasha} makes ${activeDashaTheme} part of the active emotional lesson.`,
+    ],
+    governs:
+      'Mind, emotional rhythm, daily response patterns, habit loops, relationship reactions, and how life feels from the Moon.',
+    lifeAreas,
+    mainChallenge: pressureArea
+      ? `The challenge is emotional over-identification with ${pressureArea}; this area needs calm handling before it becomes a decision driver.`
+      : 'The challenge is mistaking temporary emotional weather for a permanent life conclusion.',
+    mainStrength: supportArea
+      ? `The Moon chart is strongest when ${supportArea} becomes a stabilising routine instead of only a hope or idea.`
+      : `The Moon chart is strongest when the user respects the ${emotionalStyle} inner rhythm without letting it control every decision.`,
+    premiumDeepDive: [
+      'Premium reads the Moon chart through D1, dasha, Chalit, and habit patterns so emotional timing is not judged in isolation.',
+      supportArea
+        ? `Premium checks how ${supportArea} supports emotional steadiness and whether D1 confirms that strength.`
+        : 'Premium checks where the Moon chart agrees with D1 before turning feelings into guidance.',
+      pressureArea
+        ? `Premium also explains how ${pressureArea} becomes the stress-response zone and what practical correction keeps it clean.`
+        : 'Premium separates intuition from reaction so the reading stays useful and not vague.',
+    ],
+    premiumInsight: buildChartPremiumInsight({
+      chartType: 'MOON',
+      kundli,
+      activeArea: supportArea ?? 'mind and emotional rhythm',
+      supportArea: 'D1 root life promise',
+      pressureArea,
+    }),
+    premiumNudge:
+      'Premium turns the Moon chart into a lived-experience reading with D1 comparison, habit loops, timing, and emotional correction.',
+    technicalDetails: [
+      `Moon sign: ${kundli.moonSign}.`,
+      `Nakshatra: ${kundli.nakshatra}.`,
+      `Chandra Lagna reference: ${kundli.moonSign} becomes the first-house reference while planet signs and degrees stay unchanged.`,
+      `Current dasha: ${currentDasha.mahadasha}/${currentDasha.antardasha}.`,
+      supportHouse ? `Strongest support house from D1 strength map: ${supportHouse}.` : 'No single support house is being overstated here.',
+      pressureHouse ? `Pressure house from D1 strength map: ${pressureHouse}.` : 'No single pressure house is being overstated here.',
+      'Moon chart complements D1; it does not replace Lagna/Rashi judgement.',
+    ],
+    technicalSummary:
+      'Technical View keeps the Chandra Lagna rule visible: houses are remapped from the Moon while signs and degrees stay unchanged.',
+    title: 'Moon Chart / Chandra Lagna Chart',
+    whatItSays: `${moonArea} makes the inner life move with a ${emotionalStyle} rhythm. This chart is not repeating D1; it shows what the same Kundli feels like from the mind. ${supportArea ? `The clearest emotional support is ${supportArea}. ` : ''}${pressureArea ? `The caution is ${pressureArea}, where reaction can become louder than reality. ` : ''}During ${currentDasha.mahadasha}/${currentDasha.antardasha}, ${activeDashaTheme} becomes part of the active emotional lesson.`,
   };
 }
 
@@ -1220,7 +1304,7 @@ function composeUnsupportedAdvancedVargaInsight(
   };
 }
 
-type PremiumSynthesisChartType = ChartType | 'CHALIT';
+type PremiumSynthesisChartType = ChartType | 'MOON' | 'CHALIT';
 
 function buildChartPremiumInsight({
   chartType,
@@ -1330,6 +1414,10 @@ function buildPremiumHeadline(
     return `Premium treats ${activeArea} as the lived-delivery layer, then checks whether D1 promise and the source house are actually aligned before making practical judgment.`;
   }
 
+  if (chartType === 'MOON') {
+    return `Premium treats ${activeArea} as the felt-life Moon layer, then checks whether D1, Chalit, and timing support the same emotional story before giving guidance.`;
+  }
+
   return `Premium treats ${activeArea} as the main signal in ${chartType}, then checks whether D1, timing, and ${supportArea ?? 'a second support layer'} confirm it before calling it reliable.`;
 }
 
@@ -1348,6 +1436,8 @@ function buildPremiumLayeredInterpretation({
 }): string[] {
   const chartRole = chartType === 'D1'
     ? 'the root life promise'
+    : chartType === 'MOON'
+    ? 'the Chandra Lagna lived-experience layer'
     : chartType === 'CHALIT'
     ? 'the lived delivery layer'
     : `the focused ${chartType} topic layer`;
@@ -1428,6 +1518,8 @@ function getCrossChartTargets(
   switch (chartType) {
     case 'D1':
       return ['D9', 'D10', 'CHALIT', 'KP', 'NADI'];
+    case 'MOON':
+      return ['D1', 'D9', 'CHALIT'];
     case 'CHALIT':
       return ['D1', 'KP'];
     case 'D2':
@@ -1564,6 +1656,8 @@ function buildPremiumGuidance(
 
   if (chartType === 'D1') {
     base.push('Use Premium to decide what deserves action now, what needs patience, and what should not be forced this dasha.');
+  } else if (chartType === 'MOON') {
+    base.push('Use Premium to separate genuine intuition from emotional reaction before turning the Moon chart into action.');
   } else if (chartType === 'CHALIT') {
     base.push('Use Premium to separate the promised area from the lived-delivery area before changing your conclusion.');
   } else {

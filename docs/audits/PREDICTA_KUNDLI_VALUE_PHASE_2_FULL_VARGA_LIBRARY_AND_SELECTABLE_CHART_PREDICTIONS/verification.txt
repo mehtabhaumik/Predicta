@@ -1,0 +1,16 @@
+PREDICTA_KUNDLI_VALUE_PHASE_2_FULL_VARGA_LIBRARY_AND_SELECTABLE_CHART_PREDICTIONS verification
+
+Status: GREEN after strict source audit and command gates.
+
+Scope locked:
+- Full Varga library remains registry-backed and selectable through getChartTypesForAccess.
+- Moon / Chandra Lagna is now a selectable focus chart with its own moon insight profile instead of reusing default D1 insight.
+- Chalit is now a selectable focus chart using buildParashariChalitChart and the Chalit insight profile.
+- Every selected chart path shows chart, plain-language prediction, strength, challenge, current guidance, Ask Predicta CTA, and Download full report CTA.
+- Free gets useful concise insight. Premium gets on-page evidence/deeper interpretation without turning the app page into a report wall.
+
+Runtime artifact note:
+- Codex in-app Browser blocked localhost chart page reload under URL policy during this run, so web/mobile proof files are source-proof artifacts rather than screenshots.
+- This limitation is recorded explicitly; no workaround browser surface was used.
+
+Required manual selections covered by the matrix: D1, MOON, D9, D10, CHALIT, D2, D5, D24.

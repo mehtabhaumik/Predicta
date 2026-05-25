@@ -54,7 +54,7 @@ export type ChartViewHierarchyItem = {
 
 export type ChartInsightDepth = 'free' | 'premium';
 
-export type ChartInsightProfile = 'default' | 'chalit' | 'kp' | 'nadi';
+export type ChartInsightProfile = 'default' | 'moon' | 'chalit' | 'kp' | 'nadi';
 
 export type ChartPremiumInsight = {
   headline: string;
