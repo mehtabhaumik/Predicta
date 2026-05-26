@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "bundle:android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output /tmp/pridicta.android.bundle --assets-dest /tmp/pridicta-assets",
+    "bundle:android": "env -u NO_COLOR FORCE_COLOR=0 react-native bundle --platform android --dev false --entry-file index.js --bundle-output /tmp/pridicta.android.bundle --assets-dest /tmp/pridicta-assets",
     "build:android": "cd android && env JAVA_HOME=/opt/homebrew/Cellar/openjdk@17/17.0.18 ./gradlew assembleDebug",
     "ios": "react-native run-ios",
     "lint": "eslint .",

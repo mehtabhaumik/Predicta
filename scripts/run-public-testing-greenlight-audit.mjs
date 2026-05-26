@@ -1,4 +1,5 @@
 import { spawn } from 'node:child_process';
+import { assertCleanWorkingTree } from './assert-clean-working-tree.mjs';
 import { assertPredictaAuditServerReady } from './assert-predicta-audit-server-ready.mjs';
 
 const baseUrl = process.env.PREDICTA_GREENLIGHT_BASE_URL ?? 'http://127.0.0.1:3009';
@@ -44,6 +45,7 @@ const steps = [
   },
 ];
 
+assertCleanWorkingTree({ label: 'Predicta public greenlight audit' });
 await assertServerReady(baseUrl);
 
 const startedAt = Date.now();

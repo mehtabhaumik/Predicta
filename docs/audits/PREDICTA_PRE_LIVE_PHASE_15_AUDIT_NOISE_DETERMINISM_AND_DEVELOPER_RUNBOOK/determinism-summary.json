@@ -1,0 +1,31 @@
+{
+  "deterministicCommands": [
+    {
+      "command": "node scripts/run-pre-live-phase-12-admin-owner-surface-gate.mjs",
+      "label": "Phase 12 admin owner surface source audit",
+      "round": 1,
+      "status": "passed"
+    },
+    {
+      "command": "node scripts/run-pre-live-phase-13-report-composer-gate.mjs",
+      "label": "Phase 13 report composer source audit",
+      "round": 1,
+      "status": "passed"
+    },
+    {
+      "command": "node scripts/run-pre-live-phase-12-admin-owner-surface-gate.mjs",
+      "label": "Phase 12 admin owner surface source audit",
+      "round": 2,
+      "status": "passed"
+    },
+    {
+      "command": "node scripts/run-pre-live-phase-13-report-composer-gate.mjs",
+      "label": "Phase 13 report composer source audit",
+      "round": 2,
+      "status": "passed"
+    }
+  ],
+  "metroWarningPolicy": "apps/mobile package bundle script unsets NO_COLOR and sets FORCE_COLOR=0.",
+  "publicGreenlightPreflight": "scripts/run-public-testing-greenlight-audit.mjs requires a clean git working tree before launch gates.",
+  "status": "passed"
+}

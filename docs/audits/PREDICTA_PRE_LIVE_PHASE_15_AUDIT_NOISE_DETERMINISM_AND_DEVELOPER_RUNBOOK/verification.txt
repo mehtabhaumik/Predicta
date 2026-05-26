@@ -1,0 +1,22 @@
+PREDICTA_PRE_LIVE_PHASE_15_AUDIT_NOISE_DETERMINISM_AND_DEVELOPER_RUNBOOK
+
+Verdict: GREEN after strict audit.
+
+Strict audit evidence:
+- Read-only source audit scripts were run twice and did not change git status.
+- Public greenlight has a clean-working-tree preflight before launch gates.
+- Mobile Android bundle command normalizes Metro color warning noise with env -u NO_COLOR FORCE_COLOR=0.
+- Developer runbook documents exact server start, audit gates, expected 3009 port, cleanup commands, and the dirty-audit escape hatch.
+- Local port expectations are unambiguous: launch audit uses http://127.0.0.1:3009, not localhost:3000.
+
+Commands exercised by this gate:
+- node scripts/run-pre-live-phase-12-admin-owner-surface-gate.mjs: PASS round 1
+- node scripts/run-pre-live-phase-12-admin-owner-surface-gate.mjs: PASS round 2
+- node scripts/run-pre-live-phase-13-report-composer-gate.mjs: PASS round 1
+- node scripts/run-pre-live-phase-13-report-composer-gate.mjs: PASS round 2
+
+Companion verification commands:
+- corepack pnpm test:pre-live-phase-15
+- corepack pnpm --filter @pridicta/mobile bundle:android
+- git diff --check
+- git status --short
