@@ -1,0 +1,57 @@
+PREDICTA_PRE_LIVE_PHASE_17_FINAL_NO_MAJOR_ISSUE_RELEASE_REAUDIT
+
+Verdict: GREEN after strict final re-audit.
+
+Scope:
+- UI, UX, features, Predicta intelligence, chats, Vedic, KP, Nadi, Numerology, Signature, Reports, login, settings, family center, account, pricing/payment, support, web, mobile, PDFs, localization, and release governance were covered through the required command matrix and prior strict gates.
+
+Production-like server:
+- Base URL: http://127.0.0.1:3009
+- Command: PORT=3009 corepack pnpm --filter @pridicta/web exec next start
+- Preflight: PASS for 10 routes and 12 static assets.
+
+Command matrix:
+- PASS: python3 -m backend.astro_api.release_governance
+- PASS: python3 -m pytest backend/tests/test_astro_api.py -q
+- PASS: python3 -m pytest backend/tests/test_safety_red_team_evals.py -q
+- PASS: corepack pnpm build:web
+- PASS: corepack pnpm --filter @pridicta/web typecheck
+- PASS: corepack pnpm --filter @pridicta/pdf typecheck
+- PASS: corepack pnpm --filter @pridicta/mobile bundle:android
+- PASS: corepack pnpm test
+- PASS: corepack pnpm test:specialist-room-qa
+- PASS: PREDICTA_BUYER_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:buyer-rejection
+- PASS: PREDICTA_ANIMATION_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:animation-regression
+- PASS: PREDICTA_GREENLIGHT_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:public-greenlight
+- PASS: corepack pnpm test:pdf-golden
+- PASS: PREDICTA_VISUAL_BASE_URL=http://127.0.0.1:3009 PREDICTA_VISUAL_OUTPUT_DIR=docs/audits/PREDICTA_PRE_LIVE_PHASE_17_FINAL_NO_MAJOR_ISSUE_RELEASE_REAUDIT/screenshots corepack pnpm test:visual-proof
+- PASS: PREDICTA_PHASE14_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:pre-live-phase-14
+- PASS: git diff --check
+
+Artifacts:
+- 33 final desktop/tablet/mobile screenshots in screenshots/.
+- 9 final real-user app-generated PDFs in pdfs/.
+- 36 final rendered PDF page previews in pdf-previews/.
+- final-report-manifest.json records Vedic free, Vedic premium, KP, Nadi, Numerology, Signature, Life Atlas, Hindi, and Gujarati report outputs.
+- command-matrix.json records the final command status.
+- final-issue-ledger.md records no Critical or Major issues.
+
+PDF report artifacts:
+- vedic-free-en: 48 pages
+- vedic-premium-en: 72 pages
+- kp-report-en: 15 pages
+- nadi-report-en: 15 pages
+- numerology-report-en: 15 pages
+- signature-confirmed-report-en: 15 pages
+- life-atlas-report-en: 16 pages
+- vedic-free-hi: 47 pages
+- vedic-free-gu: 47 pages
+
+Final issue verdict:
+- Critical: none.
+- Major: none.
+- Medium: mobile Jest worker teardown warning after all tests passed; documented as non-launch-impacting audit noise.
+- Minor: Metro color warning resolved/documented by Phase 15; 3009 target is explicit.
+
+Deployment note:
+- This phase did not push or deploy. Live deployed smoke is intentionally not claimed here.

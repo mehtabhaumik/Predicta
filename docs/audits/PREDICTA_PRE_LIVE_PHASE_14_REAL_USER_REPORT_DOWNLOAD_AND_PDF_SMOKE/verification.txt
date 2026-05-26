@@ -16,15 +16,15 @@ Artifacts:
 - Real-user Kundli payload: real-user-kundli.json.
 
 PDF cases:
-- vedic-free-en: 48 pages, 1548643 bytes, en, FREE, KUNDLI.
-- vedic-premium-en: 72 pages, 1700000 bytes, en, PREMIUM, KUNDLI.
+- vedic-free-en: 48 pages, 1548651 bytes, en, FREE, KUNDLI.
+- vedic-premium-en: 72 pages, 1700012 bytes, en, PREMIUM, KUNDLI.
 - kp-report-en: 15 pages, 1409942 bytes, en, PREMIUM, KP.
 - nadi-report-en: 15 pages, 1410365 bytes, en, PREMIUM, NADI.
 - numerology-report-en: 15 pages, 1410578 bytes, en, PREMIUM, NUMEROLOGY.
 - signature-confirmed-report-en: 15 pages, 1409499 bytes, en, PREMIUM, SIGNATURE.
 - life-atlas-report-en: 16 pages, 1362562 bytes, en, PREMIUM, LIFE_ATLAS.
-- vedic-free-hi: 47 pages, 1598648 bytes, hi, FREE, KUNDLI.
-- vedic-free-gu: 47 pages, 1598506 bytes, gu, FREE, KUNDLI.
+- vedic-free-hi: 47 pages, 1598658 bytes, hi, FREE, KUNDLI.
+- vedic-free-gu: 47 pages, 1598509 bytes, gu, FREE, KUNDLI.
 
 Strict checks:
 - Footer source uses exactly Prepared by Predicta @2026 with rendered pageNumber / totalPages.

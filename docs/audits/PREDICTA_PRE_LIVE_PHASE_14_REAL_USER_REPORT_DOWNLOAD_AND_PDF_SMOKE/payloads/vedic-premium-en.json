@@ -6284,101 +6284,101 @@
       {
         "planet": "Sun",
         "sign": "Taurus",
-        "degree": 11.3773,
+        "degree": 11.4002,
         "houseFromLagna": 10,
         "houseFromMoon": 6,
         "retrograde": false,
         "weight": "challenging",
         "summary": "Sun is transiting house 10 from Lagna and house 6 from Moon, so read both external events and inner experience.",
-        "calculatedAt": "2026-05-26T20:33:13.863412+00:00"
+        "calculatedAt": "2026-05-26T21:07:32.868180+00:00"
       },
       {
         "planet": "Moon",
         "sign": "Virgo",
-        "degree": 21.3348,
+        "degree": 21.6286,
         "houseFromLagna": 2,
         "houseFromMoon": 10,
         "retrograde": false,
         "weight": "supportive",
         "summary": "Moon is transiting house 2 from Lagna and house 10 from Moon, so read both external events and inner experience.",
-        "calculatedAt": "2026-05-26T20:33:13.863412+00:00"
+        "calculatedAt": "2026-05-26T21:07:32.868180+00:00"
       },
       {
         "planet": "Mars",
         "sign": "Aries",
-        "degree": 11.7083,
+        "degree": 11.726,
         "houseFromLagna": 9,
         "houseFromMoon": 5,
         "retrograde": false,
         "weight": "neutral",
         "summary": "Mars is transiting house 9 from Lagna and house 5 from Moon, so read both external events and inner experience.",
-        "calculatedAt": "2026-05-26T20:33:13.863412+00:00"
+        "calculatedAt": "2026-05-26T21:07:32.868180+00:00"
       },
       {
         "planet": "Mercury",
         "sign": "Taurus",
-        "degree": 25.4864,
+        "degree": 25.5328,
         "houseFromLagna": 10,
         "houseFromMoon": 6,
         "retrograde": false,
         "weight": "supportive",
         "summary": "Mercury is transiting house 10 from Lagna and house 6 from Moon, so read both external events and inner experience.",
-        "calculatedAt": "2026-05-26T20:33:13.863412+00:00"
+        "calculatedAt": "2026-05-26T21:07:32.868180+00:00"
       },
       {
         "planet": "Jupiter",
         "sign": "Gemini",
-        "degree": 28.8855,
+        "degree": 28.8898,
         "houseFromLagna": 11,
         "houseFromMoon": 7,
         "retrograde": false,
         "weight": "supportive",
         "summary": "Jupiter is transiting house 11 from Lagna and house 7 from Moon, so read both external events and inner experience.",
-        "calculatedAt": "2026-05-26T20:33:13.863412+00:00"
+        "calculatedAt": "2026-05-26T21:07:32.868180+00:00"
       },
       {
         "planet": "Venus",
         "sign": "Gemini",
-        "degree": 15.0776,
+        "degree": 15.1059,
         "houseFromLagna": 11,
         "houseFromMoon": 7,
         "retrograde": false,
         "weight": "supportive",
         "summary": "Venus is transiting house 11 from Lagna and house 7 from Moon, so read both external events and inner experience.",
-        "calculatedAt": "2026-05-26T20:33:13.863412+00:00"
+        "calculatedAt": "2026-05-26T21:07:32.868180+00:00"
       },
       {
         "planet": "Saturn",
         "sign": "Pisces",
-        "degree": 17.5676,
+        "degree": 17.5698,
         "houseFromLagna": 8,
         "houseFromMoon": 4,
         "retrograde": false,
         "weight": "challenging",
         "summary": "Saturn is transiting house 8 from Lagna and house 4 from Moon, so read both external events and inner experience.",
-        "calculatedAt": "2026-05-26T20:33:13.863412+00:00"
+        "calculatedAt": "2026-05-26T21:07:32.868180+00:00"
       },
       {
         "planet": "Rahu",
         "sign": "Aquarius",
-        "degree": 10.3543,
+        "degree": 10.352,
         "houseFromLagna": 7,
         "houseFromMoon": 3,
         "retrograde": true,
         "weight": "mixed",
         "summary": "Rahu is transiting house 7 from Lagna and house 3 from Moon, so read both external events and inner experience.",
-        "calculatedAt": "2026-05-26T20:33:13.863412+00:00"
+        "calculatedAt": "2026-05-26T21:07:32.868180+00:00"
       },
       {
         "planet": "Ketu",
         "sign": "Leo",
-        "degree": 10.3543,
+        "degree": 10.352,
         "houseFromLagna": 1,
         "houseFromMoon": 9,
         "retrograde": true,
         "weight": "mixed",
         "summary": "Ketu transit highlights detachment, simplification, and release around the houses it crosses.",
-        "calculatedAt": "2026-05-26T20:33:13.863412+00:00"
+        "calculatedAt": "2026-05-26T21:07:32.868180+00:00"
       }
     ],
     "rectification": {
@@ -6432,7 +6432,7 @@
       "ayanamsa": "LAHIRI",
       "houseSystem": "WHOLE_SIGN",
       "nodeType": "TRUE_NODE",
-      "calculatedAt": "2026-05-26T20:33:13.871324+00:00",
+      "calculatedAt": "2026-05-26T21:07:32.884120+00:00",
       "inputHash": "3de16b5f38fdcba50851e1b19abb07e9d982ddedf0febdb172275d6418e0ccd8",
       "utcDateTime": "1980-08-22T01:00:00+00:00"
     }

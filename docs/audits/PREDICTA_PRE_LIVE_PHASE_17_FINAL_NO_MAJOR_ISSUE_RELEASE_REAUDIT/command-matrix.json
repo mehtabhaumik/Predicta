@@ -1,0 +1,87 @@
+{
+  "phase": "PREDICTA_PRE_LIVE_PHASE_17_FINAL_NO_MAJOR_ISSUE_RELEASE_REAUDIT",
+  "baseUrl": "http://127.0.0.1:3009",
+  "serverCommand": "PORT=3009 corepack pnpm --filter @pridicta/web exec next start",
+  "commands": [
+    {
+      "command": "python3 -m backend.astro_api.release_governance",
+      "status": "PASS",
+      "evidence": "releaseStatus READY, 12/12 readiness checks PASS"
+    },
+    {
+      "command": "python3 -m pytest backend/tests/test_astro_api.py -q",
+      "status": "PASS",
+      "evidence": "75 passed"
+    },
+    {
+      "command": "python3 -m pytest backend/tests/test_safety_red_team_evals.py -q",
+      "status": "PASS",
+      "evidence": "17 passed"
+    },
+    {
+      "command": "corepack pnpm build:web",
+      "status": "PASS",
+      "evidence": "Next production build completed; 54 static/dynamic routes generated"
+    },
+    {
+      "command": "corepack pnpm --filter @pridicta/web typecheck",
+      "status": "PASS",
+      "evidence": "next typegen and tsc --noEmit passed"
+    },
+    {
+      "command": "corepack pnpm --filter @pridicta/pdf typecheck",
+      "status": "PASS",
+      "evidence": "tsc --noEmit passed"
+    },
+    {
+      "command": "corepack pnpm --filter @pridicta/mobile bundle:android",
+      "status": "PASS",
+      "evidence": "Metro bundle wrote /tmp/pridicta.android.bundle and copied 21 asset files"
+    },
+    {
+      "command": "corepack pnpm test",
+      "status": "PASS",
+      "evidence": "13/13 turbo package tasks successful; mobile Jest 18 suites and 39 tests passed"
+    },
+    {
+      "command": "corepack pnpm test:specialist-room-qa",
+      "status": "PASS",
+      "evidence": "room routes, context contracts, reports, language, and handoff safety covered"
+    },
+    {
+      "command": "PREDICTA_BUYER_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:buyer-rejection",
+      "status": "PASS",
+      "evidence": "51 live route checks plus source and link gates"
+    },
+    {
+      "command": "PREDICTA_ANIMATION_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:animation-regression",
+      "status": "PASS",
+      "evidence": "24 live checks plus 7 source contracts"
+    },
+    {
+      "command": "PREDICTA_GREENLIGHT_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:public-greenlight",
+      "status": "PASS",
+      "evidence": "public greenlight passed in 294.3s against 3009"
+    },
+    {
+      "command": "corepack pnpm test:pdf-golden",
+      "status": "PASS",
+      "evidence": "PDF report golden output gate passed: 148 checks"
+    },
+    {
+      "command": "PREDICTA_VISUAL_BASE_URL=http://127.0.0.1:3009 PREDICTA_VISUAL_OUTPUT_DIR=docs/audits/PREDICTA_PRE_LIVE_PHASE_17_FINAL_NO_MAJOR_ISSUE_RELEASE_REAUDIT/screenshots corepack pnpm test:visual-proof",
+      "status": "PASS",
+      "evidence": "33 desktop/tablet/mobile screenshots, 0 clipped text, 0 overflow, 0 wide elements"
+    },
+    {
+      "command": "PREDICTA_PHASE14_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:pre-live-phase-14",
+      "status": "PASS",
+      "evidence": "9 real-user PDFs generated/downloaded with rendered previews"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "evidence": "no whitespace errors"
+    }
+  ]
+}
