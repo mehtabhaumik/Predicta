@@ -3,11 +3,19 @@ from __future__ import annotations
 import json
 import os
 import re
+from contextvars import ContextVar
 from datetime import date
+from time import perf_counter
 from typing import Any, Dict, Iterable, List, Optional
 
 import httpx
 
+from .ai_telemetry import (
+    estimate_tokens,
+    hash_ai_subject,
+    latency_bucket,
+    record_ai_telemetry_event,
+)
 from .models import (
     BirthDetailsAmbiguity,
     BirthDetailsDraft,
@@ -53,6 +61,10 @@ GEMINI_PREMIUM_THINKING_BUDGET = int(
     os.getenv("PRIDICTA_GEMINI_PREMIUM_THINKING_BUDGET", "512")
 )
 REQUEST_TIMEOUT_SECONDS = float(os.getenv("PRIDICTA_AI_TIMEOUT_SECONDS", "45"))
+_CURRENT_PROVIDER_USAGE: ContextVar[Optional[Dict[str, Optional[int]]]] = ContextVar(
+    "predicta_current_provider_usage",
+    default=None,
+)
 PREDICTA_CHAT_PROMPT_VERSION = os.getenv(
     "PREDICTA_CHAT_PROMPT_VERSION",
     "predicta-chat-room-contract-v3",
@@ -941,6 +953,7 @@ def build_predicta_room_tone_profile(school: str) -> Dict[str, str]:
 
 
 def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
+    telemetry_started_at = perf_counter()
     safety = assess_chat_safety(request.message)
     try:
         safety = merge_moderation_result(
@@ -993,6 +1006,7 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
 
     if safety.blocked:
         blocked_categories = safety_response_categories(safety)
+        blocked_text = blocked_safety_reply(request.language, safety)
         maybe_record_ai_safety_audit(
             categories=blocked_categories,
             input_hash_parts=[
@@ -1005,8 +1019,26 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
             route="/ask-pridicta",
             safety_identifier=safety_identifier,
         )
+        record_ai_telemetry_event(
+            active_school=normalize_predicta_school(request.chartContext),
+            cache_state="bypass",
+            estimated_input_tokens=estimate_tokens(request.message),
+            estimated_output_tokens=estimate_tokens(blocked_text),
+            fallback_reason="safety-blocked",
+            feature="chat",
+            intent=intent,
+            latency_bucket_value=latency_bucket(telemetry_started_at),
+            model="predicta-safety-protocol-v1",
+            provider="deterministic",
+            route="/ask-pridicta",
+            subject_hash=hash_ai_subject(
+                [request.kundli.id, request.kundli.calculationMeta.inputHash]
+            ),
+            success=True,
+            user_plan=request.userPlan,
+        )
         return PridictaChatResponse(
-            text=blocked_safety_reply(request.language, safety),
+            text=blocked_text,
             provider="deterministic",
             model="predicta-safety-protocol-v1",
             intent=intent,
@@ -1016,6 +1048,7 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
             safetyBlocked=True,
         )
 
+    fallback_reason: Optional[str] = None
     try:
         text, provider, actual_model = create_ai_text_response(
             model=model,
@@ -1025,15 +1058,22 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
             reasoning_effort="medium" if intent == "deep" else "low",
             safety_identifier=safety_identifier,
         )
+        provider_usage = current_provider_usage()
     except (AIConfigurationError, AIProviderError):
         text = build_deterministic_chart_reply(request, jyotish_analysis)
         provider = "deterministic"
         actual_model = "jyotish-deterministic-v1"
+        fallback_reason = "provider-unavailable-deterministic-fallback"
+        provider_usage = None
 
     if not text.strip():
         text = build_deterministic_chart_reply(request, jyotish_analysis)
         provider = "deterministic"
         actual_model = "jyotish-deterministic-v1"
+        fallback_reason = "empty-provider-output-deterministic-fallback"
+
+    if provider == "gemini" and not fallback_reason:
+        fallback_reason = "openai-unavailable-gemini-fallback"
 
     output_safety_categories = unsafe_output_categories(text)
     if output_safety_categories:
@@ -1046,6 +1086,7 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
                 ),
             ]
         )
+        fallback_reason = "output-safety-rewrite"
 
     text = enforce_high_stakes_boundary(text, request.language, safety)
 
@@ -1076,6 +1117,30 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
         provider=provider,
         route="/ask-pridicta",
         safety_identifier=safety_identifier,
+    )
+    record_ai_telemetry_event(
+        active_school=normalize_predicta_school(request.chartContext),
+        cache_state="miss",
+        estimated_input_tokens=estimate_tokens(prompt),
+        estimated_output_tokens=estimate_tokens(text),
+        fallback_reason=fallback_reason,
+        feature="chat",
+        intent=intent,
+        latency_bucket_value=latency_bucket(telemetry_started_at),
+        model=actual_model,
+        provider_input_tokens=(
+            provider_usage.get("input") if provider_usage else None
+        ),
+        provider_output_tokens=(
+            provider_usage.get("output") if provider_usage else None
+        ),
+        provider=provider,
+        route="/ask-pridicta",
+        subject_hash=hash_ai_subject(
+            [request.kundli.id, request.kundli.calculationMeta.inputHash]
+        ),
+        success=True,
+        user_plan=request.userPlan,
     )
 
     return PridictaChatResponse(
@@ -3209,6 +3274,7 @@ def localized_area_summary(area: str, confidence: str, language: str) -> str:
 def extract_birth_details(
     request: BirthDetailsExtractionRequest,
 ) -> BirthDetailsExtractionResult:
+    telemetry_started_at = perf_counter()
     rules_result = extract_birth_details_with_rules(request.text)
     system_prompt = (
         "Extract Vedic astrology birth details as strict JSON. Do not guess. "
@@ -3218,17 +3284,61 @@ def extract_birth_details(
         "AM/PM, include am_pm in missingFields and add an ambiguity."
     )
     try:
-        text, _, _ = create_ai_text_response(
+        text, provider, actual_model = create_ai_text_response(
             model=FREE_REASONING_MODEL,
             system_prompt=system_prompt,
             user_prompt=request.text,
             max_output_tokens=500,
             reasoning_effort="low",
         )
+        provider_usage = current_provider_usage()
         payload = parse_json_object(text)
         ai_result = BirthDetailsExtractionResult.model_validate(payload)
     except (AIConfigurationError, AIProviderError, ValueError, json.JSONDecodeError):
+        record_ai_telemetry_event(
+            active_school="PARASHARI",
+            cache_state="bypass",
+            estimated_input_tokens=estimate_tokens(system_prompt, request.text),
+            estimated_output_tokens=estimate_tokens(
+                json.dumps(rules_result.model_dump())
+            ),
+            fallback_reason="birth-extraction-rules-fallback",
+            feature="birth_extraction",
+            intent="simple",
+            latency_bucket_value=latency_bucket(telemetry_started_at),
+            model="birth-extraction-rules-v1",
+            provider="deterministic",
+            route="/extract-birth-details",
+            subject_hash=None,
+            success=True,
+            user_plan=None,
+        )
         return rules_result
+
+    record_ai_telemetry_event(
+        active_school="PARASHARI",
+        cache_state="bypass",
+        estimated_input_tokens=estimate_tokens(system_prompt, request.text),
+        estimated_output_tokens=estimate_tokens(text),
+        fallback_reason=(
+            "openai-unavailable-gemini-fallback" if provider == "gemini" else None
+        ),
+        feature="birth_extraction",
+        intent="simple",
+        latency_bucket_value=latency_bucket(telemetry_started_at),
+            model=actual_model,
+            provider_input_tokens=(
+                provider_usage.get("input") if provider_usage else None
+            ),
+            provider_output_tokens=(
+                provider_usage.get("output") if provider_usage else None
+            ),
+            provider=provider,
+        route="/extract-birth-details",
+        subject_hash=None,
+        success=True,
+        user_plan=None,
+    )
 
     return merge_extraction_results(rules_result, ai_result)
 
@@ -5881,7 +5991,9 @@ def create_openai_text_response(
     if response.status_code >= 400:
         raise AIProviderError(f"OpenAI request failed with {response.status_code}.")
 
-    return extract_output_text(response.json())
+    payload = response.json()
+    set_current_provider_usage(extract_openai_token_usage(payload))
+    return extract_output_text(payload)
 
 
 def create_ai_text_response(
@@ -5894,6 +6006,7 @@ def create_ai_text_response(
     safety_identifier: Optional[str] = None,
 ) -> tuple[str, str, str]:
     openai_error: Optional[Exception] = None
+    set_current_provider_usage(None)
 
     try:
         openai_text = create_openai_text_response(
@@ -5976,7 +6089,9 @@ def create_gemini_text_response(
     if response.status_code >= 400:
         raise AIProviderError(f"Gemini request failed with {response.status_code}.")
 
-    return extract_gemini_output_text(response.json())
+    payload = response.json()
+    set_current_provider_usage(extract_gemini_token_usage(payload))
+    return extract_gemini_output_text(payload)
 
 
 def gemini_thinking_budget(model: str) -> int:
@@ -6010,6 +6125,54 @@ def extract_gemini_output_text(response: Dict[str, Any]) -> str:
                 chunks.append(str(text))
 
     return "\n".join(chunks).strip()
+
+
+def set_current_provider_usage(usage: Optional[Dict[str, Optional[int]]]) -> None:
+    _CURRENT_PROVIDER_USAGE.set(usage)
+
+
+def current_provider_usage() -> Optional[Dict[str, Optional[int]]]:
+    return _CURRENT_PROVIDER_USAGE.get()
+
+
+def extract_openai_token_usage(response: Dict[str, Any]) -> Optional[Dict[str, Optional[int]]]:
+    usage = response.get("usage")
+    if not isinstance(usage, dict):
+        return None
+    return {
+        "input": coerce_int(
+            usage.get("input_tokens")
+            or usage.get("prompt_tokens")
+            or usage.get("total_input_tokens")
+        ),
+        "output": coerce_int(
+            usage.get("output_tokens")
+            or usage.get("completion_tokens")
+            or usage.get("total_output_tokens")
+        ),
+    }
+
+
+def extract_gemini_token_usage(response: Dict[str, Any]) -> Optional[Dict[str, Optional[int]]]:
+    usage = response.get("usageMetadata")
+    if not isinstance(usage, dict):
+        return None
+    return {
+        "input": coerce_int(usage.get("promptTokenCount")),
+        "output": coerce_int(
+            usage.get("candidatesTokenCount") or usage.get("outputTokenCount")
+        ),
+    }
+
+
+def coerce_int(value: Any) -> Optional[int]:
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, int):
+        return value
+    if isinstance(value, float):
+        return int(value)
+    return None
 
 
 def parse_json_object(text: str) -> Dict[str, Any]:

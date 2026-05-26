@@ -1,0 +1,56 @@
+PREDICTA_AI_MODEL_PHASE_1_TELEMETRY_AND_BUDGET_LEDGER
+Verification date: 2026-05-26
+
+Status: GREEN
+
+Scope:
+- Added privacy-preserving backend AI telemetry model and local store.
+- Added provider/model/feature/plan/intent/cache/fallback/success/latency/token/cost metadata capture.
+- Added provider-reported token usage capture for OpenAI Responses API and Gemini usage metadata when available.
+- Added admin-safe telemetry summary endpoint.
+- Added tests for OpenAI success, Gemini fallback, deterministic fallback, raw-content redaction, and admin summary loading.
+- Updated stale release-readiness test expectations to reflect the current readiness gate result instead of an old hard-coded blocked state.
+
+Runtime behavior:
+- Provider routing is unchanged.
+- OpenAI remains primary.
+- Gemini remains fallback-only in this phase.
+- Deterministic fallback remains active.
+- Claude/Anthropic remains absent.
+- No raw prompts, raw chat messages, raw birth details, or raw signature images are stored in telemetry.
+
+Implementation files:
+- backend/astro_api/ai_telemetry.py
+- backend/astro_api/models.py
+- backend/astro_api/ai.py
+- backend/astro_api/main.py
+- backend/tests/test_astro_api.py
+- backend/tests/test_safety_red_team_evals.py
+
+Audit artifacts:
+- docs/audits/PREDICTA_AI_MODEL_PHASE_1_TELEMETRY_AND_BUDGET_LEDGER/telemetry-example-events.json
+- docs/audits/PREDICTA_AI_MODEL_PHASE_1_TELEMETRY_AND_BUDGET_LEDGER/verification.txt
+
+Commands and evidence:
+- python3 -m pytest backend/tests/test_astro_api.py -q
+  Result: 43 passed.
+- python3 -m pytest backend/tests/test_safety_red_team_evals.py -q
+  Result: 10 passed.
+- python3 -m py_compile backend/astro_api/ai.py backend/astro_api/ai_telemetry.py backend/astro_api/main.py backend/astro_api/models.py
+  Result: passed.
+- python3 -m json.tool docs/audits/PREDICTA_AI_MODEL_PHASE_1_TELEMETRY_AND_BUDGET_LEDGER/telemetry-example-events.json
+  Result: JSON artifact is valid.
+- rg raw-name/date/place/question probes against telemetry-example-events.json
+  Result: no raw birth name, date, place, or question text found.
+- git diff --check
+  Result: no whitespace errors.
+
+Green criteria audit:
+- Tests pass: PASS.
+- A local audit artifact shows OpenAI, Gemini fallback, and deterministic fallback telemetry examples using fake provider calls: PASS.
+- Telemetry supports profit analysis without exposing private user content: PASS.
+- Telemetry includes feature, plan, model, provider, cache state, fallback reason, success, latency bucket, token estimates, provider tokens where available, and estimated cost where pricing config exists: PASS.
+
+Next phase:
+- PREDICTA_AI_MODEL_PHASE_2_ROUTER_POLICY_AND_MODEL_PRIORITY_LOCK
+

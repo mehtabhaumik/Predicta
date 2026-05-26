@@ -3,6 +3,7 @@ from fastapi.testclient import TestClient
 from backend.astro_api.calculations import generate_kundli
 from backend.astro_api.access_authority import reset_access_rate_limits
 from backend.astro_api import ai as ai_module
+from backend.astro_api.ai_telemetry import list_ai_telemetry_events
 from backend.astro_api.jyotish_analysis import build_jyotish_analysis
 from backend.astro_api.main import app
 from backend.astro_api.models import BirthDetails
@@ -826,6 +827,179 @@ def test_ai_provider_keys_accept_predicta_secret_env_names(monkeypatch):
     assert text == "OpenAI alias works."
     assert captured_headers[0]["Authorization"] == "Bearer predicta-openai-key"
     assert captured_payloads[0]["safety_identifier"] == "predicta_safe_id"
+
+
+def test_ai_telemetry_records_openai_success_and_redacts_raw_content(
+    tmp_path,
+    monkeypatch,
+):
+    telemetry_path = tmp_path / "ai-telemetry.json"
+    monkeypatch.setenv("PRIDICTA_AI_TELEMETRY_STORE_PATH", str(telemetry_path))
+    monkeypatch.setenv(
+        "PRIDICTA_AI_PRICING_JSON",
+        '{"gpt-5.4-mini":{"inputPerMillion":0.1,"outputPerMillion":0.4}}',
+    )
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+
+    class FakeOpenAIResponse:
+        status_code = 200
+
+        def json(self):
+            return {
+                "output_text": "Chart evidence\n- D1 context is present.\n\nReading: use focus well.",
+                "usage": {"input_tokens": 120, "output_tokens": 24},
+            }
+
+    def fake_post(url, **kwargs):
+        return FakeOpenAIResponse()
+
+    monkeypatch.setenv("OPENAI_API_KEY", "test-openai-key")
+    monkeypatch.setattr(ai_module, "moderate_text_with_openai", lambda message: None)
+    monkeypatch.setattr(ai_module.httpx, "post", fake_post)
+
+    client = TestClient(app)
+    response = client.post(
+        "/ask-pridicta",
+        json={
+            "message": "Please predict future focus for my secret raw question about Aarav Mehta.",
+            "kundli": kundli.model_dump(mode="json"),
+            "history": [],
+            "userPlan": "FREE",
+        },
+    )
+
+    assert response.status_code == 200
+    events = list_ai_telemetry_events()
+    assert len(events) == 1
+    event = events[0]
+    assert event.provider == "openai"
+    assert event.model == ai_module.FREE_REASONING_MODEL
+    assert event.feature == "chat"
+    assert event.activeSchool == "PARASHARI"
+    assert event.userPlan == "FREE"
+    assert event.intent == "deep"
+    assert event.cacheState == "miss"
+    assert event.fallbackReason is None
+    assert event.success is True
+    assert event.estimatedInputTokens > 0
+    assert event.estimatedOutputTokens > 0
+    assert event.providerInputTokens == 120
+    assert event.providerOutputTokens == 24
+    assert event.estimatedCostUsd is not None
+    assert event.subjectHash and event.subjectHash.startswith("ai_")
+
+    raw_store = telemetry_path.read_text()
+    assert "my secret raw question" not in raw_store.lower()
+    assert "Aarav Mehta" not in raw_store
+    assert VALID_BIRTH["date"] not in raw_store
+    assert VALID_BIRTH["place"] not in raw_store
+
+
+def test_ai_telemetry_records_gemini_fallback(tmp_path, monkeypatch):
+    monkeypatch.setenv(
+        "PRIDICTA_AI_TELEMETRY_STORE_PATH",
+        str(tmp_path / "ai-telemetry.json"),
+    )
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+
+    def fake_openai_response(**kwargs):
+        raise ai_module.AIConfigurationError("OPENAI_API_KEY is not configured.")
+
+    def fake_gemini_response(**kwargs):
+        return "Gemini fallback reading."
+
+    monkeypatch.setattr(ai_module, "create_openai_text_response", fake_openai_response)
+    monkeypatch.setattr(ai_module, "create_gemini_text_response", fake_gemini_response)
+
+    client = TestClient(app)
+    response = client.post(
+        "/ask-pridicta",
+        json={
+            "message": "What should I focus on today?",
+            "kundli": kundli.model_dump(mode="json"),
+            "history": [],
+            "userPlan": "FREE",
+        },
+    )
+
+    assert response.status_code == 200
+    events = list_ai_telemetry_events()
+    assert events[0].provider == "gemini"
+    assert events[0].model == ai_module.GEMINI_FLASH_MODEL
+    assert events[0].feature == "chat"
+    assert events[0].cacheState == "miss"
+    assert events[0].fallbackReason == "openai-unavailable-gemini-fallback"
+    assert events[0].userPlan == "FREE"
+
+
+def test_ai_telemetry_records_deterministic_fallback(tmp_path, monkeypatch):
+    monkeypatch.setenv(
+        "PRIDICTA_AI_TELEMETRY_STORE_PATH",
+        str(tmp_path / "ai-telemetry.json"),
+    )
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+
+    def fail_ai_response(**kwargs):
+        raise ai_module.AIProviderError("provider unavailable")
+
+    monkeypatch.setattr(ai_module, "create_ai_text_response", fail_ai_response)
+
+    client = TestClient(app)
+    response = client.post(
+        "/ask-pridicta",
+        json={
+            "message": "What should I focus on today?",
+            "kundli": kundli.model_dump(mode="json"),
+            "history": [],
+            "userPlan": "FREE",
+        },
+    )
+
+    assert response.status_code == 200
+    events = list_ai_telemetry_events()
+    assert events[0].provider == "deterministic"
+    assert events[0].model == "jyotish-deterministic-v1"
+    assert events[0].fallbackReason == "provider-unavailable-deterministic-fallback"
+    assert events[0].feature == "chat"
+    assert events[0].success is True
+
+
+def test_ai_telemetry_admin_summary_is_safe(tmp_path, monkeypatch):
+    monkeypatch.setenv(
+        "PRIDICTA_AI_TELEMETRY_STORE_PATH",
+        str(tmp_path / "ai-telemetry.json"),
+    )
+    monkeypatch.setenv("PRIDICTA_ADMIN_API_TOKEN", "secret-admin")
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+
+    def fake_openai_response(**kwargs):
+        return "Short safe answer."
+
+    monkeypatch.setattr(ai_module, "create_openai_text_response", fake_openai_response)
+
+    client = TestClient(app)
+    chat = client.post(
+        "/ask-pridicta",
+        json={
+            "message": "Do not store this private chat sentence.",
+            "kundli": kundli.model_dump(mode="json"),
+            "history": [],
+            "userPlan": "FREE",
+        },
+    )
+    assert chat.status_code == 200
+
+    summary = client.get(
+        "/ai/admin/telemetry/summary",
+        headers={"x-pridicta-admin-token": "secret-admin"},
+    )
+
+    assert summary.status_code == 200
+    payload = summary.json()
+    assert payload["totalEvents"] == 1
+    assert payload["byProvider"]["openai"] == 1
+    assert payload["latestEvents"][0]["feature"] == "chat"
+    assert "Do not store this private chat sentence" not in summary.text
 
 
 def test_gemini_key_accepts_predicta_secret_env_name(monkeypatch):

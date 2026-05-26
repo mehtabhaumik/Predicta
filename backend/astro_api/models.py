@@ -581,6 +581,53 @@ class SafetyAuditEvent(BaseModel):
     reviewNote: Optional[str] = None
 
 
+AITelemetryProvider = Literal["openai", "gemini", "deterministic", "cache"]
+AITelemetryCacheState = Literal["hit", "miss", "bypass", "unavailable"]
+AITelemetryLatencyBucket = Literal[
+    "lt_1s",
+    "1_3s",
+    "3_10s",
+    "10_30s",
+    "over_30s",
+]
+
+
+class AITelemetryEvent(BaseModel):
+    id: str
+    createdAt: str
+    provider: AITelemetryProvider
+    model: str
+    feature: str
+    activeSchool: str
+    reportType: Optional[str] = None
+    userPlan: Optional[UserPlan] = None
+    intent: Optional[AIIntent] = None
+    cacheState: AITelemetryCacheState
+    fallbackReason: Optional[str] = None
+    success: bool
+    latencyBucket: AITelemetryLatencyBucket
+    estimatedInputTokens: int = 0
+    estimatedOutputTokens: int = 0
+    providerInputTokens: Optional[int] = None
+    providerOutputTokens: Optional[int] = None
+    estimatedCostUsd: Optional[float] = None
+    subjectHash: Optional[str] = None
+    route: str
+
+
+class AITelemetrySummary(BaseModel):
+    generatedAt: str
+    totalEvents: int
+    byProvider: Dict[str, int]
+    byModel: Dict[str, int]
+    byFeature: Dict[str, int]
+    byPlan: Dict[str, int]
+    fallbackEvents: int
+    failureEvents: int
+    estimatedCostUsdTotal: Optional[float] = None
+    latestEvents: List[AITelemetryEvent] = Field(default_factory=list)
+
+
 class SafetyReviewRequest(BaseModel):
     reviewStatus: SafetyReviewStatus
     reviewNote: Optional[str] = Field(default=None, max_length=500)

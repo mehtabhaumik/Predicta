@@ -12,6 +12,7 @@ from .access_authority import (
     revoke_guest_pass,
     save_guest_pass,
 )
+from .ai_telemetry import summarize_ai_telemetry
 from .safety_audit import (
     create_safety_audit_event,
     list_safety_audit_events,
@@ -33,6 +34,7 @@ from .models import (
     AccessResolveRequest,
     AdminGuestPassCreateRequest,
     AdminGuestPassRevokeRequest,
+    AITelemetrySummary,
     GuestPassCode,
     KundliData,
     PassRedemptionRequest,
@@ -141,6 +143,14 @@ def release_readiness_endpoint(
 ):
     require_admin_token(x_pridicta_admin_token)
     return evaluate_release_readiness()
+
+
+@app.get("/ai/admin/telemetry/summary", response_model=AITelemetrySummary)
+def ai_telemetry_summary_endpoint(
+    x_pridicta_admin_token: Optional[str] = Header(default=None),
+):
+    require_admin_token(x_pridicta_admin_token)
+    return summarize_ai_telemetry()
 
 
 @app.post("/access/resolve", response_model=ResolvedAccessResponse)
