@@ -628,6 +628,41 @@ class AITelemetrySummary(BaseModel):
     latestEvents: List[AITelemetryEvent] = Field(default_factory=list)
 
 
+AIValidationSeverity = Literal["pass", "low", "medium", "high", "critical"]
+AIValidationConfidence = Literal["low", "medium", "high"]
+
+
+class AIValidationIssue(BaseModel):
+    code: str = Field(min_length=1)
+    severity: AIValidationSeverity
+    message: str = Field(min_length=1)
+    suggestedFixCategory: str = Field(min_length=1)
+    evidence: Optional[str] = None
+
+
+class AIValidationRequest(BaseModel):
+    feature: Literal["report_validator"] = "report_validator"
+    activeSchool: str = Field(default="PARASHARI", min_length=1)
+    reportType: str = Field(default="unknown", min_length=1)
+    userPlan: UserPlan = "PREMIUM"
+    expectedLanguage: SupportedLanguage = "en"
+    requiredSections: List[str] = Field(default_factory=list)
+    presentSections: List[str] = Field(default_factory=list)
+    deterministicContextSummary: str = Field(default="", max_length=8000)
+    candidateContentSummary: str = Field(default="", max_length=12000)
+    premiumExpected: bool = True
+
+
+class AIValidationResult(BaseModel):
+    passed: bool
+    severity: AIValidationSeverity
+    issues: List[AIValidationIssue] = Field(default_factory=list)
+    suggestedFixCategories: List[str] = Field(default_factory=list)
+    confidence: AIValidationConfidence
+    provider: AITelemetryProvider
+    model: str
+
+
 class SafetyReviewRequest(BaseModel):
     reviewStatus: SafetyReviewStatus
     reviewNote: Optional[str] = Field(default=None, max_length=500)

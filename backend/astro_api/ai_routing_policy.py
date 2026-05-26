@@ -79,6 +79,27 @@ def route_ai_request(request: AIRoutingRequest, pins: AIModelPins) -> AIRoutingD
             validator_provider=None,
         )
 
+    if request.feature == "report_validator":
+        premium_validator = request.user_plan == "PREMIUM" and request.quality_tier == "premium"
+        validator_model = pins.gemini_premium if premium_validator else pins.gemini_free
+        return AIRoutingDecision(
+            approved_provider_order=APPROVED_AI_PROVIDERS,
+            cost_guardrail=cost_guardrail_for(request),
+            fallback_model="deterministic-validator-unavailable",
+            fallback_provider="deterministic",
+            multi_model_pipeline_allowed=premium_validator,
+            policy_reason=(
+                "premium-report-validator-uses-gemini-pro"
+                if premium_validator
+                else "non-premium-validator-uses-gemini-flash"
+            ),
+            primary_model=validator_model,
+            primary_provider="gemini",
+            validator_eligible=premium_validator,
+            validator_model=validator_model,
+            validator_provider="gemini",
+        )
+
     premium_deep = is_premium_deep(request)
     primary_model = pins.premium_deep if premium_deep else pins.free_reasoning
     fallback_model = pins.gemini_premium if premium_deep else pins.gemini_free
@@ -230,4 +251,3 @@ def routing_policy_snapshot(pins: AIModelPins) -> Dict[str, object]:
             pins,
         ).__dict__,
     }
-

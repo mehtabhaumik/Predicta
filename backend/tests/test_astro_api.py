@@ -10,9 +10,11 @@ from backend.astro_api.ai_routing_policy import (
     route_ai_request,
 )
 from backend.astro_api.ai_telemetry import list_ai_telemetry_events
+from backend.astro_api import ai_validator as validator_module
+from backend.astro_api.ai_validator import validate_with_gemini
 from backend.astro_api.jyotish_analysis import build_jyotish_analysis
 from backend.astro_api.main import app
-from backend.astro_api.models import BirthDetails
+from backend.astro_api.models import AIValidationRequest, BirthDetails
 
 
 VALID_BIRTH = {
@@ -182,6 +184,25 @@ def test_ai_routing_policy_allows_premium_report_validator_pipeline():
     assert decision.multi_model_pipeline_allowed is True
 
 
+def test_ai_routing_policy_routes_report_validator_to_gemini_pro():
+    decision = route_ai_request(
+        AIRoutingRequest(
+            active_school="PARASHARI",
+            feature="report_validator",
+            intent="deep",
+            quality_tier="premium",
+            report_type="vedic",
+            user_plan="PREMIUM",
+        ),
+        MODEL_PINS,
+    )
+
+    assert decision.primary_provider == "gemini"
+    assert decision.primary_model == ai_module.GEMINI_PRO_MODEL
+    assert decision.validator_provider == "gemini"
+    assert decision.validator_model == ai_module.GEMINI_PRO_MODEL
+
+
 def test_ai_routing_policy_keeps_gemini_pro_premium_deep_only():
     free_decision = route_ai_request(
         AIRoutingRequest(
@@ -216,6 +237,270 @@ def test_ai_routing_policy_rejects_claude_anthropic_provider(monkeypatch):
 
     assert any("claude" in failure.lower() for failure in failures)
     assert any("Claude/Anthropic" in failure for failure in failures)
+
+
+def test_gemini_validator_catches_missing_report_section(tmp_path, monkeypatch):
+    monkeypatch.setenv(
+        "PRIDICTA_AI_TELEMETRY_STORE_PATH",
+        str(tmp_path / "ai-telemetry.json"),
+    )
+
+    def fake_gemini_response(**kwargs):
+        assert kwargs["model"] == ai_module.GEMINI_PRO_MODEL
+        assert "missing_required_sections" in kwargs["user_prompt"]
+        return """
+        {
+          "passed": false,
+          "severity": "high",
+          "issues": [
+            {
+              "code": "missing_required_sections",
+              "severity": "high",
+              "message": "Mahadasha Phala is required but absent.",
+              "suggestedFixCategory": "add-missing-section",
+              "evidence": "Mahadasha Phala"
+            }
+          ],
+          "suggestedFixCategories": ["add-missing-section"],
+          "confidence": "high"
+        }
+        """
+
+    monkeypatch.setattr(validator_module, "create_gemini_text_response", fake_gemini_response)
+
+    result = validate_with_gemini(
+        AIValidationRequest(
+            activeSchool="PARASHARI",
+            candidateContentSummary="D1 and D9 are present.",
+            deterministicContextSummary="Required Vedic sections are known.",
+            presentSections=["D1", "D9"],
+            requiredSections=["D1", "D9", "Mahadasha Phala"],
+            reportType="vedic",
+            userPlan="PREMIUM",
+        )
+    )
+
+    assert result.passed is False
+    assert result.provider == "gemini"
+    assert result.model == ai_module.GEMINI_PRO_MODEL
+    assert result.issues[0].code == "missing_required_sections"
+    assert list_ai_telemetry_events()[0].feature == "report_validator"
+
+
+def test_gemini_validator_catches_duplicated_remedies(tmp_path, monkeypatch):
+    monkeypatch.setenv(
+        "PRIDICTA_AI_TELEMETRY_STORE_PATH",
+        str(tmp_path / "ai-telemetry.json"),
+    )
+
+    def fake_gemini_response(**kwargs):
+        return """
+        {
+          "passed": false,
+          "severity": "medium",
+          "issues": [
+            {
+              "code": "duplicated_remedies",
+              "severity": "medium",
+              "message": "Remedy advice repeats in multiple chapters.",
+              "suggestedFixCategory": "consolidate-remedies",
+              "evidence": "same mantra appears three times"
+            }
+          ],
+          "suggestedFixCategories": ["consolidate-remedies"],
+          "confidence": "high"
+        }
+        """
+
+    monkeypatch.setattr(validator_module, "create_gemini_text_response", fake_gemini_response)
+
+    result = validate_with_gemini(
+        AIValidationRequest(
+            candidateContentSummary="Remedy: serve elders. Remedy: serve elders.",
+            requiredSections=["One Remedy Plan"],
+            presentSections=["One Remedy Plan"],
+            reportType="vedic",
+        )
+    )
+
+    assert result.issues[0].code == "duplicated_remedies"
+    assert result.suggestedFixCategories == ["consolidate-remedies"]
+
+
+def test_gemini_validator_catches_kp_vedic_method_mixing(tmp_path, monkeypatch):
+    monkeypatch.setenv(
+        "PRIDICTA_AI_TELEMETRY_STORE_PATH",
+        str(tmp_path / "ai-telemetry.json"),
+    )
+
+    def fake_gemini_response(**kwargs):
+        return """
+        {
+          "passed": false,
+          "severity": "high",
+          "issues": [
+            {
+              "code": "method_mixing",
+              "severity": "high",
+              "message": "KP report uses Parashari D1 yoga proof as the main judgement.",
+              "suggestedFixCategory": "restore-school-boundary",
+              "evidence": "D1 yoga proof in KP verdict"
+            }
+          ],
+          "suggestedFixCategories": ["restore-school-boundary"],
+          "confidence": "high"
+        }
+        """
+
+    monkeypatch.setattr(validator_module, "create_gemini_text_response", fake_gemini_response)
+
+    result = validate_with_gemini(
+        AIValidationRequest(
+            activeSchool="KP",
+            candidateContentSummary="KP event answer uses D1 yoga as proof.",
+            reportType="kp",
+        )
+    )
+
+    assert result.issues[0].code == "method_mixing"
+
+
+def test_gemini_validator_catches_language_mismatch(tmp_path, monkeypatch):
+    monkeypatch.setenv(
+        "PRIDICTA_AI_TELEMETRY_STORE_PATH",
+        str(tmp_path / "ai-telemetry.json"),
+    )
+
+    def fake_gemini_response(**kwargs):
+        return """
+        {
+          "passed": false,
+          "severity": "medium",
+          "issues": [
+            {
+              "code": "language_mismatch",
+              "severity": "medium",
+              "message": "English report contains Hindi text.",
+              "suggestedFixCategory": "fix-language-output",
+              "evidence": "यह chart"
+            }
+          ],
+          "suggestedFixCategories": ["fix-language-output"],
+          "confidence": "high"
+        }
+        """
+
+    monkeypatch.setattr(validator_module, "create_gemini_text_response", fake_gemini_response)
+
+    result = validate_with_gemini(
+        AIValidationRequest(
+            candidateContentSummary="This report says: यह chart is powerful.",
+            expectedLanguage="en",
+            reportType="vedic",
+        )
+    )
+
+    assert result.issues[0].code == "language_mismatch"
+
+
+def test_gemini_validator_catches_hard_guarantee_language(tmp_path, monkeypatch):
+    monkeypatch.setenv(
+        "PRIDICTA_AI_TELEMETRY_STORE_PATH",
+        str(tmp_path / "ai-telemetry.json"),
+    )
+
+    def fake_gemini_response(**kwargs):
+        return """
+        {
+          "passed": false,
+          "severity": "critical",
+          "issues": [
+            {
+              "code": "unsupported_predictions",
+              "severity": "critical",
+              "message": "The report guarantees an event.",
+              "suggestedFixCategory": "remove-guarantee",
+              "evidence": "will definitely happen"
+            }
+          ],
+          "suggestedFixCategories": ["remove-guarantee"],
+          "confidence": "high"
+        }
+        """
+
+    monkeypatch.setattr(validator_module, "create_gemini_text_response", fake_gemini_response)
+
+    result = validate_with_gemini(
+        AIValidationRequest(
+            candidateContentSummary="Marriage will definitely happen in June.",
+            reportType="vedic",
+        )
+    )
+
+    assert result.severity == "critical"
+    assert result.issues[0].code == "unsupported_predictions"
+
+
+def test_gemini_validator_returns_structured_result_only(tmp_path, monkeypatch):
+    monkeypatch.setenv(
+        "PRIDICTA_AI_TELEMETRY_STORE_PATH",
+        str(tmp_path / "ai-telemetry.json"),
+    )
+
+    def fake_gemini_response(**kwargs):
+        return """
+        {
+          "passed": true,
+          "severity": "pass",
+          "issues": [],
+          "suggestedFixCategories": [],
+          "confidence": "high"
+        }
+        """
+
+    monkeypatch.setattr(validator_module, "create_gemini_text_response", fake_gemini_response)
+
+    result = validate_with_gemini(
+        AIValidationRequest(
+            candidateContentSummary="All required sections are present.",
+            requiredSections=["D1"],
+            presentSections=["D1"],
+            reportType="vedic",
+        )
+    )
+
+    assert result.passed is True
+    assert result.model_dump()["provider"] == "gemini"
+    assert isinstance(result.model_dump()["issues"], list)
+
+
+def test_gemini_validator_not_called_for_ordinary_free_chat(monkeypatch):
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+    called = {"validator": False}
+
+    def fail_if_validator_called(**kwargs):
+        called["validator"] = True
+        raise AssertionError("validator should not run for ordinary free chat")
+
+    def fake_openai_response(**kwargs):
+        return "Short free chat answer."
+
+    monkeypatch.setattr(validator_module, "create_gemini_text_response", fail_if_validator_called)
+    monkeypatch.setattr(ai_module, "create_openai_text_response", fake_openai_response)
+
+    client = TestClient(app)
+    response = client.post(
+        "/ask-pridicta",
+        json={
+            "message": "Hello",
+            "kundli": kundli.model_dump(mode="json"),
+            "history": [],
+            "userPlan": "FREE",
+        },
+    )
+
+    assert response.status_code == 200
+    assert called["validator"] is False
 
 
 def test_ashtakavarga_totals_are_self_checking():

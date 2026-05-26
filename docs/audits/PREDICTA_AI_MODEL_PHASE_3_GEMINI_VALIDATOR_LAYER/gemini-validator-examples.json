@@ -1,0 +1,133 @@
+{
+  "examples": [
+    {
+      "confidence": "high",
+      "issues": [
+        {
+          "code": "missing_required_sections",
+          "evidence": "Mahadasha Phala",
+          "message": "Mahadasha Phala is required but absent.",
+          "severity": "high",
+          "suggestedFixCategory": "add-missing-section"
+        }
+      ],
+      "model": "gemini-2.5-pro",
+      "passed": false,
+      "provider": "gemini",
+      "severity": "high",
+      "suggestedFixCategories": [
+        "add-missing-section"
+      ]
+    },
+    {
+      "confidence": "high",
+      "issues": [
+        {
+          "code": "duplicated_remedies",
+          "evidence": "same action repeated",
+          "message": "Remedy advice repeats in multiple chapters.",
+          "severity": "medium",
+          "suggestedFixCategory": "consolidate-remedies"
+        }
+      ],
+      "model": "gemini-2.5-pro",
+      "passed": false,
+      "provider": "gemini",
+      "severity": "medium",
+      "suggestedFixCategories": [
+        "consolidate-remedies"
+      ]
+    },
+    {
+      "confidence": "high",
+      "issues": [
+        {
+          "code": "unsupported_predictions",
+          "evidence": "definite outcome wording",
+          "message": "The report guarantees an event.",
+          "severity": "critical",
+          "suggestedFixCategory": "remove-guarantee"
+        }
+      ],
+      "model": "gemini-2.5-pro",
+      "passed": false,
+      "provider": "gemini",
+      "severity": "critical",
+      "suggestedFixCategories": [
+        "remove-guarantee"
+      ]
+    }
+  ],
+  "ordinaryFreeChatInvokesValidator": false,
+  "phase": "PREDICTA_AI_MODEL_PHASE_3_GEMINI_VALIDATOR_LAYER",
+  "telemetryEvents": [
+    {
+      "activeSchool": "PARASHARI",
+      "cacheState": "bypass",
+      "createdAt": "2026-05-26T12:18:50.112500Z",
+      "estimatedCostUsd": null,
+      "estimatedInputTokens": 318,
+      "estimatedOutputTokens": 78,
+      "fallbackReason": null,
+      "feature": "report_validator",
+      "id": "ai-d079f5a5d7e14bbe",
+      "intent": "deep",
+      "latencyBucket": "lt_1s",
+      "model": "gemini-2.5-pro",
+      "provider": "gemini",
+      "providerInputTokens": null,
+      "providerOutputTokens": null,
+      "reportType": "vedic",
+      "route": "/ai/validator/gemini",
+      "subjectHash": null,
+      "success": true,
+      "userPlan": "PREMIUM"
+    },
+    {
+      "activeSchool": "PARASHARI",
+      "cacheState": "bypass",
+      "createdAt": "2026-05-26T12:18:50.112137Z",
+      "estimatedCostUsd": null,
+      "estimatedInputTokens": 318,
+      "estimatedOutputTokens": 80,
+      "fallbackReason": null,
+      "feature": "report_validator",
+      "id": "ai-cc95399f45274b97",
+      "intent": "deep",
+      "latencyBucket": "lt_1s",
+      "model": "gemini-2.5-pro",
+      "provider": "gemini",
+      "providerInputTokens": null,
+      "providerOutputTokens": null,
+      "reportType": "vedic",
+      "route": "/ai/validator/gemini",
+      "subjectHash": null,
+      "success": true,
+      "userPlan": "PREMIUM"
+    },
+    {
+      "activeSchool": "PARASHARI",
+      "cacheState": "bypass",
+      "createdAt": "2026-05-26T12:18:50.111067Z",
+      "estimatedCostUsd": null,
+      "estimatedInputTokens": 318,
+      "estimatedOutputTokens": 78,
+      "fallbackReason": null,
+      "feature": "report_validator",
+      "id": "ai-1baace1aa78541b9",
+      "intent": "deep",
+      "latencyBucket": "lt_1s",
+      "model": "gemini-2.5-pro",
+      "provider": "gemini",
+      "providerInputTokens": null,
+      "providerOutputTokens": null,
+      "reportType": "vedic",
+      "route": "/ai/validator/gemini",
+      "subjectHash": null,
+      "success": true,
+      "userPlan": "PREMIUM"
+    }
+  ],
+  "validatorIsAdvisory": true,
+  "validatorPublishesUserFacingContent": false
+}

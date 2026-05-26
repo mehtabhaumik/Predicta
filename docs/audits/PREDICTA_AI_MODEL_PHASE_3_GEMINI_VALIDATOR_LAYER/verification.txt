@@ -1,0 +1,60 @@
+PREDICTA_AI_MODEL_PHASE_3_GEMINI_VALIDATOR_LAYER
+Verification date: 2026-05-26
+
+Status: GREEN
+
+Scope:
+- Added Gemini validator module separate from user-facing generation.
+- Added structured validator request/result models.
+- Added validator prompt that demands strict JSON only.
+- Added required QA checks for missing sections, contradictions, duplicated remedies, method mixing, unsupported predictions, scary/fatalistic language, language mismatch, excessive jargon, weak/generic insight, and premium/free depth mismatch.
+- Added advisory validator telemetry as `report_validator`.
+- Extended routing policy so premium report validator work routes to Gemini Pro and non-premium validator work routes to Gemini Flash.
+- Did not wire validator into ordinary free chat or automatic publishing.
+
+Implementation files:
+- backend/astro_api/ai_validator.py
+- backend/astro_api/ai_routing_policy.py
+- backend/astro_api/models.py
+- backend/tests/test_astro_api.py
+
+Audit artifacts:
+- docs/audits/PREDICTA_AI_MODEL_PHASE_3_GEMINI_VALIDATOR_LAYER/gemini-validator-examples.json
+- docs/audits/PREDICTA_AI_MODEL_PHASE_3_GEMINI_VALIDATOR_LAYER/verification.txt
+
+Commands and evidence:
+- python3 -m pytest backend/tests/test_astro_api.py -q
+  Result: 57 passed.
+- python3 -m pytest backend/tests/test_safety_red_team_evals.py -q
+  Result: 11 passed.
+- python3 -m py_compile backend/astro_api/ai_validator.py backend/astro_api/ai_routing_policy.py backend/astro_api/models.py backend/tests/test_astro_api.py
+  Result: passed.
+- python3 -m json.tool docs/audits/PREDICTA_AI_MODEL_PHASE_3_GEMINI_VALIDATOR_LAYER/gemini-validator-examples.json
+  Result: JSON artifact is valid.
+- rg raw/private birth probes against gemini-validator-examples.json
+  Result: no raw birth name, date, time, place, or private content found.
+- git diff --check
+  Result: no whitespace errors.
+
+Required test coverage:
+- catches missing report section: PASS.
+- catches duplicated remedies: PASS.
+- catches KP/Vedic method mixing: PASS.
+- catches Hindi/Gujarati text in English-only output: PASS.
+- catches hard guarantee language: PASS.
+- returns structured JSON only: PASS.
+- does not call validator on ordinary free chat: PASS.
+
+Green criteria audit:
+- Gemini validator is callable in tests with mocked provider response: PASS.
+- Validator failures do not automatically publish user-facing content: PASS.
+- Validator output is treated as advisory and auditable: PASS.
+
+Runtime behavior:
+- Ordinary chat and free chat do not invoke the validator.
+- Validator is available as a separate callable backend QA layer.
+- Gemini remains fallback for generation and becomes an explicit validator only through this separate QA path.
+
+Next phase:
+- PREDICTA_AI_MODEL_PHASE_4_REPORT_QA_AND_MULTI_MODEL_PREMIUM_PIPELINE
+
