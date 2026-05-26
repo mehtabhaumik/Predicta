@@ -1,6 +1,6 @@
 import { spawnSync } from 'node:child_process';
 import { strict as assert } from 'node:assert';
-import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -28,6 +28,8 @@ await writeFile(
       },
       include: [
         path.join(repoRoot, 'packages/astrology/src/**/*.ts'),
+        path.join(repoRoot, 'packages/config/src/**/*.ts'),
+        path.join(repoRoot, 'packages/config/src/translations/**/*.json'),
         path.join(repoRoot, 'packages/types/src/**/*.ts'),
       ],
     },
@@ -98,6 +100,15 @@ try {
     process.exit(compile.status ?? 1);
   }
 
+  await writeWorkspacePackageRedirect({
+    main: '../../../packages/config/src/index.js',
+    name: '@pridicta/config',
+  });
+  await writeWorkspacePackageRedirect({
+    main: '../../../packages/types/src/index.js',
+    name: '@pridicta/types',
+  });
+
   const modulePath = path.join(
     outDir,
     'packages/astrology/src/predictaChatActions.js',
@@ -157,4 +168,14 @@ try {
   console.log('Numerology Predicta room passed: handoff, missing profile, native-script, and ready-profile checks.');
 } finally {
   await rm(tempRoot, { force: true, recursive: true });
+}
+
+async function writeWorkspacePackageRedirect({ main, name }) {
+  const packageDir = path.join(outDir, 'node_modules', ...name.split('/'));
+
+  await mkdir(packageDir, { recursive: true });
+  await writeFile(
+    path.join(packageDir, 'package.json'),
+    JSON.stringify({ main, name }, null, 2),
+  );
 }
