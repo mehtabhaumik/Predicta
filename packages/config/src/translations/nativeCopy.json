@@ -271,6 +271,10 @@
       "kind": "text",
       "value": "ડે પાસ"
     },
+    "native.apps.web.app.checkout.page.tsx.06aeb72d19": {
+      "kind": "text",
+      "value": "સપોર્ટ ટિકિટ ખોલો"
+    },
     "native.apps.web.app.checkout.page.tsx.0593802992": {
       "kind": "text",
       "value": "चुना गया"
@@ -325,13 +329,37 @@
       "kind": "text",
       "value": "ત્રિમાસિક"
     },
+    "native.apps.web.app.checkout.page.tsx.2c8ddf450a": {
+      "kind": "text",
+      "value": "પ્રેડિક્ટા પ્રવેશ સહાય"
+    },
     "native.apps.web.app.checkout.page.tsx.31641beaac": {
       "kind": "text",
       "value": "प्रीमियम पीडीएफ"
     },
+    "native.apps.web.app.checkout.page.tsx.30f93c5b81": {
+      "kind": "text",
+      "value": "यह चेकआउट अनुबंध Razorpay ऑर्डर, हस्ताक्षर जांच, retry, cancellation और entitlement activation के लिए तैयार है."
+    },
     "native.apps.web.app.checkout.page.tsx.42f1f3e3ee": {
       "kind": "text",
       "value": "सही खाता चुनें"
+    },
+    "native.apps.web.app.checkout.page.tsx.381ad17fb4": {
+      "kind": "text",
+      "value": "भुगतान स्थिति"
+    },
+    "native.apps.web.app.checkout.page.tsx.39b0466aac": {
+      "kind": "text",
+      "value": "सुरक्षित चेकआउट तैयार है"
+    },
+    "native.apps.web.app.checkout.page.tsx.3c08c719f0": {
+      "kind": "text",
+      "value": "સુરક્ષિત ચેકઆઉટ જોડાઈ રહ્યું છે"
+    },
+    "native.apps.web.app.checkout.page.tsx.41f657f05a": {
+      "kind": "text",
+      "value": "Razorpay सुरक्षित checkout जोड़ा जा रहा है. आज इस स्क्रीन पर कोई भुगतान नहीं लिया जाएगा, और Predicta verified payment या approved support handoff से पहले paid access active नहीं करेगी."
     },
     "native.apps.web.app.checkout.page.tsx.4351cd8e77": {
       "kind": "text",
@@ -376,6 +404,14 @@
       "kind": "text",
       "value": "વાર્ષિક"
     },
+    "native.apps.web.app.checkout.page.tsx.5c0ea23fda": {
+      "kind": "text",
+      "value": "ચુકવણી સ્થિતિ"
+    },
+    "native.apps.web.app.checkout.page.tsx.5cf8f3b297": {
+      "kind": "text",
+      "value": "सपोर्ट टिकट खोलें"
+    },
     "native.apps.web.app.checkout.page.tsx.5e02f3f637": {
       "kind": "text",
       "value": "प्रवेश रास्ता तय करें"
@@ -395,9 +431,17 @@
       "kind": "text",
       "value": "પ્રેડિક્ટા પહેલે પ્રવેશને સાચા ઇમેઇલ સાથે જોડે છે જેથી તમારી કુંડળી, રિપોર્ટ અને પાસ જુદા ખાતાઓમાં ન ફેલાય."
     },
+    "native.apps.web.app.checkout.page.tsx.6ac4c6f782": {
+      "kind": "text",
+      "value": "આ checkout contract Razorpay order, signature verification, retry, cancellation અને entitlement activation માટે તૈયાર છે."
+    },
     "native.apps.web.app.checkout.page.tsx.79ba9fc513": {
       "kind": "text",
       "value": "કમ્પેટિબિલિટી રિપોર્ટ"
+    },
+    "native.apps.web.app.checkout.page.tsx.76165de86f": {
+      "kind": "text",
+      "value": "गेटवे स्थिति"
     },
     "native.apps.web.app.checkout.page.tsx.7ab9674a9f": {
       "kind": "text",
@@ -447,6 +491,10 @@
       "kind": "text",
       "value": "उसी ईमेल से साइन इन करें जिसे आप अपनी कुंडली, रिपोर्ट और बाद की रिकवरी से जोड़ना चाहते हैं."
     },
+    "native.apps.web.app.checkout.page.tsx.a55f225edc": {
+      "kind": "text",
+      "value": "સુરક્ષિત ચેકઆઉટ તૈયાર છે"
+    },
     "native.apps.web.app.checkout.page.tsx.aa7e9c428f": {
       "kind": "template",
       "parts": [
@@ -458,6 +506,14 @@
       "kind": "text",
       "value": "ખાતાની સતતતા સાથે પૂર્ણ કરો"
     },
+    "native.apps.web.app.checkout.page.tsx.b2cc0a1a27": {
+      "kind": "text",
+      "value": "कृपया सुरक्षित checkout जुड़ने तक मेरा Predicta access पूरा करने में मदद करें."
+    },
+    "native.apps.web.app.checkout.page.tsx.b6773b8c13": {
+      "kind": "text",
+      "value": "કૃપા કરીને secure checkout જોડાય ત્યાં સુધી મારો Predicta access પૂર્ણ કરવામાં મદદ કરો."
+    },
     "native.apps.web.app.checkout.page.tsx.b94f395bd8": {
       "kind": "template",
       "parts": [
@@ -468,6 +524,14 @@
     "native.apps.web.app.checkout.page.tsx.ba9b006fa1": {
       "kind": "text",
       "value": "प्रवेश तैयार करें"
+    },
+    "native.apps.web.app.checkout.page.tsx.bde26162c6": {
+      "kind": "text",
+      "value": "Razorpay secure checkout જોડાઈ રહ્યું છે. આજે આ સ્ક્રીન પર કોઈ payment લેવામાં આવશે નહીં, અને verified payment અથવા approved support handoff પહેલાં Predicta paid access active નહીં કરે."
+    },
+    "native.apps.web.app.checkout.page.tsx.c3500f68d0": {
+      "kind": "text",
+      "value": "सुरक्षित चेकआउट जोड़ा जा रहा है"
     },
     "native.apps.web.app.checkout.page.tsx.ccebc8e9b1": {
       "kind": "text",
@@ -504,6 +568,10 @@
     "native.apps.web.app.checkout.page.tsx.ec32113b0b": {
       "kind": "text",
       "value": "डे पास"
+    },
+    "native.apps.web.app.checkout.page.tsx.e95c68286c": {
+      "kind": "text",
+      "value": "प्रेडिक्टा प्रवेश सहायता"
     },
     "native.apps.web.app.checkout.page.tsx.f056cefb0f": {
       "kind": "text",

@@ -3,11 +3,16 @@
 import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import {
   getOneTimeProducts,
   getPricingPlans,
 } from '@pridicta/config/pricing';
+import {
+  createPaymentWorkflowIntent,
+  transitionPaymentWorkflowIntent,
+  type PaymentWorkflowIntent,
+} from '@pridicta/monetization';
 import type { SupportedLanguage } from '@pridicta/types';
 import { StatusPill } from '../../components/StatusPill';
 import { WebFooter } from '../../components/WebFooter';
@@ -15,6 +20,7 @@ import { WebHeader } from '../../components/WebHeader';
 import { useLanguagePreference } from '../../lib/language-preference';
 
 const SUPPORT_EMAIL = 'support@predicta.app';
+const PAYMENT_INTENT_STORAGE_KEY = 'predicta.payment.intent.v1';
 
 export default function CheckoutPage(): React.JSX.Element {
   return (
@@ -29,17 +35,75 @@ function CheckoutContent(): React.JSX.Element {
   const { language } = useLanguagePreference();
   const copy = CHECKOUT_COPY[language] ?? CHECKOUT_COPY.en;
   const productId = searchParams.get('productId') ?? undefined;
-  const plans = getPricingPlans();
-  const products = getOneTimeProducts();
-  const selectedPlan = plans.find(plan => plan.productId === productId);
-  const selectedProduct = products.find(product => product.productId === productId);
+  const plans = useMemo(() => getPricingPlans(), []);
+  const products = useMemo(() => getOneTimeProducts(), []);
+  const selectedPlan = useMemo(
+    () => plans.find(plan => plan.productId === productId),
+    [plans, productId],
+  );
+  const selectedProduct = useMemo(
+    () => products.find(product => product.productId === productId),
+    [products, productId],
+  );
   const selected = selectedPlan ?? selectedProduct;
+  const gatewayReady = process.env.NEXT_PUBLIC_PREDICTA_RAZORPAY_ENABLED === 'true';
+  const paymentIntent = useMemo<PaymentWorkflowIntent | undefined>(() => {
+    if (!selected) {
+      return undefined;
+    }
+
+    return createPaymentWorkflowIntent({
+      amountInr: selected.priceInr,
+      kind: selectedPlan ? 'SUBSCRIPTION' : 'ONE_TIME',
+      period: selectedPlan?.id,
+      productId: selected.productId,
+      productType: selectedProduct?.id,
+      state: gatewayReady ? 'gateway_ready' : 'gateway_disabled',
+    });
+  }, [gatewayReady, selected, selectedPlan, selectedProduct]);
+  const [visibleIntent, setVisibleIntent] = useState(paymentIntent);
   const selectedLabel = selected
     ? getLocalizedAccessLabel(selected.label, selected.productId, language)
     : undefined;
   const supportHref = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(
     selectedLabel ? `${copy.supportSubject}: ${selectedLabel}` : copy.supportSubject,
+  )}&body=${encodeURIComponent(
+    visibleIntent
+      ? `${copy.supportBody}\n\nPayment intent: ${visibleIntent.id}\nProduct: ${visibleIntent.productId}\nStatus: ${visibleIntent.state}`
+      : copy.supportBody,
   )}`;
+
+  useEffect(() => {
+    setVisibleIntent(paymentIntent);
+  }, [paymentIntent]);
+
+  useEffect(() => {
+    if (!visibleIntent) {
+      return;
+    }
+
+    try {
+      window.localStorage?.setItem(
+        PAYMENT_INTENT_STORAGE_KEY,
+        JSON.stringify(visibleIntent),
+      );
+    } catch {
+      // Some embedded browsers disable storage; checkout must still be safe.
+    }
+  }, [visibleIntent]);
+
+  function requestManualSupport() {
+    if (!visibleIntent) {
+      return;
+    }
+
+    setVisibleIntent(
+      transitionPaymentWorkflowIntent(visibleIntent, {
+        state: 'manual_support_requested',
+        supportRequestedAt: new Date().toISOString(),
+      }),
+    );
+  }
 
   return (
     <>
@@ -64,6 +128,28 @@ function CheckoutContent(): React.JSX.Element {
             </div>
           ) : null}
 
+          {visibleIntent ? (
+            <div
+              className="checkout-gateway-card"
+              data-payment-gateway-state={visibleIntent.state}
+            >
+              <span>{copy.gatewayStateLabel}</span>
+              <h2>
+                {gatewayReady
+                  ? copy.gatewayReadyTitle
+                  : copy.gatewayDisabledTitle}
+              </h2>
+              <p>
+                {gatewayReady
+                  ? copy.gatewayReadyBody
+                  : copy.gatewayDisabledBody}
+              </p>
+              <small>
+                {copy.intentStatus}: {visibleIntent.state}
+              </small>
+            </div>
+          ) : null}
+
           <div className="pricing-difference-grid checkout-path-grid">
             {copy.steps.map(step => (
               <article key={step.title}>
@@ -81,9 +167,20 @@ function CheckoutContent(): React.JSX.Element {
             <Link className="button secondary" href="/dashboard/redeem-pass">
               {copy.redeemPass}
             </Link>
-            <a className="button secondary" href={supportHref}>
+            <a
+              className="button secondary"
+              href={supportHref}
+              onClick={requestManualSupport}
+            >
               {copy.emailSupport}
             </a>
+            <Link
+              className="button secondary"
+              href="/feedback?source=checkout&area=billing&from=payment-disabled"
+              onClick={requestManualSupport}
+            >
+              {copy.supportTicket}
+            </Link>
             <Link className="button secondary" href="/pricing">
               {copy.change}
             </Link>
@@ -121,6 +218,12 @@ const CHECKOUT_COPY: Record<
     body: string;
     change: string;
     emailSupport: string;
+    gatewayDisabledBody: string;
+    gatewayDisabledTitle: string;
+    gatewayReadyBody: string;
+    gatewayReadyTitle: string;
+    gatewayStateLabel: string;
+    intentStatus: string;
     note: string;
     oneTime: string;
     openAccount: string;
@@ -132,7 +235,9 @@ const CHECKOUT_COPY: Record<
     selected: string;
     steps: Array<{ body: string; label: string; title: string }>;
     subscription: string;
+    supportBody: string;
     supportSubject: string;
+    supportTicket: string;
     title: string;
   }
 > = {
@@ -140,6 +245,14 @@ const CHECKOUT_COPY: Record<
     body: 'Choose a subscription, Day Pass, or one-time report from pricing, then keep that access tied to the right account.',
     change: 'Change selection',
     emailSupport: 'Email support',
+    gatewayDisabledBody:
+      'Razorpay secure checkout is being connected. No payment was taken on this screen today, and Predicta will not mark access as paid until a verified payment or approved support handoff exists.',
+    gatewayDisabledTitle: 'Secure checkout is being connected',
+    gatewayReadyBody:
+      'This checkout contract is ready for Razorpay order creation, signature verification, retries, cancellation, and entitlement activation.',
+    gatewayReadyTitle: 'Secure checkout ready',
+    gatewayStateLabel: 'Gateway state',
+    intentStatus: 'Payment status',
     note: 'Predicta keeps access tied to the right email first, so your Kundlis, reports, and passes do not drift across accounts.',
     oneTime: 'One-time access',
     openAccount: 'Open account settings',
@@ -169,13 +282,22 @@ const CHECKOUT_COPY: Record<
       },
     ],
     subscription: 'Subscription access',
+    supportBody:
+      'Please help me complete Predicta access while secure checkout is being connected.',
     supportSubject: 'Predicta access review',
+    supportTicket: 'Open support ticket',
     title: 'Prepare your Predicta access',
   },
   hi: {
     body: getNativeCopy("native.apps.web.app.checkout.page.tsx.d02d649ff9"),
     change: getNativeCopy("native.apps.web.app.checkout.page.tsx.df2ec9b391"),
     emailSupport: getNativeCopy("native.apps.web.app.checkout.page.tsx.a739cb4d32"),
+    gatewayDisabledBody: getNativeCopy("native.apps.web.app.checkout.page.tsx.41f657f05a"),
+    gatewayDisabledTitle: getNativeCopy("native.apps.web.app.checkout.page.tsx.c3500f68d0"),
+    gatewayReadyBody: getNativeCopy("native.apps.web.app.checkout.page.tsx.30f93c5b81"),
+    gatewayReadyTitle: getNativeCopy("native.apps.web.app.checkout.page.tsx.39b0466aac"),
+    gatewayStateLabel: getNativeCopy("native.apps.web.app.checkout.page.tsx.76165de86f"),
+    intentStatus: getNativeCopy("native.apps.web.app.checkout.page.tsx.381ad17fb4"),
     note: getNativeCopy("native.apps.web.app.checkout.page.tsx.81cb946fbb"),
     oneTime: getNativeCopy("native.apps.web.app.checkout.page.tsx.633b350da2"),
     openAccount: getNativeCopy("native.apps.web.app.checkout.page.tsx.7ab9674a9f"),
@@ -205,13 +327,21 @@ const CHECKOUT_COPY: Record<
       },
     ],
     subscription: getNativeCopy("native.apps.web.app.checkout.page.tsx.1a2647f494"),
-    supportSubject: 'Predicta access review',
+    supportBody: getNativeCopy("native.apps.web.app.checkout.page.tsx.b2cc0a1a27"),
+    supportSubject: getNativeCopy("native.apps.web.app.checkout.page.tsx.e95c68286c"),
+    supportTicket: getNativeCopy("native.apps.web.app.checkout.page.tsx.5cf8f3b297"),
     title: getNativeCopy("native.apps.web.app.checkout.page.tsx.7d3065db46"),
   },
   gu: {
     body: getNativeCopy("native.apps.web.app.checkout.page.tsx.e4cafcc2bf"),
     change: getNativeCopy("native.apps.web.app.checkout.page.tsx.f056cefb0f"),
     emailSupport: getNativeCopy("native.apps.web.app.checkout.page.tsx.940fa58c03"),
+    gatewayDisabledBody: getNativeCopy("native.apps.web.app.checkout.page.tsx.bde26162c6"),
+    gatewayDisabledTitle: getNativeCopy("native.apps.web.app.checkout.page.tsx.3c08c719f0"),
+    gatewayReadyBody: getNativeCopy("native.apps.web.app.checkout.page.tsx.6ac4c6f782"),
+    gatewayReadyTitle: getNativeCopy("native.apps.web.app.checkout.page.tsx.a55f225edc"),
+    gatewayStateLabel: getNativeCopy("native.apps.web.app.checkout.page.tsx.0c435a052d"),
+    intentStatus: getNativeCopy("native.apps.web.app.checkout.page.tsx.5c0ea23fda"),
     note: getNativeCopy("native.apps.web.app.checkout.page.tsx.69b2b3be9b"),
     oneTime: getNativeCopy("native.apps.web.app.checkout.page.tsx.226398a7ac"),
     openAccount: getNativeCopy("native.apps.web.app.checkout.page.tsx.8ee7771be8"),
@@ -241,7 +371,9 @@ const CHECKOUT_COPY: Record<
       },
     ],
     subscription: getNativeCopy("native.apps.web.app.checkout.page.tsx.4d8971912c"),
-    supportSubject: 'Predicta access review',
+    supportBody: getNativeCopy("native.apps.web.app.checkout.page.tsx.b6773b8c13"),
+    supportSubject: getNativeCopy("native.apps.web.app.checkout.page.tsx.2c8ddf450a"),
+    supportTicket: getNativeCopy("native.apps.web.app.checkout.page.tsx.06aeb72d19"),
     title: getNativeCopy("native.apps.web.app.checkout.page.tsx.da63c0f6b1"),
   },
 };

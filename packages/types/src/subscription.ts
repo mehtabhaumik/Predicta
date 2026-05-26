@@ -46,6 +46,7 @@ export type EntitlementSource =
   | 'firebase'
   | 'app_store'
   | 'play_store'
+  | 'razorpay'
   | 'mock';
 
 export type EntitlementState = {
@@ -98,6 +99,7 @@ export type BillingPurchaseResult = {
   transactionId?: string;
   entitlement?: EntitlementState;
   oneTimeEntitlement?: OneTimeEntitlement;
+  paymentIntent?: Record<string, unknown>;
   errorMessage?: string;
 };
 

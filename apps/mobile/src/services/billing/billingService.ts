@@ -4,16 +4,32 @@ import type {
   BillingProvider,
   BillingPurchaseResult,
 } from '../../types/subscription';
+import { disabledBillingProvider } from './disabledBillingProvider';
 import { mockBillingProvider } from './mockBillingProvider';
 
-function getBillingProvider(): BillingProvider {
-  if (env.enableMockBilling || __DEV__) {
+export function resolveBillingProvider({
+  enableMockBilling,
+  isDev,
+}: {
+  enableMockBilling: boolean;
+  isDev: boolean;
+}): BillingProvider {
+  if (isDev) {
     return mockBillingProvider;
   }
 
-  throw new Error(
-    'Purchases are not available right now. Please try again later.',
-  );
+  if (enableMockBilling) {
+    return disabledBillingProvider;
+  }
+
+  return disabledBillingProvider;
+}
+
+function getBillingProvider(): BillingProvider {
+  return resolveBillingProvider({
+    enableMockBilling: env.enableMockBilling,
+    isDev: __DEV__,
+  });
 }
 
 export async function getBillingProducts(): Promise<BillingProduct[]> {
