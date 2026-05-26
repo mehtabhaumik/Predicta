@@ -3,6 +3,12 @@ from fastapi.testclient import TestClient
 from backend.astro_api.calculations import generate_kundli
 from backend.astro_api.access_authority import reset_access_rate_limits
 from backend.astro_api import ai as ai_module
+from backend.astro_api.ai_routing_policy import (
+    AIModelPins,
+    AIRoutingRequest,
+    evaluate_approved_provider_gate,
+    route_ai_request,
+)
 from backend.astro_api.ai_telemetry import list_ai_telemetry_events
 from backend.astro_api.jyotish_analysis import build_jyotish_analysis
 from backend.astro_api.main import app
@@ -18,6 +24,14 @@ VALID_BIRTH = {
     "longitude": 72.8777,
     "timezone": "Asia/Kolkata",
 }
+
+
+MODEL_PINS = AIModelPins(
+    free_reasoning=ai_module.FREE_REASONING_MODEL,
+    gemini_free=ai_module.GEMINI_FLASH_MODEL,
+    gemini_premium=ai_module.GEMINI_PRO_MODEL,
+    premium_deep=ai_module.PREMIUM_DEEP_MODEL,
+)
 
 
 def test_health():
@@ -85,6 +99,123 @@ def test_generate_kundli_shape_and_metadata():
     assert len(kundli.yearlyHoroscope.planets) == 9
     assert kundli.rectification is not None
     assert len(kundli.remedies) >= 2
+
+
+def test_ai_routing_policy_routes_free_simple_chat_to_openai_mini():
+    decision = route_ai_request(
+        AIRoutingRequest(
+            active_school="PARASHARI",
+            feature="chat",
+            intent="simple",
+            user_plan="FREE",
+        ),
+        MODEL_PINS,
+    )
+
+    assert decision.primary_provider == "openai"
+    assert decision.primary_model == ai_module.FREE_REASONING_MODEL
+    assert decision.fallback_provider == "gemini"
+    assert decision.fallback_model == ai_module.GEMINI_FLASH_MODEL
+    assert decision.multi_model_pipeline_allowed is False
+    assert "free-budget" in decision.cost_guardrail
+
+
+def test_ai_routing_policy_routes_premium_deep_chat_to_openai_premium():
+    decision = route_ai_request(
+        AIRoutingRequest(
+            active_school="PARASHARI",
+            feature="chat",
+            intent="deep",
+            quality_tier="premium",
+            user_plan="PREMIUM",
+        ),
+        MODEL_PINS,
+    )
+
+    assert decision.primary_provider == "openai"
+    assert decision.primary_model == ai_module.PREMIUM_DEEP_MODEL
+    assert decision.fallback_provider == "gemini"
+    assert decision.fallback_model == ai_module.GEMINI_PRO_MODEL
+    assert decision.multi_model_pipeline_allowed is False
+    assert "premium-budget" in decision.cost_guardrail
+
+
+def test_ai_routing_policy_blocks_free_report_multi_model_pipeline():
+    decision = route_ai_request(
+        AIRoutingRequest(
+            active_school="PARASHARI",
+            feature="report_generation",
+            intent="deep",
+            quality_tier="free",
+            report_type="vedic",
+            user_plan="FREE",
+        ),
+        MODEL_PINS,
+    )
+
+    assert decision.primary_model == ai_module.FREE_REASONING_MODEL
+    assert decision.validator_provider is None
+    assert decision.validator_model is None
+    assert decision.validator_eligible is False
+    assert decision.multi_model_pipeline_allowed is False
+    assert "skips-premium-multi-model-pipeline" in decision.policy_reason
+
+
+def test_ai_routing_policy_allows_premium_report_validator_pipeline():
+    decision = route_ai_request(
+        AIRoutingRequest(
+            active_school="PARASHARI",
+            feature="report_generation",
+            intent="deep",
+            quality_tier="premium",
+            report_type="life_atlas",
+            user_plan="PREMIUM",
+        ),
+        MODEL_PINS,
+    )
+
+    assert decision.primary_provider == "openai"
+    assert decision.primary_model == ai_module.PREMIUM_DEEP_MODEL
+    assert decision.validator_provider == "gemini"
+    assert decision.validator_model == ai_module.GEMINI_PRO_MODEL
+    assert decision.validator_eligible is True
+    assert decision.multi_model_pipeline_allowed is True
+
+
+def test_ai_routing_policy_keeps_gemini_pro_premium_deep_only():
+    free_decision = route_ai_request(
+        AIRoutingRequest(
+            active_school="KP",
+            feature="chat",
+            intent="moderate",
+            provider_availability="primary_unavailable",
+            user_plan="FREE",
+        ),
+        MODEL_PINS,
+    )
+    premium_decision = route_ai_request(
+        AIRoutingRequest(
+            active_school="KP",
+            feature="chat",
+            intent="deep",
+            provider_availability="primary_unavailable",
+            quality_tier="premium",
+            user_plan="PREMIUM",
+        ),
+        MODEL_PINS,
+    )
+
+    assert free_decision.fallback_model == ai_module.GEMINI_FLASH_MODEL
+    assert premium_decision.fallback_model == ai_module.GEMINI_PRO_MODEL
+
+
+def test_ai_routing_policy_rejects_claude_anthropic_provider(monkeypatch):
+    monkeypatch.setenv("PREDICTA_ALLOWED_AI_PROVIDERS", "openai,gemini,claude")
+
+    failures = evaluate_approved_provider_gate()
+
+    assert any("claude" in failure.lower() for failure in failures)
+    assert any("Claude/Anthropic" in failure for failure in failures)
 
 
 def test_ashtakavarga_totals_are_self_checking():

@@ -16,6 +16,11 @@ from .ai_telemetry import (
     latency_bucket,
     record_ai_telemetry_event,
 )
+from .ai_routing_policy import (
+    AIModelPins,
+    select_gemini_fallback_model,
+    select_primary_openai_model,
+)
 from .models import (
     BirthDetailsAmbiguity,
     BirthDetailsDraft,
@@ -3564,17 +3569,20 @@ def detect_intent(user_question: str, chart_context: Optional[ChartContext]) -> 
 
 
 def select_openai_model(intent: str, user_plan: str) -> str:
-    if intent == "deep" and user_plan == "PREMIUM":
-        return PREMIUM_DEEP_MODEL
-
-    return FREE_REASONING_MODEL
+    return select_primary_openai_model(intent, user_plan, current_model_pins())
 
 
 def select_gemini_model(intent: str, user_plan: str) -> str:
-    if intent == "deep" and user_plan == "PREMIUM":
-        return GEMINI_PRO_MODEL
+    return select_gemini_fallback_model(intent, user_plan, current_model_pins())
 
-    return GEMINI_FLASH_MODEL
+
+def current_model_pins() -> AIModelPins:
+    return AIModelPins(
+        free_reasoning=FREE_REASONING_MODEL,
+        gemini_free=GEMINI_FLASH_MODEL,
+        gemini_premium=GEMINI_PRO_MODEL,
+        premium_deep=PREMIUM_DEEP_MODEL,
+    )
 
 
 def build_pridicta_system_prompt() -> str:

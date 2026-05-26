@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Dict, List
 
 from . import ai
+from .ai_routing_policy import evaluate_approved_provider_gate
 from .models import ReleaseReadinessCheck, ReleaseReadinessReport
 from .red_team_evals import (
     INPUT_RED_TEAM_CASES,
@@ -92,6 +93,19 @@ def evaluate_release_readiness() -> ReleaseReadinessReport:
                 "Approved pins are active."
                 if not model_pin_failures
                 else "; ".join(model_pin_failures)
+            ),
+        )
+    )
+
+    provider_failures = evaluate_approved_provider_gate()
+    checks.append(
+        build_check(
+            name="Approved AI providers",
+            passed=not provider_failures,
+            details=(
+                "Approved provider gate passed."
+                if not provider_failures
+                else "; ".join(provider_failures)
             ),
         )
     )

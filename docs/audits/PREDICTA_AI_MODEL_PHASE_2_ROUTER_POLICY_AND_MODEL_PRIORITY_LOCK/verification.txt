@@ -1,0 +1,60 @@
+PREDICTA_AI_MODEL_PHASE_2_ROUTER_POLICY_AND_MODEL_PRIORITY_LOCK
+Verification date: 2026-05-26
+
+Status: GREEN
+
+Scope:
+- Added backend-owned AI routing policy module.
+- Centralized OpenAI primary and Gemini fallback model selection.
+- Locked Gemini Pro to premium/deep fallback or premium validator eligibility.
+- Locked free report generation out of the premium multi-model pipeline.
+- Locked premium report generation as validator-eligible without implementing the validator phase yet.
+- Added release-governance provider gate for approved providers only.
+- Added no-Claude/no-Anthropic release-readiness failure behavior.
+
+Implementation files:
+- backend/astro_api/ai_routing_policy.py
+- backend/astro_api/ai.py
+- backend/astro_api/release_governance.py
+- backend/tests/test_astro_api.py
+- backend/tests/test_safety_red_team_evals.py
+
+Audit artifacts:
+- docs/audits/PREDICTA_AI_MODEL_PHASE_2_ROUTER_POLICY_AND_MODEL_PRIORITY_LOCK/routing-policy-snapshot.json
+- docs/audits/PREDICTA_AI_MODEL_PHASE_2_ROUTER_POLICY_AND_MODEL_PRIORITY_LOCK/verification.txt
+
+Commands and evidence:
+- python3 -m pytest backend/tests/test_astro_api.py -q
+  Result: 49 passed.
+- python3 -m pytest backend/tests/test_safety_red_team_evals.py -q
+  Result: 11 passed.
+- python3 -m py_compile backend/astro_api/ai.py backend/astro_api/ai_routing_policy.py backend/astro_api/release_governance.py backend/tests/test_astro_api.py backend/tests/test_safety_red_team_evals.py
+  Result: passed.
+- git diff --check
+  Result: no whitespace errors.
+- rg provider secret probes across apps/web, apps/mobile, and packages.
+  Result: no provider secret values or direct provider orchestration found in clients. Existing matches are string constants for environment key names only.
+- routing-policy-snapshot.json
+  Result: shows OpenAI primary, Gemini fallback, free report multi-model disabled, premium report validator eligibility enabled, and default approved-provider gate passing.
+
+Green criteria audit:
+- Routing rules are centralized: PASS.
+- Existing web and mobile paths use the backend policy for provider calls: PASS.
+- No client bundle contains provider secrets or final prompt orchestration: PASS.
+- Release governance blocks unapproved provider/model drift: PASS.
+- Free/simple chat routes to OpenAI mini: PASS.
+- Premium/deep chat routes to OpenAI premium: PASS.
+- Free report generation does not invoke multi-model premium pipeline: PASS.
+- Premium report generation is eligible for validator pipeline: PASS.
+- Gemini Flash is selected for non-premium fallback: PASS.
+- Gemini Pro is selected only for premium/deep validator or fallback: PASS.
+- Claude/Anthropic provider names fail the approved-provider gate: PASS.
+
+Runtime behavior:
+- Provider routing remains logically equivalent for chat and birth extraction.
+- Gemini remains fallback-only until the later validator phase.
+- No premium report validator calls are implemented in this phase.
+
+Next phase:
+- PREDICTA_AI_MODEL_PHASE_3_GEMINI_VALIDATOR_LAYER
+

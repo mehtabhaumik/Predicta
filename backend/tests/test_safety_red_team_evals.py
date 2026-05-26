@@ -278,3 +278,16 @@ def test_release_readiness_endpoint_is_owner_protected(monkeypatch):
     )
     assert allowed.status_code == 200
     assert allowed.json()["releaseStatus"] == evaluate_release_readiness().releaseStatus
+
+
+def test_release_readiness_blocks_unapproved_ai_provider(monkeypatch):
+    monkeypatch.setenv("PREDICTA_ALLOWED_AI_PROVIDERS", "openai,gemini,anthropic")
+
+    report = evaluate_release_readiness()
+
+    assert report.releaseStatus == "BLOCKED"
+    assert any(
+        check.name == "Approved AI providers" and check.status == "FAIL"
+        for check in report.checks
+    )
+    assert any("Claude/Anthropic" in blocker for blocker in report.blockers)

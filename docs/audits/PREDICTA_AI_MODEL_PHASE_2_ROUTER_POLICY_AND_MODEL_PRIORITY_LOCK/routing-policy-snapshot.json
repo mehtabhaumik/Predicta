@@ -1,0 +1,91 @@
+{
+  "modelPins": {
+    "free_reasoning": "gpt-5.4-mini",
+    "gemini_free": "gemini-2.5-flash",
+    "gemini_premium": "gemini-2.5-pro",
+    "premium_deep": "gpt-5.5"
+  },
+  "phase": "PREDICTA_AI_MODEL_PHASE_2_ROUTER_POLICY_AND_MODEL_PRIORITY_LOCK",
+  "providerGateFailuresWithDefaultConfig": [],
+  "routingPolicyOwner": "backend/astro_api/ai_routing_policy.py",
+  "snapshot": {
+    "approvedProviderOrder": [
+      "openai",
+      "gemini",
+      "deterministic",
+      "cache"
+    ],
+    "freeChatPrimary": {
+      "approved_provider_order": [
+        "openai",
+        "gemini",
+        "deterministic",
+        "cache"
+      ],
+      "cost_guardrail": "free-budget: deterministic first, OpenAI mini only, no premium multi-model pipeline",
+      "fallback_model": "gemini-2.5-flash",
+      "fallback_provider": "gemini",
+      "multi_model_pipeline_allowed": false,
+      "policy_reason": "default-openai-mini-primary-with-gemini-flash-fallback",
+      "primary_model": "gpt-5.4-mini",
+      "primary_provider": "openai",
+      "validator_eligible": false,
+      "validator_model": null,
+      "validator_provider": null
+    },
+    "freeReport": {
+      "approved_provider_order": [
+        "openai",
+        "gemini",
+        "deterministic",
+        "cache"
+      ],
+      "cost_guardrail": "free-budget: deterministic first, OpenAI mini only, no premium multi-model pipeline",
+      "fallback_model": "gemini-2.5-flash",
+      "fallback_provider": "gemini",
+      "multi_model_pipeline_allowed": false,
+      "policy_reason": "free-or-standard-report-generation-skips-premium-multi-model-pipeline",
+      "primary_model": "gpt-5.4-mini",
+      "primary_provider": "openai",
+      "validator_eligible": false,
+      "validator_model": null,
+      "validator_provider": null
+    },
+    "premiumDeepPrimary": {
+      "approved_provider_order": [
+        "openai",
+        "gemini",
+        "deterministic",
+        "cache"
+      ],
+      "cost_guardrail": "premium-budget: deep OpenAI allowed; Gemini Pro only for premium fallback or validator QA",
+      "fallback_model": "gemini-2.5-pro",
+      "fallback_provider": "gemini",
+      "multi_model_pipeline_allowed": false,
+      "policy_reason": "premium-deep-intent-uses-openai-premium-with-gemini-pro-fallback",
+      "primary_model": "gpt-5.5",
+      "primary_provider": "openai",
+      "validator_eligible": false,
+      "validator_model": null,
+      "validator_provider": null
+    },
+    "premiumReport": {
+      "approved_provider_order": [
+        "openai",
+        "gemini",
+        "deterministic",
+        "cache"
+      ],
+      "cost_guardrail": "premium-budget: deep OpenAI allowed; Gemini Pro only for premium fallback or validator QA",
+      "fallback_model": "gemini-2.5-pro",
+      "fallback_provider": "gemini",
+      "multi_model_pipeline_allowed": true,
+      "policy_reason": "premium-report-generation-is-eligible-for-gemini-validator",
+      "primary_model": "gpt-5.5",
+      "primary_provider": "openai",
+      "validator_eligible": true,
+      "validator_model": "gemini-2.5-pro",
+      "validator_provider": "gemini"
+    }
+  }
+}
