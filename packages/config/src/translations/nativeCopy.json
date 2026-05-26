@@ -20074,6 +20074,14 @@
     "signature.receipt.uncertainConfidence.hi": {
       "kind": "text",
       "value": "अनिश्चित"
+    },
+    "signature.mobile.captureUnavailable.gu": {
+      "kind": "text",
+      "value": "મોબાઇલ સહી upload/draw capture હજી જોડાઈ રહ્યું છે. વાસ્તવિક દેખાતું input ઉપલબ્ધ ન થાય ત્યાં સુધી Predicta અહીં scan, traits અથવા prediction તૈયાર નહીં કરે. વાસ્તવિક scan માટે web Signature room વાપરો."
+    },
+    "signature.mobile.captureUnavailable.hi": {
+      "kind": "text",
+      "value": "मोबाइल सिग्नेचर upload/draw capture अभी जोड़ा जा रहा है. वास्तविक दिखने वाला input उपलब्ध होने तक Predicta यहां scan, traits या prediction तैयार नहीं करेगी. वास्तविक scan के लिए web Signature room का उपयोग करें."
     }
   }
 }

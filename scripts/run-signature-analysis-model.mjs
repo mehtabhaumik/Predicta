@@ -51,6 +51,10 @@ try {
     outDir,
     'packages/astrology/src/signatureAnalysisModel.js',
   );
+  const detectorModulePath = path.join(
+    outDir,
+    'packages/astrology/src/signatureTraitDetector.js',
+  );
   const {
     SIGNATURE_ANALYSIS_SAFETY_BOUNDARIES,
     buildSignaturePredictaPromptContext,
@@ -58,6 +62,9 @@ try {
     extractSignatureTraitObservations,
     getSignatureTraitRules,
   } = await import(pathToFileURL(modulePath).href);
+  const { detectSignatureTraitsFromPixels } = await import(
+    pathToFileURL(detectorModulePath).href
+  );
 
   assert.ok(SIGNATURE_ANALYSIS_SAFETY_BOUNDARIES.length >= 4);
   assert.ok(
@@ -124,6 +131,31 @@ try {
     model.interpretationCards.every(card => !/definitely|guaranteed/i.test(card.plainMeaning)),
   );
 
+  const blank = createCanvasPixels(140, 70);
+  const blankDetection = detectSignatureTraitsFromPixels(blank);
+  assert.equal(blankDetection.hasVisibleSignature, false);
+  assert.equal(Object.keys(blankDetection.traits).length, 0);
+
+  const dot = createCanvasPixels(140, 70);
+  drawDot(dot, 70, 35, 2);
+  const dotDetection = detectSignatureTraitsFromPixels(dot);
+  assert.equal(dotDetection.hasVisibleSignature, false);
+
+  const upwardSignature = createCanvasPixels(180, 80);
+  drawLine(upwardSignature, 18, 56, 150, 28, 3);
+  drawLine(upwardSignature, 150, 28, 168, 24, 2);
+  const upwardDetection = detectSignatureTraitsFromPixels(upwardSignature);
+  assert.equal(upwardDetection.hasVisibleSignature, true);
+  assert.equal(upwardDetection.traits.baseline, 'upward');
+  assert.ok(upwardDetection.traits.pressure);
+
+  const downwardSignature = createCanvasPixels(180, 80);
+  drawLine(downwardSignature, 18, 28, 150, 56, 3);
+  const downwardDetection = detectSignatureTraitsFromPixels(downwardSignature);
+  assert.equal(downwardDetection.hasVisibleSignature, true);
+  assert.equal(downwardDetection.traits.baseline, 'downward');
+  assert.notDeepEqual(upwardDetection.traits, downwardDetection.traits);
+
   const context = buildSignaturePredictaPromptContext(model);
   assert.match(context, /Signature Predicta context/);
   assert.match(context, /identity verification/);
@@ -133,7 +165,51 @@ try {
   assert.match(context, /Improvement plan/);
   assert.match(context, /What this can and cannot tell you/);
 
-  console.log('Signature analysis model passed: 26 deterministic assertions.');
+  console.log('Signature analysis model passed: deterministic model and real-input detector assertions.');
 } finally {
   await rm(tempRoot, { force: true, recursive: true });
+}
+
+function createCanvasPixels(width, height) {
+  const data = new Uint8ClampedArray(width * height * 4);
+  for (let index = 0; index < data.length; index += 4) {
+    data[index] = 255;
+    data[index + 1] = 255;
+    data[index + 2] = 255;
+    data[index + 3] = 255;
+  }
+
+  return { data, height, width };
+}
+
+function drawDot(canvas, centerX, centerY, radius) {
+  for (let y = centerY - radius; y <= centerY + radius; y += 1) {
+    for (let x = centerX - radius; x <= centerX + radius; x += 1) {
+      if ((x - centerX) ** 2 + (y - centerY) ** 2 <= radius ** 2) {
+        setPixel(canvas, x, y);
+      }
+    }
+  }
+}
+
+function drawLine(canvas, x1, y1, x2, y2, thickness = 2) {
+  const steps = Math.max(Math.abs(x2 - x1), Math.abs(y2 - y1));
+  for (let step = 0; step <= steps; step += 1) {
+    const t = step / Math.max(1, steps);
+    const x = Math.round(x1 + (x2 - x1) * t);
+    const y = Math.round(y1 + (y2 - y1) * t);
+    drawDot(canvas, x, y, thickness);
+  }
+}
+
+function setPixel(canvas, x, y) {
+  if (x < 0 || y < 0 || x >= canvas.width || y >= canvas.height) {
+    return;
+  }
+
+  const index = (y * canvas.width + x) * 4;
+  canvas.data[index] = 15;
+  canvas.data[index + 1] = 15;
+  canvas.data[index + 2] = 15;
+  canvas.data[index + 3] = 255;
 }

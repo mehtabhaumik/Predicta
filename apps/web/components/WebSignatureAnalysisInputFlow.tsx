@@ -16,7 +16,9 @@ import {
   SIGNATURE_SCAN_LABELS,
   SIGNATURE_SHORT_PRIVACY_COPY,
   composeSignatureAnalysisModel,
+  detectSignatureTraitsFromPixels,
   extractSignatureTraitObservations,
+  type SignatureTraitDetection,
 } from '@pridicta/astrology';
 import type {
   SignatureAnalysisModel,
@@ -635,15 +637,19 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
     };
   }, []);
 
+  const hasDetectedSignature =
+    scanStatus !== 'empty' && Boolean(Object.keys(detectedTraits).length);
   const canContinue = Boolean(previewUrl || hasDrawing);
+  const canReviewTraits =
+    hasDetectedSignature || Boolean(Object.keys(observedTraits).length);
   const analysisModel = useMemo(
     () =>
       composeSignatureAnalysisModel({
         inputSource: mode === 'draw' ? 'drawn-signature' : 'uploaded-image',
-        observedTraits: canContinue ? observedTraits : {},
+        observedTraits: canReviewTraits ? observedTraits : {},
         confirmationState: 'confirmed',
       }),
-    [canContinue, mode, observedTraits],
+    [canReviewTraits, mode, observedTraits],
   );
   const detectedTraitObservations = useMemo(
     () => extractSignatureTraitObservations(detectedTraits, 'unconfirmed'),
@@ -653,7 +659,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
     () => extractSignatureTraitObservations(observedTraits, 'confirmed'),
     [observedTraits],
   );
-  const canOpenReading = canContinue && analysisModel.status === 'ready';
+  const canOpenReading = canReviewTraits && analysisModel.status === 'ready';
 
   function handleFileChange(event: ChangeEvent<HTMLInputElement>): void {
     const file = event.target.files?.[0];
@@ -673,9 +679,8 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
   async function prepareUploadedSignature(
     previewDataUrl: string,
   ): Promise<void> {
-    const hasVisibleSignature =
-      await previewDataUrlHasVisibleInk(previewDataUrl);
-    if (!hasVisibleSignature) {
+    const detection = await detectSignatureTraitsFromDataUrl(previewDataUrl);
+    if (!detection.hasVisibleSignature) {
       clearSignature();
       return;
     }
@@ -684,16 +689,19 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
     setMode('upload');
     setHasDrawing(false);
     setIsReady(false);
-    startTemporaryScan('upload');
+    startTemporaryScan(detection);
   }
 
-  function startTemporaryScan(nextMode: SignatureDraft['mode']): void {
-    if (nextMode === 'draw' && !hasDrawing) {
+  function startTemporaryScan(detection: SignatureTraitDetection): void {
+    if (!detection.hasVisibleSignature) {
+      setDetectedTraits({});
+      setObservedTraits({});
+      setScanStatus('empty');
+      setIsReady(false);
       return;
     }
 
-    const nextTraits = buildTemporaryDetectedTraits(nextMode);
-    setDetectedTraits(nextTraits);
+    setDetectedTraits(detection.traits);
     setObservedTraits({});
     setScanStatus('scanning');
     if (scanTimeoutRef.current) {
@@ -707,7 +715,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
   }
 
   function confirmDetectedTraits(): void {
-    if (!canContinue || scanStatus !== 'ready') {
+    if (!canReviewTraits || scanStatus !== 'ready') {
       return;
     }
 
@@ -716,7 +724,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
   }
 
   function adjustDetectedTraits(): void {
-    if (!canContinue || scanStatus === 'empty') {
+    if (!canReviewTraits || scanStatus === 'empty') {
       return;
     }
 
@@ -770,6 +778,9 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
     setMode('draw');
     setPreviewUrl(undefined);
     setIsReady(false);
+    setScanStatus('empty');
+    setDetectedTraits({});
+    setObservedTraits({});
   }
 
   function stopDrawing(event: PointerEvent<HTMLCanvasElement>): void {
@@ -799,7 +810,11 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
     setScanStatus('empty');
     setDetectedTraits({});
     setObservedTraits({});
-    localStorage.removeItem(SIGNATURE_DRAFT_STORAGE_KEY);
+    try {
+      localStorage.removeItem(SIGNATURE_DRAFT_STORAGE_KEY);
+    } catch {
+      // Storage can be unavailable in embedded browsers; raw images are never stored.
+    }
   }
 
   function getCurrentImageDataUrl(): string | undefined {
@@ -827,7 +842,11 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
         'Derived confirmed traits only. Predicta did not store the raw signature image.',
       observedTraits,
     };
-    localStorage.setItem(SIGNATURE_DRAFT_STORAGE_KEY, JSON.stringify(draft));
+    try {
+      localStorage.setItem(SIGNATURE_DRAFT_STORAGE_KEY, JSON.stringify(draft));
+    } catch {
+      // Chat can continue without draft persistence; only derived traits are passed.
+    }
     setIsReady(true);
     return true;
   }
@@ -859,7 +878,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
     key: SignatureTraitKey,
     value: SignatureTraitValue,
   ): void {
-    if (!canContinue) {
+    if (!canReviewTraits) {
       return;
     }
 
@@ -1042,7 +1061,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
               confirmedTraits={confirmedTraitObservations}
               copy={copy}
               detectedTraits={detectedTraitObservations}
-              hasSignatureInput={canContinue}
+              hasSignatureInput={canReviewTraits}
               isReady={isReady}
               onAdjust={adjustDetectedTraits}
               onClear={clearSignature}
@@ -1080,7 +1099,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
             disabled={!hasDrawing}
             onClick={() => {
               setMode('draw');
-              startTemporaryScan('draw');
+              startTemporaryScan(detectSignatureTraitsFromCanvas(canvasRef.current));
             }}
             type="button"
           >
@@ -1093,7 +1112,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
               confirmedTraits={confirmedTraitObservations}
               copy={copy}
               detectedTraits={detectedTraitObservations}
-              hasSignatureInput={canContinue}
+              hasSignatureInput={canReviewTraits}
               isReady={isReady}
               onAdjust={adjustDetectedTraits}
               onClear={clearSignature}
@@ -1122,7 +1141,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
                     className={
                       observedTraits[control.key] === option ? 'active' : ''
                     }
-                    disabled={!canContinue}
+                    disabled={!canReviewTraits}
                     key={option}
                     onClick={() => updateObservedTrait(control.key, option)}
                     type="button"
@@ -1134,7 +1153,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
             </div>
           ))}
         </div>
-        {canContinue && analysisModel.status === 'ready' ? (
+        {canReviewTraits && analysisModel.status === 'ready' ? (
           <div className="signature-trait-summary">
             <span>{copy.traits.summaryTitle}</span>
             <p>{buildPreparedReadingSummary(analysisModel, copy, language)}</p>
@@ -1150,7 +1169,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
       <section className="signature-preview-panel glass-panel" id="signature-preview">
         <div>
           <div className="section-title">{copy.preview.title}</div>
-          <h2>{isReady || canContinue ? copy.preview.ready : copy.preview.empty}</h2>
+          <h2>{isReady || canReviewTraits ? copy.preview.ready : copy.preview.empty}</h2>
           <p>{copy.preview.body}</p>
         </div>
         <div className="signature-preview-frame">
@@ -1349,11 +1368,11 @@ function SignatureImmediateReceipt({
   );
 }
 
-async function previewDataUrlHasVisibleInk(
+async function detectSignatureTraitsFromDataUrl(
   previewDataUrl: string,
-): Promise<boolean> {
+): Promise<SignatureTraitDetection> {
   if (typeof window === 'undefined') {
-    return false;
+    return detectSignatureTraitsFromPixels({ data: [], height: 0, width: 0 });
   }
 
   const image = await new Promise<HTMLImageElement>((resolve, reject) => {
@@ -1365,7 +1384,7 @@ async function previewDataUrlHasVisibleInk(
   }).catch(() => undefined);
 
   if (!image) {
-    return false;
+    return detectSignatureTraitsFromPixels({ data: [], height: 0, width: 0 });
   }
 
   const canvas = document.createElement('canvas');
@@ -1390,68 +1409,36 @@ async function previewDataUrlHasVisibleInk(
 
   const context = canvas.getContext('2d', { willReadFrequently: true });
   if (!context) {
-    return false;
+    return detectSignatureTraitsFromPixels({ data: [], height: 0, width: 0 });
   }
 
   context.drawImage(image, 0, 0, canvas.width, canvas.height);
-  const { data } = context.getImageData(0, 0, canvas.width, canvas.height);
-  let visiblePixels = 0;
-  let darkOrColoredPixels = 0;
-
-  for (let index = 0; index < data.length; index += 4) {
-    const alpha = data[index + 3] ?? 0;
-    if (alpha < 24) {
-      continue;
-    }
-
-    visiblePixels += 1;
-    const red = data[index] ?? 255;
-    const green = data[index + 1] ?? 255;
-    const blue = data[index + 2] ?? 255;
-    const brightness = (red + green + blue) / 3;
-    const colorSpread = Math.max(red, green, blue) - Math.min(red, green, blue);
-
-    if (brightness < 245 || colorSpread > 12) {
-      darkOrColoredPixels += 1;
-    }
-  }
-
-  const minimumInkPixels = Math.max(18, Math.floor(visiblePixels * 0.002));
-  return darkOrColoredPixels >= minimumInkPixels;
+  const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+  return detectSignatureTraitsFromPixels({
+    data: imageData.data,
+    height: canvas.height,
+    width: canvas.width,
+  });
 }
 
-function buildTemporaryDetectedTraits(
-  mode: SignatureDraft['mode'],
-): Partial<Record<SignatureTraitKey, SignatureTraitValue>> {
-  if (mode === 'upload') {
-    return {
-      baseline: 'steady',
-      flourish: 'moderate',
-      legibility: 'partial',
-      'letter-connection': 'mixed',
-      'margin-use': 'balanced',
-      pressure: 'medium',
-      'signature-size': 'medium',
-      slant: 'right',
-      spacing: 'balanced',
-      speed: 'moderate',
-      underline: 'none',
-    };
+function detectSignatureTraitsFromCanvas(
+  canvas: HTMLCanvasElement | null,
+): SignatureTraitDetection {
+  if (!canvas) {
+    return detectSignatureTraitsFromPixels({ data: [], height: 0, width: 0 });
   }
 
-  return {
-    baseline: 'upward',
-    flourish: 'moderate',
-    legibility: 'partial',
-    'letter-connection': 'connected',
-    'margin-use': 'balanced',
-    pressure: 'medium',
-    'signature-size': 'medium',
-    slant: 'right',
-    spacing: 'balanced',
-    speed: 'moderate',
-    underline: 'single',
-  };
+  const context = canvas.getContext('2d', { willReadFrequently: true });
+  if (!context) {
+    return detectSignatureTraitsFromPixels({ data: [], height: 0, width: 0 });
+  }
+
+  const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+  return detectSignatureTraitsFromPixels({
+    data: imageData.data,
+    height: canvas.height,
+    width: canvas.width,
+  });
 }
 
 function buildSignatureChatPromptContext(

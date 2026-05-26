@@ -38,6 +38,7 @@ export * from './sadeSatiIntelligence';
 export * from './sadhanaRemedyPath';
 export * from './schoolReadiness';
 export * from './signatureAnalysisModel';
+export * from './signatureTraitDetector';
 export * from './specialPoints';
 export * from './transitGocharIntelligence';
 export * from './vedicIntelligenceContract';

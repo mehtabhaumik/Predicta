@@ -87,17 +87,31 @@ assert.ok(
 );
 assertIncludes(
   files.web,
-  'observedTraits: canContinue ? observedTraits : {}',
-  'web Signature analysis is gated behind a real upload or drawing',
+  'detectSignatureTraitsFromPixels',
+  'web Signature analysis uses real visible ink geometry detection',
 );
 assertIncludes(
   files.web,
-  'disabled={!canContinue}',
+  'observedTraits: canReviewTraits ? observedTraits : {}',
+  'web Signature analysis is gated behind detected or corrected visible traits',
+);
+assertIncludes(
+  files.web,
+  'disabled={!canReviewTraits}',
   'web Signature trait controls are disabled until a real signature input exists',
+);
+assert.ok(
+  !/buildTemporaryDetectedTraits/i.test(files.web),
+  'web Signature flow does not use fixed upload or draw trait presets',
 );
 assert.ok(
   !/setDetectedTraits\(buildMobileDetectedTraits/i.test(files.mobile),
   'mobile Signature flow does not manufacture detected traits from placeholder buttons',
+);
+assertIncludes(
+  files.mobile,
+  'signature.mobile.captureUnavailable',
+  'mobile Signature flow is honest when real capture is not available',
 );
 assertIncludes(
   files.mobile,

@@ -37,6 +37,7 @@ type SignatureMobileCopy = {
     upload: string;
     useDrawing: string;
   };
+  captureUnavailable: string;
   detectionBody: string;
   missing: string;
   notAssessed: string;
@@ -63,6 +64,8 @@ const SIGNATURE_MOBILE_COPY: Record<SupportedLanguage, SignatureMobileCopy> = {
       upload: 'Upload signature',
       useDrawing: 'Use this drawing',
     },
+    captureUnavailable:
+      'Mobile signature upload/draw capture is being connected. Predicta will not scan, infer traits, or prepare predictions here until real visible input capture is available. Use the web Signature room for the real scan.',
     detectionBody:
       'Predicta detected these visible traits from your current signature. Please confirm or adjust anything that looks off.',
     missing:
@@ -96,6 +99,8 @@ const SIGNATURE_MOBILE_COPY: Record<SupportedLanguage, SignatureMobileCopy> = {
       upload: getNativeCopy('native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.9e30f80456'),
       useDrawing: getNativeCopy('native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.136b9a7b32'),
     },
+    captureUnavailable:
+      getNativeCopy('signature.mobile.captureUnavailable.hi'),
     detectionBody: getNativeCopy('signature.receipt.detectedBody.hi'),
     missing: getNativeCopy('signature.receipt.missing.hi'),
     notAssessed: getNativeCopy('signature.receipt.notAssessed.hi'),
@@ -126,6 +131,8 @@ const SIGNATURE_MOBILE_COPY: Record<SupportedLanguage, SignatureMobileCopy> = {
       upload: getNativeCopy('native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.4a40d077ff'),
       useDrawing: getNativeCopy('native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.17ba897714'),
     },
+    captureUnavailable:
+      getNativeCopy('signature.mobile.captureUnavailable.gu'),
     detectionBody: getNativeCopy('signature.receipt.detectedBody.gu'),
     missing: getNativeCopy('signature.receipt.missing.gu'),
     notAssessed: getNativeCopy('signature.receipt.notAssessed.gu'),
@@ -262,13 +269,20 @@ export function SignaturePredictaScreen({
           </AppText>
           <View style={styles.actionGrid}>
             <GlowButton
+              disabled
               label={mode === 'upload' && hasSignature ? copy.actions.reupload : copy.actions.upload}
               onPress={() => startScan('upload')}
             />
             <GlowButton
+              disabled
               label={mode === 'draw' && hasSignature ? copy.actions.redraw : copy.actions.useDrawing}
               onPress={() => startScan('draw')}
             />
+          </View>
+          <View style={styles.limitationBox}>
+            <AppText tone="secondary" variant="caption">
+              {copy.captureUnavailable}
+            </AppText>
           </View>
           <AppText className="mt-3" tone="secondary" variant="caption">
             {copy.privacyShort}
@@ -396,6 +410,14 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 8,
     marginTop: 14,
+  },
+  limitationBox: {
+    backgroundColor: colors.surfaceMuted,
+    borderColor: colors.warning,
+    borderRadius: 14,
+    borderWidth: 1,
+    marginTop: 14,
+    padding: 12,
   },
   previewBox: {
     backgroundColor: colors.surfaceMuted,
