@@ -53,6 +53,7 @@
     "test:nav-new-rooms": "node scripts/run-nav-and-new-rooms-qa-gate.mjs",
     "test:native-script-chat": "node scripts/run-native-script-chat-language-rebuild.mjs",
     "test:localization-architecture": "node scripts/run-localization-architecture-gate.mjs",
+    "test:pre-live-phase-9": "node scripts/run-pre-live-phase-9-localization-sweep-gate.mjs",
     "test:translation-trust": "node scripts/run-translation-completion-trust-gate.mjs",
     "test:discipline-handoff": "node scripts/run-discipline-handoff-contract.mjs",
     "test:signature-report": "node scripts/run-signature-report-synthesis.mjs",

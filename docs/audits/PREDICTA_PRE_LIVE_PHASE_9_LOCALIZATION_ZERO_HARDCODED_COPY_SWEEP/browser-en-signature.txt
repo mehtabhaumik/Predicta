@@ -1,0 +1,203 @@
+url: http://localhost:3009/dashboard/signature
+title: Predicta
+hasHindi: true
+hasGujarati: true
+
+PREDICTA
+Holistic astrology guidance, reports, charts, and saved kundlis.
+NAVIGATE
+Dashboard
+Vedic
+KP
+Nadi
+Numerology
+Signature
+Reports
+Library
+Account
+SIGNATURE
+Chat
+SIGNATURE WORLD
+Signature
+App language
+English
+हिन्दी
+ગુજરાતી
+Ask Predicta
+
+SIGNATURE PREDICTA
+
+Read self-expression from a signature.
+
+Upload or draw a signature for a private, reflection-based signature reading. Predicta keeps this separate from Parashari, KP, Nadi, and Numerology.
+
+SIGNATURE PREDICTA
+Chat with Signature Predicta
+Build Signature report
+
+Turn the confirmed signature traits into a reflection report, improvement plan, or Signature + Numerology synthesis.
+
+BOUNDARY
+Clear safety boundary
+INPUT
+Upload signature
+READING
+Prepared reading
+
+PRIVACY FIRST
+
+Prepare the signature, confirm the visible traits, then open the private reading.
+UPLOAD SIGNATURE
+
+Start with an upload or a fresh drawn signature.
+
+CONFIRM VISIBLE TRAITS
+
+Confirm only the visible traits that are actually present.
+
+SIGNATURE PREVIEW
+
+Review the prepared reading and private preview here.
+
+BUILD SIGNATURE REPORT
+
+Use the report path when the reflection needs structure or synthesis.
+
+PROOF
+Visible traits
+
+Predicta reads visible signature traits only after you upload, draw, or confirm them.
+
+PROOF
+Safe boundary
+
+The reading stays reflective. It does not verify identity, diagnose health, or make legal claims.
+
+PROOF
+Optional synthesis
+
+Signature reading can later be combined with Numerology only when you ask for synthesis.
+
+SIGNATURE PREDICTA
+Upload signature
+
+Use a clear image with only the signature visible. Crop out IDs, addresses, account numbers, and private documents.
+
+Chat with Signature Predicta
+Build Signature report
+Privacy first
+Predicta does not store your signature image. It stays only in this session so we can prepare your reading. If you close this tab or leave the session, you may need to re-upload or re-draw it.
+Not stored by Predicta. If you close this session, you may need to re-upload or re-draw.
+Do not use a legal, banking, or government signature if you are not comfortable.
+Your previous signature image was not stored. Please re-upload or re-draw it to continue.
+UPLOAD SIGNATURE
+Upload signature
+
+Use a clear image with only the signature visible. Crop out IDs, addresses, account numbers, and private documents.
+
+PNG, JPG, or WebP works best.
+Choose signature image
+DRAW SIGNATURE
+Draw signature
+
+Use a natural signature. You can clear it anytime.
+
+Draw here with mouse, trackpad, or touch.
+Use this drawing
+Signature drawn in this session
+Your previous signature image was not stored. Please re-upload or re-draw it to continue.
+Not stored by Predicta. If you close this session, you may need to re-upload or re-draw.
+Baseline detected
+Slant measured
+Rhythm mapped
+Legibility checked
+Flourish noted
+
+Predicta detected these visible traits from your current signature. Please confirm or adjust anything that looks off.
+
+Not assessed
+uncertain
+Looks right
+Adjust traits
+Clear signature
+
+Not stored by Predicta. If you close this session, you may need to re-upload or re-draw.
+
+CONFIRM VISIBLE TRAITS
+Confirm visible traits
+
+Predicta detected these visible traits from your current signature. Please confirm or adjust anything that looks off.
+
+Baseline
+Upward
+Steady
+Downward
+Mixed
+Signature size
+Small
+Medium
+Large
+Pressure
+Light
+Medium
+Heavy
+Slant
+Left
+Steady
+Right
+Mixed
+Legibility
+Clear
+Partly readable
+Abstract
+Spacing
+Tight
+Balanced
+Wide
+Rhythm
+Slow
+Moderate
+Fast
+Flourish
+None
+Moderate
+Expansive
+Underline
+None
+Single
+Strong
+Letter connection
+Connected
+Mixed
+Separated
+Space use
+Compact
+Balanced
+Expansive
+SIGNATURE PREVIEW
+No signature selected yet.
+
+Once a signature is ready, Predicta can explain what shape, pressure, spacing, and rhythm usually represent in simple language.
+
+No signature selected yet.
+Chat with Signature Predicta
+Save a copy
+Clear signature
+CLEAR SAFETY BOUNDARY
+
+Signature analysis is for self-understanding and reflection. It is not identity verification, handwriting forensics, medical diagnosis, legal proof, hiring advice, or a guaranteed prediction.
+
+REPORT PATH
+Signature report path
+
+Turn the confirmed signature traits into a reflection report, improvement plan, or Signature + Numerology synthesis.
+
+Build Signature report
+PREDICTA
+QUIET EXIT
+Method
+Safety
+Legal
+Feedback
+© 2026 Predicta. All rights reserved.
+For reflection and self-understanding only. Not medical, legal, financial, emergency, or guaranteed prediction advice.

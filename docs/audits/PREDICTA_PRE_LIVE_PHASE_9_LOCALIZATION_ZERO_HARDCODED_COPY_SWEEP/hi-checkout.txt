@@ -1,0 +1,155 @@
+route: checkout
+language: hi
+source: JSON-backed native copy keys used by audited route/component files
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.d02d649ff9
+text: मूल्य पेज से सदस्यता, डे पास या एक बार वाली रिपोर्ट चुनें, फिर उस प्रवेश को सही खाते से जोड़कर रखें.
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.df2ec9b391
+text: चयन बदलें
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.a739cb4d32
+text: सपोर्ट को ईमेल करें
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.41f657f05a
+text: रेजरपे सुरक्षित भुगतान जोड़ा जा रहा है. आज इस स्क्रीन पर कोई भुगतान नहीं लिया गया, और प्रेडिक्टा सत्यापित भुगतान या स्वीकृत सहायता हस्तांतरण से पहले भुगतान वाला प्रवेश सक्रिय नहीं करेगी.
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.c3500f68d0
+text: सुरक्षित चेकआउट जोड़ा जा रहा है
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.30f93c5b81
+text: यह सुरक्षित भुगतान अनुबंध रेजरपे आदेश बनाने, हस्ताक्षर जांच, फिर से प्रयास, रद्द करने और प्रवेश सक्रिय करने के लिए तैयार है.
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.39b0466aac
+text: सुरक्षित चेकआउट तैयार है
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.76165de86f
+text: गेटवे स्थिति
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.381ad17fb4
+text: भुगतान स्थिति
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.81cb946fbb
+text: प्रेडिक्टा पहले प्रवेश को सही ईमेल से जोड़ती है ताकि आपकी कुंडली, रिपोर्ट और पास अलग-अलग खातों में न बिखरें.
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.633b350da2
+text: एक बार का प्रवेश
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.7ab9674a9f
+text: खाता सेटिंग खोलें
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.ba9b006fa1
+text: प्रवेश तैयार करें
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.aa7e9c428f
+text: {value} वही खाता रखें जिसे आप लगातार प्रेडिक्टा मार्गदर्शन से जोड़ना चाहते हैं.
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.5a046dc018
+text: {value} इस चयन को उसी खाते से जोड़कर रखें जिसमें संबंधित कुंडली और रिपोर्ट इतिहास रहेगा.
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.5a061d44a5
+text: निजी पास उपयोग करें
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.6139944ca0
+text: {value} के लिए प्रवेश देखें
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.0593802992
+text: चुना गया
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.a7e5a1e057
+text: उसी ईमेल से साइन इन करें जिसे आप अपनी कुंडली, रिपोर्ट और बाद की रिकवरी से जोड़ना चाहते हैं.
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.42f1f3e3ee
+text: सही खाता चुनें
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.a00e28e59c
+text: एक साफ चयन रखें ताकि प्रेडिक्टा रिपोर्ट खरीद रास्ते को गेस्ट या परिवार प्रवेश के साथ न मिलाए.
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.5e02f3f637
+text: प्रवेश रास्ता तय करें
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.ccebc8e9b1
+text: अगर आपके पास निजी निमंत्रण है तो पहले उसे उपयोग करें. अन्यथा खाते से आगे बढ़ें या मदद के लिए सपोर्ट से संपर्क करें.
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.f4e7896234
+text: खाता निरंतरता से पूरा करें
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.1a2647f494
+text: सदस्यता प्रवेश
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.b2cc0a1a27
+text: कृपया सुरक्षित भुगतान जुड़ने तक मेरा प्रेडिक्टा प्रवेश पूरा करने में मदद करें.
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.e95c68286c
+text: प्रेडिक्टा प्रवेश सहायता
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.5cf8f3b297
+text: सपोर्ट टिकट खोलें
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.7d3065db46
+text: अपना प्रेडिक्टा प्रवेश तैयार करें
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.ec32113b0b
+text: डे पास
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.95856bffbb
+text: पांच प्रश्न
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.31641beaac
+text: प्रीमियम पीडीएफ
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.8106a328fe
+text: विस्तृत कुंडली रिपोर्ट
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.d8fb1adccb
+text: कम्पैटिबिलिटी रिपोर्ट
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.47d5bb4f4c
+text: साप्ताहिक
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.57dc4243a2
+text: मासिक
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.d64cb5865a
+text: त्रैमासिक
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.9b81fb55ef
+text: वार्षिक

@@ -1,0 +1,92 @@
+[
+  {
+    "entries": 76,
+    "file": "en-checkout.txt",
+    "language": "en",
+    "route": "checkout"
+  },
+  {
+    "entries": 38,
+    "file": "hi-checkout.txt",
+    "language": "hi",
+    "route": "checkout"
+  },
+  {
+    "entries": 38,
+    "file": "gu-checkout.txt",
+    "language": "gu",
+    "route": "checkout"
+  },
+  {
+    "entries": 140,
+    "file": "en-pricing.txt",
+    "language": "en",
+    "route": "pricing"
+  },
+  {
+    "entries": 70,
+    "file": "hi-pricing.txt",
+    "language": "hi",
+    "route": "pricing"
+  },
+  {
+    "entries": 70,
+    "file": "gu-pricing.txt",
+    "language": "gu",
+    "route": "pricing"
+  },
+  {
+    "entries": 766,
+    "file": "en-report.txt",
+    "language": "en",
+    "route": "report"
+  },
+  {
+    "entries": 383,
+    "file": "hi-report.txt",
+    "language": "hi",
+    "route": "report"
+  },
+  {
+    "entries": 383,
+    "file": "gu-report.txt",
+    "language": "gu",
+    "route": "report"
+  },
+  {
+    "entries": 266,
+    "file": "en-signature.txt",
+    "language": "en",
+    "route": "signature"
+  },
+  {
+    "entries": 133,
+    "file": "hi-signature.txt",
+    "language": "hi",
+    "route": "signature"
+  },
+  {
+    "entries": 133,
+    "file": "gu-signature.txt",
+    "language": "gu",
+    "route": "signature"
+  },
+  {
+    "entries": 146,
+    "file": "en-settings.txt",
+    "language": "en",
+    "route": "settings"
+  },
+  {
+    "entries": 72,
+    "file": "hi-settings.txt",
+    "language": "hi",
+    "route": "settings"
+  },
+  {
+    "entries": 74,
+    "file": "gu-settings.txt",
+    "language": "gu",
+    "route": "settings"
+  }
+]

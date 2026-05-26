@@ -1,0 +1,81 @@
+url: http://localhost:3009/checkout?productId=pridicta_day_pass_24h
+title: Predicta
+hasHindi: false
+hasGujarati: false
+
+PREDICTA
+Holistic astrology
+Vedic
+KP
+Nadi
+Numerology
+Signature
+Reports
+Pricing
+Prepare access
+Review access for Day Pass
+
+Use this when you want to try deeper chat, reports, and timing today without subscribing. Keep this selection tied to the account that will hold the related Kundli and report history.
+
+SELECTED
+₹49
+ONE-TIME ACCESS
+GATEWAY STATE
+Secure checkout is being connected
+
+Razorpay secure checkout is being connected. No payment was taken on this screen today, and Predicta will not mark access as paid until a verified payment or approved support handoff exists.
+
+PAYMENT STATUS: GATEWAY_DISABLED
+1
+Use the right account
+
+Sign in with the email you want tied to your Kundlis, reports, and future restore.
+
+2
+Confirm the access path
+
+Keep one clear selection so Predicta does not mix a report purchase path with guest or family access.
+
+3
+Finish from account continuity
+
+If you already have a private invite, redeem it first. Otherwise continue from your account or contact support for help.
+
+Open account settings
+Redeem private pass
+Email support
+Open support ticket
+Change selection
+
+Predicta keeps access tied to the right email first, so your Kundlis, reports, and passes do not drift across accounts.
+
+PREDICTA
+
+Create your Kundli. Understand your life through holistic astrology. Ask better questions. Get beautiful reports.
+
+Vedic astrology guidance with chart proof, karma-based remedies, saved Kundlis, privacy choices, and clear safety limits.
+
+START
+Create Kundli
+View Charts
+Ask Vedic Predicta
+Kundli Library
+Family Vault
+PREMIUM
+Plans and Passes
+Life Calendar
+PDF Reports
+Matchmaking
+TRUST
+Privacy Policy
+Terms of Use
+Refund Policy
+Disclaimer
+Age Guidance
+Accuracy & Method
+Safety Promise
+Founder Vision
+Feedback
+Report an Issue
+© 2026 Predicta. All rights reserved.
+For reflection and self-understanding only. Not medical, legal, financial, emergency, or guaranteed prediction advice.

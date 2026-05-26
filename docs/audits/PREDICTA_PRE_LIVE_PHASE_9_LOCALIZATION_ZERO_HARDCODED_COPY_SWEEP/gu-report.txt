@@ -1,0 +1,1535 @@
+route: report
+language: gu
+source: JSON-backed native copy keys used by audited route/component files
+
+file: apps/web/app/dashboard/report/page.tsx
+key: native.apps.web.app.dashboard.report.page.tsx.f425d99c36
+text: પહેલાં જીવન પરિણામ પસંદ કરો, ઇચ્છો તો પીડીએફને થોડું ટ્યુન કરો, અને પછી લાંબી વાંચન પેજમાં અટવાયા વગર રિપોર્ટ ડાઉનલોડ કરો.
+
+file: apps/web/app/dashboard/report/page.tsx
+key: native.apps.web.app.dashboard.report.page.tsx.af1eea1bb8
+text: કેવી રીતે પસંદ કરવું
+
+file: apps/web/app/dashboard/report/page.tsx
+key: native.apps.web.app.dashboard.report.page.tsx.e0185a82d6
+text: ખોલો
+
+file: apps/web/app/dashboard/report/page.tsx
+key: native.apps.web.app.dashboard.report.page.tsx.7ccc712909
+text: જે રિપોર્ટની ખરેખર જરૂર છે, તે પસંદ કરો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.8d7456d290
+text: સ્પષ્ટ જીવન પ્રશ્ન માટે એક સુંદર પીડીએફ જોઈએ ત્યારે આ પસંદ કરો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.72eedd6de0
+text: એક રિપોર્ટ પસંદ કરો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.329efc60f2
+text: એક વારની રિપોર્ટ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.bdaa3fd255
+text: મને એક જવાબ સારી રીતે તૈયાર જોઈએ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.6ed2ad503f
+text: નિયમિત સમય માર્ગદર્શન, ઊંડી ચેટ, ઉપાયો અને માસિક યોજના જોઈએ ત્યારે આ પસંદ કરો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.23df8c32af
+text: પ્રીમિયમ જુઓ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.ddc01a560a
+text: સભ્યતા
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.5ba388bc38
+text: મારે દર મહિને માર્ગદર્શન જોઈએ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.0d9969ff38
+text: નિર્ણય કરતા પહેલાં આખો અનુભવ અજમાવવો હોય ત્યારે આ પસંદ કરો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.95ea9365f4
+text: ડે પાસ અજમાવો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.039eabd9e9
+text: ડે પાસ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.e148986a92
+text: હું આજે બધું અજમાવવા માગું છું
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.c456569f48
+text: મુખ્ય
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.b83a59f4cd
+text: જીવન યાત્રા, આત્મ હેતુ, છુપાયેલો સૂત્ર, વર્તમાન અધ્યાય, ઉપહાર, પાઠ અને આગળની દિશા.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.6cb0222388
+text: સ્પષ્ટ આત્મ છબી, જીવન યાત્રા, વર્તમાન ધ્યાન, ઉપહાર, પાઠ અને અંતિમ પત્ર.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.ff15be0114
+text: આત્મ છબી
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.8842995687
+text: જીવન યાત્રા સાર
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.265a903aa3
+text: વર્તમાન અધ્યાય
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.40802dd548
+text: મુખ્ય ઉપહાર અને પાઠ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.3ba80429f7
+text: ગ્રહો અથવા તકનીકી પુરાવા વાંચ્યા વગર તમારી જીવન વાર્તા સમજો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.c8d2d6aee3
+text: ઊંડી જીવન વાર્તા, આત્મ હેતુ સાર, કર્મ નકશો, અભ્યાસ અને યાદગાર અંતિમ પત્ર.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.7ce908330a
+text: ઊંડી જીવન વાર્તા
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.f879d0a4fc
+text: આત્મ હેતુ સાર
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.cb76fff9a0
+text: કર્મ નકશો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.238354c97a
+text: અભ્યાસ યોજના
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.627cfbff49
+text: પ્રીમિયમ અંતિમ પત્ર
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.aa3c7ee9e3
+text: જ્યારે બધા ઉપલબ્ધ પ્રેડિક્ટા ડેટાથી શક્તિશાળી જીવન વાર્તા જોઈએ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.dd4ea89348
+text: પ્રેડિક્ટા લાઇફ એટલસ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.391d646779
+text: આધાર
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d35e46f971
+text: પૂરા ચાર્ટ માટે સ્પષ્ટ શરૂઆત.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.856fb6ea35
+text: કુંડળી, બધા દેખાતા ચાર્ટ્સ અને ઉપયોગી ચાર્ટ સંકેત.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.967684a960
+text: બધા દેખાતા ચાર્ટ્સ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.2cc13696bb
+text: કુંડળી સારાંશ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.59cd2b3d64
+text: વર્તમાન દશા
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.8f0441b5a0
+text: ઉપયોગી ઉપાયો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.9d3c03c392
+text: ગૂંચવાયા વગર આખો ચાર્ટ સમજો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.05b0744024
+text: બધા ચાર્ટ્સ, દશા, ગોચર, યોગ અને ઉપાયોના સંપૂર્ણ સાર.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.eda996af51
+text: સંપૂર્ણ ચાર્ટ સાર
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.6cceebc57a
+text: દશા અને ગોચર સમય
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.5ff22b46e1
+text: યોગ અને બળ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.2e0dd877a0
+text: પ્રીમિયમ પીડીએફ રચના
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.205b7dfde1
+text: જ્યારે સંપૂર્ણ જીવન સાર જોઈએ ત્યારે આ સારી પ્રથમ રિપોર્ટ છે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.11005575f1
+text: કુંડળી રિપોર્ટ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.e653aaf5e6
+text: વૈદિક
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.54dbe460e9
+text: પરાશરી D1, વર્ગ ચાર્ટ્સ, દશા, ગોચર અને ઉપાયો એક વૈદિક રિપોર્ટમાં.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.958e8dd8e2
+text: D1, મુખ્ય વર્ગ, દશા, ગોચર અને ઉપાયો પરથી ઉપયોગી વૈદિક રિપોર્ટ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.7cdfeda04b
+text: D1 પુરાવો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.9534ee5adf
+text: મુખ્ય વર્ગ ઝલક
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.59cd2b3d64
+text: વર્તમાન દશા
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.35d619c197
+text: સુરક્ષિત ઉપાય દિશા
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.4c0419e09c
+text: બીજી પદ્ધતિઓ ભેળવ્યા વગર વૈદિક પ્રેડિક્ટાથી ચાર્ટ વાંચો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.2dfde274fc
+text: વર્ગ ઊંડાઈ, સમય વિન્ડો અને ઉપાય પથ સાથે વિગતવાર વૈદિક પ્રેડિક્ટા રિપોર્ટ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.826cfdcf7e
+text: સંપૂર્ણ વર્ગ સાર
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.6cceebc57a
+text: દશા અને ગોચર સમય
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.e9e808bbfa
+text: પુરાવા કોષ્ટકો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.db48d07d20
+text: ઉપાય યોજના
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.c7bcdfae92
+text: સ્પષ્ટ ચાર્ટ પુરાવા સાથે મુખ્ય વૈદિક જ્યોતિષ વાંચન જોઈએ ત્યારે સારું.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.21585c4b22
+text: વૈદિક પ્રેડિક્ટા રિપોર્ટ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.9067105e36
+text: ઘટના પ્રશ્નો, કસ્પ પુરાવો, નક્ષત્ર સ્વામી, ઉપ-સ્વામી, નિર્ણય ગ્રહો અને સૂચક ગ્રહો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.dac0781a7d
+text: કસ્પ અને ઉપ-સ્વામી પર કેન્દ્રિત ઉપયોગી કૃષ્ણમૂર્તિ પદ્ધતિ પુરાવા માર્ગ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.c61d55b473
+text: કૃષ્ણમૂર્તિ પદ્ધતિ કસ્પ ઝલક
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.205daa0d86
+text: નક્ષત્ર/ઉપ-સ્વામી પુરાવો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.4a4189acfd
+text: ઘટના ભાવ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.5810ca514c
+text: પદ્ધતિ મર્યાદા
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.c69b5e1251
+text: ઘટના પ્રશ્નો કૃષ્ણમૂર્તિ પદ્ધતિ પ્રેડિક્ટાથી વાંચો, પરાશરી ભેળસેળ વગર.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.bf677b1031
+text: કસ્પ શૃંખલા, સૂચક ગ્રહો, નિર્ણય ગ્રહો અને ઘટના સમય સાથે વિગતવાર કૃષ્ણમૂર્તિ પદ્ધતિ રિપોર્ટ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.eabd9cd728
+text: બધા 12 કસ્પ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.e06755441b
+text: સૂચક ગ્રહ નકશો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.47b27d59e4
+text: નિર્ણય ગ્રહ સહારો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.3d7accac42
+text: સમય વિશ્વાસ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.00b92431cd
+text: નોકરી બદલાવ, લગ્ન સમય, મંજૂરી અથવા ઘટના નિર્ણય માટે સારું.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.4f80d08646
+text: કૃષ્ણમૂર્તિ પદ્ધતિ પ્રેડિક્ટા રિપોર્ટ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d653d63a61
+text: નાડી
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.047ae59353
+text: ગ્રહ કથા-સંબંધ, કર્મ બંધારણ, ચકાસણી પ્રશ્નો અને સમય સંકેત.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.a5c1df9f21
+text: ગણતરી થયેલા ચાર્ટ સંબંધ પરથી ઉપયોગી નાડી બંધારણ ઝલક.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.4129489096
+text: કથા-સંબંધ ઝલક
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.e44f2408e9
+text: કર્મ વિષય
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.2c26849274
+text: ચકાસણી પ્રશ્નો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.0e1b7075b8
+text: સુરક્ષા મર્યાદા
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.650f64b4e3
+text: ખોટા પાંડુલિપિ દાવા વગર ગ્રહ-થી-ગ્રહ બંધારણ વાંચો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.9b158eb32f
+text: કથા-સંબંધ, ચકાસણી, સમય સંકેત અને ચિંતન પથ સાથે વિગતવાર નાડી રિપોર્ટ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.359fd1e2f6
+text: બંધારણ ક્રમ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.300b0d086e
+text: ચકાસણી ઊંડાઈ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.470c6a9ba1
+text: સમય સંકેત
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.5494069342
+text: ચિંતન અભ્યાસ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.6b4f7e4239
+text: વારંવાર આવતાં જીવન બંધારણ અને કર્મ વિષય સમજવા માટે સારું.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.4203c7842e
+text: નાડી પ્રેડિક્ટા રિપોર્ટ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.aa10e069f6
+text: કામ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.ff923f900b
+text: કારકિર્દી દિશા, નોકરી સમય અને કામના દબાણ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.a204063fc5
+text: 10મા ભાવ, D10, દશા અને ગોચરથી સરળ કારકિર્દી ધ્યાન.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.272e71a954
+text: કારકિર્દી ભાવ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.e175b821e1
+text: D10 સંકેત
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.5abf6cbcb7
+text: વર્તમાન કામ દબાણ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.06dabdceda
+text: એક વ્યવહારુ પગલું
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.4c2e153f25
+text: કામની દિશા, સમય દબાણ અને સારું આગળનું પગલું જુઓ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.537a9a2a38
+text: કારકિર્દી સમય, ભૂમિકા મેળ, પ્રમોશન તક અને કાર્ય યોજના.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.4942e5b3ea
+text: ભૂમિકા મેળ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.b20d972b0c
+text: પ્રમોશન/બદલાવ તક
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.80e18d0ad5
+text: D1 અને D10 સાર
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.e115c9dbce
+text: માસિક કાર્ય યોજના
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.dca2230378
+text: નોકરી બદલાવ, પ્રમોશન, વ્યવસાય અથવા કારકિર્દી દિશા માટે સારું.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.96d46aa306
+text: કારકિર્દી રિપોર્ટ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.8a6353c98a
+text: લગ્ન
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.cfb250ba96
+text: લગ્ન સંભાવના, સંબંધની પરિપક્વતા અને સાથીના સંકેતો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.4e7a09242d
+text: D1 અને D9 સંબંધ સંકેતો વિશ્વાસ સાથે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.0ebb19986b
+text: D1 સંબંધ સંકેત
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.cea2099aba
+text: D9 ઝલક
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.8d8a8fbe8c
+text: શુક્ર/બૃહસ્પતિ સ્વભાવ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.135276f719
+text: નરમ સાવધાની
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d3551580dd
+text: સંબંધની પરિપક્વતા, સમય અને સાથીના સંકેતો સમજો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.c31ec75abf
+text: D1 અને D9 સાર, સમય તક, ઉપાયો અને સાવધાનીઓ નરમાઈથી.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.edf5a41ba3
+text: D1 અને D9 સાર
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.62c5666a3d
+text: સમય તક
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.2aefc35b2d
+text: મિલાન સાવધાનીઓ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.f37e010442
+text: સંબંધ ઉપાયો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.a973853038
+text: લગ્ન સમય, સાથી સ્વભાવ, વિલંબ અથવા પરિવાર ચર્ચા માટે સારું.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.ad04697025
+text: લગ્ન રિપોર્ટ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.a0cf33e8c0
+text: ધન
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.e8225cfc9e
+text: આવક, બચત, ધન આદતો અને આર્થિક સમય.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.df1962482c
+text: ધન ભાવ, વર્તમાન દશા સ્વભાવ અને વ્યવહારુ માર્ગદર્શન.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.b443aa51bd
+text: 2/11 ભાવ સંકેત
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.177a9002c8
+text: દશા ધન સ્વભાવ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.9d0f2c6ee0
+text: બચત સાવધાની
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.8f7747e93a
+text: એક જમીનથી જોડાયેલી આદત
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.de7e3d7d1a
+text: ધન પ્રવાહ, બચત આદતો અને સારો આર્થિક સમય વાંચો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d8b2cf4185
+text: D2, બીજા અને અગિયારમા ભાવનો સાર, સમય તક અને માસિક યોજના.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.1fb18452c4
+text: D2 ધન સાર
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.196ab970df
+text: આવક અને લાભ તક
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d2ce577900
+text: માસિક યોજના
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.4dcf587cab
+text: જોખમ અને શિસ્ત નકશો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.08d4fbecc3
+text: આવક, બચત, રોકાણ સમય અથવા દેવું દબાણ માટે સારું.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.3f96e5a5bf
+text: ધન રિપોર્ટ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.4b0976b0f5
+text: શનિ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.7ff7d1493d
+text: સાડેસાતી તબક્કો, દબાણ તક, શિસ્ત અને સહારો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.f8eee71497
+text: વર્તમાન સાડેસાતી સ્થિતિ, તબક્કો અને સરળ માર્ગદર્શન.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.6d43159be9
+text: વર્તમાન તબક્કો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.81823e34e4
+text: શનિ સ્વભાવ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.7e75caf132
+text: સરળ સાવધાની
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.0cfa0d7acc
+text: શનિ કર્મ ઉપાય
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.602c3e5eca
+text: શનિ દબાણ ને ડર વગર સમજો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.72b6710114
+text: ચોક્કસ તબક્કા વાંચન, શનિ ગોચર તારીખો, અષ્ટકવર્ગ સહારો અને ઉપાયો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.32a0e92c7a
+text: ચોક્કસ તબક્કા વાંચન
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.aec2c35c50
+text: શનિ તારીખો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.b4e8f32b20
+text: અષ્ટકવર્ગ સહારો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.2c22d7b660
+text: ઉપાય અને શિસ્ત યોજના
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d44b90ebf9
+text: દબાણ, વિલંબ, જવાબદારી અથવા શનિથી જોડાયેલા ડર માટે સારું.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.9d920974bd
+text: સાડેસાતી રિપોર્ટ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.82e44a590f
+text: સમય
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.f0f85ecc2f
+text: જીવન અવધિ, વળાંક અને હાલમાં શું સક્રિય છે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.16a93c387f
+text: વર્તમાન મહાદશા અને અંતરદશા સ્વભાવ સરળ ભાષામાં.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.5179583bac
+text: વર્તમાન મહાદશા
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.4784261360
+text: વર્તમાન અંતરદશા
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.bda7363edb
+text: જીવન સ્વભાવ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.66e817e4af
+text: આગલો સમય સંકેત
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.18797c08b9
+text: હમણાં કયો જીવન અધ્યાય સક્રિય છે અને આગળ શું આવે છે, જુઓ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d4e7ece4d7
+text: મહાદશા, અંતરદશા, પ્રત્યંતરદશા, સક્રિયતા અને સમય નકશો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.f1f5ba9b8e
+text: દશા વૃક્ષ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d4e5e6362c
+text: પ્રત્યંતરદશા વિગત
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.5844d06361
+text: સક્રિયતા સમય
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.2da3102a1e
+text: તકવાળો જીવન નકશો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.a078e0faa0
+text: જ્યારે “હમણાં કેમ?” એવો પ્રશ્ન હોય અથવા જીવન સમય નકશો જોઈએ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d02dc74dca
+text: દશા જીવન નકશો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.bcef294a0d
+text: મિલાન
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.a5d7101002
+text: લગ્ન મિલાન, પરિવાર ચર્ચા અને મિલાનની સ્પષ્ટતા.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.68c3912699
+text: સરળ મિલાન સ્વભાવ અને મુખ્ય સાવધાની ક્ષેત્રો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.8eb19f502e
+text: મિલાન સ્વભાવ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.f875e7df12
+text: મુખ્ય સહારા
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.7451626834
+text: મુખ્ય સાવધાનીઓ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.a667a173ec
+text: નરમ સાર
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.aa3d74f690
+text: મિલાનને પરિવાર સાથે સમજવું સરળ બનાવો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.3585a3813a
+text: અષ્ટકૂટ, માંગલિક, D1/D9 સરખામણી, સમય અને સંબંધ માર્ગદર્શન.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.b9425ccb1d
+text: અષ્ટકૂટ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.c8d42bcbb8
+text: માંગલિક તપાસ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d6d4502a63
+text: D1/D9 સરખામણી
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.c8849b279e
+text: સમય અને વ્યવહારુ માર્ગદર્શન
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.1cf8599542
+text: લગ્ન અથવા પરિવાર મિલાન ચર્ચા માટે સારું.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.79ba9fc513
+text: કમ્પેટિબિલિટી રિપોર્ટ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.b746e1f8f4
+text: અંક
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.040ab99262
+text: નામ લય, જન્મ અંક, ભાગ્ય અંક અને વ્યક્તિગત સમય.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.622b534566
+text: નામ, જન્મ, ભાગ્ય અને આજના વ્યક્તિગત અંકની ઉપયોગી સમજ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.31df714f16
+text: નામ અંક
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.4bb1057cab
+text: જન્મ અંક
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.022dc14707
+text: ભાગ્ય અંક
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.945b1dc116
+text: આજનો વ્યક્તિગત લય
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.49d510f032
+text: નામ અને જન્મ તારીખના અંક પેટર્ન ને સરળ રીતે સમજો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.77c047763e
+text: નામ જોડણી સરખામણી, વ્યક્તિગત વર્ષ/મહિનો/દિવસ નકશો, મેળ અંકો અને ઊંડી પીડીએફ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.67708784d0
+text: નામ જોડણી સરખામણી
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.c62c9354a1
+text: વ્યક્તિગત સમય સંકેત નકશો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.f9be68dc35
+text: અંક જ્યોતિષ પીડીએફ વિભાગ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.c49fdca0ff
+text: નામ, જન્મ તારીખ અથવા જોડણી લય પરથી માર્ગદર્શન જોઈએ ત્યારે સારું.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d498b4e35e
+text: અંક જ્યોતિષ રિપોર્ટ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.caf99f4fa3
+text: હસ્તાક્ષર
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d7547c78c3
+text: હસ્તાક્ષર આત્મ-અભિવ્યક્તિ, વિશ્વાસની શૈલી અને સુધાર માર્ગદર્શન.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.795d3c0be5
+text: સુરક્ષિત આત્મ-અભિવ્યક્તિ માર્ગદર્શન સાથે હસ્તાક્ષર સંકેતોનું ઉપયોગી વાચન.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.36f0c6b4b8
+text: દૃશ્ય સંકેત વાંચન
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.0e1b7075b8
+text: સુરક્ષા મર્યાદા
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.88732da165
+text: તાકાત અને કાળજી બિંદુઓ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.211cb41b57
+text: સરળ અભ્યાસ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.1a88488e2f
+text: તમારી હસ્તાક્ષર શૈલી શું બતાવે છે અને તેને સુરક્ષિત રીતે કેવી રીતે સુધારવી.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.15ed486340
+text: દૃશ્ય સંકેત ઊંડાઈ, વારંવાર નમૂના સરખામણી અને સુધાર યોજના સાથે વિગતવાર હસ્તાક્ષર પ્રેડિક્ટા રિપોર્ટ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.a97db1a896
+text: ઊંડી સંકેત સરખામણી
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.9621d06b8d
+text: સુધાર યોજના
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.7b35f84cfa
+text: વારંવાર હસ્તાક્ષર સમીક્ષા
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.383928580c
+text: હસ્તાક્ષર સુધારણા યોજના
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.e0c80eb5ce
+text: હસ્તાક્ષર-આધારિત આત્મ-અભિવ્યક્તિ માર્ગદર્શન અને સુંદર સુધાર યોજના જોઈએ ત્યારે સારું.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.bf10111b20
+text: હસ્તાક્ષર રિપોર્ટ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d701b81bf4
+text: ઉપાયો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.f4ba5dc240
+text: ઉપાયો, આદતો, આધ્યાત્મિક શિસ્ત અને જમીનથી જોડાયેલ સહારો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.011603cd9d
+text: સરળ સુરક્ષિત ઉપાયો અને વિચાર અભ્યાસ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.1644d64a74
+text: ગ્રહ ધ્યાન
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.348fce061c
+text: સુરક્ષિત સરળ ઉપાય
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.e74fc2b7b3
+text: કર્મ શીખ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.da9ef5f481
+text: સાપ્તાહિક અભ્યાસ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.4851e205ac
+text: ચાર્ટ દબાણને કર્મ આધારિત પગલામાં બદલો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.fa625ad2c7
+text: ગ્રહ-વિશેષ ઉપાયો, સમય, નિયમિતતા ટ્રેકર અને સુરક્ષા નોંધો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.b14c5c75d0
+text: ગ્રહ-વિશેષ માર્ગ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.84120334bd
+text: મંત્ર/સેવા/શિસ્ત
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.b4164a79cf
+text: નિયમિત લય
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.eed7a10037
+text: સુરક્ષા અને રોકાવાના નિયમો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.2b1613e251
+text: જ્યારે માત્ર શું થશે નહીં, શું કરવું તે જોઈએ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.7a0f29d9b6
+text: ઉપાય રિપોર્ટ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.033ccd9b48
+text: આ રિપોર્ટ પરથી પ્રેડિક્ટાને પૂછો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.206fc4704d
+text: રદ કરો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.c0e4dc5abd
+text: કુંડળી બનાવો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.709ad626be
+text: આ ભાગ પસંદ કરવા પહેલાં કુંડળી બનાવો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.2e020f4ba5
+text: કૉપી થઈ ગયું
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.90974a0b58
+text: ચેટ કૉપી કરો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.7b28f8d8fd
+text: રિપોર્ટ સારાંશ કૉપી કરો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.fd59b9fb58
+text: જન્મ વિગતો, ચાર્ટ્સ, દશા, ઉપાયો, કૃષ્ણમૂર્તિ પદ્ધતિ, નાડી અથવા જે ભાગ જોઈએ તે જ રાખો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.a1b3e26d45
+text: ભાગો પસંદ કરો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.334588f513
+text: રિપોર્ટના ભાગો તમે પસંદ કરો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.6a63c9e264
+text: મફત અને પ્રીમિયમ જુઓ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.1ba0846d56
+text: ક્ષેત્ર
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.2c596d6804
+text: મફત અને પ્રીમિયમનો ફરક
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.6bd3079144
+text: રિપોર્ટ તૈયાર છે. ડાઉનલોડ કરતા પહેલાં નામ, રિપોર્ટ પ્રકાર અને મુખ્ય સંકેતો એક વાર જોઈ લો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.6f9f38dc9c
+text: રિપોર્ટ તૈયાર
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.f37d5e4ec5
+text: તમારો રિપોર્ટ ડાઉનલોડ કરો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.1963597f21
+text: ચેટ પીડીએફ સેવ કરો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.9b8160e846
+text: ઓછામાં ઓછો એક ભાગ પસંદ કરો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.7559ea0fe3
+text: મફત રિપોર્ટમાં જરૂરી ભાગો મળે છે. પ્રીમિયમમાં સંપૂર્ણ ઊંડો રિપોર્ટ ખુલે છે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d9b1bf1436
+text: પ્રીમિયમ રિપોર્ટમાં આ સંપૂર્ણ જ્યોતિષ આવરણ આવે છે. મફત રિપોર્ટમાં જરૂરી અને ઉપયોગી ભાગો મળે છે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.1b83739ad5
+text: સંપૂર્ણ રિપોર્ટમાં સામેલ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.9335e10eb4
+text: રિપોર્ટમાં શું આવશે
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.7e534a5f97
+text: સંપૂર્ણ પીડીએફ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.7c9a9f9eeb
+text: બધું સામેલ કરો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.e812b67b54
+text: રિપોર્ટ ડાઉનલોડ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.7134bd477d
+text: મફત રિપોર્ટ ઉપયોગી રહે છે: જરૂરી ચાર્ટ પુરાવો, વર્તમાન સમય સંકેત, ઉપાય અને સુરક્ષા નોંધો મળે છે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.e29c49272b
+text: મફત રિપોર્ટ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.eea2963116
+text: ઉપયોગી સમજ સામેલ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.0914c5ea7d
+text: મફત પ્રીવ્યૂ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.f182727d39
+text: કયો વિકલ્પ પસંદ કરવો?
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.c333199579
+text: સામેલ ભાગો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.e266a6118b
+text: મફત જરૂરી રિપોર્ટ બનાવો અથવા પ્રીમિયમમાં સંપૂર્ણ ઊંડો રિપોર્ટ પસંદ કરો. બંને સ્વચ્છ અને સુંદર રહે છે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.cb3319decf
+text: જીવનના પ્રશ્નથી શરૂ કરો. મફત રિપોર્ટ ઉપયોગી રહે છે; સમય, ઊંડાઈ અથવા સુંદર પીડીએફ જોઈએ ત્યારે પ્રીમિયમ પસંદ કરો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.7c460df222
+text: રિપોર્ટ વિકલ્પો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.0ae3d4f974
+text: પ્રીમિયમ સંપૂર્ણ રિપોર્ટ, સમય ખિડકીઓ અને ઊંડો સાર ઉમેરે છે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.86fc0a2dc6
+text: મફત ઉપયોગી, પ્રીમિયમ ઊંડો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.b987b3ed16
+text: તમારી રિપોર્ટ દુનિયા પસંદ કરો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.95caaca3f5
+text: રિપોર્ટ બનાવવા પહેલાં કુંડળી જોઈએ. તમારી રિપોર્ટ પસંદગી સેવ થઈ ગઈ છે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.77842a95f9
+text: મફત રિપોર્ટ જરૂરી ભાગો સુધી રહે છે. પ્રીમિયમ સંપૂર્ણ આવરણ, ઊંડો સમય, ઉપાય અને સાર ઉમેરે છે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.e0185a82d6
+text: ખોલો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.cf7936ce7e
+text: આ ભાગ સંપૂર્ણ રિપોર્ટનો હિસ્સો છે. કુંડળી બન્યા પછી પ્રેડિક્ટા તેને ચાર્ટ પુરાવા સાથે ભરે છે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.1a26b9126f
+text: મફતમાં ઉપયોગી સમજ મળશે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.1bba4449bc
+text: પ્રીમિયમમાં વિગતવાર સમય અને ઊંડો સાર મળશે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.767dc66f8f
+text: કુંડળી બન્યા પછી ચાર્ટ પુરાવો જોડાશે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.387508867d
+text: પ્રીવ્યૂ ખોલો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.48a17ef994
+text: અહીં રિપોર્ટ કવર, મુખ્ય સંકેતો, ચાર્ટ્સ અને પસંદ કરેલા ભાગો દેખાય છે. પીડીએફ ડાઉનલોડ કરતી વખતે સ્પષ્ટ પુષ્ટિ ખુલશે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.bb34d4ccaf
+text: રિપોર્ટ પ્રીવ્યૂ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.3c670b3684
+text: પ્રીમિયમ પીડીએફ ડાઉનલોડ કરવા પ્રીમિયમ સભ્યપદ, ડે પાસ અથવા એક વખતનો પ્રીમિયમ પીડીએફ અધિકાર જોઈએ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.e9b9dc885f
+text: પ્રીમિયમ વિકલ્પો જુઓ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.4ddc7e41f3
+text: પ્રીમિયમ રિપોર્ટ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.1513cec097
+text: વિગતવાર ઊંડાઈ માટે પ્રવેશ જોઈએ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.4677a10417
+text: પ્રીમિયમ ઊંડાઈ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.17bafdf2ef
+text: રિપોર્ટ તૈયાર કરો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.17bafdf2ef
+text: રિપોર્ટ તૈયાર કરો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.f37d5e4ec5
+text: તમારો રિપોર્ટ ડાઉનલોડ કરો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.14cd4f3b08
+text: પસંદ કરેલું
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.14cd4f3b08
+text: પસંદ કરેલું
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.0f8ac3d061
+text: સંપૂર્ણ રિપોર્ટમાં શું આવશે?
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.1c6510f38c
+text: સાઇન ઇન કર્યા પછી તમારી કુંડળી, રિપોર્ટ પસંદગીઓ અને સેવ ચેટ એક જ ખાતા સાથે રહે છે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.b2cff17dd6
+text: રિપોર્ટ અને કુંડળી એક જ ખાતા સાથે રાખો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.da67997a4c
+text: રિપોર્ટ ડાઉનલોડ સરળ બનાવો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.a82ab1fcf7
+text: પીડીએફ એપમાં પસંદ કરેલી ભાષામાં બનશે. જરૂર હોય તો રિપોર્ટ માટે અલગ ભાષા પસંદ કરો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.3ca1219aac
+text: એપ ભાષા અલગ રહેશે. ફક્ત આ રિપોર્ટની પીડીએફ પસંદ કરેલી ભાષામાં બનશે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.cdd0c5eab0
+text: પીડીએફ ભાષા
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.70b6d319ea
+text: રિપોર્ટ કઈ ભાષામાં જોઈએ?
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.473a1240fb
+text: ચાર્ટ પુરાવો, સમય, ઉપાયો અને સ્પષ્ટ સુરક્ષા સીમાઓ સાથે હોલિસ્ટિક વૈદિક જ્યોતિષ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d65c13fa3e
+text: આ છાપી શકાય તેવી ચાર્ટ ઝલકો એ જ કુંડળી મોડેલ, રાશિ, ભાવ, ગ્રહ અંશ, સ્થિતિ સંકેત, ચંદ્ર લય અને જન્મ-સમય થીમ ઉપયોગ કરે છે જે એપ ચાર્ટમાં છે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d21ffdfef4
+text: આ રિપોર્ટના ચાર્ટ્સ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.b97b50eef5
+text: ચાર્ટ એપ જેવી કુંડળી પદ્ધતિથી જ બને છે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.9e2089ff17
+text: ઉપયોગી મફત રિપોર્ટ ઝલક
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.0b07ea72b3
+text: વિગતવાર પ્રીમિયમ રિપોર્ટ ઝલક
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.389e65d6f8
+text: પ્રેડિક્ટા વિચાર અને આયોજન માટે છે. તે તબીબી, કાનૂની, આર્થિક, આપાત અથવા માનસિક-આરોગ્ય નિષ્ણાતોની જગ્યાએ નથી. કોઈ આગાહી પાક્કી નથી; મોટા નિર્ણયોમાં વાસ્તવિક સમજ રાખો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.573e8afda0
+text: સુરક્ષા નોંધ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.cb6ac4f37c
+text: તમારી કુંડળી બનાવો. જીવન સમજો. ચાર્ટ પુરાવા સાથે પૂછો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.aa681e56a8
+text: મફત રિપોર્ટ સન્માન સાથે ઉપયોગી સમજ આપે છે. પ્રીમિયમ એ જ રિપોર્ટને ઊંડાઈ, સમય, ઉપાયો અને વિગતવાર સંશ્લેષણ સાથે ખોલે છે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.a04fd544b1
+text: મફત ઉપયોગી છે. પ્રીમિયમ ઊંડું છે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.e8343ee0f5
+text: ચાર્ટ્સ આ પીડીએફમાં જશે
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.4b9179890f
+text: રિપોર્ટ ડિલિવરી
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.f525b767cd
+text: આ મફત ઇનસાઇટ રિપોર્ટ ચાર્ટ્સ, મુખ્ય સંકેતો અને જરૂરી જીવન માર્ગદર્શન સાથે પીડીએફમાં તૈયાર છે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d82dfc3b65
+text: આ વિગતવાર વિશ્લેષણ રિપોર્ટ સંપૂર્ણ ચાર્ટ સંશ્લેષણ, સમય, ઉપાયો અને ઊંડી વ્યાખ્યા સાથે પીડીએફમાં તૈયાર છે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.e700aa30d9
+text: હવે આગળનું પગલું સરળ છે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.9c80d851a8
+text: મફત રિપોર્ટ પર રહો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.28a5b0434d
+text: તૈયાર થયું: {value}
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.ca32a015e4
+text: આ પીડીએફમાં શું આવશે
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.c420df1dbe
+text: મુખ્ય સંકેતો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.c36ed28bd2
+text: આ રિપોર્ટમાં સૌપ્રથમ શું જોવું
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.dc50060bcf
+text: તમારો રિપોર્ટ પ્રવેશ ચકાસાઈ રહ્યો છે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.9872d9a673
+text: વિગતવાર રિપોર્ટ પ્રવેશ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.a07af16186
+text: વિગતવાર રિપોર્ટ પસંદ કરતાં પહેલાં સાઇન ઇન કરો. ત્યાર બાદ તમે ખરીદી વિકલ્પો સ્પષ્ટ રીતે જોઈ શકશો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.9173ea442b
+text: વિગતવાર વિશ્લેષણ, સમય વિન્ડોઝ, ઉપાયો અને સંપૂર્ણ સંશ્લેષણ અહીં ખુલે છે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.e88d7dae85
+text: વિગતવાર રિપોર્ટ ખરીદ્યા પછી આ સંપૂર્ણ પીડીએફ ખુલી જશે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.a609903bb8
+text: તમારા પાસે વિગતવાર રિપોર્ટ પ્રવેશ છે. આ જ સ્ક્રીન હવે સંપૂર્ણ રિપોર્ટ ડિલિવરી માટે તૈયાર છે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.4d4ab33028
+text: વિગતવાર રિપોર્ટ તૈયાર
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.8527ef4e0a
+text: સાઇન ઇન કર્યા પછી જ વિગતવાર રિપોર્ટનો માર્ગ ખુલશે.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.87acac17a7
+text: પીડીએફ તૈયાર થઈ રહી છે...
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.dd028c5ced
+text: તમે સાઇન ઇન કરી દીધું છે. હવે વિગતવાર રિપોર્ટ માટે ખરીદી અથવા ડે પાસ પસંદ કરો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.7954cde633
+text: વિગતવાર પીડીએફ ખોલો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.dafcfb5f70
+text: પહેલાં ડે પાસ અજમાવો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.b8bf5405ba
+text: વિગતવાર રિપોર્ટ માટે પ્રવેશ પસંદ કરો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.f10486ffbf
+text: આ રહ્યો તમારો મફત ઇનસાઇટ રિપોર્ટ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.ee07423409
+text: આ રહી તમારી વિગતવાર વિશ્લેષણ રિપોર્ટ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.673ef1e1f4
+text: ભાગો પસંદ થયા
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.8ecc77d728
+text: તમે વિગતવાર રિપોર્ટ પસંદ કર્યો છે. આગળ વધવા માટે સાઇન ઇન કરો, પછી ખરીદી અથવા હાજર પ્રવેશનો ઉપયોગ કરો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.e1361b82a6
+text: વિગતવાર રિપોર્ટ માટે સાઇન ઇન કરો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.7742cd425c
+text: જન્મ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.dd78a19b8e
+text: જન્મ વિગતો અને ગણતરી
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.ed1b3ccb82
+text: ચાર્ટ્સ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.4f9790b585
+text: D1 અને બધા વિભાગીય ચાર્ટ્સ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.a99901ec5c
+text: ચાલિત
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.77caefc4de
+text: ભાવ ચાલિત સુધારણું
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.70d983ba08
+text: કૃષ્ણમૂર્તિ પદ્ધતિ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.a7c6f0caec
+text: કૃષ્ણમૂર્તિ પદ્ધતિ કસ્પ અને ઉપ-સ્વામી આધાર
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d653d63a61
+text: નાડી
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.6a51febb1e
+text: નાડી પેટર્ન પ્રીવ્યૂ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.b746e1f8f4
+text: અંક
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.e0f43efc33
+text: અંક જ્યોતિષ નામ અને જન્મ અંક
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.caf99f4fa3
+text: હસ્તાક્ષર
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d3504b4112
+text: હસ્તાક્ષર પ્રેડિક્ટા અને સુધાર યોજના
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.060885d1eb
+text: દશા
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.8e790a5cfb
+text: મહાદશા, અંતર્દશા અને સમય
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.ea5bfa6948
+text: ગોચર
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.f3c3014077
+text: ગોચર અને સાડેસાતી
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.9b58ef19b7
+text: વર્ષ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.a7c4c5f37c
+text: વાર્ષિક રાશિફળ અને વર્ષફળ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.cf1099b4c5
+text: બળ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.5123701c4d
+text: ગ્રહ બળ અને યોગ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d3efbfe399
+text: અષ્ટકવર્ગ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.1462f11f6a
+text: અષ્ટકવર્ગ સારાંશ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.0de6a39828
+text: કારકિર્દી
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.27b21c02ab
+text: કારકિર્દી અને D10
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.8a6353c98a
+text: લગ્ન
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.f13a727931
+text: લગ્ન, D9 અને મેળ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.a0cf33e8c0
+text: ધન
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.23438b1f0e
+text: ધન, D2 અને પૈસાનો સમય
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.8648ceb3b0
+text: સ્વાસ્થ્ય
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.2d18b83f56
+text: સ્વાસ્થ્ય કાળજી અને મનની સંભાળ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d701b81bf4
+text: ઉપાયો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.42b2e89de1
+text: કર્મ આધારિત ઉપાયો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.8c1ae6f5ea
+text: સુરક્ષા
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.c717de90b3
+text: મર્યાદા, વિશ્વાસ અને સુરક્ષા નોંધ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.ed1b3ccb82
+text: ચાર્ટ્સ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.503868e22e
+text: મુખ્ય ચાર્ટ પુરાવો અને ઉપયોગી સમજ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.c1ffe6d782
+text: સંપૂર્ણ ચાર્ટ સમૂહ, વિગતવાર સાર, D1 આધાર અને સમય.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.8d6802232c
+text: દશા / ગોચર
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.aae7eaf172
+text: વર્તમાન સ્વભાવ અને સરળ માર્ગદર્શન.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.760f65992b
+text: માસિક સમય તક, સક્રિયતા સમય અને ઊંડો પુરાવો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.d701b81bf4
+text: ઉપાયો
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.46da1ccc5b
+text: સુરક્ષિત કર્મ આધારિત સાપ્તાહિક અભ્યાસ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.70834c0853
+text: ગ્રહ-વિશેષ સાધના, નિયમિત દેખરેખ અને વિગતવાર યોજના.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.cf14f25c86
+text: અંક જ્યોતિષ
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.2635e7329c
+text: નામ, જન્મ અને ભાગ્ય અંકની ઉપયોગી ઝલક.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.1dda705991
+text: નામ જોડણી સરખામણી, વ્યક્તિગત સમય નકશો અને મેળ અંકો.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.caf99f4fa3
+text: હસ્તાક્ષર
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.76f059f50e
+text: હસ્તાક્ષર સંકેતોની ઉપયોગી અને સુરક્ષિત ઝલક.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.19516a9158
+text: ઊંડી સંકેત સરખામણી, વારંવાર સમીક્ષા અને હસ્તાક્ષર સુધાર યોજના.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.49ee2267e6
+text: પીડીએફ સુંદરતા
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.e4a08d754d
+text: પ્રીમિયમ જેવી ઉપયોગી રિપોર્ટ.
+
+file: apps/web/components/WebDossierPreview.tsx
+key: native.apps.web.components.WebDossierPreview.tsx.4d34da2d11
+text: અલગ ઓળખ ધરાવતી સંપૂર્ણ ઊંડી રિપોર્ટ, વધુ ભાગો અને પુરાવો.

@@ -1,0 +1,287 @@
+url: http://localhost:3009/dashboard/report
+title: Predicta
+hasHindi: true
+hasGujarati: true
+
+PREDICTA
+Holistic astrology guidance, reports, charts, and saved kundlis.
+NAVIGATE
+Dashboard
+Vedic
+KP
+Nadi
+Numerology
+Signature
+Reports
+Library
+Account
+REPORTS
+Premium
+REPORTS
+Reports
+App language
+English
+हिन्दी
+ગુજરાતી
+Ask Predicta
+Pick the report you actually need.
+HOW TO CHOOSE
+Open
+REPORT CHOICES
+Choose your report world
+
+Start with the life question. Predicta keeps every free report useful, then offers paid depth only when timing, synthesis, or a polished PDF is worth it.
+
+FREE
+Free useful, paid depth when needed
+Paid depth adds complete coverage, timing windows, and deeper synthesis.
+NEED HELP CHOOSING?
+Open
+FLAGSHIP SYNTHESIS WITHOUT TECHNICAL CLUTTER.
+Synthesis Reports
+
+A non-technical life journey, soul purpose, hidden thread, current chapter, gifts, lessons, and next direction.
+
+NEEDS KUNDLI
+FREE/BASIC
+
+Free gives a useful soul portrait, life journey summary, current chapter, gifts, lessons, and a closing letter.
+
+PREMIUM/PAID
+
+Premium adds deeper life narrative, soul-purpose synthesis, karmic pattern map, integration practices, and a memorable closing letter.
+
+REQUIRED INPUT
+
+Needs a valid Kundli/profile. Signature is optional enrichment only and missing signature does not block generation.
+
+SYNTHESIS BOUNDARY
+
+Predicta Life Atlas is the only approved all-school synthesis report. It is not a Vedic, KP, Nadi, Numerology, or Signature report.
+
+SIGNATURE PRIVACY
+
+Signature expression layer was not included because no signature sample was provided. Missing signature does not block Life Atlas.
+
+FLAGSHIP
+Predicta Life Atlas
+Understand your life story without reading planet, cusp, or technical proof.
+A non-technical life journey, soul purpose, hidden thread, current chapter, gifts, lessons, and next direction. Signature is optional enrichment only.
+SCHOOL-SEPARATED REPORTS
+Choose your report world
+
+Each lane keeps its own method clean. Choose Vedic, KP, Nadi, Numerology, or Signature without accidentally buying a mixed bag report.
+
+A CLASSICAL VEDIC REPORT WITHOUT METHOD MIXING.
+Vedic Reports
+
+Classical Kundli, charts, dasha, panchang, varga, remedies, and life-area Vedic reports.
+
+NEEDS KUNDLI
+FREE/BASIC
+
+Free gives a useful chart-backed Vedic reading with clear limits and dignity.
+
+PREMIUM/PAID
+
+Premium adds deeper varga synthesis, timing windows, evidence tables, and remedy planning.
+
+REQUIRED INPUT
+
+Pending: Needs a valid Kundli with birth date, time, and place.
+
+METHOD BOUNDARY
+
+Vedic reports use Parashari Jyotish only. KP, Nadi, Numerology, and Signature stay outside this lane.
+
+FOUNDATION
+Kundli Report
+Understand the whole chart without getting lost.
+A clean starting point for the whole chart.
+VEDIC REPORTS · SELECTED
+Kundli Report
+
+A clean starting point for the whole chart.
+
+CREATE A KUNDLI FIRST. YOUR REPORT CHOICES ARE SAVED AND WILL BE READY WHEN THE CHART IS CREATED. · FREE
+REPORT DEPTH
+Free
+Premium
+RECOMMENDED BY PREDICTA
+Complete Vedic bundle
+
+Predicta will include the most important sections for this report. Customize only if you want a narrower PDF.
+
+SELECTED
+18/18
+COMPLETE PDF
+Include everything
+FREE GIVES THE ESSENTIAL READING. PREMIUM IS FOR TIMING, SYNTHESIS, REMEDIES, AND A POLISHED PDF YOU CAN KEEP.
+CHOOSE PARTS
+Choose what to include
+KEEP ONLY THE BIRTH DETAILS, CHARTS, DASHA, REMEDIES, KP, NADI, OR PARTS THE USER WANTS.
+Birth details and calculation
+D1 and all divisional charts
+Parashari Chalit refinement
+KP cusp and sub-lord foundation
+Nadi pattern preview
+Numerology name and birth numbers
+Signature Predicta and improvement plan
+Mahadasha, Antardasha, timing
++10 more
+CHOOSE PARTS
+Choose what to include
+PDF LANGUAGE
+Choose report language
+Download your report
+Ask Predicta from this report
+Copy report summary
+
+Free report includes essential parts. Paid depth adds complete coverage, deeper timing, remedies, and synthesis.
+
+VEDIC
+Vedic Predicta Report
+Read the chart through Vedic Predicta without mixing other methods.
+Parashari D1, varga charts, dasha, gochar, and remedies in one Vedic report.
+WORK
+Career Report
+See work direction, timing pressure, and better next moves.
+Career direction, job timing, and professional pressure points.
+MARRIAGE
+Marriage Report
+Understand relationship maturity, timing, and partner patterns.
+Marriage prospects, relationship maturity, and spouse patterns.
+MONEY
+Wealth Report
+Read money flow, saving habits, and better financial timing.
+Income, savings, wealth habits, and financial timing.
+SATURN
+Sade Sati Report
+Understand Saturn pressure without fear.
+Sade Sati phase, pressure windows, discipline, and support.
+TIMING
+Dasha Life Map
+See what life chapter is active now and what comes next.
+Life periods, turning points, and what is active now.
+MATCH
+Compatibility Report
+Make compatibility easier to discuss with family.
+Marriage matching, family discussion, and compatibility clarity.
+CARE
+Remedies Report
+Turn chart pressure into karma-based action.
+Remedies, habits, spiritual discipline, and grounded support.
+AN EVENT-ANSWER LANE FOR SPECIFIC QUESTIONS.
+KP Reports
+
+Event judgement, promise/block, timing readiness, ruling planets, and proof for a specific question.
+
+NEEDS KUNDLI
+FREE/BASIC
+
+Free gives useful event promise and timing-readiness insight.
+
+PREMIUM/PAID
+
+Premium gives full event proof, significator hierarchy, confidence, limitations, and timing reasoning.
+
+REQUIRED INPUT
+
+Pending: Needs a valid Kundli; works best after the user selects or asks one clear event question.
+
+METHOD BOUNDARY
+
+KP reports use cusps, star lords, sub lords, sub-sub lords where available, significators, ruling planets, dasha support, and transit triggers. They do not become Vedic personality reports.
+
+KP
+KP Predicta Report
+Judge event questions through KP Predicta without casual Parashari mixing.
+Event questions, cusp proof, star lord, sub lord, ruling planets, and significators.
+A KARMIC STORY LANE WITH EXPLICIT SOURCE BOUNDARIES.
+Nadi Reports
+
+Karmic story threads, planet-to-planet links, Rahu/Ketu axis, validation, and activation timing.
+
+NEEDS KUNDLI
+FREE/BASIC
+
+Free gives the strongest story-thread preview, gift, caution, validation questions, and gentle guidance.
+
+PREMIUM/PAID
+
+Premium gives deeper sequencing, validation-based deepening, activation windows, and practices.
+
+REQUIRED INPUT
+
+Pending: Needs a valid Kundli; deeper reading should validate patterns before strong timing.
+
+METHOD BOUNDARY
+
+Nadi reports use planetary story links, karaka themes, karmic patterns, validation questions, and activation timing. They do not use KP cusp logic and never claim palm-leaf manuscript access.
+
+NADI
+Nadi Predicta Report
+Read planet-to-planet patterns without manufactured authority claims.
+Planet story links, karmic patterns, validation questions, and timing triggers.
+A NUMBER-LED IDENTITY AND TIMING LANE.
+Numerology Reports
+
+Name/date number rhythm, name number, birth number, destiny number, cycles, and name refinement.
+
+NEEDS KUNDLI
+FREE/BASIC
+
+Free gives core numbers, simple meaning, current cycle, strengths, cautions, and practical guidance.
+
+PREMIUM/PAID
+
+Premium adds detailed interpretation, timing calendar, compatibility, and name-spelling or brand-name comparison.
+
+REQUIRED INPUT
+
+Pending: Needs a saved name and birth date from the active profile.
+
+METHOD BOUNDARY
+
+Numerology reports use number logic only. They do not include Kundli judgement unless a future synthesis report explicitly says so.
+
+NUMBERS
+Numerology Report
+Understand the number pattern behind name, birth date, and current timing.
+Name rhythm, birth number, destiny number, and personal timing.
+A REFLECTIVE SELF-EXPRESSION LANE, NOT FORENSIC PROOF.
+Signature Reports
+
+Confirmed signature traits, self-expression, confidence rhythm, consistency, and improvement guidance.
+
+NEEDS PROFILE
+FREE/BASIC
+
+Free gives reflective visible-trait insight with privacy and safety framing.
+
+PREMIUM/PAID
+
+Premium adds multi-sample comparison, before/after guidance, and a signature refinement plan.
+
+REQUIRED INPUT
+
+Pending: create or select a Kundli/profile, then add a signature sample for Signature report generation.
+
+METHOD BOUNDARY
+
+Signature reports use confirmed visible traits only. They do not include Numerology or Vedic synthesis unless a future synthesis report explicitly says so.
+
+SIGNATURE
+Signature Report
+Understand what your signature style reflects and how to improve it safely.
+Signature self-expression, confidence style, and improvement guidance.
+Free
+Premium
+PREDICTA
+QUIET EXIT
+Method
+Safety
+Legal
+Feedback
+© 2026 Predicta. All rights reserved.
+For reflection and self-understanding only. Not medical, legal, financial, emergency, or guaranteed prediction advice.

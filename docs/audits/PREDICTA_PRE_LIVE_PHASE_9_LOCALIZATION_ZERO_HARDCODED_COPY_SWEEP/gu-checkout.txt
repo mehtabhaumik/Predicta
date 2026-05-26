@@ -1,0 +1,155 @@
+route: checkout
+language: gu
+source: JSON-backed native copy keys used by audited route/component files
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.e4cafcc2bf
+text: કિંમત પેજ પરથી સભ્યપદ, ડે પાસ અથવા એક વખતનો રિપોર્ટ પસંદ કરો, પછી તે પ્રવેશને સાચા ખાતા સાથે જોડીને રાખો.
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.f056cefb0f
+text: પસંદગી બદલો
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.940fa58c03
+text: સપોર્ટને ઇમેઇલ કરો
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.bde26162c6
+text: રેઝરપે સુરક્ષિત ચુકવણી જોડાઈ રહી છે. આજે આ સ્ક્રીન પર કોઈ ચુકવણી લેવામાં આવી નથી, અને ચકાસાયેલ ચુકવણી અથવા મંજૂર સહાય હસ્તાંતરણ પહેલાં પ્રેડિક્ટા ચુકવાયેલ પ્રવેશ સક્રિય નહીં કરે.
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.3c08c719f0
+text: સુરક્ષિત ચેકઆઉટ જોડાઈ રહ્યું છે
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.6ac4c6f782
+text: આ સુરક્ષિત ચુકવણી કરાર રેઝરપે ઓર્ડર બનાવવા, હસ્તાક્ષર ચકાસણી, ફરી પ્રયાસ, રદ કરવું અને પ્રવેશ સક્રિય કરવા માટે તૈયાર છે.
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.a55f225edc
+text: સુરક્ષિત ચેકઆઉટ તૈયાર છે
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.0c435a052d
+text: ચુકવણી દરવાજાની સ્થિતિ
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.5c0ea23fda
+text: ચુકવણી સ્થિતિ
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.69b2b3be9b
+text: પ્રેડિક્ટા પહેલે પ્રવેશને સાચા ઇમેઇલ સાથે જોડે છે જેથી તમારી કુંડળી, રિપોર્ટ અને પાસ જુદા ખાતાઓમાં ન ફેલાય.
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.226398a7ac
+text: એક વખતનો પ્રવેશ
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.8ee7771be8
+text: ખાતા સેટિંગ્સ ખોલો
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.52bc465b20
+text: પ્રવેશ તૈયાર કરો
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.b94f395bd8
+text: {value} એ જ ખાતું રાખો જેને તમે સતત પ્રેડિક્ટા માર્ગદર્શન સાથે જોડવા માંગો છો.
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.10999e0021
+text: {value} આ પસંદગીને એ જ ખાતા સાથે જોડેલી રાખો જેમાં સંબંધિત કુંડળી અને રિપોર્ટ ઇતિહાસ રહેશે.
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.4351cd8e77
+text: ખાનગી પાસ ઉપયોગ કરો
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.14943c66d0
+text: {value} માટે પ્રવેશ જુઓ
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.14cd4f3b08
+text: પસંદ કરેલું
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.4c9048569e
+text: એ જ ઇમેઇલથી સાઇન ઇન કરો જેને તમે તમારી કુંડળી, રિપોર્ટ અને પછીની પુનઃસ્થાપન સાથે જોડવા માંગો છો.
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.00978c4325
+text: સાચું ખાતું વાપરો
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.292b902f4d
+text: એક સ્પષ્ટ પસંદગી રાખો જેથી પ્રેડિક્ટા રિપોર્ટ ખરીદીના રસ્તાને ગેસ્ટ અથવા પરિવાર પ્રવેશ સાથે ન ભેળવે.
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.9828d3d5c6
+text: પ્રવેશનો રસ્તો નક્કી કરો
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.2ade3f7cdb
+text: જો તમારી પાસે ખાનગી આમંત્રણ છે તો પહેલે તે રિડીમ કરો. નહીંતર તમારા ખાતાથી આગળ વધો અથવા મદદ માટે સપોર્ટનો સંપર્ક કરો.
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.b4baa199df
+text: ખાતાની સતતતા સાથે પૂર્ણ કરો
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.4d8971912c
+text: સભ્યપદ પ્રવેશ
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.b6773b8c13
+text: કૃપા કરીને સુરક્ષિત ચુકવણી જોડાય ત્યાં સુધી મારો પ્રેડિક્ટા પ્રવેશ પૂર્ણ કરવામાં મદદ કરો.
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.2c8ddf450a
+text: પ્રેડિક્ટા પ્રવેશ સહાય
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.06aeb72d19
+text: સપોર્ટ ટિકિટ ખોલો
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.da63c0f6b1
+text: તમારો પ્રેડિક્ટા પ્રવેશ તૈયાર કરો
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.039eabd9e9
+text: ડે પાસ
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.4c4ad26d1b
+text: પાંચ પ્રશ્ન
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.d7ca86dc4e
+text: પ્રીમિયમ પીડીએફ
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.2836b2970a
+text: વિગતવાર કુંડળી રિપોર્ટ
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.79ba9fc513
+text: કમ્પેટિબિલિટી રિપોર્ટ
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.146383f56e
+text: સાપ્તાહિક
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.2681c30f73
+text: માસિક
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.2fd463f085
+text: ત્રિમાસિક
+
+file: apps/web/app/checkout/page.tsx
+key: native.apps.web.app.checkout.page.tsx.5a1cce3f9b
+text: વાર્ષિક

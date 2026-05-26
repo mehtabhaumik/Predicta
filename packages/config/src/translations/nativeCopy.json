@@ -267,6 +267,10 @@
       "kind": "text",
       "value": "સાચું ખાતું વાપરો"
     },
+    "native.apps.web.app.checkout.page.tsx.0c435a052d": {
+      "kind": "text",
+      "value": "ચુકવણી દરવાજાની સ્થિતિ"
+    },
     "native.apps.web.app.checkout.page.tsx.039eabd9e9": {
       "kind": "text",
       "value": "ડે પાસ"
@@ -339,7 +343,7 @@
     },
     "native.apps.web.app.checkout.page.tsx.30f93c5b81": {
       "kind": "text",
-      "value": "यह चेकआउट अनुबंध Razorpay ऑर्डर, हस्ताक्षर जांच, retry, cancellation और entitlement activation के लिए तैयार है."
+      "value": "यह सुरक्षित भुगतान अनुबंध रेजरपे आदेश बनाने, हस्ताक्षर जांच, फिर से प्रयास, रद्द करने और प्रवेश सक्रिय करने के लिए तैयार है."
     },
     "native.apps.web.app.checkout.page.tsx.42f1f3e3ee": {
       "kind": "text",
@@ -359,7 +363,7 @@
     },
     "native.apps.web.app.checkout.page.tsx.41f657f05a": {
       "kind": "text",
-      "value": "Razorpay सुरक्षित checkout जोड़ा जा रहा है. आज इस स्क्रीन पर कोई भुगतान नहीं लिया जाएगा, और Predicta verified payment या approved support handoff से पहले paid access active नहीं करेगी."
+      "value": "रेजरपे सुरक्षित भुगतान जोड़ा जा रहा है. आज इस स्क्रीन पर कोई भुगतान नहीं लिया गया, और प्रेडिक्टा सत्यापित भुगतान या स्वीकृत सहायता हस्तांतरण से पहले भुगतान वाला प्रवेश सक्रिय नहीं करेगी."
     },
     "native.apps.web.app.checkout.page.tsx.4351cd8e77": {
       "kind": "text",
@@ -433,7 +437,7 @@
     },
     "native.apps.web.app.checkout.page.tsx.6ac4c6f782": {
       "kind": "text",
-      "value": "આ checkout contract Razorpay order, signature verification, retry, cancellation અને entitlement activation માટે તૈયાર છે."
+      "value": "આ સુરક્ષિત ચુકવણી કરાર રેઝરપે ઓર્ડર બનાવવા, હસ્તાક્ષર ચકાસણી, ફરી પ્રયાસ, રદ કરવું અને પ્રવેશ સક્રિય કરવા માટે તૈયાર છે."
     },
     "native.apps.web.app.checkout.page.tsx.79ba9fc513": {
       "kind": "text",
@@ -508,11 +512,11 @@
     },
     "native.apps.web.app.checkout.page.tsx.b2cc0a1a27": {
       "kind": "text",
-      "value": "कृपया सुरक्षित checkout जुड़ने तक मेरा Predicta access पूरा करने में मदद करें."
+      "value": "कृपया सुरक्षित भुगतान जुड़ने तक मेरा प्रेडिक्टा प्रवेश पूरा करने में मदद करें."
     },
     "native.apps.web.app.checkout.page.tsx.b6773b8c13": {
       "kind": "text",
-      "value": "કૃપા કરીને secure checkout જોડાય ત્યાં સુધી મારો Predicta access પૂર્ણ કરવામાં મદદ કરો."
+      "value": "કૃપા કરીને સુરક્ષિત ચુકવણી જોડાય ત્યાં સુધી મારો પ્રેડિક્ટા પ્રવેશ પૂર્ણ કરવામાં મદદ કરો."
     },
     "native.apps.web.app.checkout.page.tsx.b94f395bd8": {
       "kind": "template",
@@ -527,7 +531,7 @@
     },
     "native.apps.web.app.checkout.page.tsx.bde26162c6": {
       "kind": "text",
-      "value": "Razorpay secure checkout જોડાઈ રહ્યું છે. આજે આ સ્ક્રીન પર કોઈ payment લેવામાં આવશે નહીં, અને verified payment અથવા approved support handoff પહેલાં Predicta paid access active નહીં કરે."
+      "value": "રેઝરપે સુરક્ષિત ચુકવણી જોડાઈ રહી છે. આજે આ સ્ક્રીન પર કોઈ ચુકવણી લેવામાં આવી નથી, અને ચકાસાયેલ ચુકવણી અથવા મંજૂર સહાય હસ્તાંતરણ પહેલાં પ્રેડિક્ટા ચુકવાયેલ પ્રવેશ સક્રિય નહીં કરે."
     },
     "native.apps.web.app.checkout.page.tsx.c3500f68d0": {
       "kind": "text",
@@ -20077,11 +20081,11 @@
     },
     "signature.mobile.captureUnavailable.gu": {
       "kind": "text",
-      "value": "મોબાઇલ સહી upload/draw capture હજી જોડાઈ રહ્યું છે. વાસ્તવિક દેખાતું input ઉપલબ્ધ ન થાય ત્યાં સુધી Predicta અહીં scan, traits અથવા prediction તૈયાર નહીં કરે. વાસ્તવિક scan માટે web Signature room વાપરો."
+      "value": "મોબાઇલ સહી અપલોડ અને દોરવાની સુવિધા હજી જોડાઈ રહી છે. વાસ્તવિક દેખાતો ઇનપુટ ઉપલબ્ધ ન થાય ત્યાં સુધી પ્રેડિક્ટા અહીં સ્કેન, લક્ષણો અથવા આગાહી તૈયાર નહીં કરે. વાસ્તવિક સ્કેન માટે વેબ હસ્તાક્ષર રૂમ વાપરો."
     },
     "signature.mobile.captureUnavailable.hi": {
       "kind": "text",
-      "value": "मोबाइल सिग्नेचर upload/draw capture अभी जोड़ा जा रहा है. वास्तविक दिखने वाला input उपलब्ध होने तक Predicta यहां scan, traits या prediction तैयार नहीं करेगी. वास्तविक scan के लिए web Signature room का उपयोग करें."
+      "value": "मोबाइल हस्ताक्षर अपलोड और बनाने की सुविधा अभी जोड़ी जा रही है. वास्तविक दिखने वाला इनपुट उपलब्ध होने तक प्रेडिक्टा यहां स्कैन, लक्षण या भविष्यकथन तैयार नहीं करेगी. वास्तविक स्कैन के लिए वेब हस्ताक्षर कक्ष का उपयोग करें."
     }
   }
 }

@@ -1,0 +1,299 @@
+route: settings
+language: gu
+source: JSON-backed native copy keys used by audited route/component files
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.3e71aa3215
+text: આ પેજ પરથી સાઇન ઇન, સેવ કુંડળી, રિપોર્ટ ભાષા, ખાનગી પ્રવેશ અને રિકવરીને શાંત અને સ્પષ્ટ રાખો.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.dbb559e5d0
+text: રિપોર્ટ અને પ્રવેશ
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.dd6487c135
+text: ખાતાની સતતતા
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.e31ed1876c
+text: ખાતું તૈયાર
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.0406e143ef
+text: તમારી કુંડળી અહીં સુરક્ષિત છે. ખાતું પુનઃસ્થાપન પછી ફરી પ્રયાસ કરશે.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.6e669b9a2e
+text: તમારી ગેસ્ટ કુંડળી આ ખાતા સાથે જોડાઈ ગઈ છે.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.dd6487c135
+text: ખાતાની સતતતા
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.f516a47baa
+text: એપ ભાષા
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.61f1e652e0
+text: ચાર્ટ ભાષા
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.0dcd277a88
+text: ચેટ સત્રો
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.43c6d99d2e
+text: વધુ ઊંડાઈ ત્યારે જ પસંદ કરો જ્યારે મફત મૂલ્ય સ્પષ્ટ થઈ જાય.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.4b14dd69b9
+text: વર્તમાન ખાતું
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.e0185a82d6
+text: ખોલો
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.3e71aa3215
+text: આ પેજ પરથી સાઇન ઇન, સેવ કુંડળી, રિપોર્ટ ભાષા, ખાનગી પ્રવેશ અને રિકવરીને શાંત અને સ્પષ્ટ રાખો.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.53aa633e34
+text: અહીં શું રહે છે
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.912c227374
+text: ગેસ્ટ એક સક્રિય ચેટ વાપરે છે. અનેક સત્રો માટે સાઇન ઇન કરો.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.bbc4a0fd8a
+text: ગેસ્ટ મોડ
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.e5108ae8ac
+text: તમે ગેસ્ટ તરીકે એક કુંડળી સુરક્ષિત રાખી શકો છો, પછી સતતતા જોઈએ ત્યારે સાઇન ઇન કરો.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.c477c42101
+text: ગેસ્ટ મોડ અહીં એક કુંડળી સુરક્ષિત રાખે છે જ્યાં સુધી તમે સાઇન ઇન ન કરો.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.777a802df0
+text: તમારી ગેસ્ટ કુંડળી આ ખાતા માટે તૈયાર છે.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.6ea3d93578
+text: એક વાર સાઇન ઇન કરો જેથી કુંડળી, રિપોર્ટ પસંદગીઓ અને ચેટ તમારા ખાતા સાથે રહે.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.d0bc2c284b
+text: ખાતું, ભાષા અને પ્રવેશ
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.dcb3d3e318
+text: એપ, ચાર્ટ, રિપોર્ટ અને ચેટ ભાષા અલગ રાખો.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.69e24edda7
+text: કુંડળી લાઇબ્રેરી
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.17e102819e
+text: ભાષા નિયંત્રણ
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.14f8152a05
+text: છેલ્લી રિપોર્ટ ભાષા
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.0e8cdcc38b
+text: લાઇબ્રેરી, રિપોર્ટ પસંદગીઓ અને હાલની ચેટ સતતતા આ ડિવાઇસ અથવા ખાતા સાથે જોડાયેલી રહે છે.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.2b404d6ec1
+text: તમારા ખાતાથી અનેક ચેટ સત્રો ઉપલબ્ધ છે.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.0001faea76
+text: આ ખાતા સાથે અનેક કુંડળીઓ રહી શકે છે.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.db2a766847
+text: હજુ કોઈ રિપોર્ટ પસંદગી સેવ નથી.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.1c08ffd7d1
+text: હજુ પસંદ નથી
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.57259beda0
+text: હજુ સાઇન ઇન નથી
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.048f43cdff
+text: પ્રીમિયમ અને એક વખતની રિપોર્ટ
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.9648eba94c
+text: ચેટ ખોલો
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.c621b91547
+text: લાઇબ્રેરી ખોલો
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.dd4016a58d
+text: ફક્ત જે સપાટી બદલવી હોય તે જ બદલો. પ્રેડિક્ટાને બધું એક સાથે બદલવાની જરૂર નથી.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.1913a7b334
+text: સભ્યપદ, ડે પાસ અને તૈયાર રિપોર્ટના રસ્તાઓ દબાણ વગર જુઓ.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.048f43cdff
+text: પ્રીમિયમ અને એક વખતની રિપોર્ટ
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.5ed8f3e42a
+text: સેવ કુંડળી, રિપોર્ટ પસંદગીઓ અને ભાષા પસંદગીઓ અહીં તૈયાર રહે છે અને સાઇન ઇન પછી તમારા ખાતામાં જઈ શકે છે.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.8180cd0189
+text: ગોપનીયતા અને પુનઃસ્થાપન
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.2aa7b86ffd
+text: ડિફૉલ્ટ રીતે ખાનગી, અને પછી શાંત રિકવરી.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.f73b66205c
+text: ખાનગી પાસ
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.75299cc037
+text: તે પાસ માટે મંજૂર ઇમેઇલ સાથે ખાનગી આમંત્રણ રિડીમ કરો.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.839aa44de2
+text: પ્રોફાઇલ સ્થિતિ
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.118174aeb5
+text: પ્રેડિક્ટા જવાબ ભાષા
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.467673ba10
+text: પ્રેડિક્ટા શૈલી
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.5efa721933
+text: રિડીમ કરો
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.8d40c699f7
+text: રિપોર્ટ ભાષા
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.912f16de9b
+text: રિપોર્ટ પસંદગી
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.06122c721d
+text: રિપોર્ટ પોતાની ભાષા અલગ રાખે છે અને બાકી એપ બદલે નહીં.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.d6aa714c20
+text: રિપોર્ટ્સ
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.dbb559e5d0
+text: રિપોર્ટ અને પ્રવેશ
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.f2547c79fb
+text: સેવ
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.b8973d03a4
+text: સેવ કામ
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.0e8cdcc38b
+text: લાઇબ્રેરી, રિપોર્ટ પસંદગીઓ અને હાલની ચેટ સતતતા આ ડિવાઇસ અથવા ખાતા સાથે જોડાયેલી રહે છે.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.ed53d0da2a
+text: સાઇન આઉટ
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.2dd10567cd
+text: કૃપા કરીને રાહ જુઓ...
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.08743b257d
+text: તમારી કુંડળી, રિપોર્ટ પસંદગીઓ અને સેવ ચેટ આ જ ખાતા સાથે રહે છે.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.9b9c58dbf1
+text: સાઇન ઇન અને તૈયાર
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.faf51f6847
+text: મફતથી શરૂ કરો, પછી તમારું કામ સુરક્ષિત રાખો
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.8e04d8aff9
+text: ડિફૉલ્ટ શૈલી એક વાર પસંદ કરો. છતાં પ્રેડિક્ટા હાલના સંદેશના સ્પષ્ટ સંકેતો માને છે.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.4cc03e8647
+text: પ્રવેશ સ્વચ્છ રાખો
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.0c70efadd0
+text: મફત ઉપયોગમાં દૈનિક માર્ગદર્શન અને રિપોર્ટ ઝલક ઉપયોગી રહે છે. પ્રીમિયમ ઊંડી વાંચન, સેવ સતતતા અને સુંદર રિપોર્ટ ઊંડાઈ ઉમેરે છે.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.23df8c32af
+text: પ્રીમિયમ જુઓ
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.45863ce969
+text: ઉષ્માભર્યું, સંતુલિત અને સંકેત આધારિત.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.368f2e1772
+text: સંતુલિત
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.7b23b4e0c7
+text: સંકેત મળે ત્યારે થોડું ભક્તિપૂર્ણ સ્વર.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.19b08e4fc8
+text: ભક્તિમય
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.761c78cf89
+text: વધુ નિષ્પક્ષ, વ્યવહારુ અને અર્ધાર્મિક નહીં.
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.0ec3b79272
+text: સેક્યુલર
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.073960263e
+text: ગુજરાતી
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.e8831dd929
+text: અંગ્રેજી
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.a123b8bbf1
+text: હિન્દી
+
+file: apps/web/components/WebProfileSettings.tsx
+key: native.apps.web.components.WebProfileSettings.tsx.073960263e
+text: ગુજરાતી

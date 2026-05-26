@@ -1,0 +1,283 @@
+route: pricing
+language: gu
+source: JSON-backed native copy keys used by audited route/component files
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.1ccba119f2
+text: પ્રેડિક્ટા પર પાછા
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.e7c287823b
+text: ચુકવણીવાળો વિકલ્પ ત્યારે પસંદ કરો જ્યારે પ્રેડિક્ટા મદદ કરી ચૂકી હોય અને તમને સમય, તૈયાર રિપોર્ટ, પરિવાર સંદર્ભ અથવા વધુ ઊંડાઈ જોઈએ.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.1827c232f8
+text: જ્યારે દર મહિને પ્રેડિક્ટા માર્ગદર્શન, સમય, ઉપાયો, સેવ ચેટ અને પરિવાર પ્રોફાઇલ જોઈએ.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.d20d4680a8
+text: સભ્યપદ જુઓ
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.da938ec36c
+text: સભ્યપદ
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.5ba388bc38
+text: મારે દર મહિને માર્ગદર્શન જોઈએ
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.840a3e434e
+text: જ્યારે કુંડળી, કારકિર્દી, ધન, લગ્ન, સાડેસાતી અથવા અનુકૂળતા માટે એક સુંદર પીડીએફ જોઈએ.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.72eedd6de0
+text: એક રિપોર્ટ પસંદ કરો
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.71ad46e28e
+text: એક રિપોર્ટ
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.ab3cad5253
+text: મારે એક જવાબ સારી રીતે તૈયાર જોઈએ
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.295b03fa35
+text: જ્યારે મિત્રો અથવા પરિવાર નિર્ણય પહેલાં એક દિવસ પ્રીમિયમ ઊંડાઈ અજમાવવા માંગે.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.76b757b9d9
+text: દિવસ પાસ અજમાવો
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.8a2a6fe085
+text: 24 કલાક પરીક્ષણ
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.d0390e6dac
+text: મારે આજે બધું અજમાવવું છે
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.a857a20139
+text: જરૂર મુજબ પસંદ કરો
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.524542179c
+text: યોજના ન ખરીદો. જે પરિણામ જોઈએ તે પસંદ કરો.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.a9eda8b937
+text: કુંડળી બનાવો, ચાર્ટ જુઓ, મર્યાદિત પ્રશ્નો પૂછો, અને ઉપયોગી રિપોર્ટ ઝલક ડાઉનલોડ કરો.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.11494ad2d1
+text: મફત
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.2097251d20
+text: માસિક સમય, ચાર્ટ સાર, ઉપાયો, સેવ સ્મૃતિ, પરિવાર સંદર્ભ અને વિગતવાર પીડીએફ માટે પ્રીમિયમ લો.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.81ee678383
+text: પ્રીમિયમ
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.4185f2e0b6
+text: સભ્યપદ ન જોઈએ તો ખાસ સમય માટે દિવસ પાસ અથવા એક રિપોર્ટ લો.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.333023f9c7
+text: એક વાર ખરીદો
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.6bb307aeb0
+text: શું બદલાય છે
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.1ea5102755
+text: મફત સ્પષ્ટતા આપે છે. પ્રીમિયમ ઊંડાઈ આપે છે.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.206d854986
+text: પ્રેડિક્ટા પ્રીમિયમ ઊંડું જ્યોતિષ માર્ગદર્શન છે, ડૉક્ટર, વકીલ, નાણાકીય સલાહકાર અથવા આપાત મદદનો વિકલ્પ નથી. ખરીદી પહેલાં સભ્યતા અને એક વારની રિપોર્ટ સ્પષ્ટ સમજાય તે જરૂરી છે.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.1fe53c0e5d
+text: સ્પષ્ટ મર્યાદા, ડર વેચવાનું નહીં.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.c58000dd6e
+text: જ્યારે એક જીવન પ્રશ્ન નો તૈયાર જવાબ જોઈએ અને સભ્યતા ન જોઈએ.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.06a467df6d
+text: એક વારની ખરીદી
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.0e01479583
+text: અસીમ દાવા નહીં
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.93c2ec5a8d
+text: ચાર્ટ પુરાવા સાથે ઊંડા પ્રેડિક્ટા જવાબ
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.210f9a95f1
+text: જીવન કેલેન્ડર અને સમય ખિડકીઓ
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.af7515e4f9
+text: ગંભીર પ્રશ્નો માટે વિગતવાર પીડીએફ
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.59050e1152
+text: પરિવાર પ્રોફાઇલ, સાચવેલી ચેટ અને સતતતા
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.60f826fa78
+text: નીતિઓ વાંચો
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.1619f196ef
+text: પસંદ કરો
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.e722c2451d
+text: પ્રીમિયમ એ ઉપયોગકર્તાઓ માટે છે જેને પ્રેડિક્ટા પાસેથી તૈયારી, સ્મૃતિ, તુલના અને ઊંડી સમજ જોઈએ.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.86ff854935
+text: પ્રીમિયમ વાર્તા
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.84aafda299
+text: કુંડળી બનાવો. જીવન સમજો. સારા પ્રશ્નો પૂછો. સુંદર રિપોર્ટ્સ મેળવો.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.6a29b2f183
+text: જરૂર સ્પષ્ટ હોય ત્યારે જ ચૂકવણી કરો.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.dae0aacb66
+text: દર અઠવાડિયે
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.146383f56e
+text: સાપ્તાહિક
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.072202297b
+text: દર મહિને
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.2681c30f73
+text: માસિક
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.2060330fec
+text: દર 3 મહિને
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.2fd463f085
+text: ત્રિમાસિક
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.dc43c28d53
+text: લગભગ દર મહિને
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.caf0d6ca05
+text: સ્થાપક મૂલ્ય
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.48d22808b0
+text: દર વર્ષે
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.5a1cce3f9b
+text: વાર્ષિક
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.dc43c28d53
+text: લગભગ દર મહિને
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.15479dc7d6
+text: સભ્યતા વગર એક દિવસ માટે પ્રીમિયમ ઊંડાઈ અજમાવો.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.039eabd9e9
+text: ડે પાસ
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.68ec0fea87
+text: સક્રિય કુંડળી માટે ઊંડી કુંડળી રિપોર્ટ બનાવો.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.2836b2970a
+text: વિગતવાર કુંડળી રિપોર્ટ
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.59dd1df18c
+text: જ્યારે વધુ માર્ગદર્શન જોઈએ ત્યારે 5 પ્રેડિક્ટા પ્રશ્નો ઉમેરો.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.74e3e3be71
+text: 5 પ્રેડિક્ટા પ્રશ્નો
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.5ba901e904
+text: બે ચાર્ટના સંબંધ અને લગ્ન સમય પર કેન્દ્રિત રિપોર્ટ.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.ef78467017
+text: લગ્ન મિલાન રિપોર્ટ
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.72d90e9880
+text: સક્રિય કુંડળી માટે પ્રીમિયમ ઊંડાઈવાળી પીડીએફ ખોલો.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.d7ca86dc4e
+text: પ્રીમિયમ પીડીએફ
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.6246178a2a
+text: પ્રીમિયમ જવાબ ચાર્ટ કારણો, વિશ્વાસ સ્તર અને સમય સંદર્ભ બતાવે છે.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.70c99740d9
+text: પુરાવા સાથે પૂછો
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.18b106ea08
+text: દશા અને ગોચરનું મહિના પ્રમાણે જીવન કેલેન્ડર.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.f1bbb59092
+text: જીવન કેલેન્ડર
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.8719c9e199
+text: ઘણી પરિવાર કુંડળીઓ ખાનગી રીતે સેવ અને સરખાવો.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.dde3029f16
+text: પરિવાર વોલ્ટ
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.11392f9f8a
+text: કુંડળી, કારકિર્દી, લગ્ન, ધન, સંતાન અને ઉપાયો માટે કેન્દ્રિત પેક.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.31b3b61838
+text: પ્રીમિયમ રિપોર્ટ પેક
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.068ec4ecda
+text: વર્ગ ચાર્ટ, દશા, ગોચર, અષ્ટકવર્ગ અને પુરાવા કોષ્ટકો જુઓ.
+
+file: apps/web/app/pricing/page.tsx
+key: native.apps.web.app.pricing.page.tsx.34ba619053
+text: ગંભીર જ્યોતિષ મોડ

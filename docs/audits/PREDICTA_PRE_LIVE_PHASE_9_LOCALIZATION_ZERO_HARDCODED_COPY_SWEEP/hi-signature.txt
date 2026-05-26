@@ -1,0 +1,535 @@
+route: signature
+language: hi
+source: JSON-backed native copy keys used by audited route/component files
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.2e623089bd
+text: हस्ताक्षर प्रेडिक्टा से चैट करें
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.8d381a4bbc
+text: हस्ताक्षर हटाएं
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.65e4031f46
+text: कॉपी सेव करें
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: signature.receipt.actions.redraw.hi
+text: हस्ताक्षर फिर बनाएं
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: signature.receipt.actions.reupload.hi
+text: हस्ताक्षर फिर अपलोड करें
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.136b9a7b32
+text: इस चित्र का उपयोग करें
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.9e30f80456
+text: हस्ताक्षर छवि चुनें
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.90711847c5
+text: अपना हस्ताक्षर बनाएं
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.7dab154212
+text: यहां माउस, ट्रैकपैड या टच से बनाएं.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.a1cbd590d1
+text: स्वाभाविक हस्ताक्षर करें. आप इसे कभी भी हटा सकते हैं.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.3e38d8505a
+text: हस्ताक्षर बनाएं
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.b90e465671
+text: निजी, चिंतन-आधारित हस्ताक्षर वाचन के लिए हस्ताक्षर अपलोड करें या बनाएं. प्रेडिक्टा इसे पराशरी, कृष्णमूर्ति पद्धति, नाड़ी और अंक ज्योतिष से अलग रखती है.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.ca02113c31
+text: हस्ताक्षर प्रेडिक्टा खोलें. समझाएं कि हस्ताक्षर का आकार, दबाव, अंतर, रेखा की दिशा, आकार और लय क्या संकेत दे सकते हैं. उत्तर निजी, सुरक्षित और चिंतनशील रहे.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.ec560db104
+text: हस्ताक्षर प्रेडिक्टा खोलें. इन पुष्टि किए गए हस्ताक्षर संकेतों का उपयोग करें.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.61d1bb2452
+text: हस्ताक्षर प्रेडिक्टा
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.901879c422
+text: खोलें
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.45036be472
+text: हस्ताक्षर से आत्म-अभिव्यक्ति पढ़ें.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.94d3627e46
+text: प्रमाण
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.839e44e3a3
+text: इस चरण में हस्ताक्षर पूर्वावलोकन इसी डिवाइस पर रहता है.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.8f7efab5a1
+text: अगर सहज न हों तो कानूनी, बैंकिंग या सरकारी हस्ताक्षर का उपयोग न करें.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.0ba6625c68
+text: पहले वाचन के लिए अभ्यास हस्ताक्षर या आद्याक्षर भी उपयोग कर सकते हैं.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.1e4e8fc099
+text: पहले निजता
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.5858296caa
+text: प्रेडिक्टा केवल वही हस्ताक्षर संकेत पढ़ती है जिन्हें आप अपलोड, बनाकर या पुष्टि करके देते हैं.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.a201b2ad24
+text: दिखने वाले संकेत
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.c9462a44af
+text: यह वाचन चिंतन के लिए है. यह पहचान, स्वास्थ्य निदान या कानूनी दावा नहीं करता.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.76be207438
+text: सुरक्षित सीमा
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.610fcad5a4
+text: हस्ताक्षर वाचन को अंक ज्योतिष के साथ तभी जोड़ा जाता है जब आप संयुक्त सार मांगते हैं.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.8d9470ff50
+text: वैकल्पिक संयुक्त सार
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.5d005935fe
+text: हस्ताक्षर तैयार होने के बाद प्रेडिक्टा आकार, दबाव, अंतर और लय का सरल अर्थ समझा सकती है.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.6fa5908ca2
+text: अभी कोई हस्ताक्षर चयनित नहीं है.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.ffdf82b69f
+text: हस्ताक्षर यहां तैयार है
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.3fba8a2db2
+text: हस्ताक्षर पूर्वावलोकन
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.5647df5926
+text: पुष्टि किए गए हस्ताक्षर संकेतों को चिंतन रिपोर्ट, सुधार योजना या हस्ताक्षर + अंक ज्योतिष संयुक्त सार में बदलें.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.e442131b33
+text: हस्ताक्षर रिपोर्ट बनाएं
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.2a58941e16
+text: रिपोर्ट मार्ग
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.bcb211ecbb
+text: हस्ताक्षर रिपोर्ट मार्ग
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.8968de077e
+text: हस्ताक्षर विश्लेषण आत्म-समझ और चिंतन के लिए है. यह पहचान सत्यापन, हस्तलेखन जांच, चिकित्सा निदान, कानूनी प्रमाण, भर्ती सलाह या निश्चित भविष्यवाणी नहीं है.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.25e0b522e2
+text: साफ सुरक्षा सीमा
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: signature.receipt.adjust.hi
+text: संकेत बदलें
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: signature.receipt.clearConfidence.hi
+text: साफ
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: signature.receipt.partialConfidence.hi
+text: आंशिक
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: signature.receipt.uncertainConfidence.hi
+text: अनिश्चित
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: signature.receipt.detectedBody.hi
+text: प्रेडिक्टा ने आपके मौजूदा हस्ताक्षर से ये दिखने वाले संकेत पहचाने हैं. जो गलत लगे उसे पुष्टि से पहले बदलें.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: signature.receipt.drawn.hi
+text: इस सत्र में बनाया गया हस्ताक्षर
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: signature.receipt.looksRight.hi
+text: सही दिखता है
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: signature.receipt.missing.hi
+text: आपकी पिछली हस्ताक्षर छवि संग्रहित नहीं की गई थी. जारी रखने के लिए कृपया फिर अपलोड करें या फिर बनाएं.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: signature.receipt.notAssessed.hi
+text: अभी आकलन नहीं हुआ
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: signature.receipt.privacyShort.hi
+text: प्रेडिक्टा इसे संग्रहित नहीं करती. सत्र बंद करने पर आपको फिर अपलोड या फिर बनाना पड़ सकता है.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: signature.receipt.ready.hi
+text: हस्ताक्षर संकेत तैयार हैं. कृपया पुष्टि करें कि क्या सही दिखता है.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: signature.receipt.scanned.hi
+text: हस्ताक्षर स्कैन हो गया
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: signature.receipt.scanning.hi
+text: आपकी हस्ताक्षर अभिव्यक्ति स्कैन हो रही है...
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: signature.receipt.scan.baseline.hi
+text: रेखा दिशा पहचानी गई
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: signature.receipt.scan.slant.hi
+text: झुकाव मापा गया
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: signature.receipt.scan.rhythm.hi
+text: लय समझी गई
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: signature.receipt.scan.legibility.hi
+text: पढ़ने की साफगोई जांची गई
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: signature.receipt.scan.flourish.hi
+text: सजावट नोट की गई
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: signature.receipt.scanProgressLabel.hi
+text: हस्ताक्षर स्कैन प्रगति
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.dc0b517e95
+text: सिर्फ वही संकेत चुनें जो साफ दिख रहा है. प्रेडिक्टा इन्हें हल्के चिंतन की तरह पढ़ती है, चरित्र प्रमाण की तरह नहीं.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.c49c390915
+text: लाइन की दिशा
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.2bb288c0c1
+text: बड़े अक्षर का जोर
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.8227420af6
+text: अतिरिक्त शैली
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.148dceee24
+text: पढ़ने में स्पष्टता
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.50d9cef5c2
+text: अक्षरों का जुड़ाव
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.7e0145ec51
+text: जगह का उपयोग
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.9dc252d2dc
+text: दबाव
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.a68cd59e9f
+text: हस्ताक्षर का आकार
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.7c0dc808ae
+text: झुकाव
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.cc95dfe340
+text: अंतर
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.e553b13df6
+text: लय
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.60ee6c60ad
+text: अंडरलाइन
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.4d262ff3e7
+text: तैयार वाचन
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.cb2caf6458
+text: दिखने वाले संकेत पुष्टि करें
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.98fd540899
+text: बहुत अमूर्त
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.f7c78e24a3
+text: संतुलित
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.b94172d315
+text: साफ
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.c2e3dc35cc
+text: नीचे जाती
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.b29373be4c
+text: फैली हुई
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.2bde36b489
+text: भारी
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.cf03817480
+text: बड़ा
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.6025e96ffe
+text: बाएं
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.0f64eb9a6d
+text: हल्का
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.151a391fb1
+text: मध्यम
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.9ad1f1cedc
+text: मिला-जुला
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.2817f07a22
+text: मध्यम शैली
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.01522e35dd
+text: नहीं
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.397a8a1245
+text: थोड़ा पढ़ने योग्य
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.f150000103
+text: दाएं
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.28f07119d8
+text: एक रेखा
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.6aec1d9f30
+text: छोटा
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.4fa815ac3f
+text: स्थिर
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.30fb5bb9e4
+text: कम अंतर
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.d8d22d7152
+text: ऊपर जाती
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.05b2d800a6
+text: ज्यादा अंतर
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.cd43b41f49
+text: ऐसी साफ छवि उपयोग करें जिसमें सिर्फ हस्ताक्षर दिखे. पहचान पत्र, पता, खाता संख्या और निजी दस्तावेज काट दें.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.c9e7051818
+text: PNG, JPG या WebP सबसे अच्छा है.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.24feec78f2
+text: हस्ताक्षर अपलोड करें
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.19291b20fe
+text: छवि अपलोड करें या ड्रॉइंग से शुरुआत करें.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.31de48dcad
+text: जो संकेत साफ दिखें, केवल उन्हें पुष्टि करें.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.a5bc3fe09d
+text: तैयार वाचन और निजी पूर्वावलोकन यहीं देखें.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.0cfd0a332a
+text: जब सॉफ्ट रिफ्लेक्शन को रिपोर्ट में बदलना हो, यही अगला रास्ता है.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.a68b8ba292
+text: हस्ताक्षर तैयार करें, संकेत पुष्टि करें, फिर निजी रीडिंग खोलें.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.6909e9b264
+text: सीमा
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.8c25d980c3
+text: इनपुट
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.da4cf8c726
+text: वाचन
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.88dc9b1ffc
+text: हस्ताक्षर वाचन {value} दिखने वाले संकेतों के साथ तैयार है. मुख्य संकेत: {value}.
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.24bec7794f
+text: हस्ताक्षर प्रेडिक्टा संदर्भ:
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.a48d8ff3ef
+text: देखे गए संकेत: {value}
+
+file: apps/web/components/WebSignatureAnalysisInputFlow.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.c83e0cde0f
+text: केवल पुष्टि किए गए दिखने वाले संकेतों से पढ़ें. इसे चिंतन तक रखें, पहचान सत्यापन या दस्तावेज़ प्रमाण की तरह उपयोग न करें.
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.8d381a4bbc
+text: हस्ताक्षर हटाएं
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.receipt.looksRight.hi
+text: सही दिखता है
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.receipt.actions.redraw.hi
+text: हस्ताक्षर फिर बनाएं
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.receipt.actions.reupload.hi
+text: हस्ताक्षर फिर अपलोड करें
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.9e30f80456
+text: हस्ताक्षर छवि चुनें
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.136b9a7b32
+text: इस चित्र का उपयोग करें
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.mobile.captureUnavailable.hi
+text: मोबाइल हस्ताक्षर अपलोड और बनाने की सुविधा अभी जोड़ी जा रही है. वास्तविक दिखने वाला इनपुट उपलब्ध होने तक प्रेडिक्टा यहां स्कैन, लक्षण या भविष्यकथन तैयार नहीं करेगी. वास्तविक स्कैन के लिए वेब हस्ताक्षर कक्ष का उपयोग करें.
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.receipt.detectedBody.hi
+text: प्रेडिक्टा ने आपके मौजूदा हस्ताक्षर से ये दिखने वाले संकेत पहचाने हैं. जो गलत लगे उसे पुष्टि से पहले बदलें.
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.receipt.missing.hi
+text: आपकी पिछली हस्ताक्षर छवि संग्रहित नहीं की गई थी. जारी रखने के लिए कृपया फिर अपलोड करें या फिर बनाएं.
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.receipt.notAssessed.hi
+text: अभी आकलन नहीं हुआ
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.mobile.receipt.onlyConfirmed.hi
+text: केवल पुष्टि किए गए संकेत चैट या रिपोर्ट में जाएंगे.
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.receipt.privacyShort.hi
+text: प्रेडिक्टा इसे संग्रहित नहीं करती. सत्र बंद करने पर आपको फिर अपलोड या फिर बनाना पड़ सकता है.
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.receipt.ready.hi
+text: हस्ताक्षर संकेत तैयार हैं. कृपया पुष्टि करें कि क्या सही दिखता है.
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.mobile.receipt.reducedMotion.hi
+text: कम गति मोड में चलती स्कैन रेखा की जगह चरणबद्ध प्रगति दिखती है.
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.receipt.scanned.hi
+text: हस्ताक्षर स्कैन हो गया
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.receipt.scanning.hi
+text: आपकी हस्ताक्षर अभिव्यक्ति स्कैन हो रही है...
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.receipt.scan.baseline.hi
+text: रेखा दिशा पहचानी गई
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.receipt.scan.slant.hi
+text: झुकाव मापा गया
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.receipt.scan.rhythm.hi
+text: लय समझी गई
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.receipt.scan.legibility.hi
+text: पढ़ने की साफगोई जांची गई
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.receipt.scan.flourish.hi
+text: सजावट नोट की गई
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.mobile.receipt.signatureScan.hi
+text: हस्ताक्षर स्कैन
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.mobile.receipt.stickyReady.hi
+text: हस्ताक्षर तैयार · संग्रहित नहीं · जारी रखें
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.mobile.receipt.traitMap.hi
+text: संकेत मानचित्र
+
+file: apps/mobile/src/screens/SignaturePredictaScreen.tsx
+key: signature.receipt.uncertainConfidence.hi
+text: अनिश्चित
