@@ -75,6 +75,11 @@ Only live documents in this repo are listed here.
   room, non-technical first views, proof/story appendices, wow moments, report
   depth, room-safe Predicta memory payloads, and no-collision rules with the
   report/PDF, chart insight, Life Atlas, Numerology, and Signature contracts.
+- [PREDICTA_AI_MODEL_ORCHESTRATION_ULTRA_STRICT_PHASES.md](./PREDICTA_AI_MODEL_ORCHESTRATION_ULTRA_STRICT_PHASES.md)
+  Ultra-strict AI provider/model orchestration contract for deterministic-first
+  astrology, OpenAI primary routing, Gemini fallback plus validator/batch QA,
+  no-Claude guardrails, cost telemetry, structured outputs, prompt caching, and
+  release-governed profit/safety gates.
 - [PREDICTA_PDF_TEMPLATE_SELECTION_RECOMMENDATION_SHEET.md](./PREDICTA_PDF_TEMPLATE_SELECTION_RECOMMENDATION_SHEET.md)
   Strict template-selection and page-blueprint recommendation sheet for the
   Predicta PDF rebuild, including ranked references for free PDFs, premium
