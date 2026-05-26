@@ -1,0 +1,52 @@
+PREDICTA_AI_MODEL_PHASE_0_BASELINE_PROVIDER_AND_COST_AUDIT
+Verification date: 2026-05-26
+
+Status: GREEN
+
+Scope:
+- Audit-only phase.
+- No runtime provider routing changes.
+- No model pin changes.
+- No app behavior changes.
+
+Artifacts created:
+- docs/audits/PREDICTA_AI_MODEL_PHASE_0_BASELINE_PROVIDER_AND_COST_AUDIT/provider-path-map.md
+- docs/audits/PREDICTA_AI_MODEL_PHASE_0_BASELINE_PROVIDER_AND_COST_AUDIT/model-pin-baseline.json
+- docs/audits/PREDICTA_AI_MODEL_PHASE_0_BASELINE_PROVIDER_AND_COST_AUDIT/cost-risk-ledger.md
+- docs/audits/PREDICTA_AI_MODEL_PHASE_0_BASELINE_PROVIDER_AND_COST_AUDIT/verification.txt
+
+Commands and evidence:
+- sed -n '174,211p' docs/PREDICTA_AI_MODEL_ORCHESTRATION_ULTRA_STRICT_PHASES.md
+  Result: confirmed Phase 0 required audit inputs, artifacts, and green criteria.
+- git status --short
+  Result before phase: clean.
+- rg provider/model paths across backend, web, mobile, shared config, release governance.
+  Result: mapped OpenAI chat, OpenAI birth extraction, OpenAI moderation, Gemini fallback, deterministic fallback, web proxy, mobile backend, release governance, and model pins.
+- rg 'anthropic|Anthropic|CLAUDE|Claude|claude' .env* backend apps packages docs scripts
+  Result: no runtime Claude/Anthropic integration found. Matches only the AI orchestration planning doc and README entry.
+- rg provider/model response fields in backend, shared, and mobile types.
+  Result: backend supports openai/gemini/deterministic; shared/mobile supports openai/gemini/cache/deterministic.
+- sed usage limits and guest limits.
+  Result: current free, premium, day-pass, and guest pass limits captured in provider-path-map.md.
+- rg provider monkeypatch tests.
+  Result: backend provider behavior is covered by monkeypatched OpenAI, Gemini, moderation, and deterministic fallback tests.
+- python3 -m json.tool docs/audits/PREDICTA_AI_MODEL_PHASE_0_BASELINE_PROVIDER_AND_COST_AUDIT/model-pin-baseline.json
+  Result: JSON artifact is valid.
+- git diff --check
+  Result: no whitespace errors in tracked diff.
+- python3 -m pytest backend/tests/test_astro_api.py -q
+  Result: 39 passed in 0.89s.
+
+Green criteria audit:
+- Every current provider path is mapped: PASS.
+- Every configured model pin is listed: PASS.
+- Gemini is explicitly classified as fallback-only before this phase set: PASS.
+- Claude/Anthropic absence is confirmed: PASS.
+- Current cost telemetry gaps are documented: PASS.
+- No runtime behavior changes are made in this phase: PASS.
+
+Runtime behavior changes:
+- None.
+
+Next phase:
+- PREDICTA_AI_MODEL_PHASE_1_TELEMETRY_AND_BUDGET_LEDGER

@@ -1,0 +1,96 @@
+{
+  "phase": "PREDICTA_AI_MODEL_PHASE_0_BASELINE_PROVIDER_AND_COST_AUDIT",
+  "auditDate": "2026-05-26",
+  "runtimeBehaviorChanged": false,
+  "approvedModelPins": {
+    "freeReasoning": "gpt-5.4-mini",
+    "premiumDeep": "gpt-5.5",
+    "geminiFree": "gemini-2.5-flash",
+    "geminiPremium": "gemini-2.5-pro",
+    "moderation": "omni-moderation-latest",
+    "promptVersion": "predicta-chat-room-contract-v3"
+  },
+  "backendDefaults": {
+    "openaiResponsesUrl": "https://api.openai.com/v1/responses",
+    "geminiGenerateUrl": "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
+    "freeReasoningModel": "gpt-5.4-mini",
+    "premiumDeepModel": "gpt-5.5",
+    "geminiFlashModel": "gemini-2.5-flash",
+    "geminiProModel": "gemini-2.5-pro",
+    "geminiFreeThinkingBudget": 0,
+    "geminiPremiumThinkingBudget": 512,
+    "freeMaxOutputTokens": 620,
+    "premiumMaxOutputTokens": 1100,
+    "requestTimeoutSeconds": 45,
+    "chatPromptVersion": "predicta-chat-room-contract-v3"
+  },
+  "sharedConfigDefaults": {
+    "openaiModels": {
+      "FREE_REASONING": "gpt-5.4-mini",
+      "PREMIUM_DEEP_ANALYSIS": "gpt-5.5"
+    },
+    "geminiModels": {
+      "FLASH_HELPER": "gemini-2.5-flash",
+      "PRO_FUTURE": "gemini-2.5-pro"
+    },
+    "contextLimits": {
+      "MAX_HISTORY_TURNS": 8,
+      "FREE_MAX_OUTPUT_TOKENS": 420,
+      "PREMIUM_MAX_OUTPUT_TOKENS": 720
+    }
+  },
+  "environmentKeys": {
+    "openai": [
+      "OPENAI_API_KEY",
+      "PREDICTA_OPENAI_API_KEY",
+      "PRIDICTA_OPENAI_FREE_MODEL",
+      "PRIDICTA_OPENAI_PREMIUM_MODEL"
+    ],
+    "gemini": [
+      "GEMINI_API_KEY",
+      "GOOGLE_GEMINI_API_KEY",
+      "PREDICTA_GEMINI_API_KEY",
+      "PRIDICTA_GEMINI_FREE_MODEL",
+      "PRIDICTA_GEMINI_PREMIUM_MODEL",
+      "PRIDICTA_GEMINI_FREE_THINKING_BUDGET",
+      "PRIDICTA_GEMINI_PREMIUM_THINKING_BUDGET"
+    ],
+    "backend": [
+      "PRIDICTA_AI_TIMEOUT_SECONDS",
+      "PREDICTA_CHAT_PROMPT_VERSION",
+      "PRIDICTA_FREE_MAX_OUTPUT_TOKENS",
+      "PRIDICTA_PREMIUM_MAX_OUTPUT_TOKENS",
+      "PRIDICTA_WEB_ASTRO_API_URL",
+      "PRIDICTA_ASTRO_API_URL"
+    ]
+  },
+  "providerRoles": {
+    "deterministic": "source-of-truth calculations, blocked safety replies, chart fallback replies, specialist deterministic replies",
+    "openai": "primary Predicta chat, primary birth extraction, optional moderation, primary user-facing generation",
+    "gemini": "fallback-only before this phase set",
+    "claudeAnthropic": "absent from runtime baseline"
+  },
+  "providerResponseUnions": {
+    "backend": [
+      "openai",
+      "gemini",
+      "deterministic"
+    ],
+    "sharedAndMobile": [
+      "openai",
+      "gemini",
+      "cache",
+      "deterministic"
+    ]
+  },
+  "releaseGovernanceOwner": "backend/astro_api/release_governance.py",
+  "baselineGreenCriteria": {
+    "everyCurrentProviderPathMapped": true,
+    "everyConfiguredModelPinListed": true,
+    "geminiClassifiedFallbackOnly": true,
+    "claudeAnthropicAbsenceConfirmed": true,
+    "costTelemetryGapsDocumented": true,
+    "noRuntimeBehaviorChanges": true
+  }
+}
+
