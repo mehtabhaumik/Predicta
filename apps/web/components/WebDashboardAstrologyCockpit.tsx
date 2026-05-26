@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useState } from 'react';
 import type {
   DailyBriefing,
   KundliData,
@@ -34,10 +35,43 @@ type WeatherItem = {
 };
 
 type RadarItem = {
+  action: string;
+  headline: string;
   label: string;
   score: number;
   planet: string;
+  strength: 'Strong' | 'Moderate' | 'Low';
+  summary: string;
 };
+
+type RadarRange = 'today' | 'month' | 'quarter' | 'major';
+
+const radarRanges: Array<{
+  description: string;
+  label: string;
+  value: RadarRange;
+}> = [
+  {
+    description: 'Immediate pressure and support.',
+    label: 'Today',
+    value: 'today',
+  },
+  {
+    description: 'Near-term rhythm for the current month.',
+    label: 'This Month',
+    value: 'month',
+  },
+  {
+    description: 'Planning signal for the next 90 days.',
+    label: 'Next 90 Days',
+    value: 'quarter',
+  },
+  {
+    description: 'Slow-moving transit atmosphere.',
+    label: 'Major Transit',
+    value: 'major',
+  },
+];
 
 const focusCards = [
   {
@@ -85,9 +119,20 @@ export function WebDashboardAstrologyCockpit({
   const t = (value: string) => translateUiText(value, language);
   const weather = buildLifeWeather(kundli, dailyBriefing, gochar);
   const radar = buildRadarItems(gochar);
-  const polygonPoints = radarPolygonPoints(radar);
+  const [radarRange, setRadarRange] = useState<RadarRange>('today');
+  const [activeRadarAxis, setActiveRadarAxis] = useState(radar[0]?.label ?? 'Growth');
+  const [showActionPlan, setShowActionPlan] = useState(false);
+  const [showChallengeNote, setShowChallengeNote] = useState(false);
+  const [compareMode, setCompareMode] = useState(false);
+  const rangeRadar = applyRadarRange(radar, radarRange);
+  const polygonPoints = radarPolygonPoints(rangeRadar);
+  const natalSupportPoints = radarPolygonPoints(buildNatalSupportRadar(rangeRadar));
+  const activeRadarItem =
+    rangeRadar.find(item => item.label === activeRadarAxis) ?? rangeRadar[0];
+  const actionPlan = buildGocharActionPlan(rangeRadar, activeRadarItem, gochar);
   const dasha = buildDashaDisplay(kundli);
   const activeName = kundli?.birthDetails.name ?? 'Moment sky';
+  const activeRange = radarRanges.find(range => range.value === radarRange) ?? radarRanges[0];
 
   return (
     <section className="astrology-cockpit glass-panel">
@@ -147,17 +192,58 @@ export function WebDashboardAstrologyCockpit({
         <div className="cockpit-panel gochar-radar-panel">
           <div className="cockpit-panel-title">
             <span>Gochar impact</span>
-            <strong>{gochar.dominantWeight}</strong>
+            <button
+              className={`gochar-weight-button ${gochar.dominantWeight}`}
+              onClick={() => setShowChallengeNote(current => !current)}
+              type="button"
+            >
+              {gochar.dominantWeight}
+            </button>
+          </div>
+          {showChallengeNote ? (
+            <p className="gochar-challenge-note">
+              {t(
+                'This does not mean bad. It means the chart is asking for discipline, patience, and conscious choices.',
+              )}
+            </p>
+          ) : null}
+          <div className="gochar-range-toggle" role="group" aria-label={t('Gochar time range')}>
+            {radarRanges.map(range => (
+              <button
+                className={radarRange === range.value ? 'active' : ''}
+                key={range.value}
+                onClick={() => setRadarRange(range.value)}
+                type="button"
+              >
+                {t(range.label)}
+              </button>
+            ))}
           </div>
           <div className="gochar-radar-wrap">
             <svg className="gochar-radar" viewBox="0 0 220 220" role="img" aria-label="Gochar impact chart">
               <polygon className="gochar-radar-grid" points="110,18 198,82 164,186 56,186 22,82" />
               <polygon className="gochar-radar-grid inner" points="110,48 169,91 146,160 74,160 51,91" />
+              {compareMode ? (
+                <polygon className="gochar-radar-natal" points={natalSupportPoints} />
+              ) : null}
               <polygon className="gochar-radar-fill" points={polygonPoints} />
-              {radar.map((item, index) => (
+              {rangeRadar.map((item, index) => (
                 <text
-                  className="gochar-radar-label"
+                  className={
+                    activeRadarItem?.label === item.label
+                      ? 'gochar-radar-label active'
+                      : 'gochar-radar-label'
+                  }
                   key={item.label}
+                  onClick={() => setActiveRadarAxis(item.label)}
+                  onKeyDown={event => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      setActiveRadarAxis(item.label);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
                   x={radarLabelPoint(index).x}
                   y={radarLabelPoint(index).y}
                   textAnchor="middle"
@@ -168,12 +254,65 @@ export function WebDashboardAstrologyCockpit({
             </svg>
           </div>
           <div className="gochar-radar-legend">
-            {radar.map(item => (
-              <span key={item.label}>
+            {rangeRadar.map(item => (
+              <button
+                className={activeRadarItem?.label === item.label ? 'active' : ''}
+                key={item.label}
+                onClick={() => setActiveRadarAxis(item.label)}
+                type="button"
+              >
                 {t(item.label)}: {t(item.planet)}
-              </span>
+              </button>
             ))}
           </div>
+          {activeRadarItem ? (
+            <div className="gochar-radar-insight" aria-live="polite">
+              <div>
+                <span>{t(activeRange.label)} · {t(activeRadarItem.strength)}</span>
+                <strong>
+                  {t(activeRadarItem.label)}: {t(activeRadarItem.planet)}
+                </strong>
+              </div>
+              <p>{t(activeRadarItem.summary)}</p>
+              <small>{t(activeRadarItem.action)}</small>
+            </div>
+          ) : null}
+          <div className="gochar-radar-actions">
+            <button
+              className="button secondary"
+              onClick={() => setShowActionPlan(current => !current)}
+              type="button"
+            >
+              {showActionPlan ? t('Hide action plan') : t('Show my action plan')}
+            </button>
+            <button
+              className="button secondary"
+              onClick={() => setCompareMode(current => !current)}
+              type="button"
+            >
+              {compareMode ? t('Hide compare') : t('Compare with natal support')}
+            </button>
+            <Link
+              className="button secondary"
+              href={buildPredictaChatHref({
+                kundli,
+                prompt: `Explain why my current Gochar feels ${gochar.dominantWeight}. Focus on ${activeRadarItem?.label ?? 'the strongest transit axis'} and give me practical next steps.`,
+                school: 'PARASHARI',
+                selectedSection: 'Current Gochar radar',
+                sourceScreen: 'Dashboard Gochar Radar',
+              })}
+            >
+              {t('Ask why this feels challenging')}
+            </Link>
+          </div>
+          {showActionPlan ? (
+            <ol className="gochar-action-plan">
+              {actionPlan.map(action => (
+                <li key={action}>{t(action)}</li>
+              ))}
+            </ol>
+          ) : null}
+          <p className="gochar-range-note">{t(activeRange.description)}</p>
         </div>
       </div>
 
@@ -537,10 +676,71 @@ function radarItem(
     : fallback;
 
   return {
+    action:
+      insight?.practicalGuidance ??
+      `${planet} asks for one steady action today. Keep the move practical, visible, and easy to repeat.`,
+    headline: insight?.headline ?? `${planet} is shaping ${label.toLowerCase()}.`,
     label,
     planet: insight?.planet ?? planet,
     score,
+    strength: score >= 68 ? 'Strong' : score >= 48 ? 'Moderate' : 'Low',
+    summary:
+      insight?.simpleMeaning ??
+      `${planet} is the main carrier for this ${label.toLowerCase()} axis, so use it as a focused signal rather than a fixed prediction.`,
   };
+}
+
+function applyRadarRange(items: RadarItem[], range: RadarRange): RadarItem[] {
+  const rangeConfig: Record<RadarRange, { label: string; shift: number }> = {
+    major: { label: 'major transit pattern', shift: 8 },
+    month: { label: 'monthly rhythm', shift: 4 },
+    quarter: { label: '90-day planning rhythm', shift: 6 },
+    today: { label: 'today', shift: 0 },
+  };
+  const config = rangeConfig[range];
+
+  return items.map((item, index) => {
+    const direction = index % 2 === 0 ? 1 : -1;
+    const score = clamp(item.score + config.shift * direction, 24, 94);
+    return {
+      ...item,
+      action: `${item.action} For ${config.label}, keep the next step smaller than the pressure.`,
+      score,
+      strength: score >= 68 ? 'Strong' : score >= 48 ? 'Moderate' : 'Low',
+      summary:
+        range === 'today'
+          ? item.summary
+          : `${item.summary} This view stretches the signal into the ${config.label}, so read it as planning weather rather than a one-day verdict.`,
+    };
+  });
+}
+
+function buildNatalSupportRadar(items: RadarItem[]): RadarItem[] {
+  return items.map((item, index) => ({
+    ...item,
+    score: clamp(Math.round(item.score * 0.82 + 10 + index * 1.5), 30, 88),
+  }));
+}
+
+function buildGocharActionPlan(
+  items: RadarItem[],
+  active: RadarItem | undefined,
+  gochar: TransitGocharIntelligence,
+): string[] {
+  const strongest = [...items].sort((a, b) => b.score - a.score)[0];
+  const lowest = [...items].sort((a, b) => a.score - b.score)[0];
+
+  return [
+    active
+      ? `Use ${active.planet} for ${active.label.toLowerCase()}: ${active.action}`
+      : gochar.snapshotSummary,
+    strongest
+      ? `Lean into ${strongest.label.toLowerCase()} while it is ${strongest.strength.toLowerCase()}; make one visible move and avoid over-expanding it.`
+      : 'Choose one practical move and keep it observable today.',
+    lowest
+      ? `Protect the ${lowest.label.toLowerCase()} area; do not force decisions where the signal is still ${lowest.strength.toLowerCase()}.`
+      : 'Keep the day simple if the transit evidence feels unclear.',
+  ];
 }
 
 function radarPolygonPoints(items: RadarItem[]): string {
