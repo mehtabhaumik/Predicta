@@ -1,0 +1,16 @@
+{
+  "activeRoom": "KP Predicta",
+  "area": "KP",
+  "assertions": {
+    "activeRoomAware": "KP Predicta",
+    "deeperFact": "The digest carries event question, relevant houses, cusps, star lord, sub lord, significators, ruling planets, dasha support, timing readiness, confidence, and proof drawer.",
+    "language": "en",
+    "methodBoundary": "D9 and Mahadasha interpretation belongs to Vedic Predicta, so I will hand that part off instead of mixing it into KP.",
+    "missingHonesty": "Predicta must name missing or pending context instead of inventing it.",
+    "premiumBoundary": "Free gets likely/delayed/needs-clarity plus one proof line; Premium gets the cusp chain, significator hierarchy, ruling planets, and timing windows."
+  },
+  "id": "kp-event-room-boundary",
+  "language": "en",
+  "predictaAnswer": "KP Predicta will answer the career event first. I will use the selected event, relevant houses, cusp/sub-lord chain, significators, ruling planets, dasha support, timing readiness, and confidence from the digest. D9 and Mahadasha interpretation belongs to Vedic Predicta, so I will hand that part off instead of mixing it into KP. Free gets likely/delayed/needs-clarity plus one proof line; Premium gets the cusp chain, significator hierarchy, ruling planets, and timing windows.",
+  "userQuestion": "In KP, answer career timing and also read my D9."
+}

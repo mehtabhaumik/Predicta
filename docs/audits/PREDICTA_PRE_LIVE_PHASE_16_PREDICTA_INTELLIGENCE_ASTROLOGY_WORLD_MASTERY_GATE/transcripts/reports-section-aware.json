@@ -1,0 +1,16 @@
+{
+  "activeRoom": "Reports",
+  "area": "Reports",
+  "assertions": {
+    "activeRoomAware": "Reports",
+    "deeperFact": "The generated report context includes report title, school lane, subject name, selected sections, available sections, mode, and generated time.",
+    "language": "en",
+    "methodBoundary": "I will explain the selected school lane and will not turn a KP, Nadi, Numerology, or Signature report into a mixed Vedic report.",
+    "missingHonesty": "Predicta must name missing or pending context instead of inventing it.",
+    "premiumBoundary": "Free report explanations stay useful; Premium report explanations add evidence, timing, contradictions, and full dossier depth."
+  },
+  "id": "reports-section-aware",
+  "language": "en",
+  "predictaAnswer": "Reports context is active. The generated report context includes report title, school lane, subject name, selected sections, available sections, mode, and generated time, so I can explain the exact Mahadasha section rather than defining Mahadasha generically. It means the report is showing your major life chapter, the current delivery channel, and the finer timing layer; the PDF is where the full reading lives. I will explain the selected school lane and will not turn a KP, Nadi, Numerology, or Signature report into a mixed Vedic report. Free report explanations stay useful; Premium report explanations add evidence, timing, contradictions, and full dossier depth.",
+  "userQuestion": "What does the Mahadasha section in my downloaded report mean?"
+}

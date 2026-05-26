@@ -1,0 +1,24 @@
+PREDICTA_PRE_LIVE_PHASE_16_PREDICTA_INTELLIGENCE_ASTROLOGY_WORLD_MASTERY_GATE
+
+Verdict: GREEN after strict audit.
+
+Evidence:
+- Transcript fixtures exist for Vedic, KP, Nadi, Numerology, Signature, Life Atlas, Reports, Family, Account, Settings, Login, Pricing, Payment, and Support.
+- Every transcript names active context, uses one deeper supplied fact, preserves room/method boundaries, states missing/pending data honestly, and explains free versus premium respectfully.
+- Hindi and Gujarati transcript fixtures prove selected-language behavior without cross-script leakage.
+- Backend AI context now carries appMemoryDigest, generatedReportContext, and reportSectionMemory into the prompt.
+- Frontend/shared AI context already carries the full Predicta memory digest and deterministic astrology layers.
+- Specialist room QA remains the companion room-boundary gate.
+
+Required companion commands:
+- corepack pnpm test:pre-live-phase-16
+- corepack pnpm test:specialist-room-qa
+- python3 -m backend.astro_api.release_governance
+- python3 -m py_compile backend/astro_api/ai.py backend/astro_api/models.py
+- python3 -m pytest backend/tests/test_astro_api.py -q
+- corepack pnpm --filter @pridicta/config typecheck
+- corepack pnpm --filter @pridicta/types typecheck
+- corepack pnpm --filter @pridicta/ai typecheck
+- corepack pnpm --filter @pridicta/web typecheck
+- corepack pnpm --filter @pridicta/mobile exec tsc --noEmit
+- git diff --check

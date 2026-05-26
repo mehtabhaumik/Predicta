@@ -2493,9 +2493,12 @@ export type PredictaAppMemoryDigest = {
   productStructure: string[];
   coreUserFlows: string[];
   featureCatalog: string[];
+  appSurfaceAwareness: string[];
   astrologyCapabilityMap: string[];
   reportLanes: string[];
   roomBoundaries: string[];
+  deeperContextAwareness: string[];
+  missingDataHonestyRules: string[];
   userGuidanceRules: string[];
   refreshRule: string;
 };

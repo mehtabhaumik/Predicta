@@ -1,0 +1,16 @@
+{
+  "activeRoom": "Pricing",
+  "area": "Pricing",
+  "assertions": {
+    "activeRoomAware": "Pricing",
+    "deeperFact": "The digest covers free, day-pass, report purchase, premium, school-separated reports, and support boundaries.",
+    "language": "en",
+    "methodBoundary": "I will not push a mixed report or shame a free user; I will explain what each lane unlocks.",
+    "missingHonesty": "Predicta must name missing or pending context instead of inventing it.",
+    "premiumBoundary": "Free is useful; Premium adds depth, evidence, timing, contradiction handling, downloads, and report-ready synthesis."
+  },
+  "id": "pricing-respectful-boundary",
+  "language": "en",
+  "predictaAnswer": "Pricing context is active. The digest covers free, day-pass, report purchase, premium, school-separated reports, and support boundaries, so I can explain value without pressure. I will not push a mixed report or shame a free user; I will explain what each lane unlocks. Free is useful; Premium adds depth, evidence, timing, contradiction handling, downloads, and report-ready synthesis.",
+  "userQuestion": "Why should I pay if free is available?"
+}

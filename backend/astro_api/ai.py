@@ -372,6 +372,114 @@ DEEP_PATTERNS = [
 FREE_BASE_CONTEXT_CHARTS = {"D1"}
 PREMIUM_CONTEXT_CHARTS = {"D1", "D2", "D3", "D4", "D7", "D9", "D10", "D12"}
 
+PREDICTA_APP_MEMORY_DIGEST = {
+    "productStructure": [
+        "Predicta is one product with five specialist rooms: Vedic Predicta, KP Predicta, Nadi Predicta, Numerology Predicta, and Signature Predicta.",
+        "Shared Kundli/profile context can travel between rooms, but the active room decides the method.",
+        "Reports are separated by school lanes; Predicta Life Atlas is the approved synthesis lane.",
+    ],
+    "coreUserFlows": [
+        "create Kundli",
+        "open saved Kundlis",
+        "ask chat questions",
+        "switch specialist rooms",
+        "generate and download reports",
+        "use remedies",
+        "review birth-time confidence",
+        "use family and relationship surfaces",
+        "use pricing, payment, day-pass, and support flows",
+    ],
+    "appSurfaceAwareness": [
+        "Login and account surfaces explain saved context and recovery calmly.",
+        "Settings controls language, saved preferences, and account guidance.",
+        "Family Center carries selected family/member context without blame language.",
+        "Pricing and payment surfaces explain free, premium, day-pass, and report boundaries honestly.",
+        "Payment must never claim paid access until a verified gateway payment or approved support handoff exists.",
+        "Support can explain what happened and what data is missing without exposing private internals.",
+    ],
+    "astrologyCapabilityMap": [
+        "Vedic covers D1, Moon, D9, D10, Chalit, full Varga library, Swamsa, Karakamsha, Mahadasha Phala, Panchang, Avakhada, Ghatak, favorable points, friendship, Ashtakavarga, Prastarashtakavarga, house evidence, and remedies.",
+        "KP covers event questions with cusps, star lords, sub lords, sub-sub lords, significators, ruling planets, dasha support, timing readiness, confidence, and proof drawer.",
+        "Nadi covers story links, Rahu/Ketu axis, karmic patterns, validation questions, activation windows, practices, and no palm-leaf manuscript claim.",
+        "Numerology covers number signature, name rhythm, birth code, personal cycles, missing/repeated patterns, compatibility, name refinement, and no fear guarantees.",
+        "Signature covers confirmed visible traits only, privacy/no-storage, confidence, reflective expression guidance, and no forensic or diagnostic claims.",
+        "Life Atlas is the approved all-school synthesis using Vedic, KP, Nadi, Numerology, and optional confirmed Signature evidence.",
+    ],
+    "reportLanes": [
+        "Vedic Reports stay Vedic.",
+        "KP Reports stay KP.",
+        "Nadi Reports stay Nadi.",
+        "Numerology Reports stay Numerology unless an approved combination is requested.",
+        "Signature Reports stay Signature unless an approved combination is requested.",
+        "Synthesis Reports are clearly labeled and include Predicta Life Atlas.",
+    ],
+    "roomBoundaries": [
+        "Vedic answers from Parashari/Vedic only.",
+        "KP answers from KP only.",
+        "Nadi answers from Nadi only.",
+        "Numerology answers Numerology-only or explicitly requested Vedic-plus-Numerology.",
+        "Signature answers Signature-only or explicitly requested Vedic-plus-Signature.",
+        "Wrong-room method requests require a clean handoff instead of a mixed answer.",
+    ],
+    "deeperContextAwareness": [
+        "Predicta may use deeper deterministic data supplied in context even if the immediate UI only shows a compact card.",
+        "Predicta must name missing data or pending calculations instead of inventing them.",
+        "Free answers stay useful; premium adds deeper evidence, timing, contradiction handling, reports, and practical depth.",
+    ],
+    "refreshRule": "When routes, pricing, reports, calculations, or specialist-room capabilities change, update this digest before calling the phase green.",
+}
+
+PREDICTA_REPORT_SECTION_MEMORY_CATALOG = [
+    {
+        "id": "moon-chart",
+        "title": "Moon chart / Chandra Lagna chart",
+        "schoolLane": "VEDIC",
+        "calculationState": "available",
+        "whatItMeans": "Shows the chart counted from the Moon so mind, emotional rhythm, and lived experience are understood.",
+        "boundary": "Vedic-only chart context. Do not answer with KP cusp logic or Nadi story-link logic.",
+    },
+    {
+        "id": "mahadasha-phala",
+        "title": "Mahadasha Phala and Meaning",
+        "schoolLane": "VEDIC",
+        "calculationState": "available",
+        "whatItMeans": "Explains the major life chapter, active delivery channel, and fine timing layer while past periods stay summarized.",
+        "boundary": "Vedic-only timing context. Past Mahadashas stay Mahadasha-level; current dasha can be layered.",
+    },
+    {
+        "id": "chalit-table",
+        "title": "Chalit table",
+        "schoolLane": "VEDIC",
+        "calculationState": "available",
+        "whatItMeans": "Shows how house delivery can shift in Bhav Chalit even when the D1 sign remains anchored.",
+        "boundary": "Vedic Chalit/Bhav Chalit delivery context. Keep it separate from KP cusp judgement.",
+    },
+    {
+        "id": "planet-friendship-table",
+        "title": "Planet friendship table",
+        "schoolLane": "VEDIC",
+        "calculationState": "available",
+        "whatItMeans": "Shows how planets cooperate or create friction in the Kundli.",
+        "boundary": "Vedic graha relationship table. Explain support and tension without fear language.",
+    },
+    {
+        "id": "signature-traits",
+        "title": "Confirmed signature traits",
+        "schoolLane": "SIGNATURE",
+        "calculationState": "optional",
+        "whatItMeans": "Uses only confirmed visible traits from the current session for reflective self-expression guidance.",
+        "boundary": "Never infer signature traits without a real uploaded or drawn sample and user confirmation.",
+    },
+    {
+        "id": "life-atlas",
+        "title": "Predicta Life Atlas",
+        "schoolLane": "SYNTHESIS",
+        "calculationState": "available",
+        "whatItMeans": "Approved non-technical synthesis for life journey, soul purpose, current chapter, gifts, lessons, and next steps.",
+        "boundary": "Use available Vedic, KP, Nadi, Numerology, and optional confirmed Signature evidence without invented mystical sources.",
+    },
+]
+
 PREDICTA_ROOM_CONTRACTS: Dict[str, Dict[str, Any]] = {
     "PARASHARI": {
         "roomName": "Vedic Predicta",
@@ -3761,6 +3869,12 @@ def build_user_prompt(
             f"Handoff question: {context.get('activeContext', {}).get('handoffQuestion') if context.get('activeContext') else None}",
             "Active room contract:",
             json.dumps(context.get("predictaRoomContract"), ensure_ascii=False, indent=2),
+            "Predicta app memory digest:",
+            json.dumps(context.get("appMemoryDigest"), ensure_ascii=False, indent=2),
+            "Generated report context:",
+            json.dumps(context.get("generatedReportContext"), ensure_ascii=False, indent=2),
+            "Report section memory:",
+            json.dumps(context.get("reportSectionMemory"), ensure_ascii=False, indent=2),
             "Predicta tone context:",
             json.dumps(context.get("predictaTone"), ensure_ascii=False, indent=2),
             "Discipline handoff context:",
@@ -3768,6 +3882,8 @@ def build_user_prompt(
             "Synced specialist room context:",
             json.dumps(context.get("specialistContextSync"), ensure_ascii=False, indent=2),
             "Room contract enforcement: obey the active room contract before answering. Use shared Kundli/profile context, but do not mix methods. If another method is needed, make a clean specialist-room handoff.",
+            "Predicta memory enforcement: use appMemoryDigest as the product map for routes, reports, rooms, payment, settings, family, support, and free/premium boundaries. If a capability, payment, report, signature sample, or calculation is missing or pending, say that honestly instead of pretending it exists.",
+            "Report memory enforcement: if generatedReportContext or reportSectionMemory is supplied, explain what that section means for this user, why it is included, and where premium/report depth changes. Do not merely define the technical area.",
             "Tone enforcement: use predictaTone for answer cadence, devotional-versus-secular framing, humor limits, and emotional landing. Never infer religion beyond the explicit tone signals already provided.",
             "Style preference enforcement: if predictaTone.stylePreference is devotional or secular, treat it as a saved tone preference unless the current user message explicitly asks for the opposite framing.",
             "Discipline handoff enforcement: if disciplineHandoff.requiresHandoff is true, do not provide the requested analysis in the active room. Hand off to disciplineHandoff.targetRoom and preserve disciplineHandoff.originalQuestion.",
@@ -5671,6 +5787,12 @@ def build_ai_context(
     selected_family_karma_map = None
     selected_predicta_wrapped = None
     discipline_handoff = build_discipline_handoff_context(chart_context, message)
+    generated_report_context = build_generated_report_memory_context(
+        chart_context,
+        kundli,
+        user_plan,
+    )
+    report_section_memory = find_report_section_memory(chart_context)
 
     if (
         chart_context
@@ -5777,6 +5899,9 @@ def build_ai_context(
     return {
         "kundliId": kundli.id,
         "activeContext": chart_context.model_dump() if chart_context else None,
+        "appMemoryDigest": PREDICTA_APP_MEMORY_DIGEST,
+        "generatedReportContext": generated_report_context,
+        "reportSectionMemory": report_section_memory,
         "disciplineHandoff": discipline_handoff,
         "specialistContextSync": [
             item.model_dump()
@@ -5906,6 +6031,78 @@ def build_ai_context(
         "remedies": [item.model_dump() for item in kundli.remedies],
         "jyotishAnalysis": jyotish_analysis.model_dump(),
     }
+
+
+def build_generated_report_memory_context(
+    chart_context: Optional[ChartContext],
+    kundli: KundliData,
+    user_plan: str,
+) -> Optional[Dict[str, Any]]:
+    if not chart_context:
+        return None
+    if chart_context.generatedReport:
+        return chart_context.generatedReport
+    if not chart_context.reportFocus:
+        return None
+
+    return {
+        "availableSections": chart_context.reportAvailableSections,
+        "generatedAt": chart_context.reportGeneratedAt,
+        "mode": chart_context.reportMode or ("PREMIUM" if user_plan == "PREMIUM" else "FREE"),
+        "reportFocus": chart_context.reportFocus,
+        "reportTitle": (
+            chart_context.reportType
+            or chart_context.reportSectionTitle
+            or chart_context.selectedSection
+            or "Predicta report"
+        ),
+        "schoolLane": chart_context.reportSchoolLane or "VEDIC",
+        "selectedSections": chart_context.reportSelectedSections,
+        "subjectName": chart_context.reportSubjectName or kundli.birthDetails.name,
+    }
+
+
+def find_report_section_memory(
+    chart_context: Optional[ChartContext],
+) -> Optional[Dict[str, Any]]:
+    if not chart_context:
+        return None
+
+    query = (
+        chart_context.reportSectionId
+        or chart_context.reportSectionTitle
+        or chart_context.reportSectionPrompt
+        or chart_context.selectedSection
+    )
+    if not query:
+        return None
+
+    normalized_query = normalize_memory_query(query)
+    for section in PREDICTA_REPORT_SECTION_MEMORY_CATALOG:
+        candidates = [
+            str(section.get("id", "")),
+            str(section.get("title", "")),
+            str(section.get("whatItMeans", "")),
+        ]
+        normalized_candidates = [normalize_memory_query(item) for item in candidates]
+        if any(
+            normalized_query in candidate
+            or candidate in normalized_query
+            or has_meaningful_token_overlap(candidate, normalized_query)
+            for candidate in normalized_candidates
+        ):
+            return section
+    return None
+
+
+def normalize_memory_query(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", " ", value.lower()).strip()
+
+
+def has_meaningful_token_overlap(candidate: str, query: str) -> bool:
+    candidate_tokens = {token for token in candidate.split() if len(token) > 3}
+    query_tokens = [token for token in query.split() if len(token) > 3]
+    return sum(1 for token in query_tokens if token in candidate_tokens) >= 2
 
 
 def language_instruction(language: str) -> str:

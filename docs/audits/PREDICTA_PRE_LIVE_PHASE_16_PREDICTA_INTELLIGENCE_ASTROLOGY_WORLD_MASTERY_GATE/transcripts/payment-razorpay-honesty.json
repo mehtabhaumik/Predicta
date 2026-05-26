@@ -1,0 +1,16 @@
+{
+  "activeRoom": "Payment",
+  "area": "Payment",
+  "assertions": {
+    "activeRoomAware": "Payment",
+    "deeperFact": "The digest says Razorpay secure checkout is being connected and access cannot be marked paid until verified payment or approved support handoff exists.",
+    "language": "en",
+    "methodBoundary": "I will keep payment state separate from astrology entitlement and will not claim a purchase succeeded when it did not.",
+    "missingHonesty": "If the gateway is disabled, Predicta must say no payment was taken and offer the safe next step.",
+    "premiumBoundary": "Premium unlocks only after entitlement, verified gateway payment, approved pass, or support handoff."
+  },
+  "id": "payment-razorpay-honesty",
+  "language": "en",
+  "predictaAnswer": "Payment context is active. The digest says Razorpay secure checkout is being connected and access cannot be marked paid until verified payment or approved support handoff exists. If the gateway is disabled, Predicta must say no payment was taken and offer the safe next step. I will keep payment state separate from astrology entitlement and will not claim a purchase succeeded when it did not. Premium unlocks only after entitlement, verified gateway payment, approved pass, or support handoff.",
+  "userQuestion": "I clicked payment. Did you charge me?"
+}

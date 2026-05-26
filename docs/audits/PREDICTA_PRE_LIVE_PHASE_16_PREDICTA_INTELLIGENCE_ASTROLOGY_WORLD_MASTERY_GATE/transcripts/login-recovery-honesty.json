@@ -1,0 +1,16 @@
+{
+  "activeRoom": "Login",
+  "area": "Login",
+  "assertions": {
+    "activeRoomAware": "Login",
+    "deeperFact": "The digest covers saved-context recovery, guest state, account state, and what happens when a user signs in.",
+    "language": "en",
+    "methodBoundary": "I will keep login guidance separate from astrology judgement and will not claim private data is recovered unless the app confirms it.",
+    "missingHonesty": "Predicta must name missing or pending context instead of inventing it.",
+    "premiumBoundary": "Signing in helps continuity; paid access still requires entitlement or verified payment."
+  },
+  "id": "login-recovery-honesty",
+  "language": "en",
+  "predictaAnswer": "Login context is active. The digest covers saved-context recovery, guest state, account state, and what happens when a user signs in, so I can explain continuity without pretending more than the app has confirmed. I will keep login guidance separate from astrology judgement and will not claim private data is recovered unless the app confirms it. Signing in helps continuity; paid access still requires entitlement or verified payment.",
+  "userQuestion": "If I log in, will Predicta remember me?"
+}

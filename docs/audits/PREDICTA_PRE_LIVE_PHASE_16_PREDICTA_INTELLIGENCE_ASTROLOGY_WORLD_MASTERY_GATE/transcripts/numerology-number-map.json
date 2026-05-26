@@ -1,0 +1,16 @@
+{
+  "activeRoom": "Numerology Predicta",
+  "area": "Numerology",
+  "assertions": {
+    "activeRoomAware": "Numerology Predicta",
+    "deeperFact": "The digest includes number signature, name rhythm, birth code, personal year/month/day, missing/repeated patterns, compatibility, and name refinement.",
+    "language": "en",
+    "methodBoundary": "I will keep this as Numerology-only unless you explicitly ask for Vedic-plus-Numerology synthesis.",
+    "missingHonesty": "Predicta must name missing or pending context instead of inventing it.",
+    "premiumBoundary": "Free gets useful number meaning and current cycle guidance; Premium adds name comparisons, compatibility, missing/repeated grid, and report-ready timing."
+  },
+  "id": "numerology-number-map",
+  "language": "en",
+  "predictaAnswer": "Numerology Predicta will compare the supplied name rhythm, birth number, destiny number, personal cycle, and any candidate spelling. The digest also knows missing/repeated number patterns, compatibility, and name refinement, but I will not invent a candidate spelling if you have not supplied one. I will keep this as Numerology-only unless you explicitly ask for Vedic-plus-Numerology synthesis. Free gets useful number meaning and current cycle guidance; Premium adds name comparisons, compatibility, missing/repeated grid, and report-ready timing.",
+  "userQuestion": "Should I change my name spelling? Do not mix planets."
+}

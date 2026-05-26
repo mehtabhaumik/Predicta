@@ -1,0 +1,16 @@
+{
+  "activeRoom": "Account",
+  "area": "Account",
+  "assertions": {
+    "activeRoomAware": "Account",
+    "deeperFact": "The digest includes guest state, sign-in recovery, saved Kundli/profile context, and account guidance.",
+    "language": "hi",
+    "methodBoundary": "मैं account सहायता को astrology reading में नहीं मिलाऊंगी।",
+    "missingHonesty": "Predicta must name missing or pending context instead of inventing it.",
+    "premiumBoundary": "मुफ्त उपयोग सम्मानजनक रहता है; Premium केवल ज्यादा depth, reports, और saved access जोड़ता है।"
+  },
+  "id": "account-hindi-context",
+  "language": "hi",
+  "predictaAnswer": "Account संदर्भ सक्रिय है। Digest में guest state, sign-in recovery, saved Kundli/profile context, और account guidance उपलब्ध है, इसलिए मैं साफ बताऊंगी कि कौन सा Kundli/profile context recover हो सकता है। मैं account सहायता को astrology reading में नहीं मिलाऊंगी। अगर कोई data missing है, तो मैं उसे बना कर नहीं बताऊंगी। मुफ्त उपयोग सम्मानजनक रहता है; Premium केवल ज्यादा depth, reports, और saved access जोड़ता है।",
+  "userQuestion": "मेरे account में क्या save होगा?"
+}

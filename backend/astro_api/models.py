@@ -343,6 +343,7 @@ class SpecialistPredictaContextSnapshot(BaseModel):
 class ChartContext(BaseModel):
     chartType: Optional[str] = None
     chartName: Optional[str] = None
+    generatedReport: Optional[Dict[str, Any]] = None
     handoffBirthSummary: Optional[str] = None
     handoffFrom: Optional[str] = None
     handoffQuestion: Optional[str] = None
@@ -365,6 +366,17 @@ class ChartContext(BaseModel):
     selectedBirthTimeDetective: Optional[bool] = None
     selectedRelationshipMirror: Optional[bool] = None
     selectedRelationshipNames: Optional[str] = None
+    reportAvailableSections: List[str] = Field(default_factory=list)
+    reportFocus: Optional[str] = None
+    reportGeneratedAt: Optional[str] = None
+    reportMode: Optional[str] = None
+    reportSchoolLane: Optional[str] = None
+    reportSectionId: Optional[str] = None
+    reportSectionPrompt: Optional[str] = None
+    reportSectionTitle: Optional[str] = None
+    reportSelectedSections: List[str] = Field(default_factory=list)
+    reportSubjectName: Optional[str] = None
+    reportType: Optional[str] = None
     selectedFamilyKarmaMap: Optional[bool] = None
     selectedFamilyMemberCount: Optional[int] = None
     selectedPredictaWrapped: Optional[bool] = None

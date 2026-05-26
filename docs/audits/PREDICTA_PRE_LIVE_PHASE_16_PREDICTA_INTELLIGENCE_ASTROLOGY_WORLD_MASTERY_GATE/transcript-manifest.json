@@ -1,0 +1,114 @@
+[
+  {
+    "activeRoom": "Vedic Predicta",
+    "area": "Vedic",
+    "file": "transcripts/vedic-world-mastery.json",
+    "id": "vedic-world-mastery",
+    "language": "en",
+    "status": "passed"
+  },
+  {
+    "activeRoom": "KP Predicta",
+    "area": "KP",
+    "file": "transcripts/kp-event-room-boundary.json",
+    "id": "kp-event-room-boundary",
+    "language": "en",
+    "status": "passed"
+  },
+  {
+    "activeRoom": "Nadi Predicta",
+    "area": "Nadi",
+    "file": "transcripts/nadi-story-validation.json",
+    "id": "nadi-story-validation",
+    "language": "en",
+    "status": "passed"
+  },
+  {
+    "activeRoom": "Numerology Predicta",
+    "area": "Numerology",
+    "file": "transcripts/numerology-number-map.json",
+    "id": "numerology-number-map",
+    "language": "en",
+    "status": "passed"
+  },
+  {
+    "activeRoom": "Signature Predicta",
+    "area": "Signature",
+    "file": "transcripts/signature-confirmed-traits-only.json",
+    "id": "signature-confirmed-traits-only",
+    "language": "en",
+    "status": "passed"
+  },
+  {
+    "activeRoom": "Predicta Life Atlas",
+    "area": "Life Atlas",
+    "file": "transcripts/life-atlas-approved-synthesis.json",
+    "id": "life-atlas-approved-synthesis",
+    "language": "en",
+    "status": "passed"
+  },
+  {
+    "activeRoom": "Reports",
+    "area": "Reports",
+    "file": "transcripts/reports-section-aware.json",
+    "id": "reports-section-aware",
+    "language": "en",
+    "status": "passed"
+  },
+  {
+    "activeRoom": "Family Center",
+    "area": "Family",
+    "file": "transcripts/family-context-aware.json",
+    "id": "family-context-aware",
+    "language": "en",
+    "status": "passed"
+  },
+  {
+    "activeRoom": "Account",
+    "area": "Account",
+    "file": "transcripts/account-hindi-context.json",
+    "id": "account-hindi-context",
+    "language": "hi",
+    "status": "passed"
+  },
+  {
+    "activeRoom": "Settings",
+    "area": "Settings",
+    "file": "transcripts/settings-gujarati-language.json",
+    "id": "settings-gujarati-language",
+    "language": "gu",
+    "status": "passed"
+  },
+  {
+    "activeRoom": "Login",
+    "area": "Login",
+    "file": "transcripts/login-recovery-honesty.json",
+    "id": "login-recovery-honesty",
+    "language": "en",
+    "status": "passed"
+  },
+  {
+    "activeRoom": "Pricing",
+    "area": "Pricing",
+    "file": "transcripts/pricing-respectful-boundary.json",
+    "id": "pricing-respectful-boundary",
+    "language": "en",
+    "status": "passed"
+  },
+  {
+    "activeRoom": "Payment",
+    "area": "Payment",
+    "file": "transcripts/payment-razorpay-honesty.json",
+    "id": "payment-razorpay-honesty",
+    "language": "en",
+    "status": "passed"
+  },
+  {
+    "activeRoom": "Support",
+    "area": "Support",
+    "file": "transcripts/support-non-leaky-guidance.json",
+    "id": "support-non-leaky-guidance",
+    "language": "en",
+    "status": "passed"
+  }
+]

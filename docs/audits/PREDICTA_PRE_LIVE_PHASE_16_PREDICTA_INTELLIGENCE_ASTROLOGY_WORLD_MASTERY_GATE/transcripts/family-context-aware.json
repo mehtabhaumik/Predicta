@@ -1,0 +1,16 @@
+{
+  "activeRoom": "Family Center",
+  "area": "Family",
+  "assertions": {
+    "activeRoomAware": "Family Center",
+    "deeperFact": "The digest can carry active family/member context, relationship labels, member count, family comparison surfaces, and privacy boundaries.",
+    "language": "en",
+    "methodBoundary": "I will not blame one family member or mix another person’s private chart unless their profile/context is selected.",
+    "missingHonesty": "Predicta must name missing or pending context instead of inventing it.",
+    "premiumBoundary": "Free gets a calm pattern summary; Premium can add deeper family comparison and relationship timing when profiles are available."
+  },
+  "id": "family-context-aware",
+  "language": "en",
+  "predictaAnswer": "Family Center context is active. The digest can carry active family/member context, relationship labels, member count, family comparison surfaces, and privacy boundaries, so I can explain the selected person and relationship instead of sounding lost. I will not blame one family member or mix another person’s private chart unless their profile/context is selected. Free gets a calm pattern summary; Premium can add deeper family comparison and relationship timing when profiles are available.",
+  "userQuestion": "Explain what Predicta knows about my family section."
+}

@@ -1,0 +1,16 @@
+{
+  "activeRoom": "Settings",
+  "area": "Settings",
+  "assertions": {
+    "activeRoomAware": "Settings",
+    "deeperFact": "The digest includes language preference, saved preferences, support links, account reset/recovery guidance, and safe explanation rules.",
+    "language": "gu",
+    "methodBoundary": "હું settings માર્ગદર્શનને Vedic, KP અથવા Numerology reading તરીકે નહીં બદલું.",
+    "missingHonesty": "Predicta must name missing or pending context instead of inventing it.",
+    "premiumBoundary": "મફત અને Premium બંનેમાં ભાષા અને મૂળભૂત માર્ગદર્શન સન્માનજનક રહે છે; Premium ઊંડા reports અને saved depth ઉમેરે છે."
+  },
+  "id": "settings-gujarati-language",
+  "language": "gu",
+  "predictaAnswer": "Settings સંદર્ભ સક્રિય છે. Digest માં language preference, saved preferences, support links, account reset/recovery guidance, અને safe explanation rules છે. તેથી હું જણાવી શકું કે પસંદ કરેલી ભાષા chat, report copy, અને app guidance ને અસર કરે છે. હું settings માર્ગદર્શનને Vedic, KP અથવા Numerology reading તરીકે નહીં બદલું. મફત અને Premium બંનેમાં ભાષા અને મૂળભૂત માર્ગદર્શન સન્માનજનક રહે છે; Premium ઊંડા reports અને saved depth ઉમેરે છે.",
+  "userQuestion": "ભાષા settings કેમ બદલવી?"
+}
