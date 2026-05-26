@@ -309,11 +309,15 @@ p {
   font-weight: 800;
   justify-content: center;
   line-height: 1.22;
+  max-width: 100%;
   min-height: 48px;
+  min-width: 0;
+  overflow-wrap: anywhere;
   padding: 14px 20px;
   position: relative;
   text-align: center;
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.22);
+  white-space: normal;
   transition:
     background 180ms ease,
     border-color 180ms ease,
@@ -3787,7 +3791,7 @@ button:disabled {
 .numerology-number-grid {
   display: grid;
   gap: 10px;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 112px), 1fr));
 }
 
 .numerology-number-card {
@@ -3796,7 +3800,12 @@ button:disabled {
     rgba(255, 255, 255, 0.055);
   border: 1px solid rgba(255, 195, 77, 0.2);
   border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   min-height: 94px;
+  min-width: 0;
+  overflow: hidden;
   padding: 12px;
 }
 
@@ -3811,9 +3820,11 @@ button:disabled {
 .numerology-number-card small {
   color: var(--muted);
   display: block;
-  font-size: 12px;
+  font-size: clamp(10px, 1.55vw, 12px);
   line-height: 1.35;
   margin-top: 8px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .signature-input-hero,
@@ -9059,11 +9070,11 @@ button:disabled {
 .vedic-intelligence-grid {
   display: grid;
   gap: 14px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
 }
 
 .vedic-intelligence-grid.compact {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
 }
 
 .vedic-chart-order p,
@@ -9079,6 +9090,14 @@ button:disabled {
 
 .vedic-intelligence-card.is-pending {
   border-color: rgba(255, 210, 122, 0.22);
+}
+
+.vedic-intelligence-card,
+.vedic-intelligence-card *,
+.vedic-disclosure,
+.vedic-disclosure * {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .vedic-intelligence-card small {
@@ -19349,7 +19368,7 @@ select::-ms-expand {
   .dossier-preview > .report-quick-composer,
   .dossier-preview > .report-marketplace,
   .dossier-preview > .report-download-stage {
-    width: min(100%, calc(100vw - 48px));
+    width: 100%;
   }
 
   .report-marketplace-header h2,
@@ -19377,6 +19396,13 @@ select::-ms-expand {
   .report-inline-composer.primary .report-inline-composer-top,
   .report-inline-composer.primary .report-inline-recommended {
     display: grid;
+    width: 100%;
+  }
+
+  .report-inline-composer .report-inline-composer-top,
+  .report-inline-composer .report-inline-recommended {
+    display: grid;
+    width: 100%;
   }
 
   .report-inline-composer.primary h3 {
@@ -19388,7 +19414,39 @@ select::-ms-expand {
     width: 100%;
   }
 
+  .report-inline-composer .report-inline-mode-card,
+  .report-inline-composer .report-inline-actions .button {
+    width: 100%;
+  }
+
   .report-inline-composer.primary .report-inline-actions {
     display: grid;
+    width: 100%;
+  }
+
+  .report-inline-composer .report-inline-actions {
+    display: grid;
+    width: 100%;
+  }
+
+  .report-inline-composer.primary .report-builder-choice-row {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .report-inline-composer.primary .report-builder-choice {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 380px) {
+  .dashboard-page .report-inline-composer .report-inline-composer-top,
+  .dashboard-page .report-inline-composer .report-inline-mode-card,
+  .dashboard-page .report-inline-composer .report-inline-actions,
+  .dashboard-page .report-inline-composer .report-inline-recommended,
+  .dashboard-page .report-inline-composer .report-builder-choice-row,
+  .dashboard-page .report-inline-composer .report-builder-choice {
+    max-width: calc(100vw - 88px);
   }
 }
