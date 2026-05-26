@@ -2,7 +2,12 @@
 
 ## Status
 
-Predicta is ready for public launch.
+This roadmap records the earlier public-readiness recovery work. It is now
+superseded for launch claims by the 2026-05-26 pre-live no-go audit in
+[PREDICTA_PRE_LIVE_RUTHLESS_AUDIT_REMEDIATION_PHASES.md](./PREDICTA_PRE_LIVE_RUTHLESS_AUDIT_REMEDIATION_PHASES.md).
+
+Predicta must not be called public-launch-ready until that newer remediation
+spine is fully green.
 
 This roadmap exists to turn the current product from a stitched dashboard with
 real astrology capability into a launch-grade product that can earn trust,

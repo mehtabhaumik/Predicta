@@ -1,0 +1,18 @@
+Phase: PREDICTA_PRE_LIVE_PHASE_0_RUTHLESS_AUDIT_EVIDENCE_LOCK
+Date: 2026-05-26
+Working directory: /Users/bmehta/Downloads/Predicta
+Branch: main
+Starting HEAD: 07fe79fc658d741457c508e0961ffe367b6a3c48
+
+Starting working tree before Phase 0 evidence files:
+ M docs/PREDICTA_PUBLIC_BLOCKER_LEDGER.md
+ M docs/PREDICTA_PUBLIC_READINESS_REVIVAL_PLAN.md
+ M docs/PREDICTA_PUBLIC_RELEASE_STOP_CONTRACT.md
+ M docs/README.md
+?? docs/PREDICTA_PRE_LIVE_RUTHLESS_AUDIT_REMEDIATION_PHASES.md
+
+Reason for dirty tree:
+The new pre-live remediation spine and release-stop supersession edits were
+created immediately before executing Phase 0. Phase 0 owns these doc changes
+because it is the evidence-lock phase that freezes the no-go audit baseline.
+

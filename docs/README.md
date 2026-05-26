@@ -7,6 +7,13 @@ Only live documents in this repo are listed here.
 
 ## Public Readiness
 
+- [PREDICTA_PRE_LIVE_RUTHLESS_AUDIT_REMEDIATION_PHASES.md](./PREDICTA_PRE_LIVE_RUTHLESS_AUDIT_REMEDIATION_PHASES.md)
+  Current no-go pre-live remediation spine created from the 2026-05-26 ruthless
+  audit, covering release governance, public greenlight, mobile tests,
+  specialist-room QA, report overflow, animation regression, payments,
+  Signature real-input detection, localization, admin hardening, real PDF
+  smokes, Predicta intelligence mastery, and the final no-major-issue release
+  re-audit.
 - [PREDICTA_PUBLIC_READINESS_REVIVAL_PLAN.md](./PREDICTA_PUBLIC_READINESS_REVIVAL_PLAN.md)
   Strict public-readiness recovery roadmap with ordered phases, exact execution
   prompts, and the final QA gate.

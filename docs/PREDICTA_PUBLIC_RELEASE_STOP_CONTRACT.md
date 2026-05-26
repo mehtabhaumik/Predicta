@@ -22,6 +22,9 @@ Public release is blocked if any of the following are true:
    before Phase 8 is incomplete.
 4. The final QA gate in Phase 8 has not passed.
 5. `python3 -m backend.astro_api.release_governance` does not return `READY`.
+6. Any phase in
+   [PREDICTA_PRE_LIVE_RUTHLESS_AUDIT_REMEDIATION_PHASES.md](./PREDICTA_PRE_LIVE_RUTHLESS_AUDIT_REMEDIATION_PHASES.md)
+   is incomplete after the 2026-05-26 pre-live no-go audit.
 
 ## Launch Claim Rule
 
@@ -66,6 +69,10 @@ All of the following must exist and be current:
    confirming the technical and safety gate is `READY`.
 4. Live smoke evidence across desktop, tablet, and mobile for the route matrix
    defined in Phase 8.
+5. The pre-live remediation spine in
+   [PREDICTA_PRE_LIVE_RUTHLESS_AUDIT_REMEDIATION_PHASES.md](./PREDICTA_PRE_LIVE_RUTHLESS_AUDIT_REMEDIATION_PHASES.md)
+   showing all phases green, including the final no-major-issue release
+   re-audit.
 
 ## Escalation Rule
 
@@ -106,6 +113,7 @@ Predicta may be called public-ready only when all of the following are true:
 - no open `Critical` blockers
 - no open `Major` blockers
 - the ordered revival phases are complete
+- the pre-live ruthless audit remediation phases are complete
 - final route/device QA is complete
 - safety readiness is `READY`
 - the product no longer feels like a dashboard shell, a half-translated app, a

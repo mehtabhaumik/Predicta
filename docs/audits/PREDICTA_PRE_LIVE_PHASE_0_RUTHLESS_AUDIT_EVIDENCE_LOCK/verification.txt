@@ -1,0 +1,38 @@
+PREDICTA_PRE_LIVE_PHASE_0_RUTHLESS_AUDIT_EVIDENCE_LOCK
+
+Status: GREEN
+Date: 2026-05-26
+
+Scope:
+- Freeze the 2026-05-26 ruthless no-go audit baseline.
+- Create the pre-live remediation spine.
+- Ensure older readiness docs cannot overrule the new no-go audit.
+- Map every known Critical, Major, Medium, Minor, and extra Predicta
+  intelligence issue to an owning phase.
+
+Artifacts:
+- docs/PREDICTA_PRE_LIVE_RUTHLESS_AUDIT_REMEDIATION_PHASES.md
+- docs/audits/PREDICTA_PRE_LIVE_PHASE_0_RUTHLESS_AUDIT_EVIDENCE_LOCK/no-go-baseline.md
+- docs/audits/PREDICTA_PRE_LIVE_PHASE_0_RUTHLESS_AUDIT_EVIDENCE_LOCK/command-baseline.md
+- docs/audits/PREDICTA_PRE_LIVE_PHASE_0_RUTHLESS_AUDIT_EVIDENCE_LOCK/repo-state.txt
+- docs/audits/PREDICTA_PRE_LIVE_PHASE_0_RUTHLESS_AUDIT_EVIDENCE_LOCK/verification.txt
+
+Release-stop supersession proof:
+- docs/README.md links the new pre-live remediation spine.
+- docs/PREDICTA_PUBLIC_RELEASE_STOP_CONTRACT.md blocks launch while any
+  pre-live remediation phase is incomplete.
+- docs/PREDICTA_PUBLIC_READINESS_REVIVAL_PLAN.md says the older launch-ready
+  claim is superseded by the 2026-05-26 no-go audit.
+- docs/PREDICTA_PUBLIC_BLOCKER_LEDGER.md says older closed blockers are
+  historical closure evidence, not current permission to launch.
+
+Checks:
+- PASS: every baseline finding has a single owning remediation phase in the
+  audit artifact.
+- PASS: older readiness docs point to the new remediation spine.
+- PASS: git diff --check
+
+Important limitation:
+- Phase 0 is an evidence-lock and release-stop phase. It does not fix runtime
+  blockers. Phase 1 starts the actual remediation by unlocking release
+  governance cost/profit readiness.

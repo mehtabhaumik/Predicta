@@ -9,6 +9,12 @@ Public-readiness evidence was re-audited locally and on the deployed App
 Hosting surface on 2026-05-21. All Critical and Major blockers below are now
 closed against the current audited build.
 
+This ledger is superseded for launch claims by the newer 2026-05-26 pre-live
+no-go audit in
+[PREDICTA_PRE_LIVE_RUTHLESS_AUDIT_REMEDIATION_PHASES.md](./PREDICTA_PRE_LIVE_RUTHLESS_AUDIT_REMEDIATION_PHASES.md).
+The older blockers below remain historical closure evidence, not current
+permission to launch.
+
 Public launch is blocked until:
 
 - every `Critical` blocker is closed
