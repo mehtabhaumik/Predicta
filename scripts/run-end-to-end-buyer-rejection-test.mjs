@@ -182,6 +182,8 @@ try {
         routeSummary.push({
           buttons: metrics.visibleButtons,
           clipped: metrics.clippedText.length,
+          firstScreenButtons: metrics.firstScreenButtons,
+          firstScreenForms: metrics.firstScreenFormControls,
           forms: metrics.formControls,
           links: metrics.internalLinks.length,
           route,
@@ -222,6 +224,21 @@ try {
 
         if (route === '/dashboard/report' && metrics.visibleButtons > 42) {
           failures.push(`${label}: report page still exposes too many visible actions (${metrics.visibleButtons}).`);
+        }
+
+        if (route === '/dashboard/report') {
+          const firstScreenButtonLimit =
+            viewport.name === 'mobile' ? 14 : viewport.name === 'tablet' ? 18 : 22;
+          const firstScreenFormLimit =
+            viewport.name === 'mobile' ? 2 : viewport.name === 'tablet' ? 3 : 4;
+
+          if (metrics.firstScreenButtons > firstScreenButtonLimit) {
+            failures.push(`${label}: report first screen exposes too many actions (${metrics.firstScreenButtons}/${firstScreenButtonLimit}).`);
+          }
+
+          if (metrics.firstScreenFormControls > firstScreenFormLimit) {
+            failures.push(`${label}: report first screen exposes too many form controls (${metrics.firstScreenFormControls}/${firstScreenFormLimit}).`);
+          }
         }
 
         if (route === '/dashboard/kundli' && metrics.chartHouseButtons && metrics.chartHouseButtons !== 12) {
@@ -520,6 +537,12 @@ async function evaluateBuyerMetrics(cdp) {
       return {
         chartHouseButtons: document.querySelectorAll('.north-house[type="button"]').length || 0,
         clippedText,
+        firstScreenButtons: [...document.querySelectorAll('button, a.button, [role="button"]')]
+          .filter(element => isVisible(element) && element.getBoundingClientRect().top < window.innerHeight)
+          .length,
+        firstScreenFormControls: [...document.querySelectorAll('input, select, textarea')]
+          .filter(element => isVisible(element) && element.getBoundingClientRect().top < window.innerHeight)
+          .length,
         formControls: document.querySelectorAll('input, select, textarea').length,
         horizontalOverflow: Math.max(0, Math.ceil(Math.max(body.scrollWidth, root.scrollWidth) - viewportWidth)),
         internalLinks,

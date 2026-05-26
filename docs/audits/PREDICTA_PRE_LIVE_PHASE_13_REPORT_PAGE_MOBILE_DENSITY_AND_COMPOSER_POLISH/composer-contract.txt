@@ -1,0 +1,7 @@
+Report page composer contract:
+- Web starts with a compact selected-report composer.
+- Web still renders the full school-separated marketplace, but behind a change-report drawer.
+- The selected report composer remains rendered directly under selected product cards when the drawer is open.
+- Vedic uses Recommended by Predicta by default and hides advanced section selection behind customization.
+- Mobile starts with the selected-report composer and hides marketplace/language/section options behind explicit actions.
+- Buyer rejection gate now records and enforces first-screen report density.

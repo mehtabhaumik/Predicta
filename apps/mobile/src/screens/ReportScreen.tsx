@@ -7,7 +7,6 @@ import {
   AppText,
   GlowButton,
   GlowCard,
-  GradientOutlineCard,
   Screen,
   TrustProofPanel,
   useGlassAlert,
@@ -39,6 +38,8 @@ export function ReportScreen({
   const [builderMode, setBuilderMode] = useState<'EVERYTHING' | 'CUSTOM'>(
     'EVERYTHING',
   );
+  const [showComposerDetails, setShowComposerDetails] = useState(false);
+  const [showReportMarketplace, setShowReportMarketplace] = useState(false);
   const [selectedSectionKeys, setSelectedSectionKeys] = useState<string[]>([]);
   const auth = useAppStore(state => state.auth);
   const kundli = useAppStore(state => state.activeKundli);
@@ -353,6 +354,97 @@ export function ReportScreen({
           </View>
         )}
 
+        <Pressable
+          accessibilityRole="button"
+          className="mt-4 rounded-[18px] border border-[#4DAFFF66] bg-[#101018] p-4"
+          onPress={() => setShowComposerDetails(current => !current)}
+        >
+          <AppText className="font-bold text-[#4DAFFF]">
+            {showComposerDetails
+              ? 'Hide language and section options'
+              : 'Customize language and sections'}
+          </AppText>
+          <AppText className="mt-1" tone="secondary" variant="caption">
+            Recommended by Predicta is selected by default. Open this only if
+            you want to adjust the PDF.
+          </AppText>
+        </Pressable>
+
+        {showComposerDetails ? (
+          <View className="mt-4 gap-4">
+            <View className="rounded-[18px] border border-[#252533] bg-[#191923] p-4">
+              <AppText tone="secondary" variant="caption">
+                REPORT LANGUAGE
+              </AppText>
+              <View className="mt-3 gap-3">
+                {SUPPORTED_LANGUAGE_OPTIONS.map(option => (
+                  <Pressable
+                    accessibilityRole="button"
+                    className={`rounded-[16px] border p-3 ${
+                      option.code === reportLanguage
+                        ? 'border-[#4DAFFF] bg-[#172233]'
+                        : 'border-[#252533] bg-[#101018]'
+                    }`}
+                    key={option.code}
+                    onPress={() => {
+                      setReportLanguagePreference(option.code);
+                      saveReportLanguagePreference(option.code).catch(
+                        () => undefined,
+                      );
+                    }}
+                  >
+                    <AppText variant="body">{option.nativeName}</AppText>
+                    <AppText tone="secondary" variant="caption">
+                      {option.englishName}
+                    </AppText>
+                  </Pressable>
+                ))}
+              </View>
+            </View>
+
+            {isVedicReport && kundli ? (
+              <View className="gap-3">
+                {sectionOptions.map(({ key, section }) => (
+                  <Pressable
+                    accessibilityRole="checkbox"
+                    accessibilityState={{
+                      checked:
+                        builderMode === 'EVERYTHING' || selectedKeySet.has(key),
+                      disabled: builderMode === 'EVERYTHING',
+                    }}
+                    className={`rounded-[18px] border p-4 ${
+                      builderMode === 'EVERYTHING' || selectedKeySet.has(key)
+                        ? 'border-[#4DAFFF] bg-[#172233]'
+                        : 'border-[#252533] bg-[#191923]'
+                    }`}
+                    disabled={builderMode === 'EVERYTHING'}
+                    key={key}
+                    onPress={() => {
+                      setBuilderMode('CUSTOM');
+                      setSelectedSectionKeys(current =>
+                        current.includes(key)
+                          ? current.filter(item => item !== key)
+                          : [...current, key],
+                      );
+                    }}
+                  >
+                    <AppText tone="secondary" variant="caption">
+                      {section.eyebrow}
+                    </AppText>
+                    <AppText className="mt-1" variant="body">
+                      {section.title}
+                    </AppText>
+                    <AppText className="mt-1" tone="secondary" variant="caption">
+                      {(section.tier ?? 'free').toUpperCase()} ·{' '}
+                      {section.confidence ?? 'medium'} confidence
+                    </AppText>
+                  </Pressable>
+                ))}
+              </View>
+            ) : null}
+          </View>
+        ) : null}
+
         <View className="mt-5 gap-3">
           <GlowButton
             disabled={isGenerating}
@@ -395,10 +487,45 @@ export function ReportScreen({
         title="Report Kundli"
       />
 
-      <View className="mt-8">
+      <GlowCard className="mt-6" delay={80}>
+        <AppText tone="secondary" variant="caption">
+          REPORT COMPOSER
+        </AppText>
+        <AppText className="mt-2" variant="subtitle">
+          Your selected report is ready
+        </AppText>
+        <AppText className="mt-2" tone="secondary">
+          Download from here first. Change report worlds only if you want a
+          different school or a Life Atlas synthesis.
+        </AppText>
+        <View className="mt-4">
+          <ReportProductButton
+            product={selectedReport}
+            selected
+            onPress={() => undefined}
+          />
+          {renderInlineReportComposer(selectedReport)}
+        </View>
+        <Pressable
+          accessibilityRole="button"
+          className="mt-4 rounded-[18px] border border-[#4DAFFF55] bg-[#101826] p-4"
+          onPress={() => setShowReportMarketplace(current => !current)}
+        >
+          <AppText className="font-bold text-[#4DAFFF]">
+            {showReportMarketplace ? 'Hide report worlds' : 'Change report world'}
+          </AppText>
+          <AppText className="mt-1" tone="secondary" variant="caption">
+            Vedic, KP, Nadi, Numerology, Signature, and Life Atlas stay in
+            separate lanes.
+          </AppText>
+        </Pressable>
+      </GlowCard>
+
+      <View className="mt-6">
         <TrustProofPanel trust={reportPreview.trustProfile} />
       </View>
 
+      {showReportMarketplace ? (
       <GlowCard className="mt-8" delay={100}>
         <AppText tone="secondary" variant="caption">
           REPORT MARKETPLACE
@@ -509,254 +636,8 @@ export function ReportScreen({
           ))}
         </View>
       </GlowCard>
+      ) : null}
 
-      <GradientOutlineCard className="mt-6" delay={160}>
-        <AppText tone="secondary" variant="caption">
-          SELECTED REPORT
-        </AppText>
-        <AppText className="mt-2" variant="subtitle">
-          {selectedReport.title}
-        </AppText>
-        <AppText className="mt-2" tone="secondary">
-          {selectedReport.purchaseHint}
-        </AppText>
-        <View className="mt-4 gap-3">
-          <View className="rounded-[18px] border border-[#252533] bg-[#191923] p-4">
-            <AppText tone="secondary" variant="caption">
-              FREE PREVIEW
-            </AppText>
-            <AppText className="mt-2" tone="secondary">
-              {selectedReport.freeDepth}
-            </AppText>
-            <View className="mt-3 gap-2">
-              {selectedReport.freeIncludes.map(item => (
-                <AppText key={item} tone="secondary" variant="caption">
-                  • {item}
-                </AppText>
-              ))}
-            </View>
-          </View>
-          <View className="rounded-[18px] border border-[#252533] bg-[#191923] p-4">
-            <AppText tone="secondary" variant="caption">
-              PREMIUM DEPTH
-            </AppText>
-            <AppText className="mt-2" tone="secondary">
-              {selectedReport.premiumDepth}
-            </AppText>
-            <View className="mt-3 gap-2">
-              {selectedReport.premiumIncludes.map(item => (
-                <AppText key={item} tone="secondary" variant="caption">
-                  • {item}
-                </AppText>
-              ))}
-            </View>
-          </View>
-        </View>
-        <Pressable
-          accessibilityRole="button"
-          className="mt-5"
-          onPress={() => askFromReport(selectedReport.prompt)}
-        >
-          <AppText className="font-bold text-[#4DAFFF]">
-            Ask Predicta from this report
-          </AppText>
-        </Pressable>
-      </GradientOutlineCard>
-
-      <GlowCard className="mt-6" delay={220}>
-        <AppText tone="secondary" variant="caption">
-          REPORT BUILDER
-        </AppText>
-        <AppText className="mt-2" variant="subtitle">
-          Choose everything or pick sections
-        </AppText>
-        <AppText className="mt-2" tone="secondary">
-          Free and Premium can include every section. Premium changes the depth,
-          timing, remedies, and synthesis.
-        </AppText>
-        <View className="mt-4 flex-row gap-3">
-          <Pressable
-            accessibilityRole="button"
-            className={`flex-1 rounded-[18px] border p-4 ${
-              builderMode === 'EVERYTHING'
-                ? 'border-[#4DAFFF] bg-[#172233]'
-                : 'border-[#252533] bg-[#191923]'
-            }`}
-            onPress={() => {
-              setBuilderMode('EVERYTHING');
-              setSelectedSectionKeys(sectionOptions.map(option => option.key));
-            }}
-          >
-            <AppText variant="body">Complete report</AppText>
-            <AppText className="mt-1" tone="secondary" variant="caption">
-              Include all sections
-            </AppText>
-          </Pressable>
-          <Pressable
-            accessibilityRole="button"
-            className={`flex-1 rounded-[18px] border p-4 ${
-              builderMode === 'CUSTOM'
-                ? 'border-[#4DAFFF] bg-[#172233]'
-                : 'border-[#252533] bg-[#191923]'
-            }`}
-            onPress={() => {
-              setBuilderMode('CUSTOM');
-              setSelectedSectionKeys(
-                sectionOptions.slice(0, 8).map(option => option.key),
-              );
-            }}
-          >
-            <AppText variant="body">Pick sections</AppText>
-            <AppText className="mt-1" tone="secondary" variant="caption">
-              {selectedSectionCount}/{reportPreview.sections.length || 0} selected
-            </AppText>
-          </Pressable>
-        </View>
-
-        <View className="mt-5 rounded-[18px] border border-[#252533] bg-[#191923] p-4">
-          <AppText tone="secondary" variant="caption">
-            REPORT LANGUAGE
-          </AppText>
-          <AppText className="mt-2" variant="body">
-            Choose PDF language
-          </AppText>
-          <AppText className="mt-2" tone="secondary">
-            Your app language stays the same. Only this report PDF uses the
-            selected language.
-          </AppText>
-          <View className="mt-4 gap-3">
-            {SUPPORTED_LANGUAGE_OPTIONS.map(option => (
-              <Pressable
-                accessibilityRole="button"
-                className={`rounded-[16px] border p-3 ${
-                  option.code === reportLanguage
-                    ? 'border-[#4DAFFF] bg-[#172233]'
-                    : 'border-[#252533] bg-[#101018]'
-                }`}
-                key={option.code}
-                onPress={() => {
-                  setReportLanguagePreference(option.code);
-                  saveReportLanguagePreference(option.code).catch(() => undefined);
-                }}
-              >
-                <AppText variant="body">{option.nativeName}</AppText>
-                <AppText tone="secondary" variant="caption">
-                  {option.englishName}
-                </AppText>
-              </Pressable>
-            ))}
-          </View>
-        </View>
-
-        {kundli ? (
-          <View className="mt-4 gap-3">
-            {sectionOptions.map(({ key, section }) => (
-              <Pressable
-                accessibilityRole="checkbox"
-                accessibilityState={{
-                  checked:
-                    builderMode === 'EVERYTHING' || selectedKeySet.has(key),
-                  disabled: builderMode === 'EVERYTHING',
-                }}
-                className={`rounded-[18px] border p-4 ${
-                  builderMode === 'EVERYTHING' || selectedKeySet.has(key)
-                    ? 'border-[#4DAFFF] bg-[#172233]'
-                    : 'border-[#252533] bg-[#191923]'
-                }`}
-                disabled={builderMode === 'EVERYTHING'}
-                key={key}
-                onPress={() => {
-                  setBuilderMode('CUSTOM');
-                  setSelectedSectionKeys(current =>
-                    current.includes(key)
-                      ? current.filter(item => item !== key)
-                      : [...current, key],
-                  );
-                }}
-              >
-                <AppText tone="secondary" variant="caption">
-                  {section.eyebrow}
-                </AppText>
-                <AppText className="mt-1" variant="body">
-                  {section.title}
-                </AppText>
-                <AppText className="mt-1" tone="secondary" variant="caption">
-                  {(section.tier ?? 'free').toUpperCase()} ·{' '}
-                  {section.confidence ?? 'medium'} confidence
-                </AppText>
-              </Pressable>
-            ))}
-          </View>
-        ) : (
-          <AppText className="mt-4" tone="secondary">
-            Create a kundli first, then the report sections will appear here.
-          </AppText>
-        )}
-      </GlowCard>
-
-      <GradientOutlineCard className="mt-8" delay={420}>
-        <AppText tone="secondary" variant="caption">
-          REPORT DELIVERY
-        </AppText>
-        <AppText className="mt-2" variant="subtitle">
-          {previewMode === 'PREMIUM'
-            ? 'Here is your detailed analysis report path'
-            : 'Here is your free insight report path'}
-        </AppText>
-        <AppText className="mt-3" tone="secondary">
-          {reportPreview.executiveSummary.headline}
-        </AppText>
-        <View className="mt-4 gap-3">
-          {reportPreview.executiveSummary.keySignals.slice(0, 3).map(signal => (
-            <View
-              className="rounded-[18px] border border-[#252533] bg-[#191923] p-4"
-              key={signal}
-            >
-              <AppText tone="secondary" variant="caption">
-                KEY SIGNAL
-              </AppText>
-              <AppText className="mt-2" tone="secondary">
-                {signal}
-              </AppText>
-            </View>
-          ))}
-        </View>
-        <View className="mt-5 rounded-[18px] border border-[#252533] bg-[#191923] p-4">
-          <AppText tone="secondary" variant="caption">
-            INCLUDED IN PDF
-          </AppText>
-          <AppText className="mt-2" tone="secondary">
-            {selectedSectionCount}/{reportPreview.sections.length || 0} sections selected.
-            The PDF is the full reading surface; this page keeps the choice flow simple.
-          </AppText>
-        </View>
-        <View className="mt-5 gap-4">
-          <GlowButton
-            disabled={isGenerating}
-            label={isGenerating ? 'Preparing your report...' : 'Download your report'}
-            loading={isGenerating}
-            onPress={() => createPdf('FREE')}
-          />
-          <GlowButton
-            disabled={isGenerating}
-            label={
-              userPlan === 'PREMIUM'
-                ? 'Download your report'
-                : 'Unlock Detailed PDF'
-            }
-            onPress={() => createPdf('PREMIUM')}
-          />
-        </View>
-        <Pressable
-          accessibilityRole="button"
-          className="mt-4"
-          onPress={() => askFromReport(selectedReport.prompt)}
-        >
-          <AppText className="font-bold text-[#4DAFFF]">
-            Ask Predicta from this report
-          </AppText>
-        </Pressable>
-      </GradientOutlineCard>
     </Screen>
   );
 }

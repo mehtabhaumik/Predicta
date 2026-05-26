@@ -192,6 +192,7 @@ export function WebDossierPreview(): React.JSX.Element {
   );
   const [isReportPreviewOpen, setReportPreviewOpen] = useState(false);
   const [isDownloadDialogOpen, setDownloadDialogOpen] = useState(false);
+  const [isReportMarketplaceOpen, setReportMarketplaceOpen] = useState(false);
   const [showStickyReportBar, setShowStickyReportBar] = useState(false);
   const [selectedSectionKeys, setSelectedSectionKeys] = useState<string[]>([]);
   const [reportSurfaceState, setReportSurfaceState] = useState<
@@ -695,6 +696,10 @@ export function WebDossierPreview(): React.JSX.Element {
 
   function renderInlineReportComposer(
     product: ReportMarketplaceProduct,
+    {
+      attachStickyRef = false,
+      surface = 'inline',
+    }: { attachStickyRef?: boolean; surface?: 'inline' | 'primary' } = {},
   ): React.JSX.Element | null {
     if (product.id !== selectedReportId) {
       return null;
@@ -707,10 +712,11 @@ export function WebDossierPreview(): React.JSX.Element {
       <div
         className={
           isVedicReport
-            ? 'report-inline-composer vedic'
-            : 'report-inline-composer direct'
+            ? `report-inline-composer vedic ${surface}`
+            : `report-inline-composer direct ${surface}`
         }
-        ref={inlineComposerRef}
+        data-phase13-report-composer-contract={surface}
+        ref={attachStickyRef ? inlineComposerRef : undefined}
       >
         <div className="report-inline-composer-top">
           <div>
@@ -743,6 +749,18 @@ export function WebDossierPreview(): React.JSX.Element {
               </button>
             </div>
           </div>
+        </div>
+
+        <div className="report-inline-actions">
+          <button className="button primary" onClick={() => openReportPreview()} type="button">
+            {builderCopy.previewSelected}
+          </button>
+          <a className="button secondary" href={buildCurrentReportAskHref()}>
+            {builderCopy.askFromReport}
+          </a>
+          <button className="button secondary" onClick={copyReportSummary} type="button">
+            {copyState === 'report' ? builderCopy.copied : builderCopy.copyReport}
+          </button>
         </div>
 
         {isVedicReport ? (
@@ -895,17 +913,6 @@ export function WebDossierPreview(): React.JSX.Element {
           </section>
         </details>
 
-        <div className="report-inline-actions">
-          <button className="button primary" onClick={() => openReportPreview()} type="button">
-            {builderCopy.previewSelected}
-          </button>
-          <a className="button secondary" href={buildCurrentReportAskHref()}>
-            {builderCopy.askFromReport}
-          </a>
-          <button className="button secondary" onClick={copyReportSummary} type="button">
-            {copyState === 'report' ? builderCopy.copied : builderCopy.copyReport}
-          </button>
-        </div>
         {copyState === 'empty' ? (
           <p className="report-builder-note">{builderCopy.emptySelection}</p>
         ) : copyState === 'needKundli' ? (
@@ -959,7 +966,23 @@ export function WebDossierPreview(): React.JSX.Element {
         sourceScreen="Report"
         title="Report Kundli"
       />
-      <section className="report-marketplace glass-panel">
+      <section
+        className="report-quick-composer glass-panel"
+        data-phase13-first-screen-primary-action="true"
+      >
+        <div className="report-selected-choice">
+          <div className="report-product-card active report-selected-product-card">
+            <span>{localizedSelectedReport.badge}</span>
+            <strong>{localizedSelectedReport.title}</strong>
+            <em>{localizedSelectedReport.outcome}</em>
+            <small>{localizedSelectedReport.bestFor}</small>
+          </div>
+          {renderInlineReportComposer(selectedReport, {
+            attachStickyRef: true,
+            surface: 'primary',
+          })}
+        </div>
+
         <div className="report-marketplace-header">
           <div>
             <div className="section-title">{builderCopy.marketplaceEyebrow}</div>
@@ -972,6 +995,30 @@ export function WebDossierPreview(): React.JSX.Element {
             <small>{builderCopy.marketplacePromiseBody}</small>
           </div>
         </div>
+
+        <button
+          className="report-change-world-button"
+          onClick={() => setReportMarketplaceOpen(current => !current)}
+          type="button"
+        >
+          {isReportMarketplaceOpen ? 'Hide report worlds' : 'Change report world'}
+        </button>
+      </section>
+
+      <section className="report-marketplace glass-panel">
+        <details
+          className="report-marketplace-selector"
+          onToggle={event => setReportMarketplaceOpen(event.currentTarget.open)}
+          open={isReportMarketplaceOpen}
+        >
+          <summary>
+            <span>School-separated marketplace</span>
+            <strong>
+              Choose a different Vedic, KP, Nadi, Numerology, Signature, or Life
+              Atlas report
+            </strong>
+          </summary>
+          <div className="report-marketplace-expanded">
 
         <details className="report-drawer">
           <summary>
@@ -1185,6 +1232,8 @@ export function WebDossierPreview(): React.JSX.Element {
             );
           })}
         </section>
+          </div>
+        </details>
       </section>
 
       {showStickyReportBar ? (
@@ -1201,25 +1250,6 @@ export function WebDossierPreview(): React.JSX.Element {
           </button>
         </div>
       ) : null}
-
-      <div className="dossier-toolbar">
-        <div className="dossier-mode-switch" aria-label={labels.reportDepth}>
-          <button
-            className={mode === 'FREE' ? 'active' : ''}
-            onClick={() => setMode('FREE')}
-            type="button"
-          >
-            {labels.free}
-          </button>
-          <button
-            className={mode === 'PREMIUM' ? 'active' : ''}
-            onClick={() => setMode('PREMIUM')}
-            type="button"
-          >
-            {labels.premium}
-          </button>
-        </div>
-      </div>
 
       {isReportPreviewOpen ? (
         <section className="report-download-stage glass-panel" ref={reportPreviewRef}>

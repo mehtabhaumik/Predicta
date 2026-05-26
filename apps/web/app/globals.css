@@ -10006,6 +10006,68 @@ button:disabled {
   padding: 28px;
 }
 
+.report-quick-composer {
+  background:
+    radial-gradient(circle at 8% 10%, rgba(217, 54, 149, 0.14), transparent 30%),
+    radial-gradient(circle at 92% 18%, rgba(77, 175, 255, 0.16), transparent 32%),
+    radial-gradient(circle at 72% 92%, rgba(50, 209, 141, 0.1), transparent 28%),
+    rgba(10, 11, 18, 0.92);
+  display: grid;
+  gap: 18px;
+  padding: 28px;
+}
+
+.report-selected-choice {
+  display: grid;
+  gap: 14px;
+}
+
+.report-selected-product-card {
+  cursor: default;
+  min-height: auto;
+  transform: none;
+}
+
+.report-change-world-button {
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(77, 175, 255, 0.12), rgba(50, 209, 141, 0.08)),
+    rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(77, 175, 255, 0.3);
+  border-radius: 16px;
+  color: var(--text);
+  cursor: pointer;
+  display: inline-flex;
+  font-weight: 900;
+  justify-content: center;
+  justify-self: start;
+  padding: 13px 16px;
+}
+
+.report-marketplace-selector {
+  background: transparent;
+  border: 0;
+  display: grid;
+  gap: 16px;
+}
+
+.report-marketplace-selector > summary {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025)),
+    rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-quiet);
+  border-radius: 18px;
+}
+
+.report-marketplace-selector > summary strong {
+  text-align: left;
+}
+
+.report-marketplace-expanded {
+  display: grid;
+  gap: 16px;
+}
+
 .report-marketplace-header,
 .report-selected-panel {
   align-items: flex-start;
@@ -14174,12 +14236,14 @@ button:disabled {
   }
 
   .report-marketplace,
+  .report-quick-composer,
   .report-selected-panel {
     padding: 20px;
   }
 
   .report-marketplace-promise,
   .report-builder-count,
+  .report-change-world-button,
   .dossier-toolbar .button,
   .report-builder-actions .button,
   .report-selected-panel .button {
@@ -19158,6 +19222,7 @@ select::-ms-expand {
   }
 
   .report-marketplace,
+  .report-quick-composer,
   .report-builder {
     gap: 16px;
     padding: 18px;
@@ -19269,6 +19334,7 @@ select::-ms-expand {
 @media (max-width: 480px) {
   .dossier-preview,
   .dossier-preview > *,
+  .report-quick-composer,
   .report-marketplace,
   .report-marketplace-header,
   .report-marketplace-header > *,
@@ -19280,6 +19346,7 @@ select::-ms-expand {
     max-width: 100%;
   }
 
+  .dossier-preview > .report-quick-composer,
   .dossier-preview > .report-marketplace,
   .dossier-preview > .report-download-stage {
     width: min(100%, calc(100vw - 48px));
@@ -19293,5 +19360,35 @@ select::-ms-expand {
   .report-school-lane-header p {
     max-width: 100%;
     overflow-wrap: anywhere;
+  }
+
+  .report-selected-product-card em,
+  .report-selected-product-card small,
+  .report-inline-composer.primary .report-inline-composer-top p,
+  .report-inline-composer.primary .report-inline-composer-top small {
+    display: none;
+  }
+
+  .report-inline-composer.primary {
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .report-inline-composer.primary .report-inline-composer-top,
+  .report-inline-composer.primary .report-inline-recommended {
+    display: grid;
+  }
+
+  .report-inline-composer.primary h3 {
+    font-size: 28px;
+  }
+
+  .report-inline-composer.primary .report-inline-mode-card,
+  .report-inline-composer.primary .report-inline-actions .button {
+    width: 100%;
+  }
+
+  .report-inline-composer.primary .report-inline-actions {
+    display: grid;
   }
 }

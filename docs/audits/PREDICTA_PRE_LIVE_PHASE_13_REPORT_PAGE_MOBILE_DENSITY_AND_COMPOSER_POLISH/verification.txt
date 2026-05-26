@@ -1,0 +1,35 @@
+PREDICTA_PRE_LIVE_PHASE_13_REPORT_PAGE_MOBILE_DENSITY_AND_COMPOSER_POLISH
+
+Verdict: GREEN after strict audit.
+
+What changed:
+- Web report page now starts with a compact selected-report composer.
+- The full school-separated marketplace is behind a deliberate Change report world drawer.
+- Selected report cards still render their inline composer directly underneath when the marketplace drawer is open.
+- Vedic defaults to Recommended by Predicta, with advanced custom sections behind progressive disclosure.
+- Mobile starts with the selected report composer, hides marketplace choices by default, and moves language/section controls behind customization.
+- Buyer rejection now records first-screen button and form density for /dashboard/report.
+
+Runtime density proof:
+- Desktop /dashboard/report: 39 visible actions total, 11 first-screen actions, 0 first-screen forms.
+- Tablet /dashboard/report: 37 visible actions total, 8 first-screen actions, 0 first-screen forms.
+- Mobile /dashboard/report: 36 visible actions total, 6 first-screen actions, 0 first-screen forms.
+- Mobile first screen shows the selected Kundli Report composer and Download your report action.
+
+Screenshots:
+- screenshots/desktop-dashboard-report.png
+- screenshots/tablet-dashboard-report.png
+- screenshots/mobile-dashboard-report.png
+- Full visual proof folder contains 33 screenshots across desktop, tablet, and mobile.
+
+Verification commands:
+- corepack pnpm test:pre-live-phase-13: PASS.
+- corepack pnpm --filter @pridicta/web typecheck: PASS.
+- corepack pnpm --filter @pridicta/mobile exec tsc --noEmit: PASS.
+- corepack pnpm build:web: PASS.
+- PREDICTA_BUYER_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:buyer-rejection: PASS.
+- PREDICTA_VISUAL_BASE_URL=http://127.0.0.1:3009 PREDICTA_VISUAL_OUTPUT_DIR=/Users/bmehta/Downloads/Predicta/docs/audits/PREDICTA_PRE_LIVE_PHASE_13_REPORT_PAGE_MOBILE_DENSITY_AND_COMPOSER_POLISH/screenshots corepack pnpm test:visual-proof: PASS.
+- git diff --check: PASS.
+
+Notes:
+- One web typecheck attempt failed while it was run concurrently with next build and both commands touched .next/types. The same web typecheck passed when rerun sequentially after build.
