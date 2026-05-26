@@ -1,0 +1,21 @@
+{
+  "auditArtifactPath": "docs/audits/PREDICTA_PRE_LIVE_PHASE_11_GEMINI_VALIDATOR_LIVE_SANDBOX_AND_BATCH_PROOF/batch/phase11-kp-method-boundary.json",
+  "blockUserFacingDownload": false,
+  "checkType": "method_boundary_check",
+  "contentHash": "ai_6fdf69a750b4d057165a259cd003bef747ac12de343434f0",
+  "issues": [
+    {
+      "code": "method_boundary_violation",
+      "evidence": "d1 yoga",
+      "message": "KP report uses Vedic/Parashari proof language as primary evidence.",
+      "severity": "high",
+      "suggestedFixCategory": "restore-school-boundary"
+    }
+  ],
+  "jobId": "phase11-kp-method-boundary",
+  "model": "deterministic-batch-qa-local-runner",
+  "passed": false,
+  "provider": "deterministic",
+  "runnerMode": "mock",
+  "severity": "high"
+}

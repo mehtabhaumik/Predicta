@@ -1,0 +1,122 @@
+[
+  {
+    "confidence": "high",
+    "fixtureId": "missing-section-fixture",
+    "issues": [
+      {
+        "code": "missing_required_sections",
+        "evidence": "Moon, Chalit",
+        "message": "Moon and Chalit are required but absent.",
+        "severity": "high",
+        "suggestedFixCategory": "add-missing-section"
+      }
+    ],
+    "model": "gemini-2.5-pro",
+    "passed": false,
+    "provider": "gemini",
+    "severity": "high",
+    "suggestedFixCategories": [
+      "add-missing-section"
+    ]
+  },
+  {
+    "confidence": "high",
+    "fixtureId": "duplicated-remedies-fixture",
+    "issues": [
+      {
+        "code": "duplicated_remedies",
+        "evidence": "serve elders repeated",
+        "message": "The same remedy appears in more than one section.",
+        "severity": "medium",
+        "suggestedFixCategory": "consolidate-remedies"
+      }
+    ],
+    "model": "gemini-2.5-pro",
+    "passed": false,
+    "provider": "gemini",
+    "severity": "medium",
+    "suggestedFixCategories": [
+      "consolidate-remedies"
+    ]
+  },
+  {
+    "confidence": "high",
+    "fixtureId": "overclaim-fixture",
+    "issues": [
+      {
+        "code": "unsupported_predictions",
+        "evidence": "will definitely happen",
+        "message": "The report uses a hard guarantee.",
+        "severity": "critical",
+        "suggestedFixCategory": "remove-guarantee"
+      }
+    ],
+    "model": "gemini-2.5-pro",
+    "passed": false,
+    "provider": "gemini",
+    "severity": "critical",
+    "suggestedFixCategories": [
+      "remove-guarantee"
+    ]
+  },
+  {
+    "confidence": "high",
+    "fixtureId": "method-mixing-fixture",
+    "issues": [
+      {
+        "code": "method_mixing",
+        "evidence": "D1 yoga proof",
+        "message": "KP report uses Parashari D1 proof as the main judgement.",
+        "severity": "high",
+        "suggestedFixCategory": "restore-school-boundary"
+      }
+    ],
+    "model": "gemini-2.5-pro",
+    "passed": false,
+    "provider": "gemini",
+    "severity": "high",
+    "suggestedFixCategories": [
+      "restore-school-boundary"
+    ]
+  },
+  {
+    "confidence": "high",
+    "fixtureId": "language-mismatch-fixture",
+    "issues": [
+      {
+        "code": "language_mismatch",
+        "evidence": "Indic script detected",
+        "message": "English report contains Hindi text.",
+        "severity": "medium",
+        "suggestedFixCategory": "fix-language-output"
+      }
+    ],
+    "model": "gemini-2.5-pro",
+    "passed": false,
+    "provider": "gemini",
+    "severity": "medium",
+    "suggestedFixCategories": [
+      "fix-language-output"
+    ]
+  },
+  {
+    "confidence": "high",
+    "fixtureId": "contradiction-fixture",
+    "issues": [
+      {
+        "code": "contradictions",
+        "evidence": "Sun vs Venus Mahadasha",
+        "message": "The candidate says Mahadasha is Venus while deterministic context says Sun.",
+        "severity": "high",
+        "suggestedFixCategory": "fix-contradiction"
+      }
+    ],
+    "model": "gemini-2.5-pro",
+    "passed": false,
+    "provider": "gemini",
+    "severity": "high",
+    "suggestedFixCategories": [
+      "fix-contradiction"
+    ]
+  }
+]

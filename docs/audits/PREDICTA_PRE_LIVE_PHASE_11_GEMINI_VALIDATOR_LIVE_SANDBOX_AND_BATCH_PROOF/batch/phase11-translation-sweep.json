@@ -1,0 +1,21 @@
+{
+  "auditArtifactPath": "docs/audits/PREDICTA_PRE_LIVE_PHASE_11_GEMINI_VALIDATOR_LIVE_SANDBOX_AND_BATCH_PROOF/batch/phase11-translation-sweep.json",
+  "blockUserFacingDownload": false,
+  "checkType": "translation_sweep",
+  "contentHash": "ai_73c88148f4d4f58235c9f4860be8b735a885d69ca575bbe6",
+  "issues": [
+    {
+      "code": "mixed_language_defect",
+      "evidence": "English surface contains Indic script",
+      "message": "Expected English output contains Hindi/Gujarati script.",
+      "severity": "high",
+      "suggestedFixCategory": "fix-language-output"
+    }
+  ],
+  "jobId": "phase11-translation-sweep",
+  "model": "deterministic-batch-qa-local-runner",
+  "passed": false,
+  "provider": "deterministic",
+  "runnerMode": "mock",
+  "severity": "high"
+}

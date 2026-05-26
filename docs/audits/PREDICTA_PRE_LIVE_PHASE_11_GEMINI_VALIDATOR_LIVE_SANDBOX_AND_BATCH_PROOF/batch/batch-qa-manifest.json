@@ -1,0 +1,110 @@
+{
+  "artifactRoot": "docs/audits/PREDICTA_PRE_LIVE_PHASE_11_GEMINI_VALIDATOR_LIVE_SANDBOX_AND_BATCH_PROOF/batch",
+  "failedJobs": 4,
+  "model": "gemini-2.5-flash",
+  "passedJobs": 0,
+  "provider": "deterministic",
+  "results": [
+    {
+      "auditArtifactPath": "docs/audits/PREDICTA_PRE_LIVE_PHASE_11_GEMINI_VALIDATOR_LIVE_SANDBOX_AND_BATCH_PROOF/batch/phase11-translation-sweep.json",
+      "blockUserFacingDownload": false,
+      "checkType": "translation_sweep",
+      "contentHash": "ai_73c88148f4d4f58235c9f4860be8b735a885d69ca575bbe6",
+      "issues": [
+        {
+          "code": "mixed_language_defect",
+          "evidence": "English surface contains Indic script",
+          "message": "Expected English output contains Hindi/Gujarati script.",
+          "severity": "high",
+          "suggestedFixCategory": "fix-language-output"
+        }
+      ],
+      "jobId": "phase11-translation-sweep",
+      "model": "deterministic-batch-qa-local-runner",
+      "passed": false,
+      "provider": "deterministic",
+      "runnerMode": "mock",
+      "severity": "high"
+    },
+    {
+      "auditArtifactPath": "docs/audits/PREDICTA_PRE_LIVE_PHASE_11_GEMINI_VALIDATOR_LIVE_SANDBOX_AND_BATCH_PROOF/batch/phase11-golden-report-qa.json",
+      "blockUserFacingDownload": false,
+      "checkType": "golden_pdf_text_audit",
+      "contentHash": "ai_b29006bf7c23f89a6b4ee6da47d1550ecfb47e5c7c2ee99b",
+      "issues": [
+        {
+          "code": "duplicated_remedies",
+          "evidence": "remedy: serve elders on saturday",
+          "message": "Remedy or action guidance repeats across report sections.",
+          "severity": "medium",
+          "suggestedFixCategory": "consolidate-remedies"
+        },
+        {
+          "code": "missing_required_sections",
+          "evidence": "Chalit, Mahadasha Phala, Moon, One Remedy Plan",
+          "message": "The report artifact is missing required sections.",
+          "severity": "high",
+          "suggestedFixCategory": "add-missing-section"
+        },
+        {
+          "code": "unsupported_prediction",
+          "evidence": "will definitely",
+          "message": "Report text uses hard guarantee or overclaim language.",
+          "severity": "critical",
+          "suggestedFixCategory": "remove-guarantee"
+        }
+      ],
+      "jobId": "phase11-golden-report-qa",
+      "model": "deterministic-batch-qa-local-runner",
+      "passed": false,
+      "provider": "deterministic",
+      "runnerMode": "mock",
+      "severity": "critical"
+    },
+    {
+      "auditArtifactPath": "docs/audits/PREDICTA_PRE_LIVE_PHASE_11_GEMINI_VALIDATOR_LIVE_SANDBOX_AND_BATCH_PROOF/batch/phase11-kp-method-boundary.json",
+      "blockUserFacingDownload": false,
+      "checkType": "method_boundary_check",
+      "contentHash": "ai_6fdf69a750b4d057165a259cd003bef747ac12de343434f0",
+      "issues": [
+        {
+          "code": "method_boundary_violation",
+          "evidence": "d1 yoga",
+          "message": "KP report uses Vedic/Parashari proof language as primary evidence.",
+          "severity": "high",
+          "suggestedFixCategory": "restore-school-boundary"
+        }
+      ],
+      "jobId": "phase11-kp-method-boundary",
+      "model": "deterministic-batch-qa-local-runner",
+      "passed": false,
+      "provider": "deterministic",
+      "runnerMode": "mock",
+      "severity": "high"
+    },
+    {
+      "auditArtifactPath": "docs/audits/PREDICTA_PRE_LIVE_PHASE_11_GEMINI_VALIDATOR_LIVE_SANDBOX_AND_BATCH_PROOF/batch/phase11-nadi-method-boundary.json",
+      "blockUserFacingDownload": false,
+      "checkType": "method_boundary_check",
+      "contentHash": "ai_e554097d5048644d7c5f492cb2566d614b6faec1a2dddba3",
+      "issues": [
+        {
+          "code": "method_boundary_violation",
+          "evidence": "KP proof terms inside Nadi report",
+          "message": "Nadi report mixes KP proof logic into the karmic story lane.",
+          "severity": "high",
+          "suggestedFixCategory": "restore-school-boundary"
+        }
+      ],
+      "jobId": "phase11-nadi-method-boundary",
+      "model": "deterministic-batch-qa-local-runner",
+      "passed": false,
+      "provider": "deterministic",
+      "runnerMode": "mock",
+      "severity": "high"
+    }
+  ],
+  "runId": "batch-qa-524c6458c83a4770",
+  "runnerMode": "mock",
+  "totalJobs": 4
+}

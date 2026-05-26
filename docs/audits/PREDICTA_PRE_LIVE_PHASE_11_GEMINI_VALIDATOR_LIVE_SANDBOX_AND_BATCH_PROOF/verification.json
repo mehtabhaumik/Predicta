@@ -1,0 +1,70 @@
+{
+  "advisoryContract": {
+    "rule": "Gemini validator returns issues and suggested fixes only; deterministic report data remains the source of truth.",
+    "validatorResultFields": [
+      "confidence",
+      "fixtureId",
+      "issues",
+      "model",
+      "passed",
+      "provider",
+      "severity",
+      "suggestedFixCategories"
+    ]
+  },
+  "batch": {
+    "artifactRoot": "docs/audits/PREDICTA_PRE_LIVE_PHASE_11_GEMINI_VALIDATOR_LIVE_SANDBOX_AND_BATCH_PROOF/batch",
+    "failedJobs": 4,
+    "provider": "deterministic",
+    "runnerMode": "mock",
+    "totalJobs": 4
+  },
+  "liveSandbox": {
+    "configuredKeyName": null,
+    "reason": "missing-allow-flag",
+    "status": "skipped",
+    "usedRawPrivateData": false
+  },
+  "mockValidatorIssueCodes": {
+    "contradiction-fixture": [
+      "contradictions"
+    ],
+    "duplicated-remedies-fixture": [
+      "duplicated_remedies"
+    ],
+    "language-mismatch-fixture": [
+      "language_mismatch"
+    ],
+    "method-mixing-fixture": [
+      "method_mixing"
+    ],
+    "missing-section-fixture": [
+      "missing_required_sections"
+    ],
+    "overclaim-fixture": [
+      "unsupported_predictions"
+    ]
+  },
+  "privacy": {
+    "rawPrivateDataLogged": false,
+    "telemetryStoresRawPrompt": false,
+    "telemetryStoresSubjectHashOnly": true
+  },
+  "telemetry": {
+    "features": [
+      "report_validator",
+      "report_validator_live_sandbox"
+    ],
+    "geminiValidatorEvents": 6,
+    "latestLatencyBuckets": [
+      "lt_1s",
+      "lt_1s",
+      "lt_1s",
+      "lt_1s",
+      "lt_1s"
+    ],
+    "liveSandboxTelemetryEvents": 1,
+    "totalEstimatedCostUsd": 0.0018785,
+    "totalEvents": 7
+  }
+}
