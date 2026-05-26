@@ -1,0 +1,38 @@
+PREDICTA_PRE_LIVE_PHASE_3_MOBILE_JEST_AND_PDF_IMPORT_BOUNDARY
+
+Status: GREEN
+Date: 2026-05-26
+
+Scope:
+- Fix mobile Jest failure caused by `react-native-fs` Flow syntax.
+- Keep the production mobile PDF generation path intact.
+- Add focused tests around mobile report PDF generation and failure handling.
+
+Implementation:
+- Added `apps/mobile/__mocks__/reactNativeFs.js`.
+- Mapped `react-native-fs` to the Jest mock in `apps/mobile/jest.config.js`.
+- Added `apps/mobile/__tests__/pdfGenerator.test.ts`.
+- Did not remove or weaken `generateHoroscopePdf()` production behavior.
+
+Artifacts:
+- docs/audits/PREDICTA_PRE_LIVE_PHASE_3_MOBILE_JEST_AND_PDF_IMPORT_BOUNDARY/rnfs-boundary.md
+- docs/audits/PREDICTA_PRE_LIVE_PHASE_3_MOBILE_JEST_AND_PDF_IMPORT_BOUNDARY/verification.txt
+
+Before-state reproduction:
+- `corepack pnpm test:mobile` failed in `__tests__/App.test.tsx`.
+- Failure: Jest could not parse `react-native-fs/FS.common.js` Flow syntax.
+
+Checks:
+- PASS: node --check apps/mobile/jest.config.js
+- PASS: node --check apps/mobile/__mocks__/reactNativeFs.js
+- PASS: corepack pnpm test:mobile
+- PASS: corepack pnpm --filter @pridicta/mobile typecheck
+- PASS: corepack pnpm --filter @pridicta/mobile bundle:android
+- PASS: corepack pnpm test
+- PASS: git diff --check
+
+Known non-Phase-3 noise:
+- Mobile Jest still prints a worker-exit warning after passing. The command
+  exits successfully, and this warning belongs to the later
+  `PREDICTA_PRE_LIVE_PHASE_15_AUDIT_NOISE_DETERMINISM_AND_DEVELOPER_RUNBOOK`
+  cleanup phase if it remains noisy.

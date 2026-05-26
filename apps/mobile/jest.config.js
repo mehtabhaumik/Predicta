@@ -25,6 +25,7 @@ module.exports = {
     '^react-native-sound$': '<rootDir>/__mocks__/reactNativeSound.js',
     '^react-native-keychain$': '<rootDir>/__mocks__/reactNativeKeychain.js',
     '^react-native-html-to-pdf$': '<rootDir>/__mocks__/reactNativeHtmlToPdf.js',
+    '^react-native-fs$': '<rootDir>/__mocks__/reactNativeFs.js',
     '^@react-native-async-storage/async-storage$':
       '<rootDir>/__mocks__/asyncStorage.js',
     '^@react-native-firebase/auth$':
