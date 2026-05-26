@@ -19227,3 +19227,33 @@ select::-ms-expand {
     width: 100%;
   }
 }
+
+@media (max-width: 480px) {
+  .dossier-preview,
+  .dossier-preview > *,
+  .report-marketplace,
+  .report-marketplace-header,
+  .report-marketplace-header > *,
+  .report-school-lane,
+  .report-product-grid,
+  .report-inline-composer,
+  .report-download-stage {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .dossier-preview > .report-marketplace,
+  .dossier-preview > .report-download-stage {
+    width: min(100%, calc(100vw - 48px));
+  }
+
+  .report-marketplace-header h2,
+  .report-marketplace-header p,
+  .report-school-heading h3,
+  .report-school-heading p,
+  .report-school-lane-header h4,
+  .report-school-lane-header p {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+}

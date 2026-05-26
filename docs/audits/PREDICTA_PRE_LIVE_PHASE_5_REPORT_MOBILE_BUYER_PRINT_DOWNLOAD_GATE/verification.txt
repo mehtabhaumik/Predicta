@@ -1,0 +1,84 @@
+PREDICTA_PRE_LIVE_PHASE_5_REPORT_MOBILE_BUYER_PRINT_DOWNLOAD_GATE
+
+Status: GREEN
+Audit timestamp: 2026-05-26T18:08:00Z
+
+Changed paths
+-------------
+apps/web/components/WebDossierPreview.tsx
+apps/web/app/globals.css
+
+Primary fixes
+-------------
+- Restored a supported `printReport()` action in WebDossierPreview and routed
+  report download buttons through it.
+- Preserved the existing safe PDF download implementation behind
+  `downloadReportPdf()`.
+- Added narrow-mobile containment for the report marketplace, selected composer,
+  school lanes, and download stage so `/dashboard/report` does not overflow at
+  390px.
+
+Report UX checks
+----------------
+- Selected report cards still render `report-inline-composer` immediately
+  beneath the selected product in the same product grid.
+- Non-Vedic report products keep the direct inline action panel.
+- Vedic products keep the `Recommended by Predicta` default path and optional
+  customization drawer.
+- PDF remains the deep reading surface; the report page remains a composer and
+  download surface.
+- School-separated report lanes remain intact.
+
+Saved visual proof screenshots
+------------------------------
+docs/audits/PREDICTA_PRE_LIVE_PHASE_5_REPORT_MOBILE_BUYER_PRINT_DOWNLOAD_GATE/screenshots/desktop-dashboard-report.png
+docs/audits/PREDICTA_PRE_LIVE_PHASE_5_REPORT_MOBILE_BUYER_PRINT_DOWNLOAD_GATE/screenshots/tablet-dashboard-report.png
+docs/audits/PREDICTA_PRE_LIVE_PHASE_5_REPORT_MOBILE_BUYER_PRINT_DOWNLOAD_GATE/screenshots/mobile-dashboard-report.png
+
+Verification commands
+---------------------
+corepack pnpm build:web
+Result: passed
+
+PORT=3009 corepack pnpm --filter @pridicta/web exec next start
+Result: running production-like audit server
+
+corepack pnpm test:audit-server-preflight
+Result: passed
+Evidence: 10 route checks and 12 static asset checks passed at http://127.0.0.1:3009.
+
+corepack pnpm test:buyer-rejection
+Result: passed
+Evidence: 51 live route checks plus source and link gates passed.
+Report route evidence:
+- desktop /dashboard/report: 0 wide elements, 0 clipped text
+- tablet /dashboard/report: 0 wide elements, 0 clipped text
+- mobile /dashboard/report: 0 wide elements, 0 clipped text
+
+corepack pnpm test:public-greenlight
+Result: passed
+Evidence: public testing greenlight audit passed in 283.6s against http://127.0.0.1:3009.
+
+Public greenlight sub-gates
+---------------------------
+- Web typecheck: passed
+- PDF package typecheck: passed
+- North Indian chart and stress suite: passed
+- Predicta context reliability suite: passed
+- PDF report golden output gate: passed
+- Mobile and tablet visual proof gate: passed
+- End-to-end buyer rejection gate: passed
+- Git diff hygiene: passed
+
+Visual proof report route metrics
+---------------------------------
+- desktop /dashboard/report: horizontalOverflow 0, clippedText 0, wideElements 0
+- tablet /dashboard/report: horizontalOverflow 0, clippedText 0, wideElements 0
+- mobile /dashboard/report: horizontalOverflow 0, clippedText 0, wideElements 0
+
+Notes
+-----
+The Codex in-app browser plugin could not navigate the existing selected tab to
+the local audit URL because its current tab was locked on a previous localhost
+error page. The production-like Chrome/CDP gates captured and verified the
+required desktop, tablet, and mobile evidence.

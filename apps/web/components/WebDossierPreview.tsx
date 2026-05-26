@@ -642,6 +642,10 @@ export function WebDossierPreview(): React.JSX.Element {
     }
   }
 
+  function printReport() {
+    void downloadReportPdf();
+  }
+
   function cancelDownloadDialog() {
     setDownloadDialogOpen(false);
   }
@@ -1284,7 +1288,7 @@ export function WebDossierPreview(): React.JSX.Element {
                 <button
                   className="button"
                   disabled={isPdfDownloading}
-                  onClick={downloadReportPdf}
+                  onClick={printReport}
                   type="button"
                 >
                   {isPdfDownloading
@@ -1426,7 +1430,7 @@ export function WebDossierPreview(): React.JSX.Element {
               <button
                 className="button primary"
                 disabled={isPdfDownloading}
-                onClick={downloadReportPdf}
+                onClick={printReport}
                 type="button"
               >
                 {isPdfDownloading
