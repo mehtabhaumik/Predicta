@@ -58,6 +58,7 @@
     "test:pre-live-phase-11": "python3 scripts/run-pre-live-phase-11-gemini-sandbox-gate.py",
     "test:pre-live-phase-12": "node scripts/run-pre-live-phase-12-admin-owner-surface-gate.mjs",
     "test:pre-live-phase-13": "node scripts/run-pre-live-phase-13-report-composer-gate.mjs",
+    "test:pre-live-phase-14": "node scripts/run-pre-live-phase-14-report-download-smoke.mjs",
     "test:translation-trust": "node scripts/run-translation-completion-trust-gate.mjs",
     "test:discipline-handoff": "node scripts/run-discipline-handoff-contract.mjs",
     "test:signature-report": "node scripts/run-signature-report-synthesis.mjs",

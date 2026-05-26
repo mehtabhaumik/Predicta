@@ -1,0 +1,41 @@
+PREDICTA_PRE_LIVE_PHASE_14_REAL_USER_REPORT_DOWNLOAD_AND_PDF_SMOKE
+
+Verdict: GREEN after strict audit.
+
+Generation path:
+- Kundli source: backend.astro_api.calculations.generate_kundli for Bhaumik Mehta, 1980-08-22 06:30, Mumbai.
+- PDF source: http://127.0.0.1:3009/api/report/pdf.
+- Every PDF was downloaded from the app PDF route using a fresh generated Kundli payload.
+
+Artifacts:
+- PDFs generated: 9.
+- Preview screenshots generated: 36.
+- Preview slots per report: cover, chart, table, final.
+- Manifest: app-generated-report-manifest.json.
+- Payloads: payloads/*.json.
+- Real-user Kundli payload: real-user-kundli.json.
+
+PDF cases:
+- vedic-free-en: 48 pages, 1548643 bytes, en, FREE, KUNDLI.
+- vedic-premium-en: 72 pages, 1700000 bytes, en, PREMIUM, KUNDLI.
+- kp-report-en: 15 pages, 1409942 bytes, en, PREMIUM, KP.
+- nadi-report-en: 15 pages, 1410365 bytes, en, PREMIUM, NADI.
+- numerology-report-en: 15 pages, 1410578 bytes, en, PREMIUM, NUMEROLOGY.
+- signature-confirmed-report-en: 15 pages, 1409499 bytes, en, PREMIUM, SIGNATURE.
+- life-atlas-report-en: 16 pages, 1362562 bytes, en, PREMIUM, LIFE_ATLAS.
+- vedic-free-hi: 47 pages, 1598648 bytes, hi, FREE, KUNDLI.
+- vedic-free-gu: 47 pages, 1598506 bytes, gu, FREE, KUNDLI.
+
+Strict checks:
+- Footer source uses exactly Prepared by Predicta @2026 with rendered pageNumber / totalPages.
+- Watermark source renders PdfWatermark across cover and interior pages.
+- Vedic focus chart order source remains D1, Moon, D9, D10, Chalit.
+- Chalit, Swamsa, and Karakamsha source rules remain intact.
+- Main chart plates set hiddenPlanetCount: 0 and force all rendered planets visible.
+- Main report chart plates filter micro/special points and outer planets.
+- English, Hindi, and Gujarati PDF samples were generated and previewed.
+
+Required companion gates:
+- corepack pnpm test:pre-live-phase-14: PASS.
+- corepack pnpm test:pdf-golden: PASS.
+- git diff --check: PASS.

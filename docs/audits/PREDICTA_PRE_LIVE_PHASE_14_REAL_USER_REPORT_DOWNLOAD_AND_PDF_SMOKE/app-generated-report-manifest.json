@@ -1,0 +1,209 @@
+[
+  {
+    "bytes": 1548643,
+    "downloadedFilename": "attachment; filename=\"predicta-bhaumik-mehta-kundli-free.pdf\"",
+    "id": "vedic-free-en",
+    "language": "en",
+    "mode": "FREE",
+    "pages": 48,
+    "pdf": "pdfs/vedic-free-en.pdf",
+    "previewPages": {
+      "chart": 4,
+      "cover": 1,
+      "final": 48,
+      "table": 10
+    },
+    "previews": [
+      "previews/vedic-free-en/chart-page-04.png",
+      "previews/vedic-free-en/cover-page-01.png",
+      "previews/vedic-free-en/final-page-48.png",
+      "previews/vedic-free-en/table-page-10.png"
+    ],
+    "reportFocus": "KUNDLI",
+    "source": "POST /api/report/pdf with real generated Kundli payload"
+  },
+  {
+    "bytes": 1700000,
+    "downloadedFilename": "attachment; filename=\"predicta-bhaumik-mehta-kundli-premium.pdf\"",
+    "id": "vedic-premium-en",
+    "language": "en",
+    "mode": "PREMIUM",
+    "pages": 72,
+    "pdf": "pdfs/vedic-premium-en.pdf",
+    "previewPages": {
+      "chart": 4,
+      "cover": 1,
+      "final": 72,
+      "table": 10
+    },
+    "previews": [
+      "previews/vedic-premium-en/chart-page-04.png",
+      "previews/vedic-premium-en/cover-page-01.png",
+      "previews/vedic-premium-en/final-page-72.png",
+      "previews/vedic-premium-en/table-page-10.png"
+    ],
+    "reportFocus": "KUNDLI",
+    "source": "POST /api/report/pdf with real generated Kundli payload"
+  },
+  {
+    "bytes": 1409942,
+    "downloadedFilename": "attachment; filename=\"predicta-bhaumik-mehta-kp-premium.pdf\"",
+    "id": "kp-report-en",
+    "language": "en",
+    "mode": "PREMIUM",
+    "pages": 15,
+    "pdf": "pdfs/kp-report-en.pdf",
+    "previewPages": {
+      "chart": 4,
+      "cover": 1,
+      "final": 15,
+      "table": 10
+    },
+    "previews": [
+      "previews/kp-report-en/chart-page-04.png",
+      "previews/kp-report-en/cover-page-01.png",
+      "previews/kp-report-en/final-page-15.png",
+      "previews/kp-report-en/table-page-10.png"
+    ],
+    "reportFocus": "KP",
+    "source": "POST /api/report/pdf with real generated Kundli payload"
+  },
+  {
+    "bytes": 1410365,
+    "downloadedFilename": "attachment; filename=\"predicta-bhaumik-mehta-nadi-premium.pdf\"",
+    "id": "nadi-report-en",
+    "language": "en",
+    "mode": "PREMIUM",
+    "pages": 15,
+    "pdf": "pdfs/nadi-report-en.pdf",
+    "previewPages": {
+      "chart": 4,
+      "cover": 1,
+      "final": 15,
+      "table": 10
+    },
+    "previews": [
+      "previews/nadi-report-en/chart-page-04.png",
+      "previews/nadi-report-en/cover-page-01.png",
+      "previews/nadi-report-en/final-page-15.png",
+      "previews/nadi-report-en/table-page-10.png"
+    ],
+    "reportFocus": "NADI",
+    "source": "POST /api/report/pdf with real generated Kundli payload"
+  },
+  {
+    "bytes": 1410578,
+    "downloadedFilename": "attachment; filename=\"predicta-bhaumik-mehta-numerology-premium.pdf\"",
+    "id": "numerology-report-en",
+    "language": "en",
+    "mode": "PREMIUM",
+    "pages": 15,
+    "pdf": "pdfs/numerology-report-en.pdf",
+    "previewPages": {
+      "chart": 4,
+      "cover": 1,
+      "final": 15,
+      "table": 10
+    },
+    "previews": [
+      "previews/numerology-report-en/chart-page-04.png",
+      "previews/numerology-report-en/cover-page-01.png",
+      "previews/numerology-report-en/final-page-15.png",
+      "previews/numerology-report-en/table-page-10.png"
+    ],
+    "reportFocus": "NUMEROLOGY",
+    "source": "POST /api/report/pdf with real generated Kundli payload"
+  },
+  {
+    "bytes": 1409499,
+    "downloadedFilename": "attachment; filename=\"predicta-bhaumik-mehta-signature-premium.pdf\"",
+    "id": "signature-confirmed-report-en",
+    "language": "en",
+    "mode": "PREMIUM",
+    "pages": 15,
+    "pdf": "pdfs/signature-confirmed-report-en.pdf",
+    "previewPages": {
+      "chart": 4,
+      "cover": 1,
+      "final": 15,
+      "table": 10
+    },
+    "previews": [
+      "previews/signature-confirmed-report-en/chart-page-04.png",
+      "previews/signature-confirmed-report-en/cover-page-01.png",
+      "previews/signature-confirmed-report-en/final-page-15.png",
+      "previews/signature-confirmed-report-en/table-page-10.png"
+    ],
+    "reportFocus": "SIGNATURE",
+    "source": "POST /api/report/pdf with real generated Kundli payload"
+  },
+  {
+    "bytes": 1362562,
+    "downloadedFilename": "attachment; filename=\"predicta-bhaumik-mehta-life_atlas-premium.pdf\"",
+    "id": "life-atlas-report-en",
+    "language": "en",
+    "mode": "PREMIUM",
+    "pages": 16,
+    "pdf": "pdfs/life-atlas-report-en.pdf",
+    "previewPages": {
+      "chart": 3,
+      "cover": 1,
+      "final": 16,
+      "table": 4
+    },
+    "previews": [
+      "previews/life-atlas-report-en/chart-page-03.png",
+      "previews/life-atlas-report-en/cover-page-01.png",
+      "previews/life-atlas-report-en/final-page-16.png",
+      "previews/life-atlas-report-en/table-page-04.png"
+    ],
+    "reportFocus": "LIFE_ATLAS",
+    "source": "POST /api/report/pdf with real generated Kundli payload"
+  },
+  {
+    "bytes": 1598648,
+    "downloadedFilename": "attachment; filename=\"predicta-bhaumik-mehta-kundli-free.pdf\"",
+    "id": "vedic-free-hi",
+    "language": "hi",
+    "mode": "FREE",
+    "pages": 47,
+    "pdf": "pdfs/vedic-free-hi.pdf",
+    "previewPages": {
+      "chart": 4,
+      "cover": 1,
+      "final": 47,
+      "table": 10
+    },
+    "previews": [
+      "previews/vedic-free-hi/chart-page-04.png",
+      "previews/vedic-free-hi/cover-page-01.png",
+      "previews/vedic-free-hi/final-page-47.png",
+      "previews/vedic-free-hi/table-page-10.png"
+    ],
+    "reportFocus": "KUNDLI",
+    "source": "POST /api/report/pdf with real generated Kundli payload"
+  },
+  {
+    "bytes": 1598506,
+    "downloadedFilename": "attachment; filename=\"predicta-bhaumik-mehta-kundli-free.pdf\"",
+    "id": "vedic-free-gu",
+    "language": "gu",
+    "mode": "FREE",
+    "pages": 47,
+    "pdf": "pdfs/vedic-free-gu.pdf",
+    "previewPages": {
+      "chart": 4,
+      "cover": 1,
+      "final": 47,
+      "table": 10
+    },
+    "previews": [
+      "previews/vedic-free-gu/chart-page-04.png",
+      "previews/vedic-free-gu/cover-page-01.png",
+      "previews/vedic-free-gu/final-page-47.png",
+      "previews/vedic-free-gu/table-page-10.png"
+    ],
+    "reportFocus": "KUNDLI",
+    "source": "POST /api/report/pdf with real generated Kundli payload"
+  }
+]

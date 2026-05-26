@@ -1,0 +1,34 @@
+[
+  {
+    "label": "PDF route uses app download renderer",
+    "status": "pass"
+  },
+  {
+    "label": "footer uses exact Predicta copy and real page count render",
+    "status": "pass"
+  },
+  {
+    "label": "watermark is rendered on cover and interior pages",
+    "status": "pass"
+  },
+  {
+    "label": "focus charts are ordered through VEDIC_FOCUS_CHART_ORDER",
+    "status": "pass"
+  },
+  {
+    "label": "Chalit, Swamsa, and Karakamsha are first-class Vedic report charts",
+    "status": "pass"
+  },
+  {
+    "label": "main PDF chart plates do not hide planets behind overflow counters",
+    "status": "pass"
+  },
+  {
+    "label": "main PDF chart plates filter micro and outer planets",
+    "status": "pass"
+  },
+  {
+    "label": "Hindi and Gujarati PDF fonts are registered",
+    "status": "pass"
+  }
+]
