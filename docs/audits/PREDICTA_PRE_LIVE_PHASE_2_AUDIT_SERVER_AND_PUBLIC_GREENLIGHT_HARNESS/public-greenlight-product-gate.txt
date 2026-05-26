@@ -1,0 +1,33 @@
+PREDICTA_PRE_LIVE_PHASE_2_AUDIT_SERVER_AND_PUBLIC_GREENLIGHT_HARNESS
+
+Command:
+corepack pnpm test:public-greenlight
+
+Result:
+Expected non-green overall because Phase 5 still owns `/dashboard/report`
+mobile layout overflow. Phase 2 is green because the public greenlight harness
+now reaches real product checks without server confusion.
+
+Confirmed sequence:
+- PASS: Predicta audit server preflight passed for 10 routes and 12 assets at
+  http://127.0.0.1:3009.
+- PASS: Web typecheck.
+- PASS: PDF package typecheck.
+- PASS: North Indian chart and stress suite.
+- PASS: Predicta context reliability suite.
+- PASS: PDF report golden output gate.
+- STOPPED AT REAL PRODUCT GATE: Mobile and tablet visual proof gate.
+
+Known later-phase failure:
+- mobile `/dashboard/report`: `div.report-marketplace-header` extends beyond
+  viewport `(33..406)`.
+- mobile `/dashboard/report`: child section title, heading, and paragraph
+  extend beyond viewport.
+
+Owner:
+`PREDICTA_PRE_LIVE_PHASE_5_REPORT_MOBILE_BUYER_PRINT_DOWNLOAD_GATE`
+
+Interpretation:
+The server/harness confusion blocker is closed. The remaining greenlight
+failure is the already-mapped report mobile overflow product defect.
+

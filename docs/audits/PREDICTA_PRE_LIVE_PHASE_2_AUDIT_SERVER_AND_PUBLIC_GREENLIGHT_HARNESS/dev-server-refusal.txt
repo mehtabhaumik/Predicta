@@ -1,0 +1,2 @@
+Predicta audit server preflight refuses localhost:3000 by default. Use the production-like audit server on 3009, or set PREDICTA_ALLOW_NEXT_DEV_AUDIT=1 for an explicit dev-server exception.
+exit_code=1

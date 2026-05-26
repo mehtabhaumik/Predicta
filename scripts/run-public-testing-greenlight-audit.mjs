@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process';
-import { get as httpGet } from 'node:http';
+import { assertPredictaAuditServerReady } from './assert-predicta-audit-server-ready.mjs';
 
 const baseUrl = process.env.PREDICTA_GREENLIGHT_BASE_URL ?? 'http://127.0.0.1:3009';
 
@@ -67,13 +67,12 @@ console.log(
 
 async function assertServerReady(url) {
   try {
-    const html = await getText(url);
-    if (!html.includes('Predicta')) {
-      console.error(`Expected Predicta content at ${url}, but the response did not look like Predicta.`);
-      process.exit(1);
-    }
+    const result = await assertPredictaAuditServerReady(url);
+    console.log(
+      `Predicta audit server preflight passed for ${result.routeChecks.length} routes and ${result.assetChecks.length} assets at ${result.baseUrl}.`,
+    );
   } catch (error) {
-    console.error(`Predicta must be running before the public greenlight audit: ${url}`);
+    console.error(`Predicta production-like audit server must be healthy before the public greenlight audit: ${url}`);
     console.error(error instanceof Error ? error.message : String(error));
     process.exit(1);
   }
@@ -105,18 +104,5 @@ function runStep(step) {
     console.error(`\nPublic testing greenlight audit stopped at: ${step.label}`);
     console.error(error instanceof Error ? error.message : String(error));
     process.exit(1);
-  });
-}
-
-function getText(url) {
-  return new Promise((resolve, reject) => {
-    httpGet(url, response => {
-      let data = '';
-      response.setEncoding('utf8');
-      response.on('data', chunk => {
-        data += chunk;
-      });
-      response.on('end', () => resolve(data));
-    }).on('error', reject);
   });
 }

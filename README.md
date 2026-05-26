@@ -143,6 +143,19 @@ corepack pnpm build:web
 corepack pnpm build:mobile
 ```
 
+Public audit server:
+
+```sh
+corepack pnpm build:web
+PORT=3009 corepack pnpm --filter @pridicta/web exec next start
+corepack pnpm test:audit-server-preflight
+corepack pnpm test:public-greenlight
+```
+
+The public greenlight scripts use `http://127.0.0.1:3009` by default. Do not
+use `localhost:3000` for launch audit runs unless you explicitly set
+`PREDICTA_ALLOW_NEXT_DEV_AUDIT=1` for a dev-server-only investigation.
+
 Focused commands:
 
 ```sh

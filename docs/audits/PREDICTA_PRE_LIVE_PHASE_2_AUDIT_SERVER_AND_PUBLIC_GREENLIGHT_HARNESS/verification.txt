@@ -1,0 +1,50 @@
+PREDICTA_PRE_LIVE_PHASE_2_AUDIT_SERVER_AND_PUBLIC_GREENLIGHT_HARNESS
+
+Status: GREEN
+Date: 2026-05-26
+
+Scope:
+- Standardize the production-like audit server target.
+- Add a reusable preflight that catches wrong ports, missing routes, redirect
+  loops, 404s, stale chunk references, and static asset failures.
+- Wire the public greenlight runner through that preflight.
+- Make the `3000` versus `3009` rule explicit.
+- Ensure account/settings route expectations resolve.
+
+Implementation:
+- Added `scripts/assert-predicta-audit-server-ready.mjs`.
+- Added `corepack pnpm test:audit-server-preflight`.
+- Updated `scripts/run-public-testing-greenlight-audit.mjs` to use the new
+  preflight before running any product gates.
+- Added `/dashboard/account` as a safe redirect to `/dashboard/settings`.
+- Added README public audit server commands and port discipline.
+
+Artifacts:
+- docs/audits/PREDICTA_PRE_LIVE_PHASE_2_AUDIT_SERVER_AND_PUBLIC_GREENLIGHT_HARNESS/audit-server-preflight.json
+- docs/audits/PREDICTA_PRE_LIVE_PHASE_2_AUDIT_SERVER_AND_PUBLIC_GREENLIGHT_HARNESS/dev-server-refusal.txt
+- docs/audits/PREDICTA_PRE_LIVE_PHASE_2_AUDIT_SERVER_AND_PUBLIC_GREENLIGHT_HARNESS/public-greenlight-product-gate.txt
+- docs/audits/PREDICTA_PRE_LIVE_PHASE_2_AUDIT_SERVER_AND_PUBLIC_GREENLIGHT_HARNESS/server-runbook.md
+- docs/audits/PREDICTA_PRE_LIVE_PHASE_2_AUDIT_SERVER_AND_PUBLIC_GREENLIGHT_HARNESS/verification.txt
+
+Checks:
+- PASS: node --check scripts/assert-predicta-audit-server-ready.mjs
+- PASS: node --check scripts/run-public-testing-greenlight-audit.mjs
+- PASS: python3 -m json.tool package.json
+- PASS: corepack pnpm --filter @pridicta/web typecheck
+- PASS: corepack pnpm build:web
+- PASS: corepack pnpm test:audit-server-preflight
+- PASS: PREDICTA_AUDIT_BASE_URL=http://127.0.0.1:3000 corepack pnpm test:audit-server-preflight refused port 3000 with exit code 1
+- PASS: corepack pnpm test:public-greenlight passed server preflight, web typecheck, PDF typecheck, chart stress, Predicta context, and PDF golden before stopping at the known Phase 5 `/dashboard/report` mobile visual overflow
+- PASS: python3 -m json.tool docs/audits/PREDICTA_PRE_LIVE_PHASE_2_AUDIT_SERVER_AND_PUBLIC_GREENLIGHT_HARNESS/audit-server-preflight.json
+- PASS: git diff --check
+
+Known non-Phase-2 blocker:
+- `corepack pnpm test:public-greenlight` still exits non-zero at the mobile
+  visual proof gate because `/dashboard/report` overflows on 390px mobile.
+  This is owned by
+  `PREDICTA_PRE_LIVE_PHASE_5_REPORT_MOBILE_BUYER_PRINT_DOWNLOAD_GATE`.
+
+Important limitation:
+- Phase 2 fixes audit-server and harness reliability. It does not fix the
+  report mobile overflow, buyer rejection, mobile Jest, specialist-room QA, or
+  payment workflow blockers.

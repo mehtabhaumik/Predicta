@@ -1,0 +1,116 @@
+{
+  "assetChecks": [
+    {
+      "assetPath": "/_next/static/css/5a64b090c9b64041.css",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/webpack-d88ec1fa232724af.js",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/65b20f63-be94389c306b39c5.js",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/7462-22ec0642989904a2.js",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/main-app-c9156300448fcc34.js",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/b2713cf0-29b44a14c0af39f5.js",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/b22df09a-522acbb28a4ab03b.js",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/2530-64330eff84885e57.js",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/4103-3360fa9195f5f6f3.js",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/9715-d2d2a7593b6badd3.js",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/app/layout-e06b04654b929b8e.js",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/6716-01f245ad359d63ac.js",
+      "statusCode": 200
+    }
+  ],
+  "baseUrl": "http://127.0.0.1:3009",
+  "routeChecks": [
+    {
+      "finalUrl": "http://127.0.0.1:3009/",
+      "redirects": 0,
+      "route": "/",
+      "statusCode": 200
+    },
+    {
+      "finalUrl": "http://127.0.0.1:3009/dashboard",
+      "redirects": 0,
+      "route": "/dashboard",
+      "statusCode": 200
+    },
+    {
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report",
+      "redirects": 0,
+      "route": "/dashboard/report",
+      "statusCode": 200
+    },
+    {
+      "finalUrl": "http://127.0.0.1:3009/dashboard/signature",
+      "redirects": 0,
+      "route": "/dashboard/signature",
+      "statusCode": 200
+    },
+    {
+      "finalUrl": "http://127.0.0.1:3009/dashboard/kp",
+      "redirects": 0,
+      "route": "/dashboard/kp",
+      "statusCode": 200
+    },
+    {
+      "finalUrl": "http://127.0.0.1:3009/dashboard/nadi",
+      "redirects": 0,
+      "route": "/dashboard/nadi",
+      "statusCode": 200
+    },
+    {
+      "finalUrl": "http://127.0.0.1:3009/dashboard/numerology",
+      "redirects": 0,
+      "route": "/dashboard/numerology",
+      "statusCode": 200
+    },
+    {
+      "finalUrl": "http://127.0.0.1:3009/dashboard/settings",
+      "redirects": 0,
+      "route": "/dashboard/settings",
+      "statusCode": 200
+    },
+    {
+      "finalUrl": "http://127.0.0.1:3009/dashboard/family",
+      "redirects": 0,
+      "route": "/dashboard/family",
+      "statusCode": 200
+    },
+    {
+      "finalUrl": "http://127.0.0.1:3009/dashboard/settings",
+      "redirects": 1,
+      "route": "/dashboard/account",
+      "statusCode": 200
+    }
+  ],
+  "status": "ready"
+}
