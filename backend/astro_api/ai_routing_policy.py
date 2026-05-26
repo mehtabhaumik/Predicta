@@ -100,6 +100,21 @@ def route_ai_request(request: AIRoutingRequest, pins: AIModelPins) -> AIRoutingD
             validator_provider="gemini",
         )
 
+    if request.feature == "batch_qa":
+        return AIRoutingDecision(
+            approved_provider_order=APPROVED_AI_PROVIDERS,
+            cost_guardrail=cost_guardrail_for(request),
+            fallback_model="deterministic-batch-qa-local-runner",
+            fallback_provider="deterministic",
+            multi_model_pipeline_allowed=False,
+            policy_reason="non-real-time-batch-qa-uses-gemini-flash-or-local-mock",
+            primary_model=pins.gemini_free,
+            primary_provider="gemini",
+            validator_eligible=False,
+            validator_model=None,
+            validator_provider=None,
+        )
+
     premium_deep = is_premium_deep(request)
     primary_model = pins.premium_deep if premium_deep else pins.free_reasoning
     fallback_model = pins.gemini_premium if premium_deep else pins.gemini_free

@@ -3,6 +3,7 @@ from fastapi.testclient import TestClient
 from backend.astro_api.calculations import generate_kundli
 from backend.astro_api.access_authority import reset_access_rate_limits
 from backend.astro_api import ai as ai_module
+from backend.astro_api import ai_batch_qa
 from backend.astro_api import report_ai_pipeline
 from backend.astro_api.ai_routing_policy import (
     AIModelPins,
@@ -19,6 +20,7 @@ from backend.astro_api.models import (
     AIValidationIssue,
     AIValidationRequest,
     AIValidationResult,
+    AIBatchQAJob,
     BirthDetails,
     PremiumReportPipelineRequest,
     ReportQAPolicy,
@@ -209,6 +211,25 @@ def test_ai_routing_policy_routes_report_validator_to_gemini_pro():
     assert decision.primary_model == ai_module.GEMINI_PRO_MODEL
     assert decision.validator_provider == "gemini"
     assert decision.validator_model == ai_module.GEMINI_PRO_MODEL
+
+
+def test_ai_routing_policy_routes_batch_qa_to_gemini_flash():
+    decision = route_ai_request(
+        AIRoutingRequest(
+            active_school="PREDICTA",
+            feature="batch_qa",
+            intent="moderate",
+            latency_sensitivity="batch",
+            quality_tier="standard",
+            user_plan="FREE",
+        ),
+        MODEL_PINS,
+    )
+
+    assert decision.primary_provider == "gemini"
+    assert decision.primary_model == ai_module.GEMINI_FLASH_MODEL
+    assert decision.fallback_provider == "deterministic"
+    assert decision.multi_model_pipeline_allowed is False
 
 
 def test_ai_routing_policy_keeps_gemini_pro_premium_deep_only():
@@ -756,6 +777,86 @@ def test_premium_report_pipeline_applies_to_required_report_types():
         report_ai_pipeline.REPORT_QA_POLICIES["life_atlas"].validatorUnavailableBehavior
         == "block"
     )
+
+
+def test_batch_translation_qa_flags_mixed_language_defect():
+    result = ai_batch_qa.run_mock_batch_qa_job(
+        AIBatchQAJob(
+            checkType="translation_sweep",
+            contentSummary="English selected, but the text says यह chart is active.",
+            expectedLanguage="en",
+            id="translation-mixed-language",
+            reportType="vedic",
+        ),
+        model=ai_module.GEMINI_FLASH_MODEL,
+    )
+
+    assert result.passed is False
+    assert result.issues[0].code == "mixed_language_defect"
+    assert result.provider == "deterministic"
+
+
+def test_batch_golden_report_qa_flags_duplicated_remedies():
+    result = ai_batch_qa.run_mock_batch_qa_job(
+        AIBatchQAJob(
+            checkType="golden_pdf_text_audit",
+            contentSummary=(
+                "Remedy: serve elders on Saturday. "
+                "Career insight. Remedy: serve elders on Saturday."
+            ),
+            id="golden-duplicated-remedies",
+            presentSections=["D1", "Mahadasha Phala", "One Remedy Plan"],
+            reportType="vedic",
+            requiredSections=["D1", "Mahadasha Phala", "One Remedy Plan"],
+        ),
+        model=ai_module.GEMINI_FLASH_MODEL,
+    )
+
+    assert result.passed is False
+    assert {issue.code for issue in result.issues} == {"duplicated_remedies"}
+
+
+def test_batch_method_boundary_qa_flags_kp_vedic_mixing():
+    result = ai_batch_qa.run_mock_batch_qa_job(
+        AIBatchQAJob(
+            activeSchool="KP",
+            checkType="method_boundary_check",
+            contentSummary="KP event answer uses D1 yoga as the primary proof.",
+            id="kp-method-boundary",
+            reportType="kp",
+        ),
+        model=ai_module.GEMINI_FLASH_MODEL,
+    )
+
+    assert result.passed is False
+    assert result.issues[0].code == "method_boundary_violation"
+    assert result.issues[0].suggestedFixCategory == "restore-school-boundary"
+
+
+def test_batch_mock_output_writes_deterministic_audit_json(tmp_path):
+    manifest = ai_batch_qa.run_batch_qa_jobs(
+        [
+            AIBatchQAJob(
+                checkType="translation_sweep",
+                contentSummary="English text says આ chart is mixed.",
+                expectedLanguage="en",
+                id="translation-json-output",
+                reportType="vedic",
+            )
+        ],
+        artifact_root=tmp_path,
+        runner_mode="mock",
+    )
+
+    manifest_file = tmp_path / "batch-qa-manifest.json"
+    job_file = tmp_path / "translation-json-output.json"
+    assert manifest_file.exists()
+    assert job_file.exists()
+    job_payload = job_file.read_text()
+    assert "mixed_language_defect" in job_payload
+    assert "English text says" not in job_payload
+    assert manifest.totalJobs == 1
+    assert manifest.failedJobs == 1
 
 
 def test_ashtakavarga_totals_are_self_checking():

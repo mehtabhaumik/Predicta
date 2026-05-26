@@ -1,0 +1,8 @@
+PREDICTA_AI_MODEL_PHASE_5_BATCH_AUDITS_TRANSLATION_AND_GOLDEN_REPORT_QA verification
+
+- Mock batch QA manifest generated: batch-qa-manifest.json.
+- Translation sweep fixture flags mixed-language defects.
+- Golden PDF text audit fixture flags duplicated remedy sections.
+- Method-boundary fixture flags KP/Vedic mixing.
+- Missing-section and overclaim fixtures are included for release-team local QA.
+- Artifacts store issue codes, short evidence phrases, content hashes, provider/model metadata, and no raw private prompts.

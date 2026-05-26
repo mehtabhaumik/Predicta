@@ -712,6 +712,64 @@ class PremiumReportPipelineResult(BaseModel):
     artifactMetadata: Dict[str, Any] = Field(default_factory=dict)
 
 
+AIBatchQACheckType = Literal[
+    "translation_sweep",
+    "report_redundancy_scan",
+    "golden_pdf_text_audit",
+    "method_boundary_check",
+    "missing_section_check",
+    "overclaim_safety_scan",
+]
+AIBatchQARunnerMode = Literal["mock", "gemini_sync"]
+
+
+class AIBatchQAJob(BaseModel):
+    id: str = Field(min_length=1)
+    checkType: AIBatchQACheckType
+    activeSchool: str = Field(default="PARASHARI", min_length=1)
+    reportType: str = Field(default="unknown", min_length=1)
+    expectedLanguage: SupportedLanguage = "en"
+    requiredSections: List[str] = Field(default_factory=list)
+    presentSections: List[str] = Field(default_factory=list)
+    contentSummary: str = Field(default="", max_length=12000)
+    deterministicContextSummary: str = Field(default="", max_length=8000)
+    blockUserFacingDownload: bool = False
+
+
+class AIBatchQAIssue(BaseModel):
+    code: str = Field(min_length=1)
+    severity: AIValidationSeverity
+    message: str = Field(min_length=1)
+    evidence: Optional[str] = None
+    suggestedFixCategory: str = Field(min_length=1)
+
+
+class AIBatchQAResult(BaseModel):
+    jobId: str
+    checkType: AIBatchQACheckType
+    passed: bool
+    severity: AIValidationSeverity
+    issues: List[AIBatchQAIssue] = Field(default_factory=list)
+    provider: AITelemetryProvider
+    model: str
+    runnerMode: AIBatchQARunnerMode
+    auditArtifactPath: Optional[str] = None
+    contentHash: Optional[str] = None
+    blockUserFacingDownload: bool = False
+
+
+class AIBatchQARunManifest(BaseModel):
+    runId: str
+    runnerMode: AIBatchQARunnerMode
+    provider: AITelemetryProvider
+    model: str
+    totalJobs: int
+    passedJobs: int
+    failedJobs: int
+    artifactRoot: str
+    results: List[AIBatchQAResult] = Field(default_factory=list)
+
+
 class SafetyReviewRequest(BaseModel):
     reviewStatus: SafetyReviewStatus
     reviewNote: Optional[str] = Field(default=None, max_length=500)

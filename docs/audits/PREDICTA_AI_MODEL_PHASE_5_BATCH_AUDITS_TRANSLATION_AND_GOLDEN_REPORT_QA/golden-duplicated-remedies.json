@@ -1,0 +1,21 @@
+{
+  "auditArtifactPath": "docs/audits/PREDICTA_AI_MODEL_PHASE_5_BATCH_AUDITS_TRANSLATION_AND_GOLDEN_REPORT_QA/golden-duplicated-remedies.json",
+  "blockUserFacingDownload": false,
+  "checkType": "golden_pdf_text_audit",
+  "contentHash": "ai_58a48aeb95cc7ab4b39e8889d85a19ac695e84f2d691cb57",
+  "issues": [
+    {
+      "code": "duplicated_remedies",
+      "evidence": "remedy: serve elders on saturday",
+      "message": "Remedy or action guidance repeats across report sections.",
+      "severity": "medium",
+      "suggestedFixCategory": "consolidate-remedies"
+    }
+  ],
+  "jobId": "golden-duplicated-remedies",
+  "model": "deterministic-batch-qa-local-runner",
+  "passed": false,
+  "provider": "deterministic",
+  "runnerMode": "mock",
+  "severity": "medium"
+}

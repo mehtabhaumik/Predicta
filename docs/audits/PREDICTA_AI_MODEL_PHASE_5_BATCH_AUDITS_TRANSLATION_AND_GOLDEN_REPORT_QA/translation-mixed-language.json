@@ -1,0 +1,21 @@
+{
+  "auditArtifactPath": "docs/audits/PREDICTA_AI_MODEL_PHASE_5_BATCH_AUDITS_TRANSLATION_AND_GOLDEN_REPORT_QA/translation-mixed-language.json",
+  "blockUserFacingDownload": false,
+  "checkType": "translation_sweep",
+  "contentHash": "ai_c4d8bf8185232c941e0151321bc8739f406911272bea7431",
+  "issues": [
+    {
+      "code": "mixed_language_defect",
+      "evidence": "English surface contains Indic script",
+      "message": "Expected English output contains Hindi/Gujarati script.",
+      "severity": "high",
+      "suggestedFixCategory": "fix-language-output"
+    }
+  ],
+  "jobId": "translation-mixed-language",
+  "model": "deterministic-batch-qa-local-runner",
+  "passed": false,
+  "provider": "deterministic",
+  "runnerMode": "mock",
+  "severity": "high"
+}

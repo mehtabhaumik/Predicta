@@ -1,0 +1,21 @@
+{
+  "auditArtifactPath": "docs/audits/PREDICTA_AI_MODEL_PHASE_5_BATCH_AUDITS_TRANSLATION_AND_GOLDEN_REPORT_QA/missing-section.json",
+  "blockUserFacingDownload": false,
+  "checkType": "missing_section_check",
+  "contentHash": "ai_c7ae29faac5dcd4de114d700927cb2097d950a5a4b010090",
+  "issues": [
+    {
+      "code": "missing_required_sections",
+      "evidence": "Chalit, Mahadasha Phala, Moon",
+      "message": "The report artifact is missing required sections.",
+      "severity": "high",
+      "suggestedFixCategory": "add-missing-section"
+    }
+  ],
+  "jobId": "missing-section",
+  "model": "deterministic-batch-qa-local-runner",
+  "passed": false,
+  "provider": "deterministic",
+  "runnerMode": "mock",
+  "severity": "high"
+}

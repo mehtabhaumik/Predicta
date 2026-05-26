@@ -1,0 +1,117 @@
+{
+  "artifactRoot": "docs/audits/PREDICTA_AI_MODEL_PHASE_5_BATCH_AUDITS_TRANSLATION_AND_GOLDEN_REPORT_QA",
+  "failedJobs": 5,
+  "model": "gemini-2.5-flash",
+  "passedJobs": 0,
+  "provider": "deterministic",
+  "results": [
+    {
+      "auditArtifactPath": "docs/audits/PREDICTA_AI_MODEL_PHASE_5_BATCH_AUDITS_TRANSLATION_AND_GOLDEN_REPORT_QA/translation-mixed-language.json",
+      "blockUserFacingDownload": false,
+      "checkType": "translation_sweep",
+      "contentHash": "ai_c4d8bf8185232c941e0151321bc8739f406911272bea7431",
+      "issues": [
+        {
+          "code": "mixed_language_defect",
+          "evidence": "English surface contains Indic script",
+          "message": "Expected English output contains Hindi/Gujarati script.",
+          "severity": "high",
+          "suggestedFixCategory": "fix-language-output"
+        }
+      ],
+      "jobId": "translation-mixed-language",
+      "model": "deterministic-batch-qa-local-runner",
+      "passed": false,
+      "provider": "deterministic",
+      "runnerMode": "mock",
+      "severity": "high"
+    },
+    {
+      "auditArtifactPath": "docs/audits/PREDICTA_AI_MODEL_PHASE_5_BATCH_AUDITS_TRANSLATION_AND_GOLDEN_REPORT_QA/golden-duplicated-remedies.json",
+      "blockUserFacingDownload": false,
+      "checkType": "golden_pdf_text_audit",
+      "contentHash": "ai_58a48aeb95cc7ab4b39e8889d85a19ac695e84f2d691cb57",
+      "issues": [
+        {
+          "code": "duplicated_remedies",
+          "evidence": "remedy: serve elders on saturday",
+          "message": "Remedy or action guidance repeats across report sections.",
+          "severity": "medium",
+          "suggestedFixCategory": "consolidate-remedies"
+        }
+      ],
+      "jobId": "golden-duplicated-remedies",
+      "model": "deterministic-batch-qa-local-runner",
+      "passed": false,
+      "provider": "deterministic",
+      "runnerMode": "mock",
+      "severity": "medium"
+    },
+    {
+      "auditArtifactPath": "docs/audits/PREDICTA_AI_MODEL_PHASE_5_BATCH_AUDITS_TRANSLATION_AND_GOLDEN_REPORT_QA/kp-method-boundary.json",
+      "blockUserFacingDownload": false,
+      "checkType": "method_boundary_check",
+      "contentHash": "ai_ba88c8531ad5dbca4a56393f9baafc08d9200e8f589129be",
+      "issues": [
+        {
+          "code": "method_boundary_violation",
+          "evidence": "d1 yoga",
+          "message": "KP report uses Vedic/Parashari proof language as primary evidence.",
+          "severity": "high",
+          "suggestedFixCategory": "restore-school-boundary"
+        }
+      ],
+      "jobId": "kp-method-boundary",
+      "model": "deterministic-batch-qa-local-runner",
+      "passed": false,
+      "provider": "deterministic",
+      "runnerMode": "mock",
+      "severity": "high"
+    },
+    {
+      "auditArtifactPath": "docs/audits/PREDICTA_AI_MODEL_PHASE_5_BATCH_AUDITS_TRANSLATION_AND_GOLDEN_REPORT_QA/missing-section.json",
+      "blockUserFacingDownload": false,
+      "checkType": "missing_section_check",
+      "contentHash": "ai_c7ae29faac5dcd4de114d700927cb2097d950a5a4b010090",
+      "issues": [
+        {
+          "code": "missing_required_sections",
+          "evidence": "Chalit, Mahadasha Phala, Moon",
+          "message": "The report artifact is missing required sections.",
+          "severity": "high",
+          "suggestedFixCategory": "add-missing-section"
+        }
+      ],
+      "jobId": "missing-section",
+      "model": "deterministic-batch-qa-local-runner",
+      "passed": false,
+      "provider": "deterministic",
+      "runnerMode": "mock",
+      "severity": "high"
+    },
+    {
+      "auditArtifactPath": "docs/audits/PREDICTA_AI_MODEL_PHASE_5_BATCH_AUDITS_TRANSLATION_AND_GOLDEN_REPORT_QA/overclaim-safety.json",
+      "blockUserFacingDownload": false,
+      "checkType": "overclaim_safety_scan",
+      "contentHash": "ai_20c3e7a2f0bd3a80018dd48603950d2e1832d2501a380b38",
+      "issues": [
+        {
+          "code": "unsupported_prediction",
+          "evidence": "will definitely",
+          "message": "Report text uses hard guarantee or overclaim language.",
+          "severity": "critical",
+          "suggestedFixCategory": "remove-guarantee"
+        }
+      ],
+      "jobId": "overclaim-safety",
+      "model": "deterministic-batch-qa-local-runner",
+      "passed": false,
+      "provider": "deterministic",
+      "runnerMode": "mock",
+      "severity": "critical"
+    }
+  ],
+  "runId": "batch-qa-78ecc6b78275464f",
+  "runnerMode": "mock",
+  "totalJobs": 5
+}

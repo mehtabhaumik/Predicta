@@ -1,0 +1,21 @@
+{
+  "auditArtifactPath": "docs/audits/PREDICTA_AI_MODEL_PHASE_5_BATCH_AUDITS_TRANSLATION_AND_GOLDEN_REPORT_QA/overclaim-safety.json",
+  "blockUserFacingDownload": false,
+  "checkType": "overclaim_safety_scan",
+  "contentHash": "ai_20c3e7a2f0bd3a80018dd48603950d2e1832d2501a380b38",
+  "issues": [
+    {
+      "code": "unsupported_prediction",
+      "evidence": "will definitely",
+      "message": "Report text uses hard guarantee or overclaim language.",
+      "severity": "critical",
+      "suggestedFixCategory": "remove-guarantee"
+    }
+  ],
+  "jobId": "overclaim-safety",
+  "model": "deterministic-batch-qa-local-runner",
+  "passed": false,
+  "provider": "deterministic",
+  "runnerMode": "mock",
+  "severity": "critical"
+}
