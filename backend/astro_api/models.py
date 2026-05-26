@@ -784,11 +784,25 @@ class ReleaseReadinessCheck(BaseModel):
     details: str
 
 
+class AIProfitSafetySummary(BaseModel):
+    estimatedAverageFreeChatCostUsd: Optional[float] = None
+    estimatedAveragePremiumChatCostUsd: Optional[float] = None
+    estimatedAveragePremiumReportCostUsd: Optional[float] = None
+    estimatedGeminiValidatorCostUsd: Optional[float] = None
+    fallbackRate: float = 0
+    cacheHitRate: float = 0
+    deterministicFallbackRate: float = 0
+    topCostRiskFeatures: List[str] = Field(default_factory=list)
+    telemetryEventCount: int = 0
+    pricingConfigured: bool = False
+
+
 class ReleaseReadinessReport(BaseModel):
     generatedAt: str
     releaseStatus: Literal["READY", "BLOCKED"]
     checks: List[ReleaseReadinessCheck]
     blockers: List[str] = Field(default_factory=list)
+    profitSafetySummary: Optional[AIProfitSafetySummary] = None
     safetySLOs: Dict[str, str]
     approvedModelPins: Dict[str, str]
     requiredCommands: List[str]

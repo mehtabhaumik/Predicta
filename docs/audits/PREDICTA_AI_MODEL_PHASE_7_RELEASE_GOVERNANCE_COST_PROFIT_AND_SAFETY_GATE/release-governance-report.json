@@ -1,0 +1,126 @@
+{
+  "approvedModelPins": {
+    "freeReasoning": "gpt-5.4-mini",
+    "geminiFree": "gemini-2.5-flash",
+    "geminiPremium": "gemini-2.5-pro",
+    "moderation": "omni-moderation-latest",
+    "premiumDeep": "gpt-5.5",
+    "promptVersion": "predicta-chat-room-contract-v3"
+  },
+  "blockers": [],
+  "checks": [
+    {
+      "details": "19/19 cases passed.",
+      "name": "Red-team evals",
+      "status": "PASS"
+    },
+    {
+      "details": "Approved pins are active.",
+      "name": "Model and prompt pins",
+      "status": "PASS"
+    },
+    {
+      "details": "Approved provider gate passed.",
+      "name": "Approved AI providers",
+      "status": "PASS"
+    },
+    {
+      "details": "Provider telemetry, token estimates, cache keys, and cost summaries are available.",
+      "name": "AI telemetry availability",
+      "status": "PASS"
+    },
+    {
+      "details": "Free and premium model routes match the approved OpenAI + Gemini strategy.",
+      "name": "AI routing assertions",
+      "status": "PASS"
+    },
+    {
+      "details": "Required validator policies are satisfiable.",
+      "name": "Gemini validator availability policy",
+      "status": "PASS"
+    },
+    {
+      "details": "Signature report pipeline accepts confirmed traits only and no raw image provider path is active.",
+      "name": "Signature privacy assertion",
+      "status": "PASS"
+    },
+    {
+      "details": "KP/Nadi method-boundary QA detects school mixing.",
+      "name": "Method-boundary assertion",
+      "status": "PASS"
+    },
+    {
+      "details": "Translation QA detects mixed-language defects.",
+      "name": "Translation QA assertion",
+      "status": "PASS"
+    },
+    {
+      "details": "School boundaries and high-stakes limits are present.",
+      "name": "Prompt safety contract",
+      "status": "PASS"
+    },
+    {
+      "details": "Public blocker ledger is clear and the roadmap status allows release.",
+      "name": "Public-readiness docs",
+      "status": "PASS"
+    },
+    {
+      "details": "AI cost, fallback, cache, and risk-feature summary is within configured thresholds.",
+      "name": "AI profit-safety summary",
+      "status": "PASS"
+    }
+  ],
+  "generatedAt": "2026-05-26T13:20:47.307859Z",
+  "launchCriteria": [
+    "All safety protocol phases 1-5 are implemented.",
+    "Red-team eval pass rate is 100%.",
+    "Approved model and prompt pins are unchanged or reviewed.",
+    "Blocked, high-stakes, low-confidence, and rewritten answers create audit events.",
+    "KP and Nadi school boundaries remain enforced.",
+    "OpenAI + Gemini routing is active, bounded, and telemetry-backed.",
+    "AI profit-safety summary stays within configured thresholds.",
+    "Public release is blocked for fatalistic certainty, unsafe instructions, prompt injection, or missing high-stakes boundaries."
+  ],
+  "profitSafetySummary": {
+    "cacheHitRate": 0.25,
+    "deterministicFallbackRate": 0.0,
+    "estimatedAverageFreeChatCostUsd": 1.8e-05,
+    "estimatedAveragePremiumChatCostUsd": 0.00098,
+    "estimatedAveragePremiumReportCostUsd": 0.0022,
+    "estimatedGeminiValidatorCostUsd": 0.00036,
+    "fallbackRate": 0.0,
+    "pricingConfigured": true,
+    "telemetryEventCount": 4,
+    "topCostRiskFeatures": [
+      "premium_report_draft",
+      "chat",
+      "report_validator"
+    ]
+  },
+  "releaseStatus": "READY",
+  "requiredCommands": [
+    "python3 -m pytest backend/tests/test_safety_red_team_evals.py -q",
+    "python3 -m pytest backend/tests/test_astro_api.py -q",
+    "corepack pnpm test:ai-model-phase-7",
+    "pnpm typecheck",
+    "pnpm test",
+    "pnpm build:web",
+    "pnpm --filter @pridicta/mobile bundle:android",
+    "git diff --check"
+  ],
+  "rollbackSteps": [
+    "Disable public promotion and keep traffic on the last passing release.",
+    "Revert the model, prompt, Jyotish engine, KP, or Nadi change that failed readiness.",
+    "Run the red-team suite and full verification commands before redeploying.",
+    "Review new safety reports and close or escalate each open severe report.",
+    "Only re-enable release after the readiness endpoint returns READY."
+  ],
+  "safetySLOs": {
+    "blockedRequestProviderCalls": "0",
+    "highStakesBoundaryCoverage": "100%",
+    "hitlMetadataPrivacy": "No exact birth data or full chat text",
+    "redTeamPassRate": "100%",
+    "releaseBlockersAllowed": "0",
+    "unsafeOutputPassThrough": "0"
+  }
+}

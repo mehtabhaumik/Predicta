@@ -3,6 +3,7 @@ import json
 from fastapi.testclient import TestClient
 
 from backend.astro_api import ai as ai_module
+from backend.astro_api.ai_telemetry import record_ai_telemetry_event
 from backend.astro_api.calculations import generate_kundli
 from backend.astro_api.main import app
 from backend.astro_api.models import BirthDetails
@@ -19,6 +20,83 @@ VALID_BIRTH = {
     "longitude": 72.8777,
     "timezone": "Asia/Kolkata",
 }
+
+
+def enable_phase_7_pricing(monkeypatch):
+    monkeypatch.setenv(
+        "PRIDICTA_AI_PRICING_JSON",
+        '{"gpt-5.4-mini":{"inputPerMillion":0.1,"outputPerMillion":0.4},'
+        '"gpt-5.5":{"inputPerMillion":1.0,"outputPerMillion":4.0},'
+        '"gemini-2.5-pro":{"inputPerMillion":0.5,"outputPerMillion":2.0}}',
+    )
+
+
+def seed_phase_7_cost_events() -> None:
+    record_ai_telemetry_event(
+        active_school="PARASHARI",
+        cache_state="hit",
+        estimated_input_tokens=100,
+        estimated_output_tokens=20,
+        fallback_reason=None,
+        feature="chat",
+        intent="moderate",
+        latency_bucket_value="lt_1s",
+        model=ai_module.FREE_REASONING_MODEL,
+        provider="openai",
+        provider_cached_input_tokens=40,
+        report_type=None,
+        route="/ask-pridicta",
+        success=True,
+        user_plan="FREE",
+    )
+    record_ai_telemetry_event(
+        active_school="PARASHARI",
+        cache_state="miss",
+        estimated_input_tokens=500,
+        estimated_output_tokens=120,
+        fallback_reason=None,
+        feature="chat",
+        intent="deep",
+        latency_bucket_value="1_3s",
+        model=ai_module.PREMIUM_DEEP_MODEL,
+        provider="openai",
+        report_type=None,
+        route="/ask-pridicta",
+        success=True,
+        user_plan="PREMIUM",
+    )
+    record_ai_telemetry_event(
+        active_school="PARASHARI",
+        cache_state="miss",
+        estimated_input_tokens=1000,
+        estimated_output_tokens=300,
+        fallback_reason=None,
+        feature="premium_report_draft",
+        intent="deep",
+        latency_bucket_value="1_3s",
+        model=ai_module.PREMIUM_DEEP_MODEL,
+        provider="openai",
+        report_type="vedic",
+        route="/ai/report/premium/draft",
+        success=True,
+        user_plan="PREMIUM",
+    )
+    record_ai_telemetry_event(
+        active_school="PARASHARI",
+        cache_state="miss",
+        estimated_input_tokens=400,
+        estimated_output_tokens=80,
+        fallback_reason=None,
+        feature="report_validator",
+        intent="deep",
+        latency_bucket_value="1_3s",
+        model=ai_module.GEMINI_PRO_MODEL,
+        provider="gemini",
+        report_type="vedic",
+        route="/ai/validator/gemini",
+        success=True,
+        user_plan="PREMIUM",
+    )
 
 
 def test_safety_red_team_catalog_passes():
@@ -291,3 +369,85 @@ def test_release_readiness_blocks_unapproved_ai_provider(monkeypatch):
         for check in report.checks
     )
     assert any("Claude/Anthropic" in blocker for blocker in report.blockers)
+
+
+def test_release_governance_ai_checks_pass_with_approved_openai_gemini_pins(
+    tmp_path,
+    monkeypatch,
+):
+    monkeypatch.setenv(
+        "PRIDICTA_AI_TELEMETRY_STORE_PATH",
+        str(tmp_path / "ai-telemetry.json"),
+    )
+    enable_phase_7_pricing(monkeypatch)
+    seed_phase_7_cost_events()
+
+    report = evaluate_release_readiness()
+    checks = {check.name: check.status for check in report.checks}
+
+    assert checks["Model and prompt pins"] == "PASS"
+    assert checks["Approved AI providers"] == "PASS"
+    assert checks["AI routing assertions"] == "PASS"
+    assert checks["Gemini validator availability policy"] == "PASS"
+    assert checks["Signature privacy assertion"] == "PASS"
+    assert checks["Method-boundary assertion"] == "PASS"
+    assert checks["Translation QA assertion"] == "PASS"
+    assert checks["AI profit-safety summary"] == "PASS"
+
+
+def test_release_governance_fails_on_unapproved_premium_model_pin(monkeypatch):
+    monkeypatch.setattr(ai_module, "PREMIUM_DEEP_MODEL", "unapproved-premium-model")
+
+    report = evaluate_release_readiness()
+
+    assert any(
+        check.name == "Model and prompt pins" and check.status == "FAIL"
+        for check in report.checks
+    )
+    assert any("premiumDeep active=unapproved-premium-model" in blocker for blocker in report.blockers)
+
+
+def test_release_governance_fails_when_free_route_uses_premium_model(monkeypatch):
+    monkeypatch.setattr(ai_module, "FREE_REASONING_MODEL", ai_module.PREMIUM_DEEP_MODEL)
+
+    report = evaluate_release_readiness()
+
+    assert any(
+        check.name == "AI routing assertions" and check.status == "FAIL"
+        for check in report.checks
+    )
+    assert any("free chat routes to premium model" in blocker for blocker in report.blockers)
+
+
+def test_release_governance_fails_when_required_validator_unavailable(monkeypatch):
+    monkeypatch.setenv("PREDICTA_GEMINI_VALIDATOR_AVAILABLE", "false")
+
+    report = evaluate_release_readiness()
+
+    assert any(
+        check.name == "Gemini validator availability policy" and check.status == "FAIL"
+        for check in report.checks
+    )
+    assert any("Gemini validator is required but unavailable" in blocker for blocker in report.blockers)
+
+
+def test_release_governance_emits_profit_safety_summary(tmp_path, monkeypatch):
+    monkeypatch.setenv(
+        "PRIDICTA_AI_TELEMETRY_STORE_PATH",
+        str(tmp_path / "ai-telemetry.json"),
+    )
+    enable_phase_7_pricing(monkeypatch)
+    seed_phase_7_cost_events()
+
+    report = evaluate_release_readiness()
+    summary = report.profitSafetySummary
+
+    assert summary is not None
+    assert summary.telemetryEventCount == 4
+    assert summary.pricingConfigured is True
+    assert summary.estimatedAverageFreeChatCostUsd is not None
+    assert summary.estimatedAveragePremiumChatCostUsd is not None
+    assert summary.estimatedAveragePremiumReportCostUsd is not None
+    assert summary.estimatedGeminiValidatorCostUsd is not None
+    assert summary.cacheHitRate > 0
+    assert "premium_report_draft" in summary.topCostRiskFeatures

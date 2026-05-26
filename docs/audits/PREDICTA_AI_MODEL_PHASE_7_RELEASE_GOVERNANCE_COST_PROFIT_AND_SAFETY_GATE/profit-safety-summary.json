@@ -1,0 +1,16 @@
+{
+  "cacheHitRate": 0.25,
+  "deterministicFallbackRate": 0.0,
+  "estimatedAverageFreeChatCostUsd": 1.8e-05,
+  "estimatedAveragePremiumChatCostUsd": 0.00098,
+  "estimatedAveragePremiumReportCostUsd": 0.0022,
+  "estimatedGeminiValidatorCostUsd": 0.00036,
+  "fallbackRate": 0.0,
+  "pricingConfigured": true,
+  "telemetryEventCount": 4,
+  "topCostRiskFeatures": [
+    "premium_report_draft",
+    "chat",
+    "report_validator"
+  ]
+}

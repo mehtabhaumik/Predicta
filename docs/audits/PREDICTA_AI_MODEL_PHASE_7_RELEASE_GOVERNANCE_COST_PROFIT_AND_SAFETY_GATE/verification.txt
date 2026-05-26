@@ -1,0 +1,21 @@
+PREDICTA_AI_MODEL_PHASE_7_RELEASE_GOVERNANCE_COST_PROFIT_AND_SAFETY_GATE verification
+
+- Release governance includes approved providers, approved model pins, prompt version, telemetry availability, routing assertions, validator policy, signature privacy, method-boundary QA, translation QA, and profit-safety summary.
+- Required AI governance checks passed without depending on unrelated broader public-readiness state.
+- Profit-safety summary artifact generated with cost, fallback, cache, deterministic fallback, and top cost-risk features.
+- Deterministic Phase 7 telemetry fixture includes free chat, premium chat, premium report, and Gemini validator events with pinned pricing.
+- Release governance endpoint remains owner-protected through the existing /safety/admin/release-readiness surface.
+
+Phase audit commands:
+- PASS: python3 -m pytest backend/tests/test_safety_red_team_evals.py -q
+- PASS: python3 -m pytest backend/tests/test_astro_api.py -q
+- PASS: python3 -m py_compile backend/astro_api/release_governance.py backend/astro_api/models.py scripts/run-ai-model-phase-7-release-governance.py
+- PASS: corepack pnpm test:ai-model-phase-7
+- PASS: corepack pnpm test:ai-model-phase-6
+- PASS: corepack pnpm test:translation-trust
+- PASS: corepack pnpm test:pdf-golden
+- PASS: python3 -m json.tool package.json
+- PASS: python3 -m json.tool docs/audits/PREDICTA_AI_MODEL_PHASE_7_RELEASE_GOVERNANCE_COST_PROFIT_AND_SAFETY_GATE/release-governance-report.json
+- PASS: python3 -m json.tool docs/audits/PREDICTA_AI_MODEL_PHASE_7_RELEASE_GOVERNANCE_COST_PROFIT_AND_SAFETY_GATE/profit-safety-summary.json
+- PASS: python3 -m json.tool docs/audits/PREDICTA_AI_MODEL_PHASE_7_RELEASE_GOVERNANCE_COST_PROFIT_AND_SAFETY_GATE/phase-7-ai-telemetry.json
+- PASS: git diff --check

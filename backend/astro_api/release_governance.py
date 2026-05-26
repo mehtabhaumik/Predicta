@@ -1,13 +1,27 @@
 from __future__ import annotations
 
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, Iterable, List, Optional
 
 from . import ai
-from .ai_routing_policy import evaluate_approved_provider_gate
-from .models import ReleaseReadinessCheck, ReleaseReadinessReport
+from .ai_batch_qa import deterministic_issues_for_job
+from .ai_routing_policy import (
+    AIModelPins,
+    AIRoutingRequest,
+    evaluate_approved_provider_gate,
+    route_ai_request,
+)
+from .ai_telemetry import list_ai_telemetry_events, pricing_config
+from .models import (
+    AIBatchQAJob,
+    AIProfitSafetySummary,
+    ReleaseReadinessCheck,
+    ReleaseReadinessReport,
+)
+from .report_ai_pipeline import REPORT_QA_POLICIES
 from .red_team_evals import (
     INPUT_RED_TEAM_CASES,
     OUTPUT_RED_TEAM_CASES,
@@ -37,6 +51,7 @@ SAFETY_SLOS: Dict[str, str] = {
 REQUIRED_RELEASE_COMMANDS = [
     "python3 -m pytest backend/tests/test_safety_red_team_evals.py -q",
     "python3 -m pytest backend/tests/test_astro_api.py -q",
+    "corepack pnpm test:ai-model-phase-7",
     "pnpm typecheck",
     "pnpm test",
     "pnpm build:web",
@@ -50,6 +65,8 @@ LAUNCH_CRITERIA = [
     "Approved model and prompt pins are unchanged or reviewed.",
     "Blocked, high-stakes, low-confidence, and rewritten answers create audit events.",
     "KP and Nadi school boundaries remain enforced.",
+    "OpenAI + Gemini routing is active, bounded, and telemetry-backed.",
+    "AI profit-safety summary stays within configured thresholds.",
     "Public release is blocked for fatalistic certainty, unsafe instructions, prompt injection, or missing high-stakes boundaries.",
 ]
 
@@ -110,6 +127,84 @@ def evaluate_release_readiness() -> ReleaseReadinessReport:
         )
     )
 
+    telemetry_failures = evaluate_telemetry_availability()
+    checks.append(
+        build_check(
+            name="AI telemetry availability",
+            passed=not telemetry_failures,
+            details=(
+                "Provider telemetry, token estimates, cache keys, and cost summaries are available."
+                if not telemetry_failures
+                else "; ".join(telemetry_failures)
+            ),
+        )
+    )
+
+    routing_failures = evaluate_routing_assertions()
+    checks.append(
+        build_check(
+            name="AI routing assertions",
+            passed=not routing_failures,
+            details=(
+                "Free and premium model routes match the approved OpenAI + Gemini strategy."
+                if not routing_failures
+                else "; ".join(routing_failures)
+            ),
+        )
+    )
+
+    validator_failures = evaluate_validator_availability_policy()
+    checks.append(
+        build_check(
+            name="Gemini validator availability policy",
+            passed=not validator_failures,
+            details=(
+                "Required validator policies are satisfiable."
+                if not validator_failures
+                else "; ".join(validator_failures)
+            ),
+        )
+    )
+
+    privacy_failures = evaluate_signature_privacy_assertion()
+    checks.append(
+        build_check(
+            name="Signature privacy assertion",
+            passed=not privacy_failures,
+            details=(
+                "Signature report pipeline accepts confirmed traits only and no raw image provider path is active."
+                if not privacy_failures
+                else "; ".join(privacy_failures)
+            ),
+        )
+    )
+
+    method_failures = evaluate_method_boundary_assertion()
+    checks.append(
+        build_check(
+            name="Method-boundary assertion",
+            passed=not method_failures,
+            details=(
+                "KP/Nadi method-boundary QA detects school mixing."
+                if not method_failures
+                else "; ".join(method_failures)
+            ),
+        )
+    )
+
+    translation_failures = evaluate_translation_qa_assertion()
+    checks.append(
+        build_check(
+            name="Translation QA assertion",
+            passed=not translation_failures,
+            details=(
+                "Translation QA detects mixed-language defects."
+                if not translation_failures
+                else "; ".join(translation_failures)
+            ),
+        )
+    )
+
     prompt_text = ai.build_pridicta_system_prompt()
     prompt_boundary_ok = all(
         phrase in prompt_text
@@ -145,6 +240,20 @@ def evaluate_release_readiness() -> ReleaseReadinessReport:
         )
     )
 
+    profit_safety_summary = build_profit_safety_summary()
+    cost_failures = evaluate_cost_budget_thresholds(profit_safety_summary)
+    checks.append(
+        build_check(
+            name="AI profit-safety summary",
+            passed=not cost_failures,
+            details=(
+                "AI cost, fallback, cache, and risk-feature summary is within configured thresholds."
+                if not cost_failures
+                else "; ".join(cost_failures)
+            ),
+        )
+    )
+
     blockers.extend(
         f"{check.name}: {check.details}"
         for check in checks
@@ -157,6 +266,7 @@ def evaluate_release_readiness() -> ReleaseReadinessReport:
         checks=checks,
         generatedAt=now_iso(),
         launchCriteria=LAUNCH_CRITERIA,
+        profitSafetySummary=profit_safety_summary,
         releaseStatus="BLOCKED" if blockers else "READY",
         requiredCommands=REQUIRED_RELEASE_COMMANDS,
         rollbackSteps=ROLLBACK_STEPS,
@@ -178,6 +288,298 @@ def evaluate_model_pins() -> List[str]:
         for key, expected in APPROVED_MODEL_PINS.items()
         if active.get(key) != expected
     ]
+
+
+def current_model_pins() -> AIModelPins:
+    return AIModelPins(
+        free_reasoning=ai.FREE_REASONING_MODEL,
+        gemini_free=ai.GEMINI_FLASH_MODEL,
+        gemini_premium=ai.GEMINI_PRO_MODEL,
+        premium_deep=ai.PREMIUM_DEEP_MODEL,
+    )
+
+
+def evaluate_routing_assertions() -> List[str]:
+    failures: List[str] = []
+    pins = current_model_pins()
+    free_chat = route_ai_request(
+        AIRoutingRequest(
+            active_school="PARASHARI",
+            feature="chat",
+            intent="moderate",
+            quality_tier="standard",
+            user_plan="FREE",
+        ),
+        pins,
+    )
+    premium_chat = route_ai_request(
+        AIRoutingRequest(
+            active_school="PARASHARI",
+            feature="chat",
+            intent="deep",
+            quality_tier="premium",
+            user_plan="PREMIUM",
+        ),
+        pins,
+    )
+    premium_report = route_ai_request(
+        AIRoutingRequest(
+            active_school="PARASHARI",
+            feature="report_generation",
+            intent="deep",
+            quality_tier="premium",
+            report_type="vedic",
+            user_plan="PREMIUM",
+        ),
+        pins,
+    )
+    batch_qa = route_ai_request(
+        AIRoutingRequest(
+            active_school="PREDICTA",
+            feature="batch_qa",
+            intent="moderate",
+            latency_sensitivity="batch",
+            quality_tier="standard",
+            user_plan="FREE",
+        ),
+        pins,
+    )
+
+    if free_chat.primary_model == ai.PREMIUM_DEEP_MODEL:
+        failures.append("free chat routes to premium model without entitlement")
+    if free_chat.primary_provider != "openai":
+        failures.append(f"free chat primary provider is {free_chat.primary_provider}")
+    if premium_chat.primary_model != ai.PREMIUM_DEEP_MODEL:
+        failures.append("premium deep chat does not route to premium OpenAI model")
+    if premium_report.validator_provider != "gemini":
+        failures.append("premium report validator does not route to Gemini")
+    if batch_qa.primary_model != ai.GEMINI_FLASH_MODEL:
+        failures.append("batch QA does not route to Gemini Flash")
+    return failures
+
+
+def evaluate_validator_availability_policy() -> List[str]:
+    failures: List[str] = []
+    unavailable = os.getenv("PREDICTA_GEMINI_VALIDATOR_AVAILABLE", "true").lower() in {
+        "0",
+        "false",
+        "no",
+    }
+    required_reports = [
+        report_type
+        for report_type, policy in REPORT_QA_POLICIES.items()
+        if policy.validatorRequired
+        and policy.validatorUnavailableBehavior == "block"
+    ]
+    if unavailable and required_reports:
+        failures.append(
+            "Gemini validator is required but unavailable for "
+            + ", ".join(sorted(required_reports))
+        )
+    if "life_atlas" not in required_reports:
+        failures.append("Life Atlas must remain validator-required/blocking")
+    return failures
+
+
+def evaluate_telemetry_availability() -> List[str]:
+    failures: List[str] = []
+    if os.getenv("PRIDICTA_AI_TELEMETRY_DISABLED", "").lower() in {"1", "true", "yes"}:
+        failures.append("AI telemetry is disabled by environment")
+    if not hasattr(ai, "current_provider_usage"):
+        failures.append("provider usage capture is unavailable")
+    try:
+        list_ai_telemetry_events()
+    except Exception as exc:  # pragma: no cover - defensive release gate.
+        failures.append(f"AI telemetry store is unavailable: {type(exc).__name__}")
+    return failures
+
+
+def evaluate_signature_privacy_assertion() -> List[str]:
+    failures: List[str] = []
+    raw_signature_flag = os.getenv(
+        "PREDICTA_ALLOW_RAW_SIGNATURE_PROVIDER_UPLOAD",
+        "false",
+    ).lower()
+    if raw_signature_flag in {"1", "true", "yes"}:
+        failures.append("raw signature image provider upload is enabled")
+    signature_policy = REPORT_QA_POLICIES.get("signature")
+    if signature_policy is None:
+        failures.append("signature report QA policy is missing")
+    return failures
+
+
+def evaluate_method_boundary_assertion() -> List[str]:
+    job = AIBatchQAJob(
+        activeSchool="KP",
+        checkType="method_boundary_check",
+        contentSummary="KP answer uses D1 yoga as primary proof.",
+        id="release-kp-boundary",
+        reportType="kp",
+    )
+    issues = deterministic_issues_for_job(job)
+    if not any(issue.code == "method_boundary_violation" for issue in issues):
+        return ["KP/Vedic method-boundary defect was not detected"]
+    return []
+
+
+def evaluate_translation_qa_assertion() -> List[str]:
+    job = AIBatchQAJob(
+        checkType="translation_sweep",
+        contentSummary="English selected but यह text leaked.",
+        expectedLanguage="en",
+        id="release-translation",
+        reportType="vedic",
+    )
+    issues = deterministic_issues_for_job(job)
+    if not any(issue.code == "mixed_language_defect" for issue in issues):
+        return ["mixed-language translation defect was not detected"]
+    return []
+
+
+def build_profit_safety_summary() -> AIProfitSafetySummary:
+    events = list_ai_telemetry_events()
+    provider_events = [
+        event
+        for event in events
+        if event.provider in {"openai", "gemini", "deterministic"}
+    ]
+    fallback_events = [event for event in provider_events if event.fallbackReason]
+    deterministic_events = [
+        event for event in provider_events if event.provider == "deterministic"
+    ]
+    cache_hit_events = [event for event in provider_events if event.cacheState == "hit"]
+    feature_cost_totals: Dict[str, float] = {}
+    feature_counts: Dict[str, int] = {}
+    for event in provider_events:
+        feature_counts[event.feature] = feature_counts.get(event.feature, 0) + 1
+        if event.estimatedCostUsd is not None:
+            feature_cost_totals[event.feature] = (
+                feature_cost_totals.get(event.feature, 0) + event.estimatedCostUsd
+            )
+
+    top_features = sorted(
+        feature_counts,
+        key=lambda feature: (
+            feature_cost_totals.get(feature, 0),
+            feature_counts.get(feature, 0),
+        ),
+        reverse=True,
+    )[:5]
+
+    return AIProfitSafetySummary(
+        cacheHitRate=rate(len(cache_hit_events), len(provider_events)),
+        deterministicFallbackRate=rate(len(deterministic_events), len(provider_events)),
+        estimatedAverageFreeChatCostUsd=average_cost(
+            event
+            for event in provider_events
+            if event.feature == "chat" and event.userPlan == "FREE"
+        ),
+        estimatedAveragePremiumChatCostUsd=average_cost(
+            event
+            for event in provider_events
+            if event.feature == "chat" and event.userPlan == "PREMIUM"
+        ),
+        estimatedAveragePremiumReportCostUsd=average_cost(
+            event
+            for event in provider_events
+            if event.feature in {"premium_report_draft", "premium_report_finalizer"}
+        ),
+        estimatedGeminiValidatorCostUsd=average_cost(
+            event for event in provider_events if event.feature == "report_validator"
+        ),
+        fallbackRate=rate(len(fallback_events), len(provider_events)),
+        pricingConfigured=bool(pricing_config()),
+        telemetryEventCount=len(provider_events),
+        topCostRiskFeatures=top_features,
+    )
+
+
+def evaluate_cost_budget_thresholds(summary: AIProfitSafetySummary) -> List[str]:
+    failures: List[str] = []
+    if not summary.pricingConfigured:
+        failures.append("AI pricing config is unavailable for cost/profit release governance")
+    if summary.telemetryEventCount <= 0:
+        failures.append("AI telemetry has no events for cost/profit release governance")
+
+    required_cost_metrics = {
+        "average free chat cost": summary.estimatedAverageFreeChatCostUsd,
+        "average premium chat cost": summary.estimatedAveragePremiumChatCostUsd,
+        "average premium report cost": summary.estimatedAveragePremiumReportCostUsd,
+        "average Gemini validator cost": summary.estimatedGeminiValidatorCostUsd,
+    }
+    missing_metrics = [
+        label for label, value in required_cost_metrics.items() if value is None
+    ]
+    if missing_metrics:
+        failures.append(
+            "missing required AI cost metrics: " + ", ".join(missing_metrics)
+        )
+
+    thresholds = {
+        "freeChat": float(os.getenv("PREDICTA_MAX_AVG_FREE_CHAT_COST_USD", "0.01")),
+        "premiumChat": float(os.getenv("PREDICTA_MAX_AVG_PREMIUM_CHAT_COST_USD", "0.25")),
+        "premiumReport": float(
+            os.getenv("PREDICTA_MAX_AVG_PREMIUM_REPORT_COST_USD", "1.75")
+        ),
+        "validator": float(os.getenv("PREDICTA_MAX_AVG_VALIDATOR_COST_USD", "0.5")),
+        "fallbackRate": float(os.getenv("PREDICTA_MAX_AI_FALLBACK_RATE", "0.35")),
+    }
+    compare_cost(
+        failures,
+        "average free chat cost",
+        summary.estimatedAverageFreeChatCostUsd,
+        thresholds["freeChat"],
+    )
+    compare_cost(
+        failures,
+        "average premium chat cost",
+        summary.estimatedAveragePremiumChatCostUsd,
+        thresholds["premiumChat"],
+    )
+    compare_cost(
+        failures,
+        "average premium report cost",
+        summary.estimatedAveragePremiumReportCostUsd,
+        thresholds["premiumReport"],
+    )
+    compare_cost(
+        failures,
+        "average Gemini validator cost",
+        summary.estimatedGeminiValidatorCostUsd,
+        thresholds["validator"],
+    )
+    if summary.fallbackRate > thresholds["fallbackRate"]:
+        failures.append(
+            f"fallback rate {summary.fallbackRate:.2f} exceeds {thresholds['fallbackRate']:.2f}"
+        )
+    return failures
+
+
+def average_cost(events: Iterable[object]) -> Optional[float]:
+    costs = [
+        event.estimatedCostUsd
+        for event in events
+        if event.estimatedCostUsd is not None
+    ]
+    if not costs:
+        return None
+    return round(sum(costs) / len(costs), 8)
+
+
+def compare_cost(
+    failures: List[str],
+    label: str,
+    value: Optional[float],
+    threshold: float,
+) -> None:
+    if value is not None and value > threshold:
+        failures.append(f"{label} {value} exceeds {threshold}")
+
+
+def rate(numerator: int, denominator: int) -> float:
+    if denominator <= 0:
+        return 0
+    return round(numerator / denominator, 4)
 
 
 def evaluate_public_readiness_docs() -> List[str]:
