@@ -23,6 +23,7 @@ from .ai_telemetry import (
     latency_bucket,
     record_ai_telemetry_event,
 )
+from .ai_prompt_efficiency import prompt_cache_key
 from .ai_validator import parse_json_object, severity_from_issues
 from .models import (
     AIBatchQACheckType,
@@ -113,6 +114,7 @@ def run_mock_batch_qa_job(job: AIBatchQAJob, *, model: str) -> AIBatchQAResult:
 def run_gemini_sync_batch_qa_job(job: AIBatchQAJob, *, model: str) -> AIBatchQAResult:
     started_at = perf_counter()
     prompt = build_batch_qa_prompt(job)
+    batch_cache_key = prompt_cache_key("batch_qa", job.checkType, job.reportType)
     text = ""
     set_current_provider_usage(None)
     success = False
@@ -138,6 +140,7 @@ def run_gemini_sync_batch_qa_job(job: AIBatchQAJob, *, model: str) -> AIBatchQAR
             latency_bucket_value=latency_bucket(started_at),
             model=model,
             provider="gemini",
+            prompt_cache_key=batch_cache_key,
             provider_input_tokens=usage.get("input") if usage else None,
             provider_output_tokens=usage.get("output") if usage else None,
             report_type=job.reportType,

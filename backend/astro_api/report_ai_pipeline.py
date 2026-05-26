@@ -20,6 +20,11 @@ from .ai_telemetry import (
     latency_bucket,
     record_ai_telemetry_event,
 )
+from .ai_prompt_efficiency import (
+    PREMIUM_REPORT_INPUT_TOKEN_BUDGET,
+    audit_prompt_budget,
+    prompt_cache_key,
+)
 from .ai_validator import validate_with_gemini
 from .models import (
     AIValidationRequest,
@@ -235,10 +240,24 @@ def run_openai_report_stage(
     set_current_provider_usage(None)
     success = False
     text = ""
+    stage_cache_key = prompt_cache_key(
+        "premium_report",
+        report_type,
+        feature,
+        model,
+    )
+    budget_audit = audit_prompt_budget(
+        prompt="\n\n".join([system_prompt, prompt]),
+        budget_tokens=PREMIUM_REPORT_INPUT_TOKEN_BUDGET,
+        label=feature,
+    )
+    if not budget_audit.approved:
+        raise ValueError(budget_audit.reason)
     try:
         text = create_openai_text_response(
             max_output_tokens=2600,
             model=model,
+            prompt_cache_key=stage_cache_key,
             reasoning_effort="medium",
             safety_identifier=subject_key,
             system_prompt=system_prompt,
@@ -259,6 +278,10 @@ def run_openai_report_stage(
             latency_bucket_value=latency_bucket(started_at),
             model=model,
             provider="openai",
+            prompt_cache_key=stage_cache_key,
+            provider_cached_input_tokens=(
+                usage.get("cached_input") if usage else None
+            ),
             provider_input_tokens=usage.get("input") if usage else None,
             provider_output_tokens=usage.get("output") if usage else None,
             report_type=report_type,

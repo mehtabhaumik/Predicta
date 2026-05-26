@@ -16,6 +16,14 @@ from .ai_telemetry import (
     latency_bucket,
     record_ai_telemetry_event,
 )
+from .ai_prompt_efficiency import (
+    FREE_CHAT_INPUT_TOKEN_BUDGET,
+    audit_prompt_budget,
+    build_ordered_prompt,
+    compact_predicta_context,
+    prompt_cache_key,
+    structured_output_format,
+)
 from .ai_routing_policy import (
     AIModelPins,
     select_gemini_fallback_model,
@@ -1054,6 +1062,20 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
         )
 
     fallback_reason: Optional[str] = None
+    chat_prompt_cache_key = prompt_cache_key(
+        "chat",
+        PREDICTA_CHAT_PROMPT_VERSION,
+        normalize_predicta_school(request.chartContext),
+        request.language,
+        intent,
+    )
+    budget_audit = audit_prompt_budget(
+        prompt=prompt,
+        budget_tokens=FREE_CHAT_INPUT_TOKEN_BUDGET
+        if request.userPlan == "FREE"
+        else FREE_CHAT_INPUT_TOKEN_BUDGET * 2,
+        label="free chat" if request.userPlan == "FREE" else "premium chat",
+    )
     try:
         text, provider, actual_model = create_ai_text_response(
             model=model,
@@ -1061,6 +1083,7 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
             user_prompt=prompt,
             max_output_tokens=max_output_tokens,
             reasoning_effort="medium" if intent == "deep" else "low",
+            prompt_cache_key=chat_prompt_cache_key,
             safety_identifier=safety_identifier,
         )
         provider_usage = current_provider_usage()
@@ -1125,7 +1148,11 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
     )
     record_ai_telemetry_event(
         active_school=normalize_predicta_school(request.chartContext),
-        cache_state="miss",
+        cache_state=(
+            "hit"
+            if provider_usage and provider_usage.get("cached_input")
+            else "miss"
+        ),
         estimated_input_tokens=estimate_tokens(prompt),
         estimated_output_tokens=estimate_tokens(text),
         fallback_reason=fallback_reason,
@@ -1133,6 +1160,10 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
         intent=intent,
         latency_bucket_value=latency_bucket(telemetry_started_at),
         model=actual_model,
+        prompt_cache_key=chat_prompt_cache_key,
+        provider_cached_input_tokens=(
+            provider_usage.get("cached_input") if provider_usage else None
+        ),
         provider_input_tokens=(
             provider_usage.get("input") if provider_usage else None
         ),
@@ -3288,6 +3319,7 @@ def extract_birth_details(
         "must be HH:mm in 24-hour format when clear. If a 12-hour time lacks "
         "AM/PM, include am_pm in missingFields and add an ambiguity."
     )
+    extraction_cache_key = prompt_cache_key("birth_extraction", "v1", system_prompt)
     try:
         text, provider, actual_model = create_ai_text_response(
             model=FREE_REASONING_MODEL,
@@ -3295,6 +3327,8 @@ def extract_birth_details(
             user_prompt=request.text,
             max_output_tokens=500,
             reasoning_effort="low",
+            prompt_cache_key=extraction_cache_key,
+            structured_output_schema=structured_output_format("birth_extraction"),
         )
         provider_usage = current_provider_usage()
         payload = parse_json_object(text)
@@ -3322,7 +3356,11 @@ def extract_birth_details(
 
     record_ai_telemetry_event(
         active_school="PARASHARI",
-        cache_state="bypass",
+        cache_state=(
+            "hit"
+            if provider_usage and provider_usage.get("cached_input")
+            else "miss"
+        ),
         estimated_input_tokens=estimate_tokens(system_prompt, request.text),
         estimated_output_tokens=estimate_tokens(text),
         fallback_reason=(
@@ -3332,6 +3370,10 @@ def extract_birth_details(
         intent="simple",
         latency_bucket_value=latency_bucket(telemetry_started_at),
             model=actual_model,
+            prompt_cache_key=extraction_cache_key,
+            provider_cached_input_tokens=(
+                provider_usage.get("cached_input") if provider_usage else None
+            ),
             provider_input_tokens=(
                 provider_usage.get("input") if provider_usage else None
             ),
@@ -3700,14 +3742,16 @@ def build_user_prompt(
     recent_turns = list(history)[-8:]
     current_date = date.today()
     one_year_later = add_one_year(current_date)
+    compact_context = compact_predicta_context(
+        context,
+        user_plan=str(context.get("chartAccess", {}).get("userPlan", "FREE")),
+    )
     conversation = "\n".join(
         f"{'User' if turn.role == 'user' else 'Pridicta'}: {turn.text[:900]}"
         for turn in recent_turns
     )
-    return "\n\n".join(
-        [
-            "Kundli context:",
-            json.dumps(context, ensure_ascii=False, indent=2),
+    return build_ordered_prompt(
+        static_sections=[
             f"Current date: {current_date.isoformat()}",
             f"Current date rule: all relative timing must be anchored to this date. 'After one year' means around {one_year_later.isoformat()} and 'next 1 year' means {current_date.isoformat()} through {one_year_later.isoformat()}.",
             f"Primary reading area: {primary_area}",
@@ -3745,11 +3789,15 @@ def build_user_prompt(
             "Holistic daily guidance rule: for daily guidance, today, morning routine, what should I do today, or daily sadhana questions, use holisticDailyGuidance first. Keep it practical: morning practice, midday check, evening review, proof chips, and boundaries.",
             "Holistic decision timing rule: when selectedDecisionSynthesis exists or the user asks whether/when/should I, use that synthesis before giving a final posture. Include timing, decision posture, Purushartha balance, karma remedy support, one practical next step, and a safety boundary.",
             "Report synthesis rule: for report/PDF questions, start with the holistic report spine from holisticDailyGuidance, purusharthaLifeBalance, personalPanchang, sadhanaRemedyPath, and holisticReadingRooms before listing technical sections.",
+        ],
+        dynamic_sections=[
+            "Kundli context:",
+            json.dumps(compact_context, ensure_ascii=False, indent=2),
             "Recent conversation:",
             conversation or "No prior conversation.",
             f"User question: {message}",
             "Answer as the active Predicta room using the deterministic evidence first. Follow the active room contract and the formattingContract in jyotishAnalysis.",
-        ]
+        ],
     )
 
 
@@ -5727,6 +5775,7 @@ def build_ai_context(
         }
 
     return {
+        "kundliId": kundli.id,
         "activeContext": chart_context.model_dump() if chart_context else None,
         "disciplineHandoff": discipline_handoff,
         "specialistContextSync": [
@@ -5762,6 +5811,7 @@ def build_ai_context(
         "calculationMeta": {
             "ayanamsa": kundli.calculationMeta.ayanamsa,
             "houseSystem": kundli.calculationMeta.houseSystem,
+            "inputHash": kundli.calculationMeta.inputHash,
             "nodeType": kundli.calculationMeta.nodeType,
             "zodiac": kundli.calculationMeta.zodiac,
             "utcDateTime": kundli.calculationMeta.utcDateTime,
@@ -5964,7 +6014,9 @@ def create_openai_text_response(
     user_prompt: str,
     max_output_tokens: int,
     reasoning_effort: str,
+    prompt_cache_key: Optional[str] = None,
     safety_identifier: Optional[str] = None,
+    structured_output_schema: Optional[Dict[str, Any]] = None,
 ) -> str:
     api_key = os.getenv("OPENAI_API_KEY") or os.getenv("PREDICTA_OPENAI_API_KEY")
 
@@ -5982,6 +6034,10 @@ def create_openai_text_response(
     }
     if safety_identifier:
         payload["safety_identifier"] = safety_identifier
+    if prompt_cache_key:
+        payload["metadata"] = {"predicta_prompt_cache_key": prompt_cache_key}
+    if structured_output_schema:
+        payload["text"] = structured_output_schema
 
     try:
         response = httpx.post(
@@ -6011,7 +6067,9 @@ def create_ai_text_response(
     user_prompt: str,
     max_output_tokens: int,
     reasoning_effort: str,
+    prompt_cache_key: Optional[str] = None,
     safety_identifier: Optional[str] = None,
+    structured_output_schema: Optional[Dict[str, Any]] = None,
 ) -> tuple[str, str, str]:
     openai_error: Optional[Exception] = None
     set_current_provider_usage(None)
@@ -6023,7 +6081,9 @@ def create_ai_text_response(
             user_prompt=user_prompt,
             max_output_tokens=max_output_tokens,
             reasoning_effort=reasoning_effort,
+            prompt_cache_key=prompt_cache_key,
             safety_identifier=safety_identifier,
+            structured_output_schema=structured_output_schema,
         )
         if openai_text.strip():
             return (openai_text, "openai", model)
@@ -6147,7 +6207,12 @@ def extract_openai_token_usage(response: Dict[str, Any]) -> Optional[Dict[str, O
     usage = response.get("usage")
     if not isinstance(usage, dict):
         return None
+    input_details = usage.get("input_tokens_details") or usage.get("prompt_tokens_details")
+    cached_input = None
+    if isinstance(input_details, dict):
+        cached_input = coerce_int(input_details.get("cached_tokens"))
     return {
+        "cached_input": cached_input,
         "input": coerce_int(
             usage.get("input_tokens")
             or usage.get("prompt_tokens")

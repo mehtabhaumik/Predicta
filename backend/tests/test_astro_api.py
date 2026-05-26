@@ -12,6 +12,7 @@ from backend.astro_api.ai_routing_policy import (
     route_ai_request,
 )
 from backend.astro_api.ai_telemetry import list_ai_telemetry_events
+from backend.astro_api import ai_prompt_efficiency
 from backend.astro_api import ai_validator as validator_module
 from backend.astro_api.ai_validator import validate_with_gemini
 from backend.astro_api.jyotish_analysis import build_jyotish_analysis
@@ -857,6 +858,165 @@ def test_batch_mock_output_writes_deterministic_audit_json(tmp_path):
     assert "English text says" not in job_payload
     assert manifest.totalJobs == 1
     assert manifest.failedJobs == 1
+
+
+def test_structured_output_parser_rejects_malformed_json():
+    try:
+        ai_prompt_efficiency.parse_structured_json(
+            "not-json",
+            required_keys=["issues"],
+            schema_name="report_qa_summary",
+        )
+    except ai_prompt_efficiency.StructuredOutputError as exc:
+        assert "malformed JSON" in str(exc)
+    else:
+        raise AssertionError("malformed structured output should be rejected")
+
+
+def test_prompt_construction_keeps_static_content_before_dynamic_context():
+    prompt = ai_prompt_efficiency.build_ordered_prompt(
+        static_sections=["Stable room contract"],
+        dynamic_sections=["Kundli context:", '{"activeContext":{}}'],
+    )
+
+    assert prompt.index("STATIC PREDICTA CONTRACT") < prompt.index(
+        "Stable room contract"
+    )
+    assert prompt.index("Stable room contract") < prompt.index("DYNAMIC USER CONTEXT")
+    assert prompt.index("DYNAMIC USER CONTEXT") < prompt.index("Kundli context:")
+
+
+def test_compact_context_keeps_identity_selection_and_memory_digest():
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+    chart_context = ai_module.ChartContext(
+        chartType="D9",
+        predictaSchool="PARASHARI",
+        selectedSection="Premium Vedic Report",
+        sourceScreen="Charts",
+        specialistContexts=[
+            {
+                "school": "KP",
+                "kundliId": kundli.id,
+                "selectedChart": "Chalit",
+                "selectedSection": "Career event timing",
+                "sourceScreen": "KP Predicta",
+                "updatedAt": "2026-05-26T00:00:00Z",
+            }
+        ],
+    )
+    analysis = build_jyotish_analysis(kundli, "Explain my D9", chart_context)
+    context = ai_module.build_ai_context(
+        kundli,
+        chart_context,
+        analysis,
+        "en",
+        "FREE",
+        "Explain my D9",
+        [],
+    )
+
+    compact = ai_prompt_efficiency.compact_predicta_context(context, user_plan="FREE")
+
+    assert compact["kundliIdentity"]["kundliId"] == kundli.id
+    assert compact["kundliIdentity"]["inputHash"] == kundli.calculationMeta.inputHash
+    assert compact["activeContext"]["predictaSchool"] == "PARASHARI"
+    assert compact["activeContext"]["chartType"] == "D9"
+    assert compact["selectedReport"] == "Premium Vedic Report"
+    assert compact["selectedSection"] == "Premium Vedic Report"
+    assert compact["memoryDigest"]["recentSpecialistRooms"][0]["school"] == "KP"
+
+
+def test_free_chat_prompt_remains_under_approved_budget():
+    kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
+    chart_context = ai_module.ChartContext(
+        chartType="D10",
+        selectedSection="Career chart",
+        sourceScreen="Charts",
+    )
+    analysis = build_jyotish_analysis(
+        kundli,
+        "Give me a clear career reading from D10.",
+        chart_context,
+    )
+    context = ai_module.build_ai_context(
+        kundli,
+        chart_context,
+        analysis,
+        "en",
+        "FREE",
+        "Give me a clear career reading from D10.",
+        [],
+    )
+    context["predictaRoomContract"] = ai_module.build_predicta_room_contract(chart_context)
+    prompt = ai_module.build_user_prompt(
+        context,
+        [],
+        "Give me a clear career reading from D10.",
+        primary_area=analysis.primaryArea,
+        language="en",
+    )
+    audit = ai_prompt_efficiency.audit_prompt_budget(
+        prompt=prompt,
+        budget_tokens=ai_prompt_efficiency.FREE_CHAT_INPUT_TOKEN_BUDGET,
+        label="free chat",
+    )
+
+    assert audit.approved is True
+    assert "STATIC PREDICTA CONTRACT" in prompt
+    assert "DYNAMIC USER CONTEXT" in prompt
+    assert '"memoryDigest"' in prompt
+
+
+def test_premium_report_prompt_budget_fails_with_clear_audit_reason():
+    prompt = "x " * (ai_prompt_efficiency.PREMIUM_REPORT_INPUT_TOKEN_BUDGET * 5)
+    audit = ai_prompt_efficiency.audit_prompt_budget(
+        prompt=prompt,
+        budget_tokens=ai_prompt_efficiency.PREMIUM_REPORT_INPUT_TOKEN_BUDGET,
+        label="premium report",
+    )
+
+    assert audit.approved is False
+    assert "premium report prompt exceeds budget" in audit.reason
+
+
+def test_openai_payload_carries_prompt_cache_key_and_structured_schema(monkeypatch):
+    captured_payloads = []
+
+    class FakeResponse:
+        status_code = 200
+
+        def json(self):
+            return {
+                "output_text": "{}",
+                "usage": {
+                    "input_tokens": 20,
+                    "input_tokens_details": {"cached_tokens": 12},
+                    "output_tokens": 2,
+                },
+            }
+
+    def fake_post(url, **kwargs):
+        captured_payloads.append(kwargs["json"])
+        return FakeResponse()
+
+    monkeypatch.setenv("PREDICTA_OPENAI_API_KEY", "predicta-openai-key")
+    monkeypatch.setattr(ai_module.httpx, "post", fake_post)
+
+    ai_module.create_openai_text_response(
+        max_output_tokens=20,
+        model=ai_module.FREE_REASONING_MODEL,
+        prompt_cache_key="pcache_test",
+        reasoning_effort="low",
+        structured_output_schema=ai_prompt_efficiency.structured_output_format(
+            "birth_extraction"
+        ),
+        system_prompt="system",
+        user_prompt="user",
+    )
+
+    assert captured_payloads[0]["metadata"]["predicta_prompt_cache_key"] == "pcache_test"
+    assert captured_payloads[0]["text"]["format"]["type"] == "json_schema"
+    assert ai_module.current_provider_usage()["cached_input"] == 12
 
 
 def test_ashtakavarga_totals_are_self_checking():

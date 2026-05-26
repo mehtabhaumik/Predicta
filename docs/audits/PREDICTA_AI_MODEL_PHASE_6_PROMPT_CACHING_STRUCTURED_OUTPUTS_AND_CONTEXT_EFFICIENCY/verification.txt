@@ -1,0 +1,17 @@
+PREDICTA_AI_MODEL_PHASE_6_PROMPT_CACHING_STRUCTURED_OUTPUTS_AND_CONTEXT_EFFICIENCY verification
+
+- Prompt order keeps static Predicta contract before dynamic Kundli/user context.
+- Compact context preserves active school, Kundli ID/hash, selected report, selected chart/section, and memory digest.
+- Prompt cache keys are generated for chat, birth extraction, and premium report stages.
+- Structured output schemas exist for birth extraction, validator reports, report QA summaries, translation QA summaries, and routing decisions.
+- Free chat prompt budget audit passes.
+- Premium report prompt budget helper returns clear audit reasons.
+- python3 -m pytest backend/tests/test_astro_api.py -q: PASS, 75 passed.
+- python3 -m pytest backend/tests/test_safety_red_team_evals.py -q: PASS, 11 passed.
+- python3 -m py_compile backend/astro_api/ai.py backend/astro_api/ai_prompt_efficiency.py backend/astro_api/ai_telemetry.py backend/astro_api/models.py backend/astro_api/report_ai_pipeline.py backend/astro_api/ai_validator.py backend/astro_api/ai_batch_qa.py scripts/run-ai-model-phase-6-prompt-efficiency.py: PASS.
+- corepack pnpm test:ai-model-phase-6: PASS.
+- corepack pnpm test:predicta-context: PASS, 11 checks.
+- corepack pnpm test:translation-trust: PASS.
+- corepack pnpm test:pdf-golden: PASS, PDF report golden output gate passed with 148 checks.
+- python3 -m json.tool on package.json and Phase 6 JSON artifacts: PASS.
+- git diff --check: PASS.

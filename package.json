@@ -41,6 +41,7 @@
     "test:report-pdf-phase-8": "node scripts/run-report-pdf-phase-8-web-mobile-parity-gate.mjs",
     "test:report-pdf-phase-9": "node scripts/run-report-pdf-phase-9-golden-artifact-release-audit.mjs",
     "test:ai-model-phase-5": "python3 scripts/run-ai-model-phase-5-batch-qa.py",
+    "test:ai-model-phase-6": "python3 scripts/run-ai-model-phase-6-prompt-efficiency.py",
     "test:kp-nadi-predicta": "node scripts/run-kp-nadi-predicta-strict-phase-gate.mjs",
     "test:numerology-predicta": "node scripts/run-numerology-predicta-strict-phase-gate.mjs",
     "test:signature-predicta": "node scripts/run-signature-predicta-ultra-strict-phase-gate.mjs",

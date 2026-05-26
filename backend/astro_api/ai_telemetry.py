@@ -116,8 +116,10 @@ def record_ai_telemetry_event(
     estimated_output_tokens: int,
     route: str,
     report_type: Optional[str] = None,
+    prompt_cache_key: Optional[str] = None,
     provider_input_tokens: Optional[int] = None,
     provider_output_tokens: Optional[int] = None,
+    provider_cached_input_tokens: Optional[int] = None,
     subject_hash: Optional[str] = None,
 ) -> AITelemetryEvent:
     provider_input = provider_input_tokens if provider_input_tokens is not None else None
@@ -142,7 +144,9 @@ def record_ai_telemetry_event(
         intent=intent,
         latencyBucket=latency_bucket_value,  # type: ignore[arg-type]
         model=model,
+        promptCacheKey=prompt_cache_key,
         provider=provider,  # type: ignore[arg-type]
+        providerCachedInputTokens=provider_cached_input_tokens,
         providerInputTokens=provider_input,
         providerOutputTokens=provider_output,
         reportType=report_type,
@@ -223,4 +227,3 @@ def save_ai_telemetry_store(store: dict) -> None:
     path = ai_telemetry_store_path()
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(store, indent=2, sort_keys=True))
-

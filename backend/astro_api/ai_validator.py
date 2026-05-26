@@ -19,6 +19,7 @@ from .ai_telemetry import (
     latency_bucket,
     record_ai_telemetry_event,
 )
+from .ai_prompt_efficiency import prompt_cache_key
 from .models import (
     AIValidationIssue,
     AIValidationRequest,
@@ -51,6 +52,12 @@ def validate_with_gemini(request: AIValidationRequest) -> AIValidationResult:
     started_at = perf_counter()
     model = select_validator_model(request)
     prompt = build_validator_prompt(request)
+    validator_cache_key = prompt_cache_key(
+        "validator",
+        request.activeSchool,
+        request.reportType,
+        request.userPlan,
+    )
     text = ""
     set_current_provider_usage(None)
     try:
@@ -93,6 +100,7 @@ def validate_with_gemini(request: AIValidationRequest) -> AIValidationResult:
         intent="deep",
         latency_bucket_value=latency_bucket(started_at),
         model=model,
+        prompt_cache_key=validator_cache_key,
         provider="gemini",
         provider_input_tokens=usage.get("input") if usage else None,
         provider_output_tokens=usage.get("output") if usage else None,

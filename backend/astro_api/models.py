@@ -610,7 +610,9 @@ class AITelemetryEvent(BaseModel):
     estimatedOutputTokens: int = 0
     providerInputTokens: Optional[int] = None
     providerOutputTokens: Optional[int] = None
+    providerCachedInputTokens: Optional[int] = None
     estimatedCostUsd: Optional[float] = None
+    promptCacheKey: Optional[str] = None
     subjectHash: Optional[str] = None
     route: str
 

@@ -1,0 +1,48 @@
+{
+  "cacheKeys": {
+    "birthExtraction": "pcache_5e839aa784d83529b38a8e41694d6f79",
+    "chat": "pcache_3377dbe5f9fcddd6940c8ce25b2a057d",
+    "premiumReport": "pcache_37e748994867ad3ba5be935264ac9c39"
+  },
+  "compactContextRequiredKeys": {
+    "activeSchool": "PARASHARI",
+    "inputHash": "2bf39d572f0418005bdb26fcf42a98abbae6f584a26dc54e0477ffc023dd5257",
+    "kundliId": "2bf39d572f041800",
+    "memoryDigest": {
+      "activeSchool": "PARASHARI",
+      "recentSpecialistRooms": [],
+      "rule": "Use saved/synced memory only when supplied here; do not invent memory.",
+      "selectedChart": "D10",
+      "selectedSection": "Premium Vedic Report"
+    },
+    "selectedChartType": "D10",
+    "selectedReport": "Premium Vedic Report",
+    "selectedSection": "Premium Vedic Report"
+  },
+  "promptBudgets": {
+    "freeChat": {
+      "approved": true,
+      "budgetTokens": 24000,
+      "estimatedInputTokens": 22562,
+      "reason": "free chat prompt is within budget"
+    },
+    "premiumReport": {
+      "approved": true,
+      "budgetTokens": 36000,
+      "estimatedInputTokens": 9,
+      "reason": "premium report prompt is within budget"
+    }
+  },
+  "promptOrder": {
+    "dynamicIndex": 8149,
+    "kundliContextIndex": 8171,
+    "staticIndex": 0
+  },
+  "structuredOutputSchemas": [
+    "birth_extraction",
+    "report_qa_summary",
+    "routing_decision",
+    "translation_qa_summary",
+    "validator_report"
+  ]
+}
