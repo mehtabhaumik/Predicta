@@ -9,7 +9,7 @@
     "build": "tsc --noEmit",
     "lint": "eslint src --ext .ts",
     "typecheck": "tsc --noEmit",
-    "test": "echo \"@pridicta/config has no package-local tests\""
+    "test": "node ../../scripts/run-package-meaningful-tests-gate.mjs config"
   },
   "dependencies": {
     "@pridicta/types": "workspace:*"

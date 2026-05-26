@@ -9,7 +9,7 @@
     "build": "tsc --noEmit",
     "lint": "eslint src --ext .ts",
     "typecheck": "tsc --noEmit",
-    "test": "echo \"@pridicta/monetization has no package-local tests\""
+    "test": "node ../../scripts/run-package-meaningful-tests-gate.mjs monetization"
   },
   "dependencies": {
     "@pridicta/config": "workspace:*",

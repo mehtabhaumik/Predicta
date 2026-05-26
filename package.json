@@ -11,6 +11,7 @@
     "lint": "turbo lint",
     "typecheck": "turbo typecheck",
     "test": "turbo test",
+    "test:package-meaningful": "node scripts/run-package-meaningful-tests-gate.mjs all",
     "test:charts": "pnpm --filter @pridicta/astrology stress:charts",
     "test:chart-insight-phase-1": "node scripts/run-chart-insight-phase-1-gate.mjs",
     "test:chart-insight-phase-2": "node scripts/run-chart-insight-phase-2-gate.mjs",

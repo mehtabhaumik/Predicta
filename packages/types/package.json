@@ -9,6 +9,6 @@
     "build": "tsc --noEmit",
     "lint": "eslint src --ext .ts",
     "typecheck": "tsc --noEmit",
-    "test": "echo \"@pridicta/types has no package-local tests\""
+    "test": "node ../../scripts/run-package-meaningful-tests-gate.mjs types"
   }
 }
