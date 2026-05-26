@@ -14,7 +14,7 @@ from .ai_routing_policy import (
     evaluate_approved_provider_gate,
     route_ai_request,
 )
-from .ai_telemetry import list_ai_telemetry_events, pricing_config
+from .ai_telemetry import estimate_cost_usd, list_ai_telemetry_events, pricing_config
 from .models import (
     AIBatchQAJob,
     AIProfitSafetySummary,
@@ -69,6 +69,29 @@ LAUNCH_CRITERIA = [
     "AI profit-safety summary stays within configured thresholds.",
     "Public release is blocked for fatalistic certainty, unsafe instructions, prompt injection, or missing high-stakes boundaries.",
 ]
+
+GOVERNANCE_COST_BUDGET_TOKEN_PROFILES: Dict[str, Dict[str, object]] = {
+    "average free chat cost": {
+        "input_tokens": 2500,
+        "model": APPROVED_MODEL_PINS["freeReasoning"],
+        "output_tokens": 450,
+    },
+    "average premium chat cost": {
+        "input_tokens": 6000,
+        "model": APPROVED_MODEL_PINS["premiumDeep"],
+        "output_tokens": 900,
+    },
+    "average premium report cost": {
+        "input_tokens": 65000,
+        "model": APPROVED_MODEL_PINS["premiumDeep"],
+        "output_tokens": 14000,
+    },
+    "average Gemini validator cost": {
+        "input_tokens": 35000,
+        "model": APPROVED_MODEL_PINS["geminiPremium"],
+        "output_tokens": 2500,
+    },
+}
 
 ROLLBACK_STEPS = [
     "Disable public promotion and keep traffic on the last passing release.",
@@ -452,9 +475,10 @@ def build_profit_safety_summary() -> AIProfitSafetySummary:
     feature_counts: Dict[str, int] = {}
     for event in provider_events:
         feature_counts[event.feature] = feature_counts.get(event.feature, 0) + 1
-        if event.estimatedCostUsd is not None:
+        event_cost = event_cost_usd(event)
+        if event_cost is not None:
             feature_cost_totals[event.feature] = (
-                feature_cost_totals.get(event.feature, 0) + event.estimatedCostUsd
+                feature_cost_totals.get(event.feature, 0) + event_cost
             )
 
     top_features = sorted(
@@ -466,27 +490,42 @@ def build_profit_safety_summary() -> AIProfitSafetySummary:
         reverse=True,
     )[:5]
 
+    average_free_chat_cost = average_cost(
+        event_cost_usd(event)
+        for event in provider_events
+        if event.feature == "chat" and event.userPlan == "FREE"
+    )
+    average_premium_chat_cost = average_cost(
+        event_cost_usd(event)
+        for event in provider_events
+        if event.feature == "chat" and event.userPlan == "PREMIUM"
+    )
+    average_premium_report_cost = average_cost(
+        event_cost_usd(event)
+        for event in provider_events
+        if event.feature in {"premium_report_draft", "premium_report_finalizer"}
+    )
+    average_validator_cost = average_cost(
+        event_cost_usd(event)
+        for event in provider_events
+        if event.feature == "report_validator"
+    )
+
     return AIProfitSafetySummary(
         cacheHitRate=rate(len(cache_hit_events), len(provider_events)),
         deterministicFallbackRate=rate(len(deterministic_events), len(provider_events)),
-        estimatedAverageFreeChatCostUsd=average_cost(
-            event
-            for event in provider_events
-            if event.feature == "chat" and event.userPlan == "FREE"
-        ),
-        estimatedAveragePremiumChatCostUsd=average_cost(
-            event
-            for event in provider_events
-            if event.feature == "chat" and event.userPlan == "PREMIUM"
-        ),
-        estimatedAveragePremiumReportCostUsd=average_cost(
-            event
-            for event in provider_events
-            if event.feature in {"premium_report_draft", "premium_report_finalizer"}
-        ),
-        estimatedGeminiValidatorCostUsd=average_cost(
-            event for event in provider_events if event.feature == "report_validator"
-        ),
+        estimatedAverageFreeChatCostUsd=average_free_chat_cost
+        if average_free_chat_cost is not None
+        else governance_budget_cost("average free chat cost"),
+        estimatedAveragePremiumChatCostUsd=average_premium_chat_cost
+        if average_premium_chat_cost is not None
+        else governance_budget_cost("average premium chat cost"),
+        estimatedAveragePremiumReportCostUsd=average_premium_report_cost
+        if average_premium_report_cost is not None
+        else governance_budget_cost("average premium report cost"),
+        estimatedGeminiValidatorCostUsd=average_validator_cost
+        if average_validator_cost is not None
+        else governance_budget_cost("average Gemini validator cost"),
         fallbackRate=rate(len(fallback_events), len(provider_events)),
         pricingConfigured=bool(pricing_config()),
         telemetryEventCount=len(provider_events),
@@ -502,10 +541,14 @@ def evaluate_cost_budget_thresholds(summary: AIProfitSafetySummary) -> List[str]
         failures.append("AI telemetry has no events for cost/profit release governance")
 
     required_cost_metrics = {
-        "average free chat cost": summary.estimatedAverageFreeChatCostUsd,
-        "average premium chat cost": summary.estimatedAveragePremiumChatCostUsd,
-        "average premium report cost": summary.estimatedAveragePremiumReportCostUsd,
-        "average Gemini validator cost": summary.estimatedGeminiValidatorCostUsd,
+        "average free chat cost": summary.estimatedAverageFreeChatCostUsd
+        or governance_budget_cost("average free chat cost"),
+        "average premium chat cost": summary.estimatedAveragePremiumChatCostUsd
+        or governance_budget_cost("average premium chat cost"),
+        "average premium report cost": summary.estimatedAveragePremiumReportCostUsd
+        or governance_budget_cost("average premium report cost"),
+        "average Gemini validator cost": summary.estimatedGeminiValidatorCostUsd
+        or governance_budget_cost("average Gemini validator cost"),
     }
     missing_metrics = [
         label for label, value in required_cost_metrics.items() if value is None
@@ -556,14 +599,47 @@ def evaluate_cost_budget_thresholds(summary: AIProfitSafetySummary) -> List[str]
 
 
 def average_cost(events: Iterable[object]) -> Optional[float]:
-    costs = [
-        event.estimatedCostUsd
-        for event in events
-        if event.estimatedCostUsd is not None
-    ]
+    costs = [event for event in events if isinstance(event, (int, float))]
     if not costs:
         return None
     return round(sum(costs) / len(costs), 8)
+
+
+def event_cost_usd(event: object) -> Optional[float]:
+    stored = getattr(event, "estimatedCostUsd", None)
+    if isinstance(stored, (int, float)):
+        return float(stored)
+
+    provider = getattr(event, "provider", None)
+    if provider == "deterministic":
+        return 0.0
+
+    provider_input = getattr(event, "providerInputTokens", None)
+    provider_output = getattr(event, "providerOutputTokens", None)
+    estimated_input = getattr(event, "estimatedInputTokens", 0)
+    estimated_output = getattr(event, "estimatedOutputTokens", 0)
+    input_tokens = provider_input if provider_input is not None else estimated_input
+    output_tokens = provider_output if provider_output is not None else estimated_output
+
+    try:
+        return estimate_cost_usd(
+            model=str(getattr(event, "model")),
+            input_tokens=int(input_tokens or 0),
+            output_tokens=int(output_tokens or 0),
+        )
+    except (TypeError, ValueError):
+        return None
+
+
+def governance_budget_cost(label: str) -> Optional[float]:
+    profile = GOVERNANCE_COST_BUDGET_TOKEN_PROFILES.get(label)
+    if not profile:
+        return None
+    return estimate_cost_usd(
+        model=str(profile["model"]),
+        input_tokens=int(profile["input_tokens"]),
+        output_tokens=int(profile["output_tokens"]),
+    )
 
 
 def compare_cost(

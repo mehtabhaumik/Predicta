@@ -1,0 +1,55 @@
+PREDICTA_PRE_LIVE_PHASE_1_RELEASE_GOVERNANCE_COST_PROFIT_UNLOCK
+
+Status: GREEN
+Date: 2026-05-26
+
+Scope:
+- Unlock release governance cost/profit readiness without requiring hidden
+  `PRIDICTA_AI_PRICING_JSON` setup.
+- Keep pricing configurable through `PRIDICTA_AI_PRICING_JSON`.
+- Keep cost/profit metrics non-null in the generated readiness report.
+- Preserve privacy-safe telemetry.
+
+Implementation:
+- Added default governance budget rates in `backend/astro_api/ai_telemetry.py`.
+- Kept `PRIDICTA_AI_PRICING_JSON` as an override source.
+- Added release-governance cost backfill from stored token counts for older
+  telemetry events with null stored cost.
+- Added conservative governance budget token profiles for missing required
+  workflow buckets.
+- Added a regression test that deletes `PRIDICTA_AI_PRICING_JSON` and expects
+  release governance to return `READY` with non-null cost metrics.
+
+Artifacts:
+- docs/audits/PREDICTA_PRE_LIVE_PHASE_1_RELEASE_GOVERNANCE_COST_PROFIT_UNLOCK/release-governance-report.json
+- docs/audits/PREDICTA_PRE_LIVE_PHASE_1_RELEASE_GOVERNANCE_COST_PROFIT_UNLOCK/profit-safety-summary.json
+- docs/audits/PREDICTA_PRE_LIVE_PHASE_1_RELEASE_GOVERNANCE_COST_PROFIT_UNLOCK/pricing-source.md
+- docs/audits/PREDICTA_PRE_LIVE_PHASE_1_RELEASE_GOVERNANCE_COST_PROFIT_UNLOCK/verification.txt
+
+Release-governance result:
+- releaseStatus: READY
+- pricingConfigured: true
+- estimatedAverageFreeChatCostUsd: non-null
+- estimatedAveragePremiumChatCostUsd: non-null
+- estimatedAveragePremiumReportCostUsd: non-null
+- estimatedGeminiValidatorCostUsd: non-null
+- blockers: []
+
+Checks:
+- PASS: python3 -m py_compile backend/astro_api/ai_telemetry.py backend/astro_api/release_governance.py backend/tests/test_safety_red_team_evals.py
+- PASS: python3 -m pytest backend/tests/test_safety_red_team_evals.py -q
+- PASS: python3 -m pytest backend/tests/test_astro_api.py -q
+- PASS: python3 -m backend.astro_api.release_governance
+- PASS: corepack pnpm test:ai-model-phase-7
+- PASS: python3 -m json.tool docs/audits/PREDICTA_PRE_LIVE_PHASE_1_RELEASE_GOVERNANCE_COST_PROFIT_UNLOCK/release-governance-report.json
+- PASS: python3 -m json.tool docs/audits/PREDICTA_PRE_LIVE_PHASE_1_RELEASE_GOVERNANCE_COST_PROFIT_UNLOCK/profit-safety-summary.json
+- PASS: git diff --check
+
+Privacy audit:
+- No raw birth data, raw signature image, private chat text, or payment data was
+  added to telemetry.
+
+Important limitation:
+- This phase fixes release governance cost/profit readiness only. It does not
+  fix public greenlight, mobile Jest, specialist-room QA, payments, signature
+  detection, or other later pre-live blockers.

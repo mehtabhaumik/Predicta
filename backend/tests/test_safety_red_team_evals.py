@@ -451,3 +451,26 @@ def test_release_governance_emits_profit_safety_summary(tmp_path, monkeypatch):
     assert summary.estimatedGeminiValidatorCostUsd is not None
     assert summary.cacheHitRate > 0
     assert "premium_report_draft" in summary.topCostRiskFeatures
+
+
+def test_release_governance_uses_default_pricing_without_hidden_env(
+    tmp_path,
+    monkeypatch,
+):
+    monkeypatch.delenv("PRIDICTA_AI_PRICING_JSON", raising=False)
+    monkeypatch.setenv(
+        "PRIDICTA_AI_TELEMETRY_STORE_PATH",
+        str(tmp_path / "ai-telemetry.json"),
+    )
+    seed_phase_7_cost_events()
+
+    report = evaluate_release_readiness()
+    summary = report.profitSafetySummary
+
+    assert report.releaseStatus == "READY"
+    assert summary is not None
+    assert summary.pricingConfigured is True
+    assert summary.estimatedAverageFreeChatCostUsd is not None
+    assert summary.estimatedAveragePremiumChatCostUsd is not None
+    assert summary.estimatedAveragePremiumReportCostUsd is not None
+    assert summary.estimatedGeminiValidatorCostUsd is not None

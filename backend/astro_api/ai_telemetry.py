@@ -19,6 +19,22 @@ from .models import (
 
 _lock = RLock()
 
+DEFAULT_AI_PRICING_USD_PER_MILLION: Dict[str, Dict[str, float]] = {
+    # Governance budget rates. Override with PRIDICTA_AI_PRICING_JSON when
+    # provider pricing changes, but never leave release governance cost-blind.
+    "gpt-5.4-mini": {"inputPerMillion": 0.1, "outputPerMillion": 0.4},
+    "gpt-5.5": {"inputPerMillion": 1.0, "outputPerMillion": 4.0},
+    "gemini-2.5-flash": {"inputPerMillion": 0.1, "outputPerMillion": 0.4},
+    "gemini-2.5-pro": {"inputPerMillion": 0.5, "outputPerMillion": 2.0},
+    "birth-extraction-rules-v1": {"inputPerMillion": 0.0, "outputPerMillion": 0.0},
+    "deterministic-batch-qa-local-runner": {
+        "inputPerMillion": 0.0,
+        "outputPerMillion": 0.0,
+    },
+    "jyotish-deterministic-v1": {"inputPerMillion": 0.0, "outputPerMillion": 0.0},
+    "predicta-safety-protocol-v1": {"inputPerMillion": 0.0, "outputPerMillion": 0.0},
+}
+
 
 def ai_telemetry_store_path() -> Path:
     return Path(
@@ -59,9 +75,16 @@ def hash_ai_subject(parts: Iterable[str]) -> Optional[str]:
 
 
 def pricing_config() -> Dict[str, Dict[str, float]]:
+    config: Dict[str, Dict[str, float]] = {
+        model: {
+            "inputPerMillion": prices["inputPerMillion"],
+            "outputPerMillion": prices["outputPerMillion"],
+        }
+        for model, prices in DEFAULT_AI_PRICING_USD_PER_MILLION.items()
+    }
     raw = os.getenv("PRIDICTA_AI_PRICING_JSON")
     if not raw:
-        return {}
+        return config
     try:
         parsed = json.loads(raw)
     except json.JSONDecodeError:
@@ -69,7 +92,6 @@ def pricing_config() -> Dict[str, Dict[str, float]]:
     if not isinstance(parsed, dict):
         return {}
 
-    config: Dict[str, Dict[str, float]] = {}
     for model, value in parsed.items():
         if not isinstance(model, str) or not isinstance(value, dict):
             continue

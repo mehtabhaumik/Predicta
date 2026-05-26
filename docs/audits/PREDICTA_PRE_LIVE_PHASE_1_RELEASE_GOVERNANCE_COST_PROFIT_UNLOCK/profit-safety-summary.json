@@ -1,0 +1,16 @@
+{
+  "cacheHitRate": 0,
+  "deterministicFallbackRate": 0.1512,
+  "estimatedAverageFreeChatCostUsd": 0.00300622,
+  "estimatedAveragePremiumChatCostUsd": 0.0511481,
+  "estimatedAveragePremiumReportCostUsd": 0.000283,
+  "estimatedGeminiValidatorCostUsd": 0.0225,
+  "fallbackRate": 0.3055,
+  "pricingConfigured": true,
+  "telemetryEventCount": 635,
+  "topCostRiskFeatures": [
+    "chat",
+    "premium_report_draft",
+    "birth_extraction"
+  ]
+}
