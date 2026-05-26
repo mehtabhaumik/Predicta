@@ -245,38 +245,33 @@ export function WebKundliChart({
             />
           ))}
         </svg>
-        <svg
-          aria-label={translateUiText('House selection layer', appLanguage)}
-          className="north-house-hit-layer"
-          preserveAspectRatio="none"
-          viewBox="0 0 100 100"
-        >
-          {cells.map(cell => (
-            <polygon
-              aria-describedby={chartInstructionsId}
-              aria-label={cell.ariaLabel}
-              aria-pressed={activeCell?.house === cell.house}
-              className={`north-house-target ${
-                activeCell?.house === cell.house ? 'selected' : ''
-              }`}
-              key={`${cell.key}-target`}
-              onBlur={() => setHoveredHouse(undefined)}
-              onClick={() => selectHouse(cell.house)}
-              onFocus={() => setHoveredHouse(cell.house)}
-              onKeyDown={event => {
-                if (event.key === 'Enter' || event.key === ' ') {
-                  event.preventDefault();
-                  selectHouse(cell.house);
-                }
-              }}
-              onMouseEnter={() => setHoveredHouse(cell.house)}
-              onMouseLeave={() => setHoveredHouse(undefined)}
-              points={getNorthHousePolygonPoints(cell.house)}
-              role="button"
-              tabIndex={0}
-            />
-          ))}
-        </svg>
+        {cells.map((cell, index) => (
+          <button
+            aria-describedby={chartInstructionsId}
+            aria-label={cell.ariaLabel}
+            aria-pressed={activeCell?.house === cell.house}
+            className={`north-house north-house-${cell.house} ${
+              activeCell?.house === cell.house ? 'selected' : ''
+            }`}
+            data-kundli-animation-part="signs"
+            key={`${cell.key}-target`}
+            onBlur={() => setHoveredHouse(undefined)}
+            onClick={() => selectHouse(cell.house)}
+            onFocus={() => setHoveredHouse(cell.house)}
+            onKeyDown={event => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                selectHouse(cell.house);
+              }
+            }}
+            onMouseEnter={() => setHoveredHouse(cell.house)}
+            onMouseLeave={() => setHoveredHouse(undefined)}
+            style={{
+              ['--chart-cell-index' as string]: index,
+            } as CSSProperties}
+            type="button"
+          />
+        ))}
         {cells.map((cell, index) => {
           const visiblePlanets = cell.renderPlanets.slice(0, cell.maxVisiblePlanets);
           return (

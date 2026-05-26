@@ -69,7 +69,7 @@ export function detectChatChartIntent(text: string): ChatChartIntent | undefined
     item.pattern.test(normalized),
   );
 
-  if (aliasMatch && wantsChartDisplay && !wantsExplanation) {
+  if (aliasMatch && wantsChartDisplay) {
     return {
       chartType: aliasMatch.chartType,
       matchedBy: 'alias',
