@@ -17,6 +17,7 @@ import type {
 } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useLanguagePreference } from '../lib/language-preference';
+import { isOwnerConsoleEnabled } from '../lib/owner-surface';
 import { useDialogFocusTrap } from '../lib/use-dialog-focus-trap';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 import {
@@ -369,7 +370,7 @@ export function DashboardShell({
   const shellLabels = getAppShellLabels(language);
   const { commonGroups, sections } = buildDashboardNavModel(shellLabels);
   const activeSection = getActiveDashboardSection(pathname, sections);
-  const showAdmin = canSeeAdminRoute(access);
+  const showAdmin = isOwnerConsoleEnabled() && canSeeAdminRoute(access);
   const [menuOpen, setMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLElement | null>(null);
   const mobileMenuCloseRef = useRef<HTMLButtonElement | null>(null);

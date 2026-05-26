@@ -3,6 +3,10 @@ import {
   proxyAstroApiRequest,
   readJsonBody,
 } from '../../../../../lib/astro-api';
+import {
+  isOwnerConsoleEnabled,
+  ownerConsoleUnavailableResponse,
+} from '../../../../../lib/owner-surface';
 
 function adminHeaders(request: Request): HeadersInit {
   const token = request.headers.get('x-pridicta-admin-token') ?? '';
@@ -11,10 +15,18 @@ function adminHeaders(request: Request): HeadersInit {
 }
 
 export async function GET(request: Request): Promise<Response> {
+  if (!isOwnerConsoleEnabled()) {
+    return ownerConsoleUnavailableResponse();
+  }
+
   return proxyAstroApiGet('/access/admin/guest-passes', adminHeaders(request));
 }
 
 export async function POST(request: Request): Promise<Response> {
+  if (!isOwnerConsoleEnabled()) {
+    return ownerConsoleUnavailableResponse();
+  }
+
   const payload = await readJsonBody(request);
 
   if (!payload.ok) {

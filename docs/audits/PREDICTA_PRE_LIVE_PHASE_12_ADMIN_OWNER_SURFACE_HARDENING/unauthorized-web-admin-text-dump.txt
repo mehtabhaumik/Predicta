@@ -1,0 +1,4 @@
+Route: /dashboard/admin
+Public-build state: Owner tools are not available here.
+Body: This public build keeps internal Predicta tools hidden.
+CTA: Return to dashboard

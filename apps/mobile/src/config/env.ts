@@ -15,4 +15,7 @@ export const env = {
     'http://10.0.2.2:3000/api/report/pdf',
   googleWebClientId: runtimeEnv.GOOGLE_WEB_CLIENT_ID ?? '',
   enableMockBilling: runtimeEnv.PRIDICTA_ENABLE_MOCK_BILLING === 'true',
+  enableOwnerTools:
+    runtimeEnv.PREDICTA_ENABLE_OWNER_CONSOLE === 'true' ||
+    runtimeEnv.PRIDICTA_ENABLE_OWNER_CONSOLE === 'true',
 };

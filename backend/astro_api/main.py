@@ -220,4 +220,7 @@ def require_admin_token(token: Optional[str]) -> None:
             detail="Owner access is not configured.",
         )
     if not is_admin_token_valid(token):
-        raise HTTPException(status_code=403, detail="Admin access denied.")
+        raise HTTPException(
+            status_code=403,
+            detail="Owner access is unavailable for this request.",
+        )

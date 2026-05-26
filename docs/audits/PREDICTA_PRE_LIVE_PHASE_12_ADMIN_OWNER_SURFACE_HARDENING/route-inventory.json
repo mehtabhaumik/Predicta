@@ -1,0 +1,25 @@
+{
+  "backendAdminRoutes": [
+    "/safety/admin/reports",
+    "/safety/admin/reports/{event_id}/review",
+    "/safety/admin/release-readiness",
+    "/ai/admin/telemetry/summary",
+    "/access/admin/guest-passes",
+    "/access/admin/guest-passes/{code_id}/revoke"
+  ],
+  "mobileOwnerSurfaces": [
+    "AdminAccess"
+  ],
+  "publicBuildGuards": {
+    "mobile": "AdminAccess stack route and Settings CTA require env.enableOwnerTools plus admin access.",
+    "web": "Owner console requires PREDICTA_ENABLE_OWNER_CONSOLE=true or PRIDICTA_ENABLE_OWNER_CONSOLE=true."
+  },
+  "webAdminRoutes": [
+    "/dashboard/admin",
+    "/api/access/admin/guest-passes",
+    "/api/access/admin/guest-passes/[codeId]/revoke",
+    "/api/safety/admin/release-readiness",
+    "/api/safety/admin/reports",
+    "/api/safety/admin/reports/[eventId]/review"
+  ]
+}

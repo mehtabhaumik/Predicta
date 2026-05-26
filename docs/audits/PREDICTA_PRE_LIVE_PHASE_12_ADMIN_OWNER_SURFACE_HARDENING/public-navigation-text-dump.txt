@@ -1,0 +1,4 @@
+Public navigation condition: isOwnerConsoleEnabled() && canSeeAdminRoute(access)
+Default owner-console flag: absent/false
+Dashboard section model includes owner/internal route: false
+Mobile Settings Admin Tools CTA condition: env.enableOwnerTools && resolvedAccess.isAdmin

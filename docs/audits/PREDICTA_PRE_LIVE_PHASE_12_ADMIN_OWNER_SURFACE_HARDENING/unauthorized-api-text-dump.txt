@@ -1,0 +1,4 @@
+Routes: /api/*/admin/*
+Public-build status: 404
+Body: Owner tools are not available in this public build. Please use the protected owner environment.
+Backend unauthorized body: Owner access is unavailable for this request.

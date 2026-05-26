@@ -8,6 +8,7 @@ import React from 'react';
 
 import { canSeeAdminRoute, resolveAccess } from '@pridicta/access';
 import { useAppStore } from '../store/useAppStore';
+import { env } from '../config/env';
 import { AccuracyMethodScreen } from '../screens/AccuracyMethodScreen';
 import { AdminAccessScreen } from '../screens/AdminAccessScreen';
 import { BirthTimeDetectiveScreen } from '../screens/BirthTimeDetectiveScreen';
@@ -60,9 +61,9 @@ export function RootNavigator(): React.JSX.Element {
   const auth = useAppStore(state => state.auth);
   const monetization = useAppStore(state => state.monetization);
   const redeemedGuestPass = useAppStore(state => state.redeemedGuestPass);
-  const showAdminRoute = canSeeAdminRoute(
-    resolveAccess({ auth, monetization, redeemedGuestPass }),
-  );
+  const showAdminRoute =
+    env.enableOwnerTools &&
+    canSeeAdminRoute(resolveAccess({ auth, monetization, redeemedGuestPass }));
 
   return (
     <NavigationContainer theme={navigationTheme}>

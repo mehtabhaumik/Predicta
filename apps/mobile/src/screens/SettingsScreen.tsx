@@ -10,6 +10,7 @@ import {
   Screen,
   useGlassAlert,
 } from '../components';
+import { env } from '../config/env';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import {
@@ -379,7 +380,7 @@ export function SettingsScreen({
             onPress={() => navigation.navigate(routes.RedeemPassCode)}
           />
         </View>
-        {resolvedAccess.isAdmin ? (
+        {env.enableOwnerTools && resolvedAccess.isAdmin ? (
           <View className="mt-4">
             <GlowButton
               label="Admin Tools"
