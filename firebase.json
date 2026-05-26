@@ -8,7 +8,12 @@
         ".git",
         "firebase-debug.log",
         "firebase-debug.*.log",
-        ".next"
+        ".next",
+        "**/.next",
+        "apps/web/.next",
+        "apps/web/.next/**",
+        "docs/audits",
+        "docs/audits/**"
       ]
     }
   ],
