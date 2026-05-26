@@ -1,0 +1,37 @@
+{
+  "artifactMetadata": {
+    "deterministicArtifactGatePassed": true,
+    "expectedLanguage": "en",
+    "pipelineApplied": false,
+    "presentSectionCount": 7,
+    "reportType": "vedic",
+    "requiredSectionCount": 7,
+    "subjectHash": "ai_1e4c56d2eea01957e4e52b0c74b566d35c8be7309ecb178b",
+    "userPlan": "FREE",
+    "validatorIssueCodes": [],
+    "validatorModel": null,
+    "validatorPassed": null,
+    "validatorProvider": null
+  },
+  "audit": {
+    "blocked": false,
+    "deterministicArtifactGatePassed": true,
+    "draftModel": null,
+    "draftProvider": null,
+    "finalizerInvoked": false,
+    "finalizerModel": null,
+    "finalizerProvider": null,
+    "pipelineApplied": false,
+    "policy": {
+      "validatorRequired": false,
+      "validatorUnavailableBehavior": "continue_with_flag"
+    },
+    "validatorInvoked": false,
+    "validatorIssueCodes": [],
+    "validatorModel": null,
+    "validatorProvider": null,
+    "validatorUnavailable": false
+  },
+  "content": "Free deterministic report fixture. No premium validator path was used.",
+  "validation": null
+}

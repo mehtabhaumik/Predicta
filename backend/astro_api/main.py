@@ -13,6 +13,7 @@ from .access_authority import (
     save_guest_pass,
 )
 from .ai_telemetry import summarize_ai_telemetry
+from .report_ai_pipeline import compose_premium_report_pipeline
 from .safety_audit import (
     create_safety_audit_event,
     list_safety_audit_events,
@@ -39,6 +40,8 @@ from .models import (
     KundliData,
     PassRedemptionRequest,
     PassRedemptionResult,
+    PremiumReportPipelineRequest,
+    PremiumReportPipelineResult,
     PridictaChatRequest,
     PridictaChatResponse,
     ResolvedAccessResponse,
@@ -151,6 +154,19 @@ def ai_telemetry_summary_endpoint(
 ):
     require_admin_token(x_pridicta_admin_token)
     return summarize_ai_telemetry()
+
+
+@app.post("/ai/report/premium-pipeline", response_model=PremiumReportPipelineResult)
+def premium_report_pipeline_endpoint(request: PremiumReportPipelineRequest):
+    try:
+        return compose_premium_report_pipeline(request)
+    except AIConfigurationError as exc:
+        raise HTTPException(
+            status_code=503,
+            detail="Premium report intelligence is not ready right now. Please try again shortly.",
+        ) from exc
+    except AIProviderError as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
 
 
 @app.post("/access/resolve", response_model=ResolvedAccessResponse)

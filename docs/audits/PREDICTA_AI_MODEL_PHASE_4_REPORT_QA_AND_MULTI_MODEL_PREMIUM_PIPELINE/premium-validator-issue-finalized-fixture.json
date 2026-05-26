@@ -1,0 +1,59 @@
+{
+  "artifactMetadata": {
+    "deterministicArtifactGatePassed": true,
+    "expectedLanguage": "en",
+    "pipelineApplied": true,
+    "presentSectionCount": 7,
+    "reportType": "vedic",
+    "requiredSectionCount": 7,
+    "subjectHash": "ai_1e4c56d2eea01957e4e52b0c74b566d35c8be7309ecb178b",
+    "userPlan": "PREMIUM",
+    "validatorIssueCodes": [
+      "duplicated_remedies"
+    ],
+    "validatorModel": "gemini-2.5-pro",
+    "validatorPassed": false,
+    "validatorProvider": "gemini"
+  },
+  "audit": {
+    "blocked": false,
+    "deterministicArtifactGatePassed": true,
+    "draftModel": "gpt-5.5",
+    "draftProvider": "openai",
+    "finalizerInvoked": true,
+    "finalizerModel": "gpt-5.5",
+    "finalizerProvider": "openai",
+    "pipelineApplied": true,
+    "policy": {
+      "validatorRequired": false,
+      "validatorUnavailableBehavior": "continue_with_flag"
+    },
+    "validatorInvoked": true,
+    "validatorIssueCodes": [
+      "duplicated_remedies"
+    ],
+    "validatorModel": "gemini-2.5-pro",
+    "validatorProvider": "gemini",
+    "validatorUnavailable": false
+  },
+  "content": "Finalized premium report: sections are present, remedies are consolidated, and the prediction language is direct without overclaiming.",
+  "validation": {
+    "confidence": "high",
+    "issues": [
+      {
+        "code": "duplicated_remedies",
+        "evidence": "same remedy appears in chart and remedy sections",
+        "message": "Remedy advice repeats across chapters.",
+        "severity": "medium",
+        "suggestedFixCategory": "consolidate-remedies"
+      }
+    ],
+    "model": "gemini-2.5-pro",
+    "passed": false,
+    "provider": "gemini",
+    "severity": "medium",
+    "suggestedFixCategories": [
+      "consolidate-remedies"
+    ]
+  }
+}

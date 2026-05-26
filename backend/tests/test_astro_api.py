@@ -3,6 +3,7 @@ from fastapi.testclient import TestClient
 from backend.astro_api.calculations import generate_kundli
 from backend.astro_api.access_authority import reset_access_rate_limits
 from backend.astro_api import ai as ai_module
+from backend.astro_api import report_ai_pipeline
 from backend.astro_api.ai_routing_policy import (
     AIModelPins,
     AIRoutingRequest,
@@ -14,7 +15,14 @@ from backend.astro_api import ai_validator as validator_module
 from backend.astro_api.ai_validator import validate_with_gemini
 from backend.astro_api.jyotish_analysis import build_jyotish_analysis
 from backend.astro_api.main import app
-from backend.astro_api.models import AIValidationRequest, BirthDetails
+from backend.astro_api.models import (
+    AIValidationIssue,
+    AIValidationRequest,
+    AIValidationResult,
+    BirthDetails,
+    PremiumReportPipelineRequest,
+    ReportQAPolicy,
+)
 
 
 VALID_BIRTH = {
@@ -501,6 +509,253 @@ def test_gemini_validator_not_called_for_ordinary_free_chat(monkeypatch):
 
     assert response.status_code == 200
     assert called["validator"] is False
+
+
+def premium_report_request(**overrides):
+    data = {
+        "activeSchool": "PARASHARI",
+        "deterministicContextSummary": "D1, Moon, D9, D10, Chalit, and Mahadasha evidence are ready.",
+        "deterministicReportData": {
+            "birthSnapshot": "Aarav born in Mumbai with verified deterministic sections.",
+            "sections": ["D1", "Moon", "D9", "D10", "Chalit", "Mahadasha Phala"],
+        },
+        "expectedLanguage": "en",
+        "presentSections": ["D1", "Moon", "D9", "D10", "Chalit", "Mahadasha Phala"],
+        "reportTitle": "Premium Vedic Report",
+        "reportType": "vedic",
+        "requiredSections": ["D1", "Moon", "D9", "D10", "Chalit", "Mahadasha Phala"],
+        "subjectKey": "test-aarav",
+        "userPlan": "PREMIUM",
+    }
+    data.update(overrides)
+    return PremiumReportPipelineRequest(**data)
+
+
+def validation_pass():
+    return AIValidationResult(
+        confidence="high",
+        issues=[],
+        model=ai_module.GEMINI_PRO_MODEL,
+        passed=True,
+        provider="gemini",
+        severity="pass",
+        suggestedFixCategories=[],
+    )
+
+
+def validation_issue():
+    return AIValidationResult(
+        confidence="high",
+        issues=[
+            AIValidationIssue(
+                code="duplicated_remedies",
+                evidence="same remedy appears twice",
+                message="Remedies repeat across chapters.",
+                severity="medium",
+                suggestedFixCategory="consolidate-remedies",
+            )
+        ],
+        model=ai_module.GEMINI_PRO_MODEL,
+        passed=False,
+        provider="gemini",
+        severity="medium",
+        suggestedFixCategories=["consolidate-remedies"],
+    )
+
+
+def validation_unavailable():
+    return AIValidationResult(
+        confidence="low",
+        issues=[
+            AIValidationIssue(
+                code="validator_unavailable_or_malformed",
+                evidence="AIConfigurationError",
+                message="Gemini validator did not return valid structured JSON.",
+                severity="high",
+                suggestedFixCategory="rerun-validator-or-use-deterministic-audit",
+            )
+        ],
+        model=ai_module.GEMINI_PRO_MODEL,
+        passed=False,
+        provider="gemini",
+        severity="high",
+        suggestedFixCategories=["rerun-validator-or-use-deterministic-audit"],
+    )
+
+
+def test_premium_report_pipeline_calls_draft_validator_and_finalizer(
+    tmp_path, monkeypatch
+):
+    monkeypatch.setenv(
+        "PRIDICTA_AI_TELEMETRY_STORE_PATH",
+        str(tmp_path / "ai-telemetry.json"),
+    )
+    openai_calls = []
+    validator_calls = []
+
+    def fake_openai_response(**kwargs):
+        openai_calls.append(kwargs)
+        if len(openai_calls) == 1:
+            return "Draft repeats remedies and needs cleanup."
+        return "Final premium report with one consolidated remedy plan."
+
+    def fake_validator(request):
+        validator_calls.append(request)
+        return validation_issue()
+
+    monkeypatch.setattr(report_ai_pipeline, "create_openai_text_response", fake_openai_response)
+    monkeypatch.setattr(report_ai_pipeline, "validate_with_gemini", fake_validator)
+
+    result = report_ai_pipeline.compose_premium_report_pipeline(premium_report_request())
+
+    assert result.content == "Final premium report with one consolidated remedy plan."
+    assert len(openai_calls) == 2
+    assert len(validator_calls) == 1
+    assert result.audit.pipelineApplied is True
+    assert result.audit.validatorInvoked is True
+    assert result.audit.finalizerInvoked is True
+    assert result.audit.validatorIssueCodes == ["duplicated_remedies"]
+    assert {event.feature for event in list_ai_telemetry_events()} == {
+        "premium_report_draft",
+        "premium_report_finalizer",
+    }
+
+
+def test_free_report_pipeline_does_not_call_gemini_validator(monkeypatch):
+    def fail_openai(**kwargs):
+        raise AssertionError("free report should not call OpenAI premium draft")
+
+    def fail_validator(request):
+        raise AssertionError("free report should not call Gemini validator")
+
+    monkeypatch.setattr(report_ai_pipeline, "create_openai_text_response", fail_openai)
+    monkeypatch.setattr(report_ai_pipeline, "validate_with_gemini", fail_validator)
+
+    result = report_ai_pipeline.compose_premium_report_pipeline(
+        premium_report_request(
+            deterministicReportData={"content": "Useful free deterministic report."},
+            userPlan="FREE",
+        )
+    )
+
+    assert result.content == "Useful free deterministic report."
+    assert result.audit.pipelineApplied is False
+    assert result.audit.validatorInvoked is False
+
+
+def test_validator_pass_skips_premium_report_finalizer(tmp_path, monkeypatch):
+    monkeypatch.setenv(
+        "PRIDICTA_AI_TELEMETRY_STORE_PATH",
+        str(tmp_path / "ai-telemetry.json"),
+    )
+    openai_calls = []
+
+    def fake_openai_response(**kwargs):
+        openai_calls.append(kwargs)
+        if len(openai_calls) > 1:
+            raise AssertionError("finalizer should not run when validator passes")
+        return "Validator-approved premium report."
+
+    monkeypatch.setattr(report_ai_pipeline, "create_openai_text_response", fake_openai_response)
+    monkeypatch.setattr(report_ai_pipeline, "validate_with_gemini", lambda request: validation_pass())
+
+    result = report_ai_pipeline.compose_premium_report_pipeline(premium_report_request())
+
+    assert result.content == "Validator-approved premium report."
+    assert len(openai_calls) == 1
+    assert result.audit.finalizerInvoked is False
+    assert result.validation.passed is True
+
+
+def test_missing_gemini_validator_continues_with_explicit_audit_flag(
+    tmp_path, monkeypatch
+):
+    monkeypatch.setenv(
+        "PRIDICTA_AI_TELEMETRY_STORE_PATH",
+        str(tmp_path / "ai-telemetry.json"),
+    )
+    monkeypatch.setattr(
+        report_ai_pipeline,
+        "create_openai_text_response",
+        lambda **kwargs: "Premium report draft kept with validator unavailable flag.",
+    )
+    monkeypatch.setattr(
+        report_ai_pipeline,
+        "validate_with_gemini",
+        lambda request: validation_unavailable(),
+    )
+
+    result = report_ai_pipeline.compose_premium_report_pipeline(premium_report_request())
+
+    assert result.audit.validatorUnavailable is True
+    assert result.audit.blocked is False
+    assert result.content == "Premium report draft kept with validator unavailable flag."
+    assert result.audit.finalizerInvoked is False
+
+
+def test_missing_gemini_validator_blocks_when_report_policy_requires(
+    tmp_path, monkeypatch
+):
+    monkeypatch.setenv(
+        "PRIDICTA_AI_TELEMETRY_STORE_PATH",
+        str(tmp_path / "ai-telemetry.json"),
+    )
+    monkeypatch.setattr(
+        report_ai_pipeline,
+        "create_openai_text_response",
+        lambda **kwargs: "Premium report draft should not be released.",
+    )
+    monkeypatch.setattr(
+        report_ai_pipeline,
+        "validate_with_gemini",
+        lambda request: validation_unavailable(),
+    )
+
+    result = report_ai_pipeline.compose_premium_report_pipeline(
+        premium_report_request(
+            qaPolicy=ReportQAPolicy(
+                validatorRequired=True,
+                validatorUnavailableBehavior="block",
+            )
+        )
+    )
+
+    assert result.audit.validatorUnavailable is True
+    assert result.audit.blocked is True
+    assert "blocked" in result.content.lower()
+
+
+def test_report_artifact_metadata_excludes_private_prompts(monkeypatch):
+    monkeypatch.setattr(
+        report_ai_pipeline,
+        "create_openai_text_response",
+        lambda **kwargs: "Clean premium report.",
+    )
+    monkeypatch.setattr(report_ai_pipeline, "validate_with_gemini", lambda request: validation_pass())
+
+    result = report_ai_pipeline.compose_premium_report_pipeline(premium_report_request())
+    metadata_json = str(result.artifactMetadata)
+
+    assert result.artifactMetadata["validatorProvider"] == "gemini"
+    assert result.artifactMetadata["validatorModel"] == ai_module.GEMINI_PRO_MODEL
+    assert "Write the premium report draft" not in metadata_json
+    assert "You are Predicta" not in metadata_json
+
+
+def test_premium_report_pipeline_applies_to_required_report_types():
+    assert set(report_ai_pipeline.supported_premium_pipeline_report_types()) == {
+        "vedic",
+        "kp",
+        "nadi",
+        "numerology",
+        "signature",
+        "life_atlas",
+    }
+    assert report_ai_pipeline.REPORT_QA_POLICIES["life_atlas"].validatorRequired is True
+    assert (
+        report_ai_pipeline.REPORT_QA_POLICIES["life_atlas"].validatorUnavailableBehavior
+        == "block"
+    )
 
 
 def test_ashtakavarga_totals_are_self_checking():

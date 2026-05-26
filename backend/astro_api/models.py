@@ -1,4 +1,4 @@
-from typing import Dict, List, Literal, Optional
+from typing import Any, Dict, List, Literal, Optional
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from pydantic import BaseModel, Field, field_validator
@@ -661,6 +661,55 @@ class AIValidationResult(BaseModel):
     confidence: AIValidationConfidence
     provider: AITelemetryProvider
     model: str
+
+
+ReportPipelineValidatorUnavailableBehavior = Literal["continue_with_flag", "block"]
+
+
+class ReportQAPolicy(BaseModel):
+    validatorRequired: bool = False
+    validatorUnavailableBehavior: ReportPipelineValidatorUnavailableBehavior = (
+        "continue_with_flag"
+    )
+
+
+class PremiumReportPipelineRequest(BaseModel):
+    activeSchool: str = Field(default="PARASHARI", min_length=1)
+    reportType: str = Field(default="vedic", min_length=1)
+    userPlan: UserPlan = "FREE"
+    expectedLanguage: SupportedLanguage = "en"
+    reportTitle: str = Field(default="Predicta Report", min_length=1)
+    subjectKey: Optional[str] = Field(default=None, max_length=200)
+    deterministicReportData: Dict[str, Any] = Field(default_factory=dict)
+    deterministicContextSummary: str = Field(default="", max_length=8000)
+    requiredSections: List[str] = Field(default_factory=list)
+    presentSections: List[str] = Field(default_factory=list)
+    confirmedSignatureTraitsOnly: bool = True
+    qaPolicy: Optional[ReportQAPolicy] = None
+
+
+class PremiumReportPipelineAudit(BaseModel):
+    pipelineApplied: bool
+    deterministicArtifactGatePassed: bool
+    validatorInvoked: bool
+    finalizerInvoked: bool
+    validatorUnavailable: bool = False
+    blocked: bool = False
+    draftProvider: Optional[AITelemetryProvider] = None
+    draftModel: Optional[str] = None
+    validatorProvider: Optional[AITelemetryProvider] = None
+    validatorModel: Optional[str] = None
+    finalizerProvider: Optional[AITelemetryProvider] = None
+    finalizerModel: Optional[str] = None
+    validatorIssueCodes: List[str] = Field(default_factory=list)
+    policy: ReportQAPolicy = Field(default_factory=ReportQAPolicy)
+
+
+class PremiumReportPipelineResult(BaseModel):
+    content: str
+    audit: PremiumReportPipelineAudit
+    validation: Optional[AIValidationResult] = None
+    artifactMetadata: Dict[str, Any] = Field(default_factory=dict)
 
 
 class SafetyReviewRequest(BaseModel):

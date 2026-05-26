@@ -1,0 +1,14 @@
+PREDICTA_AI_MODEL_PHASE_4_REPORT_QA_AND_MULTI_MODEL_PREMIUM_PIPELINE verification
+
+- Premium validator-pass fixture generated: premium-validator-pass-fixture.json.
+- Premium validator-found issue + OpenAI finalizer fixture generated: premium-validator-issue-finalized-fixture.json.
+- Free fixture generated with pipelineApplied=false and validatorInvoked=false: free-no-validator-fixture.json.
+- Telemetry snapshot generated for OpenAI draft/finalizer and Gemini validator calls: telemetry-snapshot.json.
+- Draft/finalizer model selection is routed through the Phase 2 report_generation policy, not hardcoded in report surfaces.
+- Artifact metadata contains provider/model/issue metadata only; it does not expose private system prompts or raw prompt text.
+- python3 -m pytest backend/tests/test_astro_api.py -q: PASS, 64 passed.
+- python3 -m pytest backend/tests/test_safety_red_team_evals.py -q: PASS, 11 passed.
+- python3 -m py_compile backend/astro_api/models.py backend/astro_api/main.py backend/astro_api/report_ai_pipeline.py backend/astro_api/ai_validator.py backend/astro_api/ai_telemetry.py backend/astro_api/ai_routing_policy.py: PASS.
+- python3 -m json.tool on all Phase 4 JSON fixtures: PASS.
+- corepack pnpm test:pdf-golden: PASS, PDF report golden output gate passed with 148 checks.
+- git diff --check: PASS.

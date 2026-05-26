@@ -1,0 +1,45 @@
+{
+  "artifactMetadata": {
+    "deterministicArtifactGatePassed": true,
+    "expectedLanguage": "en",
+    "pipelineApplied": true,
+    "presentSectionCount": 7,
+    "reportType": "vedic",
+    "requiredSectionCount": 7,
+    "subjectHash": "ai_1e4c56d2eea01957e4e52b0c74b566d35c8be7309ecb178b",
+    "userPlan": "PREMIUM",
+    "validatorIssueCodes": [],
+    "validatorModel": "gemini-2.5-pro",
+    "validatorPassed": true,
+    "validatorProvider": "gemini"
+  },
+  "audit": {
+    "blocked": false,
+    "deterministicArtifactGatePassed": true,
+    "draftModel": "gpt-5.5",
+    "draftProvider": "openai",
+    "finalizerInvoked": false,
+    "finalizerModel": null,
+    "finalizerProvider": null,
+    "pipelineApplied": true,
+    "policy": {
+      "validatorRequired": false,
+      "validatorUnavailableBehavior": "continue_with_flag"
+    },
+    "validatorInvoked": true,
+    "validatorIssueCodes": [],
+    "validatorModel": "gemini-2.5-pro",
+    "validatorProvider": "gemini",
+    "validatorUnavailable": false
+  },
+  "content": "Premium draft report: all required sections are present with direct, non-technical insight.",
+  "validation": {
+    "confidence": "high",
+    "issues": [],
+    "model": "gemini-2.5-pro",
+    "passed": true,
+    "provider": "gemini",
+    "severity": "pass",
+    "suggestedFixCategories": []
+  }
+}
