@@ -10216,6 +10216,42 @@ button:disabled {
   padding: 13px 16px;
 }
 
+.report-school-subnav {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.report-school-subnav button {
+  background: rgba(255, 255, 255, 0.052);
+  border: 1px solid var(--border-quiet);
+  border-radius: 999px;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  min-height: 44px;
+  padding: 11px 15px;
+  text-transform: uppercase;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.report-school-subnav button:hover,
+.report-school-subnav button.active {
+  background:
+    linear-gradient(135deg, rgba(217, 54, 149, 0.14), rgba(77, 175, 255, 0.12)),
+    rgba(255, 255, 255, 0.07);
+  border-color: rgba(77, 175, 255, 0.42);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+
 .report-marketplace-selector {
   background: transparent;
   border: 0;
@@ -13345,7 +13381,7 @@ button:disabled {
 .founder-principle p,
 .founder-vision-item p,
 .founder-final p,
-.founder-portrait-copy p,
+.founder-note-card p,
 .founder-promise p {
   color: var(--muted);
   font-size: 18px;
@@ -13469,39 +13505,22 @@ button:disabled {
   margin-top: 30px;
 }
 
-.founder-portrait-card {
+.founder-note-card {
   align-self: stretch;
   border-radius: 28px;
-  display: grid;
-  gap: 22px;
-  grid-template-rows: auto auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  justify-content: flex-end;
   justify-self: flex-end;
   max-width: 430px;
   overflow: hidden;
-  padding: 20px;
+  padding: 30px;
   width: 100%;
 }
 
-.founder-portrait-frame {
-  background: rgba(255, 255, 255, 0.055);
-  border: 1px solid var(--border-quiet);
-  border-radius: 24px;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  position: relative;
-}
-
-.founder-portrait-frame img {
-  object-fit: cover;
-  object-position: center;
-}
-
-.founder-portrait-copy {
-  padding: 0 8px 8px;
-}
-
-.founder-portrait-copy p {
-  margin: 12px 0 0;
+.founder-note-card p {
+  margin: 0;
 }
 
 .founder-section {
@@ -13813,7 +13832,7 @@ button:disabled {
     grid-template-columns: 1fr;
   }
 
-  .founder-portrait-card {
+  .founder-note-card {
     justify-self: center;
     max-width: 430px;
   }
@@ -14306,11 +14325,6 @@ button:disabled {
     justify-content: stretch;
   }
 
-  .founder-portrait-frame {
-    aspect-ratio: 1 / 1;
-    min-height: 0;
-  }
-
   .dashboard-saved-work-card .card-content {
     align-items: stretch;
     display: grid;
@@ -14773,16 +14787,8 @@ button:disabled {
     font-size: 32px;
   }
 
-  .founder-portrait-card {
-    padding: 14px;
-  }
-
-  .founder-portrait-frame {
-    aspect-ratio: 1 / 1;
-  }
-
-  .founder-portrait-frame img {
-    object-position: center;
+  .founder-note-card {
+    padding: 22px;
   }
 
   .founder-signature {
@@ -19499,6 +19505,18 @@ select::-ms-expand {
   }
 
   .report-download-dialog-actions .button {
+    width: 100%;
+  }
+
+  .report-school-subnav {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .report-school-subnav button {
+    border-radius: 16px;
+    justify-content: center;
+    text-align: center;
     width: 100%;
   }
 }

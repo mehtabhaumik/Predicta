@@ -170,6 +170,22 @@ export function ReportScreen({
       return;
     }
 
+    if (selectedReportId === 'SIGNATURE') {
+      showGlassAlert({
+        actions: [
+          {
+            label: 'Open Signature',
+            onPress: () => navigation.navigate(routes.SignaturePredicta),
+          },
+          { label: 'Choose Different Report' },
+        ],
+        message:
+          'Signature reports require a confirmed signature sample. Mobile report download will stay blocked until a real signature input is attached to this session.',
+        title: 'Signature required',
+      });
+      return;
+    }
+
     const access = getResolvedAccess();
     const premiumAccess = access.hasPremiumAccess;
     const premiumPdfProduct = getPremiumPdfProduct();

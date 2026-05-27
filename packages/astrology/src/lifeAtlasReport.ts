@@ -37,6 +37,7 @@ export function composeLifeAtlasReport(
   const kp = composeChalitBhavKpFoundation(kundli, { depth }).kp;
   const nadi = composeNadiJyotishPlan(kundli, { depth });
   const purushartha = composePurusharthaLifeBalance(kundli);
+  const firstName = kundli.birthDetails.name.split(/\s+/)[0] || kundli.birthDetails.name;
   const signatureReady = options.signatureAnalysis?.status === 'ready';
   const signatureNote = signatureReady
     ? 'Signature expression layer was included from confirmed visible traits in this session.'
@@ -52,6 +53,7 @@ export function composeLifeAtlasReport(
   const currentFocus = buildCurrentFocus({
     purusharthaCare: humanizeLifeAim(purushartha.needsCare.label),
   });
+  const timingTone = buildTimingTone(kundli);
   const lifeThemeSentence =
     numerology.status === 'ready'
       ? numerology.identityDashboard.lifeThemeSentence
@@ -66,8 +68,11 @@ export function composeLifeAtlasReport(
   const sections = buildLifeAtlasSections({
     currentFocus,
     depth,
+    firstName,
     hiddenThread,
+    kpSummary: kp.digest.latestReportSummary,
     lifeThemeSentence,
+    nadiSummary: nadi.digest.latestReportSummary,
     nadiPractice:
       'Validate the repeating pattern in real life before drawing conclusions, then choose one calmer response when it appears again.',
     numberCycle:
@@ -77,6 +82,7 @@ export function composeLifeAtlasReport(
     purusharthaCare: humanizeLifeAim(purushartha.needsCare.label),
     purusharthaLead: humanizeLifeAim(purushartha.dominant.label),
     signatureNote,
+    timingTone,
   });
 
   return {
@@ -119,7 +125,7 @@ export function composeLifeAtlasReport(
     name: 'Predicta Life Atlas',
     ownerName: kundli.birthDetails.name,
     positioning:
-      'Predicta Life Atlas is a mystical, emotional, practical, non-technical life report.',
+      'Predicta Life Atlas is a personal life map: mystical in tone, practical in use, and written without asking you to decode astrology jargon.',
     premiumPromise:
       'Premium Life Atlas adds deep life journey narrative, soul-purpose synthesis, love/work/money/purpose guidance, karmic pattern map, shadow-to-gift transformation, integration practices, and a sacred closing letter.',
     sections,
@@ -260,80 +266,139 @@ function buildEvidenceLayers({
 function buildLifeAtlasSections({
   currentFocus,
   depth,
+  firstName,
   hiddenThread,
+  kpSummary,
   lifeThemeSentence,
+  nadiSummary,
   nadiPractice,
   numberCycle,
   purusharthaCare,
   purusharthaLead,
   signatureNote,
+  timingTone,
 }: {
   currentFocus: string;
   depth: LifeAtlasDepth;
+  firstName: string;
   hiddenThread: string;
+  kpSummary: string;
   lifeThemeSentence: string;
+  nadiSummary: string;
   nadiPractice: string;
   numberCycle: string;
   purusharthaCare: string;
   purusharthaLead: string;
   signatureNote: string;
+  timingTone: string;
 }): LifeAtlasReportSection[] {
   const premium = depth === 'PREMIUM';
   const sections: LifeAtlasReportSection[] = [
     {
       body:
-        'Your Life Atlas begins by translating the available Predicta signals into a human portrait: how you carry pressure, where your path asks for maturity, and what kind of inner direction keeps returning.',
+        `${firstName}, the immediate pattern is clear: your life works best when purpose, structure, and emotional honesty are kept in the same room. You are not here only to survive pressure; you are here to become the person who can turn pressure into cleaner choices, steadier work, and more conscious relationships.`,
       bullets: [
-        lifeThemeSentence,
-        `Your present pattern is asking for ${purusharthaLead.toLowerCase()} to lead with more grace.`,
-        premium
-          ? 'Premium expands this opening into a fuller portrait with emotional texture, repeating life chapters, and practical integration.'
-          : 'Free keeps the portrait clear and useful without turning it into a teaser.',
+        `Primary life tone: ${lifeThemeSentence}`,
+        `Current timing weather: ${timingTone}`,
+        `Best current use: ${numberCycle}`,
+        `Core integration: let ${purusharthaLead.toLowerCase()} lead without abandoning ${purusharthaCare.toLowerCase()}.`,
       ],
-      evidence: ['Synthesized from the available Predicta birth profile, timing rhythm, number pattern, and story layer.'],
+      evidence: [
+        `Life theme: ${lifeThemeSentence}`,
+        `Current timing tone: ${timingTone}`,
+      ],
+      id: 'personal-snapshot',
+      tier: 'free',
+      title: 'Personal Snapshot',
+    },
+    {
+      body:
+        `${firstName}, your Life Atlas does not begin with planets. It begins with the pattern your life keeps repeating: pressure arrives, your inner compass sharpens, and you are asked to become more deliberate instead of merely stronger. The deeper message is not that life is against you; it is that your soul learns fastest when responsibility, love, and self-direction are brought into the same room.`,
+      bullets: [
+        `Core life sentence: ${lifeThemeSentence}`,
+        `What your current season is asking for: let ${purusharthaLead.toLowerCase()} lead, but do not neglect ${purusharthaCare.toLowerCase()}.`,
+        'The mirror: stop proving your worth through pressure; start choosing your response before pressure chooses it for you.',
+        premium
+          ? 'Premium expands this portrait into childhood patterning, relationship mirrors, work identity, timing rhythm, and integration practices.'
+          : 'Free keeps the portrait complete enough to feel useful, not like a teaser.',
+      ],
+      evidence: [
+        `Life theme: ${lifeThemeSentence}`,
+        `Current chapter: ${currentFocus}`,
+      ],
       id: 'opening-soul-portrait',
       tier: 'free',
       title: 'Opening Soul Portrait',
     },
     {
       body:
-        'This life appears to invite you toward steadier self-trust, wiser responsibility, and a deeper ability to turn pressure into meaningful contribution.',
+        `Strategically, this Life Atlas says your growth is not random. It moves through a repeatable sequence: you notice a pattern, you try to carry too much of it alone, then life asks you to build a cleaner system around it. The winning move is not intensity. The winning move is precision: name the pressure, choose the next honest action, and protect the rhythm that makes that action repeatable.`,
       bullets: [
-        'Your purpose is not framed as one fixed job or one fixed outcome.',
-        'The clearer invitation is to become more conscious, useful, and internally aligned as life matures.',
+        'Main strength: seeing structure inside emotional or practical complexity.',
+        'Main risk: treating urgency as destiny and overcommitting before the inner signal is settled.',
+        'Best correction: slower decisions, clearer boundaries, and one practical next step instead of five dramatic ones.',
         premium
-          ? 'Premium adds the deeper soul-purpose synthesis and shows how the same theme repeats across relationships, work, money, family, and inner healing.'
-          : 'Free gives the core purpose tone in plain language.',
+          ? 'Premium expands this abstract into relationship, work, money, timing, and shadow-to-gift chapters.'
+          : 'Free gives the strategic shape so the report feels usable immediately.',
       ],
-      evidence: ['Purpose is synthesized as a life-language pattern, not as raw technical proof.'],
+      evidence: [
+        `KP practical signal: ${kpSummary}`,
+        `Nadi story signal: ${nadiSummary}`,
+      ],
+      id: 'strategic-life-abstract',
+      tier: 'free',
+      title: 'Strategic Life Abstract',
+    },
+    {
+      body:
+        'This life appears to invite you to turn intensity into clean purpose. Your path is not about escaping duty or becoming hard; it is about learning how to carry power without losing softness, how to build stability without becoming trapped by it, and how to make your choices more conscious than your old reflexes.',
+      bullets: [
+        'Your soul purpose is not one fixed job. It is a way of becoming: useful, self-respecting, emotionally cleaner, and harder to knock off center.',
+        `The practical doorway is ${purusharthaLead.toLowerCase()}; the growth edge is caring for ${purusharthaCare.toLowerCase()} without delay.`,
+        'When you are aligned, your life works best through mature contribution rather than dramatic proving.',
+        premium
+          ? 'Premium traces how this purpose repeats through family patterns, work choices, love, money, and private healing.'
+          : 'Free gives the central purpose tone in plain language.',
+      ],
+      evidence: [
+        `Purpose lead: ${purusharthaLead}`,
+        `Purpose care point: ${purusharthaCare}`,
+      ],
       id: 'why-you-came-here',
       tier: 'free',
       title: 'Why You Came Here',
     },
     {
       body:
-        'Your life journey reads like a path from instinctive survival and early shaping into a more deliberate form of authorship. The work is to stop only reacting to pressure and begin designing from it.',
+        'Your life journey reads like a movement from survival intelligence into authorship. Earlier chapters may have trained you to watch the room, carry more than you named, or wait until the conditions felt safe. The maturing arc is different: build the room, name the pattern, and stop asking life for permission to become steady.',
       bullets: [
-        'Childhood imprint: learning what safety, approval, or belonging required.',
-        'Growth path: turning effort into identity instead of exhaustion.',
-        'Future arc: maturity through clearer choices, cleaner boundaries, and more grounded courage.',
+        'Early imprint: learning what safety, approval, or belonging required before your own rhythm could relax.',
+        'Growth path: turning effort into identity without letting exhaustion become your personality.',
+        'Future arc: clearer choices, cleaner boundaries, visible competence, and courage that does not need noise.',
       ],
-      evidence: ['Life journey arc uses broad timing rhythm and repeated-story signals without exposing technical mechanics.'],
+      evidence: [
+        `Nadi story signal: ${nadiSummary}`,
+        `Timing rhythm: ${numberCycle}`,
+      ],
       id: 'life-journey-arc',
       tier: premium ? 'premium' : 'free',
       title: 'Your Life Journey Arc',
     },
     {
       body:
-        'Life keeps steering you toward a direction where self-respect, service, discipline, and meaningful visibility must work together instead of fighting each other.',
+        'Life keeps steering you toward a direction where self-respect, service, discipline, and meaningful visibility have to work together. Whenever one of these is missing, the same lesson returns in another costume. The destiny pattern is not punishment; it is repetition asking to become wisdom.',
       bullets: [
         `Destiny direction: ${lifeThemeSentence}`,
         'Resistance pattern: delaying your own authority until every condition feels perfectly safe.',
+        'Breakthrough pattern: decide from values first, then let timing and structure support the decision.',
         premium
           ? 'Premium maps the shadow-to-gift path so the repeated pattern becomes usable instead of tiring.'
           : 'Free names the main direction and the most practical point of resistance.',
       ],
-      evidence: ['Destiny pattern is framed as direction and invitation, not fixed fate.'],
+      evidence: [
+        `Numerology tone: ${lifeThemeSentence}`,
+        `KP decision signal: ${kpSummary}`,
+      ],
       id: 'destiny-pattern',
       tier: 'free',
       title: 'Destiny Pattern',
@@ -343,55 +408,70 @@ function buildLifeAtlasSections({
       bullets: [
         `Lead with ${purusharthaLead.toLowerCase()}; care for ${purusharthaCare.toLowerCase()}.`,
         numberCycle,
-        'Do not confuse delay with denial; this chapter works better when you refine your response.',
+        'What to stop doing: treating every familiar pressure as proof that nothing is changing.',
+        'What to start doing: choose one cleaner response, repeat it until your nervous system believes the new pattern.',
       ],
-      evidence: ['Current chapter is synthesized from available timing rhythm, life-balance signal, and number cycle.'],
+      evidence: [
+        currentFocus,
+        numberCycle,
+      ],
       id: 'current-life-chapter',
       tier: 'free',
       title: 'Current Life Chapter',
     },
     {
       body:
-        'The gifts you carry are not only talents. They are survival skills that can become wisdom when used with intention.',
+        'The gifts you carry are not just talents. They are survival skills that become wisdom when they are used with intention. Your strongest gifts are pattern vision, recovery after pressure, and the ability to make other people feel oriented once you have become oriented yourself.',
       bullets: [
-        'Gift one: seeing patterns that others miss.',
-        'Gift two: rebuilding after pressure with more maturity than before.',
-        'Gift three: guiding others once your own rhythm becomes steady.',
+        'Gift one: seeing the hidden structure inside messy situations.',
+        'Gift two: rebuilding after pressure without needing the same wound to define you.',
+        'Gift three: becoming a stabilizing presence for others after you stop abandoning your own center.',
+        'Use these gifts in work, love, money, and family only after your boundaries are clear enough to protect them.',
         premium
           ? 'Premium expands the gifts into leadership, love, work, money, purpose, and self-expression applications.'
           : 'Free gives the top three gifts clearly.',
       ],
-      evidence: ['Gift language is synthesized from the strongest available identity, story, and number signals.'],
+      evidence: [
+        `Story gift: ${nadiSummary}`,
+        `Number gift: ${lifeThemeSentence}`,
+      ],
       id: 'gifts-you-carry',
       tier: 'free',
       title: 'Gifts You Carry',
     },
     {
       body:
-        'The karmic lesson is not punishment. It is the repeating classroom where your awareness becomes stronger than your old reflex.',
+        'The karmic lesson is not punishment. It is the repeating classroom where awareness must become stronger than reflex. The same pressure may return through people, deadlines, responsibility, or emotional expectation until your response becomes calmer, cleaner, and less hungry for external confirmation.',
       bullets: [
         'Lesson one: respond instead of proving yourself through pressure.',
         'Lesson two: let boundaries protect tenderness rather than harden it.',
         'Lesson three: choose consistency before intensity.',
+        'Lesson four: stop confusing emotional urgency with destiny.',
         premium
           ? 'Premium turns these into a karmic pattern map with shadow-to-gift transformation and integration practices.'
           : 'Free keeps the lessons practical and non-frightening.',
       ],
-      evidence: ['Karmic language is kept reflective and non-fatalistic.'],
+      evidence: [
+        `Nadi practice: ${nadiPractice}`,
+        'Karmic language stays reflective, not fatalistic.',
+      ],
       id: 'karmic-lessons',
       tier: 'free',
       title: 'Karmic Lessons',
     },
     {
       body:
-        'Love, work, money, and purpose are treated as one life ecosystem. When one area becomes reactive, the others often ask for calmer structure.',
+        'Love, work, money, and purpose are not separate islands in this Life Atlas. They behave like one ecosystem. When love becomes reactive, work asks for steadiness. When money becomes emotional, purpose asks for structure. When purpose becomes heavy, love and joy need to return so the path does not become dry.',
       bullets: [
         'Love: practice honest closeness without losing your center.',
-        'Work: build visible value through disciplined contribution.',
+        'Work: build visible value through disciplined contribution, not scattered proving.',
         'Money: use structure to reduce emotional decision-making.',
-        'Purpose: let service and self-respect grow together.',
+        'Purpose: let service and self-respect grow together, so giving does not become depletion.',
       ],
-      evidence: ['Major life-area guidance stays non-technical and practical.'],
+      evidence: [
+        `Life ecosystem lead: ${purusharthaLead}`,
+        `Life ecosystem care point: ${purusharthaCare}`,
+      ],
       id: 'love-work-money-purpose',
       tier: premium ? 'premium' : 'free',
       title: 'Love, Work, Money, Purpose',
@@ -399,69 +479,89 @@ function buildLifeAtlasSections({
     {
       body: hiddenThread,
       bullets: [
-        'This is the wow line that ties the reading together.',
-        'When you remember this thread, separate problems begin to feel like one understandable pattern.',
+        'This is the line to return to when separate problems start feeling disconnected.',
+        'If the same pressure appears in love, work, money, or family, do not ask only “why is this happening?” Ask “what response is this training in me?”',
+        'The hidden thread becomes useful when it changes one daily decision, not when it stays beautiful on paper.',
         premium
           ? 'Premium deepens this into a personal chapter with examples, cautions, practices, and future maturation cues.'
           : 'Free gives the hidden thread in one memorable form.',
       ],
-      evidence: ['Hidden Thread uses the approved Life Atlas synthesis path only.'],
+      evidence: [
+        hiddenThread,
+        `Number rhythm: ${lifeThemeSentence}`,
+      ],
       id: 'hidden-thread',
       tier: 'free',
       title: 'The Hidden Thread',
     },
     {
       body:
-        'What is intended for you is not a forced destiny. It is a more aligned version of your life where your gifts are used cleanly, your timing is respected, and your energy is no longer spent fighting your own growth.',
+        'What is intended for you is not a fixed script. It is a more aligned version of your life where your gifts are used cleanly, your timing is respected, and your energy is no longer spent fighting your own growth. The intended path feels less like drama and more like honest strength.',
       bullets: [
         'More alignment, less self-betrayal.',
         'More meaningful contribution, less scattered proving.',
         'More calm responsibility, less fear-led urgency.',
+        'More intimacy with your real path, less negotiation with old patterns.',
       ],
-      evidence: ['Future language is hopeful and grounded, not guaranteed.'],
+      evidence: [
+        `Intended direction: ${lifeThemeSentence}`,
+        'Future language is hopeful and grounded, not guaranteed.',
+      ],
       id: 'what-is-intended',
       tier: 'free',
       title: 'What Is Intended For You',
     },
     {
       body:
-        'The next 12 to 24 months are best used as a refinement period: make the path cleaner, reduce avoidable drama, and take practical steps that your future self can build on.',
+        'The next 12 to 24 months are best used as a refinement period: make the path cleaner, reduce avoidable drama, and take practical steps your future self can trust. This is not a season for proving everything at once. It is a season for building a cleaner operating system.',
       bullets: [
         'Start what needs clean structure.',
         'Repair what still leaks energy.',
         'Wait where impatience would create a mess.',
+        'Choose the boring action that makes your life easier six months from now.',
         premium
           ? 'Premium turns this into a deeper integration calendar without pretending exact events are guaranteed.'
           : 'Free gives the current focus without technical timing language.',
       ],
-      evidence: ['Timing is stated as guidance and readiness, not certainty.'],
+      evidence: [
+        numberCycle,
+        `KP readiness tone: ${kpSummary}`,
+      ],
       id: 'next-12-24-months',
       tier: 'free',
       title: 'Next 12-24 Months',
     },
     {
       body:
-        'Soul practices are the bridge between insight and change. They are simple, repeatable actions that help the reading become lived, not merely admired.',
+        'Soul practices are the bridge between insight and change. They should be small enough to repeat and honest enough to change behavior. Do not turn this report into a mood. Turn it into a practice.',
       bullets: [
         nadiPractice,
-        'Journal the same repeating lesson for seven days before trying to solve it.',
+        'For seven days, write the same repeating lesson in one sentence. Then write the calmer response you are choosing instead.',
         'Choose one weekly act of service, repair, or discipline that makes your life cleaner.',
+        'When pressure rises, pause before speech, spending, promises, and major emotional conclusions.',
         signatureNote,
       ],
-      evidence: ['Practices are behavior-first and safe; they do not replace professional care or personal agency.'],
+      evidence: [
+        nadiPractice,
+        signatureNote,
+      ],
       id: 'soul-practices',
       tier: 'free',
       title: 'Soul Practices',
     },
     {
       body:
-        'Dear one, your path does not need to become louder to become more powerful. It needs to become truer. Let this report be a mirror, not a cage. Use what feels honest, test it through action, and keep choosing the version of yourself that can hold both softness and strength.',
+        `Dear ${firstName}, your path does not need to become louder to become more powerful. It needs to become truer. There is a version of you that no longer treats pressure as proof of failure, no longer waits for perfect safety before choosing, and no longer spends sacred energy convincing life that you deserve a place in it. Let this report be a mirror, not a cage. Keep what feels honest. Test it through action. Let softness and strength stand together. The life ahead is not asking you to become someone else; it is asking you to stop abandoning the self that already knows the way.`,
       bullets: [
+        'Return to this letter when life feels noisy.',
+        'Use the hidden thread as a compass, not a verdict.',
         premium
           ? 'Premium closing letter is written to feel personal, sacred, and memorable.'
           : 'Free closing letter stays warm, useful, and complete.',
       ],
-      evidence: ['The closing letter preserves agency and avoids fear.'],
+      evidence: [
+        'The closing letter preserves agency and avoids fear.',
+      ],
       id: 'final-letter',
       tier: 'free',
       title: 'Final Letter From Predicta',
@@ -469,24 +569,79 @@ function buildLifeAtlasSections({
   ];
 
   if (premium) {
-    sections.push({
-      body:
-        'Predicta built this reading from available birth profile intelligence, timing rhythm, Nadi-style story intelligence, number pattern, and optional confirmed expression signals. The main reading hides raw proof so the Life Atlas stays human.',
-      bullets: [
-        'Vedic: life architecture, current chapter, dharma direction, and timing rhythm.',
-        'KP: practical decision zones and timing confidence, translated without cusp jargon.',
-        'Nadi: repeated story thread, validation-aware pattern, and practice direction.',
-        'Numerology: name rhythm, life-path tone, and personal cycle language.',
-        signatureNote,
-      ],
-      evidence: [
-        'Appendix remains user-friendly and technical-light by contract.',
-        'School-specific reports remain separate from Life Atlas.',
-      ],
-      id: 'how-predicta-built-this-reading',
-      tier: 'premium',
-      title: 'How Predicta Built This Reading',
-    });
+    const finalLetterIndex = sections.findIndex(section => section.id === 'final-letter');
+    const premiumSections: LifeAtlasReportSection[] = [
+      {
+        body:
+          'Your relationship mirror is one of the clearest places where the Life Atlas becomes practical. You are not being asked to become less deep; you are being asked to stop confusing intensity with intimacy. The healthier pattern is honest closeness with boundaries, not rescue, testing, withdrawal, or silent endurance.',
+        bullets: [
+          'Where you attract growth: relationships that reveal your emotional reflexes quickly.',
+          'Where you must stay awake: over-responsibility, control, delayed honesty, or waiting for others to guess what you need.',
+          'Premium practice: name the need before it becomes a test, and name the boundary before it becomes resentment.',
+          'Better love pattern: warmth plus structure, devotion plus self-respect, closeness plus personal rhythm.',
+        ],
+        evidence: [
+          `Relationship story signal: ${nadiSummary}`,
+          `Emotional care point: ${purusharthaCare}`,
+        ],
+        id: 'relationship-mirror',
+        tier: 'premium',
+        title: 'Relationship Mirror',
+      },
+      {
+        body:
+          'Your work and money path becomes stronger when skill, credibility, and emotional steadiness are built together. The Life Atlas does not point toward scattered proving. It points toward a body of work, a visible standard, and a calmer relationship with value. Money improves when decisions are less reactive and your offer becomes clearer.',
+        bullets: [
+          'Work signal: build repeatable value instead of chasing every urgent opportunity.',
+          'Money signal: use structure to reduce emotional spending, underpricing, or overgiving.',
+          'Mission signal: your contribution grows when usefulness and self-respect move together.',
+          'Premium application: define one offer, one audience, one operating rhythm, and one six-month stability metric.',
+        ],
+        evidence: [
+          `Work and timing signal: ${kpSummary}`,
+          `Life theme: ${lifeThemeSentence}`,
+        ],
+        id: 'work-money-mission-blueprint',
+        tier: 'premium',
+        title: 'Work, Money, and Mission Blueprint',
+      },
+      {
+        body:
+          'The shadow-to-gift map is simple but not easy: pressure becomes self-command, sensitivity becomes clean perception, ambition becomes service, and repetition becomes wisdom. The shadow is not an enemy. It is the untrained version of a strength that wants discipline, language, and a safer container.',
+        bullets: [
+          'Pressure shadow: proving, rushing, or hardening. Gift: disciplined self-command.',
+          'Sensitivity shadow: absorbing too much. Gift: accurate perception with boundaries.',
+          'Ambition shadow: tying worth to outcomes. Gift: durable contribution without self-abandonment.',
+          'Repetition shadow: feeling stuck. Gift: recognizing the lesson sooner and responding differently.',
+        ],
+        evidence: [
+          `Karmic story signal: ${nadiSummary}`,
+          `Hidden thread: ${hiddenThread}`,
+        ],
+        id: 'shadow-to-gift-map',
+        tier: 'premium',
+        title: 'Shadow-to-Gift Map',
+      },
+      {
+        body:
+          'For the next phase, do not try to transform everything at once. Build a small operating system: one grounding practice, one relationship honesty practice, one work/money structure, and one weekly review. This is how the Life Atlas becomes lived instead of admired.',
+        bullets: [
+          'Daily: pause before reactive speech, spending, promises, or emotional conclusions.',
+          'Weekly: review where the hidden thread appeared and what response you chose.',
+          'Monthly: simplify one commitment, repair one leak, and strengthen one stabilizing habit.',
+          'Premium success marker: life starts feeling less dramatic because your response becomes more consistent.',
+        ],
+        evidence: [
+          `Current focus: ${currentFocus}`,
+          `Timing tone: ${timingTone}`,
+        ],
+        id: 'integration-plan',
+        tier: 'premium',
+        title: 'Premium Integration Plan',
+      },
+    ];
+
+    sections.splice(finalLetterIndex >= 0 ? finalLetterIndex : sections.length, 0, ...premiumSections);
   }
 
   return sections;
@@ -508,6 +663,16 @@ function buildCurrentFocus({
   purusharthaCare: string;
 }): string {
   return `Your current chapter is asking you to make ${purusharthaCare.toLowerCase()} cleaner and more conscious. The repeating lesson underneath it is to stop treating familiar pressure as a life sentence and start treating it as a practice ground.`;
+}
+
+function buildTimingTone(kundli: KundliData): string {
+  const current = kundli.dasha?.current;
+
+  if (!current?.mahadasha || !current?.antardasha) {
+    return 'Use this period for careful observation, steady choices, and cleaner routines until the timing layer is complete.';
+  }
+
+  return `The active life rhythm is asking you to blend the larger ${current.mahadasha} chapter with the more immediate ${current.antardasha} lesson, so long-range desire and present discipline do not work against each other.`;
 }
 
 function buildLifeAtlasGuardrails(): string[] {

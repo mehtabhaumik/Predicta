@@ -143,11 +143,12 @@ for (const fragment of [
 const reportComposer = readWorkspaceFile('packages/pdf/src/index.ts');
 for (const fragment of [
   "case 'KP':",
-  'buildKpFoundationSection(kundli, mode)',
+  'buildKpReportSections(kundli, mode)',
   "case 'NADI':",
-  'buildNadiJyotishPlanSection(kundli, mode)',
-  'KP event answer and Proof Appendix',
-  'School boundary: Nadi Predicta is a Nadi-style planetary story lane',
+  'buildNadiReportSections(kundli, mode)',
+  'KP Event Verdict',
+  'Nadi Strongest Story Thread',
+  'D1/D9 Parashari chart pages are intentionally excluded from Nadi report output',
 ]) {
   assertIncludes(reportComposer, fragment, `PDF report lanes keep KP/Nadi separate ${fragment}`);
 }

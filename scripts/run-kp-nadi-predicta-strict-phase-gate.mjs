@@ -120,12 +120,17 @@ for (const phrase of [
 }
 
 for (const phrase of [
-  'KP event answer and Proof Appendix',
-  'Proof Appendix: technical cusp chains',
-  'Nadi karmic story and Story Evidence Appendix',
+  'KP Event Verdict',
+  'KP Bhav Chalit Cusp Chart',
+  'D1/D9 Parashari chart pages are intentionally excluded from KP report output',
+  'Nadi Strongest Story Thread',
+  'Nadi Story Anchor Chart',
+  'D1/D9 Parashari chart pages are intentionally excluded from Nadi report output',
   'Story Evidence Appendix: planetary story map',
   'Rahu-Ketu Axis Card',
   'Past Pattern -> Current Lesson -> Next Practice',
+  'Validation Bridge',
+  'Nadi Method Boundary',
 ]) {
   assertIncludes(files.pdf, phrase, `PDF/report composition includes ${phrase}`);
 }

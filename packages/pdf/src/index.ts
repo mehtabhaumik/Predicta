@@ -21,6 +21,7 @@ import {
   buildParashariChalitChart,
   buildKarakamshaChart,
   buildChartRenderModel,
+  buildSchoolPreviewChart,
   buildSwamsaChart,
   composeChartInsight,
   composeChalitBhavKpFoundation,
@@ -51,7 +52,7 @@ import {
   type VedicFocusChartRole,
 } from '@pridicta/astrology';
 
-type PdfChartRole = ChartType | 'MOON' | 'SWAMSA' | 'KARAKAMSHA' | 'CHALIT';
+type PdfChartRole = ChartType | 'MOON' | 'SWAMSA' | 'KARAKAMSHA' | 'CHALIT' | 'KP' | 'NADI';
 
 export type PdfSection = {
   title: string;
@@ -264,15 +265,16 @@ export function composeReportSections({
 
   return {
     chartSnapshots,
-    cover: buildReportCover(kundli, reportFocus, mode),
+    cover: buildReportCover(kundli, reportFocus, mode, signatureAnalysis),
     dossierVersion: '2.0',
     executiveSummary: localizeExecutiveSummary(
       buildDossierExecutiveSummary(kundli, mode, reportFocus, signatureAnalysis),
       language,
     ),
     footer: 'Prepared by Predicta @2026',
-    houseWisePlanetRows:
-      reportFocus === 'LIFE_ATLAS' ? [] : buildPdfHouseWisePlanetRows(kundli, language),
+    houseWisePlanetRows: shouldIncludeHouseWisePlanetRows(reportFocus)
+      ? buildPdfHouseWisePlanetRows(kundli, language)
+      : [],
     language,
     mode,
     sections: localizeSections(polishedSections, language),
@@ -334,7 +336,6 @@ function buildReportSectionSet(
   if (reportFocus === 'KP') {
     return uniqueReportSections([
       ...focusSections,
-      buildFocusedSchoolTrustSection(kundli, mode, reportFocus),
       ...(decisionMemo ? [buildDecisionMemoSection(decisionMemo)] : []),
     ].filter((section): section is PdfSection => Boolean(section)));
   }
@@ -342,7 +343,6 @@ function buildReportSectionSet(
   if (reportFocus === 'NADI') {
     return uniqueReportSections([
       ...focusSections,
-      buildFocusedSchoolTrustSection(kundli, mode, reportFocus),
       ...(decisionMemo ? [buildDecisionMemoSection(decisionMemo)] : []),
     ].filter((section): section is PdfSection => Boolean(section)));
   }
@@ -350,7 +350,6 @@ function buildReportSectionSet(
   if (reportFocus === 'NUMEROLOGY') {
     return uniqueReportSections([
       ...focusSections,
-      buildFocusedSchoolTrustSection(kundli, mode, reportFocus),
       ...(decisionMemo ? [buildDecisionMemoSection(decisionMemo)] : []),
     ].filter((section): section is PdfSection => Boolean(section)));
   }
@@ -433,13 +432,13 @@ function buildRoomSpecificReportSections(
     case 'WEALTH':
       return [buildVedicPredictaReportSection(kundli, mode, reportFocus)];
     case 'KP':
-      return [buildKpFoundationSection(kundli, mode)];
+      return buildKpReportSections(kundli, mode);
     case 'LIFE_ATLAS':
       return buildLifeAtlasReportSections(kundli, mode, signatureAnalysis);
     case 'NADI':
-      return [buildNadiJyotishPlanSection(kundli, mode)];
+      return buildNadiReportSections(kundli, mode);
     case 'NUMEROLOGY':
-      return [buildNumerologyReportSection(kundli, mode)];
+      return buildNumerologyReportSections(kundli, mode);
     case 'SIGNATURE':
       return [
         buildSignatureReportSection(signatureAnalysis, mode),
@@ -554,84 +553,57 @@ function buildLifeAtlasReportSections(
     depth: mode,
     signatureAnalysis,
   });
-  const layerRows = atlas.evidenceLayers.map(layer => ({
-    confidence:
-      layer.status === 'ready'
-        ? 'high'
-        : layer.status === 'optional'
-          ? 'medium'
-          : 'low',
-    factor: layer.label,
-    implication: layer.role,
-    observation: layer.summary,
-  })) satisfies PdfEvidenceRow[];
-  const opening: PdfSection = {
-    body: atlas.synthesisFraming,
-    bullets: [
-      atlas.positioning,
-      atlas.freePromise,
-      atlas.premiumPromise,
-      atlas.signatureNote,
-      signatureAnalysis?.status === 'ready'
-        ? 'Signature enrichment used only confirmed visible traits from the current session.'
-        : LIFE_ATLAS_SIGNATURE_ENRICHMENT_INVITE,
-    ],
-    confidence: atlas.status === 'ready' ? 'high' : 'low',
-    evidence: [
-      'Predicta Life Atlas is the approved all-school synthesis report path.',
-      'School-specific Vedic, KP, Nadi, Numerology, and Signature reports remain separate.',
-      ...atlas.evidenceLayers.map(layer => `${layer.label}: ${layer.status}`),
-    ],
-    evidenceTable: layerRows,
-    eyebrow: 'LIFE ATLAS',
-    tier: 'free',
-    title: 'Predicta Life Atlas synthesis boundary',
-  };
-
-  return [
-    opening,
-    ...atlas.sections.map(section => ({
+  const narrativeSections = atlas.sections.map(section => ({
       body: section.body,
       bullets: section.bullets,
       confidence: atlas.status === 'ready' ? 'high' as const : 'low' as const,
       evidence: section.evidence,
-      evidenceTable: section.evidence.slice(0, mode === 'PREMIUM' ? 4 : 2).map(item => ({
-        confidence: 'medium' as const,
-        factor:
-          section.id === 'how-predicta-built-this-reading'
-            ? 'Evidence layer'
-            : 'Life-language synthesis',
-        implication:
-          section.id === 'how-predicta-built-this-reading'
-            ? 'Premium appendix stays user-friendly and technical-light.'
-            : 'Main reading stays non-technical and preserves agency.',
-        observation: item,
-      })),
+      evidenceTable: [] satisfies PdfEvidenceRow[],
       eyebrow:
         section.id === 'how-predicta-built-this-reading'
           ? 'LIFE ATLAS APPENDIX'
           : 'LIFE ATLAS',
       tier: section.tier,
       title: section.title,
-    })),
+    }));
+
+  if (mode !== 'PREMIUM') {
+    return narrativeSections;
+  }
+
+  return [
+    ...narrativeSections,
     {
       body:
-        'Predicta Life Atlas keeps mystical language grounded. It can describe life pattern, soul purpose, hidden thread, current chapter, gifts, lessons, and next steps, but it must not claim impossible certainty.',
-      bullets: atlas.guardrails,
+        'This appendix keeps the source map honest without turning the main Life Atlas into a technical school report.',
+      bullets: [
+        ...atlas.evidenceLayers
+          .filter(layer => layer.status === 'ready')
+          .map(layer => `${layer.label}: ${layer.role}`),
+        signatureAnalysis?.status === 'ready'
+          ? 'Signature: confirmed visible traits were used only as optional expression enrichment.'
+          : LIFE_ATLAS_SIGNATURE_ENRICHMENT_INVITE,
+      ],
       confidence: 'high',
       evidence: [
+        'Predicta Life Atlas is the approved all-school synthesis report path.',
+        ...atlas.evidenceLayers.map(layer => `${layer.label}: ${layer.summary}`),
         ...atlas.limitations,
-        'Main report prose does not expose raw planet, cusp, dasha, or technical proof.',
       ],
-      evidenceTable: atlas.limitations.slice(0, 4).map(item => ({
-        confidence: 'high',
-        factor: 'Life Atlas safety',
-        implication: 'The report remains useful without fear, fatalism, or unsupported source claims.',
-        observation: item,
+      evidenceTable: atlas.evidenceLayers.map(layer => ({
+        confidence:
+          layer.status === 'ready'
+          ? 'high' as const
+          : layer.status === 'optional'
+            ? 'medium' as const
+            : 'low' as const,
+        factor: layer.label,
+        implication: layer.role,
+        observation: layer.summary,
       })),
-      eyebrow: 'LIFE ATLAS TRUST',
-      tier: 'free',
-      title: 'What this report can and cannot claim',
+      eyebrow: 'LIFE ATLAS APPENDIX',
+      tier: 'premium',
+      title: 'How Predicta Built This Reading',
     },
   ];
 }
@@ -818,7 +790,7 @@ function buildBhavChalitSection(kundli: KundliData, mode: PDFMode): PdfSection {
   };
 }
 
-function buildKpFoundationSection(kundli: KundliData, mode: PDFMode): PdfSection {
+function buildKpReportSections(kundli: KundliData, mode: PDFMode): PdfSection[] {
   const foundation = composeChalitBhavKpFoundation(kundli, { depth: mode });
   const kp = foundation.kp;
   const eventHouses = uniqueValues(
@@ -829,60 +801,221 @@ function buildKpFoundationSection(kundli: KundliData, mode: PDFMode): PdfSection
       .map(String),
   );
   const triggerWindows = kundli.transits?.slice(0, mode === 'PREMIUM' ? 4 : 2) ?? [];
-
-  return {
-    body:
-      'KP is kept as a separate Krishnamurti Paddhati section. It uses cusps, star lords, sub lords, significators, and ruling planets for event-oriented analysis. It is not blended casually with Parashari chart synthesis.',
-    bullets: [
-      'Selected event question: general KP event-readiness report; choose a specific event for sharper final likelihood.',
-      `Event verdict compass: ${kp.eventJudgement.verdictLabel}. ${kp.eventJudgement.plainLanguage}`,
-      `Decision point: ${kp.eventJudgement.decisionPoint}`,
-      `Timing readiness: ${kp.eventJudgement.timingReadiness}`,
-      `What to do next: ${kp.eventJudgement.nextQuestion}`,
-      `Question-To-Proof Path: ${kp.eventJudgement.questionToProofPath.join(' -> ')}.`,
-      `Relevant event houses surfaced from significators: ${eventHouses.join(', ') || 'pending a sharper event question'}.`,
-      mode === 'PREMIUM' ? kp.premiumSynthesis ?? kp.freeInsight : kp.freeInsight,
-      `KP cusps included: ${kp.cusps.length}.`,
-      `KP significators included: ${kp.significators.length}.`,
-      kp.rulingPlanets
-        ? `Ruling planets: day ${kp.rulingPlanets.dayLord}, Moon star ${kp.rulingPlanets.moonStarLord}, Lagna sub ${kp.rulingPlanets.lagnaSubLord}.`
-        : 'Ruling planets pending.',
-      `Dasha support: ${kundli.dasha.current.mahadasha}/${kundli.dasha.current.antardasha} is treated as timing support, not a personality reading.`,
-      triggerWindows.length
-        ? `Transit trigger windows: ${triggerWindows.map(transit => `${transit.planet} ${transit.sign}`).join('; ')}.`
-        : 'Transit trigger windows pending.',
-      mode === 'PREMIUM'
-        ? 'Final likelihood: premium KP should state promise, block, timing readiness, confidence, and limitations for the selected event.'
-        : 'Final likelihood: free KP gives a useful promise/timing signal and asks for a specific event before stronger judgment.',
-      'Proof Appendix: technical cusp chains, significator hierarchy, ruling planets, dasha support, and transit triggers stay here instead of crowding the main answer.',
-      ...kp.significators
-        .slice(0, mode === 'PREMIUM' ? 9 : 4)
-        .map(
-          item =>
-            `${item.planet}: signifies houses ${item.signifiesHouses.join(', ') || 'pending'} (${item.strength}).`,
-        ),
-    ],
-    evidence: [
-      ...kp.evidence,
-      `Selected event question: ${'general KP event-readiness'}.`,
-      `Relevant houses: ${eventHouses.join(', ') || 'pending event selection'}.`,
-      `Dasha support: ${kundli.dasha.current.mahadasha}/${kundli.dasha.current.antardasha}.`,
-      ...kp.eventJudgement.proofPath,
-      `Transit triggers included: ${triggerWindows.length}.`,
-    ],
-    evidenceTable: kp.cusps.slice(0, mode === 'PREMIUM' ? 12 : 4).map(cusp => ({
+  const judgement = kp.eventJudgement;
+  const ruling = kp.rulingPlanets;
+  const currentDasha = `${kundli.dasha.current.mahadasha}/${kundli.dasha.current.antardasha}`;
+  const selectedQuestion = 'General KP event-readiness';
+  const eventHouseText = eventHouses.join(', ') || 'choose an exact event to lock houses';
+  const carrierRows = judgement.eventCarriers.slice(0, mode === 'PREMIUM' ? 6 : 3).map(carrier => ({
+    confidence: carrier.role === 'carrier' ? 'high' as const : carrier.role === 'supporter' ? 'medium' as const : 'low' as const,
+    factor: `${carrier.planet} (${carrier.role})`,
+    implication: carrier.reason,
+    observation: carrier.reason,
+  }));
+  const cuspRows = kp.cusps.slice(0, mode === 'PREMIUM' ? 12 : 6).map(cusp => ({
+    confidence: 'medium' as const,
+    factor: `Cusp ${cusp.house}`,
+    implication: `House ${cusp.house} judgement depends on sub lord ${cusp.lordChain.subLord}; use it only for an event that actually belongs to this house.`,
+    observation: `${cusp.sign} ${cusp.degree.toFixed(2)}°, star ${cusp.lordChain.starLord}, sub ${cusp.lordChain.subLord}, sub-sub ${cusp.lordChain.subSubLord}.`,
+  }));
+  const significatorRows = kp.significators.slice(0, mode === 'PREMIUM' ? 9 : 4).map(item => ({
+    confidence: item.strength === 'A' ? 'high' as const : item.strength === 'B' ? 'medium' as const : 'low' as const,
+    factor: `${item.planet} (${item.strength})`,
+    implication: item.simpleMeaning,
+    observation: `Carries houses ${item.signifiesHouses.join(', ') || 'pending'}; occupied ${item.occupiedHouse ?? 'none'}; owns ${item.ownedHouses.join(', ') || 'none'}.`,
+  }));
+  const verdictRows: PdfEvidenceRow[] = [
+    {
+      confidence: judgement.confidence === 'clear' ? 'high' : judgement.confidence === 'partial' ? 'medium' : 'low',
+      factor: 'Verdict',
+      implication: judgement.plainLanguage,
+      observation: judgement.verdictLabel,
+    },
+    {
       confidence: 'medium',
-      factor: `KP cusp ${cusp.house}`,
-      implication: `Sub lord ${cusp.lordChain.subLord} becomes important for house ${cusp.house} event judgment.`,
-      observation: `${cusp.sign} ${cusp.degree.toFixed(2)}°, star lord ${cusp.lordChain.starLord}, sub lord ${cusp.lordChain.subLord}, sub-sub lord ${cusp.lordChain.subSubLord}.`,
-    })),
+      factor: 'Promise',
+      implication: judgement.promise,
+      observation: judgement.eventVerdictCompass.promise,
+    },
+    {
+      confidence: judgement.timingReadinessState === 'ready' ? 'high' : judgement.timingReadinessState === 'partial' ? 'medium' : 'low',
+      factor: 'Timing readiness',
+      implication: judgement.timingReadiness,
+      observation: judgement.eventVerdictCompass.timing,
+    },
+    {
+      confidence: 'low',
+      factor: 'Main caution',
+      implication: judgement.mainBlock,
+      observation: judgement.eventVerdictCompass.block,
+    },
+  ];
+
+  const sections: PdfSection[] = [
+    {
+      body:
+        `${selectedQuestion}: KP is currently reading this as "${judgement.verdictLabel}". This is not a personality reading and not a Parashari chart interpretation; it is an event-readiness answer based on cusps, sub lords, significators, ruling planets, and timing support. For a final yes/no style answer, the user must choose one exact event and time window.`,
+      bullets: [
+        `Plain answer: ${judgement.plainLanguage}`,
+        `Promise: ${judgement.promise}`,
+        `Block/caution: ${judgement.mainBlock}`,
+        `Timing: ${judgement.timingReadiness}`,
+        `Next question: ${judgement.nextQuestion}`,
+      ],
+      confidence: judgement.confidence === 'clear' ? 'high' : judgement.confidence === 'partial' ? 'medium' : 'low',
+      evidence: [
+        `Selected event question: ${selectedQuestion}.`,
+        `Verdict: ${judgement.verdictLabel}.`,
+        `Relevant event houses: ${eventHouseText}.`,
+        ...judgement.proofPath,
+      ],
+      evidenceTable: verdictRows,
+      eyebrow: 'KP PREDICTA',
+      tier: mode === 'PREMIUM' ? 'premium' : 'free',
+      title: 'KP Event Verdict',
+    },
+    {
+      body:
+        `The KP proof path is intentionally simple: define the event, identify the event houses, inspect the main cusp and sub lord, then check which planets carry the event and whether timing agrees. Without that sequence, KP becomes noise. In this report the useful houses surfaced so far are ${eventHouseText}.`,
+      bullets: [
+        `Question-to-proof path: ${judgement.questionToProofPath.join(' -> ')}.`,
+        `Decision point: ${judgement.decisionPoint}`,
+        `Event carriers shown: ${judgement.eventCarriers.length || 0}.`,
+        mode === 'PREMIUM'
+          ? 'Premium keeps the full chain visible: cusps, sub lords, significators, ruling planets, dasha, and trigger windows.'
+          : 'Free keeps the proof readable and asks for a sharper event before stronger timing claims.',
+      ],
+      confidence: 'medium',
+      evidence: judgement.proofPath,
+      evidenceTable: carrierRows.length ? carrierRows : undefined,
+      eyebrow: 'KP PREDICTA',
+      tier: mode === 'PREMIUM' ? 'premium' : 'free',
+      title: 'Question-to-Proof Path',
+    },
+    {
+      body:
+        'The KP chart in this report is a Bhav Chalit / cusp-oriented KP chart. Read the houses as event delivery zones, not as a Parashari personality map. A planet is useful here only when it carries the event houses and its sub-lord chain supports the question being judged.',
+      bullets: [
+        `KP cusps available: ${kp.cusps.length}.`,
+        `KP significators available: ${kp.significators.length}.`,
+        `Dasha support: ${currentDasha} is treated as timing support only.`,
+        ruling
+          ? `Ruling planets: day ${ruling.dayLord}, Moon star ${ruling.moonStarLord}, Lagna sub ${ruling.lagnaSubLord}.`
+          : 'Ruling planets pending.',
+      ],
+      confidence: kp.cusps.length ? 'high' : 'low',
+      evidence: [
+        ...kp.evidence,
+        `Dasha support: ${currentDasha}.`,
+        `Transit triggers included: ${triggerWindows.length}.`,
+      ],
+      evidenceTable: cuspRows,
+      eyebrow: 'KP PREDICTA',
+      tier: mode === 'PREMIUM' ? 'premium' : 'free',
+      title: 'KP Cusp and Sub-Lord Proof',
+    },
+    {
+      body:
+        mode === 'PREMIUM'
+          ? kp.premiumSynthesis ?? kp.freeInsight
+          : kp.freeInsight,
+      bullets: [
+        ...kp.significators
+          .slice(0, mode === 'PREMIUM' ? 5 : 3)
+          .map(item => `${item.planet}: carries houses ${item.signifiesHouses.join(', ') || 'pending'} with ${item.strength} strength.`),
+        mode === 'PREMIUM'
+          ? 'Premium reads the hierarchy as carrier, supporter, blocker, then checks timing before stating likelihood.'
+          : 'Free shows the top carriers without pretending the full event proof is complete.',
+      ],
+      confidence: kp.significators.length ? 'medium' : 'low',
+      evidence: kp.significators.map(
+        item => `${item.planet}: ${item.simpleMeaning}`,
+      ),
+      evidenceTable: significatorRows,
+      eyebrow: 'KP PREDICTA',
+      tier: mode === 'PREMIUM' ? 'premium' : 'free',
+      title: mode === 'PREMIUM' ? 'Significator Hierarchy' : 'Main Event Carriers',
+    },
+  ];
+
+  if (mode === 'PREMIUM') {
+    sections.push({
+      body:
+        'Premium KP timing does not promise a date from one factor. It checks whether dasha, ruling planets, and transit triggers repeat the same event houses. If they do, timing becomes usable; if they do not, the event may be delayed or require a sharper question.',
+      bullets: [
+        `Dasha support: ${currentDasha}.`,
+        ruling
+          ? `Ruling planet chain: day ${ruling.dayLord}, Moon sign ${ruling.moonSignLord}, Moon star ${ruling.moonStarLord}, Moon sub ${ruling.moonSubLord}, Lagna sign ${ruling.lagnaSignLord}, Lagna star ${ruling.lagnaStarLord}, Lagna sub ${ruling.lagnaSubLord}.`
+          : 'Ruling planet chain pending.',
+        triggerWindows.length
+          ? `Transit triggers: ${triggerWindows.map(transit => `${transit.planet} in ${transit.sign}`).join('; ')}.`
+          : 'Transit trigger windows pending.',
+        'Final premium likelihood must remain event-specific and evidence-weighted.',
+      ],
+      confidence: ruling ? 'medium' : 'low',
+      evidence: [
+        `Timing readiness: ${judgement.timingReadiness}.`,
+        `Timing readiness state: ${judgement.timingReadinessState}.`,
+        `Trigger windows: ${triggerWindows.length}.`,
+      ],
+      evidenceTable: [
+        {
+          confidence: ruling ? 'medium' : 'low',
+          factor: 'Ruling planets',
+          implication: ruling
+            ? 'Ruling planets are available for timing cross-check, but must repeat the selected event houses before a strong date window is claimed.'
+            : 'Ruling planets are not ready, so timing must stay cautious.',
+          observation: ruling
+            ? `Day ${ruling.dayLord}; Moon star ${ruling.moonStarLord}; Lagna sub ${ruling.lagnaSubLord}.`
+            : 'Pending.',
+        },
+        {
+          confidence: 'medium',
+          factor: 'Dasha support',
+          implication: 'Dasha is used as timing support, not as a Vedic personality chapter.',
+          observation: currentDasha,
+        },
+      ],
+      eyebrow: 'KP PREDICTA',
+      tier: 'premium',
+      title: 'Ruling Planets and Timing Support',
+    });
+  }
+
+  sections.push({
+    body:
+      'KP report boundary: this report stays inside Krishnamurti Paddhati. It may use birth data and dasha as timing inputs, but it does not import Parashari personality reading, Navamsa interpretation, remedies, panchang storytelling, Numerology, Nadi, or Signature analysis.',
+    bullets: [
+      'Best for: career event, marriage timing, property, money, litigation, travel, admission, job change, or one clearly stated custom event.',
+      'Not enough for: broad life purpose, general personality, or mixed-school synthesis.',
+      'Use one exact question and one time window for the next KP reading.',
+    ],
+    confidence: 'high',
+    evidence: [
+      'School boundary: KP only.',
+      'D1/D9 Parashari chart pages are intentionally excluded from KP report output.',
+      'KP chart remains included as the cusp-oriented report chart.',
+    ],
+    evidenceTable: [
+      {
+        confidence: 'high',
+        factor: 'Method boundary',
+        implication: 'The report must remain event-first and KP-only.',
+        observation: 'KP cusps, sub lords, significators, ruling planets, dasha support, and trigger windows.',
+      },
+      {
+        confidence: 'medium',
+        factor: 'Question clarity',
+        implication: 'A sharper event question unlocks stronger likelihood and timing.',
+        observation: judgement.questionClarityState,
+      },
+    ],
     eyebrow: 'KP PREDICTA',
     tier: mode === 'PREMIUM' ? 'premium' : 'free',
-    title:
-      mode === 'PREMIUM'
-        ? 'KP event answer and Proof Appendix'
-        : 'KP event answer useful insight',
-  };
+    title: 'KP Method Boundary',
+  });
+
+  return sections;
 }
 
 function composeEmptyReport(mode: PDFMode, language: SupportedLanguage): PdfComposition {
@@ -950,6 +1083,7 @@ function buildReportCover(
   kundli: KundliData,
   reportFocus: PdfReportFocus,
   mode: PDFMode,
+  signatureAnalysis?: SignatureAnalysisModel,
 ): PdfComposition['cover'] {
   const birthLine = `${kundli.birthDetails.date} at ${kundli.birthDetails.time}`;
   const rectificationLine =
@@ -971,10 +1105,18 @@ function buildReportCover(
     const kp = composeChalitBhavKpFoundation(kundli, { depth: 'FREE' }).kp;
     return {
       ...baseCover,
+      birthMomentSignature: [
+        `Verdict: ${kp.eventJudgement.verdictLabel}`,
+        `Timing: ${kp.eventJudgement.timingReadinessState}`,
+        `KP cusps: ${kp.cusps.length}`,
+      ],
+      descriptor: 'A Predicta KP Event Answer Report',
       metadata: [
         ...baseMetadata,
         `KP cusps ${kp.cusps.length} | significators ${kp.significators.length}`,
       ],
+      preparationLine:
+        'Prepared with KP cusps, star lords, sub lords, significators, ruling planets, dasha timing support, and event-readiness proof',
       subtitle: `KP Predicta Event Report for ${kundli.birthDetails.name}`,
       title: 'PREDICTA',
     };
@@ -984,10 +1126,19 @@ function buildReportCover(
     const plan = composeNadiJyotishPlan(kundli, { depth: 'FREE' });
     return {
       ...baseCover,
+      birthMomentSignature: [
+        `Story: ${compactReportPhrase(plan.storyLens.strongestThread, 48)}`,
+        `Axis: Rahu/Ketu`,
+        `Validation: ${plan.validationStatus}`,
+      ],
+      descriptor: 'A Predicta Nadi Karmic Story Report',
       metadata: [
         ...baseMetadata,
-        `Nadi story patterns ${plan.patterns.length} | validation required before deeper timing`,
+        `Nadi story patterns ${plan.patterns.length} | validation questions ${plan.validationQuestions.length}`,
       ],
+      preparationLine:
+        'Prepared with Nadi-style planetary story links, Rahu/Ketu axis, validation questions, and activation timing',
+      reportType: mode === 'PREMIUM' ? 'Premium Nadi Karmic Story Report' : 'Free Nadi Karmic Story Report',
       subtitle: `Nadi Predicta Karmic Story Report for ${kundli.birthDetails.name}`,
       title: 'PREDICTA',
     };
@@ -998,12 +1149,27 @@ function buildReportCover(
       kundli.numerology ?? composeNumerologyFoundationModel(kundli.birthDetails);
     return {
       ...baseCover,
+      birthMomentSignature:
+        profile.status === 'ready'
+          ? [
+              `Name: ${profile.nameNumber.root}`,
+              `Birth: ${profile.birthNumber.root}`,
+              `Destiny: ${profile.destinyNumber.root}`,
+              `Today: ${profile.personalDay.root}`,
+            ]
+          : ['Name and birth date required'],
+      descriptor: 'A Predicta Numerology Number Identity Report',
       metadata: [
         ...baseMetadata.slice(0, 3),
         profile.status === 'ready'
           ? `Name ${profile.nameNumber.root} | Birth ${profile.birthNumber.root} | Destiny ${profile.destinyNumber.root}`
           : 'Name and birth date required for Numerology profile',
       ],
+      preparationLine:
+        profile.status === 'ready'
+          ? 'Prepared with name rhythm, birth code, destiny number, personal cycle timing, missing/repeated number pattern, and number identity guidance'
+          : 'Prepared after name and birth-date number inputs are available',
+      reportType: mode === 'PREMIUM' ? 'Premium Numerology Number Identity Report' : 'Free Numerology Number Identity Report',
       subtitle: `Numerology Predicta Number Report for ${kundli.birthDetails.name}`,
       title: 'PREDICTA',
     };
@@ -1023,22 +1189,28 @@ function buildReportCover(
   }
 
   if (reportFocus === 'LIFE_ATLAS') {
-    const atlas = composeLifeAtlasReport(kundli, { depth: mode });
+    const atlas = composeLifeAtlasReport(kundli, { depth: mode, signatureAnalysis });
+    const signatureLine = signatureAnalysis?.status === 'ready'
+      ? 'Signature: confirmed expression layer'
+      : 'Signature: optional enrichment only';
+
     return {
       ...baseCover,
       birthMomentSignature: [
-        'Hidden Thread: mature self-direction',
-        'Current Chapter: refine pressure into conscious response',
-        'Signature: optional enrichment only',
+        `Hidden Thread: ${compactReportPhrase(atlas.hiddenThread, 48)}`,
+        `Current Chapter: ${compactReportPhrase(atlas.currentFocus, 48)}`,
+        signatureLine,
       ],
       descriptor: 'A Predicta Life Atlas Synthesis Report',
       metadata: [
         ...baseMetadata.slice(0, 3),
         'Core inputs: Vedic, KP, Nadi, and Numerology',
-        'Signature is optional enrichment only',
+        signatureLine,
       ],
       preparationLine:
-        'Prepared from your birth profile, timing rhythm, number pattern, and available expression signals',
+        signatureAnalysis?.status === 'ready'
+          ? 'Prepared from your birth profile, timing rhythm, number pattern, and confirmed expression signals'
+          : 'Prepared from your birth profile, timing rhythm, and number pattern',
       reportType: mode === 'PREMIUM' ? 'Premium Predicta Life Atlas' : 'Free Predicta Life Atlas',
       subtitle: `Predicta Life Atlas for ${kundli.birthDetails.name}`,
       title: 'PREDICTA',
@@ -1054,6 +1226,16 @@ function buildReportCover(
     subtitle: `Personal Vedic Astrology Dossier for ${kundli.birthDetails.name}`,
     title: 'PREDICTA',
   };
+}
+
+function compactReportPhrase(value: string, maxLength: number): string {
+  const normalized = value.replace(/\s+/g, ' ').replace(/^The hidden thread is this:\s*/i, '').trim();
+
+  if (normalized.length <= maxLength) {
+    return normalized;
+  }
+
+  return `${normalized.slice(0, Math.max(0, maxLength - 1)).trim()}…`;
 }
 
 function buildBaseCoverIdentity(
@@ -1132,16 +1314,19 @@ function buildDossierExecutiveSummary(
 
   if (reportFocus === 'KP') {
     const kp = composeChalitBhavKpFoundation(kundli, { depth: mode }).kp;
+    const judgement = kp.eventJudgement;
     return {
       confidence,
-      headline: `${kundli.birthDetails.name}'s KP report is prepared as an event-answer lane using cusps, star lords, sub lords, significators, ruling planets, and timing support.`,
+      headline: `${kundli.birthDetails.name}'s KP report starts with an event-readiness verdict, then shows the KP chart, cusp/sub-lord proof, significators, ruling planets, and timing support.`,
       keySignals: [
-        `Selected event question: general KP event-readiness until the user chooses a specific event.`,
+        `Current KP verdict: ${judgement.verdictLabel}. ${judgement.plainLanguage}`,
+        `Question state: ${judgement.questionClarityState}; ask one exact event and time window for a final likelihood.`,
+        `Timing readiness: ${judgement.timingReadiness}`,
         `KP cusps available: ${kp.cusps.length}; significators available: ${kp.significators.length}.`,
         kp.rulingPlanets
           ? `Ruling planets: day ${kp.rulingPlanets.dayLord}, Moon star ${kp.rulingPlanets.moonStarLord}, Lagna sub ${kp.rulingPlanets.lagnaSubLord}.`
           : 'Ruling planets are pending.',
-        `${mode === 'PREMIUM' ? 'Premium KP adds full proof chain and timing reasoning.' : 'Free KP gives useful promise and timing insight without becoming a Vedic personality report.'}`,
+        `${mode === 'PREMIUM' ? 'Premium KP adds full cusp chain, hierarchy, timing cross-check, and proof appendix.' : 'Free KP gives the verdict compass, main carriers, and next question without becoming a Vedic report.'}`,
       ],
     };
   }
@@ -1150,12 +1335,15 @@ function buildDossierExecutiveSummary(
     const plan = composeNadiJyotishPlan(kundli, { depth: mode });
     return {
       confidence,
-      headline: `${kundli.birthDetails.name}'s Nadi report is prepared as a karmic story lane using planetary links, karaka themes, Rahu/Ketu axis, validation questions, and activation timing.`,
+      headline: `${kundli.birthDetails.name}'s Nadi report starts with the strongest karmic story thread, then validates the Rahu/Ketu axis, repeating lesson, activation windows, and next practice.`,
       keySignals: [
-        plan.schoolBoundary,
-        `Planetary story patterns available: ${plan.patterns.length}.`,
-        `Validation questions included: ${plan.validationQuestions.length}.`,
-        'No palm-leaf manuscript access is claimed.',
+        `Strongest thread: ${plan.storyLens.strongestThread}`,
+        `Hidden pattern: ${plan.storyLens.hiddenPatternSentence}`,
+        `Rahu/Ketu axis: ${plan.rahuKetuAxis.pullsForward} ${plan.rahuKetuAxis.learningToRelease}`,
+        `Validation bridge: ${plan.validationStatus}; ${plan.validationQuestions.length} questions available before deeper timing.`,
+        mode === 'PREMIUM'
+          ? 'Premium Nadi adds the fuller story map, activation windows, validation-based deepening, and practices.'
+          : 'Free Nadi gives the main story, gift, caution, validation bridge, and next practice without becoming a Vedic report.',
       ],
     };
   }
@@ -1163,19 +1351,21 @@ function buildDossierExecutiveSummary(
   if (reportFocus === 'NUMEROLOGY') {
     const profile =
       kundli.numerology ?? composeNumerologyFoundationModel(kundli.birthDetails);
+    const dashboard = profile.identityDashboard;
     return {
       confidence: profile.status === 'ready' ? 'medium' : 'low',
       headline:
         profile.status === 'ready'
-          ? `${kundli.birthDetails.name}'s Numerology report reads name rhythm, birth number, destiny number, and the current personal cycle without Kundli judgement.`
+          ? `${kundli.birthDetails.name}'s Numerology report starts with the Number Signature, then reads name rhythm, birth code, current cycle, missing/repeated numbers, and practical life guidance without Kundli judgement.`
           : `${kundli.birthDetails.name}'s Numerology report is pending name and birth-date readiness.`,
       keySignals:
         profile.status === 'ready'
           ? [
-              `Name number ${profile.nameNumber.root}; birth number ${profile.birthNumber.root}; destiny number ${profile.destinyNumber.root}.`,
-              `Current cycle: personal year ${profile.personalYear.root}, month ${profile.personalMonth.root}, day ${profile.personalDay.root}.`,
-              profile.guidance,
-              `${mode === 'PREMIUM' ? 'Premium Numerology adds detailed interpretation, timing, compatibility, and name refinement.' : 'Free Numerology gives core numbers and simple meaning.'}`,
+              `Number Signature: name ${profile.nameNumber.root}, birth ${profile.birthNumber.root}, destiny ${profile.destinyNumber.root}, personal day ${profile.personalDay.root}.`,
+              `Life theme: ${dashboard.lifeThemeSentence}`,
+              `Current cycle: lean into ${dashboard.currentCycleLeanInto}; avoid ${dashboard.currentCycleAvoid}.`,
+              `Missing/repeated grid: repeated ${dashboard.repeatedNumbers.join(', ') || 'none'}; missing ${dashboard.missingNumbers.join(', ') || 'none'}.`,
+              `${mode === 'PREMIUM' ? 'Premium Numerology adds name scanner, fit score, name refinement, compatibility, full year timeline, and calculation appendix.' : 'Free Numerology gives the number identity, current cycle, strengths, cautions, and next action without becoming a Vedic report.'}`,
             ]
           : [
               'Numerology needs a stored name and birth date.',
@@ -1216,7 +1406,7 @@ function buildDossierExecutiveSummary(
 
     return {
       confidence,
-      headline: `${kundli.birthDetails.name}'s Predicta Life Atlas turns available Predicta data into one non-technical life story about journey, soul purpose, current chapter, gifts, lessons, and next steps.`,
+      headline: `${kundli.birthDetails.name}'s Predicta Life Atlas turns birth profile, timing rhythm, number pattern, and life signals into one non-technical story about journey, soul purpose, current chapter, gifts, lessons, and next steps.`,
       keySignals: [
         atlas.synthesisFraming,
         atlas.hiddenThread,
@@ -1224,7 +1414,7 @@ function buildDossierExecutiveSummary(
         atlas.signatureNote,
         mode === 'PREMIUM'
           ? 'Premium Life Atlas adds deeper synthesis, karmic pattern map, integration practices, and a memorable closing letter.'
-          : 'Free Life Atlas stays useful with a clear soul portrait, current focus, gifts, lessons, and closing guidance.',
+          : 'This Life Atlas stays useful with a clear soul portrait, current focus, gifts, lessons, and closing guidance.',
       ],
     };
   }
@@ -2152,6 +2342,8 @@ function buildPdfChartSnapshots(
   reportFocus: PdfReportFocus = 'KUNDLI',
 ): PdfChartSnapshot[] {
   const includeVedicFocusCharts = shouldIncludeMoonChart(reportFocus);
+  const kpChart = reportFocus === 'KP' ? buildSchoolPreviewChart(kundli, 'KP') : undefined;
+  const nadiChart = reportFocus === 'NADI' ? buildSchoolPreviewChart(kundli, 'NADI') : undefined;
   const moonChart = includeVedicFocusCharts
     ? composeVedicIntelligenceContract({ kundli }).moonChart.chart
     : undefined;
@@ -2170,6 +2362,14 @@ function buildPdfChartSnapshots(
     }
   }
 
+  if (kpChart?.supported) {
+    chartByRole.set('KP', kpChart);
+  }
+
+  if (nadiChart?.supported) {
+    chartByRole.set('NADI', nadiChart);
+  }
+
   if (moonChart?.supported) {
     chartByRole.set('MOON', moonChart);
   }
@@ -2186,7 +2386,11 @@ function buildPdfChartSnapshots(
     chartByRole.set('KARAKAMSHA', karakamshaChart);
   }
 
-  const orderedRoles: PdfChartRole[] = includeVedicFocusCharts
+  const orderedRoles: PdfChartRole[] = reportFocus === 'KP'
+    ? ['KP']
+    : reportFocus === 'NADI'
+      ? ['NADI']
+    : includeVedicFocusCharts
     ? [
         ...VEDIC_FOCUS_CHART_ORDER,
         'SWAMSA',
@@ -2262,6 +2466,14 @@ function getReportChartDisplayName(
   fallback: string,
   language: SupportedLanguage,
 ): string {
+  if (role === 'KP') {
+    return 'KP Bhav Chalit Cusp Chart';
+  }
+
+  if (role === 'NADI') {
+    return 'Nadi Story Anchor Chart';
+  }
+
   if (isVedicFocusChartRole(role)) {
     return getVedicFocusChartLabel(role, language);
   }
@@ -2360,6 +2572,10 @@ function buildPdfHouseWisePlanetRows(
 }
 
 function shouldIncludeMoonChart(reportFocus: PdfReportFocus): boolean {
+  return !['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus);
+}
+
+function shouldIncludeHouseWisePlanetRows(reportFocus: PdfReportFocus): boolean {
   return !['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus);
 }
 
@@ -2763,74 +2979,249 @@ function buildAdvancedJyotishCoverageSection(
   };
 }
 
-function buildNadiJyotishPlanSection(
+function buildNadiReportSections(
   kundli: KundliData,
   mode: PDFMode,
-): PdfSection {
+): PdfSection[] {
   const plan = composeNadiJyotishPlan(kundli, { depth: mode });
-  const patterns = plan.patterns
-    .slice(0, mode === 'PREMIUM' ? 8 : 3)
-    .map(pattern =>
-      mode === 'PREMIUM' && pattern.premiumDetail
-        ? `${pattern.title}: ${pattern.premiumDetail}`
-        : `${pattern.title}: ${pattern.freeInsight}`,
-    );
-  const activations = plan.activations
-    .slice(0, mode === 'PREMIUM' ? 5 : 2)
-    .map(item => `${item.title}: ${item.trigger}. ${item.guidance}`);
+  const isPremium = mode === 'PREMIUM';
+  const patternLimit = isPremium ? 8 : 3;
+  const activationLimit = isPremium ? 5 : 2;
+  const validationLimit = isPremium ? 5 : 3;
+  const patternRows = plan.patterns.slice(0, patternLimit).map(pattern => ({
+    confidence: pattern.confidence,
+    factor: pattern.title,
+    implication: isPremium && pattern.premiumDetail ? pattern.premiumDetail : pattern.freeInsight,
+    observation: pattern.observation,
+  }));
+  const activationRows = plan.activations.slice(0, activationLimit).map(activation => ({
+    confidence: 'medium' as const,
+    factor: activation.title,
+    implication: isPremium && activation.premiumDetail ? activation.premiumDetail : activation.guidance,
+    observation: `${activation.timing}: ${activation.trigger}`,
+  }));
+  const storyMapBullets = plan.patterns
+    .slice(0, patternLimit)
+    .map(pattern => `${pattern.title}: ${isPremium && pattern.premiumDetail ? pattern.premiumDetail : pattern.freeInsight}`);
+  const validationQuestions = plan.validationQuestions.slice(0, validationLimit);
 
-  return {
+  const sections: PdfSection[] = [
+    {
+      body:
+        `${plan.storyLens.strongestThread} This report reads the pattern as a living karmic story: the gift, the loop, the current lesson, and the practice that helps you move with more freedom.`,
+      bullets: [
+        `Hidden pattern sentence: ${plan.storyLens.hiddenPatternSentence}`,
+        `Gift inside the pattern: ${plan.digest.giftInsidePattern}`,
+        `Current lesson: ${plan.storyLens.activeLesson}`,
+        `Shadow loop to watch: ${plan.storyLens.stuckPoint}`,
+        `Next practice: ${plan.digest.nextPractice}`,
+      ],
+      confidence: plan.patterns.length ? 'medium' : 'low',
+      evidence: [
+        plan.freePreview,
+        ...plan.storyLens.evidencePath,
+        `Story evidence availability: ${plan.digest.storyEvidenceAvailability}.`,
+      ],
+      evidenceTable: [
+        {
+          confidence: 'medium',
+          factor: 'Strongest story thread',
+          implication: plan.storyLens.strongestThread,
+          observation: plan.digest.activeStoryFocus,
+        },
+        {
+          confidence: 'medium',
+          factor: 'Gift',
+          implication: plan.digest.giftInsidePattern,
+          observation: plan.storyLens.shiftThatHelps,
+        },
+        {
+          confidence: 'medium',
+          factor: 'Lesson',
+          implication: plan.storyLens.activeLesson,
+          observation: plan.storyLens.repeatingPattern,
+        },
+      ],
+      eyebrow: 'NADI',
+      tier: isPremium ? 'premium' : 'free',
+      title: 'Nadi Strongest Story Thread',
+    },
+    {
+      body:
+        `The Rahu-Ketu axis shows the pull of growth and the pattern that needs release. Here, the forward pull is ${plan.rahuKetuAxis.pullsForward.toLowerCase()} The release work is ${plan.rahuKetuAxis.learningToRelease.toLowerCase()}`,
+      bullets: [
+        `Pulls forward: ${plan.rahuKetuAxis.pullsForward}`,
+        `Learning to release: ${plan.rahuKetuAxis.learningToRelease}`,
+        `When it becomes louder: ${plan.rahuKetuAxis.becomesLouder}`,
+        `Balance practice: ${plan.rahuKetuAxis.balancePractice}`,
+      ],
+      confidence: 'medium',
+      evidence: [plan.digest.rahuKetuAxisSummary],
+      evidenceTable: [
+        {
+          confidence: 'medium',
+          factor: 'Forward pull',
+          implication: plan.rahuKetuAxis.pullsForward,
+          observation: 'Rahu side of the story axis.',
+        },
+        {
+          confidence: 'medium',
+          factor: 'Release work',
+          implication: plan.rahuKetuAxis.learningToRelease,
+          observation: 'Ketu side of the story axis.',
+        },
+        {
+          confidence: 'medium',
+          factor: 'Balance',
+          implication: plan.rahuKetuAxis.balancePractice,
+          observation: plan.rahuKetuAxis.becomesLouder,
+        },
+      ],
+      eyebrow: 'NADI',
+      tier: isPremium ? 'premium' : 'free',
+      title: 'Rahu-Ketu Axis Card',
+    },
+    {
+      body:
+        `Nadi becomes useful when the story turns into a practice. The repeating pattern is ${plan.storyLens.repeatingPattern.toLowerCase()} The current lesson is ${plan.storyLens.activeLesson.toLowerCase()} The next practice is ${plan.rahuKetuAxis.balancePractice.toLowerCase()}`,
+      bullets: [
+        `Past Pattern -> Current Lesson -> Next Practice: ${plan.storyLens.repeatingPattern} -> ${plan.storyLens.activeLesson} -> ${plan.rahuKetuAxis.balancePractice}`,
+        `Shift that helps: ${plan.storyLens.shiftThatHelps}`,
+        `Activation summary: ${plan.storyLens.activationSummary}`,
+        `Validation bridge: ${plan.storyLens.validationBridge}`,
+      ],
+      confidence: 'medium',
+      evidence: [
+        ...plan.digest.activationWindows.slice(0, activationLimit),
+        'Past-pattern clues stay validation-led before deeper timing is stated.',
+      ],
+      evidenceTable: activationRows.length ? activationRows : undefined,
+      eyebrow: 'NADI',
+      tier: isPremium ? 'premium' : 'free',
+      title: 'Past Pattern -> Current Lesson -> Next Practice',
+    },
+    {
+      body:
+        'Nadi should not pretend too early. The validation bridge asks a few direct questions so the reading can deepen from recognition instead of guessing. Answer what feels true, reject what does not, and let the next reading become sharper.',
+      bullets: [
+        `Validation status: ${plan.validationStatus}.`,
+        ...validationQuestions.map(question => `Validation question: ${question}`),
+        isPremium
+          ? 'Premium uses validation answers to deepen story sequencing and activation timing.'
+          : 'Free gives enough questions to test the story before upgrading into deeper sequencing.',
+      ],
+      confidence: plan.validationStatus === 'confirmed' ? 'high' : plan.validationStatus === 'partially-confirmed' ? 'medium' : 'low',
+      evidence: [
+        `Validation questions included: ${plan.validationQuestions.length}.`,
+        plan.storyLens.validationBridge,
+      ],
+      evidenceTable: validationQuestions.map((question, index) => ({
+        confidence: 'medium' as const,
+        factor: `Question ${index + 1}`,
+        implication: 'Use the answer to confirm, soften, or redirect the Nadi story before stronger timing.',
+        observation: question,
+      })),
+      eyebrow: 'NADI',
+      tier: isPremium ? 'premium' : 'free',
+      title: 'Validation Bridge',
+    },
+  ];
+
+  if (isPremium) {
+    sections.push(
+      {
+        body:
+          plan.premiumSynthesis ??
+          'Premium Nadi turns the story map into a fuller sequence: which pattern is strongest, which planet links carry it, where it activates, and which practice keeps it constructive.',
+        bullets: [
+          `Planetary story map: ${plan.patterns.slice(0, 6).map(pattern => pattern.title).join('; ') || 'pending'}.`,
+          `Karaka links: ${uniqueValues(plan.patterns.flatMap(pattern => pattern.planets)).join(', ') || 'pending'}.`,
+          `Repeated life themes: ${uniqueValues(plan.patterns.flatMap(pattern => pattern.lifeAreas)).slice(0, 8).join(', ') || 'pending'}.`,
+          ...storyMapBullets.slice(0, 5),
+        ],
+        confidence: plan.patterns.length ? 'medium' : 'low',
+        evidence: [
+          ...(plan.methodSummary ? [plan.methodSummary] : []),
+          `Story patterns available: ${plan.patterns.length}.`,
+          `Story Evidence Appendix: planetary story map, karaka links, validation status ${plan.validationStatus}, activation windows, and limitations are kept after the main reading.`,
+        ],
+        evidenceTable: patternRows,
+        eyebrow: 'NADI',
+        tier: 'premium',
+        title: 'Planetary Story Map',
+      },
+      {
+        body:
+          'Activation windows are not fixed fate. They show when the story may become louder, when choices matter more, and where a practical response can keep the pattern from turning into pressure.',
+        bullets: [
+          ...plan.activations.slice(0, activationLimit).map(activation =>
+            `${activation.title}: ${activation.timing}. ${activation.guidance}`,
+          ),
+          'Premium keeps activation timing evidence-weighted and avoids promising exact fate.',
+        ],
+        confidence: plan.activations.length ? 'medium' : 'low',
+        evidence: [
+          `Dasha/transit activation count: ${plan.activations.length}.`,
+          ...plan.digest.activationWindows.slice(0, activationLimit),
+        ],
+        evidenceTable: activationRows,
+        eyebrow: 'NADI',
+        tier: 'premium',
+        title: 'Activation Windows',
+      },
+    );
+  }
+
+  sections.push({
     body:
-      mode === 'PREMIUM'
-        ? 'Premium Nadi stays in its own reading lane: planetary story links, karaka themes, validation questions, and timing activations. It does not claim palm-leaf manuscript access.'
-        : 'Free reports include the Nadi reading room and useful preview, while full Nadi-style sequencing, validation depth, and timing activation stay Premium.',
+      'Nadi Method Boundary: this report stays inside Nadi-style planetary story intelligence. It does not become a KP cusp judgment, a Parashari personality report, Numerology, Signature analysis, or Life Atlas synthesis.',
     bullets: [
-      'School boundary: Nadi Predicta is a Nadi-style planetary story lane, not KP cusp logic and not a Parashari personality report.',
-      'Source limitation: Predicta does not claim access to real palm-leaf manuscripts or private lineage records.',
-      plan.schoolBoundary,
-      plan.methodSummary,
-      plan.freePreview,
-      `Hidden pattern sentence: ${plan.storyLens.hiddenPatternSentence}`,
-      `Active lesson: ${plan.storyLens.activeLesson}`,
-      `Shift that helps: ${plan.storyLens.shiftThatHelps}`,
-      `Rahu-Ketu Axis Card: ${plan.rahuKetuAxis.pullsForward} ${plan.rahuKetuAxis.learningToRelease}`,
-      `Past Pattern -> Current Lesson -> Next Practice: ${plan.storyLens.repeatingPattern} -> ${plan.storyLens.activeLesson} -> ${plan.rahuKetuAxis.balancePractice}`,
-      `Planetary story map: ${plan.patterns.slice(0, mode === 'PREMIUM' ? 5 : 2).map(pattern => pattern.title).join('; ') || 'pending'}.`,
-      `Karaka links: ${plan.patterns.slice(0, mode === 'PREMIUM' ? 5 : 2).flatMap(pattern => pattern.planets).join(', ') || 'pending'}.`,
-      `Rahu/Ketu axis: ${plan.patterns.find(pattern => pattern.id === 'nadi-rahu-ketu-axis')?.meaning ?? 'pending in this chart'}.`,
-      `Repeated life themes: ${uniqueValues(plan.patterns.flatMap(pattern => pattern.lifeAreas)).slice(0, 6).join(', ') || 'pending'}.`,
-      ...patterns,
-      ...activations,
-      ...plan.validationQuestions.slice(0, mode === 'PREMIUM' ? 4 : 2),
+      'Best for: karmic patterns, repeated life themes, relationship mirrors, validation questions, activation periods, and gentle practices.',
+      'Not for: unsupported palm-leaf manuscript claims, one-line fatalism, or technical Vedic chart dumping.',
+      'A Nadi story should be validated through lived recognition before deeper timing is treated as strong.',
     ],
+    confidence: 'high',
     evidence: [
+      'School boundary: Nadi only.',
+      'D1/D9 Parashari chart pages are intentionally excluded from Nadi report output.',
+      'Nadi chart remains included as the story-anchor report chart.',
+      'It does not claim palm-leaf manuscript access.',
+      'Predicta does not claim access to real palm-leaf manuscripts or private lineage records.',
       ...plan.guardrails,
       ...plan.limitations,
-      ...plan.storyLens.evidencePath,
-      plan.premiumUnlock,
-      `Dasha/transit activation count: ${plan.activations.length}.`,
-      `Past-pattern clues are handled as validation questions before deeper timing.`,
-      `Story Evidence Appendix: planetary story map, karaka links, validation status ${plan.validationStatus}, activation windows, and limitations are kept separate from the main reading.`,
+    ],
+    evidenceTable: [
+      {
+        confidence: 'high',
+        factor: 'Method boundary',
+        implication: 'Keep the main report as karmic story, validation, activation, and practice.',
+        observation: 'Nadi-style planetary story links, Rahu/Ketu axis, validation questions, and activation timing.',
+      },
+      {
+        confidence: 'high',
+        factor: 'Source boundary',
+        implication: 'The report must not claim palm-leaf manuscript access.',
+        observation: 'Symbolic Nadi-style reading only.',
+      },
     ],
     eyebrow: 'NADI',
-    tier: mode === 'PREMIUM' ? 'premium' : 'free',
-    title:
-      mode === 'PREMIUM'
-        ? 'Nadi karmic story and Story Evidence Appendix'
-        : 'Nadi karmic story useful insight',
-  };
+    tier: isPremium ? 'premium' : 'free',
+    title: 'Nadi Method Boundary',
+  });
+
+  return sections;
 }
 
-function buildNumerologyReportSection(
+function buildNumerologyReportSections(
   kundli: KundliData,
   mode: PDFMode,
-): PdfSection {
+): PdfSection[] {
   const profile =
     kundli.numerology ?? composeNumerologyFoundationModel(kundli.birthDetails);
   const isPremium = mode === 'PREMIUM';
 
   if (profile.status !== 'ready') {
-    return {
+    return [{
       body:
         'Numerology needs the user name and birth date before it can prepare a number profile.',
       bullets: [
@@ -2842,120 +3233,282 @@ function buildNumerologyReportSection(
       eyebrow: 'NUMEROLOGY',
       tier: 'free',
       title: 'Numerology profile',
-    };
+    }];
   }
 
   const dashboard = profile.identityDashboard;
-  const numberLines = [
-    `Name number ${profile.nameNumber.root} (${profile.nameNumber.label}): ${profile.nameNumber.simpleMeaning}.`,
-    `Birth number ${profile.birthNumber.root} (${profile.birthNumber.label}): ${profile.birthNumber.simpleMeaning}.`,
-    `Destiny number ${profile.destinyNumber.root} (${profile.destinyNumber.label}): ${profile.destinyNumber.simpleMeaning}.`,
-    `Current rhythm: personal year ${profile.personalYear.root}, month ${profile.personalMonth.root}, day ${profile.personalDay.root}.`,
-  ];
   const timelinePreview = dashboard.personalYearTimeline
     .slice(0, isPremium ? 12 : 4)
-    .map(month => `${month.monthLabel}: ${month.keyword} ${month.cycleNumber}`)
-    .join('; ');
-  const premiumLines = isPremium
-    ? [
-        `Full name analysis: ${dashboard.nameStrength} ${dashboard.firstLetterInfluence}`,
-        `Name Energy Scanner: ${dashboard.nameScanner.reducedExpression}.`,
-        `Name Fit Score: ${dashboard.nameRefinement.currentNameFit.summary}`,
-        `Personal Year Timeline: ${timelinePreview}.`,
-        `Name Refinement: ${dashboard.nameRefinement.comparisonNote}`,
-        `Compatibility: ${dashboard.compatibilityLens.howToWorkBetter}`,
-        `Supportive Toolkit: ${dashboard.supportiveToolkit.framing} Colors ${dashboard.supportiveToolkit.colors.join(', ') || 'pending'}; days ${dashboard.supportiveToolkit.days.join(', ') || 'pending'}.`,
-        `How Predicta calculated your numbers: ${dashboard.calculationNote}`,
-      ]
-    : [
-        'Free depth keeps this as a useful number profile. Premium adds spelling comparison, compatibility lens, name fit breakdown, and a full timing map.',
-      ];
-
-  return {
-    body:
-      'Your Number Signature is a Numerology-only dossier. It reads name rhythm and birth-date numbers without casually mixing Parashari, KP, Nadi, or Signature methods.',
-    bullets: [
-      `Life Theme Sentence: ${dashboard.lifeThemeSentence}`,
-      profile.summary,
-      ...numberLines,
-      `Best Use Of This Cycle: ${dashboard.bestUseOfCurrentCycle}`,
-      `Name Rhythm: compound ${profile.nameNumber.compound}, root ${profile.nameNumber.root}, method ${profile.method.nameNumber}.`,
-      `Birth Code: ${dashboard.maturityDirection}`,
-      `Repeated number pattern: ${dashboard.repeatedNumbers.length ? dashboard.repeatedNumbers.join(', ') : 'no strong repeat detected yet'}.`,
-      `Missing number pattern: ${dashboard.missingNumbers.length ? dashboard.missingNumbers.join(', ') : 'all core digits appear at least once'}.`,
-      `Timing calendar: personal year ${profile.personalYear.root}, personal month ${profile.personalMonth.root}, personal day ${profile.personalDay.root}.`,
-      `Strengths: ${profile.strengths.slice(0, isPremium ? 6 : 3).join(', ') || 'waiting for number emphasis'}.`,
-      `Care points: ${profile.cautions.slice(0, isPremium ? 5 : 3).join(', ') || 'keep the reading practical and balanced'}.`,
-      `Work, relationships, money, and self-expression guidance: ${dashboard.freeInsight}`,
-      profile.guidance,
-      ...premiumLines,
-    ],
+    .map(month => `${month.monthLabel}: ${month.keyword} ${month.cycleNumber}. ${month.guidance}`);
+  const mandalaRows: PdfEvidenceRow[] = dashboard.mandalaNodes.slice(0, 6).map(node => ({
     confidence: 'medium',
-    evidence: [
-      ...profile.evidence,
-      ...profile.limitations,
-      dashboard.calculationNote,
-      `Missing/repeated grid calculated from available name and birth-date digits: repeated ${dashboard.repeatedNumbers.join(', ') || 'none'}, missing ${dashboard.missingNumbers.join(', ') || 'none'}.`,
-      'Name fit and compatibility are confidence-framed reflective tools, not guarantees or pressure to change a name.',
-    ],
-    evidenceTable: [
-      ...dashboard.mandalaNodes.slice(0, 6).map(node => ({
-        confidence: 'medium' as const,
-        factor: `Personal Number Mandala: ${node.label}`,
-        implication: node.shortMeaning,
-        observation: `${node.number} ${node.keyword}.`,
-      })),
+    factor: `Personal Number Mandala: ${node.label}`,
+    implication: node.shortMeaning,
+    observation: `${node.number} ${node.keyword}.`,
+  }));
+  const frequencyRows: PdfEvidenceRow[] = dashboard.frequencyMap.map(cell => ({
+    confidence: cell.tone === 'missing' ? 'low' : 'medium',
+    factor: `Number ${cell.number}`,
+    implication: cell.insight,
+    observation: `${cell.count} occurrence${cell.count === 1 ? '' : 's'}; ${cell.tone}; ${cell.keyword}.`,
+  }));
+  const sections: PdfSection[] = [
+    {
+      body:
+        `${dashboard.lifeThemeSentence} Your Number Signature is a Numerology-only dossier and a practical identity map: how the name projects, how the birth date responds, what the destiny number keeps asking you to express, and what the current cycle wants from you now. Best Use Of This Cycle: ${dashboard.bestUseOfCurrentCycle}`,
+      bullets: [
+        `Life Theme Sentence: ${dashboard.lifeThemeSentence}`,
+        `Best Use Of This Cycle: ${dashboard.bestUseOfCurrentCycle}`,
+        `Name number ${profile.nameNumber.root} (${profile.nameNumber.label}): ${profile.nameNumber.simpleMeaning}.`,
+        `Birth number ${profile.birthNumber.root} (${profile.birthNumber.label}): ${profile.birthNumber.simpleMeaning}.`,
+        `Destiny number ${profile.destinyNumber.root} (${profile.destinyNumber.label}): ${profile.destinyNumber.simpleMeaning}.`,
+        `Today: personal year ${profile.personalYear.root}, month ${profile.personalMonth.root}, day ${profile.personalDay.root}.`,
+      ],
+      confidence: 'medium',
+      evidence: [
+        profile.summary,
+        dashboard.reportSummary,
+        'It reads name rhythm and birth-date numbers without casually mixing other schools.',
+        'Numerology-only: no Parashari charts, KP cusps, Nadi story links, or Signature traits are mixed into this report.',
+      ],
+      evidenceTable: mandalaRows,
+      eyebrow: 'NUMEROLOGY',
+      tier: isPremium ? 'premium' : 'free',
+      title: 'Your Number Signature',
+    },
+    {
+      body:
+        `Name Rhythm: ${dashboard.nameStrength} ${dashboard.firstLetterInfluence} This is the public sound of the name, not a permanent life verdict. Use it to understand how the name rhythm supports steadiness, expression, and visibility.`,
+      bullets: [
+        `Name Energy Scanner: ${dashboard.nameScanner.reducedExpression}.`,
+        `Normalized name: ${dashboard.nameScanner.normalizedName}.`,
+        `Compound ${profile.nameNumber.compound} reduces to root ${profile.nameNumber.root}.`,
+        `Method: ${profile.method.nameNumber}.`,
+      ],
+      confidence: 'medium',
+      evidence: [
+        dashboard.calculationNote,
+        `Letters scanned: ${dashboard.nameScanner.steps.map(step => `${step.letter}:${step.value}`).join(', ') || 'pending'}.`,
+      ],
+      evidenceTable: [
+        {
+          confidence: 'medium',
+          factor: 'Name number',
+          implication: 'Shows how the name projects into the world.',
+          observation: `${profile.nameNumber.root} ${profile.nameNumber.label}; compound ${profile.nameNumber.compound}.`,
+        },
+        {
+          confidence: 'medium',
+          factor: 'First letter influence',
+          implication: dashboard.firstLetterInfluence,
+          observation: dashboard.nameScanner.normalizedName.charAt(0) || 'pending',
+        },
+      ],
+      eyebrow: 'NUMEROLOGY',
+      tier: isPremium ? 'premium' : 'free',
+      title: 'Name Rhythm and Energy Scanner',
+    },
+    {
+      body:
+        `Birth Code: ${dashboard.maturityDirection} Birth and destiny numbers are read as the instinctive response pattern and the longer direction, so the report can move from number definition into usable life guidance.`,
+      bullets: [
+        `Birth number ${profile.birthNumber.root}: ${profile.birthNumber.simpleMeaning}.`,
+        `Destiny number ${profile.destinyNumber.root}: ${profile.destinyNumber.simpleMeaning}.`,
+        `Maturity direction: ${dashboard.maturityDirection}`,
+        `Strengths to use: ${profile.strengths.slice(0, isPremium ? 6 : 3).join(', ') || 'steady application'}.`,
+      ],
+      confidence: 'medium',
+      evidence: profile.evidence,
+      evidenceTable: [
+        {
+          confidence: 'medium',
+          factor: 'Birth number',
+          implication: 'Shows instinctive style and natural response pattern.',
+          observation: `${profile.birthNumber.root} ${profile.birthNumber.label}; birth date ${profile.birthDate}.`,
+        },
+        {
+          confidence: 'medium',
+          factor: 'Destiny number',
+          implication: 'Shows the longer life direction in numerology.',
+          observation: `${profile.destinyNumber.root} ${profile.destinyNumber.label}.`,
+        },
+      ],
+      eyebrow: 'NUMEROLOGY',
+      tier: isPremium ? 'premium' : 'free',
+      title: 'Birth Code and Destiny Direction',
+    },
+    {
+      body:
+        `Current Cycle: lean into ${dashboard.currentCycleLeanInto.toLowerCase()} Avoid ${dashboard.currentCycleAvoid.toLowerCase()} This turns the personal year, month, and day into one practical rhythm instead of three disconnected numbers.`,
+      bullets: [
+        `Personal year ${profile.personalYear.root}: ${profile.personalYear.simpleMeaning}.`,
+        `Personal month ${profile.personalMonth.root}: ${profile.personalMonth.simpleMeaning}.`,
+        `Personal day ${profile.personalDay.root}: ${profile.personalDay.simpleMeaning}.`,
+        `Next action: ${dashboard.bestUseOfCurrentCycle}`,
+      ],
+      confidence: 'medium',
+      evidence: [`Target date: ${profile.targetDate}.`, `Timing method: ${profile.method.personalCycles}.`],
+      evidenceTable: [
+        {
+          confidence: 'medium',
+          factor: 'Personal year',
+          implication: profile.personalYear.simpleMeaning,
+          observation: `${profile.personalYear.root} ${profile.personalYear.label}.`,
+        },
+        {
+          confidence: 'medium',
+          factor: 'Personal month',
+          implication: profile.personalMonth.simpleMeaning,
+          observation: `${profile.personalMonth.root} ${profile.personalMonth.label}.`,
+        },
+        {
+          confidence: 'medium',
+          factor: 'Personal day',
+          implication: profile.personalDay.simpleMeaning,
+          observation: `${profile.personalDay.root} ${profile.personalDay.label}.`,
+        },
+      ],
+      eyebrow: 'NUMEROLOGY',
+      tier: isPremium ? 'premium' : 'free',
+      title: 'Current Cycle Action Plan',
+    },
+    {
+      body:
+        `Missing / Repeated Number Grid: repeated ${dashboard.repeatedNumbers.join(', ') || 'none'}; missing ${dashboard.missingNumbers.join(', ') || 'none'}. This is not a fear score. It shows where the name/date pattern is louder and where conscious practice may help.`,
+      bullets: [
+        `Repeated numbers: ${dashboard.repeatedNumbers.length ? dashboard.repeatedNumbers.join(', ') : 'no strong repeat detected yet'}.`,
+        `Strong numbers: ${dashboard.strongNumbers.length ? dashboard.strongNumbers.join(', ') : 'balanced emphasis'}.`,
+        `Missing numbers: ${dashboard.missingNumbers.length ? dashboard.missingNumbers.join(', ') : 'all core digits appear at least once'}.`,
+        'Use missing numbers as practice cues, not as warnings.',
+      ],
+      confidence: 'medium',
+      evidence: [
+        'Missing / Repeated Number Pattern is included as a Numerology-only number grid.',
+        `Missing/repeated grid calculated from available name and birth-date digits: repeated ${dashboard.repeatedNumbers.join(', ') || 'none'}, missing ${dashboard.missingNumbers.join(', ') || 'none'}.`,
+      ],
+      evidenceTable: frequencyRows,
+      eyebrow: 'NUMEROLOGY',
+      tier: isPremium ? 'premium' : 'free',
+      title: 'Missing / Repeated Number Grid',
+    },
+    {
+      body:
+        `This is where the numbers become useful: ${dashboard.freeInsight} The report keeps the guidance practical across work, relationships, money, and self-expression instead of forcing the user to decode raw numerology terms.`,
+      bullets: [
+        `Strengths: ${profile.strengths.slice(0, isPremium ? 6 : 3).join(', ') || 'steady application'}.`,
+        `Care points: ${profile.cautions.slice(0, isPremium ? 5 : 3).join(', ') || 'keep the reading practical and balanced'}.`,
+        `Work and money: use the current cycle through ${dashboard.currentCycleLeanInto}.`,
+        `Relationships and self-expression: watch ${dashboard.currentCycleAvoid}.`,
+        profile.guidance,
+      ],
+      confidence: 'medium',
+      evidence: [
+        ...profile.limitations,
+        'Name fit and compatibility are confidence-framed reflective tools, not guarantees or pressure to change a name.',
+      ],
+      eyebrow: 'NUMEROLOGY',
+      tier: isPremium ? 'premium' : 'free',
+      title: 'Strengths, Cautions, and Life Areas',
+    },
+  ];
+
+  if (isPremium) {
+    sections.push(
       {
-        confidence: 'medium',
-        factor: 'Name number',
-        implication: 'Shows how the name projects into the world.',
-        observation: `${profile.nameNumber.root} ${profile.nameNumber.label}; compound ${profile.nameNumber.compound}.`,
-      },
-      {
-        confidence: 'medium',
-        factor: 'Birth number',
-        implication: 'Shows instinctive style and natural response pattern.',
-        observation: `${profile.birthNumber.root} ${profile.birthNumber.label}; birth date ${profile.birthDate}.`,
-      },
-      {
-        confidence: 'medium',
-        factor: 'Destiny number',
-        implication: 'Shows the longer life direction in numerology.',
-        observation: `${profile.destinyNumber.root} ${profile.destinyNumber.label}.`,
-      },
-      {
-        confidence: 'medium',
-        factor: 'Missing / Repeated Number Pattern',
-        implication: 'Highlights visible number emphasis without unsupported claims.',
-        observation: dashboard.frequencyMap
-          .map(cell => `${cell.number}:${cell.count}/${cell.tone}`)
-          .join(', '),
-      },
-      {
+        body:
+          `Name Fit Score: ${dashboard.nameRefinement.currentNameFit.summary} Treat this as a refinement lens, not a fear tactic. A name can be supported, adjusted, or compared only when the user wants that work.`,
+        bullets: [
+          `Current name alignment: ${dashboard.nameRefinement.currentNameFit.score}/100.`,
+          `Expression ${dashboard.nameRefinement.currentNameFit.expression}; stability ${dashboard.nameRefinement.currentNameFit.stability}; public rhythm ${dashboard.nameRefinement.currentNameFit.publicRhythm}; destiny support ${dashboard.nameRefinement.currentNameFit.destinySupport}.`,
+          `Name Refinement: ${dashboard.nameRefinement.comparisonNote}`,
+          `Suggested inputs: ${dashboard.nameRefinement.suggestedInputs.join(', ') || 'current name, public name, brand name, baby name, or business name'}.`,
+        ],
         confidence: dashboard.nameRefinement.currentNameFit.confidence,
-        factor: 'Name Fit Score',
-        implication: 'Premium-only reflective fit score with limitations.',
-        observation: `${dashboard.nameRefinement.currentNameFit.score}/100; expression ${dashboard.nameRefinement.currentNameFit.expression}, stability ${dashboard.nameRefinement.currentNameFit.stability}, public rhythm ${dashboard.nameRefinement.currentNameFit.publicRhythm}, destiny support ${dashboard.nameRefinement.currentNameFit.destinySupport}.`,
+        evidence: dashboard.nameRefinement.currentNameFit.limitations,
+        eyebrow: 'NUMEROLOGY',
+        tier: 'premium',
+        title: 'Name Fit Score and Refinement',
       },
       {
+        body:
+          `Compatibility Lens: ${dashboard.compatibilityLens.howToWorkBetter} This remains a number-rhythm comparison, not a verdict on love, business, or success.`,
+        bullets: [
+          `Support zones: ${dashboard.compatibilityLens.supportZones.join(', ') || 'pending another person/name input'}.`,
+          `Friction zones: ${dashboard.compatibilityLens.frictionZones.join(', ') || 'pending another person/name input'}.`,
+          `Supportive toolkit: ${dashboard.supportiveToolkit.framing}`,
+          `Colors: ${dashboard.supportiveToolkit.colors.join(', ') || 'pending'}; days: ${dashboard.supportiveToolkit.days.join(', ') || 'pending'}; numbers: ${dashboard.supportiveToolkit.numbers.join(', ') || 'pending'}.`,
+          `Affirmation: ${dashboard.supportiveToolkit.affirmation}`,
+        ],
         confidence: dashboard.compatibilityLens.confidence,
-        factor: 'Compatibility',
-        implication: 'Pending until the user supplies another name, birth date, brand, or business input.',
-        observation: dashboard.compatibilityLens.status,
+        evidence: [
+          ...dashboard.compatibilityLens.limitations,
+          ...dashboard.nameRefinement.limitations,
+        ],
+        eyebrow: 'NUMEROLOGY',
+        tier: 'premium',
+        title: 'Compatibility and Supportive Toolkit',
       },
       {
+        body:
+          `Personal Year Timeline: ${timelinePreview.join(' ')} This is the 12-month rhythm map so the user can plan with the current number weather instead of treating timing as vague.`,
+        bullets: timelinePreview,
         confidence: 'medium',
-        factor: 'Personal timing',
-        implication: 'Frames the current number rhythm without replacing real-world judgement.',
-        observation: `Year ${profile.personalYear.root}, month ${profile.personalMonth.root}, day ${profile.personalDay.root} for ${profile.targetDate}.`,
+        evidence: [`Personal year timeline months: ${dashboard.personalYearTimeline.length}.`],
+        evidenceTable: dashboard.personalYearTimeline.slice(0, 12).map(month => ({
+          confidence: 'medium' as const,
+          factor: month.monthLabel,
+          implication: month.guidance,
+          observation: `${month.cycleNumber} ${month.keyword}.`,
+        })),
+        eyebrow: 'NUMEROLOGY',
+        tier: 'premium',
+        title: 'Personal Year Timeline',
       },
+      {
+        body:
+          `How Predicta calculated your numbers: ${dashboard.calculationNote} This appendix keeps proof separate from the main reading so the report stays easy to read.`,
+        bullets: [
+          `Name number method: ${profile.method.nameNumber}.`,
+          `Birth number method: ${profile.method.birthNumber}.`,
+          `Destiny number method: ${profile.method.destinyNumber}.`,
+          `Personal cycles method: ${profile.method.personalCycles}.`,
+        ],
+        confidence: 'high',
+      evidence: [
+        ...profile.evidence,
+        ...profile.limitations,
+        'How Predicta calculated your numbers is kept in the Numerology calculation appendix.',
+      ],
+        eyebrow: 'NUMEROLOGY',
+        tier: 'premium',
+        title: 'Calculation Appendix',
+      },
+    );
+  }
+
+  sections.push({
+    body:
+      'Numerology Method Boundary: this report stays inside name and birth-date number analysis. It does not import Kundli judgement, KP event proof, Nadi karmic story links, Signature traits, or Life Atlas synthesis.',
+    bullets: [
+      'Use this report for number identity, name rhythm, current personal cycles, missing/repeated patterns, and practical alignment.',
+      'Do not use it as a guarantee of success, a warning to change names out of fear, or a replacement for real-world judgement.',
+      isPremium
+        ? 'Premium adds deeper name refinement, compatibility, timing, and calculation proof while staying Numerology-only.'
+        : 'Free gives the core number identity and action plan; premium adds deeper comparison and timing maps.',
+    ],
+    confidence: 'high',
+    evidence: [
+      'School boundary: Numerology only.',
+      'D1/D9 Parashari chart pages are intentionally excluded from Numerology report output.',
+      'Vedic graha placement tables are intentionally excluded from Numerology report output.',
+      'Numerology chart atmosphere notes are intentionally excluded from Numerology report output.',
     ],
     eyebrow: 'NUMEROLOGY',
     tier: isPremium ? 'premium' : 'free',
-    title: isPremium
-      ? 'Your Number Signature premium dossier'
-      : 'Your Number Signature useful insight',
-  };
+    title: 'Numerology Method Boundary',
+  });
+
+  return sections;
 }
 
 function buildSignatureReportSection(
@@ -3260,7 +3813,7 @@ function buildOneLineSummary(
 ): string {
   if (reportFocus === 'KP') {
     const kp = composeChalitBhavKpFoundation(kundli, { depth: 'FREE' }).kp;
-    return `KP Predicta report with ${kp.cusps.length} cusps, ${kp.significators.length} significators, ruling planets, dasha support, and event-timing boundaries.`;
+    return `KP Predicta: ${kp.eventJudgement.verdictLabel}. ${kp.eventJudgement.plainLanguage}`;
   }
 
   if (reportFocus === 'NADI') {
@@ -3318,7 +3871,11 @@ function getReportChartTypes(
   mode: PDFMode,
   reportFocus: PdfReportFocus = 'KUNDLI',
 ): ChartType[] {
-  if (reportFocus === 'LIFE_ATLAS') {
+  if (reportFocus === 'LIFE_ATLAS' || reportFocus === 'KP' || reportFocus === 'NUMEROLOGY') {
+    return [];
+  }
+
+  if (reportFocus === 'NADI') {
     return [];
   }
 
@@ -3349,6 +3906,8 @@ function prioritizeChartTypes(
 function getFreeChartTypesForFocus(reportFocus: PdfReportFocus): ChartType[] {
   switch (reportFocus) {
     case 'LIFE_ATLAS':
+    case 'NADI':
+    case 'NUMEROLOGY':
       return [];
     case 'CAREER':
       return ['D1', 'D9', 'D10'];
@@ -3357,9 +3916,6 @@ function getFreeChartTypesForFocus(reportFocus: PdfReportFocus): ChartType[] {
       return ['D1', 'D9'];
     case 'WEALTH':
       return ['D1', 'D9', 'D2'];
-    case 'KP':
-    case 'NADI':
-    case 'NUMEROLOGY':
     case 'REMEDIES':
     case 'SADESATI':
       return ['D1', 'D9'];

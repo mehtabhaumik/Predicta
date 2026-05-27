@@ -66,7 +66,7 @@ for (const phrase of [
   'LIFE_ATLAS_MISSING_SIGNATURE_NOTE',
   'Predicta Life Atlas is the approved all-school synthesis report',
   'Signature expression layer was not included because no signature sample was provided.',
-  'How Predicta Built This Reading',
+  'The hidden thread becomes useful when it changes one daily decision',
   'What Is Intended For You',
   'Final Letter From Predicta',
   'does not claim Akashic Records',
@@ -83,18 +83,22 @@ for (const phrase of [
   "reportFocus === 'LIFE_ATLAS'",
   'Premium Predicta Life Atlas',
   'Free Predicta Life Atlas',
-  'section.id === \'how-predicta-built-this-reading\'',
-  'What this report can and cannot claim',
+  'evidenceTable: [] satisfies PdfEvidenceRow[]',
+  'How Predicta Built This Reading',
 ]) {
   assertIncludes(files.pdf, phrase, `PDF composition includes ${phrase}`);
 }
 
 for (const phrase of [
   "reportFocus === 'LIFE_ATLAS'",
-  'Your story is not reduced to a chart page.',
-  'This synthesis report starts with the soul portrait',
-  'This is not a school report',
-  'Missing data stays honest',
+  'Your life is not reduced to a report.',
+  'Personal life map',
+  'Your Life Atlas begins here',
+  'How to carry this Life Atlas',
+  'Personal snapshot and soul portrait',
+  'Purpose and strategic abstract',
+  'Premium life chapters',
+  'Mirror, not cage',
 ]) {
   assertIncludes(files.pdfRenderer, phrase, `PDF renderer handles Life Atlas ${phrase}`);
 }

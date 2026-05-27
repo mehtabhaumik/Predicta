@@ -1688,7 +1688,9 @@ export type LifeAtlasEvidenceLayer = {
 };
 
 export type LifeAtlasSectionId =
+  | 'personal-snapshot'
   | 'opening-soul-portrait'
+  | 'strategic-life-abstract'
   | 'why-you-came-here'
   | 'life-journey-arc'
   | 'destiny-pattern'
@@ -1696,10 +1698,14 @@ export type LifeAtlasSectionId =
   | 'gifts-you-carry'
   | 'karmic-lessons'
   | 'love-work-money-purpose'
+  | 'relationship-mirror'
+  | 'work-money-mission-blueprint'
   | 'hidden-thread'
   | 'what-is-intended'
   | 'next-12-24-months'
+  | 'shadow-to-gift-map'
   | 'soul-practices'
+  | 'integration-plan'
   | 'final-letter'
   | 'how-predicta-built-this-reading';
 

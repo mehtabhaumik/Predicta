@@ -1,7 +1,6 @@
 'use client';
 
 import { getNativeCopy } from '@pridicta/config';
-import Image from 'next/image';
 import Link from 'next/link';
 import type { SupportedLanguage } from '@pridicta/types';
 import { Card } from '../../components/Card';
@@ -244,20 +243,10 @@ export function FounderPageClient(): React.JSX.Element {
             </div>
           </div>
 
-          <div className="founder-portrait-card glass-panel">
-            <div className="founder-portrait-frame">
-              <Image
-                alt="Bhaumik Mehta"
-                fill
-                priority
-                sizes="(max-width: 820px) 78vw, 420px"
-                src="/founder-bhaumik-mehta.png"
-              />
-            </div>
-            <div className="founder-portrait-copy">
-              <p>{copy.portrait}</p>
-            </div>
-          </div>
+          <aside className="founder-note-card glass-panel" aria-label={copy.hero.eyebrow}>
+            <span className="section-title">{copy.letter.eyebrow}</span>
+            <p>{copy.portrait}</p>
+          </aside>
         </section>
 
         <section className="founder-section founder-letter glass-panel">

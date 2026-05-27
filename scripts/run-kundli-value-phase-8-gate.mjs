@@ -87,9 +87,9 @@ for (const fragment of [
 const pdf = readWorkspaceFile('packages/pdf/src/index.ts');
 for (const fragment of [
   'function buildRoomSpecificReportSections',
-  "case 'KP':\n      return [buildKpFoundationSection(kundli, mode)]",
-  "case 'NADI':\n      return [buildNadiJyotishPlanSection(kundli, mode)]",
-  "case 'NUMEROLOGY':\n      return [buildNumerologyReportSection(kundli, mode)]",
+  "case 'KP':\n      return buildKpReportSections(kundli, mode)",
+  "case 'NADI':\n      return buildNadiReportSections(kundli, mode)",
+  "case 'NUMEROLOGY':\n      return buildNumerologyReportSections(kundli, mode)",
   "case 'SIGNATURE':",
   'buildSignatureReportSection(signatureAnalysis, mode)',
   "case 'LIFE_ATLAS':\n      return buildLifeAtlasReportSections(kundli, mode, signatureAnalysis)",
@@ -101,8 +101,9 @@ for (const fragment of [
   'buildVedicReportStructureSections(kundli, chartTypes, mode, language)',
   'buildMahadashaPhalaReportSection(intelligence, mode)',
   "title: 'Consolidated remedy/action plan'",
-  'KP event answer and Proof Appendix',
-  'School boundary: Nadi Predicta is a Nadi-style planetary story lane',
+  'KP Event Verdict',
+  'Nadi Strongest Story Thread',
+  'D1/D9 Parashari chart pages are intentionally excluded from Nadi report output',
   'Your Number Signature is a Numerology-only dossier',
   'Personal Number Mandala',
   'Name Energy Scanner',
@@ -131,7 +132,7 @@ const numerologyGate = readWorkspaceFile('scripts/run-numerology-predicta-strict
 const signatureGate = readWorkspaceFile('scripts/run-signature-predicta-ultra-strict-phase-gate.mjs');
 const lifeAtlasGate = readWorkspaceFile('scripts/run-life-atlas-report-strict-contract-gate.mjs');
 for (const [source, fragment, label] of [
-  [kpNadiGate, 'KP event answer and Proof Appendix', 'KP/Nadi report gate remains active'],
+  [kpNadiGate, 'KP Event Verdict', 'KP/Nadi report gate remains active'],
   [numerologyGate, 'Your Number Signature', 'Numerology report gate remains active'],
   [signatureGate, 'Only confirmed traits will flow to chat or reports', 'Signature report gate remains active'],
   [lifeAtlasGate, 'Predicta Life Atlas', 'Life Atlas synthesis gate remains active'],

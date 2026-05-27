@@ -238,11 +238,43 @@ export function WebDossierPreview(): React.JSX.Element {
     selectedReport,
     reportLanguage,
   );
+  const signatureReportBlocked =
+    selectedReportId === 'SIGNATURE' &&
+    !hasReadySignatureReport(signatureAnalysis);
   const selectedReportLane =
     selectedReport.school === 'SYNTHESIS'
       ? REPORT_SYNTHESIS_LANE
       : REPORT_SCHOOL_LANES.find(lane => lane.id === selectedReport.school) ??
         REPORT_SCHOOL_LANES[0];
+  const reportLaneNavItems = useMemo(
+    () => [
+      ...REPORT_SCHOOL_LANES.map(lane => ({
+        anchorId: `report-lane-${lane.id.toLowerCase()}`,
+        label: lane.id === 'VEDIC' ? 'Vedic' : lane.title.replace(' Reports', ''),
+        lane,
+        productId: lane.productIds[0],
+      })),
+      {
+        anchorId: 'report-lane-life-atlas',
+        label: 'Life Atlas',
+        lane: REPORT_SYNTHESIS_LANE,
+        productId: 'LIFE_ATLAS' as ReportMarketplaceProduct['id'],
+      },
+    ],
+    [],
+  );
+
+  const openReportLane = (item: (typeof reportLaneNavItems)[number]) => {
+    setReportMarketplaceOpen(true);
+    setSelectedReportId(item.productId);
+    window.requestAnimationFrame(() => {
+      window.setTimeout(() => {
+        document
+          .getElementById(item.anchorId)
+          ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 40);
+    });
+  };
 
   useEffect(() => {
     const memory = loadWebAutoSaveMemory();
@@ -538,6 +570,16 @@ export function WebDossierPreview(): React.JSX.Element {
       return false;
     }
 
+    if (signatureReportBlocked) {
+      setReportDownloadError(
+        'Upload, draw, and confirm a signature sample before generating a Signature report.',
+      );
+      setReportPreviewOpen(false);
+      setDownloadDialogOpen(false);
+      window.setTimeout(() => setReportDownloadError(null), 4200);
+      return false;
+    }
+
     if (builderMode === 'CUSTOM' && !visibleSections.length) {
       setCopyState('empty');
       window.setTimeout(() => setCopyState('idle'), 1800);
@@ -575,6 +617,13 @@ export function WebDossierPreview(): React.JSX.Element {
   async function downloadReportPdf() {
     if (!kundli) {
       openReportPreview({ showDialog: true });
+      return;
+    }
+
+    if (signatureReportBlocked) {
+      setReportDownloadError(
+        'Signature report download is blocked until a confirmed signature sample is available.',
+      );
       return;
     }
 
@@ -752,7 +801,12 @@ export function WebDossierPreview(): React.JSX.Element {
         </div>
 
         <div className="report-inline-actions">
-          <button className="button primary" onClick={() => openReportPreview()} type="button">
+          <button
+            className="button primary"
+            disabled={signatureReportBlocked}
+            onClick={() => openReportPreview()}
+            type="button"
+          >
             {builderCopy.previewSelected}
           </button>
           <a className="button secondary" href={buildCurrentReportAskHref()}>
@@ -1003,6 +1057,29 @@ export function WebDossierPreview(): React.JSX.Element {
         >
           {isReportMarketplaceOpen ? 'Hide report worlds' : 'Change report world'}
         </button>
+
+        <nav
+          aria-label="Report school navigation"
+          className="report-school-subnav"
+        >
+          {reportLaneNavItems.map(item => {
+            const isActive =
+              item.lane.id === selectedReportLane.id &&
+              item.productId === selectedReport.id;
+
+            return (
+              <button
+                aria-current={isActive ? 'true' : undefined}
+                className={isActive ? 'active' : ''}
+                key={item.anchorId}
+                onClick={() => openReportLane(item)}
+                type="button"
+              >
+                {item.label}
+              </button>
+            );
+          })}
+        </nav>
       </section>
 
       <section className="report-marketplace glass-panel">
@@ -1054,6 +1131,7 @@ export function WebDossierPreview(): React.JSX.Element {
                 ? 'report-school-lane synthesis active'
                 : 'report-school-lane synthesis'
             }
+            id="report-lane-life-atlas"
           >
             <div className="report-school-lane-header">
               <div>
@@ -1163,6 +1241,7 @@ export function WebDossierPreview(): React.JSX.Element {
                     ? 'report-school-lane active'
                     : 'report-school-lane'
                 }
+                id={`report-lane-${lane.id.toLowerCase()}`}
                 key={lane.id}
               >
                 <div className="report-school-lane-header">
@@ -1245,7 +1324,12 @@ export function WebDossierPreview(): React.JSX.Element {
               {mode === 'PREMIUM' ? reportLabels.premium : reportLabels.free}
             </strong>
           </div>
-          <button className="button primary" onClick={() => openReportPreview()} type="button">
+          <button
+            className="button primary"
+            disabled={signatureReportBlocked}
+            onClick={() => openReportPreview()}
+            type="button"
+          >
             {builderCopy.previewSelected}
           </button>
         </div>
@@ -1317,7 +1401,7 @@ export function WebDossierPreview(): React.JSX.Element {
               <div className="report-download-actions">
                 <button
                   className="button"
-                  disabled={isPdfDownloading}
+                  disabled={isPdfDownloading || signatureReportBlocked}
                   onClick={printReport}
                   type="button"
                 >
@@ -1459,7 +1543,7 @@ export function WebDossierPreview(): React.JSX.Element {
             <div className="report-download-dialog-actions">
               <button
                 className="button primary"
-                disabled={isPdfDownloading}
+                disabled={isPdfDownloading || signatureReportBlocked}
                 onClick={printReport}
                 type="button"
               >
@@ -2862,7 +2946,7 @@ function getReportLaneReadiness({
       };
     }
 
-    if (signatureAnalysis?.status === 'ready') {
+    if (hasReadySignatureReport(signatureAnalysis)) {
       return {
         detail: 'Signature traits are available for this session.',
         label: 'Ready',
@@ -2919,6 +3003,17 @@ function getReportLaneReadiness({
     label: 'Kundli ready',
     ready: true,
   };
+}
+
+function hasReadySignatureReport(
+  signatureAnalysis: SignatureAnalysisModel | undefined,
+): boolean {
+  return Boolean(
+    signatureAnalysis?.status === 'ready' &&
+      signatureAnalysis.observedTraits.some(
+        trait => trait.confirmationState === 'confirmed',
+      ),
+  );
 }
 
 function loadSignatureAnalysisDraft(): SignatureAnalysisModel | undefined {

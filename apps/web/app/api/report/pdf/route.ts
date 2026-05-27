@@ -31,6 +31,16 @@ export async function POST(request: Request): Promise<Response> {
     );
   }
 
+  if (
+    payload.reportFocus === 'SIGNATURE' &&
+    !hasReadySignatureAnalysis(payload.signatureAnalysis)
+  ) {
+    return NextResponse.json(
+      { error: 'A confirmed signature sample is required before creating a Signature report.' },
+      { status: 422 },
+    );
+  }
+
   const result = buildPredictaPdfResult(payload);
   const pdfBuffer = await renderToBuffer(
     createPredictaReportPdfElement(result, {
@@ -89,6 +99,17 @@ async function loadPredictaWatermarkDataUri(): Promise<string> {
   }
 
   return loadPredictaLogoDataUri();
+}
+
+function hasReadySignatureAnalysis(
+  signatureAnalysis: PdfGenerationRequest['signatureAnalysis'],
+): boolean {
+  return Boolean(
+    signatureAnalysis?.status === 'ready' &&
+      signatureAnalysis.observedTraits.some(
+        trait => trait.confirmationState === 'confirmed',
+      ),
+  );
 }
 
 function sanitizeFilename(value: string): string {

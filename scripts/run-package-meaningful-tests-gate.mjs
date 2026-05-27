@@ -394,9 +394,12 @@ const packageChecks = {
       'buildBeneficMaleficReportSection',
       'buildChalitTableReportSections',
       'buildSignatureReportSection',
-      'buildNumerologyReportSection',
+      'buildNumerologyReportSections',
       "case 'KP':",
-      'buildNadiJyotishPlanSection',
+      'buildKpReportSections',
+      'buildNadiReportSections',
+      'Nadi Strongest Story Thread',
+      'Nadi Story Anchor Chart',
     ]) {
       assert.ok(
         pdfIndex.includes(requiredFragment),

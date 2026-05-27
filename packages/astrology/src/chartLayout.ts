@@ -1222,10 +1222,17 @@ function buildKpPreviewChart(
   const kp = kundli.kp;
 
   if (!kp?.planets?.length) {
-    return buildNadiPreviewChart({
+    const filteredPlanetDistribution = baseChart.planetDistribution.filter(
+      planet => !planet.kind || planet.kind === 'classical',
+    );
+
+    return {
       ...baseChart,
+      housePlacements: buildHousePlacementsFromPlanets(filteredPlanetDistribution),
       name: 'KP Bhav Chalit Cusp Chart',
-    });
+      planetDistribution: filteredPlanetDistribution,
+      signPlacements: buildSignPlacementsFromPlanets(filteredPlanetDistribution),
+    };
   }
 
   const basePlanetByName = new Map(
