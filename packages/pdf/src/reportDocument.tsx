@@ -524,36 +524,24 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     position: 'relative',
   },
-  chartCell: {
+  chartFloatingChip: {
     alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden',
-    position: 'absolute',
-  },
-  chartPlanetGrid: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  signChip: {
     borderRadius: 999,
     borderWidth: 1,
+    justifyContent: 'center',
+    position: 'absolute',
+    textAlign: 'center',
+  },
+  signChip: {
     color: '#2F3440',
-    fontSize: 8.4,
+    fontSize: 7.2,
     fontWeight: 800,
-    marginBottom: 4,
-    paddingHorizontal: 7,
-    paddingVertical: 3,
     textAlign: 'center',
   },
   planetChip: {
-    borderRadius: 999,
-    borderWidth: 1,
     color: '#2F3440',
     fontSize: 6.6,
     fontWeight: 700,
-    marginBottom: 3,
-    paddingHorizontal: 5,
-    paddingVertical: 2.2,
     textAlign: 'center',
   },
   nodePlanetChip: {
@@ -2308,71 +2296,34 @@ function PdfChartCell({
   cell: PdfChartSnapshotCell;
   palette: ThemePalette;
 }): React.JSX.Element {
-  const planetCount = cell.planets.length;
-  const layout = houseSmartLabelLayout(cell.house, boardWidth, boardHeight, planetCount);
-  const chipFontSize = getChartPlanetChipFontSize(planetCount, cell.labelDensity);
-  const compactPlanetLabels = usesCompactPlanetLabels(cell.house);
+  const labels = buildPolygonAwareChartLabels(cell, boardWidth, boardHeight);
 
   return (
     <React.Fragment>
-      <View
-        style={[
-          styles.chartCell,
-          {
-            height: layout.sign.height,
-            left: layout.sign.left,
-            top: layout.sign.top,
-            width: layout.sign.width,
-          },
-        ]}
-      >
+      {labels.map(label => (
         <Text
+          key={label.key}
           style={[
-            styles.signChip,
+            styles.chartFloatingChip,
+            label.kind === 'sign' ? styles.signChip : styles.planetChip,
             {
-              backgroundColor: palette.accentSoft,
-              borderColor: palette.accent,
+              backgroundColor: label.kind === 'sign' ? palette.accentSoft : palette.note,
+              borderColor: label.kind === 'sign' ? palette.accent : palette.border,
+              fontSize: label.fontSize,
+              height: label.height,
+              left: label.left,
+              lineHeight: label.lineHeight,
+              top: label.top,
+              width: label.width,
             },
+            ...(label.kind === 'planet' && (label.planetName === 'Rahu' || label.planetName === 'Ketu')
+              ? [styles.nodePlanetChip]
+              : []),
           ]}
         >
-          {cell.signNumber} {cell.displaySignShort}
+          {label.text}
         </Text>
-      </View>
-      <View
-        style={[
-          styles.chartCell,
-          {
-            height: layout.planets.height,
-            left: layout.planets.left,
-            top: layout.planets.top,
-            width: layout.planets.width,
-          },
-        ]}
-      >
-        <View style={styles.chartPlanetGrid}>
-          {cell.planets.map(planet => (
-            <Text
-              key={planet.key}
-              style={[
-                styles.planetChip,
-                {
-                  backgroundColor: palette.note,
-                  borderColor: palette.border,
-                  fontSize: chipFontSize,
-                  lineHeight: 1.08,
-                  maxWidth: compactPlanetLabels ? Math.min(layout.planets.width - 10, 58) : layout.planets.width - 8,
-                  paddingHorizontal: compactPlanetLabels ? 4 : 5,
-                },
-                ...(planet.name === 'Rahu' || planet.name === 'Ketu'
-                  ? [styles.nodePlanetChip]
-                  : []),
-              ]}
-            >
-              {formatChartPlanetChipLabel(planet, cell.showPlanetDegrees, compactPlanetLabels)}
-            </Text>
-          ))}
-        </View>
-      </View>
+      ))}
     </React.Fragment>
   );
 }
@@ -2457,59 +2408,322 @@ function getChartThemePalette(theme: PdfChartSnapshot['theme']): ThemePalette {
 }
 
 type ChartLabelBox = { height: number; left: number; top: number; width: number };
+type ChartPoint = { x: number; y: number };
+const CHART_LABEL_MIN_EDGE_CLEARANCE = 6.8;
+type ChartFloatingLabel = ChartLabelBox & {
+  fontSize: number;
+  key: string;
+  kind: 'planet' | 'sign';
+  lineHeight: number;
+  planetName?: string;
+  text: string;
+};
 
-function houseSmartLabelLayout(
-  house: number | undefined,
+function buildPolygonAwareChartLabels(
+  cell: PdfChartSnapshotCell,
   boardWidth: number,
   boardHeight: number,
-  planetCount: number,
-): { planets: ChartLabelBox; sign: ChartLabelBox } {
-  const compact = usesCompactPlanetLabels(house);
-  const planetHeightPercent = Math.min(
-    compact ? 30 : 26,
-    Math.max(8, planetCount * (compact ? 5.2 : 3.6) + 3),
-  );
-  const sign = { height: 6, width: 14 };
-  const planets = { height: planetHeightPercent, width: compact ? 12.5 : planetCount >= 4 ? 18 : 16 };
-  const smartZones: Record<number, {
-    planets: { centerX: number; centerY: number };
-    sign: { centerX: number; centerY: number };
-  }> = {
-    1: { sign: { centerX: 50, centerY: 13 }, planets: { centerX: 50, centerY: 23 } },
-    2: { sign: { centerX: 32, centerY: 15 }, planets: { centerX: 33, centerY: 23 } },
-    3: { sign: { centerX: 13, centerY: 33 }, planets: { centerX: 11, centerY: 40 } },
-    4: { sign: { centerX: 28, centerY: 50 }, planets: { centerX: 25, centerY: 59 } },
-    5: { sign: { centerX: 14, centerY: 61 }, planets: { centerX: 10.5, centerY: 69 } },
-    6: { sign: { centerX: 29, centerY: 82 }, planets: { centerX: 28, centerY: 74 } },
-    7: { sign: { centerX: 50, centerY: 80 }, planets: { centerX: 50, centerY: 72 } },
-    8: { sign: { centerX: 71, centerY: 82 }, planets: { centerX: 72, centerY: 74 } },
-    9: { sign: { centerX: 86, centerY: 61 }, planets: { centerX: 89.5, centerY: 69 } },
-    10: { sign: { centerX: 72, centerY: 50 }, planets: { centerX: 75, centerY: 59 } },
-    11: { sign: { centerX: 87, centerY: 33 }, planets: { centerX: 89, centerY: 40 } },
-    12: { sign: { centerX: 68, centerY: 15 }, planets: { centerX: 67, centerY: 23 } },
-  };
-  const zone = smartZones[house ?? 1] ?? smartZones[1];
+): ChartFloatingLabel[] {
+  const house = cell.house ?? 1;
+  const polygon = northIndianHousePolygon(house, boardWidth, boardHeight);
+  const occupied: ChartLabelBox[] = [];
+  const signLabel = makeSignFloatingLabel(cell, boardWidth, boardHeight);
+  const labels: ChartFloatingLabel[] = [
+    placeChartLabelInsideHouse(
+      signLabel,
+      polygon,
+      occupied,
+      preferredHousePoint(house, boardWidth, boardHeight, 'sign'),
+    ),
+  ];
 
+  occupied.push(labels[0]);
+
+  for (const planet of cell.planets) {
+    const planetLabel = makePlanetFloatingLabel({
+      boardHeight,
+      boardWidth,
+      cell,
+      planet,
+    });
+    const placed = placeChartLabelInsideHouse(
+      planetLabel,
+      polygon,
+      occupied,
+      preferredHousePoint(house, boardWidth, boardHeight, 'planet'),
+    );
+
+    labels.push(placed);
+    occupied.push(placed);
+  }
+
+  return labels;
+}
+
+function makeSignFloatingLabel(
+  cell: PdfChartSnapshotCell,
+  boardWidth: number,
+  boardHeight: number,
+): ChartFloatingLabel {
   return {
-    planets: boxFromCenter(zone.planets.centerX, zone.planets.centerY, planets.width, planets.height, boardWidth, boardHeight),
-    sign: boxFromCenter(zone.sign.centerX, zone.sign.centerY, sign.width, sign.height, boardWidth, boardHeight),
+    fontSize: 7.2,
+    height: Math.max(13, boardHeight * 0.034),
+    key: `sign-${cell.signNumber}`,
+    kind: 'sign',
+    left: 0,
+    lineHeight: 1,
+    text: String(cell.signNumber),
+    top: 0,
+    width: Math.max(18, boardWidth * 0.046),
   };
 }
 
-function boxFromCenter(
-  centerX: number,
-  centerY: number,
-  widthPercent: number,
-  heightPercent: number,
+function makePlanetFloatingLabel({
+  boardHeight,
+  boardWidth,
+  cell,
+  planet,
+}: {
+  boardHeight: number;
+  boardWidth: number;
+  cell: PdfChartSnapshotCell;
+  planet: PdfChartSnapshotCell['planets'][number];
+}): ChartFloatingLabel {
+  const compact = usesCompactPlanetLabels(cell.house);
+  const text = formatChartPlanetChipLabel(planet, cell.showPlanetDegrees, compact);
+  const lineCount = text.includes('\n') ? 2 : 1;
+  const fontSize = getChartPlanetChipFontSize(cell.planets.length, cell.labelDensity);
+  const longestLineLength = Math.max(...text.split('\n').map(line => line.length));
+  const estimatedWidth = compact
+    ? Math.max(28, Math.min(44, longestLineLength * fontSize * 0.72 + 9))
+    : Math.max(34, Math.min(72, text.length * fontSize * 0.56 + 11));
+
+  return {
+    fontSize,
+    height: Math.max(lineCount === 2 ? 22 : 13, boardHeight * (lineCount === 2 ? 0.049 : 0.03)),
+    key: planet.key,
+    kind: 'planet',
+    left: 0,
+    lineHeight: lineCount === 2 ? 1.02 : 1,
+    planetName: planet.name,
+    text,
+    top: 0,
+    width: Math.min(estimatedWidth, boardWidth * (compact ? 0.09 : 0.145)),
+  };
+}
+
+function placeChartLabelInsideHouse(
+  label: ChartFloatingLabel,
+  polygon: ChartPoint[],
+  occupied: ChartLabelBox[],
+  preferred: ChartPoint,
+): ChartFloatingLabel {
+  const variants = [label, shrinkChartLabel(label, 0.92), shrinkChartLabel(label, 0.84)];
+  const ranked = variants.flatMap(variant =>
+    chartLabelCandidates(variant, polygon).map(candidate => {
+      const box = { ...variant, left: candidate.x - variant.width / 2, top: candidate.y - variant.height / 2 };
+      const edgeClearance = rectEdgeClearance(box, polygon);
+      const collisionCount = occupied.filter(item => rectsOverlap(box, item)).length;
+      const preferencePenalty = distance(candidate, preferred) * 0.42;
+
+      return {
+        box,
+        collisionCount,
+        score: edgeClearance * 4 - preferencePenalty - collisionCount * 1000,
+      };
+    }),
+  ).sort((first, second) => second.score - first.score);
+
+  return (ranked.find(candidate => candidate.collisionCount === 0) ?? ranked[0] ?? {
+    box: forceTinyLabelInsideHouse(label, polygon),
+  }).box;
+}
+
+function chartLabelCandidates(label: ChartFloatingLabel, polygon: ChartPoint[]): ChartPoint[] {
+  const bounds = polygonBounds(polygon);
+  const step = label.kind === 'sign' ? 3 : 4;
+  const candidates: ChartPoint[] = [];
+
+  for (let y = bounds.minY + label.height / 2; y <= bounds.maxY - label.height / 2; y += step) {
+    for (let x = bounds.minX + label.width / 2; x <= bounds.maxX - label.width / 2; x += step) {
+      const box = { height: label.height, left: x - label.width / 2, top: y - label.height / 2, width: label.width };
+
+      if (rectInsidePolygon(box, polygon, CHART_LABEL_MIN_EDGE_CLEARANCE)) {
+        candidates.push({ x, y });
+      }
+    }
+  }
+
+  return candidates;
+}
+
+function shrinkChartLabel(label: ChartFloatingLabel, ratio: number): ChartFloatingLabel {
+  return {
+    ...label,
+    fontSize: Math.max(label.kind === 'sign' ? 5.8 : 5.4, label.fontSize * ratio),
+    height: Math.max(label.kind === 'sign' ? 11 : 12, label.height * ratio),
+    width: Math.max(label.kind === 'sign' ? 14 : 24, label.width * ratio),
+  };
+}
+
+function forceTinyLabelInsideHouse(label: ChartFloatingLabel, polygon: ChartPoint[]): ChartFloatingLabel {
+  const bounds = polygonBounds(polygon);
+  const centroid = polygonCentroid(polygon);
+  const tinyLabel = shrinkChartLabel(label, label.kind === 'sign' ? 0.72 : 0.68);
+  const centeredBox = {
+    ...tinyLabel,
+    left: centroid.x - tinyLabel.width / 2,
+    top: centroid.y - tinyLabel.height / 2,
+  };
+
+  if (rectInsidePolygon(centeredBox, polygon, 1.8)) {
+    return centeredBox;
+  }
+
+  return {
+    ...tinyLabel,
+    left: Math.min(Math.max(bounds.minX + 2, centroid.x - tinyLabel.width / 2), bounds.maxX - tinyLabel.width - 2),
+    top: Math.min(Math.max(bounds.minY + 2, centroid.y - tinyLabel.height / 2), bounds.maxY - tinyLabel.height - 2),
+  };
+}
+
+function northIndianHousePolygon(house: number, boardWidth: number, boardHeight: number): ChartPoint[] {
+  const w = boardWidth;
+  const h = boardHeight;
+  const halfW = w / 2;
+  const halfH = h / 2;
+  const quarterW = w / 4;
+  const quarterH = h / 4;
+  const threeQuarterW = (w * 3) / 4;
+  const threeQuarterH = (h * 3) / 4;
+  const polygons: Record<number, ChartPoint[]> = {
+    1: [{ x: halfW, y: 0 }, { x: threeQuarterW, y: quarterH }, { x: halfW, y: halfH }, { x: quarterW, y: quarterH }],
+    2: [{ x: 0, y: 0 }, { x: halfW, y: 0 }, { x: quarterW, y: quarterH }],
+    3: [{ x: 0, y: 0 }, { x: quarterW, y: quarterH }, { x: 0, y: halfH }],
+    4: [{ x: 0, y: halfH }, { x: quarterW, y: quarterH }, { x: halfW, y: halfH }, { x: quarterW, y: threeQuarterH }],
+    5: [{ x: 0, y: halfH }, { x: quarterW, y: threeQuarterH }, { x: 0, y: h }],
+    6: [{ x: 0, y: h }, { x: quarterW, y: threeQuarterH }, { x: halfW, y: h }],
+    7: [{ x: halfW, y: h }, { x: quarterW, y: threeQuarterH }, { x: halfW, y: halfH }, { x: threeQuarterW, y: threeQuarterH }],
+    8: [{ x: halfW, y: h }, { x: threeQuarterW, y: threeQuarterH }, { x: w, y: h }],
+    9: [{ x: w, y: h }, { x: threeQuarterW, y: threeQuarterH }, { x: w, y: halfH }],
+    10: [{ x: w, y: halfH }, { x: threeQuarterW, y: quarterH }, { x: halfW, y: halfH }, { x: threeQuarterW, y: threeQuarterH }],
+    11: [{ x: w, y: 0 }, { x: w, y: halfH }, { x: threeQuarterW, y: quarterH }],
+    12: [{ x: halfW, y: 0 }, { x: w, y: 0 }, { x: threeQuarterW, y: quarterH }],
+  };
+
+  return polygons[house] ?? polygons[1];
+}
+
+function preferredHousePoint(
+  house: number,
   boardWidth: number,
   boardHeight: number,
-): ChartLabelBox {
-  return {
-    height: (heightPercent / 100) * boardHeight,
-    left: ((centerX - widthPercent / 2) / 100) * boardWidth,
-    top: ((centerY - heightPercent / 2) / 100) * boardHeight,
-    width: (widthPercent / 100) * boardWidth,
+  kind: ChartFloatingLabel['kind'],
+): ChartPoint {
+  const preferred: Record<number, { planet: [number, number]; sign: [number, number] }> = {
+    1: { sign: [50, 18], planet: [50, 27] },
+    2: { sign: [28, 10], planet: [27, 17] },
+    3: { sign: [9, 30], planet: [8, 38] },
+    4: { sign: [25, 50], planet: [26, 60] },
+    5: { sign: [9, 70], planet: [8, 62] },
+    6: { sign: [28, 90], planet: [27, 83] },
+    7: { sign: [50, 82], planet: [50, 73] },
+    8: { sign: [72, 90], planet: [73, 83] },
+    9: { sign: [91, 70], planet: [92, 62] },
+    10: { sign: [75, 50], planet: [74, 60] },
+    11: { sign: [91, 30], planet: [92, 38] },
+    12: { sign: [72, 10], planet: [73, 17] },
   };
+  const [x, y] = preferred[house]?.[kind] ?? preferred[1][kind];
+
+  return { x: (x / 100) * boardWidth, y: (y / 100) * boardHeight };
+}
+
+function polygonBounds(polygon: ChartPoint[]): { maxX: number; maxY: number; minX: number; minY: number } {
+  return {
+    maxX: Math.max(...polygon.map(point => point.x)),
+    maxY: Math.max(...polygon.map(point => point.y)),
+    minX: Math.min(...polygon.map(point => point.x)),
+    minY: Math.min(...polygon.map(point => point.y)),
+  };
+}
+
+function polygonCentroid(polygon: ChartPoint[]): ChartPoint {
+  return {
+    x: polygon.reduce((total, point) => total + point.x, 0) / polygon.length,
+    y: polygon.reduce((total, point) => total + point.y, 0) / polygon.length,
+  };
+}
+
+function rectInsidePolygon(rect: ChartLabelBox, polygon: ChartPoint[], minClearance: number): boolean {
+  const corners = rectCorners(rect);
+
+  return corners.every(point => pointInPolygon(point, polygon)) && rectEdgeClearance(rect, polygon) >= minClearance;
+}
+
+function rectCorners(rect: ChartLabelBox): ChartPoint[] {
+  return [
+    { x: rect.left, y: rect.top },
+    { x: rect.left + rect.width, y: rect.top },
+    { x: rect.left + rect.width, y: rect.top + rect.height },
+    { x: rect.left, y: rect.top + rect.height },
+  ];
+}
+
+function rectEdgeClearance(rect: ChartLabelBox, polygon: ChartPoint[]): number {
+  return Math.min(
+    ...rectCorners(rect).flatMap(point =>
+      polygon.map((current, index) =>
+        distanceToSegment(point, current, polygon[(index + 1) % polygon.length]),
+      ),
+    ),
+  );
+}
+
+function pointInPolygon(point: ChartPoint, polygon: ChartPoint[]): boolean {
+  let inside = false;
+
+  for (let index = 0, previous = polygon.length - 1; index < polygon.length; previous = index++) {
+    const currentPoint = polygon[index];
+    const previousPoint = polygon[previous];
+    const intersects =
+      currentPoint.y > point.y !== previousPoint.y > point.y &&
+      point.x < ((previousPoint.x - currentPoint.x) * (point.y - currentPoint.y)) /
+        (previousPoint.y - currentPoint.y || 1) + currentPoint.x;
+
+    if (intersects) {
+      inside = !inside;
+    }
+  }
+
+  return inside;
+}
+
+function distanceToSegment(point: ChartPoint, start: ChartPoint, end: ChartPoint): number {
+  const dx = end.x - start.x;
+  const dy = end.y - start.y;
+  const lengthSquared = dx * dx + dy * dy;
+  const t = lengthSquared === 0
+    ? 0
+    : Math.max(0, Math.min(1, ((point.x - start.x) * dx + (point.y - start.y) * dy) / lengthSquared));
+  const projection = { x: start.x + t * dx, y: start.y + t * dy };
+
+  return distance(point, projection);
+}
+
+function distance(first: ChartPoint, second: ChartPoint): number {
+  return Math.hypot(first.x - second.x, first.y - second.y);
+}
+
+function rectsOverlap(first: ChartLabelBox, second: ChartLabelBox): boolean {
+  const gap = 2;
+
+  return !(
+    first.left + first.width + gap < second.left ||
+    second.left + second.width + gap < first.left ||
+    first.top + first.height + gap < second.top ||
+    second.top + second.height + gap < first.top
+  );
 }
 
 function getChartPlanetChipFontSize(

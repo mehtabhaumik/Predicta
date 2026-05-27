@@ -35,9 +35,13 @@ for (const phrase of [
   'nodePlanetChip',
   'formatPdfChartRole(snapshot)',
   'planet.displayName',
-  'houseSmartLabelLayout(cell.house, boardWidth, boardHeight, planetCount)',
+  'buildPolygonAwareChartLabels(cell, boardWidth, boardHeight)',
+  'northIndianHousePolygon(house, boardWidth, boardHeight)',
+  'CHART_LABEL_MIN_EDGE_CLEARANCE = 6.8',
+  'rectInsidePolygon(box, polygon, CHART_LABEL_MIN_EDGE_CLEARANCE)',
+  'shrinkChartLabel(label, 0.92)',
   'usesCompactPlanetLabels(cell.house)',
-  'formatChartPlanetChipLabel(planet, cell.showPlanetDegrees, compactPlanetLabels)',
+  'formatChartPlanetChipLabel(planet, cell.showPlanetDegrees, compact)',
   "overflow: 'hidden'",
 ]) {
   assert.match(renderer, new RegExp(escapeRegExp(phrase)), `renderer includes ${phrase}`);
