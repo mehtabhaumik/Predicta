@@ -35,7 +35,7 @@ for (const phrase of [
   'nodePlanetChip',
   'formatPdfChartRole(snapshot)',
   'planet.displayName',
-  'houseLabelBox(cell.house, boardWidth, boardHeight)',
+  'houseSmartLabelLayout(cell.house, boardWidth, boardHeight, planetCount)',
   'usesCompactPlanetLabels(cell.house)',
   'formatChartPlanetChipLabel(planet, cell.showPlanetDegrees, compactPlanetLabels)',
   "overflow: 'hidden'",

@@ -2309,57 +2309,71 @@ function PdfChartCell({
   palette: ThemePalette;
 }): React.JSX.Element {
   const planetCount = cell.planets.length;
-  const labelBox = houseLabelBox(cell.house, boardWidth, boardHeight);
+  const layout = houseSmartLabelLayout(cell.house, boardWidth, boardHeight, planetCount);
   const chipFontSize = getChartPlanetChipFontSize(planetCount, cell.labelDensity);
   const compactPlanetLabels = usesCompactPlanetLabels(cell.house);
 
   return (
-    <View
-      style={[
-        styles.chartCell,
-        {
-          height: labelBox.height,
-          left: labelBox.left,
-          top: labelBox.top,
-          width: labelBox.width,
-        },
-      ]}
-    >
-      <Text
+    <React.Fragment>
+      <View
         style={[
-          styles.signChip,
+          styles.chartCell,
           {
-            backgroundColor: palette.accentSoft,
-            borderColor: palette.accent,
+            height: layout.sign.height,
+            left: layout.sign.left,
+            top: layout.sign.top,
+            width: layout.sign.width,
           },
         ]}
       >
-        {cell.signNumber} {cell.displaySignShort}
-      </Text>
-      <View style={styles.chartPlanetGrid}>
-        {cell.planets.map(planet => (
-          <Text
-            key={planet.key}
-            style={[
-              styles.planetChip,
-              {
-                backgroundColor: palette.note,
-                borderColor: palette.border,
-                fontSize: chipFontSize,
-                lineHeight: 1.08,
-                maxWidth: compactPlanetLabels ? Math.min(labelBox.width - 10, 56) : labelBox.width - 8,
-                paddingHorizontal: compactPlanetLabels ? 4 : 5,
-              },
-              ...(planet.name === 'Rahu' || planet.name === 'Ketu'
-                ? [styles.nodePlanetChip]
-                : []),
-            ]}
-          >
-            {formatChartPlanetChipLabel(planet, cell.showPlanetDegrees, compactPlanetLabels)}
-          </Text>
-        ))}
+        <Text
+          style={[
+            styles.signChip,
+            {
+              backgroundColor: palette.accentSoft,
+              borderColor: palette.accent,
+            },
+          ]}
+        >
+          {cell.signNumber} {cell.displaySignShort}
+        </Text>
       </View>
-    </View>
+      <View
+        style={[
+          styles.chartCell,
+          {
+            height: layout.planets.height,
+            left: layout.planets.left,
+            top: layout.planets.top,
+            width: layout.planets.width,
+          },
+        ]}
+      >
+        <View style={styles.chartPlanetGrid}>
+          {cell.planets.map(planet => (
+            <Text
+              key={planet.key}
+              style={[
+                styles.planetChip,
+                {
+                  backgroundColor: palette.note,
+                  borderColor: palette.border,
+                  fontSize: chipFontSize,
+                  lineHeight: 1.08,
+                  maxWidth: compactPlanetLabels ? Math.min(layout.planets.width - 10, 58) : layout.planets.width - 8,
+                  paddingHorizontal: compactPlanetLabels ? 4 : 5,
+                },
+                ...(planet.name === 'Rahu' || planet.name === 'Ketu'
+                  ? [styles.nodePlanetChip]
+                  : []),
+              ]}
+            >
+              {formatChartPlanetChipLabel(planet, cell.showPlanetDegrees, compactPlanetLabels)}
+            </Text>
+          ))}
+        </View>
+      </View>
+    </React.Fragment>
   );
 }
 
@@ -2442,32 +2456,59 @@ function getChartThemePalette(theme: PdfChartSnapshot['theme']): ThemePalette {
   }
 }
 
-function houseLabelBox(
+type ChartLabelBox = { height: number; left: number; top: number; width: number };
+
+function houseSmartLabelLayout(
   house: number | undefined,
   boardWidth: number,
   boardHeight: number,
-): { height: number; left: number; top: number; width: number } {
-  const safeZones: Record<number, { height: number; left: number; top: number; width: number }> = {
-    1: { height: 24, left: 38, top: 7, width: 24 },
-    2: { height: 19, left: 18, top: 7, width: 22 },
-    3: { height: 20, left: 3, top: 25, width: 22 },
-    4: { height: 18, left: 18, top: 41, width: 23 },
-    5: { height: 20, left: 3, top: 56, width: 22 },
-    6: { height: 19, left: 18, top: 73, width: 22 },
-    7: { height: 24, left: 38, top: 69, width: 24 },
-    8: { height: 19, left: 60, top: 73, width: 22 },
-    9: { height: 20, left: 75, top: 56, width: 22 },
-    10: { height: 18, left: 59, top: 41, width: 23 },
-    11: { height: 20, left: 75, top: 25, width: 22 },
-    12: { height: 19, left: 60, top: 7, width: 22 },
+  planetCount: number,
+): { planets: ChartLabelBox; sign: ChartLabelBox } {
+  const compact = usesCompactPlanetLabels(house);
+  const planetHeightPercent = Math.min(
+    compact ? 30 : 26,
+    Math.max(8, planetCount * (compact ? 5.2 : 3.6) + 3),
+  );
+  const sign = { height: 6, width: 14 };
+  const planets = { height: planetHeightPercent, width: compact ? 12.5 : planetCount >= 4 ? 18 : 16 };
+  const smartZones: Record<number, {
+    planets: { centerX: number; centerY: number };
+    sign: { centerX: number; centerY: number };
+  }> = {
+    1: { sign: { centerX: 50, centerY: 13 }, planets: { centerX: 50, centerY: 23 } },
+    2: { sign: { centerX: 32, centerY: 15 }, planets: { centerX: 33, centerY: 23 } },
+    3: { sign: { centerX: 13, centerY: 33 }, planets: { centerX: 11, centerY: 40 } },
+    4: { sign: { centerX: 28, centerY: 50 }, planets: { centerX: 25, centerY: 59 } },
+    5: { sign: { centerX: 14, centerY: 61 }, planets: { centerX: 10.5, centerY: 69 } },
+    6: { sign: { centerX: 29, centerY: 82 }, planets: { centerX: 28, centerY: 74 } },
+    7: { sign: { centerX: 50, centerY: 80 }, planets: { centerX: 50, centerY: 72 } },
+    8: { sign: { centerX: 71, centerY: 82 }, planets: { centerX: 72, centerY: 74 } },
+    9: { sign: { centerX: 86, centerY: 61 }, planets: { centerX: 89.5, centerY: 69 } },
+    10: { sign: { centerX: 72, centerY: 50 }, planets: { centerX: 75, centerY: 59 } },
+    11: { sign: { centerX: 87, centerY: 33 }, planets: { centerX: 89, centerY: 40 } },
+    12: { sign: { centerX: 68, centerY: 15 }, planets: { centerX: 67, centerY: 23 } },
   };
-  const zone = safeZones[house ?? 1] ?? safeZones[1];
+  const zone = smartZones[house ?? 1] ?? smartZones[1];
 
   return {
-    height: (zone.height / 100) * boardHeight,
-    left: (zone.left / 100) * boardWidth,
-    top: (zone.top / 100) * boardHeight,
-    width: (zone.width / 100) * boardWidth,
+    planets: boxFromCenter(zone.planets.centerX, zone.planets.centerY, planets.width, planets.height, boardWidth, boardHeight),
+    sign: boxFromCenter(zone.sign.centerX, zone.sign.centerY, sign.width, sign.height, boardWidth, boardHeight),
+  };
+}
+
+function boxFromCenter(
+  centerX: number,
+  centerY: number,
+  widthPercent: number,
+  heightPercent: number,
+  boardWidth: number,
+  boardHeight: number,
+): ChartLabelBox {
+  return {
+    height: (heightPercent / 100) * boardHeight,
+    left: ((centerX - widthPercent / 2) / 100) * boardWidth,
+    top: ((centerY - heightPercent / 2) / 100) * boardHeight,
+    width: (widthPercent / 100) * boardWidth,
   };
 }
 
