@@ -35,6 +35,10 @@ for (const phrase of [
   'nodePlanetChip',
   'formatPdfChartRole(snapshot)',
   'planet.displayName',
+  'houseLabelBox(cell.house, boardWidth, boardHeight)',
+  'usesCompactPlanetLabels(cell.house)',
+  'formatChartPlanetChipLabel(planet, cell.showPlanetDegrees, compactPlanetLabels)',
+  "overflow: 'hidden'",
 ]) {
   assert.match(renderer, new RegExp(escapeRegExp(phrase)), `renderer includes ${phrase}`);
 }

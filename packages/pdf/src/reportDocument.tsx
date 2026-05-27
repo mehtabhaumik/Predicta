@@ -526,7 +526,13 @@ const styles = StyleSheet.create({
   },
   chartCell: {
     alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
     position: 'absolute',
+  },
+  chartPlanetGrid: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   signChip: {
     borderRadius: 999,
@@ -2302,17 +2308,23 @@ function PdfChartCell({
   cell: PdfChartSnapshotCell;
   palette: ThemePalette;
 }): React.JSX.Element {
-  const point = houseLabelPoint(cell.house);
   const planetCount = cell.planets.length;
-  const cellWidth = planetCount >= 5 ? 140 : cell.labelDensity === 'stacked' ? 126 : 112;
-  const rawLeft = (point.x / 100) * boardWidth - cellWidth / 2;
-  const cellHeight = 28 + planetCount * 15;
-  const rawTop = (point.y / 100) * boardHeight - cellHeight / 2;
-  const left = clamp(rawLeft, 8, boardWidth - cellWidth - 8);
-  const top = clamp(rawTop, 8, boardHeight - cellHeight - 8);
+  const labelBox = houseLabelBox(cell.house, boardWidth, boardHeight);
+  const chipFontSize = getChartPlanetChipFontSize(planetCount, cell.labelDensity);
+  const compactPlanetLabels = usesCompactPlanetLabels(cell.house);
 
   return (
-    <View style={[styles.chartCell, { left, top, width: cellWidth }]}>
+    <View
+      style={[
+        styles.chartCell,
+        {
+          height: labelBox.height,
+          left: labelBox.left,
+          top: labelBox.top,
+          width: labelBox.width,
+        },
+      ]}
+    >
       <Text
         style={[
           styles.signChip,
@@ -2324,34 +2336,31 @@ function PdfChartCell({
       >
         {cell.signNumber} {cell.displaySignShort}
       </Text>
-      {cell.planets.map(planet => (
-        <Text
-          key={planet.key}
-          style={[
-            styles.planetChip,
-            {
-              backgroundColor: palette.note,
-              borderColor: palette.border,
-              fontSize: planetCount >= 5 ? 6.1 : cell.labelDensity === 'stacked' ? 6.4 : 6.8,
-            },
-            ...(planet.name === 'Rahu' || planet.name === 'Ketu'
-              ? [styles.nodePlanetChip]
-              : []),
-          ]}
-        >
-          {planet.displayName} {cell.showPlanetDegrees ? planet.degreeLabel : ''}
-          {planet.status.retrograde ? ' R' : ''}
-          {planet.status.exalted ? ' E' : ''}
-          {planet.status.debilitated ? ' D' : ''}
-          {planet.status.combust ? ' C' : ''}
-        </Text>
-      ))}
+      <View style={styles.chartPlanetGrid}>
+        {cell.planets.map(planet => (
+          <Text
+            key={planet.key}
+            style={[
+              styles.planetChip,
+              {
+                backgroundColor: palette.note,
+                borderColor: palette.border,
+                fontSize: chipFontSize,
+                lineHeight: 1.08,
+                maxWidth: compactPlanetLabels ? Math.min(labelBox.width - 10, 56) : labelBox.width - 8,
+                paddingHorizontal: compactPlanetLabels ? 4 : 5,
+              },
+              ...(planet.name === 'Rahu' || planet.name === 'Ketu'
+                ? [styles.nodePlanetChip]
+                : []),
+            ]}
+          >
+            {formatChartPlanetChipLabel(planet, cell.showPlanetDegrees, compactPlanetLabels)}
+          </Text>
+        ))}
+      </View>
     </View>
   );
-}
-
-function clamp(value: number, min: number, max: number): number {
-  return Math.min(Math.max(value, min), max);
 }
 
 function chunk<T>(items: T[], size: number): T[][] {
@@ -2433,23 +2442,76 @@ function getChartThemePalette(theme: PdfChartSnapshot['theme']): ThemePalette {
   }
 }
 
-function houseLabelPoint(house?: number): { x: number; y: number } {
-  const points: Record<number, { x: number; y: number }> = {
-    1: { x: 50, y: 18 },
-    2: { x: 25, y: 14 },
-    3: { x: 11, y: 31 },
-    4: { x: 25, y: 50 },
-    5: { x: 11, y: 69 },
-    6: { x: 25, y: 86 },
-    7: { x: 50, y: 82 },
-    8: { x: 75, y: 86 },
-    9: { x: 89, y: 69 },
-    10: { x: 75, y: 50 },
-    11: { x: 89, y: 31 },
-    12: { x: 75, y: 14 },
+function houseLabelBox(
+  house: number | undefined,
+  boardWidth: number,
+  boardHeight: number,
+): { height: number; left: number; top: number; width: number } {
+  const safeZones: Record<number, { height: number; left: number; top: number; width: number }> = {
+    1: { height: 24, left: 38, top: 7, width: 24 },
+    2: { height: 19, left: 18, top: 7, width: 22 },
+    3: { height: 20, left: 3, top: 25, width: 22 },
+    4: { height: 18, left: 18, top: 41, width: 23 },
+    5: { height: 20, left: 3, top: 56, width: 22 },
+    6: { height: 19, left: 18, top: 73, width: 22 },
+    7: { height: 24, left: 38, top: 69, width: 24 },
+    8: { height: 19, left: 60, top: 73, width: 22 },
+    9: { height: 20, left: 75, top: 56, width: 22 },
+    10: { height: 18, left: 59, top: 41, width: 23 },
+    11: { height: 20, left: 75, top: 25, width: 22 },
+    12: { height: 19, left: 60, top: 7, width: 22 },
   };
+  const zone = safeZones[house ?? 1] ?? safeZones[1];
 
-  return points[house ?? 1] ?? points[1];
+  return {
+    height: (zone.height / 100) * boardHeight,
+    left: (zone.left / 100) * boardWidth,
+    top: (zone.top / 100) * boardHeight,
+    width: (zone.width / 100) * boardWidth,
+  };
+}
+
+function getChartPlanetChipFontSize(
+  planetCount: number,
+  labelDensity: PdfChartSnapshotCell['labelDensity'],
+): number {
+  if (planetCount >= 6) {
+    return 5.6;
+  }
+
+  if (planetCount >= 4) {
+    return 5.9;
+  }
+
+  if (labelDensity === 'stacked') {
+    return 6.1;
+  }
+
+  return 6.4;
+}
+
+function usesCompactPlanetLabels(house?: number): boolean {
+  return house === 3 || house === 5 || house === 9 || house === 11;
+}
+
+function formatChartPlanetChipLabel(
+  planet: PdfChartSnapshotCell['planets'][number],
+  showDegree: boolean,
+  compact: boolean,
+): string {
+  const status = [
+    planet.status.retrograde ? 'R' : '',
+    planet.status.exalted ? 'E' : '',
+    planet.status.debilitated ? 'D' : '',
+    planet.status.combust ? 'C' : '',
+  ].filter(Boolean).join(' ');
+  const degree = showDegree ? `${planet.degreeLabel}${status ? ` ${status}` : ''}` : status;
+
+  if (!degree) {
+    return planet.displayName;
+  }
+
+  return compact ? `${planet.displayName}\n${degree}` : `${planet.displayName} ${degree}`;
 }
 
 function describeTheme(theme: PdfChartSnapshot['theme'], birthTime: string): string {
