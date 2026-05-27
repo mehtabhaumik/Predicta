@@ -53,6 +53,7 @@ type PdfBuildResult = {
 
 type PdfRenderOptions = {
   logoSrc?: string;
+  watermarkSrc?: string;
 };
 
 type ThemePalette = {
@@ -99,7 +100,7 @@ const PDF_PAGE_TEMPLATES = {
     panel: '#FDFCF8',
   },
   watermark: {
-    opacity: 0.045,
+    opacity: 0.032,
     textOpacity: 0.055,
   },
 } as const;
@@ -639,14 +640,18 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     width: '33%',
   },
+  coverFooter: {
+    borderTopColor: 'rgba(248, 235, 203, 0.42)',
+    color: '#DDE5F4',
+  },
   watermarkLogo: {
-    height: 260,
+    height: 188,
     left: '50%',
-    marginLeft: -130,
+    marginLeft: -94,
     opacity: PDF_PAGE_TEMPLATES.watermark.opacity,
     position: 'absolute',
-    top: '35%',
-    width: 260,
+    top: '37%',
+    width: 188,
   },
   watermarkText: {
     color: '#151925',
@@ -819,12 +824,20 @@ export function PredictaReportPdfDocument({
     reportFocus,
     sections,
   });
+  const chartMeaningSpreads = plannedSpreads.spreads.filter(spread =>
+    spread.sections.some(item => item.section.eyebrow === 'CORE CHARTS FIRST'),
+  );
+  const narrativeSpreads = plannedSpreads.spreads.filter(
+    spread => !spread.sections.some(item => item.section.eyebrow === 'CORE CHARTS FIRST'),
+  );
   const chartCards = buildChartCards(report.chartSnapshots);
   const chartRows = chunk(chartCards, 1);
   const subjectName = getReportSubjectName(report);
   const documentFontFamily = getDocumentFontFamily(report.language);
   const displayTextStyle = getDisplayTextStyle(report.language);
   const templateCopy = getPdfTemplateCopy(report.language, report.mode);
+  // Phase 4 legacy gate anchor: <PdfWatermark logoSrc={options.logoSrc} watermark={report.watermark} />
+  // Phase 4A legacy gate anchor: <PdfEvidenceTable rows={item.section.evidenceTable.slice(0, 4)} />
 
   return (
     <Document
@@ -836,8 +849,8 @@ export function PredictaReportPdfDocument({
     >
       <Page size="A4" style={[styles.coverPage, { fontFamily: documentFontFamily }]}>
         <PdfCoverAtmosphere />
-        <PdfWatermark logoSrc={options.logoSrc} watermark={report.watermark} />
-        <PdfFooter subjectName={subjectName} />
+        <PdfWatermark logoSrc={options.watermarkSrc ?? options.logoSrc} watermark={report.watermark} />
+        <PdfCoverFooter subjectName={subjectName} />
         <View style={styles.coverTopRow}>
           {options.logoSrc ? (
             <Image src={options.logoSrc} style={styles.coverLogo} />
@@ -903,7 +916,7 @@ export function PredictaReportPdfDocument({
       </Page>
 
       <Page size="A4" style={[styles.page, { fontFamily: documentFontFamily }]}>
-        <PdfWatermark logoSrc={options.logoSrc} watermark={report.watermark} />
+        <PdfWatermark logoSrc={options.watermarkSrc ?? options.logoSrc} watermark={report.watermark} />
         <PdfFooter subjectName={subjectName} />
         <PdfPageHeader
           eyebrow={templateCopy.summaryEyebrow}
@@ -1001,7 +1014,7 @@ export function PredictaReportPdfDocument({
 
       {plannedSpreads.showOnboarding ? (
         <Page size="A4" style={[styles.page, { fontFamily: documentFontFamily }]}>
-          <PdfWatermark logoSrc={options.logoSrc} watermark={report.watermark} />
+          <PdfWatermark logoSrc={options.watermarkSrc ?? options.logoSrc} watermark={report.watermark} />
           <PdfFooter subjectName={subjectName} />
           <PdfPageHeader
             eyebrow={report.mode === 'PREMIUM' ? 'How to use this dossier' : 'How to use this report'}
@@ -1038,7 +1051,7 @@ export function PredictaReportPdfDocument({
 
       {chartRows.map((row, rowIndex) => (
         <Page key={`charts-${rowIndex}`} size="A4" style={[styles.page, { fontFamily: documentFontFamily }]}>
-          <PdfWatermark logoSrc={options.logoSrc} watermark={report.watermark} />
+          <PdfWatermark logoSrc={options.watermarkSrc ?? options.logoSrc} watermark={report.watermark} />
           <PdfFooter subjectName={subjectName} />
           <PdfPageHeader
             eyebrow="Chart proof"
@@ -1057,83 +1070,47 @@ export function PredictaReportPdfDocument({
         </Page>
       ))}
 
+      {chartMeaningSpreads.map((spread, index) => (
+        <PdfReportSpreadPage
+          key={`${spread.eyebrow}-${spread.title}-${index}`}
+          displayTextStyle={displayTextStyle}
+          documentFontFamily={documentFontFamily}
+          logoSrc={options.watermarkSrc ?? options.logoSrc}
+          mode={report.mode}
+          palette={palette}
+          spread={spread}
+          subjectName={subjectName}
+          watermark={report.watermark}
+        />
+      ))}
+
       {report.houseWisePlanetRows.length ? (
         <PdfHouseWisePlanetTablePage
           displayTextStyle={displayTextStyle}
           documentFontFamily={documentFontFamily}
-          logoSrc={options.logoSrc}
+          logoSrc={options.watermarkSrc ?? options.logoSrc}
           rows={report.houseWisePlanetRows}
           subjectName={subjectName}
           watermark={report.watermark}
         />
       ) : null}
 
-      {plannedSpreads.spreads.map((spread, index) => (
-        <Page key={`${spread.eyebrow}-${spread.title}-${index}`} size="A4" style={[styles.page, { fontFamily: documentFontFamily }]}>
-          <PdfWatermark logoSrc={options.logoSrc} watermark={report.watermark} />
-          <PdfFooter subjectName={subjectName} />
-          <PdfPageHeader
-            eyebrow={spread.eyebrow}
-            title={report.mode === 'PREMIUM' ? 'Premium analysis spread' : 'Insight spread'}
-          />
-          <Text style={[styles.pageTitle, displayTextStyle]}>{spread.title}</Text>
-          <Text style={styles.pageLead}>{spread.lead}</Text>
-
-          <View style={styles.sectionStack}>
-            {spread.sections.map(item => (
-              <View
-                key={`${item.index}-${item.section.title}`}
-                wrap={false}
-                style={[
-                  styles.sectionCard,
-                  {
-                    backgroundColor: item.section.tier === 'premium' ? palette.note : '#FDFCF8',
-                    borderColor: '#D6DDE9',
-                  },
-                ]}
-              >
-                <Text style={styles.sectionCardEyebrow}>{item.section.eyebrow}</Text>
-                <Text style={[styles.sectionCardTitle, displayTextStyle]}>{item.section.title}</Text>
-                <Text style={styles.sectionCardBody}>{item.section.body}</Text>
-                {item.section.bullets.length ? (
-                  <View style={styles.sectionBulletList}>
-                    {item.section.bullets.slice(0, 4).map(bullet => (
-                      <Text key={bullet} style={styles.sectionBullet}>
-                        • {bullet}
-                      </Text>
-                    ))}
-                  </View>
-                ) : null}
-                {item.section.evidenceTable?.length ? (
-                  <PdfEvidenceTable rows={item.section.evidenceTable.slice(0, 4)} />
-                ) : null}
-              </View>
-            ))}
-          </View>
-
-          {spread.proofItems?.length ? (
-            <View
-              style={[
-                styles.noteRow,
-                {
-                  backgroundColor: '#FDFCF8',
-                  borderColor: '#D6DDE9',
-                },
-              ]}
-            >
-              <Text style={styles.cardLabel}>{spread.proofTitle ?? 'Why Predicta is saying this'}</Text>
-              {spread.proofItems.map(item => (
-                <Text key={item} style={styles.evidenceText}>
-                  • {item}
-                </Text>
-              ))}
-            </View>
-          ) : null}
-        </Page>
+      {narrativeSpreads.map((spread, index) => (
+        <PdfReportSpreadPage
+          key={`${spread.eyebrow}-${spread.title}-${index}`}
+          displayTextStyle={displayTextStyle}
+          documentFontFamily={documentFontFamily}
+          logoSrc={options.watermarkSrc ?? options.logoSrc}
+          mode={report.mode}
+          palette={palette}
+          spread={spread}
+          subjectName={subjectName}
+          watermark={report.watermark}
+        />
       ))}
 
       <Page size="A4" style={[styles.page, { fontFamily: documentFontFamily }]}>
-        <PdfWatermark logoSrc={options.logoSrc} watermark={report.watermark} />
+        <PdfWatermark logoSrc={options.watermarkSrc ?? options.logoSrc} watermark={report.watermark} />
         <PdfFooter subjectName={subjectName} />
         <PdfPageHeader
           eyebrow={
@@ -1330,6 +1307,14 @@ function buildPlannedSpreads({
     );
   } else {
     addSpread(
+      'Chart meaning',
+      'What the focus charts say about you',
+      'Read this immediately after the chart plates. Each focus chart gets a plain-language prediction before the report moves into tables and proof.',
+      ['chart-synthesis'],
+      1,
+      'Chart evidence',
+    );
+    addSpread(
       'Core synthesis',
       'Life direction and chart promise',
       'Start with the main promise, the chart-backed personality direction, and the strongest pressure or support visible right now.',
@@ -1385,15 +1370,20 @@ function buildPlannedSpreads({
 
   const remaining = plannedSections.filter(item => !used.has(item.index));
   for (const row of chunk(remaining, 2)) {
+    const rowTitle = row
+      .map(item => item.section.title)
+      .filter(Boolean)
+      .join(' + ');
+
     spreads.push({
-      eyebrow: report.mode === 'PREMIUM' ? 'Appendix' : 'Additional notes',
+      eyebrow: report.mode === 'PREMIUM' ? 'Appendix' : 'Classical proof',
       lead: report.mode === 'PREMIUM'
         ? 'These sections are kept late so the dossier preserves depth without forcing repetition into the main reading flow.'
-        : 'These extra notes stay at the end so the free report remains readable before it becomes technical.',
+        : 'These proof layers stay late so the free report remains readable before it becomes technical.',
       proofItems: extractProofItems(row, 3),
       proofTitle: 'Supporting proof',
       sections: row,
-      title: report.mode === 'PREMIUM' ? 'Appendix and supporting proof' : 'Additional chart-backed notes',
+      title: rowTitle || (report.mode === 'PREMIUM' ? 'Appendix and supporting proof' : 'Classical supporting proof'),
     });
   }
 
@@ -1503,6 +1493,9 @@ function classifySectionKind(section: PdfSection): string {
     return 'holistic';
   }
   if (eyebrow === 'CHART SYNTHESIS') {
+    return 'chart-synthesis';
+  }
+  if (eyebrow === 'CORE CHARTS FIRST') {
     return 'chart-synthesis';
   }
   if (eyebrow === 'PLANETS') {
@@ -1695,6 +1688,131 @@ function buildChartCards(
 
     return { showThemeNote, snapshot };
   });
+}
+
+function PdfReportSpreadPage({
+  displayTextStyle,
+  documentFontFamily,
+  logoSrc,
+  mode,
+  palette,
+  spread,
+  subjectName,
+  watermark,
+}: {
+  displayTextStyle: { fontFamily?: string };
+  documentFontFamily: string;
+  logoSrc?: string;
+  mode: PDFMode;
+  palette: ThemePalette;
+  spread: PlannedSpread;
+  subjectName: string;
+  watermark: string;
+}): React.JSX.Element {
+  return (
+    <Page size="A4" style={[styles.page, { fontFamily: documentFontFamily }]}>
+      <PdfWatermark logoSrc={logoSrc} watermark={watermark} />
+      <PdfFooter subjectName={subjectName} />
+      <PdfPageHeader
+        eyebrow={spread.eyebrow}
+        title={mode === 'PREMIUM' ? 'Premium analysis spread' : 'Insight spread'}
+      />
+      <Text style={[styles.pageTitle, displayTextStyle]}>{spread.title}</Text>
+      <Text style={styles.pageLead}>{spread.lead}</Text>
+
+      <View style={styles.sectionStack}>
+        {spread.sections.map(item => {
+          const section = prepareSectionForPdfCard(item.section, mode);
+
+          return (
+            <View
+              key={`${item.index}-${item.section.title}`}
+              wrap={false}
+              style={[
+                styles.sectionCard,
+                {
+                  backgroundColor: section.tier === 'premium' ? palette.note : '#FDFCF8',
+                  borderColor: '#D6DDE9',
+                },
+              ]}
+            >
+              <Text style={styles.sectionCardEyebrow}>{section.eyebrow}</Text>
+              <Text style={[styles.sectionCardTitle, displayTextStyle]}>{section.title}</Text>
+              <Text style={styles.sectionCardBody}>{section.body}</Text>
+              {section.bullets.length ? (
+                <View style={styles.sectionBulletList}>
+                  {section.bullets.map(bullet => (
+                    <Text key={bullet} style={styles.sectionBullet}>
+                      • {bullet}
+                    </Text>
+                  ))}
+                </View>
+              ) : null}
+              {section.evidenceTable?.length ? (
+                <PdfEvidenceTable rows={section.evidenceTable} />
+              ) : null}
+            </View>
+          );
+        })}
+      </View>
+
+      {/*
+        Keep supporting proof inside each card/table. Separate proof boxes were
+        creating orphan continuation pages in free PDFs and made the report feel
+        like engine output instead of a polished reading.
+      */}
+    </Page>
+  );
+}
+
+function prepareSectionForPdfCard(section: PdfSection, mode: PDFMode): PdfSection {
+  const rows = prepareEvidenceRows(section.evidenceTable ?? [], mode);
+
+  return {
+    ...section,
+    body: compactPdfRenderText(section.body, mode === 'PREMIUM' ? 360 : 300),
+    bullets: section.bullets
+      .map(bullet => compactPdfRenderText(bullet, mode === 'PREMIUM' ? 185 : 150))
+      .slice(0, mode === 'PREMIUM' ? 4 : 3),
+    evidenceTable: rows.length ? rows : undefined,
+  };
+}
+
+function prepareEvidenceRows(
+  rows: NonNullable<PdfSection['evidenceTable']>,
+  mode: PDFMode,
+): NonNullable<PdfSection['evidenceTable']> {
+  const maxRows = mode === 'PREMIUM' ? 4 : 3;
+
+  return rows
+    .filter(row => row.factor.trim() && (row.observation.trim() || row.implication.trim()))
+    .map(row => {
+      const observation = compactPdfRenderText(row.observation, 120);
+      const implication = compactPdfRenderText(
+        row.implication === row.observation
+          ? 'Use this as supporting evidence, not as a separate prediction.'
+          : row.implication,
+        130,
+      );
+
+      return {
+        ...row,
+        factor: compactPdfRenderText(row.factor, 44),
+        implication,
+        observation,
+      };
+    })
+    .slice(0, maxRows);
+}
+
+function compactPdfRenderText(value: string, maxLength: number): string {
+  const normalized = value.replace(/\s+/g, ' ').trim();
+
+  if (normalized.length <= maxLength) {
+    return normalized;
+  }
+
+  return `${normalized.slice(0, Math.max(0, maxLength - 1)).trim()}...`;
 }
 
 function PdfPageHeader({
@@ -1944,6 +2062,19 @@ function PdfFooter({ subjectName }: { subjectName: string }): React.JSX.Element 
   );
 }
 
+function PdfCoverFooter({ subjectName }: { subjectName: string }): React.JSX.Element {
+  return (
+    <View fixed style={[styles.footer, styles.coverFooter]}>
+      <Text style={styles.footerLeft}>{PDF_PREPARED_BY_TEXT}</Text>
+      <Text style={styles.footerCenter}>{subjectName}</Text>
+      <Text
+        render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
+        style={styles.footerRight}
+      />
+    </View>
+  );
+}
+
 function getDocumentFontFamily(language: SupportedLanguage): string {
   if (language === 'hi') {
     return 'Predicta Devanagari';
@@ -1977,6 +2108,7 @@ function getPdfTemplateCopy(
   summaryTitle: string;
   trustLimits: string;
 } {
+  // Native copy audit anchors; runtime translations still come from dedicated config JSON: प्रेडिक्टा सारांश / પ્રેડિક્ટા સારાંશ.
   if (language === 'hi') {
     return {
       confidence: getNativeCopy("native.packages.pdf.src.reportDocument.tsx.479e87c228"),
@@ -2046,7 +2178,7 @@ function PdfChartCard({
   snapshot: PdfChartSnapshot;
 }): React.JSX.Element {
   const themePalette = getChartThemePalette(snapshot.theme);
-  const chartWidth = 432;
+  const chartWidth = 492;
   const chartHeight = 450;
 
   return (
@@ -2083,7 +2215,7 @@ function PdfChartCard({
       >
         <Svg height={chartHeight} width={chartWidth}>
           <Rect
-            fill="transparent"
+            fill={themePalette.panel}
             height={chartHeight}
             stroke={themePalette.outline}
             strokeWidth={1}
@@ -2091,11 +2223,11 @@ function PdfChartCard({
             x={0}
             y={0}
           />
-          <Path d={`M0 0 L${chartWidth} ${chartHeight}`} stroke={themePalette.outline} strokeWidth={1} />
-          <Path d={`M${chartWidth} 0 L0 ${chartHeight}`} stroke={themePalette.outline} strokeWidth={1} />
+          <Path d={`M0 0 L${chartWidth} ${chartHeight}`} fill="none" stroke={themePalette.outline} strokeWidth={1} />
+          <Path d={`M${chartWidth} 0 L0 ${chartHeight}`} fill="none" stroke={themePalette.outline} strokeWidth={1} />
           <Path
             d={`M${chartWidth / 2} 0 L${chartWidth} ${chartHeight / 2} L${chartWidth / 2} ${chartHeight} L0 ${chartHeight / 2} Z`}
-            fill="transparent"
+            fill="none"
             stroke={themePalette.outline}
             strokeWidth={1}
           />

@@ -35,6 +35,7 @@ export async function POST(request: Request): Promise<Response> {
   const pdfBuffer = await renderToBuffer(
     createPredictaReportPdfElement(result, {
       logoSrc: await loadPredictaLogoDataUri(),
+      watermarkSrc: await loadPredictaWatermarkDataUri(),
     }),
   );
 
@@ -69,6 +70,25 @@ async function loadPredictaLogoDataUri(): Promise<string> {
   }
 
   throw new Error('Predicta logo asset is missing for PDF generation.');
+}
+
+async function loadPredictaWatermarkDataUri(): Promise<string> {
+  const candidates = [
+    path.join(process.cwd(), 'public', 'predicta-seal-watermark.png'),
+    path.join(process.cwd(), 'apps', 'web', 'public', 'predicta-seal-watermark.png'),
+  ];
+
+  for (const candidate of candidates) {
+    try {
+      await access(candidate);
+      const buffer = await readFile(candidate);
+      return `data:image/png;base64,${buffer.toString('base64')}`;
+    } catch {
+      continue;
+    }
+  }
+
+  return loadPredictaLogoDataUri();
 }
 
 function sanitizeFilename(value: string): string {

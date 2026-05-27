@@ -1691,16 +1691,27 @@ function buildCoreChartInterpretationSection(
       `Chart pages generated before interpretation: ${snapshots.map(snapshot => snapshot.chartRole).join(', ') || 'none'}.`,
       `Core chart snapshots available: ${coreEntries.filter(entry => snapshotByRole.has(entry.role)).map(entry => entry.label).join(', ') || 'none'}.`,
     ],
-    evidenceTable: coreEntries.map(entry => ({
-      confidence: entry.chart?.supported ? 'high' : 'low',
-      factor: entry.label,
-      implication: entry.chart?.supported
-        ? 'This focus chart contributes a direct prediction before technical tables.'
-        : 'This focus chart is visible as pending and cannot drive prediction yet.',
-      observation: snapshotByRole.has(entry.role)
-        ? `${entry.role} chart snapshot rendered.`
-        : `${entry.role} chart snapshot pending or unavailable.`,
-    })),
+    evidenceTable: coreEntries.map(entry => {
+      const insight = entry.chart?.supported
+        ? composeChartInsight({
+            chart: entry.chart,
+            hasPremiumAccess: mode === 'PREMIUM',
+            kundli,
+            profile: entry.profile,
+          })
+        : undefined;
+
+      return {
+        confidence: entry.chart?.supported ? 'high' : 'low',
+        factor: entry.label,
+        implication: insight
+          ? compactPdfText(insight.currentGuidance, 150)
+          : 'Do not invent a prediction until this chart is calculated.',
+        observation: insight
+          ? compactPdfText(insight.whatItSays, 150)
+          : `${entry.role} chart snapshot pending or unavailable.`,
+      };
+    }),
     eyebrow: 'CORE CHARTS FIRST',
     title: mode === 'PREMIUM'
       ? 'Core chart interpretation with premium depth'
@@ -3049,9 +3060,16 @@ function buildAreaSection(
     .map(planet => `${planet.name} contributes from ${planet.sign} house ${planet.house} with ${planetDignity(planet)} dignity.`);
   const pressure = houses.flatMap(houseNumber => house(kundli, houseNumber)?.planets ?? []).filter(planet => PRESSURE_PLANETS.has(planet));
   const support = houses.flatMap(houseNumber => house(kundli, houseNumber)?.planets ?? []).filter(planet => BENEFICS.has(planet));
+  const areaMeaning = buildAreaUserMeaning(kundli, title, houses, support, pressure);
+  const strongestHouse = houses
+    .map(houseNumber => ({ houseNumber, score: houseSavByNumber(kundli, houseNumber) ?? 0 }))
+    .sort((first, second) => second.score - first.score)[0]?.houseNumber;
+  const weakestHouse = houses
+    .map(houseNumber => ({ houseNumber, score: houseSavByNumber(kundli, houseNumber) ?? 0 }))
+    .sort((first, second) => first.score - second.score)[0]?.houseNumber;
 
   return {
-    body: `${title} is synthesized through relevant houses, planets, and divisional charts. The report weighs support and pressure together instead of giving a one-line prediction.`,
+    body: areaMeaning,
     bullets: [...houseBullets, ...planetBullets, ...chartBullets].slice(0, 9),
     confidence: chartBullets.length >= charts.length ? 'high' : 'medium',
     evidence: [
@@ -3062,19 +3080,25 @@ function buildAreaSection(
       {
         confidence: 'high',
         factor: `${title} houses`,
-        implication: 'House condition anchors the area before prediction language.',
+        implication: strongestHouse
+          ? `Lean into house ${strongestHouse}: ${houseMeaning(strongestHouse)}.`
+          : areaMeaning,
         observation: houseBullets.slice(0, 3).join(' '),
       },
       {
         confidence: planetBullets.length ? 'high' : 'medium',
         factor: `${title} planets`,
-        implication: 'Planetary condition shows how the area behaves under current timing.',
+        implication: support.length
+          ? `Support comes through ${support.join(', ')}; use it deliberately instead of waiting for luck.`
+          : `This area needs steady action more than passive expectation.`,
         observation: planetBullets.slice(0, 3).join(' ') || 'Relevant planet placements not found in primary list.',
       },
       {
         confidence: chartBullets.length ? 'high' : 'medium',
         factor: `${title} divisional checks`,
-        implication: 'Divisional charts add depth only when supported.',
+        implication: weakestHouse
+          ? `Protect house ${weakestHouse}: ${houseMeaning(weakestHouse)}.`
+          : 'Use the divisional chart as confirmation, not as a detached second opinion.',
         observation: chartBullets.slice(0, 2).join(' '),
       },
     ],
@@ -3082,6 +3106,41 @@ function buildAreaSection(
     tier: 'free',
     title,
   };
+}
+
+function buildAreaUserMeaning(
+  kundli: KundliData,
+  title: string,
+  houses: number[],
+  support: string[],
+  pressure: string[],
+): string {
+  const supportText = support.length
+    ? `${support.join(', ')} give this area usable support`
+    : 'this area grows through consistency rather than easy support';
+  const pressureText = pressure.length
+    ? `${pressure.join(', ')} show where impatience or pressure must be handled cleanly`
+    : 'the main caution is not to overcomplicate what is already workable';
+  const strongHouse = houses
+    .map(houseNumber => ({ houseNumber, score: houseSavByNumber(kundli, houseNumber) ?? 0 }))
+    .sort((first, second) => second.score - first.score)[0]?.houseNumber;
+
+  const areaOpeners: Record<string, string> = {
+    Career:
+      'Career improves when visibility becomes useful, disciplined, and measurable; do not chase recognition before the role is clear.',
+    Relationship:
+      'Relationships ask for maturity, cleaner speech, and steadier negotiation; the chart favors bonds that can handle responsibility.',
+    Wealth:
+      'Wealth grows through networks, disciplined speech, and cleaner money habits; avoid shortcuts that disturb family or savings stability.',
+    Wellbeing:
+      'Wellbeing improves when routines become non-negotiable and emotional reactions are slowed before they become decisions.',
+    'Spiritual Practice':
+      'Spiritual practice works best when it becomes simple, repeatable, and tied to conduct rather than fear-based ritual.',
+  };
+
+  return `${areaOpeners[title] ?? `${title} becomes stronger when the chart support is turned into practical choices.`} ${supportText}; ${pressureText}. ${
+    strongHouse ? `The strongest practical doorway is house ${strongHouse}, so start with ${houseMeaning(strongHouse)}.` : ''
+  }`.trim();
 }
 
 function buildFullJyotishCoverageSection(kundli: KundliData, mode: PDFMode): PdfSection {
@@ -3384,6 +3443,12 @@ function houseSav(kundli: KundliData, item: HouseData): number | undefined {
   ];
   const index = signs.indexOf(item.sign);
   return index >= 0 ? kundli.ashtakavarga.sav[index] : undefined;
+}
+
+function houseSavByNumber(kundli: KundliData, houseNumber: number): number | undefined {
+  const item = house(kundli, houseNumber);
+
+  return item ? houseSav(kundli, item) : undefined;
 }
 
 function findPlanet(kundli: KundliData, name: string): PlanetPosition | undefined {
