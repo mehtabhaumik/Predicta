@@ -67,3 +67,22 @@ phase-1-static-asset-app-shell-recovery/
 The Phase 1 gate checks the canonical server, sampled `_next/static` CSS/JS
 assets, route readiness, browser exceptions, and styled screenshots for the
 required app-shell routes.
+
+## Phase 2 Landing Hero Overflow Lock
+
+Phase 2 proves the landing first impression does not leak horizontally:
+
+```bash
+corepack pnpm test:audit1-phase-2
+```
+
+The gate checks `/` at `320`, `360`, `390`, `430`, `768`, `834`, `1024`, and
+`1440` widths. It fails on page horizontal overflow, landing Kundli label/planet
+leakage outside the viewport or chart board, missing mobile density mode, hidden
+above-fold CTA, or an `html/body overflow-x:hidden` masking fix.
+
+Phase 2 artifacts live in:
+
+```text
+phase-2-landing-mobile-hero-overflow-lock/
+```

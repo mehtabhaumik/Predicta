@@ -939,6 +939,19 @@ Green criteria:
 - Visual artifact before/after is saved.
 - Phase commit exists before Phase 3 starts.
 
+Audit command:
+
+```bash
+corepack pnpm test:audit1-phase-2
+```
+
+Evidence:
+
+- `docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-2-landing-mobile-hero-overflow-lock/`
+  contains before/after screenshots and manifest output.
+- The Phase 2 gate fails if the CTA is merely present but covered by a blocking
+  overlay.
+
 ### PREDICTA_AUDIT_1_PHASE_3_SAFETY_ACCOUNT_AND_TRUST_SURFACE_REPAIR
 
 Goal:

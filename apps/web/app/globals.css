@@ -14816,6 +14816,52 @@ button:disabled {
 }
 
 @media (max-width: 560px) {
+  .web-header {
+    gap: 10px;
+    padding: 10px 12px;
+    width: calc(100% - 16px);
+  }
+
+  .brand-lockup {
+    flex: 1 1 auto;
+    gap: 10px;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .brand-lockup .brand-logo {
+    border-radius: 14px;
+    flex: 0 0 auto;
+    height: 56px;
+    width: 56px;
+  }
+
+  .brand-lockup span {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .brand-lockup strong,
+  .brand-lockup small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .brand-lockup strong {
+    font-size: 18px;
+    letter-spacing: 0.1em;
+  }
+
+  .brand-lockup small {
+    font-size: 11px;
+  }
+
+  .mobile-menu {
+    flex: 0 0 auto;
+    margin-left: 0;
+  }
+
   .dashboard-topbar-spacer {
     display: none;
     height: 0;

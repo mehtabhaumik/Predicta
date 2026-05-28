@@ -5,7 +5,6 @@ import Link from 'next/link';
 import type { SupportedLanguage } from '@pridicta/types';
 import { FinalCTASection } from '../components/FinalCTASection';
 import { HeroSection } from '../components/HeroSection';
-import { LandingIntroOverlay } from '../components/LandingIntroOverlay';
 import { PremiumSectionWrapper } from '../components/PremiumSectionWrapper';
 import { PricingTeaser } from '../components/PricingTeaser';
 import { TestimonialTrustLoop } from '../components/TestimonialTrustLoop';
@@ -20,7 +19,6 @@ export default function LandingPage(): React.JSX.Element {
 
   return (
     <>
-      <LandingIntroOverlay />
       <WebHeader />
       <main className="landing-main">
         <HeroSection />

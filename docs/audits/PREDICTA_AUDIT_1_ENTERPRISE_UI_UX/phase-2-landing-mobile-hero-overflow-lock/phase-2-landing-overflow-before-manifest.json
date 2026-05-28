@@ -1,0 +1,90 @@
+{
+  "artifactSet": "before",
+  "baseUrl": "http://127.0.0.1:3009",
+  "checks": [
+    {
+      "boardWidth": 280,
+      "ctaAboveFold": true,
+      "horizontalOverflow": 0,
+      "mobileDensityMode": true,
+      "fileName": "mobile-320-landing.png",
+      "viewport": "mobile-320",
+      "viewportHeight": 812,
+      "viewportWidth": 320
+    },
+    {
+      "boardWidth": 320,
+      "ctaAboveFold": true,
+      "horizontalOverflow": 0,
+      "mobileDensityMode": true,
+      "fileName": "mobile-360-landing.png",
+      "viewport": "mobile-360",
+      "viewportHeight": 812,
+      "viewportWidth": 360
+    },
+    {
+      "boardWidth": 350,
+      "ctaAboveFold": true,
+      "horizontalOverflow": 0,
+      "mobileDensityMode": true,
+      "fileName": "mobile-390-landing.png",
+      "viewport": "mobile-390",
+      "viewportHeight": 844,
+      "viewportWidth": 390
+    },
+    {
+      "boardWidth": 390,
+      "ctaAboveFold": true,
+      "horizontalOverflow": 0,
+      "mobileDensityMode": true,
+      "fileName": "mobile-430-landing.png",
+      "viewport": "mobile-430",
+      "viewportHeight": 932,
+      "viewportWidth": 430
+    },
+    {
+      "boardWidth": 728,
+      "ctaAboveFold": true,
+      "horizontalOverflow": 0,
+      "mobileDensityMode": true,
+      "fileName": "tablet-768-landing.png",
+      "viewport": "tablet-768",
+      "viewportHeight": 1024,
+      "viewportWidth": 768
+    },
+    {
+      "boardWidth": 738,
+      "ctaAboveFold": true,
+      "horizontalOverflow": 0,
+      "mobileDensityMode": true,
+      "fileName": "tablet-834-landing.png",
+      "viewport": "tablet-834",
+      "viewportHeight": 1112,
+      "viewportWidth": 834
+    },
+    {
+      "boardWidth": 700,
+      "ctaAboveFold": true,
+      "horizontalOverflow": 0,
+      "mobileDensityMode": true,
+      "fileName": "laptop-1024-landing.png",
+      "viewport": "laptop-1024",
+      "viewportHeight": 900,
+      "viewportWidth": 1024
+    },
+    {
+      "boardWidth": 500,
+      "ctaAboveFold": true,
+      "horizontalOverflow": 0,
+      "mobileDensityMode": true,
+      "fileName": "desktop-1440-landing.png",
+      "viewport": "desktop-1440",
+      "viewportHeight": 1100,
+      "viewportWidth": 1440
+    }
+  ],
+  "generatedAt": "2026-05-28T10:55:56.699Z",
+  "phase": "PREDICTA_AUDIT_1_PHASE_2_LANDING_MOBILE_HERO_AND_CHART_OVERFLOW_LOCK",
+  "screenshotRoot": "docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-2-landing-mobile-hero-overflow-lock/before/screenshots",
+  "status": "green"
+}
