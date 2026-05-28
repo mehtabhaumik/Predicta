@@ -19911,6 +19911,46 @@
       "kind": "text",
       "value": "संकेत मानचित्र"
     },
+    "audit1.phase6.vedic.chalit.gu": {
+      "kind": "text",
+      "value": "ભાવનું વાસ્તવિક પરિણામ"
+    },
+    "audit1.phase6.vedic.chalit.hi": {
+      "kind": "text",
+      "value": "भाव का वास्तविक परिणाम"
+    },
+    "audit1.phase6.vedic.d1.gu": {
+      "kind": "text",
+      "value": "લગ્ન પહેલાં"
+    },
+    "audit1.phase6.vedic.d1.hi": {
+      "kind": "text",
+      "value": "लग्न पहले"
+    },
+    "audit1.phase6.vedic.d10.gu": {
+      "kind": "text",
+      "value": "કારકિર્દીનું પરિણામ"
+    },
+    "audit1.phase6.vedic.d10.hi": {
+      "kind": "text",
+      "value": "करियर का परिणाम"
+    },
+    "audit1.phase6.vedic.d9.gu": {
+      "kind": "text",
+      "value": "ધર્મ અને લગ્નની ઊંડાઈ"
+    },
+    "audit1.phase6.vedic.d9.hi": {
+      "kind": "text",
+      "value": "धर्म और विवाह की गहराई"
+    },
+    "audit1.phase6.vedic.moon.gu": {
+      "kind": "text",
+      "value": "મન અને જીવાયેલ અનુભવ"
+    },
+    "audit1.phase6.vedic.moon.hi": {
+      "kind": "text",
+      "value": "मन और जीया हुआ अनुभव"
+    },
     "signature.receipt.error.gu": {
       "kind": "text",
       "value": "પ્રેડિક્ટાને પૂરતી દેખાતી સહીની શાહી મળી નથી. કૃપા કરીને વધુ સ્પષ્ટ છબી વાપરો અથવા ફરી દોરો."

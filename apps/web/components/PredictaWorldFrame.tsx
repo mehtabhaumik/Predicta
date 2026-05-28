@@ -33,6 +33,7 @@ export function PredictaWorldFrame({
   chatLabel,
   eyebrow,
   localActions,
+  heroInteraction,
   localEyebrow,
   localTitle,
   pillars,
@@ -52,6 +53,7 @@ export function PredictaWorldFrame({
   chatLabel: string;
   eyebrow: string;
   localActions: PredictaWorldAction[];
+  heroInteraction?: React.ReactNode;
   localEyebrow: string;
   localTitle: string;
   pillars: PredictaWorldPillar[];
@@ -71,18 +73,23 @@ export function PredictaWorldFrame({
           <p className="section-title">{eyebrow}</p>
           <h1 className="gradient-text">{title}</h1>
           <p>{body}</p>
+          {heroInteraction ? (
+            <div className="predicta-world-hero-interaction">
+              {heroInteraction}
+            </div>
+          ) : null}
         </div>
         <div className="predicta-world-aside">
           <span className="predicta-world-badge">{badge}</span>
           <div className="predicta-world-actions">
-            {chatAction ?? (
-              <Link className="button primary" href={chatHref}>
-                {chatLabel}
+            {reportAction ?? (
+              <Link className="button primary" href={reportHref}>
+                {reportLabel}
               </Link>
             )}
-            {reportAction ?? (
-              <Link className="button secondary" href={reportHref}>
-                {reportLabel}
+            {chatAction ?? (
+              <Link className="button secondary" href={chatHref}>
+                {chatLabel}
               </Link>
             )}
           </div>
@@ -115,15 +122,21 @@ export function PredictaWorldFrame({
         </div>
       </section>
 
-      <section className="predicta-world-proof-grid">
-        {proofCards.map(card => (
-          <article className="glass-panel predicta-world-proof-card" key={card.title}>
-            <span>{proofLabel}</span>
-            <strong>{card.title}</strong>
-            <p>{card.body}</p>
-          </article>
-        ))}
-      </section>
+      <details className="predicta-world-proof-disclosure glass-panel">
+        <summary>
+          <span>{proofLabel}</span>
+          <strong>{proofLabel}</strong>
+        </summary>
+        <section className="predicta-world-proof-grid">
+          {proofCards.map(card => (
+            <article className="predicta-world-proof-card" key={card.title}>
+              <span>{proofLabel}</span>
+              <strong>{card.title}</strong>
+              <p>{card.body}</p>
+            </article>
+          ))}
+        </section>
+      </details>
     </section>
   );
 }

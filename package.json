@@ -79,6 +79,7 @@
     "test:audit1-phase-3": "node scripts/run-audit1-phase-3-trust-surfaces-gate.mjs",
     "test:audit1-phase-4": "node scripts/run-audit1-phase-4-report-composer-density-gate.mjs",
     "test:audit1-phase-5": "node scripts/run-audit1-phase-5-signature-scan-density-gate.mjs",
+    "test:audit1-phase-6": "node scripts/run-audit1-phase-6-specialist-room-identity-gate.mjs",
     "test:audit-server-preflight": "node scripts/assert-predicta-audit-server-ready.mjs",
     "test:public-greenlight": "node scripts/run-public-testing-greenlight-audit.mjs",
     "test:visual-proof": "node scripts/run-mobile-tablet-visual-proof-gate.mjs",

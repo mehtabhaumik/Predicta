@@ -266,6 +266,29 @@ export function WebKpPredictaPanel({
         chatHref={askHref}
         chatLabel={t('Chat with KP Predicta')}
         eyebrow={t('KP PREDICTA')}
+        heroInteraction={
+          <div
+            className="specialist-hero-interaction kp-event-compass-mini"
+            data-audit1-phase6-hero-interaction="kp"
+          >
+            <span>
+              <strong>{t(kp.eventJudgement.verdictLabel)}</strong>
+              <small>{t('Current KP answer')}</small>
+            </span>
+            <span>
+              <strong>{kp.eventJudgement.eventVerdictCompass.promise}</strong>
+              <small>{t('Promise')}</small>
+            </span>
+            <span>
+              <strong>{kp.eventJudgement.eventVerdictCompass.block}</strong>
+              <small>{t('Block')}</small>
+            </span>
+            <span>
+              <strong>{t(kp.eventJudgement.confidence)}</strong>
+              <small>{t('Timing readiness')}</small>
+            </span>
+          </div>
+        }
         localActions={[
           {
             href: '#kp-judgement',

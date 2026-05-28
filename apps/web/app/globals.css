@@ -17823,6 +17823,10 @@ select::-ms-expand {
   line-height: 1.58;
 }
 
+.predicta-world-hero-interaction {
+  margin-top: clamp(18px, 2.4vw, 28px);
+}
+
 .predicta-world-aside {
   display: grid;
   gap: 18px;
@@ -17865,12 +17869,78 @@ select::-ms-expand {
 .predicta-world-pillar,
 .predicta-world-local-card,
 .predicta-world-proof-card,
-.predicta-world-focus-grid article {
+.predicta-world-focus-grid article,
+.specialist-hero-interaction span {
   background: rgba(255, 255, 255, 0.045);
   border: 1px solid color-mix(in srgb, var(--world-accent) 18%, rgba(255, 255, 255, 0.12));
   border-radius: 18px;
   min-width: 0;
   padding: 18px;
+}
+
+.specialist-hero-interaction {
+  display: grid;
+  gap: 12px;
+}
+
+.specialist-hero-interaction span {
+  background:
+    radial-gradient(circle at 15% 18%, var(--world-accent-soft), transparent 44%),
+    rgba(255, 255, 255, 0.045);
+  display: grid;
+  gap: 6px;
+}
+
+.specialist-hero-interaction strong {
+  color: var(--text);
+  font-size: clamp(18px, 2vw, 28px);
+  line-height: 1.08;
+}
+
+.specialist-hero-interaction small {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.vedic-chart-first {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.vedic-chart-first span:first-child,
+.kp-event-compass-mini span:first-child,
+.nadi-story-thread-mini span:first-child,
+.signature-scan-mini span:first-child {
+  border-color: color-mix(in srgb, var(--world-accent) 54%, rgba(255, 255, 255, 0.14));
+  box-shadow: 0 18px 54px color-mix(in srgb, var(--world-accent) 18%, transparent);
+}
+
+.kp-event-compass-mini {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.nadi-story-thread-mini {
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr) minmax(0, 1fr);
+}
+
+.numerology-mandala-mini {
+  align-items: center;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.numerology-mandala-mini span {
+  align-content: center;
+  aspect-ratio: 1;
+  border-color: color-mix(in srgb, var(--node-accent, var(--world-accent)) 52%, rgba(255, 255, 255, 0.14));
+  border-radius: 999px;
+  justify-items: center;
+  padding: 12px;
+  text-align: center;
+}
+
+.signature-scan-mini {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .predicta-world-pillar span,
@@ -17942,6 +18012,40 @@ select::-ms-expand {
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
+.predicta-world-proof-disclosure {
+  padding: clamp(20px, 2.4vw, 30px);
+}
+
+.predicta-world-proof-disclosure:not([open]) .predicta-world-proof-grid {
+  display: none !important;
+}
+
+.predicta-world-proof-disclosure summary {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+  list-style: none;
+}
+
+.predicta-world-proof-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.predicta-world-proof-disclosure summary span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.predicta-world-proof-disclosure summary strong {
+  color: var(--text);
+  font-size: clamp(18px, 2vw, 28px);
+}
+
 .predicta-world-focus-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
@@ -17954,7 +18058,12 @@ select::-ms-expand {
   .predicta-world-pillars,
   .predicta-world-local-grid,
   .predicta-world-proof-grid,
-  .predicta-world-focus-grid {
+  .predicta-world-focus-grid,
+  .vedic-chart-first,
+  .kp-event-compass-mini,
+  .nadi-story-thread-mini,
+  .numerology-mandala-mini,
+  .signature-scan-mini {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -17969,7 +18078,12 @@ select::-ms-expand {
   .predicta-world-pillars,
   .predicta-world-local-grid,
   .predicta-world-proof-grid,
-  .predicta-world-focus-grid {
+  .predicta-world-focus-grid,
+  .vedic-chart-first,
+  .kp-event-compass-mini,
+  .nadi-story-thread-mini,
+  .numerology-mandala-mini,
+  .signature-scan-mini {
     grid-template-columns: minmax(0, 1fr);
   }
 

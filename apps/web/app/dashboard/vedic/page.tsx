@@ -183,6 +183,60 @@ export default function VedicPredictaPage(): React.JSX.Element {
           chatHref={chatHref}
           chatLabel={copy.actions.chat}
           eyebrow={copy.hero.eyebrow}
+          heroInteraction={
+            <div
+              className="specialist-hero-interaction vedic-chart-first"
+              data-audit1-phase6-hero-interaction="vedic"
+            >
+              {[
+                [
+                  'D1',
+                  language === 'hi'
+                    ? getNativeCopy('audit1.phase6.vedic.d1.hi')
+                    : language === 'gu'
+                      ? getNativeCopy('audit1.phase6.vedic.d1.gu')
+                      : 'Lagna first',
+                ],
+                [
+                  'Moon',
+                  language === 'hi'
+                    ? getNativeCopy('audit1.phase6.vedic.moon.hi')
+                    : language === 'gu'
+                      ? getNativeCopy('audit1.phase6.vedic.moon.gu')
+                      : 'Mind and lived feeling',
+                ],
+                [
+                  'D9',
+                  language === 'hi'
+                    ? getNativeCopy('audit1.phase6.vedic.d9.hi')
+                    : language === 'gu'
+                      ? getNativeCopy('audit1.phase6.vedic.d9.gu')
+                      : 'Dharma and marriage depth',
+                ],
+                [
+                  'D10',
+                  language === 'hi'
+                    ? getNativeCopy('audit1.phase6.vedic.d10.hi')
+                    : language === 'gu'
+                      ? getNativeCopy('audit1.phase6.vedic.d10.gu')
+                      : 'Career delivery',
+                ],
+                [
+                  'Chalit',
+                  language === 'hi'
+                    ? getNativeCopy('audit1.phase6.vedic.chalit.hi')
+                    : language === 'gu'
+                      ? getNativeCopy('audit1.phase6.vedic.chalit.gu')
+                      : 'House-level reality',
+                ],
+              ].map(([label, body]) => (
+                <span key={label}>
+                  <strong>{label}</strong>
+                  <small>{body}</small>
+                </span>
+              ))}
+            </div>
+          }
           localActions={[
             {
               href: '/dashboard/charts',

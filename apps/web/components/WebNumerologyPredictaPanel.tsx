@@ -52,6 +52,23 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
         chatHref={chatHref}
         chatLabel={t('Chat with Numerology Predicta')}
         eyebrow={t('Numerology Predicta')}
+        heroInteraction={
+          <div
+            className="specialist-hero-interaction numerology-mandala-mini"
+            data-audit1-phase6-hero-interaction="numerology"
+          >
+            {profile.identityDashboard.mandalaNodes.slice(0, 6).map(node => (
+              <span
+                aria-label={node.accessibleLabel}
+                key={node.id}
+                style={{ ['--node-accent' as string]: node.colorToken }}
+              >
+                <strong>{hasProfile ? node.number : t('Pending')}</strong>
+                <small>{t(node.label)}</small>
+              </span>
+            ))}
+          </div>
+        }
         localActions={[
           {
             href: '#numerology-profile',

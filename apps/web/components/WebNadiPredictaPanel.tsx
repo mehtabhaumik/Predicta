@@ -123,6 +123,25 @@ export function WebNadiPredictaPanel({
         chatHref={askHref}
         chatLabel={t('Chat with Nadi Predicta')}
         eyebrow={t('Nadi Predicta')}
+        heroInteraction={
+          <div
+            className="specialist-hero-interaction nadi-story-thread-mini"
+            data-audit1-phase6-hero-interaction="nadi"
+          >
+            <span>
+              <strong>{t('Strongest story thread')}</strong>
+              <small>{plan.storyLens.strongestThread}</small>
+            </span>
+            <span>
+              <strong>{t('Hidden pattern')}</strong>
+              <small>{plan.storyLens.hiddenPatternSentence}</small>
+            </span>
+            <span>
+              <strong>{t('Next practice')}</strong>
+              <small>{plan.rahuKetuAxis.balancePractice}</small>
+            </span>
+          </div>
+        }
         localActions={[
           {
             href: '#nadi-story-links',

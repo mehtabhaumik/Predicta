@@ -1053,6 +1053,8 @@ Green criteria:
 - Technical/proof details are collapsed or staged after prediction/guidance.
 - Desktop/tablet/mobile screenshots are saved for each room.
 - Predicta chat entry remains visible but not dominant.
+- `test:audit1-phase-6`, specialist-room QA, buyer gate, visual proof, and
+  overflow gate pass.
 - Phase commit exists before Phase 7 starts.
 
 ### PREDICTA_AUDIT_1_PHASE_7_GLOBAL_LAYOUT_TOKEN_AND_COMPONENT_SYSTEM_LOCK

@@ -920,7 +920,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
         body={copy.hero.body}
         chatAction={
           <button
-            className="button primary"
+            className="button secondary"
             disabled={!canOpenReading}
             onClick={continueToPredicta}
             type="button"
@@ -931,6 +931,21 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
         chatHref="#signature-input"
         chatLabel={copy.actions.askPredicta}
         eyebrow={copy.hero.eyebrow}
+        heroInteraction={
+          <div
+            className="specialist-hero-interaction signature-scan-mini"
+            data-audit1-phase6-hero-interaction="signature"
+          >
+            <span>
+              <strong>{copy.receipt.scanProgressLabel}</strong>
+              <small>{copy.receipt.scanning}</small>
+            </span>
+            <span>
+              <strong>{copy.receipt.notAssessed}</strong>
+              <small>{copy.receipt.privacyShort}</small>
+            </span>
+          </div>
+        }
         localActions={[
           {
             href: '#signature-input',
@@ -1014,11 +1029,11 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
         proofLabel={copy.proofLabel}
         reportAction={
           canOpenReading ? (
-            <Link className="button secondary" href="/dashboard/report">
+            <Link className="button primary" href="/dashboard/report">
               {copy.report.cta}
             </Link>
           ) : (
-            <span className="button secondary disabled" aria-disabled="true">
+            <span className="button primary disabled" aria-disabled="true">
               {copy.report.cta}
             </span>
           )

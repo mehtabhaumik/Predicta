@@ -162,3 +162,28 @@ Phase 5 artifacts live in:
 ```text
 phase-5-signature-scan-flow-action-density-rebuild/
 ```
+
+## Phase 6 Specialist Room Visual Identity And Progressive Disclosure
+
+Phase 6 proves the five astrology worlds no longer feel like the same card stack
+with different labels:
+
+```bash
+corepack pnpm test:audit1-phase-6
+corepack pnpm test:specialist-room-qa
+PREDICTA_BUYER_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:buyer-rejection
+corepack pnpm test:visual-proof
+corepack pnpm test:ui-text-overflow
+```
+
+The Phase 6 gate checks Vedic, KP, Nadi, Numerology, and Signature at desktop,
+tablet, and mobile widths. It fails if any room lacks its unique hero
+interaction, exposes method/proof cards outside a collapsed disclosure by
+default, lets chat become the dominant primary CTA, loses its primary report or
+guidance CTA, clips text, or leaks horizontal overflow.
+
+Phase 6 artifacts live in:
+
+```text
+phase-6-specialist-room-visual-identity-progressive-disclosure/
+```
