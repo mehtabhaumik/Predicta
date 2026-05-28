@@ -922,9 +922,13 @@ export function PredictaReportPdfDocument({
             reportFocus === 'LIFE_ATLAS'
               ? 'Personal life map'
               : reportFocus === 'KP'
-                ? 'KP event answer'
+                ? 'KP decision guidance'
                 : reportFocus === 'NUMEROLOGY'
                   ? 'Number identity'
+                  : reportFocus === 'NADI'
+                    ? 'Nadi story prediction'
+                    : reportFocus === 'SIGNATURE'
+                      ? 'Signature expression'
                 : templateCopy.reportModeLabel
           }
         />
@@ -932,18 +936,26 @@ export function PredictaReportPdfDocument({
           {reportFocus === 'LIFE_ATLAS'
             ? 'Your Life Atlas begins here'
             : reportFocus === 'KP'
-              ? 'Your KP verdict comes first'
+              ? 'Your KP prediction begins here'
               : reportFocus === 'NUMEROLOGY'
                 ? 'Your Number Signature comes first'
+                : reportFocus === 'NADI'
+                  ? 'Your Nadi story prediction begins here'
+                  : reportFocus === 'SIGNATURE'
+                    ? 'Your signature expression reading begins here'
               : templateCopy.summaryTitle}
         </Text>
         <Text style={styles.pageLead}>
           {reportFocus === 'LIFE_ATLAS'
-            ? 'Start with the hidden thread, current chapter, and life invitation. This report is meant to feel like a personal mirror, not a technical proof file.'
+            ? 'Your hidden thread, current chapter, and life invitation are the center of this Life Atlas. The reading speaks to the pattern your life is asking you to master now.'
             : reportFocus === 'KP'
-              ? 'Start with the event verdict, then read the KP cusp chart, significators, ruling planets, and timing proof. This report stays KP-only and does not become a Vedic chart reading.'
+              ? 'The prediction comes first: where life is opening, where timing is cautious, what needs care, and what action is safest now. KP evidence follows to support the reading.'
               : reportFocus === 'NUMEROLOGY'
-                ? 'Start with the Number Signature, name rhythm, birth code, current cycle, and missing/repeated number grid. This report stays Numerology-only and does not become a Kundli chart report.'
+                ? 'Your Number Signature shows the rhythm around your name, birth code, current cycle, choices, and focus. The reading turns those numbers into practical direction.'
+                : reportFocus === 'NADI'
+                  ? 'Your strongest story thread, Rahu-Ketu axis, active pattern, and next practice are named first, so the karmic reading feels lived rather than theoretical.'
+                  : reportFocus === 'SIGNATURE'
+                    ? 'Your confirmed visible traits point to confidence, clarity, rhythm, and public expression. No raw signature image is stored.'
             : templateCopy.summaryLead}
         </Text>
 
@@ -1000,21 +1012,45 @@ export function PredictaReportPdfDocument({
               },
             ]}
           >
-            <Text style={styles.cardLabel}>{templateCopy.readAs}</Text>
+            <Text style={styles.cardLabel}>
+              {['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus)
+                ? 'WHAT TO CARRY'
+                : templateCopy.readAs}
+            </Text>
             <Text style={[styles.cardText, displayTextStyle]}>
-              {report.mode === 'PREMIUM'
+              {reportFocus === 'KP'
+                ? 'KP timing is cautious, but the active areas are visible'
+                : reportFocus === 'NADI'
+                  ? 'your repeating story thread is ready to be handled differently'
+                  : reportFocus === 'NUMEROLOGY'
+                    ? 'your number rhythm favors focused, steady action'
+                    : reportFocus === 'SIGNATURE'
+                      ? 'your visible expression can become clearer and steadier'
+                    : reportFocus === 'LIFE_ATLAS'
+                      ? 'your life pattern is asking for conscious direction'
+                : report.mode === 'PREMIUM'
                 ? 'a premium dossier with deeper timing, synthesis, and planning guidance'
                 : 'a substantial free report with real insight and clear next steps'}
             </Text>
             <Text style={styles.cardSubtext}>
-              {report.mode === 'PREMIUM'
+              {reportFocus === 'KP'
+                ? 'Move where support is visible. Slow down where pressure is vague. Refuse fear-based certainty.'
+                : reportFocus === 'NADI'
+                  ? 'The story thread, gift, caution, activation, and practice are here to guide a calmer response.'
+                  : reportFocus === 'NUMEROLOGY'
+                    ? 'Lean into the rhythm that supports structure, expression, timing, and practical choices now.'
+                    : reportFocus === 'SIGNATURE'
+                      ? 'Use the confirmed trait map to improve presentation without turning it into a fixed identity label.'
+                    : reportFocus === 'LIFE_ATLAS'
+                      ? 'Return to the hidden thread when separate life problems start feeling disconnected.'
+                : report.mode === 'PREMIUM'
                 ? 'Premium keeps the full Predicta depth, but the layout removes repetition before it removes substance.'
-                : 'Free keeps the reading meaningful without turning the PDF into a teaser or a wall of raw proof.'}
+                : 'Free gives a meaningful reading with clear direction, practical timing, and enough evidence to trust the guidance.'}
             </Text>
           </View>
         </View>
 
-        {reportFocus === 'LIFE_ATLAS' ? null : (
+        {!['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus) ? (
           <View
             style={[
               styles.noteRow,
@@ -1031,7 +1067,7 @@ export function PredictaReportPdfDocument({
               </Text>
             ))}
           </View>
-        )}
+        ) : null}
       </Page>
 
       {plannedSpreads.showOnboarding ? (
@@ -1039,10 +1075,12 @@ export function PredictaReportPdfDocument({
           <PdfWatermark logoSrc={options.watermarkSrc ?? options.logoSrc} watermark={report.watermark} />
           <PdfFooter subjectName={subjectName} />
           <PdfPageHeader
-            eyebrow={report.mode === 'PREMIUM' ? 'How to use this dossier' : 'How to use this report'}
+            eyebrow={reportFocus === 'KP' ? 'Decision compass' : report.mode === 'PREMIUM' ? 'Prediction map' : 'Reading map'}
             title={
               reportFocus === 'LIFE_ATLAS'
                 ? 'Life Atlas guide'
+                : reportFocus === 'KP'
+                  ? 'KP practical guide'
                 : plannedSpreads.scope === 'focused'
                   ? 'Focused reading guide'
                   : 'Reading guide'
@@ -1051,13 +1089,17 @@ export function PredictaReportPdfDocument({
           <Text style={[styles.pageTitle, displayTextStyle]}>
             {reportFocus === 'LIFE_ATLAS'
               ? 'How to carry this Life Atlas'
+              : reportFocus === 'KP'
+                ? 'Your KP decision compass'
               : report.mode === 'PREMIUM'
-                ? 'How to use this dossier'
-                : 'How to read this report'}
+                ? 'Your premium prediction map'
+                : 'Your prediction map'}
           </Text>
           <Text style={styles.pageLead}>
             {reportFocus === 'LIFE_ATLAS'
               ? 'Read it like a personal mirror: begin with the soul portrait, notice the repeated life thread, choose one practice, and return to the closing letter when you need steadiness.'
+              : reportFocus === 'KP'
+                ? 'The guidance comes first, the chart backs it up, and the safety notes keep decisions grounded before action.'
               : plannedSpreads.scope === 'focused'
                 ? 'This is a focused reading. Move from the chart spread into the specific outcome pages first, then use the trust and guidance pages last.'
                 : 'This is a broader reading. Move from the summary into the charts, then through the life spreads, and leave the proof-heavy appendix material for the end.'}
@@ -1112,14 +1154,14 @@ export function PredictaReportPdfDocument({
           <PdfPageHeader
             eyebrow={
               reportFocus === 'KP'
-                ? 'KP chart'
+                ? 'KP technical chart'
                 : reportFocus === 'NADI'
                   ? 'Nadi chart'
-                  : 'Chart proof'
+                  : 'Chart evidence'
             }
             title={
               reportFocus === 'KP'
-                ? 'KP Bhav Chalit cusp chart'
+                ? 'KP cusp and outcome support chart'
                 : reportFocus === 'NADI'
                   ? 'Nadi story anchor chart'
                 : report.mode === 'PREMIUM'
@@ -1186,13 +1228,17 @@ export function PredictaReportPdfDocument({
           eyebrow={
             reportFocus === 'LIFE_ATLAS'
               ? 'Final integration'
+              : ['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)
+                ? 'Final prediction'
               : report.mode === 'PREMIUM'
                 ? 'Close the dossier well'
-                : 'Use the report well'
+                : 'Final guidance'
           }
           title={
             reportFocus === 'LIFE_ATLAS'
               ? 'Carry the Life Atlas gently'
+              : ['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)
+                ? 'What Predicta wants you to carry'
               : report.mode === 'PREMIUM'
                 ? 'Next steps'
                 : 'What to do next'
@@ -1201,20 +1247,32 @@ export function PredictaReportPdfDocument({
         <Text style={[styles.closingTitle, displayTextStyle]}>
           {reportFocus === 'LIFE_ATLAS'
             ? 'Use this Life Atlas as a mirror for alignment, not as a cage around your future.'
+            : reportFocus === 'KP'
+              ? 'Your KP prediction should leave you calmer and clearer, not more dependent.'
+              : reportFocus === 'NADI'
+                ? 'Your Nadi story should name the pattern and the next wiser response.'
+                : reportFocus === 'NUMEROLOGY'
+                  ? 'Your number pattern is pointing to a usable rhythm, not a fear score.'
+                  : reportFocus === 'SIGNATURE'
+                    ? 'Your signature reading should clarify expression, not label your character.'
             : report.mode === 'PREMIUM'
-            ? 'Use this dossier as a planning instrument, not as a one-line fate statement.'
-            : reportFocus === 'NUMEROLOGY'
-              ? 'Use this Number Identity Dossier as a practical rhythm map, not as a fear score.'
-              : 'Use this report as a real starting point, not as a teaser.'}
+            ? 'Your premium prediction has the evidence, timing, and next direction in one place.'
+              : 'Your report should leave you with a clear prediction, not homework.'}
         </Text>
         <Text style={styles.closingBody}>
           {reportFocus === 'LIFE_ATLAS'
             ? 'Return to the hidden thread, current chapter, practices, and closing letter when life feels noisy. Predicta keeps your agency in the center: insight is useful only when it helps you choose with more honesty and calm.'
+            : reportFocus === 'KP'
+              ? 'Carry the active life areas, timing mood, and caution into real decisions. Move where support is visible; slow down where pressure is vague.'
+              : reportFocus === 'NADI'
+                ? 'Carry the strongest story thread into daily life. When the same pattern repeats, choose the practice named in the report instead of repeating the old reflex.'
+                : reportFocus === 'NUMEROLOGY'
+                  ? 'Carry the current cycle into this week: lean into what the number rhythm supports, and practice what the missing/repeated grid asks you to strengthen.'
+                  : reportFocus === 'SIGNATURE'
+                    ? 'Carry the confirmed trait map into how you sign, present, and express yourself. Adjust only what feels authentic; the report is not a forensic judgement.'
             : report.mode === 'PREMIUM'
-            ? 'The premium dossier keeps the full Predicta depth, but it works best when you move from the main reading into the relevant life spreads and save proof-heavy material for the end.'
-            : reportFocus === 'NUMEROLOGY'
-              ? 'The free Numerology report is meant to leave you with a clear number signature, current cycle, practical guidance, and enough number evidence to understand the pattern without turning it into chart proof.'
-              : 'The free report is meant to leave you with meaningful insight, clear guidance, and enough chart context to understand why Predicta is saying what it is saying.'}
+            ? 'The premium dossier keeps the full Predicta depth, but the main value is the prediction: what is opening, what is blocked, what timing asks from you, and what practical step follows.'
+              : 'The free report is meant to leave you with meaningful prediction, clear guidance, and enough chart context to understand why Predicta is saying it.'}
         </Text>
         <View
           style={[
@@ -1229,33 +1287,39 @@ export function PredictaReportPdfDocument({
             {reportFocus === 'LIFE_ATLAS'
               ? 'A final note from Predicta'
               : reportFocus === 'KP'
-                ? 'KP next step'
-                : reportFocus === 'NUMEROLOGY'
-                  ? 'Numerology next step'
-                : reportFocus === 'NADI'
-                  ? 'Nadi next step'
+                ? 'KP prediction to carry'
+              : reportFocus === 'NUMEROLOGY'
+                ? 'Numerology next step'
+              : reportFocus === 'NADI'
+                ? 'Nadi next step'
+                : reportFocus === 'SIGNATURE'
+                  ? 'Signature next step'
                 : 'Fun chart note'}
           </Text>
           <Text style={[styles.panelTitle, displayTextStyle]}>
             {reportFocus === 'LIFE_ATLAS'
               ? 'Your life is not reduced to a report.'
               : reportFocus === 'KP'
-                ? 'Ask one exact event question next.'
-                : reportFocus === 'NUMEROLOGY'
-                  ? 'Use the current cycle this week.'
-                : reportFocus === 'NADI'
-                  ? 'Answer the validation questions next.'
+                ? 'Move where support is visible. Wait where timing is still forming.'
+              : reportFocus === 'NUMEROLOGY'
+                ? 'Use the current cycle this week.'
+              : reportFocus === 'NADI'
+                ? 'Answer the validation questions next.'
+                : reportFocus === 'SIGNATURE'
+                  ? 'Refine expression without changing who you are.'
                 : buildThemeFunFact(report.chartSnapshots[0]?.theme ?? 'unknown', report.cover.metadata[0] ?? '')}
           </Text>
           <Text style={styles.panelBody}>
             {reportFocus === 'LIFE_ATLAS'
               ? lifeAtlasFinalLetter?.body ?? 'Life Atlas is a mirror for purpose, chapter, gifts, lessons, and next direction. Keep what feels honest, test it through action, and let the reading make your choices calmer.'
               : reportFocus === 'KP'
-                ? 'KP becomes strongest when the question is concrete: one event, one time window, and one outcome. The next report can then move from readiness into a sharper likely/delayed/blocked judgement.'
-                : reportFocus === 'NUMEROLOGY'
+                ? 'KP is showing active life areas and timing mood. Treat visible support as green light, vague pressure as yellow light, and fear-based certainty as red light.'
+              : reportFocus === 'NUMEROLOGY'
                   ? 'Numerology works best when the number insight becomes a small practical choice: use the current cycle, strengthen what repeats, and practice what feels missing without turning numbers into fear.'
                 : reportFocus === 'NADI'
-                  ? 'Nadi becomes strongest when the story is validated through real recognition. Answer the validation questions, notice which pattern repeats in life, and then ask Predicta to deepen only the thread that feels true.'
+                  ? 'Nadi becomes useful when the story changes a response. Notice the repeating pattern, keep the gift, stop feeding the old loop, and practice the next grounded action.'
+                : reportFocus === 'SIGNATURE'
+                  ? 'Signature Predicta uses only confirmed visible traits from the current session. Let the reading improve clarity, rhythm, and presentation without turning it into a fixed identity label.'
                 : 'Predicta keeps the same time-of-day chart atmosphere in the PDF so the document still feels like your Kundli, not like a disconnected export.'}
           </Text>
         </View>
@@ -1365,7 +1429,7 @@ function buildPlannedSpreads({
     addSpread(
       'Life Atlas',
       'Personal snapshot and soul portrait',
-      'Begin with the cleanest overview: the life pattern, current weather, and the soul portrait that makes the rest of the atlas personal.',
+      'Your life pattern, current weather, and soul portrait come together here as the personal mirror for the rest of the atlas.',
       ['life-atlas-snapshot', 'life-atlas-portrait'],
       2,
       'Life mirror',
@@ -1373,7 +1437,7 @@ function buildPlannedSpreads({
     addSpread(
       'Life strategy',
       'Purpose and strategic abstract',
-      'This spread turns the mystical reading into a usable map: why this life keeps repeating certain themes and what the wiser strategy looks like.',
+      'The mystical pattern becomes usable here: why certain themes repeat, where the wiser move is, and what direction protects your energy.',
       ['life-atlas-strategy', 'life-atlas-purpose'],
       2,
       'Purpose map',
@@ -1397,7 +1461,7 @@ function buildPlannedSpreads({
     addSpread(
       'Gifts and lessons',
       'The strengths and classrooms you carry',
-      'The Life Atlas becomes useful when it names both the gifts you carry and the lessons that keep asking for a wiser response.',
+      'Your gifts and repeating classrooms are named together so strength and correction stay connected.',
       ['life-atlas-gifts', 'life-atlas-lessons'],
       2,
       'Gifts into practice',
@@ -1446,7 +1510,7 @@ function buildPlannedSpreads({
     addSpread(
       'Number identity',
       'Your Number Signature',
-      'Start with the number mandala, life theme sentence, and current cycle. This is the Numerology wow moment, not a chart proof page.',
+      'Your number mandala, life theme sentence, and current cycle show the rhythm asking for attention now.',
       ['numerology-signature'],
       1,
       'Number mandala',
@@ -1495,34 +1559,42 @@ function buildPlannedSpreads({
     );
   } else if (isFocusedRoom) {
     addSpread(
-      'Focused synthesis',
-      report.mode === 'PREMIUM' ? 'What this specialist reading is saying' : 'What this focused reading is saying',
-      'This report stays with the selected method instead of mixing rooms. It surfaces the main meaning first, then the proof that matters.',
+      reportFocus === 'KP' ? 'KP prediction' : 'Focused prediction',
+      reportFocus === 'KP'
+        ? 'What KP is predicting now'
+        : report.mode === 'PREMIUM'
+          ? 'What this specialist reading predicts'
+          : 'What this reading predicts',
+      reportFocus === 'KP'
+        ? 'The KP prediction names active life areas, timing mood, support, block, and direct action.'
+        : 'The specialist signal is translated into direct prediction, practical meaning, and next action.',
       [`focus-${reportFocus.toLowerCase()}`, 'executive', 'holistic'],
       2,
-      'Core proof',
+      reportFocus === 'KP' ? 'KP evidence' : 'Core evidence',
     );
     addSpread(
-      'Focused interpretation',
-      'The chart or method details that matter most',
-      'These are the parts of the reading that change the practical meaning, not just the technical description.',
+      reportFocus === 'KP' ? 'KP technical evidence' : 'Focused technical evidence',
+      'The calculations that support the prediction',
+      reportFocus === 'KP'
+        ? 'KP cusps, planets, houses represented, ruling planets, and timing support stay visible here, with each row tied to a prediction.'
+        : 'These are the chart or method details that change the practical meaning, not just raw terminology.',
       ['foundation', 'chart-synthesis', 'planets', 'timing', 'transits', 'rectification'],
       2,
-      'Why this reading holds',
+      reportFocus === 'KP' ? 'KP technical support' : 'Why this prediction holds',
     );
     addSpread(
-      'Practical guidance',
-      'What to do with this reading',
-      'Guidance and limits sit together so the report stays useful without overclaiming.',
+      'Prediction into action',
+      'What to do next',
+      'The main reading closes with the action that protects clarity, timing, and confidence.',
       ['guidance', 'remedies', 'trust'],
       2,
-      'Boundaries and next steps',
+      'Action and limits',
     );
   } else {
     addSpread(
       'Chart meaning',
       'What the focus charts say about you',
-      'Read this immediately after the chart plates. Each focus chart gets a plain-language prediction before the report moves into tables and proof.',
+      'Each focus chart gives a plain-language prediction before the report moves into tables and proof.',
       ['chart-synthesis'],
       1,
       'Chart evidence',
@@ -1530,31 +1602,31 @@ function buildPlannedSpreads({
     addSpread(
       'Core synthesis',
       'Life direction and chart promise',
-      'Start with the main promise, the chart-backed personality direction, and the strongest pressure or support visible right now.',
+      'The main promise, chart-backed personality direction, and strongest pressure or support are visible here.',
       ['focus-vedic', 'executive', 'holistic', 'planets'],
       3,
       'Primary proof',
     );
     addSpread(
       'Foundation',
-      'How the chart is grounded',
-      'This spread keeps the reading anchored in birth data, chart structure, and calculation confidence before the life-area pages deepen the story.',
+      'Technical chart foundation',
+      'This spread preserves the birth data, chart structure, and calculation confidence; every technical point exists to support the prediction that follows.',
       ['foundation', 'chart-synthesis', 'rectification'],
       2,
-      'Chart grounding',
+      'Technical evidence',
     );
     addSpread(
       'Timing',
-      'Timing and current cycle',
-      'This is where active periods, current motion, and near-term planning windows are condensed into one readable view.',
+      'Timing prediction and current cycle',
+      'This is where active periods, current motion, and near-term planning windows are translated into what to start, wait on, repair, or avoid.',
       ['timing', 'timeline', 'transits', 'yearly'],
       report.mode === 'PREMIUM' ? 3 : 2,
-      'Timing proof',
+      'Timing evidence',
     );
     addSpread(
       'Life areas',
       'Career, relationships, wealth, and life balance',
-      'These spreads translate the chart into human outcomes instead of making the user decode technical fragments on their own.',
+      'The chart is translated into human outcomes across career, relationships, wealth, wellbeing, and life balance.',
       ['area-career', 'area-relationship', 'area-wealth', 'area-wellbeing', 'area-spiritual'],
       report.mode === 'PREMIUM' ? 3 : 2,
       'Life-area support',
@@ -1573,11 +1645,11 @@ function buildPlannedSpreads({
 
     addSpread(
       'Guidance and limits',
-      'Guidance, remedies, and limits',
-      'The report closes the main reading flow with practical alignment, honest limits, and only the proof that still adds value.',
+      'Guidance, remedies, and honest limits',
+      'The report closes the main reading flow with practical alignment and only the evidence that still changes the prediction or action.',
       ['guidance', 'remedies', 'trust'],
       2,
-      'Use this well',
+      'Action plan',
     );
   }
 
@@ -1600,34 +1672,46 @@ function buildPlannedSpreads({
       eyebrow: isLifeAtlas
         ? 'Life Atlas continuation'
         : isFocusedRoom
-          ? 'Method proof'
+          ? reportFocus === 'KP'
+            ? 'KP technical evidence'
+            : 'Prediction evidence'
         : report.mode === 'PREMIUM'
-          ? 'Appendix'
-          : 'Classical proof',
+          ? 'Technical appendix'
+          : 'Classical evidence',
       lead: isLifeAtlas
         ? 'These remaining Life Atlas notes continue the human reading without turning it into technical proof.'
         : isFocusedRoom
-          ? 'These proof pages stay inside the selected school and keep technical material after the main answer.'
+          ? reportFocus === 'KP'
+            ? 'These KP details preserve cusps, houses, lords, timing signals, and represented houses after the prediction has already been made clear.'
+            : 'These supporting pages stay inside the selected school and keep technical detail tied to the prediction.'
         : report.mode === 'PREMIUM'
-          ? 'These sections are kept late so the dossier preserves depth without forcing repetition into the main reading flow.'
-          : 'These proof layers stay late so the free report remains readable before it becomes technical.',
+          ? 'These sections preserve technical depth without letting raw evidence replace the reading.'
+          : 'These evidence layers stay late so the free report remains readable while preserving calculation trust.',
       proofItems: extractProofItems(row, 3),
-      proofTitle: isLifeAtlas ? 'Supporting meaning' : isFocusedRoom ? 'Method support' : 'Supporting proof',
+      proofTitle: isLifeAtlas
+        ? 'Supporting meaning'
+        : isFocusedRoom
+          ? reportFocus === 'KP'
+            ? 'KP evidence behind the prediction'
+            : 'Evidence behind the prediction'
+          : 'Supporting evidence',
       sections: row,
       title: rowTitle || (isLifeAtlas
         ? 'Additional Life Atlas guidance'
         : isFocusedRoom
-          ? 'Method proof appendix'
+          ? reportFocus === 'KP'
+            ? 'KP technical appendix'
+            : 'Prediction evidence appendix'
         : report.mode === 'PREMIUM'
-          ? 'Appendix and supporting proof'
-          : 'Classical supporting proof'),
+          ? 'Technical appendix and supporting evidence'
+          : 'Classical supporting evidence'),
     });
   }
 
   return {
     onboardingCards: buildOnboardingCards(report.mode, scope, reportFocus),
     scope,
-    showOnboarding: scope !== 'focused' || report.mode === 'PREMIUM' || sections.length > 7,
+    showOnboarding: false,
     spreads,
   };
 }
@@ -1640,7 +1724,7 @@ function buildOnboardingCards(
 	  if (reportFocus === 'LIFE_ATLAS') {
 	    return [
 	      {
-	        body: 'Read this as a personal life story. Start with the soul portrait, then move through purpose, life journey, gifts, lessons, and the hidden thread.',
+	        body: 'Your soul portrait opens the Life Atlas, followed by purpose, life journey, gifts, lessons, and the hidden thread.',
 	        eyebrow: 'Start here',
 	        title: 'Begin with the soul portrait',
 	      },
@@ -1663,6 +1747,33 @@ function buildOnboardingCards(
 	      },
 	    ];
 	  }
+
+  if (reportFocus === 'KP') {
+    return [
+      {
+        body: 'The practical guidance and red flags come first so KP helps calmer decisions instead of dependence on confusing terminology.',
+        eyebrow: 'Start here',
+        title: 'Guidance before method',
+      },
+      {
+        body: 'The chart supports the reading, while the prediction explains the practical meaning directly.',
+        eyebrow: 'Chart',
+        title: 'Support map, not puzzle',
+      },
+      {
+        body: mode === 'PREMIUM'
+          ? 'Premium adds deeper timing checks and translated method detail, while still refusing fake certainty.'
+          : 'Free gives a real safety-first reading: what to watch, what not to trust, and how to act calmly.',
+        eyebrow: mode === 'PREMIUM' ? 'Premium depth' : 'Free value',
+        title: mode === 'PREMIUM' ? 'Depth without jargon' : 'Free protects first',
+      },
+      {
+        body: 'Do not use KP to replace real judgment, legal advice, medical advice, financial advice, or urgent professional help.',
+        eyebrow: 'Boundaries',
+        title: 'Keep agency',
+      },
+    ];
+  }
 
   return [
     {
@@ -1806,7 +1917,7 @@ function classifySectionKind(section: PdfSection): string {
     if (title.includes('timeline')) {
       return 'numerology-timeline';
     }
-    if (title.includes('fit') || title.includes('compatibility') || title.includes('toolkit')) {
+    if (title.includes('fit') || title.includes('compatibility') || title.includes('supportive rhythm')) {
       return 'numerology-premium';
     }
     if (title.includes('boundary') || title.includes('appendix')) {
@@ -1995,7 +2106,7 @@ function PdfReportSpreadPage({
       <PdfFooter subjectName={subjectName} />
       <PdfPageHeader
         eyebrow={spread.eyebrow}
-        title={mode === 'PREMIUM' ? 'Premium analysis spread' : 'Insight spread'}
+        title={mode === 'PREMIUM' ? 'Premium prediction chapter' : 'Prediction chapter'}
       />
       <Text style={[styles.pageTitle, displayTextStyle]}>{spread.title}</Text>
       <Text style={styles.pageLead}>{spread.lead}</Text>
@@ -2095,7 +2206,7 @@ function prepareEvidenceRows(
       const observation = compactPdfRenderText(row.observation, 120);
       const implication = compactPdfRenderText(
         row.implication === row.observation
-          ? 'Use this as supporting evidence, not as a separate prediction.'
+          ? 'This evidence supports the prediction above.'
           : row.implication,
         130,
       );
@@ -2449,7 +2560,7 @@ function getPdfTemplateCopy(
     reportModeLabel: mode === 'PREMIUM' ? 'Detailed analysis report' : 'Free insight report',
     summaryEyebrow: 'Predicta summary',
     summaryLead:
-      'Start with the life direction, timing, and pressure that matter most. The spreads that follow stay rooted in the chart while keeping the reading editorial, not technical-first.',
+      'Life direction, timing, and pressure come first. The spreads stay rooted in the chart while keeping the reading editorial, direct, and prediction-led.',
     summaryTitle: 'What this report is saying first',
     trustLimits: 'Trust and limits',
   };
@@ -2552,21 +2663,23 @@ function PdfChartCard({
       {snapshot.school === 'KP' || snapshot.chartRole === 'KP' ? (
         <>
           <Text style={styles.chartNote}>
-            KP chart: houses are read as cusp-led event delivery zones. Use this chart with sub lords,
-            significators, ruling planets, and the selected event question.
+            KP technical chart: planets are placed by the KP/Bhav Chalit outcome layer,
+            so the report can read which houses the result is being carried through.
           </Text>
           <Text style={styles.chartThemeNote}>
-            This is not a Parashari D1/D9 personality plate. It is the KP Bhav Chalit cusp chart used for event judgement.
+            Read the prediction pages immediately after this chart: the chart preserves the calculation,
+            and the next pages translate it into career, money, relationship, timing, and action.
           </Text>
         </>
       ) : snapshot.school === 'NADI' || snapshot.chartRole === 'NADI' ? (
         <>
           <Text style={styles.chartNote}>
-            Nadi chart: this is a story-anchor chart for planetary links, Rahu/Ketu axis themes,
-            validation questions, and activation timing.
+            Nadi technical chart: this preserves the planetary story anchor, Rahu/Ketu axis,
+            repeated pattern, and activation signals behind the karmic reading.
           </Text>
           <Text style={styles.chartThemeNote}>
-            This is not a Parashari D1/D9 chart page. It supports the Nadi karmic story without turning the report into a Vedic dossier.
+            The prediction pages turn this chart into the strongest story thread, current lesson,
+            gift, caution, and next practice.
           </Text>
         </>
       ) : (
@@ -2618,7 +2731,7 @@ function formatPdfChartRole(snapshot: PdfChartSnapshot): string {
   }
 
   if (snapshot.chartRole === 'KP') {
-    return 'KP Cusp Chart';
+    return 'KP Event Support Chart';
   }
 
   if (snapshot.chartRole === 'NADI') {

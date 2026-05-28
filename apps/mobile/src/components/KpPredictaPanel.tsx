@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 
 import type { ChalitBhavKpFoundation } from '../types/astrology';
 import { colors } from '../theme/colors';
@@ -9,6 +9,7 @@ import { GlowCard } from './GlowCard';
 import { GradientText } from './GradientText';
 
 type KpEventFocus = 'career' | 'money' | 'marriage' | 'property' | 'education' | 'travel' | 'custom';
+type KpQuestionMode = 'preset' | 'custom' | 'guide';
 
 const KP_EVENT_FOCUS: Array<{
   id: KpEventFocus;
@@ -67,6 +68,50 @@ const KP_EVENT_FOCUS: Array<{
   },
 ];
 
+const KP_QUESTION_PRESETS: Array<{
+  focus: KpEventFocus;
+  id: string;
+  question: string;
+  title: string;
+}> = [
+  {
+    focus: 'career',
+    id: 'job-change',
+    question: 'Should I seriously prepare for a job change in the next six months?',
+    title: 'Job change',
+  },
+  {
+    focus: 'money',
+    id: 'money-decision',
+    question: 'Should I move carefully or actively around this money decision over the next three months?',
+    title: 'Money decision',
+  },
+  {
+    focus: 'marriage',
+    id: 'marriage-timing',
+    question: 'Is this period supportive for serious marriage or partnership progress?',
+    title: 'Marriage timing',
+  },
+  {
+    focus: 'property',
+    id: 'property-deal',
+    question: 'Should I move forward with property or home-related decisions in the next 90 days?',
+    title: 'Property decision',
+  },
+  {
+    focus: 'education',
+    id: 'exam',
+    question: 'Is this a supportive period for exam, certification, admission, or learning outcome?',
+    title: 'Exam or admission',
+  },
+  {
+    focus: 'travel',
+    id: 'travel',
+    question: 'Is this a supportive period for travel, relocation, or foreign movement?',
+    title: 'Travel or relocation',
+  },
+];
+
 type KpPredictaPanelProps = {
   foundation: ChalitBhavKpFoundation;
   handoffQuestion?: string;
@@ -87,8 +132,25 @@ export function KpPredictaPanel({
   const kp = foundation.kp;
   const ruling = kp.rulingPlanets;
   const [selectedEvent, setSelectedEvent] = useState<KpEventFocus>('career');
+  const [questionMode, setQuestionMode] = useState<KpQuestionMode>('preset');
+  const [selectedPresetId, setSelectedPresetId] = useState(KP_QUESTION_PRESETS[0]?.id ?? '');
+  const [customQuestion, setCustomQuestion] = useState('');
   const selectedFocus =
     KP_EVENT_FOCUS.find(item => item.id === selectedEvent) ?? KP_EVENT_FOCUS[0];
+  const selectedPreset =
+    KP_QUESTION_PRESETS.find(item => item.id === selectedPresetId) ??
+    KP_QUESTION_PRESETS.find(item => item.focus === selectedEvent) ??
+    KP_QUESTION_PRESETS[0];
+  const questionDraft = useMemo(
+    () =>
+      buildKpQuestionDraft({
+        customQuestion,
+        focus: selectedFocus,
+        mode: questionMode,
+        presetQuestion: selectedPreset?.question,
+      }),
+    [customQuestion, questionMode, selectedFocus, selectedPreset?.question],
+  );
   const [selectedCusp, setSelectedCusp] = useState<number>(
     selectedFocus.houses.at(-2) ?? selectedFocus.houses[0],
   );
@@ -103,10 +165,10 @@ export function KpPredictaPanel({
     [hasPremiumAccess, kp.significators, selectedFocus.houses],
   );
   const askPrompt = handoffQuestion
-    ? `KP Predicta question: ${handoffQuestion}. ${selectedFocus.prompt}`
-    : `${selectedFocus.prompt}${
+    ? `KP Predicta question: ${handoffQuestion}. ${questionDraft.prompt}. ${selectedFocus.prompt}`
+    : `${questionDraft.prompt}. ${selectedFocus.prompt}${
         selectedCuspData
-          ? ` Selected cusp ${selectedCuspData.house} has star lord ${selectedCuspData.lordChain.starLord}, sub lord ${selectedCuspData.lordChain.subLord}, and sub-sub lord ${selectedCuspData.lordChain.subSubLord}.`
+          ? ` Selected event-support area ${selectedCuspData.house} has star lord ${selectedCuspData.lordChain.starLord}, sub lord ${selectedCuspData.lordChain.subLord}, and sub-sub lord ${selectedCuspData.lordChain.subSubLord}.`
           : ''
       }`;
 
@@ -207,6 +269,10 @@ export function KpPredictaPanel({
                 onPress={() => {
                   setSelectedEvent(item.id);
                   setSelectedCusp(item.houses.at(-2) ?? item.houses[0]);
+                  const nextPreset = KP_QUESTION_PRESETS.find(preset => preset.focus === item.id);
+                  if (nextPreset) {
+                    setSelectedPresetId(nextPreset.id);
+                  }
                 }}
                 style={[styles.eventCard, active ? styles.activeEventCard : undefined]}
               >
@@ -217,6 +283,89 @@ export function KpPredictaPanel({
               </Pressable>
             );
           })}
+        </View>
+        <View style={styles.questionComposer}>
+          <AppText variant="caption">ASK KP QUESTION</AppText>
+          <AppText className="mt-2" tone="secondary">
+            Pick a ready question, write your own, or choose guide me. Predicta
+            will refine vague questions before answering.
+          </AppText>
+          <View style={styles.modeGrid}>
+            {[
+              ['preset', 'Ready question'],
+              ['custom', 'My own'],
+              ['guide', 'Guide me'],
+            ].map(([mode, label]) => {
+              const active = questionMode === mode;
+
+              return (
+                <Pressable
+                  accessibilityRole="button"
+                  key={mode}
+                  onPress={() => setQuestionMode(mode as KpQuestionMode)}
+                  style={[styles.modeButton, active ? styles.activeEventCard : undefined]}
+                >
+                  <AppText variant="caption">{label}</AppText>
+                </Pressable>
+              );
+            })}
+          </View>
+          {questionMode === 'preset' ? (
+            <View style={styles.presetGrid}>
+              {KP_QUESTION_PRESETS.filter(
+                item => item.focus === selectedEvent || selectedEvent === 'custom',
+              ).map(item => {
+                const active = selectedPresetId === item.id;
+
+                return (
+                  <Pressable
+                    accessibilityRole="button"
+                    key={item.id}
+                    onPress={() => {
+                      setSelectedPresetId(item.id);
+                      setSelectedEvent(item.focus);
+                    }}
+                    style={[styles.presetCard, active ? styles.activeEventCard : undefined]}
+                  >
+                    <AppText variant="caption">{item.title}</AppText>
+                    <AppText className="mt-1" tone="secondary" variant="caption">
+                      {item.question}
+                    </AppText>
+                  </Pressable>
+                );
+              })}
+            </View>
+          ) : null}
+          {questionMode === 'custom' ? (
+            <TextInput
+              multiline
+              onChangeText={setCustomQuestion}
+              placeholder="Example: I am confused about changing my job soon."
+              placeholderTextColor={colors.secondaryText}
+              style={styles.questionInput}
+              value={customQuestion}
+            />
+          ) : null}
+          <View style={styles.refinedCard}>
+            <AppText tone="secondary" variant="caption">
+              {questionDraft.label}
+            </AppText>
+            <AppText className="mt-2" variant="caption">
+              {questionDraft.refinedQuestion}
+            </AppText>
+            <AppText className="mt-2" tone="secondary" variant="caption">
+              {questionDraft.guidance}
+            </AppText>
+            {onAskKp ? (
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => onAskKp(askPrompt)}
+                style={styles.ctaInline}
+              >
+                <AppText variant="caption">Ask KP Predicta</AppText>
+              </Pressable>
+            ) : null}
+          </View>
         </View>
         <View style={styles.pathGrid}>
           {kp.eventJudgement.questionToProofPath.map((step, index) => (
@@ -354,6 +503,79 @@ export function KpPredictaPanel({
   );
 }
 
+type KpQuestionDraft = {
+  guidance: string;
+  label: string;
+  prompt: string;
+  refinedQuestion: string;
+};
+
+function buildKpQuestionDraft({
+  customQuestion,
+  focus,
+  mode,
+  presetQuestion,
+}: {
+  customQuestion: string;
+  focus: (typeof KP_EVENT_FOCUS)[number];
+  mode: KpQuestionMode;
+  presetQuestion?: string;
+}): KpQuestionDraft {
+  if (mode === 'guide') {
+    return {
+      guidance:
+        'Predicta will start with practical readiness: where to be patient, where to prepare, and which decisions need more real-world clarity.',
+      label: 'Guide mode',
+      prompt:
+        `I do not have a specific KP question. Using KP only, guide me through ${focus.title} decision readiness in plain language. Do not overclaim certainty; give practical timing caution, preparation, and next steps.`,
+      refinedQuestion:
+        `I do not have a specific question. What should I understand about ${focus.title} decisions right now?`,
+    };
+  }
+
+  if (mode === 'custom') {
+    const raw = customQuestion.trim();
+    const refined = refineKpCustomQuestion(raw, focus.title);
+
+    return {
+      guidance:
+        raw.length < 18
+          ? 'Your question is still broad, so Predicta will first refine it and then answer carefully.'
+          : 'Predicta will keep your intent, make the question clearer, and answer without forcing false certainty.',
+      label: raw.length < 18 ? 'Refined from broad question' : 'Refined question',
+      prompt:
+        `The user wrote: "${raw || 'I am not sure what to ask.'}" Refine this into a clear KP decision question first, then answer using KP only in plain language. Refined question: ${refined}`,
+      refinedQuestion: refined,
+    };
+  }
+
+  const question = presetQuestion ?? `What should I understand about ${focus.title} decisions right now?`;
+
+  return {
+    guidance:
+      'This ready question is already written in normal language. Predicta will answer it as decision support, not as a scary prediction.',
+    label: 'Ready question',
+    prompt: `Using KP only, answer this practical user question in plain language: ${question}`,
+    refinedQuestion: question,
+  };
+}
+
+function refineKpCustomQuestion(rawQuestion: string, focusTitle: string): string {
+  const question = rawQuestion.trim().replace(/\s+/g, ' ');
+
+  if (!question) {
+    return `What should I understand about ${focusTitle} decisions right now?`;
+  }
+
+  const lower = question.toLowerCase();
+  const hasTiming = /\b(today|tomorrow|week|month|year|days|months|years|soon|next|by|before|after|when|202\d|203\d)\b/.test(lower);
+  const hasDecisionWord = /\b(should|will|can|whether|if|move|change|buy|sell|marry|job|offer|exam|travel|relocation|property|money)\b/.test(lower);
+  const suffix = hasTiming ? '' : ' over the next 3 to 6 months';
+  const decisionPrefix = hasDecisionWord ? '' : 'Should I move forward, wait, or prepare around ';
+
+  return `${decisionPrefix}${question}${suffix}?`.replace(/\?+$/, '?');
+}
+
 function PathStep({
   label,
   value,
@@ -423,6 +645,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 10,
   },
+  ctaInline: {
+    alignSelf: 'flex-start',
+    backgroundColor: 'rgba(255,195,77,0.16)',
+    borderColor: 'rgba(255,195,77,0.38)',
+    borderRadius: 8,
+    borderWidth: 1,
+    marginTop: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+  },
   explainBox: {
     backgroundColor: colors.surfaceMuted,
     borderColor: colors.border,
@@ -450,6 +682,63 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 10,
     marginTop: 14,
+  },
+  modeButton: {
+    backgroundColor: colors.surfaceMuted,
+    borderColor: colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    flex: 1,
+    minWidth: 104,
+    padding: 10,
+  },
+  modeGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginTop: 12,
+  },
+  presetCard: {
+    backgroundColor: colors.surfaceMuted,
+    borderColor: colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    minWidth: 150,
+    padding: 10,
+    width: '48%',
+  },
+  presetGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginTop: 12,
+  },
+  questionComposer: {
+    backgroundColor: 'rgba(255,195,77,0.08)',
+    borderColor: 'rgba(255,195,77,0.22)',
+    borderRadius: 12,
+    borderWidth: 1,
+    marginTop: 14,
+    padding: 12,
+  },
+  questionInput: {
+    backgroundColor: colors.surfaceMuted,
+    borderColor: colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    color: colors.primaryText,
+    marginTop: 12,
+    minHeight: 96,
+    padding: 12,
+    textAlignVertical: 'top',
+  },
+  refinedCard: {
+    backgroundColor: 'rgba(77,175,255,0.08)',
+    borderColor: 'rgba(77,175,255,0.24)',
+    borderRadius: 10,
+    borderWidth: 1,
+    marginTop: 12,
+    padding: 12,
   },
   header: {
     alignItems: 'flex-start',

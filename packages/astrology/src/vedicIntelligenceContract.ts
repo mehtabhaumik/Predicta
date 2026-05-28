@@ -458,7 +458,7 @@ function buildHouseWisePlacements(
       explanation:
         'The house-wise planet table turns chart proof into a readable placement ledger.',
       freeInsight:
-        'This table shows which planets are influencing which houses without forcing the user to decode the chart manually.',
+        'This table shows which planets are influencing which houses so chart evidence turns into clear life guidance.',
       id: 'house-wise-placements',
       premiumAnalysis:
         'Premium adds interpretation by house, sign, nakshatra, dignity, retrogression, deterministic combustion, and current dasha relevance.',
@@ -677,7 +677,7 @@ function buildSwamsaSection(
     explanation:
       'Swamsa is the Navamsa self-direction lens. It translates inner motivation, soul-style expression, and the deeper pattern behind action into practical language.',
     freeInsight:
-      `Swamsa points the inner compass through ${chart.ascendantSign}, so the user should read this as self-direction and authentic action style, not as a fixed fate claim.`,
+      `Swamsa points the inner compass through ${chart.ascendantSign}, highlighting self-direction and authentic action style rather than fixed fate.`,
     id: 'swamsa',
     premiumAnalysis:
       `Premium reads Swamsa through D9 ${chart.ascendantSign}, D1 promise, Chalit delivery, and active dasha before giving practical spiritual guidance.`,

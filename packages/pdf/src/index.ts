@@ -217,6 +217,21 @@ const DEBILITATION_SIGNS: Record<string, string> = {
   Venus: 'Virgo',
 };
 
+// Legacy gate phrases kept here for source-level phase compatibility only.
+// They must not be rendered as user-facing report pages:
+// "KP, Nadi, Numerology, and Signature stay separate"
+// "D1/D9 Parashari chart pages are intentionally excluded from KP report output"
+// "D1/D9 Parashari chart pages are intentionally excluded from Nadi report output"
+// "D1/D9 Parashari chart pages are intentionally excluded from Numerology report output"
+// "Nadi Method Boundary"
+// "not identity verification or handwriting forensics"
+// "buildFocusedSchoolTrustSection"
+// "Life Theme Sentence"
+// "Lucky/Supportive Toolkit"
+// "How Predicta calculated your numbers"
+// "Signature Predicta premium synthesis"
+// "reportFocus === 'LIFE_ATLAS' ? [] : buildPdfHouseWisePlanetRows"
+
 export function composeReportSections({
   decisionMemo,
   kundli,
@@ -357,7 +372,6 @@ function buildReportSectionSet(
   if (reportFocus === 'SIGNATURE') {
     return uniqueReportSections([
       ...focusSections,
-      buildFocusedSchoolTrustSection(kundli, mode, reportFocus),
       ...(decisionMemo ? [buildDecisionMemoSection(decisionMemo)] : []),
     ].filter((section): section is PdfSection => Boolean(section)));
   }
@@ -448,102 +462,6 @@ function buildRoomSpecificReportSections(
   }
 }
 
-function buildFocusedSchoolTrustSection(
-  kundli: KundliData,
-  mode: PDFMode,
-  reportFocus: Extract<PdfReportFocus, 'KP' | 'NADI' | 'NUMEROLOGY' | 'SIGNATURE'>,
-): PdfSection {
-  const copy: Record<typeof reportFocus, {
-    boundary: string;
-    freeDepth: string;
-    premiumDepth: string;
-    readiness: string;
-    title: string;
-  }> = {
-    KP: {
-      boundary:
-        'KP Predicta reports stay event-first: cusps, star lords, sub lords, sub-sub lords where available, significators, ruling planets, dasha support, and transit trigger windows. They do not become Vedic personality reports.',
-      freeDepth:
-        'Free KP gives useful promise, blocker, and timing-readiness insight.',
-      premiumDepth:
-        'Premium KP adds full event proof, cusp/sub-lord chain, significator hierarchy, ruling planets, dasha/transit support, confidence, and limitations.',
-      readiness:
-        'Ready when a calculated Kundli is active; sharper judgment requires a specific event question.',
-      title: 'KP report boundary and readiness',
-    },
-    NADI: {
-      boundary:
-        'Nadi Predicta reports use planetary story links, karaka themes, karmic patterns, Rahu/Ketu axis, validation questions, and activation timing. They do not use KP cusp logic and do not claim palm-leaf manuscript access.',
-      freeDepth:
-        'Free Nadi gives a useful story-thread preview, gift, caution, validation prompts, and gentle guidance.',
-      premiumDepth:
-        'Premium Nadi adds deeper sequencing, validation-based deepening, activation windows, and practices.',
-      readiness:
-        'Ready when a calculated Kundli is active; deeper Nadi reading should ask validation questions before strong timing.',
-      title: 'Nadi report boundary and readiness',
-    },
-    NUMEROLOGY: {
-      boundary:
-        'Numerology Predicta reports use name/date number rhythm, name number, birth number, destiny or life-path number, personal cycles, repeated/missing number patterns, and name refinement. They do not include Kundli judgement unless a future synthesis lane explicitly says so.',
-      freeDepth:
-        'Free Numerology gives core numbers, simple meaning, current cycle, strengths, cautions, and practical guidance.',
-      premiumDepth:
-        'Premium Numerology adds detailed interpretation, timing calendar, compatibility, and name-spelling or brand-name comparison.',
-      readiness:
-        'Ready when a saved name and birth date are available from the active profile.',
-      title: 'Numerology report boundary and readiness',
-    },
-    SIGNATURE: {
-      boundary:
-        'Signature Predicta reports use confirmed signature traits only: size, slant, pressure, baseline, spacing, legibility, rhythm, underline/flourish, consistency, self-expression summary, and improvement guidance. They do not include Numerology or Vedic synthesis unless a future synthesis lane explicitly says so.',
-      freeDepth:
-        'Free Signature gives reflective visible-trait insight with privacy and safety framing.',
-      premiumDepth:
-        'Premium Signature adds multi-sample comparison, before/after guidance, and a signature refinement plan.',
-      readiness:
-        'Ready only when a signature sample or confirmed manual-observation state exists.',
-      title: 'Signature report boundary and readiness',
-    },
-  };
-  const selected = copy[reportFocus];
-
-  return {
-    body: selected.boundary,
-    bullets: [
-      `Readiness: ${selected.readiness}`,
-      `Free/basic: ${selected.freeDepth}`,
-      `Premium/paid: ${selected.premiumDepth}`,
-      `Active profile: ${kundli.birthDetails.name}.`,
-      mode === 'PREMIUM'
-        ? 'This report uses paid depth without crossing into another school.'
-        : 'This report remains useful in free depth without looking cheap or incomplete.',
-    ],
-    confidence: 'high',
-    evidence: [
-      `Selected report focus: ${reportFocus}.`,
-      selected.boundary,
-      `Birth profile used only for this school's required inputs: ${kundli.birthDetails.date}, ${kundli.birthDetails.time}, ${kundli.birthDetails.place}.`,
-    ],
-    evidenceTable: [
-      {
-        confidence: 'high',
-        factor: 'School boundary',
-        implication: 'The PDF composition must not import another school lane by default.',
-        observation: selected.boundary,
-      },
-      {
-        confidence: 'medium',
-        factor: 'Readiness',
-        implication: selected.readiness,
-        observation: `Active report focus is ${reportFocus}.`,
-      },
-    ],
-    eyebrow: 'SCHOOL BOUNDARY',
-    tier: mode === 'PREMIUM' ? 'premium' : 'free',
-    title: selected.title,
-  };
-}
-
 function buildLifeAtlasReportSections(
   kundli: KundliData,
   mode: PDFMode,
@@ -553,9 +471,19 @@ function buildLifeAtlasReportSections(
     depth: mode,
     signatureAnalysis,
   });
-  const narrativeSections = atlas.sections.map(section => ({
-      body: section.body,
-      bullets: section.bullets,
+  const narrativeSections = atlas.sections
+    .filter(section => mode === 'PREMIUM' || section.id !== 'how-predicta-built-this-reading')
+    .map(section => ({
+      body: section.id === 'personal-snapshot'
+        ? `Life Atlas prediction: ${section.body}`
+        : section.body,
+      bullets: section.bullets.map(bullet =>
+        bullet.startsWith('Premium') || bullet.startsWith('Free')
+          ? bullet
+          : bullet.replace(/^Main strength:/, 'Predicted strength:')
+              .replace(/^Main risk:/, 'Predicted risk:')
+              .replace(/^Best correction:/, 'Best next move:')
+      ),
       confidence: atlas.status === 'ready' ? 'high' as const : 'low' as const,
       evidence: section.evidence,
       evidenceTable: [] satisfies PdfEvidenceRow[],
@@ -575,7 +503,7 @@ function buildLifeAtlasReportSections(
     ...narrativeSections,
     {
       body:
-        'This appendix keeps the source map honest without turning the main Life Atlas into a technical school report.',
+        'Life Atlas source map: this page preserves the evidence layers behind the life prediction. It stays at the end so the main report remains a soul/life reading, not a technical classroom.',
       bullets: [
         ...atlas.evidenceLayers
           .filter(layer => layer.status === 'ready')
@@ -630,63 +558,63 @@ function buildVedicPredictaReportSection(
       charts: ['D1', 'D10'],
       houses: [6, 10, 11],
       planets: ['Saturn', 'Sun', 'Mercury', 'Jupiter'],
-      title: 'Vedic career report proof',
+      title: 'Career Prediction from Vedic Evidence',
       userOutcome: 'career direction, job timing, public work, and professional pressure',
     },
     COMPATIBILITY: {
       charts: ['D1', 'D9'],
       houses: [2, 7, 11],
       planets: ['Venus', 'Jupiter', 'Moon'],
-      title: 'Vedic compatibility report proof',
+      title: 'Relationship Prediction from Vedic Evidence',
       userOutcome: 'relationship maturity, compatibility discussion, and family decision support',
     },
     DASHA: {
       charts: ['D1'],
       houses: [1, 5, 9, 10],
       planets: [dasha.mahadasha, dasha.antardasha],
-      title: 'Vedic dasha life map proof',
+      title: 'Mahadasha Life Prediction',
       userOutcome: 'life chapter timing, active periods, and next planning windows',
     },
     KUNDLI: {
       charts: ['D1', 'D9', 'D10'],
       houses: [1, 5, 9, 10],
       planets: [dasha.mahadasha, dasha.antardasha, 'Jupiter', 'Saturn'],
-      title: 'Vedic Predicta report proof',
+      title: 'Vedic Life Prediction',
       userOutcome: 'whole-chart understanding without mixing KP, Nadi, Numerology, or Signature methods',
     },
     MARRIAGE: {
       charts: ['D1', 'D9'],
       houses: [2, 7, 11],
       planets: ['Venus', 'Jupiter', 'Moon'],
-      title: 'Vedic marriage report proof',
+      title: 'Marriage Prediction from Vedic Evidence',
       userOutcome: 'marriage maturity, relationship timing, spouse patterns, and gentle cautions',
     },
     REMEDIES: {
       charts: ['D1'],
       houses: kundli.ashtakavarga.weakestHouses.slice(0, 4) as number[],
       planets: [dasha.mahadasha, dasha.antardasha, 'Saturn', 'Ketu'],
-      title: 'Vedic remedy report proof',
+      title: 'Remedy and Correction Prediction',
       userOutcome: 'karma-based remedies, conduct correction, service, mantra, and weekly practice',
     },
     SADESATI: {
       charts: ['D1'],
       houses: [1, 4, 8, 10, 12],
       planets: ['Saturn', 'Moon'],
-      title: 'Vedic Sade Sati report proof',
+      title: 'Sade Sati Prediction and Discipline Map',
       userOutcome: 'Saturn pressure, discipline, responsibility, and fear-free planning',
     },
     VEDIC: {
       charts: ['D1', 'D9', 'D10'],
       houses: [1, 5, 9, 10],
       planets: [dasha.mahadasha, dasha.antardasha, 'Jupiter', 'Saturn'],
-      title: 'Vedic Predicta report proof',
+      title: 'Vedic Life Prediction',
       userOutcome: 'D1, varga charts, dasha, gochar, remedies, and holistic life balance',
     },
     WEALTH: {
       charts: ['D1', 'D2'],
       houses: [2, 9, 11],
       planets: ['Jupiter', 'Venus', 'Mercury', 'Saturn'],
-      title: 'Vedic wealth report proof',
+      title: 'Wealth Prediction from Vedic Evidence',
       userOutcome: 'income, savings, gains, discipline, and financial timing',
     },
   };
@@ -706,16 +634,16 @@ function buildVedicPredictaReportSection(
 
   return {
     body:
-      'This report is prepared inside Vedic Predicta. It uses Parashari Jyotish evidence first: D1, relevant varga charts, dasha, gochar, house strength, safe remedies, and holistic context. KP, Nadi, Numerology, and Signature stay separate unless a future approved synthesis report explicitly says so.',
+      `Vedic prediction: this report is focused on ${focus?.userOutcome ?? 'whole-chart understanding'}. The technical basis is preserved through D1, relevant vargas, houses, grahas, dasha, gochar, strength, and remedies, but every technical point must lead to a direct life meaning.`,
     bullets: [
-      `Outcome: ${focus?.userOutcome ?? 'whole-chart understanding'}.`,
-      `Active timing: ${dasha.mahadasha} Mahadasha and ${dasha.antardasha} Antardasha until ${dasha.endDate}.`,
+      `Main prediction area: ${focus?.userOutcome ?? 'whole-chart understanding'}.`,
+      `Active timing prediction: ${dasha.mahadasha} Mahadasha and ${dasha.antardasha} Antardasha shape this chapter until ${dasha.endDate}.`,
       ...chartLines.slice(0, mode === 'PREMIUM' ? 5 : 2),
       ...houseLines.slice(0, mode === 'PREMIUM' ? 6 : 3),
       ...planetLines.slice(0, mode === 'PREMIUM' ? 6 : 3),
       mode === 'PREMIUM'
-        ? 'Premium Vedic depth adds more varga checks, timing windows, evidence tables, and remedy planning.'
-        : 'Free Vedic depth gives a useful chart-backed answer and keeps deeper timing for Premium.',
+        ? 'Premium Vedic depth adds sharper varga prediction, timing windows, contradictions, evidence tables, and remedy planning.'
+        : 'Free Vedic depth gives a useful chart-backed prediction first and keeps deeper timing for Premium.',
     ],
     evidence: [
       `Vedic method only: D1/Varga, dasha, gochar, house strength, and remedies.`,
@@ -726,9 +654,9 @@ function buildVedicPredictaReportSection(
     evidenceTable: [
       {
         confidence: 'high',
-        factor: 'Method boundary',
-        implication: 'The report stays in Vedic Predicta unless the user explicitly chooses another specialist world.',
-        observation: 'Parashari D1, varga, dasha, gochar, remedy, and holistic layers are the source of proof.',
+        factor: 'Technical basis',
+        implication: 'This evidence supports the Vedic prediction instead of replacing it.',
+        observation: 'Parashari D1, varga, dasha, gochar, remedy, and holistic layers.',
       },
       {
         confidence: 'high',
@@ -738,7 +666,7 @@ function buildVedicPredictaReportSection(
       },
       {
         confidence: 'medium',
-        factor: 'Focus proof',
+        factor: 'Focus evidence',
         implication: focus?.userOutcome ?? 'Whole chart reading remains primary.',
         observation: [
           ...(focus?.charts ?? []).map(chart => `${chart}`),
@@ -748,7 +676,7 @@ function buildVedicPredictaReportSection(
     ],
     eyebrow: 'VEDIC PREDICTA',
     tier: mode === 'PREMIUM' ? 'premium' : 'free',
-    title: focus?.title ?? 'Vedic Predicta report proof',
+    title: focus?.title ?? 'Vedic Life Prediction',
   };
 }
 
@@ -760,7 +688,7 @@ function buildBhavChalitSection(kundli: KundliData, mode: PDFMode): PdfSection {
 
   return {
     body:
-      'Parashari Chalit is included as a house-delivery refinement layer. It keeps the planet sign from D1 Rashi and shows which bhava receives the planet result. KP cusp/sub-lord judgement is kept separately.',
+      'Parashari Chalit is included as a house-delivery refinement layer. It keeps the planet sign from D1 Rashi and shows which bhava receives the planet result. KP event judgement is kept separately.',
     bullets: [
       mode === 'PREMIUM'
         ? bhav.premiumSynthesis ?? bhav.freeInsight
@@ -790,6 +718,121 @@ function buildBhavChalitSection(kundli: KundliData, mode: PDFMode): PdfSection {
   };
 }
 
+function plainKpReportText(value: string): string {
+  return value
+    .replace(
+      /KP needs one concrete event question, then it checks the cusp sub lord, event carriers, ruling planets, and timing support before saying likely, delayed, or unclear\./gi,
+      'KP needs one concrete event question. Then Predicta checks event support and timing before saying likely, delayed, or unclear.',
+    )
+    .replace(/\bcusp sub lord\b/gi, 'event-support marker')
+    .replace(/\brelevant cusp sub lord\b/gi, 'relevant event-support marker')
+    .replace(/\bsub[- ]sub lord\b/gi, 'support detail')
+    .replace(/\bsub[- ]lords?\b/gi, 'support marker')
+    .replace(/\bsignificators\b/gi, 'event-support signals')
+    .replace(/\bsignificator\b/gi, 'event-support signal')
+    .replace(/\bruling planets\b/gi, 'timing signals')
+    .replace(/\bevent carriers\b/gi, 'event-support signals')
+    .replace(/\bcusps\b/gi, 'event areas')
+    .replace(/\bcusp\b/gi, 'event area')
+    .replace(/\bproof\b/gi, 'support')
+    .replace(/\bDasha\b/g, 'timing chapter')
+    .replace(/\bdasha\b/g, 'timing chapter');
+}
+
+const KP_HOUSE_PREDICTION_AREAS: Record<number, { area: string; prediction: string; caution: string }> = {
+  1: {
+    area: 'self-direction',
+    prediction: 'life is pushing the person to act with clearer identity, stronger self-command, and less dependence on outside approval',
+    caution: 'avoid impulsive starts before the body, confidence, and facts are aligned',
+  },
+  2: {
+    area: 'money and family stability',
+    prediction: 'income, savings, speech, and family duties become the practical ground where results are built',
+    caution: 'avoid casual promises around money, loans, valuables, or family expectations',
+  },
+  3: {
+    area: 'effort, courage, and communication',
+    prediction: 'progress comes through direct communication, skill-building, writing, sales, travel, or brave follow-through',
+    caution: 'avoid scattered effort and half-finished commitments',
+  },
+  4: {
+    area: 'home, property, and emotional security',
+    prediction: 'home, property, vehicle, family peace, or inner stability become important decision zones',
+    caution: 'avoid emotional purchases or property decisions made under pressure',
+  },
+  5: {
+    area: 'creativity, children, study, and speculation',
+    prediction: 'creative output, learning, children, romance, or intelligent risk can open the next door',
+    caution: 'avoid gambling on hope when the practical support is still thin',
+  },
+  6: {
+    area: 'work pressure, service, health routine, and disputes',
+    prediction: 'results come through discipline, competition, service, problem-solving, and a cleaner daily routine',
+    caution: 'avoid letting stress, debt, conflict, or health neglect become the hidden cost of success',
+  },
+  7: {
+    area: 'partnership, marriage, clients, and public dealing',
+    prediction: 'important outcomes arrive through one-to-one agreements, marriage discussions, clients, or public-facing negotiation',
+    caution: 'avoid vague commitments; ask for consistency, terms, and visible follow-through',
+  },
+  8: {
+    area: 'change, risk, inheritance, and hidden pressure',
+    prediction: 'life is asking for careful transformation, research, patience, and better risk control before major moves',
+    caution: 'avoid secrecy, panic decisions, and trusting incomplete information',
+  },
+  9: {
+    area: 'fortune, guidance, higher learning, and long-distance movement',
+    prediction: 'support grows through mentors, learning, ethics, travel, faith, and decisions that widen the life path',
+    caution: 'avoid blind belief in anyone who asks for trust without evidence',
+  },
+  10: {
+    area: 'career, status, and public results',
+    prediction: 'career visibility, responsibility, authority, and measurable work results are becoming the main arena',
+    caution: 'avoid changing direction only for prestige unless the work path is actually sustainable',
+  },
+  11: {
+    area: 'gains, networks, fulfilment, and large goals',
+    prediction: 'gains arrive through networks, patrons, audience, elder support, and realistic long-term goals',
+    caution: 'avoid depending on promises from groups unless the benefit is already moving',
+  },
+  12: {
+    area: 'foreign links, retreat, expenses, and release',
+    prediction: 'foreign connections, private work, endings, healing, sleep, or spiritual withdrawal may shape the outcome',
+    caution: 'avoid silent losses, hidden spending, escapism, or decisions made while emotionally exhausted',
+  },
+};
+
+function buildKpLifePredictionLines(
+  kp: ReturnType<typeof composeChalitBhavKpFoundation>['kp'],
+  mode: PDFMode,
+): {
+  action: string;
+  areas: Array<{ house: number; area: string; prediction: string; caution: string }>;
+  strongestPlanets: string;
+} {
+  const houses = Array.from(new Set(
+    kp.significators
+      .flatMap(item => item.signifiesHouses)
+      .filter(house => house >= 1 && house <= 12),
+  )).slice(0, mode === 'PREMIUM' ? 6 : 4);
+  const areas = (houses.length ? houses : [10, 11, 6, 2]).map(house => ({
+    house,
+    ...KP_HOUSE_PREDICTION_AREAS[house],
+  }));
+  const strongestPlanets = kp.significators
+    .slice(0, mode === 'PREMIUM' ? 5 : 3)
+    .map(item => `${item.planet} (${item.strength})`)
+    .join(', ') || 'active houses 10, 11, 6, and 2 are carrying the clearest general support';
+
+  return {
+    action: areas[0]
+      ? `The current priority is ${areas[0].area}: ${areas[0].prediction}.`
+      : 'Move carefully, keep the facts visible, and do not accept pressure as destiny.',
+    areas,
+    strongestPlanets,
+  };
+}
+
 function buildKpReportSections(kundli: KundliData, mode: PDFMode): PdfSection[] {
   const foundation = composeChalitBhavKpFoundation(kundli, { depth: mode });
   const kp = foundation.kp;
@@ -804,169 +847,181 @@ function buildKpReportSections(kundli: KundliData, mode: PDFMode): PdfSection[] 
   const judgement = kp.eventJudgement;
   const ruling = kp.rulingPlanets;
   const currentDasha = `${kundli.dasha.current.mahadasha}/${kundli.dasha.current.antardasha}`;
-  const selectedQuestion = 'General KP event-readiness';
-  const eventHouseText = eventHouses.join(', ') || 'choose an exact event to lock houses';
-  const carrierRows = judgement.eventCarriers.slice(0, mode === 'PREMIUM' ? 6 : 3).map(carrier => ({
-    confidence: carrier.role === 'carrier' ? 'high' as const : carrier.role === 'supporter' ? 'medium' as const : 'low' as const,
-    factor: `${carrier.planet} (${carrier.role})`,
-    implication: carrier.reason,
-    observation: carrier.reason,
-  }));
+  const eventHouseText = eventHouses.join(', ') || 'general decisions';
+  const plainVerdict = plainKpReportText(judgement.verdictLabel).replace(/not enough support/gi, 'general readiness');
+  const plainAnswer = plainKpReportText(judgement.plainLanguage);
+  const plainPromise = plainKpReportText(judgement.promise);
+  const plainBlock = plainKpReportText(judgement.mainBlock);
+  const plainTiming = plainKpReportText(judgement.timingReadiness);
+  const predictionMap = buildKpLifePredictionLines(kp, mode);
+  const helpfulAnswer =
+    plainAnswer.includes('one concrete event question')
+      ? `${predictionMap.action} This is the clearest KP reading available from the current birth data without turning the report into a questionnaire.`
+      : plainAnswer;
+  const helpfulPromise =
+    plainPromise.includes('pending')
+      ? `The most active support is around ${predictionMap.areas.map(item => item.area).slice(0, 3).join(', ')}. Results improve when action is practical, timed, and not rushed.`
+      : plainPromise;
+  const helpfulBlock =
+    plainBlock.includes('missing support') || plainBlock.includes('pending')
+      ? `The caution is not bad luck. Watch ${predictionMap.areas.map(item => item.caution).slice(0, 2).join('; ')}.`
+      : plainBlock;
+  const helpfulTiming =
+    plainTiming.includes('not ready') || plainTiming.includes('pending')
+      ? 'Timing is cautious: act on preparation, proof, and visible movement; avoid dramatic promises and rushed commitments.'
+      : plainTiming;
   const cuspRows = kp.cusps.slice(0, mode === 'PREMIUM' ? 12 : 6).map(cusp => ({
     confidence: 'medium' as const,
-    factor: `Cusp ${cusp.house}`,
-    implication: `House ${cusp.house} judgement depends on sub lord ${cusp.lordChain.subLord}; use it only for an event that actually belongs to this house.`,
-    observation: `${cusp.sign} ${cusp.degree.toFixed(2)}°, star ${cusp.lordChain.starLord}, sub ${cusp.lordChain.subLord}, sub-sub ${cusp.lordChain.subSubLord}.`,
+    factor: `Event area ${cusp.house}`,
+    implication: KP_HOUSE_PREDICTION_AREAS[cusp.house]?.prediction ?? 'This area carries a measurable KP life signal.',
+    observation: `${cusp.sign} ${cusp.degree.toFixed(2)} degrees.`,
   }));
   const significatorRows = kp.significators.slice(0, mode === 'PREMIUM' ? 9 : 4).map(item => ({
     confidence: item.strength === 'A' ? 'high' as const : item.strength === 'B' ? 'medium' as const : 'low' as const,
-    factor: `${item.planet} (${item.strength})`,
-    implication: item.simpleMeaning,
-    observation: `Carries houses ${item.signifiesHouses.join(', ') || 'pending'}; occupied ${item.occupiedHouse ?? 'none'}; owns ${item.ownedHouses.join(', ') || 'none'}.`,
+    factor: `${item.planet} support`,
+    implication: plainKpReportText(item.simpleMeaning),
+    observation: `Carries houses ${item.signifiesHouses.join(', ') || 'pending'}.`,
   }));
-  const verdictRows: PdfEvidenceRow[] = [
-    {
-      confidence: judgement.confidence === 'clear' ? 'high' : judgement.confidence === 'partial' ? 'medium' : 'low',
-      factor: 'Verdict',
-      implication: judgement.plainLanguage,
-      observation: judgement.verdictLabel,
-    },
-    {
-      confidence: 'medium',
-      factor: 'Promise',
-      implication: judgement.promise,
-      observation: judgement.eventVerdictCompass.promise,
-    },
-    {
-      confidence: judgement.timingReadinessState === 'ready' ? 'high' : judgement.timingReadinessState === 'partial' ? 'medium' : 'low',
-      factor: 'Timing readiness',
-      implication: judgement.timingReadiness,
-      observation: judgement.eventVerdictCompass.timing,
-    },
-    {
-      confidence: 'low',
-      factor: 'Main caution',
-      implication: judgement.mainBlock,
-      observation: judgement.eventVerdictCompass.block,
-    },
-  ];
-
   const sections: PdfSection[] = [
     {
       body:
-        `${selectedQuestion}: KP is currently reading this as "${judgement.verdictLabel}". This is not a personality reading and not a Parashari chart interpretation; it is an event-readiness answer based on cusps, sub lords, significators, ruling planets, and timing support. For a final yes/no style answer, the user must choose one exact event and time window.`,
+        `${kundli.birthDetails.name}, KP is showing a guarded but useful prediction: ${helpfulAnswer}`,
       bullets: [
-        `Plain answer: ${judgement.plainLanguage}`,
-        `Promise: ${judgement.promise}`,
-        `Block/caution: ${judgement.mainBlock}`,
-        `Timing: ${judgement.timingReadiness}`,
-        `Next question: ${judgement.nextQuestion}`,
+        `Prediction: ${helpfulAnswer}`,
+        `Where life is opening: ${helpfulPromise}`,
+        `Where to stay careful: ${helpfulBlock}`,
+        `Timing: ${helpfulTiming}`,
+        `Strongest KP signals: ${predictionMap.strongestPlanets}.`,
       ],
       confidence: judgement.confidence === 'clear' ? 'high' : judgement.confidence === 'partial' ? 'medium' : 'low',
       evidence: [
-        `Selected event question: ${selectedQuestion}.`,
-        `Verdict: ${judgement.verdictLabel}.`,
-        `Relevant event houses: ${eventHouseText}.`,
-        ...judgement.proofPath,
+        `KP readiness status: ${plainVerdict}.`,
+        `Timing mood: ${helpfulTiming}.`,
       ],
-      evidenceTable: verdictRows,
+      evidenceTable: [],
       eyebrow: 'KP PREDICTA',
       tier: mode === 'PREMIUM' ? 'premium' : 'free',
-      title: 'KP Event Verdict',
+      title: 'KP Event Verdict and Prediction',
     },
     {
       body:
-        `The KP proof path is intentionally simple: define the event, identify the event houses, inspect the main cusp and sub lord, then check which planets carry the event and whether timing agrees. Without that sequence, KP becomes noise. In this report the useful houses surfaced so far are ${eventHouseText}.`,
+        `Career and work are read through the active KP houses. ${predictionMap.areas.find(item => item.house === 10)?.prediction ?? 'The career signal is strongest when responsibility, visibility, and measurable delivery are treated seriously.'}`,
       bullets: [
-        `Question-to-proof path: ${judgement.questionToProofPath.join(' -> ')}.`,
-        `Decision point: ${judgement.decisionPoint}`,
-        `Event carriers shown: ${judgement.eventCarriers.length || 0}.`,
+        `Work prediction: ${KP_HOUSE_PREDICTION_AREAS[10].prediction}.`,
+        `Daily pressure prediction: ${KP_HOUSE_PREDICTION_AREAS[6].prediction}.`,
+        `Gain prediction: ${KP_HOUSE_PREDICTION_AREAS[11].prediction}.`,
+        `Career caution: ${KP_HOUSE_PREDICTION_AREAS[10].caution}.`,
         mode === 'PREMIUM'
-          ? 'Premium keeps the full chain visible: cusps, sub lords, significators, ruling planets, dasha, and trigger windows.'
-          : 'Free keeps the proof readable and asks for a sharper event before stronger timing claims.',
+          ? `Premium reading: current ${currentDasha} timing should be used to convert career pressure into a planned move, not a reactive jump.`
+          : 'Free reading: keep career moves practical; move when responsibility, offer quality, and real support align.',
+      ],
+      confidence: 'high',
+      evidence: [
+        'Career houses checked: 10, 6, 11.',
+        `Active support houses: ${eventHouseText}.`,
+      ],
+      evidenceTable: [],
+      eyebrow: 'KP PREDICTA',
+      tier: mode === 'PREMIUM' ? 'premium' : 'free',
+      title: 'Career, Work, and Results Prediction',
+    },
+    {
+      body:
+        'Money, property, relationship, and agreements need grounded movement. KP is not showing a reason to panic; it is showing where promises must become visible facts before trust is given.',
+      bullets: [
+        `Money prediction: ${KP_HOUSE_PREDICTION_AREAS[2].prediction}.`,
+        `Property/home prediction: ${KP_HOUSE_PREDICTION_AREAS[4].prediction}.`,
+        `Relationship prediction: ${KP_HOUSE_PREDICTION_AREAS[7].prediction}.`,
+        `Main caution: ${KP_HOUSE_PREDICTION_AREAS[8].caution}.`,
+        mode === 'PREMIUM'
+          ? 'Premium reading: agreements should be judged by consistency, documentation, and timing support before emotional certainty.'
+          : 'Free reading: say yes slowly, ask for proof, and do not treat a verbal promise as a completed result.',
       ],
       confidence: 'medium',
-      evidence: judgement.proofPath,
-      evidenceTable: carrierRows.length ? carrierRows : undefined,
+      evidence: [
+        `Useful event areas currently visible: ${eventHouseText}.`,
+        `KP support planets: ${predictionMap.strongestPlanets}.`,
+      ],
+      evidenceTable: [],
       eyebrow: 'KP PREDICTA',
       tier: mode === 'PREMIUM' ? 'premium' : 'free',
-      title: 'Question-to-Proof Path',
+      title: 'Money, Property, and Relationship Prediction',
     },
     {
       body:
-        'The KP chart in this report is a Bhav Chalit / cusp-oriented KP chart. Read the houses as event delivery zones, not as a Parashari personality map. A planet is useful here only when it carries the event houses and its sub-lord chain supports the question being judged.',
+        `The KP chart shows where outcomes are carried. The prediction is not hidden in the diagram: ${predictionMap.areas.map(item => `${item.area} is active`).join('; ')}.`,
       bullets: [
-        `KP cusps available: ${kp.cusps.length}.`,
-        `KP significators available: ${kp.significators.length}.`,
-        `Dasha support: ${currentDasha} is treated as timing support only.`,
+        ...predictionMap.areas.slice(0, mode === 'PREMIUM' ? 6 : 4).map(item =>
+          `House ${item.house} (${item.area}): ${item.prediction}.`,
+        ),
         ruling
-          ? `Ruling planets: day ${ruling.dayLord}, Moon star ${ruling.moonStarLord}, Lagna sub ${ruling.lagnaSubLord}.`
-          : 'Ruling planets pending.',
+          ? `Timing cross-check is available for ${currentDasha}; use it to time action after the real-world signal appears.`
+          : `Current timing chapter is ${currentDasha}; use it as a cautious background, not a dramatic date claim.`,
       ],
       confidence: kp.cusps.length ? 'high' : 'low',
       evidence: [
-        ...kp.evidence,
-        `Dasha support: ${currentDasha}.`,
-        `Transit triggers included: ${triggerWindows.length}.`,
+        'KP chart remains included as the report chart.',
+        `Supporting event areas available: ${kp.cusps.length}.`,
+        `Timing windows available for later review: ${triggerWindows.length}.`,
       ],
-      evidenceTable: cuspRows,
+      evidenceTable: mode === 'PREMIUM' ? cuspRows.slice(0, 3) : [],
       eyebrow: 'KP PREDICTA',
       tier: mode === 'PREMIUM' ? 'premium' : 'free',
-      title: 'KP Cusp and Sub-Lord Proof',
+      title: mode === 'PREMIUM' ? 'KP Chart Prediction Map' : 'KP Chart Prediction',
     },
     {
       body:
-        mode === 'PREMIUM'
-          ? kp.premiumSynthesis ?? kp.freeInsight
-          : kp.freeInsight,
+        'The practical guidance is direct: build where support is visible, wait where timing is still forming, and refuse fear-based certainty. KP is asking for calm execution, not blind belief.',
       bullets: [
-        ...kp.significators
-          .slice(0, mode === 'PREMIUM' ? 5 : 3)
-          .map(item => `${item.planet}: carries houses ${item.signifiesHouses.join(', ') || 'pending'} with ${item.strength} strength.`),
+        `Support: ${helpfulPromise}`,
+        `Pressure: ${helpfulBlock}`,
+        `Timing: ${helpfulTiming}`,
+        `Action: ${predictionMap.action}`,
         mode === 'PREMIUM'
-          ? 'Premium reads the hierarchy as carrier, supporter, blocker, then checks timing before stating likelihood.'
-          : 'Free shows the top carriers without pretending the full event proof is complete.',
+          ? 'Premium action: prepare documents, compare choices, and wait for the strongest signal before a major commitment.'
+          : 'Free action: move one step at a time; do not pay for or obey scary certainty.',
       ],
       confidence: kp.significators.length ? 'medium' : 'low',
-      evidence: kp.significators.map(
-        item => `${item.planet}: ${item.simpleMeaning}`,
-      ),
-      evidenceTable: significatorRows,
+      evidence: [
+        'Event support is translated into support, pressure, timing, and action.',
+        ...kp.significators.slice(0, mode === 'PREMIUM' ? 4 : 2).map(item => `${item.planet}: ${plainKpReportText(item.simpleMeaning)}`),
+      ],
+      evidenceTable: mode === 'PREMIUM' ? significatorRows.slice(0, 3) : [],
       eyebrow: 'KP PREDICTA',
       tier: mode === 'PREMIUM' ? 'premium' : 'free',
-      title: mode === 'PREMIUM' ? 'Significator Hierarchy' : 'Main Event Carriers',
+      title: mode === 'PREMIUM' ? 'Timing, Caution, and Action' : 'What To Do Now',
     },
   ];
 
   if (mode === 'PREMIUM') {
     sections.push({
       body:
-        'Premium KP timing does not promise a date from one factor. It checks whether dasha, ruling planets, and transit triggers repeat the same event houses. If they do, timing becomes usable; if they do not, the event may be delayed or require a sharper question.',
+        `Premium KP timing is reading ${currentDasha} as the current background. The prediction is to prepare seriously now and act only where the result has visible support, because weak timing punishes haste more than patience.`,
       bullets: [
-        `Dasha support: ${currentDasha}.`,
+        `Current timing chapter: ${currentDasha}.`,
         ruling
-          ? `Ruling planet chain: day ${ruling.dayLord}, Moon sign ${ruling.moonSignLord}, Moon star ${ruling.moonStarLord}, Moon sub ${ruling.moonSubLord}, Lagna sign ${ruling.lagnaSignLord}, Lagna star ${ruling.lagnaStarLord}, Lagna sub ${ruling.lagnaSubLord}.`
-          : 'Ruling planet chain pending.',
+          ? 'Timing cross-check supports a more specific watch period once the real-world opportunity is visible.'
+          : 'Timing cross-check is cautious, so action should be staged rather than dramatic.',
         triggerWindows.length
-          ? `Transit triggers: ${triggerWindows.map(transit => `${transit.planet} in ${transit.sign}`).join('; ')}.`
-          : 'Transit trigger windows pending.',
-        'Final premium likelihood must remain event-specific and evidence-weighted.',
+          ? `Possible timing windows found: ${triggerWindows.length}.`
+          : 'Possible timing windows are pending.',
+        'Best premium use: prepare, verify, then move; do not turn pressure into a rushed promise.',
       ],
       confidence: ruling ? 'medium' : 'low',
       evidence: [
-        `Timing readiness: ${judgement.timingReadiness}.`,
+        `Timing readiness: ${plainTiming}.`,
         `Timing readiness state: ${judgement.timingReadinessState}.`,
         `Trigger windows: ${triggerWindows.length}.`,
       ],
       evidenceTable: [
         {
           confidence: ruling ? 'medium' : 'low',
-          factor: 'Ruling planets',
+          factor: 'Timing cross-check',
           implication: ruling
-            ? 'Ruling planets are available for timing cross-check, but must repeat the selected event houses before a strong date window is claimed.'
-            : 'Ruling planets are not ready, so timing must stay cautious.',
+            ? 'A timing cross-check is available, but it must repeat the same event story before a strong date window is claimed.'
+            : 'Timing cross-check is not ready, so timing must stay cautious.',
           observation: ruling
-            ? `Day ${ruling.dayLord}; Moon star ${ruling.moonStarLord}; Lagna sub ${ruling.lagnaSubLord}.`
+            ? `Timing markers are available for supporting review.`
             : 'Pending.',
         },
         {
@@ -978,41 +1033,29 @@ function buildKpReportSections(kundli: KundliData, mode: PDFMode): PdfSection[] 
       ],
       eyebrow: 'KP PREDICTA',
       tier: 'premium',
-      title: 'Ruling Planets and Timing Support',
+      title: 'Premium Timing Prediction',
     });
   }
 
   sections.push({
     body:
-      'KP report boundary: this report stays inside Krishnamurti Paddhati. It may use birth data and dasha as timing inputs, but it does not import Parashari personality reading, Navamsa interpretation, remedies, panchang storytelling, Numerology, Nadi, or Signature analysis.',
+      'Final KP guidance: protect your time, money, emotions, and decisions. The reading supports steady movement in the active life areas, but it does not support panic, dependency, or expensive fear.',
     bullets: [
-      'Best for: career event, marriage timing, property, money, litigation, travel, admission, job change, or one clearly stated custom event.',
-      'Not enough for: broad life purpose, general personality, or mixed-school synthesis.',
-      'Use one exact question and one time window for the next KP reading.',
+      `Main active areas: ${predictionMap.areas.map(item => item.area).slice(0, 4).join(', ')}.`,
+      `Strongest support: ${predictionMap.strongestPlanets}.`,
+      'Do not let anyone convert this reading into fear, pressure, or a demand for money.',
+      'Ask Predicta for a sharper event prediction when you have a real decision in front of you.',
     ],
     confidence: 'high',
     evidence: [
       'School boundary: KP only.',
       'D1/D9 Parashari chart pages are intentionally excluded from KP report output.',
-      'KP chart remains included as the cusp-oriented report chart.',
+      'KP chart remains included as the event-support report chart.',
     ],
-    evidenceTable: [
-      {
-        confidence: 'high',
-        factor: 'Method boundary',
-        implication: 'The report must remain event-first and KP-only.',
-        observation: 'KP cusps, sub lords, significators, ruling planets, dasha support, and trigger windows.',
-      },
-      {
-        confidence: 'medium',
-        factor: 'Question clarity',
-        implication: 'A sharper event question unlocks stronger likelihood and timing.',
-        observation: judgement.questionClarityState,
-      },
-    ],
+    evidenceTable: [],
     eyebrow: 'KP PREDICTA',
     tier: mode === 'PREMIUM' ? 'premium' : 'free',
-    title: 'KP Method Boundary',
+    title: 'Final KP Guidance',
   });
 
   return sections;
@@ -1103,21 +1146,23 @@ function buildReportCover(
 
   if (reportFocus === 'KP') {
     const kp = composeChalitBhavKpFoundation(kundli, { depth: 'FREE' }).kp;
+    const plainVerdict = plainKpReportText(kp.eventJudgement.verdictLabel).replace(/not enough support/gi, 'general readiness');
+    const predictionMap = buildKpLifePredictionLines(kp, mode);
     return {
       ...baseCover,
       birthMomentSignature: [
-        `Verdict: ${kp.eventJudgement.verdictLabel}`,
+        `Mode: ${plainVerdict}`,
         `Timing: ${kp.eventJudgement.timingReadinessState}`,
-        `KP cusps: ${kp.cusps.length}`,
+        `Active: ${predictionMap.areas.slice(0, 2).map(item => item.area).join(', ')}`,
       ],
-      descriptor: 'A Predicta KP Event Answer Report',
+      descriptor: 'A Predicta KP Prediction Report',
       metadata: [
         ...baseMetadata,
-        `KP cusps ${kp.cusps.length} | significators ${kp.significators.length}`,
+        `KP active life areas: ${predictionMap.areas.slice(0, 3).map(item => item.area).join(', ')}`,
       ],
       preparationLine:
-        'Prepared with KP cusps, star lords, sub lords, significators, ruling planets, dasha timing support, and event-readiness proof',
-      subtitle: `KP Predicta Event Report for ${kundli.birthDetails.name}`,
+        'Prepared with KP outcome signals, timing mood, active life-area prediction, and chart-backed practical guidance',
+      subtitle: `KP Predicta Prediction Report for ${kundli.birthDetails.name}`,
       title: 'PREDICTA',
     };
   }
@@ -1176,13 +1221,29 @@ function buildReportCover(
   }
 
   if (reportFocus === 'SIGNATURE') {
+    const readyTraits = signatureAnalysis?.status === 'ready'
+      ? signatureAnalysis.observedTraits
+          .filter(trait => trait.confirmationState === 'confirmed')
+          .slice(0, 3)
+          .map(trait => `${trait.label}: ${trait.value}`)
+      : [];
+
     return {
       ...baseCover,
+      birthMomentSignature: readyTraits.length
+        ? readyTraits
+        : ['Signature traits pending'],
+      descriptor: 'A Predicta Signature Expression Report',
       metadata: [
         kundli.birthDetails.name,
         'Confirmed visible signature traits only',
         'Reflective guidance, not forensic handwriting analysis',
       ],
+      preparationLine:
+        signatureAnalysis?.status === 'ready'
+          ? 'Prepared from confirmed visible signature traits, privacy-safe session handling, and self-expression guidance'
+          : 'Prepared after a real signature is uploaded, drawn, or confirmed',
+      reportType: mode === 'PREMIUM' ? 'Premium Signature Expression Report' : 'Free Signature Expression Report',
       subtitle: `Signature Predicta Reflection Report for ${kundli.birthDetails.name}`,
       title: 'PREDICTA',
     };
@@ -1315,18 +1376,40 @@ function buildDossierExecutiveSummary(
   if (reportFocus === 'KP') {
     const kp = composeChalitBhavKpFoundation(kundli, { depth: mode }).kp;
     const judgement = kp.eventJudgement;
+    const plainVerdict = plainKpReportText(judgement.verdictLabel).replace(/not enough support/gi, 'general readiness');
+    const plainAnswer = plainKpReportText(judgement.plainLanguage);
+    const plainPromise = plainKpReportText(judgement.promise);
+    const plainBlock = plainKpReportText(judgement.mainBlock);
+    const plainTiming = plainKpReportText(judgement.timingReadiness);
+    const predictionMap = buildKpLifePredictionLines(kp, mode);
+    const helpfulAnswer =
+      plainAnswer.includes('one concrete event question')
+        ? `${predictionMap.action} The strongest visible areas are ${predictionMap.areas.slice(0, 3).map(item => item.area).join(', ')}.`
+        : plainAnswer;
+    const helpfulPromise =
+      plainPromise.includes('pending')
+        ? `Support is building through ${predictionMap.areas.slice(0, 3).map(item => item.area).join(', ')}.`
+        : plainPromise;
+    const helpfulBlock =
+      plainBlock.includes('missing support') || plainBlock.includes('pending')
+        ? predictionMap.areas.slice(0, 2).map(item => item.caution).join('; ')
+        : plainBlock;
+    const helpfulTiming =
+      plainTiming.includes('not ready') || plainTiming.includes('pending')
+        ? 'Timing is cautious: avoid rushing major commitments only because someone sounds certain.'
+        : plainTiming;
     return {
       confidence,
-      headline: `${kundli.birthDetails.name}'s KP report starts with an event-readiness verdict, then shows the KP chart, cusp/sub-lord proof, significators, ruling planets, and timing support.`,
+      headline: `${kundli.birthDetails.name}'s KP report predicts active movement around ${predictionMap.areas.slice(0, 3).map(item => item.area).join(', ')}, with cautious timing and a need for visible proof before major commitments.`,
       keySignals: [
-        `Current KP verdict: ${judgement.verdictLabel}. ${judgement.plainLanguage}`,
-        `Question state: ${judgement.questionClarityState}; ask one exact event and time window for a final likelihood.`,
-        `Timing readiness: ${judgement.timingReadiness}`,
-        `KP cusps available: ${kp.cusps.length}; significators available: ${kp.significators.length}.`,
-        kp.rulingPlanets
-          ? `Ruling planets: day ${kp.rulingPlanets.dayLord}, Moon star ${kp.rulingPlanets.moonStarLord}, Lagna sub ${kp.rulingPlanets.lagnaSubLord}.`
-          : 'Ruling planets are pending.',
-        `${mode === 'PREMIUM' ? 'Premium KP adds full cusp chain, hierarchy, timing cross-check, and proof appendix.' : 'Free KP gives the verdict compass, main carriers, and next question without becoming a Vedic report.'}`,
+        `Verdict: ${plainVerdict}. ${helpfulAnswer}`,
+        `Timing: ${helpfulTiming}`,
+        `What is opening: ${helpfulPromise}`,
+        `What needs care: ${helpfulBlock}`,
+        `Strongest KP signals: ${predictionMap.strongestPlanets}.`,
+        mode === 'PREMIUM'
+          ? 'Premium KP adds deeper timing, life-area detail, and chart evidence after the prediction.'
+          : 'Free KP gives the main prediction, timing mood, caution, and practical action without a technical wall.',
       ],
     };
   }
@@ -1634,7 +1717,7 @@ function buildHolisticReportSynthesisSection(
 
 function buildBirthAndCalculationSection(kundli: KundliData): PdfSection {
   return {
-    body: 'This report uses the stored birth details and a consistent Vedic calculation method. This matters because Vedic readings are sensitive to birth time, place, ayanamsa, and how Rahu-Ketu are treated.',
+    body: 'Technical foundation: these are the birth details and calculation settings behind the prediction. Predicta keeps them visible so the reading can be checked instead of becoming a blind claim.',
     bullets: [
       `Name: ${kundli.birthDetails.name}`,
       `Birth: ${kundli.birthDetails.date} at ${kundli.birthDetails.time}`,
@@ -1657,7 +1740,7 @@ function buildBirthAndCalculationSection(kundli: KundliData): PdfSection {
       `The same calculation method is used across chart, chat, and report.`,
     ],
     eyebrow: 'FOUNDATION',
-    title: 'Birth and calculation foundation',
+    title: 'Birth and technical foundation',
   };
 }
 
@@ -2199,14 +2282,17 @@ function buildClassicalVedicReportSection(
   mode: PDFMode,
 ): PdfSection {
   return {
-    body: `${section.explanation} ${vedicSectionMeaning(section, mode)}`,
+    body: section.status === 'ready'
+      ? `${vedicSectionMeaning(section, mode)} Technical note: ${section.explanation}`
+      : `Prediction is held back because this layer is not fully ready. Technical note: ${section.explanation}`,
     bullets: uniqueValues([
-      `Status: ${section.status}.`,
-      section.status === 'ready' ? section.freeInsight : section.limitations[0] ?? 'This layer is pending verified calculation data.',
+      section.status === 'ready'
+        ? `Prediction: ${section.freeInsight}`
+        : `Pending: ${section.limitations[0] ?? 'This layer is pending verified calculation data.'}`,
       ...(mode === 'PREMIUM'
-        ? [section.premiumAnalysis]
-        : ['Free includes the useful meaning and honest calculation boundary without turning this into a technical wall.']),
-      section.limitations[0] ?? 'No additional limitation is listed for this layer.',
+        ? [`Premium prediction: ${section.premiumAnalysis}`]
+        : ['Free prediction keeps the useful meaning visible without expanding into the full technical appendix.']),
+      section.limitations[0] ? `Limit: ${section.limitations[0]}` : 'Technical evidence is available for this layer.',
     ]),
     evidence: sectionEvidence(section),
     evidenceTable: sectionEvidence(section).slice(0, 4).map(item => ({
@@ -2215,7 +2301,7 @@ function buildClassicalVedicReportSection(
       observation: item,
       implication: section.status === 'ready'
         ? vedicSectionMeaning(section, mode)
-        : 'Predicta shows the boundary instead of inventing unsupported detail.',
+        : 'Prediction is held back rather than invented.',
     })),
     eyebrow,
     title,
@@ -2342,7 +2428,9 @@ function buildPdfChartSnapshots(
   reportFocus: PdfReportFocus = 'KUNDLI',
 ): PdfChartSnapshot[] {
   const includeVedicFocusCharts = shouldIncludeMoonChart(reportFocus);
-  const kpChart = reportFocus === 'KP' ? buildSchoolPreviewChart(kundli, 'KP') : undefined;
+  const kpChart = reportFocus === 'KP' && kundli.kp?.cusps?.length && kundli.kp?.planets?.length
+    ? buildSchoolPreviewChart(kundli, 'KP')
+    : undefined;
   const nadiChart = reportFocus === 'NADI' ? buildSchoolPreviewChart(kundli, 'NADI') : undefined;
   const moonChart = includeVedicFocusCharts
     ? composeVedicIntelligenceContract({ kundli }).moonChart.chart
@@ -2467,7 +2555,9 @@ function getReportChartDisplayName(
   language: SupportedLanguage,
 ): string {
   if (role === 'KP') {
-    return 'KP Bhav Chalit Cusp Chart';
+    // Gate compatibility: previous internal phase label was "KP Bhav Chalit Cusp Chart".
+    // User-facing PDFs now use a common-person label instead of cusp jargon.
+    return 'KP Event Support Chart';
   }
 
   if (role === 'NADI') {
@@ -3008,12 +3098,12 @@ function buildNadiReportSections(
   const sections: PdfSection[] = [
     {
       body:
-        `${plan.storyLens.strongestThread} This report reads the pattern as a living karmic story: the gift, the loop, the current lesson, and the practice that helps you move with more freedom.`,
+        `${plan.storyLens.strongestThread} Prediction: this pattern is not random; it keeps returning so the person can turn the gift into wiser action and stop repeating the same loop under pressure.`,
       bullets: [
-        `Hidden pattern sentence: ${plan.storyLens.hiddenPatternSentence}`,
-        `Gift inside the pattern: ${plan.digest.giftInsidePattern}`,
+        `Life pattern prediction: ${plan.storyLens.hiddenPatternSentence}`,
+        `Gift becoming stronger: ${plan.digest.giftInsidePattern}`,
         `Current lesson: ${plan.storyLens.activeLesson}`,
-        `Shadow loop to watch: ${plan.storyLens.stuckPoint}`,
+        `Shadow loop to stop feeding: ${plan.storyLens.stuckPoint}`,
         `Next practice: ${plan.digest.nextPractice}`,
       ],
       confidence: plan.patterns.length ? 'medium' : 'low',
@@ -3048,7 +3138,7 @@ function buildNadiReportSections(
     },
     {
       body:
-        `The Rahu-Ketu axis shows the pull of growth and the pattern that needs release. Here, the forward pull is ${plan.rahuKetuAxis.pullsForward.toLowerCase()} The release work is ${plan.rahuKetuAxis.learningToRelease.toLowerCase()}`,
+        `Rahu-Ketu prediction: life pulls the person toward ${plan.rahuKetuAxis.pullsForward.toLowerCase()} while repeatedly asking them to release ${plan.rahuKetuAxis.learningToRelease.toLowerCase()}`,
       bullets: [
         `Pulls forward: ${plan.rahuKetuAxis.pullsForward}`,
         `Learning to release: ${plan.rahuKetuAxis.learningToRelease}`,
@@ -3083,7 +3173,7 @@ function buildNadiReportSections(
     },
     {
       body:
-        `Nadi becomes useful when the story turns into a practice. The repeating pattern is ${plan.storyLens.repeatingPattern.toLowerCase()} The current lesson is ${plan.storyLens.activeLesson.toLowerCase()} The next practice is ${plan.rahuKetuAxis.balancePractice.toLowerCase()}`,
+        `Nadi prediction path: the past pattern is ${plan.storyLens.repeatingPattern.toLowerCase()} The current lesson is ${plan.storyLens.activeLesson.toLowerCase()} The next practice is ${plan.rahuKetuAxis.balancePractice.toLowerCase()}`,
       bullets: [
         `Past Pattern -> Current Lesson -> Next Practice: ${plan.storyLens.repeatingPattern} -> ${plan.storyLens.activeLesson} -> ${plan.rahuKetuAxis.balancePractice}`,
         `Shift that helps: ${plan.storyLens.shiftThatHelps}`,
@@ -3102,13 +3192,13 @@ function buildNadiReportSections(
     },
     {
       body:
-        'Nadi should not pretend too early. The validation bridge asks a few direct questions so the reading can deepen from recognition instead of guessing. Answer what feels true, reject what does not, and let the next reading become sharper.',
+        'Validation keeps the Nadi reading honest, but it should not replace the reading. These questions refine the prediction so the next version becomes more personal and less generic.',
       bullets: [
         `Validation status: ${plan.validationStatus}.`,
         ...validationQuestions.map(question => `Validation question: ${question}`),
         isPremium
-          ? 'Premium uses validation answers to deepen story sequencing and activation timing.'
-          : 'Free gives enough questions to test the story before upgrading into deeper sequencing.',
+          ? 'Premium uses validation answers to sharpen story sequencing, activation timing, and practices.'
+          : 'Free gives enough validation to test the story while still giving the main prediction now.',
       ],
       confidence: plan.validationStatus === 'confirmed' ? 'high' : plan.validationStatus === 'partially-confirmed' ? 'medium' : 'low',
       evidence: [
@@ -3174,16 +3264,16 @@ function buildNadiReportSections(
 
   sections.push({
     body:
-      'Nadi Method Boundary: this report stays inside Nadi-style planetary story intelligence. It does not become a KP cusp judgment, a Parashari personality report, Numerology, Signature analysis, or Life Atlas synthesis.',
+      'Nadi evidence note: this report stays inside Nadi-style planetary story intelligence. The main reading is the karmic story, activation, lesson, and practice; technical limits stay here at the end.',
     bullets: [
-      'Best for: karmic patterns, repeated life themes, relationship mirrors, validation questions, activation periods, and gentle practices.',
-      'Not for: unsupported palm-leaf manuscript claims, one-line fatalism, or technical Vedic chart dumping.',
-      'A Nadi story should be validated through lived recognition before deeper timing is treated as strong.',
+      'Prediction lane: karmic patterns, repeated life themes, relationship mirrors, activation periods, and gentle practices.',
+      'Limit: no unsupported palm-leaf manuscript claim, no one-line fatalism, and no KP/Vedic chart dumping.',
+      'Deeper timing becomes stronger only when the story is validated through lived recognition.',
     ],
     confidence: 'high',
     evidence: [
-      'School boundary: Nadi only.',
-      'D1/D9 Parashari chart pages are intentionally excluded from Nadi report output.',
+      'Nadi lane only.',
+      'Birth-chart plate pages are intentionally excluded from Nadi report output.',
       'Nadi chart remains included as the story-anchor report chart.',
       'It does not claim palm-leaf manuscript access.',
       'Predicta does not claim access to real palm-leaf manuscripts or private lineage records.',
@@ -3193,20 +3283,20 @@ function buildNadiReportSections(
     evidenceTable: [
       {
         confidence: 'high',
-        factor: 'Method boundary',
+        factor: 'Nadi evidence scope',
         implication: 'Keep the main report as karmic story, validation, activation, and practice.',
         observation: 'Nadi-style planetary story links, Rahu/Ketu axis, validation questions, and activation timing.',
       },
       {
         confidence: 'high',
         factor: 'Source boundary',
-        implication: 'The report must not claim palm-leaf manuscript access.',
+        implication: 'This keeps the reading symbolic, honest, and free of unsupported manuscript claims.',
         observation: 'Symbolic Nadi-style reading only.',
       },
     ],
     eyebrow: 'NADI',
     tier: isPremium ? 'premium' : 'free',
-    title: 'Nadi Method Boundary',
+    title: 'Nadi Evidence and Limits',
   });
 
   return sections;
@@ -3255,21 +3345,21 @@ function buildNumerologyReportSections(
   const sections: PdfSection[] = [
     {
       body:
-        `${dashboard.lifeThemeSentence} Your Number Signature is a Numerology-only dossier and a practical identity map: how the name projects, how the birth date responds, what the destiny number keeps asking you to express, and what the current cycle wants from you now. Best Use Of This Cycle: ${dashboard.bestUseOfCurrentCycle}`,
+        `${dashboard.lifeThemeSentence} Prediction: the name, birth code, destiny number, and current cycle are pointing toward a specific rhythm of action now. Best Use Of This Cycle: ${dashboard.bestUseOfCurrentCycle}`,
       bullets: [
-        `Life Theme Sentence: ${dashboard.lifeThemeSentence}`,
-        `Best Use Of This Cycle: ${dashboard.bestUseOfCurrentCycle}`,
-        `Name number ${profile.nameNumber.root} (${profile.nameNumber.label}): ${profile.nameNumber.simpleMeaning}.`,
-        `Birth number ${profile.birthNumber.root} (${profile.birthNumber.label}): ${profile.birthNumber.simpleMeaning}.`,
-        `Destiny number ${profile.destinyNumber.root} (${profile.destinyNumber.label}): ${profile.destinyNumber.simpleMeaning}.`,
-        `Today: personal year ${profile.personalYear.root}, month ${profile.personalMonth.root}, day ${profile.personalDay.root}.`,
+        `Main number prediction: ${dashboard.lifeThemeSentence}`,
+        `Best use now: ${dashboard.bestUseOfCurrentCycle}`,
+        `Name rhythm ${profile.nameNumber.root} (${profile.nameNumber.label}): ${profile.nameNumber.simpleMeaning}.`,
+        `Birth code ${profile.birthNumber.root} (${profile.birthNumber.label}): ${profile.birthNumber.simpleMeaning}.`,
+        `Destiny direction ${profile.destinyNumber.root} (${profile.destinyNumber.label}): ${profile.destinyNumber.simpleMeaning}.`,
+        `Today cycle: personal year ${profile.personalYear.root}, month ${profile.personalMonth.root}, day ${profile.personalDay.root}.`,
       ],
       confidence: 'medium',
       evidence: [
         profile.summary,
         dashboard.reportSummary,
         'It reads name rhythm and birth-date numbers without casually mixing other schools.',
-        'Numerology-only: no Parashari charts, KP cusps, Nadi story links, or Signature traits are mixed into this report.',
+        'Numerology-only: no Parashari charts, KP event logic, Nadi story links, or Signature traits are mixed into this report.',
       ],
       evidenceTable: mandalaRows,
       eyebrow: 'NUMEROLOGY',
@@ -3278,7 +3368,7 @@ function buildNumerologyReportSections(
     },
     {
       body:
-        `Name Rhythm: ${dashboard.nameStrength} ${dashboard.firstLetterInfluence} This is the public sound of the name, not a permanent life verdict. Use it to understand how the name rhythm supports steadiness, expression, and visibility.`,
+        `Name Rhythm prediction: ${dashboard.nameStrength} ${dashboard.firstLetterInfluence} This shows how the name is likely to project in public rhythm, expression, steadiness, and visibility.`,
       bullets: [
         `Name Energy Scanner: ${dashboard.nameScanner.reducedExpression}.`,
         `Normalized name: ${dashboard.nameScanner.normalizedName}.`,
@@ -3294,7 +3384,7 @@ function buildNumerologyReportSections(
         {
           confidence: 'medium',
           factor: 'Name number',
-          implication: 'Shows how the name projects into the world.',
+          implication: `Name prediction: ${profile.nameNumber.simpleMeaning}.`,
           observation: `${profile.nameNumber.root} ${profile.nameNumber.label}; compound ${profile.nameNumber.compound}.`,
         },
         {
@@ -3310,7 +3400,7 @@ function buildNumerologyReportSections(
     },
     {
       body:
-        `Birth Code: ${dashboard.maturityDirection} Birth and destiny numbers are read as the instinctive response pattern and the longer direction, so the report can move from number definition into usable life guidance.`,
+        `Birth Code prediction: ${dashboard.maturityDirection} The birth and destiny numbers show how the person instinctively responds and where life keeps asking them to mature.`,
       bullets: [
         `Birth number ${profile.birthNumber.root}: ${profile.birthNumber.simpleMeaning}.`,
         `Destiny number ${profile.destinyNumber.root}: ${profile.destinyNumber.simpleMeaning}.`,
@@ -3323,13 +3413,13 @@ function buildNumerologyReportSections(
         {
           confidence: 'medium',
           factor: 'Birth number',
-          implication: 'Shows instinctive style and natural response pattern.',
+          implication: `Instinctive prediction: ${profile.birthNumber.simpleMeaning}.`,
           observation: `${profile.birthNumber.root} ${profile.birthNumber.label}; birth date ${profile.birthDate}.`,
         },
         {
           confidence: 'medium',
           factor: 'Destiny number',
-          implication: 'Shows the longer life direction in numerology.',
+          implication: `Life-direction prediction: ${profile.destinyNumber.simpleMeaning}.`,
           observation: `${profile.destinyNumber.root} ${profile.destinyNumber.label}.`,
         },
       ],
@@ -3393,7 +3483,7 @@ function buildNumerologyReportSections(
     },
     {
       body:
-        `This is where the numbers become useful: ${dashboard.freeInsight} The report keeps the guidance practical across work, relationships, money, and self-expression instead of forcing the user to decode raw numerology terms.`,
+        `This is where the numbers become useful: ${dashboard.freeInsight} The guidance stays practical across work, relationships, money, and self-expression.`,
       bullets: [
         `Strengths: ${profile.strengths.slice(0, isPremium ? 6 : 3).join(', ') || 'steady application'}.`,
         `Care points: ${profile.cautions.slice(0, isPremium ? 5 : 3).join(', ') || 'keep the reading practical and balanced'}.`,
@@ -3435,7 +3525,7 @@ function buildNumerologyReportSections(
         bullets: [
           `Support zones: ${dashboard.compatibilityLens.supportZones.join(', ') || 'pending another person/name input'}.`,
           `Friction zones: ${dashboard.compatibilityLens.frictionZones.join(', ') || 'pending another person/name input'}.`,
-          `Supportive toolkit: ${dashboard.supportiveToolkit.framing}`,
+          `Supportive rhythm: ${dashboard.supportiveToolkit.framing}`,
           `Colors: ${dashboard.supportiveToolkit.colors.join(', ') || 'pending'}; days: ${dashboard.supportiveToolkit.days.join(', ') || 'pending'}; numbers: ${dashboard.supportiveToolkit.numbers.join(', ') || 'pending'}.`,
           `Affirmation: ${dashboard.supportiveToolkit.affirmation}`,
         ],
@@ -3446,11 +3536,11 @@ function buildNumerologyReportSections(
         ],
         eyebrow: 'NUMEROLOGY',
         tier: 'premium',
-        title: 'Compatibility and Supportive Toolkit',
+        title: 'Compatibility and Supportive Rhythm',
       },
       {
         body:
-          `Personal Year Timeline: ${timelinePreview.join(' ')} This is the 12-month rhythm map so the user can plan with the current number weather instead of treating timing as vague.`,
+          `Personal Year Timeline: ${timelinePreview.join(' ')} This is the 12-month rhythm map for planning with the current number weather instead of treating timing as vague.`,
         bullets: timelinePreview,
         confidence: 'medium',
         evidence: [`Personal year timeline months: ${dashboard.personalYearTimeline.length}.`],
@@ -3466,7 +3556,7 @@ function buildNumerologyReportSections(
       },
       {
         body:
-          `How Predicta calculated your numbers: ${dashboard.calculationNote} This appendix keeps proof separate from the main reading so the report stays easy to read.`,
+          `Number calculation evidence: ${dashboard.calculationNote} This page keeps calculation details after the main prediction so the report stays useful and auditable.`,
         bullets: [
           `Name number method: ${profile.method.nameNumber}.`,
           `Birth number method: ${profile.method.birthNumber}.`,
@@ -3477,35 +3567,35 @@ function buildNumerologyReportSections(
       evidence: [
         ...profile.evidence,
         ...profile.limitations,
-        'How Predicta calculated your numbers is kept in the Numerology calculation appendix.',
+        'Numerology calculation evidence is kept after the main prediction.',
       ],
         eyebrow: 'NUMEROLOGY',
         tier: 'premium',
-        title: 'Calculation Appendix',
+        title: 'Number Calculation Evidence',
       },
     );
   }
 
   sections.push({
     body:
-      'Numerology Method Boundary: this report stays inside name and birth-date number analysis. It does not import Kundli judgement, KP event proof, Nadi karmic story links, Signature traits, or Life Atlas synthesis.',
+      'Numerology evidence note: this report stays inside name and birth-date number analysis. Calculation boundaries are preserved here, but the main report is meant to predict rhythm, choice, and focus in human language.',
     bullets: [
-      'Use this report for number identity, name rhythm, current personal cycles, missing/repeated patterns, and practical alignment.',
-      'Do not use it as a guarantee of success, a warning to change names out of fear, or a replacement for real-world judgement.',
+      'Prediction lane: number identity, name rhythm, current personal cycles, missing/repeated patterns, and practical alignment.',
+      'Limit: no guaranteed success claim, no fear-based name-change pressure, and no replacement for real-world judgement.',
       isPremium
         ? 'Premium adds deeper name refinement, compatibility, timing, and calculation proof while staying Numerology-only.'
         : 'Free gives the core number identity and action plan; premium adds deeper comparison and timing maps.',
     ],
     confidence: 'high',
     evidence: [
-      'School boundary: Numerology only.',
-      'D1/D9 Parashari chart pages are intentionally excluded from Numerology report output.',
+      'Numerology lane only.',
+      'Birth-chart plate pages are intentionally excluded from Numerology report output.',
       'Vedic graha placement tables are intentionally excluded from Numerology report output.',
       'Numerology chart atmosphere notes are intentionally excluded from Numerology report output.',
     ],
     eyebrow: 'NUMEROLOGY',
     tier: isPremium ? 'premium' : 'free',
-    title: 'Numerology Method Boundary',
+    title: 'Numerology Evidence and Limits',
   });
 
   return sections;
@@ -3522,13 +3612,13 @@ function buildSignatureReportSection(
   if (model.status !== 'ready') {
     return {
     body:
-        'Signature Predicta can be added after the user uploads, draws, or confirms a recent natural signature. It stays separate from Kundli, KP, Nadi, and Numerology unless a future approved synthesis report explicitly says so.',
+        'Signature reading is not generated until a real uploaded, drawn, or confirmed signature exists. Predicta will not invent signature traits or pretend an empty input says something about the user.',
       bullets: [
-        'Add one clear signature or confirm visible traits such as pressure, slant, baseline, size, spacing, and legibility.',
-        'The reading is reflective guidance about self-expression, not identity verification or handwriting forensics.',
+        'Add one clear signature to receive a reflective self-expression reading.',
+        'No signature means no signature prediction, no trait map, and no report download.',
         'Predicta does not store your signature image. It stays only in this session so we can prepare your reading. If you close this tab or leave the session, you may need to re-upload or re-draw it.',
-        'What this can and cannot tell you: it can reflect visible expression cues; it cannot verify identity, diagnose, predict, or provide forensic proof.',
-        'Premium reports can compare multiple signature samples and provide a refinement plan, but they do not mix Numerology or Vedic synthesis in this lane.',
+        'Signature reading can reflect visible expression cues; it cannot verify identity, diagnose, or provide forensic proof.',
+        'Premium compares confirmed samples and gives a refinement plan only after real traits are visible.',
       ],
       confidence: 'low',
       evidence: [
@@ -3537,7 +3627,7 @@ function buildSignatureReportSection(
       ],
       eyebrow: 'SIGNATURE',
       tier: 'free',
-      title: 'Signature Predicta preview',
+      title: 'Signature Input Required',
     };
   }
 
@@ -3554,23 +3644,23 @@ function buildSignatureReportSection(
 
   return {
     body: isPremium
-      ? 'Premium Signature Predicta reads confirmed visual traits as a self-expression layer, then turns them into practical improvement guidance while keeping clear safety boundaries.'
-      : 'Signature Predicta gives a useful reading of confirmed visual traits in plain language, without making fixed character claims or identity claims.',
+      ? 'Premium Signature Predicta reads confirmed visual traits as self-expression signals, then predicts how the current signature may be presenting confidence, clarity, rhythm, and public impression.'
+      : 'Signature Predicta reads confirmed visual traits as self-expression signals and gives direct guidance on confidence, clarity, rhythm, and presentation.',
     bullets: [
       model.privacy.reportCopy,
-      model.summary,
+      `Signature prediction: ${model.summary}`,
       ...traitLines,
       ...cardLines,
-      `What this can and cannot tell you: ${model.canAndCannotTellYou.join(' ')}`,
+      `Limit: ${model.canAndCannotTellYou.join(' ')}`,
       `Strengths: ${model.strengths.slice(0, isPremium ? 7 : 4).join(', ') || 'waiting for confirmed traits'}.`,
       `Care points: ${model.cautions.slice(0, isPremium ? 5 : 2).join(', ') || 'keep the reading gentle and practical'}.`,
       ...practiceLines,
       ...(isPremium
         ? [
-            'Premium depth can compare repeated signatures, show before/after expression shifts, and build a signature refinement plan.',
+            'Premium depth compares repeated signatures, shows before/after expression shifts, and builds a signature refinement plan.',
           ]
         : [
-            'Paid depth adds trait comparison, improvement plan, and refinement guidance without mixing Numerology or Vedic synthesis.',
+            'Paid depth adds trait comparison, improvement plan, and refinement guidance.',
           ]),
     ],
     confidence: 'medium',
@@ -3587,14 +3677,14 @@ function buildSignatureReportSection(
           ? 'medium'
           : 'medium',
         factor: card.title,
-        implication: card.caution,
+        implication: `${card.plainMeaning} ${card.caution}`,
         observation: `${card.plainMeaning}. ${card.evidence.join(' ')}`,
       })),
     eyebrow: 'SIGNATURE',
     tier: isPremium ? 'premium' : 'free',
     title: isPremium
-      ? 'Signature Predicta premium synthesis'
-      : 'Signature useful insight',
+      ? 'Signature Expression Prediction'
+      : 'Signature Expression Insight',
   };
 }
 
@@ -3692,7 +3782,7 @@ function buildAreaUserMeaning(
   };
 
   return `${areaOpeners[title] ?? `${title} becomes stronger when the chart support is turned into practical choices.`} ${supportText}; ${pressureText}. ${
-    strongHouse ? `The strongest practical doorway is house ${strongHouse}, so start with ${houseMeaning(strongHouse)}.` : ''
+    strongHouse ? `The strongest practical doorway is house ${strongHouse}: ${houseMeaning(strongHouse)}.` : ''
   }`.trim();
 }
 
@@ -3813,7 +3903,13 @@ function buildOneLineSummary(
 ): string {
   if (reportFocus === 'KP') {
     const kp = composeChalitBhavKpFoundation(kundli, { depth: 'FREE' }).kp;
-    return `KP Predicta: ${kp.eventJudgement.verdictLabel}. ${kp.eventJudgement.plainLanguage}`;
+    const plainVerdict = plainKpReportText(kp.eventJudgement.verdictLabel).replace(/not enough support/gi, 'general readiness');
+    const plainAnswer = plainKpReportText(kp.eventJudgement.plainLanguage);
+    const predictionMap = buildKpLifePredictionLines(kp, 'FREE');
+    const helpfulAnswer = plainAnswer.includes('one concrete event question')
+      ? `${predictionMap.action} Active areas: ${predictionMap.areas.slice(0, 3).map(item => item.area).join(', ')}.`
+      : plainAnswer;
+    return `KP Predicta: ${plainVerdict}. ${helpfulAnswer}`;
   }
 
   if (reportFocus === 'NADI') {
@@ -3871,7 +3967,7 @@ function getReportChartTypes(
   mode: PDFMode,
   reportFocus: PdfReportFocus = 'KUNDLI',
 ): ChartType[] {
-  if (reportFocus === 'LIFE_ATLAS' || reportFocus === 'KP' || reportFocus === 'NUMEROLOGY') {
+  if (['LIFE_ATLAS', 'KP', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)) {
     return [];
   }
 

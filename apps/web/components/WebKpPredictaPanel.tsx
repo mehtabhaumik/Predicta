@@ -16,6 +16,7 @@ import { Card } from './Card';
 import { PredictaWorldFrame } from './PredictaWorldFrame';
 
 type KpEventFocus = 'career' | 'money' | 'marriage' | 'property' | 'education' | 'travel' | 'custom';
+type KpQuestionMode = 'preset' | 'custom' | 'guide';
 
 const KP_EVENT_FOCUS: Array<{
   id: KpEventFocus;
@@ -74,6 +75,56 @@ const KP_EVENT_FOCUS: Array<{
   },
 ];
 
+const KP_QUESTION_PRESETS: Array<{
+  focus: KpEventFocus;
+  id: string;
+  question: string;
+  title: string;
+}> = [
+  {
+    focus: 'career',
+    id: 'job-change',
+    question: 'Should I seriously prepare for a job change in the next six months?',
+    title: 'Job change',
+  },
+  {
+    focus: 'career',
+    id: 'promotion',
+    question: 'Is this a supportive period to pursue promotion or stronger recognition at work?',
+    title: 'Promotion',
+  },
+  {
+    focus: 'money',
+    id: 'money-decision',
+    question: 'Should I move carefully or actively around this money decision over the next three months?',
+    title: 'Money decision',
+  },
+  {
+    focus: 'marriage',
+    id: 'marriage-timing',
+    question: 'Is this period supportive for serious marriage or partnership progress?',
+    title: 'Marriage timing',
+  },
+  {
+    focus: 'property',
+    id: 'property-deal',
+    question: 'Should I move forward with property or home-related decisions in the next 90 days?',
+    title: 'Property decision',
+  },
+  {
+    focus: 'education',
+    id: 'exam',
+    question: 'Is this a supportive period for exam, certification, admission, or learning outcome?',
+    title: 'Exam or admission',
+  },
+  {
+    focus: 'travel',
+    id: 'travel',
+    question: 'Is this a supportive period for travel, relocation, or foreign movement?',
+    title: 'Travel or relocation',
+  },
+];
+
 const KP_WORLD_PROOF_CARDS = [
   {
     body:
@@ -114,8 +165,25 @@ export function WebKpPredictaPanel({
   const ruling = kp.rulingPlanets;
   const didLoadSavedState = useRef(false);
   const [selectedEvent, setSelectedEvent] = useState<KpEventFocus>('career');
+  const [questionMode, setQuestionMode] = useState<KpQuestionMode>('preset');
+  const [selectedPresetId, setSelectedPresetId] = useState(KP_QUESTION_PRESETS[0]?.id ?? '');
+  const [customQuestion, setCustomQuestion] = useState('');
   const selectedFocus =
     KP_EVENT_FOCUS.find(item => item.id === selectedEvent) ?? KP_EVENT_FOCUS[0];
+  const selectedPreset =
+    KP_QUESTION_PRESETS.find(item => item.id === selectedPresetId) ??
+    KP_QUESTION_PRESETS.find(item => item.focus === selectedEvent) ??
+    KP_QUESTION_PRESETS[0];
+  const kpQuestionDraft = useMemo(
+    () =>
+      buildKpQuestionDraft({
+        customQuestion,
+        focus: selectedFocus,
+        mode: questionMode,
+        presetQuestion: selectedPreset?.question,
+      }),
+    [customQuestion, questionMode, selectedFocus, selectedPreset?.question],
+  );
   const [selectedCusp, setSelectedCusp] = useState<number>(
     selectedFocus.houses.at(-2) ?? selectedFocus.houses[0],
   );
@@ -144,6 +212,7 @@ export function WebKpPredictaPanel({
     cusp: selectedCuspData,
     focus: selectedFocus,
     handoffQuestion,
+    questionDraft: kpQuestionDraft,
     kundliId: kundli?.id,
   });
 
@@ -155,6 +224,15 @@ export function WebKpPredictaPanel({
     }
     if (savedKp?.selectedCusp) {
       setSelectedCusp(savedKp.selectedCusp);
+    }
+    if (savedKp?.questionMode === 'preset' || savedKp?.questionMode === 'custom' || savedKp?.questionMode === 'guide') {
+      setQuestionMode(savedKp.questionMode);
+    }
+    if (savedKp?.selectedPresetId) {
+      setSelectedPresetId(savedKp.selectedPresetId);
+    }
+    if (savedKp?.customQuestion) {
+      setCustomQuestion(savedKp.customQuestion);
     }
 
     didLoadSavedState.current = true;
@@ -168,12 +246,15 @@ export function WebKpPredictaPanel({
     saveWebAutoSaveMemory({
       kp: {
         handoffQuestion,
+        customQuestion,
+        questionMode,
         selectedCusp,
         selectedEvent,
+        selectedPresetId,
         updatedAt: new Date().toISOString(),
       },
     });
-  }, [handoffQuestion, selectedCusp, selectedEvent]);
+  }, [customQuestion, handoffQuestion, questionMode, selectedCusp, selectedEvent, selectedPresetId]);
 
   return (
     <div className="predicta-world-page predicta-world-page--kp kp-page-stack">
@@ -460,6 +541,10 @@ export function WebKpPredictaPanel({
                 onClick={() => {
                   setSelectedEvent(item.id);
                   setSelectedCusp(item.houses.at(-2) ?? item.houses[0]);
+                  const nextPreset = KP_QUESTION_PRESETS.find(preset => preset.focus === item.id);
+                  if (nextPreset) {
+                    setSelectedPresetId(nextPreset.id);
+                  }
                 }}
                 type="button"
               >
@@ -467,6 +552,82 @@ export function WebKpPredictaPanel({
                 <small>{t('Houses')} {item.houses.join(', ')}</small>
               </button>
             ))}
+          </div>
+
+          <div className="kp-question-composer" aria-label="Ask KP question">
+            <div className="school-panel-hero compact">
+              <div>
+                <div className="section-title">{t('ASK KP QUESTION')}</div>
+                <h3>{t('Tell Predicta what decision you want help with.')}</h3>
+                <p>
+                  {t(
+                    'Pick a ready question, write your own in normal words, or choose guide me if you are unsure. Predicta will refine vague questions before answering.',
+                  )}
+                </p>
+              </div>
+              <span className="school-badge">{t('Plain language')}</span>
+            </div>
+
+            <div className="kp-question-mode-row">
+              {[
+                ['preset', 'Use a ready question'],
+                ['custom', 'Write my own'],
+                ['guide', 'I have no question, guide me'],
+              ].map(([mode, label]) => (
+                <button
+                  aria-pressed={questionMode === mode}
+                  className={questionMode === mode ? 'active' : ''}
+                  key={mode}
+                  onClick={() => setQuestionMode(mode as KpQuestionMode)}
+                  type="button"
+                >
+                  {t(label)}
+                </button>
+              ))}
+            </div>
+
+            {questionMode === 'preset' ? (
+              <div className="kp-question-preset-grid">
+                {KP_QUESTION_PRESETS.filter(
+                  item => item.focus === selectedEvent || selectedEvent === 'custom',
+                ).map(item => (
+                  <button
+                    aria-pressed={selectedPresetId === item.id}
+                    className={selectedPresetId === item.id ? 'active' : ''}
+                    key={item.id}
+                    onClick={() => {
+                      setSelectedPresetId(item.id);
+                      setSelectedEvent(item.focus);
+                    }}
+                    type="button"
+                  >
+                    <strong>{t(item.title)}</strong>
+                    <span>{t(item.question)}</span>
+                  </button>
+                ))}
+              </div>
+            ) : null}
+
+            {questionMode === 'custom' ? (
+              <label className="kp-question-input">
+                <span>{t('Write naturally. Predicta will refine it.')}</span>
+                <textarea
+                  onChange={event => setCustomQuestion(event.target.value)}
+                  placeholder={t('Example: I am confused about changing my job soon. What should I watch?')}
+                  rows={4}
+                  value={customQuestion}
+                />
+              </label>
+            ) : null}
+
+            <div className="kp-question-refined-card">
+              <span>{t(kpQuestionDraft.label)}</span>
+              <strong>{t(kpQuestionDraft.refinedQuestion)}</strong>
+              <p>{t(kpQuestionDraft.guidance)}</p>
+              <a className="button" href={askHref}>
+                {t('Ask KP Predicta')}
+              </a>
+            </div>
           </div>
 
           <div className="kp-proof-path">
@@ -599,15 +760,17 @@ function buildKpAskHref({
   focus,
   handoffQuestion,
   kundliId,
+  questionDraft,
 }: {
   cusp?: { house: number; lordChain: { starLord: string; subLord: string; subSubLord: string } };
   focus: (typeof KP_EVENT_FOCUS)[number];
   handoffQuestion?: string;
   kundliId?: string;
+  questionDraft: KpQuestionDraft;
 }): string {
   const prompt = handoffQuestion
-    ? `KP Predicta handoff question: ${handoffQuestion}. ${focus.prompt}`
-    : `${focus.prompt}${cusp ? ` Selected cusp ${cusp.house} has star lord ${cusp.lordChain.starLord}, sub lord ${cusp.lordChain.subLord}, and sub-sub lord ${cusp.lordChain.subSubLord}.` : ''}`;
+    ? `KP Predicta handoff question: ${handoffQuestion}. ${questionDraft.prompt}. ${focus.prompt}`
+    : `${questionDraft.prompt}. ${focus.prompt}${cusp ? ` Selected event-support area ${cusp.house} has star lord ${cusp.lordChain.starLord}, sub lord ${cusp.lordChain.subLord}, and sub-sub lord ${cusp.lordChain.subSubLord}.` : ''}`;
   return buildPredictaChatHref({
     handoffQuestion,
     kundliId,
@@ -617,6 +780,79 @@ function buildKpAskHref({
     selectedSection: focus.title,
     sourceScreen: 'KP Predicta',
   });
+}
+
+type KpQuestionDraft = {
+  guidance: string;
+  label: string;
+  prompt: string;
+  refinedQuestion: string;
+};
+
+function buildKpQuestionDraft({
+  customQuestion,
+  focus,
+  mode,
+  presetQuestion,
+}: {
+  customQuestion: string;
+  focus: (typeof KP_EVENT_FOCUS)[number];
+  mode: KpQuestionMode;
+  presetQuestion?: string;
+}): KpQuestionDraft {
+  if (mode === 'guide') {
+    return {
+      guidance:
+        'Predicta will start with practical readiness: where to be patient, where to prepare, and which decisions need more real-world clarity.',
+      label: 'Guide mode',
+      prompt:
+        `I do not have a specific KP question. Using KP only, guide me through ${focus.title} decision readiness in plain language. Do not overclaim certainty; give practical timing caution, preparation, and next steps.`,
+      refinedQuestion:
+        `I do not have a specific question. What should I understand about ${focus.title} decisions right now?`,
+    };
+  }
+
+  if (mode === 'custom') {
+    const raw = customQuestion.trim();
+    const refined = refineKpCustomQuestion(raw, focus.title);
+
+    return {
+      guidance:
+        raw.length < 18
+          ? 'Your question is still broad, so Predicta will first refine it and then answer carefully.'
+          : 'Predicta will keep your intent, make the question clearer, and answer without forcing false certainty.',
+      label: raw.length < 18 ? 'Refined from broad question' : 'Refined question',
+      prompt:
+        `The user wrote: "${raw || 'I am not sure what to ask.'}" Refine this into a clear KP decision question first, then answer using KP only in plain language. Refined question: ${refined}`,
+      refinedQuestion: refined,
+    };
+  }
+
+  const question = presetQuestion ?? `What should I understand about ${focus.title} decisions right now?`;
+
+  return {
+    guidance:
+      'This ready question is already written in normal language. Predicta will answer it as decision support, not as a scary prediction.',
+    label: 'Ready question',
+    prompt: `Using KP only, answer this practical user question in plain language: ${question}`,
+    refinedQuestion: question,
+  };
+}
+
+function refineKpCustomQuestion(rawQuestion: string, focusTitle: string): string {
+  const question = rawQuestion.trim().replace(/\s+/g, ' ');
+
+  if (!question) {
+    return `What should I understand about ${focusTitle} decisions right now?`;
+  }
+
+  const lower = question.toLowerCase();
+  const hasTiming = /\b(today|tomorrow|week|month|year|days|months|years|soon|next|by|before|after|when|202\d|203\d)\b/.test(lower);
+  const hasDecisionWord = /\b(should|will|can|whether|if|move|change|buy|sell|marry|job|offer|exam|travel|relocation|property|money)\b/.test(lower);
+  const suffix = hasTiming ? '' : ' over the next 3 to 6 months';
+  const decisionPrefix = hasDecisionWord ? '' : 'Should I move forward, wait, or prepare around ';
+
+  return `${decisionPrefix}${question}${suffix}?`.replace(/\?+$/, '?');
 }
 
 function getKpCalculationMessage(

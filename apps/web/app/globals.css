@@ -6778,6 +6778,124 @@ button:disabled {
   margin-top: 8px;
 }
 
+.kp-question-composer {
+  background:
+    radial-gradient(circle at 18% 0%, rgba(255, 195, 77, 0.12), transparent 34%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.025));
+  border: 1px solid rgba(255, 195, 77, 0.18);
+  border-radius: 16px;
+  margin-top: 18px;
+  padding: 18px;
+}
+
+.kp-question-mode-row,
+.kp-question-preset-grid {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.kp-question-mode-row {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.kp-question-preset-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.kp-question-mode-row button,
+.kp-question-preset-grid button {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  cursor: pointer;
+  min-width: 0;
+  padding: 12px;
+  text-align: left;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.kp-question-mode-row button:hover,
+.kp-question-mode-row button:focus-visible,
+.kp-question-mode-row button.active,
+.kp-question-preset-grid button:hover,
+.kp-question-preset-grid button:focus-visible,
+.kp-question-preset-grid button.active {
+  background: rgba(255, 195, 77, 0.13);
+  border-color: rgba(255, 195, 77, 0.4);
+  outline: 0;
+  transform: translateY(-1px);
+}
+
+.kp-question-preset-grid strong,
+.kp-question-preset-grid span,
+.kp-question-input span,
+.kp-question-refined-card span {
+  display: block;
+}
+
+.kp-question-preset-grid strong {
+  font-size: 14px;
+}
+
+.kp-question-preset-grid span,
+.kp-question-input span,
+.kp-question-refined-card p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+  margin-top: 8px;
+}
+
+.kp-question-input {
+  display: block;
+  margin-top: 14px;
+}
+
+.kp-question-input textarea {
+  background: rgba(7, 9, 18, 0.62);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  font: inherit;
+  margin-top: 8px;
+  min-height: 112px;
+  padding: 12px;
+  resize: vertical;
+  width: 100%;
+}
+
+.kp-question-refined-card {
+  background: rgba(7, 9, 18, 0.44);
+  border: 1px solid rgba(77, 175, 255, 0.18);
+  border-radius: 14px;
+  margin-top: 14px;
+  padding: 14px;
+}
+
+.kp-question-refined-card span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.kp-question-refined-card strong {
+  display: block;
+  font-size: clamp(16px, 2vw, 22px);
+  line-height: 1.25;
+  margin-top: 8px;
+}
+
+.kp-question-refined-card .button {
+  margin-top: 14px;
+}
+
 .kp-proof-path {
   display: grid;
   gap: 12px;

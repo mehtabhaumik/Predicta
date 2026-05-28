@@ -23,9 +23,12 @@ export type WebAutoSaveMemory = {
   };
   guestProfileId: string;
   kp?: {
+    customQuestion?: string;
     handoffQuestion?: string;
+    questionMode?: 'preset' | 'custom' | 'guide';
     selectedCusp?: number;
     selectedEvent?: string;
+    selectedPresetId?: string;
     updatedAt: string;
   };
   language?: {
