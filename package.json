@@ -94,6 +94,7 @@
     "test:public-greenlight": "node scripts/run-public-testing-greenlight-audit.mjs",
     "test:visual-proof": "node scripts/run-mobile-tablet-visual-proof-gate.mjs",
     "test:ui-text-overflow": "node scripts/run-ui-text-overflow-audit.mjs",
+    "test:ui-personal-space": "node scripts/run-ui-personal-space-audit.mjs",
     "test:mobile": "pnpm --filter @pridicta/mobile exec jest --runInBand",
     "test:web": "pnpm --filter @pridicta/web test",
     "mobile:android": "pnpm --filter @pridicta/mobile android",

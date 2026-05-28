@@ -1,0 +1,377 @@
+{
+  "baseUrl": "http://127.0.0.1:3009",
+  "generatedAt": "2026-05-28T18:02:44.630Z",
+  "minBoundaryGap": 6,
+  "minSiblingGap": 8,
+  "routeChecks": [
+    {
+      "boundaryIssues": 0,
+      "route": "/",
+      "siblingIssues": 0,
+      "viewport": "desktop",
+      "viewportWidth": 1440
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/checkout",
+      "siblingIssues": 0,
+      "viewport": "desktop",
+      "viewportWidth": 1440
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/feedback",
+      "siblingIssues": 0,
+      "viewport": "desktop",
+      "viewportWidth": 1440
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard",
+      "siblingIssues": 0,
+      "viewport": "desktop",
+      "viewportWidth": 1440
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/kundli",
+      "siblingIssues": 0,
+      "viewport": "desktop",
+      "viewportWidth": 1440
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/charts",
+      "siblingIssues": 0,
+      "viewport": "desktop",
+      "viewportWidth": 1440
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/report",
+      "siblingIssues": 0,
+      "viewport": "desktop",
+      "viewportWidth": 1440
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/kp",
+      "siblingIssues": 0,
+      "viewport": "desktop",
+      "viewportWidth": 1440
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/nadi",
+      "siblingIssues": 0,
+      "viewport": "desktop",
+      "viewportWidth": 1440
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/numerology",
+      "siblingIssues": 0,
+      "viewport": "desktop",
+      "viewportWidth": 1440
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/signature",
+      "siblingIssues": 0,
+      "viewport": "desktop",
+      "viewportWidth": 1440
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/account",
+      "siblingIssues": 0,
+      "viewport": "desktop",
+      "viewportWidth": 1440
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/settings",
+      "siblingIssues": 0,
+      "viewport": "desktop",
+      "viewportWidth": 1440
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/",
+      "siblingIssues": 0,
+      "viewport": "tablet",
+      "viewportWidth": 834
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/checkout",
+      "siblingIssues": 0,
+      "viewport": "tablet",
+      "viewportWidth": 834
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/feedback",
+      "siblingIssues": 0,
+      "viewport": "tablet",
+      "viewportWidth": 834
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard",
+      "siblingIssues": 0,
+      "viewport": "tablet",
+      "viewportWidth": 834
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/kundli",
+      "siblingIssues": 0,
+      "viewport": "tablet",
+      "viewportWidth": 834
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/charts",
+      "siblingIssues": 0,
+      "viewport": "tablet",
+      "viewportWidth": 834
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/report",
+      "siblingIssues": 0,
+      "viewport": "tablet",
+      "viewportWidth": 834
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/kp",
+      "siblingIssues": 0,
+      "viewport": "tablet",
+      "viewportWidth": 834
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/nadi",
+      "siblingIssues": 0,
+      "viewport": "tablet",
+      "viewportWidth": 834
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/numerology",
+      "siblingIssues": 0,
+      "viewport": "tablet",
+      "viewportWidth": 834
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/signature",
+      "siblingIssues": 0,
+      "viewport": "tablet",
+      "viewportWidth": 834
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/account",
+      "siblingIssues": 0,
+      "viewport": "tablet",
+      "viewportWidth": 834
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/settings",
+      "siblingIssues": 0,
+      "viewport": "tablet",
+      "viewportWidth": 834
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/",
+      "siblingIssues": 0,
+      "viewport": "mobile",
+      "viewportWidth": 390
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/checkout",
+      "siblingIssues": 0,
+      "viewport": "mobile",
+      "viewportWidth": 390
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/feedback",
+      "siblingIssues": 0,
+      "viewport": "mobile",
+      "viewportWidth": 390
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard",
+      "siblingIssues": 0,
+      "viewport": "mobile",
+      "viewportWidth": 390
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/kundli",
+      "siblingIssues": 0,
+      "viewport": "mobile",
+      "viewportWidth": 390
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/charts",
+      "siblingIssues": 0,
+      "viewport": "mobile",
+      "viewportWidth": 390
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/report",
+      "siblingIssues": 0,
+      "viewport": "mobile",
+      "viewportWidth": 390
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/kp",
+      "siblingIssues": 0,
+      "viewport": "mobile",
+      "viewportWidth": 390
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/nadi",
+      "siblingIssues": 0,
+      "viewport": "mobile",
+      "viewportWidth": 390
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/numerology",
+      "siblingIssues": 0,
+      "viewport": "mobile",
+      "viewportWidth": 390
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/signature",
+      "siblingIssues": 0,
+      "viewport": "mobile",
+      "viewportWidth": 390
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/account",
+      "siblingIssues": 0,
+      "viewport": "mobile",
+      "viewportWidth": 390
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/settings",
+      "siblingIssues": 0,
+      "viewport": "mobile",
+      "viewportWidth": 390
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/",
+      "siblingIssues": 0,
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/checkout",
+      "siblingIssues": 0,
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/feedback",
+      "siblingIssues": 0,
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard",
+      "siblingIssues": 0,
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/kundli",
+      "siblingIssues": 0,
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/charts",
+      "siblingIssues": 0,
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/report",
+      "siblingIssues": 0,
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/kp",
+      "siblingIssues": 0,
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/nadi",
+      "siblingIssues": 0,
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/numerology",
+      "siblingIssues": 0,
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/signature",
+      "siblingIssues": 0,
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/account",
+      "siblingIssues": 0,
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/dashboard/settings",
+      "siblingIssues": 0,
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360
+    }
+  ],
+  "sampleFailures": [],
+  "status": "green",
+  "totalBoundaryIssues": 0,
+  "totalChecks": 52,
+  "totalSiblingIssues": 0
+}
