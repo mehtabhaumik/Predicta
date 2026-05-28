@@ -1,0 +1,67 @@
+{
+  "checks": [
+    {
+      "fileName": "desktop-primitive-state-matrix.png",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "horizontalOverflow": 0,
+      "missingPrimitiveCount": 0,
+      "missingStateCount": 0,
+      "primitiveCount": 14,
+      "shortTargetCount": 0,
+      "wideElementCount": 0
+    },
+    {
+      "fileName": "tablet-primitive-state-matrix.png",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "horizontalOverflow": 0,
+      "missingPrimitiveCount": 0,
+      "missingStateCount": 0,
+      "primitiveCount": 14,
+      "shortTargetCount": 0,
+      "wideElementCount": 0
+    },
+    {
+      "fileName": "mobile-primitive-state-matrix.png",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "horizontalOverflow": 0,
+      "missingPrimitiveCount": 0,
+      "missingStateCount": 0,
+      "primitiveCount": 14,
+      "shortTargetCount": 0,
+      "wideElementCount": 0
+    }
+  ],
+  "generatedAt": "2026-05-28T13:11:58.117Z",
+  "harness": "temporary HTML matrix generated during the Phase 7B gate run",
+  "phase": "PREDICTA_AUDIT_1_PHASE_7B_COMPONENT_PRIMITIVE_NORMALIZATION",
+  "requiredPrimitiveExports": [
+    "PredictaButton",
+    "PredictaCard",
+    "PredictaPanel",
+    "PredictaPill",
+    "PredictaBadge",
+    "PredictaInput",
+    "PredictaSelect",
+    "PredictaTabs",
+    "PredictaModal",
+    "PredictaDrawer",
+    "PredictaTable",
+    "PredictaEmptyState",
+    "PredictaStateBanner",
+    "PredictaStickyAction"
+  ],
+  "requiredStates": [
+    "disabled",
+    "loading",
+    "focus",
+    "hover",
+    "active",
+    "selected",
+    "error"
+  ],
+  "screenshotRoot": "docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-7b-component-primitive-normalization/screenshots",
+  "status": "green"
+}

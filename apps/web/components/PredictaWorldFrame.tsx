@@ -1,6 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import {
+  PredictaBadge,
+  PredictaButton,
+  PredictaPanel,
+} from './ui/DesignSystemPrimitives';
 
 type PredictaWorldTheme =
   | 'kp'
@@ -68,7 +73,7 @@ export function PredictaWorldFrame({
 }): React.JSX.Element {
   return (
     <section className={`predicta-world-frame predicta-world--${theme}`}>
-      <div className="glass-panel predicta-world-hero">
+      <PredictaPanel className="predicta-world-hero">
         <div className="predicta-world-hero-copy">
           <p className="section-title">{eyebrow}</p>
           <h1 className="gradient-text">{title}</h1>
@@ -80,17 +85,17 @@ export function PredictaWorldFrame({
           ) : null}
         </div>
         <div className="predicta-world-aside">
-          <span className="predicta-world-badge">{badge}</span>
+          <PredictaBadge className="predicta-world-badge">{badge}</PredictaBadge>
           <div className="predicta-world-actions">
             {reportAction ?? (
-              <Link className="button primary" href={reportHref}>
+              <PredictaButton href={reportHref} variant="primary">
                 {reportLabel}
-              </Link>
+              </PredictaButton>
             )}
             {chatAction ?? (
-              <Link className="button secondary" href={chatHref}>
+              <PredictaButton href={chatHref} variant="secondary">
                 {chatLabel}
-              </Link>
+              </PredictaButton>
             )}
           </div>
           <p className="predicta-world-report-note">{reportNote}</p>
@@ -103,7 +108,7 @@ export function PredictaWorldFrame({
             ))}
           </div>
         </div>
-      </div>
+      </PredictaPanel>
 
       <section className="predicta-world-local-map glass-panel">
         <div className="predicta-world-local-heading">

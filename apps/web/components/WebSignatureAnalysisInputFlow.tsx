@@ -1,7 +1,6 @@
 'use client';
 
 import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
-import Link from 'next/link';
 import {
   useEffect,
   useMemo,
@@ -30,6 +29,7 @@ import type {
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useLanguagePreference } from '../lib/language-preference';
 import { PredictaWorldFrame } from './PredictaWorldFrame';
+import { PredictaButton } from './ui/DesignSystemPrimitives';
 
 const SIGNATURE_DRAFT_STORAGE_KEY = 'pridicta.signatureDraft.v1';
 
@@ -919,14 +919,14 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
         badge={copy.hero.eyebrow}
         body={copy.hero.body}
         chatAction={
-          <button
-            className="button secondary"
+          <PredictaButton
             disabled={!canOpenReading}
             onClick={continueToPredicta}
             type="button"
+            variant="secondary"
           >
             {copy.actions.askPredicta}
-          </button>
+          </PredictaButton>
         }
         chatHref="#signature-input"
         chatLabel={copy.actions.askPredicta}
@@ -1029,13 +1029,13 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
         proofLabel={copy.proofLabel}
         reportAction={
           canOpenReading ? (
-            <Link className="button primary" href="/dashboard/report">
+            <PredictaButton href="/dashboard/report" variant="primary">
               {copy.report.cta}
-            </Link>
+            </PredictaButton>
           ) : (
-            <span className="button primary disabled" aria-disabled="true">
+            <PredictaButton disabled href="/dashboard/report" variant="primary">
               {copy.report.cta}
-            </span>
+            </PredictaButton>
           )
         }
         reportLabel={copy.report.cta}
@@ -1141,19 +1141,19 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
                 role="img"
               />
             </div>
-            <button
-              className="button secondary"
+            <PredictaButton
               disabled={!hasDrawing}
               onClick={() => {
                 setMode('draw');
                 startTemporaryScan(detectSignatureTraitsFromCanvas(canvasRef.current));
               }}
               type="button"
+              variant="secondary"
             >
               {mode === 'draw' && scanStatus !== 'empty'
                 ? copy.actions.redraw
                 : copy.actions.useDrawing}
-            </button>
+            </PredictaButton>
             {mode === 'draw' ? (
               <SignatureImmediateReceipt
                 confirmedTraits={confirmedTraitObservations}
@@ -1235,30 +1235,30 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
         </div>
         {canContinue ? (
           <div className="signature-action-row">
-            <button
-              className="button"
+            <PredictaButton
               disabled={!canOpenReading}
               onClick={continueToPredicta}
               type="button"
+              variant="primary"
             >
               {copy.actions.askPredicta}
-            </button>
-            <button
-              className="button secondary"
+            </PredictaButton>
+            <PredictaButton
               disabled={!canContinue}
               onClick={downloadSignature}
               type="button"
+              variant="secondary"
             >
               {copy.actions.download}
-            </button>
-            <button
-              className="button danger"
+            </PredictaButton>
+            <PredictaButton
               disabled={!canContinue}
               onClick={clearSignature}
               type="button"
+              variant="danger"
             >
               {copy.actions.clear}
-            </button>
+            </PredictaButton>
           </div>
         ) : null}
       </section>
@@ -1274,9 +1274,9 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
         <p>{copy.report.body}</p>
         {canOpenReading ? (
           <div className="action-row">
-            <Link className="button secondary" href="/dashboard/report">
+            <PredictaButton href="/dashboard/report" variant="secondary">
               {copy.report.cta}
-            </Link>
+            </PredictaButton>
           </div>
         ) : (
           <p className="signature-report-blocked">{copy.report.blocked}</p>
@@ -1400,25 +1400,25 @@ function SignatureImmediateReceipt({
         <p className="signature-ready-copy">{copy.receipt.ready}</p>
       ) : null}
       <div className="signature-action-row">
-        <button
-          className="button primary"
+        <PredictaButton
           disabled={!canConfirm}
           onClick={onConfirm}
           type="button"
+          variant="primary"
         >
           {copy.receipt.looksRight}
-        </button>
-        <button
-          className="button secondary"
+        </PredictaButton>
+        <PredictaButton
           disabled={!canAdjust}
           onClick={onAdjust}
           type="button"
+          variant="secondary"
         >
           {copy.receipt.adjust}
-        </button>
-        <button className="button danger" onClick={onClear} type="button">
+        </PredictaButton>
+        <PredictaButton onClick={onClear} type="button" variant="danger">
           {copy.actions.clear}
-        </button>
+        </PredictaButton>
       </div>
       <p className="signature-privacy-mini">{copy.receipt.privacyShort}</p>
     </div>

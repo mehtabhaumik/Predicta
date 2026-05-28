@@ -52,6 +52,7 @@ import { WebActiveKundliActions } from './WebActiveKundliActions';
 import { PlanetGlyph } from './PlanetGlyph';
 import { NorthIndianChartLines } from './WebKundliChart';
 import { AuthDialog } from './AuthDialog';
+import { PredictaButton } from './ui/DesignSystemPrimitives';
 import { getFirebaseWebAuth } from '../lib/firebase/client';
 import {
   loadWebMonetizationState,
@@ -801,20 +802,20 @@ export function WebDossierPreview(): React.JSX.Element {
         </div>
 
         <div className="report-inline-actions">
-          <button
-            className="button primary"
+          <PredictaButton
             disabled={signatureReportBlocked}
             onClick={() => openReportPreview()}
             type="button"
+            variant="primary"
           >
             {builderCopy.previewSelected}
-          </button>
-          <a className="button secondary" href={buildCurrentReportAskHref()}>
+          </PredictaButton>
+          <PredictaButton href={buildCurrentReportAskHref()} variant="secondary">
             {builderCopy.askFromReport}
-          </a>
-          <button className="button secondary" onClick={copyReportSummary} type="button">
+          </PredictaButton>
+          <PredictaButton onClick={copyReportSummary} type="button" variant="secondary">
             {copyState === 'report' ? builderCopy.copied : builderCopy.copyReport}
-          </button>
+          </PredictaButton>
         </div>
 
         {isVedicReport ? (
@@ -1322,14 +1323,14 @@ export function WebDossierPreview(): React.JSX.Element {
               {mode === 'PREMIUM' ? reportLabels.premium : reportLabels.free}
             </strong>
           </div>
-          <button
-            className="button primary"
+          <PredictaButton
             disabled={signatureReportBlocked}
             onClick={() => openReportPreview()}
             type="button"
+            variant="primary"
           >
             {builderCopy.previewSelected}
-          </button>
+          </PredictaButton>
         </div>
       ) : null}
 
@@ -1397,31 +1398,29 @@ export function WebDossierPreview(): React.JSX.Element {
               </section>
 
               <div className="report-download-actions">
-                <button
-                  className="button"
+                <PredictaButton
                   disabled={isPdfDownloading || signatureReportBlocked}
+                  loading={isPdfDownloading}
                   onClick={printReport}
                   type="button"
+                  variant="primary"
                 >
                   {isPdfDownloading
                     ? resultCopy.preparingPdf
                     : builderCopy.printSelected}
-                </button>
-                <button
-                  className="button secondary"
+                </PredictaButton>
+                <PredictaButton
                   onClick={copyReportSummary}
                   type="button"
+                  variant="secondary"
                 >
                   {copyState === 'report'
                     ? builderCopy.copied
                     : builderCopy.copyReport}
-                </button>
-                <a
-                  className="button secondary"
-                  href={buildCurrentReportAskHref()}
-                >
+                </PredictaButton>
+                <PredictaButton href={buildCurrentReportAskHref()} variant="secondary">
                   {builderCopy.askFromReport}
-                </a>
+                </PredictaButton>
               </div>
               {reportDownloadError ? (
                 <p className="report-builder-note important">
@@ -1481,27 +1480,21 @@ export function WebDossierPreview(): React.JSX.Element {
                   <AuthDialog />
                 ) : (
                   <>
-                    <a
-                      className="button"
-                      href="/checkout?productId=pridicta_premium_pdf"
-                    >
+                    <PredictaButton href="/checkout?productId=pridicta_premium_pdf" variant="primary">
                       {resultCopy.purchasePrimary}
-                    </a>
-                    <a
-                      className="button secondary"
-                      href="/checkout?productId=pridicta_day_pass_24h"
-                    >
+                    </PredictaButton>
+                    <PredictaButton href="/checkout?productId=pridicta_day_pass_24h" variant="secondary">
                       {resultCopy.purchaseSecondary}
-                    </a>
+                    </PredictaButton>
                   </>
                 )}
-                <button
-                  className="button secondary"
+                <PredictaButton
                   onClick={() => setMode('FREE')}
                   type="button"
+                  variant="secondary"
                 >
                   {resultCopy.fallbackFreeCta}
-                </button>
+                </PredictaButton>
               </div>
             </section>
           )}
@@ -1539,24 +1532,25 @@ export function WebDossierPreview(): React.JSX.Element {
               </ul>
             </div>
             <div className="report-download-dialog-actions">
-              <button
-                className="button primary"
+              <PredictaButton
                 disabled={isPdfDownloading || signatureReportBlocked}
+                loading={isPdfDownloading}
                 onClick={printReport}
                 type="button"
+                variant="primary"
               >
                 {isPdfDownloading
                   ? resultCopy.preparingPdf
                   : builderCopy.printSelected}
-              </button>
-              <button
-                className="button secondary"
+              </PredictaButton>
+              <PredictaButton
                 disabled={isPdfDownloading}
                 onClick={cancelDownloadDialog}
                 type="button"
+                variant="secondary"
               >
                 {builderCopy.cancelDownload}
-              </button>
+              </PredictaButton>
             </div>
             {reportDownloadError ? (
               <p className="report-builder-note important">

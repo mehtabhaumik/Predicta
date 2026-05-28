@@ -250,3 +250,35 @@ Phase 7A artifacts live in:
 phase-7a-design-token-single-source-of-truth/
 phase-7a-design-token-drift-report.json
 ```
+
+## Phase 7B Component Primitive Normalization
+
+Phase ID: `PREDICTA_AUDIT_1_PHASE_7B_COMPONENT_PRIMITIVE_NORMALIZATION`
+
+Phase 7B proves high-touch interactions use shared component primitives instead
+of route-local button, panel, form, and state styling:
+
+```bash
+corepack pnpm test:audit1-phase-7b
+corepack pnpm test:audit1-phase-7a
+corepack pnpm test:audit1-phase-7
+corepack pnpm --filter @pridicta/ui-tokens typecheck
+corepack pnpm --filter @pridicta/web typecheck
+corepack pnpm test:visual-proof
+corepack pnpm test:ui-text-overflow
+```
+
+The Phase 7B gate fails if required primitives are not exported, if their CSS
+classes are missing, if report/signature/specialist-room primary interactions
+do not consume shared primitives, if disabled/loading/focus/hover/active/
+selected/error examples are absent, or if generated desktop/tablet/mobile
+component screenshots show missing primitives, horizontal overflow, or tap
+targets below 44px.
+
+Phase 7B artifacts live in:
+
+```text
+phase-7b-component-primitive-normalization/
+phase-7b-component-primitive-normalization-manifest.json
+screenshots/
+```
