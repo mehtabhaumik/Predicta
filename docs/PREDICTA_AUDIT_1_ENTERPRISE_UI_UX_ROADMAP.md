@@ -1330,6 +1330,11 @@ Green criteria:
 - Report samples prove the same visual identity and prediction rhythm.
 - Predicta chat context can explain what the user sees without mixing schools.
 - No school report reads like an internal system document or astrology lesson.
+- `test:audit1-phase-7f`, `test:audit1-phase-7e`,
+  `test:audit1-phase-7d`, web typecheck, mobile typecheck, PDF typecheck,
+  visual proof, UI text overflow, and PDF golden pass.
+- Phase 7F artifacts are saved under
+  `docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-7f-cross-platform-visual-parity-intelligence-pattern/`.
 - Phase commit exists before Phase 8 starts.
 
 ### PREDICTA_AUDIT_1_PHASE_8_OVERLAY_FORM_AND_ACCESSIBILITY_GATE

@@ -1,17 +1,17 @@
 {
   "artifactPath": "docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-7-global-layout-token-component-system-lock/phase-7-design-system-drift-metrics.json",
   "cssMetrics": {
-    "borderRadiusDeclarations": 393,
+    "borderRadiusDeclarations": 394,
     "boxShadowDeclarations": 74,
-    "cssVariableReads": 1143,
+    "cssVariableReads": 1152,
     "hardcodedHexColors": 135,
     "hardcodedRgbaColors": 1243,
     "importantDeclarations": 338,
-    "lineCount": 20609,
+    "lineCount": 20645,
     "mediaQueries": 39,
     "zIndexDeclarations": 46
   },
-  "generatedAt": "2026-05-28T14:51:13.359Z",
+  "generatedAt": "2026-05-28T15:25:02.936Z",
   "phase": "PREDICTA_AUDIT_1_PHASE_7_GLOBAL_LAYOUT_TOKEN_AND_COMPONENT_SYSTEM_LOCK",
   "primitiveClasses": [
     ".predicta-action-row",
@@ -35,6 +35,8 @@
     ".predicta-feedback-target",
     ".predicta-form",
     ".predicta-input",
+    ".predicta-intelligence-pattern",
+    ".predicta-intelligence-step",
     ".predicta-loading-state",
     ".predicta-media-asset",
     ".predicta-media-frame",

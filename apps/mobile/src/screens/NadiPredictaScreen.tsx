@@ -11,6 +11,7 @@ import {
   AppText,
   FadeInView,
   GlowCard,
+  IntelligenceRhythmCard,
   Screen,
 } from '../components';
 import { routes } from '../navigation/routes';
@@ -136,6 +137,8 @@ export function NadiPredictaScreen({
             </View>
           ) : null}
         </GlowCard>
+
+        <IntelligenceRhythmCard delay={118} school="NADI" />
 
         <GlowCard delay={140}>
           <AppText tone="secondary" variant="caption">

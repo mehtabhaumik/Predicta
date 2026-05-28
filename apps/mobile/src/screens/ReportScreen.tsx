@@ -7,6 +7,7 @@ import {
   AppText,
   GlowButton,
   GlowCard,
+  IntelligenceRhythmCard,
   Screen,
   TrustProofPanel,
   useGlassAlert,
@@ -583,6 +584,7 @@ export function ReportScreen({
           <AppText className="mt-2" variant="subtitle">
             Predicta Life Atlas
           </AppText>
+          <IntelligenceRhythmCard embedded delay={0} school="LIFE_ATLAS" />
           <AppText className="mt-2" tone="secondary">
             This is the only all-school synthesis report. It turns available
             Vedic, KP, Nadi, and Numerology data into one non-technical life

@@ -24,7 +24,11 @@ import {
   type ReportMarketplaceProduct,
 } from '@pridicta/config/pricing';
 import { buildGeneratedReportMemoryContext } from '@pridicta/config/predictaMemory';
-import { getChartRenderTheme } from '@pridicta/astrology';
+import {
+  PREDICTA_INTELLIGENCE_UI_RHYTHM,
+  getChartRenderTheme,
+  getPredictaSchoolIntelligencePattern,
+} from '@pridicta/astrology';
 import {
   composeReportSections,
   type PdfChartSnapshot,
@@ -1169,6 +1173,27 @@ export function WebDossierPreview(): React.JSX.Element {
             <div className="report-lane-boundary">
               <span>Synthesis boundary</span>
               <p>{REPORT_SYNTHESIS_LANE.boundary}</p>
+            </div>
+            <div
+              className="predicta-intelligence-pattern report-life-atlas-rhythm"
+              data-audit1-phase7f-intelligence-pattern="life-atlas"
+            >
+              {PREDICTA_INTELLIGENCE_UI_RHYTHM.map(step => {
+                const pattern = getPredictaSchoolIntelligencePattern('LIFE_ATLAS');
+                const copy = {
+                  action: pattern.action,
+                  evidence: pattern.evidence,
+                  prediction: pattern.prediction,
+                  safety: pattern.safety,
+                };
+
+                return (
+                  <article className="predicta-intelligence-step" key={step.id}>
+                    <span>{step.label}</span>
+                    <strong>{copy[step.id]}</strong>
+                  </article>
+                );
+              })}
             </div>
             <div className="report-lane-boundary">
               <span>Signature privacy</span>

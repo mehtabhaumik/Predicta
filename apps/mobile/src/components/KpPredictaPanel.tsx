@@ -7,6 +7,7 @@ import { AppText } from './AppText';
 import { FadeInView } from './FadeInView';
 import { GlowCard } from './GlowCard';
 import { GradientText } from './GradientText';
+import { IntelligenceRhythmCard } from './IntelligenceRhythmCard';
 
 type KpEventFocus = 'career' | 'money' | 'marriage' | 'property' | 'education' | 'travel' | 'custom';
 type KpQuestionMode = 'preset' | 'custom' | 'guide';
@@ -225,6 +226,8 @@ export function KpPredictaPanel({
           </View>
         </View>
       </GlowCard>
+
+      <IntelligenceRhythmCard delay={118} school="KP" />
 
       {ruling ? (
         <GlowCard delay={140}>

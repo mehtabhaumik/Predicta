@@ -383,3 +383,37 @@ phase-7e-media-asset-contrast-manifest.json
 media-asset-contrast-contract.md
 screenshots/
 ```
+
+## Phase 7F Cross-Platform Visual Parity And Intelligence UI Pattern
+
+Phase ID: `PREDICTA_AUDIT_1_PHASE_7F_CROSS_PLATFORM_VISUAL_PARITY_AND_INTELLIGENCE_UI_PATTERN`
+
+Phase 7F proves web, native mobile source, report/PDF source, and screenshots
+share one school-safe intelligence rhythm:
+
+```bash
+corepack pnpm test:audit1-phase-7f
+corepack pnpm test:audit1-phase-7e
+corepack pnpm test:audit1-phase-7d
+corepack pnpm --filter @pridicta/web typecheck
+corepack pnpm --filter @pridicta/mobile typecheck
+corepack pnpm --filter @pridicta/pdf typecheck
+corepack pnpm test:visual-proof
+corepack pnpm test:ui-text-overflow
+corepack pnpm test:pdf-golden
+```
+
+The Phase 7F gate fails if any specialist room loses the shared
+Prediction/Evidence/Action/Safety rhythm, if Life Atlas is missing the same
+pattern, if mobile screens do not consume the native rhythm card, if PDF/report
+source drifts away from prediction-first content, or if desktop/tablet/mobile
+screenshots show overflow or clipped text.
+
+Phase 7F artifacts live in:
+
+```text
+phase-7f-cross-platform-visual-parity-intelligence-pattern/
+phase-7f-cross-platform-visual-parity-intelligence-manifest.json
+cross-platform-intelligence-pattern-contract.md
+screenshots/
+```

@@ -26,6 +26,7 @@ export * from './GradientOutlineCard';
 export * from './GradientText';
 export * from './GlowButton';
 export * from './GlowCard';
+export * from './IntelligenceRhythmCard';
 export * from './LockedPremiumOverlay';
 export * from './MetricCard';
 export * from './Screen';

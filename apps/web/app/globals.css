@@ -18394,6 +18394,40 @@ select::-ms-expand {
   margin-top: clamp(18px, 2.4vw, 28px);
 }
 
+.predicta-intelligence-pattern {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: clamp(18px, 2.2vw, 26px);
+}
+
+.predicta-intelligence-step {
+  background:
+    radial-gradient(circle at 10% 10%, var(--world-accent-soft), transparent 48%),
+    color-mix(in srgb, var(--predicta-glass) 70%, transparent);
+  border: 1px solid color-mix(in srgb, var(--world-accent) 18%, var(--predicta-border));
+  border-radius: var(--predicta-radius-card);
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 14px;
+}
+
+.predicta-intelligence-step span {
+  color: var(--predicta-muted);
+  font-size: calc(var(--predicta-font-size-caption) * 0.85);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.predicta-intelligence-step strong {
+  color: var(--predicta-text);
+  font-size: var(--predicta-font-size-caption);
+  line-height: 1.4;
+}
+
 .predicta-world-aside {
   display: grid;
   gap: 18px;
@@ -18623,6 +18657,7 @@ select::-ms-expand {
   }
 
   .predicta-world-pillars,
+  .predicta-intelligence-pattern,
   .predicta-world-local-grid,
   .predicta-world-proof-grid,
   .predicta-world-focus-grid,
@@ -18643,6 +18678,7 @@ select::-ms-expand {
   }
 
   .predicta-world-pillars,
+  .predicta-intelligence-pattern,
   .predicta-world-local-grid,
   .predicta-world-proof-grid,
   .predicta-world-focus-grid,

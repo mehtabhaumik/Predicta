@@ -13,6 +13,7 @@ import type {
 } from '@pridicta/types';
 import { AppText } from './AppText';
 import { GlowCard } from './GlowCard';
+import { IntelligenceRhythmCard } from './IntelligenceRhythmCard';
 
 type FocusChartCard = {
   chart?: ChartData;
@@ -82,6 +83,8 @@ export function VedicIntelligencePanel({
         See the useful cards first. Open proof tables only when needed. The PDF
         remains the deep reading surface.
       </AppText>
+
+      <IntelligenceRhythmCard embedded delay={195} school="VEDIC" />
 
       <View className="mt-4 rounded-3xl border border-[#FFFFFF12] bg-[#FFFFFF08] p-4">
         <AppText className="text-[#FFD27A]" variant="caption">

@@ -9,7 +9,7 @@
     "webFontSizeDeclarations": 123,
     "webPxValues": 157
   },
-  "generatedAt": "2026-05-28T14:51:13.440Z",
+  "generatedAt": "2026-05-28T15:19:39.129Z",
   "phase": "PREDICTA_AUDIT_1_PHASE_7A_DESIGN_TOKEN_SINGLE_SOURCE_OF_TRUTH",
   "platformMetrics": {
     "mobileHardcodedHexColors": 0,
@@ -107,9 +107,9 @@
   },
   "status": "green",
   "webCssMetrics": {
-    "borderRadiusDeclarations": 393,
+    "borderRadiusDeclarations": 394,
     "boxShadowDeclarations": 74,
-    "cssVariableReads": 1143,
+    "cssVariableReads": 1152,
     "hardcodedHexColors": 135,
     "hardcodedRgbaColors": 1243,
     "zIndexDeclarations": 46

@@ -221,6 +221,8 @@ export const primitiveClasses = {
   emptyState: 'predicta-empty-state',
   form: 'predicta-form',
   input: 'predicta-input',
+  intelligencePattern: 'predicta-intelligence-pattern',
+  intelligenceStep: 'predicta-intelligence-step',
   loadingState: 'predicta-loading-state',
   mediaAsset: 'predicta-media-asset',
   mediaFrame: 'predicta-media-frame',

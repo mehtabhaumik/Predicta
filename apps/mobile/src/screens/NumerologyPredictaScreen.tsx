@@ -8,6 +8,7 @@ import {
   AppText,
   GlowButton,
   GlowCard,
+  IntelligenceRhythmCard,
   Screen,
 } from '../components';
 import { routes } from '../navigation/routes';
@@ -61,6 +62,8 @@ export function NumerologyPredictaScreen({
             </>
           ) : null}
         </GlowCard>
+
+        <IntelligenceRhythmCard delay={112} school="NUMEROLOGY" />
 
         <GlowCard delay={120}>
           <AppText tone="secondary" variant="caption">

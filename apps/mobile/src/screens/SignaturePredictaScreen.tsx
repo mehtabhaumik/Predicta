@@ -19,6 +19,7 @@ import {
   AppText,
   GlowButton,
   GlowCard,
+  IntelligenceRhythmCard,
   Screen,
 } from '../components';
 import { routes } from '../navigation/routes';
@@ -262,6 +263,8 @@ export function SignaturePredictaScreen({
             {SIGNATURE_PRIVACY_COPY}
           </AppText>
         </GlowCard>
+
+        <IntelligenceRhythmCard delay={118} school="SIGNATURE" />
 
         <GlowCard delay={130}>
           <AppText tone="secondary" variant="caption">

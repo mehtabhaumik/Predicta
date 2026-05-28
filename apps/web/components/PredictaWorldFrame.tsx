@@ -1,6 +1,13 @@
 'use client';
 
+import {
+  PREDICTA_INTELLIGENCE_UI_RHYTHM,
+  getPredictaSchoolIntelligencePattern,
+  type PredictaIntelligenceSchool,
+} from '@pridicta/astrology';
+import { translateUiText } from '@pridicta/config/uiTranslations';
 import Link from 'next/link';
+import { useLanguagePreference } from '../lib/language-preference';
 import {
   PredictaBadge,
   PredictaButton,
@@ -71,6 +78,16 @@ export function PredictaWorldFrame({
   theme: PredictaWorldTheme;
   title: string;
 }): React.JSX.Element {
+  const { language } = useLanguagePreference();
+  const t = (value: string) => translateUiText(value, language);
+  const pattern = getPredictaSchoolIntelligencePattern(themeToSchool(theme));
+  const patternCopy = {
+    action: pattern.action,
+    evidence: pattern.evidence,
+    prediction: pattern.prediction,
+    safety: pattern.safety,
+  };
+
   return (
     <section className={`predicta-world-frame predicta-world--${theme}`}>
       <PredictaPanel className="predicta-world-hero">
@@ -78,6 +95,18 @@ export function PredictaWorldFrame({
           <p className="section-title">{eyebrow}</p>
           <h1 className="gradient-text">{title}</h1>
           <p>{body}</p>
+          <section
+            aria-label={t(`${pattern.label} intelligence rhythm`)}
+            className="predicta-intelligence-pattern"
+            data-audit1-phase7f-intelligence-pattern={theme}
+          >
+            {PREDICTA_INTELLIGENCE_UI_RHYTHM.map(step => (
+              <article className="predicta-intelligence-step" key={step.id}>
+                <span>{t(step.label)}</span>
+                <strong>{t(patternCopy[step.id])}</strong>
+              </article>
+            ))}
+          </section>
           {heroInteraction ? (
             <div className="predicta-world-hero-interaction">
               {heroInteraction}
@@ -144,4 +173,21 @@ export function PredictaWorldFrame({
       </details>
     </section>
   );
+}
+
+function themeToSchool(theme: PredictaWorldTheme): PredictaIntelligenceSchool {
+  switch (theme) {
+    case 'kp':
+      return 'KP';
+    case 'nadi':
+      return 'NADI';
+    case 'numerology':
+      return 'NUMEROLOGY';
+    case 'signature':
+      return 'SIGNATURE';
+    case 'vedic':
+      return 'VEDIC';
+    default:
+      return 'VEDIC';
+  }
 }
