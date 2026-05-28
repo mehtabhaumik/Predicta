@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1070" height="1014" viewBox="0 0 1070 1014">
+  <rect width="100%" height="100%" fill="#070814"/>
+  <text x="22" y="34" fill="#f7f4ff" font-size="24" font-weight="800">Predicta Audit 1 Phase 10 Contact Sheet</text>
+  <text x="22" y="58" fill="#b6b2ca" font-size="13">Desktop, tablet, mobile, and narrow-mobile manual review screenshots. Zero Critical and zero Major issues recorded by the gate.</text>
+
+        <g transform="translate(22 76)">
+          <rect width="240" height="194" rx="16" fill="#11131d" stroke="#2f3448" />
+          <image href="screenshots/desktop-landing.png" x="10" y="10" width="220" height="150" preserveAspectRatio="xMidYMid slice" />
+          <text x="12" y="178" fill="#f7f4ff" font-size="12" font-weight="700">desktop · /</text>
+        </g>
+
+        <g transform="translate(284 76)">
+          <rect width="240" height="194" rx="16" fill="#11131d" stroke="#2f3448" />
+          <image href="screenshots/desktop-report.png" x="10" y="10" width="220" height="150" preserveAspectRatio="xMidYMid slice" />
+          <text x="12" y="178" fill="#f7f4ff" font-size="12" font-weight="700">desktop · /dashboard/report</text>
+        </g>
+
+        <g transform="translate(546 76)">
+          <rect width="240" height="194" rx="16" fill="#11131d" stroke="#2f3448" />
+          <image href="screenshots/desktop-kp.png" x="10" y="10" width="220" height="150" preserveAspectRatio="xMidYMid slice" />
+          <text x="12" y="178" fill="#f7f4ff" font-size="12" font-weight="700">desktop · /dashboard/kp</text>
+        </g>
+
+        <g transform="translate(808 76)">
+          <rect width="240" height="194" rx="16" fill="#11131d" stroke="#2f3448" />
+          <image href="screenshots/desktop-signature.png" x="10" y="10" width="220" height="150" preserveAspectRatio="xMidYMid slice" />
+          <text x="12" y="178" fill="#f7f4ff" font-size="12" font-weight="700">desktop · /dashboard/signature</text>
+        </g>
+
+        <g transform="translate(22 302)">
+          <rect width="240" height="194" rx="16" fill="#11131d" stroke="#2f3448" />
+          <image href="screenshots/tablet-landing.png" x="10" y="10" width="220" height="150" preserveAspectRatio="xMidYMid slice" />
+          <text x="12" y="178" fill="#f7f4ff" font-size="12" font-weight="700">tablet · /</text>
+        </g>
+
+        <g transform="translate(284 302)">
+          <rect width="240" height="194" rx="16" fill="#11131d" stroke="#2f3448" />
+          <image href="screenshots/tablet-report.png" x="10" y="10" width="220" height="150" preserveAspectRatio="xMidYMid slice" />
+          <text x="12" y="178" fill="#f7f4ff" font-size="12" font-weight="700">tablet · /dashboard/report</text>
+        </g>
+
+        <g transform="translate(546 302)">
+          <rect width="240" height="194" rx="16" fill="#11131d" stroke="#2f3448" />
+          <image href="screenshots/tablet-kp.png" x="10" y="10" width="220" height="150" preserveAspectRatio="xMidYMid slice" />
+          <text x="12" y="178" fill="#f7f4ff" font-size="12" font-weight="700">tablet · /dashboard/kp</text>
+        </g>
+
+        <g transform="translate(808 302)">
+          <rect width="240" height="194" rx="16" fill="#11131d" stroke="#2f3448" />
+          <image href="screenshots/tablet-signature.png" x="10" y="10" width="220" height="150" preserveAspectRatio="xMidYMid slice" />
+          <text x="12" y="178" fill="#f7f4ff" font-size="12" font-weight="700">tablet · /dashboard/signature</text>
+        </g>
+
+        <g transform="translate(22 528)">
+          <rect width="240" height="194" rx="16" fill="#11131d" stroke="#2f3448" />
+          <image href="screenshots/mobile-landing.png" x="10" y="10" width="220" height="150" preserveAspectRatio="xMidYMid slice" />
+          <text x="12" y="178" fill="#f7f4ff" font-size="12" font-weight="700">mobile · /</text>
+        </g>
+
+        <g transform="translate(284 528)">
+          <rect width="240" height="194" rx="16" fill="#11131d" stroke="#2f3448" />
+          <image href="screenshots/mobile-report.png" x="10" y="10" width="220" height="150" preserveAspectRatio="xMidYMid slice" />
+          <text x="12" y="178" fill="#f7f4ff" font-size="12" font-weight="700">mobile · /dashboard/report</text>
+        </g>
+
+        <g transform="translate(546 528)">
+          <rect width="240" height="194" rx="16" fill="#11131d" stroke="#2f3448" />
+          <image href="screenshots/mobile-kp.png" x="10" y="10" width="220" height="150" preserveAspectRatio="xMidYMid slice" />
+          <text x="12" y="178" fill="#f7f4ff" font-size="12" font-weight="700">mobile · /dashboard/kp</text>
+        </g>
+
+        <g transform="translate(808 528)">
+          <rect width="240" height="194" rx="16" fill="#11131d" stroke="#2f3448" />
+          <image href="screenshots/mobile-signature.png" x="10" y="10" width="220" height="150" preserveAspectRatio="xMidYMid slice" />
+          <text x="12" y="178" fill="#f7f4ff" font-size="12" font-weight="700">mobile · /dashboard/signature</text>
+        </g>
+
+        <g transform="translate(22 754)">
+          <rect width="240" height="194" rx="16" fill="#11131d" stroke="#2f3448" />
+          <image href="screenshots/narrow-mobile-landing.png" x="10" y="10" width="220" height="150" preserveAspectRatio="xMidYMid slice" />
+          <text x="12" y="178" fill="#f7f4ff" font-size="12" font-weight="700">narrow-mobile · /</text>
+        </g>
+
+        <g transform="translate(284 754)">
+          <rect width="240" height="194" rx="16" fill="#11131d" stroke="#2f3448" />
+          <image href="screenshots/narrow-mobile-report.png" x="10" y="10" width="220" height="150" preserveAspectRatio="xMidYMid slice" />
+          <text x="12" y="178" fill="#f7f4ff" font-size="12" font-weight="700">narrow-mobile · /dashboard/report</text>
+        </g>
+
+        <g transform="translate(546 754)">
+          <rect width="240" height="194" rx="16" fill="#11131d" stroke="#2f3448" />
+          <image href="screenshots/narrow-mobile-kp.png" x="10" y="10" width="220" height="150" preserveAspectRatio="xMidYMid slice" />
+          <text x="12" y="178" fill="#f7f4ff" font-size="12" font-weight="700">narrow-mobile · /dashboard/kp</text>
+        </g>
+
+        <g transform="translate(808 754)">
+          <rect width="240" height="194" rx="16" fill="#11131d" stroke="#2f3448" />
+          <image href="screenshots/narrow-mobile-signature.png" x="10" y="10" width="220" height="150" preserveAspectRatio="xMidYMid slice" />
+          <text x="12" y="178" fill="#f7f4ff" font-size="12" font-weight="700">narrow-mobile · /dashboard/signature</text>
+        </g>
+</svg>

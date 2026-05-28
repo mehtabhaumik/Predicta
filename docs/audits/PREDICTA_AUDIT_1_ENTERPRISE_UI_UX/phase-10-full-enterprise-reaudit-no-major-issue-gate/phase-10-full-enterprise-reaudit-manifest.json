@@ -1,0 +1,180 @@
+{
+  "baseUrl": "http://127.0.0.1:3009",
+  "criticalIssues": [],
+  "generatedAt": "2026-05-28T17:40:53.221Z",
+  "majorIssues": [],
+  "manualReviewScreenshots": [
+    {
+      "clippedText": 0,
+      "clippedTextDetails": [],
+      "fileName": "desktop-landing.png",
+      "horizontalOverflow": 0,
+      "route": "/",
+      "textLength": 6445,
+      "viewport": "desktop",
+      "viewportWidth": 1440
+    },
+    {
+      "clippedText": 0,
+      "clippedTextDetails": [],
+      "fileName": "desktop-report.png",
+      "horizontalOverflow": 0,
+      "route": "/dashboard/report",
+      "textLength": 1995,
+      "viewport": "desktop",
+      "viewportWidth": 1440
+    },
+    {
+      "clippedText": 0,
+      "clippedTextDetails": [],
+      "fileName": "desktop-kp.png",
+      "horizontalOverflow": 0,
+      "route": "/dashboard/kp",
+      "textLength": 4779,
+      "viewport": "desktop",
+      "viewportWidth": 1440
+    },
+    {
+      "clippedText": 0,
+      "clippedTextDetails": [],
+      "fileName": "desktop-signature.png",
+      "horizontalOverflow": 0,
+      "route": "/dashboard/signature",
+      "textLength": 4358,
+      "viewport": "desktop",
+      "viewportWidth": 1440
+    },
+    {
+      "clippedText": 0,
+      "clippedTextDetails": [],
+      "fileName": "tablet-landing.png",
+      "horizontalOverflow": 0,
+      "route": "/",
+      "textLength": 6348,
+      "viewport": "tablet",
+      "viewportWidth": 834
+    },
+    {
+      "clippedText": 0,
+      "clippedTextDetails": [],
+      "fileName": "tablet-report.png",
+      "horizontalOverflow": 0,
+      "route": "/dashboard/report",
+      "textLength": 1791,
+      "viewport": "tablet",
+      "viewportWidth": 834
+    },
+    {
+      "clippedText": 0,
+      "clippedTextDetails": [],
+      "fileName": "tablet-kp.png",
+      "horizontalOverflow": 0,
+      "route": "/dashboard/kp",
+      "textLength": 4583,
+      "viewport": "tablet",
+      "viewportWidth": 834
+    },
+    {
+      "clippedText": 0,
+      "clippedTextDetails": [],
+      "fileName": "tablet-signature.png",
+      "horizontalOverflow": 0,
+      "route": "/dashboard/signature",
+      "textLength": 4155,
+      "viewport": "tablet",
+      "viewportWidth": 834
+    },
+    {
+      "clippedText": 0,
+      "clippedTextDetails": [],
+      "fileName": "mobile-landing.png",
+      "horizontalOverflow": 0,
+      "route": "/",
+      "textLength": 6345,
+      "viewport": "mobile",
+      "viewportWidth": 390
+    },
+    {
+      "clippedText": 0,
+      "clippedTextDetails": [],
+      "fileName": "mobile-report.png",
+      "horizontalOverflow": 0,
+      "route": "/dashboard/report",
+      "textLength": 1534,
+      "viewport": "mobile",
+      "viewportWidth": 390
+    },
+    {
+      "clippedText": 0,
+      "clippedTextDetails": [],
+      "fileName": "mobile-kp.png",
+      "horizontalOverflow": 0,
+      "route": "/dashboard/kp",
+      "textLength": 4570,
+      "viewport": "mobile",
+      "viewportWidth": 390
+    },
+    {
+      "clippedText": 0,
+      "clippedTextDetails": [],
+      "fileName": "mobile-signature.png",
+      "horizontalOverflow": 0,
+      "route": "/dashboard/signature",
+      "textLength": 4142,
+      "viewport": "mobile",
+      "viewportWidth": 390
+    },
+    {
+      "clippedText": 0,
+      "clippedTextDetails": [],
+      "fileName": "narrow-mobile-landing.png",
+      "horizontalOverflow": 0,
+      "route": "/",
+      "textLength": 6345,
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360
+    },
+    {
+      "clippedText": 0,
+      "clippedTextDetails": [],
+      "fileName": "narrow-mobile-report.png",
+      "horizontalOverflow": 0,
+      "route": "/dashboard/report",
+      "textLength": 1534,
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360
+    },
+    {
+      "clippedText": 0,
+      "clippedTextDetails": [],
+      "fileName": "narrow-mobile-kp.png",
+      "horizontalOverflow": 0,
+      "route": "/dashboard/kp",
+      "textLength": 4570,
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360
+    },
+    {
+      "clippedText": 0,
+      "clippedTextDetails": [],
+      "fileName": "narrow-mobile-signature.png",
+      "horizontalOverflow": 0,
+      "route": "/dashboard/signature",
+      "textLength": 4142,
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360
+    }
+  ],
+  "mediumIssues": [],
+  "phase": "PREDICTA_AUDIT_1_PHASE_10_FULL_ENTERPRISE_REAUDIT_AND_NO_MAJOR_ISSUE_GATE",
+  "priorGateEvidence": {
+    "auditServerPreflight": "passed before Phase 10 bundle generation",
+    "buyerRejection": "passed standalone and inside public greenlight",
+    "nativeMobileVisualTouch": "Phase 9 manifest is green with five device checks",
+    "publicGreenlight": "passed from a clean working tree before Phase 10 artifacts; rerun after final CSS fixes with PREDICTA_ALLOW_DIRTY_LAUNCH_AUDIT=1 because Phase 10 artifacts are intentionally uncommitted until green",
+    "uiTextOverflow": "passed 108 route and viewport checks",
+    "visualProof": "passed standalone and inside public greenlight"
+  },
+  "screenshotRoot": "docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-10-full-enterprise-reaudit-no-major-issue-gate/screenshots",
+  "status": "green"
+}

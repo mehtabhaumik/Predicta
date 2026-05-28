@@ -1401,6 +1401,7 @@ Must pass:
 - Public greenlight, after clean working tree is restored.
 - Native mobile visual/touch audit.
 - Manual review of desktop, tablet, mobile, and narrow mobile screenshots.
+- `corepack pnpm test:audit1-phase-10`.
 
 Green criteria:
 

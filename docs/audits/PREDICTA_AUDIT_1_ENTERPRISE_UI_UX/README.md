@@ -476,3 +476,40 @@ phase-9-native-mobile-ui-ux-parity-manifest.json
 native-mobile-ui-ux-parity-contract.md
 screenshots/
 ```
+
+## Phase 10 Full Enterprise Reaudit And No Major Issue Gate
+
+Phase ID: `PREDICTA_AUDIT_1_PHASE_10_FULL_ENTERPRISE_REAUDIT_AND_NO_MAJOR_ISSUE_GATE`
+
+Phase 10 proves Audit 1 closes with a clean enterprise re-audit instead of a
+source-only confidence claim:
+
+```bash
+corepack pnpm audit:build
+corepack pnpm audit:serve
+corepack pnpm test:audit-server-preflight
+corepack pnpm test:ui-text-overflow
+corepack pnpm test:visual-proof
+PREDICTA_BUYER_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:buyer-rejection
+corepack pnpm test:public-greenlight
+corepack pnpm test:audit1-phase-9
+corepack pnpm test:audit1-phase-10
+```
+
+The Phase 10 gate fails if the final audit evidence does not include the
+preflight, overflow, visual proof, buyer, public greenlight, native mobile, and
+manual screenshot review path; if any Critical or Major issue remains in the
+Phase 10 manifest; if the previous native mobile manifest is not green; if
+manual desktop/tablet/mobile/narrow-mobile screenshots show overflow, clipped
+text, missing Predicta content, or client-side error markers; or if the contact
+sheet and manifest are missing from the committed artifact bundle.
+
+Phase 10 artifacts live in:
+
+```text
+phase-10-full-enterprise-reaudit-no-major-issue-gate/
+phase-10-full-enterprise-reaudit-manifest.json
+full-enterprise-reaudit-contract.md
+phase-10-contact-sheet.svg
+screenshots/
+```

@@ -1572,12 +1572,13 @@ button:disabled,
 
 .kundli-hero-visual {
   align-items: center;
+  column-gap: 8px;
   display: grid;
-  gap: 18px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   justify-items: stretch;
   overflow: visible;
   padding: 0;
+  row-gap: 18px;
 }
 
 .hero-kundli-board {
@@ -1755,6 +1756,7 @@ button:disabled,
   background:
     linear-gradient(135deg, rgba(34, 36, 52, 0.97), rgba(25, 27, 42, 0.98)),
     var(--panel) !important;
+  box-sizing: border-box;
   inset: auto;
   max-width: none;
   position: relative;
@@ -17816,11 +17818,11 @@ button:disabled,
 }
 
 .kundli-hero-visual .floating-insight-card:first-of-type {
-  right: -6px;
+  right: auto;
 }
 
 .kundli-hero-visual .floating-insight-card:last-of-type {
-  left: 10px;
+  left: auto;
 }
 
 @keyframes landingKundliGlow {
@@ -18542,7 +18544,13 @@ select::-ms-expand {
 }
 
 .kp-event-compass-mini {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.kp-event-compass-mini strong {
+  font-size: clamp(17px, 1.7vw, 24px);
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .nadi-story-thread-mini {
@@ -19510,6 +19518,7 @@ select::-ms-expand {
 .hero-kundli-board {
   aspect-ratio: 1 / 1 !important;
   border-radius: 22px;
+  box-sizing: border-box !important;
   max-width: min(100%, 700px) !important;
   min-height: 0 !important;
   overflow: hidden !important;

@@ -89,6 +89,7 @@
     "test:audit1-phase-7f": "node scripts/run-audit1-phase-7f-cross-platform-visual-parity-intelligence-gate.mjs",
     "test:audit1-phase-8": "node scripts/run-audit1-phase-8-overlay-form-accessibility-gate.mjs",
     "test:audit1-phase-9": "node scripts/run-audit1-phase-9-native-mobile-ui-ux-parity-gate.mjs",
+    "test:audit1-phase-10": "node scripts/run-audit1-phase-10-full-enterprise-reaudit-gate.mjs",
     "test:audit-server-preflight": "node scripts/assert-predicta-audit-server-ready.mjs",
     "test:public-greenlight": "node scripts/run-public-testing-greenlight-audit.mjs",
     "test:visual-proof": "node scripts/run-mobile-tablet-visual-proof-gate.mjs",
