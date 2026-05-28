@@ -1,0 +1,321 @@
+{
+  "assetChecks": [
+    {
+      "assetPath": "/_next/static/css/685734e38b2253d6.css",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/webpack-d88ec1fa232724af.js",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/65b20f63-be94389c306b39c5.js",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/7462-22ec0642989904a2.js",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/main-app-c9156300448fcc34.js",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/b2713cf0-29b44a14c0af39f5.js",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/b22df09a-522acbb28a4ab03b.js",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/2530-64330eff84885e57.js",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/4103-b6caa34f8e982d93.js",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/9715-d2d2a7593b6badd3.js",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/app/layout-e06b04654b929b8e.js",
+      "statusCode": 200
+    },
+    {
+      "assetPath": "/_next/static/chunks/6716-01f245ad359d63ac.js",
+      "statusCode": 200
+    }
+  ],
+  "baseUrl": "http://127.0.0.1:3009",
+  "generatedAt": "2026-05-28T10:42:17.767Z",
+  "phase": "PREDICTA_AUDIT_1_PHASE_1_STATIC_ASSET_AND_APP_SHELL_RECOVERY",
+  "routeChecks": [
+    {
+      "finalUrl": "http://127.0.0.1:3009/",
+      "redirects": 0,
+      "route": "/",
+      "statusCode": 200
+    },
+    {
+      "finalUrl": "http://127.0.0.1:3009/dashboard",
+      "redirects": 0,
+      "route": "/dashboard",
+      "statusCode": 200
+    },
+    {
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report",
+      "redirects": 0,
+      "route": "/dashboard/report",
+      "statusCode": 200
+    },
+    {
+      "finalUrl": "http://127.0.0.1:3009/dashboard/signature",
+      "redirects": 0,
+      "route": "/dashboard/signature",
+      "statusCode": 200
+    },
+    {
+      "finalUrl": "http://127.0.0.1:3009/dashboard/kp",
+      "redirects": 0,
+      "route": "/dashboard/kp",
+      "statusCode": 200
+    },
+    {
+      "finalUrl": "http://127.0.0.1:3009/dashboard/nadi",
+      "redirects": 0,
+      "route": "/dashboard/nadi",
+      "statusCode": 200
+    },
+    {
+      "finalUrl": "http://127.0.0.1:3009/dashboard/numerology",
+      "redirects": 0,
+      "route": "/dashboard/numerology",
+      "statusCode": 200
+    },
+    {
+      "finalUrl": "http://127.0.0.1:3009/dashboard/settings",
+      "redirects": 0,
+      "route": "/dashboard/settings",
+      "statusCode": 200
+    },
+    {
+      "finalUrl": "http://127.0.0.1:3009/dashboard/family",
+      "redirects": 0,
+      "route": "/dashboard/family",
+      "statusCode": 200
+    },
+    {
+      "finalUrl": "http://127.0.0.1:3009/dashboard/settings",
+      "redirects": 1,
+      "route": "/dashboard/account",
+      "statusCode": 200
+    }
+  ],
+  "routeResults": [
+    {
+      "fileName": "desktop-landing.png",
+      "finalUrl": "http://127.0.0.1:3009/",
+      "httpStatus": 200,
+      "loadedStyleSheets": 1,
+      "nextScripts": 7,
+      "route": "/",
+      "title": "Predicta",
+      "viewport": "desktop"
+    },
+    {
+      "fileName": "desktop-dashboard.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard",
+      "httpStatus": 200,
+      "loadedStyleSheets": 1,
+      "nextScripts": 10,
+      "route": "/dashboard",
+      "title": "Predicta",
+      "viewport": "desktop"
+    },
+    {
+      "fileName": "desktop-report.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report",
+      "httpStatus": 200,
+      "loadedStyleSheets": 1,
+      "nextScripts": 10,
+      "route": "/dashboard/report",
+      "title": "Predicta",
+      "viewport": "desktop"
+    },
+    {
+      "fileName": "desktop-kp.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/kp",
+      "httpStatus": 200,
+      "loadedStyleSheets": 1,
+      "nextScripts": 8,
+      "route": "/dashboard/kp",
+      "title": "Predicta",
+      "viewport": "desktop"
+    },
+    {
+      "fileName": "desktop-nadi.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/nadi",
+      "httpStatus": 200,
+      "loadedStyleSheets": 1,
+      "nextScripts": 5,
+      "route": "/dashboard/nadi",
+      "title": "Predicta",
+      "viewport": "desktop"
+    },
+    {
+      "fileName": "desktop-numerology.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/numerology",
+      "httpStatus": 200,
+      "loadedStyleSheets": 1,
+      "nextScripts": 17,
+      "route": "/dashboard/numerology",
+      "title": "Predicta",
+      "viewport": "desktop"
+    },
+    {
+      "fileName": "desktop-signature.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/signature",
+      "httpStatus": 200,
+      "loadedStyleSheets": 1,
+      "nextScripts": 13,
+      "route": "/dashboard/signature",
+      "title": "Predicta",
+      "viewport": "desktop"
+    },
+    {
+      "fileName": "desktop-settings.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/settings",
+      "httpStatus": 200,
+      "loadedStyleSheets": 1,
+      "nextScripts": 11,
+      "route": "/dashboard/settings",
+      "title": "Predicta",
+      "viewport": "desktop"
+    },
+    {
+      "fileName": "desktop-account.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/settings",
+      "httpStatus": 200,
+      "loadedStyleSheets": 1,
+      "nextScripts": 18,
+      "route": "/dashboard/account",
+      "title": "Predicta",
+      "viewport": "desktop"
+    },
+    {
+      "fileName": "desktop-family.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/family",
+      "httpStatus": 200,
+      "loadedStyleSheets": 1,
+      "nextScripts": 5,
+      "route": "/dashboard/family",
+      "title": "Predicta",
+      "viewport": "desktop"
+    },
+    {
+      "fileName": "mobile-landing.png",
+      "finalUrl": "http://127.0.0.1:3009/",
+      "httpStatus": 200,
+      "loadedStyleSheets": 1,
+      "nextScripts": 7,
+      "route": "/",
+      "title": "Predicta",
+      "viewport": "mobile"
+    },
+    {
+      "fileName": "mobile-dashboard.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard",
+      "httpStatus": 200,
+      "loadedStyleSheets": 1,
+      "nextScripts": 8,
+      "route": "/dashboard",
+      "title": "Predicta",
+      "viewport": "mobile"
+    },
+    {
+      "fileName": "mobile-report.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report",
+      "httpStatus": 200,
+      "loadedStyleSheets": 1,
+      "nextScripts": 12,
+      "route": "/dashboard/report",
+      "title": "Predicta",
+      "viewport": "mobile"
+    },
+    {
+      "fileName": "mobile-kp.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/kp",
+      "httpStatus": 200,
+      "loadedStyleSheets": 1,
+      "nextScripts": 20,
+      "route": "/dashboard/kp",
+      "title": "Predicta",
+      "viewport": "mobile"
+    },
+    {
+      "fileName": "mobile-nadi.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/nadi",
+      "httpStatus": 200,
+      "loadedStyleSheets": 1,
+      "nextScripts": 14,
+      "route": "/dashboard/nadi",
+      "title": "Predicta",
+      "viewport": "mobile"
+    },
+    {
+      "fileName": "mobile-numerology.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/numerology",
+      "httpStatus": 200,
+      "loadedStyleSheets": 1,
+      "nextScripts": 7,
+      "route": "/dashboard/numerology",
+      "title": "Predicta",
+      "viewport": "mobile"
+    },
+    {
+      "fileName": "mobile-signature.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/signature",
+      "httpStatus": 200,
+      "loadedStyleSheets": 1,
+      "nextScripts": 18,
+      "route": "/dashboard/signature",
+      "title": "Predicta",
+      "viewport": "mobile"
+    },
+    {
+      "fileName": "mobile-settings.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/settings",
+      "httpStatus": 200,
+      "loadedStyleSheets": 1,
+      "nextScripts": 15,
+      "route": "/dashboard/settings",
+      "title": "Predicta",
+      "viewport": "mobile"
+    },
+    {
+      "fileName": "mobile-account.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/settings",
+      "httpStatus": 200,
+      "loadedStyleSheets": 1,
+      "nextScripts": 10,
+      "route": "/dashboard/account",
+      "title": "Predicta",
+      "viewport": "mobile"
+    },
+    {
+      "fileName": "mobile-family.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/family",
+      "httpStatus": 200,
+      "loadedStyleSheets": 1,
+      "nextScripts": 6,
+      "route": "/dashboard/family",
+      "title": "Predicta",
+      "viewport": "mobile"
+    }
+  ],
+  "screenshotRoot": "docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-1-static-asset-app-shell-recovery/screenshots",
+  "status": "green"
+}

@@ -907,11 +907,15 @@ Must fix:
 
 Green criteria:
 
+- `audit:build` produces a valid production build with `BUILD_ID`.
+- `audit:serve` starts the canonical production-like local server on
+  `http://127.0.0.1:3009`.
 - `test:audit-server-preflight` passes on canonical audit URL.
 - Browser route inspection shows no client-side exception.
 - All referenced CSS/JS assets return `2xx`.
 - Screenshots show styled Predicta UI across landing, dashboard, report, KP,
   Nadi, Numerology, Signature, settings, account, and family.
+- `test:audit1-phase-1` writes Phase 1 screenshot and manifest artifacts.
 - Phase commit exists before Phase 2 starts.
 
 ### PREDICTA_AUDIT_1_PHASE_2_LANDING_MOBILE_HERO_AND_CHART_OVERFLOW_LOCK
