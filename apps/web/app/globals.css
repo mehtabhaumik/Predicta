@@ -111,6 +111,11 @@ input {
 }
 
 button,
+[role='button'] {
+  min-height: var(--predicta-touch-target);
+}
+
+button,
 a,
 input {
   outline-color: var(--blue);
@@ -3458,6 +3463,10 @@ button:disabled,
 }
 
 @media (max-width: 560px) {
+  .kundli-form-grid {
+    grid-template-columns: 1fr;
+  }
+
   .kundli-creation-reveal {
     padding-inline: 0;
   }
@@ -20413,4 +20422,16 @@ select::-ms-expand {
   .dashboard-page .report-inline-composer .report-builder-choice {
     max-width: calc(100vw - 88px);
   }
+}
+
+/* Audit 1 Phase 7C: final touch-target hardening must win over legacy component selectors. */
+button,
+[role='button'],
+.button,
+.predicta-button,
+.report-product-card,
+select,
+textarea,
+input:not([type='radio']):not([type='checkbox']):not([type='hidden']):not([type='file']) {
+  min-height: var(--predicta-touch-target) !important;
 }

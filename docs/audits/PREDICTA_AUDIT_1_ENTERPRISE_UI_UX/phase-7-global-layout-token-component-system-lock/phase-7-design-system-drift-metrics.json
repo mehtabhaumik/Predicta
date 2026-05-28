@@ -3,15 +3,15 @@
   "cssMetrics": {
     "borderRadiusDeclarations": 391,
     "boxShadowDeclarations": 72,
-    "cssVariableReads": 1076,
+    "cssVariableReads": 1078,
     "hardcodedHexColors": 135,
     "hardcodedRgbaColors": 1243,
-    "importantDeclarations": 332,
-    "lineCount": 20417,
+    "importantDeclarations": 333,
+    "lineCount": 20438,
     "mediaQueries": 38,
     "zIndexDeclarations": 44
   },
-  "generatedAt": "2026-05-28T13:03:59.482Z",
+  "generatedAt": "2026-05-28T14:12:07.150Z",
   "phase": "PREDICTA_AUDIT_1_PHASE_7_GLOBAL_LAYOUT_TOKEN_AND_COMPONENT_SYSTEM_LOCK",
   "primitiveClasses": [
     ".predicta-action-row",

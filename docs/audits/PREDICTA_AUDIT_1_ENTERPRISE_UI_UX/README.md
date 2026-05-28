@@ -282,3 +282,35 @@ phase-7b-component-primitive-normalization/
 phase-7b-component-primitive-normalization-manifest.json
 screenshots/
 ```
+
+## Phase 7C Responsive Breakpoint Matrix And Layout Contract
+
+Phase ID: `PREDICTA_AUDIT_1_PHASE_7C_RESPONSIVE_BREAKPOINT_MATRIX_AND_LAYOUT_CONTRACT`
+
+Phase 7C proves responsive behavior across the full device-class matrix instead
+of only desktop, one tablet, and one phone:
+
+```bash
+corepack pnpm test:audit1-phase-7c
+corepack pnpm test:audit1-phase-7b
+corepack pnpm test:audit1-phase-7a
+corepack pnpm test:audit1-phase-7
+corepack pnpm --filter @pridicta/web typecheck
+corepack pnpm test:visual-proof
+corepack pnpm test:ui-text-overflow
+```
+
+The Phase 7C gate fails if any required route or responsive state surface loses
+expected identity text, leaks horizontal overflow, clips text, exposes edge
+collisions, hides CTAs, drops tappable targets below 44px, breaks sticky/fixed
+viewport safety, or does not save a screenshot for every required route and
+breakpoint.
+
+Phase 7C artifacts live in:
+
+```text
+phase-7c-responsive-breakpoint-matrix-layout-contract/
+phase-7c-responsive-breakpoint-matrix-manifest.json
+responsive-layout-contract.md
+screenshots/
+```
