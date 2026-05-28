@@ -40,6 +40,7 @@ import type { SupportedLanguage } from '../types/astrology';
 export function SettingsScreen({
   navigation,
 }: RootScreenProps<typeof routes.Settings>): React.JSX.Element {
+  const [showSupportLinks, setShowSupportLinks] = useState(false);
   const [biometryAvailable, setBiometryAvailable] = useState(false);
   const [authLoading, setAuthLoading] = useState(false);
   const auth = useAppStore(state => state.auth);
@@ -388,30 +389,40 @@ export function SettingsScreen({
             />
           </View>
         ) : null}
-        <View className="mt-4">
-          <GlowButton
-            label="Legal, Privacy, and Refund Policy"
-            onPress={() => navigation.navigate(routes.Legal)}
-          />
-        </View>
-        <View className="mt-4">
-          <GlowButton
-            label={shellLabels.nav.accuracyMethod}
-            onPress={() => navigation.navigate(routes.AccuracyMethod)}
-          />
-        </View>
-        <View className="mt-4">
-          <GlowButton
-            label="Safety Promise"
-            onPress={() => navigation.navigate(routes.SafetyPromise)}
-          />
-        </View>
-        <View className="mt-4">
-          <GlowButton
-            label="Founder Vision"
-            onPress={() => navigation.navigate(routes.FounderVision)}
-          />
-        </View>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityState={{ expanded: showSupportLinks }}
+          className="mt-4 min-h-[54px] justify-center rounded-[18px] border border-[#252533] bg-[#191923] px-4"
+          onPress={() => setShowSupportLinks(current => !current)}
+        >
+          <AppText className="font-bold text-[#4DAFFF]">
+            {showSupportLinks ? 'Hide support links' : 'Show support links'}
+          </AppText>
+          <AppText tone="secondary" variant="caption">
+            Legal, safety, founder vision, and method notes stay tucked away
+            until needed.
+          </AppText>
+        </Pressable>
+        {showSupportLinks ? (
+          <View className="mt-4 gap-3">
+            <GlowButton
+              label="Legal, Privacy, and Refund Policy"
+              onPress={() => navigation.navigate(routes.Legal)}
+            />
+            <GlowButton
+              label={shellLabels.nav.accuracyMethod}
+              onPress={() => navigation.navigate(routes.AccuracyMethod)}
+            />
+            <GlowButton
+              label="Safety Promise"
+              onPress={() => navigation.navigate(routes.SafetyPromise)}
+            />
+            <GlowButton
+              label="Founder Vision"
+              onPress={() => navigation.navigate(routes.FounderVision)}
+            />
+          </View>
+        ) : null}
       </GlowCard>
 
       <GlassPanel className="mt-6" delay={500}>
@@ -481,14 +492,14 @@ function SettingRow({
   title: string;
 }) {
   return (
-    <View className="flex-row items-center justify-between gap-5">
+    <View className="gap-4">
       <View className="flex-1 pr-2">
         <AppText variant="subtitle">{title}</AppText>
         <AppText className="mt-2" tone="secondary" variant="caption">
           {description}
         </AppText>
       </View>
-      <View className="min-w-[56px] items-end">{children}</View>
+      <View className="min-w-[56px] items-stretch">{children}</View>
     </View>
   );
 }

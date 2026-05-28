@@ -129,9 +129,31 @@ export function LoginScreen({
       </GlassPanel>
 
       <GlassPanel className="mt-6" delay={180}>
-        <View className="flex-row gap-3">
-          <GlowButton label="Sign In" onPress={() => setMode('sign-in')} />
-          <GlowButton label="Register" onPress={() => setMode('register')} />
+        <View className="gap-3">
+          <Pressable
+            accessibilityRole="button"
+            accessibilityState={{ selected: mode === 'sign-in' }}
+            className={`min-h-[52px] justify-center rounded-2xl border px-4 ${
+              mode === 'sign-in'
+                ? 'border-[#4DAFFF] bg-[#172233]'
+                : 'border-[#252533] bg-[#191923]'
+            }`}
+            onPress={() => setMode('sign-in')}
+          >
+            <AppText className="font-bold">Sign In</AppText>
+          </Pressable>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityState={{ selected: mode === 'register' }}
+            className={`min-h-[52px] justify-center rounded-2xl border px-4 ${
+              mode === 'register'
+                ? 'border-[#4DAFFF] bg-[#172233]'
+                : 'border-[#252533] bg-[#191923]'
+            }`}
+            onPress={() => setMode('register')}
+          >
+            <AppText className="font-bold">Register</AppText>
+          </Pressable>
         </View>
 
         <View className="mt-6">
@@ -139,6 +161,7 @@ export function LoginScreen({
             Email
           </AppText>
           <TextInput
+            accessibilityLabel="Email"
             autoCapitalize="none"
             autoComplete="email"
             autoCorrect={false}
@@ -156,6 +179,7 @@ export function LoginScreen({
             Password
           </AppText>
           <TextInput
+            accessibilityLabel="Password"
             autoComplete={mode === 'register' ? 'new-password' : 'password'}
             className="h-14 rounded-lg border border-[#252533] px-4 text-base text-text-primary"
             onChangeText={setPassword}
@@ -203,7 +227,7 @@ function ProviderButton({
   return (
     <Pressable
       accessibilityRole="button"
-      className="flex-row items-center rounded-2xl border border-[#252533] bg-app-card px-4 py-4"
+      className="min-h-[56px] flex-row items-center rounded-2xl border border-[#252533] bg-app-card px-4 py-4"
       onPress={onPress}
     >
       {icon}

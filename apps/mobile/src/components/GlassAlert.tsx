@@ -32,6 +32,7 @@ export function useGlassAlert(): {
     glassAlert: (
       <Modal
         animationType="fade"
+        accessibilityViewIsModal
         onRequestClose={() => setState(null)}
         transparent
         visible={Boolean(state)}
@@ -61,7 +62,7 @@ export function useGlassAlert(): {
             </View>
             <Pressable
               accessibilityRole="button"
-              className="mt-4 items-center"
+              className="mt-4 min-h-[44px] items-center justify-center"
               onPress={() => setState(null)}
             >
               <AppText tone="secondary" variant="caption">

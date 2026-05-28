@@ -149,8 +149,9 @@ export function BirthDetailsForm({
       />
 
       <Pressable
-        accessibilityRole="button"
-        className="flex-row items-center gap-3"
+        accessibilityRole="checkbox"
+        accessibilityState={{ checked: isTimeApproximate }}
+        className="min-h-[44px] flex-row items-center gap-3"
         onPress={() => setIsTimeApproximate(value => !value)}
       >
         <View
@@ -221,6 +222,7 @@ function Input({
         {label}
       </AppText>
       <TextInput
+        accessibilityLabel={label}
         className="h-14 rounded-lg border border-[#252533] px-4 text-base text-text-primary"
         onChangeText={onChangeText}
         placeholder={placeholder}
@@ -265,7 +267,8 @@ function Selector({
             {options.map(option => (
               <Pressable
                 accessibilityRole="button"
-                className={`rounded-lg border px-3 py-2 ${
+                accessibilityState={{ selected: option === value }}
+                className={`min-h-[44px] justify-center rounded-lg border px-3 py-2 ${
                   option === value ? 'bg-[#252533]' : 'bg-transparent'
                 }`}
                 key={option}

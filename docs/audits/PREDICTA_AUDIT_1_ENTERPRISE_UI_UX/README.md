@@ -448,3 +448,31 @@ phase-8-overlay-form-accessibility-manifest.json
 overlay-form-accessibility-contract.md
 screenshots/
 ```
+
+## Phase 9 Native Mobile UI UX Parity Audit And Fix
+
+Phase ID: `PREDICTA_AUDIT_1_PHASE_9_NATIVE_MOBILE_UI_UX_PARITY_AUDIT_AND_FIX`
+
+Phase 9 proves native mobile screens follow the same UX quality bar as web
+without becoming long, cramped, locally styled stacks:
+
+```bash
+corepack pnpm test:audit1-phase-9
+corepack pnpm --filter @pridicta/mobile typecheck
+corepack pnpm test:audit1-phase-8
+corepack pnpm test:visual-proof
+```
+
+The Phase 9 gate fails if shared native safe-area/keyboard behavior, report
+composer density, Settings support disclosure, Saved Kundli primary-action
+discipline, Paywall selected-state/price clarity, Login/Birth form labels,
+native modal semantics, touch targets, or Signature honesty regress.
+
+Phase 9 artifacts live in:
+
+```text
+phase-9-native-mobile-ui-ux-parity-audit-and-fix/
+phase-9-native-mobile-ui-ux-parity-manifest.json
+native-mobile-ui-ux-parity-contract.md
+screenshots/
+```

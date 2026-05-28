@@ -218,6 +218,8 @@ export function PaywallScreen({
           return (
             <Pressable
               accessibilityRole="button"
+              accessibilityState={{ selected }}
+              className="min-h-[96px]"
               key={plan.productId}
               onPress={() => {
                 setSelectedPlan(plan);
@@ -270,7 +272,7 @@ export function PaywallScreen({
 
       <View className="mt-7">
         <GlowButton
-          label="Unlock Premium"
+          label={`Unlock ${selectedPlan.label} - ${selectedPlan.displayPrice}`}
           loading={loadingProductId === selectedPlan.productId}
           onPress={() => startPurchase(selectedPlan.productId)}
         />
@@ -278,7 +280,7 @@ export function PaywallScreen({
 
       <Pressable
         accessibilityRole="button"
-        className="mt-5"
+        className="mt-5 min-h-[96px]"
         onPress={() => startPurchase(dayPass.productId)}
       >
         <GlowCard delay={520}>
@@ -317,7 +319,8 @@ export function PaywallScreen({
           </AppText>
         </Pressable>
         <AppText className="text-center" tone="secondary" variant="caption">
-          Cancel anytime. Terms and Privacy apply.
+          Secure mobile billing handoff. Cancel anytime. Terms and Privacy
+          apply.
         </AppText>
       </View>
     </Screen>

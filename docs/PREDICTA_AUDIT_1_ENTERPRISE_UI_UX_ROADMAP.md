@@ -1380,6 +1380,7 @@ Green criteria:
 
 - Native screenshots for iPhone SE, iPhone 15, small Android, tablet, and
   large tablet are saved.
+- `corepack pnpm test:audit1-phase-9` passes and records the device manifest.
 - Touch targets, safe areas, keyboard avoidance, loading/error/empty states, and
   overflow are verified.
 - Web/mobile UX parity exceptions are documented.

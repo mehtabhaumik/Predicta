@@ -313,7 +313,7 @@ export function ReportScreen({
               <Pressable
                 accessibilityRole="button"
                 accessibilityState={{ selected: builderMode === 'EVERYTHING' }}
-                className={`flex-1 rounded-[18px] border p-3 ${
+                className={`min-h-[88px] flex-1 justify-center rounded-[18px] border p-3 ${
                   builderMode === 'EVERYTHING'
                     ? 'border-[#C8A96A] bg-[#2A2330]'
                     : 'border-[#252533] bg-[#191923]'
@@ -331,7 +331,7 @@ export function ReportScreen({
               <Pressable
                 accessibilityRole="button"
                 accessibilityState={{ selected: builderMode === 'CUSTOM' }}
-                className={`flex-1 rounded-[18px] border p-3 ${
+                className={`min-h-[88px] flex-1 justify-center rounded-[18px] border p-3 ${
                   builderMode === 'CUSTOM'
                     ? 'border-[#C8A96A] bg-[#2A2330]'
                     : 'border-[#252533] bg-[#191923]'
@@ -375,7 +375,8 @@ export function ReportScreen({
 
         <Pressable
           accessibilityRole="button"
-          className="mt-4 rounded-[18px] border border-[#4DAFFF66] bg-[#101018] p-4"
+          accessibilityState={{ expanded: showComposerDetails }}
+          className="mt-4 min-h-[64px] rounded-[18px] border border-[#4DAFFF66] bg-[#101018] p-4"
           onPress={() => setShowComposerDetails(current => !current)}
         >
           <AppText className="font-bold text-[#4DAFFF]">
@@ -402,7 +403,7 @@ export function ReportScreen({
                     accessibilityState={{
                       selected: option.code === reportLanguage,
                     }}
-                    className={`rounded-[16px] border p-3 ${
+                    className={`min-h-[58px] justify-center rounded-[16px] border p-3 ${
                       option.code === reportLanguage
                         ? 'border-[#4DAFFF] bg-[#172233]'
                         : 'border-[#252533] bg-[#101018]'
@@ -486,7 +487,7 @@ export function ReportScreen({
         </View>
         <Pressable
           accessibilityRole="button"
-          className="mt-4"
+          className="mt-4 min-h-[44px] justify-center"
           onPress={() => askFromReport(product.prompt)}
         >
           <AppText className="font-bold text-[#4DAFFF]">
@@ -530,7 +531,8 @@ export function ReportScreen({
         </View>
         <Pressable
           accessibilityRole="button"
-          className="mt-4 rounded-[18px] border border-[#4DAFFF55] bg-[#101826] p-4"
+          accessibilityState={{ expanded: showReportMarketplace }}
+          className="mt-4 min-h-[64px] rounded-[18px] border border-[#4DAFFF55] bg-[#101826] p-4"
           onPress={() => setShowReportMarketplace(current => !current)}
         >
           <AppText className="font-bold text-[#4DAFFF]">
@@ -625,7 +627,8 @@ export function ReportScreen({
             <View key={product.id}>
               <Pressable
                 accessibilityRole="button"
-                className={`rounded-[18px] border p-4 ${
+                accessibilityState={{ selected: selectedReportId === product.id }}
+                className={`min-h-[96px] rounded-[18px] border p-4 ${
                   selectedReportId === product.id
                     ? 'border-[#4DAFFF] bg-[#172233]'
                     : 'border-[#252533] bg-[#191923]'
@@ -678,7 +681,7 @@ function ReportProductButton({
     <Pressable
       accessibilityRole="button"
       accessibilityState={{ selected }}
-      className={`rounded-[18px] border p-4 ${
+      className={`min-h-[96px] rounded-[18px] border p-4 ${
         selected
           ? 'border-[#C8A96A] bg-[#2A2330]'
           : 'border-[#3D3346] bg-[#191923]'

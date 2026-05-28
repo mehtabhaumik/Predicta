@@ -1,0 +1,64 @@
+{
+  "deviceChecks": [
+    {
+      "fileName": "iphone-se-native-mobile-parity.png",
+      "height": 568,
+      "horizontalOverflow": 0,
+      "name": "iphone-se",
+      "shortTargets": 0,
+      "targetCount": 8,
+      "width": 320
+    },
+    {
+      "fileName": "iphone-15-native-mobile-parity.png",
+      "height": 852,
+      "horizontalOverflow": 0,
+      "name": "iphone-15",
+      "shortTargets": 0,
+      "targetCount": 8,
+      "width": 393
+    },
+    {
+      "fileName": "small-android-native-mobile-parity.png",
+      "height": 740,
+      "horizontalOverflow": 0,
+      "name": "small-android",
+      "shortTargets": 0,
+      "targetCount": 8,
+      "width": 360
+    },
+    {
+      "fileName": "tablet-native-mobile-parity.png",
+      "height": 1024,
+      "horizontalOverflow": 0,
+      "name": "tablet",
+      "shortTargets": 0,
+      "targetCount": 8,
+      "width": 768
+    },
+    {
+      "fileName": "large-tablet-native-mobile-parity.png",
+      "height": 1366,
+      "horizontalOverflow": 0,
+      "name": "large-tablet",
+      "shortTargets": 0,
+      "targetCount": 8,
+      "width": 1024
+    }
+  ],
+  "generatedAt": "2026-05-28T16:48:18.923Z",
+  "phase": "PREDICTA_AUDIT_1_PHASE_9_NATIVE_MOBILE_UI_UX_PARITY_AUDIT_AND_FIX",
+  "screenshotRoot": "docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-9-native-mobile-ui-ux-parity-audit-and-fix/screenshots",
+  "sourceContracts": {
+    "birthForm": "labels, checkbox state, touch-safe selectors",
+    "glassAlert": "modal semantics and touch-safe close",
+    "login": "keyboard-safe form labels and selected auth mode",
+    "paywall": "selected plan and price-aware CTA",
+    "report": "composer disclosure and touch-safe selected report action",
+    "savedKundlis": "primary actions first and secondary actions hidden",
+    "screen": "adaptive safe-area and keyboard avoidance",
+    "settings": "support disclosure and non-cramped setting rows",
+    "signature": "honest unavailable capture and no fake traits"
+  },
+  "status": "green"
+}

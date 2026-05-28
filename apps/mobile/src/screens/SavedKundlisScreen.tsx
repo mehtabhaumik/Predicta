@@ -51,6 +51,9 @@ export function SavedKundlisScreen({
   const [chartDialog, setChartDialog] = useState<
     { record: SavedKundliRecord; school: ChartRenderSchool } | undefined
   >();
+  const [expandedActionRecordId, setExpandedActionRecordId] = useState<
+    string | undefined
+  >();
   const chartLanguage =
     languagePreference.chartLanguage ??
     languagePreference.appLanguage ??
@@ -270,7 +273,7 @@ export function SavedKundlisScreen({
           />
           <Pressable
             accessibilityRole="button"
-            className="rounded-full border border-[#252533] bg-[#191923] px-4 py-3"
+            className="min-h-[44px] items-center justify-center rounded-full border border-[#252533] bg-[#191923] px-4 py-3"
             onPress={askPredictaToCreate}
           >
             <AppText variant="caption">Ask Predicta to Create</AppText>
@@ -355,6 +358,7 @@ export function SavedKundlisScreen({
                     {isCloud ? (
                       <Pressable
                         accessibilityRole="button"
+                        accessibilityLabel="Cloud sync status"
                         onPress={() =>
                           showGlassAlert({
                             message:
@@ -370,57 +374,83 @@ export function SavedKundlisScreen({
                 </Pressable>
 
                 <View className="mt-5">
-                  <View className="mb-3 flex-row flex-wrap gap-3">
+                  <View className="mb-3 gap-3">
                     <Pressable
                       accessibilityRole="button"
-                      className="rounded-full border border-[#252533] bg-[#191923] px-4 py-3"
+                      className="min-h-[48px] items-center justify-center rounded-full border border-[#4DAFFF] bg-[#172233] px-4 py-3"
                       onPress={() => openRecord(record)}
                     >
-                      <AppText variant="caption">Open</AppText>
+                      <AppText className="font-bold" variant="caption">
+                        Open Kundli
+                      </AppText>
                     </Pressable>
-                    {activeKundli?.id !== record.summary.id ? (
-                      <Pressable
-                        accessibilityRole="button"
-                        className="rounded-full border border-[#252533] bg-[#191923] px-4 py-3"
-                        onPress={() => setAsActive(record)}
-                      >
-                        <AppText variant="caption">Set Active</AppText>
-                      </Pressable>
-                    ) : null}
+                    <GlowButton
+                      label={isCloud ? 'Saved to Cloud' : 'Save to Cloud'}
+                      disabled={isCloud}
+                      onPress={() => cloudSave(record)}
+                    />
                     <Pressable
                       accessibilityRole="button"
-                      className="rounded-full border border-[#252533] bg-[#191923] px-4 py-3"
-                      onPress={() => editRecord(record)}
+                      accessibilityState={{
+                        expanded: expandedActionRecordId === record.summary.id,
+                      }}
+                      className="min-h-[48px] items-center justify-center rounded-full border border-[#252533] bg-[#191923] px-4 py-3"
+                      onPress={() =>
+                        setExpandedActionRecordId(current =>
+                          current === record.summary.id
+                            ? undefined
+                            : record.summary.id,
+                        )
+                      }
                     >
-                      <AppText variant="caption">Edit</AppText>
-                    </Pressable>
-                    <Pressable
-                      accessibilityRole="button"
-                      className="rounded-full border border-[#4DAFFF] bg-[#172233] px-4 py-3"
-                      onPress={() => askProfile(record, 'PARASHARI')}
-                    >
-                      <AppText variant="caption">Ask Predicta</AppText>
-                    </Pressable>
-                    <Pressable
-                      accessibilityRole="button"
-                      className="rounded-full border border-[#252533] bg-[#191923] px-4 py-3"
-                      onPress={() => openFamilyMap(record)}
-                    >
-                      <AppText variant="caption">Family Map</AppText>
-                    </Pressable>
-                    <Pressable
-                      accessibilityRole="button"
-                      className="rounded-full border border-[#61404a] bg-[#27171c] px-4 py-3"
-                      onPress={() => requestDelete(record)}
-                    >
-                      <AppText variant="caption">Delete</AppText>
+                      <AppText variant="caption">
+                        {expandedActionRecordId === record.summary.id
+                          ? 'Hide more actions'
+                          : 'More actions'}
+                      </AppText>
                     </Pressable>
                   </View>
-                  <GlowButton
-                    label={isCloud ? 'Saved to Cloud' : 'Save to Cloud'}
-                    disabled={isCloud}
-                    onPress={() => cloudSave(record)}
-                  />
+                  {expandedActionRecordId === record.summary.id ? (
+                    <View className="mb-3 flex-row flex-wrap gap-3">
+                      {activeKundli?.id !== record.summary.id ? (
+                        <Pressable
+                          accessibilityRole="button"
+                          className="min-h-[44px] justify-center rounded-full border border-[#252533] bg-[#191923] px-4 py-3"
+                          onPress={() => setAsActive(record)}
+                        >
+                          <AppText variant="caption">Set Active</AppText>
+                        </Pressable>
+                      ) : null}
+                      <Pressable
+                        accessibilityRole="button"
+                        className="min-h-[44px] justify-center rounded-full border border-[#252533] bg-[#191923] px-4 py-3"
+                        onPress={() => editRecord(record)}
+                      >
+                        <AppText variant="caption">Edit</AppText>
+                      </Pressable>
+                      <Pressable
+                        accessibilityRole="button"
+                        className="min-h-[44px] justify-center rounded-full border border-[#4DAFFF] bg-[#172233] px-4 py-3"
+                        onPress={() => askProfile(record, 'PARASHARI')}
+                      >
+                        <AppText variant="caption">Ask Predicta</AppText>
+                      </Pressable>
+                      <Pressable
+                        accessibilityRole="button"
+                        className="min-h-[44px] justify-center rounded-full border border-[#252533] bg-[#191923] px-4 py-3"
+                        onPress={() => openFamilyMap(record)}
+                      >
+                        <AppText variant="caption">Family Map</AppText>
+                      </Pressable>
+                      <Pressable
+                        accessibilityRole="button"
+                        className="min-h-[44px] justify-center rounded-full border border-[#61404a] bg-[#27171c] px-4 py-3"
+                        onPress={() => requestDelete(record)}
+                      >
+                        <AppText variant="caption">Delete</AppText>
+                      </Pressable>
+                    </View>
+                  ) : null}
                 </View>
               </GlowCard>
             );
@@ -601,6 +631,7 @@ function LibraryChartDialog({
   return (
     <Modal
       animationType="fade"
+      accessibilityViewIsModal
       onRequestClose={onClose}
       transparent
       visible
@@ -821,6 +852,8 @@ const styles = StyleSheet.create({
     borderColor: '#252533',
     borderRadius: 999,
     borderWidth: 1,
+    minHeight: 44,
+    justifyContent: 'center',
     paddingHorizontal: 16,
     paddingVertical: 12,
   },
@@ -839,6 +872,8 @@ const styles = StyleSheet.create({
     borderColor: '#252533',
     borderRadius: 999,
     borderWidth: 1,
+    minHeight: 44,
+    justifyContent: 'center',
     paddingHorizontal: 14,
     paddingVertical: 10,
   },
