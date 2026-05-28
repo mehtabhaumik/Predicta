@@ -15,6 +15,7 @@
     "@pridicta/astrology": "workspace:*",
     "@pridicta/config": "workspace:*",
     "@pridicta/types": "workspace:*",
+    "@pridicta/ui-tokens": "workspace:*",
     "@react-pdf/renderer": "^4.5.1",
     "react": "19.2.3"
   },

@@ -24,6 +24,7 @@ import type {
   SignatureAnalysisModel,
   SupportedLanguage,
 } from '@pridicta/types';
+import { semanticColors } from '@pridicta/ui-tokens';
 
 import {
   composeReportSections,
@@ -88,12 +89,12 @@ const PDF_PREPARED_BY_TEXT = 'Prepared by Predicta @2026';
 const PDF_PAGE_TEMPLATES = {
   cover: {
     background: '#07101F',
-    blueGlow: '#1F6FFF',
-    greenGlow: '#32D18D',
-    magentaGlow: '#D93695',
+    blueGlow: semanticColors.accentBlue,
+    greenGlow: semanticColors.accentGreen,
+    magentaGlow: semanticColors.accentMagenta,
   },
   interior: {
-    background: '#F7F7F2',
+    background: semanticColors.porcelain,
     border: '#D9D1BF',
     ink: '#151925',
     muted: '#5B6677',

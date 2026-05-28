@@ -1083,6 +1083,8 @@ Green criteria:
 - Audit 2 design-system drift metrics are saved as an artifact.
 - No phase can be green from visual review alone; source-level token drift must
   also pass.
+- `test:audit1-phase-7`, UI token typecheck, web typecheck, mobile typecheck,
+  visual proof, and overflow gate pass.
 - Phase commit exists before Phase 8 starts.
 
 ### PREDICTA_AUDIT_1_PHASE_7A_DESIGN_TOKEN_SINGLE_SOURCE_OF_TRUTH

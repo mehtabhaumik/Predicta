@@ -317,6 +317,9 @@ importers:
       '@pridicta/types':
         specifier: workspace:*
         version: link:../types
+      '@pridicta/ui-tokens':
+        specifier: workspace:*
+        version: link:../ui-tokens
       '@react-pdf/renderer':
         specifier: ^4.5.1
         version: 4.5.1(react@19.2.3)
@@ -7411,7 +7414,9 @@ snapshots:
       metro-runtime: 0.84.3
     transitivePeerDependencies:
       - '@babel/core'
+      - bufferutil
       - supports-color
+      - utf-8-validate
 
   '@react-native/new-app-screen@0.85.1(@types/react@19.2.14)(react-native@0.85.1(@babel/core@7.29.0)(@react-native-community/cli@20.1.0(typescript@5.9.3))(@react-native/jest-preset@0.85.1(@babel/core@7.29.0)(react@19.2.3))(@react-native/metro-config@0.85.1(@babel/core@7.29.0))(@types/react@19.2.14)(react@19.2.3))(react@19.2.3)':
     dependencies:

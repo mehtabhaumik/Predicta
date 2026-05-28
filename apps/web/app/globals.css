@@ -1,29 +1,64 @@
 :root {
-  --bg: #0a0a0f;
-  --panel: #12121a;
-  --panel-soft: rgba(18, 18, 26, 0.74);
-  --panel-deep: rgba(8, 8, 14, 0.86);
-  --border: rgba(255, 255, 255, 0.12);
-  --border-quiet: rgba(255, 255, 255, 0.075);
-  --text: #ffffff;
-  --muted: #a0a0b2;
-  --purple: #7b61ff;
-  --blue: #4dafff;
-  --cyan: #53e0d2;
-  --gold: #ffc34d;
-  --pink: #e85bb6;
-  --glass: rgba(18, 18, 26, 0.66);
-  --glass-strong: rgba(24, 24, 34, 0.78);
-  --shadow-soft: 0 28px 90px rgba(0, 0, 0, 0.34);
-  --shadow-glow: 0 24px 80px rgba(123, 97, 255, 0.18);
+  /* Audit 1 Phase 7: CSS aliases mirror @pridicta/ui-tokens. New visual values must use these aliases or be allowlisted. */
+  --predicta-bg: #0a0a0f;
+  --predicta-panel: #12121a;
+  --predicta-panel-soft: rgba(18, 18, 26, 0.74);
+  --predicta-panel-deep: rgba(8, 8, 14, 0.86);
+  --predicta-border: rgba(255, 255, 255, 0.12);
+  --predicta-border-quiet: rgba(255, 255, 255, 0.075);
+  --predicta-text: #ffffff;
+  --predicta-muted: #a0a0b2;
+  --predicta-color-purple: #7b61ff;
+  --predicta-color-blue: #4dafff;
+  --predicta-color-cyan: #53e0d2;
+  --predicta-color-gold: #ffc34d;
+  --predicta-color-magenta: #e85bb6;
+  --predicta-glass: rgba(18, 18, 26, 0.66);
+  --predicta-glass-strong: rgba(24, 24, 34, 0.78);
+  --predicta-shadow-soft: 0 28px 90px rgba(0, 0, 0, 0.34);
+  --predicta-shadow-glow: 0 24px 80px rgba(123, 97, 255, 0.18);
+  --predicta-radius-card: 16px;
+  --predicta-radius-panel: 20px;
+  --predicta-radius-modal: 28px;
+  --predicta-radius-chip: 999px;
+  --predicta-space-page: 24px;
+  --predicta-space-page-mobile: 16px;
+  --predicta-space-section: 64px;
+  --predicta-space-card: 24px;
+  --predicta-space-row: 16px;
+  --predicta-space-compact: 8px;
+  --predicta-touch-target: 44px;
+  --predicta-max-content: 1180px;
+  --predicta-max-dashboard: 1280px;
+  --predicta-z-sticky: 20;
+  --predicta-z-overlay: 40;
+  --predicta-z-modal: 60;
+  --predicta-z-toast: 80;
+  --bg: var(--predicta-bg);
+  --panel: var(--predicta-panel);
+  --panel-soft: var(--predicta-panel-soft);
+  --panel-deep: var(--predicta-panel-deep);
+  --border: var(--predicta-border);
+  --border-quiet: var(--predicta-border-quiet);
+  --text: var(--predicta-text);
+  --muted: var(--predicta-muted);
+  --purple: var(--predicta-color-purple);
+  --blue: var(--predicta-color-blue);
+  --cyan: var(--predicta-color-cyan);
+  --gold: var(--predicta-color-gold);
+  --pink: var(--predicta-color-magenta);
+  --glass: var(--predicta-glass);
+  --glass-strong: var(--predicta-glass-strong);
+  --shadow-soft: var(--predicta-shadow-soft);
+  --shadow-glow: var(--predicta-shadow-glow);
   --control-bg: rgba(255, 255, 255, 0.064);
   --control-border: rgba(244, 241, 255, 0.16);
   --control-border-strong: rgba(77, 175, 255, 0.38);
   --gradient: linear-gradient(92deg, var(--purple), var(--blue) 58%, var(--cyan));
   --gradient-accent: linear-gradient(92deg, var(--purple), var(--blue) 54%, var(--pink));
   --gradient-warm: linear-gradient(92deg, rgba(255, 195, 77, 0.34), rgba(77, 175, 255, 0.2));
-  --max: 1180px;
-  --dash-max: 1280px;
+  --max: var(--predicta-max-content);
+  --dash-max: var(--predicta-max-dashboard);
 }
 
 * {
@@ -75,6 +110,110 @@ button,
 p {
   color: var(--muted);
   line-height: 1.72;
+}
+
+.predicta-page-shell {
+  margin-inline: auto;
+  max-width: var(--dash-max);
+  padding-inline: var(--predicta-space-page);
+  width: 100%;
+}
+
+.predicta-section-stack {
+  display: grid;
+  gap: var(--predicta-space-section);
+}
+
+.predicta-card {
+  border: 1px solid var(--border);
+  border-radius: var(--predicta-radius-panel);
+  padding: var(--predicta-space-card);
+}
+
+.predicta-action-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--predicta-space-row);
+}
+
+.predicta-tabs {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--predicta-space-compact);
+}
+
+.predicta-table {
+  border: 1px solid var(--border-quiet);
+  border-radius: var(--predicta-radius-card);
+  overflow: hidden;
+  width: 100%;
+}
+
+.predicta-form {
+  display: grid;
+  gap: var(--predicta-space-row);
+}
+
+.predicta-empty-state,
+.predicta-loading-state {
+  border: 1px dashed var(--border);
+  border-radius: var(--predicta-radius-panel);
+  display: grid;
+  gap: var(--predicta-space-row);
+  min-height: 180px;
+  padding: var(--predicta-space-card);
+  place-items: center;
+  text-align: center;
+}
+
+.predicta-modal {
+  border-radius: var(--predicta-radius-modal);
+  box-shadow: var(--predicta-shadow-soft);
+  margin-inline: auto;
+  max-width: min(92vw, 720px);
+  padding: var(--predicta-space-card);
+}
+
+.predicta-sticky-cta {
+  bottom: max(16px, env(safe-area-inset-bottom));
+  left: 50%;
+  max-width: min(92vw, 760px);
+  position: sticky;
+  transform: translateX(-50%);
+  width: max-content;
+  z-index: var(--predicta-z-sticky);
+}
+
+@media (max-width: 640px) {
+  .predicta-page-shell {
+    padding-inline: var(--predicta-space-page-mobile);
+  }
+
+  .predicta-section-stack {
+    gap: calc(var(--predicta-space-section) * 0.72);
+  }
+
+  .predicta-card,
+  .predicta-modal {
+    padding: var(--predicta-space-row);
+  }
+
+  .predicta-action-row,
+  .predicta-tabs {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .predicta-action-row > *,
+  .predicta-tabs > * {
+    width: 100%;
+  }
+
+  .predicta-sticky-cta {
+    width: min(92vw, 760px);
+  }
 }
 
 .page-shell {

@@ -187,3 +187,34 @@ Phase 6 artifacts live in:
 ```text
 phase-6-specialist-room-visual-identity-progressive-disclosure/
 ```
+
+## Phase 7 Global Layout Token And Component System Lock
+
+Phase ID: `PREDICTA_AUDIT_1_PHASE_7_GLOBAL_LAYOUT_TOKEN_AND_COMPONENT_SYSTEM_LOCK`
+
+Phase 7 proves the UI is no longer only visually reviewed; it has a source-level
+design-system lock:
+
+```bash
+corepack pnpm test:audit1-phase-7
+corepack pnpm --filter @pridicta/ui-tokens typecheck
+corepack pnpm --filter @pridicta/web typecheck
+corepack pnpm --filter @pridicta/mobile typecheck
+corepack pnpm test:visual-proof
+corepack pnpm test:ui-text-overflow
+```
+
+The Phase 7 gate fails if the shared token package does not expose semantic
+colors, typography, spacing, radii, elevation, motion, z-index, breakpoints, and
+primitive classes; if mobile does not consume the shared token package; if web
+does not expose primitives for page shell, section stack, cards, action rows,
+tabs, tables, forms, empty states, loading states, modals, and sticky CTAs; if
+the CSS token aliases are missing; or if the Audit 2 drift metrics artifact is
+not regenerated.
+
+Phase 7 artifacts live in:
+
+```text
+phase-7-global-layout-token-component-system-lock/
+phase-7-design-system-drift-metrics.json
+```
