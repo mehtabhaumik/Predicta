@@ -86,3 +86,24 @@ Phase 2 artifacts live in:
 ```text
 phase-2-landing-mobile-hero-overflow-lock/
 ```
+
+## Phase 3 Trust Surface Repair
+
+Phase 3 proves trust-critical public and account surfaces are real, readable,
+and unclipped:
+
+```bash
+corepack pnpm test:audit1-phase-3
+corepack pnpm test:ui-text-overflow
+```
+
+The Phase 3 gate checks account, settings, safety, legal, feedback, pricing, and
+checkout at desktop, tablet, and mobile widths. It fails if `/dashboard/account`
+redirects away, account/settings lack signed-in or signed-out continuity states,
+the founder promise is clipped on safety, or any trust surface leaks/clips text.
+
+Phase 3 artifacts live in:
+
+```text
+phase-3-safety-account-trust-surface-repair/
+```

@@ -971,6 +971,18 @@ Green criteria:
 - Safety page has no clipped/truncated text at desktop/tablet/mobile.
 - Phase commit exists before Phase 4 starts.
 
+Audit commands:
+
+```bash
+corepack pnpm test:audit1-phase-3
+corepack pnpm test:ui-text-overflow
+```
+
+Evidence:
+
+- `docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-3-safety-account-trust-surface-repair/`
+  contains trust-surface screenshots and manifest output.
+
 ### PREDICTA_AUDIT_1_PHASE_4_REPORT_COMPOSER_ACTION_DENSITY_REBUILD
 
 Goal:

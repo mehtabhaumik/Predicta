@@ -76,6 +76,7 @@
     "audit:serve": "PORT=3009 HOSTNAME=127.0.0.1 pnpm --filter @pridicta/web exec next start",
     "test:audit1-phase-1": "node scripts/run-audit1-phase-1-static-shell-gate.mjs",
     "test:audit1-phase-2": "node scripts/run-audit1-phase-2-landing-overflow-gate.mjs",
+    "test:audit1-phase-3": "node scripts/run-audit1-phase-3-trust-surfaces-gate.mjs",
     "test:audit-server-preflight": "node scripts/assert-predicta-audit-server-ready.mjs",
     "test:public-greenlight": "node scripts/run-public-testing-greenlight-audit.mjs",
     "test:visual-proof": "node scripts/run-mobile-tablet-visual-proof-gate.mjs",

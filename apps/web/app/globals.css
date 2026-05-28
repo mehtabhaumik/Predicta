@@ -6811,12 +6811,26 @@ button:disabled {
   color: var(--text);
   cursor: pointer;
   min-width: 0;
+  overflow-wrap: anywhere;
   padding: 12px;
   text-align: left;
+  white-space: normal;
   transition:
     background-color 180ms ease,
     border-color 180ms ease,
     transform 180ms ease;
+}
+
+@media (max-width: 560px) {
+  .kp-question-mode-row,
+  .kp-question-preset-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kp-question-mode-row button,
+  .kp-question-preset-grid button {
+    min-height: 48px;
+  }
 }
 
 .kp-question-mode-row button:hover,

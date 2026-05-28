@@ -118,10 +118,11 @@ function buildDashboardNavModel(
       ],
     },
     {
-      href: '/dashboard/settings',
+      href: '/dashboard/account',
       id: 'account',
       label: labels.nav.account,
       items: [
+        { href: '/dashboard/account', label: labels.nav.account },
         { href: '/dashboard/settings', label: labels.nav.settings },
         { href: '/dashboard/redeem-pass', label: labels.nav.redeemPass },
       ],
