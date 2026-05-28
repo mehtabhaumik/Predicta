@@ -314,3 +314,37 @@ phase-7c-responsive-breakpoint-matrix-manifest.json
 responsive-layout-contract.md
 screenshots/
 ```
+
+## Phase 7D Motion Layering And Interaction State System
+
+Phase ID: `PREDICTA_AUDIT_1_PHASE_7D_MOTION_LAYERING_AND_INTERACTION_STATE_SYSTEM`
+
+Phase 7D proves Predicta motion, overlay layering, reduced-motion behavior, and
+keyboard focus states are systemized instead of route-local:
+
+```bash
+corepack pnpm test:audit1-phase-7d
+corepack pnpm test:audit1-phase-7c
+corepack pnpm test:audit1-phase-7b
+corepack pnpm test:audit1-phase-7a
+corepack pnpm test:audit1-phase-7
+corepack pnpm --filter @pridicta/web typecheck
+corepack pnpm test:visual-proof
+corepack pnpm test:ui-text-overflow
+```
+
+The Phase 7D gate fails if motion tokens or CSS motion primitives are missing,
+if forbidden global raw z-index values return, if modal/drawer/dropdown/sticky
+CTA/chat/signature/report/payment layers are not ordered safely, if keyboard
+focus is not visible, if reduced motion does not suppress progress/reveal
+animation safely, or if generated desktop/tablet/mobile screenshots show
+overflow or undersized touch targets.
+
+Phase 7D artifacts live in:
+
+```text
+phase-7d-motion-layering-interaction-state-system/
+phase-7d-motion-layering-interaction-state-manifest.json
+motion-layering-contract.md
+screenshots/
+```

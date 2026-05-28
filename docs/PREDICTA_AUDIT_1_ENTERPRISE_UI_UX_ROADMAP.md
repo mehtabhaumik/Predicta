@@ -1249,9 +1249,16 @@ Green criteria:
 
 - Motion tokens replace arbitrary durations and keyframes.
 - Z-index tokens replace raw layering values.
+- `test:audit1-phase-7d`, `test:audit1-phase-7c`,
+  `test:audit1-phase-7b`, `test:audit1-phase-7a`,
+  `test:audit1-phase-7`, web typecheck, visual proof, and overflow gate pass.
 - Overlay QA proves modals, drawers, dropdowns, sticky CTAs, chat, signature
   scan, report composer, and payment states layer correctly.
 - Keyboard and reduced-motion proof artifacts are saved.
+- No forbidden global raw z-index values such as `10000`, `10001`, `10002`,
+  `1000`, `1100`, `1200`, `1201`, `1400`, or `110` remain.
+- Phase 7D artifacts are saved under
+  `docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-7d-motion-layering-interaction-state-system/`.
 - Phase commit exists before Phase 7E starts.
 
 ### PREDICTA_AUDIT_1_PHASE_7E_MEDIA_ASSET_AND_CONTRAST_QUALITY_GATE
