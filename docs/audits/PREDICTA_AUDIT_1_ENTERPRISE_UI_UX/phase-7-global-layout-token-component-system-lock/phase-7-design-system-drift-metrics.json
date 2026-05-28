@@ -11,7 +11,7 @@
     "mediaQueries": 38,
     "zIndexDeclarations": 43
   },
-  "generatedAt": "2026-05-28T12:27:29.554Z",
+  "generatedAt": "2026-05-28T12:40:44.439Z",
   "phase": "PREDICTA_AUDIT_1_PHASE_7_GLOBAL_LAYOUT_TOKEN_AND_COMPONENT_SYSTEM_LOCK",
   "primitiveClasses": [
     ".predicta-action-row",
@@ -65,10 +65,10 @@
     "landing-intro"
   ],
   "sourceMetrics": {
-    "mobileHardcodedHexColors": 1,
-    "pdfTokenReferences": 4,
+    "mobileHardcodedHexColors": 0,
+    "pdfTokenReferences": 9,
     "primitiveExports": 11,
-    "tokenExports": 16
+    "tokenExports": 19
   },
   "status": "green",
   "tokenFamilies": [

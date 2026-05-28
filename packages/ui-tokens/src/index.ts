@@ -23,15 +23,20 @@ export const semanticColors = {
   accentPurple: '#7B61FF',
   base: brandColors.background,
   baseRaised: brandColors.card,
+  blue: '#4DAFFF',
   border: 'rgba(255, 255, 255, 0.12)',
   borderQuiet: 'rgba(255, 255, 255, 0.075)',
   danger: brandColors.danger,
   disabled: 'rgba(160, 160, 178, 0.42)',
   glass: 'rgba(18, 18, 26, 0.66)',
   glassStrong: 'rgba(24, 24, 34, 0.78)',
+  gold: brandColors.gold,
+  green: '#54E6A3',
   ink: brandColors.primaryText,
+  magenta: brandColors.danger,
   muted: brandColors.secondaryText,
   porcelain: '#F6F5F0',
+  raised: brandColors.cardElevated,
   success: brandColors.success,
   warning: brandColors.warning,
 } as const;
@@ -40,6 +45,7 @@ export const radii = {
   button: 8,
   chip: 999,
   card: 16,
+  chart: 20,
   input: 14,
   modal: 28,
   panel: 20,
@@ -55,9 +61,16 @@ export const spacing = {
   lg: 24,
   xl: 32,
   xxl: 48,
+  cardPadding: 24,
+  compactGap: 8,
+  pageGutter: 24,
+  pageGutterMobile: 16,
+  rowGap: 16,
   section: 64,
+  sectionGap: 64,
   sectionLarge: 96,
   touch: 44,
+  touchSpacing: 44,
 } as const;
 
 export const glow = {
@@ -122,6 +135,12 @@ export const typography = {
     letterSpacing: '0.08em',
     lineHeight: 1.2,
   },
+  metadata: {
+    fontSize: 11,
+    fontWeight: 750,
+    letterSpacing: '0.08em',
+    lineHeight: 1.35,
+  },
   pageTitle: {
     fontSize: 48,
     fontWeight: 850,
@@ -151,11 +170,14 @@ export const typography = {
 export const motion = {
   easeInOut: 'cubic-bezier(0.65, 0, 0.35, 1)',
   easeOut: 'cubic-bezier(0.22, 1, 0.36, 1)',
+  ambientMs: 1200,
   instantMs: 80,
   fastMs: 160,
   normalMs: 280,
+  revealMs: 520,
+  scanMs: 1600,
   slowMs: 520,
-  ambientMs: 1200,
+  standardMs: 280,
 } as const;
 
 export const elevation = {
@@ -232,3 +254,62 @@ export const cssCustomProperties = {
   '--predicta-shadow-soft': elevation.raised,
   '--predicta-text': semanticColors.ink,
 } as const;
+
+export const nativeThemeTokens = {
+  background: semanticColors.base,
+  border: brandColors.border,
+  borderGlow: 'rgba(123, 97, 255, 0.44)',
+  bubbleUser: '#20202A',
+  card: semanticColors.baseRaised,
+  cardElevated: semanticColors.raised,
+  danger: semanticColors.danger,
+  gradient: brandGradient,
+  gradientMuted: [
+    'rgba(123, 97, 255, 0.24)',
+    'rgba(77, 175, 255, 0.16)',
+    'rgba(255, 77, 166, 0.18)',
+  ],
+  muted: semanticColors.muted,
+  primaryText: semanticColors.ink,
+  success: semanticColors.success,
+  surfaceMuted: brandColors.cardMuted,
+  warning: semanticColors.warning,
+} as const;
+
+export const pdfThemeTokens = {
+  cover: {
+    background: '#07101F',
+    blueGlow: semanticColors.blue,
+    greenGlow: semanticColors.green,
+    magentaGlow: semanticColors.magenta,
+  },
+  interior: {
+    background: semanticColors.porcelain,
+    border: '#D9D1BF',
+    ink: '#151925',
+    muted: '#5B6677',
+    panel: '#FDFCF8',
+  },
+} as const;
+
+export const predictaDesignTokens = {
+  breakpoints,
+  colors: semanticColors,
+  cssCustomProperties,
+  elevation,
+  glass,
+  glow,
+  layout,
+  motion,
+  nativeThemeTokens,
+  pdfThemeTokens,
+  primitiveClasses,
+  radii,
+  routeSpecificCssExceptionAllowlist,
+  spacing,
+  typography,
+  zIndex,
+} as const;
+
+export type PredictaDesignTokens = typeof predictaDesignTokens;
+export type PredictaPrimitiveClass = keyof typeof primitiveClasses;

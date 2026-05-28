@@ -80,18 +80,18 @@ assert.ok(routeExceptionCount <= 5, 'route-specific CSS exceptions must stay lim
 
 assertIncludes(mobileColorsSource, 'mobile colors', [
   "from '@pridicta/ui-tokens'",
-  'brandColors.background',
-  'brandGradient',
-  'semanticColors.success',
+  'nativeThemeTokens.background',
+  'nativeThemeTokens.gradient',
+  'nativeThemeTokens.success',
 ]);
 
 assertIncludes(pdfPackageSource, 'pdf package', ['"@pridicta/ui-tokens": "workspace:*"']);
 assertIncludes(pdfReportDocumentSource, 'pdf report document', [
   "from '@pridicta/ui-tokens'",
-  'semanticColors.accentBlue',
-  'semanticColors.accentGreen',
-  'semanticColors.accentMagenta',
-  'semanticColors.porcelain',
+  'pdfThemeTokens.cover.blueGlow',
+  'pdfThemeTokens.cover.greenGlow',
+  'pdfThemeTokens.cover.magentaGlow',
+  'pdfThemeTokens.interior.background',
 ]);
 
 assertIncludes(primitivesSource, 'web primitive components', [
@@ -163,7 +163,7 @@ const cssMetrics = {
 
 const sourceMetrics = {
   mobileHardcodedHexColors: countMatches(mobileColorsSource, /#[0-9a-fA-F]{3,8}\b/g),
-  pdfTokenReferences: countMatches(pdfReportDocumentSource, /semanticColors\./g),
+  pdfTokenReferences: countMatches(pdfReportDocumentSource, /pdfThemeTokens\./g),
   primitiveExports: countMatches(primitivesSource, /export function Predicta/g),
   tokenExports: countMatches(tokensSource, /export const /g),
 };

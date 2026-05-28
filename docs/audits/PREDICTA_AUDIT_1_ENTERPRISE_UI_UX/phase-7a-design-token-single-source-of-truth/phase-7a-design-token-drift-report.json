@@ -1,0 +1,117 @@
+{
+  "artifactPath": "docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-7a-design-token-single-source-of-truth/phase-7a-design-token-drift-report.json",
+  "audit2OriginalBaseline": {
+    "note": "Baseline values documented in Audit 2 roadmap before token lock.",
+    "webHexColors": 64,
+    "webRgbaValues": 474,
+    "webRadii": 23,
+    "webShadows": 52,
+    "webFontSizeDeclarations": 123,
+    "webPxValues": 157
+  },
+  "generatedAt": "2026-05-28T12:40:44.388Z",
+  "phase": "PREDICTA_AUDIT_1_PHASE_7A_DESIGN_TOKEN_SINGLE_SOURCE_OF_TRUTH",
+  "platformMetrics": {
+    "mobileHardcodedHexColors": 0,
+    "mobileHardcodedRgbaColors": 0,
+    "pdfTokenReferences": 9,
+    "tokenContractExports": 19,
+    "webPrimitiveTokenReferences": 11
+  },
+  "rawAdditionViolations": [],
+  "requiredTokenShape": {
+    "breakpoints": [
+      "mobile320",
+      "mobile360",
+      "mobile390",
+      "mobile430",
+      "landscape568",
+      "tablet768",
+      "tablet834",
+      "laptop1024",
+      "desktop1280",
+      "desktop1440",
+      "ultrawide1728"
+    ],
+    "colors": [
+      "base",
+      "raised",
+      "glass",
+      "porcelain",
+      "ink",
+      "muted",
+      "disabled",
+      "magenta",
+      "blue",
+      "green",
+      "gold",
+      "danger",
+      "warning",
+      "success"
+    ],
+    "elevation": [
+      "base",
+      "raised",
+      "floating",
+      "modal",
+      "toast"
+    ],
+    "motion": [
+      "instantMs",
+      "fastMs",
+      "standardMs",
+      "slowMs",
+      "revealMs",
+      "scanMs",
+      "ambientMs"
+    ],
+    "radius": [
+      "card",
+      "panel",
+      "chip",
+      "input",
+      "modal",
+      "chart",
+      "reportPlate"
+    ],
+    "spacing": [
+      "pageGutter",
+      "pageGutterMobile",
+      "sectionGap",
+      "cardPadding",
+      "rowGap",
+      "compactGap",
+      "touchSpacing"
+    ],
+    "typography": [
+      "display",
+      "pageTitle",
+      "sectionTitle",
+      "cardTitle",
+      "body",
+      "caption",
+      "metadata",
+      "table",
+      "formLabel",
+      "pill"
+    ],
+    "zIndex": [
+      "base",
+      "raised",
+      "sticky",
+      "overlay",
+      "modal",
+      "toast",
+      "critical"
+    ]
+  },
+  "status": "green",
+  "webCssMetrics": {
+    "borderRadiusDeclarations": 384,
+    "boxShadowDeclarations": 68,
+    "cssVariableReads": 971,
+    "hardcodedHexColors": 135,
+    "hardcodedRgbaColors": 1243,
+    "zIndexDeclarations": 43
+  }
+}

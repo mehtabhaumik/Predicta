@@ -24,7 +24,7 @@ import type {
   SignatureAnalysisModel,
   SupportedLanguage,
 } from '@pridicta/types';
-import { semanticColors } from '@pridicta/ui-tokens';
+import { pdfThemeTokens } from '@pridicta/ui-tokens';
 
 import {
   composeReportSections,
@@ -88,17 +88,17 @@ const PDF_PREPARED_BY_TEXT = 'Prepared by Predicta @2026';
 
 const PDF_PAGE_TEMPLATES = {
   cover: {
-    background: '#07101F',
-    blueGlow: semanticColors.accentBlue,
-    greenGlow: semanticColors.accentGreen,
-    magentaGlow: semanticColors.accentMagenta,
+    background: pdfThemeTokens.cover.background,
+    blueGlow: pdfThemeTokens.cover.blueGlow,
+    greenGlow: pdfThemeTokens.cover.greenGlow,
+    magentaGlow: pdfThemeTokens.cover.magentaGlow,
   },
   interior: {
-    background: semanticColors.porcelain,
-    border: '#D9D1BF',
-    ink: '#151925',
-    muted: '#5B6677',
-    panel: '#FDFCF8',
+    background: pdfThemeTokens.interior.background,
+    border: pdfThemeTokens.interior.border,
+    ink: pdfThemeTokens.interior.ink,
+    muted: pdfThemeTokens.interior.muted,
+    panel: pdfThemeTokens.interior.panel,
   },
   watermark: {
     opacity: 0.032,

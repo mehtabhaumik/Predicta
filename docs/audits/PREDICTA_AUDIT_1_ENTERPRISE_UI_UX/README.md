@@ -218,3 +218,35 @@ Phase 7 artifacts live in:
 phase-7-global-layout-token-component-system-lock/
 phase-7-design-system-drift-metrics.json
 ```
+
+## Phase 7A Design Token Single Source Of Truth
+
+Phase ID: `PREDICTA_AUDIT_1_PHASE_7A_DESIGN_TOKEN_SINGLE_SOURCE_OF_TRUTH`
+
+Phase 7A proves Predicta has one authoritative token contract for web, native
+mobile, PDF/report rendering, and specialist-room UI surfaces:
+
+```bash
+corepack pnpm test:audit1-phase-7a
+corepack pnpm test:audit1-phase-7
+corepack pnpm --filter @pridicta/ui-tokens typecheck
+corepack pnpm --filter @pridicta/web typecheck
+corepack pnpm --filter @pridicta/mobile typecheck
+corepack pnpm --filter @pridicta/pdf typecheck
+corepack pnpm test:visual-proof
+corepack pnpm test:ui-text-overflow
+```
+
+The Phase 7A gate fails if required semantic color, typography, spacing, radius,
+elevation, motion, z-index, or breakpoint token names are missing; if mobile or
+PDF stop consuming `@pridicta/ui-tokens`; if web CSS loses Predicta token
+aliases; if mobile reintroduces local raw color literals; or if raw color,
+radius, shadow, font-size, or z-index additions appear outside the token source,
+documented artifact folders, or explicit token alias lines.
+
+Phase 7A artifacts live in:
+
+```text
+phase-7a-design-token-single-source-of-truth/
+phase-7a-design-token-drift-report.json
+```

@@ -1126,6 +1126,8 @@ Green criteria:
   new arbitrary visual values.
 - A before/after design-token drift report is saved under the Audit 1 artifact
   folder.
+- `test:audit1-phase-7a`, `test:audit1-phase-7`, UI token typecheck,
+  web/mobile/PDF typechecks, visual proof, and overflow gate pass.
 - Phase commit exists before Phase 7B starts.
 
 ### PREDICTA_AUDIT_1_PHASE_7B_COMPONENT_PRIMITIVE_NORMALIZATION
