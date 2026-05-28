@@ -233,9 +233,9 @@ try {
 
         if (route === '/dashboard/report') {
           const firstScreenButtonLimit =
-            viewport.name === 'mobile' ? 14 : viewport.name === 'tablet' ? 18 : 22;
+            viewport.name === 'mobile' ? 6 : viewport.name === 'tablet' ? 8 : 10;
           const firstScreenFormLimit =
-            viewport.name === 'mobile' ? 2 : viewport.name === 'tablet' ? 3 : 4;
+            viewport.name === 'mobile' ? 0 : viewport.name === 'tablet' ? 0 : 0;
 
           if (metrics.firstScreenButtons > firstScreenButtonLimit) {
             failures.push(`${label}: report first screen exposes too many actions (${metrics.firstScreenButtons}/${firstScreenButtonLimit}).`);

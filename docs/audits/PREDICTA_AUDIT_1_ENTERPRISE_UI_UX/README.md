@@ -107,3 +107,30 @@ Phase 3 artifacts live in:
 ```text
 phase-3-safety-account-trust-surface-repair/
 ```
+
+## Phase 4 Report Composer Action Density Rebuild
+
+Phase 4 proves the report page behaves like a compact composer instead of a
+control panel:
+
+```bash
+corepack pnpm test:audit1-phase-4
+corepack pnpm test:pre-live-phase-13
+PREDICTA_BUYER_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:buyer-rejection
+corepack pnpm test:visual-proof
+corepack pnpm test:ui-text-overflow
+```
+
+The Phase 4 gate checks `/dashboard/report` at desktop, tablet, and mobile
+widths. It fails if desktop exposes more than 10 first-screen actions, tablet
+more than 8, mobile more than 6, any form controls remain in the report
+composer density path, the school tabs are not horizontal on desktop/tablet or
+stacked full-width on mobile, closed marketplace/customization drawers still
+paint hidden controls, or the selected report action panel is not directly under
+the selected card.
+
+Phase 4 artifacts live in:
+
+```text
+phase-4-report-composer-action-density-rebuild/
+```

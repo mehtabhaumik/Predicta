@@ -10408,6 +10408,13 @@ button:disabled {
   gap: 16px;
 }
 
+.report-marketplace-selector:not([open]) .report-marketplace-expanded,
+.report-inline-customize:not([open]) .report-builder-choice-row,
+.report-inline-customize:not([open]) .report-builder-section-grid,
+.report-inline-language:not([open]) .report-language-panel {
+  display: none !important;
+}
+
 .report-marketplace-header,
 .report-selected-panel {
   align-items: flex-start;
@@ -11357,24 +11364,20 @@ button:disabled {
   background: rgba(255, 255, 255, 0.045);
   border: 1px solid var(--border-quiet);
   border-radius: 8px;
+  color: var(--text);
   cursor: pointer;
   display: grid;
   gap: 8px;
   min-height: 142px;
   padding: 14px;
+  text-align: left;
+  width: 100%;
 }
 
 .report-builder-section.preview {
   background:
     linear-gradient(135deg, rgba(77, 175, 255, 0.055), rgba(255, 255, 255, 0.035));
   opacity: 0.78;
-}
-
-.report-builder-section input {
-  accent-color: rgb(77, 175, 255);
-  height: 18px;
-  justify-self: flex-end;
-  width: 18px;
 }
 
 .report-builder-section strong {

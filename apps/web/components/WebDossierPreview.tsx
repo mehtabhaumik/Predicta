@@ -839,36 +839,6 @@ export function WebDossierPreview(): React.JSX.Element {
                 </strong>
               </div>
             </div>
-            <div className="report-builder-choice-row" role="group" aria-label={builderCopy.title}>
-              <button
-                aria-pressed={builderMode === 'EVERYTHING'}
-                className={
-                  builderMode === 'EVERYTHING'
-                    ? 'report-builder-choice active'
-                    : 'report-builder-choice'
-                }
-                onClick={selectEverything}
-                type="button"
-              >
-                <span>{builderCopy.everythingLabel}</span>
-                <strong>{builderCopy.everythingTitle}</strong>
-                <small>{builderCopy.everythingBody}</small>
-              </button>
-              <button
-                aria-pressed={builderMode === 'CUSTOM'}
-                className={
-                  builderMode === 'CUSTOM'
-                    ? 'report-builder-choice active'
-                    : 'report-builder-choice'
-                }
-                onClick={selectCustomStarter}
-                type="button"
-              >
-                <span>{builderCopy.customLabel}</span>
-                <strong>{builderCopy.customTitle}</strong>
-                <small>{builderCopy.customBody}</small>
-              </button>
-            </div>
             <div className="report-inline-chip-grid" aria-label="Selected Vedic sections">
               {summarySections.map(section => (
                 <span key={`${section.eyebrow}-${section.title}`}>
@@ -884,21 +854,49 @@ export function WebDossierPreview(): React.JSX.Element {
                 <span>{builderCopy.customLabel}</span>
                 <strong>{builderCopy.customTitle}</strong>
               </summary>
+              <div className="report-builder-choice-row" role="group" aria-label={builderCopy.title}>
+                <button
+                  aria-pressed={builderMode === 'EVERYTHING'}
+                  className={
+                    builderMode === 'EVERYTHING'
+                      ? 'report-builder-choice active'
+                      : 'report-builder-choice'
+                  }
+                  onClick={selectEverything}
+                  type="button"
+                >
+                  <span>{builderCopy.everythingLabel}</span>
+                  <strong>{builderCopy.everythingTitle}</strong>
+                  <small>{builderCopy.everythingBody}</small>
+                </button>
+                <button
+                  aria-pressed={builderMode === 'CUSTOM'}
+                  className={
+                    builderMode === 'CUSTOM'
+                      ? 'report-builder-choice active'
+                      : 'report-builder-choice'
+                  }
+                  onClick={selectCustomStarter}
+                  type="button"
+                >
+                  <span>{builderCopy.customLabel}</span>
+                  <strong>{builderCopy.customTitle}</strong>
+                  <small>{builderCopy.customBody}</small>
+                </button>
+              </div>
               <div className="report-builder-section-grid">
                 {sectionOptions.map(({ key, section }) => (
-                  <label
+                  <button
+                    aria-pressed={builderMode === 'EVERYTHING' || selectedKeySet.has(key)}
                     className={
                       kundli
                         ? 'report-builder-section'
                         : 'report-builder-section preview'
                     }
                     key={key}
+                    onClick={() => toggleSection(key)}
+                    type="button"
                   >
-                    <input
-                      checked={builderMode === 'EVERYTHING' || selectedKeySet.has(key)}
-                      onChange={() => toggleSection(key)}
-                      type="checkbox"
-                    />
                     <span>{formatReportSectionEyebrow(section.eyebrow, reportLanguage)}</span>
                     <strong>{section.title}</strong>
                     <small>
@@ -911,7 +909,7 @@ export function WebDossierPreview(): React.JSX.Element {
                           })
                         : builderCopy.createKundliToSelect}
                     </small>
-                  </label>
+                  </button>
                 ))}
               </div>
             </details>

@@ -1005,7 +1005,8 @@ Green criteria:
   selected card.
 - Vedic uses `Recommended by Predicta` with collapsed customization.
 - First screen action limits: desktop <= 10, tablet <= 8, mobile <= 6.
-- `test:pre-live-phase-13`, buyer gate, visual proof, and overflow gate pass.
+- `test:audit1-phase-4`, `test:pre-live-phase-13`, buyer gate, visual proof,
+  and overflow gate pass.
 - Phase commit exists before Phase 5 starts.
 
 ### PREDICTA_AUDIT_1_PHASE_5_SIGNATURE_SCAN_FLOW_AND_ACTION_DENSITY_REBUILD
