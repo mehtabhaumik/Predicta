@@ -1358,6 +1358,8 @@ Green criteria:
   signature panels, account/payment overlays, and mobile sheets.
 - Keyboard navigation proof exists.
 - Touch target audit passes web and native.
+- `corepack pnpm test:audit1-phase-8` passes and saves desktop/tablet/mobile
+  screenshots plus an overlay/form accessibility manifest.
 - Phase commit exists before Phase 9 starts.
 
 ### PREDICTA_AUDIT_1_PHASE_9_NATIVE_MOBILE_UI_UX_PARITY_AUDIT_AND_FIX

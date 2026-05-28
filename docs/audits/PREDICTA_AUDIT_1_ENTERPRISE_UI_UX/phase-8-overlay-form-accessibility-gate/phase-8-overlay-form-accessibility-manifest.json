@@ -1,0 +1,274 @@
+{
+  "checks": [
+    {
+      "fileName": "desktop-report-overlay-form-accessibility.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report",
+      "route": "/dashboard/report",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "badDialogs": [],
+      "controlCount": 20,
+      "hasVisibleFocusStyle": true,
+      "horizontalOverflow": 0,
+      "languageGroups": 1,
+      "smallTargets": [],
+      "unnamedControls": [],
+      "languageKeyboardChecked": true
+    },
+    {
+      "fileName": "desktop-signature-overlay-form-accessibility.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/signature?signatureAudit=ready",
+      "route": "/dashboard/signature?signatureAudit=ready",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "badDialogs": [],
+      "controlCount": 18,
+      "hasVisibleFocusStyle": true,
+      "horizontalOverflow": 0,
+      "languageGroups": 1,
+      "smallTargets": [],
+      "unnamedControls": [],
+      "languageKeyboardChecked": true
+    },
+    {
+      "fileName": "desktop-account-overlay-form-accessibility.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/account",
+      "route": "/dashboard/account",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "badDialogs": [],
+      "controlCount": 23,
+      "hasVisibleFocusStyle": true,
+      "horizontalOverflow": 0,
+      "languageGroups": 1,
+      "smallTargets": [],
+      "unnamedControls": [],
+      "languageKeyboardChecked": true
+    },
+    {
+      "fileName": "desktop-checkout-overlay-form-accessibility.png",
+      "finalUrl": "http://127.0.0.1:3009/checkout?productId=pridicta_premium_pdf",
+      "route": "/checkout?productId=pridicta_premium_pdf",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "badDialogs": [],
+      "controlCount": 13,
+      "hasVisibleFocusStyle": true,
+      "horizontalOverflow": 0,
+      "languageGroups": 1,
+      "smallTargets": [],
+      "unnamedControls": [],
+      "languageKeyboardChecked": true
+    },
+    {
+      "fileName": "desktop-feedback-overlay-form-accessibility.png",
+      "finalUrl": "http://127.0.0.1:3009/feedback",
+      "route": "/feedback",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "badDialogs": [],
+      "controlCount": 21,
+      "hasVisibleFocusStyle": true,
+      "horizontalOverflow": 0,
+      "languageGroups": 1,
+      "smallTargets": [],
+      "unnamedControls": [],
+      "languageKeyboardChecked": true
+    },
+    {
+      "fileName": "tablet-report-overlay-form-accessibility.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report",
+      "route": "/dashboard/report",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "badDialogs": [],
+      "controlCount": 9,
+      "hasVisibleFocusStyle": true,
+      "horizontalOverflow": 0,
+      "languageGroups": 1,
+      "smallTargets": [],
+      "unnamedControls": [],
+      "languageKeyboardChecked": false
+    },
+    {
+      "fileName": "tablet-signature-overlay-form-accessibility.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/signature?signatureAudit=ready",
+      "route": "/dashboard/signature?signatureAudit=ready",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "badDialogs": [],
+      "controlCount": 3,
+      "hasVisibleFocusStyle": true,
+      "horizontalOverflow": 0,
+      "languageGroups": 1,
+      "smallTargets": [],
+      "unnamedControls": [],
+      "languageKeyboardChecked": false
+    },
+    {
+      "fileName": "tablet-account-overlay-form-accessibility.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/account",
+      "route": "/dashboard/account",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "badDialogs": [],
+      "controlCount": 10,
+      "hasVisibleFocusStyle": true,
+      "horizontalOverflow": 0,
+      "languageGroups": 1,
+      "smallTargets": [],
+      "unnamedControls": [],
+      "languageKeyboardChecked": false
+    },
+    {
+      "fileName": "tablet-checkout-overlay-form-accessibility.png",
+      "finalUrl": "http://127.0.0.1:3009/checkout?productId=pridicta_premium_pdf",
+      "route": "/checkout?productId=pridicta_premium_pdf",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "badDialogs": [],
+      "controlCount": 2,
+      "hasVisibleFocusStyle": true,
+      "horizontalOverflow": 0,
+      "languageGroups": 1,
+      "smallTargets": [],
+      "unnamedControls": [],
+      "languageKeyboardChecked": false
+    },
+    {
+      "fileName": "tablet-feedback-overlay-form-accessibility.png",
+      "finalUrl": "http://127.0.0.1:3009/feedback",
+      "route": "/feedback",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "badDialogs": [],
+      "controlCount": 10,
+      "hasVisibleFocusStyle": true,
+      "horizontalOverflow": 0,
+      "languageGroups": 1,
+      "smallTargets": [],
+      "unnamedControls": [],
+      "languageKeyboardChecked": false
+    },
+    {
+      "fileName": "mobile-report-overlay-form-accessibility.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report",
+      "route": "/dashboard/report",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "badDialogs": [],
+      "controlCount": 7,
+      "hasVisibleFocusStyle": true,
+      "horizontalOverflow": 0,
+      "languageGroups": 1,
+      "smallTargets": [],
+      "unnamedControls": [],
+      "languageKeyboardChecked": false
+    },
+    {
+      "fileName": "mobile-signature-overlay-form-accessibility.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/signature?signatureAudit=ready",
+      "route": "/dashboard/signature?signatureAudit=ready",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "badDialogs": [],
+      "controlCount": 1,
+      "hasVisibleFocusStyle": true,
+      "horizontalOverflow": 0,
+      "languageGroups": 1,
+      "smallTargets": [],
+      "unnamedControls": [],
+      "languageKeyboardChecked": false
+    },
+    {
+      "fileName": "mobile-account-overlay-form-accessibility.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/account",
+      "route": "/dashboard/account",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "badDialogs": [],
+      "controlCount": 2,
+      "hasVisibleFocusStyle": true,
+      "horizontalOverflow": 0,
+      "languageGroups": 1,
+      "smallTargets": [],
+      "unnamedControls": [],
+      "languageKeyboardChecked": false
+    },
+    {
+      "fileName": "mobile-checkout-overlay-form-accessibility.png",
+      "finalUrl": "http://127.0.0.1:3009/checkout?productId=pridicta_premium_pdf",
+      "route": "/checkout?productId=pridicta_premium_pdf",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "badDialogs": [],
+      "controlCount": 2,
+      "hasVisibleFocusStyle": true,
+      "horizontalOverflow": 0,
+      "languageGroups": 1,
+      "smallTargets": [],
+      "unnamedControls": [],
+      "languageKeyboardChecked": false
+    },
+    {
+      "fileName": "mobile-feedback-overlay-form-accessibility.png",
+      "finalUrl": "http://127.0.0.1:3009/feedback",
+      "route": "/feedback",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "badDialogs": [],
+      "controlCount": 6,
+      "hasVisibleFocusStyle": true,
+      "horizontalOverflow": 0,
+      "languageGroups": 1,
+      "smallTargets": [],
+      "unnamedControls": [],
+      "languageKeyboardChecked": false
+    }
+  ],
+  "failures": [],
+  "generatedAt": "2026-05-28T16:18:39.654Z",
+  "phaseName": "PREDICTA_AUDIT_1_PHASE_8_OVERLAY_FORM_AND_ACCESSIBILITY_GATE",
+  "routes": [
+    {
+      "label": "report",
+      "path": "/dashboard/report"
+    },
+    {
+      "label": "signature",
+      "path": "/dashboard/signature?signatureAudit=ready"
+    },
+    {
+      "label": "account",
+      "path": "/dashboard/account"
+    },
+    {
+      "label": "checkout",
+      "path": "/checkout?productId=pridicta_premium_pdf"
+    },
+    {
+      "label": "feedback",
+      "path": "/feedback"
+    }
+  ],
+  "viewports": [
+    {
+      "height": 1100,
+      "mobile": false,
+      "name": "desktop",
+      "width": 1440
+    },
+    {
+      "height": 1112,
+      "mobile": false,
+      "name": "tablet",
+      "width": 834
+    },
+    {
+      "height": 844,
+      "mobile": true,
+      "name": "mobile",
+      "width": 390
+    }
+  ]
+}

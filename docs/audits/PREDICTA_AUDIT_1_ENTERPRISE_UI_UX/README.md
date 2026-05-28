@@ -417,3 +417,34 @@ phase-7f-cross-platform-visual-parity-intelligence-manifest.json
 cross-platform-intelligence-pattern-contract.md
 screenshots/
 ```
+
+## Phase 8 Overlay Form And Accessibility Gate
+
+Phase ID: `PREDICTA_AUDIT_1_PHASE_8_OVERLAY_FORM_AND_ACCESSIBILITY_GATE`
+
+Phase 8 proves Predicta dialogs, drawers, selectors, forms, compact controls,
+and native mobile action surfaces are keyboard-safe, touch-safe, and accessible:
+
+```bash
+corepack pnpm test:audit1-phase-8
+corepack pnpm test:audit1-phase-7f
+corepack pnpm test:audit1-phase-7d
+corepack pnpm --filter @pridicta/web typecheck
+corepack pnpm --filter @pridicta/mobile typecheck
+corepack pnpm test:visual-proof
+corepack pnpm test:ui-text-overflow
+```
+
+The Phase 8 gate fails if modal focus trapping, Escape handling, body scroll
+locking, report download dialog accessibility, destructive/auth/help/saved
+Kundli dialog contracts, language selector keyboard operation, form accessible
+names, touch targets, or native selected/checked states regress.
+
+Phase 8 artifacts live in:
+
+```text
+phase-8-overlay-form-accessibility-gate/
+phase-8-overlay-form-accessibility-manifest.json
+overlay-form-accessibility-contract.md
+screenshots/
+```

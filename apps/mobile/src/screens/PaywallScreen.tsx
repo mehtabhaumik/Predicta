@@ -298,12 +298,20 @@ export function PaywallScreen({
 
       <View className="mt-6 gap-3">
         <GlowButton label="Continue Free" onPress={() => navigation.goBack()} />
-        <Pressable accessibilityRole="button" onPress={restore}>
+        <Pressable
+          accessibilityRole="button"
+          className="min-h-[44px] items-center justify-center"
+          onPress={restore}
+        >
           <AppText className="text-center text-[#4DAFFF]">
             Restore Purchases
           </AppText>
         </Pressable>
-        <Pressable accessibilityRole="button" onPress={manage}>
+        <Pressable
+          accessibilityRole="button"
+          className="min-h-[44px] items-center justify-center"
+          onPress={manage}
+        >
           <AppText className="text-center" tone="secondary" variant="caption">
             Manage Subscription
           </AppText>

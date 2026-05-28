@@ -454,7 +454,8 @@ function LanguageChoiceRow({
         {SUPPORTED_LANGUAGE_OPTIONS.map(option => (
           <Pressable
             accessibilityRole="button"
-            className={`rounded-full border px-3 py-2 ${
+            accessibilityState={{ selected: selected === option.code }}
+            className={`min-h-[44px] justify-center rounded-full border px-4 py-3 ${
               selected === option.code
                 ? 'border-[#4DAFFF] bg-[#172233]'
                 : 'border-[#252533] bg-[#191923]'

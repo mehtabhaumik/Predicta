@@ -312,6 +312,7 @@ export function ReportScreen({
             <View className="mt-4 flex-row gap-3">
               <Pressable
                 accessibilityRole="button"
+                accessibilityState={{ selected: builderMode === 'EVERYTHING' }}
                 className={`flex-1 rounded-[18px] border p-3 ${
                   builderMode === 'EVERYTHING'
                     ? 'border-[#C8A96A] bg-[#2A2330]'
@@ -329,6 +330,7 @@ export function ReportScreen({
               </Pressable>
               <Pressable
                 accessibilityRole="button"
+                accessibilityState={{ selected: builderMode === 'CUSTOM' }}
                 className={`flex-1 rounded-[18px] border p-3 ${
                   builderMode === 'CUSTOM'
                     ? 'border-[#C8A96A] bg-[#2A2330]'
@@ -397,6 +399,9 @@ export function ReportScreen({
                 {SUPPORTED_LANGUAGE_OPTIONS.map(option => (
                   <Pressable
                     accessibilityRole="button"
+                    accessibilityState={{
+                      selected: option.code === reportLanguage,
+                    }}
                     className={`rounded-[16px] border p-3 ${
                       option.code === reportLanguage
                         ? 'border-[#4DAFFF] bg-[#172233]'
@@ -672,6 +677,7 @@ function ReportProductButton({
   return (
     <Pressable
       accessibilityRole="button"
+      accessibilityState={{ selected }}
       className={`rounded-[18px] border p-4 ${
         selected
           ? 'border-[#C8A96A] bg-[#2A2330]'

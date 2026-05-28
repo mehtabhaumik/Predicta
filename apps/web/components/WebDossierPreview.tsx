@@ -46,6 +46,7 @@ import type {
 } from '@pridicta/types';
 import { useLanguagePreference } from '../lib/language-preference';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
+import { useDialogFocusTrap } from '../lib/use-dialog-focus-trap';
 import {
   loadWebAutoSaveMemory,
   saveWebAutoSaveMemory,
@@ -186,6 +187,8 @@ const REPORT_SYNTHESIS_LANE: ReportSchoolLane = {
 
 export function WebDossierPreview(): React.JSX.Element {
   const didLoadSavedState = useRef(false);
+  const downloadDialogRef = useRef<HTMLElement | null>(null);
+  const downloadDialogPrimaryRef = useRef<HTMLButtonElement | null>(null);
   const inlineComposerRef = useRef<HTMLDivElement | null>(null);
   const reportChartPanelRef = useRef<HTMLElement | null>(null);
   const reportPreviewRef = useRef<HTMLDivElement | null>(null);
@@ -246,6 +249,13 @@ export function WebDossierPreview(): React.JSX.Element {
   const signatureReportBlocked =
     selectedReportId === 'SIGNATURE' &&
     !hasReadySignatureReport(signatureAnalysis);
+
+  useDialogFocusTrap(downloadDialogRef, {
+    active: isDownloadDialogOpen && reportSurfaceState === 'ready',
+    initialFocusRef: downloadDialogPrimaryRef,
+    onClose: cancelDownloadDialog,
+  });
+
   const selectedReportLane =
     selectedReport.school === 'SYNTHESIS'
       ? REPORT_SYNTHESIS_LANE
@@ -1527,18 +1537,29 @@ export function WebDossierPreview(): React.JSX.Element {
       ) : null}
       {isDownloadDialogOpen && reportSurfaceState === 'ready' ? (
         <div
-          aria-labelledby="report-download-dialog-title"
-          aria-modal="true"
           className="report-download-dialog-backdrop"
-          role="dialog"
+          onMouseDown={event => {
+            if (event.target === event.currentTarget) {
+              cancelDownloadDialog();
+            }
+          }}
+          role="presentation"
         >
-          <section className="report-download-dialog">
+          <section
+            aria-describedby="report-download-dialog-body"
+            aria-labelledby="report-download-dialog-title"
+            aria-modal="true"
+            className="report-download-dialog"
+            ref={downloadDialogRef}
+            role="dialog"
+            tabIndex={-1}
+          >
             <div className="report-download-dialog-orb" aria-hidden="true" />
             <div className="section-title">{builderCopy.dialogEyebrow}</div>
             <h2 id="report-download-dialog-title">
               {builderCopy.dialogTitle}
             </h2>
-            <p>{builderCopy.dialogBody}</p>
+            <p id="report-download-dialog-body">{builderCopy.dialogBody}</p>
             <div className="report-download-dialog-card">
               <span>{localizedReportTitle.title}</span>
               <strong>{kundli?.birthDetails.name ?? 'Predicta'}</strong>
@@ -1557,17 +1578,18 @@ export function WebDossierPreview(): React.JSX.Element {
               </ul>
             </div>
             <div className="report-download-dialog-actions">
-              <PredictaButton
+              <button
+                className="predicta-button predicta-button--primary predicta-button--md"
                 disabled={isPdfDownloading || signatureReportBlocked}
-                loading={isPdfDownloading}
+                data-loading={isPdfDownloading ? 'true' : undefined}
                 onClick={printReport}
+                ref={downloadDialogPrimaryRef}
                 type="button"
-                variant="primary"
               >
                 {isPdfDownloading
                   ? resultCopy.preparingPdf
                   : builderCopy.printSelected}
-              </PredictaButton>
+              </button>
               <PredictaButton
                 disabled={isPdfDownloading}
                 onClick={cancelDownloadDialog}

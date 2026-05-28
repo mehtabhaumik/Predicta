@@ -125,6 +125,7 @@ input {
 button,
 [role='button'] {
   min-height: var(--predicta-touch-target);
+  min-width: var(--predicta-touch-target);
 }
 
 button,
@@ -1206,9 +1207,16 @@ button:disabled,
 
 .header-nav a,
 .header-nav span {
+  align-items: center;
   color: var(--muted);
+  display: inline-flex;
+  flex: 0 0 auto;
   font-size: clamp(12px, 0.95vw, 14px);
   font-weight: 700;
+  justify-content: center;
+  min-height: var(--predicta-touch-target);
+  min-width: var(--predicta-touch-target);
+  padding-inline: var(--predicta-space-xs);
   white-space: nowrap;
 }
 
@@ -1377,12 +1385,15 @@ button:disabled,
 }
 
 .web-footer-logo {
+  align-items: center;
   color: var(--text);
   display: inline-flex;
   font-size: 21px;
   font-weight: 900;
   letter-spacing: 0.14em;
   line-height: 1;
+  min-height: var(--predicta-touch-target);
+  min-width: var(--predicta-touch-target);
 }
 
 .web-footer-tagline {
@@ -1422,9 +1433,13 @@ button:disabled,
 }
 
 .web-footer-column a {
+  align-items: center;
   color: var(--muted);
+  display: inline-flex;
   font-size: 13px;
   font-weight: 700;
+  min-height: var(--predicta-touch-target);
+  min-width: var(--predicta-touch-target);
   line-height: 1.35;
 }
 
@@ -2668,9 +2683,13 @@ button:disabled,
 }
 
 .web-footer-compact-links a {
+  align-items: center;
   color: var(--muted);
+  display: inline-flex;
   font-size: 13px;
   font-weight: 700;
+  min-height: var(--predicta-touch-target);
+  min-width: var(--predicta-touch-target);
 }
 
 .web-footer-compact-links a:hover {
@@ -2920,7 +2939,7 @@ button:disabled,
   cursor: pointer;
   display: grid;
   gap: 2px;
-  min-height: 38px;
+  min-height: var(--predicta-touch-target);
   min-width: 84px;
   padding: 8px 14px;
   place-items: center;
@@ -3502,7 +3521,7 @@ button:disabled,
   color: var(--muted);
   cursor: pointer;
   font-weight: 900;
-  min-height: 40px;
+  min-height: var(--predicta-touch-target);
   padding: 8px 16px;
 }
 
@@ -4643,7 +4662,7 @@ button:disabled,
   font: inherit;
   font-size: 13px;
   font-weight: 850;
-  min-height: 36px;
+  min-height: var(--predicta-touch-target);
   padding: 8px 12px;
 }
 
@@ -5255,7 +5274,7 @@ button:disabled,
 
 .gochar-radar-actions .button {
   justify-content: center;
-  min-height: 42px;
+  min-height: var(--predicta-touch-target);
   padding: 10px 12px;
   width: 100%;
 }
@@ -6600,7 +6619,7 @@ button:disabled,
   border-radius: 8px;
   color: var(--text);
   margin-top: 14px;
-  min-height: 42px;
+  min-height: var(--predicta-touch-target);
   padding: 10px;
   width: 100%;
 }
@@ -6716,7 +6735,7 @@ button:disabled,
 }
 
 .family-member-actions .button {
-  min-height: 40px;
+  min-height: var(--predicta-touch-target);
   padding: 10px 14px;
 }
 
@@ -8049,10 +8068,10 @@ button:disabled,
   flex: 0 0 auto;
   font-size: 14px;
   font-weight: 950;
-  height: 34px;
+  height: var(--predicta-touch-target);
   justify-content: center;
   line-height: 1;
-  min-width: 34px;
+  min-width: var(--predicta-touch-target);
   padding: 0;
   transition:
     border-color 160ms ease,
@@ -8183,7 +8202,7 @@ button:disabled,
   cursor: pointer;
   font-size: 13px;
   font-weight: 850;
-  min-height: 36px;
+  min-height: var(--predicta-touch-target);
   padding: 8px 13px;
   transition:
     background 160ms ease,
@@ -8239,7 +8258,7 @@ button:disabled,
 .chat-session-actions .chat-export-button {
   border-radius: 999px;
   font-size: 11px;
-  min-height: 30px;
+  min-height: var(--predicta-touch-target);
   padding: 6px 10px;
 }
 
@@ -8254,7 +8273,7 @@ button:disabled,
   font-size: 12px;
   font-weight: 800;
   max-width: 180px;
-  min-height: 34px;
+  min-height: var(--predicta-touch-target);
   overflow: hidden;
   padding: 7px 11px;
   text-overflow: ellipsis;
@@ -8384,7 +8403,7 @@ button:disabled,
   cursor: pointer;
   font-size: 11px;
   font-weight: 800;
-  min-height: 30px;
+  min-height: var(--predicta-touch-target);
   opacity: 0;
   padding: 6px 10px;
   position: absolute;
@@ -8420,7 +8439,7 @@ button:disabled,
   color: var(--muted);
   cursor: pointer;
   display: inline-flex;
-  height: 34px;
+  height: var(--predicta-touch-target);
   justify-content: center;
   padding: 0;
   transition:
@@ -8428,7 +8447,7 @@ button:disabled,
     border-color 160ms ease,
     color 160ms ease,
     transform 160ms ease;
-  width: 34px;
+  width: var(--predicta-touch-target);
 }
 
 .chat-reply-action svg {
@@ -8491,7 +8510,7 @@ button:disabled,
   color: var(--muted);
   cursor: pointer;
   display: inline-flex;
-  height: 38px;
+  height: var(--predicta-touch-target);
   justify-content: center;
   padding: 0;
   transition:
@@ -8499,7 +8518,7 @@ button:disabled,
     border-color 160ms ease,
     color 160ms ease,
     transform 160ms ease;
-  width: 38px;
+  width: var(--predicta-touch-target);
 }
 
 .chat-star-button svg {
@@ -9124,7 +9143,7 @@ button:disabled,
 }
 
 .chat-chart-actions .button {
-  min-height: 40px;
+  min-height: var(--predicta-touch-target);
   padding: 10px 12px;
 }
 
@@ -9153,7 +9172,7 @@ button:disabled,
   cursor: pointer;
   font-size: 13px;
   font-weight: 800;
-  min-height: 38px;
+  min-height: var(--predicta-touch-target);
   padding: 9px 13px;
 }
 
@@ -9637,7 +9656,7 @@ button:disabled,
   color: var(--muted);
   cursor: pointer;
   font-weight: 900;
-  min-height: 40px;
+  min-height: var(--predicta-touch-target);
   min-width: 58px;
   padding: 10px 14px;
 }
@@ -10148,7 +10167,7 @@ button:disabled,
   font: inherit;
   font-size: 0.85rem;
   font-weight: 900;
-  min-height: 40px;
+  min-height: var(--predicta-touch-target);
   padding: 9px 14px;
 }
 
@@ -10357,7 +10376,7 @@ button:disabled,
   font: inherit;
   font-size: 0.82rem;
   font-weight: 900;
-  min-height: 34px;
+  min-height: var(--predicta-touch-target);
   padding: 7px 12px;
 }
 
@@ -10607,7 +10626,7 @@ button:disabled,
   border-radius: 6px;
   color: var(--muted);
   font-weight: 800;
-  min-height: 34px;
+  min-height: var(--predicta-touch-target);
   padding: 8px 11px;
 }
 
@@ -11044,11 +11063,16 @@ button:disabled,
 }
 
 .report-marketplace-selector > summary {
+  align-items: center;
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025)),
     rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border-quiet);
   border-radius: 18px;
+  display: flex;
+  justify-content: space-between;
+  min-height: var(--predicta-touch-target);
+  padding: var(--predicta-space-row);
 }
 
 .report-marketplace-selector > summary strong {
@@ -12133,7 +12157,7 @@ button:disabled,
   color: var(--muted);
   cursor: pointer;
   font-weight: 800;
-  min-height: 38px;
+  min-height: var(--predicta-touch-target);
   padding: 9px 14px;
 }
 
@@ -13770,7 +13794,7 @@ button:disabled,
   color: var(--muted);
   cursor: pointer;
   font-weight: 800;
-  min-height: 40px;
+  min-height: var(--predicta-touch-target);
 }
 
 .auth-mode-tabs button.active {
@@ -15550,7 +15574,7 @@ button:disabled,
   }
 
   .dashboard-mobile-language .language-selector.compact .language-options button {
-    min-height: 38px;
+    min-height: var(--predicta-touch-target);
     padding: 8px 6px;
   }
 
@@ -17874,7 +17898,7 @@ select::-ms-expand {
 .chat-route .dashboard-master-nav span {
   flex: 0 0 auto;
   font-size: 12px;
-  min-height: 34px;
+  min-height: var(--predicta-touch-target);
   padding: 7px 11px;
 }
 
@@ -18047,7 +18071,7 @@ select::-ms-expand {
   font-weight: 900;
   gap: 8px;
   list-style: none;
-  min-height: 32px;
+  min-height: var(--predicta-touch-target);
   padding: 6px 11px;
 }
 
@@ -18092,7 +18116,7 @@ select::-ms-expand {
 .chat-utility-menu-panel .chat-export-button {
   border-radius: 12px;
   justify-content: flex-start;
-  min-height: 40px;
+  min-height: var(--predicta-touch-target);
   text-align: left;
   width: 100%;
 }
@@ -18184,7 +18208,7 @@ select::-ms-expand {
 .predicta-chat-page .active-kundli-actions.chat-context .button {
   border-radius: 999px;
   font-size: 11px;
-  min-height: 30px;
+  min-height: var(--predicta-touch-target);
   padding: 6px 10px;
 }
 
@@ -18818,7 +18842,7 @@ select::-ms-expand {
 }
 
 .predicta-chat-page .chat-language-state strong {
-  min-height: 30px;
+  min-height: var(--predicta-touch-target);
   padding: 6px 12px;
 }
 

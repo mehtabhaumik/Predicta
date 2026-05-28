@@ -39,6 +39,7 @@ export function useDialogFocusTrap(
     const dialogElement = dialog;
 
     const previousFocus = document.activeElement;
+    const previousBodyOverflow = document.body.style.overflow;
     const getFocusableElements = () =>
       Array.from(dialogElement.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR))
         .filter(element => !element.hasAttribute('disabled') && element.tabIndex !== -1);
@@ -79,10 +80,12 @@ export function useDialogFocusTrap(
       }
     }
 
+    document.body.style.overflow = 'hidden';
     document.addEventListener('keydown', onKeyDown);
 
     return () => {
       document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = previousBodyOverflow;
 
       if (
         previousFocus instanceof HTMLElement &&
