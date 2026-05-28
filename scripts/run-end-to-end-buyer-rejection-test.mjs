@@ -4,6 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawn } from 'node:child_process';
 import { readFileSync } from 'node:fs';
+import { assertAuditablePredictaPage } from './lib/predicta-audit-page-readiness.mjs';
 
 const baseUrl = process.env.PREDICTA_BUYER_BASE_URL ?? 'http://127.0.0.1:3009';
 const chromePath =
@@ -176,6 +177,10 @@ try {
           })
           .catch(() => undefined);
         await waitForSettledTitle(cdp);
+        await assertAuditablePredictaPage(cdp, {
+          route,
+          url: `${baseUrl}${route}`,
+        });
 
         const metrics = await evaluateBuyerMetrics(cdp);
         const label = `${viewport.name} ${route}`;

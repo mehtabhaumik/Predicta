@@ -70,6 +70,8 @@
     "test:life-timeline": "node scripts/run-life-timeline-dasha-gate.mjs",
     "test:pdf-golden": "node scripts/run-pdf-report-golden-output-gate.mjs",
     "test:predicta-context": "node scripts/run-predicta-context-reliability-suite.mjs",
+    "audit1:phase0:evidence": "node scripts/run-audit1-phase-0-evidence-lock.mjs",
+    "test:audit1-phase-0": "node scripts/run-audit1-phase-0-gate.mjs",
     "test:audit-server-preflight": "node scripts/assert-predicta-audit-server-ready.mjs",
     "test:public-greenlight": "node scripts/run-public-testing-greenlight-audit.mjs",
     "test:visual-proof": "node scripts/run-mobile-tablet-visual-proof-gate.mjs",

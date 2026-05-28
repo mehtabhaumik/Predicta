@@ -1,0 +1,28 @@
+name: observed-3016-ui-text-overflow
+cwd: /Users/bmehta/Downloads/Predicta
+command: corepack pnpm test:ui-text-overflow
+env: {"PREDICTA_UI_OVERFLOW_BASE_URL":"http://127.0.0.1:3016"}
+exitStatus: 1
+
+--- stdout ---
+
+> pridicta-monorepo@0.1.0 test:ui-text-overflow /Users/bmehta/Downloads/Predicta
+> node scripts/run-ui-text-overflow-audit.mjs
+
+ ELIFECYCLE  Command failed with exit code 1.
+
+
+--- stderr ---
+file:///Users/bmehta/Downloads/Predicta/scripts/lib/predicta-audit-page-readiness.mjs:126
+    throw new Error(
+          ^
+
+Error: Audit refused to measure /dashboard/account at http://127.0.0.1:3016/dashboard/account; page readiness failed:
+- HTTP status is 404
+- missing route-specific text /(account|profile|predicta)/i
+- missing recognizable Predicta visible content
+Visible text preview: 404 This page could not be found.
+    at assertAuditablePredictaPage (file:///Users/bmehta/Downloads/Predicta/scripts/lib/predicta-audit-page-readiness.mjs:126:11)
+    at async file:///Users/bmehta/Downloads/Predicta/scripts/run-ui-text-overflow-audit.mjs:106:9
+
+Node.js v24.14.0

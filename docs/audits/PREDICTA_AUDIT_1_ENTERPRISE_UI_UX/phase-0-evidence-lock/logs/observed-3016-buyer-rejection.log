@@ -1,0 +1,77 @@
+name: observed-3016-buyer-rejection
+cwd: /Users/bmehta/Downloads/Predicta
+command: corepack pnpm test:buyer-rejection
+env: {"PREDICTA_BUYER_BASE_URL":"http://127.0.0.1:3016"}
+exitStatus: 1
+
+--- stdout ---
+
+> pridicta-monorepo@0.1.0 test:buyer-rejection /Users/bmehta/Downloads/Predicta
+> node scripts/run-end-to-end-buyer-rejection-test.mjs
+
+┌─────────┬─────────┬─────────┬────────────────────┬──────────────────┬───────┬───────┬────────────────────────────┬────────────┬───────────┬──────┐
+│ (index) │ buttons │ clipped │ firstScreenButtons │ firstScreenForms │ forms │ links │ route                      │ textLength │ viewport  │ wide │
+├─────────┼─────────┼─────────┼────────────────────┼──────────────────┼───────┼───────┼────────────────────────────┼────────────┼───────────┼──────┤
+│ 0       │ 17      │ 0       │ 8                  │ 0                │ 0     │ 38    │ '/'                        │ 6483       │ 'desktop' │ 0    │
+│ 1       │ 20      │ 0       │ 9                  │ 0                │ 0     │ 39    │ '/pricing'                 │ 4347       │ 'desktop' │ 0    │
+│ 2       │ 7       │ 0       │ 6                  │ 0                │ 0     │ 29    │ '/safety'                  │ 3519       │ 'desktop' │ 0    │
+│ 3       │ 9       │ 0       │ 8                  │ 0                │ 0     │ 31    │ '/founder'                 │ 2668       │ 'desktop' │ 0    │
+│ 4       │ 7       │ 0       │ 6                  │ 0                │ 0     │ 29    │ '/legal'                   │ 9027       │ 'desktop' │ 0    │
+│ 5       │ 10      │ 0       │ 10                 │ 5                │ 5     │ 30    │ '/feedback'                │ 1853       │ 'desktop' │ 0    │
+│ 6       │ 9       │ 0       │ 7                  │ 0                │ 0     │ 19    │ '/dashboard'               │ 1478       │ 'desktop' │ 0    │
+│ 7       │ 7       │ 0       │ 7                  │ 5                │ 5     │ 23    │ '/dashboard/kundli'        │ 975        │ 'desktop' │ 0    │
+│ 8       │ 6       │ 0       │ 6                  │ 0                │ 0     │ 24    │ '/dashboard/charts'        │ 780        │ 'desktop' │ 0    │
+│ 9       │ 33      │ 0       │ 18                 │ 0                │ 19    │ 20    │ '/dashboard/report'        │ 5619       │ 'desktop' │ 0    │
+│ 10      │ 12      │ 0       │ 7                  │ 0                │ 0     │ 25    │ '/dashboard/saved-kundlis' │ 1868       │ 'desktop' │ 0    │
+│ 11      │ 5       │ 0       │ 5                  │ 0                │ 0     │ 19    │ '/dashboard/chat'          │ 315        │ 'desktop' │ 0    │
+│ 12      │ 13      │ 0       │ 7                  │ 0                │ 0     │ 21    │ '/dashboard/kp'            │ 3138       │ 'desktop' │ 0    │
+│ 13      │ 9       │ 0       │ 7                  │ 0                │ 0     │ 21    │ '/dashboard/nadi'          │ 2643       │ 'desktop' │ 0    │
+│ 14      │ 10      │ 0       │ 7                  │ 0                │ 0     │ 22    │ '/dashboard/numerology'    │ 2341       │ 'desktop' │ 0    │
+│ 15      │ 40      │ 0       │ 7                  │ 0                │ 1     │ 20    │ '/dashboard/signature'     │ 3506       │ 'desktop' │ 0    │
+│ 16      │ 7       │ 0       │ 5                  │ 0                │ 1     │ 16    │ '/dashboard/redeem-pass'   │ 1469       │ 'desktop' │ 0    │
+│ 17      │ 17      │ 0       │ 8                  │ 0                │ 0     │ 38    │ '/'                        │ 6483       │ 'tablet'  │ 0    │
+│ 18      │ 20      │ 0       │ 10                 │ 0                │ 0     │ 39    │ '/pricing'                 │ 4347       │ 'tablet'  │ 0    │
+│ 19      │ 7       │ 0       │ 6                  │ 0                │ 0     │ 29    │ '/safety'                  │ 3519       │ 'tablet'  │ 0    │
+│ 20      │ 9       │ 0       │ 8                  │ 0                │ 0     │ 31    │ '/founder'                 │ 2668       │ 'tablet'  │ 0    │
+│ 21      │ 7       │ 0       │ 6                  │ 0                │ 0     │ 29    │ '/legal'                   │ 9027       │ 'tablet'  │ 0    │
+│ 22      │ 10      │ 0       │ 10                 │ 5                │ 5     │ 30    │ '/feedback'                │ 1853       │ 'tablet'  │ 0    │
+│ 23      │ 9       │ 0       │ 7                  │ 0                │ 0     │ 19    │ '/dashboard'               │ 1478       │ 'tablet'  │ 0    │
+│ 24      │ 7       │ 0       │ 7                  │ 5                │ 5     │ 23    │ '/dashboard/kundli'        │ 975        │ 'tablet'  │ 0    │
+│ 25      │ 6       │ 0       │ 6                  │ 0                │ 0     │ 24    │ '/dashboard/charts'        │ 780        │ 'tablet'  │ 0    │
+│ 26      │ 33      │ 0       │ 18                 │ 0                │ 19    │ 20    │ '/dashboard/report'        │ 5619       │ 'tablet'  │ 0    │
+│ 27      │ 12      │ 0       │ 7                  │ 0                │ 0     │ 25    │ '/dashboard/saved-kundlis' │ 1868       │ 'tablet'  │ 0    │
+│ 28      │ 5       │ 0       │ 5                  │ 0                │ 0     │ 19    │ '/dashboard/chat'          │ 315        │ 'tablet'  │ 0    │
+│ 29      │ 13      │ 0       │ 7                  │ 0                │ 0     │ 21    │ '/dashboard/kp'            │ 3138       │ 'tablet'  │ 0    │
+│ 30      │ 9       │ 0       │ 7                  │ 0                │ 0     │ 21    │ '/dashboard/nadi'          │ 2643       │ 'tablet'  │ 0    │
+│ 31      │ 10      │ 0       │ 7                  │ 0                │ 0     │ 22    │ '/dashboard/numerology'    │ 2341       │ 'tablet'  │ 0    │
+│ 32      │ 40      │ 0       │ 7                  │ 0                │ 1     │ 20    │ '/dashboard/signature'     │ 3506       │ 'tablet'  │ 0    │
+│ 33      │ 7       │ 0       │ 5                  │ 0                │ 1     │ 16    │ '/dashboard/redeem-pass'   │ 1469       │ 'tablet'  │ 0    │
+│ 34      │ 17      │ 0       │ 8                  │ 0                │ 0     │ 38    │ '/'                        │ 6483       │ 'mobile'  │ 15   │
+│ 35      │ 20      │ 0       │ 8                  │ 0                │ 0     │ 39    │ '/pricing'                 │ 4347       │ 'mobile'  │ 0    │
+│ 36      │ 7       │ 0       │ 6                  │ 0                │ 0     │ 29    │ '/safety'                  │ 3519       │ 'mobile'  │ 0    │
+│ 37      │ 9       │ 0       │ 8                  │ 0                │ 0     │ 31    │ '/founder'                 │ 2668       │ 'mobile'  │ 0    │
+│ 38      │ 7       │ 0       │ 6                  │ 0                │ 0     │ 29    │ '/legal'                   │ 9027       │ 'mobile'  │ 0    │
+│ 39      │ 10      │ 0       │ 9                  │ 5                │ 5     │ 30    │ '/feedback'                │ 1853       │ 'mobile'  │ 0    │
+│ 40      │ 9       │ 0       │ 7                  │ 0                │ 0     │ 19    │ '/dashboard'               │ 1478       │ 'mobile'  │ 0    │
+│ 41      │ 7       │ 0       │ 5                  │ 0                │ 5     │ 23    │ '/dashboard/kundli'        │ 975        │ 'mobile'  │ 0    │
+│ 42      │ 6       │ 0       │ 5                  │ 0                │ 0     │ 24    │ '/dashboard/charts'        │ 780        │ 'mobile'  │ 0    │
+│ 43      │ 33      │ 0       │ 7                  │ 0                │ 19    │ 20    │ '/dashboard/report'        │ 5619       │ 'mobile'  │ 0    │
+│ 44      │ 12      │ 0       │ 5                  │ 0                │ 0     │ 25    │ '/dashboard/saved-kundlis' │ 1868       │ 'mobile'  │ 0    │
+│ 45      │ 5       │ 0       │ 5                  │ 0                │ 0     │ 19    │ '/dashboard/chat'          │ 315        │ 'mobile'  │ 0    │
+│ 46      │ 13      │ 0       │ 7                  │ 0                │ 0     │ 21    │ '/dashboard/kp'            │ 3138       │ 'mobile'  │ 0    │
+│ 47      │ 9       │ 0       │ 7                  │ 0                │ 0     │ 21    │ '/dashboard/nadi'          │ 2643       │ 'mobile'  │ 0    │
+│ 48      │ 10      │ 0       │ 7                  │ 0                │ 0     │ 22    │ '/dashboard/numerology'    │ 2341       │ 'mobile'  │ 0    │
+│ 49      │ 40      │ 0       │ 7                  │ 0                │ 1     │ 20    │ '/dashboard/signature'     │ 3506       │ 'mobile'  │ 0    │
+│ 50      │ 7       │ 0       │ 5                  │ 0                │ 1     │ 16    │ '/dashboard/redeem-pass'   │ 1469       │ 'mobile'  │ 0    │
+└─────────┴─────────┴─────────┴────────────────────┴──────────────────┴───────┴───────┴────────────────────────────┴────────────┴───────────┴──────┘
+ ELIFECYCLE  Command failed with exit code 1.
+
+
+--- stderr ---
+End-to-end buyer rejection test failed:
+- mobile /: page is 213px wider than viewport.
+- mobile /: span.hero-chart-label.hero-chart-label-5 extends beyond viewport (336..440).
+- mobile /: small.hero-sign-meta extends beyond viewport (336..417).
+- mobile /: span.hero-sign-name extends beyond viewport (343..400).
+- mobile /: span.hero-chart-planet-stack extends beyond viewport (417..440).
+- Internal link /founder-bhaumik-mehta.png returned HTTP 400.

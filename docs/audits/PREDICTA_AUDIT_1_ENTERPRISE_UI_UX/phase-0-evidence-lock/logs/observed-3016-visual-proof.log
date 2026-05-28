@@ -1,0 +1,60 @@
+name: observed-3016-visual-proof
+cwd: /Users/bmehta/Downloads/Predicta
+command: corepack pnpm test:visual-proof
+env: {"PREDICTA_VISUAL_BASE_URL":"http://127.0.0.1:3016","PREDICTA_VISUAL_OUTPUT_DIR":"docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-0-evidence-lock/screenshots"}
+exitStatus: 1
+
+--- stdout ---
+
+> pridicta-monorepo@0.1.0 test:visual-proof /Users/bmehta/Downloads/Predicta
+> node scripts/run-mobile-tablet-visual-proof-gate.mjs
+
+Visual proof screenshots: docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-0-evidence-lock/screenshots
+┌─────────┬─────────────┬───────────────────────────────────────┬────────────────────┬────────────────────────────┬───────────┬───────────────┬──────────────┐
+│ (index) │ clippedText │ fileName                              │ horizontalOverflow │ route                      │ viewport  │ viewportWidth │ wideElements │
+├─────────┼─────────────┼───────────────────────────────────────┼────────────────────┼────────────────────────────┼───────────┼───────────────┼──────────────┤
+│ 0       │ 0           │ 'desktop-landing.png'                 │ 0                  │ '/'                        │ 'desktop' │ 1440          │ 0            │
+│ 1       │ 0           │ 'desktop-dashboard.png'               │ 0                  │ '/dashboard'               │ 'desktop' │ 1440          │ 0            │
+│ 2       │ 0           │ 'desktop-dashboard-kundli.png'        │ 0                  │ '/dashboard/kundli'        │ 'desktop' │ 1440          │ 0            │
+│ 3       │ 0           │ 'desktop-dashboard-charts.png'        │ 0                  │ '/dashboard/charts'        │ 'desktop' │ 1440          │ 0            │
+│ 4       │ 0           │ 'desktop-dashboard-report.png'        │ 0                  │ '/dashboard/report'        │ 'desktop' │ 1440          │ 0            │
+│ 5       │ 0           │ 'desktop-dashboard-saved-kundlis.png' │ 0                  │ '/dashboard/saved-kundlis' │ 'desktop' │ 1440          │ 0            │
+│ 6       │ 0           │ 'desktop-dashboard-chat.png'          │ 0                  │ '/dashboard/chat'          │ 'desktop' │ 1440          │ 0            │
+│ 7       │ 0           │ 'desktop-dashboard-kp.png'            │ 0                  │ '/dashboard/kp'            │ 'desktop' │ 1440          │ 0            │
+│ 8       │ 0           │ 'desktop-dashboard-nadi.png'          │ 0                  │ '/dashboard/nadi'          │ 'desktop' │ 1440          │ 0            │
+│ 9       │ 0           │ 'desktop-dashboard-numerology.png'    │ 0                  │ '/dashboard/numerology'    │ 'desktop' │ 1440          │ 0            │
+│ 10      │ 0           │ 'desktop-dashboard-signature.png'     │ 0                  │ '/dashboard/signature'     │ 'desktop' │ 1440          │ 0            │
+│ 11      │ 0           │ 'tablet-landing.png'                  │ 0                  │ '/'                        │ 'tablet'  │ 834           │ 0            │
+│ 12      │ 0           │ 'tablet-dashboard.png'                │ 0                  │ '/dashboard'               │ 'tablet'  │ 834           │ 0            │
+│ 13      │ 0           │ 'tablet-dashboard-kundli.png'         │ 0                  │ '/dashboard/kundli'        │ 'tablet'  │ 834           │ 0            │
+│ 14      │ 0           │ 'tablet-dashboard-charts.png'         │ 0                  │ '/dashboard/charts'        │ 'tablet'  │ 834           │ 0            │
+│ 15      │ 0           │ 'tablet-dashboard-report.png'         │ 0                  │ '/dashboard/report'        │ 'tablet'  │ 834           │ 0            │
+│ 16      │ 0           │ 'tablet-dashboard-saved-kundlis.png'  │ 0                  │ '/dashboard/saved-kundlis' │ 'tablet'  │ 834           │ 0            │
+│ 17      │ 0           │ 'tablet-dashboard-chat.png'           │ 0                  │ '/dashboard/chat'          │ 'tablet'  │ 834           │ 0            │
+│ 18      │ 0           │ 'tablet-dashboard-kp.png'             │ 0                  │ '/dashboard/kp'            │ 'tablet'  │ 834           │ 0            │
+│ 19      │ 0           │ 'tablet-dashboard-nadi.png'           │ 0                  │ '/dashboard/nadi'          │ 'tablet'  │ 834           │ 0            │
+│ 20      │ 0           │ 'tablet-dashboard-numerology.png'     │ 0                  │ '/dashboard/numerology'    │ 'tablet'  │ 834           │ 0            │
+│ 21      │ 0           │ 'tablet-dashboard-signature.png'      │ 0                  │ '/dashboard/signature'     │ 'tablet'  │ 834           │ 0            │
+│ 22      │ 0           │ 'mobile-landing.png'                  │ 213                │ '/'                        │ 'mobile'  │ 390           │ 15           │
+│ 23      │ 0           │ 'mobile-dashboard.png'                │ 0                  │ '/dashboard'               │ 'mobile'  │ 390           │ 0            │
+│ 24      │ 0           │ 'mobile-dashboard-kundli.png'         │ 0                  │ '/dashboard/kundli'        │ 'mobile'  │ 390           │ 0            │
+│ 25      │ 0           │ 'mobile-dashboard-charts.png'         │ 0                  │ '/dashboard/charts'        │ 'mobile'  │ 390           │ 0            │
+│ 26      │ 0           │ 'mobile-dashboard-report.png'         │ 0                  │ '/dashboard/report'        │ 'mobile'  │ 390           │ 0            │
+│ 27      │ 0           │ 'mobile-dashboard-saved-kundlis.png'  │ 0                  │ '/dashboard/saved-kundlis' │ 'mobile'  │ 390           │ 0            │
+│ 28      │ 0           │ 'mobile-dashboard-chat.png'           │ 0                  │ '/dashboard/chat'          │ 'mobile'  │ 390           │ 0            │
+│ 29      │ 0           │ 'mobile-dashboard-kp.png'             │ 0                  │ '/dashboard/kp'            │ 'mobile'  │ 390           │ 0            │
+│ 30      │ 0           │ 'mobile-dashboard-nadi.png'           │ 0                  │ '/dashboard/nadi'          │ 'mobile'  │ 390           │ 0            │
+│ 31      │ 0           │ 'mobile-dashboard-numerology.png'     │ 0                  │ '/dashboard/numerology'    │ 'mobile'  │ 390           │ 0            │
+│ 32      │ 0           │ 'mobile-dashboard-signature.png'      │ 0                  │ '/dashboard/signature'     │ 'mobile'  │ 390           │ 0            │
+└─────────┴─────────────┴───────────────────────────────────────┴────────────────────┴────────────────────────────┴───────────┴───────────────┴──────────────┘
+ ELIFECYCLE  Command failed with exit code 1.
+
+
+--- stderr ---
+Mobile/tablet visual proof gate failed:
+- mobile /: page is 213px wider than viewport.
+- mobile /: span.hero-chart-label.hero-chart-label-5 extends beyond viewport (336..440).
+- mobile /: small.hero-sign-meta extends beyond viewport (336..417).
+- mobile /: span.hero-sign-name extends beyond viewport (343..400).
+- mobile /: span.hero-chart-planet-stack extends beyond viewport (417..440).
+- mobile /: span.planet-glyph.planet-moon.compact extends beyond viewport (417..440).

@@ -1,0 +1,62 @@
+{
+  "auditRoot": "docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX",
+  "canonicalBaseUrl": "http://127.0.0.1:3009",
+  "generatedAt": "2026-05-28T10:28:08.043Z",
+  "observedBaseUrl": "http://127.0.0.1:3016",
+  "phase": "PREDICTA_AUDIT_1_PHASE_0_EVIDENCE_LOCK_AND_AUDIT_SERVER_TRUTH",
+  "results": [
+    {
+      "command": "corepack pnpm test:audit-server-preflight",
+      "env": {
+        "PREDICTA_AUDIT_BASE_URL": "http://127.0.0.1:3009"
+      },
+      "log": "docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-0-evidence-lock/logs/canonical-3009-audit-server-preflight.log",
+      "name": "canonical-3009-audit-server-preflight",
+      "status": 1,
+      "timedOut": false
+    },
+    {
+      "command": "corepack pnpm test:audit-server-preflight",
+      "env": {
+        "PREDICTA_AUDIT_BASE_URL": "http://127.0.0.1:3016"
+      },
+      "log": "docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-0-evidence-lock/logs/observed-3016-audit-server-preflight.log",
+      "name": "observed-3016-audit-server-preflight",
+      "status": 1,
+      "timedOut": false
+    },
+    {
+      "command": "corepack pnpm test:ui-text-overflow",
+      "env": {
+        "PREDICTA_UI_OVERFLOW_BASE_URL": "http://127.0.0.1:3016"
+      },
+      "log": "docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-0-evidence-lock/logs/observed-3016-ui-text-overflow.log",
+      "name": "observed-3016-ui-text-overflow",
+      "status": 1,
+      "timedOut": false
+    },
+    {
+      "command": "corepack pnpm test:visual-proof",
+      "env": {
+        "PREDICTA_VISUAL_BASE_URL": "http://127.0.0.1:3016",
+        "PREDICTA_VISUAL_OUTPUT_DIR": "docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-0-evidence-lock/screenshots"
+      },
+      "log": "docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-0-evidence-lock/logs/observed-3016-visual-proof.log",
+      "name": "observed-3016-visual-proof",
+      "status": 1,
+      "timedOut": false
+    },
+    {
+      "command": "corepack pnpm test:buyer-rejection",
+      "env": {
+        "PREDICTA_BUYER_BASE_URL": "http://127.0.0.1:3016"
+      },
+      "log": "docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-0-evidence-lock/logs/observed-3016-buyer-rejection.log",
+      "name": "observed-3016-buyer-rejection",
+      "status": 1,
+      "timedOut": false
+    }
+  ],
+  "screenshotRoot": "docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-0-evidence-lock/screenshots",
+  "status": "evidence-locked"
+}

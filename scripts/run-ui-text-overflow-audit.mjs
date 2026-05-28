@@ -3,6 +3,7 @@ import { get as httpGet, request as httpRequest } from 'node:http';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawn } from 'node:child_process';
+import { assertAuditablePredictaPage } from './lib/predicta-audit-page-readiness.mjs';
 
 const baseUrl = process.env.PREDICTA_UI_OVERFLOW_BASE_URL ?? 'http://127.0.0.1:3009';
 const chromePath =
@@ -101,6 +102,10 @@ try {
           expression:
             'document.fonts && document.fonts.ready ? Promise.race([document.fonts.ready.then(() => true), new Promise(resolve => setTimeout(() => resolve(false), 4000))]) : true',
           awaitPromise: true,
+        });
+        await assertAuditablePredictaPage(cdp, {
+          route,
+          url: `${baseUrl}${route}`,
         });
 
         const metrics = await evaluateOverflow(cdp);

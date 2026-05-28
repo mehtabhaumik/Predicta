@@ -1,0 +1,16 @@
+name: canonical-3009-audit-server-preflight
+cwd: /Users/bmehta/Downloads/Predicta
+command: corepack pnpm test:audit-server-preflight
+env: {"PREDICTA_AUDIT_BASE_URL":"http://127.0.0.1:3009"}
+exitStatus: 1
+
+--- stdout ---
+
+> pridicta-monorepo@0.1.0 test:audit-server-preflight /Users/bmehta/Downloads/Predicta
+> node scripts/assert-predicta-audit-server-ready.mjs
+
+ ELIFECYCLE  Command failed with exit code 1.
+
+
+--- stderr ---
+connect ECONNREFUSED 127.0.0.1:3009

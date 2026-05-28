@@ -1,0 +1,15 @@
+{
+  "phase": "PREDICTA_AUDIT_1_PHASE_0_EVIDENCE_LOCK_AND_AUDIT_SERVER_TRUTH",
+  "canonicalBaseUrl": "http://127.0.0.1:3009",
+  "observedBrokenBaseUrl": "http://127.0.0.1:3016",
+  "disallowedBaseUrls": [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
+  ],
+  "rules": [
+    "Use 3009 as the production-like local audit target unless a phase explicitly documents another target.",
+    "Do not treat an in-app browser URL as canonical audit truth.",
+    "Do not measure layout against an error page, unstyled page, missing route, or client-side exception.",
+    "Browser audits must validate HTTP status, visible Predicta content, route-specific content, and expected app assets before measuring UI/UX."
+  ]
+}
