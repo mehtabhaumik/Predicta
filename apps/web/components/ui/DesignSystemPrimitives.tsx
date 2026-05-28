@@ -1,4 +1,5 @@
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
+import Image, { type ImageProps } from 'next/image';
 import Link from 'next/link';
 import { primitiveClasses } from '@pridicta/ui-tokens';
 
@@ -263,6 +264,31 @@ export function PredictaLoadingState({
     <section className={joinClassNames(primitiveClasses.loadingState, className)} {...props}>
       {children}
     </section>
+  );
+}
+
+export function PredictaMediaAsset({
+  alt,
+  className,
+  frameClassName,
+  kind = 'asset',
+  ...props
+}: ImageProps & {
+  alt: string;
+  frameClassName?: string;
+  kind?: 'asset' | 'logo' | 'watermark';
+}) {
+  const mediaClass =
+    kind === 'logo'
+      ? primitiveClasses.mediaLogo
+      : kind === 'watermark'
+        ? primitiveClasses.mediaWatermark
+        : primitiveClasses.mediaAsset;
+
+  return (
+    <span className={joinClassNames(primitiveClasses.mediaFrame, frameClassName)}>
+      <Image alt={alt} className={joinClassNames(mediaClass, className)} {...props} />
+    </span>
   );
 }
 

@@ -1,0 +1,76 @@
+{
+  "approvedMediaUrls": [
+    "/predicta-logo.png",
+    "/predicta-seal-watermark.png",
+    "/founder-bhaumik-mehta.png"
+  ],
+  "assetResults": [
+    {
+      "path": "/predicta-logo.png",
+      "bytes": 1254582,
+      "contentType": "image/png",
+      "statusCode": 200
+    },
+    {
+      "path": "/predicta-seal-watermark.png",
+      "bytes": 1051131,
+      "contentType": "image/png",
+      "statusCode": 200
+    },
+    {
+      "path": "/founder-bhaumik-mehta.png",
+      "bytes": 1254582,
+      "contentType": "image/png",
+      "statusCode": 200
+    }
+  ],
+  "checks": [
+    {
+      "fileName": "desktop-media-asset-contrast-proof.png",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "brokenMediaCount": 0,
+      "horizontalOverflow": 0,
+      "mediaCount": 3,
+      "mediaOverflowCount": 0,
+      "missingContrastCount": 0
+    },
+    {
+      "fileName": "tablet-media-asset-contrast-proof.png",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "brokenMediaCount": 0,
+      "horizontalOverflow": 0,
+      "mediaCount": 3,
+      "mediaOverflowCount": 0,
+      "missingContrastCount": 0
+    },
+    {
+      "fileName": "mobile-media-asset-contrast-proof.png",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "brokenMediaCount": 0,
+      "horizontalOverflow": 0,
+      "mediaCount": 3,
+      "mediaOverflowCount": 0,
+      "missingContrastCount": 0
+    }
+  ],
+  "generatedAt": "2026-05-28T14:50:56.886Z",
+  "phase": "PREDICTA_AUDIT_1_PHASE_7E_MEDIA_ASSET_AND_CONTRAST_QUALITY_GATE",
+  "requiredContrastSamples": [
+    "primary-text",
+    "muted-text",
+    "disabled-text",
+    "primary-cta",
+    "secondary-cta",
+    "badge",
+    "card",
+    "form-input",
+    "table",
+    "modal",
+    "report-preview"
+  ],
+  "screenshotRoot": "docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-7e-media-asset-contrast-quality-gate/screenshots",
+  "status": "green"
+}

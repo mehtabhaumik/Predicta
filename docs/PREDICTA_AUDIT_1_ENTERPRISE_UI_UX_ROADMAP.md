@@ -1283,7 +1283,13 @@ Green criteria:
   max dimensions, and alt text.
 - Contrast checks pass for primary text, muted text, disabled states, CTAs,
   badges, cards, forms, tables, modals, and report previews.
+- `test:audit1-phase-7e`, `test:audit1-phase-7d`,
+  `test:audit1-phase-7c`, `test:audit1-phase-7b`,
+  `test:audit1-phase-7a`, `test:audit1-phase-7`, web typecheck, visual proof,
+  and overflow gate pass.
 - Screenshots prove image quality on mobile, tablet, desktop, and PDF previews.
+- Phase 7E artifacts are saved under
+  `docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-7e-media-asset-contrast-quality-gate/`.
 - Phase commit exists before Phase 7F starts.
 
 ### PREDICTA_AUDIT_1_PHASE_7F_CROSS_PLATFORM_VISUAL_PARITY_AND_INTELLIGENCE_UI_PATTERN

@@ -1,9 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { useDialogFocusTrap } from '../lib/use-dialog-focus-trap';
+import { PredictaMediaAsset } from './ui/DesignSystemPrimitives';
 
 const INTRO_STORAGE_KEY = 'pridicta-web-intro-seen';
 
@@ -76,10 +76,11 @@ export function LandingIntroOverlay(): React.JSX.Element | null {
             }
             transition={{ duration: 1.3, ease: [0.22, 1, 0.36, 1] }}
           >
-            <Image
+            <PredictaMediaAsset
               alt="Predicta"
               className="intro-logo"
               height={260}
+              kind="logo"
               priority
               src="/predicta-logo.png"
               width={260}

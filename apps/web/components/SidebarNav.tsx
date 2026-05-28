@@ -1,9 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, useReducedMotion } from 'framer-motion';
+import { PredictaMediaAsset } from './ui/DesignSystemPrimitives';
 
 export type SidebarItem = {
   href: string;
@@ -68,10 +68,11 @@ export function SidebarNav({
   return (
     <aside className="sidebar">
       <Link aria-label={homeAriaLabel} className="dashboard-brand" href="/">
-        <Image
+        <PredictaMediaAsset
           alt=""
           className="dashboard-logo"
           height={74}
+          kind="logo"
           priority
           src="/predicta-logo.png"
           width={74}

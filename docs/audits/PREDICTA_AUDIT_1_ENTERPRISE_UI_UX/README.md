@@ -348,3 +348,38 @@ phase-7d-motion-layering-interaction-state-manifest.json
 motion-layering-contract.md
 screenshots/
 ```
+
+## Phase 7E Media Asset And Contrast Quality Gate
+
+Phase ID: `PREDICTA_AUDIT_1_PHASE_7E_MEDIA_ASSET_AND_CONTRAST_QUALITY_GATE`
+
+Phase 7E proves static media URLs, media primitives, image framing, and
+contrast-critical UI surfaces are release-safe:
+
+```bash
+corepack pnpm test:audit1-phase-7e
+corepack pnpm test:audit1-phase-7d
+corepack pnpm test:audit1-phase-7c
+corepack pnpm test:audit1-phase-7b
+corepack pnpm test:audit1-phase-7a
+corepack pnpm test:audit1-phase-7
+corepack pnpm --filter @pridicta/web typecheck
+corepack pnpm test:visual-proof
+corepack pnpm test:ui-text-overflow
+```
+
+The Phase 7E gate fails if `/founder-bhaumik-mehta.png` or any approved visible
+media URL fails to return `2xx`, if web product media bypasses the shared media
+primitive without an allowed ephemeral-signature exception, if PDF/report assets
+lose their approved logo/watermark path, if media frames overflow/crop
+incorrectly, or if primary, muted, disabled, CTA, badge, form, table, modal, or
+report-preview contrast samples fall below threshold.
+
+Phase 7E artifacts live in:
+
+```text
+phase-7e-media-asset-contrast-quality-gate/
+phase-7e-media-asset-contrast-manifest.json
+media-asset-contrast-contract.md
+screenshots/
+```

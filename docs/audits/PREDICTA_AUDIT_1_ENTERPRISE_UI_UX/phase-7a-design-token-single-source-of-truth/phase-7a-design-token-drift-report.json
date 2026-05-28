@@ -9,14 +9,14 @@
     "webFontSizeDeclarations": 123,
     "webPxValues": 157
   },
-  "generatedAt": "2026-05-28T14:29:53.245Z",
+  "generatedAt": "2026-05-28T14:51:13.440Z",
   "phase": "PREDICTA_AUDIT_1_PHASE_7A_DESIGN_TOKEN_SINGLE_SOURCE_OF_TRUTH",
   "platformMetrics": {
     "mobileHardcodedHexColors": 0,
     "mobileHardcodedRgbaColors": 0,
     "pdfTokenReferences": 9,
     "tokenContractExports": 19,
-    "webPrimitiveTokenReferences": 21
+    "webPrimitiveTokenReferences": 25
   },
   "rawAdditionViolations": [],
   "requiredTokenShape": {
@@ -109,7 +109,7 @@
   "webCssMetrics": {
     "borderRadiusDeclarations": 393,
     "boxShadowDeclarations": 74,
-    "cssVariableReads": 1134,
+    "cssVariableReads": 1143,
     "hardcodedHexColors": 135,
     "hardcodedRgbaColors": 1243,
     "zIndexDeclarations": 46

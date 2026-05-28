@@ -1,13 +1,13 @@
 'use client';
 
 import { getNativeCopy } from '@pridicta/config';
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import type { SupportedLanguage } from '@pridicta/types';
 import { useLanguagePreference } from '../lib/language-preference';
 import { AuthDialog } from './AuthDialog';
+import { PredictaMediaAsset } from './ui/DesignSystemPrimitives';
 import { WebLanguageSelector } from './WebLanguageSelector';
 
 const publicHeaderCopy: Record<
@@ -136,10 +136,11 @@ export function WebHeader(): React.JSX.Element {
   return (
     <header className="web-header">
       <Link aria-label="Predicta home" className="brand-lockup" href="/">
-        <Image
+        <PredictaMediaAsset
           alt=""
           className="brand-logo"
           height={72}
+          kind="logo"
           priority
           src="/predicta-logo.png"
           width={72}

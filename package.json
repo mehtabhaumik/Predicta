@@ -85,6 +85,7 @@
     "test:audit1-phase-7b": "node scripts/run-audit1-phase-7b-component-primitive-normalization-gate.mjs",
     "test:audit1-phase-7c": "node scripts/run-audit1-phase-7c-responsive-breakpoint-matrix-gate.mjs",
     "test:audit1-phase-7d": "node scripts/run-audit1-phase-7d-motion-layering-interaction-state-gate.mjs",
+    "test:audit1-phase-7e": "node scripts/run-audit1-phase-7e-media-asset-contrast-quality-gate.mjs",
     "test:audit-server-preflight": "node scripts/assert-predicta-audit-server-ready.mjs",
     "test:public-greenlight": "node scripts/run-public-testing-greenlight-audit.mjs",
     "test:visual-proof": "node scripts/run-mobile-tablet-visual-proof-gate.mjs",
