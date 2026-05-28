@@ -1028,6 +1028,8 @@ Green criteria:
 - Empty, uploading, scanning, ready, confirm, error, and report-blocked states
   all have visual artifacts.
 - Signature report download remains blocked without confirmed traits.
+- `test:audit1-phase-5`, `test:signature-predicta`, buyer gate, visual proof,
+  and overflow gate pass.
 - Phase commit exists before Phase 6 starts.
 
 ### PREDICTA_AUDIT_1_PHASE_6_SPECIALIST_ROOM_VISUAL_IDENTITY_AND_PROGRESSIVE_DISCLOSURE

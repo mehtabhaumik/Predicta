@@ -41,7 +41,7 @@ type SignatureDraft = {
   observedTraits?: Partial<Record<SignatureTraitKey, SignatureTraitValue>>;
 };
 
-type SignatureScanStatus = 'empty' | 'ready' | 'scanning';
+type SignatureScanStatus = 'empty' | 'error' | 'ready' | 'scanning';
 
 type SignatureCopy = {
   actions: {
@@ -83,6 +83,7 @@ type SignatureCopy = {
     title: string;
   };
   report: {
+    blocked: string;
     body: string;
     cta: string;
     eyebrow: string;
@@ -97,6 +98,7 @@ type SignatureCopy = {
     confidence: Record<'clear' | 'partial' | 'uncertain', string>;
     detectedBody: string;
     drawnPlaceholder: string;
+    error: string;
     looksRight: string;
     missing: string;
     notAssessed: string;
@@ -246,6 +248,7 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
       title: 'Signature preview',
     },
     report: {
+      blocked: 'Confirm visible signature traits before building a Signature report.',
       body:
         'Turn the confirmed signature traits into a reflection report, improvement plan, or Signature + Numerology synthesis.',
       cta: 'Build Signature report',
@@ -267,6 +270,8 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
       detectedBody:
         'Predicta detected these visible traits from your current signature. Please confirm or adjust anything that looks off.',
       drawnPlaceholder: 'Signature drawn in this session',
+      error:
+        'Predicta could not find enough visible signature ink. Please use a clearer image or draw again.',
       looksRight: 'Looks right',
       missing:
         'Your previous signature image was not stored. Please re-upload or re-draw it to continue.',
@@ -353,6 +358,7 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
       title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.3fba8a2db2"),
     },
     report: {
+      blocked: getNativeCopy('signature.report.blocked.hi'),
       body:
         getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.5647df5926"),
       cta: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.e442131b33"),
@@ -373,6 +379,7 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
       },
       detectedBody: getNativeCopy('signature.receipt.detectedBody.hi'),
       drawnPlaceholder: getNativeCopy('signature.receipt.drawn.hi'),
+      error: getNativeCopy('signature.receipt.error.hi'),
       looksRight: getNativeCopy('signature.receipt.looksRight.hi'),
       missing: getNativeCopy('signature.receipt.missing.hi'),
       notAssessed: getNativeCopy('signature.receipt.notAssessed.hi'),
@@ -500,6 +507,7 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
       title: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.98db769694"),
     },
     report: {
+      blocked: getNativeCopy('signature.report.blocked.gu'),
       body:
         getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.3ff190b528"),
       cta: getNativeCopy("native.apps.web.components.WebSignatureAnalysisInputFlow.tsx.9f7c38e03e"),
@@ -520,6 +528,7 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
       },
       detectedBody: getNativeCopy('signature.receipt.detectedBody.gu'),
       drawnPlaceholder: getNativeCopy('signature.receipt.drawn.gu'),
+      error: getNativeCopy('signature.receipt.error.gu'),
       looksRight: getNativeCopy('signature.receipt.looksRight.gu'),
       missing: getNativeCopy('signature.receipt.missing.gu'),
       notAssessed: getNativeCopy('signature.receipt.notAssessed.gu'),
@@ -681,7 +690,10 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
   ): Promise<void> {
     const detection = await detectSignatureTraitsFromDataUrl(previewDataUrl);
     if (!detection.hasVisibleSignature) {
-      clearSignature();
+      setPreviewUrl(undefined);
+      setHasDrawing(false);
+      setMode('upload');
+      startTemporaryScan(detection);
       return;
     }
 
@@ -696,7 +708,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
     if (!detection.hasVisibleSignature) {
       setDetectedTraits({});
       setObservedTraits({});
-      setScanStatus('empty');
+      setScanStatus('error');
       setIsReady(false);
       return;
     }
@@ -1001,9 +1013,15 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
         proofCards={copy.proof}
         proofLabel={copy.proofLabel}
         reportAction={
-          <Link className="button secondary" href="/dashboard/report">
-            {copy.report.cta}
-          </Link>
+          canOpenReading ? (
+            <Link className="button secondary" href="/dashboard/report">
+              {copy.report.cta}
+            </Link>
+          ) : (
+            <span className="button secondary disabled" aria-disabled="true">
+              {copy.report.cta}
+            </span>
+          )
         }
         reportLabel={copy.report.cta}
         reportNote={copy.report.body}
@@ -1016,19 +1034,6 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
           <div className="section-title">{copy.hero.eyebrow}</div>
           <h2>{copy.upload.title}</h2>
           <p>{copy.upload.body}</p>
-          <div className="world-hero-actions inline">
-            <button
-              className="button primary"
-              disabled={!canOpenReading}
-              onClick={continueToPredicta}
-              type="button"
-            >
-              {copy.actions.askPredicta}
-            </button>
-            <Link className="button secondary" href="/dashboard/report">
-              {copy.report.cta}
-            </Link>
-          </div>
         </div>
         <div className="signature-privacy-card">
           <span>{copy.privacy.title}</span>
@@ -1040,96 +1045,127 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
         </div>
       </section>
 
-      <div className="signature-input-grid">
-        <section className="signature-input-card glass-panel">
+      <section
+        className="signature-staged-scan-panel glass-panel"
+        data-audit1-phase5-staged-scan-panel="true"
+      >
+        <div className="signature-staged-scan-heading">
           <div>
-            <div className="section-title">{copy.upload.title}</div>
-            <h2>{copy.upload.title}</h2>
-            <p>{copy.upload.body}</p>
-            <small>{copy.upload.hint}</small>
+            <div className="section-title">{copy.receipt.scanProgressLabel}</div>
+            <h2>{copy.receipt.scanning}</h2>
+            <p>{copy.receipt.privacyShort}</p>
           </div>
-          <label className="signature-upload-button">
-            <input
-              accept="image/png,image/jpeg,image/webp"
-              onChange={handleFileChange}
-              type="file"
-            />
-            <span>{mode === 'upload' && canContinue ? copy.actions.reupload : copy.actions.upload}</span>
-          </label>
-          {mode === 'upload' ? (
-            <SignatureImmediateReceipt
-              confirmedTraits={confirmedTraitObservations}
-              copy={copy}
-              detectedTraits={detectedTraitObservations}
-              hasSignatureInput={canReviewTraits}
-              isReady={isReady}
-              onAdjust={adjustDetectedTraits}
-              onClear={clearSignature}
-              onConfirm={confirmDetectedTraits}
-              previewUrl={previewUrl}
-              scanStatus={scanStatus}
-            />
-          ) : null}
-        </section>
-
-        <section className="signature-input-card glass-panel">
-          <div>
-            <div className="section-title">{copy.canvas.title}</div>
-            <h2>{copy.canvas.title}</h2>
-            <p>{copy.canvas.help}</p>
-          </div>
-          <div className="signature-canvas-wrap">
-            {!hasDrawing && !previewUrl ? (
-              <span className="signature-canvas-empty">{copy.canvas.empty}</span>
-            ) : null}
-            <canvas
-              aria-label={copy.canvas.aria}
-              className="signature-canvas"
-              onPointerCancel={stopDrawing}
-              onPointerDown={startDrawing}
-              onPointerLeave={stopDrawing}
-              onPointerMove={continueDrawing}
-              onPointerUp={stopDrawing}
-              ref={canvasRef}
-              role="img"
-            />
-          </div>
-          <button
-            className="button secondary"
-            disabled={!hasDrawing}
-            onClick={() => {
-              setMode('draw');
-              startTemporaryScan(detectSignatureTraitsFromCanvas(canvasRef.current));
-            }}
-            type="button"
-          >
-            {mode === 'draw' && scanStatus !== 'empty'
-              ? copy.actions.redraw
-              : copy.actions.useDrawing}
-          </button>
-          {mode === 'draw' ? (
-            <SignatureImmediateReceipt
-              confirmedTraits={confirmedTraitObservations}
-              copy={copy}
-              detectedTraits={detectedTraitObservations}
-              hasSignatureInput={canReviewTraits}
-              isReady={isReady}
-              onAdjust={adjustDetectedTraits}
-              onClear={clearSignature}
-              onConfirm={confirmDetectedTraits}
-              previewUrl={previewUrl}
-              scanStatus={scanStatus}
-            />
-          ) : null}
-        </section>
-      </div>
-
-      <section className="signature-trait-panel glass-panel" id="signature-traits">
-        <div>
-          <div className="section-title">{copy.traits.title}</div>
-          <h2>{copy.traits.title}</h2>
-          <p>{copy.traits.body}</p>
+          <span className="signature-scan-state-pill">
+            {scanStatus === 'empty'
+              ? copy.preview.empty
+              : scanStatus === 'error'
+                ? copy.receipt.error
+                : scanStatus === 'scanning'
+                  ? copy.receipt.scanning
+                  : isReady
+                    ? copy.receipt.ready
+                    : copy.receipt.scanned}
+          </span>
         </div>
+
+        <div className="signature-input-grid">
+          <section className="signature-input-card">
+            <div>
+              <div className="section-title">{copy.upload.title}</div>
+              <h2>{copy.upload.title}</h2>
+              <p>{copy.upload.body}</p>
+              <small>{copy.upload.hint}</small>
+            </div>
+            <label className="signature-upload-button">
+              <input
+                accept="image/png,image/jpeg,image/webp"
+                onChange={handleFileChange}
+                type="file"
+              />
+              <span>
+                {mode === 'upload' && canContinue
+                  ? copy.actions.reupload
+                  : copy.actions.upload}
+              </span>
+            </label>
+            {mode === 'upload' ? (
+              <SignatureImmediateReceipt
+                confirmedTraits={confirmedTraitObservations}
+                copy={copy}
+                detectedTraits={detectedTraitObservations}
+                hasSignatureInput={canReviewTraits}
+                isReady={isReady}
+                onAdjust={adjustDetectedTraits}
+                onClear={clearSignature}
+                onConfirm={confirmDetectedTraits}
+                previewUrl={previewUrl}
+                scanStatus={scanStatus}
+              />
+            ) : null}
+          </section>
+
+          <section className="signature-input-card">
+            <div>
+              <div className="section-title">{copy.canvas.title}</div>
+              <h2>{copy.canvas.title}</h2>
+              <p>{copy.canvas.help}</p>
+            </div>
+            <div className="signature-canvas-wrap">
+              {!hasDrawing && !previewUrl ? (
+                <span className="signature-canvas-empty">{copy.canvas.empty}</span>
+              ) : null}
+              <canvas
+                aria-label={copy.canvas.aria}
+                className="signature-canvas"
+                onPointerCancel={stopDrawing}
+                onPointerDown={startDrawing}
+                onPointerLeave={stopDrawing}
+                onPointerMove={continueDrawing}
+                onPointerUp={stopDrawing}
+                ref={canvasRef}
+                role="img"
+              />
+            </div>
+            <button
+              className="button secondary"
+              disabled={!hasDrawing}
+              onClick={() => {
+                setMode('draw');
+                startTemporaryScan(detectSignatureTraitsFromCanvas(canvasRef.current));
+              }}
+              type="button"
+            >
+              {mode === 'draw' && scanStatus !== 'empty'
+                ? copy.actions.redraw
+                : copy.actions.useDrawing}
+            </button>
+            {mode === 'draw' ? (
+              <SignatureImmediateReceipt
+                confirmedTraits={confirmedTraitObservations}
+                copy={copy}
+                detectedTraits={detectedTraitObservations}
+                hasSignatureInput={canReviewTraits}
+                isReady={isReady}
+                onAdjust={adjustDetectedTraits}
+                onClear={clearSignature}
+                onConfirm={confirmDetectedTraits}
+                previewUrl={previewUrl}
+                scanStatus={scanStatus}
+              />
+            ) : null}
+          </section>
+        </div>
+      </section>
+
+      <details
+        className="signature-trait-panel signature-trait-details glass-panel"
+        id="signature-traits"
+      >
+        <summary>
+          <span>{copy.receipt.adjust}</span>
+          <strong>{copy.traits.title}</strong>
+        </summary>
+        <p>{copy.traits.body}</p>
         <div className="signature-trait-grid">
           {SIGNATURE_TRAIT_CONTROLS.map(control => (
             <div className="signature-trait-control" key={control.key}>
@@ -1164,7 +1200,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
             </ul>
           </div>
         ) : null}
-      </section>
+      </details>
 
       <section className="signature-preview-panel glass-panel" id="signature-preview">
         <div>
@@ -1182,32 +1218,34 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
             <span>{copy.preview.empty}</span>
           )}
         </div>
-        <div className="signature-action-row">
-          <button
-            className="button"
-            disabled={!canOpenReading}
-            onClick={continueToPredicta}
-            type="button"
-          >
-            {copy.actions.askPredicta}
-          </button>
-          <button
-            className="button secondary"
-            disabled={!canContinue}
-            onClick={downloadSignature}
-            type="button"
-          >
-            {copy.actions.download}
-          </button>
-          <button
-            className="button danger"
-            disabled={!canContinue}
-            onClick={clearSignature}
-            type="button"
-          >
-            {copy.actions.clear}
-          </button>
-        </div>
+        {canContinue ? (
+          <div className="signature-action-row">
+            <button
+              className="button"
+              disabled={!canOpenReading}
+              onClick={continueToPredicta}
+              type="button"
+            >
+              {copy.actions.askPredicta}
+            </button>
+            <button
+              className="button secondary"
+              disabled={!canContinue}
+              onClick={downloadSignature}
+              type="button"
+            >
+              {copy.actions.download}
+            </button>
+            <button
+              className="button danger"
+              disabled={!canContinue}
+              onClick={clearSignature}
+              type="button"
+            >
+              {copy.actions.clear}
+            </button>
+          </div>
+        ) : null}
       </section>
 
       <section className="signature-safety-panel glass-panel">
@@ -1219,11 +1257,15 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
         <div className="section-title">{copy.report.eyebrow}</div>
         <h2>{copy.report.title}</h2>
         <p>{copy.report.body}</p>
-        <div className="action-row">
-          <Link className="button secondary" href="/dashboard/report">
-            {copy.report.cta}
-          </Link>
-        </div>
+        {canOpenReading ? (
+          <div className="action-row">
+            <Link className="button secondary" href="/dashboard/report">
+              {copy.report.cta}
+            </Link>
+          </div>
+        ) : (
+          <p className="signature-report-blocked">{copy.report.blocked}</p>
+        )}
       </section>
     </div>
   );

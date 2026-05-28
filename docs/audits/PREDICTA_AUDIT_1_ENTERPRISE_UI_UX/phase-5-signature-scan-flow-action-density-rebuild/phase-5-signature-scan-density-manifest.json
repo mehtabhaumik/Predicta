@@ -1,0 +1,48 @@
+{
+  "baseUrl": "http://127.0.0.1:3009",
+  "checks": [
+    {
+      "fileName": "desktop-signature-scan.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/signature",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "clippedText": 0,
+      "hasInlineReceipt": true,
+      "hasPrivacyCopy": true,
+      "hasReportBlockedState": true,
+      "hasStagedPanel": true,
+      "horizontalOverflow": 0,
+      "visibleButtons": 9
+    },
+    {
+      "fileName": "tablet-signature-scan.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/signature",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "clippedText": 0,
+      "hasInlineReceipt": true,
+      "hasPrivacyCopy": true,
+      "hasReportBlockedState": true,
+      "hasStagedPanel": true,
+      "horizontalOverflow": 0,
+      "visibleButtons": 7
+    },
+    {
+      "fileName": "mobile-signature-scan.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/signature",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "clippedText": 0,
+      "hasInlineReceipt": true,
+      "hasPrivacyCopy": true,
+      "hasReportBlockedState": true,
+      "hasStagedPanel": true,
+      "horizontalOverflow": 0,
+      "visibleButtons": 6
+    }
+  ],
+  "generatedAt": "2026-05-28T11:54:20.467Z",
+  "phase": "PREDICTA_AUDIT_1_PHASE_5_SIGNATURE_SCAN_FLOW_AND_ACTION_DENSITY_REBUILD",
+  "screenshotRoot": "docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-5-signature-scan-flow-action-density-rebuild/screenshots",
+  "status": "green"
+}

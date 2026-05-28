@@ -19911,6 +19911,22 @@
       "kind": "text",
       "value": "संकेत मानचित्र"
     },
+    "signature.receipt.error.gu": {
+      "kind": "text",
+      "value": "પ્રેડિક્ટાને પૂરતી દેખાતી સહીની શાહી મળી નથી. કૃપા કરીને વધુ સ્પષ્ટ છબી વાપરો અથવા ફરી દોરો."
+    },
+    "signature.receipt.error.hi": {
+      "kind": "text",
+      "value": "प्रेडिक्टा को पर्याप्त दिखने वाली हस्ताक्षर स्याही नहीं मिली. कृपया साफ़ छवि उपयोग करें या फिर बनाएं."
+    },
+    "signature.report.blocked.gu": {
+      "kind": "text",
+      "value": "હસ્તાક્ષર રિપોર્ટ બનાવવા પહેલાં દેખાતા હસ્તાક્ષર સંકેતોની પુષ્ટિ કરો."
+    },
+    "signature.report.blocked.hi": {
+      "kind": "text",
+      "value": "हस्ताक्षर रिपोर्ट बनाने से पहले दिखने वाले हस्ताक्षर संकेतों की पुष्टि करें."
+    },
     "signature.receipt.actions.redraw.gu": {
       "kind": "text",
       "value": "હસ્તાક્ષર ફરી દોરો"

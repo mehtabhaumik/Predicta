@@ -134,3 +134,31 @@ Phase 4 artifacts live in:
 ```text
 phase-4-report-composer-action-density-rebuild/
 ```
+
+## Phase 5 Signature Scan Flow And Action Density Rebuild
+
+Phase 5 proves Signature Predicta starts with one privacy-first staged scan
+panel instead of spreading upload, draw, trait, preview, and report controls
+across the page:
+
+```bash
+corepack pnpm test:audit1-phase-5
+corepack pnpm test:signature-predicta
+PREDICTA_BUYER_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:buyer-rejection
+corepack pnpm test:visual-proof
+corepack pnpm test:ui-text-overflow
+```
+
+The Phase 5 gate checks `/dashboard/signature` at desktop, tablet, and mobile
+widths. It fails if the page exposes more than 12 visible buttons on
+desktop/tablet or more than 8 on mobile, loses the staged scan panel, hides the
+no-storage privacy assurance, omits the immediate receipt, allows the report
+path to look available before confirmed traits, clips text, or leaks horizontal
+overflow. It also source-checks mobile parity so mobile remains honest about
+real capture availability and never manufactures signature traits.
+
+Phase 5 artifacts live in:
+
+```text
+phase-5-signature-scan-flow-action-density-rebuild/
+```
