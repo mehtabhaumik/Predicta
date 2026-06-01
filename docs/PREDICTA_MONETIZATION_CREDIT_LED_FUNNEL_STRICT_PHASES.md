@@ -82,6 +82,9 @@ This roadmap must build on:
 - `PREDICTA_REPORT_PDF_STRICT_PHASES.md` for report rules and PDF parity.
 - `PREDICTA_PUBLIC_READINESS_REVIVAL_PLAN.md` for public trust and
   monetization-surface quality.
+- `PREDICTA_JAIMINI_REPLACES_NADI_STRICT_ROADMAP.md` for the product decision
+  that Jaimini replaces Nadi across specialist rooms, report credits, chat
+  routing, and Life Atlas inputs.
 
 This roadmap must not redefine PDF layout, AI model pins, payment gateway
 signature verification, or general UI design-system rules except where
@@ -93,7 +96,7 @@ entitlement and credit behavior require integration.
 
 - `3` lifetime Predicta AI questions.
 - `4` saved Kundlis total.
-- Deterministic daily guidance, Vedic/Numerology/KP/Nadi/Signature surfaces
+- Deterministic daily guidance, Vedic/Numerology/KP/Jaimini/Signature surfaces
   where data exists.
 - Deterministic/free report generation.
 - Family Vault assignment using saved Kundlis.
@@ -104,7 +107,7 @@ entitlement and credit behavior require integration.
 ### Question Packs
 
 - Non-expiring paid AI question credits.
-- Usable across Vedic, KP, Nadi, Numerology, Signature, and Life Atlas chat.
+- Usable across Vedic, KP, Jaimini, Numerology, Signature, and Life Atlas chat.
 - Exact balance shown before and after use.
 - One credit is consumed only when a real AI provider call is made.
 - Failed provider calls must not consume a credit unless a successful answer was
@@ -116,7 +119,7 @@ entitlement and credit behavior require integration.
 - School-specific or bundle-specific:
   - Vedic report credit
   - KP report credit
-  - Nadi report credit
+  - Jaimini report credit
   - Numerology report credit
   - Signature report credit
   - Life Atlas report credit
@@ -156,10 +159,10 @@ Zero-credit mode can:
 - Show chart snapshot: Lagna, Moon sign, Nakshatra, current dasha, strong and
   weak houses.
 - Show Mahadasha, Gochar, Sade Sati, Panchang, daily briefing, yearly
-  horoscope, remedies, Purushartha, Chalit, KP foundation, Nadi plan,
+  horoscope, remedies, Purushartha, Chalit, KP foundation, Jaimini plan,
   Numerology profile, Life Atlas preview, and report brief from deterministic
   modules.
-- Route users to Vedic, KP, Nadi, Numerology, Signature, Reports, Family Vault,
+- Route users to Vedic, KP, Jaimini, Numerology, Signature, Reports, Family Vault,
   pricing, checkout, settings, and help surfaces.
 - Generate deterministic/free reports.
 - Explain account status, limits, balances, and what to buy next using static
@@ -450,7 +453,7 @@ Make reports and AI credit usage consistent across all school lanes.
 
 Required work:
 
-- Vedic, KP, Nadi, Numerology, Signature, and Life Atlas report downloads use
+- Vedic, KP, Jaimini, Numerology, Signature, and Life Atlas report downloads use
   the same entitlement/credit contract.
 - Free deterministic reports remain available where allowed.
 - Premium AI-written reports require premium/report credit.
