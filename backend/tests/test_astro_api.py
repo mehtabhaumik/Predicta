@@ -768,11 +768,13 @@ def test_premium_report_pipeline_applies_to_required_report_types():
     assert set(report_ai_pipeline.supported_premium_pipeline_report_types()) == {
         "vedic",
         "kp",
+        "jaimini",
         "nadi",
         "numerology",
         "signature",
         "life_atlas",
     }
+    assert report_ai_pipeline.REPORT_QA_POLICIES["jaimini"].validatorRequired is False
     assert report_ai_pipeline.REPORT_QA_POLICIES["life_atlas"].validatorRequired is True
     assert (
         report_ai_pipeline.REPORT_QA_POLICIES["life_atlas"].validatorUnavailableBehavior

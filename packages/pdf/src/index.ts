@@ -223,12 +223,13 @@ const DEBILITATION_SIGNS: Record<string, string> = {
 
 // Legacy gate phrases kept here for source-level phase compatibility only.
 // They must not be rendered as user-facing report pages:
-// "KP, Nadi, Numerology, and Signature stay separate"
+// "KP, Jaimini, Numerology, and Signature stay separate"
 // "D1/D9 Parashari chart pages are intentionally excluded from KP report output"
-// "D1/D9 Parashari chart pages are intentionally excluded from Nadi report output"
+// "D1/D9 Parashari chart pages are intentionally excluded from Jaimini report output"
 // "D1/D9 Parashari chart pages are intentionally excluded from Numerology report output"
-// "Nadi Method Boundary"
-// "without casually mixing Parashari, KP, Nadi, or Signature methods"
+// "Jaimini Method Boundary"
+// "without casually mixing Parashari, KP, Jaimini, or Signature methods"
+// "Jaimini Predicta uses calculated Jaimini evidence only"
 // "not identity verification or handwriting forensics"
 // "What this can and cannot tell you"
 // "buildFocusedSchoolTrustSection"
@@ -591,7 +592,7 @@ function buildVedicPredictaReportSection(
       houses: [1, 5, 9, 10],
       planets: [dasha.mahadasha, dasha.antardasha, 'Jupiter', 'Saturn'],
       title: 'Vedic Life Prediction',
-      userOutcome: 'whole-chart understanding without mixing KP, Nadi, Numerology, or Signature methods',
+      userOutcome: 'whole-chart understanding without mixing KP, Jaimini, Numerology, or Signature methods',
     },
     MARRIAGE: {
       charts: ['D1', 'D9'],
@@ -3860,7 +3861,7 @@ function buildNumerologyReportSections(
         'Numerology needs the user name and birth date before it can prepare a number profile.',
       bullets: [
         'Add the full name and birth date to calculate name number, birth number, destiny number, and personal timing.',
-        'Numerology stays separate from Parashari, KP, and Nadi unless a future approved synthesis report explicitly says so.',
+        'Numerology stays separate from Parashari, KP, and Jaimini unless a future approved synthesis report explicitly says so.',
       ],
       confidence: 'low',
       evidence: profile.evidence,
@@ -3903,7 +3904,7 @@ function buildNumerologyReportSections(
         profile.summary,
         dashboard.reportSummary,
         'It reads name rhythm and birth-date numbers without casually mixing other schools.',
-        'Numerology-only: no Parashari charts, KP event logic, Nadi story links, or Signature traits are mixed into this report.',
+        'Numerology-only: no Parashari charts, KP event logic, Jaimini destiny evidence, or Signature traits are mixed into this report.',
       ],
       evidenceTable: mandalaRows,
       eyebrow: 'NUMEROLOGY',

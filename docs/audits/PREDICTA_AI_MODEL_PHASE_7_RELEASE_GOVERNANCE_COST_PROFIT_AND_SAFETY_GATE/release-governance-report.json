@@ -45,7 +45,7 @@
       "status": "PASS"
     },
     {
-      "details": "KP/Nadi method-boundary QA detects school mixing.",
+      "details": "KP/Jaimini method-boundary QA detects school mixing.",
       "name": "Method-boundary assertion",
       "status": "PASS"
     },
@@ -70,13 +70,13 @@
       "status": "PASS"
     }
   ],
-  "generatedAt": "2026-05-26T13:20:47.307859Z",
+  "generatedAt": "2026-06-01T18:31:13.280011Z",
   "launchCriteria": [
     "All safety protocol phases 1-5 are implemented.",
     "Red-team eval pass rate is 100%.",
     "Approved model and prompt pins are unchanged or reviewed.",
     "Blocked, high-stakes, low-confidence, and rewritten answers create audit events.",
-    "KP and Nadi school boundaries remain enforced.",
+    "KP and Jaimini school boundaries remain enforced.",
     "OpenAI + Gemini routing is active, bounded, and telemetry-backed.",
     "AI profit-safety summary stays within configured thresholds.",
     "Public release is blocked for fatalistic certainty, unsafe instructions, prompt injection, or missing high-stakes boundaries."
@@ -110,7 +110,7 @@
   ],
   "rollbackSteps": [
     "Disable public promotion and keep traffic on the last passing release.",
-    "Revert the model, prompt, Jyotish engine, KP, or Nadi change that failed readiness.",
+    "Revert the model, prompt, Jyotish engine, KP, or Jaimini change that failed readiness.",
     "Run the red-team suite and full verification commands before redeploying.",
     "Review new safety reports and close or escalate each open severe report.",
     "Only re-enable release after the readiness endpoint returns READY."

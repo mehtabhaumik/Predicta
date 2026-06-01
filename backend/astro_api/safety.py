@@ -68,6 +68,10 @@ UNSAFE_OUTPUT_PATTERNS = {
         r"\b(step 1|first,|firstly).*\b(kill|poison|stab|bomb|shoot|hack|shoplift|steal)\b",
         r"\b(use a weapon|hide the evidence|bypass security|make a bomb)\b",
     ],
+    "fake-manuscript-claim": [
+        r"\b(palm leaf|palm-leaf|ancient leaf|nadi leaf|leaf manuscript).*\b(access|found|record|says|guarantees|certain)\b",
+        r"\b(i found|i accessed|your leaf says)\b",
+    ],
     "fake-nadi-claim": [
         r"\b(palm leaf|palm-leaf|ancient leaf|nadi leaf|leaf manuscript).*\b(access|found|record|says|guarantees|certain)\b",
         r"\b(i found|i accessed|your leaf says)\b",

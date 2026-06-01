@@ -38,7 +38,8 @@ from .models import (
 REPORT_QA_POLICIES: Dict[str, ReportQAPolicy] = {
     "vedic": ReportQAPolicy(),
     "kp": ReportQAPolicy(),
-    "nadi": ReportQAPolicy(),
+    "jaimini": ReportQAPolicy(),
+    "nadi": ReportQAPolicy(),  # legacy alias only; active product checks use Jaimini.
     "numerology": ReportQAPolicy(),
     "signature": ReportQAPolicy(),
     "life_atlas": ReportQAPolicy(

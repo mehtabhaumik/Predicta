@@ -1,0 +1,50 @@
+PREDICTA_JAIMINI_PHASE_11_QA_GATES_RELEASE_GOVERNANCE_AND_RED_TEAM: GREEN
+checks: 47
+
+- roadmap requirement present: PREDICTA_JAIMINI_PHASE_11_QA_GATES_RELEASE_GOVERNANCE_AND_RED_TEAM
+- roadmap requirement present: release governance says KP/Jaimini boundaries, not KP/Nadi.
+- roadmap requirement present: report QA checks for Jaimini/Nadi mixing.
+- roadmap requirement present: chat red-team checks prevent Nadi leaf claims.
+- roadmap requirement present: buyer/release gates include Jaimini report artifacts.
+- roadmap requirement present: public greenlight includes Jaimini route.
+- release governance includes KP and Jaimini school boundaries remain enforced.
+- release governance includes KP/Jaimini method-boundary QA detects school mixing.
+- release governance includes Jaimini
+- release governance excludes stale KP/Nadi boundary language
+- report QA policy has Jaimini first-class coverage and legacy alias boundary
+- safety output categories uses fake-manuscript-claim
+- red-team cases uses fake-manuscript-claim
+- red-team API test uses fake-manuscript-claim
+- legacy Nadi leaf claims are rewritten through Jaimini boundary
+- AI prompt/memory includes Legacy alias for Jaimini Predicta
+- AI prompt/memory includes Never claim leaf or manuscript access.
+- AI prompt/memory includes KP and Jaimini remain separate schools
+- AI prompt/memory includes Jaimini Predicta reads karakas, Arudha, Upapada, Jaimini aspects, and Chara Dasha only.
+- AI prompt/memory excludes stale KP and Nadi remain separate schools
+- AI prompt/memory excludes stale Do not mix Nadi with Parashari or KP in the same answer.
+- AI prompt/memory excludes stale Useful Nadi-style story marker
+- AI prompt/memory excludes stale Premium Nadi checks
+- audit server preflight includes /dashboard/jaimini
+- buyer rejection gate includes /dashboard/jaimini
+- mobile/tablet visual proof gate includes /dashboard/jaimini
+- room/report QA gate includes 'JAIMINI'
+- room/report QA gate includes Jaimini Reports
+- room/report QA gate includes Jaimini Predicta Report
+- room/report QA gate includes case 'JAIMINI'
+- room/report QA gate includes buildJaiminiReportSections
+- room/report QA gate includes Jaimini Soul Compass
+- room/report QA gate excludes active Nadi Reports
+- room/report QA gate excludes active Nadi Predicta Report
+- room/report QA gate excludes active case 'NADI'
+- room/report QA gate excludes active buildNadiReportSections
+- docs/audits/PREDICTA_JAIMINI_PHASE_7_JAIMINI_REPORTS_FREE_AND_PREMIUM artifact IDs match release contract
+- jaimini-free PDF, payload, extracted text, and previews are release-audited
+- jaimini-premium PDF, payload, extracted text, and previews are release-audited
+- docs/audits/PREDICTA_JAIMINI_PHASE_8_LIFE_ATLAS_JAIMINI_EVIDENCE_LAYER artifact IDs match release contract
+- life-atlas-jaimini-free PDF, payload, extracted text, and previews are release-audited
+- life-atlas-jaimini-premium PDF, payload, extracted text, and previews are release-audited
+- marketplace entitlement gate includes JAIMINI_REPORT: 'pridicta_jaimini_report'
+- marketplace entitlement gate includes Jaimini Report Credit
+- marketplace entitlement gate includes JAIMINI_REPORT
+- marketplace entitlement gate includes hasJaiminiReportCredit
+- public greenlight uses audit-server route preflight that includes Jaimini

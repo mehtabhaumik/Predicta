@@ -670,7 +670,7 @@ PREDICTA_ROOM_CONTRACTS: Dict[str, Dict[str, Any]] = {
             "No pressure to change legal names.",
         ],
         "forbiddenMethods": [
-            "Parashari/KP/Nadi claims as the main proof",
+            "Parashari/KP/Jaimini claims as the main proof",
             "Signature traits unless explicit synthesis is requested",
         ],
         "handoffInstruction": "If the user asks for chart timing, hand off to Vedic or KP. If they ask signature expression, hand off to Signature Predicta.",
@@ -716,7 +716,7 @@ PREDICTA_ROOM_CONTRACTS: Dict[str, Dict[str, Any]] = {
             "No hiring or character-certainty claims.",
         ],
         "forbiddenMethods": [
-            "Parashari/KP/Nadi chart proof as the main method",
+            "Parashari/KP/Jaimini chart proof as the main method",
             "Numerology unless explicit synthesis is requested",
         ],
         "handoffInstruction": "If the user asks for birth-chart timing, hand off to Vedic or KP. If they ask name numbers, hand off to Numerology Predicta.",
@@ -1117,8 +1117,8 @@ def build_predicta_room_tone_profile(school: str) -> Dict[str, str]:
             "proofRule": "Lead with the destiny guidance, then karaka, Arudha, Upapada, and Chara Dasha evidence when available.",
         },
         "NADI": {
-            "identity": "Reflective Nadi guide who validates the planet story before strong claims.",
-            "proofRule": "Lead with the story pattern, then show planetary links, validation questions, and one reflective practice.",
+            "identity": "Legacy alias for Jaimini Predicta. Read soul role, visible identity, and destiny chapters from calculated Jaimini evidence only.",
+            "proofRule": "Lead with the destiny guidance, then karaka, Arudha, Upapada, and Chara Dasha evidence when available. Never claim leaf or manuscript access.",
         },
         "NUMEROLOGY": {
             "identity": "Friendly numbers guide who explains what the numbers mean without mystical fog.",
@@ -3816,8 +3816,8 @@ def build_pridicta_system_prompt() -> str:
             "The supplied Response language is authoritative. Answer in that language unless the current user message is clearly and primarily in another supported language.",
             "Do not use prior conversation language to override the current Response language. If Response language is en and the current message is English, answer only in English.",
             "If the current user message clearly switches language from the selected app language, acknowledge gently once and continue in the user's dominant language. Do not make switching a big issue.",
-            "For Hindi responses, use natural Hindi in Devanagari script. Keep expected product/chart codes such as Predicta, D1, D9, KP, Nadi, PDF, Premium, and common Jyotish terms only where they are normal for users.",
-            "For Gujarati responses, use natural Gujarati in Gujarati script. Keep expected product/chart codes such as Predicta, D1, D9, KP, Nadi, PDF, Premium, and common Jyotish terms only where they are normal for users.",
+            "For Hindi responses, use natural Hindi in Devanagari script. Keep expected product/chart codes such as Predicta, D1, D9, KP, Jaimini, PDF, Premium, and common Jyotish terms only where they are normal for users.",
+            "For Gujarati responses, use natural Gujarati in Gujarati script. Keep expected product/chart codes such as Predicta, D1, D9, KP, Jaimini, PDF, Premium, and common Jyotish terms only where they are normal for users.",
             "Do not answer Hindi or Gujarati in romanized Hinglish/Gujlish. Avoid half-translated lines that mix scripts unnecessarily.",
             "For Hindi and Gujarati specialist-room answers, translate ordinary English labels into the native script. Do not leave archetype labels such as Builder, Creator, Master Builder, profile, practical, system, or compatibility in English unless the user explicitly asks for English wording.",
             "When you mention Numerology number archetypes in Hindi or Gujarati, show the meaning in native script first and keep any optional English gloss secondary or omit it entirely.",
@@ -4923,7 +4923,7 @@ def build_holistic_reading_rooms_context(kundli: KundliData) -> Dict[str, Any]:
         "guardrails": [
             "Rooms combine chart proof, timing, karma pattern, remedy, practical action, and safety boundaries.",
             "No room gives guaranteed outcomes or replaces qualified professional help.",
-            "KP and Nadi remain separate schools; these rooms are Parashari holistic rooms.",
+            "KP and Jaimini remain separate schools; these rooms are Parashari holistic rooms.",
         ],
     }
 
@@ -5780,8 +5780,8 @@ def build_nadi_jyotish_plan_context(
                     "observation": f"{first.name} in {first.sign} house {first.house} links with {second.name} in {second.sign} house {second.house}.",
                     "meaning": f"{first.name}: {DASHA_PLANET_THEMES.get(first.name)}. {second.name}: {DASHA_PLANET_THEMES.get(second.name)}.",
                     "confidence": "high" if relation == "same-sign" else "medium",
-                    "freeInsight": "Useful Nadi-style story marker. Premium is needed for full sequencing, validation, and timing.",
-                    "premiumDetail": "Premium Nadi checks this story through validation questions, slow-transit activation, and practical remedy discipline.",
+                    "freeInsight": "Useful Jaimini destiny marker. Premium is needed for full karaka sequencing, validation, and timing.",
+                    "premiumDetail": "Premium Jaimini checks this destiny thread through karaka evidence, Chara Dasha activation, and practical guidance.",
                     "evidence": [
                         f"{first.name}: {first.sign}, house {first.house}, {first.nakshatra}.",
                         f"{second.name}: {second.sign}, house {second.house}, {second.nakshatra}.",
@@ -5801,7 +5801,7 @@ def build_nadi_jyotish_plan_context(
                 "meaning": f"Rahu pulls toward {DASHA_HOUSE_MEANINGS.get(rahu.house)} while Ketu asks release around {DASHA_HOUSE_MEANINGS.get(ketu.house)}.",
                 "confidence": "medium",
                 "freeInsight": "Rahu and Ketu show appetite and release themes.",
-                "premiumDetail": "Premium Nadi reads this as a karmic story with transit activation and user validation.",
+                "premiumDetail": "Premium Jaimini reads this as a destiny thread with timing activation and grounded validation.",
                 "evidence": [
                     f"Rahu: {rahu.sign}, house {rahu.house}.",
                     f"Ketu: {ketu.sign}, house {ketu.house}.",
@@ -5886,7 +5886,7 @@ def build_nadi_jyotish_plan_context(
         "guardrails": [
             "No fake manuscript authority claim.",
             "No ancient manuscript certainty.",
-            "Do not mix Nadi with Parashari or KP in the same answer.",
+            "Do not mix Jaimini with Parashari or KP in the same answer.",
             "Ask validation questions before strong event statements.",
         ],
         "premiumUnlock": "Premium Jaimini unlocks full karaka council, Karakamsha and Swamsa reading, Arudha and Upapada interpretation, Chara Dasha timing, and a separate Jaimini report.",
@@ -6324,14 +6324,14 @@ def language_instruction(language: str) -> str:
     if language == "hi":
         return (
             "हिंदी में देवनागरी लिपि का उपयोग करें। भाषा स्वाभाविक, गर्मजोशी भरी और बातचीत जैसी रहे। "
-            "Predicta, D1, D9, KP, Nadi, PDF, Premium जैसे अपेक्षित product/chart terms रख सकते हैं, लेकिन romanized Hinglish में जवाब न दें। "
+            "Predicta, D1, D9, KP, Jaimini, PDF, Premium जैसे अपेक्षित product/chart terms रख सकते हैं, लेकिन romanized Hinglish में जवाब न दें। "
             "Greeting, transition, और archetype labels भी हिंदी में रखें; Builder, Creator, profile, practical, system जैसे साधारण अंग्रेजी शब्द न छोड़ें। "
             "Lagna, dasha, gochar/transit और nakshatra जैसे terms को आसान भाषा में समझाएं।"
         )
     if language == "gu":
         return (
             "ગુજરાતીમાં ગુજરાતી લિપિનો ઉપયોગ કરો। ભાષા સ્વાભાવિક, ઉષ્માભરી અને વાતચીત જેવી રહે। "
-            "Predicta, D1, D9, KP, Nadi, PDF, Premium જેવા અપેક્ષિત product/chart terms રાખી શકો, પરંતુ romanized Gujlish માં જવાબ ન આપો। "
+            "Predicta, D1, D9, KP, Jaimini, PDF, Premium જેવા અપેક્ષિત product/chart terms રાખી શકો, પરંતુ romanized Gujlish માં જવાબ ન આપો। "
             "Greeting, transition અને archetype labels પણ ગુજરાતીમાં રાખો; Builder, Creator, profile, practical, system જેવા સામાન્ય અંગ્રેજી શબ્દો ન છોડો। "
             "Lagna, dasha, gochar/transit અને nakshatra જેવા terms સરળ રીતે સમજાવો."
         )

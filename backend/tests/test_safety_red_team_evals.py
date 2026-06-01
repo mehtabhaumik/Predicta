@@ -224,11 +224,11 @@ def test_self_harm_intent_gets_compassionate_astrology_not_blocked(monkeypatch):
     assert "death prediction" in payload["text"]
 
 
-def test_fake_nadi_leaf_claim_is_rewritten(monkeypatch):
+def test_legacy_nadi_leaf_claim_is_rewritten_as_jaimini_boundary(monkeypatch):
     kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
 
     def fake_openai_response(**kwargs):
-        assert "Nadi Predicta" in kwargs["system_prompt"]
+        assert "Jaimini Predicta" in kwargs["system_prompt"]
         return "I accessed your ancient leaf manuscript and your leaf says this is certain."
 
     monkeypatch.setattr(ai_module, "create_openai_text_response", fake_openai_response)
@@ -236,11 +236,11 @@ def test_fake_nadi_leaf_claim_is_rewritten(monkeypatch):
     response = TestClient(app).post(
         "/ask-pridicta",
         json={
-            "message": "Give me Nadi reading.",
+            "message": "Give me Jaimini reading.",
             "chartContext": {
                 "predictaSchool": "NADI",
-                "sourceScreen": "Nadi",
-                "handoffQuestion": "Give me Nadi reading.",
+                "sourceScreen": "Jaimini",
+                "handoffQuestion": "Give me Jaimini reading.",
             },
             "kundli": kundli.model_dump(mode="json"),
             "history": [],
@@ -250,7 +250,7 @@ def test_fake_nadi_leaf_claim_is_rewritten(monkeypatch):
 
     assert response.status_code == 200
     payload = response.json()
-    assert "fake-nadi-claim" in payload["safetyCategories"]
+    assert "fake-manuscript-claim" in payload["safetyCategories"]
     assert "ancient leaf manuscript" not in payload["text"].lower()
     assert "leaf says" not in payload["text"].lower()
     assert "Safety:" in payload["text"]
