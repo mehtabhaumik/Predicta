@@ -53,6 +53,7 @@ export type ReportMarketplaceProduct = {
     | 'KUNDLI'
     | 'VEDIC'
     | 'KP'
+    | 'JAIMINI'
     | 'NADI'
     | 'CAREER'
     | 'MARRIAGE'
@@ -69,7 +70,7 @@ export type ReportMarketplaceProduct = {
   premiumDepth: string;
   prompt: string;
   purchaseHint: string;
-  school: 'KP' | 'NADI' | 'NUMEROLOGY' | 'SIGNATURE' | 'SYNTHESIS' | 'VEDIC';
+  school: 'JAIMINI' | 'KP' | 'NADI' | 'NUMEROLOGY' | 'SIGNATURE' | 'SYNTHESIS' | 'VEDIC';
   title: string;
 };
 
@@ -91,7 +92,7 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     premiumIncludes: ['Deep life narrative', 'Soul-purpose synthesis', 'Karmic pattern map', 'Integration practices', 'Premium closing letter'],
     premiumDepth: 'Flagship synthesis report with deeper life journey, destiny direction, love/work/money/purpose guidance, shadow-to-gift transformation, and practical practices.',
     prompt:
-      'Create my Predicta Life Atlas as a non-technical synthesis report. Use Vedic, KP, Nadi, and Numerology as internal evidence, include Signature only if confirmed traits exist, and do not mix this into any school-specific report.',
+      'Create my Predicta Life Atlas as a non-technical synthesis report. Use Vedic, KP, Jaimini, and Numerology as internal evidence, include Signature only if confirmed traits exist, and do not mix this into any school-specific report.',
     purchaseHint: 'Best when you want Predicta to turn all available data into one non-technical life story.',
     school: 'SYNTHESIS',
     title: 'Predicta Life Atlas',
@@ -121,7 +122,7 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     premiumIncludes: ['Full varga synthesis', 'Dasha and Gochar timing', 'Evidence tables', 'Remedy planning'],
     premiumDepth: 'Detailed Vedic Predicta report with varga depth, timing windows, and remedy path.',
     prompt:
-      'Create my Vedic Predicta report using D1, key varga charts, dasha, gochar, remedies, and holistic life balance. Do not mix KP, Nadi, Numerology, or Signature unless I ask.',
+      'Create my Vedic Predicta report using D1, key varga charts, dasha, gochar, remedies, and holistic life balance. Do not mix KP, Jaimini, Numerology, or Signature unless I ask.',
     purchaseHint: 'Best when you want the main Vedic astrology reading with clear chart proof.',
     school: 'VEDIC',
     title: 'Vedic Predicta Report',
@@ -142,19 +143,19 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     title: 'KP Predicta Report',
   },
   {
-    badge: 'Nadi',
-    bestFor: 'Planet story links, karmic patterns, validation questions, and timing triggers.',
-    freeIncludes: ['Story-link preview', 'Karmic theme', 'Validation prompts', 'Safety boundary'],
-    freeDepth: 'Useful Nadi pattern preview from calculated chart links.',
-    id: 'NADI',
-    outcome: 'Read planet-to-planet patterns without manufactured authority claims.',
-    premiumIncludes: ['Pattern sequencing', 'Validation depth', 'Timing triggers', 'Reflection practices'],
-    premiumDepth: 'Detailed Nadi Predicta report with story links, validation, triggers, and reflection path.',
+    badge: 'Jaimini',
+    bestFor: 'Soul role, visible identity, career dharma, relationship mirror, and destiny chapters.',
+    freeIncludes: ['Soul-role snapshot', 'Visible identity', 'Career dharma', 'Current destiny chapter'],
+    freeDepth: 'Useful Jaimini preview from classical soul and destiny indicators.',
+    id: 'JAIMINI',
+    outcome: 'Understand the role your chart asks you to grow into.',
+    premiumIncludes: ['Karaka council', 'Karakamsha and Swamsa', 'Arudha and Upapada', 'Chara Dasha life map'],
+    premiumDepth: 'Detailed Jaimini Predicta report with karakas, visible destiny, relationship mirror, and destiny timing.',
     prompt:
-      'Create my Nadi Predicta report using planet-to-planet story links, karmic themes, validation questions, and timing triggers. Do not claim palm-leaf manuscript access.',
-    purchaseHint: 'Best when you want karmic pattern reading and repeated life-theme explanation.',
-    school: 'NADI',
-    title: 'Nadi Predicta Report',
+      'Create my Jaimini Predicta report using Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, and Chara Dasha where calculated evidence is available.',
+    purchaseHint: 'Best when you want soul role, public path, relationship mirror, and destiny chapter guidance.',
+    school: 'JAIMINI',
+    title: 'Jaimini Predicta Report',
   },
   {
     badge: 'Work',

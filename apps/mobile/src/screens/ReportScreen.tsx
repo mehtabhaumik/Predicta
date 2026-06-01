@@ -539,7 +539,7 @@ export function ReportScreen({
             {showReportMarketplace ? 'Hide report worlds' : 'Change report world'}
           </AppText>
           <AppText className="mt-1" tone="secondary" variant="caption">
-            Vedic, KP, Nadi, Numerology, Signature, and Life Atlas stay in
+            Vedic, KP, Jaimini, Numerology, Signature, and Life Atlas stay in
             separate lanes.
           </AppText>
         </Pressable>
@@ -594,7 +594,7 @@ export function ReportScreen({
           <IntelligenceRhythmCard embedded delay={0} school="LIFE_ATLAS" />
           <AppText className="mt-2" tone="secondary">
             This is the only all-school synthesis report. It turns available
-            Vedic, KP, Nadi, and Numerology data into one non-technical life
+            Vedic, KP, Jaimini, and Numerology data into one non-technical life
             story. Signature is optional enrichment only.
           </AppText>
           <AppText className="mt-2" tone="secondary" variant="caption">
@@ -620,7 +620,7 @@ export function ReportScreen({
             SCHOOL-SPECIFIC REPORTS
           </AppText>
           <AppText tone="secondary">
-            Vedic, KP, Nadi, Numerology, and Signature stay in their own lanes.
+            Vedic, KP, Jaimini, Numerology, and Signature stay in their own lanes.
             Choose these when you want one method, not a mixed bag report.
           </AppText>
           {schoolProducts.map(product => (

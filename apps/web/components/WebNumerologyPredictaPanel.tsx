@@ -22,7 +22,7 @@ const NUMEROLOGY_WORLD_PROOF_CARDS = [
   },
   {
     body:
-      'If the user asks for Vedic, KP, Nadi, or Signature analysis, the room should hand off instead of mixing methods.',
+      'If the user asks for Vedic, KP, Jaimini, or Signature analysis, the room should hand off instead of mixing methods.',
     title: 'Clean boundaries',
   },
 ] as const;
@@ -47,7 +47,7 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
       <PredictaWorldFrame
         badge={t('Numerology world')}
         body={t(
-          'Numerology Predicta reads name rhythm, birth number, destiny number, and current personal cycles. It stays separate from Vedic, KP, Nadi, and Signature unless you ask for a careful synthesis.',
+          'Numerology Predicta reads name rhythm, birth number, destiny number, and current personal cycles. It stays separate from Vedic, KP, Jaimini, and Signature unless you ask for a careful synthesis.',
         )}
         chatHref={chatHref}
         chatLabel={t('Chat with Numerology Predicta')}
@@ -377,7 +377,7 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
         <h2>{t('Numerology answers with number logic first.')}</h2>
         <p>
           {t(
-            'If the question needs Parashari, KP, Nadi, or Signature analysis, Predicta should hand you to the right room with your question intact.',
+            'If the question needs Parashari, KP, Jaimini, or Signature analysis, Predicta should hand you to the right room with your question intact.',
           )}
         </p>
         <div className="action-row">

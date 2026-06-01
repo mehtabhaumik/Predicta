@@ -44,7 +44,7 @@ type MobileChatSession = {
   id: string;
   kundliId?: string;
   replyLanguage: SupportedLanguage;
-  school?: 'KP' | 'NADI' | 'NUMEROLOGY' | 'SIGNATURE' | 'PARASHARI';
+  school?: 'JAIMINI' | 'KP' | 'NADI' | 'NUMEROLOGY' | 'SIGNATURE' | 'PARASHARI';
   selectedChart?: string;
   selectedHouse?: number;
   title: string;
@@ -123,8 +123,12 @@ function getSchoolFromContext(
   if (context?.predictaSchool === 'KP') {
     return 'KP';
   }
+  if (context?.predictaSchool === 'JAIMINI') {
+    return 'JAIMINI';
+  }
+
   if (context?.predictaSchool === 'NADI') {
-    return 'NADI';
+    return 'JAIMINI';
   }
   if (context?.predictaSchool === 'NUMEROLOGY') {
     return 'NUMEROLOGY';

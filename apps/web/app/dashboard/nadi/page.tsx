@@ -1,9 +1,5 @@
-import { WebNadiPredictaLoader } from '../../../components/WebNadiPredictaLoader';
+import { redirect } from 'next/navigation';
 
-export default function NadiPredictaPage(): React.JSX.Element {
-  return (
-    <section className="dashboard-page">
-      <WebNadiPredictaLoader />
-    </section>
-  );
+export default function LegacyNadiPredictaPage(): never {
+  redirect('/dashboard/jaimini');
 }

@@ -19,12 +19,12 @@ import { FamilyKarmaMapScreen } from '../screens/FamilyKarmaMapScreen';
 import { FounderVisionScreen } from '../screens/FounderVisionScreen';
 import { HolisticReadingRoomsScreen } from '../screens/HolisticReadingRoomsScreen';
 import { HomeScreen } from '../screens/HomeScreen';
+import { JaiminiPredictaScreen } from '../screens/JaiminiPredictaScreen';
 import { KpPredictaScreen } from '../screens/KpPredictaScreen';
 import { KundliScreen } from '../screens/KundliScreen';
 import { LegalScreen } from '../screens/LegalScreen';
 import { LifeTimelineScreen } from '../screens/LifeTimelineScreen';
 import { LoginScreen } from '../screens/LoginScreen';
-import { NadiPredictaScreen } from '../screens/NadiPredictaScreen';
 import { NumerologyPredictaScreen } from '../screens/NumerologyPredictaScreen';
 import { OnboardingScreen } from '../screens/OnboardingScreen';
 import { PaywallScreen } from '../screens/PaywallScreen';
@@ -160,9 +160,14 @@ export function RootNavigator(): React.JSX.Element {
           options={{ title: 'Life Timeline' }}
         />
         <Stack.Screen
+          name={routes.JaiminiPredicta}
+          component={JaiminiPredictaScreen}
+          options={{ title: 'Jaimini Predicta' }}
+        />
+        <Stack.Screen
           name={routes.NadiPredicta}
-          component={NadiPredictaScreen}
-          options={{ title: 'Nadi Predicta' }}
+          component={JaiminiPredictaScreen}
+          options={{ title: 'Jaimini Predicta' }}
         />
         <Stack.Screen
           name={routes.NumerologyPredicta}

@@ -15,6 +15,7 @@ import {
 } from './ui/DesignSystemPrimitives';
 
 type PredictaWorldTheme =
+  | 'jaimini'
   | 'kp'
   | 'nadi'
   | 'numerology'
@@ -177,6 +178,8 @@ export function PredictaWorldFrame({
 
 function themeToSchool(theme: PredictaWorldTheme): PredictaIntelligenceSchool {
   switch (theme) {
+    case 'jaimini':
+      return 'JAIMINI';
     case 'kp':
       return 'KP';
     case 'nadi':

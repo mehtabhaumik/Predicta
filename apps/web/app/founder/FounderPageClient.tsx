@@ -77,7 +77,7 @@ const founderCopy: Record<
         title: 'Guidance without pressure',
       },
       {
-        copy: 'Regular Predicta, KP Predicta, and Nadi Predicta should stay clear in method, purpose, and safety boundaries.',
+        copy: 'Vedic Predicta, KP Predicta, and Jaimini Predicta should stay clear in method, purpose, and safety boundaries.',
         title: 'Clear astrology schools',
       },
       {

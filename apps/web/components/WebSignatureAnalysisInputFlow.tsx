@@ -205,7 +205,7 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
     },
     hero: {
       body:
-        'Upload or draw a signature for a private, reflection-based signature reading. Predicta keeps this separate from Parashari, KP, Nadi, and Numerology.',
+        'Upload or draw a signature for a private, reflection-based signature reading. Predicta keeps this separate from Parashari, KP, Jaimini, and Numerology.',
       chatPromptFallback:
         'Open Signature Predicta. Explain what signature shape, pressure, spacing, baseline, size, and rhythm can suggest. Keep it private, safe, and reflective.',
       chatPromptReady: 'Open Signature Predicta. Use these confirmed signature traits.',

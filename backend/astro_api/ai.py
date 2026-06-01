@@ -374,7 +374,7 @@ PREMIUM_CONTEXT_CHARTS = {"D1", "D2", "D3", "D4", "D7", "D9", "D10", "D12"}
 
 PREDICTA_APP_MEMORY_DIGEST = {
     "productStructure": [
-        "Predicta is one product with five specialist rooms: Vedic Predicta, KP Predicta, Nadi Predicta, Numerology Predicta, and Signature Predicta.",
+        "Predicta is one product with five specialist rooms: Vedic Predicta, KP Predicta, Jaimini Predicta, Numerology Predicta, and Signature Predicta.",
         "Shared Kundli/profile context can travel between rooms, but the active room decides the method.",
         "Reports are separated by school lanes; Predicta Life Atlas is the approved synthesis lane.",
     ],
@@ -400,15 +400,15 @@ PREDICTA_APP_MEMORY_DIGEST = {
     "astrologyCapabilityMap": [
         "Vedic covers D1, Moon, D9, D10, Chalit, full Varga library, Swamsa, Karakamsha, Mahadasha Phala, Panchang, Avakhada, Ghatak, favorable points, friendship, Ashtakavarga, Prastarashtakavarga, house evidence, and remedies.",
         "KP covers event questions with cusps, star lords, sub lords, sub-sub lords, significators, ruling planets, dasha support, timing readiness, confidence, and proof drawer.",
-        "Nadi covers story links, Rahu/Ketu axis, karmic patterns, validation questions, activation windows, practices, and no palm-leaf manuscript claim.",
+        "Jaimini covers Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, Chara Dasha, soul role, visible identity, and destiny chapters.",
         "Numerology covers number signature, name rhythm, birth code, personal cycles, missing/repeated patterns, compatibility, name refinement, and no fear guarantees.",
         "Signature covers confirmed visible traits only, privacy/no-storage, confidence, reflective expression guidance, and no forensic or diagnostic claims.",
-        "Life Atlas is the approved all-school synthesis using Vedic, KP, Nadi, Numerology, and optional confirmed Signature evidence.",
+        "Life Atlas is the approved all-school synthesis using Vedic, KP, Jaimini, Numerology, and optional confirmed Signature evidence.",
     ],
     "reportLanes": [
         "Vedic Reports stay Vedic.",
         "KP Reports stay KP.",
-        "Nadi Reports stay Nadi.",
+        "Jaimini Reports stay Jaimini.",
         "Numerology Reports stay Numerology unless an approved combination is requested.",
         "Signature Reports stay Signature unless an approved combination is requested.",
         "Synthesis Reports are clearly labeled and include Predicta Life Atlas.",
@@ -416,7 +416,7 @@ PREDICTA_APP_MEMORY_DIGEST = {
     "roomBoundaries": [
         "Vedic answers from Parashari/Vedic only.",
         "KP answers from KP only.",
-        "Nadi answers from Nadi only.",
+        "Jaimini answers from Jaimini only.",
         "Numerology answers Numerology-only or explicitly requested Vedic-plus-Numerology.",
         "Signature answers Signature-only or explicitly requested Vedic-plus-Signature.",
         "Wrong-room method requests require a clean handoff instead of a mixed answer.",
@@ -436,7 +436,7 @@ PREDICTA_REPORT_SECTION_MEMORY_CATALOG = [
         "schoolLane": "VEDIC",
         "calculationState": "available",
         "whatItMeans": "Shows the chart counted from the Moon so mind, emotional rhythm, and lived experience are understood.",
-        "boundary": "Vedic-only chart context. Do not answer with KP cusp logic or Nadi story-link logic.",
+        "boundary": "Vedic-only chart context. Do not answer with KP cusp logic or Jaimini karaka logic.",
     },
     {
         "id": "mahadasha-phala",
@@ -476,7 +476,7 @@ PREDICTA_REPORT_SECTION_MEMORY_CATALOG = [
         "schoolLane": "SYNTHESIS",
         "calculationState": "available",
         "whatItMeans": "Approved non-technical synthesis for life journey, soul purpose, current chapter, gifts, lessons, and next steps.",
-        "boundary": "Use available Vedic, KP, Nadi, Numerology, and optional confirmed Signature evidence without invented mystical sources.",
+        "boundary": "Use available Vedic, KP, Jaimini, Numerology, and optional confirmed Signature evidence without invented mystical sources.",
     },
 ]
 
@@ -498,7 +498,7 @@ PREDICTA_ROOM_CONTRACTS: Dict[str, Dict[str, Any]] = {
         ],
         "proofStyle": [
             "Start from the user question, then cite D1/house/planet/dasha/gochar evidence.",
-            "Use KP, Nadi, Numerology, or Signature only as a handoff unless the user explicitly asks for synthesis.",
+            "Use KP, Jaimini, Numerology, or Signature only as a handoff unless the user explicitly asks for synthesis.",
             "Separate indication, timing, practical step, and safety boundary.",
         ],
         "safetyBehavior": [
@@ -508,11 +508,11 @@ PREDICTA_ROOM_CONTRACTS: Dict[str, Dict[str, Any]] = {
         ],
         "forbiddenMethods": [
             "KP cusp/sub-lord judgement as the main method",
-            "Nadi manuscript claims",
+            "Jaimini claims without calculated karaka, Arudha, Upapada, or Chara Dasha evidence",
             "Numerology-only conclusions",
             "Signature-analysis conclusions",
         ],
-        "handoffInstruction": "If the user asks primarily for KP, Nadi, Numerology, or Signature, answer briefly and offer the correct specialist room with context.",
+        "handoffInstruction": "If the user asks primarily for KP, Jaimini, Numerology, or Signature, answer briefly and offer the correct specialist room with context.",
         "responseShape": [
             "Warm acknowledgement",
             "Direct answer",
@@ -549,16 +549,57 @@ PREDICTA_ROOM_CONTRACTS: Dict[str, Dict[str, Any]] = {
         ],
         "forbiddenMethods": [
             "Parashari yoga reading as the main method",
-            "Nadi story links as the main method",
+            "Jaimini karaka or Chara Dasha logic as the main method",
             "Numerology or Signature proof",
         ],
-        "handoffInstruction": "If the user asks for broad life reading, suggest Vedic Predicta. If they ask Nadi/Numerology/Signature, hand off cleanly.",
+        "handoffInstruction": "If the user asks for broad life reading, suggest Vedic Predicta. If they ask Jaimini/Numerology/Signature, hand off cleanly.",
         "responseShape": [
             "Question understood",
             "Houses involved",
             "KP evidence",
             "Judgement with confidence",
             "Next clarifying step",
+        ],
+    },
+    "JAIMINI": {
+        "roomName": "Jaimini Predicta",
+        "identity": "Classical Jaimini Jyotish room for soul role, visible identity, career dharma, relationship mirror, and destiny chapters.",
+        "allowedData": [
+            "Atmakaraka",
+            "Amatyakaraka",
+            "Darakaraka",
+            "Karakamsha",
+            "Swamsa",
+            "Arudha Lagna",
+            "Upapada Lagna",
+            "Jaimini sign aspects",
+            "Chara Dasha",
+            "current destiny chapter",
+        ],
+        "proofStyle": [
+            "Start with the user's soul role or destiny chapter in plain language.",
+            "Use Jaimini evidence only when calculated data is available.",
+            "Keep dense karaka and dasha details after the answer.",
+            "Do not turn Jaimini into KP event judgement or Parashari-only proof.",
+        ],
+        "safetyBehavior": [
+            "No fixed-fate certainty.",
+            "No claims without calculated Jaimini evidence.",
+            "Keep agency and practical guidance visible.",
+        ],
+        "forbiddenMethods": [
+            "KP cusp/sub-lord judgement",
+            "Parashari yoga reading as the main method",
+            "Nadi manuscript or story-link claims",
+            "Numerology or Signature proof",
+        ],
+        "handoffInstruction": "If the user asks for KP event timing or full Parashari synthesis, offer KP or Vedic Predicta with context.",
+        "responseShape": [
+            "Soul role or destiny direction",
+            "Visible identity or relationship mirror",
+            "Jaimini evidence when available",
+            "Current focus",
+            "Practical next step",
         ],
     },
     "NADI": {
@@ -688,6 +729,7 @@ PREDICTA_ROOM_CONTRACTS: Dict[str, Dict[str, Any]] = {
 PREDICTA_ROOM_ROUTES: Dict[str, str] = {
     "PARASHARI": "/dashboard/vedic/chat",
     "KP": "/dashboard/kp/chat",
+    "JAIMINI": "/dashboard/jaimini/chat",
     "NADI": "/dashboard/nadi/chat",
     "NUMEROLOGY": "/dashboard/numerology/chat",
     "SIGNATURE": "/dashboard/signature/chat",
@@ -696,6 +738,7 @@ PREDICTA_ROOM_ROUTES: Dict[str, str] = {
 PREDICTA_ROOM_LABELS: Dict[str, str] = {
     "PARASHARI": "Vedic Predicta",
     "KP": "KP Predicta",
+    "JAIMINI": "Jaimini Predicta",
     "NADI": "Nadi Predicta",
     "NUMEROLOGY": "Numerology Predicta",
     "SIGNATURE": "Signature Predicta",
@@ -709,6 +752,14 @@ DISCIPLINE_DETECTION_PATTERNS: Dict[str, List[re.Pattern[str]]] = {
             r"krishnamurti|krishnamurthy|paddhati",
             r"cuspal\s*sub|sub\s*lord|sublord|significator|ruling\s*planet",
             r"\bhorary\b|\bprashna\b|\b249\b",
+        ]
+    ],
+    "JAIMINI": [
+        re.compile(pattern, re.I)
+        for pattern in [
+            r"\bjaimini\b",
+            r"atmakaraka|amatyakaraka|darakaraka|karakamsha|swamsa",
+            r"arudha|upapada|chara\s*dasha|jaimini\s*aspect",
         ]
     ],
     "NADI": [
@@ -835,7 +886,7 @@ def detect_requested_predicta_school(message: str) -> Optional[str]:
     if not message or DISCIPLINE_SYNTHESIS_PATTERN.search(message):
         return None
 
-    for school in ["KP", "NADI", "NUMEROLOGY", "SIGNATURE", "PARASHARI"]:
+    for school in ["KP", "JAIMINI", "NADI", "NUMEROLOGY", "SIGNATURE", "PARASHARI"]:
         if any(pattern.search(message) for pattern in DISCIPLINE_DETECTION_PATTERNS[school]):
             return school
 
@@ -1056,6 +1107,10 @@ def build_predicta_room_tone_profile(school: str) -> Dict[str, str]:
         "KP": {
             "identity": "Calm KP specialist who keeps judgement crisp and event-focused.",
             "proofRule": "Lead with the event answer, then cusp, star lord, sub lord, significator, and timing caution.",
+        },
+        "JAIMINI": {
+            "identity": "Calm Jaimini specialist who reads soul role, visible identity, and destiny chapters without crowding the user.",
+            "proofRule": "Lead with the destiny guidance, then karaka, Arudha, Upapada, and Chara Dasha evidence when available.",
         },
         "NADI": {
             "identity": "Reflective Nadi guide who validates the planet story before strong claims.",

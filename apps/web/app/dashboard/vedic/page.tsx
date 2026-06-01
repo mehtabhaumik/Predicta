@@ -69,7 +69,7 @@ const VEDIC_WORLD_COPY: Record<SupportedLanguage, VedicWorldCopy> = {
     },
     note: {
       body:
-        'KP, Nadi, Numerology, and Signature now have their own worlds. Vedic Predicta stays focused on the core Jyotish reading.',
+        'KP, Jaimini, Numerology, and Signature now have their own worlds. Vedic Predicta stays focused on the core Jyotish reading.',
       title: 'Separate worlds, shared Kundli',
     },
     report: {

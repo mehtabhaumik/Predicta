@@ -122,8 +122,12 @@ function getPredictaChatPath(school: PredictaSchool | undefined): string {
     return '/dashboard/kp/chat';
   }
 
+  if (school === 'JAIMINI') {
+    return '/dashboard/jaimini/chat';
+  }
+
   if (school === 'NADI') {
-    return '/dashboard/nadi/chat';
+    return '/dashboard/jaimini/chat';
   }
 
   if (school === 'NUMEROLOGY') {

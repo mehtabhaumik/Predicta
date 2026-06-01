@@ -10,8 +10,8 @@ const checks = [
     path: 'apps/web/app/dashboard/kp/chat/page.tsx',
   },
   {
-    label: 'web route exists for Nadi chat',
-    path: 'apps/web/app/dashboard/nadi/chat/page.tsx',
+    label: 'web route exists for Jaimini chat',
+    path: 'apps/web/app/dashboard/jaimini/chat/page.tsx',
   },
   {
     label: 'web route exists for Numerology chat',
@@ -26,8 +26,8 @@ const checks = [
     path: 'apps/web/app/dashboard/kp/page.tsx',
   },
   {
-    label: 'web route exists for Nadi Predicta',
-    path: 'apps/web/app/dashboard/nadi/page.tsx',
+    label: 'web route exists for Jaimini Predicta',
+    path: 'apps/web/app/dashboard/jaimini/page.tsx',
   },
   {
     label: 'web route exists for Numerology Predicta',
@@ -42,8 +42,8 @@ const checks = [
     path: 'apps/mobile/src/screens/KpPredictaScreen.tsx',
   },
   {
-    label: 'mobile screen exists for Nadi Predicta',
-    path: 'apps/mobile/src/screens/NadiPredictaScreen.tsx',
+    label: 'mobile screen exists for Jaimini Predicta',
+    path: 'apps/mobile/src/screens/JaiminiPredictaScreen.tsx',
   },
   {
     label: 'mobile screen exists for Numerology Predicta',
@@ -62,11 +62,11 @@ const sourceContracts = [
     mustContain: [
       '/dashboard/vedic/chat',
       '/dashboard/kp/chat',
-      '/dashboard/nadi/chat',
+      '/dashboard/jaimini/chat',
       '/dashboard/numerology/chat',
       '/dashboard/signature/chat',
       '/dashboard/kp',
-      '/dashboard/nadi',
+      '/dashboard/jaimini',
       '/dashboard/numerology',
       '/dashboard/signature',
       'labels.nav.numerologyPredicta',
@@ -78,7 +78,7 @@ const sourceContracts = [
     label: 'mobile route names include all specialist rooms',
     mustContain: [
       "KpPredicta: 'KpPredicta'",
-      "NadiPredicta: 'NadiPredicta'",
+      "JaiminiPredicta: 'JaiminiPredicta'",
       "NumerologyPredicta: 'NumerologyPredicta'",
       "SignaturePredicta: 'SignaturePredicta'",
       '[routes.NumerologyPredicta]: undefined',
@@ -89,8 +89,10 @@ const sourceContracts = [
     file: 'apps/mobile/src/navigation/RootNavigator.tsx',
     label: 'mobile navigator registers new rooms',
     mustContain: [
+      'JaiminiPredictaScreen',
       'NumerologyPredictaScreen',
       'SignaturePredictaScreen',
+      'name={routes.JaiminiPredicta}',
       'name={routes.NumerologyPredicta}',
       'name={routes.SignaturePredicta}',
     ],
@@ -99,6 +101,8 @@ const sourceContracts = [
     file: 'apps/mobile/src/screens/HomeScreen.tsx',
     label: 'mobile home nav exposes new rooms',
     mustContain: [
+      'labels.nav.nadi',
+      'routes.JaiminiPredicta',
       'labels.nav.numerologyPredicta',
       'routes.NumerologyPredicta',
       'labels.nav.signaturePredicta',
@@ -134,7 +138,7 @@ const sourceContracts = [
     label: 'Predicta follow-ups can hand off to specialist chat routes',
     mustContain: [
       "'/dashboard/kp/chat'",
-      "'/dashboard/nadi/chat'",
+      "'/dashboard/jaimini/chat'",
       "'/dashboard/numerology/chat'",
       "targetScreen: 'NumerologyPredicta'",
     ],
@@ -187,4 +191,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log('Nav and new rooms QA gate passed: Vedic, KP, Nadi, Numerology, and Signature routes are present across web, mobile, nav, and QA coverage.');
+console.log('Nav and new rooms QA gate passed: Vedic, KP, Jaimini, Numerology, and Signature routes are present across web, mobile, nav, and QA coverage.');

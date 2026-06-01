@@ -64,7 +64,7 @@ LAUNCH_CRITERIA = [
     "Red-team eval pass rate is 100%.",
     "Approved model and prompt pins are unchanged or reviewed.",
     "Blocked, high-stakes, low-confidence, and rewritten answers create audit events.",
-    "KP and Nadi school boundaries remain enforced.",
+    "KP and Jaimini school boundaries remain enforced.",
     "OpenAI + Gemini routing is active, bounded, and telemetry-backed.",
     "AI profit-safety summary stays within configured thresholds.",
     "Public release is blocked for fatalistic certainty, unsafe instructions, prompt injection, or missing high-stakes boundaries.",
@@ -95,7 +95,7 @@ GOVERNANCE_COST_BUDGET_TOKEN_PROFILES: Dict[str, Dict[str, object]] = {
 
 ROLLBACK_STEPS = [
     "Disable public promotion and keep traffic on the last passing release.",
-    "Revert the model, prompt, Jyotish engine, KP, or Nadi change that failed readiness.",
+    "Revert the model, prompt, Jyotish engine, KP, or Jaimini change that failed readiness.",
     "Run the red-team suite and full verification commands before redeploying.",
     "Review new safety reports and close or escalate each open severe report.",
     "Only re-enable release after the readiness endpoint returns READY.",
@@ -208,7 +208,7 @@ def evaluate_release_readiness() -> ReleaseReadinessReport:
             name="Method-boundary assertion",
             passed=not method_failures,
             details=(
-                "KP/Nadi method-boundary QA detects school mixing."
+                "KP/Jaimini method-boundary QA detects school mixing."
                 if not method_failures
                 else "; ".join(method_failures)
             ),
@@ -234,7 +234,7 @@ def evaluate_release_readiness() -> ReleaseReadinessReport:
         for phrase in [
             "Avoid fear, fatalism",
             "If activeContext.predictaSchool is KP",
-            "If activeContext.predictaSchool is NADI",
+            "If activeContext.predictaSchool is JAIMINI",
             "medical/legal/financial certainty",
         ]
     )

@@ -326,7 +326,7 @@ const feedbackCopy: Record<SupportedLanguage, FeedbackCopy> = {
       { label: 'Predicta answer', value: 'chat' },
       { label: 'Kundli or charts', value: 'charts' },
       { label: 'Report or PDF', value: 'report' },
-      { label: 'KP or Nadi', value: 'schools' },
+      { label: 'KP or Jaimini', value: 'schools' },
       { label: 'Language or translation', value: 'language' },
       { label: 'Safety concern', value: 'safety' },
     ],

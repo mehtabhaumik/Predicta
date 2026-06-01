@@ -89,7 +89,7 @@ const REPORT_SCHOOL_LANES: ReportSchoolLane[] = [
   {
     bestFor: 'Classical Kundli, charts, dasha, panchang, varga, remedies, and life-area Vedic reports.',
     boundary:
-      'Vedic reports use Parashari Jyotish only. KP, Nadi, Numerology, and Signature stay outside this lane.',
+      'Vedic reports use Parashari Jyotish only. KP, Jaimini, Numerology, and Signature stay outside this lane.',
     freeDepth:
       'Free gives a useful chart-backed Vedic reading with clear limits and dignity.',
     id: 'VEDIC',
@@ -125,18 +125,18 @@ const REPORT_SCHOOL_LANES: ReportSchoolLane[] = [
     title: 'KP Reports',
   },
   {
-    bestFor: 'Karmic story threads, planet-to-planet links, Rahu/Ketu axis, validation, and activation timing.',
+    bestFor: 'Soul role, visible identity, career dharma, relationship mirror, and destiny chapters.',
     boundary:
-      'Nadi reports use planetary story links, karaka themes, karmic patterns, validation questions, and activation timing. They do not use KP cusp logic and never claim palm-leaf manuscript access.',
+      'Jaimini reports use karakas, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, and Chara Dasha where calculated evidence is available. They do not use KP cusp logic or unsupported story claims.',
     freeDepth:
-      'Free gives the strongest story-thread preview, gift, caution, validation questions, and gentle guidance.',
-    id: 'NADI',
+      'Free gives the soul-role snapshot, visible identity, career direction, relationship mirror, and current destiny-chapter preview.',
+    id: 'JAIMINI',
     premiumDepth:
-      'Premium gives deeper sequencing, validation-based deepening, activation windows, and practices.',
-    productIds: ['NADI'],
-    promise: 'A karmic story lane with explicit source boundaries.',
-    readinessRequirement: 'Needs a valid Kundli; deeper reading should validate patterns before strong timing.',
-    title: 'Nadi Reports',
+      'Premium gives full karaka council, Karakamsha/Swamsa, Arudha/Upapada, Chara Dasha life map, and practical guidance.',
+    productIds: ['JAIMINI'],
+    promise: 'A classical soul-destiny lane with clear calculation boundaries.',
+    readinessRequirement: 'Needs a valid Kundli; report download unlocks after the Jaimini calculation/report engine is audited.',
+    title: 'Jaimini Reports',
   },
   {
     bestFor: 'Name/date number rhythm, name number, birth number, destiny number, cycles, and name refinement.',
@@ -172,7 +172,7 @@ const REPORT_SYNTHESIS_LANE: ReportSchoolLane = {
   bestFor:
     'A non-technical life journey, soul purpose, hidden thread, current chapter, gifts, lessons, and next direction.',
   boundary:
-    'Predicta Life Atlas is the only approved all-school synthesis report. It is not a Vedic, KP, Nadi, Numerology, or Signature report.',
+    'Predicta Life Atlas is the only approved all-school synthesis report. It is not a Vedic, KP, Jaimini, Numerology, or Signature report.',
   freeDepth:
     'Free gives a useful soul portrait, life journey summary, current chapter, gifts, lessons, and a closing letter.',
   id: 'SYNTHESIS',
@@ -249,6 +249,7 @@ export function WebDossierPreview(): React.JSX.Element {
   const signatureReportBlocked =
     selectedReportId === 'SIGNATURE' &&
     !hasReadySignatureReport(signatureAnalysis);
+  const jaiminiReportPending = selectedReportId === 'JAIMINI';
 
   useDialogFocusTrap(downloadDialogRef, {
     active: isDownloadDialogOpen && reportSurfaceState === 'ready',
@@ -595,6 +596,16 @@ export function WebDossierPreview(): React.JSX.Element {
       return false;
     }
 
+    if (jaiminiReportPending) {
+      setReportDownloadError(
+        'Jaimini report generation unlocks after the deterministic Jaimini data contract and report engine are audited.',
+      );
+      setReportPreviewOpen(false);
+      setDownloadDialogOpen(false);
+      window.setTimeout(() => setReportDownloadError(null), 5200);
+      return false;
+    }
+
     if (builderMode === 'CUSTOM' && !visibleSections.length) {
       setCopyState('empty');
       window.setTimeout(() => setCopyState('idle'), 1800);
@@ -638,6 +649,13 @@ export function WebDossierPreview(): React.JSX.Element {
     if (signatureReportBlocked) {
       setReportDownloadError(
         'Signature report download is blocked until a confirmed signature sample is available.',
+      );
+      return;
+    }
+
+    if (jaiminiReportPending) {
+      setReportDownloadError(
+        'Jaimini report generation unlocks after the deterministic Jaimini data contract and report engine are audited.',
       );
       return;
     }
@@ -817,7 +835,7 @@ export function WebDossierPreview(): React.JSX.Element {
 
         <div className="report-inline-actions">
           <PredictaButton
-            disabled={signatureReportBlocked}
+            disabled={signatureReportBlocked || jaiminiReportPending}
             onClick={() => openReportPreview()}
             type="button"
             variant="primary"
@@ -1104,7 +1122,7 @@ export function WebDossierPreview(): React.JSX.Element {
           <summary>
             <span>School-separated marketplace</span>
             <strong>
-              Choose a different Vedic, KP, Nadi, Numerology, Signature, or Life
+              Choose a different Vedic, KP, Jaimini, Numerology, Signature, or Life
               Atlas report
             </strong>
           </summary>
@@ -1175,7 +1193,7 @@ export function WebDossierPreview(): React.JSX.Element {
                 <span>Required input</span>
                 <p>
                   {kundli
-                    ? 'Core Vedic, KP, Nadi, and Numerology inputs can be synthesized. Signature remains optional enrichment only.'
+                    ? 'Core Vedic, KP, Jaimini, and Numerology inputs can be synthesized. Signature remains optional enrichment only.'
                     : REPORT_SYNTHESIS_LANE.readinessRequirement}
                 </p>
               </div>
@@ -1250,7 +1268,7 @@ export function WebDossierPreview(): React.JSX.Element {
             <div className="section-title">School-separated reports</div>
             <h3>Choose your report world</h3>
             <p>
-              Each lane keeps its own method clean. Choose Vedic, KP, Nadi,
+              Each lane keeps its own method clean. Choose Vedic, KP, Jaimini,
               Numerology, or Signature without accidentally buying a mixed bag
               report.
             </p>
@@ -1359,7 +1377,7 @@ export function WebDossierPreview(): React.JSX.Element {
             </strong>
           </div>
           <PredictaButton
-            disabled={signatureReportBlocked}
+            disabled={signatureReportBlocked || jaiminiReportPending}
             onClick={() => openReportPreview()}
             type="button"
             variant="primary"
@@ -1434,7 +1452,7 @@ export function WebDossierPreview(): React.JSX.Element {
 
               <div className="report-download-actions">
                 <PredictaButton
-                  disabled={isPdfDownloading || signatureReportBlocked}
+                  disabled={isPdfDownloading || signatureReportBlocked || jaiminiReportPending}
                   loading={isPdfDownloading}
                   onClick={printReport}
                   type="button"
@@ -1580,7 +1598,7 @@ export function WebDossierPreview(): React.JSX.Element {
             <div className="report-download-dialog-actions">
               <button
                 className="predicta-button predicta-button--primary predicta-button--md"
-                disabled={isPdfDownloading || signatureReportBlocked}
+                disabled={isPdfDownloading || signatureReportBlocked || jaiminiReportPending}
                 data-loading={isPdfDownloading ? 'true' : undefined}
                 onClick={printReport}
                 ref={downloadDialogPrimaryRef}
@@ -1828,16 +1846,16 @@ function getLocalizedReportProduct(
         purchaseHint: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.9c5269fed4"),
         title: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.97e327ed4c"),
       },
-      NADI: {
-        badge: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.1849d6330d"),
-        bestFor: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.84cb1ad143"),
-        freeDepth: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.859be74ed1"),
-        freeIncludes: [getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.19f4718b20"), getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.3230cc0a15"), getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.5726a341e6"), getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.54403cfc12")],
-        outcome: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.71d1962c9c"),
-        premiumDepth: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.1ab05a6bb2"),
-        premiumIncludes: [getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.1b255eadf4"), getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.416dcb92ab"), getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.41e67626ad"), getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.262ed94e34")],
-        purchaseHint: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.21352b89b7"),
-        title: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.091bf60195"),
+      JAIMINI: {
+        badge: 'जैमिनी',
+        bestFor: 'आत्म भूमिका, दिखाई देने वाली पहचान, करियर धर्म, संबंध दर्पण और भाग्य अध्याय।',
+        freeDepth: 'क्लासिकल जैमिनी संकेतों से उपयोगी soul-role और destiny preview।',
+        freeIncludes: ['Soul-role snapshot', 'Visible identity', 'Career dharma', 'Current destiny chapter'],
+        outcome: 'समझें कि आपका chart आपको किस भूमिका में परिपक्व कर रहा है।',
+        premiumDepth: 'Premium में karaka council, Karakamsha/Swamsa, Arudha/Upapada और Chara Dasha life map मिलता है।',
+        premiumIncludes: ['Karaka council', 'Karakamsha and Swamsa', 'Arudha and Upapada', 'Chara Dasha life map'],
+        purchaseHint: 'Best when you want soul role, public path, relationship mirror, and destiny chapter guidance.',
+        title: 'जैमिनी प्रेडिक्टा रिपोर्ट',
       },
       CAREER: {
         badge: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.a0201660d1"),
@@ -1989,16 +2007,16 @@ function getLocalizedReportProduct(
         purchaseHint: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.00b92431cd"),
         title: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.4f80d08646"),
       },
-      NADI: {
-        badge: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.d653d63a61"),
-        bestFor: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.047ae59353"),
-        freeDepth: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.a5c1df9f21"),
-        freeIncludes: [getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.4129489096"), getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.e44f2408e9"), getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.2c26849274"), getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.0e1b7075b8")],
-        outcome: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.650f64b4e3"),
-        premiumDepth: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.9b158eb32f"),
-        premiumIncludes: [getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.359fd1e2f6"), getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.300b0d086e"), getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.470c6a9ba1"), getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.5494069342")],
-        purchaseHint: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.6b4f7e4239"),
-        title: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.4203c7842e"),
+      JAIMINI: {
+        badge: 'જૈમિની',
+        bestFor: 'આત્મ ભૂમિકા, દેખાતી ઓળખ, કરિયર ધર્મ, સંબંધ દર્પણ અને destiny chapters.',
+        freeDepth: 'Classical Jaimini સંકેતો પરથી ઉપયોગી soul-role અને destiny preview.',
+        freeIncludes: ['Soul-role snapshot', 'Visible identity', 'Career dharma', 'Current destiny chapter'],
+        outcome: 'તમારો chart તમને કઈ ભૂમિકામાં પરિપક્વ થવા કહે છે તે સમજો.',
+        premiumDepth: 'Premium માં karaka council, Karakamsha/Swamsa, Arudha/Upapada અને Chara Dasha life map મળે છે.',
+        premiumIncludes: ['Karaka council', 'Karakamsha and Swamsa', 'Arudha and Upapada', 'Chara Dasha life map'],
+        purchaseHint: 'Best when you want soul role, public path, relationship mirror, and destiny chapter guidance.',
+        title: 'જૈમિની પ્રેડિક્ટા રિપોર્ટ',
       },
       CAREER: {
         badge: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.aa10e069f6"),
@@ -2333,7 +2351,7 @@ function getReportBuilderCopy(language: SupportedLanguage): {
     copyChat: 'Copy chat',
     copyReport: 'Copy report summary',
     customBody:
-      'Keep only the birth details, charts, dasha, remedies, KP, Nadi, or parts the user wants.',
+      'Keep only the birth details, charts, dasha, remedies, KP, Jaimini, or parts the user wants.',
     customLabel: 'Choose parts',
     customTitle: 'Choose what to include',
     compareDepth: 'Compare what you get',
@@ -2775,7 +2793,7 @@ function getComprehensiveReportSections(language: SupportedLanguage): Array<{
     { eyebrow: 'Charts', title: 'D1 and all divisional charts' },
     { eyebrow: 'Chalit', title: 'Parashari Chalit refinement' },
     { eyebrow: 'KP', title: 'KP cusp and sub-lord foundation' },
-    { eyebrow: 'Nadi', title: 'Nadi pattern preview' },
+    { eyebrow: 'Jaimini', title: 'Jaimini destiny preview' },
     { eyebrow: 'Numerology', title: 'Numerology name and birth numbers' },
     { eyebrow: 'Signature', title: 'Signature Predicta and improvement plan' },
     { eyebrow: 'Dasha', title: 'Mahadasha, Antardasha, timing' },
@@ -3018,12 +3036,12 @@ function getReportLaneReadiness({
     };
   }
 
-  if (lane.id === 'NADI') {
+  if (lane.id === 'JAIMINI') {
     return {
       detail:
-        'Active Kundli found. Deeper Nadi timing should validate story patterns with the user first.',
-      label: 'Kundli ready',
-      ready: true,
+        'Active Kundli found. Jaimini report download unlocks after the deterministic Jaimini data contract and report engine are audited.',
+      label: 'Jaimini pending',
+      ready: false,
     };
   }
 

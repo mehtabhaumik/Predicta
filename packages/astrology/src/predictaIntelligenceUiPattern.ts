@@ -1,4 +1,5 @@
 export type PredictaIntelligenceSchool =
+  | 'JAIMINI'
   | 'KP'
   | 'LIFE_ATLAS'
   | 'NADI'
@@ -47,9 +48,19 @@ export const PREDICTA_SCHOOL_INTELLIGENCE_PATTERN: Record<
     school: 'KP',
     startsWith: 'user question or refined event, verdict, timing, and proof',
   },
+  JAIMINI: {
+    action: 'Give one calm next focus around soul maturity, visibility, career dharma, or relationship mirror.',
+    evidence: 'Preserve Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Arudha, Upapada, Jaimini aspects, and Chara Dasha after the guidance.',
+    forbidden: 'Do not turn Jaimini into Nadi story language, KP cusp judgement, or a dense technical classroom.',
+    label: 'Jaimini Predicta',
+    prediction: 'Start with soul role, visible identity, destiny pattern, and the active life chapter.',
+    safety: 'Keep agency and calculation readiness clear; do not overstate destiny as fixed fate.',
+    school: 'JAIMINI',
+    startsWith: 'soul role, visible identity, destiny pattern, and active life chapter',
+  },
   LIFE_ATLAS: {
     action: 'Give the current chapter focus, next practice, and grounded integration path.',
-    evidence: 'Use available Vedic, KP, Nadi, Numerology, and optional confirmed Signature layers as quiet synthesis support.',
+    evidence: 'Use available Vedic, KP, Jaimini, Numerology, and optional confirmed Signature layers as quiet synthesis support.',
     forbidden: 'Do not expose school-by-school proof as the main reading or pretend to access Akashic records.',
     label: 'Life Atlas',
     prediction: 'Start with the life journey, destiny pattern, current chapter, and soul-purpose synthesis.',

@@ -47,7 +47,7 @@ const safetyCopy: Record<
       'Unsafe instructions and illegal requests',
       'Fear-based and fatalistic predictions',
       'Hindi, Gujarati, English, and mixed-language questions',
-      'Clear separation between Regular, KP, and Nadi Predicta',
+      'Clear separation between Vedic, KP, and Jaimini Predicta',
       'Easy reporting when an answer feels concerning',
       'A clear stop before unsafe changes reach users',
     ],
@@ -86,12 +86,12 @@ const safetyCopy: Record<
         title: 'Prepared for difficult questions',
       },
       {
-        body: 'Regular Predicta, KP Predicta, and Nadi Predicta are kept separate so each school speaks from its own tradition.',
+        body: 'Vedic Predicta, KP Predicta, and Jaimini Predicta are kept separate so each school speaks from its own tradition.',
         title: 'Different astrology schools stay separate',
       },
       {
-        body: 'Nadi Predicta is not allowed to falsely claim it found or accessed a real ancient palm-leaf record.',
-        title: 'Clear Nadi claims',
+        body: 'Jaimini Predicta must stay grounded in calculated Jaimini indicators such as karakas, Arudha, Upapada, and Chara Dasha.',
+        title: 'Clear Jaimini boundaries',
       },
       {
         body: 'Users can report a concerning answer from chat.',

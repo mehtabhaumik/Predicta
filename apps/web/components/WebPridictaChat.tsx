@@ -150,7 +150,7 @@ type ReplyFeedbackSignal = {
   messageHash: string;
   messageId: string;
   route: string;
-  school: 'KP' | 'NADI' | 'NUMEROLOGY' | 'SIGNATURE' | 'PARASHARI';
+  school: 'JAIMINI' | 'KP' | 'NADI' | 'NUMEROLOGY' | 'SIGNATURE' | 'PARASHARI';
   selectedChart?: string;
   selectedHouse?: number;
   selectedPlanet?: string;
@@ -178,7 +178,7 @@ type StarRatingSignal = {
   rating: number;
   replyCount: number;
   route: string;
-  school: 'KP' | 'NADI' | 'NUMEROLOGY' | 'SIGNATURE' | 'PARASHARI';
+  school: 'JAIMINI' | 'KP' | 'NADI' | 'NUMEROLOGY' | 'SIGNATURE' | 'PARASHARI';
   selectedChart?: string;
   selectedHouse?: number;
   selectedPlanet?: string;
@@ -216,7 +216,7 @@ type WebChatSession = {
   messages: WebMessage[];
   predictaMemory?: PredictaInteractionMemory;
   replyLanguage: SupportedLanguage;
-  school?: 'KP' | 'NADI' | 'NUMEROLOGY' | 'SIGNATURE' | 'PARASHARI';
+  school?: 'JAIMINI' | 'KP' | 'NADI' | 'NUMEROLOGY' | 'SIGNATURE' | 'PARASHARI';
   selectedChart?: string;
   selectedHouse?: number;
   title: string;
@@ -2509,8 +2509,12 @@ function getReplyFeedbackSchool(
     return 'KP';
   }
 
+  if (context?.predictaSchool === 'JAIMINI') {
+    return 'JAIMINI';
+  }
+
   if (context?.predictaSchool === 'NADI') {
-    return 'NADI';
+    return 'JAIMINI';
   }
 
   if (context?.predictaSchool === 'NUMEROLOGY') {
@@ -3820,7 +3824,7 @@ function buildBirthDetailConfidenceGateReply(
     'Birth time check first.',
     `I have ${kundli.birthDetails.name}'s Kundli, but the birth time ${timeText} needs confirmation before deep prediction. Even 10-15 minutes can change houses, divisional charts, and timing.`,
     `Reason: ${reason}.`,
-    'I can still give broad guidance, but I will not do exact timing, marriage/career/finance prediction, D9/D10/KP/Nadi depth, or report-grade analysis until the time is confirmed.',
+    'I can still give broad guidance, but I will not do exact timing, marriage/career/finance prediction, D9/D10/KP/Jaimini depth, or report-grade analysis until the time is confirmed.',
     'If the time is doubtful, I can ask simple life-event questions and estimate a probable corrected birth time. That keeps the reading safer and more honest.',
   ].join('\n\n');
 }
@@ -3884,7 +3888,7 @@ function buildPartialBirthDetailGateReply(
     'I will not start deep prediction from half details.',
     knownDetails ? `So far I have:\n${knownDetails}` : undefined,
     `Missing: ${missing.join(', ')}.`,
-    'DOB can support broad guidance, but a real Kundli, houses, dasha, timing, KP/Nadi, and reports need birth time and birth place.',
+    'DOB can support broad guidance, but a real Kundli, houses, dasha, timing, KP/Jaimini, and reports need birth time and birth place.',
     'If the exact birth time is unknown, write “time unknown.” I can ask simple life questions and guide you through birth-time detective mode.',
   ]
     .filter(Boolean)
@@ -4348,6 +4352,7 @@ function parseReportSchoolLane(
   if (
     value === 'VEDIC' ||
     value === 'KP' ||
+    value === 'JAIMINI' ||
     value === 'NADI' ||
     value === 'NUMEROLOGY' ||
     value === 'SIGNATURE' ||
@@ -4372,6 +4377,7 @@ function parsePredictaSchool(value: string | null): PredictaSchool | undefined {
   if (
     value === 'PARASHARI' ||
     value === 'KP' ||
+    value === 'JAIMINI' ||
     value === 'NADI' ||
     value === 'NUMEROLOGY' ||
     value === 'SIGNATURE'
@@ -4499,8 +4505,8 @@ function buildSchoolContextIntro(
       question ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.fa565f3c2b", [question]) : undefined,
       context.predictaSchool === 'KP'
         ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.7de5e77289")
-      : context.predictaSchool === 'NADI'
-          ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.f39e7d7570")
+      : context.predictaSchool === 'JAIMINI' || context.predictaSchool === 'NADI'
+          ? 'मैं इसे जैमिनी के soul role, visible identity और destiny chapter lens से रखूंगा।'
       : context.predictaSchool === 'NUMEROLOGY'
           ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.b93160df27")
       : context.predictaSchool === 'SIGNATURE'
@@ -4523,8 +4529,8 @@ function buildSchoolContextIntro(
       question ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.2a64d28f73", [question]) : undefined,
       context.predictaSchool === 'KP'
         ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.626c67ff92")
-      : context.predictaSchool === 'NADI'
-          ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.fe94f5c55b")
+      : context.predictaSchool === 'JAIMINI' || context.predictaSchool === 'NADI'
+          ? 'હું આને જૈમિનીના soul role, visible identity અને destiny chapter lens માં રાખીશ.'
       : context.predictaSchool === 'NUMEROLOGY'
           ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.bd7eb2446b")
       : context.predictaSchool === 'SIGNATURE'
@@ -4546,8 +4552,8 @@ function buildSchoolContextIntro(
     question ? `You asked: ${question}` : undefined,
     context.predictaSchool === 'KP'
       ? 'I will read this through KP cusps, star lords, sub lords, significators, and ruling planets.'
-    : context.predictaSchool === 'NADI'
-        ? 'I will read this through planetary story links and validation questions, without claiming access to an ancient palm-leaf record.'
+    : context.predictaSchool === 'JAIMINI' || context.predictaSchool === 'NADI'
+        ? 'I will keep this inside Jaimini: soul role, visible identity, career dharma, relationship mirror, and destiny chapters when calculated evidence is available.'
     : context.predictaSchool === 'NUMEROLOGY'
         ? 'I will answer through name number, birth number, destiny number, personal timing, and name rhythm.'
     : context.predictaSchool === 'SIGNATURE'
@@ -4564,8 +4570,8 @@ function getPredictaSchoolLabel(school: PredictaSchool | undefined): string {
     return 'KP Predicta';
   }
 
-  if (school === 'NADI') {
-    return 'Nadi Predicta';
+  if (school === 'JAIMINI' || school === 'NADI') {
+    return 'Jaimini Predicta';
   }
 
   if (school === 'NUMEROLOGY') {
@@ -4636,8 +4642,8 @@ function getRoomMethodLine(
     if (school === 'KP') {
       return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.d88e5f2875");
     }
-    if (school === 'NADI') {
-      return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.6898b053ad");
+    if (school === 'JAIMINI' || school === 'NADI') {
+      return 'यह room जैमिनी के soul role, visible identity, career dharma और destiny chapters पर रहेगा।';
     }
     if (school === 'NUMEROLOGY') {
       return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.378129e024");
@@ -4652,8 +4658,8 @@ function getRoomMethodLine(
     if (school === 'KP') {
       return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.e5c580817f");
     }
-    if (school === 'NADI') {
-      return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.891b805cac");
+    if (school === 'JAIMINI' || school === 'NADI') {
+      return 'આ room જૈમિનીના soul role, visible identity, career dharma અને destiny chapters પર રહેશે.';
     }
     if (school === 'NUMEROLOGY') {
       return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.bc8bf3e3fe");
@@ -4667,8 +4673,8 @@ function getRoomMethodLine(
   if (school === 'KP') {
     return 'This room stays with cusps, star lords, sub lords, significators, and ruling planets.';
   }
-  if (school === 'NADI') {
-    return 'This room stays with planetary story links, karmic themes, and validation questions.';
+  if (school === 'JAIMINI' || school === 'NADI') {
+    return 'This room stays with soul role, visible identity, career dharma, relationship mirror, and destiny chapters.';
   }
   if (school === 'NUMEROLOGY') {
     return 'This room stays with name number, birth number, destiny number, and personal timing.';
@@ -5115,8 +5121,11 @@ function getSchoolFromContext(
   if (context?.predictaSchool === 'KP') {
     return 'KP';
   }
+  if (context?.predictaSchool === 'JAIMINI') {
+    return 'JAIMINI';
+  }
   if (context?.predictaSchool === 'NADI') {
-    return 'NADI';
+    return 'JAIMINI';
   }
   if (context?.predictaSchool === 'NUMEROLOGY') {
     return 'NUMEROLOGY';

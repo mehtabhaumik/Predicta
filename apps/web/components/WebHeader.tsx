@@ -28,7 +28,7 @@ const publicHeaderCopy: Record<
     links: [
       { href: '/dashboard/vedic', label: 'Vedic' },
       { href: '/dashboard/kp', label: 'KP' },
-      { href: '/dashboard/nadi', label: 'Nadi' },
+      { href: '/dashboard/jaimini', label: 'Jaimini' },
       { href: '/dashboard/numerology', label: 'Numerology' },
       { href: '/dashboard/signature', label: 'Signature' },
       { href: '/dashboard/report', label: 'Reports' },
@@ -51,7 +51,7 @@ const publicHeaderCopy: Record<
     links: [
       { href: '/dashboard/vedic', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.0a41d55d52") },
       { href: '/dashboard/kp', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.16640e70b1") },
-      { href: '/dashboard/nadi', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.1849d6330d") },
+      { href: '/dashboard/jaimini', label: 'जैमिनी' },
       { href: '/dashboard/numerology', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.922f2ff605") },
       { href: '/dashboard/signature', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.3bd079967d") },
       { href: '/dashboard/report', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.89a0ae86a5") },
@@ -74,7 +74,7 @@ const publicHeaderCopy: Record<
     links: [
       { href: '/dashboard/vedic', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.c60c32f61e") },
       { href: '/dashboard/kp', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.88220f0e9b") },
-      { href: '/dashboard/nadi', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.d653d63a61") },
+      { href: '/dashboard/jaimini', label: 'જૈમિની' },
       { href: '/dashboard/numerology', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.cf14f25c86") },
       { href: '/dashboard/signature', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.7a41efa981") },
       { href: '/dashboard/report', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.d6aa714c20") },

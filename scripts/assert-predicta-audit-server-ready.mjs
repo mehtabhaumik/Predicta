@@ -9,7 +9,7 @@ const requiredRoutes = [
   '/dashboard/report',
   '/dashboard/signature',
   '/dashboard/kp',
-  '/dashboard/nadi',
+  '/dashboard/jaimini',
   '/dashboard/numerology',
   '/dashboard/settings',
   '/dashboard/family',

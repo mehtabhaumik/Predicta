@@ -2458,12 +2458,14 @@ export type ChatRole = 'user' | 'pridicta';
 export type PredictaSchool =
   | 'PARASHARI'
   | 'KP'
+  | 'JAIMINI'
   | 'NADI'
   | 'NUMEROLOGY'
   | 'SIGNATURE';
 
 export type ReportSchoolLaneId =
   | 'KP'
+  | 'JAIMINI'
   | 'NADI'
   | 'NUMEROLOGY'
   | 'SIGNATURE'

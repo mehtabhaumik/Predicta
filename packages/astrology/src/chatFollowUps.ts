@@ -200,11 +200,11 @@ function reportMemoryFollowUps(
         'Explain the timing readiness',
         'What is free vs premium here?',
       ]
-    : context.reportSchoolLane === 'NADI'
+    : context.reportSchoolLane === 'JAIMINI' || context.reportSchoolLane === 'NADI'
       ? [
-          'Explain my strongest Nadi story thread',
-          'Show my Rahu-Ketu axis',
-          'What validation question should I answer?',
+          'Explain my Jaimini soul role',
+          'Show my visible identity pattern',
+          'Explain my destiny chapter',
           'What is free vs premium here?',
         ]
     : context.reportSchoolLane === 'NUMEROLOGY'
@@ -243,8 +243,8 @@ export function buildPredictaSchoolHandoffContext({
   const schoolName =
     to === 'KP'
       ? 'KP Predicta'
-      : to === 'NADI'
-        ? 'Nadi Predicta'
+      : to === 'JAIMINI' || to === 'NADI'
+        ? 'Jaimini Predicta'
         : to === 'NUMEROLOGY'
           ? 'Numerology Predicta'
           : to === 'SIGNATURE'
@@ -253,8 +253,8 @@ export function buildPredictaSchoolHandoffContext({
   const sourceName =
     from === 'KP'
       ? 'KP Predicta'
-      : from === 'NADI'
-        ? 'Nadi Predicta'
+      : from === 'JAIMINI' || from === 'NADI'
+        ? 'Jaimini Predicta'
         : from === 'NUMEROLOGY'
           ? 'Numerology Predicta'
           : from === 'SIGNATURE'
@@ -283,13 +283,13 @@ export function buildPredictaSchoolHandoffContext({
       birthSummary ? `Active birth profile: ${birthSummary}` : undefined,
       to === 'KP'
         ? 'Answer strictly from KP principles: KP ayanamsa, Placidus cusps, star lords, sub lords, significators, ruling planets, and KP event-timing rules. Do not casually mix Parashari D1/Varga/Yoga logic.'
-        : to === 'NADI'
-          ? 'Stay in Nadi Predicta reading space. Use Nadi-style planetary story links, karakas, validation questions, and timing activation only. Do not mix Parashari or KP, and do not claim palm-leaf manuscript access.'
+        : to === 'JAIMINI' || to === 'NADI'
+          ? 'Stay in Jaimini Predicta reading space. Use calculated Jaimini indicators such as Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, and Chara Dasha when available. Do not mix Parashari or KP.'
           : to === 'NUMEROLOGY'
-            ? 'Answer strictly from Numerology Predicta: name number, birth number, destiny number, personal year/month/day, name spelling rhythm, and compatibility numbers. Do not mix Parashari, KP, or Nadi unless the user explicitly asks for synthesis.'
+            ? 'Answer strictly from Numerology Predicta: name number, birth number, destiny number, personal year/month/day, name spelling rhythm, and compatibility numbers. Do not mix Parashari, KP, or Jaimini unless the user explicitly asks for synthesis.'
             : to === 'SIGNATURE'
-              ? 'Answer strictly from Signature Predicta: confirmed visual traits, writing rhythm, confidence expression, consistency, improvement suggestions, and safe reflection. Do not use Parashari, KP, Nadi, or Numerology unless the user explicitly asks for synthesis.'
-          : 'Answer strictly from regular Parashari Jyotish: D1, Vargas, dasha, yogas, Parashari Chalit, gochar, remedies, and reports. Do not use KP/Nadi methods unless the user requests handoff.',
+              ? 'Answer strictly from Signature Predicta: confirmed visual traits, writing rhythm, confidence expression, consistency, improvement suggestions, and safe reflection. Do not use Parashari, KP, Jaimini, or Numerology unless the user explicitly asks for synthesis.'
+          : 'Answer strictly from regular Parashari Jyotish: D1, Vargas, dasha, yogas, Parashari Chalit, gochar, remedies, and reports. Do not use KP/Jaimini methods unless the user requests handoff.',
     ]
       .filter(Boolean)
       .join('\n'),
@@ -435,8 +435,8 @@ function schoolHandoffFollowUps(
     /\b(kp|krishnamurti|krishnamurthy|paddhati|cuspal\s*sub|sub\s*lord|sublord|significator|ruling\s*planet|249)\b/i.test(
       normalized,
     );
-  const wantsNadi =
-    /\b(nadi|naadi|palm\s*leaf|agastya|bhrigu\s*nandi|nandi\s*nadi)\b/i.test(
+  const wantsJaimini =
+    /\b(jaimini|jaimini\s*jyotish|atmakaraka|amatyakaraka|darakaraka|karakamsha|karakamsa|swamsa|arudha|upapada|chara\s*dasha|nadi|naadi|palm\s*leaf|agastya|bhrigu\s*nandi|nandi\s*nadi)\b/i.test(
       normalized,
     );
   const wantsNumerology =
@@ -481,32 +481,32 @@ function schoolHandoffFollowUps(
     ];
   }
 
-  if (wantsNadi) {
+  if (wantsJaimini) {
     const context = buildPredictaSchoolHandoffContext({
       from: 'PARASHARI',
       kundli,
       question: text,
-      to: 'NADI',
+      to: 'JAIMINI',
     });
     const prompt = context.selectedSection ?? text;
 
     return [
       {
         context,
-        href: buildSchoolHandoffHref('/dashboard/nadi/chat', context),
-        id: 'open-nadi-predicta',
+        href: buildSchoolHandoffHref('/dashboard/jaimini/chat', context),
+        id: 'open-jaimini-predicta',
         label:
           language === 'hi'
-            ? 'Nadi Predicta dekho'
+            ? 'Jaimini Predicta dekho'
             : language === 'gu'
-              ? 'Nadi Predicta jo'
-              : 'Open Nadi Predicta',
+              ? 'Jaimini Predicta jo'
+              : 'Open Jaimini Predicta',
         prompt,
-        targetScreen: 'NadiPredicta',
+        targetScreen: 'JaiminiPredicta',
       },
       {
         context,
-        id: 'preserve-nadi-question',
+        id: 'preserve-jaimini-question',
         label:
           language === 'hi'
             ? 'Question save rakho'

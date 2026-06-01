@@ -85,6 +85,7 @@ export type PdfReportFocus =
   | 'CAREER'
   | 'COMPATIBILITY'
   | 'DASHA'
+  | 'JAIMINI'
   | 'KP'
   | 'KUNDLI'
   | 'LIFE_ATLAS'

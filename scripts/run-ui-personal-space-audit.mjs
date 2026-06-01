@@ -20,7 +20,7 @@ const routes = [
   '/dashboard/charts',
   '/dashboard/report',
   '/dashboard/kp',
-  '/dashboard/nadi',
+  '/dashboard/jaimini',
   '/dashboard/numerology',
   '/dashboard/signature',
   '/dashboard/account',

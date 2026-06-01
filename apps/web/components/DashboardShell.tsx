@@ -71,12 +71,12 @@ function buildDashboardNavModel(
       ],
     },
     {
-      href: '/dashboard/nadi',
-      id: 'nadi',
+      href: '/dashboard/jaimini',
+      id: 'jaimini',
       label: labels.nav.nadi,
       items: [
-        { href: '/dashboard/nadi', label: labels.nav.nadiPredicta },
-        { href: '/dashboard/nadi/chat', label: labels.nav.chat },
+        { href: '/dashboard/jaimini', label: labels.nav.nadiPredicta },
+        { href: '/dashboard/jaimini/chat', label: labels.nav.chat },
       ],
     },
     {
@@ -212,8 +212,8 @@ function getTopbarPredictaSchool(
     return 'KP';
   }
 
-  if (sectionId === 'nadi') {
-    return 'NADI';
+  if (sectionId === 'jaimini') {
+    return 'JAIMINI';
   }
 
   if (sectionId === 'numerology') {
@@ -240,8 +240,8 @@ function getTopbarPredictaSourceScreen(
     return 'KP Predicta';
   }
 
-  if (school === 'NADI') {
-    return 'Nadi Predicta';
+  if (school === 'JAIMINI') {
+    return 'Jaimini Predicta';
   }
 
   if (school === 'NUMEROLOGY') {
@@ -269,8 +269,8 @@ const TOPBAR_CONTEXT_COPY: Record<
     kp: {
       eyebrow: 'KP world',
     },
-    nadi: {
-      eyebrow: 'Nadi world',
+    jaimini: {
+      eyebrow: 'Jaimini world',
     },
     numerology: {
       eyebrow: 'Numerology world',
@@ -298,8 +298,8 @@ const TOPBAR_CONTEXT_COPY: Record<
     kp: {
       eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.52b093a650"),
     },
-    nadi: {
-      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.23accab6c6"),
+    jaimini: {
+      eyebrow: 'जैमिनी वर्ल्ड',
     },
     numerology: {
       eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.6266a5cb0b"),
@@ -327,8 +327,8 @@ const TOPBAR_CONTEXT_COPY: Record<
     kp: {
       eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.147aaffa0e"),
     },
-    nadi: {
-      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.d80bf7ecf0"),
+    jaimini: {
+      eyebrow: 'જૈમિની વર્લ્ડ',
     },
     numerology: {
       eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.57d87b38a6"),

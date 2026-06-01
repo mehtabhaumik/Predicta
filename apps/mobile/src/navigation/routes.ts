@@ -15,6 +15,7 @@ export const routes = {
   KpPredicta: 'KpPredicta',
   Legal: 'Legal',
   LifeTimeline: 'LifeTimeline',
+  JaiminiPredicta: 'JaiminiPredicta',
   NadiPredicta: 'NadiPredicta',
   NumerologyPredicta: 'NumerologyPredicta',
   PredictaWrapped: 'PredictaWrapped',
@@ -48,6 +49,7 @@ export type RootStackParamList = {
   [routes.KpPredicta]: undefined;
   [routes.Legal]: undefined;
   [routes.LifeTimeline]: undefined;
+  [routes.JaiminiPredicta]: undefined;
   [routes.NadiPredicta]: undefined;
   [routes.NumerologyPredicta]: undefined;
   [routes.PredictaWrapped]: undefined;

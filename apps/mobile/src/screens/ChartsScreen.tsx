@@ -360,7 +360,7 @@ export function ChartsScreen({
         onAskChalit={() => {
           setActiveChartContext({
             selectedSection:
-              'Explain my Parashari Chalit chart and house shifts. Do not mix it with KP or Nadi.',
+              'Explain my Parashari Chalit chart and house shifts. Do not mix it with KP or Jaimini.',
             sourceScreen: 'Charts',
           });
           navigation.navigate(routes.Chat);

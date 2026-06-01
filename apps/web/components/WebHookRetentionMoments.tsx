@@ -324,7 +324,7 @@ function formatSchool(school: PredictaSchool): string {
   }
 
   if (school === 'NADI') {
-    return 'Nadi';
+    return 'Jaimini';
   }
 
   if (school === 'NUMEROLOGY') {

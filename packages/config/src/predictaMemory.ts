@@ -24,8 +24,8 @@ export type BirthIntakeReply = {
 export const PREDICTA_LIFE_ATLAS_MEMORY_CONTRACT = {
   approvedReportName: 'Predicta Life Atlas',
   boundary:
-    'Predicta Life Atlas is the flagship synthesis report and the approved place for all-school synthesis. Vedic, KP, Nadi, Numerology, and Signature reports remain separate.',
-  coreEvidenceLayers: ['Vedic', 'KP', 'Nadi', 'Numerology'],
+    'Predicta Life Atlas is the flagship synthesis report and the approved place for all-school synthesis. Vedic, KP, Jaimini, Numerology, and Signature reports remain separate.',
+  coreEvidenceLayers: ['Vedic', 'KP', 'Jaimini', 'Numerology'],
   optionalEvidenceLayers: ['Signature'],
   missingSignatureNote:
     'Signature expression layer was not included because no signature sample was provided.',
@@ -53,9 +53,9 @@ export const PREDICTA_LIFE_ATLAS_MEMORY_CONTRACT = {
 
 export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
   productStructure: [
-    'Predicta is one product with five specialist rooms/worlds: Vedic Predicta, KP Predicta, Nadi Predicta, Numerology Predicta, and Signature Predicta.',
+    'Predicta is one product with five specialist rooms/worlds: Vedic Predicta, KP Predicta, Jaimini Predicta, Numerology Predicta, and Signature Predicta.',
     'Shared Kundli/profile context can travel between rooms, but answers must remain bounded to the active room.',
-    'The Reports page has separated Vedic, KP, Nadi, Numerology, Signature, and approved Synthesis report lanes.',
+    'The Reports page has separated Vedic, KP, Jaimini, Numerology, Signature, and approved Synthesis report lanes.',
     'Predicta Life Atlas is the approved Synthesis Reports lane and the only all-school synthesis path.',
   ],
   coreUserFlows: [
@@ -84,22 +84,22 @@ export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
     'Parashari/Vedic: D1, Moon/Chandra Lagna, D9, D10, Chalit, full Varga library, selected-chart prediction behavior, Swamsa, Karakamsha, dasha, Mahadasha Phala, gochar, Sade Sati, consolidated remedy plan, Panchang, Ashtakavarga, Prastarashtakavarga, Avakhada, dignity, combustion, retrogression, benefic/malefic logic, friendship tables, and house-wise planet evidence.',
     'Main Vedic report chart plates exclude micro/special points and outer planets from the visible graha set; Predicta can explain those points only in advanced technical contexts when evidence exists.',
     'KP: event-first judgement using cusps, star lords, sub lords, sub-sub lords where available, significators, ruling planets, dasha support, transit triggers, and confidence limits. KP must use Bhav Chalit/cusp-oriented evidence where a chart is needed and must not use D1 as the primary KP chart surface.',
-    'Nadi: story-link and validation-first interpretation using planetary links, karakas, Rahu/Ketu axis, recurring patterns, activation windows, and no unsupported palm-leaf claim.',
+    'Jaimini: classical Jyotish soul-role interpretation using Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, and Chara Dasha once deterministic Jaimini calculations are available.',
     'Numerology: name number, birth number, destiny/life-path number, personal year/month/day, name rhythm, missing/repeated number patterns, compatibility, and optional name refinement.',
     'Signature: confirmed visible signature traits only, privacy-first session handling, reflective self-expression guidance, and no forensic/diagnostic claims.',
   ],
   reportLanes: [
     'Vedic Reports use Parashari/Vedic evidence only.',
     'KP Reports use KP event proof only.',
-    'Nadi Reports use Nadi story-link and validation logic only.',
+    'Jaimini Reports use Jaimini soul-role, visible-identity, relationship-mirror, and Chara Dasha logic only.',
     'Numerology Reports use number logic only unless the user explicitly requests approved Vedic-plus-Numerology combination.',
     'Signature Reports use confirmed signature traits only unless the user explicitly requests approved Vedic-plus-Signature combination.',
-    'Synthesis Reports are clearly labeled; Predicta Life Atlas can combine available Vedic, KP, Nadi, Numerology, and optional Signature data.',
+    'Synthesis Reports are clearly labeled; Predicta Life Atlas can combine available Vedic, KP, Jaimini, Numerology, and optional Signature data.',
   ],
   roomBoundaries: [
     'Vedic Predicta answers from Parashari/Vedic context only.',
     'KP Predicta answers from Krishnamurti KP context only.',
-    'Nadi Predicta answers from Nadi context only.',
+    'Jaimini Predicta answers from Jaimini context only.',
     'Numerology Predicta can answer Numerology-only or Vedic-plus-Numerology when the user asks for combination.',
     'Signature Predicta can answer Signature-only or Vedic-plus-Signature when the user asks for combination.',
     'If the user asks for another method from the wrong room, Predicta should hand off or ask whether an approved combined reading is wanted.',
@@ -107,7 +107,7 @@ export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
   deeperContextAwareness: [
     'Predicta may know calculated report/charts/tables that are not visible on the immediate card; she should use supplied digest data before giving a generic answer.',
     'Predicta should remember the active subject, active Kundli, selected chart, selected report, generated report context, and family/member context when supplied.',
-    'Predicta can explain deeper available data such as Mahadasha, KP event carriers, Nadi validation status, Numerology cycle, confirmed Signature traits, Life Atlas synthesis, and downloaded report sections even when the screen only shows a compact preview.',
+    'Predicta can explain deeper available data such as Mahadasha, KP event carriers, Jaimini soul-role indicators, Numerology cycle, confirmed Signature traits, Life Atlas synthesis, and downloaded report sections even when the screen only shows a compact preview.',
   ],
   missingDataHonestyRules: [
     'Never pretend a pending calculation is complete.',
@@ -146,7 +146,7 @@ export const PREDICTA_REPORT_TO_CHAT_FOLLOW_UPS = [
 export const PREDICTA_REPORT_SECTION_MEMORY_CATALOG: PredictaReportSectionMemory[] = [
   {
     boundary:
-      'Vedic-only chart context. Do not answer Moon chart questions with KP cusp logic or Nadi story-link logic.',
+    'Vedic-only chart context. Do not answer Moon chart questions with KP cusp logic or Jaimini soul-role logic.',
     calculationState: 'available',
     freeDepth:
       'Explain Moon chart as the emotional and lived-experience lens in simple language.',
@@ -281,7 +281,7 @@ export const PREDICTA_REPORT_SECTION_MEMORY_CATALOG: PredictaReportSectionMemory
   },
   {
     boundary:
-      'Vedic Jaimini soul-direction context. Explain Swamsa from verified Navamsha/self-direction evidence and do not mix it with KP or Nadi.',
+      'Vedic Jaimini soul-direction context. Explain Swamsa from verified Navamsha/self-direction evidence and do not mix it with KP or unsupported story claims.',
     calculationState: 'available',
     freeDepth:
       'Explain Swamsa as the inner self-direction chart in one clear, practical paragraph.',

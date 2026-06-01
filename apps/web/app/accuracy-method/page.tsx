@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     canonical: '/accuracy-method',
   },
   description:
-    'Learn how Predicta calculates Kundlis, keeps Parashari, KP, and Nadi separate, and explains the boundaries of Vedic astrology guidance.',
+    'Learn how Predicta calculates Kundlis, keeps Parashari, KP, and Jaimini separate, and explains the boundaries of Vedic astrology guidance.',
   openGraph: {
     description:
       'Predicta explains its chart method, astrology schools, free and premium depth, and accuracy boundaries.',

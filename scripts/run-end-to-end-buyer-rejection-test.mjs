@@ -28,7 +28,7 @@ const dashboardRoutes = [
   '/dashboard/saved-kundlis',
   '/dashboard/chat',
   '/dashboard/kp',
-  '/dashboard/nadi',
+  '/dashboard/jaimini',
   '/dashboard/numerology',
   '/dashboard/signature',
   '/dashboard/redeem-pass',

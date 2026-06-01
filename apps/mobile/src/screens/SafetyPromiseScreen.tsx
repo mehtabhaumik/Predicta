@@ -21,12 +21,12 @@ const commitments = [
     title: 'Unsafe requests are blocked',
   },
   {
-    body: 'Regular Predicta, KP Predicta, and Nadi Predicta stay separate so each school speaks from its own tradition.',
+    body: 'Vedic Predicta, KP Predicta, and Jaimini Predicta stay separate so each school speaks from its own tradition.',
     title: 'Astrology schools stay separate',
   },
   {
-    body: 'Nadi Predicta never claims it found or accessed a real ancient palm-leaf record.',
-    title: 'No fake Nadi claims',
+    body: 'Jaimini Predicta stays grounded in calculated Jaimini indicators such as karakas, Arudha, Upapada, and Chara Dasha.',
+    title: 'Clear Jaimini boundaries',
   },
 ];
 
@@ -35,7 +35,7 @@ const checks = [
   'Medical, legal, financial, behavior, abuse, and emergency safeguards',
   'Fear-based and fatalistic predictions',
   'Hindi, Gujarati, English, and mixed-language questions',
-  'Regular, KP, and Nadi Predicta separation',
+  'Vedic, KP, and Jaimini Predicta separation',
   'Easy reporting when an answer feels concerning',
 ];
 

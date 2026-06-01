@@ -181,7 +181,7 @@ export function SavedKundlisScreen({
         ? 'D1'
         : school === 'KP'
           ? 'KP Bhav Chalit cusp'
-          : 'Nadi story';
+          : 'Jaimini destiny';
     const selectedSection =
       school === 'PARASHARI'
         ? `Use ${record.summary.name}'s saved Kundli and tell me the most useful next reading.`
@@ -193,7 +193,7 @@ export function SavedKundlisScreen({
         school === 'KP'
           ? 'KP Bhav Chalit Cusp Chart'
           : school === 'NADI'
-            ? 'Nadi Chart Anchor'
+            ? 'Jaimini Destiny Anchor'
             : 'D1',
       chartType: 'D1',
       handoffQuestion: selectedSection,
@@ -485,7 +485,7 @@ export function SavedKundlisScreen({
               chartDialog.school === 'KP'
                 ? routes.KpPredicta
                 : chartDialog.school === 'NADI'
-                  ? routes.NadiPredicta
+                  ? routes.JaiminiPredicta
                   : routes.Kundli,
             );
           }}
@@ -519,7 +519,7 @@ function MiniChartStrip({
           chartLanguage={chartLanguage}
           key={`${kundli.id}-${school}`}
           kundli={kundli}
-          label={school === 'PARASHARI' ? 'D1' : school === 'KP' ? 'KP' : 'Nadi'}
+          label={school === 'PARASHARI' ? 'D1' : school === 'KP' ? 'KP' : 'Jaimini'}
           onOpen={() => onOpenPreview(school)}
           school={school}
         />
@@ -626,7 +626,7 @@ function LibraryChartDialog({
       ? 'D1'
       : school === 'KP'
         ? 'KP Bhav Chalit Cusp'
-        : 'Nadi Story Anchor';
+        : 'Jaimini Destiny Anchor';
 
   return (
     <Modal
@@ -677,7 +677,7 @@ function LibraryChartDialog({
                     ? 'Open Full Kundli'
                     : school === 'KP'
                       ? 'Open KP Room'
-                      : 'Open Nadi Room'
+                      : 'Open Jaimini Room'
                 }
                 onPress={() => onOpenFull(record)}
               />

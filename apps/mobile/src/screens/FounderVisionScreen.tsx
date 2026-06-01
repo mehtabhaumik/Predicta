@@ -15,7 +15,7 @@ const principles = [
     title: 'Guidance without pressure',
   },
   {
-    body: 'Regular Predicta, KP Predicta, and Nadi Predicta should stay clear in method, purpose, and safety boundaries.',
+    body: 'Vedic Predicta, KP Predicta, and Jaimini Predicta should stay clear in method, purpose, and safety boundaries.',
     title: 'Clear astrology schools',
   },
   {

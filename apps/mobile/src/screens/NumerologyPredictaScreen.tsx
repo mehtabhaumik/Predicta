@@ -297,7 +297,7 @@ export function NumerologyPredictaScreen({
           </AppText>
           <AppText className="mt-2" tone="secondary">
             Numerology Predicta answers with number logic first. If the question
-            needs Vedic, KP, Nadi, or Signature analysis, Predicta should hand
+            needs Vedic, KP, Jaimini, or Signature analysis, Predicta should hand
             you to that room instead of mixing methods casually.
           </AppText>
           <View className="mt-5">

@@ -262,7 +262,7 @@ function buildBirthDetailConfidenceGateReply(
     'Birth time check first.',
     `I have ${kundli.birthDetails.name}'s Kundli, but the birth time ${timeText} needs confirmation before deep prediction. Even 10-15 minutes can change houses, divisional charts, and timing.`,
     `Reason: ${reason}.`,
-    'I can still give broad guidance, but I will not do exact timing, marriage/career/finance prediction, D9/D10/KP/Nadi depth, or report-grade analysis until the time is confirmed.',
+    'I can still give broad guidance, but I will not do exact timing, marriage/career/finance prediction, D9/D10/KP/Jaimini depth, or report-grade analysis until the time is confirmed.',
     'If the time is doubtful, I can ask simple life-event questions and estimate a probable corrected birth time.',
   ].join('\n\n');
 }
@@ -302,7 +302,7 @@ function buildPartialBirthDetailGateReply(
       getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.02240d2df7"),
       knownDetails ? `Abhi mere paas:\n${knownDetails}` : undefined,
       `Missing: ${missing.join(', ')}.`,
-      'Real Kundli, houses, dasha, timing, KP/Nadi aur reports ke liye birth time aur place zaroori hain.',
+      'Real Kundli, houses, dasha, timing, KP/Jaimini aur reports ke liye birth time aur place zaroori hain.',
       getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.359d1587f7"),
     ]
       .filter(Boolean)
@@ -325,7 +325,7 @@ function buildPartialBirthDetailGateReply(
     'I will not start deep prediction from half details.',
     knownDetails ? `So far I have:\n${knownDetails}` : undefined,
     `Missing: ${missing.join(', ')}.`,
-    'A real Kundli, houses, dasha, timing, KP/Nadi, and reports need birth time and birth place.',
+    'A real Kundli, houses, dasha, timing, KP/Jaimini, and reports need birth time and birth place.',
     'If the exact birth time is unknown, write “time unknown.” I can ask simple life questions and guide you through birth-time detective mode.',
   ]
     .filter(Boolean)
@@ -1512,7 +1512,7 @@ export function ChatScreen({
                 return;
               }
               if (suggestion.targetScreen === routes.NadiPredicta) {
-                navigation.navigate(routes.NadiPredicta);
+                navigation.navigate(routes.JaiminiPredicta);
                 return;
               }
               if (suggestion.targetScreen === routes.NumerologyPredicta) {
@@ -2136,7 +2136,7 @@ function buildMobileSchoolContextIntro(
     context?.predictaSchool === 'KP'
       ? 'The answer will now stay grounded in KP cusps, star lords, sub lords, significators, and ruling planets.'
       : context?.predictaSchool === 'NADI'
-        ? 'Nadi Predicta is ready. I will read through planetary story links and validation questions, without claiming ancient manuscript access.'
+        ? 'Jaimini Predicta is ready. I will read through soul role, visible identity, and destiny chapters when calculated evidence is available.'
         : context?.predictaSchool === 'NUMEROLOGY'
           ? 'The answer will now stay grounded in name number, birth number, destiny number, personal timing, and name rhythm.'
           : context?.predictaSchool === 'SIGNATURE'
@@ -2156,7 +2156,7 @@ function getMobilePredictaSchoolLabel(
   }
 
   if (school === 'NADI') {
-    return 'Nadi Predicta';
+    return 'Jaimini Predicta';
   }
 
   if (school === 'NUMEROLOGY') {

@@ -73,7 +73,7 @@ const REDEEM_PASS_PAGE_COPY: Record<
         title: 'Redeem the pass.',
       },
       {
-        body: 'Create your chart, then try chat, Gochar, reports, KP, or Nadi.',
+        body: 'Create your chart, then try chat, Gochar, reports, KP, or Jaimini.',
         title: 'Start with Kundli.',
       },
     ],
