@@ -17,7 +17,8 @@ import {
   composeLifeAtlasReport,
   composeMahadashaIntelligence,
   buildKundliMoonNakshatraPadaInsight,
-  composeNadiJyotishPlan,
+  composeJaiminiInterpretation,
+  composeJaiminiPlan,
   composePersonalPanchangLayer,
   composePredictaWrapped,
   composePurusharthaLifeBalance,
@@ -254,10 +255,12 @@ export function buildAIContext(
         depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
       }),
     ),
-    nadiJyotishPlan: compactNadiJyotishPlan(
-      composeNadiJyotishPlan(kundliData, {
-        depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
-        handoffQuestion: chartContext?.handoffQuestion,
+    jaiminiPlan: compactJaiminiPlan(
+      composeJaiminiPlan(kundliData),
+    ),
+    jaiminiInterpretation: compactJaiminiInterpretation(
+      composeJaiminiInterpretation(kundliData, {
+        premium: hasPremiumAccess,
       }),
     ),
     chalitBhavKpFoundation: compactChalitBhavKpFoundation(
@@ -438,30 +441,46 @@ function compactAdvancedJyotishCoverage(
   };
 }
 
-function compactNadiJyotishPlan(
-  plan: ReturnType<typeof composeNadiJyotishPlan>,
-): NonNullable<AIContextPayload['nadiJyotishPlan']> {
+function compactJaiminiPlan(
+  plan: ReturnType<typeof composeJaiminiPlan>,
+): NonNullable<AIContextPayload['jaiminiPlan']> {
   return {
-    activations: plan.activations.slice(0, 4),
-    depth: plan.depth,
-    freePreview: plan.freePreview,
-    guardrails: plan.guardrails,
-    handoffQuestion: plan.handoffQuestion,
-    limitations: plan.limitations,
-    methodSummary: plan.methodSummary,
-    digest: plan.digest,
-    patterns: plan.patterns.slice(0, 6),
-    premiumOnly: plan.premiumOnly,
-    premiumSynthesis: plan.premiumSynthesis,
-    premiumUnlock: plan.premiumUnlock,
-    rahuKetuAxis: plan.rahuKetuAxis,
-    schoolBoundary: plan.schoolBoundary,
-    status: plan.status,
-    storyLens: plan.storyLens,
-    subtitle: plan.subtitle,
-    title: plan.title,
-    validationStatus: plan.validationStatus,
-    validationQuestions: plan.validationQuestions.slice(0, 4),
+    arudhaLagna: plan.arudhaLagna,
+    atmakaraka: plan.atmakaraka,
+    amatyakaraka: plan.amatyakaraka,
+    calculationStatus: plan.calculationStatus,
+    charaDashaTimeline: plan.charaDashaTimeline.slice(0, 6),
+    charaKarakas: plan.charaKarakas.slice(0, 7),
+    contractVersion: plan.contractVersion,
+    currentCharaDasha: plan.currentCharaDasha,
+    darakaraka: plan.darakaraka,
+    evidenceWarnings: plan.evidenceWarnings.slice(0, 6),
+    freeInsight: plan.freeInsight,
+    jaiminiAspects: plan.jaiminiAspects.slice(0, 12),
+    karakamsha: {
+      ...plan.karakamsha,
+      chart: undefined,
+    },
+    premiumInsight: plan.premiumInsight,
+    swamsa: {
+      ...plan.swamsa,
+      chart: undefined,
+    },
+    upapadaLagna: plan.upapadaLagna,
+  };
+}
+
+function compactJaiminiInterpretation(
+  interpretation: ReturnType<typeof composeJaiminiInterpretation>,
+): NonNullable<AIContextPayload['jaiminiInterpretation']> {
+  return {
+    calculationStatus: interpretation.calculationStatus,
+    freeBlocks: interpretation.freeBlocks.slice(0, 6),
+    guardrails: interpretation.guardrails,
+    premiumBlocks: interpretation.premiumBlocks.slice(0, 6),
+    premiumSummary: interpretation.premiumSummary,
+    summary: interpretation.summary,
+    technicalEvidence: interpretation.technicalEvidence.slice(0, 8),
   };
 }
 

@@ -1063,9 +1063,10 @@ def test_ask_pridicta_uses_backend_ai_boundary(monkeypatch):
         assert "Free users receive useful yearly horoscope insight" in kwargs["user_prompt"]
         assert "advancedJyotishCoverage" in kwargs["user_prompt"]
         assert "Free users receive useful broad coverage" in kwargs["user_prompt"]
-        assert "nadiJyotishPlan" in kwargs["user_prompt"]
-        assert "Nadi Predicta uses planet-to-planet story links" in kwargs["user_prompt"]
-        assert "No fake palm-leaf claim" in kwargs["user_prompt"]
+        assert "jaiminiPlan" in kwargs["user_prompt"]
+        assert "jaiminiInterpretation" in kwargs["user_prompt"]
+        assert "Jaimini covers Atmakaraka" in kwargs["user_prompt"]
+        assert "Never claim Nadi leaf access" in kwargs["user_prompt"]
         assert "chalitBhavKpFoundation" in kwargs["user_prompt"]
         assert "KP belongs to KP Predicta" in kwargs["user_prompt"]
         assert "formattingContract" in kwargs["user_prompt"]
@@ -1243,7 +1244,7 @@ def test_ask_pridicta_includes_room_contract_for_each_specialist(monkeypatch):
     expected = {
         "PARASHARI": ("Vedic Predicta", "D1/Rashi"),
         "KP": ("KP Predicta", "cusp sub lord"),
-        "NADI": ("Nadi Predicta", "No palm-leaf access claims."),
+        "JAIMINI": ("Jaimini Predicta", "Chara Dasha"),
         "NUMEROLOGY": ("Numerology Predicta", "personal year"),
         "SIGNATURE": ("Signature Predicta", "No identity verification."),
     }

@@ -375,6 +375,7 @@ PREMIUM_CONTEXT_CHARTS = {"D1", "D2", "D3", "D4", "D7", "D9", "D10", "D12"}
 PREDICTA_APP_MEMORY_DIGEST = {
     "productStructure": [
         "Predicta is one product with five specialist rooms: Vedic Predicta, KP Predicta, Jaimini Predicta, Numerology Predicta, and Signature Predicta.",
+        "Nadi was replaced by Jaimini; Nadi language may appear only as archived migration history, never as an active user-facing specialist room or live prediction lane.",
         "Shared Kundli/profile context can travel between rooms, but the active room decides the method.",
         "Reports are separated by school lanes; Predicta Life Atlas is the approved synthesis lane.",
     ],
@@ -401,6 +402,7 @@ PREDICTA_APP_MEMORY_DIGEST = {
         "Vedic covers D1, Moon, D9, D10, Chalit, full Varga library, Swamsa, Karakamsha, Mahadasha Phala, Panchang, Avakhada, Ghatak, favorable points, friendship, Ashtakavarga, Prastarashtakavarga, house evidence, and remedies.",
         "KP covers event questions with cusps, star lords, sub lords, sub-sub lords, significators, ruling planets, dasha support, timing readiness, confidence, and proof drawer.",
         "Jaimini covers Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, Chara Dasha, soul role, visible identity, and destiny chapters.",
+        "Never claim Nadi leaf access, palm-leaf manuscript access, or hidden manuscript authority. Jaimini must stay grounded in calculated Jaimini indicators.",
         "Numerology covers number signature, name rhythm, birth code, personal cycles, missing/repeated patterns, compatibility, name refinement, and no fear guarantees.",
         "Signature covers confirmed visible traits only, privacy/no-storage, confidence, reflective expression guidance, and no forensic or diagnostic claims.",
         "Life Atlas is the approved all-school synthesis using Vedic, KP, Jaimini, Numerology, and optional confirmed Signature evidence.",
@@ -603,25 +605,27 @@ PREDICTA_ROOM_CONTRACTS: Dict[str, Dict[str, Any]] = {
         ],
     },
     "NADI": {
-        "roomName": "Nadi Predicta",
-        "identity": "Nadi-style planet-story room using calculated chart patterns, not manuscript claims.",
+        "roomName": "Jaimini Predicta",
+        "identity": "Legacy Nadi route alias. Treat this as Jaimini Predicta and never present Nadi as an active specialist room.",
         "allowedData": [
-            "planet-to-planet story links",
-            "karaka themes",
-            "Rahu-Ketu axis",
-            "trinal/opposition/sequence links",
-            "validation questions",
-            "timing activation support",
-            "remedies and reflection practices",
+            "Atmakaraka",
+            "Amatyakaraka",
+            "Darakaraka",
+            "Karakamsha",
+            "Swamsa",
+            "Arudha",
+            "Upapada",
+            "Jaimini aspects",
+            "Chara Dasha",
         ],
         "proofStyle": [
-            "Explain the planet story pattern in plain language.",
-            "Ask validation questions before strong event statements.",
-            "Use timing activation as support, not certainty.",
-            "Keep the Nadi boundary explicit when the user asks for method.",
+            "Start with soul role, visible identity, career dharma, relationship mirror, or destiny chapter in plain language.",
+            "Use calculated Jaimini evidence only when available.",
+            "Keep dense karaka and Chara Dasha detail after the answer.",
+            "Explain that old Nadi routes now lead to Jaimini if the user asks.",
         ],
         "safetyBehavior": [
-            "No palm-leaf access claims.",
+            "No Nadi leaf or palm-leaf manuscript claims.",
             "No ancient manuscript certainty.",
             "No destiny-lock language.",
         ],
@@ -630,13 +634,13 @@ PREDICTA_ROOM_CONTRACTS: Dict[str, Dict[str, Any]] = {
             "Parashari yoga reading as the main method",
             "Numerology or Signature proof",
         ],
-        "handoffInstruction": "If the user asks for event timing by KP or full Vedic synthesis, offer KP or Vedic Predicta with context.",
+        "handoffInstruction": "If the user asks for event timing by KP or full Vedic synthesis, offer KP or Vedic Predicta with context. If they ask for Nadi, explain that Predicta now uses Jaimini instead.",
         "responseShape": [
-            "Story pattern",
-            "Nadi evidence",
-            "Validation questions",
-            "Timing activation",
-            "Reflective remedy",
+            "Soul role or destiny direction",
+            "Visible identity or relationship mirror",
+            "Jaimini evidence when available",
+            "Current focus",
+            "Practical next step",
         ],
     },
     "NUMEROLOGY": {
@@ -3844,20 +3848,20 @@ def build_pridicta_system_prompt() -> str:
             "Use holisticDailyGuidance when the user asks for daily guidance, today, morning practice, daily sadhana, or what to do today. Give morning practice, midday check, evening review, evidence, and safe boundaries.",
             "Report synthesis rule: when the user asks for a report or PDF, include the holistic spine first: daily rhythm, Purushartha balance, Panchang, sadhana remedy path, timing, and safety boundaries before area-specific sections.",
             "Treat Parashari Chalit as a house-delivery refinement layer only: it keeps the planet's D1 rashi sign but can shift the bhava receiving the result. Do not confuse it with KP cusp/sub-lord judgement.",
-            "There are five Predicta specialist rooms: Vedic Predicta, KP Predicta, Nadi Predicta, Numerology Predicta, and Signature Predicta. They may share user profile and handoff context, but each must stay in its own methodology.",
+            "There are five Predicta specialist rooms: Vedic Predicta, KP Predicta, Jaimini Predicta, Numerology Predicta, and Signature Predicta. They may share user profile and handoff context, but each must stay in its own methodology.",
             "The active predictaRoomContract in Kundli context is authoritative. Follow its identity, allowedData, proofStyle, safetyBehavior, forbiddenMethods, handoffInstruction, and responseShape before any generic guidance.",
             "Vedic Predicta is traditional holistic Vedic Jyotish. It is the wisdom-rich Vedic room and should naturally connect karma, dharma, Purushartha balance, timing, remedy direction, and practical life guidance without sounding abstract.",
             "KP Predicta is Krishnamurti Paddhati: a specialized rule-based system for event timing using KP ayanamsa, Placidus cusps, Nakshatra/star lords, sub lords, sub-sub lords, significators, ruling planets, dasha support, and horary/prashna rules. KP does not use the same interpretive chart logic as regular Parashari.",
-            "Nadi Predicta is a separate premium school. In this product it is a Nadi-inspired chart-signature reading layer: planet-to-planet stories, karaka themes, trinal/opposition/sequence links, Rahu-Ketu karmic axis, validation questions, and timing activation. It is not Parashari and not KP.",
-            "Numerology Predicta is a separate number-reading room. It uses name number, birth number, destiny number, personal year/month/day, name spelling rhythm, and compatibility numbers. It is not Parashari, KP, or Nadi unless the user explicitly asks for a cross-method synthesis.",
+            "Jaimini Predicta is a separate classical Jyotish room for Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, Chara Dasha, soul role, visible identity, relationship mirror, career dharma, and destiny chapters.",
+            "Numerology Predicta is a separate number-reading room. It uses name number, birth number, destiny number, personal year/month/day, name spelling rhythm, and compatibility numbers. It is not Parashari, KP, or Jaimini unless the user explicitly asks for a cross-method synthesis.",
             "Signature Predicta is a separate signature-analysis room. It uses confirmed visual signature traits, self-expression patterns, improvement suggestions, and optional explicit synthesis. It is not identity verification, handwriting forensics, legal proof, medical diagnosis, hiring advice, or a guaranteed prediction.",
-            "Nadi Predicta must never claim palm-leaf manuscript access, ancient leaf certainty, or lineage-specific records. It can explain that Premium Nadi uses respectful Nadi-style pattern reading from the verified birth chart.",
+            "Nadi was replaced by Jaimini. Never claim Nadi leaf access, palm-leaf manuscript access, ancient leaf certainty, or lineage-specific records.",
             "If activeContext.predictaSchool is KP, answer as KP Predicta and use the original handoff question plus active birth profile. Do not casually mix Parashari D1/Varga/Yoga logic unless clearly explaining a boundary.",
-            "If activeContext.predictaSchool is NADI, answer as Nadi Predicta using nadiJyotishPlan. Ask validation questions before strong event statements. Do not use Parashari yoga/dasha or KP sub-lord rules as the method, and do not fake palm-leaf access.",
+            "If activeContext.predictaSchool is JAIMINI or legacy NADI, answer as Jaimini Predicta using jaiminiPlan and jaiminiInterpretation. Give prediction and guidance first, then technical evidence. Do not use Parashari yoga/dasha or KP sub-lord rules as the method, and do not fake palm-leaf access.",
             "If activeContext.predictaSchool is NUMEROLOGY, answer as Numerology Predicta using numerologyFoundation and its questionContext first. For name correction, compare the supplied spelling against the current name number. For compatibility, use the supplied partner name/DOB or ask for missing partner data. Keep free answers useful and concise; Premium depth adds multiple spelling comparisons, yearly/monthly timing, compatibility numbers, and report-ready synthesis.",
-            "If activeContext.predictaSchool is SIGNATURE, answer as Signature Predicta using signatureAnalysis first. If confirmed traits are present, include traits observed, writing rhythm, confidence expression, consistency, practical improvement plan, and safety boundary. Do not use Parashari, KP, Nadi, or Numerology as the method unless the user explicitly asks for synthesis.",
-            "If activeContext.predictaSchool is PARASHARI or absent and the user asks about KP/Nadi/Numerology/Signature, politely hand off to the proper specialist room instead of answering from the wrong school.",
-            "If the user is inside KP/Nadi/Numerology/Signature and asks a Vedic/Parashari chart question, give a short boundary and offer Vedic Predicta with the same Kundli context instead of pretending the active room can do everything.",
+            "If activeContext.predictaSchool is SIGNATURE, answer as Signature Predicta using signatureAnalysis first. If confirmed traits are present, include traits observed, writing rhythm, confidence expression, consistency, practical improvement plan, and safety boundary. Do not use Parashari, KP, Jaimini, or Numerology as the method unless the user explicitly asks for synthesis.",
+            "If activeContext.predictaSchool is PARASHARI or absent and the user asks about KP/Jaimini/Numerology/Signature, politely hand off to the proper specialist room instead of answering from the wrong school.",
+            "If the user is inside KP/Jaimini/Numerology/Signature and asks a Vedic/Parashari chart question, give a short boundary and offer Vedic Predicta with the same Kundli context instead of pretending the active room can do everything.",
             "The disciplineHandoff context is authoritative for cross-room requests. If disciplineHandoff.requiresHandoff is true, do not answer using the active room method. Preserve the original question, name the target room, and hand off cleanly.",
             "Respect chartAccess strictly: every chart can be shown in free, but free chart readings are useful insight only. Premium readings add detailed D1 anchoring, dasha timing, confidence, remedies, and report-ready synthesis.",
             "Prioritize the user's active chart, house, planet, or report section before broadening.",
@@ -5586,6 +5590,165 @@ def build_chalit_bhav_kp_context(
     }
 
 
+def build_jaimini_plan_context(kundli: KundliData) -> Dict[str, Any]:
+    roles = [
+        "Atmakaraka",
+        "Amatyakaraka",
+        "Bhratrikaraka",
+        "Matrikaraka",
+        "Putrakaraka",
+        "Gnatikaraka",
+        "Darakaraka",
+    ]
+    classical_planets = {"Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"}
+    candidates = sorted(
+        [planet for planet in kundli.planets if planet.name in classical_planets],
+        key=lambda planet: getattr(planet, "degree", 0),
+        reverse=True,
+    )
+    karakas = [
+        {
+            "role": roles[index],
+            "planet": planet.name,
+            "sign": planet.sign,
+            "house": planet.house,
+            "degree": round(planet.degree, 2),
+            "nakshatra": planet.nakshatra,
+            "pada": planet.pada,
+        }
+        for index, planet in enumerate(candidates[: len(roles)])
+    ]
+    atmakaraka = next((item for item in karakas if item["role"] == "Atmakaraka"), None)
+    amatyakaraka = next((item for item in karakas if item["role"] == "Amatyakaraka"), None)
+    darakaraka = next((item for item in karakas if item["role"] == "Darakaraka"), None)
+    current_chapter = {
+        "sign": kundli.lagna,
+        "theme": f"{kundli.lagna} asks for cleaner self-direction, visible maturity, and steadier choices.",
+        "calculationRule": "Backend Phase 6 compact context uses the Lagna sign as a safe current Jaimini chapter anchor until full Chara Dasha periods are supplied by the shared engine.",
+    }
+
+    return {
+        "calculationStatus": "ready" if len(karakas) >= 7 else "partial",
+        "atmakaraka": atmakaraka,
+        "amatyakaraka": amatyakaraka,
+        "darakaraka": darakaraka,
+        "charaKarakas": karakas,
+        "karakamsha": {
+            "calculationStatus": "partial",
+            "source": "Atmakaraka/Navamsa evidence",
+            "evidence": [
+                f"Atmakaraka: {atmakaraka['planet']} in {atmakaraka['sign']}." if atmakaraka else "Atmakaraka pending.",
+            ],
+        },
+        "swamsa": {
+            "calculationStatus": "partial",
+            "source": "Lagna/Navamsa evidence",
+            "evidence": ["Swamsa detail is supplied by the shared Jaimini engine when available."],
+        },
+        "arudhaLagna": {
+            "calculationStatus": "partial",
+            "padaSign": kundli.lagna,
+            "rule": "Compact backend memory preserves Arudha as a visible-identity placeholder until the shared Arudha calculation is supplied.",
+        },
+        "upapadaLagna": {
+            "calculationStatus": "partial",
+            "rule": "Compact backend memory preserves Upapada as relationship-mirror context until the shared Upapada calculation is supplied.",
+        },
+        "jaiminiAspects": [],
+        "currentCharaDasha": current_chapter,
+        "freeInsight": (
+            f"Jaimini points toward {atmakaraka['planet']} as the soul-role signal and {kundli.lagna} as the visible chapter anchor."
+            if atmakaraka
+            else "Jaimini soul-role evidence is pending."
+        ),
+        "premiumInsight": "Premium Jaimini connects karakas, Arudha, Upapada, Karakamsha, Swamsa, Jaimini aspects, and Chara Dasha into a deeper destiny reading.",
+        "evidenceWarnings": [
+            "Backend context is compact; full report-grade Jaimini proof comes from the shared deterministic Jaimini engine.",
+        ],
+    }
+
+
+def build_jaimini_interpretation_context(kundli: KundliData) -> Dict[str, Any]:
+    plan = build_jaimini_plan_context(kundli)
+    atmakaraka = plan.get("atmakaraka")
+    amatyakaraka = plan.get("amatyakaraka")
+    darakaraka = plan.get("darakaraka")
+    summary = (
+        f"Jaimini reads {atmakaraka['planet']} as the soul-role signal: life keeps asking for maturity through {atmakaraka['sign']} qualities."
+        if atmakaraka
+        else "Jaimini reading is waiting for Atmakaraka evidence."
+    )
+    blocks = [
+        {
+            "title": "Soul Role",
+            "headline": summary,
+            "prediction": summary,
+            "guidance": "Choose the steadier expression of the soul-role signal before chasing louder outcomes.",
+            "technicalEvidence": [
+                f"Atmakaraka: {atmakaraka['planet']} in {atmakaraka['sign']} house {atmakaraka['house']}."
+                if atmakaraka
+                else "Atmakaraka pending.",
+            ],
+        },
+        {
+            "title": "Career Dharma",
+            "headline": (
+                f"{amatyakaraka['planet']} shows the work channel."
+                if amatyakaraka
+                else "Career dharma evidence is pending."
+            ),
+            "prediction": (
+                f"Work improves when {amatyakaraka['planet']} qualities become useful, visible, and consistent."
+                if amatyakaraka
+                else "Career guidance stays broad until Amatyakaraka is ready."
+            ),
+            "guidance": "Make one visible work lane stronger instead of scattering proof everywhere.",
+            "technicalEvidence": [
+                f"Amatyakaraka: {amatyakaraka['planet']} in {amatyakaraka['sign']} house {amatyakaraka['house']}."
+                if amatyakaraka
+                else "Amatyakaraka pending.",
+            ],
+        },
+        {
+            "title": "Relationship Mirror",
+            "headline": (
+                f"{darakaraka['planet']} shows the relationship mirror."
+                if darakaraka
+                else "Relationship mirror evidence is pending."
+            ),
+            "prediction": (
+                f"Close relationships repeatedly ask you to mature the {darakaraka['planet']} lesson with cleaner boundaries and honesty."
+                if darakaraka
+                else "Relationship guidance stays broad until Darakaraka is ready."
+            ),
+            "guidance": "Respond slower, name expectations earlier, and do not turn intimacy into a test.",
+            "technicalEvidence": [
+                f"Darakaraka: {darakaraka['planet']} in {darakaraka['sign']} house {darakaraka['house']}."
+                if darakaraka
+                else "Darakaraka pending.",
+            ],
+        },
+    ]
+
+    return {
+        "calculationStatus": plan["calculationStatus"],
+        "summary": summary,
+        "freeBlocks": blocks,
+        "premiumBlocks": blocks,
+        "premiumSummary": "Premium Jaimini deepens soul role, work role, visible identity, relationship mirror, and destiny timing.",
+        "technicalEvidence": [
+            evidence
+            for block in blocks
+            for evidence in block["technicalEvidence"]
+        ],
+        "guardrails": [
+            "Give prediction and guidance first.",
+            "Keep technical evidence after the answer.",
+            "Never claim Nadi leaf or palm-leaf manuscript access.",
+        ],
+    }
+
+
 def build_nadi_jyotish_plan_context(
     kundli: KundliData,
     user_plan: str,
@@ -6027,11 +6190,8 @@ def build_ai_context(
             kundli,
             user_plan,
         ),
-        "nadiJyotishPlan": build_nadi_jyotish_plan_context(
-            kundli,
-            user_plan,
-            chart_context,
-        ),
+        "jaiminiPlan": build_jaimini_plan_context(kundli),
+        "jaiminiInterpretation": build_jaimini_interpretation_context(kundli),
         "numerologyFoundation": build_numerology_foundation_context(
             kundli,
             message,

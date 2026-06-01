@@ -1,0 +1,36 @@
+{
+  "generatedAt": "2026-06-01T15:27:33.643Z",
+  "phase": "PREDICTA_JAIMINI_PHASE_6_CHAT_AND_PREDICTA_MEMORY_INTEGRATION",
+  "samples": [
+    {
+      "room": "Vedic",
+      "userQuestion": "Explain my D9 marriage pattern.",
+      "expectedBehavior": "Answer from Parashari/Vedic evidence, mention D9 and dasha context, and avoid KP/Jaimini logic unless offering handoff."
+    },
+    {
+      "room": "KP",
+      "userQuestion": "Will my job switch happen this year?",
+      "expectedBehavior": "Ask or use event question, answer through KP cusps, star lords, sub lords, significators, ruling planets, timing readiness, and confidence."
+    },
+    {
+      "room": "Jaimini",
+      "userQuestion": "What is my destiny role?",
+      "expectedBehavior": "Answer through Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, and Chara Dasha when calculated evidence is available."
+    },
+    {
+      "room": "Numerology",
+      "userQuestion": "What does my name number say?",
+      "expectedBehavior": "Answer from name number, birth number, destiny number, current cycle, and name rhythm without smuggling Vedic/KP/Jaimini unless explicitly asked."
+    },
+    {
+      "room": "Signature",
+      "userQuestion": "What does my signature show?",
+      "expectedBehavior": "Use confirmed visible traits only, avoid forensic certainty, and say not assessed for missing evidence."
+    },
+    {
+      "room": "Life Atlas",
+      "userQuestion": "What is my life purpose?",
+      "expectedBehavior": "Use labeled synthesis evidence from Vedic, KP, Jaimini, Numerology, and optional Signature without turning any school-specific report into a mixed bag."
+    }
+  ]
+}

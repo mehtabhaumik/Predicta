@@ -2398,7 +2398,7 @@ export type LifeAtlasDepth = 'FREE' | 'PREMIUM';
 export type LifeAtlasEvidenceLayerId =
   | 'vedic'
   | 'kp'
-  | 'nadi'
+  | 'jaimini'
   | 'numerology'
   | 'signature';
 
@@ -3058,28 +3058,34 @@ export type AIContextPayload = {
     | 'limitations'
     | 'premiumUnlock'
   >;
-  nadiJyotishPlan?: Pick<
-    NadiJyotishPremiumPlan,
-    | 'status'
-    | 'title'
-    | 'subtitle'
-    | 'depth'
-    | 'premiumOnly'
-    | 'schoolBoundary'
-    | 'methodSummary'
-    | 'handoffQuestion'
-    | 'freePreview'
-    | 'premiumSynthesis'
-    | 'storyLens'
-    | 'rahuKetuAxis'
-    | 'validationStatus'
-    | 'digest'
-    | 'patterns'
-    | 'activations'
-    | 'validationQuestions'
+  jaiminiPlan?: Pick<
+    JaiminiPlan,
+    | 'arudhaLagna'
+    | 'atmakaraka'
+    | 'amatyakaraka'
+    | 'calculationStatus'
+    | 'charaDashaTimeline'
+    | 'charaKarakas'
+    | 'contractVersion'
+    | 'currentCharaDasha'
+    | 'darakaraka'
+    | 'evidenceWarnings'
+    | 'freeInsight'
+    | 'jaiminiAspects'
+    | 'karakamsha'
+    | 'premiumInsight'
+    | 'swamsa'
+    | 'upapadaLagna'
+  >;
+  jaiminiInterpretation?: Pick<
+    JaiminiInterpretation,
+    | 'calculationStatus'
+    | 'freeBlocks'
     | 'guardrails'
-    | 'limitations'
-    | 'premiumUnlock'
+    | 'premiumBlocks'
+    | 'premiumSummary'
+    | 'summary'
+    | 'technicalEvidence'
   >;
   numerologyFoundation?: Pick<
     NumerologyFoundationProfile,

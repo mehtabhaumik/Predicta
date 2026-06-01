@@ -194,7 +194,10 @@ def compact_predicta_context(
         "advancedJyotishCoverage": summarize_large_layer(
             context.get("advancedJyotishCoverage")
         ),
-        "nadiJyotishPlan": summarize_large_layer(context.get("nadiJyotishPlan")),
+        "jaiminiPlan": compact_jaimini_plan(context.get("jaiminiPlan")),
+        "jaiminiInterpretation": compact_jaimini_interpretation(
+            context.get("jaiminiInterpretation")
+        ),
         "numerologyFoundation": context.get("numerologyFoundation"),
         "signatureAnalysis": context.get("signatureAnalysis"),
         "chalitBhavKpFoundation": summarize_large_layer(
@@ -227,7 +230,7 @@ def compact_predicta_context(
     }
     compact["coveragePolicyAliases"] = {
         "advancedJyotishCoverage": "Free users receive useful broad coverage",
-        "nadiJyotishPlan": "No fake palm-leaf claim",
+        "jaiminiPlan": "Never claim Nadi leaf access",
     }
     if user_plan == "PREMIUM":
         compact["ashtakavarga"] = context.get("ashtakavarga")
@@ -284,6 +287,32 @@ def compact_jyotish_analysis(jyotish: Any) -> Any:
         "evidence": (jyotish.get("evidence") or [])[:6],
         "areaAnalyses": (jyotish.get("areaAnalyses") or [])[:3],
         "formattingContract": jyotish.get("formattingContract"),
+    }
+
+
+def compact_jaimini_plan(plan: Any) -> Any:
+    if not isinstance(plan, dict):
+        return plan
+    return {
+        "calculationStatus": plan.get("calculationStatus"),
+        "atmakaraka": plan.get("atmakaraka"),
+        "amatyakaraka": plan.get("amatyakaraka"),
+        "darakaraka": plan.get("darakaraka"),
+        "currentCharaDasha": plan.get("currentCharaDasha"),
+        "freeInsight": plan.get("freeInsight"),
+        "evidenceWarnings": (plan.get("evidenceWarnings") or [])[:2],
+    }
+
+
+def compact_jaimini_interpretation(interpretation: Any) -> Any:
+    if not isinstance(interpretation, dict):
+        return interpretation
+    return {
+        "calculationStatus": interpretation.get("calculationStatus"),
+        "summary": interpretation.get("summary"),
+        "premiumSummary": interpretation.get("premiumSummary"),
+        "technicalEvidence": (interpretation.get("technicalEvidence") or [])[:3],
+        "guardrails": (interpretation.get("guardrails") or [])[:3],
     }
 
 

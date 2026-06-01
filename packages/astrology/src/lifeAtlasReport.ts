@@ -7,7 +7,7 @@ import type {
   SignatureAnalysisModel,
 } from '@pridicta/types';
 import { composeChalitBhavKpFoundation } from './chalitBhavKpFoundation';
-import { composeNadiJyotishPlan } from './nadiJyotishPlan';
+import { composeJaiminiInterpretation } from './jaiminiInterpretation';
 import { composeNumerologyFoundationModel } from './numerologyFoundationModel';
 import { composePurusharthaLifeBalance } from './purusharthaLifeBalance';
 
@@ -35,7 +35,9 @@ export function composeLifeAtlasReport(
   const numerology =
     kundli.numerology ?? composeNumerologyFoundationModel(kundli.birthDetails);
   const kp = composeChalitBhavKpFoundation(kundli, { depth }).kp;
-  const nadi = composeNadiJyotishPlan(kundli, { depth });
+  const jaimini = composeJaiminiInterpretation(kundli, {
+    premium: depth === 'PREMIUM',
+  });
   const purushartha = composePurusharthaLifeBalance(kundli);
   const firstName = kundli.birthDetails.name.split(/\s+/)[0] || kundli.birthDetails.name;
   const signatureReady = options.signatureAnalysis?.status === 'ready';
@@ -59,8 +61,8 @@ export function composeLifeAtlasReport(
       ? numerology.identityDashboard.lifeThemeSentence
       : 'Your available Predicta data points toward a life that matures through self-understanding, timing, responsibility, and conscious choice.';
   const evidenceLayers = buildEvidenceLayers({
+    jaiminiSummary: jaimini.summary,
     kpSummary: kp.digest.latestReportSummary,
-    nadiSummary: nadi.digest.latestReportSummary,
     numerologyReady: numerology.status === 'ready',
     numberTone,
     signatureReady,
@@ -70,11 +72,11 @@ export function composeLifeAtlasReport(
     depth,
     firstName,
     hiddenThread,
+    jaiminiPractice:
+      'Use the Jaimini soul-role signal as a practical compass: choose one calmer decision that makes your duty, visibility, and relationships cleaner.',
+    jaiminiSummary: jaimini.summary,
     kpSummary: kp.digest.latestReportSummary,
     lifeThemeSentence,
-    nadiSummary: nadi.digest.latestReportSummary,
-    nadiPractice:
-      'Validate the repeating pattern in real life before drawing conclusions, then choose one calmer response when it appears again.',
     numberCycle:
       numerology.status === 'ready'
         ? numerology.identityDashboard.bestUseOfCurrentCycle
@@ -111,7 +113,7 @@ export function composeLifeAtlasReport(
         .filter(layer => layer.status !== 'ready')
         .map(layer => layer.label),
       reportBoundary:
-        'Predicta Life Atlas is the approved all-school synthesis report. Vedic, KP, Nadi, Numerology, and Signature reports remain separate.',
+        'Predicta Life Atlas is the approved all-school synthesis report. Vedic, KP, Jaimini, Numerology, and Signature reports remain separate.',
       userCanAsk: [
         'What is my Life Atlas report?',
         'How is this different from my Vedic report?',
@@ -157,9 +159,9 @@ function buildPendingLifeAtlas(depth: LifeAtlasDepth): LifeAtlasReport {
         summary: 'Kundli preparation is required.',
       },
       {
-        id: 'nadi',
-        label: 'Nadi',
-        role: 'Story links and repeated karmic themes',
+        id: 'jaimini',
+        label: 'Jaimini',
+        role: 'Soul-role, visible identity, relationship mirror, and destiny chapter signals',
         status: 'missing',
         summary: 'Kundli preparation is required.',
       },
@@ -189,7 +191,7 @@ function buildPendingLifeAtlas(depth: LifeAtlasDepth): LifeAtlasReport {
     ],
     memoryDigest: {
       dataPoweredBy: [],
-      omittedData: ['Vedic', 'KP', 'Nadi', 'Numerology', 'Signature'],
+      omittedData: ['Vedic', 'KP', 'Jaimini', 'Numerology', 'Signature'],
       reportBoundary:
         'Predicta Life Atlas is the approved all-school synthesis report. School-specific reports remain separate.',
       userCanAsk: ['What is my Life Atlas report?', 'What data is missing?'],
@@ -209,14 +211,14 @@ function buildPendingLifeAtlas(depth: LifeAtlasDepth): LifeAtlasReport {
 }
 
 function buildEvidenceLayers({
+  jaiminiSummary,
   kpSummary,
-  nadiSummary,
   numerologyReady,
   numberTone,
   signatureReady,
 }: {
+  jaiminiSummary: string;
   kpSummary: string;
-  nadiSummary: string;
   numerologyReady: boolean;
   numberTone: string;
   signatureReady: boolean;
@@ -238,11 +240,11 @@ function buildEvidenceLayers({
       summary: kpSummary,
     },
     {
-      id: 'nadi',
-      label: 'Nadi',
-      role: 'Story links, repeated karmic themes, and validation-aware narrative.',
+      id: 'jaimini',
+      label: 'Jaimini',
+      role: 'Soul role, visible identity, relationship mirror, career dharma, and destiny chapters.',
       status: 'ready',
-      summary: nadiSummary,
+      summary: jaiminiSummary,
     },
     {
       id: 'numerology',
@@ -268,10 +270,10 @@ function buildLifeAtlasSections({
   depth,
   firstName,
   hiddenThread,
+  jaiminiPractice,
+  jaiminiSummary,
   kpSummary,
   lifeThemeSentence,
-  nadiSummary,
-  nadiPractice,
   numberCycle,
   purusharthaCare,
   purusharthaLead,
@@ -282,10 +284,10 @@ function buildLifeAtlasSections({
   depth: LifeAtlasDepth;
   firstName: string;
   hiddenThread: string;
+  jaiminiPractice: string;
+  jaiminiSummary: string;
   kpSummary: string;
   lifeThemeSentence: string;
-  nadiSummary: string;
-  nadiPractice: string;
   numberCycle: string;
   purusharthaCare: string;
   purusharthaLead: string;
@@ -343,7 +345,7 @@ function buildLifeAtlasSections({
       ],
       evidence: [
         `KP practical signal: ${kpSummary}`,
-        `Nadi story signal: ${nadiSummary}`,
+        `Jaimini soul-role signal: ${jaiminiSummary}`,
       ],
       id: 'strategic-life-abstract',
       tier: 'free',
@@ -377,7 +379,7 @@ function buildLifeAtlasSections({
         'Future arc: clearer choices, cleaner boundaries, visible competence, and courage that does not need noise.',
       ],
       evidence: [
-        `Nadi story signal: ${nadiSummary}`,
+        `Jaimini destiny signal: ${jaiminiSummary}`,
         `Timing rhythm: ${numberCycle}`,
       ],
       id: 'life-journey-arc',
@@ -432,7 +434,7 @@ function buildLifeAtlasSections({
           : 'Free gives the top three gifts clearly.',
       ],
       evidence: [
-        `Story gift: ${nadiSummary}`,
+        `Soul-role gift: ${jaiminiSummary}`,
         `Number gift: ${lifeThemeSentence}`,
       ],
       id: 'gifts-you-carry',
@@ -452,7 +454,7 @@ function buildLifeAtlasSections({
           : 'Free keeps the lessons practical and non-frightening.',
       ],
       evidence: [
-        `Nadi practice: ${nadiPractice}`,
+        `Jaimini practice: ${jaiminiPractice}`,
         'Karmic language stays reflective, not fatalistic.',
       ],
       id: 'karmic-lessons',
@@ -535,14 +537,14 @@ function buildLifeAtlasSections({
       body:
         'Soul practices are the bridge between insight and change. They should be small enough to repeat and honest enough to change behavior. Do not turn this report into a mood. Turn it into a practice.',
       bullets: [
-        nadiPractice,
+        jaiminiPractice,
         'For seven days, write the same repeating lesson in one sentence. Then write the calmer response you are choosing instead.',
         'Choose one weekly act of service, repair, or discipline that makes your life cleaner.',
         'When pressure rises, pause before speech, spending, promises, and major emotional conclusions.',
         signatureNote,
       ],
       evidence: [
-        nadiPractice,
+        jaiminiPractice,
         signatureNote,
       ],
       id: 'soul-practices',
@@ -581,7 +583,7 @@ function buildLifeAtlasSections({
           'Better love pattern: warmth plus structure, devotion plus self-respect, closeness plus personal rhythm.',
         ],
         evidence: [
-          `Relationship story signal: ${nadiSummary}`,
+          `Relationship mirror signal: ${jaiminiSummary}`,
           `Emotional care point: ${purusharthaCare}`,
         ],
         id: 'relationship-mirror',
@@ -615,7 +617,7 @@ function buildLifeAtlasSections({
           'Repetition shadow: feeling stuck. Gift: recognizing the lesson sooner and responding differently.',
         ],
         evidence: [
-          `Karmic story signal: ${nadiSummary}`,
+          `Jaimini soul-role signal: ${jaiminiSummary}`,
           `Hidden thread: ${hiddenThread}`,
         ],
         id: 'shadow-to-gift-map',

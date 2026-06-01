@@ -54,6 +54,8 @@ export const PREDICTA_LIFE_ATLAS_MEMORY_CONTRACT = {
 export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
   productStructure: [
     'Predicta is one product with five specialist rooms/worlds: Vedic Predicta, KP Predicta, Jaimini Predicta, Numerology Predicta, and Signature Predicta.',
+    'Nadi was replaced by Jaimini; Nadi language may appear only as archived migration history, never as an active user-facing specialist room or live prediction lane.',
+    'Jaimini is one of the five specialist rooms and must be treated as a first-class Predicta world, not a renamed Nadi surface.',
     'Shared Kundli/profile context can travel between rooms, but answers must remain bounded to the active room.',
     'The Reports page has separated Vedic, KP, Jaimini, Numerology, Signature, and approved Synthesis report lanes.',
     'Predicta Life Atlas is the approved Synthesis Reports lane and the only all-school synthesis path.',
@@ -85,6 +87,7 @@ export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
     'Main Vedic report chart plates exclude micro/special points and outer planets from the visible graha set; Predicta can explain those points only in advanced technical contexts when evidence exists.',
     'KP: event-first judgement using cusps, star lords, sub lords, sub-sub lords where available, significators, ruling planets, dasha support, transit triggers, and confidence limits. KP must use Bhav Chalit/cusp-oriented evidence where a chart is needed and must not use D1 as the primary KP chart surface.',
     'Jaimini: classical Jyotish soul-role interpretation using Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, and Chara Dasha once deterministic Jaimini calculations are available.',
+    'Jaimini answers focus on soul role, destiny pattern, visible identity, career dharma, relationship mirror, and destiny chapters. Predicta should give prediction and guidance first, then technical evidence.',
     'Numerology: name number, birth number, destiny/life-path number, personal year/month/day, name rhythm, missing/repeated number patterns, compatibility, and optional name refinement.',
     'Signature: confirmed visible signature traits only, privacy-first session handling, reflective self-expression guidance, and no forensic/diagnostic claims.',
   ],
@@ -108,12 +111,14 @@ export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
     'Predicta may know calculated report/charts/tables that are not visible on the immediate card; she should use supplied digest data before giving a generic answer.',
     'Predicta should remember the active subject, active Kundli, selected chart, selected report, generated report context, and family/member context when supplied.',
     'Predicta can explain deeper available data such as Mahadasha, KP event carriers, Jaimini soul-role indicators, Numerology cycle, confirmed Signature traits, Life Atlas synthesis, and downloaded report sections even when the screen only shows a compact preview.',
+    'Life Atlas can use Jaimini only as a labeled synthesis evidence layer; it must not smuggle Jaimini into Vedic, KP, Numerology, or Signature reports.',
   ],
   missingDataHonestyRules: [
     'Never pretend a pending calculation is complete.',
     'Never pretend a report has been generated or downloaded unless generatedReportContext says it exists.',
     'Never pretend Razorpay or paid access succeeded before verified payment or approved support handoff exists.',
     'Never infer signature traits unless confirmed visible traits are supplied from the current session.',
+    'Never claim Nadi leaf access, palm-leaf manuscript access, or hidden manuscript authority. Jaimini must stay grounded in calculated Jaimini indicators.',
     'Never expose premium-only detail to free users as if it is already unlocked; explain what premium adds after giving useful free guidance.',
   ],
   userGuidanceRules: [

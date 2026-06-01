@@ -20142,6 +20142,62 @@
     "signature.mobile.captureUnavailable.hi": {
       "kind": "text",
       "value": "मोबाइल हस्ताक्षर अपलोड और बनाने की सुविधा अभी जोड़ी जा रही है. वास्तविक दिखने वाला इनपुट उपलब्ध होने तक प्रेडिक्टा यहां स्कैन, लक्षण या भविष्यकथन तैयार नहीं करेगी. वास्तविक स्कैन के लिए वेब हस्ताक्षर कक्ष का उपयोग करें."
+    },
+    "report.jaimini.bestFor.hi": {
+      "kind": "text",
+      "value": "आत्म भूमिका, दिखाई देने वाली पहचान, करियर धर्म, संबंध दर्पण और भाग्य अध्याय।"
+    },
+    "report.jaimini.freeDepth.hi": {
+      "kind": "text",
+      "value": "क्लासिकल जैमिनी संकेतों से उपयोगी आत्म-भूमिका और भाग्य झलक।"
+    },
+    "report.jaimini.freeIncludes.hi": {
+      "kind": "text",
+      "value": "आत्म-भूमिका सार||दिखाई देने वाली पहचान||करियर धर्म||वर्तमान भाग्य अध्याय"
+    },
+    "report.jaimini.outcome.hi": {
+      "kind": "text",
+      "value": "समझें कि आपका चार्ट आपको किस भूमिका में परिपक्व कर रहा है।"
+    },
+    "report.jaimini.premiumDepth.hi": {
+      "kind": "text",
+      "value": "प्रीमियम में कारक परिषद, कारकांश/स्वांश, आरूढ़/उपपद और चर दशा जीवन मानचित्र मिलता है।"
+    },
+    "report.jaimini.premiumIncludes.hi": {
+      "kind": "text",
+      "value": "कारक परिषद||कारकांश और स्वांश||आरूढ़ और उपपद||चर दशा जीवन मानचित्र"
+    },
+    "report.jaimini.purchaseHint.hi": {
+      "kind": "text",
+      "value": "जब आप आत्म भूमिका, सार्वजनिक पथ, संबंध दर्पण और भाग्य अध्याय guidance चाहते हैं तब सबसे उपयोगी।"
+    },
+    "report.jaimini.bestFor.gu": {
+      "kind": "text",
+      "value": "આત્મ ભૂમિકા, દેખાતી ઓળખ, કરિયર ધર્મ, સંબંધ દર્પણ અને ભાગ્ય અધ્યાય."
+    },
+    "report.jaimini.freeDepth.gu": {
+      "kind": "text",
+      "value": "ક્લાસિકલ જૈમિની સંકેતોથી ઉપયોગી આત્મ-ભૂમિકા અને ભાગ્ય ઝલક."
+    },
+    "report.jaimini.freeIncludes.gu": {
+      "kind": "text",
+      "value": "આત્મ-ભૂમિકા સાર||દેખાતી ઓળખ||કરિયર ધર્મ||વર્તમાન ભાગ્ય અધ્યાય"
+    },
+    "report.jaimini.outcome.gu": {
+      "kind": "text",
+      "value": "તમારો ચાર્ટ તમને કઈ ભૂમિકામાં પરિપક્વ થવા કહે છે તે સમજો."
+    },
+    "report.jaimini.premiumDepth.gu": {
+      "kind": "text",
+      "value": "પ્રીમિયમમાં કારક પરિષદ, કારકાંશ/સ્વાંશ, આરુઢ/ઉપપદ અને ચર દશા જીવન નકશો મળે છે."
+    },
+    "report.jaimini.premiumIncludes.gu": {
+      "kind": "text",
+      "value": "કારક પરિષદ||કારકાંશ અને સ્વાંશ||આરુઢ અને ઉપપદ||ચર દશા જીવન નકશો"
+    },
+    "report.jaimini.purchaseHint.gu": {
+      "kind": "text",
+      "value": "આત્મ ભૂમિકા, જાહેર માર્ગ, સંબંધ દર્પણ અને ભાગ્ય અધ્યાય guidance જોઈએ ત્યારે સૌથી ઉપયોગી."
     }
   }
 }

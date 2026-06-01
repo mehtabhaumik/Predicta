@@ -20,7 +20,7 @@ import { composeHolisticReadingRooms } from './holisticReadingRooms';
 import { composeLifeAtlasReport } from './lifeAtlasReport';
 import { composeLifeTimeline } from './lifeTimeline';
 import { composeMahadashaIntelligence } from './mahadashaIntelligence';
-import { composeNadiJyotishPlan } from './nadiJyotishPlan';
+import { composeJaiminiInterpretation } from './jaiminiInterpretation';
 import { composeNumerologyFoundationModel } from './numerologyFoundationModel';
 import { composePersonalPanchangLayer } from './personalPanchangLayer';
 import { composePredictaWrapped } from './predictaWrapped';
@@ -47,6 +47,8 @@ export type PredictaAppActionId =
   | 'destiny-passport'
   | 'family-map'
   | 'holistic-daily-guidance'
+  | 'jaimini-handoff'
+  | 'jaimini-predicta'
   | 'kp-handoff'
   | 'kp-predicta'
   | 'life-timeline'
@@ -185,12 +187,14 @@ const ACTION_PATTERNS: Array<{
       /\b(kp|krishnamurti|krishnamurthy|paddhati|cuspal\s*sub|sub\s*lord|sublord|significator|ruling\s*planet|249)\b/i,
   },
   {
-    id: 'nadi-handoff',
-    pattern: /\b(nadi|naadi|palm\s*leaf|agastya|nadi\s*jyotish)\b/i,
+    id: 'jaimini-predicta',
+    pattern:
+      /\b(jaimini\s*predicta|jaimini\s*room|jaimini\s*world|in\s+jaimini|from\s+jaimini)\b/i,
   },
   {
-    id: 'nadi-predicta',
-    pattern: /\b(nadi\s*predicta|nadi\s*room|nadi\s*world|in\s+nadi|from\s+nadi)\b/i,
+    id: 'jaimini-handoff',
+    pattern:
+      /\b(jaimini|jaimini\s*jyotish|atmakaraka|amatyakaraka|darakaraka|karakamsha|karakamsa|swamsa|arudha|upapada|chara\s*dasha|nadi|naadi|palm\s*leaf|agastya|nadi\s*jyotish)\b/i,
   },
   {
     id: 'numerology-predicta',
@@ -637,14 +641,25 @@ function resolveSchoolAwareAction(
   }
 
   if (
-    predictaSchool === 'NADI' &&
-    (action === 'nadi-handoff' || action === 'nadi-predicta')
+    (predictaSchool === 'JAIMINI' || predictaSchool === 'NADI') &&
+    (action === 'jaimini-handoff' ||
+      action === 'jaimini-predicta' ||
+      action === 'nadi-handoff' ||
+      action === 'nadi-predicta')
   ) {
-    return 'nadi-predicta';
+    return 'jaimini-predicta';
   }
 
-  if (predictaSchool !== 'NADI' && action === 'nadi-predicta') {
-    return 'nadi-handoff';
+  if (
+    predictaSchool !== 'JAIMINI' &&
+    predictaSchool !== 'NADI' &&
+    (action === 'jaimini-predicta' || action === 'nadi-predicta')
+  ) {
+    return 'jaimini-handoff';
+  }
+
+  if (action === 'nadi-handoff') {
+    return 'jaimini-handoff';
   }
 
   if (
@@ -720,6 +735,7 @@ function actionRequiresKundli(action: PredictaAppActionId): boolean {
   return ![
     'concierge',
     'kp-handoff',
+    'jaimini-handoff',
     'nadi-handoff',
     'numerology-handoff',
     'numerology-predicta',
@@ -803,20 +819,20 @@ function buildActionText({
     ]);
   }
 
-  if (action === 'nadi-handoff') {
+  if (action === 'jaimini-handoff' || action === 'nadi-handoff') {
     return joinSections([
       intro,
-      nadiHandoffReply(language),
+      jaiminiHandoffReply(language),
       insight,
     ]);
   }
 
-  if (action === 'nadi-predicta') {
+  if (action === 'jaimini-predicta' || action === 'nadi-predicta') {
     return joinSections([
       intro,
-      buildNadiPredictaReply(language, kundli, hasPremiumAccess),
+      buildJaiminiPredictaReply(language, kundli, hasPremiumAccess),
       insight,
-      buildUpsell(language, 'nadi-predicta', hasPremiumAccess),
+      buildUpsell(language, 'jaimini-predicta', hasPremiumAccess),
     ]);
   }
 
@@ -1296,8 +1312,8 @@ function buildActionText({
         `Sadhana: ${activeStage.label} - ${activeStage.practice}`,
         `Life Atlas: ${lifeAtlas.name} is the separate synthesis report. Hidden thread: ${lifeAtlas.hiddenThread}`,
         `Life Atlas signature rule: ${lifeAtlas.signatureNote}`,
-        `Life Atlas boundary: it is not placed inside Vedic, KP, Nadi, Numerology, or Signature reports.`,
-        `Reports are school-lane aware: Vedic, KP, Nadi, Numerology, Signature, and the separate Life Atlas synthesis lane must not become a mixed bag.`,
+        `Life Atlas boundary: it is not placed inside Vedic, KP, Jaimini, Numerology, or Signature reports.`,
+        `Reports are school-lane aware: Vedic, KP, Jaimini, Numerology, Signature, and the separate Life Atlas synthesis lane must not become a mixed bag.`,
         `Vedic report memory includes Moon/Chandra Lagna, Swamsa, Karakamsha, Mahadasha Phala, house-wise planets, friendship table, functional benefics/malefics, Chalit, Panchang, Samsa, Ghatak/favorable, Ashtakavarga, Prastarashtakavarga, and Avakhada chakra.`,
         `Free report: every included section stays useful with concise insight and confidence limits.`,
         `Premium PDF bundle: the same calculation truth with deeper analysis, timing windows, contradictions, remedies, evidence tables, and report-ready depth.`,
@@ -1941,60 +1957,55 @@ function buildKpPredictaReply(
     .join('\n\n');
 }
 
-function nadiHandoffReply(language: SupportedLanguage): string {
+function jaiminiHandoffReply(language: SupportedLanguage): string {
   if (language === 'hi') {
     return [
-      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.17ba95ec78"),
-      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.35f7556a0a"),
-      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.a5bd2e6e5a"),
+      'यह प्रश्न Jaimini Predicta में बेहतर पढ़ा जाएगा। मैं इसे Parashari या KP में मिलाकर जवाब नहीं दूंगी।',
+      '“Open Jaimini Predicta” से मैं आपका प्रश्न और active birth profile Jaimini room में ले जाऊंगी।',
+      'Jaimini Predicta Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects और Chara Dasha से soul role, visible identity और destiny chapters पढ़ता है।',
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.667821ccf8"),
-      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.2d1c4e7c4e"),
-      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.1458c88812"),
+      'આ પ્રશ્ન Jaimini Predicta માં વધુ સારી રીતે વાંચાશે. હું તેને Parashari અથવા KP સાથે મિક્સ કરીશ નહીં.',
+      '“Open Jaimini Predicta” થી હું તમારો પ્રશ્ન અને active birth profile Jaimini room માં લઈ જઈશ.',
+      'Jaimini Predicta Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects અને Chara Dasha થી soul role, visible identity અને destiny chapters વાંચે છે.',
     ].join('\n\n');
   }
 
   return [
-    'That belongs to Nadi Predicta, a separate premium school. I will not mix it into Parashari or KP or sound more certain than the chart allows.',
-    'Use “Open Nadi Predicta” below. I will carry your question and active birth profile into the Nadi reading room.',
-    'Nadi Predicta works through planetary story links, karaka themes, validation questions, and timing activation. It does not claim real palm-leaf manuscript access.',
+    'That belongs to Jaimini Predicta. I will not mix it into Parashari or KP or sound more certain than the calculated evidence allows.',
+    'Use “Open Jaimini Predicta” below. I will carry your question and active birth profile into the Jaimini room.',
+    'Jaimini Predicta works through Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, and Chara Dasha. It does not claim Nadi leaf or palm-leaf manuscript access.',
   ].join('\n\n');
 }
 
-function buildNadiPredictaReply(
+function buildJaiminiPredictaReply(
   language: SupportedLanguage,
   kundli: KundliData | undefined,
   hasPremiumAccess: boolean,
 ): string {
-  const plan = composeNadiJyotishPlan(kundli, {
-    depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
-    language,
+  const interpretation = composeJaiminiInterpretation(kundli, {
+    premium: hasPremiumAccess,
   });
-  const topPattern = plan.patterns[0];
-  const activation = plan.activations[0];
-  const validations = plan.validationQuestions.slice(0, hasPremiumAccess ? 3 : 2);
-  const limitations = plan.limitations.slice(0, 2);
+  const blocks = hasPremiumAccess
+    ? interpretation.premiumBlocks.slice(0, 4)
+    : interpretation.freeBlocks.slice(0, 3);
+  const firstBlock = blocks[0];
   const premiumLine = hasPremiumAccess
-    ? 'Premium Nadi depth is active: I can sequence the strongest planet links, ask validation questions, and keep timing cautious.'
-    : plan.premiumUnlock;
+    ? 'Premium Jaimini depth is active: I can connect soul role, work role, relationship mirror, visible identity, and timing chapter into one sharper action map.'
+    : 'Premium Jaimini adds fuller karaka evidence, visible identity, relationship mirror, Chara Dasha depth, and report-ready synthesis.';
 
   if (language === 'hi') {
     return [
-      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.93b59c5cd3"),
-      `Hidden pattern: ${plan.storyLens.hiddenPatternSentence}`,
-      plan.freePreview,
-      topPattern
-        ? `Strong pattern: ${topPattern.title}. ${topPattern.freeInsight}`
+      'Jaimini Predicta mode: मैं soul role, visible identity और destiny chapters से सीधी guidance दूंगी।',
+      interpretation.summary,
+      firstBlock ? `${firstBlock.title}: ${firstBlock.prediction}` : undefined,
+      firstBlock ? `Next step: ${firstBlock.guidance}` : undefined,
+      interpretation.technicalEvidence.length
+        ? `Evidence:\n${interpretation.technicalEvidence.slice(0, 4).map(item => `- ${item}`).join('\n')}`
         : undefined,
-      activation
-        ? `Timing activation: ${activation.title}. ${activation.timing}`
-        : undefined,
-      validations.length ? `Validation questions:\n${validations.map(item => `- ${item}`).join('\n')}` : undefined,
-      limitations.length ? `Boundary:\n${limitations.map(item => `- ${item}`).join('\n')}` : undefined,
       premiumLine,
     ]
       .filter(Boolean)
@@ -2003,17 +2014,13 @@ function buildNadiPredictaReply(
 
   if (language === 'gu') {
     return [
-      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.0862c7d26b"),
-      `Hidden pattern: ${plan.storyLens.hiddenPatternSentence}`,
-      plan.freePreview,
-      topPattern
-        ? `Strong pattern: ${topPattern.title}. ${topPattern.freeInsight}`
+      'Jaimini Predicta mode: હું soul role, visible identity અને destiny chapters પરથી સીધી guidance આપીશ.',
+      interpretation.summary,
+      firstBlock ? `${firstBlock.title}: ${firstBlock.prediction}` : undefined,
+      firstBlock ? `Next step: ${firstBlock.guidance}` : undefined,
+      interpretation.technicalEvidence.length
+        ? `Evidence:\n${interpretation.technicalEvidence.slice(0, 4).map(item => `- ${item}`).join('\n')}`
         : undefined,
-      activation
-        ? `Timing activation: ${activation.title}. ${activation.timing}`
-        : undefined,
-      validations.length ? `Validation questions:\n${validations.map(item => `- ${item}`).join('\n')}` : undefined,
-      limitations.length ? `Boundary:\n${limitations.map(item => `- ${item}`).join('\n')}` : undefined,
       premiumLine,
     ]
       .filter(Boolean)
@@ -2021,17 +2028,13 @@ function buildNadiPredictaReply(
   }
 
   return [
-      'Nadi Predicta mode: I will read through planet-to-planet story links, karaka themes, validation questions, and timing activation.',
-      `Hidden pattern: ${plan.storyLens.hiddenPatternSentence}`,
-      plan.freePreview,
-    topPattern
-      ? `Strong pattern: ${topPattern.title}. ${topPattern.freeInsight}`
+    'Jaimini Predicta mode: I will read through soul role, visible identity, career dharma, relationship mirror, and destiny chapters.',
+    interpretation.summary,
+    firstBlock ? `${firstBlock.title}: ${firstBlock.prediction}` : undefined,
+    firstBlock ? `Next step: ${firstBlock.guidance}` : undefined,
+    interpretation.technicalEvidence.length
+      ? `Evidence:\n${interpretation.technicalEvidence.slice(0, 4).map(item => `- ${item}`).join('\n')}`
       : undefined,
-    activation
-      ? `Timing activation: ${activation.title}. ${activation.timing}`
-      : undefined,
-    validations.length ? `Validation questions:\n${validations.map(item => `- ${item}`).join('\n')}` : undefined,
-    limitations.length ? `Boundary:\n${limitations.map(item => `- ${item}`).join('\n')}` : undefined,
     premiumLine,
   ]
     .filter(Boolean)
@@ -2056,7 +2059,7 @@ function numerologyHandoffReply(language: SupportedLanguage): string {
   }
 
   return [
-    'That belongs to Numerology Predicta. I will not casually mix it with Parashari, KP, or Nadi methods.',
+    'That belongs to Numerology Predicta. I will not casually mix it with Parashari, KP, or Jaimini methods.',
     'Use “Open Numerology Predicta” below. I will carry your question and active birth profile into the numerology room.',
     'Numerology Predicta reads name number, birth number, destiny number, personal year/month/day, and name spelling rhythm.',
   ].join('\n\n');
@@ -2188,7 +2191,7 @@ function buildNumerologyPredictaReply(
   }
 
   return [
-    'Numerology Predicta mode: I will read from name and DOB numbers, not Parashari, KP, or Nadi logic unless you ask for synthesis.',
+    'Numerology Predicta mode: I will read from name and DOB numbers, not Parashari, KP, or Jaimini logic unless you ask for synthesis.',
     `${profile.name}: name number ${profile.nameNumber.root} (${profile.nameNumber.label}), birth number ${profile.birthNumber.root} (${profile.birthNumber.label}), destiny number ${profile.destinyNumber.root} (${profile.destinyNumber.label}).`,
     `Current rhythm: personal year ${profile.personalYear.root}, month ${profile.personalMonth.root}, day ${profile.personalDay.root}.`,
     `Useful insight: ${profile.summary}`,
@@ -2302,7 +2305,7 @@ function signatureHandoffReply(language: SupportedLanguage): string {
   }
 
   return [
-    'That belongs to Signature Predicta. I will not casually mix it with Kundli, KP, Nadi, or Numerology methods.',
+    'That belongs to Signature Predicta. I will not casually mix it with Kundli, KP, Jaimini, or Numerology methods.',
     'Use “Open Signature Predicta” below. I will carry your question into the signature room.',
     'Signature Predicta reads confirmed visual traits, self-expression patterns, and practical improvement suggestions. It is not identity verification, handwriting forensics, legal proof, medical diagnosis, hiring advice, or a guaranteed prediction.',
   ].join('\n\n');
@@ -2648,8 +2651,8 @@ function buildUpsell(
       ? 'Turn this into a deeper Chalit reading when you want house delivery, shifted planet analysis, dasha relevance, and report-grade proof.'
       : action === 'kp-predicta'
       ? 'Turn this into a KP event reading when you want cusp-by-cusp sub-lord judgment, significator strength, ruling-planet checks, dasha support, and event-focused report depth.'
-      : action === 'nadi-predicta'
-      ? 'Turn this into a Nadi pattern reading when you want planet-to-planet story sequencing, validation questions, timing activation, remedies, and a separate Nadi report.'
+      : action === 'jaimini-predicta' || action === 'nadi-predicta'
+      ? 'Turn this into a Jaimini destiny reading when you want karaka depth, Arudha/Upapada evidence, Chara Dasha chapters, relationship mirror, and a separate Jaimini report.'
       : action === 'numerology-predicta'
       ? 'Turn this into a numerology life map when you want name spelling comparison, personal year/month/day planning, compatibility numbers, and a polished report.'
       : action === 'signature-predicta'

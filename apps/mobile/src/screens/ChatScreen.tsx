@@ -2088,7 +2088,7 @@ function buildMobileSchoolContextIntro(
       question ? formatNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.8e19844ac1", [question]) : undefined,
       context?.predictaSchool === 'KP'
         ? getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.792f6b537e")
-        : context?.predictaSchool === 'NADI'
+        : context?.predictaSchool === 'JAIMINI' || context?.predictaSchool === 'NADI'
           ? getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.24512570b2")
           : context?.predictaSchool === 'NUMEROLOGY'
             ? getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.b7bf034f4d")
@@ -2112,7 +2112,7 @@ function buildMobileSchoolContextIntro(
       question ? formatNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.fb75530093", [question]) : undefined,
       context?.predictaSchool === 'KP'
         ? getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.9d4073d0c6")
-        : context?.predictaSchool === 'NADI'
+        : context?.predictaSchool === 'JAIMINI' || context?.predictaSchool === 'NADI'
           ? getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.f0039683e7")
           : context?.predictaSchool === 'NUMEROLOGY'
             ? getNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.c8c43ccae1")
@@ -2135,7 +2135,7 @@ function buildMobileSchoolContextIntro(
     question ? `Your question: ${question}` : undefined,
     context?.predictaSchool === 'KP'
       ? 'The answer will now stay grounded in KP cusps, star lords, sub lords, significators, and ruling planets.'
-      : context?.predictaSchool === 'NADI'
+      : context?.predictaSchool === 'JAIMINI' || context?.predictaSchool === 'NADI'
         ? 'Jaimini Predicta is ready. I will read through soul role, visible identity, and destiny chapters when calculated evidence is available.'
         : context?.predictaSchool === 'NUMEROLOGY'
           ? 'The answer will now stay grounded in name number, birth number, destiny number, personal timing, and name rhythm.'
@@ -2155,7 +2155,7 @@ function getMobilePredictaSchoolLabel(
     return 'KP Predicta';
   }
 
-  if (school === 'NADI') {
+  if (school === 'JAIMINI' || school === 'NADI') {
     return 'Jaimini Predicta';
   }
 

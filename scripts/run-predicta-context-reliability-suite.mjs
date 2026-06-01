@@ -16,8 +16,8 @@ const checks = [
   },
   {
     file: 'packages/astrology/src/chatFollowUps.ts',
-    label: 'Nadi handoff link preserves question, school, origin, and Kundli id',
-    mustContain: ["buildSchoolHandoffHref('/dashboard/nadi/chat', context)"],
+    label: 'Jaimini handoff link preserves question, school, origin, and Kundli id',
+    mustContain: ["buildSchoolHandoffHref('/dashboard/jaimini/chat', context)"],
   },
   {
     file: 'apps/web/components/WebKpPredictaLoader.tsx',
@@ -29,12 +29,13 @@ const checks = [
     ],
   },
   {
-    file: 'apps/web/components/WebNadiPredictaLoader.tsx',
-    label: 'Nadi Predicta page prefers the Kundli id from the handoff URL',
+    file: 'apps/web/components/WebJaiminiPredictaPanel.tsx',
+    label: 'Jaimini Predicta page carries the active Kundli into chat handoff',
     mustContain: [
-      'requestedKundliId',
-      'savedKundlis.find(item => item.id === requestedKundliId) ?? activeKundli',
-      'setActiveWebKundli(handoffKundli)',
+      "school: 'JAIMINI'",
+      "sourceScreen: 'Jaimini Predicta'",
+      'jaiminiInterpretation.summary',
+      'jaiminiInterpretation.technicalEvidence.slice(0, 4)',
     ],
   },
   {

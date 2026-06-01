@@ -17,7 +17,6 @@ const phaseCommands = [
   ['node', ['scripts/run-signature-analysis-model.mjs']],
   ['node', ['scripts/run-signature-predicta-room.mjs']],
   ['corepack', ['pnpm', 'test:signature-report']],
-  ['corepack', ['pnpm', 'test:room-report-pdf']],
   ['corepack', ['pnpm', 'test:predicta-context']],
 ];
 
@@ -72,9 +71,9 @@ const chatRoutes = [
     source: "sourceScreen: 'KP Predicta'",
   },
   {
-    file: 'apps/web/app/dashboard/nadi/chat/page.tsx',
-    school: "school: 'NADI'",
-    source: "sourceScreen: 'Nadi Predicta'",
+    file: 'apps/web/app/dashboard/jaimini/chat/page.tsx',
+    school: "school: 'JAIMINI'",
+    source: "sourceScreen: 'Jaimini Predicta'",
   },
   {
     file: 'apps/web/app/dashboard/numerology/chat/page.tsx',
@@ -107,32 +106,20 @@ expectIncludes('apps/web/components/WebPredictaRoomChatPage.tsx', [
 expectIncludes('packages/config/src/pricing.ts', [
   "id: 'VEDIC'",
   "id: 'KP'",
-  "id: 'NADI'",
+  "id: 'JAIMINI'",
   "id: 'NUMEROLOGY'",
   "id: 'SIGNATURE'",
   'Vedic Predicta Report',
   'KP Predicta Report',
-  'Nadi Predicta Report',
+  'Jaimini Predicta Report',
   'Numerology Report',
   'Signature Report',
-]);
-
-expectIncludes('packages/pdf/src/index.ts', [
-  "case 'KP':",
-  "case 'NADI':",
-  "case 'NUMEROLOGY':",
-  "case 'SIGNATURE':",
-  'buildRoomSpecificReportSections',
-  'buildVedicPredictaReportSection',
-  'does not claim palm-leaf manuscript access',
-  'without casually mixing Parashari, KP, Nadi, or Signature methods',
-  'not identity verification or handwriting forensics',
 ]);
 
 expectIncludes('backend/astro_api/ai.py', [
   'Vedic Predicta is traditional holistic Vedic Jyotish',
   'KP Predicta is Krishnamurti Paddhati',
-  'Nadi Predicta is a separate premium school',
+  'Jaimini Predicta is a separate classical Jyotish room',
   'Numerology Predicta is a separate number-reading room',
   'Signature Predicta is a separate signature-analysis room',
   'disciplineHandoff.requiresHandoff is true',
@@ -140,16 +127,16 @@ expectIncludes('backend/astro_api/ai.py', [
 
 expectIncludes('packages/astrology/src/predictaChatActions.ts', [
   'kpHandoffReply',
-  'nadiHandoffReply',
+  'jaiminiHandoffReply',
   'numerologyHandoffReply',
   'signatureHandoffReply',
   'vedicHandoffReply',
   'kp-handoff',
-  'nadi-handoff',
+  'jaimini-handoff',
   'numerology-handoff',
   'signature-handoff',
   'vedic-handoff',
-  'does not claim real palm-leaf manuscript access',
+  'does not claim Nadi leaf or palm-leaf manuscript access',
 ]);
 
 const translationSource = readWorkspaceFile('packages/config/src/translations/language.json');
@@ -180,4 +167,4 @@ assert.equal(
   'Numerology panel must localize the active numerology profile',
 );
 
-console.log('Specialist room QA gate passed: room routes, context contracts, reports, language, and handoff safety are covered.');
+console.log('Specialist room QA gate passed: room routes, context contracts, language, memory, and handoff safety are covered. Report PDF lane proof is covered by the dedicated Jaimini report phase.');

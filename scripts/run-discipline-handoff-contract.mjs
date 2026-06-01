@@ -93,33 +93,33 @@ try {
   assert.match(kpRoomParashariTrigger.text, /belongs to Vedic Predicta/i);
   assert.match(kpRoomParashariTrigger.text, /will carry your question and active Kundli/i);
 
-  const parashariToNadi = buildPredictaActionReply({
+  const parashariToJaimini = buildPredictaActionReply({
     language: 'en',
     predictaSchool: 'PARASHARI',
-    text: 'Use Nadi Predicta for this repeated life pattern.',
+    text: 'Use Jaimini Predicta for this destiny role.',
   });
-  assert.equal(parashariToNadi.handled, true);
-  assert.equal(parashariToNadi.action, 'nadi-handoff');
-  assert.match(parashariToNadi.text, /belongs to Nadi Predicta/i);
-  assert.match(parashariToNadi.text, /does not claim real palm-leaf manuscript access/i);
+  assert.equal(parashariToJaimini.handled, true);
+  assert.equal(parashariToJaimini.action, 'jaimini-handoff');
+  assert.match(parashariToJaimini.text, /belongs to Jaimini Predicta/i);
+  assert.match(parashariToJaimini.text, /does not claim Nadi leaf or palm-leaf manuscript access/i);
 
-  const nadiRoomOwnMethod = buildPredictaActionReply({
+  const jaiminiRoomOwnMethod = buildPredictaActionReply({
     language: 'en',
-    predictaSchool: 'NADI',
-    text: 'Nadi Predicta should read this pattern.',
+    predictaSchool: 'JAIMINI',
+    text: 'Jaimini Predicta should read my destiny role.',
   });
-  assert.equal(nadiRoomOwnMethod.handled, true);
-  assert.equal(nadiRoomOwnMethod.action, 'nadi-predicta');
-  assert.doesNotMatch(nadiRoomOwnMethod.text, /Open Nadi Predicta/i);
+  assert.equal(jaiminiRoomOwnMethod.handled, true);
+  assert.equal(jaiminiRoomOwnMethod.action, 'jaimini-predicta');
+  assert.doesNotMatch(jaiminiRoomOwnMethod.text, /Open Jaimini Predicta/i);
 
-  const nadiRoomParashariTrigger = buildPredictaActionReply({
+  const jaiminiRoomParashariTrigger = buildPredictaActionReply({
     language: 'en',
-    predictaSchool: 'NADI',
+    predictaSchool: 'JAIMINI',
     text: 'Show my mahadasha and chart proof.',
   });
-  assert.equal(nadiRoomParashariTrigger.handled, true);
-  assert.equal(nadiRoomParashariTrigger.action, 'vedic-handoff');
-  assert.match(nadiRoomParashariTrigger.text, /wrong specialist room/i);
+  assert.equal(jaiminiRoomParashariTrigger.handled, true);
+  assert.equal(jaiminiRoomParashariTrigger.action, 'vedic-handoff');
+  assert.match(jaiminiRoomParashariTrigger.text, /wrong specialist room/i);
 
   const numerologyRoomParashariTrigger = buildPredictaActionReply({
     language: 'en',
@@ -153,21 +153,21 @@ try {
   assert.equal(numerologyToSignature.handled, true);
   assert.equal(numerologyToSignature.action, 'signature-handoff');
 
-  const kpToNadi = buildPredictaActionReply({
+  const kpToJaimini = buildPredictaActionReply({
     language: 'en',
     predictaSchool: 'KP',
-    text: 'Use Nadi story links for this repeating pattern.',
+    text: 'Use Jaimini Atmakaraka for this destiny pattern.',
   });
-  assert.equal(kpToNadi.handled, true);
-  assert.equal(kpToNadi.action, 'nadi-handoff');
+  assert.equal(kpToJaimini.handled, true);
+  assert.equal(kpToJaimini.action, 'jaimini-handoff');
 
-  const nadiToKp = buildPredictaActionReply({
+  const jaiminiToKp = buildPredictaActionReply({
     language: 'en',
-    predictaSchool: 'NADI',
+    predictaSchool: 'JAIMINI',
     text: 'Use KP sub lord for this job change event.',
   });
-  assert.equal(nadiToKp.handled, true);
-  assert.equal(nadiToKp.action, 'kp-handoff');
+  assert.equal(jaiminiToKp.handled, true);
+  assert.equal(jaiminiToKp.action, 'kp-handoff');
 
   const parashariOwnMethod = buildPredictaActionReply({
     language: 'en',
