@@ -5,6 +5,7 @@ import type {
   EntitlementState,
   MonetizationState,
   OneTimeEntitlement,
+  OneTimeProductType,
 } from '../../types/subscription';
 import { createFreeEntitlement } from '../../types/subscription';
 
@@ -88,8 +89,13 @@ export function getPaidQuestionCredits(
   oneTimeEntitlements: OneTimeEntitlement[],
 ): number {
   return oneTimeEntitlements
-    .filter(item => item.productType === 'FIVE_QUESTIONS')
-    .reduce((total, item) => total + Math.max(0, item.remainingUses ?? 0), 0);
+    .filter(item => isQuestionPackProduct(item.productType))
+    .reduce(
+      (total, item) =>
+        total +
+        Math.max(0, item.remainingUses ?? getQuestionCreditQuantity(item.productType)),
+      0,
+    );
 }
 
 export function hasPremiumPdfCredit(
@@ -99,6 +105,8 @@ export function hasPremiumPdfCredit(
   return oneTimeEntitlements.some(
     item =>
       (item.productType === 'PREMIUM_PDF' ||
+        item.productType === 'REPORT_SINGLE' ||
+        item.productType === 'REPORT_BUNDLE' ||
         item.productType === 'DETAILED_KUNDLI_REPORT') &&
       (item.remainingUses ?? 0) > 0 &&
       (!kundliId || !item.kundliId || item.kundliId === kundliId) &&
@@ -137,7 +145,7 @@ export function consumeOneTimeQuestionCreditFromState(
   const nextEntitlements = [...state.oneTimeEntitlements];
   const index = nextEntitlements.findIndex(
     item =>
-      item.productType === 'FIVE_QUESTIONS' &&
+      isQuestionPackProduct(item.productType) &&
       (item.remainingUses ?? 0) > 0 &&
       !isExpired(item.expiresAt),
   );
@@ -193,8 +201,12 @@ export function consumeReportPdfCreditFromState(
         reportFocus === 'JAIMINI'
           ? isJaiminiReportCredit(item) ||
             item.productType === 'PREMIUM_PDF' ||
+            item.productType === 'REPORT_SINGLE' ||
+            item.productType === 'REPORT_BUNDLE' ||
             item.productType === 'DETAILED_KUNDLI_REPORT'
           : item.productType === 'PREMIUM_PDF' ||
+            item.productType === 'REPORT_SINGLE' ||
+            item.productType === 'REPORT_BUNDLE' ||
             item.productType === 'DETAILED_KUNDLI_REPORT';
 
       return (
@@ -247,6 +259,25 @@ function isJaiminiReportCredit(item: OneTimeEntitlement): boolean {
     String(item.productType) === 'NADI_REPORT' ||
     item.productId.toLowerCase().includes('nadi_report')
   );
+}
+
+function getQuestionCreditQuantity(productType: OneTimeProductType): number {
+  switch (productType) {
+    case 'AI_QUESTIONS_10':
+      return 10;
+    case 'AI_QUESTIONS_25':
+      return 25;
+    case 'AI_QUESTIONS_100':
+      return 100;
+    case 'FIVE_QUESTIONS':
+      return 5;
+    default:
+      return 0;
+  }
+}
+
+function isQuestionPackProduct(productType: OneTimeProductType): boolean {
+  return getQuestionCreditQuantity(productType) > 0;
 }
 
 export function createDayPassEntitlement(

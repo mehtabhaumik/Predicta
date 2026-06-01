@@ -21,13 +21,24 @@ import {
   readWebAccountMergeState,
   WEB_ACCOUNT_MERGED_EVENT,
 } from '../lib/web-account-merge';
-import { loadWebFreeAiBalance } from '../lib/pridicta-ai';
+import {
+  loadWebFreeAiBalance,
+  loadWebProductBankBalance,
+} from '../lib/pridicta-ai';
 
 type SettingsSnapshot = {
   accountSyncStatus?: string;
   freeAiBalance?: {
     remaining: number;
     total: number;
+  };
+  productBank?: {
+    familyReportCredits: number;
+    familyQuestionCredits: number;
+    familySharedMembers: number;
+    familySharingEnabled: boolean;
+    paidQuestionCredits: number;
+    reportCredits: number;
   };
   lastReportLanguage?: SupportedLanguage;
   savedKundliCount: number;
@@ -423,6 +434,16 @@ export function WebProfileSettings(): React.JSX.Element {
         freeAiBalance: balance,
       }));
     });
+
+    void loadWebProductBankBalance().then(balance => {
+      if (!balance) {
+        return;
+      }
+      setSnapshot(current => ({
+        ...current,
+        productBank: balance,
+      }));
+    });
   }
 
   async function handleSignOut(): Promise<void> {
@@ -478,6 +499,21 @@ export function WebProfileSettings(): React.JSX.Element {
           <p>
             Lifetime starter AI questions. Kundli, charts, reports, and Family
             Vault actions do not spend these.
+          </p>
+        </div>
+        <div className="settings-overview-card">
+          <span>Product Bank</span>
+          <strong>
+            {snapshot.productBank
+              ? `${snapshot.productBank.paidQuestionCredits} AI · ${snapshot.productBank.reportCredits} reports`
+              : user
+                ? 'Checking'
+                : 'Sign in'}
+          </strong>
+          <p>
+            Paid question and report credits do not expire. Family Bank sharing
+            is explicit, reversible, and never shares private chat or report
+            content.
           </p>
         </div>
       </section>

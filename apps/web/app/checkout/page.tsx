@@ -125,6 +125,9 @@ function CheckoutContent(): React.JSX.Element {
               <span>{copy.selected}</span>
               <strong>{selected.displayPrice}</strong>
               <small>{selectedPlan ? copy.subscription : copy.oneTime}</small>
+              {selectedProduct ? (
+                <p>{getProductBankCheckoutCopy(selectedProduct.id)}</p>
+              ) : null}
             </div>
           ) : null}
 
@@ -210,6 +213,25 @@ function CheckoutFallback(): React.JSX.Element {
       <WebFooter />
     </>
   );
+}
+
+function getProductBankCheckoutCopy(productType: string): string {
+  switch (productType) {
+    case 'AI_QUESTIONS_10':
+      return 'Adds 10 non-expiring AI questions. A credit is spent only after Predicta returns a successful AI answer.';
+    case 'AI_QUESTIONS_25':
+      return 'Adds 25 non-expiring AI questions for ongoing Predicta chat across specialist rooms.';
+    case 'AI_QUESTIONS_100':
+      return 'Adds 100 non-expiring AI questions for serious ongoing guidance with cost-controlled usage.';
+    case 'REPORT_SINGLE':
+      return 'Adds one non-expiring premium report credit. It is spent only after a paid PDF is successfully generated.';
+    case 'REPORT_BUNDLE':
+      return 'Adds five non-expiring premium report credits that can be used over time.';
+    case 'DAY_PASS':
+      return 'Day Pass is time-limited. It is not a Product Bank credit and expires according to the pass window.';
+    default:
+      return 'Predicta activates this access only after verified payment or an approved support/admin handoff.';
+  }
 }
 
 const CHECKOUT_COPY: Record<
@@ -396,9 +418,29 @@ function getLocalizedAccessLabel(
       gu: getNativeCopy("native.apps.web.app.checkout.page.tsx.4c4ad26d1b"),
       hi: getNativeCopy("native.apps.web.app.checkout.page.tsx.95856bffbb"),
     },
+    pridicta_10_questions: {
+      gu: '10 AI Questions',
+      hi: '10 AI Questions',
+    },
+    pridicta_25_questions: {
+      gu: '25 AI Questions',
+      hi: '25 AI Questions',
+    },
+    pridicta_100_questions: {
+      gu: '100 AI Questions',
+      hi: '100 AI Questions',
+    },
     pridicta_premium_pdf: {
       gu: getNativeCopy("native.apps.web.app.checkout.page.tsx.d7ca86dc4e"),
       hi: getNativeCopy("native.apps.web.app.checkout.page.tsx.31641beaac"),
+    },
+    pridicta_single_report: {
+      gu: 'Single Report Credit',
+      hi: 'Single Report Credit',
+    },
+    pridicta_report_bundle: {
+      gu: 'Report Bundle',
+      hi: 'Report Bundle',
     },
     pridicta_detailed_kundli_report: {
       gu: getNativeCopy("native.apps.web.app.checkout.page.tsx.2836b2970a"),

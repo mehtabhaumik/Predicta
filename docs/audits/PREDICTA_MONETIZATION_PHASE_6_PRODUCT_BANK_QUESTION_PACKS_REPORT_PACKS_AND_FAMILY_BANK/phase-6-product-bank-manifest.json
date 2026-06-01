@@ -1,0 +1,29 @@
+{
+  "phase": "PREDICTA_MONETIZATION_PHASE_6_PRODUCT_BANK_QUESTION_PACKS_REPORT_PACKS_AND_FAMILY_BANK",
+  "status": "green",
+  "requiredProducts": [
+    "AI_QUESTIONS_10",
+    "AI_QUESTIONS_25",
+    "AI_QUESTIONS_100",
+    "REPORT_SINGLE",
+    "REPORT_BUNDLE",
+    "MONTHLY",
+    "YEARLY",
+    "DAY_PASS"
+  ],
+  "questionCredits": {
+    "AI_QUESTIONS_10": 10,
+    "AI_QUESTIONS_25": 25,
+    "AI_QUESTIONS_100": 100
+  },
+  "reportCredits": {
+    "REPORT_SINGLE": 1,
+    "REPORT_BUNDLE": 5
+  },
+  "consumptionRules": [
+    "question credits spend only after successful provider AI answers",
+    "report credits spend only after successful premium PDF generation",
+    "family bank spending never exposes private content",
+    "razorpay-disabled checkout never activates entitlement"
+  ]
+}

@@ -75,6 +75,7 @@ import {
   extractBirthDetailsFromWeb,
   getWebSafetyIdentifier,
   loadWebFreeAiBalance,
+  loadWebProductBankBalance,
 } from '../lib/pridicta-ai';
 import {
   hydrateWebSpecialistContextSync,
@@ -318,18 +319,25 @@ export function WebPridictaChat({
     .find(message => message.role === 'pridicta')?.id;
 
   async function refreshFreeAiBalance(): Promise<void> {
-    const balance = await loadWebFreeAiBalance();
+    const [balance, productBank] = await Promise.all([
+      loadWebFreeAiBalance(),
+      loadWebProductBankBalance(),
+    ]);
     if (!balance) {
       return;
     }
 
+    const bankLine = productBank
+      ? ` Product Bank: ${productBank.paidQuestionCredits} AI questions and ${productBank.reportCredits} report credits available.`
+      : '';
+
     setPassCostDisplay({
       body:
         balance.remaining > 0
-          ? `${balance.remaining} of ${balance.total} lifetime starter AI questions remaining. Deterministic Kundli, charts, reports, and Family Vault actions do not spend these.`
-          : 'Your 3 lifetime starter AI questions are used. Deterministic Kundli, charts, reports, and Family Vault actions still work without AI spend.',
+          ? `${balance.remaining} of ${balance.total} lifetime starter AI questions remaining. Deterministic Kundli, charts, reports, and Family Vault actions do not spend these.${bankLine}`
+          : `Your 3 lifetime starter AI questions are used. Deterministic Kundli, charts, reports, and Family Vault actions still work without AI spend.${bankLine}`,
       kind: 'free',
-      title: 'Starter AI questions',
+      title: productBank ? 'Starter AI + Product Bank' : 'Starter AI questions',
       tone: balance.remaining > 0 ? 'steady' : 'careful',
     });
   }

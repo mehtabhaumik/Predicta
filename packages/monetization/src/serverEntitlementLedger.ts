@@ -5,7 +5,12 @@ import type {
   OneTimeProductType,
   UserPlan,
 } from '@pridicta/types';
-import { createFreeEntitlement } from '@pridicta/types';
+import {
+  createFreeEntitlement,
+  getQuestionCreditQuantity,
+  getReportCreditQuantity,
+  isQuestionPackProduct,
+} from '@pridicta/types';
 
 export const SERVER_ENTITLEMENT_LEDGER_VERSION = 1;
 export const FREE_AI_QUESTION_LIFETIME_LIMIT = 3;
@@ -318,11 +323,11 @@ export function mapOneTimeProductToLedgerOperation({
   productId: string;
   productType: OneTimeProductType;
 }): ServerEntitlementOperation {
-  if (productType === 'FIVE_QUESTIONS') {
+  if (isQuestionPackProduct(productType)) {
     return {
       idempotencyKey,
       kind: 'grant_paid_ai_questions',
-      quantity: 5,
+      quantity: getQuestionCreditQuantity(productType),
     };
   }
 
@@ -344,7 +349,7 @@ export function mapOneTimeProductToLedgerOperation({
   return {
     idempotencyKey,
     kind: 'grant_report_credit',
-    quantity: 1,
+    quantity: getReportCreditQuantity(productType) || 1,
     reportType: mapProductTypeToReportCredit(productType),
   };
 }
@@ -369,7 +374,7 @@ export function mapServerLedgerToMonetizationState(
   if (ledger.paidAiQuestionCreditsBalance > 0) {
     oneTimeEntitlements.push({
       productId: 'server_paid_ai_questions',
-      productType: 'FIVE_QUESTIONS',
+      productType: 'AI_QUESTIONS_10',
       purchasedAt: ledger.audit.createdAt,
       remainingUses: ledger.paidAiQuestionCreditsBalance,
       source: 'firebase',
@@ -499,6 +504,8 @@ function mapProductTypeToReportCredit(productType: OneTimeProductType): ReportCr
       return 'DETAILED_KUNDLI_REPORT';
     case 'MARRIAGE_COMPATIBILITY_REPORT':
       return 'MARRIAGE_COMPATIBILITY_REPORT';
+    case 'REPORT_BUNDLE':
+    case 'REPORT_SINGLE':
     case 'PREMIUM_PDF':
     default:
       return 'PREMIUM_PDF';
@@ -514,6 +521,6 @@ function mapReportCreditToOneTimeProduct(reportType: ReportCreditType): OneTimeP
     case 'MARRIAGE_COMPATIBILITY_REPORT':
       return 'MARRIAGE_COMPATIBILITY_REPORT';
     default:
-      return 'PREMIUM_PDF';
+      return 'REPORT_SINGLE';
   }
 }

@@ -38,20 +38,20 @@ export function getPaywallContext(action: PaywallAction): PaywallContext {
     case 'QUESTION_LIMIT_REACHED':
       return {
         message:
-          'Your chart context is saved. You can continue tomorrow, add a few questions, or unlock more Predicta guidance today.',
-        primaryCta: 'Add 5 Questions',
-        secondaryCta: 'Try Tomorrow',
-        suggestedProductId: 'pridicta_five_questions',
-        title: "You've reached today's guidance limit.",
+          'Your chart context is saved. Add non-expiring AI questions or unlock Premium to continue deeper guidance.',
+        primaryCta: 'Add 10 Questions',
+        secondaryCta: 'Continue deterministic mode',
+        suggestedProductId: 'pridicta_10_questions',
+        title: 'Your starter AI questions are used.',
       };
     case 'PDF_LIMIT_REACHED':
     case 'PREMIUM_PDF_OFFER':
       return {
         message:
           'Your free report remains available. Premium PDF depth adds richer divisional chart, dasha, and guidance sections.',
-        primaryCta: 'Unlock Premium PDF',
+        primaryCta: 'Unlock Single Report',
         secondaryCta: 'Keep Free Report',
-        suggestedProductId: 'pridicta_premium_pdf',
+        suggestedProductId: 'pridicta_single_report',
         title: 'Go deeper with this report.',
       };
     case 'DEEP_AI_LIMIT_REACHED':
@@ -75,10 +75,10 @@ export function getPaywallContext(action: PaywallAction): PaywallContext {
     case 'QUESTION_PACK_OFFER':
       return {
         message:
-          'Add a few Predicta questions without starting a subscription.',
-        primaryCta: 'Add 5 Questions',
+          'Add non-expiring Predicta AI questions without starting a subscription.',
+        primaryCta: 'Add 10 Questions',
         secondaryCta: 'Continue Free',
-        suggestedProductId: 'pridicta_five_questions',
+        suggestedProductId: 'pridicta_10_questions',
         title: 'Need a few more questions?',
       };
     case 'LOCKED_CHART_TAPPED':

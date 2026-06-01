@@ -111,6 +111,20 @@ export async function askPridicta({
         message,
       });
     }
+  } else if (auth.userId && ledger && isProviderAiResponse(response)) {
+    const paidCreditSource = selectPaidAiCreditSpendSource(ledger, userPlan);
+
+    if (paidCreditSource) {
+      const result = await commitServerEntitlementOperationToFirebase({
+        operation: {
+          idempotencyKey: `paid-ai:${auth.userId}:${paidCreditSource}:${requestId}`,
+          kind: 'record_successful_paid_ai_answer',
+          source: paidCreditSource,
+        },
+        userId: auth.userId,
+      });
+      nextLedger = result.ledger;
+    }
   }
 
   if (isSafeToUseResponseCache(history)) {
@@ -203,6 +217,31 @@ function evaluateFreeAiGate(
     blocked: getFreeAiCreditsRemaining(ledger) <= 0,
     usesFreeCredit: true,
   };
+}
+
+function selectPaidAiCreditSpendSource(
+  ledger: Awaited<ReturnType<typeof loadServerEntitlementLedgerFromFirebase>>,
+  userPlan: PridictaChatRequest['userPlan'],
+): 'personal' | 'family_bank' | undefined {
+  if (
+    userPlan === 'PREMIUM' ||
+    ledger.premiumEntitlement.status === 'ACTIVE' ||
+    ledger.premiumEntitlement.status === 'GRACE_PERIOD' ||
+    (ledger.dayPassEntitlement.active &&
+      ledger.dayPassEntitlement.questionsRemaining > 0)
+  ) {
+    return undefined;
+  }
+
+  if (ledger.paidAiQuestionCreditsBalance > 0) {
+    return 'personal';
+  }
+
+  if (ledger.familyBank.sharedQuestionCreditsBalance > 0) {
+    return 'family_bank';
+  }
+
+  return undefined;
 }
 
 function getFreeAiCreditsRemaining(

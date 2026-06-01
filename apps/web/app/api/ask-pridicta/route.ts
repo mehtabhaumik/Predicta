@@ -101,6 +101,24 @@ export async function POST(request: Request): Promise<Response> {
         }),
       );
     }
+  } else if (isProviderAiResponse(response)) {
+    const paidCreditSource = selectPaidAiCreditSpendSource(ledger, trimmedPayload);
+
+    if (paidCreditSource) {
+      const result = await commitServerEntitlementOperation({
+        operation: {
+          idempotencyKey: buildPaidAiIdempotencyKey(
+            auth.user.uid,
+            paidCreditSource,
+            trimmedPayload,
+          ),
+          kind: 'record_successful_paid_ai_answer',
+          source: paidCreditSource,
+        },
+        user: auth.user,
+      });
+      nextLedger = result.ledger;
+    }
   }
 
   return Response.json({
@@ -160,6 +178,31 @@ function hasNonFreeAiAccess(ledger: ServerEntitlementLedger): boolean {
   );
 }
 
+function selectPaidAiCreditSpendSource(
+  ledger: ServerEntitlementLedger,
+  body: unknown,
+): 'personal' | 'family_bank' | undefined {
+  if (
+    getUserPlan(body) === 'PREMIUM' ||
+    ledger.premiumEntitlement.status === 'ACTIVE' ||
+    ledger.premiumEntitlement.status === 'GRACE_PERIOD' ||
+    (ledger.dayPassEntitlement.active &&
+      ledger.dayPassEntitlement.questionsRemaining > 0)
+  ) {
+    return undefined;
+  }
+
+  if (ledger.paidAiQuestionCreditsBalance > 0) {
+    return 'personal';
+  }
+
+  if (ledger.familyBank.sharedQuestionCreditsBalance > 0) {
+    return 'family_bank';
+  }
+
+  return undefined;
+}
+
 function getUserPlan(body: unknown): string | undefined {
   return body && typeof body === 'object' && !Array.isArray(body)
     ? String((body as Record<string, unknown>).userPlan ?? '')
@@ -200,6 +243,24 @@ function buildFreeAiIdempotencyKey(uid: string, body: unknown): string {
           .update(`${uid}:${String(payload.message ?? '')}:${Date.now()}`)
           .digest('hex');
   return `free-ai:${uid}:${clientRequestId}`;
+}
+
+function buildPaidAiIdempotencyKey(
+  uid: string,
+  source: 'personal' | 'family_bank',
+  body: unknown,
+): string {
+  const payload =
+    body && typeof body === 'object' && !Array.isArray(body)
+      ? (body as Record<string, unknown>)
+      : {};
+  const clientRequestId =
+    typeof payload.clientRequestId === 'string' && payload.clientRequestId.trim()
+      ? payload.clientRequestId.trim()
+      : createHash('sha256')
+          .update(`${uid}:${source}:${String(payload.message ?? '')}:${Date.now()}`)
+          .digest('hex');
+  return `paid-ai:${uid}:${source}:${clientRequestId}`;
 }
 
 function buildFreeAiUpsellResponse({

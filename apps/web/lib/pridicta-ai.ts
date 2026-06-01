@@ -94,6 +94,56 @@ export async function loadWebFreeAiBalance(): Promise<
   }
 }
 
+export async function loadWebProductBankBalance(): Promise<
+  | {
+      familyReportCredits: number;
+      familySharedMembers: number;
+      familySharingEnabled: boolean;
+      familyQuestionCredits: number;
+      paidQuestionCredits: number;
+      reportCredits: number;
+    }
+  | undefined
+> {
+  try {
+    const authHeaders = await getWebAuthHeaders();
+    const response = await fetch('/api/entitlements/ledger', {
+      headers: authHeaders,
+      method: 'GET',
+    });
+
+    if (!response.ok) {
+      return undefined;
+    }
+
+    const payload = (await response.json()) as { ledger?: ServerEntitlementLedger };
+    if (!payload.ledger) {
+      return undefined;
+    }
+
+    return {
+      familyQuestionCredits: payload.ledger.familyBank.sharedQuestionCreditsBalance,
+      familyReportCredits: sumCreditMap(payload.ledger.familyBank.sharedReportCreditsByType),
+      familySharedMembers: payload.ledger.familyBank.memberUids.length,
+      familySharingEnabled:
+        payload.ledger.familyBank.memberUids.length > 1 ||
+        payload.ledger.familyBank.sharedQuestionCreditsBalance > 0 ||
+        sumCreditMap(payload.ledger.familyBank.sharedReportCreditsByType) > 0,
+      paidQuestionCredits: payload.ledger.paidAiQuestionCreditsBalance,
+      reportCredits: sumCreditMap(payload.ledger.reportCreditsByType),
+    };
+  } catch {
+    return undefined;
+  }
+}
+
+function sumCreditMap(value: Partial<Record<string, number>>): number {
+  return Object.values(value).reduce<number>(
+    (total, amount) => total + Math.max(0, Number(amount) || 0),
+    0,
+  );
+}
+
 export async function extractBirthDetailsFromWeb(
   text: string,
   options: { allowProviderFallback?: boolean } = {},

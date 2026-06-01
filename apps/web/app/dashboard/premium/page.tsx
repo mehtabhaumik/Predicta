@@ -19,7 +19,14 @@ export default function DashboardPremiumPage(): React.JSX.Element {
   const plans = getPricingPlans();
   const dayPass = getDayPassProduct();
   const products = getOneTimeProducts().filter(product =>
-    ['PREMIUM_PDF', 'JAIMINI_REPORT', 'MARRIAGE_COMPATIBILITY_REPORT'].includes(product.id),
+    [
+      'AI_QUESTIONS_10',
+      'AI_QUESTIONS_25',
+      'REPORT_SINGLE',
+      'REPORT_BUNDLE',
+      'JAIMINI_REPORT',
+      'MARRIAGE_COMPATIBILITY_REPORT',
+    ].includes(product.id),
   );
 
   return (
@@ -480,6 +487,22 @@ const ONE_TIME_COPY: Record<
       description: 'One polished report when a specific question needs a prepared answer.',
       label: 'Premium PDF',
     },
+    AI_QUESTIONS_10: {
+      description: 'Ten non-expiring AI questions for focused Predicta guidance.',
+      label: '10 AI Questions',
+    },
+    AI_QUESTIONS_25: {
+      description: 'Twenty-five non-expiring AI questions for ongoing Predicta guidance.',
+      label: '25 AI Questions',
+    },
+    REPORT_SINGLE: {
+      description: 'One non-expiring premium report credit.',
+      label: 'Single Report Credit',
+    },
+    REPORT_BUNDLE: {
+      description: 'Five non-expiring premium report credits.',
+      label: 'Report Bundle',
+    },
   },
   hi: {
     MARRIAGE_COMPATIBILITY_REPORT: {
@@ -494,6 +517,22 @@ const ONE_TIME_COPY: Record<
       description: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.fef02f7f2f"),
       label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.31641beaac"),
     },
+    AI_QUESTIONS_10: {
+      description: 'Ten non-expiring AI questions for focused Predicta guidance.',
+      label: '10 AI Questions',
+    },
+    AI_QUESTIONS_25: {
+      description: 'Twenty-five non-expiring AI questions for ongoing Predicta guidance.',
+      label: '25 AI Questions',
+    },
+    REPORT_SINGLE: {
+      description: 'One non-expiring premium report credit.',
+      label: 'Single Report Credit',
+    },
+    REPORT_BUNDLE: {
+      description: 'Five non-expiring premium report credits.',
+      label: 'Report Bundle',
+    },
   },
   gu: {
     MARRIAGE_COMPATIBILITY_REPORT: {
@@ -507,6 +546,22 @@ const ONE_TIME_COPY: Record<
     PREMIUM_PDF: {
       description: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.0848f65b68"),
       label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.d7ca86dc4e"),
+    },
+    AI_QUESTIONS_10: {
+      description: 'Ten non-expiring AI questions for focused Predicta guidance.',
+      label: '10 AI Questions',
+    },
+    AI_QUESTIONS_25: {
+      description: 'Twenty-five non-expiring AI questions for ongoing Predicta guidance.',
+      label: '25 AI Questions',
+    },
+    REPORT_SINGLE: {
+      description: 'One non-expiring premium report credit.',
+      label: 'Single Report Credit',
+    },
+    REPORT_BUNDLE: {
+      description: 'Five non-expiring premium report credits.',
+      label: 'Report Bundle',
     },
   },
 };

@@ -24,8 +24,13 @@ import {
 import { buildGeneratedReportMemoryContext } from '@pridicta/config/predictaMemory';
 import { SUPPORTED_LANGUAGE_OPTIONS } from '@pridicta/config/language';
 import { composeReportSections, type PdfSection } from '@pridicta/pdf';
+import type { ReportCreditType, ServerEntitlementLedger } from '@pridicta/monetization';
 import { trackAnalyticsEvent } from '../services/analytics/analyticsService';
 import { syncRedeemedGuestPassToUser } from '../services/firebase/passCodePersistence';
+import {
+  commitServerEntitlementOperationToFirebase,
+  loadServerEntitlementLedgerFromFirebase,
+} from '../services/firebase/serverEntitlementLedgerSync';
 import { saveReportLanguagePreference } from '../services/preferences/languagePreferenceStorage';
 import { generateHoroscopePdf } from '../services/pdf/pdfGenerator';
 import { useAppStore } from '../store/useAppStore';
@@ -273,7 +278,26 @@ export function ReportScreen({
         !premiumAccess &&
         access.source !== 'guest_pass'
       ) {
-        consumeReportPdfCredit(kundli.id, selectedReportId);
+        if (auth.userId) {
+          const ledger = await loadServerEntitlementLedgerFromFirebase(auth.userId);
+          const paidReportCredit = selectPaidReportCreditSpend(ledger, selectedReportId);
+
+          if (paidReportCredit) {
+            await commitServerEntitlementOperationToFirebase({
+              operation: {
+                idempotencyKey: `report-pdf:${auth.userId}:${paidReportCredit.source}:${paidReportCredit.reportType}:${Date.now()}`,
+                kind: 'consume_report_credit',
+                reportType: paidReportCredit.reportType,
+                source: paidReportCredit.source,
+              },
+              userId: auth.userId,
+            });
+          } else {
+            consumeReportPdfCredit(kundli.id, selectedReportId);
+          }
+        } else {
+          consumeReportPdfCredit(kundli.id, selectedReportId);
+        }
       }
       showGlassAlert({
         actions:
@@ -689,6 +713,48 @@ export function ReportScreen({
 
     </Screen>
   );
+}
+
+function selectPaidReportCreditSpend(
+  ledger: ServerEntitlementLedger,
+  reportFocus: ReportMarketplaceProduct['id'],
+): { reportType: ReportCreditType; source: 'personal' | 'family_bank' } | undefined {
+  const preferred = mapReportFocusToCreditType(reportFocus);
+  const candidates: ReportCreditType[] =
+    preferred === 'PREMIUM_PDF' ? ['PREMIUM_PDF'] : [preferred, 'PREMIUM_PDF'];
+
+  for (const reportType of candidates) {
+    if ((ledger.reportCreditsByType[reportType] ?? 0) > 0) {
+      return { reportType, source: 'personal' };
+    }
+    if ((ledger.familyBank.sharedReportCreditsByType[reportType] ?? 0) > 0) {
+      return { reportType, source: 'family_bank' };
+    }
+  }
+
+  return undefined;
+}
+
+function mapReportFocusToCreditType(
+  reportFocus: ReportMarketplaceProduct['id'],
+): ReportCreditType {
+  switch (reportFocus) {
+    case 'KP':
+      return 'KP';
+    case 'JAIMINI':
+      return 'JAIMINI';
+    case 'NUMEROLOGY':
+      return 'NUMEROLOGY';
+    case 'SIGNATURE':
+      return 'SIGNATURE';
+    case 'LIFE_ATLAS':
+      return 'LIFE_ATLAS';
+    case 'VEDIC':
+    case 'KUNDLI':
+      return 'VEDIC';
+    default:
+      return 'PREMIUM_PDF';
+  }
 }
 
 function ReportProductButton({

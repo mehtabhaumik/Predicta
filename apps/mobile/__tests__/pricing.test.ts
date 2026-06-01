@@ -24,11 +24,17 @@ describe('pricing config', () => {
       priceInr: 49,
     });
     expect(getPremiumPdfProduct()).toMatchObject({
-      id: 'PREMIUM_PDF',
-      priceInr: 249,
+      id: 'REPORT_SINGLE',
+      priceInr: 299,
     });
-    expect(getOneTimeProducts().map(product => product.id)).toContain(
-      'FIVE_QUESTIONS',
+    expect(getOneTimeProducts().map(product => product.id)).toEqual(
+      expect.arrayContaining([
+        'AI_QUESTIONS_10',
+        'AI_QUESTIONS_25',
+        'AI_QUESTIONS_100',
+        'REPORT_SINGLE',
+        'REPORT_BUNDLE',
+      ]),
     );
   });
 });

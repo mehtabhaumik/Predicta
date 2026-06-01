@@ -4,7 +4,11 @@ import type {
   MonetizationState,
   OneTimeEntitlement,
 } from '@pridicta/types';
-import { createFreeEntitlement } from '@pridicta/types';
+import {
+  createFreeEntitlement,
+  getQuestionCreditQuantity,
+  isQuestionPackProduct,
+} from '@pridicta/types';
 
 export function createInitialMonetizationState(): MonetizationState {
   return {
@@ -54,8 +58,13 @@ export function getPaidQuestionCredits(
   oneTimeEntitlements: OneTimeEntitlement[],
 ): number {
   return oneTimeEntitlements
-    .filter(item => item.productType === 'FIVE_QUESTIONS')
-    .reduce((total, item) => total + Math.max(0, item.remainingUses ?? 0), 0);
+    .filter(item => isQuestionPackProduct(item.productType))
+    .reduce(
+      (total, item) =>
+        total +
+        Math.max(0, item.remainingUses ?? getQuestionCreditQuantity(item.productType)),
+      0,
+    );
 }
 
 export function hasPremiumPdfCredit(
@@ -65,6 +74,8 @@ export function hasPremiumPdfCredit(
   return oneTimeEntitlements.some(
     item =>
       (item.productType === 'PREMIUM_PDF' ||
+        item.productType === 'REPORT_SINGLE' ||
+        item.productType === 'REPORT_BUNDLE' ||
         item.productType === 'DETAILED_KUNDLI_REPORT') &&
       (item.remainingUses ?? 0) > 0 &&
       (!kundliId || !item.kundliId || item.kundliId === kundliId) &&
@@ -103,7 +114,7 @@ export function consumeOneTimeQuestionCreditFromState(
   const nextEntitlements = [...state.oneTimeEntitlements];
   const index = nextEntitlements.findIndex(
     item =>
-      item.productType === 'FIVE_QUESTIONS' &&
+      isQuestionPackProduct(item.productType) &&
       (item.remainingUses ?? 0) > 0 &&
       !isExpired(item.expiresAt),
   );
@@ -148,8 +159,12 @@ export function consumeReportPdfCreditFromState(
         reportFocus === 'JAIMINI'
           ? isJaiminiReportCredit(item) ||
             item.productType === 'PREMIUM_PDF' ||
+            item.productType === 'REPORT_SINGLE' ||
+            item.productType === 'REPORT_BUNDLE' ||
             item.productType === 'DETAILED_KUNDLI_REPORT'
           : item.productType === 'PREMIUM_PDF' ||
+            item.productType === 'REPORT_SINGLE' ||
+            item.productType === 'REPORT_BUNDLE' ||
             item.productType === 'DETAILED_KUNDLI_REPORT';
 
       return (

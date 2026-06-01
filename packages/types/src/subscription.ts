@@ -3,9 +3,14 @@ import type { UserPlan } from './astrology';
 export type BillingPeriod = 'WEEKLY' | 'MONTHLY' | 'QUARTERLY' | 'YEARLY';
 
 export type OneTimeProductType =
+  | 'AI_QUESTIONS_10'
+  | 'AI_QUESTIONS_25'
+  | 'AI_QUESTIONS_100'
   | 'DAY_PASS'
   | 'FIVE_QUESTIONS'
   | 'PREMIUM_PDF'
+  | 'REPORT_SINGLE'
+  | 'REPORT_BUNDLE'
   | 'JAIMINI_REPORT'
   | 'DETAILED_KUNDLI_REPORT'
   | 'MARRIAGE_COMPATIBILITY_REPORT';

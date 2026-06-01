@@ -458,6 +458,18 @@ function getLocalizedOneTimeProductCopy(
 ): { description: string; label: string } {
   if (language === 'hi') {
     const map: Record<string, { description: string; label: string }> = {
+      AI_QUESTIONS_10: {
+        description: 'Add 10 non-expiring AI questions to your Product Bank.',
+        label: '10 AI Questions',
+      },
+      AI_QUESTIONS_25: {
+        description: 'Add 25 non-expiring AI questions for ongoing Predicta guidance.',
+        label: '25 AI Questions',
+      },
+      AI_QUESTIONS_100: {
+        description: 'Add 100 non-expiring AI questions for serious ongoing guidance.',
+        label: '100 AI Questions',
+      },
       DAY_PASS: {
         description: getNativeCopy("native.apps.web.app.pricing.page.tsx.132402e0c4"),
         label: getNativeCopy("native.apps.web.app.pricing.page.tsx.ec32113b0b"),
@@ -482,6 +494,14 @@ function getLocalizedOneTimeProductCopy(
         description: getNativeCopy("native.apps.web.app.pricing.page.tsx.dd6621dfa2"),
         label: getNativeCopy("native.apps.web.app.pricing.page.tsx.31641beaac"),
       },
+      REPORT_BUNDLE: {
+        description: 'Add five non-expiring premium report credits.',
+        label: 'Report Bundle',
+      },
+      REPORT_SINGLE: {
+        description: 'Unlock one non-expiring premium report credit.',
+        label: 'Single Report Credit',
+      },
     };
 
     return map[id] ?? { description: '', label: id };
@@ -489,6 +509,18 @@ function getLocalizedOneTimeProductCopy(
 
   if (language === 'gu') {
     const map: Record<string, { description: string; label: string }> = {
+      AI_QUESTIONS_10: {
+        description: 'Add 10 non-expiring AI questions to your Product Bank.',
+        label: '10 AI Questions',
+      },
+      AI_QUESTIONS_25: {
+        description: 'Add 25 non-expiring AI questions for ongoing Predicta guidance.',
+        label: '25 AI Questions',
+      },
+      AI_QUESTIONS_100: {
+        description: 'Add 100 non-expiring AI questions for serious ongoing guidance.',
+        label: '100 AI Questions',
+      },
       DAY_PASS: {
         description: getNativeCopy("native.apps.web.app.pricing.page.tsx.15479dc7d6"),
         label: getNativeCopy("native.apps.web.app.pricing.page.tsx.039eabd9e9"),
@@ -513,6 +545,14 @@ function getLocalizedOneTimeProductCopy(
         description: getNativeCopy("native.apps.web.app.pricing.page.tsx.72d90e9880"),
         label: getNativeCopy("native.apps.web.app.pricing.page.tsx.d7ca86dc4e"),
       },
+      REPORT_BUNDLE: {
+        description: 'Add five non-expiring premium report credits.',
+        label: 'Report Bundle',
+      },
+      REPORT_SINGLE: {
+        description: 'Unlock one non-expiring premium report credit.',
+        label: 'Single Report Credit',
+      },
     };
 
     return map[id] ?? { description: '', label: id };
@@ -522,27 +562,47 @@ function getLocalizedOneTimeProductCopy(
     description:
       id === 'DAY_PASS'
         ? 'Try Premium depth for one day without a subscription.'
-        : id === 'FIVE_QUESTIONS'
-          ? 'Add 5 Predicta questions when you need more guidance.'
-          : id === 'PREMIUM_PDF'
-            ? 'Unlock one premium-depth PDF for the active kundli.'
-            : id === 'DETAILED_KUNDLI_REPORT'
-              ? 'Generate one deeper kundli dossier for the active kundli.'
-              : id === 'JAIMINI_REPORT'
-                ? 'Unlock one premium-depth Jaimini destiny report for the active Kundli.'
-                : 'Focused two-chart relationship and marriage timing report.',
+        : id === 'AI_QUESTIONS_10'
+          ? 'Add 10 non-expiring Predicta AI questions.'
+          : id === 'AI_QUESTIONS_25'
+            ? 'Add 25 non-expiring Predicta AI questions.'
+            : id === 'AI_QUESTIONS_100'
+              ? 'Add 100 non-expiring Predicta AI questions.'
+              : id === 'FIVE_QUESTIONS'
+                ? 'Add 5 Predicta questions when you need more guidance.'
+                : id === 'REPORT_SINGLE'
+                  ? 'Unlock one non-expiring premium report credit.'
+                  : id === 'REPORT_BUNDLE'
+                    ? 'Add five non-expiring premium report credits.'
+                    : id === 'PREMIUM_PDF'
+                      ? 'Unlock one premium-depth PDF for the active kundli.'
+                      : id === 'DETAILED_KUNDLI_REPORT'
+                        ? 'Generate one deeper kundli dossier for the active kundli.'
+                        : id === 'JAIMINI_REPORT'
+                          ? 'Unlock one premium-depth Jaimini destiny report for the active Kundli.'
+                          : 'Focused two-chart relationship and marriage timing report.',
     label:
       id === 'DAY_PASS'
         ? 'Day Pass'
-        : id === 'FIVE_QUESTIONS'
-          ? '5 Predicta Questions'
-          : id === 'PREMIUM_PDF'
-            ? 'Premium PDF'
-            : id === 'DETAILED_KUNDLI_REPORT'
-              ? 'Detailed Kundli Report'
-              : id === 'JAIMINI_REPORT'
-                ? 'Jaimini Report Credit'
-                : 'Marriage Compatibility Report',
+        : id === 'AI_QUESTIONS_10'
+          ? '10 AI Questions'
+          : id === 'AI_QUESTIONS_25'
+            ? '25 AI Questions'
+            : id === 'AI_QUESTIONS_100'
+              ? '100 AI Questions'
+              : id === 'FIVE_QUESTIONS'
+                ? '5 Predicta Questions'
+                : id === 'REPORT_SINGLE'
+                  ? 'Single Report Credit'
+                  : id === 'REPORT_BUNDLE'
+                    ? 'Report Bundle'
+                    : id === 'PREMIUM_PDF'
+                      ? 'Premium PDF'
+                      : id === 'DETAILED_KUNDLI_REPORT'
+                        ? 'Detailed Kundli Report'
+                        : id === 'JAIMINI_REPORT'
+                          ? 'Jaimini Report Credit'
+                          : 'Marriage Compatibility Report',
   };
 }
 

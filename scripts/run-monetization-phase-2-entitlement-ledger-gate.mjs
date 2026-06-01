@@ -43,7 +43,7 @@ async function importLedgerModule() {
   const sourcePath = path.join(root, 'packages/monetization/src/serverEntitlementLedger.ts');
   const source = fs.readFileSync(sourcePath, 'utf8')
     .replace(
-      "import { createFreeEntitlement } from '@pridicta/types';",
+      /import \{\s*createFreeEntitlement,\s*getQuestionCreditQuantity,\s*getReportCreditQuantity,\s*isQuestionPackProduct,\s*\} from '@pridicta\/types';/,
       [
         "function createFreeEntitlement(source = 'local') {",
         "  return {",
@@ -52,6 +52,15 @@ async function importLedgerModule() {
         "    status: 'NONE',",
         "    updatedAt: new Date().toISOString(),",
         '  };',
+        '}',
+        'function getQuestionCreditQuantity(productType) {',
+        "  return productType === 'AI_QUESTIONS_100' ? 100 : productType === 'AI_QUESTIONS_25' ? 25 : productType === 'AI_QUESTIONS_10' ? 10 : productType === 'FIVE_QUESTIONS' ? 5 : 0;",
+        '}',
+        'function getReportCreditQuantity(productType) {',
+        "  return productType === 'REPORT_BUNDLE' ? 5 : productType === 'REPORT_SINGLE' || productType === 'PREMIUM_PDF' || productType === 'JAIMINI_REPORT' || productType === 'DETAILED_KUNDLI_REPORT' || productType === 'MARRIAGE_COMPATIBILITY_REPORT' ? 1 : 0;",
+        '}',
+        'function isQuestionPackProduct(productType) {',
+        '  return getQuestionCreditQuantity(productType) > 0;',
         '}',
       ].join('\n'),
     );

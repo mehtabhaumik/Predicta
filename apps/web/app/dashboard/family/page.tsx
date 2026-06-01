@@ -2,11 +2,15 @@
 
 import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import type { SupportedLanguage } from '@pridicta/types';
 import { FamilyRelationshipBadge } from '../../../components/FamilyRelationshipBadge';
 import { WebAuthRequired } from '../../../components/WebAuthRequired';
 import { useLanguagePreference } from '../../../lib/language-preference';
 import { useWebKundliLibrary } from '../../../lib/use-web-kundli-library';
+import { loadWebProductBankBalance } from '../../../lib/pridicta-ai';
+
+type ProductBankBalance = Awaited<ReturnType<typeof loadWebProductBankBalance>>;
 
 type FamilyPageCopy = {
   actions: {
@@ -194,12 +198,17 @@ const COPY: Record<SupportedLanguage, FamilyPageCopy> = {
 export default function FamilyPage(): React.JSX.Element {
   const { language } = useLanguagePreference();
   const { activeKundli, savedKundlis } = useWebKundliLibrary();
+  const [productBank, setProductBank] = useState<ProductBankBalance>();
   const copy = COPY[language] ?? COPY.en;
   const profiles = activeKundli
     ? [activeKundli, ...savedKundlis.filter(item => item.id !== activeKundli.id)]
     : savedKundlis;
   const ownerProfile =
     profiles.find(profile => profile.isOwnerProfile) ?? profiles[0];
+
+  useEffect(() => {
+    void loadWebProductBankBalance().then(setProductBank);
+  }, []);
 
   return (
     <section className="dashboard-page">
@@ -247,6 +256,19 @@ export default function FamilyPage(): React.JSX.Element {
             <span>{copy.cards.readinessTitle(profiles.length)}</span>
             <strong>{profiles.length}</strong>
             <p>{copy.cards.readinessBody(profiles.length)}</p>
+          </div>
+          <div className="family-overview-card">
+            <span>Family Bank</span>
+            <strong>
+              {productBank
+                ? `${productBank.familyQuestionCredits} AI · ${productBank.familyReportCredits} reports`
+                : 'Checking'}
+            </strong>
+            <p>
+              Sharing is owner opt-in and reversible. Family Bank credits can be
+              used by linked members, but private chats, reports, and personal
+              history are never exposed.
+            </p>
           </div>
         </div>
 

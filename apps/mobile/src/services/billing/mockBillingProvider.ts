@@ -38,17 +38,32 @@ function createOneTimeEntitlement(productId: string): OneTimeEntitlement {
     productId: product.productId,
     productType: product.id,
     purchasedAt: new Date().toISOString(),
-    remainingUses:
-      product.id === 'FIVE_QUESTIONS'
-        ? 5
-        : product.id === 'PREMIUM_PDF' ||
-          product.id === 'JAIMINI_REPORT' ||
-          product.id === 'DETAILED_KUNDLI_REPORT' ||
-          product.id === 'MARRIAGE_COMPATIBILITY_REPORT'
-        ? 1
-        : undefined,
+    remainingUses: getMockOneTimeUses(product.id),
     source: 'mock',
   };
+}
+
+function getMockOneTimeUses(productType: OneTimeEntitlement['productType']): number | undefined {
+  switch (productType) {
+    case 'AI_QUESTIONS_10':
+      return 10;
+    case 'AI_QUESTIONS_25':
+      return 25;
+    case 'AI_QUESTIONS_100':
+      return 100;
+    case 'FIVE_QUESTIONS':
+      return 5;
+    case 'REPORT_BUNDLE':
+      return 5;
+    case 'REPORT_SINGLE':
+    case 'PREMIUM_PDF':
+    case 'JAIMINI_REPORT':
+    case 'DETAILED_KUNDLI_REPORT':
+    case 'MARRIAGE_COMPATIBILITY_REPORT':
+      return 1;
+    default:
+      return undefined;
+  }
 }
 
 export const mockBillingProvider: BillingProvider = {

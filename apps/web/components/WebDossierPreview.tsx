@@ -66,6 +66,7 @@ import {
   loadWebRedeemedGuestPass,
   resolveWebAccess,
 } from '../lib/web-access-state';
+import { loadWebProductBankBalance } from '../lib/pridicta-ai';
 import { createInitialMonetizationState } from '@pridicta/monetization';
 
 const SIGNATURE_DRAFT_STORAGE_KEY = 'pridicta.signatureDraft.v1';
@@ -232,6 +233,9 @@ export function WebDossierPreview(): React.JSX.Element {
   const [redeemedGuestPass, setRedeemedGuestPass] = useState<
     RedeemedGuestPass | undefined
   >();
+  const [productBankBalance, setProductBankBalance] = useState<
+    Awaited<ReturnType<typeof loadWebProductBankBalance>>
+  >();
   const [isAccessLoading, setIsAccessLoading] = useState(false);
   const labels = getLanguageLabels(appLanguage);
   const reportLabels = getLanguageLabels(reportLanguage);
@@ -367,10 +371,14 @@ export function WebDossierPreview(): React.JSX.Element {
     let cancelled = false;
     setIsAccessLoading(true);
 
-    loadWebMonetizationState(user.uid)
-      .then(state => {
+    Promise.all([
+      loadWebMonetizationState(user.uid),
+      loadWebProductBankBalance(),
+    ])
+      .then(([state, productBank]) => {
         if (!cancelled) {
           setMonetization(state);
+          setProductBankBalance(productBank);
         }
       })
       .finally(() => {
@@ -975,6 +983,27 @@ export function WebDossierPreview(): React.JSX.Element {
             </div>
           </div>
         )}
+
+        <div className="report-depth-grid inline" aria-label="Product Bank balance">
+          <div>
+            <span>Product Bank</span>
+            <p>
+              {productBankBalance
+                ? `${productBankBalance.paidQuestionCredits} AI questions · ${productBankBalance.reportCredits} report credits`
+                : user
+                  ? 'Checking your non-expiring credits.'
+                  : 'Sign in to use question and report packs.'}
+            </p>
+          </div>
+          <div>
+            <span>Family Bank</span>
+            <p>
+              {productBankBalance
+                ? `${productBankBalance.familyQuestionCredits} shared AI questions · ${productBankBalance.familyReportCredits} shared report credits`
+                : 'Owner opt-in sharing can be enabled from Family Vault.'}
+            </p>
+          </div>
+        </div>
 
         <details className="report-drawer report-inline-language">
           <summary>

@@ -17,7 +17,7 @@ describe('paywallService', () => {
   it('returns calm contextual copy and applies cooldown', () => {
     const context = getPaywallContext('QUESTION_LIMIT_REACHED');
 
-    expect(context.primaryCta).toBe('Add 5 Questions');
+    expect(context.primaryCta).toBe('Add 10 Questions');
     expect(context.message).toContain('chart context is saved');
     expect(canShowPaywallForAction('QUESTION_LIMIT_REACHED')).toBe(true);
     markPaywallShown('QUESTION_LIMIT_REACHED');

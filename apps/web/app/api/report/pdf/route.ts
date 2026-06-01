@@ -1,7 +1,9 @@
+import { createHash } from 'node:crypto';
 import { access, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { NextResponse } from 'next/server';
 import { renderToBuffer } from '@react-pdf/renderer';
+import type { ReportCreditType, ServerEntitlementLedger } from '@pridicta/monetization';
 
 import type { PdfGenerationRequest } from '@pridicta/pdf/reportDocument';
 import {
@@ -9,6 +11,10 @@ import {
   createPredictaReportPdfElement,
 } from '@pridicta/pdf/reportDocument';
 import { requireFirebaseUser } from '../../../../lib/firebase/server-auth';
+import {
+  commitServerEntitlementOperation,
+  readServerEntitlementLedger,
+} from '../../../../lib/firebase/server-entitlement-ledger';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -47,6 +53,16 @@ export async function POST(request: Request): Promise<Response> {
     );
   }
 
+  const ledger = await readServerEntitlementLedger(auth.user);
+  const paidReportCredit = selectPaidReportCreditSpend(ledger, payload);
+
+  if (payload.mode === 'PREMIUM' && !hasPremiumReportAccess(ledger) && !paidReportCredit) {
+    return NextResponse.json(
+      { error: 'A Premium subscription, Day Pass, or paid report credit is required before creating this Premium PDF.' },
+      { status: 402 },
+    );
+  }
+
   const result = buildPredictaPdfResult(payload);
   const pdfBuffer = await renderToBuffer(
     createPredictaReportPdfElement(result, {
@@ -54,6 +70,23 @@ export async function POST(request: Request): Promise<Response> {
       watermarkSrc: await loadPredictaWatermarkDataUri(),
     }),
   );
+
+  if (paidReportCredit) {
+    await commitServerEntitlementOperation({
+      operation: {
+        idempotencyKey: buildReportCreditIdempotencyKey(
+          auth.user.uid,
+          paidReportCredit.source,
+          paidReportCredit.reportType,
+          payload,
+        ),
+        kind: 'consume_report_credit',
+        reportType: paidReportCredit.reportType,
+        source: paidReportCredit.source,
+      },
+      user: auth.user,
+    });
+  }
 
   const safeName = sanitizeFilename(payload.kundli.birthDetails.name || 'predicta');
   const modeLabel = payload.mode.toLowerCase();
@@ -67,6 +100,84 @@ export async function POST(request: Request): Promise<Response> {
       'Cache-Control': 'no-store, max-age=0',
     },
   });
+}
+
+function hasPremiumReportAccess(ledger: ServerEntitlementLedger): boolean {
+  return (
+    ledger.premiumEntitlement.status === 'ACTIVE' ||
+    ledger.premiumEntitlement.status === 'GRACE_PERIOD' ||
+    (ledger.dayPassEntitlement.active && ledger.dayPassEntitlement.pdfsRemaining > 0)
+  );
+}
+
+function selectPaidReportCreditSpend(
+  ledger: ServerEntitlementLedger,
+  payload: PdfGenerationRequest,
+): { reportType: ReportCreditType; source: 'personal' | 'family_bank' } | undefined {
+  if (payload.mode !== 'PREMIUM' || hasPremiumReportAccess(ledger)) {
+    return undefined;
+  }
+
+  const preferred = mapReportFocusToCreditType(payload.reportFocus);
+  const candidates: ReportCreditType[] =
+    preferred === 'PREMIUM_PDF' ? ['PREMIUM_PDF'] : [preferred, 'PREMIUM_PDF'];
+
+  for (const reportType of candidates) {
+    if ((ledger.reportCreditsByType[reportType] ?? 0) > 0) {
+      return { reportType, source: 'personal' };
+    }
+    if ((ledger.familyBank.sharedReportCreditsByType[reportType] ?? 0) > 0) {
+      return { reportType, source: 'family_bank' };
+    }
+  }
+
+  return undefined;
+}
+
+function mapReportFocusToCreditType(
+  reportFocus: PdfGenerationRequest['reportFocus'],
+): ReportCreditType {
+  switch (reportFocus) {
+    case 'KP':
+      return 'KP';
+    case 'JAIMINI':
+      return 'JAIMINI';
+    case 'NUMEROLOGY':
+      return 'NUMEROLOGY';
+    case 'SIGNATURE':
+      return 'SIGNATURE';
+    case 'LIFE_ATLAS':
+      return 'LIFE_ATLAS';
+    case 'VEDIC':
+    case 'KUNDLI':
+      return 'VEDIC';
+    default:
+      return 'PREMIUM_PDF';
+  }
+}
+
+function buildReportCreditIdempotencyKey(
+  uid: string,
+  source: 'personal' | 'family_bank',
+  reportType: ReportCreditType,
+  payload: PdfGenerationRequest,
+): string {
+  const digest = createHash('sha256')
+    .update(
+      JSON.stringify({
+        at: Date.now(),
+        kundliId: payload.kundli?.id,
+        mode: payload.mode,
+        reportFocus: payload.reportFocus,
+        reportType,
+        sectionKeys: payload.sectionKeys,
+        source,
+        uid,
+      }),
+    )
+    .digest('hex')
+    .slice(0, 24);
+  return `report-pdf:${uid}:${source}:${reportType}:${digest}`;
 }
 
 async function loadPredictaLogoDataUri(): Promise<string> {

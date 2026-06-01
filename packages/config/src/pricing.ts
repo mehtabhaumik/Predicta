@@ -14,12 +14,17 @@ export const SUBSCRIPTION_PRICING = {
 } as const;
 
 export const ONE_TIME_PRICING = {
+  aiQuestions10: 199,
+  aiQuestions25: 449,
+  aiQuestions100: 1499,
   dayPass: 49,
   detailedKundliReport: 399,
   fiveQuestions: 149,
   jaiminiReport: 249,
   marriageCompatibilityReport: 499,
   premiumPdf: 249,
+  reportBundle: 999,
+  reportSingle: 299,
 } as const;
 
 export const PREMIUM_FEATURE_STORY = [
@@ -333,12 +338,17 @@ const subscriptionProductIds: Record<BillingPeriod, string> = {
 };
 
 const oneTimeProductIds: Record<OneTimeProductType, string> = {
+  AI_QUESTIONS_10: 'pridicta_10_questions',
+  AI_QUESTIONS_25: 'pridicta_25_questions',
+  AI_QUESTIONS_100: 'pridicta_100_questions',
   DAY_PASS: 'pridicta_day_pass_24h',
   DETAILED_KUNDLI_REPORT: 'pridicta_detailed_kundli_report',
   FIVE_QUESTIONS: 'pridicta_five_questions',
   JAIMINI_REPORT: 'pridicta_jaimini_report',
   MARRIAGE_COMPATIBILITY_REPORT: 'pridicta_marriage_compatibility_report',
   PREMIUM_PDF: 'pridicta_premium_pdf',
+  REPORT_BUNDLE: 'pridicta_report_bundle',
+  REPORT_SINGLE: 'pridicta_single_report',
 };
 
 export function formatInr(amount: number): string {
@@ -404,20 +414,49 @@ export function getOneTimeProducts(): OneTimeProduct[] {
       productId: oneTimeProductIds.DAY_PASS,
     },
     {
-      description: 'Use this when you only need a few more focused answers after the free preview.',
-      displayPrice: formatInr(ONE_TIME_PRICING.fiveQuestions),
-      id: 'FIVE_QUESTIONS',
-      label: '5 Predicta Questions',
-      priceInr: ONE_TIME_PRICING.fiveQuestions,
-      productId: oneTimeProductIds.FIVE_QUESTIONS,
+      badge: 'Non-expiring',
+      description: 'Add 10 AI questions to your Product Bank. Credits are spent only after successful AI answers.',
+      displayPrice: formatInr(ONE_TIME_PRICING.aiQuestions10),
+      id: 'AI_QUESTIONS_10',
+      label: '10 AI Questions',
+      priceInr: ONE_TIME_PRICING.aiQuestions10,
+      productId: oneTimeProductIds.AI_QUESTIONS_10,
     },
     {
-      description: 'Use this when you want one polished PDF for the active Kundli.',
-      displayPrice: formatInr(ONE_TIME_PRICING.premiumPdf),
-      id: 'PREMIUM_PDF',
-      label: 'Premium PDF',
-      priceInr: ONE_TIME_PRICING.premiumPdf,
-      productId: oneTimeProductIds.PREMIUM_PDF,
+      badge: 'Popular',
+      description: 'Add 25 AI questions for Vedic, KP, Jaimini, Numerology, Signature, and Life Atlas chat.',
+      displayPrice: formatInr(ONE_TIME_PRICING.aiQuestions25),
+      id: 'AI_QUESTIONS_25',
+      label: '25 AI Questions',
+      priceInr: ONE_TIME_PRICING.aiQuestions25,
+      productId: oneTimeProductIds.AI_QUESTIONS_25,
+    },
+    {
+      badge: 'Best value',
+      description: 'Add 100 non-expiring AI questions for serious ongoing Predicta guidance.',
+      displayPrice: formatInr(ONE_TIME_PRICING.aiQuestions100),
+      id: 'AI_QUESTIONS_100',
+      label: '100 AI Questions',
+      priceInr: ONE_TIME_PRICING.aiQuestions100,
+      productId: oneTimeProductIds.AI_QUESTIONS_100,
+    },
+    {
+      badge: 'One report',
+      description: 'Unlock one premium report credit for any supported report lane.',
+      displayPrice: formatInr(ONE_TIME_PRICING.reportSingle),
+      id: 'REPORT_SINGLE',
+      label: 'Single Report Credit',
+      priceInr: ONE_TIME_PRICING.reportSingle,
+      productId: oneTimeProductIds.REPORT_SINGLE,
+    },
+    {
+      badge: 'Non-expiring',
+      description: 'Add five premium report credits to your Product Bank for future downloads.',
+      displayPrice: formatInr(ONE_TIME_PRICING.reportBundle),
+      id: 'REPORT_BUNDLE',
+      label: 'Report Bundle',
+      priceInr: ONE_TIME_PRICING.reportBundle,
+      productId: oneTimeProductIds.REPORT_BUNDLE,
     },
     {
       badge: 'Jaimini',
@@ -459,12 +498,20 @@ export function getDayPassProduct(): OneTimeProduct {
 }
 
 export function getPremiumPdfProduct(): OneTimeProduct {
-  return getOneTimeProduct('PREMIUM_PDF');
+  return getOneTimeProduct('REPORT_SINGLE');
 }
 
 export function getOneTimeProduct(
   productType: OneTimeProductType,
 ): OneTimeProduct {
+  if (productType === 'FIVE_QUESTIONS') {
+    return getOneTimeProduct('AI_QUESTIONS_10');
+  }
+
+  if (productType === 'PREMIUM_PDF') {
+    return getOneTimeProduct('REPORT_SINGLE');
+  }
+
   const product = getOneTimeProducts().find(item => item.id === productType);
 
   if (!product) {
