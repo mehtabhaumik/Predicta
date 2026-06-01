@@ -233,6 +233,38 @@ export type JaiminiPlan = {
   upapadaLagna: JaiminiPadaReference;
 };
 
+export type JaiminiInterpretationBlockId =
+  | 'career-dharma-reading'
+  | 'current-destiny-chapter'
+  | 'premium-deepening'
+  | 'relationship-mirror-reading'
+  | 'soul-planet-reading'
+  | 'technical-evidence'
+  | 'visible-identity-reading'
+  | 'what-to-focus-on-now';
+
+export type JaiminiInterpretationBlock = {
+  confidence: 'high' | 'medium' | 'pending';
+  guidance: string;
+  headline: string;
+  id: JaiminiInterpretationBlockId;
+  premiumOnly?: boolean;
+  prediction: string;
+  technicalEvidence: string[];
+  title: string;
+};
+
+export type JaiminiInterpretation = {
+  blocks: JaiminiInterpretationBlock[];
+  calculationStatus: JaiminiCalculationStatus;
+  freeBlocks: JaiminiInterpretationBlock[];
+  guardrails: string[];
+  premiumBlocks: JaiminiInterpretationBlock[];
+  premiumSummary: string;
+  summary: string;
+  technicalEvidence: string[];
+};
+
 export type BhavChalitCusp = {
   house: number;
   longitude: number;

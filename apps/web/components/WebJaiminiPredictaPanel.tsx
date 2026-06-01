@@ -1,6 +1,6 @@
 'use client';
 
-import { composeJaiminiPlan } from '@pridicta/astrology';
+import { composeJaiminiInterpretation, composeJaiminiPlan } from '@pridicta/astrology';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { WebActiveKundliActions } from './WebActiveKundliActions';
 import { PredictaWorldFrame } from './PredictaWorldFrame';
@@ -28,10 +28,11 @@ const JAIMINI_ACTIONS = [
 export function WebJaiminiPredictaPanel(): React.JSX.Element {
   const { activeKundli } = useWebKundliLibrary();
   const jaiminiPlan = composeJaiminiPlan(activeKundli);
+  const jaiminiInterpretation = composeJaiminiInterpretation(activeKundli);
   const chatHref = buildPredictaChatHref({
     kundli: activeKundli,
     prompt:
-      `Use Jaimini Predicta for my question. Calculated evidence: ${jaiminiPlan.freeInsight}`,
+      `Use Jaimini Predicta for my question. Start with this prediction: ${jaiminiInterpretation.summary} Calculated evidence: ${jaiminiInterpretation.technicalEvidence.slice(0, 4).join(' | ')}`,
     school: 'JAIMINI',
     sourceScreen: 'Jaimini Predicta',
   });
@@ -50,14 +51,10 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
     },
   ];
   const proofCards = [
-    {
-      title: 'Chara Karaka council',
-      body: jaiminiPlan.charaKarakas.length
-        ? jaiminiPlan.charaKarakas
-            .map(item => `${item.role}: ${item.planet}`)
-            .join(' · ')
-        : 'Create or select a Kundli so Predicta can calculate the Chara Karaka order.',
-    },
+    ...jaiminiInterpretation.freeBlocks.slice(0, 4).map(block => ({
+      title: block.title,
+      body: `${block.headline} ${block.guidance}`,
+    })),
     {
       title: 'Karakamsha and Swamsa',
       body: `Karakamsha: ${jaiminiPlan.karakamsha.ascendantSign ?? 'pending'} · Swamsa: ${jaiminiPlan.swamsa.ascendantSign ?? 'pending'}.`,
@@ -79,7 +76,7 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
       />
       <PredictaWorldFrame
         badge="Classical soul-destiny lens"
-        body={jaiminiPlan.freeInsight}
+        body={jaiminiInterpretation.summary}
         chatAction={
           <PredictaButton href={chatHref} variant="secondary">
             Ask Jaimini Predicta
