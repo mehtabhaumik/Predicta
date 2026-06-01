@@ -662,6 +662,7 @@ export function ChatScreen({
 
       setActiveKundli(nextKundli);
       const saved = await saveGeneratedKundliLocally(nextKundli, {
+        hasPremiumAccess: getResolvedAccess().hasPremiumAccess,
         isLoggedIn: auth.isLoggedIn,
       });
       setSavedKundlis(saved);
@@ -899,6 +900,7 @@ export function ChatScreen({
         );
         setPredictaMemory(nextMemory);
         saveGeneratedKundliLocally(nextKundli, {
+          hasPremiumAccess: getResolvedAccess().hasPremiumAccess,
           isLoggedIn: auth.isLoggedIn,
         })
           .then(setSavedKundlis)
@@ -1309,6 +1311,7 @@ export function ChatScreen({
       });
 
       const next = await saveGeneratedKundliLocally(savedKundli, {
+        hasPremiumAccess: getResolvedAccess().hasPremiumAccess,
         isLoggedIn: auth.isLoggedIn,
         isUpdate: decision === 'update-existing',
       });

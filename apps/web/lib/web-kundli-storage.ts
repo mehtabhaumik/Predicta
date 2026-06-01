@@ -7,6 +7,10 @@ import type {
   KundliData,
 } from '@pridicta/types';
 import {
+  evaluateKundliLibraryEntitlement,
+  type KundliLibraryEntitlementReason,
+} from '@pridicta/monetization';
+import {
   getOrCreateWebGuestSession,
   type WebGuestSession,
 } from './web-guest-session';
@@ -16,11 +20,14 @@ import {
   buildFamilyProfileMetadata,
   getFamilyRelationshipColorToken,
 } from './family-relationships';
+import { readWebKundliEntitlementSnapshot } from './web-kundli-entitlement-snapshot';
 
 const ACTIVE_KUNDLI_KEY = 'pridicta.activeKundli.v1';
 const SAVED_KUNDLIS_KEY = 'pridicta.savedKundlis.v1';
 const WEB_KUNDLI_STORE_KEY = 'pridicta.webKundliStore.v1';
 const GOCHAR_REFRESH_PREFIX = 'pridicta.gocharRefreshAttempt.v1';
+const PREMIUM_KUNDLI_GENERATION_DAY_KEY =
+  'pridicta.premiumKundliGenerationDay.v1';
 export const WEB_KUNDLI_UPDATED_EVENT = 'pridicta:web-kundli-updated';
 
 const gocharRefreshes = new Map<string, Promise<KundliData | undefined>>();
@@ -39,7 +46,8 @@ export const WEB_GUEST_KUNDLI_LIMIT = 1;
 export type WebKundliStorageGate = {
   allowed: boolean;
   existingKundli?: KundliData;
-  reason?: 'SIGN_IN_REQUIRED_FOR_MULTIPLE_KUNDLIS';
+  reason?: KundliLibraryEntitlementReason;
+  remaining: number | 'unlimited';
   savedCount: number;
   signedIn: boolean;
 };
@@ -176,6 +184,9 @@ export function saveWebKundli(
     activeKundliId: nextKundli.id,
     savedKundlis: dedupeKundlis([nextKundli, ...current.savedKundlis]),
   });
+  if (!gate.existingKundli && hasWebPremiumKundliAccess()) {
+    incrementPremiumKundliGenerationDayCount();
+  }
 
   return {
     ...gate,
@@ -227,18 +238,18 @@ export function canCreateAdditionalWebKundli(options: {
 } = {}): WebKundliStorageGate {
   const current = loadWebKundliStore();
   const signedIn = isWebUserSignedIn();
-
-  if (signedIn || options.isUpdate) {
-    return {
-      allowed: true,
-      savedCount: current.savedKundlis.length,
-      signedIn,
-    };
-  }
+  const decision = evaluateKundliLibraryEntitlement({
+    generatedKundlisToday: readPremiumKundliGenerationDayCount(),
+    hasPremiumAccess: hasWebPremiumKundliAccess(),
+    isUpdate: options.isUpdate,
+    savedKundliCount: current.savedKundlis.length,
+    signedIn,
+  });
 
   return {
-    allowed: false,
-    reason: 'SIGN_IN_REQUIRED_FOR_MULTIPLE_KUNDLIS',
+    allowed: decision.allowed,
+    reason: decision.reason,
+    remaining: decision.remaining,
     savedCount: current.savedKundlis.length,
     signedIn,
   };
@@ -252,11 +263,23 @@ export function canSaveWebKundli(
   const existingKundli = store.savedKundlis.find(
     item => item.id === kundli.id || haveSameBirthSignature(item, kundli),
   );
+  const decision = evaluateKundliLibraryEntitlement({
+    existingKundli: Boolean(existingKundli),
+    generatedKundlisToday: readPremiumKundliGenerationDayCount(),
+    hasPremiumAccess: hasWebPremiumKundliAccess(),
+    savedKundliCount: store.savedKundlis.length,
+    signedIn,
+  });
 
-  if (signedIn || existingKundli || store.savedKundlis.length < WEB_GUEST_KUNDLI_LIMIT) {
+  if (
+    decision.allowed ||
+    (!signedIn && existingKundli) ||
+    (!signedIn && store.savedKundlis.length < WEB_GUEST_KUNDLI_LIMIT)
+  ) {
     return {
       allowed: true,
       existingKundli,
+      remaining: decision.remaining,
       savedCount: store.savedKundlis.length,
       signedIn,
     };
@@ -264,7 +287,8 @@ export function canSaveWebKundli(
 
   return {
     allowed: false,
-    reason: 'SIGN_IN_REQUIRED_FOR_MULTIPLE_KUNDLIS',
+    reason: decision.reason,
+    remaining: decision.remaining,
     savedCount: store.savedKundlis.length,
     signedIn,
   };
@@ -566,6 +590,44 @@ function isWebUserSignedIn(): boolean {
     return Boolean(getFirebaseWebAuth().currentUser?.uid);
   } catch {
     return false;
+  }
+}
+
+function hasWebPremiumKundliAccess(): boolean {
+  try {
+    const uid = getFirebaseWebAuth().currentUser?.uid;
+    return Boolean(readWebKundliEntitlementSnapshot(uid)?.hasPremiumAccess);
+  } catch {
+    return false;
+  }
+}
+
+function readPremiumKundliGenerationDayCount(): number {
+  try {
+    const raw = localStorage.getItem(PREMIUM_KUNDLI_GENERATION_DAY_KEY);
+    const parsed = raw
+      ? (JSON.parse(raw) as { count?: number; dayKey?: string })
+      : undefined;
+
+    return parsed?.dayKey === getLocalDateKey()
+      ? Math.max(0, parsed.count ?? 0)
+      : 0;
+  } catch {
+    return 0;
+  }
+}
+
+function incrementPremiumKundliGenerationDayCount(): void {
+  try {
+    localStorage.setItem(
+      PREMIUM_KUNDLI_GENERATION_DAY_KEY,
+      JSON.stringify({
+        count: readPremiumKundliGenerationDayCount() + 1,
+        dayKey: getLocalDateKey(),
+      }),
+    );
+  } catch {
+    // Soft-limit telemetry must never break a successful Kundli save.
   }
 }
 

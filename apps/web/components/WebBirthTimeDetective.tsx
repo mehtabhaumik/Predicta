@@ -107,15 +107,16 @@ export function WebBirthTimeDetective(): React.JSX.Element {
     try {
       const nextKundli =
         enteredTime !== activeKundli.birthDetails.time
-          ? await generateKundliFromWeb(finalDetails)
+          ? {
+              ...(await generateKundliFromWeb(finalDetails, { save: false })),
+              id: activeKundli.id,
+            }
           : {
               ...activeKundli,
               birthDetails: finalDetails,
             };
 
-      if (enteredTime === activeKundli.birthDetails.time) {
-        saveWebKundli(nextKundli);
-      }
+      saveWebKundli(nextKundli);
       setApplyStatus('saved');
       setStatusMessage(
         `Entered birth time ${enteredTime} is now confirmed for this Kundli.`,
@@ -143,7 +144,11 @@ export function WebBirthTimeDetective(): React.JSX.Element {
         activeKundli.birthDetails,
         rectificationEstimate,
       );
-      const nextKundli = await generateKundliFromWeb(finalDetails);
+      const nextKundli = {
+        ...(await generateKundliFromWeb(finalDetails, { save: false })),
+        id: activeKundli.id,
+      };
+      saveWebKundli(nextKundli);
       setApplyStatus('saved');
       setStatusMessage(
         `Kundli recalculated with probable rectified time ${nextKundli.birthDetails.time}. Original entered time: ${

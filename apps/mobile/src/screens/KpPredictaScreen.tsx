@@ -32,13 +32,14 @@ export function KpPredictaScreen({
     state => state.setActiveChartContext,
   );
   const activeChartContext = useAppStore(state => state.activeChartContext);
+  const access = getResolvedAccess();
   const schoolReady = useSchoolReadyKundli(
     kundli,
+    access.hasPremiumAccess,
     auth.isLoggedIn,
     setActiveKundli,
     setSavedKundlis,
   );
-  const access = getResolvedAccess();
   const foundation = composeChalitBhavKpFoundation(schoolReady.kundli, {
     depth: access.hasPremiumAccess ? 'PREMIUM' : 'FREE',
   });
@@ -89,6 +90,7 @@ export function KpPredictaScreen({
 
 function useSchoolReadyKundli(
   activeKundli: KundliData | undefined,
+  hasPremiumAccess: boolean,
   isLoggedIn: boolean,
   setActiveKundli: (kundli: KundliData) => void,
   setSavedKundlis: ReturnType<typeof useAppStore.getState>['setSavedKundlis'],
@@ -120,7 +122,10 @@ function useSchoolReadyKundli(
         }
         setKundli(nextKundli);
         setActiveKundli(nextKundli);
-        return saveGeneratedKundliLocally(nextKundli, { isLoggedIn });
+        return saveGeneratedKundliLocally(nextKundli, {
+          hasPremiumAccess,
+          isLoggedIn,
+        });
       })
       .then(records => {
         if (!cancelled && records) {
@@ -144,6 +149,7 @@ function useSchoolReadyKundli(
     };
   }, [
     activeKundli,
+    hasPremiumAccess,
     isLoggedIn,
     needsCalculation,
     setActiveKundli,

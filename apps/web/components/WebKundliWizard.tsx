@@ -298,9 +298,7 @@ export function WebKundliWizard(): React.JSX.Element {
     }
 
     setShowStorageNudge(true);
-    setError(
-      labels.guestLimitError,
-    );
+    setError(getKundliGateMessage(gate.reason, labels));
     return true;
   }
 
@@ -376,9 +374,7 @@ export function WebKundliWizard(): React.JSX.Element {
       });
       if (!saveResult.allowed) {
         setShowStorageNudge(true);
-        setError(
-          'This Kundli was calculated, but saving another Kundli needs sign-in. Sign in first, then create it again so it stays protected with your account.',
-        );
+        setError(getKundliGateMessage(saveResult.reason, labels));
         return;
       }
       setLastCreationNote(note);
@@ -1209,6 +1205,21 @@ function birthDetailsToWebPlace(birthDetails: BirthDetails): WebBirthPlace {
   };
 }
 
+function getKundliGateMessage(
+  reason: ReturnType<typeof canCreateAdditionalWebKundli>['reason'],
+  labels: KundliWizardCopy,
+): string {
+  if (reason === 'FREE_KUNDLI_LIMIT_REACHED') {
+    return labels.freeLimitError;
+  }
+
+  if (reason === 'PREMIUM_KUNDLI_DAILY_SOFT_LIMIT_REACHED') {
+    return labels.premiumDailySoftLimitError;
+  }
+
+  return labels.guestLimitError;
+}
+
 function normalizeBirthPlaceLabel(value?: string): string {
   return (value ?? '')
     .toLowerCase()
@@ -1230,9 +1241,11 @@ type KundliWizardCopy = {
   editSavedKundli: string;
   enterBirthDetails: string;
   fillExample: string;
+  freeLimitError: string;
   reviewBirthDetails: (name: string) => string;
   guestLimitError: string;
   guestLimitTitle: string;
+  premiumDailySoftLimitError: string;
   relationshipHelp: string;
   relationshipLabel: string;
   relationshipPlaceholder: string;
@@ -1257,9 +1270,13 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     editSavedKundli: 'EDIT SAVED KUNDLI',
     enterBirthDetails: 'Enter birth details in order.',
     fillExample: 'Fill Example',
+    freeLimitError:
+      'You have saved 4 Kundlis on the free plan. Your details are still here. Upgrade to save another Kundli.',
     guestLimitError:
       'Your first Kundli is safe here. Please sign in before adding another Kundli, so family profiles and future edits stay protected.',
     guestLimitTitle: 'Protect more Kundlis with sign-in',
+    premiumDailySoftLimitError:
+      'You have created many Kundlis today. Existing Kundlis still open normally; please pause and try another new Kundli later.',
     relationshipHelp:
       'Choose how this saved profile relates to you. Your main profile stays Self and does not need this field.',
     relationshipLabel: 'Relationship to you',
@@ -1285,9 +1302,13 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     editSavedKundli: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.9ab7f097a3"),
     enterBirthDetails: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.7c8f5f32b0"),
     fillExample: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.cc062f671d"),
+    freeLimitError:
+      getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.4cdc4132e7"),
     guestLimitError:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.4cdc4132e7"),
     guestLimitTitle: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.69426948bc"),
+    premiumDailySoftLimitError:
+      getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.4cdc4132e7"),
     relationshipHelp:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.ac5916328d"),
     relationshipLabel: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.920f52e152"),
@@ -1313,9 +1334,13 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     editSavedKundli: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.f2f57c2164"),
     enterBirthDetails: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.f08fc8d0eb"),
     fillExample: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.a8375c5abe"),
+    freeLimitError:
+      getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.df109a4a8f"),
     guestLimitError:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.df109a4a8f"),
     guestLimitTitle: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.2d3fc8eba7"),
+    premiumDailySoftLimitError:
+      getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.df109a4a8f"),
     relationshipHelp:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.5071b4480b"),
     relationshipLabel: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.142d267dd0"),

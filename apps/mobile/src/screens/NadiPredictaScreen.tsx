@@ -37,13 +37,14 @@ export function NadiPredictaScreen({
   const setActiveChartContext = useAppStore(
     state => state.setActiveChartContext,
   );
+  const access = getResolvedAccess();
   const schoolReady = useSchoolReadyKundli(
     kundli,
+    access.hasPremiumAccess,
     auth.isLoggedIn,
     setActiveKundli,
     setSavedKundlis,
   );
-  const access = getResolvedAccess();
   const handoffQuestion =
     activeChartContext?.predictaSchool === 'NADI'
       ? activeChartContext.handoffQuestion
@@ -371,6 +372,7 @@ export function NadiPredictaScreen({
 
 function useSchoolReadyKundli(
   activeKundli: KundliData | undefined,
+  hasPremiumAccess: boolean,
   isLoggedIn: boolean,
   setActiveKundli: (kundli: KundliData) => void,
   setSavedKundlis: ReturnType<typeof useAppStore.getState>['setSavedKundlis'],
@@ -402,7 +404,10 @@ function useSchoolReadyKundli(
         }
         setKundli(nextKundli);
         setActiveKundli(nextKundli);
-        return saveGeneratedKundliLocally(nextKundli, { isLoggedIn });
+        return saveGeneratedKundliLocally(nextKundli, {
+          hasPremiumAccess,
+          isLoggedIn,
+        });
       })
       .then(records => {
         if (!cancelled && records) {
@@ -426,6 +431,7 @@ function useSchoolReadyKundli(
     };
   }, [
     activeKundli,
+    hasPremiumAccess,
     isLoggedIn,
     needsCalculation,
     setActiveKundli,

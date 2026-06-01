@@ -155,6 +155,7 @@ export function KundliScreen({
       clearPendingBirthDetailsDraft();
       clearPendingKundliEditId();
       const saved = await saveGeneratedKundliLocally(finalKundli, {
+        hasPremiumAccess: access.hasPremiumAccess,
         isLoggedIn: auth.isLoggedIn,
         isUpdate: mode === 'update',
       });
@@ -174,13 +175,23 @@ export function KundliScreen({
           actions: [
             { label: 'Not Now' },
             {
-              label: 'Sign In',
-              onPress: () => navigation.navigate(routes.Login),
+              label:
+                error.reason === 'FREE_KUNDLI_LIMIT_REACHED'
+                  ? 'See Premium'
+                  : 'Sign In',
+              onPress: () =>
+                navigation.navigate(
+                  error.reason === 'FREE_KUNDLI_LIMIT_REACHED'
+                    ? routes.Paywall
+                    : routes.Login,
+                ),
             },
           ],
-          message:
-            'You can keep one Kundli without signing in. Sign in to add family profiles, save multiple Kundlis, and restore them later.',
-          title: 'Sign in to save more Kundlis',
+          message: error.message,
+          title:
+            error.reason === 'FREE_KUNDLI_LIMIT_REACHED'
+              ? 'Free Kundli limit reached'
+              : 'Sign in to save more Kundlis',
         });
         return;
       }

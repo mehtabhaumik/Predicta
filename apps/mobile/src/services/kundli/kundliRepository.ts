@@ -3,6 +3,10 @@ import type {
   SavedKundliRecord,
   SavedKundliSummary,
 } from '../../types/astrology';
+import {
+  evaluateKundliLibraryEntitlement,
+  type KundliLibraryEntitlementReason,
+} from '@pridicta/monetization';
 import { saveKundliForUser } from '../firebase/kundliPersistence';
 import {
   deleteLocalKundli,
@@ -14,11 +18,12 @@ import {
 export const GUEST_KUNDLI_LIMIT = 1;
 
 export class KundliStorageLimitError extends Error {
-  constructor() {
-    super(
-      'You can keep one Kundli without signing in. Sign in before adding another Kundli so your saved charts stay protected.',
-    );
+  reason: KundliLibraryEntitlementReason;
+
+  constructor(reason: KundliLibraryEntitlementReason) {
+    super(getKundliStorageLimitMessage(reason));
     this.name = 'KundliStorageLimitError';
+    this.reason = reason;
   }
 }
 
@@ -49,8 +54,10 @@ export function buildSavedKundliRecord(
 export async function saveGeneratedKundliLocally(
   kundli: KundliData,
   options: {
+    hasPremiumAccess?: boolean;
     isLoggedIn?: boolean;
     isUpdate?: boolean;
+    premiumGeneratedKundlisToday?: number;
   } = {},
 ): Promise<SavedKundliRecord[]> {
   const current = await loadLocalKundlis();
@@ -60,13 +67,22 @@ export async function saveGeneratedKundliLocally(
       haveSameBirthSignature(record.kundliData, kundli),
   );
 
+  const gate = evaluateKundliLibraryEntitlement({
+    existingKundli: Boolean(existing),
+    generatedKundlisToday: options.premiumGeneratedKundlisToday,
+    hasPremiumAccess: options.hasPremiumAccess,
+    isUpdate: options.isUpdate,
+    savedKundliCount: current.length,
+    signedIn: Boolean(options.isLoggedIn),
+  });
+
   if (
-    !options.isLoggedIn &&
-    !options.isUpdate &&
-    !existing &&
-    current.length >= GUEST_KUNDLI_LIMIT
+    !gate.allowed &&
+    !(!options.isLoggedIn && !existing && current.length < GUEST_KUNDLI_LIMIT)
   ) {
-    throw new KundliStorageLimitError();
+    throw new KundliStorageLimitError(
+      gate.reason ?? 'SIGN_IN_REQUIRED_FOR_MULTIPLE_KUNDLIS',
+    );
   }
 
   const record = buildSavedKundliRecord(
@@ -90,6 +106,20 @@ export async function saveGeneratedKundliLocally(
   }
 
   return upsertLocalKundli(record);
+}
+
+function getKundliStorageLimitMessage(
+  reason: KundliLibraryEntitlementReason,
+): string {
+  if (reason === 'FREE_KUNDLI_LIMIT_REACHED') {
+    return 'You have saved 4 Kundlis on the free plan. Upgrade to save another Kundli, or open an existing saved Kundli.';
+  }
+
+  if (reason === 'PREMIUM_KUNDLI_DAILY_SOFT_LIMIT_REACHED') {
+    return 'You have created many Kundlis today. Existing Kundlis still open normally; please pause and try another new Kundli later.';
+  }
+
+  return 'You can keep one Kundli without signing in. Sign in before adding another Kundli so your saved charts stay protected.';
 }
 
 export async function listSavedKundlis(): Promise<SavedKundliRecord[]> {

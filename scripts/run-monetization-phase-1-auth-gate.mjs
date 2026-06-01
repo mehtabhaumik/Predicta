@@ -83,7 +83,11 @@ assertIncludes(webPridictaAi, '...authHeaders', 'web Predicta AI client');
 
 const webKundliStorage = read('apps/web/lib/web-kundli-storage.ts');
 assertIncludes(webKundliStorage, 'getWebAuthHeaders', 'web Kundli generation client');
-assertIncludes(webKundliStorage, 'if (signedIn || options.isUpdate)', 'web Kundli save gate');
+assertIncludes(webKundliStorage, 'evaluateKundliLibraryEntitlement', 'web Kundli save gate');
+assertIncludes(webKundliStorage, 'isUpdate: options.isUpdate', 'web Kundli save gate');
+assertIncludes(webKundliStorage, 'decision.reason', 'web Kundli save gate');
+const kundliEntitlement = read('packages/monetization/src/kundliLibraryEntitlement.ts');
+assertIncludes(kundliEntitlement, 'SIGN_IN_REQUIRED_FOR_MULTIPLE_KUNDLIS', 'shared Kundli save gate');
 
 const webDossier = read('apps/web/components/WebDossierPreview.tsx');
 assertIncludes(webDossier, 'Please sign in before downloading a Predicta report.', 'web report download gate');

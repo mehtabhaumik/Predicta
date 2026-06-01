@@ -1,0 +1,13 @@
+{
+  "phase": "PREDICTA_MONETIZATION_PHASE_5_KUNDLI_LIMITS_AND_LIBRARY_ENTITLEMENT",
+  "green": true,
+  "freeSavedKundliLimit": 4,
+  "premiumDailySoftLimit": 30,
+  "sharedContract": "packages/monetization/src/kundliLibraryEntitlement.ts",
+  "webGate": "apps/web/lib/web-kundli-storage.ts",
+  "mobileGate": "apps/mobile/src/services/kundli/kundliRepository.ts",
+  "blockedFifthKundliPreservesDraft": true,
+  "existingSavedKundlisRemainOpen": true,
+  "premiumBeyondFour": true,
+  "strictGate": "corepack pnpm test:monetization-phase-5"
+}

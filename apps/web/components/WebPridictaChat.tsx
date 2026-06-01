@@ -1382,8 +1382,9 @@ export function WebPridictaChat({
         decision === 'save-as-new' &&
         !canCreateAdditionalWebKundli().allowed
       ) {
+        const gate = canCreateAdditionalWebKundli();
         setPendingKundliCommand(undefined);
-        return buildGuestKundliLimitReply(responseLanguage);
+        return buildKundliLimitReply(responseLanguage, gate.reason);
       }
 
       const store = loadWebKundliStore();
@@ -1424,7 +1425,7 @@ export function WebPridictaChat({
       const saveResult = saveWebKundli(savedKundli);
       if (!saveResult.allowed) {
         setPendingKundliCommand(undefined);
-        return buildGuestKundliLimitReply(responseLanguage);
+        return buildKundliLimitReply(responseLanguage, saveResult.reason);
       }
 
       setPendingKundliCommand(undefined);
@@ -1540,10 +1541,11 @@ export function WebPridictaChat({
     }
 
     const placeParts = place.place.split(',').map(part => part.trim());
-    if (!canCreateAdditionalWebKundli().allowed) {
+    const creationGate = canCreateAdditionalWebKundli();
+    if (!creationGate.allowed) {
       return [
         acknowledgement,
-        buildGuestKundliLimitReply(responseLanguage),
+        buildKundliLimitReply(responseLanguage, creationGate.reason),
       ]
         .filter(Boolean)
         .join('\n\n');
@@ -2081,7 +2083,24 @@ function buildNoKundliForCommandReply(language: SupportedLanguage): string {
   return 'I do not see a saved Kundli yet. Send birth details first; then I can edit, delete, or switch Kundlis for you.';
 }
 
-function buildGuestKundliLimitReply(language: SupportedLanguage): string {
+function buildKundliLimitReply(
+  language: SupportedLanguage,
+  reason?: ReturnType<typeof canCreateAdditionalWebKundli>['reason'],
+): string {
+  if (reason === 'FREE_KUNDLI_LIMIT_REACHED') {
+    if (language === 'hi') {
+      return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.03b5e54f17");
+    }
+    if (language === 'gu') {
+      return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.bf5953710d");
+    }
+    return 'You have saved 4 Kundlis on the free plan. I kept your birth details in this chat. Upgrade to save another Kundli, or open an existing saved Kundli.';
+  }
+
+  if (reason === 'PREMIUM_KUNDLI_DAILY_SOFT_LIMIT_REACHED') {
+    return 'You have created many Kundlis today. Existing Kundlis still open normally; please pause and try another new Kundli later.';
+  }
+
   if (language === 'hi') {
     return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.03b5e54f17");
   }

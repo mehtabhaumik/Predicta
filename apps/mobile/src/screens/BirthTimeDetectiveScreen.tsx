@@ -34,6 +34,7 @@ export function BirthTimeDetectiveScreen({
     state => state.setActiveChartContext,
   );
   const setSavedKundlis = useAppStore(state => state.setSavedKundlis);
+  const getResolvedAccess = useAppStore(state => state.getResolvedAccess);
   const report = useMemo(
     () => composeBirthTimeDetective(kundli, answers),
     [answers, kundli],
@@ -122,6 +123,7 @@ export function BirthTimeDetectiveScreen({
             };
       setActiveKundli(nextKundli);
       const saved = await saveGeneratedKundliLocally(nextKundli, {
+        hasPremiumAccess: getResolvedAccess().hasPremiumAccess,
         isLoggedIn: auth.isLoggedIn,
       });
       setSavedKundlis(saved);
@@ -154,6 +156,7 @@ export function BirthTimeDetectiveScreen({
       const generated = await generateKundli(finalDetails, { ignoreCache: true });
       const nextKundli = {
         ...generated,
+        id: kundli.id,
         birthDetails: {
           ...generated.birthDetails,
           ...finalDetails,
@@ -161,6 +164,7 @@ export function BirthTimeDetectiveScreen({
       };
       setActiveKundli(nextKundli);
       const saved = await saveGeneratedKundliLocally(nextKundli, {
+        hasPremiumAccess: getResolvedAccess().hasPremiumAccess,
         isLoggedIn: auth.isLoggedIn,
       });
       setSavedKundlis(saved);

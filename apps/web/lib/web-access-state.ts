@@ -15,6 +15,7 @@ import type {
 import { doc, getDoc } from 'firebase/firestore';
 import { getFirebaseWebDb } from './firebase/client';
 import { getWebAuthHeaders } from './firebase/auth-token';
+import { writeWebKundliEntitlementSnapshotFromLedger } from './web-kundli-entitlement-snapshot';
 
 export async function loadWebMonetizationState(
   userId: string,
@@ -56,6 +57,9 @@ export async function loadWebServerLedgerState(): Promise<MonetizationState | un
     }
 
     const payload = (await response.json()) as { ledger?: ServerEntitlementLedger };
+    if (payload.ledger) {
+      writeWebKundliEntitlementSnapshotFromLedger(payload.ledger);
+    }
     return payload.ledger
       ? mapServerLedgerToMonetizationState(payload.ledger)
       : undefined;
