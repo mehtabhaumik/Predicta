@@ -1,0 +1,41 @@
+PREDICTA_JAIMINI_PHASE_0_BASELINE_NADI_REMOVAL_AND_SCOPE_LOCK verification
+
+Result: GREEN
+
+Commands run:
+
+1. git status --short
+   - Initial state was clean.
+
+2. rg -l "Nadi|nadi|NADI" . --glob exclusions
+   - Saved full file inventory to artifacts/nadi-reference-files.txt.
+
+3. rg -n "Nadi|nadi|NADI" . --glob exclusions
+   - Saved full match inventory to artifacts/nadi-reference-inventory.txt.
+
+4. rg -l "Nadi|nadi|NADI" . --glob exclusions --glob '!docs/audits/**'
+   - Saved active migration file inventory to artifacts/active-nadi-reference-files.txt.
+
+5. rg -n "Nadi|nadi|NADI" . --glob exclusions --glob '!docs/audits/**'
+   - Saved active migration match inventory to artifacts/active-nadi-reference-inventory.txt.
+
+6. wc -l artifacts/nadi-reference-files.txt artifacts/nadi-reference-inventory.txt
+   - Full repository: 209 files, 2377 match lines.
+
+7. wc -l artifacts/active-nadi-reference-files.txt artifacts/active-nadi-reference-inventory.txt
+   - Active migration scope excluding historical audits: 137 files, 1965 match lines.
+
+8. artifact presence checks with test -s
+   - PASS.
+
+9. git diff --check
+   - PASS.
+
+10. git status --short
+    - Only the Phase 0 audit directory is dirty before commit.
+
+Phase notes:
+
+- No product code implementation was started.
+- This phase locks the baseline only.
+- Later phases must use the active inventory and distinguish it from historical docs/audits artifacts.

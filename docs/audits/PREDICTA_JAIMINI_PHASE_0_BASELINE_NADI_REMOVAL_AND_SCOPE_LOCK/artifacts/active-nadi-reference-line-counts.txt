@@ -1,0 +1,3 @@
+     137 docs/audits/PREDICTA_JAIMINI_PHASE_0_BASELINE_NADI_REMOVAL_AND_SCOPE_LOCK/artifacts/active-nadi-reference-files.txt
+    1965 docs/audits/PREDICTA_JAIMINI_PHASE_0_BASELINE_NADI_REMOVAL_AND_SCOPE_LOCK/artifacts/active-nadi-reference-inventory.txt
+    2102 total

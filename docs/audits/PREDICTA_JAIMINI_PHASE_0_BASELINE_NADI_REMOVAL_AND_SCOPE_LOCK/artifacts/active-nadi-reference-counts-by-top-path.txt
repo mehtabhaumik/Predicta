@@ -1,0 +1,9 @@
+  41 apps
+  37 scripts
+  27 packages
+  18 docs
+  10 backend
+   1 package.json
+   1 PREDICTA_SAFETY_PROTOCOLS.md
+   1 PREDICTA_RELEASE_GOVERNANCE.md
+   1 PREDICTA_EXECUTION_PHASES.md
