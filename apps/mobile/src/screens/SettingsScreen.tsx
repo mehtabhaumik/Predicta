@@ -18,9 +18,13 @@ import {
   signOutGoogle,
 } from '../services/firebase/authService';
 import { loadRedeemedGuestPassFromFirebase } from '../services/firebase/passCodePersistence';
+import { loadServerEntitlementLedgerFromFirebase } from '../services/firebase/serverEntitlementLedgerSync';
 import { resolveAccess } from '@pridicta/access';
 import { isBiometrySupported } from '../services/security/secureStorage';
-import { buildUsageDisplay } from '@pridicta/monetization';
+import {
+  buildUsageDisplay,
+  FREE_AI_QUESTION_LIFETIME_LIMIT,
+} from '@pridicta/monetization';
 import {
   getAppShellLabels,
   getLanguageOption,
@@ -43,6 +47,10 @@ export function SettingsScreen({
   const [showSupportLinks, setShowSupportLinks] = useState(false);
   const [biometryAvailable, setBiometryAvailable] = useState(false);
   const [authLoading, setAuthLoading] = useState(false);
+  const [freeAiBalance, setFreeAiBalance] = useState<{
+    remaining: number;
+    total: number;
+  }>();
   const auth = useAppStore(state => state.auth);
   const biometricsEnabled = useAppStore(state => state.biometricsEnabled);
   const chatSoundEnabled = useAppStore(state => state.chatSoundEnabled);
@@ -99,6 +107,18 @@ export function SettingsScreen({
             nextAuth.userId,
           );
           setRedeemedGuestPass(guestPass);
+          const ledger = await loadServerEntitlementLedgerFromFirebase(
+            nextAuth.userId,
+          ).catch(() => undefined);
+          if (ledger) {
+            setFreeAiBalance({
+              remaining: Math.max(
+                0,
+                FREE_AI_QUESTION_LIFETIME_LIMIT - ledger.freeAiCreditsUsed,
+              ),
+              total: FREE_AI_QUESTION_LIFETIME_LIMIT,
+            });
+          }
         }
       })
       .catch(() => undefined);
@@ -223,6 +243,19 @@ export function SettingsScreen({
             <GlowButton
               label="Redeem"
               onPress={() => navigation.navigate(routes.RedeemPassCode)}
+            />
+          </SettingRow>
+          <SettingRow
+            description={
+              auth.isLoggedIn
+                ? `${freeAiBalance?.remaining ?? 0} of ${freeAiBalance?.total ?? FREE_AI_QUESTION_LIFETIME_LIMIT} lifetime starter AI questions remaining. Kundli, charts, reports, and Family Vault actions do not spend these.`
+                : 'Sign in to receive 3 lifetime starter Predicta AI questions.'
+            }
+            title="Starter AI questions"
+          >
+            <GlowButton
+              label="Open Chat"
+              onPress={() => navigation.navigate(routes.Chat)}
             />
           </SettingRow>
           <View className="mt-1">

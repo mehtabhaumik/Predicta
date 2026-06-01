@@ -21,9 +21,14 @@ import {
   readWebAccountMergeState,
   WEB_ACCOUNT_MERGED_EVENT,
 } from '../lib/web-account-merge';
+import { loadWebFreeAiBalance } from '../lib/pridicta-ai';
 
 type SettingsSnapshot = {
   accountSyncStatus?: string;
+  freeAiBalance?: {
+    remaining: number;
+    total: number;
+  };
   lastReportLanguage?: SupportedLanguage;
   savedKundliCount: number;
 };
@@ -408,6 +413,16 @@ export function WebProfileSettings(): React.JSX.Element {
       lastReportLanguage: memory.report?.reportLanguage,
       savedKundliCount: kundliStore.savedKundlis.length,
     });
+
+    void loadWebFreeAiBalance().then(balance => {
+      if (!balance) {
+        return;
+      }
+      setSnapshot(current => ({
+        ...current,
+        freeAiBalance: balance,
+      }));
+    });
   }
 
   async function handleSignOut(): Promise<void> {
@@ -450,6 +465,20 @@ export function WebProfileSettings(): React.JSX.Element {
           <span>{copy.savedWork}</span>
           <strong>{`${snapshot.savedKundliCount} ${copy.saved}`}</strong>
           <p>{copy.savedWorkBody}</p>
+        </div>
+        <div className="settings-overview-card">
+          <span>Starter AI</span>
+          <strong>
+            {snapshot.freeAiBalance
+              ? `${snapshot.freeAiBalance.remaining} / ${snapshot.freeAiBalance.total}`
+              : user
+                ? 'Checking'
+                : 'Sign in'}
+          </strong>
+          <p>
+            Lifetime starter AI questions. Kundli, charts, reports, and Family
+            Vault actions do not spend these.
+          </p>
         </div>
       </section>
 

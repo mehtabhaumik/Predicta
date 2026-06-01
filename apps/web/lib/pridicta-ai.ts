@@ -3,6 +3,10 @@ import type {
   PridictaChatRequest,
   PridictaChatResponse,
 } from '@pridicta/types';
+import {
+  FREE_AI_QUESTION_LIFETIME_LIMIT,
+  type ServerEntitlementLedger,
+} from '@pridicta/monetization';
 import { getWebAuthHeaders } from './firebase/auth-token';
 
 export async function askPridictaFromWeb(
@@ -12,6 +16,7 @@ export async function askPridictaFromWeb(
   const response = await fetch('/api/ask-pridicta', {
     body: JSON.stringify({
       ...request,
+      clientRequestId: request.clientRequestId ?? createClientRequestId(),
       safetyIdentifier: request.safetyIdentifier ?? getWebSafetyIdentifier(),
     }),
     headers: {
@@ -26,6 +31,12 @@ export async function askPridictaFromWeb(
   }
 
   return (await response.json()) as PridictaChatResponse;
+}
+
+function createClientRequestId(): string {
+  return typeof crypto !== 'undefined' && 'randomUUID' in crypto
+    ? crypto.randomUUID()
+    : `${Date.now()}-${Math.random().toString(36).slice(2, 12)}`;
 }
 
 export function getWebSafetyIdentifier(): string {
@@ -45,6 +56,41 @@ export function getWebSafetyIdentifier(): string {
     return next;
   } catch {
     return `web-ephemeral-${Date.now()}`;
+  }
+}
+
+export async function loadWebFreeAiBalance(): Promise<
+  | {
+      remaining: number;
+      total: number;
+    }
+  | undefined
+> {
+  try {
+    const authHeaders = await getWebAuthHeaders();
+    const response = await fetch('/api/entitlements/ledger', {
+      headers: authHeaders,
+      method: 'GET',
+    });
+
+    if (!response.ok) {
+      return undefined;
+    }
+
+    const payload = (await response.json()) as { ledger?: ServerEntitlementLedger };
+    if (!payload.ledger) {
+      return undefined;
+    }
+
+    return {
+      remaining: Math.max(
+        0,
+        FREE_AI_QUESTION_LIFETIME_LIMIT - payload.ledger.freeAiCreditsUsed,
+      ),
+      total: FREE_AI_QUESTION_LIFETIME_LIMIT,
+    };
+  } catch {
+    return undefined;
   }
 }
 

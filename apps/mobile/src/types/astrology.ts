@@ -2261,6 +2261,7 @@ export type PridictaChatRequest = {
   message: string;
   kundli: KundliData;
   chartContext?: ChartContext;
+  clientRequestId?: string;
   history: ConversationTurn[];
   userPlan: UserPlan;
   deepAnalysis?: boolean;
@@ -2273,6 +2274,13 @@ export type PridictaChatResponse = {
   provider: 'openai' | 'gemini' | 'cache' | 'deterministic';
   model: string;
   cached?: boolean;
+  freeAiCreditsRemaining?: number;
+  freeAiCreditsTotal?: number;
+  freeAiUpsell?: {
+    blocked: boolean;
+    preservedQuestion: string;
+    purchaseOptions: Array<'10 questions' | '25 questions' | '100 questions' | 'Premium'>;
+  };
   intent?: AIIntent;
   usedDeepModel?: boolean;
   jyotishAnalysis?: JyotishAnalysis;

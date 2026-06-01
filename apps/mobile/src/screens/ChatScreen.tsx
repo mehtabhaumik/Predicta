@@ -51,6 +51,7 @@ import {
   type PredictaInteractionMemory,
 } from '@pridicta/astrology';
 import { detectIntent } from '@pridicta/ai';
+import { FREE_AI_QUESTION_LIFETIME_LIMIT } from '@pridicta/monetization';
 import { buildBirthIntakeReply } from '@pridicta/config/predictaMemory';
 import {
   getLanguageLabels,
@@ -78,6 +79,7 @@ import { generateKundli } from '../services/astrology/astroEngine';
 import { playReplyChime } from '../services/audio/replyChime';
 import { trackAnalyticsEvent } from '../services/analytics/analyticsService';
 import { syncRedeemedGuestPassToUser } from '../services/firebase/passCodePersistence';
+import { loadServerEntitlementLedgerFromFirebase } from '../services/firebase/serverEntitlementLedgerSync';
 import {
   deleteSavedKundli,
   listSavedKundlis,
@@ -413,6 +415,10 @@ export function ChatScreen({
   const [predictaMemory, setPredictaMemory] =
     useState<PredictaInteractionMemory>();
   const [streamingText, setStreamingText] = useState('');
+  const [freeAiBalance, setFreeAiBalance] = useState<{
+    remaining: number;
+    total: number;
+  }>();
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const activeChartContext = useAppStore(state => state.activeChartContext);
   const setActiveChartContext = useAppStore(
@@ -449,7 +455,6 @@ export function ChatScreen({
   const appendConversationMessage = useAppStore(
     state => state.appendConversationMessage,
   );
-  const canAskQuestion = useAppStore(state => state.canAskQuestion);
   const canUseDeepCall = useAppStore(state => state.canUseDeepCall);
   const consumeGuestDeepQuota = useAppStore(
     state => state.consumeGuestDeepQuota,
@@ -464,7 +469,6 @@ export function ChatScreen({
   const consumePaidQuestionCredit = useAppStore(
     state => state.consumePaidQuestionCredit,
   );
-  const recordQuestion = useAppStore(state => state.recordQuestion);
   const recordDeepCall = useAppStore(state => state.recordDeepCall);
   const savedKundliRecords = useAppStore(state => state.savedKundlis);
   const messages = useAppStore(state =>
@@ -478,6 +482,25 @@ export function ChatScreen({
   const lastPredictaMessageId = [...messages]
     .reverse()
     .find(message => message.role === 'pridicta')?.id;
+
+  useEffect(() => {
+    if (!auth.userId) {
+      setFreeAiBalance(undefined);
+      return;
+    }
+
+    loadServerEntitlementLedgerFromFirebase(auth.userId)
+      .then(ledger => {
+        setFreeAiBalance({
+          remaining: Math.max(
+            0,
+            FREE_AI_QUESTION_LIFETIME_LIMIT - ledger.freeAiCreditsUsed,
+          ),
+          total: FREE_AI_QUESTION_LIFETIME_LIMIT,
+        });
+      })
+      .catch(() => undefined);
+  }, [auth.userId]);
 
   useEffect(() => {
     const prompt = activeChartContext?.predictaSchool
@@ -999,23 +1022,22 @@ export function ChatScreen({
       }
     }
 
-    const freeQuestionAvailable = canAskQuestion();
     const paidQuestionAvailable = hasPaidQuestionCredits();
 
-    if (!freeQuestionAvailable && !paidQuestionAvailable) {
+    if (!auth.userId && !paidQuestionAvailable) {
       appendConversationMessage(
         createMessage(
           'pridicta',
-          "You've reached today's guidance limit. Your reading is saved. You can continue tomorrow, add a few questions, or unlock more Predicta guidance today.",
+          'Please sign in with Google before using Predicta AI. Deterministic Kundli and saved chart actions remain available after sign-in.',
           activeChartContext,
         ),
       );
       trackAnalyticsEvent({
         eventName: 'limit_reached',
-        metadata: { limit: 'questions' },
+        metadata: { limit: 'auth_required', surface: 'chat_ai_question' },
         userId: auth.userId,
       });
-      navigation.navigate(routes.Paywall);
+      navigation.navigate(routes.Login);
       return;
     }
 
@@ -1045,6 +1067,18 @@ export function ChatScreen({
         message: trimmedInput,
         userPlan: effectivePlan,
       });
+      if (
+        typeof response.freeAiCreditsRemaining === 'number' &&
+        typeof response.freeAiCreditsTotal === 'number'
+      ) {
+        setFreeAiBalance({
+          remaining: response.freeAiCreditsRemaining,
+          total: response.freeAiCreditsTotal,
+        });
+      }
+      const freeAiUpsellSuggestions = response.freeAiUpsell?.blocked
+        ? buildMobileFreeAiUpsellSuggestions()
+        : undefined;
       const safety = detectChatSafetyMeta(
         trimmedInput,
         responseLanguage,
@@ -1073,9 +1107,7 @@ export function ChatScreen({
         ) {
           consumeGuestQuestionQuota();
           syncGuestPassUsage(auth.userId);
-        } else if (!access.hasUnrestrictedAppAccess && freeQuestionAvailable) {
-          recordQuestion();
-        } else if (consumePaidQuestionCredit()) {
+        } else if (paidQuestionAvailable && consumePaidQuestionCredit()) {
           trackAnalyticsEvent({
             eventName: 'question_pack_used',
             userId: auth.userId,
@@ -1108,6 +1140,7 @@ export function ChatScreen({
         ].join('\n\n'),
         {
           safety,
+          suggestions: freeAiUpsellSuggestions,
         },
       );
     } catch (error) {
@@ -1348,6 +1381,41 @@ export function ChatScreen({
     });
   }
 
+  function buildMobileFreeAiUpsellSuggestions(): ChatSuggestedCta[] {
+    return [
+      {
+        id: 'free-ai-mobile-buy-questions',
+        label: 'Buy questions',
+        prompt: 'Open Predicta question packs.',
+        targetScreen: routes.Paywall,
+      },
+      {
+        id: 'free-ai-mobile-premium',
+        label: 'See Premium',
+        prompt: 'Open Premium options.',
+        targetScreen: routes.Paywall,
+      },
+      {
+        id: 'free-ai-mobile-kundli',
+        label: 'Create Kundli',
+        prompt: 'Create Kundli without AI credit.',
+        targetScreen: routes.Kundli,
+      },
+      {
+        id: 'free-ai-mobile-charts',
+        label: 'Open charts',
+        prompt: 'Open charts without AI credit.',
+        targetScreen: routes.Charts,
+      },
+      {
+        id: 'free-ai-mobile-report',
+        label: 'Free report',
+        prompt: 'Generate free report without AI credit.',
+        targetScreen: routes.Report,
+      },
+    ];
+  }
+
   return (
     <Screen>
       <FadeInView className="flex-row items-center gap-4">
@@ -1502,6 +1570,22 @@ export function ChatScreen({
         </View>
       </FadeInView>
 
+      <FadeInView className="mt-4 rounded-2xl border border-[#252533] bg-[#12121A] p-4">
+        <AppText tone="secondary" variant="caption">
+          STARTER AI QUESTIONS
+        </AppText>
+        <AppText className="mt-1" variant="subtitle">
+          {freeAiBalance
+            ? `${freeAiBalance.remaining} / ${freeAiBalance.total} remaining`
+            : auth.isLoggedIn
+              ? 'Checking balance'
+              : 'Sign in to unlock 3'}
+        </AppText>
+        <AppText className="mt-1" tone="secondary" variant="caption">
+          Kundli, charts, reports, and Family Vault actions do not spend these.
+        </AppText>
+      </FadeInView>
+
       <ActiveKundliActions
         compact
         kundli={activeKundli}
@@ -1537,6 +1621,22 @@ export function ChatScreen({
               }
               if (suggestion.targetScreen === routes.BirthTimeDetective) {
                 navigation.navigate(routes.BirthTimeDetective);
+                return;
+              }
+              if (suggestion.targetScreen === routes.Paywall) {
+                navigation.navigate(routes.Paywall);
+                return;
+              }
+              if (suggestion.targetScreen === routes.Kundli) {
+                navigation.navigate(routes.Kundli);
+                return;
+              }
+              if (suggestion.targetScreen === routes.Charts) {
+                navigation.navigate(routes.Charts);
+                return;
+              }
+              if (suggestion.targetScreen === routes.Report) {
+                navigation.navigate(routes.Report);
                 return;
               }
               void sendMessage(suggestion.prompt);

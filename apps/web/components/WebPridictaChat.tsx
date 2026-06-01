@@ -74,6 +74,7 @@ import {
   askPridictaFromWeb,
   extractBirthDetailsFromWeb,
   getWebSafetyIdentifier,
+  loadWebFreeAiBalance,
 } from '../lib/pridicta-ai';
 import {
   hydrateWebSpecialistContextSync,
@@ -99,10 +100,6 @@ import {
   sanitizeTranscriptCopy,
 } from '../lib/web-chat-export';
 import {
-  buildPassCostGuardrailReply,
-  buildPassCostGuardrailSuggestions,
-  consumeWebAiBudget,
-  getWebPassCostDisplay,
   type WebPassCostDisplay,
 } from '../lib/web-pass-cost-guardrails';
 import {
@@ -319,6 +316,23 @@ export function WebPridictaChat({
     .reverse()
     .find(message => message.role === 'pridicta')?.id;
 
+  async function refreshFreeAiBalance(): Promise<void> {
+    const balance = await loadWebFreeAiBalance();
+    if (!balance) {
+      return;
+    }
+
+    setPassCostDisplay({
+      body:
+        balance.remaining > 0
+          ? `${balance.remaining} of ${balance.total} lifetime starter AI questions remaining. Deterministic Kundli, charts, reports, and Family Vault actions do not spend these.`
+          : 'Your 3 lifetime starter AI questions are used. Deterministic Kundli, charts, reports, and Family Vault actions still work without AI spend.',
+      kind: 'free',
+      title: 'Starter AI questions',
+      tone: balance.remaining > 0 ? 'steady' : 'careful',
+    });
+  }
+
   useEffect(() => {
     function refreshKundlis() {
       const store = loadWebKundliStore();
@@ -430,7 +444,7 @@ export function WebPridictaChat({
       setChatAuthReady(true);
     }
 
-    setPassCostDisplay(getWebPassCostDisplay(language));
+    void refreshFreeAiBalance();
 
     didLoadMemory.current = true;
 
@@ -442,7 +456,7 @@ export function WebPridictaChat({
   }, []);
 
   useEffect(() => {
-    setPassCostDisplay(getWebPassCostDisplay(language));
+    void refreshFreeAiBalance();
   }, [language]);
 
   useEffect(() => {
@@ -1008,25 +1022,6 @@ export function WebPridictaChat({
     );
     const questionChartContext =
       synced.context ?? baseQuestionChartContext;
-    const budgetDecision = consumeWebAiBudget('deep_reading', responseLanguage);
-    setPassCostDisplay(getWebPassCostDisplay(responseLanguage));
-
-    if (!budgetDecision.allowed) {
-      passCostSuggestionsRef.current = buildPassCostGuardrailSuggestions(
-        true,
-        responseLanguage,
-      );
-      return [
-        acknowledgement,
-        buildPassCostGuardrailReply({
-          decision: budgetDecision,
-          kundli: activeKundli,
-          language: responseLanguage,
-        }),
-      ]
-        .filter(Boolean)
-        .join('\n\n');
-    }
 
     const nextMemory = learnPredictaInteraction(
       predictaMemory,
@@ -1051,6 +1046,12 @@ export function WebPridictaChat({
       predictaStylePreference,
       userPlan: 'FREE',
     });
+    void refreshFreeAiBalance();
+    if (response.freeAiUpsell?.blocked) {
+      passCostSuggestionsRef.current = buildFreeAiUpsellSuggestions(
+        response.freeAiUpsell.purchaseOptions,
+      );
+    }
     responseSafetyRef.current = detectChatSafetyMeta(
       text,
       responseLanguage,
@@ -1491,26 +1492,6 @@ export function WebPridictaChat({
     responseLanguage: SupportedLanguage,
     acknowledgement?: string,
   ): Promise<string> {
-    const budgetDecision = consumeWebAiBudget('question', responseLanguage);
-    setPassCostDisplay(getWebPassCostDisplay(responseLanguage));
-
-    if (!budgetDecision.allowed) {
-      passCostSuggestionsRef.current = buildPassCostGuardrailSuggestions(
-        Boolean(kundli),
-        responseLanguage,
-      );
-      return [
-        acknowledgement,
-        buildPassCostGuardrailReply({
-          decision: budgetDecision,
-          kundli,
-          language: responseLanguage,
-        }),
-      ]
-        .filter(Boolean)
-        .join('\n\n');
-    }
-
     const result = await extractBirthDetailsFromWeb(text);
     const reply = buildBirthIntakeReply({
       language: responseLanguage,
@@ -3705,6 +3686,48 @@ function buildPostKundliCreatedSuggestions(
       label: 'Open dashboard',
       prompt: 'Open dashboard',
       targetScreen: 'Dashboard',
+    },
+  ];
+}
+
+function buildFreeAiUpsellSuggestions(
+  purchaseOptions: Array<'10 questions' | '25 questions' | '100 questions' | 'Premium'>,
+): ChatSuggestedCta[] {
+  const checkoutHref: Record<string, string> = {
+    '10 questions': '/pricing?focus=ai-questions-10',
+    '25 questions': '/pricing?focus=ai-questions-25',
+    '100 questions': '/pricing?focus=ai-questions-100',
+    Premium: '/pricing?focus=premium',
+  };
+
+  return [
+    ...purchaseOptions.map(option => ({
+      href: checkoutHref[option] ?? '/pricing',
+      id: `free-ai-upsell-${option.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+      label: option,
+      prompt: `Continue my preserved Predicta question after I unlock ${option}.`,
+      targetScreen: 'Pricing',
+    })),
+    {
+      href: '/dashboard/kundli',
+      id: 'free-ai-zero-credit-kundli',
+      label: 'Create Kundli',
+      prompt: 'Create Kundli without AI credit.',
+      targetScreen: 'Kundli',
+    },
+    {
+      href: '/dashboard/charts',
+      id: 'free-ai-zero-credit-charts',
+      label: 'Open charts',
+      prompt: 'Open charts without AI credit.',
+      targetScreen: 'Charts',
+    },
+    {
+      href: '/dashboard/report',
+      id: 'free-ai-zero-credit-report',
+      label: 'Free report',
+      prompt: 'Generate free report without AI credit.',
+      targetScreen: 'Reports',
     },
   ];
 }

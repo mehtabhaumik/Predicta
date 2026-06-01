@@ -1,0 +1,37 @@
+{
+  "phase": "PREDICTA_MONETIZATION_PHASE_3_FREE_THREE_LIFETIME_AI_CREDITS_AND_PRESERVED_UPSELL",
+  "green": true,
+  "freeAiQuestionsLifetime": 3,
+  "sourceOfTruth": "Firebase UID server entitlement ledger",
+  "spendOperation": "record_successful_free_ai_answer",
+  "spendTiming": "after successful OpenAI or Gemini response only",
+  "blockedFourthQuestion": {
+    "providerCalled": false,
+    "preservedQuestion": true,
+    "purchaseOptions": [
+      "10 questions",
+      "25 questions",
+      "100 questions",
+      "Premium"
+    ]
+  },
+  "visibleBalanceSurfaces": [
+    "web chat",
+    "web account",
+    "mobile chat",
+    "mobile settings"
+  ],
+  "strictGate": "corepack pnpm test:monetization-phase-3",
+  "implementationFiles": [
+    "apps/web/app/api/ask-pridicta/route.ts",
+    "apps/web/lib/pridicta-ai.ts",
+    "apps/web/components/WebPridictaChat.tsx",
+    "apps/web/components/WebProfileSettings.tsx",
+    "apps/mobile/src/services/ai/pridictaService.ts",
+    "apps/mobile/src/screens/ChatScreen.tsx",
+    "apps/mobile/src/screens/SettingsScreen.tsx",
+    "packages/types/src/astrology.ts",
+    "apps/mobile/src/types/astrology.ts",
+    "scripts/run-monetization-phase-3-free-ai-credits-gate.mjs"
+  ]
+}
