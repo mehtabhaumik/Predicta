@@ -1,16 +1,17 @@
 import { WebPredictaRoomChatPage } from '../../../../components/WebPredictaRoomChatPage';
+import { getJaiminiLocalizationCopy } from '@pridicta/config';
 
 export default function JaiminiPredictaChatPage(): React.JSX.Element {
+  const copy = getJaiminiLocalizationCopy('en');
+
   return (
     <WebPredictaRoomChatPage
       room={{
-        body:
-          'Jaimini Predicta keeps the reading inside soul role, visible identity, career dharma, relationship mirror, and destiny chapters.',
-        prompt:
-          'Use Jaimini Predicta for my question. Focus on Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Arudha, Upapada, and Chara Dasha only when calculated evidence is available.',
+        body: copy.chatBody,
+        prompt: copy.chatPrompt,
         school: 'JAIMINI',
-        sourceScreen: 'Jaimini Predicta',
-        title: 'Chat with Jaimini Predicta.',
+        sourceScreen: copy.heroEyebrow,
+        title: copy.chatTitle,
       }}
     />
   );

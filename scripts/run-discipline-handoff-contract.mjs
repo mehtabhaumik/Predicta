@@ -101,7 +101,7 @@ try {
   assert.equal(parashariToJaimini.handled, true);
   assert.equal(parashariToJaimini.action, 'jaimini-handoff');
   assert.match(parashariToJaimini.text, /belongs to Jaimini Predicta/i);
-  assert.match(parashariToJaimini.text, /does not claim Nadi leaf or palm-leaf manuscript access/i);
+  assert.match(parashariToJaimini.text, /does not claim unsupported manuscript authority/i);
 
   const jaiminiRoomOwnMethod = buildPredictaActionReply({
     language: 'en',

@@ -442,7 +442,7 @@ export function WebKpPredictaPanel({
             </summary>
             <p>
               {t(
-                'Regular Predicta handles Parashari, D1, vargas, Chalit, dasha, gochar, remedies, and reports. KP Predicta handles KP. Nadi Predicta handles premium Nadi-style planetary story reading separately.',
+                'Regular Predicta handles Parashari, D1, vargas, Chalit, dasha, gochar, remedies, and reports. KP Predicta handles KP. Jaimini Predicta handles soul role, visible identity, relationship mirror, and destiny chapters separately.',
               )}
             </p>
           </details>

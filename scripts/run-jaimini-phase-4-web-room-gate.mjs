@@ -29,10 +29,11 @@ const viewports = [
 ];
 
 const sourceChecks = [
-  ['apps/web/components/WebJaiminiPredictaPanel.tsx', 'Your destiny role is being prepared from your chart'],
+  ['apps/web/components/WebJaiminiPredictaPanel.tsx', 'getJaiminiLocalizationCopy'],
+  ['apps/web/components/WebJaiminiPredictaPanel.tsx', 'copy.destinyRoleTitle'],
   ['apps/web/components/WebJaiminiPredictaPanel.tsx', 'jaimini-soul-compass-card'],
-  ['apps/web/components/WebJaiminiPredictaPanel.tsx', 'KARAKA COUNCIL PREVIEW'],
-  ['apps/web/components/WebJaiminiPredictaPanel.tsx', 'Download Jaimini Report'],
+  ['apps/web/components/WebJaiminiPredictaPanel.tsx', 'copy.karakaCouncilEyebrow'],
+  ['apps/web/components/WebJaiminiPredictaPanel.tsx', 'copy.downloadCta'],
   ['apps/web/components/WebJaiminiPredictaPanel.tsx', 'jaimini-technical-drawer'],
   ['apps/web/components/WebJaiminiPredictaPanel.tsx', 'composeJaiminiInterpretation'],
   ['apps/web/app/globals.css', '.jaimini-room-hero'],

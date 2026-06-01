@@ -73,7 +73,7 @@ const chatRoutes = [
   {
     file: 'apps/web/app/dashboard/jaimini/chat/page.tsx',
     school: "school: 'JAIMINI'",
-    source: "sourceScreen: 'Jaimini Predicta'",
+    source: 'sourceScreen: copy.heroEyebrow',
   },
   {
     file: 'apps/web/app/dashboard/numerology/chat/page.tsx',
@@ -136,7 +136,7 @@ expectIncludes('packages/astrology/src/predictaChatActions.ts', [
   'numerology-handoff',
   'signature-handoff',
   'vedic-handoff',
-  'does not claim Nadi leaf or palm-leaf manuscript access',
+  'does not claim unsupported manuscript authority',
 ]);
 
 const translationSource = readWorkspaceFile('packages/config/src/translations/language.json');

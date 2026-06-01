@@ -1960,24 +1960,24 @@ function buildKpPredictaReply(
 function jaiminiHandoffReply(language: SupportedLanguage): string {
   if (language === 'hi') {
     return [
-      'यह प्रश्न Jaimini Predicta में बेहतर पढ़ा जाएगा। मैं इसे Parashari या KP में मिलाकर जवाब नहीं दूंगी।',
-      '“Open Jaimini Predicta” से मैं आपका प्रश्न और active birth profile Jaimini room में ले जाऊंगी।',
-      'Jaimini Predicta Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects और Chara Dasha से soul role, visible identity और destiny chapters पढ़ता है।',
+      getNativeCopy('astrology.jaimini.handoff.1.hi'),
+      getNativeCopy('astrology.jaimini.handoff.2.hi'),
+      getNativeCopy('astrology.jaimini.handoff.3.hi'),
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
-      'આ પ્રશ્ન Jaimini Predicta માં વધુ સારી રીતે વાંચાશે. હું તેને Parashari અથવા KP સાથે મિક્સ કરીશ નહીં.',
-      '“Open Jaimini Predicta” થી હું તમારો પ્રશ્ન અને active birth profile Jaimini room માં લઈ જઈશ.',
-      'Jaimini Predicta Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects અને Chara Dasha થી soul role, visible identity અને destiny chapters વાંચે છે.',
+      getNativeCopy('astrology.jaimini.handoff.1.gu'),
+      getNativeCopy('astrology.jaimini.handoff.2.gu'),
+      getNativeCopy('astrology.jaimini.handoff.3.gu'),
     ].join('\n\n');
   }
 
   return [
     'That belongs to Jaimini Predicta. I will not mix it into Parashari or KP or sound more certain than the calculated evidence allows.',
     'Use “Open Jaimini Predicta” below. I will carry your question and active birth profile into the Jaimini room.',
-    'Jaimini Predicta works through Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, and Chara Dasha. It does not claim Nadi leaf or palm-leaf manuscript access.',
+    'Jaimini Predicta works through Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, and Chara Dasha. It does not claim unsupported manuscript authority.',
   ].join('\n\n');
 }
 
@@ -1999,7 +1999,7 @@ function buildJaiminiPredictaReply(
 
   if (language === 'hi') {
     return [
-      'Jaimini Predicta mode: मैं soul role, visible identity और destiny chapters से सीधी guidance दूंगी।',
+      getNativeCopy('astrology.jaimini.mode.hi'),
       interpretation.summary,
       firstBlock ? `${firstBlock.title}: ${firstBlock.prediction}` : undefined,
       firstBlock ? `Next step: ${firstBlock.guidance}` : undefined,
@@ -2014,7 +2014,7 @@ function buildJaiminiPredictaReply(
 
   if (language === 'gu') {
     return [
-      'Jaimini Predicta mode: હું soul role, visible identity અને destiny chapters પરથી સીધી guidance આપીશ.',
+      getNativeCopy('astrology.jaimini.mode.gu'),
       interpretation.summary,
       firstBlock ? `${firstBlock.title}: ${firstBlock.prediction}` : undefined,
       firstBlock ? `Next step: ${firstBlock.guidance}` : undefined,

@@ -33,7 +33,7 @@ const checks = [
     label: 'Jaimini Predicta page carries the active Kundli into chat handoff',
     mustContain: [
       "school: 'JAIMINI'",
-      "sourceScreen: 'Jaimini Predicta'",
+      'sourceScreen: copy.heroEyebrow',
       'jaiminiInterpretation.summary',
       'jaiminiInterpretation.technicalEvidence.slice(0, 4)',
     ],

@@ -7,7 +7,7 @@ Verified:
 - Shared and mobile AI context builders inject compact Jaimini plan and interpretation data.
 - Active context builders no longer inject nadiJyotishPlan.
 - Life Atlas uses Jaimini as a labeled synthesis evidence layer.
-- Deterministic chat actions route Jaimini and legacy Nadi terms into Jaimini Predicta without Nadi leaf claims.
+- Deterministic chat actions route Jaimini and legacy Nadi terms into Jaimini Predicta without unsupported manuscript claims.
 - Web, mobile, and backend chat prompts understand Jaimini room boundaries.
 - Chat sample boundaries cover Vedic, KP, Jaimini, Numerology, Signature, and Life Atlas.
 

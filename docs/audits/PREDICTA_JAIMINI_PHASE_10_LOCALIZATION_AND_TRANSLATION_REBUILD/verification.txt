@@ -1,0 +1,11 @@
+PREDICTA_JAIMINI_PHASE_10_LOCALIZATION_AND_TRANSLATION_REBUILD verification
+
+Status: green-source-gate
+
+Verified:
+- Jaimini has a dedicated English/Hindi/Gujarati translation JSON.
+- Jaimini canonical terms are locked for localization and report consistency.
+- Web, mobile, and Jaimini chat consume the localization helper instead of hardcoded translated strings.
+- Translation values in UI, native copy, report labels, language, and accuracy-method stores contain no stale Nadi copy.
+- Active web, mobile, chat, report, pricing, checkout, memory, and backend prompt surfaces contain no stale user-facing Nadi or palm-leaf copy.
+- Legacy /dashboard/nadi routes redirect to the Jaimini surfaces.

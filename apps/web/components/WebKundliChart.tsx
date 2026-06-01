@@ -383,7 +383,7 @@ export function WebKundliChart({
                     : insightProfile === 'kp'
                       ? 'KP focus: event promise, decision point, timing readiness, and proof path.'
                       : insightProfile === 'nadi'
-                        ? 'Nadi focus: planetary story pattern, validation, activation, and conscious shift.'
+                        ? 'Jaimini focus: soul role, visible identity, relationship mirror, and destiny chapter.'
                     : chart.chartType === 'D1'
                       ? 'D1 focus: life pattern, main weight, open opportunity, and maturity pressure.'
                       : `Varga prediction focus: ${localizedInsight.governs}`,

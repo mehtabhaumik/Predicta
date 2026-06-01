@@ -136,7 +136,7 @@ const REPORT_SCHOOL_LANES: ReportSchoolLane[] = [
       'Premium gives full karaka council, Karakamsha/Swamsa, Arudha/Upapada, Chara Dasha life map, and practical guidance.',
     productIds: ['JAIMINI'],
     promise: 'A classical soul-destiny lane with clear calculation boundaries.',
-    readinessRequirement: 'Needs a valid Kundli; report download unlocks after the Jaimini calculation/report engine is audited.',
+    readinessRequirement: 'Needs a valid Kundli with birth date, time, and place for Jaimini calculation.',
     title: 'Jaimini Reports',
   },
   {
@@ -1853,7 +1853,7 @@ function getLocalizedReportProduct(
         title: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.97e327ed4c"),
       },
       JAIMINI: {
-        badge: 'जैमिनी',
+        badge: getNativeCopy('report.jaimini.badge.hi'),
         bestFor: getNativeCopy('report.jaimini.bestFor.hi'),
         freeDepth: getNativeCopy('report.jaimini.freeDepth.hi'),
         freeIncludes: getNativeCopy('report.jaimini.freeIncludes.hi').split('||'),
@@ -1861,7 +1861,7 @@ function getLocalizedReportProduct(
         premiumDepth: getNativeCopy('report.jaimini.premiumDepth.hi'),
         premiumIncludes: getNativeCopy('report.jaimini.premiumIncludes.hi').split('||'),
         purchaseHint: getNativeCopy('report.jaimini.purchaseHint.hi'),
-        title: 'जैमिनी प्रेडिक्टा रिपोर्ट',
+        title: getNativeCopy('report.jaimini.title.hi'),
       },
       CAREER: {
         badge: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.a0201660d1"),
@@ -2014,7 +2014,7 @@ function getLocalizedReportProduct(
         title: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.4f80d08646"),
       },
       JAIMINI: {
-        badge: 'જૈમિની',
+        badge: getNativeCopy('report.jaimini.badge.gu'),
         bestFor: getNativeCopy('report.jaimini.bestFor.gu'),
         freeDepth: getNativeCopy('report.jaimini.freeDepth.gu'),
         freeIncludes: getNativeCopy('report.jaimini.freeIncludes.gu').split('||'),
@@ -2022,7 +2022,7 @@ function getLocalizedReportProduct(
         premiumDepth: getNativeCopy('report.jaimini.premiumDepth.gu'),
         premiumIncludes: getNativeCopy('report.jaimini.premiumIncludes.gu').split('||'),
         purchaseHint: getNativeCopy('report.jaimini.purchaseHint.gu'),
-        title: 'જૈમિની પ્રેડિક્ટા રિપોર્ટ',
+        title: getNativeCopy('report.jaimini.title.gu'),
       },
       CAREER: {
         badge: getNativeCopy("native.apps.web.components.WebDossierPreview.tsx.aa10e069f6"),
@@ -3045,9 +3045,9 @@ function getReportLaneReadiness({
   if (lane.id === 'JAIMINI') {
     return {
       detail:
-        'Active Kundli found. Jaimini report download unlocks after the deterministic Jaimini data contract and report engine are audited.',
-      label: 'Jaimini pending',
-      ready: false,
+        'Active Kundli found. Jaimini report is ready; Premium, Day Pass, Premium PDF, or Jaimini Report Credit unlocks deeper paid depth.',
+      label: 'Jaimini ready',
+      ready: true,
     };
   }
 

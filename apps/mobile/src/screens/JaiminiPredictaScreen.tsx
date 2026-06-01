@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
+import { getJaiminiLocalizationCopy } from '@pridicta/config';
 import { composeJaiminiInterpretation, composeJaiminiPlan } from '@pridicta/astrology';
 import {
   ActiveKundliActions,
@@ -23,24 +24,26 @@ export function JaiminiPredictaScreen({
   const setActiveChartContext = useAppStore(
     state => state.setActiveChartContext,
   );
+  const languagePreference = useAppStore(state => state.languagePreference);
+  const copy = getJaiminiLocalizationCopy(languagePreference.language);
   const [technicalOpen, setTechnicalOpen] = useState(false);
   const jaiminiPlan = composeJaiminiPlan(kundli);
   const jaiminiInterpretation = composeJaiminiInterpretation(kundli);
   const compassItems = [
-    ['Soul planet', jaiminiPlan.atmakaraka?.planet ?? 'Pending'],
-    ['Career dharma', jaiminiPlan.amatyakaraka?.planet ?? 'Pending'],
-    ['Visible path', jaiminiPlan.arudhaLagna.padaSign ?? 'Pending'],
-    ['Life chapter', jaiminiPlan.currentCharaDasha?.sign ?? 'Pending'],
+    [copy.soulPlanet, jaiminiPlan.atmakaraka?.planet ?? copy.pending],
+    [copy.careerDharma, jaiminiPlan.amatyakaraka?.planet ?? copy.pending],
+    [copy.visiblePath, jaiminiPlan.arudhaLagna.padaSign ?? copy.pending],
+    [copy.lifeChapter, jaiminiPlan.currentCharaDasha?.sign ?? copy.pending],
   ] as const;
   const readingBlocks = jaiminiInterpretation.freeBlocks.slice(0, 6);
   const charaTimeline = jaiminiPlan.charaDashaTimeline.slice(0, 6);
   const askJaimini = () => {
     setActiveChartContext({
       handoffFrom: 'PARASHARI',
-      handoffQuestion: `Use Jaimini Predicta for my question. Start with this prediction: ${jaiminiInterpretation.summary} Calculated evidence: ${jaiminiInterpretation.technicalEvidence.slice(0, 4).join(' | ')}`,
+      handoffQuestion: `${copy.chatPrompt} Start with this prediction: ${jaiminiInterpretation.summary} Calculated evidence: ${jaiminiInterpretation.technicalEvidence.slice(0, 4).join(' | ')}`,
       predictaSchool: 'JAIMINI',
-      selectedSection: 'Jaimini soul role',
-      sourceScreen: 'Jaimini Predicta',
+      selectedSection: copy.soulRole,
+      sourceScreen: copy.heroEyebrow,
     });
     navigation.navigate(routes.Chat);
   };
@@ -48,28 +51,28 @@ export function JaiminiPredictaScreen({
   return (
     <Screen>
       <AnimatedHeader
-        eyebrow="JAIMINI PREDICTA"
-        title="Destiny role"
+        eyebrow={copy.heroEyebrow.toUpperCase()}
+        title={copy.charaDashaChapter}
       />
       <ActiveKundliActions
         compact
         kundli={kundli}
-        sourceScreen="Jaimini Predicta"
-        title="Jaimini reading Kundli"
+        sourceScreen={copy.heroEyebrow}
+        title={copy.readingKundliTitle}
       />
       <GlowCard delay={90}>
         <AppText tone="secondary" variant="caption">
-          CLASSICAL SOUL-DESTINY LENS
+          {copy.lensBadge.toUpperCase()}
         </AppText>
         <AppText className="mt-2" variant="subtitle">
-          Your destiny role is being prepared from your chart
+          {copy.destinyRoleTitle}
         </AppText>
         <AppText className="mt-3" tone="secondary" variant="body">
           {jaiminiInterpretation.summary}
         </AppText>
         <View style={styles.compassCard}>
           <AppText tone="secondary" variant="caption">
-            SOUL COMPASS
+            {copy.compassTitle.toUpperCase()}
           </AppText>
           <View style={styles.compassGrid}>
             {compassItems.map(([label, value]) => (
@@ -88,24 +91,24 @@ export function JaiminiPredictaScreen({
             style={[styles.cta, styles.primaryCta]}
             onPress={askJaimini}
           >
-            <AppText variant="body">Ask Jaimini Predicta</AppText>
+            <AppText variant="body">{copy.askCta}</AppText>
           </Pressable>
           <Pressable
             accessibilityRole="button"
             style={[styles.cta, styles.secondaryCta]}
             onPress={() => navigation.navigate(routes.Report)}
           >
-            <AppText variant="body">Download Jaimini Report</AppText>
+            <AppText variant="body">{copy.downloadCta}</AppText>
           </Pressable>
         </View>
       </GlowCard>
 
       <GlowCard delay={105}>
         <AppText tone="secondary" variant="caption">
-          KARAKA COUNCIL PREVIEW
+          {copy.karakaCouncilEyebrow.toUpperCase()}
         </AppText>
         <AppText className="mt-2" variant="subtitle">
-          Who is carrying the main life signals?
+          {copy.karakaCouncilTitle}
         </AppText>
         <View style={styles.karakaList}>
           {jaiminiPlan.charaKarakas.length ? (
@@ -120,10 +123,10 @@ export function JaiminiPredictaScreen({
           ) : (
             <View style={styles.karakaChip}>
               <AppText tone="secondary" variant="caption">
-                Pending
+                {copy.karakaCouncilPending}
               </AppText>
               <AppText tone="secondary" variant="body">
-                Select a Kundli to calculate the council.
+                {copy.karakaCouncilEmpty}
               </AppText>
             </View>
           )}
@@ -132,10 +135,10 @@ export function JaiminiPredictaScreen({
 
       <GlowCard delay={115}>
         <AppText tone="secondary" variant="caption">
-          CURRENT CHARA DASHA CHAPTER
+          {copy.charaDashaChapter.toUpperCase()}
         </AppText>
         <AppText className="mt-2" variant="subtitle">
-          Compact timing strip
+          {copy.timelineTitle}
         </AppText>
         <ScrollView
           horizontal
@@ -156,9 +159,9 @@ export function JaiminiPredictaScreen({
             ))
           ) : (
             <View style={styles.timelineCard}>
-              <AppText variant="body">Pending</AppText>
+              <AppText variant="body">{copy.pending}</AppText>
               <AppText tone="secondary" variant="caption">
-                Birth date evidence is needed.
+                {copy.timelineEmpty}
               </AppText>
             </View>
           )}
@@ -191,13 +194,15 @@ export function JaiminiPredictaScreen({
         >
           <View>
             <AppText tone="secondary" variant="caption">
-              TECHNICAL EVIDENCE
+              {copy.evidenceTitle.toUpperCase()}
             </AppText>
             <AppText className="mt-1" variant="body">
-              Karaka, Arudha, Upapada, Swamsa, Karakamsha, and Chara Dasha proof
+              {copy.proofLine}
             </AppText>
           </View>
-          <AppText variant="body">{technicalOpen ? 'Hide' : 'Show'}</AppText>
+          <AppText variant="body">
+            {technicalOpen ? copy.hideEvidence : copy.showEvidence}
+          </AppText>
         </Pressable>
         {technicalOpen ? (
           <View style={styles.evidenceStack}>

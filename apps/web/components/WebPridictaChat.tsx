@@ -4506,7 +4506,7 @@ function buildSchoolContextIntro(
       context.predictaSchool === 'KP'
         ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.7de5e77289")
       : context.predictaSchool === 'JAIMINI' || context.predictaSchool === 'NADI'
-          ? 'मैं इसे जैमिनी के soul role, visible identity और destiny chapter lens से रखूंगा।'
+          ? getNativeCopy('chat.jaimini.contextLine.hi')
       : context.predictaSchool === 'NUMEROLOGY'
           ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.b93160df27")
       : context.predictaSchool === 'SIGNATURE'
@@ -4530,7 +4530,7 @@ function buildSchoolContextIntro(
       context.predictaSchool === 'KP'
         ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.626c67ff92")
       : context.predictaSchool === 'JAIMINI' || context.predictaSchool === 'NADI'
-          ? 'હું આને જૈમિનીના soul role, visible identity અને destiny chapter lens માં રાખીશ.'
+          ? getNativeCopy('chat.jaimini.contextLine.gu')
       : context.predictaSchool === 'NUMEROLOGY'
           ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.bd7eb2446b")
       : context.predictaSchool === 'SIGNATURE'
@@ -4643,7 +4643,7 @@ function getRoomMethodLine(
       return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.d88e5f2875");
     }
     if (school === 'JAIMINI' || school === 'NADI') {
-      return 'यह room जैमिनी के soul role, visible identity, career dharma और destiny chapters पर रहेगा।';
+      return getNativeCopy('chat.jaimini.roomBoundary.hi');
     }
     if (school === 'NUMEROLOGY') {
       return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.378129e024");
@@ -4659,7 +4659,7 @@ function getRoomMethodLine(
       return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.e5c580817f");
     }
     if (school === 'JAIMINI' || school === 'NADI') {
-      return 'આ room જૈમિનીના soul role, visible identity, career dharma અને destiny chapters પર રહેશે.';
+      return getNativeCopy('chat.jaimini.roomBoundary.gu');
     }
     if (school === 'NUMEROLOGY') {
       return getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.bc8bf3e3fe");

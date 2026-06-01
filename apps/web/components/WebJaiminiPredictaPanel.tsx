@@ -1,5 +1,6 @@
 'use client';
 
+import { getJaiminiLocalizationCopy } from '@pridicta/config';
 import { composeJaiminiInterpretation, composeJaiminiPlan } from '@pridicta/astrology';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { WebActiveKundliActions } from './WebActiveKundliActions';
@@ -8,9 +9,12 @@ import {
   PredictaButton,
   PredictaPanel,
 } from './ui/DesignSystemPrimitives';
+import { useLanguagePreference } from '../lib/language-preference';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 
 export function WebJaiminiPredictaPanel(): React.JSX.Element {
+  const { language } = useLanguagePreference();
+  const copy = getJaiminiLocalizationCopy(language);
   const { activeKundli } = useWebKundliLibrary();
   const jaiminiPlan = composeJaiminiPlan(activeKundli);
   const jaiminiInterpretation = composeJaiminiInterpretation(activeKundli);
@@ -27,64 +31,64 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
   const chatHref = buildPredictaChatHref({
     kundli: activeKundli,
     prompt:
-      `Use Jaimini Predicta for my question. Start with this prediction: ${jaiminiInterpretation.summary} Calculated evidence: ${jaiminiInterpretation.technicalEvidence.slice(0, 4).join(' | ')}`,
+      `${copy.chatPrompt} Start with this prediction: ${jaiminiInterpretation.summary} Calculated evidence: ${jaiminiInterpretation.technicalEvidence.slice(0, 4).join(' | ')}`,
     school: 'JAIMINI',
-    sourceScreen: 'Jaimini Predicta',
+    sourceScreen: copy.heroEyebrow,
   });
   const compassItems = [
     {
-      label: 'Soul planet',
-      value: jaiminiPlan.atmakaraka?.planet ?? 'Pending',
+      label: copy.soulPlanet,
+      value: jaiminiPlan.atmakaraka?.planet ?? copy.pending,
     },
     {
-      label: 'Career dharma',
-      value: jaiminiPlan.amatyakaraka?.planet ?? 'Pending',
+      label: copy.careerDharma,
+      value: jaiminiPlan.amatyakaraka?.planet ?? copy.pending,
     },
     {
-      label: 'Visible path',
-      value: jaiminiPlan.arudhaLagna.padaSign ?? 'Pending',
+      label: copy.visiblePath,
+      value: jaiminiPlan.arudhaLagna.padaSign ?? copy.pending,
     },
     {
-      label: 'Life chapter',
-      value: jaiminiPlan.currentCharaDasha?.sign ?? 'Pending',
+      label: copy.lifeChapter,
+      value: jaiminiPlan.currentCharaDasha?.sign ?? copy.pending,
     },
   ];
   const readingCards = [
     {
       anchor: 'jaimini-soul-role',
       block: soulBlock,
-      eyebrow: 'Soul compass',
-      fallback: 'Your deeper role is waiting for verified karaka evidence.',
+      eyebrow: copy.soulRole,
+      fallback: copy.fallbackSoul,
     },
     {
       anchor: 'jaimini-visible-identity',
       block: visibleBlock,
-      eyebrow: 'Visible identity',
-      fallback: 'Your public image signal is waiting for Arudha evidence.',
+      eyebrow: copy.visibleIdentity,
+      fallback: copy.fallbackVisible,
     },
     {
       anchor: 'jaimini-career-dharma',
       block: careerBlock,
-      eyebrow: 'Career dharma',
-      fallback: 'Your work direction is waiting for the career-karaka evidence.',
+      eyebrow: copy.careerDharma,
+      fallback: copy.fallbackCareer,
     },
     {
       anchor: 'jaimini-relationship-mirror',
       block: relationshipBlock,
-      eyebrow: 'Relationship mirror',
-      fallback: 'Your relationship mirror is waiting for Darakaraka evidence.',
+      eyebrow: copy.relationshipMirror,
+      fallback: copy.fallbackRelationship,
     },
     {
       anchor: 'jaimini-destiny-chapter',
       block: destinyBlock,
-      eyebrow: 'Current Chara Dasha chapter',
-      fallback: 'Your current Jaimini timing chapter is still pending.',
+      eyebrow: copy.charaDashaChapter,
+      fallback: copy.fallbackTiming,
     },
     {
       anchor: 'jaimini-focus-now',
       block: focusBlock,
-      eyebrow: 'What to focus on now',
-      fallback: 'Your next focus is waiting for enough Jaimini evidence.',
+      eyebrow: copy.focusNow,
+      fallback: copy.fallbackFocus,
     },
   ];
   const karakaPreview = jaiminiPlan.charaKarakas.slice(0, 7);
@@ -95,32 +99,32 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
         compact
         kundli={activeKundli}
         school="JAIMINI"
-        sourceScreen="Jaimini Predicta"
-        title="Jaimini reading Kundli"
+        sourceScreen={copy.heroEyebrow}
+        title={copy.readingKundliTitle}
       />
       <PredictaPanel className="jaimini-room-hero">
         <div className="jaimini-room-hero-copy">
-          <p className="section-title">JAIMINI PREDICTA</p>
-          <h1>Your destiny role is being prepared from your chart</h1>
+          <p className="section-title">{copy.heroEyebrow.toUpperCase()}</p>
+          <h1>{copy.destinyRoleTitle}</h1>
           <p>{jaiminiInterpretation.summary}</p>
-          <div className="jaimini-room-cta-row" aria-label="Jaimini primary actions">
+          <div className="jaimini-room-cta-row" aria-label={copy.primaryActionsAria}>
             <PredictaButton href={chatHref} size="lg" variant="primary">
-              Ask Jaimini Predicta
+              {copy.askCta}
             </PredictaButton>
             <PredictaButton href="/dashboard/report#report-lane-jaimini" size="lg" variant="secondary">
-              Download Jaimini Report
+              {copy.downloadCta}
             </PredictaButton>
           </div>
         </div>
-        <aside className="jaimini-soul-compass-card" aria-label="Jaimini soul compass card">
+        <aside className="jaimini-soul-compass-card" aria-label={copy.compassAria}>
           <PredictaBadge className="jaimini-room-badge">
-            Classical soul-destiny lens
+            {copy.lensBadge}
           </PredictaBadge>
           <div className="jaimini-compass-orbit" aria-hidden="true">
-            <span>Soul</span>
-            <span>Work</span>
-            <span>Image</span>
-            <span>Now</span>
+            <span>{copy.compassSoul}</span>
+            <span>{copy.compassWork}</span>
+            <span>{copy.compassImage}</span>
+            <span>{copy.compassNow}</span>
           </div>
           <div className="jaimini-compass-grid">
             {compassItems.map(item => (
@@ -133,15 +137,12 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
         </aside>
       </PredictaPanel>
 
-      <section className="jaimini-reading-grid" aria-label="Jaimini prediction cards">
+      <section className="jaimini-reading-grid" aria-label={copy.readingAria}>
         <article className="jaimini-karaka-preview-card">
           <div>
-            <p className="section-title">KARAKA COUNCIL PREVIEW</p>
-            <h2>Who is carrying the main life signals?</h2>
-            <p>
-              Predicta keeps this preview light: the council is here as evidence,
-              while the reading cards tell you what the signals are asking from you.
-            </p>
+            <p className="section-title">{copy.karakaCouncilEyebrow.toUpperCase()}</p>
+            <h2>{copy.karakaCouncilTitle}</h2>
+            <p>{copy.karakaPreviewBody}</p>
           </div>
           <div className="jaimini-karaka-list">
             {karakaPreview.length ? (
@@ -153,8 +154,8 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
               ))
             ) : (
               <span>
-                <strong>Pending</strong>
-                <em>Select a Kundli to calculate the council.</em>
+                <strong>{copy.karakaCouncilPending}</strong>
+                <em>{copy.karakaCouncilEmpty}</em>
               </span>
             )}
           </div>
@@ -164,26 +165,26 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
           <article className="jaimini-reading-card" id={card.anchor} key={card.anchor}>
             <span>{card.eyebrow}</span>
             <h2>{card.block?.headline ?? card.fallback}</h2>
-            <p>{card.block?.guidance ?? 'Select a valid Kundli so Predicta can prepare this reading.'}</p>
+            <p>{card.block?.guidance ?? copy.fallbackGeneric}</p>
           </article>
         ))}
       </section>
 
-      <section className="jaimini-premium-summary" aria-label="Jaimini premium summary">
+      <section className="jaimini-premium-summary" aria-label={copy.premiumEyebrow}>
         <div>
-          <p className="section-title">PREMIUM DEEPENING</p>
-          <h2>{premiumBlock?.headline ?? 'Premium turns the signals into a sharper life-direction map.'}</h2>
+          <p className="section-title">{copy.premiumEyebrow.toUpperCase()}</p>
+          <h2>{premiumBlock?.headline ?? copy.premiumFallback}</h2>
           <p>{premiumBlock?.guidance ?? jaiminiInterpretation.premiumSummary}</p>
         </div>
         <PredictaButton href="/dashboard/report#report-lane-jaimini" variant="secondary">
-          Download full Jaimini report
+          {copy.downloadFullCta}
         </PredictaButton>
       </section>
 
       <details className="jaimini-technical-drawer">
         <summary>
-          <span>Technical Evidence</span>
-          <strong>Karaka, Arudha, Upapada, Swamsa, Karakamsha, and Chara Dasha proof</strong>
+          <span>{copy.evidenceTitle}</span>
+          <strong>{copy.proofLine}</strong>
         </summary>
         <div className="jaimini-evidence-list">
           {jaiminiInterpretation.technicalEvidence.map(item => (

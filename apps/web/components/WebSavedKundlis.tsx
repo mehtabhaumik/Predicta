@@ -26,7 +26,7 @@ import { WebKundliChart } from './WebKundliChart';
 import { AuthDialog } from './AuthDialog';
 import { BrandedDestructiveDialog } from './BrandedDestructiveDialog';
 
-type KundliLibraryPreviewKind = 'PARASHARI' | 'CHALIT' | 'KP' | 'NADI';
+type KundliLibraryPreviewKind = 'PARASHARI' | 'CHALIT' | 'KP' | 'JAIMINI';
 
 export function WebSavedKundlis(): React.JSX.Element {
   const { chartLanguage, language } = useLanguagePreference();
@@ -317,7 +317,7 @@ function KundliMiniChartStrip({
 
   return (
     <div className="kundli-library-mini-strip" aria-label={labels.previewCharts}>
-      {(['PARASHARI', 'CHALIT', 'KP', 'NADI'] as KundliLibraryPreviewKind[]).map(school => (
+      {(['PARASHARI', 'CHALIT', 'KP', 'JAIMINI'] as KundliLibraryPreviewKind[]).map(school => (
         <MiniKundliPreview
           chartLanguage={chartLanguage}
           key={`${kundli.id}-${school}`}
@@ -355,7 +355,7 @@ function MiniKundliPreview({
     chart,
     language: chartLanguage,
     presentation: 'library',
-    school: school === 'KP' ? 'KP' : school === 'NADI' ? 'NADI' : 'PARASHARI',
+    school: school === 'KP' ? 'KP' : 'PARASHARI',
   });
 
   return (
@@ -444,16 +444,16 @@ function KundliLibraryChartDialog({
   const chartName =
     school === 'KP'
       ? 'KP Bhav Chalit Cusp Chart'
-      : school === 'NADI'
-        ? 'Nadi Chart Anchor'
+      : school === 'JAIMINI'
+        ? 'Jaimini Destiny Anchor'
         : school === 'CHALIT'
           ? 'Chalit Chart'
           : 'D1';
   const fullFlowHref =
     school === 'KP'
       ? '/dashboard/kp'
-      : school === 'NADI'
-        ? '/dashboard/nadi'
+      : school === 'JAIMINI'
+        ? '/dashboard/jaimini'
       : school === 'CHALIT'
         ? '/dashboard/charts'
         : '/dashboard/kundli';
@@ -463,8 +463,8 @@ function KundliLibraryChartDialog({
     kundli,
     kundliId: kundli.id,
     prompt: labels.dialogAskPrompt(kundli.birthDetails.name, chartTitle),
-    purpose: school === 'KP' ? 'kp' : school === 'NADI' ? 'nadi' : 'kundli',
-    school: school === 'KP' ? 'KP' : school === 'NADI' ? 'NADI' : 'PARASHARI',
+    purpose: school === 'KP' ? 'kp' : school === 'JAIMINI' ? 'kundli' : 'kundli',
+    school: school === 'KP' ? 'KP' : school === 'JAIMINI' ? 'JAIMINI' : 'PARASHARI',
     selectedSection: `${chartTitle} chart preview`,
     sourceScreen: 'Kundli Library',
   });
@@ -525,8 +525,8 @@ function KundliLibraryChartDialog({
           kundliId={kundli.id}
           ownerName={kundli.birthDetails.name}
           readingNoteOverride={labels.dialogReadingNote(school)}
-          insightProfile={school === 'KP' ? 'kp' : school === 'NADI' ? 'nadi' : 'default'}
-          schoolOverride={school === 'KP' ? 'KP' : school === 'NADI' ? 'NADI' : 'PARASHARI'}
+          insightProfile={school === 'KP' ? 'kp' : 'default'}
+          schoolOverride={school === 'KP' ? 'KP' : 'PARASHARI'}
           sectionTitle={labels.dialogChartSection(school)}
         />
         <div className="kundli-chart-dialog-actions">
@@ -712,7 +712,10 @@ function buildLibraryPreviewChart(
     return buildParashariChalitChart(kundli);
   }
 
-  return buildSchoolPreviewChart(kundli, school);
+  return buildSchoolPreviewChart(
+    kundli,
+    school === 'JAIMINI' ? 'PARASHARI' : school,
+  );
 }
 
 type KundliLibraryCopy = {
@@ -835,7 +838,7 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
           ? 'CHALIT SAVED KUNDLI'
           : school === 'KP'
             ? 'KP SAVED KUNDLI'
-            : 'NADI SAVED KUNDLI',
+            : 'JAIMINI SAVED KUNDLI',
     dialogEyebrow: 'SAVED CHART PREVIEW',
     dialogReadingNote: school =>
       school === 'PARASHARI'
@@ -844,7 +847,7 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
           ? 'Parashari Chalit keeps the D1 sign but moves the planet into the bhava where it delivers results.'
           : school === 'KP'
             ? 'KP keeps its own rule path. This preview opens the saved birth chart in KP context.'
-            : 'Nadi keeps its own story-link path. This preview opens the saved birth chart in Nadi context without claiming manuscript access.',
+            : 'Jaimini keeps its own destiny-role path. This preview opens the saved birth chart in Jaimini context.',
     dialogTitle: (name, chart) => `${name}'s ${chart} chart`,
     edit: 'Edit',
     editHistory: (count, fields) =>
@@ -883,7 +886,7 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
           ? 'Open Chalit Flow'
           : school === 'KP'
             ? 'Open KP Room'
-            : 'Open Nadi Room',
+            : 'Open Jaimini Room',
     openMatchmaking: 'Open Matchmaking',
     pageTitle: 'Kundli Library',
     personalBody: activeName =>
@@ -901,7 +904,7 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
           ? 'Chalit'
           : school === 'KP'
             ? 'KP'
-            : 'Nadi',
+            : 'Jaimini',
     previewCharts: 'Saved Kundli chart previews',
     previewChartsHint: 'Tap any preview to inspect the chart before opening a full flow.',
     rectifiedTime: 'Rectified time',

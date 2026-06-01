@@ -51,7 +51,7 @@ const publicHeaderCopy: Record<
     links: [
       { href: '/dashboard/vedic', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.0a41d55d52") },
       { href: '/dashboard/kp', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.16640e70b1") },
-      { href: '/dashboard/jaimini', label: 'जैमिनी' },
+      { href: '/dashboard/jaimini', label: getNativeCopy('header.jaimini.label.hi') },
       { href: '/dashboard/numerology', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.922f2ff605") },
       { href: '/dashboard/signature', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.3bd079967d") },
       { href: '/dashboard/report', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.89a0ae86a5") },
@@ -74,7 +74,7 @@ const publicHeaderCopy: Record<
     links: [
       { href: '/dashboard/vedic', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.c60c32f61e") },
       { href: '/dashboard/kp', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.88220f0e9b") },
-      { href: '/dashboard/jaimini', label: 'જૈમિની' },
+      { href: '/dashboard/jaimini', label: getNativeCopy('header.jaimini.label.gu') },
       { href: '/dashboard/numerology', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.cf14f25c86") },
       { href: '/dashboard/signature', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.7a41efa981") },
       { href: '/dashboard/report', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.d6aa714c20") },

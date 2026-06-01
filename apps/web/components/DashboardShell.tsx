@@ -299,7 +299,7 @@ const TOPBAR_CONTEXT_COPY: Record<
       eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.52b093a650"),
     },
     jaimini: {
-      eyebrow: 'जैमिनी वर्ल्ड',
+      eyebrow: getNativeCopy('dashboard.jaimini.eyebrow.hi'),
     },
     numerology: {
       eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.6266a5cb0b"),
@@ -328,7 +328,7 @@ const TOPBAR_CONTEXT_COPY: Record<
       eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.147aaffa0e"),
     },
     jaimini: {
-      eyebrow: 'જૈમિની વર્લ્ડ',
+      eyebrow: getNativeCopy('dashboard.jaimini.eyebrow.gu'),
     },
     numerology: {
       eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.57d87b38a6"),

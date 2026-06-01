@@ -1,0 +1,41 @@
+{
+  "activeSurfaceFiles": [
+    "apps/web/components/WebDossierPreview.tsx",
+    "apps/web/components/WebJaiminiPredictaPanel.tsx",
+    "apps/web/components/WebKpPredictaPanel.tsx",
+    "apps/web/components/WebKundliChart.tsx",
+    "apps/web/components/WebSavedKundlis.tsx",
+    "apps/web/app/dashboard/jaimini/chat/page.tsx",
+    "apps/web/app/checkout/page.tsx",
+    "apps/web/app/pricing/page.tsx",
+    "apps/web/app/dashboard/premium/page.tsx",
+    "apps/mobile/src/screens/JaiminiPredictaScreen.tsx",
+    "apps/mobile/src/screens/PaywallScreen.tsx",
+    "apps/mobile/src/screens/ReportScreen.tsx",
+    "packages/config/src/predictaMemory.ts",
+    "packages/astrology/src/predictaChatActions.ts",
+    "backend/astro_api/ai.py"
+  ],
+  "canonicalTerms": [
+    "Jaimini",
+    "Atmakaraka",
+    "Amatyakaraka",
+    "Darakaraka",
+    "Karakamsha",
+    "Swamsa",
+    "Arudha Lagna",
+    "Upapada Lagna",
+    "Chara Dasha"
+  ],
+  "generatedAt": "2026-06-01T18:19:28.393Z",
+  "phase": "PREDICTA_JAIMINI_PHASE_10_LOCALIZATION_AND_TRANSLATION_REBUILD",
+  "status": "green-source-gate",
+  "translationFiles": [
+    "packages/config/src/translations/accuracyMethod.json",
+    "packages/config/src/translations/language.json",
+    "packages/config/src/translations/nativeCopy.json",
+    "packages/config/src/translations/ui.json",
+    "packages/pdf/src/translations/reportLabels.json",
+    "packages/config/src/translations/jaimini.json"
+  ]
+}

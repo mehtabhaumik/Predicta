@@ -2723,7 +2723,6 @@ function getPdfTemplateCopy(
   summaryTitle: string;
   trustLimits: string;
 } {
-  // Native copy audit anchors; runtime translations still come from dedicated config JSON: प्रेडिक्टा सारांश / પ્રેડિક્ટા સારાંશ.
   if (language === 'hi') {
     return {
       confidence: getNativeCopy("native.packages.pdf.src.reportDocument.tsx.479e87c228"),

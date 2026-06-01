@@ -43,7 +43,7 @@ for (const fragment of [
   'Jaimini is one of the five specialist rooms',
   'Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, and Chara Dasha',
   'soul role, destiny pattern, visible identity, career dharma, relationship mirror, and destiny chapters',
-  'Never claim Nadi leaf access, palm-leaf manuscript access, or hidden manuscript authority',
+  'Never claim unsupported manuscript authority or hidden lineage access',
   'Life Atlas can use Jaimini only as a labeled synthesis evidence layer',
 ]) {
   assertIncludes(memory, fragment, `Predicta memory digest includes ${fragment}`);
@@ -103,7 +103,7 @@ for (const fragment of [
   'composeJaiminiInterpretation',
   'function buildJaiminiPredictaReply',
   'Jaimini Predicta mode: I will read through soul role, visible identity, career dharma, relationship mirror, and destiny chapters.',
-  'It does not claim Nadi leaf or palm-leaf manuscript access.',
+  'It does not claim unsupported manuscript authority.',
 ]) {
   assertIncludes(chatActions, fragment, `deterministic chat action includes ${fragment}`);
 }
@@ -205,7 +205,7 @@ const audit = [
   '- Shared and mobile AI context builders inject compact Jaimini plan and interpretation data.',
   '- Active context builders no longer inject nadiJyotishPlan.',
   '- Life Atlas uses Jaimini as a labeled synthesis evidence layer.',
-  '- Deterministic chat actions route Jaimini and legacy Nadi terms into Jaimini Predicta without Nadi leaf claims.',
+  '- Deterministic chat actions route Jaimini and legacy Nadi terms into Jaimini Predicta without unsupported manuscript claims.',
   '- Web, mobile, and backend chat prompts understand Jaimini room boundaries.',
   '- Chat sample boundaries cover Vedic, KP, Jaimini, Numerology, Signature, and Life Atlas.',
   '',

@@ -402,7 +402,7 @@ PREDICTA_APP_MEMORY_DIGEST = {
         "Vedic covers D1, Moon, D9, D10, Chalit, full Varga library, Swamsa, Karakamsha, Mahadasha Phala, Panchang, Avakhada, Ghatak, favorable points, friendship, Ashtakavarga, Prastarashtakavarga, house evidence, and remedies.",
         "KP covers event questions with cusps, star lords, sub lords, sub-sub lords, significators, ruling planets, dasha support, timing readiness, confidence, and proof drawer.",
         "Jaimini covers Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, Chara Dasha, soul role, visible identity, and destiny chapters.",
-        "Never claim Nadi leaf access, palm-leaf manuscript access, or hidden manuscript authority. Jaimini must stay grounded in calculated Jaimini indicators.",
+        "Never claim unsupported manuscript authority or hidden lineage access. Jaimini must stay grounded in calculated Jaimini indicators.",
         "Numerology covers number signature, name rhythm, birth code, personal cycles, missing/repeated patterns, compatibility, name refinement, and no fear guarantees.",
         "Signature covers confirmed visible traits only, privacy/no-storage, confidence, reflective expression guidance, and no forensic or diagnostic claims.",
         "Life Atlas is the approved all-school synthesis using Vedic, KP, Jaimini, Numerology, and optional confirmed Signature evidence.",
@@ -625,7 +625,7 @@ PREDICTA_ROOM_CONTRACTS: Dict[str, Dict[str, Any]] = {
             "Explain that old Nadi routes now lead to Jaimini if the user asks.",
         ],
         "safetyBehavior": [
-            "No Nadi leaf or palm-leaf manuscript claims.",
+            "No unsupported manuscript authority claims.",
             "No ancient manuscript certainty.",
             "No destiny-lock language.",
         ],
@@ -734,7 +734,7 @@ PREDICTA_ROOM_ROUTES: Dict[str, str] = {
     "PARASHARI": "/dashboard/vedic/chat",
     "KP": "/dashboard/kp/chat",
     "JAIMINI": "/dashboard/jaimini/chat",
-    "NADI": "/dashboard/nadi/chat",
+    "NADI": "/dashboard/jaimini/chat",
     "NUMEROLOGY": "/dashboard/numerology/chat",
     "SIGNATURE": "/dashboard/signature/chat",
 }
@@ -743,7 +743,7 @@ PREDICTA_ROOM_LABELS: Dict[str, str] = {
     "PARASHARI": "Vedic Predicta",
     "KP": "KP Predicta",
     "JAIMINI": "Jaimini Predicta",
-    "NADI": "Nadi Predicta",
+    "NADI": "Jaimini Predicta",
     "NUMEROLOGY": "Numerology Predicta",
     "SIGNATURE": "Signature Predicta",
 }
@@ -1622,17 +1622,17 @@ def build_deterministic_nadi_reply(request: PridictaChatRequest) -> str:
 
     if not evidence_lines:
         evidence_lines = [
-            "- Nadi story links need planet-to-planet markers from the saved birth chart.",
+            "- Jaimini destiny reading needs calculated karaka, Arudha, Upapada, and Chara Dasha markers from the saved birth chart.",
         ]
 
     return "\n\n".join(
         [
-            "Nadi Predicta mode. I will keep this as a Nadi-style chart-signature reading.",
+            "Jaimini Predicta mode. I will keep this as a calculated Jaimini destiny reading.",
             f"Your question: {question}",
-            "Method boundary: this is not Parashari yoga reading and not KP sub-lord judgement. It uses planetary story links, karaka themes, validation questions, and timing activation. I will not pretend there is an ancient manuscript record.",
-            "Nadi evidence:\n" + "\n".join(evidence_lines),
+            "Method boundary: this is not Parashari yoga reading and not KP sub-lord judgement. It uses calculated karakas, Arudha, Upapada, and Chara Dasha evidence. I will not pretend there is unsupported manuscript authority.",
+            "Jaimini evidence:\n" + "\n".join(evidence_lines),
             "Confidence: medium for pattern recognition, lower for exact events until validation questions are answered.",
-            "Next step: answer the validation questions honestly, then I can narrow the story and timing without making fake-certainty claims.",
+            "Next step: answer the clarifying questions honestly, then I can narrow the destiny chapter and timing without making fake-certainty claims.",
         ]
     )
 
@@ -1987,11 +1987,11 @@ def build_deterministic_signature_reply(request: PridictaChatRequest) -> str:
                 else f"Your question: {question}"
             ),
             (
-                "विधि सीमा: हस्ताक्षर प्रेडिक्टा केवल अपलोड किए गए, बनाए गए या आपके द्वारा पुष्टि किए गए दिखने वाले संकेतों का उपयोग करती है। यह वैदिक चार्ट प्रमाण, कृष्णमूर्ति पद्धति का निर्णय, नाड़ी पठन, अंक ज्योतिष, पहचान सत्यापन, हस्तलेखन जांच, कानूनी प्रमाण, चिकित्सा निदान या भर्ती सलाह नहीं है।"
+                "विधि सीमा: हस्ताक्षर प्रेडिक्टा केवल अपलोड किए गए, बनाए गए या आपके द्वारा पुष्टि किए गए दिखने वाले संकेतों का उपयोग करती है। यह वैदिक चार्ट प्रमाण, कृष्णमूर्ति पद्धति का निर्णय, जैमिनी भाग्य-पठन, अंक ज्योतिष, पहचान सत्यापन, हस्तलेखन जांच, कानूनी प्रमाण, चिकित्सा निदान या भर्ती सलाह नहीं है।"
                 if request.language == "hi"
-                else "પદ્ધતિ સીમા: હસ્તાક્ષર પ્રેડિક્ટા માત્ર અપલોડ કરેલા, દોરેલા અથવા તમારી દ્વારા પુષ્ટિ કરેલા દેખાતા સંકેતોનો ઉપયોગ કરે છે. આ વૈદિક ચાર્ટ પુરાવો, કૃષ્ણમૂર્તિ પદ્ધતિનો નિર્ણય, નાડી વાંચન, અંક જ્યોતિષ, ઓળખ ચકાસણી, હસ્તલેખન તપાસ, કાનૂની પુરાવો, તબીબી નિદાન કે ભરતી સલાહ નથી।"
+                else "પદ્ધતિ સીમા: હસ્તાક્ષર પ્રેડિક્ટા માત્ર અપલોડ કરેલા, દોરેલા અથવા તમારી દ્વારા પુષ્ટિ કરેલા દેખાતા સંકેતોનો ઉપયોગ કરે છે. આ વૈદિક ચાર્ટ પુરાવો, કૃષ્ણમૂર્તિ પદ્ધતિનો નિર્ણય, જૈમિની ભાગ્ય-વાંચન, અંક જ્યોતિષ, ઓળખ ચકાસણી, હસ્તલેખન તપાસ, કાનૂની પુરાવો, તબીબી નિદાન કે ભરતી સલાહ નથી।"
                 if request.language == "gu"
-                else "Method boundary: Signature Predicta uses only uploaded, drawn, or user-confirmed visual traits. It is not Vedic chart proof, KP judgement, Nadi pattern reading, numerology, identity verification, handwriting forensics, legal proof, medical diagnosis, or hiring advice."
+                else "Method boundary: Signature Predicta uses only uploaded, drawn, or user-confirmed visual traits. It is not Vedic chart proof, KP judgement, Jaimini destiny reading, numerology, identity verification, handwriting forensics, legal proof, medical diagnosis, or hiring advice."
             ),
             (
                 "मुझे क्या चाहिए: साफ हस्ताक्षर छवि, बनाया गया हस्ताक्षर, या पुष्टि किए गए संकेत जैसे आधार रेखा, झुकाव, दबाव, पढ़ने की स्पष्टता, अंतर, अंडरलाइन, बड़े अक्षर का जोर और हस्ताक्षर का आकार।"
@@ -3855,9 +3855,9 @@ def build_pridicta_system_prompt() -> str:
             "Jaimini Predicta is a separate classical Jyotish room for Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, Chara Dasha, soul role, visible identity, relationship mirror, career dharma, and destiny chapters.",
             "Numerology Predicta is a separate number-reading room. It uses name number, birth number, destiny number, personal year/month/day, name spelling rhythm, and compatibility numbers. It is not Parashari, KP, or Jaimini unless the user explicitly asks for a cross-method synthesis.",
             "Signature Predicta is a separate signature-analysis room. It uses confirmed visual signature traits, self-expression patterns, improvement suggestions, and optional explicit synthesis. It is not identity verification, handwriting forensics, legal proof, medical diagnosis, hiring advice, or a guaranteed prediction.",
-            "Nadi was replaced by Jaimini. Never claim Nadi leaf access, palm-leaf manuscript access, ancient leaf certainty, or lineage-specific records.",
+            "Nadi was replaced by Jaimini. Never claim unsupported manuscript authority, ancient-record certainty, or lineage-specific records.",
             "If activeContext.predictaSchool is KP, answer as KP Predicta and use the original handoff question plus active birth profile. Do not casually mix Parashari D1/Varga/Yoga logic unless clearly explaining a boundary.",
-            "If activeContext.predictaSchool is JAIMINI or legacy NADI, answer as Jaimini Predicta using jaiminiPlan and jaiminiInterpretation. Give prediction and guidance first, then technical evidence. Do not use Parashari yoga/dasha or KP sub-lord rules as the method, and do not fake palm-leaf access.",
+            "If activeContext.predictaSchool is JAIMINI or legacy NADI, answer as Jaimini Predicta using jaiminiPlan and jaiminiInterpretation. Give prediction and guidance first, then technical evidence. Do not use Parashari yoga/dasha or KP sub-lord rules as the method, and do not fake manuscript authority.",
             "If activeContext.predictaSchool is NUMEROLOGY, answer as Numerology Predicta using numerologyFoundation and its questionContext first. For name correction, compare the supplied spelling against the current name number. For compatibility, use the supplied partner name/DOB or ask for missing partner data. Keep free answers useful and concise; Premium depth adds multiple spelling comparisons, yearly/monthly timing, compatibility numbers, and report-ready synthesis.",
             "If activeContext.predictaSchool is SIGNATURE, answer as Signature Predicta using signatureAnalysis first. If confirmed traits are present, include traits observed, writing rhythm, confidence expression, consistency, practical improvement plan, and safety boundary. Do not use Parashari, KP, Jaimini, or Numerology as the method unless the user explicitly asks for synthesis.",
             "If activeContext.predictaSchool is PARASHARI or absent and the user asks about KP/Jaimini/Numerology/Signature, politely hand off to the proper specialist room instead of answering from the wrong school.",
@@ -5744,7 +5744,7 @@ def build_jaimini_interpretation_context(kundli: KundliData) -> Dict[str, Any]:
         "guardrails": [
             "Give prediction and guidance first.",
             "Keep technical evidence after the answer.",
-            "Never claim Nadi leaf or palm-leaf manuscript access.",
+            "Never claim unsupported manuscript authority.",
         ],
     }
 
@@ -5835,7 +5835,7 @@ def build_nadi_jyotish_plan_context(
     if active_pattern:
         activations.append(
             {
-                "title": "Current timing touches a Nadi story",
+                "title": "Current timing touches a Jaimini destiny chapter",
                 "trigger": f"{current.mahadasha}/{current.antardasha}",
                 "timing": f"{current.startDate} to {current.endDate}",
                 "observation": f"Current dasha touches {', '.join(active_pattern['planets'])}.",
@@ -5860,19 +5860,19 @@ def build_nadi_jyotish_plan_context(
 
     return {
         "status": "ready",
-        "title": f"{kundli.birthDetails.name}'s Nadi Predicta plan",
+        "title": f"{kundli.birthDetails.name}'s Jaimini Predicta plan",
         "depth": depth,
         "premiumOnly": True,
         "handoffQuestion": handoff_question,
-        "schoolBoundary": "Regular Predicta reads Parashari. KP Predicta reads KP. Nadi Predicta reads Nadi-style planetary stories and validation patterns only.",
-        "methodSummary": "Nadi Predicta uses planet-to-planet story links, karakas, trinal/opposition/sequence links, Rahu-Ketu axis, validation questions, and timing activation.",
+        "schoolBoundary": "Regular Predicta reads Parashari. KP Predicta reads KP. Jaimini Predicta reads karakas, Arudha, Upapada, Jaimini aspects, and Chara Dasha only.",
+        "methodSummary": "Jaimini Predicta uses Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, and Chara Dasha.",
         "freePreview": (
-            f"Nadi preview: {patterns[0]['title']} stands out."
+            f"Jaimini preview: {patterns[0]['title']} stands out."
             if patterns
-            else "Nadi Predicta is ready after Kundli calculation."
+            else "Jaimini Predicta is ready after Kundli calculation."
         ),
         "premiumSynthesis": (
-            f"Premium Nadi sequences {', '.join(item['title'] for item in patterns[:3])} and checks activation before event guidance."
+            f"Premium Jaimini sequences {', '.join(item['title'] for item in patterns[:3])} and checks timing before event guidance."
             if depth == "PREMIUM" and patterns
             else None
         ),
@@ -5884,12 +5884,12 @@ def build_nadi_jyotish_plan_context(
             "Which planet story feels true in real life before Predicta goes deeper?",
         ],
         "guardrails": [
-            "No fake palm-leaf claim.",
+            "No fake manuscript authority claim.",
             "No ancient manuscript certainty.",
             "Do not mix Nadi with Parashari or KP in the same answer.",
             "Ask validation questions before strong event statements.",
         ],
-        "premiumUnlock": "Premium Nadi unlocks full chart-signature reading, validation questions, karmic story sequencing, transit activation windows, remedies, and a separate Nadi report.",
+        "premiumUnlock": "Premium Jaimini unlocks full karaka council, Karakamsha and Swamsa reading, Arudha and Upapada interpretation, Chara Dasha timing, and a separate Jaimini report.",
     }
 
 

@@ -62,14 +62,14 @@
         ],
         "premium": [
           "Detailed synthesis across D1, divisional charts, dasha, Gochar, and remedies.",
-          "Deeper KP and premium Nadi-style pattern reading where available.",
+          "Deeper KP and premium Jaimini destiny reading where available.",
           "Report-ready explanations, monthly timing, and richer follow-up guidance.",
           "More complete family, relationship, and life-calendar workflows."
         ],
         "title": "Free shows the chart. Premium explains it deeply."
       },
       "hero": {
-        "body": "See the Jyotish method behind Predicta: how charts are calculated, how Parashari, KP, and Nadi stay separate, and where astrology needs human judgment.",
+        "body": "See the Jyotish method behind Predicta: how charts are calculated, how Parashari, KP, and Jaimini stay separate, and where astrology needs human judgment.",
         "eyebrow": "Accuracy and method",
         "title": "A transparent method builds better trust."
       },
@@ -79,7 +79,7 @@
           "title": "Chart proof first"
         },
         {
-          "body": "Regular Predicta, KP Predicta, and Nadi Predicta have different rules and should not be casually mixed.",
+          "body": "Regular Predicta, KP Predicta, and Jaimini Predicta have different rules and should not be casually mixed.",
           "title": "Schools stay separate"
         },
         {
@@ -89,7 +89,7 @@
       ],
       "schools": {
         "body": "Predicta treats these as separate rooms of Jyotish. A handoff can carry the user question and birth details, but each school answers from its own rules.",
-        "eyebrow": "Three Predictas",
+        "eyebrow": "Specialist Predictas",
         "items": [
           {
             "caution": "D1 stays the root. Vargas, Chalit, dasha, and Gochar support the reading.",
@@ -114,15 +114,15 @@
             "summary": "Krishnamurti Paddhati for precise event-oriented judgment and timing."
           },
           {
-            "caution": "Nadi Predicta never claims access to a real ancient palm-leaf manuscript.",
-            "name": "Nadi Predicta",
+            "caution": "Jaimini reads destiny role from calculated karakas, Arudha, Upapada, Karakamsha, Swamsa, and Chara Dasha. It does not claim unsupported manuscript authority.",
+            "name": "Jaimini Predicta",
             "proof": [
-              "Planet-to-planet story links",
-              "Karakas and karmic themes",
-              "Rahu-Ketu axis",
-              "Validation questions and timing triggers"
+              "Atmakaraka and Chara Karakas",
+              "Karakamsha and Swamsa",
+              "Arudha Lagna and Upapada Lagna",
+              "Jaimini aspects and Chara Dasha"
             ],
-            "summary": "A premium pattern-reading room for karmic narratives and repeated life signatures."
+            "summary": "Classical Jyotish for soul role, visible identity, relationship mirror, career dharma, and destiny chapters."
           }
         ],
         "title": "Different astrology schools need different rules."
@@ -189,14 +189,14 @@
         ],
         "premium": [
           "D1, वर्ग चार्ट, दशा, गोचर और उपाय का विस्तृत सार.",
-          "जहां उपलब्ध हो वहां गहरी कृष्णमूर्ति पद्धति और प्रीमियम नाड़ी-शैली पैटर्न रीडिंग.",
+          "जहां उपलब्ध हो वहां गहरी कृष्णमूर्ति पद्धति और प्रीमियम जैमिनी भाग्य रीडिंग.",
           "रिपोर्ट के लिए तैयार व्याख्या, मासिक समय और बेहतर आगे का मार्गदर्शन.",
           "परिवार, रिश्ते और जीवन-कैलेंडर प्रवाह ज्यादा पूर्ण."
         ],
         "title": "मुफ्त चार्ट दिखाता है. प्रीमियम उसे गहराई से समझाता है."
       },
       "hero": {
-        "body": "प्रेडिक्टा के पीछे की ज्योतिष विधि देखें: चार्ट कैसे बनते हैं, पराशरी, कृष्णमूर्ति पद्धति और नाड़ी कैसे अलग रहते हैं, और ज्योतिष में मानवीय विवेक कहां जरूरी है.",
+        "body": "प्रेडिक्टा के पीछे की ज्योतिष विधि देखें: चार्ट कैसे बनते हैं, पराशरी, कृष्णमूर्ति पद्धति और जैमिनी कैसे अलग रहते हैं, और ज्योतिष में मानवीय विवेक कहां जरूरी है.",
         "eyebrow": "सटीकता और विधि",
         "title": "पारदर्शी विधि से भरोसा बेहतर बनता है."
       },
@@ -206,7 +206,7 @@
           "title": "चार्ट प्रमाण पहले"
         },
         {
-          "body": "नियमित प्रेडिक्टा, कृष्णमूर्ति पद्धति प्रेडिक्टा और नाड़ी प्रेडिक्टा के नियम अलग हैं. इन्हें लापरवाही से मिलाया नहीं जाता.",
+          "body": "नियमित प्रेडिक्टा, कृष्णमूर्ति पद्धति प्रेडिक्टा और जैमिनी प्रेडिक्टा के नियम अलग हैं. इन्हें लापरवाही से मिलाया नहीं जाता.",
           "title": "पद्धतियां अलग रहती हैं"
         },
         {
@@ -216,7 +216,7 @@
       ],
       "schools": {
         "body": "प्रेडिक्टा इन्हें ज्योतिष के अलग कक्ष मानती है. हस्तांतरण में सवाल और जन्म विवरण जा सकते हैं, लेकिन हर पद्धति अपने नियमों से जवाब देती है.",
-        "eyebrow": "तीन प्रेडिक्टा",
+        "eyebrow": "विशेषज्ञ प्रेडिक्टा",
         "items": [
           {
             "caution": "D1 मूल रहता है. वर्ग चार्ट, चलित, दशा और गोचर रीडिंग को सहारा देते हैं.",
@@ -241,15 +241,15 @@
             "summary": "कृष्णमूर्ति पद्धति सटीक घटना-आधारित निर्णय और समय के लिए."
           },
           {
-            "caution": "नाड़ी प्रेडिक्टा कभी यह दावा नहीं करती कि उसे वास्तविक प्राचीन पांडुलिपि मिली या उसका प्रवेश मिला.",
-            "name": "नाड़ी प्रेडिक्टा",
+            "caution": "जैमिनी गणना किए गए कारक, आरूढ़, उपपद, कारकाम्श, स्वाम्श और चर दशा से भाग्य-भूमिका पढ़ती है. यह असमर्थित पांडुलिपि अधिकार का दावा नहीं करती.",
+            "name": "जैमिनी प्रेडिक्टा",
             "proof": [
-              "ग्रह-से-ग्रह कहानी संबंध",
-              "कारक और कर्म संकेत",
-              "राहु-केतु धुरी",
-              "पुष्टि सवाल और समय संकेत"
+              "आत्मकारक और चर कारक",
+              "कारकाम्श और स्वाम्श",
+              "आरूढ़ लग्न और उपपद लग्न",
+              "जैमिनी दृष्टि और चर दशा"
             ],
-            "summary": "कर्म कथा और दोहराए जाने वाले जीवन संकेतों के लिए प्रीमियम पैटर्न रीडिंग कक्ष."
+            "summary": "आत्म-भूमिका, दृश्य पहचान, संबंध दर्पण, करियर धर्म और भाग्य अध्याय के लिए शास्त्रीय ज्योतिष."
           }
         ],
         "title": "हर ज्योतिष पद्धति को अपनी विधि चाहिए."
@@ -316,14 +316,14 @@
         ],
         "premium": [
           "D1, વર્ગ ચાર્ટ્સ, દશા, ગોચર અને ઉપાયોનો વિગતવાર સાર.",
-          "જ્યાં ઉપલબ્ધ હોય ત્યાં ઊંડી કૃષ્ણમૂર્તિ પદ્ધતિ અને પ્રીમિયમ નાડી-શૈલી પેટર્ન રીડિંગ.",
+          "જ્યાં ઉપલબ્ધ હોય ત્યાં ઊંડી કૃષ્ણમૂર્તિ પદ્ધતિ અને પ્રીમિયમ જૈમિની ભાગ્ય રીડિંગ.",
           "રિપોર્ટ માટે તૈયાર સમજાવટ, માસિક સમય અને વધુ સારું આગળનું માર્ગદર્શન.",
           "પરિવાર, સંબંધ અને જીવન-કેલેન્ડર પ્રવાહ વધુ પૂર્ણ."
         ],
         "title": "મફત ચાર્ટ બતાવે છે. પ્રીમિયમ તેને ઊંડાઈથી સમજાવે છે."
       },
       "hero": {
-        "body": "પ્રેડિક્ટા પાછળની જ્યોતિષ રીત જુઓ: ચાર્ટ્સ કેવી રીતે બને છે, પરાશરી, કૃષ્ણમૂર્તિ પદ્ધતિ અને નાડી કેવી રીતે અલગ રહે છે, અને જ્યોતિષમાં માનવીય સમજ ક્યાં જરૂરી છે.",
+        "body": "પ્રેડિક્ટા પાછળની જ્યોતિષ રીત જુઓ: ચાર્ટ્સ કેવી રીતે બને છે, પરાશરી, કૃષ્ણમૂર્તિ પદ્ધતિ અને જૈમિની કેવી રીતે અલગ રહે છે, અને જ્યોતિષમાં માનવીય સમજ ક્યાં જરૂરી છે.",
         "eyebrow": "ચોકસાઈ અને પદ્ધતિ",
         "title": "પારદર્શક પદ્ધતિથી ભરોસો વધુ મજબૂત બને છે."
       },
@@ -333,7 +333,7 @@
           "title": "ચાર્ટ પુરાવો પહેલા"
         },
         {
-          "body": "નિયમિત પ્રેડિક્ટા, કૃષ્ણમૂર્તિ પદ્ધતિ પ્રેડિક્ટા અને નાડી પ્રેડિક્ટા ના નિયમો અલગ છે. તેને લાપરવાઈથી ભેળવવામાં આવતા નથી.",
+          "body": "નિયમિત પ્રેડિક્ટા, કૃષ્ણમૂર્તિ પદ્ધતિ પ્રેડિક્ટા અને જૈમિની પ્રેડિક્ટા ના નિયમો અલગ છે. તેને લાપરવાઈથી ભેળવવામાં આવતા નથી.",
           "title": "પદ્ધતિઓ અલગ રહે છે"
         },
         {
@@ -343,7 +343,7 @@
       ],
       "schools": {
         "body": "પ્રેડિક્ટા તેને જ્યોતિષના અલગ કક્ષ માને છે. હસ્તાંતરણમાં પ્રશ્ન અને જન્મ વિગતો જઈ શકે છે, પણ દરેક પદ્ધતિ પોતાના નિયમોથી જવાબ આપે છે.",
-        "eyebrow": "ત્રણ પ્રેડિક્ટા",
+        "eyebrow": "વિશેષજ્ઞ પ્રેડિક્ટા",
         "items": [
           {
             "caution": "D1 મૂળ રહે છે. વર્ગ ચાર્ટ, ચલિત, દશા અને ગોચર રીડિંગને સહારો આપે છે.",
@@ -368,15 +368,15 @@
             "summary": "કૃષ્ણમૂર્તિ પદ્ધતિ ચોક્કસ ઘટના આધારિત નિર્ણય અને સમય માટે."
           },
           {
-            "caution": "નાડી પ્રેડિક્ટા ક્યારેય એવો દાવો કરતી નથી કે તેને વાસ્તવિક પ્રાચીન પાંડુલિપિ મળી અથવા તેનો પ્રવેશ મળ્યો.",
-            "name": "નાડી પ્રેડિક્ટા",
+            "caution": "જૈમિની ગણતરી કરેલા કારક, આરુઢ, ઉપપદ, કારકામ્શ, સ્વામ્શ અને ચર દશા પરથી ભાગ્ય-ભૂમિકા વાંચે છે. તે અસમતર્થીત હસ્તપ્રત સત્તાનો દાવો કરતી નથી.",
+            "name": "જૈમિની પ્રેડિક્ટા",
             "proof": [
-              "ગ્રહ-થી-ગ્રહ વાર્તા સંબંધ",
-              "કારક અને કર્મ સંકેતો",
-              "રાહુ-કેતુ ધરી",
-              "પુષ્ટિ પ્રશ્નો અને સમય સંકેતો"
+              "આત્મકારક અને ચર કારક",
+              "કારકામ્શ અને સ્વામ્શ",
+              "આરુઢ લગ્ન અને ઉપપદ લગ્ન",
+              "જૈમિની દૃષ્ટિ અને ચર દશા"
             ],
-            "summary": "કર્મકથા અને વારંવાર દેખાતા જીવન સંકેતો માટે પ્રીમિયમ પેટર્ન રીડિંગ કક્ષ."
+            "summary": "આત્મ-ભૂમિકા, દેખાતી ઓળખ, સંબંધ દર્પણ, કારકિર્દી ધર્મ અને ભાગ્ય અધ્યાય માટે શાસ્ત્રીય જ્યોતિષ."
           }
         ],
         "title": "દરેક જ્યોતિષ પદ્ધતિ માટે પોતાની રીત જોઈએ."

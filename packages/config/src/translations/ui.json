@@ -2027,34 +2027,34 @@
       "gu": "D1 થી D9, D10, દશા, યોગ, કર્મ અને ઉપાય સુધી જાઓ."
     },
     "ui.nadi.1fvdk": {
-      "en": "Nadi",
-      "hi": "नाड़ी",
-      "gu": "નાડી"
+      "en": "Jaimini",
+      "hi": "जैमिनी",
+      "gu": "જૈમિની"
     },
     "ui.nadiMethod.128va15": {
-      "en": "NADI METHOD",
-      "hi": "नाड़ी विधि",
-      "gu": "નાડી રીત"
+      "en": "JAIMINI METHOD",
+      "hi": "जैमिनी विधि",
+      "gu": "જૈમિની રીત"
     },
     "ui.nadiPredicta.dna634": {
-      "en": "Nadi Predicta",
-      "hi": "नाड़ी प्रेडिक्टा",
-      "gu": "નાડી પ્રેડિક્ટા"
+      "en": "Jaimini Predicta",
+      "hi": "जैमिनी प्रेडिक्टा",
+      "gu": "જૈમિની પ્રેડિક્ટા"
     },
     "ui.nadiPredicta.hrc0gg": {
-      "en": "NADI PREDICTA",
-      "hi": "नाड़ी प्रेडिक्टा",
-      "gu": "નાડી પ્રેડિક્ટા"
+      "en": "JAIMINI PREDICTA",
+      "hi": "जैमिनी प्रेडिक्टा",
+      "gu": "જૈમિની પ્રેડિક્ટા"
     },
     "ui.nadiPremium.s2mt8v": {
-      "en": "NADI PREMIUM",
-      "hi": "नाड़ी प्रीमियम",
-      "gu": "નાડી પ્રીમિયમ"
+      "en": "JAIMINI PREMIUM",
+      "hi": "जैमिनी प्रीमियम",
+      "gu": "જૈમિની પ્રીમિયમ"
     },
     "ui.nadiRoom.1sfw28z": {
-      "en": "Nadi room",
-      "hi": "नाड़ी रूम",
-      "gu": "નાડી રૂમ"
+      "en": "Jaimini room",
+      "hi": "जैमिनी रूम",
+      "gu": "જૈમિની રૂમ"
     },
     "ui.next.1fytv": {
       "en": "Next",
@@ -2072,9 +2072,9 @@
       "gu": "દરેક દેખાતો ચાર્ટ ગણતરી કરેલી જન્મ વિગતો પર આધારિત છે."
     },
     "ui.noFakeManuscriptClaims.fyeiit": {
-      "en": "Clear Nadi method",
-      "hi": "स्पष्ट नाड़ी पद्धति",
-      "gu": "સ્પષ્ટ નાડી પદ્ધતિ"
+      "en": "Clear Jaimini method",
+      "hi": "स्पष्ट जैमिनी पद्धति",
+      "gu": "સ્પષ્ટ જૈમિની પદ્ધતિ"
     },
     "ui.noKundliIsActiveSoPredictaCannotProduceChartBackedConclusions.1rq9iaw": {
       "en": "No kundli is active, so Predicta cannot produce chart-backed conclusions.",
@@ -2402,14 +2402,14 @@
       "gu": "પ્રીમિયમ તેને વધુ ઊંડાઈથી સમજાવે છે."
     },
     "ui.premiumNadi.1g5fvfl": {
-      "en": "Premium Nadi",
-      "hi": "प्रीमियम नाड़ी",
-      "gu": "પ્રીમિયમ નાડી"
+      "en": "Premium Jaimini",
+      "hi": "प्रीमियम जैमिनी",
+      "gu": "પ્રીમિયમ જૈમિની"
     },
     "ui.premiumNadiReadingRoom.vc6fj4": {
-      "en": "Premium Nadi reading room.",
-      "hi": "प्रीमियम नाड़ी वाचन कक्ष.",
-      "gu": "પ્રીમિયમ નાડી વાચન કક્ષ."
+      "en": "Premium Jaimini reading room.",
+      "hi": "प्रीमियम जैमिनी वाचन कक्ष.",
+      "gu": "પ્રીમિયમ જૈમિની વાચન કક્ષ."
     },
     "ui.premiumOnly.1g617ud": {
       "en": "Premium only",
@@ -4487,9 +4487,9 @@
       "gu": "દુનિયા સીમા"
     },
     "manual.regular_predicta_handles_parashari_d1_vargas_cha": {
-      "en": "Regular Predicta handles Parashari, D1, vargas, Chalit, dasha, gochar, remedies, and reports. KP Predicta handles KP. Nadi Predicta handles premium Nadi-style planetary story reading separately.",
-      "hi": "वैदिक प्रेडिक्टा पराशरी, D1, वर्ग, चलित, दशा, गोचर, उपाय और रिपोर्ट संभालती है. कृष्णमूर्ति प्रेडिक्टा कृष्णमूर्ति पद्धति संभालती है. नाड़ी प्रेडिक्टा प्रीमियम नाड़ी शैली की ग्रह-कथा अलग से संभालती है.",
-      "gu": "વૈદિક પ્રેડિક્ટા પરાશરી, D1, વર્ગ, ચલિત, દશા, ગોચર, ઉપાયો અને રિપોર્ટ્સ સંભાળે છે. કૃષ્ણમૂર્તિ પ્રેડિક્ટા કૃષ્ણમૂર્તિ પદ્ધતિ સંભાળે છે. નાડી પ્રેડિક્ટા પ્રીમિયમ નાડી શૈલીની ગ્રહ-કથા અલગથી સંભાળે છે."
+      "en": "Regular Predicta handles Parashari, D1, vargas, Chalit, dasha, gochar, remedies, and reports. KP Predicta handles KP. Jaimini Predicta handles soul role, visible identity, relationship mirror, and destiny chapters separately.",
+      "hi": "वैदिक प्रेडिक्टा पराशरी, D1, वर्ग, चलित, दशा, गोचर, उपाय और रिपोर्ट संभालती है. कृष्णमूर्ति प्रेडिक्टा कृष्णमूर्ति पद्धति संभालती है. जैमिनी प्रेडिक्टा आत्म-भूमिका, दृश्य पहचान, संबंध दर्पण और भाग्य अध्याय अलग से संभालती है.",
+      "gu": "વૈદિક પ્રેડિક્ટા પરાશરી, D1, વર્ગ, ચલિત, દશા, ગોચર, ઉપાયો અને રિપોર્ટ્સ સંભાળે છે. કૃષ્ણમૂર્તિ પ્રેડિક્ટા કૃષ્ણમૂર્તિ પદ્ધતિ સંભાળે છે. જૈમિની પ્રેડિક્ટા આત્મ-ભૂમિકા, દેખાતી ઓળખ, સંબંધ દર્પણ અને ભાગ્ય અધ્યાય અલગથી સંભાળે છે."
     },
     "manual.how_kp_judges_this": {
       "en": "How KP judges this",
@@ -4517,29 +4517,29 @@
       "gu": "કૃષ્ણમૂર્તિ પદ્ધતિ પ્રીમિયમ ઊંડાઈ જુઓ"
     },
     "manual.nadi_world": {
-      "en": "Nadi world",
-      "hi": "नाड़ी संसार",
-      "gu": "નાડી દુનિયા"
+      "en": "Jaimini world",
+      "hi": "जैमिनी संसार",
+      "gu": "જૈમિની દુનિયા"
     },
     "manual.chat_with_nadi_predicta": {
-      "en": "Chat with Nadi Predicta",
-      "hi": "नाड़ी प्रेडिक्टा से चैट करें",
-      "gu": "નાડી પ્રેડિક્ટા સાથે ચેટ કરો"
+      "en": "Chat with Jaimini Predicta",
+      "hi": "जैमिनी प्रेडिक्टा से चैट करें",
+      "gu": "જૈમિની પ્રેડિક્ટા સાથે ચેટ કરો"
     },
     "manual.build_nadi_report": {
-      "en": "Build Nadi report",
-      "hi": "नाड़ी रिपोर्ट बनाएं",
-      "gu": "નાડી રિપોર્ટ બનાવો"
+      "en": "Build Jaimini report",
+      "hi": "जैमिनी रिपोर्ट बनाएं",
+      "gu": "જૈમિની રિપોર્ટ બનાવો"
     },
     "manual.nadi_predicta_reads_planet_to_planet_story_links": {
-      "en": "Nadi Predicta reads planet-to-planet story links and karmic themes from the calculated chart.",
-      "hi": "नाड़ी प्रेडिक्टा गणना किए गए चार्ट से ग्रह-से-ग्रह कथा संबंध और कर्म विषय पढ़ती है.",
-      "gu": "નાડી પ્રેડિક્ટા ગણતરી કરેલા ચાર્ટમાંથી ગ્રહથી ગ્રહ કથા-સંબંધ અને કર્મ વિષય વાંચે છે."
+      "en": "Jaimini Predicta reads planet-to-planet story links and karmic themes from the calculated chart.",
+      "hi": "जैमिनी प्रेडिक्टा गणना किए गए चार्ट से ग्रह-से-ग्रह कथा संबंध और कर्म विषय पढ़ती है.",
+      "gu": "જૈમિની પ્રેડિક્ટા ગણતરી કરેલા ચાર્ટમાંથી ગ્રહથી ગ્રહ કથા-સંબંધ અને કર્મ વિષય વાંચે છે."
     },
     "manual.nadi_predicta_is_its_own_premium_world_it_reads_": {
-      "en": "Nadi Predicta is its own premium world. It reads planetary story links, karaka themes, validation questions, and timing activations. It does not pretend to access original palm-leaf manuscripts.",
-      "hi": "नाड़ी प्रेडिक्टा अपना प्रीमियम संसार है. यह ग्रह कथा-संबंध, कारक विषय, पुष्टि प्रश्न और समय सक्रियता पढ़ती है. यह असली ताड़पत्र पांडुलिपि तक पहुंच का दावा नहीं करती.",
-      "gu": "નાડી પ્રેડિક્ટા તેની પોતાની પ્રીમિયમ દુનિયા છે. તે ગ્રહ કથા-સંબંધ, કારક વિષય, પુષ્ટિ પ્રશ્નો અને સમય સક્રિયતા વાંચે છે. તે મૂળ તાડપત્ર પાંડુલિપિ સુધી પહોંચવાનો દાવો કરતી નથી."
+      "en": "Jaimini Predicta is its own premium world. It reads planetary story links, karaka themes, validation questions, and timing activations. It does not claim unsupported manuscript authority.",
+      "hi": "जैमिनी प्रेडिक्टा अपना प्रीमियम संसार है. यह ग्रह कथा-संबंध, कारक विषय, पुष्टि प्रश्न और समय सक्रियता पढ़ती है. यह असमर्थित पांडुलिपि अधिकार का दावा नहीं करती.",
+      "gu": "જૈમિની પ્રેડિક્ટા તેની પોતાની પ્રીમિયમ દુનિયા છે. તે ગ્રહ કથા-સંબંધ, કારક વિષય, પુષ્ટિ પ્રશ્નો અને સમય સક્રિયતા વાંચે છે. તે અસમતર્થીત હસ્તપ્રત સત્તાનો દાવો કરતી નથી."
     },
     "manual.separate_from_parashari_and_kp": {
       "en": "Separate from Parashari and KP.",
@@ -4547,14 +4547,14 @@
       "gu": "પરાશરી અને કૃષ્ણમૂર્તિ પદ્ધતિથી અલગ."
     },
     "manual.story_links": {
-      "en": "STORY LINKS",
+      "en": "Story links",
       "hi": "कथा संबंध",
-      "gu": "કથા સંબંધો"
+      "gu": "કથા સંબંધ"
     },
     "manual.what_the_nadi_layer_noticed": {
-      "en": "What the Nadi layer noticed.",
-      "hi": "नाड़ी स्तर ने क्या देखा.",
-      "gu": "નાડી સ્તરે શું જોયું."
+      "en": "What the Jaimini layer noticed.",
+      "hi": "जैमिनी स्तर ने क्या देखा.",
+      "gu": "જૈમિની સ્તરે શું જોયું."
     },
     "manual.when_the_story_is_more_likely_to_feel_active": {
       "en": "When the story is more likely to feel active.",
@@ -4567,14 +4567,14 @@
       "gu": "ઊંડાઈમાં જવા પહેલાં પ્રેડિક્ટા પૂછે છે."
     },
     "manual.ask_nadi_predicta": {
-      "en": "Ask Nadi Predicta",
-      "hi": "नाड़ी प्रेडिक्टा से पूछें",
-      "gu": "નાડી પ્રેડિક્ટાને પૂછો"
+      "en": "Ask Jaimini Predicta",
+      "hi": "जैमिनी प्रेडिक्टा से पूछें",
+      "gu": "જૈમિની પ્રેડિક્ટાને પૂછો"
     },
     "manual.see_premium_nadi": {
-      "en": "See Premium Nadi",
-      "hi": "प्रीमियम नाड़ी देखें",
-      "gu": "પ્રીમિયમ નાડી જુઓ"
+      "en": "See Premium Jaimini",
+      "hi": "प्रीमियम जैमिनी देखें",
+      "gu": "પ્રીમિયમ જૈમિની જુઓ"
     },
     "manual.report_path": {
       "en": "REPORT PATH",
@@ -4612,9 +4612,9 @@
       "gu": "અલગ દુનિયા, શેર કરેલી કુંડળી"
     },
     "manual.default_vedic_predicta_uses_d1_varga_support_dasha_gocha": {
-      "en": "Default Vedic Predicta uses D1, varga support, dasha, gochar, remedies, and holistic context without mixing KP or Nadi methods.",
-      "hi": "वैदिक प्रेडिक्टा D1, वर्ग सहारा, दशा, गोचर, उपाय और समग्र संदर्भ का उपयोग करती है, बिना कृष्णमूर्ति पद्धति या नाड़ी विधि मिलाए.",
-      "gu": "વૈદિક પ્રેડિક્ટા D1, વર્ગ સહારો, દશા, ગોચર, ઉપાયો અને સમગ્ર સંદર્ભ વાપરે છે, કૃષ્ણમૂર્તિ પદ્ધતિ અથવા નાડી રીત મિક્સ કર્યા વગર."
+      "en": "Default Vedic Predicta uses D1, varga support, dasha, gochar, remedies, and holistic context without mixing KP or Jaimini methods.",
+      "hi": "वैदिक प्रेडिक्टा D1, वर्ग सहारा, दशा, गोचर, उपाय और समग्र संदर्भ का उपयोग करती है, बिना कृष्णमूर्ति पद्धति या जैमिनी विधि मिलाए.",
+      "gu": "વૈદિક પ્રેડિક્ટા D1, વર્ગ સહારો, દશા, ગોચર, ઉપાયો અને સમગ્ર સંદર્ભ વાપરે છે, કૃષ્ણમૂર્તિ પદ્ધતિ અથવા જૈમિની રીત મિક્સ કર્યા વગર."
     },
     "manual.chat_with_vedic_predicta.2": {
       "en": "Chat with Vedic Predicta.",
@@ -4637,24 +4637,19 @@
       "gu": "કૃષ્ણમૂર્તિ પદ્ધતિ વાંચન કુંડળી"
     },
     "manual.nadi_predicta_reads_planet_to_planet_story_links_karmic_": {
-      "en": "Nadi Predicta reads planet-to-planet story links, karmic themes, and validation questions from the calculated chart.",
-      "hi": "नाड़ी प्रेडिक्टा गणना किए गए चार्ट से ग्रह-से-ग्रह कथा संबंध, कर्म विषय और पुष्टि प्रश्न पढ़ती है.",
-      "gu": "નાડી પ્રેડિક્ટા ગણતરી કરેલા ચાર્ટમાંથી ગ્રહથી ગ્રહ કથા-સંબંધ, કર્મ વિષય અને પુષ્ટિ પ્રશ્નો વાંચે છે."
+      "en": "Jaimini Predicta reads planet-to-planet story links, karmic themes, and validation questions from the calculated chart.",
+      "hi": "जैमिनी प्रेडिक्टा गणना किए गए चार्ट से ग्रह-से-ग्रह कथा संबंध, कर्म विषय और पुष्टि प्रश्न पढ़ती है.",
+      "gu": "જૈમિની પ્રેડિક્ટા ગણતરી કરેલા ચાર્ટમાંથી ગ્રહથી ગ્રહ કથા-સંબંધ, કર્મ વિષય અને પુષ્ટિ પ્રશ્નો વાંચે છે."
     },
     "manual.chat_with_nadi_predicta.2": {
-      "en": "Chat with Nadi Predicta.",
-      "hi": "नाड़ी प्रेडिक्टा से चैट करें.",
-      "gu": "નાડી પ્રેડિક્ટા સાથે ચેટ કરો."
+      "en": "Chat with Jaimini Predicta.",
+      "hi": "जैमिनी प्रेडिक्टा से चैट करें.",
+      "gu": "જૈમિની પ્રેડિક્ટા સાથે ચેટ કરો."
     },
     "manual.nadi_reading_kundli": {
-      "en": "Nadi reading Kundli",
-      "hi": "नाड़ी पढ़ने की कुंडली",
-      "gu": "નાડી વાંચન કુંડળી"
-    },
-    "manual.story_links": {
-      "en": "Story links",
-      "hi": "कथा संबंध",
-      "gu": "કથા સંબંધ"
+      "en": "Jaimini reading Kundli",
+      "hi": "जैमिनी पढ़ने की कुंडली",
+      "gu": "જૈમિની વાંચન કુંડળી"
     },
     "manual.numerology_predicta_uses_name_number_birth_number_destin": {
       "en": "Numerology Predicta uses name number, birth number, destiny number, personal timing, and name rhythm before synthesis.",
@@ -4672,9 +4667,9 @@
       "gu": "અંકોને અલગથી વાંચવાનો રૂમ."
     },
     "manual.numerology_predicta_reads_name_rhythm_birth_number_dest": {
-      "en": "Numerology Predicta reads name rhythm, birth number, destiny number, and current personal cycles. It stays separate from Vedic, KP, Nadi, and Signature unless you ask for a careful synthesis.",
-      "hi": "अंक ज्योतिष प्रेडिक्टा नाम की लय, जन्म अंक, भाग्य अंक और वर्तमान निजी चक्र पढ़ती है. जब तक आप सावधानी से संयुक्त सार न मांगें, यह वैदिक, केपी, नाड़ी और हस्ताक्षर पद्धति से अलग रहती है.",
-      "gu": "અંક જ્યોતિષ પ્રેડિક્ટા નામની લય, જન્મ અંક, ભાગ્ય અંક અને વર્તમાન વ્યક્તિગત ચક્ર વાંચે છે. જ્યાં સુધી તમે સાવધાનીથી સંયુક્ત સાર ન માંગો, ત્યાં સુધી તે વૈદિક, કેપી, નાડી અને હસ્તાક્ષર પદ્ધતિથી અલગ રહે છે."
+      "en": "Numerology Predicta reads name rhythm, birth number, destiny number, and current personal cycles. It stays separate from Vedic, KP, Jaimini, and Signature unless you ask for a careful synthesis.",
+      "hi": "अंक ज्योतिष प्रेडिक्टा नाम की लय, जन्म अंक, भाग्य अंक और वर्तमान निजी चक्र पढ़ती है. जब तक आप सावधानी से संयुक्त सार न मांगें, यह वैदिक, केपी, जैमिनी और हस्ताक्षर पद्धति से अलग रहती है.",
+      "gu": "અંક જ્યોતિષ પ્રેડિક્ટા નામની લય, જન્મ અંક, ભાગ્ય અંક અને વર્તમાન વ્યક્તિગત ચક્ર વાંચે છે. જ્યાં સુધી તમે સાવધાનીથી સંયુક્ત સાર ન માંગો, ત્યાં સુધી તે વૈદિક, કેપી, જૈમિની અને હસ્તાક્ષર પદ્ધતિથી અલગ રહે છે."
     },
     "manual.numerology_world": {
       "en": "Numerology world",
@@ -4717,9 +4712,9 @@
       "gu": "સ્પષ્ટ સીમાઓ"
     },
     "manual.if_the_user_asks_for_vedic_kp_nadi_or_signature_analysis": {
-      "en": "If the user asks for Vedic, KP, Nadi, or Signature analysis, the room should hand off instead of mixing methods.",
-      "hi": "अगर उपयोगकर्ता वैदिक, केपी, नाड़ी या हस्ताक्षर विश्लेषण मांगे, तो यह कक्ष पद्धति मिलाने की जगह सही कक्ष में भेजे.",
-      "gu": "જો વપરાશકર્તા વૈદિક, કેપી, નાડી અથવા હસ્તાક્ષર વિશ્લેષણ માંગે, તો આ રૂમ પદ્ધતિઓ ભેળવવાને બદલે યોગ્ય રૂમમાં મોકલે."
+      "en": "If the user asks for Vedic, KP, Jaimini, or Signature analysis, the room should hand off instead of mixing methods.",
+      "hi": "अगर उपयोगकर्ता वैदिक, केपी, जैमिनी या हस्ताक्षर विश्लेषण मांगे, तो यह कक्ष पद्धति मिलाने की जगह सही कक्ष में भेजे.",
+      "gu": "જો વપરાશકર્તા વૈદિક, કેપી, જૈમિની અથવા હસ્તાક્ષર વિશ્લેષણ માંગે, તો આ રૂમ પદ્ધતિઓ ભેળવવાને બદલે યોગ્ય રૂમમાં મોકલે."
     },
     "manual.current_profile.2": {
       "en": "CURRENT PROFILE",
@@ -4792,9 +4787,9 @@
       "gu": "અંક જ્યોતિષ પહેલા અંક-તર્કથી જવાબ આપે છે."
     },
     "manual.if_the_question_needs_parashari_kp_nadi_or_signature_ana": {
-      "en": "If the question needs Parashari, KP, Nadi, or Signature analysis, Predicta should hand you to the right room with your question intact.",
-      "hi": "अगर प्रश्न को पाराशरी, केपी, नाड़ी या हस्ताक्षर विश्लेषण चाहिए, तो प्रेडिक्टा आपके प्रश्न को सुरक्षित रखते हुए सही कक्ष में भेजे.",
-      "gu": "જો પ્રશ્નને પારાશરી, કેપી, નાડી અથવા હસ્તાક્ષર વિશ્લેષણ જોઈએ, તો પ્રેડિક્ટા તમારો પ્રશ્ન યથાવત રાખીને યોગ્ય રૂમમાં મોકલે."
+      "en": "If the question needs Parashari, KP, Jaimini, or Signature analysis, Predicta should hand you to the right room with your question intact.",
+      "hi": "अगर प्रश्न को पाराशरी, केपी, जैमिनी या हस्ताक्षर विश्लेषण चाहिए, तो प्रेडिक्टा आपके प्रश्न को सुरक्षित रखते हुए सही कक्ष में भेजे.",
+      "gu": "જો પ્રશ્નને પારાશરી, કેપી, જૈમિની અથવા હસ્તાક્ષર વિશ્લેષણ જોઈએ, તો પ્રેડિક્ટા તમારો પ્રશ્ન યથાવત રાખીને યોગ્ય રૂમમાં મોકલે."
     },
     "manual.select_kundli.2": {
       "en": "Select Kundli",
@@ -4927,34 +4922,34 @@
       "gu": "સ્પષ્ટ સ્ત્રોત"
     },
     "manual.it_never_claims_access_to_an_ancient_palm_leaf_manuscript_the_source_i": {
-      "en": "It never claims access to an ancient palm-leaf manuscript. The source is your calculated chart.",
-      "hi": "यह प्राचीन ताड़पत्र पांडुलिपि तक पहुंच का दावा नहीं करती. स्रोत आपका गणना किया गया चार्ट है.",
-      "gu": "તે પ્રાચીન તાડપત્ર પાંડુલિપિ સુધી પહોંચવાનો દાવો કરતી નથી. સ્ત્રોત તમારો ગણતરી કરેલો ચાર્ટ છે."
+      "en": "It never claims unsupported manuscript authority. The source is your calculated chart.",
+      "hi": "यह असमर्थित पांडुलिपि अधिकार का दावा नहीं करती. स्रोत आपका गणना किया गया चार्ट है.",
+      "gu": "તે અસમતર્થીત હસ્તપ્રત સત્તાનો દાવો કરતી નથી. સ્ત્રોત તમારો ગણતરી કરેલો ચાર્ટ છે."
     },
     "manual.nadi_predicta_will_keep_this_question_with_the_active_birth_profile_an": {
-      "en": "Nadi Predicta will keep this question with the active birth profile and read it only from Nadi-style planetary stories.",
-      "hi": "नाड़ी प्रेडिक्टा इस प्रश्न को सक्रिय जन्म प्रोफाइल के साथ रखेगी और इसे केवल नाड़ी शैली की ग्रह-कथाओं से पढ़ेगी.",
-      "gu": "નાડી પ્રેડિક્ટા આ પ્રશ્નને સક્રિય જન્મ પ્રોફાઇલ સાથે રાખશે અને તેને માત્ર નાડી શૈલીની ગ્રહ-કથાઓથી વાંચશે."
+      "en": "Jaimini Predicta will keep this question with the active birth profile and read it only from Jaimini-style planetary stories.",
+      "hi": "जैमिनी प्रेडिक्टा इस प्रश्न को सक्रिय जन्म प्रोफाइल के साथ रखेगी और इसे केवल जैमिनी शैली की ग्रह-कथाओं से पढ़ेगी.",
+      "gu": "જૈમિની પ્રેડિક્ટા આ પ્રશ્નને સક્રિય જન્મ પ્રોફાઇલ સાથે રાખશે અને તેને માત્ર જૈમિની શૈલીની ગ્રહ-કથાઓથી વાંચશે."
     },
     "manual.create_a_kundli_once_then_nadi_predicta_will_prepare_its_story_links": {
-      "en": "Create a Kundli once, then Nadi Predicta will prepare its story links from those birth details.",
-      "hi": "एक बार कुंडली बनाइए, फिर नाड़ी प्रेडिक्टा उन्हीं जन्म विवरणों से अपने कथा संबंध तैयार करेगी.",
-      "gu": "એક વાર કુંડળી બનાવો, પછી નાડી પ્રેડિક્ટા એ જ જન્મ વિગતો પરથી પોતાના કથા સંબંધ તૈયાર કરશે."
+      "en": "Create a Kundli once, then Jaimini Predicta will prepare its story links from those birth details.",
+      "hi": "एक बार कुंडली बनाइए, फिर जैमिनी प्रेडिक्टा उन्हीं जन्म विवरणों से अपने कथा संबंध तैयार करेगी.",
+      "gu": "એક વાર કુંડળી બનાવો, પછી જૈમિની પ્રેડિક્ટા એ જ જન્મ વિગતો પરથી પોતાના કથા સંબંધ તૈયાર કરશે."
     },
     "manual.preparing_nadi_story_links_from_your_saved_birth_details": {
-      "en": "Preparing Nadi story links from your saved birth details...",
-      "hi": "आपके सहेजे गए जन्म विवरणों से नाड़ी कथा संबंध तैयार किए जा रहे हैं...",
-      "gu": "તમારી સચવાયેલી જન્મ વિગતો પરથી નાડી કથા સંબંધ તૈયાર થઈ રહ્યા છે..."
+      "en": "Preparing Jaimini story links from your saved birth details...",
+      "hi": "आपके सहेजे गए जन्म विवरणों से जैमिनी कथा संबंध तैयार किए जा रहे हैं...",
+      "gu": "તમારી સચવાયેલી જન્મ વિગતો પરથી જૈમિની કથા સંબંધ તૈયાર થઈ રહ્યા છે..."
     },
     "manual.predicta_has_your_birth_details_but_the_nadi_preparation_could_not": {
-      "en": "Predicta has your birth details, but the Nadi preparation could not complete right now. Please try again shortly.",
-      "hi": "प्रेडिक्टा के पास आपके जन्म विवरण हैं, लेकिन नाड़ी तैयारी अभी पूरी नहीं हो सकी. कृपया थोड़ी देर बाद फिर प्रयास करें.",
-      "gu": "પ્રેડિક્ટા પાસે તમારી જન્મ વિગતો છે, પરંતુ નાડી તૈયારી અત્યારે પૂર્ણ થઈ શકી નથી. કૃપા કરીને થોડા સમય પછી ફરી પ્રયાસ કરો."
+      "en": "Predicta has your birth details, but the Jaimini preparation could not complete right now. Please try again shortly.",
+      "hi": "प्रेडिक्टा के पास आपके जन्म विवरण हैं, लेकिन जैमिनी तैयारी अभी पूरी नहीं हो सकी. कृपया थोड़ी देर बाद फिर प्रयास करें.",
+      "gu": "પ્રેડિક્ટા પાસે તમારી જન્મ વિગતો છે, પરંતુ જૈમિની તૈયારી અત્યારે પૂર્ણ થઈ શકી નથી. કૃપા કરીને થોડા સમય પછી ફરી પ્રયાસ કરો."
     },
     "manual.nadi_predicta_is_preparing_this_layer_from_the_saved_birth_profile": {
-      "en": "Nadi Predicta is preparing this layer from the saved birth profile.",
-      "hi": "नाड़ी प्रेडिक्टा सहेजे गए जन्म प्रोफाइल से यह परत तैयार कर रही है.",
-      "gu": "નાડી પ્રેડિક્ટા સચવાયેલા જન્મ પ્રોફાઇલથી આ સ્તર તૈયાર કરી રહી છે."
+      "en": "Jaimini Predicta is preparing this layer from the saved birth profile.",
+      "hi": "जैमिनी प्रेडिक्टा सहेजे गए जन्म प्रोफाइल से यह परत तैयार कर रही है.",
+      "gu": "જૈમિની પ્રેડિક્ટા સચવાયેલા જન્મ પ્રોફાઇલથી આ સ્તર તૈયાર કરી રહી છે."
     },
     "manual.boundary": {
       "en": "Boundary",

@@ -44,7 +44,7 @@ export const PREDICTA_LIFE_ATLAS_MEMORY_CONTRACT = {
   ],
   unsupportedClaims: [
     'Akashic Records',
-    'palm-leaf manuscript access',
+    'unsupported manuscript authority',
     'spirit guides',
     'divine archives',
     'guaranteed fate',
@@ -118,7 +118,7 @@ export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
     'Never pretend a report has been generated or downloaded unless generatedReportContext says it exists.',
     'Never pretend Razorpay or paid access succeeded before verified payment or approved support handoff exists.',
     'Never infer signature traits unless confirmed visible traits are supplied from the current session.',
-    'Never claim Nadi leaf access, palm-leaf manuscript access, or hidden manuscript authority. Jaimini must stay grounded in calculated Jaimini indicators.',
+    'Never claim unsupported manuscript authority or hidden lineage access. Jaimini must stay grounded in calculated Jaimini indicators.',
     'Never expose premium-only detail to free users as if it is already unlocked; explain what premium adds after giving useful free guidance.',
   ],
   userGuidanceRules: [

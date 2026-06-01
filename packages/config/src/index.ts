@@ -4,6 +4,7 @@ export * from './aiModels';
 export * from './astrologyConfig';
 export * from './cacheConfig';
 export * from './guestAccessLimits';
+export * from './jaiminiLocalization';
 export * from './language';
 export * from './legal';
 export * from './nativeCopy';
