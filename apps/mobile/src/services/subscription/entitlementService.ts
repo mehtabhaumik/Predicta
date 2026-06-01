@@ -106,6 +106,31 @@ export function hasPremiumPdfCredit(
   );
 }
 
+export function hasJaiminiReportCredit(
+  oneTimeEntitlements: OneTimeEntitlement[],
+  kundliId?: string,
+): boolean {
+  return oneTimeEntitlements.some(
+    item =>
+      isJaiminiReportCredit(item) &&
+      (item.remainingUses ?? 0) > 0 &&
+      (!kundliId || !item.kundliId || item.kundliId === kundliId) &&
+      !isExpired(item.expiresAt),
+  );
+}
+
+export function hasReportPdfCredit(
+  oneTimeEntitlements: OneTimeEntitlement[],
+  kundliId?: string,
+  reportFocus?: string,
+): boolean {
+  return (
+    hasPremiumPdfCredit(oneTimeEntitlements, kundliId) ||
+    (reportFocus === 'JAIMINI' &&
+      hasJaiminiReportCredit(oneTimeEntitlements, kundliId))
+  );
+}
+
 export function consumeOneTimeQuestionCreditFromState(
   state: MonetizationState,
 ): { consumed: boolean; state: MonetizationState } {
@@ -153,13 +178,32 @@ export function consumePremiumPdfCreditFromState(
   state: MonetizationState,
   kundliId: string,
 ): { consumed: boolean; state: MonetizationState } {
+  return consumeReportPdfCreditFromState(state, kundliId);
+}
+
+export function consumeReportPdfCreditFromState(
+  state: MonetizationState,
+  kundliId: string,
+  reportFocus?: string,
+): { consumed: boolean; state: MonetizationState } {
   const nextEntitlements = [...state.oneTimeEntitlements];
   const index = nextEntitlements.findIndex(
-    item =>
-      item.productType === 'PREMIUM_PDF' &&
-      (item.remainingUses ?? 0) > 0 &&
-      (!item.kundliId || item.kundliId === kundliId) &&
-      !isExpired(item.expiresAt),
+    item => {
+      const allowed =
+        reportFocus === 'JAIMINI'
+          ? isJaiminiReportCredit(item) ||
+            item.productType === 'PREMIUM_PDF' ||
+            item.productType === 'DETAILED_KUNDLI_REPORT'
+          : item.productType === 'PREMIUM_PDF' ||
+            item.productType === 'DETAILED_KUNDLI_REPORT';
+
+      return (
+        allowed &&
+        (item.remainingUses ?? 0) > 0 &&
+        (!item.kundliId || item.kundliId === kundliId) &&
+        !isExpired(item.expiresAt)
+      );
+    },
   );
 
   if (index === -1) {
@@ -195,6 +239,14 @@ export async function consumePremiumPdfCredit(
   }
 
   return result.consumed;
+}
+
+function isJaiminiReportCredit(item: OneTimeEntitlement): boolean {
+  return (
+    item.productType === 'JAIMINI_REPORT' ||
+    String(item.productType) === 'NADI_REPORT' ||
+    item.productId.toLowerCase().includes('nadi_report')
+  );
 }
 
 export function createDayPassEntitlement(

@@ -14,6 +14,7 @@ import {
   PREMIUM_FEATURE_STORY,
   formatInr,
   getDayPassProduct,
+  getOneTimeProducts,
   getPricingPlans,
 } from '@pridicta/config/pricing';
 import { routes } from '../navigation/routes';
@@ -27,7 +28,7 @@ import { trackAnalyticsEvent } from '../services/analytics/analyticsService';
 import { syncEntitlementToFirebase } from '../services/firebase/subscriptionSync';
 import { useAppStore } from '../store/useAppStore';
 import { colors } from '../theme/colors';
-import type { PricingPlan } from '../types/subscription';
+import type { OneTimeProduct, PricingPlan } from '../types/subscription';
 
 const features = PREMIUM_FEATURE_STORY.map(feature => feature.title);
 
@@ -36,6 +37,10 @@ export function PaywallScreen({
 }: RootScreenProps<typeof routes.Paywall>): React.JSX.Element {
   const pricingPlans = useMemo(() => getPricingPlans(), []);
   const dayPass = useMemo(() => getDayPassProduct(), []);
+  const oneTimePacks = useMemo<OneTimeProduct[]>(
+    () => getOneTimeProducts().filter(product => product.id !== 'DAY_PASS'),
+    [],
+  );
   const [selectedPlan, setSelectedPlan] = useState<PricingPlan>(
     pricingPlans.find(plan => plan.recommended) ?? pricingPlans[1],
   );
@@ -298,6 +303,43 @@ export function PaywallScreen({
         </GlowCard>
       </Pressable>
 
+      <GlowCard className="mt-5" delay={560}>
+        <AppText variant="subtitle">Question and report packs</AppText>
+        <AppText className="mt-2" tone="secondary" variant="caption">
+          Buy focused credits when you need one report or a few more Predicta
+          questions without starting a subscription.
+        </AppText>
+        <View className="mt-4 gap-3">
+          {oneTimePacks.map(product => (
+            <Pressable
+              accessibilityRole="button"
+              className="min-h-[72px]"
+              key={product.productId}
+              onPress={() => startPurchase(product.productId)}
+            >
+              <View style={styles.oneTimePack}>
+                <View className="flex-1">
+                  <View className="flex-row flex-wrap items-center gap-2">
+                    <AppText variant="subtitle">{product.label}</AppText>
+                    {product.badge ? (
+                      <AppText className="text-[#4DAFFF]" variant="caption">
+                        {product.badge}
+                      </AppText>
+                    ) : null}
+                  </View>
+                  <AppText className="mt-1" tone="secondary" variant="caption">
+                    {product.description}
+                  </AppText>
+                </View>
+                <AppText className="text-[#4DAFFF]" variant="subtitle">
+                  {product.displayPrice}
+                </AppText>
+              </View>
+            </Pressable>
+          ))}
+        </View>
+      </GlowCard>
+
       <View className="mt-6 gap-3">
         <GlowButton label="Continue Free" onPress={() => navigation.goBack()} />
         <Pressable
@@ -343,5 +385,16 @@ const styles = StyleSheet.create({
   },
   radioSelected: {
     backgroundColor: colors.gradient[0],
+  },
+  oneTimePack: {
+    alignItems: 'center',
+    borderColor: colors.border,
+    borderRadius: 18,
+    borderWidth: 1,
+    flexDirection: 'row',
+    gap: 14,
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 14,
   },
 });

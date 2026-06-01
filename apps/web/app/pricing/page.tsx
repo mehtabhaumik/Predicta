@@ -470,6 +470,10 @@ function getLocalizedOneTimeProductCopy(
         description: getNativeCopy("native.apps.web.app.pricing.page.tsx.2dcc46afb6"),
         label: getNativeCopy("native.apps.web.app.pricing.page.tsx.e3687de986"),
       },
+      JAIMINI_REPORT: {
+        description: getNativeCopy('report.jaimini.purchaseHint.hi'),
+        label: 'Jaimini Report Credit',
+      },
       MARRIAGE_COMPATIBILITY_REPORT: {
         description: getNativeCopy("native.apps.web.app.pricing.page.tsx.6c2a86e4af"),
         label: getNativeCopy("native.apps.web.app.pricing.page.tsx.41971490fb"),
@@ -497,6 +501,10 @@ function getLocalizedOneTimeProductCopy(
         description: getNativeCopy("native.apps.web.app.pricing.page.tsx.59dd1df18c"),
         label: getNativeCopy("native.apps.web.app.pricing.page.tsx.74e3e3be71"),
       },
+      JAIMINI_REPORT: {
+        description: getNativeCopy('report.jaimini.purchaseHint.gu'),
+        label: 'Jaimini Report Credit',
+      },
       MARRIAGE_COMPATIBILITY_REPORT: {
         description: getNativeCopy("native.apps.web.app.pricing.page.tsx.5ba901e904"),
         label: getNativeCopy("native.apps.web.app.pricing.page.tsx.ef78467017"),
@@ -520,7 +528,9 @@ function getLocalizedOneTimeProductCopy(
             ? 'Unlock one premium-depth PDF for the active kundli.'
             : id === 'DETAILED_KUNDLI_REPORT'
               ? 'Generate one deeper kundli dossier for the active kundli.'
-              : 'Focused two-chart relationship and marriage timing report.',
+              : id === 'JAIMINI_REPORT'
+                ? 'Unlock one premium-depth Jaimini destiny report for the active Kundli.'
+                : 'Focused two-chart relationship and marriage timing report.',
     label:
       id === 'DAY_PASS'
         ? 'Day Pass'
@@ -530,7 +540,9 @@ function getLocalizedOneTimeProductCopy(
             ? 'Premium PDF'
             : id === 'DETAILED_KUNDLI_REPORT'
               ? 'Detailed Kundli Report'
-              : 'Marriage Compatibility Report',
+              : id === 'JAIMINI_REPORT'
+                ? 'Jaimini Report Credit'
+                : 'Marriage Compatibility Report',
   };
 }
 

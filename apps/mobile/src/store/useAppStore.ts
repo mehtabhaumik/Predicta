@@ -10,10 +10,12 @@ import {
 import {
   consumeOneTimeQuestionCreditFromState,
   consumePremiumPdfCreditFromState,
+  consumeReportPdfCreditFromState,
   createInitialMonetizationState,
   getPaidQuestionCredits,
   hasActiveDayPass,
   hasPremiumPdfCredit as hasPremiumPdfCreditInState,
+  hasReportPdfCredit as hasReportPdfCreditInState,
   hasPremiumAccess,
   isPremium,
 } from '@pridicta/monetization';
@@ -194,6 +196,7 @@ type AppState = {
   canAskQuestion: () => boolean;
   canGeneratePdf: () => boolean;
   hasPremiumPdfCredit: (kundliId?: string) => boolean;
+  hasReportPdfCredit: (kundliId?: string, reportFocus?: string) => boolean;
   hasPaidQuestionCredits: () => boolean;
   clearActiveKundli: () => void;
   clearPendingBirthDetailsDraft: () => void;
@@ -203,6 +206,7 @@ type AppState = {
   consumeGuestPdfQuota: () => boolean;
   consumeGuestQuestionQuota: () => boolean;
   consumePremiumPdfCredit: (kundliId: string) => boolean;
+  consumeReportPdfCredit: (kundliId: string, reportFocus?: string) => boolean;
   createChatSession: () => void;
   getActiveConversation: () => ChatMessage[];
   getResolvedAccess: () => ResolvedAccess;
@@ -417,6 +421,12 @@ export const useAppStore = create<AppState>((set, get) => ({
       get().monetization.oneTimeEntitlements,
       kundliId,
     ),
+  hasReportPdfCredit: (kundliId, reportFocus) =>
+    hasReportPdfCreditInState(
+      get().monetization.oneTimeEntitlements,
+      kundliId,
+      reportFocus,
+    ),
   consumePaidQuestionCredit: () => {
     const result = consumeOneTimeQuestionCreditFromState(get().monetization);
 
@@ -471,6 +481,21 @@ export const useAppStore = create<AppState>((set, get) => ({
     const result = consumePremiumPdfCreditFromState(
       get().monetization,
       kundliId,
+    );
+
+    if (result.consumed) {
+      set({
+        monetization: result.state,
+      });
+    }
+
+    return result.consumed;
+  },
+  consumeReportPdfCredit: (kundliId, reportFocus) => {
+    const result = consumeReportPdfCreditFromState(
+      get().monetization,
+      kundliId,
+      reportFocus,
     );
 
     if (result.consumed) {

@@ -1,10 +1,12 @@
 import {
   consumeOneTimeQuestionCreditFromState,
   consumePremiumPdfCreditFromState,
+  consumeReportPdfCreditFromState,
   createDayPassEntitlement,
   createInitialMonetizationState,
   hasActiveDayPass,
   hasPremiumAccess,
+  hasReportPdfCredit,
   hasPremiumPdfCredit,
   isPremium,
 } from '../src/services/subscription/entitlementService';
@@ -73,6 +75,39 @@ describe('entitlementService', () => {
       true,
     );
     const consumed = consumePremiumPdfCreditFromState(state, 'kundli-1');
+    expect(consumed.consumed).toBe(true);
+    expect(consumed.state.oneTimeEntitlements[0].remainingUses).toBe(0);
+  });
+
+  it('keeps Jaimini report credit scoped to Jaimini reports', () => {
+    const state: MonetizationState = {
+      ...createInitialMonetizationState(),
+      oneTimeEntitlements: [
+        {
+          productId: 'pridicta_jaimini_report',
+          productType: 'JAIMINI_REPORT',
+          purchasedAt: '2026-06-01T00:00:00Z',
+          remainingUses: 1,
+          source: 'mock',
+        },
+      ],
+    };
+
+    expect(hasPremiumPdfCredit(state.oneTimeEntitlements, 'kundli-1')).toBe(
+      false,
+    );
+    expect(
+      hasReportPdfCredit(state.oneTimeEntitlements, 'kundli-1', 'JAIMINI'),
+    ).toBe(true);
+    expect(
+      hasReportPdfCredit(state.oneTimeEntitlements, 'kundli-1', 'KUNDLI'),
+    ).toBe(false);
+
+    const consumed = consumeReportPdfCreditFromState(
+      state,
+      'kundli-1',
+      'JAIMINI',
+    );
     expect(consumed.consumed).toBe(true);
     expect(consumed.state.oneTimeEntitlements[0].remainingUses).toBe(0);
   });

@@ -15,6 +15,7 @@ import {
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import {
+  getOneTimeProduct,
   getPremiumPdfProduct,
   getReportPurchaseGuide,
   getReportMarketplaceProducts,
@@ -51,11 +52,11 @@ export function ReportScreen({
   const userPlan = useAppStore(state => state.userPlan);
   const canGeneratePdf = useAppStore(state => state.canGeneratePdf);
   const consumeGuestPdfQuota = useAppStore(state => state.consumeGuestPdfQuota);
-  const consumePremiumPdfCredit = useAppStore(
-    state => state.consumePremiumPdfCredit,
+  const consumeReportPdfCredit = useAppStore(
+    state => state.consumeReportPdfCredit,
   );
   const getResolvedAccess = useAppStore(state => state.getResolvedAccess);
-  const hasPremiumPdfCredit = useAppStore(state => state.hasPremiumPdfCredit);
+  const hasReportPdfCredit = useAppStore(state => state.hasReportPdfCredit);
   const recordPdfGeneration = useAppStore(state => state.recordPdfGeneration);
   const setActiveChartContext = useAppStore(
     state => state.setActiveChartContext,
@@ -189,9 +190,15 @@ export function ReportScreen({
 
     const access = getResolvedAccess();
     const premiumAccess = access.hasPremiumAccess;
-    const premiumPdfProduct = getPremiumPdfProduct();
+    const premiumPdfProduct =
+      selectedReportId === 'JAIMINI'
+        ? getOneTimeProduct('JAIMINI_REPORT')
+        : getPremiumPdfProduct();
 
-    const premiumPdfCreditAvailable = hasPremiumPdfCredit(kundli.id);
+    const premiumPdfCreditAvailable = hasReportPdfCredit(
+      kundli.id,
+      selectedReportId,
+    );
 
     if (mode === 'PREMIUM' && !premiumAccess && !premiumPdfCreditAvailable) {
       showGlassAlert({
@@ -250,7 +257,7 @@ export function ReportScreen({
         !premiumAccess &&
         access.source !== 'guest_pass'
       ) {
-        consumePremiumPdfCredit(kundli.id);
+        consumeReportPdfCredit(kundli.id, selectedReportId);
       }
       showGlassAlert({
         actions:

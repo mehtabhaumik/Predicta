@@ -1,0 +1,33 @@
+PREDICTA_JAIMINI_PHASE_9_REPORT_MARKETPLACE_PRICING_ENTITLEMENT_AND_PACKS verification
+
+Status: green
+Base URL: http://127.0.0.1:3009
+
+Runtime screenshots:
+- pricing: pricing-jaimini-report-credit.png (http://127.0.0.1:3009/pricing)
+- checkout: checkout-jaimini-report-credit.png (http://127.0.0.1:3009/checkout?productId=pridicta_jaimini_report)
+- report-marketplace: report-marketplace-jaimini.png (http://127.0.0.1:3009/dashboard/report?focus=JAIMINI&mode=PREMIUM)
+
+Source locks:
+- docs/PREDICTA_JAIMINI_REPLACES_NADI_STRICT_ROADMAP.md: PREDICTA_JAIMINI_PHASE_9_REPORT_MARKETPLACE_PRICING_ENTITLEMENT_AND_PACKS
+- packages/config/src/pricing.ts: JAIMINI_REPORT: 'pridicta_jaimini_report'
+- packages/config/src/pricing.ts: label: 'Jaimini Report Credit'
+- packages/config/src/pricing.ts: id: 'JAIMINI_REPORT'
+- packages/config/src/pricing.ts: school: 'JAIMINI'
+- packages/types/src/subscription.ts: | 'JAIMINI_REPORT'
+- packages/monetization/src/entitlementService.ts: hasJaiminiReportCredit
+- packages/monetization/src/entitlementService.ts: hasReportPdfCredit
+- packages/monetization/src/entitlementService.ts: consumeReportPdfCreditFromState
+- packages/monetization/src/entitlementService.ts: String(item.productType) === 'NADI_REPORT'
+- apps/mobile/src/services/subscription/entitlementService.ts: hasJaiminiReportCredit
+- apps/mobile/src/services/billing/mockBillingProvider.ts: product.id === 'JAIMINI_REPORT'
+- apps/mobile/src/store/useAppStore.ts: hasReportPdfCredit
+- apps/mobile/src/store/useAppStore.ts: consumeReportPdfCredit
+- apps/mobile/src/screens/ReportScreen.tsx: getOneTimeProduct('JAIMINI_REPORT')
+- apps/mobile/src/screens/PaywallScreen.tsx: Question and report packs
+- apps/mobile/__tests__/entitlementService.test.ts: keeps Jaimini report credit scoped to Jaimini reports
+- apps/web/components/WebDossierPreview.tsx: hasReportPdfCredit(
+- apps/web/components/WebDossierPreview.tsx: getOneTimeProduct('JAIMINI_REPORT')
+- apps/web/app/dashboard/premium/page.tsx: JAIMINI_REPORT
+- apps/web/app/pricing/page.tsx: JAIMINI_REPORT
+- package.json: "test:jaimini-phase-9": "node scripts/run-jaimini-phase-9-marketplace-entitlement-gate.mjs"

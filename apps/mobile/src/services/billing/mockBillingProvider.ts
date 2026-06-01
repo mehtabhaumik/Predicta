@@ -42,6 +42,7 @@ function createOneTimeEntitlement(productId: string): OneTimeEntitlement {
       product.id === 'FIVE_QUESTIONS'
         ? 5
         : product.id === 'PREMIUM_PDF' ||
+          product.id === 'JAIMINI_REPORT' ||
           product.id === 'DETAILED_KUNDLI_REPORT' ||
           product.id === 'MARRIAGE_COMPATIBILITY_REPORT'
         ? 1

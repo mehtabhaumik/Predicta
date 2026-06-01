@@ -6,6 +6,7 @@ export type OneTimeProductType =
   | 'DAY_PASS'
   | 'FIVE_QUESTIONS'
   | 'PREMIUM_PDF'
+  | 'JAIMINI_REPORT'
   | 'DETAILED_KUNDLI_REPORT'
   | 'MARRIAGE_COMPATIBILITY_REPORT';
 

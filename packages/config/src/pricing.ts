@@ -17,6 +17,7 @@ export const ONE_TIME_PRICING = {
   dayPass: 49,
   detailedKundliReport: 399,
   fiveQuestions: 149,
+  jaiminiReport: 249,
   marriageCompatibilityReport: 499,
   premiumPdf: 249,
 } as const;
@@ -54,7 +55,6 @@ export type ReportMarketplaceProduct = {
     | 'VEDIC'
     | 'KP'
     | 'JAIMINI'
-    | 'NADI'
     | 'CAREER'
     | 'MARRIAGE'
     | 'WEALTH'
@@ -70,7 +70,7 @@ export type ReportMarketplaceProduct = {
   premiumDepth: string;
   prompt: string;
   purchaseHint: string;
-  school: 'JAIMINI' | 'KP' | 'NADI' | 'NUMEROLOGY' | 'SIGNATURE' | 'SYNTHESIS' | 'VEDIC';
+  school: 'JAIMINI' | 'KP' | 'NUMEROLOGY' | 'SIGNATURE' | 'SYNTHESIS' | 'VEDIC';
   title: string;
 };
 
@@ -336,6 +336,7 @@ const oneTimeProductIds: Record<OneTimeProductType, string> = {
   DAY_PASS: 'pridicta_day_pass_24h',
   DETAILED_KUNDLI_REPORT: 'pridicta_detailed_kundli_report',
   FIVE_QUESTIONS: 'pridicta_five_questions',
+  JAIMINI_REPORT: 'pridicta_jaimini_report',
   MARRIAGE_COMPATIBILITY_REPORT: 'pridicta_marriage_compatibility_report',
   PREMIUM_PDF: 'pridicta_premium_pdf',
 };
@@ -417,6 +418,16 @@ export function getOneTimeProducts(): OneTimeProduct[] {
       label: 'Premium PDF',
       priceInr: ONE_TIME_PRICING.premiumPdf,
       productId: oneTimeProductIds.PREMIUM_PDF,
+    },
+    {
+      badge: 'Jaimini',
+      description:
+        'Use this when you want one premium-depth Jaimini destiny report for the active Kundli.',
+      displayPrice: formatInr(ONE_TIME_PRICING.jaiminiReport),
+      id: 'JAIMINI_REPORT',
+      label: 'Jaimini Report Credit',
+      priceInr: ONE_TIME_PRICING.jaiminiReport,
+      productId: oneTimeProductIds.JAIMINI_REPORT,
     },
     {
       description: 'Use this when you want one complete Kundli life overview prepared as a report.',

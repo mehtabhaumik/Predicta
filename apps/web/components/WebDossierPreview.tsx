@@ -10,7 +10,7 @@ import {
 } from 'react';
 import type { User } from 'firebase/auth';
 import { onAuthStateChanged } from 'firebase/auth';
-import { hasPremiumPdfCredit } from '@pridicta/monetization';
+import { hasReportPdfCredit } from '@pridicta/monetization';
 import {
   getConfidenceLabel,
   getLanguageLabels,
@@ -18,6 +18,7 @@ import {
   SUPPORTED_LANGUAGE_OPTIONS,
 } from '@pridicta/config/language';
 import {
+  getOneTimeProduct,
   getReportPurchaseGuide,
   getReportMarketplaceProducts,
   type ReportPurchaseGuide,
@@ -238,6 +239,13 @@ export function WebDossierPreview(): React.JSX.Element {
   const selectedReport =
     marketplaceProducts.find(product => product.id === selectedReportId) ??
     marketplaceProducts[0];
+  const primaryReportPurchaseProduct = useMemo(
+    () =>
+      selectedReportId === 'JAIMINI'
+        ? getOneTimeProduct('JAIMINI_REPORT')
+        : getOneTimeProduct('PREMIUM_PDF'),
+    [selectedReportId],
+  );
   const localizedSelectedReport = getLocalizedReportProduct(
     selectedReport,
     appLanguage,
@@ -249,7 +257,6 @@ export function WebDossierPreview(): React.JSX.Element {
   const signatureReportBlocked =
     selectedReportId === 'SIGNATURE' &&
     !hasReadySignatureReport(signatureAnalysis);
-  const jaiminiReportPending = selectedReportId === 'JAIMINI';
 
   useDialogFocusTrap(downloadDialogRef, {
     active: isDownloadDialogOpen && reportSurfaceState === 'ready',
@@ -454,8 +461,17 @@ export function WebDossierPreview(): React.JSX.Element {
   const hasDetailedReportAccess = useMemo(
     () =>
       resolvedAccess.hasPremiumAccess ||
-      hasPremiumPdfCredit(monetization.oneTimeEntitlements, kundli?.id),
-    [kundli?.id, monetization.oneTimeEntitlements, resolvedAccess.hasPremiumAccess],
+      hasReportPdfCredit(
+        monetization.oneTimeEntitlements,
+        kundli?.id,
+        selectedReportId,
+      ),
+    [
+      kundli?.id,
+      monetization.oneTimeEntitlements,
+      resolvedAccess.hasPremiumAccess,
+      selectedReportId,
+    ],
   );
   const builderCopy = getReportBuilderCopy(appLanguage);
   const resultCopy = getReportResultCopy(appLanguage);
@@ -596,16 +612,6 @@ export function WebDossierPreview(): React.JSX.Element {
       return false;
     }
 
-    if (jaiminiReportPending) {
-      setReportDownloadError(
-        'Jaimini report generation unlocks after the deterministic Jaimini data contract and report engine are audited.',
-      );
-      setReportPreviewOpen(false);
-      setDownloadDialogOpen(false);
-      window.setTimeout(() => setReportDownloadError(null), 5200);
-      return false;
-    }
-
     if (builderMode === 'CUSTOM' && !visibleSections.length) {
       setCopyState('empty');
       window.setTimeout(() => setCopyState('idle'), 1800);
@@ -649,13 +655,6 @@ export function WebDossierPreview(): React.JSX.Element {
     if (signatureReportBlocked) {
       setReportDownloadError(
         'Signature report download is blocked until a confirmed signature sample is available.',
-      );
-      return;
-    }
-
-    if (jaiminiReportPending) {
-      setReportDownloadError(
-        'Jaimini report generation unlocks after the deterministic Jaimini data contract and report engine are audited.',
       );
       return;
     }
@@ -835,7 +834,7 @@ export function WebDossierPreview(): React.JSX.Element {
 
         <div className="report-inline-actions">
           <PredictaButton
-            disabled={signatureReportBlocked || jaiminiReportPending}
+            disabled={signatureReportBlocked}
             onClick={() => openReportPreview()}
             type="button"
             variant="primary"
@@ -1377,7 +1376,7 @@ export function WebDossierPreview(): React.JSX.Element {
             </strong>
           </div>
           <PredictaButton
-            disabled={signatureReportBlocked || jaiminiReportPending}
+            disabled={signatureReportBlocked}
             onClick={() => openReportPreview()}
             type="button"
             variant="primary"
@@ -1452,7 +1451,7 @@ export function WebDossierPreview(): React.JSX.Element {
 
               <div className="report-download-actions">
                 <PredictaButton
-                  disabled={isPdfDownloading || signatureReportBlocked || jaiminiReportPending}
+                  disabled={isPdfDownloading || signatureReportBlocked}
                   loading={isPdfDownloading}
                   onClick={printReport}
                   type="button"
@@ -1533,8 +1532,15 @@ export function WebDossierPreview(): React.JSX.Element {
                   <AuthDialog />
                 ) : (
                   <>
-                    <PredictaButton href="/checkout?productId=pridicta_premium_pdf" variant="primary">
-                      {resultCopy.purchasePrimary}
+                    <PredictaButton
+                      href={`/checkout?productId=${encodeURIComponent(
+                        primaryReportPurchaseProduct.productId,
+                      )}`}
+                      variant="primary"
+                    >
+                      {selectedReportId === 'JAIMINI'
+                        ? `Unlock ${primaryReportPurchaseProduct.label}`
+                        : resultCopy.purchasePrimary}
                     </PredictaButton>
                     <PredictaButton href="/checkout?productId=pridicta_day_pass_24h" variant="secondary">
                       {resultCopy.purchaseSecondary}
@@ -1598,7 +1604,7 @@ export function WebDossierPreview(): React.JSX.Element {
             <div className="report-download-dialog-actions">
               <button
                 className="predicta-button predicta-button--primary predicta-button--md"
-                disabled={isPdfDownloading || signatureReportBlocked || jaiminiReportPending}
+                disabled={isPdfDownloading || signatureReportBlocked}
                 data-loading={isPdfDownloading ? 'true' : undefined}
                 onClick={printReport}
                 ref={downloadDialogPrimaryRef}

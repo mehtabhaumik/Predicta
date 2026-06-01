@@ -19,7 +19,7 @@ export default function DashboardPremiumPage(): React.JSX.Element {
   const plans = getPricingPlans();
   const dayPass = getDayPassProduct();
   const products = getOneTimeProducts().filter(product =>
-    ['PREMIUM_PDF', 'MARRIAGE_COMPATIBILITY_REPORT'].includes(product.id),
+    ['PREMIUM_PDF', 'JAIMINI_REPORT', 'MARRIAGE_COMPATIBILITY_REPORT'].includes(product.id),
   );
 
   return (
@@ -472,6 +472,10 @@ const ONE_TIME_COPY: Record<
       description: 'Prepared compatibility reading for marriage or family discussion.',
       label: 'Compatibility report',
     },
+    JAIMINI_REPORT: {
+      description: 'One premium-depth Jaimini destiny report for the active Kundli.',
+      label: 'Jaimini Report Credit',
+    },
     PREMIUM_PDF: {
       description: 'One polished report when a specific question needs a prepared answer.',
       label: 'Premium PDF',
@@ -482,6 +486,10 @@ const ONE_TIME_COPY: Record<
       description: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.c211fb60d0"),
       label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.d8fb1adccb"),
     },
+    JAIMINI_REPORT: {
+      description: getNativeCopy('report.jaimini.purchaseHint.hi'),
+      label: 'Jaimini Report Credit',
+    },
     PREMIUM_PDF: {
       description: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.fef02f7f2f"),
       label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.31641beaac"),
@@ -491,6 +499,10 @@ const ONE_TIME_COPY: Record<
     MARRIAGE_COMPATIBILITY_REPORT: {
       description: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.671c1aee98"),
       label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.79ba9fc513"),
+    },
+    JAIMINI_REPORT: {
+      description: getNativeCopy('report.jaimini.purchaseHint.gu'),
+      label: 'Jaimini Report Credit',
     },
     PREMIUM_PDF: {
       description: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.0848f65b68"),

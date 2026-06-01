@@ -1,0 +1,120 @@
+{
+  "baseUrl": "http://127.0.0.1:3009",
+  "generatedAt": "2026-06-01T17:47:32.170Z",
+  "phase": "PREDICTA_JAIMINI_PHASE_9_REPORT_MARKETPLACE_PRICING_ENTITLEMENT_AND_PACKS",
+  "runtimeChecks": [
+    {
+      "fileName": "pricing-jaimini-report-credit.png",
+      "hasJaimini": true,
+      "horizontalOverflow": 0,
+      "id": "pricing",
+      "url": "http://127.0.0.1:3009/pricing"
+    },
+    {
+      "fileName": "checkout-jaimini-report-credit.png",
+      "hasJaimini": true,
+      "horizontalOverflow": 0,
+      "id": "checkout",
+      "url": "http://127.0.0.1:3009/checkout?productId=pridicta_jaimini_report"
+    },
+    {
+      "fileName": "report-marketplace-jaimini.png",
+      "hasJaimini": true,
+      "horizontalOverflow": 0,
+      "id": "report-marketplace",
+      "url": "http://127.0.0.1:3009/dashboard/report?focus=JAIMINI&mode=PREMIUM"
+    }
+  ],
+  "screenshotRoot": "docs/audits/PREDICTA_JAIMINI_PHASE_9_REPORT_MARKETPLACE_PRICING_ENTITLEMENT_AND_PACKS/screenshots",
+  "sourceChecks": [
+    {
+      "file": "docs/PREDICTA_JAIMINI_REPLACES_NADI_STRICT_ROADMAP.md",
+      "fragment": "PREDICTA_JAIMINI_PHASE_9_REPORT_MARKETPLACE_PRICING_ENTITLEMENT_AND_PACKS"
+    },
+    {
+      "file": "packages/config/src/pricing.ts",
+      "fragment": "JAIMINI_REPORT: 'pridicta_jaimini_report'"
+    },
+    {
+      "file": "packages/config/src/pricing.ts",
+      "fragment": "label: 'Jaimini Report Credit'"
+    },
+    {
+      "file": "packages/config/src/pricing.ts",
+      "fragment": "id: 'JAIMINI_REPORT'"
+    },
+    {
+      "file": "packages/config/src/pricing.ts",
+      "fragment": "school: 'JAIMINI'"
+    },
+    {
+      "file": "packages/types/src/subscription.ts",
+      "fragment": "| 'JAIMINI_REPORT'"
+    },
+    {
+      "file": "packages/monetization/src/entitlementService.ts",
+      "fragment": "hasJaiminiReportCredit"
+    },
+    {
+      "file": "packages/monetization/src/entitlementService.ts",
+      "fragment": "hasReportPdfCredit"
+    },
+    {
+      "file": "packages/monetization/src/entitlementService.ts",
+      "fragment": "consumeReportPdfCreditFromState"
+    },
+    {
+      "file": "packages/monetization/src/entitlementService.ts",
+      "fragment": "String(item.productType) === 'NADI_REPORT'"
+    },
+    {
+      "file": "apps/mobile/src/services/subscription/entitlementService.ts",
+      "fragment": "hasJaiminiReportCredit"
+    },
+    {
+      "file": "apps/mobile/src/services/billing/mockBillingProvider.ts",
+      "fragment": "product.id === 'JAIMINI_REPORT'"
+    },
+    {
+      "file": "apps/mobile/src/store/useAppStore.ts",
+      "fragment": "hasReportPdfCredit"
+    },
+    {
+      "file": "apps/mobile/src/store/useAppStore.ts",
+      "fragment": "consumeReportPdfCredit"
+    },
+    {
+      "file": "apps/mobile/src/screens/ReportScreen.tsx",
+      "fragment": "getOneTimeProduct('JAIMINI_REPORT')"
+    },
+    {
+      "file": "apps/mobile/src/screens/PaywallScreen.tsx",
+      "fragment": "Question and report packs"
+    },
+    {
+      "file": "apps/mobile/__tests__/entitlementService.test.ts",
+      "fragment": "keeps Jaimini report credit scoped to Jaimini reports"
+    },
+    {
+      "file": "apps/web/components/WebDossierPreview.tsx",
+      "fragment": "hasReportPdfCredit("
+    },
+    {
+      "file": "apps/web/components/WebDossierPreview.tsx",
+      "fragment": "getOneTimeProduct('JAIMINI_REPORT')"
+    },
+    {
+      "file": "apps/web/app/dashboard/premium/page.tsx",
+      "fragment": "JAIMINI_REPORT"
+    },
+    {
+      "file": "apps/web/app/pricing/page.tsx",
+      "fragment": "JAIMINI_REPORT"
+    },
+    {
+      "file": "package.json",
+      "fragment": "\"test:jaimini-phase-9\": \"node scripts/run-jaimini-phase-9-marketplace-entitlement-gate.mjs\""
+    }
+  ],
+  "status": "green"
+}
