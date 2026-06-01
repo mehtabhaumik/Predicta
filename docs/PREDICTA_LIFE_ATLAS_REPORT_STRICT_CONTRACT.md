@@ -4,7 +4,8 @@ This document defines the standalone contract for the `Predicta Life Atlas`
 report.
 
 `Predicta Life Atlas` is a synthesis report. It is not a Vedic report, not a KP
-report, not a Nadi report, not a Numerology report, and not a Signature report.
+report, not a Jaimini report, not a Numerology report, and not a Signature
+report.
 It is the only approved report family where Predicta may combine multiple
 schools into one human life story.
 
@@ -45,9 +46,9 @@ Write instead:
 
 1. `Predicta Life Atlas` must remain separate from school-specific reports.
 2. This report is the only approved synthesis report path in this contract.
-3. Vedic, KP, Nadi, Numerology, and Signature reports must not silently include
+3. Vedic, KP, Jaimini, Numerology, and Signature reports must not silently include
    `Predicta Life Atlas` sections.
-4. `Predicta Life Atlas` may use Vedic, KP, Nadi, and Numerology as core
+4. `Predicta Life Atlas` may use Vedic, KP, Jaimini, and Numerology as core
    evidence layers.
 5. Signature analysis is optional enrichment only.
 6. The report must still generate when no signature sample exists.
@@ -76,7 +77,8 @@ Expected core inputs:
 
 - Vedic data from birth details and calculated Kundli.
 - KP data from the same birth profile where KP preparation is available.
-- Nadi-style planetary story intelligence where available.
+- Jaimini evidence for soul role, visible identity, career dharma,
+  relationship mirror, and current destiny chapter.
 - Numerology data from name and date of birth.
 
 Optional enrichment:
@@ -105,7 +107,7 @@ must stay non-technical.
 | --- | --- |
 | Vedic | Life architecture, dharma, soul purpose, current chapter, karmic tendencies, timing rhythm. |
 | KP | Concrete decision zones, event-readiness, practical timing confidence, where action needs precision. |
-| Nadi | Planetary story links, repeated karmic themes, soul-pattern narrative, Rahu/Ketu axis. |
+| Jaimini | Soul role, visible identity, career dharma, relationship mirror, and Chara Dasha chapter evidence. |
 | Numerology | Name rhythm, destiny number, life-path tone, personal cycle language. |
 | Signature | Optional outer-expression lens: confidence pattern, visible identity, self-presentation, refinement guidance. |
 
@@ -232,9 +234,9 @@ An all-school synthesis report that turns your available Predicta data into one 
 ```
 
 - The page must explain:
-  - this is not a Vedic/KP/Nadi/Numerology/Signature report
+  - this is not a Vedic/KP/Jaimini/Numerology/Signature report
   - it synthesizes available systems
-  - Vedic, KP, Nadi, and Numerology are core inputs
+  - Vedic, KP, Jaimini, and Numerology are core inputs
   - Signature is optional enrichment only
   - missing signature data does not block generation
 - The report page must prevent accidental purchase by users who wanted a
@@ -272,7 +274,7 @@ Life Atlas-specific design direction:
 Predicta must know:
 
 - `Predicta Life Atlas` is the flagship synthesis report.
-- It combines Vedic, KP, Nadi, and Numerology as core evidence.
+- It combines Vedic, KP, Jaimini, and Numerology as core evidence.
 - Signature is optional enrichment only.
 - Missing signature data must not block the report.
 - Missing signature data must not be invented.
@@ -324,11 +326,11 @@ that is not actually implemented and approved.
 This report contract is green only when:
 
 - `Predicta Life Atlas` exists as a separate report family.
-- It is not placed inside Vedic, KP, Nadi, Numerology, or Signature report lanes.
+- It is not placed inside Vedic, KP, Jaimini, Numerology, or Signature report lanes.
 - It is clearly labeled as synthesis.
 - Free report output includes all required free sections.
 - Premium/paid report output includes all required premium sections.
-- Vedic, KP, Nadi, and Numerology evidence are available or honest pending
+- Vedic, KP, Jaimini, and Numerology evidence are available or honest pending
   states are shown.
 - Missing signature does not block report generation.
 - Missing signature produces the approved graceful note.

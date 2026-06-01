@@ -1,0 +1,36 @@
+{
+  "generatedAt": "2026-06-01T17:28:55.231Z",
+  "phaseName": "PREDICTA_JAIMINI_PHASE_8_LIFE_ATLAS_JAIMINI_EVIDENCE_LAYER",
+  "artifacts": [
+    {
+      "bytes": 2476175,
+      "id": "life-atlas-jaimini-free",
+      "mode": "FREE",
+      "pageCount": 12,
+      "pdf": "artifacts/predicta-life-atlas-jaimini-free.pdf",
+      "payload": "artifacts/predicta-life-atlas-jaimini-free-payload.json",
+      "previews": [
+        "previews/life-atlas-jaimini-free/page-01.png",
+        "previews/life-atlas-jaimini-free/page-02.png",
+        "previews/life-atlas-jaimini-free/page-05.png",
+        "previews/life-atlas-jaimini-free/page-12.png"
+      ],
+      "text": "artifacts/predicta-life-atlas-jaimini-free-text.txt"
+    },
+    {
+      "bytes": 2492009,
+      "id": "life-atlas-jaimini-premium",
+      "mode": "PREMIUM",
+      "pageCount": 15,
+      "pdf": "artifacts/predicta-life-atlas-jaimini-premium.pdf",
+      "payload": "artifacts/predicta-life-atlas-jaimini-premium-payload.json",
+      "previews": [
+        "previews/life-atlas-jaimini-premium/page-01.png",
+        "previews/life-atlas-jaimini-premium/page-02.png",
+        "previews/life-atlas-jaimini-premium/page-05.png",
+        "previews/life-atlas-jaimini-premium/page-15.png"
+      ],
+      "text": "artifacts/predicta-life-atlas-jaimini-premium-text.txt"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+# PREDICTA_JAIMINI_PHASE_8_LIFE_ATLAS_JAIMINI_EVIDENCE_LAYER
+
+Status: GREEN after source gate, generated free and premium Life Atlas PDF artifacts, extracted-text audit, no-Nadi audit, and preview rendering.
+
+Verified:
+- Life Atlas uses Vedic, KP, Jaimini, Numerology, and optional Signature as the input map.
+- Jaimini appears as a real Destiny Thread: soul role, visible identity, career dharma, relationship mirror, and current destiny chapter.
+- Main Life Atlas pages remain non-technical and do not expose Atmakaraka, Arudha Lagna, Upapada Lagna, Karakamsha, or Swamsa terminology.
+- Premium appendix contains the technical Jaimini evidence trail for auditability.
+- Generated Life Atlas PDFs contain no Nadi references.
+- Every extracted page has substantial text, so no orphan/empty pages passed this gate.
+
+Artifacts:
+- life-atlas-jaimini-free: 12 pages, 2476175 bytes, FREE.
+- life-atlas-jaimini-premium: 15 pages, 2492009 bytes, PREMIUM.

@@ -121,7 +121,7 @@ for (const phrase of [
   'School-separated reports',
   'Vedic Reports',
   'KP Reports',
-  'Nadi Reports',
+  'Jaimini Reports',
   'Numerology Reports',
   'Signature Reports',
 ]) {

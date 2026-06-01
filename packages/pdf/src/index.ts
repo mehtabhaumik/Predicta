@@ -511,7 +511,7 @@ function buildLifeAtlasReportSections(
     ...narrativeSections,
     {
       body:
-        'Life Atlas source map: this page preserves the evidence layers behind the life prediction. It stays at the end so the main report remains a soul/life reading, not a technical classroom.',
+        'Life Atlas source map: this page preserves the evidence layers behind the life prediction. It stays at the end so the main report remains a soul/life reading, not a technical classroom. Technical Jaimini appendix evidence includes Atmakaraka, Arudha Lagna, Upapada Lagna, Karakamsha, Swamsa, and Chara Dasha only after the main Life Atlas reading is complete.',
       bullets: [
         ...atlas.evidenceLayers
           .filter(layer => layer.status === 'ready')
@@ -524,6 +524,9 @@ function buildLifeAtlasReportSections(
       evidence: [
         'Predicta Life Atlas is the approved all-school synthesis report path.',
         ...atlas.evidenceLayers.map(layer => `${layer.label}: ${layer.summary}`),
+        ...atlas.evidenceLayers.flatMap(layer =>
+          layer.technicalEvidence?.map(item => `${layer.label} technical evidence: ${item}`) ?? []
+        ),
         ...atlas.limitations,
       ],
       evidenceTable: atlas.evidenceLayers.map(layer => ({

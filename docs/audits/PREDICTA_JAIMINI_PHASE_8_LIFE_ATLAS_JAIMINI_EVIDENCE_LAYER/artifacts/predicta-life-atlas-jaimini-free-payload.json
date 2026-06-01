@@ -1,0 +1,6443 @@
+{
+  "kundli": {
+    "id": "3de16b5f38fdcba5",
+    "birthDetails": {
+      "name": "Bhaumik Mehta",
+      "date": "1980-08-22",
+      "time": "06:30",
+      "place": "Mumbai, Maharashtra, India",
+      "latitude": 19.076,
+      "longitude": 72.8777,
+      "timezone": "Asia/Kolkata",
+      "isTimeApproximate": false
+    },
+    "lagna": "Leo",
+    "moonSign": "Sagittarius",
+    "nakshatra": "Mula",
+    "planets": [
+      {
+        "name": "Sun",
+        "sign": "Leo",
+        "degree": 5.5058,
+        "absoluteLongitude": 125.505847,
+        "house": 1,
+        "nakshatra": "Magha",
+        "pada": 2,
+        "retrograde": false,
+        "kind": "classical",
+        "simpleMeaning": null,
+        "calculationNote": null
+      },
+      {
+        "name": "Moon",
+        "sign": "Sagittarius",
+        "degree": 11.78,
+        "absoluteLongitude": 251.779967,
+        "house": 5,
+        "nakshatra": "Mula",
+        "pada": 4,
+        "retrograde": false,
+        "kind": "classical",
+        "simpleMeaning": null,
+        "calculationNote": null
+      },
+      {
+        "name": "Mars",
+        "sign": "Libra",
+        "degree": 1.7824,
+        "absoluteLongitude": 181.782361,
+        "house": 3,
+        "nakshatra": "Chitra",
+        "pada": 3,
+        "retrograde": false,
+        "kind": "classical",
+        "simpleMeaning": null,
+        "calculationNote": null
+      },
+      {
+        "name": "Mercury",
+        "sign": "Leo",
+        "degree": 0.9285,
+        "absoluteLongitude": 120.928454,
+        "house": 1,
+        "nakshatra": "Magha",
+        "pada": 1,
+        "retrograde": false,
+        "kind": "classical",
+        "simpleMeaning": null,
+        "calculationNote": null
+      },
+      {
+        "name": "Jupiter",
+        "sign": "Leo",
+        "degree": 22.3669,
+        "absoluteLongitude": 142.366878,
+        "house": 1,
+        "nakshatra": "Purva Phalguni",
+        "pada": 3,
+        "retrograde": false,
+        "kind": "classical",
+        "simpleMeaning": null,
+        "calculationNote": null
+      },
+      {
+        "name": "Venus",
+        "sign": "Gemini",
+        "degree": 19.7594,
+        "absoluteLongitude": 79.759383,
+        "house": 11,
+        "nakshatra": "Ardra",
+        "pada": 4,
+        "retrograde": false,
+        "kind": "classical",
+        "simpleMeaning": null,
+        "calculationNote": null
+      },
+      {
+        "name": "Saturn",
+        "sign": "Virgo",
+        "degree": 2.7388,
+        "absoluteLongitude": 152.738848,
+        "house": 2,
+        "nakshatra": "Uttara Phalguni",
+        "pada": 2,
+        "retrograde": false,
+        "kind": "classical",
+        "simpleMeaning": null,
+        "calculationNote": null
+      },
+      {
+        "name": "Rahu",
+        "sign": "Cancer",
+        "degree": 26.6114,
+        "absoluteLongitude": 116.61135,
+        "house": 12,
+        "nakshatra": "Ashlesha",
+        "pada": 3,
+        "retrograde": false,
+        "kind": "classical",
+        "simpleMeaning": null,
+        "calculationNote": null
+      },
+      {
+        "name": "Ketu",
+        "sign": "Capricorn",
+        "degree": 26.6114,
+        "absoluteLongitude": 296.61135,
+        "house": 6,
+        "nakshatra": "Dhanishta",
+        "pada": 1,
+        "retrograde": true,
+        "kind": "classical",
+        "simpleMeaning": null,
+        "calculationNote": null
+      },
+      {
+        "name": "Uranus",
+        "sign": "Libra",
+        "degree": 28.1359,
+        "absoluteLongitude": 208.135886,
+        "house": 3,
+        "nakshatra": "Vishakha",
+        "pada": 3,
+        "retrograde": false,
+        "kind": "modern",
+        "simpleMeaning": "Modern refinement for sudden change, innovation, disruption, and unusual independence.",
+        "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+      },
+      {
+        "name": "Neptune",
+        "sign": "Scorpio",
+        "degree": 26.346,
+        "absoluteLongitude": 236.346019,
+        "house": 4,
+        "nakshatra": "Jyeshtha",
+        "pada": 3,
+        "retrograde": true,
+        "kind": "modern",
+        "simpleMeaning": "Modern refinement for imagination, confusion, spirituality, and subtle sensitivity.",
+        "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+      },
+      {
+        "name": "Pluto",
+        "sign": "Virgo",
+        "degree": 26.1809,
+        "absoluteLongitude": 176.18088,
+        "house": 2,
+        "nakshatra": "Chitra",
+        "pada": 1,
+        "retrograde": false,
+        "kind": "modern",
+        "simpleMeaning": "Modern refinement for deep transformation, pressure, power, and rebirth patterns.",
+        "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+      },
+      {
+        "name": "Dhuma",
+        "sign": "Sagittarius",
+        "degree": 18.8392,
+        "absoluteLongitude": 258.83918,
+        "house": 5,
+        "nakshatra": "Purva Ashadha",
+        "pada": 2,
+        "retrograde": false,
+        "kind": "sensitive",
+        "simpleMeaning": "Solar sensitive point used as a subtle refinement for heat, pressure, and karmic smoke.",
+        "calculationNote": "Dhuma is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+      },
+      {
+        "name": "Vyatipata",
+        "sign": "Cancer",
+        "degree": 11.1608,
+        "absoluteLongitude": 101.16082,
+        "house": 12,
+        "nakshatra": "Pushya",
+        "pada": 3,
+        "retrograde": false,
+        "kind": "sensitive",
+        "simpleMeaning": "Solar sensitive point used as a subtle refinement for reversal and imbalance.",
+        "calculationNote": "Vyatipata is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+      },
+      {
+        "name": "Parivesha",
+        "sign": "Capricorn",
+        "degree": 11.1608,
+        "absoluteLongitude": 281.16082,
+        "house": 6,
+        "nakshatra": "Shravana",
+        "pada": 1,
+        "retrograde": false,
+        "kind": "sensitive",
+        "simpleMeaning": "Solar sensitive point used as a subtle refinement for enclosure and protection themes.",
+        "calculationNote": "Parivesha is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+      },
+      {
+        "name": "Indrachapa",
+        "sign": "Gemini",
+        "degree": 18.8392,
+        "absoluteLongitude": 78.83918,
+        "house": 11,
+        "nakshatra": "Ardra",
+        "pada": 4,
+        "retrograde": false,
+        "kind": "sensitive",
+        "simpleMeaning": "Solar sensitive point used as a subtle refinement for desire, projection, and atmospheric signals.",
+        "calculationNote": "Indrachapa is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+      },
+      {
+        "name": "Upaketu",
+        "sign": "Cancer",
+        "degree": 5.5058,
+        "absoluteLongitude": 95.505847,
+        "house": 12,
+        "nakshatra": "Pushya",
+        "pada": 1,
+        "retrograde": false,
+        "kind": "sensitive",
+        "simpleMeaning": "Solar sensitive point used as a subtle refinement linked with Ketu-like detachment signals.",
+        "calculationNote": "Upaketu is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+      },
+      {
+        "name": "Gulika",
+        "sign": "Virgo",
+        "degree": 1.8118,
+        "absoluteLongitude": 151.811825,
+        "house": 2,
+        "nakshatra": "Uttara Phalguni",
+        "pada": 2,
+        "retrograde": false,
+        "kind": "upagraha",
+        "simpleMeaning": "Upagraha refinement used for karmic pressure, discipline, and sensitive house reading.",
+        "calculationNote": "Gulika is calculated from the Saturn segment boundary of the local day/night. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+      },
+      {
+        "name": "Mandi",
+        "sign": "Cancer",
+        "degree": 0.9498,
+        "absoluteLongitude": 90.94983,
+        "house": 12,
+        "nakshatra": "Punarvasu",
+        "pada": 4,
+        "retrograde": false,
+        "kind": "upagraha",
+        "simpleMeaning": "Upagraha refinement used for difficult karmic residue and careful house judgement.",
+        "calculationNote": "Mandi is calculated from the Saturn segment boundary of the local day/night. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+      }
+    ],
+    "houses": [
+      {
+        "house": 1,
+        "sign": "Leo",
+        "lord": "Sun",
+        "planets": [
+          "Sun",
+          "Mercury",
+          "Jupiter"
+        ]
+      },
+      {
+        "house": 2,
+        "sign": "Virgo",
+        "lord": "Mercury",
+        "planets": [
+          "Saturn",
+          "Pluto",
+          "Gulika"
+        ]
+      },
+      {
+        "house": 3,
+        "sign": "Libra",
+        "lord": "Venus",
+        "planets": [
+          "Mars",
+          "Uranus"
+        ]
+      },
+      {
+        "house": 4,
+        "sign": "Scorpio",
+        "lord": "Mars",
+        "planets": [
+          "Neptune"
+        ]
+      },
+      {
+        "house": 5,
+        "sign": "Sagittarius",
+        "lord": "Jupiter",
+        "planets": [
+          "Moon",
+          "Dhuma"
+        ]
+      },
+      {
+        "house": 6,
+        "sign": "Capricorn",
+        "lord": "Saturn",
+        "planets": [
+          "Ketu",
+          "Parivesha"
+        ]
+      },
+      {
+        "house": 7,
+        "sign": "Aquarius",
+        "lord": "Saturn",
+        "planets": []
+      },
+      {
+        "house": 8,
+        "sign": "Pisces",
+        "lord": "Jupiter",
+        "planets": []
+      },
+      {
+        "house": 9,
+        "sign": "Aries",
+        "lord": "Mars",
+        "planets": []
+      },
+      {
+        "house": 10,
+        "sign": "Taurus",
+        "lord": "Venus",
+        "planets": []
+      },
+      {
+        "house": 11,
+        "sign": "Gemini",
+        "lord": "Mercury",
+        "planets": [
+          "Venus",
+          "Indrachapa"
+        ]
+      },
+      {
+        "house": 12,
+        "sign": "Cancer",
+        "lord": "Moon",
+        "planets": [
+          "Rahu",
+          "Vyatipata",
+          "Upaketu",
+          "Mandi"
+        ]
+      }
+    ],
+    "charts": {
+      "D1": {
+        "chartType": "D1",
+        "name": "Rashi Chart",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [
+            "Venus",
+            "Indrachapa"
+          ],
+          "Cancer": [
+            "Rahu",
+            "Vyatipata",
+            "Upaketu",
+            "Mandi"
+          ],
+          "Leo": [
+            "Sun",
+            "Mercury",
+            "Jupiter"
+          ],
+          "Virgo": [
+            "Saturn",
+            "Pluto",
+            "Gulika"
+          ],
+          "Libra": [
+            "Mars",
+            "Uranus"
+          ],
+          "Scorpio": [
+            "Neptune"
+          ],
+          "Sagittarius": [
+            "Moon",
+            "Dhuma"
+          ],
+          "Capricorn": [
+            "Ketu",
+            "Parivesha"
+          ],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [
+            "Sun",
+            "Mercury",
+            "Jupiter"
+          ],
+          "2": [
+            "Saturn",
+            "Pluto",
+            "Gulika"
+          ],
+          "3": [
+            "Mars",
+            "Uranus"
+          ],
+          "4": [
+            "Neptune"
+          ],
+          "5": [
+            "Moon",
+            "Dhuma"
+          ],
+          "6": [
+            "Ketu",
+            "Parivesha"
+          ],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [
+            "Venus",
+            "Indrachapa"
+          ],
+          "12": [
+            "Rahu",
+            "Vyatipata",
+            "Upaketu",
+            "Mandi"
+          ]
+        },
+        "planetDistribution": [
+          {
+            "name": "Sun",
+            "sign": "Leo",
+            "degree": 5.5058,
+            "absoluteLongitude": 125.505847,
+            "house": 1,
+            "nakshatra": "Magha",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Moon",
+            "sign": "Sagittarius",
+            "degree": 11.78,
+            "absoluteLongitude": 251.779967,
+            "house": 5,
+            "nakshatra": "Mula",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Mars",
+            "sign": "Libra",
+            "degree": 1.7824,
+            "absoluteLongitude": 181.782361,
+            "house": 3,
+            "nakshatra": "Chitra",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Mercury",
+            "sign": "Leo",
+            "degree": 0.9285,
+            "absoluteLongitude": 120.928454,
+            "house": 1,
+            "nakshatra": "Magha",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Jupiter",
+            "sign": "Leo",
+            "degree": 22.3669,
+            "absoluteLongitude": 142.366878,
+            "house": 1,
+            "nakshatra": "Purva Phalguni",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Venus",
+            "sign": "Gemini",
+            "degree": 19.7594,
+            "absoluteLongitude": 79.759383,
+            "house": 11,
+            "nakshatra": "Ardra",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Saturn",
+            "sign": "Virgo",
+            "degree": 2.7388,
+            "absoluteLongitude": 152.738848,
+            "house": 2,
+            "nakshatra": "Uttara Phalguni",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Rahu",
+            "sign": "Cancer",
+            "degree": 26.6114,
+            "absoluteLongitude": 116.61135,
+            "house": 12,
+            "nakshatra": "Ashlesha",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Ketu",
+            "sign": "Capricorn",
+            "degree": 26.6114,
+            "absoluteLongitude": 296.61135,
+            "house": 6,
+            "nakshatra": "Dhanishta",
+            "pada": 1,
+            "retrograde": true,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Uranus",
+            "sign": "Libra",
+            "degree": 28.1359,
+            "absoluteLongitude": 208.135886,
+            "house": 3,
+            "nakshatra": "Vishakha",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for sudden change, innovation, disruption, and unusual independence.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Neptune",
+            "sign": "Scorpio",
+            "degree": 26.346,
+            "absoluteLongitude": 236.346019,
+            "house": 4,
+            "nakshatra": "Jyeshtha",
+            "pada": 3,
+            "retrograde": true,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for imagination, confusion, spirituality, and subtle sensitivity.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Pluto",
+            "sign": "Virgo",
+            "degree": 26.1809,
+            "absoluteLongitude": 176.18088,
+            "house": 2,
+            "nakshatra": "Chitra",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for deep transformation, pressure, power, and rebirth patterns.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Dhuma",
+            "sign": "Sagittarius",
+            "degree": 18.8392,
+            "absoluteLongitude": 258.83918,
+            "house": 5,
+            "nakshatra": "Purva Ashadha",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for heat, pressure, and karmic smoke.",
+            "calculationNote": "Dhuma is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Vyatipata",
+            "sign": "Cancer",
+            "degree": 11.1608,
+            "absoluteLongitude": 101.16082,
+            "house": 12,
+            "nakshatra": "Pushya",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for reversal and imbalance.",
+            "calculationNote": "Vyatipata is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Parivesha",
+            "sign": "Capricorn",
+            "degree": 11.1608,
+            "absoluteLongitude": 281.16082,
+            "house": 6,
+            "nakshatra": "Shravana",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for enclosure and protection themes.",
+            "calculationNote": "Parivesha is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Indrachapa",
+            "sign": "Gemini",
+            "degree": 18.8392,
+            "absoluteLongitude": 78.83918,
+            "house": 11,
+            "nakshatra": "Ardra",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for desire, projection, and atmospheric signals.",
+            "calculationNote": "Indrachapa is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Upaketu",
+            "sign": "Cancer",
+            "degree": 5.5058,
+            "absoluteLongitude": 95.505847,
+            "house": 12,
+            "nakshatra": "Pushya",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement linked with Ketu-like detachment signals.",
+            "calculationNote": "Upaketu is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Gulika",
+            "sign": "Virgo",
+            "degree": 1.8118,
+            "absoluteLongitude": 151.811825,
+            "house": 2,
+            "nakshatra": "Uttara Phalguni",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "upagraha",
+            "simpleMeaning": "Upagraha refinement used for karmic pressure, discipline, and sensitive house reading.",
+            "calculationNote": "Gulika is calculated from the Saturn segment boundary of the local day/night. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Mandi",
+            "sign": "Cancer",
+            "degree": 0.9498,
+            "absoluteLongitude": 90.94983,
+            "house": 12,
+            "nakshatra": "Punarvasu",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "upagraha",
+            "simpleMeaning": "Upagraha refinement used for difficult karmic residue and careful house judgement.",
+            "calculationNote": "Mandi is calculated from the Saturn segment boundary of the local day/night. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          }
+        ],
+        "supported": true,
+        "unsupportedReason": null
+      },
+      "D2": {
+        "chartType": "D2",
+        "name": "Hora Chart",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [
+            "Jupiter",
+            "Venus",
+            "Saturn",
+            "Uranus",
+            "Dhuma",
+            "Vyatipata",
+            "Parivesha",
+            "Indrachapa",
+            "Upaketu",
+            "Gulika",
+            "Mandi"
+          ],
+          "Leo": [
+            "Sun",
+            "Moon",
+            "Mars",
+            "Mercury",
+            "Rahu",
+            "Ketu",
+            "Neptune",
+            "Pluto"
+          ],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [
+            "Sun",
+            "Moon",
+            "Mars",
+            "Mercury",
+            "Rahu",
+            "Ketu",
+            "Neptune",
+            "Pluto"
+          ],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": [
+            "Jupiter",
+            "Venus",
+            "Saturn",
+            "Uranus",
+            "Dhuma",
+            "Vyatipata",
+            "Parivesha",
+            "Indrachapa",
+            "Upaketu",
+            "Gulika",
+            "Mandi"
+          ]
+        },
+        "planetDistribution": [
+          {
+            "name": "Sun",
+            "sign": "Leo",
+            "degree": 5.5058,
+            "absoluteLongitude": 125.505847,
+            "house": 1,
+            "nakshatra": "Magha",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Moon",
+            "sign": "Leo",
+            "degree": 11.78,
+            "absoluteLongitude": 251.779967,
+            "house": 1,
+            "nakshatra": "Mula",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Mars",
+            "sign": "Leo",
+            "degree": 1.7824,
+            "absoluteLongitude": 181.782361,
+            "house": 1,
+            "nakshatra": "Chitra",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Mercury",
+            "sign": "Leo",
+            "degree": 0.9285,
+            "absoluteLongitude": 120.928454,
+            "house": 1,
+            "nakshatra": "Magha",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Jupiter",
+            "sign": "Cancer",
+            "degree": 22.3669,
+            "absoluteLongitude": 142.366878,
+            "house": 12,
+            "nakshatra": "Purva Phalguni",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Venus",
+            "sign": "Cancer",
+            "degree": 19.7594,
+            "absoluteLongitude": 79.759383,
+            "house": 12,
+            "nakshatra": "Ardra",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Saturn",
+            "sign": "Cancer",
+            "degree": 2.7388,
+            "absoluteLongitude": 152.738848,
+            "house": 12,
+            "nakshatra": "Uttara Phalguni",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Rahu",
+            "sign": "Leo",
+            "degree": 26.6114,
+            "absoluteLongitude": 116.61135,
+            "house": 1,
+            "nakshatra": "Ashlesha",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Ketu",
+            "sign": "Leo",
+            "degree": 26.6114,
+            "absoluteLongitude": 296.61135,
+            "house": 1,
+            "nakshatra": "Dhanishta",
+            "pada": 1,
+            "retrograde": true,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Uranus",
+            "sign": "Cancer",
+            "degree": 28.1359,
+            "absoluteLongitude": 208.135886,
+            "house": 12,
+            "nakshatra": "Vishakha",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for sudden change, innovation, disruption, and unusual independence.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Neptune",
+            "sign": "Leo",
+            "degree": 26.346,
+            "absoluteLongitude": 236.346019,
+            "house": 1,
+            "nakshatra": "Jyeshtha",
+            "pada": 3,
+            "retrograde": true,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for imagination, confusion, spirituality, and subtle sensitivity.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Pluto",
+            "sign": "Leo",
+            "degree": 26.1809,
+            "absoluteLongitude": 176.18088,
+            "house": 1,
+            "nakshatra": "Chitra",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for deep transformation, pressure, power, and rebirth patterns.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Dhuma",
+            "sign": "Cancer",
+            "degree": 18.8392,
+            "absoluteLongitude": 258.83918,
+            "house": 12,
+            "nakshatra": "Purva Ashadha",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for heat, pressure, and karmic smoke.",
+            "calculationNote": "Dhuma is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Vyatipata",
+            "sign": "Cancer",
+            "degree": 11.1608,
+            "absoluteLongitude": 101.16082,
+            "house": 12,
+            "nakshatra": "Pushya",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for reversal and imbalance.",
+            "calculationNote": "Vyatipata is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Parivesha",
+            "sign": "Cancer",
+            "degree": 11.1608,
+            "absoluteLongitude": 281.16082,
+            "house": 12,
+            "nakshatra": "Shravana",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for enclosure and protection themes.",
+            "calculationNote": "Parivesha is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Indrachapa",
+            "sign": "Cancer",
+            "degree": 18.8392,
+            "absoluteLongitude": 78.83918,
+            "house": 12,
+            "nakshatra": "Ardra",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for desire, projection, and atmospheric signals.",
+            "calculationNote": "Indrachapa is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Upaketu",
+            "sign": "Cancer",
+            "degree": 5.5058,
+            "absoluteLongitude": 95.505847,
+            "house": 12,
+            "nakshatra": "Pushya",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement linked with Ketu-like detachment signals.",
+            "calculationNote": "Upaketu is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Gulika",
+            "sign": "Cancer",
+            "degree": 1.8118,
+            "absoluteLongitude": 151.811825,
+            "house": 12,
+            "nakshatra": "Uttara Phalguni",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "upagraha",
+            "simpleMeaning": "Upagraha refinement used for karmic pressure, discipline, and sensitive house reading.",
+            "calculationNote": "Gulika is calculated from the Saturn segment boundary of the local day/night. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Mandi",
+            "sign": "Cancer",
+            "degree": 0.9498,
+            "absoluteLongitude": 90.94983,
+            "house": 12,
+            "nakshatra": "Punarvasu",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "upagraha",
+            "simpleMeaning": "Upagraha refinement used for difficult karmic residue and careful house judgement.",
+            "calculationNote": "Mandi is calculated from the Saturn segment boundary of the local day/night. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          }
+        ],
+        "supported": true,
+        "unsupportedReason": null
+      },
+      "D3": {
+        "chartType": "D3",
+        "name": "Drekkana Chart",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [
+            "Moon",
+            "Jupiter",
+            "Dhuma"
+          ],
+          "Taurus": [
+            "Pluto",
+            "Parivesha"
+          ],
+          "Gemini": [
+            "Uranus"
+          ],
+          "Cancer": [
+            "Neptune",
+            "Upaketu",
+            "Mandi"
+          ],
+          "Leo": [
+            "Sun",
+            "Mercury"
+          ],
+          "Virgo": [
+            "Saturn",
+            "Ketu",
+            "Gulika"
+          ],
+          "Libra": [
+            "Mars",
+            "Venus",
+            "Indrachapa"
+          ],
+          "Scorpio": [
+            "Vyatipata"
+          ],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": [
+            "Rahu"
+          ]
+        },
+        "housePlacements": {
+          "1": [
+            "Sun",
+            "Mercury"
+          ],
+          "2": [
+            "Saturn",
+            "Ketu",
+            "Gulika"
+          ],
+          "3": [
+            "Mars",
+            "Venus",
+            "Indrachapa"
+          ],
+          "4": [
+            "Vyatipata"
+          ],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [
+            "Rahu"
+          ],
+          "9": [
+            "Moon",
+            "Jupiter",
+            "Dhuma"
+          ],
+          "10": [
+            "Pluto",
+            "Parivesha"
+          ],
+          "11": [
+            "Uranus"
+          ],
+          "12": [
+            "Neptune",
+            "Upaketu",
+            "Mandi"
+          ]
+        },
+        "planetDistribution": [
+          {
+            "name": "Sun",
+            "sign": "Leo",
+            "degree": 5.5058,
+            "absoluteLongitude": 125.505847,
+            "house": 1,
+            "nakshatra": "Magha",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Moon",
+            "sign": "Aries",
+            "degree": 11.78,
+            "absoluteLongitude": 251.779967,
+            "house": 9,
+            "nakshatra": "Mula",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Mars",
+            "sign": "Libra",
+            "degree": 1.7824,
+            "absoluteLongitude": 181.782361,
+            "house": 3,
+            "nakshatra": "Chitra",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Mercury",
+            "sign": "Leo",
+            "degree": 0.9285,
+            "absoluteLongitude": 120.928454,
+            "house": 1,
+            "nakshatra": "Magha",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Jupiter",
+            "sign": "Aries",
+            "degree": 22.3669,
+            "absoluteLongitude": 142.366878,
+            "house": 9,
+            "nakshatra": "Purva Phalguni",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Venus",
+            "sign": "Libra",
+            "degree": 19.7594,
+            "absoluteLongitude": 79.759383,
+            "house": 3,
+            "nakshatra": "Ardra",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Saturn",
+            "sign": "Virgo",
+            "degree": 2.7388,
+            "absoluteLongitude": 152.738848,
+            "house": 2,
+            "nakshatra": "Uttara Phalguni",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Rahu",
+            "sign": "Pisces",
+            "degree": 26.6114,
+            "absoluteLongitude": 116.61135,
+            "house": 8,
+            "nakshatra": "Ashlesha",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Ketu",
+            "sign": "Virgo",
+            "degree": 26.6114,
+            "absoluteLongitude": 296.61135,
+            "house": 2,
+            "nakshatra": "Dhanishta",
+            "pada": 1,
+            "retrograde": true,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Uranus",
+            "sign": "Gemini",
+            "degree": 28.1359,
+            "absoluteLongitude": 208.135886,
+            "house": 11,
+            "nakshatra": "Vishakha",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for sudden change, innovation, disruption, and unusual independence.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Neptune",
+            "sign": "Cancer",
+            "degree": 26.346,
+            "absoluteLongitude": 236.346019,
+            "house": 12,
+            "nakshatra": "Jyeshtha",
+            "pada": 3,
+            "retrograde": true,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for imagination, confusion, spirituality, and subtle sensitivity.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Pluto",
+            "sign": "Taurus",
+            "degree": 26.1809,
+            "absoluteLongitude": 176.18088,
+            "house": 10,
+            "nakshatra": "Chitra",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for deep transformation, pressure, power, and rebirth patterns.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Dhuma",
+            "sign": "Aries",
+            "degree": 18.8392,
+            "absoluteLongitude": 258.83918,
+            "house": 9,
+            "nakshatra": "Purva Ashadha",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for heat, pressure, and karmic smoke.",
+            "calculationNote": "Dhuma is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Vyatipata",
+            "sign": "Scorpio",
+            "degree": 11.1608,
+            "absoluteLongitude": 101.16082,
+            "house": 4,
+            "nakshatra": "Pushya",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for reversal and imbalance.",
+            "calculationNote": "Vyatipata is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Parivesha",
+            "sign": "Taurus",
+            "degree": 11.1608,
+            "absoluteLongitude": 281.16082,
+            "house": 10,
+            "nakshatra": "Shravana",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for enclosure and protection themes.",
+            "calculationNote": "Parivesha is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Indrachapa",
+            "sign": "Libra",
+            "degree": 18.8392,
+            "absoluteLongitude": 78.83918,
+            "house": 3,
+            "nakshatra": "Ardra",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for desire, projection, and atmospheric signals.",
+            "calculationNote": "Indrachapa is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Upaketu",
+            "sign": "Cancer",
+            "degree": 5.5058,
+            "absoluteLongitude": 95.505847,
+            "house": 12,
+            "nakshatra": "Pushya",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement linked with Ketu-like detachment signals.",
+            "calculationNote": "Upaketu is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Gulika",
+            "sign": "Virgo",
+            "degree": 1.8118,
+            "absoluteLongitude": 151.811825,
+            "house": 2,
+            "nakshatra": "Uttara Phalguni",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "upagraha",
+            "simpleMeaning": "Upagraha refinement used for karmic pressure, discipline, and sensitive house reading.",
+            "calculationNote": "Gulika is calculated from the Saturn segment boundary of the local day/night. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Mandi",
+            "sign": "Cancer",
+            "degree": 0.9498,
+            "absoluteLongitude": 90.94983,
+            "house": 12,
+            "nakshatra": "Punarvasu",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "upagraha",
+            "simpleMeaning": "Upagraha refinement used for difficult karmic residue and careful house judgement.",
+            "calculationNote": "Mandi is calculated from the Saturn segment boundary of the local day/night. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          }
+        ],
+        "supported": true,
+        "unsupportedReason": null
+      },
+      "D4": {
+        "chartType": "D4",
+        "name": "Chaturthamsha Chart",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [
+            "Rahu",
+            "Parivesha"
+          ],
+          "Taurus": [],
+          "Gemini": [
+            "Pluto",
+            "Dhuma"
+          ],
+          "Cancer": [
+            "Uranus",
+            "Upaketu",
+            "Mandi"
+          ],
+          "Leo": [
+            "Sun",
+            "Mercury",
+            "Neptune"
+          ],
+          "Virgo": [
+            "Saturn",
+            "Gulika"
+          ],
+          "Libra": [
+            "Mars",
+            "Ketu",
+            "Vyatipata"
+          ],
+          "Scorpio": [],
+          "Sagittarius": [
+            "Venus",
+            "Indrachapa"
+          ],
+          "Capricorn": [],
+          "Aquarius": [
+            "Jupiter"
+          ],
+          "Pisces": [
+            "Moon"
+          ]
+        },
+        "housePlacements": {
+          "1": [
+            "Sun",
+            "Mercury",
+            "Neptune"
+          ],
+          "2": [
+            "Saturn",
+            "Gulika"
+          ],
+          "3": [
+            "Mars",
+            "Ketu",
+            "Vyatipata"
+          ],
+          "4": [],
+          "5": [
+            "Venus",
+            "Indrachapa"
+          ],
+          "6": [],
+          "7": [
+            "Jupiter"
+          ],
+          "8": [
+            "Moon"
+          ],
+          "9": [
+            "Rahu",
+            "Parivesha"
+          ],
+          "10": [],
+          "11": [
+            "Pluto",
+            "Dhuma"
+          ],
+          "12": [
+            "Uranus",
+            "Upaketu",
+            "Mandi"
+          ]
+        },
+        "planetDistribution": [
+          {
+            "name": "Sun",
+            "sign": "Leo",
+            "degree": 5.5058,
+            "absoluteLongitude": 125.505847,
+            "house": 1,
+            "nakshatra": "Magha",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Moon",
+            "sign": "Pisces",
+            "degree": 11.78,
+            "absoluteLongitude": 251.779967,
+            "house": 8,
+            "nakshatra": "Mula",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Mars",
+            "sign": "Libra",
+            "degree": 1.7824,
+            "absoluteLongitude": 181.782361,
+            "house": 3,
+            "nakshatra": "Chitra",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Mercury",
+            "sign": "Leo",
+            "degree": 0.9285,
+            "absoluteLongitude": 120.928454,
+            "house": 1,
+            "nakshatra": "Magha",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Jupiter",
+            "sign": "Aquarius",
+            "degree": 22.3669,
+            "absoluteLongitude": 142.366878,
+            "house": 7,
+            "nakshatra": "Purva Phalguni",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Venus",
+            "sign": "Sagittarius",
+            "degree": 19.7594,
+            "absoluteLongitude": 79.759383,
+            "house": 5,
+            "nakshatra": "Ardra",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Saturn",
+            "sign": "Virgo",
+            "degree": 2.7388,
+            "absoluteLongitude": 152.738848,
+            "house": 2,
+            "nakshatra": "Uttara Phalguni",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Rahu",
+            "sign": "Aries",
+            "degree": 26.6114,
+            "absoluteLongitude": 116.61135,
+            "house": 9,
+            "nakshatra": "Ashlesha",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Ketu",
+            "sign": "Libra",
+            "degree": 26.6114,
+            "absoluteLongitude": 296.61135,
+            "house": 3,
+            "nakshatra": "Dhanishta",
+            "pada": 1,
+            "retrograde": true,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Uranus",
+            "sign": "Cancer",
+            "degree": 28.1359,
+            "absoluteLongitude": 208.135886,
+            "house": 12,
+            "nakshatra": "Vishakha",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for sudden change, innovation, disruption, and unusual independence.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Neptune",
+            "sign": "Leo",
+            "degree": 26.346,
+            "absoluteLongitude": 236.346019,
+            "house": 1,
+            "nakshatra": "Jyeshtha",
+            "pada": 3,
+            "retrograde": true,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for imagination, confusion, spirituality, and subtle sensitivity.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Pluto",
+            "sign": "Gemini",
+            "degree": 26.1809,
+            "absoluteLongitude": 176.18088,
+            "house": 11,
+            "nakshatra": "Chitra",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for deep transformation, pressure, power, and rebirth patterns.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Dhuma",
+            "sign": "Gemini",
+            "degree": 18.8392,
+            "absoluteLongitude": 258.83918,
+            "house": 11,
+            "nakshatra": "Purva Ashadha",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for heat, pressure, and karmic smoke.",
+            "calculationNote": "Dhuma is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Vyatipata",
+            "sign": "Libra",
+            "degree": 11.1608,
+            "absoluteLongitude": 101.16082,
+            "house": 3,
+            "nakshatra": "Pushya",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for reversal and imbalance.",
+            "calculationNote": "Vyatipata is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Parivesha",
+            "sign": "Aries",
+            "degree": 11.1608,
+            "absoluteLongitude": 281.16082,
+            "house": 9,
+            "nakshatra": "Shravana",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for enclosure and protection themes.",
+            "calculationNote": "Parivesha is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Indrachapa",
+            "sign": "Sagittarius",
+            "degree": 18.8392,
+            "absoluteLongitude": 78.83918,
+            "house": 5,
+            "nakshatra": "Ardra",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for desire, projection, and atmospheric signals.",
+            "calculationNote": "Indrachapa is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Upaketu",
+            "sign": "Cancer",
+            "degree": 5.5058,
+            "absoluteLongitude": 95.505847,
+            "house": 12,
+            "nakshatra": "Pushya",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement linked with Ketu-like detachment signals.",
+            "calculationNote": "Upaketu is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Gulika",
+            "sign": "Virgo",
+            "degree": 1.8118,
+            "absoluteLongitude": 151.811825,
+            "house": 2,
+            "nakshatra": "Uttara Phalguni",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "upagraha",
+            "simpleMeaning": "Upagraha refinement used for karmic pressure, discipline, and sensitive house reading.",
+            "calculationNote": "Gulika is calculated from the Saturn segment boundary of the local day/night. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Mandi",
+            "sign": "Cancer",
+            "degree": 0.9498,
+            "absoluteLongitude": 90.94983,
+            "house": 12,
+            "nakshatra": "Punarvasu",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "upagraha",
+            "simpleMeaning": "Upagraha refinement used for difficult karmic residue and careful house judgement.",
+            "calculationNote": "Mandi is calculated from the Saturn segment boundary of the local day/night. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          }
+        ],
+        "supported": true,
+        "unsupportedReason": null
+      },
+      "D5": {
+        "chartType": "D5",
+        "name": "D5",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D6": {
+        "chartType": "D6",
+        "name": "D6",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D7": {
+        "chartType": "D7",
+        "name": "Saptamsha Chart",
+        "ascendantSign": "Virgo",
+        "signPlacements": {
+          "Aries": [
+            "Uranus",
+            "Dhuma"
+          ],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [
+            "Rahu"
+          ],
+          "Leo": [
+            "Mercury"
+          ],
+          "Virgo": [
+            "Sun",
+            "Pluto",
+            "Parivesha"
+          ],
+          "Libra": [
+            "Mars",
+            "Venus",
+            "Indrachapa"
+          ],
+          "Scorpio": [
+            "Neptune"
+          ],
+          "Sagittarius": [],
+          "Capricorn": [
+            "Jupiter",
+            "Ketu",
+            "Mandi"
+          ],
+          "Aquarius": [
+            "Moon",
+            "Upaketu"
+          ],
+          "Pisces": [
+            "Saturn",
+            "Vyatipata",
+            "Gulika"
+          ]
+        },
+        "housePlacements": {
+          "1": [
+            "Sun",
+            "Pluto",
+            "Parivesha"
+          ],
+          "2": [
+            "Mars",
+            "Venus",
+            "Indrachapa"
+          ],
+          "3": [
+            "Neptune"
+          ],
+          "4": [],
+          "5": [
+            "Jupiter",
+            "Ketu",
+            "Mandi"
+          ],
+          "6": [
+            "Moon",
+            "Upaketu"
+          ],
+          "7": [
+            "Saturn",
+            "Vyatipata",
+            "Gulika"
+          ],
+          "8": [
+            "Uranus",
+            "Dhuma"
+          ],
+          "9": [],
+          "10": [],
+          "11": [
+            "Rahu"
+          ],
+          "12": [
+            "Mercury"
+          ]
+        },
+        "planetDistribution": [
+          {
+            "name": "Sun",
+            "sign": "Virgo",
+            "degree": 5.5058,
+            "absoluteLongitude": 125.505847,
+            "house": 1,
+            "nakshatra": "Magha",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Moon",
+            "sign": "Aquarius",
+            "degree": 11.78,
+            "absoluteLongitude": 251.779967,
+            "house": 6,
+            "nakshatra": "Mula",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Mars",
+            "sign": "Libra",
+            "degree": 1.7824,
+            "absoluteLongitude": 181.782361,
+            "house": 2,
+            "nakshatra": "Chitra",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Mercury",
+            "sign": "Leo",
+            "degree": 0.9285,
+            "absoluteLongitude": 120.928454,
+            "house": 12,
+            "nakshatra": "Magha",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Jupiter",
+            "sign": "Capricorn",
+            "degree": 22.3669,
+            "absoluteLongitude": 142.366878,
+            "house": 5,
+            "nakshatra": "Purva Phalguni",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Venus",
+            "sign": "Libra",
+            "degree": 19.7594,
+            "absoluteLongitude": 79.759383,
+            "house": 2,
+            "nakshatra": "Ardra",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Saturn",
+            "sign": "Pisces",
+            "degree": 2.7388,
+            "absoluteLongitude": 152.738848,
+            "house": 7,
+            "nakshatra": "Uttara Phalguni",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Rahu",
+            "sign": "Cancer",
+            "degree": 26.6114,
+            "absoluteLongitude": 116.61135,
+            "house": 11,
+            "nakshatra": "Ashlesha",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Ketu",
+            "sign": "Capricorn",
+            "degree": 26.6114,
+            "absoluteLongitude": 296.61135,
+            "house": 5,
+            "nakshatra": "Dhanishta",
+            "pada": 1,
+            "retrograde": true,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Uranus",
+            "sign": "Aries",
+            "degree": 28.1359,
+            "absoluteLongitude": 208.135886,
+            "house": 8,
+            "nakshatra": "Vishakha",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for sudden change, innovation, disruption, and unusual independence.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Neptune",
+            "sign": "Scorpio",
+            "degree": 26.346,
+            "absoluteLongitude": 236.346019,
+            "house": 3,
+            "nakshatra": "Jyeshtha",
+            "pada": 3,
+            "retrograde": true,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for imagination, confusion, spirituality, and subtle sensitivity.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Pluto",
+            "sign": "Virgo",
+            "degree": 26.1809,
+            "absoluteLongitude": 176.18088,
+            "house": 1,
+            "nakshatra": "Chitra",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for deep transformation, pressure, power, and rebirth patterns.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Dhuma",
+            "sign": "Aries",
+            "degree": 18.8392,
+            "absoluteLongitude": 258.83918,
+            "house": 8,
+            "nakshatra": "Purva Ashadha",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for heat, pressure, and karmic smoke.",
+            "calculationNote": "Dhuma is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Vyatipata",
+            "sign": "Pisces",
+            "degree": 11.1608,
+            "absoluteLongitude": 101.16082,
+            "house": 7,
+            "nakshatra": "Pushya",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for reversal and imbalance.",
+            "calculationNote": "Vyatipata is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Parivesha",
+            "sign": "Virgo",
+            "degree": 11.1608,
+            "absoluteLongitude": 281.16082,
+            "house": 1,
+            "nakshatra": "Shravana",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for enclosure and protection themes.",
+            "calculationNote": "Parivesha is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Indrachapa",
+            "sign": "Libra",
+            "degree": 18.8392,
+            "absoluteLongitude": 78.83918,
+            "house": 2,
+            "nakshatra": "Ardra",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for desire, projection, and atmospheric signals.",
+            "calculationNote": "Indrachapa is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Upaketu",
+            "sign": "Aquarius",
+            "degree": 5.5058,
+            "absoluteLongitude": 95.505847,
+            "house": 6,
+            "nakshatra": "Pushya",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement linked with Ketu-like detachment signals.",
+            "calculationNote": "Upaketu is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Gulika",
+            "sign": "Pisces",
+            "degree": 1.8118,
+            "absoluteLongitude": 151.811825,
+            "house": 7,
+            "nakshatra": "Uttara Phalguni",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "upagraha",
+            "simpleMeaning": "Upagraha refinement used for karmic pressure, discipline, and sensitive house reading.",
+            "calculationNote": "Gulika is calculated from the Saturn segment boundary of the local day/night. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Mandi",
+            "sign": "Capricorn",
+            "degree": 0.9498,
+            "absoluteLongitude": 90.94983,
+            "house": 5,
+            "nakshatra": "Punarvasu",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "upagraha",
+            "simpleMeaning": "Upagraha refinement used for difficult karmic residue and careful house judgement.",
+            "calculationNote": "Mandi is calculated from the Saturn segment boundary of the local day/night. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          }
+        ],
+        "supported": true,
+        "unsupportedReason": null
+      },
+      "D8": {
+        "chartType": "D8",
+        "name": "D8",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D9": {
+        "chartType": "D9",
+        "name": "Navamsha Chart",
+        "ascendantSign": "Gemini",
+        "signPlacements": {
+          "Aries": [
+            "Mercury",
+            "Parivesha"
+          ],
+          "Taurus": [
+            "Sun"
+          ],
+          "Gemini": [
+            "Uranus"
+          ],
+          "Cancer": [
+            "Moon",
+            "Mandi"
+          ],
+          "Leo": [
+            "Ketu",
+            "Pluto",
+            "Upaketu"
+          ],
+          "Virgo": [
+            "Dhuma"
+          ],
+          "Libra": [
+            "Mars",
+            "Jupiter",
+            "Vyatipata"
+          ],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [
+            "Saturn",
+            "Gulika"
+          ],
+          "Aquarius": [
+            "Rahu",
+            "Neptune"
+          ],
+          "Pisces": [
+            "Venus",
+            "Indrachapa"
+          ]
+        },
+        "housePlacements": {
+          "1": [
+            "Uranus"
+          ],
+          "2": [
+            "Moon",
+            "Mandi"
+          ],
+          "3": [
+            "Ketu",
+            "Pluto",
+            "Upaketu"
+          ],
+          "4": [
+            "Dhuma"
+          ],
+          "5": [
+            "Mars",
+            "Jupiter",
+            "Vyatipata"
+          ],
+          "6": [],
+          "7": [],
+          "8": [
+            "Saturn",
+            "Gulika"
+          ],
+          "9": [
+            "Rahu",
+            "Neptune"
+          ],
+          "10": [
+            "Venus",
+            "Indrachapa"
+          ],
+          "11": [
+            "Mercury",
+            "Parivesha"
+          ],
+          "12": [
+            "Sun"
+          ]
+        },
+        "planetDistribution": [
+          {
+            "name": "Sun",
+            "sign": "Taurus",
+            "degree": 5.5058,
+            "absoluteLongitude": 125.505847,
+            "house": 12,
+            "nakshatra": "Magha",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Moon",
+            "sign": "Cancer",
+            "degree": 11.78,
+            "absoluteLongitude": 251.779967,
+            "house": 2,
+            "nakshatra": "Mula",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Mars",
+            "sign": "Libra",
+            "degree": 1.7824,
+            "absoluteLongitude": 181.782361,
+            "house": 5,
+            "nakshatra": "Chitra",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Mercury",
+            "sign": "Aries",
+            "degree": 0.9285,
+            "absoluteLongitude": 120.928454,
+            "house": 11,
+            "nakshatra": "Magha",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Jupiter",
+            "sign": "Libra",
+            "degree": 22.3669,
+            "absoluteLongitude": 142.366878,
+            "house": 5,
+            "nakshatra": "Purva Phalguni",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Venus",
+            "sign": "Pisces",
+            "degree": 19.7594,
+            "absoluteLongitude": 79.759383,
+            "house": 10,
+            "nakshatra": "Ardra",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Saturn",
+            "sign": "Capricorn",
+            "degree": 2.7388,
+            "absoluteLongitude": 152.738848,
+            "house": 8,
+            "nakshatra": "Uttara Phalguni",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Rahu",
+            "sign": "Aquarius",
+            "degree": 26.6114,
+            "absoluteLongitude": 116.61135,
+            "house": 9,
+            "nakshatra": "Ashlesha",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Ketu",
+            "sign": "Leo",
+            "degree": 26.6114,
+            "absoluteLongitude": 296.61135,
+            "house": 3,
+            "nakshatra": "Dhanishta",
+            "pada": 1,
+            "retrograde": true,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Uranus",
+            "sign": "Gemini",
+            "degree": 28.1359,
+            "absoluteLongitude": 208.135886,
+            "house": 1,
+            "nakshatra": "Vishakha",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for sudden change, innovation, disruption, and unusual independence.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Neptune",
+            "sign": "Aquarius",
+            "degree": 26.346,
+            "absoluteLongitude": 236.346019,
+            "house": 9,
+            "nakshatra": "Jyeshtha",
+            "pada": 3,
+            "retrograde": true,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for imagination, confusion, spirituality, and subtle sensitivity.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Pluto",
+            "sign": "Leo",
+            "degree": 26.1809,
+            "absoluteLongitude": 176.18088,
+            "house": 3,
+            "nakshatra": "Chitra",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for deep transformation, pressure, power, and rebirth patterns.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Dhuma",
+            "sign": "Virgo",
+            "degree": 18.8392,
+            "absoluteLongitude": 258.83918,
+            "house": 4,
+            "nakshatra": "Purva Ashadha",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for heat, pressure, and karmic smoke.",
+            "calculationNote": "Dhuma is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Vyatipata",
+            "sign": "Libra",
+            "degree": 11.1608,
+            "absoluteLongitude": 101.16082,
+            "house": 5,
+            "nakshatra": "Pushya",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for reversal and imbalance.",
+            "calculationNote": "Vyatipata is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Parivesha",
+            "sign": "Aries",
+            "degree": 11.1608,
+            "absoluteLongitude": 281.16082,
+            "house": 11,
+            "nakshatra": "Shravana",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for enclosure and protection themes.",
+            "calculationNote": "Parivesha is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Indrachapa",
+            "sign": "Pisces",
+            "degree": 18.8392,
+            "absoluteLongitude": 78.83918,
+            "house": 10,
+            "nakshatra": "Ardra",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for desire, projection, and atmospheric signals.",
+            "calculationNote": "Indrachapa is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Upaketu",
+            "sign": "Leo",
+            "degree": 5.5058,
+            "absoluteLongitude": 95.505847,
+            "house": 3,
+            "nakshatra": "Pushya",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement linked with Ketu-like detachment signals.",
+            "calculationNote": "Upaketu is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Gulika",
+            "sign": "Capricorn",
+            "degree": 1.8118,
+            "absoluteLongitude": 151.811825,
+            "house": 8,
+            "nakshatra": "Uttara Phalguni",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "upagraha",
+            "simpleMeaning": "Upagraha refinement used for karmic pressure, discipline, and sensitive house reading.",
+            "calculationNote": "Gulika is calculated from the Saturn segment boundary of the local day/night. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Mandi",
+            "sign": "Cancer",
+            "degree": 0.9498,
+            "absoluteLongitude": 90.94983,
+            "house": 2,
+            "nakshatra": "Punarvasu",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "upagraha",
+            "simpleMeaning": "Upagraha refinement used for difficult karmic residue and careful house judgement.",
+            "calculationNote": "Mandi is calculated from the Saturn segment boundary of the local day/night. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          }
+        ],
+        "supported": true,
+        "unsupportedReason": null
+      },
+      "D10": {
+        "chartType": "D10",
+        "name": "Dashamsha Chart",
+        "ascendantSign": "Libra",
+        "signPlacements": {
+          "Aries": [
+            "Upaketu"
+          ],
+          "Taurus": [
+            "Saturn",
+            "Ketu",
+            "Gulika"
+          ],
+          "Gemini": [
+            "Dhuma",
+            "Vyatipata"
+          ],
+          "Cancer": [
+            "Uranus"
+          ],
+          "Leo": [
+            "Mercury"
+          ],
+          "Virgo": [
+            "Sun"
+          ],
+          "Libra": [
+            "Mars"
+          ],
+          "Scorpio": [
+            "Rahu"
+          ],
+          "Sagittarius": [
+            "Venus",
+            "Parivesha",
+            "Indrachapa"
+          ],
+          "Capricorn": [
+            "Pluto"
+          ],
+          "Aquarius": [],
+          "Pisces": [
+            "Moon",
+            "Jupiter",
+            "Neptune",
+            "Mandi"
+          ]
+        },
+        "housePlacements": {
+          "1": [
+            "Mars"
+          ],
+          "2": [
+            "Rahu"
+          ],
+          "3": [
+            "Venus",
+            "Parivesha",
+            "Indrachapa"
+          ],
+          "4": [
+            "Pluto"
+          ],
+          "5": [],
+          "6": [
+            "Moon",
+            "Jupiter",
+            "Neptune",
+            "Mandi"
+          ],
+          "7": [
+            "Upaketu"
+          ],
+          "8": [
+            "Saturn",
+            "Ketu",
+            "Gulika"
+          ],
+          "9": [
+            "Dhuma",
+            "Vyatipata"
+          ],
+          "10": [
+            "Uranus"
+          ],
+          "11": [
+            "Mercury"
+          ],
+          "12": [
+            "Sun"
+          ]
+        },
+        "planetDistribution": [
+          {
+            "name": "Sun",
+            "sign": "Virgo",
+            "degree": 5.5058,
+            "absoluteLongitude": 125.505847,
+            "house": 12,
+            "nakshatra": "Magha",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Moon",
+            "sign": "Pisces",
+            "degree": 11.78,
+            "absoluteLongitude": 251.779967,
+            "house": 6,
+            "nakshatra": "Mula",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Mars",
+            "sign": "Libra",
+            "degree": 1.7824,
+            "absoluteLongitude": 181.782361,
+            "house": 1,
+            "nakshatra": "Chitra",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Mercury",
+            "sign": "Leo",
+            "degree": 0.9285,
+            "absoluteLongitude": 120.928454,
+            "house": 11,
+            "nakshatra": "Magha",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Jupiter",
+            "sign": "Pisces",
+            "degree": 22.3669,
+            "absoluteLongitude": 142.366878,
+            "house": 6,
+            "nakshatra": "Purva Phalguni",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Venus",
+            "sign": "Sagittarius",
+            "degree": 19.7594,
+            "absoluteLongitude": 79.759383,
+            "house": 3,
+            "nakshatra": "Ardra",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Saturn",
+            "sign": "Taurus",
+            "degree": 2.7388,
+            "absoluteLongitude": 152.738848,
+            "house": 8,
+            "nakshatra": "Uttara Phalguni",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Rahu",
+            "sign": "Scorpio",
+            "degree": 26.6114,
+            "absoluteLongitude": 116.61135,
+            "house": 2,
+            "nakshatra": "Ashlesha",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Ketu",
+            "sign": "Taurus",
+            "degree": 26.6114,
+            "absoluteLongitude": 296.61135,
+            "house": 8,
+            "nakshatra": "Dhanishta",
+            "pada": 1,
+            "retrograde": true,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Uranus",
+            "sign": "Cancer",
+            "degree": 28.1359,
+            "absoluteLongitude": 208.135886,
+            "house": 10,
+            "nakshatra": "Vishakha",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for sudden change, innovation, disruption, and unusual independence.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Neptune",
+            "sign": "Pisces",
+            "degree": 26.346,
+            "absoluteLongitude": 236.346019,
+            "house": 6,
+            "nakshatra": "Jyeshtha",
+            "pada": 3,
+            "retrograde": true,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for imagination, confusion, spirituality, and subtle sensitivity.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Pluto",
+            "sign": "Capricorn",
+            "degree": 26.1809,
+            "absoluteLongitude": 176.18088,
+            "house": 4,
+            "nakshatra": "Chitra",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for deep transformation, pressure, power, and rebirth patterns.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Dhuma",
+            "sign": "Gemini",
+            "degree": 18.8392,
+            "absoluteLongitude": 258.83918,
+            "house": 9,
+            "nakshatra": "Purva Ashadha",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for heat, pressure, and karmic smoke.",
+            "calculationNote": "Dhuma is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Vyatipata",
+            "sign": "Gemini",
+            "degree": 11.1608,
+            "absoluteLongitude": 101.16082,
+            "house": 9,
+            "nakshatra": "Pushya",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for reversal and imbalance.",
+            "calculationNote": "Vyatipata is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Parivesha",
+            "sign": "Sagittarius",
+            "degree": 11.1608,
+            "absoluteLongitude": 281.16082,
+            "house": 3,
+            "nakshatra": "Shravana",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for enclosure and protection themes.",
+            "calculationNote": "Parivesha is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Indrachapa",
+            "sign": "Sagittarius",
+            "degree": 18.8392,
+            "absoluteLongitude": 78.83918,
+            "house": 3,
+            "nakshatra": "Ardra",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for desire, projection, and atmospheric signals.",
+            "calculationNote": "Indrachapa is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Upaketu",
+            "sign": "Aries",
+            "degree": 5.5058,
+            "absoluteLongitude": 95.505847,
+            "house": 7,
+            "nakshatra": "Pushya",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement linked with Ketu-like detachment signals.",
+            "calculationNote": "Upaketu is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Gulika",
+            "sign": "Taurus",
+            "degree": 1.8118,
+            "absoluteLongitude": 151.811825,
+            "house": 8,
+            "nakshatra": "Uttara Phalguni",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "upagraha",
+            "simpleMeaning": "Upagraha refinement used for karmic pressure, discipline, and sensitive house reading.",
+            "calculationNote": "Gulika is calculated from the Saturn segment boundary of the local day/night. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Mandi",
+            "sign": "Pisces",
+            "degree": 0.9498,
+            "absoluteLongitude": 90.94983,
+            "house": 6,
+            "nakshatra": "Punarvasu",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "upagraha",
+            "simpleMeaning": "Upagraha refinement used for difficult karmic residue and careful house judgement.",
+            "calculationNote": "Mandi is calculated from the Saturn segment boundary of the local day/night. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          }
+        ],
+        "supported": true,
+        "unsupportedReason": null
+      },
+      "D11": {
+        "chartType": "D11",
+        "name": "D11",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D12": {
+        "chartType": "D12",
+        "name": "Dwadashamsha Chart",
+        "ascendantSign": "Libra",
+        "signPlacements": {
+          "Aries": [
+            "Moon",
+            "Jupiter"
+          ],
+          "Taurus": [
+            "Rahu",
+            "Parivesha"
+          ],
+          "Gemini": [],
+          "Cancer": [
+            "Pluto",
+            "Dhuma",
+            "Mandi"
+          ],
+          "Leo": [
+            "Mercury"
+          ],
+          "Virgo": [
+            "Uranus",
+            "Neptune",
+            "Upaketu",
+            "Gulika"
+          ],
+          "Libra": [
+            "Sun",
+            "Mars",
+            "Saturn"
+          ],
+          "Scorpio": [
+            "Ketu",
+            "Vyatipata"
+          ],
+          "Sagittarius": [],
+          "Capricorn": [
+            "Venus",
+            "Indrachapa"
+          ],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [
+            "Sun",
+            "Mars",
+            "Saturn"
+          ],
+          "2": [
+            "Ketu",
+            "Vyatipata"
+          ],
+          "3": [],
+          "4": [
+            "Venus",
+            "Indrachapa"
+          ],
+          "5": [],
+          "6": [],
+          "7": [
+            "Moon",
+            "Jupiter"
+          ],
+          "8": [
+            "Rahu",
+            "Parivesha"
+          ],
+          "9": [],
+          "10": [
+            "Pluto",
+            "Dhuma",
+            "Mandi"
+          ],
+          "11": [
+            "Mercury"
+          ],
+          "12": [
+            "Uranus",
+            "Neptune",
+            "Upaketu",
+            "Gulika"
+          ]
+        },
+        "planetDistribution": [
+          {
+            "name": "Sun",
+            "sign": "Libra",
+            "degree": 5.5058,
+            "absoluteLongitude": 125.505847,
+            "house": 1,
+            "nakshatra": "Magha",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Moon",
+            "sign": "Aries",
+            "degree": 11.78,
+            "absoluteLongitude": 251.779967,
+            "house": 7,
+            "nakshatra": "Mula",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Mars",
+            "sign": "Libra",
+            "degree": 1.7824,
+            "absoluteLongitude": 181.782361,
+            "house": 1,
+            "nakshatra": "Chitra",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Mercury",
+            "sign": "Leo",
+            "degree": 0.9285,
+            "absoluteLongitude": 120.928454,
+            "house": 11,
+            "nakshatra": "Magha",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Jupiter",
+            "sign": "Aries",
+            "degree": 22.3669,
+            "absoluteLongitude": 142.366878,
+            "house": 7,
+            "nakshatra": "Purva Phalguni",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Venus",
+            "sign": "Capricorn",
+            "degree": 19.7594,
+            "absoluteLongitude": 79.759383,
+            "house": 4,
+            "nakshatra": "Ardra",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Saturn",
+            "sign": "Libra",
+            "degree": 2.7388,
+            "absoluteLongitude": 152.738848,
+            "house": 1,
+            "nakshatra": "Uttara Phalguni",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Rahu",
+            "sign": "Taurus",
+            "degree": 26.6114,
+            "absoluteLongitude": 116.61135,
+            "house": 8,
+            "nakshatra": "Ashlesha",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Ketu",
+            "sign": "Scorpio",
+            "degree": 26.6114,
+            "absoluteLongitude": 296.61135,
+            "house": 2,
+            "nakshatra": "Dhanishta",
+            "pada": 1,
+            "retrograde": true,
+            "kind": "classical",
+            "simpleMeaning": null,
+            "calculationNote": null
+          },
+          {
+            "name": "Uranus",
+            "sign": "Virgo",
+            "degree": 28.1359,
+            "absoluteLongitude": 208.135886,
+            "house": 12,
+            "nakshatra": "Vishakha",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for sudden change, innovation, disruption, and unusual independence.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Neptune",
+            "sign": "Virgo",
+            "degree": 26.346,
+            "absoluteLongitude": 236.346019,
+            "house": 12,
+            "nakshatra": "Jyeshtha",
+            "pada": 3,
+            "retrograde": true,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for imagination, confusion, spirituality, and subtle sensitivity.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Pluto",
+            "sign": "Cancer",
+            "degree": 26.1809,
+            "absoluteLongitude": 176.18088,
+            "house": 10,
+            "nakshatra": "Chitra",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "modern",
+            "simpleMeaning": "Modern refinement for deep transformation, pressure, power, and rebirth patterns.",
+            "calculationNote": "Calculated with Swiss Ephemeris as a modern outer-planet refinement. Use as supporting context, not as the main Vedic judgement."
+          },
+          {
+            "name": "Dhuma",
+            "sign": "Cancer",
+            "degree": 18.8392,
+            "absoluteLongitude": 258.83918,
+            "house": 10,
+            "nakshatra": "Purva Ashadha",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for heat, pressure, and karmic smoke.",
+            "calculationNote": "Dhuma is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Vyatipata",
+            "sign": "Scorpio",
+            "degree": 11.1608,
+            "absoluteLongitude": 101.16082,
+            "house": 2,
+            "nakshatra": "Pushya",
+            "pada": 3,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for reversal and imbalance.",
+            "calculationNote": "Vyatipata is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Parivesha",
+            "sign": "Taurus",
+            "degree": 11.1608,
+            "absoluteLongitude": 281.16082,
+            "house": 8,
+            "nakshatra": "Shravana",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for enclosure and protection themes.",
+            "calculationNote": "Parivesha is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Indrachapa",
+            "sign": "Capricorn",
+            "degree": 18.8392,
+            "absoluteLongitude": 78.83918,
+            "house": 4,
+            "nakshatra": "Ardra",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement for desire, projection, and atmospheric signals.",
+            "calculationNote": "Indrachapa is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Upaketu",
+            "sign": "Virgo",
+            "degree": 5.5058,
+            "absoluteLongitude": 95.505847,
+            "house": 12,
+            "nakshatra": "Pushya",
+            "pada": 1,
+            "retrograde": false,
+            "kind": "sensitive",
+            "simpleMeaning": "Solar sensitive point used as a subtle refinement linked with Ketu-like detachment signals.",
+            "calculationNote": "Upaketu is derived from the sidereal Sun longitude. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Gulika",
+            "sign": "Virgo",
+            "degree": 1.8118,
+            "absoluteLongitude": 151.811825,
+            "house": 12,
+            "nakshatra": "Uttara Phalguni",
+            "pada": 2,
+            "retrograde": false,
+            "kind": "upagraha",
+            "simpleMeaning": "Upagraha refinement used for karmic pressure, discipline, and sensitive house reading.",
+            "calculationNote": "Gulika is calculated from the Saturn segment boundary of the local day/night. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          },
+          {
+            "name": "Mandi",
+            "sign": "Cancer",
+            "degree": 0.9498,
+            "absoluteLongitude": 90.94983,
+            "house": 10,
+            "nakshatra": "Punarvasu",
+            "pada": 4,
+            "retrograde": false,
+            "kind": "upagraha",
+            "simpleMeaning": "Upagraha refinement used for difficult karmic residue and careful house judgement.",
+            "calculationNote": "Mandi is calculated from the Saturn segment boundary of the local day/night. Calculated as a sensitive Jyotish refinement. Classical planets, Lagna, dasha, and chart context remain primary."
+          }
+        ],
+        "supported": true,
+        "unsupportedReason": null
+      },
+      "D13": {
+        "chartType": "D13",
+        "name": "D13",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D15": {
+        "chartType": "D15",
+        "name": "D15",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D16": {
+        "chartType": "D16",
+        "name": "D16",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D17": {
+        "chartType": "D17",
+        "name": "D17",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D18": {
+        "chartType": "D18",
+        "name": "D18",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D19": {
+        "chartType": "D19",
+        "name": "D19",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D20": {
+        "chartType": "D20",
+        "name": "D20",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D21": {
+        "chartType": "D21",
+        "name": "D21",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D22": {
+        "chartType": "D22",
+        "name": "D22",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D23": {
+        "chartType": "D23",
+        "name": "D23",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D24": {
+        "chartType": "D24",
+        "name": "D24",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D25": {
+        "chartType": "D25",
+        "name": "D25",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D26": {
+        "chartType": "D26",
+        "name": "D26",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D27": {
+        "chartType": "D27",
+        "name": "D27",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D28": {
+        "chartType": "D28",
+        "name": "D28",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D29": {
+        "chartType": "D29",
+        "name": "D29",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D30": {
+        "chartType": "D30",
+        "name": "D30",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D31": {
+        "chartType": "D31",
+        "name": "D31",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D32": {
+        "chartType": "D32",
+        "name": "D32",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D33": {
+        "chartType": "D33",
+        "name": "D33",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D34": {
+        "chartType": "D34",
+        "name": "D34",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D40": {
+        "chartType": "D40",
+        "name": "D40",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D45": {
+        "chartType": "D45",
+        "name": "D45",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      },
+      "D60": {
+        "chartType": "D60",
+        "name": "D60",
+        "ascendantSign": "Leo",
+        "signPlacements": {
+          "Aries": [],
+          "Taurus": [],
+          "Gemini": [],
+          "Cancer": [],
+          "Leo": [],
+          "Virgo": [],
+          "Libra": [],
+          "Scorpio": [],
+          "Sagittarius": [],
+          "Capricorn": [],
+          "Aquarius": [],
+          "Pisces": []
+        },
+        "housePlacements": {
+          "1": [],
+          "2": [],
+          "3": [],
+          "4": [],
+          "5": [],
+          "6": [],
+          "7": [],
+          "8": [],
+          "9": [],
+          "10": [],
+          "11": [],
+          "12": []
+        },
+        "planetDistribution": [],
+        "supported": false,
+        "unsupportedReason": "Predicta is still reviewing this chart before using it for guidance."
+      }
+    },
+    "chalit": {
+      "status": "ready",
+      "houseSystem": "EQUAL_BHAVA_FROM_LAGNA_DEGREE",
+      "ayanamsa": "LAHIRI",
+      "ascendantDegree": 6.6993,
+      "description": "Parashari Chalit keeps the planet's rashi sign from D1, but refines house delivery using the Lagna degree as the midpoint of the first bhava.",
+      "cusps": [
+        {
+          "house": 1,
+          "midpointLongitude": 126.699335,
+          "startLongitude": 111.699335,
+          "endLongitude": 141.699335,
+          "sign": "Leo",
+          "degree": 6.6993
+        },
+        {
+          "house": 2,
+          "midpointLongitude": 156.699335,
+          "startLongitude": 141.699335,
+          "endLongitude": 171.699335,
+          "sign": "Virgo",
+          "degree": 6.6993
+        },
+        {
+          "house": 3,
+          "midpointLongitude": 186.699335,
+          "startLongitude": 171.699335,
+          "endLongitude": 201.699335,
+          "sign": "Libra",
+          "degree": 6.6993
+        },
+        {
+          "house": 4,
+          "midpointLongitude": 216.699335,
+          "startLongitude": 201.699335,
+          "endLongitude": 231.699335,
+          "sign": "Scorpio",
+          "degree": 6.6993
+        },
+        {
+          "house": 5,
+          "midpointLongitude": 246.699335,
+          "startLongitude": 231.699335,
+          "endLongitude": 261.699335,
+          "sign": "Sagittarius",
+          "degree": 6.6993
+        },
+        {
+          "house": 6,
+          "midpointLongitude": 276.699335,
+          "startLongitude": 261.699335,
+          "endLongitude": 291.699335,
+          "sign": "Capricorn",
+          "degree": 6.6993
+        },
+        {
+          "house": 7,
+          "midpointLongitude": 306.699335,
+          "startLongitude": 291.699335,
+          "endLongitude": 321.699335,
+          "sign": "Aquarius",
+          "degree": 6.6993
+        },
+        {
+          "house": 8,
+          "midpointLongitude": 336.699335,
+          "startLongitude": 321.699335,
+          "endLongitude": 351.699335,
+          "sign": "Pisces",
+          "degree": 6.6993
+        },
+        {
+          "house": 9,
+          "midpointLongitude": 6.699335,
+          "startLongitude": 351.699335,
+          "endLongitude": 21.699335,
+          "sign": "Aries",
+          "degree": 6.6993
+        },
+        {
+          "house": 10,
+          "midpointLongitude": 36.699335,
+          "startLongitude": 21.699335,
+          "endLongitude": 51.699335,
+          "sign": "Taurus",
+          "degree": 6.6993
+        },
+        {
+          "house": 11,
+          "midpointLongitude": 66.699335,
+          "startLongitude": 51.699335,
+          "endLongitude": 81.699335,
+          "sign": "Gemini",
+          "degree": 6.6993
+        },
+        {
+          "house": 12,
+          "midpointLongitude": 96.699335,
+          "startLongitude": 81.699335,
+          "endLongitude": 111.699335,
+          "sign": "Cancer",
+          "degree": 6.6993
+        }
+      ],
+      "planetPlacements": [
+        {
+          "planet": "Sun",
+          "rashiHouse": 1,
+          "chalitHouse": 1,
+          "rashiSign": "Leo",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 125.505847
+        },
+        {
+          "planet": "Moon",
+          "rashiHouse": 5,
+          "chalitHouse": 5,
+          "rashiSign": "Sagittarius",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 251.779967
+        },
+        {
+          "planet": "Mars",
+          "rashiHouse": 3,
+          "chalitHouse": 3,
+          "rashiSign": "Libra",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 181.782361
+        },
+        {
+          "planet": "Mercury",
+          "rashiHouse": 1,
+          "chalitHouse": 1,
+          "rashiSign": "Leo",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 120.928454
+        },
+        {
+          "planet": "Jupiter",
+          "rashiHouse": 1,
+          "chalitHouse": 2,
+          "rashiSign": "Leo",
+          "shifted": true,
+          "shiftDirection": "next",
+          "absoluteLongitude": 142.366878
+        },
+        {
+          "planet": "Venus",
+          "rashiHouse": 11,
+          "chalitHouse": 11,
+          "rashiSign": "Gemini",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 79.759383
+        },
+        {
+          "planet": "Saturn",
+          "rashiHouse": 2,
+          "chalitHouse": 2,
+          "rashiSign": "Virgo",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 152.738848
+        },
+        {
+          "planet": "Rahu",
+          "rashiHouse": 12,
+          "chalitHouse": 1,
+          "rashiSign": "Cancer",
+          "shifted": true,
+          "shiftDirection": "next",
+          "absoluteLongitude": 116.61135
+        },
+        {
+          "planet": "Ketu",
+          "rashiHouse": 6,
+          "chalitHouse": 7,
+          "rashiSign": "Capricorn",
+          "shifted": true,
+          "shiftDirection": "next",
+          "absoluteLongitude": 296.61135
+        },
+        {
+          "planet": "Uranus",
+          "rashiHouse": 3,
+          "chalitHouse": 4,
+          "rashiSign": "Libra",
+          "shifted": true,
+          "shiftDirection": "next",
+          "absoluteLongitude": 208.135886
+        },
+        {
+          "planet": "Neptune",
+          "rashiHouse": 4,
+          "chalitHouse": 5,
+          "rashiSign": "Scorpio",
+          "shifted": true,
+          "shiftDirection": "next",
+          "absoluteLongitude": 236.346019
+        },
+        {
+          "planet": "Pluto",
+          "rashiHouse": 2,
+          "chalitHouse": 3,
+          "rashiSign": "Virgo",
+          "shifted": true,
+          "shiftDirection": "next",
+          "absoluteLongitude": 176.18088
+        },
+        {
+          "planet": "Dhuma",
+          "rashiHouse": 5,
+          "chalitHouse": 5,
+          "rashiSign": "Sagittarius",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 258.83918
+        },
+        {
+          "planet": "Vyatipata",
+          "rashiHouse": 12,
+          "chalitHouse": 12,
+          "rashiSign": "Cancer",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 101.16082
+        },
+        {
+          "planet": "Parivesha",
+          "rashiHouse": 6,
+          "chalitHouse": 6,
+          "rashiSign": "Capricorn",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 281.16082
+        },
+        {
+          "planet": "Indrachapa",
+          "rashiHouse": 11,
+          "chalitHouse": 11,
+          "rashiSign": "Gemini",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 78.83918
+        },
+        {
+          "planet": "Upaketu",
+          "rashiHouse": 12,
+          "chalitHouse": 12,
+          "rashiSign": "Cancer",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 95.505847
+        },
+        {
+          "planet": "Gulika",
+          "rashiHouse": 2,
+          "chalitHouse": 2,
+          "rashiSign": "Virgo",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 151.811825
+        },
+        {
+          "planet": "Mandi",
+          "rashiHouse": 12,
+          "chalitHouse": 12,
+          "rashiSign": "Cancer",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 90.94983
+        }
+      ],
+      "shifts": [
+        {
+          "planet": "Jupiter",
+          "rashiHouse": 1,
+          "chalitHouse": 2,
+          "rashiSign": "Leo",
+          "shifted": true,
+          "shiftDirection": "next",
+          "absoluteLongitude": 142.366878
+        },
+        {
+          "planet": "Rahu",
+          "rashiHouse": 12,
+          "chalitHouse": 1,
+          "rashiSign": "Cancer",
+          "shifted": true,
+          "shiftDirection": "next",
+          "absoluteLongitude": 116.61135
+        },
+        {
+          "planet": "Ketu",
+          "rashiHouse": 6,
+          "chalitHouse": 7,
+          "rashiSign": "Capricorn",
+          "shifted": true,
+          "shiftDirection": "next",
+          "absoluteLongitude": 296.61135
+        },
+        {
+          "planet": "Uranus",
+          "rashiHouse": 3,
+          "chalitHouse": 4,
+          "rashiSign": "Libra",
+          "shifted": true,
+          "shiftDirection": "next",
+          "absoluteLongitude": 208.135886
+        },
+        {
+          "planet": "Neptune",
+          "rashiHouse": 4,
+          "chalitHouse": 5,
+          "rashiSign": "Scorpio",
+          "shifted": true,
+          "shiftDirection": "next",
+          "absoluteLongitude": 236.346019
+        },
+        {
+          "planet": "Pluto",
+          "rashiHouse": 2,
+          "chalitHouse": 3,
+          "rashiSign": "Virgo",
+          "shifted": true,
+          "shiftDirection": "next",
+          "absoluteLongitude": 176.18088
+        }
+      ],
+      "limitations": [
+        "Chalit refines house delivery; it does not change the planet's sign.",
+        "D1 Rashi remains the root chart. Chalit is used to refine which bhava receives the result.",
+        "Very small birth-time changes can shift planets near bhava boundaries."
+      ]
+    },
+    "bhavChalit": {
+      "status": "ready",
+      "houseSystem": "PLACIDUS",
+      "ayanamsa": "LAHIRI",
+      "description": "KP Bhava/cusp data uses Placidus-style cusps for star-lord, sub-lord, significator, and event-timing judgement.",
+      "cusps": [
+        {
+          "house": 1,
+          "longitude": 126.699335,
+          "sign": "Leo",
+          "degree": 6.6993,
+          "signLord": "Sun"
+        },
+        {
+          "house": 2,
+          "longitude": 154.802523,
+          "sign": "Virgo",
+          "degree": 4.8025,
+          "signLord": "Mercury"
+        },
+        {
+          "house": 3,
+          "longitude": 185.532755,
+          "sign": "Libra",
+          "degree": 5.5328,
+          "signLord": "Venus"
+        },
+        {
+          "house": 4,
+          "longitude": 216.946865,
+          "sign": "Scorpio",
+          "degree": 6.9469,
+          "signLord": "Mars"
+        },
+        {
+          "house": 5,
+          "longitude": 247.558583,
+          "sign": "Sagittarius",
+          "degree": 7.5586,
+          "signLord": "Jupiter"
+        },
+        {
+          "house": 6,
+          "longitude": 277.374317,
+          "sign": "Capricorn",
+          "degree": 7.3743,
+          "signLord": "Saturn"
+        },
+        {
+          "house": 7,
+          "longitude": 306.699335,
+          "sign": "Aquarius",
+          "degree": 6.6993,
+          "signLord": "Saturn"
+        },
+        {
+          "house": 8,
+          "longitude": 334.802523,
+          "sign": "Pisces",
+          "degree": 4.8025,
+          "signLord": "Jupiter"
+        },
+        {
+          "house": 9,
+          "longitude": 5.532755,
+          "sign": "Aries",
+          "degree": 5.5328,
+          "signLord": "Mars"
+        },
+        {
+          "house": 10,
+          "longitude": 36.946865,
+          "sign": "Taurus",
+          "degree": 6.9469,
+          "signLord": "Venus"
+        },
+        {
+          "house": 11,
+          "longitude": 67.558583,
+          "sign": "Gemini",
+          "degree": 7.5586,
+          "signLord": "Mercury"
+        },
+        {
+          "house": 12,
+          "longitude": 97.374317,
+          "sign": "Cancer",
+          "degree": 7.3743,
+          "signLord": "Moon"
+        }
+      ],
+      "planetPlacements": [
+        {
+          "planet": "Sun",
+          "rashiHouse": 1,
+          "bhavHouse": 12,
+          "rashiSign": "Leo",
+          "bhavCuspSign": "Cancer",
+          "shifted": true,
+          "shiftDirection": "previous",
+          "absoluteLongitude": 125.505847
+        },
+        {
+          "planet": "Moon",
+          "rashiHouse": 5,
+          "bhavHouse": 5,
+          "rashiSign": "Sagittarius",
+          "bhavCuspSign": "Sagittarius",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 251.779967
+        },
+        {
+          "planet": "Mars",
+          "rashiHouse": 3,
+          "bhavHouse": 2,
+          "rashiSign": "Libra",
+          "bhavCuspSign": "Virgo",
+          "shifted": true,
+          "shiftDirection": "previous",
+          "absoluteLongitude": 181.782361
+        },
+        {
+          "planet": "Mercury",
+          "rashiHouse": 1,
+          "bhavHouse": 12,
+          "rashiSign": "Leo",
+          "bhavCuspSign": "Cancer",
+          "shifted": true,
+          "shiftDirection": "previous",
+          "absoluteLongitude": 120.928454
+        },
+        {
+          "planet": "Jupiter",
+          "rashiHouse": 1,
+          "bhavHouse": 1,
+          "rashiSign": "Leo",
+          "bhavCuspSign": "Leo",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 142.366878
+        },
+        {
+          "planet": "Venus",
+          "rashiHouse": 11,
+          "bhavHouse": 11,
+          "rashiSign": "Gemini",
+          "bhavCuspSign": "Gemini",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 79.759383
+        },
+        {
+          "planet": "Saturn",
+          "rashiHouse": 2,
+          "bhavHouse": 1,
+          "rashiSign": "Virgo",
+          "bhavCuspSign": "Leo",
+          "shifted": true,
+          "shiftDirection": "previous",
+          "absoluteLongitude": 152.738848
+        },
+        {
+          "planet": "Rahu",
+          "rashiHouse": 12,
+          "bhavHouse": 12,
+          "rashiSign": "Cancer",
+          "bhavCuspSign": "Cancer",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 116.61135
+        },
+        {
+          "planet": "Ketu",
+          "rashiHouse": 6,
+          "bhavHouse": 6,
+          "rashiSign": "Capricorn",
+          "bhavCuspSign": "Capricorn",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 296.61135
+        },
+        {
+          "planet": "Uranus",
+          "rashiHouse": 3,
+          "bhavHouse": 3,
+          "rashiSign": "Libra",
+          "bhavCuspSign": "Libra",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 208.135886
+        },
+        {
+          "planet": "Neptune",
+          "rashiHouse": 4,
+          "bhavHouse": 4,
+          "rashiSign": "Scorpio",
+          "bhavCuspSign": "Scorpio",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 236.346019
+        },
+        {
+          "planet": "Pluto",
+          "rashiHouse": 2,
+          "bhavHouse": 2,
+          "rashiSign": "Virgo",
+          "bhavCuspSign": "Virgo",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 176.18088
+        },
+        {
+          "planet": "Dhuma",
+          "rashiHouse": 5,
+          "bhavHouse": 5,
+          "rashiSign": "Sagittarius",
+          "bhavCuspSign": "Sagittarius",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 258.83918
+        },
+        {
+          "planet": "Vyatipata",
+          "rashiHouse": 12,
+          "bhavHouse": 12,
+          "rashiSign": "Cancer",
+          "bhavCuspSign": "Cancer",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 101.16082
+        },
+        {
+          "planet": "Parivesha",
+          "rashiHouse": 6,
+          "bhavHouse": 6,
+          "rashiSign": "Capricorn",
+          "bhavCuspSign": "Capricorn",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 281.16082
+        },
+        {
+          "planet": "Indrachapa",
+          "rashiHouse": 11,
+          "bhavHouse": 11,
+          "rashiSign": "Gemini",
+          "bhavCuspSign": "Gemini",
+          "shifted": false,
+          "shiftDirection": "same",
+          "absoluteLongitude": 78.83918
+        },
+        {
+          "planet": "Upaketu",
+          "rashiHouse": 12,
+          "bhavHouse": 11,
+          "rashiSign": "Cancer",
+          "bhavCuspSign": "Gemini",
+          "shifted": true,
+          "shiftDirection": "previous",
+          "absoluteLongitude": 95.505847
+        },
+        {
+          "planet": "Gulika",
+          "rashiHouse": 2,
+          "bhavHouse": 1,
+          "rashiSign": "Virgo",
+          "bhavCuspSign": "Leo",
+          "shifted": true,
+          "shiftDirection": "previous",
+          "absoluteLongitude": 151.811825
+        },
+        {
+          "planet": "Mandi",
+          "rashiHouse": 12,
+          "bhavHouse": 11,
+          "rashiSign": "Cancer",
+          "bhavCuspSign": "Gemini",
+          "shifted": true,
+          "shiftDirection": "previous",
+          "absoluteLongitude": 90.94983
+        }
+      ],
+      "shifts": [
+        {
+          "planet": "Sun",
+          "rashiHouse": 1,
+          "bhavHouse": 12,
+          "rashiSign": "Leo",
+          "bhavCuspSign": "Cancer",
+          "shifted": true,
+          "shiftDirection": "previous",
+          "absoluteLongitude": 125.505847
+        },
+        {
+          "planet": "Mars",
+          "rashiHouse": 3,
+          "bhavHouse": 2,
+          "rashiSign": "Libra",
+          "bhavCuspSign": "Virgo",
+          "shifted": true,
+          "shiftDirection": "previous",
+          "absoluteLongitude": 181.782361
+        },
+        {
+          "planet": "Mercury",
+          "rashiHouse": 1,
+          "bhavHouse": 12,
+          "rashiSign": "Leo",
+          "bhavCuspSign": "Cancer",
+          "shifted": true,
+          "shiftDirection": "previous",
+          "absoluteLongitude": 120.928454
+        },
+        {
+          "planet": "Saturn",
+          "rashiHouse": 2,
+          "bhavHouse": 1,
+          "rashiSign": "Virgo",
+          "bhavCuspSign": "Leo",
+          "shifted": true,
+          "shiftDirection": "previous",
+          "absoluteLongitude": 152.738848
+        },
+        {
+          "planet": "Upaketu",
+          "rashiHouse": 12,
+          "bhavHouse": 11,
+          "rashiSign": "Cancer",
+          "bhavCuspSign": "Gemini",
+          "shifted": true,
+          "shiftDirection": "previous",
+          "absoluteLongitude": 95.505847
+        },
+        {
+          "planet": "Gulika",
+          "rashiHouse": 2,
+          "bhavHouse": 1,
+          "rashiSign": "Virgo",
+          "bhavCuspSign": "Leo",
+          "shifted": true,
+          "shiftDirection": "previous",
+          "absoluteLongitude": 151.811825
+        },
+        {
+          "planet": "Mandi",
+          "rashiHouse": 12,
+          "bhavHouse": 11,
+          "rashiSign": "Cancer",
+          "bhavCuspSign": "Gemini",
+          "shifted": true,
+          "shiftDirection": "previous",
+          "absoluteLongitude": 90.94983
+        }
+      ],
+      "limitations": [
+        "This KP cusp layer is separate from Parashari Chalit.",
+        "Use it for KP cusp, star-lord, sub-lord, significator, and ruling-planet judgement."
+      ]
+    },
+    "kp": {
+      "status": "foundation",
+      "method": "KRISHNAMURTI_PADDHATI",
+      "title": "KP Horoscope Foundation",
+      "description": "KP is treated as a separate stellar astrology school using Placidus cusps, Krishnamurti ayanamsa, star lords, sub lords, significators, and ruling-planet logic.",
+      "ayanamsa": "KRISHNAMURTI",
+      "houseSystem": "PLACIDUS",
+      "cusps": [
+        {
+          "house": 1,
+          "longitude": 126.796187,
+          "sign": "Leo",
+          "degree": 6.7962,
+          "lordChain": {
+            "signLord": "Sun",
+            "starLord": "Ketu",
+            "subLord": "Rahu",
+            "subSubLord": "Ketu",
+            "nakshatra": "Magha"
+          }
+        },
+        {
+          "house": 2,
+          "longitude": 154.899376,
+          "sign": "Virgo",
+          "degree": 4.8994,
+          "lordChain": {
+            "signLord": "Mercury",
+            "starLord": "Sun",
+            "subLord": "Saturn",
+            "subSubLord": "Jupiter",
+            "nakshatra": "Uttara Phalguni"
+          }
+        },
+        {
+          "house": 3,
+          "longitude": 185.629608,
+          "sign": "Libra",
+          "degree": 5.6296,
+          "lordChain": {
+            "signLord": "Venus",
+            "starLord": "Mars",
+            "subLord": "Moon",
+            "subSubLord": "Moon",
+            "nakshatra": "Chitra"
+          }
+        },
+        {
+          "house": 4,
+          "longitude": 217.043717,
+          "sign": "Scorpio",
+          "degree": 7.0437,
+          "lordChain": {
+            "signLord": "Mars",
+            "starLord": "Saturn",
+            "subLord": "Mercury",
+            "subSubLord": "Saturn",
+            "nakshatra": "Anuradha"
+          }
+        },
+        {
+          "house": 5,
+          "longitude": 247.655435,
+          "sign": "Sagittarius",
+          "degree": 7.6554,
+          "lordChain": {
+            "signLord": "Jupiter",
+            "starLord": "Ketu",
+            "subLord": "Jupiter",
+            "subSubLord": "Jupiter",
+            "nakshatra": "Mula"
+          }
+        },
+        {
+          "house": 6,
+          "longitude": 277.471169,
+          "sign": "Capricorn",
+          "degree": 7.4712,
+          "lordChain": {
+            "signLord": "Saturn",
+            "starLord": "Sun",
+            "subLord": "Ketu",
+            "subSubLord": "Jupiter",
+            "nakshatra": "Uttara Ashadha"
+          }
+        },
+        {
+          "house": 7,
+          "longitude": 306.796187,
+          "sign": "Aquarius",
+          "degree": 6.7962,
+          "lordChain": {
+            "signLord": "Saturn",
+            "starLord": "Rahu",
+            "subLord": "Rahu",
+            "subSubLord": "Rahu",
+            "nakshatra": "Shatabhisha"
+          }
+        },
+        {
+          "house": 8,
+          "longitude": 334.899376,
+          "sign": "Pisces",
+          "degree": 4.8994,
+          "lordChain": {
+            "signLord": "Jupiter",
+            "starLord": "Saturn",
+            "subLord": "Saturn",
+            "subSubLord": "Rahu",
+            "nakshatra": "Uttara Bhadrapada"
+          }
+        },
+        {
+          "house": 9,
+          "longitude": 5.629608,
+          "sign": "Aries",
+          "degree": 5.6296,
+          "lordChain": {
+            "signLord": "Mars",
+            "starLord": "Ketu",
+            "subLord": "Rahu",
+            "subSubLord": "Rahu",
+            "nakshatra": "Ashwini"
+          }
+        },
+        {
+          "house": 10,
+          "longitude": 37.043717,
+          "sign": "Taurus",
+          "degree": 7.0437,
+          "lordChain": {
+            "signLord": "Venus",
+            "starLord": "Sun",
+            "subLord": "Ketu",
+            "subSubLord": "Ketu",
+            "nakshatra": "Krittika"
+          }
+        },
+        {
+          "house": 11,
+          "longitude": 67.655435,
+          "sign": "Gemini",
+          "degree": 7.6554,
+          "lordChain": {
+            "signLord": "Mercury",
+            "starLord": "Rahu",
+            "subLord": "Rahu",
+            "subSubLord": "Mercury",
+            "nakshatra": "Ardra"
+          }
+        },
+        {
+          "house": 12,
+          "longitude": 97.471169,
+          "sign": "Cancer",
+          "degree": 7.4712,
+          "lordChain": {
+            "signLord": "Moon",
+            "starLord": "Saturn",
+            "subLord": "Ketu",
+            "subSubLord": "Venus",
+            "nakshatra": "Pushya"
+          }
+        }
+      ],
+      "planets": [
+        {
+          "planet": "Sun",
+          "longitude": 125.602699,
+          "sign": "Leo",
+          "degree": 5.6027,
+          "house": 12,
+          "retrograde": false,
+          "lordChain": {
+            "signLord": "Sun",
+            "starLord": "Ketu",
+            "subLord": "Rahu",
+            "subSubLord": "Rahu",
+            "nakshatra": "Magha"
+          }
+        },
+        {
+          "planet": "Moon",
+          "longitude": 251.876819,
+          "sign": "Sagittarius",
+          "degree": 11.8768,
+          "house": 5,
+          "retrograde": false,
+          "lordChain": {
+            "signLord": "Jupiter",
+            "starLord": "Ketu",
+            "subLord": "Mercury",
+            "subSubLord": "Venus",
+            "nakshatra": "Mula"
+          }
+        },
+        {
+          "planet": "Mars",
+          "longitude": 181.879213,
+          "sign": "Libra",
+          "degree": 1.8792,
+          "house": 2,
+          "retrograde": false,
+          "lordChain": {
+            "signLord": "Venus",
+            "starLord": "Mars",
+            "subLord": "Mercury",
+            "subSubLord": "Saturn",
+            "nakshatra": "Chitra"
+          }
+        },
+        {
+          "planet": "Mercury",
+          "longitude": 121.025306,
+          "sign": "Leo",
+          "degree": 1.0253,
+          "house": 12,
+          "retrograde": false,
+          "lordChain": {
+            "signLord": "Sun",
+            "starLord": "Ketu",
+            "subLord": "Venus",
+            "subSubLord": "Venus",
+            "nakshatra": "Magha"
+          }
+        },
+        {
+          "planet": "Jupiter",
+          "longitude": 142.46373,
+          "sign": "Leo",
+          "degree": 22.4637,
+          "house": 1,
+          "retrograde": false,
+          "lordChain": {
+            "signLord": "Sun",
+            "starLord": "Venus",
+            "subLord": "Saturn",
+            "subSubLord": "Mercury",
+            "nakshatra": "Purva Phalguni"
+          }
+        },
+        {
+          "planet": "Venus",
+          "longitude": 79.856236,
+          "sign": "Gemini",
+          "degree": 19.8562,
+          "house": 11,
+          "retrograde": false,
+          "lordChain": {
+            "signLord": "Mercury",
+            "starLord": "Rahu",
+            "subLord": "Mars",
+            "subSubLord": "Venus",
+            "nakshatra": "Ardra"
+          }
+        },
+        {
+          "planet": "Saturn",
+          "longitude": 152.8357,
+          "sign": "Virgo",
+          "degree": 2.8357,
+          "house": 1,
+          "retrograde": false,
+          "lordChain": {
+            "signLord": "Mercury",
+            "starLord": "Sun",
+            "subLord": "Jupiter",
+            "subSubLord": "Rahu",
+            "nakshatra": "Uttara Phalguni"
+          }
+        },
+        {
+          "planet": "Rahu",
+          "longitude": 116.708202,
+          "sign": "Cancer",
+          "degree": 26.7082,
+          "house": 12,
+          "retrograde": false,
+          "lordChain": {
+            "signLord": "Moon",
+            "starLord": "Mercury",
+            "subLord": "Jupiter",
+            "subSubLord": "Mercury",
+            "nakshatra": "Ashlesha"
+          }
+        },
+        {
+          "planet": "Ketu",
+          "longitude": 296.708202,
+          "sign": "Capricorn",
+          "degree": 26.7082,
+          "house": 6,
+          "retrograde": true,
+          "lordChain": {
+            "signLord": "Saturn",
+            "starLord": "Mars",
+            "subLord": "Jupiter",
+            "subSubLord": "Mercury",
+            "nakshatra": "Dhanishta"
+          }
+        }
+      ],
+      "significators": [
+        {
+          "planet": "Sun",
+          "occupiedHouse": 12,
+          "ownedHouses": [
+            1
+          ],
+          "starLordHouses": [
+            6
+          ],
+          "subLordHouses": [
+            12
+          ],
+          "signifiesHouses": [
+            1,
+            6,
+            12
+          ],
+          "strength": "A",
+          "simpleMeaning": "Sun connects KP event judgment to houses 1, 6, 12 through occupation, sign lordship, star lord, and sub lord links."
+        },
+        {
+          "planet": "Moon",
+          "occupiedHouse": 5,
+          "ownedHouses": [
+            12
+          ],
+          "starLordHouses": [
+            6
+          ],
+          "subLordHouses": [
+            2,
+            11,
+            12
+          ],
+          "signifiesHouses": [
+            2,
+            5,
+            6,
+            11,
+            12
+          ],
+          "strength": "A",
+          "simpleMeaning": "Moon connects KP event judgment to houses 2, 5, 6, 11, 12 through occupation, sign lordship, star lord, and sub lord links."
+        },
+        {
+          "planet": "Mars",
+          "occupiedHouse": 2,
+          "ownedHouses": [
+            4,
+            9
+          ],
+          "starLordHouses": [
+            2,
+            4,
+            9
+          ],
+          "subLordHouses": [
+            2,
+            11,
+            12
+          ],
+          "signifiesHouses": [
+            2,
+            4,
+            9,
+            11,
+            12
+          ],
+          "strength": "A",
+          "simpleMeaning": "Mars connects KP event judgment to houses 2, 4, 9, 11, 12 through occupation, sign lordship, star lord, and sub lord links."
+        },
+        {
+          "planet": "Mercury",
+          "occupiedHouse": 12,
+          "ownedHouses": [
+            2,
+            11
+          ],
+          "starLordHouses": [
+            6
+          ],
+          "subLordHouses": [
+            3,
+            10,
+            11
+          ],
+          "signifiesHouses": [
+            2,
+            3,
+            6,
+            10,
+            11,
+            12
+          ],
+          "strength": "A",
+          "simpleMeaning": "Mercury connects KP event judgment to houses 2, 3, 6, 10, 11, 12 through occupation, sign lordship, star lord, and sub lord links."
+        },
+        {
+          "planet": "Jupiter",
+          "occupiedHouse": 1,
+          "ownedHouses": [
+            5,
+            8
+          ],
+          "starLordHouses": [
+            3,
+            10,
+            11
+          ],
+          "subLordHouses": [
+            1,
+            6,
+            7
+          ],
+          "signifiesHouses": [
+            1,
+            3,
+            5,
+            6,
+            7,
+            8,
+            10,
+            11
+          ],
+          "strength": "A",
+          "simpleMeaning": "Jupiter connects KP event judgment to houses 1, 3, 5, 6, 7, 8, 10, 11 through occupation, sign lordship, star lord, and sub lord links."
+        },
+        {
+          "planet": "Venus",
+          "occupiedHouse": 11,
+          "ownedHouses": [
+            3,
+            10
+          ],
+          "starLordHouses": [
+            12
+          ],
+          "subLordHouses": [
+            2,
+            4,
+            9
+          ],
+          "signifiesHouses": [
+            2,
+            3,
+            4,
+            9,
+            10,
+            11,
+            12
+          ],
+          "strength": "A",
+          "simpleMeaning": "Venus connects KP event judgment to houses 2, 3, 4, 9, 10, 11, 12 through occupation, sign lordship, star lord, and sub lord links."
+        },
+        {
+          "planet": "Saturn",
+          "occupiedHouse": 1,
+          "ownedHouses": [
+            6,
+            7
+          ],
+          "starLordHouses": [
+            1,
+            12
+          ],
+          "subLordHouses": [
+            1,
+            5,
+            8
+          ],
+          "signifiesHouses": [
+            1,
+            5,
+            6,
+            7,
+            8,
+            12
+          ],
+          "strength": "A",
+          "simpleMeaning": "Saturn connects KP event judgment to houses 1, 5, 6, 7, 8, 12 through occupation, sign lordship, star lord, and sub lord links."
+        },
+        {
+          "planet": "Rahu",
+          "occupiedHouse": 12,
+          "ownedHouses": [],
+          "starLordHouses": [
+            2,
+            11,
+            12
+          ],
+          "subLordHouses": [
+            1,
+            5,
+            8
+          ],
+          "signifiesHouses": [
+            1,
+            2,
+            5,
+            8,
+            11,
+            12
+          ],
+          "strength": "A",
+          "simpleMeaning": "Rahu connects KP event judgment to houses 1, 2, 5, 8, 11, 12 through occupation, sign lordship, star lord, and sub lord links."
+        },
+        {
+          "planet": "Ketu",
+          "occupiedHouse": 6,
+          "ownedHouses": [],
+          "starLordHouses": [
+            2,
+            4,
+            9
+          ],
+          "subLordHouses": [
+            1,
+            5,
+            8
+          ],
+          "signifiesHouses": [
+            1,
+            2,
+            4,
+            5,
+            6,
+            8,
+            9
+          ],
+          "strength": "A",
+          "simpleMeaning": "Ketu connects KP event judgment to houses 1, 2, 4, 5, 6, 8, 9 through occupation, sign lordship, star lord, and sub lord links."
+        }
+      ],
+      "rulingPlanets": {
+        "dayLord": "Venus",
+        "moonSignLord": "Jupiter",
+        "moonStarLord": "Ketu",
+        "moonSubLord": "Mercury",
+        "lagnaSignLord": "Sun",
+        "lagnaStarLord": "Ketu",
+        "lagnaSubLord": "Rahu"
+      },
+      "horaryNote": "KP Horary/Prashna uses question-time cusps, ruling planets, and often a 1-249 number. This natal KP horoscope stays separate from Parashari so event timing is not blended casually.",
+      "limitations": [
+        "Use this KP layer for cusp, star-lord, sub-lord, significator, and ruling-planet evidence.",
+        "Event prediction needs cusp-specific sub-lord judgment, dasha support, ruling planets, and the exact question.",
+        "KP should remain separate from Parashari/D1 interpretation instead of being blended casually."
+      ]
+    },
+    "yearlyHoroscope": {
+      "status": "foundation",
+      "method": "TAJIKA_SOLAR_RETURN_FOUNDATION",
+      "yearLabel": "2025-2026",
+      "solarYearStart": "2025-08-22",
+      "solarYearEnd": "2026-08-22",
+      "solarReturnUtc": "2025-08-22T13:39:07.998033+00:00",
+      "varshaLagna": "Aquarius",
+      "munthaSign": "Taurus",
+      "munthaHouse": 10,
+      "munthaLord": "Venus",
+      "yearAge": 45,
+      "planets": [
+        {
+          "name": "Sun",
+          "sign": "Leo",
+          "degree": 5.5058,
+          "absoluteLongitude": 125.505847,
+          "house": 7,
+          "nakshatra": "Magha",
+          "pada": 2,
+          "retrograde": false,
+          "kind": "classical",
+          "simpleMeaning": null,
+          "calculationNote": null
+        },
+        {
+          "name": "Moon",
+          "sign": "Cancer",
+          "degree": 27.1892,
+          "absoluteLongitude": 117.189246,
+          "house": 6,
+          "nakshatra": "Ashlesha",
+          "pada": 4,
+          "retrograde": false,
+          "kind": "classical",
+          "simpleMeaning": null,
+          "calculationNote": null
+        },
+        {
+          "name": "Mars",
+          "sign": "Virgo",
+          "degree": 15.6196,
+          "absoluteLongitude": 165.619645,
+          "house": 8,
+          "nakshatra": "Hasta",
+          "pada": 2,
+          "retrograde": false,
+          "kind": "classical",
+          "simpleMeaning": null,
+          "calculationNote": null
+        },
+        {
+          "name": "Mercury",
+          "sign": "Cancer",
+          "degree": 17.4349,
+          "absoluteLongitude": 107.434904,
+          "house": 6,
+          "nakshatra": "Ashlesha",
+          "pada": 1,
+          "retrograde": false,
+          "kind": "classical",
+          "simpleMeaning": null,
+          "calculationNote": null
+        },
+        {
+          "name": "Jupiter",
+          "sign": "Gemini",
+          "degree": 21.8993,
+          "absoluteLongitude": 81.899299,
+          "house": 5,
+          "nakshatra": "Punarvasu",
+          "pada": 1,
+          "retrograde": false,
+          "kind": "classical",
+          "simpleMeaning": null,
+          "calculationNote": null
+        },
+        {
+          "name": "Venus",
+          "sign": "Cancer",
+          "degree": 2.0705,
+          "absoluteLongitude": 92.070548,
+          "house": 6,
+          "nakshatra": "Punarvasu",
+          "pada": 4,
+          "retrograde": false,
+          "kind": "classical",
+          "simpleMeaning": null,
+          "calculationNote": null
+        },
+        {
+          "name": "Saturn",
+          "sign": "Pisces",
+          "degree": 6.4207,
+          "absoluteLongitude": 336.420748,
+          "house": 2,
+          "nakshatra": "Uttara Bhadrapada",
+          "pada": 1,
+          "retrograde": true,
+          "kind": "classical",
+          "simpleMeaning": null,
+          "calculationNote": null
+        },
+        {
+          "name": "Rahu",
+          "sign": "Aquarius",
+          "degree": 24.1231,
+          "absoluteLongitude": 324.123144,
+          "house": 1,
+          "nakshatra": "Purva Bhadrapada",
+          "pada": 2,
+          "retrograde": true,
+          "kind": "classical",
+          "simpleMeaning": null,
+          "calculationNote": null
+        },
+        {
+          "name": "Ketu",
+          "sign": "Leo",
+          "degree": 24.1231,
+          "absoluteLongitude": 144.123144,
+          "house": 7,
+          "nakshatra": "Purva Phalguni",
+          "pada": 4,
+          "retrograde": true,
+          "kind": "classical",
+          "simpleMeaning": null,
+          "calculationNote": null
+        }
+      ],
+      "limitations": [
+        "This yearly reading uses solar return, Muntha, dasha, and current Gochar.",
+        "Advanced Tajika yogas, Sahams, and Muntha strength scoring belong in the detailed yearly reading."
+      ]
+    },
+    "dasha": {
+      "current": {
+        "mahadasha": "Rahu",
+        "antardasha": "Rahu",
+        "startDate": "2024-06-15",
+        "endDate": "2027-02-26"
+      },
+      "timeline": [
+        {
+          "mahadasha": "Ketu",
+          "startDate": "1974-06-16",
+          "endDate": "1981-06-15",
+          "antardashas": [
+            {
+              "antardasha": "Ketu",
+              "startDate": "1974-06-16",
+              "endDate": "1974-11-12"
+            },
+            {
+              "antardasha": "Venus",
+              "startDate": "1974-11-12",
+              "endDate": "1976-01-12"
+            },
+            {
+              "antardasha": "Sun",
+              "startDate": "1976-01-12",
+              "endDate": "1976-05-19"
+            },
+            {
+              "antardasha": "Moon",
+              "startDate": "1976-05-19",
+              "endDate": "1976-12-18"
+            },
+            {
+              "antardasha": "Mars",
+              "startDate": "1976-12-18",
+              "endDate": "1977-05-16"
+            },
+            {
+              "antardasha": "Rahu",
+              "startDate": "1977-05-16",
+              "endDate": "1978-06-04"
+            },
+            {
+              "antardasha": "Jupiter",
+              "startDate": "1978-06-04",
+              "endDate": "1979-05-10"
+            },
+            {
+              "antardasha": "Saturn",
+              "startDate": "1979-05-10",
+              "endDate": "1980-06-18"
+            },
+            {
+              "antardasha": "Mercury",
+              "startDate": "1980-06-18",
+              "endDate": "1981-06-15"
+            }
+          ]
+        },
+        {
+          "mahadasha": "Venus",
+          "startDate": "1981-06-15",
+          "endDate": "2001-06-15",
+          "antardashas": [
+            {
+              "antardasha": "Venus",
+              "startDate": "1981-06-15",
+              "endDate": "1984-10-15"
+            },
+            {
+              "antardasha": "Sun",
+              "startDate": "1984-10-15",
+              "endDate": "1985-10-15"
+            },
+            {
+              "antardasha": "Moon",
+              "startDate": "1985-10-15",
+              "endDate": "1987-06-16"
+            },
+            {
+              "antardasha": "Mars",
+              "startDate": "1987-06-16",
+              "endDate": "1988-08-15"
+            },
+            {
+              "antardasha": "Rahu",
+              "startDate": "1988-08-15",
+              "endDate": "1991-08-16"
+            },
+            {
+              "antardasha": "Jupiter",
+              "startDate": "1991-08-16",
+              "endDate": "1994-04-16"
+            },
+            {
+              "antardasha": "Saturn",
+              "startDate": "1994-04-16",
+              "endDate": "1997-06-15"
+            },
+            {
+              "antardasha": "Mercury",
+              "startDate": "1997-06-15",
+              "endDate": "2000-04-15"
+            },
+            {
+              "antardasha": "Ketu",
+              "startDate": "2000-04-15",
+              "endDate": "2001-06-15"
+            }
+          ]
+        },
+        {
+          "mahadasha": "Sun",
+          "startDate": "2001-06-15",
+          "endDate": "2007-06-16",
+          "antardashas": [
+            {
+              "antardasha": "Sun",
+              "startDate": "2001-06-15",
+              "endDate": "2001-10-03"
+            },
+            {
+              "antardasha": "Moon",
+              "startDate": "2001-10-03",
+              "endDate": "2002-04-03"
+            },
+            {
+              "antardasha": "Mars",
+              "startDate": "2002-04-03",
+              "endDate": "2002-08-09"
+            },
+            {
+              "antardasha": "Rahu",
+              "startDate": "2002-08-09",
+              "endDate": "2003-07-04"
+            },
+            {
+              "antardasha": "Jupiter",
+              "startDate": "2003-07-04",
+              "endDate": "2004-04-21"
+            },
+            {
+              "antardasha": "Saturn",
+              "startDate": "2004-04-21",
+              "endDate": "2005-04-03"
+            },
+            {
+              "antardasha": "Mercury",
+              "startDate": "2005-04-03",
+              "endDate": "2006-02-08"
+            },
+            {
+              "antardasha": "Ketu",
+              "startDate": "2006-02-08",
+              "endDate": "2006-06-15"
+            },
+            {
+              "antardasha": "Venus",
+              "startDate": "2006-06-15",
+              "endDate": "2007-06-16"
+            }
+          ]
+        },
+        {
+          "mahadasha": "Moon",
+          "startDate": "2007-06-16",
+          "endDate": "2017-06-15",
+          "antardashas": [
+            {
+              "antardasha": "Moon",
+              "startDate": "2007-06-16",
+              "endDate": "2008-04-15"
+            },
+            {
+              "antardasha": "Mars",
+              "startDate": "2008-04-15",
+              "endDate": "2008-11-14"
+            },
+            {
+              "antardasha": "Rahu",
+              "startDate": "2008-11-14",
+              "endDate": "2010-05-16"
+            },
+            {
+              "antardasha": "Jupiter",
+              "startDate": "2010-05-16",
+              "endDate": "2011-09-15"
+            },
+            {
+              "antardasha": "Saturn",
+              "startDate": "2011-09-15",
+              "endDate": "2013-04-15"
+            },
+            {
+              "antardasha": "Mercury",
+              "startDate": "2013-04-15",
+              "endDate": "2014-09-15"
+            },
+            {
+              "antardasha": "Ketu",
+              "startDate": "2014-09-15",
+              "endDate": "2015-04-16"
+            },
+            {
+              "antardasha": "Venus",
+              "startDate": "2015-04-16",
+              "endDate": "2016-12-15"
+            },
+            {
+              "antardasha": "Sun",
+              "startDate": "2016-12-15",
+              "endDate": "2017-06-15"
+            }
+          ]
+        },
+        {
+          "mahadasha": "Mars",
+          "startDate": "2017-06-15",
+          "endDate": "2024-06-15",
+          "antardashas": [
+            {
+              "antardasha": "Mars",
+              "startDate": "2017-06-15",
+              "endDate": "2017-11-11"
+            },
+            {
+              "antardasha": "Rahu",
+              "startDate": "2017-11-11",
+              "endDate": "2018-11-30"
+            },
+            {
+              "antardasha": "Jupiter",
+              "startDate": "2018-11-30",
+              "endDate": "2019-11-06"
+            },
+            {
+              "antardasha": "Saturn",
+              "startDate": "2019-11-06",
+              "endDate": "2020-12-14"
+            },
+            {
+              "antardasha": "Mercury",
+              "startDate": "2020-12-14",
+              "endDate": "2021-12-12"
+            },
+            {
+              "antardasha": "Ketu",
+              "startDate": "2021-12-12",
+              "endDate": "2022-05-10"
+            },
+            {
+              "antardasha": "Venus",
+              "startDate": "2022-05-10",
+              "endDate": "2023-07-10"
+            },
+            {
+              "antardasha": "Sun",
+              "startDate": "2023-07-10",
+              "endDate": "2023-11-15"
+            },
+            {
+              "antardasha": "Moon",
+              "startDate": "2023-11-15",
+              "endDate": "2024-06-15"
+            }
+          ]
+        },
+        {
+          "mahadasha": "Rahu",
+          "startDate": "2024-06-15",
+          "endDate": "2042-06-15",
+          "antardashas": [
+            {
+              "antardasha": "Rahu",
+              "startDate": "2024-06-15",
+              "endDate": "2027-02-26"
+            },
+            {
+              "antardasha": "Jupiter",
+              "startDate": "2027-02-26",
+              "endDate": "2029-07-22"
+            },
+            {
+              "antardasha": "Saturn",
+              "startDate": "2029-07-22",
+              "endDate": "2032-05-28"
+            },
+            {
+              "antardasha": "Mercury",
+              "startDate": "2032-05-28",
+              "endDate": "2034-12-15"
+            },
+            {
+              "antardasha": "Ketu",
+              "startDate": "2034-12-15",
+              "endDate": "2036-01-02"
+            },
+            {
+              "antardasha": "Venus",
+              "startDate": "2036-01-02",
+              "endDate": "2039-01-02"
+            },
+            {
+              "antardasha": "Sun",
+              "startDate": "2039-01-02",
+              "endDate": "2039-11-27"
+            },
+            {
+              "antardasha": "Moon",
+              "startDate": "2039-11-27",
+              "endDate": "2041-05-28"
+            },
+            {
+              "antardasha": "Mars",
+              "startDate": "2041-05-28",
+              "endDate": "2042-06-15"
+            }
+          ]
+        },
+        {
+          "mahadasha": "Jupiter",
+          "startDate": "2042-06-15",
+          "endDate": "2058-06-15",
+          "antardashas": [
+            {
+              "antardasha": "Jupiter",
+              "startDate": "2042-06-15",
+              "endDate": "2044-08-02"
+            },
+            {
+              "antardasha": "Saturn",
+              "startDate": "2044-08-02",
+              "endDate": "2047-02-14"
+            },
+            {
+              "antardasha": "Mercury",
+              "startDate": "2047-02-14",
+              "endDate": "2049-05-22"
+            },
+            {
+              "antardasha": "Ketu",
+              "startDate": "2049-05-22",
+              "endDate": "2050-04-27"
+            },
+            {
+              "antardasha": "Venus",
+              "startDate": "2050-04-27",
+              "endDate": "2052-12-26"
+            },
+            {
+              "antardasha": "Sun",
+              "startDate": "2052-12-26",
+              "endDate": "2053-10-15"
+            },
+            {
+              "antardasha": "Moon",
+              "startDate": "2053-10-15",
+              "endDate": "2055-02-14"
+            },
+            {
+              "antardasha": "Mars",
+              "startDate": "2055-02-14",
+              "endDate": "2056-01-20"
+            },
+            {
+              "antardasha": "Rahu",
+              "startDate": "2056-01-20",
+              "endDate": "2058-06-15"
+            }
+          ]
+        },
+        {
+          "mahadasha": "Saturn",
+          "startDate": "2058-06-15",
+          "endDate": "2077-06-15",
+          "antardashas": [
+            {
+              "antardasha": "Saturn",
+              "startDate": "2058-06-15",
+              "endDate": "2061-06-18"
+            },
+            {
+              "antardasha": "Mercury",
+              "startDate": "2061-06-18",
+              "endDate": "2064-02-26"
+            },
+            {
+              "antardasha": "Ketu",
+              "startDate": "2064-02-26",
+              "endDate": "2065-04-06"
+            },
+            {
+              "antardasha": "Venus",
+              "startDate": "2065-04-06",
+              "endDate": "2068-06-05"
+            },
+            {
+              "antardasha": "Sun",
+              "startDate": "2068-06-05",
+              "endDate": "2069-05-18"
+            },
+            {
+              "antardasha": "Moon",
+              "startDate": "2069-05-18",
+              "endDate": "2070-12-18"
+            },
+            {
+              "antardasha": "Mars",
+              "startDate": "2070-12-18",
+              "endDate": "2072-01-26"
+            },
+            {
+              "antardasha": "Rahu",
+              "startDate": "2072-01-26",
+              "endDate": "2074-12-02"
+            },
+            {
+              "antardasha": "Jupiter",
+              "startDate": "2074-12-02",
+              "endDate": "2077-06-15"
+            }
+          ]
+        },
+        {
+          "mahadasha": "Mercury",
+          "startDate": "2077-06-15",
+          "endDate": "2094-06-15",
+          "antardashas": [
+            {
+              "antardasha": "Mercury",
+              "startDate": "2077-06-15",
+              "endDate": "2079-11-11"
+            },
+            {
+              "antardasha": "Ketu",
+              "startDate": "2079-11-11",
+              "endDate": "2080-11-08"
+            },
+            {
+              "antardasha": "Venus",
+              "startDate": "2080-11-08",
+              "endDate": "2083-09-08"
+            },
+            {
+              "antardasha": "Sun",
+              "startDate": "2083-09-08",
+              "endDate": "2084-07-15"
+            },
+            {
+              "antardasha": "Moon",
+              "startDate": "2084-07-15",
+              "endDate": "2085-12-14"
+            },
+            {
+              "antardasha": "Mars",
+              "startDate": "2085-12-14",
+              "endDate": "2086-12-11"
+            },
+            {
+              "antardasha": "Rahu",
+              "startDate": "2086-12-11",
+              "endDate": "2089-06-30"
+            },
+            {
+              "antardasha": "Jupiter",
+              "startDate": "2089-06-30",
+              "endDate": "2091-10-06"
+            },
+            {
+              "antardasha": "Saturn",
+              "startDate": "2091-10-06",
+              "endDate": "2094-06-15"
+            }
+          ]
+        },
+        {
+          "mahadasha": "Ketu",
+          "startDate": "2094-06-15",
+          "endDate": "2101-06-16",
+          "antardashas": [
+            {
+              "antardasha": "Ketu",
+              "startDate": "2094-06-15",
+              "endDate": "2094-11-11"
+            },
+            {
+              "antardasha": "Venus",
+              "startDate": "2094-11-11",
+              "endDate": "2096-01-11"
+            },
+            {
+              "antardasha": "Sun",
+              "startDate": "2096-01-11",
+              "endDate": "2096-05-18"
+            },
+            {
+              "antardasha": "Moon",
+              "startDate": "2096-05-18",
+              "endDate": "2096-12-17"
+            },
+            {
+              "antardasha": "Mars",
+              "startDate": "2096-12-17",
+              "endDate": "2097-05-15"
+            },
+            {
+              "antardasha": "Rahu",
+              "startDate": "2097-05-15",
+              "endDate": "2098-06-03"
+            },
+            {
+              "antardasha": "Jupiter",
+              "startDate": "2098-06-03",
+              "endDate": "2099-05-09"
+            },
+            {
+              "antardasha": "Saturn",
+              "startDate": "2099-05-09",
+              "endDate": "2100-06-18"
+            },
+            {
+              "antardasha": "Mercury",
+              "startDate": "2100-06-18",
+              "endDate": "2101-06-16"
+            }
+          ]
+        }
+      ]
+    },
+    "ashtakavarga": {
+      "bav": {
+        "Sun": [
+          5,
+          7,
+          6,
+          4,
+          2,
+          3,
+          5,
+          4,
+          4,
+          4,
+          2,
+          2
+        ],
+        "Moon": [
+          1,
+          5,
+          6,
+          3,
+          4,
+          2,
+          5,
+          4,
+          4,
+          3,
+          7,
+          5
+        ],
+        "Mars": [
+          3,
+          7,
+          5,
+          3,
+          2,
+          1,
+          5,
+          2,
+          3,
+          6,
+          1,
+          1
+        ],
+        "Mercury": [
+          5,
+          5,
+          7,
+          7,
+          4,
+          4,
+          5,
+          2,
+          3,
+          7,
+          1,
+          4
+        ],
+        "Jupiter": [
+          6,
+          5,
+          5,
+          2,
+          7,
+          4,
+          5,
+          7,
+          2,
+          5,
+          5,
+          3
+        ],
+        "Venus": [
+          6,
+          2,
+          7,
+          4,
+          4,
+          3,
+          4,
+          3,
+          6,
+          4,
+          3,
+          6
+        ],
+        "Saturn": [
+          2,
+          5,
+          4,
+          4,
+          3,
+          2,
+          2,
+          4,
+          2,
+          4,
+          4,
+          3
+        ]
+      },
+      "sav": [
+        28,
+        36,
+        40,
+        27,
+        26,
+        19,
+        31,
+        26,
+        24,
+        33,
+        23,
+        24
+      ],
+      "totalScore": 337,
+      "strongestHouses": [
+        11,
+        10,
+        6
+      ],
+      "weakestHouses": [
+        2,
+        7,
+        5
+      ]
+    },
+    "yogas": [
+      {
+        "name": "Budha-Aditya Yoga",
+        "strength": "moderate",
+        "meaning": "Sun and Mercury share a house, supporting intelligent expression when ego and analysis stay balanced."
+      }
+    ],
+    "lifeTimeline": [
+      {
+        "id": "current-dasha",
+        "kind": "dasha",
+        "title": "Rahu/Rahu",
+        "startDate": "2024-06-15",
+        "endDate": "2027-02-26",
+        "planets": [
+          "Rahu",
+          "Rahu"
+        ],
+        "houses": [],
+        "summary": "Active Vimshottari period delivering current life themes.",
+        "confidence": "high"
+      },
+      {
+        "id": "mahadasha-ketu",
+        "kind": "dasha",
+        "title": "Ketu Mahadasha",
+        "startDate": "1974-06-16",
+        "endDate": "1981-06-15",
+        "planets": [
+          "Ketu"
+        ],
+        "houses": [],
+        "summary": "Major life chapter for long-range planning.",
+        "confidence": "high"
+      },
+      {
+        "id": "mahadasha-venus",
+        "kind": "dasha",
+        "title": "Venus Mahadasha",
+        "startDate": "1981-06-15",
+        "endDate": "2001-06-15",
+        "planets": [
+          "Venus"
+        ],
+        "houses": [],
+        "summary": "Major life chapter for long-range planning.",
+        "confidence": "high"
+      },
+      {
+        "id": "mahadasha-sun",
+        "kind": "dasha",
+        "title": "Sun Mahadasha",
+        "startDate": "2001-06-15",
+        "endDate": "2007-06-16",
+        "planets": [
+          "Sun"
+        ],
+        "houses": [],
+        "summary": "Major life chapter for long-range planning.",
+        "confidence": "high"
+      },
+      {
+        "id": "transit-jupiter",
+        "kind": "transit",
+        "title": "Jupiter in Gemini",
+        "startDate": "2026-06-01",
+        "endDate": null,
+        "planets": [
+          "Jupiter"
+        ],
+        "houses": [
+          11,
+          7
+        ],
+        "summary": "Jupiter is transiting house 11 from Lagna and house 7 from Moon, so read both external events and inner experience.",
+        "confidence": "medium"
+      },
+      {
+        "id": "transit-saturn",
+        "kind": "transit",
+        "title": "Saturn in Pisces",
+        "startDate": "2026-06-01",
+        "endDate": null,
+        "planets": [
+          "Saturn"
+        ],
+        "houses": [
+          8,
+          4
+        ],
+        "summary": "Saturn is transiting house 8 from Lagna and house 4 from Moon, so read both external events and inner experience.",
+        "confidence": "medium"
+      },
+      {
+        "id": "transit-rahu",
+        "kind": "transit",
+        "title": "Rahu in Aquarius",
+        "startDate": "2026-06-01",
+        "endDate": null,
+        "planets": [
+          "Rahu"
+        ],
+        "houses": [
+          7,
+          3
+        ],
+        "summary": "Rahu is transiting house 7 from Lagna and house 3 from Moon, so read both external events and inner experience.",
+        "confidence": "medium"
+      },
+      {
+        "id": "transit-ketu",
+        "kind": "transit",
+        "title": "Ketu in Leo",
+        "startDate": "2026-06-01",
+        "endDate": null,
+        "planets": [
+          "Ketu"
+        ],
+        "houses": [
+          1,
+          9
+        ],
+        "summary": "Ketu transit highlights detachment, simplification, and release around the houses it crosses.",
+        "confidence": "medium"
+      },
+      {
+        "id": "remedy-dasha-lord-discipline",
+        "kind": "remedy",
+        "title": "Work consciously with Rahu",
+        "startDate": "2026-06-01",
+        "endDate": null,
+        "planets": [
+          "Rahu",
+          "Rahu"
+        ],
+        "houses": [],
+        "summary": "Keep one weekly discipline dedicated to Rahu: a simple prayer, mantra, study, or service act done without bargaining for results.",
+        "confidence": "medium"
+      },
+      {
+        "id": "remedy-weak-house-correction",
+        "kind": "remedy",
+        "title": "Protect weaker ashtakavarga houses",
+        "startDate": "2026-06-01",
+        "endDate": null,
+        "planets": [],
+        "houses": [
+          2,
+          7
+        ],
+        "summary": "Audit choices connected to houses 2, 7 every Sunday evening and remove one avoidable source of strain.",
+        "confidence": "medium"
+      }
+    ],
+    "transits": [
+      {
+        "planet": "Sun",
+        "sign": "Taurus",
+        "degree": 17.0049,
+        "houseFromLagna": 10,
+        "houseFromMoon": 6,
+        "retrograde": false,
+        "weight": "challenging",
+        "summary": "Sun is transiting house 10 from Lagna and house 6 from Moon, so read both external events and inner experience.",
+        "calculatedAt": "2026-06-01T17:23:43.284236+00:00"
+      },
+      {
+        "planet": "Moon",
+        "sign": "Sagittarius",
+        "degree": 1.8537,
+        "houseFromLagna": 5,
+        "houseFromMoon": 1,
+        "retrograde": false,
+        "weight": "supportive",
+        "summary": "Moon is transiting house 5 from Lagna and house 1 from Moon, so read both external events and inner experience.",
+        "calculatedAt": "2026-06-01T17:23:43.284236+00:00"
+      },
+      {
+        "planet": "Mars",
+        "sign": "Aries",
+        "degree": 16.0687,
+        "houseFromLagna": 9,
+        "houseFromMoon": 5,
+        "retrograde": false,
+        "weight": "neutral",
+        "summary": "Mars is transiting house 9 from Lagna and house 5 from Moon, so read both external events and inner experience.",
+        "calculatedAt": "2026-06-01T17:23:43.284236+00:00"
+      },
+      {
+        "planet": "Mercury",
+        "sign": "Gemini",
+        "degree": 6.1571,
+        "houseFromLagna": 11,
+        "houseFromMoon": 7,
+        "retrograde": false,
+        "weight": "supportive",
+        "summary": "Mercury is transiting house 11 from Lagna and house 7 from Moon, so read both external events and inner experience.",
+        "calculatedAt": "2026-06-01T17:23:43.284236+00:00"
+      },
+      {
+        "planet": "Jupiter",
+        "sign": "Gemini",
+        "degree": 29.9768,
+        "houseFromLagna": 11,
+        "houseFromMoon": 7,
+        "retrograde": false,
+        "weight": "supportive",
+        "summary": "Jupiter is transiting house 11 from Lagna and house 7 from Moon, so read both external events and inner experience.",
+        "calculatedAt": "2026-06-01T17:23:43.284236+00:00"
+      },
+      {
+        "planet": "Venus",
+        "sign": "Gemini",
+        "degree": 22.023,
+        "houseFromLagna": 11,
+        "houseFromMoon": 7,
+        "retrograde": false,
+        "weight": "supportive",
+        "summary": "Venus is transiting house 11 from Lagna and house 7 from Moon, so read both external events and inner experience.",
+        "calculatedAt": "2026-06-01T17:23:43.284236+00:00"
+      },
+      {
+        "planet": "Saturn",
+        "sign": "Pisces",
+        "degree": 18.0775,
+        "houseFromLagna": 8,
+        "houseFromMoon": 4,
+        "retrograde": false,
+        "weight": "challenging",
+        "summary": "Saturn is transiting house 8 from Lagna and house 4 from Moon, so read both external events and inner experience.",
+        "calculatedAt": "2026-06-01T17:23:43.284236+00:00"
+      },
+      {
+        "planet": "Rahu",
+        "sign": "Aquarius",
+        "degree": 9.2192,
+        "houseFromLagna": 7,
+        "houseFromMoon": 3,
+        "retrograde": true,
+        "weight": "mixed",
+        "summary": "Rahu is transiting house 7 from Lagna and house 3 from Moon, so read both external events and inner experience.",
+        "calculatedAt": "2026-06-01T17:23:43.284236+00:00"
+      },
+      {
+        "planet": "Ketu",
+        "sign": "Leo",
+        "degree": 9.2192,
+        "houseFromLagna": 1,
+        "houseFromMoon": 9,
+        "retrograde": true,
+        "weight": "mixed",
+        "summary": "Ketu transit highlights detachment, simplification, and release around the houses it crosses.",
+        "calculatedAt": "2026-06-01T17:23:43.284236+00:00"
+      }
+    ],
+    "rectification": {
+      "needsRectification": false,
+      "confidence": "high",
+      "ascendantDegree": 6.6993,
+      "reasons": [
+        "Birth time is not marked approximate and ascendant is not near a sign boundary."
+      ],
+      "questions": [
+        "Was the recorded birth time taken from a document, hospital memory, or family recollection?"
+      ]
+    },
+    "remedies": [
+      {
+        "id": "dasha-lord-discipline",
+        "priority": "high",
+        "area": "timing",
+        "title": "Work consciously with Rahu",
+        "practice": "Keep one weekly discipline dedicated to Rahu: a simple prayer, mantra, study, or service act done without bargaining for results.",
+        "rationale": "Rahu Mahadasha is the active life chapter, so remedies should stabilize that planet's expression rather than chase quick fixes.",
+        "linkedPlanets": [
+          "Rahu",
+          "Rahu"
+        ],
+        "linkedHouses": [],
+        "cadence": "Weekly, same day and time if possible",
+        "caution": "Do not use remedies as a substitute for practical decisions or professional help."
+      },
+      {
+        "id": "weak-house-correction",
+        "priority": "medium",
+        "area": "general",
+        "title": "Protect weaker ashtakavarga houses",
+        "practice": "Audit choices connected to houses 2, 7 every Sunday evening and remove one avoidable source of strain.",
+        "rationale": "Weak ashtakavarga houses need disciplined correction, not fear-based rituals.",
+        "linkedPlanets": [],
+        "linkedHouses": [
+          2,
+          7
+        ],
+        "cadence": "Weekly review",
+        "caution": "Keep the practice small enough that it becomes consistent."
+      }
+    ],
+    "calculationMeta": {
+      "provider": "swiss-ephemeris",
+      "providerVersion": "2.10.03",
+      "ephemerisVersion": "2.10.03",
+      "zodiac": "SIDEREAL",
+      "ayanamsa": "LAHIRI",
+      "houseSystem": "WHOLE_SIGN",
+      "nodeType": "TRUE_NODE",
+      "calculatedAt": "2026-06-01T17:23:43.289195+00:00",
+      "inputHash": "3de16b5f38fdcba50851e1b19abb07e9d982ddedf0febdb172275d6418e0ccd8",
+      "utcDateTime": "1980-08-22T01:00:00+00:00"
+    }
+  },
+  "language": "en",
+  "mode": "FREE",
+  "reportFocus": "LIFE_ATLAS"
+}

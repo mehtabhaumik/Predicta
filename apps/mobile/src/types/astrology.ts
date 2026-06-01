@@ -1799,12 +1799,14 @@ export type LifeAtlasEvidenceLayer = {
   role: string;
   status: 'ready' | 'missing' | 'optional';
   summary: string;
+  technicalEvidence?: string[];
 };
 
 export type LifeAtlasSectionId =
   | 'personal-snapshot'
   | 'opening-soul-portrait'
   | 'strategic-life-abstract'
+  | 'jaimini-destiny-thread'
   | 'why-you-came-here'
   | 'life-journey-arc'
   | 'destiny-pattern'

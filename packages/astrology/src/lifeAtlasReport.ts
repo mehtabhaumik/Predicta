@@ -22,6 +22,17 @@ type LifeAtlasOptions = {
   signatureAnalysis?: SignatureAnalysisModel;
 };
 
+type JaiminiLifeAtlasContribution = {
+  soulRole: string;
+  visibleIdentity: string;
+  careerDharma: string;
+  relationshipMirror: string;
+  currentDestinyChapter: string;
+  practice: string;
+  appendixEvidence: string[];
+  synthesisSummary: string;
+};
+
 export function composeLifeAtlasReport(
   kundli?: KundliData,
   options: LifeAtlasOptions = {},
@@ -38,6 +49,7 @@ export function composeLifeAtlasReport(
   const jaimini = composeJaiminiInterpretation(kundli, {
     premium: depth === 'PREMIUM',
   });
+  const jaiminiContribution = buildJaiminiLifeAtlasContribution(jaimini);
   const purushartha = composePurusharthaLifeBalance(kundli);
   const firstName = kundli.birthDetails.name.split(/\s+/)[0] || kundli.birthDetails.name;
   const signatureReady = options.signatureAnalysis?.status === 'ready';
@@ -61,7 +73,8 @@ export function composeLifeAtlasReport(
       ? numerology.identityDashboard.lifeThemeSentence
       : 'Your available Predicta data points toward a life that matures through self-understanding, timing, responsibility, and conscious choice.';
   const evidenceLayers = buildEvidenceLayers({
-    jaiminiSummary: jaimini.summary,
+    jaiminiAppendixEvidence: jaiminiContribution.appendixEvidence,
+    jaiminiSummary: jaiminiContribution.synthesisSummary,
     kpSummary: kp.digest.latestReportSummary,
     numerologyReady: numerology.status === 'ready',
     numberTone,
@@ -72,9 +85,7 @@ export function composeLifeAtlasReport(
     depth,
     firstName,
     hiddenThread,
-    jaiminiPractice:
-      'Use the Jaimini soul-role signal as a practical compass: choose one calmer decision that makes your duty, visibility, and relationships cleaner.',
-    jaiminiSummary: jaimini.summary,
+    jaiminiContribution,
     kpSummary: kp.digest.latestReportSummary,
     lifeThemeSentence,
     numberCycle:
@@ -137,6 +148,47 @@ export function composeLifeAtlasReport(
       ? 'Predicta synthesized your birth profile, timing rhythm, number pattern, and available expression signals into one life story.'
       : 'Predicta synthesized your birth profile, timing rhythm, and number pattern into one life story.',
   };
+}
+
+function buildJaiminiLifeAtlasContribution(
+  jaimini: ReturnType<typeof composeJaiminiInterpretation>,
+): JaiminiLifeAtlasContribution {
+  const blockById = (id: string) => jaimini.blocks.find(block => block.id === id);
+  const soulRole = humanizeJaiminiBlock(blockById('soul-planet-reading'));
+  const visibleIdentity = humanizeJaiminiBlock(blockById('visible-identity-reading'));
+  const careerDharma = humanizeJaiminiBlock(blockById('career-dharma-reading'));
+  const relationshipMirror = humanizeJaiminiBlock(blockById('relationship-mirror-reading'));
+  const currentDestinyChapter = humanizeJaiminiBlock(blockById('current-destiny-chapter'));
+  const focusNow = humanizeJaiminiBlock(blockById('what-to-focus-on-now'));
+
+  return {
+    appendixEvidence: jaimini.technicalEvidence,
+    careerDharma,
+    currentDestinyChapter,
+    practice:
+      focusNow ||
+      'Choose one calmer decision that makes your duty, visibility, work direction, and relationships cleaner.',
+    relationshipMirror,
+    soulRole,
+    synthesisSummary: [
+      `Soul role: ${soulRole}`,
+      `Visible identity: ${visibleIdentity}`,
+      `Career dharma: ${careerDharma}`,
+      `Relationship mirror: ${relationshipMirror}`,
+      `Current destiny chapter: ${currentDestinyChapter}`,
+    ].join(' '),
+    visibleIdentity,
+  };
+}
+
+function humanizeJaiminiBlock(
+  block: ReturnType<typeof composeJaiminiInterpretation>['blocks'][number] | undefined,
+): string {
+  if (!block) {
+    return 'This layer stays careful until calculated Jaimini evidence is ready.';
+  }
+
+  return `${block.headline} ${block.guidance}`.replace(/\s+/g, ' ').trim();
 }
 
 function buildPendingLifeAtlas(depth: LifeAtlasDepth): LifeAtlasReport {
@@ -212,12 +264,14 @@ function buildPendingLifeAtlas(depth: LifeAtlasDepth): LifeAtlasReport {
 
 function buildEvidenceLayers({
   jaiminiSummary,
+  jaiminiAppendixEvidence,
   kpSummary,
   numerologyReady,
   numberTone,
   signatureReady,
 }: {
   jaiminiSummary: string;
+  jaiminiAppendixEvidence: string[];
   kpSummary: string;
   numerologyReady: boolean;
   numberTone: string;
@@ -245,6 +299,7 @@ function buildEvidenceLayers({
       role: 'Soul role, visible identity, relationship mirror, career dharma, and destiny chapters.',
       status: 'ready',
       summary: jaiminiSummary,
+      technicalEvidence: jaiminiAppendixEvidence,
     },
     {
       id: 'numerology',
@@ -270,8 +325,7 @@ function buildLifeAtlasSections({
   depth,
   firstName,
   hiddenThread,
-  jaiminiPractice,
-  jaiminiSummary,
+  jaiminiContribution,
   kpSummary,
   lifeThemeSentence,
   numberCycle,
@@ -284,8 +338,7 @@ function buildLifeAtlasSections({
   depth: LifeAtlasDepth;
   firstName: string;
   hiddenThread: string;
-  jaiminiPractice: string;
-  jaiminiSummary: string;
+  jaiminiContribution: JaiminiLifeAtlasContribution;
   kpSummary: string;
   lifeThemeSentence: string;
   numberCycle: string;
@@ -345,11 +398,29 @@ function buildLifeAtlasSections({
       ],
       evidence: [
         `KP practical signal: ${kpSummary}`,
-        `Jaimini soul-role signal: ${jaiminiSummary}`,
+        `Jaimini soul-role signal: ${jaiminiContribution.soulRole}`,
       ],
       id: 'strategic-life-abstract',
       tier: 'free',
       title: 'Strategic Life Abstract',
+    },
+    {
+      body:
+        `${firstName}, the Jaimini layer in this Life Atlas points to a life that wants the inner role and the outer signal to stop fighting each other. This layer carries five signals: Soul role, Visible identity, Career dharma, Relationship mirror, and Current destiny chapter. The repeated invitation is to act from the role your soul keeps rehearsing, become easier to trust publicly, choose work that carries real direction, and let relationships reveal where maturity is still being built.`,
+      bullets: [
+        `Soul role: ${jaiminiContribution.soulRole}`,
+        `Visible identity: ${jaiminiContribution.visibleIdentity}`,
+        `Career dharma: ${jaiminiContribution.careerDharma}`,
+        `Relationship mirror: ${jaiminiContribution.relationshipMirror}`,
+        `Current destiny chapter: ${jaiminiContribution.currentDestinyChapter}`,
+      ],
+      evidence: [
+        'Jaimini is used here as life-language: role, visibility, work direction, relationship mirror, and active chapter.',
+        `Jaimini synthesis: ${jaiminiContribution.synthesisSummary}`,
+      ],
+      id: 'jaimini-destiny-thread',
+      tier: 'free',
+      title: 'Jaimini Destiny Thread',
     },
     {
       body:
@@ -379,7 +450,7 @@ function buildLifeAtlasSections({
         'Future arc: clearer choices, cleaner boundaries, visible competence, and courage that does not need noise.',
       ],
       evidence: [
-        `Jaimini destiny signal: ${jaiminiSummary}`,
+        `Jaimini destiny signal: ${jaiminiContribution.currentDestinyChapter}`,
         `Timing rhythm: ${numberCycle}`,
       ],
       id: 'life-journey-arc',
@@ -434,7 +505,7 @@ function buildLifeAtlasSections({
           : 'Free gives the top three gifts clearly.',
       ],
       evidence: [
-        `Soul-role gift: ${jaiminiSummary}`,
+        `Soul-role gift: ${jaiminiContribution.soulRole}`,
         `Number gift: ${lifeThemeSentence}`,
       ],
       id: 'gifts-you-carry',
@@ -454,7 +525,7 @@ function buildLifeAtlasSections({
           : 'Free keeps the lessons practical and non-frightening.',
       ],
       evidence: [
-        `Jaimini practice: ${jaiminiPractice}`,
+        `Jaimini practice: ${jaiminiContribution.practice}`,
         'Karmic language stays reflective, not fatalistic.',
       ],
       id: 'karmic-lessons',
@@ -537,14 +608,14 @@ function buildLifeAtlasSections({
       body:
         'Soul practices are the bridge between insight and change. They should be small enough to repeat and honest enough to change behavior. Do not turn this report into a mood. Turn it into a practice.',
       bullets: [
-        jaiminiPractice,
+        jaiminiContribution.practice,
         'For seven days, write the same repeating lesson in one sentence. Then write the calmer response you are choosing instead.',
         'Choose one weekly act of service, repair, or discipline that makes your life cleaner.',
         'When pressure rises, pause before speech, spending, promises, and major emotional conclusions.',
         signatureNote,
       ],
       evidence: [
-        jaiminiPractice,
+        jaiminiContribution.practice,
         signatureNote,
       ],
       id: 'soul-practices',
@@ -583,7 +654,7 @@ function buildLifeAtlasSections({
           'Better love pattern: warmth plus structure, devotion plus self-respect, closeness plus personal rhythm.',
         ],
         evidence: [
-          `Relationship mirror signal: ${jaiminiSummary}`,
+          `Relationship mirror signal: ${jaiminiContribution.relationshipMirror}`,
           `Emotional care point: ${purusharthaCare}`,
         ],
         id: 'relationship-mirror',
@@ -617,7 +688,7 @@ function buildLifeAtlasSections({
           'Repetition shadow: feeling stuck. Gift: recognizing the lesson sooner and responding differently.',
         ],
         evidence: [
-          `Jaimini soul-role signal: ${jaiminiSummary}`,
+          `Jaimini soul-role signal: ${jaiminiContribution.soulRole}`,
           `Hidden thread: ${hiddenThread}`,
         ],
         id: 'shadow-to-gift-map',
