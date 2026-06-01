@@ -1,0 +1,14 @@
+{
+  "phase": "PREDICTA_MONETIZATION_PHASE_0_BASELINE_AND_CONTRACT_LOCK",
+  "auditDate": "2026-06-02",
+  "status": "baseline_locked",
+  "implementationStarted": false,
+  "ledger": "docs/audits/PREDICTA_MONETIZATION_PHASE_0_BASELINE_AND_CONTRACT_LOCK/baseline-ledger.md",
+  "requiredNextPhase": "PREDICTA_MONETIZATION_PHASE_1_GOOGLE_SIGN_IN_HARD_GATE_AND_AUTH_QA",
+  "greenCriteria": [
+    "baseline ledger exists under docs/audits",
+    "current defects are categorized critical major medium minor",
+    "source evidence is repeatably checked",
+    "no entitlement implementation starts in phase 0"
+  ]
+}
