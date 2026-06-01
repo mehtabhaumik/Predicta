@@ -8,11 +8,17 @@ import {
   buildPredictaPdfResult,
   createPredictaReportPdfElement,
 } from '@pridicta/pdf/reportDocument';
+import { requireFirebaseUser } from '../../../../lib/firebase/server-auth';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function POST(request: Request): Promise<Response> {
+  const auth = await requireFirebaseUser(request);
+  if (!auth.ok) {
+    return auth.response;
+  }
+
   let payload: PdfGenerationRequest;
 
   try {

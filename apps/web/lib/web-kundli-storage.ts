@@ -11,6 +11,7 @@ import {
   type WebGuestSession,
 } from './web-guest-session';
 import { getFirebaseWebAuth } from './firebase/client';
+import { getWebAuthHeaders } from './firebase/auth-token';
 import {
   buildFamilyProfileMetadata,
   getFamilyRelationshipColorToken,
@@ -67,9 +68,11 @@ export async function generateKundliFromWeb(
   details: BirthDetails,
   options: GenerateKundliOptions = {},
 ): Promise<KundliData> {
+  const authHeaders = await getWebAuthHeaders();
   const response = await fetch('/api/generate-kundli', {
     body: JSON.stringify(details),
     headers: {
+      ...authHeaders,
       'Content-Type': 'application/json',
     },
     method: 'POST',
@@ -225,7 +228,7 @@ export function canCreateAdditionalWebKundli(options: {
   const current = loadWebKundliStore();
   const signedIn = isWebUserSignedIn();
 
-  if (signedIn || options.isUpdate || current.savedKundlis.length < WEB_GUEST_KUNDLI_LIMIT) {
+  if (signedIn || options.isUpdate) {
     return {
       allowed: true,
       savedCount: current.savedKundlis.length,

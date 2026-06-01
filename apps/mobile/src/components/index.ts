@@ -31,6 +31,7 @@ export * from './LockedPremiumOverlay';
 export * from './MetricCard';
 export * from './Screen';
 export * from './SadeSatiPanel';
+export * from './SignInRequiredPanel';
 export * from './TransitGocharPanel';
 export * from './TrustProofPanel';
 export * from './VedicIntelligencePanel';

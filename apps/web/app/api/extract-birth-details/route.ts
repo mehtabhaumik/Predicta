@@ -1,7 +1,13 @@
 import { proxyAstroApiRequest, readJsonBody } from '../../../lib/astro-api';
 import type { BirthDetailsExtractionResult } from '@pridicta/types';
+import { requireFirebaseUser } from '../../../lib/firebase/server-auth';
 
 export async function POST(request: Request): Promise<Response> {
+  const auth = await requireFirebaseUser(request);
+  if (!auth.ok) {
+    return auth.response;
+  }
+
   const json = await readJsonBody(request);
 
   if (!json.ok) {

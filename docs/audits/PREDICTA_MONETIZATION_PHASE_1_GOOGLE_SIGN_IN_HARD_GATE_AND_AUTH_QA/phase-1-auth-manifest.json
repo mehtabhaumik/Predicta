@@ -1,0 +1,20 @@
+{
+  "phase": "PREDICTA_MONETIZATION_PHASE_1_GOOGLE_SIGN_IN_HARD_GATE_AND_AUTH_QA",
+  "auditDate": "2026-06-02",
+  "status": "auth_hard_gate_green",
+  "implementationStarted": true,
+  "deferredPhases": [
+    "PREDICTA_MONETIZATION_PHASE_2_SERVER_ENTITLEMENT_LEDGER_AND_FIREBASE_UID_SOURCE_OF_TRUTH",
+    "PREDICTA_MONETIZATION_PHASE_3_FREE_THREE_LIFETIME_AI_CREDITS_AND_PRESERVED_UPSELL",
+    "PREDICTA_MONETIZATION_PHASE_4_ZERO_CREDIT_DETERMINISTIC_CHAT_MODE"
+  ],
+  "verifiedCommands": [
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "corepack pnpm --filter @pridicta/mobile typecheck",
+    "corepack pnpm test:monetization-phase-1",
+    "corepack pnpm build:web",
+    "corepack pnpm test:audit-server-preflight",
+    "corepack pnpm test:ui-personal-space",
+    "curl unauthenticated API smoke returned 401 AUTH_REQUIRED for ask, generate-kundli, and report/pdf"
+  ]
+}

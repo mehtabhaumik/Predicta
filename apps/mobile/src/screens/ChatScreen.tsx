@@ -670,6 +670,18 @@ export function ChatScreen({
     });
     const responseLanguage = languageContext.responseLanguage;
 
+    if (!auth.isLoggedIn) {
+      appendConversationMessage(
+        createMessage(
+          'pridicta',
+          'Please sign in with Google before using Predicta chat. Your Kundlis, reports, and Family Vault will stay attached to your private account.',
+          activeChartContext,
+        ),
+      );
+      navigation.navigate(routes.Login);
+      return;
+    }
+
     if (
       shouldAutoSwitchToRegionalLanguage({
         context: languageContext,

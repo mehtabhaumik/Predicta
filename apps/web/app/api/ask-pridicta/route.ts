@@ -1,9 +1,15 @@
 import { proxyAstroApiRequest, readJsonBody } from '../../../lib/astro-api';
+import { requireFirebaseUser } from '../../../lib/firebase/server-auth';
 
 const MAX_SERVER_HISTORY_MESSAGES = 8;
 const MAX_SERVER_MESSAGE_CHARS = 4000;
 
 export async function POST(request: Request): Promise<Response> {
+  const auth = await requireFirebaseUser(request);
+  if (!auth.ok) {
+    return auth.response;
+  }
+
   const payload = await readJsonBody(request);
 
   if (!payload.ok) {

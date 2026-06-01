@@ -7,6 +7,7 @@ import {
   FamilyKarmaMapPanel,
   GlowCard,
   Screen,
+  SignInRequiredPanel,
 } from '../components';
 import { composeFamilyKarmaMap } from '@pridicta/astrology';
 import { routes } from '../navigation/routes';
@@ -42,6 +43,7 @@ export function FamilyKarmaMapScreen({
     Record<string, FamilyRelationshipLabel>
   >({});
   const activeKundli = useAppStore(state => state.activeKundli);
+  const auth = useAppStore(state => state.auth);
   const setActiveKundli = useAppStore(state => state.setActiveKundli);
   const setActiveChartContext = useAppStore(
     state => state.setActiveChartContext,
@@ -87,7 +89,7 @@ export function FamilyKarmaMapScreen({
   const familyMap = useMemo(
     () =>
       composeFamilyKarmaMap(
-        records.map((record, index) => ({
+        records.slice(0, 4).map((record, index) => ({
           kundli: record.kundliData,
           relationship:
             relationshipById[record.summary.id] ?? (index === 0 ? 'self' : 'other'),
@@ -97,6 +99,11 @@ export function FamilyKarmaMapScreen({
   );
 
   function askFamilyMap() {
+    if (!auth.isLoggedIn) {
+      navigation.navigate(routes.Login);
+      return;
+    }
+
     const mapKundli = activeKundli ?? records[0]?.kundliData;
 
     if (mapKundli) {
@@ -118,6 +125,11 @@ export function FamilyKarmaMapScreen({
   }
 
   function askProfile(record: SavedKundliRecord) {
+    if (!auth.isLoggedIn) {
+      navigation.navigate(routes.Login);
+      return;
+    }
+
     setActiveKundli(record.kundliData);
     setActiveChartContext({
       kundliId: record.summary.id,
@@ -126,6 +138,18 @@ export function FamilyKarmaMapScreen({
       sourceScreen: 'Family Profile',
     });
     navigation.navigate(routes.Chat);
+  }
+
+  if (!auth.isLoggedIn) {
+    return (
+      <Screen>
+        <SignInRequiredPanel
+          body="Sign in before using Family Vault so family profiles, comparisons, and shared patterns stay private."
+          navigation={navigation}
+          title="Sign in to open Family Vault."
+        />
+      </Screen>
+    );
   }
 
   function setRelationship(

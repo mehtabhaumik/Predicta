@@ -2,6 +2,7 @@
 
 import { getNativeCopy } from '@pridicta/config';
 import type { SupportedLanguage } from '@pridicta/types';
+import { WebAuthRequired } from '../../../../components/WebAuthRequired';
 import { WebFamilyKarmaMap } from '../../../../components/WebFamilyKarmaMap';
 import { demoAccess } from '../../../../lib/demo-state';
 import { useLanguagePreference } from '../../../../lib/language-preference';
@@ -33,14 +34,19 @@ export default function FamilyKarmaMapPage(): React.JSX.Element {
 
   return (
     <section className="dashboard-page">
-      <div className="page-heading compact family-page-heading">
-        <div>
-          <div className="section-title">{copy.eyebrow}</div>
-          <h1 className="gradient-text">{copy.title}</h1>
-          <p>{copy.body}</p>
+      <WebAuthRequired
+        body="Sign in before running household comparison so Family Vault uses only your saved private Kundlis."
+        title="Sign in to open Family Karma Map."
+      >
+        <div className="page-heading compact family-page-heading">
+          <div>
+            <div className="section-title">{copy.eyebrow}</div>
+            <h1 className="gradient-text">{copy.title}</h1>
+            <p>{copy.body}</p>
+          </div>
         </div>
-      </div>
-      <WebFamilyKarmaMap hasPremiumAccess={demoAccess.hasPremiumAccess} />
+        <WebFamilyKarmaMap hasPremiumAccess={demoAccess.hasPremiumAccess} />
+      </WebAuthRequired>
     </section>
   );
 }

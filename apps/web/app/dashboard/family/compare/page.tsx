@@ -2,6 +2,7 @@
 
 import { getNativeCopy } from '@pridicta/config';
 import type { SupportedLanguage } from '@pridicta/types';
+import { WebAuthRequired } from '../../../../components/WebAuthRequired';
 import { WebFamilyPairComparison } from '../../../../components/WebFamilyPairComparison';
 import { demoAccess } from '../../../../lib/demo-state';
 import { useLanguagePreference } from '../../../../lib/language-preference';
@@ -33,14 +34,19 @@ export default function FamilyComparePage(): React.JSX.Element {
 
   return (
     <section className="dashboard-page">
-      <div className="page-heading compact family-page-heading">
-        <div>
-          <div className="section-title">{copy.eyebrow}</div>
-          <h1 className="gradient-text">{copy.title}</h1>
-          <p>{copy.body}</p>
+      <WebAuthRequired
+        body="Sign in before comparing two Kundlis so relationship insights stay private and attached to your account."
+        title="Sign in to run Pair Comparison."
+      >
+        <div className="page-heading compact family-page-heading">
+          <div>
+            <div className="section-title">{copy.eyebrow}</div>
+            <h1 className="gradient-text">{copy.title}</h1>
+            <p>{copy.body}</p>
+          </div>
         </div>
-      </div>
-      <WebFamilyPairComparison hasPremiumAccess={demoAccess.hasPremiumAccess} />
+        <WebFamilyPairComparison hasPremiumAccess={demoAccess.hasPremiumAccess} />
+      </WebAuthRequired>
     </section>
   );
 }

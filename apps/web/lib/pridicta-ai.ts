@@ -3,16 +3,19 @@ import type {
   PridictaChatRequest,
   PridictaChatResponse,
 } from '@pridicta/types';
+import { getWebAuthHeaders } from './firebase/auth-token';
 
 export async function askPridictaFromWeb(
   request: PridictaChatRequest,
 ): Promise<PridictaChatResponse> {
+  const authHeaders = await getWebAuthHeaders();
   const response = await fetch('/api/ask-pridicta', {
     body: JSON.stringify({
       ...request,
       safetyIdentifier: request.safetyIdentifier ?? getWebSafetyIdentifier(),
     }),
     headers: {
+      ...authHeaders,
       'Content-Type': 'application/json',
     },
     method: 'POST',
@@ -48,9 +51,11 @@ export function getWebSafetyIdentifier(): string {
 export async function extractBirthDetailsFromWeb(
   text: string,
 ): Promise<BirthDetailsExtractionResult> {
+  const authHeaders = await getWebAuthHeaders();
   const response = await fetch('/api/extract-birth-details', {
     body: JSON.stringify({ text }),
     headers: {
+      ...authHeaders,
       'Content-Type': 'application/json',
     },
     method: 'POST',

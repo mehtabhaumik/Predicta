@@ -156,6 +156,22 @@ export function ReportScreen({
   }, [kundli?.id, previewMode, selectedReportId, sectionOptions]);
 
   async function createPdf(mode: PDFMode) {
+    if (!auth.isLoggedIn) {
+      showGlassAlert({
+        actions: [
+          { label: 'Not Now' },
+          {
+            label: 'Sign In',
+            onPress: () => navigation.navigate(routes.Login),
+          },
+        ],
+        message:
+          'Sign in before downloading a Predicta report so the PDF and future report credits stay attached to your account.',
+        title: 'Sign in to download reports',
+      });
+      return;
+    }
+
     if (!kundli) {
       showGlassAlert({
         message:

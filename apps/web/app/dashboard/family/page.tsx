@@ -4,6 +4,7 @@ import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import type { SupportedLanguage } from '@pridicta/types';
 import { FamilyRelationshipBadge } from '../../../components/FamilyRelationshipBadge';
+import { WebAuthRequired } from '../../../components/WebAuthRequired';
 import { useLanguagePreference } from '../../../lib/language-preference';
 import { useWebKundliLibrary } from '../../../lib/use-web-kundli-library';
 
@@ -202,63 +203,68 @@ export default function FamilyPage(): React.JSX.Element {
 
   return (
     <section className="dashboard-page">
-      <div className="page-heading compact family-page-heading">
-        <div>
-          <div className="section-title">{copy.eyebrow}</div>
-          <h1 className="gradient-text">{copy.title}</h1>
-          <p>{copy.body}</p>
+      <WebAuthRequired
+        body="Sign in before opening Family Vault so saved Kundlis, relationships, and comparisons stay tied to your private account."
+        title="Sign in to use Family Vault."
+      >
+        <div className="page-heading compact family-page-heading">
+          <div>
+            <div className="section-title">{copy.eyebrow}</div>
+            <h1 className="gradient-text">{copy.title}</h1>
+            <p>{copy.body}</p>
+          </div>
+          <div className="action-row compact">
+            <Link className="button secondary" href="/dashboard/saved-kundlis">
+              {copy.actions.goToLibrary}
+            </Link>
+            <Link className="button" href="/dashboard/kundli">
+              {copy.actions.addProfile}
+            </Link>
+          </div>
         </div>
-        <div className="action-row compact">
-          <Link className="button secondary" href="/dashboard/saved-kundlis">
-            {copy.actions.goToLibrary}
-          </Link>
-          <Link className="button" href="/dashboard/kundli">
-            {copy.actions.addProfile}
-          </Link>
-        </div>
-      </div>
 
-      <div className="family-overview-grid" aria-label={copy.eyebrow}>
-        <div className="family-overview-card">
-          <span>{copy.cards.activeTitle}</span>
-          <strong>{activeKundli?.birthDetails.name ?? copy.cards.activeFallback}</strong>
-          <p>{copy.cards.activeBody(activeKundli?.birthDetails.name)}</p>
+        <div className="family-overview-grid" aria-label={copy.eyebrow}>
+          <div className="family-overview-card">
+            <span>{copy.cards.activeTitle}</span>
+            <strong>{activeKundli?.birthDetails.name ?? copy.cards.activeFallback}</strong>
+            <p>{copy.cards.activeBody(activeKundli?.birthDetails.name)}</p>
+          </div>
+          <div className="family-overview-card">
+            <span>{copy.cards.ownerTitle}</span>
+            <strong>{ownerProfile?.birthDetails.name ?? copy.cards.activeFallback}</strong>
+            <p>
+              {ownerProfile ? (
+                <FamilyRelationshipBadge
+                  language={language}
+                  relationship={ownerProfile.relationshipToOwner ?? 'self'}
+                />
+              ) : (
+                copy.cards.activeBody(undefined)
+              )}
+            </p>
+          </div>
+          <div className="family-overview-card">
+            <span>{copy.cards.readinessTitle(profiles.length)}</span>
+            <strong>{profiles.length}</strong>
+            <p>{copy.cards.readinessBody(profiles.length)}</p>
+          </div>
         </div>
-        <div className="family-overview-card">
-          <span>{copy.cards.ownerTitle}</span>
-          <strong>{ownerProfile?.birthDetails.name ?? copy.cards.activeFallback}</strong>
-          <p>
-            {ownerProfile ? (
-              <FamilyRelationshipBadge
-                language={language}
-                relationship={ownerProfile.relationshipToOwner ?? 'self'}
-              />
-            ) : (
-              copy.cards.activeBody(undefined)
-            )}
-          </p>
-        </div>
-        <div className="family-overview-card">
-          <span>{copy.cards.readinessTitle(profiles.length)}</span>
-          <strong>{profiles.length}</strong>
-          <p>{copy.cards.readinessBody(profiles.length)}</p>
-        </div>
-      </div>
 
-      <div className="family-experience-grid">
-        {copy.experiences.map(card => (
-          <article className="family-experience-tile" key={card.title}>
-            <span>{card.title}</span>
-            <strong>{card.title}</strong>
-            <p>{card.body}</p>
-            <div className="action-row compact">
-              <Link className="button" href={card.href}>
-                {card.cta}
-              </Link>
-            </div>
-          </article>
-        ))}
-      </div>
+        <div className="family-experience-grid">
+          {copy.experiences.map(card => (
+            <article className="family-experience-tile" key={card.title}>
+              <span>{card.title}</span>
+              <strong>{card.title}</strong>
+              <p>{card.body}</p>
+              <div className="action-row compact">
+                <Link className="button" href={card.href}>
+                  {card.cta}
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      </WebAuthRequired>
     </section>
   );
 }

@@ -1,13 +1,15 @@
 'use client';
 
 import { getNativeCopy } from '@pridicta/config';
-import { type FormEvent, useRef, useState } from 'react';
+import { type FormEvent, useEffect, useRef, useState } from 'react';
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
+  getRedirectResult,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signInWithRedirect,
 } from 'firebase/auth';
 import type { SupportedLanguage } from '@pridicta/types';
 import { getFirebaseWebAuth } from '../lib/firebase/client';
@@ -30,6 +32,28 @@ export function AuthDialog(): React.JSX.Element {
   const [busy, setBusy] = useState(false);
   const dialogRef = useRef<HTMLElement | null>(null);
   const emailInputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    try {
+      getRedirectResult(getFirebaseWebAuth())
+        .then(result => {
+          if (result?.user) {
+            setMessageTone('success');
+            setMessage(copy.signedInSuccess);
+            window.setTimeout(() => setOpen(false), 700);
+          }
+        })
+        .catch(error => {
+          setMessageTone('error');
+          setMessage(getFriendlyAuthError(error, copy));
+        });
+    } catch (error) {
+      if (open) {
+        setMessageTone('error');
+        setMessage(getFriendlyAuthError(error, copy));
+      }
+    }
+  }, [copy, open]);
 
   useDialogFocusTrap(dialogRef, {
     active: open,
@@ -61,7 +85,19 @@ export function AuthDialog(): React.JSX.Element {
 
   function googleSignIn() {
     return runAuth(
-      () => signInWithPopup(getFirebaseWebAuth(), new GoogleAuthProvider()),
+      async () => {
+        const auth = getFirebaseWebAuth();
+        const provider = new GoogleAuthProvider();
+        try {
+          await signInWithPopup(auth, provider);
+        } catch (error) {
+          if (isPopupBlockedAuthError(error)) {
+            await signInWithRedirect(auth, provider);
+            return;
+          }
+          throw error;
+        }
+      },
       copy.signedInSuccess,
       { closeOnSuccess: true },
     );
@@ -352,6 +388,15 @@ function getFriendlyAuthError(error: unknown, copy: AuthCopy): string {
   }
 
   return copy.genericError;
+}
+
+function isPopupBlockedAuthError(error: unknown): boolean {
+  return (
+    error instanceof Error &&
+    /popup-blocked|cancelled-popup-request/i.test(
+      error.message,
+    )
+  );
 }
 
 type AuthCopy = {

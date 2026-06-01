@@ -3457,6 +3457,24 @@ button:disabled,
   margin: 0;
 }
 
+.auth-required-panel {
+  display: grid;
+  gap: var(--space-4);
+  margin: var(--space-6) auto;
+  max-width: min(720px, 100%);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  text-align: left;
+}
+
+.auth-required-panel h2,
+.auth-required-panel p {
+  margin: 0;
+}
+
+.auth-required-panel .button {
+  inline-size: fit-content;
+}
+
 .birth-confirmation-panel,
 .kundli-rectification-panel,
 .kundli-creation-reveal {

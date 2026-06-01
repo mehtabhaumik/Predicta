@@ -58,6 +58,7 @@ import { WebActiveKundliActions } from './WebActiveKundliActions';
 import { PlanetGlyph } from './PlanetGlyph';
 import { NorthIndianChartLines } from './WebKundliChart';
 import { AuthDialog } from './AuthDialog';
+import { getWebAuthHeaders } from '../lib/firebase/auth-token';
 import { PredictaButton } from './ui/DesignSystemPrimitives';
 import { getFirebaseWebAuth } from '../lib/firebase/client';
 import {
@@ -652,6 +653,14 @@ export function WebDossierPreview(): React.JSX.Element {
       return;
     }
 
+    if (!user?.uid) {
+      setReportSurfaceState('signin');
+      setReportDownloadError(
+        'Please sign in before downloading a Predicta report.',
+      );
+      return;
+    }
+
     if (signatureReportBlocked) {
       setReportDownloadError(
         'Signature report download is blocked until a confirmed signature sample is available.',
@@ -667,6 +676,7 @@ export function WebDossierPreview(): React.JSX.Element {
     try {
       setIsPdfDownloading(true);
       setReportDownloadError(null);
+      const authHeaders = await getWebAuthHeaders();
 
       const response = await fetch('/api/report/pdf', {
         body: JSON.stringify({
@@ -679,6 +689,7 @@ export function WebDossierPreview(): React.JSX.Element {
           signatureAnalysis,
         }),
         headers: {
+          ...authHeaders,
           'Content-Type': 'application/json',
         },
         method: 'POST',

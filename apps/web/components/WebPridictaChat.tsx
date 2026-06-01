@@ -302,6 +302,7 @@ export function WebPridictaChat({
   const [chatAccount, setChatAccount] = useState<
     { email?: string | null; uid: string } | undefined
   >();
+  const [chatAuthReady, setChatAuthReady] = useState(false);
   const [activeChatSessionId, setActiveChatSessionId] = useState<string>();
   const [chatSessions, setChatSessions] = useState<WebChatSession[]>([]);
   const replyFeedbackSessionIdRef = useRef<string | undefined>(undefined);
@@ -360,6 +361,7 @@ export function WebPridictaChat({
     let unsubscribeAuth: (() => void) | undefined;
     try {
       unsubscribeAuth = onAuthStateChanged(getFirebaseWebAuth(), user => {
+        setChatAuthReady(true);
         const account = user?.uid
           ? {
               email: user.email,
@@ -425,7 +427,7 @@ export function WebPridictaChat({
       });
 
     } catch {
-      // Chat still works as a single guest thread if sign-in is unavailable.
+      setChatAuthReady(true);
     }
 
     setPassCostDisplay(getWebPassCostDisplay(language));
@@ -1673,6 +1675,30 @@ export function WebPridictaChat({
       room?.body ??
         'Ask with your Kundli context, chart proof, and calm follow-up guidance.',
     );
+
+  if (!chatAuthReady) {
+    return (
+      <section className="glass-panel auth-required-panel" aria-live="polite">
+        <div className="section-title">ACCOUNT CHECK</div>
+        <h2>Checking your Predicta account...</h2>
+        <p>Predicta is confirming sign-in before opening private chat.</p>
+      </section>
+    );
+  }
+
+  if (!chatAccount?.uid) {
+    return (
+      <section className="glass-panel auth-required-panel">
+        <div className="section-title">ACCOUNT REQUIRED</div>
+        <h2>Sign in before chatting with Predicta.</h2>
+        <p>
+          AI chat, saved Kundlis, reports, and Family Vault now stay attached to
+          your private account.
+        </p>
+        <AuthDialog />
+      </section>
+    );
+  }
 
   return (
     <div

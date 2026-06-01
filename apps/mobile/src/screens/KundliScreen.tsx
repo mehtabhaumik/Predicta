@@ -12,6 +12,7 @@ import {
   GlowCard,
   GradientOutlineCard,
   KundliChart,
+  SignInRequiredPanel,
   type KundliChartFocus,
   Screen,
   useGlassAlert,
@@ -101,6 +102,18 @@ export function KundliScreen({
     },
     [],
   );
+
+  if (!auth.isLoggedIn) {
+    return (
+      <Screen>
+        <SignInRequiredPanel
+          body="Create and save Kundlis only after sign-in so charts, family profiles, and reports stay protected with your account."
+          navigation={navigation}
+          title="Sign in before creating a Kundli."
+        />
+      </Screen>
+    );
+  }
 
   async function generateConfirmedKundli(
     finalDetails: BirthDetails,

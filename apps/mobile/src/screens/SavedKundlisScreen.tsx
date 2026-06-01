@@ -12,6 +12,7 @@ import {
   GlowButton,
   GlowCard,
   Screen,
+  SignInRequiredPanel,
   useGlassAlert,
 } from '../components';
 import { KundliChart } from '../components/charts/KundliChart';
@@ -65,6 +66,18 @@ export function SavedKundlisScreen({
       .then(setSavedKundlis)
       .catch(() => undefined);
   }, [setSavedKundlis]);
+
+  if (!auth.isLoggedIn) {
+    return (
+      <Screen>
+        <SignInRequiredPanel
+          body="Sign in before opening your Kundli Library so saved charts and Family Vault assignments stay protected with your account."
+          navigation={navigation}
+          title="Sign in to use Kundli Library."
+        />
+      </Screen>
+    );
+  }
 
   async function cloudSave(record: SavedKundliRecord) {
     if (!auth.isLoggedIn || !auth.userId) {
