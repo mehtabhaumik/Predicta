@@ -5,6 +5,7 @@ const FIREBASE_CERT_URL =
 
 type VerifiedFirebaseUser = {
   email?: string;
+  token: string;
   uid: string;
 };
 
@@ -107,6 +108,7 @@ async function verifyFirebaseIdToken(token: string): Promise<VerifiedFirebaseUse
 
   return {
     email: payload.email,
+    token,
     uid: payload.sub,
   };
 }

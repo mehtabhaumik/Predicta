@@ -58,6 +58,7 @@
     "test:jaimini-phase-12": "node scripts/run-jaimini-phase-12-final-cross-platform-golden-audit.mjs",
     "test:monetization-phase-0": "node scripts/run-monetization-phase-0-baseline-gate.mjs",
     "test:monetization-phase-1": "node scripts/run-monetization-phase-1-auth-gate.mjs",
+    "test:monetization-phase-2": "node scripts/run-monetization-phase-2-entitlement-ledger-gate.mjs",
     "test:numerology-predicta": "node scripts/run-numerology-predicta-strict-phase-gate.mjs",
     "test:signature-predicta": "node scripts/run-signature-predicta-ultra-strict-phase-gate.mjs",
     "test:life-atlas-report": "node scripts/run-life-atlas-report-strict-contract-gate.mjs",

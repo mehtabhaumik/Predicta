@@ -1,0 +1,35 @@
+{
+  "phase": "PREDICTA_MONETIZATION_PHASE_2_SERVER_ENTITLEMENT_LEDGER_AND_FIREBASE_UID_SOURCE_OF_TRUTH",
+  "green": true,
+  "sourceOfTruth": "Firebase UID ledger at users/{uid}/entitlementLedger/current",
+  "operationIdempotencyPath": "users/{uid}/entitlementOperations/{idempotencyKey}",
+  "freeAiQuestionsLifetime": 3,
+  "clientStateAuthority": "cache_only",
+  "mutationProtection": {
+    "firebaseIdTokenRequired": true,
+    "internalOperationSecretRequired": true,
+    "antiReplayOperationDocs": true
+  },
+  "ledgerFields": [
+    "freeAiCreditsUsed",
+    "paidAiQuestionCreditsBalance",
+    "reportCreditsByType",
+    "savedKundliCount",
+    "premiumEntitlement",
+    "dayPassEntitlement",
+    "familyBank",
+    "audit"
+  ],
+  "strictGate": "corepack pnpm test:monetization-phase-2",
+  "implementationFiles": [
+    "packages/monetization/src/serverEntitlementLedger.ts",
+    "apps/web/app/api/entitlements/ledger/route.ts",
+    "apps/web/lib/firebase/server-entitlement-ledger.ts",
+    "apps/web/lib/web-access-state.ts",
+    "apps/mobile/src/services/firebase/serverEntitlementLedgerSync.ts",
+    "scripts/run-monetization-phase-2-entitlement-ledger-gate.mjs"
+  ],
+  "evidenceFiles": [
+    "docs/audits/PREDICTA_MONETIZATION_PHASE_2_SERVER_ENTITLEMENT_LEDGER_AND_FIREBASE_UID_SOURCE_OF_TRUTH/server-entitlement-ledger.md"
+  ]
+}

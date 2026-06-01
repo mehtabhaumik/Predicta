@@ -1,7 +1,11 @@
 'use client';
 
 import { resolveAccess } from '@pridicta/access';
-import { createInitialMonetizationState } from '@pridicta/monetization';
+import {
+  createInitialMonetizationState,
+  mapServerLedgerToMonetizationState,
+  type ServerEntitlementLedger,
+} from '@pridicta/monetization';
 import type {
   AuthState,
   MonetizationState,
@@ -10,10 +14,16 @@ import type {
 } from '@pridicta/types';
 import { doc, getDoc } from 'firebase/firestore';
 import { getFirebaseWebDb } from './firebase/client';
+import { getWebAuthHeaders } from './firebase/auth-token';
 
 export async function loadWebMonetizationState(
   userId: string,
 ): Promise<MonetizationState> {
+  const serverLedgerState = await loadWebServerLedgerState();
+  if (serverLedgerState) {
+    return serverLedgerState;
+  }
+
   try {
     const snapshot = await getDoc(doc(getFirebaseWebDb(), 'users', userId));
     const data = snapshot.data();
@@ -30,6 +40,27 @@ export async function loadWebMonetizationState(
     };
   } catch {
     return createInitialMonetizationState();
+  }
+}
+
+export async function loadWebServerLedgerState(): Promise<MonetizationState | undefined> {
+  try {
+    const authHeaders = await getWebAuthHeaders();
+    const response = await fetch('/api/entitlements/ledger', {
+      headers: authHeaders,
+      method: 'GET',
+    });
+
+    if (!response.ok) {
+      return undefined;
+    }
+
+    const payload = (await response.json()) as { ledger?: ServerEntitlementLedger };
+    return payload.ledger
+      ? mapServerLedgerToMonetizationState(payload.ledger)
+      : undefined;
+  } catch {
+    return undefined;
   }
 }
 
