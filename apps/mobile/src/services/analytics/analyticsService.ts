@@ -30,7 +30,8 @@ export type AnalyticsEventName =
   | 'restore_failed'
   | 'restore_started'
   | 'save_to_cloud_tapped'
-  | 'upgrade_cta_tapped';
+  | 'upgrade_cta_tapped'
+  | 'zero_credit_deterministic_action';
 
 type AnalyticsMetadata = Record<string, string | number | boolean | null>;
 

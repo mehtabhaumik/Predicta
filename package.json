@@ -60,6 +60,7 @@
     "test:monetization-phase-1": "node scripts/run-monetization-phase-1-auth-gate.mjs",
     "test:monetization-phase-2": "node scripts/run-monetization-phase-2-entitlement-ledger-gate.mjs",
     "test:monetization-phase-3": "node scripts/run-monetization-phase-3-free-ai-credits-gate.mjs",
+    "test:monetization-phase-4": "node scripts/run-monetization-phase-4-zero-credit-chat-gate.mjs",
     "test:numerology-predicta": "node scripts/run-numerology-predicta-strict-phase-gate.mjs",
     "test:signature-predicta": "node scripts/run-signature-predicta-ultra-strict-phase-gate.mjs",
     "test:life-atlas-report": "node scripts/run-life-atlas-report-strict-contract-gate.mjs",

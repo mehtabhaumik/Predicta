@@ -31,9 +31,13 @@ const MONTHS: Record<string, string> = {
 
 export async function extractBirthDetailsFromText(
   input: string,
+  options: { allowProviderFallback?: boolean } = {},
 ): Promise<BirthDetailsExtractionResult> {
-  const aiResult = await extractWithBackendAI(input);
   const rulesResult = extractWithRules(input);
+  const shouldUseProvider =
+    options.allowProviderFallback === true &&
+    !isDeterministicBirthExtractionComplete(rulesResult);
+  const aiResult = shouldUseProvider ? await extractWithBackendAI(input) : null;
   const baseResult = aiResult
     ? mergeExtractionResults(rulesResult, aiResult)
     : rulesResult;
@@ -64,6 +68,21 @@ export async function extractBirthDetailsFromText(
   }
 
   return normalizeExtractionResult(baseResult);
+}
+
+function isDeterministicBirthExtractionComplete(
+  result: BirthDetailsExtractionResult,
+): boolean {
+  const missing = new Set(result.missingFields ?? []);
+  return (
+    Boolean(result.extracted.date) &&
+    Boolean(result.extracted.time) &&
+    Boolean(result.extracted.placeText || result.extracted.city) &&
+    !missing.has('date') &&
+    !missing.has('time') &&
+    !missing.has('birth_place') &&
+    !missing.has('am_pm')
+  );
 }
 
 async function extractWithBackendAI(

@@ -115,6 +115,7 @@ import {
   getOrCreateBrowserDeviceId,
   getOrCreateWebGuestSession,
 } from '../lib/web-guest-session';
+import { recordWebZeroCreditDeterministicAction } from '../lib/zero-credit-telemetry';
 
 const WEB_CHAT_MEMORY_KEY = 'predicta.webChatMemory.v4';
 const WEB_CHAT_SESSIONS_KEY_PREFIX = 'predicta.webChatSessions.v1';
@@ -913,13 +914,18 @@ export function WebPridictaChat({
       );
 
       if (kundliCommandReply) {
+        recordWebZeroCreditDeterministicAction('kundli_command');
         setMessages(current => [
           ...current,
-          createPridictaReply(kundliCommandReply, languageContext.responseLanguage, {
-            context: activeChartContext,
-            kundli: recoverActiveKundli(),
-            lastText: text,
-          }),
+          createPridictaReply(
+            labelDeterministicChatReply(kundliCommandReply),
+            languageContext.responseLanguage,
+            {
+              context: activeChartContext,
+              kundli: recoverActiveKundli(),
+              lastText: text,
+            },
+          ),
         ]);
         return;
       }
@@ -960,6 +966,7 @@ export function WebPridictaChat({
           );
 
       if (chartReply) {
+        recordWebZeroCreditDeterministicAction('chart_snapshot');
         setMessages(current => [...current, chartReply.message]);
         return;
       }
@@ -1106,6 +1113,7 @@ export function WebPridictaChat({
     const responseLanguage = languageContext.responseLanguage;
 
     if (isSimpleGreeting(text)) {
+      recordWebZeroCreditDeterministicAction('friendly_greeting');
       return [
         languageContext.acknowledgement,
         getFriendlyGreetingReply(responseLanguage),
@@ -1133,6 +1141,7 @@ export function WebPridictaChat({
     }
 
     if (looksLikeBirthDetails(text)) {
+      recordWebZeroCreditDeterministicAction('birth_intake');
       return handleBirthIntake(
         text,
         responseLanguage,
@@ -1173,7 +1182,8 @@ export function WebPridictaChat({
     setPredictaMemory(actionReply.memory);
 
     if (actionReply.handled && actionReply.text) {
-      return actionReply.text;
+      recordWebZeroCreditDeterministicAction(actionReply.action ?? 'app_action');
+      return labelDeterministicChatReply(actionReply.text);
     }
 
     if (!activeKundli) {
@@ -1189,7 +1199,7 @@ export function WebPridictaChat({
 
       return [
         languageContext.acknowledgement,
-        createKundliFirstReply(responseLanguage, text),
+        labelDeterministicChatReply(createKundliFirstReply(responseLanguage, text)),
       ]
         .filter(Boolean)
         .join('\n\n');
@@ -1255,7 +1265,9 @@ export function WebPridictaChat({
           language: responseLanguage,
           lastText: text,
         }),
-        text: buildChatChartReplyText({ block, language: responseLanguage }),
+        text: labelDeterministicChatReply(
+          buildChatChartReplyText({ block, language: responseLanguage }),
+        ),
       },
     };
   }
@@ -1558,6 +1570,7 @@ export function WebPridictaChat({
       timezone: place.timezone,
     };
     const nextKundli = await generateKundliFromWeb(birthDetails);
+    recordWebZeroCreditDeterministicAction('kundli_created_from_chat');
     setKundli(nextKundli);
     const nextSavedKundlis = loadWebKundliStore().savedKundlis;
     setSavedKundlis(nextSavedKundlis);
@@ -1579,7 +1592,7 @@ export function WebPridictaChat({
 
     return [
       acknowledgement,
-      buildKundliCreatedReply(responseLanguage, nextKundli),
+      labelDeterministicChatReply(buildKundliCreatedReply(responseLanguage, nextKundli)),
       buildPredictaLearningSuggestion({
         hasPremiumAccess: false,
         kundli: nextKundli,
@@ -3730,6 +3743,12 @@ function buildFreeAiUpsellSuggestions(
       targetScreen: 'Reports',
     },
   ];
+}
+
+function labelDeterministicChatReply(text: string): string {
+  return text.startsWith('Calculation-engine reply:')
+    ? text
+    : `Calculation-engine reply:\n\n${text}`;
 }
 
 function shouldGateForBirthDetailConfidence(

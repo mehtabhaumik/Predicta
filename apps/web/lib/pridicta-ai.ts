@@ -96,10 +96,15 @@ export async function loadWebFreeAiBalance(): Promise<
 
 export async function extractBirthDetailsFromWeb(
   text: string,
+  options: { allowProviderFallback?: boolean } = {},
 ): Promise<BirthDetailsExtractionResult> {
   const authHeaders = await getWebAuthHeaders();
   const response = await fetch('/api/extract-birth-details', {
-    body: JSON.stringify({ text }),
+    body: JSON.stringify({
+      allowProviderFallback: options.allowProviderFallback === true,
+      rulesOnly: options.allowProviderFallback !== true,
+      text,
+    }),
     headers: {
       ...authHeaders,
       'Content-Type': 'application/json',

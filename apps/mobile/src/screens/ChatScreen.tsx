@@ -731,8 +731,11 @@ export function ChatScreen({
         createMessage('user', trimmedInput, activeChartContext),
       );
       setInput('');
+      recordMobileZeroCreditDeterministicAction('pending_kundli_command');
       streamAssistantResponse(
-        await resolvePendingKundliCommand(trimmedInput, responseLanguage),
+        labelMobileDeterministicReply(
+          await resolvePendingKundliCommand(trimmedInput, responseLanguage),
+        ),
       );
       return;
     }
@@ -747,7 +750,8 @@ export function ChatScreen({
         createMessage('user', trimmedInput, activeChartContext),
       );
       setInput('');
-      streamAssistantResponse(kundliCommandReply);
+      recordMobileZeroCreditDeterministicAction('kundli_command');
+      streamAssistantResponse(labelMobileDeterministicReply(kundliCommandReply));
       return;
     }
 
@@ -815,7 +819,10 @@ export function ChatScreen({
       setPredictaMemory(actionReply.memory);
 
       if (actionReply.handled && actionReply.text) {
-        streamAssistantResponse(actionReply.text, {
+        recordMobileZeroCreditDeterministicAction(
+          actionReply.action ?? 'app_action_without_kundli',
+        );
+        streamAssistantResponse(labelMobileDeterministicReply(actionReply.text), {
           suggestions: buildMobileFollowUps({
             context: activeChartContext,
             kundli: activeKundli,
@@ -874,6 +881,7 @@ export function ChatScreen({
           time: reply.draft.time,
         });
         const nextKundli = await generateKundli(birthDetails);
+        recordMobileZeroCreditDeterministicAction('kundli_created_from_chat');
         const creationBlock = composeChatChartBlock({
           chartType: 'D1',
           hasPremiumAccess: false,
@@ -902,7 +910,9 @@ export function ChatScreen({
         streamAssistantResponse(
           [
             languageContext.acknowledgement,
-            buildMobileKundliCreatedReply(responseLanguage, nextKundli),
+            labelMobileDeterministicReply(
+              buildMobileKundliCreatedReply(responseLanguage, nextKundli),
+            ),
             buildPredictaLearningSuggestion({
               kundli: nextKundli,
               language: responseLanguage,
@@ -981,8 +991,11 @@ export function ChatScreen({
           createMessage('user', trimmedInput, activeChartContext),
         );
         setInput('');
+        recordMobileZeroCreditDeterministicAction('chart_snapshot');
         streamAssistantResponse(
-          buildChatChartReplyText({ block, language: responseLanguage }),
+          labelMobileDeterministicReply(
+            buildChatChartReplyText({ block, language: responseLanguage }),
+          ),
           {
             blocks: [block],
             context,
@@ -1011,7 +1024,10 @@ export function ChatScreen({
           createMessage('user', trimmedInput, activeChartContext),
         );
         setInput('');
-        streamAssistantResponse(actionReply.text, {
+        recordMobileZeroCreditDeterministicAction(
+          actionReply.action ?? 'app_action',
+        );
+        streamAssistantResponse(labelMobileDeterministicReply(actionReply.text), {
           suggestions: buildMobileFollowUps({
             context: activeChartContext,
             kundli: activeKundli,
@@ -1414,6 +1430,17 @@ export function ChatScreen({
         targetScreen: routes.Report,
       },
     ];
+  }
+
+  function recordMobileZeroCreditDeterministicAction(action: string): void {
+    trackAnalyticsEvent({
+      eventName: 'zero_credit_deterministic_action',
+      metadata: {
+        action,
+        surface: 'mobile-chat',
+      },
+      userId: auth.userId,
+    }).catch(() => undefined);
   }
 
   return (
@@ -2046,6 +2073,12 @@ function syncGuestPassUsage(userId?: string): void {
   }
 
   syncRedeemedGuestPassToUser(userId, pass).catch(() => undefined);
+}
+
+function labelMobileDeterministicReply(text: string): string {
+  return text.startsWith('Calculation-engine reply:')
+    ? text
+    : `Calculation-engine reply:\n\n${text}`;
 }
 
 function ChatBubble({

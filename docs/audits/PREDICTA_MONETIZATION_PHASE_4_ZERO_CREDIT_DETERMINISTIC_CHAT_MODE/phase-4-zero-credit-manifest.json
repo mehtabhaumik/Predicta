@@ -1,0 +1,37 @@
+{
+  "phase": "PREDICTA_MONETIZATION_PHASE_4_ZERO_CREDIT_DETERMINISTIC_CHAT_MODE",
+  "green": true,
+  "providerCallsForDeterministicActions": false,
+  "birthExtractionDefault": "rules_first",
+  "providerExtractionFallback": "explicit_allow_provider_fallback_only_when_rules_incomplete",
+  "deterministicReplyLabel": "Calculation-engine reply:",
+  "blockedPurchasePathProvider": "deterministic",
+  "zeroCreditActions": [
+    "kundli creation from chat",
+    "saved/open/switch Kundli commands",
+    "chart snapshot",
+    "Mahadasha",
+    "Gochar",
+    "Panchang",
+    "remedies",
+    "report brief",
+    "saved Kundlis",
+    "Family Vault guidance",
+    "navigation/help"
+  ],
+  "telemetry": {
+    "web": "predicta.zeroCreditDeterministicEvents.v1",
+    "mobile": "zero_credit_deterministic_action"
+  },
+  "strictGate": "corepack pnpm test:monetization-phase-4",
+  "implementationFiles": [
+    "apps/web/app/api/extract-birth-details/route.ts",
+    "apps/web/lib/pridicta-ai.ts",
+    "apps/web/lib/zero-credit-telemetry.ts",
+    "apps/web/components/WebPridictaChat.tsx",
+    "apps/mobile/src/services/ai/birthDetailsExtractor.ts",
+    "apps/mobile/src/services/analytics/analyticsService.ts",
+    "apps/mobile/src/screens/ChatScreen.tsx",
+    "scripts/run-monetization-phase-4-zero-credit-chat-gate.mjs"
+  ]
+}

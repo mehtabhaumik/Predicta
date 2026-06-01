@@ -14,9 +14,22 @@ export async function POST(request: Request): Promise<Response> {
     return json.response;
   }
 
-  const payload = json.body as { text?: unknown };
+  const payload = json.body as {
+    allowProviderFallback?: unknown;
+    rulesOnly?: unknown;
+    text?: unknown;
+  };
   const text = String(payload.text ?? '');
   const rules = extractBirthDetailsWithRules(text);
+  const allowProviderFallback =
+    payload.allowProviderFallback === true && payload.rulesOnly !== true;
+
+  if (!allowProviderFallback || isDeterministicBirthExtractionComplete(rules)) {
+    return Response.json({
+      ...rules,
+      extractionMode: 'rules',
+    });
+  }
 
   try {
     const upstream = await proxyAstroApiRequest(
@@ -26,13 +39,19 @@ export async function POST(request: Request): Promise<Response> {
 
     if (upstream.ok) {
       const aiResult = (await upstream.json()) as BirthDetailsExtractionResult;
-      return Response.json(mergeExtractionResults(rules, aiResult));
+      return Response.json({
+        ...mergeExtractionResults(rules, aiResult),
+        extractionMode: 'rules_plus_provider',
+      });
     }
   } catch {
     // Deterministic parsing keeps chat intake usable when local AI services are unavailable.
   }
 
-  return Response.json(rules);
+  return Response.json({
+    ...rules,
+    extractionMode: 'rules',
+  });
 }
 
 const MONTHS: Record<string, string> = {
@@ -164,6 +183,21 @@ function mergeExtractionResults(
     extracted,
     missingFields: Array.from(missing),
   };
+}
+
+function isDeterministicBirthExtractionComplete(
+  result: BirthDetailsExtractionResult,
+): boolean {
+  const missing = new Set(result.missingFields ?? []);
+  return (
+    Boolean(result.extracted.date) &&
+    Boolean(result.extracted.time) &&
+    Boolean(result.extracted.placeText || result.extracted.city) &&
+    !missing.has('date') &&
+    !missing.has('time') &&
+    !missing.has('birth_place') &&
+    !missing.has('am_pm')
+  );
 }
 
 function extractName(input: string): string | undefined {
