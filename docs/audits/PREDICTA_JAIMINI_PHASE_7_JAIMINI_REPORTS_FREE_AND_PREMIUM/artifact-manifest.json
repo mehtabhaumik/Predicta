@@ -1,0 +1,36 @@
+{
+  "generatedAt": "2026-06-01T17:09:41.973Z",
+  "phaseName": "PREDICTA_JAIMINI_PHASE_7_JAIMINI_REPORTS_FREE_AND_PREMIUM",
+  "artifacts": [
+    {
+      "bytes": 2475342,
+      "id": "jaimini-free",
+      "mode": "FREE",
+      "pageCount": 11,
+      "pdf": "artifacts/predicta-jaimini-free.pdf",
+      "payload": "artifacts/predicta-jaimini-free-payload.json",
+      "previews": [
+        "previews/jaimini-free/page-01.png",
+        "previews/jaimini-free/page-02.png",
+        "previews/jaimini-free/page-04.png",
+        "previews/jaimini-free/page-11.png"
+      ],
+      "text": "artifacts/predicta-jaimini-free-text.txt"
+    },
+    {
+      "bytes": 2509760,
+      "id": "jaimini-premium",
+      "mode": "PREMIUM",
+      "pageCount": 18,
+      "pdf": "artifacts/predicta-jaimini-premium.pdf",
+      "payload": "artifacts/predicta-jaimini-premium-payload.json",
+      "previews": [
+        "previews/jaimini-premium/page-01.png",
+        "previews/jaimini-premium/page-02.png",
+        "previews/jaimini-premium/page-04.png",
+        "previews/jaimini-premium/page-18.png"
+      ],
+      "text": "artifacts/predicta-jaimini-premium-text.txt"
+    }
+  ]
+}

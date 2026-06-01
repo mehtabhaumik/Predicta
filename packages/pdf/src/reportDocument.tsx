@@ -924,6 +924,8 @@ export function PredictaReportPdfDocument({
               ? 'Personal life map'
               : reportFocus === 'KP'
                 ? 'KP decision guidance'
+                : reportFocus === 'JAIMINI'
+                  ? 'Jaimini destiny guidance'
                 : reportFocus === 'NUMEROLOGY'
                   ? 'Number identity'
                   : reportFocus === 'NADI'
@@ -938,6 +940,8 @@ export function PredictaReportPdfDocument({
             ? 'Your Life Atlas begins here'
             : reportFocus === 'KP'
               ? 'Your KP prediction begins here'
+              : reportFocus === 'JAIMINI'
+                ? 'Your Jaimini destiny reading begins here'
               : reportFocus === 'NUMEROLOGY'
                 ? 'Your Number Signature comes first'
                 : reportFocus === 'NADI'
@@ -951,6 +955,8 @@ export function PredictaReportPdfDocument({
             ? 'Your hidden thread, current chapter, and life invitation are the center of this Life Atlas. The reading speaks to the pattern your life is asking you to master now.'
             : reportFocus === 'KP'
               ? 'The prediction comes first: where life is opening, where timing is cautious, what needs care, and what action is safest now. KP evidence follows to support the reading.'
+              : reportFocus === 'JAIMINI'
+                ? 'The destiny reading comes first: soul role, visible identity, work dharma, relationship mirror, and the current Chara Dasha chapter. Technical evidence follows after the guidance.'
               : reportFocus === 'NUMEROLOGY'
                 ? 'Your Number Signature shows the rhythm around your name, birth code, current cycle, choices, and focus. The reading turns those numbers into practical direction.'
                 : reportFocus === 'NADI'
@@ -1014,13 +1020,15 @@ export function PredictaReportPdfDocument({
             ]}
           >
             <Text style={styles.cardLabel}>
-              {['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus)
+              {['JAIMINI', 'KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus)
                 ? 'WHAT TO CARRY'
                 : templateCopy.readAs}
             </Text>
             <Text style={[styles.cardText, displayTextStyle]}>
               {reportFocus === 'KP'
                 ? 'KP timing is cautious, but the active areas are visible'
+                : reportFocus === 'JAIMINI'
+                  ? 'your soul role and current destiny chapter are asking for mature action'
                 : reportFocus === 'NADI'
                   ? 'your repeating story thread is ready to be handled differently'
                   : reportFocus === 'NUMEROLOGY'
@@ -1036,6 +1044,8 @@ export function PredictaReportPdfDocument({
             <Text style={styles.cardSubtext}>
               {reportFocus === 'KP'
                 ? 'Move where support is visible. Slow down where pressure is vague. Refuse fear-based certainty.'
+                : reportFocus === 'JAIMINI'
+                  ? 'Lead with the Atmakaraka lesson, make the Arudha signal visible, and use Chara Dasha as a practical chapter map.'
                 : reportFocus === 'NADI'
                   ? 'The story thread, gift, caution, activation, and practice are here to guide a calmer response.'
                   : reportFocus === 'NUMEROLOGY'
@@ -1051,7 +1061,7 @@ export function PredictaReportPdfDocument({
           </View>
         </View>
 
-        {!['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus) ? (
+        {!['JAIMINI', 'KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus) ? (
           <View
             style={[
               styles.noteRow,
@@ -1076,12 +1086,22 @@ export function PredictaReportPdfDocument({
           <PdfWatermark logoSrc={options.watermarkSrc ?? options.logoSrc} watermark={report.watermark} />
           <PdfFooter subjectName={subjectName} />
           <PdfPageHeader
-            eyebrow={reportFocus === 'KP' ? 'Decision compass' : report.mode === 'PREMIUM' ? 'Prediction map' : 'Reading map'}
+            eyebrow={
+              reportFocus === 'KP'
+                ? 'Decision compass'
+                : reportFocus === 'JAIMINI'
+                  ? 'Destiny compass'
+                  : report.mode === 'PREMIUM'
+                    ? 'Prediction map'
+                    : 'Reading map'
+            }
             title={
               reportFocus === 'LIFE_ATLAS'
                 ? 'Life Atlas guide'
                 : reportFocus === 'KP'
                   ? 'KP practical guide'
+                  : reportFocus === 'JAIMINI'
+                    ? 'Jaimini destiny guide'
                 : plannedSpreads.scope === 'focused'
                   ? 'Focused reading guide'
                   : 'Reading guide'
@@ -1092,6 +1112,8 @@ export function PredictaReportPdfDocument({
               ? 'How to carry this Life Atlas'
               : reportFocus === 'KP'
                 ? 'Your KP decision compass'
+                : reportFocus === 'JAIMINI'
+                  ? 'Your Jaimini destiny compass'
               : report.mode === 'PREMIUM'
                 ? 'Your premium prediction map'
                 : 'Your prediction map'}
@@ -1101,6 +1123,8 @@ export function PredictaReportPdfDocument({
               ? 'Read it like a personal mirror: begin with the soul portrait, notice the repeated life thread, choose one practice, and return to the closing letter when you need steadiness.'
               : reportFocus === 'KP'
                 ? 'The guidance comes first, the chart backs it up, and the safety notes keep decisions grounded before action.'
+                : reportFocus === 'JAIMINI'
+                  ? 'Begin with the destiny reading, then use the appendix only to understand why the guidance holds.'
               : plannedSpreads.scope === 'focused'
                 ? 'This is a focused reading. Move from the chart spread into the specific outcome pages first, then use the trust and guidance pages last.'
                 : 'This is a broader reading. Move from the summary into the charts, then through the life spreads, and leave the proof-heavy appendix material for the end.'}
@@ -1156,6 +1180,8 @@ export function PredictaReportPdfDocument({
             eyebrow={
               reportFocus === 'KP'
                 ? 'KP technical chart'
+                : reportFocus === 'JAIMINI'
+                  ? 'Jaimini evidence'
                 : reportFocus === 'NADI'
                   ? 'Nadi chart'
                   : 'Chart evidence'
@@ -1163,6 +1189,8 @@ export function PredictaReportPdfDocument({
             title={
               reportFocus === 'KP'
                 ? 'KP cusp and outcome support chart'
+                : reportFocus === 'JAIMINI'
+                  ? 'Jaimini soul evidence chart'
                 : reportFocus === 'NADI'
                   ? 'Nadi story anchor chart'
                 : report.mode === 'PREMIUM'
@@ -1229,7 +1257,7 @@ export function PredictaReportPdfDocument({
           eyebrow={
             reportFocus === 'LIFE_ATLAS'
               ? 'Final integration'
-              : ['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)
+              : ['JAIMINI', 'KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)
                 ? 'Final prediction'
               : report.mode === 'PREMIUM'
                 ? 'Close the dossier well'
@@ -1238,7 +1266,7 @@ export function PredictaReportPdfDocument({
           title={
             reportFocus === 'LIFE_ATLAS'
               ? 'Carry the Life Atlas gently'
-              : ['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)
+              : ['JAIMINI', 'KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)
                 ? 'What Predicta wants you to carry'
               : report.mode === 'PREMIUM'
                 ? 'Next steps'
@@ -1250,6 +1278,8 @@ export function PredictaReportPdfDocument({
             ? 'Use this Life Atlas as a mirror for alignment, not as a cage around your future.'
             : reportFocus === 'KP'
               ? 'Your KP prediction should leave you calmer and clearer, not more dependent.'
+              : reportFocus === 'JAIMINI'
+                ? 'Your Jaimini reading should leave you with a destiny direction, not a method lesson.'
               : reportFocus === 'NADI'
                 ? 'Your Nadi story should name the pattern and the next wiser response.'
                 : reportFocus === 'NUMEROLOGY'
@@ -1265,6 +1295,8 @@ export function PredictaReportPdfDocument({
             ? 'Return to the hidden thread, current chapter, practices, and closing letter when life feels noisy. Predicta keeps your agency in the center: insight is useful only when it helps you choose with more honesty and calm.'
             : reportFocus === 'KP'
               ? 'Carry the active life areas, timing mood, and caution into real decisions. Move where support is visible; slow down where pressure is vague.'
+              : reportFocus === 'JAIMINI'
+                ? 'Carry the soul role, visible identity, career dharma, relationship mirror, and current Chara Dasha chapter into one practical next step.'
               : reportFocus === 'NADI'
                 ? 'Carry the strongest story thread into daily life. When the same pattern repeats, choose the practice named in the report instead of repeating the old reflex.'
                 : reportFocus === 'NUMEROLOGY'
@@ -1289,6 +1321,8 @@ export function PredictaReportPdfDocument({
               ? 'A final note from Predicta'
               : reportFocus === 'KP'
                 ? 'KP prediction to carry'
+              : reportFocus === 'JAIMINI'
+                ? 'Jaimini prediction to carry'
               : reportFocus === 'NUMEROLOGY'
                 ? 'Numerology next step'
               : reportFocus === 'NADI'
@@ -1302,6 +1336,8 @@ export function PredictaReportPdfDocument({
               ? 'Your life is not reduced to a report.'
               : reportFocus === 'KP'
                 ? 'Move where support is visible. Wait where timing is still forming.'
+              : reportFocus === 'JAIMINI'
+                ? 'Let the destiny signal become one mature action.'
               : reportFocus === 'NUMEROLOGY'
                 ? 'Use the current cycle this week.'
               : reportFocus === 'NADI'
@@ -1315,6 +1351,8 @@ export function PredictaReportPdfDocument({
               ? lifeAtlasFinalLetter?.body ?? 'Life Atlas is a mirror for purpose, chapter, gifts, lessons, and next direction. Keep what feels honest, test it through action, and let the reading make your choices calmer.'
               : reportFocus === 'KP'
                 ? 'KP is showing active life areas and timing mood. Treat visible support as green light, vague pressure as yellow light, and fear-based certainty as red light.'
+              : reportFocus === 'JAIMINI'
+                ? 'Jaimini is pointing to soul-role maturity, public signal clarity, and a current destiny chapter. Use the evidence to act with steadier direction, not to trap yourself inside fate.'
               : reportFocus === 'NUMEROLOGY'
                   ? 'Numerology works best when the number insight becomes a small practical choice: use the current cycle, strengthen what repeats, and practice what feels missing without turning numbers into fear.'
                 : reportFocus === 'NADI'
@@ -1384,7 +1422,7 @@ function buildPlannedSpreads({
   const used = new Set<number>();
   const spreads: PlannedSpread[] = [];
   const isLifeAtlas = reportFocus === 'LIFE_ATLAS';
-  const isFocusedRoom = ['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus);
+  const isFocusedRoom = ['JAIMINI', 'KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus);
 
   const pull = (kinds: string[], maxCards: number): PlannedSection[] => {
     const kindSet = new Set(kinds);
@@ -1557,6 +1595,121 @@ function buildPlannedSpreads({
       ['numerology-boundary'],
       1,
       'Boundary',
+    );
+  } else if (reportFocus === 'JAIMINI') {
+    addSpread(
+      'Jaimini prediction',
+      'What Jaimini is predicting now',
+      'The reading starts with destiny direction: soul role, public signal, career dharma, relationship mirror, and the active chapter.',
+      ['focus-jaimini'],
+      1,
+      'Jaimini evidence',
+    );
+    addSpread(
+      'Atmakaraka',
+      'The soul planet reading',
+      'Atmakaraka comes before the deeper proof because this is the central Jaimini signal for the life role.',
+      ['jaimini-atmakaraka'],
+      1,
+      'Soul planet evidence',
+    );
+    addSpread(
+      'Jaimini soul charts',
+      'Karakamsha and Swamsa',
+      'The soul charts translate inner direction into a practical prediction about what should mature now.',
+      ['jaimini-soul'],
+      1,
+      'Soul evidence',
+    );
+    addSpread(
+      'Visible identity',
+      'Arudha and public signal',
+      'This page explains how the world is likely to read the user and what should become more consistent.',
+      ['jaimini-identity'],
+      1,
+      'Public signal evidence',
+    );
+    addSpread(
+      'Career dharma',
+      'Amatyakaraka work direction',
+      'The work reading stays practical: what strengthens career direction and what kind of proof life is asking for.',
+      ['jaimini-career'],
+      1,
+      'Career evidence',
+    );
+    addSpread(
+      'Relationship mirror',
+      'Darakaraka relationship pattern',
+      'The relationship reading names the mirror and gives a grounded response without turning it into fatalism.',
+      ['jaimini-relationship'],
+      1,
+      'Relationship evidence',
+    );
+    addSpread(
+      'Destiny timing',
+      'Current Chara Dasha chapter',
+      'The timing chapter explains what life is making louder now and what the user should do with that signal.',
+      ['jaimini-timing'],
+      1,
+      'Life-role evidence',
+    );
+    if (report.mode === 'PREMIUM') {
+      addSpread(
+        'Premium Jaimini',
+        'Full Chara Karaka Council',
+        'Premium reads the full karaka council as a life team, with each karaka tied to a real prediction.',
+        ['jaimini-karaka-council'],
+        1,
+        'Karaka proof',
+      );
+      addSpread(
+        'Premium Jaimini',
+        'Chara Dasha life map',
+        'The life map shows which destiny chapters become louder over time and how to prepare without fear.',
+        ['jaimini-life-map'],
+        1,
+        'Dasha proof',
+      );
+      addSpread(
+        'Premium Jaimini',
+        'Upapada relationship chapter',
+        'Premium relationship guidance uses Upapada and Darakaraka evidence to name the partnership pattern clearly.',
+        ['jaimini-upapada'],
+        1,
+        'Relationship proof',
+      );
+      addSpread(
+        'Premium Jaimini',
+        'Visible reputation and public role',
+        'This chapter turns Arudha and career-role evidence into reputation guidance the user can actually act on.',
+        ['jaimini-reputation'],
+        1,
+        'Public role proof',
+      );
+      addSpread(
+        'Premium Jaimini',
+        'Current and upcoming destiny chapters',
+        'Premium connects the current chapter to the next chapter so the user can act now and prepare calmly.',
+        ['jaimini-premium-timing'],
+        1,
+        'Chapter proof',
+      );
+      addSpread(
+        'Premium Jaimini',
+        'Practical Jaimini guidance',
+        'The premium reading closes with usable action: one path, one boundary, and one visible proof of maturity.',
+        ['jaimini-action'],
+        1,
+        'Action proof',
+      );
+    }
+    addSpread(
+      'Jaimini appendix',
+      'The evidence behind the destiny reading',
+      'The appendix preserves calculations for audit without making the main report feel like a method lesson.',
+      ['jaimini-appendix'],
+      1,
+      'Technical evidence',
     );
   } else if (isFocusedRoom) {
     addSpread(
@@ -1814,7 +1967,7 @@ function determineReportScope(
     return mode === 'PREMIUM' || sectionCount > 10 ? 'full' : 'broad';
   }
 
-  if (['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)) {
+  if (['JAIMINI', 'KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)) {
     return 'focused';
   }
 
@@ -1892,6 +2045,51 @@ function classifySectionKind(section: PdfSection): string {
   }
   if (eyebrow === 'KP PREDICTA') {
     return 'focus-kp';
+  }
+  if (eyebrow === 'JAIMINI') {
+    if (title.includes('soul compass')) {
+      return 'focus-jaimini';
+    }
+    if (title.includes('soul planet') || title.includes('atmakaraka')) {
+      return 'jaimini-atmakaraka';
+    }
+    if (title.includes('karakamsha') || title.includes('swamsa')) {
+      return 'jaimini-soul';
+    }
+    if (title.includes('karaka council')) {
+      return 'jaimini-karaka-council';
+    }
+    if (title.includes('life map')) {
+      return 'jaimini-life-map';
+    }
+    if (title.includes('upapada')) {
+      return 'jaimini-upapada';
+    }
+    if (title.includes('reputation') || title.includes('public role')) {
+      return 'jaimini-reputation';
+    }
+    if (title.includes('upcoming')) {
+      return 'jaimini-premium-timing';
+    }
+    if (title.includes('arudha') || title.includes('visible')) {
+      return 'jaimini-identity';
+    }
+    if (title.includes('amatyakaraka') || title.includes('career')) {
+      return 'jaimini-career';
+    }
+    if (title.includes('darakaraka') || title.includes('upapada') || title.includes('relationship')) {
+      return 'jaimini-relationship';
+    }
+    if (title.includes('dasha') || title.includes('destiny chapter')) {
+      return 'jaimini-timing';
+    }
+    if (title.includes('guidance')) {
+      return 'jaimini-action';
+    }
+    return 'jaimini-core';
+  }
+  if (eyebrow === 'JAIMINI APPENDIX') {
+    return 'jaimini-appendix';
   }
   if (eyebrow === 'NADI') {
     return 'focus-nadi';

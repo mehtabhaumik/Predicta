@@ -6,6 +6,7 @@ import type {
   DecisionMemo,
   HouseData,
   KundliData,
+  JaiminiInterpretationBlock,
   PDFMode,
   PlanetPosition,
   SupportedLanguage,
@@ -29,6 +30,8 @@ import {
   buildKundliMoonNakshatraPadaInsight,
   composeHolisticDailyGuidance,
   composeHolisticReadingRooms,
+  composeJaiminiInterpretation,
+  composeJaiminiPlan,
   composeLifeAtlasReport,
   composeMahadashaIntelligence,
   composeNadiJyotishPlan,
@@ -351,7 +354,7 @@ function buildReportSectionSet(
     ].filter((section): section is PdfSection => Boolean(section)));
   }
 
-  if (reportFocus === 'KP') {
+  if (reportFocus === 'KP' || reportFocus === 'JAIMINI') {
     return uniqueReportSections([
       ...focusSections,
       ...(decisionMemo ? [buildDecisionMemoSection(decisionMemo)] : []),
@@ -450,6 +453,8 @@ function buildRoomSpecificReportSections(
       return [buildVedicPredictaReportSection(kundli, mode, reportFocus)];
     case 'KP':
       return buildKpReportSections(kundli, mode);
+    case 'JAIMINI':
+      return buildJaiminiReportSections(kundli, mode);
     case 'LIFE_ATLAS':
       return buildLifeAtlasReportSections(kundli, mode, signatureAnalysis);
     case 'NADI':
@@ -1170,6 +1175,38 @@ function buildReportCover(
     };
   }
 
+  if (reportFocus === 'JAIMINI') {
+    const plan = composeJaiminiPlan(kundli);
+    const atmakaraka = plan.atmakaraka;
+    const currentChapter = plan.currentCharaDasha;
+
+    return {
+      ...baseCover,
+      birthMomentSignature: [
+        atmakaraka
+          ? `Atmakaraka: ${atmakaraka.planet} in ${atmakaraka.sign}`
+          : 'Atmakaraka: pending',
+        plan.arudhaLagna.padaSign
+          ? `Arudha: ${plan.arudhaLagna.padaSign}`
+          : 'Arudha: pending',
+        currentChapter
+          ? `Chara Dasha: ${currentChapter.sign}`
+          : 'Chara Dasha: pending',
+      ],
+      descriptor: 'A Predicta Jaimini Destiny Report',
+      metadata: [
+        ...baseMetadata,
+        `Jaimini status: ${plan.calculationStatus}`,
+        `Karaka council: ${plan.charaKarakas.length} grahas`,
+      ],
+      preparationLine:
+        'Prepared with Atmakaraka, Chara Karakas, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, and Chara Dasha evidence',
+      reportType: mode === 'PREMIUM' ? 'Premium Jaimini Destiny Report' : 'Free Jaimini Destiny Report',
+      subtitle: `Jaimini Predicta Destiny Report for ${kundli.birthDetails.name}`,
+      title: 'PREDICTA',
+    };
+  }
+
   if (reportFocus === 'NADI') {
     const plan = composeNadiJyotishPlan(kundli, { depth: 'FREE' });
     return {
@@ -1268,7 +1305,7 @@ function buildReportCover(
       descriptor: 'A Predicta Life Atlas Synthesis Report',
       metadata: [
         ...baseMetadata.slice(0, 3),
-        'Core inputs: Vedic, KP, Nadi, and Numerology',
+        'Core inputs: Vedic, KP, Jaimini, and Numerology',
         signatureLine,
       ],
       preparationLine:
@@ -1333,6 +1370,8 @@ function buildBaseCoverIdentity(
 
 function getCoverReportFocusLabel(reportFocus: PdfReportFocus): string {
   switch (reportFocus) {
+    case 'JAIMINI':
+      return 'Jaimini';
     case 'KP':
       return 'KP';
     case 'NADI':
@@ -1413,6 +1452,38 @@ function buildDossierExecutiveSummary(
         mode === 'PREMIUM'
           ? 'Premium KP adds deeper timing, life-area detail, and chart evidence after the prediction.'
           : 'Free KP gives the main prediction, timing mood, caution, and practical action without a technical wall.',
+      ],
+    };
+  }
+
+  if (reportFocus === 'JAIMINI') {
+    const plan = composeJaiminiPlan(kundli);
+    const interpretation = composeJaiminiInterpretation(kundli, { premium: mode === 'PREMIUM' });
+    const atmakaraka = plan.atmakaraka;
+    const amatyakaraka = plan.amatyakaraka;
+    const darakaraka = plan.darakaraka;
+    const currentChapter = plan.currentCharaDasha;
+    const karakaLine = [
+      atmakaraka ? `Atmakaraka ${atmakaraka.planet}` : undefined,
+      amatyakaraka ? `Amatyakaraka ${amatyakaraka.planet}` : undefined,
+      darakaraka ? `Darakaraka ${darakaraka.planet}` : undefined,
+    ].filter(Boolean).join(', ');
+
+    return {
+      confidence: plan.calculationStatus === 'ready' ? 'high' : plan.calculationStatus === 'partial' ? 'medium' : 'low',
+      headline: `${kundli.birthDetails.name}'s Jaimini report reads the soul-role, visible identity, career dharma, relationship mirror, and current destiny chapter before showing the technical evidence.`,
+      keySignals: [
+        interpretation.summary,
+        karakaLine ? `Karaka council: ${karakaLine}.` : 'Chara Karaka council is still building from available graha evidence.',
+        plan.arudhaLagna.padaSign
+          ? `Visible identity: Arudha Lagna in ${plan.arudhaLagna.padaSign}.`
+          : 'Visible identity signal is pending Arudha evidence.',
+        currentChapter
+          ? `Current Chara Dasha chapter: ${currentChapter.sign}, age ${currentChapter.startAge}-${currentChapter.endAge}.`
+          : 'Current Chara Dasha chapter is pending.',
+        mode === 'PREMIUM'
+          ? 'Premium Jaimini adds full karaka council, Chara Dasha life map, Upapada, reputation, upcoming chapters, practical guidance, and technical appendix.'
+          : 'Free Jaimini gives a real destiny reading: soul compass, Atmakaraka, Karakamsha/Swamsa, Arudha, work, relationship, and current Chara Dasha.',
       ],
     };
   }
@@ -2665,11 +2736,11 @@ function buildPdfHouseWisePlanetRows(
 }
 
 function shouldIncludeMoonChart(reportFocus: PdfReportFocus): boolean {
-  return !['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus);
+  return !['JAIMINI', 'KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus);
 }
 
 function shouldIncludeHouseWisePlanetRows(reportFocus: PdfReportFocus): boolean {
-  return !['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus);
+  return !['JAIMINI', 'KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus);
 }
 
 function isClassicalGraha(name: string): boolean {
@@ -3070,6 +3141,473 @@ function buildAdvancedJyotishCoverageSection(
     tier: mode === 'PREMIUM' ? 'premium' : 'free',
     title: 'Advanced Jyotish coverage',
   };
+}
+
+function buildJaiminiReportSections(
+  kundli: KundliData,
+  mode: PDFMode,
+): PdfSection[] {
+  const plan = composeJaiminiPlan(kundli);
+  const interpretation = composeJaiminiInterpretation(kundli, {
+    premium: mode === 'PREMIUM',
+  });
+  const isPremium = mode === 'PREMIUM';
+  const blocks = isPremium ? interpretation.premiumBlocks : interpretation.freeBlocks;
+  const blockById = new Map(blocks.map(block => [block.id, block]));
+  const allBlockById = new Map(interpretation.blocks.map(block => [block.id, block]));
+  const soulBlock = blockById.get('soul-planet-reading') ?? allBlockById.get('soul-planet-reading');
+  const careerBlock = blockById.get('career-dharma-reading') ?? allBlockById.get('career-dharma-reading');
+  const relationshipBlock = blockById.get('relationship-mirror-reading') ?? allBlockById.get('relationship-mirror-reading');
+  const visibleBlock = blockById.get('visible-identity-reading') ?? allBlockById.get('visible-identity-reading');
+  const chapterBlock = blockById.get('current-destiny-chapter') ?? allBlockById.get('current-destiny-chapter');
+  const focusBlock = blockById.get('what-to-focus-on-now') ?? allBlockById.get('what-to-focus-on-now');
+  const premiumBlock = allBlockById.get('premium-deepening');
+  const atmakaraka = plan.atmakaraka;
+  const amatyakaraka = plan.amatyakaraka;
+  const darakaraka = plan.darakaraka;
+  const currentChapter = plan.currentCharaDasha;
+  const nextChapter = plan.charaDashaTimeline.find(period =>
+    currentChapter ? period.order === currentChapter.order + 1 : period.order === 1,
+  );
+  const karakaRows: PdfEvidenceRow[] = plan.charaKarakas.slice(0, isPremium ? 7 : 4).map(karaka => ({
+    confidence: 'high' as const,
+    factor: karaka.role,
+    observation: `${karaka.planet} in ${karaka.sign}, house ${karaka.house}, ${karaka.degree.toFixed(2)} degrees.`,
+    implication: jaiminiKarakaPrediction(karaka.role, karaka.planet, karaka.sign),
+  }));
+  const dashaRows: PdfEvidenceRow[] = plan.charaDashaTimeline.slice(0, isPremium ? 12 : 4).map(period => ({
+    confidence: 'medium' as const,
+    factor: `${period.order}. ${period.sign}`,
+    observation: `Age ${period.startAge}-${period.endAge}; lord ${period.signLord}.`,
+    implication: `This chapter asks the user to mature ${jaiminiSignTheme(period.sign)} through choices that are visible, repeatable, and less reactive.`,
+  }));
+  const relationshipRows: PdfEvidenceRow[] = [];
+
+  if (plan.upapadaLagna.padaSign) {
+    relationshipRows.push({
+      confidence: 'medium',
+      factor: 'Upapada Lagna',
+      observation: `Upapada resolves to ${plan.upapadaLagna.padaSign}.`,
+      implication: `Partnership decisions need ${jaiminiSignTheme(plan.upapadaLagna.padaSign)} without turning relationship pressure into fear.`,
+    });
+  }
+
+  if (darakaraka) {
+    relationshipRows.push({
+      confidence: 'high',
+      factor: 'Darakaraka',
+      observation: `${darakaraka.planet} in ${darakaraka.sign}, house ${darakaraka.house}.`,
+      implication: jaiminiKarakaPrediction('Darakaraka', darakaraka.planet, darakaraka.sign),
+    });
+  }
+
+  const freeSections: PdfSection[] = [
+    {
+      body:
+        `${kundli.birthDetails.name}, this Jaimini report begins with a destiny reading, not a classroom. ${interpretation.summary}`,
+      bullets: [
+        atmakaraka
+          ? `Soul compass: ${atmakaraka.planet} as Atmakaraka says life repeatedly tests and strengthens ${jaiminiSignTheme(atmakaraka.sign)}.`
+          : 'Soul compass: Atmakaraka is pending, so Predicta keeps soul-role claims conservative.',
+        plan.arudhaLagna.padaSign
+          ? `Visible identity: people are likely to read you first through ${jaiminiSignTheme(plan.arudhaLagna.padaSign)}.`
+          : 'Visible identity: Arudha Lagna is pending.',
+        currentChapter
+          ? `Current destiny chapter: ${currentChapter.sign} is active, so choices around ${jaiminiSignTheme(currentChapter.sign)} become louder now.`
+          : 'Current destiny chapter: Chara Dasha is pending.',
+        focusBlock?.guidance ?? 'Focus on one mature action that makes the current signal visible in daily life.',
+      ],
+      confidence: jaiminiConfidence(plan.calculationStatus),
+      evidence: [
+        plan.freeInsight,
+        `Calculation status: ${plan.calculationStatus}.`,
+        `Karaka council size: ${plan.charaKarakas.length}.`,
+      ],
+      evidenceTable: karakaRows.slice(0, 3),
+      eyebrow: 'JAIMINI',
+      tier: isPremium ? 'premium' : 'free',
+      title: 'Jaimini Soul Compass',
+    },
+    jaiminiBlockToSection({
+      block: soulBlock,
+      eyebrow: 'JAIMINI',
+      fallbackBody: atmakaraka
+        ? `${atmakaraka.planet} as Atmakaraka predicts a life path that becomes stronger when ${jaiminiSignTheme(atmakaraka.sign)} is handled consciously.`
+        : 'Atmakaraka evidence is pending, so the soul-role reading stays conservative.',
+      fallbackTitle: 'Atmakaraka Soul Role',
+      tier: isPremium ? 'premium' : 'free',
+    }),
+    {
+      body:
+        `${plan.karakamsha.ascendantSign ? `Karakamsha in ${plan.karakamsha.ascendantSign}` : 'Karakamsha is pending'} and ${plan.swamsa.ascendantSign ? `Swamsa in ${plan.swamsa.ascendantSign}` : 'Swamsa is pending'} show how the inner role becomes lived. The prediction is practical: do not chase every identity; strengthen the path that keeps returning even when life gets noisy.`,
+      bullets: [
+        plan.karakamsha.ascendantSign
+          ? `Karakamsha prediction: your deeper path matures through ${jaiminiSignTheme(plan.karakamsha.ascendantSign)}.`
+          : 'Karakamsha prediction: pending until chart evidence is ready.',
+        plan.swamsa.ascendantSign
+          ? `Swamsa prediction: inner confidence improves when ${jaiminiSignTheme(plan.swamsa.ascendantSign)} is practiced consistently.`
+          : 'Swamsa prediction: pending until Navamsa evidence is ready.',
+        'Use this as an inner compass, not a fatalistic label.',
+      ],
+      confidence: jaiminiConfidence(resolveJaiminiPairStatus(plan.karakamsha.calculationStatus, plan.swamsa.calculationStatus)),
+      evidence: [
+        ...plan.karakamsha.evidence,
+        ...plan.swamsa.evidence,
+      ].slice(0, 6),
+      evidenceTable: [
+        {
+          confidence: plan.karakamsha.calculationStatus === 'ready' ? 'high' : 'low',
+          factor: 'Karakamsha',
+          observation: plan.karakamsha.ascendantSign ?? 'pending',
+          implication: plan.karakamsha.ascendantSign
+            ? `Deep path points toward ${jaiminiSignTheme(plan.karakamsha.ascendantSign)}.`
+            : 'Do not force a Karakamsha prediction until evidence is ready.',
+        },
+        {
+          confidence: plan.swamsa.calculationStatus === 'ready' ? 'high' : 'low',
+          factor: 'Swamsa',
+          observation: plan.swamsa.ascendantSign ?? 'pending',
+          implication: plan.swamsa.ascendantSign
+            ? `Inner practice points toward ${jaiminiSignTheme(plan.swamsa.ascendantSign)}.`
+            : 'Do not force a Swamsa prediction until evidence is ready.',
+        },
+      ],
+      eyebrow: 'JAIMINI',
+      tier: isPremium ? 'premium' : 'free',
+      title: 'Karakamsha and Swamsa Reading',
+    },
+    jaiminiBlockToSection({
+      block: visibleBlock,
+      eyebrow: 'JAIMINI',
+      fallbackBody: plan.arudhaLagna.padaSign
+        ? `Arudha Lagna in ${plan.arudhaLagna.padaSign} predicts that public trust grows when ${jaiminiSignTheme(plan.arudhaLagna.padaSign)} is visible in your choices.`
+        : 'Arudha Lagna is pending, so visible identity guidance stays conservative.',
+      fallbackTitle: 'Arudha Visible Identity',
+      tier: isPremium ? 'premium' : 'free',
+    }),
+    jaiminiBlockToSection({
+      block: careerBlock,
+      eyebrow: 'JAIMINI',
+      fallbackBody: amatyakaraka
+        ? `${amatyakaraka.planet} as Amatyakaraka predicts work growth through ${jaiminiSignTheme(amatyakaraka.sign)}.`
+        : 'Amatyakaraka is pending, so career dharma guidance stays conservative.',
+      fallbackTitle: 'Amatyakaraka Career Dharma',
+      tier: isPremium ? 'premium' : 'free',
+    }),
+    jaiminiBlockToSection({
+      block: relationshipBlock,
+      eyebrow: 'JAIMINI',
+      fallbackBody: darakaraka
+        ? `${darakaraka.planet} as Darakaraka predicts relationships will mirror lessons around ${jaiminiSignTheme(darakaraka.sign)}.`
+        : 'Darakaraka is pending, so relationship mirror guidance stays conservative.',
+      fallbackTitle: 'Darakaraka Relationship Mirror',
+      tier: isPremium ? 'premium' : 'free',
+    }),
+    jaiminiBlockToSection({
+      block: chapterBlock,
+      eyebrow: 'JAIMINI',
+      fallbackBody: currentChapter
+        ? `Current Chara Dasha in ${currentChapter.sign} predicts a chapter focused on ${jaiminiSignTheme(currentChapter.sign)}.`
+        : 'Current Chara Dasha is pending, so timing guidance stays conservative.',
+      fallbackTitle: 'Current Chara Dasha Chapter',
+      tier: isPremium ? 'premium' : 'free',
+    }),
+    {
+      body:
+        'The evidence appendix is intentionally after the predictions. It preserves the karaka order, Pada references, Jaimini aspects, and Chara Dasha timeline so the reading can be audited without making the user study the method first.',
+      bullets: [
+        `Chara Karakas calculated: ${plan.charaKarakas.map(karaka => `${karaka.role} ${karaka.planet}`).join(', ') || 'pending'}.`,
+        `Arudha Lagna: ${plan.arudhaLagna.padaSign ?? 'pending'}.`,
+        `Upapada Lagna: ${plan.upapadaLagna.padaSign ?? 'pending'}.`,
+        `Jaimini aspects available: ${plan.jaiminiAspects.length}.`,
+        `Evidence warnings: ${plan.evidenceWarnings.join(' ') || 'none'}.`,
+      ],
+      confidence: jaiminiConfidence(plan.calculationStatus),
+      evidence: [
+        ...interpretation.technicalEvidence.slice(0, isPremium ? 10 : 6),
+        ...plan.evidenceWarnings,
+      ],
+      evidenceTable: karakaRows,
+      eyebrow: 'JAIMINI APPENDIX',
+      tier: isPremium ? 'premium' : 'free',
+      title: 'Concise Jaimini Evidence Appendix',
+    },
+  ];
+
+  if (!isPremium) {
+    return freeSections;
+  }
+
+  return [
+    ...freeSections,
+    {
+      body:
+        'Premium reads the full Chara Karaka council as a life team: soul role, work channel, sibling/courage pattern, mother/home pattern, creativity/children signal, conflict/service signal, and relationship mirror.',
+      bullets: plan.charaKarakas.map(karaka =>
+        `${karaka.role}: ${jaiminiKarakaPrediction(karaka.role, karaka.planet, karaka.sign)}`,
+      ),
+      confidence: jaiminiConfidence(plan.calculationStatus),
+      evidence: plan.charaKarakas.map(karaka =>
+        `${karaka.role}: ${karaka.planet}, ${karaka.sign}, house ${karaka.house}, ${karaka.degree.toFixed(2)} degrees.`,
+      ),
+      evidenceTable: karakaRows,
+      eyebrow: 'JAIMINI',
+      tier: 'premium',
+      title: 'Full Chara Karaka Council',
+    },
+    {
+      body:
+        'The Chara Dasha life map shows how destiny chapters change emphasis over time. Read it as the timeline of themes becoming louder, not as a rigid cage.',
+      bullets: [
+        currentChapter
+          ? `Current chapter: ${currentChapter.sign} asks for ${jaiminiSignTheme(currentChapter.sign)}.`
+          : 'Current chapter is pending.',
+        nextChapter
+          ? `Upcoming chapter: ${nextChapter.sign} will ask for ${jaiminiSignTheme(nextChapter.sign)}.`
+          : 'Upcoming chapter is pending.',
+        'Use the map to choose better timing, cleaner focus, and less reactive decisions.',
+      ],
+      confidence: plan.charaDashaTimeline.length ? 'medium' : 'low',
+      evidence: plan.charaDashaTimeline.slice(0, 12).flatMap(period => period.evidence),
+      evidenceTable: dashaRows,
+      eyebrow: 'JAIMINI',
+      tier: 'premium',
+      title: 'Chara Dasha Life Map',
+    },
+    {
+      body:
+        plan.upapadaLagna.padaSign
+          ? `Upapada in ${plan.upapadaLagna.padaSign} predicts that partnership becomes healthier when ${jaiminiSignTheme(plan.upapadaLagna.padaSign)} is handled openly rather than acted out through expectation or silence.`
+          : 'Upapada is pending, so Predicta keeps premium partnership guidance careful instead of inventing certainty.',
+      bullets: [
+        darakaraka
+          ? `Darakaraka mirror: ${darakaraka.planet} in ${darakaraka.sign} asks for maturity around ${jaiminiSignTheme(darakaraka.sign)}.`
+          : 'Darakaraka is pending.',
+        plan.upapadaLagna.padaSign
+          ? `Upapada practice: make ${jaiminiSignTheme(plan.upapadaLagna.padaSign)} visible in commitment, boundaries, and expectations.`
+          : 'Upapada practice stays broad until evidence is ready.',
+        'Premium relationship guidance remains practical, non-fatalistic, and evidence-weighted.',
+      ],
+      confidence: relationshipRows.length ? 'medium' : 'low',
+      evidence: [
+        ...plan.upapadaLagna.evidence,
+        ...(darakaraka ? [`Darakaraka evidence: ${darakaraka.planet} in ${darakaraka.sign}, house ${darakaraka.house}.`] : []),
+      ],
+      evidenceTable: relationshipRows,
+      eyebrow: 'JAIMINI',
+      tier: 'premium',
+      title: 'Upapada Relationship Chapter',
+    },
+    {
+      body:
+        plan.arudhaLagna.padaSign
+          ? `Public role improves when the user stops broadcasting scattered signals and makes ${jaiminiSignTheme(plan.arudhaLagna.padaSign)} consistent. This is the reputation chapter: what people can trust, remember, and associate with the person.`
+          : 'Public role guidance is pending because Arudha evidence is incomplete.',
+      bullets: [
+        plan.arudhaLagna.padaSign
+          ? `Visible reputation: ${plan.arudhaLagna.padaSign}.`
+          : 'Visible reputation: pending.',
+        amatyakaraka
+          ? `Career bridge: ${amatyakaraka.planet} as Amatyakaraka should make the public role useful, not merely visible.`
+          : 'Career bridge: Amatyakaraka pending.',
+        'Premium action: align presentation, choices, and work proof so the outer signal becomes believable.',
+      ],
+      confidence: plan.arudhaLagna.padaSign ? 'medium' : 'low',
+      evidence: [
+        ...plan.arudhaLagna.evidence,
+        ...(amatyakaraka ? [`Amatyakaraka: ${amatyakaraka.planet} in ${amatyakaraka.sign}.`] : []),
+      ],
+      evidenceTable: [
+        {
+          confidence: plan.arudhaLagna.padaSign ? 'medium' : 'low',
+          factor: 'Visible reputation',
+          observation: plan.arudhaLagna.padaSign ?? 'pending',
+          implication: plan.arudhaLagna.padaSign
+            ? `People remember the user more clearly through ${jaiminiSignTheme(plan.arudhaLagna.padaSign)}.`
+            : 'Do not overstate public-role guidance.',
+        },
+      ],
+      eyebrow: 'JAIMINI',
+      tier: 'premium',
+      title: 'Visible Reputation and Public Role',
+    },
+    {
+      body:
+        `${premiumBlock?.prediction ?? interpretation.premiumSummary} The current chapter should be acted on now; the next chapter should be prepared for calmly before it arrives.`,
+      bullets: [
+        currentChapter
+          ? `Current destiny chapter: ${currentChapter.sign} - ${jaiminiSignTheme(currentChapter.sign)}.`
+          : 'Current destiny chapter pending.',
+        nextChapter
+          ? `Upcoming destiny chapter: ${nextChapter.sign} - ${jaiminiSignTheme(nextChapter.sign)}.`
+          : 'Upcoming destiny chapter pending.',
+        premiumBlock?.guidance ?? 'Use the current signal as an action map, not as a fear-based prophecy.',
+      ],
+      confidence: jaiminiConfidence(plan.calculationStatus),
+      evidence: [
+        ...(currentChapter?.evidence ?? []),
+        ...(nextChapter?.evidence ?? []),
+      ],
+      evidenceTable: dashaRows.slice(0, 2),
+      eyebrow: 'JAIMINI',
+      tier: 'premium',
+      title: 'Current and Upcoming Destiny Chapters',
+    },
+    {
+      body:
+        `${focusBlock?.prediction ?? 'Jaimini guidance becomes valuable only when it changes real choices.'} The practical move is to choose one path, one boundary, and one visible proof of maturity now.`,
+      bullets: [
+        focusBlock?.guidance ?? 'Reduce noise and act on the strongest calculated signal.',
+        atmakaraka
+          ? `Soul practice: express ${jaiminiSignTheme(atmakaraka.sign)} through ${atmakaraka.planet} without overcompensating.`
+          : 'Soul practice: wait for Atmakaraka evidence before forcing a spiritual label.',
+        amatyakaraka
+          ? `Work practice: make ${amatyakaraka.planet} useful in a visible, measurable way.`
+          : 'Work practice: keep output measurable until career evidence is complete.',
+        darakaraka
+          ? `Relationship practice: let ${darakaraka.planet} become a bridge instead of a test.`
+          : 'Relationship practice: name expectations early and avoid assumption.',
+      ],
+      confidence: jaiminiConfidence(plan.calculationStatus),
+      evidence: [
+        interpretation.premiumSummary,
+        ...interpretation.guardrails,
+      ],
+      evidenceTable: [
+        {
+          confidence: 'high',
+          factor: 'Practical guidance',
+          observation: 'Prediction-first Jaimini reading.',
+          implication: 'The report gives action after the prediction and keeps technical details in the appendix.',
+        },
+      ],
+      eyebrow: 'JAIMINI',
+      tier: 'premium',
+      title: 'Practical Jaimini Guidance',
+    },
+    {
+      body:
+        'The technical appendix exists for audit and transparency. It is not the main reading, and it must not turn the report into a method lesson.',
+      bullets: [
+        ...interpretation.technicalEvidence.slice(0, 10),
+        `Warnings: ${plan.evidenceWarnings.join(' ') || 'none'}.`,
+      ],
+      confidence: jaiminiConfidence(plan.calculationStatus),
+      evidence: [
+        ...interpretation.technicalEvidence,
+        ...plan.evidenceWarnings,
+      ],
+      evidenceTable: [
+        ...karakaRows,
+        ...dashaRows.slice(0, 4),
+      ],
+      eyebrow: 'JAIMINI APPENDIX',
+      tier: 'premium',
+      title: 'Technical Jaimini Appendix',
+    },
+  ];
+}
+
+function jaiminiBlockToSection({
+  block,
+  eyebrow,
+  fallbackBody,
+  fallbackTitle,
+  tier,
+}: {
+  block?: JaiminiInterpretationBlock;
+  eyebrow: string;
+  fallbackBody: string;
+  fallbackTitle: string;
+  tier: 'free' | 'premium';
+}): PdfSection {
+  return {
+    body: block ? `${block.headline} ${block.prediction}` : fallbackBody,
+    bullets: block
+      ? [
+          `Prediction: ${block.prediction}`,
+          `Guidance: ${block.guidance}`,
+          ...block.technicalEvidence.slice(0, tier === 'premium' ? 3 : 2).map(item => `Evidence: ${item}`),
+        ]
+      : [fallbackBody],
+    confidence: block?.confidence === 'high' ? 'high' : block?.confidence === 'medium' ? 'medium' : 'low',
+    evidence: block?.technicalEvidence ?? [fallbackBody],
+    evidenceTable: block?.technicalEvidence.slice(0, tier === 'premium' ? 5 : 3).map(item => ({
+      confidence: block.confidence === 'high' ? 'high' : block.confidence === 'medium' ? 'medium' : 'low',
+      factor: block.title,
+      observation: item,
+      implication: block.guidance,
+    })),
+    eyebrow,
+    tier,
+    title: block?.title ?? fallbackTitle,
+  };
+}
+
+function resolveJaiminiPairStatus(
+  first: 'partial' | 'pending' | 'ready',
+  second: 'partial' | 'pending' | 'ready',
+): 'partial' | 'pending' | 'ready' {
+  if (first === 'ready' && second === 'ready') {
+    return 'ready';
+  }
+
+  if (first === 'pending' && second === 'pending') {
+    return 'pending';
+  }
+
+  return 'partial';
+}
+
+function jaiminiConfidence(
+  status: 'partial' | 'pending' | 'ready',
+): 'low' | 'medium' | 'high' {
+  if (status === 'ready') {
+    return 'high';
+  }
+
+  if (status === 'partial') {
+    return 'medium';
+  }
+
+  return 'low';
+}
+
+function jaiminiKarakaPrediction(
+  role: string,
+  planet: string,
+  sign: string,
+): string {
+  const roleMeaning: Record<string, string> = {
+    Amatyakaraka: 'work grows when skill, responsibility, and useful visibility become consistent',
+    Atmakaraka: 'life keeps returning the user to the deeper soul lesson until it is handled maturely',
+    Bhratrikaraka: 'courage and support improve when initiative is cleaner and less reactive',
+    Darakaraka: 'relationships mirror the lesson that must become conscious instead of repeated',
+    Gnatikaraka: 'conflict, service, and pressure become easier when discipline replaces resentment',
+    Matrikaraka: 'home, care, and emotional grounding improve through steadier choices',
+    Putrakaraka: 'creativity, legacy, and future-building improve when attention is protected',
+  };
+
+  return `${planet} as ${role} says ${roleMeaning[role] ?? 'this life area becomes stronger through conscious maturity'} through ${jaiminiSignTheme(sign)}.`;
+}
+
+function jaiminiSignTheme(sign: string): string {
+  const themes: Record<string, string> = {
+    Aquarius: 'systems, networks, unusual thinking, and contribution beyond the obvious path',
+    Aries: 'courage, initiative, clean self-direction, and decisive action',
+    Cancer: 'care, emotional security, belonging, and protective strength',
+    Capricorn: 'structure, duty, ambition, patience, and slow-earned authority',
+    Gemini: 'communication, learning, trade, and flexible intelligence',
+    Leo: 'visibility, leadership, confidence, and creative authority',
+    Libra: 'balance, agreements, partnership, fairness, and public harmony',
+    Pisces: 'faith, imagination, surrender, and spiritual sensitivity',
+    Sagittarius: 'belief, teaching, higher direction, and principled expansion',
+    Scorpio: 'depth, transformation, emotional honesty, and private strength',
+    Taurus: 'stability, value, patience, wealth sense, and material steadiness',
+    Virgo: 'skill, service, refinement, correction, and practical mastery',
+  };
+
+  return themes[sign] ?? `${sign} themes`;
 }
 
 function buildNadiReportSections(
@@ -3915,6 +4453,17 @@ function buildOneLineSummary(
     return `KP Predicta: ${plainVerdict}. ${helpfulAnswer}`;
   }
 
+  if (reportFocus === 'JAIMINI') {
+    const interpretation = composeJaiminiInterpretation(kundli);
+    const plan = composeJaiminiPlan(kundli);
+    const chapter = plan.currentCharaDasha?.sign ?? 'current chapter pending';
+    const soul = plan.atmakaraka
+      ? `${plan.atmakaraka.planet} Atmakaraka in ${plan.atmakaraka.sign}`
+      : 'Atmakaraka pending';
+
+    return `Jaimini Predicta: ${interpretation.summary} Soul signal: ${soul}; Chara Dasha: ${chapter}.`;
+  }
+
   if (reportFocus === 'NADI') {
     const plan = composeNadiJyotishPlan(kundli, { depth: 'FREE' });
     return `Nadi Predicta report with ${plan.patterns.length} planetary story patterns, validation questions, Rahu/Ketu axis checks, and no palm-leaf manuscript claim.`;
@@ -3970,7 +4519,7 @@ function getReportChartTypes(
   mode: PDFMode,
   reportFocus: PdfReportFocus = 'KUNDLI',
 ): ChartType[] {
-  if (['LIFE_ATLAS', 'KP', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)) {
+  if (['JAIMINI', 'LIFE_ATLAS', 'KP', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)) {
     return [];
   }
 
@@ -4005,6 +4554,7 @@ function prioritizeChartTypes(
 function getFreeChartTypesForFocus(reportFocus: PdfReportFocus): ChartType[] {
   switch (reportFocus) {
     case 'LIFE_ATLAS':
+    case 'JAIMINI':
     case 'NADI':
     case 'NUMEROLOGY':
       return [];

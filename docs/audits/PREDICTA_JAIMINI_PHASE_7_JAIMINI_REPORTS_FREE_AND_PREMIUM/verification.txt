@@ -1,0 +1,15 @@
+# PREDICTA_JAIMINI_PHASE_7_JAIMINI_REPORTS_FREE_AND_PREMIUM
+
+Status: GREEN after source gate, generated free and premium PDF artifacts, and extracted-text audit passed.
+
+Verified:
+- Jaimini reports use reportFocus JAIMINI and buildJaiminiReportSections.
+- Free report includes soul compass, Atmakaraka, Karakamsha/Swamsa, Arudha, Amatyakaraka, Darakaraka, Chara Dasha, and concise evidence appendix.
+- Premium report adds full karaka council, Chara Dasha life map, Upapada chapter, public role, current/upcoming chapters, practical guidance, and technical appendix.
+- Generated artifacts contain no Nadi language, no D1/D9 Parashari shell text, and no generic chart-note leftovers.
+- Every extracted page has substantial text, so no orphan/empty pages passed this gate.
+- Preview PNGs were rendered for cover, summary, reading, and final pages for both free and premium PDFs.
+
+Artifacts:
+- jaimini-free: 11 pages, 2475342 bytes, FREE.
+- jaimini-premium: 18 pages, 2509760 bytes, PREMIUM.
