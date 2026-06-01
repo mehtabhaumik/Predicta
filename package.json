@@ -55,6 +55,7 @@
     "test:jaimini-phase-9": "node scripts/run-jaimini-phase-9-marketplace-entitlement-gate.mjs",
     "test:jaimini-phase-10": "node scripts/run-jaimini-phase-10-localization-gate.mjs",
     "test:jaimini-phase-11": "node scripts/run-jaimini-phase-11-qa-governance-red-team-gate.mjs",
+    "test:jaimini-phase-12": "node scripts/run-jaimini-phase-12-final-cross-platform-golden-audit.mjs",
     "test:numerology-predicta": "node scripts/run-numerology-predicta-strict-phase-gate.mjs",
     "test:signature-predicta": "node scripts/run-signature-predicta-ultra-strict-phase-gate.mjs",
     "test:life-atlas-report": "node scripts/run-life-atlas-report-strict-contract-gate.mjs",

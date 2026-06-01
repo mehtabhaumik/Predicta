@@ -1,0 +1,111 @@
+{
+  "baseUrl": "http://127.0.0.1:3009",
+  "generatedAt": "2026-06-01T19:01:02.047Z",
+  "phase": "PREDICTA_JAIMINI_PHASE_12_FINAL_CROSS_PLATFORM_GOLDEN_AUDIT",
+  "runtimeChecks": [
+    {
+      "clippedText": 0,
+      "fileName": "web-dashboard-navigation.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard",
+      "horizontalOverflow": 0,
+      "id": "dashboard-navigation",
+      "route": "/dashboard",
+      "tightActionGaps": 0,
+      "viewport": "desktop"
+    },
+    {
+      "clippedText": 0,
+      "fileName": "web-jaimini-room.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/jaimini",
+      "horizontalOverflow": 0,
+      "id": "jaimini-room",
+      "route": "/dashboard/jaimini",
+      "tightActionGaps": 0,
+      "viewport": "desktop"
+    },
+    {
+      "clippedText": 0,
+      "fileName": "web-jaimini-chat.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/jaimini/chat",
+      "horizontalOverflow": 0,
+      "id": "jaimini-chat",
+      "route": "/dashboard/jaimini/chat",
+      "tightActionGaps": 0,
+      "viewport": "desktop"
+    },
+    {
+      "clippedText": 0,
+      "fileName": "web-report-marketplace.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report?focus=JAIMINI&mode=PREMIUM",
+      "horizontalOverflow": 0,
+      "id": "report-marketplace",
+      "route": "/dashboard/report?focus=JAIMINI&mode=PREMIUM",
+      "tightActionGaps": 0,
+      "viewport": "desktop"
+    },
+    {
+      "clippedText": 0,
+      "fileName": "web-life-atlas-composer.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report?focus=LIFE_ATLAS&mode=PREMIUM",
+      "horizontalOverflow": 0,
+      "id": "life-atlas-composer",
+      "route": "/dashboard/report?focus=LIFE_ATLAS&mode=PREMIUM",
+      "tightActionGaps": 0,
+      "viewport": "desktop"
+    },
+    {
+      "clippedText": 0,
+      "fileName": "mobile-navigation.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard",
+      "horizontalOverflow": 0,
+      "id": "mobile-navigation",
+      "route": "/dashboard",
+      "tightActionGaps": 0,
+      "viewport": "mobile"
+    },
+    {
+      "clippedText": 0,
+      "fileName": "mobile-jaimini-room.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/jaimini",
+      "horizontalOverflow": 0,
+      "id": "mobile-jaimini-room",
+      "route": "/dashboard/jaimini",
+      "tightActionGaps": 0,
+      "viewport": "mobile"
+    },
+    {
+      "clippedText": 0,
+      "fileName": "mobile-report-selection.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report?focus=JAIMINI&mode=PREMIUM",
+      "horizontalOverflow": 0,
+      "id": "mobile-report-selection",
+      "route": "/dashboard/report?focus=JAIMINI&mode=PREMIUM",
+      "tightActionGaps": 0,
+      "viewport": "mobile"
+    },
+    {
+      "clippedText": 0,
+      "fileName": "mobile-chat-handoff.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/jaimini/chat",
+      "horizontalOverflow": 0,
+      "id": "mobile-chat-handoff",
+      "route": "/dashboard/jaimini/chat",
+      "tightActionGaps": 0,
+      "viewport": "mobile"
+    }
+  ],
+  "status": "green",
+  "webScreenshots": [
+    "web-screenshots/web-dashboard-navigation.png",
+    "web-screenshots/web-jaimini-room.png",
+    "web-screenshots/web-jaimini-chat.png",
+    "web-screenshots/web-report-marketplace.png",
+    "web-screenshots/web-life-atlas-composer.png"
+  ],
+  "mobileScreenshots": [
+    "mobile-screenshots/mobile-navigation.png",
+    "mobile-screenshots/mobile-jaimini-room.png",
+    "mobile-screenshots/mobile-report-selection.png",
+    "mobile-screenshots/mobile-chat-handoff.png"
+  ]
+}

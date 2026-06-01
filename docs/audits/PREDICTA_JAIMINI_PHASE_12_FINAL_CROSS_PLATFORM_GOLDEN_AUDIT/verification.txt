@@ -1,0 +1,49 @@
+PREDICTA_JAIMINI_PHASE_12_FINAL_CROSS_PLATFORM_GOLDEN_AUDIT: GREEN
+baseUrl: http://127.0.0.1:3009
+checks: 44
+runtimeChecks: 9
+
+- roadmap locks final audit requirement: PREDICTA_JAIMINI_PHASE_12_FINAL_CROSS_PLATFORM_GOLDEN_AUDIT
+- roadmap locks final audit requirement: web screenshots:
+- roadmap locks final audit requirement: mobile screenshots:
+- roadmap locks final audit requirement: PDF artifacts:
+- roadmap locks final audit requirement: no stale user-facing Nadi copy
+- roadmap locks final audit requirement: no Jaimini hardcoded translation drift
+- roadmap locks final audit requirement: no overflow
+- roadmap locks final audit requirement: no clipped text
+- roadmap locks final audit requirement: no cramped CTAs
+- roadmap locks final audit requirement: no broken report download
+- roadmap locks final audit requirement: no route crash
+- apps/web/app/dashboard/jaimini/page.tsx includes WebJaiminiPredictaPanel
+- apps/web/app/dashboard/jaimini/chat/page.tsx includes school: 'JAIMINI'
+- apps/web/components/WebJaiminiPredictaPanel.tsx includes getJaiminiLocalizationCopy
+- apps/web/components/WebJaiminiPredictaPanel.tsx includes composeJaiminiInterpretation
+- apps/mobile/src/screens/JaiminiPredictaScreen.tsx includes getJaiminiLocalizationCopy
+- apps/mobile/src/screens/JaiminiPredictaScreen.tsx includes predictaSchool: 'JAIMINI'
+- apps/mobile/src/screens/ReportScreen.tsx includes getOneTimeProduct('JAIMINI_REPORT')
+- packages/config/src/pricing.ts includes id: 'JAIMINI'
+- packages/config/src/pricing.ts includes JAIMINI_REPORT: 'pridicta_jaimini_report'
+- packages/config/src/predictaMemory.ts includes Nadi was replaced by Jaimini
+- backend/astro_api/report_ai_pipeline.py includes "jaimini": ReportQAPolicy()
+- backend/astro_api/red_team_evals.py includes fake-manuscript-claim
+- apps/web/components/WebJaiminiPredictaPanel.tsx excludes stale Nadi Predicta
+- apps/mobile/src/screens/JaiminiPredictaScreen.tsx excludes stale Nadi Predicta
+- packages/config/src/translations/jaimini.json excludes stale Nadi
+- docs/audits/PREDICTA_JAIMINI_PHASE_7_JAIMINI_REPORTS_FREE_AND_PREMIUM has required artifact IDs
+- jaimini-free PDF, payload, text, and previews are audited
+- jaimini-premium PDF, payload, text, and previews are audited
+- docs/audits/PREDICTA_JAIMINI_PHASE_8_LIFE_ATLAS_JAIMINI_EVIDENCE_LAYER has required artifact IDs
+- life-atlas-jaimini-free PDF, payload, text, and previews are audited
+- life-atlas-jaimini-premium PDF, payload, text, and previews are audited
+- http://127.0.0.1:3009 returns Predicta content
+- desktop dashboard-navigation route rendered without overflow, clipped text, cramped CTAs, or route crash
+- desktop jaimini-room route rendered without overflow, clipped text, cramped CTAs, or route crash
+- desktop jaimini-chat route rendered without overflow, clipped text, cramped CTAs, or route crash
+- desktop report-marketplace route rendered without overflow, clipped text, cramped CTAs, or route crash
+- desktop life-atlas-composer route rendered without overflow, clipped text, cramped CTAs, or route crash
+- mobile mobile-navigation route rendered without overflow, clipped text, cramped CTAs, or route crash
+- mobile mobile-jaimini-room route rendered without overflow, clipped text, cramped CTAs, or route crash
+- mobile mobile-report-selection route rendered without overflow, clipped text, cramped CTAs, or route crash
+- mobile mobile-chat-handoff route rendered without overflow, clipped text, cramped CTAs, or route crash
+- docs/audits/PREDICTA_JAIMINI_PHASE_7_JAIMINI_REPORTS_FREE_AND_PREMIUM/artifacts/predicta-jaimini-free-payload.json report download smoke returned a substantial PDF
+- docs/audits/PREDICTA_JAIMINI_PHASE_8_LIFE_ATLAS_JAIMINI_EVIDENCE_LAYER/artifacts/predicta-life-atlas-jaimini-free-payload.json report download smoke returned a substantial PDF

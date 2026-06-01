@@ -8277,7 +8277,7 @@ button:disabled,
 .chat-session-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 12px;
   justify-content: flex-end;
 }
 
@@ -8454,7 +8454,7 @@ button:disabled,
 .chat-reply-actions {
   align-items: center;
   display: flex;
-  gap: 8px;
+  gap: 12px;
   margin-top: 14px;
 }
 
@@ -18202,7 +18202,7 @@ select::-ms-expand {
 .predicta-chat-page .chat-room-recovery-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 12px;
   justify-content: flex-end;
 }
 
