@@ -1,0 +1,73 @@
+{
+  "baseUrl": "http://127.0.0.1:3009",
+  "checks": [
+    {
+      "fileName": "desktop-jaimini-room.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/jaimini",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "cardCollisionCount": 0,
+      "clippedText": 0,
+      "hasExactHeroTitle": true,
+      "hasKarakaCouncilPreview": true,
+      "hasPrimaryAskAndSecondaryReport": true,
+      "hasRequiredCards": true,
+      "hasSoulCompass": true,
+      "horizontalOverflow": 0,
+      "technicalDrawerCollapsed": true,
+      "tightActionGaps": 0
+    },
+    {
+      "fileName": "tablet-jaimini-room.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/jaimini",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "cardCollisionCount": 0,
+      "clippedText": 0,
+      "hasExactHeroTitle": true,
+      "hasKarakaCouncilPreview": true,
+      "hasPrimaryAskAndSecondaryReport": true,
+      "hasRequiredCards": true,
+      "hasSoulCompass": true,
+      "horizontalOverflow": 0,
+      "technicalDrawerCollapsed": true,
+      "tightActionGaps": 0
+    },
+    {
+      "fileName": "mobile-jaimini-room.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/jaimini",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "cardCollisionCount": 0,
+      "clippedText": 0,
+      "hasExactHeroTitle": true,
+      "hasKarakaCouncilPreview": true,
+      "hasPrimaryAskAndSecondaryReport": true,
+      "hasRequiredCards": true,
+      "hasSoulCompass": true,
+      "horizontalOverflow": 0,
+      "technicalDrawerCollapsed": true,
+      "tightActionGaps": 0
+    },
+    {
+      "fileName": "narrow-mobile-jaimini-room.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/jaimini",
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360,
+      "cardCollisionCount": 0,
+      "clippedText": 0,
+      "hasExactHeroTitle": true,
+      "hasKarakaCouncilPreview": true,
+      "hasPrimaryAskAndSecondaryReport": true,
+      "hasRequiredCards": true,
+      "hasSoulCompass": true,
+      "horizontalOverflow": 0,
+      "technicalDrawerCollapsed": true,
+      "tightActionGaps": 0
+    }
+  ],
+  "generatedAt": "2026-06-01T14:44:24.978Z",
+  "phase": "PREDICTA_JAIMINI_PHASE_4_WEB_JAIMINI_ROOM_CLEAN_UI_REBUILD",
+  "screenshotRoot": "docs/audits/PREDICTA_JAIMINI_PHASE_4_WEB_JAIMINI_ROOM_CLEAN_UI_REBUILD/screenshots",
+  "status": "green"
+}

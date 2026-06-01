@@ -18402,6 +18402,337 @@ select::-ms-expand {
   --world-glow: rgba(189, 163, 106, 0.2);
 }
 
+.jaimini-room-frame {
+  --jaimini-ink: var(--predicta-text, var(--text));
+  --jaimini-muted: var(--predicta-muted, var(--muted));
+  display: grid;
+  gap: clamp(20px, 2.6vw, 32px);
+  min-width: 0;
+}
+
+.jaimini-room-hero,
+.jaimini-reading-card,
+.jaimini-karaka-preview-card,
+.jaimini-premium-summary,
+.jaimini-technical-drawer {
+  background:
+    radial-gradient(circle at top right, var(--world-glow), transparent 38%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.026));
+  border: 1px solid color-mix(in srgb, var(--world-accent) 30%, rgba(255, 255, 255, 0.14));
+  border-radius: var(--predicta-radius-panel);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.18);
+  min-width: 0;
+}
+
+.jaimini-room-hero {
+  display: grid;
+  gap: clamp(22px, 3vw, 42px);
+  grid-template-columns: minmax(0, 1.12fr) minmax(320px, 0.88fr);
+  overflow: hidden;
+  padding: clamp(26px, 3.5vw, 52px);
+  position: relative;
+}
+
+.jaimini-room-hero::before {
+  background:
+    radial-gradient(circle, rgba(189, 163, 106, 0.28), transparent 62%),
+    conic-gradient(from 34deg, rgba(189, 163, 106, 0.24), transparent, rgba(96, 200, 255, 0.16), transparent);
+  border-radius: 999px;
+  content: "";
+  height: min(38vw, 440px);
+  opacity: 0.34;
+  position: absolute;
+  right: -140px;
+  top: -150px;
+  width: min(38vw, 440px);
+}
+
+.jaimini-room-hero-copy,
+.jaimini-soul-compass-card {
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.jaimini-room-hero-copy h1 {
+  color: var(--jaimini-ink);
+  font-family: var(--predicta-font-display);
+  font-size: clamp(42px, 5.3vw, 82px);
+  letter-spacing: -0.055em;
+  line-height: 0.94;
+  margin: 12px 0 18px;
+  max-width: 920px;
+  text-wrap: balance;
+}
+
+.jaimini-room-hero-copy p,
+.jaimini-reading-card p,
+.jaimini-karaka-preview-card p,
+.jaimini-premium-summary p,
+.jaimini-evidence-list p {
+  color: var(--jaimini-muted);
+  font-size: clamp(16px, 1.24vw, 19px);
+  line-height: 1.62;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.jaimini-room-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: clamp(22px, 2.6vw, 34px);
+}
+
+.jaimini-room-cta-row .button,
+.jaimini-premium-summary .button {
+  min-height: 54px;
+  white-space: normal;
+}
+
+.jaimini-soul-compass-card {
+  align-self: stretch;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.028)),
+    radial-gradient(circle at 50% 18%, rgba(189, 163, 106, 0.2), transparent 46%);
+  border: 1px solid color-mix(in srgb, var(--world-accent) 34%, rgba(255, 255, 255, 0.14));
+  border-radius: var(--predicta-radius-panel);
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+  padding: clamp(20px, 2.4vw, 30px);
+}
+
+.jaimini-room-badge {
+  width: fit-content;
+}
+
+.jaimini-compass-orbit {
+  align-items: center;
+  aspect-ratio: 1;
+  border: 1px solid rgba(189, 163, 106, 0.38);
+  border-radius: 999px;
+  box-shadow: inset 0 0 46px rgba(189, 163, 106, 0.08);
+  display: grid;
+  justify-items: center;
+  margin: 0 auto;
+  max-width: 250px;
+  position: relative;
+  width: min(100%, 250px);
+}
+
+.jaimini-compass-orbit::before,
+.jaimini-compass-orbit::after {
+  border: 1px solid rgba(189, 163, 106, 0.18);
+  border-radius: 999px;
+  content: "";
+  inset: 18%;
+  position: absolute;
+}
+
+.jaimini-compass-orbit::after {
+  inset: 34%;
+}
+
+.jaimini-compass-orbit span {
+  background: color-mix(in srgb, var(--predicta-panel) 82%, transparent);
+  border: 1px solid rgba(189, 163, 106, 0.22);
+  border-radius: 999px;
+  color: var(--jaimini-ink);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  padding: 8px 10px;
+  position: absolute;
+  text-transform: uppercase;
+}
+
+.jaimini-compass-orbit span:nth-child(1) {
+  top: 8%;
+}
+
+.jaimini-compass-orbit span:nth-child(2) {
+  right: 4%;
+}
+
+.jaimini-compass-orbit span:nth-child(3) {
+  bottom: 8%;
+}
+
+.jaimini-compass-orbit span:nth-child(4) {
+  left: 4%;
+}
+
+.jaimini-compass-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.jaimini-compass-item,
+.jaimini-karaka-list span {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid color-mix(in srgb, var(--world-accent) 20%, rgba(255, 255, 255, 0.12));
+  border-radius: 18px;
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  padding: 14px;
+}
+
+.jaimini-compass-item span,
+.jaimini-reading-card span,
+.jaimini-karaka-list strong,
+.jaimini-technical-drawer summary span {
+  color: var(--jaimini-muted);
+  font-size: 11px;
+  font-weight: 950;
+  letter-spacing: 0.1em;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.jaimini-compass-item strong,
+.jaimini-karaka-list em {
+  color: var(--jaimini-ink);
+  font-size: clamp(17px, 1.5vw, 23px);
+  font-style: normal;
+  font-weight: 900;
+  line-height: 1.18;
+  overflow-wrap: anywhere;
+}
+
+.jaimini-reading-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.jaimini-reading-card,
+.jaimini-karaka-preview-card {
+  display: grid;
+  gap: 14px;
+  padding: clamp(20px, 2.5vw, 30px);
+}
+
+.jaimini-reading-card h2,
+.jaimini-karaka-preview-card h2,
+.jaimini-premium-summary h2 {
+  color: var(--jaimini-ink);
+  font-family: var(--predicta-font-display);
+  font-size: clamp(25px, 2.45vw, 39px);
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.jaimini-karaka-preview-card {
+  grid-column: span 2;
+}
+
+.jaimini-karaka-list {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.jaimini-premium-summary {
+  align-items: center;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: clamp(22px, 2.8vw, 36px);
+}
+
+.jaimini-technical-drawer {
+  padding: clamp(20px, 2.5vw, 30px);
+}
+
+.jaimini-technical-drawer:not([open]) .jaimini-evidence-list {
+  display: none;
+}
+
+.jaimini-technical-drawer summary {
+  align-items: center;
+  cursor: pointer;
+  display: grid;
+  gap: 8px;
+  list-style: none;
+}
+
+.jaimini-technical-drawer summary::-webkit-details-marker {
+  display: none;
+}
+
+.jaimini-technical-drawer summary strong {
+  color: var(--jaimini-ink);
+  font-size: clamp(18px, 1.7vw, 26px);
+  line-height: 1.18;
+}
+
+.jaimini-evidence-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.jaimini-evidence-list p {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+
+@media (max-width: 1080px) {
+  .jaimini-room-hero,
+  .jaimini-premium-summary {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .jaimini-reading-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .jaimini-room-frame {
+    gap: 18px;
+  }
+
+  .jaimini-room-hero,
+  .jaimini-reading-card,
+  .jaimini-karaka-preview-card,
+  .jaimini-premium-summary,
+  .jaimini-technical-drawer {
+    border-radius: 24px;
+  }
+
+  .jaimini-room-hero {
+    padding: 22px;
+  }
+
+  .jaimini-room-hero-copy h1 {
+    font-size: clamp(36px, 12vw, 52px);
+  }
+
+  .jaimini-room-cta-row,
+  .jaimini-room-cta-row .button,
+  .jaimini-premium-summary .button {
+    width: 100%;
+  }
+
+  .jaimini-compass-grid,
+  .jaimini-reading-grid,
+  .jaimini-karaka-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .jaimini-karaka-preview-card {
+    grid-column: auto;
+  }
+}
+
 .predicta-world--nadi {
   --world-accent: #77d69c;
   --world-accent-soft: rgba(119, 214, 156, 0.14);
