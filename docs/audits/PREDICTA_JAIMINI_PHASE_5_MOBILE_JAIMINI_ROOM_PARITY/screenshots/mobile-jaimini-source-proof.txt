@@ -1,0 +1,16 @@
+PREDICTA_JAIMINI_PHASE_5_MOBILE_JAIMINI_ROOM_PARITY mobile source proof
+
+Mobile runtime screenshot capture is not available in this desktop workspace without a simulator target.
+Phase 5 therefore uses source-level mobile layout proof plus Android bundling as the strict mobile test path.
+
+Verified mobile parity source facts:
+- Jaimini route and navigator registration exist.
+- Hero copy matches the Phase 4 web room.
+- Soul compass is present.
+- Karaka council preview is present.
+- Chara Dasha timeline is horizontal/compact.
+- Six prediction blocks are stacked from composeJaiminiInterpretation free blocks.
+- Technical evidence is collapsed by default through useState(false).
+- Ask handoff carries active Kundli, JAIMINI school, Jaimini summary, and calculated evidence.
+- Touch targets are at least 52px for CTAs and 58px for the technical drawer header.
+- No Nadi copy and no generic KundliChart shell are rendered in the Jaimini mobile room.
