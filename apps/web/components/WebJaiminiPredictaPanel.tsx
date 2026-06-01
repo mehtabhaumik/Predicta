@@ -1,16 +1,11 @@
 'use client';
 
+import { composeJaiminiPlan } from '@pridicta/astrology';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { WebActiveKundliActions } from './WebActiveKundliActions';
 import { PredictaWorldFrame } from './PredictaWorldFrame';
 import { PredictaButton } from './ui/DesignSystemPrimitives';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
-
-const JAIMINI_PILLARS = [
-  { label: 'Soul planet', value: 'Atmakaraka' },
-  { label: 'Visible path', value: 'Arudha' },
-  { label: 'Life chapter', value: 'Chara Dasha' },
-] as const;
 
 const JAIMINI_ACTIONS = [
   {
@@ -26,37 +21,52 @@ const JAIMINI_ACTIONS = [
   {
     href: '#jaimini-destiny-chapter',
     label: 'Destiny chapter',
-    note: 'Prepare for the Chara Dasha timeline when the deterministic layer is green.',
-  },
-] as const;
-
-const JAIMINI_PROOF_CARDS = [
-  {
-    title: 'Chara Karaka council',
-    body:
-      'Jaimini will read Atmakaraka, Amatyakaraka, Darakaraka, and the full karaka order after the shared data contract is implemented.',
-  },
-  {
-    title: 'Karakamsha and Swamsa',
-    body:
-      'The soul-seat charts will become the technical proof behind the plain-language soul role reading.',
-  },
-  {
-    title: 'Arudha and Upapada',
-    body:
-      'Visible identity and relationship mirrors will be explained through Jaimini evidence, not unsupported story language.',
+    note: 'See the current baseline Chara Dasha chapter when birth evidence is available.',
   },
 ] as const;
 
 export function WebJaiminiPredictaPanel(): React.JSX.Element {
   const { activeKundli } = useWebKundliLibrary();
+  const jaiminiPlan = composeJaiminiPlan(activeKundli);
   const chatHref = buildPredictaChatHref({
     kundli: activeKundli,
     prompt:
-      'Use Jaimini Predicta for my question. Focus on soul role, visible identity, career dharma, relationship mirror, and destiny chapter.',
+      `Use Jaimini Predicta for my question. Calculated evidence: ${jaiminiPlan.freeInsight}`,
     school: 'JAIMINI',
     sourceScreen: 'Jaimini Predicta',
   });
+  const pillars = [
+    {
+      label: 'Soul planet',
+      value: jaiminiPlan.atmakaraka?.planet ?? 'Pending',
+    },
+    {
+      label: 'Visible path',
+      value: jaiminiPlan.arudhaLagna.padaSign ?? 'Pending',
+    },
+    {
+      label: 'Life chapter',
+      value: jaiminiPlan.currentCharaDasha?.sign ?? 'Pending',
+    },
+  ];
+  const proofCards = [
+    {
+      title: 'Chara Karaka council',
+      body: jaiminiPlan.charaKarakas.length
+        ? jaiminiPlan.charaKarakas
+            .map(item => `${item.role}: ${item.planet}`)
+            .join(' · ')
+        : 'Create or select a Kundli so Predicta can calculate the Chara Karaka order.',
+    },
+    {
+      title: 'Karakamsha and Swamsa',
+      body: `Karakamsha: ${jaiminiPlan.karakamsha.ascendantSign ?? 'pending'} · Swamsa: ${jaiminiPlan.swamsa.ascendantSign ?? 'pending'}.`,
+    },
+    {
+      title: 'Arudha and Upapada',
+      body: `Arudha Lagna: ${jaiminiPlan.arudhaLagna.padaSign ?? 'pending'} · Upapada: ${jaiminiPlan.upapadaLagna.padaSign ?? 'pending'}.`,
+    },
+  ];
 
   return (
     <>
@@ -69,7 +79,7 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
       />
       <PredictaWorldFrame
         badge="Classical soul-destiny lens"
-        body="Jaimini Predicta is being introduced as the classical specialist for soul role, visible identity, career dharma, relationship mirror, and destiny chapters. The screen stays calm now; the deterministic karaka and Chara Dasha layer is built in the next phase."
+        body={jaiminiPlan.freeInsight}
         chatAction={
           <PredictaButton href={chatHref} variant="secondary">
             Ask Jaimini Predicta
@@ -81,8 +91,8 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
         localActions={[...JAIMINI_ACTIONS]}
         localEyebrow="Calm destiny room"
         localTitle="What Jaimini will help you understand"
-        pillars={[...JAIMINI_PILLARS]}
-        proofCards={[...JAIMINI_PROOF_CARDS]}
+        pillars={pillars}
+        proofCards={proofCards}
         proofLabel="Jaimini evidence"
         reportHref="/dashboard/report#report-lane-jaimini"
         reportLabel="Build Jaimini report"

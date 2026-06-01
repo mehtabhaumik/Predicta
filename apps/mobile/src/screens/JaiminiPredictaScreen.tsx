@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
+import { composeJaiminiPlan } from '@pridicta/astrology';
 import {
   ActiveKundliActions,
   AnimatedHeader,
@@ -13,12 +14,6 @@ import type { RootScreenProps } from '../navigation/types';
 import { useAppStore } from '../store/useAppStore';
 import { colors } from '../theme/colors';
 
-const pillars = [
-  ['Soul planet', 'Atmakaraka'],
-  ['Visible path', 'Arudha'],
-  ['Life chapter', 'Chara Dasha'],
-] as const;
-
 export function JaiminiPredictaScreen({
   navigation,
 }: RootScreenProps<
@@ -28,6 +23,12 @@ export function JaiminiPredictaScreen({
   const setActiveChartContext = useAppStore(
     state => state.setActiveChartContext,
   );
+  const jaiminiPlan = composeJaiminiPlan(kundli);
+  const pillars = [
+    ['Soul planet', jaiminiPlan.atmakaraka?.planet ?? 'Pending'],
+    ['Visible path', jaiminiPlan.arudhaLagna.padaSign ?? 'Pending'],
+    ['Life chapter', jaiminiPlan.currentCharaDasha?.sign ?? 'Pending'],
+  ] as const;
 
   return (
     <Screen>
@@ -46,10 +47,7 @@ export function JaiminiPredictaScreen({
           Your Jaimini room is being prepared carefully.
         </AppText>
         <AppText className="mt-3" tone="secondary" variant="body">
-          Jaimini Predicta will read soul role, visible identity, career dharma,
-          relationship mirror, and destiny chapters from calculated Jaimini
-          evidence. The screen stays calm now; the deterministic karaka and
-          Chara Dasha layer arrives in the next phase.
+          {jaiminiPlan.freeInsight}
         </AppText>
         <View style={styles.pillarGrid}>
           {pillars.map(([label, value]) => (
@@ -67,8 +65,7 @@ export function JaiminiPredictaScreen({
           onPress={() => {
             setActiveChartContext({
               handoffFrom: 'PARASHARI',
-              handoffQuestion:
-                'Use Jaimini Predicta for my question. Focus on soul role, visible identity, career dharma, relationship mirror, and destiny chapter.',
+              handoffQuestion: `Use Jaimini Predicta for my question. Calculated evidence: ${jaiminiPlan.freeInsight}`,
               predictaSchool: 'JAIMINI',
               selectedSection: 'Jaimini soul role',
               sourceScreen: 'Jaimini Predicta',

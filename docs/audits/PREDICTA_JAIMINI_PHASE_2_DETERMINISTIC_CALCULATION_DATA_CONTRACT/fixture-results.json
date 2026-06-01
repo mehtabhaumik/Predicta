@@ -1,0 +1,371 @@
+[
+  {
+    "arudhaLagna": "Taurus",
+    "atmakaraka": {
+      "absoluteLongitude": 142.4,
+      "chartContext": "Jupiter in Leo, house 1, 22.40 degrees.",
+      "degree": 22.4,
+      "dignity": "neutral",
+      "house": 1,
+      "nakshatra": "Test Nakshatra",
+      "pada": 3,
+      "planet": "Jupiter",
+      "retrograde": false,
+      "role": "Atmakaraka",
+      "sign": "Leo"
+    },
+    "calculationStatus": "ready",
+    "currentCharaDasha": {
+      "calculationRule": "Phase 2 baseline Chara Dasha: Lagna-sign sequence with sign-lord distance years; later variant audits may refine sub-periods.",
+      "endAge": 50,
+      "evidence": [
+        "Dasha sign: Sagittarius.",
+        "Sign lord: Jupiter.",
+        "Years assigned from sign-lord distance: 8."
+      ],
+      "order": 5,
+      "sign": "Sagittarius",
+      "signLord": "Jupiter",
+      "startAge": 42,
+      "years": 8
+    },
+    "darakaraka": {
+      "absoluteLongitude": 120.9,
+      "chartContext": "Mercury in Leo, house 1, 0.90 degrees.",
+      "degree": 0.9,
+      "dignity": "neutral",
+      "house": 1,
+      "nakshatra": "Test Nakshatra",
+      "pada": 1,
+      "planet": "Mercury",
+      "retrograde": false,
+      "role": "Darakaraka",
+      "sign": "Leo"
+    },
+    "id": "phase2-jaimini-leo",
+    "karakamsha": "Capricorn",
+    "swamsa": "Aries",
+    "timeline": [
+      {
+        "sign": "Leo",
+        "startAge": 0,
+        "endAge": 12,
+        "years": 12
+      },
+      {
+        "sign": "Virgo",
+        "startAge": 12,
+        "endAge": 23,
+        "years": 11
+      },
+      {
+        "sign": "Libra",
+        "startAge": 23,
+        "endAge": 31,
+        "years": 8
+      },
+      {
+        "sign": "Scorpio",
+        "startAge": 31,
+        "endAge": 42,
+        "years": 11
+      },
+      {
+        "sign": "Sagittarius",
+        "startAge": 42,
+        "endAge": 50,
+        "years": 8
+      },
+      {
+        "sign": "Capricorn",
+        "startAge": 50,
+        "endAge": 58,
+        "years": 8
+      },
+      {
+        "sign": "Aquarius",
+        "startAge": 58,
+        "endAge": 65,
+        "years": 7
+      },
+      {
+        "sign": "Pisces",
+        "startAge": 65,
+        "endAge": 70,
+        "years": 5
+      },
+      {
+        "sign": "Aries",
+        "startAge": 70,
+        "endAge": 76,
+        "years": 6
+      },
+      {
+        "sign": "Taurus",
+        "startAge": 76,
+        "endAge": 77,
+        "years": 1
+      },
+      {
+        "sign": "Gemini",
+        "startAge": 77,
+        "endAge": 79,
+        "years": 2
+      },
+      {
+        "sign": "Cancer",
+        "startAge": 79,
+        "endAge": 84,
+        "years": 5
+      }
+    ],
+    "upapadaLagna": "Taurus",
+    "warnings": []
+  },
+  {
+    "arudhaLagna": "Capricorn",
+    "atmakaraka": {
+      "absoluteLongitude": 358.1,
+      "chartContext": "Sun in Pisces, house 5, 28.10 degrees.",
+      "degree": 28.1,
+      "dignity": "neutral",
+      "house": 5,
+      "nakshatra": "Test Nakshatra",
+      "pada": 4,
+      "planet": "Sun",
+      "retrograde": false,
+      "role": "Atmakaraka",
+      "sign": "Pisces"
+    },
+    "calculationStatus": "ready",
+    "currentCharaDasha": {
+      "calculationRule": "Phase 2 baseline Chara Dasha: Lagna-sign sequence with sign-lord distance years; later variant audits may refine sub-periods.",
+      "endAge": 37,
+      "evidence": [
+        "Dasha sign: Aquarius.",
+        "Sign lord: Saturn.",
+        "Years assigned from sign-lord distance: 11."
+      ],
+      "order": 4,
+      "sign": "Aquarius",
+      "signLord": "Saturn",
+      "startAge": 26,
+      "years": 11
+    },
+    "darakaraka": {
+      "absoluteLongitude": 92.5,
+      "chartContext": "Jupiter in Cancer, house 9, 2.50 degrees.",
+      "degree": 2.5,
+      "dignity": "exalted",
+      "house": 9,
+      "nakshatra": "Test Nakshatra",
+      "pada": 1,
+      "planet": "Jupiter",
+      "retrograde": false,
+      "role": "Darakaraka",
+      "sign": "Cancer"
+    },
+    "id": "phase2-jaimini-scorpio",
+    "karakamsha": "Aries",
+    "swamsa": "Cancer",
+    "timeline": [
+      {
+        "sign": "Scorpio",
+        "startAge": 0,
+        "endAge": 7,
+        "years": 7
+      },
+      {
+        "sign": "Sagittarius",
+        "startAge": 7,
+        "endAge": 14,
+        "years": 7
+      },
+      {
+        "sign": "Capricorn",
+        "startAge": 14,
+        "endAge": 26,
+        "years": 12
+      },
+      {
+        "sign": "Aquarius",
+        "startAge": 26,
+        "endAge": 37,
+        "years": 11
+      },
+      {
+        "sign": "Pisces",
+        "startAge": 37,
+        "endAge": 41,
+        "years": 4
+      },
+      {
+        "sign": "Aries",
+        "startAge": 41,
+        "endAge": 43,
+        "years": 2
+      },
+      {
+        "sign": "Taurus",
+        "startAge": 43,
+        "endAge": 55,
+        "years": 12
+      },
+      {
+        "sign": "Gemini",
+        "startAge": 55,
+        "endAge": 65,
+        "years": 10
+      },
+      {
+        "sign": "Cancer",
+        "startAge": 65,
+        "endAge": 72,
+        "years": 7
+      },
+      {
+        "sign": "Leo",
+        "startAge": 72,
+        "endAge": 79,
+        "years": 7
+      },
+      {
+        "sign": "Virgo",
+        "startAge": 79,
+        "endAge": 86,
+        "years": 7
+      },
+      {
+        "sign": "Libra",
+        "startAge": 86,
+        "endAge": 93,
+        "years": 7
+      }
+    ],
+    "upapadaLagna": "Sagittarius",
+    "warnings": []
+  },
+  {
+    "arudhaLagna": "Virgo",
+    "atmakaraka": {
+      "absoluteLongitude": 179.4,
+      "chartContext": "Moon in Virgo, house 4, 29.40 degrees.",
+      "degree": 29.4,
+      "dignity": "neutral",
+      "house": 4,
+      "nakshatra": "Test Nakshatra",
+      "pada": 4,
+      "planet": "Moon",
+      "retrograde": false,
+      "role": "Atmakaraka",
+      "sign": "Virgo"
+    },
+    "calculationStatus": "ready",
+    "currentCharaDasha": {
+      "calculationRule": "Phase 2 baseline Chara Dasha: Lagna-sign sequence with sign-lord distance years; later variant audits may refine sub-periods.",
+      "endAge": 28,
+      "evidence": [
+        "Dasha sign: Scorpio.",
+        "Sign lord: Mars.",
+        "Years assigned from sign-lord distance: 11."
+      ],
+      "order": 6,
+      "sign": "Scorpio",
+      "signLord": "Mars",
+      "startAge": 17,
+      "years": 11
+    },
+    "darakaraka": {
+      "absoluteLongitude": 272.1,
+      "chartContext": "Venus in Capricorn, house 8, 2.10 degrees.",
+      "degree": 2.1,
+      "dignity": "neutral",
+      "house": 8,
+      "nakshatra": "Test Nakshatra",
+      "pada": 1,
+      "planet": "Venus",
+      "retrograde": false,
+      "role": "Darakaraka",
+      "sign": "Capricorn"
+    },
+    "id": "phase2-jaimini-gemini",
+    "karakamsha": "Scorpio",
+    "swamsa": "Aquarius",
+    "timeline": [
+      {
+        "sign": "Gemini",
+        "startAge": 0,
+        "endAge": 6,
+        "years": 6
+      },
+      {
+        "sign": "Cancer",
+        "startAge": 6,
+        "endAge": 8,
+        "years": 2
+      },
+      {
+        "sign": "Leo",
+        "startAge": 8,
+        "endAge": 11,
+        "years": 3
+      },
+      {
+        "sign": "Virgo",
+        "startAge": 11,
+        "endAge": 14,
+        "years": 3
+      },
+      {
+        "sign": "Libra",
+        "startAge": 14,
+        "endAge": 17,
+        "years": 3
+      },
+      {
+        "sign": "Scorpio",
+        "startAge": 17,
+        "endAge": 28,
+        "years": 11
+      },
+      {
+        "sign": "Sagittarius",
+        "startAge": 28,
+        "endAge": 35,
+        "years": 7
+      },
+      {
+        "sign": "Capricorn",
+        "startAge": 35,
+        "endAge": 39,
+        "years": 4
+      },
+      {
+        "sign": "Aquarius",
+        "startAge": 39,
+        "endAge": 42,
+        "years": 3
+      },
+      {
+        "sign": "Pisces",
+        "startAge": 42,
+        "endAge": 46,
+        "years": 4
+      },
+      {
+        "sign": "Aries",
+        "startAge": 46,
+        "endAge": 52,
+        "years": 6
+      },
+      {
+        "sign": "Taurus",
+        "startAge": 52,
+        "endAge": 60,
+        "years": 8
+      }
+    ],
+    "upapadaLagna": "Virgo",
+    "warnings": []
+  }
+]

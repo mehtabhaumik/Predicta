@@ -199,6 +199,88 @@ export type ChartData = {
   unsupportedReason?: string;
 };
 
+export type JaiminiCalculationStatus = 'partial' | 'pending' | 'ready';
+
+export type JaiminiKarakaRole =
+  | 'Atmakaraka'
+  | 'Amatyakaraka'
+  | 'Bhratrikaraka'
+  | 'Matrikaraka'
+  | 'Putrakaraka'
+  | 'Gnatikaraka'
+  | 'Darakaraka';
+
+export type JaiminiCharaKaraka = {
+  absoluteLongitude: number;
+  chartContext: string;
+  degree: number;
+  dignity: 'debilitated' | 'exalted' | 'neutral';
+  house: number;
+  nakshatra: string;
+  pada: number;
+  planet: string;
+  retrograde: boolean;
+  role: JaiminiKarakaRole;
+  sign: string;
+};
+
+export type JaiminiSoulChartReference = {
+  ascendantSign?: string;
+  calculationStatus: JaiminiCalculationStatus;
+  chart?: ChartData;
+  evidence: string[];
+  source: string;
+};
+
+export type JaiminiPadaReference = {
+  calculationStatus: JaiminiCalculationStatus;
+  evidence: string[];
+  padaHouse?: number;
+  padaSign?: string;
+  rule: string;
+  sourceHouse: number;
+  sourceLord?: string;
+  sourceSign?: string;
+};
+
+export type JaiminiSignAspect = {
+  aspectedPlanets: string[];
+  aspectedSigns: string[];
+  fromSign: string;
+  planetsInSign: string[];
+  signNature: 'dual' | 'fixed' | 'movable';
+};
+
+export type JaiminiCharaDashaPeriod = {
+  calculationRule: string;
+  endAge: number;
+  evidence: string[];
+  order: number;
+  sign: string;
+  signLord: string;
+  startAge: number;
+  years: number;
+};
+
+export type JaiminiPlan = {
+  arudhaLagna: JaiminiPadaReference;
+  atmakaraka?: JaiminiCharaKaraka;
+  amatyakaraka?: JaiminiCharaKaraka;
+  calculationStatus: JaiminiCalculationStatus;
+  charaDashaTimeline: JaiminiCharaDashaPeriod[];
+  charaKarakas: JaiminiCharaKaraka[];
+  contractVersion: 'jaimini-phase-2-v1';
+  currentCharaDasha?: JaiminiCharaDashaPeriod;
+  darakaraka?: JaiminiCharaKaraka;
+  evidenceWarnings: string[];
+  freeInsight: string;
+  jaiminiAspects: JaiminiSignAspect[];
+  karakamsha: JaiminiSoulChartReference;
+  premiumInsight: string;
+  swamsa: JaiminiSoulChartReference;
+  upapadaLagna: JaiminiPadaReference;
+};
+
 export type VedicIntelligenceStatus = 'pending' | 'ready';
 
 export type VedicIntelligenceSectionId =
@@ -2383,6 +2465,7 @@ export type KundliData = {
   purusharthaLifeBalance?: PurusharthaLifeBalance;
   personalPanchang?: PersonalPanchangLayer;
   holisticReadingRooms?: HolisticReadingRooms;
+  jaiminiPlan?: JaiminiPlan;
   sadhanaRemedyPath?: SadhanaRemedyPath;
   holisticDailyGuidance?: HolisticDailyGuidance;
   numerology?: NumerologyFoundationProfile;
