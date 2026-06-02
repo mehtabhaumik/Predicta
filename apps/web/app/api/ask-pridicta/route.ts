@@ -7,6 +7,10 @@ import {
 } from '@pridicta/config/aiCostGovernance';
 import {
   FREE_AI_QUESTION_LIFETIME_LIMIT,
+  evaluateAiCreditEntitlement,
+  selectPaidAiCreditSpendSource,
+  shouldConsumeDayPassAiCredit,
+  shouldConsumeFreeAiCredit,
   type ServerEntitlementLedger,
 } from '@pridicta/monetization';
 import type { PridictaChatResponse } from '@pridicta/types';
@@ -39,11 +43,13 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   const ledger = await readServerEntitlementLedger(auth.user);
-  const freeGatePreview = evaluateFreeAiGate(ledger, payload.body);
+  const aiEntitlement = evaluateAiCreditEntitlement(ledger, getUserPlan(payload.body));
   const abuseGate = evaluateAiAbuseProtection({
     deviceKey: readDeviceKey(payload.body),
     ipKey: readRequestIp(request),
-    isFreeAiPath: freeGatePreview.usesFreeCredit,
+    isFreeAiPath: aiEntitlement.allowed
+      ? aiEntitlement.creditSource === 'free_lifetime_ai_credit'
+      : true,
   });
 
   if (!abuseGate.allowed) {
@@ -59,13 +65,18 @@ export async function POST(request: Request): Promise<Response> {
 
   const trimmedPayload = trimAskPridictaPayload({
     body: payload.body,
-    entitlementSource: selectAiEntitlementSource(ledger, payload.body),
-    isFreeAiPath: freeGatePreview.usesFreeCredit,
-    productCreditSource: selectPaidAiCreditSpendSource(ledger, payload.body),
+    entitlementSource: aiEntitlement.allowed
+      ? aiEntitlement.creditSource === 'personal'
+        ? 'paid_question_pack'
+        : aiEntitlement.creditSource
+      : 'free_lifetime_ai_credit',
+    isFreeAiPath: aiEntitlement.allowed
+      ? aiEntitlement.creditSource === 'free_lifetime_ai_credit'
+      : true,
+    productCreditSource: selectPaidAiCreditSpendSource(aiEntitlement),
   });
-  const freeGate = evaluateFreeAiGate(ledger, trimmedPayload);
 
-  if (freeGate.blocked) {
+  if (!aiEntitlement.allowed) {
     return Response.json(
       buildFreeAiUpsellResponse({
         ledger,
@@ -115,7 +126,7 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   let nextLedger = ledger;
-  if (freeGate.usesFreeCredit && isProviderAiResponse(response)) {
+  if (shouldConsumeFreeAiCredit(aiEntitlement) && isProviderAiResponse(response)) {
     const result = await commitServerEntitlementOperation({
       operation: {
         idempotencyKey: buildFreeAiIdempotencyKey(auth.user.uid, trimmedPayload),
@@ -133,8 +144,17 @@ export async function POST(request: Request): Promise<Response> {
         }),
       );
     }
+  } else if (shouldConsumeDayPassAiCredit(aiEntitlement) && isProviderAiResponse(response)) {
+    const result = await commitServerEntitlementOperation({
+      operation: {
+        idempotencyKey: buildDayPassAiIdempotencyKey(auth.user.uid, trimmedPayload),
+        kind: 'record_successful_day_pass_ai_answer',
+      },
+      user: auth.user,
+    });
+    nextLedger = result.ledger;
   } else if (isProviderAiResponse(response)) {
-    const paidCreditSource = selectPaidAiCreditSpendSource(ledger, trimmedPayload);
+    const paidCreditSource = selectPaidAiCreditSpendSource(aiEntitlement);
 
     if (paidCreditSource) {
       const result = await commitServerEntitlementOperation({
@@ -293,90 +313,6 @@ function readDeviceKey(body: unknown): string {
     : '';
 }
 
-function selectAiEntitlementSource(
-  ledger: ServerEntitlementLedger,
-  body: unknown,
-): AIGovernanceEntitlementSource {
-  if (
-    getUserPlan(body) === 'PREMIUM' ||
-    ledger.premiumEntitlement.status === 'ACTIVE' ||
-    ledger.premiumEntitlement.status === 'GRACE_PERIOD'
-  ) {
-    return 'premium_subscription';
-  }
-
-  if (ledger.paidAiQuestionCreditsBalance > 0) {
-    return 'paid_question_pack';
-  }
-
-  if (ledger.familyBank.sharedQuestionCreditsBalance > 0) {
-    return 'family_bank';
-  }
-
-  if (
-    ledger.dayPassEntitlement.active &&
-    ledger.dayPassEntitlement.questionsRemaining > 0
-  ) {
-    return 'day_pass';
-  }
-
-  return 'free_lifetime_ai_credit';
-}
-
-function evaluateFreeAiGate(
-  ledger: ServerEntitlementLedger,
-  body: unknown,
-): { blocked: boolean; usesFreeCredit: boolean } {
-  if (hasNonFreeAiAccess(ledger) || getUserPlan(body) === 'PREMIUM') {
-    return {
-      blocked: false,
-      usesFreeCredit: false,
-    };
-  }
-
-  const remaining = getFreeAiCreditsRemaining(ledger);
-  return {
-    blocked: remaining <= 0,
-    usesFreeCredit: true,
-  };
-}
-
-function hasNonFreeAiAccess(ledger: ServerEntitlementLedger): boolean {
-  return (
-    ledger.premiumEntitlement.status === 'ACTIVE' ||
-    ledger.premiumEntitlement.status === 'GRACE_PERIOD' ||
-    ledger.paidAiQuestionCreditsBalance > 0 ||
-    ledger.familyBank.sharedQuestionCreditsBalance > 0 ||
-    (ledger.dayPassEntitlement.active &&
-      ledger.dayPassEntitlement.questionsRemaining > 0)
-  );
-}
-
-function selectPaidAiCreditSpendSource(
-  ledger: ServerEntitlementLedger,
-  body: unknown,
-): 'personal' | 'family_bank' | undefined {
-  if (
-    getUserPlan(body) === 'PREMIUM' ||
-    ledger.premiumEntitlement.status === 'ACTIVE' ||
-    ledger.premiumEntitlement.status === 'GRACE_PERIOD' ||
-    (ledger.dayPassEntitlement.active &&
-      ledger.dayPassEntitlement.questionsRemaining > 0)
-  ) {
-    return undefined;
-  }
-
-  if (ledger.paidAiQuestionCreditsBalance > 0) {
-    return 'personal';
-  }
-
-  if (ledger.familyBank.sharedQuestionCreditsBalance > 0) {
-    return 'family_bank';
-  }
-
-  return undefined;
-}
-
 function getUserPlan(body: unknown): string | undefined {
   return body && typeof body === 'object' && !Array.isArray(body)
     ? String((body as Record<string, unknown>).userPlan ?? '')
@@ -435,6 +371,20 @@ function buildPaidAiIdempotencyKey(
           .update(`${uid}:${source}:${String(payload.message ?? '')}:${Date.now()}`)
           .digest('hex');
   return `paid-ai:${uid}:${source}:${clientRequestId}`;
+}
+
+function buildDayPassAiIdempotencyKey(uid: string, body: unknown): string {
+  const payload =
+    body && typeof body === 'object' && !Array.isArray(body)
+      ? (body as Record<string, unknown>)
+      : {};
+  const clientRequestId =
+    typeof payload.clientRequestId === 'string' && payload.clientRequestId.trim()
+      ? payload.clientRequestId.trim()
+      : createHash('sha256')
+          .update(`${uid}:day-pass:${String(payload.message ?? '')}:${Date.now()}`)
+          .digest('hex');
+  return `day-pass-ai:${uid}:${clientRequestId}`;
 }
 
 function buildFreeAiUpsellResponse({

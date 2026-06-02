@@ -3,7 +3,10 @@ import { access, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { NextResponse } from 'next/server';
 import { renderToBuffer } from '@react-pdf/renderer';
-import type { ReportCreditType, ServerEntitlementLedger } from '@pridicta/monetization';
+import {
+  evaluateReportEntitlement,
+  type ReportCreditType,
+} from '@pridicta/monetization';
 
 import type { PdfGenerationRequest } from '@pridicta/pdf/reportDocument';
 import {
@@ -54,11 +57,19 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   const ledger = await readServerEntitlementLedger(auth.user);
-  const paidReportCredit = selectPaidReportCreditSpend(ledger, payload);
+  const reportEntitlement = evaluateReportEntitlement({
+    ledger,
+    mode: payload.mode,
+    reportFocus: payload.reportFocus,
+  });
 
-  if (payload.mode === 'PREMIUM' && !hasPremiumReportAccess(ledger) && !paidReportCredit) {
+  if (!reportEntitlement.allowed) {
     return NextResponse.json(
-      { error: 'A Premium subscription, Day Pass, or paid report credit is required before creating this Premium PDF.' },
+      {
+        error:
+          'A Premium subscription, Day Pass, Family Bank credit, or paid report credit is required before creating this Premium PDF.',
+        requiredCreditType: reportEntitlement.requiredCreditType,
+      },
       { status: 402 },
     );
   }
@@ -71,18 +82,26 @@ export async function POST(request: Request): Promise<Response> {
     }),
   );
 
-  if (paidReportCredit) {
+  if (reportEntitlement.allowed && reportEntitlement.paidReportCredit) {
     await commitServerEntitlementOperation({
       operation: {
         idempotencyKey: buildReportCreditIdempotencyKey(
           auth.user.uid,
-          paidReportCredit.source,
-          paidReportCredit.reportType,
+          reportEntitlement.paidReportCredit.source,
+          reportEntitlement.paidReportCredit.reportType,
           payload,
         ),
         kind: 'consume_report_credit',
-        reportType: paidReportCredit.reportType,
-        source: paidReportCredit.source,
+        reportType: reportEntitlement.paidReportCredit.reportType,
+        source: reportEntitlement.paidReportCredit.source,
+      },
+      user: auth.user,
+    });
+  } else if (reportEntitlement.allowed && reportEntitlement.creditSource === 'day_pass') {
+    await commitServerEntitlementOperation({
+      operation: {
+        idempotencyKey: buildDayPassReportIdempotencyKey(auth.user.uid, payload),
+        kind: 'consume_day_pass_report_pdf',
       },
       user: auth.user,
     });
@@ -100,60 +119,6 @@ export async function POST(request: Request): Promise<Response> {
       'Cache-Control': 'no-store, max-age=0',
     },
   });
-}
-
-function hasPremiumReportAccess(ledger: ServerEntitlementLedger): boolean {
-  return (
-    ledger.premiumEntitlement.status === 'ACTIVE' ||
-    ledger.premiumEntitlement.status === 'GRACE_PERIOD' ||
-    (ledger.dayPassEntitlement.active && ledger.dayPassEntitlement.pdfsRemaining > 0)
-  );
-}
-
-function selectPaidReportCreditSpend(
-  ledger: ServerEntitlementLedger,
-  payload: PdfGenerationRequest,
-): { reportType: ReportCreditType; source: 'personal' | 'family_bank' } | undefined {
-  if (payload.mode !== 'PREMIUM' || hasPremiumReportAccess(ledger)) {
-    return undefined;
-  }
-
-  const preferred = mapReportFocusToCreditType(payload.reportFocus);
-  const candidates: ReportCreditType[] =
-    preferred === 'PREMIUM_PDF' ? ['PREMIUM_PDF'] : [preferred, 'PREMIUM_PDF'];
-
-  for (const reportType of candidates) {
-    if ((ledger.reportCreditsByType[reportType] ?? 0) > 0) {
-      return { reportType, source: 'personal' };
-    }
-    if ((ledger.familyBank.sharedReportCreditsByType[reportType] ?? 0) > 0) {
-      return { reportType, source: 'family_bank' };
-    }
-  }
-
-  return undefined;
-}
-
-function mapReportFocusToCreditType(
-  reportFocus: PdfGenerationRequest['reportFocus'],
-): ReportCreditType {
-  switch (reportFocus) {
-    case 'KP':
-      return 'KP';
-    case 'JAIMINI':
-      return 'JAIMINI';
-    case 'NUMEROLOGY':
-      return 'NUMEROLOGY';
-    case 'SIGNATURE':
-      return 'SIGNATURE';
-    case 'LIFE_ATLAS':
-      return 'LIFE_ATLAS';
-    case 'VEDIC':
-    case 'KUNDLI':
-      return 'VEDIC';
-    default:
-      return 'PREMIUM_PDF';
-  }
 }
 
 function buildReportCreditIdempotencyKey(
@@ -178,6 +143,27 @@ function buildReportCreditIdempotencyKey(
     .digest('hex')
     .slice(0, 24);
   return `report-pdf:${uid}:${source}:${reportType}:${digest}`;
+}
+
+function buildDayPassReportIdempotencyKey(
+  uid: string,
+  payload: PdfGenerationRequest,
+): string {
+  const digest = createHash('sha256')
+    .update(
+      JSON.stringify({
+        at: Date.now(),
+        kundliId: payload.kundli?.id,
+        mode: payload.mode,
+        reportFocus: payload.reportFocus,
+        sectionKeys: payload.sectionKeys,
+        source: 'day_pass',
+        uid,
+      }),
+    )
+    .digest('hex')
+    .slice(0, 24);
+  return `report-pdf:${uid}:day_pass:${digest}`;
 }
 
 async function loadPredictaLogoDataUri(): Promise<string> {

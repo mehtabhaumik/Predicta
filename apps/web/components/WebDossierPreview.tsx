@@ -12,6 +12,11 @@ import type { User } from 'firebase/auth';
 import { onAuthStateChanged } from 'firebase/auth';
 import { hasReportPdfCredit } from '@pridicta/monetization';
 import {
+  getReportCreditCandidates,
+  mapReportFocusToCreditType,
+  reportCreditLabel,
+} from '@pridicta/monetization';
+import {
   getConfidenceLabel,
   getLanguageLabels,
   getLanguageOption,
@@ -470,6 +475,7 @@ export function WebDossierPreview(): React.JSX.Element {
   const hasDetailedReportAccess = useMemo(
     () =>
       resolvedAccess.hasPremiumAccess ||
+      hasServerReportCreditForFocus(productBankBalance, selectedReportId) ||
       hasReportPdfCredit(
         monetization.oneTimeEntitlements,
         kundli?.id,
@@ -478,10 +484,16 @@ export function WebDossierPreview(): React.JSX.Element {
     [
       kundli?.id,
       monetization.oneTimeEntitlements,
+      productBankBalance,
       resolvedAccess.hasPremiumAccess,
       selectedReportId,
     ],
   );
+  const selectedReportCreditType = useMemo(
+    () => mapReportFocusToCreditType(selectedReportId),
+    [selectedReportId],
+  );
+  const selectedReportCreditLabel = reportCreditLabel(selectedReportCreditType);
   const builderCopy = getReportBuilderCopy(appLanguage);
   const resultCopy = getReportResultCopy(appLanguage);
   const reportLanguageCopy = getReportLanguageCopy(appLanguage);
@@ -985,6 +997,16 @@ export function WebDossierPreview(): React.JSX.Element {
         )}
 
         <div className="report-depth-grid inline" aria-label="Product Bank balance">
+          <div>
+            <span>Premium requirement</span>
+            <p>
+              {mode === 'PREMIUM'
+                ? hasDetailedReportAccess
+                  ? `Ready: Premium, Day Pass, Product Bank, or Family Bank access covers this ${selectedReportCreditLabel}.`
+                  : `Requires Premium, Day Pass, Family Bank, or one ${selectedReportCreditLabel}.`
+                : 'Free deterministic report does not spend AI or report credits.'}
+            </p>
+          </div>
           <div>
             <span>Product Bank</span>
             <p>
@@ -3106,6 +3128,21 @@ function getReportLaneReadiness({
     label: 'Kundli ready',
     ready: true,
   };
+}
+
+function hasServerReportCreditForFocus(
+  productBankBalance: Awaited<ReturnType<typeof loadWebProductBankBalance>>,
+  reportFocus: ReportMarketplaceProduct['id'],
+): boolean {
+  if (!productBankBalance) {
+    return false;
+  }
+
+  return getReportCreditCandidates(reportFocus).some(
+    creditType =>
+      (productBankBalance.reportCreditsByType[creditType] ?? 0) > 0 ||
+      (productBankBalance.familyReportCreditsByType[creditType] ?? 0) > 0,
+  );
 }
 
 function hasReadySignatureReport(

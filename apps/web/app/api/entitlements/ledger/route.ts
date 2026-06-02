@@ -109,6 +109,12 @@ function normalizeOperation(value: unknown): ServerEntitlementOperation | undefi
         source: operation.source,
       };
 
+    case 'record_successful_day_pass_ai_answer':
+      return {
+        idempotencyKey: operation.idempotencyKey,
+        kind: operation.kind,
+      };
+
     case 'grant_report_credit':
       if (typeof operation.reportType !== 'string') {
         return undefined;
@@ -133,6 +139,12 @@ function normalizeOperation(value: unknown): ServerEntitlementOperation | undefi
         reportType: operation.reportType as ReportCreditType,
         source: operation.source,
       } as ServerEntitlementOperation;
+
+    case 'consume_day_pass_report_pdf':
+      return {
+        idempotencyKey: operation.idempotencyKey,
+        kind: operation.kind,
+      };
 
     case 'sync_saved_kundli_count':
       return {

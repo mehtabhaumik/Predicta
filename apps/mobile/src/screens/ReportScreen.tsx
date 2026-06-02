@@ -24,7 +24,11 @@ import {
 import { buildGeneratedReportMemoryContext } from '@pridicta/config/predictaMemory';
 import { SUPPORTED_LANGUAGE_OPTIONS } from '@pridicta/config/language';
 import { composeReportSections, type PdfSection } from '@pridicta/pdf';
-import type { ReportCreditType, ServerEntitlementLedger } from '@pridicta/monetization';
+import {
+  evaluateReportEntitlement,
+  reportCreditLabel,
+  type ReportEntitlementDecision,
+} from '@pridicta/monetization';
 import { trackAnalyticsEvent } from '../services/analytics/analyticsService';
 import { syncRedeemedGuestPassToUser } from '../services/firebase/passCodePersistence';
 import {
@@ -57,11 +61,7 @@ export function ReportScreen({
   const userPlan = useAppStore(state => state.userPlan);
   const canGeneratePdf = useAppStore(state => state.canGeneratePdf);
   const consumeGuestPdfQuota = useAppStore(state => state.consumeGuestPdfQuota);
-  const consumeReportPdfCredit = useAppStore(
-    state => state.consumeReportPdfCredit,
-  );
   const getResolvedAccess = useAppStore(state => state.getResolvedAccess);
-  const hasReportPdfCredit = useAppStore(state => state.hasReportPdfCredit);
   const recordPdfGeneration = useAppStore(state => state.recordPdfGeneration);
   const setActiveChartContext = useAppStore(
     state => state.setActiveChartContext,
@@ -215,13 +215,41 @@ export function ReportScreen({
       selectedReportId === 'JAIMINI'
         ? getOneTimeProduct('JAIMINI_REPORT')
         : getPremiumPdfProduct();
+    let reportEntitlement: ReportEntitlementDecision | undefined;
 
-    const premiumPdfCreditAvailable = hasReportPdfCredit(
-      kundli.id,
-      selectedReportId,
-    );
+    if (mode === 'PREMIUM' && access.source !== 'guest_pass') {
+      if (!auth.userId) {
+        showGlassAlert({
+          actions: [
+            { label: 'Keep Free Report' },
+            {
+              label: 'Sign In',
+              onPress: () => navigation.navigate(routes.Login),
+            },
+          ],
+          message:
+            'Sign in before downloading a Premium report so Predicta can verify your Premium, Day Pass, Product Bank, or Family Bank access.',
+          title: 'Sign in required',
+        });
+        return;
+      }
 
-    if (mode === 'PREMIUM' && !premiumAccess && !premiumPdfCreditAvailable) {
+      const ledger = await loadServerEntitlementLedgerFromFirebase(auth.userId);
+      reportEntitlement = evaluateReportEntitlement({
+        ledger,
+        mode,
+        reportFocus: selectedReportId,
+      });
+    }
+
+    if (
+      mode === 'PREMIUM' &&
+      access.source !== 'guest_pass' &&
+      (!reportEntitlement || !reportEntitlement.allowed)
+    ) {
+      const requiredCredit = reportEntitlement?.requiredCreditType
+        ? reportCreditLabel(reportEntitlement.requiredCreditType)
+        : 'premium report credit';
       showGlassAlert({
         actions: [
           { label: 'Keep Free Report' },
@@ -231,7 +259,7 @@ export function ReportScreen({
           },
         ],
         message:
-          'Unlock one premium-depth PDF for this kundli, or try Premium for 24 hours.',
+          `Unlock Premium, use a Day Pass, or spend one ${requiredCredit} from Product Bank or Family Bank.`,
         title: 'Premium PDF',
       });
       return;
@@ -239,7 +267,7 @@ export function ReportScreen({
 
     if (
       !canGeneratePdf() &&
-      !(mode === 'PREMIUM' && premiumPdfCreditAvailable)
+      !(mode === 'PREMIUM' && reportEntitlement?.allowed)
     ) {
       showGlassAlert({
         actions: [
@@ -275,28 +303,29 @@ export function ReportScreen({
 
       if (
         mode === 'PREMIUM' &&
-        !premiumAccess &&
+        reportEntitlement?.allowed &&
         access.source !== 'guest_pass'
       ) {
         if (auth.userId) {
-          const ledger = await loadServerEntitlementLedgerFromFirebase(auth.userId);
-          const paidReportCredit = selectPaidReportCreditSpend(ledger, selectedReportId);
-
-          if (paidReportCredit) {
+          if (reportEntitlement.paidReportCredit) {
             await commitServerEntitlementOperationToFirebase({
               operation: {
-                idempotencyKey: `report-pdf:${auth.userId}:${paidReportCredit.source}:${paidReportCredit.reportType}:${Date.now()}`,
+                idempotencyKey: `report-pdf:${auth.userId}:${reportEntitlement.paidReportCredit.source}:${reportEntitlement.paidReportCredit.reportType}:${Date.now()}`,
                 kind: 'consume_report_credit',
-                reportType: paidReportCredit.reportType,
-                source: paidReportCredit.source,
+                reportType: reportEntitlement.paidReportCredit.reportType,
+                source: reportEntitlement.paidReportCredit.source,
               },
               userId: auth.userId,
             });
-          } else {
-            consumeReportPdfCredit(kundli.id, selectedReportId);
+          } else if (reportEntitlement.creditSource === 'day_pass') {
+            await commitServerEntitlementOperationToFirebase({
+              operation: {
+                idempotencyKey: `report-pdf:${auth.userId}:day_pass:${Date.now()}`,
+                kind: 'consume_day_pass_report_pdf',
+              },
+              userId: auth.userId,
+            });
           }
-        } else {
-          consumeReportPdfCredit(kundli.id, selectedReportId);
         }
       }
       showGlassAlert({
@@ -713,48 +742,6 @@ export function ReportScreen({
 
     </Screen>
   );
-}
-
-function selectPaidReportCreditSpend(
-  ledger: ServerEntitlementLedger,
-  reportFocus: ReportMarketplaceProduct['id'],
-): { reportType: ReportCreditType; source: 'personal' | 'family_bank' } | undefined {
-  const preferred = mapReportFocusToCreditType(reportFocus);
-  const candidates: ReportCreditType[] =
-    preferred === 'PREMIUM_PDF' ? ['PREMIUM_PDF'] : [preferred, 'PREMIUM_PDF'];
-
-  for (const reportType of candidates) {
-    if ((ledger.reportCreditsByType[reportType] ?? 0) > 0) {
-      return { reportType, source: 'personal' };
-    }
-    if ((ledger.familyBank.sharedReportCreditsByType[reportType] ?? 0) > 0) {
-      return { reportType, source: 'family_bank' };
-    }
-  }
-
-  return undefined;
-}
-
-function mapReportFocusToCreditType(
-  reportFocus: ReportMarketplaceProduct['id'],
-): ReportCreditType {
-  switch (reportFocus) {
-    case 'KP':
-      return 'KP';
-    case 'JAIMINI':
-      return 'JAIMINI';
-    case 'NUMEROLOGY':
-      return 'NUMEROLOGY';
-    case 'SIGNATURE':
-      return 'SIGNATURE';
-    case 'LIFE_ATLAS':
-      return 'LIFE_ATLAS';
-    case 'VEDIC':
-    case 'KUNDLI':
-      return 'VEDIC';
-    default:
-      return 'PREMIUM_PDF';
-  }
 }
 
 function ReportProductButton({

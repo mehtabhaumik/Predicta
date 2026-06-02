@@ -1,0 +1,27 @@
+{
+  "phase": "PREDICTA_MONETIZATION_PHASE_9_REPORT_AND_AI_CREDIT_ENTITLEMENT_PARITY",
+  "status": "GREEN",
+  "contract": {
+    "aiCredits": "Free, paid pack, Family Bank, Day Pass, and Premium AI access resolve through one shared decision.",
+    "dayPass": "Day Pass AI questions and report PDFs are consumed after successful provider/PDF generation.",
+    "lifeAtlas": "Signature is optional enrichment and missing signature never blocks Life Atlas.",
+    "reports": "All report lanes use the same free/premium/personal-credit/family-credit/day-pass/premium-subscription decision.",
+    "signature": "Signature reports require confirmed signature traits before PDF generation.",
+    "ui": "Report page shows the required credit/access before generation."
+  },
+  "requiredGate": "corepack pnpm test:monetization-phase-9",
+  "completedVerification": [
+    "corepack pnpm test:monetization-phase-6",
+    "corepack pnpm test:monetization-phase-8",
+    "corepack pnpm test:monetization-phase-9",
+    "corepack pnpm --filter @pridicta/types typecheck",
+    "corepack pnpm --filter @pridicta/config typecheck",
+    "corepack pnpm --filter @pridicta/monetization typecheck",
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "corepack pnpm --filter @pridicta/mobile typecheck",
+    "python3 -m pytest backend/tests/test_astro_api.py -q",
+    "corepack pnpm test:pdf-golden",
+    "corepack pnpm build:web",
+    "git diff --check"
+  ]
+}

@@ -101,6 +101,8 @@ export async function loadWebProductBankBalance(): Promise<
       familySharingEnabled: boolean;
       familyQuestionCredits: number;
       paidQuestionCredits: number;
+      familyReportCreditsByType: Partial<Record<string, number>>;
+      reportCreditsByType: Partial<Record<string, number>>;
       reportCredits: number;
     }
   | undefined
@@ -124,12 +126,14 @@ export async function loadWebProductBankBalance(): Promise<
     return {
       familyQuestionCredits: payload.ledger.familyBank.sharedQuestionCreditsBalance,
       familyReportCredits: sumCreditMap(payload.ledger.familyBank.sharedReportCreditsByType),
+      familyReportCreditsByType: payload.ledger.familyBank.sharedReportCreditsByType,
       familySharedMembers: payload.ledger.familyBank.memberUids.length,
       familySharingEnabled:
         payload.ledger.familyBank.memberUids.length > 1 ||
         payload.ledger.familyBank.sharedQuestionCreditsBalance > 0 ||
         sumCreditMap(payload.ledger.familyBank.sharedReportCreditsByType) > 0,
       paidQuestionCredits: payload.ledger.paidAiQuestionCreditsBalance,
+      reportCreditsByType: payload.ledger.reportCreditsByType,
       reportCredits: sumCreditMap(payload.ledger.reportCreditsByType),
     };
   } catch {

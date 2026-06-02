@@ -94,6 +94,10 @@ export type ServerEntitlementOperation =
     }
   | {
       idempotencyKey: string;
+      kind: 'record_successful_day_pass_ai_answer';
+    }
+  | {
+      idempotencyKey: string;
       kind: 'grant_report_credit';
       quantity: number;
       reportType: ReportCreditType;
@@ -103,6 +107,10 @@ export type ServerEntitlementOperation =
       kind: 'consume_report_credit';
       reportType: ReportCreditType;
       source: 'personal' | 'family_bank';
+    }
+  | {
+      idempotencyKey: string;
+      kind: 'consume_day_pass_report_pdf';
     }
   | {
       idempotencyKey: string;
@@ -130,6 +138,8 @@ export type ServerEntitlementOperationResult = {
   ledger: ServerEntitlementLedger;
   reason?:
     | 'free_ai_lifetime_exhausted'
+    | 'day_pass_ai_exhausted'
+    | 'day_pass_report_exhausted'
     | 'paid_ai_credits_exhausted'
     | 'report_credit_exhausted';
 };
@@ -263,6 +273,19 @@ export function applyServerEntitlementOperation({
       next.paidAiQuestionCreditsBalance -= 1;
       return changed(next, operation, nowIso);
 
+    case 'record_successful_day_pass_ai_answer':
+      if (
+        !next.dayPassEntitlement.active ||
+        next.dayPassEntitlement.questionsRemaining <= 0
+      ) {
+        return { changed: false, ledger: next, reason: 'day_pass_ai_exhausted' };
+      }
+      next.dayPassEntitlement = {
+        ...next.dayPassEntitlement,
+        questionsRemaining: next.dayPassEntitlement.questionsRemaining - 1,
+      };
+      return changed(next, operation, nowIso);
+
     case 'grant_report_credit':
       next.reportCreditsByType = addCredit(
         next.reportCreditsByType,
@@ -295,6 +318,23 @@ export function applyServerEntitlementOperation({
         next.reportCreditsByType = result.credits;
         return changed(next, operation, nowIso);
       }
+
+    case 'consume_day_pass_report_pdf':
+      if (
+        !next.dayPassEntitlement.active ||
+        next.dayPassEntitlement.pdfsRemaining <= 0
+      ) {
+        return {
+          changed: false,
+          ledger: next,
+          reason: 'day_pass_report_exhausted',
+        };
+      }
+      next.dayPassEntitlement = {
+        ...next.dayPassEntitlement,
+        pdfsRemaining: next.dayPassEntitlement.pdfsRemaining - 1,
+      };
+      return changed(next, operation, nowIso);
 
     case 'sync_saved_kundli_count':
       next.savedKundliCount = Math.max(0, operation.savedKundliCount);

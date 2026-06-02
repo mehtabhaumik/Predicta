@@ -49,6 +49,7 @@ const requiredFiles = [
   'apps/mobile/src/screens/ReportScreen.tsx',
   'apps/mobile/src/services/billing/mockBillingProvider.ts',
   'apps/mobile/src/services/subscription/entitlementService.ts',
+  'packages/monetization/src/entitlementParity.ts',
 ];
 
 for (const file of requiredFiles) {
@@ -104,11 +105,10 @@ const ledger = read('packages/monetization/src/serverEntitlementLedger.ts');
 
 const webAsk = read('apps/web/app/api/ask-pridicta/route.ts');
 [
+  'evaluateAiCreditEntitlement',
   'selectPaidAiCreditSpendSource',
   "kind: 'record_successful_paid_ai_answer'",
   "source: paidCreditSource",
-  "ledger.paidAiQuestionCreditsBalance > 0",
-  "ledger.familyBank.sharedQuestionCreditsBalance > 0",
 ].forEach(fragment => assertIncludes(webAsk, fragment, 'web paid AI question consumption'));
 assertBefore(
   webAsk,
@@ -119,17 +119,16 @@ assertBefore(
 
 const mobileAsk = read('apps/mobile/src/services/ai/pridictaService.ts');
 [
+  'evaluateAiCreditEntitlement',
   'selectPaidAiCreditSpendSource',
   "kind: 'record_successful_paid_ai_answer'",
   "source: paidCreditSource",
-  "ledger.paidAiQuestionCreditsBalance > 0",
-  "ledger.familyBank.sharedQuestionCreditsBalance > 0",
 ].forEach(fragment => assertIncludes(mobileAsk, fragment, 'mobile paid AI question consumption'));
 
 const webReportRoute = read('apps/web/app/api/report/pdf/route.ts');
 [
-  'selectPaidReportCreditSpend',
-  'hasPremiumReportAccess',
+  'evaluateReportEntitlement',
+  'reportEntitlement.paidReportCredit',
   "status: 402",
   "kind: 'consume_report_credit'",
   'const pdfBuffer = await renderToBuffer',
@@ -143,7 +142,8 @@ assertBefore(
 
 const mobileReport = read('apps/mobile/src/screens/ReportScreen.tsx');
 [
-  'selectPaidReportCreditSpend',
+  'evaluateReportEntitlement',
+  'reportEntitlement.paidReportCredit',
   "kind: 'consume_report_credit'",
   'const result = await generateHoroscopePdf',
   'loadServerEntitlementLedgerFromFirebase',
@@ -160,10 +160,27 @@ const productBankLoader = read('apps/web/lib/pridicta-ai.ts');
   'loadWebProductBankBalance',
   'paidQuestionCredits',
   'reportCredits',
+  'reportCreditsByType',
   'familyQuestionCredits',
   'familyReportCredits',
+  'familyReportCreditsByType',
   'familySharingEnabled',
 ].forEach(fragment => assertIncludes(productBankLoader, fragment, 'web Product Bank balance loader'));
+
+const entitlementParity = read('packages/monetization/src/entitlementParity.ts');
+[
+  'export function evaluateAiCreditEntitlement',
+  'export function selectPaidAiCreditSpendSource',
+  'export function evaluateReportEntitlement',
+  'export function selectPaidReportCreditSpend',
+  'export function getReportCreditCandidates',
+  'ledger.paidAiQuestionCreditsBalance > 0',
+  'ledger.familyBank.sharedQuestionCreditsBalance > 0',
+  'ledger.reportCreditsByType',
+  'ledger.familyBank.sharedReportCreditsByType',
+].forEach(fragment =>
+  assertIncludes(entitlementParity, fragment, 'shared entitlement parity contract'),
+);
 
 [
   ['apps/web/components/WebProfileSettings.tsx', ['Product Bank', 'paidQuestionCredits', 'reportCredits']],
