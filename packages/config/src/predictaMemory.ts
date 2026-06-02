@@ -51,6 +51,44 @@ export const PREDICTA_LIFE_ATLAS_MEMORY_CONTRACT = {
   ],
 } as const;
 
+export const PREDICTA_FINAL_REPORT_ARCHITECTURE_MEMORY = {
+  compactPreviewRule:
+    'App report previews are compact promise surfaces only. The PDF is the deep reading surface; Predicta should not turn the app preview into a full report wall.',
+  depthRule:
+    'Free reports must give useful prediction and key evidence. Premium/paid reports add deeper diagnosis, contradictions, timing windows, proof depth, and practical guidance without padding pages.',
+  responseRule:
+    'When a user asks about a report, Predicta gives prediction and meaning first, answers what it means for the user, then gives the school-specific evidence, then gives practical next steps. Do not school the user before helping them.',
+  stages: [
+    'Personal opening',
+    'Method-specific evidence',
+    'Prediction chapters',
+    'Timing or current relevance',
+    'Action plan',
+    'Appendix and proof',
+  ],
+  schoolBoundaryRule:
+    'Each school report stays method-bound: Vedic uses Parashari/Vedic evidence, KP uses KP event/cusp proof, Jaimini uses Jaimini destiny-role evidence, Numerology uses number logic, Signature uses confirmed visible traits, and Life Atlas is the only approved synthesis lane.',
+} as const;
+
+type FinalReportLaneMemoryKey = Exclude<ReportSchoolLaneId, 'NADI'> | 'LIFE_ATLAS';
+
+export const PREDICTA_FINAL_REPORT_LANE_MASTERY = {
+  JAIMINI:
+    'Jaimini report mastery: explain destiny role, soul direction, visible identity, relationship mirror, and current destiny chapter from Atmakaraka, karakas, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, and Chara Dasha evidence.',
+  KP:
+    'KP report mastery: answer the selected event or life outcome plainly, then use cusps, star lord, sub lord, significators, ruling planets, dasha support, transit triggers, timing readiness, and confidence as proof.',
+  LIFE_ATLAS:
+    'Life Atlas report mastery: deliver a non-technical life mirror with soul portrait, life arc, destiny pattern, current chapter, hidden thread, next steps, practices, and closing letter. Evidence stays quiet or late.',
+  NUMEROLOGY:
+    'Numerology report mastery: explain name rhythm, birth code, destiny/life-path, current cycle, missing/repeated number pattern, strengths, cautions, and practical timing from number evidence only.',
+  SIGNATURE:
+    'Signature report mastery: use confirmed visible traits only, explain self-expression reflectively, show confidence limits, protect privacy, and never make forensic, diagnostic, fixed-personality, or destiny claims.',
+  SYNTHESIS:
+    'Synthesis report mastery: Life Atlas is the approved synthesis path. It may combine available Vedic, KP, Jaimini, Numerology, and optional Signature evidence internally while staying user-facing and non-technical.',
+  VEDIC:
+    'Vedic report mastery: explain D1, Moon, D9, D10, Chalit, full varga library, Swamsa, Karakamsha, Mahadasha Phala, Panchang, Avakhada, Ghatak/favorable factors, Ashtakavarga, house evidence, friendship, benefic/malefic logic, and consolidated remedies from Parashari/Vedic evidence.',
+} as const satisfies Record<FinalReportLaneMemoryKey, string>;
+
 export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
   productStructure: [
     'Predicta is one product with five specialist rooms/worlds: Vedic Predicta, KP Predicta, Jaimini Predicta, Numerology Predicta, and Signature Predicta.',
@@ -72,6 +110,7 @@ export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
     'Swamsa and Karakamsha are first-class Vedic soul-direction chart surfaces, not optional hidden notes.',
     'Report marketplace options are school-separated; method-specific reports must not become mixed-bag reports.',
     'PDF reports are the complete dossier surface; app screens stay progressive, clean, and CTA-led so users are not forced through a long reading wall.',
+    'Final report app previews show one compact promise, one focus line, three preview bullets, and one download nudge. Predicta must use the PDF/report context for deeper answers instead of dumping full chapters on the screen.',
     'Language preferences, safety/legal guidance, and saved recovery behavior must be explained calmly when asked.',
   ],
   appSurfaceAwareness: [
@@ -98,6 +137,8 @@ export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
     'Numerology Reports use number logic only unless the user explicitly requests approved Vedic-plus-Numerology combination.',
     'Signature Reports use confirmed signature traits only unless the user explicitly requests approved Vedic-plus-Signature combination.',
     'Synthesis Reports are clearly labeled; Predicta Life Atlas can combine available Vedic, KP, Jaimini, Numerology, and optional Signature data.',
+    'Every final report follows the six-stage architecture: personal opening, method-specific evidence, prediction chapters, timing/current relevance, action plan, and appendix/proof.',
+    'Report chat mastery follows the same rhythm as the PDFs: prediction and guidance first, school-specific evidence second, practical action third, safety/limits last.',
   ],
   roomBoundaries: [
     'Vedic Predicta answers from Parashari/Vedic context only.',
@@ -111,6 +152,7 @@ export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
     'Predicta may know calculated report/charts/tables that are not visible on the immediate card; she should use supplied digest data before giving a generic answer.',
     'Predicta should remember the active subject, active Kundli, selected chart, selected report, generated report context, and family/member context when supplied.',
     'Predicta can explain deeper available data such as Mahadasha, KP event carriers, Jaimini soul-role indicators, Numerology cycle, confirmed Signature traits, Life Atlas synthesis, and downloaded report sections even when the screen only shows a compact preview.',
+    'Generated report context carries architecture stages, depth contract, compact-preview rule, school-boundary rule, and chat-mastery rule. Use those fields before giving a generic report explanation.',
     'Life Atlas can use Jaimini only as a labeled synthesis evidence layer; it must not smuggle Jaimini into Vedic, KP, Numerology, or Signature reports.',
   ],
   missingDataHonestyRules: [
@@ -127,6 +169,8 @@ export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
     'Never fabricate pending calculations or hidden data.',
     'Free answers remain useful and non-technical; premium answers add evidence, timing, contradictions, and practical depth without changing respectability.',
     'When asked about report content, explain what it means for the user rather than merely defining what an area governs.',
+    'Report chat must answer what it means for the user before giving technical evidence.',
+    'When a user asks about a report section, never start with “this section is used to...” unless clarification is necessary. Start with the direct meaning, prediction, timing, or guidance.',
     'Use non-scary, non-fatalistic, confidence-aware wording.',
     'Cite the active table/section context instead of inventing unrelated reasoning.',
   ],
@@ -135,6 +179,9 @@ export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
 };
 
 export const PREDICTA_REPORT_TO_CHAT_FOLLOW_UPS = [
+  'What does this report mean for me?',
+  'Summarize my report in plain language',
+  'Give me the prediction first',
   'Explain my friendship table',
   'Explain my functional benefics and malefics',
   'Explain my Chalit shifts',
@@ -146,6 +193,11 @@ export const PREDICTA_REPORT_TO_CHAT_FOLLOW_UPS = [
   'Explain my Avakhada chakra',
   'Explain my Ashtakavarga score',
   'Explain my Ghatak and favorable factors',
+  'Explain my KP verdict and timing readiness',
+  'Explain my Jaimini soul role',
+  'Explain my Numerology current cycle',
+  'Explain my Signature trait map',
+  'Explain my Life Atlas hidden thread',
 ] as const;
 
 export const PREDICTA_REPORT_SECTION_MEMORY_CATALOG: PredictaReportSectionMemory[] = [
@@ -359,6 +411,156 @@ export const PREDICTA_REPORT_SECTION_MEMORY_CATALOG: PredictaReportSectionMemory
     whatItMeans:
       'Summarizes traditional birth-star identity fields so the user understands their Nakshatra profile.',
   },
+  {
+    boundary:
+      'KP-only event/outcome context. Do not answer with D1/D9 Parashari personality reading.',
+    calculationState: 'available',
+    freeDepth:
+      'Give the plain KP outcome direction, promise/block mood, timing readiness, and one useful next step.',
+    handoffPrompt: 'Explain my KP verdict and timing readiness',
+    id: 'kp-verdict-timing-readiness',
+    premiumDepth:
+      'Add cusp chain, star/sub-lord proof, significator hierarchy, ruling planets, dasha/transit trigger windows, contradictions, and confidence limits.',
+    schoolLane: 'KP',
+    title: 'KP verdict and timing readiness',
+    whatItMeans:
+      'Shows what KP is saying about the selected event or life outcome: support, delay, block, timing readiness, and the next practical move.',
+  },
+  {
+    boundary:
+      'KP-only proof appendix. Keep technical proof after the answer and do not let it replace the answer.',
+    calculationState: 'available',
+    freeDepth:
+      'Translate relevant houses, cusps, and main significators into one clear support/block explanation.',
+    handoffPrompt: 'Explain my KP proof path',
+    id: 'kp-proof-path',
+    premiumDepth:
+      'Explain the full cusp, star lord, sub lord, sub-sub lord where available, significator, ruling planet, dasha, and transit chain.',
+    schoolLane: 'KP',
+    title: 'KP proof path',
+    whatItMeans:
+      'Connects the KP technical chain to the actual answer so the user sees why the verdict was made.',
+  },
+  {
+    boundary:
+      'Jaimini-only soul-role context. Do not mix KP cusp proof or generic Vedic chart teaching into this answer.',
+    calculationState: 'available',
+    freeDepth:
+      'Explain the soul role, visible identity, and current destiny chapter in one practical reading.',
+    handoffPrompt: 'Explain my Jaimini soul role',
+    id: 'jaimini-soul-role',
+    premiumDepth:
+      'Add Atmakaraka, Amatyakaraka, Darakaraka, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, Chara Dasha, contradictions, and timing relevance.',
+    schoolLane: 'JAIMINI',
+    title: 'Jaimini soul role and destiny chapter',
+    whatItMeans:
+      'Shows the role the chart asks the user to mature into, how they become visible, and what the active destiny chapter is asking from them.',
+  },
+  {
+    boundary:
+      'Jaimini-only relationship/public-image context. Keep it guidance-first and avoid fatalistic labels.',
+    calculationState: 'available',
+    freeDepth:
+      'Explain Arudha/Upapada-style visible identity and relationship mirror in plain language.',
+    handoffPrompt: 'Explain my Jaimini relationship mirror',
+    id: 'jaimini-arudha-upapada',
+    premiumDepth:
+      'Add public image, partner mirror, role tension, Chara Dasha relevance, and practical integration guidance.',
+    schoolLane: 'JAIMINI',
+    title: 'Jaimini Arudha and Upapada mirror',
+    whatItMeans:
+      'Shows how the user is perceived, what relationship mirrors back, and where destiny asks for maturity in partnership and public life.',
+  },
+  {
+    boundary:
+      'Numerology-only context unless the user explicitly asks for Life Atlas or approved Vedic-plus-Numerology synthesis.',
+    calculationState: 'available',
+    freeDepth:
+      'Explain name rhythm, birth code, destiny/life-path, and current cycle as practical guidance.',
+    handoffPrompt: 'Explain my Numerology current cycle',
+    id: 'numerology-number-signature',
+    premiumDepth:
+      'Add name scanner, missing/repeated grid, personal year/month/day timeline, compatibility, name fit, and refinement guidance.',
+    schoolLane: 'NUMEROLOGY',
+    title: 'Numerology number signature and current cycle',
+    whatItMeans:
+      'Shows the user’s number identity, how the name projects, what the birth code asks for, and what cycle is active now.',
+  },
+  {
+    boundary:
+      'Numerology-only name refinement context. Never scare the user into changing a name.',
+    calculationState: 'available',
+    freeDepth:
+      'Explain the current name rhythm and whether it supports expression, steadiness, or timing in simple terms.',
+    handoffPrompt: 'Explain my name rhythm',
+    id: 'numerology-name-rhythm',
+    premiumDepth:
+      'Compare supplied name options, show fit score components carefully, and explain benefits/cautions without guarantees.',
+    schoolLane: 'NUMEROLOGY',
+    title: 'Numerology name rhythm',
+    whatItMeans:
+      'Shows how a name carries number rhythm and how that rhythm can support or complicate expression, identity, and timing.',
+  },
+  {
+    boundary:
+      'Signature-only confirmed-trait context. Never infer from missing, blank, or unconfirmed signature data.',
+    calculationState: 'optional',
+    freeDepth:
+      'Explain confirmed visible traits, confidence rhythm, consistency, and one self-expression practice.',
+    handoffPrompt: 'Explain my Signature trait map',
+    id: 'signature-trait-map',
+    premiumDepth:
+      'Add multi-trait synthesis, comparison if multiple samples exist, improvement plan, privacy note, and confidence limits.',
+    schoolLane: 'SIGNATURE',
+    title: 'Signature trait map',
+    whatItMeans:
+      'Reflects visible self-expression traits from a confirmed signature sample while staying non-forensic and non-diagnostic.',
+  },
+  {
+    boundary:
+      'Signature privacy/safety context. Do not claim storage, identity verification, diagnosis, or guaranteed prediction.',
+    calculationState: 'optional',
+    freeDepth:
+      'Explain what was used, what was not stored, and what the user may need to re-upload or redraw.',
+    handoffPrompt: 'Explain my Signature privacy note',
+    id: 'signature-privacy-boundary',
+    premiumDepth:
+      'Add confirmed-trait evidence, comparison boundary, and refinement steps without storing raw signature images by default.',
+    schoolLane: 'SIGNATURE',
+    title: 'Signature privacy and safety boundary',
+    whatItMeans:
+      'Tells the user that Signature Predicta uses only confirmed visible traits from the current session and stays reflective, not forensic.',
+  },
+  {
+    boundary:
+      'Life Atlas synthesis context. It is the only approved all-school synthesis lane and should stay non-technical in the main answer.',
+    calculationState: 'available',
+    freeDepth:
+      'Explain the soul portrait, current chapter, hidden thread, gifts, lessons, and next honest step in human language.',
+    handoffPrompt: 'Explain my Life Atlas hidden thread',
+    id: 'life-atlas-hidden-thread',
+    premiumDepth:
+      'Add deeper life arc, destiny pattern, love/work/money/purpose synthesis, practices, shadow-to-gift map, and closing-letter depth.',
+    schoolLane: 'SYNTHESIS',
+    title: 'Life Atlas hidden thread and current chapter',
+    whatItMeans:
+      'Names the life pattern tying the user’s journey together and translates available evidence into a non-technical life mirror.',
+  },
+  {
+    boundary:
+      'Life Atlas evidence appendix context. Evidence stays after the human reading and must not replace the soul portrait.',
+    calculationState: 'available',
+    freeDepth:
+      'Explain which evidence layers were used at a high level without turning the answer technical.',
+    handoffPrompt: 'Explain how Predicta built my Life Atlas',
+    id: 'life-atlas-evidence-appendix',
+    premiumDepth:
+      'Name Vedic, KP, Jaimini, Numerology, and optional Signature evidence layers with boundaries, contradictions, and confidence limits.',
+    schoolLane: 'SYNTHESIS',
+    title: 'How Predicta built this Life Atlas',
+    whatItMeans:
+      'Shows the evidence layers behind the Life Atlas while keeping the main report focused on life guidance, not method schooling.',
+  },
 ];
 
 export function buildGeneratedReportMemoryContext({
@@ -380,15 +582,60 @@ export function buildGeneratedReportMemoryContext({
   selectedSections?: string[];
   subjectName?: string;
 }): GeneratedReportContext {
+  const mastery = buildFinalReportMemoryMastery({
+    mode,
+    reportFocus,
+    schoolLane,
+  });
+
   return {
+    architectureStages: [...PREDICTA_FINAL_REPORT_ARCHITECTURE_MEMORY.stages],
     availableSections,
+    chatMasteryRule: mastery.chatMasteryRule,
+    compactPreviewRule:
+      PREDICTA_FINAL_REPORT_ARCHITECTURE_MEMORY.compactPreviewRule,
+    depthContract: mastery.depthContract,
+    freePaidDepthRule: PREDICTA_FINAL_REPORT_ARCHITECTURE_MEMORY.depthRule,
     generatedAt,
     mode,
     reportFocus,
     reportTitle,
     schoolLane,
     selectedSections,
+    schoolBoundaryRule: mastery.schoolBoundaryRule,
     subjectName,
+  };
+}
+
+function buildFinalReportMemoryMastery({
+  mode,
+  reportFocus,
+  schoolLane,
+}: {
+  mode: ReportMemoryDepth;
+  reportFocus: string;
+  schoolLane: ReportSchoolLaneId;
+}): {
+  chatMasteryRule: string;
+  depthContract: string;
+  schoolBoundaryRule: string;
+} {
+  const laneKey: FinalReportLaneMemoryKey =
+    reportFocus === 'LIFE_ATLAS'
+      ? 'LIFE_ATLAS'
+      : schoolLane === 'NADI'
+        ? 'JAIMINI'
+        : schoolLane;
+  const laneMastery = PREDICTA_FINAL_REPORT_LANE_MASTERY[laneKey];
+  const activeDepth =
+    mode === 'PREMIUM'
+      ? 'Active report mode is Premium/paid: add deeper evidence, timing, contradictions, and practical depth while staying user-facing.'
+      : 'Active report mode is Free: give useful prediction and key evidence without teasing or exposing paid-only dossier depth.';
+
+  return {
+    chatMasteryRule: `${PREDICTA_FINAL_REPORT_ARCHITECTURE_MEMORY.responseRule} ${laneMastery}`,
+    depthContract: `${activeDepth} ${PREDICTA_FINAL_REPORT_ARCHITECTURE_MEMORY.depthRule}`,
+    schoolBoundaryRule: `${PREDICTA_FINAL_REPORT_ARCHITECTURE_MEMORY.schoolBoundaryRule} Active report focus is ${reportFocus}; active school lane is ${schoolLane}.`,
   };
 }
 

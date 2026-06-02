@@ -558,6 +558,60 @@ Predicta must know the report architecture, generated sections, free/paid depth,
 and school boundaries so she can explain reports conversationally without
 guessing or mixing methods.
 
+### Required Work
+
+- Extend Predicta memory with the final report architecture:
+  - personal opening
+  - method-specific evidence
+  - prediction chapters
+  - timing/current relevance
+  - action plan
+  - appendix/proof
+- Generated report context must carry:
+  - available report sections
+  - selected report sections
+  - active mode
+  - active report focus
+  - active school lane
+  - report architecture stages
+  - compact-preview rule
+  - free/paid depth rule
+  - school-boundary rule
+  - report chat mastery rule
+- Predicta must answer report questions in this order:
+  - prediction/meaning first
+  - school-specific evidence second
+  - practical next step third
+  - safety/limits last
+- Predicta must know final report lanes:
+  - Vedic/Kundli report family
+  - KP report
+  - Jaimini report
+  - Numerology report
+  - Signature report
+  - Life Atlas synthesis report
+- Predicta must not turn compact app previews into full report walls.
+- Predicta must not mix school-specific reports. Life Atlas is the only
+  approved all-school synthesis lane.
+- Life Atlas is the only approved all-school synthesis lane.
+- Predicta must know report-section memory for Vedic, KP, Jaimini, Numerology,
+  Signature, and Life Atlas sections, not only Vedic tables.
+
+### Green Criteria
+
+- `test:report-final-phase-11` passes.
+- `buildGeneratedReportMemoryContext` injects report architecture stages,
+  compact-preview rule, depth contract, school-boundary rule, and chat mastery
+  rule.
+- Web and mobile AI context builders continue to inject generated report context
+  and section memory.
+- Report section memory catalog includes Vedic, KP, Jaimini, Numerology,
+  Signature, and Life Atlas report-section entries.
+- Predicta app memory explicitly says report questions must answer what it
+  means for the user before explaining evidence.
+- Audit artifacts prove the phase is green and no Nadi final-report lane is
+  restored.
+
 ## Phase 12: `PREDICTA_REPORT_FINAL_PHASE_12_GOLDEN_ARTIFACT_AND_NO_GO_REAUDIT`
 
 Generate free and paid PDFs for all six lanes. Render pages, extract text,

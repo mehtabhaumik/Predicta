@@ -1977,13 +1977,19 @@ export type ReportSchoolLaneId =
 export type ReportMemoryDepth = 'FREE' | 'PREMIUM';
 
 export type GeneratedReportContext = {
+  architectureStages?: string[];
   availableSections: string[];
+  chatMasteryRule?: string;
+  compactPreviewRule?: string;
+  depthContract?: string;
+  freePaidDepthRule?: string;
   generatedAt?: string;
   mode: ReportMemoryDepth;
   reportFocus: string;
   reportTitle: string;
   schoolLane: ReportSchoolLaneId;
   selectedSections?: string[];
+  schoolBoundaryRule?: string;
   subjectName?: string;
 };
 
