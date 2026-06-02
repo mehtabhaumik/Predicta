@@ -37,6 +37,8 @@ export async function POST(
     const result = await sendAdminSupportReply(decodeURIComponent(ticketId), {
       action: normalizeAction(body.action),
       body: typeof body.body === 'string' ? body.body : '',
+      idempotencyKey:
+        typeof body.idempotencyKey === 'string' ? body.idempotencyKey : undefined,
       templateId:
         typeof body.templateId === 'string'
           ? body.templateId

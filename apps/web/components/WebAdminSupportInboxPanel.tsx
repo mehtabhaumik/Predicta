@@ -186,6 +186,7 @@ export function WebAdminSupportInboxPanel(): React.JSX.Element {
     payload: {
       action: 'escalate' | 'resolve' | 'waiting';
       body: string;
+      idempotencyKey: string;
       templateId: string;
       variables: Record<string, string>;
     },
@@ -387,6 +388,7 @@ function ThreadDetail({
   onReply: (payload: {
     action: 'escalate' | 'resolve' | 'waiting';
     body: string;
+    idempotencyKey: string;
     templateId: string;
     variables: Record<string, string>;
   }) => void;
@@ -455,6 +457,13 @@ function ThreadDetail({
     onReply({
       action,
       body: replyBody,
+      idempotencyKey: createSupportReplyIdempotencyKey({
+        action,
+        body: replyBody,
+        templateId,
+        threadMessageCount: thread.messages.length,
+        ticketId: thread.ticket.id,
+      }),
       templateId,
       variables,
     });
@@ -702,4 +711,28 @@ function messageKindLabel(kind: SupportTicketMessage['kind']): string {
     case 'system_auto_reply':
       return 'System auto-reply';
   }
+}
+
+function createSupportReplyIdempotencyKey(input: {
+  action: 'escalate' | 'resolve' | 'waiting';
+  body: string;
+  templateId: string;
+  threadMessageCount: number;
+  ticketId: string;
+}): string {
+  const value = [
+    input.ticketId,
+    input.threadMessageCount,
+    input.templateId,
+    input.action,
+    input.body.replace(/\s+/g, ' ').trim(),
+  ].join('|');
+  let hash = 2166136261;
+
+  for (let index = 0; index < value.length; index += 1) {
+    hash ^= value.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+
+  return `admin-reply-${Math.abs(hash).toString(36)}`;
 }

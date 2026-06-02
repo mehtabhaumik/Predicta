@@ -150,7 +150,7 @@
         "If we need reproduction details, we will ask in a simple and specific way."
       ],
       "cta": { "label": "Return to Predicta", "url": "{{appUrl}}" },
-      "footer": "Please avoid sharing passwords, payment card numbers, or sensitive documents in bug-report replies.",
+      "footer": "Predicta support never needs passwords, payment card numbers, or sensitive documents in bug-report replies.",
       "requiredVariables": ["customerName", "ticketNumber", "appUrl"]
     },
     {
@@ -169,7 +169,7 @@
         "We will review the purchase context and reply with the next step. Please do not email full payment card details."
       ],
       "cta": { "label": "Open account", "url": "{{appUrl}}/dashboard/account" },
-      "footer": "Billing decisions require account and purchase verification before action.",
+      "footer": "Predicta billing decisions require account and purchase verification before action.",
       "requiredVariables": ["customerName", "ticketNumber", "appUrl"]
     },
     {
@@ -341,7 +341,7 @@
         "Reference: {{ticketNumber}}."
       ],
       "cta": { "label": "Return to Predicta", "url": "{{appUrl}}" },
-      "footer": "Bug investigation updates are shared when there is a practical next step.",
+      "footer": "Predicta support shares bug investigation updates when there is a practical next step.",
       "requiredVariables": ["customerName", "resolutionSummary", "ticketNumber", "appUrl"]
     },
     {
@@ -360,7 +360,7 @@
         "Reference: {{ticketNumber}}."
       ],
       "cta": { "label": "Open account", "url": "{{appUrl}}/dashboard/account" },
-      "footer": "Refund actions require purchase verification and may depend on payment-provider status.",
+      "footer": "Predicta refund actions require purchase verification and may depend on payment-provider status.",
       "requiredVariables": ["customerName", "resolutionSummary", "ticketNumber", "appUrl"]
     },
     {
@@ -398,7 +398,7 @@
         "Reference: {{ticketNumber}}."
       ],
       "cta": { "label": "Reply to Predicta", "url": "mailto:{{supportEmail}}" },
-      "footer": "If the issue is already settled, no action is needed.",
+      "footer": "Predicta support keeps follow-up emails focused; if the issue is already settled, no action is needed.",
       "requiredVariables": ["customerName", "resolutionSummary", "ticketNumber", "supportEmail"]
     },
     {
@@ -412,7 +412,7 @@
       "heading": "Welcome to Predicta",
       "bodyParagraphs": ["Hi {{customerName}},", "Your Predicta account is ready. You can create Kundlis, explore specialist rooms, and generate reports from your dashboard."],
       "cta": { "label": "Open dashboard", "url": "{{appUrl}}/dashboard" },
-      "footer": "Predicta helps you understand patterns with clarity and care.",
+      "footer": "Predicta account emails help you understand patterns with clarity, care, and privacy.",
       "requiredVariables": ["customerName", "appUrl"]
     },
     {
@@ -454,7 +454,7 @@
       "heading": "Report download link",
       "bodyParagraphs": ["Hi {{customerName}},", "Use the secure Predicta report area to access {{reportType}}. If the link expires, regenerate it from your dashboard."],
       "cta": { "label": "Open report", "url": "{{appUrl}}/dashboard/report" },
-      "footer": "Do not forward report links if they contain personal chart information.",
+      "footer": "Predicta report links can contain personal chart information; please do not forward them.",
       "requiredVariables": ["customerName", "reportType", "appUrl"]
     },
     {
@@ -468,7 +468,7 @@
       "heading": "Premium confirmed",
       "bodyParagraphs": ["Hi {{customerName}},", "Your Predicta Premium purchase is confirmed. Premium access is now tied to your signed-in account."],
       "cta": { "label": "Open Predicta", "url": "{{appUrl}}/dashboard" },
-      "footer": "Keep this email for your records.",
+      "footer": "Keep this Predicta payment confirmation email for your records.",
       "requiredVariables": ["customerName", "appUrl"]
     },
     {
@@ -538,7 +538,7 @@
       "heading": "Family Vault invite",
       "bodyParagraphs": ["Hi {{customerName}},", "{{inviterName}} invited you to a Predicta Family Vault. Sign in to review the invite."],
       "cta": { "label": "Open Family Vault", "url": "{{appUrl}}/dashboard/family" },
-      "footer": "Only accept Family Vault invites from people you know.",
+      "footer": "Only accept Predicta Family Vault account invites from people you know.",
       "requiredVariables": ["customerName", "inviterName", "appUrl"]
     },
     {
@@ -552,7 +552,7 @@
       "heading": "Predicta replied",
       "bodyParagraphs": ["Hi {{customerName}},", "A Predicta team member replied to your support request. Reference: {{ticketNumber}}."],
       "cta": { "label": "Reply by email", "url": "mailto:{{supportEmail}}" },
-      "footer": "Please keep replies focused on this support request.",
+      "footer": "Please keep Predicta support replies focused on this request and avoid private secrets.",
       "requiredVariables": ["customerName", "ticketNumber", "supportEmail"]
     },
     {

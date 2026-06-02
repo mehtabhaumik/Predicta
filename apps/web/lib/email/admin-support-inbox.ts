@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto';
+
 import type {
   SupportEmailDeliveryStatus,
   SupportTicketPriority,
@@ -50,6 +52,14 @@ export type SupportInboxAdminAuth =
     };
 
 export type AdminReplySendAction = 'escalate' | 'resolve' | 'waiting';
+
+export type AdminSupportReplySendResult = {
+  deliveryStatus: SupportEmailDeliveryStatus;
+  duplicate: boolean;
+  emailConfigured: boolean;
+  idempotencyKey: string;
+  thread: SupportTicketThread;
+};
 
 const VALID_SUPPORT_STATUSES: SupportTicketStatus[] = [
   'NEW',
@@ -191,15 +201,12 @@ export async function sendAdminSupportReply(
     body: string;
     env?: NodeJS.ProcessEnv;
     fetchImpl?: ResendFetch;
+    idempotencyKey?: string;
     templateId: string;
     variables?: Record<string, string>;
   },
   repository: SupportTicketThreadRepository = getDefaultResendWebhookRepository(),
-): Promise<{
-  deliveryStatus: SupportEmailDeliveryStatus;
-  emailConfigured: boolean;
-  thread: SupportTicketThread;
-}> {
+): Promise<AdminSupportReplySendResult> {
   let thread = await getAdminSupportInboxThread(ticketId, repository);
 
   if (!thread) {
@@ -226,6 +233,30 @@ export async function sendAdminSupportReply(
     );
   }
 
+  const config = resolveResendOutboundConfig(input.env);
+  const idempotencyKey =
+    input.idempotencyKey?.trim() ||
+    createAdminReplyIdempotencyKey({
+      action: input.action,
+      body,
+      templateId: template.id,
+      ticketId: thread.ticket.id,
+    });
+  const duplicateKey = `${thread.ticket.id}:${idempotencyKey}`;
+  const idempotencyStore = getAdminReplyIdempotencyStore();
+
+  if (idempotencyStore.has(duplicateKey)) {
+    return {
+      deliveryStatus: 'failed',
+      duplicate: true,
+      emailConfigured: Boolean(config),
+      idempotencyKey,
+      thread,
+    };
+  }
+
+  idempotencyStore.add(duplicateKey);
+
   const variables = buildTemplateVariablesForThread(thread, {
     ...input.variables,
     resolutionSummary: input.variables?.resolutionSummary || body,
@@ -245,7 +276,6 @@ export async function sendAdminSupportReply(
     templateId: template.id,
   });
 
-  const config = resolveResendOutboundConfig(input.env);
   let deliveryStatus: SupportEmailDeliveryStatus = 'failed';
 
   if (config && thread.ticket.customerEmail) {
@@ -314,7 +344,9 @@ export async function sendAdminSupportReply(
 
   return {
     deliveryStatus,
+    duplicate: false,
     emailConfigured: Boolean(config),
+    idempotencyKey,
     thread,
   };
 }
@@ -347,6 +379,35 @@ function mapReplyActionToStatus(action: AdminReplySendAction): SupportTicketStat
     case 'waiting':
       return 'WAITING_ON_USER';
   }
+}
+
+function createAdminReplyIdempotencyKey(input: {
+  action: AdminReplySendAction;
+  body: string;
+  templateId: string;
+  ticketId: string;
+}): string {
+  return createHash('sha256')
+    .update(
+      [
+        input.ticketId,
+        input.templateId,
+        input.action,
+        input.body.replace(/\s+/g, ' ').trim(),
+      ].join('|'),
+    )
+    .digest('base64url')
+    .slice(0, 44);
+}
+
+function getAdminReplyIdempotencyStore(): Set<string> {
+  const globalStore = globalThis as typeof globalThis & {
+    __predictaAdminReplyIdempotencyKeys?: Set<string>;
+  };
+
+  globalStore.__predictaAdminReplyIdempotencyKeys ??= new Set<string>();
+
+  return globalStore.__predictaAdminReplyIdempotencyKeys;
 }
 
 function renderAdminEditedReplyHtml(input: {

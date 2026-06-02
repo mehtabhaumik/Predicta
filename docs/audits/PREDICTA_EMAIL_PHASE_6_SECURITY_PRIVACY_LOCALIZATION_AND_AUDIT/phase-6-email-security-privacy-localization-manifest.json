@@ -1,0 +1,33 @@
+{
+  "phase": true,
+  "phaseKeyword": "PREDICTA_EMAIL_PHASE_6_SECURITY_PRIVACY_LOCALIZATION_AND_AUDIT",
+  "serverOnlyResend": true,
+  "webhookSecurity": true,
+  "privateNoteLeakage": true,
+  "localizationReadiness": true,
+  "adminOnlyAccess": true,
+  "unsupportedPredictionPolicy": true,
+  "duplicateSendProtection": true,
+  "strictRules": [
+    "Resend API key and webhook secret are server-only runtime values.",
+    "The inbound webhook uses the raw body and Svix signature headers before processing.",
+    "Admin inbox UI never renders raw inbound or template HTML.",
+    "Internal private notes are internal-only and blocked from the customer reply composer.",
+    "Email copy is sourced from the dedicated JSON template catalog.",
+    "Template placeholders must be declared as required variables and must render through the catalog renderer.",
+    "Payment, refund, and Premium-access replies must record message, delivery, and status audit events.",
+    "Support email must not send new astrology predictions or fatalistic claims.",
+    "Admin replies must carry idempotency keys so duplicate submits do not create duplicate customer emails."
+  ],
+  "auditCommands": [
+    "corepack pnpm test:email-phase-6",
+    "corepack pnpm test:email-phase-5",
+    "corepack pnpm test:email-phase-4",
+    "corepack pnpm test:email-phase-3",
+    "corepack pnpm test:email-phase-2",
+    "corepack pnpm test:email-phase-1",
+    "corepack pnpm test:email-phase-0",
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "git diff --check"
+  ]
+}
