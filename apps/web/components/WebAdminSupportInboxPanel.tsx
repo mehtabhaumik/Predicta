@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import type {
   SupportTicketCategory,
@@ -9,6 +9,12 @@ import type {
   SupportTicketStatus,
   SupportTicketThread,
 } from '@pridicta/types';
+import {
+  buildTemplateVariablesForThread,
+  renderSupportEmailTemplateBodyText,
+  searchSupportEmailTemplates,
+  suggestSupportReplyTemplate,
+} from '../lib/email/support-email-template-renderer';
 
 type InboxResponse = {
   counts: {
@@ -175,6 +181,53 @@ export function WebAdminSupportInboxPanel(): React.JSX.Element {
     }
   }
 
+  async function sendReply(
+    ticketId: string,
+    payload: {
+      action: 'escalate' | 'resolve' | 'waiting';
+      body: string;
+      templateId: string;
+      variables: Record<string, string>;
+    },
+  ) {
+    try {
+      setBusy(true);
+      const response = await fetch(
+        `/api/email/admin/tickets/${encodeURIComponent(ticketId)}/reply`,
+        {
+          body: JSON.stringify(payload),
+          headers: {
+            'Content-Type': 'application/json',
+            'x-pridicta-admin-token': token,
+          },
+          method: 'POST',
+        },
+      );
+      const result = await response.json();
+
+      if (!response.ok) {
+        setMessage(result.detail ?? 'Reply could not be sent.');
+        return;
+      }
+
+      setThreads(current =>
+        current.map(thread =>
+          thread.ticket.id === result.thread.ticket.id ? result.thread : thread,
+        ),
+      );
+      setSelectedTicketId(result.thread.ticket.id);
+      setMessage(
+        result.emailConfigured
+          ? `${result.thread.ticket.ticketNumber} reply sent and ticket updated.`
+          : `${result.thread.ticket.ticketNumber} reply saved; email provider is not configured.`,
+      );
+    } catch {
+      setMessage('Reply could not be sent right now.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
     <section className="admin-support-inbox-panel" aria-label="Predicta support inbox">
       <div className="admin-support-hero glass-panel">
@@ -307,6 +360,7 @@ export function WebAdminSupportInboxPanel(): React.JSX.Element {
         {selectedThread ? (
           <ThreadDetail
             busy={busy}
+            onReply={payload => sendReply(selectedThread.ticket.id, payload)}
             onUpdate={patch => updateTicket(selectedThread.ticket.id, patch)}
             thread={selectedThread}
           />
@@ -325,10 +379,17 @@ export function WebAdminSupportInboxPanel(): React.JSX.Element {
 
 function ThreadDetail({
   busy,
+  onReply,
   onUpdate,
   thread,
 }: {
   busy: boolean;
+  onReply: (payload: {
+    action: 'escalate' | 'resolve' | 'waiting';
+    body: string;
+    templateId: string;
+    variables: Record<string, string>;
+  }) => void;
   onUpdate: (patch: {
     assignedTo?: string;
     priority?: SupportTicketPriority;
@@ -336,6 +397,69 @@ function ThreadDetail({
   }) => void;
   thread: SupportTicketThread;
 }): React.JSX.Element {
+  const suggestedTemplate = useMemo(() => suggestSupportReplyTemplate(thread), [thread]);
+  const [templateQuery, setTemplateQuery] = useState('');
+  const [templateId, setTemplateId] = useState(suggestedTemplate.id);
+  const [requestedDetails, setRequestedDetails] = useState(
+    'the missing detail requested by Predicta support',
+  );
+  const [resolutionSummary, setResolutionSummary] = useState(
+    'we reviewed your request and will guide you with the safest next step',
+  );
+  const variables = useMemo(
+    () =>
+      buildTemplateVariablesForThread(thread, {
+        requestedDetails,
+        resolutionSummary,
+      }),
+    [requestedDetails, resolutionSummary, thread],
+  );
+  const templates = useMemo(
+    () =>
+      searchSupportEmailTemplates({
+        audience: 'admin',
+        category: thread.ticket.category,
+        query: templateQuery,
+      }).templates.filter(template => template.id.startsWith('support.admin.reply.')),
+    [templateQuery, thread.ticket.category],
+  );
+  const [replyBody, setReplyBody] = useState('');
+
+  useEffect(() => {
+    const nextTemplateId = suggestedTemplate.id;
+    const nextVariables = buildTemplateVariablesForThread(thread, {
+      requestedDetails,
+      resolutionSummary,
+    });
+
+    setTemplateId(nextTemplateId);
+    setReplyBody(
+      renderSupportEmailTemplateBodyText({
+        templateId: nextTemplateId,
+        variables: nextVariables,
+      }),
+    );
+  }, [suggestedTemplate.id, thread]);
+
+  function applyTemplate(nextTemplateId: string) {
+    setTemplateId(nextTemplateId);
+    setReplyBody(
+      renderSupportEmailTemplateBodyText({
+        templateId: nextTemplateId,
+        variables,
+      }),
+    );
+  }
+
+  function send(action: 'escalate' | 'resolve' | 'waiting') {
+    onReply({
+      action,
+      body: replyBody,
+      templateId,
+      variables,
+    });
+  }
+
   return (
     <article className="admin-support-thread-panel glass-panel">
       <div className="admin-support-thread-head">
@@ -420,6 +544,97 @@ function ThreadDetail({
           </ContextBlock>
         </aside>
       </div>
+
+      <section className="admin-support-composer" aria-label="Admin reply composer">
+        <div className="admin-support-composer-head">
+          <div>
+            <span className="section-title">REPLY COMPOSER</span>
+            <h3>Use a template, edit it, then send.</h3>
+            <p>
+              Suggested template: {suggestedTemplate.heading}. Private notes are
+              blocked from this customer reply composer.
+            </p>
+          </div>
+          <label className="field-stack">
+            <span className="field-label">Search templates</span>
+            <input
+              onChange={event => setTemplateQuery(event.target.value)}
+              placeholder="Search by situation"
+              value={templateQuery}
+            />
+          </label>
+        </div>
+
+        <div className="admin-support-template-grid">
+          {templates.map(template => (
+            <button
+              className={`admin-support-template-card ${
+                template.id === templateId ? 'is-selected' : ''
+              }`}
+              key={template.id}
+              onClick={() => applyTemplate(template.id)}
+              type="button"
+            >
+              <span>{template.group}</span>
+              <strong>{template.heading}</strong>
+              <small>{template.previewText}</small>
+            </button>
+          ))}
+        </div>
+
+        <div className="admin-support-composer-fields">
+          <label className="field-stack">
+            <span className="field-label">Requested details</span>
+            <input
+              onChange={event => setRequestedDetails(event.target.value)}
+              value={requestedDetails}
+            />
+          </label>
+          <label className="field-stack">
+            <span className="field-label">Resolution summary</span>
+            <input
+              onChange={event => setResolutionSummary(event.target.value)}
+              value={resolutionSummary}
+            />
+          </label>
+        </div>
+
+        <label className="field-stack">
+          <span className="field-label">Editable customer reply</span>
+          <textarea
+            onChange={event => setReplyBody(event.target.value)}
+            rows={12}
+            value={replyBody}
+          />
+        </label>
+
+        <div className="admin-support-send-actions">
+          <button
+            className="button"
+            disabled={busy || !replyBody.trim()}
+            onClick={() => send('waiting')}
+            type="button"
+          >
+            Send and mark waiting
+          </button>
+          <button
+            className="button secondary"
+            disabled={busy || !replyBody.trim()}
+            onClick={() => send('resolve')}
+            type="button"
+          >
+            Send and resolve
+          </button>
+          <button
+            className="button secondary"
+            disabled={busy || !replyBody.trim()}
+            onClick={() => send('escalate')}
+            type="button"
+          >
+            Send and escalate
+          </button>
+        </div>
+      </section>
     </article>
   );
 }

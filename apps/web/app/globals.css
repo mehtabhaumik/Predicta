@@ -9367,7 +9367,8 @@ button:disabled,
 .admin-guest-pass-panel input,
 .admin-guest-pass-panel select,
 .admin-support-inbox-panel input,
-.admin-support-inbox-panel select {
+.admin-support-inbox-panel select,
+.admin-support-inbox-panel textarea {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -9387,7 +9388,8 @@ button:disabled,
 .admin-guest-pass-panel input:disabled,
 .admin-guest-pass-panel select:disabled,
 .admin-support-inbox-panel input:disabled,
-.admin-support-inbox-panel select:disabled {
+.admin-support-inbox-panel select:disabled,
+.admin-support-inbox-panel textarea:disabled {
   background: rgba(255, 255, 255, 0.035);
   color: var(--muted);
 }
@@ -9848,6 +9850,99 @@ button:disabled,
   color: var(--text);
   font-size: 15px;
   margin: 0;
+}
+
+.admin-support-composer {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid var(--border-quiet);
+  border-radius: 22px;
+  display: grid;
+  gap: 18px;
+  margin-top: 22px;
+  padding: 20px;
+}
+
+.admin-support-composer-head,
+.admin-support-composer-fields {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.42fr);
+}
+
+.admin-support-composer-head h3 {
+  color: var(--text);
+  font-size: clamp(22px, 3vw, 30px);
+  line-height: 1.08;
+  margin: 8px 0 10px;
+}
+
+.admin-support-composer-head p,
+.admin-support-template-card small {
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.admin-support-template-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.admin-support-template-card {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid var(--border-quiet);
+  border-radius: 16px;
+  color: var(--text);
+  cursor: pointer;
+  display: grid;
+  gap: 8px;
+  min-height: 128px;
+  padding: 16px;
+  text-align: left;
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease,
+    background 180ms ease;
+  width: 100%;
+}
+
+.admin-support-template-card:hover,
+.admin-support-template-card:focus-visible,
+.admin-support-template-card.is-selected {
+  background: rgba(125, 223, 201, 0.08);
+  border-color: rgba(125, 223, 201, 0.36);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.admin-support-template-card span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.admin-support-template-card strong {
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.admin-support-inbox-panel textarea {
+  line-height: 1.55;
+  min-height: 260px;
+}
+
+.admin-support-send-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.admin-support-send-actions .button {
+  min-height: 48px;
 }
 
 .chart-list {
@@ -14898,6 +14993,9 @@ button:disabled,
   .admin-support-layout,
   .admin-support-thread-head,
   .admin-support-content-grid,
+  .admin-support-composer-head,
+  .admin-support-composer-fields,
+  .admin-support-template-grid,
   .admin-support-toolbar {
     grid-template-columns: 1fr;
   }
@@ -15912,9 +16010,16 @@ button:disabled,
     width: 100%;
   }
 
+  .admin-support-send-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
   .admin-support-ticket-card,
   .admin-support-message,
-  .admin-support-context-block {
+  .admin-support-context-block,
+  .admin-support-composer,
+  .admin-support-template-card {
     border-radius: 16px;
     padding: 16px;
   }

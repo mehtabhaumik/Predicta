@@ -1,0 +1,63 @@
+{
+  "phase": "PREDICTA_EMAIL_PHASE_5_ADMIN_REPLY_COMPOSER_AND_TEMPLATE_SYSTEM",
+  "status": "green-after-local-strict-audit",
+  "templateSourceOfTruth": "apps/web/lib/email/support-email-template-catalog.json",
+  "renderer": "apps/web/lib/email/support-email-template-renderer.ts",
+  "composerComponent": "apps/web/components/WebAdminSupportInboxPanel.tsx",
+  "replyApiRoute": "POST /api/email/admin/tickets/[ticketId]/reply",
+  "customerAutoReplyTemplateCount": 10,
+  "adminTemplateCountMinimum": 11,
+  "systemTemplateCount": 12,
+  "sendActions": {
+    "waiting": "WAITING_ON_USER",
+    "resolve": "RESOLVED",
+    "escalate": "ESCALATED"
+  },
+  "strictRules": [
+    "admin composer lists only support.admin.reply templates",
+    "customer auto-reply templates cannot be sent from admin composer",
+    "private note text cannot be sent from customer reply composer",
+    "missing template variables fail before send",
+    "Phase 1 outbound adapters delegate to catalog renderer",
+    "Resend missing configuration records failed delivery event instead of throwing"
+  ],
+  "browserEvidence": [
+    {
+      "file": "admin-reply-composer-desktop-1440.png",
+      "width": 1440,
+      "horizontalOverflow": false,
+      "composerVisible": true
+    },
+    {
+      "file": "admin-reply-composer-tablet-820.png",
+      "width": 820,
+      "horizontalOverflow": false,
+      "composerVisible": true
+    },
+    {
+      "file": "admin-reply-composer-mobile-390.png",
+      "width": 390,
+      "horizontalOverflow": false,
+      "composerVisible": true
+    }
+  ],
+  "auditCommands": [
+    "corepack pnpm test:email-phase-5",
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "corepack pnpm --filter @pridicta/types typecheck",
+    "corepack pnpm test:email-phase-4",
+    "corepack pnpm test:email-phase-3",
+    "corepack pnpm test:email-phase-2",
+    "corepack pnpm test:email-phase-1",
+    "corepack pnpm test:email-phase-0",
+    "git diff --check"
+  ],
+  "explicitNonScope": [
+    "full security/privacy audit",
+    "full localization completeness audit",
+    "duplicate-send/idempotency hardening",
+    "durable production support-ticket adapter",
+    "live Resend send smoke",
+    "final end-to-end customer request to admin reply smoke"
+  ]
+}

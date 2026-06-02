@@ -1,0 +1,573 @@
+{
+  "version": "2026-06-02.phase5",
+  "templates": [
+    {
+      "id": "support.customer.auto_reply.received.v1",
+      "audience": "customer",
+      "group": "Support",
+      "locale": "en",
+      "categoryHints": ["general-contact", "feedback", "question"],
+      "subject": "We received your Predicta message {{ticketNumber}}",
+      "previewText": "Predicta has received your message and will review it carefully.",
+      "heading": "We received your message",
+      "bodyParagraphs": [
+        "Hi {{customerName}},",
+        "We have received your message and the Predicta team will review it carefully.",
+        "Reference: {{ticketNumber}}. Topic: {{category}}. Submitted: {{createdAt}}.",
+        "What happens next: we review your request, ask clearly if anything is missing, and reply with the next practical step."
+      ],
+      "cta": { "label": "Open Predicta", "url": "{{appUrl}}" },
+      "footer": "Predicta support uses your message only to help with your request. Please do not reply with passwords, payment card numbers, or private secrets.",
+      "requiredVariables": ["customerName", "ticketNumber", "category", "createdAt", "appUrl"]
+    },
+    {
+      "id": "support.customer.auto_reply.payment_help_received.v1",
+      "audience": "customer",
+      "group": "Billing",
+      "locale": "en",
+      "categoryHints": ["billing", "refund"],
+      "subject": "We received your Predicta payment request {{ticketNumber}}",
+      "previewText": "We will review your payment or billing request carefully.",
+      "heading": "Payment help request received",
+      "bodyParagraphs": [
+        "Hi {{customerName}},",
+        "We received your payment or billing message and will review the account context tied to your Predicta profile.",
+        "Reference: {{ticketNumber}}.",
+        "Please do not send card numbers or bank secrets by email. If we need anything else, we will ask only for safe identifying details."
+      ],
+      "cta": { "label": "Open checkout help", "url": "{{appUrl}}/checkout" },
+      "footer": "Predicta never asks for full payment card numbers over support email.",
+      "requiredVariables": ["customerName", "ticketNumber", "appUrl"]
+    },
+    {
+      "id": "support.customer.auto_reply.report_download_issue_received.v1",
+      "audience": "customer",
+      "group": "Reports",
+      "locale": "en",
+      "categoryHints": ["report"],
+      "subject": "We received your Predicta report request {{ticketNumber}}",
+      "previewText": "We will check your report download or report access issue.",
+      "heading": "Report help request received",
+      "bodyParagraphs": [
+        "Hi {{customerName}},",
+        "We received your report-related message and will check the report type, account context, and download path shared with us.",
+        "Reference: {{ticketNumber}}. Report: {{reportType}}.",
+        "If a regenerated report is needed, we will reply with a clear next step."
+      ],
+      "cta": { "label": "Open reports", "url": "{{appUrl}}/dashboard/report" },
+      "footer": "Predicta support can help with report access and download issues, but support email is not a place for new astrology predictions.",
+      "requiredVariables": ["customerName", "ticketNumber", "reportType", "appUrl"]
+    },
+    {
+      "id": "support.customer.auto_reply.kundli_help_received.v1",
+      "audience": "customer",
+      "group": "Kundli",
+      "locale": "en",
+      "categoryHints": ["kundli"],
+      "subject": "We received your Kundli help request {{ticketNumber}}",
+      "previewText": "We will review the Kundli or birth-detail issue you shared.",
+      "heading": "Kundli help request received",
+      "bodyParagraphs": [
+        "Hi {{customerName}},",
+        "We received your Kundli or birth-detail help request.",
+        "Reference: {{ticketNumber}}.",
+        "If the issue depends on birth time, place, or date, we will ask clearly and keep the request focused."
+      ],
+      "cta": { "label": "Open Kundli library", "url": "{{appUrl}}/dashboard/library" },
+      "footer": "Please avoid sending sensitive identity documents by email unless Predicta explicitly requests them through a protected flow.",
+      "requiredVariables": ["customerName", "ticketNumber", "appUrl"]
+    },
+    {
+      "id": "support.customer.auto_reply.signature_help_received.v1",
+      "audience": "customer",
+      "group": "Signature",
+      "locale": "en",
+      "categoryHints": ["signature"],
+      "subject": "We received your Signature Predicta request {{ticketNumber}}",
+      "previewText": "We will review your signature-flow support request.",
+      "heading": "Signature help request received",
+      "bodyParagraphs": [
+        "Hi {{customerName}},",
+        "We received your Signature Predicta help request.",
+        "Reference: {{ticketNumber}}.",
+        "Reminder: Predicta does not store raw signature images by default. If the session was closed, you may need to re-upload or re-draw the signature."
+      ],
+      "cta": { "label": "Open Signature Predicta", "url": "{{appUrl}}/dashboard/signature" },
+      "footer": "Signature Predicta is reflective guidance, not forensic handwriting analysis or guaranteed prediction.",
+      "requiredVariables": ["customerName", "ticketNumber", "appUrl"]
+    },
+    {
+      "id": "support.customer.auto_reply.account_login_help_received.v1",
+      "audience": "customer",
+      "group": "Account",
+      "locale": "en",
+      "categoryHints": ["account"],
+      "subject": "We received your Predicta account request {{ticketNumber}}",
+      "previewText": "We will review the account or sign-in issue you shared.",
+      "heading": "Account help request received",
+      "bodyParagraphs": [
+        "Hi {{customerName}},",
+        "We received your account or login help request.",
+        "Reference: {{ticketNumber}}.",
+        "For your safety, Predicta support will never ask for your Google password or private authentication codes."
+      ],
+      "cta": { "label": "Open account", "url": "{{appUrl}}/dashboard/account" },
+      "footer": "Use only official Predicta sign-in screens for account access.",
+      "requiredVariables": ["customerName", "ticketNumber", "appUrl"]
+    },
+    {
+      "id": "support.customer.auto_reply.premium_access_help_received.v1",
+      "audience": "customer",
+      "group": "Premium Access",
+      "locale": "en",
+      "categoryHints": ["premium-access"],
+      "subject": "We received your Premium access request {{ticketNumber}}",
+      "previewText": "We will check your Premium access context.",
+      "heading": "Premium access request received",
+      "bodyParagraphs": [
+        "Hi {{customerName}},",
+        "We received your Premium access request and will review the plan or purchase context linked with your Predicta account.",
+        "Reference: {{ticketNumber}}.",
+        "If access needs to be refreshed, we will guide you with one clear next step."
+      ],
+      "cta": { "label": "Open pricing", "url": "{{appUrl}}/pricing" },
+      "footer": "Predicta support will only discuss access changes through the account linked to your request.",
+      "requiredVariables": ["customerName", "ticketNumber", "appUrl"]
+    },
+    {
+      "id": "support.customer.auto_reply.bug_report_received.v1",
+      "audience": "customer",
+      "group": "Bug",
+      "locale": "en",
+      "categoryHints": ["bug-report"],
+      "subject": "We received your Predicta bug report {{ticketNumber}}",
+      "previewText": "Thank you for reporting an issue. We will review it carefully.",
+      "heading": "Bug report received",
+      "bodyParagraphs": [
+        "Hi {{customerName}},",
+        "We received your bug report and will review the screen, feature, and context you shared.",
+        "Reference: {{ticketNumber}}.",
+        "If we need reproduction details, we will ask in a simple and specific way."
+      ],
+      "cta": { "label": "Return to Predicta", "url": "{{appUrl}}" },
+      "footer": "Please avoid sharing passwords, payment card numbers, or sensitive documents in bug-report replies.",
+      "requiredVariables": ["customerName", "ticketNumber", "appUrl"]
+    },
+    {
+      "id": "support.customer.auto_reply.refund_billing_request_received.v1",
+      "audience": "customer",
+      "group": "Refund",
+      "locale": "en",
+      "categoryHints": ["refund", "billing"],
+      "subject": "We received your refund or billing request {{ticketNumber}}",
+      "previewText": "We will review your refund or billing request with care.",
+      "heading": "Refund or billing request received",
+      "bodyParagraphs": [
+        "Hi {{customerName}},",
+        "We received your refund or billing request.",
+        "Reference: {{ticketNumber}}.",
+        "We will review the purchase context and reply with the next step. Please do not email full payment card details."
+      ],
+      "cta": { "label": "Open account", "url": "{{appUrl}}/dashboard/account" },
+      "footer": "Billing decisions require account and purchase verification before action.",
+      "requiredVariables": ["customerName", "ticketNumber", "appUrl"]
+    },
+    {
+      "id": "support.customer.auto_reply.general_contact_received.v1",
+      "audience": "customer",
+      "group": "General Contact",
+      "locale": "en",
+      "categoryHints": ["general-contact"],
+      "subject": "We received your Predicta note {{ticketNumber}}",
+      "previewText": "Your message reached the Predicta team.",
+      "heading": "Your note reached Predicta",
+      "bodyParagraphs": [
+        "Hi {{customerName}},",
+        "Your message reached the Predicta team.",
+        "Reference: {{ticketNumber}}.",
+        "We will read it carefully and reply if a next step is needed."
+      ],
+      "cta": { "label": "Open Predicta", "url": "{{appUrl}}" },
+      "footer": "Predicta support uses contact messages only to help with your request.",
+      "requiredVariables": ["customerName", "ticketNumber", "appUrl"]
+    },
+    {
+      "id": "support.admin.notification.received.v1",
+      "audience": "admin",
+      "group": "Support",
+      "locale": "en",
+      "categoryHints": ["general-contact", "feedback", "question", "billing", "account", "report", "kundli", "signature", "premium-access", "refund", "bug-report", "complaint", "safety-concern"],
+      "subject": "[{{priority}}] {{ticketNumber}} - {{ticketSubject}}",
+      "previewText": "New Predicta support request from {{customerEmail}}.",
+      "heading": "New Predicta support request",
+      "bodyParagraphs": [
+        "Ticket: {{ticketNumber}}. Priority: {{priority}}. Status: {{status}}. Category: {{category}}.",
+        "Customer: {{customerName}} <{{customerEmail}}>.",
+        "Subject: {{ticketSubject}}.",
+        "Message: {{resolutionSummary}}.",
+        "Recommended action: open the Predicta admin inbox, verify context, and reply using the matching template."
+      ],
+      "cta": { "label": "Open admin inbox", "url": "{{appUrl}}/dashboard/admin" },
+      "footer": "Internal Predicta note: verify customer context before changing access, payment state, report delivery, or account status.",
+      "requiredVariables": ["priority", "ticketNumber", "ticketSubject", "customerEmail", "status", "category", "customerName", "resolutionSummary", "appUrl"]
+    },
+    {
+      "id": "support.admin.reply.need_more_details.v1",
+      "audience": "admin",
+      "group": "Support",
+      "locale": "en",
+      "categoryHints": ["general-contact", "question", "feedback"],
+      "subject": "More details needed for {{ticketNumber}}",
+      "previewText": "Ask the customer for the missing details clearly.",
+      "heading": "Need more details",
+      "bodyParagraphs": [
+        "Hi {{customerName}},",
+        "Thank you for writing to Predicta. We can help, but we need one or two more details before giving the right next step.",
+        "Please reply with: {{requestedDetails}}.",
+        "Reference: {{ticketNumber}}."
+      ],
+      "cta": { "label": "Reply to Predicta", "url": "mailto:{{supportEmail}}" },
+      "footer": "Predicta support uses your reply only to help with this request.",
+      "requiredVariables": ["customerName", "requestedDetails", "ticketNumber", "supportEmail"]
+    },
+    {
+      "id": "support.admin.reply.birth_details_missing.v1",
+      "audience": "admin",
+      "group": "Kundli",
+      "locale": "en",
+      "categoryHints": ["kundli", "report"],
+      "subject": "Birth details needed for {{ticketNumber}}",
+      "previewText": "Ask for missing birth details safely.",
+      "heading": "Birth details needed",
+      "bodyParagraphs": [
+        "Hi {{customerName}},",
+        "To check this Kundli or report issue correctly, we need the missing birth detail: {{requestedDetails}}.",
+        "Please share only the detail requested. Do not send identity documents or private account secrets by email.",
+        "Reference: {{ticketNumber}}."
+      ],
+      "cta": { "label": "Open Kundli library", "url": "{{appUrl}}/dashboard/library" },
+      "footer": "Accurate birth details help Predicta avoid wrong chart or report output.",
+      "requiredVariables": ["customerName", "requestedDetails", "ticketNumber", "appUrl"]
+    },
+    {
+      "id": "support.admin.reply.report_regeneration_shared.v1",
+      "audience": "admin",
+      "group": "Reports",
+      "locale": "en",
+      "categoryHints": ["report"],
+      "subject": "Your Predicta report update {{ticketNumber}}",
+      "previewText": "Share report regeneration or download guidance.",
+      "heading": "Report update",
+      "bodyParagraphs": [
+        "Hi {{customerName}},",
+        "We reviewed your report request and prepared the next step for you.",
+        "Report: {{reportType}}. Action: {{resolutionSummary}}.",
+        "Reference: {{ticketNumber}}."
+      ],
+      "cta": { "label": "Open reports", "url": "{{appUrl}}/dashboard/report" },
+      "footer": "Support emails help with access and delivery. New readings should be generated inside Predicta.",
+      "requiredVariables": ["customerName", "reportType", "resolutionSummary", "ticketNumber", "appUrl"]
+    },
+    {
+      "id": "support.admin.reply.payment_link_razorpay_help.v1",
+      "audience": "admin",
+      "group": "Billing",
+      "locale": "en",
+      "categoryHints": ["billing", "refund", "premium-access"],
+      "subject": "Predicta payment help {{ticketNumber}}",
+      "previewText": "Guide the customer through payment or Razorpay help.",
+      "heading": "Payment help",
+      "bodyParagraphs": [
+        "Hi {{customerName}},",
+        "We reviewed your payment help request.",
+        "Next step: {{resolutionSummary}}.",
+        "Please use only the official Predicta checkout or payment link shared from Predicta. Reference: {{ticketNumber}}."
+      ],
+      "cta": { "label": "Open checkout", "url": "{{appUrl}}/checkout" },
+      "footer": "Predicta support never asks for full card numbers, banking passwords, or OTPs by email.",
+      "requiredVariables": ["customerName", "resolutionSummary", "ticketNumber", "appUrl"]
+    },
+    {
+      "id": "support.admin.reply.premium_access_activated.v1",
+      "audience": "admin",
+      "group": "Premium Access",
+      "locale": "en",
+      "categoryHints": ["premium-access", "billing"],
+      "subject": "Premium access update {{ticketNumber}}",
+      "previewText": "Tell the customer Premium access has been updated.",
+      "heading": "Premium access update",
+      "bodyParagraphs": [
+        "Hi {{customerName}},",
+        "We reviewed your Premium access request and updated the access context tied to your Predicta account.",
+        "Access note: {{resolutionSummary}}.",
+        "Reference: {{ticketNumber}}."
+      ],
+      "cta": { "label": "Open Predicta", "url": "{{appUrl}}/dashboard" },
+      "footer": "Premium access is tied to the signed-in Predicta account used for purchase or activation.",
+      "requiredVariables": ["customerName", "resolutionSummary", "ticketNumber", "appUrl"]
+    },
+    {
+      "id": "support.admin.reply.issue_acknowledged.v1",
+      "audience": "admin",
+      "group": "Support",
+      "locale": "en",
+      "categoryHints": ["bug-report", "complaint", "safety-concern"],
+      "subject": "We are reviewing your Predicta issue {{ticketNumber}}",
+      "previewText": "Acknowledge an issue without overpromising.",
+      "heading": "We are reviewing this",
+      "bodyParagraphs": [
+        "Hi {{customerName}},",
+        "Thank you for flagging this. We are reviewing the issue carefully and will avoid guessing before the cause is clear.",
+        "Current note: {{resolutionSummary}}.",
+        "Reference: {{ticketNumber}}."
+      ],
+      "cta": { "label": "Open Predicta", "url": "{{appUrl}}" },
+      "footer": "Predicta support will keep the reply focused on the issue you reported.",
+      "requiredVariables": ["customerName", "resolutionSummary", "ticketNumber", "appUrl"]
+    },
+    {
+      "id": "support.admin.reply.bug_escalated.v1",
+      "audience": "admin",
+      "group": "Bug",
+      "locale": "en",
+      "categoryHints": ["bug-report"],
+      "subject": "Your Predicta bug report was escalated {{ticketNumber}}",
+      "previewText": "Tell the customer the bug has been escalated.",
+      "heading": "Bug report escalated",
+      "bodyParagraphs": [
+        "Hi {{customerName}},",
+        "We reproduced or reviewed enough of this issue to escalate it for deeper investigation.",
+        "What we are checking: {{resolutionSummary}}.",
+        "Reference: {{ticketNumber}}."
+      ],
+      "cta": { "label": "Return to Predicta", "url": "{{appUrl}}" },
+      "footer": "Bug investigation updates are shared when there is a practical next step.",
+      "requiredVariables": ["customerName", "resolutionSummary", "ticketNumber", "appUrl"]
+    },
+    {
+      "id": "support.admin.reply.refund_under_review.v1",
+      "audience": "admin",
+      "group": "Refund",
+      "locale": "en",
+      "categoryHints": ["refund", "billing"],
+      "subject": "Refund review started {{ticketNumber}}",
+      "previewText": "Confirm that a refund or billing review has started.",
+      "heading": "Refund review started",
+      "bodyParagraphs": [
+        "Hi {{customerName}},",
+        "We received your refund or billing request and have started reviewing the purchase context.",
+        "Review note: {{resolutionSummary}}.",
+        "Reference: {{ticketNumber}}."
+      ],
+      "cta": { "label": "Open account", "url": "{{appUrl}}/dashboard/account" },
+      "footer": "Refund actions require purchase verification and may depend on payment-provider status.",
+      "requiredVariables": ["customerName", "resolutionSummary", "ticketNumber", "appUrl"]
+    },
+    {
+      "id": "support.admin.reply.resolved_closing.v1",
+      "audience": "admin",
+      "group": "Closing",
+      "locale": "en",
+      "categoryHints": ["general-contact", "report", "billing", "account", "kundli", "signature", "premium-access", "refund"],
+      "subject": "Predicta support update {{ticketNumber}}",
+      "previewText": "Close a resolved support ticket warmly.",
+      "heading": "This request is resolved",
+      "bodyParagraphs": [
+        "Hi {{customerName}},",
+        "We are marking this request resolved based on the action taken: {{resolutionSummary}}.",
+        "If something still does not look right, reply to this email and we will reopen the thread.",
+        "Reference: {{ticketNumber}}."
+      ],
+      "cta": { "label": "Open Predicta", "url": "{{appUrl}}" },
+      "footer": "Thank you for trusting Predicta.",
+      "requiredVariables": ["customerName", "resolutionSummary", "ticketNumber", "appUrl"]
+    },
+    {
+      "id": "support.admin.reply.friendly_follow_up.v1",
+      "audience": "admin",
+      "group": "Follow Up",
+      "locale": "en",
+      "categoryHints": ["general-contact", "question", "feedback"],
+      "subject": "Following up on {{ticketNumber}}",
+      "previewText": "Send a warm follow-up without pressure.",
+      "heading": "A quick follow-up",
+      "bodyParagraphs": [
+        "Hi {{customerName}},",
+        "We are following up on your Predicta request to make sure you have the next step you need.",
+        "Current note: {{resolutionSummary}}.",
+        "Reference: {{ticketNumber}}."
+      ],
+      "cta": { "label": "Reply to Predicta", "url": "mailto:{{supportEmail}}" },
+      "footer": "If the issue is already settled, no action is needed.",
+      "requiredVariables": ["customerName", "resolutionSummary", "ticketNumber", "supportEmail"]
+    },
+    {
+      "id": "support.system.welcome_to_predicta.v1",
+      "audience": "system",
+      "group": "Welcome",
+      "locale": "en",
+      "categoryHints": ["account"],
+      "subject": "Welcome to Predicta",
+      "previewText": "Your Predicta account is ready.",
+      "heading": "Welcome to Predicta",
+      "bodyParagraphs": ["Hi {{customerName}},", "Your Predicta account is ready. You can create Kundlis, explore specialist rooms, and generate reports from your dashboard."],
+      "cta": { "label": "Open dashboard", "url": "{{appUrl}}/dashboard" },
+      "footer": "Predicta helps you understand patterns with clarity and care.",
+      "requiredVariables": ["customerName", "appUrl"]
+    },
+    {
+      "id": "support.system.google_sign_in_confirmation.v1",
+      "audience": "system",
+      "group": "Security",
+      "locale": "en",
+      "categoryHints": ["account"],
+      "subject": "Predicta sign-in confirmation",
+      "previewText": "A Google sign-in was used for your Predicta account.",
+      "heading": "Sign-in confirmed",
+      "bodyParagraphs": ["Hi {{customerName}},", "Your Predicta account was accessed using Google sign-in. If this was not you, please secure your Google account immediately."],
+      "cta": { "label": "Open account", "url": "{{appUrl}}/dashboard/account" },
+      "footer": "Predicta will never ask for your Google password over email.",
+      "requiredVariables": ["customerName", "appUrl"]
+    },
+    {
+      "id": "support.system.report_ready.v1",
+      "audience": "system",
+      "group": "Reports",
+      "locale": "en",
+      "categoryHints": ["report"],
+      "subject": "Your Predicta report is ready",
+      "previewText": "Your selected report is ready to download.",
+      "heading": "Your report is ready",
+      "bodyParagraphs": ["Hi {{customerName}},", "Your {{reportType}} is ready. Open Predicta to download it from your reports area."],
+      "cta": { "label": "Download report", "url": "{{appUrl}}/dashboard/report" },
+      "footer": "Reports should be downloaded only from your signed-in Predicta account.",
+      "requiredVariables": ["customerName", "reportType", "appUrl"]
+    },
+    {
+      "id": "support.system.report_download_link.v1",
+      "audience": "system",
+      "group": "Reports",
+      "locale": "en",
+      "categoryHints": ["report"],
+      "subject": "Your Predicta report download link",
+      "previewText": "Open your report from Predicta.",
+      "heading": "Report download link",
+      "bodyParagraphs": ["Hi {{customerName}},", "Use the secure Predicta report area to access {{reportType}}. If the link expires, regenerate it from your dashboard."],
+      "cta": { "label": "Open report", "url": "{{appUrl}}/dashboard/report" },
+      "footer": "Do not forward report links if they contain personal chart information.",
+      "requiredVariables": ["customerName", "reportType", "appUrl"]
+    },
+    {
+      "id": "support.system.premium_purchase_confirmation.v1",
+      "audience": "system",
+      "group": "Billing",
+      "locale": "en",
+      "categoryHints": ["premium-access", "billing"],
+      "subject": "Predicta Premium purchase confirmed",
+      "previewText": "Your Premium access is confirmed.",
+      "heading": "Premium confirmed",
+      "bodyParagraphs": ["Hi {{customerName}},", "Your Predicta Premium purchase is confirmed. Premium access is now tied to your signed-in account."],
+      "cta": { "label": "Open Predicta", "url": "{{appUrl}}/dashboard" },
+      "footer": "Keep this email for your records.",
+      "requiredVariables": ["customerName", "appUrl"]
+    },
+    {
+      "id": "support.system.question_pack_purchase_confirmation.v1",
+      "audience": "system",
+      "group": "Billing",
+      "locale": "en",
+      "categoryHints": ["billing"],
+      "subject": "Predicta question pack confirmed",
+      "previewText": "Your AI question credits are ready.",
+      "heading": "Question pack confirmed",
+      "bodyParagraphs": ["Hi {{customerName}},", "Your Predicta question pack is ready. Credits are available from your signed-in account."],
+      "cta": { "label": "Ask Predicta", "url": "{{appUrl}}/dashboard/chat" },
+      "footer": "Question credits are used for AI-powered Predicta answers.",
+      "requiredVariables": ["customerName", "appUrl"]
+    },
+    {
+      "id": "support.system.report_pack_purchase_confirmation.v1",
+      "audience": "system",
+      "group": "Billing",
+      "locale": "en",
+      "categoryHints": ["billing", "report"],
+      "subject": "Predicta report pack confirmed",
+      "previewText": "Your report credits are ready.",
+      "heading": "Report pack confirmed",
+      "bodyParagraphs": ["Hi {{customerName}},", "Your Predicta report pack is ready. Report credits are available from your signed-in account."],
+      "cta": { "label": "Open reports", "url": "{{appUrl}}/dashboard/report" },
+      "footer": "Report credits are used for selected Predicta report downloads.",
+      "requiredVariables": ["customerName", "appUrl"]
+    },
+    {
+      "id": "support.system.ai_credits_exhausted.v1",
+      "audience": "system",
+      "group": "Credits",
+      "locale": "en",
+      "categoryHints": ["question"],
+      "subject": "Your free Predicta AI questions are used",
+      "previewText": "You can still use deterministic Predicta features.",
+      "heading": "AI questions used",
+      "bodyParagraphs": ["Hi {{customerName}},", "Your free AI questions are used. Predicta can still help with deterministic Kundli creation, charts, dasha, gochar, reports, and Family Vault actions."],
+      "cta": { "label": "Get more questions", "url": "{{appUrl}}/pricing" },
+      "footer": "Predicta keeps useful non-AI features available after free AI credits are used.",
+      "requiredVariables": ["customerName", "appUrl"]
+    },
+    {
+      "id": "support.system.kundli_limit_reached.v1",
+      "audience": "system",
+      "group": "Kundli",
+      "locale": "en",
+      "categoryHints": ["kundli"],
+      "subject": "Predicta Kundli limit reached",
+      "previewText": "You have reached the free Kundli limit.",
+      "heading": "Kundli limit reached",
+      "bodyParagraphs": ["Hi {{customerName}},", "Your free account has reached the saved Kundli limit. Premium unlocks additional Kundli creation and library flexibility."],
+      "cta": { "label": "View options", "url": "{{appUrl}}/pricing" },
+      "footer": "Saved Kundlis remain connected to your signed-in Predicta account.",
+      "requiredVariables": ["customerName", "appUrl"]
+    },
+    {
+      "id": "support.system.family_vault_invite.v1",
+      "audience": "system",
+      "group": "Family Vault",
+      "locale": "en",
+      "categoryHints": ["general-contact"],
+      "subject": "Predicta Family Vault invite",
+      "previewText": "You have been invited to a Predicta Family Vault.",
+      "heading": "Family Vault invite",
+      "bodyParagraphs": ["Hi {{customerName}},", "{{inviterName}} invited you to a Predicta Family Vault. Sign in to review the invite."],
+      "cta": { "label": "Open Family Vault", "url": "{{appUrl}}/dashboard/family" },
+      "footer": "Only accept Family Vault invites from people you know.",
+      "requiredVariables": ["customerName", "inviterName", "appUrl"]
+    },
+    {
+      "id": "support.system.admin_reply_notification.v1",
+      "audience": "system",
+      "group": "Support",
+      "locale": "en",
+      "categoryHints": ["general-contact"],
+      "subject": "Predicta replied to {{ticketNumber}}",
+      "previewText": "A Predicta team member replied to your support request.",
+      "heading": "Predicta replied",
+      "bodyParagraphs": ["Hi {{customerName}},", "A Predicta team member replied to your support request. Reference: {{ticketNumber}}."],
+      "cta": { "label": "Reply by email", "url": "mailto:{{supportEmail}}" },
+      "footer": "Please keep replies focused on this support request.",
+      "requiredVariables": ["customerName", "ticketNumber", "supportEmail"]
+    },
+    {
+      "id": "support.system.security_account_alert.v1",
+      "audience": "system",
+      "group": "Security",
+      "locale": "en",
+      "categoryHints": ["account"],
+      "subject": "Predicta account security alert",
+      "previewText": "Review this account security notice.",
+      "heading": "Security alert",
+      "bodyParagraphs": ["Hi {{customerName}},", "We detected an account event that may need your attention: {{resolutionSummary}}."],
+      "cta": { "label": "Open account", "url": "{{appUrl}}/dashboard/account" },
+      "footer": "Predicta will never ask for your password or OTP over email.",
+      "requiredVariables": ["customerName", "resolutionSummary", "appUrl"]
+    }
+  ]
+}

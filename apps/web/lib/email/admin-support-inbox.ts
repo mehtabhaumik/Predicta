@@ -1,4 +1,5 @@
 import type {
+  SupportEmailDeliveryStatus,
   SupportTicketPriority,
   SupportTicketStatus,
   SupportTicketThread,
@@ -8,8 +9,19 @@ import {
   getDefaultResendWebhookRepository,
 } from './resend-webhook';
 import {
+  createEmailDeliveryEvent,
+  resolveResendOutboundConfig,
+  sendResendEmail,
+  type ResendFetch,
+} from './resend-outbound';
+import {
   type SupportTicketThreadRepository,
 } from './support-ticket-thread';
+import {
+  buildTemplateVariablesForThread,
+  getSupportEmailTemplate,
+  renderSupportEmailTemplate,
+} from './support-email-template-renderer';
 import {
   isOwnerConsoleEnabled,
   ownerConsoleUnavailableResponse,
@@ -36,6 +48,8 @@ export type SupportInboxAdminAuth =
       ok: false;
       response: Response;
     };
+
+export type AdminReplySendAction = 'escalate' | 'resolve' | 'waiting';
 
 const VALID_SUPPORT_STATUSES: SupportTicketStatus[] = [
   'NEW',
@@ -170,6 +184,141 @@ export async function updateAdminSupportInboxThread(
   return thread;
 }
 
+export async function sendAdminSupportReply(
+  ticketId: string,
+  input: {
+    action: AdminReplySendAction;
+    body: string;
+    env?: NodeJS.ProcessEnv;
+    fetchImpl?: ResendFetch;
+    templateId: string;
+    variables?: Record<string, string>;
+  },
+  repository: SupportTicketThreadRepository = getDefaultResendWebhookRepository(),
+): Promise<{
+  deliveryStatus: SupportEmailDeliveryStatus;
+  emailConfigured: boolean;
+  thread: SupportTicketThread;
+}> {
+  let thread = await getAdminSupportInboxThread(ticketId, repository);
+
+  if (!thread) {
+    throw new SupportInboxAdminError(`Support ticket not found: ${ticketId}`);
+  }
+
+  const template = getSupportEmailTemplate(input.templateId);
+
+  if (template.audience !== 'admin') {
+    throw new SupportInboxAdminError(
+      'Only admin reply templates can be sent from the customer reply composer.',
+    );
+  }
+
+  const body = input.body.trim();
+
+  if (!body) {
+    throw new SupportInboxAdminError('Admin reply body is required before sending.');
+  }
+
+  if (/private\s+note/i.test(body)) {
+    throw new SupportInboxAdminError(
+      'Private notes cannot be sent through the customer reply composer.',
+    );
+  }
+
+  const variables = buildTemplateVariablesForThread(thread, {
+    ...input.variables,
+    resolutionSummary: input.variables?.resolutionSummary || body,
+  });
+  const rendered = renderSupportEmailTemplate({
+    templateId: template.id,
+    variables,
+  });
+  thread = await repository.appendMessage(thread.ticket.id, {
+    actor: {
+      displayName: 'Predicta Support',
+      email: process.env.PREDICTA_SUPPORT_FROM_EMAIL ?? 'care@predicta.rudraix.com',
+      role: 'admin',
+    },
+    body,
+    kind: 'admin_outbound',
+    templateId: template.id,
+  });
+
+  const config = resolveResendOutboundConfig(input.env);
+  let deliveryStatus: SupportEmailDeliveryStatus = 'failed';
+
+  if (config && thread.ticket.customerEmail) {
+    const result = await sendResendEmail(
+      config,
+      {
+        from: config.from,
+        headers: {
+          'X-Predicta-Template': template.id,
+          'X-Predicta-Ticket': thread.ticket.ticketNumber,
+        },
+        html: renderAdminEditedReplyHtml({
+          body,
+          previewText: rendered.previewText,
+          title: rendered.subject,
+        }),
+        replyTo: [config.replyTo],
+        subject: rendered.subject,
+        tags: [
+          { name: 'predicta_ticket', value: thread.ticket.ticketNumber },
+          { name: 'predicta_template', value: template.id },
+        ],
+        text: body,
+        to: [thread.ticket.customerEmail],
+      },
+      input.fetchImpl,
+    );
+    const event = createEmailDeliveryEvent({
+      recipient: thread.ticket.customerEmail,
+      result,
+      templateId: template.id,
+      ticketNumber: thread.ticket.ticketNumber,
+    });
+    deliveryStatus = event.status;
+    thread = await repository.recordDeliveryEvent(thread.ticket.id, {
+      attemptedAt: event.attemptedAt,
+      error: event.error,
+      messageId: thread.messages.at(-1)?.id,
+      provider: event.provider,
+      providerMessageId: event.providerMessageId,
+      recipient: event.recipient,
+      status: event.status,
+      statusCode: event.statusCode,
+      templateId: event.templateId,
+    });
+  } else {
+    thread = await repository.recordDeliveryEvent(thread.ticket.id, {
+      attemptedAt: new Date().toISOString(),
+      error: config ? 'Customer email is missing.' : 'Resend is not configured.',
+      messageId: thread.messages.at(-1)?.id,
+      provider: 'resend',
+      recipient: thread.ticket.customerEmail ?? 'missing-customer-email',
+      status: 'failed',
+      statusCode: 0,
+      templateId: template.id,
+    });
+  }
+
+  thread = await repository.updateStatus(thread.ticket.id, {
+    actor: {
+      displayName: 'Predicta Support',
+      role: 'admin',
+    },
+    status: mapReplyActionToStatus(input.action),
+  });
+
+  return {
+    deliveryStatus,
+    emailConfigured: Boolean(config),
+    thread,
+  };
+}
+
 export class SupportInboxAdminError extends Error {
   constructor(message: string) {
     super(message);
@@ -187,6 +336,53 @@ function assertSupportPriority(priority: SupportTicketPriority): void {
   if (!VALID_SUPPORT_PRIORITIES.includes(priority)) {
     throw new SupportInboxAdminError(`Invalid support priority: ${priority}`);
   }
+}
+
+function mapReplyActionToStatus(action: AdminReplySendAction): SupportTicketStatus {
+  switch (action) {
+    case 'escalate':
+      return 'ESCALATED';
+    case 'resolve':
+      return 'RESOLVED';
+    case 'waiting':
+      return 'WAITING_ON_USER';
+  }
+}
+
+function renderAdminEditedReplyHtml(input: {
+  body: string;
+  previewText: string;
+  title: string;
+}): string {
+  return [
+    '<!doctype html>',
+    '<html>',
+    '<body style="margin:0;background:#f6f5f0;color:#151925;font-family:Georgia,serif;">',
+    `<span style="display:none;opacity:0;overflow:hidden;">${escapeHtml(input.previewText)}</span>`,
+    '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f6f5f0;padding:28px 12px;">',
+    '<tr><td align="center">',
+    '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:600px;border-radius:28px;overflow:hidden;background:#fffdf7;border:1px solid #d8c28a;">',
+    '<tr><td style="background:#151925;color:#ffffff;padding:28px 30px;">',
+    '<div style="letter-spacing:0.22em;text-transform:uppercase;color:#7ddfc9;font-size:12px;">Predicta</div>',
+    `<h1 style="margin:10px 0 0;font-size:28px;line-height:1.15;">${escapeHtml(input.title)}</h1>`,
+    '</td></tr>',
+    `<tr><td style="padding:30px;font-size:16px;line-height:1.65;">${escapeHtml(input.body).replace(/\n/g, '<br>')}</td></tr>`,
+    '<tr><td style="border-top:1px solid #e4d6b1;padding:20px 30px;color:#536070;font-size:13px;line-height:1.55;">Predicta support uses this message only to help with your request.<br>Prepared by Predicta.</td></tr>',
+    '</table>',
+    '</td></tr>',
+    '</table>',
+    '</body>',
+    '</html>',
+  ].join('');
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 async function ensureSupportInboxPreviewThreads(

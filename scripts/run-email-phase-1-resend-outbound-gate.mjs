@@ -1,5 +1,13 @@
 import assert from 'node:assert/strict';
-import { mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  copyFileSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  readdirSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { createRequire } from 'node:module';
@@ -9,6 +17,7 @@ const ts = require('typescript');
 
 const sourceFiles = [
   'apps/web/lib/email/resend-outbound.ts',
+  'apps/web/lib/email/support-email-template-renderer.ts',
   'apps/web/lib/email/support-email-templates.ts',
   'apps/web/lib/email/support-outbound-notifications.ts',
 ];
@@ -54,6 +63,10 @@ const templateSource = readFileSync(
   'apps/web/lib/email/support-email-templates.ts',
   'utf8',
 );
+const templateCatalog = readFileSync(
+  'apps/web/lib/email/support-email-template-catalog.json',
+  'utf8',
+);
 for (const phrase of [
   'support.customer.auto_reply.received.v1',
   'support.admin.notification.received.v1',
@@ -61,7 +74,10 @@ for (const phrase of [
   'Predicta support uses your message only to help with your request',
   'Internal Predicta note',
 ]) {
-  assert(templateSource.includes(phrase), `Template source missing required phrase: ${phrase}`);
+  assert(
+    templateSource.includes(phrase) || templateCatalog.includes(phrase),
+    `Template source/catalog missing required phrase: ${phrase}`,
+  );
 }
 
 assertNoClientSideResendLeaks();
@@ -84,17 +100,20 @@ try {
       diagnostic => diagnostic.category === ts.DiagnosticCategory.Error,
     );
     assert.equal(errors?.length ?? 0, 0, `Transpile errors in ${file}`);
-    writeFileSync(
-      path.join(compiledDir, `${path.basename(file, '.ts')}.js`),
-      output.outputText,
-    );
+    const outputPath = path.join(compiledDir, file.replace(/\.ts$/, '.js'));
+    mkdirSync(path.dirname(outputPath), { recursive: true });
+    writeFileSync(outputPath, output.outputText);
   }
-
-  const resend = require(path.join(compiledDir, 'resend-outbound.js'));
-  const notifications = require(
-    path.join(compiledDir, 'support-outbound-notifications.js'),
+  copyFileSync(
+    'apps/web/lib/email/support-email-template-catalog.json',
+    path.join(compiledDir, 'apps/web/lib/email/support-email-template-catalog.json'),
   );
-  const templates = require(path.join(compiledDir, 'support-email-templates.js'));
+
+  const resend = require(path.join(compiledDir, 'apps/web/lib/email/resend-outbound.js'));
+  const notifications = require(
+    path.join(compiledDir, 'apps/web/lib/email/support-outbound-notifications.js'),
+  );
+  const templates = require(path.join(compiledDir, 'apps/web/lib/email/support-email-templates.js'));
 
   assert.equal(
     resend.resolveResendOutboundConfig({}, { liveRequired: false }),

@@ -1,5 +1,12 @@
 import assert from 'node:assert/strict';
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  copyFileSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { createRequire } from 'node:module';
@@ -151,10 +158,16 @@ assert(
 const compiledDir = mkdtempSync(path.join(tmpdir(), 'predicta-email-phase-4-'));
 try {
   compileTs('apps/web/lib/owner-surface.ts', compiledDir);
+  compileTs('apps/web/lib/email/resend-outbound.ts', compiledDir);
   compileTs('apps/web/lib/email/support-ticket-thread.ts', compiledDir);
   compileTs('apps/web/lib/email/support-html-sanitizer.ts', compiledDir);
   compileTs('apps/web/lib/email/resend-webhook.ts', compiledDir);
+  compileTs('apps/web/lib/email/support-email-template-renderer.ts', compiledDir);
   compileTs('apps/web/lib/email/admin-support-inbox.ts', compiledDir);
+  copyFileSync(
+    'apps/web/lib/email/support-email-template-catalog.json',
+    path.join(compiledDir, 'apps/web/lib/email/support-email-template-catalog.json'),
+  );
 
   const adminInbox = require(
     path.join(compiledDir, 'apps/web/lib/email/admin-support-inbox.js'),
