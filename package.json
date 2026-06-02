@@ -43,6 +43,7 @@
     "test:report-pdf-phase-9": "node scripts/run-report-pdf-phase-9-golden-artifact-release-audit.mjs",
     "test:report-final-phase-0": "node scripts/run-report-final-phase-0-competitor-benchmark-gate.mjs",
     "test:report-final-phase-1": "node scripts/run-report-final-phase-1-report-voice-gate.mjs",
+    "test:report-final-phase-2": "node scripts/run-report-final-phase-2-shared-architecture-gate.mjs",
     "test:ai-model-phase-5": "python3 scripts/run-ai-model-phase-5-batch-qa.py",
     "test:ai-model-phase-6": "python3 scripts/run-ai-model-phase-6-prompt-efficiency.py",
     "test:ai-model-phase-7": "python3 scripts/run-ai-model-phase-7-release-governance.py",

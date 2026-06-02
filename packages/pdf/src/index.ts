@@ -58,6 +58,11 @@ import {
   applyReportVoiceContractToSection,
   rewriteReportVoiceText,
 } from './reportVoiceContract';
+import {
+  buildReportArchitecture,
+  toFinalReportArchitectureFocus,
+  type PdfReportArchitecture,
+} from './reportArchitecture';
 
 type PdfChartRole = ChartType | 'MOON' | 'SWAMSA' | 'KARAKAMSHA' | 'CHALIT' | 'KP' | 'NADI';
 
@@ -106,6 +111,7 @@ export type PdfReportFocus =
   | 'WEALTH';
 
 export type PdfComposition = {
+  architecture: PdfReportArchitecture;
   chartSnapshots: PdfChartSnapshot[];
   cover: {
     birthMomentSignature: string[];
@@ -290,6 +296,10 @@ export function composeReportSections({
   });
 
   return {
+    architecture: buildReportArchitecture({
+      mode,
+      reportFocus: toFinalReportArchitectureFocus(reportFocus),
+    }),
     chartSnapshots,
     cover: buildReportCover(kundli, reportFocus, mode, signatureAnalysis),
     dossierVersion: '2.0',
@@ -1079,6 +1089,7 @@ function buildKpReportSections(kundli: KundliData, mode: PDFMode): PdfSection[] 
 
 function composeEmptyReport(mode: PDFMode, language: SupportedLanguage): PdfComposition {
   return {
+    architecture: buildReportArchitecture({ mode, reportFocus: 'KUNDLI' }),
     chartSnapshots: [],
     cover: {
       birthMomentSignature: [],

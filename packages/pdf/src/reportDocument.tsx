@@ -1421,6 +1421,7 @@ function buildPlannedSpreads({
   }));
   const used = new Set<number>();
   const spreads: PlannedSpread[] = [];
+  const architecture = report.architecture;
   const isLifeAtlas = reportFocus === 'LIFE_ATLAS';
   const isFocusedRoom = ['JAIMINI', 'KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus);
 
@@ -1863,7 +1864,7 @@ function buildPlannedSpreads({
   }
 
   return {
-    onboardingCards: buildOnboardingCards(report.mode, scope, reportFocus),
+    onboardingCards: buildOnboardingCards(report.mode, scope, reportFocus, architecture),
     scope,
     showOnboarding: false,
     spreads,
@@ -1874,11 +1875,12 @@ function buildOnboardingCards(
   mode: PDFMode,
   scope: ReportScope,
   reportFocus: PdfReportFocus,
+  architecture: PdfComposition['architecture'],
 ): Array<{ body: string; eyebrow: string; title: string }> {
 	  if (reportFocus === 'LIFE_ATLAS') {
 	    return [
 	      {
-	        body: 'Your soul portrait opens the Life Atlas, followed by purpose, life journey, gifts, lessons, and the hidden thread.',
+	        body: architecture.stages[0]?.purpose ?? 'Your soul portrait opens the Life Atlas, followed by purpose, life journey, gifts, lessons, and the hidden thread.',
 	        eyebrow: 'Start here',
 	        title: 'Begin with the soul portrait',
 	      },
@@ -1905,7 +1907,7 @@ function buildOnboardingCards(
   if (reportFocus === 'KP') {
     return [
       {
-        body: 'The practical guidance and red flags come first so KP helps calmer decisions instead of dependence on confusing terminology.',
+        body: architecture.stages.find(stage => stage.id === 'prediction-chapters')?.purpose ?? 'The practical guidance and red flags come first so KP helps calmer decisions instead of dependence on confusing terminology.',
         eyebrow: 'Start here',
         title: 'Guidance before method',
       },
@@ -1932,8 +1934,8 @@ function buildOnboardingCards(
   return [
     {
       body: scope === 'focused'
-        ? 'Go straight from the chart spread into the focused interpretation pages, then use the trust page last.'
-        : 'Read the summary first, then the chart spread, then the life-area spreads before you open late proof pages.',
+        ? architecture.reportPromise
+        : architecture.stages.find(stage => stage.id === 'personal-opening')?.purpose ?? 'Read the summary first, then the chart spread, then the life-area spreads before you open late proof pages.',
       eyebrow: 'Start here',
       title: 'Use the spreads in order',
     },

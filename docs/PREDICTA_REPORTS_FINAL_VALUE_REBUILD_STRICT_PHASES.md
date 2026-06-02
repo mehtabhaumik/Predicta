@@ -161,6 +161,43 @@ Create a shared report architecture that every lane can use without becoming
 generic: personal opening, method-specific evidence, prediction chapters, timing
 or cycle relevance, action plan, and appendix.
 
+### Required Work
+
+- Add a shared report architecture engine that defines the required report spine
+  for every report lane.
+- The required spine is:
+  - personal opening
+  - method-specific evidence
+  - prediction chapters
+  - timing/current relevance
+  - action plan
+  - appendix/proof
+- Attach the architecture to every PDF composition, including empty/fallback
+  reports.
+- Keep school boundaries inside the architecture:
+  - Vedic stays Vedic/Parashari
+  - KP stays event/cusp/sub-lord/significator oriented
+  - Jaimini stays Atmakaraka/Chara Karaka/Karakamsha/Arudha/Chara Dasha oriented
+  - Numerology stays number-led
+  - Signature stays confirmed-visible-trait only
+  - Life Atlas remains the only synthesis lane
+- Do not create a Nadi final-report lane.
+- Add a gate that proves all six lanes expose the shared architecture without
+  becoming generic.
+
+### Green Criteria
+
+- Shared report architecture source exists.
+- Every generated `PdfComposition` includes an architecture object.
+- The architecture includes all six required stages.
+- The architecture has school-specific promises and boundaries for Vedic, KP,
+  Jaimini, Numerology, Signature, and Life Atlas.
+- No Nadi final-report lane appears in the final report architecture manifest.
+- Phase 2 audit artifact exists.
+- Phase 2 gate passes.
+- PDF package typecheck passes.
+- PDF golden output gate passes.
+
 ## Phase 3: `PREDICTA_REPORT_FINAL_PHASE_3_FREE_VS_PAID_DEPTH_CONTRACT`
 
 Lock depth rules: Free gives specific useful prediction and key evidence. Paid
