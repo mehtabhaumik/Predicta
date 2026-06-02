@@ -1,0 +1,89 @@
+{
+  "phase": "PREDICTA_REPORT_FINAL_PHASE_12_GOLDEN_ARTIFACT_AND_NO_GO_REAUDIT",
+  "matrix": [
+    {
+      "id": "vedic-free",
+      "lane": "VEDIC",
+      "mode": "FREE",
+      "reportFocus": "KUNDLI",
+      "requiredValue": "Useful Parashari/Kundli prediction with core charts, timing, evidence, and consolidated guidance."
+    },
+    {
+      "id": "vedic-premium",
+      "lane": "VEDIC",
+      "mode": "PREMIUM",
+      "reportFocus": "KUNDLI",
+      "requiredValue": "Deeper Parashari/Kundli diagnosis with varga depth, contradictions, Mahadasha timing, proof tables, and action plan."
+    },
+    {
+      "id": "kp-free",
+      "lane": "KP",
+      "mode": "FREE",
+      "reportFocus": "KP",
+      "requiredValue": "Plain KP verdict direction, promise/block, timing readiness, and one practical next step."
+    },
+    {
+      "id": "kp-premium",
+      "lane": "KP",
+      "mode": "PREMIUM",
+      "reportFocus": "KP",
+      "requiredValue": "Full KP event/outcome proof with cusp chain, significators, ruling planets, dasha/transit support, confidence, and action."
+    },
+    {
+      "id": "jaimini-free",
+      "lane": "JAIMINI",
+      "mode": "FREE",
+      "reportFocus": "JAIMINI",
+      "requiredValue": "Jaimini soul-role, visible identity, relationship mirror, and current destiny chapter in plain guidance."
+    },
+    {
+      "id": "jaimini-premium",
+      "lane": "JAIMINI",
+      "mode": "PREMIUM",
+      "reportFocus": "JAIMINI",
+      "requiredValue": "Detailed Jaimini karaka council, Karakamsha, Swamsa, Arudha/Upapada, Chara Dasha, contradictions, and timing."
+    },
+    {
+      "id": "numerology-free",
+      "lane": "NUMEROLOGY",
+      "mode": "FREE",
+      "reportFocus": "NUMEROLOGY",
+      "requiredValue": "Number identity, name rhythm, birth code, current cycle, strengths, cautions, and practical guidance without Kundli mixing."
+    },
+    {
+      "id": "numerology-premium",
+      "lane": "NUMEROLOGY",
+      "mode": "PREMIUM",
+      "reportFocus": "NUMEROLOGY",
+      "requiredValue": "Name scanner, number mandala, missing/repeated grid, cycle timeline, compatibility/refinement, and calculation appendix."
+    },
+    {
+      "id": "signature-free",
+      "lane": "SIGNATURE",
+      "mode": "FREE",
+      "reportFocus": "SIGNATURE",
+      "requiredValue": "Confirmed visible trait map, confidence rhythm, privacy note, and one reflective practice."
+    },
+    {
+      "id": "signature-premium",
+      "lane": "SIGNATURE",
+      "mode": "PREMIUM",
+      "reportFocus": "SIGNATURE",
+      "requiredValue": "Detailed confirmed-trait synthesis, refinement plan, optional multi-sample comparison readiness, and strict safety boundaries."
+    },
+    {
+      "id": "life-atlas-free",
+      "lane": "LIFE_ATLAS",
+      "mode": "FREE",
+      "reportFocus": "LIFE_ATLAS",
+      "requiredValue": "Useful soul portrait, life journey arc, current chapter, hidden thread, gifts, lessons, and closing guidance."
+    },
+    {
+      "id": "life-atlas-premium",
+      "lane": "LIFE_ATLAS",
+      "mode": "PREMIUM",
+      "reportFocus": "LIFE_ATLAS",
+      "requiredValue": "Flagship non-technical life mirror with deeper arc, destiny pattern, love/work/money/purpose, practices, and closing letter."
+    }
+  ]
+}

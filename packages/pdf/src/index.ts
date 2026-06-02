@@ -513,6 +513,7 @@ function buildLifeAtlasReportSections(
     confidence: atlas.status === 'ready' ? 'high' : 'low',
     evidence: [
       lifeAtlasValueContract.evidencePromise,
+      'Life Atlas includes Final Letter From Predicta as the closing letter section.',
       `Required Life Atlas modules: ${lifeAtlasValueContract.requiredModules.join(', ')}.`,
       `Required Life Atlas order: ${lifeAtlasValueContract.sectionOrder.join(' -> ')}.`,
     ],

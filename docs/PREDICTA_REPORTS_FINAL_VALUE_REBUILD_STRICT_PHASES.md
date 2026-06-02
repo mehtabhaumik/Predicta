@@ -618,3 +618,37 @@ Generate free and paid PDFs for all six lanes. Render pages, extract text,
 audit redundancy, audit prediction quality, audit school boundaries, audit
 visual polish, and block release if any report still schools the user instead
 of helping them.
+
+### Required Work
+
+- Build the final golden report matrix for the six approved lanes:
+  - Vedic/Kundli
+  - KP
+  - Jaimini
+  - Numerology
+  - Signature
+  - Life Atlas
+- Each lane must be audited in both Free and Premium/Paid depth.
+- The no-go audit must verify:
+  - prediction and guidance appear before method teaching
+  - technical evidence is preserved but does not replace the answer
+  - school boundaries are not mixed
+  - Nadi is not restored as an active final report lane
+  - Signature report remains blocked without confirmed visible traits
+  - app previews remain compact and the PDF remains the full dossier surface
+  - free reports are useful and not hollow teasers
+  - paid reports add depth and not page-count padding
+  - Life Atlas remains the only all-school synthesis lane
+- The audit must produce a Critical/Major/Medium/Minor issue ledger.
+- Phase 12 cannot be green if any Critical or Major issue remains.
+
+### Green Criteria
+
+- `test:report-final-phase-12` passes.
+- `test:pdf-golden` passes in the same verification set.
+- Phase 4 through Phase 11 gates remain green.
+- Golden matrix records 12 cases: Free and Premium/Paid for each of the six
+  final lanes.
+- No-go ledger records zero Critical and zero Major issues.
+- Audit artifacts prove all six reports preserve prediction-first value,
+  school boundaries, compact app previews, and Predicta memory mastery.
