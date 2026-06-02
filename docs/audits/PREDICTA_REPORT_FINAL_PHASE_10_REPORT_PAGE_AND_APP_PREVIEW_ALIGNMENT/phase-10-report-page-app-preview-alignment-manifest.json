@@ -1,0 +1,42 @@
+{
+  "phase": "PREDICTA_REPORT_FINAL_PHASE_10_REPORT_PAGE_AND_APP_PREVIEW_ALIGNMENT",
+  "status": "GREEN",
+  "auditDate": "2026-06-02",
+  "sharedPreviewContract": {
+    "source": "packages/config/src/pricing.ts",
+    "requiredFields": [
+      "compactPromise",
+      "focusLine",
+      "previewBullets",
+      "downloadNudge"
+    ],
+    "requiredBulletCountPerProduct": 3
+  },
+  "surfaces": {
+    "web": {
+      "file": "apps/web/components/WebDossierPreview.tsx",
+      "marker": "data-report-final-phase10-preview=\"compact\"",
+      "contract": "Selected report renders compact app preview immediately inside the inline composer."
+    },
+    "mobile": {
+      "file": "apps/mobile/src/screens/ReportScreen.tsx",
+      "marker": "testID=\"report-final-phase10-preview\"",
+      "contract": "Selected report renders compact app preview immediately inside the inline composer."
+    }
+  },
+  "strictRules": [
+    "App previews must not become full report walls.",
+    "PDF remains the deep reading surface.",
+    "Vedic customization remains progressive.",
+    "Signature previews use confirmed visible traits only.",
+    "Life Atlas previews remain non-technical and user-facing.",
+    "All report products use one shared preview source of truth."
+  ],
+  "verificationCommands": [
+    "corepack pnpm test:report-final-phase-10",
+    "corepack pnpm --filter @pridicta/config typecheck",
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "corepack pnpm --filter @pridicta/mobile exec tsc --noEmit",
+    "git diff --check"
+  ]
+}

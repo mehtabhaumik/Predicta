@@ -30,6 +30,7 @@ import {
   getOneTimeProduct,
   getReportPurchaseGuide,
   getReportMarketplaceProducts,
+  getReportPreviewAlignment,
   type ReportPurchaseGuide,
   type ReportMarketplaceProduct,
 } from '@pridicta/config/pricing';
@@ -263,6 +264,10 @@ export function WebDossierPreview(): React.JSX.Element {
   const localizedSelectedReport = getLocalizedReportProduct(
     selectedReport,
     appLanguage,
+  );
+  const selectedReportPreviewAlignment = useMemo(
+    () => getReportPreviewAlignment(selectedReportId),
+    [selectedReportId],
   );
   const localizedReportTitle = getLocalizedReportProduct(
     selectedReport,
@@ -826,6 +831,7 @@ export function WebDossierPreview(): React.JSX.Element {
 
     const isVedicReport = product.school === 'VEDIC';
     const summarySections = visibleSections.slice(0, 8);
+    const previewAlignment = getReportPreviewAlignment(product.id);
 
     return (
       <div
@@ -844,6 +850,9 @@ export function WebDossierPreview(): React.JSX.Element {
             </div>
             <h3>{localizedSelectedReport.title}</h3>
             <p>{localizedSelectedReport.bestFor}</p>
+            <p className="report-preview-focus-line">
+              {previewAlignment.focusLine}
+            </p>
             <small>
               {kundli?.birthDetails.name ?? builderCopy.needKundli} ·{' '}
               {mode === 'PREMIUM' ? reportLabels.premium : reportLabels.free}
@@ -885,6 +894,22 @@ export function WebDossierPreview(): React.JSX.Element {
           <PredictaButton onClick={copyReportSummary} type="button" variant="secondary">
             {copyState === 'report' ? builderCopy.copied : builderCopy.copyReport}
           </PredictaButton>
+        </div>
+
+        <div
+          className="report-app-preview-bridge"
+          data-report-final-phase10-preview="compact"
+        >
+          <div>
+            <span>App preview</span>
+            <strong>{previewAlignment.compactPromise}</strong>
+          </div>
+          <ul aria-label="Focused report preview">
+            {previewAlignment.previewBullets.map(item => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+          <p>{previewAlignment.downloadNudge}</p>
         </div>
 
         {isVedicReport ? (
@@ -1181,6 +1206,7 @@ export function WebDossierPreview(): React.JSX.Element {
             <strong>{localizedSelectedReport.title}</strong>
             <em>{localizedSelectedReport.outcome}</em>
             <small>{localizedSelectedReport.bestFor}</small>
+            <small>{selectedReportPreviewAlignment.focusLine}</small>
           </div>
           {renderInlineReportComposer(selectedReport, {
             attachStickyRef: true,

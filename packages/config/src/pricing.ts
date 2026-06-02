@@ -87,6 +87,13 @@ export type ReportPurchaseGuide = {
   title: string;
 };
 
+export type ReportPreviewAlignment = {
+  compactPromise: string;
+  downloadNudge: string;
+  focusLine: string;
+  previewBullets: string[];
+};
+
 const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
   {
     badge: 'Flagship',
@@ -300,12 +307,108 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
   },
 ];
 
+const REPORT_PREVIEW_ALIGNMENT: Record<ReportMarketplaceProduct['id'], ReportPreviewAlignment> = {
+  CAREER: {
+    compactPromise: 'Career direction, pressure points, and next practical move stay visible here; the full PDF carries the deeper evidence.',
+    downloadNudge: 'Download the Career report when you want timing, D10 synthesis, and a clearer action plan.',
+    focusLine: 'Work direction without drowning the page in chart proof.',
+    previewBullets: ['Role direction', 'Current work pressure', 'Timing cue'],
+  },
+  COMPATIBILITY: {
+    compactPromise: 'Preview the compatibility tone and major support/caution points without turning the page into a matching dossier.',
+    downloadNudge: 'Download the Compatibility report for Ashtakoota, Manglik, D1/D9 comparison, and family-ready guidance.',
+    focusLine: 'Relationship clarity for discussion, not panic.',
+    previewBullets: ['Support points', 'Caution points', 'Family-ready summary'],
+  },
+  DASHA: {
+    compactPromise: 'Preview the active life chapter and why this period feels the way it does.',
+    downloadNudge: 'Download the Dasha report for Mahadasha, Antardasha, Pratyantardasha, and timing windows.',
+    focusLine: 'What is active now, in plain language.',
+    previewBullets: ['Current Mahadasha', 'Active sub-period', 'Next timing cue'],
+  },
+  JAIMINI: {
+    compactPromise: 'Preview soul role, visible identity, work direction, relationship mirror, and current destiny chapter.',
+    downloadNudge: 'Download the Jaimini report for Swamsa/Karakamsha, karaka council, Arudha/Upapada, and Chara Dasha depth.',
+    focusLine: 'Destiny-role guidance without mixing KP or Vedic report flow.',
+    previewBullets: ['Atmakaraka role', 'Visible identity', 'Current destiny chapter'],
+  },
+  KP: {
+    compactPromise: 'Preview the KP outcome direction, promise/block mood, and timing readiness without turning the screen into a proof table.',
+    downloadNudge: 'Download the KP report for cusp chains, significators, ruling planets, and timing proof.',
+    focusLine: 'Event-answer preview first; proof comes in the PDF.',
+    previewBullets: ['Verdict direction', 'Promise/block', 'Timing readiness'],
+  },
+  KUNDLI: {
+    compactPromise: 'Preview the core Kundli reading, focus charts, current timing, and next practical direction.',
+    downloadNudge: 'Download the Kundli report for full chart order, house evidence, Mahadasha, classical tables, and remedies.',
+    focusLine: 'Whole-chart clarity without a long page wall.',
+    previewBullets: ['D1/Moon/D9/D10/Chalit', 'Current timing', 'One remedy path'],
+  },
+  LIFE_ATLAS: {
+    compactPromise: 'Preview the soul portrait, hidden thread, current chapter, gifts, lessons, and next honest step.',
+    downloadNudge: 'Download the Life Atlas when you want the flagship non-technical life story and closing letter.',
+    focusLine: 'Your life mirror first; evidence stays late in the PDF.',
+    previewBullets: ['Soul portrait', 'Hidden thread', 'Current chapter'],
+  },
+  MARRIAGE: {
+    compactPromise: 'Preview relationship maturity, partner pattern, and timing tone without fear-heavy language.',
+    downloadNudge: 'Download the Marriage report for D1/D9 synthesis, timing windows, compatibility cautions, and remedies.',
+    focusLine: 'Marriage guidance that stays practical and gentle.',
+    previewBullets: ['Relationship signal', 'D9 preview', 'Timing tone'],
+  },
+  NUMEROLOGY: {
+    compactPromise: 'Preview name rhythm, birth code, destiny direction, current cycle, and number-led action.',
+    downloadNudge: 'Download the Numerology report for mandala, name scanner, missing/repeated grid, timeline, and refinement depth.',
+    focusLine: 'Number identity without Kundli mixing.',
+    previewBullets: ['Name rhythm', 'Current cycle', 'Missing/repeated pattern'],
+  },
+  REMEDIES: {
+    compactPromise: 'Preview the safe remedy direction and one grounded practice without duplicating remedies across the page.',
+    downloadNudge: 'Download the Remedies report for planet-specific path, consistency rhythm, and safety notes.',
+    focusLine: 'What to do, calmly and safely.',
+    previewBullets: ['Planet focus', 'Safe practice', 'Weekly rhythm'],
+  },
+  SADESATI: {
+    compactPromise: 'Preview Saturn pressure, current phase, discipline need, and support without fear.',
+    downloadNudge: 'Download the Sade Sati report for phase detail, Saturn dates, Ashtakavarga support, and remedy plan.',
+    focusLine: 'Saturn pressure explained without panic.',
+    previewBullets: ['Current phase', 'Discipline focus', 'Support/remedy'],
+  },
+  SIGNATURE: {
+    compactPromise: 'Preview confirmed visible traits, confidence rhythm, consistency, and one authentic practice.',
+    downloadNudge: 'Download the Signature report only after confirmed traits are ready; raw signature images are not stored in the report by default.',
+    focusLine: 'Reflective expression guidance, not identity proof.',
+    previewBullets: ['Trait map', 'Confidence/rhythm', 'Practice plan'],
+  },
+  VEDIC: {
+    compactPromise: 'Preview the Vedic reading, focus charts, dasha, classical evidence, and remedy direction while the PDF carries the depth.',
+    downloadNudge: 'Download the Vedic report for full Parashari coverage, vargas, Mahadasha, Chalit, tables, and remedy plan.',
+    focusLine: 'Parashari prediction first; proof follows in the PDF.',
+    previewBullets: ['Focus charts', 'Dasha meaning', 'Classical tables'],
+  },
+  WEALTH: {
+    compactPromise: 'Preview income/gains signal, savings habit, and financial timing tone without overpromising money outcomes.',
+    downloadNudge: 'Download the Wealth report for D2, money houses, timing windows, discipline map, and planning guidance.',
+    focusLine: 'Money rhythm with grounded caution.',
+    previewBullets: ['Income/gains', 'Savings caution', 'Planning cue'],
+  },
+};
+
 export function getReportMarketplaceProducts(): ReportMarketplaceProduct[] {
   return REPORT_MARKETPLACE_PRODUCTS.map(product => ({
     ...product,
     freeIncludes: [...product.freeIncludes],
     premiumIncludes: [...product.premiumIncludes],
   }));
+}
+
+export function getReportPreviewAlignment(
+  reportFocus: ReportMarketplaceProduct['id'],
+): ReportPreviewAlignment {
+  return {
+    ...REPORT_PREVIEW_ALIGNMENT[reportFocus],
+    previewBullets: [...REPORT_PREVIEW_ALIGNMENT[reportFocus].previewBullets],
+  };
 }
 
 export function getReportPurchaseGuide(): ReportPurchaseGuide[] {

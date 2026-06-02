@@ -519,6 +519,39 @@ closing letter.
 Align app previews with report quality. Web/mobile should show focused previews
 and strong download nudges, not full report walls.
 
+### Required Work
+
+- Add a shared report preview alignment contract for every report marketplace
+  product.
+- Every report preview must define:
+  - one compact app promise
+  - one focused preview line
+  - exactly three preview bullets
+  - one download nudge that explains why the PDF is the deep reading surface
+- Web report composer must render the preview bridge immediately under the
+  selected report actions, not lower on the page.
+- Mobile report composer must render the same preview bridge immediately under
+  the selected report card.
+- Vedic report customization must remain progressive: recommended bundle first,
+  customize only behind disclosure.
+- Signature preview must keep the confirmed-traits-only boundary.
+- Life Atlas preview must remain non-technical and must not expose evidence as
+  the main app experience.
+- App previews must not become full report chapters, proof tables, school
+  lessons, or long reading walls.
+
+### Green Criteria
+
+- `test:report-final-phase-10` passes.
+- Web and mobile import the shared preview alignment source from config.
+- Every report marketplace product has exactly three preview bullets.
+- Web includes `data-report-final-phase10-preview="compact"`.
+- Mobile includes `testID="report-final-phase10-preview"`.
+- Existing report marketplace and inline composer density contracts remain
+  compatible.
+- Audit artifacts prove app previews are aligned with the final report value
+  rebuild without replacing the PDF reading surface.
+
 ## Phase 11: `PREDICTA_REPORT_FINAL_PHASE_11_PREDICTA_MEMORY_AND_CHAT_REPORT_MASTERY`
 
 Predicta must know the report architecture, generated sections, free/paid depth,

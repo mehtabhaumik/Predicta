@@ -19,6 +19,7 @@ import {
   getPremiumPdfProduct,
   getReportPurchaseGuide,
   getReportMarketplaceProducts,
+  getReportPreviewAlignment,
   type ReportMarketplaceProduct,
 } from '@pridicta/config/pricing';
 import {
@@ -83,6 +84,9 @@ export function ReportScreen({
   const selectedReport =
     marketplaceProducts.find(product => product.id === selectedReportId) ??
     marketplaceProducts[0];
+  const selectedReportPreviewAlignment = getReportPreviewAlignment(
+    selectedReport.id,
+  );
   const reportLanguage =
     languagePreference.reportLanguage ?? languagePreference.language;
 
@@ -393,6 +397,7 @@ export function ReportScreen({
     }
 
     const isVedicReport = product.school === 'VEDIC';
+    const previewAlignment = getReportPreviewAlignment(product.id);
 
     return (
       <View className="mt-3 rounded-[24px] border border-[#4DAFFF66] bg-[#101826] p-4">
@@ -409,6 +414,34 @@ export function ReportScreen({
           {kundli?.birthDetails.name ?? 'Create a Kundli first'} ·{' '}
           {selectedSectionCount}/{reportPreview.sections.length || 0} sections
         </AppText>
+
+        <View
+          className="mt-4 rounded-[18px] border border-[#4DAFFF55] bg-[#0F1C2B] p-4"
+          testID="report-final-phase10-preview"
+        >
+          <AppText className="font-bold text-[#4DAFFF]" variant="caption">
+            APP PREVIEW
+          </AppText>
+          <AppText className="mt-2" variant="body">
+            {previewAlignment.focusLine}
+          </AppText>
+          <AppText className="mt-2" tone="secondary">
+            {previewAlignment.compactPromise}
+          </AppText>
+          <View className="mt-3 flex-row flex-wrap gap-2">
+            {previewAlignment.previewBullets.map(item => (
+              <View
+                className="rounded-full border border-[#C8A96A55] bg-[#241F27] px-3 py-2"
+                key={item}
+              >
+                <AppText variant="caption">{item}</AppText>
+              </View>
+            ))}
+          </View>
+          <AppText className="mt-3" tone="secondary" variant="caption">
+            {previewAlignment.downloadNudge}
+          </AppText>
+        </View>
 
         {isVedicReport ? (
           <>
@@ -623,6 +656,9 @@ export function ReportScreen({
         <AppText className="mt-2" tone="secondary">
           Download from here first. Change report worlds only if you want a
           different school or a Life Atlas synthesis.
+        </AppText>
+        <AppText className="mt-2" tone="secondary" variant="caption">
+          {selectedReportPreviewAlignment.focusLine}
         </AppText>
         <View className="mt-4">
           <ReportProductButton
