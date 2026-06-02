@@ -13,6 +13,10 @@ import { composeChalitBhavKpFoundation } from './chalitBhavKpFoundation';
 import { composeDailyBriefing } from './dailyBriefing';
 import { composeDestinyPassport } from './destinyPassport';
 import { composeFamilyKarmaMap } from './familyKarmaMap';
+import {
+  evaluateFamilyComparisonEligibility,
+  getFamilyComparisonEligibilityMessage,
+} from './familyVaultComparisonLimits';
 import { composeHolisticDailyGuidance } from './holisticDailyGuidance';
 import { composeHolisticDecisionTimingSynthesis } from './holisticDecisionTimingSynthesis';
 import { composeHolisticFoundationModel } from './holisticFoundationModel';
@@ -1248,17 +1252,21 @@ function buildActionText({
   }
 
   if (action === 'family-map') {
+    const familyKundlis = [
+      kundli,
+      ...savedKundlis.filter(item => item.id !== kundli.id),
+    ];
+    const familyEligibility = evaluateFamilyComparisonEligibility(familyKundlis.length);
     const family = composeFamilyKarmaMap(
-      [kundli, ...savedKundlis.filter(item => item.id !== kundli.id)]
-        .slice(0, 5)
-        .map((item, index) => ({
-          kundli: item,
-          relationship: index === 0 ? 'self' : 'other',
-        })),
+      familyKundlis.map((item, index) => ({
+        kundli: item,
+        relationship: index === 0 ? 'self' : 'other',
+      })),
     );
     return joinSections([
       intro,
       [
+        getFamilyComparisonEligibilityMessage(familyEligibility),
         family.title,
         family.subtitle,
         family.repeatedThemes[0]

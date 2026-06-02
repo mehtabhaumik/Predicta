@@ -3,11 +3,16 @@
 import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import type { SupportedLanguage } from '@pridicta/types';
+import type { FamilyRelationshipLabel, SupportedLanguage } from '@pridicta/types';
 import { FamilyRelationshipBadge } from '../../../components/FamilyRelationshipBadge';
 import { WebAuthRequired } from '../../../components/WebAuthRequired';
+import {
+  FAMILY_RELATIONSHIP_ORDER,
+  getFamilyRelationshipLabel,
+} from '../../../lib/family-relationships';
 import { useLanguagePreference } from '../../../lib/language-preference';
 import { useWebKundliLibrary } from '../../../lib/use-web-kundli-library';
+import { updateWebKundliFamilyRelationship } from '../../../lib/web-kundli-storage';
 import { loadWebProductBankBalance } from '../../../lib/pridicta-ai';
 
 type ProductBankBalance = Awaited<ReturnType<typeof loadWebProductBankBalance>>;
@@ -24,6 +29,8 @@ type FamilyPageCopy = {
     activeBody: (name?: string) => string;
     activeFallback: string;
     activeTitle: string;
+    assignmentBody: string;
+    assignmentTitle: string;
     ownerTitle: string;
     readinessBody: (count: number) => string;
     readinessTitle: (count: number) => string;
@@ -55,6 +62,9 @@ const COPY: Record<SupportedLanguage, FamilyPageCopy> = {
           : 'Choose or save the owner profile first. Family analysis should never start without a real personal anchor.',
       activeFallback: 'No active profile',
       activeTitle: 'Active chart anchor',
+      assignmentBody:
+        'Assign saved Kundlis to family roles here. Family Vault uses these labels for comparison context, while the Kundli Library remains the source of truth.',
+      assignmentTitle: 'Assign saved Kundlis',
       ownerTitle: 'Owner profile',
       readinessBody: count =>
         count >= 2
@@ -106,6 +116,9 @@ const COPY: Record<SupportedLanguage, FamilyPageCopy> = {
           : getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.7d8715d39b"),
       activeFallback: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.24d07545aa"),
       activeTitle: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.c809fd9d22"),
+      assignmentBody:
+        'Assign saved Kundlis to family roles here. Family Vault uses these labels for comparison context, while the Kundli Library remains the source of truth.',
+      assignmentTitle: 'Assign saved Kundlis',
       ownerTitle: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.af78e01243"),
       readinessBody: count =>
         count >= 2
@@ -157,6 +170,9 @@ const COPY: Record<SupportedLanguage, FamilyPageCopy> = {
           : getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.884b3a9c1c"),
       activeFallback: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.578e662d71"),
       activeTitle: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.07225d277e"),
+      assignmentBody:
+        'Assign saved Kundlis to family roles here. Family Vault uses these labels for comparison context, while the Kundli Library remains the source of truth.',
+      assignmentTitle: 'Assign saved Kundlis',
       ownerTitle: getNativeCopy("native.apps.web.app.dashboard.family.page.tsx.531c54665d"),
       readinessBody: count =>
         count >= 2
@@ -209,6 +225,13 @@ export default function FamilyPage(): React.JSX.Element {
   useEffect(() => {
     void loadWebProductBankBalance().then(setProductBank);
   }, []);
+
+  function assignRelationship(
+    kundliId: string,
+    relationship: FamilyRelationshipLabel,
+  ): void {
+    updateWebKundliFamilyRelationship(kundliId, relationship);
+  }
 
   return (
     <section className="dashboard-page">
@@ -271,6 +294,45 @@ export default function FamilyPage(): React.JSX.Element {
             </p>
           </div>
         </div>
+
+        <section className="glass-panel settings-card">
+          <div className="card-content spacious">
+            <div className="section-title">{copy.cards.assignmentTitle}</div>
+            <h2>{copy.cards.assignmentTitle}</h2>
+            <p>{copy.cards.assignmentBody}</p>
+            <div className="settings-stack">
+              {profiles.map(profile => (
+                <label className="setting-row" key={profile.id}>
+                  <div>
+                    <strong>{profile.birthDetails.name}</strong>
+                    <span>
+                      {profile.lagna} Lagna · {profile.moonSign} Moon ·{' '}
+                      {profile.nakshatra}
+                    </span>
+                  </div>
+                  <select
+                    aria-label={`Assign ${profile.birthDetails.name} in Family Vault`}
+                    className="form-select"
+                    disabled={profile.isOwnerProfile}
+                    onChange={event =>
+                      assignRelationship(
+                        profile.id,
+                        event.target.value as FamilyRelationshipLabel,
+                      )
+                    }
+                    value={profile.relationshipToOwner ?? 'other'}
+                  >
+                    {FAMILY_RELATIONSHIP_ORDER.map(relationship => (
+                      <option key={relationship} value={relationship}>
+                        {getFamilyRelationshipLabel(relationship, language)}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              ))}
+            </div>
+          </div>
+        </section>
 
         <div className="family-experience-grid">
           {copy.experiences.map(card => (

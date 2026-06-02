@@ -11,6 +11,7 @@ export * from './chartStressSuite';
 export * from './dailyBriefing';
 export * from './decisionOracle';
 export * from './destinyPassport';
+export * from './familyVaultComparisonLimits';
 export * from './familyKarmaMap';
 export * from './holisticFoundationModel';
 export * from './holisticDailyGuidance';

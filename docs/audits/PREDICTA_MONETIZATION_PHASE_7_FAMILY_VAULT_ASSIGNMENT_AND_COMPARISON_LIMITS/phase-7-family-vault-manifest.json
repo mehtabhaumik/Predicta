@@ -1,0 +1,20 @@
+{
+  "phase": "PREDICTA_MONETIZATION_PHASE_7_FAMILY_VAULT_ASSIGNMENT_AND_COMPARISON_LIMITS",
+  "status": "green",
+  "familyComparisonLimits": {
+    "min": 2,
+    "max": 4
+  },
+  "surfaces": [
+    "web Family Vault assignment",
+    "web Family Karma Map comparison",
+    "mobile Family Vault assignment",
+    "mobile Family Karma Map comparison",
+    "deterministic Predicta chat eligibility"
+  ],
+  "blockedStates": [
+    "0 selected",
+    "1 selected",
+    "5 or more selected"
+  ]
+}

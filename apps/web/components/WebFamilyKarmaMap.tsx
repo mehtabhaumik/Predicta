@@ -3,7 +3,13 @@
 import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
-import { composeFamilyKarmaMap } from '@pridicta/astrology';
+import {
+  FAMILY_COMPARISON_MAX_KUNDLIS,
+  FAMILY_COMPARISON_MIN_KUNDLIS,
+  composeFamilyKarmaMap,
+  evaluateFamilyComparisonEligibility,
+  getFamilyComparisonEligibilityMessage,
+} from '@pridicta/astrology';
 import type { KundliData, SupportedLanguage } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useLanguagePreference } from '../lib/language-preference';
@@ -209,10 +215,13 @@ export function WebFamilyKarmaMap({
       ? [activeKundli, ...savedKundlis.filter(item => item.id !== activeKundli.id)]
       : savedKundlis;
 
-    return activeFirst.filter(item => item.familyVaultEligible !== false).slice(0, 8);
+    return activeFirst.filter(item => item.familyVaultEligible !== false);
   }, [activeKundli, savedKundlis]);
   const initialSelectedIds = useMemo(
-    () => profiles.slice(0, Math.min(3, profiles.length)).map(profile => profile.id),
+    () =>
+      profiles
+        .slice(0, Math.min(FAMILY_COMPARISON_MIN_KUNDLIS, profiles.length))
+        .map(profile => profile.id),
     [profiles],
   );
   const [selectedIds, setSelectedIds] = useState<string[]>(initialSelectedIds);
@@ -225,18 +234,25 @@ export function WebFamilyKarmaMap({
 
     setSelectedIds(current => {
       const stillValid = current.filter(id => profiles.some(profile => profile.id === id));
-      if (stillValid.length >= 2) {
-        return stillValid;
+      if (stillValid.length >= FAMILY_COMPARISON_MIN_KUNDLIS) {
+        return stillValid.slice(0, FAMILY_COMPARISON_MAX_KUNDLIS);
       }
-      return profiles.slice(0, Math.min(3, profiles.length)).map(profile => profile.id);
+      return profiles
+        .slice(0, Math.min(FAMILY_COMPARISON_MIN_KUNDLIS, profiles.length))
+        .map(profile => profile.id);
     });
   }, [profiles]);
 
   const selectedProfiles = useMemo(() => {
     const selectedSet = new Set(selectedIds);
     const chosen = profiles.filter(profile => selectedSet.has(profile.id));
-    return chosen.slice(0, profiles.length);
+    return chosen;
   }, [profiles, selectedIds]);
+  const comparisonEligibility = evaluateFamilyComparisonEligibility(
+    selectedProfiles.length,
+  );
+  const comparisonEligibilityMessage =
+    getFamilyComparisonEligibilityMessage(comparisonEligibility);
 
   const map = useMemo(
     () =>
@@ -254,7 +270,7 @@ export function WebFamilyKarmaMap({
   );
 
   const askHref =
-    map.status === 'ready' && activeKundli
+    comparisonEligibility.allowed && map.status === 'ready' && activeKundli
       ? buildPredictaChatHref({
           kundli: activeKundli,
           kundliId: activeKundli.id,
@@ -271,13 +287,10 @@ export function WebFamilyKarmaMap({
   function toggleProfile(profile: KundliData): void {
     setSelectedIds(current => {
       if (current.includes(profile.id)) {
-        if (current.length <= 2) {
-          return current;
-        }
         return current.filter(id => id !== profile.id);
       }
 
-      if (current.length >= profiles.length) {
+      if (current.length >= FAMILY_COMPARISON_MAX_KUNDLIS) {
         return current;
       }
 
@@ -313,10 +326,15 @@ export function WebFamilyKarmaMap({
       <div className="family-selection-summary">
         <strong>
           {selectedProfiles.length >= 2
-            ? copy.selectors.max(profiles.length)
+            ? copy.selectors.max(FAMILY_COMPARISON_MAX_KUNDLIS)
             : copy.selectors.min}
         </strong>
-        <span>{selectedProfiles.map(profile => profile.birthDetails.name).join(' · ')}</span>
+        <span>
+          {selectedProfiles.length
+            ? selectedProfiles.map(profile => profile.birthDetails.name).join(' · ')
+            : comparisonEligibilityMessage}
+        </span>
+        <small>{comparisonEligibilityMessage}</small>
       </div>
 
       <div className="family-profile-grid">
@@ -348,6 +366,7 @@ export function WebFamilyKarmaMap({
                 <label className="family-select-toggle">
                   <input
                     checked={selected}
+                    disabled={!selected && selectedIds.length >= FAMILY_COMPARISON_MAX_KUNDLIS}
                     onChange={() => toggleProfile(profile)}
                     type="checkbox"
                   />

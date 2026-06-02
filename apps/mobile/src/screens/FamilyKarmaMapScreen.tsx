@@ -9,7 +9,13 @@ import {
   Screen,
   SignInRequiredPanel,
 } from '../components';
-import { composeFamilyKarmaMap } from '@pridicta/astrology';
+import {
+  FAMILY_COMPARISON_MAX_KUNDLIS,
+  FAMILY_COMPARISON_MIN_KUNDLIS,
+  composeFamilyKarmaMap,
+  evaluateFamilyComparisonEligibility,
+  getFamilyComparisonEligibilityMessage,
+} from '@pridicta/astrology';
 import { routes } from '../navigation/routes';
 import type { RootScreenProps } from '../navigation/types';
 import { listSavedKundlis } from '../services/kundli/kundliRepository';
@@ -42,6 +48,7 @@ export function FamilyKarmaMapScreen({
   const [relationshipById, setRelationshipById] = useState<
     Record<string, FamilyRelationshipLabel>
   >({});
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const activeKundli = useAppStore(state => state.activeKundli);
   const auth = useAppStore(state => state.auth);
   const setActiveKundli = useAppStore(state => state.setActiveKundli);
@@ -82,20 +89,38 @@ export function FamilyKarmaMapScreen({
             ]),
           ),
         }));
+        setSelectedIds(current => {
+          const valid = current.filter(id =>
+            merged.some(record => record.summary.id === id),
+          );
+          if (valid.length >= FAMILY_COMPARISON_MIN_KUNDLIS) {
+            return valid.slice(0, FAMILY_COMPARISON_MAX_KUNDLIS);
+          }
+          return merged
+            .slice(0, Math.min(FAMILY_COMPARISON_MIN_KUNDLIS, merged.length))
+            .map(record => record.summary.id);
+        });
       })
       .catch(() => undefined);
   }, [activeKundli]);
 
+  const selectedRecords = useMemo(() => {
+    const selectedSet = new Set(selectedIds);
+    return records.filter(record => selectedSet.has(record.summary.id));
+  }, [records, selectedIds]);
+  const familyEligibility = evaluateFamilyComparisonEligibility(selectedRecords.length);
+  const familyEligibilityMessage =
+    getFamilyComparisonEligibilityMessage(familyEligibility);
   const familyMap = useMemo(
     () =>
       composeFamilyKarmaMap(
-        records.slice(0, 4).map((record, index) => ({
+        selectedRecords.map((record, index) => ({
           kundli: record.kundliData,
           relationship:
             relationshipById[record.summary.id] ?? (index === 0 ? 'self' : 'other'),
         })),
       ),
-    [records, relationshipById],
+    [relationshipById, selectedRecords],
   );
 
   function askFamilyMap() {
@@ -113,7 +138,7 @@ export function FamilyKarmaMapScreen({
     setActiveChartContext({
       kundliId: mapKundli?.id,
       selectedFamilyKarmaMap: true,
-      selectedFamilyMemberCount: familyMap.members.length,
+      selectedFamilyMemberCount: selectedRecords.length,
       selectedSection: familyMap.askPrompt,
       sourceScreen: 'Family Karma Map',
     });
@@ -122,6 +147,20 @@ export function FamilyKarmaMapScreen({
 
   function useProfile(record: SavedKundliRecord) {
     setActiveKundli(record.kundliData);
+  }
+
+  function toggleSelection(recordId: string): void {
+    setSelectedIds(current => {
+      if (current.includes(recordId)) {
+        return current.filter(id => id !== recordId);
+      }
+
+      if (current.length >= FAMILY_COMPARISON_MAX_KUNDLIS) {
+        return current;
+      }
+
+      return [...current, recordId];
+    });
   }
 
   function askProfile(record: SavedKundliRecord) {
@@ -169,6 +208,14 @@ export function FamilyKarmaMapScreen({
         Select relationship labels for saved kundlis. Predicta looks for
         repeated patterns and support zones without blaming anyone.
       </AppText>
+      <GlowCard className="mt-5">
+        <AppText variant="subtitle">
+          {selectedRecords.length} selected for Family Vault comparison
+        </AppText>
+        <AppText className="mt-2" tone="secondary">
+          {familyEligibilityMessage}
+        </AppText>
+      </GlowCard>
 
       <View className="mt-7 gap-4">
         {records.length ? (
@@ -176,8 +223,14 @@ export function FamilyKarmaMapScreen({
             <RelationshipLabelPicker
               key={record.summary.id}
               active={record.summary.id === activeKundli?.id}
+              comparisonLocked={
+                !selectedIds.includes(record.summary.id) &&
+                selectedIds.length >= FAMILY_COMPARISON_MAX_KUNDLIS
+              }
+              included={selectedIds.includes(record.summary.id)}
               onAskProfile={() => askProfile(record)}
               onSelect={label => setRelationship(record.summary.id, label)}
+              onToggleIncluded={() => toggleSelection(record.summary.id)}
               onUseProfile={() => useProfile(record)}
               record={record}
               selected={
@@ -199,7 +252,11 @@ export function FamilyKarmaMapScreen({
       <View className="mt-7">
         <FamilyKarmaMapPanel
           map={familyMap}
-          onAskMap={familyMap.status === 'ready' ? askFamilyMap : undefined}
+          onAskMap={
+            familyEligibility.allowed && familyMap.status === 'ready'
+              ? askFamilyMap
+              : undefined
+          }
           onCreateKundli={() => navigation.navigate(routes.Kundli)}
         />
       </View>
@@ -209,15 +266,21 @@ export function FamilyKarmaMapScreen({
 
 function RelationshipLabelPicker({
   active,
+  comparisonLocked,
+  included,
   onAskProfile,
   onSelect,
+  onToggleIncluded,
   onUseProfile,
   record,
   selected,
 }: {
   active: boolean;
+  comparisonLocked: boolean;
+  included: boolean;
   onAskProfile: () => void;
   onSelect: (label: FamilyRelationshipLabel) => void;
+  onToggleIncluded: () => void;
   onUseProfile: () => void;
   record: SavedKundliRecord;
   selected: FamilyRelationshipLabel;
@@ -231,6 +294,24 @@ function RelationshipLabelPicker({
       <AppText className="mt-1" tone="secondary" variant="caption">
         {record.summary.moonSign} Moon · {record.summary.nakshatra}
       </AppText>
+      <Pressable
+        accessibilityRole="button"
+        className={`mt-4 rounded-full border px-4 py-3 ${
+          included
+            ? 'border-[#4DAFFF] bg-[#172233]'
+            : 'border-[#252533] bg-[#191923]'
+        } ${comparisonLocked ? 'opacity-60' : ''}`}
+        disabled={comparisonLocked}
+        onPress={onToggleIncluded}
+      >
+        <AppText variant="caption">
+          {included
+            ? 'Included in comparison'
+            : comparisonLocked
+              ? 'Limit is 4 Kundlis'
+              : 'Include in comparison'}
+        </AppText>
+      </Pressable>
       <View className="mt-4 flex-row flex-wrap gap-2">
         {relationshipLabels.map(label => (
           <Pressable

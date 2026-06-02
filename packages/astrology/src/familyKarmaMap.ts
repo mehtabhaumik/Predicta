@@ -11,6 +11,12 @@ import type {
   SupportedLanguage,
 } from '@pridicta/types';
 import { composePairComparison } from './pairComparison';
+import {
+  FAMILY_COMPARISON_MAX_KUNDLIS,
+  FAMILY_COMPARISON_MIN_KUNDLIS,
+  evaluateFamilyComparisonEligibility,
+  getFamilyComparisonEligibilityMessage,
+} from './familyVaultComparisonLimits';
 
 type FamilyKarmaInput = {
   kundli: KundliData;
@@ -827,35 +833,57 @@ export function composeFamilyKarmaMap(
 ): FamilyKarmaMap {
   const language = options.language ?? 'en';
   const copy = COPY[language] ?? COPY.en;
-  const familyInput = input.filter(item => item.kundli).slice(0, 8);
+  const familyInput = input.filter(item => item.kundli);
   const members = familyInput.map((item, index) =>
     toFamilyMemberProfile(item.kundli, item.relationship, index, language),
   );
+  const eligibility = evaluateFamilyComparisonEligibility(members.length);
 
-  if (members.length < 2) {
+  if (!eligibility.allowed) {
+    const eligibilityMessage = getFamilyComparisonEligibilityMessage(eligibility);
     return {
-      askPrompt: copy.pending.askPrompt,
-      actionableHealingGuidance: copy.pending.guidance,
-      authorityDependencyPattern: copy.pending.conclusion,
-      caregivingBurdenMap: copy.pending.conclusion,
-      communicationFractureMap: copy.pending.communication,
+      askPrompt:
+        eligibility.reason === 'too_many'
+          ? `Help me choose the best ${FAMILY_COMPARISON_MAX_KUNDLIS} saved Kundlis for a focused Family Vault comparison.`
+          : copy.pending.askPrompt,
+      actionableHealingGuidance:
+        eligibility.reason === 'too_many'
+          ? [
+              `Choose the ${FAMILY_COMPARISON_MAX_KUNDLIS} people most relevant to the current family question.`,
+              'Run a second comparison for another branch instead of crowding one reading.',
+            ]
+          : copy.pending.guidance,
+      authorityDependencyPattern: eligibilityMessage,
+      caregivingBurdenMap: eligibilityMessage,
+      communicationFractureMap:
+        eligibility.reason === 'too_many'
+          ? 'Predicta blocks 5+ chart comparisons so the family reading does not become noisy or unfair.'
+          : copy.pending.communication,
       dharmaRepairPath: undefined,
-      householdEmotionalClimate: copy.pending.climate,
-      householdSummary: copy.pending.householdSummary,
+      householdEmotionalClimate: eligibilityMessage,
+      householdSummary:
+        eligibility.reason === 'too_many'
+          ? 'Too many Kundlis are selected for one Family Vault comparison.'
+          : copy.pending.householdSummary,
       influenceMatrix: [],
       members,
-      privacyNote: copy.pending.privacy,
+      privacyNote:
+        eligibility.reason === 'too_many'
+          ? 'Your selected Kundlis are preserved. Remove one or more profiles before running the comparison.'
+          : copy.pending.privacy,
       relationshipCards: [],
       repeatedThemes: [],
       repeatingKarmaPattern: undefined,
-      ritualRoutineMoneyStressMap: copy.pending.conclusion,
+      ritualRoutineMoneyStressMap: eligibilityMessage,
       whoAmplifiesPressure: undefined,
       whoCalmsTheHouse: undefined,
       whoNeedsGentlerHandling: undefined,
       fastestHealingPair: undefined,
       repeatedRoutineMoneyTension: undefined,
       shareSummary:
-        language === 'hi'
+        eligibility.reason === 'too_many'
+          ? `Predicta Family Karma Map supports ${FAMILY_COMPARISON_MIN_KUNDLIS}-${FAMILY_COMPARISON_MAX_KUNDLIS} saved Kundlis at a time.`
+          : language === 'hi'
           ? getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.7f90aebb0f")
           : language === 'gu'
             ? getNativeCopy("native.packages.astrology.src.familyKarmaMap.ts.bad0f58797")
@@ -863,8 +891,11 @@ export function composeFamilyKarmaMap(
       status: 'pending',
       strongestFrictionPair: undefined,
       strongestSupportPair: undefined,
-      subtitle: copy.pending.subtitle,
-      title: copy.pending.title,
+      subtitle: eligibility.reason === 'too_many' ? eligibilityMessage : copy.pending.subtitle,
+      title:
+        eligibility.reason === 'too_many'
+          ? 'Select a focused family circle'
+          : copy.pending.title,
     };
   }
 
