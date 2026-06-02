@@ -1500,8 +1500,8 @@ function buildPlannedSpreads({
     );
     addSpread(
       'Gifts and lessons',
-      'The strengths and classrooms you carry',
-      'Your gifts and repeating classrooms are named together so strength and correction stay connected.',
+      'The strengths and lessons you carry',
+      'Your gifts and repeating lessons are named together so strength and correction stay connected.',
       ['life-atlas-gifts', 'life-atlas-lessons'],
       2,
       'Gifts into practice',
@@ -1707,7 +1707,7 @@ function buildPlannedSpreads({
     addSpread(
       'Jaimini appendix',
       'The evidence behind the destiny reading',
-      'The appendix preserves calculations for audit without making the main report feel like a method lesson.',
+      'The appendix preserves calculations for audit without making the main report feel like a technical workbook.',
       ['jaimini-appendix'],
       1,
       'Technical evidence',

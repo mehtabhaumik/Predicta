@@ -482,6 +482,38 @@ Rebuild Life Atlas as the emotional flagship: soul portrait, life arc, destiny
 pattern, current chapter, hidden thread, practical next steps, and a personal
 closing letter.
 
+### Required Work
+
+- Add a Life Atlas-specific report value contract that starts with a flagship
+  personal mirror, not an explanation of the synthesis engine.
+- Life Atlas must preserve the emotional flagship structure: opening soul
+  portrait, personal snapshot, strategic life abstract, why you came here, life
+  journey arc, destiny pattern, current life chapter, gifts, karmic lessons,
+  love/work/money/purpose, hidden thread, what is intended, next 12-24 months,
+  soul practices, final letter, premium relationship mirror, premium work/money
+  mission blueprint, premium shadow-to-gift map, premium integration plan, and
+  appendix.
+- Free Life Atlas must feel complete: soul portrait, life journey summary,
+  current chapter, top gifts, top lessons, hidden thread, focus-now guidance,
+  practices, and closing letter.
+- Premium Life Atlas must add deeper narrative, relationship mirror, work/money
+  mission blueprint, shadow-to-gift map, integration plan, and a more memorable
+  closing letter.
+- Technical evidence must stay late as a calm appendix and must not replace the
+  human reading.
+- Life Atlas must not claim Akashic Records, palm-leaf manuscripts, unsupported
+  mystical sources, fixed fate, fear-based destiny, or invented Signature traits.
+
+### Green Criteria
+
+- `test:report-final-phase-9` passes.
+- Life Atlas has a dedicated value contract source.
+- Life Atlas PDF composition starts with `Your Life Atlas Begins Here`.
+- The main Life Atlas PDF builder contains no `Life Atlas prediction` prefix and
+  no `method lesson` wording.
+- Free and Premium Life Atlas depth rules are explicitly locked.
+- Audit artifacts prove the evidence appendix stays after the human reading.
+
 ## Phase 10: `PREDICTA_REPORT_FINAL_PHASE_10_REPORT_PAGE_AND_APP_PREVIEW_ALIGNMENT`
 
 Align app previews with report quality. Web/mobile should show focused previews

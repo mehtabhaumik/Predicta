@@ -514,7 +514,7 @@ function buildLifeAtlasSections({
     },
     {
       body:
-        'The karmic lesson is not punishment. It is the repeating classroom where awareness must become stronger than reflex. The same pressure may return through people, deadlines, responsibility, or emotional expectation until your response becomes calmer, cleaner, and less hungry for external confirmation.',
+        'The karmic lesson is not punishment. It is the repeating field where awareness must become stronger than reflex. The same pressure may return through people, deadlines, responsibility, or emotional expectation until your response becomes calmer, cleaner, and less hungry for external confirmation.',
       bullets: [
         'Lesson one: respond instead of proving yourself through pressure.',
         'Lesson two: let boundaries protect tenderness rather than harden it.',

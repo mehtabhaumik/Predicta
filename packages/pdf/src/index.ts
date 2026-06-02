@@ -68,6 +68,7 @@ import { buildKpReportValueContract } from './kpReportValueContract';
 import { buildJaiminiReportValueContract } from './jaiminiReportValueContract';
 import { buildNumerologyReportValueContract } from './numerologyReportValueContract';
 import { buildSignatureReportValueContract } from './signatureReportValueContract';
+import { buildLifeAtlasReportValueContract } from './lifeAtlasReportValueContract';
 
 type PdfChartRole = ChartType | 'MOON' | 'SWAMSA' | 'KARAKAMSHA' | 'CHALIT' | 'KP' | 'NADI';
 
@@ -497,17 +498,51 @@ function buildLifeAtlasReportSections(
     depth: mode,
     signatureAnalysis,
   });
+  const lifeAtlasValueContract = buildLifeAtlasReportValueContract({
+    atlas,
+    mode,
+  });
+  const flagshipOpening: PdfSection = {
+    body: lifeAtlasValueContract.flagshipOpening,
+    bullets: [
+      lifeAtlasValueContract.freeDepthPromise,
+      ...(mode === 'PREMIUM' ? [lifeAtlasValueContract.paidDepthPromise] : []),
+      lifeAtlasValueContract.actionPromise,
+      atlas.signatureNote,
+    ],
+    confidence: atlas.status === 'ready' ? 'high' : 'low',
+    evidence: [
+      lifeAtlasValueContract.evidencePromise,
+      `Required Life Atlas modules: ${lifeAtlasValueContract.requiredModules.join(', ')}.`,
+      `Required Life Atlas order: ${lifeAtlasValueContract.sectionOrder.join(' -> ')}.`,
+    ],
+    evidenceTable: [
+      {
+        confidence: atlas.status === 'ready' ? 'high' : 'low',
+        factor: 'Hidden thread',
+        implication: atlas.hiddenThread,
+        observation: atlas.lifeThemeSentence,
+      },
+      {
+        confidence: atlas.status === 'ready' ? 'high' : 'low',
+        factor: 'Current chapter',
+        implication: atlas.currentFocus,
+        observation: atlas.synthesisFraming,
+      },
+    ],
+    eyebrow: 'LIFE ATLAS',
+    tier: mode === 'PREMIUM' ? 'premium' : 'free',
+    title: 'Your Life Atlas Begins Here',
+  };
   const narrativeSections = atlas.sections
     .filter(section => mode === 'PREMIUM' || section.id !== 'how-predicta-built-this-reading')
     .map(section => ({
-      body: section.id === 'personal-snapshot'
-        ? `Life Atlas prediction: ${section.body}`
-        : section.body,
+      body: section.body,
       bullets: section.bullets.map(bullet =>
         bullet.startsWith('Premium') || bullet.startsWith('Free')
           ? bullet
-          : bullet.replace(/^Main strength:/, 'Predicted strength:')
-              .replace(/^Main risk:/, 'Predicted risk:')
+          : bullet.replace(/^Main strength:/, 'Strength you can use:')
+              .replace(/^Main risk:/, 'Pattern to watch:')
               .replace(/^Best correction:/, 'Best next move:')
       ),
       confidence: atlas.status === 'ready' ? 'high' as const : 'low' as const,
@@ -522,14 +557,18 @@ function buildLifeAtlasReportSections(
     }));
 
   if (mode !== 'PREMIUM') {
-    return narrativeSections;
+    return [
+      flagshipOpening,
+      ...narrativeSections,
+    ];
   }
 
   return [
+    flagshipOpening,
     ...narrativeSections,
     {
       body:
-        'Life Atlas supporting map: this page preserves the evidence layers behind the life prediction. It stays at the end so the main report remains a soul/life reading, not a method lesson. Jaimini appendix evidence includes Atmakaraka, Arudha Lagna, Upapada Lagna, Karakamsha, Swamsa, and Chara Dasha only after the main Life Atlas reading is complete.',
+        `${lifeAtlasValueContract.appendixPromise} Jaimini appendix evidence includes Atmakaraka, Arudha Lagna, Upapada Lagna, Karakamsha, Swamsa, and Chara Dasha only after the main Life Atlas reading is complete.`,
       bullets: [
         ...atlas.evidenceLayers
           .filter(layer => layer.status === 'ready')

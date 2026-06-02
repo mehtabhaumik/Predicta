@@ -1,0 +1,43 @@
+{
+  "phase": "PREDICTA_REPORT_FINAL_PHASE_9_LIFE_ATLAS_FLAGSHIP_REBUILD",
+  "status": "GREEN",
+  "reportLane": "LIFE_ATLAS",
+  "lifeAtlasValueContractSource": "packages/pdf/src/lifeAtlasReportValueContract.ts",
+  "flagshipOpeningInserted": true,
+  "evidenceAppendixLate": true,
+  "mainReadingHumanFirst": true,
+  "requiredModules": [
+    "Life Atlas Flagship Opening",
+    "Opening Soul Portrait",
+    "Personal Snapshot",
+    "Strategic Life Abstract",
+    "Why You Came Here",
+    "Life Journey Arc",
+    "Destiny Pattern",
+    "Current Life Chapter",
+    "Gifts You Carry",
+    "Karmic Lessons",
+    "Love Work Money Purpose",
+    "The Hidden Thread",
+    "What Is Intended For You",
+    "Next 12-24 Months",
+    "Soul Practices",
+    "Final Letter From Predicta",
+    "Premium Relationship Mirror",
+    "Premium Work Money Mission Blueprint",
+    "Premium Shadow-to-Gift Map",
+    "Premium Integration Plan",
+    "How Predicta Built This Reading Appendix"
+  ],
+  "greenCriteria": {
+    "phase9AuditExists": true,
+    "phase9GatePasses": true,
+    "lifeAtlasValueContractSourceExists": true,
+    "requiredLifeAtlasModulesLocked": true,
+    "lifeAtlasFlagshipOpeningUsed": true,
+    "lifeAtlasPredictionPrefixRemoved": true,
+    "evidenceAppendixAfterHumanReading": true,
+    "freePaidDepthLocked": true,
+    "unsupportedMysticalClaimsBanned": true
+  }
+}
