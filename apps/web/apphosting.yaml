@@ -12,6 +12,14 @@ env:
     value: https://predicta-backend-pxf7yw4soq-el.a.run.app
     availability:
       - RUNTIME
+  - variable: PREDICTA_RESEND_API_KEY
+    secret: PREDICTA_RESEND_API_KEY@1
+    availability:
+      - RUNTIME
+  - variable: PREDICTA_RESEND_WEBHOOK_SECRET
+    secret: PREDICTA_RESEND_WEBHOOK_SECRET@1
+    availability:
+      - RUNTIME
 
   - variable: NEXT_PUBLIC_FIREBASE_API_KEY
     value: AIzaSyDK4CQXC9gPqOqX9lJEcKYbt_rt5kXvqL4

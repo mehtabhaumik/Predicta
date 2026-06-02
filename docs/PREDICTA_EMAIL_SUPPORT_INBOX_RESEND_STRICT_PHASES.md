@@ -97,6 +97,27 @@ access, we will use the details you shared to help faster.
 20. Commit each green phase with a detailed commit message before moving to the
     next phase.
 
+## Runtime Secret Contract
+
+Predicta web App Hosting must use these server-only runtime secrets:
+
+- `PREDICTA_RESEND_API_KEY`
+  - Secret Manager reference: `PREDICTA_RESEND_API_KEY@1`
+  - Availability: `RUNTIME`
+- `PREDICTA_RESEND_WEBHOOK_SECRET`
+  - Secret Manager reference: `PREDICTA_RESEND_WEBHOOK_SECRET@1`
+  - Availability: `RUNTIME`
+
+Do not expose these as `NEXT_PUBLIC_*`.
+
+Do not use unprefixed `RESEND_API_KEY` or `RESEND_WEBHOOK_SECRET` as the primary
+Predicta runtime contract unless a later migration phase explicitly approves
+aliases.
+
+If the secrets are created directly in Google Cloud Secret Manager instead of
+through the Firebase CLI, the App Hosting backend must be granted access before
+deploy smoke can be green.
+
 ## Approved Phase Order
 
 1. `PREDICTA_EMAIL_PHASE_0_SUPPORT_EMAIL_BASELINE_AND_CONTRACT`
@@ -394,6 +415,8 @@ notifications.
 
 - Add server-only Resend client wrapper.
 - Add environment validation for Resend configuration.
+- Read `PREDICTA_RESEND_API_KEY` from the pinned App Hosting Secret Manager
+  reference `PREDICTA_RESEND_API_KEY@1`.
 - Add mocked provider tests.
 - Add customer auto-reply send path.
 - Add admin notification send path.
@@ -501,6 +524,8 @@ support thread.
   implementation. They are not required for support threading and add privacy
   noise.
 - Verify webhook signature or approved verification mechanism.
+- Read `PREDICTA_RESEND_WEBHOOK_SECRET` from the pinned App Hosting Secret
+  Manager reference `PREDICTA_RESEND_WEBHOOK_SECRET@1`.
 - Parse inbound sender, recipient, subject, body, HTML, text, and attachments
   only as allowed.
 - Sanitize inbound HTML.
