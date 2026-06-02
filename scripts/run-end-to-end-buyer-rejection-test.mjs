@@ -1,5 +1,6 @@
 import { existsSync, rmSync } from 'node:fs';
 import { get as httpGet, request as httpRequest } from 'node:http';
+import { get as httpsGet, request as httpsRequest } from 'node:https';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawn } from 'node:child_process';
@@ -567,7 +568,7 @@ async function evaluateBuyerMetrics(cdp) {
 
 function getJson(url) {
   return new Promise((resolve, reject) => {
-    httpGet(url, response => {
+    getForUrl(url)(url, response => {
       let data = '';
       response.setEncoding('utf8');
       response.on('data', chunk => {
@@ -586,7 +587,7 @@ function getJson(url) {
 
 function getText(url) {
   return new Promise((resolve, reject) => {
-    httpGet(url, response => {
+    getForUrl(url)(url, response => {
       let data = '';
       response.setEncoding('utf8');
       response.on('data', chunk => {
@@ -599,7 +600,7 @@ function getText(url) {
 
 function getStatus(url) {
   return new Promise(resolve => {
-    const request = httpRequest(url, { method: 'HEAD' }, response => {
+    const request = requestForUrl(url)(url, { method: 'HEAD' }, response => {
       response.resume();
       response.on('end', () => resolve(response.statusCode ?? 0));
     });
@@ -610,7 +611,7 @@ function getStatus(url) {
 
 function requestJson({ method, url }) {
   return new Promise((resolve, reject) => {
-    const request = httpRequest(url, { method }, response => {
+    const request = requestForUrl(url)(url, { method }, response => {
       let data = '';
       response.setEncoding('utf8');
       response.on('data', chunk => {
@@ -627,6 +628,14 @@ function requestJson({ method, url }) {
     request.on('error', reject);
     request.end();
   });
+}
+
+function getForUrl(url) {
+  return new URL(url).protocol === 'https:' ? httpsGet : httpGet;
+}
+
+function requestForUrl(url) {
+  return new URL(url).protocol === 'https:' ? httpsRequest : httpRequest;
 }
 
 async function connectWebSocket(url) {
