@@ -481,7 +481,25 @@ support thread.
 
 ### Scope
 
-- Add Resend inbound webhook endpoint.
+- Add Resend inbound webhook endpoint at:
+  `apps/web/app/api/email/resend/webhook/route.ts`.
+- The production public webhook URL must be:
+  `https://predicta.rudraix.com/api/email/resend/webhook`.
+- Do not register the Firebase/App Hosting provider URL as the production
+  Resend webhook unless the branded domain is unavailable and the fallback is
+  explicitly approved.
+- Configure the Resend webhook with these events:
+  - `email.received`
+  - `email.sent`
+  - `email.delivered`
+  - `email.delivery_delayed`
+  - `email.bounced`
+  - `email.failed`
+  - `email.complained`
+  - `email.suppressed`
+- Do not enable `email.opened` or `email.clicked` in the first support-inbox
+  implementation. They are not required for support threading and add privacy
+  noise.
 - Verify webhook signature or approved verification mechanism.
 - Parse inbound sender, recipient, subject, body, HTML, text, and attachments
   only as allowed.
@@ -501,12 +519,19 @@ support thread.
 ### Exact Execution Prompt
 
 > Execute `PREDICTA_EMAIL_PHASE_3_RESEND_INBOUND_WEBHOOK_AND_THREADING`.
-> Add verified Resend inbound webhook handling. Customer replies must attach to
-> the correct support ticket thread when possible, and unthreaded messages must
-> be safely quarantined for admin review.
+> Add verified Resend inbound webhook handling at
+> `apps/web/app/api/email/resend/webhook/route.ts`, using the public production
+> URL `https://predicta.rudraix.com/api/email/resend/webhook`. Subscribe to
+> `email.received`, `email.sent`, `email.delivered`, `email.delivery_delayed`,
+> `email.bounced`, `email.failed`, `email.complained`, and `email.suppressed`.
+> Customer replies must attach to the correct support ticket thread when
+> possible, and unthreaded messages must be safely quarantined for admin review.
 
 ### Strict Audit
 
+- deployed/branded webhook URL is documented as
+  `https://predicta.rudraix.com/api/email/resend/webhook`
+- event subscription list excludes `email.opened` and `email.clicked`
 - webhook verification tests pass
 - sanitized HTML tests pass
 - duplicate webhook idempotency tests pass
