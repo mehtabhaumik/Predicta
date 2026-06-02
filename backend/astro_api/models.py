@@ -514,8 +514,28 @@ class AdminGuestPassCreateRequest(BaseModel):
     type: PassCodeType
     accessLevel: Literal["GUEST", "VIP_GUEST", "FULL_ACCESS"]
     maxRedemptions: int = Field(ge=1, le=500)
-    allowedEmails: List[str] = Field(default_factory=list)
+    allowedEmails: List[str] = Field(min_length=1)
     expiresAt: Optional[str] = None
+
+    @field_validator("allowedEmails")
+    @classmethod
+    def validate_allowed_emails(cls, value: List[str]) -> List[str]:
+        normalized = sorted(
+            {
+                email.strip().lower()
+                for email in value
+                if email.strip()
+            }
+        )
+
+        if not normalized:
+            raise ValueError("at least one allowed email is required")
+
+        for email in normalized:
+            if "@" not in email or email.startswith("@") or email.endswith("@"):
+                raise ValueError("allowed emails must be valid email addresses")
+
+        return normalized
 
 
 class AdminGuestPassRevokeRequest(BaseModel):

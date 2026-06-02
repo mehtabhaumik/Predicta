@@ -27,30 +27,38 @@ GENERIC_REDEMPTION_ERROR = (
 
 GUEST_ACCESS_LIMITS: Dict[PassCodeType, Dict[str, object]] = {
     "VIP_REVIEW": {
-        "deviceLimit": 3,
-        "durationDays": 45,
-        "usageLimits": {"questionsTotal": 300, "deepReadingsTotal": 80, "premiumPdfsTotal": 50},
+        "deviceLimit": 2,
+        "durationDays": 30,
+        "usageLimits": {"questionsTotal": 150, "deepReadingsTotal": 30, "premiumPdfsTotal": 5},
     },
     "GUEST_TRIAL": {
         "deviceLimit": 1,
         "durationDays": 7,
-        "usageLimits": {"questionsTotal": 20, "deepReadingsTotal": 4, "premiumPdfsTotal": 1},
+        "usageLimits": {"questionsTotal": 25, "deepReadingsTotal": 5, "premiumPdfsTotal": 1},
     },
     "INVESTOR_PASS": {
-        "deviceLimit": 4,
-        "durationDays": 60,
-        "usageLimits": {"questionsTotal": 500, "deepReadingsTotal": 120, "premiumPdfsTotal": 100},
+        "deviceLimit": 3,
+        "durationDays": 90,
+        "usageLimits": {"questionsTotal": 300, "deepReadingsTotal": 60, "premiumPdfsTotal": 10},
     },
     "FAMILY_PASS": {
         "deviceLimit": 4,
         "durationDays": 365,
-        "usageLimits": {"questionsTotal": 150, "deepReadingsTotal": 40, "premiumPdfsTotal": 10},
+        "usageLimits": {"questionsTotal": 2000, "deepReadingsTotal": 300, "premiumPdfsTotal": 50},
     },
     "INTERNAL_TEST": {
         "deviceLimit": 5,
-        "durationDays": 30,
-        "usageLimits": {"questionsTotal": 100, "deepReadingsTotal": 25, "premiumPdfsTotal": 5},
+        "durationDays": 365,
+        "usageLimits": {"questionsTotal": 5000, "deepReadingsTotal": 1000, "premiumPdfsTotal": 100},
     },
+}
+
+PASS_ACCESS_LEVELS: Dict[PassCodeType, str] = {
+    "GUEST_TRIAL": "GUEST",
+    "VIP_REVIEW": "VIP_GUEST",
+    "INVESTOR_PASS": "VIP_GUEST",
+    "FAMILY_PASS": "FULL_ACCESS",
+    "INTERNAL_TEST": "FULL_ACCESS",
 }
 
 GUEST_PASS_SEEDS = [
@@ -94,7 +102,7 @@ def create_guest_pass_code(
 ) -> GuestPassCode:
     config = GUEST_ACCESS_LIMITS[request.type]
     return GuestPassCode(
-        accessLevel=request.accessLevel,
+        accessLevel=PASS_ACCESS_LEVELS[request.type],
         allowedEmails=[email.lower() for email in request.allowedEmails] or None,
         codeHash=hash_pass_code(request.code),
         codeId=request.codeId,
@@ -318,8 +326,15 @@ def load_store() -> Dict[str, Dict[str, object]]:
         save_store(store)
         return store
 
-    with path.open("r", encoding="utf-8") as handle:
-        store = json.load(handle)
+    try:
+        with path.open("r", encoding="utf-8") as handle:
+            store = json.load(handle)
+    except json.JSONDecodeError:
+        store = {"guestPassCodes": {}, "redeemedGuestPasses": {}}
+        for pass_code in seed_guest_pass_codes():
+            store["guestPassCodes"][pass_code.codeId] = pass_code.model_dump()
+        save_store(store)
+        return store
 
     store.setdefault("guestPassCodes", {})
     store.setdefault("redeemedGuestPasses", {})

@@ -2167,30 +2167,54 @@ def test_guest_pass_redemption_is_backend_authoritative(tmp_path, monkeypatch):
         "/access/admin/guest-passes",
         json={
             "accessLevel": "VIP_GUEST",
+            "allowedEmails": ["beta@example.com"],
             "code": "PRIVATE-BETA-2026",
             "codeId": "beta-2026",
             "label": "Private beta pass",
-            "maxRedemptions": 1,
+            "maxRedemptions": 2,
             "type": "VIP_REVIEW",
         },
     )
     assert create.status_code == 503
 
     monkeypatch.setenv("PRIDICTA_ADMIN_API_TOKEN", "secret-admin-token")
-    create = client.post(
+    open_pass = client.post(
         "/access/admin/guest-passes",
         headers={"x-pridicta-admin-token": "secret-admin-token"},
         json={
             "accessLevel": "VIP_GUEST",
+            "code": "OPEN-BETA-2026",
+            "codeId": "open-beta-2026",
+            "label": "Open beta pass",
+            "maxRedemptions": 1,
+            "type": "VIP_REVIEW",
+        },
+    )
+    assert open_pass.status_code == 422
+
+    create = client.post(
+        "/access/admin/guest-passes",
+        headers={"x-pridicta-admin-token": "secret-admin-token"},
+        json={
+            "accessLevel": "GUEST",
+            "allowedEmails": ["Beta@Example.com", " beta@example.com "],
             "code": "PRIVATE-BETA-2026",
             "codeId": "beta-2026",
             "label": "Private beta pass",
-            "maxRedemptions": 1,
+            "maxRedemptions": 2,
             "type": "VIP_REVIEW",
         },
     )
     assert create.status_code == 200
     assert create.json()["codeHash"] != "PRIVATE-BETA-2026"
+    assert create.json()["accessLevel"] == "VIP_GUEST"
+    assert create.json()["allowedEmails"] == ["beta@example.com"]
+    assert create.json()["deviceLimit"] == 2
+    assert create.json()["usageLimits"] == {
+        "questionsTotal": 150,
+        "deepReadingsTotal": 30,
+        "premiumPdfsTotal": 5,
+    }
 
     redemption = client.post(
         "/access/guest-pass/redeem",
@@ -2205,7 +2229,7 @@ def test_guest_pass_redemption_is_backend_authoritative(tmp_path, monkeypatch):
     assert redemption.json()["status"] == "SUCCESS"
     assert redemption.json()["redeemedPass"]["accessLevel"] == "VIP_GUEST"
 
-    second = client.post(
+    wrong_email = client.post(
         "/access/guest-pass/redeem",
         json={
             "code": "PRIVATE-BETA-2026",
@@ -2214,8 +2238,94 @@ def test_guest_pass_redemption_is_backend_authoritative(tmp_path, monkeypatch):
             "userId": "user-2",
         },
     )
+    assert wrong_email.status_code == 200
+    assert wrong_email.json()["status"] == "EMAIL_NOT_ALLOWED"
+
+    second = client.post(
+        "/access/guest-pass/redeem",
+        json={
+            "code": "PRIVATE-BETA-2026",
+            "deviceId": "device-3",
+            "email": "beta@example.com",
+            "userId": "user-3",
+        },
+    )
     assert second.status_code == 200
-    assert second.json()["status"] == "MAX_REDEMPTIONS"
+    assert second.json()["status"] == "SUCCESS"
+
+    third = client.post(
+        "/access/guest-pass/redeem",
+        json={
+            "code": "PRIVATE-BETA-2026",
+            "deviceId": "device-4",
+            "email": "beta@example.com",
+            "userId": "user-4",
+        },
+    )
+    assert third.status_code == 200
+    assert third.json()["status"] == "MAX_REDEMPTIONS"
+
+
+def test_guest_pass_offerings_are_canonical(tmp_path, monkeypatch):
+    monkeypatch.setenv("PRIDICTA_ACCESS_STORE_PATH", str(tmp_path / "access.json"))
+    monkeypatch.setenv("PRIDICTA_ADMIN_API_TOKEN", "secret-admin-token")
+    reset_access_rate_limits()
+    client = TestClient(app)
+
+    expected = {
+        "GUEST_TRIAL": ("GUEST", 7, 1, 25, 5, 1),
+        "VIP_REVIEW": ("VIP_GUEST", 30, 2, 150, 30, 5),
+        "INVESTOR_PASS": ("VIP_GUEST", 90, 3, 300, 60, 10),
+        "FAMILY_PASS": ("FULL_ACCESS", 365, 4, 2000, 300, 50),
+        "INTERNAL_TEST": ("FULL_ACCESS", 365, 5, 5000, 1000, 100),
+    }
+
+    for pass_type, (
+        access_level,
+        duration_days,
+        device_limit,
+        questions,
+        deep_readings,
+        premium_pdfs,
+    ) in expected.items():
+        response = client.post(
+            "/access/admin/guest-passes",
+            headers={"x-pridicta-admin-token": "secret-admin-token"},
+            json={
+                "accessLevel": "GUEST",
+                "allowedEmails": [f"{pass_type.lower()}@example.com"],
+                "code": f"{pass_type}-2026",
+                "codeId": f"{pass_type.lower()}-2026",
+                "label": f"{pass_type} pass",
+                "maxRedemptions": 2,
+                "type": pass_type,
+            },
+        )
+
+        assert response.status_code == 200
+        created = response.json()
+        assert created["accessLevel"] == access_level
+        assert created["deviceLimit"] == device_limit
+        assert created["usageLimits"] == {
+            "questionsTotal": questions,
+            "deepReadingsTotal": deep_readings,
+            "premiumPdfsTotal": premium_pdfs,
+        }
+
+        redemption = client.post(
+            "/access/guest-pass/redeem",
+            json={
+                "code": f"{pass_type}-2026",
+                "deviceId": f"{pass_type}-device",
+                "email": f"{pass_type.lower()}@example.com",
+                "userId": f"{pass_type}-user",
+            },
+        )
+        assert redemption.status_code == 200
+        assert redemption.json()["status"] == "SUCCESS"
+        assert redemption.json()["redeemedPass"]["accessLevel"] == access_level
+        assert redemption.json()["redeemedPass"]["usageLimits"]["questionsTotal"] == questions
+        assert redemption.json()["redeemedPass"]["expiresAt"] > redemption.json()["redeemedPass"]["redeemedAt"]
 
 
 def test_backend_resolves_admin_without_client_whitelist(tmp_path, monkeypatch):

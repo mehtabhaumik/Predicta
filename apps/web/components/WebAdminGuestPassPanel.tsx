@@ -7,6 +7,7 @@ import type {
   ReleaseReadinessReport,
   SafetyAuditEvent,
 } from '@pridicta/types';
+import { GUEST_ACCESS_LIMITS } from '@pridicta/config/guestAccessLimits';
 
 const passTypes: PassCodeType[] = [
   'GUEST_TRIAL',
@@ -28,6 +29,22 @@ const accessLevelLabels: Record<string, string> = {
   FULL_ACCESS: 'Full access',
   GUEST: 'Guest access',
   VIP_GUEST: 'VIP guest access',
+};
+
+const passTypeAccessLevels: Record<PassCodeType, GuestPassCode['accessLevel']> = {
+  FAMILY_PASS: 'FULL_ACCESS',
+  GUEST_TRIAL: 'GUEST',
+  INTERNAL_TEST: 'FULL_ACCESS',
+  INVESTOR_PASS: 'VIP_GUEST',
+  VIP_REVIEW: 'VIP_GUEST',
+};
+
+const passTypeDescriptions: Record<PassCodeType, string> = {
+  FAMILY_PASS: 'Best for close family and friends who should get long-running full access.',
+  GUEST_TRIAL: 'Best for a quick family/friend trial with limited AI and one premium PDF.',
+  INTERNAL_TEST: 'Best for private owner QA only. Do not share broadly.',
+  INVESTOR_PASS: 'Best for serious reviewers or investors who need deeper access.',
+  VIP_REVIEW: 'Best for trusted beta reviewers who need enough room to test reports.',
 };
 
 const reportKindLabels: Record<SafetyAuditEvent['reportKind'], string> = {
@@ -68,6 +85,8 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
     maxRedemptions: 5,
     type: 'GUEST_TRIAL' as PassCodeType,
   });
+  const selectedOffer = GUEST_ACCESS_LIMITS[draft.type];
+  const selectedAccessLevel = passTypeAccessLevels[draft.type];
 
   async function loadPasses() {
     try {
@@ -104,6 +123,7 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
       const response = await fetch('/api/access/admin/guest-passes', {
         body: JSON.stringify({
           ...draft,
+          accessLevel: selectedAccessLevel,
           allowedEmails,
           maxRedemptions: Number(draft.maxRedemptions),
         }),
@@ -121,7 +141,14 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
       }
 
       setPasses(current => [payload, ...current.filter(item => item.codeId !== payload.codeId)]);
-      setDraft(current => ({ ...current, allowedEmails: '', code: '', codeId: '', label: '' }));
+      setDraft(current => ({
+        ...current,
+        accessLevel: passTypeAccessLevels[current.type],
+        allowedEmails: '',
+        code: '',
+        codeId: '',
+        label: '',
+      }));
       setMessage(`${payload.label} is ready to share.`);
     } catch {
       setMessage('The pass could not be created right now. Please try again.');
@@ -319,7 +346,15 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
             <select
               aria-label="Pass type"
               onChange={event =>
-                setDraft(current => ({ ...current, type: event.target.value as PassCodeType }))
+                setDraft(current => {
+                  const type = event.target.value as PassCodeType;
+
+                  return {
+                    ...current,
+                    accessLevel: passTypeAccessLevels[type],
+                    type,
+                  };
+                })
               }
               value={draft.type}
             >
@@ -329,15 +364,15 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
                 </option>
               ))}
             </select>
-            <select
-              aria-label="Access level"
-              onChange={event => setDraft(current => ({ ...current, accessLevel: event.target.value }))}
-              value={draft.accessLevel}
-            >
-              <option value="GUEST">Guest access</option>
-              <option value="VIP_GUEST">VIP guest access</option>
-              <option value="FULL_ACCESS">Full access</option>
-            </select>
+            <div className="admin-offer-summary" aria-label="Selected pass offering">
+              <strong>{accessLevelLabels[selectedAccessLevel]}</strong>
+              <span>
+                {selectedOffer.durationDays} days · {selectedOffer.deviceLimit} devices ·{' '}
+                {selectedOffer.usageLimits.questionsTotal} AI questions ·{' '}
+                {selectedOffer.usageLimits.deepReadingsTotal} deep readings ·{' '}
+                {selectedOffer.usageLimits.premiumPdfsTotal} premium PDFs
+              </span>
+            </div>
             <input
               aria-label="Max redemptions"
               min={1}
@@ -350,6 +385,25 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
               type="number"
               value={draft.maxRedemptions}
             />
+          </div>
+          <div className="admin-offer-grid" aria-label="Coupon offerings">
+            {passTypes.map(type => {
+              const offer = GUEST_ACCESS_LIMITS[type];
+
+              return (
+                <article className="admin-offer-card" key={type}>
+                  <strong>{passTypeLabels[type]}</strong>
+                  <span>{accessLevelLabels[passTypeAccessLevels[type]]}</span>
+                  <p>{passTypeDescriptions[type]}</p>
+                  <small>
+                    {offer.durationDays} days · {offer.deviceLimit} devices ·{' '}
+                    {offer.usageLimits.questionsTotal} AI questions ·{' '}
+                    {offer.usageLimits.deepReadingsTotal} deep readings ·{' '}
+                    {offer.usageLimits.premiumPdfsTotal} premium PDFs
+                  </small>
+                </article>
+              );
+            })}
           </div>
           <button
             className="button"
@@ -370,30 +424,33 @@ export function WebAdminGuestPassPanel(): React.JSX.Element {
       </div>
 
       <div className="admin-pass-list">
-        {passes.map(pass => (
-          <article className="card" key={pass.codeId}>
-            <div className="card-content">
-              <div className="section-title">{passTypeLabels[pass.type]}</div>
-              <h2>{pass.label}</h2>
-              <p>
-                {pass.label} · {accessLevelLabels[pass.accessLevel] ?? pass.accessLevel} · {pass.redeemedByUserIds.length}/
-                {pass.maxRedemptions} used
-              </p>
-              <p>
-                Allowed email:{' '}
-                {pass.allowedEmails.length ? pass.allowedEmails.join(', ') : 'Not set'}
-              </p>
-              <button
-                className="button secondary"
-                disabled={busy || !pass.isActive}
-                onClick={() => revokePass(pass.codeId)}
-                type="button"
-              >
-                {pass.isActive ? 'Revoke' : 'Revoked'}
-              </button>
-            </div>
-          </article>
-        ))}
+        {passes.map(pass => {
+          const allowedEmails = pass.allowedEmails ?? [];
+
+          return (
+            <article className="card" key={pass.codeId}>
+              <div className="card-content">
+                <div className="section-title">{passTypeLabels[pass.type]}</div>
+                <h2>{pass.label}</h2>
+                <p>
+                  {pass.label} · {accessLevelLabels[pass.accessLevel] ?? pass.accessLevel} ·{' '}
+                  {pass.redeemedByUserIds.length}/{pass.maxRedemptions} used
+                </p>
+                <p>
+                  Allowed email: {allowedEmails.length ? allowedEmails.join(', ') : 'Not set'}
+                </p>
+                <button
+                  className="button secondary"
+                  disabled={busy || !pass.isActive}
+                  onClick={() => revokePass(pass.codeId)}
+                  type="button"
+                >
+                  {pass.isActive ? 'Revoke' : 'Revoked'}
+                </button>
+              </div>
+            </article>
+          );
+        })}
       </div>
 
       <div className="card glass-panel">

@@ -9,7 +9,7 @@ export type GuestAccessLimitConfig = {
 export const GUEST_ACCESS_LIMITS: Record<PassCodeType, GuestAccessLimitConfig> =
   {
     FAMILY_PASS: {
-      deviceLimit: 2,
+      deviceLimit: 4,
       durationDays: 365,
       usageLimits: {
         deepReadingsTotal: 300,
@@ -27,7 +27,7 @@ export const GUEST_ACCESS_LIMITS: Record<PassCodeType, GuestAccessLimitConfig> =
       },
     },
     INTERNAL_TEST: {
-      deviceLimit: 3,
+      deviceLimit: 5,
       durationDays: 365,
       usageLimits: {
         deepReadingsTotal: 1000,

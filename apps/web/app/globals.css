@@ -9562,6 +9562,53 @@ button:disabled,
   margin-top: 18px;
 }
 
+.admin-offer-summary {
+  align-items: flex-start;
+  background: color-mix(in srgb, var(--surface-raised) 82%, transparent);
+  border: 1px solid var(--border-quiet);
+  border-radius: 16px;
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding: 14px 16px;
+}
+
+.admin-offer-summary strong,
+.admin-offer-card strong {
+  color: var(--text-strong);
+  line-height: 1.2;
+}
+
+.admin-offer-summary span,
+.admin-offer-card span,
+.admin-offer-card small {
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.admin-offer-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 4px 0 24px;
+}
+
+.admin-offer-card {
+  background: color-mix(in srgb, var(--surface-raised) 76%, transparent);
+  border: 1px solid var(--border-quiet);
+  border-radius: 18px;
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 16px;
+}
+
+.admin-offer-card p {
+  color: var(--text-soft);
+  line-height: 1.55;
+  margin: 0;
+}
+
 .admin-pass-list {
   display: grid;
   gap: 18px;
@@ -15526,6 +15573,7 @@ button:disabled,
   .pricing-grid,
   .one-time-grid,
   .admin-form-grid,
+  .admin-offer-grid,
   .admin-pass-list,
   .premium-feature-grid,
   .report-chart-sync-grid {
