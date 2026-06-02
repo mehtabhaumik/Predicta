@@ -95,7 +95,7 @@ for (const phrase of [
 for (const phrase of [
   'Vedic Reports',
   'KP Reports',
-  'Nadi Reports',
+  'Jaimini Reports',
   'Numerology Reports',
   'Signature Reports',
 ]) {
