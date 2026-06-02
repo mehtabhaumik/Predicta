@@ -49,6 +49,7 @@
     "test:report-final-phase-5": "node scripts/run-report-final-phase-5-kp-report-gate.mjs",
     "test:report-final-phase-6": "node scripts/run-report-final-phase-6-jaimini-report-gate.mjs",
     "test:report-final-phase-7": "node scripts/run-report-final-phase-7-numerology-report-gate.mjs",
+    "test:report-final-phase-8": "node scripts/run-report-final-phase-8-signature-report-gate.mjs",
     "test:ai-model-phase-5": "python3 scripts/run-ai-model-phase-5-batch-qa.py",
     "test:ai-model-phase-6": "python3 scripts/run-ai-model-phase-6-prompt-efficiency.py",
     "test:ai-model-phase-7": "python3 scripts/run-ai-model-phase-7-release-governance.py",

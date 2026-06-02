@@ -67,6 +67,7 @@ import { buildVedicReportValueContract } from './vedicReportValueContract';
 import { buildKpReportValueContract } from './kpReportValueContract';
 import { buildJaiminiReportValueContract } from './jaiminiReportValueContract';
 import { buildNumerologyReportValueContract } from './numerologyReportValueContract';
+import { buildSignatureReportValueContract } from './signatureReportValueContract';
 
 type PdfChartRole = ChartType | 'MOON' | 'SWAMSA' | 'KARAKAMSHA' | 'CHALIT' | 'KP' | 'NADI';
 
@@ -481,9 +482,7 @@ function buildRoomSpecificReportSections(
     case 'NUMEROLOGY':
       return buildNumerologyReportSections(kundli, mode);
     case 'SIGNATURE':
-      return [
-        buildSignatureReportSection(signatureAnalysis, mode),
-      ].filter((section): section is PdfSection => Boolean(section));
+      return buildSignatureReportSections(signatureAnalysis, mode);
     default:
       return [buildVedicPredictaReportSection(kundli, mode, 'KUNDLI')];
   }
@@ -1616,14 +1615,14 @@ function buildDossierExecutiveSummary(
       confidence: model.status === 'ready' ? 'medium' : 'low',
       headline:
         model.status === 'ready'
-          ? `${kundli.birthDetails.name}'s Signature report reads confirmed visible traits as reflective self-expression guidance, not prediction or forensic proof.`
+          ? `${kundli.birthDetails.name}'s Signature report reads confirmed visible traits as reflective self-expression guidance for clarity, rhythm, confidence, and presentation.`
           : `${kundli.birthDetails.name}'s Signature report is pending a signature sample or confirmed visible observations.`,
       keySignals:
         model.status === 'ready'
           ? [
               `Confirmed traits: ${model.observedTraits.length}.`,
               model.summary,
-              'Signature Predicta does not make hard fixed-personality, identity, legal, medical, hiring, or prediction claims.',
+              'Signature Predicta keeps this as reflective guidance from visible traits, not a fixed identity label or formal judgement.',
               `${mode === 'PREMIUM' ? 'Premium Signature adds trait comparison, before/after guidance, and refinement planning.' : 'Free Signature gives reflective visible-trait insight.'}`,
             ]
           : [
@@ -4380,23 +4379,23 @@ function buildNumerologyReportSections(
   return sections;
 }
 
-function buildSignatureReportSection(
+function buildSignatureReportSections(
   signatureAnalysis: SignatureAnalysisModel | undefined,
   mode: PDFMode,
-): PdfSection {
+): PdfSection[] {
   const model =
     signatureAnalysis ?? composeSignatureAnalysisModel({ inputSource: 'manual-observation' });
   const isPremium = mode === 'PREMIUM';
 
   if (model.status !== 'ready') {
-    return {
-    body:
+    return [{
+      body:
         'Signature reading is not generated until a real uploaded, drawn, or confirmed signature exists. Predicta will not invent signature traits or pretend an empty input says something about the user.',
       bullets: [
         'Add one clear signature to receive a reflective self-expression reading.',
-        'No signature means no signature prediction, no trait map, and no report download.',
+        'No signature means no signature reading, no trait map, and no report download.',
         'Predicta does not store your signature image. It stays only in this session so we can prepare your reading. If you close this tab or leave the session, you may need to re-upload or re-draw it.',
-        'Signature reading can reflect visible expression cues; it cannot verify identity, diagnose, or provide forensic proof.',
+        'Signature reading can reflect visible expression cues; it cannot verify identity, diagnose, or provide handwriting proof.',
         'Premium compares confirmed samples and gives a refinement plan only after real traits are visible.',
       ],
       confidence: 'low',
@@ -4407,9 +4406,13 @@ function buildSignatureReportSection(
       eyebrow: 'SIGNATURE',
       tier: 'free',
       title: 'Signature Input Required',
-    };
+    }];
   }
 
+  const signatureValueContract = buildSignatureReportValueContract({
+    mode,
+    model,
+  });
   const traitLines = model.observedTraits
     .slice(0, isPremium ? 8 : 4)
     .map(
@@ -4421,50 +4424,135 @@ function buildSignatureReportSection(
     .map(card => `${card.title}: ${card.plainMeaning}.`);
   const practiceLines = model.practicePrompts.slice(0, isPremium ? 5 : 2);
 
-  return {
-    body: isPremium
-      ? 'Premium Signature Predicta reads confirmed visual traits as self-expression signals, then predicts how the current signature may be presenting confidence, clarity, rhythm, and public impression.'
-      : 'Signature Predicta reads confirmed visual traits as self-expression signals and gives direct guidance on confidence, clarity, rhythm, and presentation.',
+  const sections: PdfSection[] = [
+    {
+      body: signatureValueContract.openingReflection,
+      bullets: [
+        model.privacy.reportCopy,
+        signatureValueContract.freeDepthPromise,
+        ...(isPremium ? [signatureValueContract.paidDepthPromise] : []),
+        signatureValueContract.actionPromise,
+      ],
+      confidence: model.confidenceExpression.level === 'visible' ? 'medium' : 'medium',
+      evidence: [
+        signatureValueContract.evidencePromise,
+        `Required Signature modules: ${signatureValueContract.requiredModules.join(', ')}.`,
+        `Required Signature order: ${signatureValueContract.sectionOrder.join(' -> ')}.`,
+      ],
+      evidenceTable: [
+        {
+          confidence: 'medium',
+          factor: 'Confirmed traits',
+          implication: model.summary,
+          observation: `${model.observedTraits.length} visible trait${model.observedTraits.length === 1 ? '' : 's'} confirmed.`,
+        },
+        {
+          confidence: 'medium',
+          factor: 'Privacy',
+          implication: model.privacy.reportCopy,
+          observation: model.privacy.storage,
+        },
+      ],
+      eyebrow: 'SIGNATURE',
+      tier: isPremium ? 'premium' : 'free',
+      title: isPremium
+        ? 'What your signature is reflecting with premium depth'
+        : 'What your signature is reflecting',
+    },
+    {
+      body:
+        'These are the visible traits the user confirmed. The report uses them as expression cues only, so every insight stays tied to something visible instead of invented personality claims.',
+      bullets: traitLines,
+      confidence: 'medium',
+      evidence: model.evidence,
+      evidenceTable: model.interpretationCards
+        .slice(0, isPremium ? 8 : 4)
+        .map(card => ({
+          confidence: 'medium' as const,
+          factor: card.title,
+          implication: `${card.plainMeaning} ${card.caution}`,
+          observation: card.evidence.join(' '),
+        })),
+      eyebrow: 'SIGNATURE',
+      tier: isPremium ? 'premium' : 'free',
+      title: 'Confirmed Visible Trait Map',
+    },
+    {
+      body:
+        `Expression reading: ${model.rhythm.summary} ${model.confidenceExpression.summary} ${model.consistency.summary}`,
+      bullets: [
+        `Writing rhythm: ${model.rhythm.care}`,
+        `Confidence expression: ${model.confidenceExpression.care}`,
+        `Consistency profile: ${model.consistency.care}`,
+        ...cardLines,
+      ],
+      confidence: 'medium',
+      evidence: [
+        `Rhythm level: ${model.rhythm.pace}.`,
+        `Confidence level: ${model.confidenceExpression.level}.`,
+        `Consistency level: ${model.consistency.level}.`,
+      ],
+      eyebrow: 'SIGNATURE',
+      tier: isPremium ? 'premium' : 'free',
+      title: 'Confidence, Rhythm, and Consistency',
+    },
+    {
+      body:
+        'Signature guidance becomes useful when it turns into one small expression practice. Keep the improvement natural, readable, and repeatable instead of forcing a dramatic new mark.',
+      bullets: [
+        `Strengths: ${model.strengths.slice(0, isPremium ? 7 : 4).join(', ') || 'waiting for confirmed traits'}.`,
+        `Care points: ${model.cautions.slice(0, isPremium ? 5 : 2).join(', ') || 'keep the reading gentle and practical'}.`,
+        ...practiceLines,
+      ],
+      confidence: 'medium',
+      evidence: model.limitations,
+      eyebrow: 'SIGNATURE',
+      tier: isPremium ? 'premium' : 'free',
+      title: 'Strengths, Care Points, and Practices',
+    },
+  ];
+
+  if (isPremium) {
+    sections.push({
+      body:
+        'Premium Signature refinement focuses on repeatability, clarity, confidence rhythm, and authentic presentation. It does not ask the user to copy a fake style or change identity.',
+      bullets: [
+        ...model.improvementPlan.slice(0, 5),
+        'Compare repeated signatures only when multiple confirmed samples are available.',
+        'Use before/after comparison as expression feedback, not as character judgement.',
+      ],
+      confidence: 'medium',
+      evidence: [
+        'Premium refinement requires confirmed traits and, for comparison, confirmed repeated samples.',
+        ...model.limitations,
+      ],
+      eyebrow: 'SIGNATURE',
+      tier: 'premium',
+      title: 'Premium Refinement Plan',
+    });
+  }
+
+  sections.push({
+    body:
+      'This section protects the user from overclaiming. Signature Predicta reads visible expression cues; it does not authenticate identity, judge character, diagnose health, or decide legal, hiring, or relationship outcomes.',
     bullets: [
-      model.privacy.reportCopy,
-      `Signature prediction: ${model.summary}`,
-      ...traitLines,
-      ...cardLines,
-      `Limit: ${model.canAndCannotTellYou.join(' ')}`,
-      `Strengths: ${model.strengths.slice(0, isPremium ? 7 : 4).join(', ') || 'waiting for confirmed traits'}.`,
-      `Care points: ${model.cautions.slice(0, isPremium ? 5 : 2).join(', ') || 'keep the reading gentle and practical'}.`,
-      ...practiceLines,
-      ...(isPremium
-        ? [
-            'Premium depth compares repeated signatures, shows before/after expression shifts, and builds a signature refinement plan.',
-          ]
-        : [
-            'Paid depth adds trait comparison, improvement plan, and refinement guidance.',
-          ]),
-    ],
-    confidence: 'medium',
-    evidence: [
-      model.privacy.reportCopy,
-      ...model.evidence,
-      ...model.limitations,
+      ...model.canAndCannotTellYou,
       ...model.safetyBoundaries.slice(0, 3),
+      model.synthesisReadiness.rule,
     ],
-    evidenceTable: model.interpretationCards
-      .slice(0, isPremium ? 8 : 4)
-      .map(card => ({
-        confidence: card.key === 'legibility' && card.plainMeaning.includes('protected')
-          ? 'medium'
-          : 'medium',
-        factor: card.title,
-        implication: `${card.plainMeaning} ${card.caution}`,
-        observation: `${card.plainMeaning}. ${card.evidence.join(' ')}`,
-      })),
+    confidence: 'high',
+    evidence: [
+      'Signature lane only.',
+      'No Numerology, Vedic, KP, or Jaimini synthesis is mixed into this Signature report.',
+      'Raw signature image is not embedded in the report by default.',
+      'Only confirmed visible traits are used.',
+    ],
     eyebrow: 'SIGNATURE',
     tier: isPremium ? 'premium' : 'free',
-    title: isPremium
-      ? 'Signature Expression Prediction'
-      : 'Signature Expression Insight',
-  };
+    title: 'What This Can and Cannot Tell You',
+  });
+
+  return sections;
 }
 
 function buildAreaSection(

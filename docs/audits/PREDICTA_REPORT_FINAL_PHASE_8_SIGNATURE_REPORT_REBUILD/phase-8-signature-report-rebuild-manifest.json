@@ -1,0 +1,34 @@
+{
+  "phase": "PREDICTA_REPORT_FINAL_PHASE_8_SIGNATURE_REPORT_REBUILD",
+  "status": "GREEN",
+  "reportLane": "SIGNATURE",
+  "signatureValueContractSource": "packages/pdf/src/signatureReportValueContract.ts",
+  "reflectionOpeningInserted": true,
+  "confirmedTraitsRequired": true,
+  "rawSignatureImageForbidden": true,
+  "requiredModules": [
+    "Signature Input Readiness",
+    "Confirmed Visible Trait Map",
+    "Privacy and Session Handling",
+    "Expression Reflection Opening",
+    "Confidence Expression",
+    "Writing Rhythm",
+    "Consistency Profile",
+    "Strengths and Care Points",
+    "Improvement Practices",
+    "Premium Refinement Plan",
+    "Premium Multi-sample Comparison Readiness",
+    "What This Can and Cannot Tell You"
+  ],
+  "greenCriteria": {
+    "phase8AuditExists": true,
+    "phase8GatePasses": true,
+    "signatureValueContractSourceExists": true,
+    "requiredSignatureModulesLocked": true,
+    "signatureReflectionOpeningUsed": true,
+    "confirmedTraitsRequired": true,
+    "rawSignatureImageForbidden": true,
+    "technicalEvidenceAfterReflection": true,
+    "schoolBoundaryLocked": true
+  }
+}

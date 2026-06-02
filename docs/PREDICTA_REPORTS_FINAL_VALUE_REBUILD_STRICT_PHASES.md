@@ -443,6 +443,39 @@ Rebuild Signature as reflective expression guidance based only on confirmed
 visible traits. It must not make hard predictions, forensic claims, or character
 certainty claims.
 
+### Required Work
+
+- Add a Signature-specific report value contract that starts with what the
+  confirmed visible traits are reflecting, not a future prediction.
+- Signature reports must preserve technical evidence through input readiness,
+  confirmed visible trait map, privacy/session handling, expression reflection,
+  confidence expression, writing rhythm, consistency profile, strengths, care
+  points, improvement practices, premium refinement plan, premium multi-sample
+  comparison readiness, and can/cannot-tell-you boundaries.
+- Signature reports must not generate when there is no uploaded, drawn, or
+  confirmed signature observation.
+- Signature reports must not embed raw signature images by default and must
+  clearly say Predicta did not store the signature image.
+- Free Signature must include confirmed trait map, expression reflection,
+  strengths, care points, and one practical practice.
+- Premium Signature must add refinement planning and multi-sample comparison
+  readiness only from confirmed visible traits.
+- Signature must not make hard personality certainty, future prediction,
+  forensic handwriting, identity verification, legal, hiring, medical, or
+  mental-health claims.
+
+### Green Criteria
+
+- `test:report-final-phase-8` passes.
+- Signature has a dedicated value contract source.
+- Signature PDF composition starts with `What your signature is reflecting`.
+- Signature report download remains blocked without confirmed visible traits.
+- Raw signature image storage/embedding is explicitly forbidden by the report
+  contract.
+- Free and Premium Signature depth rules are explicitly locked.
+- Audit artifacts prove no Vedic, KP, Jaimini, Numerology, or Life Atlas mixing
+  in the Signature report lane.
+
 ## Phase 9: `PREDICTA_REPORT_FINAL_PHASE_9_LIFE_ATLAS_FLAGSHIP_REBUILD`
 
 Rebuild Life Atlas as the emotional flagship: soul portrait, life arc, destiny
