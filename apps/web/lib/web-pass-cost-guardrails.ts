@@ -10,6 +10,7 @@ import type {
 const REDEEMED_PASS_KEY = 'pridicta.redeemedGuestPass.v1';
 const PASS_USAGE_KEY = 'pridicta.passCostUsage.v2';
 const FREE_USAGE_KEY = 'pridicta.freeCostUsage.v2';
+export const PASS_USAGE_UPDATED_EVENT = 'predicta:pass-usage-updated';
 
 const FREE_DAILY_LIMITS = {
   deepReadingsTotal: 1,
@@ -57,10 +58,6 @@ export function consumeWebAiBudget(
   const pass = loadWebRedeemedGuestPass();
 
   if (isPassActive(pass)) {
-    if (pass.accessLevel === 'FULL_ACCESS') {
-      return buildUnrestrictedDecision(kind, language);
-    }
-
     return consumePassBudget(pass, kind, language);
   }
 
@@ -73,10 +70,6 @@ export function getWebPassCostDisplay(
   const pass = loadWebRedeemedGuestPass();
 
   if (isPassActive(pass)) {
-    if (pass.accessLevel === 'FULL_ACCESS') {
-      return undefined;
-    }
-
     const usage = loadPassUsage(pass);
     const deepRemaining = Math.max(
       0,
@@ -144,7 +137,7 @@ export function buildPassCostGuardrailReply({
   if (language === 'hi') {
     return [
       decision.display.kind === 'pass'
-        ? 'Aapka private pass safe hai. Is pass par aaj ke deep follow-ups pause ho gaye hain.'
+        ? 'Aapka private pass safe hai. Is pass par deep follow-ups pause ho gaye hain.'
         : 'Free guidance sabke liye fair rahe, isliye aaj ke extra deep follow-ups pause ho gaye hain.',
       hasKundli
         ? 'Main abhi bhi bina extra deep reading ke charts, Gochar summary, Mahadasha overview, remedies aur free report kholne mein help kar sakti hoon.'
@@ -156,7 +149,7 @@ export function buildPassCostGuardrailReply({
   if (language === 'gu') {
     return [
       decision.display.kind === 'pass'
-        ? 'Tamaro private pass safe chhe. Aa pass par aaj na deep follow-ups pause thai gaya chhe.'
+        ? 'Tamaro private pass safe chhe. Aa pass par deep follow-ups pause thai gaya chhe.'
         : 'Free guidance badha mate fair rahe, etle aaj na extra deep follow-ups pause thai gaya chhe.',
       hasKundli
         ? 'Hu haju pan extra deep reading vagar charts, Gochar summary, Mahadasha overview, remedies ane free report ma help kari shaku chhu.'
@@ -167,7 +160,7 @@ export function buildPassCostGuardrailReply({
 
   return [
     decision.display.kind === 'pass'
-      ? 'Your private pass is safe. Deep follow-ups on this pass are paused for today.'
+      ? 'Your private pass is safe. Deep follow-ups are paused on this pass.'
       : 'To keep free guidance fair for everyone, extra deep follow-ups are paused for today.',
     hasKundli
       ? 'I can still help without another deep reading: open charts, show a Gochar summary, explain Mahadasha basics, suggest remedies, or create a free report.'
@@ -354,39 +347,11 @@ function loadWebRedeemedGuestPass(): RedeemedGuestPass | undefined {
 
 function saveRedeemedGuestPass(pass: RedeemedGuestPass): void {
   window.localStorage.setItem(REDEEMED_PASS_KEY, JSON.stringify(pass));
+  window.dispatchEvent(new CustomEvent(PASS_USAGE_UPDATED_EVENT));
 }
 
 function isPassActive(pass?: RedeemedGuestPass): pass is RedeemedGuestPass {
   return Boolean(pass && new Date(pass.expiresAt).getTime() > Date.now());
-}
-
-function buildUnrestrictedDecision(
-  kind: CostKind,
-  language: SupportedLanguage,
-): WebPassBudgetDecision {
-  return {
-    allowed: true,
-    display: {
-      body:
-        language === 'hi'
-          ? 'Aapke pass mein deep guidance included hai.'
-          : language === 'gu'
-            ? 'Tamara pass ma deep guidance included chhe.'
-            : 'Deep guidance is included with your pass.',
-      kind: 'quiet',
-      title:
-        language === 'hi'
-          ? 'Full access'
-          : language === 'gu'
-            ? 'Full access'
-            : 'Full access',
-      tone: 'steady',
-    },
-    kind,
-    remainingAfter: Number.POSITIVE_INFINITY,
-    remainingBefore: Number.POSITIVE_INFINITY,
-    total: Number.POSITIVE_INFINITY,
-  };
 }
 
 function loadPassUsage(pass: RedeemedGuestPass): StoredPassUsage {
@@ -461,14 +426,14 @@ function getLocalDateKey(): string {
 
 function passDisplayTitle(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'Private pass guidance';
+    return 'Private pass balance';
   }
 
   if (language === 'gu') {
-    return 'Private pass guidance';
+    return 'Private pass balance';
   }
 
-  return 'Private pass guidance';
+  return 'Private pass balance';
 }
 
 function passDisplayBody({
@@ -483,14 +448,26 @@ function passDisplayBody({
   questionRemaining: number;
 }): string {
   if (language === 'hi') {
-    return `${pass.label}: aaj ${questionRemaining} normal questions aur ${deepRemaining} deep follow-ups baaki hain.`;
+    const warning =
+      questionRemaining <= 3 || deepRemaining <= 1
+        ? ' AI balance kam ho to bhi Predicta charts, reports aur deterministic guidance mein help karti rahegi.'
+        : '';
+    return `${pass.label}: ${questionRemaining} AI questions aur ${deepRemaining} deep follow-ups pass mein baaki hain.${warning}`;
   }
 
   if (language === 'gu') {
-    return `${pass.label}: aaje ${questionRemaining} normal questions ane ${deepRemaining} deep follow-ups baaki chhe.`;
+    const warning =
+      questionRemaining <= 3 || deepRemaining <= 1
+        ? ' AI balance ochhu thay to pan Predicta charts, reports ane deterministic guidance ma help karti raheshe.'
+        : '';
+    return `${pass.label}: ${questionRemaining} AI questions ane ${deepRemaining} deep follow-ups pass ma baaki chhe.${warning}`;
   }
 
-  return `${pass.label}: ${questionRemaining} normal questions and ${deepRemaining} deep follow-ups left today.`;
+  const warning =
+    questionRemaining <= 3 || deepRemaining <= 1
+      ? ' Predicta will keep helping with deterministic charts and reports if AI balance runs low.'
+      : '';
+  return `${pass.label}: ${questionRemaining} AI questions and ${deepRemaining} deep follow-ups left on this pass.${warning}`;
 }
 
 function freeDisplayTitle(language: SupportedLanguage): string {

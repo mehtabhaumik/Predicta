@@ -26,7 +26,7 @@ const passTypeLabels: Record<PassCodeType, string> = {
 };
 
 const accessLevelLabels: Record<string, string> = {
-  FULL_ACCESS: 'Full access',
+  FULL_ACCESS: 'Premium app access',
   GUEST: 'Guest access',
   VIP_GUEST: 'VIP guest access',
 };
@@ -40,11 +40,11 @@ const passTypeAccessLevels: Record<PassCodeType, GuestPassCode['accessLevel']> =
 };
 
 const passTypeDescriptions: Record<PassCodeType, string> = {
-  FAMILY_PASS: 'Best for close family and friends who should get long-running full access.',
-  GUEST_TRIAL: 'Best for a quick family/friend trial with limited AI and one premium PDF.',
-  INTERNAL_TEST: 'Best for private owner QA only. Do not share broadly.',
-  INVESTOR_PASS: 'Best for serious reviewers or investors who need deeper access.',
-  VIP_REVIEW: 'Best for trusted beta reviewers who need enough room to test reports.',
+  FAMILY_PASS: 'Best for close family and friends. Premium surfaces are included, but AI and report credits stay controlled.',
+  GUEST_TRIAL: 'Best for a quick family/friend trial with a small AI allowance and one premium PDF.',
+  INTERNAL_TEST: 'Best for private owner QA only. Limited enough to avoid runaway AI spend.',
+  INVESTOR_PASS: 'Best for serious reviewers or investors who need deeper access without unlimited model usage.',
+  VIP_REVIEW: 'Best for trusted beta reviewers who need enough room to test reports without open-ended AI spend.',
 };
 
 const reportKindLabels: Record<SafetyAuditEvent['reportKind'], string> = {

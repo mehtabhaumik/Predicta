@@ -9,7 +9,7 @@ export const WHITELIST_ACCESS_COPY: Record<
   string
 > = {
   ADMIN: 'Admin access active',
-  FULL_ACCESS: 'Full access active',
+  FULL_ACCESS: 'Premium pass active',
 };
 
 // Admin and full-access authority lives on the backend. These arrays stay empty

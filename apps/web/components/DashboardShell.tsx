@@ -4,7 +4,7 @@ import { getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, useReducedMotion } from 'framer-motion';
-import { useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { canSeeAdminRoute } from '@pridicta/access';
 import {
   getAppShellLabels,
@@ -12,12 +12,14 @@ import {
 } from '@pridicta/config/language';
 import type {
   PredictaSchool,
+  RedeemedGuestPass,
   ResolvedAccess,
   SupportedLanguage,
 } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useLanguagePreference } from '../lib/language-preference';
 import { isOwnerConsoleEnabled } from '../lib/owner-surface';
+import { PASS_USAGE_UPDATED_EVENT } from '../lib/web-pass-cost-guardrails';
 import { useDialogFocusTrap } from '../lib/use-dialog-focus-trap';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 import {
@@ -355,6 +357,52 @@ function getTopbarContextCopy(
   return TOPBAR_CONTEXT_COPY[language]?.[sectionId] ?? TOPBAR_CONTEXT_COPY.en[sectionId];
 }
 
+function loadDashboardGuestPass(): RedeemedGuestPass | undefined {
+  if (typeof window === 'undefined') {
+    return undefined;
+  }
+
+  try {
+    const raw = window.localStorage.getItem('pridicta.redeemedGuestPass.v1');
+    const pass = raw ? (JSON.parse(raw) as RedeemedGuestPass) : undefined;
+
+    return pass && new Date(pass.expiresAt).getTime() > Date.now()
+      ? pass
+      : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function buildDashboardPassCopy(pass: RedeemedGuestPass): {
+  body: string;
+  tone: 'steady' | 'careful';
+} {
+  const questionsRemaining = Math.max(
+    0,
+    pass.usageLimits.questionsTotal - pass.questionsUsed,
+  );
+  const deepRemaining = Math.max(
+    0,
+    pass.usageLimits.deepReadingsTotal - pass.deepReadingsUsed,
+  );
+  const pdfRemaining = Math.max(
+    0,
+    pass.usageLimits.premiumPdfsTotal - pass.premiumPdfsUsed,
+  );
+  const careful =
+    questionsRemaining <= 3 || deepRemaining <= 1 || pdfRemaining <= 1;
+  const included = `${pass.usageLimits.questionsTotal} AI questions, ${pass.usageLimits.deepReadingsTotal} deep readings, ${pass.usageLimits.premiumPdfsTotal} premium PDFs`;
+  const remaining = `${questionsRemaining} AI, ${deepRemaining} deep, ${pdfRemaining} PDFs remaining`;
+
+  return {
+    body: careful
+      ? `${pass.label} includes ${included}. ${remaining}. Predicta can still help with deterministic charts and reports if AI balance runs low.`
+      : `${pass.label} includes ${included}. ${remaining}.`,
+    tone: careful ? 'careful' : 'steady',
+  };
+}
+
 export function DashboardShell({
   access,
   children,
@@ -373,6 +421,9 @@ export function DashboardShell({
   const activeSection = getActiveDashboardSection(pathname, sections);
   const showAdmin = isOwnerConsoleEnabled() && canSeeAdminRoute(access);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dashboardGuestPass, setDashboardGuestPass] = useState<
+    RedeemedGuestPass | undefined
+  >(access.activeGuestPass);
   const mobileMenuRef = useRef<HTMLElement | null>(null);
   const mobileMenuCloseRef = useRef<HTMLButtonElement | null>(null);
   const { activeKundli } = useWebKundliLibrary();
@@ -400,6 +451,29 @@ export function DashboardShell({
     initialFocusRef: mobileMenuCloseRef,
     onClose: () => setMenuOpen(false),
   });
+
+  useEffect(() => {
+    function refreshPass() {
+      setDashboardGuestPass(loadDashboardGuestPass() ?? access.activeGuestPass);
+    }
+
+    refreshPass();
+    window.addEventListener(PASS_USAGE_UPDATED_EVENT, refreshPass);
+    window.addEventListener('focus', refreshPass);
+    window.addEventListener('storage', refreshPass);
+    document.addEventListener('visibilitychange', refreshPass);
+
+    return () => {
+      window.removeEventListener(PASS_USAGE_UPDATED_EVENT, refreshPass);
+      window.removeEventListener('focus', refreshPass);
+      window.removeEventListener('storage', refreshPass);
+      document.removeEventListener('visibilitychange', refreshPass);
+    };
+  }, [access.activeGuestPass]);
+
+  const dashboardPassCopy = dashboardGuestPass
+    ? buildDashboardPassCopy(dashboardGuestPass)
+    : undefined;
 
   return (
     <div className={`dashboard-shell ${isChatRoute ? 'chat-route' : ''}`}>
@@ -451,6 +525,21 @@ export function DashboardShell({
           </div>
         </div>
         <div aria-hidden="true" className="dashboard-topbar-spacer" />
+        {dashboardGuestPass && dashboardPassCopy ? (
+          <div
+            aria-live="polite"
+            className={`dashboard-pass-banner ${dashboardPassCopy.tone}`}
+          >
+            <div>
+              <span>Private pass active</span>
+              <strong>{dashboardGuestPass.label}</strong>
+              <p>{dashboardPassCopy.body}</p>
+            </div>
+            <Link className="button secondary" href="/dashboard/redeem-pass">
+              Manage pass
+            </Link>
+          </div>
+        ) : null}
         {menuOpen ? (
           <div
             className="dashboard-mobile-menu"

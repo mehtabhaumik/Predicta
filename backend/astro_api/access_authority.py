@@ -29,27 +29,27 @@ GUEST_ACCESS_LIMITS: Dict[PassCodeType, Dict[str, object]] = {
     "VIP_REVIEW": {
         "deviceLimit": 2,
         "durationDays": 30,
-        "usageLimits": {"questionsTotal": 150, "deepReadingsTotal": 30, "premiumPdfsTotal": 5},
+        "usageLimits": {"questionsTotal": 20, "deepReadingsTotal": 4, "premiumPdfsTotal": 2},
     },
     "GUEST_TRIAL": {
         "deviceLimit": 1,
         "durationDays": 7,
-        "usageLimits": {"questionsTotal": 25, "deepReadingsTotal": 5, "premiumPdfsTotal": 1},
+        "usageLimits": {"questionsTotal": 5, "deepReadingsTotal": 1, "premiumPdfsTotal": 1},
     },
     "INVESTOR_PASS": {
         "deviceLimit": 3,
-        "durationDays": 90,
-        "usageLimits": {"questionsTotal": 300, "deepReadingsTotal": 60, "premiumPdfsTotal": 10},
+        "durationDays": 60,
+        "usageLimits": {"questionsTotal": 50, "deepReadingsTotal": 8, "premiumPdfsTotal": 3},
     },
     "FAMILY_PASS": {
         "deviceLimit": 4,
-        "durationDays": 365,
-        "usageLimits": {"questionsTotal": 2000, "deepReadingsTotal": 300, "premiumPdfsTotal": 50},
+        "durationDays": 180,
+        "usageLimits": {"questionsTotal": 60, "deepReadingsTotal": 10, "premiumPdfsTotal": 4},
     },
     "INTERNAL_TEST": {
-        "deviceLimit": 5,
-        "durationDays": 365,
-        "usageLimits": {"questionsTotal": 5000, "deepReadingsTotal": 1000, "premiumPdfsTotal": 100},
+        "deviceLimit": 3,
+        "durationDays": 90,
+        "usageLimits": {"questionsTotal": 120, "deepReadingsTotal": 20, "premiumPdfsTotal": 6},
     },
 }
 

@@ -2643,6 +2643,59 @@ button:disabled,
   justify-content: flex-end;
 }
 
+.dashboard-pass-banner {
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(77, 175, 255, 0.08), rgba(255, 255, 255, 0.035)),
+    color-mix(in srgb, var(--surface-raised) 72%, transparent);
+  border: 1px solid rgba(77, 175, 255, 0.18);
+  border-radius: 18px;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin: 0 0 18px;
+  min-width: 0;
+  padding: 14px 16px;
+}
+
+.dashboard-pass-banner.careful {
+  background:
+    linear-gradient(135deg, rgba(255, 195, 77, 0.1), rgba(255, 255, 255, 0.035)),
+    color-mix(in srgb, var(--surface-raised) 72%, transparent);
+  border-color: rgba(255, 195, 77, 0.26);
+}
+
+.dashboard-pass-banner > div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.dashboard-pass-banner span {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dashboard-pass-banner strong {
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.dashboard-pass-banner p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.dashboard-pass-banner .button {
+  flex: 0 0 auto;
+}
+
 .dashboard-menu-toggle {
   align-items: center;
   background: var(--kundli-sign-bg);
@@ -9527,9 +9580,42 @@ button:disabled,
   margin-top: 22px;
 }
 
+.redeem-pass-inclusion-card {
+  background:
+    linear-gradient(135deg, rgba(77, 175, 255, 0.08), rgba(255, 255, 255, 0.035)),
+    rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(77, 175, 255, 0.18);
+  border-radius: 16px;
+  display: grid;
+  gap: 6px;
+  margin-top: 16px;
+  padding: 14px 16px;
+}
+
+.redeem-pass-inclusion-card span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.redeem-pass-inclusion-card strong {
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.redeem-pass-inclusion-card p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+  margin: 0;
+}
+
 .redeem-next-step-grid,
 .friends-family-actions {
-  grid-template-columns: repeat(3, minmax(0, max-content));
+  grid-template-columns: repeat(auto-fit, minmax(150px, max-content));
   justify-content: flex-start;
   margin-top: 18px;
 }
@@ -15202,6 +15288,15 @@ button:disabled,
   .dashboard-topbar-actions > .language-selector.compact {
     display: none;
   }
+
+  .dashboard-pass-banner {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .dashboard-pass-banner .button {
+    width: 100%;
+  }
 }
 
 @media (max-width: 820px) {
@@ -15493,6 +15588,10 @@ button:disabled,
 
   .dashboard-topbar-actions > .language-selector.compact {
     display: none;
+  }
+
+  .dashboard-pass-banner {
+    padding: 14px;
   }
 
   .metric-row,
@@ -20084,6 +20183,7 @@ select::-ms-expand {
 
   .sidebar,
   .dashboard-topbar,
+  .dashboard-pass-banner,
   .dashboard-footer,
   .report-marketplace,
   .report-builder,

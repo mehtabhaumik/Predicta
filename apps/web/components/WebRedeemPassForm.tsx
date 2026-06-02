@@ -13,6 +13,7 @@ import { useLanguagePreference } from '../lib/language-preference';
 import {
   getOrCreateBrowserDeviceId,
 } from '../lib/web-guest-session';
+import { PASS_USAGE_UPDATED_EVENT } from '../lib/web-pass-cost-guardrails';
 import { AuthDialog } from './AuthDialog';
 
 type RedemptionStatus = {
@@ -102,6 +103,7 @@ export function WebRedeemPassForm(): React.JSX.Element {
         'pridicta.redeemedGuestPass.v1',
         JSON.stringify(result.redeemedPass),
       );
+      window.dispatchEvent(new CustomEvent(PASS_USAGE_UPDATED_EVENT));
       setRedeemedPass(result.redeemedPass);
       setCode('');
       setStatus({
@@ -183,6 +185,18 @@ export function WebRedeemPassForm(): React.JSX.Element {
           <div className="section-title">{copy.nextSteps.eyebrow}</div>
           <h2>{copy.nextSteps.title}</h2>
           <p>{copy.nextSteps.body}</p>
+          <div className="redeem-pass-inclusion-card">
+            <span>{copy.nextSteps.includes}</span>
+            <strong>
+              {redeemedPass.usageLimits.questionsTotal} AI ·{' '}
+              {redeemedPass.usageLimits.deepReadingsTotal} deep ·{' '}
+              {redeemedPass.usageLimits.premiumPdfsTotal} PDFs
+            </strong>
+            <p>
+              {copy.nextSteps.expires}{' '}
+              {new Date(redeemedPass.expiresAt).toLocaleDateString()}
+            </p>
+          </div>
           <div className="redeem-next-step-grid">
             <Link className="button" href="/dashboard/kundli">
               {copy.nextSteps.createKundli}
@@ -238,7 +252,9 @@ const REDEEM_PASS_FORM_COPY: Record<
       body: string;
       createKundli: string;
       eyebrow: string;
+      expires: string;
       giveFeedback: string;
+      includes: string;
       previewReport: string;
       title: string;
     };
@@ -284,7 +300,9 @@ const REDEEM_PASS_FORM_COPY: Record<
         'Your private preview is active. The fastest path is to create your Kundli, ask Predicta one real question, then try a report preview.',
       createKundli: 'Create Kundli',
       eyebrow: 'PASS ACTIVE',
+      expires: 'Expires on',
       giveFeedback: 'Give Feedback',
+      includes: 'Included balance',
       previewReport: 'Preview Report',
       title: 'Start with these three steps.',
     },
@@ -332,7 +350,9 @@ const REDEEM_PASS_FORM_COPY: Record<
         getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.73431e9bf1"),
       createKundli: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.7cacfebde9"),
       eyebrow: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.3f475f88dc"),
+      expires: 'Expires on',
       giveFeedback: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.5d32b685d5"),
+      includes: 'Included balance',
       previewReport: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.30cd3ddf6a"),
       title: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.3bfd1a297f"),
     },
@@ -380,7 +400,9 @@ const REDEEM_PASS_FORM_COPY: Record<
         getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.362c2072d6"),
       createKundli: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.c0e4dc5abd"),
       eyebrow: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.4af50473c1"),
+      expires: 'Expires on',
       giveFeedback: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.18feda7507"),
+      includes: 'Included balance',
       previewReport: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.3227033f83"),
       title: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.1c312c341f"),
     },

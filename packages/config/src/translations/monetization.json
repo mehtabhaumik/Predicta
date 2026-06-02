@@ -175,9 +175,9 @@
       "gu": "પૂર્ણ પ્રેડિક્ટા ઍક્સેસ સક્રિય છે"
     },
     "fullAccess": {
-      "en": "Full access active",
-      "hi": "पूर्ण पहुंच सक्रिय है",
-      "gu": "પૂર્ણ ઍક્સેસ સક્રિય છે"
+      "en": "Premium pass active",
+      "hi": "प्रीमियम पास सक्रिय है",
+      "gu": "પ્રીમિયમ પાસ સક્રિય છે"
     },
     "guestDeepReadingsTemplate": {
       "en": "{count} guest deep readings remaining",

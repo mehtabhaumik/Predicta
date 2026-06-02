@@ -231,7 +231,7 @@ export function getGuestAccessLabel(pass?: RedeemedGuestPass): string {
   }
 
   if (pass.accessLevel === 'FULL_ACCESS') {
-    return 'Full access active';
+    return 'Premium pass active';
   }
 
   if (pass.accessLevel === 'VIP_GUEST') {
