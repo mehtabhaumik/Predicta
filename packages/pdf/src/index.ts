@@ -64,6 +64,7 @@ import {
   type PdfReportArchitecture,
 } from './reportArchitecture';
 import { buildVedicReportValueContract } from './vedicReportValueContract';
+import { buildKpReportValueContract } from './kpReportValueContract';
 
 type PdfChartRole = ChartType | 'MOON' | 'SWAMSA' | 'KARAKAMSHA' | 'CHALIT' | 'KP' | 'NADI';
 
@@ -749,7 +750,15 @@ function plainKpReportText(value: string): string {
   return value
     .replace(
       /KP needs one concrete event question, then it checks the cusp sub lord, event carriers, ruling planets, and timing support before saying likely, delayed, or unclear\./gi,
-      'KP needs one concrete event question. Then Predicta checks event support and timing before saying likely, delayed, or unclear.',
+      'KP is reading the strongest visible outcome signals now; a future exact event question can narrow timing later.',
+    )
+    .replace(
+      /Ask one exact KP question with a time window, such as "Will I change jobs in the next six months\?"/gi,
+      'When a real decision is in front of the user, KP can narrow the timing around that decision.',
+    )
+    .replace(
+      /KP becomes most useful when the user asks one exact event question and lets the houses, cusp sub lord, significators, and timing answer it\./gi,
+      'KP is most valuable when the prediction is tied to visible event support, timing signals, and practical action.',
     )
     .replace(/\bcusp sub lord\b/gi, 'event-support marker')
     .replace(/\brelevant cusp sub lord\b/gi, 'relevant event-support marker')
@@ -883,7 +892,7 @@ function buildKpReportSections(kundli: KundliData, mode: PDFMode): PdfSection[] 
   const predictionMap = buildKpLifePredictionLines(kp, mode);
   const helpfulAnswer =
     plainAnswer.includes('one concrete event question')
-      ? `${predictionMap.action} This is the clearest KP reading available from the current birth data without turning the report into a questionnaire.`
+      ? `${predictionMap.action} This is the clearest KP reading available from the current birth data.`
       : plainAnswer;
   const helpfulPromise =
     plainPromise.includes('pending')
@@ -897,6 +906,13 @@ function buildKpReportSections(kundli: KundliData, mode: PDFMode): PdfSection[] 
     plainTiming.includes('not ready') || plainTiming.includes('pending')
       ? 'Timing is cautious: act on preparation, proof, and visible movement; avoid dramatic promises and rushed commitments.'
       : plainTiming;
+  const kpValueContract = buildKpReportValueContract({
+    activeAreas: predictionMap.areas.map(item => item.area),
+    foundation,
+    kundli,
+    mode,
+    strongestSignals: predictionMap.strongestPlanets,
+  });
   const cuspRows = kp.cusps.slice(0, mode === 'PREMIUM' ? 12 : 6).map(cusp => ({
     confidence: 'medium' as const,
     factor: `Event area ${cusp.house}`,
@@ -910,6 +926,46 @@ function buildKpReportSections(kundli: KundliData, mode: PDFMode): PdfSection[] 
     observation: `Carries houses ${item.signifiesHouses.join(', ') || 'pending'}.`,
   }));
   const sections: PdfSection[] = [
+    {
+      body: kpValueContract.openingPrediction,
+      bullets: [
+        kpValueContract.timingPromise,
+        kpValueContract.freeDepthPromise,
+        ...(mode === 'PREMIUM' ? [kpValueContract.paidDepthPromise] : []),
+        kpValueContract.actionPromise,
+      ],
+      confidence: judgement.confidence === 'clear' ? 'high' : judgement.confidence === 'partial' ? 'medium' : 'low',
+      evidence: [
+        kpValueContract.evidencePromise,
+        `Required KP modules: ${kpValueContract.requiredModules.join(', ')}.`,
+        `Required KP order: ${kpValueContract.sectionOrder.join(' -> ')}.`,
+      ],
+      evidenceTable: [
+        {
+          confidence: kp.cusps.length ? 'high' : 'low',
+          factor: 'KP chart',
+          implication: 'The KP report must include the KP event-support chart and not substitute D1/D9 Parashari charts.',
+          observation: `KP cusps available: ${kp.cusps.length}.`,
+        },
+        {
+          confidence: kp.significators.length ? 'high' : 'low',
+          factor: 'Event carriers',
+          implication: `The reading is carried by ${predictionMap.strongestPlanets}.`,
+          observation: `Significators available: ${kp.significators.length}.`,
+        },
+        {
+          confidence: ruling ? 'medium' : 'low',
+          factor: 'Timing readiness',
+          implication: helpfulTiming,
+          observation: judgement.timingReadinessState,
+        },
+      ],
+      eyebrow: 'KP PREDICTA',
+      tier: mode === 'PREMIUM' ? 'premium' : 'free',
+      title: mode === 'PREMIUM'
+        ? 'What KP is predicting with premium depth'
+        : 'What KP is predicting',
+    },
     {
       body:
         `${kundli.birthDetails.name}, KP is showing a guarded but useful prediction: ${helpfulAnswer}`,

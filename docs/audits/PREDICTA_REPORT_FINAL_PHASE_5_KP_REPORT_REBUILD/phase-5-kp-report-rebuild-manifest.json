@@ -1,0 +1,54 @@
+{
+  "phase": "PREDICTA_REPORT_FINAL_PHASE_5_KP_REPORT_REBUILD",
+  "status": "GREEN",
+  "kpValueContractSource": "packages/pdf/src/kpReportValueContract.ts",
+  "composerSource": "packages/pdf/src/index.ts",
+  "foundationSource": "packages/astrology/src/chalitBhavKpFoundation.ts",
+  "predictionOpeningInserted": true,
+  "kpChartRequired": true,
+  "d1D9ParashariExcluded": true,
+  "reportLane": "KP",
+  "schoolBoundary": "KP remains cusp, sub-lord, significator, ruling-planet, dasha, timing-readiness, and practical-outcome oriented.",
+  "requiredModules": [
+    "KP Prediction Opening",
+    "KP Event Support Chart",
+    "Verdict",
+    "Promise",
+    "Block",
+    "Timing Readiness",
+    "Relevant Houses",
+    "Cusps and Lord Chains",
+    "Significator Hierarchy",
+    "Ruling Planets",
+    "Dasha Support",
+    "Practical Action",
+    "Proof Appendix"
+  ],
+  "bannedKpFailures": [
+    "KP report as toolkit",
+    "KP report as astrology lesson",
+    "Repeated demand for a user question",
+    "D1 or D9 Parashari chart in KP report",
+    "Vedic personality reading inside KP",
+    "Technical proof before practical answer",
+    "Timing certainty without KP support"
+  ],
+  "completedVerification": [
+    "corepack pnpm test:report-final-phase-5",
+    "corepack pnpm --filter @pridicta/pdf typecheck",
+    "corepack pnpm --filter @pridicta/astrology typecheck",
+    "corepack pnpm test:pdf-golden",
+    "git diff --check"
+  ],
+  "greenCriteria": {
+    "phase5AuditExists": true,
+    "phase5GatePasses": true,
+    "kpValueContractSourceExists": true,
+    "requiredKpModulesLocked": true,
+    "kpPredictionOpeningUsed": true,
+    "kpChartRequired": true,
+    "d1D9ParashariExcluded": true,
+    "technicalProofAfterPrediction": true,
+    "schoolBoundaryLocked": true
+  }
+}

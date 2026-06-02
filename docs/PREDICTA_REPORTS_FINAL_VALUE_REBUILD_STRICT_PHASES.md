@@ -315,6 +315,54 @@ Rebuild KP as a specific event/outcome report with question, verdict, promise,
 block, timing readiness, cusps, sub-lords, significators, ruling planets, dasha
 support, and proof appendix.
 
+### Required Work
+
+- Add a KP-specific report value contract that locks:
+  - KP prediction opening
+  - KP event-support chart requirement
+  - verdict/promise/block/timing/action order
+  - free depth
+  - paid depth
+  - banned KP failures
+- KP reports must answer the user with visible outcome prediction even when no
+  custom event question is supplied. They may invite a sharper future event
+  question, but they must not make the report feel incomplete or like homework.
+- KP chart must be included in KP reports.
+- KP reports must not render D1/D9 Parashari chart pages.
+- KP must preserve technical knowledge through:
+  - relevant houses
+  - cusps and lord chains
+  - star lord, sub lord, and sub-sub lord where available
+  - significator hierarchy
+  - ruling planets
+  - dasha support
+  - timing readiness
+  - proof appendix
+- KP main reading must be understandable to a common person:
+  - what is likely moving
+  - what is blocked or delayed
+  - what timing mood is active
+  - what to do next
+  - what not to trust
+- Premium KP must add deeper proof and timing depth, not more jargon.
+- Free KP must include a real verdict, active areas, caution, timing mood, and
+  practical action.
+
+### Green Criteria
+
+- KP report value contract source exists.
+- Required KP modules are listed in source and audit manifest.
+- `buildKpReportSections` uses the KP value opening.
+- KP chart requirement is locked.
+- D1/D9 Parashari chart output remains excluded from KP reports.
+- KP free and paid report sections lead with prediction, not user homework.
+- KP technical proof remains available after the prediction.
+- Phase 5 audit artifact exists.
+- Phase 5 gate passes.
+- PDF package typecheck passes.
+- Astrology package typecheck passes if KP foundation text changes.
+- PDF golden output gate passes.
+
 ## Phase 6: `PREDICTA_REPORT_FINAL_PHASE_6_JAIMINI_REPORT_REBUILD`
 
 Rebuild Jaimini as a destiny, role, soul-direction, and life-arc report using

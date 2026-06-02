@@ -89,7 +89,7 @@ export function composeChalitBhavKpFoundation(
       digest: buildKpDigest({
         activeKundliId: kundli.id,
         depth,
-        eventQuestion: 'General KP event-readiness. Ask one exact event question for a sharper answer.',
+        eventQuestion: 'General KP outcome reading from the active birth profile; exact event timing can be narrowed later.',
         relevantHouses: buildRelevantHouses(topSignificators),
         judgement: buildKpEventJudgement(kp?.cusps ?? [], topSignificators, kp?.rulingPlanets),
         kpReady,
@@ -156,12 +156,12 @@ function buildPendingFoundation(
       evidence: ['No Kundli is selected yet.'],
       eventJudgement: buildPendingKpEventJudgement(),
       freeInsight:
-        'KP needs precise cusps, star lords, sub lords, and ruling planets, so it starts after Kundli calculation.',
+        'KP outcome support appears after Kundli calculation prepares precise cusps, star lords, sub lords, and ruling planets.',
       limitations: ['Create a Kundli first.'],
       planets: [],
       digest: buildKpDigest({
         depth,
-        eventQuestion: 'Create a Kundli first, then ask one exact KP event question.',
+        eventQuestion: 'Create a Kundli first, then KP can read visible outcome support and narrow timing when needed.',
         judgement: buildPendingKpEventJudgement(),
         kpReady: false,
         mainCusps: [],
@@ -299,7 +299,7 @@ function buildKpFreeInsight(
     seventh
       ? `Relationship judgement starts from the 7th cusp sub lord ${seventh.lordChain.subLord}.`
       : '',
-    'KP becomes most useful when the user asks one exact event question and lets the houses, cusp sub lord, significators, and timing answer it.',
+    'KP becomes most useful when the prediction is tied to visible event support, timing signals, and practical action.',
   ]
     .filter(Boolean)
     .join(' ');
@@ -394,15 +394,15 @@ function buildKpEventJudgement(
       ? `${blocker.planet} is the caution point: do not treat this as a final promise until the exact event houses and timing support agree.`
       : 'The main block is not a negative fate signal; it is missing proof for the exact event question.',
     nextQuestion:
-      'Ask one exact KP question with a time window, such as "Will I change jobs in the next six months?"',
+      'If a real decision is in front of the user, KP can narrow the prediction with a specific event and time window.',
     plainLanguage: topCarrier
       ? `KP is not giving a personality reading here. It is saying the event should be judged through ${relevantAreas.join(', ') || 'the houses carried by the main significator'}, with ${topCarrier.planet} as the clearest carrier and cusp sub-lord proof before timing.`
-      : 'KP needs one concrete event question, then it checks the cusp sub lord, event carriers, ruling planets, and timing support before saying likely, delayed, or unclear.',
+      : 'KP is reading the strongest visible outcome signals now; a future exact event question can narrow timing later.',
     promise: topCarrier
       ? `The promise is visible through ${topCarrier.planet} and the houses it carries: ${topCarrier.signifiesHouses.join(', ') || 'pending'}.`
       : 'The promise is pending until significators are available.',
     proofPath: [
-      '1. State the exact event question.',
+      '1. Start from the visible outcome area or exact event if one is available.',
       `2. Check the event houses${tenth ? ` and the relevant cusp sub lord (${tenth.lordChain.subLord} shown on the 10th cusp for career-style events)` : ''}.`,
       `3. Read event carriers${topCarrier ? `, starting with ${topCarrier.planet}` : ''}.`,
       rulingPlanets
@@ -441,14 +441,14 @@ function buildPendingKpEventJudgement(): KpEventJudgement {
     decisionPoint: 'Create a Kundli first so KP can calculate cusps and sub lords.',
     eventCarriers: [],
     mainBlock: 'No KP proof exists yet.',
-    nextQuestion: 'Create the Kundli, then ask one exact KP event question.',
+    nextQuestion: 'Create the Kundli, then KP can read visible outcome support and narrow timing when needed.',
     plainLanguage:
-      'KP will become useful after calculation because it answers concrete event questions through cusps, sub lords, significators, ruling planets, and timing support.',
+      'KP can read visible outcome support after calculation prepares cusps, support markers, event carriers, timing signals, and dasha support.',
     promise: 'Pending until KP cusps and significators are calculated.',
     proofPath: [
       '1. Create a Kundli.',
       '2. Let Predicta prepare KP cusps and significators.',
-      '3. Ask one concrete event question.',
+      '3. Narrow into a concrete event only when the user has a real decision or time window.',
     ],
     eventVerdictCompass: {
       block: 'No KP proof exists yet.',
