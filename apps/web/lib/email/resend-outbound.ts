@@ -95,7 +95,7 @@ export async function sendResendEmail(
       html: payload.html,
       reply_to: payload.replyTo,
       subject: payload.subject,
-      tags: payload.tags,
+      tags: normalizeResendTags(payload.tags),
       text: payload.text,
       to: payload.to,
     }),
@@ -178,4 +178,22 @@ async function readProviderBody(response: Response): Promise<ResendProviderRespo
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value && typeof value === 'object' && !Array.isArray(value));
+}
+
+function normalizeResendTags(
+  tags?: Array<{ name: string; value: string }>,
+): Array<{ name: string; value: string }> | undefined {
+  return tags?.map(tag => ({
+    name: normalizeResendTagToken(tag.name),
+    value: normalizeResendTagToken(tag.value),
+  }));
+}
+
+function normalizeResendTagToken(value: string): string {
+  const normalized = value
+    .trim()
+    .replace(/[^A-Za-z0-9_-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+  return normalized || 'predicta';
 }
