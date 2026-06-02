@@ -1,0 +1,73 @@
+{
+  "phase": "PREDICTA_EMAIL_PHASE_2_SUPPORT_TICKET_THREAD_DATA_MODEL",
+  "status": "green",
+  "createdAt": "2026-06-02",
+  "implementedFiles": [
+    "packages/types/src/support.ts",
+    "packages/types/src/index.ts",
+    "apps/web/lib/email/support-ticket-thread.ts",
+    "backend/astro_api/models.py",
+    "scripts/run-email-phase-2-support-ticket-thread-gate.mjs",
+    "docs/audits/PREDICTA_EMAIL_PHASE_2_SUPPORT_TICKET_THREAD_DATA_MODEL/support-thread-migration-backfill-plan.md",
+    "docs/audits/PREDICTA_EMAIL_PHASE_2_SUPPORT_TICKET_THREAD_DATA_MODEL/support-ticket-thread-audit.md",
+    "package.json"
+  ],
+  "sharedTypes": [
+    "SupportTicketCategory",
+    "SupportTicketStatus",
+    "SupportTicketPriority",
+    "SupportTicketMessageKind",
+    "SupportTicketRecord",
+    "SupportTicketMessage",
+    "SupportEmailDeliveryEvent",
+    "SupportTicketAuditEvent",
+    "SupportTicketThread"
+  ],
+  "messageKinds": [
+    "customer_inbound",
+    "admin_outbound",
+    "system_auto_reply",
+    "internal_private_note"
+  ],
+  "privateNoteContract": {
+    "kind": "internal_private_note",
+    "visibility": "internal_only",
+    "deliveryEligible": false,
+    "webRuntimeGuard": true,
+    "backendValidationGuard": true
+  },
+  "auditEvents": [
+    "ticket_created",
+    "message_added",
+    "status_changed",
+    "priority_changed",
+    "assignment_changed",
+    "delivery_recorded"
+  ],
+  "repositoryContract": {
+    "interface": "SupportTicketThreadRepository",
+    "testAdapter": "InMemorySupportTicketThreadRepository",
+    "durableProductionAdapterDeferred": true
+  },
+  "backfillBoundary": {
+    "noAutomaticLocalStorageImport": true,
+    "noAutomaticMailtoImport": true,
+    "backendOwnedRecordsOnly": true,
+    "safetyEventsRemainSafetyEventsUnlessExplicitlyPromoted": true
+  },
+  "deferred": {
+    "inboundWebhook": "PREDICTA_EMAIL_PHASE_3_RESEND_INBOUND_WEBHOOK_AND_THREADING",
+    "adminInboxUi": "PREDICTA_EMAIL_PHASE_4_ADMIN_INBOX_UI",
+    "adminComposerTemplates": "PREDICTA_EMAIL_PHASE_5_ADMIN_REPLY_COMPOSER_AND_TEMPLATE_SYSTEM",
+    "canonicalSubmitEndpoint": "future support submit implementation"
+  },
+  "verification": [
+    "corepack pnpm test:email-phase-2",
+    "corepack pnpm --filter @pridicta/types typecheck",
+    "backend support model import and private-note validation smoke",
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "corepack pnpm test:email-phase-1",
+    "corepack pnpm test:email-phase-0",
+    "git diff --check"
+  ]
+}

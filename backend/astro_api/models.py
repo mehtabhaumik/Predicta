@@ -400,6 +400,47 @@ PassCodeType = Literal[
     "INTERNAL_TEST",
 ]
 GuestQuotaKind = Literal["question", "deep_reading", "premium_pdf"]
+SupportTicketCategory = Literal[
+    "feedback",
+    "question",
+    "complaint",
+    "bug-report",
+    "feature-request",
+    "billing",
+    "account",
+    "report",
+    "kundli",
+    "signature",
+    "premium-access",
+    "refund",
+    "safety-concern",
+    "general-contact",
+]
+SupportTicketStatus = Literal[
+    "NEW",
+    "ACKNOWLEDGED",
+    "IN_REVIEW",
+    "WAITING_ON_USER",
+    "RESOLVED",
+    "ESCALATED",
+    "CLOSED",
+]
+SupportTicketPriority = Literal["LOW", "NORMAL", "HIGH", "URGENT"]
+SupportTicketMessageKind = Literal[
+    "customer_inbound",
+    "admin_outbound",
+    "system_auto_reply",
+    "internal_private_note",
+]
+SupportTicketMessageVisibility = Literal["customer_visible", "internal_only"]
+SupportTicketAuditEventKind = Literal[
+    "ticket_created",
+    "message_added",
+    "status_changed",
+    "priority_changed",
+    "assignment_changed",
+    "delivery_recorded",
+]
 
 
 class GuestUsageLimits(BaseModel):
@@ -498,6 +539,109 @@ class ResolvedAccessResponse(BaseModel):
         "free",
     ]
     activeGuestPass: Optional[RedeemedGuestPass] = None
+
+
+class SupportTicketActor(BaseModel):
+    role: Literal["customer", "admin", "system"]
+    displayName: Optional[str] = None
+    email: Optional[str] = None
+    userId: Optional[str] = None
+
+
+class SupportTicketRelatedContext(BaseModel):
+    kundliId: Optional[str] = None
+    purchaseId: Optional[str] = None
+    reportId: Optional[str] = None
+    reportType: Optional[str] = None
+
+
+class SupportTicketRecord(BaseModel):
+    id: str = Field(min_length=1)
+    ticketNumber: str = Field(min_length=1)
+    category: SupportTicketCategory
+    status: SupportTicketStatus
+    priority: SupportTicketPriority
+    subject: str = Field(min_length=1)
+    customerEmail: Optional[str] = None
+    customerName: Optional[str] = None
+    sourceSurface: Optional[str] = None
+    route: Optional[str] = None
+    language: Optional[str] = None
+    userId: Optional[str] = None
+    assignedTo: Optional[str] = None
+    latestMessagePreview: Optional[str] = None
+    latestCustomerReplyAt: Optional[str] = None
+    latestAdminReplyAt: Optional[str] = None
+    related: Optional[SupportTicketRelatedContext] = None
+    createdAt: str
+    updatedAt: str
+
+
+class SupportTicketMessage(BaseModel):
+    id: str = Field(min_length=1)
+    ticketId: str = Field(min_length=1)
+    ticketNumber: str = Field(min_length=1)
+    kind: SupportTicketMessageKind
+    visibility: SupportTicketMessageVisibility
+    body: str = Field(min_length=1)
+    sender: SupportTicketActor
+    createdAt: str
+    templateId: Optional[str] = None
+    deliveryEligible: Optional[bool] = None
+
+    @field_validator("deliveryEligible")
+    @classmethod
+    def validate_private_note_delivery(
+        cls, value: Optional[bool], info: Any
+    ) -> Optional[bool]:
+        kind = info.data.get("kind") if hasattr(info, "data") else None
+        if kind == "internal_private_note" and value:
+            raise ValueError("internal_private_note cannot be delivery eligible")
+        return value
+
+    @field_validator("visibility")
+    @classmethod
+    def validate_private_note_visibility(
+        cls, value: SupportTicketMessageVisibility, info: Any
+    ) -> SupportTicketMessageVisibility:
+        kind = info.data.get("kind") if hasattr(info, "data") else None
+        if kind == "internal_private_note" and value != "internal_only":
+            raise ValueError("internal_private_note must stay internal_only")
+        return value
+
+
+class SupportEmailDeliveryEvent(BaseModel):
+    id: str = Field(min_length=1)
+    ticketId: str = Field(min_length=1)
+    ticketNumber: str = Field(min_length=1)
+    provider: Literal["resend"]
+    recipient: str = Field(min_length=1)
+    status: Literal["accepted", "failed"]
+    statusCode: int
+    templateId: str = Field(min_length=1)
+    attemptedAt: str
+    messageId: Optional[str] = None
+    providerMessageId: Optional[str] = None
+    error: Optional[str] = None
+
+
+class SupportTicketAuditEvent(BaseModel):
+    id: str = Field(min_length=1)
+    ticketId: str = Field(min_length=1)
+    ticketNumber: str = Field(min_length=1)
+    kind: SupportTicketAuditEventKind
+    actor: SupportTicketActor
+    at: str
+    messageId: Optional[str] = None
+    fromValue: Optional[str] = Field(default=None, alias="from")
+    to: Optional[str] = None
+
+
+class SupportTicketThread(BaseModel):
+    ticket: SupportTicketRecord
+    messages: List[SupportTicketMessage] = Field(default_factory=list)
+    deliveryEvents: List[SupportEmailDeliveryEvent] = Field(default_factory=list)
+    auditEvents: List[SupportTicketAuditEvent] = Field(default_factory=list)
 
 
 class JyotishEvidence(BaseModel):
