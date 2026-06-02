@@ -1,0 +1,85 @@
+{
+  "phase": "PREDICTA_MONETIZATION_PHASE_12_FINAL_PROFIT_SAFETY_RELEASE_AUDIT",
+  "status": "GREEN",
+  "deploymentRequested": false,
+  "deployedSmoke": "not-run-deployment-not-requested",
+  "issueLedger": {
+    "critical": 0,
+    "major": 0,
+    "medium": 2,
+    "minor": 0
+  },
+  "nonBlockingCaveats": [
+    {
+      "severity": "medium",
+      "finding": "Razorpay sandbox smoke skipped because sandbox keys are not present locally.",
+      "blocking": false,
+      "followUp": "Run Razorpay-enabled sandbox smoke before enabling the gateway."
+    },
+    {
+      "severity": "medium",
+      "finding": "Mobile Jest passed but printed the known open-handle warning.",
+      "blocking": false,
+      "followUp": "Clean mobile async handles during mobile service refactor."
+    }
+  ],
+  "profitSafety": {
+    "releaseGovernance": "READY",
+    "pricingConfigured": true,
+    "estimatedAverageFreeChatCostUsd": 0.00188703,
+    "estimatedAveragePremiumChatCostUsd": 0.0031353,
+    "estimatedAveragePremiumReportCostUsd": 0.000283,
+    "estimatedGeminiValidatorCostUsd": 0.0225,
+    "deterministicFallbackRate": 0.1749,
+    "fallbackRate": 0.2422,
+    "topCostRiskFeatures": [
+      "chat",
+      "premium_report_draft",
+      "birth_extraction"
+    ]
+  },
+  "phase11Smoke": {
+    "status": "GREEN",
+    "disabledGateway": "honest-no-entitlement",
+    "familyComparison": "2-4-allowed-5-blocked",
+    "freeAiQuestions": "3/3 used",
+    "premiumReportCredit": "granted-and-consumed-once",
+    "questionPack": "9 credits remain after preserved question",
+    "razorpaySandbox": "skipped-missing-keys",
+    "webMobileSourceParity": "checked"
+  },
+  "completedVerification": [
+    "corepack pnpm build:web",
+    "PREDICTA_GREENLIGHT_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:public-greenlight",
+    "python3 -m backend.astro_api.release_governance",
+    "corepack pnpm test:ai-model-phase-7",
+    "corepack pnpm test:mobile",
+    "corepack pnpm test:pdf-golden",
+    "corepack pnpm test:localization-architecture",
+    "corepack pnpm test:translation-trust",
+    "corepack pnpm test:native-script-chat",
+    "corepack pnpm test:pre-live-phase-9",
+    "corepack pnpm test:ui-personal-space",
+    "corepack pnpm test:ui-text-overflow",
+    "corepack pnpm test:monetization-phase-2",
+    "corepack pnpm test:monetization-phase-3",
+    "corepack pnpm test:monetization-phase-6",
+    "corepack pnpm test:monetization-phase-8",
+    "corepack pnpm test:monetization-phase-9",
+    "corepack pnpm test:monetization-phase-10",
+    "corepack pnpm test:monetization-phase-11",
+    "corepack pnpm --filter @pridicta/monetization typecheck",
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "corepack pnpm --filter @pridicta/mobile typecheck",
+    "git diff --check"
+  ],
+  "greenCriteria": {
+    "zeroCriticalIssues": true,
+    "zeroMajorIssues": true,
+    "noHiddenUnmeteredAiCallPath": true,
+    "noClientOnlyQuotaAuthority": true,
+    "noReportEntitlementBypass": true,
+    "noSignInBypassForPersonalizedActions": true,
+    "generatedArtifactsAndRuntimeSmokeProved": true
+  }
+}
