@@ -29,7 +29,7 @@ const chromePath =
 const routes = [
   { label: 'vedic', marker: 'vedic', path: '/dashboard/vedic' },
   { label: 'kp', marker: 'kp', path: '/dashboard/kp' },
-  { label: 'nadi', marker: 'nadi', path: '/dashboard/nadi' },
+  { label: 'jaimini', marker: 'jaimini', path: '/dashboard/jaimini' },
   { label: 'numerology', marker: 'numerology', path: '/dashboard/numerology' },
   { label: 'signature', marker: 'signature', path: '/dashboard/signature' },
   { label: 'life-atlas', marker: 'life-atlas', path: '/dashboard/report' },
@@ -58,7 +58,7 @@ const sourceFiles = {
 const mobileScreens = [
   'apps/mobile/src/components/VedicIntelligencePanel.tsx',
   'apps/mobile/src/components/KpPredictaPanel.tsx',
-  'apps/mobile/src/screens/NadiPredictaScreen.tsx',
+  'apps/mobile/src/screens/JaiminiPredictaScreen.tsx',
   'apps/mobile/src/screens/NumerologyPredictaScreen.tsx',
   'apps/mobile/src/screens/SignaturePredictaScreen.tsx',
   'apps/mobile/src/screens/ReportScreen.tsx',
@@ -79,7 +79,7 @@ for (const phrase of [
   assertIncludes(sourceFiles.sharedPattern, phrase, `shared pattern includes ${phrase}`);
 }
 
-for (const school of ['VEDIC', 'KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS']) {
+for (const school of ['VEDIC', 'KP', 'JAIMINI', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS']) {
   assertIncludes(sourceFiles.sharedPattern, `${school}:`, `shared pattern includes ${school}`);
 }
 
@@ -107,10 +107,10 @@ for (const phrase of [
 
 for (const phrase of [
   'KP Event Verdict and Prediction',
-  'Nadi Strongest Story Thread',
+  'What Jaimini is predicting',
   'Your Number Signature',
-  'Signature Expression Prediction',
-  'Life Atlas prediction',
+  'What your signature is reflecting',
+  'Predicta Life Atlas:',
   'Vedic prediction',
 ]) {
   assertIncludes(sourceFiles.pdf, phrase, `PDF keeps prediction-first report content: ${phrase}`);

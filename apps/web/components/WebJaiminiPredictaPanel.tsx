@@ -1,7 +1,13 @@
 'use client';
 
 import { getJaiminiLocalizationCopy } from '@pridicta/config';
-import { composeJaiminiInterpretation, composeJaiminiPlan } from '@pridicta/astrology';
+import { translateUiText } from '@pridicta/config/uiTranslations';
+import {
+  PREDICTA_INTELLIGENCE_UI_RHYTHM,
+  composeJaiminiInterpretation,
+  composeJaiminiPlan,
+  getPredictaSchoolIntelligencePattern,
+} from '@pridicta/astrology';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { WebActiveKundliActions } from './WebActiveKundliActions';
 import {
@@ -15,9 +21,17 @@ import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 export function WebJaiminiPredictaPanel(): React.JSX.Element {
   const { language } = useLanguagePreference();
   const copy = getJaiminiLocalizationCopy(language);
+  const t = (value: string) => translateUiText(value, language);
   const { activeKundli } = useWebKundliLibrary();
   const jaiminiPlan = composeJaiminiPlan(activeKundli);
   const jaiminiInterpretation = composeJaiminiInterpretation(activeKundli);
+  const intelligencePattern = getPredictaSchoolIntelligencePattern('JAIMINI');
+  const intelligencePatternCopy = {
+    action: intelligencePattern.action,
+    evidence: intelligencePattern.evidence,
+    prediction: intelligencePattern.prediction,
+    safety: intelligencePattern.safety,
+  };
   const blockById = Object.fromEntries(
     jaiminiInterpretation.blocks.map(block => [block.id, block]),
   );
@@ -102,17 +116,33 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
         sourceScreen={copy.heroEyebrow}
         title={copy.readingKundliTitle}
       />
-      <PredictaPanel className="jaimini-room-hero">
-        <div className="jaimini-room-hero-copy">
+      <PredictaPanel className="jaimini-room-hero predicta-world-hero">
+        <div className="jaimini-room-hero-copy predicta-world-hero-copy">
           <p className="section-title">{copy.heroEyebrow.toUpperCase()}</p>
           <h1>{copy.destinyRoleTitle}</h1>
           <p>{jaiminiInterpretation.summary}</p>
-          <div className="jaimini-room-cta-row" aria-label={copy.primaryActionsAria}>
-            <PredictaButton href={chatHref} size="lg" variant="primary">
-              {copy.askCta}
-            </PredictaButton>
-            <PredictaButton href="/dashboard/report#report-lane-jaimini" size="lg" variant="secondary">
+          <section
+            aria-label={t(`${intelligencePattern.label} intelligence rhythm`)}
+            className="predicta-intelligence-pattern"
+            data-audit1-phase7f-intelligence-pattern="jaimini"
+          >
+            {PREDICTA_INTELLIGENCE_UI_RHYTHM.map(step => (
+              <article className="predicta-intelligence-step" key={step.id}>
+                <span>{t(step.label)}</span>
+                <strong>{t(intelligencePatternCopy[step.id])}</strong>
+              </article>
+            ))}
+          </section>
+          <div
+            aria-label={copy.primaryActionsAria}
+            className="jaimini-room-cta-row predicta-world-actions"
+            data-audit1-phase6-hero-interaction="jaimini"
+          >
+            <PredictaButton href="/dashboard/report#report-lane-jaimini" size="lg" variant="primary">
               {copy.downloadCta}
+            </PredictaButton>
+            <PredictaButton href={chatHref} size="lg" variant="secondary">
+              {copy.askCta}
             </PredictaButton>
           </div>
         </div>
@@ -181,12 +211,12 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
         </PredictaButton>
       </section>
 
-      <details className="jaimini-technical-drawer">
+      <details className="jaimini-technical-drawer predicta-world-proof-disclosure">
         <summary>
           <span>{copy.evidenceTitle}</span>
           <strong>{copy.proofLine}</strong>
         </summary>
-        <div className="jaimini-evidence-list">
+        <div className="jaimini-evidence-list predicta-world-proof-grid">
           {jaiminiInterpretation.technicalEvidence.map(item => (
             <p key={item}>{item}</p>
           ))}

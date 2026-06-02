@@ -183,7 +183,7 @@ function themeToSchool(theme: PredictaWorldTheme): PredictaIntelligenceSchool {
     case 'kp':
       return 'KP';
     case 'nadi':
-      return 'NADI';
+      return 'JAIMINI';
     case 'numerology':
       return 'NUMEROLOGY';
     case 'signature':

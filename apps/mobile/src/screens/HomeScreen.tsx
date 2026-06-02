@@ -50,7 +50,7 @@ function buildMobileNavGroups(labels: AppShellLabels) {
     items: [
       [labels.nav.vedic, routes.Kundli],
       [labels.nav.kp, routes.KpPredicta],
-      [labels.nav.nadi, routes.JaiminiPredicta],
+      [labels.nav.jaimini, routes.JaiminiPredicta],
       [labels.nav.numerologyPredicta, routes.NumerologyPredicta],
       [labels.nav.signaturePredicta, routes.SignaturePredicta],
     ],

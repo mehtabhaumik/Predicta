@@ -267,16 +267,15 @@ def method_boundary_issues(job: AIBatchQAJob) -> List[AIBatchQAIssue]:
                     )
                 ]
     if job.activeSchool.lower() == "nadi" or job.reportType.lower() == "nadi":
-        if "kp sub-lord" in text or "kp cusp" in text:
-            return [
-                AIBatchQAIssue(
-                    code="method_boundary_violation",
-                    evidence="KP proof terms inside Nadi report",
-                    message="Nadi report mixes KP proof logic into the karmic story lane.",
-                    severity="high",
-                    suggestedFixCategory="restore-school-boundary",
-                )
-            ]
+        return [
+            AIBatchQAIssue(
+                code="legacy_school_alias",
+                evidence="Legacy Nadi alias reached report QA",
+                message="Legacy Nadi requests must be redirected or normalized to Jaimini before user-facing output.",
+                severity="high",
+                suggestedFixCategory="restore-school-boundary",
+            )
+        ]
     return []
 
 

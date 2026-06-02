@@ -8,6 +8,7 @@ import {
   AnimatedHeader,
   AppText,
   GlowCard,
+  IntelligenceRhythmCard,
   Screen,
 } from '../components';
 import { routes } from '../navigation/routes';
@@ -85,20 +86,21 @@ export function JaiminiPredictaScreen({
             ))}
           </View>
         </View>
+        <IntelligenceRhythmCard embedded delay={98} school="JAIMINI" />
         <View style={styles.ctaRow}>
           <Pressable
             accessibilityRole="button"
             style={[styles.cta, styles.primaryCta]}
-            onPress={askJaimini}
+            onPress={() => navigation.navigate(routes.Report)}
           >
-            <AppText variant="body">{copy.askCta}</AppText>
+            <AppText variant="body">{copy.downloadCta}</AppText>
           </Pressable>
           <Pressable
             accessibilityRole="button"
             style={[styles.cta, styles.secondaryCta]}
-            onPress={() => navigation.navigate(routes.Report)}
+            onPress={askJaimini}
           >
-            <AppText variant="body">{copy.downloadCta}</AppText>
+            <AppText variant="body">{copy.askCta}</AppText>
           </Pressable>
         </View>
       </GlowCard>

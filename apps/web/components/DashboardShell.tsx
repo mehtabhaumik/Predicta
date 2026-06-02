@@ -75,9 +75,9 @@ function buildDashboardNavModel(
     {
       href: '/dashboard/jaimini',
       id: 'jaimini',
-      label: labels.nav.nadi,
+      label: labels.nav.jaimini,
       items: [
-        { href: '/dashboard/jaimini', label: labels.nav.nadiPredicta },
+        { href: '/dashboard/jaimini', label: labels.nav.jaiminiPredicta },
         { href: '/dashboard/jaimini/chat', label: labels.nav.chat },
       ],
     },

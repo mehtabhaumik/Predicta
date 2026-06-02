@@ -32,9 +32,9 @@
       "patternStepCount": 4
     },
     {
-      "fileName": "desktop-nadi-intelligence-pattern.png",
-      "finalUrl": "http://127.0.0.1:3009/dashboard/nadi",
-      "route": "/dashboard/nadi",
+      "fileName": "desktop-jaimini-intelligence-pattern.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/jaimini",
+      "route": "/dashboard/jaimini",
       "viewport": "desktop",
       "viewportWidth": 1440,
       "clippedText": 0,
@@ -122,9 +122,9 @@
       "patternStepCount": 4
     },
     {
-      "fileName": "tablet-nadi-intelligence-pattern.png",
-      "finalUrl": "http://127.0.0.1:3009/dashboard/nadi",
-      "route": "/dashboard/nadi",
+      "fileName": "tablet-jaimini-intelligence-pattern.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/jaimini",
+      "route": "/dashboard/jaimini",
       "viewport": "tablet",
       "viewportWidth": 834,
       "clippedText": 0,
@@ -212,9 +212,9 @@
       "patternStepCount": 4
     },
     {
-      "fileName": "mobile-nadi-intelligence-pattern.png",
-      "finalUrl": "http://127.0.0.1:3009/dashboard/nadi",
-      "route": "/dashboard/nadi",
+      "fileName": "mobile-jaimini-intelligence-pattern.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/jaimini",
+      "route": "/dashboard/jaimini",
       "viewport": "mobile",
       "viewportWidth": 390,
       "clippedText": 0,
@@ -272,14 +272,14 @@
       "patternStepCount": 4
     }
   ],
-  "generatedAt": "2026-05-28T16:30:31.048Z",
+  "generatedAt": "2026-06-02T20:17:30.650Z",
   "phase": "PREDICTA_AUDIT_1_PHASE_7F_CROSS_PLATFORM_VISUAL_PARITY_AND_INTELLIGENCE_UI_PATTERN",
   "screenshotRoot": "docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-7f-cross-platform-visual-parity-intelligence-pattern/screenshots",
   "sourceChecks": {
     "mobileScreens": [
       "apps/mobile/src/components/VedicIntelligencePanel.tsx",
       "apps/mobile/src/components/KpPredictaPanel.tsx",
-      "apps/mobile/src/screens/NadiPredictaScreen.tsx",
+      "apps/mobile/src/screens/JaiminiPredictaScreen.tsx",
       "apps/mobile/src/screens/NumerologyPredictaScreen.tsx",
       "apps/mobile/src/screens/SignaturePredictaScreen.tsx",
       "apps/mobile/src/screens/ReportScreen.tsx"

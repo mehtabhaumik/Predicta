@@ -25,7 +25,7 @@ const chromePath =
 const routes = [
   { interaction: 'vedic', label: 'vedic', path: '/dashboard/vedic', primaryText: /Build Vedic report|Create report/i },
   { interaction: 'kp', label: 'kp', path: '/dashboard/kp', primaryText: /Build KP report/i },
-  { interaction: 'nadi', label: 'nadi', path: '/dashboard/nadi', primaryText: /Build Nadi report/i },
+  { interaction: 'jaimini', label: 'jaimini', path: '/dashboard/jaimini', primaryText: /Build Jaimini report|Download Jaimini/i },
   { interaction: 'numerology', label: 'numerology', path: '/dashboard/numerology', primaryText: /Build Numerology report/i },
   { interaction: 'signature', label: 'signature', path: '/dashboard/signature', primaryText: /Build Signature report/i },
 ];
@@ -42,7 +42,7 @@ const sourceChecks = [
   ['apps/web/components/PredictaWorldFrame.tsx', 'predicta-world-proof-disclosure'],
   ['apps/web/app/dashboard/vedic/page.tsx', 'data-audit1-phase6-hero-interaction="vedic"'],
   ['apps/web/components/WebKpPredictaPanel.tsx', 'data-audit1-phase6-hero-interaction="kp"'],
-  ['apps/web/components/WebNadiPredictaPanel.tsx', 'data-audit1-phase6-hero-interaction="nadi"'],
+  ['apps/web/components/WebJaiminiPredictaPanel.tsx', 'data-audit1-phase6-hero-interaction="jaimini"'],
   ['apps/web/components/WebNumerologyPredictaPanel.tsx', 'data-audit1-phase6-hero-interaction="numerology"'],
   ['apps/web/components/WebSignatureAnalysisInputFlow.tsx', 'data-audit1-phase6-hero-interaction="signature"'],
   ['apps/web/app/globals.css', '.specialist-hero-interaction'],
@@ -269,18 +269,24 @@ async function evaluateSpecialistRoom(cdp, route) {
       }
 
       const hero = document.querySelector('.predicta-world-hero');
-      const heroButtons = hero ? [...hero.querySelectorAll('.button, button')].filter(isVisible) : [];
+      const heroButtons = hero ? [...hero.querySelectorAll('.button, .predicta-button, button, a')].filter(isVisible) : [];
+      function isPrimaryButton(element) {
+        return element.classList.contains('primary') || element.classList.contains('predicta-button--primary');
+      }
+      function isSecondaryButton(element) {
+        return element.classList.contains('secondary') || element.classList.contains('predicta-button--secondary');
+      }
       const primaryButtons = heroButtons.filter(element => {
         const text = (element.textContent || '').replace(/\\s+/g, ' ').trim();
-        return element.classList.contains('primary') && primaryPattern.test(text);
+        return isPrimaryButton(element) && primaryPattern.test(text);
       });
       const dominantChatButtons = heroButtons.filter(element => {
         const text = (element.textContent || '').replace(/\\s+/g, ' ').trim();
-        return element.classList.contains('primary') && /chat|Predicta chat|Chat with/i.test(text);
+        return isPrimaryButton(element) && /chat|Predicta chat|Chat with/i.test(text);
       });
       const secondaryChatButtons = heroButtons.filter(element => {
         const text = (element.textContent || '').replace(/\\s+/g, ' ').trim();
-        return element.classList.contains('secondary') && /chat|Predicta chat|Chat with/i.test(text);
+        return isSecondaryButton(element) && /chat|Predicta chat|Chat with/i.test(text);
       });
       const proofDisclosure = document.querySelector('.predicta-world-proof-disclosure');
       const proofGrid = document.querySelector('.predicta-world-proof-disclosure .predicta-world-proof-grid');

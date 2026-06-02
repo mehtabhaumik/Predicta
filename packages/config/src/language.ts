@@ -72,6 +72,8 @@ export type AppShellLabels = {
     founderVision: string;
     home: string;
     holisticAstrology: string;
+    jaimini: string;
+    jaiminiPredicta: string;
     kp: string;
     kpPredicta: string;
     kundli: string;
