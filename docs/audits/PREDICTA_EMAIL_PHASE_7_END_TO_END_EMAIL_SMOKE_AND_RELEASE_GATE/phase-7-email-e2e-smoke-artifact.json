@@ -1,7 +1,7 @@
 {
   "adminNotificationArtifact": {
     "subject": "[URGENT] PRD-20260602-YMHHDW - Premium report did not unlock",
-    "template": "support.admin.notification.received.v1",
+    "template": "support-admin-notification-received-v1",
     "ticketHeader": "PRD-20260602-YMHHDW",
     "to": [
       "admin@example.invalid"
@@ -29,7 +29,7 @@
   },
   "customerEmailArtifact": {
     "subject": "We received your Predicta message PRD-20260602-YMHHDW",
-    "template": "support.customer.auto_reply.received.v1",
+    "template": "support-customer-auto_reply-received-v1",
     "ticketHeader": "PRD-20260602-YMHHDW",
     "to": [
       "bhaumik@example.invalid"
