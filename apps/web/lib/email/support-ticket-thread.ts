@@ -291,6 +291,10 @@ export function getCustomerVisibleSupportMessages(
 }
 
 export interface SupportTicketThreadRepository {
+  assignTicket(
+    ticketId: string,
+    input: { actor: SupportTicketActor; assignedTo?: string; now?: string },
+  ): Promise<SupportTicketThread>;
   appendMessage(
     ticketId: string,
     input: AddSupportTicketMessageInput,
@@ -300,6 +304,7 @@ export interface SupportTicketThreadRepository {
     ticketNumber: string,
   ): Promise<SupportTicketThread | undefined>;
   getThread(ticketId: string): Promise<SupportTicketThread | undefined>;
+  listThreads(): Promise<SupportTicketThread[]>;
   recordDeliveryEvent(
     ticketId: string,
     event: Omit<SupportEmailDeliveryEvent, 'id' | 'ticketId' | 'ticketNumber'> & {
@@ -311,12 +316,29 @@ export interface SupportTicketThreadRepository {
     ticketId: string,
     input: { actor: SupportTicketActor; now?: string; status: SupportTicketStatus },
   ): Promise<SupportTicketThread>;
+  updatePriority(
+    ticketId: string,
+    input: {
+      actor: SupportTicketActor;
+      now?: string;
+      priority: SupportTicketPriority;
+    },
+  ): Promise<SupportTicketThread>;
 }
 
 export class InMemorySupportTicketThreadRepository
   implements SupportTicketThreadRepository
 {
   private readonly threads = new Map<string, SupportTicketThread>();
+
+  async assignTicket(
+    ticketId: string,
+    input: { actor: SupportTicketActor; assignedTo?: string; now?: string },
+  ): Promise<SupportTicketThread> {
+    return this.saveExisting(ticketId, thread =>
+      assignSupportTicket(thread, input),
+    );
+  }
 
   async appendMessage(
     ticketId: string,
@@ -354,6 +376,12 @@ export class InMemorySupportTicketThreadRepository
     return this.threads.get(ticketId);
   }
 
+  async listThreads(): Promise<SupportTicketThread[]> {
+    return Array.from(this.threads.values()).sort((left, right) =>
+      right.ticket.updatedAt.localeCompare(left.ticket.updatedAt),
+    );
+  }
+
   async recordDeliveryEvent(
     ticketId: string,
     event: Omit<SupportEmailDeliveryEvent, 'id' | 'ticketId' | 'ticketNumber'> & {
@@ -377,6 +405,19 @@ export class InMemorySupportTicketThreadRepository
   ): Promise<SupportTicketThread> {
     return this.saveExisting(ticketId, thread =>
       updateSupportTicketStatus(thread, input),
+    );
+  }
+
+  async updatePriority(
+    ticketId: string,
+    input: {
+      actor: SupportTicketActor;
+      now?: string;
+      priority: SupportTicketPriority;
+    },
+  ): Promise<SupportTicketThread> {
+    return this.saveExisting(ticketId, thread =>
+      updateSupportTicketPriority(thread, input),
     );
   }
 

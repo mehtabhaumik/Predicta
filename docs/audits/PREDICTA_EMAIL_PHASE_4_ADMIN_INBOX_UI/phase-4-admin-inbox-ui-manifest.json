@@ -1,0 +1,88 @@
+{
+  "phase": "PREDICTA_EMAIL_PHASE_4_ADMIN_INBOX_UI",
+  "status": "green-after-local-strict-audit",
+  "adminRoute": "/dashboard/admin",
+  "apiRoutes": [
+    "GET /api/email/admin/tickets",
+    "GET /api/email/admin/tickets/[ticketId]",
+    "PATCH /api/email/admin/tickets/[ticketId]"
+  ],
+  "accessGate": {
+    "ownerConsoleFlag": "PREDICTA_ENABLE_OWNER_CONSOLE",
+    "header": "x-pridicta-admin-token",
+    "acceptedTokenEnvVars": [
+      "PREDICTA_SUPPORT_ADMIN_TOKEN",
+      "PREDICTA_OWNER_ADMIN_TOKEN",
+      "PRIDICTA_ADMIN_TOKEN"
+    ],
+    "ownerDisabledStatus": 404,
+    "missingTokenStatus": 401,
+    "wrongConfiguredTokenStatus": 403
+  },
+  "implementedFiles": [
+    "apps/web/app/dashboard/admin/page.tsx",
+    "apps/web/components/WebAdminSupportInboxPanel.tsx",
+    "apps/web/app/api/email/admin/tickets/route.ts",
+    "apps/web/app/api/email/admin/tickets/[ticketId]/route.ts",
+    "apps/web/lib/email/admin-support-inbox.ts",
+    "apps/web/lib/email/support-ticket-thread.ts",
+    "apps/web/app/globals.css"
+  ],
+  "uiCapabilities": [
+    "ticket list",
+    "search",
+    "status filter",
+    "priority filter",
+    "category filter",
+    "thread detail panel",
+    "customer context panel",
+    "request context panel",
+    "private notes display",
+    "delivery status display",
+    "status control",
+    "priority control",
+    "assignment control",
+    "desktop responsive layout",
+    "tablet responsive layout",
+    "mobile responsive layout"
+  ],
+  "browserEvidence": [
+    {
+      "file": "admin-inbox-desktop-1440.png",
+      "width": 1440,
+      "horizontalOverflow": false
+    },
+    {
+      "file": "admin-inbox-tablet-820.png",
+      "width": 820,
+      "horizontalOverflow": false
+    },
+    {
+      "file": "admin-inbox-mobile-390.png",
+      "width": 390,
+      "horizontalOverflow": false
+    }
+  ],
+  "auditCommands": [
+    "corepack pnpm test:email-phase-4",
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "corepack pnpm --filter @pridicta/types typecheck",
+    "corepack pnpm test:email-phase-3",
+    "corepack pnpm test:email-phase-2",
+    "corepack pnpm test:email-phase-1",
+    "corepack pnpm test:email-phase-0",
+    "git diff --check"
+  ],
+  "explicitNonScope": [
+    "admin reply composer",
+    "email template picker",
+    "template rendering management UI",
+    "send and mark waiting",
+    "send and resolve",
+    "send and escalate",
+    "private note creation",
+    "durable production support-ticket adapter",
+    "live deployed owner-console smoke",
+    "final email privacy/security audit"
+  ]
+}

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { WebAdminGuestPassPanel } from '../../../components/WebAdminGuestPassPanel';
+import { WebAdminSupportInboxPanel } from '../../../components/WebAdminSupportInboxPanel';
 import { isOwnerConsoleEnabled } from '../../../lib/owner-surface';
 
 export default function AdminPage(): React.JSX.Element {
@@ -24,17 +25,19 @@ export default function AdminPage(): React.JSX.Element {
   return (
     <section className="dashboard-page">
       <div className="page-heading compact">
-        <h1 className="gradient-text">Guest pass operations.</h1>
+        <h1 className="gradient-text">Predicta owner operations.</h1>
         <details className="info-drawer">
           <summary>
-            <span>Guest pass tools</span>
+            <span>Owner tools</span>
             <strong>Open</strong>
           </summary>
           <p>
-            Create, revoke, list, and review private guest passes.
+            Review support threads, create private passes, and check owner-only
+            safety signals from one protected workspace.
           </p>
         </details>
       </div>
+      <WebAdminSupportInboxPanel />
       <WebAdminGuestPassPanel />
     </section>
   );

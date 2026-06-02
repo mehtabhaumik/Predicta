@@ -1,0 +1,490 @@
+'use client';
+
+import { useMemo, useState } from 'react';
+import type { ReactNode } from 'react';
+import type {
+  SupportTicketCategory,
+  SupportTicketMessage,
+  SupportTicketPriority,
+  SupportTicketStatus,
+  SupportTicketThread,
+} from '@pridicta/types';
+
+type InboxResponse = {
+  counts: {
+    open: number;
+    urgent: number;
+    waiting: number;
+  };
+  threads: SupportTicketThread[];
+};
+
+const statusLabels: Record<SupportTicketStatus, string> = {
+  ACKNOWLEDGED: 'Acknowledged',
+  CLOSED: 'Closed',
+  ESCALATED: 'Escalated',
+  IN_REVIEW: 'In review',
+  NEW: 'New',
+  RESOLVED: 'Resolved',
+  WAITING_ON_USER: 'Waiting on user',
+};
+
+const priorityLabels: Record<SupportTicketPriority, string> = {
+  HIGH: 'High',
+  LOW: 'Low',
+  NORMAL: 'Normal',
+  URGENT: 'Urgent',
+};
+
+const categoryLabels: Record<SupportTicketCategory, string> = {
+  account: 'Account',
+  billing: 'Billing',
+  'bug-report': 'Bug',
+  complaint: 'Complaint',
+  feedback: 'Feedback',
+  'feature-request': 'Feature',
+  'general-contact': 'General',
+  kundli: 'Kundli',
+  'premium-access': 'Premium',
+  question: 'Question',
+  refund: 'Refund',
+  report: 'Report',
+  'safety-concern': 'Safety',
+  signature: 'Signature',
+};
+
+const statuses = Object.keys(statusLabels) as SupportTicketStatus[];
+const priorities = Object.keys(priorityLabels) as SupportTicketPriority[];
+
+export function WebAdminSupportInboxPanel(): React.JSX.Element {
+  const [token, setToken] = useState('');
+  const [threads, setThreads] = useState<SupportTicketThread[]>([]);
+  const [selectedTicketId, setSelectedTicketId] = useState<string>();
+  const [query, setQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'ALL' | SupportTicketStatus>('ALL');
+  const [priorityFilter, setPriorityFilter] =
+    useState<'ALL' | SupportTicketPriority>('ALL');
+  const [categoryFilter, setCategoryFilter] =
+    useState<'ALL' | SupportTicketCategory>('ALL');
+  const [counts, setCounts] = useState<InboxResponse['counts']>({
+    open: 0,
+    urgent: 0,
+    waiting: 0,
+  });
+  const [message, setMessage] = useState(
+    'Enter the owner key to open the Predicta support inbox.',
+  );
+  const [busy, setBusy] = useState(false);
+
+  const categories = useMemo(
+    () =>
+      Array.from(new Set(threads.map(thread => thread.ticket.category))).sort(),
+    [threads],
+  );
+  const filteredThreads = useMemo(
+    () =>
+      threads.filter(thread => {
+        const haystack = [
+          thread.ticket.ticketNumber,
+          thread.ticket.subject,
+          thread.ticket.customerName,
+          thread.ticket.customerEmail,
+          thread.ticket.latestMessagePreview,
+        ]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase();
+        const queryMatch = !query.trim() || haystack.includes(query.trim().toLowerCase());
+        const statusMatch =
+          statusFilter === 'ALL' || thread.ticket.status === statusFilter;
+        const priorityMatch =
+          priorityFilter === 'ALL' || thread.ticket.priority === priorityFilter;
+        const categoryMatch =
+          categoryFilter === 'ALL' || thread.ticket.category === categoryFilter;
+
+        return queryMatch && statusMatch && priorityMatch && categoryMatch;
+      }),
+    [categoryFilter, priorityFilter, query, statusFilter, threads],
+  );
+  const selectedThread =
+    threads.find(thread => thread.ticket.id === selectedTicketId) ??
+    filteredThreads[0] ??
+    threads[0];
+
+  async function loadInbox() {
+    try {
+      setBusy(true);
+      const response = await fetch('/api/email/admin/tickets', {
+        headers: { 'x-pridicta-admin-token': token },
+      });
+      const payload = await response.json();
+
+      if (!response.ok) {
+        setMessage(payload.detail ?? 'Support inbox could not be opened.');
+        return;
+      }
+
+      setThreads(payload.threads ?? []);
+      setCounts(payload.counts ?? { open: 0, urgent: 0, waiting: 0 });
+      setSelectedTicketId(payload.threads?.[0]?.ticket.id);
+      setMessage(`${payload.threads?.length ?? 0} support threads loaded.`);
+    } catch {
+      setMessage('Support inbox could not be opened right now.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function updateTicket(
+    ticketId: string,
+    patch: {
+      assignedTo?: string;
+      priority?: SupportTicketPriority;
+      status?: SupportTicketStatus;
+    },
+  ) {
+    try {
+      setBusy(true);
+      const response = await fetch(
+        `/api/email/admin/tickets/${encodeURIComponent(ticketId)}`,
+        {
+          body: JSON.stringify(patch),
+          headers: {
+            'Content-Type': 'application/json',
+            'x-pridicta-admin-token': token,
+          },
+          method: 'PATCH',
+        },
+      );
+      const payload = await response.json();
+
+      if (!response.ok) {
+        setMessage(payload.detail ?? 'Support ticket could not be updated.');
+        return;
+      }
+
+      setThreads(current =>
+        current.map(thread => (thread.ticket.id === payload.ticket.id ? payload : thread)),
+      );
+      setSelectedTicketId(payload.ticket.id);
+      setMessage(`${payload.ticket.ticketNumber} updated.`);
+    } catch {
+      setMessage('Support ticket could not be updated right now.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <section className="admin-support-inbox-panel" aria-label="Predicta support inbox">
+      <div className="admin-support-hero glass-panel">
+        <div>
+          <span className="section-title">PREDICTA CARE DESK</span>
+          <h2>Support inbox</h2>
+          <p>
+            Review customer replies, ticket status, private notes, and delivery
+            health from one calm owner workspace.
+          </p>
+        </div>
+        <div className="admin-support-access-card">
+          <label className="field-label" htmlFor="support-inbox-owner-key">
+            Owner key
+          </label>
+          <div className="admin-support-token-row">
+            <input
+              id="support-inbox-owner-key"
+              onChange={event => setToken(event.target.value)}
+              placeholder="Enter owner key"
+              type="password"
+              value={token}
+            />
+            <button className="button" disabled={busy || !token} onClick={loadInbox} type="button">
+              Open Inbox
+            </button>
+          </div>
+          <p className="form-status idle">{message}</p>
+        </div>
+      </div>
+
+      <div className="admin-support-metrics" aria-label="Inbox health">
+        <MetricCard label="Open" value={counts.open} />
+        <MetricCard label="Urgent" value={counts.urgent} />
+        <MetricCard label="Waiting" value={counts.waiting} />
+      </div>
+
+      <div className="admin-support-toolbar glass-panel">
+        <label className="field-stack">
+          <span className="field-label">Search tickets</span>
+          <input
+            onChange={event => setQuery(event.target.value)}
+            placeholder="Search by name, email, ticket, subject"
+            type="search"
+            value={query}
+          />
+        </label>
+        <label className="field-stack">
+          <span className="field-label">Status</span>
+          <select
+            onChange={event =>
+              setStatusFilter(event.target.value as 'ALL' | SupportTicketStatus)
+            }
+            value={statusFilter}
+          >
+            <option value="ALL">All statuses</option>
+            {statuses.map(status => (
+              <option key={status} value={status}>
+                {statusLabels[status]}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="field-stack">
+          <span className="field-label">Priority</span>
+          <select
+            onChange={event =>
+              setPriorityFilter(event.target.value as 'ALL' | SupportTicketPriority)
+            }
+            value={priorityFilter}
+          >
+            <option value="ALL">All priorities</option>
+            {priorities.map(priority => (
+              <option key={priority} value={priority}>
+                {priorityLabels[priority]}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="field-stack">
+          <span className="field-label">Category</span>
+          <select
+            onChange={event =>
+              setCategoryFilter(event.target.value as 'ALL' | SupportTicketCategory)
+            }
+            value={categoryFilter}
+          >
+            <option value="ALL">All categories</option>
+            {categories.map(category => (
+              <option key={category} value={category}>
+                {categoryLabels[category]}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+
+      <div className="admin-support-layout">
+        <aside className="admin-support-ticket-list" aria-label="Ticket list">
+          {filteredThreads.length ? (
+            filteredThreads.map(thread => (
+              <button
+                className={`admin-support-ticket-card ${
+                  selectedThread?.ticket.id === thread.ticket.id ? 'is-selected' : ''
+                }`}
+                key={thread.ticket.id}
+                onClick={() => setSelectedTicketId(thread.ticket.id)}
+                type="button"
+              >
+                <span>{thread.ticket.ticketNumber}</span>
+                <strong>{thread.ticket.subject}</strong>
+                <small>
+                  {thread.ticket.customerName ?? 'Unknown customer'} ·{' '}
+                  {categoryLabels[thread.ticket.category]}
+                </small>
+                <span className="admin-support-pill-row">
+                  <b>{statusLabels[thread.ticket.status]}</b>
+                  <b>{priorityLabels[thread.ticket.priority]}</b>
+                </span>
+              </button>
+            ))
+          ) : (
+            <div className="admin-support-empty-state">
+              <strong>No matching tickets.</strong>
+              <p>Clear filters or load the inbox after entering the owner key.</p>
+            </div>
+          )}
+        </aside>
+
+        {selectedThread ? (
+          <ThreadDetail
+            busy={busy}
+            onUpdate={patch => updateTicket(selectedThread.ticket.id, patch)}
+            thread={selectedThread}
+          />
+        ) : (
+          <div className="admin-support-thread-panel glass-panel">
+            <div className="admin-support-empty-state">
+              <strong>No ticket selected.</strong>
+              <p>Open the inbox and choose a ticket to review its thread.</p>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function ThreadDetail({
+  busy,
+  onUpdate,
+  thread,
+}: {
+  busy: boolean;
+  onUpdate: (patch: {
+    assignedTo?: string;
+    priority?: SupportTicketPriority;
+    status?: SupportTicketStatus;
+  }) => void;
+  thread: SupportTicketThread;
+}): React.JSX.Element {
+  return (
+    <article className="admin-support-thread-panel glass-panel">
+      <div className="admin-support-thread-head">
+        <div>
+          <span className="section-title">{thread.ticket.ticketNumber}</span>
+          <h2>{thread.ticket.subject}</h2>
+          <p>{thread.ticket.latestMessagePreview}</p>
+        </div>
+        <div className="admin-support-thread-actions">
+          <label>
+            <span>Status</span>
+            <select
+              disabled={busy}
+              onChange={event =>
+                onUpdate({ status: event.target.value as SupportTicketStatus })
+              }
+              value={thread.ticket.status}
+            >
+              {statuses.map(status => (
+                <option key={status} value={status}>
+                  {statusLabels[status]}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            <span>Priority</span>
+            <select
+              disabled={busy}
+              onChange={event =>
+                onUpdate({ priority: event.target.value as SupportTicketPriority })
+              }
+              value={thread.ticket.priority}
+            >
+              {priorities.map(priority => (
+                <option key={priority} value={priority}>
+                  {priorityLabels[priority]}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            <span>Assigned to</span>
+            <input
+              defaultValue={thread.ticket.assignedTo ?? ''}
+              disabled={busy}
+              onBlur={event => onUpdate({ assignedTo: event.target.value })}
+              placeholder="Owner or support lead"
+            />
+          </label>
+        </div>
+      </div>
+
+      <div className="admin-support-content-grid">
+        <div className="admin-support-message-timeline">
+          {thread.messages.map(message => (
+            <MessageBubble key={message.id} message={message} />
+          ))}
+        </div>
+        <aside className="admin-support-context-panel">
+          <ContextBlock title="Customer">
+            <p>{thread.ticket.customerName ?? 'Name not shared'}</p>
+            <p>{thread.ticket.customerEmail ?? 'Email not shared'}</p>
+            <p>{thread.ticket.userId ?? 'No linked user id'}</p>
+          </ContextBlock>
+          <ContextBlock title="Request context">
+            <p>{categoryLabels[thread.ticket.category]}</p>
+            <p>{thread.ticket.route ?? 'No route captured'}</p>
+            <p>{thread.ticket.sourceSurface ?? 'No source surface captured'}</p>
+            <p>{thread.ticket.language ?? 'Language not shared'}</p>
+          </ContextBlock>
+          <ContextBlock title="Delivery">
+            {thread.deliveryEvents.length ? (
+              thread.deliveryEvents.map(event => (
+                <p key={event.id}>
+                  {event.status.replace(/_/g, ' ')} · {event.recipient}
+                </p>
+              ))
+            ) : (
+              <p>No delivery events recorded yet.</p>
+            )}
+          </ContextBlock>
+        </aside>
+      </div>
+    </article>
+  );
+}
+
+function MessageBubble({
+  message,
+}: {
+  message: SupportTicketMessage;
+}): React.JSX.Element {
+  const isPrivate = message.kind === 'internal_private_note';
+
+  return (
+    <article
+      className={`admin-support-message admin-support-message--${message.kind}`}
+    >
+      <div>
+        <span>{message.sender.displayName ?? message.sender.role}</span>
+        <strong>{messageKindLabel(message.kind)}</strong>
+        {isPrivate ? <b>Private note · never emailed</b> : null}
+      </div>
+      <p>{message.body}</p>
+      <small>{message.createdAt}</small>
+    </article>
+  );
+}
+
+function ContextBlock({
+  children,
+  title,
+}: {
+  children: ReactNode;
+  title: string;
+}): React.JSX.Element {
+  return (
+    <section className="admin-support-context-block">
+      <h3>{title}</h3>
+      {children}
+    </section>
+  );
+}
+
+function MetricCard({
+  label,
+  value,
+}: {
+  label: string;
+  value: number;
+}): React.JSX.Element {
+  return (
+    <article>
+      <span>{label}</span>
+      <strong>{value}</strong>
+    </article>
+  );
+}
+
+function messageKindLabel(kind: SupportTicketMessage['kind']): string {
+  switch (kind) {
+    case 'admin_outbound':
+      return 'Admin reply';
+    case 'customer_inbound':
+      return 'Customer message';
+    case 'internal_private_note':
+      return 'Internal private note';
+    case 'system_auto_reply':
+      return 'System auto-reply';
+  }
+}
