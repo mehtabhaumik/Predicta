@@ -1,0 +1,53 @@
+{
+  "phase": "PREDICTA_REPORT_FINAL_PHASE_4_VEDIC_REPORT_REBUILD",
+  "status": "GREEN",
+  "vedicValueContractSource": "packages/pdf/src/vedicReportValueContract.ts",
+  "composerSource": "packages/pdf/src/index.ts",
+  "predictionOpeningInserted": true,
+  "reportLane": "VEDIC",
+  "schoolBoundary": "Vedic remains Parashari/Vedic and does not silently mix KP, Jaimini, Numerology, Signature, or Life Atlas.",
+  "requiredModules": [
+    "Birth Snapshot",
+    "Core Charts: D1, Moon, D9, D10, Chalit",
+    "Panchang",
+    "Avakhada Chakra",
+    "Ghatak and Favorable Factors",
+    "House-wise Planet Table",
+    "Benefics and Malefics",
+    "Mahadasha Phala",
+    "Friendship Table",
+    "Chalit Table",
+    "Samsa",
+    "Swamsa",
+    "Karakamsha",
+    "Ashtakavarga",
+    "Prastarashtakavarga",
+    "Yogas",
+    "Consolidated Remedy Action Plan"
+  ],
+  "bannedVedicFailures": [
+    "Vedic report as chart glossary",
+    "Meaning column that only defines the area",
+    "Mahadasha scattered outside its own section",
+    "Repeated remedies in multiple places",
+    "Premium pages that add length without sharper prediction",
+    "Classical tables without user-facing implication"
+  ],
+  "completedVerification": [
+    "corepack pnpm test:report-final-phase-4",
+    "corepack pnpm --filter @pridicta/pdf typecheck",
+    "corepack pnpm test:pdf-golden",
+    "git diff --check"
+  ],
+  "greenCriteria": {
+    "phase4AuditExists": true,
+    "phase4GatePasses": true,
+    "vedicValueContractSourceExists": true,
+    "requiredVedicModulesLocked": true,
+    "vedicPredictionOpeningUsed": true,
+    "mahadashaDedicatedSectionPresent": true,
+    "consolidatedRemedyActionPlanPresent": true,
+    "premiumDepthIsNotPagePadding": true,
+    "schoolBoundaryLocked": true
+  }
+}

@@ -63,6 +63,7 @@ import {
   toFinalReportArchitectureFocus,
   type PdfReportArchitecture,
 } from './reportArchitecture';
+import { buildVedicReportValueContract } from './vedicReportValueContract';
 
 type PdfChartRole = ChartType | 'MOON' | 'SWAMSA' | 'KARAKAMSHA' | 'CHALIT' | 'KP' | 'NADI';
 
@@ -1948,6 +1949,7 @@ function buildVedicReportStructureSections(
   return [
     // Phase 5 order lock: cover is handled by the renderer; sections begin with Birth Snapshot.
     buildBirthAndCalculationSection(kundli),
+    buildVedicValueOpeningSection(kundli, intelligence, mode),
     buildVedicSnapshotReportSection(intelligence, mode),
     buildClassicalVedicReportSection(intelligence.panchang, 'PANCHANG', 'Panchang', mode),
     buildClassicalVedicReportSection(
@@ -1982,6 +1984,56 @@ function buildVedicReportStructureSections(
       ? buildPremiumVargaInterpretationSections(kundli, chartTypes, mode, language)
       : []),
   ];
+}
+
+function buildVedicValueOpeningSection(
+  kundli: KundliData,
+  intelligence: VedicIntelligenceContract,
+  mode: PDFMode,
+): PdfSection {
+  const valueContract = buildVedicReportValueContract(kundli, intelligence, mode);
+
+  return {
+    body: valueContract.openingPrediction,
+    bullets: [
+      valueContract.timingPromise,
+      valueContract.freeDepthPromise,
+      ...(mode === 'PREMIUM' ? [valueContract.paidDepthPromise] : []),
+      valueContract.actionPromise,
+    ],
+    evidence: [
+      valueContract.evidencePromise,
+      `Required Vedic modules: ${valueContract.requiredModules.join(', ')}.`,
+      `Required Vedic order: ${valueContract.sectionOrder.join(' -> ')}.`,
+    ],
+    evidenceTable: [
+      {
+        confidence: 'high',
+        factor: 'Prediction first',
+        observation: `${kundli.lagna} Lagna, ${kundli.moonSign} Moon, ${kundli.nakshatra} nakshatra.`,
+        implication: 'The report must answer what the Kundli means before asking the user to study proof.',
+      },
+      {
+        confidence: 'high',
+        factor: 'Timing anchor',
+        observation: kundli.dasha.current
+          ? `${kundli.dasha.current.mahadasha}/${kundli.dasha.current.antardasha} until ${kundli.dasha.current.endDate}.`
+          : 'Current dasha pending.',
+        implication: 'Mahadasha Phala gets its own section and frames current delivery.',
+      },
+      {
+        confidence: 'medium',
+        factor: 'Coverage benchmark',
+        observation: valueContract.requiredModules.join(', '),
+        implication: 'Classical coverage remains, but each layer must lead to user-facing meaning.',
+      },
+    ],
+    eyebrow: 'KUNDLI PREDICTION',
+    tier: mode === 'PREMIUM' ? 'premium' : 'free',
+    title: mode === 'PREMIUM'
+      ? 'What your Kundli is saying with premium depth'
+      : 'What your Kundli is saying',
+  };
 }
 
 function buildCoreChartInterpretationSection(
@@ -2143,7 +2195,7 @@ function buildVedicSnapshotReportSection(
 
   return {
     body:
-      `${snapshot.explanation} ${vedicSectionMeaning(snapshot, mode)}`,
+      `${vedicSectionMeaning(snapshot, mode)} The technical snapshot underneath this prediction is ${snapshot.lagna} Lagna, ${snapshot.moonSign} Moon, ${snapshot.nakshatra} nakshatra, and ${snapshot.currentDasha}.`,
     bullets: [
       `Lagna ${snapshot.lagna}; Moon ${snapshot.moonSign}; Nakshatra ${snapshot.nakshatra}.`,
       `Current dasha: ${snapshot.currentDasha}.`,
@@ -2155,8 +2207,8 @@ function buildVedicSnapshotReportSection(
       `Graha labels available: ${intelligence.grahaVisualMetadata.map(item => item.displayLabel).join(', ')}.`,
       ...sectionEvidence(snapshot),
     ],
-    eyebrow: 'VEDIC INTELLIGENCE CONTRACT',
-    title: 'Vedic snapshot',
+    eyebrow: 'BIRTH SNAPSHOT',
+    title: 'Birth promise and current timing',
   };
 }
 
@@ -2167,7 +2219,7 @@ function buildMoonChartReportSection(
   const moonChart = intelligence.moonChart;
 
   return {
-    body: `${moonChart.explanation} ${vedicSectionMeaning(moonChart, mode)}`,
+    body: `${vedicSectionMeaning(moonChart, mode)} The Moon chart is included because lived experience, emotional response, and day-to-day pressure can look different from the Lagna chart.`,
     bullets: [
       `Moon chart status: ${moonChart.status === 'ready' ? 'ready and required' : 'pending'}.`,
       `Chart order remains fixed: Lagna/Rashi D1 first, Moon/Chandra Lagna second, Navamsa D9 third, then other vargas.`,
@@ -2196,7 +2248,7 @@ function buildMahadashaPhalaReportSection(
 
   return {
     body:
-      `${mahadasha.explanation} Past Mahadashas are summarized at Mahadasha level only; they do not expand into Antardasha or Pratyantardasha drill-down.`,
+      `${vedicSectionMeaning(mahadasha, mode)} This section is the dedicated Mahadasha Phala reading: past Mahadashas stay summarized, while the current period is read in three layers.`,
     bullets: [
       ...currentBlocks.map(blockText),
       pastBlocks.length
@@ -2230,7 +2282,7 @@ function buildHouseWisePlanetTableSections(
   return ensureAtLeastOneChunk(chunks).map((chunk, index) => ({
     body:
       index === 0
-        ? `${section.explanation} ${vedicSectionMeaning(section, mode)}`
+        ? `${vedicSectionMeaning(section, mode)} The rows below preserve house, sign, degree, nakshatra, dignity, combustion, and retrograde evidence so the prediction remains traceable.`
         : 'Continuation of the same house-wise planet table, kept in readable row blocks so no planet is hidden or cramped.',
     bullets: index === 0
       ? [
@@ -2268,7 +2320,7 @@ function buildFriendshipTableSections(
   return ensureAtLeastOneChunk(chunks).map((chunk, index) => ({
     body:
       index === 0
-        ? `${section.explanation} ${vedicSectionMeaning(section, mode)}`
+        ? `${vedicSectionMeaning(section, mode)} The friendship rows show how grahas cooperate or create friction inside this Kundli, so the reading can separate support from pressure.`
         : 'Continuation of the planet friendship table, split into readable blocks instead of a dense wall.',
     bullets: index === 0
       ? [
@@ -2296,7 +2348,7 @@ function buildBeneficMaleficReportSection(
   const section = intelligence.beneficMalefic;
 
   return {
-    body: `${section.explanation} ${vedicSectionMeaning(section, mode)}`,
+    body: `${vedicSectionMeaning(section, mode)} Natural nature and Lagna-specific function are kept separate so the report does not call a planet helpful or difficult too casually.`,
     bullets: [
       `Natural benefics: ${section.naturalBenefics.join(', ') || 'pending'}.`,
       `Natural malefics: ${section.naturalMalefics.join(', ') || 'pending'}.`,
@@ -2346,7 +2398,7 @@ function buildChalitTableReportSections(
   return ensureAtLeastOneChunk(chunks).map((chunk, index) => ({
     body:
       index === 0
-        ? `${section.explanation} ${vedicSectionMeaning(section, mode)}`
+        ? `${vedicSectionMeaning(section, mode)} Chalit shows where a planet delivers house results in lived life, while the Rashi chart preserves the planet's sign identity.`
         : 'Continuation of the Chalit table, split into readable row blocks.',
     bullets: index === 0
       ? [
@@ -2377,8 +2429,8 @@ function buildClassicalVedicReportSection(
 ): PdfSection {
   return {
     body: section.status === 'ready'
-      ? `${vedicSectionMeaning(section, mode)} Technical note: ${section.explanation}`
-      : `Prediction is held back because this layer is not fully ready. Technical note: ${section.explanation}`,
+      ? `${vedicSectionMeaning(section, mode)} The technical note is kept in proof: ${section.explanation}`
+      : `Prediction is held back because this layer is not fully ready. Proof note: ${section.explanation}`,
     bullets: uniqueValues([
       section.status === 'ready'
         ? `Prediction: ${section.freeInsight}`
@@ -3088,7 +3140,7 @@ function buildAshtakavargaSection(kundli: KundliData): PdfSection {
   const weakest = kundli.ashtakavarga.weakestHouses;
 
   return {
-    body: 'Ashtakavarga is used as a strength distribution layer. It does not replace chart judgment, but it helps separate areas where repeated effort receives support from areas requiring more disciplined correction.',
+    body: `Ashtakavarga shows where effort is more likely to receive support and where discipline must be repeated without expecting quick reward. Houses ${strongest.slice(0, 2).join(', ') || 'with higher support'} are the easier growth lanes; houses ${weakest.slice(0, 2).join(', ') || 'with lower support'} need patience, structure, and careful remedies.`,
     bullets: [
       `Total SAV bindus: ${kundli.ashtakavarga.totalScore}.`,
       `Strongest houses: ${strongest.join(', ')}.`,
@@ -3107,7 +3159,7 @@ function buildYogaSection(kundli: KundliData, mode: PDFMode): PdfSection {
   const yogas = kundli.yogas.slice(0, mode === 'PREMIUM' ? kundli.yogas.length : 3);
 
   return {
-    body: 'Yogas are included as interpreted patterns, not as isolated labels. Their practical value depends on strength, house context, and current dasha activation.',
+    body: 'The yogas below are read as life patterns, not trophy labels. Predicta keeps the useful prediction visible: which pattern can support the user, where it can create pressure, and whether current timing can activate it.',
     bullets: yogas.map(yoga => `${yoga.name} (${yoga.strength}): ${yoga.meaning}`),
     evidence: [`Yoga patterns included: ${yogas.length}.`],
     eyebrow: 'YOGAS',
@@ -3136,8 +3188,8 @@ function buildAdvancedJyotishCoverageSection(
   return {
     body:
       mode === 'PREMIUM'
-        ? 'Advanced coverage keeps every major Jyotish feature available while turning deeper chart details into useful synthesis, tables, and planning guidance.'
-        : 'Advanced coverage is generous in free mode: you see the major Jyotish areas with simple insight, while detailed scoring and tables stay in Premium.',
+        ? 'Advanced Jyotish coverage is used to sharpen the prediction, not to overwhelm the user. Premium reads deeper features as support, pressure, timing, and action guidance.'
+        : 'Advanced Jyotish coverage stays generous in free mode: the user gets the major signals in plain language, while dense scoring and extended proof stay in Premium.',
     bullets: [
       `Modules covered: ${coverage.moduleRegistry.map(item => item.simpleName).join(', ')}.`,
       `Nakshatra: ${coverage.nakshatraInsight.moonNakshatra} pada ${coverage.nakshatraInsight.pada}, lord ${coverage.nakshatraInsight.lord}.`,
@@ -4391,7 +4443,7 @@ function buildGuidanceSection(kundli: KundliData, mode: PDFMode): PdfSection {
   const weakHouses = kundli.ashtakavarga.weakestHouses;
 
   return {
-    body: 'Guidance is tied to chart evidence: current dasha, weak houses, and repeated pressure signatures. Full remedy guidance is intentionally kept for the single consolidated remedy/action plan at the end.',
+    body: 'The practical guidance is simple: use the current dasha consciously, protect weaker houses with routine, and avoid fear-based remedies. Full remedies appear once, in the consolidated action plan.',
     bullets: [
       maha ? `Work with ${current.mahadasha} through the discipline of house ${maha.house}: ${houseMeaning(maha.house)}.` : `Work consciously with the ${current.mahadasha} period through steadiness and clean commitments.`,
       `Protect weakest houses ${weakHouses.join(', ')} through routine, restraint, and honest review.`,

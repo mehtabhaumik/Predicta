@@ -45,6 +45,7 @@
     "test:report-final-phase-1": "node scripts/run-report-final-phase-1-report-voice-gate.mjs",
     "test:report-final-phase-2": "node scripts/run-report-final-phase-2-shared-architecture-gate.mjs",
     "test:report-final-phase-3": "node scripts/run-report-final-phase-3-depth-contract-gate.mjs",
+    "test:report-final-phase-4": "node scripts/run-report-final-phase-4-vedic-report-gate.mjs",
     "test:ai-model-phase-5": "python3 scripts/run-ai-model-phase-5-batch-qa.py",
     "test:ai-model-phase-6": "python3 scripts/run-ai-model-phase-6-prompt-efficiency.py",
     "test:ai-model-phase-7": "python3 scripts/run-ai-model-phase-7-release-governance.py",

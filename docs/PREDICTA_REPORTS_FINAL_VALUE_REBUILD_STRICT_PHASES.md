@@ -254,6 +254,61 @@ Rebuild Vedic as a premium Kundli dossier with charts, Panchang, Avakhada,
 planet/house evidence, Mahadasha Phala, yogas, Ashtakavarga, and a consolidated
 remedy/action plan.
 
+### Required Work
+
+- Add a Vedic-specific report value contract that locks:
+  - required Vedic modules
+  - prediction-first order
+  - free depth
+  - paid depth
+  - banned Vedic failures
+- Vedic reports must start with birth/calculation context, then a direct
+  Kundli prediction opening before dense tables.
+- Core Vedic focus remains:
+  - D1/Rashi
+  - Moon/Chandra Lagna
+  - D9/Navamsa
+  - D10/Dashamsa
+  - Chalit
+- Required Vedic coverage must include:
+  - Panchang
+  - Avakhada Chakra
+  - Ghatak and favorable factors
+  - house-wise planet table
+  - benefic/malefic logic
+  - Mahadasha Phala
+  - friendship table
+  - Chalit table
+  - Samsa
+  - Swamsa
+  - Karakamsha
+  - Ashtakavarga
+  - Prastarashtakavarga
+  - yogas
+  - consolidated remedy/action plan
+- Mahadasha Phala must remain a dedicated section after core chart and planet
+  evidence, not scattered as small timing snippets.
+- Remedies must appear as one consolidated action plan. Other sections may
+  reference remedies briefly but must not duplicate the full plan.
+- Premium must add deeper varga interpretation, contradictions, timing windows,
+  proof depth, and practical guidance. Premium must not merely add more pages.
+- Free must keep useful chart-backed prediction and essential evidence.
+
+### Green Criteria
+
+- Vedic report value contract source exists.
+- Required Vedic modules are listed in source and audit manifest.
+- `composeReportSections` uses the Vedic value opening for Vedic/Kundli lanes.
+- Vedic snapshot, chart, evidence-table, Mahadasha, classical, Ashtakavarga,
+  yoga, guidance, and remedy sections are prediction-first.
+- One consolidated remedy/action plan remains the only full remedy plan.
+- Vedic report architecture keeps KP, Jaimini, Numerology, Signature, and Life
+  Atlas out of the Vedic lane.
+- Phase 4 audit artifact exists.
+- Phase 4 gate passes.
+- PDF package typecheck passes.
+- PDF golden output gate passes.
+
 ## Phase 5: `PREDICTA_REPORT_FINAL_PHASE_5_KP_REPORT_REBUILD`
 
 Rebuild KP as a specific event/outcome report with question, verdict, promise,
