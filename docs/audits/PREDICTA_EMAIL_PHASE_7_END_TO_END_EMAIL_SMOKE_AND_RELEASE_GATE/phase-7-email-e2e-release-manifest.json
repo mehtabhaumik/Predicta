@@ -1,0 +1,21 @@
+{
+  "phase": true,
+  "phaseKeyword": "PREDICTA_EMAIL_PHASE_7_END_TO_END_EMAIL_SMOKE_AND_RELEASE_GATE",
+  "customerSupportSubmissionRoute": true,
+  "mockedEndToEndSmoke": true,
+  "customerEmailArtifact": true,
+  "adminNotificationArtifact": true,
+  "inboundReplyThreadingArtifact": true,
+  "adminReplyArtifact": true,
+  "auditTrailArtifact": true,
+  "missingProviderSmoke": true,
+  "providerFailureSmoke": true,
+  "liveSmokePolicy": "Run only when PREDICTA_EMAIL_PHASE_7_LIVE_SMOKE=1 and PREDICTA_RESEND_API_KEY is available.",
+  "releaseCommands": [
+    "corepack pnpm test:email-phase-7",
+    "corepack pnpm test:email-phase-6",
+    "corepack pnpm test:email-phase-5",
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "git diff --check"
+  ]
+}

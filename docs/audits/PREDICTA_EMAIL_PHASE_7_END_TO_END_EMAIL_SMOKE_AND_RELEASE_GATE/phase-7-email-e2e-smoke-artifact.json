@@ -1,0 +1,64 @@
+{
+  "adminNotificationArtifact": {
+    "subject": "[URGENT] PRD-20260602-YMHHDW - Premium report did not unlock",
+    "template": "support.admin.notification.received.v1",
+    "ticketHeader": "PRD-20260602-YMHHDW",
+    "to": [
+      "admin@example.invalid"
+    ]
+  },
+  "adminReplyArtifact": {
+    "deliveryStatus": "accepted",
+    "duplicate": false,
+    "status": "WAITING_ON_USER",
+    "template": "support.admin.reply.payment_link_razorpay_help.v1",
+    "to": [
+      "bhaumik@example.invalid"
+    ]
+  },
+  "auditTrailArtifact": {
+    "auditKinds": [
+      "delivery_recorded",
+      "message_added",
+      "status_changed",
+      "ticket_created"
+    ],
+    "deliveryCount": 3,
+    "messageCount": 4,
+    "privateNoteLeaked": false
+  },
+  "customerEmailArtifact": {
+    "subject": "We received your Predicta message PRD-20260602-YMHHDW",
+    "template": "support.customer.auto_reply.received.v1",
+    "ticketHeader": "PRD-20260602-YMHHDW",
+    "to": [
+      "bhaumik@example.invalid"
+    ]
+  },
+  "inboundReplyThreadingArtifact": {
+    "bodySanitized": true,
+    "status": "threaded",
+    "ticketNumber": "PRD-20260602-YMHHDW"
+  },
+  "liveSmoke": {
+    "reason": "Skipped because PREDICTA_EMAIL_PHASE_7_LIVE_SMOKE=1 and PREDICTA_RESEND_API_KEY were not both present.",
+    "status": "skipped"
+  },
+  "missingProviderSmoke": {
+    "configReady": false,
+    "deliveryCount": 0
+  },
+  "phase": "PREDICTA_EMAIL_PHASE_7_END_TO_END_EMAIL_SMOKE_AND_RELEASE_GATE",
+  "providerFailureSmoke": {
+    "configReady": true,
+    "deliveryStatuses": [
+      "failed",
+      "failed"
+    ]
+  },
+  "supportRouteArtifact": {
+    "status": 201,
+    "ticketCreated": true
+  },
+  "ticketNumber": "PRD-20260602-YMHHDW"
+}
