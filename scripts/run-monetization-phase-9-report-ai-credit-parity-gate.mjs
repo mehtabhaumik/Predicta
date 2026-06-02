@@ -153,7 +153,7 @@ assert(!webReportRoute.includes('function mapReportFocusToCreditType('), 'web re
 const mobileReport = read('apps/mobile/src/screens/ReportScreen.tsx');
 [
   'evaluateReportEntitlement',
-  'reportCreditLabel',
+  'getMonetizationReportCreditLabel',
   "kind: 'consume_report_credit'",
   "kind: 'consume_day_pass_report_pdf'",
   'Signature reports require a confirmed signature sample',
@@ -165,9 +165,10 @@ const webDossier = read('apps/web/components/WebDossierPreview.tsx');
 [
   'hasServerReportCreditForFocus',
   'getReportCreditCandidates',
-  'reportCreditLabel',
-  'Requires Premium, Day Pass, Family Bank, or one',
-  'Free deterministic report does not spend AI or report credits.',
+  'getMonetizationReportCreditLabel',
+  "'readyTemplate'",
+  "'requiresTemplate'",
+  "'freeNoSpend'",
   'Signature expression layer was not included because no signature sample was provided. Missing signature does not block Life Atlas.',
 ].forEach(fragment => assertIncludes(webDossier, fragment, 'web report composer credit requirement and Life Atlas optional signature copy'));
 

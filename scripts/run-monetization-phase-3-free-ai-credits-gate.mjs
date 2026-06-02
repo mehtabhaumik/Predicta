@@ -89,15 +89,18 @@ const webRoute = read('apps/web/app/api/ask-pridicta/route.ts');
 [
   'readServerEntitlementLedger',
   'commitServerEntitlementOperation',
-  'evaluateFreeAiGate',
+  'evaluateAiCreditEntitlement',
+  'shouldConsumeFreeAiCredit',
   'buildFreeAiUpsellResponse',
   'record_successful_free_ai_answer',
+  'record_successful_paid_ai_answer',
+  'record_successful_day_pass_ai_answer',
   'free_ai_lifetime_exhausted',
   'FREE_AI_QUESTION_LIFETIME_LIMIT',
   'preservedQuestion',
   'purchaseOptions: [',
 ].forEach(fragment => assertIncludes(webRoute, fragment, 'web ask-pridicta entitlement route'));
-assertBefore(webRoute, 'if (freeGate.blocked)', "fetch(`${getAstroApiUrl()}/ask-pridicta`", 'web route blocks before provider fetch');
+assertBefore(webRoute, 'if (!aiEntitlement.allowed)', "fetch(`${getAstroApiUrl()}/ask-pridicta`", 'web route blocks before provider fetch');
 assertAfter(webRoute, 'record_successful_free_ai_answer', "fetch(`${getAstroApiUrl()}/ask-pridicta`", 'web route spends only after provider fetch');
 assertIncludes(webRoute, "response.provider === 'openai' || response.provider === 'gemini'", 'web route provider-only spend');
 
@@ -113,7 +116,9 @@ const webChat = read('apps/web/components/WebPridictaChat.tsx');
 [
   'loadWebFreeAiBalance',
   'refreshFreeAiBalance',
-  'Starter AI questions',
+  'getMonetizationReportRequirementCopy',
+  'starterWithProductBankLabel',
+  'starterAiLabel',
   'response.freeAiUpsell?.blocked',
   'buildFreeAiUpsellSuggestions',
   '10 questions',
@@ -128,21 +133,25 @@ const webAccount = read('apps/web/components/WebProfileSettings.tsx');
 [
   'loadWebFreeAiBalance',
   'freeAiBalance',
-  'Starter AI',
-  'Lifetime starter AI questions',
+  'getMonetizationReportRequirementCopy',
+  'starterAiLabel',
+  'starterBalanceBody',
 ].forEach(fragment => assertIncludes(webAccount, fragment, 'web account free AI balance'));
 
 const mobileService = read('apps/mobile/src/services/ai/pridictaService.ts');
 [
   'loadServerEntitlementLedgerFromFirebase',
   'commitServerEntitlementOperationToFirebase',
-  'evaluateFreeAiGate',
+  'evaluateAiCreditEntitlement',
+  'shouldConsumeFreeAiCredit',
   'buildFreeAiUpsellResponse',
   'record_successful_free_ai_answer',
+  'record_successful_paid_ai_answer',
+  'record_successful_day_pass_ai_answer',
   'freeAiCreditsRemaining',
   'FREE_AI_QUESTION_LIFETIME_LIMIT',
 ].forEach(fragment => assertIncludes(mobileService, fragment, 'mobile Predicta AI service'));
-assertBefore(mobileService, 'if (ledger && freeGate.blocked)', 'requestBackendReading({', 'mobile service blocks before backend');
+assertBefore(mobileService, 'if (ledger && aiEntitlement && !aiEntitlement.allowed)', 'requestBackendReading({', 'mobile service blocks before backend');
 assertAfter(mobileService, 'record_successful_free_ai_answer', 'requestBackendReading({', 'mobile service spends after backend response');
 assertIncludes(mobileService, "response.provider === 'openai' || response.provider === 'gemini'", 'mobile service provider-only spend');
 
@@ -165,7 +174,9 @@ assertNotIncludes(mobileChat, 'recordQuestion();', 'mobile chat must not locally
 const mobileSettings = read('apps/mobile/src/screens/SettingsScreen.tsx');
 [
   'loadServerEntitlementLedgerFromFirebase',
-  'Starter AI questions',
+  'getMonetizationReportRequirementCopy',
+  'starterAiLabel',
+  'starterRemainingTemplate',
   'freeAiBalance',
   'FREE_AI_QUESTION_LIFETIME_LIMIT',
 ].forEach(fragment => assertIncludes(mobileSettings, fragment, 'mobile settings free AI balance'));

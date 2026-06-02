@@ -67,6 +67,7 @@
     "test:monetization-phase-8": "node scripts/run-monetization-phase-8-ai-cost-governance-gate.mjs",
     "test:monetization-phase-9": "node scripts/run-monetization-phase-9-report-ai-credit-parity-gate.mjs",
     "test:monetization-phase-10": "node scripts/run-monetization-phase-10-localization-ui-trust-gate.mjs",
+    "test:monetization-phase-11": "node scripts/run-monetization-phase-11-purchase-entitlement-smoke-gate.mjs",
     "test:numerology-predicta": "node scripts/run-numerology-predicta-strict-phase-gate.mjs",
     "test:signature-predicta": "node scripts/run-signature-predicta-ultra-strict-phase-gate.mjs",
     "test:life-atlas-report": "node scripts/run-life-atlas-report-strict-contract-gate.mjs",

@@ -83,13 +83,26 @@ const pricing = read('packages/config/src/pricing.ts');
   "AI_QUESTIONS_100: 'pridicta_100_questions'",
   "REPORT_SINGLE: 'pridicta_single_report'",
   "REPORT_BUNDLE: 'pridicta_report_bundle'",
-  "label: '10 AI Questions'",
-  "label: '25 AI Questions'",
-  "label: '100 AI Questions'",
-  "label: 'Single Report Credit'",
-  "label: 'Report Bundle'",
+  "label: getEnglishOneTimeProductCopy('AI_QUESTIONS_10').label",
+  "label: getEnglishOneTimeProductCopy('AI_QUESTIONS_25').label",
+  "label: getEnglishOneTimeProductCopy('AI_QUESTIONS_100').label",
+  "label: getEnglishOneTimeProductCopy('REPORT_SINGLE').label",
+  "label: getEnglishOneTimeProductCopy('REPORT_BUNDLE').label",
   "return getOneTimeProduct('REPORT_SINGLE')",
 ].forEach(fragment => assertIncludes(pricing, fragment, 'pricing Product Bank catalog'));
+const monetizationCopy = read('packages/config/src/translations/monetization.json');
+[
+  '"AI_QUESTIONS_10"',
+  '"10 AI Questions"',
+  '"AI_QUESTIONS_25"',
+  '"25 AI Questions"',
+  '"AI_QUESTIONS_100"',
+  '"100 AI Questions"',
+  '"REPORT_SINGLE"',
+  '"Single Report Credit"',
+  '"REPORT_BUNDLE"',
+  '"Report Bundle"',
+].forEach(fragment => assertIncludes(monetizationCopy, fragment, 'Product Bank translation catalog'));
 
 const ledger = read('packages/monetization/src/serverEntitlementLedger.ts');
 [
@@ -183,10 +196,10 @@ const entitlementParity = read('packages/monetization/src/entitlementParity.ts')
 );
 
 [
-  ['apps/web/components/WebProfileSettings.tsx', ['Product Bank', 'paidQuestionCredits', 'reportCredits']],
-  ['apps/web/components/WebPridictaChat.tsx', ['Starter AI + Product Bank', 'loadWebProductBankBalance']],
-  ['apps/web/components/WebDossierPreview.tsx', ['Product Bank balance', 'Family Bank']],
-  ['apps/web/app/checkout/page.tsx', ['getProductBankCheckoutCopy', 'Razorpay secure checkout is being connected']],
+  ['apps/web/components/WebProfileSettings.tsx', ['getMonetizationReportRequirementCopy', 'paidQuestionCredits', 'reportCredits']],
+  ['apps/web/components/WebPridictaChat.tsx', ['starterWithProductBankLabel', 'loadWebProductBankBalance']],
+  ['apps/web/components/WebDossierPreview.tsx', ['productBankBalance', 'familyReportCreditsByType']],
+  ['apps/web/app/checkout/page.tsx', ['getProductBankCheckoutCopy', 'checkoutRazorpayDisabled']],
   ['apps/web/app/dashboard/family/page.tsx', ['Family Bank', 'private chats, reports, and personal']],
 ].forEach(([file, fragments]) => {
   const source = read(file);

@@ -1,0 +1,37 @@
+{
+  "phase": "PREDICTA_MONETIZATION_PHASE_11_WEB_MOBILE_END_TO_END_PURCHASE_AND_ENTITLEMENT_SMOKE",
+  "status": "GREEN",
+  "requiredGate": "corepack pnpm test:monetization-phase-11",
+  "smokeResult": {
+    "disabledGateway": "honest-no-entitlement",
+    "familyComparison": "2-4-allowed-5-blocked",
+    "freeAiQuestions": "3/3 used",
+    "premiumReportCredit": "granted-and-consumed-once",
+    "questionPack": "9 credits remain after preserved question",
+    "razorpaySandbox": "skipped-missing-keys",
+    "webMobileSourceParity": "checked"
+  },
+  "razorpaySandbox": {
+    "keysPresent": false,
+    "status": "skipped-missing-keys",
+    "requiredWhenKeysAreAdded": true
+  },
+  "completedVerification": [
+    "corepack pnpm test:monetization-phase-2",
+    "corepack pnpm test:monetization-phase-3",
+    "corepack pnpm test:monetization-phase-4",
+    "corepack pnpm test:monetization-phase-5",
+    "corepack pnpm test:monetization-phase-6",
+    "corepack pnpm test:monetization-phase-7",
+    "corepack pnpm test:monetization-phase-8",
+    "corepack pnpm test:monetization-phase-9",
+    "corepack pnpm test:monetization-phase-10",
+    "corepack pnpm test:monetization-phase-11",
+    "corepack pnpm --filter @pridicta/monetization typecheck",
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "corepack pnpm --filter @pridicta/mobile typecheck",
+    "corepack pnpm --filter @pridicta/mobile exec jest --runInBand apps/mobile/__tests__/paymentWorkflow.test.ts apps/mobile/__tests__/mockBillingProvider.test.ts apps/mobile/__tests__/paywallService.test.ts",
+    "corepack pnpm build:web",
+    "git diff --check"
+  ]
+}
