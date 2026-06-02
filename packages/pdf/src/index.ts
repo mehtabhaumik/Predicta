@@ -66,6 +66,7 @@ import {
 import { buildVedicReportValueContract } from './vedicReportValueContract';
 import { buildKpReportValueContract } from './kpReportValueContract';
 import { buildJaiminiReportValueContract } from './jaiminiReportValueContract';
+import { buildNumerologyReportValueContract } from './numerologyReportValueContract';
 
 type PdfChartRole = ChartType | 'MOON' | 'SWAMSA' | 'KARAKAMSHA' | 'CHALIT' | 'KP' | 'NADI';
 
@@ -4060,6 +4061,11 @@ function buildNumerologyReportSections(
   }
 
   const dashboard = profile.identityDashboard;
+  const numerologyValueContract = buildNumerologyReportValueContract({
+    kundli,
+    mode,
+    profile,
+  });
   const timelinePreview = dashboard.personalYearTimeline
     .slice(0, isPremium ? 12 : 4)
     .map(month => `${month.monthLabel}: ${month.keyword} ${month.cycleNumber}. ${month.guidance}`);
@@ -4076,6 +4082,46 @@ function buildNumerologyReportSections(
     observation: `${cell.count} occurrence${cell.count === 1 ? '' : 's'}; ${cell.tone}; ${cell.keyword}.`,
   }));
   const sections: PdfSection[] = [
+    {
+      body: numerologyValueContract.openingPrediction,
+      bullets: [
+        numerologyValueContract.timingPromise,
+        numerologyValueContract.freeDepthPromise,
+        ...(isPremium ? [numerologyValueContract.paidDepthPromise] : []),
+        numerologyValueContract.actionPromise,
+      ],
+      confidence: 'medium',
+      evidence: [
+        numerologyValueContract.evidencePromise,
+        `Required Numerology modules: ${numerologyValueContract.requiredModules.join(', ')}.`,
+        `Required Numerology order: ${numerologyValueContract.sectionOrder.join(' -> ')}.`,
+      ],
+      evidenceTable: [
+        {
+          confidence: 'medium',
+          factor: 'Name rhythm',
+          implication: `The name projects through ${profile.nameNumber.simpleMeaning}.`,
+          observation: `${profile.nameNumber.root} ${profile.nameNumber.label}; compound ${profile.nameNumber.compound}.`,
+        },
+        {
+          confidence: 'medium',
+          factor: 'Destiny direction',
+          implication: `Life direction leans toward ${profile.destinyNumber.simpleMeaning}.`,
+          observation: `${profile.destinyNumber.root} ${profile.destinyNumber.label}.`,
+        },
+        {
+          confidence: 'medium',
+          factor: 'Current cycle',
+          implication: dashboard.bestUseOfCurrentCycle,
+          observation: `Year ${profile.personalYear.root}, month ${profile.personalMonth.root}, day ${profile.personalDay.root}.`,
+        },
+      ],
+      eyebrow: 'NUMEROLOGY',
+      tier: isPremium ? 'premium' : 'free',
+      title: isPremium
+        ? 'What your numbers are predicting with premium depth'
+        : 'What your numbers are predicting',
+    },
     {
       body:
         `${dashboard.lifeThemeSentence} Prediction: the name, birth code, destiny number, and current cycle are pointing toward a specific rhythm of action now. Best Use Of This Cycle: ${dashboard.bestUseOfCurrentCycle}`,
@@ -4101,7 +4147,7 @@ function buildNumerologyReportSections(
     },
     {
       body:
-        `Name Rhythm prediction: ${dashboard.nameStrength} ${dashboard.firstLetterInfluence} This shows how the name is likely to project in public rhythm, expression, steadiness, and visibility.`,
+        `Name Rhythm prediction: ${dashboard.nameStrength} ${dashboard.firstLetterInfluence} Your name is likely to project through public rhythm, expression, steadiness, and visibility; the useful move is to make that signal cleaner and more consistent.`,
       bullets: [
         `Name Energy Scanner: ${dashboard.nameScanner.reducedExpression}.`,
         `Normalized name: ${dashboard.nameScanner.normalizedName}.`,
@@ -4133,7 +4179,7 @@ function buildNumerologyReportSections(
     },
     {
       body:
-        `Birth Code prediction: ${dashboard.maturityDirection} The birth and destiny numbers show how the person instinctively responds and where life keeps asking them to mature.`,
+        `Birth Code prediction: ${dashboard.maturityDirection} The birth and destiny numbers point to the instinctive response pattern and the maturity direction that should be strengthened now.`,
       bullets: [
         `Birth number ${profile.birthNumber.root}: ${profile.birthNumber.simpleMeaning}.`,
         `Destiny number ${profile.destinyNumber.root}: ${profile.destinyNumber.simpleMeaning}.`,
@@ -4197,7 +4243,7 @@ function buildNumerologyReportSections(
     },
     {
       body:
-        `Missing / Repeated Number Grid: repeated ${dashboard.repeatedNumbers.join(', ') || 'none'}; missing ${dashboard.missingNumbers.join(', ') || 'none'}. This is not a fear score. It shows where the name/date pattern is louder and where conscious practice may help.`,
+        `Missing / Repeated Number Grid: repeated ${dashboard.repeatedNumbers.join(', ') || 'none'}; missing ${dashboard.missingNumbers.join(', ') || 'none'}. Repeated numbers show the louder habits to use wisely; missing numbers show the habits to practice calmly.`,
       bullets: [
         `Repeated numbers: ${dashboard.repeatedNumbers.length ? dashboard.repeatedNumbers.join(', ') : 'no strong repeat detected yet'}.`,
         `Strong numbers: ${dashboard.strongNumbers.length ? dashboard.strongNumbers.join(', ') : 'balanced emphasis'}.`,
@@ -4314,7 +4360,7 @@ function buildNumerologyReportSections(
       'Numerology evidence note: this report stays inside name and birth-date number analysis. Calculation boundaries are preserved here, but the main report is meant to predict rhythm, choice, and focus in human language.',
     bullets: [
       'Prediction lane: number identity, name rhythm, current personal cycles, missing/repeated patterns, and practical alignment.',
-      'Limit: no guaranteed success claim, no fear-based name-change pressure, and no replacement for real-world judgement.',
+      'Limit: this is number-led guidance, not pressure to change a name or a replacement for real-world judgement.',
       isPremium
         ? 'Premium adds deeper name refinement, compatibility, timing, and calculation proof while staying Numerology-only.'
         : 'Free gives the core number identity and action plan; premium adds deeper comparison and timing maps.',

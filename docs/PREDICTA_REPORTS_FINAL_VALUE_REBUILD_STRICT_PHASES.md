@@ -405,6 +405,38 @@ Rebuild Numerology as a Number Identity Dossier with number mandala, name
 rhythm, birth code, current cycle, missing/repeated grid, compatibility, and
 paid name refinement where available.
 
+### Required Work
+
+- Add a Numerology-specific report value contract that starts with what the
+  numbers are predicting for the user now.
+- Numerology reports must preserve technical evidence through Personal Number
+  Mandala, Name Rhythm, Name Energy Scanner, Birth Code, Destiny Direction,
+  Current Cycle Action Plan, Missing / Repeated Number Grid, Strengths and
+  Cautions, Work / Relationship / Money / Self-expression guidance, Name Fit
+  Score, Name Refinement, Compatibility Lens, Personal Year Timeline,
+  Supportive Toolkit, and Number Calculation Appendix.
+- Numerology reports must not render D1/D9 Parashari chart pages, Vedic graha
+  tables, sunrise chart notes, KP event proof, Jaimini destiny proof, or
+  Signature trait claims.
+- Free Numerology must include core number identity, current cycle, strengths,
+  cautions, missing/repeated pattern, and one practical action.
+- Premium Numerology must add deeper name scanner, name fit score, name
+  refinement, compatibility lens, supportive toolkit, full personal year
+  timeline, and calculation proof.
+- Missing numbers must be framed as practice cues, not fear. Name refinement
+  must never pressure a user or promise guaranteed success.
+
+### Green Criteria
+
+- `test:report-final-phase-7` passes.
+- Numerology has a dedicated value contract source.
+- Numerology PDF composition starts with `What your numbers are predicting`.
+- Birth-chart plate pages and Vedic graha placement tables are excluded from
+  Numerology report output.
+- Free and Premium Numerology depth rules are explicitly locked.
+- Audit artifacts prove no Vedic, KP, Jaimini, Signature, or Life Atlas mixing
+  in the Numerology report lane.
+
 ## Phase 8: `PREDICTA_REPORT_FINAL_PHASE_8_SIGNATURE_REPORT_REBUILD`
 
 Rebuild Signature as reflective expression guidance based only on confirmed

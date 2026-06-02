@@ -1,0 +1,38 @@
+{
+  "phase": "PREDICTA_REPORT_FINAL_PHASE_7_NUMEROLOGY_REPORT_REBUILD",
+  "status": "GREEN",
+  "reportLane": "NUMEROLOGY",
+  "numerologyValueContractSource": "packages/pdf/src/numerologyReportValueContract.ts",
+  "predictionOpeningInserted": true,
+  "birthChartPagesExcluded": true,
+  "vedicGrahaTablesExcluded": true,
+  "requiredModules": [
+    "Numerology Prediction Opening",
+    "Personal Number Mandala",
+    "Name Rhythm",
+    "Name Energy Scanner",
+    "Birth Code",
+    "Destiny Direction",
+    "Current Cycle Action Plan",
+    "Missing / Repeated Number Grid",
+    "Strengths and Cautions",
+    "Work Relationship Money Self-expression Guidance",
+    "Name Fit Score",
+    "Name Refinement",
+    "Compatibility Lens",
+    "Personal Year Timeline",
+    "Supportive Toolkit",
+    "Number Calculation Appendix"
+  ],
+  "greenCriteria": {
+    "phase7AuditExists": true,
+    "phase7GatePasses": true,
+    "numerologyValueContractSourceExists": true,
+    "requiredNumerologyModulesLocked": true,
+    "numerologyPredictionOpeningUsed": true,
+    "birthChartPagesExcluded": true,
+    "vedicGrahaTablesExcluded": true,
+    "technicalProofAfterPrediction": true,
+    "schoolBoundaryLocked": true
+  }
+}
