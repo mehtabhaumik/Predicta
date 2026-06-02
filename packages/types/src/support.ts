@@ -51,7 +51,15 @@ export type SupportTicketAuditEventKind =
 
 export type SupportEmailDeliveryProvider = 'resend';
 
-export type SupportEmailDeliveryStatus = 'accepted' | 'failed';
+export type SupportEmailDeliveryStatus =
+  | 'accepted'
+  | 'sent'
+  | 'delivered'
+  | 'delivery_delayed'
+  | 'bounced'
+  | 'failed'
+  | 'complained'
+  | 'suppressed';
 
 export type SupportTicketActor = {
   displayName?: string;

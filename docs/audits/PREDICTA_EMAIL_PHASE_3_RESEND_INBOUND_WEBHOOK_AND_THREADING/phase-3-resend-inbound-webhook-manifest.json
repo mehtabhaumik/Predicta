@@ -1,0 +1,59 @@
+{
+  "phase": "PREDICTA_EMAIL_PHASE_3_RESEND_INBOUND_WEBHOOK_AND_THREADING",
+  "status": "green-after-local-strict-audit",
+  "publicWebhookUrl": "https://predicta.rudraix.com/api/email/resend/webhook",
+  "webhookRoute": "apps/web/app/api/email/resend/webhook/route.ts",
+  "runtimeSecret": {
+    "env": "PREDICTA_RESEND_WEBHOOK_SECRET",
+    "secretManagerReference": "PREDICTA_RESEND_WEBHOOK_SECRET@1"
+  },
+  "apiKeyForReceivingApi": {
+    "env": "PREDICTA_RESEND_API_KEY",
+    "secretManagerReference": "PREDICTA_RESEND_API_KEY@1"
+  },
+  "enabledEvents": [
+    "email.received",
+    "email.sent",
+    "email.delivered",
+    "email.delivery_delayed",
+    "email.bounced",
+    "email.failed",
+    "email.complained",
+    "email.suppressed"
+  ],
+  "excludedEvents": [
+    "email.opened",
+    "email.clicked"
+  ],
+  "implementationFiles": [
+    "apps/web/app/api/email/resend/webhook/route.ts",
+    "apps/web/lib/email/resend-webhook.ts",
+    "apps/web/lib/email/support-html-sanitizer.ts",
+    "apps/web/lib/email/support-ticket-thread.ts",
+    "packages/types/src/support.ts",
+    "backend/astro_api/models.py"
+  ],
+  "auditGate": "corepack pnpm test:email-phase-3",
+  "strictAssertions": [
+    "webhook route uses request.text before parsing",
+    "svix-id, svix-timestamp, and svix-signature are required",
+    "invalid signatures are rejected",
+    "stale timestamps are rejected",
+    "duplicate webhook ids are idempotent",
+    "inbound HTML is sanitized",
+    "known ticket inbound replies append customer_inbound messages",
+    "unthreaded inbound replies are quarantined",
+    "known ticket delivery events are recorded",
+    "unthreaded delivery events are quarantined",
+    "opened and clicked events are excluded"
+  ],
+  "explicitNonScope": [
+    "admin inbox UI",
+    "admin reply composer",
+    "template management UI",
+    "durable production repository adapter",
+    "live Resend dashboard webhook smoke",
+    "final email security/privacy audit",
+    "end-to-end email smoke"
+  ]
+}

@@ -85,6 +85,7 @@
     "test:email-phase-0": "node scripts/run-email-phase-0-support-email-baseline-contract-gate.mjs",
     "test:email-phase-1": "node scripts/run-email-phase-1-resend-outbound-gate.mjs",
     "test:email-phase-2": "node scripts/run-email-phase-2-support-ticket-thread-gate.mjs",
+    "test:email-phase-3": "node scripts/run-email-phase-3-resend-webhook-gate.mjs",
     "test:numerology-predicta": "node scripts/run-numerology-predicta-strict-phase-gate.mjs",
     "test:signature-predicta": "node scripts/run-signature-predicta-ultra-strict-phase-gate.mjs",
     "test:life-atlas-report": "node scripts/run-life-atlas-report-strict-contract-gate.mjs",

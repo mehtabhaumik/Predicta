@@ -616,7 +616,16 @@ class SupportEmailDeliveryEvent(BaseModel):
     ticketNumber: str = Field(min_length=1)
     provider: Literal["resend"]
     recipient: str = Field(min_length=1)
-    status: Literal["accepted", "failed"]
+    status: Literal[
+        "accepted",
+        "sent",
+        "delivered",
+        "delivery_delayed",
+        "bounced",
+        "failed",
+        "complained",
+        "suppressed",
+    ]
     statusCode: int
     templateId: str = Field(min_length=1)
     attemptedAt: str

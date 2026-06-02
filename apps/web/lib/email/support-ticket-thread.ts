@@ -296,6 +296,9 @@ export interface SupportTicketThreadRepository {
     input: AddSupportTicketMessageInput,
   ): Promise<SupportTicketThread>;
   createThread(input: CreateSupportTicketThreadInput): Promise<SupportTicketThread>;
+  findThreadByTicketNumber(
+    ticketNumber: string,
+  ): Promise<SupportTicketThread | undefined>;
   getThread(ticketId: string): Promise<SupportTicketThread | undefined>;
   recordDeliveryEvent(
     ticketId: string,
@@ -331,6 +334,20 @@ export class InMemorySupportTicketThreadRepository
     this.threads.set(thread.ticket.id, thread);
 
     return thread;
+  }
+
+  async findThreadByTicketNumber(
+    ticketNumber: string,
+  ): Promise<SupportTicketThread | undefined> {
+    const normalizedTicketNumber = ticketNumber.trim().toUpperCase();
+
+    for (const thread of this.threads.values()) {
+      if (thread.ticket.ticketNumber.toUpperCase() === normalizedTicketNumber) {
+        return thread;
+      }
+    }
+
+    return undefined;
   }
 
   async getThread(ticketId: string): Promise<SupportTicketThread | undefined> {
