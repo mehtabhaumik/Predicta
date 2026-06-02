@@ -1,10 +1,21 @@
 import { strict as assert } from 'node:assert';
+import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(scriptDir, '..');
+
+if (
+  !existsSync(path.join(repoRoot, 'apps/web/components/WebNadiPredictaPanel.tsx')) &&
+  existsSync(path.join(repoRoot, 'apps/web/components/WebJaiminiPredictaPanel.tsx'))
+) {
+  console.log(
+    'Chart Insight Phase 4 legacy KP/Nadi gate superseded: Nadi UI surfaces were removed after the Jaimini replacement; run test:jaimini-phase-10 for the active localization/school-boundary gate.',
+  );
+  process.exit(0);
+}
 
 async function readWorkspaceFile(file) {
   return readFile(path.join(repoRoot, file), 'utf8');

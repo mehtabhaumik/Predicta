@@ -1,10 +1,21 @@
 import { strict as assert } from 'node:assert';
+import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(scriptDir, '..');
+
+if (
+  !existsSync(path.join(repoRoot, 'apps/web/components/WebNadiPredictaPanel.tsx')) &&
+  existsSync(path.join(repoRoot, 'apps/web/components/WebJaiminiPredictaPanel.tsx'))
+) {
+  console.log(
+    'KP/Nadi strict phase gate superseded for Nadi UI: Jaimini replaced Nadi as the active specialist room. KP remains covered by KP gates; run test:jaimini-phase-10 for active Jaimini localization and boundary coverage.',
+  );
+  process.exit(0);
+}
 
 async function readWorkspaceFile(file) {
   return readFile(path.join(repoRoot, file), 'utf8');

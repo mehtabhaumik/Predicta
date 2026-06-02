@@ -5035,6 +5035,3486 @@
       "en": "KP Predicta is preparing this layer from the saved birth profile.",
       "hi": "कृष्णमूर्ति प्रेडिक्टा सहेजे गए जन्म प्रोफाइल से यह परत तैयार कर रही है.",
       "gu": "કૃષ્ણમૂર્તિ પ્રેડિક્ટા સચવાયેલા જન્મ પ્રોફાઇલથી આ સ્તર તૈયાર કરી રહી છે."
+    },
+    "ui.global.predicta.watches.this.area.first.for.the.year.72b28716": {
+      "en": ". Predicta watches this area first for the year.",
+      "hi": ". प्रेडिक्टा इस क्षेत्र को वर्ष में सबसे पहले देखता है।",
+      "gu": ". પ્રેડિક્ટા વર્ષ માટે આ વિસ્તારને પ્રથમ જુએ છે."
+    },
+    "ui.global.the.chart.will.clearly.remember.this.as.a.probable.cor.728689b4": {
+      "en": ". The chart will clearly remember this as a probable corrected time.",
+      "hi": ". चार्ट इसे संभावित संशोधित समय के रूप में स्पष्ट रूप से याद रखेगा।",
+      "gu": ". ચાર્ટ સ્પષ્ટપણે આને સંભવિત સુધારેલા સમય તરીકે યાદ રાખશે."
+    },
+    "ui.global.not.the.originally.entered.d18c2f42": {
+      "en": ", not the originally entered",
+      "hi": ", मूल रूप से दर्ज नहीं किया गया",
+      "gu": ", મૂળ દાખલ કરેલ નથી"
+    },
+    "ui.global.copy.757f9acc": {
+      "en": ": “",
+      "hi": "कॉपी करें",
+      "gu": ": \""
+    },
+    "ui.global.birth.place.excluded.a45a0641": {
+      "en": "· Birth place excluded:",
+      "hi": "· जन्म स्थान को बाहर रखा गया:",
+      "gu": "જન્મ સ્થળ બાકાત:"
+    },
+    "ui.global.this.is.the.area.predicta.watches.first.for.the.year.02d9fb26": {
+      "en": ". This is the area Predicta watches first for the year.",
+      "hi": ". यह वह क्षेत्र है जिसे प्रेडिक्टा वर्ष में सबसे पहले देखता है।",
+      "gu": ". આ તે વિસ્તાર છે જે વર્ષ માટે પ્રિડિક્ટા પ્રથમ જુએ છે."
+    },
+    "ui.global.based.on.your.yes.no.answers.predicta.will.create.this.58759171": {
+      "en": ". Based on your yes/no answers, Predicta will create this Kundli with",
+      "hi": ". आपके हां/नहीं उत्तरों के आधार पर, प्रेडिक्टा इस कुंडली का निर्माण करेगी",
+      "gu": ". તમારા હા/ના જવાબોના આધારે, પ્રેડિક્ટા આ કુંડળીની સાથે બનાવશે"
+    },
+    "ui.global.original.entered.time.a514e1da": {
+      "en": ". Original entered time:",
+      "hi": ". मूल प्रविष्ट समय:",
+      "gu": ". દાખલ કરેલ મૂળ સમય:"
+    },
+    "ui.global.birth.star.488b05b8": {
+      "en": ". Birth star:",
+      "hi": ". जन्म नक्षत्र:",
+      "gu": ". જન્મ તારો:"
+    },
+    "ui.global.dossier.6b59696a": {
+      "en": "· DOSSIER",
+      "hi": "· दस्तावेज़",
+      "gu": "· ડોઝિયર"
+    },
+    "ui.global.confidence.64984c62": {
+      "en": "· Confidence:",
+      "hi": "· आत्मविश्वास:",
+      "gu": "· આત્મવિશ્વાસ:"
+    },
+    "ui.global.s.chart.focus.59a603c1": {
+      "en": "'s chart focus",
+      "hi": "का चार्ट फोकस",
+      "gu": "નું ચાર્ટ ફોકસ"
+    },
+    "ui.global.last.change.e439b9ea": {
+      "en": "· Last change:",
+      "hi": "· अंतिम परिवर्तन:",
+      "gu": "· છેલ્લો ફેરફાર:"
+    },
+    "ui.global.sub.db92d3a4": {
+      "en": "· Sub",
+      "hi": "· उप",
+      "gu": "· પેટા"
+    },
+    "ui.global.moon.89c29710": {
+      "en": "• Moon",
+      "hi": "• चंद्रमा",
+      "gu": "• ચંદ્ર"
+    },
+    "ui.global.s.kundli.is.ready.962bfd00": {
+      "en": "'s kundli is ready",
+      "hi": "की कुंडली तैयार है",
+      "gu": "ની કુંડળી તૈયાર છે"
+    },
+    "ui.global.star.b444dbe3": {
+      "en": "° · Star",
+      "hi": "° · सितारा",
+      "gu": "° · તારો"
+    },
+    "ui.global.12.cusps.with.star.and.sub.lords.3966a106": {
+      "en": "12 cusps with star and sub lords",
+      "hi": "स्टार और उप स्वामी के साथ 12 क्यूस्प्स",
+      "gu": "સ્ટાર અને સબ લોર્ડ્સ સાથે 12 કપ"
+    },
+    "ui.global.3.simple.steps.28ab7d8a": {
+      "en": "3 simple steps",
+      "hi": "3 सरल चरण",
+      "gu": "3 સરળ પગલાં"
+    },
+    "ui.global.account.check.c19d5fd7": {
+      "en": "ACCOUNT CHECK",
+      "hi": "खाता जांच",
+      "gu": "એકાઉન્ટ ચેક"
+    },
+    "ui.global.a.very.soft.local.sound.plays.when.predicta.finishes.a.86b93760": {
+      "en": "A very soft local sound plays when Predicta finishes a response.",
+      "hi": "जब प्रेडिक्टा कोई प्रतिक्रिया समाप्त करता है तो एक बहुत ही धीमी स्थानीय ध्वनि बजती है।",
+      "gu": "જ્યારે પ્રેડિક્ટા પ્રતિભાવ પૂરો કરે છે ત્યારે ખૂબ જ નરમ સ્થાનિક અવાજ વાગે છે."
+    },
+    "ui.global.a.separate.precision.school.defcdbb9": {
+      "en": "A separate precision school",
+      "hi": "एक अलग परिशुद्धता विद्यालय",
+      "gu": "એક અલગ ચોકસાઇ શાળા"
+    },
+    "ui.global.access.level.b125f108": {
+      "en": "Access level",
+      "hi": "पहुंच स्तर",
+      "gu": "ઍક્સેસ સ્તર"
+    },
+    "ui.global.account.required.16b42508": {
+      "en": "ACCOUNT REQUIRED",
+      "hi": "खाता आवश्यक है",
+      "gu": "એકાઉન્ટ જરૂરી છે"
+    },
+    "ui.global.a.trusted.astrology.companion.across.mobile.and.web.wi.a4b81a84": {
+      "en": "A trusted astrology companion across mobile and web, with chart proof, safety, privacy, and calm design.",
+      "hi": "चार्ट प्रूफ, सुरक्षा, गोपनीयता और शांत डिजाइन के साथ मोबाइल और वेब पर एक विश्वसनीय ज्योतिष साथी।",
+      "gu": "ચાર્ટ પ્રૂફ, સલામતી, ગોપનીયતા અને શાંત ડિઝાઇન સાથે, મોબાઇલ અને વેબ પર વિશ્વાસપાત્ર જ્યોતિષ સાથી."
+    },
+    "ui.global.private.notes.are.blocked.from.this.customer.reply.com.0cb4e327": {
+      "en": ". Private notes are blocked from this customer reply composer.",
+      "hi": ". इस ग्राहक उत्तर कंपोजर से निजी नोट ब्लॉक कर दिए गए हैं।",
+      "gu": ". આ ગ્રાહક જવાબ કંપોઝર તરફથી ખાનગી નોંધો અવરોધિત છે."
+    },
+    "ui.global.active.lesson.80c25e99": {
+      "en": "Active lesson",
+      "hi": "सक्रिय पाठ",
+      "gu": "સક્રિય પાઠ"
+    },
+    "ui.global.action.97c89a4d": {
+      "en": "Action",
+      "hi": "कार्रवाई",
+      "gu": "ક્રિયા"
+    },
+    "ui.global.active.kundli.ed1d4683": {
+      "en": "Active Kundli",
+      "hi": "सक्रिय कुंडली",
+      "gu": "સક્રિય કુંડળી"
+    },
+    "ui.global.advanced.refinements.stay.secondary.on.the.first.readi.f16006bb": {
+      "en": "Advanced refinements stay secondary on the first reading",
+      "hi": "उन्नत परिशोधन पहली रीडिंग पर गौण रहते हैं",
+      "gu": "અદ્યતન સંસ્કારિતા પ્રથમ વાંચન પર ગૌણ રહે છે"
+    },
+    "ui.global.add.profile.190b05ca": {
+      "en": "Add Profile",
+      "hi": "प्रोफ़ाइल जोड़ें",
+      "gu": "પ્રોફાઇલ ઉમેરો"
+    },
+    "ui.global.affirmation.4dc7a66d": {
+      "en": "Affirmation:",
+      "hi": "पुष्टि:",
+      "gu": "પ્રતિજ્ઞા:"
+    },
+    "ui.global.admin.reply.composer.92545885": {
+      "en": "Admin reply composer",
+      "hi": "व्यवस्थापक उत्तर संगीतकार",
+      "gu": "એડમિન જવાબ સંગીતકાર"
+    },
+    "ui.global.advanced.jyotish.dde7212a": {
+      "en": "ADVANCED JYOTISH",
+      "hi": "उन्नत ज्योतिष",
+      "gu": "ઉન્નત જ્યોતિષ"
+    },
+    "ui.global.admin.tools.b5b674b7": {
+      "en": "Admin Tools",
+      "hi": "व्यवस्थापक उपकरण",
+      "gu": "એડમિન સાધનો"
+    },
+    "ui.global.ai.a81d1b6c": {
+      "en": "AI ·",
+      "hi": "एआई",
+      "gu": "એઆઇ"
+    },
+    "ui.global.ai.chat.saved.kundlis.reports.and.family.vault.now.sta.ef4cea79": {
+      "en": "AI chat, saved Kundlis, reports, and Family Vault now stay attached to your private account.",
+      "hi": "एआई चैट, सहेजी गई कुंडली, रिपोर्ट और फैमिली वॉल्ट अब आपके निजी खाते से जुड़े रहेंगे।",
+      "gu": "એઆઇ ચેટ, સેવ કરેલી કુંડલીઓ, રિપોર્ટ્સ અને ફેમિલી વૉલ્ટ હવે તમારા ખાનગી એકાઉન્ટ સાથે જોડાયેલા રહે છે."
+    },
+    "ui.global.all.priorities.bc6ba0d1": {
+      "en": "All priorities",
+      "hi": "सभी प्राथमिकताएँ",
+      "gu": "તમામ પ્રાથમિકતાઓ"
+    },
+    "ui.global.ai.questions.e8cbeb31": {
+      "en": "AI questions ·",
+      "hi": "एआई प्रश्न ·",
+      "gu": "એઆઇ પ્રશ્નો ·"
+    },
+    "ui.global.all.statuses.6405179d": {
+      "en": "All statuses",
+      "hi": "सभी स्थितियाँ",
+      "gu": "બધી સ્થિતિઓ"
+    },
+    "ui.global.all.categories.060be00f": {
+      "en": "All categories",
+      "hi": "सभी श्रेणियां",
+      "gu": "બધી શ્રેણીઓ"
+    },
+    "ui.global.ancient.insight.beautifully.revealed.7261ee9b": {
+      "en": "Ancient insight, beautifully revealed",
+      "hi": "प्राचीन अंतर्दृष्टि, खूबसूरती से प्रकट हुई",
+      "gu": "પ્રાચીન આંતરદૃષ્ટિ, સુંદર રીતે પ્રગટ થઈ"
+    },
+    "ui.global.ashtakavarga.highlights.5441393b": {
+      "en": "Ashtakavarga highlights",
+      "hi": "अष्टकवर्ग पर प्रकाश डाला गया",
+      "gu": "અષ્ટકવર્ગ હાઇલાઇટ્સ"
+    },
+    "ui.global.approximate.time.will.be.marked.across.chart.chat.and..3a4558fd": {
+      "en": "Approximate time will be marked across chart, chat, and PDF.",
+      "hi": "अनुमानित समय चार्ट, चैट और पीडीएफ में अंकित किया जाएगा।",
+      "gu": "અંદાજિત સમય સમગ્ર ચાર્ટ, ચેટ અને PDF પર ચિહ્નિત કરવામાં આવશે."
+    },
+    "ui.global.answer.yes.or.no.if.you.prefer.your.entered.time.tap.c.6af9660c": {
+      "en": "Answer yes or no. If you prefer your entered time, tap Continue and choose “Use entered time”.",
+      "hi": "जवाब हाँ या नहीं। यदि आप अपना दर्ज किया गया समय पसंद करते हैं, तो जारी रखें पर टैप करें और \"दर्ज किए गए समय का उपयोग करें\" चुनें।",
+      "gu": "હા કે નામાં જવાબ આપો. જો તમે તમારો દાખલ કરેલ સમય પસંદ કરો છો, તો ચાલુ રાખો પર ટૅપ કરો અને \"દાખલ કરેલ સમયનો ઉપયોગ કરો\" પસંદ કરો."
+    },
+    "ui.global.allowed.email.9f18cfbf": {
+      "en": "Allowed email:",
+      "hi": "अनुमत ईमेल:",
+      "gu": "મંજૂર ઇમેઇલ:"
+    },
+    "ui.global.answer.all.yes.no.questions.before.applying.a.probable.68a72ab7": {
+      "en": "Answer all yes/no questions before applying a probable time.",
+      "hi": "संभावित समय लागू करने से पहले सभी हां/नहीं प्रश्नों के उत्तर दें।",
+      "gu": "સંભવિત સમય લાગુ કરતાં પહેલાં તમામ હા/ના પ્રશ્નોના જવાબ આપો."
+    },
+    "ui.global.app.preview.4cffb5a4": {
+      "en": "APP PREVIEW",
+      "hi": "ऐप पूर्वावलोकन",
+      "gu": "એપ્લિકેશન પૂર્વાવલોકન"
+    },
+    "ui.global.app.preview.9edb6188": {
+      "en": "App preview",
+      "hi": "ऐप पूर्वावलोकन",
+      "gu": "એપ્લિકેશન પૂર્વાવલોકન"
+    },
+    "ui.global.ask.about.birth.time.11d6bedc": {
+      "en": "Ask about birth time",
+      "hi": "जन्म समय के बारे में पूछें",
+      "gu": "જન્મ સમય વિશે પૂછો"
+    },
+    "ui.global.app.text.chart.labels.report.pdfs.and.predicta.replies.4edac247": {
+      "en": "App text, chart labels, report PDFs, and Predicta replies can each use their own language.",
+      "hi": "ऐप टेक्स्ट, चार्ट लेबल, रिपोर्ट पीडीएफ और प्रेडिक्टा उत्तर प्रत्येक अपनी भाषा का उपयोग कर सकते हैं।",
+      "gu": "એપ ટેક્સ્ટ, ચાર્ટ લેબલ્સ, રિપોર્ટ પીડીએફ અને પ્રીડિક્ટા જવાબો દરેક પોતાની ભાષાનો ઉપયોગ કરી શકે છે."
+    },
+    "ui.global.ask.about.mahadasha.phala.54dd1d2e": {
+      "en": "Ask about Mahadasha Phala",
+      "hi": "महादशा फल के बारे में पूछें",
+      "gu": "મહાદશા ફલા વિશે પૂછો"
+    },
+    "ui.global.ask.about.my.wrapped.695cdc0d": {
+      "en": "Ask about my Wrapped",
+      "hi": "मेरे लपेटे के बारे में पूछें",
+      "gu": "મારા આવરિત વિશે પૂછો"
+    },
+    "ui.global.ask.about.this.mirror.52fd3708": {
+      "en": "Ask about this mirror",
+      "hi": "इस दर्पण के बारे में पूछें",
+      "gu": "આ અરીસા વિશે પૂછો"
+    },
+    "ui.global.ask.from.the.section.you.are.reading.551d5dc3": {
+      "en": "Ask from the section you are reading",
+      "hi": "आप जिस अनुभाग को पढ़ रहे हैं, उससे पूछें",
+      "gu": "તમે વાંચી રહ્યા છો તે વિભાગમાંથી પૂછો"
+    },
+    "ui.global.ask.about.family.map.750f1b7a": {
+      "en": "Ask about family map",
+      "hi": "पारिवारिक मानचित्र के बारे में पूछें",
+      "gu": "કુટુંબના નકશા વિશે પૂછો"
+    },
+    "ui.global.allowed.email.3fe904b0": {
+      "en": "Allowed email",
+      "hi": "अनुमति प्राप्त ईमेल",
+      "gu": "મંજૂર ઇમેઇલ"
+    },
+    "ui.global.ask.about.wrapped.60a4235e": {
+      "en": "Ask about Wrapped",
+      "hi": "रैप्ड के बारे में पूछें",
+      "gu": "આવરિત વિશે પૂછો"
+    },
+    "ui.global.ask.from.this.exact.section.7be1b65c": {
+      "en": "Ask from this exact section",
+      "hi": "इस सटीक अनुभाग से पूछें",
+      "gu": "આ ચોક્કસ વિભાગમાંથી પૂછો"
+    },
+    "ui.global.ask.from.this.event.710f2985": {
+      "en": "Ask from this event",
+      "hi": "इस इवेंट से पूछें",
+      "gu": "આ ઘટના પરથી પૂછો"
+    },
+    "ui.global.ask.kp.question.a8ee7ee1": {
+      "en": "Ask KP question",
+      "hi": "केपी प्रश्न पूछें",
+      "gu": "KP પ્રશ્ન પૂછો"
+    },
+    "ui.global.ask.exact.question.wizard.c22ebf14": {
+      "en": "ASK EXACT QUESTION WIZARD",
+      "hi": "विज़ार्ड से सटीक प्रश्न पूछें",
+      "gu": "ચોક્કસ પ્રશ્ન વિઝાર્ડને પૂછો"
+    },
+    "ui.global.ask.kp.question.fa695b93": {
+      "en": "ASK KP QUESTION",
+      "hi": "केपी प्रश्न पूछें",
+      "gu": "KP પ્રશ્ન પૂછો"
+    },
+    "ui.global.ask.one.clear.decision.predicta.will.classify.it.check.f68c38a1": {
+      "en": "Ask one clear decision. Predicta will classify it, check chart timing, show risk, and give one next step.",
+      "hi": "एक स्पष्ट निर्णय पूछें. प्रेडिक्टा इसे वर्गीकृत करेगा, चार्ट समय की जांच करेगा, जोखिम दिखाएगा, और एक अगला कदम देगा।",
+      "gu": "એક સ્પષ્ટ નિર્ણય પૂછો. પ્રેડિક્ટા તેનું વર્ગીકરણ કરશે, ચાર્ટનો સમય તપાસશે, જોખમ બતાવશે અને આગળનું એક પગલું આપશે."
+    },
+    "ui.global.ask.predicta.from.this.selection.to.carry.house.and.pl.290233a1": {
+      "en": "Ask Predicta from this selection to carry house and planet context into the reading.",
+      "hi": "इस चयन से प्रेडिक्टा को पढ़ने में घर और ग्रह के संदर्भ को शामिल करने के लिए कहें।",
+      "gu": "આ પસંદગીમાંથી પ્રેડિક્ટાને ઘર અને ગ્રહના સંદર્ભને વાંચનમાં લઈ જવા માટે કહો."
+    },
+    "ui.global.ask.numerology.predicta.0c026cb1": {
+      "en": "ASK NUMEROLOGY PREDICTA",
+      "hi": "अंक ज्योतिष प्रेडिक्टा से पूछें",
+      "gu": "સંખ્યાશાસ્ત્રની આગાહી પૂછો"
+    },
+    "ui.global.ask.predicta.about.this.a0d81a3b": {
+      "en": "Ask Predicta about this",
+      "hi": "इस बारे में प्रेडिक्टा से पूछें",
+      "gu": "આ વિશે પ્રેડિક્ટાને પૂછો"
+    },
+    "ui.global.ask.predicta.to.create.879bf91c": {
+      "en": "Ask Predicta to Create",
+      "hi": "प्रेडिक्टा को बनाने के लिए कहें",
+      "gu": "પ્રેડિક્ટા ને બનાવવા માટે કહો"
+    },
+    "ui.global.ask.sadhana.path.74a3566b": {
+      "en": "Ask Sadhana Path",
+      "hi": "साधना पथ पूछो",
+      "gu": "સાધના પથ પૂછો"
+    },
+    "ui.global.ask.regular.predicta.face46ba": {
+      "en": "Ask Regular Predicta",
+      "hi": "रेगुलर प्रेडिक्टा से पूछें",
+      "gu": "નિયમિત આગાહી પૂછો"
+    },
+    "ui.global.ask.with.no.false.precision.6cdaf384": {
+      "en": "Ask with no false precision",
+      "hi": "बिना किसी झूठी परिशुद्धता के पूछें",
+      "gu": "ખોટી ચોકસાઈ વગર પૂછો"
+    },
+    "ui.global.at.27e90dfa": {
+      "en": "at",
+      "hi": "पर",
+      "gu": "ખાતે"
+    },
+    "ui.global.awareness.2d35fd00": {
+      "en": "Awareness",
+      "hi": "जागरूकता",
+      "gu": "જાગૃતિ"
+    },
+    "ui.global.ask.why.this.remedy.44536329": {
+      "en": "Ask why this remedy",
+      "hi": "पूछें कि यह उपाय क्यों",
+      "gu": "આ ઉપાય શા માટે પૂછો"
+    },
+    "ui.global.assigned.to.bb2279f0": {
+      "en": "Assigned to",
+      "hi": "को सौंपना",
+      "gu": "ને સોંપેલ"
+    },
+    "ui.global.ask.predicta.f4f93743": {
+      "en": "ASK PREDICTA",
+      "hi": "प्रेडिक्टा से पूछें",
+      "gu": "પ્રેડિક્ટા પૂછો"
+    },
+    "ui.global.ask.predicta.to.explain.a0b190e7": {
+      "en": "Ask Predicta to explain",
+      "hi": "प्रेडिक्टा से समझाने के लिए कहें",
+      "gu": "પ્રીડિક્ટાને સમજાવવા માટે કહો"
+    },
+    "ui.global.birth.code.1c94f517": {
+      "en": "BIRTH CODE",
+      "hi": "जन्म कोड",
+      "gu": "બર્થ કોડ"
+    },
+    "ui.global.bhava.cusps.ready.b4a65011": {
+      "en": "Bhava cusps ready",
+      "hi": "भव कस्प्स तैयार",
+      "gu": "ભાવા કપ્સ તૈયાર છે"
+    },
+    "ui.global.before.predicta.uses.fine.timing.76d59a2e": {
+      "en": "Before Predicta uses fine timing",
+      "hi": "प्रिडिक्टा से पहले बढ़िया टाइमिंग का उपयोग करता है",
+      "gu": "પ્રેડિક્ટા ફાઇન ટાઇમિંગ વાપરે તે પહેલાં"
+    },
+    "ui.global.bindus.d9ac1ae9": {
+      "en": "bindus ·",
+      "hi": "बिन्दु ·",
+      "gu": "બિન્દુસ ·"
+    },
+    "ui.global.bhaumik.mehta.signature.ce254379": {
+      "en": "Bhaumik Mehta signature",
+      "hi": "भौमिक मेहता के हस्ताक्षर",
+      "gu": "ભૌમિક મહેતાની સહી"
+    },
+    "ui.global.bhava.boundaries.8cca97f9": {
+      "en": "Bhava boundaries",
+      "hi": "भाव सीमाएँ",
+      "gu": "ભાવ સીમાઓ"
+    },
+    "ui.global.calm.holistic.astrology.for.the.decisions.that.need.a..79637c24": {
+      "en": "Calm holistic astrology for the decisions that need a clearer signal.",
+      "hi": "उन निर्णयों के लिए शांत समग्र ज्योतिष जिनके लिए स्पष्ट संकेत की आवश्यकता है।",
+      "gu": "સ્પષ્ટ સંકેતની જરૂર હોય તેવા નિર્ણયો માટે શાંત સર્વગ્રાહી જ્યોતિષશાસ્ત્ર."
+    },
+    "ui.global.care.779db9a7": {
+      "en": "Care",
+      "hi": "देखभाल",
+      "gu": "કાળજી"
+    },
+    "ui.global.bhaumik.mehta.bdb80600": {
+      "en": "Bhaumik Mehta",
+      "hi": "भौमिक मेहता",
+      "gu": "ભૌમિક મહેતા"
+    },
+    "ui.global.birth.time.excluded.d86755b6": {
+      "en": "Birth time excluded:",
+      "hi": "जन्म समय शामिल नहीं:",
+      "gu": "જન્મ સમય બાકાત:"
+    },
+    "ui.global.birth.snapshot.0884710f": {
+      "en": "BIRTH SNAPSHOT",
+      "hi": "जन्म स्नैपशॉट",
+      "gu": "જન્મ સ્નેપશોટ"
+    },
+    "ui.global.birth.snapshot.3edb3cc4": {
+      "en": "Birth Snapshot",
+      "hi": "जन्म स्नैपशॉट",
+      "gu": "જન્મ સ્નેપશોટ"
+    },
+    "ui.global.birth.time.detective.3b1b9f65": {
+      "en": "BIRTH TIME DETECTIVE",
+      "hi": "जन्म समय जासूस",
+      "gu": "જન્મ સમય ડિટેક્ટીવ"
+    },
+    "ui.global.block.82dd2cdf": {
+      "en": "Block",
+      "hi": "अवरोध पैदा करना",
+      "gu": "બ્લોક"
+    },
+    "ui.global.buy.focused.credits.when.you.need.one.report.or.a.few..b6dba57c": {
+      "en": "Buy focused credits when you need one report or a few more Predicta questions without starting a subscription.",
+      "hi": "जब आपको सदस्यता शुरू किए बिना एक रिपोर्ट या कुछ और प्रेडिक्टा प्रश्नों की आवश्यकता हो तो केंद्रित क्रेडिट खरीदें।",
+      "gu": "સબ્સ્ક્રિપ્શન શરૂ કર્યા વિના જ્યારે તમને એક રિપોર્ટ અથવા થોડા વધુ પ્રિડિક્ટા પ્રશ્નોની જરૂર હોય ત્યારે ધ્યાન કેન્દ્રિત ક્રેડિટ્સ ખરીદો."
+    },
+    "ui.global.chalit.chart.will.appear.after.this.kundli.is.calculat.7371b0b3": {
+      "en": "Chalit chart will appear after this Kundli is calculated with the updated Chalit method.",
+      "hi": "इस कुंडली की गणना अद्यतन चलित विधि से करने पर चलित चार्ट दिखाई देगा।",
+      "gu": "આ કુંડળીની અપડેટ કરેલ ચલિત પદ્ધતિથી ગણતરી કર્યા પછી ચલિત ચાર્ટ દેખાશે."
+    },
+    "ui.global.chart.b82b40b8": {
+      "en": "chart",
+      "hi": "चार्ट",
+      "gu": "ચાર્ટ"
+    },
+    "ui.global.chalit.shows.where.results.actually.land.in.daily.life.c50b355b": {
+      "en": "Chalit shows where results actually land in daily life after bhava boundaries refine the D1 chart. It keeps the rashi signs from D1, but it can shift the house that receives the result.",
+      "hi": "चालिट दिखाता है कि भाव सीमाओं के डी1 चार्ट को परिष्कृत करने के बाद दैनिक जीवन में परिणाम वास्तव में कहां आते हैं। यह राशि चिन्हों को D1 से दूर रखता है, लेकिन यह परिणाम प्राप्त करने वाले घर को स्थानांतरित कर सकता है।",
+      "gu": "ચલિત બતાવે છે કે ભાવ સીમાઓ D1 ચાર્ટને રિફાઇન કર્યા પછી રોજિંદા જીવનમાં ખરેખર પરિણામો ક્યાં આવે છે. તે D1 થી રાશી ચિહ્નો રાખે છે, પરંતુ તે પરિણામ મેળવનાર ઘરને બદલી શકે છે."
+    },
+    "ui.global.chalit.shifts.4bab9a80": {
+      "en": "Chalit shifts",
+      "hi": "चलित बदलाव",
+      "gu": "ચલિત પાળી"
+    },
+    "ui.global.changing.birth.date.time.or.place.recalculates.the.cha.ef221e1b": {
+      "en": "Changing birth date, time, or place recalculates the chart. You can update this saved Kundli or keep the old one and save a new Kundli.",
+      "hi": "जन्मतिथि, समय या स्थान बदलने से चार्ट की पुनर्गणना होती है। आप इस सेव की गई कुंडली को अपडेट कर सकते हैं या पुरानी कुंडली को रखकर नई कुंडली सेव कर सकते हैं।",
+      "gu": "જન્મ તારીખ, સમય અથવા સ્થળ બદલવાથી ચાર્ટની પુનઃ ગણતરી થાય છે. તમે આ સાચવેલી કુંડળીને અપડેટ કરી શકો છો અથવા જૂનીને રાખી શકો છો અને નવી કુંડળી સાચવી શકો છો."
+    },
+    "ui.global.chalit.bhav.chalit.chart.97c44819": {
+      "en": "Chalit · Bhav Chalit Chart",
+      "hi": "चलित · भाव चलित चार्ट",
+      "gu": "ચલિત · ભવ ચલિત ચાર્ટ"
+    },
+    "ui.global.category.a3c686e7": {
+      "en": "Category",
+      "hi": "वर्ग",
+      "gu": "શ્રેણી"
+    },
+    "ui.global.cautious.d3871318": {
+      "en": "Cautious",
+      "hi": "सावधान",
+      "gu": "સાવધ"
+    },
+    "ui.global.cautions.75ce8865": {
+      "en": "Cautions:",
+      "hi": "सावधानियां:",
+      "gu": "ચેતવણીઓ:"
+    },
+    "ui.global.chart.labels.4e5c0507": {
+      "en": "Chart labels",
+      "hi": "चार्ट लेबल",
+      "gu": "ચાર્ટ લેબલ્સ"
+    },
+    "ui.global.chart.evidence.489801e4": {
+      "en": "Chart evidence",
+      "hi": "चार्ट साक्ष्य",
+      "gu": "ચાર્ટ પુરાવા"
+    },
+    "ui.global.chart.not.enabled.yet.6f6080fe": {
+      "en": "Chart not enabled yet",
+      "hi": "चार्ट अभी सक्षम नहीं है",
+      "gu": "ચાર્ટ હજી સક્ષમ નથી"
+    },
+    "ui.global.chart.kundli.f25931f4": {
+      "en": "Chart Kundli",
+      "hi": "चार्ट कुंडली",
+      "gu": "ચાર્ટ કુંડલી"
+    },
+    "ui.global.chart.method.fe0e78e7": {
+      "en": "Chart method",
+      "hi": "चार्ट विधि",
+      "gu": "ચાર્ટ પદ્ધતિ"
+    },
+    "ui.global.chart.not.ready.9aa47850": {
+      "en": "Chart not ready",
+      "hi": "चार्ट तैयार नहीं है",
+      "gu": "ચાર્ટ તૈયાર નથી"
+    },
+    "ui.global.chat.with.predicta.48e8bc94": {
+      "en": "Chat with Predicta",
+      "hi": "प्रेडिक्टा के साथ चैट करें",
+      "gu": "પ્રેડિક્ટા સાથે ચેટ કરો"
+    },
+    "ui.global.chart.proof.b6878b46": {
+      "en": "Chart proof",
+      "hi": "चार्ट प्रमाण",
+      "gu": "ચાર્ટ પ્રૂફ"
+    },
+    "ui.global.choose.country.state.or.province.and.city.so.predicta..d144a47b": {
+      "en": "Choose country, state or province, and city so Predicta can resolve the correct timezone internally.",
+      "hi": "देश, राज्य या प्रांत और शहर चुनें ताकि प्रेडिक्टा आंतरिक रूप से सही समयक्षेत्र का समाधान कर सके।",
+      "gu": "દેશ, રાજ્ય અથવા પ્રાંત અને શહેર પસંદ કરો જેથી કરીને પ્રેડિક્ટા આંતરિક રીતે યોગ્ય સમય ઝોનને ઉકેલી શકે."
+    },
+    "ui.global.checking.your.account.a555ee29": {
+      "en": "Checking your account...",
+      "hi": "आपका खाता जांचा जा रहा है...",
+      "gu": "તમારું એકાઉન્ટ તપાસી રહ્યું છે..."
+    },
+    "ui.global.checking.your.predicta.account.2adc15b7": {
+      "en": "Checking your Predicta account...",
+      "hi": "आपका प्रेडिक्टा खाता जाँचा जा रहा है...",
+      "gu": "તમારું પ્રેડિક્ટા એકાઉન્ટ તપાસી રહ્યું છે..."
+    },
+    "ui.global.best.use.of.this.cycle.40bd4e3d": {
+      "en": "Best Use Of This Cycle",
+      "hi": "इस साइकिल का सर्वोत्तम उपयोग",
+      "gu": "આ સાયકલનો શ્રેષ્ઠ ઉપયોગ"
+    },
+    "ui.global.choose.how.you.want.to.continue.52b66946": {
+      "en": "Choose how you want to continue",
+      "hi": "चुनें कि आप कैसे जारी रखना चाहते हैं",
+      "gu": "તમે કેવી રીતે ચાલુ રાખવા માંગો છો તે પસંદ કરો"
+    },
+    "ui.global.choose.a.different.vedic.kp.jaimini.numerology.signatu.6ce4890c": {
+      "en": "Choose a different Vedic, KP, Jaimini, Numerology, Signature, or Life Atlas report",
+      "hi": "एक अलग वैदिक, केपी, जैमिनी, अंकज्योतिष, हस्ताक्षर, या जीवन एटलस रिपोर्ट चुनें",
+      "gu": "અલગ વૈદિક, KP, જૈમિની, અંકશાસ્ત્ર, હસ્તાક્ષર અથવા જીવન એટલાસ રિપોર્ટ પસંદ કરો"
+    },
+    "ui.global.check.readiness.8b71e078": {
+      "en": "Check Readiness",
+      "hi": "तैयारी की जाँच करें",
+      "gu": "તૈયારી તપાસો"
+    },
+    "ui.global.choose.the.event.first.kp.works.best.with.an.exact.que.86cf01f2": {
+      "en": "Choose the event first. KP works best with an exact question, a time window, the current situation, and the outcome you want to judge.",
+      "hi": "पहले ईवेंट चुनें. केपी एक सटीक प्रश्न, एक समय विंडो, वर्तमान स्थिति और आप जिस परिणाम का आकलन करना चाहते हैं, उसके साथ सबसे अच्छा काम करता है।",
+      "gu": "પ્રથમ ઇવેન્ટ પસંદ કરો. KP ચોક્કસ પ્રશ્ન, સમયની વિન્ડો, વર્તમાન પરિસ્થિતિ અને તમે જે પરિણામનો નિર્ણય કરવા માંગો છો તેની સાથે શ્રેષ્ઠ કામ કરે છે."
+    },
+    "ui.global.city.4271627f": {
+      "en": "City",
+      "hi": "शहर",
+      "gu": "શહેર"
+    },
+    "ui.global.close.bbfa773e": {
+      "en": "Close",
+      "hi": "बंद करना",
+      "gu": "બંધ કરો"
+    },
+    "ui.global.choose.your.report.world.e9e27c67": {
+      "en": "Choose your report world",
+      "hi": "अपनी रिपोर्ट दुनिया चुनें",
+      "gu": "તમારી રિપોર્ટ વર્લ્ડ પસંદ કરો"
+    },
+    "ui.global.clarity.without.noise.2f88fd03": {
+      "en": "Clarity without noise.",
+      "hi": "शोर के बिना स्पष्टता.",
+      "gu": "અવાજ વિના સ્પષ્ટતા."
+    },
+    "ui.global.classical.tables.67e59caf": {
+      "en": "Classical Tables",
+      "hi": "शास्त्रीय तालिकाएँ",
+      "gu": "ક્લાસિકલ કોષ્ટકો"
+    },
+    "ui.global.clean.vedic.snapshot.not.a.report.wall.bc629495": {
+      "en": "Clean Vedic snapshot, not a report wall",
+      "hi": "स्वच्छ वैदिक स्नैपशॉट, रिपोर्ट वॉल नहीं",
+      "gu": "ક્લીન વેદિક સ્નેપશોટ, રિપોર્ટ વોલ નહીં"
+    },
+    "ui.global.close.explanation.e43ed1de": {
+      "en": "Close explanation",
+      "hi": "स्पष्टीकरण बंद करें",
+      "gu": "બંધ સમજૂતી"
+    },
+    "ui.global.clear.filters.or.load.the.inbox.after.entering.the.own.4cfe582d": {
+      "en": "Clear filters or load the inbox after entering the owner key.",
+      "hi": "स्वामी कुंजी दर्ज करने के बाद फ़िल्टर साफ़ करें या इनबॉक्स लोड करें।",
+      "gu": "માલિક કી દાખલ કર્યા પછી ફિલ્ટર્સ સાફ કરો અથવા ઇનબોક્સ લોડ કરો."
+    },
+    "ui.global.clean.vedic.snapshot.not.a.56.page.wall.40380074": {
+      "en": "Clean Vedic snapshot, not a 56-page wall",
+      "hi": "स्वच्छ वैदिक स्नैपशॉट, 56 पेज की दीवार नहीं",
+      "gu": "સ્વચ્છ વૈદિક સ્નેપશોટ, 56-પાનાની દિવાલ નહીં"
+    },
+    "ui.global.classical.tables.4aff8cdd": {
+      "en": "CLASSICAL TABLES",
+      "hi": "शास्त्रीय तालिकाएँ",
+      "gu": "ક્લાસિકલ કોષ્ટકો"
+    },
+    "ui.global.cloud.sync.status.35e3ac6b": {
+      "en": "Cloud sync status",
+      "hi": "क्लाउड सिंक स्थिति",
+      "gu": "મેઘ સમન્વયન સ્થિતિ"
+    },
+    "ui.global.confirm.predicta.is.calm.responsible.and.safe.enough.b.b13955c5": {
+      "en": "Confirm Predicta is calm, responsible, and safe enough before it is shared more widely.",
+      "hi": "इसे अधिक व्यापक रूप से साझा करने से पहले पुष्टि करें कि प्रेडिक्टा शांत, जिम्मेदार और पर्याप्त सुरक्षित है।",
+      "gu": "ખાતરી કરો કે પ્રેડિક્ટા વધુ વ્યાપક રીતે શેર કરવામાં આવે તે પહેલાં તે શાંત, જવાબદાર અને પર્યાપ્ત સુરક્ષિત છે."
+    },
+    "ui.global.continue.free.87ddb019": {
+      "en": "Continue Free",
+      "hi": "नि:शुल्क जारी रखें",
+      "gu": "મફત ચાલુ રાખો"
+    },
+    "ui.global.confidence.check.377edf31": {
+      "en": "Confidence check",
+      "hi": "आत्मविश्वास की जाँच",
+      "gu": "આત્મવિશ્વાસની તપાસ"
+    },
+    "ui.global.continue.to.signature.predicta.e90b5f9b": {
+      "en": "Continue to Signature Predicta",
+      "hi": "प्रेडिक्टा पर हस्ताक्षर करना जारी रखें",
+      "gu": "સહી આગાહી ચાલુ રાખો"
+    },
+    "ui.global.confirm.the.entered.birth.time.or.answer.the.yes.no.qu.57f45cb6": {
+      "en": "Confirm the entered birth time, or answer the yes/no questions so Predicta can estimate a probable corrected time and recalculate the Kundli.",
+      "hi": "दर्ज किए गए जन्म समय की पुष्टि करें, या हां/नहीं प्रश्नों का उत्तर दें ताकि प्रेडिक्टा संभावित सही समय का अनुमान लगा सके और कुंडली की पुनर्गणना कर सके।",
+      "gu": "દાખલ કરેલ જન્મ સમયની પુષ્ટિ કરો, અથવા હા/ના પ્રશ્નોના જવાબ આપો જેથી પ્રિડિક્ટા સંભવિત સુધારેલા સમયનો અંદાજ લગાવી શકે અને કુંડળીની પુનઃ ગણતરી કરી શકે."
+    },
+    "ui.global.continue.with.apple.01ca4c21": {
+      "en": "Continue with Apple",
+      "hi": "एप्पल के साथ जारी रखें",
+      "gu": "એપલ સાથે ચાલુ રાખો"
+    },
+    "ui.global.confidence.29920132": {
+      "en": "Confidence:",
+      "hi": "आत्मविश्वास:",
+      "gu": "આત્મવિશ્વાસ:"
+    },
+    "ui.global.confirm.predicta.is.calm.responsible.and.ready.before..d65184db": {
+      "en": "Confirm Predicta is calm, responsible, and ready before it is shared more widely.",
+      "hi": "अधिक व्यापक रूप से साझा किए जाने से पहले इसकी पुष्टि करें कि प्रेडिक्टा शांत, जिम्मेदार और तैयार है।",
+      "gu": "પુષ્ટિ કરો કે પ્રેડિક્ટા શાંત, જવાબદાર અને વધુ વ્યાપક રીતે શેર થાય તે પહેલાં તૈયાર છે."
+    },
+    "ui.global.colors.3d6235eb": {
+      "en": "Colors:",
+      "hi": "रंग:",
+      "gu": "રંગો:"
+    },
+    "ui.global.confidence.and.safe.timing.limits.5ba3107a": {
+      "en": "Confidence and safe timing limits",
+      "hi": "आत्मविश्वास और सुरक्षित समय सीमा",
+      "gu": "આત્મવિશ્વાસ અને સલામત સમય મર્યાદા"
+    },
+    "ui.global.coupon.offerings.c304ce44": {
+      "en": "Coupon offerings",
+      "hi": "कूपन प्रसाद",
+      "gu": "કૂપન અર્પણો"
+    },
+    "ui.global.continue.with.google.ccc5b0ed": {
+      "en": "Continue with Google",
+      "hi": "Google के साथ जारी रखें",
+      "gu": "Google સાથે ચાલુ રાખો"
+    },
+    "ui.global.controls.predicta.replies.unless.the.chat.clearly.need.7258534d": {
+      "en": "Controls Predicta replies unless the chat clearly needs another language.",
+      "hi": "जब तक चैट को स्पष्ट रूप से किसी अन्य भाषा की आवश्यकता न हो, प्रेडिक्टा उत्तरों को नियंत्रित करता है।",
+      "gu": "જ્યાં સુધી ચેટને સ્પષ્ટપણે બીજી ભાષાની જરૂર ન હોય ત્યાં સુધી પ્રિડેક્ટા જવાબોનું નિયંત્રણ કરે છે."
+    },
+    "ui.global.controls.labels.inside.kundli.and.chart.views.6da2cd0d": {
+      "en": "Controls labels inside Kundli and chart views.",
+      "hi": "कुंडली और चार्ट दृश्यों के अंदर लेबल को नियंत्रित करता है।",
+      "gu": "કુંડળી અને ચાર્ટ વ્યૂની અંદરના લેબલોને નિયંત્રિત કરે છે."
+    },
+    "ui.global.controls.menus.buttons.and.page.text.aa681cab": {
+      "en": "Controls menus, buttons, and page text.",
+      "hi": "मेनू, बटन और पेज टेक्स्ट को नियंत्रित करता है।",
+      "gu": "મેનુઓ, બટનો અને પૃષ્ઠ ટેક્સ્ટને નિયંત્રિત કરે છે."
+    },
+    "ui.global.continue.with.microsoft.40a087c5": {
+      "en": "Continue with Microsoft",
+      "hi": "माइक्रोसॉफ्ट के साथ जारी रखें",
+      "gu": "માઇક્રોસોફ્ટ સાથે ચાલુ રાખો"
+    },
+    "ui.global.country.d523ebbd": {
+      "en": "Country",
+      "hi": "देश",
+      "gu": "દેશ"
+    },
+    "ui.global.core.vedic.grahas.first.e82fd5ee": {
+      "en": "Core Vedic grahas first",
+      "hi": "मूल वैदिक ग्रह प्रथम",
+      "gu": "કોર વૈદિક ગ્રહો પ્રથમ"
+    },
+    "ui.global.coverage.80e13549": {
+      "en": "Coverage",
+      "hi": "कवरेज",
+      "gu": "કવરેજ"
+    },
+    "ui.global.controls.the.language.used.when.reports.are.created.d80c253a": {
+      "en": "Controls the language used when reports are created.",
+      "hi": "रिपोर्ट बनाते समय उपयोग की जाने वाली भाषा को नियंत्रित करता है।",
+      "gu": "જ્યારે રિપોર્ટ્સ બનાવવામાં આવે ત્યારે ઉપયોગમાં લેવાતી ભાષાને નિયંત્રિત કરે છે."
+    },
+    "ui.global.create.a.kundli.to.unlock.a.share.safe.recap.0dab50aa": {
+      "en": "Create a kundli to unlock a share-safe recap.",
+      "hi": "शेयर-सुरक्षित पुनर्कथन को अनलॉक करने के लिए एक कुंडली बनाएं।",
+      "gu": "શેર-સલામત રીકેપ અનલૉક કરવા માટે કુંડળી બનાવો."
+    },
+    "ui.global.create.decision.memo.4e6a3a6d": {
+      "en": "Create Decision Memo",
+      "hi": "निर्णय ज्ञापन बनाएँ",
+      "gu": "નિર્ણય મેમો બનાવો"
+    },
+    "ui.global.create.and.save.kundlis.only.after.sign.in.so.charts.f.023eb3d0": {
+      "en": "Create and save Kundlis only after sign-in so charts, family profiles, and reports stay protected with your account.",
+      "hi": "साइन-इन करने के बाद ही कुंडली बनाएं और सहेजें ताकि चार्ट, पारिवारिक प्रोफ़ाइल और रिपोर्ट आपके खाते के साथ सुरक्षित रहें।",
+      "gu": "સાઇન-ઇન કર્યા પછી જ કુંડલી બનાવો અને સાચવો જેથી ચાર્ટ્સ, ફેમિલી પ્રોફાઇલ અને રિપોર્ટ્સ તમારા એકાઉન્ટ સાથે સુરક્ષિત રહે."
+    },
+    "ui.global.create.secure.pass.d81d4117": {
+      "en": "Create Secure Pass",
+      "hi": "सुरक्षित पास बनाएं",
+      "gu": "સુરક્ષિત પાસ બનાવો"
+    },
+    "ui.global.create.or.save.kundlis.1801c643": {
+      "en": "Create or Save Kundlis",
+      "hi": "कुंडलियाँ बनाएँ या सहेजें",
+      "gu": "કુંડળીઓ બનાવો અથવા સાચવો"
+    },
+    "ui.global.create.your.kundli.first.then.this.screen.will.show.yo.202fe239": {
+      "en": "Create your Kundli first. Then this screen will show your North Indian charts. Free gives useful insight for each chart; Premium adds detailed analysis and timing.",
+      "hi": "सबसे पहले अपनी कुंडली बनायें. फिर यह स्क्रीन आपके उत्तर भारतीय चार्ट दिखाएगी। निःशुल्क प्रत्येक चार्ट के लिए उपयोगी जानकारी देता है; प्रीमियम विस्तृत विश्लेषण और समय जोड़ता है।",
+      "gu": "પહેલા તમારી કુંડળી બનાવો. પછી આ સ્ક્રીન તમારા ઉત્તર ભારતીય ચાર્ટ્સ બતાવશે. મફત દરેક ચાર્ટ માટે ઉપયોગી સમજ આપે છે; પ્રીમિયમ વિગતવાર વિશ્લેષણ અને સમય ઉમેરે છે."
+    },
+    "ui.global.create.list.and.revoke.private.guest.passes.421d3796": {
+      "en": "Create, list, and revoke private guest passes.",
+      "hi": "निजी अतिथि पास बनाएं, सूचीबद्ध करें और निरस्त करें।",
+      "gu": "ખાનગી અતિથિ પાસ બનાવો, સૂચિબદ્ધ કરો અને રદબાતલ કરો."
+    },
+    "ui.global.create.your.kundli.understand.your.life.ask.better.que.56e69c5a": {
+      "en": "Create your Kundli. Understand your life. Ask better questions. Get beautiful reports. Guidance is for reflection only, with clear safety boundaries.",
+      "hi": "अपनी कुंडली बनाएं. अपने जीवन को समझें. बेहतर प्रश्न पूछें. सुंदर रिपोर्ट प्राप्त करें. स्पष्ट सुरक्षा सीमाओं के साथ मार्गदर्शन केवल प्रतिबिंब के लिए है।",
+      "gu": "તમારી કુંડળી બનાવો. તમારા જીવનને સમજો. વધુ સારા પ્રશ્નો પૂછો. સુંદર અહેવાલો મેળવો. સ્પષ્ટ સુરક્ષા સીમાઓ સાથે, માર્ગદર્શન માત્ર પ્રતિબિંબ માટે છે."
+    },
+    "ui.global.create.or.save.kundlis.to.start.mapping.repeated.famil.aaa0b2cd": {
+      "en": "Create or save kundlis to start mapping repeated family themes.",
+      "hi": "बार-बार पारिवारिक विषयों की मैपिंग शुरू करने के लिए कुंडली बनाएं या सहेजें।",
+      "gu": "પુનરાવર્તિત કૌટુંબિક થીમ્સનું મેપિંગ શરૂ કરવા માટે કુંડળીઓ બનાવો અથવા સાચવો."
+    },
+    "ui.global.create.revoke.list.and.review.guest.pass.codes.from.on.7ca56e57": {
+      "en": "Create, revoke, list, and review guest pass codes from one owner space.",
+      "hi": "एक मालिक स्थान से अतिथि पास कोड बनाएं, रद्द करें, सूचीबद्ध करें और समीक्षा करें।",
+      "gu": "એક માલિકની જગ્યામાંથી અતિથિ પાસ કોડ બનાવો, રદબાતલ કરો, સૂચિબદ્ધ કરો અને સમીક્ષા કરો."
+    },
+    "ui.global.created.kundli.a13b4868": {
+      "en": "Created Kundli",
+      "hi": "कुंडली बनाई",
+      "gu": "કુંડળી બનાવી"
+    },
+    "ui.global.cross.chart.synthesis.6c7bfc9d": {
+      "en": "Cross-chart synthesis",
+      "hi": "क्रॉस-चार्ट संश्लेषण",
+      "gu": "ક્રોસ-ચાર્ટ સંશ્લેષણ"
+    },
+    "ui.global.created.kundli.1c54c643": {
+      "en": "CREATED KUNDLI",
+      "hi": "कुण्डली बनाई",
+      "gu": "કુંડલી બનાવી"
+    },
+    "ui.global.create.switch.edit.or.delete.from.one.place.b73d876e": {
+      "en": "Create, switch, edit, or delete from one place",
+      "hi": "एक ही स्थान से बनाएं, स्विच करें, संपादित करें या हटाएं",
+      "gu": "એક જગ્યાએથી બનાવો, સ્વિચ કરો, સંપાદિત કરો અથવા કાઢી નાખો"
+    },
+    "ui.global.current.chapter.40b2f095": {
+      "en": "Current chapter",
+      "hi": "वर्तमान अध्याय",
+      "gu": "વર્તમાન પ્રકરણ"
+    },
+    "ui.global.daily.guidance.7260c3d8": {
+      "en": "Daily guidance",
+      "hi": "दैनिक मार्गदर्शन",
+      "gu": "દૈનિક માર્ગદર્શન"
+    },
+    "ui.global.cusps.refine.where.the.planet.delivers.results.in.prac.9cad7407": {
+      "en": "Cusps refine where the planet delivers results in practice. This is house delivery, not a change of sign.",
+      "hi": "क्यूस्प्स परिष्कृत करते हैं जहां ग्रह व्यवहार में परिणाम देता है। यह होम डिलीवरी है, साइन चेंज नहीं।",
+      "gu": "કસ્પ રિફાઇન કરે છે જ્યાં ગ્રહ વ્યવહારમાં પરિણામો આપે છે. આ હાઉસ ડિલિવરી છે, સાઇન ઓફ ચેન્જ નથી."
+    },
+    "ui.global.customize.239dce62": {
+      "en": "Customize",
+      "hi": "अनुकूलित करें",
+      "gu": "કસ્ટમાઇઝ કરો"
+    },
+    "ui.global.dasha.overlay.d8b452fc": {
+      "en": "Dasha overlay",
+      "hi": "दशा ओवरले",
+      "gu": "દશા ઓવરલે"
+    },
+    "ui.global.customer.0e85749a": {
+      "en": "Customer",
+      "hi": "ग्राहक",
+      "gu": "ગ્રાહક"
+    },
+    "ui.global.daily.briefing.8973c5e3": {
+      "en": "DAILY BRIEFING",
+      "hi": "दैनिक ब्रीफिंग",
+      "gu": "ડેઈલી બ્રીફિંગ"
+    },
+    "ui.global.current.19889c90": {
+      "en": "Current:",
+      "hi": "मौजूदा:",
+      "gu": "વર્તમાન:"
+    },
+    "ui.global.current.dasha.e6891e2b": {
+      "en": "CURRENT DASHA",
+      "hi": "वर्तमान दशा",
+      "gu": "વર્તમાન દશા"
+    },
+    "ui.global.current.cycle.f6df4a04": {
+      "en": "CURRENT CYCLE",
+      "hi": "वर्तमान चक्र",
+      "gu": "વર્તમાન ચક્ર"
+    },
+    "ui.global.current.timing.a639c023": {
+      "en": "CURRENT TIMING",
+      "hi": "वर्तमान समय",
+      "gu": "વર્તમાન સમય"
+    },
+    "ui.global.dashboard.menu.d462e220": {
+      "en": "Dashboard menu",
+      "hi": "डैशबोर्ड मेनू",
+      "gu": "ડેશબોર્ડ મેનુ"
+    },
+    "ui.global.days.95a37eed": {
+      "en": "days ·",
+      "hi": "दिन ·",
+      "gu": "દિવસો ·"
+    },
+    "ui.global.day.987b9ced": {
+      "en": "Day",
+      "hi": "दिन",
+      "gu": "દિવસ"
+    },
+    "ui.global.dashboard.menu.links.0b80c848": {
+      "en": "Dashboard menu links",
+      "hi": "डैशबोर्ड मेनू लिंक",
+      "gu": "ડેશબોર્ડ મેનુ લિંક્સ"
+    },
+    "ui.global.dashboard.footer.navigation.33b0ea5b": {
+      "en": "Dashboard footer navigation",
+      "hi": "डैशबोर्ड फ़ुटर नेविगेशन",
+      "gu": "ડેશબોર્ડ ફૂટર નેવિગેશન"
+    },
+    "ui.global.dashboard.navigation.3d4759ce": {
+      "en": "Dashboard navigation",
+      "hi": "डैशबोर्ड नेविगेशन",
+      "gu": "ડેશબોર્ડ નેવિગેશન"
+    },
+    "ui.global.day.bd0a3009": {
+      "en": "day,",
+      "hi": "दिन,",
+      "gu": "દિવસ"
+    },
+    "ui.global.deep.chart.wisdom.should.not.feel.confusing.intimidati.813219c4": {
+      "en": "Deep chart wisdom should not feel confusing, intimidating, or cheaply packaged. A Kundli carries personal context and deserves a thoughtful experience.",
+      "hi": "गहन चार्ट ज्ञान भ्रमित करने वाला, डराने वाला या सस्ते में पैक किया हुआ नहीं लगना चाहिए। कुंडली व्यक्तिगत संदर्भ रखती है और एक विचारशील अनुभव की पात्र है।",
+      "gu": "ડીપ ચાર્ટ શાણપણને ગૂંચવણમાં મૂકે તેવું, ડરાવવાનું અથવા સસ્તું પેકેજ ન લાગવું જોઈએ. કુંડળી વ્યક્તિગત સંદર્ભ ધરાવે છે અને વિચારશીલ અનુભવને પાત્ર છે."
+    },
+    "ui.global.deep.readings.fd8ec400": {
+      "en": "deep readings ·",
+      "hi": "गहन अध्ययन ·",
+      "gu": "ઊંડા વાંચન ·"
+    },
+    "ui.global.deep.8da0b180": {
+      "en": "deep ·",
+      "hi": "गहरा ·",
+      "gu": "ઊંડા ·"
+    },
+    "ui.global.devices.a5636971": {
+      "en": "devices ·",
+      "hi": "उपकरण ·",
+      "gu": "ઉપકરણો ·"
+    },
+    "ui.global.deeper.chat.life.calendar.remedies.and.reports.a567aedb": {
+      "en": "Deeper chat, Life Calendar, remedies, and reports.",
+      "hi": "गहन बातचीत, जीवन कैलेंडर, उपचार और रिपोर्ट।",
+      "gu": "ઊંડા ચેટ, જીવન કેલેન્ડર, ઉપાયો અને અહેવાલો."
+    },
+    "ui.global.decision.memo.60f39ea1": {
+      "en": "Decision memo",
+      "hi": "निर्णय ज्ञापन",
+      "gu": "નિર્ણય મેમો"
+    },
+    "ui.global.dismiss.70afe9ef": {
+      "en": "Dismiss",
+      "hi": "नकार देना",
+      "gu": "કાઢી નાખો"
+    },
+    "ui.global.delivery.9631af52": {
+      "en": "Delivery",
+      "hi": "वितरण",
+      "gu": "ડિલિવરી"
+    },
+    "ui.global.done.streak.023ff5a8": {
+      "en": "done · streak",
+      "hi": "हो गया · लकीर",
+      "gu": "પૂર્ણ · દોર"
+    },
+    "ui.global.edited.978e8c33": {
+      "en": "Edited",
+      "hi": "संपादित",
+      "gu": "સંપાદિત"
+    },
+    "ui.global.each.report.keeps.only.the.minimum.review.details.priv.ba714719": {
+      "en": "Each report keeps only the minimum review details. Private birth details and full chat text are not stored here.",
+      "hi": "प्रत्येक रिपोर्ट केवल न्यूनतम समीक्षा विवरण रखती है। निजी जन्म विवरण और पूर्ण चैट टेक्स्ट यहां संग्रहीत नहीं हैं।",
+      "gu": "દરેક રિપોર્ટ માત્ર ન્યૂનતમ સમીક્ષા વિગતો રાખે છે. ખાનગી જન્મ વિગતો અને સંપૂર્ણ ચેટ ટેક્સ્ટ અહીં સંગ્રહિત નથી."
+    },
+    "ui.global.each.holistic.astrology.room.keeps.the.reading.simple..094be760": {
+      "en": "Each holistic astrology room keeps the reading simple while using chart proof underneath.",
+      "hi": "प्रत्येक समग्र ज्योतिष कक्ष नीचे चार्ट प्रमाण का उपयोग करते हुए रीडिंग को सरल रखता है।",
+      "gu": "દરેક સાકલ્યવાદી જ્યોતિષ ખંડ નીચે ચાર્ટ પ્રૂફનો ઉપયોગ કરતી વખતે વાંચનને સરળ રાખે છે."
+    },
+    "ui.global.download.from.here.first.change.report.worlds.only.if..a932bb29": {
+      "en": "Download from here first. Change report worlds only if you want a different school or a Life Atlas synthesis.",
+      "hi": "सबसे पहले यहां से डाउनलोड करें. रिपोर्ट की दुनिया तभी बदलें जब आप एक अलग स्कूल या लाइफ एटलस संश्लेषण चाहते हों।",
+      "gu": "પહેલા અહીંથી ડાઉનલોડ કરો. જો તમે અલગ શાળા અથવા લાઇફ એટલાસ સંશ્લેષણ ઇચ્છતા હોવ તો જ રિપોર્ટની દુનિયા બદલો."
+    },
+    "ui.global.editable.customer.reply.1fccaf1f": {
+      "en": "Editable customer reply",
+      "hi": "संपादन योग्य ग्राहक उत्तर",
+      "gu": "સંપાદનયોગ્ય ગ્રાહક જવાબ"
+    },
+    "ui.global.effective.b034605d": {
+      "en": "Effective",
+      "hi": "असरदार",
+      "gu": "અસરકારક"
+    },
+    "ui.global.download.full.report.0470a94e": {
+      "en": "Download Full Report",
+      "hi": "पूरी रिपोर्ट डाउनलोड करें",
+      "gu": "સંપૂર્ણ અહેવાલ ડાઉનલોડ કરો"
+    },
+    "ui.global.drawing.your.kundli.b4671c71": {
+      "en": "Drawing your Kundli",
+      "hi": "आपकी कुंडली बनाना",
+      "gu": "તમારી કુંડળી દોરવી"
+    },
+    "ui.global.events.yet.443a4063": {
+      "en": "events yet.",
+      "hi": "अभी भी घटनाएँ।",
+      "gu": "હજુ સુધી ઘટનાઓ."
+    },
+    "ui.global.enter.birth.details.in.order.2c5324d1": {
+      "en": "Enter birth details in order",
+      "hi": "जन्म विवरण क्रम से दर्ज करें",
+      "gu": "ક્રમમાં જન્મ વિગતો દાખલ કરો"
+    },
+    "ui.global.download.full.report.for.detailed.analysis.203a5b5c": {
+      "en": "Download full report for detailed analysis",
+      "hi": "विस्तृत विश्लेषण के लिए पूरी रिपोर्ट डाउनलोड करें",
+      "gu": "વિગતવાર વિશ્લેષણ માટે સંપૂર્ણ અહેવાલ ડાઉનલોડ કરો"
+    },
+    "ui.global.enter.owner.key.5431bf57": {
+      "en": "Enter owner key",
+      "hi": "स्वामी कुंजी दर्ज करें",
+      "gu": "માલિક કી દાખલ કરો"
+    },
+    "ui.global.enter.full.name.29362f24": {
+      "en": "Enter full name",
+      "hi": "पूरा नाम दर्ज करें",
+      "gu": "પૂરું નામ દાખલ કરો"
+    },
+    "ui.global.event.verdict.compass.06de1ab0": {
+      "en": "EVENT VERDICT COMPASS",
+      "hi": "घटना निर्णय कम्पास",
+      "gu": "ઇવેન્ટ વર્ડિક્ટ કંપાસ"
+    },
+    "ui.global.enter.your.predicta.pass.dc331ab5": {
+      "en": "Enter your Predicta pass",
+      "hi": "अपना प्रेडिक्टा पास दर्ज करें",
+      "gu": "તમારો પ્રેડિક્ટા પાસ દાખલ કરો"
+    },
+    "ui.global.family.layer.for.saved.kundlis.8ccb43bc": {
+      "en": "Family layer for saved Kundlis",
+      "hi": "सहेजी गई कुंडलियों के लिए पारिवारिक परत",
+      "gu": "સાચવેલી કુંડળીઓ માટે કૌટુંબિક સ્તર"
+    },
+    "ui.global.family.map.f67e6cc4": {
+      "en": "Family Map",
+      "hi": "पारिवारिक मानचित्र",
+      "gu": "કુટુંબ નકશો"
+    },
+    "ui.global.family.bank.0c3bfa70": {
+      "en": "Family Bank",
+      "hi": "पारिवारिक बैंक",
+      "gu": "કૌટુંબિક બેંક"
+    },
+    "ui.global.example.i.am.confused.about.changing.my.job.soon.26435269": {
+      "en": "Example: I am confused about changing my job soon.",
+      "hi": "उदाहरण: मैं जल्द ही अपनी नौकरी बदलने को लेकर असमंजस में हूं।",
+      "gu": "ઉદાહરણ: હું મારી નોકરી ટૂંક સમયમાં બદલવા વિશે મૂંઝવણમાં છું."
+    },
+    "ui.global.explain.my.name.number.e2c6fc03": {
+      "en": "Explain my name number",
+      "hi": "मेरा नाम क्रमांक स्पष्ट करें",
+      "gu": "મારો નામ નંબર સમજાવો"
+    },
+    "ui.global.family.members.ba32990e": {
+      "en": "family members",
+      "hi": "परिवार के सदस्य",
+      "gu": "પરિવારના સભ્યો"
+    },
+    "ui.global.every.chart.is.visible.in.free.premium.changes.the.dep.49403f20": {
+      "en": "Every chart is visible in free. Premium changes the depth: detailed analysis, D1 anchoring, timing, and report-ready synthesis.",
+      "hi": "हर चार्ट मुफ़्त में दिखाई देता है. प्रीमियम गहराई बदलता है: विस्तृत विश्लेषण, डी1 एंकरिंग, समय और रिपोर्ट-तैयार संश्लेषण।",
+      "gu": "દરેક ચાર્ટ મફતમાં દેખાય છે. પ્રીમિયમ ઊંડાઈમાં ફેરફાર કરે છે: વિગતવાર વિશ્લેષણ, D1 એન્કરિંગ, સમય અને રિપોર્ટ તૈયાર સંશ્લેષણ."
+    },
+    "ui.global.each.lane.keeps.its.own.method.clean.choose.vedic.kp.j.ca93c753": {
+      "en": "Each lane keeps its own method clean. Choose Vedic, KP, Jaimini, Numerology, or Signature without accidentally buying a mixed bag report.",
+      "hi": "प्रत्येक गली अपना-अपना तरीका साफ रखती है। गलती से मिश्रित बैग रिपोर्ट खरीदे बिना वैदिक, केपी, जैमिनी, अंकज्योतिष या हस्ताक्षर चुनें।",
+      "gu": "દરેક લેન તેની પોતાની પદ્ધતિ સ્વચ્છ રાખે છે. આકસ્મિક રીતે મિશ્ર બેગ રિપોર્ટ ખરીદ્યા વિના વૈદિક, KP, જૈમિની, અંકશાસ્ત્ર અથવા હસ્તાક્ષર પસંદ કરો."
+    },
+    "ui.global.enter.password.570591c0": {
+      "en": "Enter password",
+      "hi": "पास वर्ड दर्ज करें",
+      "gu": "પાસવર્ડ દાખલ કરો"
+    },
+    "ui.global.example.should.i.change.jobs.in.the.next.3.months.735188e8": {
+      "en": "Example: Should I change jobs in the next 3 months?",
+      "hi": "उदाहरण: क्या मुझे अगले 3 महीनों में नौकरी बदलनी चाहिए?",
+      "gu": "ઉદાહરણ: શું મારે આગામી 3 મહિનામાં નોકરી બદલવી જોઈએ?"
+    },
+    "ui.global.family.vault.983aa4e8": {
+      "en": "FAMILY VAULT",
+      "hi": "पारिवारिक तिजोरी",
+      "gu": "ફેમિલી વૉલ્ટ"
+    },
+    "ui.global.focused.report.preview.bf3579ea": {
+      "en": "Focused report preview",
+      "hi": "केंद्रित रिपोर्ट पूर्वावलोकन",
+      "gu": "ફોકસ્ડ રિપોર્ટ પૂર્વાવલોકન"
+    },
+    "ui.global.first.class.soul.charts.0f8901c6": {
+      "en": "FIRST-CLASS SOUL CHARTS",
+      "hi": "प्रथम श्रेणी के सोल चार्ट",
+      "gu": "ફર્સ્ટ-ક્લાસ સોલ ચાર્ટ"
+    },
+    "ui.global.fastest.healing.pair.64555d86": {
+      "en": "Fastest healing pair",
+      "hi": "सबसे तेज़ उपचार जोड़ी",
+      "gu": "સૌથી ઝડપી હીલિંગ જોડી"
+    },
+    "ui.global.first.person.050a1e08": {
+      "en": "First person",
+      "hi": "पहले व्यक्ति",
+      "gu": "પ્રથમ વ્યક્તિ"
+    },
+    "ui.global.founder.vision.1462d40d": {
+      "en": "FOUNDER VISION",
+      "hi": "संस्थापक दृष्टिकोण",
+      "gu": "સ્થાપક દ્રષ્ટિ"
+    },
+    "ui.global.focus.charts.first.full.library.deliberately.67c2e42f": {
+      "en": "Focus charts first, full library deliberately",
+      "hi": "फोकस चार्ट पहले, पूरी लाइब्रेरी जानबूझकर",
+      "gu": "પ્રથમ ચાર્ટ પર ફોકસ કરો, ઇરાદાપૂર્વક સંપૂર્ણ પુસ્તકાલય"
+    },
+    "ui.global.footer.navigation.a32d98c0": {
+      "en": "Footer navigation",
+      "hi": "फ़ुटर नेविगेशन",
+      "gu": "ફૂટર નેવિગેશન"
+    },
+    "ui.global.founder.promise.82593fae": {
+      "en": "FOUNDER PROMISE",
+      "hi": "संस्थापक का वादा",
+      "gu": "સ્થાપક વચન"
+    },
+    "ui.global.free.users.get.one.useful.chart.prediction.premium.use.99342e6e": {
+      "en": "Free users get one useful chart prediction. Premium users see a deeper but still compact signal on-screen.",
+      "hi": "निःशुल्क उपयोगकर्ताओं को एक उपयोगी चार्ट पूर्वानुमान मिलता है। प्रीमियम उपयोगकर्ताओं को स्क्रीन पर गहरा लेकिन फिर भी कॉम्पैक्ट सिग्नल दिखाई देता है।",
+      "gu": "મફત વપરાશકર્તાઓને એક ઉપયોગી ચાર્ટ અનુમાન મળે છે. પ્રીમિયમ વપરાશકર્તાઓ સ્ક્રીન પર ઊંડા પરંતુ હજુ પણ કોમ્પેક્ટ સિગ્નલ જુએ છે."
+    },
+    "ui.global.from.d1.meaning.f1b77752": {
+      "en": "From D1 Meaning",
+      "hi": "D1 अर्थ से",
+      "gu": "ડી 1 અર્થ થી"
+    },
+    "ui.global.free.basic.1cd47560": {
+      "en": "Free/basic",
+      "hi": "मुफ़्त/बुनियादी",
+      "gu": "મફત/મૂળભૂત"
+    },
+    "ui.global.gochar.impact.eb0368cf": {
+      "en": "GOCHAR IMPACT",
+      "hi": "गोचर प्रभाव",
+      "gu": "ગોચર અસર"
+    },
+    "ui.global.guidance.6a65a8a0": {
+      "en": "Guidance:",
+      "hi": "मार्गदर्शन:",
+      "gu": "માર્ગદર્શન:"
+    },
+    "ui.global.go.beyond.the.surface.with.richer.chart.interpretation.2ab1c373": {
+      "en": "Go beyond the surface with richer chart interpretation, deeper Predicta guidance, and premium reports.",
+      "hi": "समृद्ध चार्ट व्याख्या, गहन प्रेडिक्टा मार्गदर्शन और प्रीमियम रिपोर्ट के साथ सतह से आगे बढ़ें।",
+      "gu": "વધુ સમૃદ્ધ ચાર્ટ અર્થઘટન, ઊંડા આગાહી માર્ગદર્શન અને પ્રીમિયમ અહેવાલો સાથે સપાટીથી આગળ વધો."
+    },
+    "ui.global.generate.a.kundli.from.the.kundli.screen.it.will.appea.1cfdd328": {
+      "en": "Generate a Kundli from the Kundli screen. It will appear here first, then Family Vault can use it as a family profile.",
+      "hi": "कुंडली स्क्रीन से एक कुंडली बनाएं। यह पहले यहां दिखाई देगा, फिर फ़ैमिली वॉल्ट इसे पारिवारिक प्रोफ़ाइल के रूप में उपयोग कर सकता है।",
+      "gu": "કુંડલી સ્ક્રીનમાંથી કુંડલી બનાવો. તે પહેલા અહીં દેખાશે, પછી ફેમિલી વૉલ્ટ તેનો ફેમિલી પ્રોફાઇલ તરીકે ઉપયોગ કરી શકશે."
+    },
+    "ui.global.friendship.chalit.ashtakavarga.prastara.samsa.and.evid.d46abacd": {
+      "en": "Friendship, Chalit, Ashtakavarga, Prastara, Samsa and evidence tables",
+      "hi": "मैत्री, चलित, अष्टकवर्ग, प्रस्तर, संसा और साक्ष्य तालिकाएँ",
+      "gu": "મિત્રતા, ચલિત, અષ્ટકવર્ગ, પ્રસ્તર, સંસા અને પુરાવા કોષ્ટકો"
+    },
+    "ui.global.friendship.house.wise.evidence.chalit.table.ashtakavar.03fd2599": {
+      "en": "Friendship, house-wise evidence, Chalit table, Ashtakavarga, Prastara, Samsa, and related proof stay accessible but collapsed by default.",
+      "hi": "मित्रता, गृहवार साक्ष्य, चलित तालिका, अष्टकवर्ग, प्रस्तर, संसा, और संबंधित साक्ष्य सुलभ रहते हैं लेकिन डिफ़ॉल्ट रूप से ध्वस्त हो जाते हैं।",
+      "gu": "મિત્રતા, ઘર મુજબના પુરાવા, ચલિત ટેબલ, અષ્ટકવર્ગ, પ્રસ્તર, સંસા અને સંબંધિત પુરાવા સુલભ રહે છે પરંતુ મૂળભૂત રીતે તૂટી જાય છે."
+    },
+    "ui.global.free.view.keeps.the.life.reading.clean.premium.uses.th.686a358a": {
+      "en": "Free view keeps the life reading clean. Premium uses these refinements only when they materially sharpen judgement, timing, or contradiction handling.",
+      "hi": "मुक्त दृश्य जीवन को पढ़ने को स्वच्छ रखता है। प्रीमियम इन परिशोधनों का उपयोग केवल तभी करता है जब वे निर्णय, समय या विरोधाभास प्रबंधन को भौतिक रूप से तेज करते हैं।",
+      "gu": "મુક્ત દૃશ્ય જીવન વાંચનને સ્વચ્છ રાખે છે. પ્રીમિયમ આ રિફાઇનમેન્ટ્સનો ઉપયોગ ત્યારે જ કરે છે જ્યારે તેઓ ચુકાદા, સમય અથવા વિરોધાભાસ હેન્ડલિંગને ભૌતિક રીતે તીક્ષ્ણ બનાવે છે."
+    },
+    "ui.global.gochar.impact.chart.a0357395": {
+      "en": "Gochar impact chart",
+      "hi": "गोचर प्रभाव चार्ट",
+      "gu": "ગોચર ઇમ્પેક્ટ ચાર્ટ"
+    },
+    "ui.global.household.patterns.a6712218": {
+      "en": "Household patterns",
+      "hi": "घरेलू पैटर्न",
+      "gu": "ઘરગથ્થુ પેટર્ન"
+    },
+    "ui.global.guest.passes.unlock.expanded.guidance.for.a.limited.pe.c35a513c": {
+      "en": "Guest passes unlock expanded guidance for a limited period. Sign in with the email used for your pass, then enter the code. If you are not sure which email was used, contact the Predicta admin or the pass creator.",
+      "hi": "अतिथि पास सीमित अवधि के लिए विस्तारित मार्गदर्शन को अनलॉक करते हैं। अपने पास के लिए उपयोग किए गए ईमेल से साइन इन करें, फिर कोड दर्ज करें। यदि आप निश्चित नहीं हैं कि किस ईमेल का उपयोग किया गया था, तो प्रेडिक्टा एडमिन या पास निर्माता से संपर्क करें।",
+      "gu": "અતિથિ પાસ મર્યાદિત સમયગાળા માટે વિસ્તૃત માર્ગદર્શન અનલૉક કરે છે. તમારા પાસ માટે વપરાયેલ ઈમેલ વડે સાઇન ઇન કરો, પછી કોડ દાખલ કરો. જો તમને ખાતરી ન હોય કે કયો ઈમેઈલનો ઉપયોગ કરવામાં આવ્યો હતો, તો પ્રેડિક્ટા એડમિન અથવા પાસ સર્જકનો સંપર્ક કરો."
+    },
+    "ui.global.guided.rooms.for.today.karma.balance.and.timing.36c54b21": {
+      "en": "Guided rooms for today, karma, balance, and timing.",
+      "hi": "आज के लिए निर्देशित कमरे, कर्म, संतुलन और समय।",
+      "gu": "આજ, કર્મ, સંતુલન અને સમય માટે માર્ગદર્શિત રૂમ."
+    },
+    "ui.global.hh.mm.24.hour.5d08fdba": {
+      "en": "HH:mm, 24-hour",
+      "hi": "एचएच: मिमी, 24 घंटे",
+      "gu": "કલાક:મિનિટ, 24-કલાક"
+    },
+    "ui.global.holistic.life.balance.6ab21b93": {
+      "en": "HOLISTIC LIFE BALANCE",
+      "hi": "समग्र जीवन संतुलन",
+      "gu": "સર્વગ્રાહી જીવન સંતુલન"
+    },
+    "ui.global.household.summary.0448c2cb": {
+      "en": "Household summary",
+      "hi": "घरेलू सारांश",
+      "gu": "ઘરગથ્થુ સારાંશ"
+    },
+    "ui.global.hidden.pattern.sentence.2beb488f": {
+      "en": "HIDDEN PATTERN SENTENCE",
+      "hi": "छिपा हुआ पैटर्न वाक्य",
+      "gu": "છુપાયેલ પેટર્ન વાક્ય"
+    },
+    "ui.global.holistic.astrology.rooms.fde03957": {
+      "en": "HOLISTIC ASTROLOGY ROOMS",
+      "hi": "समग्र ज्योतिष कक्ष",
+      "gu": "સર્વગ્રાહી જ્યોતિષ ખંડ"
+    },
+    "ui.global.how.it.helps.9d4fe25b": {
+      "en": "How it helps",
+      "hi": "यह कैसे मदद करता है",
+      "gu": "તે કેવી રીતે મદદ કરે છે"
+    },
+    "ui.global.in.af10ef20": {
+      "en": "in",
+      "hi": "में",
+      "gu": "માં"
+    },
+    "ui.global.how.chart.depth.works.660fbb16": {
+      "en": "How chart depth works",
+      "hi": "चार्ट की गहराई कैसे काम करती है",
+      "gu": "ચાર્ટ ડેપ્થ કેવી રીતે કામ કરે છે"
+    },
+    "ui.global.how.to.read.this.36beed29": {
+      "en": "How to read this",
+      "hi": "इसे कैसे पढ़ें",
+      "gu": "આ કેવી રીતે વાંચવું"
+    },
+    "ui.global.inbox.health.6dc0cfbb": {
+      "en": "Inbox health",
+      "hi": "इनबॉक्स स्वास्थ्य",
+      "gu": "ઇનબોક્સ આરોગ્ય"
+    },
+    "ui.global.holistic.astrology.from.life.weather.dasha.gochar.and..9982145b": {
+      "en": "Holistic astrology from life weather, dasha, Gochar, and chart focus.",
+      "hi": "जीवन के मौसम, दशा, गोचर और चार्ट फोकस से समग्र ज्योतिष।",
+      "gu": "જીવન હવામાન, દશા, ગોચર અને ચાર્ટ ફોકસમાંથી સર્વગ્રાહી જ્યોતિષ."
+    },
+    "ui.global.how.remedies.work.726e2ef8": {
+      "en": "How remedies work",
+      "hi": "उपाय कैसे काम करते हैं",
+      "gu": "ઉપાયો કેવી રીતે કામ કરે છે"
+    },
+    "ui.global.how.to.talk.this.week.30eb397b": {
+      "en": "How to talk this week",
+      "hi": "इस सप्ताह कैसे बात करें",
+      "gu": "આ અઠવાડિયે કેવી રીતે વાત કરવી"
+    },
+    "ui.global.issue.a.private.invite.37ce4dd5": {
+      "en": "Issue a private invite.",
+      "hi": "एक निजी आमंत्रण जारी करें.",
+      "gu": "ખાનગી આમંત્રણ જારી કરો."
+    },
+    "ui.global.karakamsha.ebcfcdf8": {
+      "en": "Karakamsha",
+      "hi": "करकमशा",
+      "gu": "કરકમશા"
+    },
+    "ui.global.issue.a.private.invite.096bfa53": {
+      "en": "Issue a private invite",
+      "hi": "एक निजी आमंत्रण जारी करें",
+      "gu": "ખાનગી આમંત્રણ જારી કરો"
+    },
+    "ui.global.karakamsha.atmakaraka.life.direction.chart.6239e977": {
+      "en": "Karakamsha · Atmakaraka Life-Direction Chart",
+      "hi": "कारकांश · आत्मकारक जीवन-दिशा चार्ट",
+      "gu": "કરકમશા · આત્મકારક જીવન-દિશા ચાર્ટ"
+    },
+    "ui.global.karmic.story.map.653e6d74": {
+      "en": "KARMIC STORY MAP",
+      "hi": "कार्मिक कहानी मानचित्र",
+      "gu": "કાર્મિક વાર્તા નકશો"
+    },
+    "ui.global.karakamsha.chart.2fec93e1": {
+      "en": "Karakamsha Chart",
+      "hi": "कारकांश चार्ट",
+      "gu": "કરકમશા ચાર્ટ"
+    },
+    "ui.global.i.prefilled.what.predicta.understood.from.chat.please..2098b3e5": {
+      "en": "I prefilled what Predicta understood from chat. Please verify it before generating.",
+      "hi": "प्रेडिक्टा ने चैट से जो समझा, उसे मैंने पहले ही भर दिया। कृपया जनरेट करने से पहले इसे सत्यापित करें.",
+      "gu": "પ્રેડિક્ટા ચેટમાંથી જે સમજાયું તે મેં પ્રીફિલ કર્યું. જનરેટ કરતા પહેલા કૃપા કરીને તેને ચકાસો."
+    },
+    "ui.global.kp.event.verdict.compass.04cf62dd": {
+      "en": "KP event verdict compass",
+      "hi": "केपी घटना निर्णय कम्पास",
+      "gu": "KP ઇવેન્ટ ચુકાદો હોકાયંત્ર"
+    },
+    "ui.global.keep.your.pin.protected.on.this.device.0c070a7c": {
+      "en": "Keep your PIN protected on this device.",
+      "hi": "इस डिवाइस पर अपना पिन सुरक्षित रखें.",
+      "gu": "આ ઉપકરણ પર તમારો પિન સુરક્ષિત રાખો."
+    },
+    "ui.global.keep.sensitive.chart.details.behind.an.extra.device.le.ecc6742b": {
+      "en": "Keep sensitive chart details behind an extra device-level step.",
+      "hi": "संवेदनशील चार्ट विवरण को एक अतिरिक्त डिवाइस-स्तरीय चरण के पीछे रखें।",
+      "gu": "વધારાના ઉપકરણ-સ્તરના પગલા પાછળ સંવેદનશીલ ચાર્ટ વિગતો રાખો."
+    },
+    "ui.global.keep.personal.readings.chart.notes.and.chat.history.be.85680653": {
+      "en": "Keep personal readings, chart notes, and chat history behind a security step before entering the app.",
+      "hi": "ऐप में प्रवेश करने से पहले व्यक्तिगत रीडिंग, चार्ट नोट्स और चैट इतिहास को सुरक्षा कदम के पीछे रखें।",
+      "gu": "એપ્લિકેશનમાં પ્રવેશતા પહેલા વ્યક્તિગત વાંચન, ચાર્ટ નોંધો અને ચેટ ઇતિહાસને સુરક્ષા પગલા પાછળ રાખો."
+    },
+    "ui.global.keep.the.page.clean.then.ask.predicta.for.the.specific.26c302e0": {
+      "en": "Keep the page clean, then ask Predicta for the specific card you want explained.",
+      "hi": "पृष्ठ को साफ रखें, फिर प्रेडिक्टा से उस विशिष्ट कार्ड के बारे में पूछें जिसे आप समझाना चाहते हैं।",
+      "gu": "પૃષ્ઠને સ્વચ્છ રાખો, પછી તમે જે ચોક્કસ કાર્ડને સમજાવવા માંગો છો તે માટે પ્રેડિક્ટાને પૂછો."
+    },
+    "ui.global.label.74341e3c": {
+      "en": "Label",
+      "hi": "लेबल",
+      "gu": "લેબલ"
+    },
+    "ui.global.kundli.storage.698390da": {
+      "en": "Kundli storage",
+      "hi": "कुंडली भंडारण",
+      "gu": "કુંડળી સંગ્રહ"
+    },
+    "ui.global.lagna.ac6e8564": {
+      "en": "Lagna",
+      "hi": "लग्न",
+      "gu": "લગના"
+    },
+    "ui.global.kundli.library.actions.31071bde": {
+      "en": "KUNDLI LIBRARY ACTIONS",
+      "hi": "कुण्डली पुस्तकालय क्रियाएँ",
+      "gu": "કુંડલી પુસ્તકાલયની ક્રિયાઓ"
+    },
+    "ui.global.kundli.library.ad417312": {
+      "en": "KUNDLI LIBRARY",
+      "hi": "कुंडली पुस्तकालय",
+      "gu": "કુંડલી પુસ્તકાલય"
+    },
+    "ui.global.kp.significator.map.16e1d536": {
+      "en": "KP SIGNIFICATOR MAP",
+      "hi": "केपी हस्ताक्षरकर्ता मानचित्र",
+      "gu": "KP સિગ્નીફિકેટર નકશો"
+    },
+    "ui.global.kp.premium.depth.f45373fd": {
+      "en": "KP Premium Depth",
+      "hi": "केपी प्रीमियम गहराई",
+      "gu": "KP પ્રીમિયમ ઊંડાઈ"
+    },
+    "ui.global.kp.horoscope.17cae593": {
+      "en": "KP Horoscope",
+      "hi": "केपी राशिफल",
+      "gu": "કેપી જન્માક્ષર"
+    },
+    "ui.global.kundli.charts.reports.and.family.vault.actions.do.not..457c8fd3": {
+      "en": "Kundli, charts, reports, and Family Vault actions do not spend these.",
+      "hi": "कुंडली, चार्ट, रिपोर्ट और फैमिली वॉल्ट क्रियाएं इन्हें खर्च नहीं करती हैं।",
+      "gu": "કુંડલી, ચાર્ટ, અહેવાલો અને કૌટુંબિક તિજોરી ક્રિયાઓ આ ખર્ચ કરતી નથી."
+    },
+    "ui.global.kp.predicta.stays.inside.krishnamurti.paddhati.cusps.s.5b853114": {
+      "en": "KP Predicta stays inside Krishnamurti Paddhati: cusps, star lords, sub lords, significators, ruling planets, dasha support, and event-focused judgement.",
+      "hi": "केपी प्रेडिक्टा कृष्णमूर्ति पद्धति के अंदर रहता है: कुंडली, तारा स्वामी, उप स्वामी, कारक, शासक ग्रह, दशा समर्थन और घटना-केंद्रित निर्णय।",
+      "gu": "કેપી પ્રિડિક્ટા કૃષ્ણમૂર્તિ પદ્ધતિની અંદર રહે છે: કપ્સ, સ્ટાર લોર્ડ્સ, સબ લોર્ડ્સ, સિગ્નિફિકેટર્સ, શાસક ગ્રહો, દશા સપોર્ટ અને ઘટના-કેન્દ્રિત નિર્ણય."
+    },
+    "ui.global.life.timeline.4a2f64ca": {
+      "en": "Life timeline",
+      "hi": "जीवन कालरेखा",
+      "gu": "જીવન સમયરેખા"
+    },
+    "ui.global.lagna.0054b875": {
+      "en": "Lagna ·",
+      "hi": "लग्न ·",
+      "gu": "લગના ·"
+    },
+    "ui.global.layered.interpretation.6b1675b5": {
+      "en": "Layered interpretation",
+      "hi": "स्तरित व्याख्या",
+      "gu": "સ્તરીય અર્થઘટન"
+    },
+    "ui.global.last.done.4687fae8": {
+      "en": "Last done:",
+      "hi": "अंतिम बार किया गया:",
+      "gu": "છેલ્લે કર્યું:"
+    },
+    "ui.global.lagna.sub.53453860": {
+      "en": "Lagna sub",
+      "hi": "लग्न उप",
+      "gu": "લગન સબ"
+    },
+    "ui.global.language.choices.184b8c36": {
+      "en": "Language choices",
+      "hi": "भाषा विकल्प",
+      "gu": "ભાષા પસંદગીઓ"
+    },
+    "ui.global.life.theme.sentence.da6da55b": {
+      "en": "Life Theme Sentence",
+      "hi": "जीवन थीम वाक्य",
+      "gu": "જીવન થીમ વાક્ય"
+    },
+    "ui.global.limit.866924ea": {
+      "en": "Limit:",
+      "hi": "सीमा:",
+      "gu": "મર્યાદા:"
+    },
+    "ui.global.legal.privacy.and.refund.policy.41272244": {
+      "en": "Legal, Privacy, and Refund Policy",
+      "hi": "कानूनी, गोपनीयता और धनवापसी नीति",
+      "gu": "કાનૂની, ગોપનીયતા અને રિફંડ નીતિ"
+    },
+    "ui.global.life.timeline.9d84ab6b": {
+      "en": "LIFE TIMELINE",
+      "hi": "जीवन समयरेखा",
+      "gu": "જીવન સમયરેખા"
+    },
+    "ui.global.load.passes.656f4c57": {
+      "en": "Load Passes",
+      "hi": "लोड पास",
+      "gu": "લોડ પાસ"
+    },
+    "ui.global.legal.safety.founder.vision.and.method.notes.stay.tuck.9070a028": {
+      "en": "Legal, safety, founder vision, and method notes stay tucked away until needed.",
+      "hi": "कानूनी, सुरक्षा, संस्थापक का दृष्टिकोण और विधि नोट्स जरूरत पड़ने तक छिपाकर रखे जाते हैं।",
+      "gu": "કાનૂની, સલામતી, સ્થાપક દ્રષ્ટિ અને પદ્ધતિની નોંધો જ્યાં સુધી જરૂરી હોય ત્યાં સુધી દૂર રહે છે."
+    },
+    "ui.global.load.safety.reports.fd1c6788": {
+      "en": "Load Safety Reports",
+      "hi": "सुरक्षा रिपोर्ट लोड करें",
+      "gu": "સલામતી અહેવાલો લોડ કરો"
+    },
+    "ui.global.look.at.user.reports.and.concerning.answers.without.st.0e16fbaa": {
+      "en": "Look at user reports and concerning answers without storing private birth details or full chat text.",
+      "hi": "निजी जन्म विवरण या पूर्ण चैट टेक्स्ट संग्रहीत किए बिना उपयोगकर्ता रिपोर्ट और संबंधित उत्तर देखें।",
+      "gu": "ખાનગી જન્મ વિગતો અથવા સંપૂર્ણ ચેટ ટેક્સ્ટ સંગ્રહિત કર્યા વિના વપરાશકર્તા અહેવાલો અને સંબંધિત જવાબો જુઓ."
+    },
+    "ui.global.load.reports.da399dc8": {
+      "en": "Load Reports",
+      "hi": "रिपोर्ट लोड करें",
+      "gu": "અહેવાલો લોડ કરો"
+    },
+    "ui.global.lines.are.forming.signs.are.settling.and.planets.will..aa704788": {
+      "en": "Lines are forming, signs are settling, and planets will take their houses after calculation.",
+      "hi": "रेखाएं बन रही हैं, संकेत तय हो रहे हैं, और ग्रह गणना के बाद अपना घर ले लेंगे।",
+      "gu": "રેખાઓ બની રહી છે, ચિહ્નો સ્થાયી થઈ રહ્યા છે, અને ગણતરી પછી ગ્રહો તેમના ઘરો લેશે."
+    },
+    "ui.global.lines.are.forming.signs.are.being.placed.and.planets.w.876b073e": {
+      "en": "Lines are forming, signs are being placed, and planets will settle into their houses after calculation.",
+      "hi": "रेखाएं बन रही हैं, चिन्ह लगाए जा रहे हैं और गणना के बाद ग्रह अपने घरों में स्थापित हो जाएंगे।",
+      "gu": "રેખાઓ બની રહી છે, ચિહ્નો મૂકવામાં આવી રહ્યા છે, અને ગણતરી પછી ગ્રહો તેમના ઘરોમાં સ્થાયી થશે."
+    },
+    "ui.global.manage.subscription.04293a07": {
+      "en": "Manage Subscription",
+      "hi": "सदस्यता प्रबंधित करें",
+      "gu": "સબ્સ્ક્રિપ્શન મેનેજ કરો"
+    },
+    "ui.global.lived.chalit.meaning.5c0f2ced": {
+      "en": "Lived Chalit Meaning",
+      "hi": "जीवित चलित अर्थ",
+      "gu": "જીવ્યા ચલિત અર્થ"
+    },
+    "ui.global.meaning.19cd7d18": {
+      "en": "Meaning",
+      "hi": "अर्थ",
+      "gu": "અર્થ"
+    },
+    "ui.global.lucky.supportive.toolkit.002474f6": {
+      "en": "Lucky/Supportive Toolkit",
+      "hi": "भाग्यशाली/सहायक टूलकिट",
+      "gu": "નસીબદાર/સહાયક ટૂલકિટ"
+    },
+    "ui.global.mahadasha.phala.without.clutter.1821c669": {
+      "en": "Mahadasha Phala without clutter",
+      "hi": "अव्यवस्था रहित महादशा फल",
+      "gu": "અવ્યવસ્થા વિના મહાદશા ફલા"
+    },
+    "ui.global.mahadasha.intelligence.7baeedaf": {
+      "en": "MAHADASHA INTELLIGENCE",
+      "hi": "महादशा इंटेलिजेंस",
+      "gu": "મહાદશા બુદ્ધિ"
+    },
+    "ui.global.mahadasha.phala.eeb8b2f7": {
+      "en": "Mahadasha Phala",
+      "hi": "महादशा फल",
+      "gu": "મહાદશા ફલા"
+    },
+    "ui.global.method.boundary.949af569": {
+      "en": "Method boundary",
+      "hi": "विधि सीमा",
+      "gu": "પદ્ધતિની સીમા"
+    },
+    "ui.global.manage.pass.c926b8d0": {
+      "en": "Manage pass",
+      "hi": "पास प्रबंधित करें",
+      "gu": "પાસ મેનેજ કરો"
+    },
+    "ui.global.max.redemptions.54562b02": {
+      "en": "Max redemptions",
+      "hi": "अधिकतम मोचन",
+      "gu": "મહત્તમ વિમોચન"
+    },
+    "ui.global.mind.sign.moon.f2f81c07": {
+      "en": "Mind sign (Moon)",
+      "hi": "मन का चिन्ह (चन्द्रमा)",
+      "gu": "મનની નિશાની (ચંદ્ર)"
+    },
+    "ui.global.modules.4580485d": {
+      "en": "modules",
+      "hi": "मॉड्यूल",
+      "gu": "મોડ્યુલો"
+    },
+    "ui.global.mark.practice.done.a142414f": {
+      "en": "Mark Practice Done",
+      "hi": "अभ्यास पूरा हुआ चिह्नित करें",
+      "gu": "માર્ક પ્રેક્ટિસ પૂર્ણ"
+    },
+    "ui.global.micro.planets.and.upagrahas.d017372e": {
+      "en": "Micro planets and upagrahas",
+      "hi": "सूक्ष्म ग्रह एवं उपग्रह",
+      "gu": "સૂક્ષ્મ ગ્રહો અને ઉપગ્રહો"
+    },
+    "ui.global.moon.7284aeb0": {
+      "en": "Moon:",
+      "hi": "चंद्रमा:",
+      "gu": "ચંદ્ર:"
+    },
+    "ui.global.missing.repeated.number.pattern.31cdf4ad": {
+      "en": "MISSING / REPEATED NUMBER PATTERN",
+      "hi": "गुम/दोहराया गया नंबर पैटर्न",
+      "gu": "ગુમ થયેલ / પુનરાવર્તિત નંબર પેટર્ન"
+    },
+    "ui.global.more.e7c95b4c": {
+      "en": "more",
+      "hi": "अधिक",
+      "gu": "વધુ"
+    },
+    "ui.global.moon.star.2f340c03": {
+      "en": "Moon star",
+      "hi": "चंद्रमा का सितारा",
+      "gu": "ચંદ્ર તારો"
+    },
+    "ui.global.mobile.navigation.058f36b2": {
+      "en": "Mobile navigation",
+      "hi": "मोबाइल नेविगेशन",
+      "gu": "મોબાઇલ નેવિગેશન"
+    },
+    "ui.global.moon.sub.e662756e": {
+      "en": "Moon sub",
+      "hi": "चंद्रमा उप",
+      "gu": "ચંદ્ર ઉપ"
+    },
+    "ui.global.moon.28092053": {
+      "en": "Moon ·",
+      "hi": "चंद्रमा ·",
+      "gu": "ચંદ્ર ·"
+    },
+    "ui.global.moon.chandra.lagna.chart.6fc8e3f9": {
+      "en": "Moon · Chandra Lagna Chart",
+      "hi": "चन्द्रमा · चन्द्र लग्न कुंडली",
+      "gu": "ચંદ્ર · ચંદ્ર લગ્ન ચાર્ટ"
+    },
+    "ui.global.muntha.focus.7fa10fc4": {
+      "en": "Muntha focus",
+      "hi": "मुंथा फोकस",
+      "gu": "મુન્થા ફોકસ"
+    },
+    "ui.global.namaste.46ce8759": {
+      "en": "Namaste",
+      "hi": "नमस्ते",
+      "gu": "નમસ્તે"
+    },
+    "ui.global.missing.repeated.number.grid.87b59400": {
+      "en": "Missing/Repeated Number Grid",
+      "hi": "गुम/दोहराया गया नंबर ग्रिड",
+      "gu": "ગુમ/પુનરાવર્તિત નંબર ગ્રીડ"
+    },
+    "ui.global.new.6403f2b7": {
+      "en": "New",
+      "hi": "नया",
+      "gu": "નવી"
+    },
+    "ui.global.my.entered.time.is.correct.a89c458d": {
+      "en": "My entered time is correct",
+      "hi": "मेरा दर्ज किया गया समय सही है",
+      "gu": "મારો દાખલ કરેલ સમય સાચો છે"
+    },
+    "ui.global.next.action.d816c3c7": {
+      "en": "Next action",
+      "hi": "अगला कदम",
+      "gu": "આગામી ક્રિયા"
+    },
+    "ui.global.name.fit.score.68686b6d": {
+      "en": "Name Fit Score",
+      "hi": "नाम फ़िट स्कोर",
+      "gu": "ફીટ સ્કોરનું નામ"
+    },
+    "ui.global.name.energy.scanner.98a68207": {
+      "en": "NAME ENERGY SCANNER",
+      "hi": "नाम ऊर्जा स्कैनर",
+      "gu": "નામ એનર્જી સ્કેનર"
+    },
+    "ui.global.name.refinement.aa5e1857": {
+      "en": "NAME REFINEMENT",
+      "hi": "नाम शोधन",
+      "gu": "નામ રિફાઇનમેન્ટ"
+    },
+    "ui.global.name.rhythm.3788d8d7": {
+      "en": "Name Rhythm",
+      "hi": "नाम ताल",
+      "gu": "નામ લય"
+    },
+    "ui.global.name.energy.scanner.bdde66d7": {
+      "en": "Name Energy Scanner",
+      "hi": "नाम ऊर्जा स्कैनर",
+      "gu": "એનર્જી સ્કેનરનું નામ"
+    },
+    "ui.global.next.yearly.cards.4a742aab": {
+      "en": "Next yearly cards",
+      "hi": "अगले वार्षिक कार्ड",
+      "gu": "આગામી વાર્ષિક કાર્ડ"
+    },
+    "ui.global.next.transit.moves.3cde0f1a": {
+      "en": "Next transit moves",
+      "hi": "अगला पारगमन चलता है",
+      "gu": "આગામી ટ્રાન્ઝિટ ચાલ"
+    },
+    "ui.global.next.step.34831e9a": {
+      "en": "NEXT STEP",
+      "hi": "अगला कदम",
+      "gu": "આગલું પગલું"
+    },
+    "ui.global.no.confusing.fake.chart.here.9b8c6658": {
+      "en": "No confusing fake chart here.",
+      "hi": "यहां कोई भ्रमित करने वाला नकली चार्ट नहीं है।",
+      "gu": "અહીં કોઈ ગૂંચવણભર્યો નકલી ચાર્ટ નથી."
+    },
+    "ui.global.no.delivery.events.recorded.yet.e86f939d": {
+      "en": "No delivery events recorded yet.",
+      "hi": "अभी तक कोई डिलीवरी इवेंट रिकॉर्ड नहीं किया गया.",
+      "gu": "હજી સુધી કોઈ ડિલિવરી ઇવેન્ટ્સ રેકોર્ડ કરવામાં આવી નથી."
+    },
+    "ui.global.no.ticket.selected.62c3addc": {
+      "en": "No ticket selected.",
+      "hi": "कोई टिकट चयनित नहीं.",
+      "gu": "કોઈ ટિકિટ પસંદ કરી નથી."
+    },
+    "ui.global.no.planets.c1663749": {
+      "en": "No planets",
+      "hi": "कोई ग्रह नहीं",
+      "gu": "કોઈ ગ્રહો નથી"
+    },
+    "ui.global.no.matching.tickets.744d370e": {
+      "en": "No matching tickets.",
+      "hi": "कोई मेल खाता टिकट नहीं.",
+      "gu": "કોઈ મેચિંગ ટિકિટ નથી."
+    },
+    "ui.global.now.e3b82040": {
+      "en": "Now",
+      "hi": "अब",
+      "gu": "હવે"
+    },
+    "ui.global.no.saved.family.profiles.yet.8039361b": {
+      "en": "No saved family profiles yet",
+      "hi": "अभी तक कोई पारिवारिक प्रोफ़ाइल सहेजी नहीं गई है",
+      "gu": "હજી સુધી કોઈ સાચવેલ કુટુંબ પ્રોફાઇલ નથી"
+    },
+    "ui.global.no.major.chalit.shift.is.available.in.this.kundli.yet.0053fac3": {
+      "en": "No major Chalit shift is available in this Kundli yet.",
+      "hi": "इस कुंडली में अभी तक कोई बड़ा चलित परिवर्तन उपलब्ध नहीं है।",
+      "gu": "આ કુંડળીમાં હજુ સુધી કોઈ મોટી ચલિત શિફ્ટ ઉપલબ્ધ નથી."
+    },
+    "ui.global.normally.b36e5261": {
+      "en": "Normally",
+      "hi": "सामान्यतः",
+      "gu": "સામાન્ય રીતે"
+    },
+    "ui.global.north.indian.kundli.preview.2d2d6309": {
+      "en": "North Indian Kundli preview",
+      "hi": "उत्तर भारतीय कुंडली पूर्वावलोकन",
+      "gu": "ઉત્તર ભારતીય કુંડળી પૂર્વાવલોકન"
+    },
+    "ui.global.numerology.compatibility.lens.05e997da": {
+      "en": "Numerology Compatibility Lens",
+      "hi": "अंकज्योतिष अनुकूलता लेंस",
+      "gu": "અંકશાસ્ત્ર સુસંગતતા લેન્સ"
+    },
+    "ui.global.number.reading.room.2fe44835": {
+      "en": "Number reading room",
+      "hi": "क्रमांक वाचनालय",
+      "gu": "નંબર રીડિંગ રૂમ"
+    },
+    "ui.global.open.full.chart.library.3af5ef9f": {
+      "en": "Open full chart library",
+      "hi": "पूर्ण चार्ट लाइब्रेरी खोलें",
+      "gu": "સંપૂર્ણ ચાર્ટ લાઇબ્રેરી ખોલો"
+    },
+    "ui.global.one.practice.for.balance.247265f7": {
+      "en": "One practice for balance",
+      "hi": "संतुलन के लिए एक अभ्यास",
+      "gu": "સંતુલન માટે એક પ્રેક્ટિસ"
+    },
+    "ui.global.numerology.predicta.7f7e7f66": {
+      "en": "NUMEROLOGY PREDICTA",
+      "hi": "अंकज्योतिष भविष्यवाणी",
+      "gu": "અંકશાસ્ત્રની આગાહી"
+    },
+    "ui.global.north.style.d7594587": {
+      "en": "North style",
+      "hi": "उत्तर शैली",
+      "gu": "ઉત્તર શૈલી"
+    },
+    "ui.global.open.the.inbox.and.choose.a.ticket.to.review.its.threa.83334d63": {
+      "en": "Open the inbox and choose a ticket to review its thread.",
+      "hi": "इनबॉक्स खोलें और उसके थ्रेड की समीक्षा करने के लिए एक टिकट चुनें।",
+      "gu": "ઇનબોક્સ ખોલો અને તેના થ્રેડની સમીક્ષા કરવા માટે ટિકિટ પસંદ કરો."
+    },
+    "ui.global.numerology.reading.profile.60e88c89": {
+      "en": "Numerology reading profile",
+      "hi": "अंकज्योतिष पढ़ने की प्रोफ़ाइल",
+      "gu": "અંકશાસ્ત્ર વાંચન પ્રોફાઇલ"
+    },
+    "ui.global.numerology.predicta.answers.with.number.logic.first.if.8f81e44a": {
+      "en": "Numerology Predicta answers with number logic first. If the question needs Vedic, KP, Jaimini, or Signature analysis, Predicta should hand you to that room instead of mixing methods casually.",
+      "hi": "न्यूमरोलॉजी प्रेडिक्टा पहले संख्या तर्क के साथ उत्तर देती है। यदि प्रश्न को वैदिक, केपी, जैमिनी, या हस्ताक्षर विश्लेषण की आवश्यकता है, तो प्रेडिक्टा को विधियों को लापरवाही से मिश्रण करने के बजाय आपको उस कमरे में सौंपना चाहिए।",
+      "gu": "ન્યુમેરોલોજી પ્રીડિક્ટા પહેલા નંબર લોજીક સાથે જવાબ આપે છે. જો પ્રશ્નને વૈદિક, કેપી, જૈમિની અથવા હસ્તાક્ષર વિશ્લેષણની જરૂર હોય, તો પ્રિડિક્ટાએ આકસ્મિક રીતે પદ્ધતિઓનું મિશ્રણ કરવાને બદલે તમને તે રૂમમાં સોંપવું જોઈએ."
+    },
+    "ui.global.open.the.kundli.to.recalculate.this.chart.5da9b0ac": {
+      "en": "Open the Kundli to recalculate this chart.",
+      "hi": "इस चार्ट की पुनर्गणना करने के लिए कुंडली खोलें।",
+      "gu": "આ ચાર્ટની પુનઃ ગણતરી કરવા માટે કુંડળી ખોલો."
+    },
+    "ui.global.open.proof.only.when.needed.da362e22": {
+      "en": "Open proof only when needed",
+      "hi": "जरूरत पड़ने पर ही सबूत खोलें",
+      "gu": "જરૂર પડે ત્યારે જ ઓપન પ્રૂફ"
+    },
+    "ui.global.one.guided.reading.is.the.fastest.way.to.turn.this.cha.4cc1e868": {
+      "en": "One guided reading is the fastest way to turn this chart into a clear starting point. Open the deeper tools only after that first read.",
+      "hi": "एक निर्देशित रीडिंग इस चार्ट को एक स्पष्ट प्रारंभिक बिंदु में बदलने का सबसे तेज़ तरीका है। पहले पढ़ने के बाद ही गहरे टूल खोलें।",
+      "gu": "એક માર્ગદર્શિત વાંચન એ આ ચાર્ટને સ્પષ્ટ પ્રારંભિક બિંદુમાં ફેરવવાની સૌથી ઝડપી રીત છે. તે પહેલા વાંચ્યા પછી જ ઊંડા સાધનો ખોલો."
+    },
+    "ui.global.open.life.timeline.ff21cc29": {
+      "en": "Open Life Timeline",
+      "hi": "लाइफ टाइमलाइन खोलें",
+      "gu": "જીવન સમયરેખા ખોલો"
+    },
+    "ui.global.open.kp.predicta.7d47b127": {
+      "en": "Open KP Predicta",
+      "hi": "केपी प्रेडिक्टा खोलें",
+      "gu": "KP પ્રેડિક્ટા ખોલો"
+    },
+    "ui.global.open.kundli.bb17eb9d": {
+      "en": "Open Kundli",
+      "hi": "कुंडली खोलें",
+      "gu": "કુંડળી ખોલો"
+    },
+    "ui.global.open.inbox.f95cf966": {
+      "en": "Open Inbox",
+      "hi": "इनबॉक्स खोलें",
+      "gu": "ઇનબોક્સ ખોલો"
+    },
+    "ui.global.pada.ed79f0f9": {
+      "en": "pada",
+      "hi": "पाडा",
+      "gu": "પાડા"
+    },
+    "ui.global.panchang.8bb4e9b6": {
+      "en": "Panchang",
+      "hi": "पंचांग",
+      "gu": "પંચાંગ"
+    },
+    "ui.global.owner.access.f74bf48c": {
+      "en": "Owner access",
+      "hi": "मालिक की पहुंच",
+      "gu": "માલિકની ઍક્સેસ"
+    },
+    "ui.global.owner.key.f31a649e": {
+      "en": "Owner key",
+      "hi": "स्वामी कुंजी",
+      "gu": "માલિક કી"
+    },
+    "ui.global.owner.tools.are.not.available.here.6e2c567e": {
+      "en": "Owner tools are not available here.",
+      "hi": "स्वामी उपकरण यहां उपलब्ध नहीं हैं.",
+      "gu": "માલિકના સાધનો અહીં ઉપલબ્ધ નથી."
+    },
+    "ui.global.pass.type.7403f604": {
+      "en": "Pass type",
+      "hi": "पास प्रकार",
+      "gu": "પાસ પ્રકાર"
+    },
+    "ui.global.pdfs.8c85c119": {
+      "en": "PDFs",
+      "hi": "पीडीएफ़",
+      "gu": "પીડીએફ"
+    },
+    "ui.global.panchang.avakhada.ghatak.and.favorable.points.d5291f55": {
+      "en": "Panchang, Avakhada, Ghatak and favorable points",
+      "hi": "पंचांग, ​​अवखड, घटक और अनुकूल बिंदु",
+      "gu": "પંચાંગ, અવળા, ઘટક અને અનુકૂળ બિંદુઓ"
+    },
+    "ui.global.owner.or.support.lead.94bb8848": {
+      "en": "Owner or support lead",
+      "hi": "स्वामी या समर्थन नेतृत्वकर्ता",
+      "gu": "માલિક અથવા આધાર લીડ"
+    },
+    "ui.global.pass.name.177824ef": {
+      "en": "Pass name",
+      "hi": "पास का नाम",
+      "gu": "પાસનું નામ"
+    },
+    "ui.global.owner.tools.794d69af": {
+      "en": "OWNER TOOLS",
+      "hi": "स्वामी उपकरण",
+      "gu": "માલિકના સાધનો"
+    },
+    "ui.global.past.pattern.current.lesson.next.practice.967dbdd5": {
+      "en": "Past Pattern - Current Lesson - Next Practice",
+      "hi": "पिछला पैटर्न - वर्तमान पाठ - अगला अभ्यास",
+      "gu": "ભૂતકાળની પેટર્ન - વર્તમાન પાઠ - આગળની પ્રેક્ટિસ"
+    },
+    "ui.global.owner.tools.4de18c00": {
+      "en": "Owner tools",
+      "hi": "स्वामी उपकरण",
+      "gu": "માલિક સાધનો"
+    },
+    "ui.global.parashari.chalit.3383cd6b": {
+      "en": "PARASHARI CHALIT",
+      "hi": "पाराशरी चलित",
+      "gu": "પરાશરી ચલિત"
+    },
+    "ui.global.pattern.comparison.not.fate.467315ee": {
+      "en": "Pattern comparison, not fate",
+      "hi": "पैटर्न तुलना, भाग्य नहीं",
+      "gu": "પેટર્નની સરખામણી, ભાગ્ય નહીં"
+    },
+    "ui.global.place.c32a0147": {
+      "en": "Place",
+      "hi": "जगह",
+      "gu": "સ્થળ"
+    },
+    "ui.global.personal.year.timeline.ebdbfe71": {
+      "en": "PERSONAL YEAR TIMELINE",
+      "hi": "व्यक्तिगत वर्ष की समयरेखा",
+      "gu": "વ્યક્તિગત વર્ષની સમયરેખા"
+    },
+    "ui.global.parashari.chalit.chart.071358d7": {
+      "en": "PARASHARI CHALIT CHART",
+      "hi": "पाराशरी चलित चार्ट",
+      "gu": "પરાશરી ચલિત ચાર્ટ"
+    },
+    "ui.global.personal.number.mandala.f42fbb9d": {
+      "en": "PERSONAL NUMBER MANDALA",
+      "hi": "व्यक्तिगत संख्या मंडला",
+      "gu": "વ્યક્તિગત નંબર મંડલા"
+    },
+    "ui.global.pick.the.event.first.kp.then.checks.houses.cusp.sub.lo.02350cf6": {
+      "en": "Pick the event first. KP then checks houses, cusp sub lord, significators, ruling planets, and dasha support.",
+      "hi": "पहले ईवेंट चुनें. केपी फिर घरों, कस्प उप स्वामी, कारक, सत्तारूढ़ ग्रहों और दशा समर्थन की जांच करता है।",
+      "gu": "પ્રથમ ઇવેન્ટ પસંદ કરો. કેપી પછી ઘરો, કુસ્પ સબ લોર્ડ, સિગ્નિફિકેટર્સ, શાસક ગ્રહો અને દશા સપોર્ટની તપાસ કરે છે."
+    },
+    "ui.global.personal.panchang.23d40b8a": {
+      "en": "PERSONAL PANCHANG",
+      "hi": "व्यक्तिगत पंचांग",
+      "gu": "અંગત પંચાંગ"
+    },
+    "ui.global.planet.c8fb554a": {
+      "en": "planet",
+      "hi": "ग्रह",
+      "gu": "ગ્રહ"
+    },
+    "ui.global.pick.a.ready.question.write.your.own.or.choose.guide.m.089660d4": {
+      "en": "Pick a ready question, write your own, or choose guide me. Predicta will refine vague questions before answering.",
+      "hi": "एक तैयार प्रश्न चुनें, अपना प्रश्न लिखें, या मेरा मार्गदर्शन करें चुनें। प्रेडिक्टा उत्तर देने से पहले अस्पष्ट प्रश्नों को परिष्कृत करेगा।",
+      "gu": "તૈયાર પ્રશ્ન પસંદ કરો, તમારો પોતાનો લખો અથવા મને માર્ગદર્શન પસંદ કરો. પ્રીડિક્ટા જવાબ આપતા પહેલા અસ્પષ્ટ પ્રશ્નોને સુધારશે."
+    },
+    "ui.global.pick.the.report.you.need.3b2ec1de": {
+      "en": "Pick the report you need",
+      "hi": "आपको जो रिपोर्ट चाहिए उसे चुनें",
+      "gu": "તમને જરૂરી રિપોર્ટ પસંદ કરો"
+    },
+    "ui.global.pick.the.sections.you.want.e2b01747": {
+      "en": "Pick the sections you want",
+      "hi": "अपने इच्छित अनुभाग चुनें",
+      "gu": "તમને જોઈતા વિભાગો પસંદ કરો"
+    },
+    "ui.global.planet.e7abd943": {
+      "en": "Planet",
+      "hi": "ग्रह",
+      "gu": "ગ્રહ"
+    },
+    "ui.global.pin.unlock.540e2e84": {
+      "en": "PIN unlock",
+      "hi": "पिन अनलॉक",
+      "gu": "પિન અનલૉક"
+    },
+    "ui.global.practical.action.31b42104": {
+      "en": "Practical action:",
+      "hi": "व्यावहारिक क्रिया:",
+      "gu": "વ્યવહારુ ક્રિયા:"
+    },
+    "ui.global.planning.cards.dacb6b1a": {
+      "en": "Planning cards",
+      "hi": "योजना कार्ड",
+      "gu": "આયોજન કાર્ડ"
+    },
+    "ui.global.plain.language.insight.0dab8b33": {
+      "en": "Plain-language insight",
+      "hi": "सरल भाषा में अंतर्दृष्टि",
+      "gu": "સાદી ભાષાની સમજ"
+    },
+    "ui.global.practical.correction.ab4e2c2e": {
+      "en": "Practical correction",
+      "hi": "व्यावहारिक सुधार",
+      "gu": "વ્યવહારુ કરેક્શન"
+    },
+    "ui.global.practical.number.guidance.8dc7acaf": {
+      "en": "Practical number guidance",
+      "hi": "व्यावहारिक संख्या मार्गदर्शन",
+      "gu": "પ્રાયોગિક સંખ્યા માર્ગદર્શન"
+    },
+    "ui.global.practice.tracker.712cb751": {
+      "en": "Practice tracker",
+      "hi": "ट्रैकर का अभ्यास करें",
+      "gu": "પ્રેક્ટિસ ટ્રેકર"
+    },
+    "ui.global.prayer.option.40b93300": {
+      "en": "Prayer option:",
+      "hi": "प्रार्थना विकल्प:",
+      "gu": "પ્રાર્થના વિકલ્પ:"
+    },
+    "ui.global.predicta.care.desk.0a6612f4": {
+      "en": "PREDICTA CARE DESK",
+      "hi": "प्रेडिक्टा केयर डेस्क",
+      "gu": "પ્રેડિકટા કેર ડેસ્ક"
+    },
+    "ui.global.predicta.chooses.the.full.bundle.63396c47": {
+      "en": "Predicta chooses the full bundle",
+      "hi": "प्रेडिक्टा पूरा बंडल चुनता है",
+      "gu": "પ્રીડિક્ટા સંપૂર્ણ બંડલ પસંદ કરે છે"
+    },
+    "ui.global.practice.explanation.with.chart.proof.7c234a9c": {
+      "en": "Practice explanation with chart proof",
+      "hi": "चार्ट प्रमाण के साथ स्पष्टीकरण का अभ्यास करें",
+      "gu": "ચાર્ટ પ્રૂફ સાથે સમજૂતીનો અભ્યાસ કરો"
+    },
+    "ui.global.predicta.can.explain.panchang.a.focus.chart.mahadasha..dcdffa40": {
+      "en": "Predicta can explain Panchang, a focus chart, Mahadasha Phala, or any classical table without changing the screen into a report wall.",
+      "hi": "प्रेडिक्टा स्क्रीन को रिपोर्ट वॉल में बदले बिना पंचांग, ​​फोकस चार्ट, महादशा फल या किसी शास्त्रीय तालिका की व्याख्या कर सकता है।",
+      "gu": "પ્રેડિક્ટા સ્ક્રીનને રિપોર્ટ વોલમાં બદલ્યા વિના પંચાંગ, ફોકસ ચાર્ટ, મહાદશા ફલા અથવા કોઈપણ શાસ્ત્રીય ટેબલ સમજાવી શકે છે."
+    },
+    "ui.global.predicta.introduction.5e1b957b": {
+      "en": "Predicta introduction",
+      "hi": "भविष्यवाणी परिचय",
+      "gu": "પરિચયની આગાહી"
+    },
+    "ui.global.predicta.chats.86dfb910": {
+      "en": "Predicta chats",
+      "hi": "प्रेडिक्टा चैट",
+      "gu": "ચેટ્સની આગાહી કરો"
+    },
+    "ui.global.predicta.is.built.to.guide.not.scare.08489252": {
+      "en": "Predicta is built to guide, not scare.",
+      "hi": "प्रेडिक्टा मार्गदर्शन के लिए बनाई गई है, डराने के लिए नहीं।",
+      "gu": "પ્રિડિક્ટા માર્ગદર્શન માટે બનાવવામાં આવી છે, ડરાવવા માટે નહીં."
+    },
+    "ui.global.predicta.home.84c1ff39": {
+      "en": "Predicta home",
+      "hi": "प्रेडिक्टा होम",
+      "gu": "ઘરની આગાહી કરો"
+    },
+    "ui.global.predicta.gives.holistic.astrology.guidance.without.fea.9d1fa3b0": {
+      "en": "Predicta gives holistic astrology guidance without fear, guarantees, or crisis overreach. The goal is care, not unnecessary denial.",
+      "hi": "प्रेडिक्टा बिना किसी डर, गारंटी या संकट के समग्र ज्योतिष मार्गदर्शन देता है। लक्ष्य देखभाल है, अनावश्यक इनकार नहीं।",
+      "gu": "પ્રેડિક્ટા ભય, બાંયધરી અથવા કટોકટીના અતિરેક વિના સર્વગ્રાહી જ્યોતિષ માર્ગદર્શન આપે છે. ધ્યેય કાળજી છે, બિનજરૂરી અસ્વીકાર નથી."
+    },
+    "ui.global.predicta.is.confirming.sign.in.before.opening.this.pri.03b2d5da": {
+      "en": "Predicta is confirming sign-in before opening this private area.",
+      "hi": "प्रिडिक्टा इस निजी क्षेत्र को खोलने से पहले साइन-इन की पुष्टि कर रहा है।",
+      "gu": "પ્રેડિક્ટા આ ખાનગી વિસ્તાર ખોલતા પહેલા સાઇન-ઇનની પુષ્ટિ કરી રહી છે."
+    },
+    "ui.global.predicta.owner.operations.570cd3a0": {
+      "en": "Predicta owner operations.",
+      "hi": "प्रेडिक्टा मालिक संचालन।",
+      "gu": "આગાહી માલિક કામગીરી."
+    },
+    "ui.global.predicta.checked.proof.limits.and.safety.before.showin.67e403b7": {
+      "en": "Predicta checked proof, limits, and safety before showing this guidance.",
+      "hi": "इस मार्गदर्शन को दिखाने से पहले प्रेडिक्टा ने प्रमाण, सीमाएँ और सुरक्षा की जाँच की।",
+      "gu": "આ માર્ગદર્શન દર્શાવતા પહેલા પ્રીડિક્ટાએ સાબિતી, મર્યાદા અને સલામતી તપાસી."
+    },
+    "ui.global.predicta.checks.your.pass.safely.you.only.enter.the.co.fad2f23a": {
+      "en": "Predicta checks your pass safely. You only enter the code here, and access is connected to the signed-in email approved for that pass.",
+      "hi": "प्रेडिक्टा आपके पास की सुरक्षित रूप से जाँच करता है। आप यहां केवल कोड दर्ज करते हैं, और पहुंच उस पास के लिए स्वीकृत साइन-इन ईमेल से जुड़ी होती है।",
+      "gu": "પ્રેડિક્ટા તમારા પાસને સુરક્ષિત રીતે તપાસે છે. તમે અહીં માત્ર કોડ દાખલ કરો, અને ઍક્સેસ તે પાસ માટે મંજૂર સાઇન-ઇન કરેલ ઇમેઇલ સાથે જોડાયેલ છે."
+    },
+    "ui.global.predicta.keeps.these.refinements.behind.the.main.chart.2826379c": {
+      "en": "Predicta keeps these refinements behind the main chart story. They are used only after Lagna, classical grahas, dasha, and Gochar are already clear.",
+      "hi": "प्रेडिक्टा इन परिशोधनों को मुख्य चार्ट कहानी के पीछे रखता है। इनका प्रयोग लग्न, शास्त्रीय ग्रह, दशा और गोचर पहले से ही स्पष्ट होने के बाद ही किया जाता है।",
+      "gu": "પ્રીડિક્ટા આ શુદ્ધિકરણોને મુખ્ય ચાર્ટ સ્ટોરી પાછળ રાખે છે. લગન, શાસ્ત્રીય ગ્રહો, દશા અને ગોચર પહેલાથી જ સ્પષ્ટ થયા પછી જ તેનો ઉપયોગ થાય છે."
+    },
+    "ui.global.predicta.keeps.your.chat.kundli.reports.and.preference.159170d6": {
+      "en": "Predicta keeps your chat, kundli, reports, and preferences in one calm space built for repeat daily guidance.",
+      "hi": "प्रेडिक्टा आपकी चैट, कुंडली, रिपोर्ट और प्राथमिकताओं को बार-बार दैनिक मार्गदर्शन के लिए बनाए गए एक शांत स्थान में रखता है।",
+      "gu": "પ્રેડિક્ટા તમારી ચેટ, કુંડળી, અહેવાલો અને પસંદગીઓને એક શાંત જગ્યામાં રાખે છે જે પુનરાવર્તિત દૈનિક માર્ગદર્શન માટે બનાવેલ છે."
+    },
+    "ui.global.predicta.life.atlas.7a2cd231": {
+      "en": "Predicta Life Atlas",
+      "hi": "प्रेडिक्टा लाइफ एटलस",
+      "gu": "આગાહી જીવન એટલાસ"
+    },
+    "ui.global.predicta.is.built.to.make.holistic.vedic.astrology.pre.e3c908a2": {
+      "en": "Predicta is built to make holistic Vedic astrology precise, private, calm, and useful.",
+      "hi": "प्रिडिक्टा को समग्र वैदिक ज्योतिष को सटीक, निजी, शांत और उपयोगी बनाने के लिए बनाया गया है।",
+      "gu": "પ્રેડિક્ટા સર્વગ્રાહી વૈદિક જ્યોતિષવિદ્યાને ચોક્કસ, ખાનગી, શાંત અને ઉપયોગી બનાવવા માટે બનાવવામાં આવી છે."
+    },
+    "ui.global.predicta.is.confirming.sign.in.before.opening.private..3a0a958c": {
+      "en": "Predicta is confirming sign-in before opening private chat.",
+      "hi": "प्रिडिक्टा निजी चैट खोलने से पहले साइन-इन की पुष्टि कर रहा है।",
+      "gu": "પ્રેડિક્ટા ખાનગી ચેટ ખોલતા પહેલા સાઇન-ઇનની પુષ્ટિ કરી રહી છે."
+    },
+    "ui.global.predicta.premium.27ec8dcc": {
+      "en": "PREDICTA PREMIUM",
+      "hi": "प्रेडिक्टा प्रीमियम",
+      "gu": "પ્રેડિક્ટા પ્રીમિયમ"
+    },
+    "ui.global.predicta.support.inbox.1b946e84": {
+      "en": "Predicta support inbox",
+      "hi": "प्रेडिक्टा सपोर्ट इनबॉक्स",
+      "gu": "અનુમાન આધાર ઇનબોક્સ"
+    },
+    "ui.global.predicta.should.stay.useful.beautiful.and.respectful.d.56943e8a": {
+      "en": "Predicta should stay useful, beautiful, and respectful during uncertain moments. Safety stays non-negotiable.",
+      "hi": "अनिश्चित क्षणों के दौरान प्रेडिक्टा को उपयोगी, सुंदर और सम्मानजनक रहना चाहिए। सुरक्षा पर कोई समझौता नहीं किया जा सकता.",
+      "gu": "અનિશ્ચિત ક્ષણો દરમિયાન અનુમાન ઉપયોગી, સુંદર અને આદરપૂર્ણ રહેવું જોઈએ. સલામતી બિન-વાટાઘાટપાત્ર રહે છે."
+    },
+    "ui.global.predicta.reading.flow.62b6e06a": {
+      "en": "PREDICTA READING FLOW",
+      "hi": "प्रेडिक्टा रीडिंग फ्लो",
+      "gu": "વાંચન પ્રવાહની આગાહી કરો"
+    },
+    "ui.global.predicta.replies.e6490734": {
+      "en": "Predicta replies",
+      "hi": "प्रेडिक्टा उत्तर देती है",
+      "gu": "અનુમાનિત જવાબ આપે છે"
+    },
+    "ui.global.predicta.will.include.the.most.important.sections.for..4e8580de": {
+      "en": "Predicta will include the most important sections for this report. Customize only if you want a narrower PDF.",
+      "hi": "प्रेडिक्टा में इस रिपोर्ट के लिए सबसे महत्वपूर्ण अनुभाग शामिल होंगे। यदि आप एक संकीर्ण पीडीएफ चाहते हैं तो ही अनुकूलित करें।",
+      "gu": "પ્રિડિક્ટામાં આ રિપોર્ટ માટે સૌથી મહત્વપૂર્ણ વિભાગો શામેલ હશે. જો તમને વધુ સાંકડી PDF જોઈતી હોય તો જ કસ્ટમાઇઝ કરો."
+    },
+    "ui.global.premium.guidance.calmly.unlocked.67868d60": {
+      "en": "Premium guidance, calmly unlocked",
+      "hi": "प्रीमियम मार्गदर्शन, शांति से अनलॉक",
+      "gu": "પ્રીમિયમ માર્ગદર્શન, શાંતિથી અનલૉક"
+    },
+    "ui.global.premium.0bee36bc": {
+      "en": "Premium:",
+      "hi": "अधिमूल्य:",
+      "gu": "પ્રીમિયમ:"
+    },
+    "ui.global.premium.paid.dee5cee2": {
+      "en": "Premium/paid",
+      "hi": "बीमा शुल्क का भुगतान",
+      "gu": "પ્રીમિયમ/ચુકવેલ"
+    },
+    "ui.global.premium.unlock.6d971356": {
+      "en": "Premium unlock",
+      "hi": "प्रीमियम अनलॉक",
+      "gu": "પ્રીમિયમ અનલૉક"
+    },
+    "ui.global.prepared.61b5e912": {
+      "en": "prepared",
+      "hi": "तैयार",
+      "gu": "તૈયાર"
+    },
+    "ui.global.primary.navigation.d36dad20": {
+      "en": "Primary navigation",
+      "hi": "प्राथमिक नेविगेशन",
+      "gu": "પ્રાથમિક નેવિગેશન"
+    },
+    "ui.global.priority.886cbff9": {
+      "en": "Priority",
+      "hi": "प्राथमिकता",
+      "gu": "પ્રાથમિકતા"
+    },
+    "ui.global.predicta.wrapped.6d4f59a1": {
+      "en": "PREDICTA WRAPPED",
+      "hi": "प्रेडिक्टा लपेटा हुआ",
+      "gu": "પ્રેડિક્ટા આવરિત"
+    },
+    "ui.global.premium.deep.dive.23f668bf": {
+      "en": "PREMIUM DEEP DIVE",
+      "hi": "प्रीमियम गहरा गोता",
+      "gu": "પ્રીમિયમ ડીપ ડાઈવ"
+    },
+    "ui.global.predicta.will.9cca6e71": {
+      "en": "Predicta will",
+      "hi": "प्रेडिक्टा होगा",
+      "gu": "આગાહી કરશે"
+    },
+    "ui.global.predicta.vedic.c298758c": {
+      "en": "PREDICTA VEDIC",
+      "hi": "प्रेडिक्टा वैदिक",
+      "gu": "પ્રેડિકટા વેદિક"
+    },
+    "ui.global.premium.synthesis.0ee05adb": {
+      "en": "Premium synthesis",
+      "hi": "प्रीमियम संश्लेषण",
+      "gu": "પ્રીમિયમ સંશ્લેષણ"
+    },
+    "ui.global.premium.pdfs.78c806f4": {
+      "en": "premium PDFs",
+      "hi": "प्रीमियम पीडीएफ",
+      "gu": "પ્રીમિયમ પીડીએફ"
+    },
+    "ui.global.priority.b5b7148e": {
+      "en": "priority ·",
+      "hi": "प्राथमिकता ·",
+      "gu": "અગ્રતા ·"
+    },
+    "ui.global.privacy.note.ac9ba1a2": {
+      "en": "Privacy note",
+      "hi": "गोपनीयता नोट",
+      "gu": "ગોપનીયતા નોંધ"
+    },
+    "ui.global.privacy.by.default.5fe7b412": {
+      "en": "Privacy by default",
+      "hi": "डिफ़ॉल्ट रूप से गोपनीयता",
+      "gu": "મૂળભૂત રીતે ગોપનીયતા"
+    },
+    "ui.global.private.invite.code.30173b96": {
+      "en": "Private invite code",
+      "hi": "निजी आमंत्रण कोड",
+      "gu": "ખાનગી આમંત્રણ કોડ"
+    },
+    "ui.global.private.code.5928ffa4": {
+      "en": "Private code",
+      "hi": "निजी कोड",
+      "gu": "ખાનગી કોડ"
+    },
+    "ui.global.private.defaults.89299a8e": {
+      "en": "PRIVATE DEFAULTS",
+      "hi": "निजी चूक",
+      "gu": "ખાનગી ડિફોલ્ટ્સ"
+    },
+    "ui.global.private.invite.b5d8f636": {
+      "en": "PRIVATE INVITE",
+      "hi": "निजी आमंत्रण",
+      "gu": "ખાનગી આમંત્રણ"
+    },
+    "ui.global.private.guest.pass.control.eb6c09d7": {
+      "en": "Private guest-pass control",
+      "hi": "निजी अतिथि-पास नियंत्रण",
+      "gu": "ખાનગી ગેસ્ટ-પાસ નિયંત્રણ"
+    },
+    "ui.global.privacy.first.signature.scan.9100b2ef": {
+      "en": "Privacy-first signature scan",
+      "hi": "गोपनीयता-प्रथम हस्ताक्षर स्कैन",
+      "gu": "ગોપનીયતા-પ્રથમ હસ્તાક્ષર સ્કેન"
+    },
+    "ui.global.private.note.never.emailed.1fbc1992": {
+      "en": "Private note · never emailed",
+      "hi": "निजी नोट · कभी ईमेल नहीं किया गया",
+      "gu": "ખાનગી નોંધ · ક્યારેય ઈમેલ કરેલ નથી"
+    },
+    "ui.global.promise.fe567192": {
+      "en": "Promise",
+      "hi": "वादा",
+      "gu": "વચન"
+    },
+    "ui.global.proof.drawer.5a00992c": {
+      "en": "PROOF DRAWER",
+      "hi": "सबूत दराज",
+      "gu": "પ્રૂફ ડ્રોઅર"
+    },
+    "ui.global.private.pass.control.88ba2033": {
+      "en": "Private pass control",
+      "hi": "निजी पास नियंत्रण",
+      "gu": "ખાનગી પાસ નિયંત્રણ"
+    },
+    "ui.global.probable.time.estimate.6becb96c": {
+      "en": "Probable time estimate",
+      "hi": "संभावित समय अनुमान",
+      "gu": "સંભવિત સમય અંદાજ"
+    },
+    "ui.global.private.preview.a50611fe": {
+      "en": "PRIVATE PREVIEW",
+      "hi": "निजी पूर्वावलोकन",
+      "gu": "ખાનગી પૂર્વાવલોકન"
+    },
+    "ui.global.probable.time.6e0c25b6": {
+      "en": "PROBABLE TIME",
+      "hi": "संभावित समय",
+      "gu": "સંભવિત સમય"
+    },
+    "ui.global.private.pass.active.be0b5691": {
+      "en": "Private pass active",
+      "hi": "निजी पास सक्रिय",
+      "gu": "ખાનગી પાસ સક્રિય"
+    },
+    "ui.global.private.invite.name.9b6bd9ad": {
+      "en": "private-invite-name",
+      "hi": "निजी-आमंत्रित-नाम",
+      "gu": "ખાનગી-આમંત્રણ-નામ"
+    },
+    "ui.global.private.reading.fa18ac4b": {
+      "en": "PRIVATE READING",
+      "hi": "निजी पढ़ना",
+      "gu": "ખાનગી વાંચન"
+    },
+    "ui.global.private.owner.area.b5484101": {
+      "en": "PRIVATE OWNER AREA",
+      "hi": "निजी स्वामी क्षेत्र",
+      "gu": "ખાનગી માલિક વિસ્તાર"
+    },
+    "ui.global.question.002ff598": {
+      "en": "Question",
+      "hi": "सवाल",
+      "gu": "પ્રશ્ન"
+    },
+    "ui.global.public.sharing.check.5b654026": {
+      "en": "Public sharing check",
+      "hi": "सार्वजनिक साझाकरण चेक",
+      "gu": "જાહેર શેરિંગ ચેક"
+    },
+    "ui.global.read.safety.promise.cdd1109b": {
+      "en": "Read Safety Promise",
+      "hi": "सुरक्षा वचन पढ़ें",
+      "gu": "સલામતી વચન વાંચો"
+    },
+    "ui.global.public.safety.promise.14dc8a81": {
+      "en": "PUBLIC SAFETY PROMISE",
+      "hi": "सार्वजनिक सुरक्षा का वादा",
+      "gu": "જાહેર સલામતીનું વચન"
+    },
+    "ui.global.protect.your.workspace.d42b0132": {
+      "en": "Protect your workspace.",
+      "hi": "अपने कार्यक्षेत्र को सुरक्षित रखें.",
+      "gu": "તમારા કાર્યસ્થળને સુરક્ષિત કરો."
+    },
+    "ui.global.public.safety.0c7f79d3": {
+      "en": "PUBLIC SAFETY",
+      "hi": "सार्वजनिक सुरक्षा",
+      "gu": "જાહેર સલામતી"
+    },
+    "ui.global.recommended.9ef93755": {
+      "en": "Recommended",
+      "hi": "अनुशंसित",
+      "gu": "ભલામણ કરેલ"
+    },
+    "ui.global.rahu.ketu.axis.card.4fb63109": {
+      "en": "RAHU-KETU AXIS CARD",
+      "hi": "राहु-केतु अक्ष कार्ड",
+      "gu": "રાહુ-કેતુ અક્ષ કાર્ડ"
+    },
+    "ui.global.question.received.c0335bb9": {
+      "en": "QUESTION RECEIVED",
+      "hi": "प्रश्न प्राप्त हुआ",
+      "gu": "પ્રશ્ન પ્રાપ્ત થયો"
+    },
+    "ui.global.question.and.report.packs.3baf557c": {
+      "en": "Question and report packs",
+      "hi": "प्रश्न और रिपोर्ट पैक",
+      "gu": "પ્રશ્ન અને રિપોર્ટ પેક"
+    },
+    "ui.global.ready.to.share.e4a31d47": {
+      "en": "Ready to share.",
+      "hi": "साझा करने के लिए तैयार.",
+      "gu": "શેર કરવા માટે તૈયાર."
+    },
+    "ui.global.re.check.approximate.time.4adb5439": {
+      "en": "Re-check approximate time",
+      "hi": "अनुमानित समय पुनः जांचें",
+      "gu": "અંદાજિત સમય ફરીથી તપાસો"
+    },
+    "ui.global.real.life.shift.areas.ca38de69": {
+      "en": "Real-life shift areas",
+      "hi": "वास्तविक जीवन में बदलाव के क्षेत्र",
+      "gu": "વાસ્તવિક જીવન પાળી વિસ્તારો"
+    },
+    "ui.global.recommended.by.predicta.1837c395": {
+      "en": "Recommended by Predicta",
+      "hi": "प्रेडिक्टा द्वारा अनुशंसित",
+      "gu": "પ્રેડિક્ટા દ્વારા ભલામણ કરેલ"
+    },
+    "ui.global.register.d672995a": {
+      "en": "Register",
+      "hi": "पंजीकरण करवाना",
+      "gu": "નોંધણી કરો"
+    },
+    "ui.global.redeem.db3f8143": {
+      "en": "Redeem",
+      "hi": "भुनाना",
+      "gu": "રિડીમ કરો"
+    },
+    "ui.global.recommended.by.predicta.is.selected.by.default.open.th.523f0cbf": {
+      "en": "Recommended by Predicta is selected by default. Open this only if you want to adjust the PDF.",
+      "hi": "प्रेडिक्टा द्वारा अनुशंसित डिफ़ॉल्ट रूप से चयनित है। इसे केवल तभी खोलें यदि आप पीडीएफ को समायोजित करना चाहते हैं।",
+      "gu": "પ્રેડિક્ટા દ્વારા ભલામણ કરેલ ડિફૉલ્ટ રૂપે પસંદ થયેલ છે. જો તમે પીડીએફ એડજસ્ટ કરવા માંગતા હોવ તો જ આ ખોલો."
+    },
+    "ui.global.rectified.time.is.active.44181320": {
+      "en": "Rectified time is active:",
+      "hi": "सुधारा गया समय सक्रिय है:",
+      "gu": "સુધારેલ સમય સક્રિય છે:"
+    },
+    "ui.global.remedy.856b8ad2": {
+      "en": "Remedy:",
+      "hi": "उपचार:",
+      "gu": "ઉપાય:"
+    },
+    "ui.global.relationship.mirror.5e29f31e": {
+      "en": "RELATIONSHIP MIRROR",
+      "hi": "रिश्ते का दर्पण",
+      "gu": "રિલેશનશિપ મિરર"
+    },
+    "ui.global.rectified.time.189fa108": {
+      "en": "Rectified time:",
+      "hi": "सुधारित समय:",
+      "gu": "સુધારેલ સમય:"
+    },
+    "ui.global.rectified.time.original.entered.time.97aab581": {
+      "en": "Rectified time. Original entered time:",
+      "hi": "सुधारा गया समय. मूल प्रविष्ट समय:",
+      "gu": "સુધારેલ સમય. દાખલ કરેલ મૂળ સમય:"
+    },
+    "ui.global.redeem.guest.pass.c2e75964": {
+      "en": "Redeem guest pass",
+      "hi": "अतिथि पास भुनाएं",
+      "gu": "અતિથિ પાસ રિડીમ કરો"
+    },
+    "ui.global.rectified.time.e5ab4ed8": {
+      "en": "Rectified time",
+      "hi": "सुधारा गया समय",
+      "gu": "સુધારેલ સમય"
+    },
+    "ui.global.reduced.motion.friendly.scanner.states.are.also.shown..ecadcd0e": {
+      "en": "Reduced-motion friendly: scanner states are also shown as readable steps.",
+      "hi": "रिड्यूस्ड-मोशन फ्रेंडली: स्कैनर स्थितियों को पठनीय चरणों के रूप में भी दिखाया जाता है।",
+      "gu": "રિડ્યુસ્ડ-મોશન ફ્રેન્ડલી: સ્કેનર સ્ટેટ્સ પણ વાંચી શકાય તેવા પગલાં તરીકે બતાવવામાં આવે છે."
+    },
+    "ui.global.reply.chime.b9900ec3": {
+      "en": "Reply chime",
+      "hi": "उत्तर की झंकार",
+      "gu": "જવાબમાં ઘંટી"
+    },
+    "ui.global.reply.composer.26186cf0": {
+      "en": "REPLY COMPOSER",
+      "hi": "उत्तर संगीतकार",
+      "gu": "કંપોઝરને જવાબ આપો"
+    },
+    "ui.global.repeated.patterns.support.zones.no.blame.8753da8e": {
+      "en": "Repeated patterns, support zones, no blame",
+      "hi": "दोहराए गए पैटर्न, समर्थन क्षेत्र, कोई दोष नहीं",
+      "gu": "પુનરાવર્તિત પેટર્ન, સપોર્ટ ઝોન, કોઈ દોષ નથી"
+    },
+    "ui.global.report.composer.c4e039ee": {
+      "en": "REPORT COMPOSER",
+      "hi": "रिपोर्ट संगीतकार",
+      "gu": "રિપોર્ટ કંપોઝર"
+    },
+    "ui.global.report.language.f6c2d7f1": {
+      "en": "REPORT LANGUAGE",
+      "hi": "रिपोर्ट भाषा",
+      "gu": "રિપોર્ટ ભાષા"
+    },
+    "ui.global.requested.details.3757fff1": {
+      "en": "Requested details",
+      "hi": "विवरण मांगा",
+      "gu": "વિગતો માંગી"
+    },
+    "ui.global.report.pdfs.670ce0e4": {
+      "en": "Report PDFs",
+      "hi": "पीडीएफ़ की रिपोर्ट करें",
+      "gu": "પીડીએફની જાણ કરો"
+    },
+    "ui.global.request.context.b4ccb0ae": {
+      "en": "Request context",
+      "hi": "संदर्भ का अनुरोध करें",
+      "gu": "સંદર્ભની વિનંતી કરો"
+    },
+    "ui.global.report.kundli.4c9c4b8b": {
+      "en": "Report Kundli",
+      "hi": "रिपोर्ट कुंडली",
+      "gu": "જાણ કુંડલી"
+    },
+    "ui.global.report.school.navigation.e0f6238a": {
+      "en": "Report school navigation",
+      "hi": "स्कूल नेविगेशन की रिपोर्ट करें",
+      "gu": "શાળા નેવિગેશનની જાણ કરો"
+    },
+    "ui.global.reset.password.3fb75e3b": {
+      "en": "Reset Password",
+      "hi": "पासवर्ड रीसेट",
+      "gu": "પાસવર્ડ રીસેટ કરો"
+    },
+    "ui.global.resolve.ac7f958c": {
+      "en": "Resolve",
+      "hi": "संकल्प",
+      "gu": "ઉકેલો"
+    },
+    "ui.global.require.pin.or.biometrics.before.opening.sensitive.cha.34cd373a": {
+      "en": "Require PIN or biometrics before opening sensitive chart data.",
+      "hi": "संवेदनशील चार्ट डेटा खोलने से पहले पिन या बायोमेट्रिक्स की आवश्यकता है।",
+      "gu": "સંવેદનશીલ ચાર્ટ ડેટા ખોલતા પહેલા પિન અથવા બાયોમેટ્રિક્સ જરૂરી છે."
+    },
+    "ui.global.required.vedic.focus.chart.order.d1.rashi.moon.chandra.e63c762c": {
+      "en": "Required Vedic focus chart order: D1/Rashi, Moon/Chandra Lagna, D9/Navamsa, D10/Dashamsa, Chalit",
+      "hi": "आवश्यक वैदिक फोकस चार्ट क्रम: डी1/राशि, चंद्र/चंद्र लग्न, डी9/नवांश, डी10/दशमांश, चलित",
+      "gu": "આવશ્યક વૈદિક ફોકસ ચાર્ટ ઓર્ડર: D1/રાશિ, ચંદ્ર/ચંદ્ર લગ્ન, D9/નવમસા, D10/દશમસા, ચલિત"
+    },
+    "ui.global.restore.purchases.2d557413": {
+      "en": "Restore Purchases",
+      "hi": "खरीदारी वापस लौटाएं",
+      "gu": "ખરીદીઓ પુનઃસ્થાપિત કરો"
+    },
+    "ui.global.required.input.0537d6f3": {
+      "en": "Required input",
+      "hi": "आवश्यक इनपुट",
+      "gu": "જરૂરી ઇનપુટ"
+    },
+    "ui.global.required.vedic.focus.order.15caca20": {
+      "en": "REQUIRED VEDIC FOCUS ORDER",
+      "hi": "आवश्यक वैदिक फोकस आदेश",
+      "gu": "આવશ્યક વૈદિક ફોકસ ઓર્ડર"
+    },
+    "ui.global.required.vedic.focus.order.24a4740d": {
+      "en": "Required Vedic focus order",
+      "hi": "आवश्यक वैदिक फोकस क्रम",
+      "gu": "આવશ્યક વૈદિક ફોકસ ઓર્ડર"
+    },
+    "ui.global.resolution.summary.1f8e4c50": {
+      "en": "Resolution summary",
+      "hi": "संकल्प सारांश",
+      "gu": "ઠરાવ સારાંશ"
+    },
+    "ui.global.review.customer.replies.ticket.status.private.notes.an.2bd6ebc7": {
+      "en": "Review customer replies, ticket status, private notes, and delivery health from one calm owner workspace.",
+      "hi": "एक शांत मालिक कार्यक्षेत्र से ग्राहक उत्तरों, टिकट की स्थिति, निजी नोट्स और डिलीवरी स्वास्थ्य की समीक्षा करें।",
+      "gu": "ગ્રાહકના જવાબો, ટિકિટની સ્થિતિ, ખાનગી નોંધો અને એક શાંત માલિક વર્કસ્પેસમાંથી ડિલિવરી સ્વાસ્થ્યની સમીક્ષા કરો."
+    },
+    "ui.global.resolved.birth.place.9da648ce": {
+      "en": "Resolved birth place",
+      "hi": "संकल्पित जन्मस्थान",
+      "gu": "ઉકેલાયેલ જન્મસ્થળ"
+    },
+    "ui.global.return.to.dashboard.c966fb8f": {
+      "en": "Return to dashboard",
+      "hi": "डैशबोर्ड पर लौटें",
+      "gu": "ડેશબોર્ડ પર પાછા ફરો"
+    },
+    "ui.global.risk.5a8f23f5": {
+      "en": "Risk",
+      "hi": "जोखिम",
+      "gu": "જોખમ"
+    },
+    "ui.global.review.support.threads.create.private.passes.and.check.1c5843b5": {
+      "en": "Review support threads, create private passes, and check owner-only safety signals from one protected workspace.",
+      "hi": "समर्थन थ्रेड्स की समीक्षा करें, निजी पास बनाएं और एक संरक्षित कार्यक्षेत्र से केवल मालिक के लिए सुरक्षा संकेतों की जांच करें।",
+      "gu": "સપોર્ટ થ્રેડ્સની સમીક્ષા કરો, ખાનગી પાસ બનાવો અને એક સુરક્ષિત વર્કસ્પેસમાંથી માત્ર-માલિક-માલિક સુરક્ષા સંકેતો તપાસો."
+    },
+    "ui.global.rising.sign.means.starting.style.moon.sign.means.emoti.e314de02": {
+      "en": "Rising sign means starting style. Moon sign means emotional pattern. Dasha means current life chapter.",
+      "hi": "उभरते चिन्ह का अर्थ है आरंभिक शैली। चंद्र चिन्ह का अर्थ है भावनात्मक पैटर्न। दशा का अर्थ है वर्तमान जीवन का अध्याय।",
+      "gu": "વધતી નિશાની એટલે શરૂઆતની શૈલી. ચંદ્ર ચિહ્નનો અર્થ ભાવનાત્મક પેટર્ન છે. દશા એટલે વર્તમાન જીવન પ્રકરણ."
+    },
+    "ui.global.review.reported.guidance.652ce8ff": {
+      "en": "Review reported guidance.",
+      "hi": "रिपोर्ट किए गए मार्गदर्शन की समीक्षा करें.",
+      "gu": "અહેવાલ માર્ગદર્શનની સમીક્ષા કરો."
+    },
+    "ui.global.safe.9525ae17": {
+      "en": "Safe",
+      "hi": "सुरक्षित",
+      "gu": "સલામત"
+    },
+    "ui.global.ruled.by.b1816886": {
+      "en": "Ruled by",
+      "hi": "शासन किया",
+      "gu": "દ્વારા શાસન કર્યું"
+    },
+    "ui.global.routine.or.money.tension.79c4597e": {
+      "en": "Routine or money tension",
+      "hi": "दिनचर्या या पैसों की टेंशन",
+      "gu": "રૂટિન કે પૈસાનું ટેન્શન"
+    },
+    "ui.global.ruling.planets.2a653843": {
+      "en": "RULING PLANETS",
+      "hi": "शासक ग्रह",
+      "gu": "શાસક ગ્રહો"
+    },
+    "ui.global.risky.real.world.questions.need.calm.handling.5efad12f": {
+      "en": "Risky real-world questions need calm handling.",
+      "hi": "वास्तविक दुनिया के जोखिम भरे प्रश्नों को शांतिपूर्वक निपटाने की आवश्यकता है।",
+      "gu": "જોખમી વાસ્તવિક-વિશ્વના પ્રશ્નોને શાંત હેન્ડલિંગની જરૂર છે."
+    },
+    "ui.global.saturn.windows.will.appear.after.transit.data.is.avail.98e4f92f": {
+      "en": "Saturn windows will appear after transit data is available.",
+      "hi": "पारगमन डेटा उपलब्ध होने के बाद सैटर्न विंडो दिखाई देगी।",
+      "gu": "ટ્રાન્ઝિટ ડેટા ઉપલબ્ધ થયા પછી શનિ વિન્ડો દેખાશે."
+    },
+    "ui.global.safety.is.part.of.the.product.bcf93fdf": {
+      "en": "Safety is part of the product.",
+      "hi": "सुरक्षा उत्पाद का हिस्सा है.",
+      "gu": "સલામતી એ ઉત્પાદનનો એક ભાગ છે."
+    },
+    "ui.global.saturn.5a6b455b": {
+      "en": "Saturn ·",
+      "hi": "शनि ग्रह ·",
+      "gu": "શનિ ·"
+    },
+    "ui.global.save.another.kundli.to.compare.this.relationship.cd083be1": {
+      "en": "Save another kundli to compare this relationship.",
+      "hi": "इस रिश्ते की तुलना करने के लिए एक और कुंडली सहेजें।",
+      "gu": "આ સંબંધની સરખામણી કરવા માટે બીજી કુંડળી સાચવો."
+    },
+    "ui.global.sadhana.path.37295451": {
+      "en": "SADHANA PATH",
+      "hi": "साधना पथ",
+      "gu": "સાધના પથ"
+    },
+    "ui.global.sade.sati.saturn.74de564c": {
+      "en": "SADE SATI + SATURN",
+      "hi": "साढ़े साती + शनि",
+      "gu": "સાદે સતી + શનિ"
+    },
+    "ui.global.safety.reports.b8d6b8a7": {
+      "en": "Safety reports",
+      "hi": "सुरक्षा रिपोर्ट",
+      "gu": "સલામતી અહેવાલો"
+    },
+    "ui.global.safety.review.b9d3f9ff": {
+      "en": "SAFETY REVIEW",
+      "hi": "सुरक्षा समीक्षा",
+      "gu": "સલામતી સમીક્ષા"
+    },
+    "ui.global.saturn.from.moon.f4c83946": {
+      "en": "Saturn from Moon",
+      "hi": "चंद्रमा से शनि",
+      "gu": "ચંદ્રમાંથી શનિ"
+    },
+    "ui.global.saturn.windows.fe29ab5e": {
+      "en": "Saturn windows",
+      "hi": "शनि खिड़कियाँ",
+      "gu": "શનિની બારીઓ"
+    },
+    "ui.global.score.489f4877": {
+      "en": "Score",
+      "hi": "अंक",
+      "gu": "સ્કોર"
+    },
+    "ui.global.search.templates.08b9a69c": {
+      "en": "Search templates",
+      "hi": "टेम्पलेट खोजें",
+      "gu": "નમૂનાઓ શોધો"
+    },
+    "ui.global.school.separated.marketplace.956faeec": {
+      "en": "School-separated marketplace",
+      "hi": "स्कूल से अलग किया गया बाज़ार",
+      "gu": "શાળાથી અલગ બજાર"
+    },
+    "ui.global.school.specific.reports.234a3eed": {
+      "en": "SCHOOL-SPECIFIC REPORTS",
+      "hi": "स्कूल-विशिष्ट रिपोर्टें",
+      "gu": "શાળા-વિશિષ્ટ અહેવાલો"
+    },
+    "ui.global.school.separated.reports.ebf94725": {
+      "en": "School-separated reports",
+      "hi": "स्कूल से अलग की गई रिपोर्टें",
+      "gu": "શાળા-અલગ અહેવાલો"
+    },
+    "ui.global.saved.chart.preview.1ea6f2b1": {
+      "en": "SAVED CHART PREVIEW",
+      "hi": "सहेजा गया चार्ट पूर्वावलोकन",
+      "gu": "સાચવેલ ચાર્ટ પૂર્વાવલોકન"
+    },
+    "ui.global.sections.063b1141": {
+      "en": "sections",
+      "hi": "धारा",
+      "gu": "વિભાગો"
+    },
+    "ui.global.search.by.situation.c197095e": {
+      "en": "Search by situation",
+      "hi": "स्थिति के अनुसार खोजें",
+      "gu": "પરિસ્થિતિ દ્વારા શોધો"
+    },
+    "ui.global.search.tickets.d320d41a": {
+      "en": "Search tickets",
+      "hi": "टिकट खोजें",
+      "gu": "ટિકિટ શોધો"
+    },
+    "ui.global.second.person.48804329": {
+      "en": "Second person",
+      "hi": "दूसरा व्यक्ति",
+      "gu": "બીજી વ્યક્તિ"
+    },
+    "ui.global.search.by.name.email.ticket.subject.c633384a": {
+      "en": "Search by name, email, ticket, subject",
+      "hi": "नाम, ईमेल, टिकट, विषय के आधार पर खोजें",
+      "gu": "નામ, ઇમેઇલ, ટિકિટ, વિષય દ્વારા શોધો"
+    },
+    "ui.global.select.city.42303635": {
+      "en": "Select city",
+      "hi": "शहर चुनें",
+      "gu": "શહેર પસંદ કરો"
+    },
+    "ui.global.select.profile.7c28a2e4": {
+      "en": "Select profile",
+      "hi": "प्रोफ़ाइल चुनें",
+      "gu": "પ્રોફાઇલ પસંદ કરો"
+    },
+    "ui.global.sections.795928d0": {
+      "en": "sections ·",
+      "hi": "अनुभाग ·",
+      "gu": "વિભાગો ·"
+    },
+    "ui.global.select.country.59ee76ba": {
+      "en": "Select country",
+      "hi": "देश चुनें",
+      "gu": "દેશ પસંદ કરો"
+    },
+    "ui.global.secure.mobile.billing.handoff.cancel.anytime.terms.and.799c0303": {
+      "en": "Secure mobile billing handoff. Cancel anytime. Terms and Privacy apply.",
+      "hi": "सुरक्षित मोबाइल बिलिंग हैंडऑफ़। किसी भी समय रद्द करें. शर्तें और गोपनीयता लागू.",
+      "gu": "સુરક્ષિત મોબાઇલ બિલિંગ હેન્ડઓફ. કોઈપણ સમયે રદ કરો. શરતો અને ગોપનીયતા લાગુ."
+    },
+    "ui.global.see.the.useful.cards.first.open.proof.tables.only.when.4628d5b4": {
+      "en": "See the useful cards first. Open proof tables only when needed. The PDF remains the deep reading surface.",
+      "hi": "पहले उपयोगी कार्ड देखें. जरूरत पड़ने पर ही प्रूफ टेबल खोलें। पीडीएफ गहरी पढ़ने की सतह बनी हुई है।",
+      "gu": "પહેલા ઉપયોગી કાર્ડ્સ જુઓ. જરૂર પડે ત્યારે જ પ્રૂફ ટેબલ ખોલો. PDF એ ઊંડા વાંચન સપાટી રહે છે."
+    },
+    "ui.global.secondary.evidence.only.3e6165d9": {
+      "en": "Secondary evidence only",
+      "hi": "केवल द्वितीयक साक्ष्य",
+      "gu": "માત્ર ગૌણ પુરાવા"
+    },
+    "ui.global.select.chart.7e17aabc": {
+      "en": "SELECT CHART",
+      "hi": "चार्ट चुनें",
+      "gu": "ચાર્ટ પસંદ કરો"
+    },
+    "ui.global.security.lock.101267a2": {
+      "en": "Security lock",
+      "hi": "सुरक्षा ताला",
+      "gu": "સુરક્ષા લોક"
+    },
+    "ui.global.selected.for.family.vault.comparison.23f409ba": {
+      "en": "selected for Family Vault comparison",
+      "hi": "फ़ैमिली वॉल्ट तुलना के लिए चयनित",
+      "gu": "કૌટુંબિક વૉલ્ટ સરખામણી માટે પસંદ કરેલ"
+    },
+    "ui.global.selected.pass.offering.c697cc6e": {
+      "en": "Selected pass offering",
+      "hi": "चयनित पास की पेशकश",
+      "gu": "પસંદ કરેલ પાસ ઓફર"
+    },
+    "ui.global.select.state.or.province.90fdf24f": {
+      "en": "Select state or province",
+      "hi": "राज्य या प्रांत चुनें",
+      "gu": "રાજ્ય અથવા પ્રાંત પસંદ કરો"
+    },
+    "ui.global.selected.house.fd5d780e": {
+      "en": "SELECTED HOUSE",
+      "hi": "चयनित घर",
+      "gu": "પસંદ કરેલ ઘર"
+    },
+    "ui.global.selected.story.de84c440": {
+      "en": "SELECTED STORY",
+      "hi": "चयनित कहानी",
+      "gu": "પસંદ કરેલી વાર્તા"
+    },
+    "ui.global.selected.vedic.sections.100ec89a": {
+      "en": "Selected Vedic sections",
+      "hi": "चयनित वैदिक अनुभाग",
+      "gu": "પસંદ કરેલ વૈદિક વિભાગો"
+    },
+    "ui.global.select.relationship.labels.for.saved.kundlis.predicta..3ba12e4d": {
+      "en": "Select relationship labels for saved kundlis. Predicta looks for repeated patterns and support zones without blaming anyone.",
+      "hi": "सहेजी गई कुंडलियों के लिए संबंध लेबल चुनें। प्रेडिक्टा किसी को दोष दिए बिना दोहराए गए पैटर्न और समर्थन क्षेत्रों की तलाश करता है।",
+      "gu": "સાચવેલી કુંડળીઓ માટે સંબંધ લેબલ પસંદ કરો. પ્રેડિક્ટા કોઈને દોષ આપ્યા વિના પુનરાવર્તિત પેટર્ન અને સપોર્ટ ઝોન શોધે છે."
+    },
+    "ui.global.select.two.saved.kundlis.predicta.compares.patterns.no.877e0b39": {
+      "en": "Select two saved kundlis. Predicta compares patterns, not fate.",
+      "hi": "दो सहेजी गई कुंडलियों का चयन करें। प्रेडिक्टा पैटर्न की तुलना करती है, भाग्य की नहीं।",
+      "gu": "સાચવેલી બે કુંડળીઓ પસંદ કરો. પ્રિડિક્ટા પેટર્નની તુલના કરે છે, ભાગ્યની નહીં."
+    },
+    "ui.global.share.passport.d94c290e": {
+      "en": "Share Passport",
+      "hi": "पासपोर्ट साझा करें",
+      "gu": "પાસપોર્ટ શેર કરો"
+    },
+    "ui.global.send.and.mark.waiting.4f04d9f4": {
+      "en": "Send and mark waiting",
+      "hi": "भेजें और प्रतीक्षा अंकित करें",
+      "gu": "મોકલો અને રાહ ચિહ્નિત કરો"
+    },
+    "ui.global.set.active.758d7f72": {
+      "en": "Set Active",
+      "hi": "सक्रिय सेट करें",
+      "gu": "સક્રિય સેટ કરો"
+    },
+    "ui.global.share.safe.summary.0d6e88ff": {
+      "en": "Share Safe Summary",
+      "hi": "सुरक्षित सारांश साझा करें",
+      "gu": "સુરક્ષિત સારાંશ શેર કરો"
+    },
+    "ui.global.share.birth.details.or.ask.predicta.anything.7751901c": {
+      "en": "Share birth details or ask Predicta anything...",
+      "hi": "जन्म विवरण साझा करें या प्रेडिक्टा से कुछ भी पूछें...",
+      "gu": "જન્મ વિગતો શેર કરો અથવા અનુમાનિતને કંઈપણ પૂછો..."
+    },
+    "ui.global.send.and.resolve.abd21bf0": {
+      "en": "Send and resolve",
+      "hi": "भेजें और समाधान करें",
+      "gu": "મોકલો અને ઉકેલો"
+    },
+    "ui.global.share.safe.export.4bab8ed8": {
+      "en": "Share-safe export",
+      "hi": "शेयर-सुरक्षित निर्यात",
+      "gu": "શેર-સલામત નિકાસ"
+    },
+    "ui.global.share.wrapped.6aceafca": {
+      "en": "Share Wrapped",
+      "hi": "साझा करें लपेटा हुआ",
+      "gu": "શેર આવરિત"
+    },
+    "ui.global.share.safe.recap.timing.windows.next.year.preview.109fda04": {
+      "en": "Share-safe recap, timing windows, next-year preview",
+      "hi": "शेयर-सुरक्षित पुनर्कथन, टाइमिंग विंडो, अगले वर्ष का पूर्वावलोकन",
+      "gu": "શેર-સલામત રીકેપ, ટાઇમિંગ વિન્ડો, આગામી વર્ષનું પૂર્વાવલોકન"
+    },
+    "ui.global.sign.in.f8492cc1": {
+      "en": "Sign In",
+      "hi": "दाखिल करना",
+      "gu": "સાઇન ઇન કરો"
+    },
+    "ui.global.send.and.escalate.30515f78": {
+      "en": "Send and escalate",
+      "hi": "भेजें और आगे बढ़ाएं",
+      "gu": "મોકલો અને વધારો"
+    },
+    "ui.global.share.safe.a1d98c2d": {
+      "en": "Share-safe:",
+      "hi": "शेयर-सुरक्षित:",
+      "gu": "શેર-સુરક્ષિત:"
+    },
+    "ui.global.shift.that.helps.2ebd83e5": {
+      "en": "Shift that helps",
+      "hi": "बदलाव जो मदद करता है",
+      "gu": "શિફ્ટ જે મદદ કરે છે"
+    },
+    "ui.global.short.predictive.cards.640c1e81": {
+      "en": "Short predictive cards",
+      "hi": "लघु भविष्यसूचक कार्ड",
+      "gu": "ટૂંકા આગાહી કાર્ડ્સ"
+    },
+    "ui.global.sharing.is.owner.opt.in.and.reversible.family.bank.cre.c77f08fd": {
+      "en": "Sharing is owner opt-in and reversible. Family Bank credits can be used by linked members, but private chats, reports, and personal history are never exposed.",
+      "hi": "साझाकरण स्वामी द्वारा ऑप्ट-इन और प्रतिवर्ती है। फ़ैमिली बैंक क्रेडिट का उपयोग लिंक किए गए सदस्यों द्वारा किया जा सकता है, लेकिन निजी चैट, रिपोर्ट और व्यक्तिगत इतिहास कभी भी उजागर नहीं होते हैं।",
+      "gu": "શેરિંગ એ માલિકની પસંદગી અને ઉલટાવી શકાય તેવું છે. કૌટુંબિક બેંક ક્રેડિટ્સનો ઉપયોગ લિંક કરેલા સભ્યો દ્વારા કરી શકાય છે, પરંતુ ખાનગી ચેટ્સ, અહેવાલો અને વ્યક્તિગત ઇતિહાસ ક્યારેય ખુલ્લા નથી."
+    },
+    "ui.global.short.predictive.cards.per.focus.chart.895d7f25": {
+      "en": "Short predictive cards per focus chart",
+      "hi": "प्रति फोकस चार्ट लघु पूर्वानुमानित कार्ड",
+      "gu": "ફોકસ ચાર્ટ દીઠ ટૂંકા અનુમાનિત કાર્ડ્સ"
+    },
+    "ui.global.sign.in.before.opening.your.kundli.library.so.saved.ch.b82a0ecc": {
+      "en": "Sign in before opening your Kundli Library so saved charts and Family Vault assignments stay protected with your account.",
+      "hi": "अपनी कुंडली लाइब्रेरी खोलने से पहले साइन इन करें ताकि सहेजे गए चार्ट और फैमिली वॉल्ट असाइनमेंट आपके खाते में सुरक्षित रहें।",
+      "gu": "તમારી કુંડલી લાઇબ્રેરી ખોલતા પહેલા સાઇન ઇન કરો જેથી સાચવેલા ચાર્ટ અને ફેમિલી વૉલ્ટ અસાઇનમેન્ટ તમારા એકાઉન્ટ સાથે સુરક્ષિત રહે."
+    },
+    "ui.global.sign.in.to.open.family.karma.map.0af66b70": {
+      "en": "Sign in to open Family Karma Map.",
+      "hi": "पारिवारिक कर्म मानचित्र खोलने के लिए साइन इन करें।",
+      "gu": "કૌટુંબિક કર્મ નકશો ખોલવા માટે સાઇન ઇન કરો."
+    },
+    "ui.global.sign.in.before.comparing.two.kundlis.so.relationship.i.34e00227": {
+      "en": "Sign in before comparing two Kundlis so relationship insights stay private and attached to your account.",
+      "hi": "दो कुंडलियों की तुलना करने से पहले साइन इन करें ताकि रिश्ते संबंधी जानकारियां निजी रहें और आपके खाते से जुड़ी रहें।",
+      "gu": "બે કુંડળીઓની સરખામણી કરતા પહેલા સાઇન ઇન કરો જેથી સંબંધની જાણકારી ખાનગી રહે અને તમારા એકાઉન્ટ સાથે જોડાયેલી રહે."
+    },
+    "ui.global.share.safe.summary.663e37f6": {
+      "en": "Share-safe summary",
+      "hi": "शेयर-सुरक्षित सारांश",
+      "gu": "શેર-સલામત સારાંશ"
+    },
+    "ui.global.sign.in.before.chatting.with.predicta.ae49030f": {
+      "en": "Sign in before chatting with Predicta.",
+      "hi": "प्रेडिक्टा के साथ चैट करने से पहले साइन इन करें।",
+      "gu": "પ્રેડિક્ટા સાથે ચેટ કરતા પહેલા સાઇન ઇન કરો."
+    },
+    "ui.global.sign.in.before.creating.a.kundli.1feb0bfa": {
+      "en": "Sign in before creating a Kundli.",
+      "hi": "कुंडली बनाने से पहले साइन इन करें.",
+      "gu": "કુંડળી બનાવતા પહેલા સાઇન ઇન કરો."
+    },
+    "ui.global.sign.in.before.running.household.comparison.so.family..a43b8175": {
+      "en": "Sign in before running household comparison so Family Vault uses only your saved private Kundlis.",
+      "hi": "घरेलू तुलना चलाने से पहले साइन इन करें ताकि फैमिली वॉल्ट केवल आपकी सहेजी गई निजी कुंडलियों का उपयोग कर सके।",
+      "gu": "ઘરગથ્થુ સરખામણી ચલાવતા પહેલા સાઇન ઇન કરો જેથી કૌટુંબિક વૉલ્ટ ફક્ત તમારી સાચવેલી ખાનગી કુંડળીઓનો ઉપયોગ કરે."
+    },
+    "ui.global.sign.in.before.using.family.vault.so.family.profiles.c.c041d71c": {
+      "en": "Sign in before using Family Vault so family profiles, comparisons, and shared patterns stay private.",
+      "hi": "फ़ैमिली वॉल्ट का उपयोग करने से पहले साइन इन करें ताकि पारिवारिक प्रोफ़ाइल, तुलना और साझा पैटर्न निजी रहें।",
+      "gu": "ફેમિલી વૉલ્ટનો ઉપયોગ કરતા પહેલા સાઇન ઇન કરો જેથી કૌટુંબિક પ્રોફાઇલ્સ, સરખામણીઓ અને શેર કરેલ પેટર્ન ખાનગી રહે."
+    },
+    "ui.global.sign.in.before.opening.family.vault.so.saved.kundlis.r.22dcfb6d": {
+      "en": "Sign in before opening Family Vault so saved Kundlis, relationships, and comparisons stay tied to your private account.",
+      "hi": "फैमिली वॉल्ट खोलने से पहले साइन इन करें ताकि सहेजी गई कुंडली, रिश्ते और तुलनाएं आपके निजी खाते से जुड़ी रहें।",
+      "gu": "કૌટુંબિક વૉલ્ટ ખોલતા પહેલા સાઇન ઇન કરો જેથી સાચવેલ કુંડળીઓ, સંબંધો અને સરખામણીઓ તમારા ખાનગી ખાતા સાથે જોડાયેલા રહે."
+    },
+    "ui.global.sign.in.to.open.family.vault.8f53175c": {
+      "en": "Sign in to open Family Vault.",
+      "hi": "फैमिली वॉल्ट खोलने के लिए साइन इन करें।",
+      "gu": "ફેમિલી વૉલ્ટ ખોલવા માટે સાઇન ઇન કરો."
+    },
+    "ui.global.sign.in.to.use.family.vault.277082ad": {
+      "en": "Sign in to use Family Vault.",
+      "hi": "फैमिली वॉल्ट का उपयोग करने के लिए साइन इन करें।",
+      "gu": "ફેમિલી વૉલ્ટનો ઉપયોગ કરવા માટે સાઇન ઇન કરો."
+    },
+    "ui.global.simple.meaning.e70a2f3e": {
+      "en": "Simple meaning",
+      "hi": "सरल अर्थ",
+      "gu": "સાદો અર્થ"
+    },
+    "ui.global.significator.1faadc55": {
+      "en": "significator",
+      "hi": "कारक",
+      "gu": "અર્થકર્તા"
+    },
+    "ui.global.signature.expression.layer.was.not.included.because.no.8f2fadc9": {
+      "en": "Signature expression layer was not included because no signature sample was provided. Missing signature does not block generation.",
+      "hi": "हस्ताक्षर अभिव्यक्ति परत शामिल नहीं की गई क्योंकि कोई हस्ताक्षर नमूना प्रदान नहीं किया गया था। गुम हस्ताक्षर सृजन को अवरुद्ध नहीं करता है।",
+      "gu": "હસ્તાક્ષર અભિવ્યક્તિ સ્તરનો સમાવેશ કરવામાં આવ્યો ન હતો કારણ કે કોઈ સહીનો નમૂનો પ્રદાન કરવામાં આવ્યો ન હતો. ગુમ થયેલ હસ્તાક્ષર જનરેશનને અવરોધિત કરતું નથી."
+    },
+    "ui.global.sign.in.to.use.kundli.library.35262ee0": {
+      "en": "Sign in to use Kundli Library.",
+      "hi": "कुंडली लाइब्रेरी का उपयोग करने के लिए साइन इन करें।",
+      "gu": "કુંડલી લાઇબ્રેરીનો ઉપયોગ કરવા માટે સાઇન ઇન કરો."
+    },
+    "ui.global.sign.in.to.restore.online.saved.kundlis.guest.passes.p.6e0a4a6c": {
+      "en": "Sign in to restore online-saved kundlis, guest passes, purchases, and preferences. Local use remains available.",
+      "hi": "ऑनलाइन सहेजी गई कुंडली, अतिथि पास, खरीदारी और प्राथमिकताओं को पुनर्स्थापित करने के लिए साइन इन करें। स्थानीय उपयोग उपलब्ध रहता है.",
+      "gu": "ઓનલાઈન સાચવેલી કુંડળીઓ, અતિથિ પાસ, ખરીદીઓ અને પસંદગીઓ પુનઃસ્થાપિત કરવા માટે સાઇન ઇન કરો. સ્થાનિક ઉપયોગ ઉપલબ્ધ રહે છે."
+    },
+    "ui.global.sign.in.to.run.pair.comparison.5879002b": {
+      "en": "Sign in to run Pair Comparison.",
+      "hi": "जोड़ी तुलना चलाने के लिए साइन इन करें।",
+      "gu": "જોડી સરખામણી ચલાવવા માટે સાઇન ઇન કરો."
+    },
+    "ui.global.signature.predicta.is.reflective.guidance.not.forensic.8ffa3934": {
+      "en": "Signature Predicta is reflective guidance, not forensic handwriting analysis or a guaranteed prediction.",
+      "hi": "सिग्नेचर प्रेडिक्टा चिंतनशील मार्गदर्शन है, फोरेंसिक लिखावट विश्लेषण या गारंटीशुदा भविष्यवाणी नहीं।",
+      "gu": "હસ્તાક્ષરની આગાહી એ પ્રતિબિંબિત માર્ગદર્શન છે, ફોરેન્સિક હસ્તાક્ષર વિશ્લેષણ અથવા ખાતરીપૂર્વકની આગાહી નથી."
+    },
+    "ui.global.skip.3da47453": {
+      "en": "Skip",
+      "hi": "छोडना",
+      "gu": "છોડો"
+    },
+    "ui.global.signature.reading.profile.b026160c": {
+      "en": "Signature reading profile",
+      "hi": "हस्ताक्षर पढ़ने की प्रोफ़ाइल",
+      "gu": "હસ્તાક્ષર વાંચન પ્રોફાઇલ"
+    },
+    "ui.global.start.here.5c9f9ad7": {
+      "en": "START HERE",
+      "hi": "यहाँ से शुरू",
+      "gu": "અહીં શરૂ કરો"
+    },
+    "ui.global.start.a.new.kundli.manually.or.ask.predicta.to.collect.36f7fe84": {
+      "en": "Start a new Kundli manually or ask Predicta to collect the birth details from chat.",
+      "hi": "एक नई कुंडली मैन्युअल रूप से प्रारंभ करें या प्रेडिक्टा को चैट से जन्म विवरण एकत्र करने के लिए कहें।",
+      "gu": "મેન્યુઅલી એક નવી કુંડલી શરૂ કરો અથવા પ્રેડિક્ટા ને ચેટમાંથી જન્મ વિગતો એકત્રિત કરવા માટે કહો."
+    },
+    "ui.global.soul.chart.insights.stay.available.without.crowding.th.a4254c93": {
+      "en": "Soul chart insights stay available without crowding the first screen",
+      "hi": "सोल चार्ट अंतर्दृष्टि पहली स्क्रीन पर भीड़ पैदा किए बिना उपलब्ध रहती है",
+      "gu": "પ્રથમ સ્ક્રીન પર ભીડ કર્યા વિના સોલ ચાર્ટની જાણકારી ઉપલબ્ધ રહે છે"
+    },
+    "ui.global.simple.outside.serious.inside.9e144a4e": {
+      "en": "Simple outside, serious inside",
+      "hi": "बाहर से सरल, अंदर से गंभीर",
+      "gu": "બહાર સરળ, અંદર ગંભીર"
+    },
+    "ui.global.start.with.one.guided.reading.first.the.chart.below.ke.bd3d449a": {
+      "en": "Start with one guided reading first. The chart below keeps the core Vedic grahas in front and keeps supporting refinements secondary.",
+      "hi": "पहले एक निर्देशित पाठन से शुरुआत करें। नीचे दिया गया चार्ट मूल वैदिक ग्रहों को सामने रखता है और परिशोधन का समर्थन करता है।",
+      "gu": "પ્રથમ એક માર્ગદર્શિત વાંચન સાથે પ્રારંભ કરો. નીચે આપેલ ચાર્ટ મુખ્ય વૈદિક ગ્રહોને આગળ રાખે છે અને સંસ્કારિતાને ગૌણ સહાયક રાખે છે."
+    },
+    "ui.global.start.with.holistic.astrology.fceab9b7": {
+      "en": "Start with holistic astrology.",
+      "hi": "समग्र ज्योतिष से शुरुआत करें।",
+      "gu": "સર્વગ્રાહી જ્યોતિષ સાથે પ્રારંભ કરો."
+    },
+    "ui.global.starter.ai.questions.ae144e58": {
+      "en": "STARTER AI QUESTIONS",
+      "hi": "स्टार्टर एआई प्रश्न",
+      "gu": "સ્ટાર્ટર એઆઇ પ્રશ્નો"
+    },
+    "ui.global.status.bae7d5be": {
+      "en": "Status",
+      "hi": "स्थिति",
+      "gu": "સ્થિતિ"
+    },
+    "ui.global.signature.predicta.be0d8aa3": {
+      "en": "SIGNATURE PREDICTA",
+      "hi": "हस्ताक्षर प्रेडिक्टा",
+      "gu": "સહી આગાહી"
+    },
+    "ui.global.signature.privacy.00ba540b": {
+      "en": "Signature privacy",
+      "hi": "हस्ताक्षर गोपनीयता",
+      "gu": "સહી ગોપનીયતા"
+    },
+    "ui.global.start.with.predicta.first.f667896f": {
+      "en": "Start with Predicta first.",
+      "hi": "सबसे पहले प्रेडिक्टा से शुरुआत करें।",
+      "gu": "પહેલા પ્રેડિક્ટા થી શરૂઆત કરો."
+    },
+    "ui.global.status.11dc9e19": {
+      "en": "Status:",
+      "hi": "स्थिति:",
+      "gu": "સ્થિતિ:"
+    },
+    "ui.global.soul.charts.ad3056be": {
+      "en": "SOUL CHARTS",
+      "hi": "आत्मा चार्ट",
+      "gu": "સોલ ચાર્ટ્સ"
+    },
+    "ui.global.simple.remedy.09d791f0": {
+      "en": "Simple remedy:",
+      "hi": "सरल उपाय:",
+      "gu": "સરળ ઉપાય:"
+    },
+    "ui.global.start.with.the.essentials.open.advanced.tables.only.wh.c59ed88c": {
+      "en": "Start with the essentials, open advanced tables only when you want proof, and use the PDF as the full deep reading surface.",
+      "hi": "आवश्यक चीज़ों से शुरुआत करें, उन्नत तालिकाएँ केवल तभी खोलें जब आपको प्रमाण चाहिए, और पीडीएफ को पूर्ण गहन पठन सतह के रूप में उपयोग करें।",
+      "gu": "આવશ્યકતાઓથી પ્રારંભ કરો, જ્યારે તમને સાબિતી જોઈતી હોય ત્યારે જ અદ્યતન કોષ્ટકો ખોલો અને સંપૂર્ણ ઊંડા વાંચન સપાટી તરીકે PDF નો ઉપયોગ કરો."
+    },
+    "ui.global.strengths.f0a3b9eb": {
+      "en": "Strengths:",
+      "hi": "ताकत:",
+      "gu": "શક્તિઓ:"
+    },
+    "ui.global.strength.8bc3b9c0": {
+      "en": "Strength:",
+      "hi": "ताकत:",
+      "gu": "શક્તિ:"
+    },
+    "ui.global.strengths.cautions.3157ac0b": {
+      "en": "STRENGTHS & CAUTIONS",
+      "hi": "ताकत और सावधानियां",
+      "gu": "તાકાત અને સાવચેતીઓ"
+    },
+    "ui.global.step.2.simple.summary.b4b40010": {
+      "en": "STEP 2 · SIMPLE SUMMARY",
+      "hi": "चरण 2 · सरल सारांश",
+      "gu": "પગલું 2 · સરળ સારાંશ"
+    },
+    "ui.global.story.links.a4e96934": {
+      "en": "STORY LINKS",
+      "hi": "कहानी कड़ियाँ",
+      "gu": "વાર્તા લિંક્સ"
+    },
+    "ui.global.state.province.38da7f53": {
+      "en": "State / province",
+      "hi": "राज्य/प्रांत",
+      "gu": "રાજ્ય/પ્રાંત"
+    },
+    "ui.global.story.evidence.26ff1ace": {
+      "en": "STORY EVIDENCE",
+      "hi": "कहानी साक्ष्य",
+      "gu": "વાર્તા પુરાવા"
+    },
+    "ui.global.strength.map.17ad531e": {
+      "en": "Strength map",
+      "hi": "ताकत का नक्शा",
+      "gu": "તાકાત નકશો"
+    },
+    "ui.global.subtle.point.review.7b998a0d": {
+      "en": "Subtle point review",
+      "hi": "सूक्ष्म बिंदु समीक्षा",
+      "gu": "સૂક્ષ્મ બિંદુ સમીક્ષા"
+    },
+    "ui.global.strength.vs.contradiction.bed72e4e": {
+      "en": "Strength vs contradiction",
+      "hi": "ताकत बनाम विरोधाभास",
+      "gu": "સ્ટ્રેન્થ વિ વિરોધાભાસ"
+    },
+    "ui.global.swamsa.45d84a81": {
+      "en": "Swamsa",
+      "hi": "स्वामसा",
+      "gu": "સ્વંસા"
+    },
+    "ui.global.supporting.refinements.1e5d6017": {
+      "en": "Supporting refinements",
+      "hi": "परिशोधन का समर्थन करना",
+      "gu": "સહાયક સંસ્કારિતા"
+    },
+    "ui.global.supportive.toolkit.a7cd99bb": {
+      "en": "SUPPORTIVE TOOLKIT",
+      "hi": "सहायक टूलकिट",
+      "gu": "સહાયક ટૂલકિટ"
+    },
+    "ui.global.suggested.template.bc4a4cef": {
+      "en": "Suggested template:",
+      "hi": "सुझाया गया टेम्पलेट:",
+      "gu": "સૂચવેલ નમૂનો:"
+    },
+    "ui.global.support.inbox.611b35a5": {
+      "en": "Support inbox",
+      "hi": "समर्थन इनबॉक्स",
+      "gu": "ઇનબોક્સને સપોર્ટ કરો"
+    },
+    "ui.global.supporting.refinement.eaaba9ec": {
+      "en": "supporting refinement",
+      "hi": "परिशोधन का समर्थन",
+      "gu": "સહાયક સંસ્કારિતા"
+    },
+    "ui.global.the.vision.c98f4a0d": {
+      "en": "THE VISION",
+      "hi": "दृष्टि",
+      "gu": "દ્રષ્ટિ"
+    },
+    "ui.global.swamsa.inner.self.direction.chart.ff41fa8f": {
+      "en": "Swamsa · Inner Self-Direction Chart",
+      "hi": "स्वामसा · आंतरिक स्व-दिशा चार्ट",
+      "gu": "સ્વંસા · આંતરિક સ્વ-દિશા ચાર્ટ"
+    },
+    "ui.global.swamsa.and.karakamsha.544c7228": {
+      "en": "Swamsa and Karakamsha",
+      "hi": "स्वामसा और कारकांश",
+      "gu": "સ્વંસા અને કરકમશા"
+    },
+    "ui.global.tap.houses.059b79d8": {
+      "en": "Tap houses",
+      "hi": "घरों को टैप करें",
+      "gu": "ઘરોને ટેપ કરો"
+    },
+    "ui.global.swamsa.and.karakamsha.chart.previews.c7a87ba1": {
+      "en": "Swamsa and Karakamsha chart previews",
+      "hi": "स्वामसा और कराकमशा चार्ट पूर्वावलोकन",
+      "gu": "સ્વંસા અને કરકમશા ચાર્ટ પૂર્વાવલોકનો"
+    },
+    "ui.global.synthesis.boundary.c75c6243": {
+      "en": "Synthesis boundary",
+      "hi": "संश्लेषण सीमा",
+      "gu": "સંશ્લેષણ સીમા"
+    },
+    "ui.global.synthesis.reports.5a67080f": {
+      "en": "SYNTHESIS REPORTS",
+      "hi": "संश्लेषण रिपोर्ट",
+      "gu": "સિન્થેસિસ રિપોર્ટ્સ"
+    },
+    "ui.global.swamsa.chart.c7bb679c": {
+      "en": "Swamsa Chart",
+      "hi": "स्वामसा चार्ट",
+      "gu": "સ્વંસા ચાર્ટ"
+    },
+    "ui.global.the.default.flow.stays.simple.d1.moon.d9.d10.and.chali.7e790a59": {
+      "en": "The default flow stays simple: D1, Moon, D9, D10, and Chalit first. The complete varga library is still one click away.",
+      "hi": "डिफ़ॉल्ट प्रवाह सरल रहता है: पहले D1, चंद्रमा, D9, D10, और चैलिट। संपूर्ण वर्गा लाइब्रेरी अभी भी एक क्लिक दूर है।",
+      "gu": "ડિફૉલ્ટ પ્રવાહ સરળ રહે છે: D1, ચંદ્ર, D9, D10 અને ચલિત પહેલા. સંપૂર્ણ વર્ગા પુસ્તકાલય હજી એક ક્લિક દૂર છે."
+    },
+    "ui.global.the.kundli.only.after.you.confirm.these.details.if.som.00a83fbe": {
+      "en": "the Kundli only after you confirm these details. If something is wrong, edit it before continuing.",
+      "hi": "इन विवरणों की पुष्टि करने के बाद ही कुंडली देखें। यदि कुछ गलत है, तो जारी रखने से पहले उसे संपादित करें।",
+      "gu": "તમે આ વિગતોની પુષ્ટિ કરો પછી જ કુંડળી. જો કંઈક ખોટું છે, તો ચાલુ રાખતા પહેલા તેને સંપાદિત કરો."
+    },
+    "ui.global.the.yearly.ascendant.sets.the.visible.tone.of.this.ann.033b0489": {
+      "en": "The yearly ascendant sets the visible tone of this annual map.",
+      "hi": "वार्षिक लग्न इस वार्षिक मानचित्र का दृश्यमान स्वर निर्धारित करता है।",
+      "gu": "વાર્ષિક આરોહણ આ વાર્ષિક નકશાનો દૃશ્યમાન સ્વર સેટ કરે છે."
+    },
+    "ui.global.these.refine.the.reading.after.lagna.classical.planets.a7aea8cd": {
+      "en": "These refine the reading after Lagna, classical planets, dasha, and Gochar.",
+      "hi": "ये लग्न, शास्त्रीय ग्रह, दशा और गोचर के बाद पढ़ने को परिष्कृत करते हैं।",
+      "gu": "આ લગન, શાસ્ત્રીય ગ્રહો, દશા અને ગોચર પછીના વાંચનને શુદ્ધ કરે છે."
+    },
+    "ui.global.these.are.focus.charts.only.the.full.varga.library.rem.72748dcf": {
+      "en": "These are focus charts only. The full Varga library remains available below.",
+      "hi": "ये केवल फोकस चार्ट हैं। पूरी वर्गा लाइब्रेरी नीचे उपलब्ध है।",
+      "gu": "આ માત્ર ફોકસ ચાર્ટ છે. સંપૂર્ણ વર્ગા પુસ્તકાલય નીચે ઉપલબ્ધ રહે છે."
+    },
+    "ui.global.this.kundli.uses.a.probable.corrected.birth.time.of.59a4a37f": {
+      "en": "This Kundli uses a probable corrected birth time of",
+      "hi": "यह कुंडली संभावित संशोधित जन्म समय का उपयोग करती है",
+      "gu": "આ કુંડળી સંભવિત સુધારેલ જન્મ સમયનો ઉપયોગ કરે છે"
+    },
+    "ui.global.these.do.not.replace.d1.or.d9.they.add.inner.self.dire.348f29b8": {
+      "en": "These do not replace D1 or D9. They add inner self-direction and Atmakaraka-linked life direction when evidence exists.",
+      "hi": "ये D1 या D9 का स्थान नहीं लेते. साक्ष्य मौजूद होने पर वे आंतरिक आत्म-दिशा और आत्मकारक से जुड़ी जीवन दिशा जोड़ते हैं।",
+      "gu": "આ D1 અથવા D9 ને બદલતા નથી. જ્યારે પુરાવા અસ્તિત્વમાં હોય ત્યારે તેઓ આંતરિક સ્વ-દિશા અને આત્મકાર સાથે જોડાયેલ જીવન દિશા ઉમેરે છે."
+    },
+    "ui.global.this.is.the.only.all.school.synthesis.report.it.turns..c1a4d146": {
+      "en": "This is the only all-school synthesis report. It turns available Vedic, KP, Jaimini, and Numerology data into one non-technical life story. Signature is optional enrichment only.",
+      "hi": "यह एकमात्र संपूर्ण विद्यालय संश्लेषण रिपोर्ट है। यह उपलब्ध वैदिक, केपी, जैमिनी और अंकज्योतिष डेटा को एक गैर-तकनीकी जीवन कहानी में बदल देता है। हस्ताक्षर केवल वैकल्पिक संवर्धन है.",
+      "gu": "આ એકમાત્ર ઓલ-સ્કૂલ સિન્થેસિસ રિપોર્ટ છે. તે ઉપલબ્ધ વૈદિક, કેપી, જૈમિની અને અંકશાસ્ત્રના ડેટાને એક બિન-તકનીકી જીવન વાર્તામાં ફેરવે છે. હસ્તાક્ષર ફક્ત વૈકલ્પિક સંવર્ધન છે."
+    },
+    "ui.global.these.are.the.focus.charts.the.full.varga.library.rema.4c4d3b33": {
+      "en": "These are the focus charts. The full Varga library remains available below.",
+      "hi": "ये फोकस चार्ट हैं. पूरी वर्गा लाइब्रेरी नीचे उपलब्ध है।",
+      "gu": "આ ફોકસ ચાર્ટ છે. સંપૂર્ણ વર્ગા પુસ્તકાલય નીચે ઉપલબ્ધ રહે છે."
+    },
+    "ui.global.this.is.your.saved.kundli.storage.choose.the.active.pr.b2fc8782": {
+      "en": "This is your saved Kundli storage. Choose the active profile for Predicta. Family Vault uses these saved profiles for family patterns.",
+      "hi": "यह आपका सहेजा हुआ कुंडली भंडार है। प्रेडिक्टा के लिए सक्रिय प्रोफ़ाइल चुनें। फ़ैमिली वॉल्ट पारिवारिक पैटर्न के लिए इन सहेजे गए प्रोफ़ाइल का उपयोग करता है।",
+      "gu": "આ તમારું સાચવેલ કુંડળી સંગ્રહ છે. પ્રેડિક્ટા માટે સક્રિય પ્રોફાઇલ પસંદ કરો. કૌટુંબિક વૉલ્ટ કુટુંબની પેટર્ન માટે આ સાચવેલી પ્રોફાઇલ્સનો ઉપયોગ કરે છે."
+    },
+    "ui.global.these.are.the.quick.context.cards.they.tell.the.user.w.5095dadf": {
+      "en": "These are the quick context cards. They tell the user what matters now without forcing them into dense tables.",
+      "hi": "ये त्वरित संदर्भ कार्ड हैं. वे उपयोगकर्ता को सघन तालिकाओं में डाले बिना बताते हैं कि अब क्या मायने रखता है।",
+      "gu": "આ ઝડપી સંદર્ભ કાર્ડ્સ છે. તેઓ વપરાશકર્તાને ગાઢ કોષ્ટકોમાં દબાણ કર્યા વિના હવે શું મહત્વનું છે તે જણાવે છે."
+    },
+    "ui.global.timezone.d1f7dc89": {
+      "en": "Timezone",
+      "hi": "समयक्षेत्र",
+      "gu": "ટાઈમઝોન"
+    },
+    "ui.global.timezone.777fcbd0": {
+      "en": "Timezone:",
+      "hi": "समयक्षेत्र:",
+      "gu": "સમય ઝોન:"
+    },
+    "ui.global.timing.note.fed0f280": {
+      "en": "Timing note",
+      "hi": "समय नोट",
+      "gu": "સમયની નોંધ"
+    },
+    "ui.global.this.public.build.keeps.internal.predicta.tools.hidden.c687ec3b": {
+      "en": "This public build keeps internal Predicta tools hidden. If you are part of the owner team, open the protected owner environment instead.",
+      "hi": "यह सार्वजनिक बिल्ड आंतरिक प्रेडिक्टा टूल को छुपा कर रखता है। यदि आप स्वामी टीम का हिस्सा हैं, तो इसके बजाय संरक्षित स्वामी परिवेश खोलें।",
+      "gu": "આ સાર્વજનિક બિલ્ડ આંતરિક આગાહી સાધનોને છુપાવે છે. જો તમે માલિક ટીમનો ભાગ છો, તો તેના બદલે સુરક્ષિત માલિક વાતાવરણ ખોલો."
+    },
+    "ui.global.ticket.list.7645ea57": {
+      "en": "Ticket list",
+      "hi": "टिकट सूची",
+      "gu": "ટિકિટ યાદી"
+    },
+    "ui.global.timeline.kundli.5f398336": {
+      "en": "Timeline Kundli",
+      "hi": "समयरेखा कुंडली",
+      "gu": "સમયરેખા કુંડલી"
+    },
+    "ui.global.time.confidence.9cf33191": {
+      "en": "Time confidence",
+      "hi": "समय का भरोसा",
+      "gu": "સમયનો આત્મવિશ્વાસ"
+    },
+    "ui.global.to.4374aaee": {
+      "en": "to",
+      "hi": "को",
+      "gu": "થી"
+    },
+    "ui.global.timeline.event.a8c5f52b": {
+      "en": "TIMELINE EVENT",
+      "hi": "समयरेखा घटना",
+      "gu": "સમયરેખા ઇવેન્ટ"
+    },
+    "ui.global.timing.999990b9": {
+      "en": "Timing:",
+      "hi": "समय:",
+      "gu": "સમય:"
+    },
+    "ui.global.time.basis.d99b74b3": {
+      "en": "Time basis",
+      "hi": "समय का आधार",
+      "gu": "સમય આધાર"
+    },
+    "ui.global.timing.map.d0e93d04": {
+      "en": "TIMING MAP",
+      "hi": "समय मानचित्र",
+      "gu": "ટાઇમિંગ મેપ"
+    },
+    "ui.global.to.h.df3ca99e": {
+      "en": "to H",
+      "hi": "से एच",
+      "gu": "થી એચ"
+    },
+    "ui.global.timing.windows.2b772db3": {
+      "en": "Timing windows",
+      "hi": "समय खिड़कियाँ",
+      "gu": "ટાઇમિંગ વિન્ડો"
+    },
+    "ui.global.touch.id.face.id.96a34228": {
+      "en": "Touch ID / Face ID",
+      "hi": "टच आईडी/फेस आईडी",
+      "gu": "ટચ આઈડી / ફેસ આઈડી"
+    },
+    "ui.global.today.s.chart.weather.af618624": {
+      "en": "Today's chart weather",
+      "hi": "आज का चार्ट मौसम",
+      "gu": "આજનો ચાર્ટ હવામાન"
+    },
+    "ui.global.today.s.cockpit.b0ab4eae": {
+      "en": "TODAY'S COCKPIT",
+      "hi": "आज का कॉकपिट",
+      "gu": "આજની કોકપિટ"
+    },
+    "ui.global.timing.has.one.focused.card.here.the.pdf.carries.the.c.f2a1f5a5": {
+      "en": "Timing has one focused card here. The PDF carries the complete Mahadasha, Antardasha, and Pratyantardasha structure.",
+      "hi": "टाइमिंग का यहां एक केंद्रित कार्ड है। पीडीएफ में संपूर्ण महादशा, अंतर्दशा और प्रत्यंतर्दशा संरचना होती है।",
+      "gu": "ટાઇમિંગ અહીં એક કેન્દ્રિત કાર્ડ ધરાવે છે. PDF માં સંપૂર્ણ મહાદશા, અંતર્દશા અને પ્રત્યન્તર્દશાનું માળખું છે."
+    },
+    "ui.global.timing.overlap.8c0194eb": {
+      "en": "Timing overlap",
+      "hi": "समय ओवरलैप",
+      "gu": "સમય ઓવરલેપ"
+    },
+    "ui.global.trust.and.terms.b7208bd1": {
+      "en": "TRUST AND TERMS",
+      "hi": "विश्वास और शर्तें",
+      "gu": "ટ્રસ્ટ અને શરતો"
+    },
+    "ui.global.unsafe.ca662484": {
+      "en": "Unsafe",
+      "hi": "असुरक्षित",
+      "gu": "અસુરક્ષિત"
+    },
+    "ui.global.urgent.ecb26f46": {
+      "en": "Urgent",
+      "hi": "अति आवश्यक",
+      "gu": "અર્જન્ટ"
+    },
+    "ui.global.used.192a5675": {
+      "en": "used",
+      "hi": "इस्तेमाल किया गया",
+      "gu": "વપરાયેલ"
+    },
+    "ui.global.two.chart.mirror.e12b05b2": {
+      "en": "Two-chart mirror",
+      "hi": "दो-चार्ट दर्पण",
+      "gu": "બે-ચાર્ટ મિરર"
+    },
+    "ui.global.unlock.deeper.insights.3546b6e2": {
+      "en": "Unlock Deeper Insights",
+      "hi": "गहन अंतर्दृष्टि अनलॉक करें",
+      "gu": "વધુ ઊંડી આંતરદૃષ્ટિને અનલૉક કરો"
+    },
+    "ui.global.try.premium.for.24.hours.f3a392c3": {
+      "en": "Try Premium for 24 hours",
+      "hi": "24 घंटे के लिए प्रीमियम आज़माएँ",
+      "gu": "24 કલાક માટે પ્રીમિયમ અજમાવી જુઓ"
+    },
+    "ui.global.use.a.template.edit.it.then.send.38d7739c": {
+      "en": "Use a template, edit it, then send.",
+      "hi": "एक टेम्प्लेट का उपयोग करें, उसे संपादित करें, फिर भेजें।",
+      "gu": "નમૂનાનો ઉપયોગ કરો, તેને સંપાદિત કરો, પછી મોકલો."
+    },
+    "ui.global.used.e3482290": {
+      "en": "used ·",
+      "hi": "इस्तेमाल किया गया ·",
+      "gu": "વપરાયેલ ·"
+    },
+    "ui.global.upload.or.draw.caada948": {
+      "en": "UPLOAD OR DRAW",
+      "hi": "अपलोड करें या ड्रा करें",
+      "gu": "અપલોડ કરો અથવા દોરો"
+    },
+    "ui.global.validation.bridge.e70fc5a2": {
+      "en": "Validation Bridge",
+      "hi": "सत्यापन पुल",
+      "gu": "માન્યતા પુલ"
+    },
+    "ui.global.using.kundli.0cf72873": {
+      "en": "Using Kundli",
+      "hi": "कुंडली का प्रयोग",
+      "gu": "કુંડળીનો ઉપયોગ કરવો"
+    },
+    "ui.global.waiting.33d30632": {
+      "en": "Waiting",
+      "hi": "इंतज़ार में",
+      "gu": "રાહ જોઈ રહ્યા છે"
+    },
+    "ui.global.vedic.kp.jaimini.numerology.and.signature.stay.in.thei.db858dcd": {
+      "en": "Vedic, KP, Jaimini, Numerology, and Signature stay in their own lanes. Choose these when you want one method, not a mixed bag report.",
+      "hi": "वैदिक, केपी, जैमिनी, अंकज्योतिष और सिग्नेचर अपने-अपने रास्ते पर रहते हैं। जब आप एक विधि चाहते हैं तो इन्हें चुनें, मिश्रित बैग रिपोर्ट नहीं।",
+      "gu": "વૈદિક, કેપી, જૈમિની, અંકશાસ્ત્ર અને હસ્તાક્ષર પોતપોતાની ગલીમાં રહે છે. જ્યારે તમે એક પદ્ધતિ ઇચ્છો ત્યારે આ પસંદ કરો, મિશ્ર બેગ રિપોર્ટ નહીં."
+    },
+    "ui.global.use.your.saved.kundlis.as.family.profiles.compare.patt.dbb152a9": {
+      "en": "Use your saved Kundlis as family profiles, compare patterns, and later invite family members when shared permissions are ready.",
+      "hi": "अपनी सहेजी गई कुंडलियों को पारिवारिक प्रोफ़ाइल के रूप में उपयोग करें, पैटर्न की तुलना करें, और बाद में साझा अनुमतियाँ तैयार होने पर परिवार के सदस्यों को आमंत्रित करें।",
+      "gu": "તમારી સાચવેલી કુંડલીઓનો કૌટુંબિક પ્રોફાઇલ તરીકે ઉપયોગ કરો, પેટર્નની તુલના કરો અને પછીથી જ્યારે વહેંચાયેલ પરવાનગીઓ તૈયાર હોય ત્યારે કુટુંબના સભ્યોને આમંત્રિત કરો."
+    },
+    "ui.global.using.probable.corrected.time.7f77ff8d": {
+      "en": "Using probable corrected time",
+      "hi": "संभावित संशोधित समय का उपयोग करना",
+      "gu": "સંભવિત સુધારેલા સમયનો ઉપયોગ"
+    },
+    "ui.global.using.the.confirmed.entered.time.5c5f722d": {
+      "en": "Using the confirmed entered time",
+      "hi": "पुष्टि किए गए दर्ज समय का उपयोग करना",
+      "gu": "કન્ફર્મ કરેલ એન્ટર કરેલ સમયનો ઉપયોગ કરીને"
+    },
+    "ui.global.vedic.kp.jaimini.numerology.signature.and.life.atlas.s.ca214ad7": {
+      "en": "Vedic, KP, Jaimini, Numerology, Signature, and Life Atlas stay in separate lanes.",
+      "hi": "वैदिक, केपी, जैमिनी, अंकज्योतिष, हस्ताक्षर और जीवन एटलस अलग-अलग लेन में रहते हैं।",
+      "gu": "વૈદિક, કેપી, જૈમિની, અંકશાસ્ત્ર, હસ્તાક્ષર અને જીવન એટલાસ અલગ-અલગ લેનમાં રહે છે."
+    },
+    "ui.global.vip.beta.pass.91fa40d9": {
+      "en": "VIP beta pass",
+      "hi": "वीआईपी बीटा पास",
+      "gu": "વીઆઇપી બીટા પાસ"
+    },
+    "ui.global.what.changes.in.lived.experience.cbb36127": {
+      "en": "What changes in lived experience",
+      "hi": "जीवन के अनुभव में क्या बदलाव आता है",
+      "gu": "જીવંત અનુભવમાં શું બદલાવ આવે છે"
+    },
+    "ui.global.what.this.means.18a9e86f": {
+      "en": "WHAT THIS MEANS",
+      "hi": "इसका क्या अर्थ है",
+      "gu": "આનો અર્થ શું છે"
+    },
+    "ui.global.what.are.you.asking.b53eba2d": {
+      "en": "WHAT ARE YOU ASKING?",
+      "hi": "तुम क्या पूछ रहे हो?",
+      "gu": "તમે શું પૂછો છો?"
+    },
+    "ui.global.what.chalit.means.0157c6a8": {
+      "en": "What Chalit means",
+      "hi": "चलित का मतलब क्या है",
+      "gu": "ચલિત એટલે શું"
+    },
+    "ui.global.what.these.rooms.do.fdcce592": {
+      "en": "What these rooms do",
+      "hi": "ये कमरे क्या करते हैं",
+      "gu": "આ રૂમ શું કરે છે"
+    },
+    "ui.global.what.pulls.you.forward.212daa5d": {
+      "en": "What pulls you forward",
+      "hi": "क्या चीज आपको आगे खींचती है",
+      "gu": "શું તમને આગળ ખેંચે છે"
+    },
+    "ui.global.what.choice.are.you.facing.dabd4e2a": {
+      "en": "What choice are you facing?",
+      "hi": "आप किस विकल्प का सामना कर रहे हैं?",
+      "gu": "તમે કઈ પસંદગીનો સામનો કરી રહ્યા છો?"
+    },
+    "ui.global.what.this.includes.3ab7d722": {
+      "en": "What this includes",
+      "hi": "इसमें क्या शामिल है",
+      "gu": "આમાં શું શામેલ છે"
+    },
+    "ui.global.what.to.watch.now.8603e9e1": {
+      "en": "What to watch now",
+      "hi": "अब क्या देखना है",
+      "gu": "હવે શું જોવું"
+    },
+    "ui.global.what.you.get.f31727ff": {
+      "en": "WHAT YOU GET",
+      "hi": "आपको क्या मिलता है",
+      "gu": "તમે શું મેળવો છો"
+    },
+    "ui.global.what.this.can.and.cannot.tell.you.6938b1bb": {
+      "en": "WHAT THIS CAN AND CANNOT TELL YOU",
+      "hi": "यह आपको क्या बता सकता है और क्या नहीं",
+      "gu": "આ તમને શું કહી શકે છે અને શું કરી શકતું નથી"
+    },
+    "ui.global.what.this.chart.is.saying.6969cadc": {
+      "en": "What This Chart Is Saying",
+      "hi": "ये चार्ट क्या कह रहा है",
+      "gu": "આ ચાર્ટ શું કહે છે"
+    },
+    "ui.global.what.wrapped.is.55fa6eba": {
+      "en": "What Wrapped is",
+      "hi": "क्या लपेटा हुआ है",
+      "gu": "આવરિત શું છે"
+    },
+    "ui.global.what.we.prepare.for.7e7adebb": {
+      "en": "WHAT WE PREPARE FOR",
+      "hi": "हम किस लिए तैयारी करते हैं",
+      "gu": "અમે જેની તૈયારી કરીએ છીએ"
+    },
+    "ui.global.when.to.stop.or.simplify.c6240754": {
+      "en": "When to stop or simplify",
+      "hi": "कब रुकना है या सरलीकरण करना है",
+      "gu": "ક્યારે રોકવું અથવા સરળ બનાવવું"
+    },
+    "ui.global.who.calms.the.house.6611fa17": {
+      "en": "Who calms the house",
+      "hi": "जो घर को शांत करता है",
+      "gu": "જે ઘરને શાંત કરે છે"
+    },
+    "ui.global.who.amplifies.pressure.3e4fd41d": {
+      "en": "Who amplifies pressure",
+      "hi": "जो दबाव बढ़ाता है",
+      "gu": "કોણ દબાણ વધારે છે"
+    },
+    "ui.global.year.879e3232": {
+      "en": "Year",
+      "hi": "वर्ष",
+      "gu": "વર્ષ"
+    },
+    "ui.global.why.this.remedy.62d0a6cd": {
+      "en": "Why this remedy?",
+      "hi": "यह उपाय क्यों?",
+      "gu": "શા માટે આ ઉપાય?"
+    },
+    "ui.global.what.you.are.learning.to.release.27f1ab34": {
+      "en": "What you are learning to release",
+      "hi": "जिसे आप रिलीज़ करना सीख रहे हैं",
+      "gu": "તમે જે છોડવાનું શીખી રહ્યા છો"
+    },
+    "ui.global.where.the.pattern.becomes.louder.447718cf": {
+      "en": "Where the pattern becomes louder",
+      "hi": "जहां पैटर्न अधिक मुखर हो जाता है",
+      "gu": "જ્યાં પેટર્ન મોટેથી બને છે"
+    },
+    "ui.global.who.needs.gentler.handling.627a271d": {
+      "en": "Who needs gentler handling",
+      "hi": "जिन्हें नरमी से निपटने की जरूरत है",
+      "gu": "જેમને હળવા હેન્ડલિંગની જરૂર છે"
+    },
+    "ui.global.you.entered.5977fc6d": {
+      "en": "You entered",
+      "hi": "आपने दर्ज किया",
+      "gu": "તમે દાખલ કર્યું"
+    },
+    "ui.global.your.kundli.library.is.empty.3344fe4b": {
+      "en": "Your Kundli Library is empty",
+      "hi": "आपकी कुंडली लाइब्रेरी खाली है",
+      "gu": "તમારી કુંડળી પુસ્તકાલય ખાલી છે"
+    },
+    "ui.global.your.selected.report.is.ready.af83836d": {
+      "en": "Your selected report is ready",
+      "hi": "आपकी चयनित रिपोर्ट तैयार है",
+      "gu": "તમારો પસંદ કરેલ રિપોર્ટ તૈયાર છે"
+    },
+    "ui.global.wrapped.is.a.share.safe.yearly.recap.it.is.not.a.separ.69fec772": {
+      "en": "Wrapped is a share-safe yearly recap. It is not a separate yearly reading; it packages your selected Kundli, timeline signals, and app activity into simple cards you can understand quickly.",
+      "hi": "रैप्ड एक शेयर-सुरक्षित वार्षिक पुनर्कथन है। यह कोई अलग वार्षिक पाठन नहीं है; यह आपकी चयनित कुंडली, समयरेखा संकेतों और ऐप गतिविधि को सरल कार्डों में पैकेज करता है जिन्हें आप तुरंत समझ सकते हैं।",
+      "gu": "આવરિત એ શેર-સલામત વાર્ષિક રીકેપ છે. તે એક અલગ વાર્ષિક વાંચન નથી; તે તમારી પસંદ કરેલી કુંડળી, સમયરેખા સંકેતો અને એપ્લિકેશન પ્રવૃત્તિને સરળ કાર્ડ્સમાં પેકેજ કરે છે જે તમે ઝડપથી સમજી શકો છો."
+    },
+    "ui.global.yearly.recap.cdabf9c0": {
+      "en": "yearly recap",
+      "hi": "वार्षिक पुनर्कथन",
+      "gu": "વાર્ષિક રીકેપ"
+    },
+    "ui.global.your.kundli.is.ready.95d17222": {
+      "en": "Your Kundli is ready.",
+      "hi": "आपकी कुंडली तैयार है.",
+      "gu": "તમારી કુંડળી તૈયાર છે."
+    },
+    "ui.global.your.number.signature.33ca49f8": {
+      "en": "Your Number Signature",
+      "hi": "आपका नंबर हस्ताक्षर",
+      "gu": "તમારા નંબરની સહી"
+    },
+    "ui.global.your.yearly.recap.35f54a13": {
+      "en": "Your yearly recap",
+      "hi": "आपका वार्षिक पुनर्कथन",
+      "gu": "તમારું વાર્ષિક રીકેપ"
+    },
+    "ui.global.when.to.use.this.6bfd3add": {
+      "en": "When to use this",
+      "hi": "इसका उपयोग कब करना है",
+      "gu": "આનો ઉપયોગ ક્યારે કરવો"
+    },
+    "ui.global.your.yearly.recap.is.waiting.1cdb14f5": {
+      "en": "Your yearly recap is waiting",
+      "hi": "आपका वार्षिक पुनर्कथन प्रतीक्षारत है",
+      "gu": "તમારું વાર્ષિક રીકેપ રાહ જોઈ રહ્યું છે"
+    },
+    "ui.global.premium.jaimini.reading.room.e73862b2": {
+      "en": "Premium Jaimini reading room",
+      "hi": "प्रीमियम जैमिनी रीडिंग रूम",
+      "gu": "પ્રીમિયમ જૈમિની રીડિંગ રૂમ"
+    },
+    "ui.global.jaimini.predicta.reads.karakas.pada.arudha.indicators..17c2f957": {
+      "en": "Jaimini Predicta reads karakas, Pada/Arudha indicators, Karakamsha, Swamsa, and life-direction patterns from the calculated chart.",
+      "hi": "जैमिनी प्रेडिक्टा गणना की गई कुंडली से कारक, पद/आरूढ़ संकेत, कारकांश, स्वांश और जीवन-दिशा के पैटर्न पढ़ती है।",
+      "gu": "જૈમિની પ્રેડિક્ટા ગણતરી કરેલી કુંડળીમાંથી કારક, પદ/આરૂઢ સંકેતો, કારકાંશ, સ્વાંશ અને જીવન-દિશાના પેટર્ન વાંચે છે."
+    },
+    "ui.global.jaimini.destiny.pattern.map.c3ae0c16": {
+      "en": "Jaimini destiny pattern map",
+      "hi": "जैमिनी डेस्टिनी पैटर्न मैप",
+      "gu": "જૈમિની ડેસ્ટિની પેટર્ન મેપ"
+    },
+    "ui.global.jaimini.pattern.current.lesson.next.practice.21af4954": {
+      "en": "Jaimini pattern current lesson next practice",
+      "hi": "जैमिनी पैटर्न वर्तमान पाठ अगला अभ्यास",
+      "gu": "જૈમિની પેટર્ન વર્તમાન પાઠ આગામી અભ્યાસ"
     }
   }
 }

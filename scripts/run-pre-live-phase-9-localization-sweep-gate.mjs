@@ -1,4 +1,5 @@
 import { existsSync, readFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 
 const nativeCopyPath = 'packages/config/src/translations/nativeCopy.json';
@@ -48,6 +49,21 @@ const forbiddenNativeLatinFragments = [
 const failures = [];
 const nativeCopy = readJson(nativeCopyPath);
 const nativeEntries = nativeCopy.entries ?? {};
+
+try {
+  execFileSync('node', ['scripts/run-global-translation-source-coverage-gate.mjs'], {
+    stdio: 'pipe',
+  });
+} catch (error) {
+  const output = [error.stdout, error.stderr]
+    .filter(Boolean)
+    .map(buffer => buffer.toString())
+    .join('\n')
+    .trim();
+  failures.push(
+    `global translation source coverage gate failed before Phase 9 could pass:\n${output}`,
+  );
+}
 
 for (const file of auditedSourceFiles) {
   assertFileExists(file);

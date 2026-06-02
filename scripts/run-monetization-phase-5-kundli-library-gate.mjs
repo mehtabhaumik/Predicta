@@ -149,9 +149,10 @@ assertIncludes(mobileBirthTime, 'id: kundli.id', 'mobile birth-time update prese
 assertIncludes(mobileBirthTime, 'hasPremiumAccess: getResolvedAccess().hasPremiumAccess', 'mobile birth-time save uses premium access');
 
 const kp = read('apps/mobile/src/screens/KpPredictaScreen.tsx');
-const nadi = read('apps/mobile/src/screens/NadiPredictaScreen.tsx');
+const jaimini = read('apps/mobile/src/screens/JaiminiPredictaScreen.tsx');
 assertIncludes(kp, 'hasPremiumAccess,', 'KP school save hook receives premium access');
-assertIncludes(nadi, 'hasPremiumAccess,', 'Jaimini/Nadi legacy save hook receives premium access');
+assertIncludes(jaimini, 'ActiveKundliActions', 'Jaimini screen uses the active Kundli library surface');
+assertIncludes(jaimini, 'composeJaiminiPlan(kundli)', 'Jaimini screen reads from the active Kundli instead of creating an ungated save path');
 
 const manifest = JSON.parse(
   read(

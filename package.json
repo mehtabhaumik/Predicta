@@ -143,7 +143,8 @@
     "test:mobile": "pnpm --filter @pridicta/mobile exec jest --runInBand",
     "test:web": "pnpm --filter @pridicta/web test",
     "mobile:android": "pnpm --filter @pridicta/mobile android",
-    "mobile:bundle:android": "pnpm --filter @pridicta/mobile bundle:android"
+    "mobile:bundle:android": "pnpm --filter @pridicta/mobile bundle:android",
+    "test:global-translation-coverage": "node scripts/run-global-translation-source-coverage-gate.mjs"
   },
   "devDependencies": {
     "turbo": "^2.6.1",

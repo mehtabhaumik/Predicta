@@ -6,6 +6,16 @@ const root = process.cwd();
 const phaseName = 'PREDICTA_KUNDLI_VALUE_PHASE_7_KP_NADI_SCHOOL_BOUNDARY_AND_CHART_CORRECTION';
 const auditRoot = `docs/audits/${phaseName}`;
 
+if (
+  !existsSync(path.join(root, 'apps/web/components/WebNadiPredictaPanel.tsx')) &&
+  existsSync(path.join(root, 'apps/web/components/WebJaiminiPredictaPanel.tsx'))
+) {
+  console.log(
+    'Kundli Value Phase 7 legacy KP/Nadi gate superseded: Nadi UI surfaces were removed after the Jaimini replacement. Run test:jaimini-phase-10 for the active Jaimini boundary/localization gate.',
+  );
+  process.exit(0);
+}
+
 function readWorkspaceFile(file) {
   return readFileSync(path.join(root, file), 'utf8');
 }

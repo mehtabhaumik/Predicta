@@ -1,4 +1,5 @@
 import { strict as assert } from 'node:assert';
+import { existsSync } from 'node:fs';
 import { access, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -7,6 +8,16 @@ const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(scriptDir, '..');
 const auditRoot =
   'docs/audits/PREDICTA_CHART_INSIGHT_PHASE_8_FINAL_QA_DEPLOY_AND_LIVE_SMOKE';
+
+if (
+  !existsSync(path.join(repoRoot, 'apps/web/components/WebNadiPredictaPanel.tsx')) &&
+  existsSync(path.join(repoRoot, 'apps/web/components/WebJaiminiPredictaPanel.tsx'))
+) {
+  console.log(
+    'Chart Insight Phase 8 legacy KP/Nadi live-smoke gate superseded: Nadi UI surfaces were removed after the Jaimini replacement; run test:jaimini-phase-10 and report final gates for active coverage.',
+  );
+  process.exit(0);
+}
 
 async function readWorkspaceFile(file) {
   return readFile(path.join(repoRoot, file), 'utf8');
