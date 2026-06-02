@@ -33,6 +33,7 @@ const allowedTranslationAdapters = new Set([
   'packages/config/src/accuracyMethod.ts',
   'packages/config/src/jaiminiLocalization.ts',
   'packages/config/src/language.ts',
+  'packages/config/src/monetizationCopy.ts',
   'packages/config/src/nativeCopy.ts',
   'packages/config/src/testimonialTrust.ts',
   'packages/config/src/uiTranslations.ts',

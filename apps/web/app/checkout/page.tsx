@@ -1,6 +1,11 @@
 'use client';
 
-import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
+import {
+  formatNativeCopy,
+  getMonetizationProductCopy,
+  getMonetizationReportRequirementCopy,
+  getNativeCopy,
+} from '@pridicta/config';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useMemo, useState } from 'react';
@@ -126,7 +131,7 @@ function CheckoutContent(): React.JSX.Element {
               <strong>{selected.displayPrice}</strong>
               <small>{selectedPlan ? copy.subscription : copy.oneTime}</small>
               {selectedProduct ? (
-                <p>{getProductBankCheckoutCopy(selectedProduct.id)}</p>
+                <p>{getProductBankCheckoutCopy(selectedProduct.id, language)}</p>
               ) : null}
             </div>
           ) : null}
@@ -215,22 +220,43 @@ function CheckoutFallback(): React.JSX.Element {
   );
 }
 
-function getProductBankCheckoutCopy(productType: string): string {
+function getProductBankCheckoutCopy(
+  productType: string,
+  language: SupportedLanguage,
+): string {
   switch (productType) {
     case 'AI_QUESTIONS_10':
-      return 'Adds 10 non-expiring AI questions. A credit is spent only after Predicta returns a successful AI answer.';
+      return getMonetizationReportRequirementCopy(
+        'checkoutAiQuestions10',
+        language,
+      );
     case 'AI_QUESTIONS_25':
-      return 'Adds 25 non-expiring AI questions for ongoing Predicta chat across specialist rooms.';
+      return getMonetizationReportRequirementCopy(
+        'checkoutAiQuestions25',
+        language,
+      );
     case 'AI_QUESTIONS_100':
-      return 'Adds 100 non-expiring AI questions for serious ongoing guidance with cost-controlled usage.';
+      return getMonetizationReportRequirementCopy(
+        'checkoutAiQuestions100',
+        language,
+      );
     case 'REPORT_SINGLE':
-      return 'Adds one non-expiring premium report credit. It is spent only after a paid PDF is successfully generated.';
+      return getMonetizationReportRequirementCopy(
+        'checkoutReportSingle',
+        language,
+      );
     case 'REPORT_BUNDLE':
-      return 'Adds five non-expiring premium report credits that can be used over time.';
+      return getMonetizationReportRequirementCopy(
+        'checkoutReportBundle',
+        language,
+      );
     case 'DAY_PASS':
-      return 'Day Pass is time-limited. It is not a Product Bank credit and expires according to the pass window.';
+      return getMonetizationReportRequirementCopy('checkoutDayPass', language);
     default:
-      return 'Predicta activates this access only after verified payment or an approved support/admin handoff.';
+      return getMonetizationReportRequirementCopy(
+        'checkoutVerifiedOnly',
+        language,
+      );
   }
 }
 
@@ -267,8 +293,10 @@ const CHECKOUT_COPY: Record<
     body: 'Choose a subscription, Day Pass, or one-time report from pricing, then keep that access tied to the right account.',
     change: 'Change selection',
     emailSupport: 'Email support',
-    gatewayDisabledBody:
-      'Razorpay secure checkout is being connected. No payment was taken on this screen today, and Predicta will not mark access as paid until a verified payment or approved support handoff exists.',
+    gatewayDisabledBody: getMonetizationReportRequirementCopy(
+      'checkoutRazorpayDisabled',
+      'en',
+    ),
     gatewayDisabledTitle: 'Secure checkout is being connected',
     gatewayReadyBody:
       'This checkout contract is ready for Razorpay order creation, signature verification, retries, cancellation, and entitlement activation.',
@@ -405,51 +433,21 @@ function getLocalizedAccessLabel(
   productId: string | undefined,
   language: SupportedLanguage,
 ): string {
-  if (language === 'en' || !productId) {
+  if (!productId) {
+    return label;
+  }
+
+  const productType = mapCheckoutProductIdToProductType(productId);
+  if (productType) {
+    const productCopy = getMonetizationProductCopy(productType, language);
+    return productCopy.label || label;
+  }
+
+  if (language === 'en') {
     return label;
   }
 
   const map: Record<string, Record<Exclude<SupportedLanguage, 'en'>, string>> = {
-    pridicta_day_pass_24h: {
-      gu: getNativeCopy("native.apps.web.app.checkout.page.tsx.039eabd9e9"),
-      hi: getNativeCopy("native.apps.web.app.checkout.page.tsx.ec32113b0b"),
-    },
-    pridicta_five_questions: {
-      gu: getNativeCopy("native.apps.web.app.checkout.page.tsx.4c4ad26d1b"),
-      hi: getNativeCopy("native.apps.web.app.checkout.page.tsx.95856bffbb"),
-    },
-    pridicta_10_questions: {
-      gu: '10 AI Questions',
-      hi: '10 AI Questions',
-    },
-    pridicta_25_questions: {
-      gu: '25 AI Questions',
-      hi: '25 AI Questions',
-    },
-    pridicta_100_questions: {
-      gu: '100 AI Questions',
-      hi: '100 AI Questions',
-    },
-    pridicta_premium_pdf: {
-      gu: getNativeCopy("native.apps.web.app.checkout.page.tsx.d7ca86dc4e"),
-      hi: getNativeCopy("native.apps.web.app.checkout.page.tsx.31641beaac"),
-    },
-    pridicta_single_report: {
-      gu: 'Single Report Credit',
-      hi: 'Single Report Credit',
-    },
-    pridicta_report_bundle: {
-      gu: 'Report Bundle',
-      hi: 'Report Bundle',
-    },
-    pridicta_detailed_kundli_report: {
-      gu: getNativeCopy("native.apps.web.app.checkout.page.tsx.2836b2970a"),
-      hi: getNativeCopy("native.apps.web.app.checkout.page.tsx.8106a328fe"),
-    },
-    pridicta_marriage_compatibility_report: {
-      gu: getNativeCopy("native.apps.web.app.checkout.page.tsx.79ba9fc513"),
-      hi: getNativeCopy("native.apps.web.app.checkout.page.tsx.d8fb1adccb"),
-    },
     pridicta_premium_weekly: {
       gu: getNativeCopy("native.apps.web.app.checkout.page.tsx.146383f56e"),
       hi: getNativeCopy("native.apps.web.app.checkout.page.tsx.47d5bb4f4c"),
@@ -469,4 +467,31 @@ function getLocalizedAccessLabel(
   };
 
   return map[productId]?.[language] ?? label;
+}
+
+function mapCheckoutProductIdToProductType(productId: string): string | undefined {
+  switch (productId) {
+    case 'pridicta_day_pass_24h':
+      return 'DAY_PASS';
+    case 'pridicta_five_questions':
+      return 'FIVE_QUESTIONS';
+    case 'pridicta_10_questions':
+      return 'AI_QUESTIONS_10';
+    case 'pridicta_25_questions':
+      return 'AI_QUESTIONS_25';
+    case 'pridicta_100_questions':
+      return 'AI_QUESTIONS_100';
+    case 'pridicta_premium_pdf':
+      return 'PREMIUM_PDF';
+    case 'pridicta_single_report':
+      return 'REPORT_SINGLE';
+    case 'pridicta_report_bundle':
+      return 'REPORT_BUNDLE';
+    case 'pridicta_detailed_kundli_report':
+      return 'DETAILED_KUNDLI_REPORT';
+    case 'pridicta_marriage_compatibility_report':
+      return 'MARRIAGE_COMPATIBILITY_REPORT';
+    default:
+      return undefined;
+  }
 }

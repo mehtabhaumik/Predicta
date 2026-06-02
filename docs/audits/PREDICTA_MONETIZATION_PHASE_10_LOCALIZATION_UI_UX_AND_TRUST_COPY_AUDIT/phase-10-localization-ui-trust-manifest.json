@@ -1,0 +1,47 @@
+{
+  "phase": "PREDICTA_MONETIZATION_PHASE_10_LOCALIZATION_UI_UX_AND_TRUST_COPY_AUDIT",
+  "status": "GREEN",
+  "translationSource": "packages/config/src/translations/monetization.json",
+  "adapter": "packages/config/src/monetizationCopy.ts",
+  "requiredGate": "corepack pnpm test:monetization-phase-10",
+  "auditedSurfaces": [
+    "web report composer",
+    "web chat balance banner",
+    "web account settings",
+    "web checkout",
+    "web pricing",
+    "web premium page",
+    "web pricing teaser",
+    "mobile report entitlement alerts",
+    "mobile settings",
+    "mobile paywall service",
+    "mobile usage display",
+    "mobile locked premium overlay",
+    "shared monetization services",
+    "product catalog"
+  ],
+  "contract": {
+    "completeLanguages": ["en", "hi", "gu"],
+    "fearBasedUpsell": "forbidden",
+    "hardcodedMonetizationCopy": "forbidden in audited surfaces",
+    "mixedHindiGujaratiEnglish": "forbidden for monetization trust phrases",
+    "unlimitedClaims": "Premium may describe depth and higher limits, not uncontrolled unlimited AI"
+  },
+  "completedVerification": [
+    "corepack pnpm test:monetization-phase-10",
+    "corepack pnpm test:localization-architecture",
+    "corepack pnpm --filter @pridicta/config typecheck",
+    "corepack pnpm --filter @pridicta/monetization typecheck",
+    "corepack pnpm --filter @pridicta/mobile typecheck",
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "corepack pnpm build:web",
+    "corepack pnpm test:ui-personal-space",
+    "corepack pnpm test:ui-text-overflow",
+    "corepack pnpm test:buyer-rejection",
+    "corepack pnpm test:pre-live-phase-9",
+    "corepack pnpm test:translation-trust",
+    "corepack pnpm test:native-script-chat",
+    "corepack pnpm test:jaimini-phase-10",
+    "git diff --check"
+  ]
+}

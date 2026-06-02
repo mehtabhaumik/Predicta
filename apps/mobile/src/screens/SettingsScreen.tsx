@@ -25,6 +25,7 @@ import {
   buildUsageDisplay,
   FREE_AI_QUESTION_LIFETIME_LIMIT,
 } from '@pridicta/monetization';
+import { getMonetizationReportRequirementCopy } from '@pridicta/config';
 import {
   getAppShellLabels,
   getLanguageOption,
@@ -87,6 +88,7 @@ export function SettingsScreen({
     redeemedGuestPass,
   });
   const usageDisplay = buildUsageDisplay({
+    language: languagePreference.language,
     monetization,
     resolvedAccess,
     usage,
@@ -248,10 +250,23 @@ export function SettingsScreen({
           <SettingRow
             description={
               auth.isLoggedIn
-                ? `${freeAiBalance?.remaining ?? 0} of ${freeAiBalance?.total ?? FREE_AI_QUESTION_LIFETIME_LIMIT} lifetime starter AI questions remaining. Kundli, charts, reports, and Family Vault actions do not spend these.`
-                : 'Sign in to receive 3 lifetime starter Predicta AI questions.'
+                ? getMonetizationReportRequirementCopy(
+                    'starterRemainingTemplate',
+                    languagePreference.language,
+                    {
+                      remaining: freeAiBalance?.remaining ?? 0,
+                      total: freeAiBalance?.total ?? FREE_AI_QUESTION_LIFETIME_LIMIT,
+                    },
+                  )
+                : getMonetizationReportRequirementCopy(
+                    'starterSignInBody',
+                    languagePreference.language,
+                  )
             }
-            title="Starter AI questions"
+            title={getMonetizationReportRequirementCopy(
+              'starterAiLabel',
+              languagePreference.language,
+            )}
           >
             <GlowButton
               label="Open Chat"

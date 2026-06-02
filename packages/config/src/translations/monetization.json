@@ -1,0 +1,658 @@
+{
+  "version": 1,
+  "paywall": {
+    "QUESTION_LIMIT_REACHED": {
+      "title": {
+        "en": "Your starter AI questions are used.",
+        "hi": "आपके शुरुआती AI प्रश्न पूरे हो गए हैं.",
+        "gu": "તમારા શરૂઆતના AI પ્રશ્નો પૂરા થઈ ગયા છે."
+      },
+      "message": {
+        "en": "Your chart context is saved. Add non-expiring AI questions or unlock Premium to continue deeper guidance.",
+        "hi": "आपका चार्ट संदर्भ सुरक्षित है. गहरी सलाह जारी रखने के लिए बिना समाप्ति वाले AI प्रश्न जोड़ें या प्रीमियम खोलें.",
+        "gu": "તમારો ચાર્ટ સંદર્ભ સુરક્ષિત છે. ઊંડું માર્ગદર્શન ચાલુ રાખવા માટે ન સમાપ્ત થનારા AI પ્રશ્નો ઉમેરો અથવા પ્રીમિયમ ખોલો."
+      },
+      "primaryCta": {
+        "en": "Add 10 Questions",
+        "hi": "10 प्रश्न जोड़ें",
+        "gu": "10 પ્રશ્નો ઉમેરો"
+      },
+      "secondaryCta": {
+        "en": "Continue deterministic mode",
+        "hi": "गणना-आधारित मोड जारी रखें",
+        "gu": "ગણતરી-આધારિત મોડ ચાલુ રાખો"
+      },
+      "suggestedProductId": "pridicta_10_questions"
+    },
+    "PREMIUM_PDF_OFFER": {
+      "title": {
+        "en": "Go deeper with this report.",
+        "hi": "इस रिपोर्ट में गहराई खोलें.",
+        "gu": "આ રિપોર્ટમાં ઊંડાઈ ખોલો."
+      },
+      "message": {
+        "en": "Your free report remains available. Premium PDF depth adds richer chart synthesis, timing, remedies, and guidance.",
+        "hi": "आपकी फ्री रिपोर्ट उपलब्ध रहती है. प्रीमियम PDF गहराई में अधिक समृद्ध चार्ट-संश्लेषण, समय-संकेत, उपाय और मार्गदर्शन जोड़ता है.",
+        "gu": "તમારો મફત રિપોર્ટ ઉપલબ્ધ રહે છે. પ્રીમિયમ PDF ઊંડાઈમાં વધુ સમૃદ્ધ ચાર્ટ-સંશ્લેષણ, સમય સંકેત, ઉપાયો અને માર્ગદર્શન ઉમેરે છે."
+      },
+      "primaryCta": {
+        "en": "Unlock Single Report",
+        "hi": "एक रिपोर्ट खोलें",
+        "gu": "એક રિપોર્ટ ખોલો"
+      },
+      "secondaryCta": {
+        "en": "Keep Free Report",
+        "hi": "फ्री रिपोर्ट रखें",
+        "gu": "મફત રિપોર્ટ રાખો"
+      },
+      "suggestedProductId": "pridicta_single_report"
+    },
+    "ADVANCED_ANALYSIS_REQUESTED": {
+      "title": {
+        "en": "Deeper analysis is available in Premium.",
+        "hi": "गहरी विश्लेषण प्रीमियम में उपलब्ध है.",
+        "gu": "ઊંડું વિશ્લેષણ પ્રીમિયમમાં ઉપલબ્ધ છે."
+      },
+      "message": {
+        "en": "Use a lighter reading now, or unlock deeper chart interpretation and expanded Predicta guidance.",
+        "hi": "अभी हल्की रीडिंग लें, या गहरा चार्ट अर्थ और विस्तृत प्रेडिक्टा मार्गदर्शन खोलें.",
+        "gu": "હમણાં હળવી રીડિંગ લો, અથવા ઊંડો ચાર્ટ અર્થ અને વિસ્તૃત પ્રેડિક્ટા માર્ગદર્શન ખોલો."
+      },
+      "primaryCta": {
+        "en": "Unlock Premium",
+        "hi": "प्रीमियम खोलें",
+        "gu": "પ્રીમિયમ ખોલો"
+      },
+      "secondaryCta": {
+        "en": "Continue Free",
+        "hi": "फ्री जारी रखें",
+        "gu": "મફત ચાલુ રાખો"
+      }
+    },
+    "DAY_PASS_OFFER": {
+      "title": {
+        "en": "Try Premium today.",
+        "hi": "आज प्रीमियम आज़माएं.",
+        "gu": "આજે પ્રીમિયમ અજમાવો."
+      },
+      "message": {
+        "en": "Try Premium depth for 24 hours without starting a subscription.",
+        "hi": "सब्सक्रिप्शन शुरू किए बिना 24 घंटे के लिए प्रीमियम गहराई आज़माएं.",
+        "gu": "સબ્સ્ક્રિપ્શન શરૂ કર્યા વગર 24 કલાક માટે પ્રીમિયમ ઊંડાઈ અજમાવો."
+      },
+      "primaryCta": {
+        "en": "Try Premium for 24 hours",
+        "hi": "24 घंटे प्रीमियम आज़माएं",
+        "gu": "24 કલાક પ્રીમિયમ અજમાવો"
+      },
+      "secondaryCta": {
+        "en": "Continue Free",
+        "hi": "फ्री जारी रखें",
+        "gu": "મફત ચાલુ રાખો"
+      },
+      "suggestedProductId": "pridicta_day_pass_24h"
+    },
+    "QUESTION_PACK_OFFER": {
+      "title": {
+        "en": "Need a few more questions?",
+        "hi": "कुछ और प्रश्न चाहिए?",
+        "gu": "થોડા વધુ પ્રશ્નો જોઈએ?"
+      },
+      "message": {
+        "en": "Add non-expiring Predicta AI questions without starting a subscription.",
+        "hi": "सब्सक्रिप्शन शुरू किए बिना बिना समाप्ति वाले प्रेडिक्टा AI प्रश्न जोड़ें.",
+        "gu": "સબ્સ્ક્રિપ્શન શરૂ કર્યા વગર ન સમાપ્ત થનારા પ્રેડિક્ટા AI પ્રશ્નો ઉમેરો."
+      },
+      "primaryCta": {
+        "en": "Add 10 Questions",
+        "hi": "10 प्रश्न जोड़ें",
+        "gu": "10 પ્રશ્નો ઉમેરો"
+      },
+      "secondaryCta": {
+        "en": "Continue Free",
+        "hi": "फ्री जारी रखें",
+        "gu": "મફત ચાલુ રાખો"
+      },
+      "suggestedProductId": "pridicta_10_questions"
+    },
+    "DEFAULT": {
+      "title": {
+        "en": "Available in Premium.",
+        "hi": "प्रीमियम में उपलब्ध है.",
+        "gu": "પ્રીમિયમમાં ઉપલબ્ધ છે."
+      },
+      "message": {
+        "en": "Premium opens richer interpretation depth while keeping your free Kundli experience intact.",
+        "hi": "प्रीमियम गहरा अर्थ खोलता है, जबकि आपका फ्री कुंडली अनुभव सुरक्षित रहता है.",
+        "gu": "પ્રીમિયમ ઊંડો અર્થ ખોલે છે, જ્યારે તમારો મફત કુંડળી અનુભવ સુરક્ષિત રહે છે."
+      },
+      "primaryCta": {
+        "en": "Unlock Premium",
+        "hi": "प्रीमियम खोलें",
+        "gu": "પ્રીમિયમ ખોલો"
+      },
+      "secondaryCta": {
+        "en": "Continue Free",
+        "hi": "फ्री जारी रखें",
+        "gu": "મફત ચાલુ રાખો"
+      }
+    }
+  },
+  "usage": {
+    "adminNoRestriction": {
+      "en": "No app-level AI restriction",
+      "hi": "ऐप-स्तर की AI सीमा नहीं",
+      "gu": "ઍપ-સ્તરની AI મર્યાદા નથી"
+    },
+    "adminPdfAccess": {
+      "en": "Admin PDF access active",
+      "hi": "एडमिन PDF पहुंच सक्रिय है",
+      "gu": "એડમિન PDF ઍક્સેસ સક્રિય છે"
+    },
+    "adminGuidanceAccess": {
+      "en": "Admin guidance access active",
+      "hi": "एडमिन मार्गदर्शन पहुंच सक्रिय है",
+      "gu": "એડમિન માર્ગદર્શન ઍક્સેસ સક્રિય છે"
+    },
+    "adminAccess": {
+      "en": "Admin access active",
+      "hi": "एडमिन पहुंच सक्रिय है",
+      "gu": "એડમિન ઍક્સેસ સક્રિય છે"
+    },
+    "fullDeepAccess": {
+      "en": "Full deep guidance access active",
+      "hi": "पूर्ण गहरी मार्गदर्शन पहुंच सक्रिय है",
+      "gu": "પૂર્ણ ઊંડા માર્ગદર્શનની ઍક્સેસ સક્રિય છે"
+    },
+    "fullReportAccess": {
+      "en": "Full report access active",
+      "hi": "पूर्ण रिपोर्ट पहुंच सक्रिय है",
+      "gu": "પૂર્ણ રિપોર્ટ ઍક્સેસ સક્રિય છે"
+    },
+    "fullPredictaAccess": {
+      "en": "Full Predicta access active",
+      "hi": "पूर्ण प्रेडिक्टा पहुंच सक्रिय है",
+      "gu": "પૂર્ણ પ્રેડિક્ટા ઍક્સેસ સક્રિય છે"
+    },
+    "fullAccess": {
+      "en": "Full access active",
+      "hi": "पूर्ण पहुंच सक्रिय है",
+      "gu": "પૂર્ણ ઍક્સેસ સક્રિય છે"
+    },
+    "guestDeepReadingsTemplate": {
+      "en": "{count} guest deep readings remaining",
+      "hi": "{count} अतिथि गहरी रीडिंग शेष",
+      "gu": "{count} અતિથિ ઊંડી રીડિંગ બાકી"
+    },
+    "guestPremiumReportsTemplate": {
+      "en": "{count} guest premium reports remaining",
+      "hi": "{count} अतिथि प्रीमियम रिपोर्ट शेष",
+      "gu": "{count} અતિથિ પ્રીમિયમ રિપોર્ટ બાકી"
+    },
+    "guestQuestionsTemplate": {
+      "en": "{count} guest guidance questions remaining",
+      "hi": "{count} अतिथि मार्गदर्शन प्रश्न शेष",
+      "gu": "{count} અતિથિ માર્ગદર્શન પ્રશ્નો બાકી"
+    },
+    "vipGuest": {
+      "en": "VIP Guest Pass active",
+      "hi": "VIP अतिथि पास सक्रिय है",
+      "gu": "VIP અતિથિ પાસ સક્રિય છે"
+    },
+    "fullGuest": {
+      "en": "Full guest access active",
+      "hi": "पूर्ण अतिथि पहुंच सक्रिय है",
+      "gu": "પૂર્ણ અતિથિ ઍક્સેસ સક્રિય છે"
+    },
+    "guestPass": {
+      "en": "Guest Pass active",
+      "hi": "अतिथि पास सक्रिय है",
+      "gu": "અતિથિ પાસ સક્રિય છે"
+    },
+    "deepReadingsTemplate": {
+      "en": "{count} deep readings left",
+      "hi": "{count} गहरी रीडिंग बची हैं",
+      "gu": "{count} ઊંડી રીડિંગ બાકી છે"
+    },
+    "deepReadingsPremium": {
+      "en": "Deep readings unlock with Premium",
+      "hi": "गहरी रीडिंग प्रीमियम में खुलती हैं",
+      "gu": "ઊંડી રીડિંગ પ્રીમિયમમાં ખૂલે છે"
+    },
+    "premiumReportsTemplate": {
+      "en": "{count} premium report{plural} remaining",
+      "hi": "{count} प्रीमियम रिपोर्ट शेष",
+      "gu": "{count} પ્રીમિયમ રિપોર્ટ બાકી"
+    },
+    "paidQuestionsTemplate": {
+      "en": "{count} paid questions available",
+      "hi": "{count} खरीदे हुए प्रश्न उपलब्ध",
+      "gu": "{count} ખરીદેલા પ્રશ્નો ઉપલબ્ધ"
+    },
+    "guidanceQuestionsTemplate": {
+      "en": "{count} guidance questions left today",
+      "hi": "आज {count} मार्गदर्शन प्रश्न बचे हैं",
+      "gu": "આજે {count} માર્ગદર્શન પ્રશ્નો બાકી છે"
+    },
+    "dayPassActive": {
+      "en": "Day Pass active",
+      "hi": "डे पास सक्रिय है",
+      "gu": "ડે પાસ સક્રિય છે"
+    },
+    "premiumGuidanceActive": {
+      "en": "Premium guidance active",
+      "hi": "प्रीमियम मार्गदर्शन सक्रिय है",
+      "gu": "પ્રીમિયમ માર્ગદર્શન સક્રિય છે"
+    },
+    "freeGuidanceResets": {
+      "en": "Your free guidance resets tomorrow",
+      "hi": "आपका फ्री मार्गदर्शन कल फिर खुलेगा",
+      "gu": "તમારું મફત માર્ગદર્શન કાલે ફરી ખુલશે"
+    }
+  },
+  "reportCredits": {
+    "VEDIC": {
+      "en": "Vedic report credit",
+      "hi": "वैदिक रिपोर्ट क्रेडिट",
+      "gu": "વૈદિક રિપોર્ટ ક્રેડિટ"
+    },
+    "KP": {
+      "en": "KP report credit",
+      "hi": "KP रिपोर्ट क्रेडिट",
+      "gu": "KP રિપોર્ટ ક્રેડિટ"
+    },
+    "JAIMINI": {
+      "en": "Jaimini report credit",
+      "hi": "जैमिनी रिपोर्ट क्रेडिट",
+      "gu": "જૈમિની રિપોર્ટ ક્રેડિટ"
+    },
+    "NUMEROLOGY": {
+      "en": "Numerology report credit",
+      "hi": "अंक ज्योतिष रिपोर्ट क्रेडिट",
+      "gu": "અંક જ્યોતિષ રિપોર્ટ ક્રેડિટ"
+    },
+    "SIGNATURE": {
+      "en": "Signature report credit",
+      "hi": "हस्ताक्षर रिपोर्ट क्रेडिट",
+      "gu": "હસ્તાક્ષર રિપોર્ટ ક્રેડિટ"
+    },
+    "LIFE_ATLAS": {
+      "en": "Life Atlas report credit",
+      "hi": "लाइफ एटलस रिपोर्ट क्रेडिट",
+      "gu": "લાઇફ એટલસ રિપોર્ટ ક્રેડિટ"
+    },
+    "PREMIUM_PDF": {
+      "en": "Premium report credit",
+      "hi": "प्रीमियम रिपोर्ट क्रेडिट",
+      "gu": "પ્રીમિયમ રિપોર્ટ ક્રેડિટ"
+    }
+  },
+  "products": {
+    "AI_QUESTIONS_10": {
+      "label": {
+        "en": "10 AI Questions",
+        "hi": "10 AI प्रश्न",
+        "gu": "10 AI પ્રશ્નો"
+      },
+      "description": {
+        "en": "Add 10 non-expiring Predicta AI questions.",
+        "hi": "10 बिना समाप्ति वाले प्रेडिक्टा AI प्रश्न जोड़ें.",
+        "gu": "10 ન સમાપ્ત થનારા પ્રેડિક્ટા AI પ્રશ્નો ઉમેરો."
+      }
+    },
+    "AI_QUESTIONS_25": {
+      "label": {
+        "en": "25 AI Questions",
+        "hi": "25 AI प्रश्न",
+        "gu": "25 AI પ્રશ્નો"
+      },
+      "description": {
+        "en": "Add 25 non-expiring AI questions for ongoing Predicta guidance.",
+        "hi": "लगातार प्रेडिक्टा मार्गदर्शन के लिए 25 बिना समाप्ति वाले AI प्रश्न जोड़ें.",
+        "gu": "ચાલુ પ્રેડિક્ટા માર્ગદર્શન માટે 25 ન સમાપ્ત થનારા AI પ્રશ્નો ઉમેરો."
+      }
+    },
+    "AI_QUESTIONS_100": {
+      "label": {
+        "en": "100 AI Questions",
+        "hi": "100 AI प्रश्न",
+        "gu": "100 AI પ્રશ્નો"
+      },
+      "description": {
+        "en": "Add 100 non-expiring AI questions for serious ongoing Predicta guidance.",
+        "hi": "गंभीर निरंतर प्रेडिक्टा मार्गदर्शन के लिए 100 बिना समाप्ति वाले AI प्रश्न जोड़ें.",
+        "gu": "ગંભીર ચાલુ પ્રેડિક્ટા માર્ગદર્શન માટે 100 ન સમાપ્ત થનારા AI પ્રશ્નો ઉમેરો."
+      }
+    },
+    "DAY_PASS": {
+      "label": {
+        "en": "Day Pass",
+        "hi": "डे पास",
+        "gu": "ડે પાસ"
+      },
+      "description": {
+        "en": "Try Premium depth for one day without a subscription.",
+        "hi": "सब्सक्रिप्शन के बिना एक दिन के लिए प्रीमियम गहराई आज़माएं.",
+        "gu": "સબ્સ્ક્રિપ્શન વિના એક દિવસ માટે પ્રીમિયમ ઊંડાઈ અજમાવો."
+      }
+    },
+    "FIVE_QUESTIONS": {
+      "label": {
+        "en": "5 Predicta Questions",
+        "hi": "5 प्रेडिक्टा प्रश्न",
+        "gu": "5 પ્રેડિક્ટા પ્રશ્નો"
+      },
+      "description": {
+        "en": "Add 5 Predicta questions when you need more guidance.",
+        "hi": "अधिक मार्गदर्शन चाहिए तो 5 प्रेडिक्टा प्रश्न जोड़ें.",
+        "gu": "વધુ માર્ગદર્શન જોઈએ ત્યારે 5 પ્રેડિક્ટા પ્રશ્નો ઉમેરો."
+      }
+    },
+    "REPORT_SINGLE": {
+      "label": {
+        "en": "Single Report Credit",
+        "hi": "एक रिपोर्ट क्रेडिट",
+        "gu": "એક રિપોર્ટ ક્રેડિટ"
+      },
+      "description": {
+        "en": "Unlock one non-expiring premium report credit.",
+        "hi": "एक बिना समाप्ति वाला प्रीमियम रिपोर्ट क्रेडिट खोलें.",
+        "gu": "એક ન સમાપ્ત થતો પ્રીમિયમ રિપોર્ટ ક્રેડિટ ખોલો."
+      }
+    },
+    "REPORT_BUNDLE": {
+      "label": {
+        "en": "Report Bundle",
+        "hi": "रिपोर्ट बंडल",
+        "gu": "રિપોર્ટ બંડલ"
+      },
+      "description": {
+        "en": "Add five non-expiring premium report credits.",
+        "hi": "पांच बिना समाप्ति वाले प्रीमियम रिपोर्ट क्रेडिट जोड़ें.",
+        "gu": "પાંચ ન સમાપ્ત થતા પ્રીમિયમ રિપોર્ટ ક્રેડિટ ઉમેરો."
+      }
+    },
+    "PREMIUM_PDF": {
+      "label": {
+        "en": "Premium PDF",
+        "hi": "प्रीमियम PDF",
+        "gu": "પ્રીમિયમ PDF"
+      },
+      "description": {
+        "en": "Unlock one premium-depth PDF for the active Kundli.",
+        "hi": "सक्रिय कुंडली के लिए एक प्रीमियम-गहराई PDF खोलें.",
+        "gu": "સક્રિય કુંડળી માટે એક પ્રીમિયમ-ઊંડાઈ PDF ખોલો."
+      }
+    },
+    "DETAILED_KUNDLI_REPORT": {
+      "label": {
+        "en": "Detailed Kundli Report",
+        "hi": "विस्तृत कुंडली रिपोर्ट",
+        "gu": "વિસ્તૃત કુંડળી રિપોર્ટ"
+      },
+      "description": {
+        "en": "Generate one deeper Kundli dossier for the active Kundli.",
+        "hi": "सक्रिय कुंडली के लिए एक गहरा कुंडली डॉसियर बनाएं.",
+        "gu": "સક્રિય કુંડળી માટે એક ઊંડો કુંડળી ડોસિયર બનાવો."
+      }
+    },
+    "JAIMINI_REPORT": {
+      "label": {
+        "en": "Jaimini Report Credit",
+        "hi": "जैमिनी रिपोर्ट क्रेडिट",
+        "gu": "જૈમિની રિપોર્ટ ક્રેડિટ"
+      },
+      "description": {
+        "en": "Unlock one premium-depth Jaimini destiny report for the active Kundli.",
+        "hi": "सक्रिय कुंडली के लिए एक प्रीमियम-गहराई जैमिनी भाग्य रिपोर्ट खोलें.",
+        "gu": "સક્રિય કુંડળી માટે એક પ્રીમિયમ-ઊંડાઈ જૈમિની ભાગ્ય રિપોર્ટ ખોલો."
+      }
+    },
+    "MARRIAGE_COMPATIBILITY_REPORT": {
+      "label": {
+        "en": "Marriage Compatibility Report",
+        "hi": "विवाह संगतता रिपोर्ट",
+        "gu": "લગ્ન સુસંગતતા રિપોર્ટ"
+      },
+      "description": {
+        "en": "Focused two-chart relationship and marriage timing report.",
+        "hi": "दो चार्ट पर केंद्रित संबंध और विवाह समय-संकेत रिपोर्ट.",
+        "gu": "બે ચાર્ટ પર કેન્દ્રિત સંબંધ અને લગ્ન સમય-સંકેત રિપોર્ટ."
+      }
+    }
+  },
+  "reportRequirement": {
+    "label": {
+      "en": "Premium requirement",
+      "hi": "प्रीमियम आवश्यकता",
+      "gu": "પ્રીમિયમ જરૂરિયાત"
+    },
+    "readyTemplate": {
+      "en": "Ready: Premium, Day Pass, Product Bank, or Family Bank covers this {creditLabel}.",
+      "hi": "तैयार: प्रीमियम, डे पास, क्रेडिट बैंक या फैमिली बैंक इस {creditLabel} को कवर करता है.",
+      "gu": "તૈયાર: પ્રીમિયમ, ડે પાસ, ક્રેડિટ બેંક અથવા ફેમિલી બેંક આ {creditLabel} કવર કરે છે."
+    },
+    "requiresTemplate": {
+      "en": "Requires Premium, Day Pass, Family Bank, or one {creditLabel}.",
+      "hi": "इसके लिए प्रीमियम, डे पास, फैमिली बैंक या एक {creditLabel} चाहिए.",
+      "gu": "તે માટે પ્રીમિયમ, ડે પાસ, ફેમિલી બેંક અથવા એક {creditLabel} જોઈએ."
+    },
+    "freeNoSpend": {
+      "en": "Free deterministic report does not spend AI or report credits.",
+      "hi": "फ्री गणना-आधारित रिपोर्ट AI या रिपोर्ट क्रेडिट खर्च नहीं करती.",
+      "gu": "મફત ગણતરી-આધારિત રિપોર્ટ AI અથવા રિપોર્ટ ક્રેડિટ ખર્ચતો નથી."
+    },
+    "productBankLabel": {
+      "en": "Product Bank",
+      "hi": "क्रेडिट बैंक",
+      "gu": "ક્રેડિટ બેંક"
+    },
+    "productBankBalanceTemplate": {
+      "en": "{questions} AI questions · {reports} report credits",
+      "hi": "{questions} AI प्रश्न · {reports} रिपोर्ट क्रेडिट",
+      "gu": "{questions} AI પ્રશ્નો · {reports} રિપોર્ટ ક્રેડિટ"
+    },
+    "productBankChecking": {
+      "en": "Checking your non-expiring credits.",
+      "hi": "आपके बिना समाप्ति वाले क्रेडिट जांचे जा रहे हैं.",
+      "gu": "તમારા ન સમાપ્ત થનારા ક્રેડિટ તપાસાઈ રહ્યા છે."
+    },
+    "productBankSignIn": {
+      "en": "Sign in to use question and report packs.",
+      "hi": "प्रश्न और रिपोर्ट पैक उपयोग करने के लिए साइन इन करें.",
+      "gu": "પ્રશ્ન અને રિપોર્ટ પૅક વાપરવા માટે સાઇન ઇન કરો."
+    },
+    "familyBankLabel": {
+      "en": "Family Bank",
+      "hi": "फैमिली बैंक",
+      "gu": "ફેમિલી બેંક"
+    },
+    "familyBankBalanceTemplate": {
+      "en": "{questions} shared AI questions · {reports} shared report credits",
+      "hi": "{questions} साझा AI प्रश्न · {reports} साझा रिपोर्ट क्रेडिट",
+      "gu": "{questions} વહેંચાયેલા AI પ્રશ્નો · {reports} વહેંચાયેલા રિપોર્ટ ક્રેડિટ"
+    },
+    "familyBankBody": {
+      "en": "Owner opt-in sharing can be enabled from Family Vault.",
+      "hi": "मालिक की अनुमति वाली साझेदारी फैमिली वॉल्ट से चालू की जा सकती है.",
+      "gu": "માલિકની મંજૂરીવાળી વહેંચણી ફેમિલી વૉલ્ટમાંથી ચાલુ કરી શકાય છે."
+    },
+    "starterAiLabel": {
+      "en": "Starter AI",
+      "hi": "शुरुआती AI",
+      "gu": "શરૂઆતનું AI"
+    },
+    "checking": {
+      "en": "Checking",
+      "hi": "जांच रहे हैं",
+      "gu": "તપાસી રહ્યા છીએ"
+    },
+    "signIn": {
+      "en": "Sign in",
+      "hi": "साइन इन",
+      "gu": "સાઇન ઇન"
+    },
+    "productBankCompactTemplate": {
+      "en": "{questions} AI · {reports} reports",
+      "hi": "{questions} AI · {reports} रिपोर्ट",
+      "gu": "{questions} AI · {reports} રિપોર્ટ"
+    },
+    "starterBalanceBody": {
+      "en": "Lifetime starter AI questions. Kundli, charts, reports, and Family Vault actions do not spend these.",
+      "hi": "ये जीवनभर के शुरुआती AI प्रश्न हैं. कुंडली, चार्ट, रिपोर्ट और फैमिली वॉल्ट क्रियाएं इन्हें खर्च नहीं करतीं.",
+      "gu": "આ જીવનભરના શરૂઆતના AI પ્રશ્નો છે. કુંડળી, ચાર્ટ, રિપોર્ટ અને ફેમિલી વૉલ્ટ ક્રિયાઓ તેને ખર્ચતી નથી."
+    },
+    "starterRemainingTemplate": {
+      "en": "{remaining} of {total} lifetime starter AI questions remaining. Kundli, charts, reports, and Family Vault actions do not spend these.",
+      "hi": "{total} में से {remaining} जीवनभर के शुरुआती AI प्रश्न शेष. कुंडली, चार्ट, रिपोर्ट और फैमिली वॉल्ट क्रियाएं इन्हें खर्च नहीं करतीं.",
+      "gu": "{total} માંથી {remaining} જીવનભરના શરૂઆતના AI પ્રશ્નો બાકી. કુંડળી, ચાર્ટ, રિપોર્ટ અને ફેમિલી વૉલ્ટ ક્રિયાઓ તેને ખર્ચતી નથી."
+    },
+    "starterSignInBody": {
+      "en": "Sign in to receive 3 lifetime starter Predicta AI questions.",
+      "hi": "3 जीवनभर के शुरुआती प्रेडिक्टा AI प्रश्न पाने के लिए साइन इन करें.",
+      "gu": "3 જીવનભરના શરૂઆતના પ્રેડિક્ટા AI પ્રશ્નો મેળવવા માટે સાઇન ઇન કરો."
+    },
+    "starterUsedBody": {
+      "en": "Your 3 lifetime starter AI questions are used. Deterministic Kundli, charts, reports, and Family Vault actions still work without AI spend.",
+      "hi": "आपके 3 जीवनभर के शुरुआती AI प्रश्न उपयोग हो चुके हैं. गणना-आधारित कुंडली, चार्ट, रिपोर्ट और फैमिली वॉल्ट क्रियाएं अभी भी बिना AI खर्च के चलती हैं.",
+      "gu": "તમારા 3 જીવનભરના શરૂઆતના AI પ્રશ્નો વપરાઈ ગયા છે. ગણતરી-આધારિત કુંડળી, ચાર્ટ, રિપોર્ટ અને ફેમિલી વૉલ્ટ ક્રિયાઓ હજી પણ AI ખર્ચ વિના ચાલે છે."
+    },
+    "starterWithProductBankLabel": {
+      "en": "Starter AI + Product Bank",
+      "hi": "शुरुआती AI + क्रेडिट बैंक",
+      "gu": "શરૂઆતનું AI + ક્રેડિટ બેંક"
+    },
+    "productBankLineTemplate": {
+      "en": " Product Bank: {questions} AI questions and {reports} report credits available.",
+      "hi": " क्रेडिट बैंक: {questions} AI प्रश्न और {reports} रिपोर्ट क्रेडिट उपलब्ध.",
+      "gu": " ક્રેડિટ બેંક: {questions} AI પ્રશ્નો અને {reports} રિપોર્ટ ક્રેડિટ ઉપલબ્ધ."
+    },
+    "checkoutAiQuestions10": {
+      "en": "Adds 10 non-expiring AI questions. A credit is spent only after Predicta returns a successful AI answer.",
+      "hi": "10 बिना समाप्ति वाले AI प्रश्न जोड़ता है. क्रेडिट केवल प्रेडिक्टा का सफल AI उत्तर आने के बाद खर्च होता है.",
+      "gu": "10 ન સમાપ્ત થનારા AI પ્રશ્નો ઉમેરે છે. પ્રેડિક્ટાનો સફળ AI જવાબ આવ્યા પછી જ ક્રેડિટ ખર્ચાય છે."
+    },
+    "checkoutAiQuestions25": {
+      "en": "Adds 25 non-expiring AI questions for ongoing Predicta chat across specialist rooms.",
+      "hi": "विशेषज्ञ कमरों में निरंतर प्रेडिक्टा चैट के लिए 25 बिना समाप्ति वाले AI प्रश्न जोड़ता है.",
+      "gu": "વિશેષજ્ઞ રૂમમાં ચાલુ પ્રેડિક્ટા ચેટ માટે 25 ન સમાપ્ત થનારા AI પ્રશ્નો ઉમેરે છે."
+    },
+    "checkoutAiQuestions100": {
+      "en": "Adds 100 non-expiring AI questions for serious ongoing guidance with cost-controlled usage.",
+      "hi": "लागत-नियंत्रित उपयोग के साथ गंभीर निरंतर मार्गदर्शन के लिए 100 बिना समाप्ति वाले AI प्रश्न जोड़ता है.",
+      "gu": "ખર્ચ-નિયંત્રિત વપરાશ સાથે ગંભીર ચાલુ માર્ગદર્શન માટે 100 ન સમાપ્ત થનારા AI પ્રશ્નો ઉમેરે છે."
+    },
+    "checkoutReportSingle": {
+      "en": "Adds one non-expiring premium report credit. It is spent only after a paid PDF is successfully generated.",
+      "hi": "एक बिना समाप्ति वाला प्रीमियम रिपोर्ट क्रेडिट जोड़ता है. यह केवल भुगतान वाला PDF सफलतापूर्वक बनने के बाद खर्च होता है.",
+      "gu": "એક ન સમાપ્ત થતો પ્રીમિયમ રિપોર્ટ ક્રેડિટ ઉમેરે છે. તે ફક્ત ચુકવણીવાળો PDF સફળતાપૂર્વક બન્યા પછી ખર્ચાય છે."
+    },
+    "checkoutReportBundle": {
+      "en": "Adds five non-expiring premium report credits that can be used over time.",
+      "hi": "पांच बिना समाप्ति वाले प्रीमियम रिपोर्ट क्रेडिट जोड़ता है, जिन्हें समय के साथ उपयोग किया जा सकता है.",
+      "gu": "પાંચ ન સમાપ્ત થતા પ્રીમિયમ રિપોર્ટ ક્રેડિટ ઉમેરે છે, જે સમય સાથે વાપરી શકાય છે."
+    },
+    "checkoutDayPass": {
+      "en": "Day Pass is time-limited. It is not a Product Bank credit and expires according to the pass window.",
+      "hi": "डे पास समय-सीमित है. यह क्रेडिट बैंक क्रेडिट नहीं है और पास की अवधि के अनुसार समाप्त होता है.",
+      "gu": "ડે પાસ સમય-મર્યાદિત છે. તે ક્રેડિટ બેંક ક્રેડિટ નથી અને પાસ સમયગાળા પ્રમાણે સમાપ્ત થાય છે."
+    },
+    "checkoutVerifiedOnly": {
+      "en": "Predicta activates this access only after verified payment or an approved support/admin handoff.",
+      "hi": "प्रेडिक्टा यह पहुंच केवल सत्यापित भुगतान या स्वीकृत सपोर्ट/एडमिन हैंडऑफ के बाद सक्रिय करता है.",
+      "gu": "પ્રેડિક્ટા આ ઍક્સેસ ફક્ત ચકાસાયેલા ચુકવણી અથવા મંજૂર સપોર્ટ/એડમિન હેન્ડઑફ પછી સક્રિય કરે છે."
+    },
+    "checkoutRazorpayDisabled": {
+      "en": "Razorpay secure checkout is being connected. No payment was taken on this screen today, and Predicta will not mark access as paid until a verified payment or approved support handoff exists.",
+      "hi": "Razorpay सुरक्षित चेकआउट जोड़ा जा रहा है. इस स्क्रीन पर आज कोई भुगतान नहीं लिया गया, और सत्यापित भुगतान या स्वीकृत सपोर्ट हैंडऑफ से पहले प्रेडिक्टा पहुंच को भुगतानित नहीं मानेगा.",
+      "gu": "Razorpay સુરક્ષિત ચેકઆઉટ જોડાઈ રહ્યું છે. આ સ્ક્રીન પર આજે કોઈ ચુકવણી લેવામાં આવી નથી, અને ચકાસાયેલ ચુકવણી અથવા મંજૂર સપોર્ટ હેન્ડઑફ પહેલાં પ્રેડિક્ટા ઍક્સેસને ચુકવણીવાળી નહીં માને."
+    },
+    "productBankSettingsBody": {
+      "en": "Paid question and report credits do not expire. Family Bank sharing is explicit, reversible, and never shares private chat or report content.",
+      "hi": "खरीदे हुए प्रश्न और रिपोर्ट क्रेडिट समाप्त नहीं होते. फैमिली बैंक साझेदारी स्पष्ट, वापस लेने योग्य है और निजी चैट या रिपोर्ट सामग्री साझा नहीं करती.",
+      "gu": "ખરીદેલા પ્રશ્ન અને રિપોર્ટ ક્રેડિટ સમાપ્ત થતા નથી. ફેમિલી બેંક વહેંચણી સ્પષ્ટ, પાછી ખેંચી શકાય તેવી છે અને ખાનગી ચેટ અથવા રિપોર્ટ સામગ્રી વહેંચતી નથી."
+    },
+    "mobileSignInTitle": {
+      "en": "Sign in required",
+      "hi": "साइन इन आवश्यक है",
+      "gu": "સાઇન ઇન જરૂરી છે"
+    },
+    "mobileSignInMessage": {
+      "en": "Sign in before downloading a Premium report so Predicta can verify your Premium, Day Pass, Product Bank, or Family Bank access.",
+      "hi": "प्रीमियम रिपोर्ट डाउनलोड करने से पहले साइन इन करें, ताकि प्रेडिक्टा आपकी प्रीमियम, डे पास, क्रेडिट बैंक या फैमिली बैंक पहुंच जांच सके.",
+      "gu": "પ્રીમિયમ રિપોર્ટ ડાઉનલોડ કરતા પહેલાં સાઇન ઇન કરો, જેથી પ્રેડિક્ટા તમારી પ્રીમિયમ, ડે પાસ, ક્રેડિટ બેંક અથવા ફેમિલી બેંક ઍક્સેસ ચકાસી શકે."
+    },
+    "mobileReportSignInTitle": {
+      "en": "Sign in to download reports",
+      "hi": "रिपोर्ट डाउनलोड करने के लिए साइन इन करें",
+      "gu": "રિપોર્ટ ડાઉનલોડ કરવા માટે સાઇન ઇન કરો"
+    },
+    "mobileReportSignInMessage": {
+      "en": "Sign in before downloading a Predicta report so the PDF and future report credits stay attached to your account.",
+      "hi": "प्रेडिक्टा रिपोर्ट डाउनलोड करने से पहले साइन इन करें, ताकि PDF और भविष्य के रिपोर्ट क्रेडिट आपके खाते से जुड़े रहें.",
+      "gu": "પ્રેડિક્ટા રિપોર્ટ ડાઉનલોડ કરતા પહેલાં સાઇન ઇન કરો, જેથી PDF અને ભાવિ રિપોર્ટ ક્રેડિટ તમારા ખાતા સાથે જોડાયેલા રહે."
+    },
+    "mobilePremiumTitle": {
+      "en": "Premium PDF",
+      "hi": "प्रीमियम PDF",
+      "gu": "પ્રીમિયમ PDF"
+    },
+    "mobilePremiumMessageTemplate": {
+      "en": "Unlock Premium, use a Day Pass, or spend one {creditLabel} from Product Bank or Family Bank.",
+      "hi": "प्रीमियम खोलें, डे पास उपयोग करें, या क्रेडिट बैंक/फैमिली बैंक से एक {creditLabel} खर्च करें.",
+      "gu": "પ્રીમિયમ ખોલો, ડે પાસ વાપરો, અથવા ક્રેડિટ બેંક/ફેમિલી બેંકમાંથી એક {creditLabel} ખર્ચો."
+    },
+    "mobilePdfLimitTitle": {
+      "en": "Monthly PDF limit reached",
+      "hi": "मासिक PDF सीमा पूरी हुई",
+      "gu": "માસિક PDF મર્યાદા પૂરી થઈ"
+    },
+    "mobilePdfLimitMessage": {
+      "en": "Your free report limit has reset protection. You can unlock one Premium PDF or try Premium for 24 hours.",
+      "hi": "आपकी फ्री रिपोर्ट सीमा सुरक्षित रीसेट के साथ चलती है. आप एक प्रीमियम PDF खोल सकते हैं या 24 घंटे के लिए प्रीमियम आज़मा सकते हैं.",
+      "gu": "તમારી મફત રિપોર્ટ મર્યાદા સુરક્ષિત રીસેટ સાથે ચાલે છે. તમે એક પ્રીમિયમ PDF ખોલી શકો છો અથવા 24 કલાક માટે પ્રીમિયમ અજમાવી શકો છો."
+    },
+    "premiumOptions": {
+      "en": "View Premium options",
+      "hi": "प्रीमियम विकल्प देखें",
+      "gu": "પ્રીમિયમ વિકલ્પો જુઓ"
+    },
+    "jaiminiReadyLabel": {
+      "en": "Jaimini ready",
+      "hi": "जैमिनी तैयार",
+      "gu": "જૈમિની તૈયાર"
+    },
+    "jaiminiReadyDetail": {
+      "en": "Active Kundli found. Jaimini report is ready; Premium, Day Pass, generic Premium PDF credit, or Jaimini report credit unlocks deeper paid depth.",
+      "hi": "सक्रिय कुंडली मिल गई. जैमिनी रिपोर्ट तैयार है; प्रीमियम, डे पास, सामान्य प्रीमियम PDF क्रेडिट या जैमिनी रिपोर्ट क्रेडिट भुगतान वाली गहराई खोलता है.",
+      "gu": "સક્રિય કુંડળી મળી. જૈમિની રિપોર્ટ તૈયાર છે; પ્રીમિયમ, ડે પાસ, સામાન્ય પ્રીમિયમ PDF ક્રેડિટ અથવા જૈમિની રિપોર્ટ ક્રેડિટ ચુકવણીવાળી ઊંડાઈ ખોલે છે."
+    }
+  },
+  "trust": {
+    "whatIsFree": {
+      "en": "Free includes deterministic Kundli, charts, zero-credit guidance, and free report paths where available.",
+      "hi": "फ्री में गणना-आधारित कुंडली, चार्ट, बिना AI क्रेडिट मार्गदर्शन और उपलब्ध फ्री रिपोर्ट पथ शामिल हैं.",
+      "gu": "મફતમાં ગણતરી-આધારિત કુંડળી, ચાર્ટ, AI ક્રેડિટ વગરનું માર્ગદર્શન અને ઉપલબ્ધ મફત રિપોર્ટ માર્ગો સામેલ છે."
+    },
+    "whatUsesAi": {
+      "en": "AI credit is used only for open-ended personalized Predicta synthesis.",
+      "hi": "AI क्रेडिट केवल खुले व्यक्तिगत प्रेडिक्टा संश्लेषण के लिए उपयोग होता है.",
+      "gu": "AI ક્રેડિટ ફક્ત ખુલ્લા વ્યક્તિગત પ્રેડિક્ટા સંશ્લેષણ માટે વપરાય છે."
+    },
+    "whatDoesNotUseAi": {
+      "en": "Kundli creation, deterministic charts, saved profiles, navigation, and free deterministic reports do not spend AI credit.",
+      "hi": "कुंडली निर्माण, गणना-आधारित चार्ट, सेव प्रोफाइल, नेविगेशन और फ्री गणना-आधारित रिपोर्ट AI क्रेडिट खर्च नहीं करते.",
+      "gu": "કુંડળી બનાવવી, ગણતરી-આધારિત ચાર્ટ, સેવ પ્રોફાઇલ, નેવિગેશન અને મફત ગણતરી-આધારિત રિપોર્ટ AI ક્રેડિટ ખર્ચતા નથી."
+    },
+    "familyPrivacy": {
+      "en": "Family Bank can share credits only after owner opt-in. Private chats, raw signature images, and private report history are not shared automatically.",
+      "hi": "फैमिली बैंक क्रेडिट केवल मालिक की अनुमति के बाद साझा करता है. निजी चैट, कच्ची हस्ताक्षर छवि और निजी रिपोर्ट इतिहास अपने-आप साझा नहीं होते.",
+      "gu": "ફેમિલી બેંક ક્રેડિટ ફક્ત માલિકની મંજૂરી પછી વહેંચે છે. ખાનગી ચેટ, મૂળ હસ્તાક્ષર છબી અને ખાનગી રિપોર્ટ ઇતિહાસ આપમેળે વહેંચાતા નથી."
+    },
+    "noUnlimitedClaim": {
+      "en": "Premium adds depth and higher limits, not guaranteed outcomes or uncontrolled unlimited AI.",
+      "hi": "प्रीमियम गहराई और ऊंची सीमाएं जोड़ता है, पक्के परिणाम या अनियंत्रित असीमित AI नहीं.",
+      "gu": "પ્રીમિયમ ઊંડાઈ અને ઊંચી મર્યાદા ઉમેરે છે, પક્કા પરિણામો અથવા અનિયંત્રિત અસીમિત AI નહીં."
+    }
+  }
+}

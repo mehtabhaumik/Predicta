@@ -8,6 +8,7 @@ export * from './guestAccessLimits';
 export * from './jaiminiLocalization';
 export * from './language';
 export * from './legal';
+export * from './monetizationCopy';
 export * from './nativeCopy';
 export * from './predictaUx';
 export * from './predictaMemory';

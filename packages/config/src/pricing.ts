@@ -4,6 +4,7 @@ import type {
   OneTimeProductType,
   PricingPlan,
 } from '@pridicta/types';
+import { getMonetizationProductCopy } from './monetizationCopy';
 
 export const SUBSCRIPTION_PRICING = {
   monthly: 299,
@@ -406,85 +407,91 @@ export function getOneTimeProducts(): OneTimeProduct[] {
   return [
     {
       badge: '24 hours',
-      description: 'Use this when you want to try deeper chat, reports, and timing today without subscribing.',
+      description: getEnglishOneTimeProductCopy('DAY_PASS').description,
       displayPrice: formatInr(ONE_TIME_PRICING.dayPass),
       id: 'DAY_PASS',
-      label: 'Day Pass',
+      label: getEnglishOneTimeProductCopy('DAY_PASS').label,
       priceInr: ONE_TIME_PRICING.dayPass,
       productId: oneTimeProductIds.DAY_PASS,
     },
     {
       badge: 'Non-expiring',
-      description: 'Add 10 AI questions to your Product Bank. Credits are spent only after successful AI answers.',
+      description: getEnglishOneTimeProductCopy('AI_QUESTIONS_10').description,
       displayPrice: formatInr(ONE_TIME_PRICING.aiQuestions10),
       id: 'AI_QUESTIONS_10',
-      label: '10 AI Questions',
+      label: getEnglishOneTimeProductCopy('AI_QUESTIONS_10').label,
       priceInr: ONE_TIME_PRICING.aiQuestions10,
       productId: oneTimeProductIds.AI_QUESTIONS_10,
     },
     {
       badge: 'Popular',
-      description: 'Add 25 AI questions for Vedic, KP, Jaimini, Numerology, Signature, and Life Atlas chat.',
+      description: getEnglishOneTimeProductCopy('AI_QUESTIONS_25').description,
       displayPrice: formatInr(ONE_TIME_PRICING.aiQuestions25),
       id: 'AI_QUESTIONS_25',
-      label: '25 AI Questions',
+      label: getEnglishOneTimeProductCopy('AI_QUESTIONS_25').label,
       priceInr: ONE_TIME_PRICING.aiQuestions25,
       productId: oneTimeProductIds.AI_QUESTIONS_25,
     },
     {
       badge: 'Best value',
-      description: 'Add 100 non-expiring AI questions for serious ongoing Predicta guidance.',
+      description: getEnglishOneTimeProductCopy('AI_QUESTIONS_100').description,
       displayPrice: formatInr(ONE_TIME_PRICING.aiQuestions100),
       id: 'AI_QUESTIONS_100',
-      label: '100 AI Questions',
+      label: getEnglishOneTimeProductCopy('AI_QUESTIONS_100').label,
       priceInr: ONE_TIME_PRICING.aiQuestions100,
       productId: oneTimeProductIds.AI_QUESTIONS_100,
     },
     {
       badge: 'One report',
-      description: 'Unlock one premium report credit for any supported report lane.',
+      description: getEnglishOneTimeProductCopy('REPORT_SINGLE').description,
       displayPrice: formatInr(ONE_TIME_PRICING.reportSingle),
       id: 'REPORT_SINGLE',
-      label: 'Single Report Credit',
+      label: getEnglishOneTimeProductCopy('REPORT_SINGLE').label,
       priceInr: ONE_TIME_PRICING.reportSingle,
       productId: oneTimeProductIds.REPORT_SINGLE,
     },
     {
       badge: 'Non-expiring',
-      description: 'Add five premium report credits to your Product Bank for future downloads.',
+      description: getEnglishOneTimeProductCopy('REPORT_BUNDLE').description,
       displayPrice: formatInr(ONE_TIME_PRICING.reportBundle),
       id: 'REPORT_BUNDLE',
-      label: 'Report Bundle',
+      label: getEnglishOneTimeProductCopy('REPORT_BUNDLE').label,
       priceInr: ONE_TIME_PRICING.reportBundle,
       productId: oneTimeProductIds.REPORT_BUNDLE,
     },
     {
       badge: 'Jaimini',
-      description:
-        'Use this when you want one premium-depth Jaimini destiny report for the active Kundli.',
+      description: getEnglishOneTimeProductCopy('JAIMINI_REPORT').description,
       displayPrice: formatInr(ONE_TIME_PRICING.jaiminiReport),
       id: 'JAIMINI_REPORT',
-      label: 'Jaimini Report Credit',
+      label: getEnglishOneTimeProductCopy('JAIMINI_REPORT').label,
       priceInr: ONE_TIME_PRICING.jaiminiReport,
       productId: oneTimeProductIds.JAIMINI_REPORT,
     },
     {
-      description: 'Use this when you want one complete Kundli life overview prepared as a report.',
+      description: getEnglishOneTimeProductCopy('DETAILED_KUNDLI_REPORT').description,
       displayPrice: formatInr(ONE_TIME_PRICING.detailedKundliReport),
       id: 'DETAILED_KUNDLI_REPORT',
-      label: 'Detailed Kundli Report',
+      label: getEnglishOneTimeProductCopy('DETAILED_KUNDLI_REPORT').label,
       priceInr: ONE_TIME_PRICING.detailedKundliReport,
       productId: oneTimeProductIds.DETAILED_KUNDLI_REPORT,
     },
     {
-      description: 'Use this when marriage, compatibility, or family discussion needs a prepared report.',
+      description: getEnglishOneTimeProductCopy('MARRIAGE_COMPATIBILITY_REPORT').description,
       displayPrice: formatInr(ONE_TIME_PRICING.marriageCompatibilityReport),
       id: 'MARRIAGE_COMPATIBILITY_REPORT',
-      label: 'Marriage Compatibility Report',
+      label: getEnglishOneTimeProductCopy('MARRIAGE_COMPATIBILITY_REPORT').label,
       priceInr: ONE_TIME_PRICING.marriageCompatibilityReport,
       productId: oneTimeProductIds.MARRIAGE_COMPATIBILITY_REPORT,
     },
   ];
+}
+
+function getEnglishOneTimeProductCopy(productType: OneTimeProductType): {
+  description: string;
+  label: string;
+} {
+  return getMonetizationProductCopy(productType, 'en');
 }
 
 export function getRecommendedPricingPlan(): PricingPlan {

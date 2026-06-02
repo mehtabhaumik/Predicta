@@ -1,6 +1,10 @@
 'use client';
 
-import { getNativeCopy } from '@pridicta/config';
+import {
+  getMonetizationProductCopy,
+  getMonetizationTrustCopy,
+  getNativeCopy,
+} from '@pridicta/config';
 import Link from 'next/link';
 import { getDayPassProduct, getPricingPlans } from '@pridicta/config/pricing';
 import { useLanguagePreference } from '../lib/language-preference';
@@ -90,14 +94,13 @@ function getPricingTeaserCopy(language: string): {
   }
 
   return {
-    dayPass: 'Day Pass',
-    dayPassBody: 'Try Premium depth for 24 hours without a subscription.',
+    dayPass: getMonetizationProductCopy('DAY_PASS', 'en').label,
+    dayPassBody: getMonetizationProductCopy('DAY_PASS', 'en').description,
     free: 'Free',
-    freeBody: 'Core kundli, saved profiles, and a premium-looking free report.',
+    freeBody: getMonetizationTrustCopy('en').whatIsFree,
     freeTitle: 'Start calmly',
     monthlyPrefix: 'Monthly access begins at',
-    monthlySuffix:
-      'Premium adds depth and convenience, not guaranteed outcomes.',
+    monthlySuffix: getMonetizationTrustCopy('en').noUnlimitedClaim,
     premium: 'Premium',
     premiumBody: 'Deeper report depth, expanded guidance, and richer chart insight.',
     viewPricing: 'View Pricing',

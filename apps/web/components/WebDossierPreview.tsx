@@ -1,6 +1,11 @@
 'use client';
 
-import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
+import {
+  formatNativeCopy,
+  getMonetizationReportCreditLabel,
+  getMonetizationReportRequirementCopy,
+  getNativeCopy,
+} from '@pridicta/config';
 import {
   Fragment,
   useEffect,
@@ -14,7 +19,6 @@ import { hasReportPdfCredit } from '@pridicta/monetization';
 import {
   getReportCreditCandidates,
   mapReportFocusToCreditType,
-  reportCreditLabel,
 } from '@pridicta/monetization';
 import {
   getConfidenceLabel,
@@ -493,7 +497,10 @@ export function WebDossierPreview(): React.JSX.Element {
     () => mapReportFocusToCreditType(selectedReportId),
     [selectedReportId],
   );
-  const selectedReportCreditLabel = reportCreditLabel(selectedReportCreditType);
+  const selectedReportCreditLabel = getMonetizationReportCreditLabel(
+    selectedReportCreditType,
+    appLanguage,
+  );
   const builderCopy = getReportBuilderCopy(appLanguage);
   const resultCopy = getReportResultCopy(appLanguage);
   const reportLanguageCopy = getReportLanguageCopy(appLanguage);
@@ -996,33 +1003,85 @@ export function WebDossierPreview(): React.JSX.Element {
           </div>
         )}
 
-        <div className="report-depth-grid inline" aria-label="Product Bank balance">
+        <div
+          className="report-depth-grid inline"
+          aria-label={getMonetizationReportRequirementCopy(
+            'productBankLabel',
+            appLanguage,
+          )}
+        >
           <div>
-            <span>Premium requirement</span>
+            <span>
+              {getMonetizationReportRequirementCopy('label', appLanguage)}
+            </span>
             <p>
               {mode === 'PREMIUM'
                 ? hasDetailedReportAccess
-                  ? `Ready: Premium, Day Pass, Product Bank, or Family Bank access covers this ${selectedReportCreditLabel}.`
-                  : `Requires Premium, Day Pass, Family Bank, or one ${selectedReportCreditLabel}.`
-                : 'Free deterministic report does not spend AI or report credits.'}
+                  ? getMonetizationReportRequirementCopy(
+                      'readyTemplate',
+                      appLanguage,
+                      { creditLabel: selectedReportCreditLabel },
+                    )
+                  : getMonetizationReportRequirementCopy(
+                      'requiresTemplate',
+                      appLanguage,
+                      { creditLabel: selectedReportCreditLabel },
+                    )
+                : getMonetizationReportRequirementCopy(
+                    'freeNoSpend',
+                    appLanguage,
+                  )}
             </p>
           </div>
           <div>
-            <span>Product Bank</span>
+            <span>
+              {getMonetizationReportRequirementCopy(
+                'productBankLabel',
+                appLanguage,
+              )}
+            </span>
             <p>
               {productBankBalance
-                ? `${productBankBalance.paidQuestionCredits} AI questions · ${productBankBalance.reportCredits} report credits`
+                ? getMonetizationReportRequirementCopy(
+                    'productBankBalanceTemplate',
+                    appLanguage,
+                    {
+                      questions: productBankBalance.paidQuestionCredits,
+                      reports: productBankBalance.reportCredits,
+                    },
+                  )
                 : user
-                  ? 'Checking your non-expiring credits.'
-                  : 'Sign in to use question and report packs.'}
+                  ? getMonetizationReportRequirementCopy(
+                      'productBankChecking',
+                      appLanguage,
+                    )
+                  : getMonetizationReportRequirementCopy(
+                      'productBankSignIn',
+                      appLanguage,
+                    )}
             </p>
           </div>
           <div>
-            <span>Family Bank</span>
+            <span>
+              {getMonetizationReportRequirementCopy(
+                'familyBankLabel',
+                appLanguage,
+              )}
+            </span>
             <p>
               {productBankBalance
-                ? `${productBankBalance.familyQuestionCredits} shared AI questions · ${productBankBalance.familyReportCredits} shared report credits`
-                : 'Owner opt-in sharing can be enabled from Family Vault.'}
+                ? getMonetizationReportRequirementCopy(
+                    'familyBankBalanceTemplate',
+                    appLanguage,
+                    {
+                      questions: productBankBalance.familyQuestionCredits,
+                      reports: productBankBalance.familyReportCredits,
+                    },
+                  )
+                : getMonetizationReportRequirementCopy(
+                    'familyBankBody',
+                    appLanguage,
+                  )}
             </p>
           </div>
         </div>
@@ -1342,6 +1401,7 @@ export function WebDossierPreview(): React.JSX.Element {
             );
             const readiness = getReportLaneReadiness({
               kundli,
+              language: appLanguage,
               lane,
               signatureAnalysis,
             });
@@ -3050,10 +3110,12 @@ function mapReportLaneToPredictaSchool(
 
 function getReportLaneReadiness({
   kundli,
+  language,
   lane,
   signatureAnalysis,
 }: {
   kundli?: KundliData;
+  language: SupportedLanguage;
   lane: ReportSchoolLane;
   signatureAnalysis?: SignatureAnalysisModel;
 }): {
@@ -3106,9 +3168,14 @@ function getReportLaneReadiness({
 
   if (lane.id === 'JAIMINI') {
     return {
-      detail:
-        'Active Kundli found. Jaimini report is ready; Premium, Day Pass, Premium PDF, or Jaimini Report Credit unlocks deeper paid depth.',
-      label: 'Jaimini ready',
+      detail: getMonetizationReportRequirementCopy(
+        'jaiminiReadyDetail',
+        language,
+      ),
+      label: getMonetizationReportRequirementCopy(
+        'jaiminiReadyLabel',
+        language,
+      ),
       ready: true,
     };
   }

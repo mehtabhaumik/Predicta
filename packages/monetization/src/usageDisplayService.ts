@@ -1,9 +1,11 @@
 import { DAY_PASS_LIMITS, getUsageLimits } from '@pridicta/config/usageLimits';
+import { getMonetizationUsageCopy } from '@pridicta/config/monetizationCopy';
 import type {
   MonetizationState,
   ResolvedAccess,
   UsageState,
   UserPlan,
+  SupportedLanguage,
 } from '@pridicta/types';
 import {
   getPaidQuestionCredits,
@@ -23,27 +25,29 @@ export function buildUsageDisplay({
   resolvedAccess,
   usage,
   userPlan,
+  language = 'en',
 }: {
   monetization: MonetizationState;
   resolvedAccess?: ResolvedAccess;
   usage: UsageState;
   userPlan: UserPlan;
+  language?: SupportedLanguage;
 }): UsageDisplay {
   if (resolvedAccess?.source === 'admin_whitelist') {
     return {
-      deepReadingsText: 'No app-level AI restriction',
-      pdfText: 'Admin PDF access active',
-      questionsText: 'Admin guidance access active',
-      statusText: 'Admin access active',
+      deepReadingsText: getMonetizationUsageCopy('adminNoRestriction', language),
+      pdfText: getMonetizationUsageCopy('adminPdfAccess', language),
+      questionsText: getMonetizationUsageCopy('adminGuidanceAccess', language),
+      statusText: getMonetizationUsageCopy('adminAccess', language),
     };
   }
 
   if (resolvedAccess?.source === 'full_access_whitelist') {
     return {
-      deepReadingsText: 'Full deep guidance access active',
-      pdfText: 'Full report access active',
-      questionsText: 'Full Predicta access active',
-      statusText: 'Full access active',
+      deepReadingsText: getMonetizationUsageCopy('fullDeepAccess', language),
+      pdfText: getMonetizationUsageCopy('fullReportAccess', language),
+      questionsText: getMonetizationUsageCopy('fullPredictaAccess', language),
+      statusText: getMonetizationUsageCopy('fullAccess', language),
     };
   }
 
@@ -54,24 +58,30 @@ export function buildUsageDisplay({
     const pass = resolvedAccess.activeGuestPass;
 
     return {
-      deepReadingsText: `${Math.max(
-        0,
-        pass.usageLimits.deepReadingsTotal - pass.deepReadingsUsed,
-      )} guest deep readings remaining`,
-      pdfText: `${Math.max(
-        0,
-        pass.usageLimits.premiumPdfsTotal - pass.premiumPdfsUsed,
-      )} guest premium reports remaining`,
-      questionsText: `${Math.max(
-        0,
-        pass.usageLimits.questionsTotal - pass.questionsUsed,
-      )} guest guidance questions remaining`,
+      deepReadingsText: getMonetizationUsageCopy('guestDeepReadingsTemplate', language, {
+        count: Math.max(
+          0,
+          pass.usageLimits.deepReadingsTotal - pass.deepReadingsUsed,
+        ),
+      }),
+      pdfText: getMonetizationUsageCopy('guestPremiumReportsTemplate', language, {
+        count: Math.max(
+          0,
+          pass.usageLimits.premiumPdfsTotal - pass.premiumPdfsUsed,
+        ),
+      }),
+      questionsText: getMonetizationUsageCopy('guestQuestionsTemplate', language, {
+        count: Math.max(
+          0,
+          pass.usageLimits.questionsTotal - pass.questionsUsed,
+        ),
+      }),
       statusText:
         pass.accessLevel === 'VIP_GUEST'
-          ? 'VIP Guest Pass active'
+          ? getMonetizationUsageCopy('vipGuest', language)
           : pass.accessLevel === 'FULL_ACCESS'
-          ? 'Full guest access active'
-          : 'Guest Pass active',
+          ? getMonetizationUsageCopy('fullGuest', language)
+          : getMonetizationUsageCopy('guestPass', language),
     };
   }
 
@@ -94,22 +104,26 @@ export function buildUsageDisplay({
   return {
     deepReadingsText:
       deepLimit > 0
-        ? `${Math.max(0, deepLimit - usage.deepCallsToday)} deep readings left`
-        : 'Deep readings unlock with Premium',
-    pdfText: `${Math.max(0, pdfLimit - usage.pdfsThisMonth)} premium report${
-      pdfLimit - usage.pdfsThisMonth === 1 ? '' : 's'
-    } remaining`,
+        ? getMonetizationUsageCopy('deepReadingsTemplate', language, {
+            count: Math.max(0, deepLimit - usage.deepCallsToday),
+          })
+        : getMonetizationUsageCopy('deepReadingsPremium', language),
+    pdfText: getMonetizationUsageCopy('premiumReportsTemplate', language, {
+      count: Math.max(0, pdfLimit - usage.pdfsThisMonth),
+      plural: pdfLimit - usage.pdfsThisMonth === 1 ? '' : 's',
+    }),
     questionsText:
       paidQuestions > 0
-        ? `${paidQuestions} paid questions available`
-        : `${Math.max(
-            0,
-            questionLimit - usage.questionsToday,
-          )} guidance questions left today`,
+        ? getMonetizationUsageCopy('paidQuestionsTemplate', language, {
+            count: paidQuestions,
+          })
+        : getMonetizationUsageCopy('guidanceQuestionsTemplate', language, {
+            count: Math.max(0, questionLimit - usage.questionsToday),
+          }),
     statusText: dayPassActive
-      ? 'Day Pass active'
+      ? getMonetizationUsageCopy('dayPassActive', language)
       : plan === 'PREMIUM'
-      ? 'Premium guidance active'
-      : 'Your free guidance resets tomorrow',
+      ? getMonetizationUsageCopy('premiumGuidanceActive', language)
+      : getMonetizationUsageCopy('freeGuidanceResets', language),
   };
 }

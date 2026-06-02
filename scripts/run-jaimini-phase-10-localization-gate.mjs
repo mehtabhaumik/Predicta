@@ -225,12 +225,17 @@ assert.deepEqual(
 const dossierPreview = read('apps/web/components/WebDossierPreview.tsx');
 for (const fragment of [
   'Jaimini Reports',
-  'Jaimini report is ready',
   "productIds: ['JAIMINI']",
   "getOneTimeProduct('JAIMINI_REPORT')",
+  'getMonetizationReportRequirementCopy',
 ]) {
   assertIncludes(dossierPreview, fragment, `report marketplace has active Jaimini copy ${fragment}`);
 }
+assertIncludes(
+  read('packages/config/src/translations/monetization.json'),
+  'Jaimini report is ready',
+  'report marketplace has JSON-backed Jaimini readiness copy',
+);
 for (const forbidden of [
   'Jaimini pending',
   'report download unlocks after the deterministic Jaimini data contract',
@@ -255,12 +260,21 @@ for (const file of [
   assertNotIncludes(read(file), 'NADI', `${file} does not mention NADI`);
 }
 
-for (const file of [
-  'apps/web/app/pricing/page.tsx',
-  'apps/web/app/dashboard/premium/page.tsx',
-]) {
-  assertIncludes(read(file), 'JAIMINI_REPORT', `${file} exposes Jaimini report product`);
-}
+assertIncludes(
+  read('apps/web/app/pricing/page.tsx'),
+  'getMonetizationProductCopy',
+  'apps/web/app/pricing/page.tsx exposes Jaimini report product through shared product copy',
+);
+assertIncludes(
+  read('apps/web/app/dashboard/premium/page.tsx'),
+  'JAIMINI_REPORT',
+  'apps/web/app/dashboard/premium/page.tsx exposes Jaimini report product',
+);
+assertIncludes(
+  read('packages/config/src/translations/monetization.json'),
+  'Jaimini Report Credit',
+  'monetization translations expose Jaimini report product label',
+);
 
 mkdirSync(auditRoot, { recursive: true });
 const manifest = {

@@ -1,6 +1,6 @@
 'use client';
 
-import { getNativeCopy } from '@pridicta/config';
+import { getMonetizationProductCopy, getNativeCopy } from '@pridicta/config';
 import {
   PREMIUM_FEATURE_STORY,
   getDayPassProduct,
@@ -237,8 +237,8 @@ function getLocalizedOneTimeProductCopy(
   description: string;
   label: string;
 } {
-  const copy = ONE_TIME_COPY[language] ?? ONE_TIME_COPY.en;
-  return copy[productId] ?? copy.PREMIUM_PDF;
+  const copy = getMonetizationProductCopy(productId, language);
+  return copy.description ? copy : getMonetizationProductCopy('PREMIUM_PDF', language);
 }
 
 const PREMIUM_PAGE_COPY: Record<
@@ -466,102 +466,6 @@ const PLAN_COPY: Record<
       billingCopy: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.ec028dfa86"),
       label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.5a1cce3f9b"),
       monthlyEquivalent: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.cbce027d33"),
-    },
-  },
-};
-
-const ONE_TIME_COPY: Record<
-  SupportedLanguage,
-  Record<string, { description: string; label: string }>
-> = {
-  en: {
-    MARRIAGE_COMPATIBILITY_REPORT: {
-      description: 'Prepared compatibility reading for marriage or family discussion.',
-      label: 'Compatibility report',
-    },
-    JAIMINI_REPORT: {
-      description: 'One premium-depth Jaimini destiny report for the active Kundli.',
-      label: 'Jaimini Report Credit',
-    },
-    PREMIUM_PDF: {
-      description: 'One polished report when a specific question needs a prepared answer.',
-      label: 'Premium PDF',
-    },
-    AI_QUESTIONS_10: {
-      description: 'Ten non-expiring AI questions for focused Predicta guidance.',
-      label: '10 AI Questions',
-    },
-    AI_QUESTIONS_25: {
-      description: 'Twenty-five non-expiring AI questions for ongoing Predicta guidance.',
-      label: '25 AI Questions',
-    },
-    REPORT_SINGLE: {
-      description: 'One non-expiring premium report credit.',
-      label: 'Single Report Credit',
-    },
-    REPORT_BUNDLE: {
-      description: 'Five non-expiring premium report credits.',
-      label: 'Report Bundle',
-    },
-  },
-  hi: {
-    MARRIAGE_COMPATIBILITY_REPORT: {
-      description: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.c211fb60d0"),
-      label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.d8fb1adccb"),
-    },
-    JAIMINI_REPORT: {
-      description: getNativeCopy('report.jaimini.purchaseHint.hi'),
-      label: 'Jaimini Report Credit',
-    },
-    PREMIUM_PDF: {
-      description: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.fef02f7f2f"),
-      label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.31641beaac"),
-    },
-    AI_QUESTIONS_10: {
-      description: 'Ten non-expiring AI questions for focused Predicta guidance.',
-      label: '10 AI Questions',
-    },
-    AI_QUESTIONS_25: {
-      description: 'Twenty-five non-expiring AI questions for ongoing Predicta guidance.',
-      label: '25 AI Questions',
-    },
-    REPORT_SINGLE: {
-      description: 'One non-expiring premium report credit.',
-      label: 'Single Report Credit',
-    },
-    REPORT_BUNDLE: {
-      description: 'Five non-expiring premium report credits.',
-      label: 'Report Bundle',
-    },
-  },
-  gu: {
-    MARRIAGE_COMPATIBILITY_REPORT: {
-      description: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.671c1aee98"),
-      label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.79ba9fc513"),
-    },
-    JAIMINI_REPORT: {
-      description: getNativeCopy('report.jaimini.purchaseHint.gu'),
-      label: 'Jaimini Report Credit',
-    },
-    PREMIUM_PDF: {
-      description: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.0848f65b68"),
-      label: getNativeCopy("native.apps.web.app.dashboard.premium.page.tsx.d7ca86dc4e"),
-    },
-    AI_QUESTIONS_10: {
-      description: 'Ten non-expiring AI questions for focused Predicta guidance.',
-      label: '10 AI Questions',
-    },
-    AI_QUESTIONS_25: {
-      description: 'Twenty-five non-expiring AI questions for ongoing Predicta guidance.',
-      label: '25 AI Questions',
-    },
-    REPORT_SINGLE: {
-      description: 'One non-expiring premium report credit.',
-      label: 'Single Report Credit',
-    },
-    REPORT_BUNDLE: {
-      description: 'Five non-expiring premium report credits.',
-      label: 'Report Bundle',
     },
   },
 };

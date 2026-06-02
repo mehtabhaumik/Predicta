@@ -1,6 +1,11 @@
 import React, { type PropsWithChildren } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {
+  getMonetizationPaywallContext,
+  getMonetizationReportRequirementCopy,
+} from '@pridicta/config';
+import type { SupportedLanguage } from '@pridicta/types';
 
 import { colors } from '../theme/colors';
 import { AppText } from './AppText';
@@ -8,14 +13,18 @@ import { GlowButton } from './GlowButton';
 
 type LockedPremiumOverlayProps = PropsWithChildren<{
   ctaLabel?: string;
+  language?: SupportedLanguage;
   onUnlock: () => void;
 }>;
 
 export function LockedPremiumOverlay({
   children,
-  ctaLabel = 'Unlock',
+  ctaLabel,
+  language = 'en',
   onUnlock,
 }: LockedPremiumOverlayProps): React.JSX.Element {
+  const copy = getMonetizationPaywallContext('LOCKED_CHART_TAPPED', language);
+
   return (
     <View style={styles.shell}>
       <View style={styles.preview}>{children}</View>
@@ -23,16 +32,16 @@ export function LockedPremiumOverlay({
         colors={['rgba(10,10,15,0.76)', 'rgba(18,18,26,0.94)']}
         style={styles.overlay}
       >
-        <AppText variant="subtitle">Available in Premium</AppText>
+        <AppText variant="subtitle">{copy.title}</AppText>
         <AppText
           className="mt-2 text-center"
           tone="secondary"
           variant="caption"
         >
-          Deeper chart interpretation unlocks when you choose Premium.
+          {copy.message}
         </AppText>
         <View className="mt-4 w-full">
-          <GlowButton label={ctaLabel} onPress={onUnlock} />
+          <GlowButton label={ctaLabel ?? copy.primaryCta} onPress={onUnlock} />
         </View>
         <Pressable
           accessibilityRole="button"
@@ -40,7 +49,7 @@ export function LockedPremiumOverlay({
           onPress={onUnlock}
         >
           <AppText className="text-[#4DAFFF]" variant="caption">
-            View Premium options
+            {getMonetizationReportRequirementCopy('premiumOptions', language)}
           </AppText>
         </Pressable>
       </LinearGradient>

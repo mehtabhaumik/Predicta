@@ -1,6 +1,10 @@
 'use client';
 
-import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
+import {
+  formatNativeCopy,
+  getMonetizationReportRequirementCopy,
+  getNativeCopy,
+} from '@pridicta/config';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { type CSSProperties, useEffect, useRef, useState } from 'react';
@@ -328,16 +332,38 @@ export function WebPridictaChat({
     }
 
     const bankLine = productBank
-      ? ` Product Bank: ${productBank.paidQuestionCredits} AI questions and ${productBank.reportCredits} report credits available.`
+      ? getMonetizationReportRequirementCopy(
+          'productBankLineTemplate',
+          language,
+          {
+            questions: productBank.paidQuestionCredits,
+            reports: productBank.reportCredits,
+          },
+        )
       : '';
 
     setPassCostDisplay({
       body:
         balance.remaining > 0
-          ? `${balance.remaining} of ${balance.total} lifetime starter AI questions remaining. Deterministic Kundli, charts, reports, and Family Vault actions do not spend these.${bankLine}`
-          : `Your 3 lifetime starter AI questions are used. Deterministic Kundli, charts, reports, and Family Vault actions still work without AI spend.${bankLine}`,
+          ? `${getMonetizationReportRequirementCopy(
+              'starterRemainingTemplate',
+              language,
+              {
+                remaining: balance.remaining,
+                total: balance.total,
+              },
+            )}${bankLine}`
+          : `${getMonetizationReportRequirementCopy(
+              'starterUsedBody',
+              language,
+            )}${bankLine}`,
       kind: 'free',
-      title: productBank ? 'Starter AI + Product Bank' : 'Starter AI questions',
+      title: productBank
+        ? getMonetizationReportRequirementCopy(
+            'starterWithProductBankLabel',
+            language,
+          )
+        : getMonetizationReportRequirementCopy('starterAiLabel', language),
       tone: balance.remaining > 0 ? 'steady' : 'careful',
     });
   }

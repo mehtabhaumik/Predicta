@@ -1,6 +1,9 @@
 'use client';
 
-import { getNativeCopy } from '@pridicta/config';
+import {
+  getMonetizationReportRequirementCopy,
+  getNativeCopy,
+} from '@pridicta/config';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import type { User } from 'firebase/auth';
@@ -488,32 +491,52 @@ export function WebProfileSettings(): React.JSX.Element {
           <p>{copy.savedWorkBody}</p>
         </div>
         <div className="settings-overview-card">
-          <span>Starter AI</span>
+          <span>
+            {getMonetizationReportRequirementCopy(
+              'starterAiLabel',
+              language,
+            )}
+          </span>
           <strong>
             {snapshot.freeAiBalance
               ? `${snapshot.freeAiBalance.remaining} / ${snapshot.freeAiBalance.total}`
               : user
-                ? 'Checking'
-                : 'Sign in'}
+                ? getMonetizationReportRequirementCopy('checking', language)
+                : getMonetizationReportRequirementCopy('signIn', language)}
           </strong>
           <p>
-            Lifetime starter AI questions. Kundli, charts, reports, and Family
-            Vault actions do not spend these.
+            {getMonetizationReportRequirementCopy(
+              'starterBalanceBody',
+              language,
+            )}
           </p>
         </div>
         <div className="settings-overview-card">
-          <span>Product Bank</span>
+          <span>
+            {getMonetizationReportRequirementCopy(
+              'productBankLabel',
+              language,
+            )}
+          </span>
           <strong>
             {snapshot.productBank
-              ? `${snapshot.productBank.paidQuestionCredits} AI · ${snapshot.productBank.reportCredits} reports`
+              ? getMonetizationReportRequirementCopy(
+                  'productBankCompactTemplate',
+                  language,
+                  {
+                    questions: snapshot.productBank.paidQuestionCredits,
+                    reports: snapshot.productBank.reportCredits,
+                  },
+                )
               : user
-                ? 'Checking'
-                : 'Sign in'}
+                ? getMonetizationReportRequirementCopy('checking', language)
+                : getMonetizationReportRequirementCopy('signIn', language)}
           </strong>
           <p>
-            Paid question and report credits do not expire. Family Bank sharing
-            is explicit, reversible, and never shares private chat or report
-            content.
+            {getMonetizationReportRequirementCopy(
+              'productBankSettingsBody',
+              language,
+            )}
           </p>
         </div>
       </section>

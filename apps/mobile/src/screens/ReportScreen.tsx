@@ -21,12 +21,15 @@ import {
   getReportMarketplaceProducts,
   type ReportMarketplaceProduct,
 } from '@pridicta/config/pricing';
+import {
+  getMonetizationReportCreditLabel,
+  getMonetizationReportRequirementCopy,
+} from '@pridicta/config';
 import { buildGeneratedReportMemoryContext } from '@pridicta/config/predictaMemory';
 import { SUPPORTED_LANGUAGE_OPTIONS } from '@pridicta/config/language';
 import { composeReportSections, type PdfSection } from '@pridicta/pdf';
 import {
   evaluateReportEntitlement,
-  reportCreditLabel,
   type ReportEntitlementDecision,
 } from '@pridicta/monetization';
 import { trackAnalyticsEvent } from '../services/analytics/analyticsService';
@@ -170,9 +173,14 @@ export function ReportScreen({
             onPress: () => navigation.navigate(routes.Login),
           },
         ],
-        message:
-          'Sign in before downloading a Predicta report so the PDF and future report credits stay attached to your account.',
-        title: 'Sign in to download reports',
+        message: getMonetizationReportRequirementCopy(
+          'mobileReportSignInMessage',
+          reportLanguage,
+        ),
+        title: getMonetizationReportRequirementCopy(
+          'mobileReportSignInTitle',
+          reportLanguage,
+        ),
       });
       return;
     }
@@ -227,9 +235,14 @@ export function ReportScreen({
               onPress: () => navigation.navigate(routes.Login),
             },
           ],
-          message:
-            'Sign in before downloading a Premium report so Predicta can verify your Premium, Day Pass, Product Bank, or Family Bank access.',
-          title: 'Sign in required',
+          message: getMonetizationReportRequirementCopy(
+            'mobileSignInMessage',
+            reportLanguage,
+          ),
+          title: getMonetizationReportRequirementCopy(
+            'mobileSignInTitle',
+            reportLanguage,
+          ),
         });
         return;
       }
@@ -248,8 +261,11 @@ export function ReportScreen({
       (!reportEntitlement || !reportEntitlement.allowed)
     ) {
       const requiredCredit = reportEntitlement?.requiredCreditType
-        ? reportCreditLabel(reportEntitlement.requiredCreditType)
-        : 'premium report credit';
+        ? getMonetizationReportCreditLabel(
+            reportEntitlement.requiredCreditType,
+            reportLanguage,
+          )
+        : getMonetizationReportCreditLabel('PREMIUM_PDF', reportLanguage);
       showGlassAlert({
         actions: [
           { label: 'Keep Free Report' },
@@ -258,9 +274,15 @@ export function ReportScreen({
             onPress: () => navigation.navigate(routes.Paywall),
           },
         ],
-        message:
-          `Unlock Premium, use a Day Pass, or spend one ${requiredCredit} from Product Bank or Family Bank.`,
-        title: 'Premium PDF',
+        message: getMonetizationReportRequirementCopy(
+          'mobilePremiumMessageTemplate',
+          reportLanguage,
+          { creditLabel: requiredCredit },
+        ),
+        title: getMonetizationReportRequirementCopy(
+          'mobilePremiumTitle',
+          reportLanguage,
+        ),
       });
       return;
     }
@@ -277,9 +299,14 @@ export function ReportScreen({
             onPress: () => navigation.navigate(routes.Paywall),
           },
         ],
-        message:
-          'Your free report limit has reset protection. You can unlock one Premium PDF or try Premium for 24 hours.',
-        title: 'Monthly PDF limit reached',
+        message: getMonetizationReportRequirementCopy(
+          'mobilePdfLimitMessage',
+          reportLanguage,
+        ),
+        title: getMonetizationReportRequirementCopy(
+          'mobilePdfLimitTitle',
+          reportLanguage,
+        ),
       });
       return;
     }

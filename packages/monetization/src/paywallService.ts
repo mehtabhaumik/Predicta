@@ -1,3 +1,5 @@
+import { getMonetizationPaywallContext } from '@pridicta/config';
+import type { SupportedLanguage } from '@pridicta/types';
 import type { UserPlan } from '@pridicta/types';
 
 export type PaywallAction =
@@ -33,65 +35,11 @@ export function shouldShowPaywall(
   return canShowPaywallForAction(action);
 }
 
-export function getPaywallContext(action: PaywallAction): PaywallContext {
-  switch (action) {
-    case 'QUESTION_LIMIT_REACHED':
-      return {
-        message:
-          'Your chart context is saved. Add non-expiring AI questions or unlock Premium to continue deeper guidance.',
-        primaryCta: 'Add 10 Questions',
-        secondaryCta: 'Continue deterministic mode',
-        suggestedProductId: 'pridicta_10_questions',
-        title: 'Your starter AI questions are used.',
-      };
-    case 'PDF_LIMIT_REACHED':
-    case 'PREMIUM_PDF_OFFER':
-      return {
-        message:
-          'Your free report remains available. Premium PDF depth adds richer divisional chart, dasha, and guidance sections.',
-        primaryCta: 'Unlock Single Report',
-        secondaryCta: 'Keep Free Report',
-        suggestedProductId: 'pridicta_single_report',
-        title: 'Go deeper with this report.',
-      };
-    case 'DEEP_AI_LIMIT_REACHED':
-    case 'ADVANCED_ANALYSIS_REQUESTED':
-      return {
-        message:
-          'Use a lighter reading now, or unlock deeper chart interpretation and expanded Predicta guidance.',
-        primaryCta: 'Unlock Premium',
-        secondaryCta: 'Continue Free',
-        title: 'Deeper analysis is available in Premium.',
-      };
-    case 'DAY_PASS_OFFER':
-      return {
-        message:
-          'Try Premium depth for 24 hours without starting a subscription.',
-        primaryCta: 'Try Premium for 24 hours',
-        secondaryCta: 'Continue Free',
-        suggestedProductId: 'pridicta_day_pass_24h',
-        title: 'Try Premium today.',
-      };
-    case 'QUESTION_PACK_OFFER':
-      return {
-        message:
-          'Add non-expiring Predicta AI questions without starting a subscription.',
-        primaryCta: 'Add 10 Questions',
-        secondaryCta: 'Continue Free',
-        suggestedProductId: 'pridicta_10_questions',
-        title: 'Need a few more questions?',
-      };
-    case 'LOCKED_CHART_TAPPED':
-    case 'PREMIUM_REPORT_REQUESTED':
-    default:
-      return {
-        message:
-          'Premium opens richer interpretation depth while keeping your free kundli experience intact.',
-        primaryCta: 'Unlock Premium',
-        secondaryCta: 'Continue Free',
-        title: 'Available in Premium.',
-      };
-  }
+export function getPaywallContext(
+  action: PaywallAction,
+  language: SupportedLanguage = 'en',
+): PaywallContext {
+  return getMonetizationPaywallContext(action, language);
 }
 
 export function markPaywallShown(action: PaywallAction): void {
