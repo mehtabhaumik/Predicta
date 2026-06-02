@@ -1,0 +1,47 @@
+{
+  "phase": "PREDICTA_REPORT_FINAL_PHASE_3_FREE_VS_PAID_DEPTH_CONTRACT",
+  "status": "GREEN",
+  "depthContractSource": "packages/pdf/src/reportArchitecture.ts",
+  "attachedToPdfArchitecture": true,
+  "rendererConsumesActiveDepth": true,
+  "reportLanes": [
+    "VEDIC",
+    "KP",
+    "JAIMINI",
+    "NUMEROLOGY",
+    "SIGNATURE",
+    "LIFE_ATLAS"
+  ],
+  "nadiFinalReportLane": false,
+  "depthMinimums": [
+    "predictionMinimum",
+    "evidenceMinimum",
+    "timingMinimum",
+    "actionMinimum",
+    "proofMinimum"
+  ],
+  "bannedDepthFailures": [
+    "Free report as hollow teaser",
+    "Paid report as page-count padding",
+    "Technical evidence without plain prediction",
+    "More tables without stronger guidance",
+    "Repeated remedies or repeated boundaries",
+    "Schooling the user instead of answering the user"
+  ],
+  "completedVerification": [
+    "corepack pnpm test:report-final-phase-3",
+    "corepack pnpm --filter @pridicta/pdf typecheck",
+    "corepack pnpm test:pdf-golden",
+    "git diff --check"
+  ],
+  "greenCriteria": {
+    "phase3AuditExists": true,
+    "phase3GatePasses": true,
+    "reportDepthContractExists": true,
+    "everyArchitectureCarriesDepthContract": true,
+    "freeAndPaidMinimumsPresent": true,
+    "allSixReportLanesCovered": true,
+    "rendererConsumesActiveDepth": true,
+    "noNadiFinalReportLane": true
+  }
+}

@@ -1877,6 +1877,8 @@ function buildOnboardingCards(
   reportFocus: PdfReportFocus,
   architecture: PdfComposition['architecture'],
 ): Array<{ body: string; eyebrow: string; title: string }> {
+  const activeDepth = architecture.depthContract.active;
+
 	  if (reportFocus === 'LIFE_ATLAS') {
 	    return [
 	      {
@@ -1890,9 +1892,7 @@ function buildOnboardingCards(
 	        title: 'Human first, proof later',
 	      },
 	      {
-	        body: mode === 'PREMIUM'
-	          ? 'Premium adds deeper life narrative, karmic pattern map, integration practices, and a more personal closing letter.'
-	          : 'Free gives a real soul portrait, current chapter, gifts, lessons, hidden thread, practices, and a closing letter.',
+	        body: activeDepth.promise,
 	        eyebrow: mode === 'PREMIUM' ? 'Premium depth' : 'Free value',
 	        title: mode === 'PREMIUM' ? 'Depth without fatalism' : 'Complete enough to matter',
 	      },
@@ -1917,9 +1917,7 @@ function buildOnboardingCards(
         title: 'Support map, not puzzle',
       },
       {
-        body: mode === 'PREMIUM'
-          ? 'Premium adds deeper timing checks and translated method detail, while still refusing fake certainty.'
-          : 'Free gives a real safety-first reading: what to watch, what not to trust, and how to act calmly.',
+        body: activeDepth.promise,
         eyebrow: mode === 'PREMIUM' ? 'Premium depth' : 'Free value',
         title: mode === 'PREMIUM' ? 'Depth without jargon' : 'Free protects first',
       },
@@ -1945,9 +1943,7 @@ function buildOnboardingCards(
       title: 'The PDF does not switch chart vocabulary',
     },
     {
-      body: mode === 'PREMIUM'
-        ? 'Premium keeps the deeper synthesis and timing, but the layout removes repeated scaffolding before it removes substance.'
-        : 'Free still gives real insight, practical guidance, and enough chart proof to feel complete.',
+      body: activeDepth.promise,
       eyebrow: mode === 'PREMIUM' ? 'Premium depth' : 'Free value',
       title: mode === 'PREMIUM' ? 'Depth stays, clutter goes' : 'Free is not a teaser',
     },

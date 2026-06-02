@@ -204,6 +204,50 @@ Lock depth rules: Free gives specific useful prediction and key evidence. Paid
 adds full diagnosis, contradictions, timing windows, proof depth, and practical
 guidance.
 
+### Required Work
+
+- Add a shared free-vs-paid depth contract to the report architecture engine.
+- The depth contract must travel with every `PdfComposition` through
+  `PdfReportArchitecture`.
+- Free report depth must guarantee:
+  - a specific user-facing prediction
+  - key evidence needed to trust the prediction
+  - current/timing relevance when evidence supports it
+  - at least one practical next step
+  - short proof after prediction, not instead of prediction
+- Paid report depth must guarantee:
+  - full diagnosis for the selected lane/focus
+  - supporting and conflicting evidence
+  - timing windows or current-cycle depth where available
+  - contradiction handling
+  - practical guidance separated into now/prepare/avoid/revisit
+  - deeper proof in appendix/proof pages
+- The contract must be lane-aware for:
+  - Vedic
+  - KP
+  - Jaimini
+  - Numerology
+  - Signature
+  - Life Atlas
+- Free must never become a hollow teaser.
+- Paid must never become page-count padding.
+- Add a gate that proves all six final report lanes expose both free and paid
+  depth promises and that the renderer consumes the active depth promise.
+
+### Green Criteria
+
+- `ReportDepthContract` exists in source.
+- Every `PdfReportArchitecture` includes `depthContract`.
+- Free and paid depth minimums exist for prediction, evidence, timing, action,
+  and proof.
+- All six final report lanes expose lane-specific depth promises.
+- The active depth promise is consumed by the PDF renderer.
+- No Nadi final-report depth lane appears in the manifest.
+- Phase 3 audit artifact exists.
+- Phase 3 gate passes.
+- PDF package typecheck passes.
+- PDF golden output gate passes.
+
 ## Phase 4: `PREDICTA_REPORT_FINAL_PHASE_4_VEDIC_REPORT_REBUILD`
 
 Rebuild Vedic as a premium Kundli dossier with charts, Panchang, Avakhada,

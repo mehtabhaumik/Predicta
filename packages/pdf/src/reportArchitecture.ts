@@ -31,7 +31,27 @@ export type ReportArchitectureStage = {
   required: boolean;
 };
 
+export type ReportDepthModeContract = {
+  mode: PDFMode;
+  promise: string;
+  predictionMinimum: string;
+  evidenceMinimum: string;
+  timingMinimum: string;
+  actionMinimum: string;
+  proofMinimum: string;
+};
+
+export type ReportDepthContract = {
+  active: ReportDepthModeContract;
+  free: ReportDepthModeContract;
+  paid: ReportDepthModeContract;
+  laneDepthPromise: string;
+  upgradeBoundary: string;
+  bannedDepthFailures: string[];
+};
+
 export type PdfReportArchitecture = {
+  depthContract: ReportDepthContract;
   focus: ReportArchitectureFocus;
   mode: PDFMode;
   reportPromise: string;
@@ -102,6 +122,7 @@ export function buildReportArchitecture({
   const config = getReportArchitectureConfig(reportFocus, mode);
 
   return {
+    depthContract: buildReportDepthContract(reportFocus, mode),
     focus: reportFocus,
     mode,
     reportPromise: config.reportPromise,
@@ -110,6 +131,32 @@ export function buildReportArchitecture({
       ...stage,
       purpose: config.stagePurpose[stage.id] ?? stage.purpose,
     })),
+  };
+}
+
+export function buildReportDepthContract(
+  reportFocus: ReportArchitectureFocus,
+  mode: PDFMode,
+): ReportDepthContract {
+  const lane = getLaneDepthConfig(reportFocus);
+  const free = buildFreeDepthContract(lane);
+  const paid = buildPaidDepthContract(lane);
+
+  return {
+    active: mode === 'PREMIUM' ? paid : free,
+    free,
+    paid,
+    laneDepthPromise: lane.depthPromise,
+    upgradeBoundary:
+      'Paid reports add diagnosis, contradictions, timing windows, proof depth, and practical guidance. Paid reports must not merely add pages, repeated definitions, or internal method notes.',
+    bannedDepthFailures: [
+      'Free report as hollow teaser',
+      'Paid report as page-count padding',
+      'Technical evidence without plain prediction',
+      'More tables without stronger guidance',
+      'Repeated remedies or repeated boundaries',
+      'Schooling the user instead of answering the user',
+    ],
   };
 }
 
@@ -199,6 +246,112 @@ function getReportArchitectureConfig(
           'timing-relevance': 'Use Mahadasha, Antardasha, transit, Sade Sati, yearly, or current-cycle signals as available.',
           'action-plan': 'Use one consolidated remedy/action plan instead of repeated remedies.',
         },
+      };
+  }
+}
+
+function buildFreeDepthContract(lane: ReturnType<typeof getLaneDepthConfig>): ReportDepthModeContract {
+  return {
+    mode: 'FREE',
+    promise: `Free gives a specific useful ${lane.userFacingName} prediction with the key evidence needed to trust it.`,
+    predictionMinimum: lane.freePredictionMinimum,
+    evidenceMinimum: `Show the key ${lane.evidenceName} signals only; enough to ground the reading without turning it into a lesson.`,
+    timingMinimum: lane.freeTimingMinimum,
+    actionMinimum: 'Give at least one clear next step, support habit, or watch-out that a normal user can apply.',
+    proofMinimum: 'Keep proof short, readable, and after the prediction; free proof must support value, not replace it.',
+  };
+}
+
+function buildPaidDepthContract(lane: ReturnType<typeof getLaneDepthConfig>): ReportDepthModeContract {
+  return {
+    mode: 'PREMIUM',
+    promise: `Paid gives the complete ${lane.userFacingName} diagnosis: deeper prediction, contradictions, timing windows, proof depth, and practical guidance.`,
+    predictionMinimum: lane.paidPredictionMinimum,
+    evidenceMinimum: `Show deeper ${lane.evidenceName} proof, including supporting and conflicting signals, without making the main reading technical-heavy.`,
+    timingMinimum: lane.paidTimingMinimum,
+    actionMinimum: 'Give a practical plan that separates what to do now, what to prepare, what to avoid, and what to revisit later.',
+    proofMinimum: 'Move extended calculations, tables, boundaries, and method proof into appendix/proof pages after the main reading.',
+  };
+}
+
+function getLaneDepthConfig(reportFocus: ReportArchitectureFocus): {
+  depthPromise: string;
+  evidenceName: string;
+  freePredictionMinimum: string;
+  freeTimingMinimum: string;
+  paidPredictionMinimum: string;
+  paidTimingMinimum: string;
+  userFacingName: string;
+} {
+  switch (reportFocus) {
+    case 'KP':
+      return {
+        depthPromise: 'KP depth is measured by answer clarity, event proof, timing readiness, and decision guidance.',
+        evidenceName: 'KP cusp, sub-lord, significator, ruling-planet, dasha, and transit',
+        freePredictionMinimum: 'Give the event or life-outcome verdict in plain language, then name the main support and main block.',
+        freeTimingMinimum: 'Give timing readiness or a watch period only when the KP evidence supports it; otherwise say what is still unclear.',
+        paidPredictionMinimum: 'Give verdict, promise, block, contradiction, timing readiness, and decision guidance with the proof chain translated for a common user.',
+        paidTimingMinimum: 'Give supported watch windows, dasha/transit triggers, confidence, and the condition that could change the outcome.',
+        userFacingName: 'KP event answer',
+      };
+    case 'JAIMINI':
+      return {
+        depthPromise: 'Jaimini depth is measured by destiny role, soul direction, public image, relationship mirror, and active chapter guidance.',
+        evidenceName: 'Jaimini karaka, Karakamsha, Swamsa, Arudha, Upapada, Rashi Drishti, and Chara Dasha',
+        freePredictionMinimum: 'Give the clearest destiny-role or life-direction prediction and one practical way to live it now.',
+        freeTimingMinimum: 'Name the active life chapter when available; otherwise keep timing honest and chapter-based.',
+        paidPredictionMinimum: 'Connect role, calling, public image, partnership mirror, contradictions, and next maturation path.',
+        paidTimingMinimum: 'Use Chara Dasha or active chapter evidence to show what is opening, delayed, or asking for maturity.',
+        userFacingName: 'Jaimini destiny reading',
+      };
+    case 'NUMEROLOGY':
+      return {
+        depthPromise: 'Numerology depth is measured by number identity, name rhythm, current cycle, pattern tension, and usable alignment guidance.',
+        evidenceName: 'name number, birth number, destiny/life path, cycle, and number-grid',
+        freePredictionMinimum: 'Give the core number identity, current cycle meaning, strongest gift, strongest caution, and next action.',
+        freeTimingMinimum: 'Use personal year, month, or day as practical cycle guidance without guarantees.',
+        paidPredictionMinimum: 'Give full name rhythm, compound/root reading, number-grid pattern, compatibility or name-refinement insight where available, and detailed cycle guidance.',
+        paidTimingMinimum: 'Give a fuller personal-year/month timeline with support, caution, and action themes.',
+        userFacingName: 'Numerology number identity',
+      };
+    case 'SIGNATURE':
+      return {
+        depthPromise: 'Signature depth is measured by confirmed visible traits, confidence labels, self-expression guidance, and safe reflection.',
+        evidenceName: 'confirmed visible signature-trait',
+        freePredictionMinimum: 'Give reflective self-expression insight only from confirmed visible traits, never from an empty or unconfirmed sample.',
+        freeTimingMinimum: 'Do not invent timing; connect the traits to current presentation and one practical refinement.',
+        paidPredictionMinimum: 'Give deeper trait synthesis, confidence labels, comparison or refinement plan when available, and clear limits.',
+        paidTimingMinimum: 'Use before/after or multi-sample comparison only when real samples exist; otherwise avoid timing claims.',
+        userFacingName: 'Signature expression',
+      };
+    case 'LIFE_ATLAS':
+      return {
+        depthPromise: 'Life Atlas depth is measured by emotional specificity, life arc, hidden thread, current chapter, and practical integration.',
+        evidenceName: 'synthesis',
+        freePredictionMinimum: 'Give a real soul portrait, life arc summary, hidden thread, current chapter, gifts, lessons, and next step.',
+        freeTimingMinimum: 'Give current chapter guidance and a near-term focus without overclaiming certainty.',
+        paidPredictionMinimum: 'Give a deeper soul portrait, full life journey, destiny pattern, contradictions, love/work/money/purpose guidance, integration practices, and closing letter.',
+        paidTimingMinimum: 'Give next 12-24 month chapter guidance with support, friction, and preparation themes.',
+        userFacingName: 'Life Atlas',
+      };
+    case 'CAREER':
+    case 'COMPATIBILITY':
+    case 'DASHA':
+    case 'KUNDLI':
+    case 'MARRIAGE':
+    case 'REMEDIES':
+    case 'SADESATI':
+    case 'VEDIC':
+    case 'WEALTH':
+    default:
+      return {
+        depthPromise: 'Vedic depth is measured by chart-backed prediction, timing, contradiction handling, and one consolidated action plan.',
+        evidenceName: 'Kundli, chart, house, planet, dasha, varga, yoga, Panchang, and classical-table',
+        freePredictionMinimum: 'Give direct chart-backed prediction for the selected focus, key strengths, key blocks, and one useful next step.',
+        freeTimingMinimum: 'Name the active dasha, transit, Sade Sati, yearly, or current signal when available; otherwise keep timing careful.',
+        paidPredictionMinimum: 'Give full chart-backed diagnosis, contradictions, timing windows, varga/house evidence, Mahadasha depth, and practical guidance.',
+        paidTimingMinimum: 'Connect Mahadasha, Antardasha, transits, vargas, and watch windows with confidence/caution.',
+        userFacingName: 'Vedic Kundli',
       };
   }
 }
