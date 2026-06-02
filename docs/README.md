@@ -43,6 +43,12 @@ Only live documents in this repo are listed here.
   Strict support-system rebuild order for canonical ticket intake, `PRD`
   numbering, customer/internal email templates, Resend orchestration, and final
   live smoke.
+- [PREDICTA_EMAIL_SUPPORT_INBOX_RESEND_STRICT_PHASES.md](./PREDICTA_EMAIL_SUPPORT_INBOX_RESEND_STRICT_PHASES.md)
+  Controlling strict roadmap for the full Predicta Email Experience System,
+  including Resend outbound/inbound delivery, support ticket threading,
+  Outlook-like admin inbox, premium customer/admin/system email templates,
+  template source-of-truth rules, localization readiness, privacy/security
+  audits, and end-to-end email release smoke.
 - [PREDICTA_REPORT_DOWNLOAD_FIRST_REBUILD_PHASE.md](./PREDICTA_REPORT_DOWNLOAD_FIRST_REBUILD_PHASE.md)
   One strict report-product rebuild phase for a clean download-first reports
   experience, strong free/premium gating, synchronized chart previews, and
