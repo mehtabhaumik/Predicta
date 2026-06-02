@@ -369,6 +369,36 @@ Rebuild Jaimini as a destiny, role, soul-direction, and life-arc report using
 Jaimini evidence: Atmakaraka, Amatyakaraka, Chara Karakas, Karakamsha, Arudha,
 Rashi Drishti, and Chara Dasha where available.
 
+### Required Work
+
+- Add a Jaimini-specific report value contract that begins with what Jaimini is
+  predicting for the user, not what Jaimini is as a classroom subject.
+- Jaimini reports must preserve technical evidence through Swamsa, Karakamsha,
+  Atmakaraka, Amatyakaraka, Darakaraka, Chara Karakas, Arudha, Upapada, Rashi
+  Drishti, Chara Dasha, practical guidance, and a proof appendix.
+- Jaimini reports must render the Jaimini soul chart surfaces: Swamsa Chart and
+  Karakamsha Chart. They must not render D1/D9 Parashari chart pages as the
+  Jaimini chart surface.
+- Free Jaimini must include a real destiny-role reading: soul role, visible
+  identity, work direction, relationship mirror, current chapter, and one
+  practical action.
+- Premium Jaimini must add Chara Karaka council depth, Arudha/Upapada depth,
+  Swamsa/Karakamsha evidence, Rashi Drishti support, current and upcoming Chara
+  Dasha chapters, contradiction handling, and practical destiny guidance.
+- Technical tables and calculation proof must support the reading after the
+  prediction, never replace the prediction.
+
+### Green Criteria
+
+- `test:report-final-phase-6` passes.
+- Jaimini has a dedicated value contract source.
+- Jaimini PDF composition starts with `What Jaimini is predicting`.
+- Swamsa and Karakamsha charts are required for Jaimini report output.
+- D1/D9 Parashari chart pages are excluded from Jaimini report output.
+- Free and Premium Jaimini depth rules are explicitly locked.
+- Audit artifacts prove no Vedic, KP, Numerology, Signature, or Life Atlas
+  mixing in the Jaimini report lane.
+
 ## Phase 7: `PREDICTA_REPORT_FINAL_PHASE_7_NUMEROLOGY_REPORT_REBUILD`
 
 Rebuild Numerology as a Number Identity Dossier with number mandala, name

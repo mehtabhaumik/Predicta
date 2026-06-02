@@ -65,6 +65,7 @@ import {
 } from './reportArchitecture';
 import { buildVedicReportValueContract } from './vedicReportValueContract';
 import { buildKpReportValueContract } from './kpReportValueContract';
+import { buildJaiminiReportValueContract } from './jaiminiReportValueContract';
 
 type PdfChartRole = ChartType | 'MOON' | 'SWAMSA' | 'KARAKAMSHA' | 'CHALIT' | 'KP' | 'NADI';
 
@@ -2630,6 +2631,7 @@ function buildPdfChartSnapshots(
   reportFocus: PdfReportFocus = 'KUNDLI',
 ): PdfChartSnapshot[] {
   const includeVedicFocusCharts = shouldIncludeMoonChart(reportFocus);
+  const includeJaiminiSoulCharts = reportFocus === 'JAIMINI';
   const kpChart = reportFocus === 'KP' && kundli.kp?.cusps?.length && kundli.kp?.planets?.length
     ? buildSchoolPreviewChart(kundli, 'KP')
     : undefined;
@@ -2640,8 +2642,12 @@ function buildPdfChartSnapshots(
   const chalitChart = includeVedicFocusCharts
     ? buildParashariChalitChart(kundli)
     : undefined;
-  const swamsaChart = includeVedicFocusCharts ? buildSwamsaChart(kundli) : undefined;
-  const karakamshaChart = includeVedicFocusCharts ? buildKarakamshaChart(kundli) : undefined;
+  const swamsaChart = includeVedicFocusCharts || includeJaiminiSoulCharts
+    ? buildSwamsaChart(kundli)
+    : undefined;
+  const karakamshaChart = includeVedicFocusCharts || includeJaiminiSoulCharts
+    ? buildKarakamshaChart(kundli)
+    : undefined;
   const chartByRole = new Map<PdfChartRole, ChartData>();
 
   for (const chartType of chartTypes) {
@@ -2678,6 +2684,8 @@ function buildPdfChartSnapshots(
 
   const orderedRoles: PdfChartRole[] = reportFocus === 'KP'
     ? ['KP']
+    : reportFocus === 'JAIMINI'
+      ? ['SWAMSA', 'KARAKAMSHA']
     : reportFocus === 'NADI'
       ? ['NADI']
     : includeVedicFocusCharts
@@ -3290,6 +3298,12 @@ function buildJaiminiReportSections(
   const chapterBlock = blockById.get('current-destiny-chapter') ?? allBlockById.get('current-destiny-chapter');
   const focusBlock = blockById.get('what-to-focus-on-now') ?? allBlockById.get('what-to-focus-on-now');
   const premiumBlock = allBlockById.get('premium-deepening');
+  const jaiminiValueContract = buildJaiminiReportValueContract({
+    interpretation,
+    kundli,
+    mode,
+    plan,
+  });
   const atmakaraka = plan.atmakaraka;
   const amatyakaraka = plan.amatyakaraka;
   const darakaraka = plan.darakaraka;
@@ -3331,8 +3345,58 @@ function buildJaiminiReportSections(
 
   const freeSections: PdfSection[] = [
     {
+      body: jaiminiValueContract.openingPrediction,
+      bullets: [
+        jaiminiValueContract.timingPromise,
+        jaiminiValueContract.freeDepthPromise,
+        ...(isPremium ? [jaiminiValueContract.paidDepthPromise] : []),
+        jaiminiValueContract.actionPromise,
+      ],
+      confidence: jaiminiConfidence(plan.calculationStatus),
+      evidence: [
+        jaiminiValueContract.evidencePromise,
+        `Required Jaimini modules: ${jaiminiValueContract.requiredModules.join(', ')}.`,
+        `Required Jaimini order: ${jaiminiValueContract.sectionOrder.join(' -> ')}.`,
+      ],
+      evidenceTable: [
+        {
+          confidence: atmakaraka ? 'high' : 'low',
+          factor: 'Soul role',
+          implication: atmakaraka
+            ? jaiminiKarakaPrediction('Atmakaraka', atmakaraka.planet, atmakaraka.sign)
+            : 'Do not force a soul-role prediction until Atmakaraka is ready.',
+          observation: atmakaraka
+            ? `${atmakaraka.planet} Atmakaraka in ${atmakaraka.sign}, house ${atmakaraka.house}.`
+            : 'Atmakaraka pending.',
+        },
+        {
+          confidence: plan.arudhaLagna.padaSign ? 'medium' : 'low',
+          factor: 'Visible identity',
+          implication: plan.arudhaLagna.padaSign
+            ? `Public signal strengthens through ${jaiminiSignTheme(plan.arudhaLagna.padaSign)}.`
+            : 'Keep public-image guidance careful until Arudha is ready.',
+          observation: plan.arudhaLagna.padaSign ?? 'Arudha pending.',
+        },
+        {
+          confidence: currentChapter ? 'medium' : 'low',
+          factor: 'Current chapter',
+          implication: currentChapter
+            ? `This chapter makes ${jaiminiSignTheme(currentChapter.sign)} louder.`
+            : 'Do not invent Chara Dasha timing.',
+          observation: currentChapter
+            ? `${currentChapter.sign}, age ${currentChapter.startAge}-${currentChapter.endAge}.`
+            : 'Current Chara Dasha pending.',
+        },
+      ],
+      eyebrow: 'JAIMINI',
+      tier: isPremium ? 'premium' : 'free',
+      title: isPremium
+        ? 'What Jaimini is predicting with premium depth'
+        : 'What Jaimini is predicting',
+    },
+    {
       body:
-        `${kundli.birthDetails.name}, this Jaimini report begins with a destiny reading, not a classroom. ${interpretation.summary}`,
+        `${kundli.birthDetails.name}, this Jaimini report begins with a destiny reading. ${interpretation.summary}`,
       bullets: [
         atmakaraka
           ? `Soul compass: ${atmakaraka.planet} as Atmakaraka says life repeatedly tests and strengthens ${jaiminiSignTheme(atmakaraka.sign)}.`
@@ -3426,7 +3490,7 @@ function buildJaiminiReportSections(
       block: relationshipBlock,
       eyebrow: 'JAIMINI',
       fallbackBody: darakaraka
-        ? `${darakaraka.planet} as Darakaraka predicts relationships will mirror lessons around ${jaiminiSignTheme(darakaraka.sign)}.`
+        ? `${darakaraka.planet} as Darakaraka predicts relationships will mirror growth around ${jaiminiSignTheme(darakaraka.sign)}.`
         : 'Darakaraka is pending, so relationship mirror guidance stays conservative.',
       fallbackTitle: 'Darakaraka Relationship Mirror',
       tier: isPremium ? 'premium' : 'free',
@@ -3615,7 +3679,7 @@ function buildJaiminiReportSections(
     },
     {
       body:
-        'The technical appendix exists for audit and transparency. It is not the main reading, and it must not turn the report into a method lesson.',
+        'The technical appendix exists for audit and transparency. It is not the main reading, and it must not turn the report into a technical manual.',
       bullets: [
         ...interpretation.technicalEvidence.slice(0, 10),
         `Warnings: ${plan.evidenceWarnings.join(' ') || 'none'}.`,

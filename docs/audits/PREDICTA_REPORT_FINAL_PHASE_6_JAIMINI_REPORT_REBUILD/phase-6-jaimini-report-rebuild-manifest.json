@@ -1,0 +1,35 @@
+{
+  "phase": "PREDICTA_REPORT_FINAL_PHASE_6_JAIMINI_REPORT_REBUILD",
+  "status": "GREEN",
+  "reportLane": "JAIMINI",
+  "jaiminiValueContractSource": "packages/pdf/src/jaiminiReportValueContract.ts",
+  "predictionOpeningInserted": true,
+  "jaiminiSoulChartsRequired": true,
+  "d1D9ParashariExcluded": true,
+  "requiredModules": [
+    "Jaimini Prediction Opening",
+    "Swamsa Chart",
+    "Karakamsha Chart",
+    "Atmakaraka Soul Role",
+    "Amatyakaraka Work Direction",
+    "Darakaraka Relationship Mirror",
+    "Chara Karaka Council",
+    "Arudha Visible Identity",
+    "Upapada Relationship Lens",
+    "Rashi Drishti",
+    "Current Chara Dasha Chapter",
+    "Practical Jaimini Guidance",
+    "Jaimini Proof Appendix"
+  ],
+  "greenCriteria": {
+    "phase6AuditExists": true,
+    "phase6GatePasses": true,
+    "jaiminiValueContractSourceExists": true,
+    "requiredJaiminiModulesLocked": true,
+    "jaiminiPredictionOpeningUsed": true,
+    "swamsaKarakamshaChartsRequired": true,
+    "d1D9ParashariExcluded": true,
+    "technicalProofAfterPrediction": true,
+    "schoolBoundaryLocked": true
+  }
+}
