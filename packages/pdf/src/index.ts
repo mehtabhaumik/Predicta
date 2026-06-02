@@ -54,6 +54,10 @@ import {
   type ChartRenderTheme,
   type VedicFocusChartRole,
 } from '@pridicta/astrology';
+import {
+  applyReportVoiceContractToSection,
+  rewriteReportVoiceText,
+} from './reportVoiceContract';
 
 type PdfChartRole = ChartType | 'MOON' | 'SWAMSA' | 'KARAKAMSHA' | 'CHALIT' | 'KP' | 'NADI';
 
@@ -308,7 +312,7 @@ export function composeReportSections({
 
 function buildDecisionMemoSection(memo: DecisionMemo): PdfSection {
   return {
-    body: `${memo.headline}. Predicta treats this as a structured decision memo, not an absolute prediction. The state is ${memo.state}, with area classified as ${memo.area}.`,
+    body: `${memo.headline}. Predicta treats this as decision guidance, not an absolute prediction. The state is ${memo.state}, with area classified as ${memo.area}.`,
     bullets: [
       `Question: ${memo.question}`,
       `Short answer: ${memo.shortAnswer}`,
@@ -512,7 +516,7 @@ function buildLifeAtlasReportSections(
     ...narrativeSections,
     {
       body:
-        'Life Atlas source map: this page preserves the evidence layers behind the life prediction. It stays at the end so the main report remains a soul/life reading, not a technical classroom. Technical Jaimini appendix evidence includes Atmakaraka, Arudha Lagna, Upapada Lagna, Karakamsha, Swamsa, and Chara Dasha only after the main Life Atlas reading is complete.',
+        'Life Atlas supporting map: this page preserves the evidence layers behind the life prediction. It stays at the end so the main report remains a soul/life reading, not a method lesson. Jaimini appendix evidence includes Atmakaraka, Arudha Lagna, Upapada Lagna, Karakamsha, Swamsa, and Chara Dasha only after the main Life Atlas reading is complete.',
       bullets: [
         ...atlas.evidenceLayers
           .filter(layer => layer.status === 'ready')
@@ -1475,7 +1479,7 @@ function buildDossierExecutiveSummary(
 
     return {
       confidence: plan.calculationStatus === 'ready' ? 'high' : plan.calculationStatus === 'partial' ? 'medium' : 'low',
-      headline: `${kundli.birthDetails.name}'s Jaimini report reads the soul-role, visible identity, career dharma, relationship mirror, and current destiny chapter before showing the technical evidence.`,
+      headline: `${kundli.birthDetails.name}'s Jaimini report reads the soul-role, visible identity, career dharma, relationship mirror, and current destiny chapter while keeping the evidence in the appendix.`,
       keySignals: [
         interpretation.summary,
         karakaLine ? `Karaka council: ${karakaLine}.` : 'Chara Karaka council is still building from available graha evidence.',
@@ -1593,19 +1597,20 @@ function buildDossierExecutiveSummary(
 }
 
 function enrichSection(section: PdfSection, mode: PDFMode): PdfSection {
+  const voicedSection = applyReportVoiceContractToSection(section);
   const premiumOnly = [
     'Decision memo export',
-  ].includes(section.title);
-  const tier = section.tier ?? (premiumOnly ? 'premium' : 'free');
+  ].includes(voicedSection.title);
+  const tier = voicedSection.tier ?? (premiumOnly ? 'premium' : 'free');
 
   return {
-    ...section,
-    confidence: section.confidence ?? inferSectionConfidence(section),
+    ...voicedSection,
+    confidence: voicedSection.confidence ?? inferSectionConfidence(voicedSection),
     evidenceTable:
-      section.evidenceTable ??
-      section.evidence.slice(0, mode === 'PREMIUM' ? 6 : 3).map(item => ({
-        confidence: inferSectionConfidence(section),
-        factor: section.eyebrow,
+      voicedSection.evidenceTable ??
+      voicedSection.evidence.slice(0, mode === 'PREMIUM' ? 6 : 3).map(item => ({
+        confidence: inferSectionConfidence(voicedSection),
+        factor: voicedSection.eyebrow,
         implication: item,
         observation: item,
       })),
@@ -2493,7 +2498,7 @@ function buildReportChartNarrative({
     `${chartType} practical action: ${freeLine}`,
     ...(premiumLine ? [premiumLine] : []),
     ...(timingLine ? [`${chartType} timing or next step: ${timingLine}`] : []),
-    `${chartType} evidence anchor: ${insight.governs}`,
+    `${chartType} life area affected: ${insight.governs}`,
     `${chartType} evidence appendix: ${appendixLine}`,
     ...(moonLine ? [moonLine] : []),
   ];
@@ -4723,8 +4728,8 @@ function localizeSections(
 
   return sections.map(section => ({
     ...section,
-    body: translateUiText(section.body, language),
-    bullets: section.bullets.map(item => translateUiText(item, language)),
+    body: translateUiText(rewriteReportVoiceText(section.body), language),
+    bullets: section.bullets.map(item => translateUiText(rewriteReportVoiceText(item), language)),
     eyebrow: localizeSectionEyebrow(section.eyebrow, language),
     evidence: section.evidence.map(item => translateUiText(item, language)),
     evidenceTable: section.evidenceTable?.map(row => ({

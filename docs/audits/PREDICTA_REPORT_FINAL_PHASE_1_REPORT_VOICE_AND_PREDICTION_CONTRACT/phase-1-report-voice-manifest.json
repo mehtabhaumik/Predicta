@@ -1,0 +1,42 @@
+{
+  "phase": "PREDICTA_REPORT_FINAL_PHASE_1_REPORT_VOICE_AND_PREDICTION_CONTRACT",
+  "status": "GREEN",
+  "sharedContract": "packages/pdf/src/reportVoiceContract.ts",
+  "appliedBeforeLocalization": true,
+  "reportRenderingImplementationChanged": true,
+  "fullLaneRebuild": false,
+  "lockedVoiceSequence": [
+    "technical evidence",
+    "plain prediction",
+    "timing / current relevance",
+    "what helps",
+    "what blocks",
+    "what to do next",
+    "confidence / caution"
+  ],
+  "bannedPrimaryReportVoice": [
+    "how to read this report",
+    "toolkit",
+    "technical classroom",
+    "structured decision memo",
+    "meaningful insight without prediction",
+    "chart-backed notes without prediction",
+    "evidence anchor",
+    "before showing the technical evidence",
+    "what this chart governs as main value"
+  ],
+  "completedVerification": [
+    "corepack pnpm test:report-final-phase-1",
+    "corepack pnpm --filter @pridicta/pdf typecheck",
+    "corepack pnpm test:pdf-golden",
+    "git diff --check"
+  ],
+  "greenCriteria": {
+    "phase1AuditExists": true,
+    "phase1GatePasses": true,
+    "sharedReportVoiceContractExists": true,
+    "composeReportSectionsAppliesContract": true,
+    "highRiskPhrasesRewrittenBeforeRendering": true,
+    "technicalEvidencePreservedOutsidePrimaryPromise": true
+  }
+}

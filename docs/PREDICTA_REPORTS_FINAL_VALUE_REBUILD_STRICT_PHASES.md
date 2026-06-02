@@ -127,6 +127,34 @@ Rebuild report voice rules so every report section becomes predictive,
 actionable, and human. Ban filler definitions, toolkit language, school-like
 instructions, and internal method-boundary paragraphs as primary content.
 
+### Required Work
+
+- Add a shared report voice contract that every report section can pass through
+  before localization/rendering.
+- Lock the required section rhythm:
+  `technical evidence -> plain prediction -> timing/current relevance -> what
+  helps -> what blocks -> what to do next -> confidence/caution`.
+- Rewrite user-facing report copy away from:
+  - toolkit language
+  - internal system-document language
+  - school-like method lessons
+  - “what this chart governs” as the main value
+  - “technical evidence” as the first user-facing promise
+- Keep evidence visible, but move it behind prediction language, proof rows, or
+  appendices.
+- Add a gate that prevents the report engine from reintroducing banned
+  schooling/toolkit phrases in primary report bodies and bullets.
+
+### Green Criteria
+
+- Shared report voice contract exists in source.
+- `composeReportSections` applies the report voice contract before localization.
+- High-risk phrases are rewritten before report rendering.
+- Phase 1 audit artifact exists.
+- Phase 1 gate passes.
+- PDF package typecheck passes.
+- PDF golden output gate passes.
+
 ## Phase 2: `PREDICTA_REPORT_FINAL_PHASE_2_SHARED_REPORT_ARCHITECTURE_ENGINE`
 
 Create a shared report architecture that every lane can use without becoming
