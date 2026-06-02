@@ -130,6 +130,8 @@ def record_ai_telemetry_event(
     active_school: str,
     user_plan: Optional[UserPlan],
     intent: Optional[AIIntent],
+    entitlement_source: Optional[str] = None,
+    product_credit_source: Optional[str] = None,
     cache_state: str,
     fallback_reason: Optional[str],
     success: bool,
@@ -152,7 +154,9 @@ def record_ai_telemetry_event(
     event = AITelemetryEvent(
         activeSchool=active_school,
         cacheState=cache_state,  # type: ignore[arg-type]
+        cacheHit=cache_state == "hit",
         createdAt=now_iso(),
+        entitlementSource=entitlement_source,
         estimatedCostUsd=estimate_cost_usd(
             model=model,
             input_tokens=cost_input,
@@ -166,6 +170,7 @@ def record_ai_telemetry_event(
         intent=intent,
         latencyBucket=latency_bucket_value,  # type: ignore[arg-type]
         model=model,
+        productCreditSource=product_credit_source,
         promptCacheKey=prompt_cache_key,
         provider=provider,  # type: ignore[arg-type]
         providerCachedInputTokens=provider_cached_input_tokens,

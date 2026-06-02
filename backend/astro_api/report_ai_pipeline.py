@@ -25,6 +25,7 @@ from .ai_prompt_efficiency import (
     audit_prompt_budget,
     prompt_cache_key,
 )
+from .ai_cost_governance import evaluate_feature_spend
 from .ai_validator import validate_with_gemini
 from .models import (
     AIValidationRequest,
@@ -254,6 +255,18 @@ def run_openai_report_stage(
     )
     if not budget_audit.approved:
         raise ValueError(budget_audit.reason)
+    spend_audit = evaluate_feature_spend(
+        feature=(
+            "premium_report_validator"
+            if "validator" in feature
+            else "premium_report_draft"
+        ),
+        input_tokens=estimate_tokens(system_prompt, prompt),
+        model=model,
+        output_tokens=2600,
+    )
+    if not spend_audit.allowed:
+        raise ValueError(spend_audit.reason)
     try:
         text = create_openai_text_response(
             max_output_tokens=2600,
@@ -273,6 +286,7 @@ def run_openai_report_stage(
             cache_state="bypass",
             estimated_input_tokens=estimate_tokens(system_prompt, prompt),
             estimated_output_tokens=estimate_tokens(text),
+            entitlement_source="premium_subscription",
             fallback_reason=None if success else "openai-report-stage-failed",
             feature=feature,
             intent="deep",

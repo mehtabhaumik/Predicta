@@ -1700,16 +1700,14 @@ def test_signature_predicta_deterministic_reply_localizes_hindi():
     assert "लिखावट की लय:" in reply
 
 
-def test_ask_pridicta_falls_back_to_gemini_when_openai_unavailable(monkeypatch):
+def test_free_ask_pridicta_falls_back_to_deterministic_when_openai_unavailable(monkeypatch):
     kundli = generate_kundli(BirthDetails(**VALID_BIRTH))
 
     def fake_openai_response(**kwargs):
         raise ai_module.AIConfigurationError("OPENAI_API_KEY is not configured.")
 
     def fake_gemini_response(**kwargs):
-        assert kwargs["model"] == ai_module.GEMINI_FLASH_MODEL
-        assert "Kundli context" in kwargs["user_prompt"]
-        return "Direct answer: I can read this from Gemini fallback."
+        raise AssertionError("Free AI must not use Gemini fallback.")
 
     monkeypatch.setattr(ai_module, "create_openai_text_response", fake_openai_response)
     monkeypatch.setattr(ai_module, "create_gemini_text_response", fake_gemini_response)
@@ -1727,8 +1725,8 @@ def test_ask_pridicta_falls_back_to_gemini_when_openai_unavailable(monkeypatch):
 
     assert response.status_code == 200
     payload = response.json()
-    assert payload["provider"] == "gemini"
-    assert payload["model"] == ai_module.GEMINI_FLASH_MODEL
+    assert payload["provider"] == "deterministic"
+    assert payload["model"] == "jyotish-deterministic-v1"
 
 
 def test_ai_provider_keys_accept_predicta_secret_env_names(monkeypatch):
@@ -1830,7 +1828,7 @@ def test_ai_telemetry_records_openai_success_and_redacts_raw_content(
     assert VALID_BIRTH["place"] not in raw_store
 
 
-def test_ai_telemetry_records_gemini_fallback(tmp_path, monkeypatch):
+def test_free_ai_telemetry_records_deterministic_fallback(tmp_path, monkeypatch):
     monkeypatch.setenv(
         "PRIDICTA_AI_TELEMETRY_STORE_PATH",
         str(tmp_path / "ai-telemetry.json"),
@@ -1841,7 +1839,7 @@ def test_ai_telemetry_records_gemini_fallback(tmp_path, monkeypatch):
         raise ai_module.AIConfigurationError("OPENAI_API_KEY is not configured.")
 
     def fake_gemini_response(**kwargs):
-        return "Gemini fallback reading."
+        raise AssertionError("Free AI must not use Gemini fallback.")
 
     monkeypatch.setattr(ai_module, "create_openai_text_response", fake_openai_response)
     monkeypatch.setattr(ai_module, "create_gemini_text_response", fake_gemini_response)
@@ -1859,12 +1857,13 @@ def test_ai_telemetry_records_gemini_fallback(tmp_path, monkeypatch):
 
     assert response.status_code == 200
     events = list_ai_telemetry_events()
-    assert events[0].provider == "gemini"
-    assert events[0].model == ai_module.GEMINI_FLASH_MODEL
+    assert events[0].provider == "deterministic"
+    assert events[0].model == "jyotish-deterministic-v1"
     assert events[0].feature == "chat"
     assert events[0].cacheState == "miss"
-    assert events[0].fallbackReason == "openai-unavailable-gemini-fallback"
+    assert events[0].fallbackReason == "provider-unavailable-deterministic-fallback"
     assert events[0].userPlan == "FREE"
+    assert events[0].entitlementSource == "free_lifetime_ai_credit"
 
 
 def test_ai_telemetry_records_deterministic_fallback(tmp_path, monkeypatch):

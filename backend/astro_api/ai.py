@@ -16,6 +16,14 @@ from .ai_telemetry import (
     latency_bucket,
     record_ai_telemetry_event,
 )
+from .ai_cost_governance import (
+    FREE_CHAT_MAX_OUTPUT_TOKENS,
+    PREMIUM_CHAT_MAX_OUTPUT_TOKENS,
+    entitlement_source_for_chat,
+    evaluate_feature_spend,
+    free_model_allowed,
+    product_credit_source_for_chat,
+)
 from .ai_prompt_efficiency import (
     FREE_CHAT_INPUT_TOKEN_BUDGET,
     audit_prompt_budget,
@@ -63,9 +71,11 @@ FREE_REASONING_MODEL = os.getenv("PRIDICTA_OPENAI_FREE_MODEL", "gpt-5.4-mini")
 PREMIUM_DEEP_MODEL = os.getenv("PRIDICTA_OPENAI_PREMIUM_MODEL", "gpt-5.5")
 GEMINI_FLASH_MODEL = os.getenv("PRIDICTA_GEMINI_FREE_MODEL", "gemini-2.5-flash")
 GEMINI_PRO_MODEL = os.getenv("PRIDICTA_GEMINI_PREMIUM_MODEL", "gemini-2.5-pro")
-FREE_MAX_OUTPUT_TOKENS = int(os.getenv("PRIDICTA_FREE_MAX_OUTPUT_TOKENS", "620"))
+FREE_MAX_OUTPUT_TOKENS = int(
+    os.getenv("PRIDICTA_FREE_MAX_OUTPUT_TOKENS", str(FREE_CHAT_MAX_OUTPUT_TOKENS))
+)
 PREMIUM_MAX_OUTPUT_TOKENS = int(
-    os.getenv("PRIDICTA_PREMIUM_MAX_OUTPUT_TOKENS", "1100")
+    os.getenv("PRIDICTA_PREMIUM_MAX_OUTPUT_TOKENS", str(PREMIUM_CHAT_MAX_OUTPUT_TOKENS))
 )
 GEMINI_FREE_THINKING_BUDGET = int(
     os.getenv("PRIDICTA_GEMINI_FREE_THINKING_BUDGET", "0")
@@ -1147,6 +1157,10 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
         request.message, request.chartContext
     )
     model = select_openai_model(intent, request.userPlan)
+    if request.userPlan == "FREE":
+        free_model_decision = free_model_allowed(model)
+        if not free_model_decision.allowed:
+            model = FREE_REASONING_MODEL
     max_output_tokens = (
         PREMIUM_MAX_OUTPUT_TOKENS
         if intent == "deep" and request.userPlan == "PREMIUM"
@@ -1207,6 +1221,8 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
             fallback_reason="safety-blocked",
             feature="chat",
             intent=intent,
+            entitlement_source="deterministic_no_ai",
+            product_credit_source=None,
             latency_bucket_value=latency_bucket(telemetry_started_at),
             model="predicta-safety-protocol-v1",
             provider="deterministic",
@@ -1243,17 +1259,35 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
         else FREE_CHAT_INPUT_TOKEN_BUDGET * 2,
         label="free chat" if request.userPlan == "FREE" else "premium chat",
     )
+    feature_budget = evaluate_feature_spend(
+        feature=(
+            "free_chat_answer"
+            if request.userPlan == "FREE"
+            else "paid_question_answer"
+        ),
+        input_tokens=estimate_tokens(prompt),
+        model=model,
+        output_tokens=max_output_tokens,
+    )
     try:
-        text, provider, actual_model = create_ai_text_response(
-            model=model,
-            system_prompt=build_pridicta_system_prompt(),
-            user_prompt=prompt,
-            max_output_tokens=max_output_tokens,
-            reasoning_effort="medium" if intent == "deep" else "low",
-            prompt_cache_key=chat_prompt_cache_key,
-            safety_identifier=safety_identifier,
-        )
-        provider_usage = current_provider_usage()
+        if not feature_budget.allowed:
+            text = build_deterministic_chart_reply(request, jyotish_analysis)
+            provider = "deterministic"
+            actual_model = "jyotish-deterministic-v1"
+            fallback_reason = feature_budget.reason
+            provider_usage = None
+        else:
+            text, provider, actual_model = create_ai_text_response(
+                allow_gemini_fallback=request.userPlan == "PREMIUM",
+                model=model,
+                system_prompt=build_pridicta_system_prompt(),
+                user_prompt=prompt,
+                max_output_tokens=max_output_tokens,
+                reasoning_effort="medium" if intent == "deep" else "low",
+                prompt_cache_key=chat_prompt_cache_key,
+                safety_identifier=safety_identifier,
+            )
+            provider_usage = current_provider_usage()
     except (AIConfigurationError, AIProviderError):
         text = build_deterministic_chart_reply(request, jyotish_analysis)
         provider = "deterministic"
@@ -1325,6 +1359,13 @@ def ask_pridicta(request: PridictaChatRequest) -> PridictaChatResponse:
         fallback_reason=fallback_reason,
         feature="chat",
         intent=intent,
+        entitlement_source=entitlement_source_for_chat(
+            request.userPlan,
+            request.aiCostGovernance,
+        ),
+        product_credit_source=product_credit_source_for_chat(
+            request.aiCostGovernance
+        ),
         latency_bucket_value=latency_bucket(telemetry_started_at),
         model=actual_model,
         prompt_cache_key=chat_prompt_cache_key,
@@ -3504,6 +3545,7 @@ def extract_birth_details(
         record_ai_telemetry_event(
             active_school="PARASHARI",
             cache_state="bypass",
+            entitlement_source="deterministic_no_ai",
             estimated_input_tokens=estimate_tokens(system_prompt, request.text),
             estimated_output_tokens=estimate_tokens(
                 json.dumps(rules_result.model_dump())
@@ -3528,6 +3570,7 @@ def extract_birth_details(
             if provider_usage and provider_usage.get("cached_input")
             else "miss"
         ),
+        entitlement_source="free_lifetime_ai_credit",
         estimated_input_tokens=estimate_tokens(system_prompt, request.text),
         estimated_output_tokens=estimate_tokens(text),
         fallback_reason=(
@@ -6474,6 +6517,7 @@ def create_openai_text_response(
 
 def create_ai_text_response(
     *,
+    allow_gemini_fallback: bool = True,
     model: str,
     system_prompt: str,
     user_prompt: str,
@@ -6502,6 +6546,11 @@ def create_ai_text_response(
         openai_error = AIProviderError("OpenAI returned an empty reading.")
     except (AIConfigurationError, AIProviderError) as exc:
         openai_error = exc
+
+    if not allow_gemini_fallback:
+        if openai_error:
+            raise openai_error
+        raise AIProviderError("Gemini fallback is disabled for this entitlement.")
 
     gemini_model = select_gemini_model(
         "deep" if model == PREMIUM_DEEP_MODEL else "moderate",

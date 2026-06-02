@@ -2855,6 +2855,16 @@ export type PridictaChatRequest = {
   language?: SupportedLanguage;
   predictaStylePreference?: PredictaStylePreference;
   safetyIdentifier?: string;
+  aiCostGovernance?: {
+    entitlementSource:
+      | 'free_lifetime_ai_credit'
+      | 'paid_question_pack'
+      | 'family_bank'
+      | 'day_pass'
+      | 'premium_subscription'
+      | 'deterministic_no_ai';
+    productCreditSource?: 'personal' | 'family_bank' | null;
+  };
 };
 
 export type PridictaChatResponse = {

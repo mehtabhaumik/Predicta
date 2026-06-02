@@ -1,4 +1,8 @@
 import { AI_CONTEXT_LIMITS } from '@pridicta/config/aiModels';
+import {
+  AI_FREE_RUNTIME_POLICY,
+  AI_PREMIUM_RUNTIME_POLICY,
+} from '@pridicta/config/aiCostGovernance';
 import type {
   AIContextPayload,
   AIIntent,
@@ -44,8 +48,8 @@ function trimConversationHistory(
 ): ConversationTurn[] {
   const maxTurns =
     intent === 'deep'
-      ? AI_CONTEXT_LIMITS.MAX_HISTORY_TURNS
-      : Math.max(3, Math.floor(AI_CONTEXT_LIMITS.MAX_HISTORY_TURNS / 2));
+      ? AI_PREMIUM_RUNTIME_POLICY.maxHistoryTurns
+      : AI_FREE_RUNTIME_POLICY.maxHistoryTurns;
 
   return history.slice(-maxTurns).map(turn => ({
     role: turn.role,
@@ -55,12 +59,18 @@ function trimConversationHistory(
 
 function getMaxOutputTokens(intent: AIIntent, userPlan: UserPlan): number {
   if (userPlan === 'PREMIUM' && intent === 'deep') {
-    return AI_CONTEXT_LIMITS.PREMIUM_MAX_OUTPUT_TOKENS;
+    return Math.min(
+      AI_CONTEXT_LIMITS.PREMIUM_MAX_OUTPUT_TOKENS,
+      AI_PREMIUM_RUNTIME_POLICY.maxOutputTokens,
+    );
   }
 
   if (intent === 'simple') {
-    return Math.min(260, AI_CONTEXT_LIMITS.FREE_MAX_OUTPUT_TOKENS);
+    return Math.min(260, AI_FREE_RUNTIME_POLICY.maxOutputTokens);
   }
 
-  return AI_CONTEXT_LIMITS.FREE_MAX_OUTPUT_TOKENS;
+  return Math.min(
+    AI_CONTEXT_LIMITS.FREE_MAX_OUTPUT_TOKENS,
+    AI_FREE_RUNTIME_POLICY.maxOutputTokens,
+  );
 }

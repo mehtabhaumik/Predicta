@@ -20,6 +20,7 @@ from .ai_telemetry import (
     record_ai_telemetry_event,
 )
 from .ai_prompt_efficiency import prompt_cache_key
+from .ai_cost_governance import evaluate_feature_spend
 from .models import (
     AIValidationIssue,
     AIValidationRequest,
@@ -58,9 +59,48 @@ def validate_with_gemini(request: AIValidationRequest) -> AIValidationResult:
         request.reportType,
         request.userPlan,
     )
+    if model.startswith("deterministic-validator"):
+        result = AIValidationResult(
+            confidence="medium",
+            issues=[],
+            model=model,
+            passed=True,
+            provider="deterministic",
+            severity="pass",
+            suggestedFixCategories=[],
+        )
+        record_ai_telemetry_event(
+            active_school=request.activeSchool,
+            cache_state="bypass",
+            entitlement_source="deterministic_no_ai",
+            estimated_input_tokens=estimate_tokens(prompt),
+            estimated_output_tokens=estimate_tokens(result.model_dump_json()),
+            fallback_reason="gemini-validator-not-entitled",
+            feature="report_validator",
+            intent="deep",
+            latency_bucket_value=latency_bucket(started_at),
+            model=model,
+            prompt_cache_key=validator_cache_key,
+            provider="deterministic",
+            report_type=request.reportType,
+            route="/ai/validator/deterministic",
+            subject_hash=None,
+            success=True,
+            user_plan=request.userPlan,
+        )
+        return result
+
     text = ""
     set_current_provider_usage(None)
     try:
+        spend_audit = evaluate_feature_spend(
+            feature="premium_report_validator",
+            input_tokens=estimate_tokens(prompt),
+            model=model,
+            output_tokens=900,
+        )
+        if not spend_audit.allowed:
+            raise RuntimeError(spend_audit.reason)
         text = create_gemini_text_response(
             model=model,
             system_prompt=VALIDATOR_SYSTEM_PROMPT,
@@ -95,6 +135,11 @@ def validate_with_gemini(request: AIValidationRequest) -> AIValidationResult:
         cache_state="bypass",
         estimated_input_tokens=estimate_tokens(prompt),
         estimated_output_tokens=estimate_tokens(text or result.model_dump_json()),
+        entitlement_source=(
+            "premium_subscription"
+            if request.userPlan == "PREMIUM" and request.premiumExpected
+            else "deterministic_no_ai"
+        ),
         fallback_reason=None if success else "validator-unavailable-or-malformed",
         feature="report_validator",
         intent="deep",

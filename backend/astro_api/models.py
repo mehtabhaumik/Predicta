@@ -538,6 +538,7 @@ class PridictaChatRequest(BaseModel):
         "balanced"
     )
     safetyIdentifier: Optional[str] = None
+    aiCostGovernance: Optional[Dict[str, Any]] = None
 
 
 class PridictaChatResponse(BaseModel):
@@ -613,8 +614,11 @@ class AITelemetryEvent(BaseModel):
     activeSchool: str
     reportType: Optional[str] = None
     userPlan: Optional[UserPlan] = None
+    entitlementSource: Optional[str] = None
+    productCreditSource: Optional[str] = None
     intent: Optional[AIIntent] = None
     cacheState: AITelemetryCacheState
+    cacheHit: bool = False
     fallbackReason: Optional[str] = None
     success: bool
     latencyBucket: AITelemetryLatencyBucket

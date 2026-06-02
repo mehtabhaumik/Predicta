@@ -1,0 +1,12 @@
+{
+  "phase": "PREDICTA_MONETIZATION_PHASE_8_AI_COST_GOVERNANCE_AND_ABUSE_PROTECTION",
+  "status": "GREEN_WHEN_GATE_PASSES",
+  "controls": {
+    "abuseProtection": "IP, device, and free-path throttles protect provider calls without replacing Firebase UID entitlement authority.",
+    "freeAi": "OpenAI mini only, capped output, trimmed history, deterministic fallback when provider is unavailable.",
+    "premiumAi": "Premium model only for premium deep intent or premium report pipeline.",
+    "telemetry": "Provider, model, feature, user plan, entitlement source, product credit source, token usage, estimated cost, cache state, and cache hit are captured.",
+    "validator": "Gemini validator is blocked for free/non-premium and allowed only for premium paid report QA."
+  },
+  "requiredGate": "corepack pnpm test:monetization-phase-8"
+}

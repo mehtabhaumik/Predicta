@@ -1,5 +1,11 @@
 import { createHash } from 'node:crypto';
 import {
+  AI_ABUSE_PROTECTION_LIMITS,
+  AI_FREE_RUNTIME_POLICY,
+  AI_PREMIUM_RUNTIME_POLICY,
+  type AIGovernanceEntitlementSource,
+} from '@pridicta/config/aiCostGovernance';
+import {
   FREE_AI_QUESTION_LIFETIME_LIMIT,
   type ServerEntitlementLedger,
 } from '@pridicta/monetization';
@@ -11,8 +17,11 @@ import {
   readServerEntitlementLedger,
 } from '../../../lib/firebase/server-entitlement-ledger';
 
-const MAX_SERVER_HISTORY_MESSAGES = 8;
-const MAX_SERVER_MESSAGE_CHARS = 4000;
+const abuseBuckets = new Map<string, { count: number; resetAt: number }>();
+const MAX_SERVER_HISTORY_MESSAGES = AI_PREMIUM_RUNTIME_POLICY.maxHistoryTurns;
+const MAX_SERVER_MESSAGE_CHARS = AI_PREMIUM_RUNTIME_POLICY.maxMessageChars;
+const MAX_FREE_SERVER_HISTORY_MESSAGES = AI_FREE_RUNTIME_POLICY.maxHistoryTurns;
+const MAX_FREE_SERVER_MESSAGE_CHARS = AI_FREE_RUNTIME_POLICY.maxMessageChars;
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -29,8 +38,31 @@ export async function POST(request: Request): Promise<Response> {
     return payload.response;
   }
 
-  const trimmedPayload = trimAskPridictaPayload(payload.body);
   const ledger = await readServerEntitlementLedger(auth.user);
+  const freeGatePreview = evaluateFreeAiGate(ledger, payload.body);
+  const abuseGate = evaluateAiAbuseProtection({
+    deviceKey: readDeviceKey(payload.body),
+    ipKey: readRequestIp(request),
+    isFreeAiPath: freeGatePreview.usesFreeCredit,
+  });
+
+  if (!abuseGate.allowed) {
+    return Response.json(
+      {
+        detail:
+          'Predicta AI is cooling down for a moment to protect fair access and prevent automated abuse. Please try again shortly.',
+        reason: abuseGate.reason,
+      },
+      { status: 429 },
+    );
+  }
+
+  const trimmedPayload = trimAskPridictaPayload({
+    body: payload.body,
+    entitlementSource: selectAiEntitlementSource(ledger, payload.body),
+    isFreeAiPath: freeGatePreview.usesFreeCredit,
+    productCreditSource: selectPaidAiCreditSpendSource(ledger, payload.body),
+  });
   const freeGate = evaluateFreeAiGate(ledger, trimmedPayload);
 
   if (freeGate.blocked) {
@@ -128,25 +160,167 @@ export async function POST(request: Request): Promise<Response> {
   } satisfies PridictaChatResponse);
 }
 
-function trimAskPridictaPayload(body: unknown): unknown {
+function trimAskPridictaPayload({
+  body,
+  entitlementSource,
+  isFreeAiPath,
+  productCreditSource,
+}: {
+  body: unknown;
+  entitlementSource: AIGovernanceEntitlementSource;
+  isFreeAiPath: boolean;
+  productCreditSource: 'personal' | 'family_bank' | undefined;
+}): unknown {
   if (!body || typeof body !== 'object' || Array.isArray(body)) {
     return body;
   }
 
   const payload = body as Record<string, unknown>;
+  const maxHistoryMessages = isFreeAiPath
+    ? MAX_FREE_SERVER_HISTORY_MESSAGES
+    : MAX_SERVER_HISTORY_MESSAGES;
+  const maxMessageChars = isFreeAiPath
+    ? MAX_FREE_SERVER_MESSAGE_CHARS
+    : MAX_SERVER_MESSAGE_CHARS;
   const history = Array.isArray(payload.history)
-    ? payload.history.slice(-MAX_SERVER_HISTORY_MESSAGES)
+    ? payload.history.slice(-maxHistoryMessages)
     : payload.history;
   const message =
     typeof payload.message === 'string'
-      ? payload.message.slice(0, MAX_SERVER_MESSAGE_CHARS)
+      ? payload.message.slice(0, maxMessageChars)
       : payload.message;
 
   return {
     ...payload,
+    aiCostGovernance: {
+      entitlementSource,
+      productCreditSource: productCreditSource ?? null,
+    },
     history,
     message,
   };
+}
+
+function evaluateAiAbuseProtection({
+  deviceKey,
+  ipKey,
+  isFreeAiPath,
+}: {
+  deviceKey: string;
+  ipKey: string;
+  isFreeAiPath: boolean;
+}): { allowed: boolean; reason: string } {
+  const ipDecision = incrementAiAbuseBucket(
+    `ip:${ipKey}`,
+    AI_ABUSE_PROTECTION_LIMITS.perIpRequestsPerMinute,
+  );
+  if (!ipDecision.allowed) {
+    return ipDecision;
+  }
+
+  if (deviceKey) {
+    const deviceDecision = incrementAiAbuseBucket(
+      `device:${deviceKey}`,
+      AI_ABUSE_PROTECTION_LIMITS.perDeviceRequestsPerMinute,
+    );
+    if (!deviceDecision.allowed) {
+      return deviceDecision;
+    }
+  }
+
+  if (isFreeAiPath) {
+    const freeDecision = incrementAiAbuseBucket(
+      `free:${ipKey}:${deviceKey || 'unknown-device'}`,
+      AI_ABUSE_PROTECTION_LIMITS.freeUserRequestsPerMinute,
+    );
+    if (!freeDecision.allowed) {
+      return freeDecision;
+    }
+  }
+
+  return {
+    allowed: true,
+    reason: 'ai-abuse-window-clear',
+  };
+}
+
+function incrementAiAbuseBucket(
+  key: string,
+  limit: number,
+): { allowed: boolean; reason: string } {
+  const now = Date.now();
+  const current = abuseBuckets.get(key);
+  const bucket =
+    current && current.resetAt > now
+      ? current
+      : {
+          count: 0,
+          resetAt: now + 60_000,
+        };
+
+  bucket.count += 1;
+  abuseBuckets.set(key, bucket);
+
+  if (bucket.count > limit) {
+    return {
+      allowed: false,
+      reason: 'ai-abuse-rate-limit-exceeded-not-quota-authority',
+    };
+  }
+
+  return {
+    allowed: true,
+    reason: 'ai-abuse-bucket-allowed',
+  };
+}
+
+function readRequestIp(request: Request): string {
+  return (
+    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    request.headers.get('x-real-ip')?.trim() ||
+    'unknown-ip'
+  );
+}
+
+function readDeviceKey(body: unknown): string {
+  if (!body || typeof body !== 'object' || Array.isArray(body)) {
+    return '';
+  }
+
+  const payload = body as Record<string, unknown>;
+  return typeof payload.safetyIdentifier === 'string'
+    ? payload.safetyIdentifier.slice(0, 120)
+    : '';
+}
+
+function selectAiEntitlementSource(
+  ledger: ServerEntitlementLedger,
+  body: unknown,
+): AIGovernanceEntitlementSource {
+  if (
+    getUserPlan(body) === 'PREMIUM' ||
+    ledger.premiumEntitlement.status === 'ACTIVE' ||
+    ledger.premiumEntitlement.status === 'GRACE_PERIOD'
+  ) {
+    return 'premium_subscription';
+  }
+
+  if (ledger.paidAiQuestionCreditsBalance > 0) {
+    return 'paid_question_pack';
+  }
+
+  if (ledger.familyBank.sharedQuestionCreditsBalance > 0) {
+    return 'family_bank';
+  }
+
+  if (
+    ledger.dayPassEntitlement.active &&
+    ledger.dayPassEntitlement.questionsRemaining > 0
+  ) {
+    return 'day_pass';
+  }
+
+  return 'free_lifetime_ai_credit';
 }
 
 function evaluateFreeAiGate(

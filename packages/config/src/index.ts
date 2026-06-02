@@ -1,6 +1,7 @@
 export * from './accessControl';
 export * from './accuracyMethod';
 export * from './aiModels';
+export * from './aiCostGovernance';
 export * from './astrologyConfig';
 export * from './cacheConfig';
 export * from './guestAccessLimits';

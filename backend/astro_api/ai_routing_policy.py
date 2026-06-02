@@ -4,6 +4,8 @@ import os
 from dataclasses import dataclass
 from typing import Dict, Literal, Optional
 
+from .ai_cost_governance import gemini_validator_allowed
+
 AIProviderName = Literal["openai", "gemini", "deterministic", "cache"]
 AIRoutingFeature = Literal[
     "chat",
@@ -81,22 +83,40 @@ def route_ai_request(request: AIRoutingRequest, pins: AIModelPins) -> AIRoutingD
 
     if request.feature == "report_validator":
         premium_validator = request.user_plan == "PREMIUM" and request.quality_tier == "premium"
-        validator_model = pins.gemini_premium if premium_validator else pins.gemini_free
+        validator_gate = gemini_validator_allowed(
+            paid_premium_report=premium_validator,
+            user_plan=request.user_plan or "FREE",
+        )
+        if not validator_gate.allowed:
+            policy_reason = (
+                validator_gate.reason
+                or "gemini-validator-is-for-paid-premium-reports-only"
+            )
+            return AIRoutingDecision(
+                approved_provider_order=APPROVED_AI_PROVIDERS,
+                cost_guardrail=cost_guardrail_for(request),
+                fallback_model="deterministic-validator-unavailable",
+                fallback_provider="deterministic",
+                multi_model_pipeline_allowed=False,
+                policy_reason=policy_reason,
+                primary_model="deterministic-validator-not-entitled",
+                primary_provider="deterministic",
+                validator_eligible=False,
+                validator_model=None,
+                validator_provider=None,
+            )
+
         return AIRoutingDecision(
             approved_provider_order=APPROVED_AI_PROVIDERS,
             cost_guardrail=cost_guardrail_for(request),
             fallback_model="deterministic-validator-unavailable",
             fallback_provider="deterministic",
             multi_model_pipeline_allowed=premium_validator,
-            policy_reason=(
-                "premium-report-validator-uses-gemini-pro"
-                if premium_validator
-                else "non-premium-validator-uses-gemini-flash"
-            ),
-            primary_model=validator_model,
+            policy_reason="premium-report-validator-uses-gemini-pro",
+            primary_model=pins.gemini_premium,
             primary_provider="gemini",
             validator_eligible=premium_validator,
-            validator_model=validator_model,
+            validator_model=pins.gemini_premium,
             validator_provider="gemini",
         )
 

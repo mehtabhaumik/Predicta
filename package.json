@@ -64,6 +64,7 @@
     "test:monetization-phase-5": "node scripts/run-monetization-phase-5-kundli-library-gate.mjs",
     "test:monetization-phase-6": "node scripts/run-monetization-phase-6-product-bank-gate.mjs",
     "test:monetization-phase-7": "node scripts/run-monetization-phase-7-family-vault-gate.mjs",
+    "test:monetization-phase-8": "node scripts/run-monetization-phase-8-ai-cost-governance-gate.mjs",
     "test:numerology-predicta": "node scripts/run-numerology-predicta-strict-phase-gate.mjs",
     "test:signature-predicta": "node scripts/run-signature-predicta-ultra-strict-phase-gate.mjs",
     "test:life-atlas-report": "node scripts/run-life-atlas-report-strict-contract-gate.mjs",

@@ -1,6 +1,7 @@
 import {
   FREE_AI_QUESTION_LIFETIME_LIMIT,
 } from '@pridicta/monetization';
+import type { AIGovernanceEntitlementSource } from '@pridicta/config/aiCostGovernance';
 import { env } from '../../config/env';
 import type {
   PridictaChatRequest,
@@ -78,6 +79,12 @@ export async function askPridicta({
   }
 
   const response = await requestBackendReading({
+    aiCostGovernance: {
+      entitlementSource: selectAiEntitlementSource(ledger, userPlan),
+      productCreditSource: ledger
+        ? selectPaidAiCreditSpendSource(ledger, userPlan) ?? null
+        : null,
+    },
     chartContext,
     clientRequestId: requestId,
     deepAnalysis,
@@ -192,6 +199,39 @@ function isSafeToUseResponseCache(
   history: PridictaChatRequest['history'],
 ): boolean {
   return history.filter(turn => turn.role === 'user').length === 0;
+}
+
+function selectAiEntitlementSource(
+  ledger: Awaited<ReturnType<typeof loadServerEntitlementLedgerFromFirebase>> | undefined,
+  userPlan: PridictaChatRequest['userPlan'],
+): AIGovernanceEntitlementSource {
+  if (
+    userPlan === 'PREMIUM' ||
+    ledger?.premiumEntitlement.status === 'ACTIVE' ||
+    ledger?.premiumEntitlement.status === 'GRACE_PERIOD'
+  ) {
+    return 'premium_subscription';
+  }
+
+  if (ledger?.paidAiQuestionCreditsBalance && ledger.paidAiQuestionCreditsBalance > 0) {
+    return 'paid_question_pack';
+  }
+
+  if (
+    ledger?.familyBank.sharedQuestionCreditsBalance &&
+    ledger.familyBank.sharedQuestionCreditsBalance > 0
+  ) {
+    return 'family_bank';
+  }
+
+  if (
+    ledger?.dayPassEntitlement.active &&
+    ledger.dayPassEntitlement.questionsRemaining > 0
+  ) {
+    return 'day_pass';
+  }
+
+  return 'free_lifetime_ai_credit';
 }
 
 function evaluateFreeAiGate(

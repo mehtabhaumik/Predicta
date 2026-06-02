@@ -1,4 +1,5 @@
 import { OPENAI_MODELS } from '../../config/aiModels';
+import { assertFreeModelAllowed } from '@pridicta/config/aiCostGovernance';
 import type { AIIntent, ChartContext, UserPlan } from '../../types/astrology';
 
 const DEEP_PATTERNS = [
@@ -47,6 +48,11 @@ export function selectOpenAIModelForIntent({
 }): string {
   if (intent === 'deep' && userPlan === 'PREMIUM') {
     return OPENAI_MODELS.PREMIUM_DEEP_ANALYSIS;
+  }
+
+  const freeDecision = assertFreeModelAllowed(OPENAI_MODELS.FREE_REASONING);
+  if (!freeDecision.allowed) {
+    throw new Error(freeDecision.reason);
   }
 
   return OPENAI_MODELS.FREE_REASONING;

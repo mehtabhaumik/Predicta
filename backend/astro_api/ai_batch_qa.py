@@ -24,6 +24,7 @@ from .ai_telemetry import (
     record_ai_telemetry_event,
 )
 from .ai_prompt_efficiency import prompt_cache_key
+from .ai_cost_governance import evaluate_feature_spend
 from .ai_validator import parse_json_object, severity_from_issues
 from .models import (
     AIBatchQACheckType,
@@ -119,6 +120,14 @@ def run_gemini_sync_batch_qa_job(job: AIBatchQAJob, *, model: str) -> AIBatchQAR
     set_current_provider_usage(None)
     success = False
     try:
+        spend_audit = evaluate_feature_spend(
+            feature="batch_qa",
+            input_tokens=estimate_tokens(BATCH_QA_SYSTEM_PROMPT, prompt),
+            model=model,
+            output_tokens=800,
+        )
+        if not spend_audit.allowed:
+            raise RuntimeError(spend_audit.reason)
         text = create_gemini_text_response(
             max_output_tokens=800,
             model=model,
@@ -132,6 +141,7 @@ def run_gemini_sync_batch_qa_job(job: AIBatchQAJob, *, model: str) -> AIBatchQAR
         record_ai_telemetry_event(
             active_school=job.activeSchool,
             cache_state="bypass",
+            entitlement_source="deterministic_no_ai",
             estimated_input_tokens=estimate_tokens(BATCH_QA_SYSTEM_PROMPT, prompt),
             estimated_output_tokens=estimate_tokens(text),
             fallback_reason=None if success else "gemini-batch-qa-sync-failed",
