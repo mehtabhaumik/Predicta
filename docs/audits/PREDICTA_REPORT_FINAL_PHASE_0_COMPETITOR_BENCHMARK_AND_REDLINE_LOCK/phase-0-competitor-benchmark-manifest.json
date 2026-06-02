@@ -1,0 +1,62 @@
+{
+  "phase": "PREDICTA_REPORT_FINAL_PHASE_0_COMPETITOR_BENCHMARK_AND_REDLINE_LOCK",
+  "status": "GREEN",
+  "implementationChanged": false,
+  "createdFinalRoadmap": true,
+  "reportLanes": [
+    "VEDIC",
+    "KP",
+    "JAIMINI",
+    "NUMEROLOGY",
+    "SIGNATURE",
+    "LIFE_ATLAS"
+  ],
+  "nadiLaneAllowed": false,
+  "sourceBacked": true,
+  "sourceUrls": [
+    "https://www.astrosage.com/free/",
+    "https://www.astrosage.com/kundli/",
+    "https://www.astrosage.com/kpastrology/",
+    "https://ishvaram.com/kp-astrology/",
+    "https://www.shreekundli.com/reports/kp",
+    "https://www.kpastro.ai/",
+    "https://www.astro.com/samples/samples_e.htm?nhor=27",
+    "https://chaninicholas.zendesk.com/hc/en-us/articles/8711720295187-A-Tour-of-the-CHANI-App",
+    "https://astrogurug.com/",
+    "https://vedaansh.com/",
+    "https://www.ournakshatra.com/",
+    "https://www.nakshatrajio.com/kundli",
+    "https://diastrologer.com/blog/jaimini-atmakaraka-explained",
+    "https://star-meet.com/blog/jaimini-astrology-chara-dasha-atma-karaka",
+    "https://karmawheel.app/docs/jaimini-astrology",
+    "https://www.astronumero.org/wp-content/uploads/numerology-template-3-personal-analysis-detailed.pdf",
+    "https://www.astrobasic.com/wp-content/uploads/2023/09/Numerology-You.pdf",
+    "https://storyincolor.com/graphology/signature-analysis",
+    "https://ahafhandwriting.org/images/downloads/Policies/standards_for_handwriting_analysts.pdf",
+    "https://en.wikipedia.org/wiki/Graphology",
+    "https://www.phlighteraimes.com/blueprint-session",
+    "https://www.thedivineuniverse.org/store/p/the-souls-blueprint",
+    "https://astrowise.online/en/",
+    "https://dailybebetter.com/",
+    "https://manifestusconsulting.com/shop/p/purpose-blueprint"
+  ],
+  "lockedReportFormula": [
+    "technical evidence",
+    "plain prediction",
+    "timing / current relevance",
+    "what helps",
+    "what blocks",
+    "what to do next",
+    "confidence / caution"
+  ],
+  "greenCriteria": {
+    "phase0AuditExists": true,
+    "phase0GatePasses": true,
+    "noReportRenderingImplementationChanged": true,
+    "sixReportLanesPresent": true,
+    "noNadiLane": true,
+    "freePaidValueContractLocked": true,
+    "bannedReportBehaviorsLocked": true,
+    "defectsMappedToFuturePhases": true
+  }
+}

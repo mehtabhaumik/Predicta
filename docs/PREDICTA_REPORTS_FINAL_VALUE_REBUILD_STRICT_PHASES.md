@@ -1,0 +1,194 @@
+# Predicta Reports Final Value Rebuild Strict Phases
+
+This is the final value-quality spine for Predicta reports. It does not replace
+the PDF rendering, chart, monetization, Jaimini, Life Atlas, Numerology,
+Signature, or Predicta memory contracts. It sits above them as the report
+quality contract: every report must stop sounding like an astrology lesson and
+start delivering prediction, guidance, evidence, timing, and value.
+
+## Relationship To Existing Contracts
+
+- `PREDICTA_REPORT_PDF_STRICT_PHASES.md` still owns PDF layout, watermark,
+  cover, footer, chart-safe rendering, and web/mobile parity.
+- `PREDICTA_KUNDLI_REPORT_VALUE_REBUILD_STRICT_PHASES.md` still owns Vedic
+  chart purity, focus order, varga access, Mahadasha, and remedies.
+- `PREDICTA_JAIMINI_REPLACES_NADI_STRICT_ROADMAP.md` still owns the product
+  decision that Jaimini replaces Nadi.
+- `PREDICTA_LIFE_ATLAS_REPORT_STRICT_CONTRACT.md` still owns the approved
+  all-school synthesis report.
+- `PREDICTA_MONETIZATION_CREDIT_LED_FUNNEL_STRICT_PHASES.md` still owns report
+  entitlements, report credits, AI credits, and purchase flow.
+- This final report value rebuild must feed Predicta memory. It must not create
+  a parallel report-brain or a separate school taxonomy.
+
+## Non-Negotiable Report Rules
+
+1. Reports must predict, guide, and satisfy. They must not teach astrology as
+   the main experience.
+2. Technical evidence must be preserved, but prediction must immediately follow
+   the evidence.
+3. Every meaningful section follows this rhythm:
+   `technical evidence -> plain prediction -> timing/current relevance -> what
+   helps -> what blocks -> what to do next -> confidence/caution`.
+4. Free reports are not hollow previews. Free reports must provide useful,
+   specific, human-facing prediction.
+5. Paid reports add depth, contradictions, timing, evidence, and practical
+   guidance. Paid reports do not merely add more pages.
+6. Vedic, KP, Jaimini, Numerology, Signature, and Life Atlas reports stay
+   separate. Life Atlas is the only approved synthesis lane.
+7. No report may look like an internal system contract, QA artifact, toolkit,
+   astrology course, or method tutorial.
+8. Method-boundary and safety language must be short and tasteful, usually in a
+   footer note or appendix. It must never become the main reading.
+9. Redundancy is a defect. Remedies, cautions, boundaries, and generic
+   definitions must not repeat across pages.
+10. Every report-affecting phase must generate free and paid PDFs or composition
+    fixtures for all affected report lanes before it can be green.
+11. Every report-affecting phase must include extracted text audit, rendered PDF
+    screenshots, redundancy audit, school-boundary audit, and app preview audit.
+12. The user should feel: `This told me something useful about my life, not just
+    what astrology means.`
+
+## Approved Phase Order
+
+1. `PREDICTA_REPORT_FINAL_PHASE_0_COMPETITOR_BENCHMARK_AND_REDLINE_LOCK`
+2. `PREDICTA_REPORT_FINAL_PHASE_1_REPORT_VOICE_AND_PREDICTION_CONTRACT`
+3. `PREDICTA_REPORT_FINAL_PHASE_2_SHARED_REPORT_ARCHITECTURE_ENGINE`
+4. `PREDICTA_REPORT_FINAL_PHASE_3_FREE_VS_PAID_DEPTH_CONTRACT`
+5. `PREDICTA_REPORT_FINAL_PHASE_4_VEDIC_REPORT_REBUILD`
+6. `PREDICTA_REPORT_FINAL_PHASE_5_KP_REPORT_REBUILD`
+7. `PREDICTA_REPORT_FINAL_PHASE_6_JAIMINI_REPORT_REBUILD`
+8. `PREDICTA_REPORT_FINAL_PHASE_7_NUMEROLOGY_REPORT_REBUILD`
+9. `PREDICTA_REPORT_FINAL_PHASE_8_SIGNATURE_REPORT_REBUILD`
+10. `PREDICTA_REPORT_FINAL_PHASE_9_LIFE_ATLAS_FLAGSHIP_REBUILD`
+11. `PREDICTA_REPORT_FINAL_PHASE_10_REPORT_PAGE_AND_APP_PREVIEW_ALIGNMENT`
+12. `PREDICTA_REPORT_FINAL_PHASE_11_PREDICTA_MEMORY_AND_CHAT_REPORT_MASTERY`
+13. `PREDICTA_REPORT_FINAL_PHASE_12_GOLDEN_ARTIFACT_AND_NO_GO_REAUDIT`
+
+Do not rename these phases during implementation.
+
+## Phase 0: `PREDICTA_REPORT_FINAL_PHASE_0_COMPETITOR_BENCHMARK_AND_REDLINE_LOCK`
+
+### Goal
+
+Lock the market benchmark, Predicta redlines, free/paid value split, and report
+quality bar before implementation begins.
+
+### Required Research Sources
+
+Phase 0 must use live/current source evidence from:
+
+- AstroSage free report and Kundli coverage.
+- Modern Vedic/Kundli competitors that provide free charts, dashas, yogas,
+  Ashtakavarga, and concise explanations.
+- Astro.com or comparable paid report samples with strong narrative voice.
+- CHANI, The Pattern, TimePassages, or comparable modern astrology apps with
+  non-technical user-facing language.
+- KP sources/products focused on cusps, sub-lords, significators, event
+  judgement, and timing.
+- Jaimini sources/products focused on Atmakaraka, Chara Karakas, Karakamsha,
+  Arudha, and Chara Dasha.
+- Numerology report samples covering name number, birth/life path, personal
+  cycles, missing/repeated numbers, and name rhythm.
+- Signature/graphology sources that define visible traits and limitations.
+- Soul Blueprint / Life Purpose report products that demonstrate premium
+  emotional narrative structure.
+
+### Must Produce
+
+- Written benchmark audit under
+  `docs/audits/PREDICTA_REPORT_FINAL_PHASE_0_COMPETITOR_BENCHMARK_AND_REDLINE_LOCK/`.
+- Source matrix with URLs, what each competitor does well, what Predicta adopts,
+  and what Predicta rejects.
+- Redline ledger for all six report lanes:
+  - Vedic
+  - KP
+  - Jaimini
+  - Numerology
+  - Signature
+  - Life Atlas
+- Free vs paid value contract.
+- Explicit banned report behaviors.
+- Defect-to-future-phase map.
+
+### Green Criteria
+
+- Phase 0 audit exists and is source-backed.
+- Phase 0 gate passes.
+- The audit includes zero implementation changes to report rendering.
+- The final report roadmap includes all six report lanes and no Nadi lane.
+- The audit clearly states what Predicta must adopt and reject from competitor
+  reports.
+- The free and paid report split is locked before Phase 1 begins.
+
+## Phase 1: `PREDICTA_REPORT_FINAL_PHASE_1_REPORT_VOICE_AND_PREDICTION_CONTRACT`
+
+Rebuild report voice rules so every report section becomes predictive,
+actionable, and human. Ban filler definitions, toolkit language, school-like
+instructions, and internal method-boundary paragraphs as primary content.
+
+## Phase 2: `PREDICTA_REPORT_FINAL_PHASE_2_SHARED_REPORT_ARCHITECTURE_ENGINE`
+
+Create a shared report architecture that every lane can use without becoming
+generic: personal opening, method-specific evidence, prediction chapters, timing
+or cycle relevance, action plan, and appendix.
+
+## Phase 3: `PREDICTA_REPORT_FINAL_PHASE_3_FREE_VS_PAID_DEPTH_CONTRACT`
+
+Lock depth rules: Free gives specific useful prediction and key evidence. Paid
+adds full diagnosis, contradictions, timing windows, proof depth, and practical
+guidance.
+
+## Phase 4: `PREDICTA_REPORT_FINAL_PHASE_4_VEDIC_REPORT_REBUILD`
+
+Rebuild Vedic as a premium Kundli dossier with charts, Panchang, Avakhada,
+planet/house evidence, Mahadasha Phala, yogas, Ashtakavarga, and a consolidated
+remedy/action plan.
+
+## Phase 5: `PREDICTA_REPORT_FINAL_PHASE_5_KP_REPORT_REBUILD`
+
+Rebuild KP as a specific event/outcome report with question, verdict, promise,
+block, timing readiness, cusps, sub-lords, significators, ruling planets, dasha
+support, and proof appendix.
+
+## Phase 6: `PREDICTA_REPORT_FINAL_PHASE_6_JAIMINI_REPORT_REBUILD`
+
+Rebuild Jaimini as a destiny, role, soul-direction, and life-arc report using
+Jaimini evidence: Atmakaraka, Amatyakaraka, Chara Karakas, Karakamsha, Arudha,
+Rashi Drishti, and Chara Dasha where available.
+
+## Phase 7: `PREDICTA_REPORT_FINAL_PHASE_7_NUMEROLOGY_REPORT_REBUILD`
+
+Rebuild Numerology as a Number Identity Dossier with number mandala, name
+rhythm, birth code, current cycle, missing/repeated grid, compatibility, and
+paid name refinement where available.
+
+## Phase 8: `PREDICTA_REPORT_FINAL_PHASE_8_SIGNATURE_REPORT_REBUILD`
+
+Rebuild Signature as reflective expression guidance based only on confirmed
+visible traits. It must not make hard predictions, forensic claims, or character
+certainty claims.
+
+## Phase 9: `PREDICTA_REPORT_FINAL_PHASE_9_LIFE_ATLAS_FLAGSHIP_REBUILD`
+
+Rebuild Life Atlas as the emotional flagship: soul portrait, life arc, destiny
+pattern, current chapter, hidden thread, practical next steps, and a personal
+closing letter.
+
+## Phase 10: `PREDICTA_REPORT_FINAL_PHASE_10_REPORT_PAGE_AND_APP_PREVIEW_ALIGNMENT`
+
+Align app previews with report quality. Web/mobile should show focused previews
+and strong download nudges, not full report walls.
+
+## Phase 11: `PREDICTA_REPORT_FINAL_PHASE_11_PREDICTA_MEMORY_AND_CHAT_REPORT_MASTERY`
+
+Predicta must know the report architecture, generated sections, free/paid depth,
+and school boundaries so she can explain reports conversationally without
+guessing or mixing methods.
+
+## Phase 12: `PREDICTA_REPORT_FINAL_PHASE_12_GOLDEN_ARTIFACT_AND_NO_GO_REAUDIT`
+
+Generate free and paid PDFs for all six lanes. Render pages, extract text,
+audit redundancy, audit prediction quality, audit school boundaries, audit
+visual polish, and block release if any report still schools the user instead
+of helping them.
