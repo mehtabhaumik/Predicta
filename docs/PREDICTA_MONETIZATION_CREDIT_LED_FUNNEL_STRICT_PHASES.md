@@ -68,6 +68,17 @@ trustworthy cost boundaries.
     is actually wired.
 20. Every phase must be strictly audited and committed before the next phase is
     started.
+21. Predicta must answer from local memory before AI. If an answer can be
+    produced from deterministic calculations, saved Kundli/report context,
+    app-navigation memory, entitlement state, translation/static content, or
+    support knowledge, no AI credit may be consumed.
+22. User-facing astrology vocabulary is canonical: `Dosh`, `Shrap`, `Yog`, and
+    `Lal Kitab`. Do not use `Dosha` or `Shrapa` in Predicta UI, chat, reports,
+    or translations.
+23. `Jaimini Jyotish` is the astrology school. User typos such as `Gemini
+    Jyotish` should be understood as Jaimini Jyotish, while the Gemini AI
+    provider remains provider-only terminology and must not appear as an
+    astrology school.
 
 ## Existing Roadmap Boundaries
 
@@ -162,6 +173,14 @@ Zero-credit mode can:
   horoscope, remedies, Purushartha, Chalit, KP foundation, Jaimini plan,
   Numerology profile, Life Atlas preview, and report brief from deterministic
   modules.
+- Show and explain deterministic Kundli Karma modules when available:
+  - Dosh
+  - Shrap
+  - Yog
+  - Lal Kitab
+- Explain Jaimini Jyotish basics and Jaimini report availability from local
+  memory, including understanding `Gemini Jyotish` as a user typo/alias for
+  Jaimini Jyotish.
 - Route users to Vedic, KP, Jaimini, Numerology, Signature, Reports, Family Vault,
   pricing, checkout, settings, and help surfaces.
 - Generate deterministic/free reports.
@@ -177,6 +196,9 @@ Zero-credit mode must not:
 - Consume AI budget for birth detail extraction when rules can parse the input.
 - Consume AI budget for Kundli creation.
 - Consume AI budget for app navigation or saved-profile operations.
+- Consume AI budget for Dosh, Shrap, Yog, Lal Kitab, Jaimini basics, report
+  section availability, entitlement/balance explanations, or deterministic
+  module summaries that are already available in Predicta local memory.
 
 Required exhausted-credit copy:
 
@@ -196,6 +218,36 @@ Required quick actions:
 - `Generate free report`
 - `Family Vault`
 - `Buy AI questions`
+
+## Predicta Local-Memory-First Cost Contract
+
+Before any chat provider call, Predicta must classify the request as one of:
+
+- `local_memory_answer`
+- `deterministic_action`
+- `missing_data_question`
+- `ai_required`
+- `blocked_needs_credit`
+
+Only `ai_required` may consume an AI credit, and only after entitlement checks
+pass. The classification must be logged for cost governance and future audit.
+
+Examples that must remain zero-credit:
+
+- "What is Dosh?"
+- "Do I have any Shrap in my Kundli?"
+- "Explain my Yog section."
+- "What does Lal Kitab say in my report?"
+- "What is Jaimini Jyotish?"
+- "Show my current Mahadasha."
+- "Where do I download my report?"
+- "How many AI credits do I have?"
+- "Create a Kundli from these birth details."
+
+If the answer requires a missing deterministic input, Predicta must ask for that
+input instead of calling AI. If the user asks for a deeper personalized
+synthesis after the deterministic answer, that follow-up can be routed through
+the AI-credit gate.
 
 ## Strict Phase Order
 
@@ -332,10 +384,12 @@ Green criteria:
 
 - Exhausted free user can create Kundli from chat without AI credit.
 - Exhausted free user can ask for chart snapshot, Mahadasha, Gochar, Panchang,
-  remedies, report brief, saved Kundlis, and Family Vault navigation without
-  AI.
+  remedies, Dosh, Shrap, Yog, Lal Kitab, Jaimini basics, report brief, saved
+  Kundlis, and Family Vault navigation without AI.
 - Exhausted free user cannot receive open-ended AI synthesis without purchase.
 - Provider call logs prove no OpenAI/Gemini calls for deterministic actions.
+- Provider-decision logs include `local_memory_answer`, `deterministic_action`,
+  `missing_data_question`, `ai_required`, and `blocked_needs_credit`.
 
 ### PREDICTA_MONETIZATION_PHASE_5_KUNDLI_LIMITS_AND_LIBRARY_ENTITLEMENT
 

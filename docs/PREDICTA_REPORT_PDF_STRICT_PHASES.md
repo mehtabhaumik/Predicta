@@ -71,10 +71,22 @@ was already satisfied by an earlier phase.
     timeline. Past Mahadashas are summarized only at Mahadasha level. The
     current period is layered as Entire Mahadasha, Mahadasha plus Antardasha,
     and Mahadasha plus Antardasha plus Pratyantardasha.
-21. Reports must be separated by Predicta school/world. Vedic, KP, Nadi,
+21. Reports must be separated by Predicta school/world. Vedic, KP, Jaimini,
     Numerology, and Signature reports must not be mixed into one generic report
     lane. Any future combined report must be explicitly labeled as a Synthesis
     Report and approved as its own product path.
+22. Predicta user-facing vocabulary is canonical: use `Dosh`, not `Dosha`; use
+    `Shrap`, not `Shrapa`; use `Yog` for the Kundli pattern section unless a
+    formal source title requires `Yoga`. This applies to report pages, app
+    previews, chat memory, translations, and audit gates.
+23. `Jaimini Jyotish` is the astrology school. User wording such as `Gemini
+    Jyotish` must be interpreted as Jaimini Jyotish in chat, while Gemini the AI
+    provider remains provider-only terminology and must not be used as an
+    astrology report lane.
+24. Predicta memory must be local-knowledge-first. Report questions about
+    Dosh, Shrap, Yog, Lal Kitab, Jaimini, generated sections, app navigation,
+    entitlements, or deterministic module output must not consume AI credit
+    when the answer is available from local memory or calculation context.
 
 ## Approved Phase Order
 
@@ -197,7 +209,7 @@ buying or downloading a mixed bag report that blends methods without consent.
 - Add five separated report lanes or premium cards/tabs:
   - `Vedic Reports`
   - `KP Reports`
-  - `Nadi Reports`
+  - `Jaimini Reports`
   - `Numerology Reports`
   - `Signature Reports`
 - Each report lane must show only reports for that school.
@@ -210,16 +222,16 @@ buying or downloading a mixed bag report that blends methods without consent.
   - `Download your report` path after report preparation
 - The school boundaries are strict:
   - Vedic Predicta reports use classical Parashari Kundli, charts, dasha,
-    panchang, varga, and remedies. They do not include KP, Nadi, Numerology, or
-    Signature report sections.
+    panchang, varga, Dosh, Shrap, Yog, Lal Kitab, and remedies. They do not
+    include KP, Jaimini, Numerology, or Signature report sections.
   - KP Predicta reports use event judgement and timing through cusps, star
     lords, sub-lords, sub-sub lords where available, significators, ruling
     planets, dasha support, and transit trigger windows. They do not become
     Vedic personality-style readings.
-  - Nadi Predicta reports use planetary story links, karaka themes, karmic
-    patterns, Rahu/Ketu axis, validation questions, activation timing, and
-    practical karmic guidance. They do not use KP cusp logic and must not claim
-    real palm-leaf manuscript access unless Predicta has that actual source.
+  - Jaimini Predicta reports use Atmakaraka, Chara Karakas, Karakamsha, Swamsa,
+    Arudha, Upapada, Jaimini sign aspects, Chara Dasha, role/destiny guidance,
+    and practical life-direction insight. They do not use KP cusp logic and do
+    not become a Parashari D1/D9 chart dossier.
   - Numerology Predicta reports use name/date number rhythm, name number, birth
     number, destiny or life-path number, personal cycles, repeated/missing
     number patterns, and name refinement. They do not include Kundli judgement
@@ -241,18 +253,20 @@ buying or downloading a mixed bag report that blends methods without consent.
   - final event likelihood with confidence and limitations
   - free/basic gives useful promise and timing insight
   - premium/paid gives full event proof and timing reasoning
-- Nadi report content contract:
-  - school boundary and source limitation note
-  - planetary story map
-  - karaka links
-  - Rahu/Ketu karmic axis
-  - repeated life themes
-  - validation questions
-  - dasha and transit activations
-  - past-pattern clues
-  - practical karmic guidance
-  - free/basic gives a useful preview without fake manuscript claims
-  - premium/paid gives deeper sequencing, validation, and activation analysis
+- Jaimini report content contract:
+  - Atmakaraka and soul-role reading
+  - Amatyakaraka and career-dharma reading
+  - Darakaraka and relationship-mirror reading
+  - Chara Karaka council
+  - Swamsa and Karakamsha charts
+  - Arudha and visible-identity proof
+  - Upapada relationship/life-contract proof where available
+  - Jaimini sign aspects
+  - Chara Dasha chapter timing where available
+  - practical destiny guidance
+  - free/basic gives a useful destiny-role reading
+  - premium/paid gives deeper Chara Karaka, Arudha, Upapada, Chara Dasha, and
+    contradiction analysis
 - Numerology report content contract:
   - name number
   - birth number
@@ -305,16 +319,16 @@ buying or downloading a mixed bag report that blends methods without consent.
 This phase is green only when:
 
 - `/dashboard/report` starts with `Choose your report world`
-- web report page shows five separated lanes: Vedic, KP, Nadi, Numerology, and
+- web report page shows five separated lanes: Vedic, KP, Jaimini, Numerology, and
   Signature
 - mobile-width report page shows the same five separated lanes without cramped
   controls
 - each lane shows only school-appropriate report options
 - each lane has a best-for line and method boundary note
-- Vedic lane does not include KP, Nadi, Numerology, or Signature sections
+- Vedic lane does not include KP, Jaimini, Numerology, or Signature sections
 - KP lane does not become a Vedic personality report
-- Nadi lane does not use KP cusp logic and does not claim palm-leaf manuscript
-  access
+- Jaimini lane does not use KP cusp logic and does not become a Parashari chart
+  dossier
 - Numerology lane does not include Kundli judgement unless an explicit future
   synthesis lane exists
 - Signature lane does not include Numerology or Vedic synthesis unless an
@@ -323,8 +337,8 @@ This phase is green only when:
   composition explicitly
 - generated KP sample report contains the KP content contract and no Vedic mixed
   bag sections
-- generated Nadi sample report contains the Nadi content contract and no KP
-  cusp logic
+- generated Jaimini sample report contains the Jaimini content contract and no
+  KP cusp logic
 - generated Numerology sample report contains the Numerology content contract
   and no Kundli judgement
 - generated Signature sample report contains the Signature content contract and
@@ -334,7 +348,7 @@ This phase is green only when:
 - any unavailable school data is shown as a readiness/pending state, not hidden
   or fabricated
 - screenshots are captured for desktop and mobile-width report marketplace
-- at least one generated PDF or composition fixture is captured for KP, Nadi,
+- at least one generated PDF or composition fixture is captured for KP, Jaimini,
   Numerology, and Signature report focus
 - `corepack pnpm --filter @pridicta/pdf build` passes
 - `corepack pnpm build:web` passes
@@ -416,7 +430,7 @@ Reports consume the same data contract for PDF generation.
 - PDF reports must consume the same Vedic intelligence contract as the Vedic
   section.
 - Keep deterministic calculation separate from prose rendering.
-- Keep Parashari/Vedic logic separate from KP and Nadi logic unless an approved
+- Keep Parashari/Vedic logic separate from KP and Jaimini logic unless an approved
   handoff/synthesis requires it.
 
 ### Strict Audit
@@ -886,7 +900,7 @@ features, routes, reports, specialist rooms, calculations, pricing boundaries,
 saved-context behavior, and astrology concepts well enough to guide a user
 calmly without sounding lost or generic.
 
-Predicta must be a master of Parashari Vedic, Krishnamurti KP, Nadi,
+Predicta must be a master of Parashari Vedic, Krishnamurti KP, Jaimini Jyotish,
 Numerology, and Signature Analysis. She can answer questions from any of these
 systems when the user is in the correct context, and she must remain aware of
 which context is active.
@@ -896,7 +910,7 @@ must remain source-aware and room-safe:
 
 - Vedic Predicta answers from Parashari/Vedic context only.
 - KP Predicta answers from Krishnamurti KP context only.
-- Nadi Predicta answers from Nadi context only.
+- Jaimini Predicta answers from Jaimini Jyotish context only.
 - Numerology Predicta may answer solely from Numerology, or combine Vedic plus
   Numerology when the user asks for a combined reading.
 - Signature Predicta may answer solely from Signature Analysis, or combine
@@ -917,10 +931,10 @@ Predicta must know:
   - five specialist rooms/worlds
   - Vedic Predicta
   - KP Predicta
-  - Nadi Predicta
+  - Jaimini Predicta
   - Numerology Predicta
   - Signature Predicta
-  - school-separated report lanes for Vedic, KP, Nadi, Numerology, and
+  - school-separated report lanes for Vedic, KP, Jaimini, Numerology, and
     Signature
   - no mixed bag report path unless a future approved Synthesis Reports lane is
     added
@@ -957,7 +971,9 @@ Predicta must know:
   - friendship tables and house-wise planet evidence
   - Parashari/Vedic scope and evidence rules
   - Krishnamurti KP cusp/sub-lord/significator scope and boundaries
-  - Nadi-style story-link scope and boundaries
+  - Jaimini Jyotish Atmakaraka, Chara Karaka, Karakamsha, Swamsa, Arudha,
+    Upapada, Rashi Drishti, and Chara Dasha scope and boundaries
+  - Dosh, Shrap, Yog, and Lal Kitab scope and evidence rules
   - Numerology-only and Vedic-plus-Numerology scope
   - Signature-only and Vedic-plus-Signature scope
 - User guidance behavior:
@@ -1065,9 +1081,33 @@ Predicta must know that reports can now include:
   - birth-star identity fields
   - gana, yoni, nadi, varna, vashya, tatva, and related fields where available
   - user-facing explanation that avoids overwhelming beginners
+- Dosh:
+  - present/weak/cancelled/softened/not-present status
+  - exact planetary, house, sign, nakshatra, dignity, and timing evidence where
+    available
+  - plain-life meaning, activation, softening factors, and remedies
+  - canonical user-facing term is `Dosh`, not `Dosha`
+- Shrap:
+  - karmic pressure indicators only where deterministic evidence supports them
+  - why the pattern appears, what it asks the user to mature, and what safely
+    helps
+  - canonical user-facing term is `Shrap`, not `Shrapa`
+  - never call the user cursed
+- Yog:
+  - positive and challenging Yog entries
+  - why each Yog is present, what supports it, what weakens it, and when it
+    becomes relevant
+  - avoid duplicate readings when the same planetary condition appears in Dosh,
+    Shrap, and Yog sections
+- Lal Kitab:
+  - house-wise planet reading
+  - planet-wise upay where safe
+  - rin/debt indicators only with deterministic evidence
+  - do/don't guidance and remedy contraindications
+  - no fear-selling or guaranteed outcomes
 - PDF/report presentation rules:
   - `/dashboard/report` uses separate school report lanes
-  - Vedic, KP, Nadi, Numerology, and Signature reports stay method-bounded
+  - Vedic, KP, Jaimini, Numerology, and Signature reports stay method-bounded
   - synthesis reports are not available unless separately approved and clearly
     labeled
   - first page dark Predicta theme
@@ -1100,7 +1140,7 @@ Predicta must know that reports can now include:
   does not explain it with another school's method by mistake.
 - Update Vedic Predicta system/context instructions so she knows these modules
   belong to Parashari/Vedic report logic.
-- Update KP/Nadi/Numerology/Signature boundaries so they do not incorrectly
+- Update KP/Jaimini/Numerology/Signature boundaries so they do not incorrectly
   claim or mix these Vedic modules unless a handoff/synthesis is explicit.
 - Add follow-up prompts such as:
   - `Explain my friendship table`
@@ -1112,6 +1152,12 @@ Predicta must know that reports can now include:
   - `Explain my Avakhada chakra`
   - `Explain my Ashtakavarga score`
   - `Explain my Ghatak and favorable factors`
+  - `Explain my Dosh section`
+  - `Explain my Shrap indicators`
+  - `Explain my positive Yog`
+  - `Explain my challenging Yog`
+  - `Explain my Lal Kitab guidance`
+  - `Explain Jaimini Jyotish`
 - Ensure Predicta can answer:
   - what the table means
   - how it was calculated or why it is pending
@@ -1134,11 +1180,11 @@ This phase is green only when:
   without sounding generic or lost
 - Predicta can explain the difference between the five specialist rooms and
   route the user correctly
-- Predicta can answer Parashari Vedic, Krishnamurti KP, Nadi, Numerology, and
-  Signature Analysis questions in the correct active context
+- Predicta can answer Parashari Vedic, Krishnamurti KP, Jaimini Jyotish,
+  Numerology, and Signature Analysis questions in the correct active context
 - Vedic Predicta can explain the user's Moon chart / Chandra Lagna chart and how
   it differs from D1
-- Vedic, KP, and Nadi rooms do not mix methods unless they explicitly hand off
+- Vedic, KP, and Jaimini rooms do not mix methods unless they explicitly hand off
 - Numerology can answer solely from Numerology or combine Vedic plus Numerology
   when requested
 - Signature can answer solely from Signature Analysis or combine Vedic plus
@@ -1153,14 +1199,14 @@ This phase is green only when:
   the active Kundli
 - chat context includes the generated report mode, report type, subject name,
   selected school/report lane, and available section list
-- Predicta can explain why the Reports page separates Vedic, KP, Nadi,
+- Predicta can explain why the Reports page separates Vedic, KP, Jaimini,
   Numerology, and Signature reports
-- Predicta does not answer a KP report question with Vedic reasoning, a Nadi
+- Predicta does not answer a KP report question with Vedic reasoning, a Jaimini
   report question with KP cusp logic, or a Numerology/Signature report question
   with Kundli judgement unless an explicit synthesis path exists
 - asking about a pending calculation produces an honest pending/explanation
   response, not a fabricated answer
-- asking KP/Nadi/Numerology/Signature about a Vedic-only report module triggers
+- asking KP/Jaimini/Numerology/Signature about a Vedic-only report module triggers
   the correct boundary or handoff behavior
 - follow-up prompts exist for the major new tables
 - report-to-chat CTA carries selected report context into chat
@@ -1221,7 +1267,7 @@ Run the final no-goof-ups audit before release.
   - free Kundli report
   - premium Kundli report
   - KP report
-  - Nadi report
+  - Jaimini report
   - Numerology report
   - Signature report
   - Gujarati report
@@ -1248,13 +1294,15 @@ This phase is green only when:
   Chandra Lagna chart, D9 Navamsa, then remaining vargas
 - every golden PDF has no chart label bleed
 - every golden PDF has no Indic gibberish
-- `/dashboard/report` remains school-separated with Vedic, KP, Nadi,
+- `/dashboard/report` remains school-separated with Vedic, KP, Jaimini,
   Numerology, and Signature report lanes
-- KP, Nadi, Numerology, and Signature golden reports stay inside their approved
+- KP, Jaimini, Numerology, and Signature golden reports stay inside their approved
   method boundaries and do not become mixed bag reports
 - every required section appears in free and premium reports
 - every golden PDF includes Mahadasha Phala and Meaning with past Mahadasha
   summaries and the current three-layer structure
+- every relevant Vedic golden PDF includes Dosh, Shrap, positive Yog,
+  challenging Yog, and Lal Kitab sections with canonical terminology
 - every premium/paid golden PDF keeps Pratyantardasha analysis to one paragraph
   and avoids overclaiming exact events
 - premium reports visibly add depth instead of merely changing labels
