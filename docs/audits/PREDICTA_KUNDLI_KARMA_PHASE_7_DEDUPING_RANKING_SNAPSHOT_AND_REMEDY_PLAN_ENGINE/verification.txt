@@ -1,0 +1,7 @@
+PREDICTA_KUNDLI_KARMA_PHASE_7_DEDUPING_RANKING_SNAPSHOT_AND_REMEDY_PLAN_ENGINE: PASS
+- shared snapshot runtime fixture produced strongest Dosh, strongest Yog, strongest Shrap/Rin, top remedy, and top 3 active conditions
+- dedupe removed overlapping do_not_duplicate Dosh/Shrap/Yog rows before the app snapshot
+- consolidated remedy plan passed no-duplicate rows and includes free, premium, avoid-list, and timing categories
+- ranking explanations and tooltips are available for Predicta chat and app tooltips
+- severe-sounding weak indicator ranked below clearer stronger evidence
+- fear-selling and duplicate-remedy gates passed

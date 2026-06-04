@@ -1,0 +1,55 @@
+{
+  "phase": "PREDICTA_KUNDLI_KARMA_PHASE_7_DEDUPING_RANKING_SNAPSHOT_AND_REMEDY_PLAN_ENGINE",
+  "status": "GREEN",
+  "implementationScope": "shared Kundli Karma ranking, dedupe, top-three app snapshot, strongest Dosh/Yog/Shrap-or-Rin pointers, top remedy, and consolidated remedy plan",
+  "engineFiles": [
+    "packages/astrology/src/kundliKarmaSnapshotEngine.ts"
+  ],
+  "contractFilesUpdated": [
+    "packages/types/src/astrology.ts",
+    "packages/astrology/src/index.ts"
+  ],
+  "gateFiles": [
+    "scripts/run-kundli-karma-phase-7-snapshot-remedy-gate.mjs"
+  ],
+  "snapshotOutputs": [
+    "strongestDosh",
+    "strongestYog",
+    "strongestShrapOrRin",
+    "topRemedy",
+    "topThreeActiveConditions",
+    "rankedConditions",
+    "dedupedItemIds",
+    "remedyPlan"
+  ],
+  "remedyPlanCategories": [
+    "free_karma_dharma_action",
+    "premium_structured_remedy",
+    "avoid_list",
+    "timing_guidance"
+  ],
+  "requiredGreenCriteria": {
+    "rankingFixturesPass": true,
+    "dedupeFixturesPass": true,
+    "consolidatedRemedyPlanHasNoDuplicates": true,
+    "topThreeAppSnapshotAvailable": true,
+    "rankingExplanationsAvailable": true,
+    "severeWeakIndicatorsDoNotAutomaticallyOutrankClearerEvidence": true,
+    "localMemoryNoAiHintsAvailable": true
+  },
+  "verificationCommands": [
+    "corepack pnpm test:kundli-karma-phase-7",
+    "corepack pnpm --filter @pridicta/types typecheck",
+    "corepack pnpm --filter @pridicta/astrology typecheck",
+    "corepack pnpm --filter @pridicta/pdf typecheck",
+    "corepack pnpm --filter @pridicta/mobile typecheck",
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "python3 -m json.tool docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_7_DEDUPING_RANKING_SNAPSHOT_AND_REMEDY_PLAN_ENGINE/phase-7-manifest.json",
+    "git diff --check"
+  ],
+  "notes": [
+    "Phase 7 implements only the shared ranking/snapshot/remedy-plan contract. It does not implement web UI, mobile UI, Predicta memory routing, reports, or PDF rendering.",
+    "The ranking engine explicitly prioritizes clear, strong, currently relevant evidence over severe-sounding weak labels.",
+    "Overlapping Dosh, Shrap, Yog, and Lal Kitab items with do_not_duplicate ownership are removed from the top snapshot while keeping dedupe evidence in dedupedItemIds."
+  ]
+}

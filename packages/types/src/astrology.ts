@@ -347,6 +347,54 @@ export type KundliKarmaIntelligence = {
   safetyNotes: string[];
 };
 
+export type KundliKarmaRemedyPlanCategory =
+  | 'free_karma_dharma_action'
+  | 'premium_structured_remedy'
+  | 'avoid_list'
+  | 'timing_guidance';
+
+export type KundliKarmaRankedCondition = {
+  item: KundliKarmaItem;
+  rank: number;
+  score: number;
+  whyThisRankedFirst: string;
+  tooltip: string;
+  dedupedWith: KundliKarmaCrossReference[];
+};
+
+export type KundliKarmaRemedyPlanItem = {
+  id: string;
+  category: KundliKarmaRemedyPlanCategory;
+  depth: KundliKarmaDepth;
+  title: string;
+  description: string;
+  timingGuidance: string;
+  avoidList: string[];
+  sourceItemIds: string[];
+  sourceRuleIds: string[];
+  tradition: KundliKarmaRemedy['tradition'];
+  safetyNote: string;
+};
+
+export type KundliKarmaSnapshot = {
+  version: number;
+  calculationStatus: KundliKarmaIntelligence['calculationStatus'];
+  generatedBy: 'deterministic_contract';
+  subjectName: string;
+  summary: string;
+  strongestDosh?: KundliKarmaRankedCondition;
+  strongestYog?: KundliKarmaRankedCondition;
+  strongestShrapOrRin?: KundliKarmaRankedCondition;
+  topRemedy?: KundliKarmaRemedyPlanItem;
+  topThreeActiveConditions: KundliKarmaRankedCondition[];
+  rankedConditions: KundliKarmaRankedCondition[];
+  dedupedItemIds: string[];
+  remedyPlan: KundliKarmaRemedyPlanItem[];
+  noAiRequiredFor: string[];
+  missingData: string[];
+  safetyNotes: string[];
+};
+
 export type KundliKarmaFixture = {
   id: string;
   label: string;
