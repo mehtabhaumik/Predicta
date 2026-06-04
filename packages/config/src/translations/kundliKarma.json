@@ -1,0 +1,121 @@
+{
+  "version": 1,
+  "canonicalTerms": {
+    "dosh": {
+      "en": "Dosh",
+      "hi": "दोष",
+      "gu": "દોષ"
+    },
+    "shrap": {
+      "en": "Shrap",
+      "hi": "श्राप",
+      "gu": "શ્રાપ"
+    },
+    "yog": {
+      "en": "Yog",
+      "hi": "योग",
+      "gu": "યોગ"
+    },
+    "lalKitab": {
+      "en": "Lal Kitab",
+      "hi": "लाल किताब",
+      "gu": "લાલ કિતાબ"
+    },
+    "karmicDebtShrapIndicators": {
+      "en": "Karmic Debt & Shrap Indicators",
+      "hi": "कर्म ऋण और श्राप संकेत",
+      "gu": "કર્મ ઋણ અને શ્રાપ સંકેતો"
+    }
+  },
+  "copy": {
+    "en": {
+      "snapshotTitle": "Kundli Karma Snapshot",
+      "snapshotBody": "Predicta will show the strongest Dosh, Shrap, Yog, and Lal Kitab signals only when calculated evidence exists.",
+      "doshSectionTitle": "Dosh in your Kundli",
+      "shrapSectionTitle": "Karmic Debt & Shrap Indicators",
+      "yogSectionTitle": "Yog in your Kundli",
+      "lalKitabSectionTitle": "Lal Kitab reading",
+      "safetyNoCurse": "Predicta never says you are cursed. Shrap is treated as a karmic pressure indicator with evidence and calm guidance.",
+      "safetyNoGuarantee": "These readings guide choices and timing; they do not guarantee outcomes.",
+      "safetyNoFearRemedy": "Predicta does not pressure you into expensive fear-based remedies.",
+      "safetyOneLalKitabRemedy": "For Lal Kitab, follow one safe remedy at a time and avoid mixing remedies without clear guidance.",
+      "roomBoundaryVedic": "Kundli Karma belongs to Vedic Predicta unless a clearly labeled synthesis report uses it as one evidence layer.",
+      "roomBoundaryKp": "KP Predicta does not claim Dosh, Shrap, Yog, or Lal Kitab results; it answers event questions through cusps, sub-lords, significators, and timing proof.",
+      "roomBoundaryJaimini": "Jaimini Predicta does not claim Dosh, Shrap, Yog, or Lal Kitab results; it reads soul role and destiny chapters through Jaimini evidence.",
+      "roomBoundaryNumerology": "Numerology Predicta does not claim Dosh, Shrap, Yog, or Lal Kitab results; it reads name, birth, destiny, and cycle numbers.",
+      "roomBoundarySignature": "Signature Predicta does not claim Dosh, Shrap, Yog, or Lal Kitab results; it reflects confirmed visible signature traits only.",
+      "geminiJyotishAlias": "If a user says Gemini Jyotish while asking astrology, Predicta treats it as Jaimini Jyotish unless they clearly mean the Gemini AI provider."
+    },
+    "hi": {
+      "snapshotTitle": "कुंडली कर्म सार",
+      "snapshotBody": "प्रेडिक्टा केवल तब सबसे मजबूत दोष, श्राप, योग और लाल किताब संकेत दिखाएगी जब गणना-आधारित प्रमाण उपलब्ध होगा.",
+      "doshSectionTitle": "आपकी कुंडली में दोष",
+      "shrapSectionTitle": "कर्म ऋण और श्राप संकेत",
+      "yogSectionTitle": "आपकी कुंडली में योग",
+      "lalKitabSectionTitle": "लाल किताब रीडिंग",
+      "safetyNoCurse": "प्रेडिक्टा कभी नहीं कहती कि आप शापित हैं. श्राप को प्रमाण और शांत मार्गदर्शन के साथ कर्मिक दबाव संकेत की तरह पढ़ा जाता है.",
+      "safetyNoGuarantee": "ये रीडिंग चुनाव और समय की दिशा देती हैं; ये परिणामों की गारंटी नहीं देतीं.",
+      "safetyNoFearRemedy": "प्रेडिक्टा महंगे डर-आधारित उपायों के लिए दबाव नहीं डालती.",
+      "safetyOneLalKitabRemedy": "लाल किताब में एक समय पर एक सुरक्षित उपाय करें और स्पष्ट मार्गदर्शन के बिना उपायों को न मिलाएं.",
+      "roomBoundaryVedic": "कुंडली कर्म वैदिक प्रेडिक्टा का हिस्सा है, जब तक कोई स्पष्ट सिंथेसिस रिपोर्ट इसे एक प्रमाण-स्तर के रूप में न उपयोग करे.",
+      "roomBoundaryKp": "KP प्रेडिक्टा दोष, श्राप, योग या लाल किताब परिणामों का दावा नहीं करती; यह कस्प, सब-लॉर्ड, सिग्निफिकेटर और टाइमिंग प्रमाण से घटना-प्रश्नों का उत्तर देती है.",
+      "roomBoundaryJaimini": "जैमिनी प्रेडिक्टा दोष, श्राप, योग या लाल किताब परिणामों का दावा नहीं करती; यह जैमिनी प्रमाण से आत्म-भूमिका और भाग्य अध्याय पढ़ती है.",
+      "roomBoundaryNumerology": "अंक ज्योतिष प्रेडिक्टा दोष, श्राप, योग या लाल किताब परिणामों का दावा नहीं करती; यह नाम, जन्म, भाग्य और चक्र संख्याएं पढ़ती है.",
+      "roomBoundarySignature": "सिग्नेचर प्रेडिक्टा दोष, श्राप, योग या लाल किताब परिणामों का दावा नहीं करती; यह केवल पुष्टि किए गए दिखने वाले सिग्नेचर गुणों पर विचार करती है.",
+      "geminiJyotishAlias": "अगर यूजर ज्योतिष संदर्भ में Gemini Jyotish कहता है, तो प्रेडिक्टा इसे जैमिनी ज्योतिष मानेगी, जब तक वह स्पष्ट रूप से Gemini AI provider की बात न कर रहा हो."
+    },
+    "gu": {
+      "snapshotTitle": "કુંડળી કર્મ સાર",
+      "snapshotBody": "પ્રેડિક્ટા માત્ર ત્યારે જ સૌથી મજબૂત દોષ, શ્રાપ, યોગ અને લાલ કિતાબ સંકેતો બતાવશે જ્યારે ગણતરી આધારિત પુરાવા ઉપલબ્ધ હશે.",
+      "doshSectionTitle": "તમારી કુંડળીમાં દોષ",
+      "shrapSectionTitle": "કર્મ ઋણ અને શ્રાપ સંકેતો",
+      "yogSectionTitle": "તમારી કુંડળીમાં યોગ",
+      "lalKitabSectionTitle": "લાલ કિતાબ રીડિંગ",
+      "safetyNoCurse": "પ્રેડિક્ટા ક્યારેય નથી કહેતી કે તમે શાપિત છો. શ્રાપને પુરાવા અને શાંત માર્ગદર્શન સાથે કર્મિક દબાણ સંકેત તરીકે વાંચવામાં આવે છે.",
+      "safetyNoGuarantee": "આ રીડિંગ પસંદગી અને સમયની દિશા આપે છે; તે પરિણામોની ગેરંટી આપતી નથી.",
+      "safetyNoFearRemedy": "પ્રેડિક્ટા મોંઘા ડર આધારિત ઉપાય માટે દબાણ કરતી નથી.",
+      "safetyOneLalKitabRemedy": "લાલ કિતાબમાં એક સમયે એક સુરક્ષિત ઉપાય કરો અને સ્પષ્ટ માર્ગદર્શન વિના ઉપાયો મિક્સ ન કરો.",
+      "roomBoundaryVedic": "કુંડળી કર્મ વૈદિક પ્રેડિક્ટાનો ભાગ છે, જ્યાં સુધી સ્પષ્ટ સિન્થેસિસ રિપોર્ટ તેને એક પુરાવા સ્તર તરીકે ઉપયોગ ન કરે.",
+      "roomBoundaryKp": "KP પ્રેડિક્ટા દોષ, શ્રાપ, યોગ અથવા લાલ કિતાબ પરિણામોનો દાવો કરતી નથી; તે cusp, sub-lord, significator અને timing proofથી event questionsના જવાબ આપે છે.",
+      "roomBoundaryJaimini": "જૈમિની પ્રેડિક્ટા દોષ, શ્રાપ, યોગ અથવા લાલ કિતાબ પરિણામોનો દાવો કરતી નથી; તે જૈમિની પુરાવાથી soul role અને destiny chapters વાંચે છે.",
+      "roomBoundaryNumerology": "ન્યુમરોલોજી પ્રેડિક્ટા દોષ, શ્રાપ, યોગ અથવા લાલ કિતાબ પરિણામોનો દાવો કરતી નથી; તે name, birth, destiny અને cycle numbers વાંચે છે.",
+      "roomBoundarySignature": "સિગ્નેચર પ્રેડિક્ટા દોષ, શ્રાપ, યોગ અથવા લાલ કિતાબ પરિણામોનો દાવો કરતી નથી; તે માત્ર confirmed visible signature traits પર વિચાર કરે છે.",
+      "geminiJyotishAlias": "જો યુઝર જ્યોતિષ સંદર્ભમાં Gemini Jyotish કહે, તો પ્રેડિક્ટા તેને જૈમિની જ્યોતિષ માને છે, જ્યાં સુધી તે સ્પષ્ટ રીતે Gemini AI providerની વાત ન કરતો હોય."
+    }
+  },
+  "blockedPhrases": [
+    "you are cursed",
+    "you are shrapit",
+    "guaranteed failure",
+    "guaranteed success",
+    "will definitely ruin",
+    "only premium can save you",
+    "must buy this remedy",
+    "expensive puja is required",
+    "this dosh will ruin",
+    "this shrap will destroy"
+  ],
+  "approvedPhrases": [
+    "karmic pressure indicator",
+    "calculated evidence suggests",
+    "this pattern can create friction",
+    "this pattern can support",
+    "the evidence is weak",
+    "the evidence is strong",
+    "this is reduced by",
+    "simple dharma-based remedy",
+    "one safe remedy at a time",
+    "Premium adds deeper timing and evidence"
+  ],
+  "roomBoundaries": {
+    "vedic": "Kundli Karma belongs to Vedic Predicta unless a clearly labeled synthesis report uses it as one evidence layer.",
+    "kp": "KP Predicta must not claim Dosh, Shrap, Yog, or Lal Kitab results.",
+    "jaimini": "Jaimini Predicta must not claim Dosh, Shrap, Yog, or Lal Kitab results.",
+    "numerology": "Numerology Predicta must not claim Dosh, Shrap, Yog, or Lal Kitab results.",
+    "signature": "Signature Predicta must not claim Dosh, Shrap, Yog, or Lal Kitab results.",
+    "lifeAtlas": "Life Atlas may use Kundli Karma only as a clearly labeled Vedic evidence layer inside synthesis."
+  },
+  "aliasRules": {
+    "geminiJyotish": "Gemini Jyotish is treated as a user typo or spoken variant for Jaimini Jyotish in astrology UI. Gemini as an AI provider must remain provider-only infrastructure wording."
+  }
+}

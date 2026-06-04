@@ -6,6 +6,7 @@ export * from './astrologyConfig';
 export * from './cacheConfig';
 export * from './guestAccessLimits';
 export * from './jaiminiLocalization';
+export * from './kundliKarmaLocalization';
 export * from './language';
 export * from './legal';
 export * from './monetizationCopy';

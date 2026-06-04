@@ -1,0 +1,41 @@
+{
+  "phase": "PREDICTA_KUNDLI_KARMA_PHASE_1_CANONICAL_TERMINOLOGY_LOCALIZATION_AND_SAFETY_CONTRACT",
+  "status": "GREEN",
+  "implementationScope": "canonical terminology, localization contract, safety copy, room-boundary copy, and executable gate only",
+  "runtimeFeatureImplementation": false,
+  "calculationImplementation": false,
+  "reportImplementation": false,
+  "canonicalUserFacingTerms": ["Dosh", "Shrap", "Yog", "Lal Kitab", "Karmic Debt & Shrap Indicators"],
+  "translationFiles": [
+    "packages/config/src/translations/kundliKarma.json"
+  ],
+  "helperFiles": [
+    "packages/config/src/kundliKarmaLocalization.ts"
+  ],
+  "gateFiles": [
+    "scripts/run-kundli-karma-phase-1-terminology-localization-safety-gate.mjs"
+  ],
+  "requiredGreenCriteria": {
+    "translationJsonContainsNewTerms": true,
+    "englishHindiGujaratiCoverage": true,
+    "blockedFearSellingPhrases": true,
+    "approvedCalmLanguagePhrases": true,
+    "safetyCopy": true,
+    "canonicalTermGateRejectsDoshaShrapa": true,
+    "roomBoundaryCopy": true,
+    "geminiJyotishAliasCopy": true,
+    "geminiAiProviderConfusionGate": true
+  },
+  "verificationCommands": [
+    "node scripts/run-kundli-karma-phase-1-terminology-localization-safety-gate.mjs",
+    "python3 -m json.tool packages/config/src/translations/kundliKarma.json",
+    "python3 -m json.tool package.json",
+    "corepack pnpm --filter @pridicta/config typecheck",
+    "git diff --check"
+  ],
+  "notes": [
+    "Phase 1 does not implement Dosh, Shrap, Yog, or Lal Kitab calculations.",
+    "Phase 1 does not add app UI, report chapters, or Predicta memory routing.",
+    "Future phases must import this contract instead of hardcoding terminology or safety copy."
+  ]
+}

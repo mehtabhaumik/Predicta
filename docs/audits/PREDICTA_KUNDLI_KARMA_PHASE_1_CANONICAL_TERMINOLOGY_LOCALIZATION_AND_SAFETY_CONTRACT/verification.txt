@@ -1,0 +1,8 @@
+PREDICTA_KUNDLI_KARMA_PHASE_1_CANONICAL_TERMINOLOGY_LOCALIZATION_AND_SAFETY_CONTRACT: PASS
+- dedicated Kundli Karma translation JSON exists
+- English/Hindi/Gujarati canonical terms and copy are populated
+- blocked fear-selling phrase list exists
+- approved calm-language phrase list exists
+- room-boundary copy exists for Vedic, KP, Jaimini, Numerology, Signature, Life Atlas
+- Gemini Jyotish alias resolves to Jaimini Jyotish and separates Gemini AI provider wording
+- config helper exports the contract for future app/report/chat phases
