@@ -1,0 +1,69 @@
+{
+  "baseUrl": "http://127.0.0.1:3009",
+  "checks": [
+    {
+      "fileName": "desktop-vedic-kundli-karma.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/vedic",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "clippedText": 0,
+      "hasAllModuleCards": true,
+      "hasLocalMemoryPayloadStatic": true,
+      "hasMissingKundliState": true,
+      "hasPanel": true,
+      "hasSnapshotTitle": true,
+      "hasTopThreeCards": false,
+      "horizontalOverflow": 0,
+      "tightActionGaps": 0
+    },
+    {
+      "fileName": "tablet-vedic-kundli-karma.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/vedic",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "clippedText": 0,
+      "hasAllModuleCards": true,
+      "hasLocalMemoryPayloadStatic": true,
+      "hasMissingKundliState": true,
+      "hasPanel": true,
+      "hasSnapshotTitle": true,
+      "hasTopThreeCards": false,
+      "horizontalOverflow": 0,
+      "tightActionGaps": 0
+    },
+    {
+      "fileName": "mobile-vedic-kundli-karma.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/vedic",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "clippedText": 0,
+      "hasAllModuleCards": true,
+      "hasLocalMemoryPayloadStatic": true,
+      "hasMissingKundliState": true,
+      "hasPanel": true,
+      "hasSnapshotTitle": true,
+      "hasTopThreeCards": false,
+      "horizontalOverflow": 0,
+      "tightActionGaps": 0
+    },
+    {
+      "fileName": "narrow-mobile-vedic-kundli-karma.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/vedic",
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360,
+      "clippedText": 0,
+      "hasAllModuleCards": true,
+      "hasLocalMemoryPayloadStatic": true,
+      "hasMissingKundliState": true,
+      "hasPanel": true,
+      "hasSnapshotTitle": true,
+      "hasTopThreeCards": false,
+      "horizontalOverflow": 0,
+      "tightActionGaps": 0
+    }
+  ],
+  "generatedAt": "2026-06-04T19:21:39.448Z",
+  "phase": "PREDICTA_KUNDLI_KARMA_PHASE_8_WEB_VEDIC_APP_SURFACE",
+  "screenshotRoot": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_8_WEB_VEDIC_APP_SURFACE/screenshots",
+  "status": "green"
+}

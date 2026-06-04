@@ -10654,6 +10654,229 @@ button:disabled,
     rgba(255, 255, 255, 0.045);
 }
 
+.kundli-karma-panel {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+
+.kundli-karma-hero,
+.kundli-karma-condition-card,
+.kundli-karma-module-card,
+.kundli-karma-disclosure,
+.kundli-karma-empty,
+.kundli-karma-mini-row,
+.kundli-karma-remedy-row {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 18px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  padding: 16px;
+}
+
+.kundli-karma-hero {
+  align-items: start;
+  background:
+    radial-gradient(circle at top left, rgba(77, 175, 255, 0.12), transparent 35%),
+    radial-gradient(circle at 92% 10%, rgba(255, 74, 166, 0.1), transparent 32%),
+    rgba(255, 255, 255, 0.045);
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.45fr);
+}
+
+.kundli-karma-hero span,
+.kundli-karma-condition-card > strong,
+.kundli-karma-module-card summary strong,
+.kundli-karma-empty strong,
+.kundli-karma-mini-row strong,
+.kundli-karma-remedy-row strong {
+  display: block;
+}
+
+.kundli-karma-hero > div > span,
+.kundli-karma-mini-row span,
+.kundli-karma-remedy-row span,
+.kundli-karma-disclosure summary > span,
+.kundli-karma-module-card summary > span {
+  color: #ffd27a;
+  display: block;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.kundli-karma-hero p,
+.kundli-karma-condition-card p,
+.kundli-karma-condition-card small,
+.kundli-karma-module-card p,
+.kundli-karma-empty p,
+.kundli-karma-mini-row p,
+.kundli-karma-card-details p,
+.kundli-karma-mini-details p,
+.kundli-karma-remedy-row p,
+.kundli-karma-remedy-row small,
+.kundli-karma-premium-note,
+.kundli-karma-locked,
+.kundli-karma-evidence-list p {
+  color: var(--muted);
+  line-height: 1.62;
+  margin: 8px 0 0;
+}
+
+.kundli-karma-hero-meta,
+.kundli-karma-card-header,
+.kundli-karma-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-width: 0;
+}
+
+.kundli-karma-card-header {
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.kundli-karma-card-header > span {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.kundli-karma-chip {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.9);
+  display: inline-flex;
+  flex: 0 1 auto;
+  gap: 6px;
+  max-width: 100%;
+  min-height: 34px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  padding: 7px 10px;
+}
+
+.kundli-karma-chip small {
+  color: rgba(255, 210, 122, 0.86);
+  flex: 0 0 auto;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.kundli-karma-top-grid,
+.kundli-karma-module-grid,
+.kundli-karma-module-items,
+.kundli-karma-remedy-list {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.kundli-karma-top-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.kundli-karma-module-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.kundli-karma-condition-card,
+.kundli-karma-mini-row {
+  display: grid;
+  gap: 12px;
+}
+
+.kundli-karma-actions {
+  margin-top: 4px;
+}
+
+.kundli-karma-actions .button {
+  min-height: var(--predicta-touch-target);
+  white-space: normal;
+}
+
+.kundli-karma-card-details,
+.kundli-karma-mini-details,
+.kundli-karma-disclosure {
+  overflow: hidden;
+}
+
+.kundli-karma-card-details summary,
+.kundli-karma-mini-details summary,
+.kundli-karma-disclosure summary,
+.kundli-karma-module-card summary {
+  cursor: pointer;
+  list-style: none;
+  min-width: 0;
+}
+
+.kundli-karma-card-details summary::-webkit-details-marker,
+.kundli-karma-mini-details summary::-webkit-details-marker,
+.kundli-karma-disclosure summary::-webkit-details-marker,
+.kundli-karma-module-card summary::-webkit-details-marker {
+  display: none;
+}
+
+.kundli-karma-card-details summary,
+.kundli-karma-mini-details summary {
+  color: rgba(255, 210, 122, 0.9);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  padding: 6px 0;
+}
+
+.kundli-karma-evidence-list {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+
+.kundli-karma-evidence-list li {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 12px;
+  min-width: 0;
+  padding: 10px;
+}
+
+.kundli-karma-evidence-list span {
+  color: rgba(255, 210, 122, 0.82);
+  display: block;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.kundli-karma-remedy-row {
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.kundli-karma-locked,
+.kundli-karma-premium-note {
+  background: rgba(255, 210, 122, 0.075);
+  border: 1px solid rgba(255, 210, 122, 0.16);
+  border-radius: 12px;
+  padding: 12px;
+}
+
 .vedic-moon-chart-card {
   display: grid;
   gap: 18px;
@@ -21376,7 +21599,10 @@ select::-ms-expand {
   .vedic-action-band,
   .vedic-chart-order,
   .vedic-intelligence-grid,
-  .vedic-soul-chart-grid {
+  .vedic-soul-chart-grid,
+  .kundli-karma-hero,
+  .kundli-karma-top-grid,
+  .kundli-karma-module-grid {
     grid-template-columns: 1fr;
   }
 
@@ -21401,6 +21627,16 @@ select::-ms-expand {
     gap: 10px;
     margin-bottom: 18px;
     padding: 14px;
+  }
+
+  .kundli-karma-hero-meta,
+  .kundli-karma-actions {
+    align-items: stretch;
+  }
+
+  .kundli-karma-actions .button {
+    justify-content: center;
+    width: 100%;
   }
 }
 
@@ -21470,6 +21706,25 @@ select::-ms-expand {
 
   .hero-kundli-loading {
     min-height: 240px;
+  }
+
+  .kundli-karma-hero,
+  .kundli-karma-condition-card,
+  .kundli-karma-module-card,
+  .kundli-karma-disclosure,
+  .kundli-karma-empty,
+  .kundli-karma-mini-row,
+  .kundli-karma-remedy-row {
+    border-radius: 14px;
+    padding: 14px;
+  }
+
+  .kundli-karma-chip {
+    align-items: flex-start;
+    border-radius: 14px;
+    flex-direction: column;
+    gap: 3px;
+    width: 100%;
   }
 }
 

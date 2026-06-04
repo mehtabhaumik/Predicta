@@ -1,0 +1,5 @@
+PREDICTA_KUNDLI_KARMA_PHASE_8_WEB_VEDIC_APP_SURFACE: PASS
+- web Vedic room consumes composeKundliKarmaSnapshot from @pridicta/astrology
+- calm top-three snapshot, Dosh/Shrap/Yog/Lal Kitab cards, expanders, remedies, premium lock, and missing states are source-locked
+- desktop/tablet/mobile/narrow-mobile screenshots are captured by the gate
+- overflow, clipped text, CTA spacing, and category visibility are audited
