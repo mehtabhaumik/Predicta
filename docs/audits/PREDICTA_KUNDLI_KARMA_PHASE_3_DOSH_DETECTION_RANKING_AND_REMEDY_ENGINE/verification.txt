@@ -1,0 +1,6 @@
+PREDICTA_KUNDLI_KARMA_PHASE_3_DOSH_DETECTION_RANKING_AND_REMEDY_ENGINE: PASS
+- Dosh engine runtime fixtures passed present, weak, cancelled, not_present, needs_data, pending_evidence, and blocked_context states
+- all implemented Dosh outputs carry rule ids, source references, remedies, and evidence
+- Nadi Dosh is blocked outside compatibility context
+- unknown tradition variation path is marked pending_evidence instead of overclaimed
+- fear-selling and curse-language gates passed

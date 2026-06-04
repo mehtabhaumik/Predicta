@@ -302,6 +302,7 @@ export type KundliKarmaSourceReference = {
 };
 
 export type KundliKarmaRuleImplementationStatus =
+  | 'implemented'
   | 'contract_fixture'
   | 'pending_engine'
   | 'needs_data'

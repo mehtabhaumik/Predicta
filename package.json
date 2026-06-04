@@ -33,6 +33,7 @@
     "test:kundli-value-phase-9": "node scripts/run-kundli-value-phase-9-gate.mjs",
     "test:kundli-karma-phase-1": "node scripts/run-kundli-karma-phase-1-terminology-localization-safety-gate.mjs",
     "test:kundli-karma-phase-2": "node scripts/run-kundli-karma-phase-2-data-contract-gate.mjs",
+    "test:kundli-karma-phase-3": "node scripts/run-kundli-karma-phase-3-dosh-engine-gate.mjs",
     "test:report-pdf-phase-2": "node scripts/run-report-pdf-phase-2-vedic-intelligence-contract-gate.mjs",
     "test:report-pdf-phase-3": "node scripts/run-report-pdf-phase-3-classical-jyotish-modules-gate.mjs",
     "test:report-pdf-phase-4": "node scripts/run-report-pdf-phase-4-document-brand-template-gate.mjs",

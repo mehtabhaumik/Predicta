@@ -109,50 +109,50 @@ const LAL_KITAB_HOUSE: KundliKarmaEvidenceKind[] = ['lal_kitab_house', 'planet_h
 export const KUNDLI_KARMA_RULE_PROVENANCE: KundliKarmaRuleProvenance[] = [
   rule('rule-dosh-manglik-kuja', 'DOSH', 'Manglik / Kuja Dosh', 'Dosh', PLANET_HOUSE, [
     'source-sanatan-jyoti-dosh-report',
-  ], ['fixture-strong-dosh-manglik']),
+  ], ['fixture-strong-dosh-manglik', 'fixture-dosh-manglik-present', 'fixture-dosh-manglik-cancelled'], 'implemented'),
   rule('rule-dosh-kaal-sarp', 'DOSH', 'Kaal Sarp Dosh', 'Dosh', PLANET_AXIS, [
     'source-sanatan-jyoti-dosh-report',
-  ], []),
+  ], ['fixture-dosh-kaal-sarp-present'], 'implemented'),
   rule('rule-dosh-pitra', 'DOSH', 'Pitra Dosh', 'Dosh', LORDSHIP, [
     'source-sanatan-jyoti-dosh-report',
-  ], []),
+  ], ['fixture-dosh-pitra-weak'], 'implemented'),
   rule('rule-dosh-shrapit', 'DOSH', 'Shrapit Dosh', 'Dosh', PLANET_CONJUNCTION, [
     'source-sanatan-jyoti-dosh-report',
-  ], ['fixture-overlap-shrapit-dedupe']),
+  ], ['fixture-overlap-shrapit-dedupe', 'fixture-dosh-shrapit-present'], 'implemented'),
   rule('rule-dosh-guru-chandal', 'DOSH', 'Guru Chandal Dosh', 'Dosh', PLANET_CONJUNCTION, [
     'source-sanatan-jyoti-dosh-report',
-  ], []),
+  ], ['fixture-dosh-guru-chandal-present'], 'implemented'),
   rule('rule-dosh-grahan', 'DOSH', 'Grahan Dosh', 'Dosh', PLANET_CONJUNCTION, [
     'source-sanatan-jyoti-dosh-report',
-  ], []),
+  ], ['fixture-dosh-grahan-present'], 'implemented'),
   rule('rule-dosh-kemadruma', 'DOSH', 'Kemadruma Dosh', 'Dosh', ['planet_house', 'chart_support'], [
     'source-sanatan-jyoti-dosh-report',
     'source-shreekundli-yog-guide',
-  ], []),
+  ], ['fixture-dosh-kemadruma-present'], 'implemented'),
   rule('rule-dosh-vish', 'DOSH', 'Vish Dosh', 'Dosh', PLANET_CONJUNCTION, [
     'source-sanatan-jyoti-dosh-report',
-  ], []),
+  ], ['fixture-dosh-vish-weak'], 'implemented'),
   rule('rule-dosh-angarak', 'DOSH', 'Angarak Dosh', 'Dosh', PLANET_CONJUNCTION, [
     'source-sanatan-jyoti-dosh-report',
-  ], []),
+  ], ['fixture-dosh-angarak-present'], 'implemented'),
   rule('rule-dosh-daridra', 'DOSH', 'Daridra Dosh', 'Dosh', LORDSHIP, [
     'source-sanatan-jyoti-dosh-report',
     'source-shreekundli-yog-guide',
-  ], []),
+  ], ['fixture-dosh-daridra-weak'], 'implemented'),
   rule('rule-dosh-paap-kartari', 'DOSH', 'Paap Kartari Dosh', 'Dosh', ['planet_house', 'aspect'], [
     'source-sanatan-jyoti-dosh-report',
     'source-shreekundli-yog-guide',
-  ], []),
+  ], ['fixture-dosh-paap-kartari-present'], 'implemented'),
   rule('rule-dosh-arishta-balarishta', 'DOSH', 'Arishta / Balarishta Dosh', 'Dosh', [
     'planet_house',
     'lordship',
     'chart_support',
-  ], ['source-sanatan-jyoti-dosh-report'], [], 'needs_data', [
+  ], ['source-sanatan-jyoti-dosh-report'], ['fixture-dosh-arishta-needs-data'], 'needs_data', [
     'High-safety rule family. Later phases must avoid medical, death, or certainty claims.',
   ]),
   rule('rule-dosh-nadi-compatibility-only', 'DOSH', 'Nadi Dosh', 'Dosh', ['context_boundary'], [
     'source-sanatan-jyoti-dosh-report',
-  ], [], 'blocked_context', ['Single-person Kundli Karma must not activate Nadi Dosh.']),
+  ], ['fixture-dosh-nadi-blocked-context'], 'blocked_context', ['Single-person Kundli Karma must not activate Nadi Dosh.']),
   rule('rule-shrap-pitru', 'SHRAP', 'Pitru Shrap', 'Shrap', LORDSHIP, [
     'source-sanatan-jyoti-dosh-report',
   ], []),

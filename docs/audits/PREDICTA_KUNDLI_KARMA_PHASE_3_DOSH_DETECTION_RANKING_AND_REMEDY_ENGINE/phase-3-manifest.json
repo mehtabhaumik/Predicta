@@ -1,0 +1,63 @@
+{
+  "phase": "PREDICTA_KUNDLI_KARMA_PHASE_3_DOSH_DETECTION_RANKING_AND_REMEDY_ENGINE",
+  "status": "GREEN",
+  "implementationScope": "deterministic Dosh detection, ranking, evidence, activation, cancellation/softening, remedies, source-backed rule ids, and safety gates",
+  "implementedDoshRules": [
+    "Manglik / Kuja",
+    "Kaal Sarp",
+    "Pitra",
+    "Shrapit",
+    "Guru Chandal",
+    "Grahan",
+    "Kemadruma",
+    "Vish",
+    "Angarak",
+    "Daridra",
+    "Paap Kartari",
+    "Arishta / Balarishta needs_data",
+    "Nadi Dosh compatibility-only boundary"
+  ],
+  "engineFiles": [
+    "packages/astrology/src/kundliKarmaDoshEngine.ts"
+  ],
+  "contractFilesUpdated": [
+    "packages/types/src/astrology.ts",
+    "packages/astrology/src/kundliKarmaContract.ts",
+    "packages/astrology/src/index.ts"
+  ],
+  "gateFiles": [
+    "scripts/run-kundli-karma-phase-3-dosh-engine-gate.mjs"
+  ],
+  "runtimeStatesAudited": [
+    "present",
+    "weak",
+    "cancelled",
+    "not_present",
+    "needs_data",
+    "pending_evidence",
+    "blocked_context"
+  ],
+  "requiredGreenCriteria": {
+    "doshEngineTestsPass": true,
+    "noCurseOrFearLanguage": true,
+    "presentDoshIncludesExactEvidence": true,
+    "absentDoshAvoidsFalseAlarm": true,
+    "nadiDoshBlockedOutsideCompatibility": true,
+    "activeDoshHasRuleIdSourceReferenceAndFixture": true,
+    "unknownTraditionVariationMarkedPending": true
+  },
+  "verificationCommands": [
+    "corepack pnpm test:kundli-karma-phase-3",
+    "corepack pnpm --filter @pridicta/types typecheck",
+    "corepack pnpm --filter @pridicta/astrology typecheck",
+    "corepack pnpm --filter @pridicta/pdf typecheck",
+    "corepack pnpm --filter @pridicta/mobile typecheck",
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "git diff --check"
+  ],
+  "notes": [
+    "Phase 3 implements only the Dosh engine, not Shrap, Yog, Lal Kitab, app UI, reports, or Predicta memory behavior.",
+    "Arishta/Balarishta remains needs_data because high-safety claims require separate approval.",
+    "Nadi Dosh remains blocked outside compatibility/matching context."
+  ]
+}
