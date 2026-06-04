@@ -1,0 +1,218 @@
+{
+  "artifacts": [
+    {
+      "kind": "roadmap",
+      "status": "green"
+    },
+    {
+      "kind": "phase-chain",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_1_CANONICAL_TERMINOLOGY_LOCALIZATION_AND_SAFETY_CONTRACT/verification.txt",
+      "sha256": "8e7051a52dc06e4f735ec7072267d8ecae445b3a6816b3145c23dc4b36cdbb39"
+    },
+    {
+      "kind": "phase-chain",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_2_DETERMINISTIC_DATA_CONTRACT_AND_EVIDENCE_SCHEMA/verification.txt",
+      "sha256": "9e6aaf142858440cc9ac122793509a604b4f6f8da71e1b359532059e1dbe3bbd"
+    },
+    {
+      "kind": "phase-chain",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_3_DOSH_DETECTION_RANKING_AND_REMEDY_ENGINE/verification.txt",
+      "sha256": "5ca5d5985162482b9a229a36b5069a34710f4261aa9f2017ee3e222b4f6c2962"
+    },
+    {
+      "kind": "phase-chain",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_4_SHRAP_KARMIC_DEBT_DETECTION_AND_REMEDY_ENGINE/verification.txt",
+      "sha256": "601754478a3229b7bbd92882b8bff867c694a82ca72c7116780a53936775dfcc"
+    },
+    {
+      "kind": "phase-chain",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_5_SUPPORTIVE_AND_CHALLENGING_YOG_ENGINE/verification.txt",
+      "sha256": "367ae51e6724c61cf735695b4513ae073d0ee612635c12445b7e95f579cd2ea6"
+    },
+    {
+      "kind": "phase-chain",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_6_LAL_KITAB_ENGINE/verification.txt",
+      "sha256": "0adcb678f619fc899d4d154f5d3a3def439724cdb3f53ed6a7bcd87ee853ff62"
+    },
+    {
+      "kind": "phase-chain",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_7_DEDUPING_RANKING_SNAPSHOT_AND_REMEDY_PLAN_ENGINE/verification.txt",
+      "sha256": "1c9c09e5abb95d473746fc2c4523a645117fd82f2c8104aa2b2b290857ca53e6"
+    },
+    {
+      "kind": "phase-chain",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_8_WEB_VEDIC_APP_SURFACE/verification.txt",
+      "sha256": "9a31d58d22929871bd6e8fd57b97b2ae7932da27d7aab3fe97249a99635a4ba8"
+    },
+    {
+      "kind": "phase-chain",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_9_MOBILE_VEDIC_APP_SURFACE_PARITY/verification.txt",
+      "sha256": "fe9a17ab03e6b92c48bae79d00d79756e8c73f01585f52eefa20e5e2fc2aa232"
+    },
+    {
+      "kind": "phase-chain",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_10_PREDICTA_INTELLIGENCE_LOCAL_MEMORY_INTEGRATION/verification.txt",
+      "sha256": "c28af4cdf73403b2dbb58310dd3ee98dffd55627abdb80c9b6ab690563248a0f"
+    },
+    {
+      "kind": "phase-chain",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_11_CHAT_CTA_ZERO_CREDIT_AND_CONTEXT_HANDOFF/verification.txt",
+      "sha256": "f8d2a15c0538ccd18530c37b368126600fa665469640da5cce617167380ea59b"
+    },
+    {
+      "kind": "phase-chain",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/verification.txt",
+      "sha256": "fc4c1c4ea66621b557c9826a1d9f1f0f5f1dcc47b57c7b419ad3b8716316a6cc"
+    },
+    {
+      "kind": "phase-chain",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_13_TRANSLATION_ACCESSIBILITY_AND_NO_HARDCODED_COPY_SWEEP/verification.txt",
+      "sha256": "b81f25daafa4e2ae6dfa00f7733a14c6288a26c11407cf700862e697fc7d8aeb"
+    },
+    {
+      "kind": "deterministic-fixture",
+      "remedyCount": 17,
+      "status": "partial",
+      "topThree": [
+        "Manglik / Kuja Dosh",
+        "Lal Kitab Saturn in house 8",
+        "Parivartana Yog"
+      ]
+    },
+    {
+      "kind": "predicta-local-memory",
+      "prompts": 4,
+      "providerDecision": "local_memory_answer"
+    },
+    {
+      "bytes": 433627,
+      "kind": "file",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_8_WEB_VEDIC_APP_SURFACE/screenshots/desktop-vedic-kundli-karma.png",
+      "sha256": "e84f0cfe647f03f235ba91bf17066ad383762ba35b6035f790f9ee0ea474c32e"
+    },
+    {
+      "bytes": 367965,
+      "kind": "file",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_8_WEB_VEDIC_APP_SURFACE/screenshots/tablet-vedic-kundli-karma.png",
+      "sha256": "aa1c237772d67fff545ea3030c2b7922e4e198c9b6433d831541c41b63d44d47"
+    },
+    {
+      "bytes": 244480,
+      "kind": "file",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_8_WEB_VEDIC_APP_SURFACE/screenshots/mobile-vedic-kundli-karma.png",
+      "sha256": "87c9810f02c96e8477777a9e58b1fda31eed0947e1a78939742d07d6cc916d08"
+    },
+    {
+      "bytes": 210929,
+      "kind": "file",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_8_WEB_VEDIC_APP_SURFACE/screenshots/narrow-mobile-vedic-kundli-karma.png",
+      "sha256": "5c18f6d634e38038c88543f9c4f5be4d6980759d863b359df3a5e53bb3b0cc13"
+    },
+    {
+      "kind": "app-surfaces",
+      "mobileProof": "green",
+      "webViewports": 4
+    },
+    {
+      "bytes": 283829,
+      "kind": "file",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/artifacts/predicta-kundli-karma-vedic-free.pdf",
+      "sha256": "289d4fc9e01743d5b6d890c1efbe035faeede9a6eecaa65899e964325420b669"
+    },
+    {
+      "bytes": 53943,
+      "kind": "file",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/artifacts/predicta-kundli-karma-vedic-free-text.txt",
+      "sha256": "ffa3c32029626a64d7a635936c5397496bf9a9e6159b50268c564f0e69689cd0"
+    },
+    {
+      "bytes": 77255,
+      "kind": "file",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/previews/kundli-karma-vedic-free/page-01.png",
+      "sha256": "7f6095144d539a57e864f5091dadfa76fa4e91c51a3b40d04c273b23a798df91"
+    },
+    {
+      "bytes": 84695,
+      "kind": "file",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/previews/kundli-karma-vedic-free/page-02.png",
+      "sha256": "6f87f0fd6d875dea749c6b2e1c1a972eaaf54b852c15034528a1973daea8fc47"
+    },
+    {
+      "bytes": 79576,
+      "kind": "file",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/previews/kundli-karma-vedic-free/page-29.png",
+      "sha256": "9b1a1cfdb3a92799982058272ece911c3964e4920d100f0d3dccdcd865c38ef3"
+    },
+    {
+      "bytes": 62326,
+      "kind": "file",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/previews/kundli-karma-vedic-free/page-46.png",
+      "sha256": "1cf64d7028c61eaf16c2f93bb0a9d67380976933ac2dc246116595b0c54e3447"
+    },
+    {
+      "bytes": 424269,
+      "kind": "file",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/artifacts/predicta-kundli-karma-vedic-premium.pdf",
+      "sha256": "cde731bf4a02dbab881e4d26c5964175fee9bd723330627a4f7317dee97930a4"
+    },
+    {
+      "bytes": 87513,
+      "kind": "file",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/artifacts/predicta-kundli-karma-vedic-premium-text.txt",
+      "sha256": "76c9765e97ac8fd5493dbef668f5e320f9753d1ff86afe890811f1a205897de9"
+    },
+    {
+      "bytes": 78137,
+      "kind": "file",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/previews/kundli-karma-vedic-premium/page-01.png",
+      "sha256": "79b9e260f8d3a5b17c0c411b3cba274d69a18f372ea16e9515a9af68bf71ae01"
+    },
+    {
+      "bytes": 85725,
+      "kind": "file",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/previews/kundli-karma-vedic-premium/page-02.png",
+      "sha256": "f248be2b84461114cf3aa4836b317bf3c16e2d11d365a73982690b82a5674451"
+    },
+    {
+      "bytes": 107371,
+      "kind": "file",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/previews/kundli-karma-vedic-premium/page-41.png",
+      "sha256": "69e70a6b1356dac51bf4c1e22e45466802cfe7c806a023b720b6bd40d1ae460a"
+    },
+    {
+      "bytes": 64405,
+      "kind": "file",
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/previews/kundli-karma-vedic-premium/page-72.png",
+      "sha256": "c750d145fa7145bdb84c5e30934057bfa78993134b9f3bc7b4b956da07da4dd0"
+    },
+    {
+      "artifacts": [
+        {
+          "id": "kundli-karma-vedic-free",
+          "pageCount": 46
+        },
+        {
+          "id": "kundli-karma-vedic-premium",
+          "pageCount": 72
+        }
+      ],
+      "kind": "report-artifacts"
+    },
+    {
+      "kind": "translation-accessibility",
+      "status": "green",
+      "translationKeyCount": 100
+    }
+  ],
+  "generatedAt": "2026-06-04T21:48:00.543Z",
+  "ledger": {
+    "Critical": [],
+    "Major": [],
+    "Medium": [],
+    "Minor": [
+      "Deterministic fixture is partial by design: Arishta / Balarishta Dosh: Approved high-safety evidence is pending; Predicta will not fake this reading. | Preta Shrap: Approved deterministic Preta Shrap evidence is pending; Predicta will not fake this indicator. | Arishta Yog: High-safety Arishta checks are not active for Golden Fixture phase-14-golden; Predicta will not fake this Yog. | Lal Kitab unsupported tradition variation: Approved deterministic rule evidence is pending."
+    ]
+  },
+  "phase": "PREDICTA_KUNDLI_KARMA_PHASE_14_GOLDEN_ARTIFACT_NO_GO_AUDIT",
+  "status": "green"
+}
