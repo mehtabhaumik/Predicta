@@ -1,0 +1,57 @@
+{
+  "phase": "PREDICTA_KUNDLI_KARMA_PHASE_4_SHRAP_KARMIC_DEBT_DETECTION_AND_REMEDY_ENGINE",
+  "status": "GREEN",
+  "implementationScope": "deterministic Karmic Debt & Shrap indicator detection, ranking, exact evidence, activation, remedies, pending handling, source-backed rule ids, and Shrapit dedupe",
+  "implementedShrapRules": [
+    "Pitru Shrap",
+    "Matru Shrap",
+    "Guru Shrap",
+    "Sarpa / Naga Shrap",
+    "Bhratri / Bandhu Shrap",
+    "Stree / Patni Shrap",
+    "Deva / Brahma Shrap"
+  ],
+  "needsDataRules": [
+    "Preta Shrap"
+  ],
+  "engineFiles": [
+    "packages/astrology/src/kundliKarmaShrapEngine.ts"
+  ],
+  "contractFilesUpdated": [
+    "packages/astrology/src/kundliKarmaContract.ts",
+    "packages/astrology/src/index.ts"
+  ],
+  "gateFiles": [
+    "scripts/run-kundli-karma-phase-4-shrap-engine-gate.mjs"
+  ],
+  "runtimeStatesAudited": [
+    "present",
+    "weak",
+    "not_present",
+    "needs_data"
+  ],
+  "requiredGreenCriteria": {
+    "shrapEngineTestsPass": true,
+    "noCurseOrFearLanguage": true,
+    "activeIndicatorIncludesExactEvidence": true,
+    "weakIndicatorSaysIndicatorNotCertainty": true,
+    "pretaShrapRemainsNeedsData": true,
+    "shrapitDedupeCrossReferenceExists": true,
+    "activeShrapHasRuleIdSourceReferenceAndFixture": true
+  },
+  "verificationCommands": [
+    "corepack pnpm test:kundli-karma-phase-4",
+    "corepack pnpm --filter @pridicta/types typecheck",
+    "corepack pnpm --filter @pridicta/astrology typecheck",
+    "corepack pnpm --filter @pridicta/pdf typecheck",
+    "corepack pnpm --filter @pridicta/mobile typecheck",
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "python3 -m json.tool docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_4_SHRAP_KARMIC_DEBT_DETECTION_AND_REMEDY_ENGINE/phase-4-manifest.json",
+    "git diff --check"
+  ],
+  "notes": [
+    "Phase 4 implements only Shrap/Karmic Debt indicators, not Yog, Lal Kitab, app UI, reports, or Predicta memory behavior.",
+    "Preta Shrap remains needs_data because unsupported invisible-claim readings require separate deterministic evidence and safety approval.",
+    "Shrapit overlap is cross-referenced to Dosh ownership with do_not_duplicate so later Dosh, Shrap, and Yog sections do not repeat the same full reading."
+  ]
+}

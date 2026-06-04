@@ -155,16 +155,16 @@ export const KUNDLI_KARMA_RULE_PROVENANCE: KundliKarmaRuleProvenance[] = [
   ], ['fixture-dosh-nadi-blocked-context'], 'blocked_context', ['Single-person Kundli Karma must not activate Nadi Dosh.']),
   rule('rule-shrap-pitru', 'SHRAP', 'Pitru Shrap', 'Shrap', LORDSHIP, [
     'source-sanatan-jyoti-dosh-report',
-  ], []),
+  ], ['fixture-shrap-pitru-present'], 'implemented'),
   rule('rule-shrap-matru', 'SHRAP', 'Matru Shrap', 'Shrap', LORDSHIP, [
     'source-sanatan-jyoti-dosh-report',
-  ], ['fixture-strong-shrap-indicator']),
+  ], ['fixture-strong-shrap-indicator', 'fixture-shrap-matru-weak'], 'implemented'),
   rule('rule-shrap-guru', 'SHRAP', 'Guru Shrap', 'Shrap', LORDSHIP, [
     'source-sanatan-jyoti-dosh-report',
-  ], []),
+  ], ['fixture-shrap-guru-present'], 'implemented'),
   rule('rule-shrap-sarpa-naga', 'SHRAP', 'Sarpa / Naga Shrap', 'Shrap', PLANET_AXIS, [
     'source-sanatan-jyoti-dosh-report',
-  ], []),
+  ], ['fixture-shrap-sarpa-naga-present'], 'implemented'),
   rule('rule-shrap-preta', 'SHRAP', 'Preta Shrap', 'Shrap', ['missing_data'], [
     'source-sanatan-jyoti-dosh-report',
   ], ['fixture-needs-data-preta-shrap'], 'needs_data', [
@@ -172,13 +172,13 @@ export const KUNDLI_KARMA_RULE_PROVENANCE: KundliKarmaRuleProvenance[] = [
   ]),
   rule('rule-shrap-bhratri-bandhu', 'SHRAP', 'Bhratri / Bandhu Shrap', 'Shrap', LORDSHIP, [
     'source-sanatan-jyoti-dosh-report',
-  ], []),
+  ], ['fixture-shrap-bhratri-bandhu-weak'], 'implemented'),
   rule('rule-shrap-stree-patni', 'SHRAP', 'Stree / Patni Shrap', 'Shrap', LORDSHIP, [
     'source-sanatan-jyoti-dosh-report',
-  ], []),
+  ], ['fixture-shrap-stree-patni-present'], 'implemented'),
   rule('rule-shrap-deva-brahma', 'SHRAP', 'Deva / Brahma Shrap', 'Shrap', LORDSHIP, [
     'source-sanatan-jyoti-dosh-report',
-  ], []),
+  ], ['fixture-shrap-deva-brahma-weak'], 'implemented'),
   rule('rule-yog-raja', 'SUPPORTIVE_YOG', 'Raja Yog', 'Yog', LORDSHIP, [
     'source-omastrology-yog-analysis',
     'source-shreekundli-yog-guide',

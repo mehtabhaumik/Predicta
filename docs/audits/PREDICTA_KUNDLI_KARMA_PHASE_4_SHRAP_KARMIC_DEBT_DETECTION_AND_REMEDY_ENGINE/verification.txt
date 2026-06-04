@@ -1,0 +1,7 @@
+PREDICTA_KUNDLI_KARMA_PHASE_4_SHRAP_KARMIC_DEBT_DETECTION_AND_REMEDY_ENGINE: PASS
+- Shrap engine runtime fixtures passed present, weak, not_present, and needs_data states
+- all implemented Shrap indicators carry rule ids, source references, fixtures, remedies, and exact evidence
+- weak/partial Shrap output stays indicator-based and does not use certainty language
+- Preta Shrap remains needs_data with honest pending handling
+- Shrapit overlap is cross-referenced to Dosh ownership with do_not_duplicate
+- fear-selling and curse-language gates passed
