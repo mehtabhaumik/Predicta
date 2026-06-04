@@ -1,0 +1,61 @@
+{
+  "phase": "PREDICTA_KUNDLI_KARMA_PHASE_0_BASELINE_RESEARCH_AND_SCOPE_LOCK",
+  "status": "GREEN_FOR_BASELINE_ONLY",
+  "implementationChanges": false,
+  "canonicalUserFacingTerms": ["Dosh", "Shrap", "Yog", "Lal Kitab"],
+  "forbiddenCanonicalTerms": ["Dosha", "Shrapa", "Yoga"],
+  "artifacts": [
+    "phase-0-baseline-audit.md",
+    "source-matrix.md",
+    "current-reference-inventory.md",
+    "rule-candidate-registry.md",
+    "redline-ledger.md",
+    "predicta-intelligence-gap-ledger.md",
+    "phase-0-manifest.json"
+  ],
+  "requiredGreenCriteria": {
+    "baselineAuditArtifact": true,
+    "calculationReportAppChatInventory": true,
+    "competitorSourceMatrix": true,
+    "ruleCandidateRegistry": true,
+    "predictaIntelligenceGapLedger": true,
+    "canonicalWordingDecisionCaptured": true,
+    "noCodeImplementationChanges": true
+  },
+  "sourceUrls": [
+    "https://www.sanatanjyoti.com/kundli/dosha-report",
+    "https://www.omastrology.com/astrology-report/astrology-yoga-analysis/",
+    "https://www.shreekundli.com/vedic-astrology/yoga",
+    "https://ishvaram.com/lal-kitab/",
+    "https://www.astrosage.com/lalkitab/LKintroduction.asp",
+    "https://www.astrosage.com/free/lal-kitab-report.asp",
+    "https://www.astrosage.com/lalkitab/lalkitab.pdf",
+    "https://onekundli.com/wp-content/uploads/2025/05/OneKundli-Sample-Report_organized.pdf",
+    "https://en.wikipedia.org/wiki/Lal_Kitab"
+  ],
+  "inventoriedRuntimeFiles": [
+    "backend/astro_api/calculations.py",
+    "backend/astro_api/models.py",
+    "backend/astro_api/ai.py",
+    "backend/astro_api/ai_prompt_efficiency.py",
+    "packages/astrology/src/advancedJyotishEngine.ts",
+    "packages/astrology/src/predictaChatActions.ts",
+    "packages/astrology/src/chartInsights.ts",
+    "apps/web/components/WebAdvancedJyotishPanel.tsx",
+    "apps/web/components/WebChartsExplorer.tsx",
+    "apps/web/components/WebPridictaChat.tsx",
+    "apps/web/components/WebDossierPreview.tsx",
+    "apps/mobile/src/components/AdvancedJyotishPanel.tsx",
+    "apps/mobile/src/screens/ChartsScreen.tsx",
+    "apps/mobile/src/screens/ChatScreen.tsx",
+    "apps/mobile/src/services/ai/aiRouter.ts",
+    "apps/mobile/src/services/ai/contextBuilder.ts",
+    "packages/pdf/src/index.ts",
+    "packages/pdf/src/reportDocument.tsx",
+    "packages/pdf/src/vedicReportValueContract.ts",
+    "packages/pdf/src/reportArchitecture.ts",
+    "packages/config/src/pricing.ts",
+    "packages/config/src/translations/ui.json"
+  ],
+  "phase0Conclusion": "Predicta has adjacent foundations but no implemented Kundli Karma Intelligence layer yet. Deterministic calculation/data contract must come before app UI, Predicta memory, and report chapters."
+}
