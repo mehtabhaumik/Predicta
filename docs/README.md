@@ -68,6 +68,12 @@ Only live documents in this repo are listed here.
   preservation, Swamsa/Karakamsha/Chalit first-class treatment, prediction
   language, Mahadasha/remedy streamlining, KP/Nadi chart boundaries, and final
   memory/artifact audits.
+- [PREDICTA_KUNDLI_KARMA_INTELLIGENCE_STRICT_PHASES.md](./PREDICTA_KUNDLI_KARMA_INTELLIGENCE_STRICT_PHASES.md)
+  Controlling full-stack roadmap for Kundli Karma Intelligence: deterministic
+  Dosh, Shrap, supportive Yog, challenging Yog, and Lal Kitab engines, compact
+  web/mobile Vedic app surfaces, Predicta local-memory integration,
+  zero-credit chat handoff, free/premium report integration, translations, and
+  final golden no-go audit.
 - [PREDICTA_LIFE_ATLAS_REPORT_STRICT_CONTRACT.md](./PREDICTA_LIFE_ATLAS_REPORT_STRICT_CONTRACT.md)
   Standalone strict contract for the `Predicta Life Atlas` flagship synthesis
   report, including core/optional data hierarchy, non-technical soul-purpose

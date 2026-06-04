@@ -18,6 +18,10 @@ start delivering prediction, guidance, evidence, timing, and value.
   all-school synthesis report.
 - `PREDICTA_MONETIZATION_CREDIT_LED_FUNNEL_STRICT_PHASES.md` still owns report
   entitlements, report credits, AI credits, and purchase flow.
+- `PREDICTA_KUNDLI_KARMA_INTELLIGENCE_STRICT_PHASES.md` owns the full-stack
+  Dosh, Shrap, Yog, Lal Kitab, web app, mobile app, Predicta intelligence, and
+  report integration work. This report roadmap consumes that layer only after
+  its app and intelligence phases are green.
 - This final report value rebuild must feed Predicta memory. It must not create
   a parallel report-brain or a separate school taxonomy.
 
@@ -77,8 +81,6 @@ start delivering prediction, guidance, evidence, timing, and value.
 11. `PREDICTA_REPORT_FINAL_PHASE_10_REPORT_PAGE_AND_APP_PREVIEW_ALIGNMENT`
 12. `PREDICTA_REPORT_FINAL_PHASE_11_PREDICTA_MEMORY_AND_CHAT_REPORT_MASTERY`
 13. `PREDICTA_REPORT_FINAL_PHASE_12_GOLDEN_ARTIFACT_AND_NO_GO_REAUDIT`
-14. `PREDICTA_REPORT_FINAL_PHASE_13_KUNDLI_KARMA_DOSH_SHRAP_YOG_AND_LAL_KITAB`
-15. `PREDICTA_REPORT_FINAL_PHASE_14_PREDICTA_LOCAL_MEMORY_INTELLIGENCE_SUPER_TUNE`
 
 Do not rename these phases during implementation.
 
@@ -714,110 +716,6 @@ of helping them.
 - No-go ledger records zero Critical and zero Major issues.
 - Audit artifacts prove all six reports preserve prediction-first value,
   school boundaries, compact app previews, and Predicta memory mastery.
-
-## Phase 13: `PREDICTA_REPORT_FINAL_PHASE_13_KUNDLI_KARMA_DOSH_SHRAP_YOG_AND_LAL_KITAB`
-
-Add the Kundli Karma Intelligence layer for Vedic reports and Vedic app
-previews. This phase owns Dosh, Shrap, positive Yog, challenging Yog, and Lal
-Kitab coverage. It must not dilute KP, Jaimini, Numerology, Signature, or Life
-Atlas report lanes.
-
-### Required Work
-
-- Add deterministic data contracts for:
-  - Dosh indicators
-  - Shrap indicators
-  - positive Yog indicators
-  - challenging Yog indicators
-  - Lal Kitab house-wise and planet-wise indicators
-- Every Dosh/Shrap/Yog item must include:
-  - canonical name
-  - status: present, weak, cancelled, softened, not present, or needs data
-  - strength/confidence
-  - why it is present or not present
-  - planetary/house/sign/nakshatra/dasha evidence where available
-  - plain prediction/guidance
-  - timing or activation note where available
-  - what softens it
-  - free karma/dharma remedy
-  - premium detailed remedy plan
-- Lal Kitab must include:
-  - house-wise planet reading
-  - safe planet-wise upay
-  - rin/debt indicators only where deterministic evidence supports them
-  - do/don't guidance
-  - remedy contraindications and safety notes
-  - no superstition pressure, fear-selling, or guaranteed outcomes
-- Free Vedic reports must show a useful summary list and safe basic remedies.
-- Paid Vedic reports must show full evidence, contradiction handling, timing
-  relevance, and detailed remedies.
-- Web/mobile Vedic screens must show compact progressive previews, not a long
-  wall. The PDF remains the deep reading surface.
-- Predicta memory must receive these modules so chat can explain them without
-  guessing and without unnecessary AI usage.
-
-### Green Criteria
-
-- `test:report-final-phase-13` passes.
-- Dosh/Shrap/Yog/Lal Kitab data contracts exist in source.
-- User-facing output uses `Dosh` and `Shrap`, never `Dosha` or `Shrapa`.
-- Free and paid Vedic PDF artifacts include Dosh, Shrap, Yog, and Lal Kitab
-  coverage without fear-selling or duplicated remedies.
-- Web and mobile previews are compact and prediction-first.
-- Predicta memory/context includes all new modules.
-- Local-memory answers for these modules do not spend AI credit.
-- PDF package typecheck passes.
-- Astrology package typecheck passes.
-- Golden output or phase-specific PDFs are generated and audited.
-
-## Phase 14: `PREDICTA_REPORT_FINAL_PHASE_14_PREDICTA_LOCAL_MEMORY_INTELLIGENCE_SUPER_TUNE`
-
-Super tune Predicta so she feels like the intelligent soul of the app: deeply
-aware of app content, astrology modules, generated reports, entitlements,
-school boundaries, and local deterministic answers. This phase focuses on
-reducing unnecessary AI usage while making Predicta feel smarter, not cheaper.
-
-### Required Work
-
-- Build or refine a local Predicta knowledge router that checks:
-  - app navigation and feature catalog
-  - active Kundli/profile
-  - saved report context
-  - deterministic astrology module results
-  - Jaimini Jyotish context and alias handling for `Gemini Jyotish`
-  - Dosh/Shrap/Yog/Lal Kitab module availability
-  - KP/Jaimini/Numerology/Signature boundaries
-  - entitlements, pass balances, report credits, and AI credits
-  - translation/localized static copy
-- Add a provider-decision audit trail:
-  - `local_memory_answer`
-  - `deterministic_action`
-  - `missing_data_question`
-  - `ai_required`
-  - `blocked_needs_credit`
-- Predicta must answer from local memory when the answer is deterministic,
-  navigational, entitlement-related, report-section-related, or based on already
-  generated module data.
-- Predicta must ask for missing structured inputs instead of calling AI when a
-  calculation can be completed locally after the missing data is supplied.
-- Predicta must use AI only for open-ended synthesis, premium writing,
-  high-value report generation, or complex interpretation that cannot be
-  produced safely from deterministic memory.
-- Web and mobile must show honest user-facing copy when an answer is generated
-  from Predicta's calculation engine rather than AI.
-- Cost telemetry must prove avoided AI calls.
-
-### Green Criteria
-
-- `test:report-final-phase-14` passes.
-- Local-memory router exists and is consumed by web and mobile chat paths.
-- Provider-decision audit trail exists and is testable.
-- Deterministic questions for app navigation, report sections, Dosh, Shrap,
-  Yog, Lal Kitab, Jaimini basics, balances, limits, and saved Kundli actions do
-  not call OpenAI or Gemini.
-- Open-ended synthesis still uses the correct entitlement and AI-credit gates.
-- Predicta gives smarter local answers instead of dead paywall responses after
-  free AI credits are exhausted.
-- Web/mobile parity passes.
-- Cost-governance tests pass.
-- No Nadi lane is restored.
+- If `PREDICTA_KUNDLI_KARMA_INTELLIGENCE_STRICT_PHASES.md` has been executed,
+  the final report audit must also verify Dosh, Shrap, Yog, Lal Kitab, app
+  surface parity, and Predicta local-memory behavior from that roadmap.
