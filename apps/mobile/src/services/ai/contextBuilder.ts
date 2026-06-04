@@ -19,6 +19,11 @@ import {
   buildKundliMoonNakshatraPadaInsight,
   composeJaiminiInterpretation,
   composeJaiminiPlan,
+  composeKundliKarmaDoshIntelligence,
+  composeKundliKarmaLalKitabIntelligence,
+  composeKundliKarmaShrapIntelligence,
+  composeKundliKarmaSnapshot,
+  composeKundliKarmaYogIntelligence,
   composePersonalPanchangLayer,
   composePredictaWrapped,
   composePurusharthaLifeBalance,
@@ -256,6 +261,7 @@ export function buildAIContext(
         depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
       }),
     ),
+    kundliKarmaIntelligence: compactKundliKarmaMemory(kundliData),
     jaiminiPlan: compactJaiminiPlan(
       composeJaiminiPlan(kundliData),
     ),
@@ -439,6 +445,45 @@ function compactAdvancedJyotishCoverage(
     subtitle: coverage.subtitle,
     title: coverage.title,
     yogaDoshaInsights: coverage.yogaDoshaInsights.slice(0, 8),
+  };
+}
+
+function compactKundliKarmaMemory(
+  kundli: KundliData,
+): NonNullable<AIContextPayload['kundliKarmaIntelligence']> {
+  const packets: KundliKarmaIntelligence[] = [
+    composeKundliKarmaDoshIntelligence(kundli),
+    composeKundliKarmaShrapIntelligence(kundli),
+    composeKundliKarmaYogIntelligence(kundli),
+    composeKundliKarmaLalKitabIntelligence(kundli),
+  ];
+  const snapshot = composeKundliKarmaSnapshot(kundli, {
+    intelligencePackets: packets,
+  });
+  return {
+    calculationStatus: snapshot.calculationStatus,
+    generatedBy: snapshot.generatedBy,
+    items: packets
+      .flatMap(packet => packet.items)
+      .filter(item =>
+        snapshot.topThreeActiveConditions.some(
+          condition => condition.item.id === item.id,
+        ) ||
+        item.status === 'needs_data' ||
+        item.status === 'blocked_context',
+      )
+      .slice(0, 16),
+    missingData: snapshot.missingData,
+    noAiRequiredFor: snapshot.noAiRequiredFor,
+    safetyNotes: snapshot.safetyNotes,
+    summary: snapshot.summary,
+    topSignals: [
+      snapshot.strongestDosh?.item.displayName,
+      snapshot.strongestShrapOrRin?.item.displayName,
+      snapshot.strongestYog?.item.displayName,
+      snapshot.topRemedy?.title,
+    ].filter((item): item is string => Boolean(item)),
+    version: snapshot.version,
   };
 }
 

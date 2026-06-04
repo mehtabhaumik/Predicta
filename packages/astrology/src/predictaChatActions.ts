@@ -1,6 +1,10 @@
 import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import type {
+  ChartContext,
   KundliData,
+  KundliKarmaIntelligence,
+  KundliKarmaItem,
+  KundliKarmaRankedCondition,
   PredictaSchool,
   SavedKundliRecord,
   SignatureTraitKey,
@@ -25,6 +29,11 @@ import { composeLifeAtlasReport } from './lifeAtlasReport';
 import { composeLifeTimeline } from './lifeTimeline';
 import { composeMahadashaIntelligence } from './mahadashaIntelligence';
 import { composeJaiminiInterpretation } from './jaiminiInterpretation';
+import { composeKundliKarmaDoshIntelligence } from './kundliKarmaDoshEngine';
+import { composeKundliKarmaLalKitabIntelligence } from './kundliKarmaLalKitabEngine';
+import { composeKundliKarmaShrapIntelligence } from './kundliKarmaShrapEngine';
+import { composeKundliKarmaSnapshot } from './kundliKarmaSnapshotEngine';
+import { composeKundliKarmaYogIntelligence } from './kundliKarmaYogEngine';
 import { composeNumerologyFoundationModel } from './numerologyFoundationModel';
 import { composePersonalPanchangLayer } from './personalPanchangLayer';
 import { composePredictaWrapped } from './predictaWrapped';
@@ -53,6 +62,7 @@ export type PredictaAppActionId =
   | 'holistic-daily-guidance'
   | 'jaimini-handoff'
   | 'jaimini-predicta'
+  | 'kundli-karma'
   | 'kp-handoff'
   | 'kp-predicta'
   | 'life-timeline'
@@ -79,6 +89,13 @@ export type PredictaAppActionId =
   | 'wow-radar'
   | 'wrapped';
 
+export type PredictaProviderDecisionLabel =
+  | 'local_memory_answer'
+  | 'deterministic_action'
+  | 'missing_data_question'
+  | 'ai_required'
+  | 'blocked_needs_credit';
+
 export type PredictaInteractionMemory = {
   actionCounts: Partial<Record<PredictaAppActionId, number>>;
   chartSignatures: string[];
@@ -91,6 +108,8 @@ export type PredictaInteractionMemory = {
 };
 
 export type PredictaActionRequest = {
+  aiCreditsExhausted?: boolean;
+  chartContext?: ChartContext;
   hasPremiumAccess?: boolean;
   kundli?: KundliData;
   language: SupportedLanguage;
@@ -103,7 +122,9 @@ export type PredictaActionRequest = {
 export type PredictaActionReply = {
   action?: PredictaAppActionId;
   handled: boolean;
+  localMemoryUsed?: boolean;
   memory: PredictaInteractionMemory;
+  providerDecision: PredictaProviderDecisionLabel;
   text?: string;
 };
 
@@ -120,6 +141,16 @@ const ACTION_PATTERNS: Array<{
   id: PredictaAppActionId;
   pattern: RegExp;
 }> = [
+  {
+    id: 'jaimini-handoff',
+    pattern:
+      /\b(gemini\s*jyotish|gemini\s*astrology|gemini\s*karaka|gemini\s*chara|gemini\s*predicta)\b/i,
+  },
+  {
+    id: 'kundli-karma',
+    pattern:
+      /\b(kundli\s*karma|dosh|dosha|manglik|kuja|kaal\s*sarp|pitra|shrapit|guru\s*chandal|grahan|kemadruma|vish|angarak|daridra|paap\s*kartari|arishta|balarishta|shrap|shrapa|pitru|matru|sarpa|naga|preta|bhratri|bandhu|stree|patni|deva|brahma|yog|yoga|raja\s*yog|dhana\s*yog|gajakesari|panch\s*mahapurush|neecha\s*bhanga|vipareeta|budhaditya|chandra\s*mangal|lakshmi|saraswati|adhi\s*yog|dharma\s*karmadhipati|parivartana|shakata|lal\s*kitab|rin|upay|upaay|karma\s*debt|karmic\s*debt)\b/i,
+  },
   {
     id: 'destiny-passport',
     pattern:
@@ -456,6 +487,8 @@ export function detectDominantPredictaLanguage(
 }
 
 export function buildPredictaActionReply({
+  aiCreditsExhausted = false,
+  chartContext,
   hasPremiumAccess = false,
   kundli,
   language,
@@ -493,14 +526,20 @@ export function buildPredictaActionReply({
     return {
       handled: false,
       memory: nextMemory,
+      providerDecision: aiCreditsExhausted ? 'blocked_needs_credit' : 'ai_required',
     };
   }
 
-  if (!kundli && actionRequiresKundli(action)) {
+  const canAnswerWithoutKundli =
+    action === 'kundli-karma' &&
+    isKundliKarmaDefinitionQuestion(languageContext.normalizedText);
+
+  if (!kundli && actionRequiresKundli(action) && !canAnswerWithoutKundli) {
     return {
       action,
       handled: true,
       memory: nextMemory,
+      providerDecision: 'missing_data_question',
       text: withLanguageAcknowledgement(
         languageContext,
         buildNeedsKundliReply(responseLanguage, action),
@@ -508,22 +547,27 @@ export function buildPredictaActionReply({
     };
   }
 
+  const providerDecision = classifyProviderDecision(action);
+
   return {
     action,
     handled: true,
+    localMemoryUsed: providerDecision === 'local_memory_answer',
     memory: nextMemory,
-      text: withLanguageAcknowledgement(
-        languageContext,
-        buildActionText({
-          action,
-          hasPremiumAccess,
-          kundli,
-          language: responseLanguage,
-          memory: nextMemory,
-          savedKundlis,
-          text,
-        }),
-      ),
+    providerDecision,
+    text: withLanguageAcknowledgement(
+      languageContext,
+      buildActionText({
+        action,
+        chartContext,
+        hasPremiumAccess,
+        kundli,
+        language: responseLanguage,
+        memory: nextMemory,
+        savedKundlis,
+        text,
+      }),
+    ),
   };
 }
 
@@ -716,6 +760,7 @@ const PARASHARI_ROOM_ACTIONS = new Set<PredictaAppActionId>([
   'family-map',
   'holistic-daily-guidance',
   'holistic-reading-rooms',
+  'kundli-karma',
   'life-timeline',
   'mahadasha',
   'personal-panchang',
@@ -751,8 +796,19 @@ function actionRequiresKundli(action: PredictaAppActionId): boolean {
   ].includes(action);
 }
 
+function classifyProviderDecision(
+  action: PredictaAppActionId,
+): PredictaProviderDecisionLabel {
+  if (action === 'kundli-karma') {
+    return 'local_memory_answer';
+  }
+
+  return 'deterministic_action';
+}
+
 function buildActionText({
   action,
+  chartContext,
   hasPremiumAccess,
   kundli,
   language,
@@ -763,6 +819,7 @@ function buildActionText({
   Pick<PredictaActionRequest, 'language' | 'savedKundlis' | 'text'>
 > & {
   action: PredictaAppActionId;
+  chartContext?: ChartContext;
   hasPremiumAccess: boolean;
   kundli?: KundliData;
   memory: PredictaInteractionMemory;
@@ -826,7 +883,9 @@ function buildActionText({
   if (action === 'jaimini-handoff' || action === 'nadi-handoff') {
     return joinSections([
       intro,
-      jaiminiHandoffReply(language),
+      isGeminiJyotishAlias(text)
+        ? geminiJyotishAliasReply(language)
+        : jaiminiHandoffReply(language),
       insight,
     ]);
   }
@@ -879,6 +938,21 @@ function buildActionText({
       intro,
       vedicHandoffReply(language),
       insight,
+    ]);
+  }
+
+  if (action === 'kundli-karma') {
+    return joinSections([
+      intro,
+      buildKundliKarmaLocalMemoryReply({
+        chartContext,
+        hasPremiumAccess,
+        kundli,
+        language,
+        text,
+      }),
+      insight,
+      buildUpsell(language, 'kundli-karma', hasPremiumAccess),
     ]);
   }
 
@@ -1589,6 +1663,274 @@ function buildMahadashaReply(
   ]
     .filter(Boolean)
     .join('\n\n');
+}
+
+function buildKundliKarmaLocalMemoryReply({
+  chartContext,
+  hasPremiumAccess,
+  kundli,
+  text,
+}: {
+  chartContext?: ChartContext;
+  hasPremiumAccess: boolean;
+  kundli?: KundliData;
+  language: SupportedLanguage;
+  text: string;
+}): string {
+  const normalized = normalizeKundliKarmaText(text);
+
+  if (!kundli) {
+    return buildKundliKarmaDefinitionReply();
+  }
+
+  const packets = buildKundliKarmaPackets(kundli);
+  const snapshot = composeKundliKarmaSnapshot(kundli, {
+    intelligencePackets: packets,
+  });
+  const allItems = packets.flatMap(packet => packet.items);
+
+  if (/\b(top\s*3|three|snapshot|overview|summary|kundli\s*karma)\b/i.test(text)) {
+    const top = snapshot.topThreeActiveConditions
+      .map(condition => formatKundliKarmaConditionLine(condition))
+      .join('\n');
+    return [
+      'Kundli Karma local memory is ready. No AI model is needed for this answer.',
+      snapshot.summary,
+      top ? `Top active conditions:\n${top}` : 'No major active condition is ranked in the implemented deterministic checks.',
+      snapshot.topRemedy
+        ? `Start safely with: ${snapshot.topRemedy.title}. ${snapshot.topRemedy.description}`
+        : 'Start safely with one simple karma/dharma correction instead of fear-based remedies.',
+      'I will never describe Shrap as a curse. I read it as a karmic pressure indicator with evidence, timing, and safe corrective action.',
+    ].join('\n\n');
+  }
+
+  const selectedItem =
+    findContextSelectedKundliKarmaItem(allItems, chartContext) ??
+    findTextSelectedKundliKarmaItem(allItems, normalized);
+  const selectedCondition =
+    selectedItem &&
+    snapshot.rankedConditions.find(
+      condition => condition.item.id === selectedItem.id,
+    );
+  const condition =
+    selectedCondition ??
+    resolveRequestedKundliKarmaCondition(snapshot.rankedConditions, normalized);
+  const item = selectedItem ?? condition?.item;
+
+  if (!item) {
+    return [
+      'I can answer Kundli Karma questions from local memory when the Dosh, Shrap, Yog, or Lal Kitab item is identifiable.',
+      snapshot.summary,
+      'Ask like: "explain my strongest Dosh", "why is this Shrap present", "show my supportive Yog", or "give Lal Kitab upay".',
+      'This did not spend AI credit.',
+    ].join('\n\n');
+  }
+
+  if (item.status === 'not_present' || item.status === 'blocked_context') {
+    return [
+      `${item.displayName}: ${formatKundliKarmaStatus(item.status)}.`,
+      item.whyPresent,
+      item.meaningForUser,
+      item.status === 'blocked_context'
+        ? 'Predicta will not force this into a single-person Kundli reading because the required context is different.'
+        : 'Because the required combination is not active, I will not create fear or sell a remedy for it.',
+      'Provider decision: local_memory_answer. No AI credit is needed.',
+    ].join('\n\n');
+  }
+
+  if (item.status === 'needs_data' || item.status === 'pending_evidence') {
+    return [
+      `${item.displayName}: ${formatKundliKarmaStatus(item.status)}.`,
+      item.whyPresent,
+      item.meaningForUser,
+      item.evidence.length
+        ? `Available evidence:\n${formatKundliKarmaEvidence(item)}`
+        : 'The deterministic engine does not yet have enough clean evidence to activate this item.',
+      'I will stay honest here: this should remain pending until the missing data or approved rule evidence is available.',
+      'Provider decision: local_memory_answer. No AI credit is needed.',
+    ].join('\n\n');
+  }
+
+  const remedies = item.remedies
+    .filter(remedy => hasPremiumAccess || remedy.depth === 'free')
+    .slice(0, hasPremiumAccess ? 5 : 2)
+    .map(remedy => `- ${remedy.title}: ${remedy.description} Safety: ${remedy.safetyNote}`)
+    .join('\n');
+  const reductions = item.reductions
+    .slice(0, 3)
+    .map(reduction => `- ${reduction.description} (${reduction.confidence})`)
+    .join('\n');
+
+  return [
+    `${item.displayName}: ${formatKundliKarmaStatus(item.status)}, ${item.strength} strength, ${item.confidence} confidence.`,
+    `Why this appears: ${item.whyPresent}`,
+    `Evidence:\n${formatKundliKarmaEvidence(item)}`,
+    `What it means for you: ${item.meaningForUser}`,
+    `Activation: ${item.activation.summary}`,
+    reductions
+      ? `What softens or reduces it:\n${reductions}`
+      : 'What softens it: no strong cancellation is recorded in this deterministic check, so use the remedy gently and keep the reading proportional.',
+    remedies
+      ? `${hasPremiumAccess ? 'Premium remedy depth' : 'Free safe remedy'}:\n${remedies}`
+      : 'Remedy: keep this to simple karma/dharma correction until a safe remedy is available.',
+    hasPremiumAccess
+      ? 'Premium depth is active, so I can include deeper remedy timing and cross-chart evidence when the report asks for it.'
+      : 'Free depth gives the useful meaning and safe starting action. Premium adds deeper timing, cross-chart evidence, and structured remedies without fear-selling.',
+    'Provider decision: local_memory_answer. No AI credit is needed.',
+  ].join('\n\n');
+}
+
+function buildKundliKarmaDefinitionReply(): string {
+  return [
+    'Kundli Karma is Predicta local memory for Dosh, Shrap, Yog, and Lal Kitab. It is deterministic and does not need an AI model for basic explanation.',
+    'Dosh means a pressure pattern in the Kundli. Shrap means a karmic pressure indicator, not a curse. Yog means a supportive or challenging planetary pattern. Lal Kitab is a separate remedial language focused on house-wise planet behavior, Rin/debt indicators, practical upay, and do/don’t guidance.',
+    'For your own Kundli, I need the active chart first. Then I can explain why a pattern appears, exact evidence, meaning, activation, softening factors, and safe remedies.',
+    'Provider decision: local_memory_answer. No AI credit is needed.',
+  ].join('\n\n');
+}
+
+function buildKundliKarmaPackets(
+  kundli: KundliData,
+): KundliKarmaIntelligence[] {
+  return [
+    composeKundliKarmaDoshIntelligence(kundli),
+    composeKundliKarmaShrapIntelligence(kundli),
+    composeKundliKarmaYogIntelligence(kundli),
+    composeKundliKarmaLalKitabIntelligence(kundli),
+  ];
+}
+
+function resolveRequestedKundliKarmaCondition(
+  conditions: KundliKarmaRankedCondition[],
+  normalized: string,
+): KundliKarmaRankedCondition | undefined {
+  if (/\b(shrap|shrapa|rin|debt|pitru|matru|sarpa|naga)\b/i.test(normalized)) {
+    return conditions.find(condition => condition.item.module === 'SHRAP') ??
+      conditions.find(condition => condition.item.module === 'LAL_KITAB' && /rin|debt/i.test(condition.item.displayName));
+  }
+  if (/\b(supportive|positive|raja|dhana|gajakesari|lakshmi|saraswati)\b/i.test(normalized)) {
+    return conditions.find(condition => condition.item.module === 'SUPPORTIVE_YOG');
+  }
+  if (/\b(challenging|negative|shakata|grahan|angarak|vish|daridra|kemadruma)\b/i.test(normalized)) {
+    return conditions.find(condition => condition.item.module === 'CHALLENGING_YOG');
+  }
+  if (/\b(lal\s*kitab|upay|upaay|remedy|rin)\b/i.test(normalized)) {
+    return conditions.find(condition => condition.item.module === 'LAL_KITAB');
+  }
+  if (/\b(dosh|dosha|manglik|kaal|pitra|guru\s*chandal)\b/i.test(normalized)) {
+    return conditions.find(condition => condition.item.module === 'DOSH');
+  }
+  return conditions[0];
+}
+
+function findContextSelectedKundliKarmaItem(
+  items: KundliKarmaItem[],
+  chartContext?: ChartContext,
+): KundliKarmaItem | undefined {
+  if (!chartContext) {
+    return undefined;
+  }
+  return items.find(
+    item =>
+      item.id === chartContext.selectedKundliKarmaItemId ||
+      item.ruleId === chartContext.selectedKundliKarmaRuleId,
+  );
+}
+
+function findTextSelectedKundliKarmaItem(
+  items: KundliKarmaItem[],
+  normalized: string,
+): KundliKarmaItem | undefined {
+  return items.find(item => {
+    const display = normalizeKundliKarmaText(item.displayName);
+    const rule = normalizeKundliKarmaText(item.ruleId);
+    return normalized.includes(display) ||
+      display
+        .split(/\s+|\/|-/)
+        .filter(part => part.length > 3 && !isGenericKundliKarmaToken(part))
+        .some(part => normalized.includes(part)) ||
+      normalized.includes(rule);
+  });
+}
+
+function isGenericKundliKarmaToken(token: string): boolean {
+  return [
+    'dosh',
+    'dosha',
+    'shrap',
+    'shrapa',
+    'yog',
+    'yoga',
+    'lal',
+    'kitab',
+    'rin',
+  ].includes(token);
+}
+
+function formatKundliKarmaConditionLine(
+  condition: KundliKarmaRankedCondition,
+): string {
+  return `- #${condition.rank} ${condition.item.displayName}: ${condition.item.summary}`;
+}
+
+function formatKundliKarmaEvidence(item: KundliKarmaItem): string {
+  const evidence = item.evidence.slice(0, 5);
+  if (!evidence.length) {
+    return '- Evidence is pending in the deterministic contract.';
+  }
+  return evidence
+    .map(entry => {
+      const details = [
+        entry.chart ? `chart ${entry.chart}` : '',
+        entry.planet ? `planet ${entry.planet}` : '',
+        entry.house ? `house ${entry.house}` : '',
+        entry.sign ? `sign ${entry.sign}` : '',
+        entry.nakshatra ? `nakshatra ${entry.nakshatra}` : '',
+      ]
+        .filter(Boolean)
+        .join(', ');
+      return `- ${entry.description}${details ? ` (${details})` : ''}`;
+    })
+    .join('\n');
+}
+
+function formatKundliKarmaStatus(status: KundliKarmaItem['status']): string {
+  const labels: Record<KundliKarmaItem['status'], string> = {
+    blocked_context: 'blocked for this context',
+    cancelled: 'cancelled or strongly softened',
+    needs_data: 'pending more data',
+    not_present: 'not present',
+    pending_evidence: 'pending approved evidence',
+    present: 'present',
+    weak: 'weak',
+  };
+  return labels[status];
+}
+
+function normalizeKundliKarmaText(text: string): string {
+  return text.toLowerCase().replace(/[^a-z0-9\s/-]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function isKundliKarmaDefinitionQuestion(text: string): boolean {
+  return /\b(what\s*is|define|meaning|explain|samjhao|samjavo)\b/i.test(text) &&
+    /\b(dosh|dosha|shrap|shrapa|yog|yoga|lal\s*kitab|kundli\s*karma)\b/i.test(text) &&
+    !/\b(my|mine|mera|meri|maru|mara|present|kundli|chart)\b/i.test(text.replace(/\bkundli\s*karma\b/i, ''));
+}
+
+function isGeminiJyotishAlias(text: string): boolean {
+  return /\b(gemini\s*jyotish|gemini\s*astrology|gemini\s*karaka|gemini\s*chara|gemini\s*predicta)\b/i.test(text);
+}
+
+function geminiJyotishAliasReply(language: SupportedLanguage): string {
+  const reply = [
+    'You likely mean Jaimini Jyotish. I will treat "Gemini Jyotish" as a Jaimini Jyotish alias in astrology context.',
+    'Gemini remains only AI-provider terminology inside Predicta systems; it is not the astrology school name.',
+    'For Jaimini, I can guide you through Atmakaraka, Amatyakaraka, Darakaraka, Arudha, Upapada, Swamsa, Karakamsha, Jaimini aspects, and Chara Dasha without mixing KP or Parashari unless you ask for a synthesis report.',
+  ].join('\n\n');
+  if (language === 'hi' || language === 'gu') {
+    return reply;
+  }
+  return reply;
 }
 
 function buildAdvancedJyotishReply(
@@ -2647,6 +2989,8 @@ function buildUpsell(
       ? 'Turn this into a polished PDF when you want the full version.'
       : action === 'advanced-jyotish'
       ? 'Advanced Mode adds deeper yoga/dosha scoring, nakshatra depth, Ashtakavarga tables, muhurta planning, compatibility synthesis, Prashna workflow, and safe remedy schedules.'
+      : action === 'kundli-karma'
+      ? 'Premium Kundli Karma adds deeper Dosh/Shrap/Yog/Lal Kitab evidence, activation timing, cross-chart support, and a consolidated remedy plan without fear-selling.'
       : action === 'mahadasha'
       ? 'Turn this into a Dasha Life Map when you want Antardasha/Pratyantardasha detail, dasha-transit overlap, remedies, and timing windows.'
       : action === 'sade-sati'

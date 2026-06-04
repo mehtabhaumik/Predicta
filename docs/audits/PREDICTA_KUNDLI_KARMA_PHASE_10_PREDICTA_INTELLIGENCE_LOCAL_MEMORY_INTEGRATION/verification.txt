@@ -1,0 +1,8 @@
+PREDICTA_KUNDLI_KARMA_PHASE_10_PREDICTA_INTELLIGENCE_LOCAL_MEMORY_INTEGRATION: PASS
+- Predicta local-memory router handles Dosh, Shrap, Yog, and Lal Kitab as kundli-karma.
+- Definition, top Dosh, Shrap indicator, supportive Yog, challenging Yog, Lal Kitab upay, not-present/blocked, pending, and premium-depth matrix passed.
+- Gemini Jyotish alias is routed to Jaimini Jyotish while preserving Gemini as provider terminology.
+- Provider decisions classify local deterministic answers as local_memory_answer or deterministic_action.
+- AI-credit exhaustion does not block deterministic Kundli Karma answers and blocks only unmatched AI-required prompts.
+- Web and mobile chat pass selected context and record providerDecision telemetry.
+- Shared and mobile AI context builders include compact Kundli Karma deterministic memory.

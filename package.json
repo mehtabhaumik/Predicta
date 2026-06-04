@@ -40,6 +40,7 @@
     "test:kundli-karma-phase-7": "node scripts/run-kundli-karma-phase-7-snapshot-remedy-gate.mjs",
     "test:kundli-karma-phase-8": "node scripts/run-kundli-karma-phase-8-web-vedic-surface-gate.mjs",
     "test:kundli-karma-phase-9": "node scripts/run-kundli-karma-phase-9-mobile-vedic-surface-gate.mjs",
+    "test:kundli-karma-phase-10": "node scripts/run-kundli-karma-phase-10-predicta-memory-gate.mjs",
     "test:report-pdf-phase-2": "node scripts/run-report-pdf-phase-2-vedic-intelligence-contract-gate.mjs",
     "test:report-pdf-phase-3": "node scripts/run-report-pdf-phase-3-classical-jyotish-modules-gate.mjs",
     "test:report-pdf-phase-4": "node scripts/run-report-pdf-phase-4-document-brand-template-gate.mjs",

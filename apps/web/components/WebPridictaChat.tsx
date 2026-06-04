@@ -1206,6 +1206,7 @@ export function WebPridictaChat({
     }
 
     const actionReply = buildPredictaActionReply({
+      chartContext: activeChartContext,
       hasPremiumAccess: false,
       kundli: activeKundli,
       language: responseLanguage,
@@ -1217,7 +1218,9 @@ export function WebPridictaChat({
     setPredictaMemory(actionReply.memory);
 
     if (actionReply.handled && actionReply.text) {
-      recordWebZeroCreditDeterministicAction(actionReply.action ?? 'app_action');
+      recordWebZeroCreditDeterministicAction(
+        actionReply.providerDecision ?? actionReply.action ?? 'app_action',
+      );
       return labelDeterministicChatReply(actionReply.text);
     }
 

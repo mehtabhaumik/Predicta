@@ -811,6 +811,7 @@ export function ChatScreen({
       }
 
       const actionReply = buildPredictaActionReply({
+        chartContext: activeChartContext,
         kundli: undefined,
         language: responseLanguage,
         memory: predictaMemory,
@@ -821,7 +822,7 @@ export function ChatScreen({
 
       if (actionReply.handled && actionReply.text) {
         recordMobileZeroCreditDeterministicAction(
-          actionReply.action ?? 'app_action_without_kundli',
+          actionReply.providerDecision ?? actionReply.action ?? 'app_action_without_kundli',
         );
         streamAssistantResponse(labelMobileDeterministicReply(actionReply.text), {
           suggestions: buildMobileFollowUps({
@@ -1011,10 +1012,12 @@ export function ChatScreen({
 
     if (!wantsDeepChartAnswer) {
       const actionReply = buildPredictaActionReply({
+        chartContext: activeChartContext,
         hasPremiumAccess: getResolvedAccess().hasPremiumAccess,
         kundli: activeKundli,
         language: responseLanguage,
         memory: predictaMemory,
+        predictaSchool: activeChartContext?.predictaSchool,
         savedKundlis,
         text: trimmedInput,
       });
@@ -1027,7 +1030,7 @@ export function ChatScreen({
         );
         setInput('');
         recordMobileZeroCreditDeterministicAction(
-          actionReply.action ?? 'app_action',
+          actionReply.providerDecision ?? actionReply.action ?? 'app_action',
         );
         streamAssistantResponse(labelMobileDeterministicReply(actionReply.text), {
           suggestions: buildMobileFollowUps({
