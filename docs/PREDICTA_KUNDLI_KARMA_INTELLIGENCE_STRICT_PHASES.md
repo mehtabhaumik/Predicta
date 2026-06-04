@@ -67,18 +67,110 @@ intelligence phases are green.
 19. Web and mobile must have parity before report integration is called green.
 20. Every phase must be strictly audited and committed before the next phase is
     started.
+21. Do not implement any Dosh, Shrap, Yog, Lal Kitab, or remedy rule without a
+    documented rule source, rule id, calculation inputs, evidence requirements,
+    and fallback behavior.
+22. Do not treat AI prose as calculation truth. AI can explain approved
+    deterministic output; it must not invent whether a Dosh, Shrap, Yog, or Lal
+    Kitab Rin exists.
+23. Do not ship placeholder/stub readings as if they are real detections. If a
+    rule is not implemented, the status must be `needs_data` or the item must be
+    absent with an honest pending note.
+24. Do not let free and premium disagree on the calculation. Premium changes
+    depth, evidence, timing, contradictions, and remedies; it does not change
+    whether something is present.
+25. Do not let Predicta answer like a dumb generic chatbot. She must know the
+    app surface, active Kundli, available Kundli Karma output, missing data,
+    free/premium boundaries, and whether the answer can be local-memory-first.
+26. Do not call a phase green unless the strict audit proves:
+    - deterministic fixtures pass
+    - app surface behavior is verified where touched
+    - Predicta memory/context is verified where touched
+    - zero-credit/no-provider behavior is verified where touched
+    - translations are verified where touched
+    - report artifacts are generated where touched
+27. If a queued phase arrives while the current phase is not green, finish and
+    audit the current phase first. Do not skip to the queued phase.
+
+## Research Source Lock
+
+The implementation must start from the following source matrix and may add more
+sources during Phase 0. Any added source must be captured in the Phase 0 audit
+artifact with what Predicta adopts and rejects.
+
+- Sanatan Jyoti Dosh report structure:
+  `https://www.sanatanjyoti.com/kundli/dosha-report`
+- OmAstrology Yog analysis positioning:
+  `https://www.omastrology.com/astrology-report/astrology-yoga-analysis/`
+- ShreeKundli Yog cataloging:
+  `https://www.shreekundli.com/vedic-astrology/yoga`
+- Ishvaram Lal Kitab and Rin framing:
+  `https://ishvaram.com/lal-kitab/`
+- Lal Kitab overview:
+  `https://en.wikipedia.org/wiki/Lal_Kitab`
+- AstroSage Lal Kitab PDF:
+  `https://www.astrosage.com/lalkitab/lalkitab.pdf`
+- OneKundli sample report:
+  `https://onekundli.com/wp-content/uploads/2025/05/OneKundli-Sample-Report_organized.pdf`
+
+Predicta adopts:
+
+- coverage depth
+- item lists
+- evidence tables
+- house-wise Lal Kitab framing
+- remedy-plan usefulness
+
+Predicta rejects:
+
+- fear-selling
+- curse language
+- generic rule dumping
+- expensive remedy pressure
+- duplicated remedy lists
+- unsupported certainty
+- report-only implementation without app and intelligence parity
+
+## Rule Provenance Registry
+
+Before Phase 3 begins, the repo must contain a rule provenance registry for
+every implemented Dosh, Shrap, Yog, and Lal Kitab rule.
+
+Each rule entry must include:
+
+- `ruleId`
+- `module`: `dosh`, `shrap`, `supportive_yog`, `challenging_yog`, or
+  `lal_kitab`
+- `canonicalName`
+- `sourceReferences`
+- `calculationInputs`
+- `requiredEvidence`
+- `optionalEvidence`
+- `activationInputs`
+- `cancellationOrSofteningInputs`
+- `freeOutputTemplateKey`
+- `premiumOutputTemplateKey`
+- `remedyTemplateKeys`
+- `safetyNotes`
+- `unsupportedWhen`
+- `testFixtureIds`
+
+No rule can be active unless it has at least one deterministic fixture and one
+plain-language interpretation fixture.
 
 ## Canonical Data Shape
 
 Every Dosh, Shrap, and Yog item must expose:
 
 - `id`
+- `ruleId`
 - `canonicalName`
 - `category`: `dosh`, `shrap`, `supportive_yog`, `challenging_yog`
 - `status`: `present`, `weak`, `cancelled`, `softened`, `not_present`,
   `needs_data`
 - `strength`: `low`, `medium`, `high`, `very_high`
 - `confidence`: `clear`, `partial`, `uncertain`
+- `calculationSource`
 - `whyPresent`
 - `evidence`
 - `meaningForUser`
@@ -88,6 +180,8 @@ Every Dosh, Shrap, and Yog item must expose:
 - `premiumRemedies`
 - `crossReferences`
 - `fearSafetyNote`
+- `missingData`
+- `limitations`
 
 Evidence must support:
 
@@ -105,6 +199,59 @@ Evidence must support:
 - dasha/antardasha support
 - transit trigger where available
 - cancellation/softening evidence
+- rule provenance id
+- source confidence
+
+## Predicta Intelligence Standard
+
+Predicta must behave like she knows this layer better than the screen exposes.
+That means:
+
+- She knows which Dosh, Shrap, Yog, and Lal Kitab items were calculated.
+- She knows which items were not present and can calmly explain why without
+  creating fear.
+- She knows which items are pending because the deterministic rule is not
+  implemented or missing evidence.
+- She knows the user's top 3 active conditions.
+- She knows the consolidated remedy plan.
+- She knows free versus premium depth.
+- She can answer `why is this appearing in my Kundli?` with exact evidence.
+- She can answer `what should I do?` with safe practical guidance.
+- She can answer `is this scary?` with calm safety framing.
+- She can distinguish Jaimini Jyotish from the Gemini AI provider.
+- She uses local memory before AI and logs the provider decision.
+
+Predicta must fail safely:
+
+- If evidence is absent, she says it is not shown or not calculated.
+- If evidence is partial, she says it is a partial indicator.
+- If a user asks for fear-based certainty, she refuses certainty and gives
+  grounded guidance.
+- If a user asks for expensive/unsafe remedies, she redirects to safe remedies.
+- If a user asks from KP, Jaimini, Numerology, or Signature room about a
+  Vedic-only Kundli Karma module, she explains the boundary and offers a handoff
+  to Vedic or Life Atlas where appropriate.
+
+## App Surface Standard
+
+The app is not the report. Web and mobile must show:
+
+- top 3 active conditions
+- a calm `Kundli Karma Snapshot`
+- compact tabs/cards for `Dosh`, `Shrap`, `Yog`, and `Lal Kitab`
+- expanders for evidence and remedy detail
+- free/premium depth boundary
+- `Ask Predicta why this appears`
+- `Download detailed report`
+
+The app must not show:
+
+- long walls of text
+- repeated remedy blocks
+- scary badges
+- red-alert styling unless there is a factual safety reason
+- technical rule dumps before plain meaning
+- report-length sections on screen
 
 ## Required First Coverage
 
@@ -217,8 +364,21 @@ Lock the current state and research-backed scope before implementation.
 - Record where `dosha`, `shrapa`, `yoga`, `Dosh`, `Shrap`, and `Yog` currently
   appear.
 - Record which competitor ideas are adopted and rejected.
+- Create the initial source matrix using the required source lock.
+- Create the first rule candidate registry with:
+  - rule names
+  - source references
+  - required inputs
+  - whether the rule is safe to implement now
+  - whether the rule must remain pending
+  - conflict/variation notes where traditions differ
 - Create a redline ledger for fear-selling, duplicated remedies, generic
   teaching language, and missing evidence.
+- Create the first Predicta intelligence gap ledger for:
+  - what Predicta currently knows
+  - what Predicta does not know
+  - where chat would currently need AI unnecessarily
+  - where local-memory routing must be added
 - Confirm no implementation changes are made in Phase 0.
 
 ### Green Criteria
@@ -227,6 +387,8 @@ Lock the current state and research-backed scope before implementation.
   `docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_0_BASELINE_RESEARCH_AND_SCOPE_LOCK/`.
 - Existing calculation/report/app/chat references are inventoried.
 - Competitor source matrix exists.
+- Rule candidate registry exists.
+- Predicta intelligence gap ledger exists.
 - Canonical wording decision is captured.
 - No code implementation changes are made.
 
@@ -244,12 +406,17 @@ Create the terminology, localization, and safety contract.
   - `Karmic Debt & Shrap Indicators`
 - Add translation keys for English, Hindi, and Gujarati.
 - Add blocked/fear-selling phrase list.
+- Add approved calm-language phrase list.
 - Add safety copy:
   - no curse language
   - no guaranteed outcomes
   - no expensive fear-based remedy pressure
   - one remedy at a time for Lal Kitab
 - Add canonical term gate that rejects user-facing `Dosha` and `Shrapa`.
+- Add room-boundary copy so KP, Jaimini, Numerology, and Signature do not claim
+  Vedic-only Kundli Karma modules.
+- Add `Gemini Jyotish` alias copy that resolves to Jaimini Jyotish while keeping
+  Gemini AI provider terminology out of astrology UI.
 
 ### Green Criteria
 
@@ -257,6 +424,8 @@ Create the terminology, localization, and safety contract.
 - No hardcoded user-facing terms are introduced.
 - Gate proves user-facing output uses `Dosh` and `Shrap`.
 - Fear-selling copy gate passes.
+- Room-boundary copy gate passes.
+- Jaimini/Gemini provider confusion gate passes.
 
 ## Phase 2: `PREDICTA_KUNDLI_KARMA_PHASE_2_DETERMINISTIC_DATA_CONTRACT_AND_EVIDENCE_SCHEMA`
 
@@ -266,6 +435,7 @@ memory, and reports.
 ### Required Work
 
 - Add shared TypeScript types for Kundli Karma Intelligence.
+- Add the rule provenance registry source.
 - Add deterministic evidence schema.
 - Add free/paid depth schema.
 - Add item status, strength, confidence, activation, reduction, remedy, and
@@ -278,13 +448,20 @@ memory, and reports.
   - challenging Yog chart
   - Lal Kitab Rin/upay chart
   - overlapping Shrapit/Dosh/Yog dedupe chart
+- Add a `needs_data` fixture for a rule that is known but intentionally not
+  implemented yet.
+- Add a no-AI fixture proving local-memory classification can answer from the
+  deterministic contract.
 
 ### Green Criteria
 
 - Shared types compile.
+- Rule provenance registry compiles and is imported by the engines.
+- Every active rule has source references and fixture ids.
 - Fixtures are deterministic.
 - Web, mobile, PDF, and Predicta context can import the same contract.
 - No report-only contract is created.
+- `needs_data` output is honest and does not fake a reading.
 
 ## Phase 3: `PREDICTA_KUNDLI_KARMA_PHASE_3_DOSH_DETECTION_RANKING_AND_REMEDY_ENGINE`
 
@@ -309,6 +486,9 @@ Implement Dosh detection, ranking, explanation, cancellation, and remedies.
 - For each Dosh, output presence, strength, evidence, meaning, activation,
   reducing factors, free remedy, premium remedies, and cross-references.
 - Add cancellation/softening logic where deterministic evidence supports it.
+- Add source-backed rule ids for every implemented Dosh.
+- Add a strict `unknown tradition variation` handling path where a Dosh rule has
+  conflicting definitions and Predicta cannot safely choose one silently.
 - Add tests for present, weak, cancelled, not present, and needs-data states.
 
 ### Green Criteria
@@ -318,6 +498,8 @@ Implement Dosh detection, ranking, explanation, cancellation, and remedies.
 - Every present Dosh includes exact evidence.
 - Every absent Dosh avoids false alarm language.
 - Nadi Dosh is blocked outside compatibility/matching context.
+- No Dosh is active without a rule id, source reference, and fixture.
+- Variation/conflict cases are marked partial/needs-data instead of overclaimed.
 
 ## Phase 4: `PREDICTA_KUNDLI_KARMA_PHASE_4_SHRAP_KARMIC_DEBT_DETECTION_AND_REMEDY_ENGINE`
 
@@ -337,6 +519,9 @@ Implement Shrap and karmic debt indicators carefully.
   - Deva / Brahma Shrap
 - Each item must use `indicator` unless evidence is strong.
 - Explain dharma remedy and maturity path without fear.
+- Add source-backed rule ids for every implemented Shrap.
+- Add pending/not-implemented handling for Shrap categories where deterministic
+  evidence is not yet strong enough.
 - Add cross-reference support so Shrapit is not fully duplicated across Dosh,
   Shrap, and challenging Yog sections.
 
@@ -346,6 +531,8 @@ Implement Shrap and karmic debt indicators carefully.
 - No output says the user is cursed.
 - Every present/weak indicator includes exact evidence or says what is pending.
 - Cross-reference tests prevent repeated Shrapit readings.
+- No Shrap is active without a rule id, source reference, and fixture.
+- Weak/partial Shrap output always says `indicator`, not certainty.
 
 ## Phase 5: `PREDICTA_KUNDLI_KARMA_PHASE_5_SUPPORTIVE_AND_CHALLENGING_YOG_ENGINE`
 
@@ -381,6 +568,9 @@ Implement supportive and challenging Yog detection and interpretation.
   - Kaal Sarp
 - Explain what supports success, what creates friction, when it activates, and
   what to do.
+- Add source-backed rule ids for every implemented Yog.
+- Add strength and cancellation/softening support where deterministic evidence
+  supports it.
 - Add dedupe/cross-reference logic with Dosh and Shrap engines.
 
 ### Green Criteria
@@ -389,6 +579,9 @@ Implement supportive and challenging Yog detection and interpretation.
 - Challenging Yog tests pass.
 - Output is predictive and useful, not a method lesson.
 - Dedupe tests pass for overlapping conditions.
+- No Yog is active without a rule id, source reference, and fixture.
+- Positive and challenging Yog outputs never contradict each other without a
+  contradiction note.
 
 ## Phase 6: `PREDICTA_KUNDLI_KARMA_PHASE_6_LAL_KITAB_ENGINE`
 
@@ -398,6 +591,8 @@ Implement Lal Kitab as its own deterministic layer.
 
 - Add planet-in-house Lal Kitab readings.
 - Add Lal Kitab Rin/Debt indicators where deterministic rules are available.
+- Add source-backed rule ids for every Lal Kitab planet-in-house, Rin, and upay
+  rule.
 - Add planet-wise upay.
 - Add do and do-not guidance.
 - Add remedy safety:
@@ -408,6 +603,8 @@ Implement Lal Kitab as its own deterministic layer.
 - Add free output: top 3 observations and 1-2 safe remedies.
 - Add premium output: full house-wise reading, rin map, planet remedies, timing,
   contraindications, and 40-day/90-day plan.
+- Add safe fallback when a Lal Kitab rule is tradition-dependent, unsupported,
+  or not deterministic enough.
 
 ### Green Criteria
 
@@ -416,6 +613,8 @@ Implement Lal Kitab as its own deterministic layer.
 - Remedy safety gate passes.
 - Lal Kitab remains separate from the consolidated Parashari remedy plan while
   still feeding the final remedy plan.
+- No Lal Kitab item is active without a rule id, source reference, and fixture.
+- Unsafe/unsupported remedies are blocked by tests.
 
 ## Phase 7: `PREDICTA_KUNDLI_KARMA_PHASE_7_DEDUPING_RANKING_SNAPSHOT_AND_REMEDY_PLAN_ENGINE`
 
@@ -433,6 +632,9 @@ Create the ranked snapshot and consolidated remedy plan.
   - top 3 active conditions for app UI
 - Deduplicate overlapping readings.
 - Consolidate remedies so the same remedy is not repeated across sections.
+- Add a `why this ranked first` explanation for each top condition.
+- Add explicit priority rules when a severe-sounding weak indicator should rank
+  below a less scary but stronger/currently active condition.
 - Separate remedies into:
   - free karma/dharma action
   - premium mantra/devata/vrata/donation/behavioral/timing/Lal Kitab upay where
@@ -446,6 +648,9 @@ Create the ranked snapshot and consolidated remedy plan.
 - Dedupe fixtures pass.
 - Consolidated remedy plan has no duplicate remedy rows.
 - Top 3 app snapshot is available from the shared contract.
+- Ranking explanations are available for Predicta chat and app tooltips.
+- Fearful names do not automatically outrank stronger, clearer, more relevant
+  conditions.
 
 ## Phase 8: `PREDICTA_KUNDLI_KARMA_PHASE_8_WEB_VEDIC_APP_SURFACE`
 
@@ -467,6 +672,17 @@ Implement the web Vedic app surface.
 - Free users see useful summary and safe basic remedies.
 - Premium users see deeper evidence and remedy detail without page crowding.
 - Avoid long walls, dense tables, CTA collisions, and fear language.
+- Add empty states:
+  - no major Kundli Karma alerts
+  - calculation pending
+  - premium details locked
+  - missing Kundli
+- Add visual hierarchy:
+  - plain meaning first
+  - evidence behind expander
+  - remedies grouped once
+  - confidence/status visible without panic styling
+- Add local-memory CTA payloads for each visible item.
 
 ### Green Criteria
 
@@ -475,6 +691,9 @@ Implement the web Vedic app surface.
 - Section is compact and progressive.
 - Web uses the shared deterministic contract.
 - Ask Predicta CTA carries section context.
+- Empty/loading/error/premium-locked states are audited.
+- No item visible in the UI lacks a deterministic id and rule id.
+- Browser proof confirms the section does not look like a report wall.
 
 ## Phase 9: `PREDICTA_KUNDLI_KARMA_PHASE_9_MOBILE_VEDIC_APP_SURFACE_PARITY`
 
@@ -488,6 +707,12 @@ Implement mobile parity for the Vedic Kundli Karma surface.
 - Add the same CTAs and context handoff.
 - Ensure touch targets, spacing, scroll behavior, and empty/loading/error states
   are clean.
+- Preserve parity with web:
+  - same top 3 logic
+  - same status labels
+  - same canonical terms
+  - same local-memory handoff payload
+  - same free/premium boundary
 
 ### Green Criteria
 
@@ -495,6 +720,8 @@ Implement mobile parity for the Vedic Kundli Karma surface.
 - Mobile screenshots/proofs exist.
 - Mobile uses the shared deterministic contract.
 - No lower-quality mobile path exists.
+- Mobile empty/loading/error/premium-locked states are audited.
+- Mobile chat handoff payload matches web.
 
 ## Phase 10: `PREDICTA_KUNDLI_KARMA_PHASE_10_PREDICTA_INTELLIGENCE_LOCAL_MEMORY_INTEGRATION`
 
@@ -525,6 +752,19 @@ Update Predicta intelligence before report integration.
   - what softens it
   - free vs premium depth
   - safe remedies
+- Predicta must answer a test matrix covering:
+  - definition question
+  - user's own top Dosh
+  - user's own Shrap indicator
+  - supportive Yog
+  - challenging Yog
+  - Lal Kitab upay
+  - why something is not present
+  - why something is pending
+  - free versus premium depth
+  - room-boundary handoff
+  - `Gemini Jyotish` typo/alias
+  - exhausted AI credits
 - Predicta must avoid AI when deterministic/local memory has the answer.
 
 ### Green Criteria
@@ -534,6 +774,10 @@ Update Predicta intelligence before report integration.
 - Predicta can explain missing/pending data honestly.
 - No OpenAI/Gemini call is made for deterministic/local-memory answers.
 - Web and mobile context builders include the new memory.
+- Predicta test matrix passes with no generic/dumb answer.
+- Provider-decision telemetry proves local-memory answers are classified as
+  `local_memory_answer` or `deterministic_action`.
+- AI-credit exhaustion does not block deterministic Kundli Karma explanations.
 
 ## Phase 11: `PREDICTA_KUNDLI_KARMA_PHASE_11_CHAT_CTA_ZERO_CREDIT_AND_CONTEXT_HANDOFF`
 
@@ -550,6 +794,9 @@ Wire user interaction from app sections to Predicta chat.
   - selected language
 - Zero-credit users must still get deterministic explanations.
 - Deeper open-ended synthesis must use the correct AI-credit gate.
+- If a deterministic answer is enough, the CTA must not spend AI credit.
+- If a user asks for deeper personal synthesis, the unfinished question must be
+  preserved at the upsell boundary.
 - Add quick prompts for:
   - explain my strongest Dosh
   - explain my Shrap indicator
@@ -563,6 +810,9 @@ Wire user interaction from app sections to Predicta chat.
 - Zero-credit deterministic answers work.
 - AI-credit gated follow-ups preserve the user question.
 - Context survives navigation where the current memory system supports it.
+- Provider logs prove CTA deterministic answers do not call OpenAI/Gemini.
+- Prompt outputs answer the user first and do not teach the method before giving
+  meaning.
 
 ## Phase 12: `PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM`
 
@@ -583,6 +833,11 @@ Only now integrate reports.
   contradiction handling, and detailed remedy plan.
 - Reports must consume the same shared contract used by the app and Predicta
   memory.
+- Reports must not re-detect Dosh/Shrap/Yog/Lal Kitab independently.
+- Reports must not introduce report-only item names, statuses, strengths,
+  remedies, or rankings.
+- Reports must keep the chapter after core charts and Mahadasha and before the
+  final consolidated remedy plan.
 
 ### Green Criteria
 
@@ -592,6 +847,9 @@ Only now integrate reports.
 - No fear-selling.
 - No user-facing `Dosha` or `Shrapa`.
 - Report sections match app/Predicta intelligence data.
+- Report text proves it tells the user what this means before explaining the
+  method.
+- Report audit proves no report-only calculation fork exists.
 
 ## Phase 13: `PREDICTA_KUNDLI_KARMA_PHASE_13_TRANSLATION_ACCESSIBILITY_AND_NO_HARDCODED_COPY_SWEEP`
 
@@ -605,6 +863,9 @@ Audit translations, accessibility, and hardcoded copy.
 - Accessibility audit for tabs/cards, expanders, CTAs, and report download
   nudges.
 - Verify language does not mix English/Hindi/Gujarati incorrectly.
+- Include hidden drawers, premium gates, chat handoff payload labels, PDF
+  headings, report preview copy, empty states, and error states in the sweep.
+- Verify canonical terminology in all supported languages and scripts.
 
 ### Green Criteria
 
@@ -612,6 +873,8 @@ Audit translations, accessibility, and hardcoded copy.
 - Accessibility checks pass.
 - Hidden drawers/expanders are covered.
 - No hardcoded user-facing copy remains for this layer.
+- No mixed-language or fallback-English leakage remains in the new layer.
+- Translation source coverage gate includes Kundli Karma keys.
 
 ## Phase 14: `PREDICTA_KUNDLI_KARMA_PHASE_14_GOLDEN_ARTIFACT_NO_GO_AUDIT`
 
@@ -626,6 +889,11 @@ Final no-go audit for the whole Kundli Karma layer.
 - Extract report text.
 - Audit Predicta chat local-memory responses.
 - Audit AI provider logs for avoided calls.
+- Audit web and mobile app surfaces before report pages.
+- Audit app-to-chat handoff before report pages.
+- Audit report integration only after app and intelligence are green.
+- Re-run final report golden audit after this phase if any report renderer or
+  report memory code changes.
 - Produce Critical/Major/Medium/Minor ledger.
 
 ### Green Criteria
@@ -636,3 +904,6 @@ Final no-go audit for the whole Kundli Karma layer.
 - Web/mobile/report/Predicta intelligence all consume the same data.
 - Predicta explains the layer without unnecessary AI usage.
 - The app feels calm, helpful, and non-fearful.
+- No report-only implementation exists.
+- No generic/dumb Predicta responses remain in the test matrix.
+- No AI credit is consumed for deterministic Kundli Karma explanations.

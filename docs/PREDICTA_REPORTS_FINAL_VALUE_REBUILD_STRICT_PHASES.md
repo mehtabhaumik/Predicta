@@ -22,6 +22,10 @@ start delivering prediction, guidance, evidence, timing, and value.
   Dosh, Shrap, Yog, Lal Kitab, web app, mobile app, Predicta intelligence, and
   report integration work. This report roadmap consumes that layer only after
   its app and intelligence phases are green.
+- Report phases must not create report-only Dosh/Shrap/Yog/Lal Kitab
+  detections, report-only remedies, report-only rankings, or report-only
+  Predicta memory. The final report engine must consume the shared Kundli Karma
+  contract after it is implemented and audited.
 - This final report value rebuild must feed Predicta memory. It must not create
   a parallel report-brain or a separate school taxonomy.
 
@@ -320,6 +324,12 @@ remedy/action plan.
     timing-aware remedies where safe
 - Dosh and Shrap must be framed as karmic pressure indicators, not curses,
   threats, or panic labels.
+- If `PREDICTA_KUNDLI_KARMA_INTELLIGENCE_STRICT_PHASES.md` has not reached
+  Phase 12 green, Vedic report phases must not fake or stub Dosh, Shrap, Yog,
+  or Lal Kitab readings as completed report content.
+- Once Kundli Karma Phase 12 is green, Vedic reports must consume the shared
+  app/Predicta intelligence contract and must not recompute or rewrite the
+  module independently.
 - Mahadasha Phala must remain a dedicated section after core chart and planet
   evidence, not scattered as small timing snippets.
 - Remedies must appear as one consolidated action plan. Other sections may
@@ -341,6 +351,9 @@ remedy/action plan.
 - One consolidated remedy/action plan remains the only full remedy plan.
 - Vedic report architecture keeps KP, Jaimini, Numerology, Signature, and Life
   Atlas out of the Vedic lane.
+- Gate proves Dosh/Shrap/Yog/Lal Kitab report sections are either:
+  - honestly pending because the Kundli Karma layer is not green, or
+  - consumed from the shared Kundli Karma contract after that layer is green.
 - Phase 4 audit artifact exists.
 - Phase 4 gate passes.
 - PDF package typecheck passes.
@@ -638,6 +651,8 @@ guessing or mixing methods.
   - what free users see
   - what paid users receive in deeper analysis
   - what remedies are safe to mention without fear-selling
+- Predicta report memory for Dosh, Shrap, Yog, and Lal Kitab must come from the
+  full-stack Kundli Karma layer. It must not be invented from report prose alone.
 - Predicta must not turn compact app previews into full report walls.
 - Predicta must not mix school-specific reports. Life Atlas is the only
   approved all-school synthesis lane.
@@ -671,6 +686,8 @@ guessing or mixing methods.
 - Predicta app memory includes Jaimini Jyotish, Dosh, Shrap, Yog, and Lal Kitab
   entries with free/paid depth, evidence requirements, safe-remedy boundaries,
   and local-memory-first routing.
+- Gate proves Predicta can answer the Kundli Karma test matrix from the
+  full-stack roadmap before report-specific memory is called green.
 - Gate proves local-memory/direct deterministic answers do not call OpenAI or
   Gemini when a provider call is unnecessary.
 - Audit artifacts prove the phase is green and no Nadi final-report lane is
