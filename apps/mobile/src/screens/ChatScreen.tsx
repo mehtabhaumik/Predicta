@@ -942,7 +942,13 @@ export function ChatScreen({
 
     const savedKundlis = savedKundliRecords.map(record => record.kundliData);
     const chartIntent = detectChatChartIntent(trimmedInput);
+    const hasKundliKarmaContext = Boolean(
+      activeChartContext?.selectedKundliKarmaItemId ||
+        activeChartContext?.selectedKundliKarmaRuleId ||
+        activeChartContext?.selectedKundliKarmaModule,
+    );
     const wantsDeepChartAnswer =
+      !hasKundliKarmaContext &&
       shouldBypassLocalChartShortcuts(trimmedInput);
 
     if (isBirthTimeConfirmationRequest(trimmedInput)) {

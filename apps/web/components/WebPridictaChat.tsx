@@ -800,11 +800,13 @@ export function WebPridictaChat({
             ? buildChartSelectionPrompt(ctaContext)
             : ctaContext.handoffQuestion) ||
           `Help me with ${getFriendlySourceName(ctaContext.sourceScreen).toLowerCase()}.`;
-        const entryLanguage = preparePredictaLanguageContext({
-          memory: predictaMemory,
-          selectedLanguage: chatLanguage,
-          text: selectedSection,
-        }).responseLanguage;
+        const entryLanguage =
+          ctaContext.selectedLanguage ??
+          preparePredictaLanguageContext({
+            memory: predictaMemory,
+            selectedLanguage: chatLanguage,
+            text: selectedSection,
+          }).responseLanguage;
         const baseContext = {
           ...ctaContext,
           selectedSection,
@@ -966,7 +968,13 @@ export function WebPridictaChat({
       }
 
       const chartIntentKundli = recoverActiveKundli();
-      const wantsDeepChartAnswer = shouldBypassLocalChartShortcuts(text);
+      const hasKundliKarmaContext = Boolean(
+        activeChartContext?.selectedKundliKarmaItemId ||
+          activeChartContext?.selectedKundliKarmaRuleId ||
+          activeChartContext?.selectedKundliKarmaModule,
+      );
+      const wantsDeepChartAnswer =
+        !hasKundliKarmaContext && shouldBypassLocalChartShortcuts(text);
       if (
         chartIntentKundli &&
         (detectChatChartIntent(text) || wantsDeepChartAnswer) &&
@@ -1165,7 +1173,13 @@ export function WebPridictaChat({
     }
 
     const activeKundli = recoverActiveKundli();
-    const wantsDeepChartAnswer = shouldBypassLocalChartShortcuts(text);
+    const hasKundliKarmaContext = Boolean(
+      activeChartContext?.selectedKundliKarmaItemId ||
+        activeChartContext?.selectedKundliKarmaRuleId ||
+        activeChartContext?.selectedKundliKarmaModule,
+    );
+    const wantsDeepChartAnswer =
+      !hasKundliKarmaContext && shouldBypassLocalChartShortcuts(text);
 
     if (activeKundli && isBirthTimeConfirmationRequest(text)) {
       return confirmEnteredBirthTimeFromChat(
@@ -4371,7 +4385,17 @@ function chartContextFromParams(params: URLSearchParams): ChartContext | undefin
       kundliId,
       predictaSchool: school,
       purpose: params.get('purpose') ?? undefined,
+      reportMode: parseReportMode(params.get('reportMode')),
       selectedHouse: selectedHouse ? Number(selectedHouse) : undefined,
+      selectedKundliKarmaEvidenceSummary:
+        params.get('selectedKundliKarmaEvidenceSummary') ?? undefined,
+      selectedKundliKarmaItemId: params.get('selectedKundliKarmaItemId') ?? undefined,
+      selectedKundliKarmaModule:
+        (params.get('selectedKundliKarmaModule') as ChartContext['selectedKundliKarmaModule']) ??
+        undefined,
+      selectedKundliKarmaRuleId: params.get('selectedKundliKarmaRuleId') ?? undefined,
+      selectedLanguage:
+        (params.get('selectedLanguage') as ChartContext['selectedLanguage']) ?? undefined,
       selectedPlanet: params.get('selectedPlanet') ?? undefined,
       selectedSection:
         params.get('prompt') ??
@@ -4393,7 +4417,17 @@ function chartContextFromParams(params: URLSearchParams): ChartContext | undefin
     chartType,
     kundliId,
     purpose: params.get('purpose') ?? undefined,
+    reportMode: parseReportMode(params.get('reportMode')),
     selectedHouse: selectedHouse ? Number(selectedHouse) : undefined,
+    selectedKundliKarmaEvidenceSummary:
+      params.get('selectedKundliKarmaEvidenceSummary') ?? undefined,
+    selectedKundliKarmaItemId: params.get('selectedKundliKarmaItemId') ?? undefined,
+    selectedKundliKarmaModule:
+      (params.get('selectedKundliKarmaModule') as ChartContext['selectedKundliKarmaModule']) ??
+      undefined,
+    selectedKundliKarmaRuleId: params.get('selectedKundliKarmaRuleId') ?? undefined,
+    selectedLanguage:
+      (params.get('selectedLanguage') as ChartContext['selectedLanguage']) ?? undefined,
     selectedPlanet: params.get('selectedPlanet') ?? undefined,
     selectedSection: params.get('prompt') ?? undefined,
     ...reportContext,
@@ -4426,6 +4460,16 @@ function ctaContextFromParams(params: URLSearchParams): ChartContext | undefined
     selectedFamilyMemberCount: parseOptionalNumber(
       params.get('selectedFamilyMemberCount'),
     ),
+    reportMode: parseReportMode(params.get('reportMode')),
+    selectedKundliKarmaEvidenceSummary:
+      params.get('selectedKundliKarmaEvidenceSummary') ?? undefined,
+    selectedKundliKarmaItemId: params.get('selectedKundliKarmaItemId') ?? undefined,
+    selectedKundliKarmaModule:
+      (params.get('selectedKundliKarmaModule') as ChartContext['selectedKundliKarmaModule']) ??
+      undefined,
+    selectedKundliKarmaRuleId: params.get('selectedKundliKarmaRuleId') ?? undefined,
+    selectedLanguage:
+      (params.get('selectedLanguage') as ChartContext['selectedLanguage']) ?? undefined,
     selectedPredictaWrapped: params.get('selectedPredictaWrapped') === 'true',
     selectedPredictaWrappedYear: parseOptionalNumber(
       params.get('selectedPredictaWrappedYear'),
@@ -4483,6 +4527,14 @@ function parseReportSchoolLane(
     value === 'SIGNATURE' ||
     value === 'SYNTHESIS'
   ) {
+    return value;
+  }
+
+  return undefined;
+}
+
+function parseReportMode(value: string | null): ChartContext['reportMode'] {
+  if (value === 'FREE' || value === 'PREMIUM') {
     return value;
   }
 

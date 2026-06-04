@@ -353,12 +353,19 @@ function KundliKarmaWebSurface({
               <KundliKarmaConditionCard
                 condition={condition}
                 hasPremiumAccess={hasPremiumAccess}
+                kundli={kundli}
                 key={condition.item.id}
                 remedyPlan={snapshot.remedyPlan}
               />
             ))}
           </div>
         )}
+
+        <KundliKarmaQuickPrompts
+          hasPremiumAccess={hasPremiumAccess}
+          kundli={kundli}
+          snapshot={snapshot}
+        />
 
         <div className="kundli-karma-module-grid" aria-label="Kundli Karma categories">
           {KUNDLI_KARMA_MODULE_GROUPS.map(group => (
@@ -396,15 +403,20 @@ function KundliKarmaWebSurface({
 function KundliKarmaConditionCard({
   condition,
   hasPremiumAccess,
+  kundli,
   remedyPlan,
 }: {
   condition: KundliKarmaRankedCondition;
   hasPremiumAccess: boolean;
+  kundli?: KundliData;
   remedyPlan: KundliKarmaRemedyPlanItem[];
 }): React.JSX.Element {
   const item = condition.item;
   const remedies = remediesForItem(remedyPlan, item);
-  const askHref = buildKundliKarmaAskHref(item, 'top-three-snapshot');
+  const askHref = buildKundliKarmaAskHref(item, 'top-three-snapshot', {
+    hasPremiumAccess,
+    kundli,
+  });
 
   return (
     <article
@@ -425,6 +437,7 @@ function KundliKarmaConditionCard({
       <div className="kundli-karma-actions">
         <Link
           className="button primary"
+          data-kundli-karma-evidence-summary={buildKundliKarmaEvidenceSummary(item)}
           data-kundli-karma-item-id={item.id}
           data-kundli-karma-rule-id={item.ruleId}
           data-local-memory-cta="kundli-karma"
@@ -454,6 +467,73 @@ function KundliKarmaConditionCard({
         )}
       </details>
     </article>
+  );
+}
+
+function KundliKarmaQuickPrompts({
+  hasPremiumAccess,
+  kundli,
+  snapshot,
+}: {
+  hasPremiumAccess: boolean;
+  kundli?: KundliData;
+  snapshot: KundliKarmaSnapshot;
+}): React.JSX.Element {
+  const prompts = [
+    {
+      condition: snapshot.strongestDosh,
+      fallback: 'Explain my strongest Dosh from local Kundli Karma memory. Give the meaning first, then evidence, activation, reductions, and safe remedy.',
+      label: 'Explain my strongest Dosh',
+      source: 'quick-dosh',
+    },
+    {
+      condition: snapshot.strongestShrapOrRin,
+      fallback: 'Explain my Shrap indicator from local Kundli Karma memory. Treat it as a karmic pressure indicator, not a curse.',
+      label: 'Explain my Shrap indicator',
+      source: 'quick-shrap',
+    },
+    {
+      condition: snapshot.rankedConditions.find(condition => condition.item.module === 'SUPPORTIVE_YOG'),
+      fallback: 'Explain my strongest supportive Yog from local Kundli Karma memory. Give the life support first, then evidence.',
+      label: 'Strongest supportive Yog',
+      source: 'quick-supportive-yog',
+    },
+    {
+      condition: snapshot.rankedConditions.find(condition => condition.item.module === 'CHALLENGING_YOG'),
+      fallback: 'Explain my strongest challenging Yog from local Kundli Karma memory. Give the practical guidance first, then evidence.',
+      label: 'Strongest challenging Yog',
+      source: 'quick-challenging-yog',
+    },
+    {
+      condition: snapshot.rankedConditions.find(condition => condition.item.module === 'LAL_KITAB'),
+      fallback: 'Explain my Lal Kitab remedy from local Kundli Karma memory. Give the safe upay first, then the house-wise evidence.',
+      label: 'My Lal Kitab remedy',
+      source: 'quick-lal-kitab',
+    },
+  ];
+
+  return (
+    <div className="kundli-karma-quick-prompts" data-local-memory-cta="kundli-karma-quick-prompts">
+      <span>Zero-credit quick prompts</span>
+      <div>
+        {prompts.map(prompt => {
+          const href = prompt.condition
+            ? buildKundliKarmaAskHref(prompt.condition.item, prompt.source, {
+                hasPremiumAccess,
+                kundli,
+              })
+            : buildKundliKarmaGenericAskHref(prompt.fallback, prompt.source, {
+                hasPremiumAccess,
+                kundli,
+              });
+          return (
+            <Link className="button secondary" href={href} key={prompt.source}>
+              {prompt.label}
+            </Link>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
@@ -600,16 +680,56 @@ function KundliKarmaChip({
   );
 }
 
-function buildKundliKarmaAskHref(item: KundliKarmaItem, sourceSurface: string): string {
+function buildKundliKarmaAskHref(
+  item: KundliKarmaItem,
+  sourceSurface: string,
+  options: {
+    hasPremiumAccess: boolean;
+    kundli?: KundliData;
+  },
+): string {
   return buildPredictaChatHref({
+    kundli: options.kundli,
     prompt:
       `Explain why ${item.displayName} appears in my Kundli Karma snapshot. ` +
-      `Use deterministic rule ${item.ruleId}, module ${moduleLabel(item.module)}, visible evidence, activation timing, reductions, and safe remedies. ` +
-      'Keep it Vedic, plain-language, non-fearful, and do not spend AI if the local Kundli Karma memory can answer it.',
+      'Answer the meaning and guidance first, then show why it appears, visible evidence, activation timing, reductions, and safe remedies. ' +
+      'Keep it Vedic, plain-language, non-fearful, and do not spend AI if local Kundli Karma memory can answer it.',
+    reportMode: options.hasPremiumAccess ? 'PREMIUM' : 'FREE',
     school: 'PARASHARI',
+    selectedKundliKarmaEvidenceSummary: buildKundliKarmaEvidenceSummary(item),
+    selectedKundliKarmaItemId: item.id,
+    selectedKundliKarmaModule: item.module,
+    selectedKundliKarmaRuleId: item.ruleId,
+    selectedLanguage: 'en',
     selectedSection: `Kundli Karma: ${item.displayName}`,
     sourceScreen: `vedic-kundli-karma-${sourceSurface}`,
   });
+}
+
+function buildKundliKarmaGenericAskHref(
+  prompt: string,
+  sourceSurface: string,
+  options: {
+    hasPremiumAccess: boolean;
+    kundli?: KundliData;
+  },
+): string {
+  return buildPredictaChatHref({
+    kundli: options.kundli,
+    prompt,
+    reportMode: options.hasPremiumAccess ? 'PREMIUM' : 'FREE',
+    school: 'PARASHARI',
+    selectedLanguage: 'en',
+    selectedSection: 'Kundli Karma quick prompt',
+    sourceScreen: `vedic-kundli-karma-${sourceSurface}`,
+  });
+}
+
+function buildKundliKarmaEvidenceSummary(item: KundliKarmaItem): string {
+  return item.evidence
+    .slice(0, 3)
+    .map(evidence => evidence.description)
+    .join(' | ');
 }
 
 function remediesForItem(

@@ -1,0 +1,7 @@
+PREDICTA_KUNDLI_KARMA_PHASE_11_CHAT_CTA_ZERO_CREDIT_AND_CONTEXT_HANDOFF: PASS
+- Web Kundli Karma CTAs include active Kundli id, item/rule/module, evidence summary, free/premium reportMode, selected language, source screen, and Vedic school routing.
+- Mobile Kundli Karma handoffs include Kundli id, item/rule/module, evidence summary, reportMode, selected language, source screen, and Vedic school routing.
+- Web and mobile surfaces include zero-credit quick prompts for strongest Dosh, Shrap indicator, supportive Yog, challenging Yog, and Lal Kitab remedy.
+- Web chat parses Kundli Karma CTA params into active context and preserves selectedLanguage on entry.
+- Deterministic action routing runs before web AI budget/provider paths.
+- Runtime handoff with exhausted AI credits returned local_memory_answer and did not spend AI credit.

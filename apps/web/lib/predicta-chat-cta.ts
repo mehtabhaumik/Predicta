@@ -3,9 +3,11 @@ import type {
   DecisionArea,
   DecisionState,
   KundliData,
+  KundliKarmaModule,
   PredictaSchool,
   ReportMemoryDepth,
   ReportSchoolLaneId,
+  SupportedLanguage,
   TimelineEvent,
 } from '@pridicta/types';
 
@@ -40,6 +42,11 @@ export type PredictaChatCtaContext = {
   selectedFamilyKarmaMap?: boolean;
   selectedFamilyMemberCount?: number;
   selectedHouse?: number;
+  selectedKundliKarmaEvidenceSummary?: string;
+  selectedKundliKarmaItemId?: string;
+  selectedKundliKarmaModule?: KundliKarmaModule;
+  selectedKundliKarmaRuleId?: string;
+  selectedLanguage?: SupportedLanguage;
   selectedPlanet?: string;
   selectedPredictaWrapped?: boolean;
   selectedPredictaWrappedYear?: number;
@@ -103,6 +110,11 @@ export function buildPredictaChatHref(context: PredictaChatCtaContext): string {
     context.selectedFamilyKarmaMap ? 'true' : undefined,
   );
   setParam(params, 'selectedFamilyMemberCount', context.selectedFamilyMemberCount);
+  setParam(params, 'selectedKundliKarmaEvidenceSummary', context.selectedKundliKarmaEvidenceSummary);
+  setParam(params, 'selectedKundliKarmaItemId', context.selectedKundliKarmaItemId);
+  setParam(params, 'selectedKundliKarmaModule', context.selectedKundliKarmaModule);
+  setParam(params, 'selectedKundliKarmaRuleId', context.selectedKundliKarmaRuleId);
+  setParam(params, 'selectedLanguage', context.selectedLanguage);
   setParam(
     params,
     'selectedPredictaWrapped',

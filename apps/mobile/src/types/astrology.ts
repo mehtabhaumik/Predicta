@@ -1940,9 +1940,11 @@ export type ChartContext = {
   reportType?: string;
   selectedFamilyKarmaMap?: boolean;
   selectedFamilyMemberCount?: number;
+  selectedKundliKarmaEvidenceSummary?: string;
   selectedKundliKarmaItemId?: string;
   selectedKundliKarmaModule?: KundliKarmaModule;
   selectedKundliKarmaRuleId?: string;
+  selectedLanguage?: SupportedLanguage;
   selectedPredictaWrapped?: boolean;
   selectedPredictaWrappedYear?: number;
   sourceScreen: string;

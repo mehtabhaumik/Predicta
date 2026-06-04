@@ -1688,8 +1688,19 @@ function buildKundliKarmaLocalMemoryReply({
     intelligencePackets: packets,
   });
   const allItems = packets.flatMap(packet => packet.items);
+  const selectedItem =
+    findContextSelectedKundliKarmaItem(allItems, chartContext) ??
+    findTextSelectedKundliKarmaItem(allItems, normalized);
+  const selectedCondition =
+    selectedItem &&
+    snapshot.rankedConditions.find(
+      condition => condition.item.id === selectedItem.id,
+    );
 
-  if (/\b(top\s*3|three|snapshot|overview|summary|kundli\s*karma)\b/i.test(text)) {
+  if (
+    !selectedItem &&
+    /\b(top\s*3|three|snapshot|overview|summary|kundli\s*karma)\b/i.test(text)
+  ) {
     const top = snapshot.topThreeActiveConditions
       .map(condition => formatKundliKarmaConditionLine(condition))
       .join('\n');
@@ -1704,14 +1715,6 @@ function buildKundliKarmaLocalMemoryReply({
     ].join('\n\n');
   }
 
-  const selectedItem =
-    findContextSelectedKundliKarmaItem(allItems, chartContext) ??
-    findTextSelectedKundliKarmaItem(allItems, normalized);
-  const selectedCondition =
-    selectedItem &&
-    snapshot.rankedConditions.find(
-      condition => condition.item.id === selectedItem.id,
-    );
   const condition =
     selectedCondition ??
     resolveRequestedKundliKarmaCondition(snapshot.rankedConditions, normalized);

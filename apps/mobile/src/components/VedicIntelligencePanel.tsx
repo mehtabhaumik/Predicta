@@ -15,6 +15,8 @@ import type {
   KundliKarmaRankedCondition,
   KundliKarmaRemedyPlanItem,
   KundliKarmaSnapshot,
+  ReportMemoryDepth,
+  SupportedLanguage,
   VedicIntelligenceSection,
 } from '@pridicta/types';
 import { AppText } from './AppText';
@@ -22,10 +24,14 @@ import { GlowCard } from './GlowCard';
 import { IntelligenceRhythmCard } from './IntelligenceRhythmCard';
 
 type KundliKarmaMobileHandoff = {
+  kundliId?: string;
   predictaSchool: 'PARASHARI';
+  reportMode: ReportMemoryDepth;
+  selectedKundliKarmaEvidenceSummary?: string;
   selectedKundliKarmaItemId: string;
   selectedKundliKarmaModule: KundliKarmaModule;
   selectedKundliKarmaRuleId: string;
+  selectedLanguage: SupportedLanguage;
   selectedSection: string;
   sourceScreen: string;
 };
@@ -375,6 +381,7 @@ function KundliKarmaMobileSurface({
             <KundliKarmaConditionCard
               condition={condition}
               hasPremiumAccess={hasPremiumAccess}
+              kundli={kundli}
               key={condition.item.id}
               onAskPrompt={onAskPrompt}
               onDownloadFullReport={onDownloadFullReport}
@@ -383,6 +390,13 @@ function KundliKarmaMobileSurface({
           ))}
         </View>
       )}
+
+      <KundliKarmaQuickPrompts
+        hasPremiumAccess={hasPremiumAccess}
+        kundli={kundli}
+        onAskPrompt={onAskPrompt}
+        snapshot={snapshot}
+      />
 
       <DisclosureButton
         label="Dosh, Shrap, Yog and Lal Kitab"
@@ -429,12 +443,14 @@ function KundliKarmaMobileSurface({
 function KundliKarmaConditionCard({
   condition,
   hasPremiumAccess,
+  kundli,
   onAskPrompt,
   onDownloadFullReport,
   remedyPlan,
 }: {
   condition: KundliKarmaRankedCondition;
   hasPremiumAccess: boolean;
+  kundli?: KundliData;
   onAskPrompt?: (prompt: string, context?: KundliKarmaMobileHandoff) => void;
   onDownloadFullReport?: () => void;
   remedyPlan: KundliKarmaRemedyPlanItem[];
@@ -464,7 +480,16 @@ function KundliKarmaConditionCard({
         {onAskPrompt ? (
           <ActionPill
             label="Ask Predicta why this appears"
-            onPress={() => onAskPrompt(buildKundliKarmaPrompt(item), buildKundliKarmaHandoff(item))}
+            onPress={() =>
+              onAskPrompt(
+                buildKundliKarmaPrompt(item),
+                buildKundliKarmaHandoff(item, {
+                  hasPremiumAccess,
+                  kundli,
+                  sourceScreen: 'Vedic Kundli Karma Snapshot',
+                }),
+              )
+            }
             primary
           />
         ) : null}
@@ -492,6 +517,81 @@ function KundliKarmaConditionCard({
           </AppText>
         </View>
       ) : null}
+    </View>
+  );
+}
+
+function KundliKarmaQuickPrompts({
+  hasPremiumAccess,
+  kundli,
+  onAskPrompt,
+  snapshot,
+}: {
+  hasPremiumAccess: boolean;
+  kundli?: KundliData;
+  onAskPrompt?: (prompt: string, context?: KundliKarmaMobileHandoff) => void;
+  snapshot: KundliKarmaSnapshot;
+}): React.JSX.Element | null {
+  if (!onAskPrompt || !kundli) {
+    return null;
+  }
+  const prompts = [
+    {
+      condition: snapshot.strongestDosh,
+      fallback: 'Explain my strongest Dosh from local Kundli Karma memory. Give the meaning first, then evidence, activation, reductions, and safe remedy.',
+      label: 'Explain my strongest Dosh',
+      sourceScreen: 'Vedic Kundli Karma Quick Dosh',
+    },
+    {
+      condition: snapshot.strongestShrapOrRin,
+      fallback: 'Explain my Shrap indicator from local Kundli Karma memory. Treat it as a karmic pressure indicator, not a curse.',
+      label: 'Explain my Shrap indicator',
+      sourceScreen: 'Vedic Kundli Karma Quick Shrap',
+    },
+    {
+      condition: snapshot.rankedConditions.find(condition => condition.item.module === 'SUPPORTIVE_YOG'),
+      fallback: 'Explain my strongest supportive Yog from local Kundli Karma memory. Give the life support first, then evidence.',
+      label: 'Strongest supportive Yog',
+      sourceScreen: 'Vedic Kundli Karma Quick Supportive Yog',
+    },
+    {
+      condition: snapshot.rankedConditions.find(condition => condition.item.module === 'CHALLENGING_YOG'),
+      fallback: 'Explain my strongest challenging Yog from local Kundli Karma memory. Give the practical guidance first, then evidence.',
+      label: 'Strongest challenging Yog',
+      sourceScreen: 'Vedic Kundli Karma Quick Challenging Yog',
+    },
+    {
+      condition: snapshot.rankedConditions.find(condition => condition.item.module === 'LAL_KITAB'),
+      fallback: 'Explain my Lal Kitab remedy from local Kundli Karma memory. Give the safe upay first, then the house-wise evidence.',
+      label: 'My Lal Kitab remedy',
+      sourceScreen: 'Vedic Kundli Karma Quick Lal Kitab',
+    },
+  ];
+
+  return (
+    <View
+      className="gap-2 rounded-3xl border border-[#4DAFFF33] bg-[#4DAFFF12] p-4"
+      testID="kundli-karma-mobile-quick-prompts"
+    >
+      <AppText className="text-[#4DAFFF]" variant="caption">
+        ZERO-CREDIT QUICK PROMPTS
+      </AppText>
+      {prompts.map(prompt => {
+        const context = prompt.condition
+          ? buildKundliKarmaHandoff(prompt.condition.item, {
+              hasPremiumAccess,
+              kundli,
+              sourceScreen: prompt.sourceScreen,
+            })
+          : undefined;
+        return (
+          <ActionPill
+            key={prompt.sourceScreen}
+            label={prompt.label}
+            onPress={() => onAskPrompt(prompt.condition ? buildKundliKarmaPrompt(prompt.condition.item) : prompt.fallback, context)}
+          />
+        );
+      })}
     </View>
   );
 }
@@ -824,20 +924,38 @@ function ActionPill({
 function buildKundliKarmaPrompt(item: KundliKarmaItem): string {
   return (
     `Explain why ${item.displayName} appears in my Kundli Karma snapshot. ` +
-    `Use deterministic rule ${item.ruleId}, module ${moduleLabel(item.module)}, visible evidence, activation timing, reductions, and safe remedies. ` +
-    'Keep it Vedic, plain-language, non-fearful, and do not spend AI if the local Kundli Karma memory can answer it.'
+    'Answer the meaning and guidance first, then show why it appears, visible evidence, activation timing, reductions, and safe remedies. ' +
+    'Keep it Vedic, plain-language, non-fearful, and do not spend AI if local Kundli Karma memory can answer it.'
   );
 }
 
-function buildKundliKarmaHandoff(item: KundliKarmaItem): KundliKarmaMobileHandoff {
+function buildKundliKarmaHandoff(
+  item: KundliKarmaItem,
+  options: {
+    hasPremiumAccess: boolean;
+    kundli?: KundliData;
+    sourceScreen: string;
+  },
+): KundliKarmaMobileHandoff {
   return {
+    kundliId: options.kundli?.id,
     predictaSchool: 'PARASHARI',
+    reportMode: options.hasPremiumAccess ? 'PREMIUM' : 'FREE',
+    selectedKundliKarmaEvidenceSummary: buildKundliKarmaEvidenceSummary(item),
     selectedKundliKarmaItemId: item.id,
     selectedKundliKarmaModule: item.module,
     selectedKundliKarmaRuleId: item.ruleId,
+    selectedLanguage: 'en',
     selectedSection: `Kundli Karma: ${item.displayName}`,
-    sourceScreen: 'Vedic Kundli Karma Snapshot',
+    sourceScreen: options.sourceScreen,
   };
+}
+
+function buildKundliKarmaEvidenceSummary(item: KundliKarmaItem): string {
+  return item.evidence
+    .slice(0, 3)
+    .map(evidence => evidence.description)
+    .join(' | ');
 }
 
 function remediesForItem(
