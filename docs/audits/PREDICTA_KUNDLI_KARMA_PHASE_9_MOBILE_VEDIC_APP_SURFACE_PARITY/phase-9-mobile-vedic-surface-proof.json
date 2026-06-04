@@ -8,15 +8,15 @@
   ],
   "checks": {
     "canonicalTerms": [
-      "Dosh",
-      "Shrap",
-      "Yog",
-      "Lal Kitab"
+      "copy.groupDoshTitle",
+      "copy.groupShrapTitle",
+      "copy.groupYogTitle",
+      "copy.groupLalKitabTitle"
     ],
     "emptyStates": [
-      "Kundli needed",
-      "Calculation pending",
-      "No major Kundli Karma alerts"
+      "copy.kundliNeededTitle",
+      "copy.calculationPendingTitle",
+      "copy.noMajorAlertsTitle"
     ],
     "freePremiumBoundary": true,
     "localMemoryHandoff": [
@@ -31,7 +31,7 @@
     "sharedDeterministicContract": "composeKundliKarmaSnapshot",
     "topThreeLogic": "snapshot.topThreeActiveConditions"
   },
-  "generatedAt": "2026-06-04T19:30:04.426Z",
+  "generatedAt": "2026-06-04T21:41:17.230Z",
   "phase": "PREDICTA_KUNDLI_KARMA_PHASE_9_MOBILE_VEDIC_APP_SURFACE_PARITY",
   "status": "green"
 }

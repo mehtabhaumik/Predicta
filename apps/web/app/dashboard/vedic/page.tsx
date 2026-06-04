@@ -402,6 +402,7 @@ export default function VedicPredictaPage(): React.JSX.Element {
         <WebVedicIntelligencePanel
           hasPremiumAccess={demoAccess.hasPremiumAccess}
           kundli={activeKundli}
+          language={language}
         />
       </div>
     </section>

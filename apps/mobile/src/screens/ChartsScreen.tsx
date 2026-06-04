@@ -41,11 +41,13 @@ export function ChartsScreen({
   const [selectedChart, setSelectedChart] = useState<ChartScreenSelection>('D1');
   const [focus, setFocus] = useState<KundliChartFocus>({});
   const kundli = useAppStore(state => state.activeKundli);
+  const languagePreference = useAppStore(state => state.languagePreference);
   const setActiveChartContext = useAppStore(
     state => state.setActiveChartContext,
   );
   const getResolvedAccess = useAppStore(state => state.getResolvedAccess);
   const access = getResolvedAccess();
+  const language = languagePreference.chartLanguage ?? languagePreference.language ?? 'en';
   const chartTypes = getChartTypesForAccess(access.hasPremiumAccess);
   const chalitKpFoundation = composeChalitBhavKpFoundation(kundli, {
     depth: access.hasPremiumAccess ? 'PREMIUM' : 'FREE',
@@ -271,6 +273,7 @@ export function ChartsScreen({
       <VedicIntelligencePanel
         hasPremiumAccess={access.hasPremiumAccess}
         kundli={kundli}
+        language={language}
         onAskPrompt={(prompt, context) => {
           setActiveChartContext({
             ...context,

@@ -31,6 +31,7 @@ const viewports = [
 
 const sourceFiles = {
   css: readFileSync('apps/web/app/globals.css', 'utf8'),
+  kundliKarmaTranslations: readFileSync('packages/config/src/translations/kundliKarma.json', 'utf8'),
   packageJson: readFileSync('package.json', 'utf8'),
   panel: readFileSync('apps/web/components/WebVedicIntelligencePanel.tsx', 'utf8'),
   roadmap: readFileSync('docs/PREDICTA_KUNDLI_KARMA_INTELLIGENCE_STRICT_PHASES.md', 'utf8'),
@@ -54,29 +55,48 @@ for (const fragment of [
 
 for (const fragment of [
   'composeKundliKarmaSnapshot',
+  'getKundliKarmaCopy',
   'KundliKarmaWebSurface',
-  'Kundli Karma Snapshot',
-  'Dosh',
-  'Shrap',
-  'Yog',
-  'Lal Kitab',
+  'const copy = getKundliKarmaCopy(language)',
+  'const moduleGroups = getKundliKarmaModuleGroups(copy)',
+  'copy.snapshotMetaTitle',
+  'copy.groupDoshTitle',
+  'copy.groupShrapTitle',
+  'copy.groupYogTitle',
+  'copy.groupLalKitabTitle',
   'topThreeActiveConditions',
+  'aria-label={copy.topThreeAriaLabel}',
+  'aria-label={copy.categoryAriaLabel}',
   'data-local-memory-cta="kundli-karma"',
   'data-kundli-karma-rule-id',
   'data-kundli-karma-item-id',
   'data-kundli-karma-generated-by',
-  'Ask Predicta why this appears',
-  'Download detailed report',
-  'Premium opens',
-  'No major Kundli Karma alerts',
-  'Calculation pending',
-  'Kundli needed',
+  'copy.askWhyCta',
+  'copy.downloadDetailedReportCta',
+  'copy.premiumLockedBody',
+  'copy.noMajorAlertsTitle',
+  'copy.calculationPendingTitle',
+  'copy.kundliNeededTitle',
   '<KundliKarmaEvidenceList',
   'buildPredictaChatHref',
   "school: 'PARASHARI'",
-  'local Kundli Karma memory',
+  'selectedLanguage: options.language',
 ]) {
   assertIncludes(sourceFiles.panel, fragment, `web panel includes ${fragment}`);
+}
+
+for (const fragment of [
+  '"surfaceTitle"',
+  '"snapshotMetaTitle"',
+  '"askWhyCta"',
+  '"downloadDetailedReportCta"',
+  '"groupDoshTitle"',
+  '"groupShrapTitle"',
+  '"groupYogTitle"',
+  '"groupLalKitabTitle"',
+  '"remedyCategoryFreeKarmaDharmaAction"',
+]) {
+  assertIncludes(sourceFiles.kundliKarmaTranslations, fragment, `Kundli Karma translations include ${fragment}`);
 }
 
 for (const fragment of [
@@ -237,7 +257,7 @@ writeFileSync(
   [
     `${phaseName}: ${failures.length ? 'FAILED' : 'PASS'}`,
     '- web Vedic room consumes composeKundliKarmaSnapshot from @pridicta/astrology',
-    '- calm top-three snapshot, Dosh/Shrap/Yog/Lal Kitab cards, expanders, remedies, premium lock, and missing states are source-locked',
+    '- calm top-three snapshot, Dosh/Shrap/Yog/Lal Kitab cards, expanders, remedies, premium lock, and missing states are source-locked through dedicated translations',
     '- desktop/tablet/mobile/narrow-mobile screenshots are captured by the gate',
     '- overflow, clipped text, CTA spacing, and category visibility are audited',
     '',

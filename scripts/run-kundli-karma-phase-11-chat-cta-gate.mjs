@@ -100,6 +100,7 @@ for (const fragment of [
 
 for (const fragment of [
   'KundliKarmaQuickPrompts',
+  'getKundliKarmaCopy',
   'buildKundliKarmaEvidenceSummary',
   'kundli: options.kundli',
   "reportMode: options.hasPremiumAccess ? 'PREMIUM' : 'FREE'",
@@ -107,20 +108,21 @@ for (const fragment of [
   'selectedKundliKarmaItemId: item.id',
   'selectedKundliKarmaModule: item.module',
   'selectedKundliKarmaRuleId: item.ruleId',
-  "selectedLanguage: 'en'",
-  'Answer the meaning and guidance first',
-  'Zero-credit quick prompts',
-  'Explain my strongest Dosh',
-  'Explain my Shrap indicator',
-  'Strongest supportive Yog',
-  'Strongest challenging Yog',
-  'My Lal Kitab remedy',
+  'selectedLanguage: options.language',
+  'copy.askItemPromptBody',
+  'copy.quickPromptsTitle',
+  'copy.quickDoshLabel',
+  'copy.quickShrapLabel',
+  'copy.quickSupportiveYogLabel',
+  'copy.quickChallengingYogLabel',
+  'copy.quickLalKitabLabel',
 ]) {
   assertIncludes(files.webPanel, fragment, `web panel includes ${fragment}`);
 }
 
 for (const fragment of [
   'KundliKarmaQuickPrompts',
+  'getKundliKarmaCopy',
   'buildKundliKarmaEvidenceSummary',
   'kundliId: options.kundli?.id',
   "reportMode: options.hasPremiumAccess ? 'PREMIUM' : 'FREE'",
@@ -128,14 +130,14 @@ for (const fragment of [
   'selectedKundliKarmaItemId: item.id',
   'selectedKundliKarmaModule: item.module',
   'selectedKundliKarmaRuleId: item.ruleId',
-  "selectedLanguage: 'en'",
-  'Answer the meaning and guidance first',
+  'selectedLanguage: options.language',
+  'copy.askItemPromptBody',
   'testID="kundli-karma-mobile-quick-prompts"',
-  'Explain my strongest Dosh',
-  'Explain my Shrap indicator',
-  'Strongest supportive Yog',
-  'Strongest challenging Yog',
-  'My Lal Kitab remedy',
+  'copy.quickDoshLabel',
+  'copy.quickShrapLabel',
+  'copy.quickSupportiveYogLabel',
+  'copy.quickChallengingYogLabel',
+  'copy.quickLalKitabLabel',
 ]) {
   assertIncludes(files.mobilePanel, fragment, `mobile panel includes ${fragment}`);
 }

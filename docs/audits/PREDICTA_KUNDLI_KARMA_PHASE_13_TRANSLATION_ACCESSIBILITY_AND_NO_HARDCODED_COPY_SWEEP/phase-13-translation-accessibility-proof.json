@@ -1,0 +1,60 @@
+{
+  "auditedFiles": [
+    "packages/config/src/translations/kundliKarma.json",
+    "apps/web/components/WebVedicIntelligencePanel.tsx",
+    "apps/web/app/dashboard/vedic/page.tsx",
+    "apps/mobile/src/components/VedicIntelligencePanel.tsx",
+    "apps/mobile/src/screens/ChartsScreen.tsx",
+    "packages/pdf/src/translations/reportLabels.json"
+  ],
+  "checks": {
+    "accessibilityMarkers": true,
+    "canonicalTerms": {
+      "dosh": {
+        "en": "Dosh",
+        "hi": "दोष",
+        "gu": "દોષ"
+      },
+      "shrap": {
+        "en": "Shrap",
+        "hi": "श्राप",
+        "gu": "શ્રાપ"
+      },
+      "yog": {
+        "en": "Yog",
+        "hi": "योग",
+        "gu": "યોગ"
+      },
+      "lalKitab": {
+        "en": "Lal Kitab",
+        "hi": "लाल किताब",
+        "gu": "લાલ કિતાબ"
+      },
+      "karmicDebtShrapIndicators": {
+        "en": "Karmic Debt & Shrap Indicators",
+        "hi": "कर्म ऋण और श्राप संकेत",
+        "gu": "કર્મ ઋણ અને શ્રાપ સંકેતો"
+      }
+    },
+    "componentHardcodedCopyBlocked": [
+      "Dosh, Shrap, Yog and Lal Kitab without fear",
+      "Kundli Karma Snapshot",
+      "Kundli needed",
+      "Calculation pending",
+      "No major Kundli Karma alerts",
+      "Ask Predicta why this appears",
+      "Download detailed report",
+      "Explain my strongest Dosh",
+      "Explain my Shrap indicator",
+      "My Lal Kitab remedy",
+      "Premium opens fuller evidence",
+      "Zero-credit quick prompts",
+      "Consolidated Remedy Plan"
+    ],
+    "languageAwareChatHandoff": true,
+    "translationKeyCount": 100
+  },
+  "generatedAt": "2026-06-04T21:40:56.760Z",
+  "phase": "PREDICTA_KUNDLI_KARMA_PHASE_13_TRANSLATION_ACCESSIBILITY_AND_NO_HARDCODED_COPY_SWEEP",
+  "status": "green"
+}

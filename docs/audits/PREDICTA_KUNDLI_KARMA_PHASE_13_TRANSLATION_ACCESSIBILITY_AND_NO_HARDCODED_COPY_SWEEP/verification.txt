@@ -1,0 +1,6 @@
+PREDICTA_KUNDLI_KARMA_PHASE_13_TRANSLATION_ACCESSIBILITY_AND_NO_HARDCODED_COPY_SWEEP: PASS
+- Kundli Karma canonical terms and UI copy have English, Hindi, and Gujarati coverage in dedicated JSON.
+- Web and mobile Kundli Karma surfaces consume getKundliKarmaCopy instead of hardcoded visible copy.
+- Web and mobile chat handoffs preserve selected language instead of forcing English.
+- Mobile expanders and CTAs expose accessibility roles, labels, and expanded state.
+- PDF Kundli Karma headings have report label translations for English, Hindi, and Gujarati.

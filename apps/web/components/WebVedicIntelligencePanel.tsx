@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { getKundliKarmaCopy, type KundliKarmaCopy } from '@pridicta/config';
 import {
   buildParashariChalitChart,
   composeChartInsight,
@@ -16,6 +17,7 @@ import type {
   KundliKarmaRankedCondition,
   KundliKarmaRemedyPlanItem,
   KundliKarmaSnapshot,
+  SupportedLanguage,
   VedicIntelligenceSection,
 } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
@@ -31,9 +33,11 @@ type ProgressiveChartCard = {
 export function WebVedicIntelligencePanel({
   hasPremiumAccess,
   kundli,
+  language = 'en',
 }: {
   hasPremiumAccess: boolean;
   kundli?: KundliData;
+  language?: SupportedLanguage;
 }): React.JSX.Element {
   const intelligence = composeVedicIntelligenceContract({
     depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
@@ -164,6 +168,7 @@ export function WebVedicIntelligencePanel({
       <KundliKarmaWebSurface
         hasPremiumAccess={hasPremiumAccess}
         kundli={kundli}
+        language={language}
         snapshot={kundliKarma}
       />
 
@@ -257,54 +262,62 @@ export function WebVedicIntelligencePanel({
   );
 }
 
-const KUNDLI_KARMA_MODULE_GROUPS: Array<{
+type KundliKarmaModuleGroup = {
   body: string;
   id: 'DOSH' | 'SHRAP' | 'YOG' | 'LAL_KITAB';
   modules: KundliKarmaModule[];
   title: string;
-}> = [
-  {
-    body: 'Pressure indicators are shown calmly, with reductions and remedies before fear.',
-    id: 'DOSH',
-    modules: ['DOSH'],
-    title: 'Dosh',
-  },
-  {
-    body: 'Karmic debt signals are treated as indicators, never as curse language.',
-    id: 'SHRAP',
-    modules: ['SHRAP'],
-    title: 'Shrap',
-  },
-  {
-    body: 'Supportive and challenging Yogas stay together so strengths are not hidden.',
-    id: 'YOG',
-    modules: ['SUPPORTIVE_YOG', 'CHALLENGING_YOG'],
-    title: 'Yog',
-  },
-  {
-    body: 'Lal Kitab keeps practical house-wise observations and safe upay separate.',
-    id: 'LAL_KITAB',
-    modules: ['LAL_KITAB'],
-    title: 'Lal Kitab',
-  },
-];
+};
+
+function getKundliKarmaModuleGroups(copy: KundliKarmaCopy): KundliKarmaModuleGroup[] {
+  return [
+    {
+      body: copy.groupDoshBody,
+      id: 'DOSH',
+      modules: ['DOSH'],
+      title: copy.groupDoshTitle,
+    },
+    {
+      body: copy.groupShrapBody,
+      id: 'SHRAP',
+      modules: ['SHRAP'],
+      title: copy.groupShrapTitle,
+    },
+    {
+      body: copy.groupYogBody,
+      id: 'YOG',
+      modules: ['SUPPORTIVE_YOG', 'CHALLENGING_YOG'],
+      title: copy.groupYogTitle,
+    },
+    {
+      body: copy.groupLalKitabBody,
+      id: 'LAL_KITAB',
+      modules: ['LAL_KITAB'],
+      title: copy.groupLalKitabTitle,
+    },
+  ];
+}
 
 function KundliKarmaWebSurface({
   hasPremiumAccess,
   kundli,
+  language,
   snapshot,
 }: {
   hasPremiumAccess: boolean;
   kundli?: KundliData;
+  language: SupportedLanguage;
   snapshot: KundliKarmaSnapshot;
 }): React.JSX.Element {
   const visibleConditions = snapshot.topThreeActiveConditions;
+  const copy = getKundliKarmaCopy(language);
+  const moduleGroups = getKundliKarmaModuleGroups(copy);
 
   return (
     <ProgressiveGroup
-      eyebrow="KUNDLI KARMA"
-      title="Dosh, Shrap, Yog and Lal Kitab without fear"
-      body="Predicta ranks only deterministic signals here. You see the plain meaning first, then evidence and remedies if you want to open the details."
+      eyebrow={copy.surfaceEyebrow}
+      title={copy.surfaceTitle}
+      body={copy.surfaceBody}
     >
       <section
         className="kundli-karma-panel"
@@ -313,47 +326,49 @@ function KundliKarmaWebSurface({
       >
         <div className="kundli-karma-hero">
           <div>
-            <span>Kundli Karma Snapshot</span>
+            <span>{copy.snapshotMetaTitle}</span>
             <strong>{snapshot.subjectName}</strong>
             <p>{snapshot.summary}</p>
           </div>
           <div className="kundli-karma-hero-meta">
-            <KundliKarmaChip label="Status" value={statusLabel(snapshot.calculationStatus)} />
+            <KundliKarmaChip label={copy.statusLabel} value={statusLabel(snapshot.calculationStatus, copy)} />
             <KundliKarmaChip
-              label="No AI needed"
-              value={snapshot.noAiRequiredFor.includes('show Kundli Karma snapshot') ? 'Yes' : 'Pending'}
+              label={copy.noAiNeededLabel}
+              value={snapshot.noAiRequiredFor.includes('show Kundli Karma snapshot') ? copy.yesLabel : copy.pendingLabel}
             />
             {snapshot.topRemedy ? (
-              <KundliKarmaChip label="Top remedy" value={snapshot.topRemedy.title} />
+              <KundliKarmaChip label={copy.topRemedyLabel} value={snapshot.topRemedy.title} />
             ) : null}
           </div>
         </div>
 
         {!kundli ? (
           <KundliKarmaEmptyState
-            body="Create or open a Kundli first. Predicta will not invent Dosh, Shrap, Yog, or Lal Kitab signals without chart evidence."
-            title="Kundli needed"
+            body={copy.kundliNeededBody}
+            title={copy.kundliNeededTitle}
           />
         ) : snapshot.calculationStatus !== 'ready' ? (
           <KundliKarmaEmptyState
             body={
               snapshot.missingData[0] ??
-              'Some deterministic evidence is still pending, so Predicta is keeping this section conservative.'
+              copy.calculationPendingFallback
             }
-            title="Calculation pending"
+            title={copy.calculationPendingTitle}
           />
         ) : visibleConditions.length === 0 ? (
           <KundliKarmaEmptyState
-            body="Predicta did not find major active Kundli Karma alerts in the implemented deterministic checks. You can still open each category below for proof and calm context."
-            title="No major Kundli Karma alerts"
+            body={copy.noMajorAlertsBody}
+            title={copy.noMajorAlertsTitle}
           />
         ) : (
-          <div className="kundli-karma-top-grid" aria-label="Top three Kundli Karma conditions">
+          <div className="kundli-karma-top-grid" aria-label={copy.topThreeAriaLabel}>
             {visibleConditions.map(condition => (
               <KundliKarmaConditionCard
                 condition={condition}
+                copy={copy}
                 hasPremiumAccess={hasPremiumAccess}
                 kundli={kundli}
+                language={language}
                 key={condition.item.id}
                 remedyPlan={snapshot.remedyPlan}
               />
@@ -362,14 +377,17 @@ function KundliKarmaWebSurface({
         )}
 
         <KundliKarmaQuickPrompts
+          copy={copy}
           hasPremiumAccess={hasPremiumAccess}
           kundli={kundli}
+          language={language}
           snapshot={snapshot}
         />
 
-        <div className="kundli-karma-module-grid" aria-label="Kundli Karma categories">
-          {KUNDLI_KARMA_MODULE_GROUPS.map(group => (
+        <div className="kundli-karma-module-grid" aria-label={copy.categoryAriaLabel}>
+          {moduleGroups.map(group => (
             <KundliKarmaModuleCard
+              copy={copy}
               group={group}
               hasPremiumAccess={hasPremiumAccess}
               key={group.id}
@@ -381,17 +399,17 @@ function KundliKarmaWebSurface({
 
         <details className="kundli-karma-disclosure">
           <summary>
-            <span>Remedies grouped once</span>
-            <strong>One consolidated plan, not repeated advice</strong>
+            <span>{copy.remediesGroupedTitle}</span>
+            <strong>{copy.remediesGroupedSubtitle}</strong>
           </summary>
           <div className="kundli-karma-remedy-list">
             {snapshot.remedyPlan.slice(0, hasPremiumAccess ? 6 : 3).map(remedy => (
-              <KundliKarmaRemedyRow key={remedy.id} remedy={remedy} />
+              <KundliKarmaRemedyRow copy={copy} key={remedy.id} remedy={remedy} />
             ))}
           </div>
           {!hasPremiumAccess ? (
             <p className="kundli-karma-locked">
-              Premium adds deeper timing, evidence-linked remedies, avoid-lists, and a structured plan without turning this page into the full report.
+              {copy.premiumReportBody}
             </p>
           ) : null}
         </details>
@@ -402,20 +420,26 @@ function KundliKarmaWebSurface({
 
 function KundliKarmaConditionCard({
   condition,
+  copy,
   hasPremiumAccess,
   kundli,
+  language,
   remedyPlan,
 }: {
   condition: KundliKarmaRankedCondition;
+  copy: KundliKarmaCopy;
   hasPremiumAccess: boolean;
   kundli?: KundliData;
+  language: SupportedLanguage;
   remedyPlan: KundliKarmaRemedyPlanItem[];
 }): React.JSX.Element {
   const item = condition.item;
   const remedies = remediesForItem(remedyPlan, item);
   const askHref = buildKundliKarmaAskHref(item, 'top-three-snapshot', {
+    copy,
     hasPremiumAccess,
     kundli,
+    language,
   });
 
   return (
@@ -428,8 +452,8 @@ function KundliKarmaConditionCard({
     >
       <div className="kundli-karma-card-header">
         <span>#{condition.rank}</span>
-        <KundliKarmaChip label={moduleLabel(item.module)} value={statusLabel(item.status)} />
-        <KundliKarmaChip label="Strength" value={strengthLabel(item.strength)} />
+        <KundliKarmaChip label={moduleLabel(item.module, copy)} value={statusLabel(item.status, copy)} />
+        <KundliKarmaChip label={copy.strengthLabel} value={strengthLabel(item.strength, copy)} />
       </div>
       <strong>{item.displayName}</strong>
       <p>{item.meaningForUser}</p>
@@ -443,26 +467,26 @@ function KundliKarmaConditionCard({
           data-local-memory-cta="kundli-karma"
           href={askHref}
         >
-          Ask Predicta why this appears
+          {copy.askWhyCta}
         </Link>
         <Link className="button secondary" href="/dashboard/report">
-          Download detailed report
+          {copy.downloadDetailedReportCta}
         </Link>
       </div>
       <details className="kundli-karma-card-details">
-        <summary>Evidence and remedies</summary>
+        <summary>{copy.openEvidenceRemediesLabel}</summary>
         <p>{item.whyPresent}</p>
         <KundliKarmaEvidenceList item={item} limit={hasPremiumAccess ? 5 : 2} />
         <div className="kundli-karma-remedy-list">
           {remedies.slice(0, hasPremiumAccess ? 3 : 1).map(remedy => (
-            <KundliKarmaRemedyRow key={remedy.id} remedy={remedy} />
+            <KundliKarmaRemedyRow copy={copy} key={remedy.id} remedy={remedy} />
           ))}
         </div>
         {hasPremiumAccess ? (
           <p className="kundli-karma-premium-note">{item.activation.summary}</p>
         ) : (
           <p className="kundli-karma-locked">
-            Premium opens fuller evidence, activation timing, and detailed remedies. Free still keeps the main meaning and one safe action visible.
+            {copy.premiumLockedBody}
           </p>
         )}
       </details>
@@ -471,60 +495,68 @@ function KundliKarmaConditionCard({
 }
 
 function KundliKarmaQuickPrompts({
+  copy,
   hasPremiumAccess,
   kundli,
+  language,
   snapshot,
 }: {
+  copy: KundliKarmaCopy;
   hasPremiumAccess: boolean;
   kundli?: KundliData;
+  language: SupportedLanguage;
   snapshot: KundliKarmaSnapshot;
 }): React.JSX.Element {
   const prompts = [
     {
       condition: snapshot.strongestDosh,
-      fallback: 'Explain my strongest Dosh from local Kundli Karma memory. Give the meaning first, then evidence, activation, reductions, and safe remedy.',
-      label: 'Explain my strongest Dosh',
+      fallback: copy.quickDoshPrompt,
+      label: copy.quickDoshLabel,
       source: 'quick-dosh',
     },
     {
       condition: snapshot.strongestShrapOrRin,
-      fallback: 'Explain my Shrap indicator from local Kundli Karma memory. Treat it as a karmic pressure indicator, not a curse.',
-      label: 'Explain my Shrap indicator',
+      fallback: copy.quickShrapPrompt,
+      label: copy.quickShrapLabel,
       source: 'quick-shrap',
     },
     {
       condition: snapshot.rankedConditions.find(condition => condition.item.module === 'SUPPORTIVE_YOG'),
-      fallback: 'Explain my strongest supportive Yog from local Kundli Karma memory. Give the life support first, then evidence.',
-      label: 'Strongest supportive Yog',
+      fallback: copy.quickSupportiveYogPrompt,
+      label: copy.quickSupportiveYogLabel,
       source: 'quick-supportive-yog',
     },
     {
       condition: snapshot.rankedConditions.find(condition => condition.item.module === 'CHALLENGING_YOG'),
-      fallback: 'Explain my strongest challenging Yog from local Kundli Karma memory. Give the practical guidance first, then evidence.',
-      label: 'Strongest challenging Yog',
+      fallback: copy.quickChallengingYogPrompt,
+      label: copy.quickChallengingYogLabel,
       source: 'quick-challenging-yog',
     },
     {
       condition: snapshot.rankedConditions.find(condition => condition.item.module === 'LAL_KITAB'),
-      fallback: 'Explain my Lal Kitab remedy from local Kundli Karma memory. Give the safe upay first, then the house-wise evidence.',
-      label: 'My Lal Kitab remedy',
+      fallback: copy.quickLalKitabPrompt,
+      label: copy.quickLalKitabLabel,
       source: 'quick-lal-kitab',
     },
   ];
 
   return (
     <div className="kundli-karma-quick-prompts" data-local-memory-cta="kundli-karma-quick-prompts">
-      <span>Zero-credit quick prompts</span>
+      <span>{copy.quickPromptsTitle}</span>
       <div>
         {prompts.map(prompt => {
           const href = prompt.condition
             ? buildKundliKarmaAskHref(prompt.condition.item, prompt.source, {
+                copy,
                 hasPremiumAccess,
                 kundli,
+                language,
               })
             : buildKundliKarmaGenericAskHref(prompt.fallback, prompt.source, {
                 hasPremiumAccess,
                 kundli,
+                language,
+                copy,
               });
           return (
             <Link className="button secondary" href={href} key={prompt.source}>
@@ -538,12 +570,14 @@ function KundliKarmaQuickPrompts({
 }
 
 function KundliKarmaModuleCard({
+  copy,
   group,
   hasPremiumAccess,
   rankedConditions,
   remedyPlan,
 }: {
-  group: (typeof KUNDLI_KARMA_MODULE_GROUPS)[number];
+  copy: KundliKarmaCopy;
+  group: KundliKarmaModuleGroup;
   hasPremiumAccess: boolean;
   rankedConditions: KundliKarmaRankedCondition[];
   remedyPlan: KundliKarmaRemedyPlanItem[];
@@ -565,6 +599,7 @@ function KundliKarmaModuleCard({
           {visibleConditions.map(condition => (
             <KundliKarmaMiniRow
               condition={condition}
+              copy={copy}
               hasPremiumAccess={hasPremiumAccess}
               key={condition.item.id}
               remedyPlan={remedyPlan}
@@ -573,8 +608,8 @@ function KundliKarmaModuleCard({
         </div>
       ) : (
         <KundliKarmaEmptyState
-          body={`No major ${group.title} signal is active in the current deterministic snapshot.`}
-          title={`No major ${group.title} alert`}
+          body={formatKundliKarmaTemplate(copy.emptyGroupBodyTemplate, group.title)}
+          title={formatKundliKarmaTemplate(copy.emptyGroupTitleTemplate, group.title)}
         />
       )}
     </details>
@@ -583,10 +618,12 @@ function KundliKarmaModuleCard({
 
 function KundliKarmaMiniRow({
   condition,
+  copy,
   hasPremiumAccess,
   remedyPlan,
 }: {
   condition: KundliKarmaRankedCondition;
+  copy: KundliKarmaCopy;
   hasPremiumAccess: boolean;
   remedyPlan: KundliKarmaRemedyPlanItem[];
 }): React.JSX.Element {
@@ -602,15 +639,15 @@ function KundliKarmaMiniRow({
       data-local-memory-cta="kundli-karma"
     >
       <div>
-        <span>{moduleLabel(item.module)} · {statusLabel(item.status)}</span>
+        <span>{moduleLabel(item.module, copy)} · {statusLabel(item.status, copy)}</span>
         <strong>{item.displayName}</strong>
         <p>{item.meaningForUser}</p>
       </div>
       <details className="kundli-karma-mini-details">
-        <summary>Open proof</summary>
+        <summary>{copy.openProofLabel}</summary>
         <p>{item.whyPresent}</p>
         <KundliKarmaEvidenceList item={item} limit={hasPremiumAccess ? 4 : 1} />
-        {remedies[0] ? <KundliKarmaRemedyRow remedy={remedies[0]} /> : null}
+        {remedies[0] ? <KundliKarmaRemedyRow copy={copy} remedy={remedies[0]} /> : null}
       </details>
     </article>
   );
@@ -636,13 +673,15 @@ function KundliKarmaEvidenceList({
 }
 
 function KundliKarmaRemedyRow({
+  copy,
   remedy,
 }: {
+  copy: KundliKarmaCopy;
   remedy: KundliKarmaRemedyPlanItem;
 }): React.JSX.Element {
   return (
     <article className="kundli-karma-remedy-row">
-      <span>{remedy.category.replaceAll('_', ' ')}</span>
+      <span>{remedyCategoryLabel(remedy.category, copy)}</span>
       <strong>{remedy.title}</strong>
       <p>{remedy.description}</p>
       <small>{remedy.safetyNote}</small>
@@ -684,24 +723,24 @@ function buildKundliKarmaAskHref(
   item: KundliKarmaItem,
   sourceSurface: string,
   options: {
+    copy: KundliKarmaCopy;
     hasPremiumAccess: boolean;
     kundli?: KundliData;
+    language: SupportedLanguage;
   },
 ): string {
+  const promptPrefix = options.copy.askItemPromptPrefix.replace('{itemName}', item.displayName);
   return buildPredictaChatHref({
     kundli: options.kundli,
-    prompt:
-      `Explain why ${item.displayName} appears in my Kundli Karma snapshot. ` +
-      'Answer the meaning and guidance first, then show why it appears, visible evidence, activation timing, reductions, and safe remedies. ' +
-      'Keep it Vedic, plain-language, non-fearful, and do not spend AI if local Kundli Karma memory can answer it.',
+    prompt: `${promptPrefix} ${options.copy.askItemPromptBody}`,
     reportMode: options.hasPremiumAccess ? 'PREMIUM' : 'FREE',
     school: 'PARASHARI',
     selectedKundliKarmaEvidenceSummary: buildKundliKarmaEvidenceSummary(item),
     selectedKundliKarmaItemId: item.id,
     selectedKundliKarmaModule: item.module,
     selectedKundliKarmaRuleId: item.ruleId,
-    selectedLanguage: 'en',
-    selectedSection: `Kundli Karma: ${item.displayName}`,
+    selectedLanguage: options.language,
+    selectedSection: `${options.copy.selectedSectionPrefix}: ${item.displayName}`,
     sourceScreen: `vedic-kundli-karma-${sourceSurface}`,
   });
 }
@@ -710,8 +749,10 @@ function buildKundliKarmaGenericAskHref(
   prompt: string,
   sourceSurface: string,
   options: {
+    copy: KundliKarmaCopy;
     hasPremiumAccess: boolean;
     kundli?: KundliData;
+    language: SupportedLanguage;
   },
 ): string {
   return buildPredictaChatHref({
@@ -719,8 +760,8 @@ function buildKundliKarmaGenericAskHref(
     prompt,
     reportMode: options.hasPremiumAccess ? 'PREMIUM' : 'FREE',
     school: 'PARASHARI',
-    selectedLanguage: 'en',
-    selectedSection: 'Kundli Karma quick prompt',
+    selectedLanguage: options.language,
+    selectedSection: options.copy.quickPromptSection,
     sourceScreen: `vedic-kundli-karma-${sourceSurface}`,
   });
 }
@@ -740,19 +781,48 @@ function remediesForItem(
   return direct.length ? direct : remedyPlan;
 }
 
-function moduleLabel(module: KundliKarmaModule): string {
-  if (module === 'DOSH') return 'Dosh';
-  if (module === 'SHRAP') return 'Shrap';
-  if (module === 'LAL_KITAB') return 'Lal Kitab';
-  return module === 'SUPPORTIVE_YOG' ? 'Supportive Yog' : 'Challenging Yog';
+function moduleLabel(module: KundliKarmaModule, copy: KundliKarmaCopy): string {
+  if (module === 'DOSH') return copy.moduleDosh;
+  if (module === 'SHRAP') return copy.moduleShrap;
+  if (module === 'LAL_KITAB') return copy.moduleLalKitab;
+  return module === 'SUPPORTIVE_YOG' ? copy.moduleSupportiveYog : copy.moduleChallengingYog;
 }
 
-function statusLabel(status: KundliKarmaItem['status'] | KundliKarmaSnapshot['calculationStatus']): string {
-  return titleizeToken(status);
+function statusLabel(
+  status: KundliKarmaItem['status'] | KundliKarmaSnapshot['calculationStatus'],
+  copy: KundliKarmaCopy,
+): string {
+  const labels: Record<string, string> = {
+    blocked_context: copy.statusBlockedContext,
+    cancelled: copy.statusCancelled,
+    needs_data: copy.statusNeedsData,
+    not_present: copy.statusNotPresent,
+    partial: copy.statusPartial,
+    present: copy.statusPresent,
+    ready: copy.statusReady,
+    weak: copy.statusWeak,
+  };
+  return labels[status] ?? titleizeToken(status);
 }
 
-function strengthLabel(strength: KundliKarmaItem['strength']): string {
-  return titleizeToken(strength);
+function strengthLabel(strength: KundliKarmaItem['strength'], copy: KundliKarmaCopy): string {
+  const labels: Record<string, string> = {
+    high: copy.strengthHigh,
+    low: copy.strengthLow,
+    medium: copy.strengthMedium,
+    very_high: copy.strengthVeryHigh,
+  };
+  return labels[strength] ?? titleizeToken(strength);
+}
+
+function remedyCategoryLabel(category: string, copy: KundliKarmaCopy): string {
+  const labels: Record<string, string> = {
+    avoid_list: copy.remedyCategoryAvoidList,
+    free_karma_dharma_action: copy.remedyCategoryFreeKarmaDharmaAction,
+    premium_structured_remedy: copy.remedyCategoryPremiumStructuredRemedy,
+    timing_guidance: copy.remedyCategoryTimingGuidance,
+  };
+  return labels[category] ?? titleizeToken(category);
 }
 
 function titleizeToken(value: string): string {
@@ -760,6 +830,10 @@ function titleizeToken(value: string): string {
     .split('_')
     .map(part => part.charAt(0).toUpperCase() + part.slice(1))
     .join(' ');
+}
+
+function formatKundliKarmaTemplate(template: string, groupTitle: string): string {
+  return template.replace('{groupTitle}', groupTitle);
 }
 
 function ProgressiveGroup({

@@ -7,6 +7,7 @@ const phaseRoot = `docs/audits/${phaseName}`;
 
 const files = {
   chartsScreen: readFileSync('apps/mobile/src/screens/ChartsScreen.tsx', 'utf8'),
+  kundliKarmaTranslations: readFileSync('packages/config/src/translations/kundliKarma.json', 'utf8'),
   mobilePanel: readFileSync('apps/mobile/src/components/VedicIntelligencePanel.tsx', 'utf8'),
   mobileTypes: readFileSync('apps/mobile/src/types/astrology.ts', 'utf8'),
   packageJson: readFileSync('package.json', 'utf8'),
@@ -28,22 +29,23 @@ for (const fragment of [
 
 for (const fragment of [
   'composeKundliKarmaSnapshot',
+  'getKundliKarmaCopy',
   'KundliKarmaMobileSurface',
   'topThreeActiveConditions',
-  'KUNDLI_KARMA_MODULE_GROUPS',
-  'Dosh',
-  'Shrap',
-  'Yog',
-  'Lal Kitab',
-  'Kundli Karma Snapshot',
-  'Kundli needed',
-  'Calculation pending',
-  'No major Kundli Karma alerts',
-  'Consolidated Remedy Plan',
-  'Premium opens',
+  'getKundliKarmaModuleGroups',
+  'const copy = getKundliKarmaCopy(language)',
+  'copy.surfaceTitle',
+  'copy.snapshotMetaTitle',
+  'copy.kundliNeededTitle',
+  'copy.calculationPendingTitle',
+  'copy.noMajorAlertsTitle',
+  'copy.consolidatedRemedyPlanLabel',
+  'copy.premiumLockedBody',
   'buildKundliKarmaHandoff',
   'buildKundliKarmaPrompt',
-  'local Kundli Karma memory',
+  'selectedLanguage: options.language',
+  'accessibilityRole="button"',
+  'accessibilityState={{ expanded: open }}',
   'testID="kundli-karma-mobile-surface"',
   'testID="kundli-karma-mobile-snapshot"',
   'testID="kundli-karma-mobile-category-stack"',
@@ -57,9 +59,24 @@ for (const fragment of [
   'selectedKundliKarmaItemId: item.id',
   'selectedKundliKarmaModule: item.module',
   'selectedKundliKarmaRuleId: item.ruleId',
+  'selectedSection: `${options.copy.selectedSectionPrefix}: ${item.displayName}`',
   "sourceScreen: 'Vedic Kundli Karma Snapshot'",
 ]) {
   assertIncludes(files.mobilePanel, fragment, `mobile handoff includes ${fragment}`);
+}
+
+for (const fragment of [
+  '"surfaceTitle"',
+  '"snapshotMetaTitle"',
+  '"askWhyCta"',
+  '"downloadDetailedReportCta"',
+  '"groupDoshTitle"',
+  '"groupShrapTitle"',
+  '"groupYogTitle"',
+  '"groupLalKitabTitle"',
+  '"remedyCategoryFreeKarmaDharmaAction"',
+]) {
+  assertIncludes(files.kundliKarmaTranslations, fragment, `Kundli Karma translations include ${fragment}`);
 }
 
 for (const fragment of [
@@ -115,8 +132,8 @@ const proof = {
     'apps/web/components/WebVedicIntelligencePanel.tsx',
   ],
   checks: {
-    canonicalTerms: ['Dosh', 'Shrap', 'Yog', 'Lal Kitab'],
-    emptyStates: ['Kundli needed', 'Calculation pending', 'No major Kundli Karma alerts'],
+    canonicalTerms: ['copy.groupDoshTitle', 'copy.groupShrapTitle', 'copy.groupYogTitle', 'copy.groupLalKitabTitle'],
+    emptyStates: ['copy.kundliNeededTitle', 'copy.calculationPendingTitle', 'copy.noMajorAlertsTitle'],
     freePremiumBoundary: true,
     localMemoryHandoff: [
       'selectedKundliKarmaItemId',
@@ -143,7 +160,7 @@ writeFileSync(
   [
     `${phaseName}: PASS`,
     '- mobile Vedic panel consumes composeKundliKarmaSnapshot',
-    '- top-three snapshot, Dosh/Shrap/Yog/Lal Kitab stack links, expandable cards, consolidated remedies, and premium lock copy are source-locked',
+    '- top-three snapshot, Dosh/Shrap/Yog/Lal Kitab stack links, expandable cards, consolidated remedies, and premium lock copy are source-locked through dedicated translations',
     '- mobile and shared ChartContext carry Kundli Karma item/rule/module handoff fields',
     '- ChartsScreen preserves the Vedic Kundli Karma local-memory handoff into chat',
     '- mobile source avoids banned fear-selling language',

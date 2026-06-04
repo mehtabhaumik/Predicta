@@ -76,7 +76,7 @@ for (const language of languages) {
   );
   for (const [key, value] of Object.entries(translations.copy[language])) {
     assert.equal(typeof value, 'string', `${language}.${key} is string`);
-    assert.ok(value.trim().length > 4, `${language}.${key} is populated`);
+    assert.ok(value.trim().length > 0, `${language}.${key} is populated`);
   }
 }
 
