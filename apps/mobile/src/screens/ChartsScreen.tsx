@@ -271,10 +271,11 @@ export function ChartsScreen({
       <VedicIntelligencePanel
         hasPremiumAccess={access.hasPremiumAccess}
         kundli={kundli}
-        onAskPrompt={prompt => {
+        onAskPrompt={(prompt, context) => {
           setActiveChartContext({
+            ...context,
             selectedSection: prompt,
-            sourceScreen: 'Vedic Progressive Disclosure',
+            sourceScreen: context?.sourceScreen ?? 'Vedic Progressive Disclosure',
           });
           navigation.navigate(routes.Chat);
         }}

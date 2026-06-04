@@ -1,0 +1,6 @@
+PREDICTA_KUNDLI_KARMA_PHASE_9_MOBILE_VEDIC_APP_SURFACE_PARITY: PASS
+- mobile Vedic panel consumes composeKundliKarmaSnapshot
+- top-three snapshot, Dosh/Shrap/Yog/Lal Kitab stack links, expandable cards, consolidated remedies, and premium lock copy are source-locked
+- mobile and shared ChartContext carry Kundli Karma item/rule/module handoff fields
+- ChartsScreen preserves the Vedic Kundli Karma local-memory handoff into chat
+- mobile source avoids banned fear-selling language

@@ -186,6 +186,13 @@ export type JaiminiSoulChartReference = {
   source: string;
 };
 
+export type KundliKarmaModule =
+  | 'DOSH'
+  | 'SHRAP'
+  | 'SUPPORTIVE_YOG'
+  | 'CHALLENGING_YOG'
+  | 'LAL_KITAB';
+
 export type JaiminiPadaReference = {
   calculationStatus: JaiminiCalculationStatus;
   evidence: string[];
@@ -1933,6 +1940,9 @@ export type ChartContext = {
   reportType?: string;
   selectedFamilyKarmaMap?: boolean;
   selectedFamilyMemberCount?: number;
+  selectedKundliKarmaItemId?: string;
+  selectedKundliKarmaModule?: KundliKarmaModule;
+  selectedKundliKarmaRuleId?: string;
   selectedPredictaWrapped?: boolean;
   selectedPredictaWrappedYear?: number;
   sourceScreen: string;

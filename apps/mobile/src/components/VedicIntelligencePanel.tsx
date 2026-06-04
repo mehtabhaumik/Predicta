@@ -3,17 +3,32 @@ import { Pressable, View } from 'react-native';
 import {
   buildParashariChalitChart,
   composeChartInsight,
+  composeKundliKarmaSnapshot,
   composeVedicIntelligenceContract,
 } from '@pridicta/astrology';
 import type {
   ChartData,
   ChartInsightProfile,
   KundliData,
+  KundliKarmaItem,
+  KundliKarmaModule,
+  KundliKarmaRankedCondition,
+  KundliKarmaRemedyPlanItem,
+  KundliKarmaSnapshot,
   VedicIntelligenceSection,
 } from '@pridicta/types';
 import { AppText } from './AppText';
 import { GlowCard } from './GlowCard';
 import { IntelligenceRhythmCard } from './IntelligenceRhythmCard';
+
+type KundliKarmaMobileHandoff = {
+  predictaSchool: 'PARASHARI';
+  selectedKundliKarmaItemId: string;
+  selectedKundliKarmaModule: KundliKarmaModule;
+  selectedKundliKarmaRuleId: string;
+  selectedSection: string;
+  sourceScreen: string;
+};
 
 type FocusChartCard = {
   chart?: ChartData;
@@ -30,15 +45,18 @@ export function VedicIntelligencePanel({
 }: {
   hasPremiumAccess: boolean;
   kundli?: KundliData;
-  onAskPrompt?: (prompt: string) => void;
+  onAskPrompt?: (prompt: string, context?: KundliKarmaMobileHandoff) => void;
   onDownloadFullReport?: () => void;
 }): React.JSX.Element {
   const [showClassicalTables, setShowClassicalTables] = useState(false);
+  const [showKundliKarmaModules, setShowKundliKarmaModules] = useState(false);
+  const [showKundliKarmaRemedies, setShowKundliKarmaRemedies] = useState(false);
   const [showSoulCharts, setShowSoulCharts] = useState(false);
   const intelligence = composeVedicIntelligenceContract({
     depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
     kundli,
   });
+  const kundliKarma = composeKundliKarmaSnapshot(kundli);
   const focusCharts: FocusChartCard[] = [
     { chart: kundli?.charts.D1, id: 'D1', title: 'D1 / Rashi' },
     {
@@ -168,6 +186,18 @@ export function VedicIntelligencePanel({
         ) : null}
       </View>
 
+      <KundliKarmaMobileSurface
+        hasPremiumAccess={hasPremiumAccess}
+        kundli={kundli}
+        onAskPrompt={onAskPrompt}
+        onDownloadFullReport={onDownloadFullReport}
+        onToggleModules={() => setShowKundliKarmaModules(value => !value)}
+        onToggleRemedies={() => setShowKundliKarmaRemedies(value => !value)}
+        showModules={showKundliKarmaModules}
+        showRemedies={showKundliKarmaRemedies}
+        snapshot={kundliKarma}
+      />
+
       <DisclosureButton
         label="Classical Tables"
         onPress={() => setShowClassicalTables(value => !value)}
@@ -227,6 +257,419 @@ export function VedicIntelligencePanel({
         </View>
       </View>
     </GlowCard>
+  );
+}
+
+const KUNDLI_KARMA_MODULE_GROUPS: Array<{
+  body: string;
+  id: 'DOSH' | 'SHRAP' | 'YOG' | 'LAL_KITAB';
+  modules: KundliKarmaModule[];
+  title: string;
+}> = [
+  {
+    body: 'Pressure indicators stay calm, practical, and never fear-led.',
+    id: 'DOSH',
+    modules: ['DOSH'],
+    title: 'Dosh',
+  },
+  {
+    body: 'Karmic debt signals are shown as indicators, not curse language.',
+    id: 'SHRAP',
+    modules: ['SHRAP'],
+    title: 'Shrap',
+  },
+  {
+    body: 'Supportive and challenging Yogas are kept together for balance.',
+    id: 'YOG',
+    modules: ['SUPPORTIVE_YOG', 'CHALLENGING_YOG'],
+    title: 'Yog',
+  },
+  {
+    body: 'Lal Kitab keeps house-wise observations and safe upay separate.',
+    id: 'LAL_KITAB',
+    modules: ['LAL_KITAB'],
+    title: 'Lal Kitab',
+  },
+];
+
+function KundliKarmaMobileSurface({
+  hasPremiumAccess,
+  kundli,
+  onAskPrompt,
+  onDownloadFullReport,
+  onToggleModules,
+  onToggleRemedies,
+  showModules,
+  showRemedies,
+  snapshot,
+}: {
+  hasPremiumAccess: boolean;
+  kundli?: KundliData;
+  onAskPrompt?: (prompt: string, context?: KundliKarmaMobileHandoff) => void;
+  onDownloadFullReport?: () => void;
+  onToggleModules: () => void;
+  onToggleRemedies: () => void;
+  showModules: boolean;
+  showRemedies: boolean;
+  snapshot: KundliKarmaSnapshot;
+}): React.JSX.Element {
+  const topConditions = snapshot.topThreeActiveConditions;
+
+  return (
+    <View
+      className="mt-4 gap-3 rounded-3xl border border-[#FFD27A26] bg-[#FFD27A10] p-4"
+      testID="kundli-karma-mobile-surface"
+    >
+      <AppText className="text-[#FFD27A]" variant="caption">
+        KUNDLI KARMA
+      </AppText>
+      <AppText variant="subtitle">Dosh, Shrap, Yog and Lal Kitab without fear</AppText>
+      <AppText tone="secondary" variant="caption">
+        Predicta ranks deterministic signals only. Open proof when you want it;
+        the screen stays calm and the report carries the deeper reading.
+      </AppText>
+
+      <View
+        className="mt-2 rounded-3xl border border-[#FFFFFF12] bg-[#FFFFFF08] p-4"
+        testID="kundli-karma-mobile-snapshot"
+      >
+        <AppText className="text-[#FFD27A]" variant="caption">
+          Kundli Karma Snapshot
+        </AppText>
+        <AppText className="mt-1" variant="subtitle">
+          {snapshot.subjectName}
+        </AppText>
+        <AppText className="mt-2" tone="secondary" variant="caption">
+          {snapshot.summary}
+        </AppText>
+        <View className="mt-3 flex-row flex-wrap gap-2">
+          <KundliKarmaChip label="Status" value={statusLabel(snapshot.calculationStatus)} />
+          <KundliKarmaChip
+            label="No AI needed"
+            value={snapshot.noAiRequiredFor.includes('show Kundli Karma snapshot') ? 'Yes' : 'Pending'}
+          />
+        </View>
+      </View>
+
+      {!kundli ? (
+        <KundliKarmaEmptyState
+          body="Create or open a Kundli first. Predicta will not invent Dosh, Shrap, Yog, or Lal Kitab signals without chart evidence."
+          title="Kundli needed"
+        />
+      ) : snapshot.calculationStatus !== 'ready' ? (
+        <KundliKarmaEmptyState
+          body={
+            snapshot.missingData[0] ??
+            'Some deterministic evidence is still pending, so Predicta keeps this section conservative.'
+          }
+          title="Calculation pending"
+        />
+      ) : topConditions.length === 0 ? (
+        <KundliKarmaEmptyState
+          body="Predicta did not find major active Kundli Karma alerts in the implemented deterministic checks."
+          title="No major Kundli Karma alerts"
+        />
+      ) : (
+        <View className="gap-3" testID="kundli-karma-mobile-top-three">
+          {topConditions.map(condition => (
+            <KundliKarmaConditionCard
+              condition={condition}
+              hasPremiumAccess={hasPremiumAccess}
+              key={condition.item.id}
+              onAskPrompt={onAskPrompt}
+              onDownloadFullReport={onDownloadFullReport}
+              remedyPlan={snapshot.remedyPlan}
+            />
+          ))}
+        </View>
+      )}
+
+      <DisclosureButton
+        label="Dosh, Shrap, Yog and Lal Kitab"
+        onPress={onToggleModules}
+        open={showModules}
+        subtitle="Open the category stack only when you want more detail"
+      />
+      {showModules ? (
+        <View className="gap-3" testID="kundli-karma-mobile-category-stack">
+          {KUNDLI_KARMA_MODULE_GROUPS.map(group => (
+            <KundliKarmaModuleCard
+              group={group}
+              hasPremiumAccess={hasPremiumAccess}
+              key={group.id}
+              rankedConditions={snapshot.rankedConditions}
+              remedyPlan={snapshot.remedyPlan}
+            />
+          ))}
+        </View>
+      ) : null}
+
+      <DisclosureButton
+        label="Consolidated Remedy Plan"
+        onPress={onToggleRemedies}
+        open={showRemedies}
+        subtitle="One grouped plan so remedies are not duplicated across cards"
+      />
+      {showRemedies ? (
+        <View className="gap-3" testID="kundli-karma-mobile-remedy-plan">
+          {snapshot.remedyPlan.slice(0, hasPremiumAccess ? 6 : 3).map(remedy => (
+            <KundliKarmaRemedyRow key={remedy.id} remedy={remedy} />
+          ))}
+          {!hasPremiumAccess ? (
+            <AppText className="rounded-2xl border border-[#FFD27A26] bg-[#FFD27A10] p-3 text-[#FFD27A]" variant="caption">
+              Premium adds deeper timing, evidence-linked remedies, avoid-lists, and a structured plan without crowding the app screen.
+            </AppText>
+          ) : null}
+        </View>
+      ) : null}
+    </View>
+  );
+}
+
+function KundliKarmaConditionCard({
+  condition,
+  hasPremiumAccess,
+  onAskPrompt,
+  onDownloadFullReport,
+  remedyPlan,
+}: {
+  condition: KundliKarmaRankedCondition;
+  hasPremiumAccess: boolean;
+  onAskPrompt?: (prompt: string, context?: KundliKarmaMobileHandoff) => void;
+  onDownloadFullReport?: () => void;
+  remedyPlan: KundliKarmaRemedyPlanItem[];
+}): React.JSX.Element {
+  const [showDetails, setShowDetails] = useState(false);
+  const item = condition.item;
+  const remedies = remediesForItem(remedyPlan, item);
+
+  return (
+    <View
+      className="gap-3 rounded-3xl border border-[#FFFFFF12] bg-[#FFFFFF08] p-4"
+      testID={`kundli-karma-item-${item.id}`}
+    >
+      <View className="flex-row flex-wrap items-center gap-2">
+        <KundliKarmaChip label={`#${condition.rank}`} value={moduleLabel(item.module)} />
+        <KundliKarmaChip label="Status" value={statusLabel(item.status)} />
+        <KundliKarmaChip label="Strength" value={strengthLabel(item.strength)} />
+      </View>
+      <AppText variant="subtitle">{item.displayName}</AppText>
+      <AppText tone="secondary" variant="caption">
+        {item.meaningForUser}
+      </AppText>
+      <AppText tone="secondary" variant="caption">
+        {condition.whyThisRankedFirst}
+      </AppText>
+      <View className="gap-2">
+        {onAskPrompt ? (
+          <ActionPill
+            label="Ask Predicta why this appears"
+            onPress={() => onAskPrompt(buildKundliKarmaPrompt(item), buildKundliKarmaHandoff(item))}
+            primary
+          />
+        ) : null}
+        {onDownloadFullReport ? (
+          <ActionPill label="Download detailed report" onPress={onDownloadFullReport} />
+        ) : null}
+        <ActionPill
+          label={showDetails ? 'Hide evidence and remedies' : 'Open evidence and remedies'}
+          onPress={() => setShowDetails(value => !value)}
+        />
+      </View>
+      {showDetails ? (
+        <View className="gap-3">
+          <AppText tone="secondary" variant="caption">
+            {item.whyPresent}
+          </AppText>
+          <KundliKarmaEvidenceList item={item} limit={hasPremiumAccess ? 4 : 2} />
+          {remedies.slice(0, hasPremiumAccess ? 3 : 1).map(remedy => (
+            <KundliKarmaRemedyRow key={remedy.id} remedy={remedy} />
+          ))}
+          <AppText className="rounded-2xl border border-[#FFD27A26] bg-[#FFD27A10] p-3 text-[#FFD27A]" variant="caption">
+            {hasPremiumAccess
+              ? item.activation.summary
+              : 'Premium opens fuller evidence, activation timing, and detailed remedies. Free still keeps the main meaning and one safe action visible.'}
+          </AppText>
+        </View>
+      ) : null}
+    </View>
+  );
+}
+
+function KundliKarmaModuleCard({
+  group,
+  hasPremiumAccess,
+  rankedConditions,
+  remedyPlan,
+}: {
+  group: (typeof KUNDLI_KARMA_MODULE_GROUPS)[number];
+  hasPremiumAccess: boolean;
+  rankedConditions: KundliKarmaRankedCondition[];
+  remedyPlan: KundliKarmaRemedyPlanItem[];
+}): React.JSX.Element {
+  const [open, setOpen] = useState(false);
+  const groupConditions = rankedConditions.filter(condition =>
+    group.modules.includes(condition.item.module),
+  );
+  const visibleConditions = groupConditions.slice(0, hasPremiumAccess ? 4 : 2);
+
+  return (
+    <View className="rounded-3xl border border-[#FFFFFF12] bg-[#FFFFFF08] p-4">
+      <Pressable accessibilityRole="button" onPress={() => setOpen(value => !value)}>
+        <AppText className="text-[#FFD27A]" variant="caption">
+          {visibleConditions.length} ACTIVE · {open ? 'HIDE' : 'OPEN'}
+        </AppText>
+        <AppText className="mt-1" variant="subtitle">
+          {group.title}
+        </AppText>
+        <AppText className="mt-1" tone="secondary" variant="caption">
+          {group.body}
+        </AppText>
+      </Pressable>
+      {open ? (
+        <View className="mt-3 gap-3">
+          {visibleConditions.length ? (
+            visibleConditions.map(condition => (
+              <KundliKarmaMiniRow
+                condition={condition}
+                hasPremiumAccess={hasPremiumAccess}
+                key={condition.item.id}
+                remedyPlan={remedyPlan}
+              />
+            ))
+          ) : (
+            <KundliKarmaEmptyState
+              body={`No major ${group.title} signal is active in the current deterministic snapshot.`}
+              title={`No major ${group.title} alert`}
+            />
+          )}
+        </View>
+      ) : null}
+    </View>
+  );
+}
+
+function KundliKarmaMiniRow({
+  condition,
+  hasPremiumAccess,
+  remedyPlan,
+}: {
+  condition: KundliKarmaRankedCondition;
+  hasPremiumAccess: boolean;
+  remedyPlan: KundliKarmaRemedyPlanItem[];
+}): React.JSX.Element {
+  const [open, setOpen] = useState(false);
+  const item = condition.item;
+  const remedies = remediesForItem(remedyPlan, item);
+
+  return (
+    <View className="rounded-2xl border border-[#FFFFFF10] bg-[#FFFFFF08] p-3">
+      <AppText className="text-[#FFD27A]" variant="caption">
+        {moduleLabel(item.module)} · {statusLabel(item.status)}
+      </AppText>
+      <AppText className="mt-1" variant="caption">
+        {item.displayName}
+      </AppText>
+      <AppText className="mt-1" tone="secondary" variant="caption">
+        {item.meaningForUser}
+      </AppText>
+      <Pressable
+        accessibilityRole="button"
+        className="mt-3 rounded-full border border-[#FFFFFF18] bg-[#FFFFFF0A] px-4 py-3"
+        onPress={() => setOpen(value => !value)}
+      >
+        <AppText variant="caption">{open ? 'Hide proof' : 'Open proof'}</AppText>
+      </Pressable>
+      {open ? (
+        <View className="mt-3 gap-3">
+          <KundliKarmaEvidenceList item={item} limit={hasPremiumAccess ? 3 : 1} />
+          {remedies[0] ? <KundliKarmaRemedyRow remedy={remedies[0]} /> : null}
+        </View>
+      ) : null}
+    </View>
+  );
+}
+
+function KundliKarmaEvidenceList({
+  item,
+  limit,
+}: {
+  item: KundliKarmaItem;
+  limit: number;
+}): React.JSX.Element {
+  return (
+    <View className="gap-2">
+      {item.evidence.slice(0, limit).map(evidence => (
+        <View
+          className="rounded-2xl border border-[#FFFFFF10] bg-[#FFFFFF08] p-3"
+          key={evidence.id}
+        >
+          <AppText className="text-[#FFD27A]" variant="caption">
+            {evidence.kind.replaceAll('_', ' ')}
+          </AppText>
+          <AppText className="mt-1" tone="secondary" variant="caption">
+            {evidence.description}
+          </AppText>
+        </View>
+      ))}
+    </View>
+  );
+}
+
+function KundliKarmaRemedyRow({
+  remedy,
+}: {
+  remedy: KundliKarmaRemedyPlanItem;
+}): React.JSX.Element {
+  return (
+    <View className="rounded-2xl border border-[#FFFFFF10] bg-[#FFFFFF08] p-3">
+      <AppText className="text-[#FFD27A]" variant="caption">
+        {remedy.category.replaceAll('_', ' ')}
+      </AppText>
+      <AppText className="mt-1" variant="caption">
+        {remedy.title}
+      </AppText>
+      <AppText className="mt-1" tone="secondary" variant="caption">
+        {remedy.description}
+      </AppText>
+      <AppText className="mt-1" tone="secondary" variant="caption">
+        {remedy.safetyNote}
+      </AppText>
+    </View>
+  );
+}
+
+function KundliKarmaEmptyState({
+  body,
+  title,
+}: {
+  body: string;
+  title: string;
+}): React.JSX.Element {
+  return (
+    <View className="rounded-3xl border border-[#FFFFFF12] bg-[#FFFFFF08] p-4">
+      <AppText variant="subtitle">{title}</AppText>
+      <AppText className="mt-1" tone="secondary" variant="caption">
+        {body}
+      </AppText>
+    </View>
+  );
+}
+
+function KundliKarmaChip({
+  label,
+  value,
+}: {
+  label: string;
+  value: string;
+}): React.JSX.Element {
+  return (
+    <View className="max-w-full rounded-full border border-[#FFFFFF18] bg-[#FFFFFF0A] px-3 py-2">
+      <AppText className="text-[#FFD27A]" variant="caption">
+        {label}
+      </AppText>
+      <AppText variant="caption">{value}</AppText>
+    </View>
   );
 }
 
@@ -376,4 +819,53 @@ function ActionPill({
       </AppText>
     </Pressable>
   );
+}
+
+function buildKundliKarmaPrompt(item: KundliKarmaItem): string {
+  return (
+    `Explain why ${item.displayName} appears in my Kundli Karma snapshot. ` +
+    `Use deterministic rule ${item.ruleId}, module ${moduleLabel(item.module)}, visible evidence, activation timing, reductions, and safe remedies. ` +
+    'Keep it Vedic, plain-language, non-fearful, and do not spend AI if the local Kundli Karma memory can answer it.'
+  );
+}
+
+function buildKundliKarmaHandoff(item: KundliKarmaItem): KundliKarmaMobileHandoff {
+  return {
+    predictaSchool: 'PARASHARI',
+    selectedKundliKarmaItemId: item.id,
+    selectedKundliKarmaModule: item.module,
+    selectedKundliKarmaRuleId: item.ruleId,
+    selectedSection: `Kundli Karma: ${item.displayName}`,
+    sourceScreen: 'Vedic Kundli Karma Snapshot',
+  };
+}
+
+function remediesForItem(
+  remedyPlan: KundliKarmaRemedyPlanItem[],
+  item: KundliKarmaItem,
+): KundliKarmaRemedyPlanItem[] {
+  const direct = remedyPlan.filter(remedy => remedy.sourceItemIds.includes(item.id));
+  return direct.length ? direct : remedyPlan;
+}
+
+function moduleLabel(module: KundliKarmaModule): string {
+  if (module === 'DOSH') return 'Dosh';
+  if (module === 'SHRAP') return 'Shrap';
+  if (module === 'LAL_KITAB') return 'Lal Kitab';
+  return module === 'SUPPORTIVE_YOG' ? 'Supportive Yog' : 'Challenging Yog';
+}
+
+function statusLabel(status: KundliKarmaItem['status'] | KundliKarmaSnapshot['calculationStatus']): string {
+  return titleizeToken(status);
+}
+
+function strengthLabel(strength: KundliKarmaItem['strength']): string {
+  return titleizeToken(strength);
+}
+
+function titleizeToken(value: string): string {
+  return value
+    .split('_')
+    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
 }

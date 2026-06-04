@@ -1,0 +1,37 @@
+{
+  "auditedFiles": [
+    "apps/mobile/src/components/VedicIntelligencePanel.tsx",
+    "apps/mobile/src/screens/ChartsScreen.tsx",
+    "apps/mobile/src/types/astrology.ts",
+    "packages/types/src/astrology.ts",
+    "apps/web/components/WebVedicIntelligencePanel.tsx"
+  ],
+  "checks": {
+    "canonicalTerms": [
+      "Dosh",
+      "Shrap",
+      "Yog",
+      "Lal Kitab"
+    ],
+    "emptyStates": [
+      "Kundli needed",
+      "Calculation pending",
+      "No major Kundli Karma alerts"
+    ],
+    "freePremiumBoundary": true,
+    "localMemoryHandoff": [
+      "selectedKundliKarmaItemId",
+      "selectedKundliKarmaRuleId",
+      "selectedKundliKarmaModule",
+      "predictaSchool=PARASHARI",
+      "sourceScreen=Vedic Kundli Karma Snapshot"
+    ],
+    "mobileProofType": "native source and type proof; mobile runtime gate is covered by typecheck, jest, and Android bundle verification",
+    "noLowerQualityMobilePath": true,
+    "sharedDeterministicContract": "composeKundliKarmaSnapshot",
+    "topThreeLogic": "snapshot.topThreeActiveConditions"
+  },
+  "generatedAt": "2026-06-04T19:30:04.426Z",
+  "phase": "PREDICTA_KUNDLI_KARMA_PHASE_9_MOBILE_VEDIC_APP_SURFACE_PARITY",
+  "status": "green"
+}

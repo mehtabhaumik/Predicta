@@ -2770,6 +2770,9 @@ export type ChartContext = {
   reportType?: string;
   selectedFamilyKarmaMap?: boolean;
   selectedFamilyMemberCount?: number;
+  selectedKundliKarmaItemId?: string;
+  selectedKundliKarmaModule?: KundliKarmaModule;
+  selectedKundliKarmaRuleId?: string;
   selectedPredictaWrapped?: boolean;
   selectedPredictaWrappedYear?: number;
   sourceScreen: string;
