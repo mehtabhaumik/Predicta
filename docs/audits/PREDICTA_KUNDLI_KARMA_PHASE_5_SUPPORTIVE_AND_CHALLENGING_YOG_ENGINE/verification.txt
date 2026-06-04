@@ -1,0 +1,7 @@
+PREDICTA_KUNDLI_KARMA_PHASE_5_SUPPORTIVE_AND_CHALLENGING_YOG_ENGINE: PASS
+- supportive Yog runtime fixtures passed for Raja, Dhana, Gajakesari, Panch Mahapurush, Neecha Bhanga Raja, Vipareeta Raja, Budhaditya, Chandra-Mangal, Lakshmi, Saraswati, Adhi, Dharma-Karmadhipati, and Parivartana
+- challenging Yog runtime fixtures passed for Daridra, Kemadruma, Shakata, Paap Kartari, Grahan, Vish, Angarak, Shrapit, Kuja/Manglik, and Kaal Sarp
+- Arishta Yog remains needs_data with honest pending handling
+- overlapping Dosh/Shrap/Yog conditions carry do_not_duplicate cross-references
+- all active Yog items carry rule ids, source references, remedies, and exact evidence
+- prediction-first and no-fear/no-schooling language gates passed

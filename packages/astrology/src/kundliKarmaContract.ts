@@ -182,31 +182,103 @@ export const KUNDLI_KARMA_RULE_PROVENANCE: KundliKarmaRuleProvenance[] = [
   rule('rule-yog-raja', 'SUPPORTIVE_YOG', 'Raja Yog', 'Yog', LORDSHIP, [
     'source-omastrology-yog-analysis',
     'source-shreekundli-yog-guide',
-  ], []),
+  ], ['fixture-yog-raja-present'], 'implemented'),
   rule('rule-yog-dhana', 'SUPPORTIVE_YOG', 'Dhana Yog', 'Yog', LORDSHIP, [
     'source-omastrology-yog-analysis',
     'source-shreekundli-yog-guide',
-  ], ['fixture-supportive-yog-dhana']),
+  ], ['fixture-supportive-yog-dhana', 'fixture-yog-dhana-present'], 'implemented'),
   rule('rule-yog-gajakesari', 'SUPPORTIVE_YOG', 'Gajakesari Yog', 'Yog', PLANET_CONJUNCTION, [
     'source-omastrology-yog-analysis',
     'source-shreekundli-yog-guide',
-  ], []),
+  ], ['fixture-yog-gajakesari-present'], 'implemented'),
   rule('rule-yog-panch-mahapurush', 'SUPPORTIVE_YOG', 'Panch Mahapurush Yog', 'Yog', [
     'planet_house',
     'planet_sign',
     'chart_support',
-  ], ['source-shreekundli-yog-guide'], []),
+  ], ['source-shreekundli-yog-guide'], ['fixture-yog-panch-mahapurush-present'], 'implemented'),
+  rule('rule-yog-neecha-bhanga-raja', 'SUPPORTIVE_YOG', 'Neecha Bhanga Raja Yog', 'Yog', [
+    'planet_sign',
+    'lordship',
+    'chart_support',
+  ], ['source-omastrology-yog-analysis', 'source-shreekundli-yog-guide'], ['fixture-yog-neecha-bhanga-present'], 'implemented'),
+  rule('rule-yog-vipareeta-raja', 'SUPPORTIVE_YOG', 'Vipareeta Raja Yog', 'Yog', LORDSHIP, [
+    'source-omastrology-yog-analysis',
+    'source-shreekundli-yog-guide',
+  ], ['fixture-yog-vipareeta-raja-present'], 'implemented'),
   rule('rule-yog-budhaditya', 'SUPPORTIVE_YOG', 'Budhaditya Yog', 'Yog', PLANET_CONJUNCTION, [
     'source-omastrology-yog-analysis',
     'source-shreekundli-yog-guide',
-  ], []),
+  ], ['fixture-yog-budhaditya-present'], 'implemented'),
+  rule('rule-yog-chandra-mangal', 'SUPPORTIVE_YOG', 'Chandra-Mangal Yog', 'Yog', PLANET_CONJUNCTION, [
+    'source-omastrology-yog-analysis',
+    'source-shreekundli-yog-guide',
+  ], ['fixture-yog-chandra-mangal-present'], 'implemented'),
+  rule('rule-yog-lakshmi', 'SUPPORTIVE_YOG', 'Lakshmi Yog', 'Yog', LORDSHIP, [
+    'source-omastrology-yog-analysis',
+    'source-shreekundli-yog-guide',
+  ], ['fixture-yog-lakshmi-present'], 'implemented'),
+  rule('rule-yog-saraswati', 'SUPPORTIVE_YOG', 'Saraswati Yog', 'Yog', ['planet_house', 'chart_support'], [
+    'source-omastrology-yog-analysis',
+    'source-shreekundli-yog-guide',
+  ], ['fixture-yog-saraswati-present'], 'implemented'),
+  rule('rule-yog-adhi', 'SUPPORTIVE_YOG', 'Adhi Yog', 'Yog', ['planet_house', 'chart_support'], [
+    'source-omastrology-yog-analysis',
+    'source-shreekundli-yog-guide',
+  ], ['fixture-yog-adhi-present'], 'implemented'),
+  rule('rule-yog-dharma-karmadhipati', 'SUPPORTIVE_YOG', 'Dharma-Karmadhipati Yog', 'Yog', LORDSHIP, [
+    'source-omastrology-yog-analysis',
+    'source-shreekundli-yog-guide',
+  ], ['fixture-yog-dharma-karmadhipati-present'], 'implemented'),
+  rule('rule-yog-parivartana', 'SUPPORTIVE_YOG', 'Parivartana Yog', 'Yog', LORDSHIP, [
+    'source-omastrology-yog-analysis',
+    'source-shreekundli-yog-guide',
+  ], ['fixture-yog-parivartana-present'], 'implemented'),
+  rule('rule-yog-challenging-daridra', 'CHALLENGING_YOG', 'Daridra Yog', 'Yog', LORDSHIP, [
+    'source-omastrology-yog-analysis',
+    'source-shreekundli-yog-guide',
+  ], ['fixture-yog-challenging-daridra-cross-ref'], 'implemented'),
   rule('rule-yog-challenging-kemadruma', 'CHALLENGING_YOG', 'Kemadruma Yog', 'Yog', [
     'planet_house',
     'chart_support',
-  ], ['source-shreekundli-yog-guide'], ['fixture-challenging-yog-kemadruma']),
+  ], ['source-shreekundli-yog-guide'], ['fixture-challenging-yog-kemadruma'], 'implemented'),
+  rule('rule-yog-challenging-shakata', 'CHALLENGING_YOG', 'Shakata Yog', 'Yog', ['planet_house', 'chart_support'], [
+    'source-omastrology-yog-analysis',
+    'source-shreekundli-yog-guide',
+  ], ['fixture-yog-challenging-shakata-present'], 'implemented'),
+  rule('rule-yog-challenging-paap-kartari', 'CHALLENGING_YOG', 'Paap Kartari Yog', 'Yog', ['planet_house', 'aspect'], [
+    'source-omastrology-yog-analysis',
+    'source-shreekundli-yog-guide',
+  ], ['fixture-yog-challenging-paap-kartari-cross-ref'], 'implemented'),
+  rule('rule-yog-challenging-grahan', 'CHALLENGING_YOG', 'Grahan Yog', 'Yog', PLANET_CONJUNCTION, [
+    'source-omastrology-yog-analysis',
+    'source-shreekundli-yog-guide',
+  ], ['fixture-yog-challenging-grahan-cross-ref'], 'implemented'),
+  rule('rule-yog-challenging-vish', 'CHALLENGING_YOG', 'Vish Yog', 'Yog', PLANET_CONJUNCTION, [
+    'source-omastrology-yog-analysis',
+    'source-shreekundli-yog-guide',
+  ], ['fixture-yog-challenging-vish-cross-ref'], 'implemented'),
+  rule('rule-yog-challenging-angarak', 'CHALLENGING_YOG', 'Angarak Yog', 'Yog', PLANET_CONJUNCTION, [
+    'source-omastrology-yog-analysis',
+    'source-shreekundli-yog-guide',
+  ], ['fixture-yog-challenging-angarak-cross-ref'], 'implemented'),
   rule('rule-yog-challenging-shrapit', 'CHALLENGING_YOG', 'Shrapit Yog', 'Yog', PLANET_CONJUNCTION, [
     'source-shreekundli-yog-guide',
-  ], ['fixture-overlap-shrapit-dedupe']),
+  ], ['fixture-overlap-shrapit-dedupe'], 'implemented'),
+  rule('rule-yog-challenging-arishta', 'CHALLENGING_YOG', 'Arishta Yog', 'Yog', [
+    'planet_house',
+    'lordship',
+    'chart_support',
+  ], ['source-omastrology-yog-analysis', 'source-shreekundli-yog-guide'], ['fixture-yog-challenging-arishta-needs-data'], 'needs_data', [
+    'High-safety rule family. Later phases must avoid medical, longevity, or certainty claims.',
+  ]),
+  rule('rule-yog-challenging-kuja-manglik', 'CHALLENGING_YOG', 'Kuja / Manglik Yog', 'Yog', PLANET_HOUSE, [
+    'source-omastrology-yog-analysis',
+    'source-shreekundli-yog-guide',
+  ], ['fixture-yog-challenging-kuja-cross-ref'], 'implemented'),
+  rule('rule-yog-challenging-kaal-sarp', 'CHALLENGING_YOG', 'Kaal Sarp Yog', 'Yog', PLANET_AXIS, [
+    'source-omastrology-yog-analysis',
+    'source-shreekundli-yog-guide',
+  ], ['fixture-yog-challenging-kaal-sarp-cross-ref'], 'implemented'),
   rule('rule-lal-kitab-planet-house', 'LAL_KITAB', 'Lal Kitab planet-in-house reading', 'Lal Kitab', LAL_KITAB_HOUSE, [
     'source-ishvaram-lal-kitab',
     'source-astrosage-lal-kitab-report',

@@ -35,6 +35,7 @@
     "test:kundli-karma-phase-2": "node scripts/run-kundli-karma-phase-2-data-contract-gate.mjs",
     "test:kundli-karma-phase-3": "node scripts/run-kundli-karma-phase-3-dosh-engine-gate.mjs",
     "test:kundli-karma-phase-4": "node scripts/run-kundli-karma-phase-4-shrap-engine-gate.mjs",
+    "test:kundli-karma-phase-5": "node scripts/run-kundli-karma-phase-5-yog-engine-gate.mjs",
     "test:report-pdf-phase-2": "node scripts/run-report-pdf-phase-2-vedic-intelligence-contract-gate.mjs",
     "test:report-pdf-phase-3": "node scripts/run-report-pdf-phase-3-classical-jyotish-modules-gate.mjs",
     "test:report-pdf-phase-4": "node scripts/run-report-pdf-phase-4-document-brand-template-gate.mjs",

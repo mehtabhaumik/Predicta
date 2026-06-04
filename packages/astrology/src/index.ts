@@ -22,6 +22,7 @@ export * from './kundliChatCommands';
 export * from './kundliKarmaContract';
 export * from './kundliKarmaDoshEngine';
 export * from './kundliKarmaShrapEngine';
+export * from './kundliKarmaYogEngine';
 export * from './jaiminiInterpretation';
 export * from './jaiminiPlan';
 export * from './jaiminiSoulCharts';

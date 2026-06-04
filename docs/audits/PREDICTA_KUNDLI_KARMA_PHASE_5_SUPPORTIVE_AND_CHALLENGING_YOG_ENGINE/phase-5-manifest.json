@@ -1,0 +1,75 @@
+{
+  "phase": "PREDICTA_KUNDLI_KARMA_PHASE_5_SUPPORTIVE_AND_CHALLENGING_YOG_ENGINE",
+  "status": "GREEN",
+  "implementationScope": "deterministic supportive and challenging Yog detection, exact evidence, predictive meaning, activation, remedies, source-backed rule ids, contradiction framing, and Dosh/Shrap dedupe",
+  "implementedSupportiveYogRules": [
+    "Raja Yog",
+    "Dhana Yog",
+    "Gajakesari Yog",
+    "Panch Mahapurush Yog",
+    "Neecha Bhanga Raja Yog",
+    "Vipareeta Raja Yog",
+    "Budhaditya Yog",
+    "Chandra-Mangal Yog",
+    "Lakshmi Yog",
+    "Saraswati Yog",
+    "Adhi Yog",
+    "Dharma-Karmadhipati Yog",
+    "Parivartana Yog"
+  ],
+  "implementedChallengingYogRules": [
+    "Daridra Yog",
+    "Kemadruma Yog",
+    "Shakata Yog",
+    "Paap Kartari Yog",
+    "Grahan Yog",
+    "Vish Yog",
+    "Angarak Yog",
+    "Shrapit Yog",
+    "Kuja / Manglik Yog",
+    "Kaal Sarp Yog"
+  ],
+  "needsDataRules": [
+    "Arishta Yog"
+  ],
+  "engineFiles": [
+    "packages/astrology/src/kundliKarmaYogEngine.ts"
+  ],
+  "contractFilesUpdated": [
+    "packages/astrology/src/kundliKarmaContract.ts",
+    "packages/astrology/src/index.ts"
+  ],
+  "gateFiles": [
+    "scripts/run-kundli-karma-phase-5-yog-engine-gate.mjs"
+  ],
+  "runtimeStatesAudited": [
+    "present",
+    "not_present",
+    "needs_data",
+    "pending_evidence"
+  ],
+  "requiredGreenCriteria": {
+    "supportiveYogTestsPass": true,
+    "challengingYogTestsPass": true,
+    "predictionFirstNotMethodLesson": true,
+    "dedupeCrossReferenceTestsPass": true,
+    "activeYogHasRuleIdSourceReferenceAndFixture": true,
+    "contradictionFramingExists": true,
+    "noFearLanguage": true
+  },
+  "verificationCommands": [
+    "corepack pnpm test:kundli-karma-phase-5",
+    "corepack pnpm --filter @pridicta/types typecheck",
+    "corepack pnpm --filter @pridicta/astrology typecheck",
+    "corepack pnpm --filter @pridicta/pdf typecheck",
+    "corepack pnpm --filter @pridicta/mobile typecheck",
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "python3 -m json.tool docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_5_SUPPORTIVE_AND_CHALLENGING_YOG_ENGINE/phase-5-manifest.json",
+    "git diff --check"
+  ],
+  "notes": [
+    "Phase 5 implements only Yog detection and interpretation, not Lal Kitab, app UI, reports, or Predicta memory behavior.",
+    "Arishta Yog remains needs_data because high-safety claims require separate deterministic evidence and safety approval.",
+    "Overlapping challenging Yog conditions cross-reference Dosh ownership with do_not_duplicate so the same condition is not repeated across modules."
+  ]
+}
