@@ -1,0 +1,7 @@
+PREDICTA_KUNDLI_KARMA_PHASE_6_LAL_KITAB_ENGINE: PASS
+- Lal Kitab engine runtime fixture passed planet-in-house readings for all nine classical/node grahas
+- deterministic Rin indicators passed for Pitru, Matru, and Guru Rin
+- planet-wise upay items passed one-at-a-time, avoid-list, free 40-day, and premium 40-day/90-day safety checks
+- unsupported tradition variation remains needs_data
+- Lal Kitab remains separate from Dosh, Shrap, and Yog modules
+- unsafe remedy and fear-language gates passed

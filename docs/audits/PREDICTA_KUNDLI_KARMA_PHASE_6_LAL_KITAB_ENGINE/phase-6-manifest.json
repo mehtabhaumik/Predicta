@@ -1,0 +1,52 @@
+{
+  "phase": "PREDICTA_KUNDLI_KARMA_PHASE_6_LAL_KITAB_ENGINE",
+  "status": "GREEN",
+  "implementationScope": "deterministic Lal Kitab planet-in-house readings, Rin indicators, planet-wise upay, safe fallback, free/premium remedy depth, and remedy safety gates",
+  "implementedLalKitabRules": [
+    "Lal Kitab planet-in-house reading",
+    "Lal Kitab Rin / debt indicators",
+    "Lal Kitab planet-wise upay"
+  ],
+  "needsDataRules": [
+    "Lal Kitab unsupported tradition variation"
+  ],
+  "engineFiles": [
+    "packages/astrology/src/kundliKarmaLalKitabEngine.ts"
+  ],
+  "contractFilesUpdated": [
+    "packages/astrology/src/kundliKarmaContract.ts",
+    "packages/astrology/src/index.ts"
+  ],
+  "gateFiles": [
+    "scripts/run-kundli-karma-phase-6-lal-kitab-engine-gate.mjs"
+  ],
+  "runtimeStatesAudited": [
+    "present",
+    "not_present",
+    "needs_data"
+  ],
+  "requiredGreenCriteria": {
+    "lalKitabEngineTestsPass": true,
+    "freeAndPremiumDepthDifferByDepthNotFear": true,
+    "remedySafetyGatePasses": true,
+    "lalKitabRemainsSeparateFromParashariPlan": true,
+    "activeLalKitabHasRuleIdSourceReferenceAndFixture": true,
+    "unsafeUnsupportedRemediesBlocked": true,
+    "unsupportedVariationMarkedNeedsData": true
+  },
+  "verificationCommands": [
+    "corepack pnpm test:kundli-karma-phase-6",
+    "corepack pnpm --filter @pridicta/types typecheck",
+    "corepack pnpm --filter @pridicta/astrology typecheck",
+    "corepack pnpm --filter @pridicta/pdf typecheck",
+    "corepack pnpm --filter @pridicta/mobile typecheck",
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "python3 -m json.tool docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_6_LAL_KITAB_ENGINE/phase-6-manifest.json",
+    "git diff --check"
+  ],
+  "notes": [
+    "Phase 6 implements only Lal Kitab deterministic output, not app UI, reports, Predicta memory behavior, or the consolidated Phase 7 remedy plan.",
+    "Lal Kitab remains a separate remedial layer from Parashari Dosh, Shrap, and Yog while still producing items that Phase 7 can feed into the consolidated remedy plan.",
+    "Unsupported tradition variations remain needs_data instead of being converted into unsafe or unsupported upay recommendations."
+  ]
+}

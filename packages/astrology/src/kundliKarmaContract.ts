@@ -283,16 +283,21 @@ export const KUNDLI_KARMA_RULE_PROVENANCE: KundliKarmaRuleProvenance[] = [
     'source-ishvaram-lal-kitab',
     'source-astrosage-lal-kitab-report',
     'source-astrosage-lal-kitab-pdf',
-  ], []),
+  ], ['fixture-lal-kitab-planet-house-readings'], 'implemented'),
   rule('rule-lal-kitab-rin', 'LAL_KITAB', 'Lal Kitab Rin / debt indicators', 'Lal Kitab', LAL_KITAB_HOUSE, [
     'source-ishvaram-lal-kitab',
     'source-astrosage-lal-kitab-report',
     'source-onekundli-sample-report',
-  ], ['fixture-lal-kitab-rin-upay']),
+  ], ['fixture-lal-kitab-rin-upay', 'fixture-lal-kitab-rin-present'], 'implemented'),
   rule('rule-lal-kitab-upay', 'LAL_KITAB', 'Lal Kitab planet-wise upay', 'Lal Kitab', LAL_KITAB_HOUSE, [
     'source-ishvaram-lal-kitab',
     'source-astrosage-lal-kitab-pdf',
-  ], ['fixture-lal-kitab-rin-upay']),
+  ], ['fixture-lal-kitab-rin-upay', 'fixture-lal-kitab-upay-safety'], 'implemented'),
+  rule('rule-lal-kitab-unsupported-variation', 'LAL_KITAB', 'Lal Kitab unsupported tradition variation', 'Lal Kitab', [
+    'missing_data',
+  ], ['source-lal-kitab-overview'], ['fixture-lal-kitab-unsupported-variation'], 'needs_data', [
+    'Tradition-dependent Lal Kitab claims must remain pending until deterministic and safe.',
+  ]),
 ];
 
 export const KUNDLI_KARMA_FIXTURES: KundliKarmaFixture[] = [
