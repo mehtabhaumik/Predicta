@@ -19,6 +19,7 @@ export * from './holisticDecisionTimingSynthesis';
 export * from './holisticReadingRooms';
 export * from './kundliEditHistory';
 export * from './kundliChatCommands';
+export * from './kundliKarmaContract';
 export * from './jaiminiInterpretation';
 export * from './jaiminiPlan';
 export * from './jaiminiSoulCharts';

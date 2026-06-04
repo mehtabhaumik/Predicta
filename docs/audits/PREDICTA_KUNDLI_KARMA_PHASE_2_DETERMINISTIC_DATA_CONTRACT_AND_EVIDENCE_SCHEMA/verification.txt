@@ -1,0 +1,7 @@
+PREDICTA_KUNDLI_KARMA_PHASE_2_DETERMINISTIC_DATA_CONTRACT_AND_EVIDENCE_SCHEMA: PASS
+- shared Kundli Karma TypeScript types exist in @pridicta/types
+- rule provenance registry exists in @pridicta/astrology
+- deterministic evidence, activation, reduction, remedy, cross-reference, free/premium depth, and fixture schemas exist
+- all required fixture purposes exist, including needs_data and no_ai_local_memory
+- web, mobile, PDF, and Predicta context surfaces can import the same contract
+- contract is not report-only and does not claim AI-generated astrology output

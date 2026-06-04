@@ -188,6 +188,181 @@ export type YogaInsight = {
   meaning: string;
 };
 
+export type KundliKarmaModule =
+  | 'DOSH'
+  | 'SHRAP'
+  | 'SUPPORTIVE_YOG'
+  | 'CHALLENGING_YOG'
+  | 'LAL_KITAB';
+
+export type KundliKarmaItemStatus =
+  | 'present'
+  | 'weak'
+  | 'cancelled'
+  | 'not_present'
+  | 'needs_data'
+  | 'pending_evidence'
+  | 'blocked_context';
+
+export type KundliKarmaStrength = 'none' | 'low' | 'medium' | 'high' | 'very_high';
+
+export type KundliKarmaConfidence = 'clear' | 'partial' | 'uncertain';
+
+export type KundliKarmaDepth = 'free' | 'premium';
+
+export type KundliKarmaEvidenceKind =
+  | 'planet_house'
+  | 'planet_sign'
+  | 'planet_degree'
+  | 'nakshatra_pada'
+  | 'lordship'
+  | 'aspect'
+  | 'conjunction'
+  | 'axis'
+  | 'chart_support'
+  | 'dasha_activation'
+  | 'transit_activation'
+  | 'lal_kitab_house'
+  | 'missing_data'
+  | 'context_boundary';
+
+export type KundliKarmaEvidence = {
+  id: string;
+  kind: KundliKarmaEvidenceKind;
+  description: string;
+  chart?: ChartType | 'MOON' | 'CHALIT' | 'MATCHING';
+  planet?: string;
+  relatedPlanet?: string;
+  house?: number;
+  sign?: string;
+  degree?: number;
+  nakshatra?: string;
+  pada?: number;
+  weight: KundliKarmaStrength;
+};
+
+export type KundliKarmaActivation = {
+  summary: string;
+  dasha?: string;
+  antardasha?: string;
+  pratyantardasha?: string;
+  transitTrigger?: string;
+  ageWindow?: string;
+  confidence: KundliKarmaConfidence;
+};
+
+export type KundliKarmaReduction = {
+  id: string;
+  description: string;
+  evidenceIds: string[];
+  confidence: KundliKarmaConfidence;
+};
+
+export type KundliKarmaRemedy = {
+  id: string;
+  depth: KundliKarmaDepth;
+  title: string;
+  description: string;
+  tradition: 'karma_dharma' | 'vedic' | 'lal_kitab';
+  safetyNote: string;
+};
+
+export type KundliKarmaCrossReference = {
+  itemId: string;
+  ruleId: string;
+  module: KundliKarmaModule;
+  relationship: 'same_condition' | 'supports' | 'reduces' | 'do_not_duplicate';
+  note: string;
+};
+
+export type KundliKarmaItem = {
+  id: string;
+  ruleId: string;
+  module: KundliKarmaModule;
+  displayName: string;
+  status: KundliKarmaItemStatus;
+  strength: KundliKarmaStrength;
+  confidence: KundliKarmaConfidence;
+  summary: string;
+  whyPresent: string;
+  meaningForUser: string;
+  evidence: KundliKarmaEvidence[];
+  activation: KundliKarmaActivation;
+  reductions: KundliKarmaReduction[];
+  remedies: KundliKarmaRemedy[];
+  crossReferences: KundliKarmaCrossReference[];
+  sourceReferenceIds: string[];
+};
+
+export type KundliKarmaSourceReference = {
+  id: string;
+  title: string;
+  url: string;
+  usage: 'coverage_benchmark' | 'rule_context' | 'safety_context';
+};
+
+export type KundliKarmaRuleImplementationStatus =
+  | 'contract_fixture'
+  | 'pending_engine'
+  | 'needs_data'
+  | 'blocked_context';
+
+export type KundliKarmaRuleProvenance = {
+  id: string;
+  module: KundliKarmaModule;
+  displayName: string;
+  canonicalTerm: 'Dosh' | 'Shrap' | 'Yog' | 'Lal Kitab';
+  sourceReferenceIds: string[];
+  requiredInputs: KundliKarmaEvidenceKind[];
+  fixtureIds: string[];
+  implementationStatus: KundliKarmaRuleImplementationStatus;
+  variationNotes: string[];
+};
+
+export type KundliKarmaDepthContract = {
+  free: {
+    maxVisibleItems: number;
+    includesEvidenceSummary: boolean;
+    includesDetailedRemedies: false;
+  };
+  premium: {
+    maxVisibleItems: 'all';
+    includesEvidenceSummary: true;
+    includesDetailedRemedies: true;
+  };
+};
+
+export type KundliKarmaIntelligence = {
+  version: number;
+  calculationStatus: 'ready' | 'partial' | 'needs_data';
+  generatedBy: 'deterministic_contract';
+  subjectName: string;
+  summary: string;
+  depthContract: KundliKarmaDepthContract;
+  items: KundliKarmaItem[];
+  topSignals: string[];
+  noAiRequiredFor: string[];
+  missingData: string[];
+  safetyNotes: string[];
+};
+
+export type KundliKarmaFixture = {
+  id: string;
+  label: string;
+  purpose:
+    | 'clean_no_alert'
+    | 'strong_dosh'
+    | 'strong_shrap_indicator'
+    | 'supportive_yog'
+    | 'challenging_yog'
+    | 'lal_kitab_rin_upay'
+    | 'overlap_dedupe'
+    | 'needs_data'
+    | 'no_ai_local_memory';
+  deterministic: true;
+  expected: KundliKarmaIntelligence;
+};
+
 export type ChartData = {
   chartType: ChartType;
   name: string;
@@ -3083,6 +3258,18 @@ export type AIContextPayload = {
     | 'safeRemedies'
     | 'limitations'
     | 'premiumUnlock'
+  >;
+  kundliKarmaIntelligence?: Pick<
+    KundliKarmaIntelligence,
+    | 'calculationStatus'
+    | 'generatedBy'
+    | 'items'
+    | 'missingData'
+    | 'noAiRequiredFor'
+    | 'safetyNotes'
+    | 'summary'
+    | 'topSignals'
+    | 'version'
   >;
   jaiminiPlan?: Pick<
     JaiminiPlan,

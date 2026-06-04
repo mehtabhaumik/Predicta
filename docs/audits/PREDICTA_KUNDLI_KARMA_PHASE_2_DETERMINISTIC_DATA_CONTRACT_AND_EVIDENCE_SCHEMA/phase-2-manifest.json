@@ -1,0 +1,57 @@
+{
+  "phase": "PREDICTA_KUNDLI_KARMA_PHASE_2_DETERMINISTIC_DATA_CONTRACT_AND_EVIDENCE_SCHEMA",
+  "status": "GREEN",
+  "implementationScope": "shared deterministic data contract, evidence schema, rule provenance registry, fixture set, and cross-surface importability",
+  "runtimeDetectionImplementation": false,
+  "reportChapterImplementation": false,
+  "aiGeneratedAstrology": false,
+  "sharedTypeFiles": [
+    "packages/types/src/astrology.ts"
+  ],
+  "contractFiles": [
+    "packages/astrology/src/kundliKarmaContract.ts"
+  ],
+  "gateFiles": [
+    "scripts/run-kundli-karma-phase-2-data-contract-gate.mjs"
+  ],
+  "crossSurfaceImportProof": [
+    "packages/pdf/src/index.ts",
+    "apps/mobile/src/services/ai/contextBuilder.ts",
+    "apps/mobile/src/types/astrology.ts",
+    "apps/web/components/WebPridictaChat.tsx"
+  ],
+  "requiredFixtures": [
+    "clean_no_alert",
+    "strong_dosh",
+    "strong_shrap_indicator",
+    "supportive_yog",
+    "challenging_yog",
+    "lal_kitab_rin_upay",
+    "overlap_dedupe",
+    "needs_data",
+    "no_ai_local_memory"
+  ],
+  "requiredGreenCriteria": {
+    "sharedTypesCompile": true,
+    "ruleProvenanceRegistryCompiles": true,
+    "everyContractFixtureRuleHasSourcesAndFixtureIds": true,
+    "fixturesAreDeterministic": true,
+    "webMobilePdfPredictaContextCanImportSameContract": true,
+    "notReportOnly": true,
+    "needsDataOutputIsHonest": true
+  },
+  "verificationCommands": [
+    "corepack pnpm test:kundli-karma-phase-2",
+    "corepack pnpm --filter @pridicta/types typecheck",
+    "corepack pnpm --filter @pridicta/astrology typecheck",
+    "corepack pnpm --filter @pridicta/pdf typecheck",
+    "corepack pnpm --filter @pridicta/mobile typecheck",
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "git diff --check"
+  ],
+  "notes": [
+    "Phase 2 does not implement Dosh, Shrap, Yog, or Lal Kitab detection engines.",
+    "Phase 2 creates the schema future engines must populate.",
+    "The no-AI fixture proves the deterministic memory path has a typed contract but does not yet wire chat behavior."
+  ]
+}

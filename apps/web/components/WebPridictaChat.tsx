@@ -31,6 +31,7 @@ import {
   preparePredictaLanguageContext,
   shouldUseStandardHouseMeaning,
   attachKundliEditHistory,
+  type KundliKarmaIntelligence,
   type KundliChatCommand,
   type KundliEditField,
   type PredictaInteractionMemory,

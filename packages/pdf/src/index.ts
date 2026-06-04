@@ -51,6 +51,7 @@ import {
   type ChartRenderMoonPhase,
   type ChartRenderPlanet,
   type ChartRenderSchool,
+  type KundliKarmaIntelligence,
   type ChartRenderTheme,
   type VedicFocusChartRole,
 } from '@pridicta/astrology';

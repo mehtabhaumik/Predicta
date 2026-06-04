@@ -31,6 +31,7 @@ import {
   canAccessChartType,
   PREMIUM_CONTEXT_CHART_TYPES,
   getChartConfig,
+  type KundliKarmaIntelligence,
 } from '@pridicta/astrology';
 import type {
   AIContextPayload,

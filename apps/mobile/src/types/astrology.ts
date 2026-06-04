@@ -1,3 +1,5 @@
+import type { KundliKarmaIntelligence } from '@pridicta/astrology';
+
 export type ChartType =
   | 'D1'
   | 'D2'
@@ -2495,6 +2497,18 @@ export type AIContextPayload = {
     | 'safeRemedies'
     | 'limitations'
     | 'premiumUnlock'
+  >;
+  kundliKarmaIntelligence?: Pick<
+    KundliKarmaIntelligence,
+    | 'calculationStatus'
+    | 'generatedBy'
+    | 'items'
+    | 'missingData'
+    | 'noAiRequiredFor'
+    | 'safetyNotes'
+    | 'summary'
+    | 'topSignals'
+    | 'version'
   >;
   jaiminiPlan?: Pick<
     JaiminiPlan,
