@@ -1,0 +1,59 @@
+{
+  "phase": "PREDICTA_COMPETITOR_RESPONSE_PHASE_0_BENCHMARK_REDLINE_AND_POSITION_LOCK",
+  "status": "GREEN",
+  "generatedAt": "2026-06-06T00:00:00+05:30",
+  "implementationChanged": false,
+  "sourceBacked": true,
+  "lockedMarketPosition": "Predicta is the premium evidence-backed astrology intelligence app for people who want real guidance, not fear, fluff, or per-minute astrologer pressure.",
+  "competitors": [
+    "AskSoma",
+    "YastroTalk",
+    "Nebula"
+  ],
+  "sourceUrls": [
+    "https://asksoma.ai/compare/",
+    "https://asksoma.ai/about",
+    "https://asksoma.ai/compare/best/best-free-astrology-apps.html",
+    "https://yastrotalk.com/",
+    "https://www.yastrotalk.com/pricing",
+    "https://www.asknebula.com/about-us",
+    "https://www.asknebula.com/nebula-app-mobile"
+  ],
+  "adoptedStandards": [
+    "prediction-first user guidance",
+    "emotionally clear mentor tone",
+    "visible but calm deterministic evidence",
+    "specialist-world separation",
+    "free deterministic value with paid depth",
+    "local-memory-first Predicta intelligence",
+    "no fear, fluff, psychic confusion, or per-minute pressure"
+  ],
+  "rejectedPatterns": [
+    "psychic marketplace framing",
+    "engine-heavy overwhelm",
+    "generic report language",
+    "toolkit or astrology lesson tone",
+    "uncontrolled unlimited AI promises",
+    "active Nadi report lane",
+    "paid depth that only adds pages"
+  ],
+  "futurePhaseMap": {
+    "positioning": "PREDICTA_COMPETITOR_RESPONSE_PHASE_1_BRAND_PROMISE_COPY_AND_NAVIGATION_ALIGNMENT",
+    "specialistBoundaries": "PREDICTA_COMPETITOR_RESPONSE_PHASE_2_SPECIALIST_WORLD_CLARITY_AND_NO_MIXING_GATE",
+    "predictaMemory": "PREDICTA_COMPETITOR_RESPONSE_PHASE_3_PREDICTA_INTELLIGENCE_CONTEXT_AND_LOCAL_MEMORY_SUPREMACY",
+    "appUx": "PREDICTA_COMPETITOR_RESPONSE_PHASE_4_APP_SURFACE_PREDICTION_FIRST_UX_REBUILD",
+    "reportPreview": "PREDICTA_COMPETITOR_RESPONSE_PHASE_5_REPORT_PREVIEW_AND_CTA_VALUE_ALIGNMENT",
+    "freePaidCost": "PREDICTA_COMPETITOR_RESPONSE_PHASE_6_FREE_VS_PAID_VALUE_AND_COST_CONTROL_ALIGNMENT",
+    "reportContract": "PREDICTA_COMPETITOR_RESPONSE_PHASE_7_REPORT_CONTRACT_UPGRADE_AGAINST_COMPETITORS",
+    "rerunReports": "PREDICTA_COMPETITOR_RESPONSE_PHASE_8_RERUN_ALL_REPORT_FINAL_PHASES",
+    "finalNoGoAudit": "PREDICTA_COMPETITOR_RESPONSE_PHASE_9_GOLDEN_ARTIFACT_COMPETITOR_NO_GO_REAUDIT"
+  },
+  "greenCriteria": {
+    "sourceBackedBenchmarkExists": true,
+    "lockedPositioningPresent": true,
+    "exactAppReportIntelligenceTargetsNamed": true,
+    "redlineLedgerExists": true,
+    "noImplementationChangesBeyondAuditArtifactsAndGate": true,
+    "phaseGatePasses": true
+  }
+}
