@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { translateUiText } from '@pridicta/config/uiTranslations';
 import { useLanguagePreference } from '../lib/language-preference';
+import { getLocalizedPredictaPageTitle } from '../lib/localized-page-title';
 
 type TranslationState = {
   lastValue: string;
@@ -26,13 +28,22 @@ const excludedSelector = [
 
 export function WebAppTranslationRuntime(): null {
   const { language } = useLanguagePreference();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (typeof document === 'undefined') {
       return;
     }
 
+    const localizedTitle = getLocalizedPredictaPageTitle(pathname, language);
+    const applyLocalizedTitle = () => {
+      document.title = localizedTitle;
+    };
     document.documentElement.lang = language;
+    applyLocalizedTitle();
+    const titleTimers = [0, 250, 1000].map(delay =>
+      window.setTimeout(applyLocalizedTitle, delay),
+    );
 
     function applyTranslations(root: ParentNode = document.body) {
       translateTextNodes(root);
@@ -69,7 +80,10 @@ export function WebAppTranslationRuntime(): null {
       subtree: true,
     });
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      titleTimers.forEach(timer => window.clearTimeout(timer));
+    };
 
     function translateTextNodes(root: ParentNode) {
       const walker = document.createTreeWalker(
@@ -151,7 +165,7 @@ export function WebAppTranslationRuntime(): null {
         });
       });
     }
-  }, [language]);
+  }, [language, pathname]);
 
   return null;
 }

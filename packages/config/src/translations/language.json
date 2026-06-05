@@ -111,6 +111,7 @@
         "sections": "Navigate",
         "schools": "Worlds",
         "start": "Start",
+        "support": "Support",
         "thisSection": "This Section",
         "trust": "Trust",
         "worlds": "Predicta Worlds"
@@ -124,6 +125,7 @@
         "chat": "Chat",
         "decision": "Decision",
         "family": "Family",
+        "feedback": "Feedback",
         "founderVision": "Founder Vision",
         "home": "Predicta Home",
         "holisticAstrology": "Holistic Astrology",
@@ -183,6 +185,7 @@
         "sections": "यहां जाएं",
         "schools": "प्रेडिक्टा संसार",
         "start": "शुरू करें",
+        "support": "सहायता",
         "thisSection": "इस भाग में",
         "trust": "विश्वास",
         "worlds": "प्रेडिक्टा संसार"
@@ -196,6 +199,7 @@
         "chat": "चैट",
         "decision": "निर्णय",
         "family": "परिवार",
+        "feedback": "प्रतिक्रिया",
         "founderVision": "संस्थापक दृष्टि",
         "home": "प्रेडिक्टा होम",
         "holisticAstrology": "समग्र ज्योतिष",
@@ -255,6 +259,7 @@
         "sections": "અહીં જાઓ",
         "schools": "પ્રેડિક્ટા વર્લ્ડ્સ",
         "start": "શરૂ કરો",
+        "support": "સહાય",
         "thisSection": "આ વિભાગમાં",
         "trust": "વિશ્વાસ",
         "worlds": "પ્રેડિક્ટા વર્લ્ડ્સ"
@@ -268,6 +273,7 @@
         "chat": "ચેટ",
         "decision": "નિર્ણય",
         "family": "પરિવાર",
+        "feedback": "પ્રતિસાદ",
         "founderVision": "સ્થાપક દૃષ્ટિ",
         "home": "પ્રેડિક્ટા હોમ",
         "holisticAstrology": "સમગ્ર જ્યોતિષ",

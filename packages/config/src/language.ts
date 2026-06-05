@@ -55,6 +55,7 @@ export type AppShellLabels = {
     sections: string;
     schools: string;
     start: string;
+    support: string;
     thisSection: string;
     trust: string;
     worlds: string;
@@ -69,6 +70,7 @@ export type AppShellLabels = {
     dashboard: string;
     decision: string;
     family: string;
+    feedback: string;
     founderVision: string;
     home: string;
     holisticAstrology: string;

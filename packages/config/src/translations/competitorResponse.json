@@ -148,20 +148,20 @@
         "eyebrow": "प्रमाण-आधारित ज्योतिष बुद्धि",
         "title": "आपके चार्ट से असली मार्गदर्शन, डर या फालतू बात नहीं.",
         "body": "अपनी कुंडली बनाएं, रीडिंग का प्रमाण देखें, और समय, कर्म, उपाय व रोज़मर्रा के निर्णयों पर शांत भविष्यवाणी पाएं, बिना प्रति-मिनट दबाव के.",
-        "primary": "Predicta खोलें",
-        "secondary": "Predicta कैसे मार्गदर्शन करती है",
+        "primary": "प्रेडिक्टा खोलें",
+        "secondary": "प्रेडिक्टा कैसे मार्गदर्शन करती है",
         "cardOneEyebrow": "पहले भविष्यवाणी",
         "cardOneTitle": "करियर समय सक्रिय है",
-        "cardOneBody": "Predicta पहले बताती है कि इसका आपके लिए अर्थ क्या है, फिर जरूरत पर चार्ट प्रमाण दिखाती है.",
+        "cardOneBody": "प्रेडिक्टा पहले बताती है कि इसका आपके लिए अर्थ क्या है, फिर जरूरत पर चार्ट प्रमाण दिखाती है.",
         "cardTwoEyebrow": "डर बेचने वाला नहीं",
         "cardTwoTitle": "दशा + गोचर + कर्म",
         "cardTwoBody": "समय, चार्ट प्रमाण और उपाय व्यावहारिक, नैतिक और जमीन से जुड़े रहते हैं."
       },
       "landing": {
-        "capabilityEyebrow": "Predicta क्या करती है",
+        "capabilityEyebrow": "प्रेडिक्टा क्या करती है",
         "capabilityTitle": "एक पूर्ण ज्योतिष इंटेलिजेंस ऐप, साफ और सांस लेने योग्य.",
-        "capabilityIntro": "Predicta हर स्कूल को अलग रखती है, स्क्रीन शांत रखती है, और गणना को सामान्य व्यक्ति के उपयोगी मार्गदर्शन में बदलती है.",
-        "benchmarkBar": "AskSoma से अधिक शांत, YastroTalk से अधिक प्रमाण-आधारित और Nebula से अधिक भरोसेमंद अनुभव के लिए बनाया गया, बिना प्रति-मिनट दबाव के.",
+        "capabilityIntro": "प्रेडिक्टा हर विधि को अलग रखती है, स्क्रीन शांत रखती है, और गणना को सामान्य व्यक्ति के उपयोगी मार्गदर्शन में बदलती है.",
+        "benchmarkBar": "आस्कसोमा से अधिक शांत, यास्त्रोटॉक से अधिक प्रमाण-आधारित और नेब्युला से अधिक भरोसेमंद अनुभव के लिए बनाया गया, बिना प्रति-मिनट दबाव के.",
         "capabilities": [
           {
             "title": "कुंडली निर्माण",
@@ -169,10 +169,10 @@
           },
           {
             "title": "विशेषज्ञ संसार",
-            "body": "वैदिक, KP, जैमिनी, अंक ज्योतिष, हस्ताक्षर और Life Atlas को बिना मिलावट इस्तेमाल करें."
+            "body": "वैदिक, कृष्णमूर्ति पद्धति, जैमिनी, अंक ज्योतिष, हस्ताक्षर और जीवन एटलस को विधि-मिश्रण के बिना उपयोग करें."
           },
           {
-            "title": "Predicta चैट",
+            "title": "प्रेडिक्टा चैट",
             "body": "चार्ट, रिपोर्ट या सेव प्रोफाइल से पूछें और ज्योतिष पाठ नहीं, मार्गदर्शन पाएं."
           },
           {
@@ -182,34 +182,34 @@
         ],
         "intelligenceEyebrow": "मुख्य बुद्धि",
         "intelligenceTitle": "गहराई, बिना शोर.",
-        "intelligenceIntro": "Predicta उन्नत ज्योतिष उपलब्ध रखती है लेकिन शांत मार्गदर्शक की तरह बोलती है, टूलकिट की तरह नहीं.",
+        "intelligenceIntro": "प्रेडिक्टा उन्नत ज्योतिष उपलब्ध रखती है लेकिन शांत मार्गदर्शक की तरह बोलती है, टूलकिट की तरह नहीं.",
         "intelligencePanelTitle": "पहले चार्ट गणित. फिर मानवीय मार्गदर्शन.",
-        "intelligencePanelBody": "Predicta चार्ट, दशा, गोचर, जैमिनी कारक, Kundli Karma और रिपोर्ट प्रमाण के लिए deterministic गणना इस्तेमाल करती है. AI समझाने और जोड़ने में मदद करता है; ज्योतिष गढ़ता नहीं.",
+        "intelligencePanelBody": "प्रेडिक्टा चार्ट, दशा, गोचर, जैमिनी कारक, कुंडली कर्म और रिपोर्ट प्रमाण के लिए नियत गणना इस्तेमाल करती है. एआई समझाने और जोड़ने में मदद करता है; ज्योतिष गढ़ता नहीं.",
         "intelligenceItems": [
           "पहले भविष्यवाणी वाला रीडिंग क्रम",
           "प्रमाण-आधारित विशेषज्ञ संसार",
-          "कोई psychic भ्रम या डर दबाव नहीं",
+          "कोई ज्योतिष-बाहरी भ्रम या डर का दबाव नहीं",
           "फ्री मूल्य और पेड गहराई",
           "परिवार, रिपोर्ट और सेव संदर्भ"
         ],
         "reportsEyebrow": "प्रीमियम रिपोर्ट",
         "reportsTitle": "रिपोर्ट जो बताती है कि इस रीडिंग से करना क्या है.",
         "reportsIntro": "हर रिपोर्ट तकनीकी प्रमाण रखती है, फिर साफ भविष्यवाणी, समय, मार्गदर्शन और अगले कदम देती है.",
-        "reportCoverTitle": "वैदिक · KP · जैमिनी · अंक ज्योतिष · हस्ताक्षर · Life Atlas",
-        "reportCoverBody": "हर रिपोर्ट लेन अलग रहती है. Life Atlas ही स्वीकृत synthesis रिपोर्ट है.",
+        "reportCoverTitle": "वैदिक · कृष्णमूर्ति पद्धति · जैमिनी · अंक ज्योतिष · हस्ताक्षर · जीवन एटलस",
+        "reportCoverBody": "हर रिपोर्ट मार्ग अलग रहता है. जीवन एटलस ही स्वीकृत संयोजन रिपोर्ट है.",
         "reportCopyTitle": "न पाठ. न डराने की चाल.",
-        "reportCopyBody": "Predicta रिपोर्ट लोगों को जीवन दिशा समझाने के लिए बनती हैं, उन्हें डराने या भारी उपायों में धकेलने के लिए नहीं.",
+        "reportCopyBody": "प्रेडिक्टा रिपोर्ट लोगों को जीवन दिशा समझाने के लिए बनती हैं, उन्हें डराने या भारी उपायों में धकेलने के लिए नहीं.",
         "previewReport": "रिपोर्ट देखें",
         "plansEyebrow": "एक्सेस",
         "plansTitle": "फ्री मूल्य, पेड गहराई, साफ सीमाएं.",
-        "plansIntro": "फ्री शुरू करें, जरूरत पर question packs या report credits जोड़ें, और कभी प्रति मिनट भुगतान न करें."
+        "plansIntro": "मुफ्त शुरू करें, जरूरत पर प्रश्न पैक या रिपोर्ट क्रेडिट जोड़ें, और कभी प्रति मिनट भुगतान न करें."
       },
       "dashboard": {
         "emptyTitle": "अपनी कुंडली से शुरू करें.",
-        "emptyBody": "चार्ट एक बार बनाएं. फिर Predicta प्रमाण-आधारित भविष्यवाणी, समय, उपाय, रिपोर्ट और चैट मार्गदर्शन खोलती है.",
+        "emptyBody": "चार्ट एक बार बनाएं. फिर प्रेडिक्टा प्रमाण-आधारित भविष्यवाणी, समय, उपाय, रिपोर्ट और चैट मार्गदर्शन खोलती है.",
         "firstStepEyebrow": "पहला कदम",
         "firstStepTitle": "पहले अपनी कुंडली बनाएं.",
-        "firstStepBody": "विवरण पता हों तो फॉर्म इस्तेमाल करें. चाहें तो Predicta चैट जन्म विवरण एक-एक करके पूछेगी.",
+        "firstStepBody": "विवरण पता हों तो फॉर्म इस्तेमाल करें. चाहें तो प्रेडिक्टा चैट जन्म विवरण एक-एक करके पूछेगी.",
         "kundliUnlocksEyebrow": "कुंडली तैयार होने के बाद",
         "kundliUnlocksTitle": "ये सेक्शन असली प्रमाण-आधारित मार्गदर्शन के साथ खुलेंगे.",
         "kundliUnlocksCompactTitle": "कॉम्पैक्ट क्यों?",
@@ -226,28 +226,28 @@
           },
           {
             "title": "चार्ट",
-            "body": "D1, चंद्र, D9, D10, चलित, KP और जैमिनी प्रमाण सरल भाषा में."
+            "body": "D1, चंद्र, D9, D10, चलित, कृष्णमूर्ति पद्धति और जैमिनी प्रमाण सरल भाषा में."
           },
           {
             "title": "रिपोर्ट",
-            "body": "करियर, विवाह, धन, Kundli Karma, Life Atlas और पूर्ण PDF previews."
+            "body": "करियर, विवाह, धन, कुंडली कर्म, जीवन एटलस और पूर्ण पीडीएफ झलकें."
           },
           {
             "title": "उपाय",
             "body": "सक्रिय ग्रहों और दैनिक अनुशासन से जुड़े कर्म-आधारित अभ्यास."
           },
           {
-            "title": "Family Vault",
+            "title": "परिवार वॉल्ट",
             "body": "सेव परिवार प्रोफाइल, तुलना और साझा पैटर्न मार्गदर्शन."
           }
         ],
-        "readyTitle": "आपका प्रमाण-आधारित ज्योतिष cockpit.",
-        "readyBody": "आज, समय, गोचर, उपाय और अगला चार्ट फोकस देखें, बिना डर, fluff या प्रति-मिनट दबाव के.",
+        "readyTitle": "आपका प्रमाण-आधारित ज्योतिष कक्ष.",
+        "readyBody": "आज, समय, गोचर, उपाय और अगला चार्ट फोकस देखें, बिना डर, फालतू बात या प्रति-मिनट दबाव के.",
         "outcomeEyebrow": "असली जरूरत से शुरू करें",
         "outcomeTitle": "आप क्या जानना चाहते हैं?",
         "outcomeDrawerTitle": "यह कैसे काम करता है",
         "outcomeDrawerCta": "खोलें",
-        "outcomeDrawerBody": "जीवन क्षेत्र चुनें. Predicta उपलब्ध कुंडली का उपयोग करेगी, पहले भविष्यवाणी देगी और जहां काम आए वहां प्रमाण दिखाएगी.",
+        "outcomeDrawerBody": "जीवन क्षेत्र चुनें. प्रेडिक्टा उपलब्ध कुंडली का उपयोग करेगी, पहले भविष्यवाणी देगी और जहां काम आए वहां प्रमाण दिखाएगी.",
         "savedEyebrow": "सेव काम",
         "savedTitle": "आपकी कुंडलियां आपके नियंत्रण में रहती हैं.",
         "savedDrawerTitle": "क्या सेव होता है?",
@@ -261,18 +261,18 @@
         "depthCards": [
           {
             "eyebrow": "निरंतर मार्गदर्शन",
-            "title": "Premium",
-            "body": "गहरी चैट, Life Calendar, उपाय और रिपोर्ट."
+            "title": "प्रीमियम",
+            "body": "गहरी चैट, जीवन कैलेंडर, उपाय और रिपोर्ट."
           },
           {
-            "eyebrow": "एक polished file",
-            "title": "PDF report",
-            "body": "Kundli, KP, Jaimini, Numerology, Signature या Life Atlas के लिए."
+            "eyebrow": "एक सजी हुई फाइल",
+            "title": "पीडीएफ रिपोर्ट",
+            "body": "कुंडली, कृष्णमूर्ति पद्धति, जैमिनी, अंक ज्योतिष, हस्ताक्षर या जीवन एटलस के लिए."
           },
           {
             "eyebrow": "पहले आजमाएं",
-            "title": "Day Pass",
-            "body": "subscription से पहले 24 घंटे premium depth इस्तेमाल करें."
+            "title": "डे पास",
+            "body": "सदस्यता से पहले 24 घंटे प्रीमियम गहराई इस्तेमाल करें."
           }
         ]
       },
@@ -280,7 +280,7 @@
         "title": "वह रिपोर्ट चुनें जो आपके असली प्रश्न का उत्तर दे.",
         "drawerTitle": "कैसे चुनें",
         "openDetails": "खोलें",
-        "body": "पहले school या Life Atlas lane चुनें. Predicta Vedic, KP, Jaimini, Numerology और Signature को अलग रखती है, फिर prediction, evidence, timing और guidance देती है, report को lesson नहीं बनाती."
+        "body": "पहले विधि या जीवन एटलस मार्ग चुनें. प्रेडिक्टा वैदिक, कृष्णमूर्ति पद्धति, जैमिनी, अंक ज्योतिष और हस्ताक्षर को अलग रखती है, फिर भविष्यवाणी, प्रमाण, समय और मार्गदर्शन देती है; रिपोर्ट को पाठ नहीं बनाती."
       }
     },
     "gu": {
@@ -289,139 +289,139 @@
         "eyebrow": "પુરાવા આધારિત જ્યોતિષ બુદ્ધિ",
         "title": "તમારા ચાર્ટમાંથી સાચું માર્ગદર્શન, ડર કે ખાલી વાતો નહીં.",
         "body": "તમારી કુંડળી બનાવો, વાંચન પાછળનો પુરાવો જુઓ, અને સમય, કર્મ, ઉપાયો તથા રોજિંદા નિર્ણયોમાં શાંત આગાહી મેળવો, મિનિટના દબાણ વગર.",
-        "primary": "Predicta ખોલો",
-        "secondary": "Predicta કેવી રીતે માર્ગદર્શન આપે છે",
+        "primary": "પ્રેડિક્ટા ખોલો",
+        "secondary": "પ્રેડિક્ટા કેવી રીતે માર્ગદર્શન આપે છે",
         "cardOneEyebrow": "પહેલા આગાહી",
         "cardOneTitle": "કરિયર સમય સક્રિય છે",
-        "cardOneBody": "Predicta પહેલા કહે છે કે આ તમારે માટે શું અર્થ રાખે છે, પછી જરૂર હોય ત્યારે ચાર્ટ પુરાવો બતાવે છે.",
+        "cardOneBody": "પ્રેડિક્ટા પહેલા કહે છે કે આ તમારે માટે શું અર્થ રાખે છે, પછી જરૂર હોય ત્યારે ચાર્ટ પુરાવો બતાવે છે.",
         "cardTwoEyebrow": "ડર વેચાણ નહીં",
         "cardTwoTitle": "દશા + ગોચર + કર્મ",
-        "cardTwoBody": "સમય, ચાર્ટ પુરાવો અને ઉપાયો વ્યવહારુ, નૈતિક અને grounded રહે છે."
+        "cardTwoBody": "સમય, ચાર્ટ પુરાવો અને ઉપાયો વ્યવહારુ, નૈતિક અને જમીન સાથે જોડાયેલા રહે છે."
       },
       "landing": {
-        "capabilityEyebrow": "Predicta શું કરે છે",
-        "capabilityTitle": "એક સંપૂર્ણ જ્યોતિષ intelligence app, શાંત અને સ્વચ્છ.",
-        "capabilityIntro": "Predicta દરેક school અલગ રાખે છે, screen calm રાખે છે, અને ગણતરીને સામાન્ય વ્યક્તિ માટે ઉપયોગી guidanceમાં ફેરવે છે.",
-        "benchmarkBar": "AskSoma કરતાં વધુ શાંત, YastroTalk કરતાં વધુ આધારિત અને Nebula કરતાં વધુ વિશ્વાસપાત્ર અનુભવ માટે બનાવેલું, પ્રતિ-મિનિટ દબાણ વગર.",
+        "capabilityEyebrow": "પ્રેડિક્ટા શું કરે છે",
+        "capabilityTitle": "એક સંપૂર્ણ જ્યોતિષ બુદ્ધિ એપ, શાંત અને સ્વચ્છ.",
+        "capabilityIntro": "પ્રેડિક્ટા દરેક પદ્ધતિ અલગ રાખે છે, સ્ક્રીન શાંત રાખે છે, અને ગણતરીને સામાન્ય વ્યક્તિ માટે ઉપયોગી માર્ગદર્શનમાં ફેરવે છે.",
+        "benchmarkBar": "આસ્કસોમા કરતાં વધુ શાંત, યાસ્ત્રોટોક કરતાં વધુ પુરાવા આધારિત અને નેબ્યુલા કરતાં વધુ વિશ્વાસપાત્ર અનુભવ માટે બનાવેલું, પ્રતિ-મિનિટ દબાણ વગર.",
         "capabilities": [
           {
             "title": "કુંડળી બનાવો",
-            "body": "કુંડળી બનાવીને save કરો, reading સાચા chart proof સાથે જોડાયેલી રહે છે."
+            "body": "કુંડળી બનાવીને સેવ કરો, વાંચન સાચા ચાર્ટ પુરાવા સાથે જોડાયેલું રહે છે."
           },
           {
-            "title": "Specialist worlds",
-            "body": "Vedic, KP, Jaimini, Numerology, Signature અને Life Atlas ને method mixing વગર ઉપયોગ કરો."
+            "title": "વિશેષજ્ઞ જગત",
+            "body": "વેદિક, કૃષ્ણમૂર્તિ પદ્ધતિ, જૈમિની, અંક જ્યોતિષ, હસ્તાક્ષર અને જીવન એटलસને પદ્ધતિ-મિશ્રણ વગર ઉપયોગ કરો."
           },
           {
-            "title": "Predicta chat",
-            "body": "Chart, report અથવા saved profile માંથી પૂછો અને astrology lesson નહીં, guidance મેળવો."
+            "title": "પ્રેડિક્ટા ચેટ",
+            "body": "ચાર્ટ, રિપોર્ટ અથવા સેવ પ્રોફાઇલમાંથી પૂછો અને જ્યોતિષ પાઠ નહીં, માર્ગદર્શન મેળવો."
           },
           {
-            "title": "Report depth",
-            "body": "Free reports ઉપયોગી રહે છે. Paid reports sharper prediction, evidence, timing અને remedies ઉમેરે છે."
+            "title": "રિપોર્ટની ઊંડાઈ",
+            "body": "મફત રિપોર્ટ ઉપયોગી રહે છે. પેઇડ રિપોર્ટ વધુ તીક્ષ્ણ આગાહી, પુરાવો, સમય અને ઉપાયો ઉમેરે છે."
           }
         ],
-        "intelligenceEyebrow": "Core intelligence",
-        "intelligenceTitle": "ઊંડાઈ, noise વગર.",
-        "intelligenceIntro": "Predicta advanced astrology ઉપલબ્ધ રાખે છે, પણ calm guideની જેમ બોલે છે, toolkitની જેમ નહીં.",
-        "intelligencePanelTitle": "પહેલા chart math. પછી human guidance.",
-        "intelligencePanelBody": "Predicta charts, dashas, transits, Jaimini factors, Kundli Karma અને report evidence માટે deterministic calculations વાપરે છે. AI explain અને synthesize કરવામાં મદદ કરે છે; astrology invent નથી કરતું.",
+        "intelligenceEyebrow": "મૂળ બુદ્ધિ",
+        "intelligenceTitle": "ઊંડાઈ, શોર વગર.",
+        "intelligenceIntro": "પ્રેડિક્ટા અદ્યતન જ્યોતિષ ઉપલબ્ધ રાખે છે, પણ શાંત માર્ગદર્શકની જેમ બોલે છે, ટૂલકિટની જેમ નહીં.",
+        "intelligencePanelTitle": "પહેલા ચાર્ટ ગણિત. પછી માનવીય માર્ગદર્શન.",
+        "intelligencePanelBody": "પ્રેડિક્ટા ચાર્ટ્સ, દશા, ગોચર, જૈમિની કારક, કુંડળી કર્મ અને રિપોર્ટ પુરાવા માટે નિશ્ચિત ગણતરીઓ વાપરે છે. એઆઈ સમજાવવા અને જોડવામાં મદદ કરે છે; જ્યોતિષ ગઢતું નથી.",
         "intelligenceItems": [
-          "Prediction-first reading rhythm",
-          "Evidence-backed specialist worlds",
-          "Psychic confusion કે fear pressure નહીં",
-          "Free value અને paid depth",
-          "Family, reports અને saved context"
+          "પહેલા આગાહી આપતો વાંચનક્રમ",
+          "પુરાવા આધારિત વિશેષજ્ઞ જગત",
+          "જ્યોતિષ-બાહ્ય ગૂંચવણ કે ડરનું દબાણ નહીં",
+          "મફત મૂલ્ય અને પેઇડ ઊંડાઈ",
+          "પરિવાર, રિપોર્ટ અને સેવ સંદર્ભ"
         ],
-        "reportsEyebrow": "Premium reports",
-        "reportsTitle": "Reports જે કહે કે reading સાથે કરવું શું.",
-        "reportsIntro": "દરેક report technical evidence રાખે છે, પછી clear predictions, timing, guidance અને next steps આપે છે.",
-        "reportCoverTitle": "Vedic · KP · Jaimini · Numerology · Signature · Life Atlas",
-        "reportCoverBody": "દરેક report lane અલગ રહે છે. Life Atlas જ approved synthesis report છે.",
-        "reportCopyTitle": "Lesson નહીં. Scare tactic નહીં.",
-        "reportCopyBody": "Predicta reports લોકોને life direction સમજવામાં મદદ કરવા માટે છે, overwhelm કરવા કે fear-based remedies તરફ ધકેલવા માટે નહીં.",
-        "previewReport": "Reports જુઓ",
-        "plansEyebrow": "Access",
-        "plansTitle": "Free value, paid depth, clear limits.",
-        "plansIntro": "Free થી શરૂ કરો, જરૂર પડે ત્યારે question packs અથવા report credits ઉમેરો, અને ક્યારેય per-minute pay ન કરો."
+        "reportsEyebrow": "પ્રીમિયમ રિપોર્ટ",
+        "reportsTitle": "રિપોર્ટ જે કહે કે વાંચન સાથે કરવું શું.",
+        "reportsIntro": "દરેક રિપોર્ટ તકનીકી પુરાવો રાખે છે, પછી સ્પષ્ટ આગાહી, સમય, માર્ગદર્શન અને આગળના પગલા આપે છે.",
+        "reportCoverTitle": "વેદિક · કૃષ્ણમૂર્તિ પદ્ધતિ · જૈમિની · અંક જ્યોતિષ · હસ્તાક્ષર · જીવન એટલસ",
+        "reportCoverBody": "દરેક રિપોર્ટ માર્ગ અલગ રહે છે. જીવન એટલસ જ સ્વીકૃત સંયોજન રિપોર્ટ છે.",
+        "reportCopyTitle": "પાઠ નહીં. ડરાવવાની ચાલ નહીં.",
+        "reportCopyBody": "પ્રેડિક્ટા રિપોર્ટ્સ લોકોને જીવન દિશા સમજવામાં મદદ કરવા માટે છે, ગૂંચવવા કે ડર આધારિત ઉપાયો તરફ ધકેલવા માટે નહીં.",
+        "previewReport": "રિપોર્ટ જુઓ",
+        "plansEyebrow": "પ્રવેશ",
+        "plansTitle": "મફત મૂલ્ય, પેઇડ ઊંડાઈ, સ્પષ્ટ મર્યાદા.",
+        "plansIntro": "મફતથી શરૂ કરો, જરૂર પડે ત્યારે પ્રશ્ન પેક અથવા રિપોર્ટ ક્રેડિટ ઉમેરો, અને ક્યારેય પ્રતિ-મિનિટ ચૂકવણી ન કરો."
       },
       "dashboard": {
         "emptyTitle": "તમારી કુંડળીથી શરૂ કરો.",
-        "emptyBody": "Chart એક વાર બનાવો. પછી Predicta chart-backed predictions, timing, remedies, reports અને chat guidance ખોલે છે.",
+        "emptyBody": "ચાર્ટ એક વાર બનાવો. પછી પ્રેડિક્ટા ચાર્ટ આધારિત આગાહી, સમય, ઉપાયો, રિપોર્ટ્સ અને ચેટ માર્ગદર્શન ખોલે છે.",
         "firstStepEyebrow": "પહેલું પગલું",
         "firstStepTitle": "પહેલા તમારી કુંડળી બનાવો.",
-        "firstStepBody": "Details ખબર હોય તો form વાપરો. ઈચ્છો તો Predicta chat birth details એક-એક કરીને પૂછશે.",
+        "firstStepBody": "વિગતો ખબર હોય તો ફોર્મ વાપરો. ઈચ્છો તો પ્રેડિક્ટા ચેટ જન્મ વિગતો એક-એક કરીને પૂછશે.",
         "kundliUnlocksEyebrow": "કુંડળી તૈયાર થયા પછી",
-        "kundliUnlocksTitle": "આ sections સાચા evidence-backed guidance સાથે ખુલશે.",
-        "kundliUnlocksCompactTitle": "Compact કેમ?",
+        "kundliUnlocksTitle": "આ વિભાગો સાચા પુરાવા આધારિત માર્ગદર્શન સાથે ખુલશે.",
+        "kundliUnlocksCompactTitle": "સંક્ષિપ્ત કેમ?",
         "kundliUnlocksCompactCta": "વાંચો",
-        "kundliUnlocksCompactBody": "Birth details પહેલાં dashboard calm લાગે તે માટે આ sections compact રહે છે.",
+        "kundliUnlocksCompactBody": "જન્મ વિગતો પહેલાં ડેશબોર્ડ શાંત લાગે તે માટે આ વિભાગો સંક્ષિપ્ત રહે છે.",
         "kundliUnlocks": [
           {
             "title": "આજ તમારે માટે",
-            "body": "Personal Gochar, Panchang, best action, caution અને emotional weather."
+            "body": "નિજ ગોચર, પંચાંગ, સારો પગલું, સાવચેતી અને ભાવનાત્મક વાતાવરણ."
           },
           {
-            "title": "Timing map",
-            "body": "Dasha, Sade Sati, yearly timing અને next important window."
+            "title": "સમય નકશો",
+            "body": "દશા, સાડે સાતી, વાર્ષિક સમય અને આગળની મહત્વપૂર્ણ ખિડકી."
           },
           {
-            "title": "Charts",
-            "body": "D1, Moon, D9, D10, Chalit, KP અને Jaimini proof સરળ રીતે."
+            "title": "ચાર્ટ્સ",
+            "body": "D1, ચંદ્ર, D9, D10, ચલિત, કૃષ્ણમૂર્તિ પદ્ધતિ અને જૈમિની પુરાવો સરળ રીતે."
           },
           {
-            "title": "Reports",
-            "body": "Career, marriage, wealth, Kundli Karma, Life Atlas અને full PDF previews."
+            "title": "રિપોર્ટ્સ",
+            "body": "કરિયર, લગ્ન, ધન, કુંડળી કર્મ, જીવન એટલસ અને સંપૂર્ણ પીડીએફ ઝલકો."
           },
           {
-            "title": "Remedies",
-            "body": "Active planets અને daily discipline સાથે જોડાયેલી karma-based practices."
+            "title": "ઉપાયો",
+            "body": "સક્રિય ગ્રહો અને દૈનિક અનુશાસન સાથે જોડાયેલા કર્મ આધારિત અભ્યાસ."
           },
           {
-            "title": "Family Vault",
-            "body": "Saved family profiles, comparison અને shared pattern guidance."
+            "title": "પરિવાર વોલ્ટ",
+            "body": "સેવ પરિવાર પ્રોફાઇલ, સરખામણી અને શેર કરેલ પેટર્ન માર્ગદર્શન."
           }
         ],
-        "readyTitle": "તમારું evidence-backed astrology cockpit.",
-        "readyBody": "આજ, timing, Gochar, remedies અને next chart focus જુઓ, fear, fluff અથવા per-minute pressure વગર.",
+        "readyTitle": "તમારું પુરાવા આધારિત જ્યોતિષ કક્ષ.",
+        "readyBody": "આજ, સમય, ગોચર, ઉપાયો અને આગળનું ચાર્ટ ધ્યાન જુઓ, ડર, ફાલતુ વાત કે પ્રતિ-મિનિટ દબાણ વગર.",
         "outcomeEyebrow": "સાચી જરૂરથી શરૂ કરો",
         "outcomeTitle": "તમે શું જાણવા માંગો છો?",
         "outcomeDrawerTitle": "આ કેવી રીતે કામ કરે છે",
         "outcomeDrawerCta": "ખોલો",
-        "outcomeDrawerBody": "Life area પસંદ કરો. Predicta ઉપલબ્ધ Kundli વાપરશે, prediction પહેલા આપશે અને proof જ્યાં મદદ કરે ત્યાં બતાવશે.",
-        "savedEyebrow": "Saved work",
-        "savedTitle": "તમારી Kundlis તમારા controlમાં રહે છે.",
-        "savedDrawerTitle": "શું save થાય છે?",
+        "outcomeDrawerBody": "જીવન ક્ષેત્ર પસંદ કરો. પ્રેડિક્ટા ઉપલબ્ધ કુંડળી વાપરશે, પહેલા આગાહી આપશે અને જ્યાં મદદરૂપ હોય ત્યાં પુરાવો બતાવશે.",
+        "savedEyebrow": "સેવ કામ",
+        "savedTitle": "તમારી કુંડળીઓ તમારા નિયંત્રણમાં રહે છે.",
+        "savedDrawerTitle": "શું સેવ થાય છે?",
         "savedDrawerCta": "ખોલો",
-        "savedDrawerBody": "Profiles, reports અને family charts organized રાખો, today's guidance crowd ન થાય.",
-        "depthEyebrow": "જ્યારે વધુ depth જોઈએ",
-        "depthTitle": "Free reading મદદ કરે ત્યારે જ upgrade કરો.",
-        "depthDrawerTitle": "Upgrade કેમ?",
+        "savedDrawerBody": "પ્રોફાઇલ, રિપોર્ટ અને પરિવાર ચાર્ટ વ્યવસ્થિત રાખો, આજનું માર્ગદર્શન ભીડભાડ ન બને.",
+        "depthEyebrow": "જ્યારે વધુ ઊંડાઈ જોઈએ",
+        "depthTitle": "મફત વાંચન મદદ કરે ત્યારે જ અપગ્રેડ કરો.",
+        "depthDrawerTitle": "અપગ્રેડ કેમ?",
         "depthDrawerCta": "ખોલો",
-        "depthDrawerBody": "Free ઉપયોગી રહે છે. Paid options sharper prediction, deeper timing, richer PDFs અને longer guidance ઉમેરે છે.",
+        "depthDrawerBody": "મફત ઉપયોગી રહે છે. પેઇડ વિકલ્પો વધુ તીક્ષ્ણ આગાહી, ઊંડો સમય, સમૃદ્ધ પીડીએફ અને લાંબું માર્ગદર્શન ઉમેરે છે.",
         "depthCards": [
           {
-            "eyebrow": "Ongoing guidance",
-            "title": "Premium",
-            "body": "Deeper chat, Life Calendar, remedies અને reports."
+            "eyebrow": "ચાલતું માર્ગદર્શન",
+            "title": "પ્રીમિયમ",
+            "body": "ઊંડી ચેટ, જીવન કેલેન્ડર, ઉપાયો અને રિપોર્ટ."
           },
           {
-            "eyebrow": "One polished file",
-            "title": "PDF report",
-            "body": "Kundli, KP, Jaimini, Numerology, Signature અથવા Life Atlas માટે."
+            "eyebrow": "એક સજી ફાઇલ",
+            "title": "પીડીએફ રિપોર્ટ",
+            "body": "કુંડળી, કૃષ્ણમૂર્તિ પદ્ધતિ, જૈમિની, અંક જ્યોતિષ, હસ્તાક્ષર અથવા જીવન એटलસ માટે."
           },
           {
-            "eyebrow": "Try first",
-            "title": "Day Pass",
-            "body": "Subscription પહેલાં 24 કલાક premium depth વાપરો."
+            "eyebrow": "પહેલા અજમાવો",
+            "title": "ડે પાસ",
+            "body": "સદસ્યતા પહેલાં 24 કલાક પ્રીમિયમ ઊંડાઈ વાપરો."
           }
         ]
       },
       "reportPage": {
-        "title": "તમારા સાચા પ્રશ્નનો જવાબ આપતો report પસંદ કરો.",
+        "title": "તમારા સાચા પ્રશ્નનો જવાબ આપતો રિપોર્ટ પસંદ કરો.",
         "drawerTitle": "કેવી રીતે પસંદ કરવું",
         "openDetails": "ખોલો",
-        "body": "પહેલા school અથવા Life Atlas lane પસંદ કરો. Predicta Vedic, KP, Jaimini, Numerology અને Signature અલગ રાખે છે, પછી prediction, evidence, timing અને guidance આપે છે, reportને lesson નથી બનાવતું."
+        "body": "પહેલા પદ્ધતિ અથવા જીવન એטלસ માર્ગ પસંદ કરો. પ્રેડિક્ટા વેદિક, કૃષ્ણમૂર્તિ પદ્ધતિ, જૈમિની, અંક જ્યોતિષ અને હસ્તાક્ષરને અલગ રાખે છે, પછી આગાહી, પુરાવો, સમય અને માર્ગદર્શન આપે છે; રિપોર્ટને પાઠ બનાવતું નથી."
       }
     }
   }

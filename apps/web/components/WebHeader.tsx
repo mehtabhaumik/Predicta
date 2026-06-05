@@ -1,100 +1,21 @@
 'use client';
 
-import { getCompetitorResponseCopy, getNativeCopy } from '@pridicta/config';
+import { getAppShellLabels, getCompetitorResponseCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import type { SupportedLanguage } from '@pridicta/types';
 import { useLanguagePreference } from '../lib/language-preference';
 import { AuthDialog } from './AuthDialog';
 import { PredictaMediaAsset } from './ui/DesignSystemPrimitives';
 import { WebLanguageSelector } from './WebLanguageSelector';
-
-const publicHeaderCopy: Record<
-  SupportedLanguage,
-  {
-    brand: string;
-    dashboard: string;
-    links: Array<{ href: string; label: string }>;
-    menu: string;
-    supportLinks: Array<{ href: string; label: string }>;
-    supportTitle: string;
-  }
-> = {
-  en: {
-    brand: 'PREDICTA',
-    dashboard: 'Open Dashboard',
-    links: [
-      { href: '/dashboard/vedic', label: 'Vedic' },
-      { href: '/dashboard/kp', label: 'KP' },
-      { href: '/dashboard/jaimini', label: 'Jaimini' },
-      { href: '/dashboard/numerology', label: 'Numerology' },
-      { href: '/dashboard/signature', label: 'Signature' },
-      { href: '/dashboard/report', label: 'Reports' },
-      { href: '/pricing', label: 'Pricing' },
-    ],
-    supportLinks: [
-      { href: '/accuracy-method', label: 'Method' },
-      { href: '/safety', label: 'Safety' },
-      { href: '/founder', label: 'Founder' },
-      { href: '/feedback', label: 'Feedback' },
-      { href: '/legal', label: 'Legal' },
-    ],
-    supportTitle: 'Support',
-    menu: 'Open navigation menu',
-  },
-  hi: {
-    brand: getNativeCopy("native.apps.web.components.WebHeader.tsx.0ecc6125f2"),
-    dashboard: getNativeCopy("native.apps.web.components.WebHeader.tsx.5d7a2973b7"),
-    links: [
-      { href: '/dashboard/vedic', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.0a41d55d52") },
-      { href: '/dashboard/kp', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.16640e70b1") },
-      { href: '/dashboard/jaimini', label: getNativeCopy('header.jaimini.label.hi') },
-      { href: '/dashboard/numerology', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.922f2ff605") },
-      { href: '/dashboard/signature', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.3bd079967d") },
-      { href: '/dashboard/report', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.89a0ae86a5") },
-      { href: '/pricing', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.fa3bc33bf1") },
-    ],
-    supportLinks: [
-      { href: '/accuracy-method', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.a83c03a71e") },
-      { href: '/safety', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.cb4800046a") },
-      { href: '/founder', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.85b1ba97f6") },
-      { href: '/feedback', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.c874f33caa") },
-      { href: '/legal', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.1a14c904bf") },
-    ],
-    supportTitle: getNativeCopy("native.apps.web.components.WebHeader.tsx.3e5041d01a"),
-    menu: getNativeCopy("native.apps.web.components.WebHeader.tsx.c1356a8fac"),
-  },
-  gu: {
-    brand: getNativeCopy("native.apps.web.components.WebHeader.tsx.dbf56cabf7"),
-    dashboard: getNativeCopy("native.apps.web.components.WebHeader.tsx.d6157e75b1"),
-    links: [
-      { href: '/dashboard/vedic', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.c60c32f61e") },
-      { href: '/dashboard/kp', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.88220f0e9b") },
-      { href: '/dashboard/jaimini', label: getNativeCopy('header.jaimini.label.gu') },
-      { href: '/dashboard/numerology', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.cf14f25c86") },
-      { href: '/dashboard/signature', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.7a41efa981") },
-      { href: '/dashboard/report', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.d6aa714c20") },
-      { href: '/pricing', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.f69dde00c0") },
-    ],
-    supportLinks: [
-      { href: '/accuracy-method', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.0b99007136") },
-      { href: '/safety', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.12f0933f1b") },
-      { href: '/founder', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.a6e886fbe0") },
-      { href: '/feedback', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.ccc4bb654d") },
-      { href: '/legal', label: getNativeCopy("native.apps.web.components.WebHeader.tsx.a987e56694") },
-    ],
-    supportTitle: getNativeCopy("native.apps.web.components.WebHeader.tsx.57c3bc288b"),
-    menu: getNativeCopy("native.apps.web.components.WebHeader.tsx.7bc11484f8"),
-  },
-};
 
 export function WebHeader(): React.JSX.Element {
   const { language } = useLanguagePreference();
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
-  const copy = publicHeaderCopy[language] ?? publicHeaderCopy.en;
+  const shellLabels = getAppShellLabels(language);
+  const copy = buildPublicHeaderCopy(shellLabels);
   const responseCopy = getCompetitorResponseCopy(language);
 
   useEffect(() => {
@@ -132,7 +53,7 @@ export function WebHeader(): React.JSX.Element {
 
   return (
     <header className="web-header">
-      <Link aria-label="Predicta home" className="brand-lockup" href="/">
+      <Link aria-label={shellLabels.nav.home} className="brand-lockup" href="/">
         <PredictaMediaAsset
           alt=""
           className="brand-logo"
@@ -147,7 +68,7 @@ export function WebHeader(): React.JSX.Element {
           <small>{responseCopy.headerTagline}</small>
         </span>
       </Link>
-      <nav aria-label="Primary navigation" className="header-nav">
+      <nav aria-label={shellLabels.groups.sections} className="header-nav">
         {copy.links.map(link => {
           const active = isPublicNavActive(pathname, link.href);
 
@@ -194,7 +115,7 @@ export function WebHeader(): React.JSX.Element {
               role="presentation"
             />
             <div className="mobile-menu-panel">
-              <nav aria-label="Mobile navigation">
+              <nav aria-label={shellLabels.groups.sections}>
                 <div className="mobile-menu-nav-group">
                   {copy.links.map(link =>
                     renderPublicMobileLink({
@@ -234,6 +155,38 @@ export function WebHeader(): React.JSX.Element {
       </div>
     </header>
   );
+}
+
+function buildPublicHeaderCopy(labels: ReturnType<typeof getAppShellLabels>): {
+  brand: string;
+  dashboard: string;
+  links: Array<{ href: string; label: string }>;
+  menu: string;
+  supportLinks: Array<{ href: string; label: string }>;
+  supportTitle: string;
+} {
+  return {
+    brand: labels.groups.predicta,
+    dashboard: labels.nav.dashboard,
+    links: [
+      { href: '/dashboard/vedic', label: labels.nav.vedic },
+      { href: '/dashboard/kp', label: labels.nav.kp },
+      { href: '/dashboard/jaimini', label: labels.nav.jaimini },
+      { href: '/dashboard/numerology', label: labels.nav.numerology },
+      { href: '/dashboard/signature', label: labels.nav.signature },
+      { href: '/dashboard/report', label: labels.nav.reports },
+      { href: '/pricing', label: labels.nav.premium },
+    ],
+    menu: labels.actions.openMenu,
+    supportLinks: [
+      { href: '/accuracy-method', label: labels.nav.accuracyMethod },
+      { href: '/safety', label: labels.nav.safetyPromise },
+      { href: '/founder', label: labels.nav.founderVision },
+      { href: '/feedback', label: labels.nav.feedback },
+      { href: '/legal', label: labels.nav.legal },
+    ],
+    supportTitle: labels.groups.support,
+  };
 }
 
 function isPublicNavActive(pathname: string, href: string): boolean {

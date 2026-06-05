@@ -1175,12 +1175,12 @@ button:disabled,
   background: rgba(10, 10, 15, 0.72);
   border: 1px solid var(--border-quiet);
   border-radius: 24px;
-  display: flex;
+  display: grid;
   flex-wrap: nowrap;
-  gap: 18px;
-  justify-content: space-between;
+  gap: clamp(28px, 3vw, 46px);
+  grid-template-columns: minmax(300px, max-content) minmax(0, 1fr) auto;
   max-width: calc(var(--max) + 180px);
-  padding: 14px 18px;
+  padding: 14px 24px;
   left: 50%;
   margin: 0;
   position: fixed;
@@ -1196,7 +1196,7 @@ button:disabled,
   display: inline-flex;
   flex: 0 0 auto;
   gap: 14px;
-  min-width: 252px;
+  min-width: 300px;
 }
 
 .brand-logo,
@@ -1222,12 +1222,14 @@ button:disabled,
 
 .header-nav {
   align-items: center;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   flex: 1 1 auto;
-  gap: clamp(12px, 1.4vw, 22px);
+  gap: clamp(16px, 1.6vw, 28px);
   justify-content: flex-end;
   min-width: 0;
-  padding-left: 20px;
+  overflow: hidden;
+  padding-left: clamp(28px, 3.4vw, 54px);
 }
 
 .header-nav a,
@@ -1266,6 +1268,7 @@ button:disabled,
   display: flex;
   flex: 0 0 auto;
   gap: 12px;
+  justify-self: end;
   margin-left: 0;
   min-width: 0;
 }
@@ -15493,7 +15496,7 @@ button:disabled,
   }
 }
 
-@media (max-width: 1360px) {
+@media (max-width: 1480px) {
   .web-header {
     justify-content: space-between;
   }
@@ -15501,9 +15504,13 @@ button:disabled,
   .header-actions {
     display: none;
   }
+
+  .mobile-menu {
+    display: block;
+  }
 }
 
-@media (max-width: 1120px) {
+@media (max-width: 1280px) {
   .header-nav {
     display: none;
   }
