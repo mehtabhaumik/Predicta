@@ -1,0 +1,424 @@
+{
+  "baseUrl": "http://127.0.0.1:3009",
+  "finalReportLanes": [
+    "VEDIC",
+    "KP",
+    "JAIMINI",
+    "NUMEROLOGY",
+    "SIGNATURE",
+    "LIFE_ATLAS"
+  ],
+  "generatedAt": "2026-06-05T21:46:48.575Z",
+  "issueCounts": {
+    "critical": 0,
+    "major": 0,
+    "medium": 0,
+    "minor": 0
+  },
+  "nadiFinalReportLane": false,
+  "phase": "PREDICTA_COMPETITOR_RESPONSE_PHASE_9_GOLDEN_ARTIFACT_COMPETITOR_NO_GO_REAUDIT",
+  "routeChecks": [
+    {
+      "fileName": "desktop-home-positioning.png",
+      "finalUrl": "http://127.0.0.1:3009/",
+      "route": "/",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "desktop-dashboard-positioning.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard",
+      "route": "/dashboard",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "desktop-report-marketplace.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report",
+      "route": "/dashboard/report",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "desktop-vedic-boundary.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/vedic",
+      "route": "/dashboard/vedic",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "desktop-kp-boundary.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/kp",
+      "route": "/dashboard/kp",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "desktop-jaimini-boundary.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/jaimini",
+      "route": "/dashboard/jaimini",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "desktop-numerology-boundary.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/numerology",
+      "route": "/dashboard/numerology",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "desktop-signature-boundary.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/signature",
+      "route": "/dashboard/signature",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "desktop-pricing-value.png",
+      "finalUrl": "http://127.0.0.1:3009/pricing",
+      "route": "/pricing",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "desktop-redeem-cost-control.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/redeem-pass",
+      "route": "/dashboard/redeem-pass",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "tablet-home-positioning.png",
+      "finalUrl": "http://127.0.0.1:3009/",
+      "route": "/",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "tablet-dashboard-positioning.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard",
+      "route": "/dashboard",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "tablet-report-marketplace.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report",
+      "route": "/dashboard/report",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "tablet-vedic-boundary.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/vedic",
+      "route": "/dashboard/vedic",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "tablet-kp-boundary.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/kp",
+      "route": "/dashboard/kp",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "tablet-jaimini-boundary.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/jaimini",
+      "route": "/dashboard/jaimini",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "tablet-numerology-boundary.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/numerology",
+      "route": "/dashboard/numerology",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "tablet-signature-boundary.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/signature",
+      "route": "/dashboard/signature",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "tablet-pricing-value.png",
+      "finalUrl": "http://127.0.0.1:3009/pricing",
+      "route": "/pricing",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "tablet-redeem-cost-control.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/redeem-pass",
+      "route": "/dashboard/redeem-pass",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "mobile-home-positioning.png",
+      "finalUrl": "http://127.0.0.1:3009/",
+      "route": "/",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "mobile-dashboard-positioning.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard",
+      "route": "/dashboard",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "mobile-report-marketplace.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report",
+      "route": "/dashboard/report",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "mobile-vedic-boundary.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/vedic",
+      "route": "/dashboard/vedic",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "mobile-kp-boundary.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/kp",
+      "route": "/dashboard/kp",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "mobile-jaimini-boundary.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/jaimini",
+      "route": "/dashboard/jaimini",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "mobile-numerology-boundary.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/numerology",
+      "route": "/dashboard/numerology",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "mobile-signature-boundary.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/signature",
+      "route": "/dashboard/signature",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "mobile-pricing-value.png",
+      "finalUrl": "http://127.0.0.1:3009/pricing",
+      "route": "/pricing",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "mobile-redeem-cost-control.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/redeem-pass",
+      "route": "/dashboard/redeem-pass",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "narrow-mobile-home-positioning.png",
+      "finalUrl": "http://127.0.0.1:3009/",
+      "route": "/",
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "narrow-mobile-dashboard-positioning.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard",
+      "route": "/dashboard",
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "narrow-mobile-report-marketplace.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report",
+      "route": "/dashboard/report",
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "narrow-mobile-vedic-boundary.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/vedic",
+      "route": "/dashboard/vedic",
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "narrow-mobile-kp-boundary.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/kp",
+      "route": "/dashboard/kp",
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "narrow-mobile-jaimini-boundary.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/jaimini",
+      "route": "/dashboard/jaimini",
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "narrow-mobile-numerology-boundary.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/numerology",
+      "route": "/dashboard/numerology",
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "narrow-mobile-signature-boundary.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/signature",
+      "route": "/dashboard/signature",
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "narrow-mobile-pricing-value.png",
+      "finalUrl": "http://127.0.0.1:3009/pricing",
+      "route": "/pricing",
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "narrow-mobile-redeem-cost-control.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/redeem-pass",
+      "route": "/dashboard/redeem-pass",
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    }
+  ],
+  "screenshotRoot": "docs/audits/PREDICTA_COMPETITOR_RESPONSE_PHASE_9_GOLDEN_ARTIFACT_COMPETITOR_NO_GO_REAUDIT/screenshots",
+  "status": "GREEN"
+}

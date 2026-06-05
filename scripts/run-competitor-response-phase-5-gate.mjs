@@ -136,7 +136,8 @@ const mobile = read('apps/mobile/src/screens/ReportScreen.tsx');
 [
   'product.userWillLearn',
   'product.premiumAdds',
-  'accessibilityLabel="competitor-response-phase5-value-preview"',
+  'accessibilityLabel="Report value preview"',
+  'testID="report-final-phase10-preview"',
   'WHAT YOU WILL LEARN',
   'PREMIUM ADDS',
   'Predicta chooses the sections that answer this report question first',

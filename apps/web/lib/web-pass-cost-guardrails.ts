@@ -6,6 +6,7 @@ import type {
   RedeemedGuestPass,
   SupportedLanguage,
 } from '@pridicta/types';
+import { getMonetizationUsageCopy } from '@pridicta/config';
 
 const REDEEMED_PASS_KEY = 'pridicta.redeemedGuestPass.v1';
 const PASS_USAGE_KEY = 'pridicta.passCostUsage.v2';
@@ -133,38 +134,14 @@ export function buildPassCostGuardrailReply({
 }): string {
   const hasKundli = Boolean(kundli);
 
-  if (language === 'hi') {
-    return [
-      decision.display.kind === 'pass'
-        ? 'Aapka private pass safe hai. Is pass par deep follow-ups pause ho gaye hain.'
-        : 'Free guidance sabke liye fair rahe, isliye free starter balance par extra deep follow-ups pause ho gaye hain.',
-      hasKundli
-        ? 'Main abhi bhi bina extra deep reading ke charts, Gochar summary, Mahadasha overview, remedies aur free report kholne mein help kar sakti hoon.'
-        : 'Aap manual Kundli bana sakte hain. Uske baad main charts, daily guidance aur free report ke saath help karungi.',
-      'Agar aur deep follow-up chahiye, Premium, Day Pass, ya pass refresh best rahega.',
-    ].join('\n\n');
-  }
-
-  if (language === 'gu') {
-    return [
-      decision.display.kind === 'pass'
-        ? 'Tamaro private pass safe chhe. Aa pass par deep follow-ups pause thai gaya chhe.'
-        : 'Free guidance badha mate fair rahe, etle free starter balance par extra deep follow-ups pause thai gaya chhe.',
-      hasKundli
-        ? 'Hu haju pan extra deep reading vagar charts, Gochar summary, Mahadasha overview, remedies ane free report ma help kari shaku chhu.'
-        : 'Tame manual Kundli banaavi shako. Pachhi hu charts, daily guidance ane free report sathe help karish.',
-      'Vadhu deep follow-up joiye to Premium, Day Pass, athva pass refresh best rahe.',
-    ].join('\n\n');
-  }
-
   return [
     decision.display.kind === 'pass'
-      ? 'Your private pass is safe. Deep follow-ups are paused on this pass.'
-      : 'To keep free guidance fair for everyone, extra deep follow-ups are paused on the free starter balance.',
+      ? getMonetizationUsageCopy('guardrailReplyPassPaused', language)
+      : getMonetizationUsageCopy('guardrailReplyFreePaused', language),
     hasKundli
-      ? 'I can still help without another deep reading: open charts, show a Gochar summary, explain Mahadasha basics, suggest remedies, or create a free report.'
-      : 'You can still create the Kundli manually. After that I can help with charts, daily guidance, and a free report.',
-    'For deeper follow-up, Premium, a Day Pass, or a refreshed private pass is the right path.',
+      ? getMonetizationUsageCopy('guardrailReplyHasKundli', language)
+      : getMonetizationUsageCopy('guardrailReplyNoKundli', language),
+    getMonetizationUsageCopy('guardrailReplyUpgradePath', language),
   ].join('\n\n');
 }
 
@@ -172,50 +149,50 @@ export function buildPassCostGuardrailSuggestions(
   hasKundli: boolean,
   language: SupportedLanguage,
 ): ChatSuggestedCta[] {
-  if (language === 'hi') {
-    return hasKundli
-      ? [
-          navCta('charts-after-budget', 'Charts kholo', '/dashboard/charts'),
-          navCta('timeline-after-budget', 'Timing map dekho', '/dashboard/timeline'),
-          navCta('report-after-budget', 'Free report banao', '/dashboard/report'),
-          navCta('premium-after-budget', 'Options dekho', '/pricing'),
-          navCta('redeem-after-budget', 'Pass redeem karo', '/dashboard/redeem-pass'),
-        ]
-      : [
-          navCta('kundli-after-budget', 'Kundli banao', '/dashboard/kundli'),
-          navCta('redeem-after-budget', 'Pass redeem karo', '/dashboard/redeem-pass'),
-          navCta('premium-after-budget', 'Options dekho', '/pricing'),
-        ];
-  }
-
-  if (language === 'gu') {
-    return hasKundli
-      ? [
-          navCta('charts-after-budget', 'Charts kholo', '/dashboard/charts'),
-          navCta('timeline-after-budget', 'Timing map juo', '/dashboard/timeline'),
-          navCta('report-after-budget', 'Free report banao', '/dashboard/report'),
-          navCta('premium-after-budget', 'Options juo', '/pricing'),
-          navCta('redeem-after-budget', 'Pass redeem karo', '/dashboard/redeem-pass'),
-        ]
-      : [
-          navCta('kundli-after-budget', 'Kundli banao', '/dashboard/kundli'),
-          navCta('redeem-after-budget', 'Pass redeem karo', '/dashboard/redeem-pass'),
-          navCta('premium-after-budget', 'Options juo', '/pricing'),
-        ];
-  }
-
   return hasKundli
     ? [
-        navCta('charts-after-budget', 'Open charts', '/dashboard/charts'),
-        navCta('timeline-after-budget', 'See timing map', '/dashboard/timeline'),
-        navCta('report-after-budget', 'Create free report', '/dashboard/report'),
-        navCta('premium-after-budget', 'See options', '/pricing'),
-        navCta('redeem-after-budget', 'Redeem pass', '/dashboard/redeem-pass'),
+        navCta(
+          'charts-after-budget',
+          getMonetizationUsageCopy('ctaOpenCharts', language),
+          '/dashboard/charts',
+        ),
+        navCta(
+          'timeline-after-budget',
+          getMonetizationUsageCopy('ctaSeeTimingMap', language),
+          '/dashboard/timeline',
+        ),
+        navCta(
+          'report-after-budget',
+          getMonetizationUsageCopy('ctaCreateFreeReport', language),
+          '/dashboard/report',
+        ),
+        navCta(
+          'premium-after-budget',
+          getMonetizationUsageCopy('ctaSeeOptions', language),
+          '/pricing',
+        ),
+        navCta(
+          'redeem-after-budget',
+          getMonetizationUsageCopy('ctaRedeemPass', language),
+          '/dashboard/redeem-pass',
+        ),
       ]
     : [
-        navCta('kundli-after-budget', 'Create Kundli', '/dashboard/kundli'),
-        navCta('redeem-after-budget', 'Redeem pass', '/dashboard/redeem-pass'),
-        navCta('premium-after-budget', 'See options', '/pricing'),
+        navCta(
+          'kundli-after-budget',
+          getMonetizationUsageCopy('ctaCreateKundli', language),
+          '/dashboard/kundli',
+        ),
+        navCta(
+          'redeem-after-budget',
+          getMonetizationUsageCopy('ctaRedeemPass', language),
+          '/dashboard/redeem-pass',
+        ),
+        navCta(
+          'premium-after-budget',
+          getMonetizationUsageCopy('ctaSeeOptions', language),
+          '/pricing',
+        ),
       ];
 }
 
@@ -417,15 +394,7 @@ function getStorageKey(baseKey: string): string {
 }
 
 function passDisplayTitle(language: SupportedLanguage): string {
-  if (language === 'hi') {
-    return 'Private pass balance';
-  }
-
-  if (language === 'gu') {
-    return 'Private pass balance';
-  }
-
-  return 'Private pass balance';
+  return getMonetizationUsageCopy('privatePassBalanceTitle', language);
 }
 
 function passDisplayBody({
@@ -439,39 +408,20 @@ function passDisplayBody({
   pass: RedeemedGuestPass;
   questionRemaining: number;
 }): string {
-  if (language === 'hi') {
-    const warning =
-      questionRemaining <= 3 || deepRemaining <= 1
-        ? ' AI balance kam ho to bhi Predicta charts, reports aur deterministic guidance mein help karti rahegi.'
-        : '';
-    return `${pass.label}: ${questionRemaining} AI questions aur ${deepRemaining} deep follow-ups pass mein baaki hain.${warning}`;
-  }
-
-  if (language === 'gu') {
-    const warning =
-      questionRemaining <= 3 || deepRemaining <= 1
-        ? ' AI balance ochhu thay to pan Predicta charts, reports ane deterministic guidance ma help karti raheshe.'
-        : '';
-    return `${pass.label}: ${questionRemaining} AI questions ane ${deepRemaining} deep follow-ups pass ma baaki chhe.${warning}`;
-  }
-
   const warning =
     questionRemaining <= 3 || deepRemaining <= 1
-      ? ' Predicta will keep helping with deterministic charts and reports if AI balance runs low.'
+      ? getMonetizationUsageCopy('privatePassBalanceLowWarning', language)
       : '';
-  return `${pass.label}: ${questionRemaining} AI questions and ${deepRemaining} deep follow-ups left on this pass.${warning}`;
+  return getMonetizationUsageCopy('privatePassBalanceBodyTemplate', language, {
+    deepRemaining,
+    label: pass.label,
+    questionRemaining,
+    warning,
+  });
 }
 
 function freeDisplayTitle(language: SupportedLanguage): string {
-  if (language === 'hi') {
-    return 'मुफ्त शुरुआती AI शेष';
-  }
-
-  if (language === 'gu') {
-    return 'મફત શરૂઆતનું AI બેલેન્સ';
-  }
-
-  return 'Free AI starter balance';
+  return getMonetizationUsageCopy('freeStarterBalanceTitle', language);
 }
 
 function freeDisplayBody({
@@ -481,15 +431,9 @@ function freeDisplayBody({
   language: SupportedLanguage;
   questionRemaining: number;
 }): string {
-  if (language === 'hi') {
-    return `${questionRemaining} शुरुआती AI प्रश्न बचे हैं. गहरी follow-up reading के लिए pass या Premium चाहिए, लेकिन charts, reports और गणनात्मक guidance बिना AI credit के मिलती रहेगी.`;
-  }
-
-  if (language === 'gu') {
-    return `${questionRemaining} શરૂઆતના AI પ્રશ્નો બાકી છે. ઊંડી follow-up reading માટે pass અથવા Premium જોઈએ, પણ charts, reports અને ગણતરી આધારિત guidance AI credit વિના મળતી રહેશે.`;
-  }
-
-  return `${questionRemaining} starter AI questions left. Deep follow-ups need a pass or Premium, but charts, reports, and deterministic guidance still work without AI credit.`;
+  return getMonetizationUsageCopy('freeStarterBalanceBodyTemplate', language, {
+    questionRemaining,
+  });
 }
 
 function navCta(

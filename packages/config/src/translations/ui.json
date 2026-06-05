@@ -8526,6 +8526,101 @@
       "hi": "कुंडली कर्म त्वरित प्रश्न",
       "gu": "કુંડળી કર્મ ઝડપી પ્રશ્નો"
     },
+    "ui.global.your.soul.role.answer.comes.before.the.karaka.proof.7ed24f8a": {
+      "en": "Your soul-role answer comes before the karaka proof.",
+      "hi": "आपकी आत्म-भूमिका का उत्तर कारक प्रमाण से पहले आता है.",
+      "gu": "તમારી આત્મ-ભૂમિકાનો જવાબ કારક આધાર પહેલાં આવે છે."
+    },
+    "ui.global.atmakaraka.karakamsha.swamsa.arudha.upapada.and.chara.dasha.stay.visible.9e463c13": {
+      "en": "Atmakaraka, Karakamsha, Swamsa, Arudha, Upapada, and Chara Dasha stay visible as evidence, but the first job is to tell you what role life is asking you to mature into.",
+      "hi": "आत्मकारक, कारकांश, स्वांश, आरूढ़, उपपद और चर दशा प्रमाण के रूप में दिखते हैं, लेकिन पहला काम यह बताना है कि जीवन आपको किस भूमिका में परिपक्व होने को कह रहा है.",
+      "gu": "આત્મકારક, કારકાંશ, સ્વાંશ, આરૂઢ, ઉપપદ અને ચર દશા આધાર તરીકે દેખાય છે, પરંતુ પહેલું કામ એ કહેવાનું છે કે જીવન તમને કઈ ભૂમિકામાં પરિપક્વ થવા કહે છે."
+    },
+    "ui.global.ask.one.event.question.get.the.answer.before.the.kp.proof.412c1764": {
+      "en": "Ask one event question. Get the answer before the KP proof.",
+      "hi": "एक घटना-प्रश्न पूछें. केपी प्रमाण से पहले उत्तर पाएं.",
+      "gu": "એક ઘટના-પ્રશ્ન પૂછો. કેપી આધાર પહેલાં જવાબ મેળવો."
+    },
+    "ui.global.kp.predicta.should.first.tell.you.whether.the.event.looks.supported.delayed.blocked.or.unclear.77e328d4": {
+      "en": "KP Predicta should first tell you whether the event looks supported, delayed, blocked, or unclear. Cusps, sub-lords, significators, and timing evidence stay available underneath the verdict.",
+      "hi": "केपी प्रेडिक्टा पहले बताए कि घटना समर्थित, विलंबित, रुकी हुई या अस्पष्ट दिखती है. कस्प, उप-स्वामी, संकेतक और समय-प्रमाण निर्णय के नीचे उपलब्ध रहते हैं.",
+      "gu": "કેપી પ્રેડિક્ટા પહેલાં કહે કે ઘટના સહાયક, વિલંબિત, અટકેલી કે અસ્પષ્ટ લાગે છે. કસ્પ, ઉપ-સ્વામી, સંકેતકો અને સમય-આધાર નિર્ણયની નીચે ઉપલબ્ધ રહે છે."
+    },
+    "ui.global.what.this.means.now.4a3acbf2": {
+      "en": "WHAT THIS MEANS NOW",
+      "hi": "इसका अभी क्या अर्थ है",
+      "gu": "આનો અત્યારે શું અર્થ છે"
+    },
+    "ui.global.avoid.4a74b9d0": {
+      "en": "Avoid:",
+      "hi": "बचें:",
+      "gu": "ટાળો:"
+    },
+    "ui.global.report.value.preview.6ade07a5": {
+      "en": "Report value preview",
+      "hi": "रिपोर्ट मूल्य पूर्वावलोकन",
+      "gu": "રિપોર્ટ મૂલ્ય પૂર્વાવલોકન"
+    },
+    "ui.global.what.you.will.learn.2fd811c4": {
+      "en": "WHAT YOU WILL LEARN",
+      "hi": "आप क्या जानेंगे",
+      "gu": "તમે શું જાણશો"
+    },
+    "ui.global.what.you.will.learn.596ebc38": {
+      "en": "What you will learn",
+      "hi": "आप क्या जानेंगे",
+      "gu": "તમે શું જાણશો"
+    },
+    "ui.global.premium.adds.91d8af1f": {
+      "en": "PREMIUM ADDS",
+      "hi": "प्रीमियम में जुड़ता है",
+      "gu": "પ્રીમિયમમાં ઉમેરાય છે"
+    },
+    "ui.global.premium.adds.1e9d5472": {
+      "en": "Premium adds",
+      "hi": "प्रीमियम में जुड़ता है",
+      "gu": "પ્રીમિયમમાં ઉમેરાય છે"
+    },
+    "ui.global.predicta.chooses.the.sections.that.answer.this.report.question.first.8a163a34": {
+      "en": "Predicta chooses the sections that answer this report question first",
+      "hi": "प्रेडिक्टा पहले वे भाग चुनती है जो इस रिपोर्ट प्रश्न का उत्तर देते हैं",
+      "gu": "પ્રેડિક્ટા પહેલાં એવા વિભાગો પસંદ કરે છે જે આ રિપોર્ટ પ્રશ્નનો જવાબ આપે છે"
+    },
+    "ui.global.predicta.chooses.the.sections.needed.to.answer.this.report.question.first.customize.only.if.you.want.a.narrower.pdf.b36c9218": {
+      "en": "Predicta chooses the sections needed to answer this report question first. Customize only if you want a narrower PDF.",
+      "hi": "प्रेडिक्टा पहले इस रिपोर्ट प्रश्न का उत्तर देने वाले जरूरी भाग चुनती है. केवल तभी बदलें जब आपको संक्षिप्त PDF चाहिए.",
+      "gu": "પ્રેડિક્ટા પહેલાં આ રિપોર્ટ પ્રશ્નનો જવાબ આપતા જરૂરી વિભાગો પસંદ કરે છે. તમને સંક્ષિપ્ત PDF જોઈએ ત્યારે જ બદલો."
+    },
+    "ui.global.your.life.atlas.should.feel.like.a.mirror.not.a.method.lesson.a7207969": {
+      "en": "Your Life Atlas should feel like a mirror, not a method lesson.",
+      "hi": "आपका लाइफ एटलस पद्धति-पाठ नहीं, दर्पण जैसा महसूस होना चाहिए.",
+      "gu": "તમારું લાઇફ એટલસ પદ્ધતિ-પાઠ નહીં, દર્પણ જેવું લાગવું જોઈએ."
+    },
+    "ui.global.predicta.starts.with.your.current.life.chapter.hidden.thread.and.the.direction.your.life.keeps.asking.you.to.grow.into.c65f9933": {
+      "en": "Predicta starts with your current life chapter, hidden thread, and the direction your life keeps asking you to grow into. Vedic, KP, Jaimini, Numerology, and optional confirmed Signature evidence stay underneath the story so the report guides first and proves second.",
+      "hi": "प्रेडिक्टा आपके वर्तमान जीवन-अध्याय, छिपे सूत्र और उस दिशा से शुरू करती है जिसमें जीवन आपको बढ़ने को कह रहा है. वैदिक, केपी, जैमिनी, अंक-ज्योतिष और वैकल्पिक पुष्ट हस्ताक्षर-प्रमाण कहानी के नीचे रहते हैं, ताकि रिपोर्ट पहले मार्गदर्शन दे और बाद में प्रमाण.",
+      "gu": "પ્રેડિક્ટા તમારા વર્તમાન જીવન-અધ્યાય, છુપાયેલા સૂત્ર અને જીવન તમને જે દિશામાં વધવા કહે છે ત્યાંથી શરૂ કરે છે. વૈદિક, કેપી, જૈમિની, અંક-જ્યોતિષ અને વૈકલ્પિક પુષ્ટ હસ્તાક્ષર-આધાર વાર્તાની નીચે રહે છે, જેથી રિપોર્ટ પહેલા માર્ગદર્શન આપે અને પછી આધાર."
+    },
+    "ui.global.select.life.atlas.4a1ea204": {
+      "en": "Select Life Atlas",
+      "hi": "लाइफ एटलस चुनें",
+      "gu": "લાઇફ એટલસ પસંદ કરો"
+    },
+    "ui.global.compare.life.atlas.options.946a76ab": {
+      "en": "Compare Life Atlas options",
+      "hi": "लाइफ एटलस विकल्पों की तुलना करें",
+      "gu": "લાઇફ એટલસ વિકલ્પો સરખાવો"
+    },
+    "ui.global.confirm.visible.traits.before.any.reading.f874d865": {
+      "en": "Confirm visible traits before any reading.",
+      "hi": "किसी भी रीडिंग से पहले दिखने वाले गुणों की पुष्टि करें.",
+      "gu": "કોઈપણ રીડિંગ પહેલાં દેખાતા ગુણોની પુષ્ટિ કરો."
+    },
+    "ui.global.signature.predicta.guides.from.confirmed.baseline.slant.rhythm.spacing.legibility.and.flourish.evidence.only.e46d7b53": {
+      "en": "Signature Predicta guides from confirmed baseline, slant, rhythm, spacing, legibility, and flourish evidence only. If a trait is not visible, it stays not assessed.",
+      "hi": "हस्ताक्षर प्रेडिक्टा केवल पुष्ट आधार-रेखा, झुकाव, लय, दूरी, पठनीयता और सजावट-प्रमाण से मार्गदर्शन देती है. कोई गुण दिखता न हो तो उसका आकलन नहीं किया जाता.",
+      "gu": "હસ્તાક્ષર પ્રેડિક્ટા ફક્ત પુષ્ટ આધાર-રેખા, ઝુકાવ, લય, અંતર, વાંચનક્ષમતા અને સજાવટ-આધારથી માર્ગદર્શન આપે છે. કોઈ ગુણ દેખાતો ન હોય તો તેનું મૂલ્યાંકન થતું નથી."
+    },
     "ui.global.active.7412278b": {
       "en": "active",
       "hi": "सक्रिय",

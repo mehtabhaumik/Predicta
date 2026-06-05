@@ -416,7 +416,7 @@ export function ReportScreen({
         </AppText>
 
         <View
-          accessibilityLabel="competitor-response-phase5-value-preview"
+          accessibilityLabel="Report value preview"
           className="mt-4 rounded-[18px] border border-[#4DAFFF55] bg-[#0F1C2B] p-4"
           testID="report-final-phase10-preview"
         >

@@ -248,6 +248,86 @@
       "en": "Free starter AI is lifetime-limited; deterministic guidance stays available",
       "hi": "मुफ्त शुरुआती AI जीवनभर की सीमा में है; गणनात्मक मार्गदर्शन उपलब्ध रहता है",
       "gu": "મફત શરૂઆતનું AI જીવનભરની મર્યાદામાં છે; ગણતરી આધારિત માર્ગદર્શન ઉપલબ્ધ રહે છે"
+    },
+    "privatePassBalanceTitle": {
+      "en": "Private pass balance",
+      "hi": "निजी पास बैलेंस",
+      "gu": "ખાનગી પાસ બેલેન્સ"
+    },
+    "privatePassBalanceLowWarning": {
+      "en": " Predicta will keep helping with deterministic charts and reports if AI balance runs low.",
+      "hi": " AI बैलेंस कम हो तो भी Predicta गणना-आधारित चार्ट और रिपोर्ट में मदद करती रहेगी.",
+      "gu": " AI બેલેન્સ ઓછું થાય તો પણ Predicta ગણતરી-આધારિત ચાર્ટ અને રિપોર્ટમાં મદદ કરતી રહેશે."
+    },
+    "privatePassBalanceBodyTemplate": {
+      "en": "{label}: {questionRemaining} AI questions and {deepRemaining} deep follow-ups left on this pass.{warning}",
+      "hi": "{label}: इस पास में {questionRemaining} AI प्रश्न और {deepRemaining} गहरे follow-ups बचे हैं.{warning}",
+      "gu": "{label}: આ પાસમાં {questionRemaining} AI પ્રશ્નો અને {deepRemaining} ઊંડા follow-ups બાકી છે.{warning}"
+    },
+    "freeStarterBalanceTitle": {
+      "en": "Free AI starter balance",
+      "hi": "मुफ्त शुरुआती AI बैलेंस",
+      "gu": "મફત શરૂઆતનું AI બેલેન્સ"
+    },
+    "freeStarterBalanceBodyTemplate": {
+      "en": "{questionRemaining} starter AI questions left. Deep follow-ups need a pass or Premium, but charts, reports, and deterministic guidance still work without AI credit.",
+      "hi": "{questionRemaining} शुरुआती AI प्रश्न बचे हैं. गहरे follow-ups के लिए पास या Premium चाहिए, लेकिन चार्ट, रिपोर्ट और गणना-आधारित guidance AI credit के बिना भी मिलती रहेगी.",
+      "gu": "{questionRemaining} શરૂઆતના AI પ્રશ્નો બાકી છે. ઊંડા follow-ups માટે પાસ અથવા Premium જોઈએ, પરંતુ ચાર્ટ, રિપોર્ટ અને ગણતરી-આધારિત guidance AI credit વગર પણ મળતી રહેશે."
+    },
+    "guardrailReplyPassPaused": {
+      "en": "Your private pass is safe. Deep follow-ups are paused on this pass.",
+      "hi": "आपका निजी पास सुरक्षित है. इस पास पर गहरे follow-ups अभी रुके हुए हैं.",
+      "gu": "તમારો ખાનગી પાસ સુરક્ષિત છે. આ પાસ પર ઊંડા follow-ups હાલ રોકાયા છે."
+    },
+    "guardrailReplyFreePaused": {
+      "en": "To keep free guidance fair for everyone, extra deep follow-ups are paused on the free starter balance.",
+      "hi": "फ्री guidance सबके लिए fair रहे, इसलिए मुफ्त शुरुआती बैलेंस पर extra deep follow-ups रुके हुए हैं.",
+      "gu": "ફ્રી guidance બધાના માટે fair રહે, એટલે મફત શરૂઆતના બેલેન્સ પર extra deep follow-ups રોકાયા છે."
+    },
+    "guardrailReplyHasKundli": {
+      "en": "I can still help without another deep reading: open charts, show a Gochar summary, explain Mahadasha basics, suggest remedies, or create a free report.",
+      "hi": "मैं फिर भी बिना extra deep reading के मदद कर सकती हूं: charts खोलना, Gochar summary दिखाना, Mahadasha basics समझाना, remedies बताना, या free report बनाना.",
+      "gu": "હું હજી પણ extra deep reading વગર મદદ કરી શકું છું: charts ખોલવા, Gochar summary બતાવવી, Mahadasha basics સમજાવવા, remedies જણાવવા, અથવા free report બનાવવી."
+    },
+    "guardrailReplyNoKundli": {
+      "en": "You can still create the Kundli manually. After that I can help with charts, daily guidance, and a free report.",
+      "hi": "आप अभी भी manual Kundli बना सकते हैं. उसके बाद मैं charts, daily guidance और free report में मदद कर सकती हूं.",
+      "gu": "તમે હજુ પણ manual Kundli બનાવી શકો છો. ત્યારબાદ હું charts, daily guidance અને free reportમાં મદદ કરી શકું છું."
+    },
+    "guardrailReplyUpgradePath": {
+      "en": "For deeper follow-up, Premium, a Day Pass, or a refreshed private pass is the right path.",
+      "hi": "गहरे follow-up के लिए Premium, Day Pass, या नया private pass सही रास्ता है.",
+      "gu": "ઊંડા follow-up માટે Premium, Day Pass, અથવા નવો private pass યોગ્ય રસ્તો છે."
+    },
+    "ctaOpenCharts": {
+      "en": "Open charts",
+      "hi": "Charts खोलें",
+      "gu": "Charts ખોલો"
+    },
+    "ctaSeeTimingMap": {
+      "en": "See timing map",
+      "hi": "Timing map देखें",
+      "gu": "Timing map જુઓ"
+    },
+    "ctaCreateFreeReport": {
+      "en": "Create free report",
+      "hi": "Free report बनाएं",
+      "gu": "Free report બનાવો"
+    },
+    "ctaSeeOptions": {
+      "en": "See options",
+      "hi": "Options देखें",
+      "gu": "Options જુઓ"
+    },
+    "ctaRedeemPass": {
+      "en": "Redeem pass",
+      "hi": "Pass redeem करें",
+      "gu": "Pass redeem કરો"
+    },
+    "ctaCreateKundli": {
+      "en": "Create Kundli",
+      "hi": "Kundli बनाएं",
+      "gu": "Kundli બનાવો"
     }
   },
   "reportCredits": {
