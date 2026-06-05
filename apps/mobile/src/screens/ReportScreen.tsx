@@ -408,7 +408,7 @@ export function ReportScreen({
           {product.title}
         </AppText>
         <AppText className="mt-2" tone="secondary">
-          {product.bestFor}
+          {product.userWillLearn}
         </AppText>
         <AppText className="mt-2" tone="secondary" variant="caption">
           {kundli?.birthDetails.name ?? 'Create a Kundli first'} ·{' '}
@@ -416,17 +416,21 @@ export function ReportScreen({
         </AppText>
 
         <View
+          accessibilityLabel="competitor-response-phase5-value-preview"
           className="mt-4 rounded-[18px] border border-[#4DAFFF55] bg-[#0F1C2B] p-4"
           testID="report-final-phase10-preview"
         >
           <AppText className="font-bold text-[#4DAFFF]" variant="caption">
-            APP PREVIEW
+            WHAT YOU WILL LEARN
           </AppText>
           <AppText className="mt-2" variant="body">
             {previewAlignment.focusLine}
           </AppText>
           <AppText className="mt-2" tone="secondary">
             {previewAlignment.compactPromise}
+          </AppText>
+          <AppText className="mt-2" tone="secondary" variant="caption">
+            {product.userWillLearn}
           </AppText>
           <View className="mt-3 flex-row flex-wrap gap-2">
             {previewAlignment.previewBullets.map(item => (
@@ -441,6 +445,14 @@ export function ReportScreen({
           <AppText className="mt-3" tone="secondary" variant="caption">
             {previewAlignment.downloadNudge}
           </AppText>
+          <View className="mt-3 rounded-[16px] border border-[#C8A96A55] bg-[#241F27] p-3">
+            <AppText className="font-bold text-[#C8A96A]" variant="caption">
+              PREMIUM ADDS
+            </AppText>
+            <AppText className="mt-2" tone="secondary" variant="caption">
+              {product.premiumAdds}
+            </AppText>
+          </View>
         </View>
 
         {isVedicReport ? (
@@ -461,7 +473,7 @@ export function ReportScreen({
               >
                 <AppText variant="body">Recommended</AppText>
                 <AppText className="mt-1" tone="secondary" variant="caption">
-                  Predicta chooses the full bundle
+                  Predicta chooses the sections that answer this report question first
                 </AppText>
               </Pressable>
               <Pressable
@@ -503,8 +515,8 @@ export function ReportScreen({
             </AppText>
             <AppText className="mt-2" tone="secondary">
               {previewMode === 'PREMIUM'
-                ? product.premiumDepth
-                : product.freeDepth}
+                ? `${product.premiumDepth} ${product.premiumAdds}`
+                : `${product.freeDepth} ${product.userWillLearn}`}
             </AppText>
           </View>
         )}
@@ -846,7 +858,7 @@ function ReportProductButton({
         ) : null}
       </View>
       <AppText className="mt-2" tone="secondary">
-        {product.bestFor}
+        {product.userWillLearn}
       </AppText>
     </Pressable>
   );

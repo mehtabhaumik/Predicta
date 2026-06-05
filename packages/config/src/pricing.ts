@@ -78,6 +78,8 @@ export type ReportMarketplaceProduct = {
   purchaseHint: string;
   school: 'JAIMINI' | 'KP' | 'NUMEROLOGY' | 'SIGNATURE' | 'SYNTHESIS' | 'VEDIC';
   title: string;
+  userWillLearn: string;
+  premiumAdds: string;
 };
 
 export type ReportPurchaseGuide = {
@@ -109,6 +111,10 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     purchaseHint: 'Best when you want Predicta to turn all available data into one non-technical life story.',
     school: 'SYNTHESIS',
     title: 'Predicta Life Atlas',
+    userWillLearn:
+      'You will learn the life theme Predicta sees, the chapter you are in now, the hidden thread behind repeated patterns, and the next honest direction to follow.',
+    premiumAdds:
+      'Premium adds a deeper soul-purpose narrative, contradictions between life areas, timing relevance, integration practices, and a memorable closing letter.',
   },
   {
     badge: 'Foundation',
@@ -124,6 +130,10 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     purchaseHint: 'Best first report when you want one complete life overview.',
     school: 'VEDIC',
     title: 'Kundli Report',
+    userWillLearn:
+      'You will learn the main chart direction, the strongest current timing signal, the life areas needing attention, and one practical remedy path.',
+    premiumAdds:
+      'Premium adds chart-by-chart prediction, house and planet evidence, contradictions, Mahadasha timing, classical tables, and a consolidated remedy plan.',
   },
   {
     badge: 'Vedic',
@@ -139,6 +149,10 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     purchaseHint: 'Best when you want the main Vedic astrology reading with clear chart proof.',
     school: 'VEDIC',
     title: 'Vedic Predicta Report',
+    userWillLearn:
+      'You will learn what the Vedic chart is actually saying about life direction, timing pressure, strengths, blocks, and what to do next.',
+    premiumAdds:
+      'Premium adds deeper varga prediction, Mahadasha and Gochar timing, chart evidence, cancellation/contradiction handling, and detailed remedy guidance.',
   },
   {
     badge: 'KP',
@@ -154,6 +168,10 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     purchaseHint: 'Best for event-oriented questions like job change, marriage timing, approval, or outcome judgment.',
     school: 'KP',
     title: 'KP Predicta Report',
+    userWillLearn:
+      'You will learn whether the chosen event looks supported, delayed, blocked, or unclear, plus the main support, caution, and next practical step.',
+    premiumAdds:
+      'Premium adds cusp chains, sub-lord proof, significator hierarchy, ruling planets, timing windows, confidence limits, and practical reality checks.',
   },
   {
     badge: 'Jaimini',
@@ -169,6 +187,10 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     purchaseHint: 'Best when you want soul role, public path, relationship mirror, and destiny chapter guidance.',
     school: 'JAIMINI',
     title: 'Jaimini Predicta Report',
+    userWillLearn:
+      'You will learn the soul-role your life asks you to mature into, how your path becomes visible, and which destiny chapter is active now.',
+    premiumAdds:
+      'Premium adds full karaka council interpretation, Karakamsha and Swamsa depth, Arudha/Upapada mirrors, Chara Dasha timing, and practical role guidance.',
   },
   {
     badge: 'Work',
@@ -184,6 +206,10 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     purchaseHint: 'Best when the question is job change, promotion, business, or career direction.',
     school: 'VEDIC',
     title: 'Career Report',
+    userWillLearn:
+      'You will learn the work direction to trust, the pressure point to manage, and the next career move that is most practical right now.',
+    premiumAdds:
+      'Premium adds D10 synthesis, role-fit evidence, promotion or change windows, contradiction checks, and a monthly action plan.',
   },
   {
     badge: 'Marriage',
@@ -199,6 +225,10 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     purchaseHint: 'Best for marriage timing, partner nature, delay, or family discussion.',
     school: 'VEDIC',
     title: 'Marriage Report',
+    userWillLearn:
+      'You will learn the relationship pattern, maturity requirement, likely delay/support signal, and the tone of partner or marriage timing.',
+    premiumAdds:
+      'Premium adds D1/D9 synthesis, timing windows, partner-pattern evidence, contradiction handling, compatibility cautions, and gentle remedies.',
   },
   {
     badge: 'Money',
@@ -214,6 +244,10 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     purchaseHint: 'Best when you ask about income, savings, investment timing, or debt pressure.',
     school: 'VEDIC',
     title: 'Wealth Report',
+    userWillLearn:
+      'You will learn the money rhythm, where income can grow, where leakage or pressure appears, and the financial habit to strengthen first.',
+    premiumAdds:
+      'Premium adds D2 evidence, income/gains windows, risk and discipline map, debt/savings cautions, and grounded planning guidance.',
   },
   {
     badge: 'Saturn',
@@ -229,6 +263,10 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     purchaseHint: 'Best when you feel pressure, delay, responsibility, or Saturn-related fear.',
     school: 'VEDIC',
     title: 'Sade Sati Report',
+    userWillLearn:
+      'You will learn what Saturn is pressuring, what discipline it is asking for, and how to respond without fear.',
+    premiumAdds:
+      'Premium adds exact phase context, Saturn transit dates, Moon-chart impact, Ashtakavarga support, remedy rhythm, and stop-doing cautions.',
   },
   {
     badge: 'Timing',
@@ -244,6 +282,10 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     purchaseHint: 'Best when you ask “why now?” or want a life timing map.',
     school: 'VEDIC',
     title: 'Dasha Life Map',
+    userWillLearn:
+      'You will learn what life chapter is active now, why this period feels the way it does, and what timing cue matters next.',
+    premiumAdds:
+      'Premium adds full Mahadasha Phala, current Antardasha and Pratyantardasha analysis, activation windows, and a practical timing map.',
   },
   {
     badge: 'Match',
@@ -259,6 +301,10 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     purchaseHint: 'Best for a focused marriage or family compatibility conversation.',
     school: 'VEDIC',
     title: 'Compatibility Report',
+    userWillLearn:
+      'You will learn the relationship support points, caution points, and the practical conversation that needs to happen before decisions.',
+    premiumAdds:
+      'Premium adds Ashtakoota, Manglik, D1/D9 cross-checks, timing context, family-ready summary, and careful contradiction handling.',
   },
   {
     badge: 'Care',
@@ -274,6 +320,10 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     purchaseHint: 'Best when you want what to do, not only what may happen.',
     school: 'VEDIC',
     title: 'Remedies Report',
+    userWillLearn:
+      'You will learn the one pressure to work with first, the safest practical remedy, and the weekly habit that supports change.',
+    premiumAdds:
+      'Premium adds planet-specific remedies, timing, mantra/seva/discipline options, tracking rhythm, safety notes, and avoid-list guidance.',
   },
   {
     badge: 'Numbers',
@@ -289,6 +339,10 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     purchaseHint: 'Best when you want number-based guidance or name spelling comparison without mixing methods.',
     school: 'NUMEROLOGY',
     title: 'Numerology Report',
+    userWillLearn:
+      'You will learn what your name and birth numbers emphasize, what cycle you are in now, and how to use that rhythm practically.',
+    premiumAdds:
+      'Premium adds name scanner depth, missing/repeated number map, cycle timeline, compatibility lens, name refinement, and supportive toolkit.',
   },
   {
     badge: 'Signature',
@@ -304,6 +358,10 @@ const REPORT_MARKETPLACE_PRODUCTS: ReportMarketplaceProduct[] = [
     purchaseHint: 'Best when you want signature-based self-expression guidance and a polished improvement plan.',
     school: 'SIGNATURE',
     title: 'Signature Report',
+    userWillLearn:
+      'You will learn what the confirmed visible traits may reflect about expression, confidence rhythm, consistency, and improvement focus.',
+    premiumAdds:
+      'Premium adds deeper confirmed-trait analysis, multi-sample comparison where available, refinement guidance, practice plan, and safety boundaries.',
   },
 ];
 

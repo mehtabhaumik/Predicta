@@ -73,6 +73,7 @@
     "test:competitor-response-phase-2": "node scripts/run-competitor-response-phase-2-gate.mjs",
     "test:competitor-response-phase-3": "node scripts/run-competitor-response-phase-3-gate.mjs",
     "test:competitor-response-phase-4": "node scripts/run-competitor-response-phase-4-gate.mjs",
+    "test:competitor-response-phase-5": "node scripts/run-competitor-response-phase-5-gate.mjs",
     "test:ai-model-phase-5": "python3 scripts/run-ai-model-phase-5-batch-qa.py",
     "test:ai-model-phase-6": "python3 scripts/run-ai-model-phase-6-prompt-efficiency.py",
     "test:ai-model-phase-7": "python3 scripts/run-ai-model-phase-7-release-governance.py",

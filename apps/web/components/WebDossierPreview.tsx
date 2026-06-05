@@ -100,7 +100,7 @@ type ReportSchoolLane = {
 
 const REPORT_SCHOOL_LANES: ReportSchoolLane[] = [
   {
-    bestFor: 'Classical Kundli, charts, dasha, panchang, varga, remedies, and life-area Vedic reports.',
+    bestFor: 'Learn what the Kundli is saying about life direction, current timing, pressure points, and practical remedy direction.',
     boundary:
       'Vedic reports use Parashari Jyotish only. KP, Jaimini, Numerology, and Signature stay outside this lane.',
     freeDepth:
@@ -124,7 +124,7 @@ const REPORT_SCHOOL_LANES: ReportSchoolLane[] = [
     title: 'Vedic Reports',
   },
   {
-    bestFor: 'Event judgement, promise/block, timing readiness, ruling planets, and proof for a specific question.',
+    bestFor: 'Learn whether a specific event looks supported, delayed, blocked, or unclear, then see the KP proof only after the answer.',
     boundary:
       'KP reports use cusps, star lords, sub lords, sub-sub lords where available, significators, ruling planets, dasha support, and transit triggers. They do not become Vedic personality reports.',
     freeDepth:
@@ -138,7 +138,7 @@ const REPORT_SCHOOL_LANES: ReportSchoolLane[] = [
     title: 'KP Reports',
   },
   {
-    bestFor: 'Soul role, visible identity, career dharma, relationship mirror, and destiny chapters.',
+    bestFor: 'Learn the soul role, visible path, career dharma, relationship mirror, and active destiny chapter.',
     boundary:
       'Jaimini reports use karakas, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, and Chara Dasha where calculated evidence is available. They do not use KP cusp logic or unsupported story claims.',
     freeDepth:
@@ -152,7 +152,7 @@ const REPORT_SCHOOL_LANES: ReportSchoolLane[] = [
     title: 'Jaimini Reports',
   },
   {
-    bestFor: 'Name/date number rhythm, name number, birth number, destiny number, cycles, and name refinement.',
+    bestFor: 'Learn what the name and birth numbers emphasize, what cycle is active now, and how to use that rhythm.',
     boundary:
       'Numerology reports use number logic only. They do not include Kundli judgement unless a future synthesis report explicitly says so.',
     freeDepth:
@@ -166,7 +166,7 @@ const REPORT_SCHOOL_LANES: ReportSchoolLane[] = [
     title: 'Numerology Reports',
   },
   {
-    bestFor: 'Confirmed signature traits, self-expression, confidence rhythm, consistency, and improvement guidance.',
+    bestFor: 'Learn what confirmed visible traits may reflect about expression, confidence rhythm, consistency, and improvement focus.',
     boundary:
       'Signature reports use confirmed visible traits only. They do not include Numerology or Vedic synthesis unless a future synthesis report explicitly says so.',
     freeDepth:
@@ -183,7 +183,7 @@ const REPORT_SCHOOL_LANES: ReportSchoolLane[] = [
 
 const REPORT_SYNTHESIS_LANE: ReportSchoolLane = {
   bestFor:
-    'A non-technical life journey, soul purpose, hidden thread, current chapter, gifts, lessons, and next direction.',
+    'Learn the life chapter, hidden thread, gifts, lessons, soul-purpose direction, and next honest step in non-technical language.',
   boundary:
     'Predicta Life Atlas is the only approved all-school synthesis report. It is not a Vedic, KP, Jaimini, Numerology, or Signature report.',
   freeDepth:
@@ -854,7 +854,7 @@ export function WebDossierPreview(): React.JSX.Element {
               {selectedReportLane.title} · {builderCopy.selectedReport}
             </div>
             <h3>{localizedSelectedReport.title}</h3>
-            <p>{localizedSelectedReport.bestFor}</p>
+            <p>{localizedSelectedReport.userWillLearn}</p>
             <p className="report-preview-focus-line">
               {previewAlignment.focusLine}
             </p>
@@ -902,24 +902,33 @@ export function WebDossierPreview(): React.JSX.Element {
         </div>
 
         <div
-          className="report-app-preview-bridge"
+          className="report-app-preview-bridge report-value-alignment-bridge"
+          data-competitor-response-phase5-value-preview={product.id}
           data-report-final-phase10-preview="compact"
         >
           <div>
-            <span>App preview</span>
+            <span>What you will learn</span>
             <strong>{previewAlignment.compactPromise}</strong>
+            <p>{localizedSelectedReport.userWillLearn}</p>
           </div>
           <ul aria-label="Focused report preview">
             {previewAlignment.previewBullets.map(item => (
               <li key={item}>{item}</li>
             ))}
           </ul>
+          <div className="report-premium-value-row">
+            <span>Premium adds</span>
+            <p>{localizedSelectedReport.premiumAdds}</p>
+          </div>
           <p>{previewAlignment.downloadNudge}</p>
         </div>
 
         {isVedicReport ? (
           <>
-            <div className="report-inline-recommended">
+            <div
+              className="report-inline-recommended"
+              data-competitor-response-phase5-vedic-builder="value-first"
+            >
               <div>
                 <span>Recommended by Predicta</span>
                 <strong>
@@ -928,8 +937,8 @@ export function WebDossierPreview(): React.JSX.Element {
                     : 'Custom Vedic bundle'}
                 </strong>
                 <p>
-                  Predicta will include the most important sections for this
-                  report. Customize only if you want a narrower PDF.
+                  Predicta chooses the sections needed to answer this report
+                  question first. Customize only if you want a narrower PDF.
                 </p>
               </div>
               <div className="report-builder-count">
@@ -1018,7 +1027,7 @@ export function WebDossierPreview(): React.JSX.Element {
           <div className="report-depth-grid inline">
             <div>
               <span>{builderCopy.freePreview}</span>
-              <p>{localizedSelectedReport.freeDepth}</p>
+              <p>{localizedSelectedReport.freeDepth} {localizedSelectedReport.userWillLearn}</p>
             </div>
             <div>
               <span>{builderCopy.premiumDepth}</span>
@@ -1026,8 +1035,8 @@ export function WebDossierPreview(): React.JSX.Element {
                 {isAccessLoading
                   ? resultCopy.loadingBody
                   : hasDetailedReportAccess
-                    ? localizedSelectedReport.premiumDepth
-                    : resultCopy.premiumLockedBody}
+                    ? `${localizedSelectedReport.premiumDepth} ${localizedSelectedReport.premiumAdds}`
+                    : `${resultCopy.premiumLockedBody} ${localizedSelectedReport.premiumAdds}`}
               </p>
             </div>
           </div>
@@ -1210,6 +1219,7 @@ export function WebDossierPreview(): React.JSX.Element {
             <span>{localizedSelectedReport.badge}</span>
             <strong>{localizedSelectedReport.title}</strong>
             <em>{localizedSelectedReport.outcome}</em>
+            <small>{localizedSelectedReport.userWillLearn}</small>
             <small>{localizedSelectedReport.bestFor}</small>
             <small>{selectedReportPreviewAlignment.focusLine}</small>
           </div>
@@ -1440,6 +1450,7 @@ export function WebDossierPreview(): React.JSX.Element {
                         <span>{localizedProduct.badge}</span>
                         <strong>{localizedProduct.title}</strong>
                         <em>{localizedProduct.outcome}</em>
+                        <small>{localizedProduct.userWillLearn}</small>
                         <small>{localizedProduct.bestFor}</small>
                       </button>
                       {renderInlineReportComposer(product)}
@@ -1538,6 +1549,7 @@ export function WebDossierPreview(): React.JSX.Element {
                           <span>{localizedProduct.badge}</span>
                           <strong>{localizedProduct.title}</strong>
                           <em>{localizedProduct.outcome}</em>
+                          <small>{localizedProduct.userWillLearn}</small>
                           <small>{localizedProduct.bestFor}</small>
                         </button>
                         {renderInlineReportComposer(product)}
@@ -2551,7 +2563,7 @@ function getReportBuilderCopy(language: SupportedLanguage): {
     differenceColumn: 'Area',
     differenceEyebrow: 'Choose by need',
     dialogBody:
-      'Your report is ready. Review the person, report type, and chart-backed preview before downloading.',
+      'Your report is ready. Review what this PDF will help you understand, the person it is prepared for, and the selected depth before downloading.',
     dialogEyebrow: 'Report ready',
     dialogTitle: 'Download your report',
     downloadChatPdf: 'Save chat PDF',
@@ -2575,9 +2587,9 @@ function getReportBuilderCopy(language: SupportedLanguage): {
     intro:
       'Create a polished free essential report first. Use paid depth when the question needs timing, synthesis, or a PDF worth keeping.',
     marketplaceBody:
-      'Start with the life question. Predicta keeps every free report useful, then offers paid depth only when timing, synthesis, or a polished PDF is worth it.',
+      'Start with what you want to know. Predicta keeps every free report useful, then offers paid depth only when deeper prediction, evidence, timing, contradictions, and practical guidance are worth it.',
     marketplaceEyebrow: 'Report choices',
-    marketplacePromiseBody: 'Paid depth adds complete coverage, timing windows, and deeper synthesis.',
+    marketplacePromiseBody: 'Paid depth adds deeper prediction, evidence, timing windows, contradictions, and practical guidance.',
     marketplacePromiseTitle: 'Free useful, paid depth when needed',
     marketplaceTitle: 'Choose your report world',
     needKundli:
@@ -2595,7 +2607,7 @@ function getReportBuilderCopy(language: SupportedLanguage): {
       'Preview the cover, key signals, charts, and chosen sections here. Downloading the PDF opens a clean confirmation first.',
     previewDrawerTitle: 'Report preview',
     premiumAccessBody:
-      'Detailed PDF download needs a subscription, Day Pass, or one-time report access.',
+      'Detailed PDF download adds deeper prediction, evidence, timing, contradictions, and practical guidance through a subscription, Day Pass, or one-time report access.',
     premiumAccessCta: 'Choose access',
     premiumAccessLabel: 'Premium report',
     premiumAccessTitle: 'Choose access for detailed depth',

@@ -1,0 +1,6 @@
+corepack pnpm test:competitor-response-phase-5
+corepack pnpm --filter @pridicta/config typecheck
+corepack pnpm --filter @pridicta/web typecheck
+corepack pnpm --filter @pridicta/mobile typecheck
+corepack pnpm build:web
+git diff --check
