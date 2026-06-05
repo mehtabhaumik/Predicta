@@ -4518,11 +4518,14 @@ function reportContextFromParams(
 function parseReportSchoolLane(
   value: string | null,
 ): ChartContext['reportSchoolLane'] {
+  if (value === 'NADI') {
+    return 'JAIMINI';
+  }
+
   if (
     value === 'VEDIC' ||
     value === 'KP' ||
     value === 'JAIMINI' ||
-    value === 'NADI' ||
     value === 'NUMEROLOGY' ||
     value === 'SIGNATURE' ||
     value === 'SYNTHESIS'

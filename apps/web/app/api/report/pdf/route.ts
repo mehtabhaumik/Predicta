@@ -46,9 +46,11 @@ export async function POST(request: Request): Promise<Response> {
     );
   }
 
+  const normalizedPayload = normalizeLegacyReportFocus(payload);
+
   if (
-    payload.reportFocus === 'SIGNATURE' &&
-    !hasReadySignatureAnalysis(payload.signatureAnalysis)
+    normalizedPayload.reportFocus === 'SIGNATURE' &&
+    !hasReadySignatureAnalysis(normalizedPayload.signatureAnalysis)
   ) {
     return NextResponse.json(
       { error: 'A confirmed signature sample is required before creating a Signature report.' },
@@ -59,8 +61,8 @@ export async function POST(request: Request): Promise<Response> {
   const ledger = await readServerEntitlementLedger(auth.user);
   const reportEntitlement = evaluateReportEntitlement({
     ledger,
-    mode: payload.mode,
-    reportFocus: payload.reportFocus,
+    mode: normalizedPayload.mode,
+    reportFocus: normalizedPayload.reportFocus,
   });
 
   if (!reportEntitlement.allowed) {
@@ -74,14 +76,6 @@ export async function POST(request: Request): Promise<Response> {
     );
   }
 
-  const result = buildPredictaPdfResult(payload);
-  const pdfBuffer = await renderToBuffer(
-    createPredictaReportPdfElement(result, {
-      logoSrc: await loadPredictaLogoDataUri(),
-      watermarkSrc: await loadPredictaWatermarkDataUri(),
-    }),
-  );
-
   if (reportEntitlement.allowed && reportEntitlement.paidReportCredit) {
     await commitServerEntitlementOperation({
       operation: {
@@ -89,7 +83,7 @@ export async function POST(request: Request): Promise<Response> {
           auth.user.uid,
           reportEntitlement.paidReportCredit.source,
           reportEntitlement.paidReportCredit.reportType,
-          payload,
+          normalizedPayload,
         ),
         kind: 'consume_report_credit',
         reportType: reportEntitlement.paidReportCredit.reportType,
@@ -100,16 +94,24 @@ export async function POST(request: Request): Promise<Response> {
   } else if (reportEntitlement.allowed && reportEntitlement.creditSource === 'day_pass') {
     await commitServerEntitlementOperation({
       operation: {
-        idempotencyKey: buildDayPassReportIdempotencyKey(auth.user.uid, payload),
+        idempotencyKey: buildDayPassReportIdempotencyKey(auth.user.uid, normalizedPayload),
         kind: 'consume_day_pass_report_pdf',
       },
       user: auth.user,
     });
   }
 
-  const safeName = sanitizeFilename(payload.kundli.birthDetails.name || 'predicta');
-  const modeLabel = payload.mode.toLowerCase();
-  const focusLabel = (payload.reportFocus ?? 'kundli').toLowerCase();
+  const result = buildPredictaPdfResult(normalizedPayload);
+  const pdfBuffer = await renderToBuffer(
+    createPredictaReportPdfElement(result, {
+      logoSrc: await loadPredictaLogoDataUri(),
+      watermarkSrc: await loadPredictaWatermarkDataUri(),
+    }),
+  );
+
+  const safeName = sanitizeFilename(normalizedPayload.kundli.birthDetails.name || 'predicta');
+  const modeLabel = normalizedPayload.mode.toLowerCase();
+  const focusLabel = (normalizedPayload.reportFocus ?? 'kundli').toLowerCase();
   const filename = `predicta-${safeName}-${focusLabel}-${modeLabel}.pdf`;
 
   return new Response(new Uint8Array(pdfBuffer), {
@@ -119,6 +121,18 @@ export async function POST(request: Request): Promise<Response> {
       'Cache-Control': 'no-store, max-age=0',
     },
   });
+}
+
+function normalizeLegacyReportFocus(payload: PdfGenerationRequest): PdfGenerationRequest {
+  const reportFocus =
+    String(payload.reportFocus) === 'NADI'
+      ? 'JAIMINI'
+      : payload.reportFocus;
+
+  return {
+    ...payload,
+    reportFocus,
+  };
 }
 
 function buildReportCreditIdempotencyKey(

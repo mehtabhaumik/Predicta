@@ -1,0 +1,20 @@
+PREDICTA_COMPETITOR_RESPONSE_PHASE_2_SPECIALIST_WORLD_CLARITY_AND_NO_MIXING_GATE verification
+
+Required commands:
+- corepack pnpm test:competitor-response-phase-2: PASS
+- corepack pnpm --filter @pridicta/pdf typecheck: PASS
+- corepack pnpm --filter @pridicta/web typecheck: PASS
+- corepack pnpm --filter @pridicta/mobile typecheck: PASS
+- corepack pnpm --filter @pridicta/astrology typecheck: PASS
+- corepack pnpm test:specialist-room-qa: PASS
+- corepack pnpm test:jaimini-phase-12: PASS against http://127.0.0.1:3009 after production build
+- corepack pnpm test:pdf-golden: PASS
+- corepack pnpm build:web: PASS
+- git diff --check: PASS
+
+Manual audit notes:
+- Legacy Nadi web routes redirect to Jaimini.
+- Active report marketplace lanes remain Vedic, KP, Jaimini, Numerology, Signature, and Life Atlas/Synthesis.
+- Active PDF report focus and chart role unions do not include Nadi.
+- KP PDF chart shell is KP-only; Jaimini report chart surfaces use Swamsa/Karakamsha.
+- Signature PDF download remains blocked without confirmed visible traits.

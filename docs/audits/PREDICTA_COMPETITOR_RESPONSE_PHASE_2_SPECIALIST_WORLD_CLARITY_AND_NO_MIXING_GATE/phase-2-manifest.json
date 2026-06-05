@@ -1,0 +1,49 @@
+{
+  "phase": "PREDICTA_COMPETITOR_RESPONSE_PHASE_2_SPECIALIST_WORLD_CLARITY_AND_NO_MIXING_GATE",
+  "status": "GREEN",
+  "implementedAt": "2026-06-05T19:53:41Z",
+  "dependsOn": [
+    "PREDICTA_COMPETITOR_RESPONSE_PHASE_1_BRAND_PROMISE_COPY_AND_NAVIGATION_ALIGNMENT"
+  ],
+  "schoolBoundaries": {
+    "vedic": "Classical Kundli, charts, dasha, gochar, Panchang, Kundli Karma, remedies.",
+    "kp": "Event answer and timing through cusp, star lord, sub lord, significator, ruling planet, dasha, and transit evidence.",
+    "jaimini": "Soul direction, karakas, Swamsa, Karakamsha, Arudha, Chara Dasha, and destiny patterns.",
+    "numerology": "Number identity, name rhythm, cycles, compatibility, and number evidence.",
+    "signature": "Confirmed visible-trait self-expression only, not forensic prediction.",
+    "lifeAtlas": "Only approved synthesis lane."
+  },
+  "changedSurfaces": [
+    "packages/astrology/src/chartLayout.ts",
+    "packages/pdf/src/index.ts",
+    "packages/pdf/src/reportDocument.tsx",
+    "packages/types/src/astrology.ts",
+    "apps/mobile/src/types/astrology.ts",
+    "packages/config/src/predictaMemory.ts",
+    "apps/web/app/api/report/pdf/route.ts",
+    "apps/mobile/src/screens/SavedKundlisScreen.tsx",
+    "apps/web/components/WebPridictaChat.tsx"
+  ],
+  "greenCriteria": {
+    "phase1GreenAndCommitted": true,
+    "activeNadiReportLaneRemoved": true,
+    "legacyNadiRoutesRedirectToJaimini": true,
+    "webMarketplaceHasJaiminiAndNoNadiLane": true,
+    "mobileSavedKundliPreviewsUseJaimini": true,
+    "chartRenderSchoolUsesJaiminiNotNadi": true,
+    "pdfReportFocusHasNoNadi": true,
+    "kpUsesKpChartShell": true,
+    "jaiminiUsesJaiminiSoulCharts": true,
+    "numerologyDoesNotUseVedicReportLane": true,
+    "signatureRequiresConfirmedTraits": true,
+    "lifeAtlasOnlySynthesisLane": true,
+    "predictaMemoryHasMigrationGuardrail": true,
+    "phaseGatePasses": true
+  },
+  "allowedNadiReferences": [
+    "legacy redirects",
+    "legacy chat aliases normalized to Jaimini",
+    "archived historical type names",
+    "compatibility nadi field names outside active product taxonomy"
+  ]
+}

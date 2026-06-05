@@ -928,10 +928,8 @@ export function PredictaReportPdfDocument({
                   ? 'Jaimini destiny guidance'
                 : reportFocus === 'NUMEROLOGY'
                   ? 'Number identity'
-                  : reportFocus === 'NADI'
-                    ? 'Nadi story prediction'
-                    : reportFocus === 'SIGNATURE'
-                      ? 'Signature expression'
+                  : reportFocus === 'SIGNATURE'
+                    ? 'Signature expression'
                 : templateCopy.reportModeLabel
           }
         />
@@ -944,10 +942,8 @@ export function PredictaReportPdfDocument({
                 ? 'Your Jaimini destiny reading begins here'
               : reportFocus === 'NUMEROLOGY'
                 ? 'Your Number Signature comes first'
-                : reportFocus === 'NADI'
-                  ? 'Your Nadi story prediction begins here'
-                  : reportFocus === 'SIGNATURE'
-                    ? 'Your signature expression reading begins here'
+                : reportFocus === 'SIGNATURE'
+                  ? 'Your signature expression reading begins here'
               : templateCopy.summaryTitle}
         </Text>
         <Text style={styles.pageLead}>
@@ -959,10 +955,8 @@ export function PredictaReportPdfDocument({
                 ? 'The destiny reading comes first: soul role, visible identity, work dharma, relationship mirror, and the current Chara Dasha chapter. Technical evidence follows after the guidance.'
               : reportFocus === 'NUMEROLOGY'
                 ? 'Your Number Signature shows the rhythm around your name, birth code, current cycle, choices, and focus. The reading turns those numbers into practical direction.'
-                : reportFocus === 'NADI'
-                  ? 'Your strongest story thread, Rahu-Ketu axis, active pattern, and next practice are named first, so the karmic reading feels lived rather than theoretical.'
-                  : reportFocus === 'SIGNATURE'
-                    ? 'Your confirmed visible traits point to confidence, clarity, rhythm, and public expression. No raw signature image is stored.'
+                : reportFocus === 'SIGNATURE'
+                  ? 'Your confirmed visible traits point to confidence, clarity, rhythm, and public expression. No raw signature image is stored.'
             : templateCopy.summaryLead}
         </Text>
 
@@ -1020,7 +1014,7 @@ export function PredictaReportPdfDocument({
             ]}
           >
             <Text style={styles.cardLabel}>
-              {['JAIMINI', 'KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus)
+              {['JAIMINI', 'KP', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus)
                 ? 'WHAT TO CARRY'
                 : templateCopy.readAs}
             </Text>
@@ -1029,8 +1023,6 @@ export function PredictaReportPdfDocument({
                 ? 'KP timing is cautious, but the active areas are visible'
                 : reportFocus === 'JAIMINI'
                   ? 'your soul role and current destiny chapter are asking for mature action'
-                : reportFocus === 'NADI'
-                  ? 'your repeating story thread is ready to be handled differently'
                   : reportFocus === 'NUMEROLOGY'
                     ? 'your number rhythm favors focused, steady action'
                     : reportFocus === 'SIGNATURE'
@@ -1046,8 +1038,6 @@ export function PredictaReportPdfDocument({
                 ? 'Move where support is visible. Slow down where pressure is vague. Refuse fear-based certainty.'
                 : reportFocus === 'JAIMINI'
                   ? 'Lead with the Atmakaraka lesson, make the Arudha signal visible, and use Chara Dasha as a practical chapter map.'
-                : reportFocus === 'NADI'
-                  ? 'The story thread, gift, caution, activation, and practice are here to guide a calmer response.'
                   : reportFocus === 'NUMEROLOGY'
                     ? 'Lean into the rhythm that supports structure, expression, timing, and practical choices now.'
                     : reportFocus === 'SIGNATURE'
@@ -1061,7 +1051,7 @@ export function PredictaReportPdfDocument({
           </View>
         </View>
 
-        {!['JAIMINI', 'KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus) ? (
+        {!['JAIMINI', 'KP', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus) ? (
           <View
             style={[
               styles.noteRow,
@@ -1182,8 +1172,6 @@ export function PredictaReportPdfDocument({
                 ? 'KP technical chart'
                 : reportFocus === 'JAIMINI'
                   ? 'Jaimini evidence'
-                : reportFocus === 'NADI'
-                  ? 'Nadi chart'
                   : 'Chart evidence'
             }
             title={
@@ -1191,9 +1179,7 @@ export function PredictaReportPdfDocument({
                 ? 'KP cusp and outcome support chart'
                 : reportFocus === 'JAIMINI'
                   ? 'Jaimini soul evidence chart'
-                : reportFocus === 'NADI'
-                  ? 'Nadi story anchor chart'
-                : report.mode === 'PREMIUM'
+                  : report.mode === 'PREMIUM'
                   ? 'Chart spread'
                   : 'Charts in your report'
             }
@@ -1257,7 +1243,7 @@ export function PredictaReportPdfDocument({
           eyebrow={
             reportFocus === 'LIFE_ATLAS'
               ? 'Final integration'
-              : ['JAIMINI', 'KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)
+              : ['JAIMINI', 'KP', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)
                 ? 'Final prediction'
               : report.mode === 'PREMIUM'
                 ? 'Close the dossier well'
@@ -1266,7 +1252,7 @@ export function PredictaReportPdfDocument({
           title={
             reportFocus === 'LIFE_ATLAS'
               ? 'Carry the Life Atlas gently'
-              : ['JAIMINI', 'KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)
+              : ['JAIMINI', 'KP', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)
                 ? 'What Predicta wants you to carry'
               : report.mode === 'PREMIUM'
                 ? 'Next steps'
@@ -1280,8 +1266,6 @@ export function PredictaReportPdfDocument({
               ? 'Your KP prediction should leave you calmer and clearer, not more dependent.'
               : reportFocus === 'JAIMINI'
                 ? 'Your Jaimini reading should leave you with a destiny direction, not a method lesson.'
-              : reportFocus === 'NADI'
-                ? 'Your Nadi story should name the pattern and the next wiser response.'
                 : reportFocus === 'NUMEROLOGY'
                   ? 'Your number pattern is pointing to a usable rhythm, not a fear score.'
                   : reportFocus === 'SIGNATURE'
@@ -1297,8 +1281,6 @@ export function PredictaReportPdfDocument({
               ? 'Carry the active life areas, timing mood, and caution into real decisions. Move where support is visible; slow down where pressure is vague.'
               : reportFocus === 'JAIMINI'
                 ? 'Carry the soul role, visible identity, career dharma, relationship mirror, and current Chara Dasha chapter into one practical next step.'
-              : reportFocus === 'NADI'
-                ? 'Carry the strongest story thread into daily life. When the same pattern repeats, choose the practice named in the report instead of repeating the old reflex.'
                 : reportFocus === 'NUMEROLOGY'
                   ? 'Carry the current cycle into this week: lean into what the number rhythm supports, and practice what the missing/repeated grid asks you to strengthen.'
                   : reportFocus === 'SIGNATURE'
@@ -1325,8 +1307,6 @@ export function PredictaReportPdfDocument({
                 ? 'Jaimini prediction to carry'
               : reportFocus === 'NUMEROLOGY'
                 ? 'Numerology next step'
-              : reportFocus === 'NADI'
-                ? 'Nadi next step'
                 : reportFocus === 'SIGNATURE'
                   ? 'Signature next step'
                 : 'Fun chart note'}
@@ -1340,8 +1320,6 @@ export function PredictaReportPdfDocument({
                 ? 'Let the destiny signal become one mature action.'
               : reportFocus === 'NUMEROLOGY'
                 ? 'Use the current cycle this week.'
-              : reportFocus === 'NADI'
-                ? 'Answer the validation questions next.'
                 : reportFocus === 'SIGNATURE'
                   ? 'Refine expression without changing who you are.'
                 : buildThemeFunFact(report.chartSnapshots[0]?.theme ?? 'unknown', report.cover.metadata[0] ?? '')}
@@ -1355,8 +1333,6 @@ export function PredictaReportPdfDocument({
                 ? 'Jaimini is pointing to soul-role maturity, public signal clarity, and a current destiny chapter. Use the evidence to act with steadier direction, not to trap yourself inside fate.'
               : reportFocus === 'NUMEROLOGY'
                   ? 'Numerology works best when the number insight becomes a small practical choice: use the current cycle, strengthen what repeats, and practice what feels missing without turning numbers into fear.'
-                : reportFocus === 'NADI'
-                  ? 'Nadi becomes useful when the story changes a response. Notice the repeating pattern, keep the gift, stop feeding the old loop, and practice the next grounded action.'
                 : reportFocus === 'SIGNATURE'
                   ? 'Signature Predicta uses only confirmed visible traits from the current session. Let the reading improve clarity, rhythm, and presentation without turning it into a fixed identity label.'
                 : 'Predicta keeps the same time-of-day chart atmosphere in the PDF so the document still feels like your Kundli, not like a disconnected export.'}
@@ -1423,7 +1399,7 @@ function buildPlannedSpreads({
   const spreads: PlannedSpread[] = [];
   const architecture = report.architecture;
   const isLifeAtlas = reportFocus === 'LIFE_ATLAS';
-  const isFocusedRoom = ['JAIMINI', 'KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus);
+  const isFocusedRoom = ['JAIMINI', 'KP', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus);
 
   const pull = (kinds: string[], maxCards: number): PlannedSection[] => {
     const kindSet = new Set(kinds);
@@ -1981,7 +1957,7 @@ function determineReportScope(
     return mode === 'PREMIUM' || sectionCount > 10 ? 'full' : 'broad';
   }
 
-  if (['JAIMINI', 'KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)) {
+  if (['JAIMINI', 'KP', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)) {
     return 'focused';
   }
 
@@ -2125,9 +2101,6 @@ function classifySectionKind(section: PdfSection): string {
   }
   if (eyebrow === 'JAIMINI APPENDIX') {
     return 'jaimini-appendix';
-  }
-  if (eyebrow === 'NADI') {
-    return 'focus-nadi';
   }
   if (eyebrow === 'NUMEROLOGY') {
     if (title.includes('number signature')) {
@@ -2904,17 +2877,6 @@ function PdfChartCard({
             and the next pages translate it into career, money, relationship, timing, and action.
           </Text>
         </>
-      ) : snapshot.school === 'NADI' || snapshot.chartRole === 'NADI' ? (
-        <>
-          <Text style={styles.chartNote}>
-            Nadi technical chart: this preserves the planetary story anchor, Rahu/Ketu axis,
-            repeated pattern, and activation signals behind the karmic reading.
-          </Text>
-          <Text style={styles.chartThemeNote}>
-            The prediction pages turn this chart into the strongest story thread, current lesson,
-            gift, caution, and next practice.
-          </Text>
-        </>
       ) : (
         <>
           <View style={styles.moonPhaseRow}>
@@ -2965,10 +2927,6 @@ function formatPdfChartRole(snapshot: PdfChartSnapshot): string {
 
   if (snapshot.chartRole === 'KP') {
     return 'KP Event Support Chart';
-  }
-
-  if (snapshot.chartRole === 'NADI') {
-    return 'Nadi Story Chart';
   }
 
   return snapshot.chartType;

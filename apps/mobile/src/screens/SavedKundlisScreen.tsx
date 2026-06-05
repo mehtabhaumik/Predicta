@@ -205,7 +205,7 @@ export function SavedKundlisScreen({
       chartName:
         school === 'KP'
           ? 'KP Bhav Chalit Cusp Chart'
-          : school === 'NADI'
+          : school === 'JAIMINI'
             ? 'Jaimini Destiny Anchor'
             : 'D1',
       chartType: 'D1',
@@ -497,7 +497,7 @@ export function SavedKundlisScreen({
             navigation.navigate(
               chartDialog.school === 'KP'
                 ? routes.KpPredicta
-                : chartDialog.school === 'NADI'
+                : chartDialog.school === 'JAIMINI'
                   ? routes.JaiminiPredicta
                   : routes.Kundli,
             );
@@ -527,7 +527,7 @@ function MiniChartStrip({
 
   return (
     <View style={styles.miniStrip}>
-      {(['PARASHARI', 'KP', 'NADI'] as ChartRenderSchool[]).map(school => (
+      {(['PARASHARI', 'KP', 'JAIMINI'] as ChartRenderSchool[]).map(school => (
         <MiniChartPreview
           chartLanguage={chartLanguage}
           key={`${kundli.id}-${school}`}
@@ -601,8 +601,8 @@ function MiniChartPreview({
                 styles.miniPlanetCount,
                 school === 'KP'
                   ? styles.miniPlanetCountKp
-                  : school === 'NADI'
-                    ? styles.miniPlanetCountNadi
+                  : school === 'JAIMINI'
+                    ? styles.miniPlanetCountJaimini
                     : undefined,
               ]}
             >
@@ -850,7 +850,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 195, 77, 0.16)',
     borderColor: 'rgba(255, 195, 77, 0.32)',
   },
-  miniPlanetCountNadi: {
+  miniPlanetCountJaimini: {
     backgroundColor: 'rgba(255, 93, 184, 0.16)',
     borderColor: 'rgba(255, 93, 184, 0.32)',
   },

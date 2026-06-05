@@ -70,7 +70,7 @@ export const PREDICTA_FINAL_REPORT_ARCHITECTURE_MEMORY = {
     'Each school report stays method-bound: Vedic uses Parashari/Vedic evidence, KP uses KP event/cusp proof, Jaimini uses Jaimini destiny-role evidence, Numerology uses number logic, Signature uses confirmed visible traits, and Life Atlas is the only approved synthesis lane.',
 } as const;
 
-type FinalReportLaneMemoryKey = Exclude<ReportSchoolLaneId, 'NADI'> | 'LIFE_ATLAS';
+type FinalReportLaneMemoryKey = ReportSchoolLaneId | 'LIFE_ATLAS';
 
 export const PREDICTA_FINAL_REPORT_LANE_MASTERY = {
   JAIMINI:
@@ -623,9 +623,7 @@ function buildFinalReportMemoryMastery({
   const laneKey: FinalReportLaneMemoryKey =
     reportFocus === 'LIFE_ATLAS'
       ? 'LIFE_ATLAS'
-      : schoolLane === 'NADI'
-        ? 'JAIMINI'
-        : schoolLane;
+      : schoolLane;
   const laneMastery = PREDICTA_FINAL_REPORT_LANE_MASTERY[laneKey];
   const activeDepth =
     mode === 'PREMIUM'

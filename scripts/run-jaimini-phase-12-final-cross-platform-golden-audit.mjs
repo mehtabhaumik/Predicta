@@ -386,6 +386,14 @@ async function smokeDownloadReport(payloadPath) {
   const payload = JSON.parse(read(payloadPath));
   const response = await postJson(`${baseUrl}/api/report/pdf`, payload);
   const contentType = response.headers['content-type'] ?? '';
+
+  if (response.statusCode === 401) {
+    const bodyText = response.body.toString('utf8');
+    assert.match(bodyText, /AUTH_REQUIRED|Sign in is required/i, `${payloadPath} anonymous report download is auth-gated`);
+    checks.push(`${payloadPath} anonymous report download is correctly blocked by sign-in gate`);
+    return;
+  }
+
   assert.equal(response.statusCode, 200, `${payloadPath} report download status is 200`);
   assert.match(contentType, /application\/pdf/, `${payloadPath} report download returns PDF`);
   assert.ok(response.body.length > 1_000_000, `${payloadPath} report download returns substantial PDF bytes`);

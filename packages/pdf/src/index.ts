@@ -37,7 +37,6 @@ import {
   composeKundliKarmaSnapshot,
   composeLifeAtlasReport,
   composeMahadashaIntelligence,
-  composeNadiJyotishPlan,
   composeNumerologyFoundationModel,
   composePersonalPanchangLayer,
   composePurusharthaLifeBalance,
@@ -75,7 +74,7 @@ import { buildNumerologyReportValueContract } from './numerologyReportValueContr
 import { buildSignatureReportValueContract } from './signatureReportValueContract';
 import { buildLifeAtlasReportValueContract } from './lifeAtlasReportValueContract';
 
-type PdfChartRole = ChartType | 'MOON' | 'SWAMSA' | 'KARAKAMSHA' | 'CHALIT' | 'KP' | 'NADI';
+type PdfChartRole = ChartType | 'MOON' | 'SWAMSA' | 'KARAKAMSHA' | 'CHALIT' | 'KP';
 
 export type PdfSection = {
   title: string;
@@ -113,7 +112,6 @@ export type PdfReportFocus =
   | 'KUNDLI'
   | 'LIFE_ATLAS'
   | 'MARRIAGE'
-  | 'NADI'
   | 'NUMEROLOGY'
   | 'REMEDIES'
   | 'SADESATI'
@@ -387,13 +385,6 @@ function buildReportSectionSet(
     ].filter((section): section is PdfSection => Boolean(section)));
   }
 
-  if (reportFocus === 'NADI') {
-    return uniqueReportSections([
-      ...focusSections,
-      ...(decisionMemo ? [buildDecisionMemoSection(decisionMemo)] : []),
-    ].filter((section): section is PdfSection => Boolean(section)));
-  }
-
   if (reportFocus === 'NUMEROLOGY') {
     return uniqueReportSections([
       ...focusSections,
@@ -483,8 +474,6 @@ function buildRoomSpecificReportSections(
       return buildJaiminiReportSections(kundli, mode);
     case 'LIFE_ATLAS':
       return buildLifeAtlasReportSections(kundli, mode, signatureAnalysis);
-    case 'NADI':
-      return buildNadiReportSections(kundli, mode);
     case 'NUMEROLOGY':
       return buildNumerologyReportSections(kundli, mode);
     case 'SIGNATURE':
@@ -1329,28 +1318,6 @@ function buildReportCover(
     };
   }
 
-  if (reportFocus === 'NADI') {
-    const plan = composeNadiJyotishPlan(kundli, { depth: 'FREE' });
-    return {
-      ...baseCover,
-      birthMomentSignature: [
-        `Story: ${compactReportPhrase(plan.storyLens.strongestThread, 48)}`,
-        `Axis: Rahu/Ketu`,
-        `Validation: ${plan.validationStatus}`,
-      ],
-      descriptor: 'A Predicta Nadi Karmic Story Report',
-      metadata: [
-        ...baseMetadata,
-        `Nadi story patterns ${plan.patterns.length} | validation questions ${plan.validationQuestions.length}`,
-      ],
-      preparationLine:
-        'Prepared with Nadi-style planetary story links, Rahu/Ketu axis, validation questions, and activation timing',
-      reportType: mode === 'PREMIUM' ? 'Premium Nadi Karmic Story Report' : 'Free Nadi Karmic Story Report',
-      subtitle: `Nadi Predicta Karmic Story Report for ${kundli.birthDetails.name}`,
-      title: 'PREDICTA',
-    };
-  }
-
   if (reportFocus === 'NUMEROLOGY') {
     const profile =
       kundli.numerology ?? composeNumerologyFoundationModel(kundli.birthDetails);
@@ -1496,8 +1463,6 @@ function getCoverReportFocusLabel(reportFocus: PdfReportFocus): string {
       return 'Jaimini';
     case 'KP':
       return 'KP';
-    case 'NADI':
-      return 'Nadi';
     case 'NUMEROLOGY':
       return 'Numerology';
     case 'SIGNATURE':
@@ -1606,23 +1571,6 @@ function buildDossierExecutiveSummary(
         mode === 'PREMIUM'
           ? 'Premium Jaimini adds full karaka council, Chara Dasha life map, Upapada, reputation, upcoming chapters, practical guidance, and technical appendix.'
           : 'Free Jaimini gives a real destiny reading: soul compass, Atmakaraka, Karakamsha/Swamsa, Arudha, work, relationship, and current Chara Dasha.',
-      ],
-    };
-  }
-
-  if (reportFocus === 'NADI') {
-    const plan = composeNadiJyotishPlan(kundli, { depth: mode });
-    return {
-      confidence,
-      headline: `${kundli.birthDetails.name}'s Nadi report starts with the strongest karmic story thread, then validates the Rahu/Ketu axis, repeating lesson, activation windows, and next practice.`,
-      keySignals: [
-        `Strongest thread: ${plan.storyLens.strongestThread}`,
-        `Hidden pattern: ${plan.storyLens.hiddenPatternSentence}`,
-        `Rahu/Ketu axis: ${plan.rahuKetuAxis.pullsForward} ${plan.rahuKetuAxis.learningToRelease}`,
-        `Validation bridge: ${plan.validationStatus}; ${plan.validationQuestions.length} questions available before deeper timing.`,
-        mode === 'PREMIUM'
-          ? 'Premium Nadi adds the fuller story map, activation windows, validation-based deepening, and practices.'
-          : 'Free Nadi gives the main story, gift, caution, validation bridge, and next practice without becoming a Vedic report.',
       ],
     };
   }
@@ -2955,7 +2903,6 @@ function buildPdfChartSnapshots(
   const kpChart = reportFocus === 'KP' && kundli.kp?.cusps?.length && kundli.kp?.planets?.length
     ? buildSchoolPreviewChart(kundli, 'KP')
     : undefined;
-  const nadiChart = reportFocus === 'NADI' ? buildSchoolPreviewChart(kundli, 'NADI') : undefined;
   const moonChart = includeVedicFocusCharts
     ? composeVedicIntelligenceContract({ kundli }).moonChart.chart
     : undefined;
@@ -2982,10 +2929,6 @@ function buildPdfChartSnapshots(
     chartByRole.set('KP', kpChart);
   }
 
-  if (nadiChart?.supported) {
-    chartByRole.set('NADI', nadiChart);
-  }
-
   if (moonChart?.supported) {
     chartByRole.set('MOON', moonChart);
   }
@@ -3006,8 +2949,6 @@ function buildPdfChartSnapshots(
     ? ['KP']
     : reportFocus === 'JAIMINI'
       ? ['SWAMSA', 'KARAKAMSHA']
-    : reportFocus === 'NADI'
-      ? ['NADI']
     : includeVedicFocusCharts
     ? [
         ...VEDIC_FOCUS_CHART_ORDER,
@@ -3088,10 +3029,6 @@ function getReportChartDisplayName(
     // Gate compatibility: previous internal phase label was "KP Bhav Chalit Cusp Chart".
     // User-facing PDFs now use a common-person label instead of cusp jargon.
     return 'KP Event Support Chart';
-  }
-
-  if (role === 'NADI') {
-    return 'Nadi Story Anchor Chart';
   }
 
   if (isVedicFocusChartRole(role)) {
@@ -3192,11 +3129,11 @@ function buildPdfHouseWisePlanetRows(
 }
 
 function shouldIncludeMoonChart(reportFocus: PdfReportFocus): boolean {
-  return !['JAIMINI', 'KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus);
+  return !['JAIMINI', 'KP', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus);
 }
 
 function shouldIncludeHouseWisePlanetRows(reportFocus: PdfReportFocus): boolean {
-  return !['JAIMINI', 'KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus);
+  return !['JAIMINI', 'KP', 'NUMEROLOGY', 'SIGNATURE', 'LIFE_ATLAS'].includes(reportFocus);
 }
 
 function isClassicalGraha(name: string): boolean {
@@ -4122,239 +4059,6 @@ function jaiminiSignTheme(sign: string): string {
   return themes[sign] ?? `${sign} themes`;
 }
 
-function buildNadiReportSections(
-  kundli: KundliData,
-  mode: PDFMode,
-): PdfSection[] {
-  const plan = composeNadiJyotishPlan(kundli, { depth: mode });
-  const isPremium = mode === 'PREMIUM';
-  const patternLimit = isPremium ? 8 : 3;
-  const activationLimit = isPremium ? 5 : 2;
-  const validationLimit = isPremium ? 5 : 3;
-  const patternRows = plan.patterns.slice(0, patternLimit).map(pattern => ({
-    confidence: pattern.confidence,
-    factor: pattern.title,
-    implication: isPremium && pattern.premiumDetail ? pattern.premiumDetail : pattern.freeInsight,
-    observation: pattern.observation,
-  }));
-  const activationRows = plan.activations.slice(0, activationLimit).map(activation => ({
-    confidence: 'medium' as const,
-    factor: activation.title,
-    implication: isPremium && activation.premiumDetail ? activation.premiumDetail : activation.guidance,
-    observation: `${activation.timing}: ${activation.trigger}`,
-  }));
-  const storyMapBullets = plan.patterns
-    .slice(0, patternLimit)
-    .map(pattern => `${pattern.title}: ${isPremium && pattern.premiumDetail ? pattern.premiumDetail : pattern.freeInsight}`);
-  const validationQuestions = plan.validationQuestions.slice(0, validationLimit);
-
-  const sections: PdfSection[] = [
-    {
-      body:
-        `${plan.storyLens.strongestThread} Prediction: this pattern is not random; it keeps returning so the person can turn the gift into wiser action and stop repeating the same loop under pressure.`,
-      bullets: [
-        `Life pattern prediction: ${plan.storyLens.hiddenPatternSentence}`,
-        `Gift becoming stronger: ${plan.digest.giftInsidePattern}`,
-        `Current lesson: ${plan.storyLens.activeLesson}`,
-        `Shadow loop to stop feeding: ${plan.storyLens.stuckPoint}`,
-        `Next practice: ${plan.digest.nextPractice}`,
-      ],
-      confidence: plan.patterns.length ? 'medium' : 'low',
-      evidence: [
-        plan.freePreview,
-        ...plan.storyLens.evidencePath,
-        `Story evidence availability: ${plan.digest.storyEvidenceAvailability}.`,
-      ],
-      evidenceTable: [
-        {
-          confidence: 'medium',
-          factor: 'Strongest story thread',
-          implication: plan.storyLens.strongestThread,
-          observation: plan.digest.activeStoryFocus,
-        },
-        {
-          confidence: 'medium',
-          factor: 'Gift',
-          implication: plan.digest.giftInsidePattern,
-          observation: plan.storyLens.shiftThatHelps,
-        },
-        {
-          confidence: 'medium',
-          factor: 'Lesson',
-          implication: plan.storyLens.activeLesson,
-          observation: plan.storyLens.repeatingPattern,
-        },
-      ],
-      eyebrow: 'NADI',
-      tier: isPremium ? 'premium' : 'free',
-      title: 'Nadi Strongest Story Thread',
-    },
-    {
-      body:
-        `Rahu-Ketu prediction: life pulls the person toward ${plan.rahuKetuAxis.pullsForward.toLowerCase()} while repeatedly asking them to release ${plan.rahuKetuAxis.learningToRelease.toLowerCase()}`,
-      bullets: [
-        `Pulls forward: ${plan.rahuKetuAxis.pullsForward}`,
-        `Learning to release: ${plan.rahuKetuAxis.learningToRelease}`,
-        `When it becomes louder: ${plan.rahuKetuAxis.becomesLouder}`,
-        `Balance practice: ${plan.rahuKetuAxis.balancePractice}`,
-      ],
-      confidence: 'medium',
-      evidence: [plan.digest.rahuKetuAxisSummary],
-      evidenceTable: [
-        {
-          confidence: 'medium',
-          factor: 'Forward pull',
-          implication: plan.rahuKetuAxis.pullsForward,
-          observation: 'Rahu side of the story axis.',
-        },
-        {
-          confidence: 'medium',
-          factor: 'Release work',
-          implication: plan.rahuKetuAxis.learningToRelease,
-          observation: 'Ketu side of the story axis.',
-        },
-        {
-          confidence: 'medium',
-          factor: 'Balance',
-          implication: plan.rahuKetuAxis.balancePractice,
-          observation: plan.rahuKetuAxis.becomesLouder,
-        },
-      ],
-      eyebrow: 'NADI',
-      tier: isPremium ? 'premium' : 'free',
-      title: 'Rahu-Ketu Axis Card',
-    },
-    {
-      body:
-        `Nadi prediction path: the past pattern is ${plan.storyLens.repeatingPattern.toLowerCase()} The current lesson is ${plan.storyLens.activeLesson.toLowerCase()} The next practice is ${plan.rahuKetuAxis.balancePractice.toLowerCase()}`,
-      bullets: [
-        `Past Pattern -> Current Lesson -> Next Practice: ${plan.storyLens.repeatingPattern} -> ${plan.storyLens.activeLesson} -> ${plan.rahuKetuAxis.balancePractice}`,
-        `Shift that helps: ${plan.storyLens.shiftThatHelps}`,
-        `Activation summary: ${plan.storyLens.activationSummary}`,
-        `Validation bridge: ${plan.storyLens.validationBridge}`,
-      ],
-      confidence: 'medium',
-      evidence: [
-        ...plan.digest.activationWindows.slice(0, activationLimit),
-        'Past-pattern clues stay validation-led before deeper timing is stated.',
-      ],
-      evidenceTable: activationRows.length ? activationRows : undefined,
-      eyebrow: 'NADI',
-      tier: isPremium ? 'premium' : 'free',
-      title: 'Past Pattern -> Current Lesson -> Next Practice',
-    },
-    {
-      body:
-        'Validation keeps the Nadi reading honest, but it should not replace the reading. These questions refine the prediction so the next version becomes more personal and less generic.',
-      bullets: [
-        `Validation status: ${plan.validationStatus}.`,
-        ...validationQuestions.map(question => `Validation question: ${question}`),
-        isPremium
-          ? 'Premium uses validation answers to sharpen story sequencing, activation timing, and practices.'
-          : 'Free gives enough validation to test the story while still giving the main prediction now.',
-      ],
-      confidence: plan.validationStatus === 'confirmed' ? 'high' : plan.validationStatus === 'partially-confirmed' ? 'medium' : 'low',
-      evidence: [
-        `Validation questions included: ${plan.validationQuestions.length}.`,
-        plan.storyLens.validationBridge,
-      ],
-      evidenceTable: validationQuestions.map((question, index) => ({
-        confidence: 'medium' as const,
-        factor: `Question ${index + 1}`,
-        implication: 'Use the answer to confirm, soften, or redirect the Nadi story before stronger timing.',
-        observation: question,
-      })),
-      eyebrow: 'NADI',
-      tier: isPremium ? 'premium' : 'free',
-      title: 'Validation Bridge',
-    },
-  ];
-
-  if (isPremium) {
-    sections.push(
-      {
-        body:
-          plan.premiumSynthesis ??
-          'Premium Nadi turns the story map into a fuller sequence: which pattern is strongest, which planet links carry it, where it activates, and which practice keeps it constructive.',
-        bullets: [
-          `Planetary story map: ${plan.patterns.slice(0, 6).map(pattern => pattern.title).join('; ') || 'pending'}.`,
-          `Karaka links: ${uniqueValues(plan.patterns.flatMap(pattern => pattern.planets)).join(', ') || 'pending'}.`,
-          `Repeated life themes: ${uniqueValues(plan.patterns.flatMap(pattern => pattern.lifeAreas)).slice(0, 8).join(', ') || 'pending'}.`,
-          ...storyMapBullets.slice(0, 5),
-        ],
-        confidence: plan.patterns.length ? 'medium' : 'low',
-        evidence: [
-          ...(plan.methodSummary ? [plan.methodSummary] : []),
-          `Story patterns available: ${plan.patterns.length}.`,
-          `Story Evidence Appendix: planetary story map, karaka links, validation status ${plan.validationStatus}, activation windows, and limitations are kept after the main reading.`,
-        ],
-        evidenceTable: patternRows,
-        eyebrow: 'NADI',
-        tier: 'premium',
-        title: 'Planetary Story Map',
-      },
-      {
-        body:
-          'Activation windows are not fixed fate. They show when the story may become louder, when choices matter more, and where a practical response can keep the pattern from turning into pressure.',
-        bullets: [
-          ...plan.activations.slice(0, activationLimit).map(activation =>
-            `${activation.title}: ${activation.timing}. ${activation.guidance}`,
-          ),
-          'Premium keeps activation timing evidence-weighted and avoids promising exact fate.',
-        ],
-        confidence: plan.activations.length ? 'medium' : 'low',
-        evidence: [
-          `Dasha/transit activation count: ${plan.activations.length}.`,
-          ...plan.digest.activationWindows.slice(0, activationLimit),
-        ],
-        evidenceTable: activationRows,
-        eyebrow: 'NADI',
-        tier: 'premium',
-        title: 'Activation Windows',
-      },
-    );
-  }
-
-  sections.push({
-    body:
-      'Nadi evidence note: this report stays inside Nadi-style planetary story intelligence. The main reading is the karmic story, activation, lesson, and practice; technical limits stay here at the end.',
-    bullets: [
-      'Prediction lane: karmic patterns, repeated life themes, relationship mirrors, activation periods, and gentle practices.',
-      'Limit: no unsupported palm-leaf manuscript claim, no one-line fatalism, and no KP/Vedic chart dumping.',
-      'Deeper timing becomes stronger only when the story is validated through lived recognition.',
-    ],
-    confidence: 'high',
-    evidence: [
-      'Nadi lane only.',
-      'Birth-chart plate pages are intentionally excluded from Nadi report output.',
-      'Nadi chart remains included as the story-anchor report chart.',
-      'It does not claim palm-leaf manuscript access.',
-      'Predicta does not claim access to real palm-leaf manuscripts or private lineage records.',
-      ...plan.guardrails,
-      ...plan.limitations,
-    ],
-    evidenceTable: [
-      {
-        confidence: 'high',
-        factor: 'Nadi evidence scope',
-        implication: 'Keep the main report as karmic story, validation, activation, and practice.',
-        observation: 'Nadi-style planetary story links, Rahu/Ketu axis, validation questions, and activation timing.',
-      },
-      {
-        confidence: 'high',
-        factor: 'Source boundary',
-        implication: 'This keeps the reading symbolic, honest, and free of unsupported manuscript claims.',
-        observation: 'Symbolic Nadi-style reading only.',
-      },
-    ],
-    eyebrow: 'NADI',
-    tier: isPremium ? 'premium' : 'free',
-    title: 'Nadi Evidence and Limits',
-  });
-
-  return sections;
-}
-
 function buildNumerologyReportSections(
   kundli: KundliData,
   mode: PDFMode,
@@ -5110,11 +4814,6 @@ function buildOneLineSummary(
     return `Jaimini Predicta: ${interpretation.summary} Soul signal: ${soul}; Chara Dasha: ${chapter}.`;
   }
 
-  if (reportFocus === 'NADI') {
-    const plan = composeNadiJyotishPlan(kundli, { depth: 'FREE' });
-    return `Nadi Predicta report with ${plan.patterns.length} planetary story patterns, validation questions, Rahu/Ketu axis checks, and no palm-leaf manuscript claim.`;
-  }
-
   if (reportFocus === 'NUMEROLOGY') {
     const profile =
       kundli.numerology ?? composeNumerologyFoundationModel(kundli.birthDetails);
@@ -5169,10 +4868,6 @@ function getReportChartTypes(
     return [];
   }
 
-  if (reportFocus === 'NADI') {
-    return [];
-  }
-
   const chartTypes = (Object.keys(kundli.charts) as ChartType[]).sort(compareChartType);
 
   if (mode === 'PREMIUM') {
@@ -5201,7 +4896,6 @@ function getFreeChartTypesForFocus(reportFocus: PdfReportFocus): ChartType[] {
   switch (reportFocus) {
     case 'LIFE_ATLAS':
     case 'JAIMINI':
-    case 'NADI':
     case 'NUMEROLOGY':
       return [];
     case 'CAREER':

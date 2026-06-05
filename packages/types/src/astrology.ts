@@ -2812,7 +2812,6 @@ export type PredictaSchool =
 export type ReportSchoolLaneId =
   | 'KP'
   | 'JAIMINI'
-  | 'NADI'
   | 'NUMEROLOGY'
   | 'SIGNATURE'
   | 'SYNTHESIS'

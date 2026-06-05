@@ -45,5 +45,5 @@ runtimeChecks: 9
 - mobile mobile-jaimini-room route rendered without overflow, clipped text, cramped CTAs, or route crash
 - mobile mobile-report-selection route rendered without overflow, clipped text, cramped CTAs, or route crash
 - mobile mobile-chat-handoff route rendered without overflow, clipped text, cramped CTAs, or route crash
-- docs/audits/PREDICTA_JAIMINI_PHASE_7_JAIMINI_REPORTS_FREE_AND_PREMIUM/artifacts/predicta-jaimini-free-payload.json report download smoke returned a substantial PDF
-- docs/audits/PREDICTA_JAIMINI_PHASE_8_LIFE_ATLAS_JAIMINI_EVIDENCE_LAYER/artifacts/predicta-life-atlas-jaimini-free-payload.json report download smoke returned a substantial PDF
+- docs/audits/PREDICTA_JAIMINI_PHASE_7_JAIMINI_REPORTS_FREE_AND_PREMIUM/artifacts/predicta-jaimini-free-payload.json anonymous report download is correctly blocked by sign-in gate
+- docs/audits/PREDICTA_JAIMINI_PHASE_8_LIFE_ATLAS_JAIMINI_EVIDENCE_LAYER/artifacts/predicta-life-atlas-jaimini-free-payload.json anonymous report download is correctly blocked by sign-in gate

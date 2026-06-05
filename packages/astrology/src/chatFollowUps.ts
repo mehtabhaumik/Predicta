@@ -200,7 +200,7 @@ function reportMemoryFollowUps(
         'Explain the timing readiness',
         'What is free vs premium here?',
       ]
-    : context.reportSchoolLane === 'JAIMINI' || context.reportSchoolLane === 'NADI'
+    : context.reportSchoolLane === 'JAIMINI'
       ? [
           'Explain my Jaimini soul role',
           'Show my visible identity pattern',

@@ -10,7 +10,7 @@ import type { MoonNakshatraPadaInsight } from './moonNakshatraPada';
 import { buildChartMoonNakshatraPadaInsight, getPadaMeaning } from './moonNakshatraPada';
 import { isSpecialPoint } from './specialPoints';
 
-export type ChartRenderSchool = 'KP' | 'NADI' | 'PARASHARI';
+export type ChartRenderSchool = 'JAIMINI' | 'KP' | 'PARASHARI';
 
 export type ChartRenderMoonPhase = 'dark' | 'full' | 'unknown' | 'waning' | 'waxing';
 
@@ -1078,10 +1078,10 @@ function buildChartLegend(
     });
   }
 
-  if (school === 'NADI') {
+  if (school === 'JAIMINI') {
     legend.push({
-      code: 'Nadi',
-      description: getLocalizedLegendText('nadi', language),
+      code: 'Jaimini',
+      description: getLocalizedLegendText('jaimini', language),
       tone: 'neutral',
     });
   }
@@ -1155,8 +1155,8 @@ function detectChartRenderSchool(chart: ChartData): ChartRenderSchool {
     return 'KP';
   }
 
-  if (/nadi/i.test(chart.name)) {
-    return 'NADI';
+  if (/jaimini|nadi/i.test(chart.name)) {
+    return 'JAIMINI';
   }
 
   return 'PARASHARI';
@@ -1208,8 +1208,8 @@ export function buildSchoolPreviewChart(
     return buildKpPreviewChart(kundli, d1Chart);
   }
 
-  if (school === 'NADI') {
-    return buildNadiPreviewChart(d1Chart);
+  if (school === 'JAIMINI') {
+    return buildJaiminiPreviewChart(d1Chart);
   }
 
   return d1Chart;
@@ -1269,7 +1269,7 @@ function buildKpPreviewChart(
   };
 }
 
-function buildNadiPreviewChart(baseChart: ChartData): ChartData {
+function buildJaiminiPreviewChart(baseChart: ChartData): ChartData {
   const filteredPlanetDistribution = baseChart.planetDistribution.filter(
     planet => !planet.kind || planet.kind === 'classical',
   );
@@ -1277,7 +1277,7 @@ function buildNadiPreviewChart(baseChart: ChartData): ChartData {
   return {
     ...baseChart,
     housePlacements: buildHousePlacementsFromPlanets(filteredPlanetDistribution),
-    name: 'Nadi Chart Anchor',
+    name: 'Jaimini Destiny Anchor',
     planetDistribution: filteredPlanetDistribution,
     signPlacements: buildSignPlacementsFromPlanets(filteredPlanetDistribution),
   };
@@ -1420,8 +1420,8 @@ function getLocalizedLegendText(
     | 'combust'
     | 'debilitated'
     | 'exalted'
+    | 'jaimini'
     | 'kp'
-    | 'nadi'
     | 'outer'
     | 'retrograde'
     | 'upagraha',
@@ -1448,8 +1448,8 @@ function getLocalizedLegendText(
       gu: getNativeCopy("native.packages.astrology.src.chartLayout.ts.338b959047"),
       hi: getNativeCopy("native.packages.astrology.src.chartLayout.ts.c8e988e87d"),
     },
-    nadi: {
-      en: 'Nadi readings use planet-to-planet story patterns',
+    jaimini: {
+      en: 'Jaimini readings use karakas, Arudha, and destiny chapters',
       gu: getNativeCopy("native.packages.astrology.src.chartLayout.ts.d8c4ec09b6"),
       hi: getNativeCopy("native.packages.astrology.src.chartLayout.ts.014bc85e70"),
     },

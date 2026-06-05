@@ -101,7 +101,7 @@ const sourceContracts = [
     file: 'apps/mobile/src/screens/HomeScreen.tsx',
     label: 'mobile home nav exposes new rooms',
     mustContain: [
-      'labels.nav.nadi',
+      'labels.nav.jaimini',
       'routes.JaiminiPredicta',
       'labels.nav.numerologyPredicta',
       'routes.NumerologyPredicta',

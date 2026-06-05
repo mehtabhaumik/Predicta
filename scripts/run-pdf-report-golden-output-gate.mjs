@@ -233,12 +233,19 @@ expectIncludes('packages/pdf/src/index.ts', 'free and premium depth boundaries',
   'buildKpReportSections',
   'KP Event Verdict',
   'KP Bhav Chalit Cusp Chart',
-  'buildNadiReportSections',
-  'Nadi Strongest Story Thread',
-  'Nadi Story Anchor Chart',
+  'buildJaiminiReportSections',
+  'Jaimini Soul Compass',
+  'SWAMSA',
+  'KARAKAMSHA',
   'buildAshtakavargaSection',
   'buildAdvancedJyotishCoverageSection',
   'buildFullJyotishCoverageSection',
+]);
+
+expectIncludes('packages/astrology/src/chartLayout.ts', 'Jaimini chart preview shell', [
+  'buildJaiminiPreviewChart',
+  'Jaimini Destiny Anchor',
+  "export type ChartRenderSchool = 'JAIMINI' | 'KP' | 'PARASHARI';",
 ]);
 
 expectIncludes('packages/pdf/src/index.ts', 'safety and trust boundaries', [
