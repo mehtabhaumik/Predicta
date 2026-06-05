@@ -49,8 +49,8 @@ const VEDIC_WORLD_COPY: Record<SupportedLanguage, VedicWorldCopy> = {
     },
     cards: [
       {
-        body: 'D1, Chalit, varga charts, dasha, gochar, and house proof stay together.',
-        title: 'Chart proof first',
+        body: 'D1, Moon, D9, D10, Chalit, varga charts, dasha, gochar, and house proof stay available under the answer.',
+        title: 'Evidence under the answer',
       },
       {
         body: 'Ask about career, money, marriage, health caution, family, timing, and remedies.',
@@ -63,7 +63,7 @@ const VEDIC_WORLD_COPY: Record<SupportedLanguage, VedicWorldCopy> = {
     ],
     hero: {
       body:
-        'Use this world for the main Vedic reading: Kundli, charts, dasha, gochar, remedies, timing, and report-ready guidance.',
+        'Start here when you want the main Kundli answer: what the chart is asking from you now, what supports you, what needs maturity, and what to do next.',
       eyebrow: 'VEDIC WORLD',
       title: 'Your main Vedic Predicta space.',
     },
@@ -284,6 +284,15 @@ export default function VedicPredictaPage(): React.JSX.Element {
                     : 'Move into a polished Vedic report when the reading needs structure.',
             },
           ]}
+          primaryGuidance={{
+            body: activeKundli
+              ? 'Your Vedic reading should begin with the direct life signal, then use D1, Moon, D9, D10, Chalit, Mahadasha, Gochar, and Kundli Karma as proof. The app gives the useful version here; the PDF becomes the full dossier.'
+              : 'Create or select a Kundli first. Once the chart is active, Predicta will lead with the real reading instead of making you study tables.',
+            eyebrow: 'START HERE',
+            title: activeKundli
+              ? 'Read the answer first; open chart proof only when you want it.'
+              : 'Your Vedic prediction appears after a Kundli is active.',
+          }}
           localEyebrow={
             language === 'hi'
               ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.632a8980f0")

@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import {
   ActiveKundliActions,
   AnimatedHeader,
+  AppText,
+  GlowCard,
   KpPredictaPanel,
   Screen,
 } from '../components';
@@ -53,6 +55,19 @@ export function KpPredictaScreen({
         sourceScreen="KP Predicta"
         title="KP reading Kundli"
       />
+      <GlowCard delay={80}>
+        <AppText tone="secondary" variant="caption">
+          START HERE
+        </AppText>
+        <AppText className="mt-2" variant="subtitle">
+          Ask one event question. Get the answer before the KP proof.
+        </AppText>
+        <AppText className="mt-3" tone="secondary">
+          KP Predicta should first tell you whether the event looks supported,
+          delayed, blocked, or unclear. Cusps, sub-lords, significators, and
+          timing evidence stay available underneath the verdict.
+        </AppText>
+      </GlowCard>
       <KpPredictaPanel
         foundation={foundation}
         handoffQuestion={

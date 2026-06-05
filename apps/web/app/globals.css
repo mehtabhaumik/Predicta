@@ -19675,6 +19675,73 @@ select::-ms-expand {
   margin-top: clamp(18px, 2.4vw, 28px);
 }
 
+.predicta-world-primary-guidance,
+.predicta-world-phase4-guidance,
+.school-answer-first {
+  background:
+    radial-gradient(circle at 12% 12%, var(--world-accent-soft, rgba(123, 220, 255, 0.16)), transparent 46%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.032));
+  border: 1px solid color-mix(in srgb, var(--world-accent, #7bdcff) 32%, rgba(255, 255, 255, 0.14));
+  border-radius: 22px;
+  box-shadow: 0 24px 70px color-mix(in srgb, var(--world-accent, #7bdcff) 12%, transparent);
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  padding: clamp(16px, 2.2vw, 24px);
+}
+
+.predicta-world-primary-guidance {
+  margin-top: clamp(16px, 2vw, 24px);
+}
+
+.predicta-world-phase4-guidance {
+  margin-top: clamp(20px, 2.6vw, 34px);
+}
+
+.predicta-world-primary-guidance span,
+.predicta-world-phase4-guidance > .section-title {
+  color: var(--world-accent, #7bdcff);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.predicta-world-primary-guidance strong,
+.predicta-world-phase4-guidance h2,
+.school-answer-first strong {
+  color: var(--text);
+  display: block;
+  font-size: clamp(20px, 2vw, 30px);
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.predicta-world-primary-guidance p,
+.predicta-world-phase4-guidance p,
+.school-answer-first p {
+  color: var(--muted);
+  line-height: 1.58;
+  margin: 0;
+  max-width: 72rem;
+}
+
+.predicta-world-phase4-guidance .action-row {
+  align-items: stretch;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.predicta-world-phase4-guidance .button,
+.school-answer-first .button {
+  min-height: 48px;
+  white-space: normal;
+}
+
 .predicta-intelligence-pattern {
   display: grid;
   gap: 10px;
@@ -19980,6 +20047,17 @@ select::-ms-expand {
   .predicta-world-actions .button,
   .predicta-world-local-card {
     width: 100%;
+  }
+
+  .predicta-world-primary-guidance,
+  .predicta-world-phase4-guidance,
+  .school-answer-first {
+    border-radius: 18px;
+    padding: 16px;
+  }
+
+  .predicta-world-phase4-guidance .action-row {
+    display: grid;
   }
 
   .signature-staged-scan-heading {

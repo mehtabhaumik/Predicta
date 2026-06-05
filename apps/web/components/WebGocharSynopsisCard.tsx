@@ -38,7 +38,10 @@ export function WebGocharSynopsisCard({
         </div>
         <p>{intelligence.snapshotSummary}</p>
         {primary ? (
-          <div className="gochar-synopsis-signal">
+          <div
+            className="gochar-synopsis-signal"
+            data-competitor-response-phase4-answer-first="gochar"
+          >
             <span>{primary.weight}</span>
             <strong>{primary.headline}</strong>
             <p>{primary.practicalGuidance}</p>

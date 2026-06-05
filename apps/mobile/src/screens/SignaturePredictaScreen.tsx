@@ -262,6 +262,19 @@ export function SignaturePredictaScreen({
           <AppText className="mt-3" tone="secondary">
             {SIGNATURE_PRIVACY_COPY}
           </AppText>
+          <View style={styles.answerFirstBox}>
+            <AppText tone="secondary" variant="caption">
+              START HERE
+            </AppText>
+            <AppText className="mt-2" variant="subtitle">
+              Confirm visible traits before any reading.
+            </AppText>
+            <AppText className="mt-2" tone="secondary" variant="caption">
+              Signature Predicta guides from confirmed baseline, slant, rhythm,
+              spacing, legibility, and flourish evidence only. If a trait is not
+              visible, it stays not assessed.
+            </AppText>
+          </View>
         </GlowCard>
 
         <IntelligenceRhythmCard delay={118} school="SIGNATURE" />
@@ -399,6 +412,14 @@ const styles = StyleSheet.create({
   actionGrid: {
     gap: 12,
     marginTop: 16,
+  },
+  answerFirstBox: {
+    backgroundColor: 'rgba(242, 157, 178, 0.09)',
+    borderColor: 'rgba(242, 157, 178, 0.3)',
+    borderRadius: 20,
+    borderWidth: 1,
+    marginTop: 18,
+    padding: 14,
   },
   chip: {
     backgroundColor: colors.surfaceMuted,

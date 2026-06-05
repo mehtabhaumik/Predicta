@@ -38,6 +38,12 @@ type PredictaWorldPillar = {
   value: string;
 };
 
+type PredictaWorldPrimaryGuidance = {
+  body: string;
+  eyebrow: string;
+  title: string;
+};
+
 export function PredictaWorldFrame({
   badge,
   body,
@@ -45,6 +51,7 @@ export function PredictaWorldFrame({
   chatHref,
   chatLabel,
   eyebrow,
+  primaryGuidance,
   localActions,
   heroInteraction,
   localEyebrow,
@@ -65,6 +72,7 @@ export function PredictaWorldFrame({
   chatHref: string;
   chatLabel: string;
   eyebrow: string;
+  primaryGuidance?: PredictaWorldPrimaryGuidance;
   localActions: PredictaWorldAction[];
   heroInteraction?: React.ReactNode;
   localEyebrow: string;
@@ -96,6 +104,16 @@ export function PredictaWorldFrame({
           <p className="section-title">{eyebrow}</p>
           <h1 className="gradient-text">{title}</h1>
           <p>{body}</p>
+          {primaryGuidance ? (
+            <div
+              className="predicta-world-primary-guidance"
+              data-competitor-response-phase4-primary-guidance={theme}
+            >
+              <span>{t(primaryGuidance.eyebrow)}</span>
+              <strong>{t(primaryGuidance.title)}</strong>
+              <p>{t(primaryGuidance.body)}</p>
+            </div>
+          ) : null}
           <section
             aria-label={t(`${pattern.label} intelligence rhythm`)}
             className="predicta-intelligence-pattern"
@@ -160,7 +178,7 @@ export function PredictaWorldFrame({
       <details className="predicta-world-proof-disclosure glass-panel">
         <summary>
           <span>{proofLabel}</span>
-          <strong>{proofLabel}</strong>
+          <strong>{t('Open evidence')}</strong>
         </summary>
         <section className="predicta-world-proof-grid">
           {proofCards.map(card => (

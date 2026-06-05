@@ -63,6 +63,23 @@ export function NumerologyPredictaScreen({
           ) : null}
         </GlowCard>
 
+        {hasProfile ? (
+          <GlowCard delay={108}>
+            <AppText tone="secondary" variant="caption">
+              WHAT THIS MEANS NOW
+            </AppText>
+            <AppText className="mt-2" variant="subtitle">
+              {profile.identityDashboard.bestUseOfCurrentCycle}
+            </AppText>
+            <AppText className="mt-3" tone="secondary">
+              {profile.identityDashboard.currentCycleLeanInto}
+            </AppText>
+            <AppText className="mt-2" tone="secondary" variant="caption">
+              Avoid: {profile.identityDashboard.currentCycleAvoid}
+            </AppText>
+          </GlowCard>
+        ) : null}
+
         <IntelligenceRhythmCard delay={112} school="NUMEROLOGY" />
 
         <GlowCard delay={120}>

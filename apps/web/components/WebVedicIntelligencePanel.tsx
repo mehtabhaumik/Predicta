@@ -321,6 +321,7 @@ function KundliKarmaWebSurface({
     >
       <section
         className="kundli-karma-panel"
+        data-competitor-response-phase4-answer-first="kundli-karma"
         data-kundli-karma-calculation-status={snapshot.calculationStatus}
         data-kundli-karma-generated-by={snapshot.generatedBy}
       >

@@ -121,6 +121,18 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
           <p className="section-title">{copy.heroEyebrow.toUpperCase()}</p>
           <h1>{copy.destinyRoleTitle}</h1>
           <p>{jaiminiInterpretation.summary}</p>
+          <div
+            className="predicta-world-primary-guidance"
+            data-competitor-response-phase4-primary-guidance="jaimini"
+          >
+            <span>{t('START HERE')}</span>
+            <strong>{t('Your soul-role answer comes before the karaka proof.')}</strong>
+            <p>
+              {t(
+                'Jaimini Predicta first tells you the role your life is asking you to mature into, then keeps Atmakaraka, Karakamsha, Swamsa, Arudha, Upapada, and Chara Dasha evidence available underneath.',
+              )}
+            </p>
+          </div>
           <section
             aria-label={t(`${intelligencePattern.label} intelligence rhythm`)}
             className="predicta-intelligence-pattern"

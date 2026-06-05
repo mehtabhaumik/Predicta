@@ -12,13 +12,13 @@ import { PredictaWorldFrame } from './PredictaWorldFrame';
 const NUMEROLOGY_WORLD_PROOF_CARDS = [
   {
     body:
-      'The room starts from the saved name, birth date, and current date before offering guidance.',
-    title: 'Calculated numbers',
+      'The room turns the saved name, birth date, and current date into a direct number-cycle reading before showing calculation detail.',
+    title: 'Guidance before calculation',
   },
   {
     body:
-      'Name number, birth number, destiny number, and personal timing are kept visible and explainable.',
-    title: 'Proof-first reading',
+      'Name number, birth number, destiny number, and personal timing remain visible as evidence under the reading.',
+    title: 'Readable number evidence',
   },
   {
     body:
@@ -47,7 +47,7 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
       <PredictaWorldFrame
         badge={t('Numerology world')}
         body={t(
-          'Numerology Predicta reads name rhythm, birth number, destiny number, and current personal cycles. It stays separate from Vedic, KP, Jaimini, and Signature unless you ask for a careful synthesis.',
+          'Numerology Predicta tells you what your number pattern is asking from you now: how your name projects, what your birth code supports, what the current cycle favors, and what to avoid.',
         )}
         chatHref={chatHref}
         chatLabel={t('Chat with Numerology Predicta')}
@@ -126,6 +126,15 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
                   : 'Move into the report path when the reading needs a polished number-led summary.',
           },
         ]}
+        primaryGuidance={{
+          body: hasProfile
+            ? profile.identityDashboard.bestUseOfCurrentCycle
+            : t('Create or select a Kundli first so Predicta can read name rhythm, birth code, destiny number, and current timing without guessing.'),
+          eyebrow: t('START HERE'),
+          title: hasProfile
+            ? profile.identityDashboard.lifeThemeSentence
+            : t('Your number prediction appears after a saved name and birth date.'),
+        }}
         localEyebrow={
           language === 'hi'
             ? getNativeCopy("native.apps.web.components.WebNumerologyPredictaPanel.tsx.b9a19c5e8f")
@@ -206,6 +215,37 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
           </>
         ) : null}
       </section>
+
+      {hasProfile ? (
+        <section
+          className="glass-panel predicta-world-phase4-guidance"
+          data-competitor-response-phase4-answer-first="numerology"
+        >
+          <p className="section-title">{t('WHAT THIS MEANS NOW')}</p>
+          <h2>{profile.identityDashboard.bestUseOfCurrentCycle}</h2>
+          <p>{profile.identityDashboard.currentCycleLeanInto}</p>
+          <p>
+            {t('Avoid')}: {profile.identityDashboard.currentCycleAvoid}
+          </p>
+          <div className="action-row">
+            <Link
+              className="button primary"
+              href={buildPredictaChatHref({
+                kundli: activeKundli,
+                kundliId: activeKundli?.id,
+                prompt: 'What should I focus on this personal year?',
+                school: 'NUMEROLOGY',
+                sourceScreen: 'Numerology Predicta',
+              })}
+            >
+              {t('Ask about this cycle')}
+            </Link>
+            <Link className="button secondary" href="/dashboard/report#report-lane-numerology">
+              {t('Build Numerology report')}
+            </Link>
+          </div>
+        </section>
+      ) : null}
 
       <section className="glass-panel" id="numerology-numbers">
         <p className="section-title">{t('PERSONAL NUMBER MANDALA')}</p>

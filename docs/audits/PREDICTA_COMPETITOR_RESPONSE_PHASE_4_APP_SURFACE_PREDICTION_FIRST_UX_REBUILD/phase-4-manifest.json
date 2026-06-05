@@ -1,0 +1,273 @@
+{
+  "baseUrl": "http://127.0.0.1:3009",
+  "checks": [
+    {
+      "fileName": "desktop-vedic.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/vedic",
+      "route": "/dashboard/vedic",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "desktop-kp.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/kp",
+      "route": "/dashboard/kp",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "desktop-jaimini.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/jaimini",
+      "route": "/dashboard/jaimini",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "desktop-numerology.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/numerology",
+      "route": "/dashboard/numerology",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "desktop-signature.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/signature",
+      "route": "/dashboard/signature",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "desktop-life-atlas.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report#report-lane-life-atlas",
+      "route": "/dashboard/report#report-lane-life-atlas",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "tablet-vedic.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/vedic",
+      "route": "/dashboard/vedic",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "tablet-kp.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/kp",
+      "route": "/dashboard/kp",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "tablet-jaimini.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/jaimini",
+      "route": "/dashboard/jaimini",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "tablet-numerology.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/numerology",
+      "route": "/dashboard/numerology",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "tablet-signature.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/signature",
+      "route": "/dashboard/signature",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "tablet-life-atlas.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report#report-lane-life-atlas",
+      "route": "/dashboard/report#report-lane-life-atlas",
+      "viewport": "tablet",
+      "viewportWidth": 834,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "mobile-vedic.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/vedic",
+      "route": "/dashboard/vedic",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "mobile-kp.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/kp",
+      "route": "/dashboard/kp",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "mobile-jaimini.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/jaimini",
+      "route": "/dashboard/jaimini",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "mobile-numerology.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/numerology",
+      "route": "/dashboard/numerology",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "mobile-signature.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/signature",
+      "route": "/dashboard/signature",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "mobile-life-atlas.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report#report-lane-life-atlas",
+      "route": "/dashboard/report#report-lane-life-atlas",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "narrow-mobile-vedic.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/vedic",
+      "route": "/dashboard/vedic",
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "narrow-mobile-kp.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/kp",
+      "route": "/dashboard/kp",
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "narrow-mobile-jaimini.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/jaimini",
+      "route": "/dashboard/jaimini",
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "narrow-mobile-numerology.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/numerology",
+      "route": "/dashboard/numerology",
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "narrow-mobile-signature.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/signature",
+      "route": "/dashboard/signature",
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    },
+    {
+      "fileName": "narrow-mobile-life-atlas.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report#report-lane-life-atlas",
+      "route": "/dashboard/report#report-lane-life-atlas",
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360,
+      "clippedText": 0,
+      "hasPrimaryAction": true,
+      "horizontalOverflow": 0,
+      "markerVisible": true
+    }
+  ],
+  "generatedAt": "2026-06-05T20:28:04.617Z",
+  "phase": "PREDICTA_COMPETITOR_RESPONSE_PHASE_4_APP_SURFACE_PREDICTION_FIRST_UX_REBUILD",
+  "screenshotRoot": "docs/audits/PREDICTA_COMPETITOR_RESPONSE_PHASE_4_APP_SURFACE_PREDICTION_FIRST_UX_REBUILD/screenshots",
+  "status": "GREEN"
+}

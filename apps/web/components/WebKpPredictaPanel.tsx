@@ -128,12 +128,12 @@ const KP_QUESTION_PRESETS: Array<{
 const KP_WORLD_PROOF_CARDS = [
   {
     body:
-      'KP starts with the event question and relevant houses before judging promise or timing.',
-    title: 'Event-first judgement',
+      'KP uses the event question and relevant houses underneath the answer so the user gets verdict first, proof second.',
+    title: 'Verdict first, proof second',
   },
   {
     body:
-      'Cusps, star lords, sub lords, ruling planets, significators, and dasha support stay inside KP.',
+      'Cusps, star lords, sub lords, ruling planets, significators, and dasha support stay inside KP and stay collapsed until needed.',
     title: 'KP proof path',
   },
   {
@@ -261,7 +261,7 @@ export function WebKpPredictaPanel({
       <PredictaWorldFrame
         badge={t('KP world')}
         body={t(
-          'KP Predicta stays inside Krishnamurti Paddhati: cusps, star lords, sub lords, significators, ruling planets, dasha support, and event-focused judgement. It does not casually mix with Parashari charts.',
+          'KP Predicta answers one practical event or life outcome at a time. It shows the likely direction, what may delay it, timing readiness, and the next useful move before showing the proof chain.',
         )}
         chatHref={askHref}
         chatLabel={t('Chat with KP Predicta')}
@@ -346,6 +346,13 @@ export function WebKpPredictaPanel({
                   : 'Move into the KP report path when the judgement needs a formal write-up.',
           },
         ]}
+        primaryGuidance={{
+          body: t(
+            'Choose a ready question, write your own, or pick “guide me.” Predicta will refine vague wording into a KP-friendly question, then answer with verdict, support/block, timing readiness, and one next step.',
+          ),
+          eyebrow: t('START HERE'),
+          title: t('Ask the event. Get the answer before the KP proof.'),
+        }}
         localEyebrow={t('KP method')}
         localTitle={t('A dedicated KP precision world.')}
         pillars={[
@@ -396,7 +403,7 @@ export function WebKpPredictaPanel({
           body: t(card.body),
           title: t(card.title),
         }))}
-        proofLabel={t('Proof')}
+        proofLabel={t('KP proof')}
         reportLabel={t('Build KP report')}
         reportNote={t('Career, money, marriage, and property questions get their own KP house logic.')}
         theme="kp"
@@ -511,9 +518,20 @@ export function WebKpPredictaPanel({
             <p>{t('Choose the event first. KP works best with an exact question, a time window, the current situation, and the outcome you want to judge.')}</p>
           </div>
 
-          <div className="school-explain-box">
+          <div
+            className="school-explain-box school-answer-first"
+            data-competitor-response-phase4-answer-first="kp"
+          >
             <strong>{t('KP current answer')}</strong>
             <p>{focusMeaning.whatItSays}</p>
+            <div className="action-row">
+              <Link className="button primary" href={askHref}>
+                {t('Ask this KP question')}
+              </Link>
+              <Link className="button secondary" href="/dashboard/report#report-lane-kp">
+                {t('Build KP report')}
+              </Link>
+            </div>
           </div>
 
           <div className="school-grid significators">

@@ -1042,6 +1042,15 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
         reportNote={copy.report.body}
         theme="signature"
         title={copy.hero.title}
+        primaryGuidance={{
+          body: isReady
+            ? copy.preview.body
+            : copy.receipt.privacyShort,
+          eyebrow: copy.receipt.scanProgressLabel,
+          title: isReady
+            ? copy.receipt.ready
+            : copy.receipt.notAssessed,
+        }}
       />
 
       <section className="signature-input-hero glass-panel" id="signature-input">

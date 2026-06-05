@@ -354,18 +354,23 @@ export function WebDossierPreview(): React.JSX.Element {
     const params = new URLSearchParams(window.location.search);
     const requestedFocus = params.get('focus');
     const requestedMode = params.get('mode');
+    const requestedLane = reportLaneNavItems.find(
+      item => window.location.hash === `#${item.anchorId}`,
+    );
 
     if (
       requestedFocus &&
       marketplaceProducts.some(product => product.id === requestedFocus)
     ) {
       setSelectedReportId(requestedFocus as ReportMarketplaceProduct['id']);
+    } else if (requestedLane) {
+      setSelectedReportId(requestedLane.productId);
     }
 
     if (requestedMode === 'FREE' || requestedMode === 'PREMIUM') {
       setMode(requestedMode);
     }
-  }, [marketplaceProducts]);
+  }, [marketplaceProducts, reportLaneNavItems]);
 
   useEffect(() => {
     try {
@@ -1347,6 +1352,40 @@ export function WebDossierPreview(): React.JSX.Element {
             <div className="report-lane-boundary">
               <span>Synthesis boundary</span>
               <p>{REPORT_SYNTHESIS_LANE.boundary}</p>
+            </div>
+            <div
+              className="predicta-world-phase4-guidance"
+              data-competitor-response-phase4-answer-first="life-atlas"
+            >
+              <p className="section-title">START HERE</p>
+              <h2>Your Life Atlas should feel like a mirror, not a method lesson.</h2>
+              <p>
+                Predicta starts with your current life chapter, hidden thread,
+                and the direction your life keeps asking you to grow into.
+                Vedic, KP, Jaimini, Numerology, and optional confirmed Signature
+                evidence stay underneath the story so the report guides first
+                and proves second.
+              </p>
+              <div className="action-row">
+                <button
+                  className="button primary"
+                  onClick={() => setSelectedReportId('LIFE_ATLAS')}
+                  type="button"
+                >
+                  Select Life Atlas
+                </button>
+                <button
+                  className="button secondary"
+                  onClick={() => {
+                    document
+                      .querySelector('#report-lane-life-atlas .lane-products')
+                      ?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                  }}
+                  type="button"
+                >
+                  Compare Life Atlas options
+                </button>
+              </div>
             </div>
             <div
               className="predicta-intelligence-pattern report-life-atlas-rhythm"
