@@ -74,6 +74,12 @@ Only live documents in this repo are listed here.
   web/mobile Vedic app surfaces, Predicta local-memory integration,
   zero-credit chat handoff, free/premium report integration, translations, and
   final golden no-go audit.
+- [PREDICTA_COMPETITOR_RESPONSE_POSITIONING_AND_REPORT_SUPREMACY_STRICT_PHASES.md](./PREDICTA_COMPETITOR_RESPONSE_POSITIONING_AND_REPORT_SUPREMACY_STRICT_PHASES.md)
+  Ultra-strict competitor-response roadmap for beating AskSoma, YastroTalk, and
+  Nebula through locked positioning, prediction-first app surfaces, smarter
+  Predicta local memory, calm specialist-world separation, free/paid value
+  clarity, upgraded report contracts, rerun report phases, and a final
+  competitor no-go audit.
 - [PREDICTA_LIFE_ATLAS_REPORT_STRICT_CONTRACT.md](./PREDICTA_LIFE_ATLAS_REPORT_STRICT_CONTRACT.md)
   Standalone strict contract for the `Predicta Life Atlas` flagship synthesis
   report, including core/optional data hierarchy, non-technical soul-purpose
