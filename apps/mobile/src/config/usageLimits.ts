@@ -27,10 +27,10 @@ export const USAGE_LIMITS: Record<UserPlan, PlanUsageLimits> = {
 };
 
 export const DAY_PASS_LIMITS: DayPassUsageLimits = {
-  deepCallsPerPass: 3,
+  deepCallsPerPass: 1,
   durationHours: 24,
   pdfsPerPass: 1,
-  questionsPerPass: 10,
+  questionsPerPass: 5,
 };
 
 export function getUsageLimits(plan: UserPlan): PlanUsageLimits {

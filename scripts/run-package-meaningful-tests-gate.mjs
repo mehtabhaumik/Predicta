@@ -342,8 +342,8 @@ const packageChecks = {
       usage: { deepCallsToday: 0, pdfsThisMonth: 0, questionsToday: 1 },
       userPlan: 'FREE',
     });
-    assert.match(display.questionsText, /guidance questions left today/);
-    assert.match(display.statusText, /free guidance resets/);
+    assert.match(display.questionsText, /starter AI questions left/);
+    assert.match(display.statusText, /lifetime-limited/);
   },
 
   pdf() {
@@ -397,9 +397,9 @@ const packageChecks = {
       'buildNumerologyReportSections',
       "case 'KP':",
       'buildKpReportSections',
-      'buildNadiReportSections',
-      'Nadi Strongest Story Thread',
-      'Nadi Story Anchor Chart',
+      'buildJaiminiReportSections',
+      'Jaimini Soul Compass',
+      'Concise Jaimini Evidence Appendix',
     ]) {
       assert.ok(
         pdfIndex.includes(requiredFragment),

@@ -2211,9 +2211,9 @@ def test_guest_pass_redemption_is_backend_authoritative(tmp_path, monkeypatch):
     assert create.json()["allowedEmails"] == ["beta@example.com"]
     assert create.json()["deviceLimit"] == 2
     assert create.json()["usageLimits"] == {
-        "questionsTotal": 20,
-        "deepReadingsTotal": 4,
-        "premiumPdfsTotal": 2,
+        "questionsTotal": 8,
+        "deepReadingsTotal": 1,
+        "premiumPdfsTotal": 1,
     }
 
     redemption = client.post(
@@ -2273,11 +2273,11 @@ def test_guest_pass_offerings_are_canonical(tmp_path, monkeypatch):
     client = TestClient(app)
 
     expected = {
-        "GUEST_TRIAL": ("GUEST", 7, 1, 5, 1, 1),
-        "VIP_REVIEW": ("VIP_GUEST", 30, 2, 20, 4, 2),
-        "INVESTOR_PASS": ("VIP_GUEST", 60, 3, 50, 8, 3),
-        "FAMILY_PASS": ("FULL_ACCESS", 180, 4, 60, 10, 4),
-        "INTERNAL_TEST": ("FULL_ACCESS", 90, 3, 120, 20, 6),
+        "GUEST_TRIAL": ("GUEST", 7, 1, 3, 0, 1),
+        "VIP_REVIEW": ("VIP_GUEST", 14, 2, 8, 1, 1),
+        "INVESTOR_PASS": ("VIP_GUEST", 30, 2, 12, 2, 1),
+        "FAMILY_PASS": ("FULL_ACCESS", 90, 3, 15, 2, 2),
+        "INTERNAL_TEST": ("FULL_ACCESS", 30, 2, 25, 5, 3),
     }
 
     for pass_type, (

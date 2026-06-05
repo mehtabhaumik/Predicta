@@ -1,0 +1,11 @@
+corepack pnpm test:competitor-response-phase-6
+corepack pnpm --filter @pridicta/config typecheck
+corepack pnpm --filter @pridicta/monetization typecheck
+corepack pnpm --filter @pridicta/access typecheck
+corepack pnpm --filter @pridicta/web typecheck
+corepack pnpm --filter @pridicta/mobile typecheck
+python3 -m pytest backend/tests/test_astro_api.py -q
+corepack pnpm test:monetization-phase-2
+corepack pnpm test:monetization-phase-12
+corepack pnpm build:web
+git diff --check

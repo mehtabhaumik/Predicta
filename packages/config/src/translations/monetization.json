@@ -230,9 +230,9 @@
       "gu": "{count} ખરીદેલા પ્રશ્નો ઉપલબ્ધ"
     },
     "guidanceQuestionsTemplate": {
-      "en": "{count} guidance questions left today",
-      "hi": "आज {count} मार्गदर्शन प्रश्न बचे हैं",
-      "gu": "આજે {count} માર્ગદર્શન પ્રશ્નો બાકી છે"
+      "en": "{count} starter AI questions left",
+      "hi": "{count} शुरुआती AI प्रश्न बचे हैं",
+      "gu": "{count} શરૂઆતના AI પ્રશ્નો બાકી છે"
     },
     "dayPassActive": {
       "en": "Day Pass active",
@@ -245,9 +245,9 @@
       "gu": "પ્રીમિયમ માર્ગદર્શન સક્રિય છે"
     },
     "freeGuidanceResets": {
-      "en": "Your free guidance resets tomorrow",
-      "hi": "आपका फ्री मार्गदर्शन कल फिर खुलेगा",
-      "gu": "તમારું મફત માર્ગદર્શન કાલે ફરી ખુલશે"
+      "en": "Free starter AI is lifetime-limited; deterministic guidance stays available",
+      "hi": "मुफ्त शुरुआती AI जीवनभर की सीमा में है; गणनात्मक मार्गदर्शन उपलब्ध रहता है",
+      "gu": "મફત શરૂઆતનું AI જીવનભરની મર્યાદામાં છે; ગણતરી આધારિત માર્ગદર્શન ઉપલબ્ધ રહે છે"
     }
   },
   "reportCredits": {

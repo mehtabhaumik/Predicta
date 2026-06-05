@@ -235,7 +235,7 @@ assertAllIncludes(
     'evaluateReportEntitlement',
     "kind: 'consume_report_credit'",
     "kind: 'consume_day_pass_report_pdf'",
-    'hasReadySignatureAnalysis(payload.signatureAnalysis)',
+    'hasReadySignatureAnalysis(normalizedPayload.signatureAnalysis)',
     'const pdfBuffer = await renderToBuffer',
   ],
   'web report route',

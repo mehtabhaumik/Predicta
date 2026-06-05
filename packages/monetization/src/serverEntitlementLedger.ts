@@ -5,6 +5,7 @@ import type {
   OneTimeProductType,
   UserPlan,
 } from '@pridicta/types';
+import { DAY_PASS_LIMITS } from '@pridicta/config/usageLimits';
 import {
   createFreeEntitlement,
   getQuestionCreditQuantity,
@@ -375,11 +376,13 @@ export function mapOneTimeProductToLedgerOperation({
     return {
       dayPass: {
         active: true,
-        deepCallsRemaining: 2,
-        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-        pdfsRemaining: 1,
+        deepCallsRemaining: DAY_PASS_LIMITS.deepCallsPerPass,
+        expiresAt: new Date(
+          Date.now() + DAY_PASS_LIMITS.durationHours * 60 * 60 * 1000,
+        ).toISOString(),
+        pdfsRemaining: DAY_PASS_LIMITS.pdfsPerPass,
         productId,
-        questionsRemaining: 10,
+        questionsRemaining: DAY_PASS_LIMITS.questionsPerPass,
       },
       idempotencyKey,
       kind: 'activate_day_pass',

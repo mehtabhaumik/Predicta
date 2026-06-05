@@ -402,9 +402,9 @@
       "gu": "પ્રવેશ"
     },
     "ui.yourFreeGuidanceResetsTomorrow.settings": {
-      "en": "Your free guidance resets tomorrow",
-      "hi": "आपका मुफ्त मार्गदर्शन कल रीसेट होगा",
-      "gu": "તમારું મફત માર્ગદર્શન કાલે રીસેટ થશે"
+      "en": "Free starter AI is lifetime-limited; deterministic guidance stays available",
+      "hi": "मुफ्त शुरुआती AI जीवनभर की सीमा में है; गणनात्मक मार्गदर्शन उपलब्ध रहता है",
+      "gu": "મફત શરૂઆતનું AI જીવનભરની મર્યાદામાં છે; ગણતરી આધારિત માર્ગદર્શન ઉપલબ્ધ રહે છે"
     },
     "ui.viewPremium.settings": {
       "en": "View Premium",

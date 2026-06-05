@@ -43,6 +43,10 @@ async function importLedgerModule() {
   const sourcePath = path.join(root, 'packages/monetization/src/serverEntitlementLedger.ts');
   const source = fs.readFileSync(sourcePath, 'utf8')
     .replace(
+      "import { DAY_PASS_LIMITS } from '@pridicta/config/usageLimits';",
+      "const DAY_PASS_LIMITS = { deepCallsPerPass: 1, durationHours: 24, pdfsPerPass: 1, questionsPerPass: 5 };",
+    )
+    .replace(
       /import \{\s*createFreeEntitlement,\s*getQuestionCreditQuantity,\s*getReportCreditQuantity,\s*isQuestionPackProduct,\s*\} from '@pridicta\/types';/,
       [
         "function createFreeEntitlement(source = 'local') {",
@@ -317,7 +321,7 @@ const dayPass = applyServerEntitlementOperation({
   operation: dayPassOperation,
 }).ledger;
 assertEqual(dayPass.dayPassEntitlement.active, true, 'day pass active');
-assertEqual(dayPass.dayPassEntitlement.questionsRemaining, 10, 'day pass questions');
+assertEqual(dayPass.dayPassEntitlement.questionsRemaining, 5, 'day pass questions');
 
 let family = applyServerEntitlementOperation({
   ledger: state,

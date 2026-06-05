@@ -12,9 +12,9 @@ const PASS_USAGE_KEY = 'pridicta.passCostUsage.v2';
 const FREE_USAGE_KEY = 'pridicta.freeCostUsage.v2';
 export const PASS_USAGE_UPDATED_EVENT = 'predicta:pass-usage-updated';
 
-const FREE_DAILY_LIMITS = {
-  deepReadingsTotal: 1,
-  questionsTotal: 4,
+const FREE_LIFETIME_LIMITS = {
+  deepReadingsTotal: 0,
+  questionsTotal: 3,
 };
 
 type CostKind = 'question' | 'deep_reading';
@@ -29,7 +29,6 @@ type StoredPassUsage = {
 };
 
 type StoredFreeUsage = {
-  dateKey: string;
   deepReadingsUsed: number;
   questionsUsed: number;
   updatedAt: string;
@@ -101,22 +100,22 @@ export function getWebPassCostDisplay(
 
   const deepRemaining = Math.max(
     0,
-    FREE_DAILY_LIMITS.deepReadingsTotal - usage.deepReadingsUsed,
+    FREE_LIFETIME_LIMITS.deepReadingsTotal - usage.deepReadingsUsed,
   );
   const questionRemaining = Math.max(
     0,
-    FREE_DAILY_LIMITS.questionsTotal - usage.questionsUsed,
+    FREE_LIFETIME_LIMITS.questionsTotal - usage.questionsUsed,
   );
 
   if (
     deepRemaining > 1 &&
-    questionRemaining > Math.floor(FREE_DAILY_LIMITS.questionsTotal / 2)
+    questionRemaining > Math.floor(FREE_LIFETIME_LIMITS.questionsTotal / 2)
   ) {
     return undefined;
   }
 
   return {
-    body: freeDisplayBody({ deepRemaining, language, questionRemaining }),
+    body: freeDisplayBody({ language, questionRemaining }),
     kind: 'free',
     title: freeDisplayTitle(language),
     tone: deepRemaining <= 0 || questionRemaining <= 1 ? 'careful' : 'steady',
@@ -138,7 +137,7 @@ export function buildPassCostGuardrailReply({
     return [
       decision.display.kind === 'pass'
         ? 'Aapka private pass safe hai. Is pass par deep follow-ups pause ho gaye hain.'
-        : 'Free guidance sabke liye fair rahe, isliye aaj ke extra deep follow-ups pause ho gaye hain.',
+        : 'Free guidance sabke liye fair rahe, isliye free starter balance par extra deep follow-ups pause ho gaye hain.',
       hasKundli
         ? 'Main abhi bhi bina extra deep reading ke charts, Gochar summary, Mahadasha overview, remedies aur free report kholne mein help kar sakti hoon.'
         : 'Aap manual Kundli bana sakte hain. Uske baad main charts, daily guidance aur free report ke saath help karungi.',
@@ -150,7 +149,7 @@ export function buildPassCostGuardrailReply({
     return [
       decision.display.kind === 'pass'
         ? 'Tamaro private pass safe chhe. Aa pass par deep follow-ups pause thai gaya chhe.'
-        : 'Free guidance badha mate fair rahe, etle aaj na extra deep follow-ups pause thai gaya chhe.',
+        : 'Free guidance badha mate fair rahe, etle free starter balance par extra deep follow-ups pause thai gaya chhe.',
       hasKundli
         ? 'Hu haju pan extra deep reading vagar charts, Gochar summary, Mahadasha overview, remedies ane free report ma help kari shaku chhu.'
         : 'Tame manual Kundli banaavi shako. Pachhi hu charts, daily guidance ane free report sathe help karish.',
@@ -161,7 +160,7 @@ export function buildPassCostGuardrailReply({
   return [
     decision.display.kind === 'pass'
       ? 'Your private pass is safe. Deep follow-ups are paused on this pass.'
-      : 'To keep free guidance fair for everyone, extra deep follow-ups are paused for today.',
+      : 'To keep free guidance fair for everyone, extra deep follow-ups are paused on the free starter balance.',
     hasKundli
       ? 'I can still help without another deep reading: open charts, show a Gochar summary, explain Mahadasha basics, suggest remedies, or create a free report.'
       : 'You can still create the Kundli manually. After that I can help with charts, daily guidance, and a free report.',
@@ -289,8 +288,8 @@ function consumeFreeBudget(
   const usage = loadFreeUsage();
   const total =
     kind === 'deep_reading'
-      ? FREE_DAILY_LIMITS.deepReadingsTotal
-      : FREE_DAILY_LIMITS.questionsTotal;
+      ? FREE_LIFETIME_LIMITS.deepReadingsTotal
+      : FREE_LIFETIME_LIMITS.questionsTotal;
   const used =
     kind === 'deep_reading' ? usage.deepReadingsUsed : usage.questionsUsed;
   const remainingBefore = Math.max(0, total - used);
@@ -315,15 +314,11 @@ function consumeFreeBudget(
     allowed,
     display: {
       body: freeDisplayBody({
-        deepRemaining:
-          kind === 'deep_reading'
-            ? remainingAfter
-            : Math.max(0, FREE_DAILY_LIMITS.deepReadingsTotal - usage.deepReadingsUsed),
         language,
         questionRemaining:
           kind === 'question'
             ? remainingAfter
-            : Math.max(0, FREE_DAILY_LIMITS.questionsTotal - usage.questionsUsed),
+            : Math.max(0, FREE_LIFETIME_LIMITS.questionsTotal - usage.questionsUsed),
       }),
       kind: 'free',
       title: freeDisplayTitle(language),
@@ -389,21 +384,22 @@ function savePassUsage(usage: StoredPassUsage): void {
 }
 
 function loadFreeUsage(): StoredFreeUsage {
-  const dateKey = getLocalDateKey();
-
   try {
     const raw = window.localStorage.getItem(getStorageKey(FREE_USAGE_KEY));
     const parsed = raw ? (JSON.parse(raw) as StoredFreeUsage) : undefined;
 
-    if (parsed?.dateKey === dateKey) {
-      return parsed;
+    if (parsed) {
+      return {
+        deepReadingsUsed: Math.max(0, parsed.deepReadingsUsed ?? 0),
+        questionsUsed: Math.max(0, parsed.questionsUsed ?? 0),
+        updatedAt: parsed.updatedAt ?? new Date().toISOString(),
+      };
     }
   } catch {
-    // Fall through to fresh day usage.
+    // Fall through to a fresh lifetime starter balance.
   }
 
   return {
-    dateKey,
     deepReadingsUsed: 0,
     questionsUsed: 0,
     updatedAt: new Date().toISOString(),
@@ -418,10 +414,6 @@ function getStorageKey(baseKey: string): string {
   return window.location.search.includes('cost-guardrail-smoke')
     ? `${baseKey}.smoke`
     : baseKey;
-}
-
-function getLocalDateKey(): string {
-  return new Date().toLocaleDateString('en-CA');
 }
 
 function passDisplayTitle(language: SupportedLanguage): string {
@@ -472,34 +464,32 @@ function passDisplayBody({
 
 function freeDisplayTitle(language: SupportedLanguage): string {
   if (language === 'hi') {
-    return 'Today’s free guidance';
+    return 'मुफ्त शुरुआती AI शेष';
   }
 
   if (language === 'gu') {
-    return 'Today’s free guidance';
+    return 'મફત શરૂઆતનું AI બેલેન્સ';
   }
 
-  return 'Today’s free guidance';
+  return 'Free AI starter balance';
 }
 
 function freeDisplayBody({
-  deepRemaining,
   language,
   questionRemaining,
 }: {
-  deepRemaining: number;
   language: SupportedLanguage;
   questionRemaining: number;
 }): string {
   if (language === 'hi') {
-    return `${questionRemaining} normal questions aur ${deepRemaining} deep follow-ups aaj ke liye baaki hain.`;
+    return `${questionRemaining} शुरुआती AI प्रश्न बचे हैं. गहरी follow-up reading के लिए pass या Premium चाहिए, लेकिन charts, reports और गणनात्मक guidance बिना AI credit के मिलती रहेगी.`;
   }
 
   if (language === 'gu') {
-    return `${questionRemaining} normal questions ane ${deepRemaining} deep follow-ups aaje baaki chhe.`;
+    return `${questionRemaining} શરૂઆતના AI પ્રશ્નો બાકી છે. ઊંડી follow-up reading માટે pass અથવા Premium જોઈએ, પણ charts, reports અને ગણતરી આધારિત guidance AI credit વિના મળતી રહેશે.`;
   }
 
-  return `${questionRemaining} normal questions and ${deepRemaining} deep follow-ups left today.`;
+  return `${questionRemaining} starter AI questions left. Deep follow-ups need a pass or Premium, but charts, reports, and deterministic guidance still work without AI credit.`;
 }
 
 function navCta(

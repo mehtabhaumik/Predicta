@@ -18,8 +18,10 @@ describe('usageDisplayService', () => {
       userPlan: 'FREE',
     });
 
-    expect(display.questionsText).toBe('2 guidance questions left today');
-    expect(display.statusText).toBe('Your free guidance resets tomorrow');
+    expect(display.questionsText).toBe('2 starter AI questions left');
+    expect(display.statusText).toBe(
+      'Free starter AI is lifetime-limited; deterministic guidance stays available',
+    );
   });
 
   it('shows day pass access when active', () => {
@@ -41,7 +43,7 @@ describe('usageDisplayService', () => {
     });
 
     expect(display.statusText).toBe('Day Pass active');
-    expect(display.questionsText).toBe('8 guidance questions left today');
-    expect(display.deepReadingsText).toBe('2 deep readings left');
+    expect(display.questionsText).toBe('3 starter AI questions left');
+    expect(display.deepReadingsText).toBe('0 deep readings left');
   });
 });

@@ -25,9 +25,9 @@ function guestPass(): RedeemedGuestPass {
     redeemedAt: '2026-04-18T00:00:00.000Z',
     type: 'VIP_REVIEW',
     usageLimits: {
-      deepReadingsTotal: 4,
-      premiumPdfsTotal: 2,
-      questionsTotal: 20,
+      deepReadingsTotal: 1,
+      premiumPdfsTotal: 1,
+      questionsTotal: 8,
     },
   };
 }

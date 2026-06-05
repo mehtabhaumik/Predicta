@@ -51,7 +51,7 @@ describe('pass code service', () => {
 
     expect(result.status).toBe('SUCCESS');
     if (result.status === 'SUCCESS') {
-      expect(result.redeemedPass.expiresAt).toBe('2026-05-20T00:00:00.000Z');
+      expect(result.redeemedPass.expiresAt).toBe('2026-05-04T00:00:00.000Z');
       expect(result.updatedPassCode.redeemedByUserIds).toContain('user-1');
     }
   });

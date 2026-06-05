@@ -28,28 +28,28 @@ GENERIC_REDEMPTION_ERROR = (
 GUEST_ACCESS_LIMITS: Dict[PassCodeType, Dict[str, object]] = {
     "VIP_REVIEW": {
         "deviceLimit": 2,
-        "durationDays": 30,
-        "usageLimits": {"questionsTotal": 20, "deepReadingsTotal": 4, "premiumPdfsTotal": 2},
+        "durationDays": 14,
+        "usageLimits": {"questionsTotal": 8, "deepReadingsTotal": 1, "premiumPdfsTotal": 1},
     },
     "GUEST_TRIAL": {
         "deviceLimit": 1,
         "durationDays": 7,
-        "usageLimits": {"questionsTotal": 5, "deepReadingsTotal": 1, "premiumPdfsTotal": 1},
+        "usageLimits": {"questionsTotal": 3, "deepReadingsTotal": 0, "premiumPdfsTotal": 1},
     },
     "INVESTOR_PASS": {
-        "deviceLimit": 3,
-        "durationDays": 60,
-        "usageLimits": {"questionsTotal": 50, "deepReadingsTotal": 8, "premiumPdfsTotal": 3},
+        "deviceLimit": 2,
+        "durationDays": 30,
+        "usageLimits": {"questionsTotal": 12, "deepReadingsTotal": 2, "premiumPdfsTotal": 1},
     },
     "FAMILY_PASS": {
-        "deviceLimit": 4,
-        "durationDays": 180,
-        "usageLimits": {"questionsTotal": 60, "deepReadingsTotal": 10, "premiumPdfsTotal": 4},
-    },
-    "INTERNAL_TEST": {
         "deviceLimit": 3,
         "durationDays": 90,
-        "usageLimits": {"questionsTotal": 120, "deepReadingsTotal": 20, "premiumPdfsTotal": 6},
+        "usageLimits": {"questionsTotal": 15, "deepReadingsTotal": 2, "premiumPdfsTotal": 2},
+    },
+    "INTERNAL_TEST": {
+        "deviceLimit": 2,
+        "durationDays": 30,
+        "usageLimits": {"questionsTotal": 25, "deepReadingsTotal": 5, "premiumPdfsTotal": 3},
     },
 }
 

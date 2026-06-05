@@ -1,0 +1,69 @@
+{
+  "baseUrl": "http://127.0.0.1:3009",
+  "checks": [
+    {
+      "fileName": "desktop-report-cost-control.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report",
+      "route": "/dashboard/report",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "desktop-redeem-pass-cost-control.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/redeem-pass",
+      "route": "/dashboard/redeem-pass",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "desktop-admin-cost-control.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/admin",
+      "route": "/dashboard/admin",
+      "viewport": "desktop",
+      "viewportWidth": 1440,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "mobile-report-cost-control.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report",
+      "route": "/dashboard/report",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "mobile-redeem-pass-cost-control.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/redeem-pass",
+      "route": "/dashboard/redeem-pass",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    },
+    {
+      "fileName": "mobile-admin-cost-control.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/admin",
+      "route": "/dashboard/admin",
+      "viewport": "mobile",
+      "viewportWidth": 390,
+      "clippedText": 0,
+      "hasRequiredText": true,
+      "horizontalOverflow": 0
+    }
+  ],
+  "generatedAt": "2026-06-05T21:04:19.549Z",
+  "phase": "PREDICTA_COMPETITOR_RESPONSE_PHASE_6_FREE_VS_PAID_VALUE_AND_COST_CONTROL_ALIGNMENT",
+  "screenshotRoot": "docs/audits/PREDICTA_COMPETITOR_RESPONSE_PHASE_6_FREE_VS_PAID_VALUE_AND_COST_CONTROL_ALIGNMENT/screenshots",
+  "status": "GREEN"
+}
