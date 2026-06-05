@@ -62,7 +62,7 @@
     {
       "kind": "phase-chain",
       "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/verification.txt",
-      "sha256": "fc4c1c4ea66621b557c9826a1d9f1f0f5f1dcc47b57c7b419ad3b8716316a6cc"
+      "sha256": "8736c7783ba43790e92f4cfb59a0d12d1ba06675019adaa208a2d3ffa9ea7949"
     },
     {
       "kind": "phase-chain",
@@ -114,86 +114,86 @@
       "webViewports": 4
     },
     {
-      "bytes": 283829,
+      "bytes": 281116,
       "kind": "file",
       "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/artifacts/predicta-kundli-karma-vedic-free.pdf",
-      "sha256": "289d4fc9e01743d5b6d890c1efbe035faeede9a6eecaa65899e964325420b669"
+      "sha256": "afbf1ba26037000ae5e8355176a0bb0a00e40e60f20ba7bc74b022e941f2aa15"
     },
     {
-      "bytes": 53943,
+      "bytes": 53248,
       "kind": "file",
       "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/artifacts/predicta-kundli-karma-vedic-free-text.txt",
-      "sha256": "ffa3c32029626a64d7a635936c5397496bf9a9e6159b50268c564f0e69689cd0"
+      "sha256": "6713b779af82f4187e14978905a9be0ae1bc34fb2b77772cff51e3d03ca95972"
     },
     {
-      "bytes": 77255,
+      "bytes": 77238,
       "kind": "file",
       "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/previews/kundli-karma-vedic-free/page-01.png",
-      "sha256": "7f6095144d539a57e864f5091dadfa76fa4e91c51a3b40d04c273b23a798df91"
+      "sha256": "37a550ca96e65dfde24d8165d56a7fb48b2eb636ad4edb06160565bb22fda3da"
     },
     {
-      "bytes": 84695,
+      "bytes": 84694,
       "kind": "file",
       "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/previews/kundli-karma-vedic-free/page-02.png",
-      "sha256": "6f87f0fd6d875dea749c6b2e1c1a972eaaf54b852c15034528a1973daea8fc47"
+      "sha256": "5b278a673b37d3c19939567f946394a07dcce95259b485141aeecb7860cc58a3"
     },
     {
-      "bytes": 79576,
+      "bytes": 99298,
       "kind": "file",
-      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/previews/kundli-karma-vedic-free/page-29.png",
-      "sha256": "9b1a1cfdb3a92799982058272ece911c3964e4920d100f0d3dccdcd865c38ef3"
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/previews/kundli-karma-vedic-free/page-17.png",
+      "sha256": "4e826895803c38e5b5323b53c9c644c55d63f492cbb4d991d94e4aabe1fd8c91"
     },
     {
-      "bytes": 62326,
+      "bytes": 61444,
       "kind": "file",
-      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/previews/kundli-karma-vedic-free/page-46.png",
-      "sha256": "1cf64d7028c61eaf16c2f93bb0a9d67380976933ac2dc246116595b0c54e3447"
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/previews/kundli-karma-vedic-free/page-45.png",
+      "sha256": "1d1fc19615a4f84b1480b9878997511d623ae1994350aa9b547e8b909718d154"
     },
     {
-      "bytes": 424269,
+      "bytes": 422436,
       "kind": "file",
       "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/artifacts/predicta-kundli-karma-vedic-premium.pdf",
-      "sha256": "cde731bf4a02dbab881e4d26c5964175fee9bd723330627a4f7317dee97930a4"
+      "sha256": "6e75dcb2caec7ab1644a6a4798b35a08a97db92243886ab80f630c8b741f7ff7"
     },
     {
-      "bytes": 87513,
+      "bytes": 86718,
       "kind": "file",
       "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/artifacts/predicta-kundli-karma-vedic-premium-text.txt",
-      "sha256": "76c9765e97ac8fd5493dbef668f5e320f9753d1ff86afe890811f1a205897de9"
+      "sha256": "366c0ddf450e48c58e027088cf328efe411741465393cff7554cade51827e79d"
     },
     {
-      "bytes": 78137,
+      "bytes": 78133,
       "kind": "file",
       "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/previews/kundli-karma-vedic-premium/page-01.png",
-      "sha256": "79b9e260f8d3a5b17c0c411b3cba274d69a18f372ea16e9515a9af68bf71ae01"
+      "sha256": "dd0c8cbee5d1eaa3c9f2b57ece40ecaac6a140db7e56f436419f3e97a0c2044a"
     },
     {
-      "bytes": 85725,
+      "bytes": 85752,
       "kind": "file",
       "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/previews/kundli-karma-vedic-premium/page-02.png",
-      "sha256": "f248be2b84461114cf3aa4836b317bf3c16e2d11d365a73982690b82a5674451"
+      "sha256": "5fbc8a3426ba157b3a361a58039a7953e5c55b9676473cf119a7c6865b8424db"
     },
     {
-      "bytes": 107371,
+      "bytes": 124402,
       "kind": "file",
-      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/previews/kundli-karma-vedic-premium/page-41.png",
-      "sha256": "69e70a6b1356dac51bf4c1e22e45466802cfe7c806a023b720b6bd40d1ae460a"
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/previews/kundli-karma-vedic-premium/page-23.png",
+      "sha256": "cf00b4e3ba389e2329d535f6387a65f15f0a1a470dbe92e1c77832ddb50a7fd5"
     },
     {
-      "bytes": 64405,
+      "bytes": 64428,
       "kind": "file",
-      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/previews/kundli-karma-vedic-premium/page-72.png",
-      "sha256": "c750d145fa7145bdb84c5e30934057bfa78993134b9f3bc7b4b956da07da4dd0"
+      "path": "docs/audits/PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM/previews/kundli-karma-vedic-premium/page-71.png",
+      "sha256": "83391d63d339c0f7faa107dbd02f07820ea4a0e43a4baf53025edae8613e195b"
     },
     {
       "artifacts": [
         {
           "id": "kundli-karma-vedic-free",
-          "pageCount": 46
+          "pageCount": 45
         },
         {
           "id": "kundli-karma-vedic-premium",
-          "pageCount": 72
+          "pageCount": 71
         }
       ],
       "kind": "report-artifacts"
@@ -204,7 +204,7 @@
       "translationKeyCount": 100
     }
   ],
-  "generatedAt": "2026-06-04T21:48:00.543Z",
+  "generatedAt": "2026-06-05T18:51:48.074Z",
   "ledger": {
     "Critical": [],
     "Major": [],
