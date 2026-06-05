@@ -129,8 +129,8 @@ assertNotIncludes(signatureSections, 'Numerology or Vedic synthesis', 'Signature
 
 const route = read('apps/web/app/api/report/pdf/route.ts');
 [
-  "payload.reportFocus === 'SIGNATURE'",
-  '!hasReadySignatureAnalysis(payload.signatureAnalysis)',
+  "normalizedPayload.reportFocus === 'SIGNATURE'",
+  '!hasReadySignatureAnalysis(normalizedPayload.signatureAnalysis)',
   'A confirmed signature sample is required before creating a Signature report.',
   'trait.confirmationState ===',
 ].forEach(fragment => assertIncludes(route, fragment, 'web Signature report API readiness gate'));

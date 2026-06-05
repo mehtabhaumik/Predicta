@@ -124,7 +124,7 @@ const web = read('apps/web/components/WebDossierPreview.tsx');
   'selectedReportPreviewAlignment',
   'const previewAlignment = getReportPreviewAlignment(product.id)',
   'className="report-preview-focus-line"',
-  'className="report-app-preview-bridge"',
+  'report-app-preview-bridge report-value-alignment-bridge',
   'data-report-final-phase10-preview="compact"',
   'previewAlignment.compactPromise',
   'previewAlignment.previewBullets.map',
