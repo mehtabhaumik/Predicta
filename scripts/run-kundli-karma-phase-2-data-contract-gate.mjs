@@ -137,7 +137,7 @@ assertIncludes(
 );
 assertIncludes(
   contractSource,
-  'No AI is required when the deterministic Kundli Karma packet is already available.',
+  'No AI is required when the Kundli Karma packet is already available.',
   'no AI local memory fixture',
 );
 assertNotIncludes(contractSource, "generatedBy: 'ai'", 'contract must not be AI-generated');
