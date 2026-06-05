@@ -8515,6 +8515,21 @@
       "en": "Jaimini pattern current lesson next practice",
       "hi": "जैमिनी पैटर्न वर्तमान पाठ अगला अभ्यास",
       "gu": "જૈમિની પેટર્ન વર્તમાન પાઠ આગામી અભ્યાસ"
+    },
+    "ui.global.kundli.karma.7dbd916f": {
+      "en": "kundli-karma",
+      "hi": "कुंडली कर्म",
+      "gu": "કુંડળી કર્મ"
+    },
+    "ui.global.kundli.karma.quick.prompts.9e420622": {
+      "en": "kundli-karma-quick-prompts",
+      "hi": "कुंडली कर्म त्वरित प्रश्न",
+      "gu": "કુંડળી કર્મ ઝડપી પ્રશ્નો"
+    },
+    "ui.global.active.7412278b": {
+      "en": "active",
+      "hi": "सक्रिय",
+      "gu": "સક્રિય"
     }
   }
 }

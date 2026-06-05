@@ -1,6 +1,6 @@
 'use client';
 
-import { getNativeCopy } from '@pridicta/config';
+import { getCompetitorResponseCopy, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -19,7 +19,6 @@ const publicHeaderCopy: Record<
     menu: string;
     supportLinks: Array<{ href: string; label: string }>;
     supportTitle: string;
-    tagline: string;
   }
 > = {
   en: {
@@ -43,7 +42,6 @@ const publicHeaderCopy: Record<
     ],
     supportTitle: 'Support',
     menu: 'Open navigation menu',
-    tagline: 'Holistic astrology',
   },
   hi: {
     brand: getNativeCopy("native.apps.web.components.WebHeader.tsx.0ecc6125f2"),
@@ -66,7 +64,6 @@ const publicHeaderCopy: Record<
     ],
     supportTitle: getNativeCopy("native.apps.web.components.WebHeader.tsx.3e5041d01a"),
     menu: getNativeCopy("native.apps.web.components.WebHeader.tsx.c1356a8fac"),
-    tagline: getNativeCopy("native.apps.web.components.WebHeader.tsx.43feb99488"),
   },
   gu: {
     brand: getNativeCopy("native.apps.web.components.WebHeader.tsx.dbf56cabf7"),
@@ -89,7 +86,6 @@ const publicHeaderCopy: Record<
     ],
     supportTitle: getNativeCopy("native.apps.web.components.WebHeader.tsx.57c3bc288b"),
     menu: getNativeCopy("native.apps.web.components.WebHeader.tsx.7bc11484f8"),
-    tagline: getNativeCopy("native.apps.web.components.WebHeader.tsx.52f80fb3aa"),
   },
 };
 
@@ -99,6 +95,7 @@ export function WebHeader(): React.JSX.Element {
   const [menuOpen, setMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
   const copy = publicHeaderCopy[language] ?? publicHeaderCopy.en;
+  const responseCopy = getCompetitorResponseCopy(language);
 
   useEffect(() => {
     if (!menuOpen) {
@@ -147,7 +144,7 @@ export function WebHeader(): React.JSX.Element {
         />
         <span>
           <strong>{copy.brand}</strong>
-          <small>{copy.tagline}</small>
+          <small>{responseCopy.headerTagline}</small>
         </span>
       </Link>
       <nav aria-label="Primary navigation" className="header-nav">

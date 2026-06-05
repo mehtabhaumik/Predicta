@@ -1,0 +1,51 @@
+{
+  "phase": "PREDICTA_COMPETITOR_RESPONSE_PHASE_1_BRAND_PROMISE_COPY_AND_NAVIGATION_ALIGNMENT",
+  "status": "GREEN",
+  "implementedAt": "2026-06-05T19:25:38Z",
+  "dependsOn": [
+    "PREDICTA_COMPETITOR_RESPONSE_PHASE_0_BENCHMARK_REDLINE_AND_POSITION_LOCK"
+  ],
+  "sourceOfTruthFiles": [
+    "packages/config/src/translations/competitorResponse.json",
+    "packages/config/src/competitorResponse.ts"
+  ],
+  "wiredSurfaces": [
+    "apps/web/components/HeroSection.tsx",
+    "apps/web/components/WebHeader.tsx",
+    "apps/web/app/page.tsx",
+    "apps/web/app/dashboard/page.tsx",
+    "apps/web/app/dashboard/report/page.tsx"
+  ],
+  "lockedBrandPromise": "Predicta is the premium evidence-backed astrology intelligence app for people who want real guidance, not fear, fluff, or per-minute pressure.",
+  "mustIncludeSignals": [
+    "evidence-backed",
+    "real guidance",
+    "not fear or fluff",
+    "without per-minute pressure",
+    "prediction first",
+    "chart math first",
+    "school separation",
+    "Life Atlas is the only synthesis lane"
+  ],
+  "rejectedPatterns": [
+    "active Nadi navigation copy",
+    "psychic marketplace framing",
+    "toolkit or astrology lesson tone",
+    "implementation-contract copy on first-touch surfaces",
+    "fear-selling",
+    "per-minute pressure",
+    "method mixing in brand promise"
+  ],
+  "greenCriteria": {
+    "phase0GreenAndCommitted": true,
+    "dedicatedTranslationSourceExists": true,
+    "heroUsesDedicatedCopy": true,
+    "landingUsesDedicatedCopy": true,
+    "dashboardUsesDedicatedCopy": true,
+    "reportPageUsesDedicatedCopy": true,
+    "headerTaglineUsesDedicatedCopy": true,
+    "activeBrandCopyHasNoNadi": true,
+    "deferredReportLaneScopeDeclared": true,
+    "phaseGatePasses": true
+  }
+}

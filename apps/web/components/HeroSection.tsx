@@ -1,6 +1,6 @@
 'use client';
 
-import { getNativeCopy } from '@pridicta/config';
+import { getCompetitorResponseCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { useEffect, useState, type CSSProperties } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
@@ -10,7 +10,6 @@ import {
   NORTH_INDIAN_HOUSE_POSITIONS,
   type ChartRenderTheme,
 } from '@pridicta/astrology';
-import type { SupportedLanguage } from '@pridicta/types';
 import {
   getKundliAnimationStyle,
   getKundliAnimationSurfaceProps,
@@ -27,7 +26,7 @@ export function HeroSection(): React.JSX.Element {
   );
   const [heroChartReady, setHeroChartReady] = useState(false);
   const { language } = useLanguagePreference();
-  const copy = heroCopy[language] ?? heroCopy.en;
+  const copy = getCompetitorResponseCopy(language).hero;
   const landingPreset = getChartSurfacePreset('landing');
 
   useEffect(() => {
@@ -164,63 +163,6 @@ function getSystemTimeChartTheme(date = new Date()): ChartRenderTheme {
   const minutes = date.getMinutes().toString().padStart(2, '0');
   return getChartRenderTheme(`${hours}:${minutes}`);
 }
-
-const heroCopy: Record<
-  SupportedLanguage,
-  {
-    body: string;
-    cardOneBody: string;
-    cardOneEyebrow: string;
-    cardOneTitle: string;
-    cardTwoBody: string;
-    cardTwoEyebrow: string;
-    cardTwoTitle: string;
-    eyebrow: string;
-    primary: string;
-    secondary: string;
-    title: string;
-  }
-> = {
-  en: {
-    body: 'Generate your kundli, read chart proof, and ask Predicta for calm holistic astrology guidance across timing, karma, remedies, and daily life.',
-    cardOneBody: 'Follow-up questions stay focused on the part of life you are exploring.',
-    cardOneEyebrow: 'D10 Career',
-    cardOneTitle: 'Career timing is active',
-    cardTwoBody: 'Predicta joins timing, chart proof, and practical remedies without fear.',
-    cardTwoEyebrow: 'Holistic timing',
-    cardTwoTitle: 'Dasha + Gochar + Karma',
-    eyebrow: 'Holistic Vedic astrology + AI',
-    primary: 'Enter Predicta',
-    secondary: 'Explore Intelligence',
-    title: 'Your personal holistic astrology companion',
-  },
-  hi: {
-    body: getNativeCopy("native.apps.web.components.HeroSection.tsx.684af6c175"),
-    cardOneBody: getNativeCopy("native.apps.web.components.HeroSection.tsx.6e19291dba"),
-    cardOneEyebrow: getNativeCopy("native.apps.web.components.HeroSection.tsx.6e9568694f"),
-    cardOneTitle: getNativeCopy("native.apps.web.components.HeroSection.tsx.d76db00ccf"),
-    cardTwoBody: getNativeCopy("native.apps.web.components.HeroSection.tsx.53d1c7574a"),
-    cardTwoEyebrow: getNativeCopy("native.apps.web.components.HeroSection.tsx.f07eb187ad"),
-    cardTwoTitle: getNativeCopy("native.apps.web.components.HeroSection.tsx.1936f96aa0"),
-    eyebrow: getNativeCopy("native.apps.web.components.HeroSection.tsx.d82843d577"),
-    primary: getNativeCopy("native.apps.web.components.HeroSection.tsx.0ebae40818"),
-    secondary: getNativeCopy("native.apps.web.components.HeroSection.tsx.4ba099bfd8"),
-    title: getNativeCopy("native.apps.web.components.HeroSection.tsx.0308e9287f"),
-  },
-  gu: {
-    body: getNativeCopy("native.apps.web.components.HeroSection.tsx.5bd3e36092"),
-    cardOneBody: getNativeCopy("native.apps.web.components.HeroSection.tsx.10e8e47d6d"),
-    cardOneEyebrow: getNativeCopy("native.apps.web.components.HeroSection.tsx.8c76810d2f"),
-    cardOneTitle: getNativeCopy("native.apps.web.components.HeroSection.tsx.e9226c777d"),
-    cardTwoBody: getNativeCopy("native.apps.web.components.HeroSection.tsx.235982ebff"),
-    cardTwoEyebrow: getNativeCopy("native.apps.web.components.HeroSection.tsx.c5e06910c2"),
-    cardTwoTitle: getNativeCopy("native.apps.web.components.HeroSection.tsx.8d114f0a80"),
-    eyebrow: getNativeCopy("native.apps.web.components.HeroSection.tsx.fe61b52345"),
-    primary: getNativeCopy("native.apps.web.components.HeroSection.tsx.c3f0d6a611"),
-    secondary: getNativeCopy("native.apps.web.components.HeroSection.tsx.29fbbda133"),
-    title: getNativeCopy("native.apps.web.components.HeroSection.tsx.5ea804eebb"),
-  },
-};
 
 const heroHouses = [
   heroHouse(1, 'Leo', '♌', 5, [heroPlanet('Sun', 5.5), heroPlanet('Mercury', 0.9)]),

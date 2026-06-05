@@ -1,0 +1,13 @@
+Phase 1 verification checklist:
+
+- Phase 0 commit exists before Phase 1 work starts.
+- Dedicated competitor-response translation source exists.
+- Public hero consumes competitor-response copy.
+- Landing page consumes competitor-response copy.
+- Dashboard welcome/depth panels consume competitor-response copy.
+- Report page intro consumes competitor-response copy.
+- Header tagline consumes competitor-response copy.
+- Active first-touch copy includes evidence-backed guidance, real guidance, no fear/fluff, and no per-minute pressure.
+- Active first-touch copy does not resurrect Nadi.
+- Report lane rewrite is explicitly deferred to later report marketplace phases.
+- Required command gates pass before final GREEN.

@@ -31,6 +31,7 @@ const allowedNativeCopyLatinTerms = new Set([
 
 const allowedTranslationAdapters = new Set([
   'packages/config/src/accuracyMethod.ts',
+  'packages/config/src/competitorResponse.ts',
   'packages/config/src/jaiminiLocalization.ts',
   'packages/config/src/kundliKarmaLocalization.ts',
   'packages/config/src/language.ts',

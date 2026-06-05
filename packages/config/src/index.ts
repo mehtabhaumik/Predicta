@@ -4,6 +4,7 @@ export * from './aiModels';
 export * from './aiCostGovernance';
 export * from './astrologyConfig';
 export * from './cacheConfig';
+export * from './competitorResponse';
 export * from './guestAccessLimits';
 export * from './jaiminiLocalization';
 export * from './kundliKarmaLocalization';

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { getCompetitorResponseCopy } from '@pridicta/config';
 import { PREDICTA_OUTCOME_ENTRIES } from '@pridicta/config/predictaUx';
 import { translateUiText } from '@pridicta/config/uiTranslations';
 import {
@@ -26,35 +27,9 @@ import { useLanguagePreference } from '../../lib/language-preference';
 import { buildPredictaChatHref } from '../../lib/predicta-chat-cta';
 import { useWebKundliLibrary } from '../../lib/use-web-kundli-library';
 
-const kundliUnlocks = [
-  {
-    body: 'Personal Gochar, Panchang, best action, caution, and emotional weather.',
-    title: 'Today for you',
-  },
-  {
-    body: 'Dasha, Sade Sati, yearly timing, and the next important window.',
-    title: 'Timing map',
-  },
-  {
-    body: 'D1, D9, D10, Chalit, KP, and chart proof explained simply.',
-    title: 'Charts',
-  },
-  {
-    body: 'Career, marriage, wealth, remedies, and full Kundli PDF previews.',
-    title: 'Reports',
-  },
-  {
-    body: 'Karma-based practices tied to active planets and daily discipline.',
-    title: 'Remedies',
-  },
-  {
-    body: 'Saved family profiles, comparison, and shared pattern guidance.',
-    title: 'Family Vault',
-  },
-] as const;
-
 export default function DashboardPage(): React.JSX.Element {
   const { language } = useLanguagePreference();
+  const competitorCopy = getCompetitorResponseCopy(language).dashboard;
   const t = (value: string) => translateUiText(value, language);
   const { activeKundli } = useWebKundliLibrary();
   const [isFamilyFriendsVisit, setIsFamilyFriendsVisit] = useState(false);
@@ -73,23 +48,15 @@ export default function DashboardPage(): React.JSX.Element {
           <FriendsFamilyWelcome hasKundli={false} />
         ) : null}
         <div className="page-heading">
-          <h1 className="gradient-text">{t('Start with your Kundli.')}</h1>
-          <p>
-            {t(
-              'Create the chart once. Then Predicta opens personal Gochar, timing, charts, remedies, reports, and chat guidance without making you hunt for features.',
-            )}
-          </p>
+          <h1 className="gradient-text">{competitorCopy.emptyTitle}</h1>
+          <p>{competitorCopy.emptyBody}</p>
         </div>
 
         <section className="kundli-empty-state glass-panel">
           <div>
-            <div className="section-title">{t('FIRST STEP')}</div>
-            <h2>{t('Create your Kundli first.')}</h2>
-            <p>
-              {t(
-                'Use the form if you know the details. Use Predicta chat if you want her to ask for birth details one by one.',
-              )}
-            </p>
+            <div className="section-title">{competitorCopy.firstStepEyebrow}</div>
+            <h2>{competitorCopy.firstStepTitle}</h2>
+            <p>{competitorCopy.firstStepBody}</p>
             <div className="kundli-empty-actions">
               <Link className="button" href="/dashboard/kundli">
                 {t('Create Kundli')}
@@ -121,25 +88,23 @@ export default function DashboardPage(): React.JSX.Element {
 
         <section className="kundli-unlock-preview">
           <div className="section-heading compact-left">
-            <div className="section-title">{t('AFTER KUNDLI IS READY')}</div>
-            <h2>{t('These sections will open with real chart data.')}</h2>
+            <div className="section-title">
+              {competitorCopy.kundliUnlocksEyebrow}
+            </div>
+            <h2>{competitorCopy.kundliUnlocksTitle}</h2>
             <details className="info-drawer">
               <summary>
-                <span>{t('Why compact?')}</span>
-                <strong>{t('Read')}</strong>
+                <span>{competitorCopy.kundliUnlocksCompactTitle}</span>
+                <strong>{competitorCopy.kundliUnlocksCompactCta}</strong>
               </summary>
-              <p>
-                {t(
-                  'They stay compact for now so the dashboard does not look broken or noisy before birth details are available.',
-                )}
-              </p>
+              <p>{competitorCopy.kundliUnlocksCompactBody}</p>
             </details>
           </div>
           <div className="kundli-unlock-grid">
-            {kundliUnlocks.map(item => (
+            {competitorCopy.kundliUnlocks.map(item => (
               <article className="kundli-unlock-card" key={item.title}>
-                <h3>{t(item.title)}</h3>
-                <p>{t(item.body)}</p>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
               </article>
             ))}
           </div>
@@ -193,16 +158,8 @@ export default function DashboardPage(): React.JSX.Element {
         <FriendsFamilyWelcome hasKundli />
       ) : null}
       <div className="page-heading">
-        <h1 className="gradient-text">
-          {activeKundli
-            ? 'Your holistic astrology cockpit.'
-            : 'Start with your Kundli.'}
-        </h1>
-        <p>
-          {activeKundli
-            ? 'See today, timing, Gochar, remedies, and the best next chart focus.'
-            : 'Create the chart, read the summary, then ask one clear question.'}
-        </p>
+        <h1 className="gradient-text">{competitorCopy.readyTitle}</h1>
+        <p>{competitorCopy.readyBody}</p>
       </div>
 
       <WebActiveKundliActions
@@ -231,17 +188,14 @@ export default function DashboardPage(): React.JSX.Element {
       <section className="outcome-entry-panel glass-panel">
         <div className="outcome-entry-head">
           <div>
-            <div className="section-title">START WITH LIFE NEED</div>
-            <h2>What do you need help with?</h2>
+            <div className="section-title">{competitorCopy.outcomeEyebrow}</div>
+            <h2>{competitorCopy.outcomeTitle}</h2>
             <details className="info-drawer">
               <summary>
-                <span>How this works</span>
-                <strong>Open</strong>
+                <span>{competitorCopy.outcomeDrawerTitle}</span>
+                <strong>{competitorCopy.outcomeDrawerCta}</strong>
               </summary>
-              <p>
-                Pick a life area. Predicta will use your Kundli when available
-                and keep the reading proof-based.
-              </p>
+              <p>{competitorCopy.outcomeDrawerBody}</p>
             </details>
           </div>
         </div>
@@ -282,17 +236,14 @@ export default function DashboardPage(): React.JSX.Element {
       <Card className="save-restore-card dashboard-saved-work-card">
         <div className="card-content spacious">
           <div>
-            <div className="section-title">SAVED WORK</div>
-            <h2>Your Kundlis stay under your control.</h2>
+            <div className="section-title">{competitorCopy.savedEyebrow}</div>
+            <h2>{competitorCopy.savedTitle}</h2>
             <details className="info-drawer">
               <summary>
-                <span>What is saved?</span>
-                <strong>Open</strong>
+                <span>{competitorCopy.savedDrawerTitle}</span>
+                <strong>{competitorCopy.savedDrawerCta}</strong>
               </summary>
-              <p>
-                Keep profiles, reports, and family charts organized without
-                crowding today’s guidance.
-              </p>
+              <p>{competitorCopy.savedDrawerBody}</p>
             </details>
           </div>
           <div className="action-row compact">
@@ -311,35 +262,31 @@ export default function DashboardPage(): React.JSX.Element {
 
       <section className="smart-monetization-panel glass-panel">
         <div>
-          <div className="section-title">WHEN YOU WANT MORE DEPTH</div>
-          <h2>Upgrade only after the free reading helps.</h2>
+          <div className="section-title">{competitorCopy.depthEyebrow}</div>
+          <h2>{competitorCopy.depthTitle}</h2>
           <details className="info-drawer">
             <summary>
-              <span>Why upgrade?</span>
-              <strong>Open</strong>
+              <span>{competitorCopy.depthDrawerTitle}</span>
+              <strong>{competitorCopy.depthDrawerCta}</strong>
             </summary>
-            <p>
-              Free stays useful. Paid options are for deeper timing, polished
-              PDFs, monthly planning, and longer guidance when you actually need
-              them.
-            </p>
+            <p>{competitorCopy.depthDrawerBody}</p>
           </details>
         </div>
         <div className="smart-monetization-grid">
           <Link href="/dashboard/premium">
-            <span>Ongoing guidance</span>
-            <strong>Premium</strong>
-            <small>Deeper chat, Life Calendar, remedies, and reports.</small>
+            <span>{competitorCopy.depthCards[0]?.eyebrow}</span>
+            <strong>{competitorCopy.depthCards[0]?.title}</strong>
+            <small>{competitorCopy.depthCards[0]?.body}</small>
           </Link>
           <Link href="/dashboard/report">
-            <span>One polished file</span>
-            <strong>PDF report</strong>
-            <small>Best for Kundli, career, marriage, wealth, or Sade Sati.</small>
+            <span>{competitorCopy.depthCards[1]?.eyebrow}</span>
+            <strong>{competitorCopy.depthCards[1]?.title}</strong>
+            <small>{competitorCopy.depthCards[1]?.body}</small>
           </Link>
           <Link href="/checkout?productId=pridicta_day_pass_24h">
-            <span>Try first</span>
-            <strong>Day Pass</strong>
-            <small>Use premium depth for 24 hours before subscribing.</small>
+            <span>{competitorCopy.depthCards[2]?.eyebrow}</span>
+            <strong>{competitorCopy.depthCards[2]?.title}</strong>
+            <small>{competitorCopy.depthCards[2]?.body}</small>
           </Link>
         </div>
       </section>

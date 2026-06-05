@@ -69,6 +69,7 @@
     "test:report-final-phase-11": "node scripts/run-report-final-phase-11-predicta-memory-chat-report-mastery-gate.mjs",
     "test:report-final-phase-12": "node scripts/run-report-final-phase-12-golden-artifact-no-go-reaudit.mjs",
     "test:competitor-response-phase-0": "node scripts/run-competitor-response-phase-0-gate.mjs",
+    "test:competitor-response-phase-1": "node scripts/run-competitor-response-phase-1-gate.mjs",
     "test:ai-model-phase-5": "python3 scripts/run-ai-model-phase-5-batch-qa.py",
     "test:ai-model-phase-6": "python3 scripts/run-ai-model-phase-6-prompt-efficiency.py",
     "test:ai-model-phase-7": "python3 scripts/run-ai-model-phase-7-release-governance.py",
