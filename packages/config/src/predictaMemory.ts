@@ -3,6 +3,7 @@ import type {
   BirthDetailsExtractionResult,
   GeneratedReportContext,
   PredictaAppMemoryDigest,
+  PredictaContextSupremacyMemory,
   PredictaReportSectionMemory,
   ReportMemoryDepth,
   ReportSchoolLaneId,
@@ -89,6 +90,66 @@ export const PREDICTA_FINAL_REPORT_LANE_MASTERY = {
     'Vedic report mastery: explain D1, Moon, D9, D10, Chalit, full varga library, Swamsa, Karakamsha, Mahadasha Phala, Panchang, Avakhada, Ghatak/favorable factors, Ashtakavarga, house evidence, friendship, benefic/malefic logic, and consolidated remedies from Parashari/Vedic evidence.',
 } as const satisfies Record<FinalReportLaneMemoryKey, string>;
 
+export const PREDICTA_COMPETITOR_RESPONSE_CONTEXT_SUPREMACY_MEMORY: PredictaContextSupremacyMemory = {
+  localMemoryFirstRule:
+    'Predicta must try deterministic app actions, saved context, generatedReportContext, reportSectionMemory, and local memory before spending AI. If a local answer is enough, do not consume an AI credit.',
+  providerDecisionLabels: {
+    ai_required:
+      'Use only for open-ended personalized synthesis, long-form paid report writing, vague question refinement that cannot be resolved deterministically, or a response requiring model reasoning.',
+    blocked_needs_credit:
+      'Use when the user asks for AI-only synthesis after their free or purchased AI allowance is exhausted. Preserve the unfinished question and offer deterministic actions.',
+    deterministic_action:
+      'Use for app navigation, saved Kundli actions, report handoffs, chart snapshots, KP/Jaimini/Numerology/Signature room routing, Family Vault eligibility, and calculated module summaries.',
+    local_memory_answer:
+      'Use when Predicta can answer from memory, a generated report section, or deterministic Kundli Karma knowledge without an AI model.',
+    missing_data_question:
+      'Use when Predicta must ask for a Kundli, report context, signature sample, KP question, name/date, Family Vault members, entitlement, or another required input before answering.',
+  },
+  deterministicLocalModules: [
+    'Kundli creation from rule-based birth detail collection',
+    'Saved Kundli/profile switching and Kundli library status',
+    'Family Vault assignment and 2-to-4 member comparison eligibility',
+    'Chart snapshot, D1, Moon/Chandra Lagna, D9, D10, Chalit, Swamsa, Karakamsha, and supported Varga summaries',
+    'Mahadasha, Antardasha, Pratyantardasha, Gochar, Sade Sati, Panchang, Avakhada, and daily deterministic briefings',
+    'Kundli Karma: Dosh, Shrap, Yog, Lal Kitab, snapshot ranking, and consolidated remedy plan',
+    'KP room event-question guidance, cusp/Bhav Chalit availability, selected event state, and missing-question explanation',
+    'Jaimini room: Atmakaraka, Amatyakaraka, Darakaraka, Swamsa, Karakamsha, Arudha, Upapada, and Chara Dasha when calculated',
+    'Numerology core profile, name rhythm, current cycle, missing/repeated number grid, and deterministic calculation appendix',
+    'Signature confirmed visible traits only; missing or unconfirmed signature means no trait invention',
+    'Generated report context, report section memory, report lane boundaries, and free-versus-paid depth explanation',
+  ],
+  aiRequiredWhen: [
+    'The user asks for open-ended personalized synthesis that is not already covered by deterministic modules.',
+    'The user asks for premium report writing, Life Atlas long-form narrative, final editorial polish, or multi-model QA.',
+    'The user asks a vague custom KP/life question that needs language-model refinement after deterministic clarification is insufficient.',
+    'The user asks for comparison, contradiction resolution, or nuanced prioritization beyond available local evidence.',
+    'The user asks for conversational follow-up that cannot be answered from generatedReportContext, reportSectionMemory, or deterministic calculations.',
+  ],
+  missingDataExplanations: [
+    'No Kundli: ask for name, date, time or unknown time, and birth place before claiming chart-specific results.',
+    'No generated report context: explain the report first only from available lane memory and say a generated report is needed for section-specific details.',
+    'No confirmed signature traits: say Signature Predicta needs an uploaded/drawn and confirmed signature; never infer slant, pressure, baseline, spacing, or legibility.',
+    'No KP question or event: ask the user to choose or write an event question, or offer "I have no question and want to know" as a general event-readiness path.',
+    'No Jaimini evidence: explain Jaimini needs calculated karakas, Swamsa/Karakamsha/Arudha/Upapada, and Chara Dasha before deeper Jaimini prediction.',
+    'No Numerology name/date: ask for full name and date of birth before claiming name number, birth number, destiny number, or current cycle.',
+    'No Family Vault members: explain that comparison needs minimum 2 and maximum 4 saved Kundlis.',
+    'No entitlement: explain free value first, then paid depth calmly without pressure-selling.',
+  ],
+  sectionAwareHandoffRules: [
+    'Vedic report/chat handoff: answer the life prediction first, then show chart/dasha/Kundli Karma evidence, then one practical step.',
+    'KP report/chat handoff: answer the event verdict first, then promise/block/timing readiness, then cusp/sub-lord/significator proof if available.',
+    'Jaimini report/chat handoff: answer soul role and destiny direction first, then karaka/Swamsa/Karakamsha/Arudha/Chara Dasha evidence.',
+    'Numerology report/chat handoff: answer the number-cycle meaning first, then name/birth/destiny/current-cycle evidence.',
+    'Signature report/chat handoff: answer only from confirmed visible traits, show confidence, and state missing traits as not assessed.',
+    'Life Atlas report/chat handoff: answer the human life chapter first, then quietly name the Vedic/KP/Jaimini/Numerology/optional Signature evidence layers.',
+    'Kundli Karma handoff: answer Dosh, Shrap, Yog, and Lal Kitab as karmic pressure/support indicators with non-fearful remedies and exact evidence.',
+  ],
+  freePaidTrustRule:
+    'Free users receive useful deterministic prediction and key evidence. Paid users receive deeper timing, contradictions, section-by-section proof, premium remedies, and polished synthesis; premium adds depth, not respectability.',
+  noPressureSellingRule:
+    'Never scare, shame, or corner the user into payment. Give the best unlocked answer first, then explain what paid depth adds in one calm line.',
+};
+
 export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
   productStructure: [
     'Predicta is one product with five specialist rooms/worlds: Vedic Predicta, KP Predicta, Jaimini Predicta, Numerology Predicta, and Signature Predicta.',
@@ -154,7 +215,17 @@ export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
     'Predicta can explain deeper available data such as Mahadasha, KP event carriers, Jaimini soul-role indicators, Numerology cycle, confirmed Signature traits, Life Atlas synthesis, and downloaded report sections even when the screen only shows a compact preview.',
     'Generated report context carries architecture stages, depth contract, compact-preview rule, school-boundary rule, and chat-mastery rule. Use those fields before giving a generic report explanation.',
     'Life Atlas can use Jaimini only as a labeled synthesis evidence layer; it must not smuggle Jaimini into Vedic, KP, Numerology, or Signature reports.',
+    'Predicta should consult PREDICTA_COMPETITOR_RESPONSE_CONTEXT_SUPREMACY_MEMORY before spending AI so local-memory-first and deterministic answers stay free of AI cost.',
   ],
+  localMemoryFirstRules: [
+    PREDICTA_COMPETITOR_RESPONSE_CONTEXT_SUPREMACY_MEMORY.localMemoryFirstRule,
+    'Use generatedReportContext and reportSectionMemory to answer report questions before falling back to a generic model answer.',
+    'Use deterministic Kundli Karma, Jaimini, Numerology, Signature confirmed-trait, KP question-state, and Family Vault eligibility modules before AI.',
+    'After AI credits are exhausted, Predicta can still create Kundli, explain deterministic charts/modules, route to app surfaces, and explain available report sections.',
+  ],
+  providerDecisionRules: Object.entries(
+    PREDICTA_COMPETITOR_RESPONSE_CONTEXT_SUPREMACY_MEMORY.providerDecisionLabels,
+  ).map(([label, meaning]) => `${label}: ${meaning}`),
   missingDataHonestyRules: [
     'Never pretend a pending calculation is complete.',
     'Never pretend a report has been generated or downloaded unless generatedReportContext says it exists.',
@@ -162,6 +233,9 @@ export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
     'Never infer signature traits unless confirmed visible traits are supplied from the current session.',
     'Never claim unsupported manuscript authority or hidden lineage access. Jaimini must stay grounded in calculated Jaimini indicators.',
     'Never expose premium-only detail to free users as if it is already unlocked; explain what premium adds after giving useful free guidance.',
+  ],
+  sectionAwareHandoffRules: [
+    ...PREDICTA_COMPETITOR_RESPONSE_CONTEXT_SUPREMACY_MEMORY.sectionAwareHandoffRules,
   ],
   userGuidanceRules: [
     'Explain where to find an app feature and what it does without sounding generic.',
@@ -410,6 +484,36 @@ export const PREDICTA_REPORT_SECTION_MEMORY_CATALOG: PredictaReportSectionMemory
     title: 'Avakhada chakra',
     whatItMeans:
       'Summarizes traditional birth-star identity fields so the user understands their Nakshatra profile.',
+  },
+  {
+    boundary:
+      'Vedic core chart context. Answer with the direct life prediction first; keep D1, Moon, D9, D10, Chalit, Swamsa, and Karakamsha evidence underneath.',
+    calculationState: 'available',
+    freeDepth:
+      'Give one clear prediction from the core chart stack, the strongest support/block, and one practical step.',
+    handoffPrompt: 'Explain my Vedic core chart prediction',
+    id: 'vedic-core-chart-prediction',
+    premiumDepth:
+      'Add chart-by-chart evidence, timing, contradictions, varga support, dignity, house movement, and practical guidance.',
+    schoolLane: 'VEDIC',
+    title: 'Vedic core chart prediction',
+    whatItMeans:
+      'Shows what the main Vedic chart stack is actually saying about life direction, pressure, support, and near-term action.',
+  },
+  {
+    boundary:
+      'Vedic Kundli Karma context. Treat Dosh, Shrap, Yog, and Lal Kitab as evidence-backed pressure/support indicators, never fear-selling.',
+    calculationState: 'available',
+    freeDepth:
+      'Explain the top Dosh/Shrap/Yog/Lal Kitab signal, why it appears, what it means, and one safe remedy.',
+    handoffPrompt: 'Explain my Kundli Karma snapshot',
+    id: 'kundli-karma-snapshot',
+    premiumDepth:
+      'Add ranked item-by-item evidence, activation timing, cancellation/reduction factors, Lal Kitab do/do-not guidance, and consolidated remedy plan.',
+    schoolLane: 'VEDIC',
+    title: 'Kundli Karma snapshot',
+    whatItMeans:
+      'Ranks the strongest karmic pressure and support indicators so the user understands what to mature, what to use, and what remedy path is safest.',
   },
   {
     boundary:

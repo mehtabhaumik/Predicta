@@ -2857,9 +2857,23 @@ export type PredictaAppMemoryDigest = {
   reportLanes: string[];
   roomBoundaries: string[];
   deeperContextAwareness: string[];
+  localMemoryFirstRules: string[];
+  providerDecisionRules: string[];
   missingDataHonestyRules: string[];
+  sectionAwareHandoffRules: string[];
   userGuidanceRules: string[];
   refreshRule: string;
+};
+
+export type PredictaContextSupremacyMemory = {
+  localMemoryFirstRule: string;
+  providerDecisionLabels: Record<string, string>;
+  deterministicLocalModules: string[];
+  aiRequiredWhen: string[];
+  missingDataExplanations: string[];
+  sectionAwareHandoffRules: string[];
+  freePaidTrustRule: string;
+  noPressureSellingRule: string;
 };
 
 export type ChatChartInsight = ChartInsight;
@@ -3132,6 +3146,7 @@ export type AIContextPayload = {
   };
   activeContext?: ChartContext;
   appMemoryDigest?: PredictaAppMemoryDigest;
+  contextSupremacyMemory?: PredictaContextSupremacyMemory;
   generatedReportContext?: GeneratedReportContext;
   reportSectionMemory?: PredictaReportSectionMemory;
   selectedChart?: {

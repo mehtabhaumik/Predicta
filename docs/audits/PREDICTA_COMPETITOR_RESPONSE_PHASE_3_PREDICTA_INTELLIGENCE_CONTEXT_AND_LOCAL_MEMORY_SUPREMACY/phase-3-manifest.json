@@ -1,0 +1,21 @@
+{
+  "phase": "PREDICTA_COMPETITOR_RESPONSE_PHASE_3_PREDICTA_INTELLIGENCE_CONTEXT_AND_LOCAL_MEMORY_SUPREMACY",
+  "status": "GREEN",
+  "dependsOn": "PREDICTA_COMPETITOR_RESPONSE_PHASE_2_SPECIALIST_WORLD_CLARITY_AND_NO_MIXING_GATE",
+  "greenCriteria": {
+    "predictaAnswersAppAndReportQuestionsWithoutGenericFallback": true,
+    "localMemoryAnswersDoNotConsumeAiCredit": true,
+    "predictaRefusesUnavailableCalculations": true,
+    "freeVsPaidValueExplainedWithoutPressureSelling": true,
+    "sixReportLanesPlusKundliKarmaHaveSectionAwareHandoffs": true,
+    "sharedAndMobileAiContextsCarryContextSupremacyMemory": true
+  },
+  "verification": [
+    "corepack pnpm test:competitor-response-phase-3",
+    "corepack pnpm --filter @pridicta/config typecheck",
+    "corepack pnpm --filter @pridicta/ai typecheck",
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "corepack pnpm --filter @pridicta/pdf typecheck",
+    "git diff --check"
+  ]
+}

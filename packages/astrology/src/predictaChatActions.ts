@@ -2780,7 +2780,7 @@ function buildSignaturePredictaReply(
     'Signature Predicta mode: I will read the signature as a self-expression and personal rhythm layer.',
     promptHasConfirmedTraits
       ? 'I have the confirmed signature traits. I will read only from those traits, not guess from hidden identity or document authenticity.'
-      : 'First upload/draw a signature or confirm visible traits: size, slant, pressure, spacing, baseline, legibility, flourish, and underline.',
+      : 'First upload/draw a signature or confirm the visible traits. Predicta will only analyze confirmed visible traits: size, slant, pressure, spacing, baseline, legibility, flourish, and underline.',
     'I can suggest improvements for clearer readability, steadier baseline, balanced size, calmer spacing, and more confident visual rhythm.',
     analysis.safetyBoundaries.join(' '),
     premiumLine,

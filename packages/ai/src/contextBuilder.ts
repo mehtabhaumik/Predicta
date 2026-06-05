@@ -1,5 +1,6 @@
 import {
   PREDICTA_APP_MEMORY_DIGEST,
+  PREDICTA_COMPETITOR_RESPONSE_CONTEXT_SUPREMACY_MEMORY,
   buildGeneratedReportMemoryContext,
   findPredictaReportSectionMemory,
 } from '@pridicta/config';
@@ -231,6 +232,7 @@ export function buildAIContext(
       nakshatra: kundliData.nakshatra,
     },
     coreCharts: Object.fromEntries(coreChartEntries),
+    contextSupremacyMemory: PREDICTA_COMPETITOR_RESPONSE_CONTEXT_SUPREMACY_MEMORY,
     currentDasha: kundliData.dasha.current,
     dailyBriefing: composeDailyBriefing(kundliData, { language }),
     personalPanchang: compactPersonalPanchang(
