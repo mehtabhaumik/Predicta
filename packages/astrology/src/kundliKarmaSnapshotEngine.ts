@@ -81,7 +81,7 @@ export function composeKundliKarmaSnapshot(
     subjectName,
     summary: topThree.length
       ? `Predicta ranked ${topThree.map(condition => condition.item.displayName).join(', ')} as the top Kundli Karma conditions to review first.`
-      : 'Predicta did not find major active Kundli Karma conditions in the implemented deterministic checks.',
+      : 'Predicta did not find major active Kundli Karma conditions in the current chart evidence.',
     topRemedy: remedyPlan.find(item => item.category === 'free_karma_dharma_action') ?? remedyPlan[0],
     topThreeActiveConditions: topThree,
     version: KUNDLI_KARMA_CONTRACT_VERSION,

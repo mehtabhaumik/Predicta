@@ -108,7 +108,7 @@ const pdfIndex = read('packages/pdf/src/index.ts');
   'buildRemedySection',
   'Consolidated remedy/action plan',
   'This section is the dedicated Mahadasha Phala reading',
-  'The technical note is kept in proof',
+  'Supporting note:',
   'The practical guidance is simple',
 ].forEach(fragment => assertIncludes(pdfIndex, fragment, 'PDF Vedic report composition'));
 

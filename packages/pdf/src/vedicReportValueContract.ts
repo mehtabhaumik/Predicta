@@ -76,7 +76,7 @@ export function buildVedicReportValueContract(
     openingPrediction:
       mode === 'PREMIUM'
         ? `${kundli.birthDetails.name}'s Kundli is read as a full life dossier: ${kundli.lagna} Lagna sets the life vehicle, ${kundli.moonSign} Moon shows the lived emotional lens, and ${currentDasha.mahadasha}/${currentDasha.antardasha} explains what is being delivered now. The strongest houses (${strongest}) show where effort receives support; the correction houses (${weakest}) show where discipline, timing, and remedy must be applied carefully.`
-        : `${kundli.birthDetails.name}'s Kundli points first to ${kundli.lagna} Lagna, ${kundli.moonSign} Moon, and the active ${currentDasha.mahadasha}/${currentDasha.antardasha} period. The report should tell what is supported now, what needs patience, and what practical step helps, before it asks the user to study tables.`,
+        : `${kundli.birthDetails.name}'s Kundli points first to ${kundli.lagna} Lagna, ${kundli.moonSign} Moon, and the active ${currentDasha.mahadasha}/${currentDasha.antardasha} period. The useful reading is simple: see what is supported now, where patience is needed, and which practical step protects progress before studying the tables.`,
     paidDepthPromise:
       'Premium Vedic adds full diagnosis, contradiction handling, varga depth, Mahadasha windows, classical-table proof, timing relevance, and practical guidance.',
     requiredModules: VEDIC_FINAL_REPORT_REQUIRED_MODULES,

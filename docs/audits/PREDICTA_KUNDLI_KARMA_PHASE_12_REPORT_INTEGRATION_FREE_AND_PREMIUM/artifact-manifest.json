@@ -1,34 +1,34 @@
 {
   "artifacts": [
     {
-      "bytes": 283829,
+      "bytes": 281116,
       "id": "kundli-karma-vedic-free",
       "mode": "FREE",
-      "pageCount": 46,
+      "pageCount": 45,
       "pdf": "artifacts/predicta-kundli-karma-vedic-free.pdf",
       "previews": [
         "previews/kundli-karma-vedic-free/page-01.png",
         "previews/kundli-karma-vedic-free/page-02.png",
-        "previews/kundli-karma-vedic-free/page-29.png",
-        "previews/kundli-karma-vedic-free/page-46.png"
+        "previews/kundli-karma-vedic-free/page-17.png",
+        "previews/kundli-karma-vedic-free/page-45.png"
       ],
       "text": "artifacts/predicta-kundli-karma-vedic-free-text.txt"
     },
     {
-      "bytes": 424269,
+      "bytes": 422436,
       "id": "kundli-karma-vedic-premium",
       "mode": "PREMIUM",
-      "pageCount": 72,
+      "pageCount": 71,
       "pdf": "artifacts/predicta-kundli-karma-vedic-premium.pdf",
       "previews": [
         "previews/kundli-karma-vedic-premium/page-01.png",
         "previews/kundli-karma-vedic-premium/page-02.png",
-        "previews/kundli-karma-vedic-premium/page-41.png",
-        "previews/kundli-karma-vedic-premium/page-72.png"
+        "previews/kundli-karma-vedic-premium/page-23.png",
+        "previews/kundli-karma-vedic-premium/page-71.png"
       ],
       "text": "artifacts/predicta-kundli-karma-vedic-premium-text.txt"
     }
   ],
-  "generatedAt": "2026-06-04T20:14:09.859Z",
+  "generatedAt": "2026-06-05T09:17:20.099Z",
   "phaseName": "PREDICTA_KUNDLI_KARMA_PHASE_12_REPORT_INTEGRATION_FREE_AND_PREMIUM"
 }

@@ -126,7 +126,7 @@ export function composeKundliKarmaDoshIntelligence(
     subjectName: kundli.birthDetails.name,
     summary: visibleSignals.length
       ? `Predicta found ${visibleSignals.join(', ')} as the main Dosh signals to review calmly.`
-      : 'Predicta did not find a major active Dosh signal in the implemented deterministic checks.',
+      : 'Predicta did not find a major active Dosh signal in the current chart evidence.',
     topSignals: visibleSignals,
     version: KUNDLI_KARMA_CONTRACT_VERSION,
   };
@@ -283,7 +283,7 @@ function buildPitraDosh(kundli: KundliData): KundliKarmaItem {
     return notPresentItem(
       'rule-dosh-pitra',
       'Pitra Dosh',
-      'Sun and ninth-house evidence do not show the implemented Pitra Dosh pattern.',
+      'Sun and ninth-house evidence do not show the approved chart pattern.',
     );
   }
   return createDoshItem({
@@ -313,7 +313,7 @@ function buildShrapitDosh(kundli: KundliData): KundliKarmaItem {
     return notPresentItem(
       'rule-dosh-shrapit',
       'Shrapit Dosh',
-      'Saturn and Rahu do not share a sign or house in the implemented Shrapit Dosh rule.',
+      'Saturn and Rahu do not share a sign or house in the visible chart pattern.',
     );
   }
   return createDoshItem({
@@ -334,7 +334,7 @@ function buildShrapitDosh(kundli: KundliData): KundliKarmaItem {
     ruleId: 'rule-dosh-shrapit',
     status: 'present',
     strength: closeByDegree(saturn, rahu, 8) ? 'high' : 'medium',
-    summary: 'Saturn and Rahu share the implemented Shrapit Dosh evidence path.',
+    summary: 'Saturn and Rahu share the visible chart evidence.',
     whyPresent: `Saturn and Rahu share ${saturn.sign}/house ${saturn.house}.`,
   });
 }
@@ -346,7 +346,7 @@ function buildGuruChandalDosh(kundli: KundliData): KundliKarmaItem {
     return notPresentItem(
       'rule-dosh-guru-chandal',
       'Guru Chandal Dosh',
-      'Jupiter does not share a house/sign with Rahu or Ketu in the implemented rule.',
+      'Jupiter does not share a house/sign with Rahu or Ketu in the visible chart pattern.',
     );
   }
   return createDoshItem({
@@ -359,7 +359,7 @@ function buildGuruChandalDosh(kundli: KundliData): KundliKarmaItem {
     ruleId: 'rule-dosh-guru-chandal',
     status: dignityReductions(jupiter, 'guru-chandal-jupiter').length ? 'cancelled' : 'present',
     strength: closeByDegree(jupiter, node, 8) ? 'high' : 'medium',
-    summary: 'Jupiter shares implemented node evidence, so Guru Chandal pressure is visible.',
+    summary: 'Jupiter shares visible chart evidence, so Guru Chandal pressure is visible.',
     whyPresent: `Jupiter and ${node.name} share ${jupiter.sign}/house ${jupiter.house}.`,
   });
 }
@@ -373,7 +373,7 @@ function buildGrahanDosh(kundli: KundliData): KundliKarmaItem {
     return notPresentItem(
       'rule-dosh-grahan',
       'Grahan Dosh',
-      'Sun/Moon do not share a house/sign with Rahu or Ketu in the implemented rule.',
+      'Sun/Moon do not share a house/sign with Rahu or Ketu in the visible chart pattern.',
     );
   }
   return createDoshItem({
@@ -434,7 +434,7 @@ function buildKemadrumaDosh(kundli: KundliData): KundliKarmaItem {
     strength: kendraSupport.length ? 'low' : 'medium',
     summary: kendraSupport.length
       ? 'Moon isolation is detected but softened by benefic kendra support.'
-      : 'Moon has no adjacent classical graha support in the implemented rule.',
+      : 'Moon has no adjacent classical graha support in the visible chart pattern.',
     whyPresent: `Moon is in house ${moon.house}; houses ${before} and ${after} do not contain supporting classical grahas.`,
   });
 }
@@ -455,7 +455,7 @@ function buildVishDosh(kundli: KundliData): KundliKarmaItem {
       ruleId: 'rule-dosh-vish',
       status: 'present',
       strength: closeByDegree(moon, saturn, 8) ? 'high' : 'medium',
-      summary: 'Moon and Saturn share the implemented Vish Dosh evidence path.',
+      summary: 'Moon and Saturn share the visible chart evidence.',
       whyPresent: `Moon and Saturn share ${moon.sign}/house ${moon.house}.`,
     });
   }
@@ -475,7 +475,7 @@ function buildVishDosh(kundli: KundliData): KundliKarmaItem {
   return notPresentItem(
     'rule-dosh-vish',
     'Vish Dosh',
-    'Moon and Saturn do not share the implemented conjunction evidence.',
+    'Moon and Saturn do not share the visible chart evidence.',
   );
 }
 
@@ -489,7 +489,7 @@ function buildAngarakDosh(kundli: KundliData): KundliKarmaItem {
     return notPresentItem(
       'rule-dosh-angarak',
       'Angarak Dosh',
-      'Mars and Rahu do not share a sign or house in the implemented Angarak Dosh rule.',
+      'Mars and Rahu do not share a sign or house in the visible chart pattern.',
     );
   }
   return createDoshItem({
@@ -501,7 +501,7 @@ function buildAngarakDosh(kundli: KundliData): KundliKarmaItem {
     ruleId: 'rule-dosh-angarak',
     status: 'present',
     strength: closeByDegree(mars, rahu, 8) ? 'high' : 'medium',
-    summary: 'Mars and Rahu share the implemented Angarak evidence path.',
+    summary: 'Mars and Rahu share the visible chart evidence.',
     whyPresent: `Mars and Rahu share ${mars.sign}/house ${mars.house}.`,
   });
 }
@@ -516,7 +516,7 @@ function buildDaridraDosh(kundli: KundliData): KundliKarmaItem {
     return notPresentItem(
       'rule-dosh-daridra',
       'Daridra Dosh',
-      'Second and eleventh house lords are not both pressured by the implemented dusthana rule.',
+      'Second and eleventh house lords are not both pressured by the visible chart pattern.',
     );
   }
   const support = kundli.planets.filter(planet => BENEFICS.has(planet.name) && [2, 11].includes(planet.house));
@@ -539,7 +539,7 @@ function buildDaridraDosh(kundli: KundliData): KundliKarmaItem {
     strength: support.length ? 'low' : pressured.length >= 2 ? 'high' : 'medium',
     summary:
       pressured.length >= 2
-        ? 'Both wealth-growth lords show dusthana pressure in the implemented rule.'
+        ? 'Both wealth-growth lords show dusthana pressure in the visible chart pattern.'
         : 'One wealth-growth lord shows dusthana pressure, so Predicta keeps this moderate.',
     whyPresent: pressured
       .map(planet => `${planet.name} is in house ${planet.house}, ${planet.sign}.`)
@@ -557,7 +557,7 @@ function buildPaapKartariDosh(kundli: KundliData): KundliKarmaItem {
     return notPresentItem(
       'rule-dosh-paap-kartari',
       'Paap Kartari Dosh',
-      'Lagna is not hemmed by malefics on both sides in the implemented Paap Kartari rule.',
+      'Lagna is not hemmed by malefics on both sides in the visible chart pattern.',
     );
   }
   return createDoshItem({
@@ -572,7 +572,7 @@ function buildPaapKartariDosh(kundli: KundliData): KundliKarmaItem {
     ruleId: 'rule-dosh-paap-kartari',
     status: 'present',
     strength: 'high',
-    summary: 'Lagna is hemmed by malefic planets on both sides in the implemented rule.',
+    summary: 'Lagna is hemmed by malefic planets on both sides in the visible chart pattern.',
     whyPresent: `${beforeMalefic.name} is in house ${before}; ${afterMalefic.name} is in house ${after}.`,
   });
 }
@@ -691,11 +691,11 @@ function notPresentItem(ruleId: string, displayName: string, reason: string): Ku
         weight: 'none',
       },
     ],
-    meaningForUser: 'Predicta does not raise this Dosh from the implemented evidence.',
+    meaningForUser: 'Predicta does not raise this Dosh from the visible chart evidence.',
     ruleId,
     status: 'not_present',
     strength: 'none',
-    summary: 'Not present in the implemented deterministic check.',
+    summary: 'Not present in the current chart check.',
     whyPresent: reason,
   });
 }

@@ -128,7 +128,7 @@ export function composeKundliKarmaLalKitabIntelligence(kundli?: KundliData): Kun
     subjectName: kundli.birthDetails.name,
     summary: visibleSignals.length
       ? `Predicta found ${visibleSignals.join(', ')} as the top Lal Kitab observations with safe, one-at-a-time upay guidance.`
-      : 'Predicta did not find a major Lal Kitab observation in the implemented deterministic checks.',
+      : 'Predicta did not find a major Lal Kitab observation in the current chart evidence.',
     topSignals: visibleSignals,
     version: KUNDLI_KARMA_CONTRACT_VERSION,
   };
@@ -246,18 +246,18 @@ function buildRinIndicators(kundli: KundliData): KundliKarmaItem[] {
           displayName: 'Lal Kitab Rin / debt indicators',
           evidence: [
             {
-              description: 'The implemented Rin rules do not raise Pitru, Matru, or Guru Rin from this fixture.',
+              description: 'The Lal Kitab Rin checks do not raise Pitru, Matru, or Guru Rin from this fixture.',
               id: 'lal-kitab-rin-not-present',
               kind: 'context_boundary',
               weight: 'none',
             },
           ],
-          meaningForUser: 'Predicta does not raise a Lal Kitab Rin indicator from the implemented evidence.',
+          meaningForUser: 'Predicta does not raise a Lal Kitab Rin indicator from the visible chart evidence.',
           ruleId: 'rule-lal-kitab-rin',
           status: 'not_present',
           strength: 'none',
-          summary: 'Not present in the implemented deterministic check.',
-          whyPresent: 'No implemented Rin indicator was found.',
+          summary: 'Not present in the current chart check.',
+          whyPresent: 'No active Rin indicator was found.',
         }),
       ];
 }

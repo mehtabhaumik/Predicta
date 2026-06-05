@@ -4,13 +4,13 @@ Status: GREEN after generated free and premium PDF artifacts, extracted-text aud
 
 Verified:
 - Vedic report integrates Kundli Karma after Mahadasha Phala and before later classical tables.
-- Report uses composeKundliKarmaSnapshot from the shared deterministic contract.
+- Report uses composeKundliKarmaSnapshot from the Kundli Karma intelligence packet.
 - Report source does not re-detect Dosh, Shrap, Yog, or Lal Kitab independently.
 - Free artifact includes summaries, key evidence, safe basic remedies, and consolidated remedy plan.
-- Premium artifact includes deeper item detail, activation, reductions, remedy path, source rules, and consolidated remedy plan.
+- Premium artifact includes deeper item detail, activation, reductions, remedy path, chart-evidence linkage, and consolidated remedy plan.
 - Extracted text avoids user-facing Dosha/Shrapa terminology, fear-selling, and system/internal language.
 - Rendered preview PNGs exist for cover, early report, Kundli Karma area, and final page.
 
 Artifacts:
-- kundli-karma-vedic-free: 46 pages, 283829 bytes, FREE.
-- kundli-karma-vedic-premium: 72 pages, 424269 bytes, PREMIUM.
+- kundli-karma-vedic-free: 45 pages, 281116 bytes, FREE.
+- kundli-karma-vedic-premium: 71 pages, 422436 bytes, PREMIUM.

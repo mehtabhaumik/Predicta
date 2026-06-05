@@ -963,13 +963,13 @@ function buildPendingClassicalSection(
       },
     ],
     explanation:
-      `${title} is part of the shared Vedic intelligence contract, but this exact calculation is not yet safe to claim.`,
+      `${title} is part of the approved Vedic coverage, but this exact calculation is not yet safe to claim.`,
     freeInsight:
       `${title} is included as a pending Vedic module so the app and report never silently omit it.`,
     id,
     limitations: [limitation],
     premiumAnalysis:
-      `Premium will add detailed ${title} analysis after the deterministic Phase 3 module is implemented and audited.`,
+      `Premium will add detailed ${title} analysis once the calculation is fully available and release-audited.`,
     status: 'pending',
     title,
   };

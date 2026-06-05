@@ -155,7 +155,7 @@ export function composeKundliKarmaYogIntelligence(kundli?: KundliData): KundliKa
     subjectName: kundli.birthDetails.name,
     summary: visibleSignals.length
       ? `Predicta found ${visibleSignals.join(', ')} as the main Yog signals: support first, friction second, with exact evidence.`
-      : 'Predicta did not find a major active Yog signal in the implemented deterministic checks.',
+      : 'Predicta did not find a major active Yog signal in the current chart evidence.',
     topSignals: visibleSignals,
     version: KUNDLI_KARMA_CONTRACT_VERSION,
   };
@@ -192,7 +192,7 @@ function buildRajaYog(kundli: KundliData): KundliKarmaItem {
   const trikonaLords = [1, 5, 9].map(house => lordPlanet(kundli, house));
   const pair = connectedPair(kendraLords, trikonaLords);
   if (!pair) {
-    return notPresentItem('rule-yog-raja', 'Raja Yog', 'SUPPORTIVE_YOG', 'Kendra and trikona lord evidence is not connected in the implemented Raja Yog rule.');
+    return notPresentItem('rule-yog-raja', 'Raja Yog', 'SUPPORTIVE_YOG', 'Kendra and trikona lord evidence is not connected in the visible chart pattern.');
   }
   return createYogItem({
     activation: activationFor(kundli, pair[0].name),
@@ -212,7 +212,7 @@ function buildRajaYog(kundli: KundliData): KundliKarmaItem {
 function buildDhanaYog(kundli: KundliData): KundliKarmaItem {
   const pair = connectedPair([lordPlanet(kundli, 2), lordPlanet(kundli, 11)], [lordPlanet(kundli, 5), lordPlanet(kundli, 9)]);
   if (!pair) {
-    return notPresentItem('rule-yog-dhana', 'Dhana Yog', 'SUPPORTIVE_YOG', 'Wealth and fortune lord evidence is not connected in the implemented Dhana Yog rule.');
+    return notPresentItem('rule-yog-dhana', 'Dhana Yog', 'SUPPORTIVE_YOG', 'Wealth and fortune lord evidence is not connected in the visible chart pattern.');
   }
   return createYogItem({
     activation: activationFor(kundli, pair[0].name),
@@ -233,7 +233,7 @@ function buildGajakesariYog(kundli: KundliData): KundliKarmaItem {
   const moon = findPlanet(kundli, 'Moon');
   const jupiter = findPlanet(kundli, 'Jupiter');
   if (!moon || !jupiter || ![1, 4, 7, 10].includes(houseDistance(moon.house, jupiter.house))) {
-    return notPresentItem('rule-yog-gajakesari', 'Gajakesari Yog', 'SUPPORTIVE_YOG', 'Jupiter is not in kendra from Moon in the implemented Gajakesari rule.');
+    return notPresentItem('rule-yog-gajakesari', 'Gajakesari Yog', 'SUPPORTIVE_YOG', 'Jupiter is not in kendra from Moon in the visible chart pattern.');
   }
   return createYogItem({
     activation: activationFor(kundli, 'Jupiter'),
@@ -253,7 +253,7 @@ function buildGajakesariYog(kundli: KundliData): KundliKarmaItem {
 function buildPanchMahapurushYog(kundli: KundliData): KundliKarmaItem {
   const planet = kundli.planets.find(item => ['Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'].includes(item.name) && KENDRA_HOUSES.has(item.house) && strongPlanet(item));
   if (!planet) {
-    return notPresentItem('rule-yog-panch-mahapurush', 'Panch Mahapurush Yog', 'SUPPORTIVE_YOG', 'No eligible strong classical planet is in a kendra in the implemented rule.');
+    return notPresentItem('rule-yog-panch-mahapurush', 'Panch Mahapurush Yog', 'SUPPORTIVE_YOG', 'No eligible strong classical planet is in a kendra in the visible chart pattern.');
   }
   return createYogItem({
     activation: activationFor(kundli, planet.name),
@@ -265,7 +265,7 @@ function buildPanchMahapurushYog(kundli: KundliData): KundliKarmaItem {
     ruleId: 'rule-yog-panch-mahapurush',
     status: 'present',
     strength: 'high',
-    summary: `${planet.name} forms the implemented Panch Mahapurush evidence path.`,
+    summary: `${planet.name} forms the visible chart evidence.`,
     whyPresent: `${planet.name} is strong in ${planet.sign} and placed in kendra house ${planet.house}.`,
   });
 }
@@ -273,7 +273,7 @@ function buildPanchMahapurushYog(kundli: KundliData): KundliKarmaItem {
 function buildNeechaBhangaRajaYog(kundli: KundliData): KundliKarmaItem {
   const debilitated = kundli.planets.find(planet => DEBILITATION_SIGNS[planet.name] === planet.sign);
   if (!debilitated) {
-    return notPresentItem('rule-yog-neecha-bhanga-raja', 'Neecha Bhanga Raja Yog', 'SUPPORTIVE_YOG', 'No debilitation-correction evidence is visible in the implemented rule.');
+    return notPresentItem('rule-yog-neecha-bhanga-raja', 'Neecha Bhanga Raja Yog', 'SUPPORTIVE_YOG', 'No debilitation-correction evidence is visible in the visible chart pattern.');
   }
   const debilityLord = findPlanet(kundli, SIGN_LORDS[debilitated.sign]);
   if (!debilityLord || !KENDRA_HOUSES.has(debilityLord.house)) {
@@ -320,7 +320,7 @@ function buildVipareetaRajaYog(kundli: KundliData): KundliKarmaItem {
   const dusthanaLords = [6, 8, 12].map(house => lordPlanet(kundli, house)).filter((planet): planet is PlanetPosition => Boolean(planet));
   const planet = dusthanaLords.find(item => DUSTHANA_HOUSES.has(item.house));
   if (!planet) {
-    return notPresentItem('rule-yog-vipareeta-raja', 'Vipareeta Raja Yog', 'SUPPORTIVE_YOG', 'Dusthana lords do not occupy dusthana houses in the implemented Vipareeta rule.');
+    return notPresentItem('rule-yog-vipareeta-raja', 'Vipareeta Raja Yog', 'SUPPORTIVE_YOG', 'Dusthana lords do not occupy dusthana houses in the visible chart pattern.');
   }
   return createYogItem({
     activation: activationFor(kundli, planet.name),
@@ -349,7 +349,7 @@ function buildLakshmiYog(kundli: KundliData): KundliKarmaItem {
   const ninthLord = lordPlanet(kundli, 9);
   const venus = findPlanet(kundli, 'Venus');
   if (!ninthLord || !venus || !(strongPlanet(ninthLord) && [...KENDRA_HOUSES, ...TRIKONA_HOUSES].includes(ninthLord.house))) {
-    return notPresentItem('rule-yog-lakshmi', 'Lakshmi Yog', 'SUPPORTIVE_YOG', 'Ninth-lord strength and Venus support are not both visible in the implemented Lakshmi rule.');
+    return notPresentItem('rule-yog-lakshmi', 'Lakshmi Yog', 'SUPPORTIVE_YOG', 'Ninth-lord strength and Venus support are not both visible in the visible chart pattern.');
   }
   return createYogItem({
     activation: activationFor(kundli, ninthLord.name),
@@ -370,7 +370,7 @@ function buildSaraswatiYog(kundli: KundliData): KundliKarmaItem {
   const planets = ['Jupiter', 'Venus', 'Mercury'].map(name => findPlanet(kundli, name));
   const supported = planets.filter((planet): planet is PlanetPosition => Boolean(planet && [1, 2, 4, 5, 7, 9, 10].includes(planet.house)));
   if (supported.length < 3) {
-    return notPresentItem('rule-yog-saraswati', 'Saraswati Yog', 'SUPPORTIVE_YOG', 'Jupiter, Venus, and Mercury do not all occupy supported houses in the implemented Saraswati rule.');
+    return notPresentItem('rule-yog-saraswati', 'Saraswati Yog', 'SUPPORTIVE_YOG', 'Jupiter, Venus, and Mercury do not all occupy supported houses in the visible chart pattern.');
   }
   return createYogItem({
     activation: activationFor(kundli, 'Mercury'),
@@ -383,7 +383,7 @@ function buildSaraswatiYog(kundli: KundliData): KundliKarmaItem {
     status: 'present',
     strength: 'high',
     summary: 'Saraswati Yog is active through Jupiter, Venus, and Mercury support.',
-    whyPresent: 'Jupiter, Venus, and Mercury occupy supported houses in the implemented rule.',
+    whyPresent: 'Jupiter, Venus, and Mercury occupy supported houses in the visible chart pattern.',
   });
 }
 
@@ -391,7 +391,7 @@ function buildAdhiYog(kundli: KundliData): KundliKarmaItem {
   const moon = findPlanet(kundli, 'Moon');
   const benefics = moon ? kundli.planets.filter(planet => BENEFICS.has(planet.name) && [6, 7, 8].includes(houseDistance(moon.house, planet.house))) : [];
   if (!moon || benefics.length < 2) {
-    return notPresentItem('rule-yog-adhi', 'Adhi Yog', 'SUPPORTIVE_YOG', 'Benefic support in sixth/seventh/eighth from Moon is not strong enough in the implemented Adhi rule.');
+    return notPresentItem('rule-yog-adhi', 'Adhi Yog', 'SUPPORTIVE_YOG', 'Benefic support in sixth/seventh/eighth from Moon is not strong enough in the visible chart pattern.');
   }
   return createYogItem({
     activation: activationFor(kundli, benefics[0].name),
@@ -412,7 +412,7 @@ function buildDharmaKarmadhipatiYog(kundli: KundliData): KundliKarmaItem {
   const ninthLord = lordPlanet(kundli, 9);
   const tenthLord = lordPlanet(kundli, 10);
   if (!ninthLord || !tenthLord || !sameHouseOrSign(ninthLord, tenthLord)) {
-    return notPresentItem('rule-yog-dharma-karmadhipati', 'Dharma-Karmadhipati Yog', 'SUPPORTIVE_YOG', 'Ninth and tenth lords are not connected in the implemented rule.');
+    return notPresentItem('rule-yog-dharma-karmadhipati', 'Dharma-Karmadhipati Yog', 'SUPPORTIVE_YOG', 'Ninth and tenth lords are not connected in the visible chart pattern.');
   }
   return createYogItem({
     activation: activationFor(kundli, tenthLord.name),
@@ -449,7 +449,7 @@ function buildParivartanaYog(kundli: KundliData): KundliKarmaItem {
       });
     }
   }
-  return notPresentItem('rule-yog-parivartana', 'Parivartana Yog', 'SUPPORTIVE_YOG', 'No sign-lord exchange is visible in the implemented Parivartana rule.');
+  return notPresentItem('rule-yog-parivartana', 'Parivartana Yog', 'SUPPORTIVE_YOG', 'No sign-lord exchange is visible in the visible chart pattern.');
 }
 
 function buildChallengingDaridraYog(kundli: KundliData): KundliKarmaItem {
@@ -457,7 +457,7 @@ function buildChallengingDaridraYog(kundli: KundliData): KundliKarmaItem {
   const eleventhLord = lordPlanet(kundli, 11);
   const pressured = uniquePlanets([secondLord, eleventhLord]).filter((planet): planet is PlanetPosition => Boolean(planet && DUSTHANA_HOUSES.has(planet.house)));
   if (!pressured.length) {
-    return notPresentItem('rule-yog-challenging-daridra', 'Daridra Yog', 'CHALLENGING_YOG', 'Wealth-growth lords do not show dusthana pressure in the implemented challenging Yog rule.');
+    return notPresentItem('rule-yog-challenging-daridra', 'Daridra Yog', 'CHALLENGING_YOG', 'Wealth-growth lords do not show dusthana pressure in the visible chart pattern.');
   }
   return challengingCrossRefItem(kundli, 'rule-yog-challenging-daridra', 'Daridra Yog', 'rule-dosh-daridra', 'daridra-dosh', pressured, 'Money needs cleaner structure. This is guidance for disciplined earning, saving, and responsibility, not denial of prosperity.');
 }
@@ -471,7 +471,7 @@ function buildChallengingKemadrumaYog(kundli: KundliData): KundliKarmaItem {
   const after = normalizeHouse(moon.house + 1);
   const support = kundli.planets.filter(planet => CLASSICAL_GRAHAS.has(planet.name) && planet.name !== 'Moon' && (planet.house === before || planet.house === after));
   if (support.length) {
-    return notPresentItem('rule-yog-challenging-kemadruma', 'Kemadruma Yog', 'CHALLENGING_YOG', 'Moon has adjacent classical support in the implemented rule.');
+    return notPresentItem('rule-yog-challenging-kemadruma', 'Kemadruma Yog', 'CHALLENGING_YOG', 'Moon has adjacent classical support in the visible chart pattern.');
   }
   return challengingCrossRefItem(kundli, 'rule-yog-challenging-kemadruma', 'Kemadruma Yog', 'rule-dosh-kemadruma', 'kemadruma-dosh', [moon], 'Emotional steadiness must be built deliberately through routine, support, and grounded companionship.');
 }
@@ -480,7 +480,7 @@ function buildShakataYog(kundli: KundliData): KundliKarmaItem {
   const moon = findPlanet(kundli, 'Moon');
   const jupiter = findPlanet(kundli, 'Jupiter');
   if (!moon || !jupiter || ![6, 8, 12].includes(houseDistance(jupiter.house, moon.house))) {
-    return notPresentItem('rule-yog-challenging-shakata', 'Shakata Yog', 'CHALLENGING_YOG', 'Moon is not in sixth/eighth/twelfth from Jupiter in the implemented Shakata rule.');
+    return notPresentItem('rule-yog-challenging-shakata', 'Shakata Yog', 'CHALLENGING_YOG', 'Moon is not in sixth/eighth/twelfth from Jupiter in the visible chart pattern.');
   }
   return createYogItem({
     activation: activationFor(kundli, 'Moon'),
@@ -501,7 +501,7 @@ function buildChallengingPaapKartariYog(kundli: KundliData): KundliKarmaItem {
   const beforeMalefic = kundli.planets.find(planet => planet.house === 12 && MALEFICS.has(planet.name));
   const afterMalefic = kundli.planets.find(planet => planet.house === 2 && MALEFICS.has(planet.name));
   if (!beforeMalefic || !afterMalefic) {
-    return notPresentItem('rule-yog-challenging-paap-kartari', 'Paap Kartari Yog', 'CHALLENGING_YOG', 'Lagna is not hemmed by malefics on both sides in the implemented rule.');
+    return notPresentItem('rule-yog-challenging-paap-kartari', 'Paap Kartari Yog', 'CHALLENGING_YOG', 'Lagna is not hemmed by malefics on both sides in the visible chart pattern.');
   }
   return challengingCrossRefItem(kundli, 'rule-yog-challenging-paap-kartari', 'Paap Kartari Yog', 'rule-dosh-paap-kartari', 'paap-kartari-dosh', [beforeMalefic, afterMalefic], 'Initiative needs containment. Start slowly, protect attention, and avoid reactive decisions.');
 }
@@ -509,7 +509,7 @@ function buildChallengingPaapKartariYog(kundli: KundliData): KundliKarmaItem {
 function buildChallengingGrahanYog(kundli: KundliData): KundliKarmaItem {
   const pair = luminaryNodePair(kundli);
   if (!pair) {
-    return notPresentItem('rule-yog-challenging-grahan', 'Grahan Yog', 'CHALLENGING_YOG', 'Sun/Moon do not share node evidence in the implemented rule.');
+    return notPresentItem('rule-yog-challenging-grahan', 'Grahan Yog', 'CHALLENGING_YOG', 'Sun/Moon do not share node evidence in the visible chart pattern.');
   }
   return challengingCrossRefItem(kundli, 'rule-yog-challenging-grahan', 'Grahan Yog', 'rule-dosh-grahan', 'grahan-dosh', pair, 'Clarity can fluctuate under pressure. Pause, verify, and do not make identity or emotional decisions from shadowed moments.');
 }
@@ -518,7 +518,7 @@ function buildChallengingVishYog(kundli: KundliData): KundliKarmaItem {
   const moon = findPlanet(kundli, 'Moon');
   const saturn = findPlanet(kundli, 'Saturn');
   if (!moon || !saturn || !sameHouseOrSign(moon, saturn)) {
-    return notPresentItem('rule-yog-challenging-vish', 'Vish Yog', 'CHALLENGING_YOG', 'Moon and Saturn do not share the implemented Vish evidence.');
+    return notPresentItem('rule-yog-challenging-vish', 'Vish Yog', 'CHALLENGING_YOG', 'Moon and Saturn do not share the visible chart evidence.');
   }
   return challengingCrossRefItem(kundli, 'rule-yog-challenging-vish', 'Vish Yog', 'rule-dosh-vish', 'vish-dosh', [moon, saturn], 'Emotional weight needs routine, rest, and realistic support. Do not turn temporary heaviness into permanent conclusions.');
 }
@@ -527,7 +527,7 @@ function buildChallengingAngarakYog(kundli: KundliData): KundliKarmaItem {
   const mars = findPlanet(kundli, 'Mars');
   const rahu = findPlanet(kundli, 'Rahu');
   if (!mars || !rahu || !sameHouseOrSign(mars, rahu)) {
-    return notPresentItem('rule-yog-challenging-angarak', 'Angarak Yog', 'CHALLENGING_YOG', 'Mars and Rahu do not share the implemented Angarak evidence.');
+    return notPresentItem('rule-yog-challenging-angarak', 'Angarak Yog', 'CHALLENGING_YOG', 'Mars and Rahu do not share the visible chart evidence.');
   }
   return challengingCrossRefItem(kundli, 'rule-yog-challenging-angarak', 'Angarak Yog', 'rule-dosh-angarak', 'angarak-dosh', [mars, rahu], 'Impulse and ambition can overheat. Use physical energy constructively and pause before conflict.');
 }
@@ -536,7 +536,7 @@ function buildChallengingShrapitYog(kundli: KundliData): KundliKarmaItem {
   const saturn = findPlanet(kundli, 'Saturn');
   const rahu = findPlanet(kundli, 'Rahu');
   if (!saturn || !rahu || !sameHouseOrSign(saturn, rahu)) {
-    return notPresentItem('rule-yog-challenging-shrapit', 'Shrapit Yog', 'CHALLENGING_YOG', 'Saturn and Rahu do not share the implemented Shrapit evidence.');
+    return notPresentItem('rule-yog-challenging-shrapit', 'Shrapit Yog', 'CHALLENGING_YOG', 'Saturn and Rahu do not share the visible chart evidence.');
   }
   return challengingCrossRefItem(kundli, 'rule-yog-challenging-shrapit', 'Shrapit Yog', 'rule-dosh-shrapit', 'shrapit-dosh', [saturn, rahu], 'Duty and pressure can feel heavy. The answer is disciplined routine and clean boundaries, not fear.');
 }
@@ -553,7 +553,7 @@ function buildChallengingArishtaYog(kundli: KundliData): KundliKarmaItem {
 function buildChallengingKujaManglikYog(kundli: KundliData): KundliKarmaItem {
   const mars = findPlanet(kundli, 'Mars');
   if (!mars || !MANGLIK_HOUSES.has(mars.house)) {
-    return notPresentItem('rule-yog-challenging-kuja-manglik', 'Kuja / Manglik Yog', 'CHALLENGING_YOG', 'Mars is not in the tested Kuja/Manglik houses in the implemented rule.');
+    return notPresentItem('rule-yog-challenging-kuja-manglik', 'Kuja / Manglik Yog', 'CHALLENGING_YOG', 'Mars is not in the tested Kuja/Manglik houses in the visible chart pattern.');
   }
   return challengingCrossRefItem(kundli, 'rule-yog-challenging-kuja-manglik', 'Kuja / Manglik Yog', 'rule-dosh-manglik-kuja', 'manglik-kuja-dosh', [mars], 'Relationship pressure needs maturity, patience, and clean communication rather than fast reactive choices.');
 }
@@ -570,7 +570,7 @@ function buildChallengingKaalSarpYog(kundli: KundliData): KundliKarmaItem {
     classical.filter(planet => isLongitudeBetween(planet.absoluteLongitude, ketu.absoluteLongitude, rahu.absoluteLongitude)).length,
   );
   if (concentration < 5) {
-    return notPresentItem('rule-yog-challenging-kaal-sarp', 'Kaal Sarp Yog', 'CHALLENGING_YOG', 'The Rahu-Ketu arc concentration is not strong enough in the implemented rule.');
+    return notPresentItem('rule-yog-challenging-kaal-sarp', 'Kaal Sarp Yog', 'CHALLENGING_YOG', 'The Rahu-Ketu arc concentration is not strong enough in the visible chart pattern.');
   }
   return challengingCrossRefItem(kundli, 'rule-yog-challenging-kaal-sarp', 'Kaal Sarp Yog', 'rule-dosh-kaal-sarp', 'kaal-sarp-dosh', [rahu, ketu], 'Life direction can feel tightly pulled. Build patience and avoid obsessive shortcuts.');
 }
@@ -587,7 +587,7 @@ function conjunctionYog(
   const first = findPlanet(kundli, firstName);
   const second = findPlanet(kundli, secondName);
   if (!first || !second || !sameHouseOrSign(first, second)) {
-    return notPresentItem(ruleId, displayName, module, `${firstName} and ${secondName} do not share house/sign evidence in the implemented rule.`);
+    return notPresentItem(ruleId, displayName, module, `${firstName} and ${secondName} do not share house/sign evidence in the visible chart pattern.`);
   }
   return createYogItem({
     activation: activationFor(kundli, first.name),
@@ -692,12 +692,12 @@ function notPresentItem(ruleId: string, displayName: string, module: KundliKarma
   return createYogItem({
     displayName,
     evidence: [{ description: reason, id: `${ruleId}-not-present-evidence`, kind: 'context_boundary', weight: 'none' }],
-    meaningForUser: 'Predicta does not raise this Yog from the implemented deterministic evidence.',
+    meaningForUser: 'Predicta does not raise this Yog from the visible chart evidence.',
     module,
     ruleId,
     status: 'not_present',
     strength: 'none',
-    summary: 'Not present in the implemented deterministic check.',
+    summary: 'Not present in the current chart check.',
     whyPresent: reason,
   });
 }

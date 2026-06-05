@@ -74,7 +74,7 @@ export function composeKundliKarmaShrapIntelligence(kundli?: KundliData): Kundli
     subjectName: kundli.birthDetails.name,
     summary: visibleSignals.length
       ? `Predicta found ${visibleSignals.join(', ')} as the main Karmic Debt & Shrap indicators to review calmly.`
-      : 'Predicta did not find a major active Shrap indicator in the implemented deterministic checks.',
+      : 'Predicta did not find a major active Shrap indicator in the current chart evidence.',
     topSignals: visibleSignals,
     version: KUNDLI_KARMA_CONTRACT_VERSION,
   };
@@ -116,7 +116,7 @@ function buildPitruShrap(kundli: KundliData): KundliKarmaItem {
     return notPresentItem(
       'rule-shrap-pitru',
       'Pitru Shrap',
-      'Sun and ninth-house lineage evidence do not show the implemented Pitru Shrap indicator.',
+      'Sun and ninth-house lineage evidence do not show the approved Pitru Shrap indicator.',
     );
   }
   const status: KundliKarmaItemStatus = evidence.length >= 2 ? 'present' : 'weak';
@@ -151,7 +151,7 @@ function buildMatruShrap(kundli: KundliData): KundliKarmaItem {
     return notPresentItem(
       'rule-shrap-matru',
       'Matru Shrap',
-      'Moon and fourth-house mother/home evidence do not show the implemented Matru Shrap indicator.',
+      'Moon and fourth-house mother/home evidence do not show the approved Matru Shrap indicator.',
     );
   }
   const status: KundliKarmaItemStatus = evidence.length >= 2 ? 'present' : 'weak';
@@ -186,7 +186,7 @@ function buildGuruShrap(kundli: KundliData): KundliKarmaItem {
     return notPresentItem(
       'rule-shrap-guru',
       'Guru Shrap',
-      'Jupiter and guru/dharma evidence do not show the implemented Guru Shrap indicator.',
+      'Jupiter and guru/dharma evidence do not show the approved Guru Shrap indicator.',
     );
   }
   const status: KundliKarmaItemStatus = evidence.length >= 2 ? 'present' : 'weak';
@@ -221,7 +221,7 @@ function buildSarpaNagaShrap(kundli: KundliData): KundliKarmaItem {
     return notPresentItem(
       'rule-shrap-sarpa-naga',
       'Sarpa / Naga Shrap',
-      'Rahu/Ketu do not pressure the implemented fifth-house lineage/continuity evidence.',
+      'Rahu/Ketu do not pressure the visible chart evidence.',
     );
   }
   const status: KundliKarmaItemStatus = evidence.length >= 2 ? 'present' : 'weak';
@@ -276,7 +276,7 @@ function buildBhratriBandhuShrap(kundli: KundliData): KundliKarmaItem {
     return notPresentItem(
       'rule-shrap-bhratri-bandhu',
       'Bhratri / Bandhu Shrap',
-      'Mars and third-house sibling/support evidence do not show the implemented Bhratri/Bandhu Shrap indicator.',
+      'Mars and third-house sibling/support evidence do not show the approved Bhratri/Bandhu Shrap indicator.',
     );
   }
   const status: KundliKarmaItemStatus = evidence.length >= 2 ? 'present' : 'weak';
@@ -311,7 +311,7 @@ function buildStreePatniShrap(kundli: KundliData): KundliKarmaItem {
     return notPresentItem(
       'rule-shrap-stree-patni',
       'Stree / Patni Shrap',
-      'Venus and seventh-house relationship evidence do not show the implemented Stree/Patni Shrap indicator.',
+      'Venus and seventh-house relationship evidence do not show the approved Stree/Patni Shrap indicator.',
     );
   }
   const status: KundliKarmaItemStatus = evidence.length >= 2 ? 'present' : 'weak';
@@ -348,7 +348,7 @@ function buildDevaBrahmaShrap(kundli: KundliData): KundliKarmaItem {
     return notPresentItem(
       'rule-shrap-deva-brahma',
       'Deva / Brahma Shrap',
-      'Sun, Jupiter, and ninth-house dharma evidence do not show the implemented Deva/Brahma Shrap indicator.',
+      'Sun, Jupiter, and ninth-house dharma evidence do not show the approved Deva/Brahma Shrap indicator.',
     );
   }
   const status: KundliKarmaItemStatus = evidence.length >= 3 ? 'present' : 'weak';
@@ -433,11 +433,11 @@ function notPresentItem(ruleId: string, displayName: string, reason: string): Ku
         weight: 'none',
       },
     ],
-    meaningForUser: 'Predicta does not raise this Shrap indicator from the implemented evidence.',
+    meaningForUser: 'Predicta does not raise this Shrap indicator from the visible chart evidence.',
     ruleId,
     status: 'not_present',
     strength: 'none',
-    summary: 'Not present in the implemented deterministic check.',
+    summary: 'Not present in the current chart check.',
     whyPresent: reason,
   });
 }

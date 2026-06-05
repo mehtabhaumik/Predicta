@@ -1288,7 +1288,7 @@ export function PredictaReportPdfDocument({
                     ? 'Your signature reading should clarify expression, not label your character.'
             : report.mode === 'PREMIUM'
             ? 'Your premium prediction has the evidence, timing, and next direction in one place.'
-              : 'Your report should leave you with a clear prediction, not homework.'}
+              : 'Your report leaves you with a clear prediction, not homework.'}
         </Text>
         <Text style={styles.closingBody}>
           {reportFocus === 'LIFE_ATLAS'
@@ -1779,6 +1779,22 @@ function buildPlannedSpreads({
       'Timing evidence',
     );
     addSpread(
+      'Kundli Karma',
+      'Dosh, Shrap, Yog, and Lal Kitab guidance',
+      'This chapter names the strongest karma pressure and support in plain language, then gives the safest next remedy without fear or repetition.',
+      ['kundli-karma-snapshot', 'kundli-karma-dosh', 'kundli-karma-shrap'],
+      3,
+      'Karma evidence',
+    );
+    addSpread(
+      'Kundli Karma',
+      'Positive Yog, challenging Yog, and Lal Kitab action',
+      'This chapter separates support from pressure and turns Lal Kitab guidance into one practical action plan instead of scattered remedy noise.',
+      ['kundli-karma-yog', 'kundli-karma-lal-kitab', 'kundli-karma-remedy'],
+      4,
+      'Remedy evidence',
+    );
+    addSpread(
       'Life areas',
       'Career, relationships, wealth, and life balance',
       'The chart is translated into human outcomes across career, relationships, wealth, wellbeing, and life balance.',
@@ -1841,7 +1857,7 @@ function buildPlannedSpreads({
             : 'These supporting pages stay inside the selected school and keep technical detail tied to the prediction.'
         : report.mode === 'PREMIUM'
           ? 'These sections preserve technical depth without letting raw evidence replace the reading.'
-          : 'These evidence layers stay late so the free report remains readable while preserving calculation trust.',
+          : 'These supporting Vedic pages stay concise so the free report remains readable while the proof stays available.',
       proofItems: extractProofItems(row, 3),
       proofTitle: isLifeAtlas
         ? 'Supporting meaning'
@@ -1897,7 +1913,7 @@ function buildOnboardingCards(
 	        title: mode === 'PREMIUM' ? 'Depth without fatalism' : 'Complete enough to matter',
 	      },
 	      {
-	        body: 'Mystical language stays grounded. The report should open possibility, not trap you inside fear, fate, or impossible certainty.',
+	        body: 'Mystical language stays grounded. The Life Atlas opens possibility without trapping you inside fear, fate, or impossible certainty.',
 	        eyebrow: 'Agency',
 	        title: 'Mirror, not cage',
 	      },
@@ -1999,10 +2015,31 @@ function classifySectionKind(section: PdfSection): string {
   if (eyebrow === 'CORE CHARTS FIRST') {
     return 'chart-synthesis';
   }
+  if (eyebrow === 'KUNDLI KARMA') {
+    return 'kundli-karma-snapshot';
+  }
+  if (eyebrow === 'DOSH') {
+    return 'kundli-karma-dosh';
+  }
+  if (eyebrow === 'SHRAP') {
+    return 'kundli-karma-shrap';
+  }
+  if (eyebrow === 'POSITIVE YOG' || eyebrow === 'CHALLENGING YOG') {
+    return 'kundli-karma-yog';
+  }
+  if (eyebrow === 'LAL KITAB') {
+    return 'kundli-karma-lal-kitab';
+  }
+  if (eyebrow === 'KUNDLI KARMA REMEDY') {
+    return 'kundli-karma-remedy';
+  }
   if (eyebrow === 'PLANETS') {
     return 'planets';
   }
   if (eyebrow === 'TIMING') {
+    return 'timing';
+  }
+  if (eyebrow === 'MAHADASHA PHALA') {
     return 'timing';
   }
   if (eyebrow === 'TIMELINE') {
