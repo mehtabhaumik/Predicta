@@ -10,6 +10,9 @@
   "blockedBehaviorsAudited": [
     "Report starts with schooling before prediction",
     "Technical evidence replaces useful guidance",
+    "Report becomes generic, overtechnical, toolkit-like, or emotionally flat",
+    "Preview promises more than generated artifact delivers",
+    "Predicta memory cannot answer report-section questions",
     "School-specific reports mix methods",
     "Nadi is restored as an active final report lane",
     "Signature report can generate without confirmed visible traits",

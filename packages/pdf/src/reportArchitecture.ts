@@ -1,5 +1,10 @@
 import type { PDFMode } from '@pridicta/types';
 
+import {
+  buildCompetitorReportArchitectureContract,
+  type CompetitorReportArchitectureContract,
+} from './competitorReportContract';
+
 export type ReportArchitectureFocus =
   | 'CAREER'
   | 'COMPATIBILITY'
@@ -51,6 +56,7 @@ export type ReportDepthContract = {
 };
 
 export type PdfReportArchitecture = {
+  competitorResponseContract: CompetitorReportArchitectureContract;
   depthContract: ReportDepthContract;
   focus: ReportArchitectureFocus;
   mode: PDFMode;
@@ -122,6 +128,10 @@ export function buildReportArchitecture({
   const config = getReportArchitectureConfig(reportFocus, mode);
 
   return {
+    competitorResponseContract: buildCompetitorReportArchitectureContract({
+      mode,
+      reportFocus,
+    }),
     depthContract: buildReportDepthContract(reportFocus, mode),
     focus: reportFocus,
     mode,

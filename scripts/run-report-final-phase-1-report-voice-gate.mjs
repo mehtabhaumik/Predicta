@@ -34,6 +34,7 @@ function assertNotIncludes(source, needle, label) {
 
 [
   'docs/PREDICTA_REPORTS_FINAL_VALUE_REBUILD_STRICT_PHASES.md',
+  'packages/pdf/src/competitorReportContract.ts',
   'packages/pdf/src/reportVoiceContract.ts',
   'packages/pdf/src/index.ts',
   `${auditDir}/report-voice-contract-audit.md`,
@@ -46,6 +47,7 @@ const roadmap = read('docs/PREDICTA_REPORTS_FINAL_VALUE_REBUILD_STRICT_PHASES.md
   'Add a shared report voice contract',
   'composeReportSections',
   'High-risk phrases are rewritten before report rendering.',
+  'Competitor-response voice checks are present and used by the gate.',
   'PDF package typecheck passes.',
   'PDF golden output gate passes.',
 ].forEach(fragment => assertIncludes(roadmap, fragment, 'final report roadmap Phase 1'));
@@ -71,7 +73,38 @@ const contract = read('packages/pdf/src/reportVoiceContract.ts');
   'decision guidance',
   'technical classroom',
   'technical appendix',
+  'report as toolkit',
+  'report as guided reading',
+  'astrology lesson',
+  'technical proof before user meaning',
+  'how to use this report',
+  'what this report is saying',
+  'use this report as a starting point',
+  'use this prediction as grounded guidance',
+  'internal system contract',
+  'short confidence note',
 ].forEach(fragment => assertIncludes(contract, fragment, 'report voice contract'));
+
+const competitorContract = read('packages/pdf/src/competitorReportContract.ts');
+[
+  'PREDICTA_COMPETITOR_REPORT_POSITION',
+  'PREDICTA_COMPETITOR_REPORT_REQUIRED_QUALITIES',
+  'prediction-first opening',
+  'emotional usefulness',
+  'evidence-backed confidence',
+  'timing/current relevance',
+  'direct practical guidance',
+  'free value',
+  'paid depth',
+  'no fear/fluff/per-minute-pressure tone',
+  'no psychic/advisor confusion',
+  'no method mixing',
+  'PREDICTA_COMPETITOR_REPORT_BANNED_TONE',
+  'report as toolkit',
+  'report as astrology lesson',
+  'internal system contract',
+  'technical proof before user meaning',
+].forEach(fragment => assertIncludes(competitorContract, fragment, 'competitor report contract'));
 
 const pdfIndex = read('packages/pdf/src/index.ts');
 [

@@ -2824,6 +2824,7 @@ export type GeneratedReportContext = {
   availableSections: string[];
   chatMasteryRule?: string;
   compactPreviewRule?: string;
+  competitorResponseRule?: string;
   depthContract?: string;
   freePaidDepthRule?: string;
   generatedAt?: string;

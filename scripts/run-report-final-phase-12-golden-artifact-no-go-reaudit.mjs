@@ -47,6 +47,7 @@ const requiredFiles = [
   'package.json',
   'scripts/run-pdf-report-golden-output-gate.mjs',
   'packages/pdf/src/index.ts',
+  'packages/pdf/src/competitorReportContract.ts',
   'packages/astrology/src/lifeAtlasReport.ts',
   'packages/pdf/src/reportArchitecture.ts',
   'packages/pdf/src/reportDocument.tsx',
@@ -113,6 +114,9 @@ assert(ledger.issueLedger?.major === 0, 'no-go ledger must have zero Major issue
 [
   'Report starts with schooling before prediction',
   'Technical evidence replaces useful guidance',
+  'Report becomes generic, overtechnical, toolkit-like, or emotionally flat',
+  'Preview promises more than generated artifact delivers',
+  'Predicta memory cannot answer report-section questions',
   'School-specific reports mix methods',
   'Nadi is restored as an active final report lane',
   'Signature report can generate without confirmed visible traits',
@@ -215,12 +219,42 @@ assertNotIncludes(signatureSections, 'forensic proof', 'Signature final report s
 
 const architecture = read('packages/pdf/src/reportArchitecture.ts');
 [
+  'competitorResponseContract',
   'Free report as hollow teaser',
   'Paid report as page-count padding',
   'Schooling the user instead of answering the user',
   'Life Atlas is the only approved synthesis lane',
 ].forEach(fragment => assertIncludes(architecture, fragment, 'report architecture no-go source'));
 assertNotIncludes(architecture, "case 'NADI'", 'report architecture final lane switch');
+
+const competitorContract = read('packages/pdf/src/competitorReportContract.ts');
+[
+  'PREDICTA_COMPETITOR_REPORT_POSITION',
+  'AskSoma',
+  'YastroTalk',
+  'Nebula',
+  'prediction-first opening',
+  'emotional usefulness',
+  'evidence-backed confidence',
+  'timing/current relevance',
+  'direct practical guidance',
+  'free value',
+  'paid depth',
+  'no fear/fluff/per-minute-pressure tone',
+  'no psychic/advisor confusion',
+  'no method mixing',
+  'PREDICTA_COMPETITOR_REPORT_PREVIEW_REQUIREMENTS',
+  'PREDICTA_COMPETITOR_REPORT_MEMORY_REQUIREMENTS',
+  'PREDICTA_COMPETITOR_REPORT_ARTIFACT_REQUIREMENTS',
+].forEach(fragment => assertIncludes(competitorContract, fragment, 'competitor report no-go contract'));
+
+const competitorMemory = read('packages/config/src/predictaMemory.ts');
+[
+  'competitorResponseRule',
+  'AskSoma, YastroTalk, and Nebula',
+  'Generated report context carries the competitor-response report rule',
+  'generatedReportContext',
+].forEach(fragment => assertIncludes(competitorMemory, fragment, 'Predicta report memory competitor contract'));
 
 const webReport = read('apps/web/components/WebDossierPreview.tsx');
 [

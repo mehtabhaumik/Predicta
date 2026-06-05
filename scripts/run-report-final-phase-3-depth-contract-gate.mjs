@@ -34,6 +34,7 @@ function assertNotIncludes(source, needle, label) {
 
 [
   'docs/PREDICTA_REPORTS_FINAL_VALUE_REBUILD_STRICT_PHASES.md',
+  'packages/pdf/src/competitorReportContract.ts',
   'packages/pdf/src/reportArchitecture.ts',
   'packages/pdf/src/reportDocument.tsx',
   `${auditDir}/free-vs-paid-depth-contract-audit.md`,
@@ -49,10 +50,12 @@ const roadmap = read('docs/PREDICTA_REPORTS_FINAL_VALUE_REBUILD_STRICT_PHASES.md
   'Free must never become a hollow teaser.',
   'Paid must never become page-count padding.',
   'The active depth promise is consumed by the PDF renderer.',
+  'The depth contract must align with the competitor-response rule',
 ].forEach(fragment => assertIncludes(roadmap, fragment, 'final report roadmap Phase 3'));
 
 const architecture = read('packages/pdf/src/reportArchitecture.ts');
 [
+  'competitorResponseContract: CompetitorReportArchitectureContract',
   'ReportDepthModeContract',
   'ReportDepthContract',
   'depthContract: ReportDepthContract',
@@ -65,12 +68,23 @@ const architecture = read('packages/pdf/src/reportArchitecture.ts');
   'Technical evidence without plain prediction',
   'More tables without stronger guidance',
   'Schooling the user instead of answering the user',
+  'buildCompetitorReportArchitectureContract',
   'predictionMinimum',
   'evidenceMinimum',
   'timingMinimum',
   'actionMinimum',
   'proofMinimum',
 ].forEach(fragment => assertIncludes(architecture, fragment, 'free-vs-paid depth source'));
+
+const competitorContract = read('packages/pdf/src/competitorReportContract.ts');
+[
+  'Free must deliver useful prediction',
+  'Premium must add deeper prediction',
+  'freeValue',
+  'paidDepth',
+  'previewPromise',
+  'memoryAnswer',
+].forEach(fragment => assertIncludes(competitorContract, fragment, 'competitor free-vs-paid report contract'));
 
 [
   'Vedic depth is measured by chart-backed prediction',

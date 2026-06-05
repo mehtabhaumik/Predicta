@@ -10,6 +10,7 @@
     "reportFocus",
     "schoolLane",
     "compactPreviewRule",
+    "competitorResponseRule",
     "depthContract",
     "freePaidDepthRule",
     "schoolBoundaryRule",
@@ -37,6 +38,7 @@
     "Practical next step third.",
     "Safety and limits last.",
     "Compact previews are not full report walls.",
+    "Competitor-response report standard is active.",
     "Life Atlas is the only approved all-school synthesis lane.",
     "Nadi is not an active final report lane."
   ],

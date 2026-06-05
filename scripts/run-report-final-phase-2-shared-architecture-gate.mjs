@@ -34,6 +34,7 @@ function assertNotIncludes(source, needle, label) {
 
 [
   'docs/PREDICTA_REPORTS_FINAL_VALUE_REBUILD_STRICT_PHASES.md',
+  'packages/pdf/src/competitorReportContract.ts',
   'packages/pdf/src/reportArchitecture.ts',
   'packages/pdf/src/index.ts',
   'packages/pdf/src/reportDocument.tsx',
@@ -45,6 +46,7 @@ const roadmap = read('docs/PREDICTA_REPORTS_FINAL_VALUE_REBUILD_STRICT_PHASES.md
 [
   phaseName,
   'Add a shared report architecture engine',
+  'Attach the competitor-response report contract to every `PdfReportArchitecture`',
   'personal opening',
   'method-specific evidence',
   'prediction chapters',
@@ -57,6 +59,9 @@ const roadmap = read('docs/PREDICTA_REPORTS_FINAL_VALUE_REBUILD_STRICT_PHASES.md
 const architecture = read('packages/pdf/src/reportArchitecture.ts');
 [
   'PdfReportArchitecture',
+  'CompetitorReportArchitectureContract',
+  'competitorResponseContract: CompetitorReportArchitectureContract',
+  'buildCompetitorReportArchitectureContract',
   'ReportArchitectureStageId',
   "'personal-opening'",
   "'method-evidence'",
@@ -76,6 +81,18 @@ const architecture = read('packages/pdf/src/reportArchitecture.ts');
   'Life Atlas is the only approved synthesis lane',
 ].forEach(fragment => assertIncludes(architecture, fragment, 'shared report architecture source'));
 assertNotIncludes(architecture, "case 'NADI'", 'shared report architecture switch');
+
+const competitorContract = read('packages/pdf/src/competitorReportContract.ts');
+[
+  'buildCompetitorReportArchitectureContract',
+  'PREDICTA_COMPETITOR_REPORT_PREVIEW_REQUIREMENTS',
+  'PREDICTA_COMPETITOR_REPORT_MEMORY_REQUIREMENTS',
+  'PREDICTA_COMPETITOR_REPORT_ARTIFACT_REQUIREMENTS',
+  'Preview must promise',
+  'Predicta must explain',
+  'artifacts must include',
+  'Life Atlas is the only synthesis lane',
+].forEach(fragment => assertIncludes(competitorContract, fragment, 'competitor report architecture contract'));
 
 const pdfIndex = read('packages/pdf/src/index.ts');
 [

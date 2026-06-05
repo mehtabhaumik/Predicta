@@ -53,6 +53,8 @@ export const PREDICTA_LIFE_ATLAS_MEMORY_CONTRACT = {
 } as const;
 
 export const PREDICTA_FINAL_REPORT_ARCHITECTURE_MEMORY = {
+  competitorResponseRule:
+    'Predicta reports must beat AskSoma, YastroTalk, and Nebula by staying prediction-first, emotionally useful, evidence-backed, timing-aware, practical, school-bound, and free of fear/fluff/per-minute-pressure tone.',
   compactPreviewRule:
     'App report previews are compact promise surfaces only. The PDF is the deep reading surface; Predicta should not turn the app preview into a full report wall.',
   depthRule:
@@ -172,6 +174,7 @@ export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
     'Report marketplace options are school-separated; method-specific reports must not become mixed-bag reports.',
     'PDF reports are the complete dossier surface; app screens stay progressive, clean, and CTA-led so users are not forced through a long reading wall.',
     'Final report app previews show one compact promise, one focus line, three preview bullets, and one download nudge. Predicta must use the PDF/report context for deeper answers instead of dumping full chapters on the screen.',
+    'Competitor-response report standard: final reports must feel more useful than AskSoma, more human than YastroTalk-style engine dumps, and more trustworthy than Nebula-style psychic ambiguity.',
     'Language preferences, safety/legal guidance, and saved recovery behavior must be explained calmly when asked.',
   ],
   appSurfaceAwareness: [
@@ -200,6 +203,7 @@ export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
     'Synthesis Reports are clearly labeled; Predicta Life Atlas can combine available Vedic, KP, Jaimini, Numerology, and optional Signature data.',
     'Every final report follows the six-stage architecture: personal opening, method-specific evidence, prediction chapters, timing/current relevance, action plan, and appendix/proof.',
     'Report chat mastery follows the same rhythm as the PDFs: prediction and guidance first, school-specific evidence second, practical action third, safety/limits last.',
+    'Report contract upgrade rule: report previews, generated artifacts, and Predicta memory must agree. If a preview promises prediction, timing, evidence, or paid depth, the generated report and generatedReportContext must be able to explain it.',
   ],
   roomBoundaries: [
     'Vedic Predicta answers from Parashari/Vedic context only.',
@@ -214,6 +218,7 @@ export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
     'Predicta should remember the active subject, active Kundli, selected chart, selected report, generated report context, and family/member context when supplied.',
     'Predicta can explain deeper available data such as Mahadasha, KP event carriers, Jaimini soul-role indicators, Numerology cycle, confirmed Signature traits, Life Atlas synthesis, and downloaded report sections even when the screen only shows a compact preview.',
     'Generated report context carries architecture stages, depth contract, compact-preview rule, school-boundary rule, and chat-mastery rule. Use those fields before giving a generic report explanation.',
+    'Generated report context carries the competitor-response report rule: no toolkit tone, no astrology lesson tone, no internal system contract tone, no method-mixing, no fear-selling, and no preview overpromise.',
     'Life Atlas can use Jaimini only as a labeled synthesis evidence layer; it must not smuggle Jaimini into Vedic, KP, Numerology, or Signature reports.',
     'Predicta should consult PREDICTA_COMPETITOR_RESPONSE_CONTEXT_SUPREMACY_MEMORY before spending AI so local-memory-first and deterministic answers stay free of AI cost.',
   ],
@@ -245,6 +250,8 @@ export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
     'When asked about report content, explain what it means for the user rather than merely defining what an area governs.',
     'Report chat must answer what it means for the user before giving technical evidence.',
     'When a user asks about a report section, never start with “this section is used to...” unless clarification is necessary. Start with the direct meaning, prediction, timing, or guidance.',
+    'When asked why Predicta is different from competitor apps, say Predicta is evidence-backed astrology intelligence: calculations first, calm prediction second, proof available, no fear-selling, no psychic confusion, and no per-minute pressure.',
+    'When a report sounds like a toolkit, astrology lesson, internal system contract, generic definition list, or technical proof before user meaning, treat it as defective and answer with the direct prediction first.',
     'Use non-scary, non-fatalistic, confidence-aware wording.',
     'Cite the active table/section context instead of inventing unrelated reasoning.',
   ],
@@ -698,6 +705,8 @@ export function buildGeneratedReportMemoryContext({
     chatMasteryRule: mastery.chatMasteryRule,
     compactPreviewRule:
       PREDICTA_FINAL_REPORT_ARCHITECTURE_MEMORY.compactPreviewRule,
+    competitorResponseRule:
+      PREDICTA_FINAL_REPORT_ARCHITECTURE_MEMORY.competitorResponseRule,
     depthContract: mastery.depthContract,
     freePaidDepthRule: PREDICTA_FINAL_REPORT_ARCHITECTURE_MEMORY.depthRule,
     generatedAt,

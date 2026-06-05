@@ -14,8 +14,9 @@ practical next step third, and safety/limits last.
 - Generated report context now includes the final six-stage report architecture:
   personal opening, method-specific evidence, prediction chapters,
   timing/current relevance, action plan, and appendix/proof.
-- Generated report context now carries compact-preview rule, depth contract,
-  free/paid depth rule, school-boundary rule, and chat mastery rule.
+- Generated report context now carries compact-preview rule,
+  competitor-response rule, depth contract, free/paid depth rule,
+  school-boundary rule, and chat mastery rule.
 - Web and mobile already build generated report context through
   `buildGeneratedReportMemoryContext`, so both app surfaces inherit the same
   report mastery payload.
@@ -39,6 +40,9 @@ practical next step third, and safety/limits last.
 - Predicta must not pretend a generated report exists unless generated report
   context is supplied.
 - Compact report previews remain app surfaces; the PDF remains the full dossier.
+- Competitor-response report standard is active: report answers must be
+  prediction-first, emotionally useful, evidence-backed, timing-aware,
+  practical, school-bound, and free of fear/fluff/per-minute-pressure tone.
 
 ## Verification
 

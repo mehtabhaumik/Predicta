@@ -69,6 +69,20 @@ start delivering prediction, guidance, evidence, timing, and value.
     If she can answer from app memory, generated report context, deterministic
     astrology modules, translations, support copy, entitlement state, or saved
     Kundli context, she must not spend an AI credit or call OpenAI/Gemini.
+16. Competitor-response report contract is now part of the final report bar:
+    Predicta must beat AskSoma, YastroTalk, and Nebula by making every report
+    prediction-first, emotionally useful, evidence-backed, timing-aware,
+    practical, school-bound, free of fear/fluff/per-minute-pressure tone, and
+    never psychic/advisor-confused.
+17. Report previews, generated report artifacts, and Predicta memory must agree.
+    If a preview promises prediction, timing, evidence, paid depth, or practical
+    guidance, the generated PDF/composition and `generatedReportContext` must be
+    able to explain that exact value.
+18. Final report gates must fail if primary report bodies become generic,
+    overtechnical, toolkit-like, emotionally flat, or if technical proof appears
+    before user meaning.
+19. Final report gates must fail if school-specific reports mix methods. Life
+    Atlas remains the only approved synthesis lane.
 
 ## Approved Phase Order
 
@@ -165,12 +179,22 @@ instructions, and internal method-boundary paragraphs as primary content.
   appendices.
 - Add a gate that prevents the report engine from reintroducing banned
   schooling/toolkit phrases in primary report bodies and bullets.
+- Add competitor-response voice checks that reject:
+  - report as toolkit
+  - report as astrology lesson
+  - internal system contract
+  - method-boundary page as main reading
+  - generic definition instead of prediction
+  - technical proof before user meaning
+  - fear/fluff/per-minute-pressure tone
+  - psychic/advisor confusion
 
 ### Green Criteria
 
 - Shared report voice contract exists in source.
 - `composeReportSections` applies the report voice contract before localization.
 - High-risk phrases are rewritten before report rendering.
+- Competitor-response voice checks are present and used by the gate.
 - Phase 1 audit artifact exists.
 - Phase 1 gate passes.
 - PDF package typecheck passes.
@@ -205,6 +229,10 @@ or cycle relevance, action plan, and appendix.
 - Do not create a Nadi final-report lane.
 - Add a gate that proves all six lanes expose the shared architecture without
   becoming generic.
+- Attach the competitor-response report contract to every `PdfReportArchitecture`
+  so each generated composition carries market position, required report
+  qualities, banned tone, preview parity, memory parity, artifact requirements,
+  and school-boundary rules.
 
 ### Green Criteria
 
@@ -214,6 +242,7 @@ or cycle relevance, action plan, and appendix.
 - The architecture has school-specific promises and boundaries for Vedic, KP,
   Jaimini, Numerology, Signature, and Life Atlas.
 - No Nadi final-report lane appears in the final report architecture manifest.
+- Every architecture carries the competitor-response report contract.
 - Phase 2 audit artifact exists.
 - Phase 2 gate passes.
 - PDF package typecheck passes.
@@ -254,6 +283,9 @@ guidance.
 - Paid must never become page-count padding.
 - Add a gate that proves all six final report lanes expose both free and paid
   depth promises and that the renderer consumes the active depth promise.
+- The depth contract must align with the competitor-response rule: free delivers
+  real value, paid adds depth without page-padding, and neither mode becomes a
+  lesson/toolkit/internal proof packet.
 
 ### Green Criteria
 
