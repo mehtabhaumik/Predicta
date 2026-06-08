@@ -32,14 +32,19 @@ export function WebRedeemPassForm(): React.JSX.Element {
   });
   const [deviceId, setDeviceId] = useState('');
   const [redeemedPass, setRedeemedPass] = useState<RedeemedGuestPass>();
+  const [authReady, setAuthReady] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     setDeviceId(getBrowserDeviceId());
 
     try {
-      return onAuthStateChanged(getFirebaseWebAuth(), setUser);
+      return onAuthStateChanged(getFirebaseWebAuth(), nextUser => {
+        setUser(nextUser);
+        setAuthReady(true);
+      });
     } catch {
+      setAuthReady(true);
       return undefined;
     }
   }, []);
@@ -159,27 +164,37 @@ export function WebRedeemPassForm(): React.JSX.Element {
           </div>
         </div>
       </div>
-      <div className="field-stack">
-        <label className="field-label" htmlFor="pass-code">
-          {copy.fieldLabel}
-        </label>
-        <input
-          id="pass-code"
-          onChange={event => setCode(event.target.value)}
-          placeholder={formatPassCode(normalizePassCode(copy.placeholderSeed))}
-          type="text"
-          value={code}
-        />
-      </div>
-      <p className={`form-status ${status.tone}`}>{status.text}</p>
-      <button
-        className="button"
-        disabled={busy || !user?.email}
-        onClick={redeem}
-        type="button"
-      >
-        {busy ? copy.busyLabel : copy.submitLabel}
-      </button>
+      {authReady && !user?.email ? (
+        <div className="redeem-signin-lock">
+          <strong>{copy.account.signInToContinue}</strong>
+          <p>{copy.status.signInFirst}</p>
+          <AuthDialog />
+        </div>
+      ) : (
+        <>
+          <div className="field-stack">
+            <label className="field-label" htmlFor="pass-code">
+              {copy.fieldLabel}
+            </label>
+            <input
+              id="pass-code"
+              onChange={event => setCode(event.target.value)}
+              placeholder={formatPassCode(normalizePassCode(copy.placeholderSeed))}
+              type="text"
+              value={code}
+            />
+          </div>
+          <p className={`form-status ${status.tone}`}>{status.text}</p>
+          <button
+            className="button"
+            disabled={busy || !authReady || !user?.email}
+            onClick={redeem}
+            type="button"
+          >
+            {busy ? copy.busyLabel : copy.submitLabel}
+          </button>
+        </>
+      )}
       {redeemedPass ? (
         <div className="redeem-next-steps">
           <div className="section-title">{copy.nextSteps.eyebrow}</div>
@@ -350,9 +365,9 @@ const REDEEM_PASS_FORM_COPY: Record<
         getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.73431e9bf1"),
       createKundli: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.7cacfebde9"),
       eyebrow: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.3f475f88dc"),
-      expires: 'Expires on',
+      expires: getNativeCopy('redeem.nextSteps.expires.hi'),
       giveFeedback: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.5d32b685d5"),
-      includes: 'Included balance',
+      includes: getNativeCopy('redeem.nextSteps.includes.hi'),
       previewReport: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.30cd3ddf6a"),
       title: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.3bfd1a297f"),
     },
@@ -400,9 +415,9 @@ const REDEEM_PASS_FORM_COPY: Record<
         getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.362c2072d6"),
       createKundli: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.c0e4dc5abd"),
       eyebrow: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.4af50473c1"),
-      expires: 'Expires on',
+      expires: getNativeCopy('redeem.nextSteps.expires.gu'),
       giveFeedback: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.18feda7507"),
-      includes: 'Included balance',
+      includes: getNativeCopy('redeem.nextSteps.includes.gu'),
       previewReport: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.3227033f83"),
       title: getNativeCopy("native.apps.web.components.WebRedeemPassForm.tsx.1c312c341f"),
     },

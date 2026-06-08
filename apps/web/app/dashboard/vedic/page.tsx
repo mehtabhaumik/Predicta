@@ -198,7 +198,11 @@ export default function VedicPredictaPage(): React.JSX.Element {
                       : 'Lagna first',
                 ],
                 [
-                  'Moon',
+                  language === 'hi'
+                    ? getNativeCopy('audit1.phase6.vedic.moon.label.hi')
+                    : language === 'gu'
+                      ? getNativeCopy('audit1.phase6.vedic.moon.label.gu')
+                      : 'Moon',
                   language === 'hi'
                     ? getNativeCopy('audit1.phase6.vedic.moon.hi')
                     : language === 'gu'

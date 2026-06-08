@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { getKundliKarmaCopy, type KundliKarmaCopy } from '@pridicta/config';
+import { translateUiText } from '@pridicta/config/uiTranslations';
 import {
   buildParashariChalitChart,
   composeChartInsight,
@@ -43,22 +44,23 @@ export function WebVedicIntelligencePanel({
     depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
     kundli,
   });
+  const t = (value: string) => translateUiText(value, language);
   const kundliKarma = composeKundliKarmaSnapshot(kundli);
   const focusChartCards: ProgressiveChartCard[] = [
-    { chart: kundli?.charts.D1, id: 'D1', title: 'D1 / Rashi' },
+    { chart: kundli?.charts.D1, id: 'D1', title: t('D1 / Rashi') },
     {
       chart: intelligence.moonChart.chart,
       id: 'MOON',
       profile: 'moon',
-      title: 'Moon / Chandra Lagna',
+      title: t('Moon / Chandra Lagna'),
     },
-    { chart: kundli?.charts.D9, id: 'D9', title: 'D9 / Navamsa' },
-    { chart: kundli?.charts.D10, id: 'D10', title: 'D10 / Dashamsa' },
+    { chart: kundli?.charts.D9, id: 'D9', title: t('D9 / Navamsa') },
+    { chart: kundli?.charts.D10, id: 'D10', title: t('D10 / Dashamsa') },
     {
       chart: kundli ? buildParashariChalitChart(kundli) : undefined,
       id: 'CHALIT',
       profile: 'chalit',
-      title: 'Chalit',
+      title: t('Chalit'),
     },
   ];
   const birthSnapshotSections = [
@@ -80,32 +82,32 @@ export function WebVedicIntelligencePanel({
     <section className="vedic-intelligence-panel glass-panel">
       <div className="vedic-intelligence-heading">
         <div>
-          <p className="section-title">PREDICTA VEDIC</p>
-          <h2>Clean Vedic snapshot, not a 56-page wall</h2>
+          <p className="section-title">{t('PREDICTA VEDIC')}</p>
+          <h2>{t('Clean Vedic snapshot, not a 56-page wall')}</h2>
           <p>
-            Start with the essentials, open advanced tables only when you want
-            proof, and use the PDF as the full deep reading surface.
+            {t('Start with the essentials, open advanced tables only when you want proof, and use the PDF as the full deep reading surface.')}
           </p>
         </div>
         <div className="vedic-intelligence-snapshot">
-          <span>Birth Snapshot</span>
+          <span>{t('Birth Snapshot')}</span>
           <strong>
-            {intelligence.snapshot.lagna} Lagna · {intelligence.snapshot.moonSign} Moon
+            {intelligence.snapshot.lagna} {t('Lagna')} · {intelligence.snapshot.moonSign} {t('Moon')}
           </strong>
           <p>{intelligence.snapshot.currentDasha}</p>
         </div>
       </div>
 
       <ProgressiveGroup
-        eyebrow="BIRTH SNAPSHOT"
-        title="Panchang, Avakhada, Ghatak and favorable points"
-        body="These are the quick context cards. They tell the user what matters now without forcing them into dense tables."
+        eyebrow={t('BIRTH SNAPSHOT')}
+        title={t('Panchang, Avakhada, Ghatak and favorable points')}
+        body={t('These are the quick context cards. They tell the user what matters now without forcing them into dense tables.')}
       >
         <div className="vedic-intelligence-grid compact">
           {birthSnapshotSections.map(section => (
             <SectionCard
               hasPremiumAccess={hasPremiumAccess}
               key={section.id}
+              language={language}
               section={section}
             />
           ))}
@@ -113,12 +115,12 @@ export function WebVedicIntelligencePanel({
       </ProgressiveGroup>
 
       <ProgressiveGroup
-        eyebrow="CHARTS"
-        title="Focus charts first, full library deliberately"
-        body="The default flow stays simple: D1, Moon, D9, D10, and Chalit first. The complete varga library is still one click away."
+        eyebrow={t('CHARTS')}
+        title={t('Focus charts first, full library deliberately')}
+        body={t('The default flow stays simple: D1, Moon, D9, D10, and Chalit first. The complete varga library is still one click away.')}
         action={
           <Link className="button secondary" href="/dashboard/charts">
-            Open full chart library
+            {t('Open full chart library')}
           </Link>
         }
       >
@@ -129,8 +131,8 @@ export function WebVedicIntelligencePanel({
               <strong>{card.title}</strong>
               <p>
                 {card.chart?.supported
-                  ? 'Ready for a plain-language prediction.'
-                  : 'Pending evidence; Predicta will not invent this chart.'}
+                  ? t('Ready for a plain-language prediction.')
+                  : t('Pending evidence; Predicta will not invent this chart.')}
               </p>
             </article>
           ))}
@@ -138,9 +140,9 @@ export function WebVedicIntelligencePanel({
       </ProgressiveGroup>
 
       <ProgressiveGroup
-        eyebrow="WHAT THIS MEANS"
-        title="Short predictive cards per focus chart"
-        body="Free users get one useful chart prediction. Premium users see a deeper but still compact signal on-screen."
+        eyebrow={t('WHAT THIS MEANS')}
+        title={t('Short predictive cards per focus chart')}
+        body={t('Free users get one useful chart prediction. Premium users see a deeper but still compact signal on-screen.')}
       >
         <div className="vedic-intelligence-grid">
           {focusChartCards.map(card => (
@@ -149,18 +151,20 @@ export function WebVedicIntelligencePanel({
               hasPremiumAccess={hasPremiumAccess}
               key={card.id}
               kundli={kundli}
+              language={language}
             />
           ))}
         </div>
       </ProgressiveGroup>
 
       <ProgressiveGroup
-        eyebrow="CURRENT TIMING"
-        title="Mahadasha Phala without clutter"
-        body="Timing has one focused card here. The PDF carries the complete Mahadasha, Antardasha, and Pratyantardasha structure."
+        eyebrow={t('CURRENT TIMING')}
+        title={t('Mahadasha Phala without clutter')}
+        body={t('Timing has one focused card here. The PDF carries the complete Mahadasha, Antardasha, and Pratyantardasha structure.')}
       >
         <SectionCard
           hasPremiumAccess={hasPremiumAccess}
+          language={language}
           section={intelligence.mahadashaPhala}
         />
       </ProgressiveGroup>
@@ -173,15 +177,15 @@ export function WebVedicIntelligencePanel({
       />
 
       <ProgressiveGroup
-        eyebrow="CLASSICAL TABLES"
-        title="Open proof only when needed"
-        body="Friendship, house-wise evidence, Chalit table, Ashtakavarga, Prastara, Samsa, and related proof stay accessible but collapsed by default."
+        eyebrow={t('CLASSICAL TABLES')}
+        title={t('Open proof only when needed')}
+        body={t('Friendship, house-wise evidence, Chalit table, Ashtakavarga, Prastara, Samsa, and related proof stay accessible but collapsed by default.')}
       >
         <div className="vedic-classical-stack">
           {classicalSections.map(section => (
             <details className="vedic-disclosure" key={section.id}>
               <summary>
-                <span>{section.status === 'ready' ? 'Ready' : 'Pending'}</span>
+                <span>{section.status === 'ready' ? t('Ready') : t('Pending')}</span>
                 <strong>{section.title}</strong>
               </summary>
               <p>{section.freeInsight}</p>
@@ -194,8 +198,8 @@ export function WebVedicIntelligencePanel({
 
       <details className="vedic-disclosure vedic-soul-disclosure">
         <summary>
-          <span>SOUL CHARTS</span>
-          <strong>Swamsa and Karakamsha chart previews</strong>
+          <span>{t('SOUL CHARTS')}</span>
+          <strong>{t('Swamsa and Karakamsha chart previews')}</strong>
         </summary>
         <div className="vedic-soul-chart-grid">
           {kundli && intelligence.swamsa.chart ? (
@@ -242,19 +246,18 @@ export function WebVedicIntelligencePanel({
 
       <div className="vedic-action-band">
         <div>
-          <span>ASK PREDICTA</span>
-          <strong>Ask from the section you are reading</strong>
+          <span>{t('ASK PREDICTA')}</span>
+          <strong>{t('Ask from the section you are reading')}</strong>
           <p>
-            Predicta can explain Panchang, a focus chart, Mahadasha Phala, or
-            any classical table without changing the screen into a report wall.
+            {t('Predicta can explain Panchang, a focus chart, Mahadasha Phala, or any classical table without changing the screen into a report wall.')}
           </p>
         </div>
         <div className="report-download-actions">
           <Link className="button secondary" href="/dashboard/chat">
-            Ask Predicta
+            {t('Ask Predicta')}
           </Link>
           <Link className="button primary" href="/dashboard/report">
-            Download Full Report
+            {t('Download Full Report')}
           </Link>
         </div>
       </div>
@@ -867,18 +870,21 @@ function ProgressiveGroup({
 
 function SectionCard({
   hasPremiumAccess,
+  language,
   section,
 }: {
   hasPremiumAccess: boolean;
+  language: SupportedLanguage;
   section: VedicIntelligenceSection;
 }): React.JSX.Element {
+  const t = (value: string) => translateUiText(value, language);
   return (
     <article
       className={`vedic-intelligence-card ${
         section.status === 'pending' ? 'is-pending' : ''
       }`}
     >
-      <span>{section.status === 'ready' ? 'Ready' : 'Pending'}</span>
+      <span>{section.status === 'ready' ? t('Ready') : t('Pending')}</span>
       <strong>{section.title}</strong>
       <p>{section.freeInsight}</p>
       {hasPremiumAccess ? <small>{section.premiumAnalysis}</small> : null}
@@ -891,11 +897,14 @@ function ChartMeaningCard({
   card,
   hasPremiumAccess,
   kundli,
+  language,
 }: {
   card: ProgressiveChartCard;
   hasPremiumAccess: boolean;
   kundli?: KundliData;
+  language: SupportedLanguage;
 }): React.JSX.Element {
+  const t = (value: string) => translateUiText(value, language);
   const insight = card.chart?.supported
     ? composeChartInsight({
         chart: card.chart,
@@ -912,7 +921,7 @@ function ChartMeaningCard({
       <p>
         {insight
           ? insight.whatItSays
-          : 'This chart is pending evidence, so Predicta keeps it honest instead of inventing a reading.'}
+          : t('This chart is pending evidence, so Predicta keeps it honest instead of inventing a reading.')}
       </p>
       {insight ? <small>{insight.currentGuidance}</small> : null}
       {hasPremiumAccess && insight?.premiumInsight ? (

@@ -979,6 +979,38 @@ button + button,
   gap: max(var(--predicta-space-personal-tight), 8px);
 }
 
+.card-content.spacious,
+.glass-panel,
+.field-stack,
+.school-grid,
+.predicta-world-page,
+.kp-page-stack {
+  min-width: 0;
+}
+
+.card-content.spacious > * + *,
+.glass-panel > * + *,
+.field-stack > * + * {
+  margin-top: clamp(14px, 1.6vw, 22px);
+}
+
+.school-grid,
+.predicta-world-page,
+.kp-page-stack {
+  gap: clamp(18px, 2.2vw, 30px);
+}
+
+.button,
+.status-pill,
+.predicta-badge,
+.predicta-pill,
+.school-badge,
+.kundli-karma-chip,
+.signature-trait-chip {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
 .button:disabled,
 button:disabled,
 .button.disabled,
@@ -9534,6 +9566,30 @@ button:disabled,
 .feedback-account-status p {
   color: var(--muted);
   line-height: 1.5;
+  margin: 0;
+}
+
+.redeem-signin-lock {
+  background:
+    radial-gradient(circle at 10% 12%, rgba(77, 175, 255, 0.14), transparent 40%),
+    rgba(255, 255, 255, 0.045);
+  border: 1px solid var(--border-quiet);
+  border-radius: 18px;
+  display: grid;
+  gap: 12px;
+  margin-top: 22px;
+  padding: 20px;
+}
+
+.redeem-signin-lock strong {
+  color: var(--text);
+  font-size: clamp(18px, 1.8vw, 24px);
+  line-height: 1.2;
+}
+
+.redeem-signin-lock p {
+  color: var(--muted);
+  line-height: 1.55;
   margin: 0;
 }
 
@@ -19965,6 +20021,35 @@ select::-ms-expand {
   display: grid;
   gap: 22px;
   padding: clamp(24px, 3vw, 38px);
+}
+
+.predicta-world-local-map:not([open]) .predicta-world-local-grid {
+  display: none !important;
+}
+
+.predicta-world-disclosure-summary {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  list-style: none;
+}
+
+.predicta-world-disclosure-summary::-webkit-details-marker {
+  display: none;
+}
+
+.predicta-world-disclosure-summary strong {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--border-quiet);
+  border-radius: 999px;
+  color: var(--text);
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 900;
+  min-height: 36px;
+  padding: 10px 14px;
 }
 
 .predicta-world-local-grid,

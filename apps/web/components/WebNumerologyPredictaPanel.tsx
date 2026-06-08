@@ -128,7 +128,7 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
         ]}
         primaryGuidance={{
           body: hasProfile
-            ? profile.identityDashboard.bestUseOfCurrentCycle
+            ? t(profile.identityDashboard.bestUseOfCurrentCycle)
             : t('Create or select a Kundli first so Predicta can read name rhythm, birth code, destiny number, and current timing without guessing.'),
           eyebrow: t('START HERE'),
           title: hasProfile
@@ -222,10 +222,10 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
           data-competitor-response-phase4-answer-first="numerology"
         >
           <p className="section-title">{t('WHAT THIS MEANS NOW')}</p>
-          <h2>{profile.identityDashboard.bestUseOfCurrentCycle}</h2>
-          <p>{profile.identityDashboard.currentCycleLeanInto}</p>
+          <h2>{t(profile.identityDashboard.bestUseOfCurrentCycle)}</h2>
+          <p>{t(profile.identityDashboard.currentCycleLeanInto)}</p>
           <p>
-            {t('Avoid')}: {profile.identityDashboard.currentCycleAvoid}
+            {t('Avoid')}: {t(profile.identityDashboard.currentCycleAvoid)}
           </p>
           <div className="action-row">
             <Link
@@ -266,9 +266,11 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
         </div>
       </section>
 
-      <section className="glass-panel">
-        <p className="section-title">{t('NAME ENERGY SCANNER')}</p>
-        <h2>{t('Name Energy Scanner')}</h2>
+      <details className="glass-panel predicta-world-proof-disclosure">
+        <summary>
+          <span>{t('NAME ENERGY SCANNER')}</span>
+          <strong>{t('Name Energy Scanner')}</strong>
+        </summary>
         <p className="section-title">{t('Name Rhythm')}</p>
         <p>
           {hasProfile
@@ -287,7 +289,7 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
         </div>
         <p>{hasProfile ? profile.identityDashboard.firstLetterInfluence : profile.guidance}</p>
         <p>{hasProfile ? profile.identityDashboard.nameStrength : ''}</p>
-      </section>
+      </details>
 
       <section className="school-grid">
         <article className="glass-panel">
@@ -307,15 +309,17 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
               ? `${formatPersonalYearValue(profile.personalYear.root, language)} · M${profile.personalMonth.root} · D${profile.personalDay.root}`
               : t('Pending')}
           </h3>
-          <p>{profile.identityDashboard.bestUseOfCurrentCycle}</p>
-          <p>{t('Lean into')}: {profile.identityDashboard.currentCycleLeanInto}</p>
+          <p>{t(profile.identityDashboard.bestUseOfCurrentCycle)}</p>
+          <p>{t('Lean into')}: {t(profile.identityDashboard.currentCycleLeanInto)}</p>
           <p>{t('Avoid')}: {profile.identityDashboard.currentCycleAvoid}</p>
         </article>
       </section>
 
-      <section className="glass-panel">
-        <p className="section-title">{t('PERSONAL YEAR TIMELINE')}</p>
-        <h2>{t('Best Use Of This Cycle')}</h2>
+      <details className="glass-panel predicta-world-proof-disclosure">
+        <summary>
+          <span>{t('PERSONAL YEAR TIMELINE')}</span>
+          <strong>{t('Best Use Of This Cycle')}</strong>
+        </summary>
         <div className="school-grid">
           {profile.identityDashboard.personalYearTimeline.map(month => (
             <article className="glass-panel" key={month.monthLabel}>
@@ -325,7 +329,7 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
             </article>
           ))}
         </div>
-      </section>
+      </details>
 
       <section className="school-grid">
         <article className="glass-panel">
@@ -345,9 +349,11 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
         </article>
       </section>
 
-      <section className="glass-panel">
-        <p className="section-title">{t('MISSING / REPEATED NUMBER PATTERN')}</p>
-        <h2>{t('Missing/Repeated Number Grid')}</h2>
+      <details className="glass-panel predicta-world-proof-disclosure">
+        <summary>
+          <span>{t('MISSING / REPEATED NUMBER PATTERN')}</span>
+          <strong>{t('Missing/Repeated Number Grid')}</strong>
+        </summary>
         <div className="school-grid">
           {profile.identityDashboard.frequencyMap.map(cell => (
             <article className="glass-panel" key={cell.number}>
@@ -358,9 +364,14 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
             </article>
           ))}
         </div>
-      </section>
+      </details>
 
-      <section className="school-grid">
+      <details className="glass-panel predicta-world-proof-disclosure">
+        <summary>
+          <span>{t('NAME REFINEMENT')}</span>
+          <strong>{t('Name Fit Score')}</strong>
+        </summary>
+        <section className="school-grid">
         <article className="glass-panel">
           <p className="section-title">{t('NAME REFINEMENT')}</p>
           <h3>{t('Name Fit Score')}</h3>
@@ -382,7 +393,8 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
           </p>
           <p>{profile.identityDashboard.compatibilityLens.limitations[0]}</p>
         </article>
-      </section>
+        </section>
+      </details>
 
       <section className="glass-panel">
         <p className="section-title">{t('ASK NUMEROLOGY PREDICTA')}</p>
@@ -412,9 +424,11 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
         </div>
       </section>
 
-      <section className="glass-panel" id="numerology-boundary">
-        <p className="section-title">{t('ROOM BOUNDARY')}</p>
-        <h2>{t('Numerology answers with number logic first.')}</h2>
+      <details className="glass-panel predicta-world-proof-disclosure" id="numerology-boundary">
+        <summary>
+          <span>{t('ROOM BOUNDARY')}</span>
+          <strong>{t('Numerology answers with number logic first.')}</strong>
+        </summary>
         <p>
           {t(
             'If the question needs Parashari, KP, Jaimini, or Signature analysis, Predicta should hand you to the right room with your question intact.',
@@ -428,7 +442,7 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
             {t('Select Kundli')}
           </Link>
         </div>
-      </section>
+      </details>
     </div>
   );
 }

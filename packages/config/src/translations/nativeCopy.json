@@ -20271,6 +20271,22 @@
       "kind": "text",
       "value": "જૈમિની પ્રેડિક્ટા આત્મકારક, અમાત્યકારક, દારકારક, કારકામ્શ, સ્વામ્શ, આરુઢ, ઉપપદ, જૈમિની દૃષ્ટિ અને ચર દશાથી આત્મ ભૂમિકા, દેખાતી ઓળખ અને ભાગ્ય અધ્યાય વાંચે છે."
     },
+    "redeem.nextSteps.expires.hi": {
+      "kind": "text",
+      "value": "समाप्ति तिथि"
+    },
+    "redeem.nextSteps.expires.gu": {
+      "kind": "text",
+      "value": "સમાપ્તિ તારીખ"
+    },
+    "redeem.nextSteps.includes.hi": {
+      "kind": "text",
+      "value": "शामिल बैलेंस"
+    },
+    "redeem.nextSteps.includes.gu": {
+      "kind": "text",
+      "value": "શામેલ બેલેન્સ"
+    },
     "astrology.jaimini.mode.hi": {
       "kind": "text",
       "value": "जैमिनी प्रेडिक्टा मोड: मैं आत्म भूमिका, दृश्य पहचान और भाग्य अध्याय से सीधा मार्गदर्शन दूंगी।"
@@ -20278,6 +20294,14 @@
     "astrology.jaimini.mode.gu": {
       "kind": "text",
       "value": "જૈમિની પ્રેડિક્ટા મોડ: હું આત્મ ભૂમિકા, દેખાતી ઓળખ અને ભાગ્ય અધ્યાય પરથી સીધું માર્ગદર્શન આપીશ."
+    },
+    "audit1.phase6.vedic.moon.label.hi": {
+      "kind": "text",
+      "value": "चंद्र"
+    },
+    "audit1.phase6.vedic.moon.label.gu": {
+      "kind": "text",
+      "value": "ચંદ્ર"
     }
   }
 }

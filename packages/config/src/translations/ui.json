@@ -8625,6 +8625,546 @@
       "en": "active",
       "hi": "सक्रिय",
       "gu": "સક્રિય"
+    },
+    "ui.global.open.evidence.audit.worlds": {
+      "en": "Open evidence",
+      "hi": "आधार खोलें",
+      "gu": "આધાર ખોલો"
+    },
+    "ui.global.kp.predicta.answers.one.practical.event.audit.worlds": {
+      "en": "KP Predicta answers one practical event or life outcome at a time. It shows the likely direction, what may delay it, timing readiness, and the next useful move before showing the proof chain.",
+      "hi": "केपी प्रेडिक्टा एक समय में एक व्यावहारिक घटना या जीवन-परिणाम का उत्तर देती है। प्रमाण-श्रृंखला दिखाने से पहले यह दिशा, संभावित देरी, समय-तैयारी और अगला उपयोगी कदम बताती है।",
+      "gu": "કેપી પ્રેડિક્ટા એક સમયે એક વ્યવહારિક ઘટના અથવા જીવન-પરિણામનો જવાબ આપે છે. આધાર-શૃંખલા બતાવતા પહેલાં તે દિશા, શક્ય વિલંબ, સમય-તૈયારી અને આગળનું ઉપયોગી પગલું કહે છે."
+    },
+    "ui.global.current.kp.answer.audit.worlds": {
+      "en": "Current KP answer",
+      "hi": "वर्तमान केपी उत्तर",
+      "gu": "વર્તમાન કેપી જવાબ"
+    },
+    "ui.global.timing.readiness.audit.worlds": {
+      "en": "Timing readiness",
+      "hi": "समय की तैयारी",
+      "gu": "સમયની તૈયારી"
+    },
+    "ui.global.choose.ready.question.kp.audit.worlds": {
+      "en": "Choose a ready question, write your own, or pick “guide me.” Predicta will refine vague wording into a KP-friendly question, then answer with verdict, support/block, timing readiness, and one next step.",
+      "hi": "तैयार प्रश्न चुनें, अपना प्रश्न लिखें, या “मुझे मार्ग दिखाएँ” चुनें। प्रेडिक्टा अस्पष्ट भाषा को केपी-अनुकूल प्रश्न में बदलेगी, फिर निर्णय, समर्थन/रुकावट, समय-तैयारी और एक अगला कदम बताएगी।",
+      "gu": "તૈયાર પ્રશ્ન પસંદ કરો, તમારો પ્રશ્ન લખો, અથવા “મને માર્ગ બતાવો” પસંદ કરો. પ્રેડિક્ટા અસ્પષ્ટ શબ્દોને કેપી-અનુકૂળ પ્રશ્નમાં સુધારશે, પછી નિર્ણય, સહારો/અવરોધ, સમય-તૈયારી અને એક આગળનું પગલું આપશે."
+    },
+    "ui.global.ask.event.answer.before.kp.proof.audit.worlds": {
+      "en": "Ask the event. Get the answer before the KP proof.",
+      "hi": "घटना पूछें। केपी प्रमाण से पहले उत्तर पाएं।",
+      "gu": "ઘટના પૂછો. કેપી આધાર પહેલાં જવાબ મેળવો."
+    },
+    "ui.global.kp.proof.audit.worlds": {
+      "en": "KP proof",
+      "hi": "केपी आधार",
+      "gu": "કેપી આધાર"
+    },
+    "ui.global.day.lord.audit.worlds": {
+      "en": "Day Lord",
+      "hi": "दिन स्वामी",
+      "gu": "દિવસ સ્વામી"
+    },
+    "ui.global.lagna.sub.audit.worlds": {
+      "en": "Lagna Sub",
+      "hi": "लग्न सब",
+      "gu": "લગ્ન સબ"
+    },
+    "ui.global.regular.predicta.handles.boundaries.audit.worlds": {
+      "en": "Regular Predicta handles Parashari, D1, vargas, Chalit, dasha, gochar, remedies, and reports. KP Predicta handles KP. Jaimini Predicta handles soul role, visible identity, relationship mirror, and destiny chapters separately.",
+      "hi": "सामान्य प्रेडिक्टा पराशरी, D1, वर्ग, चालित, दशा, गोचर, उपाय और रिपोर्ट संभालती है। केपी प्रेडिक्टा केवल केपी संभालती है। जैमिनी प्रेडिक्टा आत्म-भूमिका, दिखने वाली पहचान, संबंध-दर्पण और नियति-अध्याय अलग से संभालती है।",
+      "gu": "સામાન્ય પ્રેડિક્ટા પરાશરી, D1, વર્ગ, ચાલિત, દશા, ગોચર, ઉપાયો અને રિપોર્ટ સંભાળે છે. કેપી પ્રેડિક્ટા ફક્ત કેપી સંભાળે છે. જૈમિની પ્રેડિક્ટા આત્મ-ભૂમિકા, દેખાતી ઓળખ, સંબંધ-દર્પણ અને નિયતિ-અધ્યાય અલગથી સંભાળે છે."
+    },
+    "ui.global.kp.current.answer.audit.worlds": {
+      "en": "KP current answer",
+      "hi": "केपी का वर्तमान उत्तर",
+      "gu": "કેપીનો વર્તમાન જવાબ"
+    },
+    "ui.global.ask.this.kp.question.audit.worlds": {
+      "en": "Ask this KP question",
+      "hi": "यह केपी प्रश्न पूछें",
+      "gu": "આ કેપી પ્રશ્ન પૂછો"
+    },
+    "ui.global.tell.predicta.decision.help.audit.worlds": {
+      "en": "Tell Predicta what decision you want help with.",
+      "hi": "प्रेडिक्टा को बताएं कि किस निर्णय में सहायता चाहिए।",
+      "gu": "પ્રેડિક્ટાને કહો કે કયા નિર્ણયમાં મદદ જોઈએ છે."
+    },
+    "ui.global.pick.ready.question.kp.audit.worlds": {
+      "en": "Pick a ready question, write your own in normal words, or choose guide me if you are unsure. Predicta will refine vague questions before answering.",
+      "hi": "तैयार प्रश्न चुनें, सामान्य भाषा में अपना प्रश्न लिखें, या निश्चित न हों तो मार्गदर्शन चुनें। उत्तर से पहले प्रेडिक्टा अस्पष्ट प्रश्न सुधार देगी।",
+      "gu": "તૈયાર પ્રશ્ન પસંદ કરો, સામાન્ય શબ્દોમાં તમારો પ્રશ્ન લખો, અથવા ખાતરી ન હોય તો માર્ગદર્શન પસંદ કરો. જવાબ પહેલાં પ્રેડિક્ટા અસ્પષ્ટ પ્રશ્ન સુધારી દેશે."
+    },
+    "ui.global.write.naturally.predicta.refine.audit.worlds": {
+      "en": "Write naturally. Predicta will refine it.",
+      "hi": "स्वाभाविक रूप से लिखें। प्रेडिक्टा इसे सुधार देगी।",
+      "gu": "સ્વાભાવિક રીતે લખો. પ્રેડિક્ટા તેને સુધારી દેશે."
+    },
+    "ui.global.example.job.change.kp.audit.worlds": {
+      "en": "Example: I am confused about changing my job soon. What should I watch?",
+      "hi": "उदाहरण: मुझे जल्दी नौकरी बदलने को लेकर उलझन है। मुझे क्या देखना चाहिए?",
+      "gu": "ઉદાહરણ: હું જલદી નોકરી બદલવા અંગે ગૂંચવાયો છું. મને શું ધ્યાનમાં રાખવું જોઈએ?"
+    },
+    "ui.global.question.to.proof.path.audit.worlds": {
+      "en": "Question-To-Proof Path",
+      "hi": "प्रश्न से आधार तक का मार्ग",
+      "gu": "પ્રશ્નથી આધાર સુધીનો માર્ગ"
+    },
+    "ui.global.ask.exact.question.wizard.audit.worlds": {
+      "en": "Ask Exact Question Wizard",
+      "hi": "सटीक प्रश्न सहायक",
+      "gu": "ચોક્કસ પ્રશ્ન સહાયક"
+    },
+    "ui.global.proof.drawer.audit.worlds": {
+      "en": "Proof drawer",
+      "hi": "आधार ड्रॉअर",
+      "gu": "આધાર ડ્રોઅર"
+    },
+    "ui.global.kp.cusps.star.sub.audit.worlds": {
+      "en": "KP cusps, star lords, sub lords",
+      "hi": "केपी कस्प, नक्षत्र स्वामी, सब लॉर्ड",
+      "gu": "કેપી કસ્પ, નક્ષત્ર સ્વામી, સબ લોર્ડ"
+    },
+    "ui.global.numerology.predicta.tells.number.pattern.audit.worlds": {
+      "en": "Numerology Predicta tells you what your number pattern is asking from you now: how your name projects, what your birth code supports, what the current cycle favors, and what to avoid.",
+      "hi": "अंक ज्योतिष प्रेडिक्टा बताती है कि आपका संख्या-पैटर्न अभी आपसे क्या मांग रहा है: आपका नाम कैसे प्रभाव डालता है, जन्म कोड क्या समर्थन देता है, वर्तमान चक्र क्या समर्थन करता है, और किससे बचना है।",
+      "gu": "અંક જ્યોતિષ પ્રેડિક્ટા કહે છે કે તમારો અંક-પેટર્ન અત્યારે તમારાથી શું માંગે છે: તમારું નામ કેવી છાપ આપે છે, જન્મ કોડ શું સમર્થન આપે છે, વર્તમાન ચક્ર શું અનુકૂળ કરે છે, અને કઈ વસ્તુથી બચવું."
+    },
+    "ui.global.create.select.kundli.numerology.audit.worlds": {
+      "en": "Create or select a Kundli first so Predicta can read name rhythm, birth code, destiny number, and current timing without guessing.",
+      "hi": "पहले कुंडली बनाएं या चुनें ताकि प्रेडिक्टा बिना अनुमान लगाए नाम-लय, जन्म कोड, भाग्य अंक और वर्तमान समय पढ़ सके।",
+      "gu": "પહેલા કુંડળી બનાવો અથવા પસંદ કરો જેથી પ્રેડિક્ટા અંદાજ લગાવ્યા વિના નામ-લય, જન્મ કોડ, ભાગ્ય અંક અને વર્તમાન સમય વાંચી શકે."
+    },
+    "ui.global.number.prediction.after.saved.name.audit.worlds": {
+      "en": "Your number prediction appears after a saved name and birth date.",
+      "hi": "नाम और जन्म तिथि सेव होने के बाद आपका अंक-पूर्वानुमान दिखेगा।",
+      "gu": "નામ અને જન્મ તારીખ સેવ થયા પછી તમારું અંક-પૂર્વાનુમાન દેખાશે."
+    },
+    "ui.global.your.number.signature.audit.worlds": {
+      "en": "YOUR NUMBER SIGNATURE",
+      "hi": "आपका अंक हस्ताक्षर",
+      "gu": "તમારી અંક સહી"
+    },
+    "ui.global.numerology.needs.saved.name.audit.worlds": {
+      "en": "Numerology needs a saved name and birth date. Create or select a Kundli, then this room can read the number profile instantly.",
+      "hi": "अंक ज्योतिष को सेव नाम और जन्म तिथि चाहिए। कुंडली बनाएं या चुनें, फिर यह कक्ष तुरंत अंक-प्रोफाइल पढ़ सकेगा।",
+      "gu": "અંક જ્યોતિષને સેવ કરેલું નામ અને જન્મ તારીખ જોઈએ. કુંડળી બનાવો અથવા પસંદ કરો, પછી આ રૂમ તરત અંક-પ્રોફાઇલ વાંચી શકશે."
+    },
+    "ui.global.ask.about.this.cycle.audit.worlds": {
+      "en": "Ask about this cycle",
+      "hi": "इस चक्र के बारे में पूछें",
+      "gu": "આ ચક્ર વિશે પૂછો"
+    },
+    "ui.global.lean.into.audit.worlds": {
+      "en": "Lean into",
+      "hi": "इस पर जोर दें",
+      "gu": "આ તરફ ઝૂકો"
+    },
+    "ui.global.strengths.audit.worlds": {
+      "en": "Strengths",
+      "hi": "ताकतें",
+      "gu": "શક્તિઓ"
+    },
+    "ui.global.cautions.audit.worlds": {
+      "en": "Cautions",
+      "hi": "सावधानियां",
+      "gu": "સાવધાનીઓ"
+    },
+    "ui.global.colors.audit.worlds": {
+      "en": "Colors",
+      "hi": "रंग",
+      "gu": "રંગો"
+    },
+    "ui.global.days.audit.worlds": {
+      "en": "Days",
+      "hi": "दिन",
+      "gu": "દિવસો"
+    },
+    "ui.global.affirmation.audit.worlds": {
+      "en": "Affirmation",
+      "hi": "संकल्प-वाक्य",
+      "gu": "સંકલ્પ વાક્ય"
+    },
+    "ui.global.expression.audit.worlds": {
+      "en": "Expression",
+      "hi": "अभिव्यक्ति",
+      "gu": "અભિવ્યક્તિ"
+    },
+    "ui.global.stability.audit.worlds": {
+      "en": "Stability",
+      "hi": "स्थिरता",
+      "gu": "સ્થિરતા"
+    },
+    "ui.global.destiny.support.audit.worlds": {
+      "en": "Destiny support",
+      "hi": "भाग्य समर्थन",
+      "gu": "નિયતિ આધાર"
+    },
+    "ui.global.compatibility.audit.worlds": {
+      "en": "COMPATIBILITY",
+      "hi": "संगतता",
+      "gu": "સુસંગતતા"
+    },
+    "ui.global.numerology.handoff.boundary.audit.worlds": {
+      "en": "If the question needs Parashari, KP, Jaimini, or Signature analysis, Predicta should hand you to the right room with your question intact.",
+      "hi": "यदि प्रश्न पराशरी, केपी, जैमिनी या हस्ताक्षर विश्लेषण मांगता है, तो प्रेडिक्टा आपके प्रश्न को जस का तस रखते हुए सही कक्ष में ले जाएगी।",
+      "gu": "જો પ્રશ્ન પરાશરી, કેપી, જૈમિની અથવા હસ્તાક્ષર વિશ્લેષણ માંગે, તો પ્રેડિક્ટા તમારો પ્રશ્ન યથાવત્ રાખીને તમને યોગ્ય રૂમમાં લઈ જશે."
+    },
+    "ui.global.read.answer.first.open.chart.proof.audit.worlds": {
+      "en": "Read the answer first; open chart proof only when you want it.",
+      "hi": "पहले उत्तर पढ़ें; चार्ट आधार केवल तब खोलें जब आपको चाहिए।",
+      "gu": "પહેલા જવાબ વાંચો; ચાર્ટ આધાર ફક્ત જરૂર હોય ત્યારે ખોલો."
+    },
+    "ui.global.vedic.reading.direct.life.signal.audit.worlds": {
+      "en": "Your Vedic reading should begin with the direct life signal, then use D1, Moon, D9, D10, Chalit, Mahadasha, Gochar, and Kundli Karma as proof. The app gives the useful version here; the PDF becomes the full dossier.",
+      "hi": "आपका वैदिक वाचन सीधे जीवन-संकेत से शुरू होना चाहिए, फिर D1, चंद्र, D9, D10, चालित, महादशा, गोचर और कुंडली कर्म को आधार के रूप में इस्तेमाल करना चाहिए। ऐप यहाँ उपयोगी सार देता है; पूरा डॉसियर PDF में रहता है।",
+      "gu": "તમારું વૈદિક વાચન સીધા જીવન-સંકેતથી શરૂ થવું જોઈએ, પછી D1, ચંદ્ર, D9, D10, ચાલિત, મહાદશા, ગોચર અને કુંડળી કર્મને આધાર તરીકે વાપરવું જોઈએ. એપ અહીં ઉપયોગી સાર આપે છે; સંપૂર્ણ ડોઝિયર PDFમાં રહે છે."
+    },
+    "ui.global.predicta.vedic.panel.title.audit.worlds": {
+      "en": "PREDICTA VEDIC",
+      "hi": "प्रेडिक्टा वैदिक",
+      "gu": "પ્રેડિક્ટા વૈદિક"
+    },
+    "ui.global.clean.vedic.snapshot.audit.worlds": {
+      "en": "Clean Vedic snapshot, not a 56-page wall",
+      "hi": "साफ वैदिक सार, 56 पन्नों की दीवार नहीं",
+      "gu": "સાફ વૈદિક સાર, 56 પાનાંની દિવાલ નહીં"
+    },
+    "ui.global.start.essentials.vedic.audit.worlds": {
+      "en": "Start with the essentials, open advanced tables only when you want proof, and use the PDF as the full deep reading surface.",
+      "hi": "जरूरी बातों से शुरू करें, उन्नत तालिकाएं केवल प्रमाण चाहिए तब खोलें, और PDF को पूरी गहरी रीडिंग की जगह रखें।",
+      "gu": "જરૂરી બાબતોથી શરૂ કરો, ઊંડા ટેબલ ફક્ત આધાર જોઈએ ત્યારે ખોલો, અને PDFને સંપૂર્ણ ઊંડા વાચનની જગ્યા રાખો."
+    },
+    "ui.global.birth.snapshot.audit.worlds": {
+      "en": "Birth Snapshot",
+      "hi": "जन्म सार",
+      "gu": "જન્મ સાર"
+    },
+    "ui.global.lagna.audit.worlds": {
+      "en": "Lagna",
+      "hi": "लग्न",
+      "gu": "લગ્ન"
+    },
+    "ui.global.moon.audit.worlds": {
+      "en": "Moon",
+      "hi": "चंद्र",
+      "gu": "ચંદ્ર"
+    },
+    "ui.global.birth.snapshot.upper.audit.worlds": {
+      "en": "BIRTH SNAPSHOT",
+      "hi": "जन्म सार",
+      "gu": "જન્મ સાર"
+    },
+    "ui.global.panchang.avakhada.ghatak.audit.worlds": {
+      "en": "Panchang, Avakhada, Ghatak and favorable points",
+      "hi": "पंचांग, अवखड़ा, घातक और अनुकूल बिंदु",
+      "gu": "પંચાંગ, અવખડા, ઘાતક અને અનુકૂળ મુદ્દા"
+    },
+    "ui.global.quick.context.cards.audit.worlds": {
+      "en": "These are the quick context cards. They tell the user what matters now without forcing them into dense tables.",
+      "hi": "ये छोटे संदर्भ कार्ड हैं। ये घनी तालिकाओं में धकेले बिना बताते हैं कि अभी क्या मायने रखता है।",
+      "gu": "આ ટૂંકા સંદર્ભ કાર્ડ છે. તે ઘના ટેબલમાં ધકેલ્યા વગર કહે છે કે અત્યારે શું મહત્વનું છે."
+    },
+    "ui.global.charts.upper.audit.worlds": {
+      "en": "CHARTS",
+      "hi": "चार्ट्स",
+      "gu": "ચાર્ટ્સ"
+    },
+    "ui.global.focus.charts.first.audit.worlds": {
+      "en": "Focus charts first, full library deliberately",
+      "hi": "पहले मुख्य चार्ट, पूरी लाइब्रेरी समझदारी से",
+      "gu": "પહેલા મુખ્ય ચાર્ટ, સંપૂર્ણ લાઇબ્રેરી સમજદારીથી"
+    },
+    "ui.global.default.flow.simple.vedic.audit.worlds": {
+      "en": "The default flow stays simple: D1, Moon, D9, D10, and Chalit first. The complete varga library is still one click away.",
+      "hi": "डिफ़ॉल्ट प्रवाह सरल रहता है: पहले D1, चंद्र, D9, D10 और चालित। पूरी वर्ग लाइब्रेरी अभी भी एक क्लिक दूर है।",
+      "gu": "ડિફોલ્ટ પ્રવાહ સરળ રહે છે: પહેલા D1, ચંદ્ર, D9, D10 અને ચાલિત. સંપૂર્ણ વર્ગ લાઇબ્રેરી હજી એક ક્લિક દૂર છે."
+    },
+    "ui.global.open.full.chart.library.audit.worlds": {
+      "en": "Open full chart library",
+      "hi": "पूरी चार्ट लाइब्रेरी खोलें",
+      "gu": "સંપૂર્ણ ચાર્ટ લાઇબ્રેરી ખોલો"
+    },
+    "ui.global.ready.plain.language.prediction.audit.worlds": {
+      "en": "Ready for a plain-language prediction.",
+      "hi": "सरल भाषा के पूर्वानुमान के लिए तैयार।",
+      "gu": "સરળ ભાષાના પૂર્વાનુમાન માટે તૈયાર."
+    },
+    "ui.global.pending.evidence.no.invent.audit.worlds": {
+      "en": "Pending evidence; Predicta will not invent this chart.",
+      "hi": "आधार लंबित है; प्रेडिक्टा यह चार्ट गढ़ेगी नहीं।",
+      "gu": "આધાર બાકી છે; પ્રેડિક્ટા આ ચાર્ટ બનાવટી રીતે નહીં બનાવે."
+    },
+    "ui.global.what.this.means.audit.worlds": {
+      "en": "WHAT THIS MEANS",
+      "hi": "इसका अर्थ",
+      "gu": "આનો અર્થ"
+    },
+    "ui.global.short.predictive.cards.audit.worlds": {
+      "en": "Short predictive cards per focus chart",
+      "hi": "हर मुख्य चार्ट के लिए छोटा पूर्वानुमान कार्ड",
+      "gu": "દરેક મુખ્ય ચાર્ટ માટે ટૂંકું પૂર્વાનુમાન કાર્ડ"
+    },
+    "ui.global.free.one.useful.chart.audit.worlds": {
+      "en": "Free users get one useful chart prediction. Premium users see a deeper but still compact signal on-screen.",
+      "hi": "फ्री यूज़र को एक उपयोगी चार्ट पूर्वानुमान मिलता है। प्रीमियम यूज़र को स्क्रीन पर गहरा लेकिन संक्षिप्त संकेत मिलता है।",
+      "gu": "ફ્રી યુઝરને એક ઉપયોગી ચાર્ટ પૂર્વાનુમાન મળે છે. પ્રીમિયમ યુઝરને સ્ક્રીન પર ઊંડો પણ ટૂંકો સંકેત મળે છે."
+    },
+    "ui.global.current.timing.upper.audit.worlds": {
+      "en": "CURRENT TIMING",
+      "hi": "वर्तमान समय",
+      "gu": "વર્તમાન સમય"
+    },
+    "ui.global.mahadasha.without.clutter.audit.worlds": {
+      "en": "Mahadasha Phala without clutter",
+      "hi": "बिना भीड़ के महादशा फल",
+      "gu": "ભીડ વગર મહાદશા ફળ"
+    },
+    "ui.global.timing.focused.card.audit.worlds": {
+      "en": "Timing has one focused card here. The PDF carries the complete Mahadasha, Antardasha, and Pratyantardasha structure.",
+      "hi": "समय का यहाँ एक केंद्रित कार्ड है। पूरी महादशा, अंतरदशा और प्रत्यंतरदशा संरचना PDF में रहती है।",
+      "gu": "સમયનો અહીં એક કેન્દ્રિત કાર્ડ છે. સંપૂર્ણ મહાદશા, અંતરદશા અને પ્રત્યંતરદશા માળખું PDFમાં રહે છે."
+    },
+    "ui.global.classical.tables.upper.audit.worlds": {
+      "en": "CLASSICAL TABLES",
+      "hi": "शास्त्रीय तालिकाएं",
+      "gu": "શાસ્ત્રીય ટેબલ"
+    },
+    "ui.global.open.proof.only.needed.audit.worlds": {
+      "en": "Open proof only when needed",
+      "hi": "आधार केवल जरूरत पर खोलें",
+      "gu": "આધાર ફક્ત જરૂર હોય ત્યારે ખોલો"
+    },
+    "ui.global.friendship.house.chalit.proof.audit.worlds": {
+      "en": "Friendship, house-wise evidence, Chalit table, Ashtakavarga, Prastara, Samsa, and related proof stay accessible but collapsed by default.",
+      "hi": "मैत्री, भाव-वार आधार, चालित तालिका, अष्टकवर्ग, प्रस्तार, सम्सा और संबंधित आधार उपलब्ध रहते हैं, लेकिन डिफ़ॉल्ट रूप से बंद रहते हैं।",
+      "gu": "મૈત્રી, ભાવ-વાર આધાર, ચાલિત ટેબલ, અષ્ટકવર્ગ, પ્રસ્તાર, સમ્સા અને સંબંધિત આધાર ઉપલબ્ધ રહે છે, પરંતુ ડિફોલ્ટ રીતે બંધ રહે છે."
+    },
+    "ui.global.soul.charts.upper.audit.worlds": {
+      "en": "SOUL CHARTS",
+      "hi": "आत्मिक चार्ट",
+      "gu": "આત્મિક ચાર્ટ"
+    },
+    "ui.global.swamsa.karakamsha.preview.audit.worlds": {
+      "en": "Swamsa and Karakamsha chart previews",
+      "hi": "स्वांश और कारकांश चार्ट पूर्वावलोकन",
+      "gu": "સ્વાંશ અને કારકાંશ ચાર્ટ પૂર્વાવલોકન"
+    },
+    "ui.global.ask.predicta.upper.audit.worlds": {
+      "en": "ASK PREDICTA",
+      "hi": "प्रेडिक्टा से पूछें",
+      "gu": "પ્રેડિક્ટાને પૂછો"
+    },
+    "ui.global.ask.from.section.audit.worlds": {
+      "en": "Ask from the section you are reading",
+      "hi": "जिस सेक्शन को पढ़ रहे हैं, वहीं से पूछें",
+      "gu": "તમે જે વિભાગ વાંચી રહ્યા છો, ત્યાંથી પૂછો"
+    },
+    "ui.global.predicta.explain.vedic.section.audit.worlds": {
+      "en": "Predicta can explain Panchang, a focus chart, Mahadasha Phala, or any classical table without changing the screen into a report wall.",
+      "hi": "प्रेडिक्टा स्क्रीन को रिपोर्ट-दीवार बनाए बिना पंचांग, मुख्य चार्ट, महादशा फल या किसी शास्त्रीय तालिका को समझा सकती है।",
+      "gu": "પ્રેડિક્ટા સ્ક્રીનને રિપોર્ટ-દીવાલ બનાવ્યા વગર પંચાંગ, મુખ્ય ચાર્ટ, મહાદશા ફળ અથવા કોઈપણ શાસ્ત્રીય ટેબલ સમજાવી શકે છે."
+    },
+    "ui.global.download.full.report.audit.worlds": {
+      "en": "Download Full Report",
+      "hi": "पूरी रिपोर्ट डाउनलोड करें",
+      "gu": "સંપૂર્ણ રિપોર્ટ ડાઉનલોડ કરો"
+    },
+    "ui.global.chart.pending.honest.audit.worlds": {
+      "en": "This chart is pending evidence, so Predicta keeps it honest instead of inventing a reading.",
+      "hi": "इस चार्ट का आधार अभी लंबित है, इसलिए प्रेडिक्टा पढ़ाई गढ़ने के बजाय ईमानदार रहती है।",
+      "gu": "આ ચાર્ટનો આધાર હજી બાકી છે, તેથી પ્રેડિક્ટા વાંચન ગઢવાના બદલે ઈમાનદાર રહે છે."
+    },
+    "ui.global.ready.audit.worlds": {
+      "en": "Ready",
+      "hi": "तैयार",
+      "gu": "તૈયાર"
+    },
+    "ui.global.d1.rashi.audit.worlds": {
+      "en": "D1 / Rashi",
+      "hi": "D1 / राशि",
+      "gu": "D1 / રાશિ"
+    },
+    "ui.global.moon.chandra.lagna.audit.worlds": {
+      "en": "Moon / Chandra Lagna",
+      "hi": "चंद्र / चंद्र लग्न",
+      "gu": "ચંદ્ર / ચંદ્ર લગ્ન"
+    },
+    "ui.global.d9.navamsa.audit.worlds": {
+      "en": "D9 / Navamsa",
+      "hi": "D9 / नवांश",
+      "gu": "D9 / નવાંશ"
+    },
+    "ui.global.d10.dashamsa.audit.worlds": {
+      "en": "D10 / Dashamsa",
+      "hi": "D10 / दशांश",
+      "gu": "D10 / દશાંશ"
+    },
+    "ui.global.waiting.saved.details.audit.worlds": {
+      "en": "Waiting for saved details.",
+      "hi": "सेव विवरण की प्रतीक्षा है।",
+      "gu": "સેવ વિગતોની રાહ છે."
+    },
+    "ui.global.name.scanner.pending.audit.worlds": {
+      "en": "Name scanner is pending until a saved name is available.",
+      "hi": "सेव नाम उपलब्ध होने तक नाम स्कैनर लंबित है।",
+      "gu": "સેવ નામ ઉપલબ્ધ થાય ત્યાં સુધી નામ સ્કેનર બાકી છે."
+    },
+    "ui.global.uses.birth.day.full.date.audit.worlds": {
+      "en": "Uses the birth day and full birth date.",
+      "hi": "जन्म दिन और पूरी जन्म तिथि का उपयोग करता है।",
+      "gu": "જન્મ દિવસ અને સંપૂર્ણ જન્મ તારીખનો ઉપયોગ કરે છે."
+    },
+    "ui.global.numerology.launch.guidance.audit.worlds": {
+      "en": "Launch: Start cleanly, choose one visible move, and keep the first step simple.",
+      "hi": "शुरुआत: साफ शुरुआत करें, एक दिखने वाला कदम चुनें और पहला कदम सरल रखें।",
+      "gu": "શરૂઆત: સાફ શરૂઆત કરો, એક દેખાતું પગલું પસંદ કરો અને પહેલું પગલું સરળ રાખો."
+    },
+    "ui.global.numerology.repair.guidance.audit.worlds": {
+      "en": "Repair: Repair trust, listen closely, and let the next step form through cooperation.",
+      "hi": "सुधार: भरोसा सुधारें, ध्यान से सुनें और सहयोग से अगला कदम बनने दें।",
+      "gu": "સુધારો: વિશ્વાસ સુધારો, ધ્યાનથી સાંભળો અને સહકારથી આગળનું પગલું બનવા દો."
+    },
+    "ui.global.numerology.express.guidance.audit.worlds": {
+      "en": "Express: Express the useful message, create with warmth, and finish one visible piece.",
+      "hi": "व्यक्त करें: उपयोगी संदेश व्यक्त करें, गर्मजोशी से बनाएं और एक दिखने वाला काम पूरा करें।",
+      "gu": "વ્યક્ત કરો: ઉપયોગી સંદેશ વ્યક્ત કરો, ઉષ્માથી સર્જન કરો અને એક દેખાતું કામ પૂરું કરો."
+    },
+    "ui.global.numerology.build.guidance.audit.worlds": {
+      "en": "Build: Build the system, simplify the routine, and let consistency do the heavy lifting.",
+      "hi": "बनाएं: सिस्टम बनाएं, दिनचर्या सरल करें और निरंतरता को काम करने दें।",
+      "gu": "બાંધો: સિસ્ટમ બાંધો, રૂટીન સરળ કરો અને સતતતા કામ કરવા દો."
+    },
+    "ui.global.numerology.explore.guidance.audit.worlds": {
+      "en": "Explore: Move, test, learn, and keep enough structure around the freedom.",
+      "hi": "खोजें: चलें, जांचें, सीखें और स्वतंत्रता के आसपास पर्याप्त संरचना रखें।",
+      "gu": "શોધો: હલનચલન કરો, તપાસો, શીખો અને સ્વતંત્રતા આસપાસ પૂરતું માળખું રાખો."
+    },
+    "ui.global.numerology.care.guidance.audit.worlds": {
+      "en": "Care: Care with boundaries, improve the home base, and make beauty practical.",
+      "hi": "देखभाल: सीमाओं के साथ देखभाल करें, घर का आधार सुधारें और सुंदरता को व्यावहारिक बनाएं।",
+      "gu": "કાળજી: સીમા સાથે કાળજી લો, ઘરનો આધાર સુધારો અને સૌંદર્યને વ્યવહારિક બનાવો."
+    },
+    "ui.global.numerology.learn.guidance.audit.worlds": {
+      "en": "Learn: Research, reflect, and let quiet focus reveal the cleaner answer.",
+      "hi": "सीखें: अध्ययन करें, चिंतन करें और शांत ध्यान से साफ उत्तर सामने आने दें।",
+      "gu": "શીખો: અભ્યાસ કરો, વિચાર કરો અને શાંત ધ્યાનથી સાફ જવાબ દેખાવા દો."
+    },
+    "ui.global.numerology.lead.guidance.audit.worlds": {
+      "en": "Lead: Organize resources, negotiate clearly, and make power accountable.",
+      "hi": "नेतृत्व: संसाधन व्यवस्थित करें, साफ बातचीत करें और शक्ति को जवाबदेह बनाएं।",
+      "gu": "નેતૃત્વ: સાધનો ગોઠવો, સ્પષ્ટ રીતે વાટાઘાટ કરો અને શક્તિને જવાબદાર બનાવો."
+    },
+    "ui.global.numerology.close.guidance.audit.worlds": {
+      "en": "Close: Complete, forgive wisely, release clutter, and serve from the bigger view.",
+      "hi": "पूर्ण: पूरा करें, समझदारी से क्षमा करें, अव्यवस्था छोड़ें और बड़े दृष्टिकोण से सेवा करें।",
+      "gu": "પૂર્ણ: પૂર્ણ કરો, સમજદારીથી માફ કરો, અવ્યવસ્થા છોડો અને મોટા દૃષ્ટિકોણથી સેવા કરો."
+    },
+    "ui.global.numerology.lean.1.audit.worlds": {
+      "en": "fresh starts and decisive action",
+      "hi": "नई शुरुआत और निर्णायक कदम",
+      "gu": "નવી શરૂઆત અને નિર્ધારિત પગલું"
+    },
+    "ui.global.numerology.lean.2.audit.worlds": {
+      "en": "patience, partnership, and emotional timing",
+      "hi": "धैर्य, साझेदारी और भावनात्मक समय",
+      "gu": "ધીરજ, ભાગીદારી અને ભાવનાત્મક સમય"
+    },
+    "ui.global.numerology.lean.3.audit.worlds": {
+      "en": "communication, creativity, and joy",
+      "hi": "संचार, रचना और आनंद",
+      "gu": "સંચાર, સર્જન અને આનંદ"
+    },
+    "ui.global.numerology.lean.4.audit.worlds": {
+      "en": "structure, routines, and practical foundations",
+      "hi": "संरचना, दिनचर्या और व्यावहारिक आधार",
+      "gu": "માળખું, રૂટીન અને વ્યવહારિક આધાર"
+    },
+    "ui.global.numerology.lean.5.audit.worlds": {
+      "en": "adaptability, travel, and useful experiments",
+      "hi": "अनुकूलन, यात्रा और उपयोगी प्रयोग",
+      "gu": "અનુકૂલન, પ્રવાસ અને ઉપયોગી પ્રયોગ"
+    },
+    "ui.global.numerology.lean.6.audit.worlds": {
+      "en": "family, service, repair, and responsibility",
+      "hi": "परिवार, सेवा, सुधार और जिम्मेदारी",
+      "gu": "પરિવાર, સેવા, સુધારો અને જવાબદારી"
+    },
+    "ui.global.numerology.lean.7.audit.worlds": {
+      "en": "study, depth, privacy, and spiritual clarity",
+      "hi": "अध्ययन, गहराई, निजता और आध्यात्मिक स्पष्टता",
+      "gu": "અભ્યાસ, ઊંડાણ, ખાનગીપણું અને આધ્યાત્મિક સ્પષ્ટતા"
+    },
+    "ui.global.numerology.lean.8.audit.worlds": {
+      "en": "authority, finance, strategy, and results",
+      "hi": "अधिकार, धन, रणनीति और परिणाम",
+      "gu": "અધિકાર, નાણાં, વ્યૂહરચના અને પરિણામ"
+    },
+    "ui.global.numerology.lean.9.audit.worlds": {
+      "en": "completion, compassion, and perspective",
+      "hi": "पूर्णता, करुणा और दृष्टिकोण",
+      "gu": "પૂર્ણતા, કરુણા અને દૃષ્ટિકોણ"
+    },
+    "ui.global.numerology.avoid.1.audit.worlds": {
+      "en": "forcing everything alone",
+      "hi": "सब कुछ अकेले जोर से करना",
+      "gu": "બધું એકલા જોરથી કરવું"
+    },
+    "ui.global.numerology.avoid.2.audit.worlds": {
+      "en": "rushing delicate conversations",
+      "hi": "नाजुक बातचीत में जल्दबाजी",
+      "gu": "નાજુક વાતચીતમાં ઉતાવળ"
+    },
+    "ui.global.numerology.avoid.3.audit.worlds": {
+      "en": "scattering your voice across too many ideas",
+      "hi": "आवाज़ को बहुत सारे विचारों में बिखेरना",
+      "gu": "ઘણા વિચારોમાં અવાજ વિખેરવો"
+    },
+    "ui.global.numerology.avoid.4.audit.worlds": {
+      "en": "turning discipline into pressure",
+      "hi": "अनुशासन को दबाव बनाना",
+      "gu": "શિસ્તને દબાણમાં ફેરવવી"
+    },
+    "ui.global.numerology.avoid.5.audit.worlds": {
+      "en": "change for the sake of escape",
+      "hi": "भागने के लिए ही बदलाव करना",
+      "gu": "પલાયન માટે જ બદલાવ કરવો"
+    },
+    "ui.global.numerology.avoid.6.audit.worlds": {
+      "en": "carrying everyone else before yourself",
+      "hi": "अपने से पहले सबका भार उठाना",
+      "gu": "પોતાથી પહેલાં બધાનો ભાર ઉઠાવવો"
+    },
+    "ui.global.numerology.avoid.7.audit.worlds": {
+      "en": "withdrawing so far that support cannot reach you",
+      "hi": "इतना दूर हटना कि सहयोग पहुंच न सके",
+      "gu": "એટલા દૂર ખસી જવું કે સહારો પહોંચી ન શકે"
+    },
+    "ui.global.numerology.avoid.8.audit.worlds": {
+      "en": "measuring worth only through pressure or money",
+      "hi": "मूल्य को केवल दबाव या पैसे से मापना",
+      "gu": "મૂલ્યને ફક્ત દબાણ અથવા પૈસાથી માપવું"
+    },
+    "ui.global.numerology.avoid.9.audit.worlds": {
+      "en": "reopening cycles that are asking to close",
+      "hi": "बंद होने वाले चक्रों को फिर खोलना",
+      "gu": "બંધ થવા માંગતા ચક્રને ફરી ખોલવું"
+    },
+    "ui.global.personal.year.audit.worlds": {
+      "en": "Personal Year",
+      "hi": "निजी वर्ष",
+      "gu": "વ્યક્તિગત વર્ષ"
+    },
+    "ui.global.personal.month.audit.worlds": {
+      "en": "Personal Month",
+      "hi": "निजी महीना",
+      "gu": "વ્યક્તિગત મહિનો"
+    },
+    "ui.global.personal.day.audit.worlds": {
+      "en": "Personal Day",
+      "hi": "निजी दिन",
+      "gu": "વ્યક્તિગત દિવસ"
     }
   }
 }

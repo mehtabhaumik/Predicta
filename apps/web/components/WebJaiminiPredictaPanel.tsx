@@ -42,6 +42,7 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
   const destinyBlock = blockById['current-destiny-chapter'];
   const focusBlock = blockById['what-to-focus-on-now'];
   const premiumBlock = blockById['premium-deepening'];
+  const shouldUseGeneratedJaiminiText = language === 'en';
   const chatHref = buildPredictaChatHref({
     kundli: activeKundli,
     prompt:
@@ -120,7 +121,11 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
         <div className="jaimini-room-hero-copy predicta-world-hero-copy">
           <p className="section-title">{copy.heroEyebrow.toUpperCase()}</p>
           <h1>{copy.destinyRoleTitle}</h1>
-          <p>{jaiminiInterpretation.summary}</p>
+          <p>
+            {shouldUseGeneratedJaiminiText
+              ? jaiminiInterpretation.summary
+              : copy.karakaPreviewBody}
+          </p>
           <div
             className="predicta-world-primary-guidance"
             data-competitor-response-phase4-primary-guidance="jaimini"
@@ -128,23 +133,9 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
             <span>{t('START HERE')}</span>
             <strong>{t('Your soul-role answer comes before the karaka proof.')}</strong>
             <p>
-              {t(
-                'Jaimini Predicta first tells you the role your life is asking you to mature into, then keeps Atmakaraka, Karakamsha, Swamsa, Arudha, Upapada, and Chara Dasha evidence available underneath.',
-              )}
+              {copy.downloadCta} · {copy.askCta}
             </p>
           </div>
-          <section
-            aria-label={t(`${intelligencePattern.label} intelligence rhythm`)}
-            className="predicta-intelligence-pattern"
-            data-audit1-phase7f-intelligence-pattern="jaimini"
-          >
-            {PREDICTA_INTELLIGENCE_UI_RHYTHM.map(step => (
-              <article className="predicta-intelligence-step" key={step.id}>
-                <span>{t(step.label)}</span>
-                <strong>{t(intelligencePatternCopy[step.id])}</strong>
-              </article>
-            ))}
-          </section>
           <div
             aria-label={copy.primaryActionsAria}
             className="jaimini-room-cta-row predicta-world-actions"
@@ -179,6 +170,25 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
         </aside>
       </PredictaPanel>
 
+      <details className="predicta-world-proof-disclosure glass-panel">
+        <summary>
+          <span>{copy.evidenceTitle}</span>
+          <strong>{t('Open evidence')}</strong>
+        </summary>
+        <section
+          aria-label={t(`${intelligencePattern.label} intelligence rhythm`)}
+          className="predicta-intelligence-pattern"
+          data-audit1-phase7f-intelligence-pattern="jaimini"
+        >
+          {PREDICTA_INTELLIGENCE_UI_RHYTHM.map(step => (
+            <article className="predicta-intelligence-step" key={step.id}>
+              <span>{t(step.label)}</span>
+              <strong>{t(intelligencePatternCopy[step.id])}</strong>
+            </article>
+          ))}
+        </section>
+      </details>
+
       <section className="jaimini-reading-grid" aria-label={copy.readingAria}>
         <article className="jaimini-karaka-preview-card">
           <div>
@@ -206,8 +216,16 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
         {readingCards.map(card => (
           <article className="jaimini-reading-card" id={card.anchor} key={card.anchor}>
             <span>{card.eyebrow}</span>
-            <h2>{card.block?.headline ?? card.fallback}</h2>
-            <p>{card.block?.guidance ?? copy.fallbackGeneric}</p>
+            <h2>
+              {shouldUseGeneratedJaiminiText
+                ? card.block?.headline ?? card.fallback
+                : card.fallback}
+            </h2>
+            <p>
+              {shouldUseGeneratedJaiminiText
+                ? card.block?.guidance ?? copy.fallbackGeneric
+                : copy.fallbackGeneric}
+            </p>
           </article>
         ))}
       </section>
@@ -215,8 +233,16 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
       <section className="jaimini-premium-summary" aria-label={copy.premiumEyebrow}>
         <div>
           <p className="section-title">{copy.premiumEyebrow.toUpperCase()}</p>
-          <h2>{premiumBlock?.headline ?? copy.premiumFallback}</h2>
-          <p>{premiumBlock?.guidance ?? jaiminiInterpretation.premiumSummary}</p>
+          <h2>
+            {shouldUseGeneratedJaiminiText
+              ? premiumBlock?.headline ?? copy.premiumFallback
+              : copy.premiumFallback}
+          </h2>
+          <p>
+            {shouldUseGeneratedJaiminiText
+              ? premiumBlock?.guidance ?? jaiminiInterpretation.premiumSummary
+              : copy.chatBody}
+          </p>
         </div>
         <PredictaButton href="/dashboard/report#report-lane-jaimini" variant="secondary">
           {copy.downloadFullCta}
@@ -229,9 +255,13 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
           <strong>{copy.proofLine}</strong>
         </summary>
         <div className="jaimini-evidence-list predicta-world-proof-grid">
-          {jaiminiInterpretation.technicalEvidence.map(item => (
-            <p key={item}>{item}</p>
-          ))}
+          {shouldUseGeneratedJaiminiText ? (
+            jaiminiInterpretation.technicalEvidence.map(item => (
+              <p key={item}>{item}</p>
+            ))
+          ) : (
+            <p>{copy.proofLine}</p>
+          )}
         </div>
       </details>
     </section>

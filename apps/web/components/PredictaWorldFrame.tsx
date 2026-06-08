@@ -114,18 +114,6 @@ export function PredictaWorldFrame({
               <p>{t(primaryGuidance.body)}</p>
             </div>
           ) : null}
-          <section
-            aria-label={t(`${pattern.label} intelligence rhythm`)}
-            className="predicta-intelligence-pattern"
-            data-audit1-phase7f-intelligence-pattern={theme}
-          >
-            {PREDICTA_INTELLIGENCE_UI_RHYTHM.map(step => (
-              <article className="predicta-intelligence-step" key={step.id}>
-                <span>{t(step.label)}</span>
-                <strong>{t(patternCopy[step.id])}</strong>
-              </article>
-            ))}
-          </section>
           {heroInteraction ? (
             <div className="predicta-world-hero-interaction">
               {heroInteraction}
@@ -158,13 +146,14 @@ export function PredictaWorldFrame({
         </div>
       </PredictaPanel>
 
-      <section className="predicta-world-local-map glass-panel">
-        <div className="predicta-world-local-heading">
+      <details className="predicta-world-local-map glass-panel">
+        <summary className="predicta-world-disclosure-summary">
           <div>
             <p className="section-title">{localEyebrow}</p>
             <h2>{localTitle}</h2>
           </div>
-        </div>
+          <strong>{t('Open')}</strong>
+        </summary>
         <div className="predicta-world-local-grid">
           {localActions.map(action => (
             <Link className="predicta-world-local-card" href={action.href} key={action.label}>
@@ -173,13 +162,25 @@ export function PredictaWorldFrame({
             </Link>
           ))}
         </div>
-      </section>
+      </details>
 
       <details className="predicta-world-proof-disclosure glass-panel">
         <summary>
           <span>{proofLabel}</span>
           <strong>{t('Open evidence')}</strong>
         </summary>
+        <section
+          aria-label={t(`${pattern.label} intelligence rhythm`)}
+          className="predicta-intelligence-pattern"
+          data-audit1-phase7f-intelligence-pattern={theme}
+        >
+          {PREDICTA_INTELLIGENCE_UI_RHYTHM.map(step => (
+            <article className="predicta-intelligence-step" key={step.id}>
+              <span>{t(step.label)}</span>
+              <strong>{t(patternCopy[step.id])}</strong>
+            </article>
+          ))}
+        </section>
         <section className="predicta-world-proof-grid">
           {proofCards.map(card => (
             <article className="predicta-world-proof-card" key={card.title}>
