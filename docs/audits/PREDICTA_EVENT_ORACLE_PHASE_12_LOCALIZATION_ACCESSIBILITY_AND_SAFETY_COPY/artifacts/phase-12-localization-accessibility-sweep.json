@@ -1,0 +1,188 @@
+{
+  "languages": [
+    {
+      "language": "en",
+      "accessibilityKeys": 13,
+      "hasNativeScript": true,
+      "safetyKeys": [
+        {
+          "key": "finance",
+          "value": "Money and property predictions are planning guidance, not financial advice. Check cash flow, paperwork, taxes, and qualified advice before major commitments."
+        },
+        {
+          "key": "general",
+          "value": "Predicta gives evidence-backed guidance, not a guarantee. Use timing and trigger signals with practical judgment."
+        },
+        {
+          "key": "health",
+          "value": "Wellness answers are reflection and routine support only. They are not medical diagnosis, emergency advice, or a replacement for a qualified clinician."
+        },
+        {
+          "key": "legal",
+          "value": "Legal and court answers are timing and preparation guidance only. They do not replace a lawyer, official paperwork, or court advice."
+        },
+        {
+          "key": "noGuarantee",
+          "value": "No prediction is 100% guaranteed. Predicta should help you prepare better, not pressure you into fear or risky action."
+        }
+      ],
+      "predictionPreviewKeys": [
+        {
+          "key": "actionPrimary",
+          "value": "Start with the area where pressure, timing, and decision urgency are strongest."
+        },
+        {
+          "key": "actionSecondary",
+          "value": "Select the Kundli, choose one clear event, and add the missing context before asking for precise timing."
+        },
+        {
+          "key": "confidenceNotEnoughExplanation",
+          "value": "Predicta cannot responsibly answer yet because the required source evidence is not available."
+        },
+        {
+          "key": "confidenceNotEnoughLabel",
+          "value": "Not enough evidence"
+        },
+        {
+          "key": "needsClarityDirectAnswer",
+          "value": "Needs clarity: Predicta needs a selected Kundli and enough event evidence before giving a precise prediction."
+        },
+        {
+          "key": "notPreciseLabel",
+          "value": "Not precise yet"
+        },
+        {
+          "key": "triggerNeedsEvidence",
+          "value": "The trigger is likely to be the life area currently showing the strongest timing pressure."
+        }
+      ]
+    },
+    {
+      "language": "hi",
+      "accessibilityKeys": 13,
+      "hasNativeScript": true,
+      "safetyKeys": [
+        {
+          "key": "finance",
+          "value": "धन और संपत्ति भविष्यवाणियां योजना-सहायता हैं, वित्तीय सलाह नहीं. बड़े निर्णय से पहले नकदी प्रवाह, कागज, कर और योग्य सलाह जांचें."
+        },
+        {
+          "key": "general",
+          "value": "प्रेडिक्टा प्रमाण-आधारित मार्गदर्शन देती है, गारंटी नहीं. समय और संकेतों को व्यावहारिक समझ के साथ उपयोग करें."
+        },
+        {
+          "key": "health",
+          "value": "स्वास्थ्य उत्तर केवल चिंतन और दिनचर्या-सहायता हैं. ये चिकित्सा निदान, आपात सलाह या योग्य डॉक्टर का विकल्प नहीं हैं."
+        },
+        {
+          "key": "legal",
+          "value": "कानूनी और कोर्ट उत्तर केवल समय और तैयारी मार्गदर्शन हैं. ये वकील, आधिकारिक कागज या कोर्ट सलाह का विकल्प नहीं हैं."
+        },
+        {
+          "key": "noGuarantee",
+          "value": "कोई भविष्यवाणी 100% गारंटी नहीं है. प्रेडिक्टा आपको बेहतर तैयारी में मदद करे, डर या जोखिम भरे कदम में नहीं धकेले."
+        }
+      ],
+      "predictionPreviewKeys": [
+        {
+          "key": "actionPrimary",
+          "value": "जहां दबाव, समय और निर्णय की जरूरत सबसे मजबूत दिखे, वहीं से शुरू करें."
+        },
+        {
+          "key": "actionSecondary",
+          "value": "सटीक समय पूछने से पहले कुंडली चुनें, एक स्पष्ट घटना चुनें और जो संदर्भ कम है उसे जोड़ें."
+        },
+        {
+          "key": "confidenceNotEnoughExplanation",
+          "value": "जरूरी स्रोत-प्रमाण उपलब्ध नहीं है, इसलिए प्रेडिक्टा अभी जिम्मेदारी से सटीक उत्तर नहीं दे सकती."
+        },
+        {
+          "key": "confidenceNotEnoughLabel",
+          "value": "अभी पर्याप्त प्रमाण नहीं"
+        },
+        {
+          "key": "needsClarityDirectAnswer",
+          "value": "और स्पष्टता चाहिए: सटीक भविष्यवाणी देने से पहले प्रेडिक्टा को चुनी हुई कुंडली और पर्याप्त घटना-प्रमाण चाहिए."
+        },
+        {
+          "key": "notPreciseLabel",
+          "value": "अभी सटीक नहीं"
+        },
+        {
+          "key": "triggerNeedsEvidence",
+          "value": "घटना-कारण संभवतः वही जीवन-क्षेत्र होगा जहां अभी समय का दबाव सबसे मजबूत दिख रहा है."
+        }
+      ]
+    },
+    {
+      "language": "gu",
+      "accessibilityKeys": 13,
+      "hasNativeScript": true,
+      "safetyKeys": [
+        {
+          "key": "finance",
+          "value": "ધન અને મિલકત ભવિષ્યવાણીઓ આયોજન માર્ગદર્શન છે, નાણાકીય સલાહ નહીં. મોટા નિર્ણય પહેલાં રોકડ પ્રવાહ, કાગળો, કર અને યોગ્ય સલાહ તપાસો."
+        },
+        {
+          "key": "general",
+          "value": "પ્રેડિક્ટા પુરાવા-આધારિત માર્ગદર્શન આપે છે, ગેરંટી નહીં. સમય અને સંકેતોનો ઉપયોગ વ્યવહારુ સમજ સાથે કરો."
+        },
+        {
+          "key": "health",
+          "value": "સ્વાસ્થ્ય જવાબો ફક્ત વિચાર અને રૂટિન સહાય છે. તે તબીબી નિદાન, ઇમરજન્સી સલાહ અથવા યોગ્ય ડોક્ટરનો વિકલ્પ નથી."
+        },
+        {
+          "key": "legal",
+          "value": "કાનૂની અને કોર્ટ જવાબો ફક્ત સમય અને તૈયારી માર્ગદર્શન છે. તે વકીલ, સત્તાવાર કાગળો અથવા કોર્ટ સલાહનો વિકલ્પ નથી."
+        },
+        {
+          "key": "noGuarantee",
+          "value": "કોઈ ભવિષ્યવાણી 100% ગેરંટી નથી. પ્રેડિક્ટા તમને સારી તૈયારીમાં મદદ કરે, ડર કે જોખમી પગલાં તરફ ધકેલે નહીં."
+        }
+      ],
+      "predictionPreviewKeys": [
+        {
+          "key": "actionPrimary",
+          "value": "જ્યાં દબાણ, સમય અને નિર્ણયની તાત્કાલિકતા સૌથી મજબૂત દેખાય, ત્યાંથી શરૂ કરો."
+        },
+        {
+          "key": "actionSecondary",
+          "value": "ચોક્કસ સમય પૂછતા પહેલાં કુંડળી પસંદ કરો, એક સ્પષ્ટ ઘટના પસંદ કરો અને જરૂરી સંદર્ભ ઉમેરો."
+        },
+        {
+          "key": "confidenceNotEnoughExplanation",
+          "value": "જરૂરી સ્ત્રોત-પુરાવો ઉપલબ્ધ નથી, એટલે પ્રેડિક્ટા હમણાં જવાબદારીપૂર્વક ચોક્કસ ઉત્તર આપી શકતી નથી."
+        },
+        {
+          "key": "confidenceNotEnoughLabel",
+          "value": "હજુ પૂરતો પુરાવો નથી"
+        },
+        {
+          "key": "needsClarityDirectAnswer",
+          "value": "વધુ સ્પષ્ટતા જોઈએ: ચોક્કસ ભવિષ્યવાણી આપવા પહેલાં પ્રેડિક્ટાને પસંદ કરેલી કુંડળી અને પૂરતો ઘટના-પુરાવો જોઈએ."
+        },
+        {
+          "key": "notPreciseLabel",
+          "value": "હજુ ચોક્કસ નથી"
+        },
+        {
+          "key": "triggerNeedsEvidence",
+          "value": "ઘટના-કારણ કદાચ તે જીવન-ક્ષેત્ર હશે જ્યાં હમણાં સમયનું દબાણ સૌથી મજબૂત દેખાય છે."
+        }
+      ]
+    }
+  ],
+  "routes": [
+    "/dashboard/chat?eventOraclePhase12Smoke=1&lang=en",
+    "/dashboard/chat?eventOraclePhase12Smoke=1&lang=hi",
+    "/dashboard/chat?eventOraclePhase12Smoke=1&lang=gu"
+  ],
+  "requiredManualChecks": [
+    "event chips",
+    "prediction card",
+    "confidence indicator",
+    "evidence drawer",
+    "tracker controls",
+    "health/legal/finance safety copy"
+  ]
+}

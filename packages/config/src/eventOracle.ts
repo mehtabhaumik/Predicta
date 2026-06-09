@@ -5,6 +5,21 @@ export type EventOracleCopy = {
   categoryLabels: Record<string, string>;
   categoryClarifiers: Record<string, string>;
   chipQuestions: Record<string, string>;
+  accessibility: {
+    askRefinedQuestion: string;
+    confidenceIndicator: string;
+    customQuestionInput: string;
+    evidenceDrawer: string;
+    evidenceRooms: string;
+    familyShareToggle: string;
+    outcomeSelect: string;
+    predictionCard: string;
+    recentThread: string;
+    refineCustomQuestion: string;
+    savePrediction: string;
+    selectEventChip: string;
+    trackerPanel: string;
+  };
   composer: {
     askThis: string;
     body: string;
@@ -52,6 +67,16 @@ export type EventOracleCopy = {
     strengthenLabel: string;
     timingTriggerLabel: string;
   };
+  predictionPreview: {
+    actionPrimary: string;
+    actionSecondary: string;
+    availability: Record<string, string>;
+    confidenceNotEnoughExplanation: string;
+    confidenceNotEnoughLabel: string;
+    needsClarityDirectAnswer: string;
+    notPreciseLabel: string;
+    triggerNeedsEvidence: string;
+  };
   precisionReading: {
     costGuardrail: string;
     followUp: string;
@@ -70,6 +95,13 @@ export type EventOracleCopy = {
     title: string;
   };
   roomLabels: Record<string, string>;
+  safety: {
+    finance: string;
+    general: string;
+    health: string;
+    legal: string;
+    noGuarantee: string;
+  };
   tracker: {
     adminAnalyticsTitle: string;
     analyticsCaution: string;

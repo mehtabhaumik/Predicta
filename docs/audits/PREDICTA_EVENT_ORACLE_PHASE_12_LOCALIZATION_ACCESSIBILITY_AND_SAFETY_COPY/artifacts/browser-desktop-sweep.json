@@ -1,0 +1,156 @@
+{
+  "route": "/dashboard/chat?eventOraclePhase12Smoke=desktop",
+  "viewport": "1280x900 headless Chrome CDP",
+  "results": [
+    {
+      "language": "en",
+      "viewportWidth": 1280,
+      "overflowX": 0,
+      "hasComposer": true,
+      "hasSafetyNote": true,
+      "hasHiScript": false,
+      "hasGuScript": false,
+      "nonEnglishPreviewLeak": false,
+      "predictionCardLabel": "Prediction preview card with answer, timing, confidence, action, and safety",
+      "confidenceLabels": [
+        "Prediction preview card with answer, timing, confidence, action, and safety",
+        "Prediction confidence indicator"
+      ],
+      "evidenceSummaryLabel": "Open or close the evidence rooms behind this prediction",
+      "trackerPanelLabel": "Private prediction tracker controls",
+      "safetyText": "Predicta gives evidence-backed guidance, not a guarantee. Use timing and trigger signals with practical judgment.No prediction is 100% guaranteed. Predicta should help you prepare better, not pressure you into fear or risky action.",
+      "chipLabels": [
+        {
+          "text": "Career moveIs a meaningful career move likely for me soon?",
+          "aria": "Select this event question: Is a meaningful career move likely for me soon?",
+          "pressed": "false"
+        },
+        {
+          "text": "Foreign travelIs foreign work travel or relocation likely for me?",
+          "aria": "Select this event question: Is foreign work travel or relocation likely for me?",
+          "pressed": "false"
+        },
+        {
+          "text": "Marriage timingWhen is marriage more likely for me?",
+          "aria": "Select this event question: When is marriage more likely for me?",
+          "pressed": "false"
+        },
+        {
+          "text": "Relationship outcomeWhere is this relationship likely to go?",
+          "aria": "Select this event question: Where is this relationship likely to go?",
+          "pressed": "false"
+        },
+        {
+          "text": "Money / propertyIs this a good time for a money or property decision?",
+          "aria": "Select this event question: Is this a good time for a money or property decision?",
+          "pressed": "false"
+        },
+        {
+          "text": "Business growthWill my business grow in the next phase?",
+          "aria": "Select this event question: Will my business grow in the next phase?",
+          "pressed": "false"
+        }
+      ]
+    },
+    {
+      "language": "hi",
+      "viewportWidth": 1280,
+      "overflowX": 0,
+      "hasComposer": true,
+      "hasSafetyNote": true,
+      "hasHiScript": true,
+      "hasGuScript": false,
+      "nonEnglishPreviewLeak": false,
+      "predictionCardLabel": "उत्तर, समय, विश्वास स्तर, कार्य और सुरक्षा वाला भविष्यवाणी पूर्वदर्शन कार्ड",
+      "confidenceLabels": [
+        "उत्तर, समय, विश्वास स्तर, कार्य और सुरक्षा वाला भविष्यवाणी पूर्वदर्शन कार्ड",
+        "भविष्यवाणी विश्वास स्तर संकेतक"
+      ],
+      "evidenceSummaryLabel": "इस भविष्यवाणी के प्रमाण-कक्ष खोलें या बंद करें",
+      "trackerPanelLabel": "निजी भविष्यवाणी ट्रैकर नियंत्रण",
+      "safetyText": "प्रेडिक्टा प्रमाण-आधारित मार्गदर्शन देती है, गारंटी नहीं. समय और संकेतों को व्यावहारिक समझ के साथ उपयोग करें.कोई भविष्यवाणी 100% गारंटी नहीं है. प्रेडिक्टा आपको बेहतर तैयारी में मदद करे, डर या जोखिम भरे कदम में नहीं धकेले.",
+      "chipLabels": [
+        {
+          "text": "करियर बदलावक्या मेरे करियर में जल्द कोई महत्वपूर्ण बदलाव दिखता है?",
+          "aria": "यह घटना-प्रश्न चुनें: क्या मेरे करियर में जल्द कोई महत्वपूर्ण बदलाव दिखता है?",
+          "pressed": "false"
+        },
+        {
+          "text": "विदेश यात्राक्या मेरे लिए विदेश कार्य-यात्रा या स्थान परिवर्तन संभव है?",
+          "aria": "यह घटना-प्रश्न चुनें: क्या मेरे लिए विदेश कार्य-यात्रा या स्थान परिवर्तन संभव है?",
+          "pressed": "false"
+        },
+        {
+          "text": "विवाह समयमेरे लिए विवाह का समय कब अधिक संभावित है?",
+          "aria": "यह घटना-प्रश्न चुनें: मेरे लिए विवाह का समय कब अधिक संभावित है?",
+          "pressed": "false"
+        },
+        {
+          "text": "रिश्ते का परिणामयह रिश्ता किस दिशा में जा सकता है?",
+          "aria": "यह घटना-प्रश्न चुनें: यह रिश्ता किस दिशा में जा सकता है?",
+          "pressed": "false"
+        },
+        {
+          "text": "धन / संपत्तिक्या धन या संपत्ति निर्णय के लिए यह अच्छा समय है?",
+          "aria": "यह घटना-प्रश्न चुनें: क्या धन या संपत्ति निर्णय के लिए यह अच्छा समय है?",
+          "pressed": "false"
+        },
+        {
+          "text": "व्यवसाय वृद्धिक्या अगले चरण में मेरा व्यवसाय बढ़ेगा?",
+          "aria": "यह घटना-प्रश्न चुनें: क्या अगले चरण में मेरा व्यवसाय बढ़ेगा?",
+          "pressed": "false"
+        }
+      ]
+    },
+    {
+      "language": "gu",
+      "viewportWidth": 1280,
+      "overflowX": 0,
+      "hasComposer": true,
+      "hasSafetyNote": true,
+      "hasHiScript": false,
+      "hasGuScript": true,
+      "nonEnglishPreviewLeak": false,
+      "predictionCardLabel": "ઉત્તર, સમય, વિશ્વાસ સ્તર, પગલું અને સુરક્ષા ધરાવતું ભવિષ્યવાણી પૂર્વદર્શન કાર્ડ",
+      "confidenceLabels": [
+        "ઉત્તર, સમય, વિશ્વાસ સ્તર, પગલું અને સુરક્ષા ધરાવતું ભવિષ્યવાણી પૂર્વદર્શન કાર્ડ",
+        "ભવિષ્યવાણી વિશ્વાસ સ્તર સૂચક"
+      ],
+      "evidenceSummaryLabel": "આ ભવિષ્યવાણીના પુરાવા રૂમ ખોલો અથવા બંધ કરો",
+      "trackerPanelLabel": "ખાનગી ભવિષ્યવાણી ટ્રેકર નિયંત્રણો",
+      "safetyText": "પ્રેડિક્ટા પુરાવા-આધારિત માર્ગદર્શન આપે છે, ગેરંટી નહીં. સમય અને સંકેતોનો ઉપયોગ વ્યવહારુ સમજ સાથે કરો.કોઈ ભવિષ્યવાણી 100% ગેરંટી નથી. પ્રેડિક્ટા તમને સારી તૈયારીમાં મદદ કરે, ડર કે જોખમી પગલાં તરફ ધકેલે નહીં.",
+      "chipLabels": [
+        {
+          "text": "કરિયર ફેરફારશું મારા કરિયરમાં જલ્દી કોઈ મહત્વપૂર્ણ ફેરફાર દેખાય છે?",
+          "aria": "આ ઘટના-પ્રશ્ન પસંદ કરો: શું મારા કરિયરમાં જલ્દી કોઈ મહત્વપૂર્ણ ફેરફાર દેખાય છે?",
+          "pressed": "false"
+        },
+        {
+          "text": "વિદેશ પ્રવાસશું મારા માટે વિદેશ કામ-પ્રવાસ અથવા સ્થાન ફેરફાર શક્ય છે?",
+          "aria": "આ ઘટના-પ્રશ્ન પસંદ કરો: શું મારા માટે વિદેશ કામ-પ્રવાસ અથવા સ્થાન ફેરફાર શક્ય છે?",
+          "pressed": "false"
+        },
+        {
+          "text": "લગ્ન સમયમારા માટે લગ્નનો સમય ક્યારે વધુ સંભવિત છે?",
+          "aria": "આ ઘટના-પ્રશ્ન પસંદ કરો: મારા માટે લગ્નનો સમય ક્યારે વધુ સંભવિત છે?",
+          "pressed": "false"
+        },
+        {
+          "text": "સંબંધનું પરિણામઆ સંબંધ કઈ દિશામાં જઈ શકે?",
+          "aria": "આ ઘટના-પ્રશ્ન પસંદ કરો: આ સંબંધ કઈ દિશામાં જઈ શકે?",
+          "pressed": "false"
+        },
+        {
+          "text": "ધન / મિલકતશું ધન અથવા મિલકત નિર્ણય માટે આ સારો સમય છે?",
+          "aria": "આ ઘટના-પ્રશ્ન પસંદ કરો: શું ધન અથવા મિલકત નિર્ણય માટે આ સારો સમય છે?",
+          "pressed": "false"
+        },
+        {
+          "text": "વ્યવસાય વૃદ્ધિશું આગામી તબક્કામાં મારો વ્યવસાય વધશે?",
+          "aria": "આ ઘટના-પ્રશ્ન પસંદ કરો: શું આગામી તબક્કામાં મારો વ્યવસાય વધશે?",
+          "pressed": "false"
+        }
+      ]
+    }
+  ]
+}

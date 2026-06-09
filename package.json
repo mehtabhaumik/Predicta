@@ -80,6 +80,7 @@
     "test:event-oracle-phase-9": "node scripts/run-event-oracle-phase-9-gate.mjs",
     "test:event-oracle-phase-10": "node scripts/run-event-oracle-phase-10-gate.mjs",
     "test:event-oracle-phase-11": "node scripts/run-event-oracle-phase-11-gate.mjs",
+    "test:event-oracle-phase-12": "node scripts/run-event-oracle-phase-12-gate.mjs",
     "test:competitor-response-phase-0": "node scripts/run-competitor-response-phase-0-gate.mjs",
     "test:competitor-response-phase-1": "node scripts/run-competitor-response-phase-1-gate.mjs",
     "test:competitor-response-phase-2": "node scripts/run-competitor-response-phase-2-gate.mjs",

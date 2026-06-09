@@ -3677,6 +3677,24 @@ button:disabled,
   padding: 7px 10px;
 }
 
+.event-question-safety-note {
+  background: rgba(77, 175, 255, 0.08);
+  border: 1px solid rgba(77, 175, 255, 0.22);
+  border-radius: 16px;
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 12px;
+}
+
+.event-question-safety-note p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
 .event-question-recent-threads button {
   background: rgba(255, 255, 255, 0.035);
   border: 1px solid var(--border-quiet);

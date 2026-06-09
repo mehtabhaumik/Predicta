@@ -18,6 +18,7 @@ import {
   type EventQuestionCategoryId,
   type EventQuestionRefinement,
   type EventOracleOutcomeState,
+  type EventOraclePredictionObject,
   type EventOraclePredictionTrackerCard,
 } from '@pridicta/astrology';
 import Link from 'next/link';
@@ -52,6 +53,81 @@ function getChipLabel(copy: EventOracleCopy, chipId: string): string {
 
 function getRoomLabel(copy: EventOracleCopy, room: string): string {
   return copy.roomLabels[room] ?? room;
+}
+
+function getEventOracleSafetyMessages(
+  copy: EventOracleCopy,
+  categoryId: EventQuestionCategoryId,
+): string[] {
+  const messages = [copy.safety.general, copy.safety.noGuarantee];
+
+  if (categoryId === 'wellness_caution') {
+    messages.splice(1, 0, copy.safety.health);
+  }
+
+  if (categoryId === 'court_litigation') {
+    messages.splice(1, 0, copy.safety.legal);
+  }
+
+  if (
+    categoryId === 'money_property' ||
+    categoryId === 'business_growth'
+  ) {
+    messages.splice(1, 0, copy.safety.finance);
+  }
+
+  return messages;
+}
+
+function localizePredictionPreview(
+  copy: EventOracleCopy,
+  prediction: EventOraclePredictionObject,
+): {
+  actionPrimary: string;
+  actionSecondary: string;
+  confidenceExplanation: string;
+  confidenceLabel: string;
+  directAnswer: string;
+  evidenceItems: Array<{ availability: string; label: string; layerId: string }>;
+  timingLabel: string;
+  triggerSummary: string;
+} {
+  return {
+    actionPrimary:
+      prediction.outcome === 'needs_evidence'
+        ? copy.predictionPreview.actionPrimary
+        : prediction.whatToDoNow[0],
+    actionSecondary:
+      prediction.outcome === 'needs_evidence'
+        ? copy.predictionPreview.actionSecondary
+        : (prediction.whatToDoNow[1] ?? ''),
+    confidenceExplanation:
+      prediction.confidence.level === 'not_enough_evidence'
+        ? copy.predictionPreview.confidenceNotEnoughExplanation
+        : prediction.confidence.explanation,
+    confidenceLabel:
+      prediction.confidence.level === 'not_enough_evidence'
+        ? copy.predictionPreview.confidenceNotEnoughLabel
+        : prediction.confidence.label,
+    directAnswer:
+      prediction.outcome === 'needs_evidence'
+        ? copy.predictionPreview.needsClarityDirectAnswer
+        : prediction.directAnswer,
+    evidenceItems: prediction.collapsedEvidence.map(item => ({
+      availability:
+        copy.predictionPreview.availability[item.availability] ?? item.availability,
+      label: getRoomLabel(copy, item.layerId),
+      layerId: item.layerId,
+    })),
+    timingLabel:
+      prediction.timingWindow.precision === 'not_precise_yet'
+        ? copy.predictionPreview.notPreciseLabel
+        : prediction.timingWindow.label,
+    triggerSummary:
+      prediction.timingWindow.precision === 'not_precise_yet'
+        ? copy.predictionPreview.triggerNeedsEvidence
+        : prediction.mostLikelyTrigger.summary,
+  };
 }
 
 export function WebEventQuestionComposer(): React.JSX.Element {
@@ -118,6 +194,11 @@ export function WebEventQuestionComposer(): React.JSX.Element {
     }),
     refinement,
   });
+  const localizedPredictionPreview = localizePredictionPreview(
+    copy,
+    predictionPreview,
+  );
+  const safetyMessages = getEventOracleSafetyMessages(copy, refinement.categoryId);
   const creditStatusTitle = passStatus?.title ?? copy.hero.creditQuietTitle;
   const creditStatusBody = passStatus?.body ?? copy.hero.creditQuietBody;
   const activeKundliName =
@@ -240,6 +321,8 @@ export function WebEventQuestionComposer(): React.JSX.Element {
       <div className="event-question-chip-grid">
         {QUESTION_CHIPS.map(chip => (
           <button
+            aria-label={`${copy.accessibility.selectEventChip}: ${getChipLabel(copy, chip.id)}`}
+            aria-pressed={refinement.categoryId === chip.categoryId}
             className={
               refinement.categoryId === chip.categoryId
                 ? 'event-question-chip active'
@@ -259,6 +342,7 @@ export function WebEventQuestionComposer(): React.JSX.Element {
         <label className="field-stack">
           <span className="field-label">{copy.composer.customTitle}</span>
           <input
+            aria-label={copy.accessibility.customQuestionInput}
             onChange={event => setCustomQuestion(event.target.value)}
             placeholder={copy.composer.customPlaceholder}
             type="text"
@@ -266,6 +350,7 @@ export function WebEventQuestionComposer(): React.JSX.Element {
           />
         </label>
         <button
+          aria-label={copy.accessibility.refineCustomQuestion}
           className="button secondary"
           onClick={() => {
             const nextRefinement = refineEventQuestion(customQuestion);
@@ -290,54 +375,64 @@ export function WebEventQuestionComposer(): React.JSX.Element {
         </div>
         <div className="event-question-evidence">
           <span>{copy.composer.evidenceLabel}</span>
-          <div>
+          <div aria-label={copy.accessibility.evidenceRooms}>
             {refinement.downstream.evidenceRooms.map(room => (
               <em key={room}>{getRoomLabel(copy, room)}</em>
             ))}
           </div>
         </div>
         <p>{copy.composer.freePaid}</p>
-        <Link className="button" href={askHref}>
+        <Link aria-label={copy.accessibility.askRefinedQuestion} className="button" href={askHref}>
           {copy.composer.askThis}
         </Link>
       </div>
 
       <div className="event-question-hero-lower">
-        <article className="event-question-prediction-card">
+        <article
+          aria-label={copy.accessibility.predictionCard}
+          className="event-question-prediction-card"
+        >
           <div className="event-question-card-title">
             <span>{copy.predictionCard.evidencePendingTitle}</span>
             <strong>{copy.predictionCard.directAnswerLabel}</strong>
           </div>
           <p className="event-question-direct-answer">
-            {predictionPreview.directAnswer}
+            {localizedPredictionPreview.directAnswer}
           </p>
           <div className="event-question-prediction-grid">
             <div>
               <span>{copy.predictionCard.timingTriggerLabel}</span>
-              <strong>{predictionPreview.timingWindow.label}</strong>
-              <p>{predictionPreview.mostLikelyTrigger.summary}</p>
+              <strong>{localizedPredictionPreview.timingLabel}</strong>
+              <p>{localizedPredictionPreview.triggerSummary}</p>
             </div>
-            <div>
+            <div aria-label={copy.accessibility.confidenceIndicator}>
               <span>{copy.predictionCard.confidenceLabel}</span>
-              <strong>{predictionPreview.confidence.label}</strong>
-              <p>{predictionPreview.confidence.explanation}</p>
+              <strong>{localizedPredictionPreview.confidenceLabel}</strong>
+              <p>{localizedPredictionPreview.confidenceExplanation}</p>
             </div>
             <div>
               <span>{copy.predictionCard.actionPlanLabel}</span>
-              <strong>{predictionPreview.whatToDoNow[0]}</strong>
-              <p>{predictionPreview.whatToDoNow[1]}</p>
+              <strong>{localizedPredictionPreview.actionPrimary}</strong>
+              <p>{localizedPredictionPreview.actionSecondary}</p>
             </div>
           </div>
           <details className="event-question-collapsed-evidence">
-            <summary>{copy.predictionCard.collapsedEvidenceLabel}</summary>
+            <summary aria-label={copy.accessibility.evidenceDrawer}>
+              {copy.predictionCard.collapsedEvidenceLabel}
+            </summary>
             <div>
-              {predictionPreview.collapsedEvidence.map(item => (
+              {localizedPredictionPreview.evidenceItems.map(item => (
                 <em key={item.layerId}>
                   {item.label}: {item.availability}
                 </em>
               ))}
             </div>
           </details>
+          <div className="event-question-safety-note" role="note">
+            {safetyMessages.map(message => (
+              <p key={message}>{message}</p>
+            ))}
+          </div>
         </article>
 
         <article className="event-question-precision-panel">
@@ -372,6 +467,7 @@ export function WebEventQuestionComposer(): React.JSX.Element {
             <div>
               {recentThreads.map(thread => (
                 <button
+                  aria-label={`${copy.accessibility.recentThread}: ${thread.question}`}
                   key={thread.id}
                   onClick={() =>
                     refineSelectedQuestion(thread.question, thread.categoryId)
@@ -390,11 +486,19 @@ export function WebEventQuestionComposer(): React.JSX.Element {
         </aside>
       </div>
 
-      <section className="event-question-tracker-panel">
+      <section
+        aria-label={copy.accessibility.trackerPanel}
+        className="event-question-tracker-panel"
+      >
         <div className="event-question-section-head">
           <span>{copy.tracker.title}</span>
           <strong>{copy.tracker.familyPrivate}</strong>
-          <button className="button secondary" onClick={saveCurrentPrediction} type="button">
+          <button
+            aria-label={copy.accessibility.savePrediction}
+            className="button secondary"
+            onClick={saveCurrentPrediction}
+            type="button"
+          >
             {copy.tracker.savePrediction}
           </button>
         </div>
@@ -430,6 +534,7 @@ export function WebEventQuestionComposer(): React.JSX.Element {
                 <label className="field-stack">
                   <span className="field-label">{copy.tracker.markOutcome}</span>
                   <select
+                    aria-label={copy.accessibility.outcomeSelect}
                     onChange={event =>
                       changeOutcome(card, event.target.value as EventOracleOutcomeState)
                     }
@@ -443,6 +548,7 @@ export function WebEventQuestionComposer(): React.JSX.Element {
                   </select>
                 </label>
                 <button
+                  aria-label={copy.accessibility.familyShareToggle}
                   className="button secondary"
                   onClick={() => toggleFamilyShare(card)}
                   type="button"

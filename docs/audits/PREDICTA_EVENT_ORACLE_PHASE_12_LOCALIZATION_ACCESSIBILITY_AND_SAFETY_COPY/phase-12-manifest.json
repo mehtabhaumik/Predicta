@@ -1,0 +1,40 @@
+{
+  "accessibilityKeys": [
+    "askRefinedQuestion",
+    "confidenceIndicator",
+    "customQuestionInput",
+    "evidenceDrawer",
+    "evidenceRooms",
+    "familyShareToggle",
+    "outcomeSelect",
+    "predictionCard",
+    "recentThread",
+    "refineCustomQuestion",
+    "savePrediction",
+    "selectEventChip",
+    "trackerPanel"
+  ],
+  "greenCriteria": [
+    "Translation gates pass.",
+    "Manual route sweeps pass for English, Hindi, Gujarati.",
+    "No mixed-language leakage.",
+    "Accessibility checks pass on mobile and desktop."
+  ],
+  "phaseName": "PREDICTA_EVENT_ORACLE_PHASE_12_LOCALIZATION_ACCESSIBILITY_AND_SAFETY_COPY",
+  "safetyKeys": [
+    "finance",
+    "general",
+    "health",
+    "legal",
+    "noGuarantee"
+  ],
+  "predictionPreviewKeys": [
+    "actionPrimary",
+    "actionSecondary",
+    "confidenceNotEnoughExplanation",
+    "confidenceNotEnoughLabel",
+    "needsClarityDirectAnswer",
+    "notPreciseLabel",
+    "triggerNeedsEvidence"
+  ]
+}

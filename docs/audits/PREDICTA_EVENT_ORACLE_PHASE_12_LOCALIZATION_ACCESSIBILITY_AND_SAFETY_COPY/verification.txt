@@ -1,0 +1,11 @@
+PREDICTA_EVENT_ORACLE_PHASE_12_LOCALIZATION_ACCESSIBILITY_AND_SAFETY_COPY: GREEN after strict localization, accessibility, safety, build, and browser audit.
+Verified commands:
+- corepack pnpm test:event-oracle-phase-12
+- corepack pnpm test:translation-trust
+- corepack pnpm test:global-translation-coverage
+- corepack pnpm --filter @pridicta/config typecheck
+- corepack pnpm --filter @pridicta/web typecheck
+- corepack pnpm --filter @pridicta/mobile typecheck
+- corepack pnpm build:web
+- Browser mobile sweep: English, Hindi, Gujarati on /dashboard/chat at 390px, no horizontal overflow, localized safety/accessibility copy, no non-English preview leak.
+- Browser desktop sweep: English, Hindi, Gujarati on /dashboard/chat at 1280px, no horizontal overflow, localized safety/accessibility copy, no non-English preview leak.

@@ -114,11 +114,12 @@ assertForbiddenClean(engineSource, 'Event Oracle prediction engine');
 const composerSource = read('apps/web/components/WebEventQuestionComposer.tsx');
 [
   'copy.predictionCard.directAnswerLabel',
-  'predictionPreview.directAnswer',
-  'predictionPreview.timingWindow.label',
-  'predictionPreview.mostLikelyTrigger.summary',
-  'predictionPreview.whatToDoNow',
-  'predictionPreview.collapsedEvidence',
+  'localizePredictionPreview',
+  'localizedPredictionPreview.directAnswer',
+  'localizedPredictionPreview.timingLabel',
+  'localizedPredictionPreview.triggerSummary',
+  'localizedPredictionPreview.actionPrimary',
+  'localizedPredictionPreview.evidenceItems',
 ].forEach(fragment => assertIncludes(composerSource, fragment, 'Event Oracle composer answer order'));
 
 const chatSource = read('apps/web/components/WebPridictaChat.tsx');

@@ -71,11 +71,12 @@ const component = read('apps/web/components/WebEventQuestionComposer.tsx');
   'copy.hero.secondaryCta',
   'copy.hero.deterministicHelp',
   'copy.predictionCard.directAnswerLabel',
-  'predictionPreview.directAnswer',
-  'predictionPreview.timingWindow.label',
-  'predictionPreview.mostLikelyTrigger.summary',
-  'predictionPreview.whatToDoNow',
-  'predictionPreview.collapsedEvidence',
+  'localizePredictionPreview',
+  'localizedPredictionPreview.directAnswer',
+  'localizedPredictionPreview.timingLabel',
+  'localizedPredictionPreview.triggerSummary',
+  'localizedPredictionPreview.actionPrimary',
+  'localizedPredictionPreview.evidenceItems',
 ].forEach(fragment => assertIncludes(component, fragment, 'Event question composer'));
 
 assertGate(
@@ -101,7 +102,7 @@ const css = read('apps/web/app/globals.css');
 const eventOracleCopy = readJson('packages/config/src/translations/eventOracle.json').copy;
 for (const lang of ['en', 'hi', 'gu']) {
   const localized = eventOracleCopy[lang];
-  for (const section of ['hero', 'predictionCard', 'recentThreads']) {
+  for (const section of ['hero', 'predictionCard', 'predictionPreview', 'recentThreads']) {
     assertGate(Boolean(localized?.[section]), `eventOracle ${lang} missing ${section}`);
   }
   for (const key of [
@@ -134,6 +135,23 @@ for (const lang of ['en', 'hi', 'gu']) {
   ]) {
     assertGate(Boolean(localized.predictionCard?.[key]), `eventOracle ${lang} missing predictionCard.${key}`);
   }
+  for (const key of [
+    'actionPrimary',
+    'actionSecondary',
+    'confidenceNotEnoughExplanation',
+    'confidenceNotEnoughLabel',
+    'needsClarityDirectAnswer',
+    'notPreciseLabel',
+    'triggerNeedsEvidence',
+  ]) {
+    assertGate(Boolean(localized.predictionPreview?.[key]), `eventOracle ${lang} missing predictionPreview.${key}`);
+  }
+  for (const key of ['missing', 'partial', 'ready']) {
+    assertGate(
+      Boolean(localized.predictionPreview?.availability?.[key]),
+      `eventOracle ${lang} missing predictionPreview.availability.${key}`,
+    );
+  }
   for (const key of ['empty', 'openThread', 'title']) {
     assertGate(Boolean(localized.recentThreads?.[key]), `eventOracle ${lang} missing recentThreads.${key}`);
   }
@@ -143,6 +161,7 @@ for (const lang of ['hi', 'gu']) {
   const joined = JSON.stringify({
     hero: eventOracleCopy[lang].hero,
     predictionCard: eventOracleCopy[lang].predictionCard,
+    predictionPreview: eventOracleCopy[lang].predictionPreview,
     recentThreads: eventOracleCopy[lang].recentThreads,
   });
   for (const forbidden of [
@@ -153,6 +172,10 @@ for (const lang of ['hi', 'gu']) {
     'Recent prediction threads',
     'Prediction card preview',
     'Access status',
+    'Needs clarity',
+    'Not precise yet',
+    'Not enough evidence',
+    'The trigger is likely',
   ]) {
     assertGate(!joined.includes(forbidden), `eventOracle ${lang} leaks English phrase ${forbidden}`);
   }
