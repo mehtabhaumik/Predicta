@@ -8,10 +8,17 @@ import { getOneTimeProduct } from '@pridicta/config/pricing';
 import {
   buildEventOracleEvidenceContract,
   buildEventOraclePredictionObject,
+  createPredictionTrackerCard,
   getEventQuestionChips,
+  isPredictionVisibleToFamilyVault,
   refineEventQuestion,
+  refreshPredictionReminderState,
+  setPredictionFamilyVaultSharing,
+  updatePredictionOutcome,
   type EventQuestionCategoryId,
   type EventQuestionRefinement,
+  type EventOracleOutcomeState,
+  type EventOraclePredictionTrackerCard,
 } from '@pridicta/astrology';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -27,7 +34,9 @@ import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 
 const QUESTION_CHIPS = getEventQuestionChips();
 const RECENT_EVENT_THREADS_KEY = 'predicta.eventOracle.recentThreads.v1';
+const PREDICTION_TRACKER_KEY = 'predicta.eventOracle.predictionTracker.v1';
 const MAX_RECENT_THREADS = 3;
+const MAX_TRACKED_PREDICTIONS = 8;
 const PRECISION_READING_PRODUCT = getOneTimeProduct('PRECISION_READING');
 
 type RecentEventThread = {
@@ -54,12 +63,16 @@ export function WebEventQuestionComposer(): React.JSX.Element {
   const [refinement, setRefinement] = useState<EventQuestionRefinement>(() =>
     refineEventQuestion('', 'guide_me'),
   );
+  const [trackedPredictions, setTrackedPredictions] = useState<
+    EventOraclePredictionTrackerCard[]
+  >([]);
   const [recentThreads, setRecentThreads] = useState<RecentEventThread[]>([]);
   const [passStatus, setPassStatus] = useState<WebPassCostDisplay | undefined>();
   const handoffContext = getEventOracleHandoffContext(searchParams);
 
   useEffect(() => {
     setRecentThreads(loadRecentThreads());
+    setTrackedPredictions(loadTrackedPredictions());
 
     function refreshStatus() {
       setPassStatus(getWebPassCostDisplay(language));
@@ -110,6 +123,56 @@ export function WebEventQuestionComposer(): React.JSX.Element {
   const activeKundliName =
     activeKundli?.birthDetails.name?.trim() || copy.hero.activeKundliEmpty;
   const primaryHref = activeKundli ? askHref : '/dashboard/kundli';
+  const outcomeLabels: Record<EventOracleOutcomeState, string> = {
+    did_not_happen: copy.tracker.didNotHappen,
+    happened: copy.tracker.happened,
+    partially_happened: copy.tracker.partiallyHappened,
+    pending: copy.tracker.pending,
+    too_early_to_judge: copy.tracker.tooEarly,
+  };
+
+  function saveCurrentPrediction(): void {
+    const nextCard = createPredictionTrackerCard({
+      nowIso: new Date().toISOString(),
+      prediction: predictionPreview,
+    });
+    setTrackedPredictions(saveTrackedPrediction(nextCard));
+    setRecentThreads(rememberRecentThread(refinement));
+  }
+
+  function changeOutcome(
+    card: EventOraclePredictionTrackerCard,
+    outcomeState: EventOracleOutcomeState,
+  ): void {
+    setTrackedPredictions(
+      saveTrackedPredictions(
+        trackedPredictions.map(item =>
+          item.id === card.id
+            ? updatePredictionOutcome(item, {
+                outcomeState,
+                updatedAt: new Date().toISOString(),
+              })
+            : item,
+        ),
+      ),
+    );
+  }
+
+  function toggleFamilyShare(card: EventOraclePredictionTrackerCard): void {
+    setTrackedPredictions(
+      saveTrackedPredictions(
+        trackedPredictions.map(item =>
+          item.id === card.id
+            ? setPredictionFamilyVaultSharing(
+                item,
+                !isPredictionVisibleToFamilyVault(item),
+                new Date().toISOString(),
+              )
+            : item,
+        ),
+      ),
+    );
+  }
 
   return (
     <section className="event-question-composer glass-panel" aria-label={copy.composer.title}>
@@ -326,6 +389,75 @@ export function WebEventQuestionComposer(): React.JSX.Element {
           <p>{copy.hero.deterministicHelp}</p>
         </aside>
       </div>
+
+      <section className="event-question-tracker-panel">
+        <div className="event-question-section-head">
+          <span>{copy.tracker.title}</span>
+          <strong>{copy.tracker.familyPrivate}</strong>
+          <button className="button secondary" onClick={saveCurrentPrediction} type="button">
+            {copy.tracker.savePrediction}
+          </button>
+        </div>
+        {trackedPredictions.length ? (
+          <div className="event-question-tracker-grid">
+            {trackedPredictions.map(card => (
+              <article className="event-question-tracker-card" key={card.id}>
+                <div>
+                  <span>{copy.categoryLabels[card.categoryId] ?? card.categoryId}</span>
+                  <strong>{card.refinedQuestion}</strong>
+                  <p>{card.answer}</p>
+                </div>
+                <dl>
+                  <div>
+                    <dt>{copy.predictionCard.timingTriggerLabel}</dt>
+                    <dd>{card.timingWindow.label}</dd>
+                  </div>
+                  <div>
+                    <dt>{copy.predictionCard.confidenceLabel}</dt>
+                    <dd>{card.confidence.label}</dd>
+                  </div>
+                  <div>
+                    <dt>{copy.predictionCard.collapsedEvidenceLabel}</dt>
+                    <dd>{card.evidenceSourceLabels.join(' / ') || copy.predictionCard.evidencePendingTitle}</dd>
+                  </div>
+                </dl>
+                <p>
+                  {card.followUpReminder.state === 'due'
+                    ? copy.tracker.reminderDue
+                    : copy.tracker.reminderPending}
+                  {card.followUpReminder.dueAt ? `: ${card.followUpReminder.dueAt}` : ''}
+                </p>
+                <label className="field-stack">
+                  <span className="field-label">{copy.tracker.markOutcome}</span>
+                  <select
+                    onChange={event =>
+                      changeOutcome(card, event.target.value as EventOracleOutcomeState)
+                    }
+                    value={card.outcomeState}
+                  >
+                    {Object.entries(outcomeLabels).map(([state, label]) => (
+                      <option key={state} value={state}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <button
+                  className="button secondary"
+                  onClick={() => toggleFamilyShare(card)}
+                  type="button"
+                >
+                  {isPredictionVisibleToFamilyVault(card)
+                    ? copy.tracker.unshareFromFamily
+                    : copy.tracker.shareWithFamily}
+                </button>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <p className="event-question-tracker-empty">{copy.tracker.empty}</p>
+        )}
+      </section>
     </section>
   );
 }
@@ -365,6 +497,39 @@ function loadRecentThreads(): RecentEventThread[] {
   } catch {
     return [];
   }
+}
+
+function loadTrackedPredictions(): EventOraclePredictionTrackerCard[] {
+  try {
+    const parsed = JSON.parse(
+      window.localStorage.getItem(PREDICTION_TRACKER_KEY) ?? '[]',
+    ) as EventOraclePredictionTrackerCard[];
+    const nowIso = new Date().toISOString();
+    return Array.isArray(parsed)
+      ? parsed
+          .map(card => refreshPredictionReminderState(card, nowIso))
+          .slice(0, MAX_TRACKED_PREDICTIONS)
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveTrackedPrediction(
+  nextCard: EventOraclePredictionTrackerCard,
+): EventOraclePredictionTrackerCard[] {
+  const nextCards = [
+    nextCard,
+    ...loadTrackedPredictions().filter(card => card.id !== nextCard.id),
+  ].slice(0, MAX_TRACKED_PREDICTIONS);
+  return saveTrackedPredictions(nextCards);
+}
+
+function saveTrackedPredictions(
+  nextCards: EventOraclePredictionTrackerCard[],
+): EventOraclePredictionTrackerCard[] {
+  window.localStorage.setItem(PREDICTION_TRACKER_KEY, JSON.stringify(nextCards));
+  return nextCards;
 }
 
 function rememberRecentThread(

@@ -1,0 +1,16 @@
+{
+  "route": "http://127.0.0.1:3030/dashboard/chat?eventOraclePhase10Smoke=1",
+  "viewport": {
+    "clientWidth": 390,
+    "scrollWidth": 390,
+    "width": 390
+  },
+  "visibleChecks": {
+    "trackerTitle": true,
+    "trackButtonWorked": true,
+    "privacyCopy": true,
+    "outcomeSelect": true,
+    "familyVaultExplicitShareButton": true
+  },
+  "hasHorizontalOverflow": false
+}

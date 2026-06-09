@@ -70,6 +70,24 @@ export type EventOracleCopy = {
     title: string;
   };
   roomLabels: Record<string, string>;
+  tracker: {
+    adminAnalyticsTitle: string;
+    analyticsCaution: string;
+    didNotHappen: string;
+    empty: string;
+    familyPrivate: string;
+    happened: string;
+    markOutcome: string;
+    partiallyHappened: string;
+    pending: string;
+    reminderDue: string;
+    reminderPending: string;
+    savePrediction: string;
+    shareWithFamily: string;
+    title: string;
+    tooEarly: string;
+    unshareFromFamily: string;
+  };
 };
 
 const EVENT_ORACLE_COPY = eventOracleTranslations.copy as Record<

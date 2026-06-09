@@ -1,17 +1,21 @@
 import {
   assignHumanReviewPacket,
+  buildOutcomeAnalytics,
   buildEventOracleEvidenceContract,
   buildEventOraclePredictionObject,
   buildHumanReviewTranscript,
+  createPredictionTrackerCard,
   createHumanReviewPacket,
   createReadySupportLayer,
   markHumanReviewSent,
   refineEventQuestion,
   submitHumanReviewResponse,
+  updatePredictionOutcome,
   type HumanAstrologerProfile,
   type HumanReviewResponse,
 } from '@pridicta/astrology';
 import {
+  getEventOracleCopy,
   getHumanAstrologerReviewAdminCopy,
   getOneTimeProduct,
 } from '@pridicta/config';
@@ -20,6 +24,7 @@ const REVIEW_NOW = '2026-06-10T00:00:00.000Z';
 
 export function WebAdminHumanReviewPanel(): React.JSX.Element {
   const copy = getHumanAstrologerReviewAdminCopy();
+  const eventCopy = getEventOracleCopy('en');
   const reviewProduct = getOneTimeProduct('HUMAN_ASTROLOGER_REVIEW');
   const sample = buildSampleHumanReviewFlow();
 
@@ -97,6 +102,20 @@ export function WebAdminHumanReviewPanel(): React.JSX.Element {
           <strong>
             {sample.validation.safe ? copy.safetyPass : copy.safetyRejected}
           </strong>
+        </article>
+
+        <article>
+          <span>{eventCopy.tracker.adminAnalyticsTitle}</span>
+          <p>{eventCopy.tracker.analyticsCaution}</p>
+          {sample.analytics.byCategory.map(category => (
+            <div className="admin-human-review-profile" key={category.categoryId}>
+              <strong>{eventCopy.categoryLabels[category.categoryId]}</strong>
+              <p>
+                {category.trustRateLabel} · {category.reviewableCount}/
+                {category.total}
+              </p>
+            </div>
+          ))}
         </article>
       </div>
 
@@ -215,8 +234,44 @@ function buildSampleHumanReviewFlow() {
     nowIso: '2026-06-10T01:10:00.000Z',
     packet: reviewed.packet,
   });
+  const trackedPrediction = createPredictionTrackerCard({
+    nowIso: REVIEW_NOW,
+    prediction: predictaDraft,
+  });
+  const partiallyMatchedPrediction = updatePredictionOutcome(trackedPrediction, {
+    outcomeState: 'partially_happened',
+    updatedAt: '2026-07-10T00:00:00.000Z',
+  });
+  const careerRefinement = refineEventQuestion(
+    'Will a meaningful career move come this year?',
+    'career_move',
+  );
+  const careerEvidenceContract = buildEventOracleEvidenceContract({
+    refinement: careerRefinement,
+    layers: {
+      kp: createReadySupportLayer(
+        'supports',
+        'KP event evidence supports career movement but awaits a cleaner timing trigger.',
+      ),
+      vedic: createReadySupportLayer(
+        'mixed',
+        'Vedic timing shows movement pressure but asks for patience before acting.',
+      ),
+    },
+  });
+  const pendingPrediction = createPredictionTrackerCard({
+    nowIso: '2026-06-11T00:00:00.000Z',
+    prediction: buildEventOraclePredictionObject({
+      evidenceContract: careerEvidenceContract,
+      refinement: careerRefinement,
+    }),
+  });
 
   return {
+    analytics: buildOutcomeAnalytics([
+      partiallyMatchedPrediction,
+      pendingPrediction,
+    ]),
     diff: reviewed.diff,
     profiles,
     sentPacket,

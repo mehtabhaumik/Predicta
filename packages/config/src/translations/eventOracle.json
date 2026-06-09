@@ -116,6 +116,24 @@
         "empty": "Your recent prediction threads will appear here after you choose or refine questions.",
         "openThread": "Open thread",
         "title": "Recent prediction threads"
+      },
+      "tracker": {
+        "adminAnalyticsTitle": "Prediction outcome analytics",
+        "analyticsCaution": "Category-aware metrics only. Pending and too-early outcomes are never counted as accuracy.",
+        "didNotHappen": "Did not happen",
+        "empty": "Saved predictions will appear here after you track a prediction.",
+        "familyPrivate": "Private by default. Family Vault cannot see this unless you share it.",
+        "happened": "Happened",
+        "markOutcome": "Mark outcome",
+        "partiallyHappened": "Partially happened",
+        "pending": "Pending",
+        "reminderDue": "Follow-up is due",
+        "reminderPending": "Follow-up reminder set",
+        "savePrediction": "Track this prediction",
+        "shareWithFamily": "Share with Family Vault",
+        "title": "Prediction tracker",
+        "tooEarly": "Too early to judge",
+        "unshareFromFamily": "Keep private"
       }
     },
     "hi": {
@@ -234,6 +252,24 @@
         "empty": "प्रश्न चुनने या सुधारने के बाद आपके हाल के भविष्यवाणी थ्रेड यहां दिखेंगे.",
         "openThread": "थ्रेड खोलें",
         "title": "हाल के भविष्यवाणी थ्रेड"
+      },
+      "tracker": {
+        "adminAnalyticsTitle": "भविष्यवाणी परिणाम विश्लेषण",
+        "analyticsCaution": "केवल श्रेणी-आधारित माप. लंबित और बहुत जल्दी वाले परिणामों को सटीकता में नहीं गिना जाता.",
+        "didNotHappen": "नहीं हुआ",
+        "empty": "भविष्यवाणी ट्रैक करने के बाद सेव की गई भविष्यवाणियां यहां दिखेंगी.",
+        "familyPrivate": "डिफॉल्ट रूप से निजी. Family Vault इसे तभी देखेगा जब आप साझा करेंगे.",
+        "happened": "हुआ",
+        "markOutcome": "परिणाम दर्ज करें",
+        "partiallyHappened": "आंशिक रूप से हुआ",
+        "pending": "लंबित",
+        "reminderDue": "फॉलो-अप का समय आ गया है",
+        "reminderPending": "फॉलो-अप याद दिलाना सेट है",
+        "savePrediction": "इस भविष्यवाणी को ट्रैक करें",
+        "shareWithFamily": "Family Vault से साझा करें",
+        "title": "भविष्यवाणी ट्रैकर",
+        "tooEarly": "अभी निर्णय जल्दी है",
+        "unshareFromFamily": "निजी रखें"
       }
     },
     "gu": {
@@ -352,6 +388,24 @@
         "empty": "પ્રશ્ન પસંદ કે સુધાર્યા પછી તમારા તાજેતરના ભવિષ્યવાણી થ્રેડ અહીં દેખાશે.",
         "openThread": "થ્રેડ ખોલો",
         "title": "તાજેતરના ભવિષ્યવાણી થ્રેડ"
+      },
+      "tracker": {
+        "adminAnalyticsTitle": "ભવિષ્યવાણી પરિણામ વિશ્લેષણ",
+        "analyticsCaution": "ફક્ત શ્રેણી-આધારિત માપ. પેન્ડિંગ અને બહુ વહેલા પરિણામો સચોટતામાં ગણાતા નથી.",
+        "didNotHappen": "ન થયું",
+        "empty": "ભવિષ્યવાણી ટ્રેક કર્યા પછી સેવ કરેલી ભવિષ્યવાણીઓ અહીં દેખાશે.",
+        "familyPrivate": "ડિફોલ્ટ રીતે ખાનગી. Family Vault તેને ફક્ત તમે શેર કરો ત્યારે જોઈ શકે.",
+        "happened": "થયું",
+        "markOutcome": "પરિણામ નોંધો",
+        "partiallyHappened": "આંશિક રીતે થયું",
+        "pending": "પેન્ડિંગ",
+        "reminderDue": "ફોલો-અપનો સમય આવી ગયો છે",
+        "reminderPending": "ફોલો-અપ રીમાઈન્ડર સેટ છે",
+        "savePrediction": "આ ભવિષ્યવાણી ટ્રેક કરો",
+        "shareWithFamily": "Family Vault સાથે શેર કરો",
+        "title": "ભવિષ્યવાણી ટ્રેકર",
+        "tooEarly": "હજુ નિર્ણય વહેલો છે",
+        "unshareFromFamily": "ખાનગી રાખો"
       }
     }
   }

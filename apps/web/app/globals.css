@@ -3698,6 +3698,97 @@ button:disabled,
   overflow-wrap: anywhere;
 }
 
+.event-question-tracker-panel {
+  background:
+    radial-gradient(circle at top right, rgba(83, 224, 210, 0.11), transparent 34%),
+    rgba(255, 255, 255, 0.026);
+  border: 1px solid var(--border-quiet);
+  border-radius: 22px;
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+  padding: clamp(16px, 2vw, 22px);
+}
+
+.event-question-tracker-panel .event-question-section-head {
+  align-items: end;
+  grid-template-columns: minmax(0, 0.32fr) minmax(0, 1fr) auto;
+}
+
+.event-question-tracker-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  min-width: 0;
+}
+
+.event-question-tracker-card {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--border-quiet);
+  border-radius: 18px;
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  padding: 16px;
+}
+
+.event-question-tracker-card span,
+.event-question-tracker-card dt {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.event-question-tracker-card strong,
+.event-question-tracker-card dd {
+  color: var(--text);
+  line-height: 1.28;
+  overflow-wrap: anywhere;
+}
+
+.event-question-tracker-card p,
+.event-question-tracker-card dl,
+.event-question-tracker-card dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.event-question-tracker-card dl {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  min-width: 0;
+}
+
+.event-question-tracker-card dl > div {
+  background: rgba(255, 255, 255, 0.032);
+  border: 1px solid var(--border-quiet);
+  border-radius: 14px;
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding: 10px;
+}
+
+.event-question-tracker-card .field-stack {
+  min-width: 0;
+}
+
+.event-question-tracker-card select {
+  max-width: 100%;
+}
+
+.event-question-tracker-card .button {
+  justify-self: start;
+}
+
+.event-question-tracker-empty {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
 .guided-journey-grid,
 .plain-summary-grid {
   display: grid;
@@ -16065,7 +16156,10 @@ button:disabled,
   .admin-support-toolbar,
   .event-question-hero,
   .event-question-hero-lower,
-  .event-question-prediction-grid {
+  .event-question-prediction-grid,
+  .event-question-tracker-panel .event-question-section-head,
+  .event-question-tracker-grid,
+  .event-question-tracker-card dl {
     grid-template-columns: 1fr;
   }
 
@@ -17129,7 +17223,9 @@ button:disabled,
   .admin-support-message,
   .admin-support-context-block,
   .admin-support-composer,
-  .admin-support-template-card {
+  .admin-support-template-card,
+  .event-question-tracker-panel,
+  .event-question-tracker-card {
     border-radius: 16px;
     padding: 16px;
   }

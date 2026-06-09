@@ -1,0 +1,16 @@
+{
+  "route": "http://127.0.0.1:3031/dashboard/admin?eventOraclePhase10Smoke=1",
+  "environment": "protected owner build with PREDICTA_ENABLE_OWNER_CONSOLE=1",
+  "viewport": {
+    "clientWidth": 390,
+    "scrollWidth": 390,
+    "width": 390
+  },
+  "visibleChecks": {
+    "adminAnalyticsTitle": true,
+    "analyticsCaution": true,
+    "judgedForeignTravelRow": true,
+    "pendingCareerNotEnoughJudgedRow": true
+  },
+  "hasHorizontalOverflow": false
+}
