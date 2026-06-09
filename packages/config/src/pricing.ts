@@ -24,6 +24,8 @@ export const ONE_TIME_PRICING = {
   jaiminiReport: 249,
   marriageCompatibilityReport: 499,
   premiumPdf: 249,
+  precisionFollowUpPack: 149,
+  precisionReading: 399,
   reportBundle: 999,
   reportSingle: 299,
 } as const;
@@ -509,6 +511,8 @@ const oneTimeProductIds: Record<OneTimeProductType, string> = {
   JAIMINI_REPORT: 'pridicta_jaimini_report',
   MARRIAGE_COMPATIBILITY_REPORT: 'pridicta_marriage_compatibility_report',
   PREMIUM_PDF: 'pridicta_premium_pdf',
+  PRECISION_FOLLOW_UP_PACK: 'pridicta_precision_follow_up_pack',
+  PRECISION_READING: 'pridicta_precision_reading',
   REPORT_BUNDLE: 'pridicta_report_bundle',
   REPORT_SINGLE: 'pridicta_single_report',
 };
@@ -601,6 +605,24 @@ export function getOneTimeProducts(): OneTimeProduct[] {
       label: getEnglishOneTimeProductCopy('AI_QUESTIONS_100').label,
       priceInr: ONE_TIME_PRICING.aiQuestions100,
       productId: oneTimeProductIds.AI_QUESTIONS_100,
+    },
+    {
+      badge: 'One question',
+      description: getEnglishOneTimeProductCopy('PRECISION_READING').description,
+      displayPrice: formatInr(ONE_TIME_PRICING.precisionReading),
+      id: 'PRECISION_READING',
+      label: getEnglishOneTimeProductCopy('PRECISION_READING').label,
+      priceInr: ONE_TIME_PRICING.precisionReading,
+      productId: oneTimeProductIds.PRECISION_READING,
+    },
+    {
+      badge: 'Same thread',
+      description: getEnglishOneTimeProductCopy('PRECISION_FOLLOW_UP_PACK').description,
+      displayPrice: formatInr(ONE_TIME_PRICING.precisionFollowUpPack),
+      id: 'PRECISION_FOLLOW_UP_PACK',
+      label: getEnglishOneTimeProductCopy('PRECISION_FOLLOW_UP_PACK').label,
+      priceInr: ONE_TIME_PRICING.precisionFollowUpPack,
+      productId: oneTimeProductIds.PRECISION_FOLLOW_UP_PACK,
     },
     {
       badge: 'One report',

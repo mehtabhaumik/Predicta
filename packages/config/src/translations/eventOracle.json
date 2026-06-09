@@ -100,6 +100,18 @@
         "strengthenLabel": "What can strengthen it",
         "timingTriggerLabel": "Timing and trigger"
       },
+      "precisionReading": {
+        "costGuardrail": "Free preview stays deterministic. Paid depth uses the entitled Precision Reading path; Gemini validator is not used for free preview.",
+        "followUp": "Follow-up packs stay tied to the same prediction thread, so one question does not become an unlimited chat loop.",
+        "freePreviewBody": "You can preview the direct answer/readiness, category, and evidence rooms without spending an AI credit.",
+        "freePreviewTitle": "Free preview",
+        "paidBody": "Unlock full timing window, likely trigger, contradiction scan, practical action plan, and collapsed evidence for one important question.",
+        "paidCta": "Unlock Precision Reading",
+        "paidTitle": "Paid precision",
+        "productLabel": "Predicta Precision Reading",
+        "reportSeparation": "PDF report credits are used only if you generate a report. Precision Reading is a separate event-answer product.",
+        "telemetry": "Cost telemetry records feature, model, tokens, plan, and product for paid precision answers."
+      },
       "recentThreads": {
         "empty": "Your recent prediction threads will appear here after you choose or refine questions.",
         "openThread": "Open thread",
@@ -206,6 +218,18 @@
         "strengthenLabel": "क्या इसे मजबूत कर सकता है",
         "timingTriggerLabel": "समय और घटना-कारण"
       },
+      "precisionReading": {
+        "costGuardrail": "फ्री पूर्वदर्शन गणना-आधारित रहता है. पेड गहराई अधिकृत प्रिसिजन रीडिंग पथ उपयोग करती है; फ्री पूर्वदर्शन में Gemini वैलिडेटर उपयोग नहीं होता.",
+        "followUp": "फॉलो-अप पैक उसी भविष्यवाणी थ्रेड से जुड़े रहते हैं, इसलिए एक प्रश्न असीमित चैट नहीं बनता.",
+        "freePreviewBody": "आप AI क्रेडिट खर्च किए बिना सीधा उत्तर/तैयारी, श्रेणी और प्रमाण-कक्ष देख सकते हैं.",
+        "freePreviewTitle": "फ्री पूर्वदर्शन",
+        "paidBody": "एक महत्वपूर्ण प्रश्न के लिए पूरा समय-खिड़की, संभावित घटना-कारण, विरोधाभास जांच, व्यावहारिक कार्य योजना और प्रमाण खोलें.",
+        "paidCta": "प्रिसिजन रीडिंग खोलें",
+        "paidTitle": "पेड प्रिसिजन",
+        "productLabel": "प्रेडिक्टा प्रिसिजन रीडिंग",
+        "reportSeparation": "PDF रिपोर्ट क्रेडिट केवल रिपोर्ट बनाने पर उपयोग होते हैं. प्रिसिजन रीडिंग अलग घटना-उत्तर उत्पाद है.",
+        "telemetry": "पेड प्रिसिजन उत्तरों के लिए लागत टेलीमेट्री फीचर, मॉडल, टोकन, प्लान और उत्पाद दर्ज करती है."
+      },
       "recentThreads": {
         "empty": "प्रश्न चुनने या सुधारने के बाद आपके हाल के भविष्यवाणी थ्रेड यहां दिखेंगे.",
         "openThread": "थ्रेड खोलें",
@@ -311,6 +335,18 @@
         "evidencePendingTitle": "ભવિષ્યવાણી કાર્ડ પૂર્વદર્શન",
         "strengthenLabel": "શું તેને મજબૂત કરી શકે",
         "timingTriggerLabel": "સમય અને ઘટના-કારણ"
+      },
+      "precisionReading": {
+        "costGuardrail": "મફત પૂર્વદર્શન ગણતરી-આધારિત રહે છે. પેડ ઊંડાઈ અધિકૃત પ્રિસિઝન રીડિંગ પાથ વાપરે છે; મફત પૂર્વદર્શનમાં Gemini validator વપરાતો નથી.",
+        "followUp": "ફોલો-અપ પેક એ જ ભવિષ્યવાણી થ્રેડ સાથે જોડાયેલ રહે છે, એટલે એક પ્રશ્ન અનલિમિટેડ ચેટ બનતો નથી.",
+        "freePreviewBody": "તમે AI ક્રેડિટ ખર્ચ્યા વગર સીધો ઉત્તર/તૈયારી, શ્રેણી અને પુરાવા-રૂમ જોઈ શકો છો.",
+        "freePreviewTitle": "મફત પૂર્વદર્શન",
+        "paidBody": "એક મહત્વપૂર્ણ પ્રશ્ન માટે સંપૂર્ણ સમય-વિન્ડો, સંભવિત ઘટના-કારણ, વિરોધાભાસ ચકાસણી, વ્યવહારુ કાર્ય યોજના અને પુરાવો ખોલો.",
+        "paidCta": "પ્રિસિઝન રીડિંગ ખોલો",
+        "paidTitle": "પેડ પ્રિસિઝન",
+        "productLabel": "પ્રેડિક્ટા પ્રિસિઝન રીડિંગ",
+        "reportSeparation": "PDF રિપોર્ટ ક્રેડિટ ફક્ત રિપોર્ટ બનાવો ત્યારે વપરાય છે. પ્રિસિઝન રીડિંગ અલગ ઘટના-ઉત્તર પ્રોડક્ટ છે.",
+        "telemetry": "પેડ પ્રિસિઝન ઉત્તરો માટે ખર્ચ ટેલીમેટ્રી ફીચર, મોડલ, ટોકન, પ્લાન અને પ્રોડક્ટ નોંધે છે."
       },
       "recentThreads": {
         "empty": "પ્રશ્ન પસંદ કે સુધાર્યા પછી તમારા તાજેતરના ભવિષ્યવાણી થ્રેડ અહીં દેખાશે.",

@@ -1,0 +1,39 @@
+PREDICTA_EVENT_ORACLE_PHASE_8_PRECISION_READING_MONETIZATION_AND_ENTITLEMENTS verification checklist:
+
+- Product types added: PRECISION_READING and PRECISION_FOLLOW_UP_PACK.
+- Pricing added: Predicta Precision Reading at INR 399 and Precision Follow-up Pack at INR 149.
+- Server entitlement ledger added precision reading and follow-up balances.
+- Ledger operations added grant/consume paths for precision reading and follow-ups.
+- Day Pass precision reading consumes deepCallsRemaining.
+- Report credits remain separate and are not consumed by Precision Reading.
+- Entitlement parity evaluates free preview, paid credit, family bank, day pass, premium, and follow-up states.
+- Event Oracle composer shows localized free preview vs paid precision panel.
+- Unlock CTA preserves the refined question before checkout.
+- AI routing recognizes precision_reading as a dedicated feature.
+- AI cost governance adds precision_reading thresholds.
+- AI telemetry schema can record productType.
+- Gate command: corepack pnpm test:event-oracle-phase-8.
+
+Passed verification:
+
+- corepack pnpm test:event-oracle-phase-0
+- corepack pnpm test:event-oracle-phase-1
+- corepack pnpm test:event-oracle-phase-2
+- corepack pnpm test:event-oracle-phase-3
+- corepack pnpm test:event-oracle-phase-4
+- corepack pnpm test:event-oracle-phase-5
+- corepack pnpm test:event-oracle-phase-6
+- corepack pnpm test:event-oracle-phase-7
+- corepack pnpm test:event-oracle-phase-8
+- corepack pnpm test:global-translation-coverage
+- corepack pnpm test:translation-trust
+- corepack pnpm --filter @pridicta/types typecheck
+- corepack pnpm --filter @pridicta/config typecheck
+- corepack pnpm --filter @pridicta/monetization typecheck
+- corepack pnpm --filter @pridicta/web typecheck
+- corepack pnpm --filter @pridicta/mobile typecheck
+- python3 -m pytest backend/tests/test_safety_red_team_evals.py -q
+- python3 -m pytest backend/tests/test_astro_api.py -q
+- corepack pnpm build:web
+- Browser smoke on http://127.0.0.1:3028/dashboard/chat?eventOraclePhase8Smoke=1 at 390px
+- git diff --check

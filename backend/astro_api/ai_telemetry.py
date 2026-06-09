@@ -131,6 +131,7 @@ def record_ai_telemetry_event(
     user_plan: Optional[UserPlan],
     intent: Optional[AIIntent],
     entitlement_source: Optional[str] = None,
+    product_type: Optional[str] = None,
     product_credit_source: Optional[str] = None,
     cache_state: str,
     fallback_reason: Optional[str],
@@ -171,6 +172,7 @@ def record_ai_telemetry_event(
         latencyBucket=latency_bucket_value,  # type: ignore[arg-type]
         model=model,
         productCreditSource=product_credit_source,
+        productType=product_type,
         promptCacheKey=prompt_cache_key,
         provider=provider,  # type: ignore[arg-type]
         providerCachedInputTokens=provider_cached_input_tokens,

@@ -10,6 +10,7 @@ AIProviderName = Literal["openai", "gemini", "deterministic", "cache"]
 AIRoutingFeature = Literal[
     "chat",
     "birth_extraction",
+    "precision_reading",
     "report_generation",
     "report_validator",
     "batch_qa",
@@ -156,7 +157,9 @@ def route_ai_request(request: AIRoutingRequest, pins: AIModelPins) -> AIRoutingD
 
 
 def is_premium_deep(request: AIRoutingRequest) -> bool:
-    return request.intent == "deep" and request.user_plan == "PREMIUM"
+    return request.intent == "deep" and (
+        request.user_plan == "PREMIUM" or request.feature == "precision_reading"
+    )
 
 
 def is_validator_eligible(request: AIRoutingRequest) -> bool:
@@ -189,6 +192,8 @@ def policy_reason_for(
         return "premium-report-generation-is-eligible-for-gemini-validator"
     if request.feature == "report_generation":
         return "free-or-standard-report-generation-skips-premium-multi-model-pipeline"
+    if request.feature == "precision_reading":
+        return "paid-precision-reading-uses-entitled-premium-depth-without-report-validator"
     if premium_deep:
         return "premium-deep-intent-uses-openai-premium-with-gemini-pro-fallback"
     return "default-openai-mini-primary-with-gemini-flash-fallback"
@@ -257,6 +262,17 @@ def routing_policy_snapshot(pins: AIModelPins) -> Dict[str, object]:
             AIRoutingRequest(
                 active_school="PARASHARI",
                 feature="chat",
+                intent="deep",
+                quality_tier="premium",
+                user_plan="PREMIUM",
+            ),
+            pins,
+        ).__dict__,
+        "precisionReading": route_ai_request(
+            AIRoutingRequest(
+                active_school="PRIMARY_PREDICTA",
+                entitlement_kind="premium",
+                feature="precision_reading",
                 intent="deep",
                 quality_tier="premium",
                 user_plan="PREMIUM",

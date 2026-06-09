@@ -20,6 +20,18 @@ export const PRODUCT_BANK_REPORT_PACK_USES: Partial<
   REPORT_SINGLE: 1,
 };
 
+export const PRODUCT_BANK_PRECISION_READING_USES: Partial<
+  Record<OneTimeProductType, number>
+> = {
+  PRECISION_READING: 1,
+};
+
+export const PRODUCT_BANK_PRECISION_FOLLOW_UP_USES: Partial<
+  Record<OneTimeProductType, number>
+> = {
+  PRECISION_FOLLOW_UP_PACK: 3,
+};
+
 export function getQuestionCreditQuantity(
   productType: OneTimeProductType,
 ): number {
@@ -36,4 +48,28 @@ export function isQuestionPackProduct(productType: OneTimeProductType): boolean 
 
 export function isReportPackProduct(productType: OneTimeProductType): boolean {
   return getReportCreditQuantity(productType) > 0;
+}
+
+export function getPrecisionReadingCreditQuantity(
+  productType: OneTimeProductType,
+): number {
+  return PRODUCT_BANK_PRECISION_READING_USES[productType] ?? 0;
+}
+
+export function getPrecisionFollowUpCreditQuantity(
+  productType: OneTimeProductType,
+): number {
+  return PRODUCT_BANK_PRECISION_FOLLOW_UP_USES[productType] ?? 0;
+}
+
+export function isPrecisionReadingProduct(
+  productType: OneTimeProductType,
+): boolean {
+  return getPrecisionReadingCreditQuantity(productType) > 0;
+}
+
+export function isPrecisionFollowUpProduct(
+  productType: OneTimeProductType,
+): boolean {
+  return getPrecisionFollowUpCreditQuantity(productType) > 0;
 }

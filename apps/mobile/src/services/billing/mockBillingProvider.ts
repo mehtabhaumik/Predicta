@@ -58,9 +58,12 @@ function getMockOneTimeUses(productType: OneTimeEntitlement['productType']): num
     case 'REPORT_SINGLE':
     case 'PREMIUM_PDF':
     case 'JAIMINI_REPORT':
+    case 'PRECISION_READING':
     case 'DETAILED_KUNDLI_REPORT':
     case 'MARRIAGE_COMPATIBILITY_REPORT':
       return 1;
+    case 'PRECISION_FOLLOW_UP_PACK':
+      return 3;
     default:
       return undefined;
   }

@@ -250,6 +250,16 @@ function getProductBankCheckoutCopy(
         'checkoutReportBundle',
         language,
       );
+    case 'PRECISION_READING':
+      return getMonetizationReportRequirementCopy(
+        'checkoutPrecisionReading',
+        language,
+      );
+    case 'PRECISION_FOLLOW_UP_PACK':
+      return getMonetizationReportRequirementCopy(
+        'checkoutPrecisionFollowUpPack',
+        language,
+      );
     case 'DAY_PASS':
       return getMonetizationReportRequirementCopy('checkoutDayPass', language);
     default:
@@ -483,6 +493,10 @@ function mapCheckoutProductIdToProductType(productId: string): string | undefine
       return 'AI_QUESTIONS_100';
     case 'pridicta_premium_pdf':
       return 'PREMIUM_PDF';
+    case 'pridicta_precision_reading':
+      return 'PRECISION_READING';
+    case 'pridicta_precision_follow_up_pack':
+      return 'PRECISION_FOLLOW_UP_PACK';
     case 'pridicta_single_report':
       return 'REPORT_SINGLE';
     case 'pridicta_report_bundle':

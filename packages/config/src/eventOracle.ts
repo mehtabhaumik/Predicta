@@ -52,6 +52,18 @@ export type EventOracleCopy = {
     strengthenLabel: string;
     timingTriggerLabel: string;
   };
+  precisionReading: {
+    costGuardrail: string;
+    followUp: string;
+    freePreviewBody: string;
+    freePreviewTitle: string;
+    paidBody: string;
+    paidCta: string;
+    paidTitle: string;
+    productLabel: string;
+    reportSeparation: string;
+    telemetry: string;
+  };
   recentThreads: {
     empty: string;
     openThread: string;

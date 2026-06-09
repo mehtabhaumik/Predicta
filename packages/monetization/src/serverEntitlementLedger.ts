@@ -9,7 +9,11 @@ import { DAY_PASS_LIMITS } from '@pridicta/config/usageLimits';
 import {
   createFreeEntitlement,
   getQuestionCreditQuantity,
+  getPrecisionFollowUpCreditQuantity,
+  getPrecisionReadingCreditQuantity,
   getReportCreditQuantity,
+  isPrecisionFollowUpProduct,
+  isPrecisionReadingProduct,
   isQuestionPackProduct,
 } from '@pridicta/types';
 
@@ -54,6 +58,8 @@ export type ServerFamilyBank = {
   memberUids: string[];
   members: FamilyBankMember[];
   ownerUid: string;
+  sharedPrecisionFollowUpCreditsBalance: number;
+  sharedPrecisionReadingCreditsBalance: number;
   sharedQuestionCreditsBalance: number;
   sharedReportCreditsByType: Partial<Record<ReportCreditType, number>>;
 };
@@ -72,6 +78,8 @@ export type ServerEntitlementLedger = {
   freeAiCreditsUsed: number;
   paidAiQuestionCreditsBalance: number;
   premiumEntitlement: ServerPremiumEntitlement;
+  precisionFollowUpCreditsBalance: number;
+  precisionReadingCreditsBalance: number;
   reportCreditsByType: Partial<Record<ReportCreditType, number>>;
   savedKundliCount: number;
   schemaVersion: typeof SERVER_ENTITLEMENT_LEDGER_VERSION;
@@ -96,6 +104,30 @@ export type ServerEntitlementOperation =
   | {
       idempotencyKey: string;
       kind: 'record_successful_day_pass_ai_answer';
+    }
+  | {
+      idempotencyKey: string;
+      kind: 'grant_precision_reading_credit';
+      quantity: number;
+    }
+  | {
+      idempotencyKey: string;
+      kind: 'grant_precision_follow_up_credit';
+      quantity: number;
+    }
+  | {
+      idempotencyKey: string;
+      kind: 'consume_precision_reading_credit';
+      source: 'personal' | 'family_bank';
+    }
+  | {
+      idempotencyKey: string;
+      kind: 'consume_precision_follow_up_credit';
+      source: 'personal' | 'family_bank';
+    }
+  | {
+      idempotencyKey: string;
+      kind: 'consume_day_pass_precision_reading';
     }
   | {
       idempotencyKey: string;
@@ -140,8 +172,11 @@ export type ServerEntitlementOperationResult = {
   reason?:
     | 'free_ai_lifetime_exhausted'
     | 'day_pass_ai_exhausted'
+    | 'day_pass_precision_exhausted'
     | 'day_pass_report_exhausted'
     | 'paid_ai_credits_exhausted'
+    | 'precision_follow_up_credit_exhausted'
+    | 'precision_reading_credit_exhausted'
     | 'report_credit_exhausted';
 };
 
@@ -171,6 +206,8 @@ export function createDefaultServerEntitlementLedger(
         },
       ],
       ownerUid: uid,
+      sharedPrecisionFollowUpCreditsBalance: 0,
+      sharedPrecisionReadingCreditsBalance: 0,
       sharedQuestionCreditsBalance: 0,
       sharedReportCreditsByType: {},
     },
@@ -180,6 +217,8 @@ export function createDefaultServerEntitlementLedger(
       plan: free.plan,
       status: free.status,
     },
+    precisionFollowUpCreditsBalance: 0,
+    precisionReadingCreditsBalance: 0,
     reportCreditsByType: {},
     savedKundliCount: 0,
     schemaVersion: SERVER_ENTITLEMENT_LEDGER_VERSION,
@@ -211,6 +250,16 @@ export function normalizeServerEntitlementLedger(
       members: value?.familyBank?.members?.length
         ? value.familyBank.members
         : defaults.familyBank.members,
+      sharedPrecisionFollowUpCreditsBalance: Math.max(
+        0,
+        value?.familyBank?.sharedPrecisionFollowUpCreditsBalance ??
+          defaults.familyBank.sharedPrecisionFollowUpCreditsBalance,
+      ),
+      sharedPrecisionReadingCreditsBalance: Math.max(
+        0,
+        value?.familyBank?.sharedPrecisionReadingCreditsBalance ??
+          defaults.familyBank.sharedPrecisionReadingCreditsBalance,
+      ),
     },
     freeAiCreditsUsed: Math.max(0, value?.freeAiCreditsUsed ?? defaults.freeAiCreditsUsed),
     paidAiQuestionCreditsBalance: Math.max(
@@ -221,6 +270,16 @@ export function normalizeServerEntitlementLedger(
       ...defaults.premiumEntitlement,
       ...value?.premiumEntitlement,
     },
+    precisionFollowUpCreditsBalance: Math.max(
+      0,
+      value?.precisionFollowUpCreditsBalance ??
+        defaults.precisionFollowUpCreditsBalance,
+    ),
+    precisionReadingCreditsBalance: Math.max(
+      0,
+      value?.precisionReadingCreditsBalance ??
+        defaults.precisionReadingCreditsBalance,
+    ),
     reportCreditsByType: clampCreditMap(value?.reportCreditsByType),
     savedKundliCount: Math.max(0, value?.savedKundliCount ?? defaults.savedKundliCount),
     schemaVersion: SERVER_ENTITLEMENT_LEDGER_VERSION,
@@ -284,6 +343,83 @@ export function applyServerEntitlementOperation({
       next.dayPassEntitlement = {
         ...next.dayPassEntitlement,
         questionsRemaining: next.dayPassEntitlement.questionsRemaining - 1,
+      };
+      return changed(next, operation, nowIso);
+
+    case 'grant_precision_reading_credit':
+      next.precisionReadingCreditsBalance += clampQuantity(operation.quantity);
+      return changed(next, operation, nowIso);
+
+    case 'grant_precision_follow_up_credit':
+      next.precisionFollowUpCreditsBalance += clampQuantity(operation.quantity);
+      return changed(next, operation, nowIso);
+
+    case 'consume_precision_reading_credit':
+      if (operation.source === 'family_bank') {
+        if (next.familyBank.sharedPrecisionReadingCreditsBalance <= 0) {
+          return {
+            changed: false,
+            ledger: next,
+            reason: 'precision_reading_credit_exhausted',
+          };
+        }
+        next.familyBank = {
+          ...next.familyBank,
+          sharedPrecisionReadingCreditsBalance:
+            next.familyBank.sharedPrecisionReadingCreditsBalance - 1,
+        };
+        return changed(next, operation, nowIso);
+      }
+      if (next.precisionReadingCreditsBalance <= 0) {
+        return {
+          changed: false,
+          ledger: next,
+          reason: 'precision_reading_credit_exhausted',
+        };
+      }
+      next.precisionReadingCreditsBalance -= 1;
+      return changed(next, operation, nowIso);
+
+    case 'consume_precision_follow_up_credit':
+      if (operation.source === 'family_bank') {
+        if (next.familyBank.sharedPrecisionFollowUpCreditsBalance <= 0) {
+          return {
+            changed: false,
+            ledger: next,
+            reason: 'precision_follow_up_credit_exhausted',
+          };
+        }
+        next.familyBank = {
+          ...next.familyBank,
+          sharedPrecisionFollowUpCreditsBalance:
+            next.familyBank.sharedPrecisionFollowUpCreditsBalance - 1,
+        };
+        return changed(next, operation, nowIso);
+      }
+      if (next.precisionFollowUpCreditsBalance <= 0) {
+        return {
+          changed: false,
+          ledger: next,
+          reason: 'precision_follow_up_credit_exhausted',
+        };
+      }
+      next.precisionFollowUpCreditsBalance -= 1;
+      return changed(next, operation, nowIso);
+
+    case 'consume_day_pass_precision_reading':
+      if (
+        !next.dayPassEntitlement.active ||
+        next.dayPassEntitlement.deepCallsRemaining <= 0
+      ) {
+        return {
+          changed: false,
+          ledger: next,
+          reason: 'day_pass_precision_exhausted',
+        };
+      }
+      next.dayPassEntitlement = {
+        ...next.dayPassEntitlement,
+        deepCallsRemaining: next.dayPassEntitlement.deepCallsRemaining - 1,
       };
       return changed(next, operation, nowIso);
 
@@ -364,6 +500,22 @@ export function mapOneTimeProductToLedgerOperation({
   productId: string;
   productType: OneTimeProductType;
 }): ServerEntitlementOperation {
+  if (isPrecisionReadingProduct(productType)) {
+    return {
+      idempotencyKey,
+      kind: 'grant_precision_reading_credit',
+      quantity: getPrecisionReadingCreditQuantity(productType),
+    };
+  }
+
+  if (isPrecisionFollowUpProduct(productType)) {
+    return {
+      idempotencyKey,
+      kind: 'grant_precision_follow_up_credit',
+      quantity: getPrecisionFollowUpCreditQuantity(productType),
+    };
+  }
+
   if (isQuestionPackProduct(productType)) {
     return {
       idempotencyKey,
@@ -420,6 +572,26 @@ export function mapServerLedgerToMonetizationState(
       productType: 'AI_QUESTIONS_10',
       purchasedAt: ledger.audit.createdAt,
       remainingUses: ledger.paidAiQuestionCreditsBalance,
+      source: 'firebase',
+    });
+  }
+
+  if (ledger.precisionReadingCreditsBalance > 0) {
+    oneTimeEntitlements.push({
+      productId: 'server_precision_reading',
+      productType: 'PRECISION_READING',
+      purchasedAt: ledger.audit.createdAt,
+      remainingUses: ledger.precisionReadingCreditsBalance,
+      source: 'firebase',
+    });
+  }
+
+  if (ledger.precisionFollowUpCreditsBalance > 0) {
+    oneTimeEntitlements.push({
+      productId: 'server_precision_follow_up_pack',
+      productType: 'PRECISION_FOLLOW_UP_PACK',
+      purchasedAt: ledger.audit.createdAt,
+      remainingUses: ledger.precisionFollowUpCreditsBalance,
       source: 'firebase',
     });
   }
@@ -534,6 +706,14 @@ function normalizeFamilyBank(
     memberUids,
     members,
     ownerUid,
+    sharedPrecisionFollowUpCreditsBalance: Math.max(
+      0,
+      familyBank.sharedPrecisionFollowUpCreditsBalance,
+    ),
+    sharedPrecisionReadingCreditsBalance: Math.max(
+      0,
+      familyBank.sharedPrecisionReadingCreditsBalance,
+    ),
     sharedQuestionCreditsBalance: Math.max(0, familyBank.sharedQuestionCreditsBalance),
     sharedReportCreditsByType: clampCreditMap(familyBank.sharedReportCreditsByType),
   };

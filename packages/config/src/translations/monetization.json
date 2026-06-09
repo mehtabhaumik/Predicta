@@ -464,6 +464,30 @@
         "gu": "સક્રિય કુંડળી માટે એક પ્રીમિયમ-ઊંડાઈ PDF ખોલો."
       }
     },
+    "PRECISION_READING": {
+      "label": {
+        "en": "Predicta Precision Reading",
+        "hi": "प्रेडिक्टा प्रिसिजन रीडिंग",
+        "gu": "પ્રેડિક્ટા પ્રિસિઝન રીડિંગ"
+      },
+      "description": {
+        "en": "Unlock one full event prediction with timing, trigger map, contradiction scan, action plan, and evidence.",
+        "hi": "समय, घटना-कारण, विरोधाभास जांच, कार्य योजना और प्रमाण के साथ एक पूरा घटना-पूर्वानुमान खोलें.",
+        "gu": "સમય, ઘટના-કારણ, વિરોધાભાસ ચકાસણી, કાર્ય યોજના અને પુરાવા સાથે એક સંપૂર્ણ ઘટના-ભવિષ્યવાણી ખોલો."
+      }
+    },
+    "PRECISION_FOLLOW_UP_PACK": {
+      "label": {
+        "en": "Precision Follow-up Pack",
+        "hi": "प्रिसिजन फॉलो-अप पैक",
+        "gu": "પ્રિસિઝન ફોલો-અપ પેક"
+      },
+      "description": {
+        "en": "Add three follow-ups tied to the same prediction thread without starting a new reading.",
+        "hi": "नई रीडिंग शुरू किए बिना उसी भविष्यवाणी थ्रेड से जुड़े तीन फॉलो-अप जोड़ें.",
+        "gu": "નવી રીડિંગ શરૂ કર્યા વગર એ જ ભવિષ્યવાણી થ્રેડ સાથે જોડાયેલા ત્રણ ફોલો-અપ ઉમેરો."
+      }
+    },
     "DETAILED_KUNDLI_REPORT": {
       "label": {
         "en": "Detailed Kundli Report",
@@ -631,6 +655,16 @@
       "en": "Adds five non-expiring premium report credits that can be used over time.",
       "hi": "पांच बिना समाप्ति वाले प्रीमियम रिपोर्ट क्रेडिट जोड़ता है, जिन्हें समय के साथ उपयोग किया जा सकता है.",
       "gu": "પાંચ ન સમાપ્ત થતા પ્રીમિયમ રિપોર્ટ ક્રેડિટ ઉમેરે છે, જે સમય સાથે વાપરી શકાય છે."
+    },
+    "checkoutPrecisionReading": {
+      "en": "Adds one paid Precision Reading for a single event question. It is separate from normal AI questions and report credits.",
+      "hi": "एक घटना-प्रश्न के लिए एक पेड प्रिसिजन रीडिंग जोड़ता है. यह सामान्य AI प्रश्नों और रिपोर्ट क्रेडिट से अलग है.",
+      "gu": "એક ઘટના-પ્રશ્ન માટે એક પેડ પ્રિસિઝન રીડિંગ ઉમેરે છે. તે સામાન્ય AI પ્રશ્નો અને રિપોર્ટ ક્રેડિટથી અલગ છે."
+    },
+    "checkoutPrecisionFollowUpPack": {
+      "en": "Adds three follow-ups for the same Precision Reading thread. It does not create unlimited AI chat access.",
+      "hi": "उसी प्रिसिजन रीडिंग थ्रेड के लिए तीन फॉलो-अप जोड़ता है. यह असीमित AI चैट पहुंच नहीं बनाता.",
+      "gu": "એ જ પ્રિસિઝન રીડિંગ થ્રેડ માટે ત્રણ ફોલો-અપ ઉમેરે છે. તે અનલિમિટેડ AI ચેટ ઍક્સેસ બનાવતું નથી."
     },
     "checkoutDayPass": {
       "en": "Day Pass is time-limited. It is not a Product Bank credit and expires according to the pass window.",

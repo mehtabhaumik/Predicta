@@ -4,6 +4,7 @@ import {
   getEventOracleCopy,
   type EventOracleCopy,
 } from '@pridicta/config';
+import { getOneTimeProduct } from '@pridicta/config/pricing';
 import {
   buildEventOracleEvidenceContract,
   buildEventOraclePredictionObject,
@@ -27,6 +28,7 @@ import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 const QUESTION_CHIPS = getEventQuestionChips();
 const RECENT_EVENT_THREADS_KEY = 'predicta.eventOracle.recentThreads.v1';
 const MAX_RECENT_THREADS = 3;
+const PRECISION_READING_PRODUCT = getOneTimeProduct('PRECISION_READING');
 
 type RecentEventThread = {
   categoryId: EventQuestionCategoryId;
@@ -273,6 +275,32 @@ export function WebEventQuestionComposer(): React.JSX.Element {
               ))}
             </div>
           </details>
+        </article>
+
+        <article className="event-question-precision-panel">
+          <div>
+            <span>{copy.precisionReading.productLabel}</span>
+            <strong>{copy.precisionReading.freePreviewTitle}</strong>
+            <p>{copy.precisionReading.freePreviewBody}</p>
+          </div>
+          <div>
+            <span>{copy.precisionReading.paidTitle}</span>
+            <strong>{PRECISION_READING_PRODUCT.displayPrice}</strong>
+            <p>{copy.precisionReading.paidBody}</p>
+          </div>
+          <ul>
+            <li>{copy.precisionReading.costGuardrail}</li>
+            <li>{copy.precisionReading.followUp}</li>
+            <li>{copy.precisionReading.reportSeparation}</li>
+            <li>{copy.precisionReading.telemetry}</li>
+          </ul>
+          <Link
+            className="button"
+            href={`/checkout?productId=${PRECISION_READING_PRODUCT.productId}`}
+            onClick={() => setRecentThreads(rememberRecentThread(refinement))}
+          >
+            {copy.precisionReading.paidCta}
+          </Link>
         </article>
 
         <aside className="event-question-recent-threads">

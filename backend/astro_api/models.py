@@ -788,6 +788,7 @@ class AITelemetryEvent(BaseModel):
     reportType: Optional[str] = None
     userPlan: Optional[UserPlan] = None
     entitlementSource: Optional[str] = None
+    productType: Optional[str] = None
     productCreditSource: Optional[str] = None
     intent: Optional[AIIntent] = None
     cacheState: AITelemetryCacheState

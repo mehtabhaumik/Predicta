@@ -1,0 +1,33 @@
+{
+  "phase": "PREDICTA_EVENT_ORACLE_PHASE_8_PRECISION_READING_MONETIZATION_AND_ENTITLEMENTS",
+  "status": "GREEN",
+  "product": "Predicta Precision Reading",
+  "freePreview": "deterministic_no_ai",
+  "paidCreditProductId": "pridicta_precision_reading",
+  "followUpProductId": "pridicta_precision_follow_up_pack",
+  "paidReadingPriceInr": 399,
+  "followUpPackPriceInr": 149,
+  "followUpPackUses": 3,
+  "reportCreditSeparation": "Precision Reading does not consume report credits unless a PDF report is generated separately.",
+  "costControl": {
+    "freePreviewGeminiValidator": "blocked",
+    "freePreviewPremiumModel": "blocked",
+    "paidFeature": "precision_reading",
+    "telemetryFields": ["feature", "model", "tokens", "plan", "productType"],
+    "threshold": {
+      "alertAtUsd": 0.06,
+      "stopAtUsd": 0.18
+    }
+  },
+  "entitlementStatesAudited": [
+    "free_preview",
+    "free_blocked_paid_reading",
+    "personal_precision_credit",
+    "family_precision_credit",
+    "day_pass_deep_call",
+    "premium_subscription",
+    "follow_up_pack",
+    "report_credit_separation"
+  ],
+  "strictResult": "Precision Reading is a paid event-answer product, not normal chat, not a PDF report credit, and not unlimited AI."
+}

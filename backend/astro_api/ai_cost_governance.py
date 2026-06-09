@@ -27,6 +27,7 @@ AIProductCreditSource = Literal["personal", "family_bank"]
 AI_COST_THRESHOLDS_USD = {
     "free_chat_answer": {"alertAt": 0.003, "stopAt": 0.01},
     "paid_question_answer": {"alertAt": 0.02, "stopAt": 0.08},
+    "precision_reading": {"alertAt": 0.06, "stopAt": 0.18},
     "premium_report_draft": {"alertAt": 0.35, "stopAt": 1.25},
     "premium_report_validator": {"alertAt": 0.12, "stopAt": 0.45},
     "batch_qa": {"alertAt": 0.08, "stopAt": 0.35},

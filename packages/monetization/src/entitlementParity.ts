@@ -44,6 +44,34 @@ export type ReportEntitlementDecision =
       requiredCreditType: ReportCreditType;
     };
 
+export type PrecisionReadingMode = 'FREE_PREVIEW' | 'PAID_READING' | 'FOLLOW_UP';
+
+export type PrecisionReadingEntitlementDecision =
+  | {
+      allowed: true;
+      creditSource:
+        | 'free_deterministic_preview'
+        | 'premium_subscription'
+        | 'day_pass'
+        | PaidCreditSource;
+      mode: PrecisionReadingMode;
+      product:
+        | 'predicta_precision_preview'
+        | 'predicta_precision_reading'
+        | 'predicta_precision_follow_up';
+    }
+  | {
+      allowed: false;
+      creditSource: 'none';
+      mode: PrecisionReadingMode;
+      product:
+        | 'predicta_precision_reading'
+        | 'predicta_precision_follow_up';
+      reason:
+        | 'precision_reading_credit_required'
+        | 'precision_follow_up_credit_required';
+    };
+
 export function evaluateAiCreditEntitlement(
   ledger: ServerEntitlementLedger,
   userPlan?: string,
@@ -102,6 +130,140 @@ export function shouldConsumeFreeAiCredit(decision: AiEntitlementDecision): bool
 }
 
 export function shouldConsumeDayPassAiCredit(decision: AiEntitlementDecision): boolean {
+  return decision.allowed && decision.creditSource === 'day_pass';
+}
+
+export function evaluatePrecisionReadingEntitlement({
+  ledger,
+  mode,
+  userPlan,
+}: {
+  ledger: ServerEntitlementLedger;
+  mode: PrecisionReadingMode;
+  userPlan?: string;
+}): PrecisionReadingEntitlementDecision {
+  if (mode === 'FREE_PREVIEW') {
+    return {
+      allowed: true,
+      creditSource: 'free_deterministic_preview',
+      mode,
+      product: 'predicta_precision_preview',
+    };
+  }
+
+  const product =
+    mode === 'FOLLOW_UP'
+      ? 'predicta_precision_follow_up'
+      : 'predicta_precision_reading';
+
+  if (
+    userPlan === 'PREMIUM' ||
+    ledger.premiumEntitlement.status === 'ACTIVE' ||
+    ledger.premiumEntitlement.status === 'GRACE_PERIOD'
+  ) {
+    return {
+      allowed: true,
+      creditSource: 'premium_subscription',
+      mode,
+      product,
+    };
+  }
+
+  if (
+    ledger.dayPassEntitlement.active &&
+    ledger.dayPassEntitlement.deepCallsRemaining > 0
+  ) {
+    return {
+      allowed: true,
+      creditSource: 'day_pass',
+      mode,
+      product,
+    };
+  }
+
+  if (mode === 'FOLLOW_UP') {
+    if (ledger.precisionFollowUpCreditsBalance > 0) {
+      return {
+        allowed: true,
+        creditSource: 'personal',
+        mode,
+        product,
+      };
+    }
+    if (ledger.familyBank.sharedPrecisionFollowUpCreditsBalance > 0) {
+      return {
+        allowed: true,
+        creditSource: 'family_bank',
+        mode,
+        product,
+      };
+    }
+    return {
+      allowed: false,
+      creditSource: 'none',
+      mode,
+      product,
+      reason: 'precision_follow_up_credit_required',
+    };
+  }
+
+  if (ledger.precisionReadingCreditsBalance > 0) {
+    return {
+      allowed: true,
+      creditSource: 'personal',
+      mode,
+      product,
+    };
+  }
+  if (ledger.familyBank.sharedPrecisionReadingCreditsBalance > 0) {
+    return {
+      allowed: true,
+      creditSource: 'family_bank',
+      mode,
+      product,
+    };
+  }
+
+  return {
+    allowed: false,
+    creditSource: 'none',
+    mode,
+    product,
+    reason: 'precision_reading_credit_required',
+  };
+}
+
+export function shouldConsumePrecisionReadingCredit(
+  decision: PrecisionReadingEntitlementDecision,
+): decision is Extract<
+  PrecisionReadingEntitlementDecision,
+  { allowed: true; creditSource: PaidCreditSource }
+> {
+  return (
+    decision.allowed &&
+    (decision.creditSource === 'personal' ||
+      decision.creditSource === 'family_bank') &&
+    decision.mode === 'PAID_READING'
+  );
+}
+
+export function shouldConsumePrecisionFollowUpCredit(
+  decision: PrecisionReadingEntitlementDecision,
+): decision is Extract<
+  PrecisionReadingEntitlementDecision,
+  { allowed: true; creditSource: PaidCreditSource }
+> {
+  return (
+    decision.allowed &&
+    (decision.creditSource === 'personal' ||
+      decision.creditSource === 'family_bank') &&
+    decision.mode === 'FOLLOW_UP'
+  );
+}
+
+export function shouldConsumeDayPassPrecisionCredit(
+  decision: PrecisionReadingEntitlementDecision,
+): boolean {
   return decision.allowed && decision.creditSource === 'day_pass';
 }
 

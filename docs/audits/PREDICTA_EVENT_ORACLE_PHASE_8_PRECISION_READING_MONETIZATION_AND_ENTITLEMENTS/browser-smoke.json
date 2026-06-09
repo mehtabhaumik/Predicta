@@ -1,0 +1,17 @@
+{
+  "url": "http://127.0.0.1:3028/dashboard/chat?eventOraclePhase8Smoke=1",
+  "viewportWidth": 390,
+  "documentScrollWidth": 390,
+  "overflowers": [],
+  "precisionPanel": {
+    "panelGridColumn": "1 / -1",
+    "hasProductLabel": true,
+    "hasFreePreview": true,
+    "hasPaidPrecision": true,
+    "hasPrice": true,
+    "hasReportSeparation": true,
+    "hasTelemetryCopy": true,
+    "ctaHref": "/checkout?productId=pridicta_precision_reading"
+  },
+  "result": "PASS"
+}
