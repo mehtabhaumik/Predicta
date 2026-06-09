@@ -11,6 +11,7 @@ export * from './chartStressSuite';
 export * from './dailyBriefing';
 export * from './decisionOracle';
 export * from './destinyPassport';
+export * from './eventOracleEvidenceContract';
 export * from './eventOracleQuestions';
 export * from './familyVaultComparisonLimits';
 export * from './familyKarmaMap';

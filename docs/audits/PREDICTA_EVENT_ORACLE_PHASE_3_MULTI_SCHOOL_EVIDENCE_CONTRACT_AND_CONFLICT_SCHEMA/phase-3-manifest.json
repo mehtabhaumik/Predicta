@@ -1,0 +1,36 @@
+{
+  "phase": "PREDICTA_EVENT_ORACLE_PHASE_3_MULTI_SCHOOL_EVIDENCE_CONTRACT_AND_CONFLICT_SCHEMA",
+  "status": "GREEN",
+  "scope": "Deterministic Event Oracle multi-school evidence contract, source labels, method boundaries, agreement/conflict scoring, missing-evidence flags, and no-AI-invention guard.",
+  "greenCriteria": {
+    "deterministicTypedContract": true,
+    "sourceAwareSchoolProof": true,
+    "agreementConflictScores": true,
+    "missingEvidenceFlags": true,
+    "methodBoundaries": true,
+    "notEnoughEvidenceState": true,
+    "noAiEvidenceInvention": true,
+    "signatureOptionalOnly": true
+  },
+  "sourceLayers": [
+    "vedic",
+    "kp",
+    "jaimini",
+    "kundliKarma",
+    "numerology",
+    "signature",
+    "lifeAtlas"
+  ],
+  "verificationCommands": [
+    "corepack pnpm test:event-oracle-phase-0",
+    "corepack pnpm test:event-oracle-phase-1",
+    "corepack pnpm test:event-oracle-phase-2",
+    "corepack pnpm test:event-oracle-phase-3",
+    "corepack pnpm test:global-translation-coverage",
+    "corepack pnpm test:translation-trust",
+    "corepack pnpm --filter @pridicta/astrology typecheck",
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "corepack pnpm build:web",
+    "git diff --check"
+  ]
+}

@@ -1,0 +1,15 @@
+PREDICTA_EVENT_ORACLE_PHASE_3_MULTI_SCHOOL_EVIDENCE_CONTRACT_AND_CONFLICT_SCHEMA
+
+Strict audit checklist:
+
+- Deterministic evidence contract exists and is exported.
+- Evidence layers include Vedic, KP, Jaimini, Kundli Karma, Numerology, optional Signature, and optional Life Atlas.
+- Each layer has a source label and method boundary.
+- Agreement score and conflict score are computed from source evidence.
+- Required missing evidence produces missing-evidence flags.
+- Missing required evidence produces the explicit not_enough_evidence state.
+- Conflicting evidence lowers confidence.
+- AI is explicitly forbidden from filling missing evidence.
+- Signature absence remains optional and does not block non-signature prediction contracts.
+
+Verification commands are recorded in phase-3-manifest.json and rerun before the phase is committed.

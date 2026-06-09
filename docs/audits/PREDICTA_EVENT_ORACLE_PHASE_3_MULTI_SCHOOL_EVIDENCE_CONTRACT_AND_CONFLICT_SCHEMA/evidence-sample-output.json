@@ -1,0 +1,534 @@
+{
+  "supportive": {
+    "aiMayFillMissingEvidence": false,
+    "agreementScore": 69,
+    "categoryId": "foreign_travel",
+    "confidence": {
+      "downgradedBy": [],
+      "explanation": "Confidence is high because multiple required evidence rooms agree and conflict is low.",
+      "level": "high"
+    },
+    "conflictScore": 0,
+    "contractVersion": "event-oracle-evidence-phase-3-v1",
+    "deterministic": true,
+    "evidenceSourceLabels": {
+      "jaimini": "Jaimini destiny evidence",
+      "kp": "KP event-timing evidence",
+      "kundliKarma": "Kundli Karma pressure/support evidence",
+      "lifeAtlas": "Life Atlas synthesis context",
+      "numerology": "Numerology timing color",
+      "signature": "Signature expression evidence",
+      "vedic": "Vedic chart and dasha evidence"
+    },
+    "layers": [
+      {
+        "availability": "ready",
+        "boundary": "Vedic contributes dasha, antardasha, pratyantardasha, transit, house lords, D1, Moon, D9, D10, Chalit, yogas, Dosh, Shrap, Yog, and Lal Kitab.",
+        "confidence": "strong",
+        "isOptional": false,
+        "label": "Vedic chart and dasha evidence",
+        "layerId": "vedic",
+        "sourceAware": true,
+        "stance": "supports",
+        "summary": "Vedic dasha and transit evidence support a foreign-work opening.",
+        "technicalPoints": [
+          "Source evidence is deterministic and source-aware."
+        ]
+      },
+      {
+        "availability": "ready",
+        "boundary": "KP contributes relevant houses, cusps, star lord, sub lord, significators, ruling planets, promise/block, and timing readiness.",
+        "confidence": "moderate",
+        "isOptional": false,
+        "label": "KP event-timing evidence",
+        "layerId": "kp",
+        "sourceAware": true,
+        "stance": "supports",
+        "summary": "KP promise is visible through event houses and timing carriers.",
+        "technicalPoints": [
+          "Relevant houses and significators support foreign work movement."
+        ]
+      },
+      {
+        "availability": "ready",
+        "boundary": "Jaimini contributes karakas, Arudha, Karakamsha, Upapada, Chara Dasha, and rashi drishti only where calculated.",
+        "confidence": "strong",
+        "isOptional": false,
+        "label": "Jaimini destiny evidence",
+        "layerId": "jaimini",
+        "sourceAware": true,
+        "stance": "supports",
+        "summary": "Jaimini karaka direction supports work-linked foreign movement.",
+        "technicalPoints": [
+          "Source evidence is deterministic and source-aware."
+        ]
+      },
+      {
+        "availability": "partial",
+        "boundary": "Numerology contributes personal year/month/day, name rhythm, and timing color as secondary evidence.",
+        "confidence": "weak",
+        "isOptional": false,
+        "label": "Numerology timing color",
+        "layerId": "numerology",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Numerology gives timing color only, not primary proof.",
+        "technicalPoints": [
+          "Personal year rhythm is secondary."
+        ]
+      },
+      {
+        "availability": "missing",
+        "boundary": "Life Atlas is synthesis context only after source evidence exists; it must not replace source proof.",
+        "confidence": "weak",
+        "isOptional": true,
+        "label": "Life Atlas synthesis context",
+        "layerId": "lifeAtlas",
+        "missingReason": "Life Atlas synthesis waits until source evidence layers are ready.",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Life Atlas synthesis waits until source evidence layers are ready.",
+        "technicalPoints": []
+      }
+    ],
+    "methodBoundaries": {
+      "jaimini": "Jaimini contributes karakas, Arudha, Karakamsha, Upapada, Chara Dasha, and rashi drishti only where calculated.",
+      "kp": "KP contributes relevant houses, cusps, star lord, sub lord, significators, ruling planets, promise/block, and timing readiness.",
+      "kundliKarma": "Kundli Karma contributes Dosh, Shrap, Yog, Lal Kitab, friction, and remedy context without fear-selling.",
+      "lifeAtlas": "Life Atlas is synthesis context only after source evidence exists; it must not replace source proof.",
+      "numerology": "Numerology contributes personal year/month/day, name rhythm, and timing color as secondary evidence.",
+      "signature": "Signature evidence is optional and can only use confirmed visible traits; it must never be invented.",
+      "vedic": "Vedic contributes dasha, antardasha, pratyantardasha, transit, house lords, D1, Moon, D9, D10, Chalit, yogas, Dosh, Shrap, Yog, and Lal Kitab."
+    },
+    "missingEvidenceFlags": [
+      {
+        "layerId": "lifeAtlas",
+        "optional": true,
+        "reason": "Life Atlas synthesis waits until source evidence layers are ready."
+      }
+    ],
+    "notEnoughEvidence": false,
+    "requiredLayerIds": [
+      "vedic",
+      "kp",
+      "jaimini",
+      "numerology"
+    ],
+    "sourceAware": true,
+    "status": "ready"
+  },
+  "conflicted": {
+    "aiMayFillMissingEvidence": false,
+    "agreementScore": 23,
+    "categoryId": "foreign_travel",
+    "confidence": {
+      "downgradedBy": [
+        "Missing required evidence: Numerology timing color",
+        "Some evidence blocks or conflicts with the event promise."
+      ],
+      "explanation": "Confidence is low because support is weak or contradicted by source evidence.",
+      "level": "low"
+    },
+    "conflictScore": 31,
+    "contractVersion": "event-oracle-evidence-phase-3-v1",
+    "deterministic": true,
+    "evidenceSourceLabels": {
+      "jaimini": "Jaimini destiny evidence",
+      "kp": "KP event-timing evidence",
+      "kundliKarma": "Kundli Karma pressure/support evidence",
+      "lifeAtlas": "Life Atlas synthesis context",
+      "numerology": "Numerology timing color",
+      "signature": "Signature expression evidence",
+      "vedic": "Vedic chart and dasha evidence"
+    },
+    "layers": [
+      {
+        "availability": "ready",
+        "boundary": "Vedic contributes dasha, antardasha, pratyantardasha, transit, house lords, D1, Moon, D9, D10, Chalit, yogas, Dosh, Shrap, Yog, and Lal Kitab.",
+        "confidence": "moderate",
+        "isOptional": false,
+        "label": "Vedic chart and dasha evidence",
+        "layerId": "vedic",
+        "sourceAware": true,
+        "stance": "supports",
+        "summary": "Vedic dasha support exists but is not enough to overrule KP conflict.",
+        "technicalPoints": [
+          "Dasha support is partial."
+        ]
+      },
+      {
+        "availability": "ready",
+        "boundary": "KP contributes relevant houses, cusps, star lord, sub lord, significators, ruling planets, promise/block, and timing readiness.",
+        "confidence": "strong",
+        "isOptional": false,
+        "label": "KP event-timing evidence",
+        "layerId": "kp",
+        "sourceAware": true,
+        "stance": "blocks",
+        "summary": "KP event proof blocks the near-term foreign-work promise.",
+        "technicalPoints": [
+          "Sub-lord chain blocks travel/work activation."
+        ]
+      },
+      {
+        "availability": "partial",
+        "boundary": "Jaimini contributes karakas, Arudha, Karakamsha, Upapada, Chara Dasha, and rashi drishti only where calculated.",
+        "confidence": "moderate",
+        "isOptional": false,
+        "label": "Jaimini destiny evidence",
+        "layerId": "jaimini",
+        "sourceAware": true,
+        "stance": "mixed",
+        "summary": "Jaimini shows destiny movement, but not a clean foreign-work promise.",
+        "technicalPoints": [
+          "Karakas are mixed."
+        ]
+      },
+      {
+        "availability": "missing",
+        "boundary": "Numerology contributes personal year/month/day, name rhythm, and timing color as secondary evidence.",
+        "confidence": "weak",
+        "isOptional": false,
+        "label": "Numerology timing color",
+        "layerId": "numerology",
+        "missingReason": "Numerology timing color is not available yet for this event question.",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Numerology timing color is not available yet for this event question.",
+        "technicalPoints": []
+      },
+      {
+        "availability": "missing",
+        "boundary": "Life Atlas is synthesis context only after source evidence exists; it must not replace source proof.",
+        "confidence": "weak",
+        "isOptional": true,
+        "label": "Life Atlas synthesis context",
+        "layerId": "lifeAtlas",
+        "missingReason": "Life Atlas synthesis waits until source evidence layers are ready.",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Life Atlas synthesis waits until source evidence layers are ready.",
+        "technicalPoints": []
+      }
+    ],
+    "methodBoundaries": {
+      "jaimini": "Jaimini contributes karakas, Arudha, Karakamsha, Upapada, Chara Dasha, and rashi drishti only where calculated.",
+      "kp": "KP contributes relevant houses, cusps, star lord, sub lord, significators, ruling planets, promise/block, and timing readiness.",
+      "kundliKarma": "Kundli Karma contributes Dosh, Shrap, Yog, Lal Kitab, friction, and remedy context without fear-selling.",
+      "lifeAtlas": "Life Atlas is synthesis context only after source evidence exists; it must not replace source proof.",
+      "numerology": "Numerology contributes personal year/month/day, name rhythm, and timing color as secondary evidence.",
+      "signature": "Signature evidence is optional and can only use confirmed visible traits; it must never be invented.",
+      "vedic": "Vedic contributes dasha, antardasha, pratyantardasha, transit, house lords, D1, Moon, D9, D10, Chalit, yogas, Dosh, Shrap, Yog, and Lal Kitab."
+    },
+    "missingEvidenceFlags": [
+      {
+        "layerId": "numerology",
+        "optional": false,
+        "reason": "Numerology timing color is not available yet for this event question."
+      },
+      {
+        "layerId": "lifeAtlas",
+        "optional": true,
+        "reason": "Life Atlas synthesis waits until source evidence layers are ready."
+      }
+    ],
+    "notEnoughEvidence": false,
+    "requiredLayerIds": [
+      "vedic",
+      "kp",
+      "jaimini",
+      "numerology"
+    ],
+    "sourceAware": true,
+    "status": "partial"
+  },
+  "missing": {
+    "aiMayFillMissingEvidence": false,
+    "agreementScore": 0,
+    "categoryId": "foreign_travel",
+    "confidence": {
+      "downgradedBy": [
+        "Missing required evidence: Vedic chart and dasha evidence, KP event-timing evidence, Jaimini destiny evidence, Numerology timing color"
+      ],
+      "explanation": "Predicta cannot responsibly answer yet because the required source evidence is not available.",
+      "level": "not_enough_evidence"
+    },
+    "conflictScore": 0,
+    "contractVersion": "event-oracle-evidence-phase-3-v1",
+    "deterministic": true,
+    "evidenceSourceLabels": {
+      "jaimini": "Jaimini destiny evidence",
+      "kp": "KP event-timing evidence",
+      "kundliKarma": "Kundli Karma pressure/support evidence",
+      "lifeAtlas": "Life Atlas synthesis context",
+      "numerology": "Numerology timing color",
+      "signature": "Signature expression evidence",
+      "vedic": "Vedic chart and dasha evidence"
+    },
+    "layers": [
+      {
+        "availability": "missing",
+        "boundary": "Vedic contributes dasha, antardasha, pratyantardasha, transit, house lords, D1, Moon, D9, D10, Chalit, yogas, Dosh, Shrap, Yog, and Lal Kitab.",
+        "confidence": "weak",
+        "isOptional": false,
+        "label": "Vedic chart and dasha evidence",
+        "layerId": "vedic",
+        "missingReason": "Vedic chart and dasha evidence is not available yet for this event question.",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Vedic chart and dasha evidence is not available yet for this event question.",
+        "technicalPoints": []
+      },
+      {
+        "availability": "missing",
+        "boundary": "KP contributes relevant houses, cusps, star lord, sub lord, significators, ruling planets, promise/block, and timing readiness.",
+        "confidence": "weak",
+        "isOptional": false,
+        "label": "KP event-timing evidence",
+        "layerId": "kp",
+        "missingReason": "KP event-timing evidence is not available yet for this event question.",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "KP event-timing evidence is not available yet for this event question.",
+        "technicalPoints": []
+      },
+      {
+        "availability": "missing",
+        "boundary": "Jaimini contributes karakas, Arudha, Karakamsha, Upapada, Chara Dasha, and rashi drishti only where calculated.",
+        "confidence": "weak",
+        "isOptional": false,
+        "label": "Jaimini destiny evidence",
+        "layerId": "jaimini",
+        "missingReason": "Jaimini destiny evidence is not available yet for this event question.",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Jaimini destiny evidence is not available yet for this event question.",
+        "technicalPoints": []
+      },
+      {
+        "availability": "missing",
+        "boundary": "Numerology contributes personal year/month/day, name rhythm, and timing color as secondary evidence.",
+        "confidence": "weak",
+        "isOptional": false,
+        "label": "Numerology timing color",
+        "layerId": "numerology",
+        "missingReason": "Numerology timing color is not available yet for this event question.",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Numerology timing color is not available yet for this event question.",
+        "technicalPoints": []
+      },
+      {
+        "availability": "missing",
+        "boundary": "Life Atlas is synthesis context only after source evidence exists; it must not replace source proof.",
+        "confidence": "weak",
+        "isOptional": true,
+        "label": "Life Atlas synthesis context",
+        "layerId": "lifeAtlas",
+        "missingReason": "Life Atlas synthesis waits until source evidence layers are ready.",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Life Atlas synthesis waits until source evidence layers are ready.",
+        "technicalPoints": []
+      }
+    ],
+    "methodBoundaries": {
+      "jaimini": "Jaimini contributes karakas, Arudha, Karakamsha, Upapada, Chara Dasha, and rashi drishti only where calculated.",
+      "kp": "KP contributes relevant houses, cusps, star lord, sub lord, significators, ruling planets, promise/block, and timing readiness.",
+      "kundliKarma": "Kundli Karma contributes Dosh, Shrap, Yog, Lal Kitab, friction, and remedy context without fear-selling.",
+      "lifeAtlas": "Life Atlas is synthesis context only after source evidence exists; it must not replace source proof.",
+      "numerology": "Numerology contributes personal year/month/day, name rhythm, and timing color as secondary evidence.",
+      "signature": "Signature evidence is optional and can only use confirmed visible traits; it must never be invented.",
+      "vedic": "Vedic contributes dasha, antardasha, pratyantardasha, transit, house lords, D1, Moon, D9, D10, Chalit, yogas, Dosh, Shrap, Yog, and Lal Kitab."
+    },
+    "missingEvidenceFlags": [
+      {
+        "layerId": "vedic",
+        "optional": false,
+        "reason": "Vedic chart and dasha evidence is not available yet for this event question."
+      },
+      {
+        "layerId": "kp",
+        "optional": false,
+        "reason": "KP event-timing evidence is not available yet for this event question."
+      },
+      {
+        "layerId": "jaimini",
+        "optional": false,
+        "reason": "Jaimini destiny evidence is not available yet for this event question."
+      },
+      {
+        "layerId": "numerology",
+        "optional": false,
+        "reason": "Numerology timing color is not available yet for this event question."
+      },
+      {
+        "layerId": "lifeAtlas",
+        "optional": true,
+        "reason": "Life Atlas synthesis waits until source evidence layers are ready."
+      }
+    ],
+    "notEnoughEvidence": true,
+    "requiredLayerIds": [
+      "vedic",
+      "kp",
+      "jaimini",
+      "numerology"
+    ],
+    "sourceAware": true,
+    "status": "not_enough_evidence"
+  },
+  "relationshipWithoutSignature": {
+    "aiMayFillMissingEvidence": false,
+    "agreementScore": 69,
+    "categoryId": "relationship_outcome",
+    "confidence": {
+      "downgradedBy": [
+        "Some evidence blocks or conflicts with the event promise."
+      ],
+      "explanation": "Confidence is high because multiple required evidence rooms agree and conflict is low.",
+      "level": "high"
+    },
+    "conflictScore": 11,
+    "contractVersion": "event-oracle-evidence-phase-3-v1",
+    "deterministic": true,
+    "evidenceSourceLabels": {
+      "jaimini": "Jaimini destiny evidence",
+      "kp": "KP event-timing evidence",
+      "kundliKarma": "Kundli Karma pressure/support evidence",
+      "lifeAtlas": "Life Atlas synthesis context",
+      "numerology": "Numerology timing color",
+      "signature": "Signature expression evidence",
+      "vedic": "Vedic chart and dasha evidence"
+    },
+    "layers": [
+      {
+        "availability": "ready",
+        "boundary": "Vedic contributes dasha, antardasha, pratyantardasha, transit, house lords, D1, Moon, D9, D10, Chalit, yogas, Dosh, Shrap, Yog, and Lal Kitab.",
+        "confidence": "strong",
+        "isOptional": false,
+        "label": "Vedic chart and dasha evidence",
+        "layerId": "vedic",
+        "sourceAware": true,
+        "stance": "supports",
+        "summary": "Vedic chart and timing support a clearer relationship direction.",
+        "technicalPoints": [
+          "Source evidence is deterministic and source-aware."
+        ]
+      },
+      {
+        "availability": "ready",
+        "boundary": "KP contributes relevant houses, cusps, star lord, sub lord, significators, ruling planets, promise/block, and timing readiness.",
+        "confidence": "strong",
+        "isOptional": false,
+        "label": "KP event-timing evidence",
+        "layerId": "kp",
+        "sourceAware": true,
+        "stance": "supports",
+        "summary": "KP supports commitment possibility in the event proof.",
+        "technicalPoints": [
+          "Source evidence is deterministic and source-aware."
+        ]
+      },
+      {
+        "availability": "ready",
+        "boundary": "Jaimini contributes karakas, Arudha, Karakamsha, Upapada, Chara Dasha, and rashi drishti only where calculated.",
+        "confidence": "strong",
+        "isOptional": false,
+        "label": "Jaimini destiny evidence",
+        "layerId": "jaimini",
+        "sourceAware": true,
+        "stance": "supports",
+        "summary": "Jaimini supports relationship direction through destiny indicators.",
+        "technicalPoints": [
+          "Source evidence is deterministic and source-aware."
+        ]
+      },
+      {
+        "availability": "ready",
+        "boundary": "Kundli Karma contributes Dosh, Shrap, Yog, Lal Kitab, friction, and remedy context without fear-selling.",
+        "confidence": "strong",
+        "isOptional": false,
+        "label": "Kundli Karma pressure/support evidence",
+        "layerId": "kundliKarma",
+        "sourceAware": true,
+        "stance": "mixed",
+        "summary": "Kundli Karma shows some friction but not a total block.",
+        "technicalPoints": [
+          "Source evidence is deterministic and source-aware."
+        ]
+      },
+      {
+        "availability": "ready",
+        "boundary": "Numerology contributes personal year/month/day, name rhythm, and timing color as secondary evidence.",
+        "confidence": "strong",
+        "isOptional": false,
+        "label": "Numerology timing color",
+        "layerId": "numerology",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Numerology is timing color only.",
+        "technicalPoints": [
+          "Source evidence is deterministic and source-aware."
+        ]
+      },
+      {
+        "availability": "missing",
+        "boundary": "Signature evidence is optional and can only use confirmed visible traits; it must never be invented.",
+        "confidence": "weak",
+        "isOptional": true,
+        "label": "Signature expression evidence",
+        "layerId": "signature",
+        "missingReason": "Signature layer is optional and no confirmed signature traits are available.",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Signature layer is optional and no confirmed signature traits are available.",
+        "technicalPoints": []
+      },
+      {
+        "availability": "missing",
+        "boundary": "Life Atlas is synthesis context only after source evidence exists; it must not replace source proof.",
+        "confidence": "weak",
+        "isOptional": true,
+        "label": "Life Atlas synthesis context",
+        "layerId": "lifeAtlas",
+        "missingReason": "Life Atlas synthesis waits until source evidence layers are ready.",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Life Atlas synthesis waits until source evidence layers are ready.",
+        "technicalPoints": []
+      }
+    ],
+    "methodBoundaries": {
+      "jaimini": "Jaimini contributes karakas, Arudha, Karakamsha, Upapada, Chara Dasha, and rashi drishti only where calculated.",
+      "kp": "KP contributes relevant houses, cusps, star lord, sub lord, significators, ruling planets, promise/block, and timing readiness.",
+      "kundliKarma": "Kundli Karma contributes Dosh, Shrap, Yog, Lal Kitab, friction, and remedy context without fear-selling.",
+      "lifeAtlas": "Life Atlas is synthesis context only after source evidence exists; it must not replace source proof.",
+      "numerology": "Numerology contributes personal year/month/day, name rhythm, and timing color as secondary evidence.",
+      "signature": "Signature evidence is optional and can only use confirmed visible traits; it must never be invented.",
+      "vedic": "Vedic contributes dasha, antardasha, pratyantardasha, transit, house lords, D1, Moon, D9, D10, Chalit, yogas, Dosh, Shrap, Yog, and Lal Kitab."
+    },
+    "missingEvidenceFlags": [
+      {
+        "layerId": "signature",
+        "optional": true,
+        "reason": "Signature layer is optional and no confirmed signature traits are available."
+      },
+      {
+        "layerId": "lifeAtlas",
+        "optional": true,
+        "reason": "Life Atlas synthesis waits until source evidence layers are ready."
+      }
+    ],
+    "notEnoughEvidence": false,
+    "requiredLayerIds": [
+      "vedic",
+      "kp",
+      "jaimini",
+      "kundliKarma",
+      "numerology"
+    ],
+    "sourceAware": true,
+    "status": "ready"
+  }
+}
