@@ -1,0 +1,17 @@
+{
+  "phase": "PREDICTA_EVENT_ORACLE_PHASE_7_PREDICTION_FIRST_LANGUAGE_AND_NO_SCHOOLING_GATE",
+  "server": "http://127.0.0.1:3027",
+  "viewportWidth": 390,
+  "checks": {
+    "primaryPredictaPredictionCard": {
+      "url": "http://127.0.0.1:3027/dashboard/chat?eventOraclePhase7Smoke=1",
+      "directAnswer": "Needs clarity: Predicta needs a selected Kundli and enough event evidence before giving a precise prediction.",
+      "documentScrollWidth": 390,
+      "answerBeforeTiming": true,
+      "forbidden": [],
+      "outcomeFirst": true,
+      "overflowers": [],
+      "proofAfterTiming": true
+    }
+  }
+}

@@ -100,6 +100,16 @@ export type EventOraclePredictionInput = {
   trigger?: EventOracleTriggerInput;
 };
 
+export type EventOracleReadingDepth = 'FREE' | 'PAID';
+
+export type EventOracleReadingDigest = {
+  action: string[];
+  depth: EventOracleReadingDepth;
+  directAnswer: string;
+  evidenceSummary: string[];
+  timingAndTrigger: string;
+};
+
 type CategoryPredictionTemplate = {
   action: string;
   delay: string;
@@ -315,19 +325,19 @@ function buildDirectAnswer(
   contract: EventOracleEvidenceContract,
 ): string {
   if (outcome === 'needs_evidence') {
-    return 'Predicta cannot responsibly answer this yet because the required evidence is missing.';
+    return 'Needs clarity: Predicta needs a selected Kundli and enough event evidence before giving a precise prediction.';
   }
   if (outcome === 'blocked') {
-    return `This looks blocked or not ready right now. Support exists at ${contract.agreementScore}/100, but conflict is stronger at ${contract.conflictScore}/100.`;
+    return `Blocked: This does not look ready right now. Support exists at ${contract.agreementScore}/100, but the blocking signal is stronger at ${contract.conflictScore}/100.`;
   }
   if (outcome === 'mixed') {
-    return `This is mixed. Some evidence supports the event, but conflicting proof lowers confidence, so Predicta would not promise it yet.`;
+    return 'Mixed: Some evidence supports this event, but the conflict is strong enough that Predicta should not promise it yet.';
   }
   if (outcome === 'delayed') {
-    return `${template.possible} Conflicting evidence suggests delay, so treat this as possible but not smooth yet.`;
+    return `Delayed: ${template.possible} Conflicting evidence suggests the result may take longer or need one more trigger before opening smoothly.`;
   }
-  if (outcome === 'likely') return template.likely;
-  return template.possible;
+  if (outcome === 'likely') return `Likely: ${template.likely}`;
+  return `Possible: ${template.possible}`;
 }
 
 function buildTrigger(
@@ -358,11 +368,11 @@ function buildDelayFactors(
   const blockers = blockingLayers(contract);
   const requiredMissing = contract.missingEvidenceFlags.filter(flag => !flag.optional);
   if (blockers.length) {
-    factors.push(`Evidence conflict from ${layerNames(blockers)} can delay or weaken the event.`);
+    factors.push(`Mixed signals from ${layerNames(blockers)} can delay or weaken the event.`);
   }
   if (requiredMissing.length) {
     factors.push(
-      `Missing required evidence (${requiredMissing.map(flag => flag.layerId).join(', ')}) prevents a stronger answer.`,
+      `Missing required inputs (${requiredMissing.map(flag => flag.layerId).join(', ')}) prevent a stronger answer.`,
     );
   }
   return factors;
@@ -375,10 +385,10 @@ function buildStrengthFactors(
   const factors = [CATEGORY_TEMPLATES[categoryId].strengthen];
   const supporters = supportingLayers(contract);
   if (supporters.length) {
-    factors.push(`Supportive proof is currently coming from ${layerNames(supporters)}.`);
+    factors.push(`Supportive signals are currently coming from ${layerNames(supporters)}.`);
   }
   if (contract.confidence.level === 'high') {
-    factors.push('Multiple required evidence rooms agree, so Predicta can speak with stronger confidence.');
+    factors.push('Multiple evidence rooms agree, so Predicta can speak with stronger confidence.');
   }
   return factors;
 }
@@ -386,11 +396,11 @@ function buildStrengthFactors(
 function buildActions(categoryId: EventQuestionCategoryId, contract: EventOracleEvidenceContract): string[] {
   const actions = [CATEGORY_TEMPLATES[categoryId].action];
   if (contract.notEnoughEvidence) {
-    actions.push('Prepare the missing source evidence before asking for a precise timing answer.');
+    actions.push('Select the Kundli, choose one clear event, and add the missing context before asking for precise timing.');
   } else if (contract.status === 'conflicted') {
-    actions.push('Do not force the decision yet; watch for the conflict layer to soften before acting aggressively.');
+    actions.push('Do not force the decision yet; wait for the pressure to soften before acting aggressively.');
   } else {
-    actions.push('Track the trigger window and keep practical readiness high, but avoid treating astrology as a guarantee.');
+    actions.push('Track the trigger window and stay practically ready, while treating the prediction as guidance rather than a guarantee.');
   }
   return actions;
 }
@@ -450,5 +460,35 @@ export function buildEventOraclePredictionObject(
     whatCanDelayIt: buildDelayFactors(refinement.categoryId, evidenceContract),
     whatCanStrengthenIt: buildStrengthFactors(refinement.categoryId, evidenceContract),
     whatToDoNow: buildActions(refinement.categoryId, evidenceContract),
+  };
+}
+
+export function buildEventOracleReadingDigest(
+  prediction: EventOraclePredictionObject,
+  depth: EventOracleReadingDepth,
+): EventOracleReadingDigest {
+  const evidenceSummary =
+    depth === 'PAID'
+      ? prediction.collapsedEvidence.map(
+          item => `${item.label}: ${item.stance}, ${item.availability}. ${item.summary}`,
+        )
+      : prediction.collapsedEvidence
+          .filter(item => item.availability !== 'missing')
+          .slice(0, 2)
+          .map(item => `${item.label}: ${item.stance}.`);
+
+  return {
+    action:
+      depth === 'PAID'
+        ? [
+            ...prediction.whatToDoNow,
+            ...prediction.whatCanStrengthenIt.slice(0, 2),
+            ...prediction.whatCanDelayIt.slice(0, 2),
+          ]
+        : prediction.whatToDoNow.slice(0, 2),
+    depth,
+    directAnswer: prediction.directAnswer,
+    evidenceSummary,
+    timingAndTrigger: `${prediction.timingWindow.label}: ${prediction.mostLikelyTrigger.summary}`,
   };
 }

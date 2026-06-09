@@ -51,7 +51,7 @@
     },
     "contractVersion": "event-oracle-prediction-phase-4-v1",
     "deterministic": true,
-    "directAnswer": "Foreign movement looks more likely than not when work/travel houses, timing, and event proof agree.",
+    "directAnswer": "Likely: Foreign movement looks more likely than not when work/travel houses, timing, and event proof agree.",
     "evidenceContractVersion": "event-oracle-evidence-phase-3-v1",
     "mostLikelyTrigger": {
       "sourceLayerIds": [
@@ -85,12 +85,12 @@
     ],
     "whatCanStrengthenIt": [
       "A clear work case, updated documents, and proactive communication strengthen the foreign-travel promise.",
-      "Supportive proof is currently coming from Vedic chart and dasha evidence, KP event-timing evidence, Jaimini destiny evidence.",
-      "Multiple required evidence rooms agree, so Predicta can speak with stronger confidence."
+      "Supportive signals are currently coming from Vedic chart and dasha evidence, KP event-timing evidence, Jaimini destiny evidence.",
+      "Multiple evidence rooms agree, so Predicta can speak with stronger confidence."
     ],
     "whatToDoNow": [
       "Keep documents, manager conversations, and opportunity readiness prepared before the window opens.",
-      "Track the trigger window and keep practical readiness high, but avoid treating astrology as a guarantee."
+      "Track the trigger window and stay practically ready, while treating the prediction as guidance rather than a guarantee."
     ]
   },
   "unsupportedExactDate": {
@@ -145,7 +145,7 @@
     },
     "contractVersion": "event-oracle-prediction-phase-4-v1",
     "deterministic": true,
-    "directAnswer": "Foreign movement looks more likely than not when work/travel houses, timing, and event proof agree.",
+    "directAnswer": "Likely: Foreign movement looks more likely than not when work/travel houses, timing, and event proof agree.",
     "evidenceContractVersion": "event-oracle-evidence-phase-3-v1",
     "mostLikelyTrigger": {
       "sourceLayerIds": [
@@ -177,12 +177,12 @@
     ],
     "whatCanStrengthenIt": [
       "A clear work case, updated documents, and proactive communication strengthen the foreign-travel promise.",
-      "Supportive proof is currently coming from Vedic chart and dasha evidence, KP event-timing evidence, Jaimini destiny evidence.",
-      "Multiple required evidence rooms agree, so Predicta can speak with stronger confidence."
+      "Supportive signals are currently coming from Vedic chart and dasha evidence, KP event-timing evidence, Jaimini destiny evidence.",
+      "Multiple evidence rooms agree, so Predicta can speak with stronger confidence."
     ],
     "whatToDoNow": [
       "Keep documents, manager conversations, and opportunity readiness prepared before the window opens.",
-      "Track the trigger window and keep practical readiness high, but avoid treating astrology as a guarantee."
+      "Track the trigger window and stay practically ready, while treating the prediction as guidance rather than a guarantee."
     ]
   },
   "supportedExactDate": {
@@ -237,7 +237,7 @@
     },
     "contractVersion": "event-oracle-prediction-phase-4-v1",
     "deterministic": true,
-    "directAnswer": "Foreign movement looks more likely than not when work/travel houses, timing, and event proof agree.",
+    "directAnswer": "Likely: Foreign movement looks more likely than not when work/travel houses, timing, and event proof agree.",
     "evidenceContractVersion": "event-oracle-evidence-phase-3-v1",
     "mostLikelyTrigger": {
       "sourceLayerIds": [
@@ -271,12 +271,12 @@
     ],
     "whatCanStrengthenIt": [
       "A clear work case, updated documents, and proactive communication strengthen the foreign-travel promise.",
-      "Supportive proof is currently coming from Vedic chart and dasha evidence, KP event-timing evidence, Jaimini destiny evidence.",
-      "Multiple required evidence rooms agree, so Predicta can speak with stronger confidence."
+      "Supportive signals are currently coming from Vedic chart and dasha evidence, KP event-timing evidence, Jaimini destiny evidence.",
+      "Multiple evidence rooms agree, so Predicta can speak with stronger confidence."
     ],
     "whatToDoNow": [
       "Keep documents, manager conversations, and opportunity readiness prepared before the window opens.",
-      "Track the trigger window and keep practical readiness high, but avoid treating astrology as a guarantee."
+      "Track the trigger window and stay practically ready, while treating the prediction as guidance rather than a guarantee."
     ]
   },
   "conflictedPrediction": {
@@ -331,7 +331,7 @@
     },
     "contractVersion": "event-oracle-prediction-phase-4-v1",
     "deterministic": true,
-    "directAnswer": "Foreign movement is possible, but Predicta needs cleaner timing before calling it a strong opening. Conflicting evidence suggests delay, so treat this as possible but not smooth yet.",
+    "directAnswer": "Delayed: Foreign movement is possible, but Predicta needs cleaner timing before calling it a strong opening. Conflicting evidence suggests the result may take longer or need one more trigger before opening smoothly.",
     "evidenceContractVersion": "event-oracle-evidence-phase-3-v1",
     "mostLikelyTrigger": {
       "sourceLayerIds": [
@@ -356,16 +356,16 @@
     },
     "whatCanDelayIt": [
       "Documentation gaps, weak institutional support, or timing conflict can delay foreign movement.",
-      "Evidence conflict from KP event-timing evidence, Jaimini destiny evidence can delay or weaken the event.",
-      "Missing required evidence (numerology) prevents a stronger answer."
+      "Mixed signals from KP event-timing evidence, Jaimini destiny evidence can delay or weaken the event.",
+      "Missing required inputs (numerology) prevent a stronger answer."
     ],
     "whatCanStrengthenIt": [
       "A clear work case, updated documents, and proactive communication strengthen the foreign-travel promise.",
-      "Supportive proof is currently coming from Vedic chart and dasha evidence."
+      "Supportive signals are currently coming from Vedic chart and dasha evidence."
     ],
     "whatToDoNow": [
       "Keep documents, manager conversations, and opportunity readiness prepared before the window opens.",
-      "Track the trigger window and keep practical readiness high, but avoid treating astrology as a guarantee."
+      "Track the trigger window and stay practically ready, while treating the prediction as guidance rather than a guarantee."
     ]
   },
   "missingPrediction": {
@@ -420,7 +420,7 @@
     },
     "contractVersion": "event-oracle-prediction-phase-4-v1",
     "deterministic": true,
-    "directAnswer": "Predicta cannot responsibly answer this yet because the required evidence is missing.",
+    "directAnswer": "Needs clarity: Predicta needs a selected Kundli and enough event evidence before giving a precise prediction.",
     "evidenceContractVersion": "event-oracle-evidence-phase-3-v1",
     "mostLikelyTrigger": {
       "sourceLayerIds": [],
@@ -443,14 +443,14 @@
     },
     "whatCanDelayIt": [
       "Documentation gaps, weak institutional support, or timing conflict can delay foreign movement.",
-      "Missing required evidence (vedic, kp, jaimini, numerology) prevents a stronger answer."
+      "Missing required inputs (vedic, kp, jaimini, numerology) prevent a stronger answer."
     ],
     "whatCanStrengthenIt": [
       "A clear work case, updated documents, and proactive communication strengthen the foreign-travel promise."
     ],
     "whatToDoNow": [
       "Keep documents, manager conversations, and opportunity readiness prepared before the window opens.",
-      "Prepare the missing source evidence before asking for a precise timing answer."
+      "Select the Kundli, choose one clear event, and add the missing context before asking for precise timing."
     ]
   },
   "wellnessPrediction": {
@@ -497,7 +497,7 @@
     },
     "contractVersion": "event-oracle-prediction-phase-4-v1",
     "deterministic": true,
-    "directAnswer": "A mild caution is possible, but this is not medical proof or diagnosis. Conflicting evidence suggests delay, so treat this as possible but not smooth yet.",
+    "directAnswer": "Delayed: A mild caution is possible, but this is not medical proof or diagnosis. Conflicting evidence suggests the result may take longer or need one more trigger before opening smoothly.",
     "evidenceContractVersion": "event-oracle-evidence-phase-3-v1",
     "mostLikelyTrigger": {
       "sourceLayerIds": [
@@ -522,15 +522,15 @@
     },
     "whatCanDelayIt": [
       "Stress, irregular routine, or ignored recovery signals can prolong the pressure.",
-      "Evidence conflict from Kundli Karma pressure/support evidence can delay or weaken the event."
+      "Mixed signals from Kundli Karma pressure/support evidence can delay or weaken the event."
     ],
     "whatCanStrengthenIt": [
       "Sleep rhythm, hydration, movement, and professional care where needed strengthen wellbeing.",
-      "Supportive proof is currently coming from Vedic chart and dasha evidence."
+      "Supportive signals are currently coming from Vedic chart and dasha evidence."
     ],
     "whatToDoNow": [
       "Use this as routine guidance only, and speak to a qualified medical professional for diagnosis or urgent symptoms.",
-      "Track the trigger window and keep practical readiness high, but avoid treating astrology as a guarantee."
+      "Track the trigger window and stay practically ready, while treating the prediction as guidance rather than a guarantee."
     ]
   }
 }

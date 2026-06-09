@@ -255,8 +255,8 @@ assertGate(
   'conflict must lower confidence or avoid likely outcome',
 );
 assertGate(
-  conflictedPrediction.whatCanDelayIt.some(reason => reason.includes('Evidence conflict')),
-  'delay factors must mention evidence conflict',
+  conflictedPrediction.whatCanDelayIt.some(reason => /mixed signals|conflict/i.test(reason)),
+  'delay factors must mention mixed/conflicting signals',
 );
 
 const missingEvidence = buildEventOracleEvidenceContract({
@@ -271,11 +271,13 @@ assert.equal(missingPrediction.outcome, 'needs_evidence');
 assert.equal(missingPrediction.confidence.level, 'not_enough_evidence');
 assert.equal(missingPrediction.timingWindow.precision, 'not_precise_yet');
 assertGate(
-  missingPrediction.directAnswer.includes('cannot responsibly answer'),
+  missingPrediction.directAnswer.startsWith('Needs clarity:'),
   'missing evidence answer must refuse fake prediction',
 );
 assertGate(
-  missingPrediction.whatToDoNow.some(action => action.includes('missing source evidence')),
+  missingPrediction.whatToDoNow.some(action =>
+    /selected kundli|clear event|missing context/i.test(action),
+  ),
   'missing evidence action must tell user what to do next',
 );
 

@@ -1,0 +1,21 @@
+{
+  "phase": "PREDICTA_EVENT_ORACLE_PHASE_7_PREDICTION_FIRST_LANGUAGE_AND_NO_SCHOOLING_GATE",
+  "status": "GREEN",
+  "redTeamCategories": 15,
+  "greenCriteria": {
+    "outcomeFirstDirectAnswers": true,
+    "timingTriggerActionBeforeProof": true,
+    "forbiddenSchoolingCopyRejected": true,
+    "allEventCategoriesRedTeamed": true,
+    "freeConcisePaidDeeper": true,
+    "nonFearBasedPredictions": true
+  },
+  "strictRules": [
+    "Every Event Oracle direct answer must start with an outcome label.",
+    "Timing, trigger, and action must appear before proof.",
+    "Technical proof can remain available but must not lead the user-facing answer.",
+    "Free answers must be useful and concise.",
+    "Paid answers must add useful depth, not verbose filler.",
+    "Predictions must avoid fear-based language and certainty claims."
+  ]
+}

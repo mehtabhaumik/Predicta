@@ -4792,21 +4792,21 @@ function buildSchoolContextIntro(
   return [
     `${school} is ready.`,
     fromSchool
-      ? `Context was carried from ${fromSchool}. The method will not be mixed. I already have your chart context and question, so I will answer inside this room's method.`
+      ? `Context was carried from ${fromSchool}. I will keep this answer inside the selected room and start with the prediction.`
       : undefined,
     chartFocus ? `Chart in focus: ${chartFocus}.` : undefined,
     reportLine ? `Report context: ${reportLine}.` : undefined,
     evidenceLine,
     question ? `You asked: ${question}` : undefined,
     context.predictaSchool === 'KP'
-      ? 'I will read this through KP cusps, star lords, sub lords, significators, and ruling planets.'
+      ? 'I will answer with the verdict, timing, trigger, and next step first; KP proof stays available after that.'
     : context.predictaSchool === 'JAIMINI' || context.predictaSchool === 'NADI'
-        ? 'I will keep this inside Jaimini: soul role, visible identity, career dharma, relationship mirror, and destiny chapters when calculated evidence is available.'
+        ? 'I will answer with the destiny direction and current chapter first; Jaimini evidence stays available after that.'
     : context.predictaSchool === 'NUMEROLOGY'
-        ? 'I will answer through name number, birth number, destiny number, personal timing, and name rhythm.'
+        ? 'I will answer with the current number-cycle guidance first; number evidence stays available after that.'
     : context.predictaSchool === 'SIGNATURE'
-        ? 'I will stay grounded in confirmed signature traits, self-expression patterns, improvement suggestions, and safe reflection. It is not identity verification, handwriting forensics, legal proof, or diagnosis.'
-        : 'I will read this through Vedic Parashari Jyotish.',
+        ? 'I will answer with the confirmed expression pattern and safe next step first. This is reflective guidance, not identity verification, handwriting forensics, legal proof, or diagnosis.'
+        : 'I will answer with the Vedic prediction, timing, and practical guidance first; chart proof stays available after that.',
     'I will answer from here, directly and clearly.',
   ]
     .filter(Boolean)
