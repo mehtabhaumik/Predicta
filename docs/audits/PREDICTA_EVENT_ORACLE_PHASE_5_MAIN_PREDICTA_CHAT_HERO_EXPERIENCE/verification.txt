@@ -1,0 +1,16 @@
+PREDICTA_EVENT_ORACLE_PHASE_5_MAIN_PREDICTA_CHAT_HERO_EXPERIENCE
+
+Strict audit checklist:
+
+- Dashboard chat opens with the primary Predicta hero.
+- Event question chips remain visible and usable.
+- Custom question refinement remains visible and usable.
+- Active Kundli context appears in the hero.
+- Credit/pass status appears only as a quiet status card.
+- Zero-credit deterministic help remains visible.
+- Recent prediction threads are shown or an empty state is shown.
+- Prediction card order is direct answer, timing/trigger, action/confidence, collapsed evidence.
+- Desktop, tablet, and mobile CSS prevents cramped cards, CTA collisions, and text overflow.
+- All Phase 5 copy comes from dedicated eventOracle.json translations.
+
+Verification commands are recorded in phase-5-manifest.json and rerun before the phase is committed.

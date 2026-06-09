@@ -1,0 +1,26 @@
+{
+  "phase": "PREDICTA_EVENT_ORACLE_PHASE_5_MAIN_PREDICTA_CHAT_HERO_EXPERIENCE",
+  "baseUrl": "http://127.0.0.1:3025",
+  "route": "/dashboard/chat?eventOraclePhase5Smoke=1",
+  "browser": "Codex in-app browser",
+  "viewportWidth": 390,
+  "documentScrollWidth": 390,
+  "overflowers": [],
+  "selectors": {
+    ".event-question-hero": true,
+    ".event-question-chip-grid": true,
+    ".event-question-status-grid": true,
+    ".event-question-prediction-card": true,
+    ".event-question-recent-threads": true,
+    ".event-question-collapsed-evidence": true
+  },
+  "visibleCopy": {
+    "hasAskPredictaFirst": true,
+    "hasDirectAnswer": true,
+    "hasZeroCreditHelp": true
+  },
+  "notes": [
+    "In-app browser viewport control was not exposed in this session, so live browser smoke covered the narrow/mobile viewport.",
+    "Desktop and tablet responsiveness are also covered by static Phase 5 CSS gate, web typecheck, and production build."
+  ]
+}

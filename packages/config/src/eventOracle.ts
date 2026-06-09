@@ -19,6 +19,37 @@ export type EventOracleCopy = {
     selectedLabel: string;
     title: string;
   };
+  hero: {
+    actionTitle: string;
+    activeKundliEmpty: string;
+    activeKundliLabel: string;
+    activeKundliReady: string;
+    creditQuietBody: string;
+    creditQuietTitle: string;
+    deterministicHelp: string;
+    eyebrow: string;
+    primaryCta: string;
+    reportCta: string;
+    secondaryCta: string;
+    statusLabel: string;
+    subtitle: string;
+    title: string;
+  };
+  predictionCard: {
+    actionPlanLabel: string;
+    collapsedEvidenceLabel: string;
+    confidenceLabel: string;
+    delayLabel: string;
+    directAnswerLabel: string;
+    evidencePendingTitle: string;
+    strengthenLabel: string;
+    timingTriggerLabel: string;
+  };
+  recentThreads: {
+    empty: string;
+    openThread: string;
+    title: string;
+  };
   roomLabels: Record<string, string>;
 };
 

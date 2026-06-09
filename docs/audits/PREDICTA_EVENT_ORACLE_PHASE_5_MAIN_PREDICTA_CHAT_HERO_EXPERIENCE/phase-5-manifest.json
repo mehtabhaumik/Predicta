@@ -1,0 +1,35 @@
+{
+  "phase": "PREDICTA_EVENT_ORACLE_PHASE_5_MAIN_PREDICTA_CHAT_HERO_EXPERIENCE",
+  "status": "GREEN",
+  "scope": "Primary Predicta chat hero experience with action-led event question flow, active Kundli context, quiet credit/pass status, recent prediction threads, zero-credit help, and answer-first prediction card rhythm.",
+  "greenCriteria": {
+    "dashboardHeroAskBox": true,
+    "eventQuestionChips": true,
+    "recentPredictionThreads": true,
+    "activeKundliContext": true,
+    "quietCreditPassStatus": true,
+    "zeroCreditDeterministicHelp": true,
+    "predictionAnswerCardOrder": true,
+    "responsiveNoCrowding": true,
+    "localizedDedicatedJsonCopy": true
+  },
+  "browserSmokeTargets": [
+    "/dashboard/chat?eventOraclePhase5Smoke=1",
+    "/dashboard/chat?eventOraclePhase5Smoke=1&lang=gu"
+  ],
+  "verificationCommands": [
+    "corepack pnpm test:event-oracle-phase-0",
+    "corepack pnpm test:event-oracle-phase-1",
+    "corepack pnpm test:event-oracle-phase-2",
+    "corepack pnpm test:event-oracle-phase-3",
+    "corepack pnpm test:event-oracle-phase-4",
+    "corepack pnpm test:event-oracle-phase-5",
+    "corepack pnpm test:global-translation-coverage",
+    "corepack pnpm test:translation-trust",
+    "corepack pnpm --filter @pridicta/astrology typecheck",
+    "corepack pnpm --filter @pridicta/config typecheck",
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "corepack pnpm build:web",
+    "git diff --check"
+  ]
+}

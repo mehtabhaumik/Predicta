@@ -66,6 +66,37 @@
         "numerology": "Numerology",
         "signature": "Signature",
         "vedic": "Vedic"
+      },
+      "hero": {
+        "actionTitle": "Start with the question, not the school.",
+        "activeKundliEmpty": "No active Kundli selected yet. Create or select one so Predicta can read real evidence.",
+        "activeKundliLabel": "Active Kundli",
+        "activeKundliReady": "Predicta will use this profile as the evidence base.",
+        "creditQuietBody": "Kundli creation, charts, reports, and deterministic guidance stay available without spending AI credit.",
+        "creditQuietTitle": "Credits stay protected",
+        "deterministicHelp": "Zero-credit help stays available for Kundli creation, charts, reports, saved profiles, and navigation.",
+        "eyebrow": "Primary Predicta",
+        "primaryCta": "Ask this question",
+        "reportCta": "Open reports",
+        "secondaryCta": "Create Kundli first",
+        "statusLabel": "Access status",
+        "subtitle": "Ask about a real event. Predicta checks the right evidence rooms, gives the answer first, then timing, trigger, action, and proof.",
+        "title": "Ask Predicta first."
+      },
+      "predictionCard": {
+        "actionPlanLabel": "What to do now",
+        "collapsedEvidenceLabel": "Evidence, collapsed",
+        "confidenceLabel": "Confidence",
+        "delayLabel": "What can delay it",
+        "directAnswerLabel": "Direct answer",
+        "evidencePendingTitle": "Prediction card preview",
+        "strengthenLabel": "What can strengthen it",
+        "timingTriggerLabel": "Timing and trigger"
+      },
+      "recentThreads": {
+        "empty": "Your recent prediction threads will appear here after you choose or refine questions.",
+        "openThread": "Open thread",
+        "title": "Recent prediction threads"
       }
     },
     "hi": {
@@ -134,6 +165,37 @@
         "numerology": "अंक",
         "signature": "हस्ताक्षर",
         "vedic": "वैदिक"
+      },
+      "hero": {
+        "actionTitle": "पहले प्रश्न से शुरू करें, स्कूल से नहीं.",
+        "activeKundliEmpty": "अभी कोई सक्रिय कुंडली चुनी नहीं गई है. वास्तविक प्रमाण पढ़ने के लिए कुंडली बनाएं या चुनें.",
+        "activeKundliLabel": "सक्रिय कुंडली",
+        "activeKundliReady": "प्रेडिक्टा इस प्रोफाइल को प्रमाण-आधार के रूप में उपयोग करेगी.",
+        "creditQuietBody": "कुंडली बनाना, चार्ट, रिपोर्ट और गणना-आधारित मार्गदर्शन AI क्रेडिट खर्च किए बिना उपलब्ध रहते हैं.",
+        "creditQuietTitle": "क्रेडिट सुरक्षित रहते हैं",
+        "deterministicHelp": "कुंडली बनाना, चार्ट, रिपोर्ट, सुरक्षित प्रोफाइल और नेविगेशन के लिए शून्य-क्रेडिट सहायता उपलब्ध रहती है.",
+        "eyebrow": "मुख्य प्रेडिक्टा",
+        "primaryCta": "यह प्रश्न पूछें",
+        "reportCta": "रिपोर्ट खोलें",
+        "secondaryCta": "पहले कुंडली बनाएं",
+        "statusLabel": "एक्सेस स्थिति",
+        "subtitle": "एक वास्तविक घटना के बारे में पूछें. प्रेडिक्टा सही प्रमाण-कक्ष जांचती है, पहले उत्तर देती है, फिर समय, कारण, कार्य और प्रमाण दिखाती है.",
+        "title": "पहले प्रेडिक्टा से पूछें."
+      },
+      "predictionCard": {
+        "actionPlanLabel": "अभी क्या करें",
+        "collapsedEvidenceLabel": "प्रमाण, संक्षेप में",
+        "confidenceLabel": "विश्वास स्तर",
+        "delayLabel": "क्या देरी कर सकता है",
+        "directAnswerLabel": "सीधा उत्तर",
+        "evidencePendingTitle": "भविष्यवाणी कार्ड पूर्वदर्शन",
+        "strengthenLabel": "क्या इसे मजबूत कर सकता है",
+        "timingTriggerLabel": "समय और घटना-कारण"
+      },
+      "recentThreads": {
+        "empty": "प्रश्न चुनने या सुधारने के बाद आपके हाल के भविष्यवाणी थ्रेड यहां दिखेंगे.",
+        "openThread": "थ्रेड खोलें",
+        "title": "हाल के भविष्यवाणी थ्रेड"
       }
     },
     "gu": {
@@ -202,6 +264,37 @@
         "numerology": "અંક",
         "signature": "હસ્તાક્ષર",
         "vedic": "વેદિક"
+      },
+      "hero": {
+        "actionTitle": "પહેલા પ્રશ્નથી શરૂ કરો, શાળાથી નહીં.",
+        "activeKundliEmpty": "હજી કોઈ સક્રિય કુંડળી પસંદ નથી. સાચા પુરાવા વાંચવા માટે કુંડળી બનાવો અથવા પસંદ કરો.",
+        "activeKundliLabel": "સક્રિય કુંડળી",
+        "activeKundliReady": "પ્રેડિક્ટા આ પ્રોફાઇલને પુરાવા-આધાર તરીકે વાપરશે.",
+        "creditQuietBody": "કુંડળી બનાવવી, ચાર્ટ, રિપોર્ટ અને ગણતરી-આધારિત માર્ગદર્શન AI ક્રેડિટ ખર્ચ્યા વગર ઉપલબ્ધ રહે છે.",
+        "creditQuietTitle": "ક્રેડિટ સુરક્ષિત રહે છે",
+        "deterministicHelp": "કુંડળી બનાવવી, ચાર્ટ, રિપોર્ટ, સાચવેલા પ્રોફાઇલ અને નેવિગેશન માટે શૂન્ય-ક્રેડિટ મદદ ઉપલબ્ધ રહે છે.",
+        "eyebrow": "મુખ્ય પ્રેડિક્ટા",
+        "primaryCta": "આ પ્રશ્ન પૂછો",
+        "reportCta": "રિપોર્ટ ખોલો",
+        "secondaryCta": "પહેલા કુંડળી બનાવો",
+        "statusLabel": "ઍક્સેસ સ્થિતિ",
+        "subtitle": "સાચી જીવન-ઘટના વિશે પૂછો. પ્રેડિક્ટા યોગ્ય પુરાવા-રૂમ તપાસે છે, પહેલા ઉત્તર આપે છે, પછી સમય, કારણ, ક્રિયા અને પુરાવો બતાવે છે.",
+        "title": "પહેલા પ્રેડિક્ટાને પૂછો."
+      },
+      "predictionCard": {
+        "actionPlanLabel": "હમણાં શું કરવું",
+        "collapsedEvidenceLabel": "પુરાવો, સંક્ષેપમાં",
+        "confidenceLabel": "વિશ્વાસ સ્તર",
+        "delayLabel": "શું વિલંબ કરી શકે",
+        "directAnswerLabel": "સીધો ઉત્તર",
+        "evidencePendingTitle": "ભવિષ્યવાણી કાર્ડ પૂર્વદર્શન",
+        "strengthenLabel": "શું તેને મજબૂત કરી શકે",
+        "timingTriggerLabel": "સમય અને ઘટના-કારણ"
+      },
+      "recentThreads": {
+        "empty": "પ્રશ્ન પસંદ કે સુધાર્યા પછી તમારા તાજેતરના ભવિષ્યવાણી થ્રેડ અહીં દેખાશે.",
+        "openThread": "થ્રેડ ખોલો",
+        "title": "તાજેતરના ભવિષ્યવાણી થ્રેડ"
       }
     }
   }
