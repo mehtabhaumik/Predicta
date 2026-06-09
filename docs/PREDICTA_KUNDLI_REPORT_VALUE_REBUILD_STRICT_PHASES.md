@@ -7,7 +7,7 @@ coverage with Predicta-level polish.
 It exists because Predicta already has many ingredients, but the delivered
 reading can still feel too generic, too technical, too cluttered, or too
 school-mixed. This phase set is not a replacement for the existing report/PDF,
-chart insight, KP/Nadi, Numerology, Signature, or Life Atlas contracts. It is a
+chart insight, KP/Jaimini, Numerology, Signature, or Life Atlas contracts. It is a
 strict value-quality layer that builds on top of them.
 
 ## Relationship To Existing Phase Files
@@ -19,8 +19,9 @@ This document must not rename, collapse, or override existing phase files.
   contract.
 - `PREDICTA_CHART_INSIGHT_REBUILD_PHASES.md` remains the controlling chart
   insight hierarchy contract.
-- `PREDICTA_KP_NADI_PREDICTA_STRICT_PHASE.md` remains the controlling KP/Nadi
-  room and report contract.
+- KP remains event-answer focused. Jaimini is the current destiny/soul-role
+  school after the approved Nadi replacement and must remain separate from KP,
+  Vedic, Numerology, and Signature report flow.
 - `PREDICTA_NUMEROLOGY_PREDICTA_STRICT_PHASE.md` remains the controlling
   Numerology report contract.
 - `PREDICTA_SIGNATURE_PREDICTA_ULTRA_STRICT_PHASE.md` remains the controlling
@@ -85,9 +86,9 @@ alone.
     house/cusp/event evidence and must not visually behave like a Vedic D1 room.
 23. KP chart surfaces must use Bhav Chalit / cusp-oriented evidence where chart
     display is needed, not a Parashari D1 personality chart.
-24. Nadi must not become a Vedic chart dump or KP proof table. Nadi remains a
-    karmic story and validation room.
-25. Vedic, KP, Nadi, Numerology, and Signature reports remain separate school
+24. Jaimini: destiny report with Atmakaraka, Karakamsha, Arudha, Upapada,
+    Jaimini aspects, and Chara Dasha evidence where available.
+25. Vedic, KP, Jaimini, Numerology, and Signature reports remain separate school
     reports unless the user explicitly chooses the approved Life Atlas synthesis
     report.
 26. Predicta memory must know every new chart, table, report section, depth
@@ -522,12 +523,12 @@ Predicta must know:
 - Free Vedic PDF.
 - Premium Vedic PDF.
 - KP PDF.
-- Nadi PDF.
+- Jaimini PDF.
 - Numerology PDF.
 - Signature PDF with confirmed traits.
 - Signature PDF without signature traits or with pending state.
-- Web screenshots for Vedic, Charts, KP, Nadi, Numerology, Signature.
-- Mobile screenshots for Vedic, Charts, KP, Nadi, Numerology, Signature.
+- Web screenshots for Vedic, Charts, KP, Jaimini, Numerology, Signature.
+- Mobile screenshots for Vedic, Charts, KP, Jaimini, Numerology, Signature.
 - Predicta chat transcripts proving she can explain the new sections.
 
 ### Green Gate

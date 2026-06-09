@@ -30,15 +30,15 @@
       ]
     },
     {
-      "id": "NADI",
-      "standard": "karmic-story report with validation, patterns, activation windows, and practical guidance",
-      "freeValue": "strongest story thread, gift, caution, validation questions, and activation preview",
-      "premiumDepth": "story sequencing, validation-based deepening, activation windows, and practices",
+      "id": "JAIMINI",
+      "standard": "destiny report with Atmakaraka, Karakamsha, Arudha, Upapada, Jaimini aspects, and Chara Dasha evidence",
+      "freeValue": "soul compass, current destiny chapter, visible identity, and practical role guidance",
+      "premiumDepth": "full karaka council, Arudha/Upapada depth, Chara Dasha timing, contradictions, and practical Jaimini guidance",
       "sourceChecks": [
-        "Nadi Reports lane",
-        "buildNadiJyotishPlanSection",
-        "Story Evidence Appendix",
-        "no palm-leaf manuscript claim"
+        "Jaimini Reports lane",
+        "buildJaiminiReportSections",
+        "Jaimini Soul Compass",
+        "D1/D9 Parashari chart pages are intentionally excluded from Jaimini report output"
       ]
     },
     {

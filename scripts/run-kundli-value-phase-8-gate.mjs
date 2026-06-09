@@ -27,7 +27,7 @@ for (const fragment of [
   'Align all school reports around the same value standard without mixing schools.',
   'Vedic: classical Kundli report with charts, dasha, Panchang, tables',
   'KP: event-answer report with verdict, timing, confidence, and proof appendix.',
-  'Nadi: karmic-story report with validation, patterns, activation windows, and',
+  'Jaimini: destiny report with Atmakaraka, Karakamsha, Arudha, Upapada',
   'Numerology: number identity dossier with mandala, name rhythm, personal',
   'Signature: reflective expression report from confirmed visible traits only',
   'Life Atlas remains the only approved all-school synthesis report.',
@@ -46,12 +46,12 @@ const webReport = readWorkspaceFile('apps/web/components/WebDossierPreview.tsx')
 for (const fragment of [
   'title: \'Vedic Reports\'',
   'title: \'KP Reports\'',
-  'title: \'Nadi Reports\'',
+  'title: \'Jaimini Reports\'',
   'title: \'Numerology Reports\'',
   'title: \'Signature Reports\'',
   'title: \'Synthesis Reports\'',
   'Predicta Life Atlas is the only approved all-school synthesis report',
-  'KP, Nadi, Numerology, and Signature stay outside this lane.',
+  'KP, Jaimini, Numerology, and Signature stay outside this lane.',
   'without accidentally buying a mixed bag',
   'Signature is optional enrichment only',
 ]) {
@@ -64,7 +64,7 @@ for (const fragment of [
   'Predicta Life Atlas',
   'This is the only all-school synthesis report.',
   'SCHOOL-SPECIFIC REPORTS',
-  'Vedic, KP, Nadi, Numerology, and Signature stay in their own lanes.',
+  'Vedic, KP, Jaimini, Numerology, and Signature stay in their own lanes.',
   'mapReportLaneToPredictaSchool(selectedReport.school)',
   'reportFocus: selectedReport.id',
 ]) {
@@ -75,7 +75,7 @@ const pricing = readWorkspaceFile('packages/config/src/pricing.ts');
 for (const fragment of [
   "school: 'VEDIC'",
   "school: 'KP'",
-  "school: 'NADI'",
+  "school: 'JAIMINI'",
   "school: 'NUMEROLOGY'",
   "school: 'SIGNATURE'",
   "school: 'SYNTHESIS'",
@@ -88,30 +88,31 @@ const pdf = readWorkspaceFile('packages/pdf/src/index.ts');
 for (const fragment of [
   'function buildRoomSpecificReportSections',
   "case 'KP':\n      return buildKpReportSections(kundli, mode)",
-  "case 'NADI':\n      return buildNadiReportSections(kundli, mode)",
+  "case 'JAIMINI':\n      return buildJaiminiReportSections(kundli, mode)",
   "case 'NUMEROLOGY':\n      return buildNumerologyReportSections(kundli, mode)",
   "case 'SIGNATURE':",
-  'buildSignatureReportSection(signatureAnalysis, mode)',
+  'buildSignatureReportSections(signatureAnalysis, mode)',
   "case 'LIFE_ATLAS':\n      return buildLifeAtlasReportSections(kundli, mode, signatureAnalysis)",
   "if (reportFocus === 'KP')",
-  "if (reportFocus === 'NADI')",
+  "if (reportFocus === 'JAIMINI')",
   "if (reportFocus === 'NUMEROLOGY')",
   "if (reportFocus === 'SIGNATURE')",
-  'buildFocusedSchoolTrustSection(kundli, mode, reportFocus)',
+  'buildEventOracleReportAlignmentSection',
   'buildVedicReportStructureSections(kundli, chartTypes, mode, language)',
   'buildMahadashaPhalaReportSection(intelligence, mode)',
   "title: 'Consolidated remedy/action plan'",
   'KP Event Verdict',
-  'Nadi Strongest Story Thread',
-  'D1/D9 Parashari chart pages are intentionally excluded from Nadi report output',
-  'Your Number Signature is a Numerology-only dossier',
+  'Jaimini Soul Compass',
+  'D1/D9 Parashari chart pages are intentionally excluded from Jaimini report output',
+  'Your Number Signature',
+  'Numerology-only: no Parashari charts, KP event logic, Jaimini destiny evidence, or Signature traits are mixed into this report.',
   'Personal Number Mandala',
   'Name Energy Scanner',
   'Name Fit Score',
   'Missing / Repeated Number Pattern',
-  'Signature Predicta gives a useful reading of confirmed visual traits',
+  'Only confirmed visible traits are used.',
   'What this can and cannot tell you',
-  'Premium depth can compare repeated signatures',
+  'Compare repeated signatures only when multiple confirmed samples are available.',
   'Predicta Life Atlas is the approved all-school synthesis report path.',
 ]) {
   assertIncludes(pdf, fragment, `PDF report composition includes ${fragment}`);
@@ -119,9 +120,9 @@ for (const fragment of [
 
 const pdfRenderer = readWorkspaceFile('packages/pdf/src/reportDocument.tsx');
 for (const fragment of [
-  "const isFocusedRoom = ['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)",
-  "if (['KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus))",
-  'This report stays with the selected method instead of mixing rooms.',
+  "const isFocusedRoom = ['JAIMINI', 'KP', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus)",
+  "if (['JAIMINI', 'KP', 'NUMEROLOGY', 'SIGNATURE'].includes(reportFocus))",
+  'These supporting pages stay inside the selected school and keep technical detail tied to the prediction.',
   'Life Atlas is the approved synthesis path.',
 ]) {
   assertIncludes(pdfRenderer, fragment, `PDF renderer keeps focused/synthesis scope ${fragment}`);
@@ -146,7 +147,7 @@ const audit = JSON.parse(
 assert.equal(audit.status, 'strict-audit-green', 'audit status is strict-audit-green');
 assert.deepEqual(
   audit.schoolLanes.map(lane => lane.id),
-  ['VEDIC', 'KP', 'NADI', 'NUMEROLOGY', 'SIGNATURE'],
+  ['VEDIC', 'KP', 'JAIMINI', 'NUMEROLOGY', 'SIGNATURE'],
   'audit records five school lanes',
 );
 assert.equal(audit.synthesisLane.id, 'LIFE_ATLAS', 'Life Atlas is the synthesis lane');

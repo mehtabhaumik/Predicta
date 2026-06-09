@@ -73,6 +73,10 @@ import { buildJaiminiReportValueContract } from './jaiminiReportValueContract';
 import { buildNumerologyReportValueContract } from './numerologyReportValueContract';
 import { buildSignatureReportValueContract } from './signatureReportValueContract';
 import { buildLifeAtlasReportValueContract } from './lifeAtlasReportValueContract';
+import {
+  buildEventOracleReportAlignment,
+  type EventOracleReportLaneAlignment,
+} from './eventOracleReportAlignment';
 
 type PdfChartRole = ChartType | 'MOON' | 'SWAMSA' | 'KARAKAMSHA' | 'CHALIT' | 'KP';
 
@@ -451,6 +455,61 @@ function uniqueReportSections(sections: PdfSection[]): PdfSection[] {
   });
 }
 
+function buildEventOracleReportAlignmentSection(
+  reportFocus: PdfReportFocus,
+  mode: PDFMode,
+): PdfSection {
+  const alignment = buildEventOracleReportAlignment(reportFocus, mode);
+
+  return {
+    body: alignment.directPromise,
+    bullets: [
+      alignment.timingPromise,
+      ...alignment.userWillLearn.map(item => `You will learn ${item}.`),
+      mode === 'PREMIUM' ? alignment.premiumDepth : alignment.freeDepth,
+      alignment.actionPromise,
+    ],
+    confidence: 'high',
+    evidence: [
+      alignment.evidencePromise,
+      `Evidence position: ${alignment.evidencePosition}.`,
+      alignment.noToolkitRule,
+      alignment.noClassroomRule,
+      alignment.remedyDedupingRule,
+    ],
+    evidenceTable: buildEventOracleReportAlignmentRows(alignment, mode),
+    eyebrow: alignment.eyebrow,
+    tier: mode === 'PREMIUM' ? 'premium' : 'free',
+    title: alignment.title,
+  };
+}
+
+function buildEventOracleReportAlignmentRows(
+  alignment: EventOracleReportLaneAlignment,
+  mode: PDFMode,
+): PdfEvidenceRow[] {
+  return [
+    {
+      confidence: 'high',
+      factor: 'Reading order',
+      implication: alignment.directPromise,
+      observation: 'Prediction and guidance first; proof after the answer.',
+    },
+    {
+      confidence: 'high',
+      factor: mode === 'PREMIUM' ? 'Premium value' : 'Free value',
+      implication: mode === 'PREMIUM' ? alignment.premiumDepth : alignment.freeDepth,
+      observation: 'Premium adds depth, not respectability.',
+    },
+    {
+      confidence: 'high',
+      factor: 'No schooling gate',
+      implication: alignment.noClassroomRule,
+      observation: alignment.noToolkitRule,
+    },
+  ];
+}
+
 function buildRoomSpecificReportSections(
   kundli: KundliData,
   mode: PDFMode,
@@ -467,7 +526,10 @@ function buildRoomSpecificReportSections(
     case 'REMEDIES':
     case 'SADESATI':
     case 'WEALTH':
-      return [buildVedicPredictaReportSection(kundli, mode, reportFocus)];
+      return [
+        buildEventOracleReportAlignmentSection(reportFocus, mode),
+        buildVedicPredictaReportSection(kundli, mode, reportFocus),
+      ];
     case 'KP':
       return buildKpReportSections(kundli, mode);
     case 'JAIMINI':
@@ -479,7 +541,10 @@ function buildRoomSpecificReportSections(
     case 'SIGNATURE':
       return buildSignatureReportSections(signatureAnalysis, mode);
     default:
-      return [buildVedicPredictaReportSection(kundli, mode, 'KUNDLI')];
+      return [
+        buildEventOracleReportAlignmentSection('KUNDLI', mode),
+        buildVedicPredictaReportSection(kundli, mode, 'KUNDLI'),
+      ];
   }
 }
 
@@ -496,6 +561,7 @@ function buildLifeAtlasReportSections(
     atlas,
     mode,
   });
+  const alignmentSection = buildEventOracleReportAlignmentSection('LIFE_ATLAS', mode);
   const flagshipOpening: PdfSection = {
     body: lifeAtlasValueContract.flagshipOpening,
     bullets: [
@@ -553,12 +619,14 @@ function buildLifeAtlasReportSections(
 
   if (mode !== 'PREMIUM') {
     return [
+      alignmentSection,
       flagshipOpening,
       ...narrativeSections,
     ];
   }
 
   return [
+    alignmentSection,
     flagshipOpening,
     ...narrativeSections,
     {
@@ -961,6 +1029,7 @@ function buildKpReportSections(kundli: KundliData, mode: PDFMode): PdfSection[] 
     observation: `Carries houses ${item.signifiesHouses.join(', ') || 'pending'}.`,
   }));
   const sections: PdfSection[] = [
+    buildEventOracleReportAlignmentSection('KP', mode),
     {
       body: kpValueContract.openingPrediction,
       bullets: [
@@ -3601,6 +3670,7 @@ function buildJaiminiReportSections(
   }
 
   const freeSections: PdfSection[] = [
+    buildEventOracleReportAlignmentSection('JAIMINI', mode),
     {
       body: jaiminiValueContract.openingPrediction,
       bullets: [
@@ -4105,6 +4175,7 @@ function buildNumerologyReportSections(
     observation: `${cell.count} occurrence${cell.count === 1 ? '' : 's'}; ${cell.tone}; ${cell.keyword}.`,
   }));
   const sections: PdfSection[] = [
+    buildEventOracleReportAlignmentSection('NUMEROLOGY', mode),
     {
       body: numerologyValueContract.openingPrediction,
       bullets: [
@@ -4449,6 +4520,7 @@ function buildSignatureReportSections(
   const practiceLines = model.practicePrompts.slice(0, isPremium ? 5 : 2);
 
   const sections: PdfSection[] = [
+    buildEventOracleReportAlignmentSection('SIGNATURE', mode),
     {
       body: signatureValueContract.openingReflection,
       bullets: [
