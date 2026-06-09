@@ -1735,6 +1735,12 @@ export function WebPridictaChat({
   }
 
   if (!chatAccount?.uid) {
+    const preAuthEvidenceLine = activeChartContext
+      ? formatEvidenceHandoffLine(activeChartContext, language)
+      : undefined;
+    const preAuthQuestion =
+      activeChartContext?.handoffQuestion ?? activeChartContext?.selectedSection;
+
     return (
       <section className="glass-panel auth-required-panel">
         <div className="section-title">ACCOUNT REQUIRED</div>
@@ -1743,6 +1749,14 @@ export function WebPridictaChat({
           AI chat, saved Kundlis, reports, and Family Vault now stay attached to
           your private account.
         </p>
+        {preAuthEvidenceLine ? (
+          <div className="event-question-handoff-strip">
+            <span>{t('Context carried into Predicta')}</span>
+            <strong>{t(activeChartContext?.sourceScreen ?? 'Predicta')}</strong>
+            <p>{preAuthEvidenceLine}</p>
+            {preAuthQuestion ? <p>{preAuthQuestion}</p> : null}
+          </div>
+        ) : null}
         <AuthDialog />
       </section>
     );
@@ -4378,9 +4392,13 @@ function chartContextFromParams(params: URLSearchParams): ChartContext | undefin
 
   if (school) {
     return {
+      carriedContextLabel: params.get('carriedContextLabel') ?? undefined,
       chartName: params.get('chartName') ?? chartType ?? undefined,
       chartType: chartType ?? undefined,
+      eventOracleHandoff: params.get('eventOracleHandoff') === 'true',
+      evidenceSourceLabel: params.get('evidenceSourceLabel') ?? undefined,
       handoffFrom: fromSchool ?? (school !== 'PARASHARI' ? 'PARASHARI' : undefined),
+      handoffMode: parseHandoffMode(params.get('handoffMode')),
       handoffQuestion: handoffQuestion ?? params.get('prompt') ?? undefined,
       kundliId,
       predictaSchool: school,
@@ -4413,8 +4431,12 @@ function chartContextFromParams(params: URLSearchParams): ChartContext | undefin
   }
 
   return {
+    carriedContextLabel: params.get('carriedContextLabel') ?? undefined,
     chartName: params.get('chartName') ?? chartType,
     chartType,
+    eventOracleHandoff: params.get('eventOracleHandoff') === 'true',
+    evidenceSourceLabel: params.get('evidenceSourceLabel') ?? undefined,
+    handoffMode: parseHandoffMode(params.get('handoffMode')),
     kundliId,
     purpose: params.get('purpose') ?? undefined,
     reportMode: parseReportMode(params.get('reportMode')),
@@ -4444,8 +4466,12 @@ function ctaContextFromParams(params: URLSearchParams): ChartContext | undefined
   }
 
   return {
+    carriedContextLabel: params.get('carriedContextLabel') ?? undefined,
+    eventOracleHandoff: params.get('eventOracleHandoff') === 'true',
+    evidenceSourceLabel: params.get('evidenceSourceLabel') ?? undefined,
     handoffQuestion: params.get('handoffQuestion') ?? undefined,
     handoffFrom: parsePredictaSchool(params.get('from')),
+    handoffMode: parseHandoffMode(params.get('handoffMode')),
     kundliId: params.get('kundliId') ?? undefined,
     predictaSchool: parsePredictaSchool(params.get('school')),
     selectedBirthTimeDetective: params.get('birthTimeDetective') === 'true',
@@ -4536,6 +4562,14 @@ function parseReportSchoolLane(
   return undefined;
 }
 
+function parseHandoffMode(value: string | null): ChartContext['handoffMode'] {
+  if (value === 'main_synthesis' || value === 'room_safe') {
+    return value;
+  }
+
+  return undefined;
+}
+
 function parseReportMode(value: string | null): ChartContext['reportMode'] {
   if (value === 'FREE' || value === 'PREMIUM') {
     return value;
@@ -4593,11 +4627,13 @@ function buildCtaContextIntro(
     context.selectedSection ??
     context.handoffQuestion;
   const reportLine = formatReportContextLine(context);
+  const evidenceLine = formatEvidenceHandoffLine(context, language);
 
   if (language === 'hi') {
     return [
       formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.8032a9a72c", [source]),
       reportLine ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.c5aaf9219b", [reportLine]) : undefined,
+      evidenceLine,
       focus ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.36be1ac62b", [focus]) : undefined,
       getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.38cf8c714b"),
     ]
@@ -4609,6 +4645,7 @@ function buildCtaContextIntro(
     return [
       formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.34e51ee93f", [source]),
       reportLine ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.41fb305196", [reportLine]) : undefined,
+      evidenceLine,
       focus ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.1fc67b025d", [focus]) : undefined,
       getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.2bed0de907"),
     ]
@@ -4619,6 +4656,7 @@ function buildCtaContextIntro(
   return [
     `I brought this over from ${source}.`,
     reportLine ? `Report context: ${reportLine}` : undefined,
+    evidenceLine,
     focus ? `Focus: ${focus}` : undefined,
     'I will answer from your selected Kundli here.',
   ]
@@ -4661,6 +4699,32 @@ function formatReportContextLine(context: ChartContext): string | undefined {
     .join(' · ');
 }
 
+function formatEvidenceHandoffLine(
+  context: ChartContext,
+  language: SupportedLanguage,
+): string | undefined {
+  const evidence = context.evidenceSourceLabel ?? context.carriedContextLabel;
+  const mode =
+    context.handoffMode === 'room_safe'
+      ? translateUiText('room-safe specialist mode', language)
+      : context.handoffMode === 'main_synthesis'
+        ? translateUiText('main Predicta synthesis mode', language)
+        : undefined;
+
+  if (!evidence && !mode && !context.eventOracleHandoff) {
+    return undefined;
+  }
+
+  return [
+    evidence
+      ? `${translateUiText('Evidence carried', language)}: ${evidence}.`
+      : translateUiText('Specialist evidence was carried into this chat.', language),
+    mode ? `${translateUiText('Mode', language)}: ${mode}.` : undefined,
+  ]
+    .filter(Boolean)
+    .join(' ');
+}
+
 function buildSchoolContextIntro(
   context: ChartContext,
   language: SupportedLanguage,
@@ -4673,6 +4737,7 @@ function buildSchoolContextIntro(
   const question = context.handoffQuestion ?? context.selectedSection;
   const chartFocus = context.chartName ?? context.chartType;
   const reportLine = formatReportContextLine(context);
+  const evidenceLine = formatEvidenceHandoffLine(context, language);
 
   if (language === 'hi') {
     return [
@@ -4682,6 +4747,7 @@ function buildSchoolContextIntro(
         : undefined,
       chartFocus ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.9dd2573f6e", [chartFocus]) : undefined,
       reportLine ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.9972f8632b", [reportLine]) : undefined,
+      evidenceLine,
       question ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.fa565f3c2b", [question]) : undefined,
       context.predictaSchool === 'KP'
         ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.7de5e77289")
@@ -4706,6 +4772,7 @@ function buildSchoolContextIntro(
         : undefined,
       chartFocus ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.9acd846583", [chartFocus]) : undefined,
       reportLine ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.2d33397be8", [reportLine]) : undefined,
+      evidenceLine,
       question ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.2a64d28f73", [question]) : undefined,
       context.predictaSchool === 'KP'
         ? getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.626c67ff92")
@@ -4729,6 +4796,7 @@ function buildSchoolContextIntro(
       : undefined,
     chartFocus ? `Chart in focus: ${chartFocus}.` : undefined,
     reportLine ? `Report context: ${reportLine}.` : undefined,
+    evidenceLine,
     question ? `You asked: ${question}` : undefined,
     context.predictaSchool === 'KP'
       ? 'I will read this through KP cusps, star lords, sub lords, significators, and ruling planets.'

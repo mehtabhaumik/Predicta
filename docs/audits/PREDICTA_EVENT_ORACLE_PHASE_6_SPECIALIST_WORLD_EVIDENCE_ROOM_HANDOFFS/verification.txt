@@ -1,0 +1,18 @@
+Phase 6 verification checklist:
+
+- corepack pnpm test:event-oracle-phase-0
+- corepack pnpm test:event-oracle-phase-1
+- corepack pnpm test:event-oracle-phase-2
+- corepack pnpm test:event-oracle-phase-3
+- corepack pnpm test:event-oracle-phase-4
+- corepack pnpm test:event-oracle-phase-5
+- corepack pnpm test:event-oracle-phase-6
+- corepack pnpm test:global-translation-coverage
+- corepack pnpm test:translation-trust
+- corepack pnpm --filter @pridicta/types typecheck
+- corepack pnpm --filter @pridicta/config typecheck
+- corepack pnpm --filter @pridicta/astrology typecheck
+- corepack pnpm --filter @pridicta/web typecheck
+- corepack pnpm build:web
+- browser smoke at /dashboard/chat with eventOracleHandoff, evidenceSourceLabel, and handoffMode query params
+- git diff --check

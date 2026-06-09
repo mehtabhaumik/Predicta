@@ -13,6 +13,7 @@ import {
   type EventQuestionRefinement,
 } from '@pridicta/astrology';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useLanguagePreference } from '../lib/language-preference';
@@ -44,6 +45,7 @@ function getRoomLabel(copy: EventOracleCopy, room: string): string {
 
 export function WebEventQuestionComposer(): React.JSX.Element {
   const { language } = useLanguagePreference();
+  const searchParams = useSearchParams();
   const copy = getEventOracleCopy(language);
   const { activeKundli, savedKundlis } = useWebKundliLibrary();
   const [customQuestion, setCustomQuestion] = useState('');
@@ -52,6 +54,7 @@ export function WebEventQuestionComposer(): React.JSX.Element {
   );
   const [recentThreads, setRecentThreads] = useState<RecentEventThread[]>([]);
   const [passStatus, setPassStatus] = useState<WebPassCostDisplay | undefined>();
+  const handoffContext = getEventOracleHandoffContext(searchParams);
 
   useEffect(() => {
     setRecentThreads(loadRecentThreads());
@@ -121,6 +124,22 @@ export function WebEventQuestionComposer(): React.JSX.Element {
               {copy.hero.reportCta}
             </Link>
           </div>
+          {handoffContext ? (
+            <div className="event-question-handoff-strip">
+              <span>{copy.handoff.title}</span>
+              <strong>{handoffContext.sourceScreen}</strong>
+              <p>
+                {copy.handoff.evidenceLabel}: {handoffContext.evidenceSourceLabel}
+              </p>
+              <p>
+                {copy.handoff.modeLabel}:{' '}
+                {handoffContext.handoffMode === 'main_synthesis'
+                  ? copy.handoff.mainSynthesisMode
+                  : copy.handoff.roomSafeMode}
+              </p>
+              {handoffContext.question ? <p>{handoffContext.question}</p> : null}
+            </div>
+          ) : null}
         </div>
 
         <div className="event-question-status-grid">
@@ -281,6 +300,32 @@ export function WebEventQuestionComposer(): React.JSX.Element {
       </div>
     </section>
   );
+}
+
+function getEventOracleHandoffContext(searchParams: URLSearchParams): {
+  evidenceSourceLabel: string;
+  handoffMode: 'main_synthesis' | 'room_safe';
+  question?: string;
+  sourceScreen: string;
+} | undefined {
+  if (searchParams.get('eventOracleHandoff') !== 'true') {
+    return undefined;
+  }
+
+  const handoffMode =
+    searchParams.get('handoffMode') === 'main_synthesis'
+      ? 'main_synthesis'
+      : 'room_safe';
+  return {
+    evidenceSourceLabel:
+      searchParams.get('evidenceSourceLabel') ??
+      searchParams.get('carriedContextLabel') ??
+      searchParams.get('sourceScreen') ??
+      'Predicta',
+    handoffMode,
+    question: searchParams.get('handoffQuestion') ?? searchParams.get('prompt') ?? undefined,
+    sourceScreen: searchParams.get('sourceScreen') ?? 'Predicta',
+  };
 }
 
 function loadRecentThreads(): RecentEventThread[] {

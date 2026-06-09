@@ -1,6 +1,96 @@
 {
   "version": 1,
   "entries": {
+    "ui.eventOracle.evidenceCarried.label": {
+      "en": "Evidence carried",
+      "hi": "साथ लाया गया प्रमाण",
+      "gu": "સાથે લવાયેલો પુરાવો"
+    },
+    "ui.eventOracle.evidenceCarried.generic": {
+      "en": "Specialist evidence was carried into this chat.",
+      "hi": "इस चैट में विशेषज्ञ प्रमाण साथ लाया गया है।",
+      "gu": "આ ચેટમાં નિષ્ણાત પુરાવો સાથે લાવવામાં આવ્યો છે."
+    },
+    "ui.eventOracle.evidenceCarried.title": {
+      "en": "Context carried into Predicta",
+      "hi": "प्रेडिक्टा में लाया गया संदर्भ",
+      "gu": "પ્રેડિક્ટામાં લાવવામાં આવેલ સંદર્ભ"
+    },
+    "ui.eventOracle.evidenceLabel.jaimini": {
+      "en": "Jaimini karaka, Arudha, Karakamsha, and destiny chapter evidence",
+      "hi": "जैमिनी कारक, आरूढ़, करकाम्श और डेस्टिनी चैप्टर का प्रमाण",
+      "gu": "જૈમિની કારક, આરુઢ, કરકામ્ષ અને ડેસ્ટિની ચેપ્ટરનો પુરાવો"
+    },
+    "ui.eventOracle.evidenceLabel.kp": {
+      "en": "KP cusp, sub-lord, significator, and timing evidence",
+      "hi": "KP कस्प, सब-लॉर्ड, सिग्निफिकेटर और टाइमिंग का प्रमाण",
+      "gu": "KP કસ્પ, સબ-લોર્ડ, સિગ્નિફિકેટર અને ટાઈમિંગનો પુરાવો"
+    },
+    "ui.eventOracle.evidenceLabel.kundliKarma": {
+      "en": "Kundli Karma Dosh, Shrap, Yog, and Lal Kitab evidence",
+      "hi": "कुंडली कर्म दोष, श्राप, योग और लाल किताब का प्रमाण",
+      "gu": "કુંડળી કર્મ દોષ, શ્રાપ, યોગ અને લાલ કિતાબનો પુરાવો"
+    },
+    "ui.eventOracle.evidenceLabel.numerology": {
+      "en": "Numerology name number, birth number, destiny number, and current cycle evidence",
+      "hi": "अंक ज्योतिष नाम नंबर, जन्म नंबर, भाग्य नंबर और वर्तमान चक्र का प्रमाण",
+      "gu": "અંકજ્યોતિષ નામ નંબર, જન્મ નંબર, ભાગ્ય નંબર અને વર્તમાન ચક્રનો પુરાવો"
+    },
+    "ui.eventOracle.evidenceLabel.report": {
+      "en": "Report section memory and generated report context",
+      "hi": "रिपोर्ट सेक्शन मेमोरी और जनरेटेड रिपोर्ट संदर्भ",
+      "gu": "રિપોર્ટ સેક્શન મેમરી અને જનરેટેડ રિપોર્ટ સંદર્ભ"
+    },
+    "ui.eventOracle.evidenceLabel.signature": {
+      "en": "Confirmed signature traits and reflective expression evidence",
+      "hi": "पुष्ट हस्ताक्षर लक्षण और आत्म-अभिव्यक्ति का प्रमाण",
+      "gu": "પુષ્ટિ થયેલા સહી લક્ષણો અને સ્વ-અભિવ્યક્તિનો પુરાવો"
+    },
+    "ui.eventOracle.evidenceLabel.vedic": {
+      "en": "Vedic chart, dasha, yog, and Kundli Karma evidence",
+      "hi": "वैदिक चार्ट, दशा, योग और कुंडली कर्म का प्रमाण",
+      "gu": "વૈદિક ચાર્ટ, દશા, યોગ અને કુંડળી કર્મનો પુરાવો"
+    },
+    "ui.eventOracle.handoffLabel.confirmedSignatureTraits": {
+      "en": "Confirmed signature traits",
+      "hi": "पुष्ट हस्ताक्षर लक्षण",
+      "gu": "પુષ્ટિ થયેલા સહી લક્ષણો"
+    },
+    "ui.eventOracle.handoffLabel.currentCycle": {
+      "en": "Current cycle",
+      "hi": "वर्तमान चक्र",
+      "gu": "વર્તમાન ચક્ર"
+    },
+    "ui.eventOracle.handoffLabel.currentDestinyChapter": {
+      "en": "Current destiny chapter",
+      "hi": "वर्तमान डेस्टिनी चैप्टर",
+      "gu": "વર્તમાન ડેસ્ટિની ચેપ્ટર"
+    },
+    "ui.eventOracle.handoffLabel.signatureInput": {
+      "en": "Signature Predicta input",
+      "hi": "सिग्नेचर प्रेडिक्टा इनपुट",
+      "gu": "સિગ્નેચર પ્રેડિક્ટા ઇનપુટ"
+    },
+    "ui.eventOracle.handoffLabel.vedicContext": {
+      "en": "Vedic dasha, chart, yog, and Kundli Karma context",
+      "hi": "वैदिक दशा, चार्ट, योग और कुंडली कर्म संदर्भ",
+      "gu": "વૈદિક દશા, ચાર્ટ, યોગ અને કુંડળી કર્મ સંદર્ભ"
+    },
+    "ui.eventOracle.handoffMode.label": {
+      "en": "Mode",
+      "hi": "मोड",
+      "gu": "મોડ"
+    },
+    "ui.eventOracle.handoffMode.mainSynthesis": {
+      "en": "main Predicta synthesis mode",
+      "hi": "मुख्य प्रेडिक्टा संश्लेषण मोड",
+      "gu": "મુખ્ય પ્રેડિક્ટા સંકલન મોડ"
+    },
+    "ui.eventOracle.handoffMode.roomSafe": {
+      "en": "room-safe specialist mode",
+      "hi": "रूम-सुरक्षित विशेषज्ञ मोड",
+      "gu": "રૂમ-સેફ નિષ્ણાત મોડ"
+    },
     "ui.askNumerologyPredicta.phase": {
       "en": "Ask Numerology Predicta",
       "hi": "अंक ज्योतिष प्रेडिक्टा से पूछें",

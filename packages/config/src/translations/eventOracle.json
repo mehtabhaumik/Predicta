@@ -83,6 +83,13 @@
         "subtitle": "Ask about a real event. Predicta checks the right evidence rooms, gives the answer first, then timing, trigger, action, and proof.",
         "title": "Ask Predicta first."
       },
+      "handoff": {
+        "evidenceLabel": "Evidence carried",
+        "mainSynthesisMode": "Main Predicta synthesis",
+        "modeLabel": "Mode",
+        "roomSafeMode": "Room-safe specialist",
+        "title": "Context carried into Predicta"
+      },
       "predictionCard": {
         "actionPlanLabel": "What to do now",
         "collapsedEvidenceLabel": "Evidence, collapsed",
@@ -182,6 +189,13 @@
         "subtitle": "एक वास्तविक घटना के बारे में पूछें. प्रेडिक्टा सही प्रमाण-कक्ष जांचती है, पहले उत्तर देती है, फिर समय, कारण, कार्य और प्रमाण दिखाती है.",
         "title": "पहले प्रेडिक्टा से पूछें."
       },
+      "handoff": {
+        "evidenceLabel": "साथ लाया गया प्रमाण",
+        "mainSynthesisMode": "मुख्य प्रेडिक्टा संश्लेषण",
+        "modeLabel": "मोड",
+        "roomSafeMode": "रूम-सुरक्षित विशेषज्ञ",
+        "title": "प्रेडिक्टा में लाया गया संदर्भ"
+      },
       "predictionCard": {
         "actionPlanLabel": "अभी क्या करें",
         "collapsedEvidenceLabel": "प्रमाण, संक्षेप में",
@@ -280,6 +294,13 @@
         "statusLabel": "ઍક્સેસ સ્થિતિ",
         "subtitle": "સાચી જીવન-ઘટના વિશે પૂછો. પ્રેડિક્ટા યોગ્ય પુરાવા-રૂમ તપાસે છે, પહેલા ઉત્તર આપે છે, પછી સમય, કારણ, ક્રિયા અને પુરાવો બતાવે છે.",
         "title": "પહેલા પ્રેડિક્ટાને પૂછો."
+      },
+      "handoff": {
+        "evidenceLabel": "સાથે લવાયેલો પુરાવો",
+        "mainSynthesisMode": "મુખ્ય પ્રેડિક્ટા સંકલન",
+        "modeLabel": "મોડ",
+        "roomSafeMode": "રૂમ-સેફ નિષ્ણાત",
+        "title": "પ્રેડિક્ટામાં લાવવામાં આવેલ સંદર્ભ"
       },
       "predictionCard": {
         "actionPlanLabel": "હમણાં શું કરવું",

@@ -35,6 +35,13 @@ export type EventOracleCopy = {
     subtitle: string;
     title: string;
   };
+  handoff: {
+    evidenceLabel: string;
+    modeLabel: string;
+    mainSynthesisMode: string;
+    roomSafeMode: string;
+    title: string;
+  };
   predictionCard: {
     actionPlanLabel: string;
     collapsedEvidenceLabel: string;

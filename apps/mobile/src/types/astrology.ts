@@ -1901,11 +1901,15 @@ export type KundliData = {
 };
 
 export type ChartContext = {
+  carriedContextLabel?: string;
   chartType?: ChartType;
   chartName?: string;
+  eventOracleHandoff?: boolean;
+  evidenceSourceLabel?: string;
   generatedReport?: GeneratedReportContext;
   handoffBirthSummary?: string;
   handoffFrom?: PredictaSchool;
+  handoffMode?: 'main_synthesis' | 'room_safe';
   handoffQuestion?: string;
   kundliId?: string;
   predictaSchool?: PredictaSchool;

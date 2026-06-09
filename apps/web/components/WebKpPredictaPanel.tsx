@@ -212,6 +212,7 @@ export function WebKpPredictaPanel({
     cusp: selectedCuspData,
     focus: selectedFocus,
     handoffQuestion,
+    language,
     questionDraft: kpQuestionDraft,
     kundliId: kundli?.id,
   });
@@ -800,12 +801,14 @@ function buildKpAskHref({
   cusp,
   focus,
   handoffQuestion,
+  language,
   kundliId,
   questionDraft,
 }: {
   cusp?: { house: number; lordChain: { starLord: string; subLord: string; subSubLord: string } };
   focus: (typeof KP_EVENT_FOCUS)[number];
   handoffQuestion?: string;
+  language: 'en' | 'hi' | 'gu';
   kundliId?: string;
   questionDraft: KpQuestionDraft;
 }): string {
@@ -813,7 +816,14 @@ function buildKpAskHref({
     ? `KP Predicta handoff question: ${handoffQuestion}. ${questionDraft.prompt}. ${focus.prompt}`
     : `${questionDraft.prompt}. ${focus.prompt}${cusp ? ` Selected event-support area ${cusp.house} has star lord ${cusp.lordChain.starLord}, sub lord ${cusp.lordChain.subLord}, and sub-sub lord ${cusp.lordChain.subSubLord}.` : ''}`;
   return buildPredictaChatHref({
+    carriedContextLabel: focus.title,
+    eventOracleHandoff: true,
+    evidenceSourceLabel: translateUiText(
+      'KP cusp, sub-lord, significator, and timing evidence',
+      language,
+    ),
     handoffQuestion,
+    handoffMode: 'room_safe',
     kundliId,
     prompt,
     school: 'KP',

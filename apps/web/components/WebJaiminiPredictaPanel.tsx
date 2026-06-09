@@ -44,6 +44,12 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
   const premiumBlock = blockById['premium-deepening'];
   const shouldUseGeneratedJaiminiText = language === 'en';
   const chatHref = buildPredictaChatHref({
+    carriedContextLabel: t('Current destiny chapter'),
+    eventOracleHandoff: true,
+    evidenceSourceLabel: t(
+      'Jaimini karaka, Arudha, Karakamsha, and destiny chapter evidence',
+    ),
+    handoffMode: 'room_safe',
     kundli: activeKundli,
     prompt:
       `${copy.chatPrompt} Start with this prediction: ${jaiminiInterpretation.summary} Calculated evidence: ${jaiminiInterpretation.technicalEvidence.slice(0, 4).join(' | ')}`,

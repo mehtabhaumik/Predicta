@@ -13,12 +13,16 @@ import type {
 
 export type PredictaChatCtaContext = {
   birthTimeDetective?: boolean;
+  carriedContextLabel?: string;
   chartName?: string;
   chartType?: ChartType;
   decisionArea?: DecisionArea | string;
   decisionQuestion?: string;
   decisionState?: DecisionState | string;
+  eventOracleHandoff?: boolean;
+  evidenceSourceLabel?: string;
   from?: PredictaSchool;
+  handoffMode?: 'main_synthesis' | 'room_safe';
   handoffQuestion?: string;
   kundli?: KundliData;
   kundliId?: string;
@@ -65,6 +69,9 @@ export function buildPredictaChatHref(context: PredictaChatCtaContext): string {
   const activeKundliId = context.kundliId ?? context.kundli?.id;
 
   setParam(params, 'sourceScreen', context.sourceScreen);
+  setParam(params, 'carriedContextLabel', context.carriedContextLabel);
+  setParam(params, 'evidenceSourceLabel', context.evidenceSourceLabel);
+  setParam(params, 'handoffMode', context.handoffMode);
   setParam(params, 'prompt', context.prompt ?? context.selectedSection);
   setParam(params, 'kundliId', activeKundliId);
   setParam(params, 'chartName', context.chartName);
@@ -98,6 +105,7 @@ export function buildPredictaChatHref(context: PredictaChatCtaContext): string {
   setListParam(params, 'reportAvailableSections', context.reportAvailableSections);
   setListParam(params, 'reportSelectedSections', context.reportSelectedSections);
   setParam(params, 'birthTimeDetective', context.birthTimeDetective ? 'true' : undefined);
+  setParam(params, 'eventOracleHandoff', context.eventOracleHandoff ? 'true' : undefined);
   setParam(
     params,
     'selectedRelationshipMirror',
@@ -150,7 +158,7 @@ function getPredictaChatPath(school: PredictaSchool | undefined): string {
     return '/dashboard/signature/chat';
   }
 
-  return '/dashboard/vedic/chat';
+  return '/dashboard/chat';
 }
 
 function setParam(

@@ -34,6 +34,12 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
   const profile = composeNumerologyFoundationModel(activeKundli?.birthDetails, language);
   const hasProfile = profile.status === 'ready';
   const chatHref = buildPredictaChatHref({
+    carriedContextLabel: t('Current cycle'),
+    eventOracleHandoff: true,
+    evidenceSourceLabel: t(
+      'Numerology name number, birth number, destiny number, and current cycle evidence',
+    ),
+    handoffMode: 'room_safe',
     kundli: activeKundli,
     kundliId: activeKundli?.id,
     prompt:

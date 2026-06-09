@@ -1,0 +1,24 @@
+{
+  "phase": "PREDICTA_EVENT_ORACLE_PHASE_6_SPECIALIST_WORLD_EVIDENCE_ROOM_HANDOFFS",
+  "server": "http://127.0.0.1:3026",
+  "viewportWidth": 390,
+  "checks": {
+    "mainPredictaReportHandoff": {
+      "url": "http://127.0.0.1:3026/dashboard/chat?sourceScreen=Report&eventOracleHandoff=true&evidenceSourceLabel=Report%20section%20memory%20and%20generated%20report%20context&handoffMode=main_synthesis&handoffQuestion=Explain%20my%20Life%20Atlas%20destiny%20chapter",
+      "documentScrollWidth": 390,
+      "hasEvidenceLine": true,
+      "hasModeLine": true,
+      "hasQuestion": true,
+      "overflowers": []
+    },
+    "kpRoomSafeHandoff": {
+      "url": "http://127.0.0.1:3026/dashboard/kp/chat?sourceScreen=KP%20Predicta&eventOracleHandoff=true&evidenceSourceLabel=KP%20cusp%2C%20sub-lord%2C%20significator%2C%20and%20timing%20evidence&handoffMode=room_safe&handoffQuestion=Will%20I%20get%20a%20promotion%20this%20year%3F&school=KP",
+      "documentScrollWidth": 390,
+      "hasEvidenceLine": true,
+      "hasKpMethodLine": true,
+      "hasModeLine": true,
+      "hasQuestion": true,
+      "overflowers": []
+    }
+  }
+}

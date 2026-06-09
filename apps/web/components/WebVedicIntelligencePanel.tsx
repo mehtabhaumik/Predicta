@@ -77,6 +77,19 @@ export function WebVedicIntelligencePanel({
     intelligence.ashtakavarga,
     intelligence.prastarashtakavarga,
   ];
+  const vedicAskHref = buildPredictaChatHref({
+    eventOracleHandoff: true,
+    evidenceSourceLabel: t('Vedic chart, dasha, yog, and Kundli Karma evidence'),
+    handoffMode: 'room_safe',
+    kundli,
+    prompt:
+      'Ask Predicta about this Vedic chart, dasha, yog, and Kundli Karma evidence. Start with the direct prediction, then show the evidence only if needed.',
+    reportMode: hasPremiumAccess ? 'PREMIUM' : 'FREE',
+    school: 'PARASHARI',
+    selectedLanguage: language,
+    selectedSection: t('Vedic dasha, chart, yog, and Kundli Karma context'),
+    sourceScreen: 'Vedic Predicta',
+  });
 
   return (
     <section className="vedic-intelligence-panel glass-panel">
@@ -253,7 +266,7 @@ export function WebVedicIntelligencePanel({
           </p>
         </div>
         <div className="report-download-actions">
-          <Link className="button secondary" href="/dashboard/chat">
+          <Link className="button secondary" href={vedicAskHref}>
             {t('Ask Predicta')}
           </Link>
           <Link className="button primary" href="/dashboard/report">
@@ -735,6 +748,13 @@ function buildKundliKarmaAskHref(
 ): string {
   const promptPrefix = options.copy.askItemPromptPrefix.replace('{itemName}', item.displayName);
   return buildPredictaChatHref({
+    carriedContextLabel: options.copy.selectedSectionPrefix,
+    eventOracleHandoff: true,
+    evidenceSourceLabel: translateUiText(
+      'Kundli Karma Dosh, Shrap, Yog, and Lal Kitab evidence',
+      options.language,
+    ),
+    handoffMode: 'room_safe',
     kundli: options.kundli,
     prompt: `${promptPrefix} ${options.copy.askItemPromptBody}`,
     reportMode: options.hasPremiumAccess ? 'PREMIUM' : 'FREE',
@@ -760,6 +780,13 @@ function buildKundliKarmaGenericAskHref(
   },
 ): string {
   return buildPredictaChatHref({
+    carriedContextLabel: options.copy.quickPromptSection,
+    eventOracleHandoff: true,
+    evidenceSourceLabel: translateUiText(
+      'Kundli Karma Dosh, Shrap, Yog, and Lal Kitab evidence',
+      options.language,
+    ),
+    handoffMode: 'room_safe',
     kundli: options.kundli,
     prompt,
     reportMode: options.hasPremiumAccess ? 'PREMIUM' : 'FREE',

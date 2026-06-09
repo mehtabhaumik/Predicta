@@ -1,0 +1,25 @@
+{
+  "phase": "PREDICTA_EVENT_ORACLE_PHASE_6_SPECIALIST_WORLD_EVIDENCE_ROOM_HANDOFFS",
+  "status": "GREEN",
+  "greenCriteria": {
+    "vedicHandoff": true,
+    "kpHandoff": true,
+    "jaiminiHandoff": true,
+    "numerologyHandoff": true,
+    "signatureHandoff": true,
+    "kundliKarmaHandoff": true,
+    "reportSectionHandoff": true,
+    "roomSafeMode": true,
+    "mainSynthesisMode": true,
+    "preAuthContextVisibility": true,
+    "visibleEvidenceSource": true,
+    "localizedHandoffLabels": true
+  },
+  "strictRules": [
+    "Specialist rooms carry evidence into Predicta without losing their method identity.",
+    "Room-safe specialist CTAs use handoffMode=room_safe.",
+    "Report section CTAs use handoffMode=main_synthesis.",
+    "Every handoff explains the carried evidence source in chat.",
+    "Fixed handoff labels are stored in dedicated translation JSON."
+  ]
+}

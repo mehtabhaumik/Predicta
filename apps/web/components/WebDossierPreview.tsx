@@ -26,6 +26,7 @@ import {
   getLanguageOption,
   SUPPORTED_LANGUAGE_OPTIONS,
 } from '@pridicta/config/language';
+import { translateUiText } from '@pridicta/config/uiTranslations';
 import {
   getOneTimeProduct,
   getReportPurchaseGuide,
@@ -580,6 +581,7 @@ export function WebDossierPreview(): React.JSX.Element {
       availableSections: sectionOptions.map(option => option.section.title),
       generatedAt: generatedAt ?? undefined,
       kundliId: kundli?.id,
+      language: appLanguage,
       mode,
       product: selectedReport,
       reportTitle: localizedSelectedReport.title,
@@ -3129,6 +3131,7 @@ function buildReportAskHref(
     availableSections,
     generatedAt,
     kundliId,
+    language,
     mode,
     product,
     reportTitle,
@@ -3141,6 +3144,7 @@ function buildReportAskHref(
     availableSections: string[];
     generatedAt?: string;
     kundliId?: string;
+    language: SupportedLanguage;
     mode: 'FREE' | 'PREMIUM';
     product: ReportMarketplaceProduct;
     reportTitle: string;
@@ -3152,6 +3156,13 @@ function buildReportAskHref(
   },
 ): string {
   return buildPredictaChatHref({
+    carriedContextLabel: sectionTitle,
+    eventOracleHandoff: true,
+    evidenceSourceLabel: translateUiText(
+      'Report section memory and generated report context',
+      language,
+    ),
+    handoffMode: 'main_synthesis',
     kundliId,
     prompt: sectionPrompt,
     reportAvailableSections: availableSections,

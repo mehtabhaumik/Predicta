@@ -19,6 +19,7 @@ import {
   extractSignatureTraitObservations,
   type SignatureTraitDetection,
 } from '@pridicta/astrology';
+import { translateUiText } from '@pridicta/config/uiTranslations';
 import type {
   SignatureAnalysisModel,
   SignatureTraitKey,
@@ -874,12 +875,19 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
       language,
     );
     const href = buildPredictaChatHref({
+      carriedContextLabel: translateUiText('Confirmed signature traits', language),
+      eventOracleHandoff: true,
+      evidenceSourceLabel: translateUiText(
+        'Confirmed signature traits and reflective expression evidence',
+        language,
+      ),
+      handoffMode: 'room_safe',
       school: 'SIGNATURE',
       prompt:
         analysisModel.status === 'ready'
           ? `${copy.hero.chatPromptReady} ${modelContext}`
           : copy.hero.chatPromptFallback,
-      selectedSection: 'Signature Predicta input',
+      selectedSection: translateUiText('Signature Predicta input', language),
       sourceScreen: 'Signature Predicta',
     });
 
