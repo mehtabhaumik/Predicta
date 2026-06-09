@@ -133,7 +133,13 @@
             "title": "Day Pass",
             "body": "Use premium depth for 24 hours before subscribing."
           }
-        ]
+        ],
+        "primaryPredictaEyebrow": "ASK PREDICTA FIRST",
+        "primaryPredictaTitle": "Tell Predicta what you want to know.",
+        "primaryPredictaBody": "Predicta starts with your real question, checks the right evidence rooms, and explains which methods she used instead of mixing schools silently.",
+        "primaryPredictaPrimary": "Ask Predicta",
+        "primaryPredictaSecondary": "Open evidence rooms",
+        "primaryPredictaProof": "Uses Vedic, KP, Jaimini, Numerology, Signature, Kundli Karma, and reports only when they fit the question."
       },
       "reportPage": {
         "title": "Pick the report that answers your real question.",
@@ -274,7 +280,13 @@
             "title": "डे पास",
             "body": "सदस्यता से पहले 24 घंटे प्रीमियम गहराई इस्तेमाल करें."
           }
-        ]
+        ],
+        "primaryPredictaEyebrow": "पहले प्रेडिक्टा से पूछें",
+        "primaryPredictaTitle": "प्रेडिक्टा को बताएं कि आप क्या जानना चाहते हैं.",
+        "primaryPredictaBody": "प्रेडिक्टा पहले आपका असली प्रश्न समझती है, सही प्रमाण-कक्ष जांचती है, और कौन सी विधि उपयोग हुई यह साफ बताती है; विधियां चुपचाप नहीं मिलाती.",
+        "primaryPredictaPrimary": "प्रेडिक्टा से पूछें",
+        "primaryPredictaSecondary": "प्रमाण-कक्ष खोलें",
+        "primaryPredictaProof": "वैदिक, कृष्णमूर्ति, जैमिनी, अंक, हस्ताक्षर, कुंडली कर्म और रिपोर्ट तभी उपयोग होते हैं जब वे प्रश्न से सच में जुड़ते हैं."
       },
       "reportPage": {
         "title": "वह रिपोर्ट चुनें जो आपके असली प्रश्न का उत्तर दे.",
@@ -415,7 +427,13 @@
             "title": "ડે પાસ",
             "body": "સદસ્યતા પહેલાં 24 કલાક પ્રીમિયમ ઊંડાઈ વાપરો."
           }
-        ]
+        ],
+        "primaryPredictaEyebrow": "પહેલા પ્રેડિક્ટાને પૂછો",
+        "primaryPredictaTitle": "પ્રેડિક્ટાને કહો કે તમે શું જાણવા માંગો છો.",
+        "primaryPredictaBody": "પ્રેડિક્ટા પહેલા તમારો સાચો પ્રશ્ન સમજે છે, યોગ્ય પુરાવા-રૂમ તપાસે છે, અને કઈ પદ્ધતિ વાપરી તે સ્પષ્ટ કહે છે; પદ્ધતિઓ ચૂપચાપ મિક્સ કરતી નથી.",
+        "primaryPredictaPrimary": "પ્રેડિક્ટાને પૂછો",
+        "primaryPredictaSecondary": "પુરાવા-રૂમ ખોલો",
+        "primaryPredictaProof": "વેદિક, કૃષ્ણમૂર્તિ, જૈમિની, અંક, હસ્તાક્ષર, કુંડળી કર્મ અને રિપોર્ટ ફક્ત ત્યારે વપરાય છે જ્યારે તે પ્રશ્ન સાથે સાચે જોડાય છે."
       },
       "reportPage": {
         "title": "તમારા સાચા પ્રશ્નનો જવાબ આપતો રિપોર્ટ પસંદ કરો.",

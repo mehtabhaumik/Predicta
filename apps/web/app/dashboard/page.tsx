@@ -162,6 +162,33 @@ export default function DashboardPage(): React.JSX.Element {
         <p>{competitorCopy.readyBody}</p>
       </div>
 
+      <section className="primary-predicta-panel glass-panel">
+        <div className="primary-predicta-copy">
+          <div className="section-title">
+            {competitorCopy.primaryPredictaEyebrow}
+          </div>
+          <h2>{competitorCopy.primaryPredictaTitle}</h2>
+          <p>{competitorCopy.primaryPredictaBody}</p>
+          <span>{competitorCopy.primaryPredictaProof}</span>
+        </div>
+        <div className="primary-predicta-actions">
+          <Link
+            className="button"
+            href={buildPredictaChatHref({
+              kundli: activeKundli,
+              prompt:
+                'Help me ask the most useful question from my Kundli and choose the right evidence rooms.',
+              sourceScreen: 'Dashboard Primary Predicta',
+            })}
+          >
+            {competitorCopy.primaryPredictaPrimary}
+          </Link>
+          <Link className="button secondary" href="/dashboard/vedic">
+            {competitorCopy.primaryPredictaSecondary}
+          </Link>
+        </div>
+      </section>
+
       <WebActiveKundliActions
         kundli={activeKundli}
         sourceScreen="Dashboard"
@@ -325,7 +352,7 @@ function FriendsFamilyWelcome({
           className="button secondary"
           href={
             hasKundli
-              ? '/dashboard/vedic/chat?sourceScreen=Private+Preview&prompt=Show+me+what+I+should+try+first+from+my+Kundli.'
+              ? '/dashboard/chat?sourceScreen=Private+Preview&prompt=Show+me+what+I+should+try+first+from+my+Kundli.'
               : '/dashboard/kundli'
           }
         >

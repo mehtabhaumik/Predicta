@@ -75,8 +75,10 @@ export type AppShellLabels = {
     home: string;
     holisticAstrology: string;
     jaimini: string;
+    jaiminiEvidence: string;
     jaiminiPredicta: string;
     kp: string;
+    kpEvidence: string;
     kpPredicta: string;
     kundli: string;
     library: string;
@@ -84,6 +86,7 @@ export type AppShellLabels = {
     nadi: string;
     nadiPredicta: string;
     numerology: string;
+    numerologyEvidence: string;
     numerologyPredicta: string;
     overview: string;
     premium: string;
@@ -95,9 +98,11 @@ export type AppShellLabels = {
     savedKundlis: string;
     settings: string;
     signature: string;
+    signatureEvidence: string;
     signaturePredicta: string;
     timeline: string;
     vedic: string;
+    vedicEvidence: string;
     vedicPredicta: string;
     wrapped: string;
   };

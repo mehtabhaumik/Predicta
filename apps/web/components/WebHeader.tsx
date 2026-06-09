@@ -169,6 +169,7 @@ function buildPublicHeaderCopy(labels: ReturnType<typeof getAppShellLabels>): {
     brand: labels.groups.predicta,
     dashboard: labels.nav.dashboard,
     links: [
+      { href: '/dashboard/chat', label: labels.actions.askPredicta },
       { href: '/dashboard/vedic', label: labels.nav.vedic },
       { href: '/dashboard/kp', label: labels.nav.kp },
       { href: '/dashboard/jaimini', label: labels.nav.jaimini },

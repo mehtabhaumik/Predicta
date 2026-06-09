@@ -1,6 +1,6 @@
 'use client';
 
-import { getNativeCopy } from '@pridicta/config';
+import { getAppShellLabels, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import type { SupportedLanguage } from '@pridicta/types';
 import { useLanguagePreference } from '../lib/language-preference';
@@ -37,7 +37,7 @@ const footerCopy: Record<
         links: [
           { href: '/dashboard/kundli', label: 'Create Kundli' },
           { href: '/dashboard/charts', label: 'View Charts' },
-          { href: '/dashboard/vedic/chat', label: 'Ask Vedic Predicta' },
+          { href: '/dashboard/chat', label: 'Ask Predicta' },
           { href: '/dashboard/saved-kundlis', label: 'Kundli Library' },
           { href: '/dashboard/family', label: 'Family Vault' },
         ],
@@ -92,7 +92,7 @@ const footerCopy: Record<
         links: [
           { href: '/dashboard/kundli', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.7cacfebde9") },
           { href: '/dashboard/charts', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.15dca593bd") },
-          { href: '/dashboard/vedic/chat', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.9d80e60dc8") },
+          { href: '/dashboard/chat', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.9d80e60dc8") },
           { href: '/dashboard/saved-kundlis', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.66249ce6af") },
           { href: '/dashboard/family', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.dc49ce1d21") },
         ],
@@ -147,7 +147,7 @@ const footerCopy: Record<
         links: [
           { href: '/dashboard/kundli', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.c0e4dc5abd") },
           { href: '/dashboard/charts', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.077280e1d9") },
-          { href: '/dashboard/vedic/chat', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.335a17db38") },
+          { href: '/dashboard/chat', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.335a17db38") },
           { href: '/dashboard/saved-kundlis', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.69e24edda7") },
           { href: '/dashboard/family', label: getNativeCopy("native.apps.web.components.WebFooter.tsx.dde3029f16") },
         ],
@@ -196,6 +196,15 @@ export function WebFooter({
 }): React.JSX.Element {
   const { language } = useLanguagePreference();
   const copy = footerCopy[language] ?? footerCopy.en;
+  const shellLabels = getAppShellLabels(language);
+  const sections = copy.sections.map(section => ({
+    ...section,
+    links: section.links.map(link =>
+      link.href === '/dashboard/chat'
+        ? { ...link, label: shellLabels.actions.askPredicta }
+        : link
+    ),
+  }));
 
   if (variant === 'dashboard') {
     return (
@@ -239,7 +248,7 @@ export function WebFooter({
         </div>
 
         <nav aria-label="Footer navigation" className="web-footer-grid">
-          {copy.sections.map(section => (
+          {sections.map(section => (
             <div className="web-footer-column" key={section.heading}>
               <h2>{section.heading}</h2>
               {section.links.map(link => (

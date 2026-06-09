@@ -40,6 +40,15 @@ function buildDashboardNavModel(
 ): DashboardNavModel {
   const sections: SidebarSection[] = [
     {
+      href: '/dashboard/chat',
+      id: 'predicta',
+      label: labels.actions.askPredicta,
+      items: [
+        { href: '/dashboard/chat', label: labels.nav.chat },
+        { href: '/dashboard', label: labels.nav.overview },
+      ],
+    },
+    {
       href: '/dashboard',
       id: 'overview',
       label: labels.nav.dashboard,
@@ -50,10 +59,9 @@ function buildDashboardNavModel(
     {
       href: '/dashboard/vedic',
       id: 'vedic',
-      label: labels.nav.vedic,
+      label: labels.nav.vedicEvidence,
       items: [
         { href: '/dashboard/vedic', label: labels.nav.vedicPredicta },
-        { href: '/dashboard/vedic/chat', label: labels.nav.chat },
         { href: '/dashboard/kundli', label: labels.nav.kundli },
         { href: '/dashboard/charts', label: labels.nav.allCharts },
         { href: '/dashboard/timeline', label: labels.nav.timeline },
@@ -66,37 +74,33 @@ function buildDashboardNavModel(
     {
       href: '/dashboard/kp',
       id: 'kp',
-      label: labels.nav.kp,
+      label: labels.nav.kpEvidence,
       items: [
         { href: '/dashboard/kp', label: labels.nav.kpPredicta },
-        { href: '/dashboard/kp/chat', label: labels.nav.chat },
       ],
     },
     {
       href: '/dashboard/jaimini',
       id: 'jaimini',
-      label: labels.nav.jaimini,
+      label: labels.nav.jaiminiEvidence,
       items: [
         { href: '/dashboard/jaimini', label: labels.nav.jaiminiPredicta },
-        { href: '/dashboard/jaimini/chat', label: labels.nav.chat },
       ],
     },
     {
       href: '/dashboard/numerology',
       id: 'numerology',
-      label: labels.nav.numerology,
+      label: labels.nav.numerologyEvidence,
       items: [
         { href: '/dashboard/numerology', label: labels.nav.numerologyPredicta },
-        { href: '/dashboard/numerology/chat', label: labels.nav.chat },
       ],
     },
     {
       href: '/dashboard/signature',
       id: 'signature',
-      label: labels.nav.signature,
+      label: labels.nav.signatureEvidence,
       items: [
         { href: '/dashboard/signature', label: labels.nav.signaturePredicta },
-        { href: '/dashboard/signature/chat', label: labels.nav.chat },
       ],
     },
     {
@@ -153,8 +157,12 @@ function getActiveDashboardSection(
   pathname: string,
   sections: SidebarSection[],
 ): SidebarSection {
+  if (pathname === '/dashboard') {
+    return sections.find(section => section.id === 'overview') ?? sections[0];
+  }
+
   if (pathname === '/dashboard/chat') {
-    return sections.find(section => section.id === 'vedic') ?? sections[0];
+    return sections.find(section => section.id === 'predicta') ?? sections[0];
   }
 
   return (
@@ -262,6 +270,9 @@ const TOPBAR_CONTEXT_COPY: Record<
   Record<SidebarSection['id'], { eyebrow: string }>
 > = {
   en: {
+    predicta: {
+      eyebrow: getAppShellLabels('en').groups.predicta,
+    },
     overview: {
       eyebrow: 'Your home base',
     },
@@ -291,6 +302,9 @@ const TOPBAR_CONTEXT_COPY: Record<
     },
   },
   hi: {
+    predicta: {
+      eyebrow: getAppShellLabels('hi').groups.predicta,
+    },
     overview: {
       eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.a58a16f75f"),
     },
@@ -320,6 +334,9 @@ const TOPBAR_CONTEXT_COPY: Record<
     },
   },
   gu: {
+    predicta: {
+      eyebrow: getAppShellLabels('gu').groups.predicta,
+    },
     overview: {
       eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.7c0d6dcdaa"),
     },
@@ -497,7 +514,7 @@ export function DashboardShell({
           <div className="dashboard-topbar-actions">
             <WebLanguageSelector compact />
             <Link
-              className="button secondary"
+              className="button"
               href={buildPredictaChatHref({
                 kundli: activeKundli,
                 prompt: 'Help me from my selected Kundli.',
