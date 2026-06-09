@@ -1,0 +1,536 @@
+{
+  "supportivePrediction": {
+    "collapsedEvidence": [
+      {
+        "availability": "ready",
+        "label": "Vedic chart and dasha evidence",
+        "layerId": "vedic",
+        "sourceAware": true,
+        "stance": "supports",
+        "summary": "Vedic dasha and transit evidence support a foreign-work opening."
+      },
+      {
+        "availability": "ready",
+        "label": "KP event-timing evidence",
+        "layerId": "kp",
+        "sourceAware": true,
+        "stance": "supports",
+        "summary": "KP promise is visible through foreign-work houses and event carriers."
+      },
+      {
+        "availability": "ready",
+        "label": "Jaimini destiny evidence",
+        "layerId": "jaimini",
+        "sourceAware": true,
+        "stance": "supports",
+        "summary": "Jaimini karaka direction supports work-linked foreign movement."
+      },
+      {
+        "availability": "partial",
+        "label": "Numerology timing color",
+        "layerId": "numerology",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Numerology gives timing color only."
+      },
+      {
+        "availability": "missing",
+        "label": "Life Atlas synthesis context",
+        "layerId": "lifeAtlas",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Life Atlas synthesis waits until source evidence layers are ready."
+      }
+    ],
+    "confidence": {
+      "evidenceBacked": true,
+      "explanation": "Confidence is high because multiple required evidence rooms agree and conflict is low.",
+      "label": "High",
+      "level": "high",
+      "score": 69
+    },
+    "contractVersion": "event-oracle-prediction-phase-4-v1",
+    "deterministic": true,
+    "directAnswer": "Foreign movement looks more likely than not when work/travel houses, timing, and event proof agree.",
+    "evidenceContractVersion": "event-oracle-evidence-phase-3-v1",
+    "mostLikelyTrigger": {
+      "sourceLayerIds": [
+        "kp",
+        "vedic"
+      ],
+      "summary": "The trigger may come through your existing company, a senior colleague, team restructuring, or a role opened by someone leaving.",
+      "title": "Company-linked foreign opportunity"
+    },
+    "noGuaranteedOutcome": true,
+    "outcome": "likely",
+    "question": {
+      "categoryId": "foreign_travel",
+      "original": "Will I get a UK work opportunity this year?",
+      "refined": "Will I get a UK work opportunity this year?"
+    },
+    "timingWindow": {
+      "basis": "Vedic dasha support and KP timing readiness agree on a practical near window.",
+      "endDate": "2026-06-30",
+      "honestyNote": "This is a practical timing window, not a guaranteed date.",
+      "label": "March to June 2026",
+      "precision": "month_range",
+      "sourceLayerIds": [
+        "vedic",
+        "kp"
+      ],
+      "startDate": "2026-03-01"
+    },
+    "whatCanDelayIt": [
+      "Documentation gaps, weak institutional support, or timing conflict can delay foreign movement."
+    ],
+    "whatCanStrengthenIt": [
+      "A clear work case, updated documents, and proactive communication strengthen the foreign-travel promise.",
+      "Supportive proof is currently coming from Vedic chart and dasha evidence, KP event-timing evidence, Jaimini destiny evidence.",
+      "Multiple required evidence rooms agree, so Predicta can speak with stronger confidence."
+    ],
+    "whatToDoNow": [
+      "Keep documents, manager conversations, and opportunity readiness prepared before the window opens.",
+      "Track the trigger window and keep practical readiness high, but avoid treating astrology as a guarantee."
+    ]
+  },
+  "unsupportedExactDate": {
+    "collapsedEvidence": [
+      {
+        "availability": "ready",
+        "label": "Vedic chart and dasha evidence",
+        "layerId": "vedic",
+        "sourceAware": true,
+        "stance": "supports",
+        "summary": "Vedic dasha and transit evidence support a foreign-work opening."
+      },
+      {
+        "availability": "ready",
+        "label": "KP event-timing evidence",
+        "layerId": "kp",
+        "sourceAware": true,
+        "stance": "supports",
+        "summary": "KP promise is visible through foreign-work houses and event carriers."
+      },
+      {
+        "availability": "ready",
+        "label": "Jaimini destiny evidence",
+        "layerId": "jaimini",
+        "sourceAware": true,
+        "stance": "supports",
+        "summary": "Jaimini karaka direction supports work-linked foreign movement."
+      },
+      {
+        "availability": "partial",
+        "label": "Numerology timing color",
+        "layerId": "numerology",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Numerology gives timing color only."
+      },
+      {
+        "availability": "missing",
+        "label": "Life Atlas synthesis context",
+        "layerId": "lifeAtlas",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Life Atlas synthesis waits until source evidence layers are ready."
+      }
+    ],
+    "confidence": {
+      "evidenceBacked": true,
+      "explanation": "Confidence is high because multiple required evidence rooms agree and conflict is low.",
+      "label": "High",
+      "level": "high",
+      "score": 69
+    },
+    "contractVersion": "event-oracle-prediction-phase-4-v1",
+    "deterministic": true,
+    "directAnswer": "Foreign movement looks more likely than not when work/travel houses, timing, and event proof agree.",
+    "evidenceContractVersion": "event-oracle-evidence-phase-3-v1",
+    "mostLikelyTrigger": {
+      "sourceLayerIds": [
+        "vedic",
+        "kp",
+        "jaimini"
+      ],
+      "summary": "The trigger may come through your existing company, a senior colleague, team restructuring, client need, visa process, or a role opened by someone leaving.",
+      "title": "Most likely trigger to watch"
+    },
+    "noGuaranteedOutcome": true,
+    "outcome": "likely",
+    "question": {
+      "categoryId": "foreign_travel",
+      "original": "Will I get a UK work opportunity this year?",
+      "refined": "Will I get a UK work opportunity this year?"
+    },
+    "timingWindow": {
+      "basis": "User asked for an exact date, but evidence only supports a broader window.",
+      "honestyNote": "An exact date was requested, but the supplied evidence does not prove exact-date precision, so Predicta downgraded it.",
+      "label": "Not precise yet",
+      "precision": "not_precise_yet",
+      "sourceLayerIds": [
+        "vedic"
+      ]
+    },
+    "whatCanDelayIt": [
+      "Documentation gaps, weak institutional support, or timing conflict can delay foreign movement."
+    ],
+    "whatCanStrengthenIt": [
+      "A clear work case, updated documents, and proactive communication strengthen the foreign-travel promise.",
+      "Supportive proof is currently coming from Vedic chart and dasha evidence, KP event-timing evidence, Jaimini destiny evidence.",
+      "Multiple required evidence rooms agree, so Predicta can speak with stronger confidence."
+    ],
+    "whatToDoNow": [
+      "Keep documents, manager conversations, and opportunity readiness prepared before the window opens.",
+      "Track the trigger window and keep practical readiness high, but avoid treating astrology as a guarantee."
+    ]
+  },
+  "supportedExactDate": {
+    "collapsedEvidence": [
+      {
+        "availability": "ready",
+        "label": "Vedic chart and dasha evidence",
+        "layerId": "vedic",
+        "sourceAware": true,
+        "stance": "supports",
+        "summary": "Vedic dasha and transit evidence support a foreign-work opening."
+      },
+      {
+        "availability": "ready",
+        "label": "KP event-timing evidence",
+        "layerId": "kp",
+        "sourceAware": true,
+        "stance": "supports",
+        "summary": "KP promise is visible through foreign-work houses and event carriers."
+      },
+      {
+        "availability": "ready",
+        "label": "Jaimini destiny evidence",
+        "layerId": "jaimini",
+        "sourceAware": true,
+        "stance": "supports",
+        "summary": "Jaimini karaka direction supports work-linked foreign movement."
+      },
+      {
+        "availability": "partial",
+        "label": "Numerology timing color",
+        "layerId": "numerology",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Numerology gives timing color only."
+      },
+      {
+        "availability": "missing",
+        "label": "Life Atlas synthesis context",
+        "layerId": "lifeAtlas",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Life Atlas synthesis waits until source evidence layers are ready."
+      }
+    ],
+    "confidence": {
+      "evidenceBacked": true,
+      "explanation": "Confidence is high because multiple required evidence rooms agree and conflict is low.",
+      "label": "High",
+      "level": "high",
+      "score": 69
+    },
+    "contractVersion": "event-oracle-prediction-phase-4-v1",
+    "deterministic": true,
+    "directAnswer": "Foreign movement looks more likely than not when work/travel houses, timing, and event proof agree.",
+    "evidenceContractVersion": "event-oracle-evidence-phase-3-v1",
+    "mostLikelyTrigger": {
+      "sourceLayerIds": [
+        "vedic",
+        "kp",
+        "jaimini"
+      ],
+      "summary": "The trigger may come through your existing company, a senior colleague, team restructuring, client need, visa process, or a role opened by someone leaving.",
+      "title": "Most likely trigger to watch"
+    },
+    "noGuaranteedOutcome": true,
+    "outcome": "likely",
+    "question": {
+      "categoryId": "foreign_travel",
+      "original": "Will I get a UK work opportunity this year?",
+      "refined": "Will I get a UK work opportunity this year?"
+    },
+    "timingWindow": {
+      "basis": "Deterministic timing evidence explicitly supports date-level precision.",
+      "honestyNote": "Exact date is allowed only because deterministic evidence explicitly supports it.",
+      "label": "12 April 2026",
+      "precision": "exact_date",
+      "sourceLayerIds": [
+        "vedic",
+        "kp"
+      ],
+      "startDate": "2026-04-12"
+    },
+    "whatCanDelayIt": [
+      "Documentation gaps, weak institutional support, or timing conflict can delay foreign movement."
+    ],
+    "whatCanStrengthenIt": [
+      "A clear work case, updated documents, and proactive communication strengthen the foreign-travel promise.",
+      "Supportive proof is currently coming from Vedic chart and dasha evidence, KP event-timing evidence, Jaimini destiny evidence.",
+      "Multiple required evidence rooms agree, so Predicta can speak with stronger confidence."
+    ],
+    "whatToDoNow": [
+      "Keep documents, manager conversations, and opportunity readiness prepared before the window opens.",
+      "Track the trigger window and keep practical readiness high, but avoid treating astrology as a guarantee."
+    ]
+  },
+  "conflictedPrediction": {
+    "collapsedEvidence": [
+      {
+        "availability": "ready",
+        "label": "Vedic chart and dasha evidence",
+        "layerId": "vedic",
+        "sourceAware": true,
+        "stance": "supports",
+        "summary": "Vedic supports movement but not enough to overrule KP."
+      },
+      {
+        "availability": "ready",
+        "label": "KP event-timing evidence",
+        "layerId": "kp",
+        "sourceAware": true,
+        "stance": "blocks",
+        "summary": "KP blocks near-term foreign-work timing."
+      },
+      {
+        "availability": "partial",
+        "label": "Jaimini destiny evidence",
+        "layerId": "jaimini",
+        "sourceAware": true,
+        "stance": "mixed",
+        "summary": "Jaimini is mixed for work-linked foreign movement."
+      },
+      {
+        "availability": "missing",
+        "label": "Numerology timing color",
+        "layerId": "numerology",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Numerology timing color is not available yet for this event question."
+      },
+      {
+        "availability": "missing",
+        "label": "Life Atlas synthesis context",
+        "layerId": "lifeAtlas",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Life Atlas synthesis waits until source evidence layers are ready."
+      }
+    ],
+    "confidence": {
+      "evidenceBacked": true,
+      "explanation": "Confidence is low because support is weak or contradicted by source evidence.",
+      "label": "Low",
+      "level": "low",
+      "score": 1
+    },
+    "contractVersion": "event-oracle-prediction-phase-4-v1",
+    "deterministic": true,
+    "directAnswer": "Foreign movement is possible, but Predicta needs cleaner timing before calling it a strong opening. Conflicting evidence suggests delay, so treat this as possible but not smooth yet.",
+    "evidenceContractVersion": "event-oracle-evidence-phase-3-v1",
+    "mostLikelyTrigger": {
+      "sourceLayerIds": [
+        "vedic"
+      ],
+      "summary": "The trigger may come through your existing company, a senior colleague, team restructuring, client need, visa process, or a role opened by someone leaving.",
+      "title": "Most likely trigger to watch"
+    },
+    "noGuaranteedOutcome": true,
+    "outcome": "delayed",
+    "question": {
+      "categoryId": "foreign_travel",
+      "original": "Will I get a UK work opportunity this year?",
+      "refined": "Will I get a UK work opportunity this year?"
+    },
+    "timingWindow": {
+      "basis": "Evidence exists, but no deterministic timing window has been supplied yet.",
+      "honestyNote": "Predicta is not giving an exact date because the current evidence does not support one.",
+      "label": "Not precise yet",
+      "precision": "not_precise_yet",
+      "sourceLayerIds": []
+    },
+    "whatCanDelayIt": [
+      "Documentation gaps, weak institutional support, or timing conflict can delay foreign movement.",
+      "Evidence conflict from KP event-timing evidence, Jaimini destiny evidence can delay or weaken the event.",
+      "Missing required evidence (numerology) prevents a stronger answer."
+    ],
+    "whatCanStrengthenIt": [
+      "A clear work case, updated documents, and proactive communication strengthen the foreign-travel promise.",
+      "Supportive proof is currently coming from Vedic chart and dasha evidence."
+    ],
+    "whatToDoNow": [
+      "Keep documents, manager conversations, and opportunity readiness prepared before the window opens.",
+      "Track the trigger window and keep practical readiness high, but avoid treating astrology as a guarantee."
+    ]
+  },
+  "missingPrediction": {
+    "collapsedEvidence": [
+      {
+        "availability": "missing",
+        "label": "Vedic chart and dasha evidence",
+        "layerId": "vedic",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Vedic chart and dasha evidence is not available yet for this event question."
+      },
+      {
+        "availability": "missing",
+        "label": "KP event-timing evidence",
+        "layerId": "kp",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "KP event-timing evidence is not available yet for this event question."
+      },
+      {
+        "availability": "missing",
+        "label": "Jaimini destiny evidence",
+        "layerId": "jaimini",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Jaimini destiny evidence is not available yet for this event question."
+      },
+      {
+        "availability": "missing",
+        "label": "Numerology timing color",
+        "layerId": "numerology",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Numerology timing color is not available yet for this event question."
+      },
+      {
+        "availability": "missing",
+        "label": "Life Atlas synthesis context",
+        "layerId": "lifeAtlas",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Life Atlas synthesis waits until source evidence layers are ready."
+      }
+    ],
+    "confidence": {
+      "evidenceBacked": true,
+      "explanation": "Predicta cannot responsibly answer yet because the required source evidence is not available.",
+      "label": "Not enough evidence",
+      "level": "not_enough_evidence",
+      "score": 0
+    },
+    "contractVersion": "event-oracle-prediction-phase-4-v1",
+    "deterministic": true,
+    "directAnswer": "Predicta cannot responsibly answer this yet because the required evidence is missing.",
+    "evidenceContractVersion": "event-oracle-evidence-phase-3-v1",
+    "mostLikelyTrigger": {
+      "sourceLayerIds": [],
+      "summary": "The trigger may come through your existing company, a senior colleague, team restructuring, client need, visa process, or a role opened by someone leaving.",
+      "title": "Trigger not reliable yet"
+    },
+    "noGuaranteedOutcome": true,
+    "outcome": "needs_evidence",
+    "question": {
+      "categoryId": "foreign_travel",
+      "original": "Will I get a UK work opportunity this year?",
+      "refined": "Will I get a UK work opportunity this year?"
+    },
+    "timingWindow": {
+      "basis": "Required source evidence is missing.",
+      "honestyNote": "Predicta is not giving an exact date because the current evidence does not support one.",
+      "label": "Not precise yet",
+      "precision": "not_precise_yet",
+      "sourceLayerIds": []
+    },
+    "whatCanDelayIt": [
+      "Documentation gaps, weak institutional support, or timing conflict can delay foreign movement.",
+      "Missing required evidence (vedic, kp, jaimini, numerology) prevents a stronger answer."
+    ],
+    "whatCanStrengthenIt": [
+      "A clear work case, updated documents, and proactive communication strengthen the foreign-travel promise."
+    ],
+    "whatToDoNow": [
+      "Keep documents, manager conversations, and opportunity readiness prepared before the window opens.",
+      "Prepare the missing source evidence before asking for a precise timing answer."
+    ]
+  },
+  "wellnessPrediction": {
+    "collapsedEvidence": [
+      {
+        "availability": "ready",
+        "label": "Vedic chart and dasha evidence",
+        "layerId": "vedic",
+        "sourceAware": true,
+        "stance": "supports",
+        "summary": "Vedic timing shows routine pressure."
+      },
+      {
+        "availability": "ready",
+        "label": "Kundli Karma pressure/support evidence",
+        "layerId": "kundliKarma",
+        "sourceAware": true,
+        "stance": "mixed",
+        "summary": "Kundli Karma shows stress pressure, but not diagnosis."
+      },
+      {
+        "availability": "ready",
+        "label": "Numerology timing color",
+        "layerId": "numerology",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Numerology gives routine color only."
+      },
+      {
+        "availability": "missing",
+        "label": "Life Atlas synthesis context",
+        "layerId": "lifeAtlas",
+        "sourceAware": true,
+        "stance": "neutral",
+        "summary": "Life Atlas synthesis waits until source evidence layers are ready."
+      }
+    ],
+    "confidence": {
+      "evidenceBacked": true,
+      "explanation": "Confidence is medium because useful evidence exists, but some layers are partial, missing, or mixed.",
+      "label": "Medium",
+      "level": "medium",
+      "score": 33
+    },
+    "contractVersion": "event-oracle-prediction-phase-4-v1",
+    "deterministic": true,
+    "directAnswer": "A mild caution is possible, but this is not medical proof or diagnosis. Conflicting evidence suggests delay, so treat this as possible but not smooth yet.",
+    "evidenceContractVersion": "event-oracle-evidence-phase-3-v1",
+    "mostLikelyTrigger": {
+      "sourceLayerIds": [
+        "vedic"
+      ],
+      "summary": "The trigger may be workload pressure, sleep disruption, travel, family stress, or routine imbalance.",
+      "title": "Most likely trigger to watch"
+    },
+    "noGuaranteedOutcome": true,
+    "outcome": "delayed",
+    "question": {
+      "categoryId": "wellness_caution",
+      "original": "What wellness caution should I be mindful of right now?",
+      "refined": "What wellness caution should I be mindful of right now?"
+    },
+    "timingWindow": {
+      "basis": "Evidence exists, but no deterministic timing window has been supplied yet.",
+      "honestyNote": "Predicta is not giving an exact date because the current evidence does not support one.",
+      "label": "Not precise yet",
+      "precision": "not_precise_yet",
+      "sourceLayerIds": []
+    },
+    "whatCanDelayIt": [
+      "Stress, irregular routine, or ignored recovery signals can prolong the pressure.",
+      "Evidence conflict from Kundli Karma pressure/support evidence can delay or weaken the event."
+    ],
+    "whatCanStrengthenIt": [
+      "Sleep rhythm, hydration, movement, and professional care where needed strengthen wellbeing.",
+      "Supportive proof is currently coming from Vedic chart and dasha evidence."
+    ],
+    "whatToDoNow": [
+      "Use this as routine guidance only, and speak to a qualified medical professional for diagnosis or urgent symptoms.",
+      "Track the trigger window and keep practical readiness high, but avoid treating astrology as a guarantee."
+    ]
+  }
+}

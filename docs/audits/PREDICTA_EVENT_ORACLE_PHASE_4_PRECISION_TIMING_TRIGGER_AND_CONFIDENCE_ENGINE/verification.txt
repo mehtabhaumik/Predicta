@@ -1,0 +1,16 @@
+PREDICTA_EVENT_ORACLE_PHASE_4_PRECISION_TIMING_TRIGGER_AND_CONFIDENCE_ENGINE
+
+Strict audit checklist:
+
+- Prediction object includes direct answer, timing, trigger, confidence, delay factors, strengthening factors, next action, and collapsed evidence.
+- Timing windows are honest and source-backed.
+- Exact dates are accepted only when deterministic evidence explicitly supports exact-date precision.
+- Unsupported exact dates downgrade to not_precise_yet.
+- Confidence is evidence-backed and derived from the Phase 3 contract.
+- Conflicting evidence lowers confidence or prevents a clean likely answer.
+- Missing evidence returns needs_evidence instead of fake certainty.
+- Trigger language is practical and real-world oriented.
+- Wellness predictions retain medical-safety action language.
+- No prediction claims a guaranteed outcome.
+
+Verification commands are recorded in phase-4-manifest.json and rerun before the phase is committed.
