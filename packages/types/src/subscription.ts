@@ -8,6 +8,7 @@ export type OneTimeProductType =
   | 'AI_QUESTIONS_100'
   | 'DAY_PASS'
   | 'FIVE_QUESTIONS'
+  | 'HUMAN_ASTROLOGER_REVIEW'
   | 'PREMIUM_PDF'
   | 'REPORT_SINGLE'
   | 'REPORT_BUNDLE'

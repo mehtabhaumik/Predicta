@@ -7,6 +7,7 @@ export * from './cacheConfig';
 export * from './competitorResponse';
 export * from './eventOracle';
 export * from './guestAccessLimits';
+export * from './humanAstrologerReview';
 export * from './jaiminiLocalization';
 export * from './kundliKarmaLocalization';
 export * from './language';

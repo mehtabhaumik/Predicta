@@ -8,10 +8,12 @@ import type {
 import { DAY_PASS_LIMITS } from '@pridicta/config/usageLimits';
 import {
   createFreeEntitlement,
+  getHumanReviewCreditQuantity,
   getQuestionCreditQuantity,
   getPrecisionFollowUpCreditQuantity,
   getPrecisionReadingCreditQuantity,
   getReportCreditQuantity,
+  isHumanReviewProduct,
   isPrecisionFollowUpProduct,
   isPrecisionReadingProduct,
   isQuestionPackProduct,
@@ -58,6 +60,7 @@ export type ServerFamilyBank = {
   memberUids: string[];
   members: FamilyBankMember[];
   ownerUid: string;
+  sharedHumanReviewCreditsBalance: number;
   sharedPrecisionFollowUpCreditsBalance: number;
   sharedPrecisionReadingCreditsBalance: number;
   sharedQuestionCreditsBalance: number;
@@ -76,6 +79,7 @@ export type ServerEntitlementLedger = {
   dayPassEntitlement: ServerDayPassEntitlement;
   familyBank: ServerFamilyBank;
   freeAiCreditsUsed: number;
+  humanReviewCreditsBalance: number;
   paidAiQuestionCreditsBalance: number;
   premiumEntitlement: ServerPremiumEntitlement;
   precisionFollowUpCreditsBalance: number;
@@ -131,6 +135,16 @@ export type ServerEntitlementOperation =
     }
   | {
       idempotencyKey: string;
+      kind: 'grant_human_review_credit';
+      quantity: number;
+    }
+  | {
+      idempotencyKey: string;
+      kind: 'consume_human_review_credit';
+      source: 'personal' | 'family_bank';
+    }
+  | {
+      idempotencyKey: string;
       kind: 'grant_report_credit';
       quantity: number;
       reportType: ReportCreditType;
@@ -174,6 +188,7 @@ export type ServerEntitlementOperationResult = {
     | 'day_pass_ai_exhausted'
     | 'day_pass_precision_exhausted'
     | 'day_pass_report_exhausted'
+    | 'human_review_credit_exhausted'
     | 'paid_ai_credits_exhausted'
     | 'precision_follow_up_credit_exhausted'
     | 'precision_reading_credit_exhausted'
@@ -206,12 +221,14 @@ export function createDefaultServerEntitlementLedger(
         },
       ],
       ownerUid: uid,
+      sharedHumanReviewCreditsBalance: 0,
       sharedPrecisionFollowUpCreditsBalance: 0,
       sharedPrecisionReadingCreditsBalance: 0,
       sharedQuestionCreditsBalance: 0,
       sharedReportCreditsByType: {},
     },
     freeAiCreditsUsed: 0,
+    humanReviewCreditsBalance: 0,
     paidAiQuestionCreditsBalance: 0,
     premiumEntitlement: {
       plan: free.plan,
@@ -250,6 +267,11 @@ export function normalizeServerEntitlementLedger(
       members: value?.familyBank?.members?.length
         ? value.familyBank.members
         : defaults.familyBank.members,
+      sharedHumanReviewCreditsBalance: Math.max(
+        0,
+        value?.familyBank?.sharedHumanReviewCreditsBalance ??
+          defaults.familyBank.sharedHumanReviewCreditsBalance,
+      ),
       sharedPrecisionFollowUpCreditsBalance: Math.max(
         0,
         value?.familyBank?.sharedPrecisionFollowUpCreditsBalance ??
@@ -262,6 +284,10 @@ export function normalizeServerEntitlementLedger(
       ),
     },
     freeAiCreditsUsed: Math.max(0, value?.freeAiCreditsUsed ?? defaults.freeAiCreditsUsed),
+    humanReviewCreditsBalance: Math.max(
+      0,
+      value?.humanReviewCreditsBalance ?? defaults.humanReviewCreditsBalance,
+    ),
     paidAiQuestionCreditsBalance: Math.max(
       0,
       value?.paidAiQuestionCreditsBalance ?? defaults.paidAiQuestionCreditsBalance,
@@ -423,6 +449,36 @@ export function applyServerEntitlementOperation({
       };
       return changed(next, operation, nowIso);
 
+    case 'grant_human_review_credit':
+      next.humanReviewCreditsBalance += clampQuantity(operation.quantity);
+      return changed(next, operation, nowIso);
+
+    case 'consume_human_review_credit':
+      if (operation.source === 'family_bank') {
+        if (next.familyBank.sharedHumanReviewCreditsBalance <= 0) {
+          return {
+            changed: false,
+            ledger: next,
+            reason: 'human_review_credit_exhausted',
+          };
+        }
+        next.familyBank = {
+          ...next.familyBank,
+          sharedHumanReviewCreditsBalance:
+            next.familyBank.sharedHumanReviewCreditsBalance - 1,
+        };
+        return changed(next, operation, nowIso);
+      }
+      if (next.humanReviewCreditsBalance <= 0) {
+        return {
+          changed: false,
+          ledger: next,
+          reason: 'human_review_credit_exhausted',
+        };
+      }
+      next.humanReviewCreditsBalance -= 1;
+      return changed(next, operation, nowIso);
+
     case 'grant_report_credit':
       next.reportCreditsByType = addCredit(
         next.reportCreditsByType,
@@ -500,6 +556,14 @@ export function mapOneTimeProductToLedgerOperation({
   productId: string;
   productType: OneTimeProductType;
 }): ServerEntitlementOperation {
+  if (isHumanReviewProduct(productType)) {
+    return {
+      idempotencyKey,
+      kind: 'grant_human_review_credit',
+      quantity: getHumanReviewCreditQuantity(productType),
+    };
+  }
+
   if (isPrecisionReadingProduct(productType)) {
     return {
       idempotencyKey,
@@ -572,6 +636,16 @@ export function mapServerLedgerToMonetizationState(
       productType: 'AI_QUESTIONS_10',
       purchasedAt: ledger.audit.createdAt,
       remainingUses: ledger.paidAiQuestionCreditsBalance,
+      source: 'firebase',
+    });
+  }
+
+  if (ledger.humanReviewCreditsBalance > 0) {
+    oneTimeEntitlements.push({
+      productId: 'server_human_astrologer_review',
+      productType: 'HUMAN_ASTROLOGER_REVIEW',
+      purchasedAt: ledger.audit.createdAt,
+      remainingUses: ledger.humanReviewCreditsBalance,
       source: 'firebase',
     });
   }
@@ -706,6 +780,10 @@ function normalizeFamilyBank(
     memberUids,
     members,
     ownerUid,
+    sharedHumanReviewCreditsBalance: Math.max(
+      0,
+      familyBank.sharedHumanReviewCreditsBalance,
+    ),
     sharedPrecisionFollowUpCreditsBalance: Math.max(
       0,
       familyBank.sharedPrecisionFollowUpCreditsBalance,

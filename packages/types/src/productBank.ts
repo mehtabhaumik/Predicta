@@ -32,6 +32,12 @@ export const PRODUCT_BANK_PRECISION_FOLLOW_UP_USES: Partial<
   PRECISION_FOLLOW_UP_PACK: 3,
 };
 
+export const PRODUCT_BANK_HUMAN_REVIEW_USES: Partial<
+  Record<OneTimeProductType, number>
+> = {
+  HUMAN_ASTROLOGER_REVIEW: 1,
+};
+
 export function getQuestionCreditQuantity(
   productType: OneTimeProductType,
 ): number {
@@ -72,4 +78,14 @@ export function isPrecisionFollowUpProduct(
   productType: OneTimeProductType,
 ): boolean {
   return getPrecisionFollowUpCreditQuantity(productType) > 0;
+}
+
+export function getHumanReviewCreditQuantity(
+  productType: OneTimeProductType,
+): number {
+  return PRODUCT_BANK_HUMAN_REVIEW_USES[productType] ?? 0;
+}
+
+export function isHumanReviewProduct(productType: OneTimeProductType): boolean {
+  return getHumanReviewCreditQuantity(productType) > 0;
 }

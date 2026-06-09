@@ -262,6 +262,11 @@ function getProductBankCheckoutCopy(
       );
     case 'DAY_PASS':
       return getMonetizationReportRequirementCopy('checkoutDayPass', language);
+    case 'HUMAN_ASTROLOGER_REVIEW':
+      return getMonetizationReportRequirementCopy(
+        'checkoutHumanAstrologerReview',
+        language,
+      );
     default:
       return getMonetizationReportRequirementCopy(
         'checkoutVerifiedOnly',
@@ -485,6 +490,8 @@ function mapCheckoutProductIdToProductType(productId: string): string | undefine
       return 'DAY_PASS';
     case 'pridicta_five_questions':
       return 'FIVE_QUESTIONS';
+    case 'pridicta_human_astrologer_review':
+      return 'HUMAN_ASTROLOGER_REVIEW';
     case 'pridicta_10_questions':
       return 'AI_QUESTIONS_10';
     case 'pridicta_25_questions':

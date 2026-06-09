@@ -1,0 +1,20 @@
+PREDICTA_EVENT_ORACLE_PHASE_9_OPTIONAL_HUMAN_ASTROLOGER_REVIEW_SYSTEM verification checklist:
+
+- Human astrologer profile model exists with verification, languages, methods, category coverage, SLA, and ratings.
+- Review packet includes user question, refined event question, Predicta draft, deterministic evidence, conflicts, confidence, and safety notes.
+- Assignment rejects unverified astrologers.
+- Assignment rejects category mismatch.
+- Human response validation rejects fear-selling, guarantees, forced remedies, expensive puja pressure, and missing evidence acknowledgement.
+- Safe human response produces changed-field diff.
+- Admin send transition records audit trail.
+- Refund/retry state activates after missed SLA.
+- Human review product is priced and checkout-addressable.
+- Human review credit is separate from AI questions, report credits, Precision Reading, and follow-up packs.
+- Admin panel shows profile, packet, flow, diff, policy, redlines, and transcript.
+- Gate command: corepack pnpm test:event-oracle-phase-9.
+- Regression gate chain passed: corepack pnpm test:event-oracle-phase-0 through corepack pnpm test:event-oracle-phase-9.
+- Translation gates passed: corepack pnpm test:translation-trust and corepack pnpm test:global-translation-coverage.
+- Typechecks passed: @pridicta/types, @pridicta/config, @pridicta/monetization, @pridicta/astrology, @pridicta/web, and @pridicta/mobile.
+- Protected owner web build passed: PREDICTA_ENABLE_OWNER_CONSOLE=1 corepack pnpm build:web.
+- Browser smoke passed on the protected owner build at /dashboard/admin?eventOraclePhase9Smoke=1.
+- Browser artifact: docs/audits/PREDICTA_EVENT_ORACLE_PHASE_9_OPTIONAL_HUMAN_ASTROLOGER_REVIEW_SYSTEM/browser-smoke.json.

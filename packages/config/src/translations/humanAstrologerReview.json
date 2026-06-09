@@ -1,0 +1,27 @@
+{
+  "copy": {
+    "adminPanel": {
+      "eyebrow": "Optional human review",
+      "title": "Human astrologer review desk",
+      "body": "Predicta prepares the evidence first. A verified astrologer can approve, refine, and send the answer only inside the evidence and safety contract.",
+      "profileTitle": "Verified reviewers",
+      "packetTitle": "Review packet",
+      "packetBody": "Every packet contains the user question, refined event question, Predicta draft, deterministic evidence, conflicts, confidence, and safety notes.",
+      "flowTitle": "Approve / refine / send flow",
+      "flowBody": "The reviewer may improve judgement and wording, but every meaningful change is audited against the Predicta draft.",
+      "policyTitle": "Retry and refund policy",
+      "policyBody": "If the SLA is missed before a reviewed response is sent, the packet becomes retry/refund eligible.",
+      "redlineTitle": "Strict redlines",
+      "redlineBody": "No fear-selling, forced remedies, expensive puja pressure, unsupported guarantees, or hidden human-review status.",
+      "safetyPass": "Safety pass",
+      "safetyRejected": "Safety rejected",
+      "checkoutCta": "Add human review",
+      "hoursSuffix": "hours",
+      "retryNotNeeded": "not needed",
+      "retryReady": "ready",
+      "slaLabel": "SLA",
+      "transcriptTitle": "User summary and transcript",
+      "diffTitle": "Draft vs human changes"
+    }
+  }
+}

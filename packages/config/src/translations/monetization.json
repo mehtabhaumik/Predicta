@@ -428,6 +428,18 @@
         "gu": "વધુ માર્ગદર્શન જોઈએ ત્યારે 5 પ્રેડિક્ટા પ્રશ્નો ઉમેરો."
       }
     },
+    "HUMAN_ASTROLOGER_REVIEW": {
+      "label": {
+        "en": "Human Astrologer Review",
+        "hi": "मानव ज्योतिषी समीक्षा",
+        "gu": "માનવ જ્યોતિષી સમીક્ષા"
+      },
+      "description": {
+        "en": "Add one optional verified astrologer review of a Predicta Precision Reading draft.",
+        "hi": "प्रेडिक्टा प्रिसिजन रीडिंग ड्राफ्ट की एक वैकल्पिक सत्यापित ज्योतिषी समीक्षा जोड़ें.",
+        "gu": "પ્રેડિક્ટા પ્રિસિઝન રીડિંગ ડ્રાફ્ટની એક વૈકલ્પિક ચકાસાયેલ જ્યોતિષી સમીક્ષા ઉમેરો."
+      }
+    },
     "REPORT_SINGLE": {
       "label": {
         "en": "Single Report Credit",
@@ -665,6 +677,11 @@
       "en": "Adds three follow-ups for the same Precision Reading thread. It does not create unlimited AI chat access.",
       "hi": "उसी प्रिसिजन रीडिंग थ्रेड के लिए तीन फॉलो-अप जोड़ता है. यह असीमित AI चैट पहुंच नहीं बनाता.",
       "gu": "એ જ પ્રિસિઝન રીડિંગ થ્રેડ માટે ત્રણ ફોલો-અપ ઉમેરે છે. તે અનલિમિટેડ AI ચેટ ઍક્સેસ બનાવતું નથી."
+    },
+    "checkoutHumanAstrologerReview": {
+      "en": "Adds one optional human review after Predicta prepares the evidence-backed draft. The astrologer can refine wording and judgement, but cannot replace evidence with fear-selling.",
+      "hi": "प्रेडिक्टा के प्रमाण-आधारित ड्राफ्ट के बाद एक वैकल्पिक मानव समीक्षा जोड़ता है. ज्योतिषी भाषा और निर्णय सुधार सकता है, लेकिन प्रमाण को डर बेचने से नहीं बदल सकता.",
+      "gu": "પ્રેડિક્ટા પુરાવા-આધારિત ડ્રાફ્ટ તૈયાર કર્યા પછી એક વૈકલ્પિક માનવ સમીક્ષા ઉમેરે છે. જ્યોતિષી ભાષા અને નિર્ણય સુધારી શકે છે, પણ પુરાવાને ડર વેચવાથી બદલી શકતો નથી."
     },
     "checkoutDayPass": {
       "en": "Day Pass is time-limited. It is not a Product Bank credit and expires according to the pass window.",

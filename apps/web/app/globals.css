@@ -3495,6 +3495,115 @@ button:disabled,
   justify-self: start;
 }
 
+.admin-human-review-panel {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+
+.admin-human-review-head {
+  align-items: start;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  min-width: 0;
+}
+
+.admin-human-review-head .section-title {
+  grid-column: 1 / -1;
+}
+
+.admin-human-review-head h2,
+.admin-human-review-head p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.admin-human-review-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  min-width: 0;
+}
+
+.admin-human-review-grid article {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--border-quiet);
+  border-radius: 18px;
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  padding: 16px;
+}
+
+.admin-human-review-grid span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.admin-human-review-grid strong,
+.admin-human-review-profile strong {
+  color: var(--text);
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.admin-human-review-grid p,
+.admin-human-review-profile p,
+.admin-human-review-grid em {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.admin-human-review-grid em {
+  color: var(--muted);
+  font-style: normal;
+}
+
+.admin-human-review-profile,
+.admin-human-review-flow {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+
+.admin-human-review-flow small {
+  border: 1px solid var(--border-quiet);
+  border-radius: 999px;
+  color: var(--muted);
+  font-weight: 800;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  padding: 7px 10px;
+}
+
+.admin-human-review-transcript {
+  border-top: 1px solid var(--border-quiet);
+  padding-top: 12px;
+}
+
+.admin-human-review-transcript summary {
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.admin-human-review-transcript pre {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border-quiet);
+  border-radius: 16px;
+  color: var(--text);
+  line-height: 1.55;
+  margin: 12px 0 0;
+  max-width: 100%;
+  overflow: auto;
+  padding: 14px;
+  white-space: pre-wrap;
+}
+
 .event-question-direct-answer {
   color: var(--text);
   font-size: clamp(18px, 2.1vw, 26px);
@@ -17160,6 +17269,16 @@ button:disabled,
   .event-question-precision-panel .button {
     justify-content: center;
     justify-self: stretch;
+    width: 100%;
+  }
+
+  .admin-human-review-head,
+  .admin-human-review-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-human-review-head .button {
+    justify-content: center;
     width: 100%;
   }
 

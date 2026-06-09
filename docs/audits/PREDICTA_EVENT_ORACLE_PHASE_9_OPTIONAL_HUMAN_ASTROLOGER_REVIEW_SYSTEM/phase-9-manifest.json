@@ -1,0 +1,46 @@
+{
+  "phase": "PREDICTA_EVENT_ORACLE_PHASE_9_OPTIONAL_HUMAN_ASTROLOGER_REVIEW_SYSTEM",
+  "status": "GREEN",
+  "product": "Human Astrologer Review",
+  "productId": "pridicta_human_astrologer_review",
+  "priceInr": 699,
+  "strictReviewOrder": "Predicta draft first, human review second",
+  "requiredPacketFields": [
+    "user question",
+    "refined event question",
+    "Predicta draft",
+    "deterministic evidence",
+    "conflicts",
+    "confidence",
+    "safety notes"
+  ],
+  "profileFields": [
+    "name",
+    "languages",
+    "methods",
+    "verification status",
+    "categories handled",
+    "response SLA",
+    "ratings by category"
+  ],
+  "redlines": [
+    "no fear-selling",
+    "no forced remedies",
+    "no expensive puja pressure",
+    "no unsupported guarantees",
+    "no hidden human-review status"
+  ],
+  "reviewStates": [
+    "requested",
+    "assigned",
+    "in_review",
+    "approved",
+    "refined",
+    "sent",
+    "retry_requested",
+    "refund_eligible",
+    "expired",
+    "rejected_safety"
+  ],
+  "auditability": "Admin can compare Predicta draft summary with human reviewer summary and changed fields before sending."
+}

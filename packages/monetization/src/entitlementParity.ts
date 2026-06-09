@@ -72,6 +72,19 @@ export type PrecisionReadingEntitlementDecision =
         | 'precision_follow_up_credit_required';
     };
 
+export type HumanReviewEntitlementDecision =
+  | {
+      allowed: true;
+      creditSource: PaidCreditSource;
+      product: 'predicta_human_astrologer_review';
+    }
+  | {
+      allowed: false;
+      creditSource: 'none';
+      product: 'predicta_human_astrologer_review';
+      reason: 'human_review_credit_required';
+    };
+
 export function evaluateAiCreditEntitlement(
   ledger: ServerEntitlementLedger,
   userPlan?: string,
@@ -265,6 +278,33 @@ export function shouldConsumeDayPassPrecisionCredit(
   decision: PrecisionReadingEntitlementDecision,
 ): boolean {
   return decision.allowed && decision.creditSource === 'day_pass';
+}
+
+export function evaluateHumanReviewEntitlement(
+  ledger: ServerEntitlementLedger,
+): HumanReviewEntitlementDecision {
+  if (ledger.humanReviewCreditsBalance > 0) {
+    return {
+      allowed: true,
+      creditSource: 'personal',
+      product: 'predicta_human_astrologer_review',
+    };
+  }
+
+  if (ledger.familyBank.sharedHumanReviewCreditsBalance > 0) {
+    return {
+      allowed: true,
+      creditSource: 'family_bank',
+      product: 'predicta_human_astrologer_review',
+    };
+  }
+
+  return {
+    allowed: false,
+    creditSource: 'none',
+    product: 'predicta_human_astrologer_review',
+    reason: 'human_review_credit_required',
+  };
 }
 
 export function evaluateReportEntitlement({

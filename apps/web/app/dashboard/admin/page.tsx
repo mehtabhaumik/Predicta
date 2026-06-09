@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { WebAdminHumanReviewPanel } from '../../../components/WebAdminHumanReviewPanel';
 import { WebAdminGuestPassPanel } from '../../../components/WebAdminGuestPassPanel';
 import { WebAdminSupportInboxPanel } from '../../../components/WebAdminSupportInboxPanel';
 import { isOwnerConsoleEnabled } from '../../../lib/owner-surface';
@@ -37,6 +38,7 @@ export default function AdminPage(): React.JSX.Element {
           </p>
         </details>
       </div>
+      <WebAdminHumanReviewPanel />
       <WebAdminSupportInboxPanel />
       <WebAdminGuestPassPanel />
     </section>

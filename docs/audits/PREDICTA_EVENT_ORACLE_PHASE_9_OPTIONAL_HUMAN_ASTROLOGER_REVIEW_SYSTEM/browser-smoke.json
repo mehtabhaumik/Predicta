@@ -1,0 +1,22 @@
+{
+  "route": "http://127.0.0.1:3029/dashboard/admin?eventOraclePhase9Smoke=1",
+  "environment": "protected owner build with PREDICTA_ENABLE_OWNER_CONSOLE=1",
+  "viewport": {
+    "clientWidth": 390,
+    "height": 820,
+    "scrollWidth": 390,
+    "width": 390
+  },
+  "visibleChecks": {
+    "panelTitle": true,
+    "checkoutCta": true,
+    "verifiedProfile": true,
+    "reviewPacket": true,
+    "auditedFlow": true,
+    "diff": true,
+    "refundPolicy": true,
+    "redlines": true,
+    "transcript": true
+  },
+  "hasHorizontalOverflow": false
+}

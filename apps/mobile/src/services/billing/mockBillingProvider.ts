@@ -56,6 +56,7 @@ function getMockOneTimeUses(productType: OneTimeEntitlement['productType']): num
     case 'REPORT_BUNDLE':
       return 5;
     case 'REPORT_SINGLE':
+    case 'HUMAN_ASTROLOGER_REVIEW':
     case 'PREMIUM_PDF':
     case 'JAIMINI_REPORT':
     case 'PRECISION_READING':
