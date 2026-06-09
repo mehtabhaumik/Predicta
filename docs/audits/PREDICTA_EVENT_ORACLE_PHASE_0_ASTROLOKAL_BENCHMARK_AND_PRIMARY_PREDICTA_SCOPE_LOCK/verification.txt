@@ -1,0 +1,11 @@
+PREDICTA_EVENT_ORACLE_PHASE_0_ASTROLOKAL_BENCHMARK_AND_PRIMARY_PREDICTA_SCOPE_LOCK: PASS
+
+- AstroLokal public benchmark is source-backed and documented.
+- The UK transfer anecdote is explicitly marked unverified while preserving the product lesson.
+- Predicta is locked as the primary intelligence and focal point of the app.
+- Specialist worlds remain Vedic, KP, Jaimini, Numerology, Signature, Kundli Karma, and Life Atlas evidence/depth surfaces.
+- Required Event Oracle answer shape is locked: direct answer, timing window, likely trigger, confidence, delay/support factors, next action, and collapsed evidence.
+- Roadmap conflict ledger names the existing roadmaps that must build on this scope.
+- Phase 0 made no app UI, runtime Predicta intelligence, report renderer, monetization behavior, or PDF artifact changes.
+- Next required phase is PREDICTA_EVENT_ORACLE_PHASE_1_ONE_PRIMARY_PREDICTA_PRODUCT_TAXONOMY_AND_NAVIGATION.
+

@@ -1,0 +1,57 @@
+{
+  "phase": "PREDICTA_EVENT_ORACLE_PHASE_0_ASTROLOKAL_BENCHMARK_AND_PRIMARY_PREDICTA_SCOPE_LOCK",
+  "status": "GREEN",
+  "generatedAt": "2026-06-10T00:00:00+05:30",
+  "implementationChanged": false,
+  "sourceBacked": true,
+  "lockedProductCenter": "Predicta is the primary intelligence layer and focal point of the app. Specialist worlds remain evidence rooms and depth surfaces.",
+  "lockedPrecisionProduct": "Predicta Precision Reading is evidence-backed astrology prediction for one important life question, checked across Vedic, KP, Jaimini, dasha, transit, timing indicators, and available supporting systems.",
+  "benchmarkedCompetitor": "AstroLokal",
+  "sourceUrls": [
+    "https://www.astrolokal.com/",
+    "https://play.google.com/store/apps/details?id=com.astrolokal.astrology",
+    "https://apps.apple.com/us/app/astrolokal/id6744983158",
+    "https://apps.apple.com/in/app/astrolokal/id6744983158?platform=iphone&see-all=reviews"
+  ],
+  "adoptedStandards": [
+    "one primary Predicta intelligence layer",
+    "specialist worlds as evidence rooms",
+    "event-question-first user flow",
+    "direct answer before evidence",
+    "timing window and likely trigger where evidence supports it",
+    "agreement and conflict handling across schools",
+    "optional human astrologer review after deterministic Predicta draft",
+    "saved transcript and prediction tracker",
+    "no per-minute pressure",
+    "local-memory-first before AI"
+  ],
+  "rejectedPatterns": [
+    "sidekick chat",
+    "five disconnected Predicta chats",
+    "silent school mixing",
+    "toolkit or astrology lesson tone",
+    "100% guarantee claims",
+    "unsupported exact dates",
+    "fear-selling remedies",
+    "human astrologer freestyle without deterministic evidence",
+    "uncontrolled AI usage",
+    "active Nadi evidence world"
+  ],
+  "requiredArtifacts": [
+    "docs/PREDICTA_PRIMARY_PREDICTA_EVENT_ORACLE_STRICT_ROADMAP.md",
+    "docs/audits/PREDICTA_EVENT_ORACLE_PHASE_0_ASTROLOKAL_BENCHMARK_AND_PRIMARY_PREDICTA_SCOPE_LOCK/astrolokal-benchmark.md",
+    "docs/audits/PREDICTA_EVENT_ORACLE_PHASE_0_ASTROLOKAL_BENCHMARK_AND_PRIMARY_PREDICTA_SCOPE_LOCK/primary-predicta-scope-ledger.md",
+    "docs/audits/PREDICTA_EVENT_ORACLE_PHASE_0_ASTROLOKAL_BENCHMARK_AND_PRIMARY_PREDICTA_SCOPE_LOCK/event-prediction-gap-ledger.md",
+    "docs/audits/PREDICTA_EVENT_ORACLE_PHASE_0_ASTROLOKAL_BENCHMARK_AND_PRIMARY_PREDICTA_SCOPE_LOCK/roadmap-conflict-ledger.md",
+    "docs/audits/PREDICTA_EVENT_ORACLE_PHASE_0_ASTROLOKAL_BENCHMARK_AND_PRIMARY_PREDICTA_SCOPE_LOCK/verification.txt"
+  ],
+  "greenCriteria": {
+    "astrolokalBenchmarkExists": true,
+    "primaryPredictaScopeLocked": true,
+    "eventPredictionGapLedgerExists": true,
+    "roadmapConflictLedgerExists": true,
+    "noImplementationChangesBeyondRoadmapArtifactsAndGate": true,
+    "phaseGatePasses": true
+  }
+}
+
