@@ -1,0 +1,208 @@
+{
+  "copy": {
+    "en": {
+      "composer": {
+        "askThis": "Ask Predicta this",
+        "body": "Choose a real-life event, write your own question, or let Predicta guide you. Refinement is deterministic first and does not spend AI credits when matching is clear.",
+        "clarifierLabel": "One thing Predicta may ask",
+        "customPlaceholder": "Example: Will I get a UK work opportunity this year?",
+        "customTitle": "Write your own question",
+        "evidenceLabel": "Evidence rooms",
+        "freePaid": "Free gives a concise answer. Paid Precision Reading adds timing windows, trigger map, contradictions, and deeper guidance.",
+        "guideMe": "I have no specific question, guide me",
+        "refinedLabel": "Refined question",
+        "refineQuestion": "Refine question",
+        "selectedLabel": "Selected event question",
+        "title": "Ask one real-life question."
+      },
+      "chipQuestions": {
+        "business-growth-next": "Will my business grow in the next phase?",
+        "career-move-soon": "Is a meaningful career move likely for me soon?",
+        "education-direction": "Which study direction is better supported for me?",
+        "foreign-work-travel": "Is foreign work travel or relocation likely for me?",
+        "guide-me-first": "I have no specific question. Guide me first.",
+        "marriage-window": "When is marriage more likely for me?",
+        "property-money-decision": "Is this a good time for a money or property decision?",
+        "relationship-direction": "Where is this relationship likely to go?"
+      },
+      "categoryClarifiers": {
+        "business_growth": "Is this about starting, scaling, clients, partnership, funding, or survival?",
+        "career_move": "Is this about changing role, changing company, promotion, or direction confusion?",
+        "court_litigation": "Is this about filing, settlement, judgment, delay, or risk reduction?",
+        "education_study_stream": "Is this about choosing a stream, exam result, admission, or foreign study?",
+        "family_child_matching": "Is this about child planning, family tension, matchmaking, or a specific family decision?",
+        "foreign_travel": "Is this about work travel, study, family visit, or permanent settlement?",
+        "guide_me": "Which area feels most urgent right now: career, relationship, money, family, travel, or inner direction?",
+        "job_change": "Are you actively interviewing, waiting for an offer, or only wondering if change will come?",
+        "marriage_timing": "Is this about finding someone, fixing marriage timing, or a current proposal?",
+        "money_property": "Is this about buying property, selling, loan, investment, debt, or cash flow?",
+        "promotion": "Is the promotion expected inside your current company or through a new opportunity?",
+        "relationship_outcome": "Is this about commitment, breakup, reconciliation, or compatibility?",
+        "relocation": "Is the relocation for job, family, education, marriage, or personal reset?",
+        "visa_pr": "Is this a first visa, renewal, work permit, study visa, or PR application?",
+        "wellness_caution": "Is this about stress, routine, recovery support, or a medical concern already being treated?"
+      },
+      "categoryLabels": {
+        "business_growth": "Business growth",
+        "career_move": "Career move",
+        "court_litigation": "Court / litigation",
+        "education_study_stream": "Education / study",
+        "family_child_matching": "Family / child / matching",
+        "foreign_travel": "Foreign travel",
+        "guide_me": "Guide me",
+        "job_change": "Job change",
+        "marriage_timing": "Marriage timing",
+        "money_property": "Money / property",
+        "promotion": "Promotion",
+        "relationship_outcome": "Relationship outcome",
+        "relocation": "Relocation",
+        "visa_pr": "Visa / PR",
+        "wellness_caution": "Wellness caution"
+      },
+      "roomLabels": {
+        "jaimini": "Jaimini",
+        "kp": "KP",
+        "kundliKarma": "Kundli Karma",
+        "numerology": "Numerology",
+        "signature": "Signature",
+        "vedic": "Vedic"
+      }
+    },
+    "hi": {
+      "composer": {
+        "askThis": "प्रेडिक्टा से यह पूछें",
+        "body": "एक असली जीवन-घटना चुनें, अपना प्रश्न लिखें, या प्रेडिक्टा से मार्गदर्शन लें. साफ मिलान होने पर प्रश्न-सुधार नियम-आधारित रहता है और एआई क्रेडिट खर्च नहीं करता.",
+        "clarifierLabel": "प्रेडिक्टा एक बात पूछ सकती है",
+        "customPlaceholder": "उदाहरण: क्या इस साल यूके काम का अवसर मिलेगा?",
+        "customTitle": "अपना प्रश्न लिखें",
+        "evidenceLabel": "प्रमाण-कक्ष",
+        "freePaid": "मुफ्त में संक्षिप्त उत्तर मिलता है. पेड प्रिसिजन रीडिंग समय-खिड़की, घटना-कारण, विरोधाभास और गहरी दिशा जोड़ती है.",
+        "guideMe": "मेरा कोई खास प्रश्न नहीं है, मुझे मार्गदर्शन दें",
+        "refinedLabel": "साफ किया गया प्रश्न",
+        "refineQuestion": "प्रश्न सुधारें",
+        "selectedLabel": "चुना गया घटना-प्रश्न",
+        "title": "एक असली जीवन-प्रश्न पूछें."
+      },
+      "chipQuestions": {
+        "business-growth-next": "क्या अगले चरण में मेरा व्यवसाय बढ़ेगा?",
+        "career-move-soon": "क्या मेरे करियर में जल्द कोई महत्वपूर्ण बदलाव दिखता है?",
+        "education-direction": "मेरे लिए कौन सी पढ़ाई दिशा अधिक समर्थित है?",
+        "foreign-work-travel": "क्या मेरे लिए विदेश कार्य-यात्रा या स्थान परिवर्तन संभव है?",
+        "guide-me-first": "मेरा कोई खास प्रश्न नहीं है. पहले मुझे मार्गदर्शन दें.",
+        "marriage-window": "मेरे लिए विवाह का समय कब अधिक संभावित है?",
+        "property-money-decision": "क्या धन या संपत्ति निर्णय के लिए यह अच्छा समय है?",
+        "relationship-direction": "यह रिश्ता किस दिशा में जा सकता है?"
+      },
+      "categoryClarifiers": {
+        "business_growth": "यह शुरू करने, बढ़ाने, ग्राहक, साझेदारी, धन-सहायता या टिके रहने में से किस बारे में है?",
+        "career_move": "यह भूमिका बदलने, कंपनी बदलने, पदोन्नति या दिशा की उलझन में से किस बारे में है?",
+        "court_litigation": "यह मामला दर्ज करने, समझौता, निर्णय, देरी या जोखिम कम करने में से किस बारे में है?",
+        "education_study_stream": "यह विषय चुनने, परीक्षा परिणाम, प्रवेश या विदेश पढ़ाई में से किस बारे में है?",
+        "family_child_matching": "यह संतान योजना, परिवार तनाव, मिलान या किसी खास पारिवारिक निर्णय में से किस बारे में है?",
+        "foreign_travel": "यह काम की विदेश यात्रा, पढ़ाई, परिवार भेंट या स्थायी बसने में से किस बारे में है?",
+        "guide_me": "अभी कौन सा क्षेत्र सबसे जरूरी लगता है: करियर, रिश्ता, धन, परिवार, यात्रा या अंदरूनी दिशा?",
+        "job_change": "क्या आप साक्षात्कार दे रहे हैं, प्रस्ताव का इंतजार कर रहे हैं, या सिर्फ जानना चाहते हैं कि बदलाव आएगा?",
+        "marriage_timing": "यह किसी को खोजने, विवाह समय तय करने, या मौजूदा प्रस्ताव में से किस बारे में है?",
+        "money_property": "यह संपत्ति खरीदने, बेचने, ऋण, निवेश, कर्ज या धन प्रवाह में से किस बारे में है?",
+        "promotion": "पदोन्नति मौजूदा कंपनी में अपेक्षित है या नए अवसर से?",
+        "relationship_outcome": "यह प्रतिबद्धता, अलगाव, फिर जुड़ना या अनुकूलता में से किस बारे में है?",
+        "relocation": "स्थान परिवर्तन नौकरी, परिवार, शिक्षा, विवाह या निजी नई शुरुआत में से किस कारण है?",
+        "visa_pr": "यह पहला वीज़ा, नवीनीकरण, काम अनुमति, पढ़ाई वीज़ा या पीआर आवेदन में से किस बारे में है?",
+        "wellness_caution": "यह तनाव, दिनचर्या, सुधार-सहायता या पहले से चल रही चिकित्सा चिंता में से किस बारे में है?"
+      },
+      "categoryLabels": {
+        "business_growth": "व्यवसाय वृद्धि",
+        "career_move": "करियर बदलाव",
+        "court_litigation": "कोर्ट / मुकदमा",
+        "education_study_stream": "शिक्षा / पढ़ाई",
+        "family_child_matching": "परिवार / संतान / मिलान",
+        "foreign_travel": "विदेश यात्रा",
+        "guide_me": "मुझे मार्गदर्शन दें",
+        "job_change": "नौकरी बदलाव",
+        "marriage_timing": "विवाह समय",
+        "money_property": "धन / संपत्ति",
+        "promotion": "पदोन्नति",
+        "relationship_outcome": "रिश्ते का परिणाम",
+        "relocation": "स्थान परिवर्तन",
+        "visa_pr": "वीज़ा / पीआर",
+        "wellness_caution": "स्वास्थ्य सावधानी"
+      },
+      "roomLabels": {
+        "jaimini": "जैमिनी",
+        "kp": "कृष्णमूर्ति",
+        "kundliKarma": "कुंडली कर्म",
+        "numerology": "अंक",
+        "signature": "हस्ताक्षर",
+        "vedic": "वैदिक"
+      }
+    },
+    "gu": {
+      "composer": {
+        "askThis": "પ્રેડિક્ટાને આ પૂછો",
+        "body": "એક સાચી જીવન-ઘટના પસંદ કરો, તમારો પ્રશ્ન લખો, અથવા પ્રેડિક્ટાને માર્ગદર્શન આપવા દો. સ્પષ્ટ મેળાપ થાય ત્યારે પ્રશ્ન-સુધાર નિયમ-આધારિત રહે છે અને એઆઈ ક્રેડિટ ખર્ચતું નથી.",
+        "clarifierLabel": "પ્રેડિક્ટા એક વાત પૂછી શકે",
+        "customPlaceholder": "ઉદાહરણ: આ વર્ષે યુકે કામનો અવસર મળશે?",
+        "customTitle": "તમારો પ્રશ્ન લખો",
+        "evidenceLabel": "પુરાવા-રૂમ",
+        "freePaid": "મફતમાં સંક્ષિપ્ત ઉત્તર મળે છે. પેઇડ પ્રિસિજન રીડિંગ સમય-ખિડકી, ઘટના-કારણ, વિરોધાભાસ અને ઊંડી દિશા ઉમેરે છે.",
+        "guideMe": "મારો કોઈ ચોક્કસ પ્રશ્ન નથી, મને માર્ગદર્શન આપો",
+        "refinedLabel": "સાફ કરેલો પ્રશ્ન",
+        "refineQuestion": "પ્રશ્ન સુધારો",
+        "selectedLabel": "પસંદ કરેલો ઘટના-પ્રશ્ન",
+        "title": "એક સાચો જીવન-પ્રશ્ન પૂછો."
+      },
+      "chipQuestions": {
+        "business-growth-next": "શું આગામી તબક્કામાં મારો વ્યવસાય વધશે?",
+        "career-move-soon": "શું મારા કરિયરમાં જલ્દી કોઈ મહત્વપૂર્ણ ફેરફાર દેખાય છે?",
+        "education-direction": "મારા માટે કઈ અભ્યાસ દિશા વધુ સમર્થિત છે?",
+        "foreign-work-travel": "શું મારા માટે વિદેશ કામ-પ્રવાસ અથવા સ્થાન ફેરફાર શક્ય છે?",
+        "guide-me-first": "મારો કોઈ ચોક્કસ પ્રશ્ન નથી. પહેલા મને માર્ગદર્શન આપો.",
+        "marriage-window": "મારા માટે લગ્નનો સમય ક્યારે વધુ સંભવિત છે?",
+        "property-money-decision": "શું ધન અથવા મિલકત નિર્ણય માટે આ સારો સમય છે?",
+        "relationship-direction": "આ સંબંધ કઈ દિશામાં જઈ શકે?"
+      },
+      "categoryClarifiers": {
+        "business_growth": "આ શરૂ કરવું, વધારવું, ગ્રાહક, ભાગીદારી, નાણાકીય સહાય કે ટકી રહેવું માંથી કયા વિષય વિશે છે?",
+        "career_move": "આ ભૂમિકા બદલવી, કંપની બદલવી, પ્રમોશન કે દિશાની ગૂંચવણ માંથી કયા વિષય વિશે છે?",
+        "court_litigation": "આ કેસ દાખલ કરવો, સમાધાન, નિર્ણય, વિલંબ કે જોખમ ઘટાડવું માંથી કયા વિષય વિશે છે?",
+        "education_study_stream": "આ વિષય પસંદ કરવો, પરીક્ષા પરિણામ, પ્રવેશ કે વિદેશ અભ્યાસ માંથી કયા વિષય વિશે છે?",
+        "family_child_matching": "આ સંતાન યોજના, પરિવાર તણાવ, મિલાન કે ચોક્કસ પારિવારિક નિર્ણય માંથી કયા વિષય વિશે છે?",
+        "foreign_travel": "આ કામની વિદેશ યાત્રા, અભ્યાસ, પરિવાર મુલાકાત કે સ્થાયી વસવાટ માંથી કયા વિષય વિશે છે?",
+        "guide_me": "હમણાં કયો ક્ષેત્ર સૌથી જરૂરી લાગે છે: કરિયર, સંબંધ, ધન, પરિવાર, પ્રવાસ કે આંતરિક દિશા?",
+        "job_change": "તમે મુલાકાતો આપી રહ્યા છો, પ્રસ્તાવની રાહ જુઓ છો, કે ફક્ત જાણવા માંગો છો કે ફેરફાર આવશે?",
+        "marriage_timing": "આ કોઈને શોધવું, લગ્ન સમય નક્કી કરવો, કે હાલનો પ્રસ્તાવ માંથી કયા વિષય વિશે છે?",
+        "money_property": "આ મિલકત ખરીદવી, વેચવી, લોન, રોકાણ, કર્જ કે ધન પ્રવાહ માંથી કયા વિષય વિશે છે?",
+        "promotion": "પ્રમોશન હાલની કંપનીમાં અપેક્ષિત છે કે નવા અવસરથી?",
+        "relationship_outcome": "આ પ્રતિબદ્ધતા, અલગાવ, ફરી જોડાવું કે અનુકૂળતા માંથી કયા વિષય વિશે છે?",
+        "relocation": "સ્થાન ફેરફાર નોકરી, પરિવાર, શિક્ષણ, લગ્ન કે ખાનગી નવી શરૂઆત માટે છે?",
+        "visa_pr": "આ પહેલો વીસા, નવીકરણ, કામ પરવાનગી, અભ્યાસ વીસા કે પીઆર અરજી માંથી કયા વિષય વિશે છે?",
+        "wellness_caution": "આ તણાવ, દિનચર્યા, સુધાર સહાય કે પહેલેથી ચાલી રહેલી તબીબી ચિંતા માંથી કયા વિષય વિશે છે?"
+      },
+      "categoryLabels": {
+        "business_growth": "વ્યવસાય વૃદ્ધિ",
+        "career_move": "કરિયર ફેરફાર",
+        "court_litigation": "કોર્ટ / કાનૂની મુદ્દો",
+        "education_study_stream": "શિક્ષણ / અભ્યાસ",
+        "family_child_matching": "પરિવાર / સંતાન / મિલાન",
+        "foreign_travel": "વિદેશ પ્રવાસ",
+        "guide_me": "મને માર્ગદર્શન આપો",
+        "job_change": "નોકરી ફેરફાર",
+        "marriage_timing": "લગ્ન સમય",
+        "money_property": "ધન / મિલકત",
+        "promotion": "પ્રમોશન",
+        "relationship_outcome": "સંબંધનું પરિણામ",
+        "relocation": "સ્થાન ફેરફાર",
+        "visa_pr": "વીસા / પીઆર",
+        "wellness_caution": "સ્વાસ્થ્ય સાવચેતી"
+      },
+      "roomLabels": {
+        "jaimini": "જૈમિની",
+        "kp": "કૃષ્ણમૂર્તિ",
+        "kundliKarma": "કુંડળી કર્મ",
+        "numerology": "અંક",
+        "signature": "હસ્તાક્ષર",
+        "vedic": "વેદિક"
+      }
+    }
+  }
+}

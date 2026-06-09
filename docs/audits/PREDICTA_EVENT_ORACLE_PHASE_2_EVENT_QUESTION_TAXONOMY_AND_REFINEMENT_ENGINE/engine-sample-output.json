@@ -1,0 +1,121 @@
+{
+  "abroad": {
+    "categoryId": "foreign_travel",
+    "clarity": "clear",
+    "deterministic": true,
+    "downstream": {
+      "evidenceRooms": [
+        "vedic",
+        "kp",
+        "jaimini",
+        "numerology"
+      ],
+      "needsMedicalDisclaimer": false,
+      "preserveOriginalQuestion": "Will I get a UK work opportunity this year?",
+      "refinementReadyForEvidence": true,
+      "shouldSpendAiCredit": false
+    },
+    "entitlement": {
+      "free": "Free users get a short answer, one timing clue, and one practical next step.",
+      "paid": "Paid Precision Reading adds multi-school evidence, timing windows, trigger map, contradictions, and deeper guidance."
+    },
+    "interactionPlan": [
+      "Confirm question",
+      "Read evidence",
+      "Answer directly"
+    ],
+    "originalQuestion": "Will I get a UK work opportunity this year?",
+    "refinedQuestion": "Will I get a UK work opportunity this year?",
+    "suggestedPhrasing": "Judge foreign-travel promise, timing window, trigger source, and whether it looks temporary or long-term. Original wording: Will I get a UK work opportunity this year?"
+  },
+  "vagueCareer": {
+    "categoryId": "career_move",
+    "clarity": "needs-one-clarifier",
+    "clarifyingQuestion": "Is this about changing role, changing company, promotion, or direction confusion?",
+    "deterministic": true,
+    "downstream": {
+      "evidenceRooms": [
+        "vedic",
+        "kp",
+        "jaimini",
+        "kundliKarma",
+        "numerology"
+      ],
+      "needsMedicalDisclaimer": false,
+      "preserveOriginalQuestion": "career",
+      "refinementReadyForEvidence": false,
+      "shouldSpendAiCredit": false
+    },
+    "entitlement": {
+      "free": "Free users get a short answer, one timing clue, and one practical next step.",
+      "paid": "Paid Precision Reading adds multi-school evidence, timing windows, trigger map, contradictions, and deeper guidance."
+    },
+    "interactionPlan": [
+      "Choose event area",
+      "Answer one clarifier",
+      "Confirm refined question"
+    ],
+    "originalQuestion": "career",
+    "refinedQuestion": "Is a meaningful career move likely for me soon?",
+    "suggestedPhrasing": "Is a meaningful career move likely for me soon? Judge whether a meaningful career move is opening, what may trigger it, and what can delay it."
+  },
+  "guide": {
+    "categoryId": "guide_me",
+    "clarity": "guide-me",
+    "clarifyingQuestion": "Which area feels most urgent right now: career, relationship, money, family, travel, or inner direction?",
+    "deterministic": true,
+    "downstream": {
+      "evidenceRooms": [
+        "vedic",
+        "kp",
+        "jaimini",
+        "kundliKarma",
+        "numerology"
+      ],
+      "needsMedicalDisclaimer": false,
+      "preserveOriginalQuestion": "",
+      "refinementReadyForEvidence": false,
+      "shouldSpendAiCredit": false
+    },
+    "entitlement": {
+      "free": "Free users get a short answer, one timing clue, and one practical next step.",
+      "paid": "Paid Precision Reading adds multi-school evidence, timing windows, trigger map, contradictions, and deeper guidance."
+    },
+    "interactionPlan": [
+      "Choose event area",
+      "Answer one clarifier",
+      "Confirm refined question"
+    ],
+    "originalQuestion": "",
+    "refinedQuestion": "I do not have one question. What should I ask first from my Kundli?",
+    "suggestedPhrasing": "I do not have one question. What should I ask first from my Kundli? Find the highest-value first question from the user’s current life context without forcing a school choice."
+  },
+  "wellness": {
+    "categoryId": "wellness_caution",
+    "clarity": "clear",
+    "deterministic": true,
+    "downstream": {
+      "evidenceRooms": [
+        "vedic",
+        "kundliKarma",
+        "numerology"
+      ],
+      "needsMedicalDisclaimer": true,
+      "preserveOriginalQuestion": "I am worried about health stress this month",
+      "refinementReadyForEvidence": true,
+      "shouldSpendAiCredit": false
+    },
+    "entitlement": {
+      "free": "Free users get a short answer, one timing clue, and one practical next step.",
+      "paid": "Paid Precision Reading adds multi-school evidence, timing windows, trigger map, contradictions, and deeper guidance."
+    },
+    "interactionPlan": [
+      "Confirm question",
+      "Read evidence",
+      "Answer directly"
+    ],
+    "originalQuestion": "I am worried about health stress this month",
+    "refinedQuestion": "I am worried about health stress this month",
+    "suggestedPhrasing": "Give non-medical wellness timing caution, stress pattern, and safe routine guidance. Original wording: I am worried about health stress this month"
+  }
+}

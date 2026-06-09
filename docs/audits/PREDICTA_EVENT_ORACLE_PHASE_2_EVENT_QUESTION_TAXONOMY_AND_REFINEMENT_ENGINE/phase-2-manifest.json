@@ -1,0 +1,30 @@
+{
+  "phase": "PREDICTA_EVENT_ORACLE_PHASE_2_EVENT_QUESTION_TAXONOMY_AND_REFINEMENT_ENGINE",
+  "status": "GREEN",
+  "generatedAt": "2026-06-10T00:00:00+05:30",
+  "implementationChanged": true,
+  "contractVersion": "event-oracle-question-taxonomy-v1",
+  "greenCriteria": {
+    "eventTaxonomyComplete": true,
+    "prepopulatedQuestionChips": true,
+    "customQuestionInput": true,
+    "guideMeOption": true,
+    "vagueQuestionRefinement": true,
+    "deterministicNoAiCreditForMatching": true,
+    "downstreamStructuredData": true,
+    "freePaidEntitlementCopy": true,
+    "localizedComposerCopy": true
+  },
+  "verificationCommands": [
+    "corepack pnpm test:event-oracle-phase-0",
+    "corepack pnpm test:event-oracle-phase-1",
+    "corepack pnpm test:event-oracle-phase-2",
+    "corepack pnpm test:global-translation-coverage",
+    "corepack pnpm test:translation-trust",
+    "corepack pnpm --filter @pridicta/astrology typecheck",
+    "corepack pnpm --filter @pridicta/config typecheck",
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "corepack pnpm build:web",
+    "git diff --check"
+  ]
+}

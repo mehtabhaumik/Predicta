@@ -1,0 +1,16 @@
+PREDICTA_EVENT_ORACLE_PHASE_2_EVENT_QUESTION_TAXONOMY_AND_REFINEMENT_ENGINE: PASS
+
+- Shared event-question taxonomy is implemented in @pridicta/astrology.
+- Primary Predicta chat now has a compact event-question composer.
+- Users can choose a pre-populated chip, write a custom question, or choose guide me.
+- Vague questions produce exactly one clarifying question and keep the original wording.
+- Deterministic matching sets shouldSpendAiCredit to false.
+- Downstream evidence-room data is structured for later Vedic, KP, Jaimini, Kundli Karma, Numerology, and optional Signature layers.
+- Wellness questions carry a medical-disclaimer flag.
+- English, Hindi, and Gujarati composer copy lives in dedicated eventOracle.json.
+- Phase 2 gate checks Hindi/Gujarati composer values for obvious English leakage.
+- Phase 0 and Phase 1 gates remain green.
+- Phase 2 gate passes.
+- Global translation coverage and translation-trust gates pass.
+- Astrology, config, and web typechecks pass.
+- Web production build passes.
