@@ -8,6 +8,20 @@ import { useLightweightLanguagePreference } from '../lib/use-lightweight-languag
 const DEFAULT_ASK_PROMPT =
   'Help me create my Kundli first, then answer my astrology question clearly.';
 
+function buildAskPredictaHref(prompt: string, mode: 'text' | 'voice' = 'text'): string {
+  const resolvedPrompt = prompt.trim() || DEFAULT_ASK_PROMPT;
+  const params = new URLSearchParams({
+    sourceScreen: 'Landing',
+    prompt: resolvedPrompt,
+  });
+
+  if (mode === 'voice') {
+    params.set('inputMode', 'voice');
+  }
+
+  return `/ask?${params.toString()}`;
+}
+
 export function LandingChatFirstContent(): React.JSX.Element {
   const { language } = useLightweightLanguagePreference();
   const copy = getLightweightCompetitorResponseCopy(language);
@@ -15,17 +29,7 @@ export function LandingChatFirstContent(): React.JSX.Element {
   const [question, setQuestion] = useState('');
 
   function openAskPredicta(prompt: string, mode: 'text' | 'voice' = 'text') {
-    const resolvedPrompt = prompt.trim() || DEFAULT_ASK_PROMPT;
-    const params = new URLSearchParams({
-      prompt: resolvedPrompt,
-      sourceScreen: 'Landing',
-    });
-
-    if (mode === 'voice') {
-      params.set('inputMode', 'voice');
-    }
-
-    window.location.assign(`/ask?${params.toString()}`);
+    window.location.assign(buildAskPredictaHref(prompt, mode));
   }
 
   return (
@@ -70,16 +74,15 @@ export function LandingChatFirstContent(): React.JSX.Element {
           </div>
 
           <div className="landing-ask-actions">
-            <button className="button" type="submit">
+            <Link className="button" href={buildAskPredictaHref(question)}>
               {landing.askSubmit}
-            </button>
-            <button
+            </Link>
+            <Link
               className="button secondary"
-              onClick={() => openAskPredicta(question || DEFAULT_ASK_PROMPT, 'voice')}
-              type="button"
+              href={buildAskPredictaHref(question || DEFAULT_ASK_PROMPT, 'voice')}
             >
               {landing.voiceLabel}
-            </button>
+            </Link>
           </div>
 
           <div className="landing-ask-hints">

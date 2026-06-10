@@ -1,21 +1,21 @@
 {
-  "baseUrl": "http://127.0.0.1:3042",
+  "baseUrl": "http://127.0.0.1:3009",
   "clickBudgetMs": 1800,
   "clickResults": [
     {
       "clicked": true,
-      "href": "",
+      "href": "/ask?sourceScreen=Landing&prompt=Help+me+create+my+Kundli+first%2C+then+answer+my+astrology+question+clearly.",
       "text": "Ask Predicta",
-      "elapsedMs": 98,
+      "elapsedMs": 112,
       "from": "/",
       "name": "landing primary ask entry",
-      "url": "/ask?prompt=Help+me+create+my+Kundli+first%2C+then+answer+my+astrology+question+clearly.&sourceScreen=Landing"
+      "url": "/ask?sourceScreen=Landing&prompt=Help+me+create+my+Kundli+first%2C+then+answer+my+astrology+question+clearly."
     },
     {
       "clicked": true,
       "href": "/dashboard",
       "text": "Library",
-      "elapsedMs": 106,
+      "elapsedMs": 111,
       "from": "/ask",
       "name": "ask header dashboard link",
       "url": "/dashboard"
@@ -24,7 +24,7 @@
       "clicked": true,
       "href": "/ask?sourceScreen=Library&prompt=Help+me+from+my+selected+Kundli.",
       "text": "Ask Predicta",
-      "elapsedMs": 103,
+      "elapsedMs": 111,
       "from": "/dashboard",
       "name": "dashboard ask predicta link",
       "url": "/ask?sourceScreen=Library&prompt=Help+me+from+my+selected+Kundli."
@@ -33,7 +33,7 @@
       "clicked": true,
       "href": "/ask?sourceScreen=Vedic+Predicta&prompt=Help+me+from+my+selected+Kundli.&school=PARASHARI",
       "text": "Ask Predicta",
-      "elapsedMs": 104,
+      "elapsedMs": 277,
       "from": "/dashboard/vedic",
       "name": "vedic evidence room ask link",
       "url": "/ask?sourceScreen=Vedic+Predicta&prompt=Help+me+from+my+selected+Kundli.&school=PARASHARI"
@@ -42,17 +42,17 @@
       "clicked": true,
       "href": "/checkout?productId=pridicta_day_pass_24h",
       "text": "Try Day Pass",
-      "elapsedMs": 103,
+      "elapsedMs": 104,
       "from": "/pricing",
       "name": "pricing checkout link",
       "url": "/checkout?productId=pridicta_day_pass_24h"
     }
   ],
-  "generatedAt": "2026-06-10T15:07:06.147Z",
+  "generatedAt": "2026-06-10T16:38:16.154Z",
   "pageResults": [
     {
       "activeLinks": [],
-      "anchorCount": 17,
+      "anchorCount": 19,
       "disabledActive": [],
       "hrefs": [
         "/",
@@ -65,6 +65,8 @@
         "/dashboard/report",
         "/pricing",
         "/ask",
+        "/ask?sourceScreen=Landing&prompt=Help+me+create+my+Kundli+first%2C+then+answer+my+astrology+question+clearly.",
+        "/ask?sourceScreen=Landing&prompt=Help+me+create+my+Kundli+first%2C+then+answer+my+astrology+question+clearly.&inputMode=voice",
         "/dashboard/report",
         "/pricing",
         "/",
@@ -80,10 +82,11 @@
     },
     {
       "activeLinks": [],
-      "anchorCount": 4,
+      "anchorCount": 5,
       "disabledActive": [],
       "hrefs": [
         "/",
+        "/ask",
         "/dashboard",
         "/dashboard/report",
         "/pricing"
@@ -466,9 +469,9 @@
         "/legal",
         "/",
         "/",
+        "/ask",
         "/dashboard/kundli",
         "/dashboard/charts",
-        "/ask",
         "/dashboard/saved-kundlis",
         "/dashboard/family",
         "/pricing",
@@ -539,130 +542,130 @@
   ],
   "routeResults": [
     {
-      "elapsedMs": 10,
+      "elapsedMs": 44,
       "route": "/",
       "status": 200,
-      "url": "http://127.0.0.1:3042/"
+      "url": "http://127.0.0.1:3009/"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 11,
       "route": "/ask",
       "status": 200,
-      "url": "http://127.0.0.1:3042/ask"
+      "url": "http://127.0.0.1:3009/ask"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 7,
       "route": "/pricing",
       "status": 200,
-      "url": "http://127.0.0.1:3042/pricing"
+      "url": "http://127.0.0.1:3009/pricing"
+    },
+    {
+      "elapsedMs": 6,
+      "route": "/checkout?productId=pridicta_10_questions",
+      "status": 200,
+      "url": "http://127.0.0.1:3009/checkout?productId=pridicta_10_questions"
+    },
+    {
+      "elapsedMs": 6,
+      "route": "/accuracy-method",
+      "status": 200,
+      "url": "http://127.0.0.1:3009/accuracy-method"
+    },
+    {
+      "elapsedMs": 7,
+      "route": "/safety",
+      "status": 200,
+      "url": "http://127.0.0.1:3009/safety"
+    },
+    {
+      "elapsedMs": 7,
+      "route": "/legal",
+      "status": 200,
+      "url": "http://127.0.0.1:3009/legal"
+    },
+    {
+      "elapsedMs": 5,
+      "route": "/feedback",
+      "status": 200,
+      "url": "http://127.0.0.1:3009/feedback"
+    },
+    {
+      "elapsedMs": 7,
+      "route": "/dashboard",
+      "status": 200,
+      "url": "http://127.0.0.1:3009/dashboard"
+    },
+    {
+      "elapsedMs": 5,
+      "route": "/dashboard/kundli",
+      "status": 200,
+      "url": "http://127.0.0.1:3009/dashboard/kundli"
     },
     {
       "elapsedMs": 4,
-      "route": "/checkout?productId=pridicta_10_questions",
-      "status": 200,
-      "url": "http://127.0.0.1:3042/checkout?productId=pridicta_10_questions"
-    },
-    {
-      "elapsedMs": 1,
-      "route": "/accuracy-method",
-      "status": 200,
-      "url": "http://127.0.0.1:3042/accuracy-method"
-    },
-    {
-      "elapsedMs": 1,
-      "route": "/safety",
-      "status": 200,
-      "url": "http://127.0.0.1:3042/safety"
-    },
-    {
-      "elapsedMs": 2,
-      "route": "/legal",
-      "status": 200,
-      "url": "http://127.0.0.1:3042/legal"
-    },
-    {
-      "elapsedMs": 2,
-      "route": "/feedback",
-      "status": 200,
-      "url": "http://127.0.0.1:3042/feedback"
-    },
-    {
-      "elapsedMs": 1,
-      "route": "/dashboard",
-      "status": 200,
-      "url": "http://127.0.0.1:3042/dashboard"
-    },
-    {
-      "elapsedMs": 2,
-      "route": "/dashboard/kundli",
-      "status": 200,
-      "url": "http://127.0.0.1:3042/dashboard/kundli"
-    },
-    {
-      "elapsedMs": 1,
       "route": "/dashboard/vedic",
       "status": 200,
-      "url": "http://127.0.0.1:3042/dashboard/vedic"
+      "url": "http://127.0.0.1:3009/dashboard/vedic"
     },
     {
-      "elapsedMs": 1,
+      "elapsedMs": 6,
       "route": "/dashboard/kp",
       "status": 200,
-      "url": "http://127.0.0.1:3042/dashboard/kp"
+      "url": "http://127.0.0.1:3009/dashboard/kp"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 4,
       "route": "/dashboard/jaimini",
       "status": 200,
-      "url": "http://127.0.0.1:3042/dashboard/jaimini"
+      "url": "http://127.0.0.1:3009/dashboard/jaimini"
     },
     {
-      "elapsedMs": 1,
+      "elapsedMs": 5,
       "route": "/dashboard/numerology",
       "status": 200,
-      "url": "http://127.0.0.1:3042/dashboard/numerology"
+      "url": "http://127.0.0.1:3009/dashboard/numerology"
     },
     {
-      "elapsedMs": 1,
+      "elapsedMs": 4,
       "route": "/dashboard/signature",
       "status": 200,
-      "url": "http://127.0.0.1:3042/dashboard/signature"
+      "url": "http://127.0.0.1:3009/dashboard/signature"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 7,
       "route": "/dashboard/report",
       "status": 200,
-      "url": "http://127.0.0.1:3042/dashboard/report"
+      "url": "http://127.0.0.1:3009/dashboard/report"
     },
     {
-      "elapsedMs": 1,
+      "elapsedMs": 4,
       "route": "/dashboard/redeem-pass",
       "status": 200,
-      "url": "http://127.0.0.1:3042/dashboard/redeem-pass"
+      "url": "http://127.0.0.1:3009/dashboard/redeem-pass"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 6,
       "route": "/dashboard/saved-kundlis",
       "status": 200,
-      "url": "http://127.0.0.1:3042/dashboard/saved-kundlis"
+      "url": "http://127.0.0.1:3009/dashboard/saved-kundlis"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 4,
       "route": "/dashboard/family",
       "status": 200,
-      "url": "http://127.0.0.1:3042/dashboard/family"
+      "url": "http://127.0.0.1:3009/dashboard/family"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 4,
       "route": "/dashboard/settings",
       "status": 200,
-      "url": "http://127.0.0.1:3042/dashboard/settings"
+      "url": "http://127.0.0.1:3009/dashboard/settings"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 4,
       "route": "/dashboard/account",
       "status": 200,
-      "url": "http://127.0.0.1:3042/dashboard/account"
+      "url": "http://127.0.0.1:3009/dashboard/account"
     }
   ]
 }

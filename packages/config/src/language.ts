@@ -110,6 +110,7 @@ export type AppShellLabels = {
     body: string;
     title: string;
   };
+  publicDisclaimer: string;
   topbarDescription: string;
 };
 

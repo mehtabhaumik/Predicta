@@ -3834,6 +3834,20 @@ function buildFreeAiUpsellSuggestions(
       prompt: 'Generate free report without AI credit.',
       targetScreen: 'Reports',
     },
+    {
+      href: '/dashboard/redeem-pass',
+      id: 'free-ai-zero-credit-redeem-pass',
+      label: 'Redeem pass',
+      prompt: 'Redeem a Predicta pass before using paid AI depth.',
+      targetScreen: 'Redeem Pass',
+    },
+    {
+      href: '/pricing',
+      id: 'free-ai-zero-credit-pricing',
+      label: 'See pricing',
+      prompt: 'Compare Predicta question packs, passes, and Premium.',
+      targetScreen: 'Pricing',
+    },
   ];
 }
 
