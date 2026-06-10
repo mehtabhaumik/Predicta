@@ -1,0 +1,99 @@
+{
+  "baseUrl": "http://127.0.0.1:3030",
+  "checkedAt": "2026-06-10T08:42:08.415Z",
+  "results": [
+    {
+      "language": "gu",
+      "route": "/",
+      "viewport": "screenshot",
+      "width": 1132,
+      "overflow": 0,
+      "webHeader": true,
+      "navVisible": false,
+      "menuVisible": true,
+      "brandOverflow": 0,
+      "clipped": [],
+      "forbidden": []
+    },
+    {
+      "language": "hi",
+      "route": "/",
+      "viewport": "screenshot",
+      "width": 1132,
+      "overflow": 0,
+      "webHeader": true,
+      "navVisible": false,
+      "menuVisible": true,
+      "brandOverflow": 0,
+      "clipped": [],
+      "forbidden": []
+    },
+    {
+      "language": "en",
+      "route": "/",
+      "viewport": "screenshot",
+      "width": 1132,
+      "overflow": 0,
+      "webHeader": true,
+      "navVisible": false,
+      "menuVisible": true,
+      "brandOverflow": 0,
+      "clipped": [],
+      "forbidden": []
+    },
+    {
+      "language": "gu",
+      "route": "/dashboard",
+      "viewport": "screenshot",
+      "width": 1132,
+      "overflow": 0,
+      "webHeader": false,
+      "navVisible": false,
+      "menuVisible": false,
+      "brandOverflow": 0,
+      "clipped": [],
+      "forbidden": []
+    },
+    {
+      "language": "gu",
+      "route": "/dashboard/vedic",
+      "viewport": "screenshot",
+      "width": 1132,
+      "overflow": 0,
+      "webHeader": false,
+      "navVisible": false,
+      "menuVisible": false,
+      "brandOverflow": 0,
+      "clipped": [],
+      "forbidden": []
+    },
+    {
+      "language": "gu",
+      "route": "/dashboard/report",
+      "viewport": "mobile",
+      "width": 390,
+      "overflow": 0,
+      "webHeader": false,
+      "navVisible": false,
+      "menuVisible": false,
+      "brandOverflow": 0,
+      "clipped": [],
+      "forbidden": []
+    },
+    {
+      "language": "hi",
+      "route": "/dashboard/report",
+      "viewport": "mobile",
+      "width": 390,
+      "overflow": 0,
+      "webHeader": false,
+      "navVisible": false,
+      "menuVisible": false,
+      "brandOverflow": 0,
+      "clipped": [],
+      "forbidden": []
+    }
+  ],
+  "failures": [],
+  "status": "green"
+}
