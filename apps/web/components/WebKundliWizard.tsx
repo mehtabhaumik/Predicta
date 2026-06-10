@@ -68,6 +68,7 @@ export function WebKundliWizard(): React.JSX.Element {
   const [selectedPlace, setSelectedPlace] = useState<WebBirthPlace | undefined>();
   const [birthPlaceQuery, setBirthPlaceQuery] = useState('');
   const [placeSuggestions, setPlaceSuggestions] = useState<WebBirthPlace[]>([]);
+  const [isPlaceSuggestionsOpen, setIsPlaceSuggestionsOpen] = useState(false);
   const [isSearchingPlaces, setIsSearchingPlaces] = useState(false);
   const [editingKundliId, setEditingKundliId] = useState<string | undefined>();
   const [editingKundliName, setEditingKundliName] = useState<string | undefined>();
@@ -92,6 +93,7 @@ export function WebKundliWizard(): React.JSX.Element {
   const [error, setError] = useState<string | undefined>();
   const [showStorageNudge, setShowStorageNudge] = useState(false);
   const [showCreationReveal, setShowCreationReveal] = useState(false);
+  const birthPlaceSearchRef = useRef<HTMLDivElement | null>(null);
   const createdChartRef = useRef<HTMLElement | null>(null);
   const savedKundliRecords = useMemo(() => loadWebKundlis(), [kundli?.id]);
   const editingRecord = useMemo(
@@ -218,7 +220,9 @@ export function WebKundliWizard(): React.JSX.Element {
     setTime(birthDetails.time);
     setSelectedPlace(restoredPlace);
     setBirthPlaceQuery(getBirthPlaceLabel(restoredPlace));
-    setPlaceSuggestions([restoredPlace, ...WEB_BIRTH_PLACES].slice(0, 8));
+    setPlaceSuggestions([]);
+    setIsSearchingPlaces(false);
+    setIsPlaceSuggestionsOpen(false);
     setIsApproximate(Boolean(birthDetails.isTimeApproximate));
     setRelationshipToOwner(
       record.isOwnerProfile ? '' : (record.relationshipToOwner ?? 'other'),
@@ -231,19 +235,31 @@ export function WebKundliWizard(): React.JSX.Element {
     let cancelled = false;
     const query = birthPlaceQuery.trim();
 
-    setIsSearchingPlaces(query.length >= 2);
-
     if (selectedPlace && !doesBirthPlaceMatchQuery(selectedPlace, query)) {
       setSelectedPlace(undefined);
     }
 
-    const timer = window.setTimeout(() => {
-      if (query.length < 2) {
-        setPlaceSuggestions([]);
-        setIsSearchingPlaces(false);
-        return;
-      }
+    if (query.length < 2) {
+      setPlaceSuggestions([]);
+      setIsSearchingPlaces(false);
+      setIsPlaceSuggestionsOpen(false);
+      return;
+    }
 
+    if (selectedPlace && doesBirthPlaceMatchQuery(selectedPlace, query)) {
+      setPlaceSuggestions([]);
+      setIsSearchingPlaces(false);
+      return;
+    }
+
+    if (!isPlaceSuggestionsOpen) {
+      setIsSearchingPlaces(false);
+      return;
+    }
+
+    setIsSearchingPlaces(true);
+
+    const timer = window.setTimeout(() => {
       void searchWebBirthPlaces(query).then(places => {
         if (cancelled) {
           return;
@@ -264,7 +280,29 @@ export function WebKundliWizard(): React.JSX.Element {
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [birthPlaceQuery, selectedPlace]);
+  }, [birthPlaceQuery, isPlaceSuggestionsOpen, selectedPlace]);
+
+  useEffect(() => {
+    function closeBirthPlaceSuggestions(event: PointerEvent) {
+      const target = event.target;
+
+      if (
+        target instanceof Node &&
+        birthPlaceSearchRef.current?.contains(target)
+      ) {
+        return;
+      }
+
+      setIsPlaceSuggestionsOpen(false);
+      setIsSearchingPlaces(false);
+    }
+
+    document.addEventListener('pointerdown', closeBirthPlaceSuggestions);
+
+    return () => {
+      document.removeEventListener('pointerdown', closeBirthPlaceSuggestions);
+    };
+  }, []);
 
   useEffect(() => {
     if (!showCreationReveal) {
@@ -399,7 +437,9 @@ export function WebKundliWizard(): React.JSX.Element {
     setTime('06:42');
     setSelectedPlace(WEB_BIRTH_PLACES[0]);
     setBirthPlaceQuery(getBirthPlaceLabel(WEB_BIRTH_PLACES[0]));
-    setPlaceSuggestions([WEB_BIRTH_PLACES[0]]);
+    setPlaceSuggestions([]);
+    setIsSearchingPlaces(false);
+    setIsPlaceSuggestionsOpen(false);
     setIsApproximate(false);
     setRelationshipToOwner('');
     setRectificationStep('idle');
@@ -497,13 +537,29 @@ export function WebKundliWizard(): React.JSX.Element {
           </label>
           <label>
             <span>Birth place</span>
-            <div className="birth-place-search">
+            <div className="birth-place-search" ref={birthPlaceSearchRef}>
               <input
                 aria-describedby="birth-place-help"
                 autoComplete="off"
                 onChange={event => {
                   resetFlow();
                   setBirthPlaceQuery(event.target.value);
+                  setIsPlaceSuggestionsOpen(true);
+                }}
+                onFocus={() => {
+                  if (
+                    birthPlaceQuery.trim().length >= 2 &&
+                    !isSelectedPlaceCurrent
+                  ) {
+                    setIsPlaceSuggestionsOpen(true);
+                  }
+                }}
+                onKeyDown={event => {
+                  if (event.key === 'Escape') {
+                    setIsPlaceSuggestionsOpen(false);
+                    setIsSearchingPlaces(false);
+                    event.currentTarget.blur();
+                  }
                 }}
                 placeholder="Start typing city, state, country"
                 value={birthPlaceQuery}
@@ -511,41 +567,43 @@ export function WebKundliWizard(): React.JSX.Element {
               <small id="birth-place-help">
                 Select the matching city so the chart uses the right timezone.
               </small>
-              <div className="birth-place-suggestions" role="listbox">
-                {placeSuggestions.slice(0, 6).map(option => {
-                  const optionLabel = getBirthPlaceLabel(option);
+              {isPlaceSuggestionsOpen &&
+              (placeSuggestions.length > 0 || isSearchingPlaces) ? (
+                <div className="birth-place-suggestions" role="listbox">
+                  {placeSuggestions.slice(0, 6).map(option => {
+                    const optionLabel = getBirthPlaceLabel(option);
 
-                  return (
-                    <button
-                      aria-selected={
-                        selectedPlace
-                          ? doesBirthPlaceMatchQuery(option, selectedPlaceLabel)
-                          : false
-                      }
-                      key={`${option.place}-${option.latitude}-${option.longitude}`}
-                      onClick={() => {
-                        resetFlow();
-                        setSelectedPlace(option);
-                        setBirthPlaceQuery(optionLabel);
-                        setPlaceSuggestions(current => [
-                          option,
-                          ...current.filter(item => item.place !== option.place),
-                        ]);
-                      }}
-                      role="option"
-                      type="button"
-                    >
-                      <strong>{option.city ?? option.label.split(',')[0]}</strong>
-                      <span>
-                        {[option.state, option.country]
-                          .filter(Boolean)
-                          .join(', ') || option.place}
-                      </span>
-                    </button>
-                  );
-                })}
-                {isSearchingPlaces ? <em>{labels.searchingPlaces}</em> : null}
-              </div>
+                    return (
+                      <button
+                        aria-selected={
+                          selectedPlace
+                            ? doesBirthPlaceMatchQuery(option, selectedPlaceLabel)
+                            : false
+                        }
+                        key={`${option.place}-${option.latitude}-${option.longitude}`}
+                        onClick={() => {
+                          resetFlow();
+                          setSelectedPlace(option);
+                          setBirthPlaceQuery(optionLabel);
+                          setPlaceSuggestions([]);
+                          setIsSearchingPlaces(false);
+                          setIsPlaceSuggestionsOpen(false);
+                        }}
+                        role="option"
+                        type="button"
+                      >
+                        <strong>{option.city ?? option.label.split(',')[0]}</strong>
+                        <span>
+                          {[option.state, option.country]
+                            .filter(Boolean)
+                            .join(', ') || option.place}
+                        </span>
+                      </button>
+                    );
+                  })}
+                  {isSearchingPlaces ? <em>{labels.searchingPlaces}</em> : null}
+                </div>
+              ) : null}
             </div>
           </label>
           {shouldShowRelationshipSelector ? (
