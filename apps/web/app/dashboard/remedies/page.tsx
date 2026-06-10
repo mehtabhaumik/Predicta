@@ -1,22 +1,19 @@
+import { WebEvidenceRoomEntry } from '../../../components/WebEvidenceRoomEntry';
 import { WebRemedyCoach } from '../../../components/WebRemedyCoach';
+import { buildPredictaChatHref } from '../../../lib/predicta-chat-cta';
 
 export default function RemediesPage(): React.JSX.Element {
+  const askHref = buildPredictaChatHref({
+    evidenceSourceLabel: 'Kundli Karma Dosh, Shrap, Yog, and Lal Kitab evidence',
+    handoffMode: 'room_safe',
+    prompt:
+      'Read the active Dosh, Shrap, Yog, Lal Kitab pressure, support, and safest remedy plan.',
+    sourceScreen: 'Kundli Karma Evidence Room',
+  });
+
   return (
     <section className="dashboard-page">
-      <div className="page-heading compact">
-        <h1 className="gradient-text">Remedies without fear.</h1>
-        <details className="info-drawer">
-          <summary>
-            <span>How remedies work</span>
-            <strong>Open</strong>
-          </summary>
-          <p>
-            Small chart-backed practices with tracking, review points, and clear
-            stop rules.
-          </p>
-        </details>
-      </div>
-
+      <WebEvidenceRoomEntry askHref={askHref} room="kundliKarma" />
       <WebRemedyCoach />
     </section>
   );

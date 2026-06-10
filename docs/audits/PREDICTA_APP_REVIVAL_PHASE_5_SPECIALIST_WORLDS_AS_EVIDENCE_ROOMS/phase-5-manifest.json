@@ -1,0 +1,31 @@
+{
+  "phase": "PREDICTA_APP_REVIVAL_PHASE_5_SPECIALIST_WORLDS_AS_EVIDENCE_ROOMS",
+  "status": "green",
+  "date": "2026-06-10",
+  "rooms": [
+    "vedic",
+    "kp",
+    "jaimini",
+    "numerology",
+    "signature",
+    "kundliKarma"
+  ],
+  "routes": [
+    "/dashboard/vedic",
+    "/dashboard/kp",
+    "/dashboard/jaimini",
+    "/dashboard/numerology",
+    "/dashboard/signature",
+    "/dashboard/remedies",
+    "/ask"
+  ],
+  "checks": {
+    "translationEvidenceRoomKeys": "pass",
+    "webTypecheck": "pass",
+    "webProductionBuild": "pass",
+    "routeSmoke": "pass",
+    "browserDomEvidenceRoomProof": "pass",
+    "uiTextOverflow": "pass",
+    "uiPersonalSpace": "pass"
+  }
+}

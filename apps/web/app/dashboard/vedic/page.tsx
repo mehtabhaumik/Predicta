@@ -4,6 +4,7 @@ import { getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import type { SupportedLanguage } from '@pridicta/types';
 import { PredictaWorldFrame } from '../../../components/PredictaWorldFrame';
+import { WebEvidenceRoomEntry } from '../../../components/WebEvidenceRoomEntry';
 import { WebVedicIntelligencePanel } from '../../../components/WebVedicIntelligencePanel';
 import { buildPredictaChatHref } from '../../../lib/predicta-chat-cta';
 import { demoAccess } from '../../../lib/demo-state';
@@ -177,6 +178,7 @@ export default function VedicPredictaPage(): React.JSX.Element {
   return (
     <section className="dashboard-page">
       <div className="predicta-world-page predicta-world-page--vedic">
+        <WebEvidenceRoomEntry askHref={chatHref} room="vedic" />
         <PredictaWorldFrame
           badge={copy.hero.eyebrow}
           body={copy.hero.body}

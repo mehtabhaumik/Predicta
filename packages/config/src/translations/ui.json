@@ -46,6 +46,151 @@
       "hi": "पुष्ट हस्ताक्षर लक्षण और आत्म-अभिव्यक्ति का प्रमाण",
       "gu": "પુષ્ટિ થયેલા સહી લક્ષણો અને સ્વ-અભિવ્યક્તિનો પુરાવો"
     },
+    "ui.evidenceRoom.generic.badge": {
+      "en": "Evidence room",
+      "hi": "प्रमाण कक्ष",
+      "gu": "પુરાવાનો રૂમ"
+    },
+    "ui.evidenceRoom.generic.startHere": {
+      "en": "Start with the answer",
+      "hi": "पहले उत्तर से शुरू करें",
+      "gu": "પહેલા જવાબથી શરૂ કરો"
+    },
+    "ui.evidenceRoom.generic.askPredicta": {
+      "en": "Ask Predicta about this",
+      "hi": "इस बारे में प्रेडिक्टा से पूछें",
+      "gu": "આ વિશે પ્રેડિક્ટાને પૂછો"
+    },
+    "ui.evidenceRoom.generic.openEvidence": {
+      "en": "Open evidence",
+      "hi": "प्रमाण खोलें",
+      "gu": "પુરાવો ખોલો"
+    },
+    "ui.evidenceRoom.generic.detailsBelow": {
+      "en": "The detailed room stays below when you want proof.",
+      "hi": "जब प्रमाण चाहिए, विस्तृत कक्ष नीचे उपलब्ध है।",
+      "gu": "પુરાવો જોઈએ ત્યારે વિગતવાર રૂમ નીચે રહે છે."
+    },
+    "ui.evidenceRoom.vedic.title": {
+      "en": "Vedic shows the main life signal.",
+      "hi": "वैदिक मुख्य जीवन संकेत दिखाता है।",
+      "gu": "વૈદિક મુખ્ય જીવન સંકેત બતાવે છે."
+    },
+    "ui.evidenceRoom.vedic.body": {
+      "en": "Use this room when you want the chart's direct guidance: what supports you, what is maturing, and what timing is active now.",
+      "hi": "इस कक्ष का उपयोग तब करें जब आप चार्ट का सीधा मार्गदर्शन चाहते हैं: क्या आपका साथ दे रहा है, क्या परिपक्व हो रहा है, और कौन-सा समय अभी सक्रिय है।",
+      "gu": "જ્યારે તમને ચાર્ટનું સીધું માર્ગદર્શન જોઈએ ત્યારે આ રૂમ વાપરો: શું સહારો આપે છે, શું પરિપક્વ થઈ રહ્યું છે, અને કયો સમય હવે સક્રિય છે."
+    },
+    "ui.evidenceRoom.vedic.action": {
+      "en": "Ask for my main Vedic guidance now.",
+      "hi": "अभी मेरा मुख्य वैदिक मार्गदर्शन पूछें।",
+      "gu": "હમણાં મારું મુખ્ય વૈદિક માર્ગદર્શન પૂછો."
+    },
+    "ui.evidenceRoom.vedic.evidence": {
+      "en": "D1, Moon, D9, D10, Chalit, dasha, gochar, yog, Dosh, Shrap, Lal Kitab, and remedies stay as proof.",
+      "hi": "D1, चंद्र, D9, D10, चलित, दशा, गोचर, योग, दोष, श्राप, लाल किताब और उपाय प्रमाण के रूप में रहते हैं।",
+      "gu": "D1, ચંદ્ર, D9, D10, ચલિત, દશા, ગોચર, યોગ, દોષ, શ્રાપ, લાલ કિતાબ અને ઉપાય પુરાવા તરીકે રહે છે."
+    },
+    "ui.evidenceRoom.kp.title": {
+      "en": "KP answers one exact event question.",
+      "hi": "KP एक सटीक घटना प्रश्न का उत्तर देता है।",
+      "gu": "KP એક ચોક્કસ ઘટના પ્રશ્નનો જવાબ આપે છે."
+    },
+    "ui.evidenceRoom.kp.body": {
+      "en": "Use this room for job change, marriage timing, travel, property, money, or another specific event where timing matters.",
+      "hi": "नौकरी बदलने, विवाह समय, यात्रा, संपत्ति, धन या किसी ऐसी विशेष घटना के लिए इस कक्ष का उपयोग करें जहाँ समय महत्वपूर्ण है।",
+      "gu": "નોકરી બદલાવ, લગ્ન સમય, મુસાફરી, મિલકત, પૈસા અથવા સમય મહત્વનો હોય તેવી કોઈ ચોક્કસ ઘટના માટે આ રૂમ વાપરો."
+    },
+    "ui.evidenceRoom.kp.action": {
+      "en": "Ask my KP event question.",
+      "hi": "मेरा KP घटना प्रश्न पूछें।",
+      "gu": "મારો KP ઘટના પ્રશ્ન પૂછો."
+    },
+    "ui.evidenceRoom.kp.evidence": {
+      "en": "Cusps, sub-lords, significators, ruling planets, dasha support, and timing triggers stay as proof.",
+      "hi": "कस्प, सब-लॉर्ड, सिग्निफिकेटर, रूलिंग प्लैनेट, दशा समर्थन और टाइमिंग ट्रिगर प्रमाण के रूप में रहते हैं।",
+      "gu": "કસ્પ, સબ-લોર્ડ, સિગ્નિફિકેટર, રૂલિંગ પ્લેનેટ, દશા સપોર્ટ અને ટાઈમિંગ ટ્રિગર પુરાવા તરીકે રહે છે."
+    },
+    "ui.evidenceRoom.jaimini.title": {
+      "en": "Jaimini shows destiny direction and soul role.",
+      "hi": "जैमिनी नियति दिशा और आत्म भूमिका दिखाता है।",
+      "gu": "જૈમિની નિયતિ દિશા અને આત્માની ભૂમિકા બતાવે છે."
+    },
+    "ui.evidenceRoom.jaimini.body": {
+      "en": "Use this room when you want life direction, visible path, career dharma, relationship mirrors, and the current destiny chapter.",
+      "hi": "जब आप जीवन दिशा, दिखने वाला मार्ग, करियर धर्म, संबंध दर्पण और वर्तमान नियति अध्याय जानना चाहते हैं, तब इस कक्ष का उपयोग करें।",
+      "gu": "જ્યારે જીવન દિશા, દેખાતો માર્ગ, કારકિર્દી ધર્મ, સંબંધના દર્પણ અને વર્તમાન નિયતિ અધ્યાય જાણવા હોય ત્યારે આ રૂમ વાપરો."
+    },
+    "ui.evidenceRoom.jaimini.action": {
+      "en": "Ask about my destiny direction.",
+      "hi": "मेरी नियति दिशा के बारे में पूछें।",
+      "gu": "મારી નિયતિ દિશા વિશે પૂછો."
+    },
+    "ui.evidenceRoom.jaimini.evidence": {
+      "en": "Atmakaraka, Amatyakaraka, Arudha, Karakamsha, rashi drishti, and Jaimini timing stay as proof.",
+      "hi": "आत्मकारक, अमात्यकारक, आरूढ़, करकाम्श, राशि दृष्टि और जैमिनी टाइमिंग प्रमाण के रूप में रहते हैं।",
+      "gu": "આત્મકારક, અમાત્યકારક, આરુઢ, કરકામ્ષ, રાશિ દૃષ્ટિ અને જૈમિની ટાઈમિંગ પુરાવા તરીકે રહે છે."
+    },
+    "ui.evidenceRoom.numerology.title": {
+      "en": "Numerology explains your name and timing rhythm.",
+      "hi": "अंक ज्योतिष आपका नाम और समय-लय समझाता है।",
+      "gu": "અંકજ્યોતિષ તમારું નામ અને સમયની લય સમજાવે છે."
+    },
+    "ui.evidenceRoom.numerology.body": {
+      "en": "Use this room for name energy, birth code, personal year, current cycle, strengths, cautions, and number-led timing.",
+      "hi": "नाम ऊर्जा, जन्म कोड, निजी वर्ष, वर्तमान चक्र, ताकत, सावधानियाँ और अंकों से जुड़े समय के लिए इस कक्ष का उपयोग करें।",
+      "gu": "નામ ઊર્જા, જન્મ કોડ, વ્યક્તિગત વર્ષ, વર્તમાન ચક્ર, શક્તિઓ, સાવચેતીઓ અને અંક આધારિત સમય માટે આ રૂમ વાપરો."
+    },
+    "ui.evidenceRoom.numerology.action": {
+      "en": "Ask what my numbers say now.",
+      "hi": "पूछें कि मेरे अंक अभी क्या कह रहे हैं।",
+      "gu": "મારા અંક હવે શું કહે છે તે પૂછો."
+    },
+    "ui.evidenceRoom.numerology.evidence": {
+      "en": "Name number, birth number, destiny number, personal year, personal month, personal day, and number grid stay as proof.",
+      "hi": "नाम नंबर, जन्म नंबर, भाग्य नंबर, निजी वर्ष, निजी महीना, निजी दिन और नंबर ग्रिड प्रमाण के रूप में रहते हैं।",
+      "gu": "નામ નંબર, જન્મ નંબર, ભાગ્ય નંબર, વ્યક્તિગત વર્ષ, વ્યક્તિગત મહિનો, વ્યક્તિગત દિવસ અને નંબર ગ્રિડ પુરાવા તરીકે રહે છે."
+    },
+    "ui.evidenceRoom.signature.title": {
+      "en": "Signature reflects visible self-expression.",
+      "hi": "हस्ताक्षर दिखाई देने वाली आत्म-अभिव्यक्ति को दर्शाता है।",
+      "gu": "હસ્તાક્ષર દેખાતી સ્વ-અભિવ્યક્તિ દર્શાવે છે."
+    },
+    "ui.evidenceRoom.signature.body": {
+      "en": "Use this room only after uploading or drawing a real signature. It reflects visible traits, not guaranteed prediction or identity proof.",
+      "hi": "यह कक्ष केवल वास्तविक हस्ताक्षर अपलोड या ड्रॉ करने के बाद उपयोग करें। यह दिखाई देने वाले लक्षणों को दर्शाता है, निश्चित भविष्यवाणी या पहचान प्रमाण नहीं।",
+      "gu": "વાસ્તવિક સહી અપલોડ અથવા દોરી પછી જ આ રૂમ વાપરો. તે દેખાતા લક્ષણો દર્શાવે છે, ખાતરીવાળી ભવિષ્યવાણી કે ઓળખ પુરાવો નહીં."
+    },
+    "ui.evidenceRoom.signature.action": {
+      "en": "Ask about my confirmed signature traits.",
+      "hi": "मेरे पुष्ट हस्ताक्षर लक्षणों के बारे में पूछें।",
+      "gu": "મારા પુષ્ટિ થયેલા સહી લક્ષણો વિશે પૂછો."
+    },
+    "ui.evidenceRoom.signature.evidence": {
+      "en": "Baseline, slant, pressure, size, rhythm, legibility, spacing, underline, flourish, and confidence labels stay as proof.",
+      "hi": "बेसलाइन, झुकाव, दबाव, आकार, लय, पठनीयता, स्पेसिंग, अंडरलाइन, फ्लोरिश और विश्वास लेबल प्रमाण के रूप में रहते हैं।",
+      "gu": "બેઝલાઈન, ઢાળ, દબાણ, કદ, લય, વાંચનીયતા, અંતર, અન્ડરલાઈન, ફ્લોરિશ અને વિશ્વાસ લેબલ પુરાવા તરીકે રહે છે."
+    },
+    "ui.evidenceRoom.kundliKarma.title": {
+      "en": "Kundli Karma shows pressure, support, and safe remedies.",
+      "hi": "कुंडली कर्म दबाव, समर्थन और सुरक्षित उपाय दिखाता है।",
+      "gu": "કુંડળી કર્મ દબાણ, સહારો અને સુરક્ષિત ઉપાય બતાવે છે."
+    },
+    "ui.evidenceRoom.kundliKarma.body": {
+      "en": "Use this room for Dosh, Shrap, Yog, Lal Kitab, remedy safety, and one calm action plan without fear-selling.",
+      "hi": "दोष, श्राप, योग, लाल किताब, उपाय सुरक्षा और डर बेचने के बिना शांत कार्ययोजना के लिए इस कक्ष का उपयोग करें।",
+      "gu": "દોષ, શ્રાપ, યોગ, લાલ કિતાબ, ઉપાય સુરક્ષા અને ડર વેચ્યા વિના શાંત કાર્યયોજના માટે આ રૂમ વાપરો."
+    },
+    "ui.evidenceRoom.kundliKarma.action": {
+      "en": "Ask what pressure or support is active.",
+      "hi": "पूछें कि कौन-सा दबाव या समर्थन सक्रिय है।",
+      "gu": "કયો દબાણ કે સહારો સક્રિય છે તે પૂછો."
+    },
+    "ui.evidenceRoom.kundliKarma.evidence": {
+      "en": "Dosh, Shrap, supportive Yog, challenging Yog, Lal Kitab rin, planet-in-house readings, and consolidated remedies stay as proof.",
+      "hi": "दोष, श्राप, सहायक योग, चुनौतीपूर्ण योग, लाल किताब ऋण, भाव में ग्रह पठन और समेकित उपाय प्रमाण के रूप में रहते हैं।",
+      "gu": "દોષ, શ્રાપ, સહાયક યોગ, પડકારરૂપ યોગ, લાલ કિતાબ ઋણ, ભાવમાં ગ્રહ વાંચન અને એકીકૃત ઉપાય પુરાવા તરીકે રહે છે."
+    },
     "ui.eventOracle.evidenceLabel.vedic": {
       "en": "Vedic chart, dasha, yog, and Kundli Karma evidence",
       "hi": "वैदिक चार्ट, दशा, योग और कुंडली कर्म का प्रमाण",
