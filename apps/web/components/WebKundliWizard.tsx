@@ -109,7 +109,9 @@ export function WebKundliWizard(): React.JSX.Element {
   const shouldShowRelationshipSelector = !isOwnerProfile;
   const selectedPlaceLabel = selectedPlace ? getBirthPlaceLabel(selectedPlace) : '';
   const isSelectedPlaceCurrent =
-    Boolean(selectedPlace) && isExactBirthPlaceSelection(selectedPlace, birthPlaceQuery);
+    Boolean(selectedPlace) &&
+    (isExactBirthPlaceSelection(selectedPlace, birthPlaceQuery) ||
+      doesBirthPlaceMatchQuery(selectedPlace, birthPlaceQuery));
   const details = useMemo<BirthDetails | undefined>(
     () => {
       if (!selectedPlace) {
@@ -196,6 +198,13 @@ export function WebKundliWizard(): React.JSX.Element {
     setPlaceSuggestions([]);
     setIsSearchingPlaces(false);
     setIsPlaceSuggestionsOpen(false);
+  }
+
+  function selectBirthPlace(option: WebBirthPlace) {
+    resetFlow();
+    closeBirthPlaceSuggestions();
+    setSelectedPlace(option);
+    setBirthPlaceQuery(getBirthPlaceLabel(option));
   }
 
   useEffect(() => {
@@ -294,6 +303,20 @@ export function WebKundliWizard(): React.JSX.Element {
       window.clearTimeout(timer);
     };
   }, [birthPlaceQuery, isPlaceSuggestionsOpen, selectedPlace]);
+
+  useEffect(() => {
+    if (
+      isSelectedPlaceCurrent &&
+      (isPlaceSuggestionsOpen || isSearchingPlaces || placeSuggestions.length > 0)
+    ) {
+      closeBirthPlaceSuggestions();
+    }
+  }, [
+    isPlaceSuggestionsOpen,
+    isSearchingPlaces,
+    isSelectedPlaceCurrent,
+    placeSuggestions.length,
+  ]);
 
   useEffect(() => {
     function closeBirthPlaceSuggestionsOnOutsidePress(event: PointerEvent) {
@@ -611,12 +634,7 @@ export function WebKundliWizard(): React.JSX.Element {
                             : false
                         }
                         key={`${option.place}-${option.latitude}-${option.longitude}`}
-                        onClick={() => {
-                          resetFlow();
-                          setSelectedPlace(option);
-                          setBirthPlaceQuery(optionLabel);
-                          closeBirthPlaceSuggestions();
-                        }}
+                        onClick={() => selectBirthPlace(option)}
                         role="option"
                         type="button"
                       >

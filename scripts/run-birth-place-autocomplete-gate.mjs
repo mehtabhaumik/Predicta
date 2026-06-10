@@ -84,6 +84,10 @@ try {
     throw new Error('Kundli page has horizontal overflow after birth-place selection.');
   }
 
+  if (!result.refocusStayedClosed) {
+    throw new Error('Birth-place suggestions reopened after focusing the selected place.');
+  }
+
   console.log('Birth-place autocomplete gate passed.');
 } finally {
   cdp?.close();
@@ -168,10 +172,23 @@ async function runAutocompleteScenario(cdp) {
   });
 
   if (!clickResponse.result?.value?.optionFound) {
-    return clickResponse.result?.value ?? {
+    const earlyResult = clickResponse.result?.value ?? {
       inputFound: true,
       optionFound: false,
     };
+
+    if (
+      earlyResult.inputValue === 'Petlad, Gujarat, India' &&
+      !earlyResult.suggestionsMounted &&
+      !earlyResult.hasSearchingPlaces
+    ) {
+      return {
+        ...earlyResult,
+        ...(await collectRefocusState(cdp)),
+      };
+    }
+
+    return earlyResult;
   }
 
   await delay(1300);
@@ -195,7 +212,49 @@ async function runAutocompleteScenario(cdp) {
     returnByValue: true,
   });
 
-  return resultResponse.result?.value ?? {};
+  const selectedResult = resultResponse.result?.value ?? {};
+
+  return {
+    ...selectedResult,
+    ...(await collectRefocusState(cdp)),
+  };
+}
+
+async function collectRefocusState(cdp) {
+  const refocusResponse = await cdp.send('Runtime.evaluate', {
+    expression: `(() => {
+      const input = document.querySelector('input[placeholder="Start typing city, state, country"]');
+      input?.focus();
+      return Boolean(input);
+    })()`,
+    returnByValue: true,
+  });
+
+  await delay(450);
+
+  const refocusStateResponse = await cdp.send('Runtime.evaluate', {
+    expression: `(() => {
+      const suggestions = document.querySelector('.birth-place-suggestions');
+      const text = document.body.textContent || '';
+
+      return {
+        refocusInputFound: Boolean(document.querySelector('input[placeholder="Start typing city, state, country"]')),
+        refocusHasSearchingPlaces: text.includes('Searching places...'),
+        refocusSuggestionsMounted: Boolean(suggestions),
+        refocusSuggestionsText: suggestions?.textContent?.trim() || '',
+      };
+    })()`,
+    returnByValue: true,
+  });
+
+  const refocusState = refocusStateResponse.result?.value ?? {};
+
+  return {
+    refocusInputFound: Boolean(refocusResponse.result?.value) && refocusState.refocusInputFound,
+    refocusStayedClosed:
+      !refocusState.refocusHasSearchingPlaces && !refocusState.refocusSuggestionsMounted,
+    refocusSuggestionsText: refocusState.refocusSuggestionsText,
+  };
 }
 
 async function createTarget(debugPort, url) {
