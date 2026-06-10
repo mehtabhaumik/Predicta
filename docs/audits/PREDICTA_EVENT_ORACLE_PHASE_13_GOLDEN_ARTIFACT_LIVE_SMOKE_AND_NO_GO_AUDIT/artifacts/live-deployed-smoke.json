@@ -1,0 +1,23 @@
+{
+  "checkedAt": "2026-06-10T07:51:35.066Z",
+  "results": [
+    {
+      "chips": 8,
+      "finalUrl": "https://predicta.rudraix.com/dashboard/chat?eventOraclePhase13Smoke=1",
+      "hasPredictionCard": true,
+      "hasPrimaryPredicta": true,
+      "hasSafetyNote": true,
+      "overflowX": 0,
+      "title": "Ask Predicta | Predicta",
+      "viewportWidth": 1280,
+      "screenshot": "screenshots/live-desktop-chat.png",
+      "viewport": {
+        "height": 900,
+        "name": "desktop",
+        "width": 1280
+      }
+    }
+  ],
+  "status": "pass",
+  "url": "https://predicta.rudraix.com"
+}

@@ -1,0 +1,54 @@
+{
+  "baseUrl": "http://127.0.0.1:3023",
+  "checkedAt": "2026-06-10T07:51:30.265Z",
+  "results": [
+    {
+      "chips": 8,
+      "finalUrl": "http://127.0.0.1:3023/dashboard/chat?eventOraclePhase13Smoke=1",
+      "hasPredictionCard": true,
+      "hasPrimaryPredicta": true,
+      "hasSafetyNote": true,
+      "overflowX": 0,
+      "title": "Ask Predicta | Predicta",
+      "viewportWidth": 1440,
+      "screenshot": "screenshots/local-desktop-chat.png",
+      "viewport": {
+        "height": 900,
+        "name": "desktop",
+        "width": 1440
+      }
+    },
+    {
+      "chips": 8,
+      "finalUrl": "http://127.0.0.1:3023/dashboard/chat?eventOraclePhase13Smoke=1",
+      "hasPredictionCard": true,
+      "hasPrimaryPredicta": true,
+      "hasSafetyNote": true,
+      "overflowX": 0,
+      "title": "Ask Predicta | Predicta",
+      "viewportWidth": 820,
+      "screenshot": "screenshots/local-tablet-chat.png",
+      "viewport": {
+        "height": 900,
+        "name": "tablet",
+        "width": 820
+      }
+    },
+    {
+      "chips": 8,
+      "finalUrl": "http://127.0.0.1:3023/dashboard/chat?eventOraclePhase13Smoke=1",
+      "hasPredictionCard": true,
+      "hasPrimaryPredicta": true,
+      "hasSafetyNote": true,
+      "overflowX": 0,
+      "title": "Ask Predicta | Predicta",
+      "viewportWidth": 390,
+      "screenshot": "screenshots/local-mobile-chat.png",
+      "viewport": {
+        "height": 820,
+        "name": "mobile",
+        "width": 390
+      }
+    }
+  ]
+}

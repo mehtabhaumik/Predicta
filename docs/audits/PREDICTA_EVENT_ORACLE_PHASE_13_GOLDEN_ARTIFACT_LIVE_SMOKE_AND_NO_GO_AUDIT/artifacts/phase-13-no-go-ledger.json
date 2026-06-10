@@ -1,0 +1,17 @@
+{
+  "critical": [],
+  "major": [],
+  "medium": [],
+  "minor": [],
+  "noGoConditions": {
+    "visuallyPrimary": true,
+    "noSchooling": true,
+    "timingAndTriggerPresent": true,
+    "sourcesVisible": true,
+    "specialistWorldsPreserved": true,
+    "freePaidCostLeakBlocked": true,
+    "highStakesSafetyCopyPresent": true,
+    "noOverflow": true,
+    "translationsGreen": true
+  }
+}

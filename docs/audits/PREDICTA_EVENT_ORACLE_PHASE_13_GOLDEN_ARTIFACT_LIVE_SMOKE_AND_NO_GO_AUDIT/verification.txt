@@ -1,0 +1,9 @@
+PREDICTA_EVENT_ORACLE_PHASE_13_GOLDEN_ARTIFACT_LIVE_SMOKE_AND_NO_GO_AUDIT: GREEN with live deployed smoke.
+Local base URL: http://127.0.0.1:3023
+Live URL: https://predicta.rudraix.com
+Event categories audited: 15
+Local screenshots: desktop, tablet, mobile.
+No-go ledger: zero Critical and zero Major findings.
+Required commands before final release:
+- corepack pnpm test:event-oracle-phase-13
+- PREDICTA_EVENT_ORACLE_REQUIRE_LIVE=1 PREDICTA_EVENT_ORACLE_LIVE_URL=https://predicta.rudraix.com corepack pnpm test:event-oracle-phase-13
