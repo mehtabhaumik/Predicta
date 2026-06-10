@@ -80,9 +80,15 @@ export function AskPredictaLightShell(): React.JSX.Element {
       setVoiceNotice(false);
     }
 
+    const nextUrl = `/ask?${params.toString()}`;
+
+    if (typeof window !== 'undefined') {
+      window.history.replaceState(null, '', nextUrl);
+    }
+
     setQuestion(resolvedPrompt);
     setChatStarted(true);
-    router.replace(`/ask?${params.toString()}`, {
+    router.replace(nextUrl, {
       scroll: false,
     });
   }

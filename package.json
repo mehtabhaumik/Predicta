@@ -176,6 +176,7 @@
     "test:app-revival-phase-6": "node scripts/run-app-revival-phase-6-gate.mjs",
     "test:app-revival-phase-7": "node scripts/run-app-revival-phase-7-link-reliability-gate.mjs",
     "test:app-revival-phase-8": "node scripts/run-app-revival-phase-8-mobile-app-feel-gate.mjs",
+    "test:app-revival-phase-9": "node scripts/run-app-revival-phase-9-full-user-journey-gate.mjs",
     "test:audit-server-preflight": "node scripts/assert-predicta-audit-server-ready.mjs",
     "test:public-greenlight": "node scripts/run-public-testing-greenlight-audit.mjs",
     "test:visual-proof": "node scripts/run-mobile-tablet-visual-proof-gate.mjs",
