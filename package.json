@@ -176,6 +176,7 @@
     "test:audit-server-preflight": "node scripts/assert-predicta-audit-server-ready.mjs",
     "test:public-greenlight": "node scripts/run-public-testing-greenlight-audit.mjs",
     "test:visual-proof": "node scripts/run-mobile-tablet-visual-proof-gate.mjs",
+    "test:birth-place-autocomplete": "node scripts/run-birth-place-autocomplete-gate.mjs",
     "test:ui-text-overflow": "node scripts/run-ui-text-overflow-audit.mjs",
     "test:ui-personal-space": "node scripts/run-ui-personal-space-audit.mjs",
     "test:mobile": "pnpm --filter @pridicta/mobile exec jest --runInBand",

@@ -1305,13 +1305,21 @@ function isExactBirthPlaceSelection(
     return false;
   }
 
-  return [
+  const cityStateCountry = [place.city, place.state, place.country]
+    .filter(Boolean)
+    .join(', ');
+  const cityCountry = [place.city, place.country].filter(Boolean).join(', ');
+  const candidateLabels = [
     place.city,
     place.label,
     place.place,
+    cityStateCountry,
+    cityCountry,
     getBirthPlaceLabel(place),
     ...(place.aliases ?? []),
-  ]
+  ];
+
+  return candidateLabels
     .filter(Boolean)
     .map(term => normalizeBirthPlaceLabel(term))
     .some(term => term === normalizedQuery);
