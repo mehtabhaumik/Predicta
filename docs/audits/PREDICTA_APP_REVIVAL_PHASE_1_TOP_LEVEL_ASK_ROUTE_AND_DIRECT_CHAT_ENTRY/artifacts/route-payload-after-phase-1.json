@@ -1,0 +1,27 @@
+{
+  "phase": "PREDICTA_APP_REVIVAL_PHASE_1_TOP_LEVEL_ASK_ROUTE_AND_DIRECT_CHAT_ENTRY",
+  "source": "apps/web/.next/app-build-manifest.json",
+  "date": "2026-06-10",
+  "note": "Fresh build after Phase 1. Sizes are uncompressed JS asset sizes from the Next app build manifest.",
+  "routes": [
+    {
+      "route": "/ask",
+      "manifestKey": "/ask/page",
+      "totalKb": 3506.7,
+      "interpretation": "Direct route exists, but remains heavy. Phase 6 owns optimization."
+    },
+    {
+      "route": "/dashboard/chat",
+      "manifestKey": "/dashboard/chat/page",
+      "totalKb": 3475.8,
+      "interpretation": "Legacy compatibility route still works."
+    },
+    {
+      "route": "/",
+      "manifestKey": "/page",
+      "totalKb": 3480.2,
+      "interpretation": "Landing is still too heavy. Phase 2 and Phase 6 own cleanup."
+    }
+  ]
+}
+

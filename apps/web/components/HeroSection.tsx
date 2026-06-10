@@ -63,10 +63,13 @@ export function HeroSection(): React.JSX.Element {
         <h1>{copy.title}</h1>
         <p>{copy.body}</p>
         <div className="hero-actions">
-          <Link className="button" href="/dashboard">
+          <Link className="button" href="/ask">
             {copy.primary}
           </Link>
-          <Link className="button secondary" href="/dashboard/vedic/chat">
+          <Link
+            className="button secondary"
+            href="/ask?sourceScreen=Landing&school=PARASHARI&prompt=Read%20my%20Vedic%20chart%20and%20guide%20me%20clearly."
+          >
             {copy.secondary}
           </Link>
         </div>

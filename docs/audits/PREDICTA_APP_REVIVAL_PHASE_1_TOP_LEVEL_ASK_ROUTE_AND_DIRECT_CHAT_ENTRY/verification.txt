@@ -1,0 +1,30 @@
+PREDICTA_APP_REVIVAL_PHASE_1_TOP_LEVEL_ASK_ROUTE_AND_DIRECT_CHAT_ENTRY
+
+Result: GREEN.
+
+Implemented:
+- Added top-level /ask route.
+- Moved canonical Predicta chat href helper to /ask.
+- Updated primary public entry CTAs to /ask.
+- Updated footer Ask Predicta link to /ask.
+- Updated settings chat shortcut to /ask.
+- Preserved old dashboard chat routes.
+
+Verified:
+- corepack pnpm --filter @pridicta/web typecheck
+- corepack pnpm build:web
+- no remaining hardcoded direct /dashboard/chat or /dashboard/vedic/chat hrefs
+  in searched web app/components/lib surfaces
+- runtime route smoke at http://127.0.0.1:3032 for /ask, source-aware /ask,
+  /dashboard/chat, /dashboard/vedic/chat, /dashboard/kp/chat, and /
+- fresh manifest includes /ask/page
+- PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3032 corepack pnpm test:ui-personal-space
+  passed 56 route and viewport checks, including /ask
+- PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3032 corepack pnpm test:ui-text-overflow
+  passed 112 route and viewport checks, including /ask, with 0 clipped text and
+  0 horizontal overflow findings
+- git diff --check
+
+Known debt carried forward:
+- /ask still has heavy route payload and must be optimized in Phase 6.
+- landing remains client-heavy and must be rebuilt in Phase 2 and Phase 6.

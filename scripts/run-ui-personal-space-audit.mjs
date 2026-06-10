@@ -13,6 +13,7 @@ const minSiblingGap = 8;
 const minBoundaryGap = 6;
 const routes = [
   '/',
+  '/ask',
   '/checkout',
   '/feedback',
   '/dashboard',

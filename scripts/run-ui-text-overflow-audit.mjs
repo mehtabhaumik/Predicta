@@ -20,6 +20,7 @@ const chromePath =
 
 const routes = [
   '/',
+  '/ask',
   '/pricing',
   '/checkout',
   '/feedback',

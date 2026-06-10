@@ -686,7 +686,7 @@ export function WebProfileSettings(): React.JSX.Element {
                   <strong>{copy.chatSessions}</strong>
                   <span>{user ? copy.multipleChats : copy.guestChats}</span>
                 </div>
-                <Link className="button secondary" href="/dashboard/vedic/chat">
+                <Link className="button secondary" href="/ask?sourceScreen=Settings&school=PARASHARI">
                   {copy.openChat}
                 </Link>
               </div>

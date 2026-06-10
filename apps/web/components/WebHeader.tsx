@@ -91,8 +91,8 @@ export function WebHeader(): React.JSX.Element {
       <div className="header-actions">
         <WebLanguageSelector compact hideCompactLabel />
         <AuthDialog />
-        <Link className="button secondary header-cta" href="/dashboard">
-          {copy.dashboard}
+        <Link className="button secondary header-cta" href="/ask">
+          {shellLabels.actions.askPredicta}
         </Link>
       </div>
       <div className="mobile-menu" ref={mobileMenuRef}>
@@ -143,10 +143,10 @@ export function WebHeader(): React.JSX.Element {
                 <AuthDialog />
                 <Link
                   className="button secondary"
-                  href="/dashboard"
+                  href="/ask"
                   onClick={() => setMenuOpen(false)}
                 >
-                  {copy.dashboard}
+                  {shellLabels.actions.askPredicta}
                 </Link>
               </div>
             </div>
@@ -169,7 +169,7 @@ function buildPublicHeaderCopy(labels: ReturnType<typeof getAppShellLabels>): {
     brand: labels.groups.predicta,
     dashboard: labels.nav.dashboard,
     links: [
-      { href: '/dashboard/chat', label: labels.actions.askPredicta },
+      { href: '/ask', label: labels.actions.askPredicta },
       { href: '/dashboard/vedic', label: labels.nav.vedic },
       { href: '/dashboard/kp', label: labels.nav.kp },
       { href: '/dashboard/jaimini', label: labels.nav.jaimini },

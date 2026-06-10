@@ -201,7 +201,7 @@ export function WebFooter({
     ...section,
     links: section.links.map(link =>
       link.href === '/dashboard/chat'
-        ? { ...link, label: shellLabels.actions.askPredicta }
+        ? { ...link, href: '/ask', label: shellLabels.actions.askPredicta }
         : link
     ),
   }));

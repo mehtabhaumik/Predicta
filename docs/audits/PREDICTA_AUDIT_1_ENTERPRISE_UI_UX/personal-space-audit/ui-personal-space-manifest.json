@@ -1,6 +1,6 @@
 {
-  "baseUrl": "http://127.0.0.1:3030",
-  "generatedAt": "2026-06-10T08:34:55.750Z",
+  "baseUrl": "http://127.0.0.1:3032",
+  "generatedAt": "2026-06-10T10:41:32.517Z",
   "minBoundaryGap": 6,
   "minSiblingGap": 8,
   "routeChecks": [
@@ -13,6 +13,13 @@
     },
     {
       "boundaryIssues": 0,
+      "route": "/ask",
+      "siblingIssues": 0,
+      "viewport": "desktop",
+      "viewportWidth": 1440
+    },
+    {
+      "boundaryIssues": 0,
       "route": "/checkout",
       "siblingIssues": 0,
       "viewport": "desktop",
@@ -104,6 +111,13 @@
     },
     {
       "boundaryIssues": 0,
+      "route": "/ask",
+      "siblingIssues": 0,
+      "viewport": "tablet",
+      "viewportWidth": 834
+    },
+    {
+      "boundaryIssues": 0,
       "route": "/checkout",
       "siblingIssues": 0,
       "viewport": "tablet",
@@ -195,6 +209,13 @@
     },
     {
       "boundaryIssues": 0,
+      "route": "/ask",
+      "siblingIssues": 0,
+      "viewport": "mobile",
+      "viewportWidth": 390
+    },
+    {
+      "boundaryIssues": 0,
       "route": "/checkout",
       "siblingIssues": 0,
       "viewport": "mobile",
@@ -280,6 +301,13 @@
     {
       "boundaryIssues": 0,
       "route": "/",
+      "siblingIssues": 0,
+      "viewport": "narrow-mobile",
+      "viewportWidth": 360
+    },
+    {
+      "boundaryIssues": 0,
+      "route": "/ask",
       "siblingIssues": 0,
       "viewport": "narrow-mobile",
       "viewportWidth": 360
@@ -372,6 +400,6 @@
   "sampleFailures": [],
   "status": "green",
   "totalBoundaryIssues": 0,
-  "totalChecks": 52,
+  "totalChecks": 56,
   "totalSiblingIssues": 0
 }

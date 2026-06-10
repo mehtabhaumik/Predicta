@@ -19759,6 +19759,29 @@ select::-ms-expand {
   display: none !important;
 }
 
+.ask-predicta-main {
+  background:
+    radial-gradient(circle at 12% 4%, rgba(70, 174, 255, 0.14), transparent 30%),
+    radial-gradient(circle at 88% 12%, rgba(239, 80, 175, 0.12), transparent 26%),
+    var(--color-bg);
+  min-height: 100dvh;
+  padding: clamp(24px, 4vw, 52px) var(--page-gutter) clamp(16px, 3vw, 32px);
+}
+
+.ask-predicta-page {
+  margin: 0 auto;
+  max-width: min(1120px, 100%);
+}
+
+.ask-predicta-page .chat-panel {
+  height: min(820px, calc(100dvh - 196px));
+  min-height: min(680px, calc(100dvh - 196px));
+}
+
+.ask-predicta-footer {
+  margin-top: 0;
+}
+
 .chat-motion-frame {
   display: flex;
   flex: 1 1 auto;

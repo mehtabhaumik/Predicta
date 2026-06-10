@@ -67,7 +67,7 @@ export function TestimonialTrustLoop(): React.JSX.Element {
       <div className="testimonial-actions">
         <p>{copy.cta.note}</p>
         <div>
-          <Link className="button primary" href="/dashboard">
+          <Link className="button primary" href="/ask">
             {copy.cta.primary}
           </Link>
           <Link

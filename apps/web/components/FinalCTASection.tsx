@@ -10,7 +10,7 @@ export function FinalCTASection(): React.JSX.Element {
           Depth without overwhelm. Guidance that stays grounded.
         </p>
       </div>
-      <Link className="button" href="/dashboard">
+      <Link className="button" href="/ask">
         Start Your Journey
       </Link>
     </section>

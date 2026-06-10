@@ -58,7 +58,7 @@ export function WebGrowthAdvantage(): React.JSX.Element {
             <button className="button primary" onClick={copyInviteLink} type="button">
               {copied ? copy.actions.copied : copy.actions.copyInvite}
             </button>
-            <Link className="button secondary" href="/dashboard">
+            <Link className="button secondary" href="/ask">
               {copy.actions.openDashboard}
             </Link>
             <Link className="button secondary" href="/dashboard/report">

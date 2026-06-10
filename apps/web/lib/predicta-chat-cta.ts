@@ -130,35 +130,11 @@ export function buildPredictaChatHref(context: PredictaChatCtaContext): string {
   );
   setParam(params, 'selectedPredictaWrappedYear', context.selectedPredictaWrappedYear);
 
-  return `${getPredictaChatPath(context.school)}?${params.toString()}`;
+  return `${getPredictaChatPath()}?${params.toString()}`;
 }
 
-function getPredictaChatPath(school: PredictaSchool | undefined): string {
-  if (school === 'PARASHARI') {
-    return '/dashboard/vedic/chat';
-  }
-
-  if (school === 'KP') {
-    return '/dashboard/kp/chat';
-  }
-
-  if (school === 'JAIMINI') {
-    return '/dashboard/jaimini/chat';
-  }
-
-  if (school === 'NADI') {
-    return '/dashboard/jaimini/chat';
-  }
-
-  if (school === 'NUMEROLOGY') {
-    return '/dashboard/numerology/chat';
-  }
-
-  if (school === 'SIGNATURE') {
-    return '/dashboard/signature/chat';
-  }
-
-  return '/dashboard/chat';
+function getPredictaChatPath(): string {
+  return '/ask';
 }
 
 function setParam(

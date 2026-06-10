@@ -1,0 +1,50 @@
+{
+  "phase": "PREDICTA_APP_REVIVAL_PHASE_1_TOP_LEVEL_ASK_ROUTE_AND_DIRECT_CHAT_ENTRY",
+  "baseUrl": "http://127.0.0.1:3032",
+  "date": "2026-06-10",
+  "routes": [
+    {
+      "route": "/ask",
+      "status": 200,
+      "hasPredicta": true,
+      "bytes": 15873,
+      "title": "Predicta"
+    },
+    {
+      "route": "/ask?sourceScreen=Landing&school=KP&prompt=Will%20I%20go%20abroad%3F",
+      "status": 200,
+      "hasPredicta": true,
+      "bytes": 15873,
+      "title": "Predicta"
+    },
+    {
+      "route": "/dashboard/chat",
+      "status": 200,
+      "hasPredicta": true,
+      "bytes": 14332,
+      "title": "Predicta"
+    },
+    {
+      "route": "/dashboard/vedic/chat",
+      "status": 200,
+      "hasPredicta": true,
+      "bytes": 15267,
+      "title": "Predicta"
+    },
+    {
+      "route": "/dashboard/kp/chat",
+      "status": 200,
+      "hasPredicta": true,
+      "bytes": 14366,
+      "title": "Predicta"
+    },
+    {
+      "route": "/",
+      "status": 200,
+      "hasPredicta": true,
+      "bytes": 32285,
+      "title": "Predicta"
+    }
+  ]
+}
+

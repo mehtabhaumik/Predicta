@@ -1,0 +1,39 @@
+{
+  "phase": "PREDICTA_APP_REVIVAL_PHASE_1_TOP_LEVEL_ASK_ROUTE_AND_DIRECT_CHAT_ENTRY",
+  "status": "GREEN",
+  "date": "2026-06-10",
+  "implemented": [
+    "apps/web/app/ask/page.tsx",
+    "apps/web/lib/predicta-chat-cta.ts",
+    "apps/web/components/HeroSection.tsx",
+    "apps/web/components/FinalCTASection.tsx",
+    "apps/web/components/TestimonialTrustLoop.tsx",
+    "apps/web/components/WebGrowthAdvantage.tsx",
+    "apps/web/components/WebHeader.tsx",
+    "apps/web/components/WebFooter.tsx",
+    "apps/web/components/WebProfileSettings.tsx",
+    "apps/web/app/globals.css",
+    "scripts/run-ui-personal-space-audit.mjs",
+    "scripts/run-ui-text-overflow-audit.mjs"
+  ],
+  "checks": [
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "corepack pnpm build:web",
+    "runtime route smoke at http://127.0.0.1:3032",
+    "static search for old direct dashboard chat hrefs",
+    "PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3032 corepack pnpm test:ui-personal-space",
+    "PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3032 corepack pnpm test:ui-text-overflow",
+    "git diff --check"
+  ],
+  "routePayloadsKb": {
+    "/ask": 3506.7,
+    "/dashboard/chat": 3475.8,
+    "/": 3480.2
+  },
+  "knownDebt": [
+    "Phase 6 must reduce ask route payload.",
+    "Phase 2 and Phase 6 must rebuild the landing route.",
+    "Phase 3 must demote dashboard to Library/My Astrology."
+  ],
+  "nextPhase": "PREDICTA_APP_REVIVAL_PHASE_2_LANDING_CHAT_FIRST_REBUILD"
+}
