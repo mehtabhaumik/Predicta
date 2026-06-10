@@ -144,17 +144,13 @@ function renderNavLink(
 ): React.JSX.Element {
   const active = isPublicNavActive(pathname, link.href);
 
-  return active ? (
-    <span
-      aria-current="page"
-      aria-disabled="true"
-      className="active disabled"
+  return (
+    <Link
+      aria-current={active ? 'page' : undefined}
+      className={active ? 'active' : undefined}
+      href={link.href}
       key={link.href}
     >
-      {link.label}
-    </span>
-  ) : (
-    <Link href={link.href} key={link.href}>
       {link.label}
     </Link>
   );
@@ -171,19 +167,15 @@ function renderMobileNavLink({
 }): React.JSX.Element {
   const active = isPublicNavActive(pathname, link.href);
 
-  return active ? (
-    <span
-      aria-current="page"
-      aria-disabled="true"
-      className="active disabled"
+  return (
+    <Link
+      aria-current={active ? 'page' : undefined}
+      className={active ? 'active' : undefined}
+      href={link.href}
       key={link.href}
+      onClick={onClick}
     >
-      {link.label}
-    </span>
-  ) : (
-    <Link href={link.href} key={link.href} onClick={onClick}>
       {link.label}
     </Link>
   );
 }
-

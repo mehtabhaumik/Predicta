@@ -166,33 +166,18 @@ function getActiveDashboardSection(
 
 function renderDashboardMasterLink({
   activeSection,
-  exactPage,
   onClick,
   section,
 }: {
   activeSection: SidebarSection;
-  exactPage: boolean;
   onClick?: () => void;
   section: SidebarSection;
 }): React.JSX.Element {
   const active = section.id === activeSection.id;
 
-  if (exactPage) {
-    return (
-      <span
-        aria-current="page"
-        aria-disabled="true"
-        className="active disabled"
-        key={section.id}
-      >
-        {section.label}
-      </span>
-    );
-  }
-
   return (
     <Link
-      aria-current={active ? 'true' : undefined}
+      aria-current={active ? 'page' : undefined}
       className={active ? 'active' : undefined}
       href={section.href}
       key={section.id}
@@ -577,7 +562,6 @@ export function DashboardShell({
                     {sections.map(section =>
                       renderDashboardMasterLink({
                         activeSection,
-                        exactPage: pathname === section.href,
                         onClick: () => setMenuOpen(false),
                         section,
                       }),
@@ -596,24 +580,15 @@ export function DashboardShell({
                         );
 
                         return (
-                          active ? (
-                            <span
-                              aria-current="page"
-                              aria-disabled="true"
-                              className="active disabled"
-                              key={item.href}
-                            >
-                              {item.label}
-                            </span>
-                          ) : (
-                            <Link
-                              href={item.href}
-                              key={item.href}
-                              onClick={() => setMenuOpen(false)}
-                            >
-                              {item.label}
-                            </Link>
-                          )
+                          <Link
+                            aria-current={active ? 'page' : undefined}
+                            className={active ? 'active' : undefined}
+                            href={item.href}
+                            key={item.href}
+                            onClick={() => setMenuOpen(false)}
+                          >
+                            {item.label}
+                          </Link>
                         );
                       })}
                     </div>
@@ -631,24 +606,15 @@ export function DashboardShell({
                         );
 
                         return (
-                          active ? (
-                            <span
-                              aria-current="page"
-                              aria-disabled="true"
-                              className="active disabled"
-                              key={item.href}
-                            >
-                              {item.label}
-                            </span>
-                          ) : (
-                            <Link
-                              href={item.href}
-                              key={item.href}
-                              onClick={() => setMenuOpen(false)}
-                            >
-                              {item.label}
-                            </Link>
-                          )
+                          <Link
+                            aria-current={active ? 'page' : undefined}
+                            className={active ? 'active' : undefined}
+                            href={item.href}
+                            key={item.href}
+                            onClick={() => setMenuOpen(false)}
+                          >
+                            {item.label}
+                          </Link>
                         );
                       })}
                     </div>

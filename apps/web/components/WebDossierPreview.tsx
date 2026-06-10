@@ -898,6 +898,9 @@ export function WebDossierPreview(): React.JSX.Element {
           <PredictaButton href={buildCurrentReportAskHref()} variant="secondary">
             {builderCopy.askFromReport}
           </PredictaButton>
+          <PredictaButton href="/dashboard/kundli" variant="secondary">
+            {builderCopy.createKundliCta}
+          </PredictaButton>
           <PredictaButton onClick={copyReportSummary} type="button" variant="secondary">
             {copyState === 'report' ? builderCopy.copied : builderCopy.copyReport}
           </PredictaButton>

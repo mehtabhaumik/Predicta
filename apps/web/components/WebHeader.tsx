@@ -69,24 +69,7 @@ export function WebHeader(): React.JSX.Element {
         </span>
       </Link>
       <nav aria-label={shellLabels.groups.sections} className="header-nav">
-        {copy.links.map(link => {
-          const active = isPublicNavActive(pathname, link.href);
-
-          return active ? (
-            <span
-              aria-current="page"
-              aria-disabled="true"
-              className="active disabled"
-              key={link.href}
-            >
-              {link.label}
-            </span>
-          ) : (
-            <Link href={link.href} key={link.href}>
-              {link.label}
-            </Link>
-          );
-        })}
+        {copy.links.map(link => renderPublicNavLink({ link, pathname }))}
       </nav>
       <div className="header-actions">
         <WebLanguageSelector compact hideCompactLabel />
@@ -198,6 +181,27 @@ function isPublicNavActive(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+function renderPublicNavLink({
+  link,
+  pathname,
+}: {
+  link: { href: string; label: string };
+  pathname: string;
+}): React.JSX.Element {
+  const active = isPublicNavActive(pathname, link.href);
+
+  return (
+    <Link
+      aria-current={active ? 'page' : undefined}
+      className={active ? 'active' : undefined}
+      href={link.href}
+      key={link.href}
+    >
+      {link.label}
+    </Link>
+  );
+}
+
 function renderPublicMobileLink({
   link,
   onClick,
@@ -209,17 +213,14 @@ function renderPublicMobileLink({
 }): React.JSX.Element {
   const active = isPublicNavActive(pathname, link.href);
 
-  return active ? (
-    <span
-      aria-current="page"
-      aria-disabled="true"
-      className="active disabled"
+  return (
+    <Link
+      aria-current={active ? 'page' : undefined}
+      className={active ? 'active' : undefined}
+      href={link.href}
       key={link.href}
+      onClick={onClick}
     >
-      {link.label}
-    </span>
-  ) : (
-    <Link href={link.href} key={link.href} onClick={onClick}>
       {link.label}
     </Link>
   );
