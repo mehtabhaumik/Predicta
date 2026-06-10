@@ -24,6 +24,7 @@ import {
   WEB_BIRTH_PLACES,
   doesBirthPlaceMatchQuery,
   getBirthPlaceLabel,
+  searchLocalWebBirthPlaces,
   searchWebBirthPlaces,
   type WebBirthPlace,
 } from '../lib/birth-places';
@@ -273,7 +274,20 @@ export function WebKundliWizard(): React.JSX.Element {
       return;
     }
 
-    setIsSearchingPlaces(true);
+    const localMatches = searchLocalWebBirthPlaces(query).slice(0, 6);
+    const exactLocalMatch = localMatches.find(place =>
+      isExactBirthPlaceSelection(place, query),
+    );
+
+    if (exactLocalMatch) {
+      setSelectedPlace(exactLocalMatch);
+      setBirthPlaceQuery(getBirthPlaceLabel(exactLocalMatch));
+      closeBirthPlaceSuggestions();
+      return;
+    }
+
+    setPlaceSuggestions(localMatches);
+    setIsSearchingPlaces(localMatches.length === 0);
 
     const timer = window.setTimeout(() => {
       void searchWebBirthPlaces(query).then(places => {
@@ -487,6 +501,13 @@ export function WebKundliWizard(): React.JSX.Element {
   }
 
   const shouldShowReadyFirst = Boolean(kundli && !editingKundliId);
+  const shouldShowBirthPlaceSuggestions =
+    isPlaceSuggestionsOpen && !isSelectedPlaceCurrent && placeSuggestions.length > 0;
+  const shouldShowBirthPlaceSearchStatus =
+    isPlaceSuggestionsOpen &&
+    !isSelectedPlaceCurrent &&
+    isSearchingPlaces &&
+    placeSuggestions.length === 0;
   const readyFlow = kundli ? (
     <KundliReadyFlow
       creationNote={lastCreationNote}
@@ -619,9 +640,12 @@ export function WebKundliWizard(): React.JSX.Element {
               <small id="birth-place-help">
                 Select the matching city so the chart uses the right timezone.
               </small>
-              {isPlaceSuggestionsOpen &&
-              !isSelectedPlaceCurrent &&
-              (placeSuggestions.length > 0 || isSearchingPlaces) ? (
+              {shouldShowBirthPlaceSearchStatus ? (
+                <small className="birth-place-search-status">
+                  {labels.searchingPlaces}
+                </small>
+              ) : null}
+              {shouldShowBirthPlaceSuggestions ? (
                 <div className="birth-place-suggestions" role="listbox">
                   {placeSuggestions.slice(0, 6).map(option => {
                     const optionLabel = getBirthPlaceLabel(option);
@@ -647,7 +671,6 @@ export function WebKundliWizard(): React.JSX.Element {
                       </button>
                     );
                   })}
-                  {isSearchingPlaces ? <em>{labels.searchingPlaces}</em> : null}
                 </div>
               ) : null}
             </div>

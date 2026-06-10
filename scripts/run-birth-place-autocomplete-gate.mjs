@@ -65,6 +65,10 @@ try {
     throw new Error('Birth-place input was not found.');
   }
 
+  if (result.partialSuggestionsMounted && result.partialHasSearchingPlaces) {
+    throw new Error('Known local place suggestions showed a stale Searching places status.');
+  }
+
   if (
     !result.optionFound &&
     result.inputValue !== 'Petlad, Gujarat, India'
@@ -133,6 +137,22 @@ async function runAutocompleteScenario(cdp) {
     expression: `(() => {
       const input = document.querySelector('input[placeholder="Start typing city, state, country"]');
       const setter = Object.getOwnPropertyDescriptor(input.constructor.prototype, 'value')?.set;
+      setter.call(input, 'Petla');
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    })()`,
+  });
+
+  await delay(350);
+
+  const partialState = await collectAutocompleteState(cdp, {
+    optionPattern: /Petlad/i,
+  });
+
+  await cdp.send('Runtime.evaluate', {
+    expression: `(() => {
+      const input = document.querySelector('input[placeholder="Start typing city, state, country"]');
+      const setter = Object.getOwnPropertyDescriptor(input.constructor.prototype, 'value')?.set;
       setter.call(input, 'Petlad');
       input.dispatchEvent(new Event('input', { bubbles: true }));
       input.dispatchEvent(new Event('change', { bubbles: true }));
@@ -184,11 +204,21 @@ async function runAutocompleteScenario(cdp) {
     ) {
       return {
         ...earlyResult,
+        partialHasSearchingPlaces: partialState.hasSearchingPlaces,
+        partialOptionFound: partialState.optionFound,
+        partialSuggestionsMounted: partialState.suggestionsMounted,
+        partialSuggestionsText: partialState.suggestionsText,
         ...(await collectRefocusState(cdp)),
       };
     }
 
-    return earlyResult;
+    return {
+      ...earlyResult,
+      partialHasSearchingPlaces: partialState.hasSearchingPlaces,
+      partialOptionFound: partialState.optionFound,
+      partialSuggestionsMounted: partialState.suggestionsMounted,
+      partialSuggestionsText: partialState.suggestionsText,
+    };
   }
 
   await delay(1300);
@@ -216,8 +246,37 @@ async function runAutocompleteScenario(cdp) {
 
   return {
     ...selectedResult,
+    partialHasSearchingPlaces: partialState.hasSearchingPlaces,
+    partialOptionFound: partialState.optionFound,
+    partialSuggestionsMounted: partialState.suggestionsMounted,
+    partialSuggestionsText: partialState.suggestionsText,
     ...(await collectRefocusState(cdp)),
   };
+}
+
+async function collectAutocompleteState(cdp, { optionPattern }) {
+  const stateResponse = await cdp.send('Runtime.evaluate', {
+    expression: `(() => {
+      const options = [...document.querySelectorAll('.birth-place-suggestions button')];
+      const suggestions = document.querySelector('.birth-place-suggestions');
+      const input = document.querySelector('input[placeholder="Start typing city, state, country"]');
+      const text = document.body.textContent || '';
+
+      return {
+        hasSearchingPlaces: text.includes('Searching places...'),
+        horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+        inputFound: Boolean(input),
+        inputValue: input?.value || '',
+        optionFound: options.some(item => ${optionPattern}.test(item.textContent || '')),
+        suggestionsMounted: Boolean(suggestions),
+        suggestionsText: suggestions?.textContent?.trim() || '',
+        optionTexts: options.map(item => item.textContent?.trim()),
+      };
+    })()`,
+    returnByValue: true,
+  });
+
+  return stateResponse.result?.value ?? {};
 }
 
 async function collectRefocusState(cdp) {
