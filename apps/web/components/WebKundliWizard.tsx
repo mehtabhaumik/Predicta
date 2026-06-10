@@ -94,6 +94,7 @@ export function WebKundliWizard(): React.JSX.Element {
   const [showStorageNudge, setShowStorageNudge] = useState(false);
   const [showCreationReveal, setShowCreationReveal] = useState(false);
   const birthPlaceSearchRef = useRef<HTMLDivElement | null>(null);
+  const placeSearchRequestRef = useRef(0);
   const createdChartRef = useRef<HTMLElement | null>(null);
   const savedKundliRecords = useMemo(() => loadWebKundlis(), [kundli?.id]);
   const editingRecord = useMemo(
@@ -108,7 +109,7 @@ export function WebKundliWizard(): React.JSX.Element {
   const shouldShowRelationshipSelector = !isOwnerProfile;
   const selectedPlaceLabel = selectedPlace ? getBirthPlaceLabel(selectedPlace) : '';
   const isSelectedPlaceCurrent =
-    Boolean(selectedPlace) && doesBirthPlaceMatchQuery(selectedPlace, birthPlaceQuery);
+    Boolean(selectedPlace) && isExactBirthPlaceSelection(selectedPlace, birthPlaceQuery);
   const details = useMemo<BirthDetails | undefined>(
     () => {
       if (!selectedPlace) {
@@ -233,9 +234,11 @@ export function WebKundliWizard(): React.JSX.Element {
 
   useEffect(() => {
     let cancelled = false;
+    const requestId = ++placeSearchRequestRef.current;
     const query = birthPlaceQuery.trim();
+    const selectedPlaceIsExact = isExactBirthPlaceSelection(selectedPlace, query);
 
-    if (selectedPlace && !doesBirthPlaceMatchQuery(selectedPlace, query)) {
+    if (selectedPlace && !selectedPlaceIsExact) {
       setSelectedPlace(undefined);
     }
 
@@ -246,9 +249,10 @@ export function WebKundliWizard(): React.JSX.Element {
       return;
     }
 
-    if (selectedPlace && doesBirthPlaceMatchQuery(selectedPlace, query)) {
+    if (selectedPlaceIsExact) {
       setPlaceSuggestions([]);
       setIsSearchingPlaces(false);
+      setIsPlaceSuggestionsOpen(false);
       return;
     }
 
@@ -261,17 +265,23 @@ export function WebKundliWizard(): React.JSX.Element {
 
     const timer = window.setTimeout(() => {
       void searchWebBirthPlaces(query).then(places => {
-        if (cancelled) {
+        if (cancelled || requestId !== placeSearchRequestRef.current) {
+          return;
+        }
+
+        const exactMatch = places.find(place =>
+          isExactBirthPlaceSelection(place, query),
+        );
+        if (exactMatch) {
+          setSelectedPlace(exactMatch);
+          setBirthPlaceQuery(getBirthPlaceLabel(exactMatch));
+          setPlaceSuggestions([]);
+          setIsPlaceSuggestionsOpen(false);
+          setIsSearchingPlaces(false);
           return;
         }
 
         setPlaceSuggestions(places);
-        const exactMatch = places.find(place =>
-          doesBirthPlaceMatchQuery(place, query),
-        );
-        if (exactMatch) {
-          setSelectedPlace(exactMatch);
-        }
         setIsSearchingPlaces(false);
       });
     }, 220);
@@ -1261,6 +1271,32 @@ function birthDetailsToWebPlace(birthDetails: BirthDetails): WebBirthPlace {
     state: resolved?.state,
     timezone: birthDetails.timezone,
   };
+}
+
+function isExactBirthPlaceSelection(
+  place: WebBirthPlace | undefined,
+  query?: string,
+): boolean {
+  if (!place) {
+    return false;
+  }
+
+  const normalizedQuery = normalizeBirthPlaceLabel(query);
+
+  if (!normalizedQuery) {
+    return false;
+  }
+
+  return [
+    place.city,
+    place.label,
+    place.place,
+    getBirthPlaceLabel(place),
+    ...(place.aliases ?? []),
+  ]
+    .filter(Boolean)
+    .map(term => normalizeBirthPlaceLabel(term))
+    .some(term => term === normalizedQuery);
 }
 
 function getKundliGateMessage(
