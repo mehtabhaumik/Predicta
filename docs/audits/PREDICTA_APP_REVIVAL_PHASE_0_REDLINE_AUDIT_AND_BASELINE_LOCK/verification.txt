@@ -1,0 +1,25 @@
+PREDICTA_APP_REVIVAL_PHASE_0_REDLINE_AUDIT_AND_BASELINE_LOCK
+
+Result: GREEN - baseline locked, no implementation attempted.
+
+Verified:
+- Current route inventory under apps/web/app.
+- Current landing implementation is client-side.
+- Current hero primary CTA points to /dashboard.
+- Current dashboard layout wraps all dashboard routes in DashboardShell.
+- Current DashboardShell exposes many route groups before the user reaches the
+  emotional Predicta payoff.
+- Current build manifest route payloads show landing/chat/report are heavy.
+- Current chat href builder routes main and specialist Predicta chat to
+  dashboard paths.
+
+Artifacts:
+- redline-audit.md
+- artifacts/route-payload-table.json
+- artifacts/direct-chat-access-map.md
+- artifacts/dashboard-maze-map.md
+- artifacts/link-reliability-ledger.md
+
+Next required phase:
+PREDICTA_APP_REVIVAL_PHASE_1_TOP_LEVEL_ASK_ROUTE_AND_DIRECT_CHAT_ENTRY
+

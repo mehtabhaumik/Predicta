@@ -1,0 +1,84 @@
+{
+  "source": "apps/web/.next/app-build-manifest.json",
+  "date": "2026-06-10",
+  "note": "Sizes are uncompressed JS asset sizes from the latest available Next build manifest in the working tree.",
+  "largestSharedChunks": [
+    {
+      "file": "static/chunks/4393-df6a2eb9a6e66d71.js",
+      "kb": 1660.7
+    },
+    {
+      "file": "static/chunks/3404-12ce850ae8291163.js",
+      "kb": 852.5
+    }
+  ],
+  "routes": [
+    {
+      "route": "/",
+      "manifestKey": "/page",
+      "totalKb": 3480.3,
+      "redline": "Landing is too heavy for a chat-first front door."
+    },
+    {
+      "route": "/dashboard",
+      "manifestKey": "/dashboard/page",
+      "totalKb": 3338.8,
+      "redline": "Dashboard is heavy and should not be the primary user entry."
+    },
+    {
+      "route": "/dashboard/chat",
+      "manifestKey": "/dashboard/chat/page",
+      "totalKb": 3476.0,
+      "redline": "Chat is nearly as heavy as the dashboard and is nested in dashboard chrome."
+    },
+    {
+      "route": "/dashboard/report",
+      "manifestKey": "/dashboard/report/page",
+      "totalKb": 3671.5,
+      "redline": "Report route is the heaviest audited app route."
+    },
+    {
+      "route": "/dashboard/vedic",
+      "manifestKey": "/dashboard/vedic/page",
+      "totalKb": 3376.9,
+      "redline": "Vedic evidence room carries the same heavy shared chunks."
+    },
+    {
+      "route": "/dashboard/kp",
+      "manifestKey": "/dashboard/kp/page",
+      "totalKb": 3348.7,
+      "redline": "KP evidence room carries the same heavy shared chunks."
+    },
+    {
+      "route": "/dashboard/jaimini",
+      "manifestKey": "/dashboard/jaimini/page",
+      "totalKb": 3320.2,
+      "redline": "Jaimini evidence room carries the same heavy shared chunks."
+    },
+    {
+      "route": "/dashboard/numerology",
+      "manifestKey": "/dashboard/numerology/page",
+      "totalKb": 3311.0,
+      "redline": "Numerology evidence room carries the same heavy shared chunks."
+    },
+    {
+      "route": "/dashboard/signature",
+      "manifestKey": "/dashboard/signature/page",
+      "totalKb": 2924.8,
+      "redline": "Signature is lighter than other dashboard routes but still not lightweight."
+    },
+    {
+      "route": "/dashboard/kundli",
+      "manifestKey": "/dashboard/kundli/page",
+      "totalKb": 3380.8,
+      "redline": "Kundli creation sits inside heavy dashboard payload."
+    },
+    {
+      "route": "/dashboard/redeem-pass",
+      "manifestKey": "/dashboard/redeem-pass/page",
+      "totalKb": 2438.3,
+      "redline": "Redeem pass is lighter but still dashboard-bound."
+    }
+  ]
+}
+

@@ -1,0 +1,32 @@
+{
+  "phase": "PREDICTA_APP_REVIVAL_PHASE_0_REDLINE_AUDIT_AND_BASELINE_LOCK",
+  "status": "GREEN_BASELINE_LOCKED",
+  "date": "2026-06-10",
+  "implementationAttempted": false,
+  "evidenceSources": [
+    "apps/web/app/page.tsx",
+    "apps/web/components/HeroSection.tsx",
+    "apps/web/app/dashboard/layout.tsx",
+    "apps/web/components/DashboardShell.tsx",
+    "apps/web/lib/predicta-chat-cta.ts",
+    "apps/web/.next/app-build-manifest.json"
+  ],
+  "criticalFindings": [
+    "Landing page is a client component and loads a heavy route payload before the user can ask Predicta.",
+    "Hero primary CTA routes to /dashboard instead of a direct Predicta chat surface.",
+    "Chat is nested inside DashboardShell.",
+    "Canonical chat href builder returns dashboard chat paths.",
+    "Major app routes share heavy JS chunks, explaining late-feeling links."
+  ],
+  "routePayloadsKb": {
+    "/": 3480.3,
+    "/dashboard": 3338.8,
+    "/dashboard/chat": 3476.0,
+    "/dashboard/report": 3671.5,
+    "/dashboard/vedic": 3376.9,
+    "/dashboard/kp": 3348.7,
+    "/dashboard/jaimini": 3320.2
+  },
+  "nextPhase": "PREDICTA_APP_REVIVAL_PHASE_1_TOP_LEVEL_ASK_ROUTE_AND_DIRECT_CHAT_ENTRY"
+}
+
