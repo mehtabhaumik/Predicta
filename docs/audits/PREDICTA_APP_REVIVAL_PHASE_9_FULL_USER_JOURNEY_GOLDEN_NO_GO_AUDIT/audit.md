@@ -43,9 +43,24 @@ mobile navigation, and Hindi/Gujarati navigation labels.
 - UI text overflow: passed across 48 route and viewport checks.
 - UI personal space: passed across 56 route and viewport checks.
 
+## Live Deployment Follow-Up
+
+- Pushed `main` through `926f502c`.
+- Deployed Firebase App Hosting backend `predicta-web` for project
+  `predicta-a4758`.
+- Confirmed the deployed backend update time advanced to
+  `2026-06-10T15:48:40.330406Z`.
+- Added App Hosting `minInstances: 1` after live smoke proved query-string
+  handoff routes were hitting a slow server path. After the warm-instance
+  rollout, `https://predicta.rudraix.com/ask?x=1` returned `200`.
+- Reran `PREDICTA_FULL_JOURNEY_BASE_URL=https://predicta.rudraix.com corepack pnpm test:app-revival-phase-9`.
+- Reran `PREDICTA_AUTOCOMPLETE_BASE_URL=https://predicta.rudraix.com corepack pnpm test:birth-place-autocomplete`.
+- Hardened the autocomplete gate to wait for the hydrated live input before
+  interacting with the field.
+
 ## Verdict
 
 Green. The app now preserves Ask Predicta context through the chat-first
 journey, the Petlad autocomplete regression remains fixed in the current
-production build, and the broad navigation, translation, overflow, spacing,
-and mobile gates are green.
+production build and deployed domain, and the broad navigation, translation,
+overflow, spacing, and mobile gates are green.

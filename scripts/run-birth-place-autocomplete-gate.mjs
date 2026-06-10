@@ -109,6 +109,8 @@ try {
 }
 
 async function runAutocompleteScenario(cdp) {
+  await waitForBirthPlaceInput(cdp);
+
   const focusResponse = await cdp.send('Runtime.evaluate', {
     expression: `(() => {
       const input = document.querySelector('input[placeholder="Start typing city, state, country"]');
@@ -252,6 +254,33 @@ async function runAutocompleteScenario(cdp) {
     partialSuggestionsText: partialState.suggestionsText,
     ...(await collectRefocusState(cdp)),
   };
+}
+
+async function waitForBirthPlaceInput(cdp) {
+  await cdp.send('Runtime.evaluate', {
+    awaitPromise: true,
+    expression: `new Promise(resolve => {
+      const findInput = () =>
+        Boolean(document.querySelector('input[placeholder="Start typing city, state, country"]'));
+
+      if (findInput()) {
+        resolve(true);
+        return;
+      }
+
+      const timer = setInterval(() => {
+        if (findInput()) {
+          clearInterval(timer);
+          resolve(true);
+        }
+      }, 150);
+
+      setTimeout(() => {
+        clearInterval(timer);
+        resolve(false);
+      }, 15000);
+    })`,
+  });
 }
 
 async function collectAutocompleteState(cdp, { optionPattern }) {
