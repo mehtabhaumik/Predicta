@@ -26,6 +26,11 @@ Only live documents in this repo are listed here.
 
 ## Product And UX Rebuild
 
+- [PREDICTA_APP_REVIVAL_CHAT_FIRST_PERFORMANCE_STRICT_PHASES.md](./PREDICTA_APP_REVIVAL_CHAT_FIRST_PERFORMANCE_STRICT_PHASES.md)
+  Additive chat-first revival spine that makes Predicta the direct front door,
+  demotes dashboard to Library/My Astrology, enforces lightweight landing/chat
+  performance budgets, fixes link-click latency, and turns specialist worlds
+  into evidence rooms instead of control-panel mazes.
 - [Word_navigation_rebuild.md](./Word_navigation_rebuild.md)
   Structural rebuild direction for one Predicta with five first-class worlds.
 - [Predicta_Chat_Enhancements.md](./Predicta_Chat_Enhancements.md)
