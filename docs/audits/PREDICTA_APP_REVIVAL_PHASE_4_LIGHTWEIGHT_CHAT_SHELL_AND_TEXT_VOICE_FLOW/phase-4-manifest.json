@@ -1,0 +1,23 @@
+{
+  "phase": "PREDICTA_APP_REVIVAL_PHASE_4_LIGHTWEIGHT_CHAT_SHELL_AND_TEXT_VOICE_FLOW",
+  "status": "green",
+  "date": "2026-06-10",
+  "payloadEvidence": {
+    "askFirstLoadJs": "461 kB",
+    "dashboardFirstLoadJs": "590 kB",
+    "dashboardChatFirstLoadJs": "878 kB",
+    "dashboardReportFirstLoadJs": "927 kB",
+    "previousAskFirstLoadJs": "888 kB"
+  },
+  "checks": {
+    "typecheck": "pass",
+    "buildWeb": "pass",
+    "routeSmoke": "pass",
+    "browserInitialAskShell": "pass",
+    "browserAutoSendHandoff": "pass",
+    "browserVoiceAffordance": "pass",
+    "askTextOverflowAudit": "pass",
+    "personalSpaceAudit": "pass"
+  },
+  "authContractNote": "Unsigned local browser shows the inline account-required gate after handoff; the question is preserved and no navigation away occurs."
+}

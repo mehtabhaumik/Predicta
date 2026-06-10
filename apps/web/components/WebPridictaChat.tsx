@@ -789,9 +789,16 @@ export function WebPridictaChat({
     const prompt = params.get('prompt');
     const chartContext = chartContextFromParams(params);
     const ctaContext = chartContext ?? ctaContextFromParams(params);
+    const shouldAutoSend = params.get('autoSend') === 'true';
 
     if (prompt || ctaContext) {
       loadedQueryPromptRef.current = queryString;
+      if (shouldAutoSend && prompt) {
+        setInput('');
+        void sendMessage(prompt);
+        return;
+      }
+
       if (ctaContext) {
         const selectedSection =
           prompt ||

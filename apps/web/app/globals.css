@@ -20164,9 +20164,256 @@ select::-ms-expand {
   padding: clamp(24px, 4vw, 52px) var(--page-gutter) clamp(16px, 3vw, 32px);
 }
 
+.ask-lean-header {
+  align-items: center;
+  background: rgba(8, 8, 14, 0.82);
+  backdrop-filter: blur(18px) saturate(140%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  gap: clamp(18px, 4vw, 56px);
+  justify-content: space-between;
+  min-width: 0;
+  padding: 14px var(--page-gutter);
+  position: sticky;
+  top: 0;
+  z-index: var(--predicta-z-sticky);
+}
+
+.ask-lean-brand {
+  align-items: center;
+  color: var(--text);
+  display: inline-flex;
+  gap: 12px;
+  min-width: 0;
+  text-decoration: none;
+}
+
+.ask-lean-brand img {
+  border-radius: 14px;
+  flex: 0 0 auto;
+  height: 44px;
+  width: 44px;
+}
+
+.ask-lean-brand span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ask-lean-brand strong {
+  font-size: clamp(18px, 2.2vw, 24px);
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.ask-lean-brand small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 760;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ask-lean-nav {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(10px, 2vw, 18px);
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+.ask-lean-nav a {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 850;
+  line-height: 1;
+  padding: 10px 13px;
+  text-decoration: none;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+  white-space: nowrap;
+}
+
+.ask-lean-nav a:hover,
+.ask-lean-nav a:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(77, 175, 255, 0.34);
+  color: var(--text);
+  outline: none;
+}
+
 .ask-predicta-page {
   margin: 0 auto;
   max-width: min(1120px, 100%);
+}
+
+.ask-light-shell {
+  display: grid;
+  gap: clamp(18px, 3vw, 28px);
+  min-width: 0;
+  width: 100%;
+}
+
+.ask-light-console {
+  display: grid;
+  gap: 18px;
+  margin: 0 auto;
+  max-width: min(920px, 100%);
+  min-width: 0;
+  padding: clamp(20px, 3.4vw, 34px);
+  width: 100%;
+}
+
+.ask-light-shell-started .ask-light-console {
+  max-width: min(1100px, 100%);
+}
+
+.ask-light-copy {
+  display: grid;
+  gap: 10px;
+  max-width: 760px;
+  min-width: 0;
+}
+
+.ask-light-copy h1 {
+  color: var(--text);
+  font-size: clamp(34px, 5vw, 68px);
+  letter-spacing: -0.055em;
+  line-height: 0.94;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.ask-light-shell-started .ask-light-copy h1 {
+  font-size: clamp(28px, 3.6vw, 44px);
+}
+
+.ask-light-copy p {
+  color: var(--muted);
+  font-size: clamp(16px, 1.7vw, 19px);
+  line-height: 1.58;
+  margin: 0;
+  max-width: 720px;
+}
+
+.ask-light-field {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+
+.ask-light-field span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.ask-light-field textarea {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 22px;
+  color: var(--text);
+  font: inherit;
+  font-size: 18px;
+  line-height: 1.5;
+  min-height: 122px;
+  outline: none;
+  padding: 18px;
+  resize: vertical;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+  width: 100%;
+}
+
+.ask-light-shell-started .ask-light-field textarea {
+  min-height: 88px;
+}
+
+.ask-light-field textarea:focus {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(77, 175, 255, 0.48);
+  box-shadow: 0 0 0 4px rgba(77, 175, 255, 0.14);
+}
+
+.ask-light-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-width: 0;
+}
+
+.ask-light-chips button {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 850;
+  line-height: 1.25;
+  max-width: 100%;
+  min-height: 42px;
+  padding: 10px 14px;
+  text-align: left;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.ask-light-chips button:hover,
+.ask-light-chips button:focus-visible {
+  background: rgba(77, 175, 255, 0.13);
+  border-color: rgba(77, 175, 255, 0.38);
+  color: var(--text);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.ask-light-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.ask-light-hints {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.ask-light-hints span,
+.ask-light-voice-note {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 16px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 760;
+  line-height: 1.45;
+  margin: 0;
+  min-width: 0;
+  padding: 12px 14px;
+}
+
+.ask-light-voice-note {
+  border-color: rgba(217, 180, 91, 0.24);
+  color: var(--text);
 }
 
 .ask-predicta-page .chat-panel {
@@ -23155,6 +23402,63 @@ select::-ms-expand {
 
   .landing-question-chips button {
     border-radius: 16px;
+    width: 100%;
+  }
+
+  .ask-light-console {
+    border-radius: 22px;
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .ask-lean-header {
+    align-items: stretch;
+    display: grid;
+    gap: 12px;
+    grid-template-columns: 1fr;
+  }
+
+  .ask-lean-brand {
+    max-width: 100%;
+  }
+
+  .ask-lean-nav {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .ask-lean-nav a {
+    min-width: 0;
+    padding-inline: 10px;
+    text-align: center;
+  }
+
+  .ask-light-copy h1 {
+    font-size: clamp(36px, 12vw, 52px);
+  }
+
+  .ask-light-field textarea {
+    border-radius: 16px;
+    font-size: 16px;
+    min-height: 116px;
+    padding: 14px;
+  }
+
+  .ask-light-shell-started .ask-light-field textarea {
+    min-height: 86px;
+  }
+
+  .ask-light-chips,
+  .ask-light-actions,
+  .ask-light-hints {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .ask-light-chips button,
+  .ask-light-actions .button {
+    justify-content: center;
     width: 100%;
   }
 
