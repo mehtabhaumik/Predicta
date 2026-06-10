@@ -1,16 +1,16 @@
 'use client';
 
-import { getCompetitorResponseCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { useState } from 'react';
-import { useLanguagePreference } from '../lib/language-preference';
+import { getLightweightCompetitorResponseCopy } from '../lib/lightweight-public-copy';
+import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 
 const DEFAULT_ASK_PROMPT =
   'Help me create my Kundli first, then answer my astrology question clearly.';
 
 export function LandingChatFirstContent(): React.JSX.Element {
-  const { language } = useLanguagePreference();
-  const copy = getCompetitorResponseCopy(language);
+  const { language } = useLightweightLanguagePreference();
+  const copy = getLightweightCompetitorResponseCopy(language);
   const landing = copy.landing;
   const [question, setQuestion] = useState('');
 

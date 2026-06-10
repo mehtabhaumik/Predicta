@@ -1,0 +1,34 @@
+{
+  "phase": "PREDICTA_APP_REVIVAL_PHASE_6_ROUTE_BUNDLE_AND_LOAD_TIME_REBUILD",
+  "status": "green",
+  "date": "2026-06-10",
+  "before": {
+    "/": {
+      "firstLoadJsKb": 599
+    },
+    "/ask": {
+      "firstLoadJsKb": 464
+    }
+  },
+  "after": {
+    "/": {
+      "firstLoadJsKb": 125,
+      "pageSpecificJsKb": 84
+    },
+    "/ask": {
+      "firstLoadJsKb": 125,
+      "pageSpecificJsKb": 81
+    }
+  },
+  "checks": {
+    "webTypecheck": "pass",
+    "webProductionBuild": "pass",
+    "phase6BundleGate": "pass",
+    "runtimeLandingAskSmoke": "pass",
+    "runtimeGujaratiTranslationSmoke": "pass",
+    "routeSmoke": "pass",
+    "uiTextOverflow": "pass",
+    "uiPersonalSpace": "pass",
+    "globalTranslationCoverage": "pass"
+  }
+}

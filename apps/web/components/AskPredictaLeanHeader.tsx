@@ -1,13 +1,16 @@
 'use client';
 
-import { getAppShellLabels, getCompetitorResponseCopy } from '@pridicta/config';
 import Link from 'next/link';
-import { useLanguagePreference } from '../lib/language-preference';
+import {
+  getLightweightAppShellLabels,
+  getLightweightCompetitorResponseCopy,
+} from '../lib/lightweight-public-copy';
+import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 
 export function AskPredictaLeanHeader(): React.JSX.Element {
-  const { language } = useLanguagePreference();
-  const labels = getAppShellLabels(language);
-  const responseCopy = getCompetitorResponseCopy(language);
+  const { language } = useLightweightLanguagePreference();
+  const labels = getLightweightAppShellLabels(language);
+  const responseCopy = getLightweightCompetitorResponseCopy(language);
 
   return (
     <header className="ask-lean-header">

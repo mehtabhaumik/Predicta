@@ -1,10 +1,10 @@
 'use client';
 
-import { getCompetitorResponseCopy } from '@pridicta/config';
 import dynamic from 'next/dynamic';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
-import { useLanguagePreference } from '../lib/language-preference';
+import { getLightweightCompetitorResponseCopy } from '../lib/lightweight-public-copy';
+import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 
 const FullPredictaChat = dynamic(
   () =>
@@ -41,8 +41,8 @@ const CONTEXT_PARAMS = [
 export function AskPredictaLightShell(): React.JSX.Element {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { language } = useLanguagePreference();
-  const landing = getCompetitorResponseCopy(language).landing;
+  const { language } = useLightweightLanguagePreference();
+  const landing = getLightweightCompetitorResponseCopy(language).landing;
   const incomingPrompt = searchParams.get('prompt') ?? '';
   const hasIncomingContext = useMemo(
     () => CONTEXT_PARAMS.some(param => searchParams.has(param)),

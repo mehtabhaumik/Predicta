@@ -166,7 +166,8 @@
         "title": "Saved safely",
         "body": "Your Kundli stays safe here. Sign in to keep it with you on every device."
       },
-      "topbarDescription": "Holistic astrology guidance, reports, charts, and saved kundlis."
+      "topbarDescription": "Holistic astrology guidance, reports, charts, and saved kundlis.",
+      "publicDisclaimer": "For reflection and self-understanding only. Not medical, legal, financial, emergency, or guaranteed prediction advice."
     },
     "hi": {
       "access": {
@@ -245,7 +246,8 @@
         "title": "सुरक्षित सेव",
         "body": "आपकी कुंडली यहां सुरक्षित रहती है. हर डिवाइस पर अपने साथ रखने के लिए साइन इन करें."
       },
-      "topbarDescription": "होलिस्टिक ज्योतिष मार्गदर्शन, रिपोर्ट, चार्ट और सेव कुंडलियां."
+      "topbarDescription": "होलिस्टिक ज्योतिष मार्गदर्शन, रिपोर्ट, चार्ट और सेव कुंडलियां.",
+      "publicDisclaimer": "यह केवल चिंतन और आत्म-समझ के लिए है. यह चिकित्सा, कानूनी, वित्तीय, आपातकालीन या गारंटी वाली भविष्यवाणी सलाह नहीं है."
     },
     "gu": {
       "access": {
@@ -324,7 +326,8 @@
         "title": "સુરક્ષિત સેવ",
         "body": "તમારી કુંડળી અહીં સુરક્ષિત રહે છે. દરેક ડિવાઇસ પર સાથે રાખવા માટે સાઇન ઇન કરો."
       },
-      "topbarDescription": "હોલિસ્ટિક જ્યોતિષ માર્ગદર્શન, રિપોર્ટ્સ, ચાર્ટ્સ અને સેવ કુંડળીઓ."
+      "topbarDescription": "હોલિસ્ટિક જ્યોતિષ માર્ગદર્શન, રિપોર્ટ્સ, ચાર્ટ્સ અને સેવ કુંડળીઓ.",
+      "publicDisclaimer": "આ માત્ર વિચાર અને આત્મસમજ માટે છે. આ તબીબી, કાનૂની, નાણાકીય, ઇમરજન્સી અથવા ગેરંટીવાળી આગાહી સલાહ નથી."
     }
   },
   "confidenceLabels": {
