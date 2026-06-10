@@ -3,36 +3,31 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { getCompetitorResponseCopy } from '@pridicta/config';
-import { PREDICTA_OUTCOME_ENTRIES } from '@pridicta/config/predictaUx';
 import { translateUiText } from '@pridicta/config/uiTranslations';
-import {
-  composeDailyBriefing,
-  composeDestinyPassport,
-  composeHolisticDailyGuidance,
-  composeNumerologyFoundationModel,
-  composePersonalPanchangLayer,
-  composePurusharthaLifeBalance,
-  composeTransitGocharIntelligence,
-  composeYearlyHoroscopeVarshaphal,
-} from '@pridicta/astrology';
-import { Card } from '../../components/Card';
-import { WebDashboardAstrologyCockpit } from '../../components/WebDashboardAstrologyCockpit';
-import { WebDailyBriefingCard } from '../../components/WebDailyBriefingCard';
-import { WebDestinyPassportCard } from '../../components/WebDestinyPassportCard';
-import { WebGocharSynopsisCard } from '../../components/WebGocharSynopsisCard';
-import { WebYearlySynopsisCard } from '../../components/WebYearlySynopsisCard';
-import { WebActiveKundliActions } from '../../components/WebActiveKundliActions';
-import { WebHookRetentionMoments } from '../../components/WebHookRetentionMoments';
 import { useLanguagePreference } from '../../lib/language-preference';
 import { buildPredictaChatHref } from '../../lib/predicta-chat-cta';
 import { useWebKundliLibrary } from '../../lib/use-web-kundli-library';
 
+type LibraryLink = {
+  body: string;
+  href: string;
+  title: string;
+};
+
 export default function DashboardPage(): React.JSX.Element {
   const { language } = useLanguagePreference();
-  const competitorCopy = getCompetitorResponseCopy(language).dashboard;
+  const copy = getCompetitorResponseCopy(language).dashboard;
   const t = (value: string) => translateUiText(value, language);
-  const { activeKundli } = useWebKundliLibrary();
+  const { activeKundli, savedKundlis } = useWebKundliLibrary();
   const [isFamilyFriendsVisit, setIsFamilyFriendsVisit] = useState(false);
+  const savedCount = savedKundlis.length;
+  const askHref = buildPredictaChatHref({
+    kundli: activeKundli,
+    prompt: activeKundli
+      ? copy.libraryAskActivePrompt
+      : copy.libraryAskNewPrompt,
+    sourceScreen: 'My Astrology Library',
+  });
 
   useEffect(() => {
     setIsFamilyFriendsVisit(
@@ -41,282 +36,174 @@ export default function DashboardPage(): React.JSX.Element {
     );
   }, []);
 
-  if (!activeKundli) {
-    return (
-      <section className="dashboard-page">
-        {isFamilyFriendsVisit ? (
-          <FriendsFamilyWelcome hasKundli={false} />
-        ) : null}
-        <div className="page-heading">
-          <h1 className="gradient-text">{competitorCopy.emptyTitle}</h1>
-          <p>{competitorCopy.emptyBody}</p>
-        </div>
-
-        <section className="kundli-empty-state glass-panel">
-          <div>
-            <div className="section-title">{competitorCopy.firstStepEyebrow}</div>
-            <h2>{competitorCopy.firstStepTitle}</h2>
-            <p>{competitorCopy.firstStepBody}</p>
-            <div className="kundli-empty-actions">
-              <Link className="button" href="/dashboard/kundli">
-                {t('Create Kundli')}
-              </Link>
-              <Link
-                className="button secondary"
-                href={buildPredictaChatHref({
-                  prompt:
-                    'Create my Kundli from chat. Ask me for any missing birth details one by one.',
-                  sourceScreen: 'Dashboard',
-                })}
-              >
-                {t('Let Predicta create it')}
-              </Link>
-            </div>
-          </div>
-          <details className="info-drawer kundli-empty-note">
-            <summary>
-              <span>{t('What happens next')}</span>
-              <strong>{t('See next steps')}</strong>
-            </summary>
-            <p>
-              {t(
-                'After the Kundli is ready, Predicta will suggest today’s Gochar, today’s guidance, charts, reports, remedies, and the best next question.',
-              )}
-            </p>
-          </details>
-        </section>
-
-        <section className="kundli-unlock-preview">
-          <div className="section-heading compact-left">
-            <div className="section-title">
-              {competitorCopy.kundliUnlocksEyebrow}
-            </div>
-            <h2>{competitorCopy.kundliUnlocksTitle}</h2>
-            <details className="info-drawer">
-              <summary>
-                <span>{competitorCopy.kundliUnlocksCompactTitle}</span>
-                <strong>{competitorCopy.kundliUnlocksCompactCta}</strong>
-              </summary>
-              <p>{competitorCopy.kundliUnlocksCompactBody}</p>
-            </details>
-          </div>
-          <div className="kundli-unlock-grid">
-            {competitorCopy.kundliUnlocks.map(item => (
-              <article className="kundli-unlock-card" key={item.title}>
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <Card className="save-restore-card">
-          <div className="card-content spacious">
-            <div className="section-title">{t('SAVED SAFELY')}</div>
-            <h2>{t('Your Kundli stays protected.')}</h2>
-            <details className="info-drawer">
-              <summary>
-                <span>{t('How your Kundli stays with you')}</span>
-                <strong>{t('Open')}</strong>
-              </summary>
-              <p>
-                {t(
-                  'Predicta keeps your work ready here. Sign in when you want your Kundlis, reports, and chats with you on every device.',
-                )}
-              </p>
-            </details>
-            <div className="action-row compact">
-              <Link className="button secondary" href="/dashboard/redeem-pass">
-                {t('Redeem Guest Pass')}
-              </Link>
-              <Link className="button secondary" href="/dashboard/settings">
-                {t('Privacy Settings')}
-              </Link>
-            </div>
-          </div>
-        </Card>
-      </section>
-    );
-  }
-
-  const dailyBriefing = composeDailyBriefing(activeKundli);
-  const destinyPassport = composeDestinyPassport(activeKundli);
-  const gochar = composeTransitGocharIntelligence(activeKundli, {
-    depth: 'FREE',
-  });
-  const yearlyHoroscope = composeYearlyHoroscopeVarshaphal(activeKundli, {
-    depth: 'FREE',
-  });
-  const purushartha = composePurusharthaLifeBalance(activeKundli);
-  const personalPanchang = composePersonalPanchangLayer(activeKundli);
-  const holisticDailyGuidance = composeHolisticDailyGuidance(activeKundli);
-  const numerology = composeNumerologyFoundationModel(activeKundli.birthDetails);
-
   return (
-    <section className="dashboard-page">
+    <section className="dashboard-page library-dashboard-page">
       {isFamilyFriendsVisit ? (
-        <FriendsFamilyWelcome hasKundli />
+        <FriendsFamilyWelcome hasKundli={Boolean(activeKundli)} />
       ) : null}
-      <div className="page-heading">
-        <h1 className="gradient-text">{competitorCopy.readyTitle}</h1>
-        <p>{competitorCopy.readyBody}</p>
+
+      <div className="page-heading library-dashboard-heading">
+        <div className="section-title">{copy.libraryEyebrow}</div>
+        <h1 className="gradient-text">
+          {activeKundli ? copy.libraryReadyTitle : copy.libraryEmptyTitle}
+        </h1>
+        <p>{activeKundli ? copy.libraryReadyBody : copy.libraryEmptyBody}</p>
       </div>
 
-      <section className="primary-predicta-panel glass-panel">
+      <section className="primary-predicta-panel library-predicta-panel glass-panel">
         <div className="primary-predicta-copy">
           <div className="section-title">
-            {competitorCopy.primaryPredictaEyebrow}
+            {copy.primaryPredictaEyebrow}
           </div>
-          <h2>{competitorCopy.primaryPredictaTitle}</h2>
-          <p>{competitorCopy.primaryPredictaBody}</p>
-          <span>{competitorCopy.primaryPredictaProof}</span>
+          <h2>{copy.primaryPredictaTitle}</h2>
+          <p>{copy.primaryPredictaBody}</p>
+          <span>{copy.primaryPredictaProof}</span>
         </div>
         <div className="primary-predicta-actions">
-          <Link
-            className="button"
-            href={buildPredictaChatHref({
-              kundli: activeKundli,
-              prompt:
-                'Help me ask the most useful question from my Kundli and choose the right evidence rooms.',
-              sourceScreen: 'Dashboard Primary Predicta',
-            })}
-          >
-            {competitorCopy.primaryPredictaPrimary}
+          <Link className="button" href={askHref}>
+            {copy.primaryPredictaPrimary}
           </Link>
-          <Link className="button secondary" href="/dashboard/vedic">
-            {competitorCopy.primaryPredictaSecondary}
-          </Link>
-        </div>
-      </section>
-
-      <WebActiveKundliActions
-        kundli={activeKundli}
-        sourceScreen="Dashboard"
-      />
-
-      <WebDashboardAstrologyCockpit
-        dailyBriefing={dailyBriefing}
-        gochar={gochar}
-        kundli={activeKundli}
-        numerology={numerology}
-        personalPanchang={personalPanchang}
-        purushartha={purushartha}
-        yearlyHoroscope={yearlyHoroscope}
-      />
-
-      <WebHookRetentionMoments kundli={activeKundli} />
-
-      <WebDailyBriefingCard
-        briefing={dailyBriefing}
-        ctaHref="/dashboard/kundli"
-        holisticGuidance={holisticDailyGuidance}
-      />
-
-      <section className="outcome-entry-panel glass-panel">
-        <div className="outcome-entry-head">
-          <div>
-            <div className="section-title">{competitorCopy.outcomeEyebrow}</div>
-            <h2>{competitorCopy.outcomeTitle}</h2>
-            <details className="info-drawer">
-              <summary>
-                <span>{competitorCopy.outcomeDrawerTitle}</span>
-                <strong>{competitorCopy.outcomeDrawerCta}</strong>
-              </summary>
-              <p>{competitorCopy.outcomeDrawerBody}</p>
-            </details>
-          </div>
-        </div>
-        <div className="outcome-entry-grid">
-          {PREDICTA_OUTCOME_ENTRIES.map(entry => (
-            <Link
-              className="outcome-entry-card"
-              href={buildPredictaChatHref({
-                kundli: activeKundli,
-                prompt: entry.prompt,
-                purpose: entry.id,
-                selectedSection: entry.title,
-                sourceScreen: 'Dashboard Outcome Entry',
-              })}
-              key={entry.id}
-            >
-              <div>
-                <span className="section-title">{entry.proof}</span>
-                <h3>{entry.title}</h3>
-                <p>{entry.body}</p>
-              </div>
-              <strong>{entry.cta}</strong>
+          {!activeKundli ? (
+            <Link className="button secondary" href="/dashboard/kundli">
+              {copy.libraryCreateKundli}
             </Link>
-          ))}
-        </div>
-      </section>
-
-      <div className="dashboard-synopsis-grid">
-        <WebGocharSynopsisCard intelligence={gochar} />
-        <WebYearlySynopsisCard intelligence={yearlyHoroscope} />
-      </div>
-
-      <WebDestinyPassportCard
-        ctaHref="/dashboard/kundli"
-        passport={destinyPassport}
-      />
-
-      <Card className="save-restore-card dashboard-saved-work-card">
-        <div className="card-content spacious">
-          <div>
-            <div className="section-title">{competitorCopy.savedEyebrow}</div>
-            <h2>{competitorCopy.savedTitle}</h2>
-            <details className="info-drawer">
-              <summary>
-                <span>{competitorCopy.savedDrawerTitle}</span>
-                <strong>{competitorCopy.savedDrawerCta}</strong>
-              </summary>
-              <p>{competitorCopy.savedDrawerBody}</p>
-            </details>
-          </div>
-          <div className="action-row compact">
+          ) : (
             <Link className="button secondary" href="/dashboard/saved-kundlis">
-              Saved Kundlis
+              {copy.libraryOpenSavedWork}
             </Link>
-            <Link className="button secondary" href="/dashboard/family">
-              Family Vault
-            </Link>
-            <Link className="button secondary" href="/dashboard/settings">
-              Privacy Settings
-            </Link>
-          </div>
-        </div>
-      </Card>
-
-      <section className="smart-monetization-panel glass-panel">
-        <div>
-          <div className="section-title">{competitorCopy.depthEyebrow}</div>
-          <h2>{competitorCopy.depthTitle}</h2>
-          <details className="info-drawer">
-            <summary>
-              <span>{competitorCopy.depthDrawerTitle}</span>
-              <strong>{competitorCopy.depthDrawerCta}</strong>
-            </summary>
-            <p>{competitorCopy.depthDrawerBody}</p>
-          </details>
-        </div>
-        <div className="smart-monetization-grid">
-          <Link href="/dashboard/premium">
-            <span>{competitorCopy.depthCards[0]?.eyebrow}</span>
-            <strong>{competitorCopy.depthCards[0]?.title}</strong>
-            <small>{competitorCopy.depthCards[0]?.body}</small>
-          </Link>
-          <Link href="/dashboard/report">
-            <span>{competitorCopy.depthCards[1]?.eyebrow}</span>
-            <strong>{competitorCopy.depthCards[1]?.title}</strong>
-            <small>{competitorCopy.depthCards[1]?.body}</small>
-          </Link>
-          <Link href="/checkout?productId=pridicta_day_pass_24h">
-            <span>{competitorCopy.depthCards[2]?.eyebrow}</span>
-            <strong>{competitorCopy.depthCards[2]?.title}</strong>
-            <small>{competitorCopy.depthCards[2]?.body}</small>
-          </Link>
+          )}
         </div>
       </section>
+
+      <section className="library-status-panel glass-panel">
+        <div>
+          <div className="section-title">{copy.libraryStatusEyebrow}</div>
+          <h2>
+            {activeKundli
+              ? copy.libraryActiveProfileTitle.replace(
+                  '{name}',
+                  activeKundli.birthDetails.name,
+                )
+              : copy.libraryNoActiveProfileTitle}
+          </h2>
+          <p>
+            {activeKundli
+              ? copy.libraryActiveProfileBody.replace(
+                  '{place}',
+                  activeKundli.birthDetails.place,
+                )
+              : copy.libraryNoActiveProfileBody}
+          </p>
+        </div>
+        <div className="library-status-metrics" aria-label={copy.libraryStatusEyebrow}>
+          <span>
+            <strong>{savedCount}</strong>
+            <small>{copy.librarySavedCountLabel}</small>
+          </span>
+          <span>
+            <strong>{activeKundli ? '1' : '0'}</strong>
+            <small>{copy.libraryActiveCountLabel}</small>
+          </span>
+        </div>
+      </section>
+
+      <LibrarySection
+        body={copy.librarySavedWorkBody}
+        eyebrow={copy.librarySavedWorkEyebrow}
+        links={[
+          {
+            body: copy.librarySavedKundlisBody,
+            href: '/dashboard/saved-kundlis',
+            title: t('Kundli Library'),
+          },
+          {
+            body: copy.libraryReportsBody,
+            href: '/dashboard/report',
+            title: t('Reports'),
+          },
+          {
+            body: copy.libraryFamilyBody,
+            href: '/dashboard/family',
+            title: t('Family Vault'),
+          },
+          {
+            body: copy.libraryPassesBody,
+            href: '/dashboard/redeem-pass',
+            title: t('Passes'),
+          },
+          {
+            body: copy.libraryAccountBody,
+            href: '/dashboard/account',
+            title: t('Account'),
+          },
+        ]}
+        title={copy.librarySavedWorkTitle}
+      />
+
+      <LibrarySection
+        body={copy.libraryEvidenceRoomsBody}
+        eyebrow={copy.libraryEvidenceRoomsEyebrow}
+        links={[
+          {
+            body: copy.libraryVedicBody,
+            href: '/dashboard/vedic',
+            title: t('Vedic Evidence'),
+          },
+          {
+            body: copy.libraryKpBody,
+            href: '/dashboard/kp',
+            title: t('KP Evidence'),
+          },
+          {
+            body: copy.libraryJaiminiBody,
+            href: '/dashboard/jaimini',
+            title: t('Jaimini Evidence'),
+          },
+          {
+            body: copy.libraryNumerologyBody,
+            href: '/dashboard/numerology',
+            title: t('Numerology Evidence'),
+          },
+          {
+            body: copy.librarySignatureBody,
+            href: '/dashboard/signature',
+            title: t('Signature Evidence'),
+          },
+        ]}
+        title={copy.libraryEvidenceRoomsTitle}
+      />
+    </section>
+  );
+}
+
+function LibrarySection({
+  body,
+  eyebrow,
+  links,
+  title,
+}: {
+  body: string;
+  eyebrow: string;
+  links: LibraryLink[];
+  title: string;
+}): React.JSX.Element {
+  return (
+    <section className="library-section-panel glass-panel">
+      <div className="library-section-head">
+        <div>
+          <div className="section-title">{eyebrow}</div>
+          <h2>{title}</h2>
+          <p>{body}</p>
+        </div>
+      </div>
+      <div className="library-action-grid">
+        {links.map(link => (
+          <Link className="library-action-card" href={link.href} key={link.href}>
+            <strong>{link.title}</strong>
+            <span>{link.body}</span>
+          </Link>
+        ))}
+      </div>
     </section>
   );
 }
@@ -352,7 +239,7 @@ function FriendsFamilyWelcome({
           className="button secondary"
           href={
             hasKundli
-              ? '/dashboard/chat?sourceScreen=Private+Preview&prompt=Show+me+what+I+should+try+first+from+my+Kundli.'
+              ? '/ask?sourceScreen=Private+Preview&prompt=Show+me+what+I+should+try+first+from+my+Kundli.'
               : '/dashboard/kundli'
           }
         >

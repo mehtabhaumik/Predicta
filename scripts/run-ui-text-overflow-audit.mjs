@@ -18,7 +18,7 @@ const chromePath =
     '/usr/bin/chromium-browser',
   ].find(candidate => existsSync(candidate));
 
-const routes = [
+const defaultRoutes = [
   '/',
   '/ask',
   '/pricing',
@@ -48,6 +48,7 @@ const routes = [
   '/dashboard/settings',
   '/dashboard/account',
 ];
+const routes = parseRouteOverride(process.env.PREDICTA_UI_OVERFLOW_ROUTES) ?? defaultRoutes;
 
 const viewports = [
   { height: 1100, name: 'desktop', width: 1440 },
@@ -346,6 +347,19 @@ function waitForProcessExit(process, timeoutMs) {
       resolve();
     });
   });
+}
+
+function parseRouteOverride(value) {
+  const routes = (value ?? '')
+    .split(',')
+    .map(route => route.trim())
+    .filter(Boolean);
+
+  if (routes.length === 0) {
+    return undefined;
+  }
+
+  return routes.map(route => (route.startsWith('/') ? route : `/${route}`));
 }
 
 function getJson(url) {

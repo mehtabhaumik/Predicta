@@ -40,20 +40,11 @@ function buildDashboardNavModel(
 ): DashboardNavModel {
   const sections: SidebarSection[] = [
     {
-      href: '/dashboard/chat',
+      href: '/ask',
       id: 'predicta',
       label: labels.actions.askPredicta,
       items: [
-        { href: '/dashboard/chat', label: labels.nav.chat },
-        { href: '/dashboard', label: labels.nav.overview },
-      ],
-    },
-    {
-      href: '/dashboard',
-      id: 'overview',
-      label: labels.nav.dashboard,
-      items: [
-        { href: '/dashboard', label: labels.nav.overview },
+        { href: '/ask', label: labels.actions.askPredicta },
       ],
     },
     {
@@ -113,10 +104,11 @@ function buildDashboardNavModel(
       ],
     },
     {
-      href: '/dashboard/saved-kundlis',
+      href: '/dashboard',
       id: 'library',
       label: labels.nav.library,
       items: [
+        { href: '/dashboard', label: labels.nav.dashboard },
         { href: '/dashboard/saved-kundlis', label: labels.nav.savedKundlis },
         { href: '/dashboard/family', label: labels.nav.family },
         { href: '/dashboard/matchmaking', label: labels.nav.relationship },
@@ -158,7 +150,7 @@ function getActiveDashboardSection(
   sections: SidebarSection[],
 ): SidebarSection {
   if (pathname === '/dashboard') {
-    return sections.find(section => section.id === 'overview') ?? sections[0];
+    return sections.find(section => section.id === 'library') ?? sections[0];
   }
 
   if (pathname === '/dashboard/chat') {
@@ -262,7 +254,7 @@ function getTopbarPredictaSourceScreen(
     return 'Signature Predicta';
   }
 
-  return 'Dashboard';
+  return 'Library';
 }
 
 const TOPBAR_CONTEXT_COPY: Record<
@@ -272,9 +264,6 @@ const TOPBAR_CONTEXT_COPY: Record<
   en: {
     predicta: {
       eyebrow: getAppShellLabels('en').groups.predicta,
-    },
-    overview: {
-      eyebrow: 'Your home base',
     },
     vedic: {
       eyebrow: 'Vedic world',
@@ -305,9 +294,6 @@ const TOPBAR_CONTEXT_COPY: Record<
     predicta: {
       eyebrow: getAppShellLabels('hi').groups.predicta,
     },
-    overview: {
-      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.a58a16f75f"),
-    },
     vedic: {
       eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.4433fb4239"),
     },
@@ -336,9 +322,6 @@ const TOPBAR_CONTEXT_COPY: Record<
   gu: {
     predicta: {
       eyebrow: getAppShellLabels('gu').groups.predicta,
-    },
-    overview: {
-      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.7c0d6dcdaa"),
     },
     vedic: {
       eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.ef488c5215"),

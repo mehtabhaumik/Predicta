@@ -191,6 +191,13 @@ export function WebKundliWizard(): React.JSX.Element {
           mode: 'entered',
         };
 
+  function closeBirthPlaceSuggestions() {
+    placeSearchRequestRef.current += 1;
+    setPlaceSuggestions([]);
+    setIsSearchingPlaces(false);
+    setIsPlaceSuggestionsOpen(false);
+  }
+
   useEffect(() => {
     setKundli(loadWebKundli());
     const editKundliId = new URLSearchParams(window.location.search).get(
@@ -243,16 +250,12 @@ export function WebKundliWizard(): React.JSX.Element {
     }
 
     if (query.length < 2) {
-      setPlaceSuggestions([]);
-      setIsSearchingPlaces(false);
-      setIsPlaceSuggestionsOpen(false);
+      closeBirthPlaceSuggestions();
       return;
     }
 
     if (selectedPlaceIsExact) {
-      setPlaceSuggestions([]);
-      setIsSearchingPlaces(false);
-      setIsPlaceSuggestionsOpen(false);
+      closeBirthPlaceSuggestions();
       return;
     }
 
@@ -293,7 +296,7 @@ export function WebKundliWizard(): React.JSX.Element {
   }, [birthPlaceQuery, isPlaceSuggestionsOpen, selectedPlace]);
 
   useEffect(() => {
-    function closeBirthPlaceSuggestions(event: PointerEvent) {
+    function closeBirthPlaceSuggestionsOnOutsidePress(event: PointerEvent) {
       const target = event.target;
 
       if (
@@ -303,14 +306,16 @@ export function WebKundliWizard(): React.JSX.Element {
         return;
       }
 
-      setIsPlaceSuggestionsOpen(false);
-      setIsSearchingPlaces(false);
+      closeBirthPlaceSuggestions();
     }
 
-    document.addEventListener('pointerdown', closeBirthPlaceSuggestions);
+    document.addEventListener('pointerdown', closeBirthPlaceSuggestionsOnOutsidePress);
 
     return () => {
-      document.removeEventListener('pointerdown', closeBirthPlaceSuggestions);
+      document.removeEventListener(
+        'pointerdown',
+        closeBirthPlaceSuggestionsOnOutsidePress,
+      );
     };
   }, []);
 
@@ -554,6 +559,7 @@ export function WebKundliWizard(): React.JSX.Element {
                 onChange={event => {
                   resetFlow();
                   setBirthPlaceQuery(event.target.value);
+                  setSelectedPlace(undefined);
                   setIsPlaceSuggestionsOpen(true);
                 }}
                 onFocus={() => {
@@ -566,9 +572,22 @@ export function WebKundliWizard(): React.JSX.Element {
                 }}
                 onKeyDown={event => {
                   if (event.key === 'Escape') {
-                    setIsPlaceSuggestionsOpen(false);
-                    setIsSearchingPlaces(false);
+                    closeBirthPlaceSuggestions();
                     event.currentTarget.blur();
+                  }
+                }}
+                onBlur={event => {
+                  const relatedTarget = event.relatedTarget;
+
+                  if (
+                    relatedTarget instanceof Node &&
+                    birthPlaceSearchRef.current?.contains(relatedTarget)
+                  ) {
+                    return;
+                  }
+
+                  if (isSelectedPlaceCurrent) {
+                    closeBirthPlaceSuggestions();
                   }
                 }}
                 placeholder="Start typing city, state, country"
@@ -578,6 +597,7 @@ export function WebKundliWizard(): React.JSX.Element {
                 Select the matching city so the chart uses the right timezone.
               </small>
               {isPlaceSuggestionsOpen &&
+              !isSelectedPlaceCurrent &&
               (placeSuggestions.length > 0 || isSearchingPlaces) ? (
                 <div className="birth-place-suggestions" role="listbox">
                   {placeSuggestions.slice(0, 6).map(option => {
@@ -595,9 +615,7 @@ export function WebKundliWizard(): React.JSX.Element {
                           resetFlow();
                           setSelectedPlace(option);
                           setBirthPlaceQuery(optionLabel);
-                          setPlaceSuggestions([]);
-                          setIsSearchingPlaces(false);
-                          setIsPlaceSuggestionsOpen(false);
+                          closeBirthPlaceSuggestions();
                         }}
                         role="option"
                         type="button"

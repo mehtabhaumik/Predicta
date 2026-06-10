@@ -97,8 +97,8 @@
       "actions": {
         "askPredicta": "Ask Predicta",
         "close": "Close",
-        "closeMenu": "Close dashboard menu",
-        "openMenu": "Open dashboard menu"
+        "closeMenu": "Close navigation menu",
+        "openMenu": "Open navigation menu"
       },
       "groups": {
         "account": "Account",
@@ -160,7 +160,7 @@
       "vedicEvidence": "Vedic Evidence",
       "vedicPredicta": "Vedic Predicta",
         "wrapped": "Wrapped",
-        "dashboard": "Dashboard"
+        "dashboard": "Library"
       },
       "privateSave": {
         "title": "Saved safely",
@@ -176,8 +176,8 @@
       "actions": {
         "askPredicta": "प्रेडिक्टा से पूछें",
         "close": "बंद करें",
-        "closeMenu": "डैशबोर्ड मेनू बंद करें",
-        "openMenu": "डैशबोर्ड मेनू खोलें"
+        "closeMenu": "नेविगेशन मेनू बंद करें",
+        "openMenu": "नेविगेशन मेनू खोलें"
       },
       "groups": {
         "account": "खाता",
@@ -233,7 +233,7 @@
       "vedic": "वैदिक",
       "vedicEvidence": "वैदिक प्रमाण",
         "wrapped": "वर्ष सार",
-        "dashboard": "डैशबोर्ड",
+        "dashboard": "लाइब्रेरी",
         "kpPredicta": "कृष्णमूर्ति पद्धति प्रेडिक्टा",
         "nadiPredicta": "जैमिनी प्रेडिक्टा",
         "numerologyPredicta": "अंक प्रेडिक्टा",
@@ -255,8 +255,8 @@
       "actions": {
         "askPredicta": "પ્રેડિક્ટાને પૂછો",
         "close": "બંધ કરો",
-        "closeMenu": "ડેશબોર્ડ મેનૂ બંધ કરો",
-        "openMenu": "ડેશબોર્ડ મેનૂ ખોલો"
+        "closeMenu": "નેવિગેશન મેનૂ બંધ કરો",
+        "openMenu": "નેવિગેશન મેનૂ ખોલો"
       },
       "groups": {
         "account": "ખાતું",
@@ -312,7 +312,7 @@
       "vedic": "વેદિક",
       "vedicEvidence": "વેદિક પુરાવો",
         "wrapped": "વર્ષ સાર",
-        "dashboard": "ડેશબોર્ડ",
+        "dashboard": "લાઇબ્રેરી",
         "kpPredicta": "કૃષ્ણમૂર્તિ પદ્ધતિ પ્રેડિક્ટા",
         "nadiPredicta": "જૈમિની પ્રેડિક્ટા",
         "numerologyPredicta": "અંક પ્રેડિક્ટા",
