@@ -1,0 +1,2095 @@
+{
+  "baseUrl": "http://127.0.0.1:3040",
+  "generatedAt": "2026-06-10T13:35:19.613Z",
+  "phaseName": "PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT",
+  "results": [
+    {
+      "askTextarea": null,
+      "chipStrip": {
+        "bottom": 569,
+        "height": 184,
+        "left": 37,
+        "right": 323,
+        "top": 385,
+        "width": 286
+      },
+      "documentWidth": 360,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 90,
+          "className": "web-header",
+          "height": 78,
+          "tag": "header",
+          "top": 12
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": {
+        "bottom": 264,
+        "height": 100,
+        "left": 37,
+        "right": 323,
+        "top": 164,
+        "width": 286
+      },
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": {
+        "bottom": 359,
+        "height": 69,
+        "left": 186,
+        "right": 323,
+        "top": 290,
+        "width": 137
+      },
+      "windowHeight": 780,
+      "windowWidth": 360,
+      "route": "/",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-360-home.png",
+      "viewport": "mobile-360",
+      "viewportWidth": 360
+    },
+    {
+      "askTextarea": {
+        "bottom": 250,
+        "height": 102,
+        "left": 17,
+        "right": 343,
+        "top": 148,
+        "width": 326
+      },
+      "chipStrip": {
+        "bottom": 782,
+        "height": 184,
+        "left": 17,
+        "right": 343,
+        "top": 598,
+        "width": 326
+      },
+      "documentWidth": 360,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 92,
+          "className": "ask-lean-header",
+          "height": 92,
+          "tag": "header",
+          "top": 0
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": {
+        "bottom": 328,
+        "height": 50,
+        "left": 186,
+        "right": 343,
+        "top": 278,
+        "width": 157
+      },
+      "windowHeight": 780,
+      "windowWidth": 360,
+      "route": "/ask",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-360-ask.png",
+      "viewport": "mobile-360",
+      "viewportWidth": 360
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 360,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 780,
+      "windowWidth": 360,
+      "route": "/dashboard",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-360-dashboard.png",
+      "viewport": "mobile-360",
+      "viewportWidth": 360
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 360,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "minmax(0px, 1fr)",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 780,
+      "windowWidth": 360,
+      "route": "/dashboard/vedic",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-360-dashboard-vedic.png",
+      "viewport": "mobile-360",
+      "viewportWidth": 360
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 360,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "minmax(0px, 1fr)",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 780,
+      "windowWidth": 360,
+      "route": "/dashboard/kp",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-360-dashboard-kp.png",
+      "viewport": "mobile-360",
+      "viewportWidth": 360
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 360,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 780,
+      "windowWidth": 360,
+      "route": "/dashboard/jaimini",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-360-dashboard-jaimini.png",
+      "viewport": "mobile-360",
+      "viewportWidth": 360
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 360,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "minmax(0px, 1fr)",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 780,
+      "windowWidth": 360,
+      "route": "/dashboard/numerology",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-360-dashboard-numerology.png",
+      "viewport": "mobile-360",
+      "viewportWidth": 360
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 360,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "minmax(0px, 1fr)",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 780,
+      "windowWidth": 360,
+      "route": "/dashboard/signature",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-360-dashboard-signature.png",
+      "viewport": "mobile-360",
+      "viewportWidth": 360
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 360,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "260px",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 780,
+      "windowWidth": 360,
+      "route": "/dashboard/report",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-360-dashboard-report.png",
+      "viewport": "mobile-360",
+      "viewportWidth": 360
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": {
+        "bottom": 569,
+        "height": 184,
+        "left": 37,
+        "right": 353,
+        "top": 385,
+        "width": 316
+      },
+      "documentWidth": 390,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 90,
+          "className": "web-header",
+          "height": 78,
+          "tag": "header",
+          "top": 12
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": {
+        "bottom": 264,
+        "height": 100,
+        "left": 37,
+        "right": 353,
+        "top": 164,
+        "width": 316
+      },
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": {
+        "bottom": 359,
+        "height": 69,
+        "left": 201,
+        "right": 353,
+        "top": 290,
+        "width": 152
+      },
+      "windowHeight": 844,
+      "windowWidth": 390,
+      "route": "/",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-390-home.png",
+      "viewport": "mobile-390",
+      "viewportWidth": 390
+    },
+    {
+      "askTextarea": {
+        "bottom": 250,
+        "height": 102,
+        "left": 17,
+        "right": 373,
+        "top": 148,
+        "width": 356
+      },
+      "chipStrip": {
+        "bottom": 792,
+        "height": 184,
+        "left": 17,
+        "right": 373,
+        "top": 608,
+        "width": 356
+      },
+      "documentWidth": 390,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 92,
+          "className": "ask-lean-header",
+          "height": 92,
+          "tag": "header",
+          "top": 0
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": {
+        "bottom": 328,
+        "height": 50,
+        "left": 201,
+        "right": 373,
+        "top": 278,
+        "width": 172
+      },
+      "windowHeight": 844,
+      "windowWidth": 390,
+      "route": "/ask",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-390-ask.png",
+      "viewport": "mobile-390",
+      "viewportWidth": 390
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 390,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 844,
+      "windowWidth": 390,
+      "route": "/dashboard",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-390-dashboard.png",
+      "viewport": "mobile-390",
+      "viewportWidth": 390
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 390,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "minmax(0px, 1fr)",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 844,
+      "windowWidth": 390,
+      "route": "/dashboard/vedic",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-390-dashboard-vedic.png",
+      "viewport": "mobile-390",
+      "viewportWidth": 390
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 390,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "minmax(0px, 1fr)",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 844,
+      "windowWidth": 390,
+      "route": "/dashboard/kp",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-390-dashboard-kp.png",
+      "viewport": "mobile-390",
+      "viewportWidth": 390
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 390,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 844,
+      "windowWidth": 390,
+      "route": "/dashboard/jaimini",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-390-dashboard-jaimini.png",
+      "viewport": "mobile-390",
+      "viewportWidth": 390
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 390,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "minmax(0px, 1fr)",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 844,
+      "windowWidth": 390,
+      "route": "/dashboard/numerology",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-390-dashboard-numerology.png",
+      "viewport": "mobile-390",
+      "viewportWidth": 390
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 390,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "minmax(0px, 1fr)",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 844,
+      "windowWidth": 390,
+      "route": "/dashboard/signature",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-390-dashboard-signature.png",
+      "viewport": "mobile-390",
+      "viewportWidth": 390
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 390,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "290px",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 844,
+      "windowWidth": 390,
+      "route": "/dashboard/report",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-390-dashboard-report.png",
+      "viewport": "mobile-390",
+      "viewportWidth": 390
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": {
+        "bottom": 549,
+        "height": 184,
+        "left": 37,
+        "right": 393,
+        "top": 365,
+        "width": 356
+      },
+      "documentWidth": 430,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 90,
+          "className": "web-header",
+          "height": 78,
+          "tag": "header",
+          "top": 12
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": {
+        "bottom": 264,
+        "height": 100,
+        "left": 37,
+        "right": 393,
+        "top": 164,
+        "width": 356
+      },
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": {
+        "bottom": 339,
+        "height": 50,
+        "left": 221,
+        "right": 393,
+        "top": 290,
+        "width": 172
+      },
+      "windowHeight": 932,
+      "windowWidth": 430,
+      "route": "/",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-430-home.png",
+      "viewport": "mobile-430",
+      "viewportWidth": 430
+    },
+    {
+      "askTextarea": {
+        "bottom": 250,
+        "height": 102,
+        "left": 17,
+        "right": 413,
+        "top": 148,
+        "width": 396
+      },
+      "chipStrip": {
+        "bottom": 783,
+        "height": 184,
+        "left": 17,
+        "right": 413,
+        "top": 599,
+        "width": 396
+      },
+      "documentWidth": 430,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 92,
+          "className": "ask-lean-header",
+          "height": 92,
+          "tag": "header",
+          "top": 0
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": {
+        "bottom": 328,
+        "height": 50,
+        "left": 221,
+        "right": 413,
+        "top": 278,
+        "width": 192
+      },
+      "windowHeight": 932,
+      "windowWidth": 430,
+      "route": "/ask",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-430-ask.png",
+      "viewport": "mobile-430",
+      "viewportWidth": 430
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 430,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 932,
+      "windowWidth": 430,
+      "route": "/dashboard",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-430-dashboard.png",
+      "viewport": "mobile-430",
+      "viewportWidth": 430
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 430,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "minmax(0px, 1fr)",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 932,
+      "windowWidth": 430,
+      "route": "/dashboard/vedic",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-430-dashboard-vedic.png",
+      "viewport": "mobile-430",
+      "viewportWidth": 430
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 430,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "minmax(0px, 1fr)",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 932,
+      "windowWidth": 430,
+      "route": "/dashboard/kp",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-430-dashboard-kp.png",
+      "viewport": "mobile-430",
+      "viewportWidth": 430
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 430,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 932,
+      "windowWidth": 430,
+      "route": "/dashboard/jaimini",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-430-dashboard-jaimini.png",
+      "viewport": "mobile-430",
+      "viewportWidth": 430
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 430,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "minmax(0px, 1fr)",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 932,
+      "windowWidth": 430,
+      "route": "/dashboard/numerology",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-430-dashboard-numerology.png",
+      "viewport": "mobile-430",
+      "viewportWidth": 430
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 430,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "minmax(0px, 1fr)",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 932,
+      "windowWidth": 430,
+      "route": "/dashboard/signature",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-430-dashboard-signature.png",
+      "viewport": "mobile-430",
+      "viewportWidth": 430
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 430,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "330px",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 932,
+      "windowWidth": 430,
+      "route": "/dashboard/report",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/mobile-430-dashboard-report.png",
+      "viewport": "mobile-430",
+      "viewportWidth": 430
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": {
+        "bottom": 687,
+        "height": 98,
+        "left": 44,
+        "right": 724,
+        "top": 589,
+        "width": 680
+      },
+      "documentWidth": 768,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 114,
+          "className": "web-header",
+          "height": 102,
+          "tag": "header",
+          "top": 12
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": {
+        "bottom": 557,
+        "height": 112,
+        "left": 44,
+        "right": 724,
+        "top": 445,
+        "width": 680
+      },
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": {
+        "bottom": 768,
+        "height": 50,
+        "left": 390,
+        "right": 724,
+        "top": 719,
+        "width": 334
+      },
+      "windowHeight": 1024,
+      "windowWidth": 768,
+      "route": "/",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/tablet-768-home.png",
+      "viewport": "tablet-768",
+      "viewportWidth": 768
+    },
+    {
+      "askTextarea": {
+        "bottom": 370,
+        "height": 119,
+        "left": 27,
+        "right": 741,
+        "top": 251,
+        "width": 714
+      },
+      "chipStrip": {
+        "bottom": 500,
+        "height": 98,
+        "left": 27,
+        "right": 741,
+        "top": 402,
+        "width": 714
+      },
+      "documentWidth": 768,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 45,
+          "className": "ask-lean-header",
+          "height": 45,
+          "tag": "header",
+          "top": 0
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": {
+        "bottom": 581,
+        "height": 50,
+        "left": 182,
+        "right": 336,
+        "top": 532,
+        "width": 154
+      },
+      "windowHeight": 1024,
+      "windowWidth": 768,
+      "route": "/ask",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/tablet-768-ask.png",
+      "viewport": "tablet-768",
+      "viewportWidth": 768
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 768,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 1024,
+      "windowWidth": 768,
+      "route": "/dashboard",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/tablet-768-dashboard.png",
+      "viewport": "tablet-768",
+      "viewportWidth": 768
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 768,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "repeat(2, minmax(0px, 1fr))",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 1024,
+      "windowWidth": 768,
+      "route": "/dashboard/vedic",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/tablet-768-dashboard-vedic.png",
+      "viewport": "tablet-768",
+      "viewportWidth": 768
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 768,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "repeat(2, minmax(0px, 1fr))",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 1024,
+      "windowWidth": 768,
+      "route": "/dashboard/kp",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/tablet-768-dashboard-kp.png",
+      "viewport": "tablet-768",
+      "viewportWidth": 768
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 768,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 1024,
+      "windowWidth": 768,
+      "route": "/dashboard/jaimini",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/tablet-768-dashboard-jaimini.png",
+      "viewport": "tablet-768",
+      "viewportWidth": 768
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 768,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "repeat(2, minmax(0px, 1fr))",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 1024,
+      "windowWidth": 768,
+      "route": "/dashboard/numerology",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/tablet-768-dashboard-numerology.png",
+      "viewport": "tablet-768",
+      "viewportWidth": 768
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 768,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "repeat(2, minmax(0px, 1fr))",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 1024,
+      "windowWidth": 768,
+      "route": "/dashboard/signature",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/tablet-768-dashboard-signature.png",
+      "viewport": "tablet-768",
+      "viewportWidth": 768
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 768,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 233,
+          "className": "dashboard-topbar glass-panel",
+          "height": 215,
+          "tag": "div",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "none",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 1024,
+      "windowWidth": 768,
+      "route": "/dashboard/report",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/tablet-768-dashboard-report.png",
+      "viewport": "tablet-768",
+      "viewportWidth": 768
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": {
+        "bottom": 727,
+        "height": 98,
+        "left": 74,
+        "right": 760,
+        "top": 629,
+        "width": 686
+      },
+      "documentWidth": 834,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 120,
+          "className": "web-header",
+          "height": 102,
+          "tag": "header",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": {
+        "bottom": 597,
+        "height": 112,
+        "left": 74,
+        "right": 760,
+        "top": 485,
+        "width": 686
+      },
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": {
+        "bottom": 808,
+        "height": 50,
+        "left": 423,
+        "right": 760,
+        "top": 759,
+        "width": 337
+      },
+      "windowHeight": 1112,
+      "windowWidth": 834,
+      "route": "/",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/tablet-834-home.png",
+      "viewport": "tablet-834",
+      "viewportWidth": 834
+    },
+    {
+      "askTextarea": {
+        "bottom": 375,
+        "height": 119,
+        "left": 29,
+        "right": 805,
+        "top": 256,
+        "width": 775
+      },
+      "chipStrip": {
+        "bottom": 505,
+        "height": 98,
+        "left": 29,
+        "right": 805,
+        "top": 407,
+        "width": 775
+      },
+      "documentWidth": 834,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 45,
+          "className": "ask-lean-header",
+          "height": 45,
+          "tag": "header",
+          "top": 0
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": {
+        "bottom": 587,
+        "height": 50,
+        "left": 184,
+        "right": 338,
+        "top": 537,
+        "width": 154
+      },
+      "windowHeight": 1112,
+      "windowWidth": 834,
+      "route": "/ask",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/tablet-834-ask.png",
+      "viewport": "tablet-834",
+      "viewportWidth": 834
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 834,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 122,
+          "className": "dashboard-topbar glass-panel",
+          "height": 98,
+          "tag": "div",
+          "top": 24
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 1112,
+      "windowWidth": 834,
+      "route": "/dashboard",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/tablet-834-dashboard.png",
+      "viewport": "tablet-834",
+      "viewportWidth": 834
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 834,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 122,
+          "className": "dashboard-topbar glass-panel",
+          "height": 98,
+          "tag": "div",
+          "top": 24
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "repeat(2, minmax(0px, 1fr))",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 1112,
+      "windowWidth": 834,
+      "route": "/dashboard/vedic",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/tablet-834-dashboard-vedic.png",
+      "viewport": "tablet-834",
+      "viewportWidth": 834
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 834,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 122,
+          "className": "dashboard-topbar glass-panel",
+          "height": 98,
+          "tag": "div",
+          "top": 24
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "repeat(2, minmax(0px, 1fr))",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 1112,
+      "windowWidth": 834,
+      "route": "/dashboard/kp",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/tablet-834-dashboard-kp.png",
+      "viewport": "tablet-834",
+      "viewportWidth": 834
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 834,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 122,
+          "className": "dashboard-topbar glass-panel",
+          "height": 98,
+          "tag": "div",
+          "top": 24
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 1112,
+      "windowWidth": 834,
+      "route": "/dashboard/jaimini",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/tablet-834-dashboard-jaimini.png",
+      "viewport": "tablet-834",
+      "viewportWidth": 834
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 834,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 122,
+          "className": "dashboard-topbar glass-panel",
+          "height": 98,
+          "tag": "div",
+          "top": 24
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "repeat(2, minmax(0px, 1fr))",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 1112,
+      "windowWidth": 834,
+      "route": "/dashboard/numerology",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/tablet-834-dashboard-numerology.png",
+      "viewport": "tablet-834",
+      "viewportWidth": 834
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 834,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 122,
+          "className": "dashboard-topbar glass-panel",
+          "height": 98,
+          "tag": "div",
+          "top": 24
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "repeat(2, minmax(0px, 1fr))",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 1112,
+      "windowWidth": 834,
+      "route": "/dashboard/signature",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/tablet-834-dashboard-signature.png",
+      "viewport": "tablet-834",
+      "viewportWidth": 834
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 834,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 122,
+          "className": "dashboard-topbar glass-panel",
+          "height": 98,
+          "tag": "div",
+          "top": 24
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "none",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 1112,
+      "windowWidth": 834,
+      "route": "/dashboard/report",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/tablet-834-dashboard-report.png",
+      "viewport": "tablet-834",
+      "viewportWidth": 834
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": {
+        "bottom": 810,
+        "height": 98,
+        "left": 79,
+        "right": 945,
+        "top": 712,
+        "width": 866
+      },
+      "documentWidth": 1024,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 120,
+          "className": "web-header",
+          "height": 102,
+          "tag": "header",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": {
+        "bottom": 678,
+        "height": 112,
+        "left": 79,
+        "right": 945,
+        "top": 566,
+        "width": 866
+      },
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": {
+        "bottom": 894,
+        "height": 50,
+        "left": 518,
+        "right": 945,
+        "top": 845,
+        "width": 427
+      },
+      "windowHeight": 900,
+      "windowWidth": 1024,
+      "route": "/",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/laptop-1024-home.png",
+      "viewport": "laptop-1024",
+      "viewportWidth": 1024
+    },
+    {
+      "askTextarea": {
+        "bottom": 397,
+        "height": 119,
+        "left": 87,
+        "right": 937,
+        "top": 278,
+        "width": 850
+      },
+      "chipStrip": {
+        "bottom": 529,
+        "height": 98,
+        "left": 87,
+        "right": 937,
+        "top": 431,
+        "width": 850
+      },
+      "documentWidth": 1024,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 45,
+          "className": "ask-lean-header",
+          "height": 45,
+          "tag": "header",
+          "top": 0
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": {
+        "bottom": 613,
+        "height": 50,
+        "left": 242,
+        "right": 396,
+        "top": 563,
+        "width": 154
+      },
+      "windowHeight": 900,
+      "windowWidth": 1024,
+      "route": "/ask",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/laptop-1024-ask.png",
+      "viewport": "laptop-1024",
+      "viewportWidth": 1024
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 1024,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 124,
+          "className": "dashboard-topbar glass-panel",
+          "height": 100,
+          "tag": "div",
+          "top": 24
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 900,
+      "windowWidth": 1024,
+      "route": "/dashboard",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/laptop-1024-dashboard.png",
+      "viewport": "laptop-1024",
+      "viewportWidth": 1024
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 1024,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 124,
+          "className": "dashboard-topbar glass-panel",
+          "height": 100,
+          "tag": "div",
+          "top": 24
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "repeat(3, minmax(0px, 1fr))",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 900,
+      "windowWidth": 1024,
+      "route": "/dashboard/vedic",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/laptop-1024-dashboard-vedic.png",
+      "viewport": "laptop-1024",
+      "viewportWidth": 1024
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 1024,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 124,
+          "className": "dashboard-topbar glass-panel",
+          "height": 100,
+          "tag": "div",
+          "top": 24
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "repeat(3, minmax(0px, 1fr))",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 900,
+      "windowWidth": 1024,
+      "route": "/dashboard/kp",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/laptop-1024-dashboard-kp.png",
+      "viewport": "laptop-1024",
+      "viewportWidth": 1024
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 1024,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 124,
+          "className": "dashboard-topbar glass-panel",
+          "height": 100,
+          "tag": "div",
+          "top": 24
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 900,
+      "windowWidth": 1024,
+      "route": "/dashboard/jaimini",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/laptop-1024-dashboard-jaimini.png",
+      "viewport": "laptop-1024",
+      "viewportWidth": 1024
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 1024,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 124,
+          "className": "dashboard-topbar glass-panel",
+          "height": 100,
+          "tag": "div",
+          "top": 24
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "repeat(3, minmax(0px, 1fr))",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 900,
+      "windowWidth": 1024,
+      "route": "/dashboard/numerology",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/laptop-1024-dashboard-numerology.png",
+      "viewport": "laptop-1024",
+      "viewportWidth": 1024
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 1024,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 124,
+          "className": "dashboard-topbar glass-panel",
+          "height": 100,
+          "tag": "div",
+          "top": 24
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "repeat(3, minmax(0px, 1fr))",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 900,
+      "windowWidth": 1024,
+      "route": "/dashboard/signature",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/laptop-1024-dashboard-signature.png",
+      "viewport": "laptop-1024",
+      "viewportWidth": 1024
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 1024,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 124,
+          "className": "dashboard-topbar glass-panel",
+          "height": 100,
+          "tag": "div",
+          "top": 24
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "none",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 900,
+      "windowWidth": 1024,
+      "route": "/dashboard/report",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/laptop-1024-dashboard-report.png",
+      "viewport": "laptop-1024",
+      "viewportWidth": 1024
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": {
+        "bottom": 568,
+        "height": 206,
+        "left": 828,
+        "right": 1279,
+        "top": 362,
+        "width": 451
+      },
+      "documentWidth": 1440,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 120,
+          "className": "web-header",
+          "height": 102,
+          "tag": "header",
+          "top": 18
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": {
+        "bottom": 322,
+        "height": 112,
+        "left": 828,
+        "right": 1279,
+        "top": 210,
+        "width": 451
+      },
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": {
+        "bottom": 657,
+        "height": 50,
+        "left": 1060,
+        "right": 1279,
+        "top": 608,
+        "width": 220
+      },
+      "windowHeight": 940,
+      "windowWidth": 1440,
+      "route": "/",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/desktop-1440-home.png",
+      "viewport": "desktop-1440",
+      "viewportWidth": 1440
+    },
+    {
+      "askTextarea": {
+        "bottom": 517,
+        "height": 119,
+        "left": 135,
+        "right": 985,
+        "top": 398,
+        "width": 850
+      },
+      "chipStrip": {
+        "bottom": 655,
+        "height": 98,
+        "left": 135,
+        "right": 985,
+        "top": 557,
+        "width": 850
+      },
+      "documentWidth": 1440,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 45,
+          "className": "ask-lean-header",
+          "height": 45,
+          "tag": "header",
+          "top": 0
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": {
+        "bottom": 744,
+        "height": 50,
+        "left": 290,
+        "right": 444,
+        "top": 695,
+        "width": 154
+      },
+      "windowHeight": 940,
+      "windowWidth": 1440,
+      "route": "/ask",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/desktop-1440-ask.png",
+      "viewport": "desktop-1440",
+      "viewportWidth": 1440
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 1440,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 940,
+          "className": "sidebar",
+          "height": 940,
+          "tag": "aside",
+          "top": 0
+        },
+        {
+          "bottom": 138,
+          "className": "dashboard-topbar glass-panel",
+          "height": 122,
+          "tag": "div",
+          "top": 16
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 940,
+      "windowWidth": 1440,
+      "route": "/dashboard",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/desktop-1440-dashboard.png",
+      "viewport": "desktop-1440",
+      "viewportWidth": 1440
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 1440,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 940,
+          "className": "sidebar",
+          "height": 940,
+          "tag": "aside",
+          "top": 0
+        },
+        {
+          "bottom": 138,
+          "className": "dashboard-topbar glass-panel",
+          "height": 122,
+          "tag": "div",
+          "top": 16
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "repeat(3, minmax(0px, 1fr))",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 940,
+      "windowWidth": 1440,
+      "route": "/dashboard/vedic",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/desktop-1440-dashboard-vedic.png",
+      "viewport": "desktop-1440",
+      "viewportWidth": 1440
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 1440,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 940,
+          "className": "sidebar",
+          "height": 940,
+          "tag": "aside",
+          "top": 0
+        },
+        {
+          "bottom": 138,
+          "className": "dashboard-topbar glass-panel",
+          "height": 122,
+          "tag": "div",
+          "top": 16
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "repeat(3, minmax(0px, 1fr))",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 940,
+      "windowWidth": 1440,
+      "route": "/dashboard/kp",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/desktop-1440-dashboard-kp.png",
+      "viewport": "desktop-1440",
+      "viewportWidth": 1440
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 1440,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 940,
+          "className": "sidebar",
+          "height": 940,
+          "tag": "aside",
+          "top": 0
+        },
+        {
+          "bottom": 138,
+          "className": "dashboard-topbar glass-panel",
+          "height": 122,
+          "tag": "div",
+          "top": 16
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 940,
+      "windowWidth": 1440,
+      "route": "/dashboard/jaimini",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/desktop-1440-dashboard-jaimini.png",
+      "viewport": "desktop-1440",
+      "viewportWidth": 1440
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 1440,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 940,
+          "className": "sidebar",
+          "height": 940,
+          "tag": "aside",
+          "top": 0
+        },
+        {
+          "bottom": 138,
+          "className": "dashboard-topbar glass-panel",
+          "height": 122,
+          "tag": "div",
+          "top": 16
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "repeat(3, minmax(0px, 1fr))",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 940,
+      "windowWidth": 1440,
+      "route": "/dashboard/numerology",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/desktop-1440-dashboard-numerology.png",
+      "viewport": "desktop-1440",
+      "viewportWidth": 1440
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 1440,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 940,
+          "className": "sidebar",
+          "height": 940,
+          "tag": "aside",
+          "top": 0
+        },
+        {
+          "bottom": 138,
+          "className": "dashboard-topbar glass-panel",
+          "height": 122,
+          "tag": "div",
+          "top": 16
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "repeat(3, minmax(0px, 1fr))",
+      "reportActionColumns": "",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 940,
+      "windowWidth": 1440,
+      "route": "/dashboard/signature",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/desktop-1440-dashboard-signature.png",
+      "viewport": "desktop-1440",
+      "viewportWidth": 1440
+    },
+    {
+      "askTextarea": null,
+      "chipStrip": null,
+      "documentWidth": 1440,
+      "failures": [],
+      "fixedElements": [
+        {
+          "bottom": 940,
+          "className": "sidebar",
+          "height": 940,
+          "tag": "aside",
+          "top": 0
+        },
+        {
+          "bottom": 138,
+          "className": "dashboard-topbar glass-panel",
+          "height": 122,
+          "tag": "div",
+          "top": 16
+        }
+      ],
+      "horizontalOverflow": false,
+      "landingTextarea": null,
+      "localGridColumns": "",
+      "reportActionColumns": "none",
+      "touchIssueCount": 0,
+      "voiceButton": null,
+      "windowHeight": 940,
+      "windowWidth": 1440,
+      "route": "/dashboard/report",
+      "screenshotPath": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/desktop-1440-dashboard-report.png",
+      "viewport": "desktop-1440",
+      "viewportWidth": 1440
+    }
+  ],
+  "viewports": [
+    {
+      "height": 780,
+      "mobile": true,
+      "name": "mobile-360",
+      "width": 360
+    },
+    {
+      "height": 844,
+      "mobile": true,
+      "name": "mobile-390",
+      "width": 390
+    },
+    {
+      "height": 932,
+      "mobile": true,
+      "name": "mobile-430",
+      "width": 430
+    },
+    {
+      "height": 1024,
+      "mobile": true,
+      "name": "tablet-768",
+      "width": 768
+    },
+    {
+      "height": 1112,
+      "mobile": true,
+      "name": "tablet-834",
+      "width": 834
+    },
+    {
+      "height": 900,
+      "mobile": false,
+      "name": "laptop-1024",
+      "width": 1024
+    },
+    {
+      "height": 940,
+      "mobile": false,
+      "name": "desktop-1440",
+      "width": 1440
+    }
+  ]
+}

@@ -136,10 +136,7 @@ export function AskPredictaLightShell(): React.JSX.Element {
           </button>
           <button
             className="button secondary"
-            onClick={() => {
-              setVoiceNotice(true);
-              setQuestion(current => current || DEFAULT_ASK_PROMPT);
-            }}
+            onClick={() => startChat(question || DEFAULT_ASK_PROMPT, 'voice')}
             type="button"
           >
             {landing.voiceLabel}
