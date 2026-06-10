@@ -1,7 +1,7 @@
 # Firebase App Hosting configuration for Predicta web.
 # The Next.js API routes stay server-side and proxy to the Cloud Run astrology API.
 runConfig:
-  minInstances: 0
+  minInstances: 1
   maxInstances: 10
   concurrency: 80
   cpu: 1
