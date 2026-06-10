@@ -1,0 +1,32 @@
+{
+  "phase": "PREDICTA_APP_REVIVAL_PHASE_2_LANDING_CHAT_FIRST_REBUILD",
+  "status": "GREEN",
+  "date": "2026-06-10",
+  "implemented": [
+    "apps/web/app/page.tsx",
+    "apps/web/components/LandingChatFirstContent.tsx",
+    "apps/web/app/globals.css",
+    "packages/config/src/translations/competitorResponse.json"
+  ],
+  "checks": [
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "corepack pnpm build:web",
+    "runtime route smoke at http://127.0.0.1:3032",
+    "in-app browser first-viewport and chip navigation proof",
+    "PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3032 corepack pnpm test:ui-personal-space",
+    "PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3032 corepack pnpm test:ui-text-overflow"
+  ],
+  "routePayloads": {
+    "firstLoadJs": {
+      "/": "593 kB",
+      "/ask": "886 kB",
+      "/dashboard/chat": "876 kB"
+    },
+    "rawAppBuildAssetsKb": {
+      "/page": 2452.7,
+      "/ask/page": 3510.9,
+      "/dashboard/chat/page": 3480.0
+    }
+  },
+  "nextPhase": "PREDICTA_APP_REVIVAL_PHASE_3_DASHBOARD_TO_LIBRARY_DEMOTION"
+}

@@ -21,6 +21,22 @@
         "capabilityTitle": "A complete astrology intelligence app with room to breathe.",
         "capabilityIntro": "Predicta separates each school clearly, keeps the screen calm, and turns calculations into guidance a normal person can use.",
         "benchmarkBar": "Built to feel calmer than AskSoma, more evidence-backed than YastroTalk, and more trustworthy than Nebula, with no per-minute pressure.",
+        "askEyebrow": "Ask Predicta first",
+        "askTitle": "Start with the question on your mind.",
+        "askBody": "Type your real question. Predicta will create your Kundli if needed, choose the right evidence rooms, and answer in plain guidance instead of making you learn the app first.",
+        "askPlaceholder": "Ask about career, marriage, money, travel, family, timing, or life direction...",
+        "askSubmit": "Ask Predicta",
+        "voiceLabel": "Speak instead",
+        "voiceHint": "Voice opens Predicta with a voice-first prompt. Full voice capture is handled inside the chat experience.",
+        "noKundliHint": "No Kundli yet? Predicta will ask for birth details one by one.",
+        "existingKundliHint": "Already saved a Kundli? Predicta can use it immediately.",
+        "suggestedQuestionLabel": "Try one",
+        "suggestedQuestions": [
+          "Will I get a better job opportunity soon?",
+          "When is marriage timing getting stronger?",
+          "Is foreign travel or relocation active for me?",
+          "What should I focus on this month?"
+        ],
         "capabilities": [
           {
             "title": "Kundli creation",
@@ -168,6 +184,22 @@
         "capabilityTitle": "एक पूर्ण ज्योतिष इंटेलिजेंस ऐप, साफ और सांस लेने योग्य.",
         "capabilityIntro": "प्रेडिक्टा हर विधि को अलग रखती है, स्क्रीन शांत रखती है, और गणना को सामान्य व्यक्ति के उपयोगी मार्गदर्शन में बदलती है.",
         "benchmarkBar": "आस्कसोमा से अधिक शांत, यास्त्रोटॉक से अधिक प्रमाण-आधारित और नेब्युला से अधिक भरोसेमंद अनुभव के लिए बनाया गया, बिना प्रति-मिनट दबाव के.",
+        "askEyebrow": "पहले प्रेडिक्टा से पूछें",
+        "askTitle": "अपने मन का असली प्रश्न यहीं से शुरू करें.",
+        "askBody": "अपना वास्तविक प्रश्न लिखें. जरूरत हो तो प्रेडिक्टा कुंडली बनाएगी, सही प्रमाण-कक्ष चुनेगी, और ऐप सिखाने के बजाय सरल मार्गदर्शन देगी.",
+        "askPlaceholder": "करियर, विवाह, धन, यात्रा, परिवार, समय या जीवन दिशा के बारे में पूछें...",
+        "askSubmit": "प्रेडिक्टा से पूछें",
+        "voiceLabel": "बोलकर पूछें",
+        "voiceHint": "वॉइस प्रेडिक्टा को वॉइस-फर्स्ट संकेत के साथ खोलता है. पूरी वॉइस कैप्चर चैट अनुभव में संभाली जाती है.",
+        "noKundliHint": "कुंडली नहीं है? प्रेडिक्टा जन्म विवरण एक-एक करके पूछेगी.",
+        "existingKundliHint": "कुंडली सेव है? प्रेडिक्टा उसे तुरंत उपयोग कर सकती है.",
+        "suggestedQuestionLabel": "एक प्रश्न आजमाएं",
+        "suggestedQuestions": [
+          "क्या मुझे जल्द बेहतर नौकरी का अवसर मिलेगा?",
+          "मेरे विवाह का समय कब मजबूत होगा?",
+          "क्या विदेश यात्रा या स्थानांतरण सक्रिय है?",
+          "इस महीने मुझे किस पर ध्यान देना चाहिए?"
+        ],
         "capabilities": [
           {
             "title": "कुंडली निर्माण",
@@ -315,6 +347,22 @@
         "capabilityTitle": "એક સંપૂર્ણ જ્યોતિષ બુદ્ધિ એપ, શાંત અને સ્વચ્છ.",
         "capabilityIntro": "પ્રેડિક્ટા દરેક પદ્ધતિ અલગ રાખે છે, સ્ક્રીન શાંત રાખે છે, અને ગણતરીને સામાન્ય વ્યક્તિ માટે ઉપયોગી માર્ગદર્શનમાં ફેરવે છે.",
         "benchmarkBar": "આસ્કસોમા કરતાં વધુ શાંત, યાસ્ત્રોટોક કરતાં વધુ પુરાવા આધારિત અને નેબ્યુલા કરતાં વધુ વિશ્વાસપાત્ર અનુભવ માટે બનાવેલું, પ્રતિ-મિનિટ દબાણ વગર.",
+        "askEyebrow": "પહેલા પ્રેડિક્ટાને પૂછો",
+        "askTitle": "તમારા મનનો સાચો પ્રશ્ન અહીંથી શરૂ કરો.",
+        "askBody": "તમારો સાચો પ્રશ્ન લખો. જરૂર હોય તો પ્રેડિક્ટા કુંડળી બનાવશે, યોગ્ય પુરાવા-રૂમ પસંદ કરશે, અને એપ શીખવવા બદલે સરળ માર્ગદર્શન આપશે.",
+        "askPlaceholder": "કરિયર, લગ્ન, પૈસા, મુસાફરી, પરિવાર, સમય અથવા જીવન દિશા વિશે પૂછો...",
+        "askSubmit": "પ્રેડિક્ટાને પૂછો",
+        "voiceLabel": "બોલીને પૂછો",
+        "voiceHint": "વૉઇસ પ્રેડિક્ટાને વૉઇસ-ફર્સ્ટ પ્રોમ્પ્ટ સાથે ખોલે છે. સંપૂર્ણ વૉઇસ કૅપ્ચર ચેટ અનુભવમાં સંભાળવામાં આવે છે.",
+        "noKundliHint": "કુંડળી નથી? પ્રેડિક્ટા જન્મ વિગતો એક-એક કરીને પૂછશે.",
+        "existingKundliHint": "કુંડળી સેવ છે? પ્રેડિક્ટા તેનો તરત ઉપયોગ કરી શકે છે.",
+        "suggestedQuestionLabel": "એક પ્રશ્ન અજમાવો",
+        "suggestedQuestions": [
+          "શું મને જલ્દી સારી નોકરીની તક મળશે?",
+          "મારા લગ્નનો સમય ક્યારે મજબૂત બનશે?",
+          "શું વિદેશ મુસાફરી અથવા સ્થળાંતર સક્રિય છે?",
+          "આ મહિને મારે શું ધ્યાનમાં લેવું જોઈએ?"
+        ],
         "capabilities": [
           {
             "title": "કુંડળી બનાવો",

@@ -1,0 +1,29 @@
+{
+  "generatedAt": "2026-06-10T11:04:24.523Z",
+  "source": "apps/web/.next/app-build-manifest.json after corepack pnpm build:web",
+  "nextBuildFirstLoadJs": {
+    "/": "593 kB",
+    "/ask": "886 kB",
+    "/dashboard/chat": "876 kB"
+  },
+  "appBuildManifestAssets": {
+    "/page": {
+      "files": 13,
+      "kb": 2452.7
+    },
+    "/ask/page": {
+      "files": 20,
+      "kb": 3510.9
+    },
+    "/dashboard/chat/page": {
+      "files": 18,
+      "kb": 3480.0
+    }
+  },
+  "comparison": {
+    "phase1LandingFirstLoadJs": "882 kB",
+    "phase2LandingFirstLoadJs": "593 kB",
+    "phase1LandingRawAssetsKb": 3480.2,
+    "phase2LandingRawAssetsKb": 2452.7
+  }
+}

@@ -1,0 +1,35 @@
+PREDICTA_APP_REVIVAL_PHASE_2_LANDING_CHAT_FIRST_REBUILD
+
+Result: GREEN.
+
+Implemented:
+- Converted apps/web/app/page.tsx back to a server component.
+- Replaced the chart-heavy animated landing hero with a lightweight chat-first
+  landing content island.
+- Added above-the-fold text question input, voice affordance, and suggested
+  question chips.
+- Removed eager landing imports for HeroSection, PremiumSectionWrapper,
+  PricingTeaser, TestimonialTrustLoop, WebGrowthAdvantage, and FinalCTASection.
+- Added dedicated JSON-backed copy for the new landing ask surface in English,
+  Hindi, and Gujarati.
+
+Verified:
+- corepack pnpm --filter @pridicta/web typecheck
+- corepack pnpm build:web
+- / route First Load JS dropped from 882 kB to 593 kB in next build output
+- /page raw app-build assets dropped from about 3480.2 KB to 2452.7 KB
+- production-like local route smoke at http://127.0.0.1:3032 for / and /ask
+- browser first-viewport proof: ask hero present, textarea present, suggested
+  chips present, old hero chart absent, horizontal overflow 0
+- browser chip proof: suggested question opened /ask with prompt and
+  sourceScreen=Landing
+- PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3032 corepack pnpm test:ui-personal-space
+  passed 56 route and viewport checks
+- PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3032 corepack pnpm test:ui-text-overflow
+  passed 112 route and viewport checks
+
+Known debt carried forward:
+- /ask is still heavy and remains Phase 6 work.
+- Dashboard still needs demotion to Library/My Astrology in Phase 3.
+- Full voice capture remains a later chat-shell capability; Phase 2 provides a
+  visible voice entry affordance and routes voice intent into /ask.

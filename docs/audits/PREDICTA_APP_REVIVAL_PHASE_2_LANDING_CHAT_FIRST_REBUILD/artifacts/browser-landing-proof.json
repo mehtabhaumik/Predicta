@@ -1,0 +1,23 @@
+{
+  "url": "http://127.0.0.1:3032/",
+  "checkedAt": "2026-06-10",
+  "firstViewport": {
+    "hasAskHero": true,
+    "hasTextarea": true,
+    "hasOldHeroChart": false,
+    "horizontalOverflow": 0,
+    "placeholder": "Ask about career, marriage, money, travel, family, timing, or life direction...",
+    "chips": [
+      "Will I get a better job opportunity soon?",
+      "When is marriage timing getting stronger?",
+      "Is foreign travel or relocation active for me?",
+      "What should I focus on this month?"
+    ]
+  },
+  "chipNavigation": {
+    "clicked": "Is foreign travel or relocation active for me?",
+    "pathname": "/ask",
+    "prompt": "Is foreign travel or relocation active for me?",
+    "sourceScreen": "Landing"
+  }
+}
