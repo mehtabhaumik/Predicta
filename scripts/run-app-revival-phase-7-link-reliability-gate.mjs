@@ -12,7 +12,7 @@ const baseUrl = (
 const auditDir = `docs/audits/${phaseName}`;
 const manifestPath = `${auditDir}/link-reliability-manifest.json`;
 const maxClickMs = Number(process.env.PREDICTA_LINK_CLICK_BUDGET_MS ?? 1_800);
-const maxHrefLength = Number(process.env.PREDICTA_LINK_MAX_HREF_LENGTH ?? 1_800);
+const maxHrefLength = Number(process.env.PREDICTA_LINK_MAX_HREF_LENGTH ?? 900);
 const chromePath =
   process.env.CHROME_PATH ??
   [

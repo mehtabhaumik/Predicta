@@ -98,7 +98,14 @@ export function buildPredictaChatHref(context: PredictaChatCtaContext): string {
   setParam(params, 'reportMode', context.reportMode);
   setParam(params, 'reportSchoolLane', context.reportSchoolLane);
   setParam(params, 'reportSectionId', context.reportSectionId);
-  setParam(params, 'reportSectionPrompt', context.reportSectionPrompt);
+  setParam(
+    params,
+    'reportSectionPrompt',
+    context.reportSectionPrompt &&
+      context.reportSectionPrompt !== context.prompt
+      ? context.reportSectionPrompt
+      : undefined,
+  );
   setParam(params, 'reportSectionTitle', context.reportSectionTitle);
   setParam(params, 'reportSubjectName', context.reportSubjectName);
   setParam(params, 'reportType', context.reportType);
@@ -133,8 +140,8 @@ export function buildPredictaChatHref(context: PredictaChatCtaContext): string {
   return `${getPredictaChatPath()}?${params.toString()}`;
 }
 
-const MAX_LIST_PARAM_ITEMS = 6;
-const MAX_LIST_PARAM_ITEM_LENGTH = 48;
+const MAX_LIST_PARAM_ITEMS = 3;
+const MAX_LIST_PARAM_ITEM_LENGTH = 34;
 
 function getPredictaChatPath(): string {
   return '/ask';
