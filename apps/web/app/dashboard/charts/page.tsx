@@ -1,4 +1,4 @@
-import { WebChartsExplorer } from '../../../components/WebChartsExplorer';
+import { WebChartsExplorerLoader } from '../../../components/WebChartsExplorerLoader';
 import { demoAccess } from '../../../lib/demo-state';
 
 export default function ChartsPage(): React.JSX.Element {
@@ -18,7 +18,7 @@ export default function ChartsPage(): React.JSX.Element {
         </details>
       </div>
 
-      <WebChartsExplorer hasPremiumAccess={demoAccess.hasPremiumAccess} />
+      <WebChartsExplorerLoader hasPremiumAccess={demoAccess.hasPremiumAccess} />
     </section>
   );
 }

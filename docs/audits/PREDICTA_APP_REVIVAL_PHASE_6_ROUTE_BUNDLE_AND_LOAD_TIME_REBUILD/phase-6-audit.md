@@ -155,3 +155,58 @@ Supplemental verification:
 - `node scripts/run-birth-place-autocomplete-gate.mjs`: PASS.
 - `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
 - `git diff --check`: PASS.
+
+## Supplemental Secondary Dashboard Deferred Runtime Rebuild
+
+Date: 2026-06-11
+
+After the specialist rooms were deferred, several secondary dashboard routes
+still loaded expensive calculation/runtime dependencies on first paint. These
+routes now render lightweight entry pages and hydrate the deeper tool/runtime
+only after the shell is visible.
+
+Implementation lock:
+
+- Deferred Birth Time Detective, Charts Explorer, Decision Oracle, Holistic
+  Rooms, Saved Kundlis, Timeline, Wrapped, Matchmaking, Family Compare, Family
+  Karma Map, and Remedy Coach behind route-local dynamic loaders.
+- Moved Timeline, Wrapped, and Holistic calculation/UI composition into runtime
+  components so route entry files stay light.
+- Extended `test:app-revival-phase-6` with secondary dashboard route budgets
+  and eager-import guards so these pages cannot quietly regress into
+  control-panel payloads.
+
+Performance evidence from `corepack pnpm build:web`:
+
+- `/dashboard/birth-time`: `823 kB` before this pass -> `104 kB` First Load JS.
+- `/dashboard/charts`: `846 kB` before this pass -> `104 kB` First Load JS.
+- `/dashboard/decision`: `824 kB` before this pass -> `104 kB` First Load JS.
+- `/dashboard/holistic`: `821 kB` before this pass -> `104 kB` First Load JS.
+- `/dashboard/saved-kundlis`: `847 kB` before this pass -> `104 kB` First Load JS.
+- `/dashboard/timeline`: `832 kB` before this pass -> `104 kB` First Load JS.
+- `/dashboard/wrapped`: `822 kB` before this pass -> `104 kB` First Load JS.
+- `/dashboard/remedies`: `826 kB` before this pass -> `248 kB` First Load JS.
+
+Updated Phase 6 gate evidence:
+
+- `/dashboard/birth-time` page-specific JS: `4 KB` against `80 KB` budget.
+- `/dashboard/charts` page-specific JS: `4 KB` against `80 KB` budget.
+- `/dashboard/decision` page-specific JS: `4 KB` against `80 KB` budget.
+- `/dashboard/holistic` page-specific JS: `4 KB` against `80 KB` budget.
+- `/dashboard/saved-kundlis` page-specific JS: `4 KB` against `80 KB` budget.
+- `/dashboard/timeline` page-specific JS: `4 KB` against `80 KB` budget.
+- `/dashboard/wrapped` page-specific JS: `4 KB` against `80 KB` budget.
+- `/dashboard/remedies` page-specific JS: `555 KB` against `600 KB` budget.
+
+Supplemental verification:
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `corepack pnpm test:app-revival-phase-6`: PASS with secondary dashboard budgets.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/dashboard/birth-time,/dashboard/charts,/dashboard/decision,/dashboard/holistic,/dashboard/remedies,/dashboard/saved-kundlis,/dashboard/timeline,/dashboard/wrapped corepack pnpm test:ui-text-overflow`: PASS, 32 route and viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:ui-personal-space`: PASS, 56 route and viewport checks.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
+- `node scripts/run-birth-place-autocomplete-gate.mjs`: PASS.
+- `git diff --check`: PASS.

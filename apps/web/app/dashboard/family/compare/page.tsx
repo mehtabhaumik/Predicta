@@ -3,7 +3,7 @@
 import { getNativeCopy } from '@pridicta/config';
 import type { SupportedLanguage } from '@pridicta/types';
 import { WebAuthRequired } from '../../../../components/WebAuthRequired';
-import { WebFamilyPairComparison } from '../../../../components/WebFamilyPairComparison';
+import { WebFamilyPairComparisonLoader } from '../../../../components/WebFamilyPairComparisonLoader';
 import { demoAccess } from '../../../../lib/demo-state';
 import { useLanguagePreference } from '../../../../lib/language-preference';
 
@@ -45,7 +45,7 @@ export default function FamilyComparePage(): React.JSX.Element {
             <p>{copy.body}</p>
           </div>
         </div>
-        <WebFamilyPairComparison hasPremiumAccess={demoAccess.hasPremiumAccess} />
+        <WebFamilyPairComparisonLoader hasPremiumAccess={demoAccess.hasPremiumAccess} />
       </WebAuthRequired>
     </section>
   );

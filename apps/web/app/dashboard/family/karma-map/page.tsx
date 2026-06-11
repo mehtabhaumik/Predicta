@@ -3,7 +3,7 @@
 import { getNativeCopy } from '@pridicta/config';
 import type { SupportedLanguage } from '@pridicta/types';
 import { WebAuthRequired } from '../../../../components/WebAuthRequired';
-import { WebFamilyKarmaMap } from '../../../../components/WebFamilyKarmaMap';
+import { WebFamilyKarmaMapLoader } from '../../../../components/WebFamilyKarmaMapLoader';
 import { demoAccess } from '../../../../lib/demo-state';
 import { useLanguagePreference } from '../../../../lib/language-preference';
 
@@ -45,7 +45,7 @@ export default function FamilyKarmaMapPage(): React.JSX.Element {
             <p>{copy.body}</p>
           </div>
         </div>
-        <WebFamilyKarmaMap hasPremiumAccess={demoAccess.hasPremiumAccess} />
+        <WebFamilyKarmaMapLoader hasPremiumAccess={demoAccess.hasPremiumAccess} />
       </WebAuthRequired>
     </section>
   );

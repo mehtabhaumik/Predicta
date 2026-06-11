@@ -1,4 +1,4 @@
-import { WebDecisionOracle } from '../../../components/WebDecisionOracle';
+import { WebDecisionOracleLoader } from '../../../components/WebDecisionOracleLoader';
 
 export default function DecisionPage(): React.JSX.Element {
   return (
@@ -17,7 +17,7 @@ export default function DecisionPage(): React.JSX.Element {
         </details>
       </div>
 
-      <WebDecisionOracle />
+      <WebDecisionOracleLoader />
     </section>
   );
 }

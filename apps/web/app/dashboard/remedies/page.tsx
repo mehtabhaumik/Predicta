@@ -1,5 +1,5 @@
 import { WebEvidenceRoomEntry } from '../../../components/WebEvidenceRoomEntry';
-import { WebRemedyCoach } from '../../../components/WebRemedyCoach';
+import { WebRemedyCoachLoader } from '../../../components/WebRemedyCoachLoader';
 import { buildPredictaChatHref } from '../../../lib/predicta-chat-cta';
 
 export default function RemediesPage(): React.JSX.Element {
@@ -14,7 +14,7 @@ export default function RemediesPage(): React.JSX.Element {
   return (
     <section className="dashboard-page">
       <WebEvidenceRoomEntry askHref={askHref} room="kundliKarma" />
-      <WebRemedyCoach />
+      <WebRemedyCoachLoader />
     </section>
   );
 }

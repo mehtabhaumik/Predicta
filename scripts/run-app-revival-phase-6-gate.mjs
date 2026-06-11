@@ -13,6 +13,16 @@ const specialistBudgets = [
   { budgetKb: 600, route: '/dashboard/signature/page' },
   { budgetKb: 20, route: '/dashboard/kundli/page' },
 ];
+const secondaryDashboardBudgets = [
+  { budgetKb: 80, route: '/dashboard/birth-time/page' },
+  { budgetKb: 80, route: '/dashboard/charts/page' },
+  { budgetKb: 80, route: '/dashboard/decision/page' },
+  { budgetKb: 80, route: '/dashboard/holistic/page' },
+  { budgetKb: 80, route: '/dashboard/saved-kundlis/page' },
+  { budgetKb: 80, route: '/dashboard/timeline/page' },
+  { budgetKb: 80, route: '/dashboard/wrapped/page' },
+  { budgetKb: 600, route: '/dashboard/remedies/page' },
+];
 const sourceFiles = [
   'apps/web/app/page.tsx',
   'apps/web/app/dashboard/page.tsx',
@@ -31,6 +41,22 @@ const sourceFiles = [
   'apps/web/app/dashboard/numerology/page.tsx',
   'apps/web/app/dashboard/signature/page.tsx',
   'apps/web/app/dashboard/kundli/page.tsx',
+  'apps/web/app/dashboard/birth-time/page.tsx',
+  'apps/web/app/dashboard/charts/page.tsx',
+  'apps/web/app/dashboard/decision/page.tsx',
+  'apps/web/app/dashboard/holistic/page.tsx',
+  'apps/web/app/dashboard/remedies/page.tsx',
+  'apps/web/app/dashboard/saved-kundlis/page.tsx',
+  'apps/web/app/dashboard/timeline/page.tsx',
+  'apps/web/app/dashboard/wrapped/page.tsx',
+  'apps/web/components/WebBirthTimeDetectiveLoader.tsx',
+  'apps/web/components/WebChartsExplorerLoader.tsx',
+  'apps/web/components/WebDecisionOracleLoader.tsx',
+  'apps/web/components/WebHolisticRoomsLoader.tsx',
+  'apps/web/components/WebLifeTimelineLoader.tsx',
+  'apps/web/components/WebPredictaWrappedLoader.tsx',
+  'apps/web/components/WebRemedyCoachLoader.tsx',
+  'apps/web/components/WebSavedKundlisLoader.tsx',
   'apps/web/components/WebKpPredictaLoader.tsx',
   'apps/web/components/WebJaiminiPredictaLoader.tsx',
   'apps/web/components/WebNumerologyPredictaLoader.tsx',
@@ -58,6 +84,10 @@ const landing = measureRoute('/page');
 const ask = measureRoute('/ask/page');
 const dashboard = measureRoute('/dashboard/page');
 const specialistRoutes = specialistBudgets.map(item => ({
+  ...item,
+  measurement: measureRoute(item.route),
+}));
+const secondaryDashboardRoutes = secondaryDashboardBudgets.map(item => ({
   ...item,
   measurement: measureRoute(item.route),
 }));
@@ -89,6 +119,17 @@ for (const specialistRoute of specialistRoutes) {
   }
 }
 
+for (const secondaryDashboardRoute of secondaryDashboardRoutes) {
+  if (
+    secondaryDashboardRoute.measurement.pageSpecificKb >
+    secondaryDashboardRoute.budgetKb
+  ) {
+    failures.push(
+      `${secondaryDashboardRoute.route} page-specific JS is ${secondaryDashboardRoute.measurement.pageSpecificKb} KB, above ${secondaryDashboardRoute.budgetKb} KB.`,
+    );
+  }
+}
+
 for (const sourceFile of sourceFiles) {
   const text = readFileSync(sourceFile, 'utf8');
 
@@ -104,6 +145,14 @@ for (const sourceFile of sourceFiles) {
     sourceFile.endsWith('/dashboard/numerology/page.tsx') ||
     sourceFile.endsWith('/dashboard/signature/page.tsx') ||
     sourceFile.endsWith('/dashboard/kundli/page.tsx') ||
+    sourceFile.endsWith('/dashboard/birth-time/page.tsx') ||
+    sourceFile.endsWith('/dashboard/charts/page.tsx') ||
+    sourceFile.endsWith('/dashboard/decision/page.tsx') ||
+    sourceFile.endsWith('/dashboard/holistic/page.tsx') ||
+    sourceFile.endsWith('/dashboard/remedies/page.tsx') ||
+    sourceFile.endsWith('/dashboard/saved-kundlis/page.tsx') ||
+    sourceFile.endsWith('/dashboard/timeline/page.tsx') ||
+    sourceFile.endsWith('/dashboard/wrapped/page.tsx') ||
     sourceFile.endsWith('/page.tsx')
   ) {
     for (const forbidden of [
@@ -123,6 +172,11 @@ for (const sourceFile of sourceFiles) {
       "from '../../../components/WebNumerologyPredictaPanel'",
       "from '../../../components/WebSignatureAnalysisInputFlow'",
       "from '../../../components/WebKundliWizard'",
+      "from '../../../components/WebBirthTimeDetective'",
+      "from '../../../components/WebChartsExplorer'",
+      "from '../../../components/WebDecisionOracle'",
+      "from '../../../components/WebRemedyCoach'",
+      "from '../../../components/WebSavedKundlis'",
       'generateKundliFromWeb',
     ]) {
       if (text.includes(forbidden) && !text.includes('dynamic(')) {
@@ -169,10 +223,12 @@ console.log(
         askBudgetKb,
         dashboardBudgetKb,
         landingBudgetKb,
+        secondaryDashboardBudgets,
         specialistBudgets,
       },
       dashboard,
       landing,
+      secondaryDashboardRoutes: secondaryDashboardRoutes.map(item => item.measurement),
       specialistRoutes: specialistRoutes.map(item => item.measurement),
       sourceFilesChecked: sourceFiles.length,
     },

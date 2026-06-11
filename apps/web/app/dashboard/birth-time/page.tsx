@@ -1,4 +1,4 @@
-import { WebBirthTimeDetective } from '../../../components/WebBirthTimeDetective';
+import { WebBirthTimeDetectiveLoader } from '../../../components/WebBirthTimeDetectiveLoader';
 
 export default function BirthTimePage(): React.JSX.Element {
   return (
@@ -16,7 +16,7 @@ export default function BirthTimePage(): React.JSX.Element {
         </details>
       </div>
 
-      <WebBirthTimeDetective />
+      <WebBirthTimeDetectiveLoader />
     </section>
   );
 }

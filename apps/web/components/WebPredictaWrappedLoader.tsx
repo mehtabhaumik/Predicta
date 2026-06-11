@@ -1,22 +1,18 @@
 'use client';
 
-import { useMemo } from 'react';
-import { composePredictaWrapped } from '@pridicta/astrology';
-import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
-import { loadWebWrappedActivity } from '../lib/web-usage-summary';
-import { WebPredictaWrapped } from './WebPredictaWrapped';
+import dynamic from 'next/dynamic';
+import { SpecialistRoomPanelFallback } from './SpecialistRoomPanelFallback';
+
+const WebPredictaWrappedRuntime = dynamic(
+  () =>
+    import('./WebPredictaWrappedRuntime').then(module => ({
+      default: module.WebPredictaWrappedRuntime,
+    })),
+  {
+    loading: () => <SpecialistRoomPanelFallback />,
+  },
+);
 
 export function WebPredictaWrappedLoader(): React.JSX.Element {
-  const { activeKundli } = useWebKundliLibrary();
-
-  const wrapped = useMemo(
-    () =>
-      composePredictaWrapped({
-        activity: loadWebWrappedActivity(),
-        kundli: activeKundli,
-      }),
-    [activeKundli],
-  );
-
-  return <WebPredictaWrapped ctaHref="/dashboard/kundli" wrapped={wrapped} />;
+  return <WebPredictaWrappedRuntime />;
 }

@@ -2,7 +2,7 @@
 
 import { getNativeCopy } from '@pridicta/config';
 import type { SupportedLanguage } from '@pridicta/types';
-import { WebMatchmakingPanel } from '../../../components/WebMatchmakingPanel';
+import { WebMatchmakingPanelLoader } from '../../../components/WebMatchmakingPanelLoader';
 import { demoAccess } from '../../../lib/demo-state';
 import { useLanguagePreference } from '../../../lib/language-preference';
 
@@ -40,7 +40,7 @@ export default function MatchmakingPage(): React.JSX.Element {
           <p>{copy.body}</p>
         </div>
       </div>
-      <WebMatchmakingPanel hasPremiumAccess={demoAccess.hasPremiumAccess} />
+      <WebMatchmakingPanelLoader hasPremiumAccess={demoAccess.hasPremiumAccess} />
     </section>
   );
 }
