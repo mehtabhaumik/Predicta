@@ -60,3 +60,37 @@ Date: 2026-06-11
 Green. The saved-work surface now reads as `My Kundlis` instead of a generic
 SaaS library/control panel, while preserving all management links and the
 dominant Ask Predicta path.
+
+## Supplemental Secondary Surface Label Lock
+
+Date: 2026-06-12
+
+### Implemented
+
+- Replaced remaining visible and handoff-level `Kundli Library` labels with
+  `My Kundlis` across footer, dashboard shell, saved Kundlis, account settings,
+  Family Vault, Family Karma Map, and shared translation JSON.
+- Replaced specialist handoff `Evidence Room` source labels with calmer room
+  labels for KP, Jaimini, Numerology, Signature, and Kundli Karma.
+- Reframed Event Oracle copy from "evidence rooms" to "astrology methods" so
+  Predicta remains primary and the schools read as supporting methods.
+- Left internal code symbols such as `useWebKundliLibrary` untouched to avoid
+  unnecessary data/model churn.
+
+### Supplemental Verification
+
+- Targeted text scan for `Kundli Library`, `Evidence Room`, `evidence rooms`,
+  stale source-screen labels, and `Open Library`: PASS for app/translation
+  surfaces in scope.
+- Translation JSON parse for `eventOracle.json` and `ui.json`: PASS.
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3031 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3031 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/dashboard,/dashboard/saved-kundlis,/dashboard/family,/dashboard/settings,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-text-overflow`: PASS, `48` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3031 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/dashboard,/dashboard/saved-kundlis,/dashboard/family,/dashboard/settings,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
+- `git diff --check`: PASS.
+
+### Supplemental Result
+
+Green. The remaining `Library` terms are internal code symbols or legitimate
+chart-library labels, not visible navigation/control-panel language.

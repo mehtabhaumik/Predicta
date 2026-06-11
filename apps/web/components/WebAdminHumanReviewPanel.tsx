@@ -157,7 +157,7 @@ function buildSampleHumanReviewFlow() {
     evidenceContract,
     refinement,
     timing: {
-      basis: 'Multiple evidence rooms support a practical work-linked timing window.',
+      basis: 'Multiple astrology methods support a practical work-linked timing window.',
       endDate: '2026-06-30',
       evidenceLayerIds: ['vedic', 'kp', 'jaimini'],
       label: 'March to June',

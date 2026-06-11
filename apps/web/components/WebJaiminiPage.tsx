@@ -9,7 +9,7 @@ export function WebJaiminiPage(): React.JSX.Element {
     handoffMode: 'room_safe',
     prompt: 'Read my current Jaimini destiny chapter and tell me what it means for my life now.',
     school: 'JAIMINI',
-    sourceScreen: 'Jaimini Evidence Room',
+    sourceScreen: 'Jaimini Room',
   });
 
   return (

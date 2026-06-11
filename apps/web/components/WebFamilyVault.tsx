@@ -62,7 +62,7 @@ const COPY: Record<SupportedLanguage, FamilyPageCopy> = {
   en: {
     actions: {
       addProfile: 'Add Profile',
-      goToLibrary: 'Go to Kundli Library',
+      goToLibrary: 'Go to My Kundlis',
       openMatchmaking: 'Open Matchmaking',
       openCompare: 'Open Pair Comparison',
       openMap: 'Open Family Karma Map',
@@ -89,13 +89,13 @@ const COPY: Record<SupportedLanguage, FamilyPageCopy> = {
       activeFallback: 'No active profile',
       activeTitle: 'Active chart anchor',
       assignmentBody:
-        'Assign saved Kundlis to family roles here. Family Vault uses these labels for comparison context, while the Kundli Library remains the source of truth.',
+        'Assign saved Kundlis to family roles here. Family Vault uses these labels for comparison context, while My Kundlis remains the source of truth.',
       assignmentTitle: 'Assign saved Kundlis',
       ownerTitle: 'Owner profile',
       readinessBody: count =>
         count >= 2
           ? 'Family Vault is ready for both pair comparison and a household karma map.'
-          : 'Save at least two profiles in Kundli Library before expecting any real family comparison.',
+          : 'Save at least two profiles in My Kundlis before expecting any real family comparison.',
       readinessTitle: count =>
         count >= 2 ? `${count} saved profiles ready` : 'Needs more saved profiles',
     },
@@ -123,7 +123,7 @@ const COPY: Record<SupportedLanguage, FamilyPageCopy> = {
       },
     ],
     body:
-      'Family Vault is no longer a generic holding page. It is the comparison layer built on top of your saved Kundli Library.',
+      'Family Vault is no longer a generic holding page. It is the comparison layer built on top of My Kundlis.',
     eyebrow: 'FAMILY VAULT',
     profileSummary: (lagna, moonSign, nakshatra) =>
       `${lagna} Lagna · ${moonSign} Moon · ${nakshatra}`,

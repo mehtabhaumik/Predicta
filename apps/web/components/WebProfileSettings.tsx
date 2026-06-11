@@ -143,11 +143,11 @@ const SETTINGS_COPY: Record<SupportedLanguage, SettingsCopy> = {
       'Sign in once to keep Kundlis, report choices, and chats with your account.',
     heading: 'Account, language, and access',
     keepSeparate: 'Keep app, chart, report, and chat language separate.',
-    kundliLibrary: 'Kundli Library',
+    kundliLibrary: 'My Kundlis',
     languageControl: 'Language control',
     lastReportLanguage: 'Last report language',
     libraryBody:
-      'Library, report choices, and current chat continuity stay attached to this device or account.',
+      'Saved Kundlis, report choices, and current chat continuity stay attached to this device or account.',
     multipleChats: 'Multiple chat sessions are available from your account.',
     multipleKundlis: 'Multiple Kundlis can stay with this account.',
     noReportPreference: 'No report preference saved yet.',
@@ -155,7 +155,7 @@ const SETTINGS_COPY: Record<SupportedLanguage, SettingsCopy> = {
     notSignedInYet: 'Not signed in yet',
     oneTimeReports: 'Premium and one-time reports',
     openChat: 'Open Chat',
-    openLibrary: 'Open Library',
+    openLibrary: 'Open My Kundlis',
     pageBody:
       'Change only the surface you want. Predicta does not have to change everything at once.',
     premiumBody:

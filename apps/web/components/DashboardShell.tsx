@@ -244,7 +244,7 @@ function getTopbarPredictaSourceScreen(
     return 'Signature Predicta';
   }
 
-  return 'Library';
+  return 'My Kundlis';
 }
 
 export function DashboardShell({

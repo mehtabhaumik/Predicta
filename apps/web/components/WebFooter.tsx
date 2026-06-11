@@ -38,7 +38,7 @@ const footerCopy: Record<
           { href: '/ask', label: 'Ask Predicta' },
           { href: '/dashboard/kundli', label: 'Create Kundli' },
           { href: '/dashboard/charts', label: 'View Charts' },
-          { href: '/dashboard/saved-kundlis', label: 'Kundli Library' },
+          { href: '/dashboard/saved-kundlis', label: 'My Kundlis' },
           { href: '/dashboard/family', label: 'Family Vault' },
         ],
       },

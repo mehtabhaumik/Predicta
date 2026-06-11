@@ -68,7 +68,7 @@ export function WebSavedKundlis(): React.JSX.Element {
     prompt:
       'Create a new Kundli for me. Ask only for the missing birth details and confirm them before calculation.',
     school: 'PARASHARI',
-    sourceScreen: 'Kundli Library',
+    sourceScreen: 'My Kundlis',
   });
   const canCreateMoreKundlis =
     profiles.length === 0 || canCreateAdditionalWebKundli().allowed;
@@ -145,7 +145,7 @@ export function WebSavedKundlis(): React.JSX.Element {
             purpose: 'family',
             school: 'PARASHARI',
             selectedSection: `Saved profile: ${record.birthDetails.name}`,
-            sourceScreen: 'Kundli Library',
+            sourceScreen: 'My Kundlis',
           });
           const reviewHref = `/dashboard/kundli${active ? '' : `?focusKundliId=${encodeURIComponent(record.id)}`}`;
 
@@ -466,7 +466,7 @@ function KundliLibraryChartDialog({
     purpose: school === 'KP' ? 'kp' : school === 'JAIMINI' ? 'kundli' : 'kundli',
     school: school === 'KP' ? 'KP' : school === 'JAIMINI' ? 'JAIMINI' : 'PARASHARI',
     selectedSection: `${chartTitle} chart preview`,
-    sourceScreen: 'Kundli Library',
+    sourceScreen: 'My Kundlis',
   });
 
   return (
@@ -818,7 +818,7 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     deleteCancel: 'Keep Kundli',
     deleteConfirmAction: 'Delete Kundli',
     deleteConfirmBody: name =>
-      `This removes ${name}'s profile from your personal Kundli Library and from any Family Vault comparisons on this device.`,
+      `This removes ${name}'s profile from My Kundlis and from any Family Vault comparisons on this device.`,
     deleteConfirmConsequence: (_name, nextActiveName) =>
       nextActiveName
         ? `Predicta will switch the active profile to ${nextActiveName}. Older chats or reports may lose full chart context for the deleted profile.`
@@ -828,7 +828,7 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     deleteConfirmHint: name => `Type ${name} exactly as shown.`,
     deleteConfirmTitle: name => `Delete ${name}'s Kundli?`,
     dialogAskPrompt: (name, chart) =>
-      `Use ${name}'s ${chart} chart from my Kundli Library. Confirm this chart in chat and tell me what I should ask next.`,
+      `Use ${name}'s ${chart} chart from My Kundlis. Confirm this chart in chat and tell me what I should ask next.`,
     dialogBody:
       'This preview uses the saved birth details. Choose a full flow, ask Predicta, or make this the active Kundli.',
     dialogChartSection: school =>
@@ -858,7 +858,7 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
       'Every Kundli you create will appear here first. Family Vault will stay empty until you save profiles here.',
     emptyTitle: 'Create your first Kundli.',
     familyBoundaryBody:
-      'Family Vault compares saved profiles from this library. It does not create a second hidden copy of birth data.',
+      'Family Vault compares saved profiles from My Kundlis. It does not create a second hidden copy of birth data.',
     familyOverviewBody: count =>
       count >= 2
         ? 'Household comparison is ready because you have at least two saved profiles.'
@@ -867,16 +867,16 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
     familyReadyTitle: 'Family comparison ready',
     familyMap: 'Family Map',
     familyVaultBody:
-      'Family Vault is the comparison layer. Save, edit, and delete personal charts in the library first, then use Family Vault for shared patterns and household guidance.',
+      'Family Vault is the comparison layer. Save, edit, and delete personal charts in My Kundlis first, then use Family Vault for shared patterns and household guidance.',
     familyVaultEyebrow: 'FAMILY VAULT',
-    familyVaultTitle: 'Family comparison uses library profiles.',
+    familyVaultTitle: 'Family comparison uses saved Kundli profiles.',
     familyWaitingTitle: 'Needs more saved profiles',
     goToFamilyVault: 'Go to Family Vault',
     guestLimitBody:
       'Your first Kundli is safe here. Sign in before adding family profiles, multiple saved chats, or report preferences.',
     guestLimitTitle: 'Protect more Kundlis with sign-in',
-    libraryEyebrow: 'KUNDLI LIBRARY',
-    overviewLabel: 'Kundli Library overview',
+    libraryEyebrow: 'MY KUNDLIS',
+    overviewLabel: 'My Kundlis overview',
     pageBody:
       'Keep every saved Kundli here, choose one active personal profile, and open Family Vault only when you want careful household comparison.',
     openFullFlow: school =>
@@ -888,15 +888,15 @@ const KUNDLI_LIBRARY_COPY: Record<SupportedLanguage, KundliLibraryCopy> = {
             ? 'Open KP Room'
             : 'Open Jaimini Room',
     openMatchmaking: 'Open Matchmaking',
-    pageTitle: 'Kundli Library',
+    pageTitle: 'My Kundlis',
     personalBody: activeName =>
       activeName
-        ? `Active profile: ${activeName}. Personal readings and edits stay in this library.`
+        ? `Active profile: ${activeName}. Personal readings and edits stay in My Kundlis.`
         : 'No active profile yet. Create a Kundli here before opening other worlds or Family Vault.',
     personalBoundaryBody:
-      'Personal edits, switching, and deletion should happen in the library so Family Vault stays a read-only comparison layer.',
+      'Personal edits, switching, and deletion should happen in My Kundlis so Family Vault stays a read-only comparison layer.',
     personalBoundaryTitle: 'Personal storage and edits',
-    personalEyebrow: 'PERSONAL LIBRARY',
+    personalEyebrow: 'MY KUNDLIS',
     previewChartLabel: school =>
       school === 'PARASHARI'
         ? 'D1'

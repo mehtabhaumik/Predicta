@@ -8,7 +8,7 @@ export function WebKpPage(): React.JSX.Element {
     handoffMode: 'room_safe',
     prompt: 'Help me ask one clear KP event question and read the timing evidence.',
     school: 'KP',
-    sourceScreen: 'KP Evidence Room',
+    sourceScreen: 'KP Room',
   });
 
   return (

@@ -64,8 +64,8 @@ const COPY: Record<SupportedLanguage, FamilyMapCopy> = {
     boundaryCards: [
       {
         body:
-          'Family Karma Map compares saved profiles only. Birth details still live in Kundli Library, where edit and deletion stay personal.',
-        title: 'Library stays primary',
+          'Family Karma Map compares saved profiles only. Birth details still live in My Kundlis, where edit and deletion stay personal.',
+        title: 'My Kundlis stays primary',
       },
       {
         body:

@@ -8,7 +8,7 @@ export function WebRemediesPage(): React.JSX.Element {
     handoffMode: 'room_safe',
     prompt:
       'Read the active Dosh, Shrap, Yog, Lal Kitab pressure, support, and safest remedy plan.',
-    sourceScreen: 'Kundli Karma Evidence Room',
+    sourceScreen: 'Kundli Karma Room',
   });
 
   return (

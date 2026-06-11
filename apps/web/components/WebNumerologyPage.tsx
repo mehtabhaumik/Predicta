@@ -9,7 +9,7 @@ export function WebNumerologyPage(): React.JSX.Element {
     handoffMode: 'room_safe',
     prompt: 'Read what my name number, birth number, destiny number, and current cycle say now.',
     school: 'NUMEROLOGY',
-    sourceScreen: 'Numerology Evidence Room',
+    sourceScreen: 'Numerology Room',
   });
 
   return (

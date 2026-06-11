@@ -8,7 +8,7 @@ export function WebSignaturePage(): React.JSX.Element {
     handoffMode: 'room_safe',
     prompt: 'Read my confirmed signature traits safely and explain what they reflect.',
     school: 'SIGNATURE',
-    sourceScreen: 'Signature Evidence Room',
+    sourceScreen: 'Signature Room',
   });
 
   return (

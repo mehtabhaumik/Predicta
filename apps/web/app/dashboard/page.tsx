@@ -27,7 +27,7 @@ export default function DashboardPage(): React.JSX.Element {
     prompt: activeKundli
       ? copy.libraryAskActivePrompt
       : copy.libraryAskNewPrompt,
-    sourceScreen: 'My Astrology Library',
+    sourceScreen: 'My Kundlis',
   });
 
   useEffect(() => {

@@ -63,8 +63,8 @@
         "askRefinedQuestion": "Ask Predicta using the refined event question",
         "confidenceIndicator": "Prediction confidence indicator",
         "customQuestionInput": "Write your own event question",
-        "evidenceDrawer": "Open or close the evidence rooms behind this prediction",
-        "evidenceRooms": "Evidence rooms used for this event question",
+        "evidenceDrawer": "Open or close the astrology methods behind this prediction",
+        "evidenceRooms": "Astrology methods used for this event question",
         "familyShareToggle": "Change Family Vault sharing for this prediction",
         "outcomeSelect": "Select the outcome status for this tracked prediction",
         "predictionCard": "Prediction preview card with answer, timing, confidence, action, and safety",
@@ -95,7 +95,7 @@
         "reportCta": "Open reports",
         "secondaryCta": "Create Kundli first",
         "statusLabel": "Access status",
-        "subtitle": "Ask about a real event. Predicta checks the right evidence rooms, gives the answer first, then timing, trigger, action, and proof.",
+        "subtitle": "Ask about a real event. Predicta checks the right astrology methods, gives the answer first, then timing, trigger, action, and proof.",
         "title": "Ask Predicta first."
       },
       "handoff": {
@@ -132,7 +132,7 @@
       "precisionReading": {
         "costGuardrail": "Free preview stays deterministic. Paid depth uses the entitled Precision Reading path; Gemini validator is not used for free preview.",
         "followUp": "Follow-up packs stay tied to the same prediction thread, so one question does not become an unlimited chat loop.",
-        "freePreviewBody": "You can preview the direct answer/readiness, category, and evidence rooms without spending an AI credit.",
+        "freePreviewBody": "You can preview the direct answer/readiness, category, and astrology methods without spending an AI credit.",
         "freePreviewTitle": "Free preview",
         "paidBody": "Unlock full timing window, likely trigger, contradiction scan, practical action plan, and collapsed evidence for one important question.",
         "paidCta": "Unlock Precision Reading",
