@@ -167,3 +167,34 @@ longer reintroduce the control-panel/toolkit voice.
 Green. The public landing and direct `/ask` doorway now expose suggested
 questions as real links instead of fragile button-only JavaScript handoffs,
 which directly reduces the "link click is not working / opens late" feeling.
+
+## Supplemental Public Copy And Email Link Chat-First Lock
+
+- Removed stale `Dashboard`, `Kundli Library`, `your library`, and dead
+  `/dashboard/library` wording from public feedback surfaces, web/mobile chat
+  handoffs, active-Kundli delete flows, support email templates, shared growth
+  copy, and translation catalogs.
+- Replaced those labels with `Ask Predicta`, `Open Predicta`, and `My Kundlis`
+  while leaving legitimate internal route names untouched.
+- Repointed stale support email CTAs from `/dashboard/library` to
+  `/dashboard/saved-kundlis` and routed welcome/premium email CTAs toward
+  `/ask` where appropriate.
+
+## Supplemental Public Copy Audit Evidence
+
+- `rg -n "Open Dashboard|Open dashboard|/dashboard/library|Open Kundli library|from your dashboard|your dashboard|Dashboard kholo|dashboard khol|dashboard kholo|dashboard ખોલ|ડેશબોર્ડ ખોલો|डैशबोर्ड खोलें|Kundli Library|Kundli library|your library|ki Kundli library|કુંડળી લાઇબ્રેરી|कुंडली लाइब्रेरी" apps/web apps/mobile packages/config/src/translations -g '*.{ts,tsx,json}'` returned no stale user-facing matches.
+- `node -e "const fs=require('fs'); for (const f of ['packages/config/src/translations/webGrowthAdvantage.json','packages/config/src/translations/nativeCopy.json','packages/config/src/translations/ui.json','apps/web/lib/email/support-email-template-catalog.json']) { JSON.parse(fs.readFileSync(f,'utf8')); console.log(f + ' ok'); }"` passed.
+- `corepack pnpm test:global-translation-coverage`
+- `corepack pnpm --filter @pridicta/mobile typecheck`
+- `corepack pnpm --filter @pridicta/web typecheck`
+- `corepack pnpm build:web`
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3033 corepack pnpm test:app-revival-phase-7`
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3033 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/feedback,/dashboard,/dashboard/kundli,/dashboard/saved-kundlis,/dashboard/report,/pricing corepack pnpm test:ui-text-overflow`
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3033 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/feedback,/dashboard,/dashboard/kundli,/dashboard/saved-kundlis,/dashboard/report,/pricing corepack pnpm test:ui-personal-space`
+- `git diff --check`
+
+## Supplemental Public Copy Result
+
+Green. The app no longer exposes stale `Kundli Library` or old dashboard copy in
+the audited user-facing web/mobile/report-support surfaces, and all touched
+copy remains registered in dedicated translation JSON.

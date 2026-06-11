@@ -345,7 +345,7 @@ const feedbackCopy: Record<SupportedLanguage, FeedbackCopy> = {
         title: 'What we review',
       },
     ],
-    dashboard: 'Open Dashboard',
+    dashboard: 'Open Predicta',
     emailBackup: 'Send by Email',
     emailBodyLabels: {
       area: 'Area',
@@ -358,7 +358,7 @@ const feedbackCopy: Record<SupportedLanguage, FeedbackCopy> = {
     emailPlaceholder: 'Optional, but useful if we need to reply',
     emailSubject: 'Predicta feedback',
     footerBody:
-      'Go back to the dashboard, create a Kundli, ask Predicta a real question, then send feedback when something feels unclear.',
+      'Open Predicta, create a Kundli, ask one real question, then send feedback when something feels unclear.',
     footerTitle: 'Want to keep exploring?',
     formEyebrow: 'PREDICTA FEEDBACK',
     formTitle: 'Tell us exactly what happened.',

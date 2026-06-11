@@ -107,7 +107,7 @@ export function ActiveKundliActions({
   function deleteKundli() {
     Alert.alert(
       `Delete ${activeKundli.birthDetails.name}'s Kundli?`,
-      'This removes this Kundli from your library. Old chats or reports may no longer have full chart context for this profile.',
+      'This removes this Kundli from My Kundlis. Old chats or reports may no longer have full chart context for this profile.',
       [
         { style: 'cancel', text: 'Keep Kundli' },
         {

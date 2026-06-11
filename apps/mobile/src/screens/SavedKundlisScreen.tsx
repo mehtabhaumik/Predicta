@@ -71,9 +71,9 @@ export function SavedKundlisScreen({
     return (
       <Screen>
         <SignInRequiredPanel
-          body="Sign in before opening your Kundli Library so saved charts and Family Vault assignments stay protected with your account."
+          body="Sign in before opening My Kundlis so saved charts and Family Vault assignments stay protected with your account."
           navigation={navigation}
-          title="Sign in to use Kundli Library."
+          title="Sign in to use My Kundlis."
         />
       </Screen>
     );
@@ -163,7 +163,7 @@ export function SavedKundlisScreen({
     setActiveChartContext({
       selectedSection:
         'Create a new Kundli. Ask only for missing birth details and confirm before calculation.',
-      sourceScreen: 'Kundli Library',
+      sourceScreen: 'My Kundlis',
     });
     navigation.navigate(routes.Chat);
   }
@@ -198,7 +198,7 @@ export function SavedKundlisScreen({
     const selectedSection =
       school === 'PARASHARI'
         ? `Use ${record.summary.name}'s saved Kundli and tell me the most useful next reading.`
-        : `Use ${record.summary.name}'s ${chartLabel} preview from Kundli Library and keep the answer in ${chartLabel} context.`;
+        : `Use ${record.summary.name}'s ${chartLabel} preview from My Kundlis and keep the answer in ${chartLabel} context.`;
 
     setActiveKundli(record.kundliData);
     setActiveChartContext({
@@ -214,7 +214,7 @@ export function SavedKundlisScreen({
       predictaSchool: school,
       purpose: school === 'PARASHARI' ? 'family' : school.toLowerCase(),
       selectedSection,
-      sourceScreen: 'Kundli Library',
+      sourceScreen: 'My Kundlis',
     });
     navigation.navigate(routes.Chat);
   }
@@ -236,7 +236,7 @@ export function SavedKundlisScreen({
         },
       ],
       message:
-        'This removes this Kundli from your library. Old chats or reports may no longer have full chart context for this profile.',
+        'This removes this Kundli from My Kundlis. Old chats or reports may no longer have full chart context for this profile.',
       title: `Delete ${record.summary.name}'s Kundli?`,
     });
   }
@@ -259,7 +259,7 @@ export function SavedKundlisScreen({
   return (
     <Screen>
       {glassAlert}
-      <AnimatedHeader eyebrow="KUNDLI LIBRARY" title="Kundli Library" />
+      <AnimatedHeader eyebrow="MY KUNDLIS" title="My Kundlis" />
       <AppText className="mt-4" tone="secondary">
         This is your saved Kundli storage. Choose the active profile for
         Predicta. Family Vault uses these saved profiles for family patterns.
@@ -309,7 +309,7 @@ export function SavedKundlisScreen({
       <View className="mt-6 gap-4">
         {savedKundlis.length === 0 ? (
           <GlowCard>
-            <AppText variant="subtitle">Your Kundli Library is empty</AppText>
+            <AppText variant="subtitle">My Kundlis is empty</AppText>
             <AppText className="mt-2" tone="secondary">
               Generate a Kundli from the Kundli screen. It will appear here
               first, then Family Vault can use it as a family profile.
@@ -483,15 +483,15 @@ export function SavedKundlisScreen({
               chartType: 'D1',
               handoffQuestion:
                 chartDialog.school === 'PARASHARI'
-                  ? `Open ${record.summary.name}'s saved D1 Kundli from the library.`
-                  : `Open ${record.summary.name}'s ${chartDialog.school} room from the library.`,
+                  ? `Open ${record.summary.name}'s saved D1 Kundli from My Kundlis.`
+                  : `Open ${record.summary.name}'s ${chartDialog.school} room from My Kundlis.`,
               kundliId: record.summary.id,
               predictaSchool: chartDialog.school,
               selectedSection:
                 chartDialog.school === 'PARASHARI'
                   ? `${record.summary.name}'s saved D1 Kundli`
                   : `${record.summary.name}'s ${chartDialog.school} chart preview`,
-              sourceScreen: 'Kundli Library',
+              sourceScreen: 'My Kundlis',
             });
             setChartDialog(undefined);
             navigation.navigate(

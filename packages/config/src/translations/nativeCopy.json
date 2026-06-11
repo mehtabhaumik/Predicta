@@ -204,7 +204,7 @@
       "kind": "template",
       "parts": [
         "તમે ",
-        " ની કુંડળી કાઢી નાખો કરવા માંગો છો. આ લાઇબ્રેરી માંથી હટી જશે. પુષ્ટિ કરો કરવા \"કુંડળી કાઢી નાખો\" લખો, અથવા \"રદ કરો\" લખો."
+        " ની કુંડળી મારી કુંડળીઓમાંથી હટી જશે. પુષ્ટિ કરવા \"કુંડળી કાઢી નાખો\" લખો, અથવા \"રદ કરો\" લખો."
       ]
     },
     "native.apps.mobile.src.screens.ChatScreen.tsx.da03e43b60": {
@@ -223,7 +223,7 @@
       "kind": "template",
       "parts": [
         "",
-        " ની કુંડળી લાઇબ્રેરી માંથી કાઢી નાખો થઈ ગઈ.",
+        " ની કુંડળી મારી કુંડળીઓમાંથી કાઢી નાખવામાં આવી છે.",
         ""
       ]
     },
@@ -681,7 +681,7 @@
     },
     "native.apps.web.app.dashboard.family.page.tsx.3db33c18ca": {
       "kind": "text",
-      "value": "કુંડળી લાઇબ્રેરી પર જાઓ"
+      "value": "મારી કુંડળીઓ પર જાઓ"
     },
     "native.apps.web.app.dashboard.family.page.tsx.458bfa4431": {
       "kind": "text",
@@ -701,7 +701,7 @@
     },
     "native.apps.web.app.dashboard.family.page.tsx.560ebadcf0": {
       "kind": "text",
-      "value": "कुंडली लाइब्रेरी पर जाएं"
+      "value": "मेरी कुंडलियां खोलें"
     },
     "native.apps.web.app.dashboard.family.page.tsx.568c6211d8": {
       "kind": "text",
@@ -717,7 +717,7 @@
     },
     "native.apps.web.app.dashboard.family.page.tsx.7a4ad9c67b": {
       "kind": "text",
-      "value": "परिवार वॉल्ट अब एक सामान्य होल्डिंग पेज नहीं है. यह आपकी सेव कुंडली लाइब्रेरी के ऊपर बनी तुलना परत है."
+      "value": "परिवार वॉल्ट अब एक सामान्य होल्डिंग पेज नहीं है. यह आपकी सेव कुंडलियों के ऊपर बनी तुलना परत है."
     },
     "native.apps.web.app.dashboard.family.page.tsx.7b7a30b3e5": {
       "kind": "text",
@@ -764,7 +764,7 @@
     },
     "native.apps.web.app.dashboard.family.page.tsx.adb8fcfbcc": {
       "kind": "text",
-      "value": "वास्तविक पारिवारिक तुलना की अपेक्षा करने से पहले कुंडली लाइब्रेरी में कम से कम दो प्रोफाइल सेव करें."
+      "value": "वास्तविक पारिवारिक तुलना की अपेक्षा करने से पहले मेरी कुंडलियों में कम से कम दो प्रोफाइल सेव करें."
     },
     "native.apps.web.app.dashboard.family.page.tsx.af78e01243": {
       "kind": "text",
@@ -784,7 +784,7 @@
     },
     "native.apps.web.app.dashboard.family.page.tsx.bf82673cb5": {
       "kind": "text",
-      "value": "પરિવાર વોલ્ટ હવે કોઈ સામાન્ય હોલ્ડિંગ પેજ નથી. તે તમારી સાચવેલી કુંડળી લાઇબ્રેરી ઉપર બનેલી તુલનાની પરત છે."
+      "value": "પરિવાર વોલ્ટ હવે કોઈ સામાન્ય હોલ્ડિંગ પેજ નથી. તે તમારી સાચવેલી કુંડળીઓ ઉપર બનેલી તુલનાની પરત છે."
     },
     "native.apps.web.app.dashboard.family.page.tsx.c809fd9d22": {
       "kind": "text",
@@ -827,7 +827,7 @@
     },
     "native.apps.web.app.dashboard.family.page.tsx.fb9fcd3b7e": {
       "kind": "text",
-      "value": "વાસ્તવિક પરિવાર તુલનાની અપેક્ષા કરતા પહેલાં કુંડળી લાઇબ્રેરીમાં ઓછામાં ઓછી બે પ્રોફાઇલ સાચવો."
+      "value": "વાસ્તવિક પરિવાર તુલનાની અપેક્ષા કરતા પહેલાં મારી કુંડળીઓમાં ઓછામાં ઓછી બે પ્રોફાઇલ સાચવો."
     },
     "native.apps.web.components.WebFamilyVault.assignAria.gu": {
       "kind": "template",
@@ -845,11 +845,11 @@
     },
     "native.apps.web.components.WebFamilyVault.assignmentBody.gu": {
       "kind": "text",
-      "value": "અહીં સાચવેલી કુંડળીઓને પરિવારની ભૂમિકાઓમાં સોંપો. પરિવાર વોલ્ટ આ લેબલનો ઉપયોગ તુલનાના સંદર્ભ માટે કરે છે, જ્યારે કુંડળી લાઇબ્રેરી સત્યનો મુખ્ય સ્ત્રોત રહે છે."
+      "value": "અહીં સાચવેલી કુંડળીઓને પરિવારની ભૂમિકાઓમાં સોંપો. પરિવાર વોલ્ટ આ લેબલનો ઉપયોગ તુલનાના સંદર્ભ માટે કરે છે, જ્યારે મારી કુંડળીઓ સત્યનો મુખ્ય સ્ત્રોત રહે છે."
     },
     "native.apps.web.components.WebFamilyVault.assignmentBody.hi": {
       "kind": "text",
-      "value": "यहां सेव कुंडलियों को पारिवारिक भूमिकाओं में असाइन करें. परिवार वॉल्ट इन लेबलों का उपयोग तुलना संदर्भ के लिए करता है, जबकि कुंडली लाइब्रेरी सत्य का मुख्य स्रोत रहती है."
+      "value": "यहां सेव कुंडलियों को पारिवारिक भूमिकाओं में असाइन करें. परिवार वॉल्ट इन लेबलों का उपयोग तुलना संदर्भ के लिए करता है, जबकि मेरी कुंडलियां सत्य का मुख्य स्रोत रहती हैं."
     },
     "native.apps.web.components.WebFamilyVault.assignmentTitle.gu": {
       "kind": "text",
@@ -1795,7 +1795,7 @@
     },
     "native.apps.web.app.feedback.page.tsx.089a4a8b8e": {
       "kind": "text",
-      "value": "डैशबोर्ड पर जाएं, कुंडली बनाएं, प्रेडिक्टा से असली सवाल पूछें, और जहां बात स्पष्ट न लगे वहां सुझाव भेजें."
+      "value": "प्रेडिक्टा खोलें, कुंडली बनाएं, प्रेडिक्टा से असली सवाल पूछें, और जहां बात स्पष्ट न लगे वहां सुझाव भेजें."
     },
     "native.apps.web.app.feedback.page.tsx.0a3237362d": {
       "kind": "text",
@@ -1947,7 +1947,7 @@
     },
     "native.apps.web.app.feedback.page.tsx.5d7a2973b7": {
       "kind": "text",
-      "value": "डैशबोर्ड खोलें"
+      "value": "प्रेडिक्टा खोलें"
     },
     "native.apps.web.app.feedback.page.tsx.5e4b3429e9": {
       "kind": "text",
@@ -2099,7 +2099,7 @@
     },
     "native.apps.web.app.feedback.page.tsx.d6157e75b1": {
       "kind": "text",
-      "value": "ડેશબોર્ડ ખોલો"
+      "value": "પ્રેડિક્ટા ખોલો"
     },
     "native.apps.web.app.feedback.page.tsx.d644ef3a01": {
       "kind": "text",
@@ -2111,7 +2111,7 @@
     },
     "native.apps.web.app.feedback.page.tsx.e20009b45a": {
       "kind": "text",
-      "value": "ડેશબોર્ડ પર જાઓ, કુંડળી બનાવો, પ્રેડિક્ટા ને સાચો પ્રશ્ન પૂછો, અને જ્યાં વાત સ્પષ્ટ ન લાગે ત્યાં સૂચન મોકલો."
+      "value": "પ્રેડિક્ટા ખોલો, કુંડળી બનાવો, પ્રેડિક્ટા ને સાચો પ્રશ્ન પૂછો, અને જ્યાં વાત સ્પષ્ટ ન લાગે ત્યાં સૂચન મોકલો."
     },
     "native.apps.web.app.feedback.page.tsx.e538450b9e": {
       "kind": "text",
@@ -4167,7 +4167,7 @@
     },
     "native.apps.web.components.WebActiveKundliActions.tsx.11bad785cd": {
       "kind": "text",
-      "value": "આ કુંડળી તમારી લાઇબ્રેરીમાંથી દૂર થશે. જૂના ચેટ અથવા રિપોર્ટમાં આ પ્રોફાઇલનો સંપૂર્ણ ચાર્ટ સંદર્ભ ઉપલબ્ધ ન રહી શકે."
+      "value": "આ કુંડળી મારી કુંડળીઓમાંથી દૂર થશે. જૂના ચેટ અથવા રિપોર્ટમાં આ પ્રોફાઇલનો સંપૂર્ણ ચાર્ટ સંદર્ભ ઉપલબ્ધ ન રહી શકે."
     },
     "native.apps.web.components.WebActiveKundliActions.tsx.12986e9966": {
       "kind": "text",
@@ -7347,7 +7347,7 @@
     },
     "native.apps.web.components.WebFamilyKarmaMap.tsx.36f2bbdab4": {
       "kind": "text",
-      "value": "પરિવાર કર્મ નકશો ફક્ત સાચવેલી પ્રોફાઇલની તુલના કરે છે. જન્મ વિગતો હજુ પણ કુંડળી લાઇબ્રેરીમાં જ રહે છે, જ્યાં સંપાદન અને કાઢી નાખવું વ્યક્તિગત રહે છે."
+      "value": "પરિવાર કર્મ નકશો ફક્ત સાચવેલી પ્રોફાઇલની તુલના કરે છે. જન્મ વિગતો હજુ પણ મારી કુંડળીઓમાં જ રહે છે, જ્યાં સંપાદન અને કાઢી નાખવું વ્યક્તિગત રહે છે."
     },
     "native.apps.web.components.WebFamilyKarmaMap.tsx.378354ea9a": {
       "kind": "text",
@@ -7491,7 +7491,7 @@
     },
     "native.apps.web.components.WebFamilyKarmaMap.tsx.a868fbcb82": {
       "kind": "text",
-      "value": "परिवार कर्म नक्शा केवल सेव प्रोफाइलों की तुलना करता है. जन्म विवरण अभी भी कुंडली लाइब्रेरी में रहते हैं, जहां संपादन और हटाना व्यक्तिगत रहता है."
+      "value": "परिवार कर्म नक्शा केवल सेव प्रोफाइलों की तुलना करता है. जन्म विवरण अभी भी मेरी कुंडलियों में रहते हैं, जहां संपादन और हटाना व्यक्तिगत रहता है."
     },
     "native.apps.web.components.WebFamilyKarmaMap.tsx.a93c4cf295": {
       "kind": "text",
@@ -7981,11 +7981,11 @@
     },
     "native.apps.web.components.WebFooter.tsx.66249ce6af": {
       "kind": "text",
-      "value": "कुंडली लाइब्रेरी"
+      "value": "मेरी कुंडलियां"
     },
     "native.apps.web.components.WebFooter.tsx.69e24edda7": {
       "kind": "text",
-      "value": "કુંડળી લાઇબ્રેરી"
+      "value": "મારી કુંડળીઓ"
     },
     "native.apps.web.components.WebFooter.tsx.7cacfebde9": {
       "kind": "text",
@@ -8145,7 +8145,7 @@
     },
     "native.apps.web.components.WebHeader.tsx.5d7a2973b7": {
       "kind": "text",
-      "value": "डैशबोर्ड खोलें"
+      "value": "प्रेडिक्टा खोलें"
     },
     "native.apps.web.components.WebHeader.tsx.7a41efa981": {
       "kind": "text",
@@ -8209,7 +8209,7 @@
     },
     "native.apps.web.components.WebHeader.tsx.d6157e75b1": {
       "kind": "text",
-      "value": "ડેશબોર્ડ ખોલો"
+      "value": "પ્રેડિક્ટા ખોલો"
     },
     "native.apps.web.components.WebHeader.tsx.d653d63a61": {
       "kind": "text",
@@ -10537,7 +10537,7 @@
       "kind": "template",
       "parts": [
         "તમે ",
-        " ની કુંડળી કાઢી નાખો કરવા માંગો છો. આ લાઇબ્રેરી માંથી હટી જશે. પુષ્ટિ કરો કરવા \"કાઢી નાખો કુંડળી\" લખો, અથવા \"રદ કરો\" લખો."
+        " ની કુંડળી મારી કુંડળીઓમાંથી હટી જશે. પુષ્ટિ કરવા \"કાઢી નાખો કુંડળી\" લખો, અથવા \"રદ કરો\" લખો."
       ]
     },
     "native.apps.web.components.WebPridictaChat.tsx.155e3da570": {
@@ -10751,7 +10751,7 @@
       "kind": "template",
       "parts": [
         "",
-        " ની કુંડળી લાઇબ્રેરી માંથી કાઢી નાખો થઈ ગઈ.",
+        " ની કુંડળી મારી કુંડળીઓમાંથી કાઢી નાખવામાં આવી છે.",
         ""
       ]
     },
@@ -11516,11 +11516,11 @@
     },
     "native.apps.web.components.WebProfileSettings.tsx.66249ce6af": {
       "kind": "text",
-      "value": "कुंडली लाइब्रेरी"
+      "value": "मेरी कुंडलियां"
     },
     "native.apps.web.components.WebProfileSettings.tsx.69e24edda7": {
       "kind": "text",
-      "value": "કુંડળી લાઇબ્રેરી"
+      "value": "મારી કુંડળીઓ"
     },
     "native.apps.web.components.WebProfileSettings.tsx.6bea6d3b30": {
       "kind": "text",
@@ -11700,7 +11700,7 @@
     },
     "native.apps.web.components.WebProfileSettings.tsx.c621b91547": {
       "kind": "text",
-      "value": "લાઇબ્રેરી ખોલો"
+      "value": "મારી કુંડળીઓ ખોલો"
     },
     "native.apps.web.components.WebProfileSettings.tsx.c8e17f677c": {
       "kind": "text",
@@ -12114,7 +12114,7 @@
     },
     "native.apps.web.components.WebSavedKundlis.tsx.089143883b": {
       "kind": "text",
-      "value": "વ્યક્તિગત સંપાદન, સક્રિય બદલવું અને કાઢી નાખવું લાઇબ્રેરીમાં જ થવું જોઈએ જેથી પરિવાર વોલ્ટ ફક્ત તુલનાની પરત રહે."
+      "value": "વ્યક્તિગત સંપાદન, સક્રિય બદલવું અને કાઢી નાખવું મારી કુંડળીઓમાં જ થવું જોઈએ જેથી પરિવાર વોલ્ટ ફક્ત તુલનાની પરત રહે."
     },
     "native.apps.web.components.WebSavedKundlis.tsx.0a1aabb8f8": {
       "kind": "template",
@@ -12125,7 +12125,7 @@
     },
     "native.apps.web.components.WebSavedKundlis.tsx.0a9e37222b": {
       "kind": "text",
-      "value": "કુંડળી લાઇબ્રેરી સાર"
+      "value": "મારી કુંડળીઓ સાર"
     },
     "native.apps.web.components.WebSavedKundlis.tsx.0af85feec9": {
       "kind": "text",
@@ -12187,7 +12187,7 @@
       "kind": "template",
       "parts": [
         "यह ",
-        " की प्रोफाइल को आपकी व्यक्तिगत कुंडली लाइब्रेरी और इस डिवाइस के परिवार वॉल्ट तुलना दोनों से हटा देगा."
+        " की प्रोफाइल को मेरी कुंडलियों और इस डिवाइस के परिवार वॉल्ट तुलना दोनों से हटा देगा."
       ]
     },
     "native.apps.web.components.WebSavedKundlis.tsx.1ee2edb186": {
@@ -12250,7 +12250,7 @@
       "parts": [
         "",
         " की ",
-        " कुंडली लाइब्रेरी से इस्तेमाल करें. चैट में चार्ट की पुष्टि करके बताएं कि आगे क्या पूछना सही रहेगा."
+        " मेरी कुंडलियों से इस्तेमाल करें. चैट में चार्ट की पुष्टि करके बताएं कि आगे क्या पूछना सही रहेगा."
       ]
     },
     "native.apps.web.components.WebSavedKundlis.tsx.3913ebaae3": {
@@ -12274,7 +12274,7 @@
     },
     "native.apps.web.components.WebSavedKundlis.tsx.42a6395d73": {
       "kind": "text",
-      "value": "પરિવાર વોલ્ટ તુલનાની પરત છે. વ્યક્તિગત ચાર્ટ પહેલાં લાઇબ્રેરીમાં સાચવો, સંપાદિત કરો અને કાઢી નાખો, પછી શેર કરેલા સંકેતો અને ઘરેલુ માર્ગદર્શન માટે પરિવાર વોલ્ટ ખોલો."
+      "value": "પરિવાર વોલ્ટ તુલનાની પરત છે. વ્યક્તિગત ચાર્ટ પહેલાં મારી કુંડળીઓમાં સાચવો, સંપાદિત કરો અને કાઢી નાખો, પછી શેર કરેલા સંકેતો અને ઘરેલુ માર્ગદર્શન માટે પરિવાર વોલ્ટ ખોલો."
     },
     "native.apps.web.components.WebSavedKundlis.tsx.44592d7c8f": {
       "kind": "text",
@@ -12310,7 +12310,7 @@
     },
     "native.apps.web.components.WebSavedKundlis.tsx.4e2a4f97fe": {
       "kind": "text",
-      "value": "પરિવાર તુલના લાઇબ્રેરી પ્રોફાઇલ પરથી ચાલે છે."
+      "value": "પરિવાર તુલના મારી કુંડળીઓની પ્રોફાઇલ પરથી ચાલે છે."
     },
     "native.apps.web.components.WebSavedKundlis.tsx.50a9220ed3": {
       "kind": "text",
@@ -12352,12 +12352,12 @@
       "kind": "template",
       "parts": [
         "આ ",
-        " ની પ્રોફાઇલને તમારી વ્યક્તિગત કુંડળી લાઇબ્રેરીમાંથી અને આ ડિવાઇસના પરિવાર વોલ્ટ તુલનામાંથી દૂર કરશે."
+        " ની પ્રોફાઇલને તમારી વ્યક્તિગત મારી કુંડળીઓમાંથી અને આ ડિવાઇસના પરિવાર વોલ્ટ તુલનામાંથી દૂર કરશે."
       ]
     },
     "native.apps.web.components.WebSavedKundlis.tsx.66249ce6af": {
       "kind": "text",
-      "value": "कुंडली लाइब्रेरी"
+      "value": "मेरी कुंडलियां"
     },
     "native.apps.web.components.WebSavedKundlis.tsx.67d2dc8b2c": {
       "kind": "text",
@@ -12377,7 +12377,7 @@
     },
     "native.apps.web.components.WebSavedKundlis.tsx.69e24edda7": {
       "kind": "text",
-      "value": "કુંડળી લાઇબ્રેરી"
+      "value": "મારી કુંડળીઓ"
     },
     "native.apps.web.components.WebSavedKundlis.tsx.6c98bff250": {
       "kind": "text",
@@ -12469,7 +12469,7 @@
     },
     "native.apps.web.components.WebSavedKundlis.tsx.9548c9aebb": {
       "kind": "text",
-      "value": "પરિવાર વોલ્ટ આ લાઇબ્રેરીની સાચવેલી પ્રોફાઇલની તુલના કરે છે. તે જન્મ વિગતોની બીજી છુપાયેલી નકલ બનાવતું નથી."
+      "value": "પરિવાર વોલ્ટ મારી કુંડળીઓની સાચવેલી પ્રોફાઇલની તુલના કરે છે. તે જન્મ વિગતોની બીજી છુપાયેલી નકલ બનાવતું નથી."
     },
     "native.apps.web.components.WebSavedKundlis.tsx.97e86af69e": {
       "kind": "template",
@@ -12491,7 +12491,7 @@
       "parts": [
         "",
         " નો ",
-        " ચાર્ટ કુંડળી લાઇબ્રેરીમાંથી વાપરો. ચેટમાં ચાર્ટની પુષ્ટિ કરીને આગળ શું પૂછવું તે કહો."
+        " ચાર્ટ મારી કુંડળીઓમાંથી વાપરો. ચેટમાં ચાર્ટની પુષ્ટિ કરીને આગળ શું પૂછવું તે કહો."
       ]
     },
     "native.apps.web.components.WebSavedKundlis.tsx.9bf2a3b0a7": {
@@ -12579,7 +12579,7 @@
       "kind": "template",
       "parts": [
         "સક્રિય પ્રોફાઇલ: ",
-        ". વ્યક્તિગત વાંચન અને સંપાદન આ જ લાઇબ્રેરીમાં રહે છે."
+        ". વ્યક્તિગત વાંચન અને સંપાદન મારી કુંડળીઓમાં રહે છે."
       ]
     },
     "native.apps.web.components.WebSavedKundlis.tsx.b38135169e": {
@@ -12642,7 +12642,7 @@
     },
     "native.apps.web.components.WebSavedKundlis.tsx.cbfda0ed89": {
       "kind": "text",
-      "value": "कुंडली लाइब्रेरी सार"
+      "value": "मेरी कुंडलियां सार"
     },
     "native.apps.web.components.WebSavedKundlis.tsx.ce68692d77": {
       "kind": "text",
@@ -12762,7 +12762,7 @@
     },
     "native.apps.web.components.WebSavedKundlis.tsx.f49f1a1741": {
       "kind": "text",
-      "value": "વ્યક્તિગત લાઇબ્રેરી"
+      "value": "મારી વ્યક્તિગત કુંડળીઓ"
     },
     "native.apps.web.components.WebSavedKundlis.tsx.f84e74e2fc": {
       "kind": "text",

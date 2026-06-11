@@ -1936,7 +1936,7 @@ function buildKundliDeleteConfirmReply(
   if (language === 'gu') {
     return formatNativeCopy("native.apps.mobile.src.screens.ChatScreen.tsx.d811c98927", [kundli.birthDetails.name]);
   }
-  return `You are about to delete ${kundli.birthDetails.name}'s Kundli from your library. Reply "delete Kundli" to confirm, or "cancel" to stop.`;
+  return `You are about to delete ${kundli.birthDetails.name}'s Kundli from My Kundlis. Reply "delete Kundli" to confirm, or "cancel" to stop.`;
 }
 
 function buildKundliGenericEditReply(
@@ -2016,7 +2016,7 @@ function buildKundliDeletedReply(
     const nextLine = nextActive
       ? ` Active Kundli ab ${nextActive.birthDetails.name} hai.`
       : '';
-    return `${deletedName} ki Kundli library se delete ho gayi.${nextLine}`;
+    return `${deletedName} ki Kundli Meri Kundliyon se delete ho gayi.${nextLine}`;
   }
   if (language === 'gu') {
     const nextLine = nextActive
@@ -2027,7 +2027,7 @@ function buildKundliDeletedReply(
   const nextLine = nextActive
     ? ` Active Kundli: ${nextActive.birthDetails.name}.`
     : '';
-  return `${deletedName}'s Kundli has been deleted from your library.${nextLine}`;
+  return `${deletedName}'s Kundli has been deleted from My Kundlis.${nextLine}`;
 }
 
 function buildKundliEditedReply(
@@ -2384,7 +2384,7 @@ function getMobileFriendlySourceName(source?: string): string {
     .trim();
 
   if (!normalized || /dashboard/i.test(normalized)) {
-    return 'your dashboard';
+    return 'My Kundlis';
   }
 
   return normalized;

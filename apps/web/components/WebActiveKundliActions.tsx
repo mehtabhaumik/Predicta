@@ -160,7 +160,7 @@ function getActiveKundliDeleteCopy(
 
   return {
     body:
-      'This removes this Kundli from your library. Old chats or reports may no longer have full chart context for this profile.',
+      'This removes this Kundli from My Kundlis. Old chats or reports may no longer have full chart context for this profile.',
     cancelLabel: 'Keep Kundli',
     confirmLabel: 'Delete Kundli',
     consequence:

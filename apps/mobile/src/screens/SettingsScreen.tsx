@@ -211,13 +211,13 @@ export function SettingsScreen({
           <SettingRow
             description={
               auth.isLoggedIn
-                ? `${savedKundlis.length} saved Kundli${savedKundlis.length === 1 ? '' : 's'} in your library.`
+                ? `${savedKundlis.length} saved Kundli${savedKundlis.length === 1 ? '' : 's'} in My Kundlis.`
                 : 'Guest storage is limited to one Kundli on this device.'
             }
             title="Kundli storage"
           >
             <GlowButton
-              label="Open Library"
+              label="Open My Kundlis"
               onPress={() => navigation.navigate(routes.SavedKundlis)}
             />
           </SettingRow>

@@ -73,7 +73,7 @@
         "Reference: {{ticketNumber}}.",
         "If the issue depends on birth time, place, or date, we will ask clearly and keep the request focused."
       ],
-      "cta": { "label": "Open Kundli library", "url": "{{appUrl}}/dashboard/library" },
+      "cta": { "label": "Open My Kundlis", "url": "{{appUrl}}/dashboard/saved-kundlis" },
       "footer": "Please avoid sending sensitive identity documents by email unless Predicta explicitly requests them through a protected flow.",
       "requiredVariables": ["customerName", "ticketNumber", "appUrl"]
     },
@@ -245,7 +245,7 @@
         "Please share only the detail requested. Do not send identity documents or private account secrets by email.",
         "Reference: {{ticketNumber}}."
       ],
-      "cta": { "label": "Open Kundli library", "url": "{{appUrl}}/dashboard/library" },
+      "cta": { "label": "Open My Kundlis", "url": "{{appUrl}}/dashboard/saved-kundlis" },
       "footer": "Accurate birth details help Predicta avoid wrong chart or report output.",
       "requiredVariables": ["customerName", "requestedDetails", "ticketNumber", "appUrl"]
     },
@@ -410,8 +410,8 @@
       "subject": "Welcome to Predicta",
       "previewText": "Your Predicta account is ready.",
       "heading": "Welcome to Predicta",
-      "bodyParagraphs": ["Hi {{customerName}},", "Your Predicta account is ready. You can create Kundlis, explore specialist rooms, and generate reports from your dashboard."],
-      "cta": { "label": "Open dashboard", "url": "{{appUrl}}/dashboard" },
+      "bodyParagraphs": ["Hi {{customerName}},", "Your Predicta account is ready. You can ask Predicta first, create Kundlis, explore specialist rooms, and generate reports when you need them."],
+      "cta": { "label": "Ask Predicta", "url": "{{appUrl}}/ask" },
       "footer": "Predicta account emails help you understand patterns with clarity, care, and privacy.",
       "requiredVariables": ["customerName", "appUrl"]
     },
@@ -452,7 +452,7 @@
       "subject": "Your Predicta report download link",
       "previewText": "Open your report from Predicta.",
       "heading": "Report download link",
-      "bodyParagraphs": ["Hi {{customerName}},", "Use the secure Predicta report area to access {{reportType}}. If the link expires, regenerate it from your dashboard."],
+      "bodyParagraphs": ["Hi {{customerName}},", "Use the secure Predicta report area to access {{reportType}}. If the link expires, regenerate it from Reports inside Predicta."],
       "cta": { "label": "Open report", "url": "{{appUrl}}/dashboard/report" },
       "footer": "Predicta report links can contain personal chart information; please do not forward them.",
       "requiredVariables": ["customerName", "reportType", "appUrl"]
@@ -467,7 +467,7 @@
       "previewText": "Your Premium access is confirmed.",
       "heading": "Premium confirmed",
       "bodyParagraphs": ["Hi {{customerName}},", "Your Predicta Premium purchase is confirmed. Premium access is now tied to your signed-in account."],
-      "cta": { "label": "Open Predicta", "url": "{{appUrl}}/dashboard" },
+      "cta": { "label": "Ask Predicta", "url": "{{appUrl}}/ask" },
       "footer": "Keep this Predicta payment confirmation email for your records.",
       "requiredVariables": ["customerName", "appUrl"]
     },

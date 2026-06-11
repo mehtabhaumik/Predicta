@@ -82,8 +82,8 @@ export function openPrintableWebChatTranscript(): void {
 
 export function sanitizeTranscriptCopy(text: string): string {
   return text
-    .replace(/Dashboard Header context loaded hai\./g, 'I picked this up from your dashboard.')
-    .replace(/Dashboard Header context loaded\./g, 'I picked this up from your dashboard.')
+    .replace(/Dashboard Header context loaded hai\./g, 'I picked this up from My Kundlis.')
+    .replace(/Dashboard Header context loaded\./g, 'I picked this up from My Kundlis.')
     .replace(/Focus: Help me from my active Kundli\./g, 'We are looking at: Help me from my selected Kundli.')
     .replace(/\bactive Kundli\b/g, 'selected Kundli')
     .replace(/\bactive chart\b/g, 'selected chart')

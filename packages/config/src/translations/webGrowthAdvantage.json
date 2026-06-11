@@ -5,7 +5,7 @@
       "actions": {
         "copied": "Invite link copied",
         "copyInvite": "Copy invite link",
-        "openDashboard": "Open Dashboard",
+        "openDashboard": "Open Predicta",
         "openReports": "Preview Reports",
         "redeemPass": "Redeem Guest Pass"
       },
@@ -57,7 +57,7 @@
       "actions": {
         "copied": "निमंत्रण लिंक कॉपी हो गया",
         "copyInvite": "निमंत्रण लिंक कॉपी करें",
-        "openDashboard": "डैशबोर्ड खोलें",
+        "openDashboard": "प्रेडिक्टा खोलें",
         "openReports": "रिपोर्ट देखें",
         "redeemPass": "अतिथि पास उपयोग करें"
       },
@@ -109,7 +109,7 @@
       "actions": {
         "copied": "નિમંત્રણ લિંક કૉપી થઈ ગઈ",
         "copyInvite": "નિમંત્રણ લિંક કૉપી કરો",
-        "openDashboard": "ડેશબોર્ડ ખોલો",
+        "openDashboard": "પ્રેડિક્ટા ખોલો",
         "openReports": "રિપોર્ટ્સ જુઓ",
         "redeemPass": "મહેમાન પાસ ઉપયોગ કરો"
       },

@@ -2457,9 +2457,9 @@
       "gu": "એક ચોક્કસ સાધન ખોલો."
     },
     "ui.openDashboard.1mcj3ge": {
-      "en": "Open Dashboard",
-      "hi": "डैशबोर्ड खोलें",
-      "gu": "ડેશબોર્ડ ખોલો"
+      "en": "Open Predicta",
+      "hi": "प्रेडिक्टा खोलें",
+      "gu": "પ્રેડિક્ટા ખોલો"
     },
     "ui.openFamilyMap.f6a49i": {
       "en": "Open Family Map",
@@ -3118,6 +3118,11 @@
     },
     "ui.savedKundlis.wkpmal": {
       "en": "My Kundlis",
+      "hi": "मेरी कुंडलियां",
+      "gu": "મારી કુંડળીઓ"
+    },
+    "ui.myKundlisEyebrow.1fvwq7m": {
+      "en": "MY KUNDLIS",
       "hi": "मेरी कुंडलियां",
       "gu": "મારી કુંડળીઓ"
     },

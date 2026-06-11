@@ -2245,7 +2245,7 @@ function buildKundliDeleteConfirmReply(
   if (language === 'gu') {
     return formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.151cbc3ffa", [kundli.birthDetails.name]);
   }
-  return `You are about to delete ${kundli.birthDetails.name}'s Kundli from your library. Reply "delete Kundli" to confirm, or "cancel" to stop.`;
+  return `You are about to delete ${kundli.birthDetails.name}'s Kundli from My Kundlis. Reply "delete Kundli" to confirm, or "cancel" to stop.`;
 }
 
 function buildKundliGenericEditReply(
@@ -2329,7 +2329,7 @@ function buildKundliDeletedReply(
     const nextLine = nextActive
       ? ` Active Kundli ab ${nextActive.birthDetails.name} hai.`
       : '';
-    return `${deletedName} ki Kundli library se delete ho gayi.${nextLine}`;
+    return `${deletedName} ki Kundli Meri Kundliyon se delete ho gayi.${nextLine}`;
   }
   if (language === 'gu') {
     const nextLine = nextActive
@@ -2340,7 +2340,7 @@ function buildKundliDeletedReply(
   const nextLine = nextActive
     ? ` Active Kundli: ${nextActive.birthDetails.name}.`
     : '';
-  return `${deletedName}'s Kundli has been deleted from your library.${nextLine}`;
+  return `${deletedName}'s Kundli has been deleted from My Kundlis.${nextLine}`;
 }
 
 function buildKundliEditedReply(
@@ -3755,10 +3755,10 @@ function buildPostKundliCreatedSuggestions(
       },
       {
         href: '/dashboard',
-        id: 'dashboard-after-kundli',
-        label: 'Dashboard kholo',
-        prompt: 'Open dashboard',
-        targetScreen: 'Dashboard',
+        id: 'my-kundlis-after-kundli',
+        label: 'Meri Kundli dekho',
+        prompt: 'Open My Kundlis',
+        targetScreen: 'My Kundlis',
       },
     ];
   }
@@ -3791,10 +3791,10 @@ function buildPostKundliCreatedSuggestions(
       },
       {
         href: '/dashboard',
-        id: 'dashboard-after-kundli',
-        label: 'Dashboard kholo',
-        prompt: 'Open dashboard',
-        targetScreen: 'Dashboard',
+        id: 'my-kundlis-after-kundli',
+        label: 'Mari Kundli juo',
+        prompt: 'Open My Kundlis',
+        targetScreen: 'My Kundlis',
       },
     ];
   }
@@ -3826,10 +3826,10 @@ function buildPostKundliCreatedSuggestions(
     },
     {
       href: '/dashboard',
-      id: 'dashboard-after-kundli',
-      label: 'Open dashboard',
-      prompt: 'Open dashboard',
-      targetScreen: 'Dashboard',
+      id: 'my-kundlis-after-kundli',
+      label: 'Open My Kundlis',
+      prompt: 'Open My Kundlis',
+      targetScreen: 'My Kundlis',
     },
   ];
 }
@@ -4734,11 +4734,11 @@ function getFriendlySourceName(source?: string): string {
     .trim();
 
   if (!normalized || normalized === 'Dashboard') {
-    return 'your dashboard';
+    return 'My Kundlis';
   }
 
   if (/dashboard/i.test(normalized)) {
-    return 'your dashboard';
+    return 'My Kundlis';
   }
 
   return normalized;
@@ -5197,7 +5197,7 @@ function buildKundliCreatedReply(
       'Ho gaya. Maine Kundli yahin chat mein bana di hai aur ise selected rakh liya hai.',
       lines.join('\n'),
       'Ab career, marriage, money, health tendencies, remedies, timing, ya kisi decision par poochiye. Main answer chart proof ke saath dungi.',
-      'Neeche quick options diye hain: aaj ka guidance chat mein padh sakte hain, Gochar dekh sakte hain, Mahadasha samajh sakte hain, report bana sakte hain, ya dashboard khol sakte hain.',
+      'Neeche quick options diye hain: aaj ka guidance chat mein padh sakte hain, Gochar dekh sakte hain, Mahadasha samajh sakte hain, report bana sakte hain, ya meri Kundli dekh sakte hain.',
     ].join('\n\n');
   }
   if (language === 'gu') {
@@ -5205,14 +5205,14 @@ function buildKundliCreatedReply(
       'Thai gayu. Maine Kundli ahi chat ma banaavi didhi chhe ane tene selected rakhi chhe.',
       lines.join('\n'),
       'Have career, marriage, money, health tendencies, remedies, timing athva koi decision vishe poochho. Hu chart proof sathe jawab aapish.',
-      'Niche quick options chhe: aaj nu guidance chat ma vanchi shako, Gochar joi shako, Mahadasha samjhi shako, report banaavi shako, athva dashboard kholo.',
+      'Niche quick options chhe: aaj nu guidance chat ma vanchi shako, Gochar joi shako, Mahadasha samjhi shako, report banaavi shako, athva mari Kundli joi shako.',
     ].join('\n\n');
   }
   return [
     'Done. I created your Kundli right here in chat and selected it for this reading.',
     lines.join('\n'),
     'Now ask me about career, marriage, money, health tendencies, remedies, timing, or any decision. I will answer with chart proof.',
-    "Use the quick options below to read today's guidance here, see Gochar, understand Mahadasha, create a report, or open the dashboard.",
+    "Use the quick options below to read today's guidance here, see Gochar, understand Mahadasha, create a report, or open My Kundlis.",
   ].join('\n\n');
 }
 
@@ -5612,8 +5612,8 @@ function sanitizeChatCopy(text: string): string {
     'g',
   );
   return text
-    .replace(/Dashboard Header context loaded hai\./g, 'I picked this up from your dashboard.')
-    .replace(/Dashboard Header context loaded\./g, 'I picked this up from your dashboard.')
+    .replace(/Dashboard Header context loaded hai\./g, 'I picked this up from My Kundlis.')
+    .replace(/Dashboard Header context loaded\./g, 'I picked this up from My Kundlis.')
     .replace(/Focus: Help me from my active Kundli\./g, 'We are looking at: Help me from my selected Kundli.')
     .replace(oldHindiContextLine, getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.616b4154a4"))
     .replace(/I will answer from this context and your active Kundli\. Press Ask or type your follow-up\./g, 'I will use your selected Kundli here. Press Ask or type your follow-up.')
