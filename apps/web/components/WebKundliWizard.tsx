@@ -96,6 +96,7 @@ export function WebKundliWizard(): React.JSX.Element {
   const [showCreationReveal, setShowCreationReveal] = useState(false);
   const birthPlaceSearchRef = useRef<HTMLDivElement | null>(null);
   const placeSearchRequestRef = useRef(0);
+  const acceptedBirthPlaceQueryRef = useRef('');
   const createdChartRef = useRef<HTMLElement | null>(null);
   const savedKundliRecords = useMemo(() => loadWebKundlis(), [kundli?.id]);
   const editingRecord = useMemo(
@@ -203,9 +204,11 @@ export function WebKundliWizard(): React.JSX.Element {
 
   function selectBirthPlace(option: WebBirthPlace) {
     resetFlow();
+    const optionLabel = getBirthPlaceLabel(option);
+    acceptedBirthPlaceQueryRef.current = normalizeBirthPlaceLabel(optionLabel);
     closeBirthPlaceSuggestions();
     setSelectedPlace(option);
-    setBirthPlaceQuery(getBirthPlaceLabel(option));
+    setBirthPlaceQuery(optionLabel);
   }
 
   useEffect(() => {
@@ -232,12 +235,15 @@ export function WebKundliWizard(): React.JSX.Element {
         option.timezone === birthDetails.timezone,
     );
     const restoredPlace = matchingPlace ?? birthDetailsToWebPlace(birthDetails);
+    const restoredPlaceLabel = getBirthPlaceLabel(restoredPlace);
 
     setName(birthDetails.name);
     setDate(birthDetails.date);
     setTime(birthDetails.time);
     setSelectedPlace(restoredPlace);
-    setBirthPlaceQuery(getBirthPlaceLabel(restoredPlace));
+    setBirthPlaceQuery(restoredPlaceLabel);
+    acceptedBirthPlaceQueryRef.current =
+      normalizeBirthPlaceLabel(restoredPlaceLabel);
     setPlaceSuggestions([]);
     setIsSearchingPlaces(false);
     setIsPlaceSuggestionsOpen(false);
@@ -254,17 +260,23 @@ export function WebKundliWizard(): React.JSX.Element {
     const requestId = ++placeSearchRequestRef.current;
     const query = birthPlaceQuery.trim();
     const selectedPlaceIsExact = isExactBirthPlaceSelection(selectedPlace, query);
+    const normalizedQuery = normalizeBirthPlaceLabel(query);
 
     if (selectedPlace && !selectedPlaceIsExact) {
       setSelectedPlace(undefined);
     }
 
     if (query.length < 2) {
+      acceptedBirthPlaceQueryRef.current = '';
       closeBirthPlaceSuggestions();
       return;
     }
 
-    if (selectedPlaceIsExact) {
+    if (
+      selectedPlaceIsExact ||
+      (acceptedBirthPlaceQueryRef.current &&
+        acceptedBirthPlaceQueryRef.current === normalizedQuery)
+    ) {
       closeBirthPlaceSuggestions();
       return;
     }
@@ -280,14 +292,21 @@ export function WebKundliWizard(): React.JSX.Element {
     );
 
     if (exactLocalMatch) {
+      const exactLocalMatchLabel = getBirthPlaceLabel(exactLocalMatch);
+      acceptedBirthPlaceQueryRef.current =
+        normalizeBirthPlaceLabel(exactLocalMatchLabel);
       setSelectedPlace(exactLocalMatch);
-      setBirthPlaceQuery(getBirthPlaceLabel(exactLocalMatch));
+      setBirthPlaceQuery(exactLocalMatchLabel);
       closeBirthPlaceSuggestions();
       return;
     }
 
     setPlaceSuggestions(localMatches);
     setIsSearchingPlaces(localMatches.length === 0);
+
+    if (localMatches.length > 0) {
+      return;
+    }
 
     const timer = window.setTimeout(() => {
       void searchWebBirthPlaces(query).then(places => {
@@ -299,8 +318,11 @@ export function WebKundliWizard(): React.JSX.Element {
           isExactBirthPlaceSelection(place, query),
         );
         if (exactMatch) {
+          const exactMatchLabel = getBirthPlaceLabel(exactMatch);
+          acceptedBirthPlaceQueryRef.current =
+            normalizeBirthPlaceLabel(exactMatchLabel);
           setSelectedPlace(exactMatch);
-          setBirthPlaceQuery(getBirthPlaceLabel(exactMatch));
+          setBirthPlaceQuery(exactMatchLabel);
           setPlaceSuggestions([]);
           setIsPlaceSuggestionsOpen(false);
           setIsSearchingPlaces(false);
@@ -483,12 +505,16 @@ export function WebKundliWizard(): React.JSX.Element {
   }
 
   function fillExample() {
+    const examplePlaceLabel = getBirthPlaceLabel(WEB_BIRTH_PLACES[0]);
+
     setError(undefined);
     setName('Aarav');
     setDate('2012-08-16');
     setTime('06:42');
     setSelectedPlace(WEB_BIRTH_PLACES[0]);
-    setBirthPlaceQuery(getBirthPlaceLabel(WEB_BIRTH_PLACES[0]));
+    setBirthPlaceQuery(examplePlaceLabel);
+    acceptedBirthPlaceQueryRef.current =
+      normalizeBirthPlaceLabel(examplePlaceLabel);
     setPlaceSuggestions([]);
     setIsSearchingPlaces(false);
     setIsPlaceSuggestionsOpen(false);
@@ -604,6 +630,7 @@ export function WebKundliWizard(): React.JSX.Element {
                   resetFlow();
                   setBirthPlaceQuery(event.target.value);
                   setSelectedPlace(undefined);
+                  acceptedBirthPlaceQueryRef.current = '';
                   setIsPlaceSuggestionsOpen(true);
                 }}
                 onFocus={() => {

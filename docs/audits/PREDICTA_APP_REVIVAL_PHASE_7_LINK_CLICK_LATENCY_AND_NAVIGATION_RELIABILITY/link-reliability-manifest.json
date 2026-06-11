@@ -1,12 +1,12 @@
 {
-  "baseUrl": "http://127.0.0.1:3009",
+  "baseUrl": "https://predicta.rudraix.com",
   "clickBudgetMs": 1800,
   "clickResults": [
     {
       "clicked": true,
       "href": "/ask?sourceScreen=Landing&prompt=Help+me+create+my+Kundli+first%2C+then+answer+my+astrology+question+clearly.",
       "text": "Ask Predicta",
-      "elapsedMs": 103,
+      "elapsedMs": 236,
       "from": "/",
       "name": "landing primary ask entry",
       "url": "/ask?sourceScreen=Landing&prompt=Help+me+create+my+Kundli+first%2C+then+answer+my+astrology+question+clearly."
@@ -15,7 +15,7 @@
       "clicked": true,
       "href": "/dashboard",
       "text": "Library",
-      "elapsedMs": 116,
+      "elapsedMs": 109,
       "from": "/ask",
       "name": "ask header dashboard link",
       "url": "/dashboard"
@@ -24,7 +24,7 @@
       "clicked": true,
       "href": "/ask?sourceScreen=Library&prompt=Help+me+from+my+selected+Kundli.",
       "text": "Ask Predicta",
-      "elapsedMs": 103,
+      "elapsedMs": 266,
       "from": "/dashboard",
       "name": "dashboard ask predicta link",
       "url": "/ask?sourceScreen=Library&prompt=Help+me+from+my+selected+Kundli."
@@ -33,7 +33,7 @@
       "clicked": true,
       "href": "/ask?sourceScreen=Vedic+Predicta&prompt=Help+me+from+my+selected+Kundli.&school=PARASHARI",
       "text": "Ask Predicta",
-      "elapsedMs": 102,
+      "elapsedMs": 445,
       "from": "/dashboard/vedic",
       "name": "vedic evidence room ask link",
       "url": "/ask?sourceScreen=Vedic+Predicta&prompt=Help+me+from+my+selected+Kundli.&school=PARASHARI"
@@ -42,13 +42,13 @@
       "clicked": true,
       "href": "/checkout?productId=pridicta_day_pass_24h",
       "text": "Try Day Pass",
-      "elapsedMs": 103,
+      "elapsedMs": 407,
       "from": "/pricing",
       "name": "pricing checkout link",
       "url": "/checkout?productId=pridicta_day_pass_24h"
     }
   ],
-  "generatedAt": "2026-06-11T10:04:44.536Z",
+  "generatedAt": "2026-06-11T10:10:44.457Z",
   "pageResults": [
     {
       "activeLinks": [],
@@ -542,130 +542,130 @@
   ],
   "routeResults": [
     {
-      "elapsedMs": 18,
+      "elapsedMs": 1834,
       "route": "/",
       "status": 200,
-      "url": "http://127.0.0.1:3009/"
+      "url": "https://predicta.rudraix.com/"
     },
     {
-      "elapsedMs": 10,
+      "elapsedMs": 412,
       "route": "/ask",
       "status": 200,
-      "url": "http://127.0.0.1:3009/ask"
+      "url": "https://predicta.rudraix.com/ask"
     },
     {
-      "elapsedMs": 8,
+      "elapsedMs": 168,
       "route": "/pricing",
       "status": 200,
-      "url": "http://127.0.0.1:3009/pricing"
+      "url": "https://predicta.rudraix.com/pricing"
     },
     {
-      "elapsedMs": 5,
+      "elapsedMs": 185,
       "route": "/checkout?productId=pridicta_10_questions",
       "status": 200,
-      "url": "http://127.0.0.1:3009/checkout?productId=pridicta_10_questions"
+      "url": "https://predicta.rudraix.com/checkout?productId=pridicta_10_questions"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 182,
       "route": "/accuracy-method",
       "status": 200,
-      "url": "http://127.0.0.1:3009/accuracy-method"
+      "url": "https://predicta.rudraix.com/accuracy-method"
     },
     {
-      "elapsedMs": 4,
+      "elapsedMs": 182,
       "route": "/safety",
       "status": 200,
-      "url": "http://127.0.0.1:3009/safety"
+      "url": "https://predicta.rudraix.com/safety"
     },
     {
-      "elapsedMs": 5,
+      "elapsedMs": 190,
       "route": "/legal",
       "status": 200,
-      "url": "http://127.0.0.1:3009/legal"
+      "url": "https://predicta.rudraix.com/legal"
     },
     {
-      "elapsedMs": 4,
+      "elapsedMs": 260,
       "route": "/feedback",
       "status": 200,
-      "url": "http://127.0.0.1:3009/feedback"
+      "url": "https://predicta.rudraix.com/feedback"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 315,
       "route": "/dashboard",
       "status": 200,
-      "url": "http://127.0.0.1:3009/dashboard"
+      "url": "https://predicta.rudraix.com/dashboard"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 179,
       "route": "/dashboard/kundli",
       "status": 200,
-      "url": "http://127.0.0.1:3009/dashboard/kundli"
+      "url": "https://predicta.rudraix.com/dashboard/kundli"
     },
     {
-      "elapsedMs": 4,
+      "elapsedMs": 170,
       "route": "/dashboard/vedic",
       "status": 200,
-      "url": "http://127.0.0.1:3009/dashboard/vedic"
+      "url": "https://predicta.rudraix.com/dashboard/vedic"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 212,
       "route": "/dashboard/kp",
       "status": 200,
-      "url": "http://127.0.0.1:3009/dashboard/kp"
+      "url": "https://predicta.rudraix.com/dashboard/kp"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 182,
       "route": "/dashboard/jaimini",
       "status": 200,
-      "url": "http://127.0.0.1:3009/dashboard/jaimini"
+      "url": "https://predicta.rudraix.com/dashboard/jaimini"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 198,
       "route": "/dashboard/numerology",
       "status": 200,
-      "url": "http://127.0.0.1:3009/dashboard/numerology"
+      "url": "https://predicta.rudraix.com/dashboard/numerology"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 200,
       "route": "/dashboard/signature",
       "status": 200,
-      "url": "http://127.0.0.1:3009/dashboard/signature"
+      "url": "https://predicta.rudraix.com/dashboard/signature"
     },
     {
-      "elapsedMs": 4,
+      "elapsedMs": 171,
       "route": "/dashboard/report",
       "status": 200,
-      "url": "http://127.0.0.1:3009/dashboard/report"
+      "url": "https://predicta.rudraix.com/dashboard/report"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 168,
       "route": "/dashboard/redeem-pass",
       "status": 200,
-      "url": "http://127.0.0.1:3009/dashboard/redeem-pass"
+      "url": "https://predicta.rudraix.com/dashboard/redeem-pass"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 305,
       "route": "/dashboard/saved-kundlis",
       "status": 200,
-      "url": "http://127.0.0.1:3009/dashboard/saved-kundlis"
+      "url": "https://predicta.rudraix.com/dashboard/saved-kundlis"
     },
     {
-      "elapsedMs": 4,
+      "elapsedMs": 161,
       "route": "/dashboard/family",
       "status": 200,
-      "url": "http://127.0.0.1:3009/dashboard/family"
+      "url": "https://predicta.rudraix.com/dashboard/family"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 181,
       "route": "/dashboard/settings",
       "status": 200,
-      "url": "http://127.0.0.1:3009/dashboard/settings"
+      "url": "https://predicta.rudraix.com/dashboard/settings"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 165,
       "route": "/dashboard/account",
       "status": 200,
-      "url": "http://127.0.0.1:3009/dashboard/account"
+      "url": "https://predicta.rudraix.com/dashboard/account"
     }
   ]
 }
