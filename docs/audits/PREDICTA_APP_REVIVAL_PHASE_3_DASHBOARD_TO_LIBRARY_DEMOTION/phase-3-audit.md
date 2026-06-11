@@ -28,3 +28,35 @@ Date: 2026-06-10
 ## Caveat
 
 - The full default `test:ui-text-overflow` matrix stalled on `/dashboard/kp` during this run. That route is outside the Phase 3/birth-place scope and passed the personal-space audit. The audit script now supports `PREDICTA_UI_OVERFLOW_ROUTES` to isolate route-specific failures without weakening the default full matrix.
+
+## Supplemental My Kundlis Language Lock
+
+Date: 2026-06-11
+
+### Implemented
+
+- Replaced remaining control-panel-facing `Library` navigation copy with
+  `My Kundlis` in English, Hindi, and Gujarati.
+- Reframed dashboard copy from "evidence rooms" and "library status" toward
+  user intent: Kundli status, saved astrology, and deeper astrology rooms.
+- Replaced specialist navigation labels such as `Vedic Evidence` and
+  `KP Evidence` with calmer room labels like `Vedic Room`, `KP Room`,
+  and native Hindi/Gujarati equivalents.
+- Removed newly introduced Hindi/Gujarati mixed-language copy such as `room`,
+  `detail`, `redeem`, and `account` from the changed dashboard sections.
+
+### Supplemental Verification
+
+- Translation JSON parse for `competitorResponse.json` and `language.json`: PASS.
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3030 corepack pnpm test:app-revival-phase-7`: PASS. The click manifest now shows `My Kundlis`, `Vedic Room`, `KP Room`, `Jaimini Room`, `Numerology Room`, and `Signature Room` as active visible labels.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3030 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/dashboard,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-text-overflow`: PASS, `36` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3030 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/dashboard,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
+
+### Supplemental Result
+
+Green. The saved-work surface now reads as `My Kundlis` instead of a generic
+SaaS library/control panel, while preserving all management links and the
+dominant Ask Predicta path.
