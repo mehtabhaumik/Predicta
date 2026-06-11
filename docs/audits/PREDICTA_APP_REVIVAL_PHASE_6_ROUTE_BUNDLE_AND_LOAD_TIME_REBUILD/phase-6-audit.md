@@ -270,3 +270,45 @@ Supplemental verification:
   the field to `Petlad, Gujarat, India`; no suggestions remained visible and
   `Searching places...` was absent.
 - `git diff --check`: PASS.
+
+## Supplemental Account And Settings Runtime Split
+
+Date: 2026-06-11
+
+Account and Settings were still importing the full `WebProfileSettings`
+runtime directly at the route boundary. That pulled Firebase/auth/account state
+into first-load JS for simple account/settings visits. Both routes now use a
+shared deferred loader with the specialist-room fallback shell, so the page
+entry stays light while the account runtime hydrates only when needed.
+
+Implementation lock:
+
+- Added `WebProfileSettingsLoader` as a client-side dynamic import wrapper.
+- Updated `/dashboard/account` and `/dashboard/settings` to render the loader
+  instead of importing `WebProfileSettings` directly.
+- Extended `test:app-revival-phase-6` with hard budgets for account and
+  settings.
+- Added the loader to the forbidden eager-import guard so the routes cannot
+  silently regress to the old heavy import path.
+
+Performance evidence from `corepack pnpm build:web`:
+
+- `/dashboard/account`: `608 kB` before this pass -> `104 kB` First Load JS.
+- `/dashboard/settings`: `608 kB` before this pass -> `104 kB` First Load JS.
+
+Updated Phase 6 gate evidence:
+
+- `/dashboard/account` page-specific JS: `4 KB` against `80 KB` budget.
+- `/dashboard/settings` page-specific JS: `4 KB` against `80 KB` budget.
+
+Supplemental verification:
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `corepack pnpm test:app-revival-phase-6`: PASS with account/settings budgets.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/dashboard/account,/dashboard/settings corepack pnpm test:ui-text-overflow`: PASS.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:ui-personal-space`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
+- `git diff --check`: PASS.
