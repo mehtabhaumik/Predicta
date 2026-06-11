@@ -8,6 +8,25 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true
   },
+  async headers() {
+    const noStoreEntryHeaders = [
+      {
+        key: 'Cache-Control',
+        value: 'private, no-store, max-age=0, must-revalidate'
+      }
+    ];
+
+    return [
+      {
+        source: '/',
+        headers: noStoreEntryHeaders
+      },
+      {
+        source: '/ask',
+        headers: noStoreEntryHeaders
+      }
+    ];
+  },
   skipTrailingSlashRedirect: true,
   transpilePackages: [
     '@pridicta/access',
