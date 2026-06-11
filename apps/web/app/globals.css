@@ -2854,6 +2854,10 @@ button:disabled,
   gap: 7px;
 }
 
+.nav-section-links--compact {
+  gap: 5px;
+}
+
 .nav-section-switcher {
   gap: 8px;
 }
@@ -2872,6 +2876,12 @@ button:disabled,
   background: rgba(255, 255, 255, 0.06);
   border-color: var(--border);
   color: var(--text);
+}
+
+.nav-link-compact {
+  border-radius: 10px;
+  font-size: 13px;
+  padding: 10px 12px;
 }
 
 .nav-section-link {

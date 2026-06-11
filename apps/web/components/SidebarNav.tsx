@@ -18,6 +18,15 @@ export type SidebarSection = SidebarGroup & {
   id: string;
 };
 
+const PRIMARY_SECTION_IDS = new Set(['predicta', 'library', 'reports', 'account']);
+const WORLD_SECTION_IDS = new Set([
+  'vedic',
+  'kp',
+  'jaimini',
+  'numerology',
+  'signature',
+]);
+
 function isSidebarNavItemActive(pathname: string, href: string): boolean {
   if (href === '/') {
     return pathname === '/';
@@ -39,6 +48,7 @@ export function SidebarNav({
   homeAriaLabel = 'Predicta home',
   ownerLabel = 'Owner',
   showAdmin,
+  startLabel = 'Start',
   worldsLabel = 'Predicta Worlds',
 }: {
   adminLabel?: string;
@@ -49,9 +59,16 @@ export function SidebarNav({
   homeAriaLabel?: string;
   ownerLabel?: string;
   showAdmin: boolean;
+  startLabel?: string;
   worldsLabel?: string;
 }): React.JSX.Element {
   const pathname = usePathname();
+  const primarySections = allSections.filter(section =>
+    PRIMARY_SECTION_IDS.has(section.id),
+  );
+  const worldSections = allSections.filter(section =>
+    WORLD_SECTION_IDS.has(section.id),
+  );
   const supportGroups = showAdmin
     ? [
         ...commonGroups,
@@ -79,26 +96,20 @@ export function SidebarNav({
       </Link>
       <nav aria-label="Dashboard navigation" className="nav-list">
         <div className="nav-section">
-          <span className="nav-section-title">{worldsLabel}</span>
+          <span className="nav-section-title">{startLabel}</span>
           <div className="nav-section-links">
-            {allSections.map(section => {
-              const active = section.id === activeSection.id;
+            {primarySections.map(section =>
+              renderSidebarSectionLink({ activeSection, section }),
+            )}
+          </div>
+        </div>
 
-              return (
-                <div
-                  className="nav-link-frame"
-                  key={section.href}
-                >
-                  <Link
-                    aria-current={active ? 'page' : undefined}
-                    className={`nav-link${active ? ' active' : ''}`}
-                    href={section.href}
-                  >
-                    {section.label}
-                  </Link>
-                </div>
-              );
-            })}
+        <div className="nav-section">
+          <span className="nav-section-title">{worldsLabel}</span>
+          <div className="nav-section-links nav-section-links--compact">
+            {worldSections.map(section =>
+              renderSidebarSectionLink({ activeSection, compact: true, section }),
+            )}
           </div>
         </div>
 
@@ -164,5 +175,31 @@ export function SidebarNav({
         ) : null}
       </nav>
     </aside>
+  );
+}
+
+function renderSidebarSectionLink({
+  activeSection,
+  compact = false,
+  section,
+}: {
+  activeSection: SidebarSection;
+  compact?: boolean;
+  section: SidebarSection;
+}): React.JSX.Element {
+  const active = section.id === activeSection.id;
+
+  return (
+    <div className="nav-link-frame" key={section.href}>
+      <Link
+        aria-current={active ? 'page' : undefined}
+        className={`nav-link${compact ? ' nav-link-compact' : ''}${
+          active ? ' active' : ''
+        }`}
+        href={section.href}
+      >
+        {section.label}
+      </Link>
+    </div>
   );
 }

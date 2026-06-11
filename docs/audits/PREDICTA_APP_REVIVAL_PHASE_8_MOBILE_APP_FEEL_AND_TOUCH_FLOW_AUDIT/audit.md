@@ -226,3 +226,51 @@ plus a quiet world rail below the primary Ask moment.
   where translated labels would crowd the header.
 - The world rail appears below the chat-first proof strip, preserving the first
   screen as input-first while keeping all specialist rooms discoverable.
+
+## Supplemental Dashboard Shell IA Grouping Lock
+
+Date: 2026-06-12
+
+The dashboard shell still had one control-panel smell after the public header
+cleanup: the sidebar and mobile drawer grouped Ask Predicta, specialist worlds,
+reports, saved Kundlis, and account into one flat switcher. This pass keeps
+every route available, but gives users a calmer mental model: start with
+Predicta, then enter specialist worlds only when needed.
+
+### Changes
+
+- Split the desktop sidebar into `Start`, `Predicta Worlds`, active-section
+  details, and owner/admin utility groups.
+- Kept `Ask Predicta`, `Reports`, `My Kundlis`, and `Account` as primary start
+  actions instead of mixing them with all specialist rooms.
+- Moved Vedic, KP, Jaimini, Numerology, and Signature into a compact
+  `Predicta Worlds` group so they read as evidence rooms supporting Predicta.
+- Applied the same grouping to the mobile dashboard drawer, preserving direct
+  access while removing the flat maze.
+- Added a compact world-link treatment so specialist rooms do not visually
+  overpower the main Ask Predicta path.
+
+### Evidence
+
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `corepack pnpm test:app-revival-phase-6`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3036 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3036 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/dashboard,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature,/dashboard/report,/dashboard/kundli,/dashboard/saved-kundlis,/pricing corepack pnpm test:ui-text-overflow`: PASS, 48 route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3036 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/dashboard,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature,/dashboard/report,/dashboard/kundli,/dashboard/saved-kundlis,/pricing corepack pnpm test:ui-personal-space`: PASS, 56 route/viewport checks.
+- `PREDICTA_MOBILE_APP_FEEL_BASE_URL=http://127.0.0.1:3036 corepack pnpm test:app-revival-phase-8`: PASS, 63 screenshots regenerated.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3036 corepack pnpm test:app-revival-phase-9`: PASS, 15 scenarios.
+- Mobile drawer CDP smoke on `/dashboard` at `390px`: `Start` group exposed
+  Ask Predicta, Reports, My Kundlis, and Account; `Predicta Worlds` group
+  exposed Vedic Room, KP Room, Jaimini Room, Numerology Room, and Signature
+  Room.
+
+### Visual Audit Notes
+
+- `desktop-1440-dashboard.png`: sidebar now starts with the four primary user
+  actions, then a smaller Predicta Worlds group, then My Kundlis details.
+- `mobile-390-dashboard.png`: the topbar still prioritizes Ask Predicta and the
+  menu action without overflow.
+- `/tmp/predicta-mobile-dashboard-drawer-grouped.png`: manual CDP screenshot
+  confirmed the mobile drawer grouping, spacing, and no text leakage.

@@ -40,6 +40,20 @@ type DashboardNavModel = {
   sections: SidebarSection[];
 };
 
+const DASHBOARD_PRIMARY_SECTION_IDS = new Set([
+  'predicta',
+  'library',
+  'reports',
+  'account',
+]);
+const DASHBOARD_WORLD_SECTION_IDS = new Set([
+  'vedic',
+  'kp',
+  'jaimini',
+  'numerology',
+  'signature',
+]);
+
 function buildDashboardNavModel(
   labels: LightweightAppShellLabels,
 ): DashboardNavModel {
@@ -262,6 +276,12 @@ export function DashboardShell({
   const shellLabels = getLightweightAppShellLabels(language);
   const { commonGroups, sections } = buildDashboardNavModel(shellLabels);
   const activeSection = getActiveDashboardSection(pathname, sections);
+  const primarySections = sections.filter(section =>
+    DASHBOARD_PRIMARY_SECTION_IDS.has(section.id),
+  );
+  const worldSections = sections.filter(section =>
+    DASHBOARD_WORLD_SECTION_IDS.has(section.id),
+  );
   const showAdmin = isOwnerConsoleEnabled() && canSeeAdminRoute(access);
   const [menuOpen, setMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLElement | null>(null);
@@ -303,7 +323,8 @@ export function DashboardShell({
         homeAriaLabel={shellLabels.nav.home}
         ownerLabel={shellLabels.groups.owner}
         showAdmin={showAdmin}
-        worldsLabel={shellLabels.groups.sections}
+        startLabel={shellLabels.groups.start}
+        worldsLabel={shellLabels.groups.worlds}
       />
       <main className={`main-workspace ${isChatRoute ? 'chat-main-workspace' : ''}`}>
         <div className="dashboard-topbar glass-panel">
@@ -375,9 +396,22 @@ export function DashboardShell({
               </div>
               <nav aria-label="Dashboard menu links">
                 <div className="dashboard-mobile-nav-section">
-                  <span>{shellLabels.groups.sections}</span>
+                  <span>{shellLabels.groups.start}</span>
                   <div className="dashboard-mobile-section-switcher">
-                    {sections.map(section =>
+                    {primarySections.map(section =>
+                      renderDashboardMasterLink({
+                        activeSection,
+                        onClick: () => setMenuOpen(false),
+                        section,
+                      }),
+                    )}
+                  </div>
+                </div>
+
+                <div className="dashboard-mobile-nav-section">
+                  <span>{shellLabels.groups.worlds}</span>
+                  <div className="dashboard-mobile-section-switcher">
+                    {worldSections.map(section =>
                       renderDashboardMasterLink({
                         activeSection,
                         onClick: () => setMenuOpen(false),
