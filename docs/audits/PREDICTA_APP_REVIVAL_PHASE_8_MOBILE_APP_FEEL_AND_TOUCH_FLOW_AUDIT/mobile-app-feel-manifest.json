@@ -1,6 +1,6 @@
 {
-  "baseUrl": "http://127.0.0.1:3042",
-  "generatedAt": "2026-06-10T15:08:01.571Z",
+  "baseUrl": "http://127.0.0.1:3009",
+  "generatedAt": "2026-06-11T12:58:39.286Z",
   "phaseName": "PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT",
   "results": [
     {
@@ -53,28 +53,28 @@
     },
     {
       "askTextarea": {
-        "bottom": 250,
+        "bottom": 295,
         "height": 102,
         "left": 17,
         "right": 343,
-        "top": 148,
+        "top": 193,
         "width": 326
       },
       "chipStrip": {
-        "bottom": 782,
+        "bottom": 827,
         "height": 184,
         "left": 17,
         "right": 343,
-        "top": 598,
+        "top": 643,
         "width": 326
       },
       "documentWidth": 360,
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 92,
+          "bottom": 137,
           "className": "ask-lean-header",
-          "height": 92,
+          "height": 137,
           "tag": "header",
           "top": 0
         }
@@ -85,11 +85,11 @@
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 328,
+        "bottom": 373,
         "height": 50,
         "left": 186,
         "right": 343,
-        "top": 278,
+        "top": 323,
         "width": 157
       },
       "windowHeight": 780,
@@ -338,28 +338,28 @@
     },
     {
       "askTextarea": {
-        "bottom": 250,
+        "bottom": 295,
         "height": 102,
         "left": 17,
         "right": 373,
-        "top": 148,
+        "top": 193,
         "width": 356
       },
       "chipStrip": {
-        "bottom": 792,
+        "bottom": 837,
         "height": 184,
         "left": 17,
         "right": 373,
-        "top": 608,
+        "top": 653,
         "width": 356
       },
       "documentWidth": 390,
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 92,
+          "bottom": 137,
           "className": "ask-lean-header",
-          "height": 92,
+          "height": 137,
           "tag": "header",
           "top": 0
         }
@@ -370,11 +370,11 @@
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 328,
+        "bottom": 373,
         "height": 50,
         "left": 201,
         "right": 373,
-        "top": 278,
+        "top": 323,
         "width": 172
       },
       "windowHeight": 844,
@@ -623,28 +623,28 @@
     },
     {
       "askTextarea": {
-        "bottom": 250,
+        "bottom": 295,
         "height": 102,
         "left": 17,
         "right": 413,
-        "top": 148,
+        "top": 193,
         "width": 396
       },
       "chipStrip": {
-        "bottom": 783,
+        "bottom": 828,
         "height": 184,
         "left": 17,
         "right": 413,
-        "top": 599,
+        "top": 644,
         "width": 396
       },
       "documentWidth": 430,
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 92,
+          "bottom": 137,
           "className": "ask-lean-header",
-          "height": 92,
+          "height": 137,
           "tag": "header",
           "top": 0
         }
@@ -655,11 +655,11 @@
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 328,
+        "bottom": 373,
         "height": 50,
         "left": 221,
         "right": 413,
-        "top": 278,
+        "top": 323,
         "width": 192
       },
       "windowHeight": 932,

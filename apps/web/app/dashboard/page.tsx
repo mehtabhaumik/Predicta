@@ -2,11 +2,13 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { getCompetitorResponseCopy } from '@pridicta/config';
-import { translateUiText } from '@pridicta/config/uiTranslations';
-import { useLanguagePreference } from '../../lib/language-preference';
+import {
+  getLightweightAppShellLabels,
+  getLightweightCompetitorResponseCopy,
+} from '../../lib/lightweight-public-copy';
 import { buildPredictaChatHref } from '../../lib/predicta-chat-cta';
-import { useWebKundliLibrary } from '../../lib/use-web-kundli-library';
+import { useLightweightKundliSnapshot } from '../../lib/use-lightweight-kundli-snapshot';
+import { useLightweightLanguagePreference } from '../../lib/use-lightweight-language-preference';
 
 type LibraryLink = {
   body: string;
@@ -15,14 +17,13 @@ type LibraryLink = {
 };
 
 export default function DashboardPage(): React.JSX.Element {
-  const { language } = useLanguagePreference();
-  const copy = getCompetitorResponseCopy(language).dashboard;
-  const t = (value: string) => translateUiText(value, language);
-  const { activeKundli, savedKundlis } = useWebKundliLibrary();
+  const { language } = useLightweightLanguagePreference();
+  const copy = getLightweightCompetitorResponseCopy(language).dashboard;
+  const labels = getLightweightAppShellLabels(language);
+  const { activeKundli, savedCount } = useLightweightKundliSnapshot();
   const [isFamilyFriendsVisit, setIsFamilyFriendsVisit] = useState(false);
-  const savedCount = savedKundlis.length;
   const askHref = buildPredictaChatHref({
-    kundli: activeKundli,
+    kundliId: activeKundli?.id,
     prompt: activeKundli
       ? copy.libraryAskActivePrompt
       : copy.libraryAskNewPrompt,
@@ -114,27 +115,27 @@ export default function DashboardPage(): React.JSX.Element {
           {
             body: copy.librarySavedKundlisBody,
             href: '/dashboard/saved-kundlis',
-            title: t('Kundli Library'),
+            title: labels.nav.savedKundlis,
           },
           {
             body: copy.libraryReportsBody,
             href: '/dashboard/report',
-            title: t('Reports'),
+            title: labels.nav.reports,
           },
           {
             body: copy.libraryFamilyBody,
             href: '/dashboard/family',
-            title: t('Family Vault'),
+            title: labels.nav.family,
           },
           {
             body: copy.libraryPassesBody,
             href: '/dashboard/redeem-pass',
-            title: t('Passes'),
+            title: labels.nav.redeemPass,
           },
           {
             body: copy.libraryAccountBody,
             href: '/dashboard/account',
-            title: t('Account'),
+            title: labels.nav.account,
           },
         ]}
         title={copy.librarySavedWorkTitle}
@@ -147,27 +148,27 @@ export default function DashboardPage(): React.JSX.Element {
           {
             body: copy.libraryVedicBody,
             href: '/dashboard/vedic',
-            title: t('Vedic Evidence'),
+            title: labels.nav.vedicEvidence,
           },
           {
             body: copy.libraryKpBody,
             href: '/dashboard/kp',
-            title: t('KP Evidence'),
+            title: labels.nav.kpEvidence,
           },
           {
             body: copy.libraryJaiminiBody,
             href: '/dashboard/jaimini',
-            title: t('Jaimini Evidence'),
+            title: labels.nav.jaiminiEvidence,
           },
           {
             body: copy.libraryNumerologyBody,
             href: '/dashboard/numerology',
-            title: t('Numerology Evidence'),
+            title: labels.nav.numerologyEvidence,
           },
           {
             body: copy.librarySignatureBody,
             href: '/dashboard/signature',
-            title: t('Signature Evidence'),
+            title: labels.nav.signatureEvidence,
           },
         ]}
         title={copy.libraryEvidenceRoomsTitle}

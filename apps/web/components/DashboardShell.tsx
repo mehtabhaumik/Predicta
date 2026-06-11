@@ -1,34 +1,39 @@
 'use client';
 
-import { getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
-import { motion, useReducedMotion } from 'framer-motion';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { canSeeAdminRoute } from '@pridicta/access';
-import {
-  getAppShellLabels,
-  type AppShellLabels,
-} from '@pridicta/config/language';
 import type {
   PredictaSchool,
-  RedeemedGuestPass,
   ResolvedAccess,
-  SupportedLanguage,
 } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
-import { useLanguagePreference } from '../lib/language-preference';
+import {
+  getLightweightAppShellLabels,
+  type LightweightAppShellLabels,
+} from '../lib/lightweight-public-copy';
 import { isOwnerConsoleEnabled } from '../lib/owner-surface';
-import { PASS_USAGE_UPDATED_EVENT } from '../lib/web-pass-cost-guardrails';
 import { useDialogFocusTrap } from '../lib/use-dialog-focus-trap';
-import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
+import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 import {
   SidebarNav,
   type SidebarGroup,
   type SidebarSection,
 } from './SidebarNav';
-import { WebFooter } from './WebFooter';
-import { WebLanguageSelector } from './WebLanguageSelector';
+import { LightweightLanguageSelector } from './LightweightLanguageSelector';
+
+const DashboardPassBanner = dynamic(
+  () =>
+    import('./DashboardPassBanner').then(module => ({
+      default: module.DashboardPassBanner,
+    })),
+  {
+    loading: () => null,
+    ssr: false,
+  },
+);
 
 type DashboardNavModel = {
   commonGroups: SidebarGroup[];
@@ -36,7 +41,7 @@ type DashboardNavModel = {
 };
 
 function buildDashboardNavModel(
-  labels: AppShellLabels,
+  labels: LightweightAppShellLabels,
 ): DashboardNavModel {
   const sections: SidebarSection[] = [
     {
@@ -242,152 +247,6 @@ function getTopbarPredictaSourceScreen(
   return 'Library';
 }
 
-const TOPBAR_CONTEXT_COPY: Record<
-  SupportedLanguage,
-  Record<SidebarSection['id'], { eyebrow: string }>
-> = {
-  en: {
-    predicta: {
-      eyebrow: getAppShellLabels('en').groups.predicta,
-    },
-    vedic: {
-      eyebrow: 'Vedic world',
-    },
-    kp: {
-      eyebrow: 'KP world',
-    },
-    jaimini: {
-      eyebrow: 'Jaimini world',
-    },
-    numerology: {
-      eyebrow: 'Numerology world',
-    },
-    signature: {
-      eyebrow: 'Signature world',
-    },
-    reports: {
-      eyebrow: 'Reports',
-    },
-    library: {
-      eyebrow: 'Saved Kundlis',
-    },
-    account: {
-      eyebrow: 'Profile and access',
-    },
-  },
-  hi: {
-    predicta: {
-      eyebrow: getAppShellLabels('hi').groups.predicta,
-    },
-    vedic: {
-      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.4433fb4239"),
-    },
-    kp: {
-      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.52b093a650"),
-    },
-    jaimini: {
-      eyebrow: getNativeCopy('dashboard.jaimini.eyebrow.hi'),
-    },
-    numerology: {
-      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.6266a5cb0b"),
-    },
-    signature: {
-      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.a334c40338"),
-    },
-    reports: {
-      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.89a0ae86a5"),
-    },
-    library: {
-      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.bc3580d452"),
-    },
-    account: {
-      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.fdf9aaead1"),
-    },
-  },
-  gu: {
-    predicta: {
-      eyebrow: getAppShellLabels('gu').groups.predicta,
-    },
-    vedic: {
-      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.ef488c5215"),
-    },
-    kp: {
-      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.147aaffa0e"),
-    },
-    jaimini: {
-      eyebrow: getNativeCopy('dashboard.jaimini.eyebrow.gu'),
-    },
-    numerology: {
-      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.57d87b38a6"),
-    },
-    signature: {
-      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.a0be021643"),
-    },
-    reports: {
-      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.d6aa714c20"),
-    },
-    library: {
-      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.7d2df2a8a8"),
-    },
-    account: {
-      eyebrow: getNativeCopy("native.apps.web.components.DashboardShell.tsx.b2de3ab000"),
-    },
-  },
-};
-
-function getTopbarContextCopy(
-  language: SupportedLanguage,
-  sectionId: SidebarSection['id'],
-): { eyebrow: string } {
-  return TOPBAR_CONTEXT_COPY[language]?.[sectionId] ?? TOPBAR_CONTEXT_COPY.en[sectionId];
-}
-
-function loadDashboardGuestPass(): RedeemedGuestPass | undefined {
-  if (typeof window === 'undefined') {
-    return undefined;
-  }
-
-  try {
-    const raw = window.localStorage.getItem('pridicta.redeemedGuestPass.v1');
-    const pass = raw ? (JSON.parse(raw) as RedeemedGuestPass) : undefined;
-
-    return pass && new Date(pass.expiresAt).getTime() > Date.now()
-      ? pass
-      : undefined;
-  } catch {
-    return undefined;
-  }
-}
-
-function buildDashboardPassCopy(pass: RedeemedGuestPass): {
-  body: string;
-  tone: 'steady' | 'careful';
-} {
-  const questionsRemaining = Math.max(
-    0,
-    pass.usageLimits.questionsTotal - pass.questionsUsed,
-  );
-  const deepRemaining = Math.max(
-    0,
-    pass.usageLimits.deepReadingsTotal - pass.deepReadingsUsed,
-  );
-  const pdfRemaining = Math.max(
-    0,
-    pass.usageLimits.premiumPdfsTotal - pass.premiumPdfsUsed,
-  );
-  const careful =
-    questionsRemaining <= 3 || deepRemaining <= 1 || pdfRemaining <= 1;
-  const included = `${pass.usageLimits.questionsTotal} AI questions, ${pass.usageLimits.deepReadingsTotal} deep readings, ${pass.usageLimits.premiumPdfsTotal} premium PDFs`;
-  const remaining = `${questionsRemaining} AI, ${deepRemaining} deep, ${pdfRemaining} PDFs remaining`;
-
-  return {
-    body: careful
-      ? `${pass.label} includes ${included}. ${remaining}. Predicta can still help with deterministic charts and reports if AI balance runs low.`
-      : `${pass.label} includes ${included}. ${remaining}.`,
-    tone: careful ? 'careful' : 'steady',
-  };
-}
-
 export function DashboardShell({
   access,
   children,
@@ -399,20 +258,16 @@ export function DashboardShell({
   const isChatRoute =
     pathname === '/dashboard/chat' ||
     (pathname.startsWith('/dashboard/') && pathname.endsWith('/chat'));
-  const reduceMotion = useReducedMotion();
-  const { language } = useLanguagePreference();
-  const shellLabels = getAppShellLabels(language);
+  const { language } = useLightweightLanguagePreference();
+  const shellLabels = getLightweightAppShellLabels(language);
   const { commonGroups, sections } = buildDashboardNavModel(shellLabels);
   const activeSection = getActiveDashboardSection(pathname, sections);
   const showAdmin = isOwnerConsoleEnabled() && canSeeAdminRoute(access);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [dashboardGuestPass, setDashboardGuestPass] = useState<
-    RedeemedGuestPass | undefined
-  >(access.activeGuestPass);
   const mobileMenuRef = useRef<HTMLElement | null>(null);
   const mobileMenuCloseRef = useRef<HTMLButtonElement | null>(null);
-  const { activeKundli } = useWebKundliLibrary();
-  const topbarContext = getTopbarContextCopy(language, activeSection.id);
+  const activeKundliId = useLightweightActiveKundliId();
+  const topbarContext = getTopbarContextCopy(shellLabels, activeSection);
   const activeSectionMenuItems = activeSection.items.filter(
     (item, index) =>
       !(
@@ -437,29 +292,6 @@ export function DashboardShell({
     onClose: () => setMenuOpen(false),
   });
 
-  useEffect(() => {
-    function refreshPass() {
-      setDashboardGuestPass(loadDashboardGuestPass() ?? access.activeGuestPass);
-    }
-
-    refreshPass();
-    window.addEventListener(PASS_USAGE_UPDATED_EVENT, refreshPass);
-    window.addEventListener('focus', refreshPass);
-    window.addEventListener('storage', refreshPass);
-    document.addEventListener('visibilitychange', refreshPass);
-
-    return () => {
-      window.removeEventListener(PASS_USAGE_UPDATED_EVENT, refreshPass);
-      window.removeEventListener('focus', refreshPass);
-      window.removeEventListener('storage', refreshPass);
-      document.removeEventListener('visibilitychange', refreshPass);
-    };
-  }, [access.activeGuestPass]);
-
-  const dashboardPassCopy = dashboardGuestPass
-    ? buildDashboardPassCopy(dashboardGuestPass)
-    : undefined;
-
   return (
     <div className={`dashboard-shell ${isChatRoute ? 'chat-route' : ''}`}>
       <SidebarNav
@@ -480,11 +312,11 @@ export function DashboardShell({
             <strong>{activeSection.label}</strong>
           </div>
           <div className="dashboard-topbar-actions">
-            <WebLanguageSelector compact />
+            <LightweightLanguageSelector compact />
             <Link
               className="button"
               href={buildPredictaChatHref({
-                kundli: activeKundli,
+                kundliId: activeKundliId,
                 prompt: 'Help me from my selected Kundli.',
                 school: getTopbarPredictaSchool(activeSection.id),
                 sourceScreen: getTopbarPredictaSourceScreen(activeSection),
@@ -510,21 +342,7 @@ export function DashboardShell({
           </div>
         </div>
         <div aria-hidden="true" className="dashboard-topbar-spacer" />
-        {dashboardGuestPass && dashboardPassCopy ? (
-          <div
-            aria-live="polite"
-            className={`dashboard-pass-banner ${dashboardPassCopy.tone}`}
-          >
-            <div>
-              <span>Private pass active</span>
-              <strong>{dashboardGuestPass.label}</strong>
-              <p>{dashboardPassCopy.body}</p>
-            </div>
-            <Link className="button secondary" href="/dashboard/redeem-pass">
-              Manage pass
-            </Link>
-          </div>
-        ) : null}
+        <DashboardPassBanner initialPass={access.activeGuestPass} />
         {menuOpen ? (
           <div
             className="dashboard-mobile-menu"
@@ -541,7 +359,7 @@ export function DashboardShell({
               tabIndex={-1}
             >
               <div className="dashboard-mobile-drawer-head">
-                <strong>Predicta</strong>
+                <strong>{shellLabels.groups.predicta}</strong>
                 <button
                   aria-label={shellLabels.actions.closeMenu}
                   className="dashboard-menu-close"
@@ -553,7 +371,7 @@ export function DashboardShell({
                 </button>
               </div>
               <div className="dashboard-mobile-language">
-                <WebLanguageSelector compact />
+                <LightweightLanguageSelector compact />
               </div>
               <nav aria-label="Dashboard menu links">
                 <div className="dashboard-mobile-nav-section">
@@ -624,21 +442,118 @@ export function DashboardShell({
             </aside>
           </div>
         ) : null}
-        <motion.div
+        <div
           className={`dashboard-motion-frame ${
             isChatRoute ? 'chat-motion-frame' : ''
           }`}
-          key={pathname}
-          initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
         >
           {children}
-        </motion.div>
+        </div>
         {!isChatRoute ? (
-          <WebFooter className="dashboard-footer" variant="dashboard" />
+          <DashboardLightFooter labels={shellLabels} />
         ) : null}
       </main>
     </div>
+  );
+}
+
+function getTopbarContextCopy(
+  labels: LightweightAppShellLabels,
+  activeSection: SidebarSection,
+): { eyebrow: string } {
+  if (activeSection.id === 'predicta') {
+    return { eyebrow: labels.groups.predicta };
+  }
+
+  if (activeSection.id === 'library') {
+    return { eyebrow: labels.nav.savedKundlis };
+  }
+
+  if (activeSection.id === 'account') {
+    return { eyebrow: labels.nav.account };
+  }
+
+  return { eyebrow: activeSection.label };
+}
+
+function useLightweightActiveKundliId(): string | undefined {
+  const [activeKundliId, setActiveKundliId] = useState<string | undefined>();
+
+  useEffect(() => {
+    function refresh() {
+      setActiveKundliId(readLightweightActiveKundliId());
+    }
+
+    refresh();
+    window.addEventListener('storage', refresh);
+    window.addEventListener('pridicta:web-kundli-updated', refresh);
+
+    return () => {
+      window.removeEventListener('storage', refresh);
+      window.removeEventListener('pridicta:web-kundli-updated', refresh);
+    };
+  }, []);
+
+  return activeKundliId;
+}
+
+function readLightweightActiveKundliId(): string | undefined {
+  try {
+    const storeRaw = window.localStorage.getItem('pridicta.webKundliStore.v1');
+
+    if (storeRaw) {
+      const store = JSON.parse(storeRaw) as {
+        activeKundli?: { id?: string };
+        activeKundliId?: string;
+      };
+
+      if (store.activeKundliId || store.activeKundli?.id) {
+        return store.activeKundliId ?? store.activeKundli?.id;
+      }
+    }
+
+    const activeRaw = window.localStorage.getItem('pridicta.activeKundli.v1');
+
+    if (activeRaw) {
+      const active = JSON.parse(activeRaw) as { id?: string };
+
+      return active.id;
+    }
+  } catch {
+    return undefined;
+  }
+
+  return undefined;
+}
+
+function DashboardLightFooter({
+  labels,
+}: {
+  labels: LightweightAppShellLabels;
+}): React.JSX.Element {
+  return (
+    <footer className="web-footer web-footer-compact dashboard-footer">
+      <div className="web-footer-compact-row">
+        <div className="web-footer-compact-brand">
+          <Link aria-label={labels.nav.home} className="web-footer-logo" href="/">
+            {labels.groups.predicta}
+          </Link>
+          <span>{labels.topbarDescription}</span>
+        </div>
+        <nav
+          aria-label={labels.groups.sections}
+          className="web-footer-compact-links"
+        >
+          <Link href="/accuracy-method">{labels.nav.accuracyMethod}</Link>
+          <Link href="/safety">{labels.nav.safetyPromise}</Link>
+          <Link href="/legal">{labels.nav.legal}</Link>
+          <Link href="/feedback">{labels.nav.feedback}</Link>
+        </nav>
+      </div>
+      <div className="web-footer-bottom compact">
+        <span>{labels.groups.predicta} @2026</span>
+        <span>{labels.publicDisclaimer}</span>
+      </div>
+    </footer>
   );
 }

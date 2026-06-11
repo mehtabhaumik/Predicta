@@ -110,6 +110,16 @@ export type AppShellLabels = {
     body: string;
     title: string;
   };
+  passBanner: {
+    active: string;
+    aiRemainingLabel: string;
+    bodyCareful: string;
+    bodySteady: string;
+    deepReadingsLabel: string;
+    pdfsLabel: string;
+    manage: string;
+    questionsLabel: string;
+  };
   publicDisclaimer: string;
   topbarDescription: string;
 };

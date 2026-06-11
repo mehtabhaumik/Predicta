@@ -2,8 +2,6 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { motion, useReducedMotion } from 'framer-motion';
-import { PredictaMediaAsset } from './ui/DesignSystemPrimitives';
 
 export type SidebarItem = {
   href: string;
@@ -54,7 +52,6 @@ export function SidebarNav({
   worldsLabel?: string;
 }): React.JSX.Element {
   const pathname = usePathname();
-  const reduceMotion = useReducedMotion();
   const supportGroups = showAdmin
     ? [
         ...commonGroups,
@@ -68,12 +65,10 @@ export function SidebarNav({
   return (
     <aside className="sidebar">
       <Link aria-label={homeAriaLabel} className="dashboard-brand" href="/">
-        <PredictaMediaAsset
+        <img
           alt=""
           className="dashboard-logo"
           height={74}
-          kind="logo"
-          priority
           src="/predicta-logo.png"
           width={74}
         />
@@ -90,9 +85,9 @@ export function SidebarNav({
               const active = section.id === activeSection.id;
 
               return (
-                <motion.div
+                <div
+                  className="nav-link-frame"
                   key={section.href}
-                  whileHover={reduceMotion ? undefined : { x: 3 }}
                 >
                   <Link
                     aria-current={active ? 'page' : undefined}
@@ -101,7 +96,7 @@ export function SidebarNav({
                   >
                     {section.label}
                   </Link>
-                </motion.div>
+                </div>
               );
             })}
           </div>
@@ -124,9 +119,9 @@ export function SidebarNav({
                   const active = isSidebarNavItemActive(pathname, item.href);
 
                   return (
-                    <motion.div
+                    <div
+                      className="nav-link-frame"
                       key={item.href}
-                      whileHover={reduceMotion ? undefined : { x: 3 }}
                     >
                       <Link
                         aria-current={active ? 'page' : undefined}
@@ -135,7 +130,7 @@ export function SidebarNav({
                       >
                         {item.label}
                       </Link>
-                    </motion.div>
+                    </div>
                   );
                 })}
             </div>
@@ -150,9 +145,9 @@ export function SidebarNav({
                 const active = isSidebarNavItemActive(pathname, item.href);
 
                 return (
-                  <motion.div
+                  <div
+                    className="nav-link-frame"
                     key={item.href}
-                    whileHover={reduceMotion ? undefined : { x: 3 }}
                   >
                     <Link
                       aria-current={active ? 'page' : undefined}
@@ -161,7 +156,7 @@ export function SidebarNav({
                     >
                       {item.label}
                     </Link>
-                  </motion.div>
+                  </div>
                 );
               })}
             </div>

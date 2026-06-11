@@ -4,8 +4,12 @@ const manifestPath = 'apps/web/.next/app-build-manifest.json';
 const root = 'apps/web/.next';
 const landingBudgetKb = 250;
 const askBudgetKb = 400;
+const dashboardBudgetKb = 180;
 const sourceFiles = [
   'apps/web/app/page.tsx',
+  'apps/web/app/dashboard/page.tsx',
+  'apps/web/components/DashboardShell.tsx',
+  'apps/web/components/SidebarNav.tsx',
   'apps/web/components/LandingChatFirstContent.tsx',
   'apps/web/components/LandingLightFooter.tsx',
   'apps/web/components/LandingLightHeader.tsx',
@@ -32,6 +36,7 @@ baseline.files = baseline.files.map(file => ({
 baseline.pageSpecificKb = 0;
 const landing = measureRoute('/page');
 const ask = measureRoute('/ask/page');
+const dashboard = measureRoute('/dashboard/page');
 const failures = [];
 
 if (landing.pageSpecificKb > landingBudgetKb) {
@@ -46,12 +51,21 @@ if (ask.pageSpecificKb > askBudgetKb) {
   );
 }
 
+if (dashboard.pageSpecificKb > dashboardBudgetKb) {
+  failures.push(
+    `/dashboard route page-specific JS is ${dashboard.pageSpecificKb} KB, above ${dashboardBudgetKb} KB.`,
+  );
+}
+
 for (const sourceFile of sourceFiles) {
   const text = readFileSync(sourceFile, 'utf8');
 
   if (
     sourceFile.includes('Landing') ||
     sourceFile.includes('AskPredicta') ||
+    sourceFile.includes('DashboardShell') ||
+    sourceFile.includes('SidebarNav') ||
+    sourceFile.endsWith('/dashboard/page.tsx') ||
     sourceFile.endsWith('/page.tsx')
   ) {
     for (const forbidden of [
@@ -61,6 +75,9 @@ for (const sourceFile of sourceFiles) {
       './AuthDialog',
       './WebLanguageSelector',
       './WebPridictaChat',
+      './WebFooter',
+      'framer-motion',
+      'useWebKundliLibrary',
       'WebPridictaChat',
     ]) {
       if (text.includes(forbidden) && !text.includes('dynamic(')) {
@@ -72,6 +89,7 @@ for (const sourceFile of sourceFiles) {
 
 const heavyLandingFiles = landing.files.filter(file => file.sizeKb > 250);
 const heavyAskFiles = ask.files.filter(file => file.sizeKb > 400);
+const heavyDashboardFiles = dashboard.files.filter(file => file.sizeKb > 400);
 
 if (heavyLandingFiles.length) {
   failures.push(
@@ -89,6 +107,14 @@ if (heavyAskFiles.length) {
   );
 }
 
+if (heavyDashboardFiles.length) {
+  failures.push(
+    `/dashboard still includes oversized files: ${heavyDashboardFiles
+      .map(file => `${file.file} (${file.sizeKb} KB)`)
+      .join(', ')}`,
+  );
+}
+
 console.log(
   JSON.stringify(
     {
@@ -96,8 +122,10 @@ console.log(
       baseline,
       budgets: {
         askBudgetKb,
+        dashboardBudgetKb,
         landingBudgetKb,
       },
+      dashboard,
       landing,
       sourceFilesChecked: sourceFiles.length,
     },

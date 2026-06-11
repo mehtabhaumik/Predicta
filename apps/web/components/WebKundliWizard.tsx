@@ -110,10 +110,16 @@ export function WebKundliWizard(): React.JSX.Element {
     editingRecord?.isOwnerProfile ?? (!editingKundliId && savedKundliRecords.length === 0);
   const shouldShowRelationshipSelector = !isOwnerProfile;
   const selectedPlaceLabel = selectedPlace ? getBirthPlaceLabel(selectedPlace) : '';
+  const normalizedBirthPlaceQuery = normalizeBirthPlaceLabel(birthPlaceQuery);
   const isSelectedPlaceCurrent =
     Boolean(selectedPlace) &&
     (isExactBirthPlaceSelection(selectedPlace, birthPlaceQuery) ||
       doesBirthPlaceMatchQuery(selectedPlace, birthPlaceQuery));
+  const isBirthPlaceQueryAccepted =
+    Boolean(normalizedBirthPlaceQuery) &&
+    acceptedBirthPlaceQueryRef.current === normalizedBirthPlaceQuery;
+  const isBirthPlaceSearchSettled =
+    isSelectedPlaceCurrent || isBirthPlaceQueryAccepted;
   const details = useMemo<BirthDetails | undefined>(
     () => {
       if (!selectedPlace) {
@@ -202,13 +208,21 @@ export function WebKundliWizard(): React.JSX.Element {
     setIsPlaceSuggestionsOpen(false);
   }
 
-  function selectBirthPlace(option: WebBirthPlace) {
-    resetFlow();
+  function settleBirthPlaceSelection(option: WebBirthPlace) {
     const optionLabel = getBirthPlaceLabel(option);
+
+    placeSearchRequestRef.current += 1;
     acceptedBirthPlaceQueryRef.current = normalizeBirthPlaceLabel(optionLabel);
     setSelectedPlace(option);
     setBirthPlaceQuery(optionLabel);
-    closeBirthPlaceSuggestions();
+    setPlaceSuggestions([]);
+    setIsSearchingPlaces(false);
+    setIsPlaceSuggestionsOpen(false);
+  }
+
+  function selectBirthPlace(option: WebBirthPlace) {
+    resetFlow();
+    settleBirthPlaceSelection(option);
   }
 
   useEffect(() => {
@@ -235,18 +249,11 @@ export function WebKundliWizard(): React.JSX.Element {
         option.timezone === birthDetails.timezone,
     );
     const restoredPlace = matchingPlace ?? birthDetailsToWebPlace(birthDetails);
-    const restoredPlaceLabel = getBirthPlaceLabel(restoredPlace);
 
     setName(birthDetails.name);
     setDate(birthDetails.date);
     setTime(birthDetails.time);
-    setSelectedPlace(restoredPlace);
-    setBirthPlaceQuery(restoredPlaceLabel);
-    acceptedBirthPlaceQueryRef.current =
-      normalizeBirthPlaceLabel(restoredPlaceLabel);
-    setPlaceSuggestions([]);
-    setIsSearchingPlaces(false);
-    setIsPlaceSuggestionsOpen(false);
+    settleBirthPlaceSelection(restoredPlace);
     setIsApproximate(Boolean(birthDetails.isTimeApproximate));
     setRelationshipToOwner(
       record.isOwnerProfile ? '' : (record.relationshipToOwner ?? 'other'),
@@ -260,7 +267,6 @@ export function WebKundliWizard(): React.JSX.Element {
     const requestId = ++placeSearchRequestRef.current;
     const query = birthPlaceQuery.trim();
     const selectedPlaceIsExact = isExactBirthPlaceSelection(selectedPlace, query);
-    const normalizedQuery = normalizeBirthPlaceLabel(query);
 
     if (selectedPlace && !selectedPlaceIsExact) {
       setSelectedPlace(undefined);
@@ -275,7 +281,7 @@ export function WebKundliWizard(): React.JSX.Element {
     if (
       selectedPlaceIsExact ||
       (acceptedBirthPlaceQueryRef.current &&
-        acceptedBirthPlaceQueryRef.current === normalizedQuery)
+        acceptedBirthPlaceQueryRef.current === normalizedBirthPlaceQuery)
     ) {
       closeBirthPlaceSuggestions();
       return;
@@ -292,12 +298,7 @@ export function WebKundliWizard(): React.JSX.Element {
     );
 
     if (exactLocalMatch) {
-      const exactLocalMatchLabel = getBirthPlaceLabel(exactLocalMatch);
-      acceptedBirthPlaceQueryRef.current =
-        normalizeBirthPlaceLabel(exactLocalMatchLabel);
-      setSelectedPlace(exactLocalMatch);
-      setBirthPlaceQuery(exactLocalMatchLabel);
-      closeBirthPlaceSuggestions();
+      settleBirthPlaceSelection(exactLocalMatch);
       return;
     }
 
@@ -318,14 +319,7 @@ export function WebKundliWizard(): React.JSX.Element {
           isExactBirthPlaceSelection(place, query),
         );
         if (exactMatch) {
-          const exactMatchLabel = getBirthPlaceLabel(exactMatch);
-          acceptedBirthPlaceQueryRef.current =
-            normalizeBirthPlaceLabel(exactMatchLabel);
-          setSelectedPlace(exactMatch);
-          setBirthPlaceQuery(exactMatchLabel);
-          setPlaceSuggestions([]);
-          setIsPlaceSuggestionsOpen(false);
-          setIsSearchingPlaces(false);
+          settleBirthPlaceSelection(exactMatch);
           return;
         }
 
@@ -338,11 +332,16 @@ export function WebKundliWizard(): React.JSX.Element {
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [birthPlaceQuery, isPlaceSuggestionsOpen, selectedPlace]);
+  }, [
+    birthPlaceQuery,
+    isPlaceSuggestionsOpen,
+    normalizedBirthPlaceQuery,
+    selectedPlace,
+  ]);
 
   useEffect(() => {
     if (
-      isSelectedPlaceCurrent &&
+      isBirthPlaceSearchSettled &&
       (isPlaceSuggestionsOpen || isSearchingPlaces || placeSuggestions.length > 0)
     ) {
       closeBirthPlaceSuggestions();
@@ -350,7 +349,7 @@ export function WebKundliWizard(): React.JSX.Element {
   }, [
     isPlaceSuggestionsOpen,
     isSearchingPlaces,
-    isSelectedPlaceCurrent,
+    isBirthPlaceSearchSettled,
     placeSuggestions.length,
   ]);
 
@@ -506,19 +505,11 @@ export function WebKundliWizard(): React.JSX.Element {
   }
 
   function fillExample() {
-    const examplePlaceLabel = getBirthPlaceLabel(WEB_BIRTH_PLACES[0]);
-
     setError(undefined);
     setName('Aarav');
     setDate('2012-08-16');
     setTime('06:42');
-    setSelectedPlace(WEB_BIRTH_PLACES[0]);
-    setBirthPlaceQuery(examplePlaceLabel);
-    acceptedBirthPlaceQueryRef.current =
-      normalizeBirthPlaceLabel(examplePlaceLabel);
-    setPlaceSuggestions([]);
-    setIsSearchingPlaces(false);
-    setIsPlaceSuggestionsOpen(false);
+    settleBirthPlaceSelection(WEB_BIRTH_PLACES[0]);
     setIsApproximate(false);
     setRelationshipToOwner('');
     setRectificationStep('idle');
@@ -529,10 +520,12 @@ export function WebKundliWizard(): React.JSX.Element {
 
   const shouldShowReadyFirst = Boolean(kundli && !editingKundliId);
   const shouldShowBirthPlaceSuggestions =
-    isPlaceSuggestionsOpen && !isSelectedPlaceCurrent && placeSuggestions.length > 0;
+    isPlaceSuggestionsOpen &&
+    !isBirthPlaceSearchSettled &&
+    placeSuggestions.length > 0;
   const shouldShowBirthPlaceSearchStatus =
     isPlaceSuggestionsOpen &&
-    !isSelectedPlaceCurrent &&
+    !isBirthPlaceSearchSettled &&
     isSearchingPlaces &&
     placeSuggestions.length === 0;
   const readyFlow = kundli ? (
@@ -647,7 +640,7 @@ export function WebKundliWizard(): React.JSX.Element {
                 onFocus={() => {
                   if (
                     birthPlaceQuery.trim().length >= 2 &&
-                    !isSelectedPlaceCurrent
+                    !isBirthPlaceSearchSettled
                   ) {
                     setIsPlaceSuggestionsOpen(true);
                   }
@@ -668,7 +661,7 @@ export function WebKundliWizard(): React.JSX.Element {
                     return;
                   }
 
-                  if (isSelectedPlaceCurrent) {
+                  if (isBirthPlaceSearchSettled) {
                     closeBirthPlaceSuggestions();
                     return;
                   }

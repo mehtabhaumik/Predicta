@@ -70,3 +70,45 @@ Production server: `http://127.0.0.1:3035`
 - Public landing does not eagerly import dashboard shell, auth dialog, report/PDF,
   or full chat code: PASS.
 
+## Supplemental Dashboard Shell Rebuild
+
+Date: 2026-06-11
+
+The Library route was still inheriting the old dashboard/control-panel payload
+after the first app-revival pass. The shell has now been split so `/dashboard`
+loads as a lightweight saved-work surface instead of pulling full astrology,
+Kundli storage refresh, footer, language, pass, and motion dependencies into the
+first route payload.
+
+Implementation lock:
+
+- Removed `framer-motion` from dashboard shell/sidebar critical path.
+- Replaced full dashboard language selector with the lightweight JSON-backed
+  language selector.
+- Replaced full `WebFooter` with a lightweight dashboard footer.
+- Moved pass tracking banner into an async dashboard chunk.
+- Replaced full Kundli library hook on `/dashboard` with a lightweight local
+  snapshot for active name/place/count.
+- Extended `test:app-revival-phase-6` to enforce `/dashboard` route budget and
+  reject old heavy shell imports.
+
+Performance evidence:
+
+- Before supplemental rebuild: `/dashboard` First Load JS was `595 kB`.
+- After supplemental rebuild: `/dashboard` First Load JS is `126 kB`.
+- Updated Phase 6 gate: `/dashboard` page-specific JS is `87 kB` against a
+  `180 kB` budget.
+
+Supplemental verification:
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `corepack pnpm test:app-revival-phase-6`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/dashboard,/dashboard/report corepack pnpm test:ui-text-overflow`: PASS.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:ui-personal-space`: PASS.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `corepack pnpm test:app-revival-phase-8`: PASS.
+- Browser smoke on `/dashboard`: desktop Ask Predicta, language selector,
+  footer, and mobile drawer all rendered with no horizontal overflow.

@@ -166,6 +166,16 @@
         "title": "Saved safely",
         "body": "Your Kundli stays safe here. Sign in to keep it with you on every device."
       },
+      "passBanner": {
+        "active": "Private pass active",
+        "aiRemainingLabel": "AI",
+        "bodyCareful": "{label} includes {included}. {remaining}. Predicta can still help with deterministic charts and reports if AI balance runs low.",
+        "bodySteady": "{label} includes {included}. {remaining}.",
+        "deepReadingsLabel": "deep readings",
+        "manage": "Manage pass",
+        "pdfsLabel": "premium PDFs",
+        "questionsLabel": "AI questions"
+      },
       "topbarDescription": "Holistic astrology guidance, reports, charts, and saved kundlis.",
       "publicDisclaimer": "For reflection and self-understanding only. Not medical, legal, financial, emergency, or guaranteed prediction advice."
     },
@@ -246,6 +256,16 @@
         "title": "सुरक्षित सेव",
         "body": "आपकी कुंडली यहां सुरक्षित रहती है. हर डिवाइस पर अपने साथ रखने के लिए साइन इन करें."
       },
+      "passBanner": {
+        "active": "निजी पास सक्रिय",
+        "aiRemainingLabel": "AI",
+        "bodyCareful": "{label} में {included} शामिल हैं. {remaining}. AI बैलेंस कम होने पर भी प्रेडिक्टा deterministic charts और reports से मदद कर सकती है.",
+        "bodySteady": "{label} में {included} शामिल हैं. {remaining}.",
+        "deepReadingsLabel": "डीप रीडिंग",
+        "manage": "पास संभालें",
+        "pdfsLabel": "प्रीमियम PDF",
+        "questionsLabel": "AI प्रश्न"
+      },
       "topbarDescription": "होलिस्टिक ज्योतिष मार्गदर्शन, रिपोर्ट, चार्ट और सेव कुंडलियां.",
       "publicDisclaimer": "यह केवल चिंतन और आत्म-समझ के लिए है. यह चिकित्सा, कानूनी, वित्तीय, आपातकालीन या गारंटी वाली भविष्यवाणी सलाह नहीं है."
     },
@@ -325,6 +345,16 @@
       "privateSave": {
         "title": "સુરક્ષિત સેવ",
         "body": "તમારી કુંડળી અહીં સુરક્ષિત રહે છે. દરેક ડિવાઇસ પર સાથે રાખવા માટે સાઇન ઇન કરો."
+      },
+      "passBanner": {
+        "active": "ખાનગી પાસ સક્રિય",
+        "aiRemainingLabel": "AI",
+        "bodyCareful": "{label} માં {included} સામેલ છે. {remaining}. AI બેલેન્સ ઓછું થાય તો પણ પ્રેડિક્ટા deterministic charts અને reports થી મદદ કરી શકે છે.",
+        "bodySteady": "{label} માં {included} સામેલ છે. {remaining}.",
+        "deepReadingsLabel": "ડીપ રીડિંગ",
+        "manage": "પાસ સંભાળો",
+        "pdfsLabel": "પ્રીમિયમ PDF",
+        "questionsLabel": "AI પ્રશ્નો"
       },
       "topbarDescription": "હોલિસ્ટિક જ્યોતિષ માર્ગદર્શન, રિપોર્ટ્સ, ચાર્ટ્સ અને સેવ કુંડળીઓ.",
       "publicDisclaimer": "આ માત્ર વિચાર અને આત્મસમજ માટે છે. આ તબીબી, કાનૂની, નાણાકીય, ઇમરજન્સી અથવા ગેરંટીવાળી આગાહી સલાહ નથી."
