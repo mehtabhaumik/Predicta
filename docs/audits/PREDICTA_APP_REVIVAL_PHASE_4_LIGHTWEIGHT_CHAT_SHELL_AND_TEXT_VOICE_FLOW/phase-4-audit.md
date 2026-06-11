@@ -62,3 +62,30 @@ Voice affordance proof:
 
 - The full signed-in chat answer path is still governed by the current Google sign-in monetization rule. Phase 4 does not remove that contract.
 - The next major performance target is Phase 6: shared chunk and dashboard route bundle reduction.
+
+## Supplemental Started-State Compactness Lock
+
+Date: 2026-06-11
+
+### Implemented
+
+- Once `/ask` has incoming context or the user starts a question, the lightweight
+  Ask shell now turns into a compact prompt bar instead of keeping the full
+  landing-style prompt wrapper above the chat.
+- Started chat state hides the hero copy, suggestion chips, support paragraph,
+  hint cards, and voice note so the active experience feels like Predicta chat
+  first, not a control-panel preface.
+- Desktop keeps the prompt bar sticky for quick follow-up entry; mobile keeps it
+  static to avoid viewport and safe-area friction.
+
+### Supplemental Verification
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS after rerunning
+  sequentially to avoid the known `.next/types` generation race.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/dashboard,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-text-overflow`: PASS, `36` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/dashboard,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
+- Browser DOM audit of `/ask?sourceScreen=Audit&prompt=Will+my+career+improve%3F&autoSend=true`: PASS. The page had `ask-light-shell-started`, a mounted chat panel, hidden copy/chips/hints/support blocks, no horizontal overflow, and a compact prompt textarea.
+- `git diff --check`: PASS.

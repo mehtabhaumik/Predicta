@@ -20642,7 +20642,14 @@ select::-ms-expand {
 }
 
 .ask-light-shell-started .ask-light-console {
+  align-items: end;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   max-width: min(1100px, 100%);
+  padding: clamp(12px, 1.8vw, 18px);
+  position: sticky;
+  top: 12px;
+  z-index: 20;
 }
 
 .ask-light-copy {
@@ -20663,6 +20670,14 @@ select::-ms-expand {
 
 .ask-light-shell-started .ask-light-copy h1 {
   font-size: clamp(28px, 3.6vw, 44px);
+}
+
+.ask-light-shell-started .ask-light-copy,
+.ask-light-shell-started .ask-light-chips,
+.ask-light-shell-started .ask-light-hints,
+.ask-light-shell-started .ask-light-support-copy,
+.ask-light-shell-started .ask-light-voice-note {
+  display: none;
 }
 
 .ask-light-support-copy {
@@ -20707,7 +20722,8 @@ select::-ms-expand {
 }
 
 .ask-light-shell-started .ask-light-field textarea {
-  min-height: 88px;
+  min-height: 58px;
+  max-height: 120px;
 }
 
 .ask-light-field textarea:focus {
@@ -20757,6 +20773,10 @@ select::-ms-expand {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+.ask-light-shell-started .ask-light-actions {
+  flex-wrap: nowrap;
 }
 
 .ask-light-hints {
@@ -23915,7 +23935,12 @@ select::-ms-expand {
   }
 
   .ask-light-shell-started .ask-light-field textarea {
-    min-height: 86px;
+    min-height: 68px;
+  }
+
+  .ask-light-shell-started .ask-light-console {
+    grid-template-columns: 1fr;
+    position: static;
   }
 
   .ask-light-hints {
