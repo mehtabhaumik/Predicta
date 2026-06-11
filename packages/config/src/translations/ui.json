@@ -9400,6 +9400,31 @@
       "en": "Personal Day",
       "hi": "निजी दिन",
       "gu": "વ્યક્તિગત દિવસ"
+    },
+    "ui.global.your.question.is.ready.auth.bridge": {
+      "en": "Your question is ready",
+      "hi": "आपका प्रश्न तैयार है",
+      "gu": "તમારો પ્રશ્ન તૈયાર છે"
+    },
+    "ui.global.predicta.will.keep.this.question.ready.after.sign.in.auth.bridge": {
+      "en": "Predicta will keep this question ready after sign-in, so you do not have to start again.",
+      "hi": "साइन-इन के बाद प्रेडिक्टा यह प्रश्न तैयार रखेगी, इसलिए आपको फिर से शुरू नहीं करना पड़ेगा।",
+      "gu": "સાઇન-ઇન પછી પ્રેડિક્ટા આ પ્રશ્ન તૈયાર રાખશે, એટલે તમને ફરીથી શરૂ કરવું નહીં પડે."
+    },
+    "ui.global.predicta.can.still.help.without.spending.ai.credits.auth.bridge": {
+      "en": "Predicta can still help without spending AI credits.",
+      "hi": "एआई क्रेडिट खर्च किए बिना भी प्रेडिक्टा मदद कर सकती है।",
+      "gu": "એઆઈ ક્રેડિટ ખર્ચ્યા વિના પણ પ્રેડિક્ટા મદદ કરી શકે છે."
+    },
+    "ui.global.create.kundli.open.chart.proof.redeem.pass.or.review.pricing.auth.bridge": {
+      "en": "Create Kundli, open chart proof, redeem a pass, or review pricing while your private AI chat waits for sign-in.",
+      "hi": "जब आपकी निजी एआई चैट साइन-इन की प्रतीक्षा कर रही हो, तब कुंडली बनाएं, चार्ट प्रमाण खोलें, पास रिडीम करें या प्राइसिंग देखें।",
+      "gu": "તમારી ખાનગી એઆઈ ચેટ સાઇન-ઇનની રાહ જોતી હોય ત્યારે કુંડળી બનાવો, ચાર્ટ પુરાવો ખોલો, પાસ રિડીમ કરો અથવા પ્રાઇસિંગ જુઓ."
+    },
+    "ui.global.predicta.next.steps.auth.bridge": {
+      "en": "Predicta next steps",
+      "hi": "प्रेडिक्टा अगले कदम",
+      "gu": "પ્રેડિક્ટા આગળના પગલાં"
     }
   }
 }

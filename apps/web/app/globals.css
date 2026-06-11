@@ -4797,6 +4797,61 @@ button:disabled,
   inline-size: fit-content;
 }
 
+.auth-preserved-question,
+.auth-deterministic-bridge {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4);
+}
+
+.auth-preserved-question span,
+.auth-deterministic-bridge strong {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.auth-preserved-question strong {
+  color: var(--text);
+  display: block;
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.auth-deterministic-bridge p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.auth-next-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.auth-next-actions .button {
+  min-height: 44px;
+  min-width: min(100%, 10rem);
+}
+
+@media (max-width: 520px) {
+  .auth-required-panel {
+    margin-block: var(--space-4);
+  }
+
+  .auth-next-actions .button {
+    inline-size: 100%;
+    justify-content: center;
+  }
+}
+
 .birth-confirmation-panel,
 .kundli-rectification-panel,
 .kundli-creation-reveal {

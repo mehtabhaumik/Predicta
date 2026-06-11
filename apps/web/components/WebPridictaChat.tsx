@@ -1742,11 +1742,16 @@ export function WebPridictaChat({
   }
 
   if (!chatAccount?.uid) {
+    const queryPrompt = searchParams.get('prompt')?.trim();
+    const sourceScreen =
+      activeChartContext?.sourceScreen ?? searchParams.get('sourceScreen') ?? 'Predicta';
     const preAuthEvidenceLine = activeChartContext
       ? formatEvidenceHandoffLine(activeChartContext, language)
       : undefined;
     const preAuthQuestion =
-      activeChartContext?.handoffQuestion ?? activeChartContext?.selectedSection;
+      activeChartContext?.handoffQuestion ??
+      queryPrompt ??
+      activeChartContext?.selectedSection;
 
     return (
       <section className="glass-panel auth-required-panel">
@@ -1756,14 +1761,43 @@ export function WebPridictaChat({
           AI chat, saved Kundlis, reports, and Family Vault now stay attached to
           your private account.
         </p>
+        {preAuthQuestion ? (
+          <div className="auth-preserved-question">
+            <span>{t('Your question is ready')}</span>
+            <strong>{preAuthQuestion}</strong>
+            <p>
+              {t(
+                'Predicta will keep this question ready after sign-in, so you do not have to start again.',
+              )}
+            </p>
+          </div>
+        ) : null}
         {preAuthEvidenceLine ? (
           <div className="event-question-handoff-strip">
             <span>{t('Context carried into Predicta')}</span>
-            <strong>{t(activeChartContext?.sourceScreen ?? 'Predicta')}</strong>
+            <strong>{t(sourceScreen)}</strong>
             <p>{preAuthEvidenceLine}</p>
-            {preAuthQuestion ? <p>{preAuthQuestion}</p> : null}
           </div>
         ) : null}
+        <div className="auth-deterministic-bridge">
+          <strong>{t('Predicta can still help without spending AI credits.')}</strong>
+          <p>
+            {t(
+              'Create Kundli, open chart proof, redeem a pass, or review pricing while your private AI chat waits for sign-in.',
+            )}
+          </p>
+          <div className="auth-next-actions" aria-label={t('Predicta next steps')}>
+            <Link className="button secondary" href="/dashboard/kundli">
+              {t('Create Kundli')}
+            </Link>
+            <Link className="button secondary" href="/dashboard/redeem-pass">
+              {t('Redeem pass')}
+            </Link>
+            <Link className="button secondary" href="/pricing">
+              {t('See pricing')}
+            </Link>
+          </div>
+        </div>
         <AuthDialog />
       </section>
     );

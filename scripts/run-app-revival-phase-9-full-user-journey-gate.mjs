@@ -228,6 +228,7 @@ try {
       return {
         hasAccountRequired: Boolean(document.querySelector('.auth-required-panel')),
         hasDeterministicCopy: /free AI questions are used|without AI|deterministic|Kundli|charts|reports/i.test(text),
+        hasPreservedQuestionBridge: /Your question is ready|question ready after sign-in|do not have to start again/i.test(text),
         hasFallbackLinks: hrefs.some(href => href === '/dashboard/kundli') &&
           hrefs.some(href => href === '/dashboard/redeem-pass') &&
           hrefs.some(href => href === '/pricing'),
@@ -240,8 +241,11 @@ try {
     if (!audit.hasDeterministicCopy) {
       localFailures.push('zero-credit state did not explain deterministic help remains available');
     }
-    if (!audit.hasFallbackLinks && !audit.hasAccountRequired) {
-      localFailures.push('zero-credit state did not show deterministic/redeem/pricing next steps or sign-in lock');
+    if (audit.hasAccountRequired && !audit.hasPreservedQuestionBridge) {
+      localFailures.push('signed-out zero-credit state did not preserve the user question before sign-in');
+    }
+    if (!audit.hasFallbackLinks) {
+      localFailures.push('zero-credit state did not show deterministic/redeem/pricing next steps');
     }
     if (audit.horizontalOverflow) {
       localFailures.push('zero-credit journey has horizontal overflow');
