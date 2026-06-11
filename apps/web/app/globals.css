@@ -23848,16 +23848,16 @@ select::-ms-expand {
   }
 
   .ask-light-copy {
-    order: 1;
+    order: 3;
   }
 
   .ask-light-chips {
-    order: 2;
+    order: 1;
   }
 
   .ask-light-hints,
   .ask-light-voice-note {
-    order: 3;
+    order: 2;
   }
 
   .ask-light-shell-started .ask-light-field textarea {
@@ -23882,6 +23882,10 @@ select::-ms-expand {
     min-height: 48px;
     white-space: normal;
     width: 100%;
+  }
+
+  .ask-light-chips button:nth-child(n + 4) {
+    display: none;
   }
 
   .ask-light-actions {

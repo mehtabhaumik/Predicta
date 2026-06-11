@@ -99,3 +99,42 @@ box.
   compact before the report chooser begins.
 - `mobile-390-ask.png`: the top navigation stays one line high with horizontal
   scroll instead of wrapping into a second row before the chat prompt.
+
+## Supplemental Ask Screen Directness Lock
+
+Date: 2026-06-11
+
+The `/ask` mobile screen still felt slightly too much like a product page because
+navigation repeated the current `Ask Predicta` destination and the large
+explanatory headline appeared before the suggested question prompts. This pass
+moves the screen closer to a simple text/voice astrology app.
+
+### Changes
+
+- Removed the redundant `Ask Predicta` nav pill from the `/ask` lean header.
+- Reordered mobile `/ask` content so the first-screen sequence is: textarea,
+  Ask/Speak actions, suggested questions, practical hints, then the explanatory
+  headline/copy below.
+- Limited mobile suggested questions to three fully visible chips so no prompt is
+  clipped or half-visible in the first viewport.
+- Kept desktop/tablet suggested-question depth unchanged.
+
+### Evidence
+
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_MOBILE_APP_FEEL_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-8`: PASS, 63 route and viewport screenshots regenerated.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/ask,/dashboard,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-text-overflow`: PASS, 32 route and viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:ui-personal-space`: PASS, 56 route and viewport checks.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `git diff --check`: PASS.
+
+### Visual Audit Notes
+
+- `mobile-390-ask.png`: the first viewport now shows Library/Reports/Premium,
+  the question textarea, Ask/Speak actions, three full suggested questions, and
+  no clipped fourth chip.
+- The longer `Start with the question on your mind` copy remains available below
+  the practical action area instead of competing with it.

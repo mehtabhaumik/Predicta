@@ -1,6 +1,6 @@
 {
   "baseUrl": "http://127.0.0.1:3009",
-  "generatedAt": "2026-06-11T15:45:39.613Z",
+  "generatedAt": "2026-06-11T15:57:44.899Z",
   "phaseName": "PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT",
   "results": [
     {
@@ -61,11 +61,11 @@
         "width": 326
       },
       "chipStrip": {
-        "bottom": 801,
-        "height": 184,
+        "bottom": 553,
+        "height": 178,
         "left": 17,
         "right": 343,
-        "top": 617,
+        "top": 375,
         "width": 326
       },
       "documentWidth": 360,
@@ -346,11 +346,11 @@
         "width": 356
       },
       "chipStrip": {
-        "bottom": 811,
-        "height": 184,
+        "bottom": 527,
+        "height": 152,
         "left": 17,
         "right": 373,
-        "top": 627,
+        "top": 375,
         "width": 356
       },
       "documentWidth": 390,
@@ -631,11 +631,11 @@
         "width": 396
       },
       "chipStrip": {
-        "bottom": 802,
-        "height": 184,
+        "bottom": 527,
+        "height": 152,
         "left": 17,
         "right": 413,
-        "top": 618,
+        "top": 375,
         "width": 396
       },
       "documentWidth": 430,
