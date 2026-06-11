@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { FounderPageClient } from './FounderPageClient';
+import { FounderPageLoader } from './FounderPageLoader';
 
 export const metadata: Metadata = {
   alternates: {
@@ -23,5 +23,5 @@ export const metadata: Metadata = {
 };
 
 export default function FounderPage(): React.JSX.Element {
-  return <FounderPageClient />;
+  return <FounderPageLoader />;
 }

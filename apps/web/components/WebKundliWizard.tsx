@@ -293,9 +293,7 @@ export function WebKundliWizard(): React.JSX.Element {
     }
 
     const localMatches = searchLocalWebBirthPlaces(query).slice(0, 6);
-    const exactLocalMatch = localMatches.find(place =>
-      isExactBirthPlaceSelection(place, query),
-    );
+    const exactLocalMatch = findSettledBirthPlaceCandidate(localMatches, query);
 
     if (exactLocalMatch) {
       settleBirthPlaceSelection(exactLocalMatch);
@@ -315,9 +313,7 @@ export function WebKundliWizard(): React.JSX.Element {
           return;
         }
 
-        const exactMatch = places.find(place =>
-          isExactBirthPlaceSelection(place, query),
-        );
+        const exactMatch = findSettledBirthPlaceCandidate(places, query);
         if (exactMatch) {
           settleBirthPlaceSelection(exactMatch);
           return;
@@ -519,15 +515,17 @@ export function WebKundliWizard(): React.JSX.Element {
   }
 
   const shouldShowReadyFirst = Boolean(kundli && !editingKundliId);
+  const visibleBirthPlaceSuggestions = isBirthPlaceSearchSettled
+    ? []
+    : placeSuggestions.slice(0, 6);
   const shouldShowBirthPlaceSuggestions =
     isPlaceSuggestionsOpen &&
-    !isBirthPlaceSearchSettled &&
-    placeSuggestions.length > 0;
+    visibleBirthPlaceSuggestions.length > 0;
   const shouldShowBirthPlaceSearchStatus =
     isPlaceSuggestionsOpen &&
     !isBirthPlaceSearchSettled &&
     isSearchingPlaces &&
-    placeSuggestions.length === 0;
+    visibleBirthPlaceSuggestions.length === 0;
   const readyFlow = kundli ? (
     <KundliReadyFlow
       creationNote={lastCreationNote}
@@ -692,7 +690,7 @@ export function WebKundliWizard(): React.JSX.Element {
               ) : null}
               {shouldShowBirthPlaceSuggestions ? (
                 <div className="birth-place-suggestions" role="listbox">
-                  {placeSuggestions.slice(0, 6).map(option => {
+                  {visibleBirthPlaceSuggestions.map(option => {
                     const optionLabel = getBirthPlaceLabel(option);
 
                     return (
@@ -705,6 +703,10 @@ export function WebKundliWizard(): React.JSX.Element {
                         key={`${option.place}-${option.latitude}-${option.longitude}`}
                         onMouseDown={event => {
                           event.preventDefault();
+                        }}
+                        onPointerDown={event => {
+                          event.preventDefault();
+                          selectBirthPlace(option);
                         }}
                         onClick={() => selectBirthPlace(option)}
                         role="option"
@@ -1412,6 +1414,42 @@ function isExactBirthPlaceSelection(
     .filter(Boolean)
     .map(term => normalizeBirthPlaceLabel(term))
     .some(term => term === normalizedQuery);
+}
+
+function findSettledBirthPlaceCandidate(
+  places: WebBirthPlace[],
+  query?: string,
+): WebBirthPlace | undefined {
+  const exactMatch = places.find(place =>
+    isExactBirthPlaceSelection(place, query),
+  );
+
+  if (exactMatch) {
+    return exactMatch;
+  }
+
+  if (places.length !== 1) {
+    return undefined;
+  }
+
+  const normalizedQuery = normalizeBirthPlaceLabel(query);
+
+  if (normalizedQuery.length < 4) {
+    return undefined;
+  }
+
+  const [onlyPlace] = places;
+  const primaryNames = [
+    onlyPlace.city,
+    onlyPlace.label.split(',')[0],
+    onlyPlace.place.split(',')[0],
+  ]
+    .filter(Boolean)
+    .map(term => normalizeBirthPlaceLabel(term));
+
+  return primaryNames.some(term => term === normalizedQuery)
+    ? onlyPlace
+    : undefined;
 }
 
 function getKundliGateMessage(

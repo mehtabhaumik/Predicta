@@ -210,3 +210,63 @@ Supplemental verification:
 - `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
 - `node scripts/run-birth-place-autocomplete-gate.mjs`: PASS.
 - `git diff --check`: PASS.
+
+## Supplemental Public Trust And Commerce Runtime Rebuild
+
+Date: 2026-06-11
+
+The public trust and commerce pages still carried the old full public shell and
+heavy page runtimes, making simple policy, pricing, checkout, founder, and
+feedback visits feel like control-panel routes. These routes now use the
+lightweight Predicta public shell first and defer their deeper runtime content.
+
+Implementation lock:
+
+- Replaced the old `WebHeader` and `WebFooter` on public/trust/commerce pages
+  with `LandingLightHeader` and `LandingLightFooter`.
+- Moved Safety, Pricing, Checkout, Feedback, and Founder content behind
+  client-side deferred runtime loaders.
+- Added a compact public fallback shell so first paint is useful and
+  action-oriented while detailed content hydrates.
+- Moved the fallback shell copy into a dedicated JSON-backed adapter so Hindi
+  and Gujarati first-paint states do not regress into English-only placeholders.
+- Extended `test:app-revival-phase-6` with public route budgets for
+  Accuracy Method, Checkout, Feedback, Founder, Legal, Pricing, and Safety.
+- Tightened the Kundli birth-place autocomplete so the exact Petlad case
+  resolves to `Petlad, Gujarat, India` without leaving the suggestion or
+  `Searching places...` status stuck on screen.
+
+Performance evidence from `corepack pnpm build:web`:
+
+- `/accuracy-method`: `603 kB` before this pass -> `136 kB` First Load JS.
+- `/checkout`: `607 kB` before this pass -> `130 kB` First Load JS.
+- `/feedback`: `606 kB` before this pass -> `130 kB` First Load JS.
+- `/founder`: `604 kB` before this pass -> `130 kB` First Load JS.
+- `/legal`: `602 kB` before this pass -> `126 kB` First Load JS.
+- `/pricing`: `605 kB` before this pass -> `130 kB` First Load JS.
+- `/safety`: `605 kB` before this pass -> `130 kB` First Load JS.
+
+Updated Phase 6 gate evidence:
+
+- `/accuracy-method` page-specific JS: `116 KB` against `140 KB` budget.
+- `/checkout` page-specific JS: `93 KB` against `140 KB` budget.
+- `/feedback` page-specific JS: `93 KB` against `140 KB` budget.
+- `/founder` page-specific JS: `93 KB` against `140 KB` budget.
+- `/legal` page-specific JS: `83 KB` against `140 KB` budget.
+- `/pricing` page-specific JS: `93 KB` against `140 KB` budget.
+- `/safety` page-specific JS: `93 KB` against `140 KB` budget.
+
+Supplemental verification:
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `corepack pnpm test:app-revival-phase-6`: PASS with public route budgets.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/accuracy-method,/checkout,/feedback,/founder,/legal,/pricing,/safety,/dashboard/kundli corepack pnpm test:ui-text-overflow`: PASS.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:ui-personal-space`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
+- Browser runtime check on `/dashboard/kundli`: typing `Petlad` auto-resolved
+  the field to `Petlad, Gujarat, India`; no suggestions remained visible and
+  `Searching places...` was absent.
+- `git diff --check`: PASS.

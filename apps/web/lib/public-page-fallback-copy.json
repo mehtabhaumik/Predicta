@@ -1,0 +1,110 @@
+{
+  "version": 1,
+  "entries": {
+    "checkout": {
+      "ctaHref": "/pricing",
+      "en": {
+        "body": "Your selected pass or report is being prepared with a safe payment path.",
+        "ctaLabel": "Review pricing",
+        "eyebrow": "Checkout",
+        "title": "Review before you pay."
+      },
+      "hi": {
+        "body": "आपका चुना हुआ पास या रिपोर्ट सुरक्षित भुगतान मार्ग के साथ तैयार हो रहा है।",
+        "ctaLabel": "कीमतें देखें",
+        "eyebrow": "चेकआउट",
+        "title": "भुगतान से पहले समीक्षा करें।"
+      },
+      "gu": {
+        "body": "તમારો પસંદ કરેલો પાસ અથવા રિપોર્ટ સુરક્ષિત ચુકવણી માર્ગ સાથે તૈયાર થઈ રહ્યો છે.",
+        "ctaLabel": "કિંમત તપાસો",
+        "eyebrow": "ચેકઆઉટ",
+        "title": "ચુકવણી પહેલાં સમીક્ષા કરો."
+      }
+    },
+    "feedback": {
+      "ctaHref": "/ask",
+      "en": {
+        "body": "Tell us what felt confusing, slow, broken, or surprisingly useful.",
+        "ctaLabel": "Return to Predicta",
+        "eyebrow": "Feedback",
+        "title": "Help us make Predicta sharper."
+      },
+      "hi": {
+        "body": "हमें बताएं कि क्या भ्रमित, धीमा, टूटा हुआ या आश्चर्यजनक रूप से उपयोगी लगा।",
+        "ctaLabel": "प्रेडिक्टा पर वापस जाएं",
+        "eyebrow": "फीडबैक",
+        "title": "प्रेडिक्टा को और बेहतर बनाने में हमारी मदद करें।"
+      },
+      "gu": {
+        "body": "શું ગૂંચવણભર્યું, ધીમું, તૂટેલું અથવા આશ્ચર્યજનક રીતે ઉપયોગી લાગ્યું તે અમને કહો.",
+        "ctaLabel": "પ્રેડિક્ટા પર પાછા જાઓ",
+        "eyebrow": "પ્રતિસાદ",
+        "title": "પ્રેડિક્ટાને વધુ તેજ બનાવવા અમારી મદદ કરો."
+      }
+    },
+    "founder": {
+      "ctaHref": "/ask",
+      "en": {
+        "body": "Predicta exists to make astrology precise, calm, private, and useful.",
+        "ctaLabel": "Begin with Predicta",
+        "eyebrow": "Founder vision",
+        "title": "Clarity without noise."
+      },
+      "hi": {
+        "body": "प्रेडिक्टा ज्योतिष को सटीक, शांत, निजी और उपयोगी बनाने के लिए है।",
+        "ctaLabel": "प्रेडिक्टा से शुरू करें",
+        "eyebrow": "संस्थापक की दृष्टि",
+        "title": "शोर के बिना स्पष्टता।"
+      },
+      "gu": {
+        "body": "પ્રેડિક્ટા જ્યોતિષને ચોક્કસ, શાંત, ખાનગી અને ઉપયોગી બનાવવા માટે છે.",
+        "ctaLabel": "પ્રેડિક્ટાથી શરૂ કરો",
+        "eyebrow": "સ્થાપક દૃષ્ટિ",
+        "title": "અવાજ વગરની સ્પષ્ટતા."
+      }
+    },
+    "pricing": {
+      "ctaHref": "/ask",
+      "en": {
+        "body": "Choose a plan, pass, question pack, or report only when you know the outcome you want.",
+        "ctaLabel": "Ask before buying",
+        "eyebrow": "Pricing",
+        "title": "Pay for clarity, not confusion."
+      },
+      "hi": {
+        "body": "जब आपको अपना वांछित परिणाम पता हो, तभी प्लान, पास, प्रश्न पैक या रिपोर्ट चुनें।",
+        "ctaLabel": "खरीदने से पहले पूछें",
+        "eyebrow": "कीमतें",
+        "title": "स्पष्टता के लिए भुगतान करें, भ्रम के लिए नहीं।"
+      },
+      "gu": {
+        "body": "તમને કયો પરિણામ જોઈએ છે તે ખબર હોય ત્યારે જ પ્લાન, પાસ, પ્રશ્ન પેક અથવા રિપોર્ટ પસંદ કરો.",
+        "ctaLabel": "ખરીદતા પહેલાં પૂછો",
+        "eyebrow": "કિંમત",
+        "title": "સ્પષ્ટતા માટે ચૂકવો, ગૂંચવણ માટે નહીં."
+      }
+    },
+    "safety": {
+      "ctaHref": "/ask",
+      "en": {
+        "body": "Predicta is designed to guide without fear, guarantees, or unsafe overreach.",
+        "ctaLabel": "Ask Predicta",
+        "eyebrow": "Safety promise",
+        "title": "Guidance should feel calm and safe."
+      },
+      "hi": {
+        "body": "प्रेडिक्टा डर, गारंटी या असुरक्षित अतिरेक के बिना मार्गदर्शन देने के लिए बनी है।",
+        "ctaLabel": "प्रेडिक्टा से पूछें",
+        "eyebrow": "सुरक्षा वचन",
+        "title": "मार्गदर्शन शांत और सुरक्षित महसूस होना चाहिए।"
+      },
+      "gu": {
+        "body": "પ્રેડિક્ટા ભય, ગેરંટી અથવા અસુરક્ષિત અતિરેક વગર માર્ગદર્શન આપવા માટે રચાઈ છે.",
+        "ctaLabel": "પ્રેડિક્ટાને પૂછો",
+        "eyebrow": "સુરક્ષા વચન",
+        "title": "માર્ગદર્શન શાંત અને સુરક્ષિત લાગવું જોઈએ."
+      }
+    }
+  }
+}

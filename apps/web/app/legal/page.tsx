@@ -2,13 +2,13 @@ import Link from 'next/link';
 import { LEGAL_DOCUMENTS } from '@pridicta/config/legal';
 import { Card } from '../../components/Card';
 import { StatusPill } from '../../components/StatusPill';
-import { WebFooter } from '../../components/WebFooter';
-import { WebHeader } from '../../components/WebHeader';
+import { LandingLightFooter } from '../../components/LandingLightFooter';
+import { LandingLightHeader } from '../../components/LandingLightHeader';
 
 export default function LegalPage(): React.JSX.Element {
   return (
     <>
-      <WebHeader />
+      <LandingLightHeader />
       <main className="legal-page">
         <div className="page-heading compact">
           <StatusPill label="Public policies" tone="premium" />
@@ -59,7 +59,7 @@ export default function LegalPage(): React.JSX.Element {
           </Link>
         </div>
       </main>
-      <WebFooter />
+      <LandingLightFooter />
     </>
   );
 }

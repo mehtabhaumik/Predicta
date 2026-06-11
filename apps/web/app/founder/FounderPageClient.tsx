@@ -6,8 +6,8 @@ import type { SupportedLanguage } from '@pridicta/types';
 import { Card } from '../../components/Card';
 import { FounderSignature } from '../../components/FounderSignature';
 import { StatusPill } from '../../components/StatusPill';
-import { WebFooter } from '../../components/WebFooter';
-import { WebHeader } from '../../components/WebHeader';
+import { LandingLightFooter } from '../../components/LandingLightFooter';
+import { LandingLightHeader } from '../../components/LandingLightHeader';
 import { useLanguagePreference } from '../../lib/language-preference';
 
 const founderCopy: Record<
@@ -224,7 +224,7 @@ export function FounderPageClient(): React.JSX.Element {
 
   return (
     <>
-      <WebHeader />
+      <LandingLightHeader />
       <main className="founder-page">
         <section className="founder-hero" aria-labelledby="founder-title">
           <div className="founder-copy">
@@ -305,7 +305,7 @@ export function FounderPageClient(): React.JSX.Element {
           </Link>
         </section>
       </main>
-      <WebFooter />
+      <LandingLightFooter />
     </>
   );
 }

@@ -23,6 +23,15 @@ const secondaryDashboardBudgets = [
   { budgetKb: 80, route: '/dashboard/wrapped/page' },
   { budgetKb: 600, route: '/dashboard/remedies/page' },
 ];
+const publicRouteBudgets = [
+  { budgetKb: 140, route: '/accuracy-method/page' },
+  { budgetKb: 140, route: '/checkout/page' },
+  { budgetKb: 140, route: '/feedback/page' },
+  { budgetKb: 140, route: '/founder/page' },
+  { budgetKb: 140, route: '/legal/page' },
+  { budgetKb: 140, route: '/pricing/page' },
+  { budgetKb: 140, route: '/safety/page' },
+];
 const sourceFiles = [
   'apps/web/app/page.tsx',
   'apps/web/app/dashboard/page.tsx',
@@ -63,6 +72,18 @@ const sourceFiles = [
   'apps/web/components/WebSignatureAnalysisLoader.tsx',
   'apps/web/components/WebKundliWizardLoader.tsx',
   'apps/web/components/WebVedicIntelligencePanelLoader.tsx',
+  'apps/web/app/accuracy-method/page.tsx',
+  'apps/web/app/checkout/page.tsx',
+  'apps/web/app/checkout/CheckoutPageLoader.tsx',
+  'apps/web/app/feedback/page.tsx',
+  'apps/web/app/feedback/FeedbackPageLoader.tsx',
+  'apps/web/app/founder/page.tsx',
+  'apps/web/app/founder/FounderPageLoader.tsx',
+  'apps/web/app/pricing/page.tsx',
+  'apps/web/app/pricing/PricingPageLoader.tsx',
+  'apps/web/app/safety/page.tsx',
+  'apps/web/app/safety/SafetyPageLoader.tsx',
+  'apps/web/components/PublicPageRuntimeFallback.tsx',
 ];
 
 if (!existsSync(manifestPath)) {
@@ -88,6 +109,10 @@ const specialistRoutes = specialistBudgets.map(item => ({
   measurement: measureRoute(item.route),
 }));
 const secondaryDashboardRoutes = secondaryDashboardBudgets.map(item => ({
+  ...item,
+  measurement: measureRoute(item.route),
+}));
+const publicRoutes = publicRouteBudgets.map(item => ({
   ...item,
   measurement: measureRoute(item.route),
 }));
@@ -130,6 +155,14 @@ for (const secondaryDashboardRoute of secondaryDashboardRoutes) {
   }
 }
 
+for (const publicRoute of publicRoutes) {
+  if (publicRoute.measurement.pageSpecificKb > publicRoute.budgetKb) {
+    failures.push(
+      `${publicRoute.route} page-specific JS is ${publicRoute.measurement.pageSpecificKb} KB, above ${publicRoute.budgetKb} KB.`,
+    );
+  }
+}
+
 for (const sourceFile of sourceFiles) {
   const text = readFileSync(sourceFile, 'utf8');
 
@@ -153,7 +186,14 @@ for (const sourceFile of sourceFiles) {
     sourceFile.endsWith('/dashboard/saved-kundlis/page.tsx') ||
     sourceFile.endsWith('/dashboard/timeline/page.tsx') ||
     sourceFile.endsWith('/dashboard/wrapped/page.tsx') ||
-    sourceFile.endsWith('/page.tsx')
+    sourceFile.endsWith('/accuracy-method/page.tsx') ||
+    sourceFile.endsWith('/checkout/page.tsx') ||
+    sourceFile.endsWith('/feedback/page.tsx') ||
+    sourceFile.endsWith('/founder/page.tsx') ||
+    sourceFile.endsWith('/legal/page.tsx') ||
+    sourceFile.endsWith('/pricing/page.tsx') ||
+    sourceFile.endsWith('/safety/page.tsx') ||
+    sourceFile === 'apps/web/app/page.tsx'
   ) {
     for (const forbidden of [
       '@pridicta/config',
@@ -223,11 +263,13 @@ console.log(
         askBudgetKb,
         dashboardBudgetKb,
         landingBudgetKb,
+        publicRouteBudgets,
         secondaryDashboardBudgets,
         specialistBudgets,
       },
       dashboard,
       landing,
+      publicRoutes: publicRoutes.map(item => item.measurement),
       secondaryDashboardRoutes: secondaryDashboardRoutes.map(item => item.measurement),
       specialistRoutes: specialistRoutes.map(item => item.measurement),
       sourceFilesChecked: sourceFiles.length,

@@ -5,8 +5,8 @@ import { getAccuracyMethodCopy } from '@pridicta/config/accuracyMethod';
 import { getLanguageLabels } from '@pridicta/config/language';
 import { Card } from '../../components/Card';
 import { StatusPill } from '../../components/StatusPill';
-import { WebFooter } from '../../components/WebFooter';
-import { WebHeader } from '../../components/WebHeader';
+import { LandingLightFooter } from '../../components/LandingLightFooter';
+import { LandingLightHeader } from '../../components/LandingLightHeader';
 import { useLanguagePreference } from '../../lib/language-preference';
 
 export function AccuracyMethodPageClient(): React.JSX.Element {
@@ -16,7 +16,7 @@ export function AccuracyMethodPageClient(): React.JSX.Element {
 
   return (
     <>
-      <WebHeader />
+      <LandingLightHeader />
       <main className="method-page">
         <div className="page-heading compact method-heading">
           <StatusPill label={copy.hero.eyebrow} tone="premium" />
@@ -127,7 +127,7 @@ export function AccuracyMethodPageClient(): React.JSX.Element {
           </div>
         </section>
       </main>
-      <WebFooter />
+      <LandingLightFooter />
     </>
   );
 }
