@@ -2,7 +2,10 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { getLightweightCompetitorResponseCopy } from '../lib/lightweight-public-copy';
+import {
+  getLightweightAppShellLabels,
+  getLightweightCompetitorResponseCopy,
+} from '../lib/lightweight-public-copy';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 
 const DEFAULT_ASK_PROMPT =
@@ -26,7 +29,16 @@ export function LandingChatFirstContent(): React.JSX.Element {
   const { language } = useLightweightLanguagePreference();
   const copy = getLightweightCompetitorResponseCopy(language);
   const landing = copy.landing;
+  const labels = getLightweightAppShellLabels(language);
   const [question, setQuestion] = useState('');
+  const worldLinks = [
+    { href: '/dashboard/vedic', label: labels.nav.vedic },
+    { href: '/dashboard/kp', label: labels.nav.kp },
+    { href: '/dashboard/jaimini', label: labels.nav.jaimini },
+    { href: '/dashboard/numerology', label: labels.nav.numerology },
+    { href: '/dashboard/signature', label: labels.nav.signature },
+    { href: '/dashboard/report', label: labels.nav.reports },
+  ];
 
   function openAskPredicta(prompt: string, mode: 'text' | 'voice' = 'text') {
     window.location.assign(buildAskPredictaHref(prompt, mode));
@@ -95,6 +107,14 @@ export function LandingChatFirstContent(): React.JSX.Element {
       <section className="landing-proof-strip" aria-label={landing.benchmarkBar}>
         <span>{landing.benchmarkBar}</span>
       </section>
+
+      <nav aria-label={labels.groups.sections} className="landing-world-links">
+        {worldLinks.map(link => (
+          <Link href={link.href} key={link.href}>
+            {link.label}
+          </Link>
+        ))}
+      </nav>
 
       <section className="landing-simple-section">
         <div className="section-heading">

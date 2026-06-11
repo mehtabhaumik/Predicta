@@ -184,3 +184,45 @@ voice app.
   peeking below the card.
 - `desktop-1440-home.png`: desktop still preserves the premium positioning copy
   and a fuller prompt set because the available width supports it.
+
+## Supplemental Desktop Navigation And World Rail Lock
+
+Date: 2026-06-11
+
+The landing header previously protected smaller screens by hiding the public nav
+behind the menu too early. At normal desktop width, that made Predicta look more
+like a mobile shell than a real astrology website. A direct attempt to show every
+world in the header proved too crowded, so this pass uses a selective desktop nav
+plus a quiet world rail below the primary Ask moment.
+
+### Changes
+
+- Desktop public header now exposes the core public navigation at 1440px:
+  Vedic, KP, Jaimini, Reports, Premium, language selector, and Ask Predicta.
+- Tablet, laptop, and mobile widths still keep the compact menu to avoid
+  localized label crowding and logo collisions.
+- Landing page now includes a translated specialist-world rail below the proof
+  strip so Vedic, KP, Jaimini, Numerology, Signature, and Reports remain
+  discoverable without crowding the first action row.
+- Numerology and Signature links remain available to link-reliability audits
+  without making the header feel like a control panel.
+
+### Evidence
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_MOBILE_APP_FEEL_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-8`: PASS, 63 route and viewport screenshots regenerated.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/dashboard,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-text-overflow`: PASS, 36 route and viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:ui-personal-space`: PASS, 56 route and viewport checks.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS, 15 scenarios.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+
+### Visual Audit Notes
+
+- `desktop-1440-home.png`: logo, nav, language selector, and Ask Predicta CTA
+  now have clear personal space; no nav text leaks into the logo/tagline.
+- `tablet-834-home.png` and `mobile-390-home.png`: compact menu remains active
+  where translated labels would crowd the header.
+- The world rail appears below the chat-first proof strip, preserving the first
+  screen as input-first while keeping all specialist rooms discoverable.

@@ -87,3 +87,24 @@ journeys still work from the simplified chat-first entry.
 Green. The simplified mobile doorway did not break the chat-first journey,
 legacy handoffs, language checks, redeem-pass lock, zero-credit deterministic
 help, specialist evidence links, or report-composer access.
+
+## Supplemental Desktop Public Navigation Reaudit
+
+Date: 2026-06-11
+
+After exposing a selective desktop public nav and adding the specialist-world
+rail below the landing hero, Phase 9 was rerun to prove the public-to-chat,
+legacy redirect, language, redeem-pass, zero-credit, specialist handoff, and
+report-composer journeys still work.
+
+### Evidence
+
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS, 15 scenarios and screenshots regenerated.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS after the landing world rail restored Numerology and Signature as public links.
+- `full-user-journey-manifest.json`: regenerated with zero failed scenarios.
+
+### Verdict
+
+Green. The revived landing can now feel like a real desktop astrology website
+without returning to a crowded control-panel header or breaking the chat-first
+journey.

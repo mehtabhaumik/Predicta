@@ -17,13 +17,20 @@ export function LandingLightHeader(): React.JSX.Element {
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
   const labels = getLightweightAppShellLabels(language);
   const responseCopy = getLightweightCompetitorResponseCopy(language);
-  const links = [
+  const menuLinks = [
     { href: '/ask', label: labels.actions.askPredicta },
     { href: '/dashboard/vedic', label: labels.nav.vedic },
     { href: '/dashboard/kp', label: labels.nav.kp },
     { href: '/dashboard/jaimini', label: labels.nav.jaimini },
     { href: '/dashboard/numerology', label: labels.nav.numerology },
     { href: '/dashboard/signature', label: labels.nav.signature },
+    { href: '/dashboard/report', label: labels.nav.reports },
+    { href: '/pricing', label: labels.nav.premium },
+  ];
+  const desktopLinks = [
+    { href: '/dashboard/vedic', label: labels.nav.vedic },
+    { href: '/dashboard/kp', label: labels.nav.kp },
+    { href: '/dashboard/jaimini', label: labels.nav.jaimini },
     { href: '/dashboard/report', label: labels.nav.reports },
     { href: '/pricing', label: labels.nav.premium },
   ];
@@ -77,7 +84,7 @@ export function LandingLightHeader(): React.JSX.Element {
         </span>
       </Link>
       <nav aria-label={labels.groups.sections} className="header-nav">
-        {links.map(link => renderNavLink(link, pathname))}
+        {desktopLinks.map(link => renderNavLink(link, pathname))}
       </nav>
       <div className="header-actions">
         <LightweightLanguageSelector compact hideCompactLabel />
@@ -107,7 +114,7 @@ export function LandingLightHeader(): React.JSX.Element {
             <div className="mobile-menu-panel">
               <nav aria-label={labels.groups.sections}>
                 <div className="mobile-menu-nav-group">
-                  {links.map(link =>
+                  {menuLinks.map(link =>
                     renderMobileNavLink({
                       link,
                       onClick: () => setMenuOpen(false),
