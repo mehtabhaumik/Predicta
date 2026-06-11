@@ -28,9 +28,7 @@ export function LandingLightHeader(): React.JSX.Element {
     { href: '/pricing', label: labels.nav.premium },
   ];
   const desktopLinks = [
-    { href: '/dashboard/vedic', label: labels.nav.vedic },
-    { href: '/dashboard/kp', label: labels.nav.kp },
-    { href: '/dashboard/jaimini', label: labels.nav.jaimini },
+    { href: '/#predicta-worlds', label: labels.groups.worlds },
     { href: '/dashboard/report', label: labels.nav.reports },
     { href: '/pricing', label: labels.nav.premium },
   ];

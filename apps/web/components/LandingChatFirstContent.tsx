@@ -106,7 +106,11 @@ export function LandingChatFirstContent(): React.JSX.Element {
         <span>{landing.benchmarkBar}</span>
       </section>
 
-      <nav aria-label={labels.groups.sections} className="landing-world-links">
+      <nav
+        aria-label={labels.groups.worlds}
+        className="landing-world-links"
+        id="predicta-worlds"
+      >
         {worldLinks.map(link => (
           <Link href={link.href} key={link.href}>
             {link.label}

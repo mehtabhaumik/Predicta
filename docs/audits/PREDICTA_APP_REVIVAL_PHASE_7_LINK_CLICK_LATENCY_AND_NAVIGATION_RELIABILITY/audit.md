@@ -227,3 +227,34 @@ copy remains registered in dedicated translation JSON.
 Green. Generic "open Predicta" user journeys now land in the primary chat
 surface, while `/dashboard` remains a deliberate My Kundlis/saved-work area
 instead of the default app doorway.
+
+## Supplemental Public Header Compactness Lock
+
+- Simplified public desktop headers around the primary Predicta experience:
+  `Predicta Worlds`, `Reports`, and `Premium`, with `Ask Predicta` remaining
+  the clear primary CTA.
+- Preserved all specialist-world entry points in the landing world strip and
+  mobile drawer so Vedic, KP, Jaimini, Numerology, and Signature remain
+  discoverable without crowding the brand lockup.
+- Added the `predicta-worlds` anchor to the landing specialist-world strip so
+  the compact header can route users to the full world list.
+- Split mobile drawer groups into primary navigation, Predicta Worlds, and
+  Support so world links do not appear under the wrong heading.
+
+## Supplemental Public Header Audit Evidence
+
+- `corepack pnpm test:global-translation-coverage` passed.
+- `corepack pnpm --filter @pridicta/web typecheck` passed.
+- `corepack pnpm build:web` passed.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3035 corepack pnpm test:app-revival-phase-7` passed.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3035 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/founder,/feedback,/dashboard,/dashboard/kundli,/dashboard/saved-kundlis,/dashboard/report,/pricing corepack pnpm test:ui-text-overflow` passed.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3035 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/founder,/feedback,/dashboard,/dashboard/kundli,/dashboard/saved-kundlis,/dashboard/report,/pricing corepack pnpm test:ui-personal-space` passed.
+- Gujarati rendered-header CDP smoke on `http://127.0.0.1:3035/` passed:
+  brand-to-nav gap `49px`, nav-to-actions gap `49px`, no horizontal overflow,
+  screenshot saved at `/tmp/predicta-gujarati-header-1440.png`.
+
+## Supplemental Public Header Result
+
+Green. The Gujarati public header no longer crowds the logo with a long list of
+specialist room links, while the full world list remains available through the
+worlds anchor, landing strip, dashboard navigation, and mobile drawer.
