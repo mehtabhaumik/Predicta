@@ -218,7 +218,7 @@ export function WebRedeemPassForm(): React.JSX.Element {
             </Link>
             <Link
               className="button secondary"
-              href={`/dashboard/vedic/chat?sourceScreen=Private+Pass&prompt=${encodeURIComponent(copy.nextSteps.askPrompt)}`}
+              href={`/ask?sourceScreen=Private+Pass&school=PARASHARI&prompt=${encodeURIComponent(copy.nextSteps.askPrompt)}`}
             >
               {copy.nextSteps.askPredicta}
             </Link>

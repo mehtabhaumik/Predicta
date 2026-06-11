@@ -1,17 +1,20 @@
-import { WebPredictaRoomChatPage } from '../../../../components/WebPredictaRoomChatPage';
+import {
+  redirectLegacyChatToAsk,
+  type LegacyChatSearchParams,
+} from '../../_lib/legacy-chat-redirect';
 
-export default function KpPredictaChatPage(): React.JSX.Element {
-  return (
-    <WebPredictaRoomChatPage
-      room={{
-        body:
-          'KP Predicta keeps the reading inside cusps, star lords, sub lords, ruling planets, significators, and event timing.',
-        prompt:
-          'Use KP Predicta for my question. Keep the answer grounded in cusps, star lords, sub lords, significators, ruling planets, and KP timing.',
-        school: 'KP',
-        sourceScreen: 'KP Predicta',
-        title: 'Chat with KP Predicta.',
-      }}
-    />
-  );
+export default async function KpPredictaChatPage({
+  searchParams,
+}: {
+  searchParams?: LegacyChatSearchParams;
+}): Promise<never> {
+  return redirectLegacyChatToAsk({
+    defaults: {
+      prompt:
+        'Use KP Predicta for my question. Keep the answer grounded in cusps, star lords, sub lords, significators, ruling planets, and KP timing.',
+      school: 'KP',
+      sourceScreen: 'KP Predicta',
+    },
+    searchParams,
+  });
 }

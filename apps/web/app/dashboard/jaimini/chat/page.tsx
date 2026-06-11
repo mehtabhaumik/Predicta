@@ -1,18 +1,20 @@
-import { WebPredictaRoomChatPage } from '../../../../components/WebPredictaRoomChatPage';
-import { getJaiminiLocalizationCopy } from '@pridicta/config';
+import {
+  redirectLegacyChatToAsk,
+  type LegacyChatSearchParams,
+} from '../../_lib/legacy-chat-redirect';
 
-export default function JaiminiPredictaChatPage(): React.JSX.Element {
-  const copy = getJaiminiLocalizationCopy('en');
-
-  return (
-    <WebPredictaRoomChatPage
-      room={{
-        body: copy.chatBody,
-        prompt: copy.chatPrompt,
-        school: 'JAIMINI',
-        sourceScreen: copy.heroEyebrow,
-        title: copy.chatTitle,
-      }}
-    />
-  );
+export default async function JaiminiPredictaChatPage({
+  searchParams,
+}: {
+  searchParams?: LegacyChatSearchParams;
+}): Promise<never> {
+  return redirectLegacyChatToAsk({
+    defaults: {
+      prompt:
+        'Read my destiny direction, soul role, and current Jaimini life chapter.',
+      school: 'JAIMINI',
+      sourceScreen: 'Jaimini Predicta',
+    },
+    searchParams,
+  });
 }

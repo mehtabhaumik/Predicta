@@ -29,6 +29,12 @@ const routeChecks = [
   '/',
   '/ask',
   '/dashboard/chat?legacyChatSmoke=1&prompt=Will+my+job+improve%3F',
+  '/dashboard/vedic/chat?legacyRoomSmoke=1',
+  '/dashboard/kp/chat?legacyRoomSmoke=1',
+  '/dashboard/jaimini/chat?legacyRoomSmoke=1',
+  '/dashboard/nadi/chat?legacyRoomSmoke=1',
+  '/dashboard/numerology/chat?legacyRoomSmoke=1',
+  '/dashboard/signature/chat?legacyRoomSmoke=1',
   '/pricing',
   '/checkout?productId=pridicta_10_questions',
   '/accuracy-method',
@@ -164,12 +170,16 @@ for (const route of routeChecks) {
     failures.push(`${route} returned HTTP ${result.status}.`);
   }
 
-  if (route.startsWith('/dashboard/chat')) {
+  if (isLegacyChatRoute(route)) {
     if (![307, 308].includes(result.status)) {
       failures.push(`${route} must redirect to /ask instead of rendering dashboard chat.`);
     }
     if (!result.location?.startsWith('/ask?')) {
       failures.push(`${route} redirect location must preserve context into /ask, got ${result.location ?? 'none'}.`);
+    }
+    const expectedSchool = expectedSchoolForLegacyChatRoute(route);
+    if (expectedSchool && !result.location?.includes(`school=${expectedSchool}`)) {
+      failures.push(`${route} redirect must preserve school=${expectedSchool}, got ${result.location ?? 'none'}.`);
     }
   }
 }
@@ -622,4 +632,18 @@ function waitForProcessExit(child, timeoutMs) {
 
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function isLegacyChatRoute(route) {
+  return /^\/dashboard\/(?:chat|(?:vedic|kp|jaimini|nadi|numerology|signature)\/chat)(?:[?#]|$)/u.test(route);
+}
+
+function expectedSchoolForLegacyChatRoute(route) {
+  if (route.startsWith('/dashboard/vedic/chat')) return 'PARASHARI';
+  if (route.startsWith('/dashboard/kp/chat')) return 'KP';
+  if (route.startsWith('/dashboard/jaimini/chat')) return 'JAIMINI';
+  if (route.startsWith('/dashboard/nadi/chat')) return 'JAIMINI';
+  if (route.startsWith('/dashboard/numerology/chat')) return 'NUMEROLOGY';
+  if (route.startsWith('/dashboard/signature/chat')) return 'SIGNATURE';
+  return undefined;
 }
