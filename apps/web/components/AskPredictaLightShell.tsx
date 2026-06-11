@@ -13,7 +13,7 @@ const FullPredictaChat = dynamic(
       default: module.WebPridictaChat,
     })),
   {
-    loading: () => <div className="card chat-panel predicta-chat-loading" />,
+    loading: () => <AskPredictaLoadingCard />,
     ssr: false,
   },
 );
@@ -160,5 +160,29 @@ export function AskPredictaLightShell(): React.JSX.Element {
 
       {chatStarted ? <FullPredictaChat key={searchParams.toString()} /> : null}
     </section>
+  );
+}
+
+export function AskPredictaLoadingCard(): React.JSX.Element {
+  const { language } = useLightweightLanguagePreference();
+  const landing = getLightweightCompetitorResponseCopy(language).landing;
+
+  return (
+    <article
+      aria-live="polite"
+      className="card chat-panel predicta-chat-loading"
+    >
+      <div className="predicta-chat-loading-orb" aria-hidden="true" />
+      <div className="predicta-chat-loading-copy">
+        <span>{landing.loadingEyebrow}</span>
+        <strong>{landing.loadingTitle}</strong>
+        <p>{landing.loadingBody}</p>
+      </div>
+      <div className="predicta-chat-loading-lines" aria-hidden="true">
+        <i />
+        <i />
+        <i />
+      </div>
+    </article>
   );
 }

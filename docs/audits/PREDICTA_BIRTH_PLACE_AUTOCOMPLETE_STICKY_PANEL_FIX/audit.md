@@ -41,3 +41,33 @@ Exact `Petlad` resolves to `Petlad, Gujarat, India`, the suggestion panel
 unmounts, `Searching places...` disappears, refocusing the selected field does
 not reopen the panel, and the checked Kundli/astrology/report routes have no
 overflow, personal-space, or translation-source regressions.
+
+## Supplemental Accepted-State Reaudit
+
+Date: 2026-06-11
+
+### Additional Fix
+
+- Replaced the accepted birth-place ref with React state so the UI rerenders
+  immediately when a place is accepted.
+- Added mouse, pointer, click, and keyboard selection fallbacks for suggestion
+  options so the dropdown closes reliably across browser event paths.
+- Kept stale search invalidation in place so pending place searches cannot
+  revive the suggestion panel after a selected city is settled.
+
+### Supplemental Evidence
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_AUTOCOMPLETE_BASE_URL=http://127.0.0.1:3028 corepack pnpm test:birth-place-autocomplete`: PASS. Exact `Petlad` resolves to `Petlad, Gujarat, India`; suggestions are unmounted; `Searching places...` is absent; refocus stays closed; no horizontal overflow.
+- Browser verification on `http://127.0.0.1:3028/dashboard/kundli`: PASS. After entering `Petlad`, the input value is `Petlad, Gujarat, India`, no suggestions are mounted, no searching status remains, refocus stays closed, and no horizontal overflow is present.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3028 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3028 corepack pnpm test:app-revival-phase-9`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3028 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/dashboard,/dashboard/kundli,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-text-overflow`: PASS, `40` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3028 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/dashboard,/dashboard/kundli,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
+
+### Supplemental Result
+
+Green. The selected birth-place state is now a hard UI terminal state: the
+autocomplete cannot keep a stale loading receipt open once the place is settled,
+and focusing the accepted field does not reopen the old suggestion panel.

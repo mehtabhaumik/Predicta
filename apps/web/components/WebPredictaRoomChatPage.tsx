@@ -3,6 +3,7 @@ import {
   WebPridictaChat,
   type WebPredictaChatRoom,
 } from './WebPridictaChat';
+import { AskPredictaLoadingCard } from './AskPredictaLightShell';
 
 export function WebPredictaRoomChatPage({
   room,
@@ -20,7 +21,7 @@ export function WebPredictaRoomChatPage({
         <span>{room.title}</span>
         <span>{room.body}</span>
       </div>
-      <Suspense fallback={<div className="card chat-panel predicta-chat-loading" />}>
+      <Suspense fallback={<AskPredictaLoadingCard />}>
         <WebPridictaChat room={room} />
       </Suspense>
     </section>

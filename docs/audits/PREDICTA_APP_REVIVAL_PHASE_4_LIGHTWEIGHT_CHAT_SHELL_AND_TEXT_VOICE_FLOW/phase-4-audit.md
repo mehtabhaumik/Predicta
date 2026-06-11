@@ -89,3 +89,32 @@ Date: 2026-06-11
 - `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
 - Browser DOM audit of `/ask?sourceScreen=Audit&prompt=Will+my+career+improve%3F&autoSend=true`: PASS. The page had `ask-light-shell-started`, a mounted chat panel, hidden copy/chips/hints/support blocks, no horizontal overflow, and a compact prompt textarea.
 - `git diff --check`: PASS.
+
+## Supplemental Loading Receipt Lock
+
+Date: 2026-06-11
+
+### Implemented
+
+- Replaced empty `/ask` and evidence-room chat loading fallbacks with a
+  localized Predicta loading receipt.
+- Added English, Hindi, and Gujarati loading copy in the dedicated translation
+  JSON instead of hardcoding customer-facing loading text in components.
+- Styled the loading state with a responsive Predicta orb, concise message, and
+  skeleton lines so route handoffs feel alive instead of blank while the full
+  chat runtime loads.
+
+### Supplemental Verification
+
+- `node -e "JSON.parse(require('fs').readFileSync('packages/config/src/translations/competitorResponse.json','utf8')); console.log('competitorResponse translations valid')"`: PASS.
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3028 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3028 corepack pnpm test:app-revival-phase-9`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3028 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/dashboard,/dashboard/kundli,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-text-overflow`: PASS, `40` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3028 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/dashboard,/dashboard/kundli,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
+
+### Supplemental Result
+
+Green. Ask Predicta handoffs no longer present a dead empty panel during lazy
+chat loading, and the loading copy remains localization-auditable.

@@ -71,6 +71,7 @@ export function WebKundliWizard(): React.JSX.Element {
   const [placeSuggestions, setPlaceSuggestions] = useState<WebBirthPlace[]>([]);
   const [isPlaceSuggestionsOpen, setIsPlaceSuggestionsOpen] = useState(false);
   const [isSearchingPlaces, setIsSearchingPlaces] = useState(false);
+  const [acceptedBirthPlaceQuery, setAcceptedBirthPlaceQuery] = useState('');
   const [editingKundliId, setEditingKundliId] = useState<string | undefined>();
   const [editingKundliName, setEditingKundliName] = useState<string | undefined>();
   const [isApproximate, setIsApproximate] = useState(false);
@@ -97,7 +98,6 @@ export function WebKundliWizard(): React.JSX.Element {
   const birthPlaceInputRef = useRef<HTMLInputElement | null>(null);
   const birthPlaceSearchRef = useRef<HTMLDivElement | null>(null);
   const placeSearchRequestRef = useRef(0);
-  const acceptedBirthPlaceQueryRef = useRef('');
   const createdChartRef = useRef<HTMLElement | null>(null);
   const savedKundliRecords = useMemo(() => loadWebKundlis(), [kundli?.id]);
   const editingRecord = useMemo(
@@ -118,7 +118,7 @@ export function WebKundliWizard(): React.JSX.Element {
       doesBirthPlaceMatchQuery(selectedPlace, birthPlaceQuery));
   const isBirthPlaceQueryAccepted =
     Boolean(normalizedBirthPlaceQuery) &&
-    acceptedBirthPlaceQueryRef.current === normalizedBirthPlaceQuery;
+    acceptedBirthPlaceQuery === normalizedBirthPlaceQuery;
   const isBirthPlaceSearchSettled =
     isSelectedPlaceCurrent || isBirthPlaceQueryAccepted;
   const details = useMemo<BirthDetails | undefined>(
@@ -213,7 +213,7 @@ export function WebKundliWizard(): React.JSX.Element {
     const optionLabel = getBirthPlaceLabel(option);
 
     placeSearchRequestRef.current += 1;
-    acceptedBirthPlaceQueryRef.current = normalizeBirthPlaceLabel(optionLabel);
+    setAcceptedBirthPlaceQuery(normalizeBirthPlaceLabel(optionLabel));
     setSelectedPlace(option);
     setBirthPlaceQuery(optionLabel);
     setPlaceSuggestions([]);
@@ -275,15 +275,15 @@ export function WebKundliWizard(): React.JSX.Element {
     }
 
     if (query.length < 2) {
-      acceptedBirthPlaceQueryRef.current = '';
+      setAcceptedBirthPlaceQuery('');
       closeBirthPlaceSuggestions();
       return;
     }
 
     if (
       selectedPlaceIsExact ||
-      (acceptedBirthPlaceQueryRef.current &&
-        acceptedBirthPlaceQueryRef.current === normalizedBirthPlaceQuery)
+      (acceptedBirthPlaceQuery &&
+        acceptedBirthPlaceQuery === normalizedBirthPlaceQuery)
     ) {
       closeBirthPlaceSuggestions();
       return;
@@ -360,6 +360,7 @@ export function WebKundliWizard(): React.JSX.Element {
     };
   }, [
     birthPlaceQuery,
+    acceptedBirthPlaceQuery,
     isPlaceSuggestionsOpen,
     normalizedBirthPlaceQuery,
     selectedPlace,
@@ -659,13 +660,13 @@ export function WebKundliWizard(): React.JSX.Element {
                   setBirthPlaceQuery(nextQuery);
                   setSelectedPlace(undefined);
                   if (
-                    acceptedBirthPlaceQueryRef.current &&
-                    acceptedBirthPlaceQueryRef.current === normalizedNextQuery
+                    acceptedBirthPlaceQuery &&
+                    acceptedBirthPlaceQuery === normalizedNextQuery
                   ) {
                     closeBirthPlaceSuggestions();
                     return;
                   }
-                  acceptedBirthPlaceQueryRef.current = '';
+                  setAcceptedBirthPlaceQuery('');
                   setIsPlaceSuggestionsOpen(normalizedNextQuery.length >= 2);
                 }}
                 onFocus={() => {
@@ -736,6 +737,7 @@ export function WebKundliWizard(): React.JSX.Element {
                         key={`${option.place}-${option.latitude}-${option.longitude}`}
                         onMouseDown={event => {
                           event.preventDefault();
+                          selectBirthPlace(option);
                         }}
                         onPointerDown={event => {
                           event.preventDefault();
@@ -743,6 +745,13 @@ export function WebKundliWizard(): React.JSX.Element {
                         }}
                         onClick={event => {
                           event.preventDefault();
+                          selectBirthPlace(option);
+                        }}
+                        onKeyDown={event => {
+                          if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            selectBirthPlace(option);
+                          }
                         }}
                         role="option"
                         type="button"
