@@ -207,3 +207,46 @@ Green. First-time `/dashboard` no longer exposes a wall of management cards
 before the user has even created a Kundli. Predicta remains the main path, the
 birth-details path stays obvious, and deeper tools are available only when the
 user intentionally opens them.
+
+## Supplemental Kundli Ready Chat-First Drawer Lock
+
+Date: 2026-06-12
+
+### Implemented
+
+- Changed the post-Kundli ready flow so `Ask Predicta first` is the only
+  exposed primary action in the next-step panel.
+- Preserved `Today for me`, `Open charts`, `Timing map`, `Create report`, and
+  `Remedies`, but moved them into a closed `More Kundli tools` drawer so the
+  user is not pushed into a control-panel spread immediately after creation.
+- Added English, Hindi, and Gujarati translations for the new drawer labels in
+  `ui.json`; the newly added copy is not hardcoded in the component.
+- Added explicit closed-details CSS so the secondary tool grid is not painted
+  while the drawer is closed.
+- Used an adaptive card grid inside the drawer to prevent cramped text,
+  clipping, or horizontal overflow when the user chooses to open it.
+
+### Supplemental Verification
+
+- Translation JSON parse for `ui.json`: PASS.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS after the drawer CSS fix.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS, `15` scenarios.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/dashboard/kundli,/dashboard,/ask,/dashboard/report,/pricing corepack pnpm test:ui-text-overflow`: PASS, `20` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/dashboard/kundli,/dashboard,/ask,/dashboard/report,/pricing corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
+- `corepack pnpm test:birth-place-autocomplete`: PASS; the Petlad autocomplete
+  overlay fix remained intact.
+- Headless Chrome ready-state verification on `/dashboard/kundli`: PASS.
+  A golden Kundli was seeded into browser storage; `.kundli-tools-drawer`
+  existed, was closed, preserved `5` secondary tool links, painted `0` of them
+  while closed, exposed `Ask Predicta first`, and had `0px` horizontal overflow.
+- `git diff --check`: PASS.
+
+### Supplemental Result
+
+Green. After Kundli creation, the app now keeps the user pointed at Predicta
+instead of presenting a spiderweb of equal-weight tools. The deeper chart,
+timing, report, and remedy paths remain available, but they no longer compete
+with the first guided reading.

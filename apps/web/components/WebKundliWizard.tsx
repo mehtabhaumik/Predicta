@@ -1,6 +1,10 @@
 'use client';
 
-import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
+import {
+  formatNativeCopy,
+  getNativeCopy,
+  translateUiText,
+} from '@pridicta/config';
 import Link from 'next/link';
 import type { CSSProperties, RefObject } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -589,6 +593,7 @@ export function WebKundliWizard(): React.JSX.Element {
       creationNote={lastCreationNote}
       createdChartRef={createdChartRef}
       kundli={kundli}
+      language={language}
       showCreationReveal={showCreationReveal}
     />
   ) : null;
@@ -962,13 +967,17 @@ function KundliReadyFlow({
   creationNote,
   createdChartRef,
   kundli,
+  language,
   showCreationReveal,
 }: {
   creationNote: CreationNote;
   createdChartRef: RefObject<HTMLElement | null>;
   kundli: KundliData;
+  language: SupportedLanguage;
   showCreationReveal: boolean;
 }): React.JSX.Element {
+  const t = (value: string) => translateUiText(value, language);
+
   return (
     <section className="kundli-ready-flow">
       <WebActiveKundliActions
@@ -1078,7 +1087,7 @@ function KundliReadyFlow({
               read.
             </p>
           </div>
-          <div className="kundli-next-step-actions">
+          <div className="kundli-primary-action-row">
             <Link
               className="button"
               href={buildPredictaChatHref({
@@ -1088,27 +1097,45 @@ function KundliReadyFlow({
                 sourceScreen: 'Kundli Created',
               })}
             >
-              Ask Predicta first
-            </Link>
-            <Link className="button secondary" href="/dashboard/charts">
-              Open charts
+              {t('Ask Predicta first')}
             </Link>
           </div>
-          <div className="kundli-secondary-links">
-            <Link
-              href={buildPredictaChatHref({
-                kundli,
-                prompt:
-                  "Use my Kundli and tell me today's most useful guidance first.",
-                sourceScreen: 'Kundli Created',
-              })}
-            >
-              Today for me
-            </Link>
-            <Link href="/dashboard/timeline">Timing map</Link>
-            <Link href="/dashboard/report">Create report</Link>
-            <Link href="/dashboard/remedies">Remedies</Link>
-          </div>
+          <details className="info-drawer kundli-tools-drawer">
+            <summary>
+              <span>{t('More Kundli tools')}</span>
+              <strong>{t('Open only when needed')}</strong>
+            </summary>
+            <div className="kundli-secondary-tool-grid">
+              <Link
+                className="kundli-secondary-tool-link"
+                href={buildPredictaChatHref({
+                  kundli,
+                  prompt:
+                    "Use my Kundli and tell me today's most useful guidance first.",
+                  sourceScreen: 'Kundli Created',
+                })}
+              >
+                <strong>{t('Today for me')}</strong>
+                <span>{t('See Gochar and daily guidance.')}</span>
+              </Link>
+              <Link className="kundli-secondary-tool-link" href="/dashboard/charts">
+                <strong>{t('Open charts')}</strong>
+                <span>{t('See D1, D9, D10, and more.')}</span>
+              </Link>
+              <Link className="kundli-secondary-tool-link" href="/dashboard/timeline">
+                <strong>{t('Timing map')}</strong>
+                <span>{t('Dasha, Sade Sati, and yearly timing.')}</span>
+              </Link>
+              <Link className="kundli-secondary-tool-link" href="/dashboard/report">
+                <strong>{t('Create report')}</strong>
+                <span>{t('Make a free or premium PDF.')}</span>
+              </Link>
+              <Link className="kundli-secondary-tool-link" href="/dashboard/remedies">
+                <strong>{t('Remedies')}</strong>
+                <span>{t('Get karma-based practices.')}</span>
+              </Link>
+            </div>
+          </details>
         </div>
       </div>
 
