@@ -279,6 +279,7 @@ export function DashboardShell({
   const primarySections = sections.filter(section =>
     DASHBOARD_PRIMARY_SECTION_IDS.has(section.id),
   );
+  const utilitySections = primarySections.filter(section => section.id !== 'predicta');
   const worldSections = sections.filter(section =>
     DASHBOARD_WORLD_SECTION_IDS.has(section.id),
   );
@@ -288,6 +289,12 @@ export function DashboardShell({
   const mobileMenuCloseRef = useRef<HTMLButtonElement | null>(null);
   const activeKundliId = useLightweightActiveKundliId();
   const topbarContext = getTopbarContextCopy(shellLabels, activeSection);
+  const askPredictaHref = buildPredictaChatHref({
+    kundliId: activeKundliId,
+    prompt: 'Help me from my selected Kundli.',
+    school: getTopbarPredictaSchool(activeSection.id),
+    sourceScreen: getTopbarPredictaSourceScreen(activeSection),
+  });
   const activeSectionMenuItems = activeSection.items.filter(
     (item, index) =>
       !(
@@ -336,12 +343,7 @@ export function DashboardShell({
             <LightweightLanguageSelector compact />
             <Link
               className="button"
-              href={buildPredictaChatHref({
-                kundliId: activeKundliId,
-                prompt: 'Help me from my selected Kundli.',
-                school: getTopbarPredictaSchool(activeSection.id),
-                sourceScreen: getTopbarPredictaSourceScreen(activeSection),
-              })}
+              href={askPredictaHref}
             >
               {shellLabels.actions.askPredicta}
             </Link>
@@ -394,36 +396,82 @@ export function DashboardShell({
               <div className="dashboard-mobile-language">
                 <LightweightLanguageSelector compact />
               </div>
-              <nav aria-label="Dashboard menu links">
-                <div className="dashboard-mobile-nav-section">
-                  <span>{shellLabels.groups.start}</span>
-                  <div className="dashboard-mobile-section-switcher">
-                    {primarySections.map(section =>
-                      renderDashboardMasterLink({
-                        activeSection,
-                        onClick: () => setMenuOpen(false),
-                        section,
-                      }),
-                    )}
-                  </div>
-                </div>
+              <nav aria-label="Dashboard menu links" className="dashboard-mobile-revival-nav">
+                <Link
+                  className="dashboard-mobile-primary-ask"
+                  href={askPredictaHref}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {shellLabels.actions.askPredicta}
+                </Link>
 
-                <div className="dashboard-mobile-nav-section">
-                  <span>{shellLabels.groups.worlds}</span>
-                  <div className="dashboard-mobile-section-switcher">
-                    {worldSections.map(section =>
-                      renderDashboardMasterLink({
-                        activeSection,
-                        onClick: () => setMenuOpen(false),
-                        section,
-                      }),
-                    )}
-                  </div>
-                </div>
+                {worldSections.length ? (
+                  <details
+                    className="dashboard-mobile-nav-drawer"
+                    data-active={
+                      DASHBOARD_WORLD_SECTION_IDS.has(activeSection.id)
+                        ? 'true'
+                        : 'false'
+                    }
+                  >
+                    <summary>
+                      <span>{shellLabels.groups.worlds}</span>
+                      <strong>
+                        {DASHBOARD_WORLD_SECTION_IDS.has(activeSection.id)
+                          ? activeSection.label
+                          : shellLabels.groups.worlds}
+                      </strong>
+                    </summary>
+                    <div className="dashboard-mobile-section-switcher">
+                      {worldSections.map(section =>
+                        renderDashboardMasterLink({
+                          activeSection,
+                          onClick: () => setMenuOpen(false),
+                          section,
+                        }),
+                      )}
+                    </div>
+                  </details>
+                ) : null}
+
+                {utilitySections.length ? (
+                  <details
+                    className="dashboard-mobile-nav-drawer"
+                    data-active={
+                      utilitySections.some(section => section.id === activeSection.id)
+                        ? 'true'
+                        : 'false'
+                    }
+                  >
+                    <summary>
+                      <span>{shellLabels.groups.start}</span>
+                      <strong>
+                        {utilitySections.some(section => section.id === activeSection.id)
+                          ? activeSection.label
+                          : utilitySections.map(section => section.label).join(' · ')}
+                      </strong>
+                    </summary>
+                    <div className="dashboard-mobile-section-switcher">
+                      {utilitySections.map(section =>
+                        renderDashboardMasterLink({
+                          activeSection,
+                          onClick: () => setMenuOpen(false),
+                          section,
+                        }),
+                      )}
+                    </div>
+                  </details>
+                ) : null}
 
                 {activeSectionMenuItems.length ? (
-                  <div className="dashboard-mobile-nav-section">
-                    <span>{activeSection.label}</span>
+                  <details
+                    className="dashboard-mobile-nav-drawer"
+                    data-active="true"
+                  >
+                    <summary>
+                      <span>{activeSection.label}</span>
+                      <strong>{activeSection.label}</strong>
+                    </summary>
                     <div>
                       {activeSectionMenuItems.map(item => {
                         const active = isDashboardNavItemActive(
@@ -444,12 +492,18 @@ export function DashboardShell({
                         );
                       })}
                     </div>
-                  </div>
+                  </details>
                 ) : null}
 
                 {supportGroups.map(group => (
-                  <div className="dashboard-mobile-nav-section" key={group.label}>
-                    <span>{group.label}</span>
+                  <details
+                    className="dashboard-mobile-nav-drawer"
+                    key={group.label}
+                  >
+                    <summary>
+                      <span>{group.label}</span>
+                      <strong>{group.label}</strong>
+                    </summary>
                     <div>
                       {group.items.map(item => {
                         const active = isDashboardNavItemActive(
@@ -470,7 +524,7 @@ export function DashboardShell({
                         );
                       })}
                     </div>
-                  </div>
+                  </details>
                 ))}
               </nav>
             </aside>
